@@ -65,6 +65,18 @@ Progress (newest last):
   423 s (claude_failures G5; `timeout` did not stop the native python process: since then `timeout -k 5 423`).
   KNOWN OPEN until phase 5: `field_equations_a4/ks_source/ks_source_a4.py` stops (KeyError: it reads the removed
   b4 = 1 keys), so the gate steps a4-ks-source and a4-ks-source-unittest fail until then.
+- Phase 4, part 1 DONE (2026-10-16): `Revision/kohn_sham` theory and Rust record for b4(x4). ks-theory with the b4
+  reduction (Psi = e^{ik.x} W^{-3} b4^{-3/4} chi; b4 absent from h; densities per Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}
+  in units of b4(0)^{3/2}, coupling lambda_hat = lambda b4(0)^{-3/2}; dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t; rescaling
+  partner v_t e^{(3 beta/2 - 3) a4,0}; historyBeta = 4/3): Wolfram 51/51, sympy 63/63. Rust solver: beta read from
+  ks-theory.json, Vol_7(a4,0), the history identity, the thermal continuation fallback, a4 neighbours at scf_tol/10,
+  `single --beta`. The calibration rule applied to the new history gives lambda_1 = 0.01946, 0.01206, 0.006645 (N = 8, 136,
+  688; 13 and 36 times larger for N = 136, 688). Canonical 43/43 (78 s), Mermin roots 5/5, repeat byte-identical,
+  refined 340.6 s, determinism 14/14. claude_failures G6 to G8. Solver README section "The metric with b4(x4)".
+  STILL OPEN in phase 4: the Python reference (4 parts) and the cross-check (with its reference repeat), the tip
+  convergence, `checker/measure_rust_refinement.py`, the KS provenance and index rows, the gate timings. THEN, before
+  phase 5: the dark sector (`Revision/dark_sector/dirac16complex/compute/run_ks_history.py` passes lambda_eff to `single`,
+  whose --lambda now means lambda_hat, and reads the recalibrated couplings) must be rerun with all its outputs.
 
 ### 0.8 STATE 2026-10-15 (dark sector with b4; done, superseded as the start by 0.9)
 

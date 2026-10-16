@@ -88,7 +88,9 @@ pub fn emt_checks(grid: &Grid, phys: &Physics, st: &State, e: &Emt) -> EmtChecks
     let int_pt = w(&|p| e.pt[p]);
     let int_p0 = w(&|p| e.p0[p]);
     let int_n = w(&|p| st.dens.n[p]);
-    let de_da_emt = -w(&|p| st.dens.tk[p]);
+    // history identity (ks-theory.json emt.energyChange): dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t with
+    // 3 (p3 - p_t) = sum w g f kappa |k| t_o = tk
+    let de_da_emt = -w(&|p| st.dens.tk[p]) - 1.5 * phys.beta * int_pt;
     let delta_ex_fock = phys.lambda / 32.0 * w(&|p| st.dens.q[p] * st.dens.q[p]);
     // y-conservation on the node grid
     let nodes: Vec<usize> = (0..=grid.g).map(|i| 2 * i).collect();

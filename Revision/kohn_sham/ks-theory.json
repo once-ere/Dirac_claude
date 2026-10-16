@@ -1,21 +1,21 @@
 {
-	"description":"Revision Kohn-Sham theory for dirac16complex in the author's primordial field (SPEC sections 1, 7): the exact reduction, functional, boundary conditions, rescaling identity, energy-momentum tensor and adiabaticity measure, i.e. the formulas the Rust solver Revision\/kohn_sham\/solver must implement. Every statement here is checked in Revision\/kohn_sham\/reports\/ks-theory-wolfram.json and independently in ks-theory-python.json.",
+	"description":"Revision Kohn-Sham theory for dirac16complex in the author's primordial field (SPEC sections 1, 7), in the author's metric with b4(x4) in the extra-time components (b4 a function of x4, never 1): the exact reduction, functional, boundary conditions, rescaling identity, energy-momentum tensor, the history and the adiabaticity measure, i.e. the formulas the Rust solver Revision\/kohn_sham\/solver must implement. Every statement here is checked in Revision\/kohn_sham\/reports\/ks-theory-wolfram.json and independently in ks-theory-python.json.",
 	"producer":"Revision\/kohn_sham\/theory\/verify_ks_theory.wls",
-	"coordinates":"the author's coordinates {x0, x1, ..., x7}: x0 = the hidden direction, z = 6 H x0 in (0, pi\/2); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1\/6} z); x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (scale factor e^{-a4} sin^{1\/6} z, a4 increasing). Arrays index x0..x7 as 0..7 (xk at index k). Gamma matrices: Revision\/algebra\/gammas.json (gamma^(xk) = T16[k]).",
+	"coordinates":"the author's coordinates {x0, x1, ..., x7}: x0 = the hidden direction, z = 6 H x0 in (0, pi\/2); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1\/6} z); x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (scale factor e^{-a4} b4^{1\/2} sin^{1\/6} z; on the history e^{-a4\/3} b4(0)^{1\/2} sin^{1\/6} z). Arrays index x0..x7 as 0..7 (xk at index k). Gamma matrices: Revision\/algebra\/gammas.json (gamma^(xk) = T16[k]).",
 	"units":"H = 1 in the solver unless stated; energies, momenta and temperatures in units of m (or H); lambda has dimension mass^-6 (Psi has dimension 7\/2 in 8 dimensions).",
 	"geometry":{
 		"hiddenCoordinate":"y = ln(sin z)\/(6H) in (-inf, 0], sin z = e^{6Hy}, dy = cot z dx0; the patch end z = pi\/2 is y = 0, the tip z -> 0 is y -> -inf",
-		"lineElement":"ds^2 = e^{2Hy}[e^{2a4(x4)}(dx1^2+dx2^2+dx3^2) - e^{-2a4(x4)}(dx5^2+dx6^2+dx7^2)] - dx4^2 + dy^2",
+		"lineElement":"ds^2 = e^{2Hy}[e^{2a4(x4)}(dx1^2+dx2^2+dx3^2) - e^{-2a4(x4)} b4(x4) (dx5^2+dx6^2+dx7^2)] - dx4^2 + dy^2",
 		"warp":"W(y) = e^{Hy}",
-		"sqrtDetG":"e^{6Hy} (= cos z in the author's chart x0..x7); independent of a4: the 7-volume is constant",
-		"kappa":"kappa(y, x4) = e^{-Hy - a4(x4)} (the momentum weight)",
-		"spinConnection":"gamma^mu Omega_mu = 3H gamma^(x0) for every a4(x4): the a4' pieces of the 3 inflating directions (+(3\/2) a4' gamma^(x4)) and of the 3 deflating directions (-(3\/2) a4' gamma^(x4)) cancel"
+		"sqrtDetG":"b4^{3\/2} e^{6Hy} (= b4^{3\/2} cos z in the author's chart x0..x7); independent of a4; the 7-volume changes as b4^{3\/2}, on the history as b4(0)^{3\/2} e^{2 a4}",
+		"kappa":"kappa(y, x4) = e^{-Hy - a4(x4)} (the momentum weight; b4 does not enter)",
+		"spinConnection":"gamma^mu Omega_mu = 3H gamma^(x0) + (3\/4)(b4'\/b4) gamma^(x4) for every a4(x4), b4(x4): the a4' pieces of the 3 inflating directions (+(3\/2) a4' gamma^(x4)) and of the 3 deflating directions (-(3\/2) a4' gamma^(x4)) cancel, the b4' piece (3\/4)(b4'\/b4) gamma^(x4) of the deflating directions remains"
 	},
 	"sectorAndAnsatz":{
 		"sector":"good sector: no dependence on x5, x6, x7 (extra-time momenta zero); coordinate 3-torus of size ell, k in (2 pi\/ell) Z^3 = Delta k Z^3; extra-time coordinate volume v_t",
-		"exactReduction":"Psi = e^{i k.x} W^{-3} chi(y, x4) gives EXACTLY (a4 time-dependent) g0 d_y chi + g4 d_x4 chi + i kappa k.gamma chi = (M_eff - i v_v g4) chi, i.e. i d_x4 chi = h(x4) chi with h Hermitian in int dy chi^dag chi; the factor W^{-3} removes 3H gamma^(x0)",
-		"instantaneousProblem":"at a fixed instant x4 the instantaneous (adiabatic) Kohn-Sham problem is h(a4,0) chi = eps chi with a4,0 = a4(x4): the stationary-slice ansatz Psi = e^{-i eps x4} e^{i k.x} W^{-3} V_beta chi(y)\/sqrt(ell^3 v_t), normalised int_{-L}^{0} chi^dag chi dy = 1",
-		"orbital16":"Psi_16 = e^{-i eps x4} e^{i k x1} e^{-3Hy} V[:, 2beta:2beta+2] chi(y)\/sqrt(ell^3 v_t) for k = (k,0,0); other directions by the spinor rotation"
+		"exactReduction":"Psi = e^{i k.x} W^{-3} b4^{-3\/4} chi(y, x4) gives EXACTLY (a4 and b4 time-dependent) g0 d_y chi + g4 d_x4 chi + i kappa k.gamma chi = (M_eff - i v_v g4) chi, i.e. i d_x4 chi = h(x4) chi with h Hermitian in int dy chi^dag chi = int sqrt|g| Psi^dag Psi over the hidden direction; the factor W^{-3} removes 3H gamma^(x0), the factor b4^{-3\/4} (the half-density of b4^{3\/2}) removes (3\/4)(b4'\/b4) gamma^(x4); b4 does not appear in h",
+		"instantaneousProblem":"at a fixed instant x4 the instantaneous (adiabatic) Kohn-Sham problem is h(a4,0) chi = eps chi with a4,0 = a4(x4) (h does not contain b4; b4,0 = b4(x4) enters only the proper densities, see densities): the stationary-slice ansatz Psi = e^{-i eps x4} e^{i k.x} W^{-3} b4^{-3\/4} V_beta chi(y)\/sqrt(ell^3 v_t), normalised int_{-L}^{0} chi^dag chi dy = 1",
+		"orbital16":"Psi_16 = e^{-i eps x4} e^{i k x1} e^{-3Hy} b4^{-3\/4} V[:, 2beta:2beta+2] chi(y)\/sqrt(ell^3 v_t) for k = (k,0,0); other directions by the spinor rotation"
 	},
 	"blockBasis":{
 		"commutingSet":"J = g0 g1 g4 (J^2 = 1), K1 = g2 g3, K2 = g5 g6 (K^2 = -1)",
@@ -400,7 +400,7 @@
 			"filledShellRatio":"E_x\/E_H = -1\/8 for one filled level at rest (n = S)"
 		},
 		"kohnShamPotentials":{
-			"e_int":"e_int(n, S) = (15\/32) lambda S^2 - (1\/32) lambda n^2 (proper densities)",
+			"e_int":"e_int(n, S) = (15\/32) lambda S^2 - (1\/32) lambda n^2 (proper densities; in the solver's units lambda -> lambda_hat and every density times b4(0)^{3\/2}, see densities.proper)",
 			"Meff":"M_eff(y) = m + (15\/16) lambda S(y)",
 			"Meff_coefficient_of_lambda_S":"15\/16",
 			"vv":"v_v(y) = -lambda n(y)\/16 (added to h as v_v times the identity)",
@@ -414,9 +414,10 @@
 		}
 	},
 	"densities":{
-		"perOrbital":"with P(y) = e^{-6Hy}\/(ell^3 v_t): n_o = P chi^dag chi, s_o = P chi^dag j sigma2 chi, t_o = P chi^dag j sigma3 chi (current along k-hat), q_o = P chi^dag sigma3 chi (= j t_o), c_o = P chi^dag j sigma1 chi = 0",
+		"perOrbital":"with P(y) = e^{-6Hy}\/Vol_7, Vol_7 = ell^3 v_t (b4,0\/b4(0))^{3\/2} (= ell^3 v_t e^{(3\/2) beta a4,0} on the history; the proper cell volume ell^3 v_t b4,0^{3\/2} divided by b4(0)^{3\/2}): n_o = P chi^dag chi, s_o = P chi^dag j sigma2 chi, t_o = P chi^dag j sigma3 chi (current along k-hat), q_o = P chi^dag sigma3 chi (= j t_o), c_o = P chi^dag j sigma1 chi = 0",
 		"total":"n(y) = sum_levels w g f n_o, S(y) = sum w g f s_o (same for t, q), g = 4 r3(n2), f the occupation, w = w_Z2 = 1\/2: canonical convention = the doubled (universe + mirror image) system of the ASSUMED Z2 orbifold; its eigen-orbitals are the even- and odd-parity solutions, each normalised on the patch int_{-L}^{0} chi^dag chi dy = 1 (norm 2 on the doubled interval, hence w = 1\/2 per patch); N = sum g f over both parities is the particle number of the doubled system (N\/2 per copy)",
-		"proper":"all densities are proper (per proper 7-volume); coordinate densities are e^{6Hy} times them"
+		"proper":"the solver's densities are the proper densities (per proper 7-volume, P = e^{-6Hy}\/(ell^3 v_t b4,0^{3\/2})) times b4(0)^{3\/2}, and its coupling is lambda_hat = lambda b4(0)^{-3\/2}: lambda n_proper = lambda_hat n, and the proper cell volume times a proper density is Vol_7 times the solver's density, so every potential, energy, integral and level is the physical one and b4(0) never needs a value (check history_solver_units); coordinate densities are e^{6Hy} b4,0^{3\/2} times the proper ones",
+		"couplingVolumeScaling":"a Kohn-Sham state depends on the coupling and the cell volume only through lambda\/Vol (check ks_coupling_volume_scaling): the slice state at (lambda_hat, Vol_7(a4,0)) equals the state of the coordinate cell ell^3 v_t at lambda_eff = lambda_hat e^{-(3\/2) beta a4,0} = lambda_hat e^{-2 a4,0} (beta = 4\/3), whose densities are e^{2 a4,0} times the solver's (the form used by Revision\/dark_sector\/dirac16complex\/compute\/run_ks_history.py)"
 	},
 	"boundaryConditions":{
 		"brane":{
@@ -430,11 +431,11 @@
 		"selfAdjointness":"phi^dag h chi - (h phi)^dag chi = d\/dy[-i j phi^dag sigma1 chi]; with current-killing ends h_j is self-adjoint, levels real, orbitals orthogonal",
 		"exactK0Spectra":"constant M > 0, v = 0, theta = 0: even: eps = 0 with chi = (e^{My}, 0), and eps = +-sqrt(M^2 + (n pi\/L)^2); odd: eps = +-sqrt(M^2 + p^2) with tan(pL) = -p\/M"
 	},
-	"rescalingIdentity":"a4,0 enters only through kappa k = e^{-Hy}(k e^{-a4,0}): KS(a4,0; Delta k, v_t, lambda, N, T) = KS(0; Delta k e^{-a4,0}, v_t e^{-3 a4,0}, lambda, N, T) exactly (levels, orbitals, proper densities, EMT profiles); equivalently KS(0; Delta k e^{-a4,0}, v_t, lambda e^{3 a4,0}) with every proper density times e^{-3 a4,0} and the same levels. The 3-momenta redshift as k e^{-a4} while the proper box stays the same.",
+	"rescalingIdentity":"a4,0 enters only through kappa k = e^{-Hy}(k e^{-a4,0}) and b4,0 only through the proper cell volume ell^3 v_t b4,0^{3\/2}: KS(a4,0, b4,0; Delta k, v_t, lambda, N, T) = KS(0, b4(0); Delta k e^{-a4,0}, v_t e^{-3 a4,0} (b4,0\/b4(0))^{3\/2}, lambda, N, T) exactly (levels, orbitals, proper densities, EMT profiles). On the history b4 = b4(0) e^{beta a4} (beta = 4\/3): KS(a4,0; Delta k, v_t) = KS(0; Delta k e^{-a4,0}, v_t e^{(3 beta\/2 - 3) a4,0}) = KS(0; Delta k e^{-a4,0}, v_t e^{-a4,0}). The 3-momenta redshift as k e^{-a4}; the proper 7-volume of the cell grows as e^{(3\/2) beta a4} = e^{2 a4}.",
 	"thermodynamics":{
 		"fillingConvention":"CONVENTION (not derived here; SPEC section 6 fixes particles as positive-frequency modes of the normal-ordered good sector): particles occupy the positive branch, i.e. the levels with eps > 0 of the lambda = 0 problem together with the k = 0 brane zero modes (eps = 0 at v = 0), each followed continuously as lambda is switched on; the negative branch is the normal-ordered sea and contributes nothing to N, n, S or T. The zero modes are self-conjugate at k = 0, v = 0 (spectrum of h_{+1} - v is minus that of h_{-1} - v); counting them as particle levels is the stated convention, its justification is OPEN.",
 		"occupation":"f = 1\/(1 + exp((eps - mu)\/T)), mu fixed by sum w_Z2 g f = N (Mermin)",
-		"energy":"E_KS (doubled system) = sum g f eps - 2 Vol_7 int_{-L}^{0} e^{6Hy} e_int dy, Vol_7 = ell^3 v_t; per copy one half of it",
+		"energy":"E_KS (doubled system) = sum g f eps - 2 Vol_7 int_{-L}^{0} e^{6Hy} e_int dy, Vol_7 = ell^3 v_t e^{(3\/2) beta a4,0} (densities.perOrbital); per copy one half of it",
 		"entropy":"S_ent = -sum g [f ln f + (1-f) ln(1-f)]",
 		"grandPotential":"Omega = -T sum g ln(1 + exp(-(eps - mu)\/T)) - 2 Vol_7 int_{-L}^{0} e^{6Hy} e_int dy (doubled system); F = Omega + mu N"
 	},
@@ -447,14 +448,16 @@
 		"offDiagonal":"T^x4_y = 0 for eigen-orbitals (K_x4y = P (eps - v\/2) c_o, c_o = 0)",
 		"trace":"sum of the diagonal kinetic parts = M_eff S + v_v n per point",
 		"conservationY":"p0' + 6H p0 = 3H (p3 + p_t) for every self-consistent state (nabla_mu T^mu_y = 0): solver check",
-		"energyChange":"nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t): dE\/da4 = -3 (2 Vol_7) int_{-L}^{0} e^{6Hy} (p3 - p_t) dy; Hellmann-Feynman with fixed occupations gives the same (solver check)",
+		"energyChange":"nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t) - (3\/2)(b4'\/b4)(rho + p_t); with sqrt|g| = b4^{3\/2} e^{6Hy} on the history (b4'\/b4 = beta a4'): dE\/da4 = -3 (P3 - P_t) - (3\/2) beta P_t, P = 2 Vol_7 int_{-L}^{0} e^{6Hy} p dy (beta = 4\/3: -3 (P3 - P_t) - 2 P_t); Hellmann-Feynman with fixed occupations gives the same (solver check)",
 		"integrated":"2 Vol_7 int_{-L}^{0} e^{6Hy} rho dy = E_KS; 2 Vol_7 int_{-L}^{0} e^{6Hy} 3 (p3 - e_int) dy = sum g f |k| d eps\/d|k| (doubled system, w = 1\/2 in the densities)"
 	},
 	"adiabaticity":{
-		"history":"a4 = A H x4 (A = 1 canonical), a4' = A H; slices a4,0 = a4(x4); PRESCRIBED BACKGROUND (see historyStatus)",
-		"historyStatus":"PRESCRIBED BACKGROUND: the history a4 = A H x4 is prescribed, not solved for. The a4 equations of SPEC section 5 allow this linear member only with p3 = p_t = p0 and constant rho; the Kohn-Sham states along it violate these source conditions (p3 != p_t, rho changes with a4,0, the sources depend on x0: Revision\/field_equations_a4\/reports\/ks-source-conditions.json). The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations.",
+		"history":"a4 = A H x4 (A = 1 canonical), b4 = b4(0) e^{beta A H x4} (beta = 4\/3), a4' = A H, b4'\/b4 = beta A H; slices a4,0 = a4(x4), b4,0 = b4(0) e^{beta a4,0}; PRESCRIBED BACKGROUND (see historyStatus)",
+		"historyBeta":"4\/3",
+		"historyBetaSource":"SPEC section 1: with the author's Lovelock weights the mixed (x4, x0) equation of a source without a T^x4_x0 component allows on a4 = H x4 exactly d ln b4\/d a4 in {0, 4\/3}; b4 is not constant, so beta = 4\/3 (Revision\/field_equations_a4\/a4-equations.json, exponentialHistory.authorWeights.branch)",
+		"historyStatus":"PRESCRIBED BACKGROUND: the history a4 = H x4, b4 = b4(0) e^{(4\/3) H x4} is prescribed, not solved for. With the author's Lovelock weights the a4 and b4 equations of SPEC section 5 allow it only with the constant source kappa (rho, p3, p_t, p0) = (-2\/27, -2\/9, -22\/27, -14\/27) (Revision\/field_equations_a4\/a4-equations.json, exponentialHistory.authorWeights.historySource); the Kohn-Sham states along it do not supply this source (they depend on x0 and change with a4,0: Revision\/field_equations_a4\/reports\/ks-source-conditions.json). The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations.",
 		"exactEvolution":"i d_x4 chi = h(a4(x4)) chi (mean field); k, the block and the brane parity are conserved; transitions only between levels of the same (k, j, block, parity)",
-		"derivative":"d_a h_j = -j kappa k sigma3 (frozen potentials) + j (d_a M_eff) sigma2 + d_a v_v (self-consistent part, by finite differences between slices)",
+		"derivative":"d_a h_j = -j kappa k sigma3 (frozen potentials) + j (d_a M_eff) sigma2 + d_a v_v (self-consistent part, by finite differences between slices; it contains the change of the effective coupling lambda_hat\/Vol_7(a4,0) ~ e^{-(3\/2) beta a4,0})",
 		"measure":"Q_nm = A H |<n| d_a h |m>| \/ (eps_n - eps_m)^2 = A H |<n| d_a m>| \/ |eps_n - eps_m| for n occupied, m empty in the same sector; adiabatic iff max Q_nm << 1; leading-order transition probability ~ Q_nm^2",
 		"hellmannFeynman":"d eps_n\/da = <n| d_a h |n> = -k d eps_n\/dk (frozen) ",
 		"caveat":"adiabatic evolution conserves the occupation of every (k, j, block, parity, level); when levels of different k cross the Fermi level between slices, the instantaneous aufbau ground state differs from the adiabatically continued state: the solver should flag such crossings. The non-adiabatic (time-dependent) problem is OPEN."
@@ -467,11 +470,11 @@
 		"free k = 0 spectra (even: 0, sqrt(M^2+(n pi\/L)^2); odd: tan(pL) = -p\/M)",
 		"brane-band slope c at small k",
 		"j-type mirror symmetry of the spectra (v = 0) and 4 r3(n2) degeneracy",
-		"exact rescaling identity between slices (a4,0 vs Delta k e^{-a4,0}, v_t e^{-3a4,0})",
+		"exact rescaling identity between slices (a4,0 vs a4 = 0 with Delta k e^{-a4,0}, v_t e^{(3 beta\/2 - 3) a4,0})",
 		"N conservation and the orbital normalisation",
 		"y-conservation p0' + 6H p0 = 3H(p3 + p_t) of every self-consistent state",
 		"trace identity and T^x4_y = 0 (zero y-current of every orbital)",
-		"dE\/da4 = -6 Vol_7 int_{-L}^{0} e^{6Hy}(p3 - p_t) dy (doubled system) by finite differences between slices (fixed occupations)",
+		"dE\/da4 = -3 (P3 - P_t) - (3\/2) beta P_t, P = 2 Vol_7 int_{-L}^{0} e^{6Hy} p dy (doubled system), by finite differences between slices (fixed occupations)",
 		"exact-Fock diagnostic Delta E_x = (lambda\/32) 2 Vol_7 int_{-L}^{0} e^{6Hy} Q^2 dy"
 	]
 }

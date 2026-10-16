@@ -212,6 +212,8 @@ pub struct TheoryInputs {
     /// ks-theory.json adiabaticity.history and its status label (PRESCRIBED BACKGROUND)
     pub history: String,
     pub history_status: String,
+    /// ks-theory.json adiabaticity.historyBeta: d ln b4 / d a4 of the history b4 = b4(0) e^{beta a4}
+    pub history_beta: f64,
 }
 
 pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<TheoryInputs, String> {
@@ -245,7 +247,15 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
         .ok_or("adiabaticity.historyStatus missing (the PRESCRIBED BACKGROUND label of the history)")?
         .to_string();
     if !history_status.starts_with("PRESCRIBED BACKGROUND") || !history.contains("PRESCRIBED BACKGROUND") {
-        return Err("ks-theory.json: the history a4 = A H x4 is not labelled as a PRESCRIBED BACKGROUND".into());
+        return Err("ks-theory.json: the history a4 = A H x4, b4 = b4(0) e^{beta a4} is not labelled as a PRESCRIBED BACKGROUND".into());
+    }
+    let history_beta = rational(
+        th.path(&["adiabaticity", "historyBeta"])
+            .and_then(|x| x.as_str())
+            .ok_or("adiabaticity.historyBeta missing (beta = d ln b4/d a4 of the history)")?,
+    )?;
+    if history_beta == 0.0 {
+        return Err("ks-theory.json: historyBeta = 0 (a constant b4) is excluded".into());
     }
     // e_int = e_H + e_x = (1/2) S^2 + ex_s2 S^2 + ex_n2 n^2 (per lambda); M_eff - m = d e/dS, v = d e/dn
     let ok_coeff = (meff - 15.0 / 16.0).abs() < 1e-15
@@ -387,6 +397,7 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
         sha_gammas: sha_g,
         history,
         history_status,
+        history_beta,
     })
 }
 
@@ -400,5 +411,6 @@ pub fn inputs_json(t: &TheoryInputs) -> Json {
         ("exchangeCoefficientS2", t.ex_s2.into()),
         ("braneBandSlopeTheory_M1_H1_L3", t.slope_m1h1l3.into()),
         ("adiabaticityHistory", t.history.clone().into()),
+        ("adiabaticityHistoryBeta", t.history_beta.into()),
     ])
 }

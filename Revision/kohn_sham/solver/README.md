@@ -5,9 +5,17 @@ formulas of `Revision/kohn_sham/ks-theory.json` (checked in `Revision/kohn_sham/
 No code, number or fixture of the old stages is used; `studies/dirac16complex_kohn_sham` was read only to
 recall that a shooting method with a Pruefer count suits this problem.
 
+The metric is the author's metric with the second function b4(x4) in the three extra-time components (the change of
+2026-10-14; b4 is a function of x4, never 1; `Revision/SPEC.md`, section 1). The history of the record is
+a4 = H x4, b4 = b4(0) e^{(4/3) H x4} (beta = d ln b4/d a4 = 4/3), a PRESCRIBED BACKGROUND. b4 does not enter the
+slice Hamiltonian; it enters through the proper 7-volume of the cell, which grows like b4^{3/2} = b4(0)^{3/2} e^{2 a4},
+so the effective coupling falls like e^{-2 a4} (Method, below). The record was moved to this metric on 2026-10-16
+(section "The metric with b4(x4)" at the end); b4 = 1 appears only there, as the withdrawn earlier metric.
+
 The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H) in [-L, 0], z = 6 H x0 (brane
 y = 0, tip cutoff y = -L); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three
-EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} sin^{1/6} z, a4 increasing).  p0 = T^x0_x0 is the
+EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} b4^{1/2} sin^{1/6} z ~ e^{-a4/3} on the history, a4
+increasing).  p0 = T^x0_x0 is the
 hidden-direction pressure (named p8 in the outputs before the relabel of 2026-10-14).
 
 ## Build and run (from the repository root)
@@ -53,8 +61,10 @@ energies, energy-momentum integrals and identities.
 ## Method
 
 * **Reduction (from ks-theory.json, re-verified here numerically):** Psi = e^{-i eps x4} e^{i k.x} W^{-3}
-  V_beta chi(y), W = e^{Hy}, gives in each of the eight 2 x 2 blocks
-  h_j = j[-i sigma1 d_y + M_eff sigma2 + kappa k sigma3] + v_v, kappa = e^{-Hy - a4,0}. The crate reads the
+  b4^{-3/4} V_beta chi(y), W = e^{Hy}, gives in each of the eight 2 x 2 blocks
+  h_j = j[-i sigma1 d_y + M_eff sigma2 + kappa k sigma3] + v_v, kappa = e^{-Hy - a4,0}; W^{-3} removes the
+  3H gamma^(x0) and b4^{-3/4} the (3/4)(b4'/b4) gamma^(x4) of gamma^mu Omega_mu, so b4 does not appear in h_j
+  (ks-theory.json sectorAndAnsatz.exactReduction, checks ansatz_* of the theory reports). The crate reads the
   exported basis V and the gamma matrices (`Revision/algebra/gammas.json`) and checks that V^dag X V is block
   diagonal with exactly these forms for the operators of h and of the densities (check
   `block_reduction_numeric`). With chi = (a, i b) the equation is real.
@@ -75,7 +85,14 @@ energies, energy-momentum integrals and identities.
   level at the same slice is positive, plus the k = 0 zero modes. In a sector these are the labels
   l >= l_min (check `free_particle_branch_labels`). The negative branch is the normal-ordered sea: it is not
   populated, not even thermally (see the diagnostic below).
-* **Densities and functional:** n, S, Q proper (per proper 7-volume, P = e^{-6Hy}/Vol_7), w_Z2 = 1/2.
+* **Densities and functional:** n, S, Q per Vol_7(a4,0), P = e^{-6Hy}/Vol_7(a4,0) with
+  Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}, w_Z2 = 1/2. The proper cell volume is ell^3 v_t b4,0^{3/2}; the solver
+  works in units of b4(0)^{3/2} (ks-theory.json densities.proper): its densities are the proper densities times
+  b4(0)^{3/2} and its coupling is lambda_hat = lambda b4(0)^{-3/2} (written lambda below and in the outputs), so
+  lambda S, every potential, level, energy and integral 2 Vol_7 int e^{6Hy} (...) dy is the physical one and b4(0)
+  never needs a value. Because a state depends on the coupling and the cell volume only through lambda/Vol
+  (ks-theory.json densities.couplingVolumeScaling), a slice state equals the state of the coordinate cell
+  ell^3 v_t at lambda_eff = lambda_hat e^{-2 a4,0}; `single --beta 0 --lambda lambda_eff` computes it in that form.
   M_eff = m + (15/16) lambda S and v_v = -(1/16) lambda n are the Hartree terms plus the exact local
   exchange of the uniform 8-fold gas, e_int = lambda[(15/32) S^2 - (1/32) n^2]. This is the canonical
   functional. The **exact Fock exchange** of the closed-shell slab determinant differs by +lambda Q^2/32
@@ -84,8 +101,11 @@ energies, energy-momentum integrals and identities.
 * **Self-consistency:** Anderson (Pulay) mixing of the potential vector (depth 6, beta = 0.4), stopped when
   max |residual| <= 1e-11 m. Safeguards: backtracking when a level solve fails, a divergence abort, and a
   coupling continuation (lambda/4 ... lambda) as fallback. The exact-Fock variant falls back to a
-  continuation in the weight of its exact-Fock term instead. No fallback was needed for the 75 canonical
-  ground states (all paths "direct", at most 17 iterations; `ground/summary.csv`).
+  continuation in the weight of its exact-Fock term instead. The Mermin states use the same coupling
+  continuation as fallback. No fallback was needed for the 75 canonical ground states (all paths "direct", at
+  most 18 iterations; `ground/summary.csv`); one of the 135 thermal states needed it, N688_lamm1_a00_T10 (the
+  direct SCF diverged; check `thermo_scf_path`). The four a4 neighbours of the finite differences d/da4 are
+  converged to scf_tol/10 (1e-12 m canonical): the difference quotient amplifies their SCF error by ~1/delta.
 * **Occupations:** at T = 0 the aufbau with exact degeneracy groups (open shells are flagged). The first
   excited state is the ensemble Delta-SCF: one particle moved from the highest occupied group to the lowest
   empty group, uniformly over each group, so the block and direction symmetry of the reduction is kept. At
@@ -119,36 +139,45 @@ energies, energy-momentum integrals and identities.
   p_t = e_int, p0 = sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o] + e_int (ks-theory.json emt). For the
   exact-Fock variant, p0 gets -w_Q q_o inside the sum. This is derived here: the orbital identity holds with
   kappa k replaced by kappa k + j w_Q, and e_int stays homogeneous of degree 2.
-* **History and adiabaticity:** a4 = A H x4 with A = 1, slices a4,0 in {0, 0.5, 1, 1.5, 2}. This history is a
-  PRESCRIBED test-field background without back-reaction: the a4 equations of SPEC section 5 allow the linear
-  member only with p3 = p_t = p0 and constant rho, and the Kohn-Sham gas along it has p3 != p_t and a changing
-  rho (and depends on x0); it is not a solution of the a4 equations with the Kohn-Sham source
+* **History and adiabaticity:** a4 = A H x4 with A = 1 and b4 = b4(0) e^{beta a4} with beta = 4/3
+  (ks-theory.json `adiabaticity.historyBeta`, read by the solver; SPEC section 1: with the author's Lovelock weights
+  the mixed (x4, x0) equation of a source without a T^x4_x0 component allows on a4 = H x4 only d ln b4/d a4 in
+  {0, 4/3}, and b4 is not constant), slices a4,0 in {0, 0.5, 1, 1.5, 2}. This history is a PRESCRIBED test-field
+  background without back-reaction: with the author's weights the a4 and b4 equations of SPEC section 5 allow it
+  only with the constant source kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27)
+  (`Revision/field_equations_a4/a4-equations.json`, exponentialHistory.authorWeights.historySource), which the
+  Kohn-Sham gas (it depends on x0 and changes with a4,0) does not supply
   (`Revision/field_equations_a4/reports/ks-source-conditions.json`). ks-theory.json carries this label
   (`adiabaticity.history` ends "PRESCRIBED BACKGROUND (see historyStatus)", `adiabaticity.historyStatus`); the
-  solver refuses a ks-theory.json without it and copies it into `parameters.json` and `adiabatic/history.json`.
+  solver refuses a ks-theory.json without it or without `historyBeta` and copies them into `parameters.json` and
+  `adiabatic/history.json`.
   The measure is
   Q_nm = A H |<n| d_a h |m>| / (eps_n - eps_m)^2 for n occupied and m empty in the same (shell, j, parity),
   with d_a h = -j kappa k sigma3 + j (d_a M_eff) sigma2 + d_a v_v. The self-consistent derivatives come from
-  the states at a4 +- delta and +- 2 delta (delta = 2e-3, fixed occupations, Richardson). Changes of the
+  the states at a4 +- delta and +- 2 delta (delta = 2e-3, fixed occupations, Richardson); they contain the change
+  of the effective coupling lambda/Vol_7(a4,0) ~ e^{-2 a4,0}. The energy changes along the history as
+  dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7 int e^{6Hy} p dy (ks-theory.json emt.energyChange). Changes of the
   aufbau occupation between slices are flagged as Fermi-level crossings, and the adiabatically continued
   state (the a4,0 = 0 labels) is then solved.
 
 ## Parameters and calibration (`results/parameters.json`)
 
-H = 1, m = 1, L = 3, dk = 0.25, v_t = 1, Vol_7 = ell^3 v_t, tip theta = 0.
+H = 1, m = 1, L = 3, dk = 0.25, v_t = 1, Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (beta = 4/3), tip theta = 0.
 
 * **Particle numbers:** N = 8 (the k = 0 brane zero modes); N_large = 688, the largest closed shell of the
   free a4,0 = 0 aufbau below the bulk edge 1.2923 m (it fills the brane band up to n2 = 11); N_mid = 136,
   the closed shell nearest N_large/4.
 * **Couplings, per N:** lambda_1, lambda_2 = 0.1 m and 0.3 m divided by the largest first-order mean-field
-  potential per unit lambda of the free ground states over ALL slices, rounded to 4 digits. This gives
-  lambda_1 = 0.01946, 0.0009298, 0.0001846 and lambda_2 = 0.05838, 0.002789, 0.0005538 for
-  N = 8, 136, 688.
-* **Why the whole history:** for N > 8 the potential per unit lambda grows along the history (N = 688: 5.2
-  at a4,0 = 0, 541.7 at a4,0 = 2). The redshifted brane-band orbitals spread toward the tip, where the
-  proper 7-volume e^{6Hy} is small. A calibration at a4,0 = 0 alone made the a4,0 = 2 states strongly
-  coupled (measured in development: self-consistent potentials of 1.3 m for lambda_1, N = 136), and the
-  exact-Fock variant diverged there.
+  potential per unit lambda (lambda_hat) of the free ground states over ALL slices, rounded to 4 digits. This gives
+  lambda_1 = 0.01946, 0.01206, 0.006645 and lambda_2 = 0.05838, 0.03617, 0.01993 for N = 8, 136, 688.
+* **Why the whole history:** the potential per unit lambda (densities per Vol_7(a4,0)) changes along the history:
+  N = 8: 5.139 at a4,0 = 0, falling like e^{-2 a4,0} (the k = 0 zero modes do not depend on a4,0, the cell volume
+  grows); N = 136: 5.226, 6.374, 8.295, 5.278, 1.970 and N = 688: 5.226, 7.183, 12.77, 15.05, 9.922 at
+  a4,0 = 0, 0.5, 1, 1.5, 2. The redshifted brane-band orbitals spread toward the tip, where e^{6Hy} is small, while
+  the growing cell volume dilutes every density: the maximum lies inside the history (a4,0 = 1 for N = 136,
+  1.5 for N = 688). With the withdrawn metric b4 = 1 the cell volume did not grow, the potential per unit lambda
+  rose to 541.7 at a4,0 = 2 for N = 688, and the same rule gave couplings 13 (N = 136) and 36 (N = 688) times
+  smaller.
 * **Temperatures:** T in {0.01, 0.02, 0.05} m, for N in {8, 136, 688}, lambda in {0, +-lambda_1}, all five
   slices.
 
@@ -175,8 +204,8 @@ Outside `results/`: `tools/mermin-roots-40digit.json` (the 40-digit fixture of t
 
 ## Checks
 
-`Revision/kohn_sham/reports/ks-rust-solver.json` holds 42 checks, all PASS. Per-run checks are aggregated,
-with the worst case and its run id.
+`Revision/kohn_sham/reports/ks-rust-solver.json` holds 43 checks, all PASS (42 validations and the information
+`thermo_scf_path`). Per-run checks are aggregated, with the worst case and its run id.
 
 * **Theory and algebra:** coefficients, gamma fixture, block reduction.
 * **Free field:** analytic k = 0 spectra of both parities (error O((h eps)^4)), the exact zero mode, the
@@ -186,9 +215,11 @@ with the worst case and its run id.
   residuals, the two energy forms, the EMT energy integral, nabla_mu T^mu_y = 0 (integrated and
   pointwise), the derivative form of the y-kinetic term (an orbital-equation residual), window
   completeness, closed shells.
-* **Along the history:** dE/da4 = -6 Vol_7 int e^{6Hy}(p3 - p_t) dy against Richardson differences;
-  Hellmann-Feynman d eps/da4 = <d_a h>; the exact rescaling identity
-  KS(a4,0; dk, v_t) = KS(0; dk e^{-a4,0}, v_t e^{-3 a4,0}), solved independently (levels to 1.5e-13 m).
+* **Along the history:** dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t (P = 2 Vol_7 int e^{6Hy} p dy) against Richardson
+  differences (worst 7.1e-11 of the energy scale); Hellmann-Feynman d eps/da4 = <d_a h> (2.6e-9 m); the exact
+  rescaling identity KS(a4,0; dk, v_t) = KS(0; dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}) = KS(0; dk e^{-a4,0},
+  v_t e^{-a4,0}) (the same proper cell), solved independently (levels to 1.6e-13 m, energies and profiles to
+  1.9e-13).
 * **Excited states:** Delta-SCF = KS gap at lambda = 0.
 * **Exact-Fock variant:** convergence and y-conservation.
 * **Thermodynamics:** Omega in two forms; C_V = T dS/dT = dE/dT and -dF/dT = S. Both are Richardson
@@ -287,19 +318,23 @@ the well-conditioned T dS/dT (dE/dT is kept for the identity check).
 ## Canonical results (from `results/`; units m = H = 1)
 
 * **N = 8, KS gap:** 0.4307337 m at a4,0 = 0, 0.1703493 at 1, 0.06415941 at 2 (lambda = 0). The LUMO is
-  the n2 = 1 brane band, which redshifts as e^{-a4,0} c dk; the k = 0 zero modes do not depend on a4,0, so
-  E_KS is the same at every slice. Delta-SCF equals the gap at lambda = 0; with lambda_2 it is 0.4312929
-  vs gap 0.4312996 at a4,0 = 0.
+  the n2 = 1 brane band, which redshifts as e^{-a4,0} c dk; the k = 0 zero modes do not depend on a4,0, so at
+  lambda = 0 E_KS = 0 at every slice. With lambda_2 the zero-mode state has E_KS = -2.863e-3, -4.022e-4, -5.448e-5
+  at a4,0 = 0, 1, 2: a pure interaction energy that falls almost like e^{-2 a4,0} (the effective coupling); Delta-SCF
+  0.4312929 vs gap 0.4312996 at a4,0 = 0, 0.1703980 vs 0.1703904 at 1, 0.06416104 vs 0.06416057 at 2.
 * **E_KS along the history (lambda = 0):** 80.28222, 32.38412, 12.44507 for N = 136 and 680.4412, 279.4249,
-  110.3867 for N = 688, at a4,0 = 0, 1, 2. The brane-band gas redshifts. (Along the prescribed history, without
-  back-reaction: equations of state derived from it are not consequences of the coupled field equations.)
+  110.3867 for N = 688, at a4,0 = 0, 1, 2 (levels and energies at lambda = 0 do not depend on b4). The brane-band
+  gas redshifts. With lambda_2: 80.34080 and 12.44653 (N = 136), 680.8280 and 110.5077 (N = 688) at a4,0 = 0 and 2.
+  (Along the prescribed history, without back-reaction: equations of state derived from it are not consequences
+  of the coupled field equations.)
 * **Integrated pressure ratios (lambda = 0):** int p3 / int rho is 0.2966, 0.3100, 0.3264 (N = 136) and
-  0.2929, 0.3018, 0.3183 (N = 688); int p0 / int rho is 0.4365, 0.5969, 0.6808 (N = 136). These are the
-  integrated EMT components only. Equations of state seen by a 3-space observer are the work of
-  `Revision/dark_sector`.
-* **Adiabaticity:** Q_max <= 0.0935 over the whole matrix, the largest for the Fermi-shell brane-band level
-  -> the first bulk level of the same sector (e.g. N = 688, a4,0 = 0). Q_max = 0 exactly for N = 8: d_a h
-  vanishes on the k = 0 sector.
+  0.2929, 0.3018, 0.3183 (N = 688); int p0 / int rho is 0.4365, 0.5969, 0.6808 (N = 136) and 0.3535, 0.5125,
+  0.6482 (N = 688), at a4,0 = 0, 1, 2. These are the integrated EMT components only. Equations of state seen by a
+  3-space observer are the work of `Revision/dark_sector`.
+* **Adiabaticity:** Q_max <= 0.0935 over the whole matrix (N688_lamp2_a00), the largest for the Fermi-shell
+  brane-band level -> the first bulk level of the same sector. For N = 8 Q_max = 0 at lambda = 0 (d_a h vanishes on
+  the k = 0 sector) and at most 0.0039 for lambda != 0: the self-consistent potentials change along the history
+  because the effective coupling falls like e^{-2 a4,0}.
 * **Fermi-level crossings:** none occur in the canonical matrix. Demonstration at lambda = 0, N = 696: the
   k = 0 odd bulk level is emptied and the n2 = 12 band shell fills from a4,0 = 0.5 on. The adiabatically
   continued state lies 3.66 m (a4,0 = 0.5) to 8.62 m (a4,0 = 2) above the instantaneous aufbau state, so
@@ -307,11 +342,12 @@ the well-conditioned T dS/dT (dE/dT is kept for the identity check).
 * **Exact Fock vs uniform-gas exchange:** for N = 8 (b = 0 zero modes, Q = n) the exact Fock exchange
   cancels the vector part, and E_EXX = -2.0e-13 against E_LDA = -2.863e-3 (lambda_2). So the canonical
   interaction energy of the zero-mode state is entirely the uniform-gas exchange term that the exact
-  exchange removes. For N = 136 and 688 the two functionals differ by Delta E_x (e.g. 0.0768 of E = 110.58,
-  N = 688, lambda_2, a4,0 = 2). E_EXX - (E_LDA + Delta E_x) is at most 3.7% of Delta E_x (second order).
+  exchange removes. For N = 136 and 688 the two functionals differ by Delta E_x (e.g. 0.1051 of E = 680.83,
+  N = 688, lambda_2, a4,0 = 0; 0.0465 of E = 110.51 at a4,0 = 2). E_EXX - (E_LDA + Delta E_x) is at most 1.2% of
+  Delta E_x (second order; N136_lamp2_a10).
 * **Thermal sea holes (diagnostic of the convention):** the excluded sea would carry more than 1% of N in
-  15 of the 135 thermal states, all at a4,0 >= 1. The largest is 30.98 N (N8_lamm1_a20_T50: N = 8,
-  lambda = -lambda_1, a4,0 = 2, T = 0.05, mu = -0.0977; 30.80 N at lambda = 0 and 30.62 N at +lambda_1): there
+  15 of the 135 thermal states, all at a4,0 >= 1. The largest is 30.81 N (N8_lamm1_a20_T50: N = 8,
+  lambda = -lambda_1, a4,0 = 2, T = 0.05, mu = -0.0977; 30.80 N at lambda = 0 and +lambda_1): there
   the particle-only Mermin ensemble is outside its range of validity, and a thermal treatment of the Dirac sea
   (pairs) would be required.
 
@@ -382,3 +418,52 @@ sha256 of `ks-theory.json` and of `gammas.json`); the manifest lists the new has
 report `ks-rust-solver.json` differs only in the first 16 hex digits of these two sha256 values. The repeat is
 byte-identical in all 244 files and its report; `ks-rust-determinism.json` (14 of 14) differs from the one of
 2026-10-08 only in the byte total of the compared files (5857843 instead of 5857791: the longer description).
+
+## The metric with b4(x4) (2026-10-16)
+
+On 2026-10-15 the author ordered "move everything to b4(x4); b4 is never 1" (`HANDOFF.md`, section 0.9, phase 4).
+The record above is the one of the author's metric with b4(x4) on the history a4 = H x4, b4 = b4(0) e^{(4/3) H x4}.
+What changed, and why:
+
+* **Theory** (`Revision/kohn_sham/theory`, ks-theory.json): every statement is derived for general a4(x4) and b4(x4).
+  gamma^mu Omega_mu = 3H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4); the ansatz carries the half-density factor b4^{-3/4}
+  and removes both terms, so the slice Hamiltonian does not contain b4; sqrt|g| = b4^{3/2} e^{6Hy}; the densities are
+  per proper 7-volume ell^3 v_t b4^{3/2} (in units of b4(0)^{3/2}: Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}, coupling
+  lambda_hat = lambda b4(0)^{-3/2}); nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t), so
+  dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t on the history; the rescaling partner of slice a4,0 is slice 0 with
+  dk e^{-a4,0} and v_t e^{(3 beta/2 - 3) a4,0}. Wolfram `verify_ks_theory.wls` 51/51 (34.8 s; 46 checks before),
+  sympy `check_ks_theory.py` 63/63 (49 s; 58 before).
+* **Solver:** `Physics.beta` (read from ks-theory.json `adiabaticity.historyBeta`) and Vol_7(a4,0) in `src/model.rs`;
+  the history identity in `src/analysis.rs`; the rescaling partner, the parameters, the thermal continuation
+  fallback (`solve_with_continuation`, check `thermo_scf_path`), the a4 neighbours converged to scf_tol/10 and the
+  key `beta` of `adiabatic/history.json` in `src/runs.rs`; `single --beta` in `src/main.rs`. `cargo test` 10/10.
+* **What changed in the numbers.** The calibration rule is unchanged; applied to the new history it gives
+  lambda_1 = 0.01946, 0.01206, 0.006645 and lambda_2 = 0.05838, 0.03617, 0.01993 (N = 8, 136, 688; before 0.01946,
+  0.0009298, 0.0001846 and 0.05838, 0.002789, 0.0005538). So every interacting state with N = 136 or 688 changed, and
+  every interacting state with N = 8 at a4,0 > 0 (its effective coupling now falls like e^{-2 a4,0}). The lambda = 0
+  states keep their levels, energies and integrals; their profiles are per Vol_7(a4,0) and therefore e^{-2 a4,0}
+  times the former ones. The N = 8 interacting energies fall like e^{-2 a4,0} (E_KS = -2.863e-3, -4.022e-4, -5.448e-5
+  at a4,0 = 0, 1, 2 with lambda_2; before -2.863e-3 at every slice), and Q_max of N = 8 is no longer 0 for lambda != 0
+  (at most 0.0039).
+* **Two numerical consequences, found by the record's own checks.** (1) With the stronger couplings the direct
+  Mermin SCF of N688_lamm1_a00_T10 diverged (residual 0.197 after 400 iterations; first canonical run). The Mermin
+  states now use the coupling continuation of the ground states as fallback; it is used for this one state only.
+  `single` uses the same path for T > 0 (the Mermin-roots tool failed on this state before). (2) The first refined
+  comparison failed `refined_adiabatic_derivatives`: dE/da4 of N8_lamp1_a20 is only 3.632e-5, and the canonical
+  difference quotient of energies was 7.0e-11 off (1.9e-6 relative; the refined run agreed with the EMT identity
+  to 2e-15). The tolerance (1e-6, fixed before the comparison) was kept; instead the four a4 neighbours are now
+  converged to scf_tol/10, and the quotient agrees with the identity to 2.4e-15 (refined comparison: 1.4e-7).
+* **Runs of 2026-10-16** (22 threads, otherwise idle machine): canonical matrix 78.0 s (ground matrix 39.1 s,
+  thermodynamics 32.4 s); `tools/mermin_roots_mp.py` 8.6 s (135 `single` runs, 135 of 135 within the bound, largest
+  |mu - root| 1.639e-16 m, largest ratio 0.149; the fixture holds the same 8 states, with new levels at a4,0 = 0.5);
+  the canonical matrix again (results byte-identical, the report differs only by the fixture's sha256 and the
+  per-state values of the fixture states); repeat 75.7 s, byte-identical in all 244 files and the report;
+  refined-tolerance run 340.6 s (ground matrix 160.6 s, thermodynamics 168.8 s), below the limit of 423 s.
+  `ks-rust-determinism.json` 14/14: E_KS to 2.0e-12 relative, HOMO/LUMO/gap to 7.6e-12 m, 23724 levels to
+  2.1e-9 m, Delta-SCF 6.5e-11 m, profiles 7.1e-9 of their maxima, Q_max and dE/da4 1.4e-7, thermodynamics 2.5e-10,
+  C_V 5.7e-9; U_mu <= 1.310e-12 m (N688_lamm1_a00_T10), U_Omega <= 2.537e-10; the negative control passes in the
+  3 N = 8, a4,0 = 0 states (unchanged: their slice is a4,0 = 0).
+* **Not yet redone in this phase when this section was written:** the Python reference and the cross-check, the
+  tip-cutoff convergence and `checker/measure_rust_refinement.py` (their committed reports describe the record
+  before this change until they are rerun); `Revision/dark_sector/dirac16complex/compute/run_ks_history.py` passes
+  lambda_eff to `single` and reads the calibrated couplings, so the dark sector is rerun after this phase.

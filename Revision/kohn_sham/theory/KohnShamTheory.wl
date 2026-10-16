@@ -8,14 +8,16 @@
    gamma^(xk) = T16[k]).
 
    The author's coordinates {x0, x1, ..., x7}: x0 = the hidden direction, z = 6 H x0; x1, x2, x3 = 3-space;
-   x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z).
+   x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z).
+   The metric is the author's metric of 2026-10-14 with the second function b4(x4) in the extra-time components
+   (Revision/SPEC.md section 1; b4 is a function of x4, never 1).
    Arrays index x0..x7 as 1..8 (xk at position k+1).  The proper hidden coordinate y = Log[Sin[z]]/(6H) <= 0
    replaces x0 at position 1 (dy = Cot[z] dx0, Sin[z]^(1/3) = E^(2 H y)).
 
    Public symbols (prefix KS):
      KSLoadGammas[path]       -> {gamma (list of 8), eta}
-     KSGeometryY[a4]          -> <|"coords","h","g","ginv"|> in the y chart (y, x1..x7), a4 = a4[x4]
-     KSGeometryX0[a40]        -> the same in the author's chart (x0..x7) (a4 constant)
+     KSGeometryY[a4, b4]      -> <|"coords","h","g","ginv"|> in the y chart (y, x1..x7), a4 = a4[x4], b4 = b4[x4]
+     KSGeometryX0[a4, b4]     -> the same in the author's chart (x0..x7)
      KSChristoffel[g, coords]
      KSSpinConnection[gamma, eta, h, chr, coords] -> list of Omega_mu
      KSBlockBasis[gamma]      -> <|"labels","seeds","U"|>, V = U/(2 Sqrt[2])
@@ -26,8 +28,8 @@
 BeginPackage["KohnShamTheory`"];
 
 KSLoadGammas::usage = "KSLoadGammas[path] reads the Revision fixture and returns {gamma, eta}.";
-KSGeometryY::usage = "KSGeometryY[a4] metric data in the chart (y, x1..x7) with a4 an expression in x4.";
-KSGeometryX0::usage = "KSGeometryX0[a40] metric data in the author's chart (x0..x7) with constant a4 = a40.";
+KSGeometryY::usage = "KSGeometryY[a4, b4] metric data in the chart (y, x1..x7) with a4, b4 expressions in x4.";
+KSGeometryX0::usage = "KSGeometryX0[a4, b4] metric data in the author's chart (x0..x7) with a4, b4 expressions in x4.";
 KSChristoffel::usage = "KSChristoffel[g, coords] Christoffel symbols chr[[n, m, k]] = Gamma^n_{mk}.";
 KSSpinConnection::usage = "KSSpinConnection[gamma, eta, h, chr, coords] canonical Omega_mu for the diagonal vielbein h.";
 KSBlockBasis::usage = "KSBlockBasis[gamma] the joint eigenbasis of J, K1, K2 (unnormalised U = 2 Sqrt[2] V).";
@@ -43,16 +45,16 @@ KSPauli = {{{0, 1}, {1, 0}}, {{0, -I}, {I, 0}}, {{1, 0}, {0, -1}}};
 KSLoadGammas[path_String] := Module[{j = Import[path, "RawJSON"]},
   {j["gamma"], DiagonalMatrix[j["eta"]]}];
 
-KSGeometryY[a4_] := Module[{W = Exp[H y], h, eta},
+KSGeometryY[a4_, b4_] := Module[{W = Exp[H y], h, eta},
   eta = {1, 1, 1, 1, -1, -1, -1, -1};
-  h = {1, Exp[a4] W, Exp[a4] W, Exp[a4] W, 1, Exp[-a4] W, Exp[-a4] W, Exp[-a4] W};
+  h = {1, Exp[a4] W, Exp[a4] W, Exp[a4] W, 1, Exp[-a4] Sqrt[b4] W, Exp[-a4] Sqrt[b4] W, Exp[-a4] Sqrt[b4] W};
   <|"coords" -> {y, x1, x2, x3, x4, x5, x6, x7}, "h" -> h,
     "g" -> DiagonalMatrix[eta h^2], "ginv" -> DiagonalMatrix[1/(eta h^2)]|>];
 
-KSGeometryX0[a40_] := Module[{z = 6 H x0, h, eta},
+KSGeometryX0[a4_, b4_] := Module[{z = 6 H x0, h, eta},
   eta = {1, 1, 1, 1, -1, -1, -1, -1};
-  h = {Cot[z], Exp[a40] Sin[z]^(1/6), Exp[a40] Sin[z]^(1/6), Exp[a40] Sin[z]^(1/6), 1,
-       Exp[-a40] Sin[z]^(1/6), Exp[-a40] Sin[z]^(1/6), Exp[-a40] Sin[z]^(1/6)};
+  h = {Cot[z], Exp[a4] Sin[z]^(1/6), Exp[a4] Sin[z]^(1/6), Exp[a4] Sin[z]^(1/6), 1,
+       Exp[-a4] Sqrt[b4] Sin[z]^(1/6), Exp[-a4] Sqrt[b4] Sin[z]^(1/6), Exp[-a4] Sqrt[b4] Sin[z]^(1/6)};
   <|"coords" -> {x0, x1, x2, x3, x4, x5, x6, x7}, "h" -> h,
     "g" -> DiagonalMatrix[eta h^2], "ginv" -> DiagonalMatrix[1/(eta h^2)]|>];
 

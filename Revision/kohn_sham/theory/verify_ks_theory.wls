@@ -5,6 +5,9 @@
 
    Revision Kohn-Sham theory for dirac16complex in the author's primordial field (Revision/SPEC.md,
    sections 1 and 7), exact derivation and verification in WolframScript.  Revision code only.
+   The metric is the author's metric of 2026-10-14 with b4(x4) in the three extra-time components
+   (b4 is a function of x4, never 1): every statement is derived for general a4(x4) and b4(x4); the
+   numerical history of the solver is a4 = A H x4, b4 = b4(0) e^{beta A H x4}, beta = 4/3 (SPEC section 1).
    Input:   Revision/algebra/gammas.json (the Revision algebra fixture in the author's order x0..x7, gamma^(xk) = T16[k])
    Package: Revision/kohn_sham/theory/KohnShamTheory.wl
    Writes, deterministically (LF, no time stamps):
@@ -54,18 +57,20 @@ addCheck["C_B_Gamma",
   "C = g0 g1 g2 g3 (real symmetric, C^2 = 1), B = -i C g4 (Hermitian, B^2 = 1), Gamma = diag(-I8, I8); BC = -i g4, C g4 = i B, C B C = B"];
 
 (* ---------------- B. geometry ---------------- *)
-$Assumptions = {H > 0, y < 0, Vol > 0, ell > 0, vt > 0, Element[{x1, x2, x3, x4, x5, x6, x7, k, k1, k2, k3, eps, M, v, a0, lam, nn, SS, QQ, L},
-    Reals], L > 0, 0 < x0 < Pi/(12 H)};
+$Assumptions = {H > 0, y < 0, Vol > 0, ell > 0, vt > 0, b0 > 0, bb0 > 0, cc > 0, AA > 0,
+   Element[{x1, x2, x3, x4, x5, x6, x7, k, k1, k2, k3, eps, M, v, a0, lam, nn, SS, QQ, L, aa, bet}, Reals], L > 0,
+   0 < x0 < Pi/(12 H)};
 zOfy = ArcSin[Exp[6 H y]];
 addCheck["geometry_hidden_coordinate",
   Simplify[Cot[zOfy]^2 D[zOfy/(6 H), y]^2 == 1] && Simplify[Sin[zOfy]^(1/3) == Exp[2 H y]] &&
   Simplify[D[Log[Sin[6 H x0]]/(6 H), x0] == Cot[6 H x0]],
   "y = Log[Sin[z]]/(6H), z = 6 H x0: dy = Cot[z] dx0, Cot[z]^2 dx0^2 = dy^2, Sin[z]^(1/3) = E^(2 H y); z in (0, Pi/2) <-> y in (-Infinity, 0)"];
-gx0 = KSGeometryX0[a0];
+gx0 = KSGeometryX0[a0, b0];
 addCheck["geometry_sqrt_det",
-  Simplify[Abs[Det[gx0["g"]]] == Cos[6 H x0]^2, 0 < 6 H x0 < Pi/2],
-  "|det g| = Cos[z]^2 in the author's chart (a4-independent); y chart: Sqrt|g| = W^6 = E^(6 H y)"];
-geo = KSGeometryY[a4[x4]];
+  Simplify[Abs[Det[gx0["g"]]] == b0^3 Cos[6 H x0]^2, 0 < 6 H x0 < Pi/2] &&
+  Simplify[Abs[Det[KSGeometryY[a0, b0]["g"]]] == b0^3 E^(12 H y)],
+  "|det g| = b4^3 Cos[z]^2 in the author's chart (independent of a4): sqrt|g| = b4^(3/2) Cos[z]; y chart: sqrt|g| = b4^(3/2) W^6 = b4^(3/2) E^(6 H y); the 7-volume changes as b4^(3/2)"];
+geo = KSGeometryY[a4[x4], b4[x4]];
 X = geo["coords"]; hv = geo["h"];
 chr = KSChristoffel[geo["g"], X];
 Om = KSSpinConnection[g, etaM, hv, chr, X];
@@ -74,18 +79,19 @@ addCheck["spin_connection_compatibility",
       Om[[m]].(g[[n]]/hv[[n]]) - (g[[n]]/hv[[n]]).Om[[m]]], {m, 8}, {n, 8}]],
   "canonical spin connection (vielbein postulate), a4 = a4[x4]: nabla_mu gamma^nu = 0 for all 64 (mu, nu)"];
 slash = Simplify[Sum[g[[m]].Om[[m]]/hv[[m]], {m, 8}]];
-addCheck["spin_connection_slash_3H", zeroQ[slash - 3 H g0],
-  "gamma^mu Omega_mu = 3 H gamma^(x0) exactly, no a4'[x4] term"];
+addCheck["spin_connection_slash", zeroQ[slash - 3 H g0 - (3/4) (b4'[x4]/b4[x4]) g4],
+  "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4) (b4'/b4) gamma^(x4) exactly: no a4'[x4] term, the b4' term remains"];
 sInfl = Simplify[Sum[g[[m]].Om[[m]]/hv[[m]], {m, 2, 4}] /. H -> 0];
 sDefl = Simplify[Sum[g[[m]].Om[[m]]/hv[[m]], {m, 6, 8}] /. H -> 0];
-addCheck["spin_connection_time_terms_cancel",
-  zeroQ[sInfl - (3/2) a4'[x4] g4] && zeroQ[sDefl + (3/2) a4'[x4] g4] && zeroQ[Om[[5]]] && zeroQ[Om[[1]]],
-  "coefficients " <> ToString[Simplify[{(sInfl.Inverse[g4])[[1, 1]], (sDefl.Inverse[g4])[[1, 1]]}], InputForm] <> "; time-direction pieces: sum over the 3 inflating directions = +(3/2) a4' gamma^(x4), over the 3 deflating ones = -(3/2) a4' gamma^(x4): they cancel; Omega_x4 = Omega_y = 0"];
-chr0 = KSChristoffel[gx0["g"], gx0["coords"]];
-Om0 = KSSpinConnection[g, etaM, gx0["h"], chr0, gx0["coords"]];
-slash0 = Simplify[Sum[g[[m]].Om0[[m]]/gx0["h"][[m]], {m, 8}], 0 < 6 H x0 < Pi/2];
-addCheck["spin_connection_slash_3H_x0_chart", zeroQ[slash0 - 3 H g0],
-  "in the author's chart (x0..x7): gamma^mu Omega_mu = 3 H gamma^(x0) as well"];
+addCheck["spin_connection_time_terms",
+  zeroQ[sInfl - (3/2) a4'[x4] g4] && zeroQ[sDefl + (3/2) a4'[x4] g4 - (3/4) (b4'[x4]/b4[x4]) g4] && zeroQ[Om[[5]]] && zeroQ[Om[[1]]],
+  "coefficients " <> ToString[Simplify[{(sInfl.Inverse[g4])[[1, 1]], (sDefl.Inverse[g4])[[1, 1]]}], InputForm] <> "; time-direction pieces: sum over the 3 inflating directions = +(3/2) a4' gamma^(x4), over the 3 deflating ones = (-(3/2) a4' + (3/4) b4'/b4) gamma^(x4): the a4' pieces cancel, the b4' piece remains; Omega_x4 = Omega_y = 0"];
+gx0t = KSGeometryX0[a4[x4], b4[x4]];
+chr0 = KSChristoffel[gx0t["g"], gx0t["coords"]];
+Om0 = KSSpinConnection[g, etaM, gx0t["h"], chr0, gx0t["coords"]];
+slash0 = Simplify[Sum[g[[m]].Om0[[m]]/gx0t["h"][[m]], {m, 8}], 0 < 6 H x0 < Pi/2];
+addCheck["spin_connection_slash_x0_chart", zeroQ[slash0 - 3 H g0 - (3/4) (b4'[x4]/b4[x4]) g4],
+  "in the author's chart (x0..x7), a4 = a4[x4], b4 = b4[x4]: gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4) (b4'/b4) gamma^(x4) as well"];
 
 (* ---------------- C. ansatz ---------------- *)
 chiF = Table[c[i][y, x4], {i, 16}];
@@ -93,10 +99,15 @@ W = Exp[H y]; kap = Exp[-H y - a4[x4]];
 phase = Exp[I (k1 x1 + k2 x2 + k3 x3)];
 dirac[Psi_] := Sum[g[[m]].(D[Psi, X[[m]]] + Om[[m]].Psi)/hv[[m]], {m, 8}];
 red = g0.D[chiF, y] + g4.D[chiF, x4] + I kap (k1 g1 + k2 g2 + k3 g3).chiF;
-addCheck["ansatz_removes_spin_connection", zeroQ[dirac[phase W^-3 chiF]/(phase W^-3) - red],
-  "gamma^mu D_mu (e^{ik.x} W^-3 chi(y, x4)) = e^{ik.x} W^-3 [g0 d_y + g4 d_x4 + i kappa k.gamma] chi, kappa = E^(-H y - a4[x4]): exact for time-dependent a4"];
-addCheck["ansatz_without_W3_term_survives", zeroQ[dirac[phase chiF]/phase - red - 3 H g0.chiF],
+fb = b4[x4]^(-3/4);
+addCheck["ansatz_removes_spin_connection", zeroQ[dirac[phase W^-3 fb chiF]/(phase W^-3 fb) - red],
+  "gamma^mu D_mu (e^{ik.x} W^-3 b4^(-3/4) chi(y, x4)) = e^{ik.x} W^-3 b4^(-3/4) [g0 d_y + g4 d_x4 + i kappa k.gamma] chi, kappa = E^(-H y - a4[x4]): exact for time-dependent a4 and b4; b4 does not appear in the reduced operator"];
+addCheck["ansatz_without_W3_term_survives", zeroQ[dirac[phase fb chiF]/(phase fb) - red - 3 H g0.chiF],
   "without W^-3 the term 3 H gamma^(x0) chi survives"];
+addCheck["ansatz_without_b4_factor_term_survives", zeroQ[dirac[phase W^-3 chiF]/(phase W^-3) - red - (3/4) (b4'[x4]/b4[x4]) g4.chiF],
+  "without b4^(-3/4) the term (3/4) (b4'/b4) gamma^(x4) chi survives: b4^(-3/4) is the half-density factor of the volume element b4^(3/2) Cos[z]"];
+addCheck["ansatz_norm_b4", Simplify[b4[x4]^(3/2) Exp[6 H y] (fb W^-3)^2 == 1, b4[x4] > 0],
+  "sqrt|g| (b4^(-3/4) W^-3)^2 = 1 in the y chart: int sqrt|g| Psi^dag Psi over the hidden direction = int chi^dag chi dy for every a4 and b4 (the Hilbert norm of the reduced problem)"];
 addCheck["hamiltonian_16_hermitian",
   Transpose[g4.g0] == g4.g0 && ConjugateTranspose[-g4.g1] == -g4.g1 && ConjugateTranspose[-I g4] == -I g4,
   "i d_x4 chi = h chi with h = i g4 g0 d_y - kappa k_j g4 g^j + M(-i g4) + v: g4 g0 real symmetric, g4 g^j and -i g4 Hermitian"];
@@ -230,32 +241,51 @@ addCheck["bc_tip_asymptotics", Simplify[(-kp k s2).vdec == kp k vdec] && s2.vdec
 
 (* ---------------- G. rescaling ---------------- *)
 hfull[j_, kk_, aa_] := j (M s2 + Exp[-H y - aa] kk s3);
+Pprop[l_, w_, b_] := Exp[-6 H y]/(l^3 w b^(3/2));
 addCheck["rescaling_identity",
   And @@ Table[Simplify[hfull[j, k, aa] == hfull[j, k Exp[-aa], 0]], {j, {1, -1}}] &&
-  Simplify[Exp[-6 H y]/(ell^3 vt) == Exp[-6 H y]/((ell Exp[aa])^3 (vt Exp[-3 aa]))],
-  "KS(a4,0; Delta k, v_t, lambda) = KS(0; Delta k E^(-a4,0), v_t E^(-3 a4,0), lambda) exactly (same proper boxes); equivalently KS(0; Delta k E^(-a4,0), v_t, lambda E^(3 a4,0)) with proper densities times E^(-3 a4,0)"];
+  Simplify[Pprop[ell, vt, b0] == Pprop[ell Exp[aa], vt Exp[-3 aa], b0]] &&
+  Simplify[Pprop[ell, vt, b0] == Pprop[ell, vt (b0/bb0)^(3/2), bb0]] &&
+  Simplify[Pprop[ell, vt, bb0 Exp[(4/3) aa]] == Pprop[ell Exp[aa], vt Exp[-aa], bb0]],
+  "the slice problem KS(a4,0, b4,0; Delta k, v_t, lambda) contains a4,0 only through kappa k = E^(-H y) (k E^(-a4,0)) and b4,0 only through the proper density factor P = E^(-6 H y)/(ell^3 v_t b4,0^(3/2)) (b4 is absent from h): KS(a4,0, b4,0; Delta k, v_t, lambda) = KS(0, b4(0); Delta k E^(-a4,0), v_t E^(-3 a4,0) (b4,0/b4(0))^(3/2), lambda) exactly (levels, orbitals, proper densities, EMT profiles); on the history b4 = b4(0) E^((4/3) a4): KS(a4,0; Delta k, v_t) = KS(0; Delta k E^(-a4,0), v_t E^(-a4,0)) (the same proper cells)"];
+addCheck["ks_coupling_volume_scaling",
+  Module[{eV},
+    eV[l_, V_] := V ((15/32) l (SS/V)^2 - (1/32) l (nn/V)^2);
+    Simplify[eV[cc lam, cc Vol] == eV[lam, Vol]] && Simplify[(15/16) cc lam SS/(cc Vol) == (15/16) lam SS/Vol] &&
+    Simplify[-cc lam nn/(16 cc Vol) == -lam nn/(16 Vol)]],
+  "with every density = (orbital sum)/Vol: M_eff - m = (15/16) lambda S, v_v = -lambda n/16 and the interaction energy Vol e_int are invariant under (lambda, Vol) -> (c lambda, c Vol): a Kohn-Sham state depends on the coupling and the cell volume only through lambda/Vol"];
+Module[{bsl = bb0 Exp[bet aa], Pp, Ps, lamh = lam bb0^(-3/2)},
+  Pp = Exp[-6 H y]/(ell^3 vt bsl^(3/2));
+  Ps = Exp[-6 H y]/(ell^3 vt Exp[(3/2) bet aa]);
+  addCheck["history_solver_units",
+    Simplify[lam Pp == lamh Ps] && Simplify[Pp == bb0^(-3/2) Ps] &&
+    Simplify[(ell^3 vt bsl^(3/2)) Pp == (ell^3 vt Exp[(3/2) bet aa]) Ps] &&
+    Simplify[lamh Ps == (lamh Exp[-(3/2) bet aa]) Exp[-6 H y]/(ell^3 vt)] &&
+    Simplify[(lamh Exp[-(3/2) bet aa] /. bet -> 4/3) == lamh Exp[-2 aa]],
+    "on the history b4 = b4(0) E^(beta a4) the solver uses lambda_hat = lambda b4(0)^(-3/2), densities per Vol_7(a4,0) = ell^3 v_t E^((3/2) beta a4,0) (the proper densities times b4(0)^(3/2)) and otherwise the same formulas: lambda n_proper = lambda_hat n_solver and (ell^3 v_t b4,0^(3/2)) n_proper = Vol_7(a4,0) n_solver, so b4(0) never needs a value; equivalently (ks_coupling_volume_scaling) the slice state is that of the coordinate cell ell^3 v_t at lambda_eff = lambda_hat E^(-(3/2) beta a4,0) = lambda_hat E^(-2 a4,0) (beta = 4/3)"]];
 
 (* ---------------- H. EMT (16 components, ComplexExpand with real symbols) ---------------- *)
 emtOK = True; emtDet = {};
+hvE = Simplify[hv /. b4 -> (Exp[2 q[#]] &)]; OmE = Simplify[Om /. b4 -> (Exp[2 q[#]] &)];
 Do[
   Module[{j = labels[[b, 1]], Vb = V[[All, 2 b - 1 ;; 2 b]], chi2, u, BC, Kd, Ko, sub, nc, sc, tc, cc, P, r1, r4, ry, r22, r55, r4y,
      Nn, dch},
     chi2 = {f1[y] + I f2[y], f3[y] + I f4[y]};
-    u = Exp[-I eps x4 + I k x1] W^-3 Vb.chi2/Sqrt[Vol];
+    u = Exp[-I eps x4 + I k x1] W^-3 Exp[-(3/2) q[x4]] Vb.chi2/Sqrt[Vol];
     BC = B16.C16;
-    Kd[mu_] := Module[{gm = g[[mu]]/hv[[mu]], du = D[u, X[[mu]]]},
-      Simplify[ComplexExpand[(Conjugate[u].BC.gm.(du + Om[[mu]].u) - Conjugate[du].BC.gm.u + Conjugate[u].BC.Om[[mu]].gm.u)/2]]];
+    Kd[mu_] := Module[{gm = g[[mu]]/hvE[[mu]], du = D[u, X[[mu]]]},
+      Simplify[ComplexExpand[(Conjugate[u].BC.gm.(du + OmE[[mu]].u) - Conjugate[du].BC.gm.u + Conjugate[u].BC.OmE[[mu]].gm.u)/2]]];
     Ko[mu_, nu_] := Module[{gl, Dm2, dm2},
-      gl[m_] := eta[[m]] hv[[m]] g[[m]]; Dm2[m_] := D[u, X[[m]]] + Om[[m]].u; dm2[m_] := D[u, X[[m]]];
+      gl[m_] := eta[[m]] hvE[[m]] g[[m]]; Dm2[m_] := D[u, X[[m]]] + OmE[[m]].u; dm2[m_] := D[u, X[[m]]];
       Simplify[ComplexExpand[Sum[Conjugate[u].BC.gl[pr[[1]]].Dm2[pr[[2]]] - Conjugate[dm2[pr[[2]]]].BC.gl[pr[[1]]].u +
-           Conjugate[u].BC.Om[[pr[[2]]]].gl[pr[[1]]].u, {pr, {{mu, nu}, {nu, mu}}}]/4]]];
+           Conjugate[u].BC.OmE[[pr[[2]]]].gl[pr[[1]]].u, {pr, {{mu, nu}, {nu, mu}}}]/4]]];
     Nn = M s3 - kap k s2 + I j (eps - v) s1;
     dch = ComplexExpand[Nn.chi2];
     sub = {f1'[y] -> ComplexExpand[Re[dch[[1]]]], f2'[y] -> ComplexExpand[Im[dch[[1]]]],
            f3'[y] -> ComplexExpand[Re[dch[[2]]]], f4'[y] -> ComplexExpand[Im[dch[[2]]]]};
     nc = ComplexExpand[Conjugate[chi2].chi2]; sc = ComplexExpand[Conjugate[chi2].(j s2).chi2];
     tc = ComplexExpand[Conjugate[chi2].(j s3).chi2]; cc = ComplexExpand[Conjugate[chi2].(j s1).chi2];
-    P = Exp[-6 H y]/Vol;
+    P = Exp[-6 H y - 3 q[x4]]/Vol;
     r1 = Simplify[-Kd[2] - P kap k tc];
     r4 = Simplify[Kd[5] - P eps nc];
     r22 = Simplify[Kd[3]]; r55 = Simplify[Kd[6]];
@@ -266,7 +296,7 @@ Do[
       "residuals " <> ToString[{r1, r4, r22, r55, ry, r4y}, InputForm]]]],
   {b, {1, 6}}];
 addCheck["emt_orbital_components", emtOK,
-  "per orbital (expectation rule, a4 = a4[x4] general, spin connection drops out of the diagonal): -K^x1_x1 = P kappa k chi^dag j sigma3 chi, K^x4_x4 = P eps |chi|^2, K^x2_x2 = K^x5_x5 = 0, -K^y_y = P[(eps - v)|chi|^2 - M chi^dag j sigma2 chi - kappa k chi^dag j sigma3 chi], K_x4y = P (eps - v/2) chi^dag j sigma1 chi (= 0 for eigen-orbitals), P = E^(-6 H y)/(ell^3 v_t); " <>
+  "per orbital Psi = e^{-i eps x4 + i k x1} W^-3 b4^(-3/4) V_beta chi/sqrt(ell^3 v_t) (expectation rule, a4 = a4[x4] and b4 = b4[x4] = E^(2 q[x4]) general; the spin connection, including its b4' piece, and the x4 derivative of b4^(-3/4) drop out of the diagonal): -K^x1_x1 = P kappa k chi^dag j sigma3 chi, K^x4_x4 = P eps |chi|^2, K^x2_x2 = K^x5_x5 = 0, -K^y_y = P[(eps - v)|chi|^2 - M chi^dag j sigma2 chi - kappa k chi^dag j sigma3 chi], K_x4y = P (eps - v/2) chi^dag j sigma1 chi (= 0 for eigen-orbitals), P = E^(-6 H y)/(ell^3 v_t b4^(3/2)) (per proper 7-volume); " <>
   StringRiffle[emtDet, "; "]];
 addCheck["emt_trace_identity", Simplify[(-kap k tt) + eps no + (M so + kap k tt - (eps - v) no) == M so + v no],
   "sum of the diagonal K = M_eff s + v_v n (on-shell trace); T^mu_nu = -<K^mu_nu> + delta^mu_nu e_int"];
@@ -290,8 +320,15 @@ addCheck["emt_y_conservation_selfconsistent",
   Simplify[-D[(15/16) lam Sf[y], y] Sf[y] - D[-lam nf[y]/16, y] nf[y] + D[eS, y]] === 0,
   "nabla_mu T^mu_y = p0' + 6H p0 - 3H(p3 + p_t); the force terms of the orbital identity cancel against e_int' for the self-consistent M_eff, v_v"];
 addCheck["emt_x4_component",
-  Simplify[divT[Tf, 5] - (-D[rh[y, x4], x4] - 3 a4'[x4] (p3f[y, x4] - ptf[y, x4]))] === 0,
-  "nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t) for diagonal T: dE/dx4 = -3 a4' Integral sqrt|g| (p3 - p_t)"];
+  Simplify[divT[Tf, 5] - (-D[rh[y, x4], x4] - 3 a4'[x4] (p3f[y, x4] - ptf[y, x4]) - (3/2) (b4'[x4]/b4[x4]) (rh[y, x4] + ptf[y, x4]))] === 0,
+  "nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t) - (3/2) (b4'/b4) (rho + p_t) for diagonal T (sum_mu Gamma^mu_(mu x4) = (3/2) b4'/b4)"];
+Module[{rr = rh[y, x4], dE, hist},
+  dE = D[b4[x4]^(3/2) rr, x4] /. Derivative[0, 1][rh][y, x4] -> (-3 a4'[x4] (p3f[y, x4] - ptf[y, x4]) - (3/2) (b4'[x4]/b4[x4]) (rr + ptf[y, x4]));
+  hist = {a4 -> (AA H # &), b4 -> (bb0 Exp[bet AA H #] &)};
+  addCheck["emt_energy_change_history",
+    Simplify[dE - b4[x4]^(3/2) (-3 a4'[x4] (p3f[y, x4] - ptf[y, x4]) - (3/2) (b4'[x4]/b4[x4]) ptf[y, x4]), b4[x4] > 0] === 0 &&
+    Simplify[(dE /. hist)/(AA H) - (bb0 Exp[bet AA H x4])^(3/2) (-3 (p3f[y, x4] - ptf[y, x4]) - (3/2) bet ptf[y, x4])] === 0,
+    "with sqrt|g| = b4^(3/2) E^(6 H y) and the conservation law: d_x4 (b4^(3/2) rho) = b4^(3/2) (-3 a4' (p3 - p_t) - (3/2) (b4'/b4) p_t) (+ the y-flux, zero for eigen-orbitals); on the history a4 = A H x4, b4 = b4(0) E^(beta A H x4): dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7(a4,0) int E^(6 H y) p dy, the solver check (beta = 4/3: -3 (P3 - P_t) - 2 P_t)"]];
 addCheck["adiabatic_hellmann_feynman",
   Simplify[D[e0[k Exp[-aa]], aa] + k D[e0[k Exp[-aa]], k]] === 0 && Simplify[D[hfull[1, k, aa], aa] + k D[hfull[1, k, aa], k]] == ConstantArray[0, {2, 2}],
   "d_a h_j = -j kappa k sigma3 = -k d_k h_j; eps(k, a) = eps(k E^(-a), 0): d eps/da = -k d eps/dk (frozen potentials)"];
@@ -299,7 +336,7 @@ Module[{Hx = 2 {{Cos[al], Sin[al]}, {Sin[al], -Cos[al]}} + id2, va, vb},
   va = {Cos[al/2], Sin[al/2]}; vb = {-Sin[al/2], Cos[al/2]};
   addCheck["adiabatic_offdiagonal_identity",
     Simplify[Hx.va == 3 va] && Simplify[Hx.vb == -vb] && Simplify[va.D[Hx, al].vb == (-1 - 3) va.D[vb, al]],
-    "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (explicit family); Q_nm = A H |<n| d_a h_KS |m>|/(eps_n - eps_m)^2 along the history a4 = A H x4, a PRESCRIBED BACKGROUND (test field without back-reaction, not a solution of the a4 equations with the Kohn-Sham source)"]];
+    "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (explicit family); Q_nm = A H |<n| d_a h_KS |m>|/(eps_n - eps_m)^2 along the history a4 = A H x4, b4 = b4(0) E^(beta A H x4), a PRESCRIBED BACKGROUND (test field without back-reaction, not a solution of the a4 and b4 equations with the Kohn-Sham source)"]];
 
 (* brane-band slope: exact formula and NDSolve shooting *)
 cExact = Exp[-aa] (2 M/(2 M - H)) (1 - Exp[-(2 M - H) L])/(1 - Exp[-2 M L]);
@@ -323,22 +360,22 @@ addCheck["brane_band_slope", okCsym && Abs[sl0 - cE0] < 10^-8 && Abs[sl5 - cE5] 
 
 (* ---------------- ks-theory.json ---------------- *)
 jsonTheory = <|
-  "description" -> "Revision Kohn-Sham theory for dirac16complex in the author's primordial field (SPEC sections 1, 7): the exact reduction, functional, boundary conditions, rescaling identity, energy-momentum tensor and adiabaticity measure, i.e. the formulas the Rust solver Revision/kohn_sham/solver must implement. Every statement here is checked in Revision/kohn_sham/reports/ks-theory-wolfram.json and independently in ks-theory-python.json.",
+  "description" -> "Revision Kohn-Sham theory for dirac16complex in the author's primordial field (SPEC sections 1, 7), in the author's metric with b4(x4) in the extra-time components (b4 a function of x4, never 1): the exact reduction, functional, boundary conditions, rescaling identity, energy-momentum tensor, the history and the adiabaticity measure, i.e. the formulas the Rust solver Revision/kohn_sham/solver must implement. Every statement here is checked in Revision/kohn_sham/reports/ks-theory-wolfram.json and independently in ks-theory-python.json.",
   "producer" -> "Revision/kohn_sham/theory/verify_ks_theory.wls",
-  "coordinates" -> "the author's coordinates {x0, x1, ..., x7}: x0 = the hidden direction, z = 6 H x0 in (0, pi/2); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4 increasing). Arrays index x0..x7 as 0..7 (xk at index k). Gamma matrices: Revision/algebra/gammas.json (gamma^(xk) = T16[k]).",
+  "coordinates" -> "the author's coordinates {x0, x1, ..., x7}: x0 = the hidden direction, z = 6 H x0 in (0, pi/2); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z; on the history e^{-a4/3} b4(0)^{1/2} sin^{1/6} z). Arrays index x0..x7 as 0..7 (xk at index k). Gamma matrices: Revision/algebra/gammas.json (gamma^(xk) = T16[k]).",
   "units" -> "H = 1 in the solver unless stated; energies, momenta and temperatures in units of m (or H); lambda has dimension mass^-6 (Psi has dimension 7/2 in 8 dimensions).",
   "geometry" -> <|
     "hiddenCoordinate" -> "y = ln(sin z)/(6H) in (-inf, 0], sin z = e^{6Hy}, dy = cot z dx0; the patch end z = pi/2 is y = 0, the tip z -> 0 is y -> -inf",
-    "lineElement" -> "ds^2 = e^{2Hy}[e^{2a4(x4)}(dx1^2+dx2^2+dx3^2) - e^{-2a4(x4)}(dx5^2+dx6^2+dx7^2)] - dx4^2 + dy^2",
+    "lineElement" -> "ds^2 = e^{2Hy}[e^{2a4(x4)}(dx1^2+dx2^2+dx3^2) - e^{-2a4(x4)} b4(x4) (dx5^2+dx6^2+dx7^2)] - dx4^2 + dy^2",
     "warp" -> "W(y) = e^{Hy}",
-    "sqrtDetG" -> "e^{6Hy} (= cos z in the author's chart x0..x7); independent of a4: the 7-volume is constant",
-    "kappa" -> "kappa(y, x4) = e^{-Hy - a4(x4)} (the momentum weight)",
-    "spinConnection" -> "gamma^mu Omega_mu = 3H gamma^(x0) for every a4(x4): the a4' pieces of the 3 inflating directions (+(3/2) a4' gamma^(x4)) and of the 3 deflating directions (-(3/2) a4' gamma^(x4)) cancel"|>,
+    "sqrtDetG" -> "b4^{3/2} e^{6Hy} (= b4^{3/2} cos z in the author's chart x0..x7); independent of a4; the 7-volume changes as b4^{3/2}, on the history as b4(0)^{3/2} e^{2 a4}",
+    "kappa" -> "kappa(y, x4) = e^{-Hy - a4(x4)} (the momentum weight; b4 does not enter)",
+    "spinConnection" -> "gamma^mu Omega_mu = 3H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) for every a4(x4), b4(x4): the a4' pieces of the 3 inflating directions (+(3/2) a4' gamma^(x4)) and of the 3 deflating directions (-(3/2) a4' gamma^(x4)) cancel, the b4' piece (3/4)(b4'/b4) gamma^(x4) of the deflating directions remains"|>,
   "sectorAndAnsatz" -> <|
     "sector" -> "good sector: no dependence on x5, x6, x7 (extra-time momenta zero); coordinate 3-torus of size ell, k in (2 pi/ell) Z^3 = Delta k Z^3; extra-time coordinate volume v_t",
-    "exactReduction" -> "Psi = e^{i k.x} W^{-3} chi(y, x4) gives EXACTLY (a4 time-dependent) g0 d_y chi + g4 d_x4 chi + i kappa k.gamma chi = (M_eff - i v_v g4) chi, i.e. i d_x4 chi = h(x4) chi with h Hermitian in int dy chi^dag chi; the factor W^{-3} removes 3H gamma^(x0)",
-    "instantaneousProblem" -> "at a fixed instant x4 the instantaneous (adiabatic) Kohn-Sham problem is h(a4,0) chi = eps chi with a4,0 = a4(x4): the stationary-slice ansatz Psi = e^{-i eps x4} e^{i k.x} W^{-3} V_beta chi(y)/sqrt(ell^3 v_t), normalised int_{-L}^{0} chi^dag chi dy = 1",
-    "orbital16" -> "Psi_16 = e^{-i eps x4} e^{i k x1} e^{-3Hy} V[:, 2beta:2beta+2] chi(y)/sqrt(ell^3 v_t) for k = (k,0,0); other directions by the spinor rotation"|>,
+    "exactReduction" -> "Psi = e^{i k.x} W^{-3} b4^{-3/4} chi(y, x4) gives EXACTLY (a4 and b4 time-dependent) g0 d_y chi + g4 d_x4 chi + i kappa k.gamma chi = (M_eff - i v_v g4) chi, i.e. i d_x4 chi = h(x4) chi with h Hermitian in int dy chi^dag chi = int sqrt|g| Psi^dag Psi over the hidden direction; the factor W^{-3} removes 3H gamma^(x0), the factor b4^{-3/4} (the half-density of b4^{3/2}) removes (3/4)(b4'/b4) gamma^(x4); b4 does not appear in h",
+    "instantaneousProblem" -> "at a fixed instant x4 the instantaneous (adiabatic) Kohn-Sham problem is h(a4,0) chi = eps chi with a4,0 = a4(x4) (h does not contain b4; b4,0 = b4(x4) enters only the proper densities, see densities): the stationary-slice ansatz Psi = e^{-i eps x4} e^{i k.x} W^{-3} b4^{-3/4} V_beta chi(y)/sqrt(ell^3 v_t), normalised int_{-L}^{0} chi^dag chi dy = 1",
+    "orbital16" -> "Psi_16 = e^{-i eps x4} e^{i k x1} e^{-3Hy} b4^{-3/4} V[:, 2beta:2beta+2] chi(y)/sqrt(ell^3 v_t) for k = (k,0,0); other directions by the spinor rotation"|>,
   "blockBasis" -> <|
     "commutingSet" -> "J = g0 g1 g4 (J^2 = 1), K1 = g2 g3, K2 = g5 g6 (K^2 = -1)",
     "projectors" -> "P(j,s2,s3) = (1+jJ)/2 (1-i s2 K1)/2 (1-i s3 K2)/2",
@@ -370,7 +407,7 @@ jsonTheory = <|
       "coefficient_n2" -> "-1/32", "coefficient_S2" -> "-1/32",
       "filledShellRatio" -> "E_x/E_H = -1/8 for one filled level at rest (n = S)"|>,
     "kohnShamPotentials" -> <|
-      "e_int" -> "e_int(n, S) = (15/32) lambda S^2 - (1/32) lambda n^2 (proper densities)",
+      "e_int" -> "e_int(n, S) = (15/32) lambda S^2 - (1/32) lambda n^2 (proper densities; in the solver's units lambda -> lambda_hat and every density times b4(0)^{3/2}, see densities.proper)",
       "Meff" -> "M_eff(y) = m + (15/16) lambda S(y)", "Meff_coefficient_of_lambda_S" -> "15/16",
       "vv" -> "v_v(y) = -lambda n(y)/16 (added to h as v_v times the identity)", "vv_coefficient_of_lambda_n" -> "-1/16",
       "onShellLagrangian" -> "<L>/sqrt|g| = e_int (degree-2 homogeneity)",
@@ -379,19 +416,20 @@ jsonTheory = <|
       "result" -> "for closed shells (k -> -k symmetric), equal occupation of the 4 blocks of each type and of the (j,k)/(-j,-k) partners, the EXACT Fock exchange of the Kohn-Sham determinant is local: e_x^exact = -(lambda/32)(n^2 + S^2 - Q^2 - Y^2), Q = <Psi^dag B gamma^(x0) Psi> = sum over orbitals of w g f q_o, q_o = e^{-6Hy} chi^dag sigma3 chi/(ell^3 v_t) for every orbital of either type (= j t_o; (a^2 - b^2) P in the real form), Y = y-current (0)",
       "status" -> "DIAGNOSTIC: the canonical functional is the uniform-gas one (SPEC section 7); the solver should report Delta E_x = +(lambda/32) int sqrt|g| Q^2 (the part the uniform-gas exchange omits). An exact-exchange variant would add w_Q = +lambda Q/16 sigma3 (both block types) to h and +(lambda/32) Q^2 to e_int."|>|>,
   "densities" -> <|
-    "perOrbital" -> "with P(y) = e^{-6Hy}/(ell^3 v_t): n_o = P chi^dag chi, s_o = P chi^dag j sigma2 chi, t_o = P chi^dag j sigma3 chi (current along k-hat), q_o = P chi^dag sigma3 chi (= j t_o), c_o = P chi^dag j sigma1 chi = 0",
+    "perOrbital" -> "with P(y) = e^{-6Hy}/Vol_7, Vol_7 = ell^3 v_t (b4,0/b4(0))^{3/2} (= ell^3 v_t e^{(3/2) beta a4,0} on the history; the proper cell volume ell^3 v_t b4,0^{3/2} divided by b4(0)^{3/2}): n_o = P chi^dag chi, s_o = P chi^dag j sigma2 chi, t_o = P chi^dag j sigma3 chi (current along k-hat), q_o = P chi^dag sigma3 chi (= j t_o), c_o = P chi^dag j sigma1 chi = 0",
     "total" -> "n(y) = sum_levels w g f n_o, S(y) = sum w g f s_o (same for t, q), g = 4 r3(n2), f the occupation, w = w_Z2 = 1/2: canonical convention = the doubled (universe + mirror image) system of the ASSUMED Z2 orbifold; its eigen-orbitals are the even- and odd-parity solutions, each normalised on the patch int_{-L}^{0} chi^dag chi dy = 1 (norm 2 on the doubled interval, hence w = 1/2 per patch); N = sum g f over both parities is the particle number of the doubled system (N/2 per copy)",
-    "proper" -> "all densities are proper (per proper 7-volume); coordinate densities are e^{6Hy} times them"|>,
+    "proper" -> "the solver's densities are the proper densities (per proper 7-volume, P = e^{-6Hy}/(ell^3 v_t b4,0^{3/2})) times b4(0)^{3/2}, and its coupling is lambda_hat = lambda b4(0)^{-3/2}: lambda n_proper = lambda_hat n, and the proper cell volume times a proper density is Vol_7 times the solver's density, so every potential, energy, integral and level is the physical one and b4(0) never needs a value (check history_solver_units); coordinate densities are e^{6Hy} b4,0^{3/2} times the proper ones",
+    "couplingVolumeScaling" -> "a Kohn-Sham state depends on the coupling and the cell volume only through lambda/Vol (check ks_coupling_volume_scaling): the slice state at (lambda_hat, Vol_7(a4,0)) equals the state of the coordinate cell ell^3 v_t at lambda_eff = lambda_hat e^{-(3/2) beta a4,0} = lambda_hat e^{-2 a4,0} (beta = 4/3), whose densities are e^{2 a4,0} times the solver's (the form used by Revision/dark_sector/dirac16complex/compute/run_ks_history.py)"|>,
   "boundaryConditions" -> <|
     "brane" -> <|"status" -> "ASSUMED", "statement" -> "Z2 mirror (orbifold) at y = 0 under P_A: Psi(-y) = +-gamma^(x0) Psi(y) with the mirror warp W = e^{-H|y|}; continuity gives (1 -+ gamma^(x0)) chi(0) = 0: even parity chi2(0) = 0 (b(0) = 0), odd parity chi1(0) = 0 (a(0) = 0). P_A maps (M(y), v(y)) to (-M(-y), v(-y)): the doubled problem is P_A-symmetric iff M_eff is odd, i.e. the mirror copy carries (-m, +lambda) (S odd, n even). Both parities are the two P_A sectors of the doubled system and are solved and filled together. Both conditions kill the y-current."|>,
     "tip" -> <|"status" -> "chosen (regular tip)", "statement" -> "at y = -L: (1 - Q(theta)) chi(-L) = 0, Q = cos(theta) sigma3 + sin(theta) sigma2; canonical theta = 0: chi2(-L) = 0 (b(-L) = 0). For k = 0 it admits the regular brane-localised zero mode (e^{My}, 0) for every L and no tip-localised mode for M > 0; for k != 0 an orbital is suppressed toward the tip like exp(-|k|(kappa(-L) - kappa(y))/H) so the levels do not depend on theta up to that factor."|>,
     "selfAdjointness" -> "phi^dag h chi - (h phi)^dag chi = d/dy[-i j phi^dag sigma1 chi]; with current-killing ends h_j is self-adjoint, levels real, orbitals orthogonal",
     "exactK0Spectra" -> "constant M > 0, v = 0, theta = 0: even: eps = 0 with chi = (e^{My}, 0), and eps = +-sqrt(M^2 + (n pi/L)^2); odd: eps = +-sqrt(M^2 + p^2) with tan(pL) = -p/M"|>,
-  "rescalingIdentity" -> "a4,0 enters only through kappa k = e^{-Hy}(k e^{-a4,0}): KS(a4,0; Delta k, v_t, lambda, N, T) = KS(0; Delta k e^{-a4,0}, v_t e^{-3 a4,0}, lambda, N, T) exactly (levels, orbitals, proper densities, EMT profiles); equivalently KS(0; Delta k e^{-a4,0}, v_t, lambda e^{3 a4,0}) with every proper density times e^{-3 a4,0} and the same levels. The 3-momenta redshift as k e^{-a4} while the proper box stays the same.",
+  "rescalingIdentity" -> "a4,0 enters only through kappa k = e^{-Hy}(k e^{-a4,0}) and b4,0 only through the proper cell volume ell^3 v_t b4,0^{3/2}: KS(a4,0, b4,0; Delta k, v_t, lambda, N, T) = KS(0, b4(0); Delta k e^{-a4,0}, v_t e^{-3 a4,0} (b4,0/b4(0))^{3/2}, lambda, N, T) exactly (levels, orbitals, proper densities, EMT profiles). On the history b4 = b4(0) e^{beta a4} (beta = 4/3): KS(a4,0; Delta k, v_t) = KS(0; Delta k e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}) = KS(0; Delta k e^{-a4,0}, v_t e^{-a4,0}). The 3-momenta redshift as k e^{-a4}; the proper 7-volume of the cell grows as e^{(3/2) beta a4} = e^{2 a4}.",
   "thermodynamics" -> <|
     "fillingConvention" -> "CONVENTION (not derived here; SPEC section 6 fixes particles as positive-frequency modes of the normal-ordered good sector): particles occupy the positive branch, i.e. the levels with eps > 0 of the lambda = 0 problem together with the k = 0 brane zero modes (eps = 0 at v = 0), each followed continuously as lambda is switched on; the negative branch is the normal-ordered sea and contributes nothing to N, n, S or T. The zero modes are self-conjugate at k = 0, v = 0 (spectrum of h_{+1} - v is minus that of h_{-1} - v); counting them as particle levels is the stated convention, its justification is OPEN.",
     "occupation" -> "f = 1/(1 + exp((eps - mu)/T)), mu fixed by sum w_Z2 g f = N (Mermin)",
-    "energy" -> "E_KS (doubled system) = sum g f eps - 2 Vol_7 int_{-L}^{0} e^{6Hy} e_int dy, Vol_7 = ell^3 v_t; per copy one half of it",
+    "energy" -> "E_KS (doubled system) = sum g f eps - 2 Vol_7 int_{-L}^{0} e^{6Hy} e_int dy, Vol_7 = ell^3 v_t e^{(3/2) beta a4,0} (densities.perOrbital); per copy one half of it",
     "entropy" -> "S_ent = -sum g [f ln f + (1-f) ln(1-f)]",
     "grandPotential" -> "Omega = -T sum g ln(1 + exp(-(eps - mu)/T)) - 2 Vol_7 int_{-L}^{0} e^{6Hy} e_int dy (doubled system); F = Omega + mu N"|>,
   "emt" -> <|
@@ -403,13 +441,15 @@ jsonTheory = <|
     "offDiagonal" -> "T^x4_y = 0 for eigen-orbitals (K_x4y = P (eps - v/2) c_o, c_o = 0)",
     "trace" -> "sum of the diagonal kinetic parts = M_eff S + v_v n per point",
     "conservationY" -> "p0' + 6H p0 = 3H (p3 + p_t) for every self-consistent state (nabla_mu T^mu_y = 0): solver check",
-    "energyChange" -> "nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t): dE/da4 = -3 (2 Vol_7) int_{-L}^{0} e^{6Hy} (p3 - p_t) dy; Hellmann-Feynman with fixed occupations gives the same (solver check)",
+    "energyChange" -> "nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t); with sqrt|g| = b4^{3/2} e^{6Hy} on the history (b4'/b4 = beta a4'): dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7 int_{-L}^{0} e^{6Hy} p dy (beta = 4/3: -3 (P3 - P_t) - 2 P_t); Hellmann-Feynman with fixed occupations gives the same (solver check)",
     "integrated" -> "2 Vol_7 int_{-L}^{0} e^{6Hy} rho dy = E_KS; 2 Vol_7 int_{-L}^{0} e^{6Hy} 3 (p3 - e_int) dy = sum g f |k| d eps/d|k| (doubled system, w = 1/2 in the densities)"|>,
   "adiabaticity" -> <|
-    "history" -> "a4 = A H x4 (A = 1 canonical), a4' = A H; slices a4,0 = a4(x4); PRESCRIBED BACKGROUND (see historyStatus)",
-    "historyStatus" -> "PRESCRIBED BACKGROUND: the history a4 = A H x4 is prescribed, not solved for. The a4 equations of SPEC section 5 allow this linear member only with p3 = p_t = p0 and constant rho; the Kohn-Sham states along it violate these source conditions (p3 != p_t, rho changes with a4,0, the sources depend on x0: Revision/field_equations_a4/reports/ks-source-conditions.json). The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations.",
+    "history" -> "a4 = A H x4 (A = 1 canonical), b4 = b4(0) e^{beta A H x4} (beta = 4/3), a4' = A H, b4'/b4 = beta A H; slices a4,0 = a4(x4), b4,0 = b4(0) e^{beta a4,0}; PRESCRIBED BACKGROUND (see historyStatus)",
+    "historyBeta" -> "4/3",
+    "historyBetaSource" -> "SPEC section 1: with the author's Lovelock weights the mixed (x4, x0) equation of a source without a T^x4_x0 component allows on a4 = H x4 exactly d ln b4/d a4 in {0, 4/3}; b4 is not constant, so beta = 4/3 (Revision/field_equations_a4/a4-equations.json, exponentialHistory.authorWeights.branch)",
+    "historyStatus" -> "PRESCRIBED BACKGROUND: the history a4 = H x4, b4 = b4(0) e^{(4/3) H x4} is prescribed, not solved for. With the author's Lovelock weights the a4 and b4 equations of SPEC section 5 allow it only with the constant source kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27) (Revision/field_equations_a4/a4-equations.json, exponentialHistory.authorWeights.historySource); the Kohn-Sham states along it do not supply this source (they depend on x0 and change with a4,0: Revision/field_equations_a4/reports/ks-source-conditions.json). The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations.",
     "exactEvolution" -> "i d_x4 chi = h(a4(x4)) chi (mean field); k, the block and the brane parity are conserved; transitions only between levels of the same (k, j, block, parity)",
-    "derivative" -> "d_a h_j = -j kappa k sigma3 (frozen potentials) + j (d_a M_eff) sigma2 + d_a v_v (self-consistent part, by finite differences between slices)",
+    "derivative" -> "d_a h_j = -j kappa k sigma3 (frozen potentials) + j (d_a M_eff) sigma2 + d_a v_v (self-consistent part, by finite differences between slices; it contains the change of the effective coupling lambda_hat/Vol_7(a4,0) ~ e^{-(3/2) beta a4,0})",
     "measure" -> "Q_nm = A H |<n| d_a h |m>| / (eps_n - eps_m)^2 = A H |<n| d_a m>| / |eps_n - eps_m| for n occupied, m empty in the same sector; adiabatic iff max Q_nm << 1; leading-order transition probability ~ Q_nm^2",
     "hellmannFeynman" -> "d eps_n/da = <n| d_a h |n> = -k d eps_n/dk (frozen) ",
     "caveat" -> "adiabatic evolution conserves the occupation of every (k, j, block, parity, level); when levels of different k cross the Fermi level between slices, the instantaneous aufbau ground state differs from the adiabatically continued state: the solver should flag such crossings. The non-adiabatic (time-dependent) problem is OPEN."|>,
@@ -420,11 +460,11 @@ jsonTheory = <|
     "free k = 0 spectra (even: 0, sqrt(M^2+(n pi/L)^2); odd: tan(pL) = -p/M)",
     "brane-band slope c at small k",
     "j-type mirror symmetry of the spectra (v = 0) and 4 r3(n2) degeneracy",
-    "exact rescaling identity between slices (a4,0 vs Delta k e^{-a4,0}, v_t e^{-3a4,0})",
+    "exact rescaling identity between slices (a4,0 vs a4 = 0 with Delta k e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0})",
     "N conservation and the orbital normalisation",
     "y-conservation p0' + 6H p0 = 3H(p3 + p_t) of every self-consistent state",
     "trace identity and T^x4_y = 0 (zero y-current of every orbital)",
-    "dE/da4 = -6 Vol_7 int_{-L}^{0} e^{6Hy}(p3 - p_t) dy (doubled system) by finite differences between slices (fixed occupations)",
+    "dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7 int_{-L}^{0} e^{6Hy} p dy (doubled system), by finite differences between slices (fixed occupations)",
     "exact-Fock diagnostic Delta E_x = (lambda/32) 2 Vol_7 int_{-L}^{0} e^{6Hy} Q^2 dy"}
 |>;
 
@@ -441,8 +481,8 @@ addCheck["ks_theory_json_written",
   ksJson === ksJson2 && back["blockBasis"]["unnormalisedColumns2Sqrt2V"] == Map[ToString, U, {2}] &&
   ToExpression[back["exchange"]["uniformGas"]["coefficient_n2"]] == -1/32 &&
   StringStartsQ[back["adiabaticity"]["historyStatus"], "PRESCRIBED BACKGROUND"] &&
-  StringContainsQ[back["adiabaticity"]["history"], "PRESCRIBED BACKGROUND"],
-  "ks-theory.json written deterministically (two exports identical, LF) and re-imported: basis, coefficients and the label of the history a4 = A H x4 as a PRESCRIBED BACKGROUND (adiabaticity.history, adiabaticity.historyStatus) round-trip"];
+  StringContainsQ[back["adiabaticity"]["history"], "PRESCRIBED BACKGROUND"] && back["adiabaticity"]["historyBeta"] === "4/3",
+  "ks-theory.json written deterministically (two exports identical, LF) and re-imported: basis, coefficients, beta = 4/3 and the label of the history a4 = A H x4, b4 = b4(0) e^{beta A H x4} as a PRESCRIBED BACKGROUND (adiabaticity.history, adiabaticity.historyStatus) round-trip"];
 
 (* ---------------- report ---------------- *)
 jstr[s_String] := "\"" <> StringReplace[s, {"\\" -> "\\\\", "\"" -> "\\\""}] <> "\"";
@@ -453,7 +493,7 @@ report = StringJoin[
   "  \"producer\": ", jstr["Revision/kohn_sham/theory/verify_ks_theory.wls"], ",\n",
   "  \"package\": ", jstr["Revision/kohn_sham/theory/KohnShamTheory.wl"], ",\n",
   "  \"export\": ", jstr["Revision/kohn_sham/ks-theory.json"], ",\n",
-  "  \"coordinates\": ", jstr["the author's coordinates {x0, ..., x7}: x0 = the hidden direction (y = ln(sin 6Hx0)/(6H) <= 0); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times"], ",\n",
+  "  \"coordinates\": ", jstr["the author's coordinates {x0, ..., x7}: x0 = the hidden direction (y = ln(sin 6Hx0)/(6H) <= 0); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times; the author's metric with b4(x4) (b4 a function of x4, never 1)"], ",\n",
   "  \"summary\": {\"passed\": ", ToString[nPass], ", \"failed\": ", ToString[nTot - nPass], ", \"total\": ", ToString[nTot], "},\n",
   "  \"checks\": [\n",
   StringRiffle[("    {\"name\": " <> jstr[#["name"]] <> ", \"verdict\": " <> jstr[#["verdict"]] <> ", \"detail\": " <> jstr[#["detail"]] <> "}") & /@ checks, ",\n"],

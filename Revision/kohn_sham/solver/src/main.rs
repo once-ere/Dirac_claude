@@ -29,7 +29,8 @@ fn main() {
     }
     if args.len() < 2 || args[1] != "all" {
         eprintln!("usage: revision_ks_solver all [--root DIR] [--out DIR] [--report FILE] [--refined] [--threads N] [--timing FILE] [--quick]");
-        eprintln!("       revision_ks_solver single --m M --lambda L --a4 A --N N --out FILE.json [--tip-theta TH] [--T T] [--exx] [--margin W] [--profiles FILE.csv] [--mermin-levels FILE.json] [--refined] [--root DIR]");
+        eprintln!("       revision_ks_solver single --m M --lambda L --a4 A --N N --out FILE.json [--beta B] [--tip-theta TH] [--T T] [--exx] [--margin W] [--profiles FILE.csv] [--mermin-levels FILE.json] [--refined] [--root DIR]");
+        eprintln!("       (single: L = lambda_hat, Vol_7(A) = ell^3 v_t e^{{(3/2) B A}}, B = the history beta of ks-theory.json unless --beta is given)");
         std::process::exit(2);
     }
     let mut root = PathBuf::from(".");
@@ -100,7 +101,7 @@ fn main() {
 
 fn single(args: &[String]) {
     let mut root = PathBuf::from(".");
-    let mut o = runs::SingleOpts { m: 1.0, lambda: 0.0, a4: 0.0, n: 8.0, tip_theta: 0.0, temp: 0.0, exx: false, margin: 0.85, out: PathBuf::from("single.json"), profiles: None, mermin_levels: None };
+    let mut o = runs::SingleOpts { m: 1.0, lambda: 0.0, a4: 0.0, beta: None, n: 8.0, tip_theta: 0.0, temp: 0.0, exx: false, margin: 0.85, out: PathBuf::from("single.json"), profiles: None, mermin_levels: None };
     let mut refined = false;
     let mut i = 2;
     let val = |i: usize| -> f64 { args.get(i + 1).and_then(|s| s.parse().ok()).unwrap_or_else(|| panic!("{} needs a number", args[i])) };
@@ -109,6 +110,7 @@ fn single(args: &[String]) {
             "--m" => { o.m = val(i); i += 1; }
             "--lambda" => { o.lambda = val(i); i += 1; }
             "--a4" => { o.a4 = val(i); i += 1; }
+            "--beta" => { o.beta = Some(val(i)); i += 1; }
             "--N" => { o.n = val(i); i += 1; }
             "--tip-theta" => { o.tip_theta = val(i); i += 1; }
             "--T" => { o.temp = val(i); i += 1; }

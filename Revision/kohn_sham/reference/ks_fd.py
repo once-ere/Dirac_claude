@@ -6,8 +6,11 @@ Revision/kohn_sham/ks-theory.json are used.
 
 The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H) in [-L, 0], z = 6 H x0 (brane
 y = 0, tip cutoff y = -L); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three
-EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} sin^{1/6} z, a4 increasing).  p0 = T^x0_x0 is the
-hidden-direction pressure.
+EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} b4^{1/2} sin^{1/6} z, a4 increasing).  p0 = T^x0_x0 is the
+hidden-direction pressure.  The metric has b4(x4) in the extra-time components (b4 a function of x4, never 1); b4 does not
+enter the block equation (ks-theory.json sectorAndAnsatz.exactReduction), only the proper cell volume: on the history
+b4 = b4(0) e^{beta a4} the densities are per Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (the proper 7-volume of the cell
+per unit e^{6Hy} in units of b4(0)^{3/2}) and lam is lambda_hat = lambda b4(0)^{-3/2} (ks-theory.json densities).
 
 Block equation (ks-theory.json blockEquation): h_j = j[-i sigma1 d_y + M sigma2 + K sigma3] + v,
 K = kappa(y) |k|, kappa = e^{-Hy - a4,0}.  With chi = (a, i b) (a, b real) h_j is the real symmetric
@@ -70,9 +73,12 @@ class Phys:
     """Physical parameters (units H = 1, m = 1 canonical)."""
 
     def __init__(self, H=1.0, m=1.0, L=3.0, dk=0.25, vt=1.0, a4=0.0, lam=0.0, N=8.0, T=0.0,
-                 cM=15.0 / 16.0, cV=-1.0 / 16.0, cS2=15.0 / 32.0, cN2=-1.0 / 32.0, exx=False, cQ2=1.0 / 32.0):
+                 cM=15.0 / 16.0, cV=-1.0 / 16.0, cS2=15.0 / 32.0, cN2=-1.0 / 32.0, exx=False, cQ2=1.0 / 32.0,
+                 beta=4.0 / 3.0):
         self.H, self.m, self.L, self.dk, self.vt = H, m, L, dk, vt
         self.a4, self.lam, self.N, self.T = a4, lam, N, T
+        # beta = d ln b4/d a4 of the history b4 = b4(0) e^{beta a4} (ks-theory.json adiabaticity.historyBeta)
+        self.beta = beta
         # functional coefficients (ks-theory.json exchange.kohnShamPotentials): M_eff = m + cM lam S,
         # v_v = cV lam n, e_int = lam (cS2 S^2 + cN2 n^2)
         self.cM, self.cV, self.cS2, self.cN2 = cM, cV, cS2, cN2
@@ -82,7 +88,7 @@ class Phys:
 
     def copy(self, **kw):
         p = Phys(self.H, self.m, self.L, self.dk, self.vt, self.a4, self.lam, self.N, self.T,
-                 self.cM, self.cV, self.cS2, self.cN2, self.exx, self.cQ2)
+                 self.cM, self.cV, self.cS2, self.cN2, self.exx, self.cQ2, self.beta)
         for k, v in kw.items():
             setattr(p, k, v)
         return p
@@ -93,7 +99,8 @@ class Phys:
 
     @property
     def vol7(self):
-        return self.ell ** 3 * self.vt
+        # Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}: grows like b4^{3/2} = b4(0)^{3/2} e^{2 a4} on the history
+        return self.ell ** 3 * self.vt * math.exp(1.5 * self.beta * self.a4)
 
 
 class Grid:
@@ -604,7 +611,8 @@ def observables(st: State):
     o["int_p_t"] = I(pt)
     o["int_p0"] = I(p0)
     o["int_n"] = I(d.n)
-    o["dE_da4_emt"] = -vol2 * g.midpoint(e6 * d.tk)
+    # history identity (ks-theory.json emt.energyChange): dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, 3 (p3 - p_t) = tk
+    o["dE_da4_emt"] = -vol2 * g.midpoint(e6 * d.tk) - 1.5 * ph.beta * o["int_p_t"]
     o["deltaE_x_exact_fock"] = lam / 32.0 * I(d.Q ** 2)
     # y-conservation (nabla_mu T^mu_y = 0): [e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy
     o["ycons_jump"] = float(e6[-1] * p0[-1] - e6[0] * p0[0])

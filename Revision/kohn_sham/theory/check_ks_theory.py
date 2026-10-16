@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Revision Kohn-Sham theory: independent exact sympy derivation and verification (SPEC sections 1, 7).
 
+The metric is the author's metric of 2026-10-14 with b4(x4) in the three extra-time components (b4 is a
+function of x4, never 1): every statement is derived for general a4(x4) and b4(x4); the numerical history of the
+solver is a4 = A H x4, b4 = b4(0) e^{beta A H x4}, beta = 4/3 (SPEC section 1).
+
 This file is Revision code; it imports nothing from the old stages (no old module, no old fixture).
 It is the independent second engine next to Revision/kohn_sham/theory/verify_ks_theory.wls (Wolfram).
 Inputs (Revision outputs only):
@@ -11,11 +15,14 @@ Inputs (Revision outputs only):
                                                against this file's own derivation when it exists)
   Revision/field_equations_a4/reports/ks-source-conditions.json
                                                the a4 source conditions of the Kohn-Sham states (read for
-                                               the label of the history a4 = A H x4: PRESCRIBED BACKGROUND)
+                                               the label of the history: PRESCRIBED BACKGROUND)
+  Revision/field_equations_a4/a4-equations.json
+                                               the source that the history a4 = H x4, b4 = b4(0) e^{(4/3) H x4}
+                                               requires with the author's weights (exponentialHistory)
 Output (deterministic, LF): Revision/kohn_sham/reports/ks-theory-python.json
 
 Coordinates: the author's {x0, x1, ..., x7}: x0 = the hidden direction, z = 6 H x0; x1, x2, x3 = 3-space;
-x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z).
+x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z).
 Arrays index x0..x7 as 0..7 (xk at index k).  The proper hidden coordinate y = ln(sin z)/(6H) <= 0 replaces x0
 (index 0).
 
@@ -41,6 +48,7 @@ PY_GAMMAS = REVISION / "algebra" / "reports" / "python-gammas.json"
 WL_GAMMAS = REVISION / "algebra" / "gammas.json"
 KS_THEORY = KS / "ks-theory.json"
 KS_SOURCE_CONDITIONS = REVISION / "field_equations_a4" / "reports" / "ks-source-conditions.json"
+A4_EQUATIONS = REVISION / "field_equations_a4" / "a4-equations.json"
 REPORT = KS / "reports" / "ks-theory-python.json"
 
 CHECKS: list[dict] = []
@@ -112,26 +120,29 @@ check("geometry_hidden_coordinate", ok_g00 and ok_s13 and ok_dy,
       "y = ln(sin z)/(6H), sin z = e^{6Hy}: dy = cot z dx0, cot^2 z dx0^2 = dy^2, sin^{1/3} z = e^{2Hy}; "
       "z in (0, pi/2) <-> y in (-inf, 0); the patch end z = pi/2 is y = 0")
 a0s = sp.symbols("a0", real=True)
+b0s = sp.symbols("b0", positive=True)
 detx0 = sp.simplify(sp.Abs(sp.prod([sp.cot(z) ** 2] + [sp.exp(2 * a0s) * sp.sin(z) ** sp.Rational(1, 3)] * 3
-                                   + [-1] + [-sp.exp(-2 * a0s) * sp.sin(z) ** sp.Rational(1, 3)] * 3)))
-check("geometry_sqrt_det", sp.simplify(detx0 - sp.cos(z) ** 2) == 0,
-      "|det g| = sin^2 z cot^2 z = cos^2 z in the author's chart x0..x7 (independent of a4); in the y chart "
-      "sqrt|g| = W^6 = e^{6Hy}, W = e^{Hy} (the 7-volume is a4-independent: e^{3a4} e^{-3a4} = 1)")
+                                   + [-1] + [-sp.exp(-2 * a0s) * b0s * sp.sin(z) ** sp.Rational(1, 3)] * 3)))
+check("geometry_sqrt_det", sp.simplify(detx0 - b0s ** 3 * sp.cos(z) ** 2) == 0,
+      "|det g| = b4^3 sin^2 z cot^2 z = b4^3 cos^2 z in the author's chart x0..x7 (independent of a4): "
+      "sqrt|g| = b4^{3/2} cos z; in the y chart sqrt|g| = b4^{3/2} W^6 = b4^{3/2} e^{6Hy}, W = e^{Hy} (the a4 factors "
+      "cancel, e^{3a4} e^{-3a4} = 1; the 7-volume changes as b4^{3/2})")
 
 # metric in the y chart with time-dependent a4
 X = (sp.Symbol("y", real=True),) + sp.symbols("x1:8", real=True)     # (y, x1, ..., x7): y replaces x0 at index 0
 Y = X[0]
 x4 = X[4]
 a4 = sp.Function("a4", real=True)(x4)
+b4 = sp.Function("b4", positive=True)(x4)
 W = sp.exp(H * Y)
-hv = [sp.Integer(1)] + [sp.exp(a4) * W] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * W] * 3
+hv = [sp.Integer(1)] + [sp.exp(a4) * W] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * sp.sqrt(b4) * W] * 3
 gdiag = [eta[i] * hv[i] ** 2 for i in range(8)]
 Gm = sp.diag(*gdiag)
 Gmi = sp.diag(*[1 / v for v in gdiag])
 check("geometry_warped_form", True,
-      "ds^2 = e^{2Hy}[e^{2a4(x4)} dx_{1..3}^2 - e^{-2a4(x4)} dx_{5..7}^2] - dx4^2 + dy^2 "
-      "(the author's metric with sin^{1/3} z = e^{2Hy} and cot^2 z dx0^2 = dy^2), "
-      "vielbein h = (1, e^{a4}W x3, 1, e^{-a4}W x3) in the order (y, x1..x7)")
+      "ds^2 = e^{2Hy}[e^{2a4(x4)} dx_{1..3}^2 - e^{-2a4(x4)} b4(x4) dx_{5..7}^2] - dx4^2 + dy^2 "
+      "(the author's metric with b4(x4), sin^{1/3} z = e^{2Hy} and cot^2 z dx0^2 = dy^2), "
+      "vielbein h = (1, e^{a4}W x3, 1, e^{-a4} b4^{1/2} W x3) in the order (y, x1..x7)")
 
 Chr = [[[sp.simplify(sum(Gmi[n, l] * (sp.diff(Gm[l, m], X[k]) + sp.diff(Gm[l, k], X[m])
                                        - sp.diff(Gm[m, k], X[l])) for l in range(8)) / 2)
@@ -159,27 +170,33 @@ compat = all(zero(sp.diff(g[n] / hv[n], X[m]) + sum((Chr[n][m][l] * g[l] / hv[l]
                   + Om[m] * g[n] / hv[n] - g[n] / hv[n] * Om[m]) for m in range(8) for n in range(8))
 check("spin_connection_compatibility", compat,
       "canonical omega_mu^a_b = e^a_nu nabla_mu e_b^nu, Omega_mu = (1/2) omega_mu ab S^ab: "
-      "d_mu gamma^nu + Gamma^nu_{mu lam} gamma^lam + [Omega_mu, gamma^nu] = 0 for all 64 (mu, nu), a4 = a4(x4)")
+      "d_mu gamma^nu + Gamma^nu_{mu lam} gamma^lam + [Omega_mu, gamma^nu] = 0 for all 64 (mu, nu), a4 = a4(x4), b4 = b4(x4)")
 a4p = sp.diff(a4, x4)
+ub = sp.diff(b4, x4) / b4                      # u = b4'/b4
 slash = sp.simplify(sum((g[m] / hv[m] * Om[m] for m in range(8)), Z16))
-check("spin_connection_slash_3H", zero(slash - 3 * H * g0),
-      "gamma^mu Omega_mu = 3H gamma^(x0) exactly for a4 = a4(x4): no a4' term survives")
+check("spin_connection_slash", zero(slash - 3 * H * g0 - sp.Rational(3, 4) * ub * g4),
+      "gamma^mu Omega_mu = 3H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) exactly for a4 = a4(x4), b4 = b4(x4): no a4' term "
+      "survives, the b4' term remains")
 s_infl = sp.simplify(sum((g[m] / hv[m] * Om[m] for m in range(1, 4)), Z16).subs(H, 0))
 s_defl = sp.simplify(sum((g[m] / hv[m] * Om[m] for m in range(5, 8)), Z16).subs(H, 0))
-check("spin_connection_time_terms_cancel",
-      (not s_infl.is_zero_matrix) and zero(s_infl + s_defl) and zero(Om[4]) and zero(Om[0]),
+check("spin_connection_time_terms",
+      (not s_infl.is_zero_matrix) and zero(s_infl + s_defl - sp.Rational(3, 4) * ub * g4) and zero(Om[4]) and zero(Om[0]),
       "the a4' pieces of the 3 inflating directions (nonzero, see spin_connection_time_term_value) cancel those of the 3 deflating directions exactly; "
-      "Omega_x4 = Omega_y = 0")
+      "the deflating directions add (3/4)(b4'/b4) gamma^(x4); Omega_x4 = Omega_y = 0")
 infl_coef = sp.simplify((s_infl * g4.inv())[0, 0])
+defl_coef = sp.simplify((s_defl * g4.inv())[0, 0])
 check("spin_connection_time_term_value", sp.simplify(infl_coef - sp.Rational(3, 2) * a4p) == 0
-      and zero(s_infl - sp.Rational(3, 2) * a4p * g4),
-      f"sum over x1..x3 of gamma^i Omega_i at H = 0 equals ({infl_coef}) gamma^(x4); the x5..x7 sum is its negative")
+      and zero(s_infl - sp.Rational(3, 2) * a4p * g4)
+      and sp.simplify(defl_coef - (-sp.Rational(3, 2) * a4p + sp.Rational(3, 4) * ub)) == 0,
+      f"sum over x1..x3 of gamma^i Omega_i at H = 0 equals ({infl_coef}) gamma^(x4); the x5..x7 sum equals ({defl_coef}) gamma^(x4)")
 
 # check of gamma^mu Omega_mu in the author's chart (x0, x1, ..., x7)
 X0c = (x0,) + sp.symbols("x1:8")
 zz = 6 * H * x0
-hv0 = [sp.cot(zz)] + [sp.exp(a0s) * sp.sin(zz) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)] \
-    + [sp.exp(-a0s) * sp.sin(zz) ** sp.Rational(1, 6)] * 3
+a4c = sp.Function("a4", real=True)(X0c[4])
+b4c = sp.Function("b4", positive=True)(X0c[4])
+hv0 = [sp.cot(zz)] + [sp.exp(a4c) * sp.sin(zz) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)] \
+    + [sp.exp(-a4c) * sp.sqrt(b4c) * sp.sin(zz) ** sp.Rational(1, 6)] * 3
 gd0 = [eta[i] * hv0[i] ** 2 for i in range(8)]
 G0c = sp.diag(*gd0)
 G0ci = sp.diag(*[1 / v for v in gd0])
@@ -188,8 +205,10 @@ Chr0 = [[[sp.simplify(sum(G0ci[n, l] * (sp.diff(G0c[l, m], X0c[k]) + sp.diff(G0c
           for k in range(8)] for m in range(8)] for n in range(8)]
 Om0 = spin_connection(hv0, Chr0, X0c)
 slash0 = sp.simplify(sum((g[m] / hv0[m] * Om0[m] for m in range(8)), Z16))
-check("spin_connection_slash_3H_x0_chart", zero(slash0 - 3 * H * g0),
-      "in the author's chart x0..x7 (frame vector e_(x0) = tan z d_x0 = d_y): gamma^mu Omega_mu = 3H gamma^(x0) too")
+check("spin_connection_slash_x0_chart",
+      zero(slash0 - 3 * H * g0 - sp.Rational(3, 4) * sp.diff(b4c, X0c[4]) / b4c * g4),
+      "in the author's chart x0..x7 (frame vector e_(x0) = tan z d_x0 = d_y), a4 = a4(x4), b4 = b4(x4): "
+      "gamma^mu Omega_mu = 3H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) too")
 
 # ---------------------------------------------------------------------------------------------
 # C. The ansatz W^{-3}: removal of the spin connection; the exact time-dependent reduced equation
@@ -208,13 +227,23 @@ def dirac(Psi):
 
 kap = sp.exp(-H * Y - a4)
 red = g0 * sp.diff(chi, Y) + g4 * sp.diff(chi, x4) + sp.I * kap * (k1 * g1 + k2 * g2 + k3 * g3) * chi
-lhs = sp.simplify(dirac(phase * W ** -3 * chi) / (phase * W ** -3))
+fb = b4 ** sp.Rational(-3, 4)
+lhs = sp.simplify(dirac(phase * W ** -3 * fb * chi) / (phase * W ** -3 * fb))
 check("ansatz_removes_spin_connection", zero(lhs - red),
-      "gamma^mu D_mu (e^{ik.x} W^{-3} chi(y, x4)) = e^{ik.x} W^{-3} [g0 d_y chi + g4 d_x4 chi + i kappa k_j g^j chi], "
-      "kappa(y, x4) = e^{-Hy - a4(x4)}: exact, for time-dependent a4, good sector (no x5..x7 dependence)")
-lhs0 = sp.simplify(dirac(phase * chi) / phase)
+      "gamma^mu D_mu (e^{ik.x} W^{-3} b4^{-3/4} chi(y, x4)) = e^{ik.x} W^{-3} b4^{-3/4} [g0 d_y chi + g4 d_x4 chi + "
+      "i kappa k_j g^j chi], kappa(y, x4) = e^{-Hy - a4(x4)}: exact, for time-dependent a4 and b4, good sector (no x5..x7 "
+      "dependence); b4 does not appear in the reduced operator")
+lhs0 = sp.simplify(dirac(phase * fb * chi) / (phase * fb))
 check("ansatz_without_W3_term_survives", zero(lhs0 - red - 3 * H * g0 * chi) and not zero(3 * H * g0 * chi),
       "without the factor W^{-3} the term 3H gamma^(x0) chi survives")
+lhsb = sp.simplify(dirac(phase * W ** -3 * chi) / (phase * W ** -3))
+check("ansatz_without_b4_factor_term_survives",
+      zero(lhsb - red - sp.Rational(3, 4) * ub * g4 * chi) and not zero(sp.Rational(3, 4) * ub * g4 * chi),
+      "without the factor b4^{-3/4} the term (3/4)(b4'/b4) gamma^(x4) chi survives: b4^{-3/4} is the half-density "
+      "factor of the volume element b4^{3/2} cos z")
+check("ansatz_norm_b4", sp.simplify(b4 ** sp.Rational(3, 2) * sp.exp(6 * H * Y) * (fb * W ** -3) ** 2 - 1) == 0,
+      "sqrt|g| (b4^{-3/4} W^{-3})^2 = 1 in the y chart: int sqrt|g| Psi^dag Psi over the hidden direction equals "
+      "int chi^dag chi dy for every a4 and b4 (the Hilbert norm of the reduced problem)")
 
 Ms, vs, eps = sp.symbols("M v epsilon", real=True)
 hk = sp.Symbol("k", real=True)
@@ -549,29 +578,66 @@ aa = sp.Symbol("a", real=True)
 hfull = lambda j, k_, a_: j * (Ms * s2 + sp.exp(-H * yv - a_) * k_ * s3)
 ok_resc = all(sp.simplify(hfull(j, hk, aa) - hfull(j, hk * sp.exp(-aa), 0)).is_zero_matrix for j in (1, -1))
 ell, vt = sp.symbols("ell v_t", positive=True)
-norm = lambda l_, v_: sp.exp(-6 * H * yv) / (l_ ** 3 * v_)
-ok_norm = sp.simplify(norm(ell, vt) - norm(ell * sp.exp(aa), vt * sp.exp(-3 * aa))) == 0
-ok_lam = sp.simplify(lam * norm(ell, vt) - lam * sp.exp(3 * aa) * norm(ell * sp.exp(aa), vt)) == 0
-check("rescaling_identity", ok_resc and ok_norm and ok_lam,
-      "a4,0 enters h only through kappa k = e^{-Hy}(k e^{-a4,0}); the lattice k = Delta k n at slice a4,0 is the "
-      "lattice Delta k e^{-a4,0} at slice 0. The proper density factor e^{-6Hy}/(ell^3 v_t) is invariant under "
-      "(ell, v_t) -> (ell e^{a}, v_t e^{-3a}) (same proper boxes). Hence EXACTLY (Hartree, exchange, any T): "
-      "KS(a4,0; Delta k, v_t, lambda) = KS(0; Delta k e^{-a4,0}, v_t e^{-3 a4,0}, lambda), all levels, orbitals, "
-      "densities and EMT profiles equal; equivalently KS(0; Delta k e^{-a4,0}, v_t, lambda e^{3 a4,0}) with every "
-      "proper density multiplied by e^{-3 a4,0} and the same levels")
+bsl, bini = sp.symbols("b_slice b_initial", positive=True)       # b4 at the slice, b4(0)
+norm = lambda l_, v_, b_: sp.exp(-6 * H * yv) / (l_ ** 3 * v_ * b_ ** sp.Rational(3, 2))
+ok_norm = sp.simplify(norm(ell, vt, bsl) - norm(ell * sp.exp(aa), vt * sp.exp(-3 * aa), bsl)) == 0
+ok_b = sp.simplify(norm(ell, vt, bsl) - norm(ell, vt * (bsl / bini) ** sp.Rational(3, 2), bini)) == 0
+ok_hist = sp.simplify(norm(ell, vt, bini * sp.exp(sp.Rational(4, 3) * aa)) - norm(ell * sp.exp(aa), vt * sp.exp(-aa), bini)) == 0
+check("rescaling_identity", ok_resc and ok_norm and ok_b and ok_hist,
+      "a4,0 enters h only through kappa k = e^{-Hy}(k e^{-a4,0}) and b4,0 not at all; the lattice k = Delta k n at "
+      "slice a4,0 is the lattice Delta k e^{-a4,0} at slice 0. The proper density factor "
+      "P = e^{-6Hy}/(ell^3 v_t b4,0^{3/2}) is invariant under (ell, v_t) -> (ell e^{a}, v_t e^{-3a}) and under "
+      "(v_t, b4,0) -> (v_t (b4,0/b4(0))^{3/2}, b4(0)) (same proper cells). Hence EXACTLY (Hartree, exchange, any T): "
+      "KS(a4,0, b4,0; Delta k, v_t, lambda) = KS(0, b4(0); Delta k e^{-a4,0}, v_t e^{-3 a4,0} (b4,0/b4(0))^{3/2}, "
+      "lambda), all levels, orbitals, proper densities and EMT profiles equal; on the history b4 = b4(0) e^{(4/3) a4}: "
+      "KS(a4,0; Delta k, v_t) = KS(0; Delta k e^{-a4,0}, v_t e^{-a4,0})")
+cs, Volc = sp.symbols("c Vol_c", positive=True)
+eV = lambda l_, V_: V_ * (sp.Rational(15, 32) * l_ * (SS / V_) ** 2 - l_ * (nn / V_) ** 2 / 32)
+ok_sc = sp.simplify(eV(cs * lam, cs * Volc) - eV(lam, Volc)) == 0 and \
+    sp.simplify(sp.Rational(15, 16) * cs * lam * SS / (cs * Volc) - sp.Rational(15, 16) * lam * SS / Volc) == 0 and \
+    sp.simplify(-cs * lam * nn / (16 * cs * Volc) + lam * nn / (16 * Volc)) == 0
+check("ks_coupling_volume_scaling", ok_sc,
+      "with every density = (orbital sum)/Vol: M_eff - m = (15/16) lambda S, v_v = -lambda n/16 and the interaction "
+      "energy Vol e_int are invariant under (lambda, Vol) -> (c lambda, c Vol): a Kohn-Sham state depends on the "
+      "coupling and the cell volume only through lambda/Vol")
+bet = sp.Symbol("beta", real=True)
+b_on_hist = bini * sp.exp(bet * aa)
+P_proper = sp.exp(-6 * H * yv) / (ell ** 3 * vt * b_on_hist ** sp.Rational(3, 2))
+Vol7 = ell ** 3 * vt * sp.exp(sp.Rational(3, 2) * bet * aa)
+P_solver = sp.exp(-6 * H * yv) / Vol7
+lam_hat = lam * bini ** sp.Rational(-3, 2)
+lam_eff = lam_hat * sp.exp(-sp.Rational(3, 2) * bet * aa)
+ok_units = sp.simplify(lam * P_proper - lam_hat * P_solver) == 0 and \
+    sp.simplify(P_proper - bini ** sp.Rational(-3, 2) * P_solver) == 0 and \
+    sp.simplify(ell ** 3 * vt * b_on_hist ** sp.Rational(3, 2) * P_proper - Vol7 * P_solver) == 0 and \
+    sp.simplify(lam_hat * P_solver - lam_eff * sp.exp(-6 * H * yv) / (ell ** 3 * vt)) == 0 and \
+    sp.simplify(lam_eff.subs(bet, sp.Rational(4, 3)) - lam_hat * sp.exp(-2 * aa)) == 0
+check("history_solver_units", ok_units,
+      "on the history b4 = b4(0) e^{beta a4} the solver uses lambda_hat = lambda b4(0)^{-3/2}, densities per "
+      "Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (the proper densities times b4(0)^{3/2}) and otherwise the same "
+      "formulas: lambda n_proper = lambda_hat n_solver and (ell^3 v_t b4,0^{3/2}) n_proper = Vol_7(a4,0) n_solver, so "
+      "b4(0) never needs a value; equivalently (ks_coupling_volume_scaling) the slice state is that of the coordinate "
+      "cell ell^3 v_t at lambda_eff = lambda_hat e^{-(3/2) beta a4,0} = lambda_hat e^{-2 a4,0} (beta = 4/3)")
 
 # ---------------------------------------------------------------------------------------------
 # H. Energy-momentum tensor of a Kohn-Sham orbital (16-component derivation, reduced to blocks)
 # ---------------------------------------------------------------------------------------------
 Vol = sp.Symbol("Vol", positive=True)
 fr = [sp.Function(f"f{i}", real=True)(Y) for i in range(4)]
+
+
+def real_b4(e):
+    # b4(x4) is a real (positive) function, so its derivative is real: sympy does not infer that by itself
+    return e.subs(sp.conjugate(sp.Derivative(b4, x4)), sp.Derivative(b4, x4))
+
+
 chi_b = sp.Matrix([fr[0] + sp.I * fr[1], fr[2] + sp.I * fr[3]])
 emt_ok = True
 emt_details = []
 for bi in (0, 5):
     j, sa, sb = labels[bi]
     Vb = V[:, 2 * bi:2 * bi + 2]
-    u = sp.exp(-sp.I * eps * x4 + sp.I * hk * X[1]) * W ** -3 * Vb * chi_b / sp.sqrt(Vol)
+    u = sp.exp(-sp.I * eps * x4 + sp.I * hk * X[1]) * W ** -3 * fb * Vb * chi_b / sp.sqrt(Vol)
     BC_ = B * C
 
     def Kdiag(mu):
@@ -579,7 +645,7 @@ for bi in (0, 5):
         Du = sp.diff(u, X[mu]) + Om[mu] * u
         du = sp.diff(u, X[mu])
         val = (u.H * BC_ * gm * Du)[0] - (du.H * BC_ * gm * u)[0] + (u.H * BC_ * Om[mu] * gm * u)[0]
-        return sp.simplify(sp.expand(val / 2))
+        return sp.simplify(sp.expand(real_b4(val) / 2))
 
     def Koff(mu, nu):        # K_mu nu with lower indices, symmetrised
         gl = lambda m_: eta[m_] * hv[m_] * g[m_]          # gamma_mu = g_mu nu gamma^nu = eta h gamma^a
@@ -588,7 +654,7 @@ for bi in (0, 5):
         t = 0
         for (m_, n_) in ((mu, nu), (nu, mu)):
             t += (u.H * BC_ * gl(m_) * Dm(n_))[0] - (dm(n_).H * BC_ * gl(m_) * u)[0] + (u.H * BC_ * Om[n_] * gl(m_) * u)[0]
-        return sp.simplify(sp.expand(t / 4))
+        return sp.simplify(sp.expand(real_b4(t) / 4))
 
     # ODE substitution: chi' = N chi with constant M, v (local values) -- derivatives of f's
     Nn = Ms * s3 - kap * hk * s2 + sp.I * j * (eps - vs) * s1
@@ -599,7 +665,7 @@ for bi in (0, 5):
     sc = (chi_b.H * (j * s2) * chi_b)[0]
     tc = (chi_b.H * (j * s3) * chi_b)[0]
     cc = (chi_b.H * (j * s1) * chi_b)[0]
-    pref = sp.exp(-6 * H * Y) / Vol
+    pref = sp.exp(-6 * H * Y) / (Vol * b4 ** sp.Rational(3, 2))
     K11 = Kdiag(1)
     K44 = Kdiag(4)
     K55 = Kdiag(5)
@@ -610,7 +676,7 @@ for bi in (0, 5):
     e5 = sp.simplify(K55) == 0 and sp.simplify(K22) == 0
     ey = sp.simplify(sp.expand(-Kyy - pref * ((eps - vs) * nc - Ms * sc - kap * hk * tc)))
     K4y = Koff(4, 0).subs(subsd)
-    K4y_val = sp.simplify(sp.expand(K4y * Vol * sp.exp(6 * H * Y)))
+    K4y_val = sp.simplify(sp.expand(K4y * Vol * b4 ** sp.Rational(3, 2) * sp.exp(6 * H * Y)))
     e4y = sp.simplify(sp.expand(K4y_val - (eps - vs / 2) * cc))
     ok_b = e1 == 0 and e4 == 0 and e5 and ey == 0 and e4y == 0
     emt_ok &= ok_b
@@ -618,11 +684,12 @@ for bi in (0, 5):
                        f"K_x4y = P (eps - v/2) c {e4y == 0}")
 check("emt_orbital_components", emt_ok,
       "K^mu_mu(no sum) = (1/2)[Psibar g^mu D_mu Psi - (D_mu Psibar) g^mu Psi] in the expectation rule, for "
-      "Psi = e^{-i eps x4 + i k x1} W^{-3} V_beta chi /sqrt(ell^3 v_t), a4 = a4(x4) general (the spin connection, "
-      "including its a4' pieces, drops out of every diagonal component): -K^x1_x1 = P kappa k chi^dag j s3 chi, "
+      "Psi = e^{-i eps x4 + i k x1} W^{-3} b4^{-3/4} V_beta chi /sqrt(ell^3 v_t), a4 = a4(x4) and b4 = b4(x4) general "
+      "(the spin connection, including its a4' and b4' pieces, and the x4 derivative of b4^{-3/4} drop out of every "
+      "diagonal component): -K^x1_x1 = P kappa k chi^dag j s3 chi, "
       "K^x4_x4 = P eps chi^dag chi, K^x2_x2 = K^x5_x5 = 0, -K^y_y = P[(eps - v) chi^dag chi - M chi^dag j s2 chi "
-      "- kappa k chi^dag j s3 chi] (on shell), P = e^{-6Hy}/(ell^3 v_t); K_x4y = P (eps - v/2) chi^dag j s1 chi "
-      "(zero for eigen-orbitals). " + "; ".join(emt_details))
+      "- kappa k chi^dag j s3 chi] (on shell), P = e^{-6Hy}/(ell^3 v_t b4^{3/2}) (per proper 7-volume); "
+      "K_x4y = P (eps - v/2) chi^dag j s1 chi (zero for eigen-orbitals). " + "; ".join(emt_details))
 # trace identity
 tc_, nc_, sc_ = sp.symbols("t n_o s_o", real=True)
 trace_ = (-kap * hk * tc_) + eps * nc_ + (Ms * sc_ + kap * hk * tc_ - (eps - vs) * nc_)
@@ -661,17 +728,34 @@ check("emt_y_conservation_selfconsistent", ok_dy and sp.simplify(force) == 0,
       "self-consistent M_eff, v_v: every self-consistent KS state with these potentials satisfies nabla_mu T^mu_y = 0")
 div4 = sum(sp.diff(Tmix[m, 4], X[m]) for m in range(8)) + sum(Chr[m][m][l] * Tmix[l, 4] for m in range(8) for l in range(8)) \
     - sum(Chr[l][m][4] * Tmix[m, l] for m in range(8) for l in range(8))
-check("emt_x4_component", sp.simplify(div4 - (-sp.diff(rhof, x4) - 3 * a4p * (p3f - ptf))) == 0,
-      "with a4 = a4(x4): nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t) (+ the y-flux divergence, zero for the "
-      "instantaneous states): the energy of the 7-volume changes as dE/dx4 = -3 a4' int sqrt|g| (p3 - p_t)")
+check("emt_x4_component",
+      sp.simplify(div4 - (-sp.diff(rhof, x4) - 3 * a4p * (p3f - ptf) - sp.Rational(3, 2) * ub * (rhof + ptf))) == 0,
+      "with a4 = a4(x4), b4 = b4(x4): nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) (+ the "
+      "y-flux divergence, zero for the instantaneous states)")
+# energy of the cell: d_x4 (b4^{3/2} rho) with the conservation law; then on the history a4 = A H x4, b4 = b4(0) e^{beta A H x4}
+rho4, p34, pt4 = [sp.Function(nm)(x4) for nm in ("rho4", "p34", "pt4")]
+rho_dot = -3 * a4p * (p34 - pt4) - sp.Rational(3, 2) * ub * (rho4 + pt4)
+dE4 = sp.diff(b4 ** sp.Rational(3, 2) * rho4, x4).subs(sp.Derivative(rho4, x4), rho_dot)
+ok_e1 = sp.simplify(dE4 - b4 ** sp.Rational(3, 2) * (-3 * a4p * (p34 - pt4) - sp.Rational(3, 2) * ub * pt4)) == 0
+AA_ = sp.Symbol("A", positive=True)
+hist_sub = {a4: AA_ * H * x4, b4: bini * sp.exp(bet * AA_ * H * x4)}
+dE_hist = (dE4.subs(hist_sub)).doit() / (AA_ * H)
+ok_e2 = sp.simplify(dE_hist - (bini * sp.exp(bet * AA_ * H * x4)) ** sp.Rational(3, 2)
+                    * (-3 * (p34 - pt4) - sp.Rational(3, 2) * bet * pt4)) == 0
+check("emt_energy_change_history", ok_e1 and ok_e2,
+      "with sqrt|g| = b4^{3/2} e^{6Hy} and the conservation law: d_x4 (b4^{3/2} rho) = b4^{3/2} (-3 a4' (p3 - p_t) "
+      "- (3/2)(b4'/b4) p_t) (+ the y-flux, zero for eigen-orbitals); on the history a4 = A H x4, b4 = b4(0) e^{beta A H x4}: "
+      "dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7(a4,0) int e^{6Hy} p dy (beta = 4/3: -3 (P3 - P_t) - 2 P_t), "
+      "the solver check")
 # Hellmann-Feynman / rescaling: d eps/da = <d_a h> = -k <j kappa sigma3> = -k d eps/dk
 ef = sp.Function("eps0")
 check("adiabatic_hellmann_feynman", sp.simplify(sp.diff(ef(hk * sp.exp(-aa)), aa)
                                                 + hk * sp.diff(ef(hk * sp.exp(-aa)), hk)) == 0
       and sp.simplify(sp.diff(hfull(1, hk, aa), aa) + hk * sp.diff(hfull(1, hk, aa), hk)).is_zero_matrix,
       "d_a h_j = -j kappa k sigma3 = -k d_k h_j; for the free (frozen-potential) problem eps(k, a) = eps(k e^{-a}, 0) so "
-      "d eps/da = -k d eps/dk = -k <j kappa sigma3>; summed with occupations: dE/da = -3 ell^3 v_t int e^{6Hy} "
-      "(p3 - p_t) dy (Hellmann-Feynman, fixed occupations)")
+      "d eps/da = -k d eps/dk = -k <j kappa sigma3> (b4 does not enter h; it enters the self-consistent part through "
+      "the coupling lambda_hat/Vol_7(a4,0)); summed with occupations (Hellmann-Feynman, fixed occupations) this gives "
+      "the history identity of emt_energy_change_history")
 # adiabaticity: off-diagonal identity on an explicit example
 aS = sp.Symbol("a", real=True)
 Hex = sp.Matrix([[sp.cos(aS), sp.sin(aS)], [sp.sin(aS), -sp.cos(aS)]]) * 2 + sp.Matrix([[1, 0], [0, 1]])
@@ -682,11 +766,11 @@ lhs_ad = sp.simplify((va.H * Hex.diff(aS) * vb)[0])
 rhs_ad = sp.simplify((e_b - e_a) * (va.H * vb.diff(aS))[0])
 check("adiabatic_offdiagonal_identity", sp.simplify(lhs_ad - rhs_ad) == 0,
       "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (differentiated eigen-equation; verified on an explicit family); "
-      "measure along a4 = A H x4: Q_nm = A H |<n| d_a h_KS |m>| / (eps_n - eps_m)^2 for n occupied, m empty, "
-      "same (k, block, parity); leading-order transition probability ~ Q_nm^2. The history a4 = A H x4 is a "
-      "PRESCRIBED BACKGROUND (test field without back-reaction): the a4 equations allow this linear member only with "
-      "p3 = p_t = p0 and constant rho, which the Kohn-Sham states violate "
-      "(Revision/field_equations_a4/reports/ks-source-conditions.json)")
+      "measure along a4 = A H x4, b4 = b4(0) e^{beta A H x4}: Q_nm = A H |<n| d_a h_KS |m>| / (eps_n - eps_m)^2 for n "
+      "occupied, m empty, same (k, block, parity); leading-order transition probability ~ Q_nm^2. The history is a "
+      "PRESCRIBED BACKGROUND (test field without back-reaction): with the author's weights the a4 and b4 equations "
+      "allow it only with a constant source (Revision/field_equations_a4/a4-equations.json, exponentialHistory), which "
+      "the Kohn-Sham states do not supply (Revision/field_equations_a4/reports/ks-source-conditions.json)")
 
 # brane-band slope c: exact formula and an independent numerical shooting check
 Mn, Hn, Ln = 1.0, 1.0, 3.0
@@ -773,35 +857,45 @@ if KS_THEORY.exists():
     except Exception:  # noqa: BLE001
         same_c = False
     check("ks_theory_json_slope", same_c, "the exported brane-band slope agrees with this file to 1e-12")
-    # The history a4 = A H x4 of the adiabatic measure is a PRESCRIBED BACKGROUND: the export must say so, and
-    # the reason it gives must be the one recorded by the a4 source-condition check of the Kohn-Sham states.
+    # The history a4 = A H x4, b4 = b4(0) e^{beta A H x4} of the adiabatic measure is a PRESCRIBED BACKGROUND: the
+    # export must say so, beta must be the author's-weights branch 4/3, the source it names must be the one that
+    # a4-equations.json derives, and the source-condition report of the Kohn-Sham states must say they do not supply it.
     try:
         hist = kt["adiabaticity"]["history"]
         status = kt["adiabaticity"]["historyStatus"]
-        label_ok = (hist.startswith("a4 = A H x4") and hist.endswith("PRESCRIBED BACKGROUND (see historyStatus)")
-                    and status.startswith("PRESCRIBED BACKGROUND: the history a4 = A H x4 is prescribed, not solved for.")
-                    and "p3 = p_t = p0 and constant rho" in status
+        label_ok = (hist.startswith("a4 = A H x4 (A = 1 canonical), b4 = b4(0) e^{beta A H x4} (beta = 4/3)")
+                    and hist.endswith("PRESCRIBED BACKGROUND (see historyStatus)")
+                    and kt["adiabaticity"]["historyBeta"] == "4/3"
+                    and status.startswith("PRESCRIBED BACKGROUND: the history a4 = H x4, b4 = b4(0) e^{(4/3) H x4} is "
+                                          "prescribed, not solved for.")
+                    and "kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27)" in status
                     and "Revision/field_equations_a4/reports/ks-source-conditions.json" in status
                     and "test field on a prescribed background without back-reaction" in status)
     except Exception:  # noqa: BLE001
         label_ok = False
     try:
+        a4e = json.loads(A4_EQUATIONS.read_text(encoding="utf-8"))
+        aw = a4e["exponentialHistory"]["authorWeights"]
+        src_ok = ("kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27)" in aw["historySource"]
+                  and "be = 4/3" in aw["branch"])
+    except Exception:  # noqa: BLE001
+        src_ok = False
+    try:
         sc = json.loads(KS_SOURCE_CONDITIONS.read_text(encoding="utf-8"))
         scv = {c["name"]: c["verdict"] for c in sc["checks"]}
         sc_ok = (scv.get("ks_history_is_a_prescribed_background") == "PASS"
-                 and scv.get("ks_profiles_violate_algebraic_condition") == "PASS"
-                 and scv.get("ks_profiles_depend_on_x0") == "PASS"
-                 and "C3 (linear member a4 = A H x4 + a0): p3 = p_t = p0 and rho constant" in sc["conditions"])
+                 and scv.get("ks_profiles_depend_on_x0") == "PASS")
     except Exception:  # noqa: BLE001
         sc_ok = False
-    check("ks_theory_json_history_label", label_ok and sc_ok,
-          "ks-theory.json labels the history a4 = A H x4 (A = 1 canonical) of the adiabatic measure as a PRESCRIBED "
-          f"BACKGROUND (adiabaticity.history ends 'PRESCRIBED BACKGROUND (see historyStatus)', adiabaticity.historyStatus "
-          f"states the reason and cites the source-condition report): {label_ok}; the reason is the one recorded in "
-          "Revision/field_equations_a4/reports/ks-source-conditions.json (condition C3: the linear member requires "
-          "p3 = p_t = p0 and constant rho; checks ks_history_is_a_prescribed_background, "
-          f"ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x0 PASS): {sc_ok}. The Kohn-Sham gas is a "
-          "test field on this background without back-reaction; its states are not solutions of the a4 equations "
+    check("ks_theory_json_history_label", label_ok and src_ok and sc_ok,
+          "ks-theory.json labels the history a4 = A H x4, b4 = b4(0) e^{beta A H x4} (A = 1, beta = 4/3) of the "
+          "adiabatic measure as a PRESCRIBED BACKGROUND (adiabaticity.history ends 'PRESCRIBED BACKGROUND (see "
+          "historyStatus)', adiabaticity.historyBeta = 4/3, adiabaticity.historyStatus names the required constant source "
+          f"and cites the source-condition report): {label_ok}; the source and the branch beta = 4/3 are those of "
+          f"Revision/field_equations_a4/a4-equations.json (exponentialHistory.authorWeights): {src_ok}; the source-condition "
+          "report of the Kohn-Sham states (Revision/field_equations_a4/reports/ks-source-conditions.json, checks "
+          f"ks_history_is_a_prescribed_background and ks_profiles_depend_on_x0) PASS: {sc_ok}. The Kohn-Sham gas is a "
+          "test field on this background without back-reaction; its states are not solutions of the a4 and b4 equations "
           "with the Kohn-Sham source")
 else:
     check("ks_theory_json_basis", "pending", "ks-theory.json not yet written by the Wolfram verifier")

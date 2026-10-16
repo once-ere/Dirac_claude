@@ -5,13 +5,16 @@ discretisation (staggered finite differences in y, Richardson extrapolation over
 Revision code only: it imports nothing from the old stages and nothing from the Rust solver.  Inputs:
 Revision/kohn_sham/ks-theory.json (the functional coefficients and the checked formulas).  The physical
 constants are the problem definition of SPEC section 7 (H = m = 1, L = 3, dk = 0.25, v_t = 1, regular tip
-theta = 0, ASSUMED Z2 brane, history a4 = A H x4 with A = 1 and slices a4,0 in {0, 0.5, 1, 1.5, 2},
+theta = 0, ASSUMED Z2 brane, history a4 = A H x4 with A = 1, b4 = b4(0) e^{beta a4} with beta from ks-theory.json
+(adiabaticity.historyBeta = 4/3; SPEC section 1) and slices a4,0 in {0, 0.5, 1, 1.5, 2},
 temperatures {0.01, 0.02, 0.05} m, first-order mean-field targets sigma = 0.1 and 0.3 m).  The particle
 numbers N_mid, N_large and the couplings lambda_1, lambda_2 are RE-DERIVED here from their stated rules.
 
 Coordinates: the author's {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H), z = 6 H x0; x1, x2, x3 = 3-space;
-x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4 increasing).
-The hidden-direction pressure is p0 = T^x0_x0.
+x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z, a4 increasing).
+The hidden-direction pressure is p0 = T^x0_x0.  The metric has b4(x4) in the extra-time components (b4 a function of
+x4, never 1): lambda is lambda_hat = lambda b4(0)^{-3/2} and the densities are per Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}
+(ks-theory.json densities; b4(0) never needs a value).
 
 The FULL canonical matrix is solved: 75 ground states (N in {8, N_mid, N_large}, 5 coupling tags, 5 slices) with
 their Delta-SCF states, a4 neighbours, adiabaticity pairs and particle-hole lists; the exact-Fock-exchange
@@ -176,6 +179,7 @@ def theory_coefficients():
     cn2 = Fraction(ex["uniformGas"]["coefficient_n2"])
     cs2 = Fraction(ex["uniformGas"]["coefficient_S2"])
     slope = float(th["checksNumeric"]["braneBandSlope_M1_H1_L3_a0"])
+    beta = Fraction(th["adiabaticity"]["historyBeta"])       # d ln b4/d a4 of the history (4/3)
     # exact-Fock variant (exchange.exactFockSlab): e_x^exact = -(lambda/c)(n^2 + S^2 - Q^2 - Y^2), Y = 0, so it exceeds
     # the uniform-gas e_x = -(lambda/32)(n^2 + S^2) by +(lambda/c) Q^2; the variant adds w_Q = +lambda Q/d sigma3
     fk = ex["exactFockSlab"]
@@ -192,12 +196,13 @@ def theory_coefficients():
         "eS2": Fraction(1, 2) + cs2, "eN2": cn2,
         "cQ2": cQ2, "cWQ": cWQ, "cQ2_status": cQ2_status,
         "slope_theory_a0": slope,
+        "beta": beta,
     }
 
 
 def make_phys(co, **kw):
     p = K.Phys(**BASE, cM=float(co["cM"]), cV=float(co["cV"]), cS2=float(co["eS2"]), cN2=float(co["eN2"]),
-               cQ2=float(co["cQ2"]) if co["cQ2"] is not None else float("nan"))
+               cQ2=float(co["cQ2"]) if co["cQ2"] is not None else float("nan"), beta=float(co["beta"]))
     for k, v in kw.items():
         setattr(p, k, v)
     return p
@@ -656,12 +661,14 @@ def exx_job(co, spec):
 
 
 # ------------------------------------------------------------------------------------------------
-# job: the rescaling partner KS(0; dk e^{-a4,0}, v_t e^{-3 a4,0}, lambda) of a ground state (a4,0 > 0)
+# job: the rescaling partner KS(0; dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat) of a ground state (a4,0 > 0):
+# slice 0 of the same history with the same proper cell (ks-theory.json rescalingIdentity; v_t e^{-a4,0} for beta = 4/3)
 # ------------------------------------------------------------------------------------------------
 def rescale_job(co, spec):
     t0 = time.time()
     a4 = spec["a4"]
-    pr = make_phys(co, a4=0.0, lam=spec["lam"], N=spec["N"], dk=BASE["dk"] * math.exp(-a4), vt=BASE["vt"] * math.exp(-3.0 * a4))
+    pr = make_phys(co, a4=0.0, lam=spec["lam"], N=spec["N"], dk=BASE["dk"] * math.exp(-a4),
+                   vt=BASE["vt"] * math.exp((1.5 * float(co["beta"]) - 3.0) * a4))
     g0 = K.Grid(pr, GRIDS[0])
     ls0, _ = K.build_window(g0, pr, spec["sigma"], pad_ranks=PAD_RANKS)
     runs = []
@@ -1063,7 +1070,7 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
         "emt_energy_integral": Agg("2 Vol_7 int e^{6Hy} rho dy = E_KS (Richardson values): |difference| / (3 (U1 + U2) + 1e-12 max(1, |E|))", 1.0),
         "emt_y_conservation_integrated": Agg("[e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy (Richardson values): |difference| / (3 (U1 + U2) + 1e-8 scale), "
                                              "scale = max(|jump|, |integral|, |e^{6Hy} p0| at both ends)", 1.0),
-        "emt_energy_change_dE_da4": Agg("dE/da4 at fixed occupations (a4 +- delta, +- 2 delta, Richardson) = -6 Vol_7 int e^{6Hy}(p3 - p_t) dy (Richardson in h): "
+        "emt_energy_change_dE_da4": Agg("dE/da4 at fixed occupations (a4 +- delta, +- 2 delta, Richardson; Vol_7 changes with b4) = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7 int e^{6Hy} p dy (Richardson in h): "
                                         "|difference| / (3 (U1 + U2) + 1e-10 max(1, |dE/da4|))", 1.0),
         "adiabatic_hellmann_feynman_discrete": Agg("d eps_n/da4 (differences of the self-consistent levels) = z_n^T (dT/da4) z_n on every grid: max |deviation| (units of m)", 1e-8),
         "excited_delta_scf_free_equals_gap": Agg("lambda = 0: Delta-SCF excitation energy equals the KS gap on every grid (|difference|, m)", 1e-11),
@@ -1138,7 +1145,7 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
         ag.emit(rep, name)
     # rescaling partners (the reference's own identity, solved independently)
     gmap = {g["data"]["id"]: g["data"] for g in grounds}
-    R_ = Agg("KS(a4,0; dk, v_t, lambda) = KS(0; dk e^{-a4,0}, v_t e^{-3 a4,0}, lambda), solved independently by the reference: the same "
+    R_ = Agg("KS(a4,0; dk, v_t, lambda_hat) = KS(0; dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat) (the same proper cell; v_t e^{-a4,0} for beta = 4/3), solved independently by the reference: the same "
              "label set and occupations (value 1e9 otherwise), max over the levels |delta eps| (m), |delta E_KS| / max(1, |E|) and "
              "max |delta profile| / profile maximum (n, S, rho, p3, p0), all Richardson values: the largest", 1e-10)
     for r in rescales:
@@ -1307,11 +1314,14 @@ def main():
         "description": "Revision Kohn-Sham REFERENCE solver (Revision/kohn_sham/reference): independent Python solver, staggered finite "
                        "differences in y with Richardson extrapolation over G = 300, 600, 1200 (SPEC section 7, Revision/kohn_sham/ks-theory.json). "
                        "The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln(sin z)/(6H), z = 6 H x0), x1..x3 = 3-space, "
-                       "x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} sin^{1/6} z).",
+                       "x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z). The author's metric "
+                       "with b4(x4) (b4 a function of x4, never 1) on the history a4 = H x4, b4 = b4(0) e^{beta a4}: lambda = lambda_hat = "
+                       "lambda b4(0)^{-3/2}, densities per Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (proper densities times b4(0)^{3/2}).",
         "theoryInputs": {"ksTheorySha256": co["sha256"], "MeffCoefficientOfLambdaS": str(co["cM"]), "vvCoefficientOfLambdaN": str(co["cV"]),
                          "eintCoefficientS2": str(co["eS2"]), "eintCoefficientN2": str(co["eN2"]),
-                         "exactFockVariantEintCoefficientQ2": str(co["cQ2"]), "exactFockVariantWQCoefficientOfLambdaQ": str(co["cWQ"])},
-        "physics": dict(BASE, tipTheta=0.0, historyA=1.0, slicesA4=list(SLICES), temperatures=list(TEMPS), sigmas=SIGMA),
+                         "exactFockVariantEintCoefficientQ2": str(co["cQ2"]), "exactFockVariantWQCoefficientOfLambdaQ": str(co["cWQ"]),
+                         "historyBeta": str(co["beta"])},
+        "physics": dict(BASE, tipTheta=0.0, historyA=1.0, historyBeta=float(co["beta"]), slicesA4=list(SLICES), temperatures=list(TEMPS), sigmas=SIGMA),
         "numerics": {"grids": list(GRIDS), "validationGrids": list(G_VALID), "richardson": "R = (64 x(4G) - 20 x(2G) + x(G))/45; U = |R - (4 x(4G) - x(2G))/3| + 2e-12 max(1, |R|)",
                      "scfTolerance": 1e-12, "degeneracyTolerance": K.DEG_TOL, "zeroModeThreshold": K.TAU_ZERO, "a4Step": FD_DELTA,
                      "temperatureStepRelative": DT_REL, "endExtrapolation": "quintic from the six nearest half nodes",

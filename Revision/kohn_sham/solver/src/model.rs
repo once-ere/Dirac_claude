@@ -3,8 +3,13 @@
 //! Units: H = 1, m = 1 (canonical), so energies, momenta and temperatures are
 //! in units of m = H.  The good sector has no extra-time momentum; 3-space is
 //! a coordinate 3-torus of size ell = 2 pi / dk, k in dk Z^3; the extra-time
-//! coordinate volume is v_t; Vol_7 = ell^3 v_t is the proper 7-volume per unit
-//! e^{6Hy} (the same at every slice a4,0: the proper box is fixed).
+//! coordinate volume is v_t.  The metric has b4(x4) in the extra-time components
+//! (b4 a function of x4, never 1); on the history b4 = b4(0) e^{beta a4} the
+//! proper 7-volume of the cell per unit e^{6Hy} is ell^3 v_t b4,0^{3/2}, and the
+//! solver works in units of b4(0)^{3/2}: Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0},
+//! densities = proper densities times b4(0)^{3/2}, lambda = lambda_hat =
+//! lambda b4(0)^{-3/2} (ks-theory.json densities.perOrbital, densities.proper;
+//! b4(0) never needs a value).
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Parity {
@@ -39,6 +44,9 @@ pub struct Physics {
     pub dk: f64,
     pub vt: f64,
     pub a4: f64,
+    /// beta = d ln b4 / d a4 of the history b4 = b4(0) e^{beta a4} (4/3, ks-theory.json adiabaticity.historyBeta)
+    pub beta: f64,
+    /// lambda_hat = lambda b4(0)^{-3/2}, the same at every slice
     pub lambda: f64,
     pub n: f64,
     pub temp: f64,
@@ -52,9 +60,11 @@ impl Physics {
     pub fn ell(&self) -> f64 {
         2.0 * std::f64::consts::PI / self.dk
     }
+    /// Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}: the proper 7-volume of the cell per unit e^{6Hy}
+    /// in units of b4(0)^{3/2}; it grows like b4^{3/2} = b4(0)^{3/2} e^{2 a4} on the history (beta = 4/3)
     pub fn vol7(&self) -> f64 {
         let l = self.ell();
-        l * l * l * self.vt
+        l * l * l * self.vt * (1.5 * self.beta * self.a4).exp()
     }
 }
 

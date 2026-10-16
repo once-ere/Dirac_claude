@@ -351,11 +351,11 @@ def main():
     # ---------------------------------------------------------------- problem definition and derived inputs
     phys_r, phys_f = rp["physics"], fp["physics"]
     pairs = [("H", "H"), ("m", "m"), ("L_tipCutoff", "L"), ("dk", "dk"), ("v_t", "vt"), ("tipTheta", "tipTheta"),
-             ("historyA", "historyA"), ("slicesA4", "slicesA4"), ("temperatures", "temperatures")]
+             ("historyA", "historyA"), ("historyBeta", "historyBeta"), ("slicesA4", "slicesA4"), ("temperatures", "temperatures")]
     diffs = [f"{a}: Rust {phys_r[a]} vs reference {phys_f[b]}" for a, b in pairs if phys_r[a] != phys_f[b]]
     same_theory = rp["theoryInputs"]["ksTheorySha256"] == fp["theoryInputs"]["ksTheorySha256"]
     emit("problem_definition_identical", not diffs and same_theory,
-         f"H, m, L, dk, v_t, tip angle, history A, slices and temperatures identical: {not diffs} ({diffs if diffs else 'no differences'}); "
+         f"H, m, L, dk, v_t, tip angle, history A and beta (b4 = b4(0) e^(beta a4)), slices and temperatures identical: {not diffs} ({diffs if diffs else 'no differences'}); "
          f"both read the same ks-theory.json (sha256 {fp['theoryInputs']['ksTheorySha256'][:16]}): {same_theory}")
     der = fp["derived"]
     pn = rp["particleNumbers"]
