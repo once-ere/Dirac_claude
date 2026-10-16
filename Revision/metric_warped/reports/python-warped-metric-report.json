@@ -37,6 +37,11 @@
    "detail": "warped metric: all 56 off-diagonal components of E_(1) (Einstein), E_(2) (Gauss-Bonnet) and E_(3) (cubic Lovelock) vanish identically, for all functions a4(x4), b4(x4) > 0 and every H"
   },
   {
+   "name": "ricci_tensor",
+   "verdict": "PASS",
+   "detail": "warped metric: the Ricci tensor is diagonal (R^mu_nu = sum_b R^{mu b}_{nu b} with no mixed component), R^x0_x0 = -7 H^2 and R = -56 H^2 + Sin[z]^(-1/3) (6 a4'^2 - 3 a4' b4'/b4 + 3 b4''/b4); recorded in Wolfram form (ricci_mixed_diagonal_mathematica, ricci_scalar_mathematica) for the field-theory record"
+  },
+  {
    "name": "alternative_hidden_breathing_einstein_only",
    "verdict": "PASS",
    "detail": "g00 = b4^(1/2) Cot[z]^2 (g44 = -1): the Einstein tensor is diagonal, but E2^x4_x0 = -3*H*bd1*cc*(4*ad1*bb - bd1)**2/(2*bb**3) and E3^x4_x0 != 0: Einstein-Lovelock gravity still needs an off-diagonal source; also b4 itself (not only b4'/b4) enters"

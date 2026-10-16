@@ -334,6 +334,35 @@ check("warped_offdiagonal_all_orders", all(offw[k] == [] for k in (1, 2, 3)),
       "Lovelock) vanish identically, for all functions a4(x4), b4(x4) > 0 and every H")
 print("t", round(time.time() - T0, 1), flush=True)
 
+# the Ricci tensor (mixed, diagonal) and the Ricci scalar of the warped metric, for the field-theory record
+def to_functions(e):
+    """Back from the normal form to functions of x0, x4 (W = Sin[z]^(-1/3), cc = Cot[z])."""
+    return e.subs({ad2: sp.Derivative(a4f, X[4], 2), ad1: sp.Derivative(a4f, X[4]), bd2: sp.Derivative(b4f, X[4], 2),
+                   bd1: sp.Derivative(b4f, X[4]), bb: b4f, W: sp.sin(z) ** sp.Rational(-1, 3), cc: sp.cot(z)})
+
+
+ricci = {}
+for a in range(8):
+    tot = 0
+    for b in range(8):
+        if b == a:
+            continue
+        key = (min(a, b), max(a, b), min(a, b), max(a, b))
+        tot += R_w.get(key, 0)
+    ricci[a] = reduce_patch(tot)
+ricci_scalar = reduce_patch(sum(ricci.values()))
+off_ricci = [key for key in R_w if (key[0], key[1]) != (key[2], key[3])]
+RESULTS["ricci_mixed_diagonal_mathematica"] = {"x%d" % a: sp.printing.mathematica.mathematica_code(to_functions(ricci[a]))
+                                               for a in range(8)}
+RESULTS["ricci_scalar_mathematica"] = sp.printing.mathematica.mathematica_code(to_functions(ricci_scalar))
+lv0 = levels(ricci[0])
+ok = off_ricci == [] and lv0 == {0: -7 * H ** 2} and sp.simplify(levels(ricci_scalar)[0] + 56 * H ** 2) == 0
+check("ricci_tensor", ok,
+      "warped metric: the Ricci tensor is diagonal (R^mu_nu = sum_b R^{mu b}_{nu b} with no mixed component), R^x0_x0 = "
+      "-7 H^2 and R = -56 H^2 + Sin[z]^(-1/3) (6 a4'^2 - 3 a4' b4'/b4 + 3 b4''/b4); recorded in Wolfram form "
+      "(ricci_mixed_diagonal_mathematica, ricci_scalar_mathematica) for the field-theory record")
+print("t", round(time.time() - T0, 1), flush=True)
+
 # ---- 5. the rejected alternative g00 = b4^(1/2) cot^2 z
 _, R_h, E_h, _ = curvature(G_HIDDEN, X)
 offh = {k: sorted(key for key in E_h[k] if key[0] != key[1]) for k in (1, 2, 3)}

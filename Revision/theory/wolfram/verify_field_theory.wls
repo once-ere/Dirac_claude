@@ -3,15 +3,13 @@
 
 (* verify_field_theory.wls
 
-   Driver for Revision/theory/wolfram/RevisionFieldTheory.wl (Revision/SPEC.md, sections 1-4 and 6) for the author's
-   metric with the second function b4(x4) (the change of 2026-10-14; the user's orders of 2026-10-15: "b4 is a function
-   of x4; b4 is NEVER 1" and "move everything to b4(x4); b4 is never 1"):
-     g = diag(Cot[z]^2, E^(2 a4) Sin[z]^(1/3) (x3), -1, -E^(-2 a4) b4 Sin[z]^(1/3) (x3)),  z = 6 H x0,
+   Driver for Revision/theory/wolfram/RevisionFieldTheory.wl (Revision/SPEC.md, sections 1-4 and 6) for THE WARPED
+   METRIC of 2026-10-16 (the user's order: "find the simplest modification for the current metric of the primordial
+   gravitational field that is probably self-consistent with the Einstein field equations"; Revision/metric_warped/):
+     g = diag(Cot[z]^2, E^(2 a4) Sin[z]^(1/3) (x3), -Sin[z]^(1/3), -E^(-2 a4) b4 Sin[z]^(1/3) (x3)),  z = 6 H x0,
    in the author's coordinates x0..x7 (x0 = the hidden direction, Wolfram position 1; x4 = the time, position 5).
-   Every statement is proved for a GENERAL function b4(x4) > 0 (and a general a4(x4)); nothing is evaluated at b4 = 1.
-   Until 2026-10-15 this script proved the statements for the withdrawn metric b4 = 1 and two supplements
-   (verify_field_theory_b4.wls, verify_field_theory_b4_emt.wls) re-checked the metric-dependent ones for general b4;
-   both supplements are retired, their checks are part of this script.
+   Every statement is proved for GENERAL functions a4(x4) and b4(x4) > 0.  Until 2026-10-16 this script proved the
+   statements for the metric of 2026-10-14 (g44 = -1, withdrawn), until 2026-10-15 for b4 = 1 (withdrawn).
 
    The script runs in PARTS, each one a separate wolframscript call that stays well below the limit of 7 min 3 s
    for one calculation (the user's order); the parts write their results to the git-ignored folder
@@ -26,7 +24,7 @@
      wolframscript -file Revision/theory/wolfram/verify_field_theory.wls solutions-G
      wolframscript -file Revision/theory/wolfram/verify_field_theory.wls quantisation
      wolframscript -file Revision/theory/wolfram/verify_field_theory.wls merge
-   Every part file records the sha256 of this script, the package, the fixture and metric-b4.json; "merge" refuses
+   Every part file records the sha256 of this script, the package, the fixture and warped-metric.json; "merge" refuses
    (exit code 1) a part file written by a different version of any of them, and a missing part.
    Every check is exact symbolic algebra (no floating point).  Both statistics are treated:
    "G" = dirac16complex (explicit Grassmann algebra, N = 2 generators theta_1, theta_2 and their
@@ -45,9 +43,9 @@ If[!MemberQ[Append[$parts, "merge"], part],
   Print["usage: wolframscript -file Revision/theory/wolfram/verify_field_theory.wls <part>, part = ", StringRiffle[Append[$parts, "merge"], " | "]]; Exit[2]];
 pkgFile = FileNameJoin[{$here, "RevisionFieldTheory.wl"}];
 fixFile = FileNameJoin[{$revDir, "algebra", "gammas.json"}];
-mbFile = FileNameJoin[{$revDir, "metric_b4", "results", "metric-b4.json"}];
+mwFile = FileNameJoin[{$revDir, "metric_warped", "results", "warped-metric.json"}];
 sha[file_] := FileHash[file, "SHA256", All, "HexString"];
-inputHashes = <|"script" -> sha[$InputFileName], "package" -> sha[pkgFile], "fixture" -> sha[fixFile], "metric_b4" -> sha[mbFile]|>;
+inputHashes = <|"script" -> sha[$InputFileName], "package" -> sha[pkgFile], "fixture" -> sha[fixFile], "metric_warped" -> sha[mwFile]|>;
 
 jstr[s_String] := "\"" <> StringReplace[s, {"\\" -> "\\\\", "\"" -> "\\\"", "\n" -> "\\n"}] <> "\"";
 writeLF[path_, text_String] := Module[{s = Quiet[OpenWrite[path, BinaryFormat -> True, CharacterEncoding -> "UTF-8"]]},
@@ -63,7 +61,7 @@ If[part === "merge",
     data = Association[Table[p -> Module[{f = FileNameJoin[{$partDir, p <> ".json"}]},
        If[FileExistsQ[f], Import[f, "RawJSON"], Missing[]]], {p, $parts}]];
     Do[Which[MissingQ[data[p]], AppendTo[bad, p <> ": missing (run the part first)"],
-        data[p]["inputs"] =!= inputHashes, AppendTo[bad, p <> ": written by a different version of the script, package, fixture or metric-b4.json; run it again"]], {p, $parts}];
+        data[p]["inputs"] =!= inputHashes, AppendTo[bad, p <> ": written by a different version of the script, package, fixture or warped-metric.json; run it again"]], {p, $parts}];
     If[bad =!= {}, Print["ERROR  ", #] & /@ bad; Exit[1]];
     checks = Join @@ Table[data[p]["checks"], {p, $parts}];
     pick[n_] := Lookup[First[Select[checks, #["name"] == n &], <|"verdict" -> "FAIL"|>], "verdict"];
@@ -78,18 +76,18 @@ If[part === "merge",
     nPass = Count[checks, c_ /; c["verdict"] == "PASS"]; nTot = Length[checks];
     report = StringJoin[
       "{\n",
-      "  \"report\": ", jstr["Revision field theory (SPEC sections 1-4, 6) for the author's metric with b4(x4) (general a4 and b4; b4 is never set to 1): vielbein, canonical spin connection, Lagrangian, Euler-Lagrange equations, non-triviality [1] and [2], current, energy-momentum tensor, exact solutions, canonical quantisation; both statistics, verified exactly in WolframScript"], ",\n",
+      "  \"report\": ", jstr["Revision field theory (SPEC sections 1-4, 6) for the warped metric of 2026-10-16 (general a4 and b4): vielbein, canonical spin connection, Lagrangian, Euler-Lagrange equations, non-triviality [1] and [2], current, energy-momentum tensor, exact solutions, canonical quantisation; both statistics, verified exactly in WolframScript"], ",\n",
       "  \"producer\": ", jstr["Revision/theory/wolfram/verify_field_theory.wls (parts base, emt-G, emt-C, solutions, solutions-G, quantisation; merge)"], ",\n",
       "  \"package\": ", jstr["Revision/theory/wolfram/RevisionFieldTheory.wl"], ",\n",
       "  \"fixture\": ", jstr["Revision/algebra/gammas.json"], ",\n",
-      "  \"metric\": ", jstr["g = diag(Cot[z]^2, E^(2 a4[x4]) Sin[z]^(1/3) (3 times), -1, -E^(-2 a4[x4]) b4[x4] Sin[z]^(1/3) (3 times)), z = 6 H x0, b4[x4] > 0 and a4[x4] general functions of x4 (Revision/SPEC.md section 1; the change of 2026-10-14)"], ",\n",
+      "  \"metric\": ", jstr["g = diag(Cot[z]^2, E^(2 a4[x4]) Sin[z]^(1/3) (3 times), -Sin[z]^(1/3), -E^(-2 a4[x4]) b4[x4] Sin[z]^(1/3) (3 times)), z = 6 H x0, b4[x4] > 0 and a4[x4] general functions of x4 (Revision/SPEC.md section 1; the warped metric of 2026-10-16)"], ",\n",
       "  \"statistics\": ", jstr["G = dirac16complex: 16 complex anticommuting components, explicit Grassmann algebra with generators theta_1, theta_2 and their conjugates; C = dirac16complex00: 16 complex commuting components"], ",\n",
       "  \"coordinates\": ", jstr["the author's coordinates x0..x7: x0 = the hidden direction; x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times; z = 6 H x0 in (0, Pi/2), H > 0"], ",\n",
       "  \"summary\": {\"passed\": ", ToString[nPass], ", \"failed\": ", ToString[nTot - nPass], ", \"total\": ", ToString[nTot], "},\n",
       "  \"checks\": [\n", StringRiffle[checkLine /@ checks, ",\n"], "\n  ]\n}\n"];
     formulaText = StringJoin[
       "{\n",
-      "  \"description\": ", jstr["Exact formulas of the Revision field theory (SPEC sections 1-4, 6) for the author's primordial metric with b4(x4) (general a4 and b4), for the documents. Every formula is verified by a named check of Revision/theory/reports/wolfram-field-theory.json. Wolfram InputForm; g[xa] = gamma^(xa) of Revision/algebra/gammas.json; a4' = Derivative[1][a4][x4]; b4' = Derivative[1][b4][x4]; z = 6 H x0; Psibar = Psi^dagger C; S = Psibar Psi; V = m + U'(S); both statistics unless stated."], ",\n",
+      "  \"description\": ", jstr["Exact formulas of the Revision field theory (SPEC sections 1-4, 6) for the warped primordial metric of 2026-10-16 (general a4 and b4), for the documents. Every formula is verified by a named check of Revision/theory/reports/wolfram-field-theory.json. Wolfram InputForm; g[xa] = gamma^(xa) of Revision/algebra/gammas.json; a4' = Derivative[1][a4][x4]; b4' = Derivative[1][b4][x4]; z = 6 H x0; Psibar = Psi^dagger C; S = Psibar Psi; V = m + U'(S); both statistics unless stated."], ",\n",
       "  \"producer\": ", jstr["Revision/theory/wolfram/verify_field_theory.wls"], ",\n",
       "  \"formulas\": [\n", StringRiffle[fjson /@ formulas, ",\n"], "\n  ]\n}\n"];
     If[!DirectoryQ[FileNameJoin[{$theoryDir, "reports"}]], CreateDirectory[FileNameJoin[{$theoryDir, "reports"}]]];
@@ -149,8 +147,9 @@ computeEL[st_] := Module[{L = Ldata[st]["L"]},
     Do[ELc[{st, A}] = rftVarDer[st, L, phc[A]]; ELp[{st, A}] = rftVarDer[st, L, ph[A]], {A, 16}],
     Do[ELc[{st, A, k}] = rftVarDer[st, L, phc[A, k]]; ELp[{st, A, k}] = rftVarDer[st, L, ph[A, k]], {A, 16}, {k, rftGN}]]];
 bilM[st_, Pc_, M_, P_] := sDot[st, Pc, matVec[st, Cm . M, P]];
-(* the gravitational (spin-connection) term of the Dirac operator: gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) *)
-gOm = 3 H g[[1]] + (3/4) bu g[[5]];
+(* the gravitational (spin-connection) term of the Dirac operator: gamma^mu Omega_mu = (7/2) H gamma^(x0) + (3/4)(b4'/b4) Sin[z]^(-1/6) gamma^(x4) *)
+wf = Sin[rftZ]^(1/6);                   (* the warp factor of every direction x1..x7, f4 = wf *)
+gOm = (7/2) H g[[1]] + (3/4) bu wf^-1 g[[5]];
 
 (* ================================================================== PART base *)
 If[part === "base",
@@ -180,53 +179,53 @@ addCheck["fixture_C_B_S_consistent",
 section["geometry"];
 addCheck["metric_is_the_authors",
   rftZeroQ[rftG0 - rftMetricAuthor] && rftZeroQ[Transpose[rftE0] . eta . rftE0 - rftMetricAuthor],
-  "g = e^T eta e with the diagonal vielbein e^a_mu = f_a delta^a_mu, f(x0) = Cot[z], f(x1,x2,x3) = E^a4 Sin[z]^(1/6), f(x4) = 1, f(x5,x6,x7) = E^-a4 b4^(1/2) Sin[z]^(1/6), z = 6 H x0, " <>
-  "reproduces the author's metric with b4 of SPEC section 1 (g55 = g66 = g77 = -E^(-2 a4) b4 Sin[z]^(1/3); the change of 2026-10-14) entry by entry, for general functions a4(x4) and b4(x4) > 0"];
+  "g = e^T eta e with the diagonal vielbein e^a_mu = f_a delta^a_mu, f(x0) = Cot[z], f(x1,x2,x3) = E^a4 Sin[z]^(1/6), f(x4) = Sin[z]^(1/6), f(x5,x6,x7) = E^-a4 b4^(1/2) Sin[z]^(1/6), z = 6 H x0, " <>
+  "reproduces the warped metric of SPEC section 1 (g44 = -Sin[z]^(1/3), g55 = g66 = g77 = -E^(-2 a4) b4 Sin[z]^(1/3); the user's order of 2026-10-16) entry by entry, for general functions a4(x4) and b4(x4) > 0"];
 addCheck["vielbein_inverse",
   rftZeroQ[rftE0 . rftEinv0 - IdentityMatrix[8]] &&
   rftZeroQ[Table[Sum[rftEinv0[[mu, a]] rftEinv0[[nu, a]] eta[[a, a]], {a, 8}] - rftGinv0[[mu, nu]], {mu, 8}, {nu, 8}]],
   "e^a_mu e_a^nu = delta and e_a^mu e_b^nu eta^ab = g^munu (inverse vielbein e_a^mu = delta_a^mu / f_a)"];
 addCheck["sqrt_det_g",
-  rftZeroQ[Det[rftG0] - b4[x4]^3 Cos[rftZ]^2] && Simplify[b4[x4]^(3/2) Cos[rftZ] > 0, rftAssumptions] && rftZeroQ[Times @@ f - b4[x4]^(3/2) Cos[rftZ]] && rftZeroQ[sg - b4[x4]^(3/2) Cos[rftZ]] &&
-  rftZeroQ[D[sg, x4] - (3/2) bu sg],
-  "det g = b4^3 Cos[z]^2 (four negative entries), so sqrt|det g| = f0...f7 = b4^(3/2) Cos[z] > 0 on 0 < z < Pi/2; the 3-space inflation e^(3 a4) and the extra-time deflation e^(-3 a4) compensate in the volume, " <>
-  "and d_x4 sqrt|g| = (3/2)(b4'/b4) sqrt|g|: the volume depends on x4 through b4 alone"];
+  rftZeroQ[Det[rftG0] - b4[x4]^3 Cos[rftZ]^2 Sin[rftZ]^(1/3)] && Simplify[b4[x4]^(3/2) Cos[rftZ] Sin[rftZ]^(1/6) > 0, rftAssumptions] &&
+  rftZeroQ[Times @@ f - b4[x4]^(3/2) Cos[rftZ] Sin[rftZ]^(1/6)] && rftZeroQ[sg - b4[x4]^(3/2) Cos[rftZ] Sin[rftZ]^(1/6)] &&
+  rftZeroQ[D[sg, x4] - (3/2) bu sg] && rftZeroQ[sg/f[[5]] - b4[x4]^(3/2) Cos[rftZ]],
+  "det g = b4^3 Cos[z]^2 Sin[z]^(1/3) (four negative entries), so sqrt|det g| = f0...f7 = b4^(3/2) Cos[z] Sin[z]^(1/6) > 0 on 0 < z < Pi/2; the 3-space inflation e^(3 a4) and the extra-time deflation e^(-3 a4) compensate in the volume, " <>
+  "d_x4 sqrt|g| = (3/2)(b4'/b4) sqrt|g| (the volume depends on x4 through b4 alone), and the measure of a slice x4 = const divided by the lapse is sqrt|g|/f4 = b4^(3/2) Cos[z]"];
 addCheck["degenerate_at_H_0",
   Limit[Sin[6 H x0]^(1/3), H -> 0] === 0 && Limit[Cot[6 H x0]^2, H -> 0, Direction -> "FromAbove", Assumptions -> x0 > 0] === Infinity,
-  "at fixed x0 and H -> 0+ the entries g11 = g22 = g33 -> 0, g55 = g66 = g77 -> 0 (for every b4 > 0) and g00 -> infinity: H = 0 is not a metric of the family (a degenerate limit); every statement below assumes H > 0 and 0 < z < Pi/2"];
+  "at fixed x0 and H -> 0+ the entries g11 = g22 = g33 -> 0, g44 -> 0, g55 = g66 = g77 -> 0 (for every b4 > 0) and g00 -> infinity: H = 0 is not a metric of the family (a degenerate limit); every statement below assumes H > 0 and 0 < z < Pi/2"];
 gamNZ = DeleteCases[Flatten[Table[{l, mm, n, rftSimp[Gm[[l, mm, n]]]}, {l, 8}, {mm, 8}, {n, mm, 8}], 2], {_, _, _, 0}];
 addFormula["christoffel_nonzero", "nonzero Christoffel symbols {l, m, n, Gamma^l_mn} (m <= n; Gamma^l_nm = Gamma^l_mn), Wolfram positions 1..8 = x0..x7", gamNZ];
 addCheck["christoffel_count",
-  Length[gamNZ] == 25 && !FreeQ[gamNZ, Derivative[1][b4]],
-  "the Levi-Civita connection has " <> ToString[Length[gamNZ]] <> " independent nonzero symbols Gamma^l_mn (m <= n), the extra-time ones containing b4'/b4: listed in field-theory.json (christoffel_nonzero)"];
+  Length[gamNZ] == 27 && !FreeQ[gamNZ, Derivative[1][b4]] && rftZeroQ[Gm[[5, 1, 5]] - H Cot[rftZ]] && rftZeroQ[Gm[[1, 5, 5]] - H Sec[rftZ] Sin[rftZ]^(4/3)],
+  "the Levi-Civita connection has " <> ToString[Length[gamNZ]] <> " independent nonzero symbols Gamma^l_mn (m <= n), the extra-time ones containing b4'/b4; the two symbols of the warped time direction are Gamma^x4_(x0 x4) = H Cot[z] and Gamma^x0_(x4 x4) = H Sec[z] Sin[z]^(4/3): listed in field-theory.json (christoffel_nonzero)"];
 Rm = rftRiemann[Gm];
 Ric = Table[Sum[Rm[[r, s, r, n]], {r, 8}], {s, 8}, {n, 8}];
 RicMixed = Table[Sum[rftGinv0[[mu, s]] Ric[[s, nu]], {s, 8}], {mu, 8}, {nu, 8}];
 Rs = Sum[RicMixed[[mu, mu]], {mu, 8}];
-RsExpected = 6 (a4p^2 - 7 H^2) - 3 a4p bu + 3 bpp;
+wW = Sin[rftZ]^(-1/3);                 (* W = Sin[z]^(-1/3) = 1/(the square of the warp factor) *)
+RsExpected = -56 H^2 + wW (6 a4p^2 - 3 a4p bu + 3 bpp);
 addCheck["ricci_scalar",
   rftZeroQ[Rs - RsExpected],
-  "Ricci scalar R = g^sn R^r_srn = 6 (a4'^2 - 7 H^2) - 3 a4' b4'/b4 + 3 b4''/b4 (convention R^r_smn = d_m Gamma^r_ns - d_n Gamma^r_ms + Gamma^r_ml Gamma^l_ns - Gamma^r_nl Gamma^l_ms)"];
+  "Ricci scalar R = g^sn R^r_srn = -56 H^2 + Sin[z]^(-1/3) (6 a4'^2 - 3 a4' b4'/b4 + 3 b4''/b4) (convention R^r_smn = d_m Gamma^r_ns - d_n Gamma^r_ms + Gamma^r_ml Gamma^l_ns - Gamma^r_nl Gamma^l_ms)"];
 ricExpected = ConstantArray[0, {8, 8}];
-ricExpected[[1, 1]] = -6 H^2;
-ricExpected[[1, 5]] = -(3/2) H Tan[rftZ] bu;
-ricExpected[[5, 1]] = (3/2) H Cot[rftZ] bu;
-Do[ricExpected[[i, i]] = -6 H^2 + a4''[x4] + (3/2) a4p bu, {i, 2, 4}];
-ricExpected[[5, 5]] = 6 a4p^2 - (3/4) bu^2 - 3 a4p bu + (3/2) bpp;
-Do[ricExpected[[t, t]] = -6 H^2 - a4''[x4] + (1/4) bu^2 - (3/2) a4p bu + (1/2) bpp, {t, 6, 8}];
-mb = Import[mbFile, "RawJSON"];
-mbRic = Table[ToExpression[Lookup[mb["ricciMixed"], rftCoordNames[[h]] <> "," <> rftCoordNames[[j]], "0"]], {h, 8}, {j, 8}];
+ricExpected[[1, 1]] = -7 H^2;
+Do[ricExpected[[i, i]] = -7 H^2 + wW (a4''[x4] + (3/2) a4p bu), {i, 2, 4}];
+ricExpected[[5, 5]] = -7 H^2 + wW (6 a4p^2 - (3/4) bu^2 - 3 a4p bu + (3/2) bpp);
+Do[ricExpected[[t, t]] = -7 H^2 + wW (-a4''[x4] + (1/4) bu^2 - (3/2) a4p bu + (1/2) bpp), {t, 6, 8}];
+mw = Import[mwFile, "RawJSON"];
+mwRic = DiagonalMatrix[Table[ReleaseHold[ToExpression[mw["ricci_mixed_diagonal_mathematica"][rftCoordNames[[h]]]]], {h, 8}]];
 addCheck["ricci_mixed_components",
-  rftZeroQ[RicMixed - ricExpected] && rftZeroQ[RicMixed - mbRic] && rftZeroQ[Rs - ToExpression[mb["ricciScalar"]]],
-  "R^mu_nu: R^x0_x0 = -6 H^2, R^xi_xi = a4'' - 6 H^2 + (3/2) a4' b4'/b4 (i = 1, 2, 3), R^x4_x4 = 6 a4'^2 - (3/4)(b4'/b4)^2 - 3 a4' b4'/b4 + (3/2) b4''/b4, " <>
-  "R^xt_xt = -a4'' - 6 H^2 + (1/4)(b4'/b4)^2 - (3/2) a4' b4'/b4 + (1/2) b4''/b4 (t = 5, 6, 7), and the only off-diagonal components R^x4_x0 = (3/2) H Cot[z] b4'/b4, R^x0_x4 = -(3/2) H Tan[z] b4'/b4 (proportional to b4'); " <>
-  "R^mu_nu and R equal the independent record Revision/metric_b4/results/metric-b4.json (compared there with the author's stored outputs Out[119], Out[124] of Dirac_Einstein-Lovelock_4+4_Nash.nb)"];
+  rftZeroQ[RicMixed - ricExpected] && rftZeroQ[RicMixed - mwRic] && rftZeroQ[Rs - ReleaseHold[ToExpression[mw["ricci_scalar_mathematica"]]]],
+  "R^mu_nu is diagonal (no off-diagonal component: the warped metric): R^x0_x0 = -7 H^2, R^xi_xi = -7 H^2 + Sin[z]^(-1/3) (a4'' + (3/2) a4' b4'/b4) (i = 1, 2, 3), " <>
+  "R^x4_x4 = -7 H^2 + Sin[z]^(-1/3) (6 a4'^2 - (3/4)(b4'/b4)^2 - 3 a4' b4'/b4 + (3/2) b4''/b4), R^xt_xt = -7 H^2 + Sin[z]^(-1/3) (-a4'' + (1/4)(b4'/b4)^2 - (3/2) a4' b4'/b4 + (1/2) b4''/b4) (t = 5, 6, 7); " <>
+  "R^mu_nu and R equal the independent sympy record Revision/metric_warped/results/warped-metric.json (ricci_mixed_diagonal_mathematica, ricci_scalar_mathematica)"];
 addFormula["ricci_mixed_nonzero", "nonzero R^mu_nu as {mu, nu, value}, Wolfram positions 1..8 = x0..x7",
   DeleteCases[Flatten[Table[{mu, nu, ricExpected[[mu, nu]]}, {mu, 8}, {nu, 8}], 1], {_, _, 0}]];
 addFormula["ricci_scalar", "Ricci scalar R", RsExpected];
 addCheck["never_flat_for_H_positive",
-  rftZeroQ[RicMixed[[1, 1]] + 6 H^2] && Simplify[-6 H^2 < 0, H > 0],
-  "R^(x0)_(x0) = -6 H^2 < 0 for every H > 0 and all functions a4, b4: the metric is curved for every admissible H, whatever a4 and b4 are"];
+  rftZeroQ[RicMixed[[1, 1]] + 7 H^2] && Simplify[-7 H^2 < 0, H > 0],
+  "R^(x0)_(x0) = -7 H^2 < 0 for every H > 0 and all functions a4, b4: the metric is curved for every admissible H, whatever a4 and b4 are"];
 
 (* ------------------------------------------------------------------ 2. spin connection *)
 section["spin connection"];
@@ -239,23 +238,25 @@ addCheck["omega_antisymmetric",
 omNZ = DeleteCases[Flatten[Table[{mu, a, b, rftSimp[omLow[[mu, a, b]]]}, {mu, 8}, {a, 8}, {b, a + 1, 8}], 2], {_, _, _, 0}];
 (* {mu, a, b, omega_mu,ab} with a < b in Wolfram positions (x0 = 1, x4 = 5): omega_xi,(x0)(xi) = -omega_xi,(xi)(x0) *)
 omExpected = Join[
-  Flatten[Table[{{i, i, 5, E^a4[x4] Sin[rftZ]^(1/6) a4p}, {i, 1, i, -H E^a4[x4] Sin[rftZ]^(1/6)}}, {i, 2, 4}], 1],
-  Flatten[Table[{{t, 5, t, -E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6) (a4p - bu/2)}, {t, 1, t, H E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6)}}, {t, 6, 8}], 1]];
+  Flatten[Table[{{i, i, 5, E^a4[x4] a4p}, {i, 1, i, -H E^a4[x4] Sin[rftZ]^(1/6)}}, {i, 2, 4}], 1],
+  {{5, 1, 5, H Sin[rftZ]^(1/6)}},
+  Flatten[Table[{{t, 5, t, -E^(-a4[x4]) Sqrt[b4[x4]] (a4p - bu/2)}, {t, 1, t, H E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6)}}, {t, 6, 8}], 1]];
 addCheck["omega_components",
-  Length[omNZ] == 12 && Sort[omNZ[[All, 1 ;; 3]]] == Sort[omExpected[[All, 1 ;; 3]]] &&
+  Length[omNZ] == 13 && Sort[omNZ[[All, 1 ;; 3]]] == Sort[omExpected[[All, 1 ;; 3]]] &&
   And @@ Table[rftZeroQ[omLow[[Sequence @@ e[[1 ;; 3]]]] - e[[4]]], {e, omExpected}],
-  "exactly 12 independent nonzero omega_mu,ab (a < b in the order x0..x7): for i = x1, x2, x3: omega_i,(i)(x4) = a4' E^a4 Sin[z]^(1/6), omega_i,(x0)(i) = -H E^a4 Sin[z]^(1/6) (i.e. omega_i,(i)(x0) = H E^a4 Sin[z]^(1/6)); " <>
-  "for t = x5, x6, x7: omega_t,(x4)(t) = -(a4' - b4'/(2 b4)) E^-a4 b4^(1/2) Sin[z]^(1/6), omega_t,(x0)(t) = H E^-a4 b4^(1/2) Sin[z]^(1/6) (i.e. omega_t,(t)(x0) = -H E^-a4 b4^(1/2) Sin[z]^(1/6)); omega_x0 = omega_x4 = 0. " <>
+  "exactly 13 independent nonzero omega_mu,ab (a < b in the order x0..x7): for i = x1, x2, x3: omega_i,(i)(x4) = a4' E^a4, omega_i,(x0)(i) = -H E^a4 Sin[z]^(1/6) (i.e. omega_i,(i)(x0) = H E^a4 Sin[z]^(1/6)); " <>
+  "for the time x4: omega_x4,(x0)(x4) = H Sin[z]^(1/6) (new in the warped metric: the lapse Sin[z]^(1/6) depends on x0); " <>
+  "for t = x5, x6, x7: omega_t,(x4)(t) = -(a4' - b4'/(2 b4)) E^-a4 b4^(1/2), omega_t,(x0)(t) = H E^-a4 b4^(1/2) Sin[z]^(1/6) (i.e. omega_t,(t)(x0) = -H E^-a4 b4^(1/2) Sin[z]^(1/6)); omega_x0 = 0. " <>
   "Every component is a4', a4' - b4'/(2 b4) = -(d/dx4) ln(E^-a4 b4^(1/2)) or H times a nonvanishing factor"];
 addFormula["omega_nonzero", "nonzero omega_mu,ab = eta_ac omega_mu^c_b as {mu, a, b, value} with a < b (omega_mu,ba = -omega_mu,ab); Wolfram positions mu, a, b = 1..8 = x0..x7", omExpected];
 addCheck["Omega_components",
   rftZeroQ[Om - Table[Sum[If[e[[1]] == mu, e[[4]] (1/2) g[[e[[2]]]] . g[[e[[3]]]], 0], {e, omExpected}], {mu, 8}]] &&
-  rftZeroQ[Om[[5]]] && rftZeroQ[Om[[1]]],
-  "Omega_mu = (1/2) omega_mu,ab S^ab = sum_(a<b) omega_mu,ab (1/2) gamma^a gamma^b: Omega_xi = (1/2) E^a4 Sin[z]^(1/6) (a4' gamma^(xi) gamma^(x4) + H gamma^(xi) gamma^(x0)) for i = 1, 2, 3; " <>
-  "Omega_xt = -(1/2) E^-a4 b4^(1/2) Sin[z]^(1/6) ((a4' - b4'/(2 b4)) gamma^(x4) gamma^(xt) + H gamma^(xt) gamma^(x0)) for t = 5, 6, 7; Omega_x0 = Omega_x4 = 0"];
+  rftZeroQ[Om[[1]]] && rftZeroQ[Om[[5]] - (1/2) H wf g[[1]] . g[[5]]],
+  "Omega_mu = (1/2) omega_mu,ab S^ab = sum_(a<b) omega_mu,ab (1/2) gamma^a gamma^b: Omega_xi = (1/2) E^a4 (a4' gamma^(xi) gamma^(x4) + H Sin[z]^(1/6) gamma^(xi) gamma^(x0)) for i = 1, 2, 3; " <>
+  "Omega_x4 = (1/2) H Sin[z]^(1/6) gamma^(x0) gamma^(x4); Omega_xt = -(1/2) E^-a4 b4^(1/2) ((a4' - b4'/(2 b4)) gamma^(x4) gamma^(xt) + H Sin[z]^(1/6) gamma^(xt) gamma^(x0)) for t = 5, 6, 7; Omega_x0 = 0"];
 addFormulaText["Omega_components",
   "the spinor connection Omega_mu = (1/2) omega_mu,ab S^ab",
-  "Omega_xi = (1/2) E^a4[x4] Sin[6 H x0]^(1/6) (a4'[x4] g[xi].g[x4] + H g[xi].g[x0]) (i = 1, 2, 3); Omega_xt = -(1/2) E^-a4[x4] b4[x4]^(1/2) Sin[6 H x0]^(1/6) ((a4'[x4] - b4'[x4]/(2 b4[x4])) g[x4].g[xt] + H g[xt].g[x0]) (t = 5, 6, 7); Omega_x0 = Omega_x4 = 0; g[xa] = gamma^(xa) (frame gammas of the fixture)"];
+  "Omega_xi = (1/2) E^a4[x4] (a4'[x4] g[xi].g[x4] + H Sin[6 H x0]^(1/6) g[xi].g[x0]) (i = 1, 2, 3); Omega_x4 = (1/2) H Sin[6 H x0]^(1/6) g[x0].g[x4]; Omega_xt = -(1/2) E^-a4[x4] b4[x4]^(1/2) ((a4'[x4] - b4'[x4]/(2 b4[x4])) g[x4].g[xt] + H Sin[6 H x0]^(1/6) g[xt].g[x0]) (t = 5, 6, 7); Omega_x0 = 0; g[xa] = gamma^(xa) (frame gammas of the fixture)"];
 covConst = Table[D[gup[[n]], X[[mu]]] + Sum[Gm[[n, mu, l]] gup[[l]], {l, 8}] + Om[[mu]] . gup[[n]] - gup[[n]] . Om[[mu]], {mu, 8}, {n, 8}];
 addCheck["gamma_covariantly_constant",
   rftZeroQ[covConst],
@@ -277,22 +278,22 @@ perDir = Table[gup[[mu]] . Om[[mu]], {mu, 8}];
 coefDir = Table[Simplify[Tr[g[[a]] . perDir[[mu]]]/(16 eta[[a, a]])], {mu, 8}, {a, 8}];
 addCheck["gammaOmega_total",
   rftZeroQ[gO - gOm],
-  "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) exactly (independent of a4 and x0)"];
+  "gamma^mu Omega_mu = (7/2) H gamma^(x0) + (3/4)(b4'/b4) Sin[z]^(-1/6) gamma^(x4) exactly (independent of a4)"];
 addCheck["gammaOmega_per_direction",
-  And @@ Table[rftZeroQ[perDir[[mu]] - (a4p/2 g[[5]] + H/2 g[[1]])], {mu, 2, 4}] &&
-  And @@ Table[rftZeroQ[perDir[[mu]] - ((-a4p/2 + bu/4) g[[5]] + H/2 g[[1]])], {mu, 6, 8}] &&
-  rftZeroQ[perDir[[5]]] && rftZeroQ[perDir[[1]]],
-  "per direction (no sum): gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) gamma^(x0) for each inflating 3-space direction i = 1, 2, 3, and " <>
-  "gamma^(xt) Omega_xt = (-a4'/2 + b4'/(4 b4)) gamma^(x4) + (H/2) gamma^(x0) for each deflating extra time t = 5, 6, 7; gamma^(x0) Omega_x0 = gamma^(x4) Omega_x4 = 0. " <>
-  "The a4' terms of the time direction cancel between the 3 inflating and the 3 deflating directions (+3 a4'/2 - 3 a4'/2), the b4' terms of the 3 extra times add to (3/4) b4'/b4; the hidden-direction terms of all six directions add: 6 x H/2 = 3 H"];
+  And @@ Table[rftZeroQ[perDir[[mu]] - (a4p/(2 wf) g[[5]] + H/2 g[[1]])], {mu, 2, 4}] &&
+  And @@ Table[rftZeroQ[perDir[[mu]] - ((-a4p/2 + bu/4)/wf g[[5]] + H/2 g[[1]])], {mu, 6, 8}] &&
+  rftZeroQ[perDir[[5]] - H/2 g[[1]]] && rftZeroQ[perDir[[1]]],
+  "per direction (no sum): gamma^(xi) Omega_xi = (a4'/2) Sin[z]^(-1/6) gamma^(x4) + (H/2) gamma^(x0) for each inflating 3-space direction i = 1, 2, 3, " <>
+  "gamma^(x4) Omega_x4 = (H/2) gamma^(x0) for the warped time, and gamma^(xt) Omega_xt = (-a4'/2 + b4'/(4 b4)) Sin[z]^(-1/6) gamma^(x4) + (H/2) gamma^(x0) for each deflating extra time t = 5, 6, 7; gamma^(x0) Omega_x0 = 0. " <>
+  "The a4' terms of the time direction cancel between the 3 inflating and the 3 deflating directions (+3 a4'/2 - 3 a4'/2), the b4' terms of the 3 extra times add to (3/4) b4'/b4; the hidden-direction terms of all seven warped directions add: 7 x H/2 = 7 H/2"];
 addFormula["gammaOmega_per_direction", "the matrices gamma^mu Omega_mu (no sum) for mu = x0..x7 as coefficients of gamma^(x4) and gamma^(x0): {mu (Wolfram position 1..8 = x0..x7), coefficient of gamma^(x4), coefficient of gamma^(x0)}",
   Table[{mu, coefDir[[mu, 5]], coefDir[[mu, 1]]}, {mu, 8}]];
-addFormula["gammaOmega_total", "gamma^mu Omega_mu (sum over mu); gamma[xa] = gamma^(xa)", 3 H gamma["x0"] + (3/4) (Derivative[1][b4][x4]/b4[x4]) gamma["x4"]];
+addFormula["gammaOmega_total", "gamma^mu Omega_mu (sum over mu); gamma[xa] = gamma^(xa)", (7/2) H gamma["x0"] + (3/4) (Derivative[1][b4][x4]/b4[x4]) Sin[6 H x0]^(-1/6) gamma["x4"]];
 addCheck["gammaOmega_divergence_form",
   rftZeroQ[gO - 1/(2 sg) Sum[D[sg gup[[mu]], X[[mu]]], {mu, 8}]] &&
   rftZeroQ[Table[gup[[mu]] . Om[[mu]] + Om[[mu]] . gup[[mu]], {mu, 8}]],
   "{gamma^mu, Omega_mu} = 0 for each mu separately (Omega_mu contains only S^(mu b)), hence gamma^mu Omega_mu = (1/(2 sqrt g)) d_mu (sqrt g gamma^mu); " <>
-  "for this metric (1/(2 sqrt g)) d_x0(sqrt g e_0^x0) gamma^(x0) = (1/(2 Cos z)) d_x0 (Sin z) gamma^(x0) = 3 H gamma^(x0), and (1/(2 sqrt g)) d_x4 (sqrt g) gamma^(x4) = (3/4)(b4'/b4) gamma^(x4) with sqrt g = b4^(3/2) Cos z"];
+  "for this metric (1/(2 sqrt g)) d_x0(sqrt g e_0^x0) gamma^(x0) = (1/(2 Cos z Sin^(1/6) z)) d_x0 (Sin^(7/6) z) gamma^(x0) = (7/2) H gamma^(x0), and (1/(2 sqrt g)) d_x4 (sqrt g/f4) gamma^(x4) = (3/4)(b4'/b4) Sin^(-1/6) z gamma^(x4) with sqrt g = b4^(3/2) Cos z Sin^(1/6) z"];
 
 (* ------------------------------------------------------------------ 3. fields and Lagrangian *)
 section["Lagrangian, both statistics"];
@@ -326,8 +327,8 @@ Do[With[{P = fld[st]["Psi"], Pc = fld[st]["Psic"]},
       statName[st] <> "); the canonical spin connection reaches the field equations through d_mu(sqrt g gamma^mu) = 2 sqrt g gamma^mu Omega_mu (variation of the derivative terms), " <>
       "and the unsymmetrised form contains it explicitly"]]], {st, stats}];
 addFormulaText["Lagrangian",
-  "Lagrangian density for both statistics (SPEC section 3), Psibar = Psi^dagger C, S = Psibar Psi, sqrt g = b4^(3/2) Cos[z]",
-  "L = b4[x4]^(3/2) Cos[z] [ (1/2) sum_mu (Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m S - U(S) ] = b4[x4]^(3/2) Cos[z] [ (1/2) sum_a (1/f_a) (Psibar gamma^(a) d_a Psi - d_a Psibar gamma^(a) Psi) - m S - U(S) ]; f_0 = Cot[z], f_(1,2,3) = E^a4 Sin[z]^(1/6), f_4 = 1, f_(5,6,7) = E^-a4 b4^(1/2) Sin[z]^(1/6)"];
+  "Lagrangian density for both statistics (SPEC section 3), Psibar = Psi^dagger C, S = Psibar Psi, sqrt g = b4^(3/2) Cos[z] Sin[z]^(1/6)",
+  "L = b4[x4]^(3/2) Cos[z] Sin[z]^(1/6) [ (1/2) sum_mu (Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m S - U(S) ] = b4[x4]^(3/2) Cos[z] Sin[z]^(1/6) [ (1/2) sum_a (1/f_a) (Psibar gamma^(a) d_a Psi - d_a Psibar gamma^(a) Psi) - m S - U(S) ]; f_0 = Cot[z], f_(1,2,3) = E^a4 Sin[z]^(1/6), f_4 = Sin[z]^(1/6), f_(5,6,7) = E^-a4 b4^(1/2) Sin[z]^(1/6)"];
 
 (* ------------------------------------------------------------------ 4. Euler-Lagrange equations *)
 section["Euler-Lagrange equations"];
@@ -358,19 +359,19 @@ Do[With[{P = fld[st]["Psi"]},
     lhs = rftDirac[st, rftGeo0, P];
     rhs = vAdd[st, Fold[vAdd[st, #1, #2] &, Table[matVec[st, g[[a]]/f[[a]], vD[st, P, X[[a]]]], {a, 8}]], matVec[st, gOm, P]];
     addCheck["Dirac_operator_explicit_" <> st, And @@ Table[sZeroQ[st, sAdd[st, {lhs[[A]], sScal[st, -1, rhs[[A]]]}]], {A, 16}],
-      "gamma^mu D_mu Psi = Tan[z] gamma^(x0) d0 Psi + E^-a4 Sin[z]^(-1/6) (gamma^(x1) d1 + gamma^(x2) d2 + gamma^(x3) d3) Psi + gamma^(x4) d4 Psi + E^a4 b4^(-1/2) Sin[z]^(-1/6) (gamma^(x5) d5 + gamma^(x6) d6 + gamma^(x7) d7) Psi " <>
-      "+ 3 H gamma^(x0) Psi + (3/4)(b4'/b4) gamma^(x4) Psi, for " <> statName[st]]]], {st, stats}];
+      "gamma^mu D_mu Psi = Tan[z] gamma^(x0) d0 Psi + E^-a4 Sin[z]^(-1/6) (gamma^(x1) d1 + gamma^(x2) d2 + gamma^(x3) d3) Psi + Sin[z]^(-1/6) gamma^(x4) d4 Psi + E^a4 b4^(-1/2) Sin[z]^(-1/6) (gamma^(x5) d5 + gamma^(x6) d6 + gamma^(x7) d7) Psi " <>
+      "+ (7/2) H gamma^(x0) Psi + (3/4)(b4'/b4) Sin[z]^(-1/6) gamma^(x4) Psi, for " <> statName[st]]]], {st, stats}];
 addFormulaText["field_equation",
   "the Euler-Lagrange equation (both statistics), z = 6 H x0, V = m + U'(S)",
-  "Tan[z] g[x0] d0 Psi + E^-a4[x4] Sin[z]^(-1/6) (g[x1] d1 + g[x2] d2 + g[x3] d3) Psi + g[x4] d4 Psi + E^a4[x4] b4[x4]^(-1/2) Sin[z]^(-1/6) (g[x5] d5 + g[x6] d6 + g[x7] d7) Psi + 3 H g[x0] Psi + (3/4) (b4'[x4]/b4[x4]) g[x4] Psi = (m + U'(S)) Psi"];
+  "Tan[z] g[x0] d0 Psi + E^-a4[x4] Sin[z]^(-1/6) (g[x1] d1 + g[x2] d2 + g[x3] d3) Psi + Sin[z]^(-1/6) g[x4] d4 Psi + E^a4[x4] b4[x4]^(-1/2) Sin[z]^(-1/6) (g[x5] d5 + g[x6] d6 + g[x7] d7) Psi + (7/2) H g[x0] Psi + (3/4) (b4'[x4]/b4[x4]) Sin[z]^(-1/6) g[x4] Psi = (m + U'(S)) Psi"];
 addFormulaText["adjoint_equation",
   "the adjoint equation (both statistics); for this metric D_mu Psibar = d_mu Psibar - Psibar Omega_mu",
-  "Tan[z] d0 Psibar g[x0] + E^-a4 Sin[z]^(-1/6) (d1 Psibar g[x1] + d2 Psibar g[x2] + d3 Psibar g[x3]) + d4 Psibar g[x4] + E^a4 b4^(-1/2) Sin[z]^(-1/6) (d5 Psibar g[x5] + d6 Psibar g[x6] + d7 Psibar g[x7]) + 3 H Psibar g[x0] + (3/4) (b4'/b4) Psibar g[x4] = -(m + U'(S)) Psibar"];
+  "Tan[z] d0 Psibar g[x0] + E^-a4 Sin[z]^(-1/6) (d1 Psibar g[x1] + d2 Psibar g[x2] + d3 Psibar g[x3]) + Sin[z]^(-1/6) d4 Psibar g[x4] + E^a4 b4^(-1/2) Sin[z]^(-1/6) (d5 Psibar g[x5] + d6 Psibar g[x6] + d7 Psibar g[x7]) + (7/2) H Psibar g[x0] + (3/4) (b4'/b4) Sin[z]^(-1/6) Psibar g[x4] = -(m + U'(S)) Psibar"];
 (* 16 explicit components with inert symbols *)
 compStr = Table[Module[{terms = {}},
    Do[If[g[[a, A, B]] =!= 0, AppendTo[terms, g[[a, A, B]]/f[[a]] dd[rftCoordNames[[a]], Psi[B]]]], {a, 8}, {B, 16}];
-   Do[If[g[[1, A, B]] =!= 0, AppendTo[terms, 3 H g[[1, A, B]] Psi[B]]], {B, 16}];
-   Do[If[g[[5, A, B]] =!= 0, AppendTo[terms, (3/4) bu g[[5, A, B]] Psi[B]]], {B, 16}];
+   Do[If[g[[1, A, B]] =!= 0, AppendTo[terms, (7/2) H g[[1, A, B]] Psi[B]]], {B, 16}];
+   Do[If[g[[5, A, B]] =!= 0, AppendTo[terms, (3/4) bu wf^-1 g[[5, A, B]] Psi[B]]], {B, 16}];
    wl[Total[terms] == V Psi[A]]], {A, 16}];
 AppendTo[formulas, <|"key" -> "field_equation_components", "description" -> "the 16 component equations (gamma^mu D_mu Psi)_A = V Psi_A, A = 1..16 (rows of the fixture gammas), V = m + U'(S); dd[xa, Psi[B]] = d Psi_B / d xa", "wl" -> compStr|>];
 blk[a_] := {g[[a]][[1 ;; 8, 9 ;; 16]], g[[a]][[9 ;; 16, 1 ;; 8]]};
@@ -378,22 +379,22 @@ addCheck["block_form",
   And @@ Table[g[[a]][[1 ;; 8, 1 ;; 8]] == ConstantArray[0, {8, 8}] && g[[a]][[9 ;; 16, 9 ;; 16]] == ConstantArray[0, {8, 8}], {a, 8}] &&
   rftChir == ArrayFlatten[{{-IdentityMatrix[8], 0}, {0, IdentityMatrix[8]}}],
   "every gamma^a = {{0, tb_a}, {t_a, 0}} is block off-diagonal in the chiral split Psi = (psi_-, psi_+) (Gamma = diag(-1, 1)): the field equation is the pair " <>
-  "sum_a (1/f_a) tb_a d_a psi_+ + 3 H tb_0 psi_+ + (3/4)(b4'/b4) tb_4 psi_+ = V psi_- and sum_a (1/f_a) t_a d_a psi_- + 3 H t_0 psi_- + (3/4)(b4'/b4) t_4 psi_- = V psi_+ (blocks in field-theory.json)"];
+  "sum_a (1/f_a) tb_a d_a psi_+ + (7/2) H tb_0 psi_+ + (3/4)(b4'/b4) Sin[z]^(-1/6) tb_4 psi_+ = V psi_- and sum_a (1/f_a) t_a d_a psi_- + (7/2) H t_0 psi_- + (3/4)(b4'/b4) Sin[z]^(-1/6) t_4 psi_- = V psi_+ (blocks in field-theory.json)"];
 AppendTo[formulas, <|"key" -> "field_equation_blocks",
-  "description" -> "block form: Psi = (psi_minus (rows 1..8, Gamma = -1), psi_plus (rows 9..16, Gamma = +1)); gamma^(xa) = {{0, tb[xa]}, {t[xa], 0}}; equations sum_a (1/f_a) tb[xa] d_a psi_plus + 3 H tb[x0] psi_plus + (3/4)(b4'/b4) tb[x4] psi_plus = V psi_minus and sum_a (1/f_a) t[xa] d_a psi_minus + 3 H t[x0] psi_minus + (3/4)(b4'/b4) t[x4] psi_minus = V psi_plus; listed {xa, tb, t}",
+  "description" -> "block form: Psi = (psi_minus (rows 1..8, Gamma = -1), psi_plus (rows 9..16, Gamma = +1)); gamma^(xa) = {{0, tb[xa]}, {t[xa], 0}}; equations sum_a (1/f_a) tb[xa] d_a psi_plus + (7/2) H tb[x0] psi_plus + (3/4)(b4'/b4) Sin[z]^(-1/6) tb[x4] psi_plus = V psi_minus and sum_a (1/f_a) t[xa] d_a psi_minus + (7/2) H t[x0] psi_minus + (3/4)(b4'/b4) Sin[z]^(-1/6) t[x4] psi_minus = V psi_plus; listed {xa, tb, t}",
   "wl" -> Table[wl[{rftCoordNames[[a]], blk[a][[1]], blk[a][[2]]}], {a, 8}]|>];
 (* evolution form *)
 Do[With[{P = fld[st]["Psi"]},
   Module[{S = Ldata[st]["S"], rest, d4},
-    rest = vAdd[st, Fold[vAdd[st, #1, #2] &, Table[If[a == 5, Table[sZero[st], {16}], matVec[st, g[[a]]/f[[a]], vD[st, P, X[[a]]]]], {a, 8}]], matVec[st, 3 H g[[1]], P]];
-    d4 = vAdd[st, matVec[st, -g[[5]], vAdd[st, rftVPsi[st, S, P], vScal[st, -1, rest]]], vScal[st, -(3/4) bu, P]];
+    rest = vAdd[st, Fold[vAdd[st, #1, #2] &, Table[If[a == 5, Table[sZero[st], {16}], matVec[st, g[[a]]/f[[a]], vD[st, P, X[[a]]]]], {a, 8}]], matVec[st, (7/2) H g[[1]], P]];
+    d4 = vAdd[st, matVec[st, -wf g[[5]], vAdd[st, rftVPsi[st, S, P], vScal[st, -1, rest]]], vScal[st, -(3/4) bu, P]];
     addCheck["evolution_form_" <> st,
-      g[[5]] . g[[5]] == -id16 &&
-      And @@ Table[sZeroQ[st, sAdd[st, {matVec[st, g[[5]], vAdd[st, vD[st, P, x4], vScal[st, -1, d4]]][[A]], sScal[st, -1, Ldata[st]["E"][[A]]]}]], {A, 16}],
-      "(gamma^(x4))^2 = -1, so the field equation is equivalent to the first-order evolution equation d4 Psi = -gamma^(x4) [(m + U'(S)) Psi - sum_(a != x4) (1/f_a) gamma^(a) d_a Psi - 3 H gamma^(x0) Psi] - (3/4)(b4'/b4) Psi " <>
-      "(exact: gamma^(x4) (d4 Psi - RHS) = E; the last term is the factor b4^(-3/4) of the solutions): the slices x4 = const are non-characteristic (g^44 = -1 != 0), " <> statName[st]]]], {st, stats}];
+      g[[5]] . g[[5]] == -id16 && rftZeroQ[f[[5]] - wf] &&
+      And @@ Table[sZeroQ[st, sAdd[st, {matVec[st, g[[5]]/wf, vAdd[st, vD[st, P, x4], vScal[st, -1, d4]]][[A]], sScal[st, -1, Ldata[st]["E"][[A]]]}]], {A, 16}],
+      "(gamma^(x4))^2 = -1, so the field equation is equivalent to the first-order evolution equation d4 Psi = -Sin[z]^(1/6) gamma^(x4) [(m + U'(S)) Psi - sum_(a != x4) (1/f_a) gamma^(a) d_a Psi - (7/2) H gamma^(x0) Psi] - (3/4)(b4'/b4) Psi " <>
+      "(exact: Sin[z]^(-1/6) gamma^(x4) (d4 Psi - RHS) = E; the lapse Sin[z]^(1/6) of the warped time multiplies the bracket; the last term is the factor b4^(-3/4) of the solutions): the slices x4 = const are non-characteristic (g^44 = -Sin[z]^(-1/3) != 0), " <> statName[st]]]], {st, stats}];
 addFormulaText["evolution_form", "first-order evolution form (both statistics)",
-  "d4 Psi = -g[x4] ((m + U'(S)) Psi - sum_(a != x4) (1/f_a) g[xa] d_a Psi - 3 H g[x0] Psi) - (3/4) (b4'[x4]/b4[x4]) Psi"];
+  "d4 Psi = -Sin[z]^(1/6) g[x4] ((m + U'(S)) Psi - sum_(a != x4) (1/f_a) g[xa] d_a Psi - (7/2) H g[x0] Psi) - (3/4) (b4'[x4]/b4[x4]) Psi"];
 
 (* ------------------------------------------------------------------ 5. non-triviality *)
 section["non-triviality"];
@@ -404,22 +405,23 @@ Do[With[{P = fld[st]["Psi"], Pc = fld[st]["Psic"]},
     diff = vAdd[st, Ldata[st]["E"], vScal[st, -1, Enoom], vScal[st, -1, matVec[st, gOm, P]]];
     addCheck["nontriviality_" <> If[st === "G", "1_dirac16complex", "2_dirac16complex00"],
       (And @@ Table[sZeroQ[st, diff[[A]]], {A, 16}]) && !(And @@ Table[sZeroQ[st, matVec[st, gOm, P][[A]]], {A, 16}]) &&
-      Expand[gOm . gOm - (9 H^2 - (9/16) bu^2) id16] == z16 &&
-      !rftZeroQ[1/f[[2]] - 1] && !rftZeroQ[1/f[[6]] - 1] && !rftZeroQ[1/f[[1]] - 1],
+      rftZeroQ[gOm . gOm - ((49/4) H^2 - (9/16) bu^2 wW) id16] &&
+      !rftZeroQ[1/f[[2]] - 1] && !rftZeroQ[1/f[[6]] - 1] && !rftZeroQ[1/f[[1]] - 1] && !rftZeroQ[1/f[[5]] - 1],
       "NON-TRIVIALITY [" <> If[st === "G", "1", "2"] <> "] for " <> statName[st] <> ": the spin-connection part of the Euler-Lagrange equation is exactly " <>
-      "(gamma^mu D_mu - gamma^mu d_mu) Psi = gamma^mu Omega_mu Psi = G Psi with G = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4), nonzero for every H > 0 and all functions a4, b4 (its gamma^(x0) coefficient is 3 H); " <>
-      "G^2 = (9 H^2 - (9/16)(b4'/b4)^2) I16, so G Psi != 0 for every Psi != 0 wherever (b4'/b4)^2 != 16 H^2 (on the background history b4'/b4 = (4/3) H of SPEC section 1: G^2 = 8 H^2 I16); " <>
-      "in addition the vielbein enters every derivative term, gamma^mu d_mu = Tan[z] gamma^(x0) d0 + E^-a4 Sin[z]^(-1/6) gamma^(xi) d_i + gamma^(x4) d4 + E^a4 b4^(-1/2) Sin[z]^(-1/6) gamma^(xt) d_t " <>
+      "(gamma^mu D_mu - gamma^mu d_mu) Psi = gamma^mu Omega_mu Psi = G Psi with G = (7/2) H gamma^(x0) + (3/4)(b4'/b4) Sin[z]^(-1/6) gamma^(x4), nonzero for every H > 0 and all functions a4, b4 (its gamma^(x0) coefficient is 7 H/2); " <>
+      "G^2 = ((49/4) H^2 - (9/16)(b4'/b4)^2 Sin[z]^(-1/3)) I16, so G Psi != 0 for every Psi != 0 wherever (b4'/b4)^2 Sin[z]^(-1/3) != (196/9) H^2; " <>
+      "in addition the vielbein enters every derivative term, gamma^mu d_mu = Tan[z] gamma^(x0) d0 + E^-a4 Sin[z]^(-1/6) gamma^(xi) d_i + Sin[z]^(-1/6) gamma^(x4) d4 + E^a4 b4^(-1/2) Sin[z]^(-1/6) gamma^(xt) d_t " <>
       "(none of the factors is identically 1). The a4'-terms of the spin connection cancel between the 3 inflating and the 3 deflating directions, the b4'-terms of the extra times remain (check gammaOmega_per_direction). " <>
       "All gravitational terms vanish together only if Omega_mu = 0 for all mu, " <>
-      "which by spin_curvature_equals_Riemann requires a flat metric; R^(x0)_(x0) = -6 H^2 shows the metric is never flat for H > 0 (H = 0 itself is a degenerate limit, check degenerate_at_H_0)"]]], {st, stats}];
+      "which by spin_curvature_equals_Riemann requires a flat metric; R^(x0)_(x0) = -7 H^2 shows the metric is never flat for H > 0 (H = 0 itself is a degenerate limit, check degenerate_at_H_0)"]]], {st, stats}];
 addCheck["Omega_vanishes_iff_a4prime_b4prime_and_H_vanish",
   And @@ Table[Module[{v = e[[4]], c, fac},
      c = Which[!FreeQ[v, Derivative[1][b4]], a4p - bu/2, !FreeQ[v, a4p], a4p, True, H];
      fac = Cancel[Together[v/c]];
      FreeQ[fac, a4p] && FreeQ[fac, Derivative[1][b4]] && FreeQ[fac /. rftZ -> zz, H] &&
-       (rftZeroQ[fac^12 - E^(12 a4[x4]) Sin[rftZ]^2] || rftZeroQ[fac^12 - E^(-12 a4[x4]) b4[x4]^6 Sin[rftZ]^2])], {e, omExpected}],
-  "each of the 12 nonzero omega_mu,ab is a4', a4' - b4'/(2 b4) or H times a factor +-E^(+-a4) Sin[z]^(1/6) resp. +-E^-a4 b4^(1/2) Sin[z]^(1/6) that never vanishes on 0 < z < Pi/2: " <>
+       (rftZeroQ[fac^12 - E^(12 a4[x4]) Sin[rftZ]^2] || rftZeroQ[fac^12 - E^(-12 a4[x4]) b4[x4]^6 Sin[rftZ]^2] ||
+        rftZeroQ[fac^12 - E^(12 a4[x4])] || rftZeroQ[fac^12 - E^(-12 a4[x4]) b4[x4]^6] || rftZeroQ[fac^12 - Sin[rftZ]^2])], {e, omExpected}],
+  "each of the 13 nonzero omega_mu,ab is a4', a4' - b4'/(2 b4) or H times a factor +-E^(+-a4), +-E^-a4 b4^(1/2), +-E^(+-a4) Sin[z]^(1/6), +-E^-a4 b4^(1/2) Sin[z]^(1/6) or Sin[z]^(1/6) that never vanishes on 0 < z < Pi/2: " <>
   "the x4-part of Omega_xi (3-space) vanishes iff a4 is constant, the x4-part of Omega_xt (extra times) iff E^-a4 b4^(1/2) is constant, and the H-part iff H = 0; " <>
   "so all x4-parts vanish iff a4 and b4 are both constant, and for H > 0 the spin connection never vanishes"];
 
@@ -434,11 +436,11 @@ Do[With[{P = fld[st]["Psi"], Pc = fld[st]["Psic"]},
       "J^mu = -i Psibar gamma^mu Psi is real (Hermitian) for " <> statName[st] <> " (-i C gamma^a is Hermitian)"];
     addCheck["current_conservation_identity_" <> st, sZeroQ[st, sAdd[st, {divJ, sScal[st, -1, rhs]}]],
       "d_mu (sqrt g J^mu) = -i sqrt g (Ebar Psi + Psibar E) exactly (off shell), so nabla_mu J^mu = 0 on shell, for " <> statName[st]];
-    addCheck["charge_density_is_Krein_form_" <> st, sZeroQ[st, sAdd[st, {J[[5]], sScal[st, -1, sDot[st, Pc, matVec[st, Bm, P]]]}]],
-      "J^(x4) = Psi^dagger B Psi with B = -i C gamma^(x4) (Hermitian, signature (8,8)): the charge Q = integral of b4^(3/2) Cos[z] Psi^dagger B Psi d^7x over a slice x4 = const is an indefinite form, " <> statName[st] <>
+    addCheck["charge_density_is_Krein_form_" <> st, sZeroQ[st, sAdd[st, {J[[5]], sScal[st, -1/wf, sDot[st, Pc, matVec[st, Bm, P]]]}]],
+      "J^(x4) = Sin[z]^(-1/6) Psi^dagger B Psi with B = -i C gamma^(x4) (Hermitian, signature (8,8)): the charge Q = integral of sqrt g J^x4 = b4^(3/2) Cos[z] Psi^dagger B Psi d^7x over a slice x4 = const (the lapse cancels: sqrt g/f4 = b4^(3/2) Cos[z]) is an indefinite form, " <> statName[st] <>
       " (only the local law d_mu (b4^(3/2) Cos[z] J^mu) = 0 on shell is proved; Q is constant in x4 only if no charge flows through the boundary of the slice, which at the brane z = Pi/2 is an ASSUMED no-flux condition that this record does not impose)"]]], {st, stats}];
 addFormulaText["current", "conserved current and its identity (both statistics)",
-  "J^mu = -i Psibar gamma^mu Psi; d_mu (b4[x4]^(3/2) Cos[z] J^mu) = -i b4[x4]^(3/2) Cos[z] (Ebar Psi + Psibar E); J^x4 = Psi^dagger B Psi; Q = Integral b4[x4]^(3/2) Cos[z] Psi^dagger B Psi dx0 dx1 dx2 dx3 dx5 dx6 dx7"];
+  "J^mu = -i Psibar gamma^mu Psi; d_mu (b4[x4]^(3/2) Cos[z] Sin[z]^(1/6) J^mu) = -i b4[x4]^(3/2) Cos[z] Sin[z]^(1/6) (Ebar Psi + Psibar E); J^x4 = Sin[z]^(-1/6) Psi^dagger B Psi; Q = Integral b4[x4]^(3/2) Cos[z] Psi^dagger B Psi dx0 dx1 dx2 dx3 dx5 dx6 dx7"];
 (* Lichnerowicz *)
 Do[With[{P = fld[st]["Psi"]},
   Module[{Dop, DD, box, lhs, res},
@@ -449,10 +451,10 @@ Do[With[{P = fld[st]["Psi"]},
     lhs = Dop[Dop[P]];
     res = vAdd[st, lhs, vScal[st, -1, box], vScal[st, 1/4 RsExpected, P]];
     addCheck["Lichnerowicz_identity_" <> st, And @@ Table[sZeroQ[st, res[[A]]], {A, 16}],
-      "(gamma^mu D_mu)^2 Psi = g^mu,nu (D_mu D_nu Psi - Gamma^l_mu,nu D_l Psi) - (R/4) Psi with R = 6 (a4'^2 - 7 H^2) - 3 a4' b4'/b4 + 3 b4''/b4, for a general " <> statName[st] <>
+      "(gamma^mu D_mu)^2 Psi = g^mu,nu (D_mu D_nu Psi - Gamma^l_mu,nu D_l Psi) - (R/4) Psi with R = -56 H^2 + Sin[z]^(-1/3) (6 a4'^2 - 3 a4' b4'/b4 + 3 b4''/b4), for a general " <> statName[st] <>
       " (exact): the second-order consequence of the field equations is consistent with the curvature (integrability)"]]], {st, stats}];
 addFormulaText["Lichnerowicz", "second-order identity (both statistics)",
-  "(gamma^mu D_mu)^2 Psi = g^mu,nu (D_mu D_nu - Gamma^l_mu,nu D_l) Psi - (R/4) Psi, R = 6 (a4'[x4]^2 - 7 H^2) - 3 a4'[x4] b4'[x4]/b4[x4] + 3 b4''[x4]/b4[x4]"];
+  "(gamma^mu D_mu)^2 Psi = g^mu,nu (D_mu D_nu - Gamma^l_mu,nu D_l) Psi - (R/4) Psi, R = -56 H^2 + Sin[z]^(-1/3) (6 a4'[x4]^2 - 3 a4'[x4] b4'[x4]/b4[x4] + 3 b4''[x4]/b4[x4])"];
 
 (* ------------------------------------------------------------------ 7. negative control: Majorana-type Lg *)
 section["Majorana-type Lg"];
@@ -487,52 +489,53 @@ Module[{Tdiag, divAll, expected, d4rho, d0p0, eqs, okDiv, okEqs, okFree, ctrl, T
   (* nabla_mu T^mu_nu = (1/sqrt g) d_mu (sqrt g T^mu_nu) - Gamma^r_(mu nu) T^mu_r *)
   divAll = Table[Sum[D[sg Tdiag[[mu, nu]], X[[mu]]], {mu, 8}]/sg - Sum[Gm[[r, mu, nu]] Tdiag[[mu, r]], {mu, 8}, {r, 8}], {nu, 8}];
   d4rho = Derivative[1, 0][rho][x4, x0]; d0p0 = Derivative[0, 1][p0][x4, x0];
-  expected = {d0p0 + 3 H Cot[6 H x0] (2 p0[x4, x0] - p3[x4, x0] - pt[x4, x0]), 0, 0, 0,
+  expected = {d0p0 + H Cot[6 H x0] (7 p0[x4, x0] - 3 p3[x4, x0] - 3 pt[x4, x0] + rho[x4, x0]), 0, 0, 0,
     -d4rho - 3 a4p (p3[x4, x0] - pt[x4, x0]) - (3/2) bu (rho[x4, x0] + pt[x4, x0]), 0, 0, 0};
   okDiv = rftZeroQ[divAll - expected];
-  eqs = {d4rho == -3 a4p (p3[x4, x0] - pt[x4, x0]) - (3/2) bu (rho[x4, x0] + pt[x4, x0]), d0p0 == -3 H Cot[6 H x0] (2 p0[x4, x0] - p3[x4, x0] - pt[x4, x0])};
+  eqs = {d4rho == -3 a4p (p3[x4, x0] - pt[x4, x0]) - (3/2) bu (rho[x4, x0] + pt[x4, x0]), d0p0 == -H Cot[6 H x0] (7 p0[x4, x0] - 3 p3[x4, x0] - 3 pt[x4, x0] + rho[x4, x0])};
   okEqs = Coefficient[expected[[5]], d4rho] === -1 && Coefficient[expected[[1]], d0p0] === 1 &&
     rftZeroQ[expected[[5]] /. d4rho -> eqs[[1, 2]]] && rftZeroQ[expected[[1]] /. d0p0 -> eqs[[2, 2]]];
-  (* x0-independent entries: the x0 component is 3 H Cot[z] (2 p0 - p3 - p_t) with Cot[z] > 0, so p0 = (p3 + p_t)/2 *)
+  (* x0-independent entries: the x0 component is H Cot[z] (7 p0 - 3 p3 - 3 p_t + rho) with Cot[z] > 0, so 7 p0 = 3 p3 + 3 p_t - rho *)
   T0 = DiagonalMatrix[{p00[x4], p30[x4], p30[x4], p30[x4], -rho0[x4], pt0[x4], pt0[x4], pt0[x4]}];
   div0 = Table[Sum[D[sg T0[[mu, nu]], X[[mu]]], {mu, 8}]/sg - Sum[Gm[[r, mu, nu]] T0[[mu, r]], {mu, 8}, {r, 8}], {nu, 8}];
   okFree = rftZeroQ[div0 - (expected /. {rho -> (rho0[#1] &), p3 -> (p30[#1] &), pt -> (pt0[#1] &), p0 -> (p00[#1] &)})] &&
-    rftZeroQ[div0[[1]] /. p00[x4] -> (p30[x4] + pt0[x4])/2] && Simplify[Cot[6 H x0] > 0, rftAssumptions];
-  (* controls: the formula without the b4 term, a wrong sign of the a4' term and a wrong factor of the Cot[z] term are detected *)
+    rftZeroQ[div0[[1]] /. p00[x4] -> (3 p30[x4] + 3 pt0[x4] - rho0[x4])/7] && Simplify[Cot[6 H x0] > 0, rftAssumptions];
+  (* controls: the formula without the b4 term, a wrong sign of the a4' term, and the x0 balance of the metric of 2026-10-14
+     (3 H Cot[z] (2 p0 - p3 - p_t), without the lapse) are detected *)
   ctrl = !rftZeroQ[divAll[[5]] - (-d4rho - 3 a4p (p3[x4, x0] - pt[x4, x0]))] &&
     !rftZeroQ[divAll[[5]] - (-d4rho + 3 a4p (p3[x4, x0] - pt[x4, x0]) - (3/2) bu (rho[x4, x0] + pt[x4, x0]))] &&
-    !rftZeroQ[divAll[[1]] - (d0p0 + 2 H Cot[6 H x0] (2 p0[x4, x0] - p3[x4, x0] - pt[x4, x0]))];
+    !rftZeroQ[divAll[[1]] - (d0p0 + 3 H Cot[6 H x0] (2 p0[x4, x0] - p3[x4, x0] - pt[x4, x0]))];
   addCheck["energy_exchange_equation", okDiv && okEqs && okFree && ctrl,
     "for a diagonal T^mu_nu = diag(p0, p3, p3, p3, -rho, p_t, p_t, p_t) (order x0..x7) whose entries are functions of x4 and x0, all eight components: " <>
     "nabla_mu T^mu_x4 = -d rho/d x4 - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t), " <>
-    "nabla_mu T^mu_x0 = d p0/d x0 + 3 H Cot[z] (2 p0 - p3 - p_t), and nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7. Conservation is therefore exactly " <>
-    "d rho/d x4 = -3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) (energy flows between 3-space and the extra times unless p3 = p_t, and the extra-time volume factor b4^(3/2) dilutes rho + p_t) " <>
-    "and d p0/d x0 = -3 H Cot[z] (2 p0 - p3 - p_t) (hidden-direction balance); the two components are independent " <>
-    "(the x4 component contains no x0 derivative and no H, the x0 component no x4 derivative, no a4' and no b4'). For x0-independent entries the x0 component is 3 H Cot[z] (2 p0 - p3 - p_t) with Cot[z] > 0 on 0 < z < Pi/2, " <>
-    "so conservation needs p0 = (p3 + p_t)/2 (the condition p3 + p_t = 2 p0 that the a4 field equations impose, Revision/field_equations_a4). " <>
-    "Controls: the formula without the b4' term, a wrong sign of the a4' term and a wrong factor of the Cot[z] term are detected"];
+    "nabla_mu T^mu_x0 = d p0/d x0 + H Cot[z] (7 p0 - 3 p3 - 3 p_t + rho), and nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7. Conservation is therefore exactly " <>
+    "d rho/d x4 = -3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) (energy flows between 3-space and the extra times unless p3 = p_t, and the extra-time volume factor b4^(3/2) dilutes rho + p_t; the lapse Sin[z]^(1/6) does not enter) " <>
+    "and d p0/d x0 = -H Cot[z] (7 p0 - 3 p3 - 3 p_t + rho) (hidden-direction balance; the warped time adds H Cot[z] (p0 + rho)); the two components are independent " <>
+    "(the x4 component contains no x0 derivative and no H, the x0 component no x4 derivative, no a4' and no b4'). For x0-independent entries the x0 component is H Cot[z] (7 p0 - 3 p3 - 3 p_t + rho) with Cot[z] > 0 on 0 < z < Pi/2, " <>
+    "so conservation needs 7 p0 = 3 p3 + 3 p_t - rho. " <>
+    "Controls: the formula without the b4' term, a wrong sign of the a4' term and the x0 balance of the metric of 2026-10-14 (3 H Cot[z] (2 p0 - p3 - p_t)) are detected"];
   AppendTo[formulas, <|"key" -> "energy_exchange",
     "description" -> "conservation of a diagonal T = diag(p0, p3, p3, p3, -rho, pt, pt, pt) (order x0..x7) whose entries are functions of x4 and x0 (check energy_exchange_equation); " <>
       "entry 1: {nabla_mu T^mu_nu, nu = x0..x7} (complete identity); entry 2: the equations equivalent to nabla_mu T^mu_nu = 0; entry 3: the same for x0-independent entries (rho, p3, pt, p0 functions of x4 only)",
     "wl" -> {wl[expected], wl[eqs],
-      wl[{Derivative[1][rho][x4] == -3 a4p (p3[x4] - pt[x4]) - (3/2) bu (rho[x4] + pt[x4]), p0[x4] == (p3[x4] + pt[x4])/2}]}|>]];
+      wl[{Derivative[1][rho][x4] == -3 a4p (p3[x4] - pt[x4]) - (3/2) bu (rho[x4] + pt[x4]), 7 p0[x4] == 3 p3[x4] + 3 pt[x4] - rho[x4]}]}|>]];
 
 (* ------------------------------------------------------------------ formulas: statements and geometry *)
 addFormulaText["nontriviality",
   "NON-TRIVIALITY [1] (dirac16complex) and [2] (dirac16complex00): exact content of checks nontriviality_1_dirac16complex, nontriviality_2_dirac16complex00, gammaOmega_per_direction, Omega_vanishes_iff_a4prime_b4prime_and_H_vanish, never_flat_for_H_positive, spin_curvature_equals_Riemann",
-  "gamma^mu D_mu Psi - gamma^mu d_mu Psi = gamma^mu Omega_mu Psi = (3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4)) Psi (nonzero for every H > 0, all a4 and b4; (3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4))^2 = 9 H^2 - (9/16)(b4'/b4)^2); " <>
-  "per direction gamma^(xi) Omega_xi = (a4'/2) gamma^(x4) + (H/2) gamma^(x0) (i = 1, 2, 3, inflating) and gamma^(xt) Omega_xt = (-a4'/2 + b4'/(4 b4)) gamma^(x4) + (H/2) gamma^(x0) (t = 5, 6, 7, deflating): the a4' terms of the time direction cancel, the b4' terms add to (3/4) b4'/b4, the hidden-direction terms add (6 H/2 = 3 H); " <>
-  "Omega_mu = 0 for all mu iff a4' = 0, b4' = 0 and H = 0 (H = 0 is a degenerate limit of the metric); [D_mu, D_nu] = (1/2) R_ab,mu,nu S^ab, and R^x0_x0 = -6 H^2 != 0: no frame removes Omega, the metric is never flat for H > 0"];
+  "gamma^mu D_mu Psi - gamma^mu d_mu Psi = gamma^mu Omega_mu Psi = ((7/2) H gamma^(x0) + (3/4)(b4'/b4) Sin[z]^(-1/6) gamma^(x4)) Psi (nonzero for every H > 0, all a4 and b4; its square is (49/4) H^2 - (9/16)(b4'/b4)^2 Sin[z]^(-1/3)); " <>
+  "per direction gamma^(xi) Omega_xi = (a4'/2) Sin[z]^(-1/6) gamma^(x4) + (H/2) gamma^(x0) (i = 1, 2, 3, inflating), gamma^(x4) Omega_x4 = (H/2) gamma^(x0) (the warped time) and gamma^(xt) Omega_xt = (-a4'/2 + b4'/(4 b4)) Sin[z]^(-1/6) gamma^(x4) + (H/2) gamma^(x0) (t = 5, 6, 7, deflating): the a4' terms of the time direction cancel, the b4' terms add to (3/4) b4'/b4, the hidden-direction terms add (7 H/2); " <>
+  "Omega_mu = 0 for all mu iff a4' = 0, b4' = 0 and H = 0 (H = 0 is a degenerate limit of the metric); [D_mu, D_nu] = (1/2) R_ab,mu,nu S^ab, and R^x0_x0 = -7 H^2 != 0: no frame removes Omega, the metric is never flat for H > 0"];
 addFormulaText["majorana_negative_control",
   "the notebook's Majorana-type Lagrangian with real components (checks Majorana_Lg_total_derivative_grassmann, Majorana_Lg_commuting_control)",
   "anticommuting real Psi: sqrt g Psi^T C gamma^mu D_mu Psi = d_mu ((1/2) sqrt g Psi^T C gamma^mu Psi) (a total derivative; no field equation; Psi^T C Psi = 0); commuting real Phi: Euler-Lagrange expression 2 sqrt g C gamma^mu D_mu Phi and Phi^T C gamma^mu Phi = 0"];
 addFormulaText["equation_of_state_definitions", "pressures and equations of state from the diagonal components (SPEC section 4)",
   "rho = -T^x4_x4, p3 = T^x1_x1, p_t = T^x5_x5, p0 = T^x0_x0; w3 = p3/rho, w_t = p_t/rho, w0 = p0/rho; homogeneous on shell: w3 = w_t = w0 = (S U' - U)/(m S + U)"];
 addFormulaText["hidden_direction_hermiticity", "role of the spin-connection term in the quantum theory (check good_sector_hermiticity_curved)",
-  "Cos[z] [p (Tan[z] d0 + 3 H) q + ((Tan[z] d0 + 3 H) p) q] = d0 (Sin[z] p q): the operator Tan[z] d0 + 3 H is antisymmetric for the measure Cos[z] dx0 up to the boundary term Sin[z] p q, which does not vanish at z = Pi/2; without 3 H the mode operator is not formally Hermitian for this measure and these variables (Psi = Sin[z]^(-1/2) chi with the measure dy needs no such term)"];
-addFormula["metric", "the author's metric with b4 (SPEC section 1; the change of 2026-10-14), coordinates x0..x7", rftMetricAuthor];
+  "Cos[z] Sin[z]^(1/6) [p (Tan[z] d0 + 7 H/2) q + ((Tan[z] d0 + 7 H/2) p) q] = d0 (Sin[z]^(7/6) p q): the operator Sin[z]^(1/6) (Tan[z] d0 + 7 H/2) is antisymmetric for the measure Cos[z] dx0 up to the boundary term Sin[z]^(7/6) p q, which does not vanish at z = Pi/2; without 7 H/2 the mode operator is not formally Hermitian for this measure and these variables"];
+addFormula["metric", "the warped metric (SPEC section 1; the user's order of 2026-10-16), coordinates x0..x7", rftMetricAuthor];
 addFormula["vielbein_diagonal", "f_a in e^a_mu = f_a delta^a_mu, a = x0..x7", f];
-addFormula["sqrt_det_g", "sqrt|det g|", b4[x4]^(3/2) Cos[6 H x0]];
+addFormula["sqrt_det_g", "sqrt|det g|", b4[x4]^(3/2) Cos[6 H x0] Sin[6 H x0]^(1/6)];
 addFormula["eta", "frame metric eta_ab, order x0..x7", Diagonal[eta]];
 ];
 
@@ -600,7 +603,7 @@ Module[{P = fld[st]["Psi"], Pc = fld[st]["Psic"], L0 = Ldata[st]["L0"], Tsym = T
   K[mu_] := sScal[st, 1/(2 f[[mu]]), sAdd[st, {bilM[st, Pc, g[[mu]], vD[st, P, X[[mu]]]], sScal[st, -1, sDot[st, vecMat[st, vD[st, rftPsibar[st, Pc], X[[mu]]], g[[mu]]], P]]}]];
   okDiag = And @@ pS[st, Flatten[Table[{sAdd[st, {Tsym[[mu, mu]], sScal[st, -1, L0], K[mu]}], sAdd[st, {Tdata[st]["Tvar"][[mu, mu]], sScal[st, -1, Tsym[[mu, mu]]]}]}, {mu, 8}], 1]];
   addCheck["T_diagonal_components_" <> st, okDiag,
-    "T^mu_mu (no sum) = L0 - K_mu with K_mu = (1/(2 f_mu)) (Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi) (f_5..7 = E^-a4 b4^(1/2) Sin[z]^(1/6)): no spin-connection term survives in the diagonal components " <>
+    "T^mu_mu (no sum) = L0 - K_mu with K_mu = (1/(2 f_mu)) (Psibar gamma^(mu) d_mu Psi - d_mu Psibar gamma^(mu) Psi) (f_4 = Sin[z]^(1/6), f_5..7 = E^-a4 b4^(1/2) Sin[z]^(1/6)): no spin-connection term survives in the diagonal components " <>
     "(Psibar {gamma^mu, Omega_mu} Psi = 0); the variation tensor and T_sym agree on the diagonal (" <> statName[st] <> ")"];
   okK = sZeroQ[st, sAdd[st, {L0, sScal[st, -1, sAdd[st, Table[K[mu], {mu, 8}]]], sScal[st, m, S], rftPot[st, S]}]] &&
     sZeroQ[st, sAdd[st, {sAdd[st, Table[K[mu], {mu, 8}]], sScal[st, -1/2, sDot[st, rftPsibar[st, Pc], E1]], sScal[st, 1/2, sDot[st, Eb, P]],
@@ -613,10 +616,11 @@ Module[{P = fld[st]["Psi"], Pc = fld[st]["Psic"], L0 = Ldata[st]["L0"], Tsym = T
   (* Wolfram positions: x4 = 5, x0 = 1 *)
   B40 = sAdd[st, {bilM[st, Pc, g[[5]], vD[st, P, x0]], sScal[st, -1, sDot[st, vecMat[st, vD[st, rftPsibar[st, Pc], x0], g[[5]]], P]]}];
   B04 = sAdd[st, {bilM[st, Pc, g[[1]], vD[st, P, x4]], sScal[st, -1, sDot[st, vecMat[st, vD[st, rftPsibar[st, Pc], x4], g[[1]]], P]]}];
-  ok = sZeroQ[st, sAdd[st, {Tsym[[5, 1]], sScal[st, 1/4, B40], sScal[st, -Cot[rftZ]/4, B04]}]] &&
-       sZeroQ[st, sAdd[st, {Tsym[[1, 5]], sScal[st, Tan[rftZ]^2, Tsym[[5, 1]]]}]];
+  ok = sZeroQ[st, sAdd[st, {Tsym[[5, 1]], sScal[st, 1/(4 wf), B40], sScal[st, -Cot[rftZ]/(4 wf^2), B04]}]] &&
+       sZeroQ[st, sAdd[st, {Tsym[[1, 5]], sScal[st, wf^2 Tan[rftZ]^2, Tsym[[5, 1]]]}]];
   addCheck["T_x4_x0_component_" <> st, ok,
-    "T^x4_x0 = -(1/4)(B40 - Cot[z] B04), B40 = Psibar gamma^(x4) d0 Psi - d0 Psibar gamma^(x4) Psi, B04 = Psibar gamma^(x0) d4 Psi - d4 Psibar gamma^(x0) Psi, and T^x0_x4 = g^00 g_44 T^x4_x0 = -Tan[z]^2 T^x4_x0 (" <> statName[st] <> ")"]];
+    "T^x4_x0 = -(1/4) Sin[z]^(-1/6) (B40 - Cot[z] Sin[z]^(-1/6) B04), B40 = Psibar gamma^(x4) d0 Psi - d0 Psibar gamma^(x4) Psi, B04 = Psibar gamma^(x0) d4 Psi - d4 Psibar gamma^(x0) Psi " <>
+    "(the spin connection Omega_x4 = (1/2) H Sin[z]^(1/6) gamma^(x0) gamma^(x4) of the warped time drops out: {gamma^(x0), gamma^(x0) gamma^(x4)} = 0), and T^x0_x4 = g^00 g_44 T^x4_x0 = -Sin[z]^(1/3) Tan[z]^2 T^x4_x0 (" <> statName[st] <> ")"]];
 If[st === "C",
   addFormulaText["T_variation", "energy-momentum tensor from the vielbein variation (both statistics), T^nu_mu = e^b_mu (1/sqrt g) dS/de^b_nu, L0 = L/sqrt g",
     "T^nu_mu = delta^nu_mu L0 - (1/2) (Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi) - (1/4) g_mu,rho nabla_l (Psibar {gamma^l, Sigma^(nu rho)} Psi), Sigma^(nu rho) = (1/4) [gamma^nu, gamma^rho]"];
@@ -628,41 +632,35 @@ If[st === "C",
     "T^nu_mu = T_kin^nu_mu + T_pot^nu_mu, T_pot^nu_mu = -delta^nu_mu (m S + U(S)), T_kin^nu_mu = delta^nu_mu sum_l K_l - (1/4)(Psibar gamma^nu D_mu Psi - D_mu Psibar gamma^nu Psi + Psibar gamma_mu D^nu Psi - D^nu Psibar gamma_mu Psi); potential energy density rho_pot = m S + U, potential pressure p_pot = -(m S + U) in every direction"];
   addFormulaText["EMT_trace", "trace",
     "T^mu_mu (sum) = 8 L0 - sum_mu K_mu = 7 sum_mu K_mu - 8 (m S + U); on shell = 7 (m + U') S - 8 (m S + U) = -m S + 7 S U' - 8 U"];
-  addFormulaText["EMT_homogeneous_on_shell", "homogeneous states (Psi depends on x4 only): K_mu = 0 for mu != x4 and K_x4 = (m + U') S on shell (the b4' terms of Psi and Psibar cancel in K_x4)",
-    "rho = m S + U(S); p3 = p_t = p0 = S U'(S) - U(S); w = (S U' - U)/(m S + U); for U = (lam/2) S^2: rho = m S + lam S^2/2, p = lam S^2/2, w = lam S/(2 m + lam S); S = b4^(-3/2) S_chi with S_chi constant on shell (check exact_solution_nonlinear_homogeneous_C)"];
-  addFormulaText["EMT_offdiagonal_x4_x0", "the x4-x0 component of the symmetric tensor (Omega_x0 = Omega_x4 = 0)",
-    "T^x4_x0 = -(1/4) (B40 - Cot[z] B04), B40 = Psibar gamma^(x4) d0 Psi - d0 Psibar gamma^(x4) Psi, B04 = Psibar gamma^(x0) d4 Psi - d4 Psibar gamma^(x0) Psi; T^x0_x4 = -Tan[z]^2 T^x4_x0 (T_x4x0 = T_x0x4)"]];
+  addFormulaText["EMT_homogeneous_on_shell", "configurations that depend on x4 only (in the warped metric they exist only with lam S = 0 and m = +-7 H/2, check homogeneous_configurations_warped): K_mu = 0 for mu != x4 and K_x4 = (m + U') S on shell",
+    "rho = m S + U(S); p3 = p_t = p0 = S U'(S) - U(S) (the kinetic-sum identity); at the x4-only solutions of the warped metric S = 0, so rho = p = 0 and the whole diagonal vanishes"];
+  addFormulaText["EMT_offdiagonal_x4_x0", "the x4-x0 component of the symmetric tensor (Omega_x0 = 0; Omega_x4 drops out)",
+    "T^x4_x0 = -(1/4) Sin[z]^(-1/6) (B40 - Cot[z] Sin[z]^(-1/6) B04), B40 = Psibar gamma^(x4) d0 Psi - d0 Psibar gamma^(x4) Psi, B04 = Psibar gamma^(x0) d4 Psi - d4 Psibar gamma^(x0) Psi; T^x0_x4 = -Sin[z]^(1/3) Tan[z]^2 T^x4_x0 (T_x4x0 = T_x0x4)"]];
 ];
 
 (* ================================================================== PART solutions *)
+(* The exact solutions used as test points in the warped metric (2026-10-16).  With y = Log[Sin z]/(6 H) and the conformal
+   coordinate zeta = Sin[z]^(-1/6)/H of the hidden direction, Psi = b4^(-3/4) Sin[z]^(-7/12) PsiT turns the field equation with
+   U = 0 into gamma^(x0) d_zeta PsiT + (m/(H zeta)) PsiT = gamma^(x4) d4 PsiT.  Two families follow in closed form:
+     static (d4 PsiT = 0), any m:  PsiT = (zeta^(-m/H) P+ + zeta^(m/H) P-) chi, i.e.
+       Psi = b4^(-3/4) Sin[z]^(-7/12) (Sin[z]^(m/(6H)) P+ + Sin[z]^(-m/(6H)) P-) chi,   P+- = (1 +- gamma^(x0))/2;
+     travelling, m = 0:  PsiT = (f(x4 + zeta) Q+ + g(x4 - zeta) Q-) chi with arbitrary profiles f, g,   Q+- = (1 +- gamma^(x0) gamma^(x4))/2.
+   With chi in the range of P+ (static) or of Q+ (travelling) the scalar S vanishes identically (P+^T C P+ = Q+^T C Q+ = 0), so
+   these are also exact solutions for every potential U with U'(0) = 0, in particular U = (lam/2) S^2. *)
 If[MemberQ[{"solutions", "solutions-G"}, part],
 section["exact solutions: definitions"];
-(* chi' = M chi, M = -m g4 + mu g4.g0, M^2 = (mu^2 - m^2) I; P = Cosh[k x4] + Sinh[k x4]/k M (positions: x4 = 5, x0 = 1) *)
-Mmat[mm_, mu_] := -mm g[[5]] + mu g[[5]] . g[[1]];
-Pmat[mm_, mu_, kk_] := Cosh[kk x4] id16 + Sinh[kk x4]/kk Mmat[mm, mu];
-If[part === "solutions", addCheck["solution_matrix_square",
-  Mmat[mm, mu] . Mmat[mm, mu] == (mu^2 - mm^2) id16 && Transpose[Mmat[mm, mu]] . Cm + Cm . Mmat[mm, mu] == z16 &&
-  Transpose[Cm . g[[5]]] == -Cm . g[[5]],
-  "M = -m gamma^(x4) + mu gamma^(x4) gamma^(x0) satisfies M^2 = (mu^2 - m^2) I16 and M^T C + C M = 0, so exp(M x4) = Cosh[k x4] I + (Sinh[k x4]/k) M with k^2 = mu^2 - m^2 and every bilinear chi^dagger C exp(M x4)... is constant; " <>
-  "C gamma^(x4) is antisymmetric (used for the Grassmann solution)"]];
-(* exact zero test with the relations Cosh^2 = 1 + Sinh^2 (argument kk x4) and kk^2 = k2 (k2 free of the constants cA, cAc),
-   applied coefficient by coefficient of the polynomial in the constants cA[..], cAc[..] *)
-zeroQK[e_, kk_, k2_] := Module[{t, vars, coefs, red},
-  t = Expand[PowerExpand[e /. rftTrigRules] /. {Cosh[kk x4] -> chv, Sinh[kk x4] -> shv}];
-  If[t === 0, Return[True]];
-  vars = Union[Cases[t, (cA | cAc)[__], {0, Infinity}]];
-  coefs = If[vars === {}, {t}, Last /@ CoefficientRules[t, vars]];
-  red[c_] := Module[{u = Expand[Numerator[Together[c]]]},
-    u = rftReduceCos[u];
-    u = Expand[u /. chv^n_Integer /; n >= 2 :> (1 + shv^2)^Quotient[n, 2] chv^Mod[n, 2]];
-    u = Expand[u /. kk^n_Integer /; n >= 2 :> k2^Quotient[n, 2] kk^Mod[n, 2]];
-    u = Expand[u /. chv^n_Integer /; n >= 2 :> (1 + shv^2)^Quotient[n, 2] chv^Mod[n, 2]];
-    rftReduceCos[u]];
-  And @@ (red[#] === 0 & /@ coefs)];
-gZeroQK[a_Association, kk_, k2_] := And @@ (zeroQK[#, kk, k2] & /@ Values[a]);
-sZeroQK["C", e_, kk_, k2_] := zeroQK[e, kk, k2]; sZeroQK["G", e_, kk_, k2_] := gZeroQK[e, kk, k2];
-If[$rftNK > 0, DistributeDefinitions[zeroQK, gZeroQK, sZeroQK]];   (* the zero tests below run on the subkernels *)
-(* T_sym, divergence and field equation for a given explicit field *)
+Pp = (id16 + g[[1]])/2; Pmn = (id16 - g[[1]])/2; Nm = g[[1]] . g[[5]]; Qp = (id16 + Nm)/2; Qmn = (id16 - Nm)/2;
+zeta = Sin[rftZ]^(-1/6)/H;
+staticProf[mm_] := b4[x4]^(-3/4) Sin[rftZ]^(-7/12) (Sin[rftZ]^(mm/(6 H)) Pp + Sin[rftZ]^(-mm/(6 H)) Pmn);
+travProf[f1_, f2_] := b4[x4]^(-3/4) Sin[rftZ]^(-7/12) (f1[x4 + zeta] Qp + f2[x4 - zeta] Qmn);
+If[part === "solutions", addCheck["solution_projectors",
+  Pp . Pp == Pp && Pmn . Pmn == Pmn && Pp + Pmn == id16 && Qp . Qp == Qp && Qmn . Qmn == Qmn && Qp + Qmn == id16 &&
+  Nm . Nm == id16 && Transpose[g[[1]]] == g[[1]] && Transpose[Nm] == Nm &&
+  Transpose[Pp] . Cm . Pp == z16 && Transpose[Pmn] . Cm . Pmn == z16 && Transpose[Qp] . Cm . Qp == z16 && Transpose[Qmn] . Cm . Qmn == z16 &&
+  Cm . Pp == Pmn . Cm && Cm . Qp == Qmn . Cm && g[[1]] . Pp == Pp && Nm . Qp == Qp,
+  "P+- = (1 +- gamma^(x0))/2 and Q+- = (1 +- gamma^(x0) gamma^(x4))/2 are complementary projectors (gamma^(x0) and N = gamma^(x0) gamma^(x4) are real symmetric with square 1); " <>
+  "C anticommutes with gamma^(x0) and with N, so C P+- = P-+ C, C Q+- = Q-+ C and P+-^T C P+- = Q+-^T C Q+- = 0: a column in the range of one projector has chi^T C chi' = 0 for all chi, chi' in that range"]];
+(* T_sym, divergence for a given explicit field *)
 TsymOf[st_, P_, Pc_] := Module[{pb = rftPsibar[st, Pc], L0, Bm2},
   L0 = rftL0[st, rftGeo0, P, Pc];
   Bm2 = Table[sAdd[st, {sDot[st, vecMat[st, pb, gup[[r]]], rftDPsi[st, rftGeo0, P, s]], sScal[st, -1, sDot[st, vecMat[st, rftDPsibar[st, rftGeo0, Pc, s], gup[[r]]], P]]}], {r, 8}, {s, 8}];
@@ -670,164 +668,99 @@ TsymOf[st_, P_, Pc_] := Module[{pb = rftPsibar[st, Pc], L0, Bm2},
 divT[st_, T_] := Table[sAdd[st, {
     sScal[st, 1/sg, sAdd[st, Table[sD[st, sScal[st, sg, T[[mu, nu]]], X[[mu]]], {mu, 8}]]],
     sScal[st, -1, sAdd[st, Flatten[Table[If[Gm[[r, mu, nu]] === 0, sZero[st], sScal[st, Gm[[r, mu, nu]], T[[mu, r]]]], {mu, 8}, {r, 8}]]]]}], {nu, 8}];
+(* the field of a statistics for a 16 x 16 profile matrix pr (commuting: constants cA; Grassmann: cA[.., k] per generator) *)
+fieldOf["C", pr_] := pr . Table[cA[A], {A, 16}];
+fieldCOf["C", pr_] := pr . Table[cAc[A], {A, 16}];
+fieldOf["G", pr_] := Table[gAdd[Table[<|{k} -> (pr . Table[cA[B, k], {B, 16}])[[A]]|>, {k, rftGN}]], {A, 16}];
+fieldCOf["G", pr_] := Table[gAdd[Table[<|{k + rftGN} -> (pr . Table[cAc[B, k], {B, 16}])[[A]]|>, {k, rftGN}]], {A, 16}];
+(* the scalar S of a column field pr chi expected from the profile: B[Y] = sum_kl thetabar_k theta_l c_k^dagger Y c_l (Grassmann) *)
+bilOf["C", Y_] := Table[cAc[A], {A, 16}] . Y . Table[cA[A], {A, 16}];
+bilOf["G", Y_] := gAdd[Flatten[Table[gMul[<|{k1 + rftGN} -> 1|>, <|{k2} -> Table[cAc[B, k1], {B, 16}] . Y . Table[cA[B, k2], {B, 16}]|>], {k1, rftGN}, {k2, rftGN}]]];
+(* field equation, conservation of T_sym, conservation of the current and S at an explicit field: the zero tests run on the subkernels *)
+solutionTests[st_, Psol_, Pcsol_, Sexp_] := Module[{Eres, T, dv, J, divJ, Sx},
+  Eres = rftE[st, rftGeo0, Psol, Pcsol];
+  T = TsymOf[st, Psol, Pcsol];
+  dv = divT[st, T];
+  J = Table[sScal[st, -I, bilM[st, Pcsol, gup[[mu]], Psol]], {mu, 8}];
+  divJ = sAdd[st, Table[sD[st, sScal[st, sg, J[[mu]]], X[[mu]]], {mu, 8}]];
+  Sx = rftSbil[st, Psol, Pcsol];
+  {pS[st, Join[Eres, dv, {divJ, sAdd[st, {Sx, sScal[st, -1, Sexp]}]}]], T}];
 ];
 
-(* ================================================================== PART solutions *)
 If[part === "solutions",
-section["exact solutions (i), linear"];
+section["exact solutions (i): static, any m, U = 0"];
 Block[{U = Function[s, lam s^2/2], u1 = 0},
-  (* (i) linear, x4 and x0 dependent: Psi = b4^(-3/4) Sin[z]^al P(m, mu, k) chi, mu = 3 H (2 al + 1), lam = 0 *)
-  Do[Module[{muv = 3 H (2 al + 1), Psol, Pcsol, Eres, T, dv, k2, J, divJ, okE, okT, okJ, zr},
-    k2 = muv^2 - mm^2;
+  Do[Module[{prof = staticProf[mm], Psol, Pcsol, res, zr, T, offd},
     Block[{lam = 0, m = mm},
-      If[st === "C",
-        Psol = b4[x4]^(-3/4) Sin[rftZ]^al Pmat[mm, muv, kk] . Table[cA[A], {A, 16}];
-        Pcsol = b4[x4]^(-3/4) Sin[rftZ]^al Pmat[mm, muv, kk] . Table[cAc[A], {A, 16}],
-        Psol = Table[gAdd[Table[<|{k} -> (b4[x4]^(-3/4) Sin[rftZ]^al Pmat[mm, muv, kk] . Table[cA[B, k], {B, 16}])[[A]]|>, {k, rftGN}]], {A, 16}];
-        Pcsol = Table[gAdd[Table[<|{k + rftGN} -> (b4[x4]^(-3/4) Sin[rftZ]^al Pmat[mm, muv, kk] . Table[cAc[B, k], {B, 16}])[[A]]|>, {k, rftGN}]], {A, 16}]];
-      Eres = rftE[st, rftGeo0, Psol, Pcsol];
-      T = TsymOf[st, Psol, Pcsol];
-      dv = divT[st, T];
-      J = Table[sScal[st, -I, bilM[st, Pcsol, gup[[mu]], Psol]], {mu, 8}];
-      divJ = sAdd[st, Table[sD[st, sScal[st, sg, J[[mu]]], X[[mu]]], {mu, 8}]];
-      (* the 26 zero tests (16 field equation, 8 divergence, current, T^x4_x4) run on the subkernels *)
-      zr = pZeroQ[With[{s = st, k20 = k2}, sZeroQK[s, #, kk, k20] &], Join[Eres, dv, {divJ, T[[5, 5]]}]];
-      okE = And @@ zr[[1 ;; 16]]; okT = And @@ zr[[17 ;; 24]]; okJ = zr[[25]];
-      addCheck["exact_solution_x4_x0_" <> st, okE && okT && okJ && !zr[[26]],
-        "exact solution (" <> statName[st] <> ", U = 0, general a4 and b4): Psi = b4^(-3/4) Sin[z]^al (Cosh[k x4] + Sinh[k x4]/k M) chi with constant chi (16 free complex constants" <>
-        If[st === "G", " per Grassmann generator", ""] <> "), M = -m gamma^(x4) + 3 H (2 al + 1) gamma^(x4) gamma^(x0), k^2 = 9 H^2 (2 al + 1)^2 - m^2, al arbitrary; " <>
-        "it satisfies the field equation for all functions a4 and b4 (a test of the terms Tan[z] gamma^(x0) d0, 3 H gamma^(x0) and (3/4)(b4'/b4) gamma^(x4), the latter compensated by the factor b4^(-3/4)), " <>
-        "and nabla_mu T_sym^mu_nu = 0 for all 8 nu and d_mu(sqrt g J^mu) = 0 hold exactly at it. " <>
-        "Honest scope: at these solutions the pressures and the momentum density vanish (on shell L0 = 0 for U = 0, K_mu = 0 for mu != x4, T^x4_x0 = 0) and rho = -T^x4_x4 = m S with S = b4^(-3/2) S_chi, " <>
-        "so the conservation test is weak; the general proof is the pair of Noether identities"]]],
+      Psol = fieldOf[st, prof]; Pcsol = fieldCOf[st, prof];
+      res = solutionTests[st, Psol, Pcsol, sScal[st, b4[x4]^(-3/2) Sin[rftZ]^(-7/6), bilOf[st, Cm]]];
+      zr = res[[1]]; T = res[[2]];
+      offd = Count[Flatten[Table[If[n != mu, sZeroQ[st, T[[n, mu]]], True], {n, 8}, {mu, 8}]], False]];
+    addCheck["exact_solution_static_" <> st, And @@ zr && offd > 0,
+      "exact solution (" <> statName[st] <> ", U = 0, any mass m, general a4 and b4): Psi = b4^(-3/4) Sin[z]^(-7/12) (Sin[z]^(m/(6 H)) P+ + Sin[z]^(-m/(6 H)) P-) chi with constant chi " <>
+      "(16 free complex constants" <> If[st === "G", " per Grassmann generator", ""] <> "), P+- = (1 +- gamma^(x0))/2: it satisfies the field equation for all functions a4 and b4 " <>
+      "(a test of Tan[z] gamma^(x0) d0, (7/2) H gamma^(x0) and (3/4)(b4'/b4) Sin[z]^(-1/6) gamma^(x4), the latter compensated by b4^(-3/4)), nabla_mu T_sym^mu_nu = 0 for all 8 nu and d_mu(sqrt g J^mu) = 0 hold exactly at it, " <>
+      "and S = b4^(-3/2) Sin[z]^(-7/6) chi^dagger C chi. Honest scope: its energy-momentum tensor has " <> ToString[offd] <> " nonzero off-diagonal components (spin-connection bilinears), so it is NOT a diagonal source"]],
     {st, stats}];
-  section["exact solutions (ii), nonlinear commuting"];
-  (* (ii) nonlinear homogeneous, commuting: Psi = b4^(-3/4) chi(x4) for EVERY solution chi of the homogeneous equation
-     chi' = M(S_chi) chi, M(S) = -(m + lam b4^(-3/2) S) g4 + 3 H g4.g0, S_chi = chi^dagger C chi.  The functions
-     chi_A = ph[A][x4] and their conjugates phc[A][x4] are general; after the expressions are built, their first and
-     second derivatives are replaced by the equation (first the second derivatives by the x4 derivative of the right side,
-     then the first derivatives), and the result must vanish identically. *)
-  Module[{chi = Table[ph[A][x4], {A, 16}], chic = Table[phc[A][x4], {A, 16}], Sch, Mfull, rhs, rhsc, r1, r2, Psol, Pcsol, Eres, T, dv, Sx, zr, okE, okS, okT, okRP},
-    Sch = chic . Cm . chi;
-    Mfull = -(m + lam b4[x4]^(-3/2) Sch) g[[5]] + 3 H g[[5]] . g[[1]];
-    rhs = Mfull . chi; rhsc = Mfull . chic;   (* M is real (real gammas, real S_chi): the conjugate equation *)
-    r1 = Join[Table[Derivative[1][ph[A]][x4] -> rhs[[A]], {A, 16}], Table[Derivative[1][phc[A]][x4] -> rhsc[[A]], {A, 16}]];
-    r2 = Join[Table[Derivative[2][ph[A]][x4] -> D[rhs[[A]], x4], {A, 16}], Table[Derivative[2][phc[A]][x4] -> D[rhsc[[A]], x4], {A, 16}]];
-    Psol = b4[x4]^(-3/4) chi; Pcsol = b4[x4]^(-3/4) chic;
-    Sx = rftSbil["C", Psol, Pcsol];
-    Eres = rftE["C", rftGeo0, Psol, Pcsol];
-    T = TsymOf["C", Psol, Pcsol]; dv = divT["C", T];
-    (* the 34 zero tests run on the subkernels: 16 field equation (1-16), S_chi' = 0 (17), S = b4^(-3/2) S_chi (18),
-       8 divergence (19-26), rho and p (27-34) *)
-    zr = pZeroQ[With[{q1 = r1, q2 = r2}, rftZeroQ[(# /. q2) /. q1] &],
-      Join[Eres, {D[Sch, x4], Sx - b4[x4]^(-3/2) Sch}, dv, {-T[[5, 5]] - (m Sx + lam Sx^2/2)}, Table[T[[mu, mu]] - lam Sx^2/2, {mu, {1, 2, 3, 4, 6, 7, 8}}]]];
-    okE = And @@ zr[[1 ;; 16]]; okS = zr[[17]] && zr[[18]]; okT = And @@ zr[[19 ;; 26]]; okRP = And @@ zr[[27 ;; 34]];
-    addCheck["exact_solution_nonlinear_homogeneous_C", okE && okS && okT && okRP,
-      "nonlinear solutions of dirac16complex00 with U = (lam/2) S^2, general a4 and b4: for EVERY solution chi(x4) of the homogeneous system chi' = M chi, M = -(m + lam b4^(-3/2) S_chi) gamma^(x4) + 3 H gamma^(x4) gamma^(x0), S_chi = chi^dagger C chi " <>
-      "(checked by substituting the system for the first and second derivatives of 16 general complex functions chi_A and their conjugates): Psi = b4^(-3/4) chi solves the field equation exactly; " <>
-      "S_chi is constant (M^T C + C M = 0), so the system is LINEAR with the effective coupling lam b4^(-3/2) once S_chi = S0 is fixed by chi(0) (global existence and uniqueness), and S = Psibar Psi = b4^(-3/2) S0; " <>
-      "nabla_mu T^mu_nu = 0 for all nu, and the diagonal components are T^x4_x4 = -rho, T^mu_mu = p (mu != x4) with rho = m S + lam S^2/2 = m S + U, p = lam S^2/2 = S U' - U exactly (homogeneous on-shell forms). " <>
-      "For b4 not constant the effective mass m + lam b4^(-3/2) S0 depends on x4 and the system has no closed-form solution in general"]];
+  section["exact solutions (ii): travelling, m = 0, U = 0"];
+  Do[Module[{prof = travProf[pf, qf], profc = travProf[pfc, qfc], Psol, Pcsol, res, zr},
+    Block[{lam = 0, m = 0},
+      Psol = fieldOf[st, prof]; Pcsol = fieldCOf[st, profc];
+      res = solutionTests[st, Psol, Pcsol, sScal[st, b4[x4]^(-3/2) Sin[rftZ]^(-7/6),
+        bilOf[st, (pfc[x4 + zeta] Transpose[Qp] + qfc[x4 - zeta] Transpose[Qmn]) . Cm . (pf[x4 + zeta] Qp + qf[x4 - zeta] Qmn)]]];
+      zr = res[[1]]];
+    addCheck["exact_solution_travelling_" <> st, And @@ zr,
+      "exact solution (" <> statName[st] <> ", U = 0, m = 0, general a4 and b4): Psi = b4^(-3/4) Sin[z]^(-7/12) (f(x4 + zeta) Q+ + g(x4 - zeta) Q-) chi, zeta = Sin[z]^(-1/6)/H, Q+- = (1 +- gamma^(x0) gamma^(x4))/2, " <>
+      "with ARBITRARY profiles f, g (and conjugate profiles treated as independent functions): the field equation, nabla_mu T_sym^mu_nu = 0 for all 8 nu, d_mu(sqrt g J^mu) = 0 and the value of S hold exactly: " <>
+      "waves that travel along x4 in the conformal coordinate zeta of the hidden direction (the warped time makes x4 and zeta a flat pair)"]],
+    {st, stats}];
+  section["exact solutions (iii): nonlinear, S = 0, commuting"];
+  Module[{prS = staticProf[mm] . Pp, prT = travProf[pf, qf] . Qp, prTc = travProf[pfc, qfc] . Qp, okS, okT, resS, resT},
+    Block[{m = mm}, resS = solutionTests["C", fieldOf["C", prS], fieldCOf["C", prS], 0]];
+    Block[{m = 0}, resT = solutionTests["C", fieldOf["C", prT], fieldCOf["C", prTc], 0]];
+    okS = And @@ resS[[1]]; okT = And @@ resT[[1]];
+    addCheck["exact_solution_nonlinear_S0_C", okS && okT,
+      "nonlinear solutions of dirac16complex00 with U = (lam/2) S^2 (any lam), general a4 and b4: the static solution with chi = P+ chi (any m) and the travelling solution with chi = Q+ chi (m = 0) have S = Psibar Psi = 0 identically " <>
+      "(P+^T C P+ = Q+^T C Q+ = 0), hence U'(S) = 0 and they solve the nonlinear field equation exactly; nabla_mu T^mu_nu = 0 and d_mu(sqrt g J^mu) = 0 hold at them. " <>
+      "Solutions with S != 0 and lam != 0 are not in closed form: for S != 0 the effective mass m + lam S depends on x0 and x4"]];
+  section["configurations that depend on x4 only"];
+  Module[{Phi = Table[ph[A][x4], {A, 16}], Phic = Table[phc[A][x4], {A, 16}], Eg, idt, solP, solPc, Eh, Sh, Th, offd, diag0},
+    Eg = rftE["C", rftGeo0, Phi, Phic];
+    idt = wf Eg - (g[[5]] . (D[Phi, x4] + (3/4) bu Phi) - wf ((m + U'[Phic . Cm . Phi]) Phi - (7/2) H g[[1]] . Phi));
+    solP = b4[x4]^(-3/4) Pp . Table[cA[A], {A, 16}]; solPc = b4[x4]^(-3/4) Pp . Table[cAc[A], {A, 16}];
+    Block[{m = 7 H/2}, Eh = rftE["C", rftGeo0, solP, solPc]; Th = TsymOf["C", solP, solPc]];
+    Sh = rftSbil["C", solP, solPc];
+    diag0 = And @@ Table[rftZeroQ[Th[[mu, mu]]], {mu, 8}];
+    offd = Select[Flatten[Table[{n, mu}, {n, 8}, {mu, 8}], 1], #[[1]] != #[[2]] && !rftZeroQ[Th[[#[[1]], #[[2]]]]] &];
+    addCheck["homogeneous_configurations_warped",
+      rftZeroQ[idt] && rftZeroQ[Eh] && rftZeroQ[Sh] && diag0 && Length[offd] == 18 &&
+      Sort[Union[Sort /@ offd]] == Sort[Flatten[Table[{i, t}, {i, 2, 4}, {t, 6, 8}], 1]],
+      "for a field Phi(x4) that depends on x4 only, Sin[z]^(1/6) E = gamma^(x4) (d4 + (3/4) b4'/b4) Phi - Sin[z]^(1/6) (V - (7/2) H gamma^(x0)) Phi exactly (V = m + U'(S)): " <>
+      "both brackets are independent of x0 and Sin[z]^(1/6) is not constant, so the field equation needs (d4 + (3/4) b4'/b4) Phi = 0 and (V - (7/2) H gamma^(x0)) Phi = 0, i.e. Phi = b4^(-3/4) chi with constant chi, gamma^(x0) chi = +-chi and V = +-7 H/2 constant; " <>
+      "since then S = b4^(-3/2) chi^T C chi = 0 (P+-^T C P+- = 0), U'(0) = 0 and the mass must be m = +-7 H/2. The explicit case m = 7 H/2, chi = P+ chi: field equation exact, S = 0, all 8 diagonal components of T vanish (rho = p = 0), " <>
+      "and 18 off-diagonal components remain, exactly the pairs (xi, xt) of a 3-space direction and an extra time (spin-connection bilinears): in the warped metric no x4-only configuration carries energy density or pressure"]];
 ];
 addFormulaText["exact_solutions",
-  "exact solutions used as test points (checks exact_solution_*), general a4 and b4",
-  "(i) U = 0: Psi = b4^(-3/4) Sin[z]^al (Cosh[k x4] + Sinh[k x4]/k M) chi, M = -m g[x4] + 3 H (2 al + 1) g[x4].g[x0], k^2 = 9 H^2 (2 al + 1)^2 - m^2 (any a4, b4); " <>
-  "(ii) U = (lam/2) S^2, homogeneous, commuting: Psi = b4^(-3/4) chi for every solution of chi' = (-(m + lam b4^(-3/2) S0) g[x4] + 3 H g[x4].g[x0]) chi, S0 = chi^dagger C chi constant, S = b4^(-3/2) S0; " <>
-  "Grassmann: Psi = b4^(-3/4) sum_k [P c_k + lam S0 eta_k] theta_k, eta_k = -P (A0 I0 + Ac Ic + As Is) c_k, S0 = sum_kl thetabar_k theta_l c_k^dagger C c_l; at (ii): rho = m S + lam S^2/2, p3 = p_t = p0 = lam S^2/2, S = b4^(-3/2) S0"];
+  "exact solutions used as test points (checks exact_solution_*), general a4 and b4, warped metric; zeta = Sin[z]^(-1/6)/H, P+- = (1 +- g[x0])/2, Q+- = (1 +- g[x0].g[x4])/2",
+  "(i) U = 0, any m: Psi = b4^(-3/4) Sin[z]^(-7/12) (Sin[z]^(m/(6 H)) P+ + Sin[z]^(-m/(6 H)) P-) chi; " <>
+  "(ii) U = 0, m = 0: Psi = b4^(-3/4) Sin[z]^(-7/12) (f(x4 + zeta) Q+ + g(x4 - zeta) Q-) chi, f, g arbitrary; " <>
+  "(iii) U = (lam/2) S^2, any lam: (i) with chi = P+ chi and (ii) with chi = Q+ chi have S = 0 and solve the nonlinear equation (both statistics); " <>
+  "x4-only configurations exist only for V = +-7 H/2 with S = 0 (m = +-7 H/2): Psi = b4^(-3/4) chi, g[x0] chi = +-chi; their diagonal energy-momentum tensor vanishes"];
 ];
 
 (* ================================================================== PART solutions-G *)
-(* (iii) nonlinear homogeneous Grassmann solution: Psi = sum_k [U0 c_k + lam S0 U1 c_k] theta_k with U0 = b4^(-3/4) P,
-   U1 = b4^(-3/4) W, W = -P (A0 I0 + Ac Ic + As Is), I0 = int_0^x4 b4^(-3/2), Ic = int_0^x4 b4^(-3/2) Cosh[2 k s],
-   Is = int_0^x4 b4^(-3/2) Sinh[2 k s] (variation of constants for eta' = M eta - b4^(-3/2) g4 P c; P^-1 g4 P = A0 +
-   Ac Cosh[2 k x4] + As Sinh[2 k x4]); S0 = sum_kl thetabar_k theta_l c_k^dagger C c_l.  The functions ib0, ibc, ibs are
-   general symbols whose first and second derivatives are replaced by the integrands.
-   Method (2026-10-15).  The explicit Grassmann-algebra evaluation of the energy-momentum tensor at this solution
-   (bilinears of the cubic Grassmann components with the integrals, quartic in the 64 constants) did not finish within
-   the limit of 7 min 3 s (claude_failures.md G2).  Every statement is therefore reduced EXACTLY to 16 x 16 matrix
-   identities, the reduction being the Grassmann bookkeeping of a homogeneous field whose components are
-   U_d0 c_k theta_k + sigma U_d1 c_k theta_k (sigma = lam S0 even, sigma^2 times any bilinear = 0):
-     field equation      gamma^mu D_mu Psi - (m + lam S) Psi = sum_k theta_k [(D - m) U0] c_k + sigma sum_k theta_k [(D - m) U1 - b4^(-3/2) U0] c_k
-                         (D = gamma^(x4) d4 + gamma^mu Omega_mu on homogeneous columns; S Psi = b4^(-3/2) S0 Psi^(1));
-     S                   Psibar Psi = B[U0^T C U0] + sigma B[U0^T C U1 + U1^T C U0], B[Y] = sum_kl thetabar_k theta_l c_k^dagger Y c_l;
-     kinetic tensor      T_kin = B[Y0] + sigma B[Y1], Y0 = sum U_d1,0^T N U_d2,0, Y1 = sum (U_d1,1^T N U_d2,0 + U_d1,0^T N U_d2,1),
-                         N the coefficient matrix of the bilinear T_kin in the jets (Psibar, d4 Psibar) x (Psi, d4 Psi),
-                         taken from the package's T_sym of a general homogeneous field;
-     potential part      -delta V, V = m S + (lam/2) S^2 = B[m b4^(-3/2) C] + sigma B[(1/2) b4^(-3) C].
-   The field equation and S are in addition evaluated directly in the explicit Grassmann algebra with 16 generic complex
-   constants per generator (this checks the reduction for them), and the contraction of the kinetic tensor is
-   cross-checked against the direct explicit-algebra value of T_kin^x0_x0. *)
 If[part === "solutions-G",
-section["exact solution (iii), nonlinear Grassmann: matrix identities"];
+section["exact solutions (iii): nonlinear, S = 0, Grassmann"];
 Block[{U = Function[s, lam s^2/2], u1 = 0},
-Module[{Pm, Mm0, A0, Ac, As, Wm, integrand, r1, r2, k2 = 9 H^2 - m^2, bq, U0, U1, Uj, Dop, idE0, idE1, idS0, idS1, zr, okId,
-    Pg, Pcg, Tk, vc, vp, Yof, okBil, Ys, Yt, Vy, divY, rp, zr2, okRP, okCons, ctrlCons, chik, chick, S0g, Psol, Pcsol, Sx, Eres, zr3,
-    okEx, okSx, okS02, Bof, Tdirect, okLemma, zt},
-  Pm = Pmat[m, 3 H, kk]; Mm0 = Mmat[m, 3 H];
-  A0 = (g[[5]] + Mm0 . g[[5]] . Mm0/kk^2)/2; Ac = (g[[5]] - Mm0 . g[[5]] . Mm0/kk^2)/2; As = (g[[5]] . Mm0 - Mm0 . g[[5]])/(2 kk);
-  Wm = -Pm . (A0 ib0[x4] + Ac ibc[x4] + As ibs[x4]);
-  integrand = {b4[x4]^(-3/2), b4[x4]^(-3/2) (Cosh[kk x4]^2 + Sinh[kk x4]^2), b4[x4]^(-3/2) 2 Sinh[kk x4] Cosh[kk x4]};
-  r1 = Thread[{Derivative[1][ib0][x4], Derivative[1][ibc][x4], Derivative[1][ibs][x4]} -> integrand];
-  r2 = Thread[{Derivative[2][ib0][x4], Derivative[2][ibc][x4], Derivative[2][ibs][x4]} -> D[integrand, x4]];
-  zt = With[{k20 = k2, q1 = r1, q2 = r2}, zeroQK[(# /. q2) /. q1, kk, k20] &];
-  bq = b4[x4]^(-3/4);
-  U0 = bq Pm; U1 = bq Wm;
-  Uj = {{U0, U1}, {D[U0, x4], D[U1, x4]}};        (* jets d = (), (x4): {U_d0, U_d1} *)
-  Dop[V_] := g[[5]] . D[V, x4] + gOm . V;         (* gamma^mu D_mu on homogeneous columns, gOm = 3 H g0 + (3/4)(b4'/b4) g4 *)
-  idE0 = Dop[U0] - m U0; idE1 = Dop[U1] - m U1 - b4[x4]^(-3/2) U0;
-  idS0 = Transpose[U0] . Cm . U0 - b4[x4]^(-3/2) Cm; idS1 = Transpose[U0] . Cm . U1 + Transpose[U1] . Cm . U0;
-  zr = pZeroQ[zt, Flatten[{idE0, idE1, idS0, idS1}]];
-  okId = And @@ zr;
-  Print["   matrix identities of the field equation and of S: ", okId];
-  section["exact solution (iii): kinetic tensor by contraction"];
-  Pg = Table[ph[A][x4], {A, 16}]; Pcg = Table[phc[A][x4], {A, 16}];
-  Tk = Block[{m = 0, U = (0 &)}, TsymOf["C", Pg, Pcg]];   (* T_kin of a general homogeneous field: a bilinear in the jets *)
-  vc = Join[Pcg, D[Pcg, x4]]; vp = Join[Pg, D[Pg, x4]];
-  okBil = True;
-  Yof[e_] := Module[{ca = CoefficientArrays[e, Join[vc, vp]], c2, NN, blk},
-    c2 = If[Length[ca] >= 3, Normal[ca[[3]]], ConstantArray[0, {64, 64}]];
-    NN = c2[[1 ;; 32, 33 ;; 64]] + Transpose[c2[[33 ;; 64, 1 ;; 32]]];
-    okBil = okBil && Length[ca] <= 3 && rftZeroQ[e - vc . NN . vp];
-    blk[d1_, d2_] := NN[[16 (d1 - 1) + 1 ;; 16 d1, 16 (d2 - 1) + 1 ;; 16 d2]];
-    {Sum[Transpose[Uj[[d1, 1]]] . blk[d1, d2] . Uj[[d2, 1]], {d1, 2}, {d2, 2}],
-     Sum[Transpose[Uj[[d1, 2]]] . blk[d1, d2] . Uj[[d2, 1]] + Transpose[Uj[[d1, 1]]] . blk[d1, d2] . Uj[[d2, 2]], {d1, 2}, {d2, 2}]}];
-  Ys = Table[Yof[Tk[[n, mu]]], {n, 8}, {mu, 8}];
-  Vy = {m b4[x4]^(-3/2) Cm, b4[x4]^(-3)/2 Cm};
-  Yt = Table[Ys[[n, mu]] - If[n == mu, Vy, {0, 0}], {n, 8}, {mu, 8}];
-  divY[YY_, nu_, j_] := Sum[D[sg YY[[mu, nu, j]], X[[mu]]], {mu, 8}]/sg - Sum[If[Gm[[r, mu, nu]] === 0, 0, Gm[[r, mu, nu]] YY[[mu, r, j]]], {mu, 8}, {r, 8}];
-  (* -T^x4_x4 = -T_kin^x4_x4 + V and T^i_i = T_kin^i_i - V: rho = m S + (lam/2) S^2 and p = (lam/2) S^2 need
-     T_kin^x4_x4 = 0 and T_kin^i_i = (m + lam S) S = B[m b4^(-3/2) C] + sigma B[b4^(-3) C] *)
-  rp = Join[{Ys[[5, 5, 1]], Ys[[5, 5, 2]]}, Flatten[Table[{Ys[[i, i, 1]] - m b4[x4]^(-3/2) Cm, Ys[[i, i, 2]] - b4[x4]^(-3) Cm}, {i, {1, 2, 3, 4, 6, 7, 8}}], 1]];
-  zr2 = pZeroQ[zt, Flatten[Join[rp, Table[divY[Yt, nu, j], {nu, 8}, {j, 2}]]]];
-  okRP = And @@ zr2[[1 ;; 16 256]]; okCons = And @@ zr2[[16 256 + 1 ;;]];
-  ctrlCons = !(And @@ pZeroQ[zt, Flatten[divY[Ys, 5, 1]]]);   (* the kinetic part alone is not conserved: V depends on x4 *)
-  Print["   bilinear extraction: ", okBil, "; rho and p: ", okRP, "; conservation: ", okCons, "; control: ", ctrlCons];
-  section["exact solution (iii): explicit Grassmann algebra"];
-  chik = Table[Table[cA[B, k], {B, 16}], {k, rftGN}]; chick = Table[Table[cAc[B, k], {B, 16}], {k, rftGN}];
-  S0g = gAdd[Flatten[Table[gMul[<|{k1 + rftGN} -> 1|>, <|{k2i} -> chick[[k1]] . Cm . chik[[k2i]]|>], {k1, rftGN}, {k2i, rftGN}]]];
-  Psol = Table[gAdd[Flatten[Table[{<|{k} -> (U0 . chik[[k]])[[A]]|>, gScal[lam, gMul[S0g, <|{k} -> (U1 . chik[[k]])[[A]]|>]]}, {k, rftGN}]]], {A, 16}];
-  Pcsol = gConj /@ Psol;
-  Sx = rftSbil["G", Psol, Pcsol];
-  Eres = rftE["G", rftGeo0, Psol, Pcsol];
-  Bof[Y_] := gAdd[Flatten[Table[gMul[<|{k1 + rftGN} -> 1|>, <|{k2i} -> chick[[k1]] . Y . chik[[k2i]]|>], {k1, rftGN}, {k2i, rftGN}]]];
-  (* T_kin^x0_x0 = K - (1/2) B00 directly in the explicit algebra (K = the kinetic part of L0; T_sym^x0_x0 = L0 - (1/2) B00) *)
-  Tdirect = Module[{pb = rftPsibar["G", Pcsol], K0, B00, Sxx},
-    K0 = rftKin["G", rftGeo0, Psol, Pcsol];
-    B00 = sAdd["G", {sDot["G", vecMat["G", pb, gup[[1]]], rftDPsi["G", rftGeo0, Psol, 1]], sScal["G", -1, sDot["G", vecMat["G", rftDPsibar["G", rftGeo0, Pcsol, 1], gup[[1]]], Psol]]}];
-    sAdd["G", {K0, sScal["G", -1/2, B00]}]];
-  zr3 = pZeroQ[With[{k20 = k2, q1 = r1, q2 = r2}, gZeroQK[gMapCoeff[(#1 /. q2) /. q1 &, #], kk, k20] &],
-    Join[Eres, {gAdd[{Sx, gScal[-b4[x4]^(-3/2), S0g]}], gMul[S0g, S0g], gAdd[{Tdirect, gScal[-1, Bof[Ys[[1, 1, 1]]]], gScal[-lam, gMul[S0g, Bof[Ys[[1, 1, 2]]]]]}]}]];
-  okEx = And @@ zr3[[1 ;; 16]]; okSx = zr3[[17]]; okS02 = !zr3[[18]]; okLemma = zr3[[19]];
-  Print["   explicit algebra: field equation ", okEx, ", S ", okSx, ", S0^2 != 0 ", okS02, ", contraction = direct T_kin^x0_x0 ", okLemma];
-  addCheck["exact_solution_nonlinear_homogeneous_G", okId && okBil && okRP && okCons && ctrlCons && okEx && okSx && okS02 && okLemma,
-    "exact nonlinear solution of dirac16complex (explicit Grassmann algebra, N = 2) with U = (lam/2) S^2, general a4 and b4: Psi = b4^(-3/4) sum_k [P c_k + lam S0 eta_k] theta_k, P = Cosh[k x4] + Sinh[k x4]/k M, M = -m gamma^(x4) + 3 H gamma^(x4) gamma^(x0), k^2 = 9 H^2 - m^2, " <>
-    "eta_k = -P (A0 I0 + Ac Ic + As Is) c_k with A0 = (gamma^(x4) + M gamma^(x4) M/k^2)/2, Ac = (gamma^(x4) - M gamma^(x4) M/k^2)/2, As = [gamma^(x4), M]/(2 k), " <>
-    "I0 = int_0^x4 b4^(-3/2) ds, Ic = int_0^x4 b4^(-3/2) Cosh[2 k s] ds, Is = int_0^x4 b4^(-3/2) Sinh[2 k s] ds (eta_k solves eta_k' = M eta_k - b4^(-3/2) gamma^(x4) P c_k, eta_k(0) = 0), " <>
-    "S0 = sum_kl thetabar_k theta_l c_k^dagger C c_l (the expansion terminates because S0^2 Psi = 0). Verified: the 16 x 16 matrix identities (D - m) U0 = 0, (D - m) U1 = b4^(-3/2) U0, U0^T C U0 = b4^(-3/2) C, U0^T C U1 + U1^T C U0 = 0 (U0 = b4^(-3/4) P, U1 = b4^(-3/4) eta-matrix, D = gamma^(x4) d4 + gamma^mu Omega_mu); " <>
-    "in the explicit algebra with 16 generic complex constants per generator: the field equation holds for all 16 components and S = b4^(-3/2) S0 (S0 even, nilpotent, S0^2 != 0); " <>
-    "the energy-momentum tensor by the exact contraction T_kin = B[Y0] + lam S0 B[Y1] (B[Y] = sum_kl thetabar_k theta_l c_k^dagger Y c_l; the bilinear coefficient matrix taken from the package's T_sym of a general homogeneous field, reproducing it exactly; " <>
-    "the contraction equals the direct explicit-algebra value of T_kin^x0_x0): nabla_mu T^mu_nu = 0 for all 8 nu (control: the kinetic part alone is not conserved, V depends on x4 through b4), " <>
-    "rho = m S + (lam/2) S^2 and p3 = p_t = p0 = (lam/2) S^2 with S = b4^(-3/2) S0 as Grassmann-algebra elements (the classical Grassmann EMT; its numbers come from the quantum expectation values of section 6)"]]];
+  Module[{prS = staticProf[mm] . Pp, prT = travProf[pf, qf] . Qp, prTc = travProf[pfc, qfc] . Qp, resS, resT, okS, okT, bilChk},
+    Block[{m = mm}, resS = solutionTests["G", fieldOf["G", prS], fieldCOf["G", prS], <||>]];
+    Block[{m = 0}, resT = solutionTests["G", fieldOf["G", prT], fieldCOf["G", prTc], <||>]];
+    okS = And @@ resS[[1]]; okT = And @@ resT[[1]];
+    bilChk = !gZeroQ[rftSbil["G", fieldOf["G", staticProf[mm]], fieldCOf["G", staticProf[mm]]]];
+    addCheck["exact_solution_nonlinear_S0_G", okS && okT && bilChk,
+      "nonlinear solutions of dirac16complex (explicit Grassmann algebra, N = 2) with U = (lam/2) S^2 (any lam), general a4 and b4: Psi = sum_k Prof c_k theta_k with the static profile restricted to P+ (any m) " <>
+      "or the travelling profile restricted to Q+ (m = 0) has S = Psibar Psi = 0 as a Grassmann element (P+^T C P+ = Q+^T C Q+ = 0), so it solves the nonlinear field equation exactly; nabla_mu T^mu_nu = 0 (all 8 nu) " <>
+      "and d_mu(sqrt g J^mu) = 0 hold at it. Control: with the unrestricted static profile S != 0"]]];
 ];
 
 (* ================================================================== PART quantisation *)
@@ -836,30 +769,32 @@ section["canonical quantisation"];
 Ldata = lagData[{"G"}];
 Module[{LG = Ldata["G"]["L"], okPi = True, K, piRow},
   (* Wolfram position 5 = x4, the time *)
-  piRow = vScal["G", sg/2, vecMat["G", fld["G"]["Psic"], Cm . g[[5]]]];
+  piRow = vScal["G", sg/(2 wf), vecMat["G", fld["G"]["Psic"], Cm . g[[5]]]];
   Do[okPi = okPi && gZeroQ[gAdd[{rftPartialD["G", LG, ph[A, k], 5], gScal[-1, gMul[piRow[[A]], gTheta[k]]]}]], {A, 16}, {k, rftGN}];
   addCheck["canonical_momentum",
-    okPi && Cm . g[[5]] == I Bm,
-    "dL/d(d4 ph[A,k]) = pi_A theta_k with pi_A = (1/2) b4^(3/2) Cos[z] (Psi^dagger C gamma^(x4))_A = (i/2) b4^(3/2) Cos[z] (Psi^dagger B)_A (the momentum conjugate to Psi_A as a right derivative; C gamma^(x4) = i B): " <>
+    okPi && Cm . g[[5]] == I Bm && rftZeroQ[sg/wf - b4[x4]^(3/2) Cos[rftZ]],
+    "dL/d(d4 ph[A,k]) = pi_A theta_k with pi_A = (1/2) (sqrt g/f4) (Psi^dagger C gamma^(x4))_A = (i/2) b4^(3/2) Cos[z] (Psi^dagger B)_A (the momentum conjugate to Psi_A as a right derivative; C gamma^(x4) = i B; the lapse f4 = Sin[z]^(1/6) cancels the warp of sqrt g): " <>
     "pi depends on Psi^dagger only, a second-class constraint as for Dirac's field"];
-  K = sg Cm . g[[5]];
+  K = (sg/wf) Cm . g[[5]];
   addCheck["first_order_form_and_anticommutator",
-    ConjugateTranspose[Cm . g[[5]]] == -Cm . g[[5]] && I Inverse[Cm . g[[5]]] == Bm && Bm . Bm == id16 && rftZeroQ[K - I sg Bm],
-    "up to a total divergence L = Psi^dagger K d4 Psi - (terms without d4), K = b4^(3/2) Cos[z] C gamma^(x4) = i b4^(3/2) Cos[z] B (C gamma^(x4) anti-Hermitian with i (C gamma^(x4))^-1 = B; invertible since g^44 != 0); " <>
-    "the canonical (Dirac-bracket) anticommutator is {Psi_A(x), Psi^dagger_C(y)} = i (K^-1)_AC delta^7(x - y) = B_AC delta^7(x - y)/sqrt|g| on a slice x4 = const (exact: i K^-1 = B/(b4^(3/2) Cos[z]))"]];
+    ConjugateTranspose[Cm . g[[5]]] == -Cm . g[[5]] && I Inverse[Cm . g[[5]]] == Bm && Bm . Bm == id16 && rftZeroQ[K - I b4[x4]^(3/2) Cos[rftZ] Bm],
+    "up to a total divergence L = Psi^dagger K d4 Psi - (terms without d4), K = (sqrt g/f4) C gamma^(x4) = i b4^(3/2) Cos[z] B (C gamma^(x4) anti-Hermitian with i (C gamma^(x4))^-1 = B; invertible since g^44 != 0); " <>
+    "the canonical (Dirac-bracket) anticommutator is {Psi_A(x), Psi^dagger_C(y)} = i (K^-1)_AC delta^7(x - y) = B_AC delta^7(x - y)/(b4^(3/2) Cos[z]) on a slice x4 = const (exact: i K^-1 = B/(b4^(3/2) Cos[z]); the measure of the slice divided by the lapse)"]];
 (* Heisenberg equation reproduces the field equation *)
 Module[{Phi = rftField["C"], Phic = rftFieldC["C"], Hd, flow, d4sol, ok, S},
   S = Phic . Cm . Phi;
-  Hd = sg (Phic . (m Cm) . Phi - Sum[If[a == 5, 0, Phic . Cm . gup[[a]] . (D[Phi, X[[a]]] + Om[[a]] . Phi)], {a, 8}] + U[S]);
-  flow = Table[-I Sum[Bm[[A, Cc]] rftVarDerExpr[Hd, phc[Cc]]/sg, {Cc, 16}], {A, 16}];
-  d4sol = -g[[5]] . ((m + U'[S]) Phi - Sum[If[a == 5, 0, gup[[a]] . (D[Phi, X[[a]]] + Om[[a]] . Phi)], {a, 8}]);
-  ok = rftZeroQ[flow - d4sol] && rftZeroQ[Simplify[rftLagUnsym["C", rftGeo0, Phi, Phic] - (Phic . (sg Cm . g[[5]]) . D[Phi, x4] - Hd)]] &&
-    rftZeroQ[g[[5]] . Sum[If[a == 5, 0, gup[[a]] . Om[[a]]], {a, 8}] - (3 H g[[5]] . g[[1]] - (3/4) bu id16)];
+  Hd = sg (Phic . (m Cm) . Phi - Sum[If[a == 5, 0, Phic . Cm . gup[[a]] . (D[Phi, X[[a]]] + Om[[a]] . Phi)], {a, 8}] - Phic . Cm . gup[[5]] . Om[[5]] . Phi + U[S]);
+  flow = Table[-I Sum[Bm[[A, Cc]] rftVarDerExpr[Hd, phc[Cc]] wf/sg, {Cc, 16}], {A, 16}];
+  d4sol = -wf g[[5]] . ((m + U'[S]) Phi - Sum[If[a == 5, 0, gup[[a]] . (D[Phi, X[[a]]] + Om[[a]] . Phi)], {a, 8}] - gup[[5]] . Om[[5]] . Phi);
+  ok = rftZeroQ[flow - d4sol] && rftZeroQ[Simplify[rftLagUnsym["C", rftGeo0, Phi, Phic] - (Phic . ((sg/wf) Cm . g[[5]]) . D[Phi, x4] - Hd)]] &&
+    rftZeroQ[g[[5]] . Sum[If[a == 5, 0, gup[[a]] . Om[[a]]], {a, 8}] - (3 H g[[5]] . g[[1]] - (3/4) bu wf^-1 id16)] &&
+    rftZeroQ[gup[[5]] . Om[[5]] - (H/2) g[[1]]];
   addCheck["Heisenberg_equation_reproduces_field_equation", ok,
-    "with the Hamiltonian density Hd = b4^(3/2) Cos[z] [Psi^dagger (m C - sum_(a != x4) C gamma^a D_a) Psi + U(S)] (so that the unsymmetrised L = Psi^dagger K d4 Psi - Hd exactly) and {Psi, Psi^dagger} = B delta^7/sqrt g, " <>
-    "the Heisenberg equation d4 Psi = i[H, Psi] = -i B (1/sqrt g) dHd/dPsi^dagger equals -gamma^(x4) [(m + U'(S)) Psi - sum_(a != x4) gamma^a D_a Psi], the field equation solved for d4 Psi (exact, general U; " <>
-    "the operator ordering of U'(S) Psi is that of the classical expression); the spin connection of the seven slice directions contributes gamma^(x4) sum_(a != x4) gamma^a Omega_a = 3 H gamma^(x4) gamma^(x0) - (3/4)(b4'/b4), " <>
-    "i.e. the term -(3/4)(b4'/b4) Psi of the evolution form comes from the extra-time spin connection"]];
+    "with the Hamiltonian density Hd = sqrt g [Psi^dagger (m C - sum_(a != x4) C gamma^a D_a - C gamma^(x4) Omega_x4) Psi + U(S)], sqrt g = b4^(3/2) Cos[z] Sin[z]^(1/6) (so that the unsymmetrised L = Psi^dagger K d4 Psi - Hd exactly; " <>
+    "the spin connection Omega_x4 of the warped time has no time derivative and belongs to Hd) and {Psi, Psi^dagger} = B delta^7 f4/sqrt g, " <>
+    "the Heisenberg equation d4 Psi = i[H, Psi] = -i B (f4/sqrt g) dHd/dPsi^dagger equals -Sin[z]^(1/6) gamma^(x4) [(m + U'(S)) Psi - sum_(a != x4) gamma^a D_a Psi - gamma^(x4) Omega_x4 Psi], the field equation solved for d4 Psi (exact, general U; " <>
+    "the operator ordering of U'(S) Psi is that of the classical expression); the spin connection of the six warped slice directions contributes gamma^(x4) sum_(a != x4) gamma^a Omega_a = 3 H gamma^(x4) gamma^(x0) - (3/4)(b4'/b4) Sin[z]^(-1/6) " <>
+    "and the warped time gamma^(x4) Omega_x4 = (H/2) gamma^(x0): the term -(3/4)(b4'/b4) Psi of the evolution form comes from the extra-time spin connection"]];
 Module[{ev = Eigenvalues[Bm], um, vneg},
   vneg = First[Select[NullSpace[Bm + id16], True &]];
   um = vneg/Sqrt[Conjugate[vneg] . vneg];
@@ -888,29 +823,32 @@ Module[{beta = -I g[[5]], al, hk, okH},
     "B h_k = h_k^dagger B for all real m, k (h_k^dagger taken with m, k real; the Krein norm u^dagger B u is conserved by every mode, also those that grow); the mode Hamiltonian density is Psi^dagger (m C - i C k_a gamma^a) Psi = chi h_k Psi with chi = Psi^dagger B (B m C = m beta, B (-i C gamma^a) = alpha^a)"]];
 (* curved good sector: weighted Hermiticity, the role of 3 H gamma^(x0) and of the b4 term; Wolfram positions x0 = 1, x4 = 5.
    h is the operator of i d4 Psi = h Psi (U = 0) read off the evolution form, including the term -i (3/4)(b4'/b4). *)
-Module[{u = Table[ph[A] @@ X, {A, 16}], uc = Table[phc[A] @@ X, {A, 16}], v = Table[qv[A] @@ X, {A, 16}], hOp, hOpC, Mm, lhs, divs, rest, lhsNoH, lhsB, divsB, dsg},
+Module[{u = Table[ph[A] @@ X, {A, 16}], uc = Table[phc[A] @@ X, {A, 16}], v = Table[qv[A] @@ X, {A, 16}], hOp, hOpC, Mm, lhs, divs, rest, lhsNoH, lhsB, divsB, dsg, msr},
   Mm[a_] := I g[[5]] . g[[a]];
-  hOp[w_, withH_] := mm (-I g[[5]]) . w + Sum[If[a == 5, 0, (1/f[[a]]) Mm[a] . D[w, X[[a]]]], {a, 8}] + withH 3 H Mm[1] . w - I (3/4) bu w;
-  hOpC[w_, withH_] := mm (I g[[5]]) . w + Sum[If[a == 5, 0, (1/f[[a]]) Conjugate[Mm[a]] . D[w, X[[a]]]], {a, 8}] + withH 3 H Conjugate[Mm[1]] . w + I (3/4) bu w;
-  dsg = D[sg, x4];
-  lhs = sg (uc . hOp[v, 1] - hOpC[uc, 1] . v);
-  divs = Sum[D[sg/f[[a]] uc . Mm[a] . v, X[[a]]], {a, {1, 2, 3, 4}}];
-  rest = Sum[sg/f[[a]] (uc . Mm[a] . D[v, X[[a]]] - D[uc, X[[a]]] . Mm[a] . v), {a, {6, 7, 8}}];
-  lhsNoH = sg (uc . hOp[v, 0] - hOpC[uc, 0] . v);
+  (* i d4 Psi = h Psi read off the evolution form of the warped metric (lapse wf = f4); mu = sqrt g/f4 = b4^(3/2) Cos[z] is the measure of the inner product *)
+  hOp[w_, withH_] := wf (mm (-I g[[5]]) . w + Sum[If[a == 5, 0, (1/f[[a]]) Mm[a] . D[w, X[[a]]]], {a, 8}] + withH (7/2) H Mm[1] . w) - I (3/4) bu w;
+  hOpC[w_, withH_] := wf (mm (I g[[5]]) . w + Sum[If[a == 5, 0, (1/f[[a]]) Conjugate[Mm[a]] . D[w, X[[a]]]], {a, 8}] + withH (7/2) H Conjugate[Mm[1]] . w) + I (3/4) bu w;
+  msr = sg/wf;
+  dsg = D[msr, x4];
+  lhs = msr (uc . hOp[v, 1] - hOpC[uc, 1] . v);
+  divs = Sum[D[msr wf/f[[a]] uc . Mm[a] . v, X[[a]]], {a, {1, 2, 3, 4}}];
+  rest = Sum[msr wf/f[[a]] (uc . Mm[a] . D[v, X[[a]]] - D[uc, X[[a]]] . Mm[a] . v), {a, {6, 7, 8}}];
+  lhsNoH = msr (uc . hOp[v, 0] - hOpC[uc, 0] . v);
   addCheck["good_sector_hermiticity_curved",
-    rftZeroQ[lhs - divs - rest + I dsg uc . v] && rftZeroQ[lhsNoH - divs - rest + I dsg uc . v + 6 H sg uc . Mm[1] . v] && rftZeroQ[dsg - (3/2) bu sg] &&
-    rftZeroQ[Cos[rftZ] (pf[x0] (Tan[rftZ] D[qf[x0], x0] + 3 H qf[x0]) + (Tan[rftZ] D[pf[x0], x0] + 3 H pf[x0]) qf[x0]) - D[Sin[rftZ] pf[x0] qf[x0], x0]],
-    "the curved mode operator h = m (-i gamma^(x4)) + sum_(a != x4) (1/f_a) i gamma^(x4) gamma^(a) d_a + 3 i H gamma^(x4) gamma^(x0) - i (3/4)(b4'/b4) (i d4 Psi = h Psi for U = 0; the last term is anti-Hermitian) satisfies, for general u, v, " <>
-    "sqrt g (u^dagger h v - (h u)^dagger v) = sum_(a = x0,x1,x2,x3) d_a (sqrt g/f_a u^dagger M_a v) + sum_(t = x5,x6,x7) (sqrt g/f_t)(u^dagger M_t d_t v - d_t u^dagger M_t v) - i (d_x4 sqrt g) u^dagger v, M_a = i gamma^(x4) gamma^(a), sqrt g = b4^(3/2) Cos[z], d_x4 sqrt g = (3/2)(b4'/b4) sqrt g: " <>
-    "the anti-Hermitian term exactly compensates the x4 dependence of the measure, so in the GOOD SECTOR (no extra-time dependence) d/dx4 integral sqrt g u^dagger v d^7x = boundary terms for solutions u, v " <>
-    "(formal conservation of the inner product with the measure b4^(3/2) Cos[z]; equivalently h is formally Hermitian for chi = b4^(3/4) Psi with the measure Cos[z]; the x0 term Sin[z] u^dagger M_0 v does not vanish at the patch end z = Pi/2, so Hermiticity needs a boundary condition there, see Revision/theory/reports/wolfram-scope.json); without the spin-connection term 3 H gamma^(x0) a remainder -6 H sqrt g u^dagger M_0 v survives " <>
-    "(Cos[z] [p (Tan z d0 + 3H) q + ((Tan z d0 + 3H) p) q] = d0 (Sin[z] p q)): for the measure Cos[z] dx0 and the variables Psi the gravitational term is what makes the hidden-direction operator formally antisymmetric (in the variables Sin[z]^(1/2) Psi with the measure dy no such term is needed)"];
-  lhsB = sg (uc . Bm . hOp[v, 1] - hOpC[uc, 1] . Bm . v);
-  divsB = Sum[If[a == 5, 0, D[sg/f[[a]] uc . Bm . Mm[a] . v, X[[a]]]], {a, 8}];
+    rftZeroQ[lhs - divs - rest + I dsg uc . v] && rftZeroQ[lhsNoH - divs - rest + I dsg uc . v + 7 H msr wf uc . Mm[1] . v] && rftZeroQ[dsg - (3/2) bu msr] &&
+    rftZeroQ[msr - b4[x4]^(3/2) Cos[rftZ]] &&
+    rftZeroQ[Cos[rftZ] wf (pf[x0] (Tan[rftZ] D[qf[x0], x0] + (7/2) H qf[x0]) + (Tan[rftZ] D[pf[x0], x0] + (7/2) H pf[x0]) qf[x0]) - D[Sin[rftZ]^(7/6) pf[x0] qf[x0], x0]],
+    "the curved mode operator of the warped metric h = Sin[z]^(1/6) [m (-i gamma^(x4)) + sum_(a != x4) (1/f_a) i gamma^(x4) gamma^(a) d_a + (7/2) i H gamma^(x4) gamma^(x0)] - i (3/4)(b4'/b4) (i d4 Psi = h Psi for U = 0; the last term is anti-Hermitian) satisfies, for general u, v and the measure mu = sqrt g/f4 = b4^(3/2) Cos[z], " <>
+    "mu (u^dagger h v - (h u)^dagger v) = sum_(a = x0,x1,x2,x3) d_a (mu Sin[z]^(1/6)/f_a u^dagger M_a v) + sum_(t = x5,x6,x7) (mu Sin[z]^(1/6)/f_t)(u^dagger M_t d_t v - d_t u^dagger M_t v) - i (d_x4 mu) u^dagger v, M_a = i gamma^(x4) gamma^(a), d_x4 mu = (3/2)(b4'/b4) mu: " <>
+    "the anti-Hermitian term exactly compensates the x4 dependence of the measure, so in the GOOD SECTOR (no extra-time dependence) d/dx4 integral b4^(3/2) Cos[z] u^dagger v d^7x = boundary terms for solutions u, v " <>
+    "(the same measure as the charge density; the x0 boundary term Sin[z]^(7/6) u^dagger M_0 v does not vanish at the patch end z = Pi/2, so Hermiticity needs a boundary condition there, see Revision/theory/reports/wolfram-scope.json); without the spin-connection term (7/2) H gamma^(x0) a remainder -7 H mu Sin[z]^(1/6) u^dagger M_0 v survives " <>
+    "(Cos[z] Sin[z]^(1/6) [p (Tan z d0 + 7H/2) q + ((Tan z d0 + 7H/2) p) q] = d0 (Sin[z]^(7/6) p q)): the gravitational term makes the warped hidden-direction operator formally antisymmetric for this measure"];
+  lhsB = msr (uc . Bm . hOp[v, 1] - hOpC[uc, 1] . Bm . v);
+  divsB = Sum[If[a == 5, 0, D[msr wf/f[[a]] uc . Bm . Mm[a] . v, X[[a]]]], {a, 8}];
   addCheck["Krein_form_conserved_curved",
     rftZeroQ[lhsB - divsB + I dsg uc . Bm . v],
-    "sqrt g (u^dagger B h v - (h u)^dagger B v) = sum_(a != 4) d_a (sqrt g/f_a u^dagger B M_a v) - i (d_x4 sqrt g) u^dagger B v for general u, v (all seven slice directions; sqrt g = b4^(3/2) Cos[z]): " <>
-    "for solutions d/dx4 integral sqrt g u^dagger B v d^7x = boundary terms, i.e. the Krein form integral b4^(3/2) Cos[z] u^dagger B v d^7x is conserved in the whole theory up to these boundary terms (they need boundary conditions, in particular at the patch end z = Pi/2)"]];
+    "mu (u^dagger B h v - (h u)^dagger B v) = sum_(a != 4) d_a (mu Sin[z]^(1/6)/f_a u^dagger B M_a v) - i (d_x4 mu) u^dagger B v for general u, v (all seven slice directions; mu = b4^(3/2) Cos[z]): " <>
+    "for solutions d/dx4 integral b4^(3/2) Cos[z] u^dagger B v d^7x = boundary terms, i.e. the Krein form is conserved in the whole theory up to these boundary terms (they need boundary conditions, in particular at the patch end z = Pi/2)"]];
 (* explicit Fock space in the good sector: m = 3, k1 = 4, E = 5 *)
 Module[{beta = -I g[[5]], al1, h, E0 = 5, up, vn, gs, U16, W, expect, vac, st1, std, okC, eH, Ms, okRule, okQ},
   al1 = -g[[5]] . g[[2]];   (* alpha^(x1): positions x4 = 5, x1 = 2 *)
@@ -941,11 +879,11 @@ Module[{beta = -I g[[5]], al1, h, E0 = 5, up, vn, gs, U16, W, expect, vac, st1, 
     "the Hamiltonian chi h_k Psi has vacuum value -8 E (the filled sea), normal-ordered energy +E for the particle b_0^*|0> AND for the antiparticle d_0^*|0>; charge Psi^dagger B Psi = chi Psi gives +1 and -1; " <>
     "the expectation-value rule <u|:Psi^dagger M Psi:|u> = u^dagger B M u (particle) and -v^dagger B M v (antiparticle) holds exactly for M = C, -i C gamma^(x4), -i C gamma^(x1), C gamma^(x2) gamma^(x3) and a dense integer matrix"]];
 addFormulaText["quantisation",
-  "canonical quantisation of dirac16complex (SPEC section 6), x4 the evolution time, sqrt g = b4^(3/2) Cos[z]",
-  "pi_A = (i/2) b4^(3/2) Cos[z] (Psi^dagger B)_A; K = b4^(3/2) Cos[z] C gamma^(x4) = i b4^(3/2) Cos[z] B; {Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/(b4^(3/2) Cos[z]); B = -i C gamma^(x4), B^dagger = B, B^2 = 1, signature (8,8); " <>
+  "canonical quantisation of dirac16complex (SPEC section 6), x4 the evolution time, sqrt g = b4^(3/2) Cos[z] Sin[z]^(1/6), lapse f4 = Sin[z]^(1/6)",
+  "pi_A = (i/2) b4^(3/2) Cos[z] (Psi^dagger B)_A; K = (sqrt g/f4) C gamma^(x4) = i b4^(3/2) Cos[z] B; {Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/(b4^(3/2) Cos[z]); B = -i C gamma^(x4), B^dagger = B, B^2 = 1, signature (8,8); " <>
   "no positive inner product with Psi^dagger the adjoint (Krein space, fundamental symmetry B); positive representation chi = Psi^dagger B, {Psi_A, chi_C} = delta_AC; " <>
-  "Heisenberg: d4 Psi = -i B (1/sqrt g) dHd/dPsi^dagger = -gamma^(x4) [(m + U') Psi - sum_(a != x4) gamma^a D_a Psi]; mode operator h = m (-i g[x4]) + sum_(a != x4) (1/f_a) i g[x4].g[xa] d_a + 3 i H g[x4].g[x0] - i (3/4)(b4'/b4); " <>
-  "good sector (no x5, x6, x7 dependence): integral b4^(3/2) Cos[z] u^dagger v d^7x conserved up to boundary terms (h formally Hermitian for chi = b4^(3/4) Psi and the measure Cos[z]), positive Fock space, " <>
+  "Heisenberg: d4 Psi = -i B (f4/sqrt g) dHd/dPsi^dagger = -Sin[z]^(1/6) gamma^(x4) [(m + U') Psi - sum_(a != x4) gamma^a D_a Psi - gamma^(x4) Omega_x4 Psi]; mode operator h = Sin[z]^(1/6) [m (-i g[x4]) + sum_(a != x4) (1/f_a) i g[x4].g[xa] d_a + (7/2) i H g[x4].g[x0]] - i (3/4)(b4'/b4); " <>
+  "good sector (no x5, x6, x7 dependence): integral b4^(3/2) Cos[z] u^dagger v d^7x conserved up to boundary terms, positive Fock space for frozen-coefficient plane waves, " <>
   "normal-ordered H = sum E (b^* b + d^* d) >= 0 per momentum; expectation-value rule <Psi^dagger M Psi> = u^dagger B M u (u^dagger u = 1, positive-energy good-sector u); EMT operator T^mu_nu = :T^mu_nu[Psi, Psi^dagger = chi B]: (normal ordered), <T> by the same rule; " <>
   "extra-time modes: E^2 = m^2 + k_s^2 - k_t^2 < 0 for k_t^2 > m^2 + k_s^2, growing as exp(|E| x4)"];
 ];

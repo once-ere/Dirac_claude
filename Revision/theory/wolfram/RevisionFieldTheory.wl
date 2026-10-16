@@ -19,13 +19,14 @@
    coupling lam and z = 6 H x0 in (0, Pi/2).  (Until 2026-10-14 the package used the withdrawn labels
    x1 ... x8 with the hidden direction x8 listed last.)
 
-   1. Geometry (SPEC section 1: the author's metric with the second function b4(x4), the change of 2026-10-14;
-      the user's orders of 2026-10-15: "b4 is a function of x4; b4 is NEVER 1" and "move everything to
-      b4(x4)").  g = diag(f0^2, f1^2, f2^2, f3^2, -1, -f5^2, -f6^2, -f7^2) with
-        f0 = Cot[z],  f1 = f2 = f3 = E^a4 Sin[z]^(1/6),  f4 = 1,  f5 = f6 = f7 = E^-a4 b4^(1/2) Sin[z]^(1/6);
+   1. Geometry (SPEC section 1: THE WARPED METRIC of 2026-10-16, the user's order "find the simplest modification
+      for the current metric of the primordial gravitational field that is probably self-consistent with the
+      Einstein field equations"; Revision/metric_warped/).  g = diag(f0^2, f1^2, f2^2, f3^2, -f4^2, -f5^2, -f6^2, -f7^2) with
+        f0 = Cot[z],  f1 = f2 = f3 = E^a4 Sin[z]^(1/6),  f4 = Sin[z]^(1/6),  f5 = f6 = f7 = E^-a4 b4^(1/2) Sin[z]^(1/6);
       diagonal vielbein e^a_mu = f_a delta^a_mu (row a = frame, column mu = coordinate), inverse
-      vielbein e_a^mu = delta / f_a; eta = diag(1,1,1,1,-1,-1,-1,-1); sqrt|g| = b4^(3/2) Cos[z].
-      (Until 2026-10-15 this package defined the earlier metric b4 = 1, withdrawn.)
+      vielbein e_a^mu = delta / f_a; eta = diag(1,1,1,1,-1,-1,-1,-1); sqrt|g| = b4^(3/2) Cos[z] Sin[z]^(1/6).
+      (Until 2026-10-16 this package defined the metric of 2026-10-14 with f4 = 1, withdrawn; until 2026-10-15
+      the metric with b4 = 1.)
       Christoffel Gamma^l_mn = (1/2) g^lr (d_m g_rn + d_n g_rm - d_r g_mn);
       Riemann R^r_smn = d_m Gamma^r_ns - d_n Gamma^r_ms + Gamma^r_ml Gamma^l_ns - Gamma^r_nl Gamma^l_ms,
       Ricci R_sn = R^r_srn, R = g^sn R_sn.
@@ -61,12 +62,12 @@ rftZ = 6 H x0;
 rftCoordNames = {"x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"};
 rftEta = DiagonalMatrix[{1, 1, 1, 1, -1, -1, -1, -1}];
 rftEtaD = {1, 1, 1, 1, -1, -1, -1, -1};
-rftF = {Cot[rftZ], E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), 1,
+rftF = {Cot[rftZ], E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), E^a4[x4] Sin[rftZ]^(1/6), Sin[rftZ]^(1/6),
         E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[rftZ]^(1/6)};
-(* the author's metric with b4[x4], typed as in SPEC section 1 *)
+(* the warped metric of 2026-10-16, typed as in SPEC section 1 *)
 rftMetricAuthor = {{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},
   {0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},
-  {0,0,0,0,-1,0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},
+  {0,0,0,0,-Sin[6 H x0]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},
   {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}};
 rftAssumptions = {H > 0, 0 < 6 H x0 < Pi/2, Element[a4[x4], Reals], Element[x4, Reals], b4[x4] > 0};
 
@@ -74,7 +75,7 @@ rftE0 = DiagonalMatrix[rftF];                (* e^a_mu: row a (frame), column mu
 rftEinv0 = DiagonalMatrix[1/rftF];           (* e_a^mu stored as [[mu, a]] *)
 rftG0 = Transpose[rftE0] . rftEta . rftE0;
 rftGinv0 = Inverse[rftG0];
-rftSqrtG0 = b4[x4]^(3/2) Cos[rftZ];
+rftSqrtG0 = b4[x4]^(3/2) Cos[rftZ] Sin[rftZ]^(1/6);
 
 (* ------------------------------------------------------------------ exact zero test *)
 (* Sin z -> w^6 (w > 0), Cos z -> cw, cw^2 -> 1 - w^12 after clearing denominators. *)
@@ -89,7 +90,7 @@ rftNormal[e_] := Module[{t},
    replaced by its own symbol) are treated as independent polynomial variables; the expression is zero if
    every coefficient (a rational function of Sin z, Cos z, E^a4, a4', ... ) reduces to 0 with
    Cos^2 = 1 - Sin^2.  Treating U-expressions as independent can only make the test stricter. *)
-rftFieldHeadPattern = ph | phc | qv | phr | rfth | pf | qf;
+rftFieldHeadPattern = ph | phc | qv | phr | rfth | pf | qf | pfc | qfc;
 rftZeroQ[e_] := Module[{t, uexp, urules, vars, coefs},
   t = Expand[PowerExpand[e /. rftTrigRules]];
   If[t === 0, Return[True]];
@@ -97,8 +98,9 @@ rftZeroQ[e_] := Module[{t, uexp, urules, vars, coefs},
   urules = Thread[uexp -> Array[rftUsym, Length[uexp]]];
   t = Expand[t /. urules];
   (* field calls: compound heads such as ph[3][x0, ..., x7] or Derivative[..][phc[3, 1]][x0, ..., x7],
-     the scalar test functions pf[x0], qf[x0] and their derivatives, and the constants cA[..], cAc[..] *)
-  vars = Union[Cases[t, (hh_[__] /; (!AtomQ[hh] && !FreeQ[hh, rftFieldHeadPattern])) | (pf | qf)[_] | (cA | cAc)[__], {0, Infinity}]];
+     the scalar test functions pf[..], qf[..] (and the profiles pfc[..], qfc[..] of the conjugate field, treated as independent
+     functions, which only makes the test stricter) and their derivatives, and the constants cA[..], cAc[..] *)
+  vars = Union[Cases[t, (hh_[__] /; (!AtomQ[hh] && !FreeQ[hh, rftFieldHeadPattern])) | (pf | qf | pfc | qfc)[_] | (cA | cAc)[__], {0, Infinity}]];
   coefs = If[vars === {}, {t}, Last /@ CoefficientRules[t, vars]];
   And @@ (rftReduceCos[Expand[Numerator[Together[#]]]] === 0 & /@ coefs)];
 rftZeroQ[e_List] := And @@ (rftZeroQ /@ Flatten[e]);
