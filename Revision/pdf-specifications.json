@@ -11,8 +11,8 @@
   },
   "dirac16complex00-field-theory": {
     "path": "Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.pdf",
-    "pages": 40,
-    "sha256": "af8a95ea83543c73e8bd246dc185b7f3fa348a084b693eba544b427940dcc61b"
+    "pages": 42,
+    "sha256": "ce90c32c417302e9b8f3aa2efe10c1da6fd78e51aa2cca708c8f90ae3cdb2978"
   },
   "kohn-sham-deflating-field": {
     "path": "Revision/docs/KOHN_SHAM_DEFLATING_FIELD.pdf",

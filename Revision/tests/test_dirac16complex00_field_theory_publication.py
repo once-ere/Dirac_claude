@@ -13,14 +13,17 @@ What is tested (nothing is rebuilt with pdflatex here; the committed files are n
     edition dirac16complex00-field-theory with this path, its page count and its sha256, and it has
     the PDF header, the end marker and US-letter media boxes;
   * the exact formula blocks of the document are the ones generated here from the Revision outputs
-    (the 16 component field equations from Revision/theory/field-theory.json; the Lovelock components,
-    the evolution factor, the Einstein case, the linear member and the off-diagonal kinetic
-    coefficients from Revision/field_equations_a4/a4-equations.json);
+    for the metric with b4(x4) (the 16 component field equations, with the b4 term, from
+    Revision/theory/field-theory.json; the Lovelock components in a4', a4'', u = b4'/b4, v = u', the
+    off-diagonal factor Q, the identity x1 + x5 - 2 x0, the Einstein case, the factor Q(A, beta) of
+    the author's weights and the off-diagonal kinetic coefficients of the condensate from
+    Revision/field_equations_a4/a4-equations.json);
   * every check name the document cites exists, with a passing verdict, in the Revision report the
     check index names, and every cited report passes as a whole;
   * key statements (Lagrangian, field equation, non-triviality [2], energy-momentum tensor, energy
-    density, pressures, equations of state, the a4 equations, what is not claimed) are present, and
-    the numbers the document quotes occur in the Revision outputs;
+    density, pressures, equations of state, the a4 and b4 equations, what is not claimed) are
+    present, no statement of the withdrawn metric b4 = 1 is left as a result, and the numbers the
+    document quotes occur in the Revision outputs;
   * the document names no private input and uses only the characters the builder accepts.
 Optional (REVISION_PDF_REBUILD=1, the switch shared by every Revision publication test; needs pdflatex): the PDF
 is rebuilt in verify mode by scripts/build_provenance_pdf.py and must reproduce the registered edition.
@@ -74,13 +77,6 @@ REPORTS = {
 }
 PASSING = {"PASS", "pass"}
 
-# The general-b4 supplements of the metric of 2026-10-14, cited by check name in the b4 section;
-# only their passing check names count as known.
-B4_REPORTS = (
-    "theory/reports/wolfram-field-theory-b4.json",
-    "theory/reports/python-field-theory-b4.json",
-)
-
 PRIVATE_MARKERS = (
     "Gmail",
     "prompt_Dirac",
@@ -132,9 +128,11 @@ TERM_PATTERNS = (
     ("mass", re.compile(r"^3\*H\*Psi\[(\d+)\]$")),
     ("space", re.compile(
         r'^dd\["x([123])", Psi\[(\d+)\]\]/\(E\^a4\[x4\]\*Sin\[6\*H\*x0\]\^\(1/6\)\)$')),
-    ("time", re.compile(
-        r'^\(E\^a4\[x4\]\*dd\["x([567])", Psi\[(\d+)\]\]\)/Sin\[6\*H\*x0\]\^\(1/6\)$')),
+    ("time", re.compile(  # the extra-time factor e^{a4} b4^{-1/2} sin^{-1/6} z
+        r'^\(E\^a4\[x4\]\*dd\["x([567])", Psi\[(\d+)\]\]\)/\(Sqrt\[b4\[x4\]\]\*Sin\[6\*H\*x0\]\^\(1/6\)\)$')),
     ("hidden", re.compile(r'^dd\["x0", Psi\[(\d+)\]\]\*Tan\[6\*H\*x0\]$')),  # x0: the hidden direction
+    ("b4", re.compile(  # the b4 term (3/4)(b4'/b4) of the gravity term, with the matrix gamma^(x4)
+        r"^\(3\*Psi\[(\d+)\]\*Derivative\[1\]\[b4\]\[x4\]\)/\(4\*b4\[x4\]\)$")),
 )
 
 
@@ -177,12 +175,15 @@ def signed(sign: int, body: str, first: bool) -> str:
 
 
 def component_equation_lines() -> list[tuple[str, str]]:
-    """The 16 component equations as pairs of LaTeX lines (aligned rows) for the document."""
+    """The 16 component equations as pairs of LaTeX lines (aligned rows) for the document;
+    hat-d4 = d4 + (3/4)(b4'/b4): the b4 term acts on the same component as d4, with the same sign."""
     lines = []
     for text in theory_formula("field_equation_components"):
         t = parse_component_equation(text)
         if t["mass"] != (1, t["hidden"][1]) or t["hidden"][0] != 1:
             raise ValueError("the 3 H and tan z d0 terms must act on the same component with +")
+        if t["b4"] != t["x4"]:
+            raise ValueError("the b4 term must act on the component of d4 with the sign of d4")
         s4, i4 = t["x4"]
         space = "".join(
             signed(t["space"][d][0], rf"\partial_{d}\Phi_{{{t['space'][d][1]}}}", d == 1)
@@ -194,11 +195,11 @@ def component_equation_lines() -> list[tuple[str, str]]:
         )
         first = (
             rf"({t['target']})\;\; & "
-            + signed(s4, rf"\partial_4\Phi_{{{i4}}}", True)
-            + rf" + u\,({space}) \\"
+            + signed(s4, rf"\hat\partial_4\Phi_{{{i4}}}", True)
+            + rf" + \epsilon_s\,({space}) \\"
         )
         second = (
-            rf"& + v\,({time}) + (t\,\partial_0 + 3H)\,\Phi_{{{t['hidden'][1]}}}"
+            rf"& + \epsilon_t\,({time}) + (t\,\partial_0 + 3H)\,\Phi_{{{t['hidden'][1]}}}"
             + rf" = V\,\Phi_{{{t['target']}}}"
         )
         lines.append((first, second))
@@ -365,20 +366,19 @@ class TestGeneratedFormulaBlocks(unittest.TestCase):
         data = load_json(A4_JSON)
         text = squash(markdown_text())
         wanted = [
-            data["generalSource"]["evolution_F"]["tex"],
-            data["generalSource"]["algebraic_condition"]["tex"],
+            data["generalSource"]["offDiagonalFactor_Q"]["tex"],
+            data["generalSource"]["identity_x1_plus_x5_minus_2x0"]["tex"],
             data["einstein"]["constraint_x4"]["tex"],
             data["einstein"]["space_x1"]["tex"],
             data["einstein"]["extraTime_x5"]["tex"],
             data["einstein"]["hidden_x0"]["tex"],
-            data["einstein"]["evolution"]["tex"],
+            data["einstein"]["offDiagonal_x4x0"]["tex"],
             data["einstein"]["nullEnergy"]["tex"],
-            data["linearMember"]["rho"]["tex"],
-            data["linearMember"]["p"]["tex"],
-            data["linearMember"]["vacuumFactor"]["tex"],
+            data["exponentialHistory"]["authorWeights"]["Q"]["tex"],
         ]
         for tex in wanted:
             self.assertIn(squash(tex), text, tex)
+        self.assertIn("Q=" + squash(data["generalSource"]["offDiagonalFactor_Q"]["tex"]), text)
 
     def test_offdiagonal_coefficients(self):
         text = markdown_text()
@@ -432,9 +432,6 @@ class TestCitedChecks(unittest.TestCase):
             known.update(json_keys(load_json(source)))
         for relative in REPORTS:
             known.update(load_json(REVISION / relative))  # top-level sections of the reports
-        for relative in B4_REPORTS:
-            known.update(c["name"] for c in load_json(REVISION / relative)["checks"]
-                         if c["verdict"] in PASSING)
         text = markdown_text()
         unknown = []
         for token in re.findall(r"`([^`\s]+)`", text):
@@ -453,45 +450,58 @@ class TestKeyStatements(unittest.TestCase):
         r"\mathcal{L} = \sqrt{|g|}\,\Big[\tfrac12\big(\bar\Phi\gamma^\mu D_\mu\Phi"
         r" - (D_\mu\bar\Phi)\gamma^\mu\Phi\big) - m\,S - U(S)\Big]",
         r"\gamma^\mu D_\mu\Phi = \big(m + U'(S)\big)\,\Phi",
-        r"\gamma^\mu\Omega_\mu = 3H\,\gamma^{(x_0)}",
-        r"\sqrt{|g|} = \cos z",
-        r"R = 6\big((a_4')^2 - 7H^2\big)",
+        r"\gamma^\mu\Omega_\mu = 3H\,\gamma^{(x_0)} + \tfrac34u\,\gamma^{(x_4)}",
+        r"\big(\gamma^\mu\Omega_\mu\big)^2 = \big(9H^2 - \tfrac{9}{16}u^2\big)\,I_{16}",
+        r"\sqrt{|g|} = b_4^{3/2}\cos z",
+        r"R = 6(a_4')^2 - 3a_4'u + 3u^2 + 3v - 42H^2",
         r"R^{x_0}{}_{x_0} = -6H^2",
+        r"$b_4$ is never 1",
         "NON-TRIVIALITY [2]",
         r"\rho = -T^{x_4}{}_{x_4}",
         r"\rho = m S + U(S)",
         r"p_3 = p_t = p_0 = S\,U'(S) - U(S)",
         r"w = \frac{\lambda S}{2m + \lambda S}",
-        r"\frac{d\rho}{dx_4} = -3\,a_4'\,(p_3 - p_t)",
+        r"\frac{d\rho}{dx_4} = -3\,a_4'\,(p_3 - p_t) - \tfrac32\,u\,(\rho + p_t)",
+        r"b_4^{3/2}S = S_0",
         r"a_4 = A H x_4 + a_0",
-        r"\kappa\, m S = -(36H^2 + 2\Lambda)",
-        r"6(A^2 + 1)H^2 = -\kappa\, S\,(m + \lambda S)",
+        r"a_4 = Hx_4,\quad b_4 = b_4(0)\,e^{(4/3)Hx_4}",
+        r"\kappa(\rho, p_3, p_t, p_0) = \big(-\tfrac{2}{27}, -\tfrac29, -\tfrac{22}{27}, -\tfrac{14}{27}\big)",
         "is not quantised",
         "## 15. What is not claimed",
         "no creation process",
         "**Scope of [2] (exact).**",
-        "The value $\\gamma^\\mu\\Omega_\\mu = 3H\\gamma^{(x_0)}$ belongs to the diagonal vielbein",
+        "belongs to the diagonal vielbein",
+        "no boost in this plane removes",
         "What cannot be removed in any frame is $\\Omega_\\mu$ itself",
         "The classical energy of dirac16complex00 is unbounded below already for $U = 0$",
         "This does not make the Cauchy problem well posed",
-        "which is a choice of sign and is not selected by the equations",
+        "is a choice of sign and is not selected by the equations",
         "are interpretations",
         "That record establishes neither Hypothesis nor Hypothesis00",
-        "because its two free parameters were CHOSEN to solve the two tangent conditions",
-        "a crossing of $w = -1$ occurs only with a component of negative classical energy",
         r"the tuned value $\lambda S/m = -382/441$",
-        r"on the linear member $\kappa\rho = -(3A^2 + 21)H^2 - \Lambda$",
-        r"is phantom exactly when $\Lambda < -(21 + 3A^2)H^2$, and for $\Lambda = 0$ it is "
-        r"$w = (A^2 - 5)/(A^2 + 7) > -1$",
+        "no condensate is the source of the background history",
         "`Revision/docs/DARK_SECTOR_HYPOTHESES`",
         "`Revision/docs/LOVELOCK_GKD`",
         "`Revision/docs/KOHN_SHAM_DEFLATING_FIELD`",
+    )
+
+    # statements of the withdrawn metric b4 = 1 that must not reappear as results
+    STALE = (
+        r"\sqrt{|g|} = \cos z",
+        "F(a_4')",
+        "linear member",
+        "sections 2 to 16 are written for it",
+        "Not recomputed for general",
+        "the case $b_4 = 1$",
+        r"R = 6\big((a_4')^2 - 7H^2\big)",
     )
 
     def test_statements_present(self):
         text = markdown_text()
         for statement in self.STATEMENTS:
             self.assertIn(statement, text, statement)
+        for statement in self.STALE:
+            self.assertNotIn(statement, text, statement)
 
     def test_quoted_numbers_occur_in_the_outputs(self):
         a4_report = (REVISION / "field_equations_a4/reports/wolfram-a4-report.json").read_text(
@@ -505,8 +515,12 @@ class TestKeyStatements(unittest.TestCase):
         )
         for in_report, in_document in (
             ("lambda S/m = -382/441", r"$\lambda S/m = -382/441$"),
-            ("= (-0.861, -0.600) = the Unite CPL values", "$(w_0, w_a) = (-0.861, -0.60)$"),
-            ("= w_eff(N1) - 1", "differ by exactly $-1$"),
+            ("returns (w0, wa) = (-0.861, -0.60)", "$(w_0, w_a) = (-0.861, -0.60)$"),
+            ("w_eff = w_eff(N1) - 1 + beta/2", r"$w_{\rm eff}(N2) = w_{\rm eff}(N1) - 1 + \beta/2$"),
+            ("(-583/3000, 81037/500000)", "$(-583/3000, 81037/500000)$"),
+            ("(-287/1000, -196963/4500000)", "$(-287/1000, -196963/4500000)$"),
+            ("needs G >= 1583/1000", r"$G \geq 1583/1000$"),
+            ("-84231/31250 = -2.695392", "$w_a = -84231/31250 = -2.695392$"),
         ):
             self.assertIn(in_report, derive)
             self.assertIn(in_document, markdown_text())
@@ -515,8 +529,11 @@ class TestKeyStatements(unittest.TestCase):
     def turning_points_statement(models) -> str:
         """The turning points a_* of M3 and M4 as section 10 quotes them, from eos-theory.json."""
         m3 = models["M3_positive_extra_time_mode"]["turning_point_a_star"]
-        exact = Fraction(m3["exact"].removeprefix("sqrt(").removesuffix(")"))
-        if abs(math.sqrt(exact) - float(m3["decimal"])) >= 1e-11:
+        match = re.fullmatch(r"\((\d+/\d+)\)\^\(3/2\)", m3["exact"])  # a_* = s^(-3/2)
+        if match is None:
+            raise AssertionError(f"M3 turning point: unexpected exact form {m3['exact']!r}")
+        exact = Fraction(match.group(1))
+        if abs(math.sqrt(exact) ** 3 - float(m3["decimal"])) >= 1e-10:
             raise AssertionError(f"M3 turning point: decimal and exact value differ: {m3}")
         m4 = float(models["M4_condensate_plus_extra_time_mode"]["turning_point_a_star"])
         return f"(M3: $a_* = {float(m3['decimal']):.4f}$, M4: $a_* = {m4:.4f}$)"
@@ -529,12 +546,12 @@ class TestKeyStatements(unittest.TestCase):
         # negative controls: a changed turning point in the record or in the text is detected
         models = load_json(REVISION / "dark_sector/dirac16complex00/eos-theory.json")["models"]
         statement = self.turning_points_statement(models)
-        self.assertNotIn(statement, markdown_text().replace("M4: $a_* = 1.2355$", "M4: $a_* = 1.2356$"))
-        self.assertNotIn(statement, markdown_text().replace("M3: $a_* = 1.8434$", "M3: $a_* = 1.8433$"))
-        models["M4_condensate_plus_extra_time_mode"]["turning_point_a_star"] = "1.23559235933"
+        self.assertNotIn(statement, markdown_text().replace("M4: $a_* = 1.8859$", "M4: $a_* = 1.8860$"))
+        self.assertNotIn(statement, markdown_text().replace("M3: $a_* = 6.2640$", "M3: $a_* = 6.2639$"))
+        models["M4_condensate_plus_extra_time_mode"]["turning_point_a_star"] = "1.88599"
         self.assertNotIn(self.turning_points_statement(models), markdown_text())
-        models["M3_positive_extra_time_mode"]["turning_point_a_star"] = {"decimal": "1.84348860113",
-                                                                         "exact": "sqrt(1417/417)"}
+        models["M3_positive_extra_time_mode"]["turning_point_a_star"] = {"decimal": "6.26398476691",
+                                                                         "exact": "(1417/418)^(3/2)"}
         with self.assertRaises(AssertionError):
             self.turning_points_statement(models)
 
