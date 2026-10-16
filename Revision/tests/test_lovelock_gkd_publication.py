@@ -28,9 +28,10 @@ What is tested
   * the report-count table and the quoted check counts equal the JSON files;
   * every quoted number is read from its JSON report: the GKD self-test, the Rust, sympy and Wolfram
     counters, the brute-force deviations, the Christoffel and Riemann data, the Ricci and Einstein
-    tensors, every listed component of P_(1), P_(2), P_(3), the scalars L_(k), the normalisation
-    constants, the identity P^x1 + P^x5 = 2 P^x0, the factor F(a4') of the evolution equation and the
-    E_(k) of Revision/field_equations_a4/a4-equations.json; the run times are those of the provenance
+    tensors for general b4 (in a4', a4'', u = b4'/b4, v = u'), every listed component of P_(1), P_(2),
+    P_(3), the scalars L_(k), the normalisation constants, the combination P^x1 + P^x5 - 2 P^x0 (every
+    term with u or v), and the E_(k) of Revision/field_equations_a4/a4-equations.json with the records of
+    the off-diagonal factorisation and of the history source; the run times are those of the provenance
     files;
   * the comparison with the author's stored outputs (section 8.2): the counts, the verdict of every
     check in the result table, the mapping, the two worked examples, the controls, the cells used, the
@@ -78,8 +79,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "a6abb090876740abce610e6eff25c90412499c1a04df5a9a960fafcc49a113b8"
-TEX_SHA256 = "99cecfcb3e6df4fe78f8d56835c893911b714c1830182eee471d58bdb4043160"
+MARKDOWN_SHA256 = "d9fb7587edb56951ec37420e209f3d4864bf9e55af7d3337ec27d134b043898c"
+TEX_SHA256 = "60d14790eebfb9329d9093179087207fb8eebfbefc10dfeb8ee483328b2c29cd"
 
 GKD = REVISION / "gkd_lovelock"
 RESULTS = GKD / "results"
@@ -134,13 +135,15 @@ SECTIONS = (
     "## 6. Results",
     "## 7. Independent verifications",
     "## 8. The comparison with the author's notebooks",
-    "## 9. How the field equations for $a_4$ use the Lovelock tensors",
+    "## 9. How the field equations for $a_4$ and $b_4$ use the Lovelock tensors",
     "## 10. Verification records",
     "## 11. Reproduction",
     "## 12. What is established and what is not",
 )
 KEY_STATEMENTS = (
-    "which DEFLATE exponentially with the scale factor $e^{-a_4}\\sin^{1/6}z$ as $a_4(x_4)$ increases (they are never treated as static)",
+    "which DEFLATE exponentially with the scale factor $e^{-a_4}b_4^{1/2}\\sin^{1/6}z$ as $a_4(x_4)$ increases (they are never treated as static)",
+    "$b_4$ is a function of the time and never 1",
+    "the only place where this document restricts it",
     "kδ[lower_, upper_] /; Length[lower] == Length[upper] := Det[Outer[delta, lower, upper]]",
     "**Theorem (GKD).**",
     "E_{(k)}{}^h{}_j = -\\frac{P_{(k)}{}^h{}_j}{2^{k+1}},\\qquad E_{(1)} = G",
@@ -175,7 +178,7 @@ FORBIDDEN = (
     r"\$k = [23]\$[^.]*\bagree(?:s|d)? with (?:the author|those of the author)",
     r"\boutput cells? of `?Generalized _Kronecker_Delta_4\+4\.nb`? (?:were|was|has been|have been) (?:read|opened|used|compared)\b",
 )
-FILE_SUFFIXES = (".json", ".py", ".wls", ".wl", ".md", ".tex", ".pdf", ".rs", ".csv", ".toml", ".txt", ".png", ".nb", ".exe")
+FILE_SUFFIXES = (".json", ".py", ".wls", ".wl", ".md", ".tex", ".pdf", ".rs", ".csv", ".toml", ".txt", ".png", ".nb", ".exe", ".ipynb")
 # Other identifiers the document cites in code spans, with the file that must contain each.
 OTHER_IDENTIFIERS = {
     "SUCCESS": RUST_REPORT,
@@ -297,24 +300,55 @@ def detail_of(path: Path, name: str) -> str:
     raise KeyError(f"{name} not in {path}")
 
 
-BB, B1, B2 = sp.symbols("BB B1 B2")
+BB, B1, B2, U, V = sp.symbols("BB B1 B2 U V")
+CC = sp.Symbol("cc")
 
 
-def from_mathematica(text: str, b4_one: bool = True) -> sp.Expr:
-    """The Mathematica text of a curvature or Lovelock component (no warp factors) as sympy.  Since 2026-10-14 the
-    record carries the metric function b4[x4]; the statements of the document that this test compares are those of
-    the background b4 = 1 (b4' = b4'' = 0), so by default the expression is returned at b4 = 1."""
+def from_mathematica(text: str) -> sp.Expr:
+    """The Mathematica text of a curvature or Lovelock component (no warp factors) as sympy, for general b4: b4 enters
+    every mixed component only through u = b4'/b4 (U) and v = u' (V), with b4''/b4 = v + u^2; Cot[6*H*x0] is cc."""
     text = text.replace("Derivative[2][a4][x4]", "A2").replace("Derivative[1][a4][x4]", "A1")
     text = text.replace("Derivative[2][b4][x4]", "B2").replace("Derivative[1][b4][x4]", "B1").replace("b4[x4]", "BB")
-    text = text.replace("^", "**")
-    expr = sp.sympify(text, locals={"A1": A1, "A2": A2, "H": H, "BB": BB, "B1": B1, "B2": B2})
-    return sp.simplify(expr.subs({B1: 0, B2: 0}).subs(BB, 1)) if b4_one else expr
+    text = text.replace("Cot[6*H*x0]", "cc").replace("^", "**")
+    expr = sp.sympify(text, locals={"A1": A1, "A2": A2, "H": H, "BB": BB, "B1": B1, "B2": B2, "cc": CC})
+    expr = sp.expand(sp.simplify(expr.subs({B2: (V + U**2) * BB}).subs({B1: U * BB})))
+    assert not expr.has(BB), text
+    return expr
+
+
+SCALAR_GENS = (A1, A2, U, V, H)
+SCALAR_NAMES = ("a_4'", "a_4''", "u", "v", "H")
+
+
+def scalar_lines(expr: sp.Expr, per_line: int = 3) -> list[str]:
+    """A polynomial in a4', a4'', u, v, H as the LaTeX lines of the document (lex order, `per_line` terms a line)."""
+    terms = []
+    for exps, coeff in sp.Poly(expr, *SCALAR_GENS).terms():
+        coeff = sp.Rational(coeff)
+        factors = []
+        for name, e in zip(SCALAR_NAMES, exps):
+            if e:
+                base = f"({name})" if (name.startswith("a_4") and e > 1) else name
+                factors.append(base + (f"^{{{e}}}" if e > 1 else ""))
+        mag = abs(coeff)
+        num = rf"\tfrac{{{mag.p}}}{{{mag.q}}}" if mag.q != 1 else str(mag.p)
+        terms.append(("-" if coeff < 0 else "+", r"\,".join(([num] if (mag != 1 or not factors) else []) + factors)))
+    lines, current = [], []
+    for i, (sign, body) in enumerate(terms):
+        current.append(((("-" if sign == "-" else "") + body) if i == 0 else f"{sign} {body}"))
+        if len(current) == per_line:
+            lines.append(" ".join(current))
+            current = []
+    if current:
+        lines.append(" ".join(current))
+    return lines
 
 
 def from_ad(text: str) -> sp.Expr:
-    """An expression of the field-equations branch (ad1 = a4', ad2 = a4'')."""
+    """An expression of the field-equations branch (ad1 = a4', ad2 = a4'', uu = b4'/b4, vv = (b4'/b4)', cc = cot z)."""
     text = text.replace("^", "**")
-    names = {"ad1": A1, "ad2": A2, "H": H, "alpha1": ALPHA[0], "alpha2": ALPHA[1], "alpha3": ALPHA[2]}
+    names = {"ad1": A1, "ad2": A2, "uu": U, "vv": V, "cc": CC, "H": H, "alpha1": ALPHA[0], "alpha2": ALPHA[1],
+             "alpha3": ALPHA[2]}
     return sp.sympify(text, locals=names)
 
 
@@ -579,55 +613,73 @@ class QuotedData(unittest.TestCase):
         christoffels = self.curvature["christoffelNonzero_b_le_c"]
         self.assertEqual(len(christoffels), 25)
         self.assertIn("lists 25 nonzero Christoffel symbols", self.text)
+        rate = A1 - U / 2   # the rate of the extra-time scale factor e^(-a4) b4^(1/2) (with the opposite sign)
+        plain = [sp.expand(from_mathematica(c["value"])) for c in christoffels
+                 if "E^" not in c["value"] and "Cot" not in c["value"]]
+        self.assertIn(sp.expand(-rate), plain)
+        for text in ("\\Gamma^{x_t}{}_{x_4x_t} = -(a_4' - u/2)", "\\Gamma^{x_4}{}_{x_tx_t} = (a_4' - u/2)\\,e^{-2a_4}b_4\\sin^{1/3}z",
+                     "\\Gamma^{x_0}{}_{x_tx_t} = He^{-2a_4}b_4\\sin^{1/3}z\\,\\tan z"):
+            self.assertIn(text, self.text, text)
         riemann = self.curvature["riemannMixedNonzero"]
         self.assertEqual(len(riemann), 156)
         self.assertIn("has 156 nonzero entries", self.text)
         space, extra = {"x1", "x2", "x3"}, {"x5", "x6", "x7"}
-        expected = {
-            "same": A1**2 - H**2, "mixed": -A1**2 - H**2, "i4": A2 + A1**2, "4t": -A2 + A1**2, "8": -H**2,
-        }
+        expected = {"ii": A1**2 - H**2, "tt": rate**2 - H**2, "it": -A1 * rate - H**2, "i4": A2 + A1**2,
+                    "4t": -A2 + V / 2 + rate**2, "0": -H**2}
         for entry in riemann:
             (a, b), (c, d) = entry["up"], entry["down"]
-            if (a, b) != (c, d):
-                continue
-            value = from_mathematica(entry["value"]) if "Cot" not in entry["value"] else None
+            value = from_mathematica(entry["value"])
             pair = {a, b}
-            if pair <= space or pair <= extra:
-                self.assertEqual(sp.expand(value - expected["same"]), 0, entry)
-            elif len(pair & space) == 1 and len(pair & extra) == 1:
-                self.assertEqual(sp.expand(value - expected["mixed"]), 0, entry)
-            elif "x4" in pair and pair & space:
-                self.assertEqual(sp.expand(value - expected["i4"]), 0, entry)
-            elif "x4" in pair and pair & extra:
-                self.assertEqual(sp.expand(value - expected["4t"]), 0, entry)
-            elif "x0" in pair:
-                self.assertEqual(sp.expand(value - expected["8"]), 0, entry)
+            if (a, b) == (c, d):
+                key = ("ii" if pair <= space else "tt" if pair <= extra else
+                       "it" if len(pair & space) == 1 and len(pair & extra) == 1 else
+                       "i4" if "x4" in pair and pair & space else "4t" if "x4" in pair and pair & extra else
+                       "0" if "x0" in pair else None)
+                self.assertIsNotNone(key, entry)
+                self.assertEqual(sp.expand(value - expected[key]), 0, entry)
+            elif (a, b) == ("x1", "x4") and (c, d) == ("x1", "x0"):
+                self.assertEqual(sp.expand(value - H * A1 * CC), 0, entry)
+            elif (a, b) == ("x4", "x5") and (c, d) == ("x5", "x0"):
+                self.assertEqual(sp.expand(value - H * rate * CC), 0, entry)
+            elif (a, b) == ("x1", "x0") and (c, d) == ("x1", "x4"):
+                self.assertEqual(sp.expand(value + H * A1 / CC), 0, entry)
+            elif (a, b) == ("x5", "x0") and (c, d) == ("x4", "x5"):
+                self.assertEqual(sp.expand(value + H * rate / CC), 0, entry)
         self.assertFalse(any(set(e["up"]) == {"x0", "x4"} for e in riemann))
-        for line in ("| $R^{x_ix_t}{}_{x_ix_t}$ | $-(a_4')^2 - H^2$ |", "| $R^{x_ix_4}{}_{x_ix_4}$ | $a_4'' + (a_4')^2$ |",
-                     "| $R^{x_4x_t}{}_{x_4x_t}$ | $-a_4'' + (a_4')^2$ |",
-                     "| $R^{x_ix_0}{}_{x_ix_0}$ and $R^{x_tx_0}{}_{x_tx_0}$ | $-H^2$ |"):
+        for line in ("| $R^{x_ix_{i'}}{}_{x_ix_{i'}}$ | $(a_4')^2 - H^2$ |",
+                     "| $R^{x_tx_{t'}}{}_{x_tx_{t'}}$ | $(a_4' - u/2)^2 - H^2$ |",
+                     "| $R^{x_ix_t}{}_{x_ix_t}$ | $-a_4'(a_4' - u/2) - H^2$ |",
+                     "| $R^{x_ix_4}{}_{x_ix_4}$ | $a_4'' + (a_4')^2$ |",
+                     "| $R^{x_4x_t}{}_{x_4x_t}$ | $-a_4'' + v/2 + (a_4' - u/2)^2$ |",
+                     "| $R^{x_ix_0}{}_{x_ix_0}$ and $R^{x_tx_0}{}_{x_tx_0}$ | $-H^2$ |",
+                     "| $R^{x_ix_4}{}_{x_ix_0}$ | $Ha_4'\\cot z$ |", "| $R^{x_4x_t}{}_{x_tx_0}$ | $H(a_4' - u/2)\\cot z$ |",
+                     "| $R^{x_ix_0}{}_{x_ix_4}$ | $-Ha_4'\\tan z$ |", "| $R^{x_tx_0}{}_{x_4x_t}$ | $-H(a_4' - u/2)\\tan z$ |"):
             self.assertIn(line, self.text, line)
-        cot = [e for e in riemann if "Cot" in e["value"]]
-        self.assertEqual(len(cot), 156 - sum(1 for e in riemann if "Cot" not in e["value"]))
-        # at b4 = 1 these are +-H a4' Cot^(+-1) (with b4 the extra-time ones carry a4' - b4'/(2 b4))
-        cc = sp.Symbol("cc")
-        values = {sp.srepr(from_mathematica(e["value"].replace("Cot[6*H*x0]", "cc"))) for e in cot}
-        expected_vals = {sp.srepr(sp.sympify(v, locals={"A1": A1, "H": H, "cc": cc}))
-                         for v in ("H*A1*cc", "-H*A1*cc", "H*A1/cc", "-H*A1/cc")}
-        self.assertEqual(values, expected_vals)
-        self.assertEqual(from_mathematica(self.curvature["ricciScalar"]), 6*A1**2 - 42*H**2)
-        self.assertIn("$R = 6(a_4')^2 - 42H^2$", self.text)
-        ricci = {"x0,x0": -6*H**2, "x1,x1": A2 - 6*H**2, "x4,x4": 6*A1**2, "x5,x5": -A2 - 6*H**2}
-        einstein = {"x0,x0": -3*A1**2 + 15*H**2, "x1,x1": A2 - 3*A1**2 + 15*H**2, "x4,x4": 3*A1**2 + 21*H**2,
-                    "x5,x5": -A2 - 3*A1**2 + 15*H**2}
-        for key in COMPONENTS:
-            self.assertEqual(sp.expand(from_mathematica(self.curvature["ricciMixed"][key]["mathematica"]) - ricci[key]), 0)
-            self.assertEqual(sp.expand(from_mathematica(self.curvature["einsteinMixed"][key]["mathematica"]) - einstein[key]), 0)
-        for text in ("$R^{x_i}{}_{x_i} = a_4'' - 6H^2$", "$R^{x_4}{}_{x_4} = 6(a_4')^2$", "$R^{x_t}{}_{x_t} = -a_4'' - 6H^2$",
-                     "$R^{x_0}{}_{x_0} = -6H^2$"):
-            self.assertIn(text, self.text, text)
-        for text in ("G^{x_i}{}_{x_i} = a_4'' - 3(a_4')^2 + 15H^2", "G^{x_4}{}_{x_4} = 3(a_4')^2 + 21H^2",
-                     "G^{x_t}{}_{x_t} = -a_4'' - 3(a_4')^2 + 15H^2", "G^{x_0}{}_{x_0} = -3(a_4')^2 + 15H^2"):
+        self.assertEqual(sp.expand(from_mathematica(self.curvature["ricciScalar"])
+                                   - (6*A1**2 - 3*A1*U + 3*U**2 + 3*V - 42*H**2)), 0)
+        self.assertIn("$R = 6(a_4')^2 - 3a_4'u + 3u^2 + 3v - 42H^2$", self.text)
+        r = sp.Rational
+        ricci = {"x0,x0": -6*H**2, "x1,x1": A2 - 6*H**2 + r(3, 2)*A1*U,
+                 "x4,x4": 6*A1**2 - 3*A1*U + r(3, 4)*U**2 + r(3, 2)*V,
+                 "x5,x5": -A2 - 6*H**2 - r(3, 2)*A1*U + r(3, 4)*U**2 + V/2,
+                 "x4,x0": r(3, 2)*H*U*CC, "x0,x4": -r(3, 2)*H*U/CC}
+        einstein = {"x0,x0": -3*A1**2 + r(3, 2)*A1*U + 15*H**2 - r(3, 2)*U**2 - r(3, 2)*V,
+                    "x1,x1": A2 - 3*A1**2 + 3*A1*U + 15*H**2 - r(3, 2)*U**2 - r(3, 2)*V,
+                    "x4,x4": 3*A1**2 - r(3, 2)*A1*U + 21*H**2 - r(3, 4)*U**2,
+                    "x5,x5": -A2 - 3*A1**2 + 15*H**2 - r(3, 4)*U**2 - V,
+                    "x4,x0": r(3, 2)*H*U*CC, "x0,x4": -r(3, 2)*H*U/CC}
+        for key in ricci:
+            self.assertEqual(sp.expand(from_mathematica(self.curvature["ricciMixed"][key]["mathematica"]) - ricci[key]), 0, key)
+            self.assertEqual(sp.expand(from_mathematica(self.curvature["einsteinMixed"][key]["mathematica"]) - einstein[key]), 0, key)
+        for text in ("$R^{x_i}{}_{x_i} = a_4'' - 6H^2 + \\frac32a_4'u$",
+                     "$R^{x_4}{}_{x_4} = 6(a_4')^2 - 3a_4'u + \\frac34u^2 + \\frac32v$",
+                     "$R^{x_t}{}_{x_t} = -a_4'' - 6H^2 - \\frac32a_4'u + \\frac34u^2 + \\frac12v$",
+                     "$R^{x_0}{}_{x_0} = -6H^2$", "$R^{x_4}{}_{x_0} = \\frac32Hu\\cot z$",
+                     "G^{x_i}{}_{x_i} = a_4'' - 3(a_4')^2 + 3a_4'u + 15H^2 - \\tfrac32u^2 - \\tfrac32v",
+                     "G^{x_4}{}_{x_4} = 3(a_4')^2 - \\tfrac32a_4'u + 21H^2 - \\tfrac34u^2",
+                     "G^{x_t}{}_{x_t} = -a_4'' - 3(a_4')^2 + 15H^2 - \\tfrac34u^2 - v",
+                     "G^{x_0}{}_{x_0} = -3(a_4')^2 + \\tfrac32a_4'u + 15H^2 - \\tfrac32u^2 - \\tfrac32v",
+                     "G^{x_4}{}_{x_0} = \\tfrac32Hu\\cot z"):
             self.assertIn(text, self.text, text)
         self.assertEqual(self.curvature["sqrtAbsDetG"], "Sin[6*H*x0]*Cot[6*H*x0]*b4[x4]^(3/2)")
         self.assertEqual(self.curvature["metricDiagonal"][0], "Cot[6*H*x0]^2")  # x0 first (the author's order)
@@ -640,9 +692,9 @@ class QuotedData(unittest.TestCase):
                 h, j = key.split(",")
                 if h != j and key not in ("x0,x4", "x4,x0"):
                     self.assertEqual(entry["mathematica"], "0", key)
-                elif h != j:  # since 2026-10-14: proportional to b4', zero at b4 = 1
+                elif h != j:  # since 2026-10-14: proportional to b4' (it would vanish only for a constant b4)
                     self.assertIn("Derivative[1][b4][x4]", entry["mathematica"], key)
-                    self.assertEqual(from_mathematica(entry["mathematica"].replace("Cot[6*H*x0]", "1")), 0, key)
+                    self.assertEqual(from_mathematica(entry["mathematica"]).subs(U, 0), 0, key)
             for a, b in (("x2,x2", "x1,x1"), ("x3,x3", "x1,x1"), ("x6,x6", "x5,x5"), ("x7,x7", "x5,x5")):
                 self.assertEqual(tensor[a]["mathematica"], tensor[b]["mathematica"])
             for key in COMPONENTS:
@@ -650,19 +702,15 @@ class QuotedData(unittest.TestCase):
                 index = key.split(",")[0][1]
                 head = f"P_{{({k})}}{{}}^{{x_{index}}}{{}}_{{x_{index}}}&="
                 self.assertIn(normalise_math(head + latex), self.flat, f"P_({k}) {key}")
-        self.assertIn("all 56 off-diagonal components of each tensor vanish", self.text)
+        self.assertIn("the other 54 off-diagonal components vanish", self.text)
 
     def test_lovelock_scalars(self):
-        expected = {
-            "L1": (12*A1**2 - 84*H**2, r"L_{(1)} &= 12\,(a_4')^{2} - 84\,H^{2}"),
-            "L2": (-96*A1**4 - 2112*H**2*A1**2 + 3360*H**4,
-                   r"L_{(2)} &= -96\,(a_4')^{4} - 2112\,H^{2}\,(a_4')^{2} + 3360\,H^{4}"),
-            "L3": (1152*A1**6 + 31104*H**2*A1**4 + 100224*H**4*A1**2 - 40320*H**6,
-                   r"L_{(3)} &= 1152\,(a_4')^{6} + 31104\,H^{2}\,(a_4')^{4} + 100224\,H^{4}\,(a_4')^{2} - 40320\,H^{6}"),
-        }
-        for key, (value, latex) in expected.items():
-            self.assertEqual(sp.expand(from_mathematica(self.tensors[key]) - value), 0, key)
-            self.assertIn(latex, self.text, key)
+        flat = normalise_math(self.text)
+        for k in (1, 2, 3):
+            lines = scalar_lines(from_mathematica(self.tensors[f"L{k}"]))
+            block = f"L_{{({k})}} &= " + lines[0] + "".join(" \\\\ &\\quad " + line for line in lines[1:])
+            self.assertIn(normalise_math(block), flat, f"L{k}")
+        self.assertEqual(sp.expand(from_mathematica(self.tensors["L1"]) - (12*A1**2 - 6*A1*U + 6*U**2 + 6*V - 84*H**2)), 0)
         for k in (1, 2, 3):
             tensor = self.tensors[f"P{k}_mixed_up_h_down_j"]
             trace = sum(from_mathematica(tensor[f"x{i},x{i}"]["mathematica"]) for i in range(8))
@@ -673,42 +721,41 @@ class QuotedData(unittest.TestCase):
     def test_identity_and_einstein_relation(self):
         for k in (1, 2, 3):
             p = {key: from_mathematica(self.tensors[f"P{k}_mixed_up_h_down_j"][key]["mathematica"]) for key in COMPONENTS}
-            self.assertEqual(sp.expand(p["x1,x1"] + p["x5,x5"] - 2*p["x0,x0"]), 0, k)
-            self.assertFalse(p["x4,x4"].has(A2) or p["x0,x0"].has(A2), k)
-            self.assertEqual(sp.expand(p["x1,x1"].coeff(A2) + p["x5,x5"].coeff(A2)), 0, k)
+            combination = sp.Poly(sp.expand(p["x1,x1"] + p["x5,x5"] - 2*p["x0,x0"]), A1, A2, U, V, H)
+            self.assertFalse(combination.is_zero, k)
+            self.assertTrue(all(m[2] or m[3] for m in combination.monoms()), k)   # every term has u or v
+            self.assertFalse(p["x4,x4"].has(A2), k)
         for key in COMPONENTS:
             p1 = from_mathematica(self.tensors["P1_mixed_up_h_down_j"][key]["mathematica"])
             g = from_mathematica(self.curvature["einsteinMixed"][key]["mathematica"])
             self.assertEqual(sp.expand(p1 + 4*g), 0, key)
-        self.assertIn("$P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} = 2P_{(k)}^{x_0}{}_{x_0}$", self.text)
+        self.assertIn("$P_{(k)}^{x_1}{}_{x_1} + P_{(k)}^{x_5}{}_{x_5} - 2P_{(k)}^{x_0}{}_{x_0}$ contains $u$ or $v$ in every "
+                      "term", self.text)
+        self.assertIn("The $x_4$ components contain no $a_4''$.", self.text)
         a1x4 = self.tensors["A1_contravariant_l_h"]["x4,x4"]["latex"]
         self.assertIn(f"$A_{{(1)}}{{}}^{{x_4x_4}} = {a1x4}$", self.text)
 
     def test_field_equations_use(self):
-        """E_(k) of a4-equations.json = -P_(k)/2^(k+1) of this record; the factor F(a4')."""
+        """E_(k) of a4-equations.json = -P_(k)/2^(k+1) of this record for general b4; the records of section 9."""
         lovelock = load_json(A4_EQUATIONS)["lovelockTensors"]
-        f_value = 0
         for k in (1, 2, 3):
             tensor = self.tensors[f"P{k}_mixed_up_h_down_j"]
-            for key in COMPONENTS:
+            for key in COMPONENTS + ("x4,x0", "x0,x4"):
                 e_k = from_ad(lovelock[f"E{k}"][key.replace(",", "")]["input"])
                 p_k = from_mathematica(tensor[key]["mathematica"])
-                self.assertEqual(sp.expand(e_k + p_k / 2**(k + 1)), 0, f"E{k} {key}")
-            difference = -(from_mathematica(tensor["x1,x1"]["mathematica"])
-                           - from_mathematica(tensor["x5,x5"]["mathematica"])) / 2**(k + 1)
-            f_value += ALPHA[k - 1] * sp.cancel(difference / A2)
-        a1, a2, a3 = ALPHA
-        document_f = (2*a1 - 48*a2*A1**2 - 80*a2*H**2 + 720*a3*A1**4 + 864*a3*A1**2*H**2 + 720*a3*H**4)
-        self.assertEqual(sp.expand(f_value - document_f), 0)
-        self.assertIn(r"F(a_4') = 2\alpha_1 - 48\alpha_2(a_4')^2 - 80\alpha_2H^2 + 720\alpha_3(a_4')^4 "
-                      r"+ 864\alpha_3(a_4')^2H^2 + 720\alpha_3H^4", self.text)
-        detail = detail_of(A4_WOLFRAM, "evolution_factorises_a4pp_times_F")
-        reported = from_ad(detail.split("F = ", 1)[1])
-        self.assertEqual(sp.expand(reported - document_f), 0)
+                self.assertEqual(sp.expand(sp.simplify(e_k + p_k / 2**(k + 1))), 0, f"E{k} {key}")
         for name in ("P1_direct_equals_gkd_branch_monomials", "P2_direct_equals_gkd_branch_monomials",
                      "P3_direct_equals_gkd_branch_monomials"):
             self.assertIn("Revision/gkd_lovelock/results/lovelock-tensors.json", detail_of(A4_WOLFRAM, name))
         self.assertIn("x4-x0", detail_of(A4_PYTHON, "other_components_vanish"))
+        self.assertIn("cot z u Q", detail_of(A4_WOLFRAM, "offdiagonal_factorises"))
+        self.assertIn("$\\sum_k\\alpha_kE_{(k)}{}^{x_4}{}_{x_0} = \\cot z\\,u\\,Q(a_4', u)$", self.text)
+        self.assertIn("Q = 3 H/2", detail_of(A4_WOLFRAM, "einstein_offdiagonal_forces_b4_constant"))
+        self.assertIn("in Einstein gravity $Q = \\frac32H$, which forces $b_4' = 0$", self.text)
+        self.assertIn("(-2/27, -2/9, -22/27, -14/27)", detail_of(A4_WOLFRAM, "author_weights_history_source"))
+        self.assertIn("$\\kappa(\\rho, p_3, p_t, p_0) = (-\\frac{2}{27}, -\\frac29, -\\frac{22}{27}, -\\frac{14}{27})$",
+                      self.text)
+        self.assertIn("w1 = 1, w2 = 1/32, w3 = 1/1152", detail_of(A4_WOLFRAM, "author_weights_branch"))
 
     def test_notebook_reading(self):
         provenance = PROVENANCE.read_text(encoding="utf-8")

@@ -183,7 +183,7 @@ python Revision/gkd_lovelock/comparison/compare_with_author.py
 | `extract_author_curvature_outputs.wls` | `0a0a17b133ea46dd511b86ccd238c01f828a4e11feff6d1d239d739b1e74a88b` |
 | `compare_with_author.py` | `038c934d7b6a9930487b32748d3d3f1cd8a5851c6b8d8634d958a53420df81d3` |
 | `author-curvature-outputs.json` | `f041955db36f67d5ec113ad65542f448af1de6eba159c85ecff73f83761039f0` |
-| `author-comparison-report.json` | `1fc3c6fb2a73d7f361846b8971c669079e9f2d96e5094a512310ceab285fd545` |
+| `author-comparison-report.json` | `2a89ce981d4d2fd8e22875cf402de0f26eb1445a6f4824235ed7afd6f8bd7b55` |
 
 The two hashes of `compare_with_author.py` and `author-comparison-report.json` above are those of 2026-10-14, after
 the change to the author's coordinates x0..x7 (the identity mapping; the Revision results `curvature.json` and
@@ -194,7 +194,7 @@ The extractor and its output are unchanged (the notebook is read in the author's
 2026-10-14 (commit c93fe22) the mapping text of `compare_with_author.py` and of the report was reworded ("in his
 order" -> "in the author's order") and the report records the sha256 of the regenerated `curvature.json` and
 `lovelock-tensors.json` (whose metric description was reworded the same way); the two hashes above are those of that
-version (until then `772b74b6...` and `331c02ed...`). The checks, verdicts and details are unchanged. The report records the sha256 of `Revision/SPEC.md` among its inputs; after the last rewording of SPEC section 4 and 5 on 2026-10-14 (p8 -> p0, T^4_8 -> T^{x4}_{x0}) it was regenerated once more (the hash above; before `80c5c761...`), with no other change.
+version (until then `772b74b6...` and `331c02ed...`). The checks, verdicts and details are unchanged. The report records the sha256 of `Revision/SPEC.md` among its inputs; after the last rewording of SPEC section 4 and 5 on 2026-10-14 (p8 -> p0, T^4_8 -> T^{x4}_{x0}) it was regenerated once more (before `80c5c761...`), with no other change. On 2026-10-16, after section 1 of `Revision/SPEC.md` was changed for the history with b4 (the user's order of 2026-10-15: everything to b4(x4), b4 never 1), it was regenerated again: only the recorded sha256 of `Revision/SPEC.md` changed (now `ead6a978...`), and the report has the hash above (before `1fc3c6fb...`); checks, verdicts and details unchanged (78: 73 PASS, 0 FAIL, 5 NOT-AVAILABLE). The author's notebook compared here computes the earlier metric without b4 (b4 = 1, the withdrawn metric); the metric with b4 is compared with the author's new notebook in `Revision/metric_b4`.
 
 ## 8. Side effects
 
