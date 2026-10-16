@@ -120,6 +120,9 @@
 #   dark00-derive                         30 s
 #   dark00-independent                    30 s
 #   dark00-unittest                       30 s
+#   dark-b4-author-notebook                5 s
+#   dark-b4-author-inputs                 10 s
+#   dark-b4-wolfram                       10 s
 #   lead-emt-divergence                   10 s
 #   lead-einstein-gauss-bonnet            20 s
 #   lead-charge-conjugation               15 s
@@ -139,6 +142,9 @@
 # that runs it; ks-rust-mermin-roots follows the canonical matrix (its check compares with it);
 # ks-rust-determinism needs the repeat and the refined run; t3-reference-demo reads the Rust demonstration;
 # t3-completion-sympy reads both demonstrations; the dark sector reads the Kohn-Sham and a4 records.
+# The dark sector with b4 (2026-10-15): dark-b4-author-notebook writes the author's notebook at commit b13373c
+# (sha256 pinned) into its work folder for dark-b4-author-inputs, which compares it with the notebook at the
+# root; dark-b4-wolfram reads metric-b4.json and eos-theory.json.
 # The metric with b4 (2026-10-14): metric-b4-author-notebook writes the author's notebook at the version of the
 # user's order (commit b13373c, sha256 pinned; the working tree may hold a later version) into its work folder for
 # metric-b4-author-extract; the field theory with b4 reads metric-b4.json; metric-b4-consequences reads
@@ -317,6 +323,9 @@ dark16-independent|180|0|-|Revision/dark_sector/dirac16complex/outputs/independe
 dark00-derive|30|0|-|Revision/dark_sector/dirac16complex00/eos-theory.json,Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json|Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json|{python} Revision/dark_sector/dirac16complex00/python/derive_eos.py
 dark00-independent|30|0|-|Revision/dark_sector/dirac16complex00/results/independent-numerics.json,Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json|Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json|{python} Revision/dark_sector/dirac16complex00/python/independent_numerics.py
 dark00-unittest|30|0|-|Revision/dark_sector/dirac16complex00|-|{python} -m unittest Revision/dark_sector/dirac16complex00/tests/test_dark_sector_dirac16complex00.py -v
+dark-b4-author-notebook|5|0|build/revision/dark-b4-author|-|-|{audit} git-blob b13373c:Dirac_Einstein-Lovelock_4+4_Nash.nb build/revision/dark-b4-author/Dirac_Einstein-Lovelock_4+4_Nash.nb 4f2d83b53e4a35696e1ed4d0569f4cabbfc7463d0036c36ae5534bd6e549aafb
+dark-b4-author-inputs|10|0|-|Revision/dark_sector/reports/author-notebook-inputs.json|-|{wolframscript} -file Revision/dark_sector/wolfram/author_notebook_inputs.wls Dirac_Einstein-Lovelock_4+4_Nash.nb build/revision/dark-b4-author/Dirac_Einstein-Lovelock_4+4_Nash.nb
+dark-b4-wolfram|10|0|-|Revision/dark_sector/reports/wolfram-dark-sector-b4.json|Revision/dark_sector/reports/wolfram-dark-sector-b4.json|{wolframscript} -file Revision/dark_sector/wolfram/verify_dark_sector_b4.wls
 lead-emt-divergence|10|0|-|Revision/lead_checks/reports/emt-divergence-and-spin-connection.json|Revision/lead_checks/reports/emt-divergence-and-spin-connection.json|{python} Revision/lead_checks/emt_divergence_and_spin_connection.py
 lead-einstein-gauss-bonnet|20|0|-|Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json|Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json|{python} Revision/lead_checks/einstein_gauss_bonnet_a4.py
 lead-charge-conjugation|15|0|-|Revision/lead_checks/reports/charge-conjugation-and-u1.json|Revision/lead_checks/reports/charge-conjugation-and-u1.json|{python} Revision/lead_checks/charge_conjugation_and_u1.py
