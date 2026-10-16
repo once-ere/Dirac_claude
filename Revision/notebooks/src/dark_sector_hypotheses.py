@@ -312,9 +312,10 @@ md(r"""
 - **Kohn-Sham gas**: the dirac16complex particles of the Revision's density-functional model (each
   particle moves in the mean field of all the others), here at zero temperature with N = 8, 136 or 688
   particles.
-- **$\hat\lambda$, $\lambda_\mathrm{eff}$**: $\hat\lambda$ is the calibrated coupling of
-  `Revision/kohn_sham/results/parameters.json` (the coupling at $a_4 = 0$); $\lambda_\mathrm{eff} = \hat\lambda e^{-2a_4}$
-  is the coupling at which the solver solves the state of slice $a_4$ (section 4.5).
+- **$\hat\lambda$, $\lambda_\mathrm{eff}$**: $\hat\lambda = \lambda b_4(0)^{-3/2}$ is the calibrated coupling of
+  `Revision/kohn_sham/results/parameters.json`, the same at every slice; the solver's cell volume grows like
+  $e^{2a_4}$, so the effective coupling falls like $e^{-2a_4}$: the state of slice $a_4$ is that of the fixed
+  coordinate cell at $\lambda_\mathrm{eff} = \hat\lambda e^{-2a_4}$ (section 4.5).
 - **EMT integrals** $E, P_3, P_t, P_0$: the energy and the pressures of ordinary space, of the extra
   times and of the hidden direction, integrated over the proper 7-volume of a slice.
 - **Equation of state** $w$: a pressure divided by an energy density. A dust-like (cold matter) fluid
@@ -413,18 +414,21 @@ $\kappa(\rho, p_3, p_t, p_0) = (-2/27, -2/9, -22/27, -14/27)$ (computed twice: `
 
 ### 4.5 The Kohn-Sham states with $b_4$
 
-In the metric with $b_4$ the good-sector state is $\Psi = b_4^{-3/4}\chi$, where $\chi$ solves the $b_4$-free
-Kohn-Sham equation (`Revision/kohn_sham/reports/ks-b4-wolfram.json`, K1 to K3). Its mean field is
-$\lambda S$ with $S = \bar\Psi\Psi = b_4^{-3/2}\bar\chi\chi$, so $\chi$ solves that equation at the coupling
-$\lambda b_4^{-3/2}$; the solver's exchange functional is quadratic in the densities, so only that combination
-enters. Hence each slice is solved at
+In the metric with $b_4$ the good-sector state is $\Psi = e^{ik\cdot x}W^{-3}b_4^{-3/4}\chi$, and $\chi$ solves a
+slice Hamiltonian that does not contain $b_4$ (`Revision/kohn_sham/ks-theory.json`, `sectorAndAnsatz.exactReduction`).
+$b_4$ enters through the proper 7-volume of the cell, $\ell^3 v_t b_4^{3/2}$: the mean field is $\lambda S$ with
+$S = \bar\Psi\Psi$ per proper volume. Since 2026-10-16 the Kohn-Sham record (`Revision/kohn_sham`) is that of this
+history: its solver works with $\hat\lambda = \lambda b_4(0)^{-3/2}$ and the cell volume
+$\mathrm{Vol}_7(a_4) = \ell^3 v_t e^{(3/2)\beta a_4} = \ell^3 v_t e^{2a_4}$, so $b_4(0)$ never needs a value. A state
+depends on the coupling and the cell volume only through their ratio (`ks-theory.json`,
+`densities.couplingVolumeScaling`), so the same state is that of the fixed coordinate cell at
 
 $$
-\lambda_\mathrm{eff}(a_4) = \hat\lambda\,\Big(\frac{b_4(0)}{b_4(a_4)}\Big)^{3/2} = \hat\lambda\,e^{-2a_4},
+\lambda_\mathrm{eff}(a_4) = \hat\lambda\,\Big(\frac{b_4(0)}{b_4(a_4)}\Big)^{3/2} = \hat\lambda\,e^{-2a_4}.
 $$
 
-with $\hat\lambda$ = the calibrated couplings ($b_4(0)$ enters only through $\hat\lambda$). The series with
-$\lambda = 0$ do not feel $b_4$ at all.
+The run report checks this equivalence on 48 states (`lambda_eff_form_agrees`). The series with $\lambda = 0$ do
+not feel $b_4$ at all.
 
 ### 4.6 What is assumed, what is chosen, what is open
 
@@ -578,10 +582,11 @@ external crates) with the build folder `<cargo-target>` (section 2.6), so that n
 the crate's own `target` folder. The first build takes about half a minute. If `cargo` is not found,
 install Rust (section 2) and restart JupyterLab from a new terminal.
 
-The cell also defines `lambda_eff` ($\hat\lambda e^{-(3/2)\beta a_4} = \hat\lambda e^{-2a_4}$, section 4.5) and
-`run_one`, which runs the solver's command `single` for one state with EXACTLY the arguments of
+The cell also defines `lambda_eff` ($\hat\lambda e^{-(3/2)\beta a_4} = \hat\lambda e^{-2a_4}$, section 4.5; a column of
+the record) and `run_one`, which runs the solver's command `single` for one state with EXACTLY the arguments of
 `Revision/dark_sector/dirac16complex/compute/run_ks_history.py`
-(`single --m 1 --lambda LAMBDA_EFF --a4 A --N N --out FILE`, no profiles), with the repository as the
+(`single --m 1 --lambda LAMBDA_HAT --a4 A --N N --out FILE`, no profiles; the solver takes $\beta$ from
+`ks-theory.json` and uses the cell volume $\ell^3 v_t e^{2a_4}$), with the repository as the
 working folder (that is where the solver finds `Revision/kohn_sham/ks-theory.json` and
 `Revision/algebra/gammas.json`). It requires exit status 0, the final line `SUCCESS` and only `PASS`
 lines on the solver's error stream (its input checks).
@@ -615,7 +620,7 @@ BETA = 4.0 / 3.0                                           # d ln b4/d a4 on the
 
 
 def lambda_eff(lam_hat, a4):
-    """the coupling of the b4-free equation at slice a4: lambda_hat (b4(0)/b4(a4))^{3/2} = lambda_hat e^{-2 a4}"""
+    """the coupling of the coordinate-cell form at slice a4: lambda_hat (b4(0)/b4(a4))^{3/2} = lambda_hat e^{-2 a4}"""
     return lam_hat * math.exp(-1.5 * BETA * a4)
 
 
@@ -627,7 +632,7 @@ def run_one(n, tag, lam, a4):
     """One state with `revision_ks_solver single`, arguments exactly as run_ks_history.py."""
     rid = rid_of(n, tag, a4)
     out = RUN_DIR / f"{rid}.json"
-    args = ["single", "--m", "1", "--lambda", repr(lambda_eff(lam, a4)), "--a4", repr(a4), "--N", str(n),
+    args = ["single", "--m", "1", "--lambda", repr(lam), "--a4", repr(a4), "--N", str(n),
             "--out", str(out)]
     proc = subprocess.run([str(EXE), *args], capture_output=True, text=True, encoding="utf-8",
                           errors="replace", cwd=str(REPO))
@@ -646,7 +651,7 @@ Before trusting any result, the solver checks its inputs and says what it reads:
 the Kohn-Sham functional from `Revision/kohn_sham/ks-theory.json` ($\tfrac{15}{16} = 0.9375$ and
 $-\tfrac{1}{16} = -0.0625$), the author's gamma matrices from `Revision/algebra/gammas.json`, and the
 exact reduction of the 16-component Hamiltonian to $2 \times 2$ blocks. The next cell solves the first
-state of the dense history (N = 8, $\hat\lambda = +\lambda_1$, $a_4 = 0$, where $\lambda_\mathrm{eff} = \hat\lambda$),
+state of the dense history (N = 8, $\hat\lambda = +\lambda_1$, $a_4 = 0$, where the cell volume is $\ell^3 v_t$),
 prints the command, the three input checks and the parameter block of the result file, and checks the
 parameters against the committed `Revision/kohn_sham/results/parameters.json` and the description of
 the committed run report `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` (its history
@@ -680,10 +685,14 @@ check("parameters_equal_record", same and first["numerics"] == PARAMETERS["numer
       "Revision/kohn_sham/results/parameters.json; the 41 slices equal those of reports/ks-history-run.json")
 check("history_with_b4_equals_record", RUN_REPORT["beta"] == "d ln b4/d a4 = 4/3"
       and "b4(x4) = b4(0) e^((4/3) H x4)" in RUN_REPORT["history"] and "lambda_hat e^(-2 a4)" in RUN_REPORT["coupling"]
+      and "Vol_7(a4) = ell^3 v_t e^(2 a4)" in RUN_REPORT["coupling"]
+      and abs(first["parameters"]["beta"] - BETA) <= 1e-15 and first["parameters"]["Vol7"] == PARAMETERS["physics"]["Vol7AtA4Zero"]
       and all(abs(lambda_eff(1.0, a4) - math.exp(-2.0 * a4)) <= 1e-15 for a4 in SLICES),
-      "the committed run report states the history a4 = H x4, b4(x4) = b4(0) e^((4/3) H x4), beta = 4/3 and the coupling "
-      "lambda_eff = lambda_hat e^(-2 a4); this notebook's lambda_eff equals lambda_hat e^(-2 a4) at all 41 slices "
-      "(to 1e-15, as check coupling_follows_b4 of the run report)")
+      "the committed run report states the history a4 = H x4, b4(x4) = b4(0) e^((4/3) H x4), beta = 4/3, the coupling "
+      "lambda_hat with the cell volume Vol_7(a4) = ell^3 v_t e^(2 a4) and the equivalent lambda_eff = lambda_hat e^(-2 a4); "
+      "the solver ran with beta = 4/3 and, at a4 = 0, the cell volume Vol7AtA4Zero of results/parameters.json; this "
+      "notebook's lambda_eff equals lambda_hat e^(-2 a4) at all 41 slices (to 1e-15; checks cell_volume_follows_b4 and "
+      "lambda_eff_form_agrees of the run report)")
 print("lambda_hat = lambda_1 per N (results/parameters.json):", LAMBDA1)
 print("committed run report, solver:", RUN_REPORT["solver"])
 print("committed run report, history:", RUN_REPORT["history"])
@@ -723,7 +732,8 @@ md(r"""
 ### 7.2 Comparison with the committed dense history, bit for bit
 
 `run_ks_history.py` wrote one row per state into `outputs/ks-history-dense.csv`: the id, N, the
-coupling $\hat\lambda$, $a_4$, $b_4/b_4(0) = e^{(4/3)a_4}$, $\lambda_\mathrm{eff}$, $E_\mathrm{KS}$, the EMT integrals
+coupling $\hat\lambda$, $a_4$, $b_4/b_4(0) = e^{(4/3)a_4}$, $\lambda_\mathrm{eff}$, the solver's $\beta$ and cell volume
+$\mathrm{Vol}_7(a_4)$, $E_\mathrm{KS}$, the EMT integrals
 $E = \int\rho$, $P_3$, $P_t$, $P_0$, the particle integral, the number of SCF iterations, the residual, the
 Fermi level, the solver's two residuals of the hidden-direction conservation law, and a 16-character
 fingerprint of the occupied level set (floats written as Python's shortest round-trip `repr`). The next
@@ -752,7 +762,8 @@ for n, tag, lam, a4 in TASKS:
     emt = d["emtIntegrals_2Vol7_int_e6Hy"]
     sig, nocc = occupied_signature(d["levels_n2_j_parity_label_eps_deg_f"])
     row = {"id": rid, "N": n, "lambda_tag": tag, "lambda": lam, "a4": a4,
-           "b4_over_b4_0": math.exp(BETA * a4), "lambda_eff": lambda_eff(lam, a4), "E_KS": d["E_KS"],
+           "b4_over_b4_0": math.exp(BETA * a4), "lambda_eff": lambda_eff(lam, a4),
+           "beta": d["parameters"]["beta"], "Vol7": d["parameters"]["Vol7"], "E_KS": d["E_KS"],
            "int_rho": emt["rho"], "int_p3": emt["p3"], "int_p_t": emt["p_t"], "int_p0": emt["p0"],
            "int_n": emt["n"], "iterations": d["iterations"], "residual": d["residual"],
            "fermi_level": d["mu_or_fermi_level"], "ycons_integrated_rel": d["yConservationIntegratedRel"],
@@ -767,7 +778,7 @@ write_lf(OUT / "ks-history-dense-subset.csv", "\n".join(new_lines) + "\n")
 check("dense_rows_bit_identical", identical == 123,
       f"{identical} of 123 rows rebuilt from the new solver results equal the rows of "
       "Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv character for character "
-      "(including b4/b4(0) = e^((4/3) a4) and lambda_eff = lambda_hat e^(-2 a4))")
+      "(including b4/b4(0) = e^((4/3) a4), lambda_eff = lambda_hat e^(-2 a4) and the solver's beta and Vol_7(a4))")
 for n, tag, lam in SERIES:
     sigs = {ROWS[rid_of(n, tag, a4)]["occupied_signature"] for a4 in SLICES}
     nocc = {ROWS[rid_of(n, tag, a4)]["occupied_labels"] for a4 in SLICES}
@@ -787,7 +798,7 @@ md(r"""
 ### 7.3 A look at the numbers
 
 The next cell lists, for the three series at the slices $a_4 = 0, 0.5, 1, 1.5, 2$, the ratio $b_4/b_4(0)$,
-the coupling $\lambda_\mathrm{eff}$ of the solver, the integrated energy $E$ and the three integrated pressures.
+the effective coupling $\lambda_\mathrm{eff} = \hat\lambda e^{-2a_4}$, the integrated energy $E$ and the three integrated pressures.
 The gas N = 688 and N = 136 ($\lambda = 0$, so $b_4$ does not enter) loses energy as $a_4$ grows (its 3-momenta
 redshift). For N = 8 with $\hat\lambda = +\lambda_1$ only the $k = 0$ brane zero modes are filled (their levels
 are $\varepsilon = 0$): $E$ is pure interaction energy, small and negative (the record: $E < 0$ for $\lambda > 0$),
@@ -1542,7 +1553,7 @@ def counts(path):
     return total, passed, failed, listed, len(rep["checks"])
 
 
-EXPECTED = {DS / "reports" / "derivation-checks.json": 39, DS / "reports" / "ks-history-run.json": 7,
+EXPECTED = {DS / "reports" / "derivation-checks.json": 39, DS / "reports" / "ks-history-run.json": 8,
             DS / "reports" / "eos-checks.json": 15, DS / "reports" / "independent-checks.json": 10,
             D00 / "reports" / "python-derive-eos.json": 49, D00 / "reports" / "python-independent-numerics.json": 32,
             REPO / "Revision" / "dark_sector" / "reports" / "wolfram-dark-sector-b4.json": 8}

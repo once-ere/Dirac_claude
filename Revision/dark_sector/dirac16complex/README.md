@@ -30,7 +30,7 @@ time-varying dark-energy and/or dark-matter equation of state.
 | file | role |
 | --- | --- |
 | `derive/derive_effective.py` | sympy: every effective formula derived exactly for the metric with b4(x4) before any number is computed → `outputs/effective-formulas.json`, `reports/derivation-checks.json` (39 checks) |
-| `compute/run_ks_history.py` | the Kohn-Sham gas on the history with b4(x4): the Revision Rust solver (`Revision/kohn_sham/solver`, command `single`, read-only use) at a4 = 0, 0.05, ..., 2 for N = 8, 136, 688 and the five calibrated couplings, each at lambda_eff = lambda_hat e^{-2 a4} (615 states) → `outputs/ks-history-dense.csv`, `reports/ks-history-run.json` (7 checks) |
+| `compute/run_ks_history.py` | the Kohn-Sham gas on the history with b4(x4): the Revision Rust solver (`Revision/kohn_sham/solver`, command `single`, read-only use) at a4 = 0, 0.05, ..., 2 for N = 8, 136, 688 and the five calibrated couplings lambda_hat, each with the cell volume Vol_7(a4) = ell^3 v_t e^{2 a4} of the record (615 states; equivalently the coordinate cell at lambda_eff = lambda_hat e^{-2 a4}, solved too at the committed slices as a check) → `outputs/ks-history-dense.csv`, `reports/ks-history-run.json` (8 checks) |
 | `compute/compute_eos.py` | w_eff for the three normalisations with the b4 terms, the ratios, CPL tangents and fits, the condensate, mixtures, the Unite comparison → `outputs/eos-history.csv`, `outputs/eos-summary.json`, `reports/eos-checks.json` (15 checks) |
 | `independent/independent_free_gas.py` | INDEPENDENT second implementation (numpy, Chebyshev collocation + Hellmann-Feynman, no solver output used except for the final comparison) of the key numbers of the free gas; the bulk (massive) band → `outputs/independent-free-gas.json`, `reports/independent-checks.json` (10 checks) |
 
@@ -96,15 +96,22 @@ The Rust solver binary is built with `cargo build --release --manifest-path Revi
 
 ## The Kohn-Sham gas on the history with b4(x4)
 
-In the metric with b4 the good-sector state is Psi = b4^{-3/4} X, where X solves the b4-free good-sector equation
-(`Revision/kohn_sham/reports/ks-b4-wolfram.json`, K1 and K2); the mean field lambda S has S = b4^{-3/2} X-bar X and the
-solver's functional is quadratic in the densities, so X solves that equation at **lambda_eff = lambda_hat e^{-2 a4}**
-(lambda_hat = lambda b4(0)^{-3/2} = the calibrated couplings of `Revision/kohn_sham/results/parameters.json`), and the
-integrals E, P3, Pt, P0 are those of X (the proper volume element b4^{3/2} cos z cancels the b4^{-3/2} of the
-densities). The same N, T = 0, canonical numerics, H = m = 1, L = 3, tip theta = 0 are solved at 41 slices a4 in
-[0, 2] [`reports/ks-history-run.json`, 7/7]: at a4 = 0 (lambda_eff = lambda_hat) all 15 states equal the committed
-Kohn-Sham record (deviation 0); the lambda = 0 series equal it at all five committed slices (no b4 dependence); the
-occupied label set is the same at all 41 slices of every series; y-conservation holds to 1.95e-8.
+In the metric with b4 the good-sector state is Psi = e^{ik.x} W^{-3} b4^{-3/4} chi, and chi solves a slice Hamiltonian
+that does not contain b4 (`Revision/kohn_sham/ks-theory.json`, sectorAndAnsatz.exactReduction); b4 enters through the
+proper 7-volume of the cell, ell^3 v_t b4^{3/2}. Since 2026-10-16 the Kohn-Sham record itself is that of this history
+(`Revision/kohn_sham/solver/README.md`, "The metric with b4(x4)"): it works with **lambda_hat = lambda b4(0)^{-3/2}**
+(the calibrated couplings of `Revision/kohn_sham/results/parameters.json`, recalibrated on this history: 0.01946,
+0.01206, 0.006645 and 0.05838, 0.03617, 0.01993 for N = 8, 136, 688) and the cell volume
+Vol_7(a4) = ell^3 v_t e^{(3/2) beta a4} = ell^3 v_t e^{2 a4}, so the effective coupling lambda_hat/Vol_7 falls like
+e^{-2 a4}; the integrals E, P3, Pt, P0 are the physical ones. Equivalently (a state depends on the coupling and the cell
+only through lambda/Vol) the state is that of the coordinate cell ell^3 v_t at **lambda_eff = lambda_hat e^{-2 a4}**,
+the form this record used before the Kohn-Sham record was moved. The same N, T = 0, canonical numerics, H = m = 1,
+L = 3, tip theta = 0 are solved at 41 slices a4 in [0, 2] [`reports/ks-history-run.json`, 8/8]: at the five committed
+slices all 15 series equal the committed Kohn-Sham record (deviation 0, check `committed_slices_equal_committed_record`);
+the lambda = 0 series do not depend on b4; every run used Vol_7 = ell^3 v_t e^{2 a4} (`cell_volume_follows_b4`); the
+coordinate-cell form at lambda_eff gives the same E_KS, E, P3, Pt, P0 to 2.0e-13 in the 48 interacting states at the
+committed slices a4 > 0 (`lambda_eff_form_agrees`); the occupied label set is the same at all 41 slices of every
+series; y-conservation holds to 1.95e-8.
 
 * **Conservation with b4** [`reports/eos-checks.json`, 15/15]: dE/da4 = -3 (P3 - Pt) - 2 Pt holds to 6.4e-6 (the
   truncation error of the 4th-order stencil on the N = 8 interacting series, whose E falls like e^{-2 a4}, is about
@@ -113,14 +120,15 @@ occupied label set is the same at all 41 slices of every series; y-conservation 
 * **The occupied levels lie on the brane band, which is massless at k = 0** (slope c e^{-a4}, c = 1.9051482536 at
   small k). The gas redshifts like radiation: d ln E/d a4 goes from -0.879 (a4 = 0) to -0.955 (a4 = 2) for N = 688,
   lambda = 0.
-* w_eff(A) = w_eff(B) = X/E + (2/3) Pt/E lies in [0.2929, 0.3264] over all N = 136, 688 series and slices and **rises
-  monotonically toward 1/3** (|Pt/E| <= 1.1e-4). **w_eff(C) = w_eff(A) - 1/3 lies in [-0.0404, -0.0069]: close to 0
+* w_eff(A) = w_eff(B) = X/E + (2/3) Pt/E lies in [0.2928, 0.3268] over all N = 136, 688 series and slices and **rises
+  monotonically toward 1/3** (|Pt/E| <= 1.8e-3). **w_eff(C) = w_eff(A) - 1/3 lies in [-0.0405, -0.0065]: close to 0
   (dust-like), not a dark-energy value** (withdrawn b4 = 1: -0.707 → -0.682). The hidden-direction ratio
-  wx0 = P0/E = 0.35 → 0.65 is a pressure the 3-space observer does not see.
+  wx0 = P0/E = 0.35 → 0.65 (N = 688, lambda = 0; 0.35 to 0.68 over all gas series) is a pressure the 3-space observer
+  does not see.
 * CPL tangent (N = 688, lambda = 0), a4_today = 0.5, 1, 1.5, 2: wa = -0.0090, -0.0129, -0.0170, -0.0178, with
   w0(C) = -0.0370, -0.0315, -0.0240, -0.0150 (w0(A) = w0(C) + 1/3). Least-squares CPL fits over a in [1/2, 1] and
   [1/3, 1] (a4_today = 2): wa(C) = -0.024, -0.026; constant-w fits w(C) = -0.021, -0.023. Over all N = 136, 688
-  series: tangent wa in [-0.0178, -0.0090], fitted wa in [-0.0265, -0.0196] [`outputs/eos-summary.json`, check
+  series: tangent wa in [-0.0192, -0.0088], fitted wa in [-0.0282, -0.0192] [`outputs/eos-summary.json`, check
   `gas_cpl_thawing_sign_small`].
 * **N = 8 with lambda != 0** (only the k = 0 zero modes, pure interaction energy at lambda_hat e^{-2 a4}): P3 = Pt
   (X = 0), E(2)/E(0) = 0.0184-0.0190 (e^{-4} = 0.0183), Pt/E in [0.931, 1.000]: w_eff(A) = (2/3) Pt/E in

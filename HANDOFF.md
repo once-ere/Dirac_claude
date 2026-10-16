@@ -78,10 +78,15 @@ Progress (newest last):
   the cross-check with its reference repeat (6 parts) 31/31 (beta compared as numbers; the exact N = 8 Q_max tie
   accepted); the tip-cutoff study 7/7 (187 s; reads `Vol7AtA4Zero`); KS theory provenance 6.7, index rows 6 and 30;
   gate: the reference and the cross-check repeat in six parts (99 steps, 8572 s expected; --fast 96 steps).
-  claude_failures G9 to G11. NEXT, before phase 5: the dark sector. `run_ks_history.py` is already changed (passes
-  lambda_hat; new checks committed_slices_equal_committed_record, cell_volume_follows_b4, lambda_eff_form_agrees) but
-  NOT yet rerun; rerun it, then compute_eos.py, and update every dark-sector output, README, B4_PROVENANCE, the document
-  DARK_SECTOR_HYPOTHESES (+pdf), the dark-sector notebook and the textbook chapters 22/23 that quote changed numbers.
+  claude_failures G9 to G11.
+- Dark sector on the moved Kohn-Sham record DONE (2026-10-16): `run_ks_history.py` passes lambda_hat (8/8: all 15
+  series equal the KS record at the five slices; the lambda_eff form agrees to 2.0e-13), `compute_eos.py` 15/15; all
+  seven producers rerun (39, 8, 15, 10, 49, 32, 8). Only the interacting gas numbers changed (w_eff(C) [-0.040541,
+  -0.006532], tangent wa [-0.019170, -0.008787], fitted wa [-0.028228, -0.019171], w_eff(A) [0.292793, 0.326802]); no
+  verdict changed. README, B4_PROVENANCE section 10, the document DARK_SECTOR_HYPOTHESES (pdf rebuilt and registered,
+  27 pages; publication test 30/30), the notebook dark_sector_hypotheses (46/46, check byte-identical; its provenance)
+  updated. The textbook chapters 22/23 that quote the dark-sector numbers follow in phase 9.
+  NEXT: phase 5 (`Revision/field_equations_a4/ks_source/` and the source-condition check with b4).
   KNOWN OPEN until phases 7 and 8 (they quote the record before b4): `Revision/tests/test_kohn_sham_deflating_field_publication.py`
   (test_cited_checks_exist_and_pass: the document cites the former check counts) and
   `Revision/tests/test_revision_notebooks.py` (test_kohn_sham_record_counts_printed); the pairing T3 demonstrations and

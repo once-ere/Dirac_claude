@@ -34,18 +34,22 @@ or frozen extra times are used.
    compiler warnings.
 2. Runs `revision_ks_solver single --m 1 --lambda 0.01946 --a4 0.0 --N 8 --out <output>/ks_runs/N8_lamp1_a000.json`
    (the arguments of `Revision/dark_sector/dirac16complex/compute/run_ks_history.py`: the coupling is
-   lambda_eff = lambda_hat e^(-2 a4), equal to lambda_hat at a4 = 0; working folder the repository) and prints
+   lambda_hat, the solver takes beta = 4/3 from ks-theory.json and uses the cell volume ell^3 v_t e^{2 a4}, so the
+   effective coupling is lambda_eff = lambda_hat e^(-2 a4); working folder the repository) and prints
    the solver's three input checks (`theory_input_coefficients`, `gamma_fixture_numeric`,
    `block_reduction_numeric`) and the parameter block of its result; checks H, m, L, dk, v_t, tip angle, T = 0
    and the numerics tag against `Revision/kohn_sham/results/parameters.json`, the 41 slices against
-   `reports/ks-history-run.json`, and that the run report states the history with b4(x4), beta = 4/3 and the
-   coupling rule, which the notebook's `lambda_eff` reproduces at all 41 slices.
+   `reports/ks-history-run.json`, and that the run report states the history with b4(x4), beta = 4/3, the coupling
+   lambda_hat with the cell volume ell^3 v_t e^{2 a4} and the equivalent lambda_eff (which the notebook's
+   `lambda_eff` reproduces at all 41 slices), and that the solver ran with beta = 4/3 and the cell volume of
+   `parameters.json` at a4 = 0.
 3. Solves the remaining 122 states of three series of the dense history (N688_lam0, N136_lam0, N8_lamp1 with
-   lambda_hat = lambda_1 = 0.01946; a4 = 0, 0.05, ..., 2; N8_lamp1 at lambda_eff = 0.01946 e^(-2 a4)) with up to
+   lambda_hat = lambda_1 = 0.01946; a4 = 0, 0.05, ..., 2; N8_lamp1 at lambda_hat = 0.01946 in the growing cell, i.e.
+   lambda_eff = 0.01946 e^(-2 a4)) with up to
    eight parallel solver processes; every run exits 0 with the final line SUCCESS and only the three PASS input
    checks on its error stream.
-4. Rebuilds each row exactly as `run_ks_history.py` writes it (with the columns b4_over_b4_0 = e^((4/3) a4)
-   and lambda_eff; shortest round-trip floats, occupied-set fingerprint) and requires the text to equal the
+4. Rebuilds each row exactly as `run_ks_history.py` writes it (with the columns b4_over_b4_0 = e^((4/3) a4),
+   lambda_eff, beta and Vol7; shortest round-trip floats, occupied-set fingerprint) and requires the text to equal the
    committed row of `Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv`: 123 of 123 identical.
    Repeats the run report's checks for these series: occupied set fixed at all 41 slices (12, 6 and 2
    occupied levels), hidden-direction conservation residual 2.225e-09 (<= 1e-6), particle number to 1.998e-15.
@@ -102,35 +106,35 @@ line; its last code cell prints `checks of this notebook: 46 passed, 0 failed`.
 
 ## 2. Files read and written
 
-Read (sha256 at the time of the verified builds of 2026-10-15):
+Read (sha256 at the time of the verified builds of 2026-10-16, after the Kohn-Sham record was moved to b4(x4)):
 
 | file | sha256 |
 | --- | --- |
 | `Revision/SPEC.md` | (only its existence is used, to find the repository) |
 | `Revision/kohn_sham/solver/Cargo.toml` | `464d553adcfaa1943af53ec3b18324fcba99ee92b3d82efcb08d2dc74bca24b1` |
 | `Revision/kohn_sham/solver/Cargo.lock` | `65b7ed2cbe76d4701a66287cfbdedc8d4a780ee3c9e672de0e4055eb4ae70738` |
-| `Revision/kohn_sham/solver/src/analysis.rs` | `43d69cb108e37b58beca76b613b6d5c80d5a4456884a6b4cbebbe76da598a487` |
+| `Revision/kohn_sham/solver/src/analysis.rs` | `09f90e3ece9e2f910670792e6900045c7d7f4634fdc25e0862f42f80ee84ad8d` |
 | `Revision/kohn_sham/solver/src/json.rs` | `919be3b192ab81d62deb8429229aa065a50d8fd0f8df6877ac4e413909efdf05` |
-| `Revision/kohn_sham/solver/src/main.rs` | `6964c47f87c224d323a443471137c2ffa57b9c6d79e926cd14ddcc6e54efa18c` |
+| `Revision/kohn_sham/solver/src/main.rs` | `70b20addc1379ede2332e53838a8a5d3a63ad943fe767138e2369f6e47881c8d` |
 | `Revision/kohn_sham/solver/src/mermin.rs` | `0be57b4defb8ec056b521c7585138f67d68fb95e3446b8a020b60312cbf6a094` |
-| `Revision/kohn_sham/solver/src/model.rs` | `391ac28244bc07ff246a8f4dcdd2fae74ff3571268187791e0ad8a88e7b486eb` |
+| `Revision/kohn_sham/solver/src/model.rs` | `9cc74d27f5d7ab588768b2d842f75fdcb64935891cff0497a505031384e60073` |
 | `Revision/kohn_sham/solver/src/report.rs` | `0a770aff24dde0de531d0578e968ab9cad3d5f42b7cda532f7c753633b7ff9c7` |
-| `Revision/kohn_sham/solver/src/runs.rs` | `5e944987088de64b10559d42474569ca18cb188aae13bae0d7a474a17df19f55` |
+| `Revision/kohn_sham/solver/src/runs.rs` | `681aed269012d11f6d58904207632280e728723e563d8eeba64a8c12522f9619` |
 | `Revision/kohn_sham/solver/src/scf.rs` | `d27060a8db753b8a933946d35eb3918ba3f982b201263435b448a6c702254dd7` |
 | `Revision/kohn_sham/solver/src/sha256.rs` | `f44ed328e324b26d9b7c78f530e95be9ff1c88b179026ab4839ab38009e15122` |
 | `Revision/kohn_sham/solver/src/shoot.rs` | `39c95fffea255d3977efa9ddadf87131e51c4fd47557bec3a6225fa05bf7d7f4` |
 | `Revision/kohn_sham/solver/src/spectrum.rs` | `b52b6997e1418f094e1e7a5cca6064235b6d5ded6bcb534cce149e3a0d3622de` |
-| `Revision/kohn_sham/solver/src/theory.rs` | `cfde16d6fa442f797ac0e5684227e192394bc4aa75f3d89f78ea00d05965bbb4` |
-| `Revision/kohn_sham/ks-theory.json` (read by the solver) | `a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2` |
+| `Revision/kohn_sham/solver/src/theory.rs` | `fdc77ba6601089f98b4bd7a3fff3d11b723687295992620bf29912218e7d393e` |
+| `Revision/kohn_sham/ks-theory.json` (read by the solver) | `e3e2869216e2744f83a2888067e5ed9599bf2ddff46cfd876da3fb7c729ba0f0` |
 | `Revision/algebra/gammas.json` (read by the solver) | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` |
-| `Revision/kohn_sham/results/parameters.json` | `c91041b68b6520c7eec890bd18ffd361b260730c0ee4328eb1d90a8f91c83ebb` |
-| `Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv` | `5eee937e5d2626a77ffa5d04abe1fd6440a8a475653202340da5f86c96a92642` |
-| `Revision/dark_sector/dirac16complex/outputs/eos-history.csv` | `1ab8d52364fa8ede9ba6ff0459a9dabfea882fdff43d34f58d06a858695eb4f2` |
-| `Revision/dark_sector/dirac16complex/outputs/eos-summary.json` | `ee2ad6074ac7fe45d3c1bce0e6c9c9de51d18267208a0fb54ababef480d9e66c` |
+| `Revision/kohn_sham/results/parameters.json` | `da5756aacb351ecc2691ac159cac7a2d34d6897717b8e877f5d2257d5a8e03a0` |
+| `Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv` | `1a16788f409b6de8ca970acd6cbdd2cb698b153afaac37ac54c369678f3d5ee2` |
+| `Revision/dark_sector/dirac16complex/outputs/eos-history.csv` | `cd6203c1460fc3c2afc08b8ea5e7940710eaf1ba0fd1e0759961d3d9e414e3e5` |
+| `Revision/dark_sector/dirac16complex/outputs/eos-summary.json` | `31568acbe83092d2d342966018398ab1e8c96919887b15385da9b07870976d1c` |
 | `Revision/dark_sector/dirac16complex/outputs/effective-formulas.json` | `aa15a8198973517ea0c206b12377afa0f29246ea4c19503dd28c37f5785a8c2c` |
 | `Revision/dark_sector/dirac16complex/reports/derivation-checks.json` | `67427eaa3e496e4e07adde7bf560b932b68a35a40e54e83b2d8c00e5d054a1a1` |
-| `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` | `873aa221ea313cf1be4425e3b1558ffb44b7f7e71a1a1f931b0f7ea0b075c9f0` |
-| `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | `b0dce83a31874eb2c77fc790ec2f425544e56256249c1631378a41327fc05059` |
+| `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` | `9b0b0feab20a60f931ea6db104a02325476113be4c05e537e102875c6212ee14` |
+| `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | `d3706f3c3594d13b153d0a3f05908eac27ddfe7d4c9d5392cf30f4b21f5e3982` |
 | `Revision/dark_sector/dirac16complex/reports/independent-checks.json` | `bb475ad3f21db751bc002a6589d2a87af6b21fe29c5c04cb116f2238eb728232` |
 | `Revision/dark_sector/dirac16complex00/eos-theory.json` | `7ab0fcbd8bd4fdc39be91b8fa39ff76c83715e7bdd08b8326eb9809249ecd2ac` |
 | `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `0ed88e5a872621e0054651a43a5d5588c0ea7b4d9e33920653839837ea73e784` |
@@ -139,7 +143,7 @@ Read (sha256 at the time of the verified builds of 2026-10-15):
 
 Followed but not executed (the notebook reproduces their arithmetic; listed so that a change is noticed):
 `Revision/dark_sector/dirac16complex/compute/run_ks_history.py` (sha256
-`469a21c70115ca9e6f5f78dfd03733612c2ecf03f6cc07b6c604e23428f99d0e`) and
+`d6ed92ec4037b279cd61253c3aa39f7fc4ea8ddd737ceb78dc7d84d51345a2be`) and
 `Revision/dark_sector/dirac16complex/compute/compute_eos.py` (sha256
 `1bc9d9e2110e5365ddbbe1d042d2abffb76875eebc0e41abfac11c23625ed5b1`).
 
@@ -152,13 +156,13 @@ git), identical in both verified builds and in the `check` run (129 files compar
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `<output>/ks-history-dense-subset.csv` (header + the 123 reproduced rows of `ks-history-dense.csv`) | 32204 | `550fa4d29ae7833353933be471d5c06c802f4c96db711efb6fe7003ae835ea7d` |
-| `<output>/eos-history-subset.csv` (header + the 123 reproduced rows of `eos-history.csv`) | 37104 | `7c35cb6163ea86ad1c3dbef146713b8ee5200007eb850d523684796c3edfadf3` |
+| `<output>/ks-history-dense-subset.csv` (header + the 123 reproduced rows of `ks-history-dense.csv`) | 36744 | `f5086fefd175388b43d9fafb0e16c8dbe50e96e0e55c4b279683259cf5137d00` |
+| `<output>/eos-history-subset.csv` (header + the 123 reproduced rows of `eos-history.csv`) | 37104 | `2ab526ddfe4eae7228b7f517e76c94cb198b12fd3b9eea5fc0d37293b9996d57` |
 | `<output>/figures/figure1_w_eff_histories.png` | 68781 | `3c75b7bb710d24756dff7fddba2840b81d316c9f75f9b63ee3f30bb85ceb02f8` |
 | `<output>/figures/figure2_mixtures.png` | 60227 | `e2ec39477b1eab5f6617daf5f4ad2016ba3bc43f52efef3a42aa84ed1a26103e` |
 | `<output>/figures/figure3_dirac16complex00_populations.png` | 67182 | `8a6d3f54dafcc79638efb859a22552090455419d20ab8f1dac1725ef78054029` |
 | `<output>/figures/figure4_w0_wa_plane.png` | 46861 | `e0c2a2751b8b885f6a08cb4813d206c47071560da90b106c7d04f91fc7726c1b` |
-| `<output>/ks_runs/<id>.json` (123 solver result files, ids `N688_lam0_a000` ... `N8_lamp1_a200`) | 4873152 in total | combined `0a5af5bebdc46ce5845c0b4ef6594fab432630229d134af60ff84b992d33ce11` (sha256 of the 123 lines `<sha256>  <file name>`, sorted by file name, LF) |
+| `<output>/ks_runs/<id>.json` (123 solver result files, ids `N688_lam0_a000` ... `N8_lamp1_a200`) | 4881270 in total | combined `3cad973de6f640eff1ab0a065efdadc597264aa7bebe63c26401605a2357a6da` (sha256 of the 123 lines `<sha256>  <file name>`, sorted by file name, LF) |
 | `<cargo-target>/` | about 2.8 MB | the Rust build folder (compiler output; not compared) |
 
 The tool writes `Revision/notebooks/dark_sector_hypotheses.ipynb` (`build`) or
@@ -198,9 +202,10 @@ or, to rebuild and compare with the committed file (from the repository root):
 * Section 5: the Unite values (-0.764; (-0.861, -0.6)), `exit status: 0`, `compiler warnings: 0`.
 * Section 6: the command `$ revision_ks_solver single --m 1 --lambda 0.01946 --a4 0.0 --N 8 --out
   <output>/ks_runs/N8_lamp1_a000.json`, the solver's three indented `PASS` input checks, `-> SUCCESS, exit
-  status 0`, the parameter block (H 1.0, m 1.0, L 3.0, dk 0.25, v_t 1.0, a4 0.0, lambda 0.01946, N 8.0, T 0.0,
-  tipTheta 0.0, exactFockVariant False), `history_with_b4_equals_record`, lambda_hat = lambda_1 = 0.01946,
-  0.0009298, 0.0001846 for N = 8, 136, 688, and the run report's history and coupling texts.
+  status 0`, the parameter block (H 1.0, m 1.0, L 3.0, dk 0.25, v_t 1.0, a4 0.0, beta 1.333333333333333, Vol7
+  15875.21366031351, lambda 0.01946, N 8.0, T 0.0, tipTheta 0.0, exactFockVariant False), `history_with_b4_equals_record`,
+  lambda_hat = lambda_1 = 0.01946, 0.01206, 0.006645 for N = 8, 136, 688 (0.01946, 0.0009298, 0.0001846 before
+  2026-10-16), and the run report's history and coupling texts.
 * Section 7: `all_runs_succeeded: 123 runs`, `dense_rows_bit_identical: 123 of 123 rows`, three
   `..._occupations_fixed` lines, the table of b4/b4(0), lambda_eff, E, P3, Pt, P0 (for example N688_lam0 at
   a4 = 0: E = 6.804412466e+02, P3 = 1.993052338e+02, P0 = 2.405597506e+02; N8_lamp1 at a4 = 2: b4/b4(0) =
@@ -404,6 +409,7 @@ No run time and no path of the computer is printed (paths are shown relative to 
 * 2026-10-14, the author's coordinates x0..x7 (ordered by the user on 2026-10-14; the record had named them x1..x8 with the hidden direction x8 last): the coordinate definition and section 4.1 (the user's metric with b4; the recorded states are at b4 = 1), the hidden-direction pressure P0 = T^x0_x0 (was P8), the ratio w_x0 = P0/E (code `wx0`, was w8), every x8 in the texts. `python Revision/notebooks/tools/build_notebooks.py build dark_sector_hypotheses` - executed in 14.1 s, wrote 458105 bytes, audit PASS, sha256 `f339eb3ff22561b9e9f1b3dda9bb2cda04a522457b6883c8e51f154ad5883c49` (the version before: 457652 bytes, `30d2e843921159fa...`; builder before `12d5cad95338f4ff...`); `check dark_sector_hypotheses` - a second independent execution (13.4 s): PASS, the re-executed notebook is byte-identical; the 129 files of the two output folders are byte-identical and equal to the table of section 2 (refreshed from them). The notebook's own checks pass as before (no FAIL line). Tests: `REVISION_NOTEBOOKS_FULL=1 python -m unittest Revision/tests/test_revision_notebooks.py` - 11
   tests OK in 48.6 s (the installed versions equal the pins; `check` of all three notebooks byte-identical). Every run
   with `timeout 423`.
+* 2026-10-16, the Kohn-Sham record moved to b4(x4) (`HANDOFF.md` 0.9, phase 4; `Revision/dark_sector/B4_PROVENANCE.md`, section 10): the solver's `single --lambda` now means lambda_hat with the cell volume ell^3 v_t e^{2 a4}, and the record's couplings were recalibrated on the history. Builder changes: `run_one` passes lambda_hat (as `run_ks_history.py`), the dense rows carry the new columns `beta` and `Vol7`, the check `history_with_b4_equals_record` reads the new coupling text of the run report and the solver's beta and cell volume, the expected count of `ks-history-run.json` is 8, and the texts of sections 2 (glossary), 4.5, 5.2, 6, 7.2 and 7.3 describe lambda_hat, the growing cell and the equivalent lambda_eff. `python Revision/notebooks/tools/build_notebooks.py build dark_sector_hypotheses` - executed in 12.4 s, wrote 473860 bytes, audit PASS, sha256 `14994bb5cbfd629cd1a28c6f978038f357c2cc08b98609e0e6797c765f3fd922` (builder `99464e21eac070240b67c27f438f06a5bb2061df486c179f531cb65992911f60`), `checks of this notebook: 46 passed, 0 failed`, the 123 dense rows and the 123 equation-of-state rows equal the committed ones character for character; `check dark_sector_hypotheses` - a second independent execution (12.6 s): PASS, byte-identical; the 129 output files of the two folders are byte-identical and the tables of section 2 were refreshed from them. Every run with `timeout -k 5 423`.
 * Not verified here: the run instructions on macOS and Linux (written for them, executed only on
   Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
   the matplotlib version).

@@ -61,7 +61,7 @@ author's T16 (`Revision/algebra/gammas.json`), and shares no code with the Pytho
 | observer | w_eff = X/E - s + (beta/2)(Pt/E + s), s = 0 (A, B, N1), s = 1 (C, N2) | `derive_effective.py`, `w_eff_*_b4` | W: D3_w_eff_general_b4; A: `observer_N1_weff_identity_b4`, `observer_N2_weff_identity_b4` |
 | history | with the author's weights (w1 = 1, w2 = 1/32, w3 = 1/1152, Lambda = 10) the mixed (x4, x0) equation of a diagonal source is beta_v Q = 0, Q = 6 beta (3 beta - 4) at alpha = 1: d ln b4/d a4 in {0, 4/3}; b4 is not constant, so b4 = b4(0) e^((4/3) H x4), beta = 4/3 | `derive_effective.py`, `author_weights_b4_branch` | W: D6_author_weights_branch ((3/64) be^2 (3 be - 4) cot z from the author's E_(k)) |
 | required source | on that history the author's equations need the constant kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27) | A: `branch_required_source` (a4-equations generalSource with alpha_k = w_k/H^(2k), Lam = -10) | W: D7_branch_required_source (from the author's E_(k)); the notebook checks its conservation and p3 + p_t = 2 p0 exactly |
-| Kohn-Sham states | Psi = b4^(-3/4) chi, chi solves the b4-free equation at lambda b4^(-3/2): lambda_eff = lambda_hat e^(-2 a4) | `run_ks_history.py` on `Revision/kohn_sham/reports/ks-b4-wolfram.json` K1-K3 | `run_ks_history.py` checks `a4_0_states_equal_committed_record` (max dev <= 1e-13), `lambda0_series_independent_of_b4`, `coupling_follows_b4`; the notebook re-solves 123 states bit for bit |
+| Kohn-Sham states | Psi = e^(ik.x) W^(-3) b4^(-3/4) chi, the slice Hamiltonian does not contain b4; the record (since 2026-10-16) works with lambda_hat = lambda b4(0)^(-3/2) and Vol_7(a4) = ell^3 v_t e^(2 a4), equivalently lambda_eff = lambda_hat e^(-2 a4) in the fixed cell | `run_ks_history.py` on `Revision/kohn_sham/ks-theory.json` (sectorAndAnsatz, densities; Wolfram 51/51, sympy 63/63; section 10) | `run_ks_history.py` checks `committed_slices_equal_committed_record` (max dev <= 1e-13), `lambda0_series_independent_of_b4`, `cell_volume_follows_b4`, `lambda_eff_form_agrees` (2.0e-13); the notebook re-solves 123 states bit for bit |
 | free gas | the lambda = 0 gas does not feel b4; w_eff(C) = w_eff(A) - 1/3 | `compute_eos.py` | `independent_free_gas.py` (numpy, Chebyshev collocation, no solver output except for the comparison), `free_gas_independent_of_b4`; W: D5_kinetic_gas_b4 |
 | condensate | b4^(3/2) S constant; u = lambda S/m ~ e^(-2 a4); the ratio u/(2 + u) drifts, wa = 4u/(2 + u)^2 | A: `condensate_S_b4_T16`, `condensate_observer_b4`, `condensate_ratio_drift_at_unite_value` (-84231/31250) | W: D4_condensate_b4_T16 and D8_condensate_drift; B: `B_condensate_dilutes_with_b4` (time integration of the 16-component equation); `compute_eos.py` `condensate_drifts_with_b4`; the notebook in exact fractions |
 | modes | omega^2 = m^2 + k^2 e^(-2 a4) - q^2 e^(2 a4)/b4; q_p ~ a^(1 - beta/2) = a^(1/3) | `derive_effective.py` `extra_time_momentum_blueshift_b4`; A: `wkb_*_b4` | W: D5; B: the propagator of `independent_numerics.py` with q_p(a4) = q e^((1 - beta/2) a4) |
@@ -87,7 +87,7 @@ author's T16 (`Revision/algebra/gammas.json`), and shares no code with the Pytho
 | quantity | withdrawn record (b4 = 1) | metric with b4(x4), history beta = 4/3 |
 | --- | --- | --- |
 | w_eff(C) - w_eff(A) | -1 | -1 + beta/2 = -1/3 |
-| Kohn-Sham gas N = 688, 136 (lambda = 0), w_eff(C) | [-0.707094, -0.673602] | [-0.040427, -0.006935] (all gas series: [-0.040430, -0.006905]) |
+| Kohn-Sham gas N = 688, 136 (lambda = 0), w_eff(C) | [-0.707094, -0.673602] | [-0.040427, -0.006935] (all gas series, with the couplings recalibrated on the history on 2026-10-16: [-0.040541, -0.006532]; before: [-0.040430, -0.006905]) |
 | N = 8 interacting zero modes | E constant; w_eff(A) = 0, w_eff(C) = -1 | E ~ e^(-2 a4) (E(2)/E(0) = 0.018402); w_eff(A) = (2/3) Pt/E in [0.660463, 0.666665] |
 | conservation | dE/da4 = -3X | dE/da4 = -3X - 2Pt (the b4-free law misses by 1.630 of max\|E\|) |
 | condensate | constant; ratio wa = 0 | drifts: ratio wa = -84231/31250 = -2.695392 at the u that gives -0.764 today; w_eff(C) = -316/375 with wa = -28077/15625 |
@@ -229,3 +229,31 @@ A, B: -4.848176262726 to -3.262703276443), all far from the Unite -0.60. `comput
 byte-identical); only `eos-summary.json` (the new key) and `eos-checks.json` (that detail) changed. The document
 (rebuilt twice, byte-identical, 27 pages, 0 warnings, registered), the README, the publication test and the
 Revision notebook (which reproduces the scan, now with the new key; rebuilt and checked byte-identical) were updated.
+
+## 10. The Kohn-Sham record moved to b4(x4) (2026-10-16)
+
+The dark sector of 2026-10-15 solved the Kohn-Sham states of this history with the solver of the record of that day,
+whose own states were those of the withdrawn metric b4 = 1: it passed lambda_eff = lambda_hat e^(-2 a4) to `single`
+and took lambda_hat from the calibrated couplings of the b4 = 1 record. On 2026-10-16 the Kohn-Sham record itself was
+moved to the history with b4 (`HANDOFF.md` 0.9, phase 4; `Revision/kohn_sham/solver/README.md`, "The metric with
+b4(x4)"): `single --lambda` now means lambda_hat, the solver uses the cell volume Vol_7(a4) = ell^3 v_t e^{2 a4}, and the
+calibration rule applied to the new history gives lambda_1 = 0.01946, 0.01206, 0.006645 and lambda_2 = 0.05838, 0.03617,
+0.01993 (N = 8, 136, 688; before 0.01946, 0.0009298, 0.0001846 and 0.05838, 0.002789, 0.0005538). Changes:
+
+* `dirac16complex/compute/run_ks_history.py` passes lambda_hat; its checks are now 8: `committed_slices_equal_committed_record`
+  (all 15 series at the five committed slices, 300 integrals, deviation 0; replaces `a4_0_states_equal_committed_record`),
+  `cell_volume_follows_b4` (every run used ell^3 v_t e^{2 a4}, 2.2e-16; replaces `coupling_follows_b4`) and the new
+  `lambda_eff_form_agrees` (the 48 interacting states at the committed slices a4 > 0 solved again in the coordinate-cell
+  form `single --beta 0 --lambda lambda_eff`: E_KS, E, P3, Pt, P0 agree to 2.0e-13). Run: 46 s (12 jobs), 8/8; the
+  columns `beta` and `Vol7` were added to `outputs/ks-history-dense.csv`.
+* `compute_eos.py`: 15/15. Changed numbers (interacting N = 136, 688 series): w_eff(A) in [0.292793, 0.326802] (before
+  [0.292903, 0.326429]), |Pt/E| <= 1.8e-3 (before 1.1e-4), w_eff(C) in [-0.040541, -0.006532] (before [-0.040430,
+  -0.006905]), tangent wa in [-0.019170, -0.008787] (before [-0.017766, -0.009043]), fitted wa in [-0.028228, -0.019171]
+  (before [-0.026521, -0.019590]); d w_eff/da4 two ways 1.366e-06 (before 6.394e-07). The lambda = 0 series and the
+  mixtures with the N = 688, lambda = 0 gas are the same (their numbers differ at most in the 13th significant digit,
+  the rounding of Vol_7 against 1/Vol_7); the N = 8 series are the same in substance (lambda_hat and the history are
+  unchanged for N = 8). No verdict changed: the gas is radiation-like under A and B and close to 0 under C, not a
+  dark-energy value; the Unite values are not reached.
+* The README, the document `Revision/docs/DARK_SECTOR_HYPOTHESES` (with its publication test) and the notebook
+  `Revision/notebooks/dark_sector_hypotheses.ipynb` (its `run_one` passes lambda_hat; 123 rows bit for bit) were
+  updated; the textbook chapters that quote these numbers follow in phase 9 of `HANDOFF.md` 0.9.

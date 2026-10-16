@@ -45,7 +45,7 @@
   2.0
  ],
  "history": "PRESCRIBED BACKGROUND a4 = H x4 and b4(x4) = b4(0) e^((4/3) H x4) (the branch of the author's weights for a source without T^x4_x0, derive_effective.py author_weights_b4_branch): the Kohn-Sham gas is a test field without back-reaction",
- "coupling": "the solver solves the b4-free good-sector equation at lambda_eff = lambda_hat e^(-2 a4) (Psi = b4^(-3/4) X, Revision/kohn_sham/reports/ks-b4-wolfram.json K1-K3); lambda_hat = lambda b4(0)^(-3/2) = the calibrated couplings of Revision/kohn_sham/results/parameters.json",
+ "coupling": "the solver runs at lambda_hat = lambda b4(0)^(-3/2) (the calibrated couplings of Revision/kohn_sham/results/parameters.json) with the cell volume Vol_7(a4) = ell^3 v_t e^(2 a4) (ks-theory.json densities; b4 does not enter the slice Hamiltonian); equivalently the coordinate cell at lambda_eff = lambda_hat e^(-2 a4) (check lambda_eff_form_agrees)",
  "beta": "d ln b4/d a4 = 4/3",
  "checks": [
   {
@@ -54,19 +54,24 @@
    "detail": "615 runs (15 series x 41 slices), failed: []"
   },
   {
-   "name": "a4_0_states_equal_committed_record",
+   "name": "committed_slices_equal_committed_record",
    "verdict": "PASS",
-   "detail": "a4 = 0, lambda_eff = lambda_hat: 60 integrals of the 15 states compared with Revision/kohn_sham/results/ground/emt-integrals.csv: max relative deviation 0.000e+00"
+   "detail": "300 integrals (E, P3, Pt, P0) of the 15 series at the five committed slices a4 = 0, 0.5, ..., 2 compared with Revision/kohn_sham/results/ground/emt-integrals.csv (the same history with b4): max relative deviation 0.000e+00"
   },
   {
    "name": "lambda0_series_independent_of_b4",
    "verdict": "PASS",
-   "detail": "lambda = 0 (no mean field, so no b4 in the b4-free equation): 60 integrals of the three series at the five committed slices equal the committed record: max relative deviation 0.000e+00"
+   "detail": "lambda = 0 (no mean field: b4 does not enter the slice Hamiltonian): 60 integrals of the three series at the five committed slices equal the committed record: max relative deviation 0.000e+00"
   },
   {
-   "name": "coupling_follows_b4",
+   "name": "cell_volume_follows_b4",
    "verdict": "PASS",
-   "detail": "every state was solved at lambda_eff = lambda_hat (b4(0)/b4)^(3/2) = lambda_hat e^(-2 a4) (b4 = b4(0) e^((4/3) a4)), so the interacting series change along the history through b4(x4)"
+   "detail": "every run used Vol_7(a4) = ell^3 v_t e^((3/2) beta a4) = ell^3 v_t e^(2 a4) (beta = 1.333333333333333 from ks-theory.json; the proper cell volume ell^3 v_t b4^(3/2) in units of b4(0)^(3/2)): max relative deviation 2.220e-16, so the effective coupling lambda_hat/Vol_7 falls like e^(-2 a4) and the interacting series change along the history through b4(x4)"
+  },
+  {
+   "name": "lambda_eff_form_agrees",
+   "verdict": "PASS",
+   "detail": "48 states (12 interacting series x 4 committed slices a4 > 0) solved again in the coordinate-cell form `single --beta 0 --lambda lambda_eff`, lambda_eff = lambda_hat e^(-2 a4): E_KS and the integrals E, P3, Pt, P0 agree with the record's form to 1.969e-13 (relative to max(1, |x|)); failed runs: []"
   },
   {
    "name": "occupied_labels_fixed_along_history",
@@ -81,12 +86,12 @@
   {
    "name": "particle_number_every_state",
    "verdict": "PASS",
-   "detail": "max |int n - N|/N = 2.442e-15"
+   "detail": "max |int n - N|/N = 2.331e-15"
   }
  ],
  "summary": {
-  "total": 7,
-  "pass": 7,
+  "total": 8,
+  "pass": 8,
   "fail": 0
  }
 }

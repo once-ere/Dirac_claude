@@ -29,12 +29,12 @@
   {
    "name": "derivative_two_ways",
    "verdict": "PASS",
-   "detail": "d w_eff(A)/da4 by finite differences vs the identity (X' + (beta/2) Pt')/E + w_eff(A) (3X + (3/2) beta Pt)/E at every slice (one-sided 4th-order stencils at the two end slices): gas series N = 136, 688 max deviation 6.394e-07 (<= 1e-5); N = 8 interacting series 3.532e-05, at the end slices, where E and Pt fall like e^(-2 a4) and the one-sided stencil's truncation error is about h^4 2^5/5 = 4.0e-05 (bound 2 h^4 2^5/5)"
+   "detail": "d w_eff(A)/da4 by finite differences vs the identity (X' + (beta/2) Pt')/E + w_eff(A) (3X + (3/2) beta Pt)/E at every slice (one-sided 4th-order stencils at the two end slices): gas series N = 136, 688 max deviation 1.366e-06 (<= 1e-5); N = 8 interacting series 3.532e-05, at the end slices, where E and Pt fall like e^(-2 a4) and the one-sided stencil's truncation error is about h^4 2^5/5 = 4.0e-05 (bound 2 h^4 2^5/5)"
   },
   {
    "name": "gas_radiation_like_band",
    "verdict": "PASS",
-   "detail": "Kohn-Sham gas N = 136, 688 (all lambda): w_eff(A) = X/E + (2/3) Pt/E in [0.292903, 0.326429] (|Pt/E| <= 1.1e-04), below 1/3 and above 0.29 at every slice a4 in [0, 2]"
+   "detail": "Kohn-Sham gas N = 136, 688 (all lambda): w_eff(A) = X/E + (2/3) Pt/E in [0.292793, 0.326802] (|Pt/E| <= 1.8e-03), below 1/3 and above 0.29 at every slice a4 in [0, 2]"
   },
   {
    "name": "gas_X_over_E_rises_toward_one_third",
@@ -44,7 +44,7 @@
   {
    "name": "gas_C_near_zero_on_b4_history",
    "verdict": "PASS",
-   "detail": "normalisation C on the history with b4(x4): w_eff(C) = w_eff(A) - 1 + beta/2 = w_eff(A) - 1/3 in [-0.040430, -0.006905]: close to 0 (dust-like dilution per proper 7-volume), not a dark-energy value (the withdrawn b4 = 1 record had w_eff(C) = w_eff(A) - 1)"
+   "detail": "normalisation C on the history with b4(x4): w_eff(C) = w_eff(A) - 1 + beta/2 = w_eff(A) - 1/3 in [-0.040541, -0.006532]: close to 0 (dust-like dilution per proper 7-volume), not a dark-energy value (the withdrawn b4 = 1 record had w_eff(C) = w_eff(A) - 1)"
   },
   {
    "name": "n8_interacting_zero_modes_dilute_with_b4",
@@ -74,7 +74,7 @@
   {
    "name": "gas_cpl_thawing_sign_small",
    "verdict": "PASS",
-   "detail": "Kohn-Sham gas (N = 136, 688, all lambda): tangent wa in [-0.017766, -0.009043], least-squares fit wa in [-0.026521, -0.019590] (all < 0: thawing sign; |wa| far below the Unite 0.60); w_eff(C) in [-0.040430, -0.006905]"
+   "detail": "Kohn-Sham gas (N = 136, 688, all lambda): tangent wa in [-0.019170, -0.008787], least-squares fit wa in [-0.028228, -0.019171] (all < 0: thawing sign; |wa| far below the Unite 0.60); w_eff(C) in [-0.040541, -0.006532]"
   }
  ],
  "summary": {

@@ -15,24 +15,27 @@ beta_v Q = 0, and on a4 = H x4 it allows exactly d ln b4/d a4 = 4/3 besides a co
 extra-time scale factor is then e^{-a4} b4^{1/2} ~ e^{-a4/3}: the extra times still deflate exponentially.  The
 history is PRESCRIBED (test field, no back-reaction).
 
-The states.  In the metric with b4 the good-sector state is Psi = b4^{-3/4} X, where X solves the b4-free
-good-sector Kohn-Sham equation (Revision/kohn_sham/reports/ks-b4-wolfram.json, K1 and K2), and the normalisation
-integrals keep their form (K3).  The mean field is lambda S with S = Psi-bar Psi = b4^{-3/2} X-bar X, so X solves
-that equation at the coupling lambda b4^{-3/2}; the solver's exchange functional is quadratic in the densities, so
-the state depends on lambda and the cell volume only through lambda/vol7.  The energy-momentum integrals E, P3, Pt,
-P0 (proper volume element b4^{3/2} cos z, densities b4^{-3/2} x those of X) are those of X at that coupling.  Hence
-the solver runs at
-    lambda_eff(a4) = lambda_hat e^{-2 a4},   lambda_hat = lambda b4(0)^{-3/2} = the calibrated couplings of
-    Revision/kohn_sham/results/parameters.json (the coupling at a4 = 0; b4(0) enters only through lambda_hat).
-The lambda = 0 series do not feel b4 at all.  Same N, T = 0, canonical numerics, H = m = 1, L = 3, tip theta = 0,
-a4 = 0, 0.05, ..., 2 (41 slices, the solver's validated range; it is not extended: outside it the aufbau
-occupation can change, see the checks below).
+The states.  In the metric with b4 the good-sector state is Psi = e^{ik.x} W^{-3} b4^{-3/4} chi, where chi solves
+the slice Hamiltonian, which does not contain b4 (Revision/kohn_sham/ks-theory.json sectorAndAnsatz.exactReduction);
+b4 enters through the proper 7-volume of the cell, ell^3 v_t b4^{3/2}.  The Kohn-Sham record (Revision/kohn_sham,
+moved to b4(x4) on 2026-10-16, HANDOFF.md 0.9 phase 4) works in units of b4(0)^{3/2}: coupling lambda_hat =
+lambda b4(0)^{-3/2} (the calibrated couplings of Revision/kohn_sham/results/parameters.json, the same at every slice)
+and cell volume Vol_7(a4) = ell^3 v_t e^{(3/2) beta a4} with beta = 4/3 read by the solver from ks-theory.json
+(adiabaticity.historyBeta).  This script therefore runs `single --lambda lambda_hat --a4 a4` (b4(0) never needs a
+value).  Because a state depends on the coupling and the cell volume only through lambda/Vol (ks-theory.json
+densities.couplingVolumeScaling), the same state is the one of the coordinate cell ell^3 v_t at
+    lambda_eff(a4) = lambda_hat e^{-2 a4}
+(the form this script used before the record was moved); the check lambda_eff_form_agrees solves that form too
+(`single --beta 0 --lambda lambda_eff`) at the committed slices a4 > 0 and compares.  The lambda = 0 series do not
+feel b4 at all.  Same N, T = 0, canonical numerics, H = m = 1, L = 3, tip theta = 0, a4 = 0, 0.05, ..., 2 (41
+slices, the solver's validated range; it is not extended: outside it the aufbau occupation can change, see the
+checks below).
 
 Writes outputs/ks-history-dense.csv (one row per state; floats as shortest round-trip repr) and
-reports/ks-history-run.json (checks: every run succeeded; at a4 = 0, where lambda_eff = lambda_hat, all 15 states
-equal the committed Kohn-Sham record, and the lambda = 0 series equal it at all five committed slices; the occupied
-label set is the same at every slice of a series, so that the instantaneous ground states ARE the adiabatically
-continued state with fixed occupations, to which the conservation identity
+reports/ks-history-run.json (checks: every run succeeded; at the five committed slices every one of the 15 series
+equals the committed Kohn-Sham record; the cell volume of every run is ell^3 v_t e^{2 a4}; the lambda_eff form
+agrees; the occupied label set is the same at every slice of a series, so that the instantaneous ground states ARE
+the adiabatically continued state with fixed occupations, to which the conservation identity
 dE/da4 = -3 (P3 - Pt) - (3/2) beta Pt (beta = 4/3) applies; y-conservation residuals).  Deterministic (the work
 directory does not enter the outputs).
 
@@ -65,7 +68,7 @@ CHECKS = []
 
 
 def lambda_eff(lam_hat, a4):
-    """the coupling of the b4-free equation at slice a4: lambda_hat (b4(0)/b4(a4))^{3/2} = lambda_hat e^{-2 a4}"""
+    """the coupling of the coordinate-cell form at slice a4: lambda_hat (b4(0)/b4(a4))^{3/2} = lambda_hat e^{-2 a4}"""
     return lam_hat * math.exp(-1.5 * BETA * a4)
 
 
@@ -91,11 +94,17 @@ def lambda_table():
     return table
 
 
-def run_one(solver, work, n, tag, lam, a4):
+def run_one(solver, work, n, tag, lam, a4, form="hat"):
+    """form "hat": the record's form (lambda_hat, Vol_7(a4) = ell^3 v_t e^{2 a4}); form "eff": the coordinate cell at
+    lambda_eff = lambda_hat e^{-2 a4} (`--beta 0`)"""
     rid = f"N{n}_{tag}_a{int(round(a4 * 100)):03d}"
-    out = Path(work) / f"{rid}.json"
-    cmd = [str(solver), "single", "--m", "1", "--lambda", repr(lambda_eff(lam, a4)), "--a4", repr(a4), "--N", str(n),
-           "--out", str(out)]
+    out = Path(work) / (f"{rid}.json" if form == "hat" else f"{rid}_eff.json")
+    if form == "hat":
+        cmd = [str(solver), "single", "--m", "1", "--lambda", repr(lam), "--a4", repr(a4), "--N", str(n),
+               "--out", str(out)]
+    else:
+        cmd = [str(solver), "single", "--m", "1", "--beta", "0", "--lambda", repr(lambda_eff(lam, a4)), "--a4", repr(a4),
+               "--N", str(n), "--out", str(out)]
     proc = subprocess.run(cmd, capture_output=True, text=True)
     ok = proc.returncode == 0 and out.exists() and proc.stdout.strip().endswith("SUCCESS")
     if not ok:
@@ -136,6 +145,7 @@ def main():
         return 1
 
     rows = []
+    vol0 = (2.0 * math.pi / 0.25) ** 3 * 1.0          # ell^3 v_t of the record (dk = 0.25, v_t = 1)
     order = sorted(results, key=lambda r: (results[r][0], ["lam0", "lamp1", "lamm1", "lamp2", "lamm2"].index(results[r][1]),
                                            results[r][3]))
     for rid in order:
@@ -143,16 +153,16 @@ def main():
         emt = d["emtIntegrals_2Vol7_int_e6Hy"]
         sig, nocc = occupied_signature(d["levels_n2_j_parity_label_eps_deg_f"])
         rows.append({"id": rid, "N": n, "lambda_tag": tag, "lambda": lam, "a4": a4,
-                     "b4_over_b4_0": math.exp(BETA * a4), "lambda_eff": lambda_eff(lam, a4), "E_KS": d["E_KS"],
+                     "b4_over_b4_0": math.exp(BETA * a4), "lambda_eff": lambda_eff(lam, a4),
+                     "beta": d["parameters"]["beta"], "Vol7": d["parameters"]["Vol7"], "E_KS": d["E_KS"],
                      "int_rho": emt["rho"], "int_p3": emt["p3"], "int_p_t": emt["p_t"], "int_p0": emt["p0"],
                      "int_n": emt["n"], "iterations": d["iterations"], "residual": d["residual"],
                      "fermi_level": d["mu_or_fermi_level"], "ycons_integrated_rel": d["yConservationIntegratedRel"],
                      "ycons_pointwise_rel": d["yConservationPointwiseRel"], "occupied_signature": sig,
                      "occupied_labels": nocc})
 
-    # comparison with the committed Kohn-Sham record (Revision/kohn_sham/results/ground/emt-integrals.csv): it
-    # solves the b4-free good-sector equation at the calibrated couplings, which is the state of this history at
-    # a4 = 0 (lambda_eff = lambda_hat) for every series, and at every slice for the lambda = 0 series
+    # comparison with the committed Kohn-Sham record (Revision/kohn_sham/results/ground/emt-integrals.csv): the
+    # same history with b4, so every series must equal it at the five committed slices
     committed = {}
     with open(KS / "results" / "ground" / "emt-integrals.csv", encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
@@ -173,19 +183,42 @@ def main():
                 compared += 1
         return worst, compared
 
-    w0dev, n0 = compare(lambda r: r["a4"] == 0.0)
-    check("a4_0_states_equal_committed_record", n0 == 15 * 4 and w0dev <= 1e-13,
-          f"a4 = 0, lambda_eff = lambda_hat: {n0} integrals of the 15 states compared with Revision/kohn_sham/results/"
-          f"ground/emt-integrals.csv: max relative deviation {w0dev:.3e}")
+    wall, nall = compare(lambda r: True)
+    check("committed_slices_equal_committed_record", nall == 15 * 5 * 4 and wall <= 1e-13,
+          f"{nall} integrals (E, P3, Pt, P0) of the 15 series at the five committed slices a4 = 0, 0.5, ..., 2 compared "
+          f"with Revision/kohn_sham/results/ground/emt-integrals.csv (the same history with b4): max relative deviation "
+          f"{wall:.3e}")
     wl0, nl0 = compare(lambda r: r["lambda_tag"] == "lam0")
     check("lambda0_series_independent_of_b4", nl0 == 3 * 5 * 4 and wl0 <= 1e-13,
-          f"lambda = 0 (no mean field, so no b4 in the b4-free equation): {nl0} integrals of the three series at the five "
-          f"committed slices equal the committed record: max relative deviation {wl0:.3e}")
-    lam_ok = all(abs(r["lambda_eff"] - r["lambda"] * math.exp(-2.0 * r["a4"])) <= 1e-15 * max(1.0, abs(r["lambda"]))
-                 for r in rows)
-    check("coupling_follows_b4", lam_ok,
-          "every state was solved at lambda_eff = lambda_hat (b4(0)/b4)^(3/2) = lambda_hat e^(-2 a4) (b4 = b4(0) "
-          "e^((4/3) a4)), so the interacting series change along the history through b4(x4)")
+          f"lambda = 0 (no mean field: b4 does not enter the slice Hamiltonian): {nl0} integrals of the three series at "
+          f"the five committed slices equal the committed record: max relative deviation {wl0:.3e}")
+    vol_dev = max(abs(r["Vol7"] / (vol0 * math.exp(2.0 * r["a4"])) - 1.0) for r in rows)
+    check("cell_volume_follows_b4", vol_dev <= 1e-14,
+          f"every run used Vol_7(a4) = ell^3 v_t e^((3/2) beta a4) = ell^3 v_t e^(2 a4) (beta = {rows[0]['beta']!r} from "
+          f"ks-theory.json; the proper cell volume ell^3 v_t b4^(3/2) in units of b4(0)^(3/2)): max relative deviation "
+          f"{vol_dev:.3e}, so the effective coupling lambda_hat/Vol_7 falls like e^(-2 a4) and the interacting series "
+          f"change along the history through b4(x4)")
+    # the coordinate-cell form at lambda_eff (ks-theory.json densities.couplingVolumeScaling), every series with
+    # lambda != 0 at the committed slices a4 > 0
+    eff_tasks = [(n, tag, lam, a4) for (n, tag, lam) in lambda_table() if lam != 0.0 for a4 in COMMITTED if a4 > 0.0]
+    with cf.ThreadPoolExecutor(max_workers=args.jobs) as ex:
+        eff = list(ex.map(lambda t: run_one(solver, work, *t, form="eff"), eff_tasks))
+    byid = {r["id"]: r for r in rows}
+    worst_eff, n_eff, bad_eff = 0.0, 0, []
+    for rid, n, tag, lam, a4, d in eff:
+        if d is None:
+            bad_eff.append(rid)
+            continue
+        r = byid[rid]
+        e2 = d["emtIntegrals_2Vol7_int_e6Hy"]
+        for mine, k in (("int_rho", "rho"), ("int_p3", "p3"), ("int_p_t", "p_t"), ("int_p0", "p0")):
+            worst_eff = max(worst_eff, abs(r[mine] - e2[k]) / max(1.0, abs(r[mine])))
+            n_eff += 1
+        worst_eff = max(worst_eff, abs(r["E_KS"] - d["E_KS"]) / max(1.0, abs(r["E_KS"])))
+    check("lambda_eff_form_agrees", not bad_eff and n_eff == len(eff_tasks) * 4 and worst_eff <= 1e-12,
+          f"{len(eff_tasks)} states (12 interacting series x 4 committed slices a4 > 0) solved again in the coordinate-cell "
+          f"form `single --beta 0 --lambda lambda_eff`, lambda_eff = lambda_hat e^(-2 a4): E_KS and the integrals E, P3, "
+          f"Pt, P0 agree with the record's form to {worst_eff:.3e} (relative to max(1, |x|)); failed runs: {bad_eff}")
 
     # fixed occupations along every series
     series = {}
@@ -219,9 +252,10 @@ def write(results, rows):
            "slices": SLICES, "history": "PRESCRIBED BACKGROUND a4 = H x4 and b4(x4) = b4(0) e^((4/3) H x4) (the branch "
            "of the author's weights for a source without T^x4_x0, derive_effective.py author_weights_b4_branch): the "
            "Kohn-Sham gas is a test field without back-reaction",
-           "coupling": "the solver solves the b4-free good-sector equation at lambda_eff = lambda_hat e^(-2 a4) "
-                       "(Psi = b4^(-3/4) X, Revision/kohn_sham/reports/ks-b4-wolfram.json K1-K3); lambda_hat = lambda "
-                       "b4(0)^(-3/2) = the calibrated couplings of Revision/kohn_sham/results/parameters.json",
+           "coupling": "the solver runs at lambda_hat = lambda b4(0)^(-3/2) (the calibrated couplings of "
+                       "Revision/kohn_sham/results/parameters.json) with the cell volume Vol_7(a4) = ell^3 v_t e^(2 a4) "
+                       "(ks-theory.json densities; b4 does not enter the slice Hamiltonian); equivalently the coordinate "
+                       "cell at lambda_eff = lambda_hat e^(-2 a4) (check lambda_eff_form_agrees)",
            "beta": "d ln b4/d a4 = 4/3",
            "checks": CHECKS, "summary": {"total": len(CHECKS), "pass": len(CHECKS) - len(fails), "fail": len(fails)}}
     with open(OUT_REPORT, "w", encoding="utf-8", newline="\n") as fh:

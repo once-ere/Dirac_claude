@@ -72,8 +72,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "7b7549c2ae1be99eba66d3c7ed0e0228b79babb9fb23afb414ae0382ef894cb0"
-TEX_SHA256 = "9d71f61f3a76f2a5a538c5b46bf6dd4d9c5b33c7f3b6c10f0c330bcfc6a620d6"
+MARKDOWN_SHA256 = "82e6b673ed3afd95ecb9acd4274d042430cdb9b39aa90a60f677ce9434910af6"
+TEX_SHA256 = "64f5a38cef92b1f96f34fc9dc98a0bb3e95249212d19c19393f39da4c1d9ec8f"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"
@@ -270,15 +270,16 @@ DETAIL_NUMBERS = (
     (DERIVATION, "mixture_C_matching_w0_unite_b4", ("(-0.388667, 0.278000]",)),
     (DERIVATION, "unite_deep_past", ("-1.461",)),
     (KS_HISTORY, "all_runs_succeeded", ("615 runs (15 series x 41 slices)",)),
-    (KS_HISTORY, "a4_0_states_equal_committed_record", ("0.000e+00",)),
+    (KS_HISTORY, "committed_slices_equal_committed_record", ("0.000e+00",)),
+    (KS_HISTORY, "lambda_eff_form_agrees", ("1.969e-13",)),
     (KS_HISTORY, "y_conservation_every_state", ("1.951e-08",)),
-    (KS_HISTORY, "particle_number_every_state", ("2.442e-15",)),
+    (KS_HISTORY, "particle_number_every_state", ("2.331e-15",)),
     (EOS_CHECKS, "conservation_with_b4_term", ("6.351e-06", "6.7e-06")),
     (EOS_CHECKS, "conservation_without_b4_term_fails", ("1.630e+00",)),
     (EOS_CHECKS, "conservation_integrated_simpson", ("3.585e-07",)),
-    (EOS_CHECKS, "derivative_two_ways", ("6.394e-07", "3.532e-05")),
-    (EOS_CHECKS, "gas_radiation_like_band", ("[0.292903, 0.326429]",)),
-    (EOS_CHECKS, "gas_C_near_zero_on_b4_history", ("[-0.040430, -0.006905]",)),
+    (EOS_CHECKS, "derivative_two_ways", ("1.366e-06", "3.532e-05")),
+    (EOS_CHECKS, "gas_radiation_like_band", ("[0.292793, 0.326802]",)),
+    (EOS_CHECKS, "gas_C_near_zero_on_b4_history", ("[-0.040541, -0.006532]",)),
     (EOS_CHECKS, "n8_interacting_zero_modes_dilute_with_b4",
      ("[0.018402, 0.019031]", "0.018316", "[0.931316, 0.999997]", "[0.620877, 0.666665]")),
     (EOS_CHECKS, "condensate_drifts_with_b4", ("-2.695392", "-0.509333", "-0.842667", "-1.796928")),
@@ -287,7 +288,7 @@ DETAIL_NUMBERS = (
      ("0.5891697548245", "0.6119842735815", "0.2910614215438", "-2.639515126434", "-1.41320438962",
       "-3.800209088911", "-2.685081787855", "-4.848176262726", "-3.262703276443")),
     (EOS_CHECKS, "gas_cpl_thawing_sign_small",
-     ("[-0.017766, -0.009043]", "[-0.026521, -0.019590]", "[-0.040430, -0.006905]")),
+     ("[-0.019170, -0.008787]", "[-0.028228, -0.019171]", "[-0.040541, -0.006532]")),
     (INDEPENDENT, "exact_k0_spectra", ("1.421e-14", "1.292292828069")),
     (INDEPENDENT, "brane_band_slope", ("1.9051482536",)),
     (INDEPENDENT, "collocation_converged", ("6.01e-15",)),
@@ -710,8 +711,8 @@ class QuotedNumbers(unittest.TestCase):
             rows = [row for row in csv.DictReader(handle) if row["N"] == "8"]
         self.assertEqual(len(rows), 20)
         largest = max(abs(float(row["E_exact_fock_scf"])) for row in rows)
-        self.assertLessEqual(largest, 2.04e-13)
-        self.assertEqual(f"{largest:.2e}", "2.04e-13")
+        self.assertLessEqual(largest, 2.12e-13)
+        self.assertEqual(f"{largest:.2e}", "2.12e-13")
         for row in rows:
             if float(row["lambda"]) > 0:
                 canonical = float(row["E_uniform_gas"])
@@ -719,22 +720,23 @@ class QuotedNumbers(unittest.TestCase):
                 self.assertLess(canonical, 0)
                 self.assertLess(first_order, 0)
                 self.assertLess(abs(first_order), abs(canonical))
-        self.assertQuoted("the same $N = 8$ states have $\\lvert E\\rvert \\leq 2.04 \\times 10^{-13}$")
+        self.assertQuoted("the same $N = 8$ states have $\\lvert E\\rvert \\leq 2.12 \\times 10^{-13}$")
         self.assertQuoted("still leaves $E < 0$, of smaller magnitude")
         self.assertIn(self.exact_fock_slices_statement(rows), self.text)
 
     def exact_fock_slices_statement(self, rows):
-        """The slices of the exact-Fock N = 8 rows and the equality of E across them, as section 4.7 states them."""
+        """The slices of the exact-Fock N = 8 rows and |E| at the rounding level at each of them, as section 4.7 states
+        them (with b4 the canonical E falls like e^{-2 a4} between the slices; before 2026-10-16: the same E at each)."""
         slices = sorted({float(row["a4"]) for row in rows})
         self.assertEqual(slices, [0.0, 0.5, 1.0, 1.5, 2.0])
         tags = sorted({row["lambda_tag"] for row in rows})
         self.assertEqual(tags, ["lamm1", "lamm2", "lamp1", "lamp2"])
         for tag in tags:
-            energies = [row["E_exact_fock_scf"] for row in rows if row["lambda_tag"] == tag]
+            energies = [float(row["E_exact_fock_scf"]) for row in rows if row["lambda_tag"] == tag]
             self.assertEqual(len(energies), len(slices), tag)
-            self.assertEqual(len(set(energies)), 1, f"{tag}: E_exact_fock_scf differs between the slices")
+            self.assertTrue(all(abs(e) <= 2.12e-13 for e in energies), f"{tag}: E_exact_fock_scf above the rounding level")
         listed = ", ".join(f"{a:g}" for a in slices)
-        return f"(computed at the canonical slices $a_4 = {listed}$, with the same $E$ at each)"
+        return f"(computed at the canonical slices $a_4 = {listed}$, at the rounding level at each"
 
     def test_exact_fock_slices_detect_a_change(self):
         # negative controls: a changed slice list in the text, and a changed E at one slice in the data, are detected
@@ -743,7 +745,7 @@ class QuotedNumbers(unittest.TestCase):
         statement = self.exact_fock_slices_statement(rows)
         self.assertNotIn(statement, self.text.replace("$a_4 = 0, 0.5, 1, 1.5, 2$", "$a_4 = 0, 1, 2$"))
         changed = [dict(row) for row in rows]
-        changed[1]["E_exact_fock_scf"] = "-8.125852314700990e-14"
+        changed[1]["E_exact_fock_scf"] = "-8.125852314700990e-10"
         with self.assertRaises(AssertionError):
             self.exact_fock_slices_statement(changed)
         dropped = [row for row in rows if float(row["a4"]) != 1.5]
@@ -759,7 +761,7 @@ class QuotedNumbers(unittest.TestCase):
     def test_abstract_numbers(self):
         abstract = self.text.split("## Abstract", 1)[1].split("## 1.", 1)[0]
         for value in ("615 instantaneous states", "0.2929 to 0.3183", "0.239626 to 2.268e-03",
-                      "-0.040430 and -0.006905", "$\\lambda S/m = -382/441$", "(-0.861, -0.60)", "$w = -0.764$",
+                      "-0.040541 and -0.006532", "$\\lambda S/m = -382/441$", "(-0.861, -0.60)", "$w = -0.764$",
                       "1583/1000", "(-2/27, -2/9, -22/27, -14/27)", "closest distance 0.291"):
             self.assertIn(value, abstract, value)
         self.assertEqual(len(load_json(KS_HISTORY)["slices"]) * 15, 615)
