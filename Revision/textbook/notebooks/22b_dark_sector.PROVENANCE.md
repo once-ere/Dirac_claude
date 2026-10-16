@@ -7,21 +7,22 @@ This file is the provenance record of the notebook `Revision/textbook/notebooks/
 
 ## 1. What the notebook computes
 
-It reads the committed outputs and reports of the Revision dark-sector record for dirac16complex and dirac16complex00 and reproduces their key numbers: the observer identities w_eff(A) = w_eff(B) = X/E and w_eff(C) = X/E - 1 on the Kohn-Sham history, the radiation-like band of the Kohn-Sham gas and its CPL tangents, the dark-matter-like law of the massive bulk band, the condensate ratio, the gas and condensate mixtures, and the models M2 to M5 of dirac16complex00 against the Unite CPL values, every tuned parameter labelled CHOSEN. Every reproduced number is checked against its record file and check, and five teaching figures are drawn.
+It reads the committed outputs and reports of the Revision dark-sector record for dirac16complex and dirac16complex00, computed for the author's metric with the function b4(x4) on the history b4 = b4(0) e^((4/3) H x4), and reproduces their key numbers: the energy balance with the b4 term, the observer identities w_eff(A) = w_eff(B) = X/E + (beta/2) Pt/E and w_eff(C) = w_eff(A) - 1 + beta/2 on the Kohn-Sham history, the radiation-like band of the Kohn-Sham gas and its CPL tangents, the dark-matter-like law of the massive bulk band, the drifting condensate, the gas and condensate mixtures, and the models M2 to M5 of dirac16complex00 against the Unite CPL values, every tuned parameter labelled CHOSEN. Every reproduced number is checked against its record file and check, and five teaching figures are drawn.
 
 It reads or reproduces these Revision records:
 
-- `Revision/dark_sector/dirac16complex/outputs/eos-history.csv`: E, P3, Pt, w_eff and dw_eff/da4 of the 14 Kohn-Sham series with energy, 41 slices each, along the prescribed history
-- `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`: the CPL tangents, the condensate and the mixtures of dirac16complex
+- `Revision/dark_sector/dirac16complex/outputs/eos-history.csv`: E, P3, Pt, w_eff and dw_eff/da4 of the 14 Kohn-Sham series with energy, 41 slices each, along the prescribed history with b4(x4)
+- `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`: the CPL tangents, the condensate, the mixtures and the scans of dirac16complex
 - `Revision/dark_sector/dirac16complex/outputs/independent-free-gas.json`: the bulk-band and brane-band levels of the independent free-gas computation
-- `Revision/dark_sector/dirac16complex/reports/derivation-checks.json`: the 30 exact checks of the observer identities, the condensate and the mixtures
-- `Revision/dark_sector/dirac16complex/reports/ks-history-run.json`: the 5 checks of the 615 Kohn-Sham solver runs along the prescribed history
-- `Revision/dark_sector/dirac16complex/reports/eos-checks.json`: the 13 checks of the equation of state of the Kohn-Sham gas
-- `Revision/dark_sector/dirac16complex/reports/independent-checks.json`: the 9 checks of the independent free-gas computation
+- `Revision/dark_sector/dirac16complex/reports/derivation-checks.json`: the 39 exact checks of the observer identities with b4, the condensate and the mixtures
+- `Revision/dark_sector/dirac16complex/reports/ks-history-run.json`: the 7 checks of the 615 Kohn-Sham solver runs along the prescribed history
+- `Revision/dark_sector/dirac16complex/reports/eos-checks.json`: the 15 checks of the equation of state of the Kohn-Sham gas
+- `Revision/dark_sector/dirac16complex/reports/independent-checks.json`: the 10 checks of the independent free-gas computation
 - `Revision/dark_sector/dirac16complex00/eos-theory.json`: the models M1 to M5 of dirac16complex00, their parameters and the Unite values
-- `Revision/dark_sector/dirac16complex00/results/independent-numerics.json`: the field-equation runs of implementation B, among them the M5 crossing
+- `Revision/dark_sector/dirac16complex00/results/independent-numerics.json`: the field-equation runs of implementation B
 - `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json`: the 49 checks of implementation A of dirac16complex00
-- `Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json`: the 28 checks of implementation B of dirac16complex00
+- `Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json`: the 32 checks of implementation B of dirac16complex00
+- `Revision/dark_sector/reports/wolfram-dark-sector-b4.json`: the 8 checks of the independent Wolfram verification with b4
 
 The notebook has 22 cells (13 markdown cells and 9 code cells) in these sections:
 
@@ -39,7 +40,7 @@ The notebook has 22 cells (13 markdown cells and 9 code cells) in these sections
 - 12. The comparison with the Unite values
 - 13. What this notebook showed
 
-It prints 28 PASS lines (one per check), 23 RESULT lines (key numbers) and draws 5 figures.
+It prints 35 PASS lines (one per check), 28 RESULT lines (key numbers) and draws 5 figures.
 
 ## 2. How to execute it (the complete instructions for the student)
 
@@ -47,7 +48,7 @@ These are the same instructions that the book prints just before the text of the
 
 **Step 1. What this notebook does and what it needs.**
 
-Notebook 22b (The dark-sector hypotheses: what the Revision record finds) is the file `Revision/textbook/notebooks/22b_dark_sector.ipynb` of the repository Dirac_claude. It reads the committed outputs and reports of the Revision dark-sector record for dirac16complex and dirac16complex00 and reproduces their key numbers: the observer identities w_eff(A) = w_eff(B) = X/E and w_eff(C) = X/E - 1 on the Kohn-Sham history, the radiation-like band of the Kohn-Sham gas and its CPL tangents, the dark-matter-like law of the massive bulk band, the condensate ratio, the gas and condensate mixtures, and the models M2 to M5 of dirac16complex00 against the Unite CPL values, every tuned parameter labelled CHOSEN. Every reproduced number is checked against its record file and check, and five teaching figures are drawn. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
+Notebook 22b (The dark-sector hypotheses: what the Revision record finds) is the file `Revision/textbook/notebooks/22b_dark_sector.ipynb` of the repository Dirac_claude. It reads the committed outputs and reports of the Revision dark-sector record for dirac16complex and dirac16complex00, computed for the author's metric with the function b4(x4) on the history b4 = b4(0) e^((4/3) H x4), and reproduces their key numbers: the energy balance with the b4 term, the observer identities w_eff(A) = w_eff(B) = X/E + (beta/2) Pt/E and w_eff(C) = w_eff(A) - 1 + beta/2 on the Kohn-Sham history, the radiation-like band of the Kohn-Sham gas and its CPL tangents, the dark-matter-like law of the massive bulk band, the drifting condensate, the gas and condensate mixtures, and the models M2 to M5 of dirac16complex00 against the Unite CPL values, every tuned parameter labelled CHOSEN. Every reproduced number is checked against its record file and check, and five teaching figures are drawn. It needs a computer with Windows 11, macOS or Linux, an internet connection for the installation, the program Git, and Python 3.12 or newer (the notebooks were built with Python 3.14.5) with these packages at exactly these versions: numpy 2.4.6, sympy 1.14.0, mpmath 1.3.0, matplotlib 3.11.0, jupyterlab 4.4.10, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0 and nbconvert 7.16.6. The notebook itself imports numpy and matplotlib; the other packages run Jupyter, the program that shows and runs notebooks. It does not need Rust.
 
 **Step 2. Install Git and Python (once per computer).**
 
@@ -210,7 +211,7 @@ Every check of the notebook prints a line that starts with PASS. At the end of t
 
 ```text
 PASS every figure file of this notebook exists
-ALL 28 CHECKS PASSED (notebook 22b)
+ALL 35 CHECKS PASSED (notebook 22b)
 ```
 
 and the notebook must show 5 figures below the cells that draw them.
@@ -251,42 +252,52 @@ python Revision/textbook/tools/nbkit.py check Revision/textbook/notebooks/src/22
 Every check prints a PASS line (a check that fails stops the notebook with an AssertionError instead). The notebook prints these lines, in this order; the label In [k] is the number of the code cell that prints the line:
 
 ```text
-In [2]  PASS all 30 checks of the report derive are PASS
+In [2]  PASS all 39 checks of the report derive are PASS
 In [2]       reproduces Revision/dark_sector/dirac16complex/reports/derivation-checks.json, all
 In [2]      checks
-In [2]  PASS all 5 checks of the report history are PASS
+In [2]  PASS all 7 checks of the report history are PASS
 In [2]       reproduces Revision/dark_sector/dirac16complex/reports/ks-history-run.json, all
 In [2]      checks
-In [2]  PASS all 13 checks of the report eos are PASS
+In [2]  PASS all 15 checks of the report eos are PASS
 In [2]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, all checks
-In [2]  PASS all 9 checks of the report independent are PASS
+In [2]  PASS all 10 checks of the report independent are PASS
 In [2]       reproduces Revision/dark_sector/dirac16complex/reports/independent-checks.json, all
 In [2]      checks
 In [2]  PASS all 49 checks of the report derive00 are PASS
 In [2]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json, all
 In [2]      checks
-In [2]  PASS all 28 checks of the report numerics00 are PASS
+In [2]  PASS all 32 checks of the report numerics00 are PASS
 In [2]       reproduces Revision/dark_sector/dirac16complex00/reports/python-independent-
 In [2]      numerics.json, all checks
+In [2]  PASS all 8 checks of the report wolfram are PASS
+In [2]       reproduces Revision/dark_sector/reports/wolfram-dark-sector-b4.json, all checks
 In [2]  PASS every series has 41 slices in increasing order of a4
-In [3]  PASS the energy balance dE/da4 = -3X on the data
+In [3]  PASS the energy balance dE/da4 = -3X - 2Pt on the data
 In [3]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, check
-In [3]      conservation_dE_da4_equals_minus_3X
-In [3]  PASS w_eff(A) = w_eff(B) = X/E and w_eff(C) = X/E - 1 on the data
+In [3]      conservation_with_b4_term
+In [3]  PASS the law dE/da4 = -3X without the b4 term fails
+In [3]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, check
+In [3]      conservation_without_b4_term_fails
+In [3]  PASS w_eff(A) = w_eff(B) = X/E + (2/3) Pt/E and w_eff(C) = w_eff(A) - 1/3 on the data of
+In [3]      all 14 series
 In [3]       reproduces Revision/dark_sector/dirac16complex/reports/derivation-checks.json,
-In [3]      checks w_eff_A_equals_X_over_E and w_eff_C_equals_X_over_E_minus_1
-In [3]  PASS the gas is radiation-like: X/E in [0.292893, 0.328105]
+In [3]      checks w_eff_A_b4 and w_eff_C_b4
+In [3]  PASS the gas is radiation-like: w_eff(A) in [0.292903, 0.326429]
 In [3]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, check
 In [3]      gas_radiation_like_band
-In [3]  PASS X/E rises with a4 in every gas series (toward 1/3, not toward 0)
+In [3]  PASS w_eff(A) rises with a4 in every gas series (toward 1/3, not toward 0)
 In [3]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, check
 In [3]      gas_X_over_E_rises_toward_one_third
+In [3]  PASS the zero modes of N = 8 have X = 0 and E falling almost like e^(-2 a4)
+In [3]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, check
+In [3]      n8_interacting_zero_modes_dilute_with_b4
 In [4]  PASS the CPL tangents of N688_lam0
 In [4]       reproduces Revision/dark_sector/dirac16complex/outputs/eos-summary.json, key
 In [4]      cplTangent of N688_lam0
-In [4]  PASS every gas tangent wa is negative (thawing sign) and far below 0.60
-In [4]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, check
-In [4]      gas_cpl_thawing_sign_small
+In [4]  PASS every gas tangent wa is negative (thawing sign) and far below 0.60; w_eff(C) of the
+In [4]      gas lies between -0.040430 and -0.006905
+In [4]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, checks
+In [4]      gas_cpl_thawing_sign_small and gas_C_near_zero_on_b4_history
 In [5]  PASS the bulk level falls from 0.239626 to 2.268e-03 (dark-matter-like)
 In [5]       reproduces Revision/dark_sector/dirac16complex/reports/independent-checks.json,
 In [5]      check bulk_band_dark_matter_law
@@ -296,36 +307,46 @@ In [5]      check brane_band_radiation_law
 In [6]  PASS the condensate ratio is -0.764 at u = -382/441 (one CHOSEN parameter)
 In [6]       reproduces Revision/dark_sector/dirac16complex/reports/derivation-checks.json, check
 In [6]      condensate_ratio_equal_unite_constant_w
+In [6]  PASS with b4(x4) the ratio drifts: wa = -84231/31250, and w_eff(C) = -316/375
+In [6]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,
+In [6]      check condensate_ratio_drift_at_unite_value
 In [6]  PASS the ratio is below -1 exactly for -2 < u < -1
 In [6]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,
 In [6]      check condensate_phantom_interval
-In [7]  PASS radiation plus condensate with w0(C) = -0.861 has wa = 0.081037 > 0
+In [6]  PASS under C this condensate crosses w = -1 at a^2 = 382/441, toward the past
+In [7]  PASS radiation plus condensate: w0(C) >= -1/3, so -0.861 is not reachable
 In [7]       reproduces Revision/dark_sector/dirac16complex/reports/derivation-checks.json, check
-In [7]      mixture_C_matching_w0_unite
-In [7]  PASS the computed gas mixture with w0(C) = -0.861 is freezing, wa = 0.067014
+In [7]      mixture_C_matching_w0_unite_b4
+In [7]  PASS no gas share reaches -0.861 or a constant -0.764 under C
 In [7]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, check
-In [7]      mixture_C_w0_unite_has_positive_wa
-In [8]  PASS the tangent of M2
+In [7]      mixture_C_cannot_reach_unite_w0_with_lambda0_condensate
+In [7]  PASS the recorded mixture with gas share 0.5 (freezing)
+In [7]       reproduces Revision/dark_sector/dirac16complex/outputs/eos-summary.json, key
+In [7]      mixtures_N688_lam0_today_a4_2
+In [7]  PASS no mixture with a drifting condensate comes closer than 0.291 to the Unite pair
+In [7]       reproduces Revision/dark_sector/dirac16complex/reports/eos-checks.json, check
+In [7]      mixture_scan_three_definitions_b4
+In [8]  PASS the tangent of M2: (-583/3000, 81037/500000)
 In [8]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,
-In [8]      check M2_tangent_exact
-In [8]  PASS the tangent of M3
+In [8]      check M2_tangent_exact_b4
+In [8]  PASS the tangent of M3: (-287/1000, -196963/4500000)
 In [8]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,
-In [8]      check M3_tangent_exact
-In [8]  PASS the tangent of M4
+In [8]      check M3_tangent_exact_b4
+In [8]  PASS the tangent of M4: (-287/1000, -1/15)
 In [8]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,
-In [8]      check M4_tangent_equals_unite
-In [8]  PASS the M5 fit equals the Unite pair (by construction)
+In [8]      check M4_withdrawn_tuning_on_b4_history
+In [8]  PASS the M5 fit, far from the Unite pair now
 In [8]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,
-In [8]      check M5_fit_equals_unite
-In [8]  PASS M5 crosses -1 once, at a = 0.7791
+In [8]      check M5_withdrawn_composition_on_b4_history
+In [8]  PASS positive-energy models stay above -1 + beta/2 = -1/3
 In [8]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,
-In [8]      check M5_crosses_minus_1
-In [8]  PASS no crossing on 1/3 <= a <= 1 without the ghost: M5 without it, and M4
-In [8]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,
-In [8]      checks M5_without_ghost_no_crossing and M4_never_phantom
-In [8]  PASS implementation B finds the M5 crossing within 1e-4
+In [8]      check positive_models_bounded_by_minus_one_third
+In [8]  PASS no model crosses -1 on 1/3 <= a <= 1, M5 included (A and B)
 In [8]       reproduces Revision/dark_sector/dirac16complex00/reports/python-independent-
 In [8]      numerics.json, check B_vs_A_M5_crossing
+In [8]  PASS the Unite w0 would need a ghost-like share G >= 1583/1000
+In [8]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,
+In [8]      check unite_w0_requires_dominant_ghost
 In [9]  PASS the Unite values and their crossing a = 461/600
 In [9]       reproduces Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json,
 In [9]      check unite_crossing_point
@@ -337,28 +358,35 @@ In [9]  PASS every figure file of this notebook exists
 The key numbers are printed as RESULT lines:
 
 ```text
-In [3]  RESULT largest |dE/da4 + 3X|/max|E| over the 10 gas series = 1.235e-07
-In [3]  RESULT largest |w_eff(A, B) - X/E| from the dilution = 1.7e-08
-In [3]  RESULT largest |w_eff(C) - (X/E - 1)| from the dilution = 1.7e-08
-In [3]  RESULT X/E of N688_lam0 at a4 = 0 and a4 = 2 = 0.2929, 0.3183
-In [3]  RESULT X/E over all gas series, smallest and largest = 0.292893, 0.328105
-In [3]  RESULT w_eff(C) over all gas series, smallest and largest = -0.707107, -0.671895
-In [4]  RESULT tangent wa of every gas series, smallest and largest = -0.020523, -0.008894
+In [3]  RESULT largest |dE/da4 + 3X + 2Pt|/max|E| over the 14 series = 6.351e-06
+In [3]  RESULT largest |dE/da4 + 3X|/max|E| over the interacting series = 1.630e+00
+In [3]  RESULT largest difference between dilution and identity = 3.6e-07
+In [3]  RESULT w_eff(A) of N688_lam0 at a4 = 0 and a4 = 2 = 0.2929, 0.3183
+In [3]  RESULT w_eff(A) over all gas series, smallest and largest = 0.292903, 0.326429
+In [3]  RESULT w_eff(C) over all gas series, smallest and largest = -0.040430, -0.006905
+In [3]  RESULT N = 8, lambda != 0: E(2)/E(0), smallest and largest = 0.018402, 0.019031
+In [4]  RESULT tangent wa of every gas series, smallest and largest = -0.017766, -0.009043
 In [5]  RESULT w_eff(A) of the bulk level at a4 = -3 and a4 = 4 = 0.239626, 2.268e-03
 In [5]  RESULT ratio w(4)/w(3.75) of the bulk level = 0.765177
 In [5]  RESULT w_eff(A) of the brane level, smallest and largest = 0.291594, 0.333275
 In [6]  RESULT the ratio u/(2 + u) at u = -382/441 = -191/250 = -0.764
-In [6]  RESULT rho/(m S) = 1 + u/2 = 250/441 = 0.566893424036
-In [7]  RESULT exact law: w0 under C and wa = -861/1000, 0.081037
-In [7]  RESULT gas share today for w_eff(C) = -0.861 (CHOSEN) = 0.436703
-In [7]  RESULT w0 and wa of that mixture under C = -0.861, 0.067014
-In [8]  RESULT M2 tangent (w0, wa) under C = (-0.861000, 0.162074)
-In [8]  RESULT M3 tangent (w0, wa) under C = (-0.861000, -0.393926)
-In [8]  RESULT M4 tangent (w0, wa) under C = (-0.861000, -0.600000)
-In [8]  RESULT M5 least-squares fit over a in [1/2, 1] = (-0.861000, -0.600000)
-In [8]  RESULT M5 crosses w = -1 at a = 0.77909966367
-In [8]  RESULT the same crossing from the field equation (implementation B) = 0.77905405
-In [8]  RESULT lowest w_eff(C) of M4 for a = 1/300 to 1 = -0.999999214228
+In [6]  RESULT its drift wa = 4u/(2 + u)^2 = -84231/31250 = -2.695392
+In [6]  RESULT w_eff(C) = -1 + (2/3)(1 + ratio) and its wa = -316/375, -28077/15625
+In [6]  RESULT the drifting condensate reaches u = -1 at a = sqrt(382/441) = 0.930706
+In [7]  RESULT exact law at r0 = 417/583: w0 under C and wa = -583/3000, 0.081037
+In [7]  RESULT r0/(3 (1 + r0)) that w0(C) = -0.861 would need = -1583/3000
+In [7]  RESULT smallest w_eff(C) over 1000 gas shares and 41 slices = -0.333015
+In [7]  RESULT gas share 0.5: w0 and wa under C = -0.174186, 0.067108
+In [7]  RESULT closest point under C (pure drifting condensate) = (-29/50, -5069/7500), distance
+In [7]      0.291061
+In [8]  RESULT M2 tangent (w0, wa) under C = (-0.194333, 0.162074)
+In [8]  RESULT M3 tangent (w0, wa) under C = (-0.287000, -0.043770)
+In [8]  RESULT M4 tangent (w0, wa) under C = (-0.287000, -0.066667)
+In [8]  RESULT M5 least-squares fit over a in [1/2, 1] = (-0.332679, -0.323083)
+In [8]  RESULT lowest w_eff(C) of M2, M3, M4 for a = 1/300 to 1 = -0.194333333333,
+In [8]      -0.332598868774, -0.332802164680
+In [8]  RESULT lowest w_eff(C) of M5 for a = 1/3 to 1 = -0.797841
+In [8]  RESULT ghost share needed for w0(C) = -0.861 = 1583/1000 (M5 has 3/10)
 In [9]  RESULT the Unite CPL line crosses w = -1 at a = 461/600
 ```
 
@@ -368,18 +396,18 @@ The last code cell ends with exactly these lines:
 
 ```text
 PASS every figure file of this notebook exists
-ALL 28 CHECKS PASSED (notebook 22b)
+ALL 35 CHECKS PASSED (notebook 22b)
 ```
 
 ### 3.4 Figures
 
 The notebook shows 5 figures, each below the cell that draws it, and saves each as a PNG file (150 dots per inch, no metadata):
 
-- `Revision/textbook/figures/22b_1_gas_three_definitions.png` (1179 x 565 pixels): The equation of state $w_{eff}$ that a 3-space observer infers from the thinning of the Kohn-Sham gas of dirac16complex along the prescribed history, for three recorded series; horizontal axis $a_4$ from 0 to 2 (one unit is one e-fold of inflation of 3-space and of deflation of the extra times), vertical axis $w_{eff}$ (a pure number). Left, definitions A and B of the observer density: $w_{eff} = X/E$ rises from about 0.29 toward the radiation value 1/3 (dashed). Right, definition C: the same curves moved down by exactly 1, between about $-0.71$ and $-0.67$, never near $-1$. The observer assumption alone decides whether the same gas reads as radiation or as dark energy.
-- `Revision/textbook/figures/22b_2_bulk_and_brane_bands.png` (933 x 579 pixels): Which quanta of dirac16complex behave like dark matter. Horizontal axis $a_4$ from $-3$ to 4, vertical axis $w_{eff}$ under definitions A and B (a pure number). Orange: one level of the massive bulk band falls from 0.24 toward the dust value 0 (dotted), the dark-matter-like law. Blue: a brane-band level of the same shell tends to the radiation value 1/3 (dashed). Green, thick: the computed Kohn-Sham gas, which fills only the brane band and is radiation-like. The computed ground states do not populate the bulk band.
-- `Revision/textbook/figures/22b_3_condensate_ratio.png` (918 x 587 pixels): The constant ratio $p/\rho = u/(2 + u)$ of a homogeneous condensate against $u = \lambda S/m$ (horizontal axis, a pure number; the ratio has a pole at $u = -2$). The orange point is the value $u = -382/441$ CHOSEN so that the ratio equals the Unite constant $w = -0.764$: one parameter for one number, not a prediction. The red band is the phantom window. The observer does not see this ratio: the dilution gives $w_{eff} = 0$ under A and B (dashed) and $-1$ under C (dotted), constant in time.
-- `Revision/textbook/figures/22b_4_mixtures_against_unite.png` (938 x 583 pixels): Mixtures of the computed Kohn-Sham gas N688_lam0 with a condensate, under definition C, against the observer scale factor $a$ (horizontal axis, $a = 1$ today, taken at $a_4 = 2$); vertical axis $w_{eff}$ (a pure number). Each coloured curve has another gas share today; the share 0.437 is CHOSEN so that $w_{eff} = -0.861$ today. Every curve that contains condensate falls toward the condensate value $-1$ (dotted) as $a$ grows: freezing, $w_a > 0$; the pure gas (share 1) rises only slightly. The Unite CPL line (dashed) rises steeply instead: $w_a = -0.60$. No share gives the Unite slope.
-- `Revision/textbook/figures/22b_5_models_against_unite.png` (1171 x 533 pixels): The models of dirac16complex00 under definition C against the observer scale factor $a$ from 1/3 to 1 (horizontal axes). Left: $w_{eff}$ (a pure number) of M2 to M5 and the Unite CPL line (dashed). As $a$ grows, M2 falls toward $-1$ (freezing, $w_a > 0$); M3 and M4 rise away from $-1$ (thawing, $w_a < 0$) and stay above $-1$ (dotted) on this range. M2, M3 and M4 pass through $-0.861$ at $a = 1$; the tangent of M4 equals the Unite line at $a = 1$ because its two parameters were CHOSEN for that. M5 ends at $-0.8396$: its two parameters were CHOSEN so that its least-squares fit over $a$ from 1/2 to 1, not its value today, equals the Unite pair. Only M5 crosses $-1$, at $a = 0.779$, and only because of its ghost-like part. Right: the energy densities of the three parts of M5 (total 1 at $a = 1$); the ghost-like part is negative, $-0.3/a$. Every match is by construction, NOT a prediction.
+- `Revision/textbook/figures/22b_1_gas_three_definitions.png` (1179 x 565 pixels): The equation of state $w_{eff}$ that a 3-space observer infers from the thinning of the Kohn-Sham gas of dirac16complex along the prescribed history with $b_4 = b_4(0)e^{(4/3)a_4}$, for three recorded series; horizontal axis $a_4$ from 0 to 2 (one unit is one e-fold of inflation of 3-space), vertical axis $w_{eff}$ (a pure number). Left, definitions A and B of the observer density: $w_{eff}$ rises from about 0.29 toward the radiation value 1/3 (dashed). Right, definition C: the same curves moved down by exactly $1 - \beta/2 = 1/3$, between about $-0.040$ and $-0.007$, close to 0 and far from the Unite $w_0 = -0.861$ (dotted). The observer assumption moves the verdict by 1/3; no definition gives dark energy.
+- `Revision/textbook/figures/22b_2_bulk_and_brane_bands.png` (933 x 579 pixels): Which quanta of dirac16complex behave like dark matter. Horizontal axis $a_4$ from $-3$ to 4, vertical axis $w_{eff}$ under definitions A and B (a pure number; a free gas has $P_t = 0$, so $b_4$ does not enter). Orange: one level of the massive bulk band falls from 0.24 toward the dust value 0 (dotted), the dark-matter-like law. Blue: a brane-band level of the same shell tends to the radiation value 1/3 (dashed). Green, thick: the computed Kohn-Sham gas, which fills only the brane band and is radiation-like. The computed ground states do not populate the bulk band.
+- `Revision/textbook/figures/22b_3_condensate_ratio.png` (1151 x 541 pixels): The ratio $p/\rho = u/(2 + u)$ of a homogeneous condensate. Left: against $u = \lambda S/m$ (horizontal axis, a pure number; the ratio has a pole at $u = -2$); the orange point is the value $u = -382/441$ CHOSEN so that the ratio equals the Unite constant $w = -0.764$: one parameter for one number, not a prediction; the red band is the phantom window. Right: with $b_4(x_4)$ the condensate dilutes, $u \propto a^{-2}$, so the ratio (blue) drifts along the observer scale factor $a$; it equals $-0.764$ (dotted) only today, $a = 1$, and falls without bound toward the past, where the condensate's energy reaches 0 at $a = 0.658$. The observer's $w_{eff}$ under C (green) is $-1/3 + (2/3)$ times the ratio; it crosses $-1$ at $a = 0.931$, where the ratio enters the phantom window.
+- `Revision/textbook/figures/22b_4_mixtures_against_unite.png` (951 x 583 pixels): Mixtures of the computed Kohn-Sham gas N688_lam0 with a condensate, under definition C on the history with $b_4(x_4)$, against the observer scale factor $a$ (horizontal axis, $a = 1$ today, taken at $a_4 = 2$); vertical axis $w_{eff}$ (a pure number). Each coloured curve with a $\lambda = 0$ condensate has another gas share today; all of them lie between $-1/3$ (grey dotted) and 0. The violet curve is the drifting condensate alone with the ratio $-0.37$ today, the point of the record's scans closest to the Unite pair (distance 0.291); it falls steeply toward the past. The Unite CPL line (dashed) is reached by none of them.
+- `Revision/textbook/figures/22b_5_models_against_unite.png` (1171 x 536 pixels): The models of dirac16complex00 under definition C on the history with $b_4 \propto a^{4/3}$, against the observer scale factor $a$ from 1/3 to 1 (horizontal axes); their parameters are those CHOSEN on the withdrawn $b_4 = 1$ record. Left: $w_{eff}$ (a pure number) of M2 to M5, the Unite CPL line (dashed), $-1$ (black dotted) and the bound $-1/3$ of positive-energy content (grey dotted). M2, M3 and M4 stay above $-1/3$; M5, with its ghost-like part, dips below it toward the past but stays far above $-1$. No model comes near the Unite line and none crosses $-1$. Right: the energy densities of the three parts of M5 (total 1 at $a = 1$); the ghost-like part is negative, $-0.3/a$.
 
 ## 4. Side effects
 
@@ -389,12 +417,12 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/textbook/figures/22b.captions.json` | 3378 | `74f9e2ba0a968e302ddae125cceffaceed9965caf9ef50de5bb31bc3282e041d` |
-| `Revision/textbook/figures/22b_1_gas_three_definitions.png` | 101764 | `485e6e482c98b49a99aeeb35e20e3eec9f888ffdf9ab20bc426db42c0f1d3059` |
+| `Revision/textbook/figures/22b.captions.json` | 3585 | `59cfee8be1f0aa3b822968c51359ecbc5d8a89f5c69bd0bfe813a4f56be0fd99` |
+| `Revision/textbook/figures/22b_1_gas_three_definitions.png` | 84437 | `cb2ec12f3e286de53364cd8ecbf5d97ba04754306e2513d480750ff2d26986c0` |
 | `Revision/textbook/figures/22b_2_bulk_and_brane_bands.png` | 50094 | `527213c957960fccdbc0f6f845540a692fe880d8fa1fc4febb0c1f81b91cb0ef` |
-| `Revision/textbook/figures/22b_3_condensate_ratio.png` | 40447 | `dd624427c00951f53f739939aaf602349a897846fc1506f37a99fe18e9046c46` |
-| `Revision/textbook/figures/22b_4_mixtures_against_unite.png` | 58809 | `c4805ec2a9aab4b4cf734cde578724ee48b964b7846c3efca5d37ef3d9e758d0` |
-| `Revision/textbook/figures/22b_5_models_against_unite.png` | 90037 | `3a3a922409c47e4d74f6ba4aa60cc22b65c49f37b076e883466424a1b52b6f09` |
+| `Revision/textbook/figures/22b_3_condensate_ratio.png` | 62644 | `20b8d3ad8bddff514404fc2c36d1f7de1c0efb729e6fd011ffe28e293cad638c` |
+| `Revision/textbook/figures/22b_4_mixtures_against_unite.png` | 62003 | `d80430d34bb855970231d9b15da68d93c3f60d9f6ebf85d480b0766f1d6c92e5` |
+| `Revision/textbook/figures/22b_5_models_against_unite.png` | 76736 | `a9d5cb4dede825369ba0051fd76c09bd4311af70ac36d82b17cc35f53387df88` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/22b_dark_sector.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -417,8 +445,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 3.1 s, peak memory of the kernel process 148 MiB;
-- the check run: 2.6 s, peak memory of the kernel process 148 MiB.
+- the build run: 3.1 s, peak memory of the kernel process 155 MiB;
+- the check run: 2.7 s, peak memory of the kernel process 156 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -430,14 +458,14 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/22b_dark_sector.ipynb`: `d7b32e36bc89a325fe832bc11454fe204aabbc1c0ad419475521bb96bc6a031b`
-- `Revision/textbook/notebooks/src/22b_dark_sector.py`: `1d668207ef5f6a9737da930a6595b27a36305c29c2d4b16d240bb3a5a5a9b36d`
-- `Revision/textbook/figures/22b.captions.json`: `74f9e2ba0a968e302ddae125cceffaceed9965caf9ef50de5bb31bc3282e041d`
-- `Revision/textbook/figures/22b_1_gas_three_definitions.png`: `485e6e482c98b49a99aeeb35e20e3eec9f888ffdf9ab20bc426db42c0f1d3059`
+- `Revision/textbook/notebooks/22b_dark_sector.ipynb`: `441102712fac4121967ec13e69c138c61454e48c3e950ba4a7d5a2ec85bf9e74`
+- `Revision/textbook/notebooks/src/22b_dark_sector.py`: `324af4771aae3652a084147d26019d391423cff3d6cec0dcff67fc9831e3fc78`
+- `Revision/textbook/figures/22b.captions.json`: `59cfee8be1f0aa3b822968c51359ecbc5d8a89f5c69bd0bfe813a4f56be0fd99`
+- `Revision/textbook/figures/22b_1_gas_three_definitions.png`: `cb2ec12f3e286de53364cd8ecbf5d97ba04754306e2513d480750ff2d26986c0`
 - `Revision/textbook/figures/22b_2_bulk_and_brane_bands.png`: `527213c957960fccdbc0f6f845540a692fe880d8fa1fc4febb0c1f81b91cb0ef`
-- `Revision/textbook/figures/22b_3_condensate_ratio.png`: `dd624427c00951f53f739939aaf602349a897846fc1506f37a99fe18e9046c46`
-- `Revision/textbook/figures/22b_4_mixtures_against_unite.png`: `c4805ec2a9aab4b4cf734cde578724ee48b964b7846c3efca5d37ef3d9e758d0`
-- `Revision/textbook/figures/22b_5_models_against_unite.png`: `3a3a922409c47e4d74f6ba4aa60cc22b65c49f37b076e883466424a1b52b6f09`
+- `Revision/textbook/figures/22b_3_condensate_ratio.png`: `20b8d3ad8bddff514404fc2c36d1f7de1c0efb729e6fd011ffe28e293cad638c`
+- `Revision/textbook/figures/22b_4_mixtures_against_unite.png`: `d80430d34bb855970231d9b15da68d93c3f60d9f6ebf85d480b0766f1d6c92e5`
+- `Revision/textbook/figures/22b_5_models_against_unite.png`: `a9d5cb4dede825369ba0051fd76c09bd4311af70ac36d82b17cc35f53387df88`
 
 ## 7. Verification
 
@@ -445,4 +473,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-15: a second, independent execution reproduced the notebook and the 6 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":148.0,"seconds":3.1},"check":{"date":"2026-10-15","files":6,"peak_mb":148.0,"result":"passed","seconds":2.6},"date":"2026-10-15","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":155.0,"seconds":3.1},"check":{"date":"2026-10-15","files":6,"peak_mb":156.0,"result":"passed","seconds":2.7},"date":"2026-10-15","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
