@@ -2739,6 +2739,7 @@
  "mixture_scan": {
   "ratio": {
    "min_wa_with_w0_within_0p1_of_unite": -3.800209088911,
+   "max_wa_with_w0_within_0p1_of_unite": -2.685081787855,
    "closest": {
     "distance": 0.5891697548245,
     "a4_today": 0.5,
@@ -2750,6 +2751,7 @@
   },
   "A_B": {
    "min_wa_with_w0_within_0p1_of_unite": -4.848176262726,
+   "max_wa_with_w0_within_0p1_of_unite": -3.262703276443,
    "closest": {
     "distance": 0.6119842735815,
     "a4_today": 0.5,
@@ -2761,6 +2763,7 @@
   },
   "C": {
    "min_wa_with_w0_within_0p1_of_unite": -2.639515126434,
+   "max_wa_with_w0_within_0p1_of_unite": -1.41320438962,
    "closest": {
     "distance": 0.2910614215438,
     "a4_today": 0.5,

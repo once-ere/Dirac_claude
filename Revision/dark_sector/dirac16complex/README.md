@@ -146,8 +146,8 @@ occupied label set is the same at all 41 slices of every series; y-conservation 
 * Gas + a drifting condensate of any ratio w_c in [-3, 0.99] today, any gas fraction, a4_today in {0.5, 1, 1.5, 2}:
   the closest points to the Unite pair (-0.861, -0.60) are, ratio definition: (-0.300, -0.780), distance 0.589;
   A, B: (-0.273, -0.771), distance 0.612; C: (-0.580, -0.676), distance 0.291 (the pure condensate with w_c = -0.37
-  today). Among mixtures with |w0 + 0.861| <= 0.1 the slope wa is at most -2.64 (C), far below -0.60
-  [`outputs/eos-summary.json`, mixture_scan].
+  today). Every mixture with |w0 + 0.861| <= 0.1 has wa between -2.640 and -1.413 (C), -3.800 and -2.685 (ratio),
+  -4.848 and -3.263 (A, B): all below -1, far from -0.60 [`outputs/eos-summary.json`, mixture_scan].
 * **Verdict on the Hypothesis for dirac16complex on the metric with b4(x4) (labelled INTERPRETATION of the computed
   numbers):**
   (i) a time-varying DARK-MATTER-like equation of state (w_eff(A) falling toward 0: 0.240 at a4 = -3 to 0.0023 at

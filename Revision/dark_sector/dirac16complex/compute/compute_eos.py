@@ -317,7 +317,7 @@ def main():
     scans = {}
     for definition in ("ratio", "A_B", "C"):
         best = {"distance": float("inf")}
-        min_wa_near = float("inf")
+        min_wa_near, max_wa_near = float("inf"), float("-inf")
         for t2 in TODAY:
             i2 = int(round(t2 / h))
             wcs = np.linspace(-3.0, 0.99, 400)
@@ -344,17 +344,22 @@ def main():
                 near = np.abs(w0 - UNITE["w0"]) <= 0.1
                 if np.any(near):
                     min_wa_near = min(min_wa_near, float(np.min(wa[near])))
+                    max_wa_near = max(max_wa_near, float(np.max(wa[near])))
         scans[definition] = {"min_wa_with_w0_within_0p1_of_unite": r(min_wa_near),
+                             "max_wa_with_w0_within_0p1_of_unite": r(max_wa_near),
                              "closest": {k: (r(v) if isinstance(v, float) else v) for k, v in best.items()}}
     scan_best = scans["ratio"]["closest"]
     min_wa_near = scans["ratio"]["min_wa_with_w0_within_0p1_of_unite"]
-    check("mixture_scan_three_definitions_b4", all(math.isfinite(scans[k]["closest"]["distance"]) for k in scans),
+    check("mixture_scan_three_definitions_b4", all(math.isfinite(scans[k]["closest"]["distance"]) for k in scans)
+          and all(scans[k]["max_wa_with_w0_within_0p1_of_unite"] < -1.0 for k in scans),
           "gas (N = 688, lambda = 0) + condensate with ratio w_c in [-3, 0.99] today (drifting with b4: u ~ e^(-2 a4)), "
           "gas fraction in [0, 1], a4_today in " + str(TODAY) + ": closest points to the Unite pair (-0.861, -0.60): " +
           "; ".join(f"{k}: w0 = {scans[k]['closest']['w0']}, wa = {scans[k]['closest']['wa']} (distance "
                     f"{scans[k]['closest']['distance']})" for k in scans) +
-          "; smallest wa with |w0 + 0.861| <= 0.1: " +
-          ", ".join(f"{k} {scans[k]['min_wa_with_w0_within_0p1_of_unite']}" for k in scans))
+          "; every mixture with |w0 + 0.861| <= 0.1 has wa in: " +
+          ", ".join(f"{k} [{scans[k]['min_wa_with_w0_within_0p1_of_unite']}, "
+                    f"{scans[k]['max_wa_with_w0_within_0p1_of_unite']}]" for k in scans) +
+          " (all below -1, far from the Unite -0.60)")
 
     # ---- the expansion-inferred w of the observer on the prescribed history
     expl = {"w_exp": "-1 - (2/3) a4''/a4'^2", "prescribed_history_a4_linear": -1.0,

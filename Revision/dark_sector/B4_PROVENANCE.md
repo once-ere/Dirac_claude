@@ -131,19 +131,19 @@ was committed, with byte-identical outputs.
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `Revision/dark_sector/dirac16complex/README.md` | 16033 | `8d5098aba0b76871a29506048f9c2ad6528320ad15427a61bf6de27678bce424` |
+| `Revision/dark_sector/dirac16complex/README.md` | 16101 | `60bf649289df5cd90bfd08ed93a94e821dfbfef7fdb399fdd3d08ace7e9647ba` |
 | `Revision/dark_sector/dirac16complex/derive/derive_effective.py` | 37898 | `156c4635cdd0ead748477a017940914293950fa360faf97a11935a98226fcc42` |
 | `Revision/dark_sector/dirac16complex/compute/run_ks_history.py` | 13002 | `469a21c70115ca9e6f5f78dfd03733612c2ecf03f6cc07b6c604e23428f99d0e` |
-| `Revision/dark_sector/dirac16complex/compute/compute_eos.py` | 26841 | `552505cdb01dcb40e0ee85eb32b84e2d3bf96745eb486ada522c5f157b2230db` |
+| `Revision/dark_sector/dirac16complex/compute/compute_eos.py` | 27260 | `1bc9d9e2110e5365ddbbe1d042d2abffb76875eebc0e41abfac11c23625ed5b1` |
 | `Revision/dark_sector/dirac16complex/independent/independent_free_gas.py` | 18072 | `b1aaba9031fcc7a03cdc43be39214b61c4e2eedc8daeffa693964a76518b10dd` |
 | `Revision/dark_sector/dirac16complex/outputs/effective-formulas.json` | 5871 | `aa15a8198973517ea0c206b12377afa0f29246ea4c19503dd28c37f5785a8c2c` |
 | `Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv` | 172574 | `5eee937e5d2626a77ffa5d04abe1fd6440a8a475653202340da5f86c96a92642` |
 | `Revision/dark_sector/dirac16complex/outputs/eos-history.csv` | 173429 | `1ab8d52364fa8ede9ba6ff0459a9dabfea882fdff43d34f58d06a858695eb4f2` |
-| `Revision/dark_sector/dirac16complex/outputs/eos-summary.json` | 58271 | `0b5853b8980aabac3d8fd197ddb5369e25665b14622472cf98aeedae765c77bc` |
+| `Revision/dark_sector/dirac16complex/outputs/eos-summary.json` | 58444 | `ee2ad6074ac7fe45d3c1bce0e6c9c9de51d18267208a0fb54ababef480d9e66c` |
 | `Revision/dark_sector/dirac16complex/outputs/independent-free-gas.json` | 21031 | `14fc4660185988472825406b1fad5582537e11210a846550fe8cdcae5716299f` |
 | `Revision/dark_sector/dirac16complex/reports/derivation-checks.json` | 11423 | `67427eaa3e496e4e07adde7bf560b932b68a35a40e54e83b2d8c00e5d054a1a1` |
 | `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` | 2573 | `873aa221ea313cf1be4425e3b1558ffb44b7f7e71a1a1f931b0f7ea0b075c9f0` |
-| `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | 5120 | `beaa08a02751e464ee677f072b7abb9b10fe45f5682721edf34c46cc78d0c764` |
+| `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | 5229 | `b0dce83a31874eb2c77fc790ec2f425544e56256249c1631378a41327fc05059` |
 | `Revision/dark_sector/dirac16complex/reports/independent-checks.json` | 2764 | `bb475ad3f21db751bc002a6589d2a87af6b21fe29c5c04cb116f2238eb728232` |
 | `Revision/dark_sector/dirac16complex00/README.md` | 15631 | `91bc77a573546f8a581e12d6b7177f22ae8846d61c7288088b88165f8a8a3d56` |
 | `Revision/dark_sector/dirac16complex00/python/derive_eos.py` | 49903 | `56b2b83569c1d27f429af72a8624a713d502ef3713315f2f900ba11fb63dc17e` |
@@ -157,10 +157,10 @@ was committed, with byte-identical outputs.
 | `Revision/dark_sector/wolfram/author_notebook_inputs.wls` | 4103 | `b8240ab72dbceed0fcda4673a5b72b4e13c9e18968a8e1653e0bf95317284267` |
 | `Revision/dark_sector/reports/wolfram-dark-sector-b4.json` | 2392 | `273e91939ba39dd8baa8b6f687e1e0110d927a1ec6de2250e90217032e3734f1` |
 | `Revision/dark_sector/reports/author-notebook-inputs.json` | 40312 | `c43f70544c3b51dcce474b8181a75add8b5bb8ced088c3571b32e30f0128f782` |
-| `Revision/docs/DARK_SECTOR_HYPOTHESES.md` | | `31a08d003af706c82444dcb41611da79180cb233d9a46c8a52c3294b0a3c6a67` |
-| `Revision/docs/DARK_SECTOR_HYPOTHESES.tex` | | `93c62a5d76e019b84db24cc97cc2787a23ddc24be847bd99c7bb2328bc00d5eb` |
-| `Revision/docs/DARK_SECTOR_HYPOTHESES.pdf` | | `2f1d574890ecee65eb72ef1585730adcf133788f4fb8f56ffe702fbc59d5409e` |
-| `Revision/notebooks/dark_sector_hypotheses.ipynb` | 471489 | `49194dbca88dd728aa791e93bf9bca93a453164b1c290dedad75e841b54c36eb` |
+| `Revision/docs/DARK_SECTOR_HYPOTHESES.md` | | `7b7549c2ae1be99eba66d3c7ed0e0228b79babb9fb23afb414ae0382ef894cb0` |
+| `Revision/docs/DARK_SECTOR_HYPOTHESES.tex` | | `9d71f61f3a76f2a5a538c5b46bf6dd4d9c5b33c7f3b6c10f0c330bcfc6a620d6` |
+| `Revision/docs/DARK_SECTOR_HYPOTHESES.pdf` | | `87c023b34e6dfef49baef1845ca923d7eff7309fd0a95de6278a0dce33bd6f97` |
+| `Revision/notebooks/dark_sector_hypotheses.ipynb` | 472097 | `ddee8168475df239cc0eade3fa5f50c933a344bb8b5c97f0d00227cc1460c2c8` |
 
 The two Markdown/LaTeX sources are pinned by `Revision/tests/test_dark_sector_hypotheses_publication.py`
 (30 tests), which also checks that every number the document quotes is in a committed report.
@@ -218,3 +218,14 @@ for M1 (the condensate) and are corrected in:
 
 No number of the record changed and no check changed its count or verdict: the corrected statement follows from
 the two checks named above, which were already in the record.
+
+A second correction of the same afternoon: the document and the README of dirac16complex read the record's smallest
+w_a among the drifting-condensate mixtures with w0 within 0.1 of the Unite w0 (-2.639515126434 under C) as a bound
+("only with w_a <= -2.64", "at most -2.64"). It is a minimum, not a bound. `compute_eos.py` now records the largest
+value as well (key `max_wa_with_w0_within_0p1_of_unite` of `mixture_scan`; the check
+`mixture_scan_three_definitions_b4` requires it below -1, and its detail prints both ends): under C every such
+mixture has w_a between -2.639515126434 and -1.41320438962 (ratio definition: -3.800209088911 to -2.685081787855;
+A, B: -4.848176262726 to -3.262703276443), all far from the Unite -0.60. `compute_eos.py` was run twice (15/15,
+byte-identical); only `eos-summary.json` (the new key) and `eos-checks.json` (that detail) changed. The document
+(rebuilt twice, byte-identical, 27 pages, 0 warnings, registered), the README, the publication test and the
+Revision notebook (which reproduces the scan, now with the new key; rebuilt and checked byte-identical) were updated.

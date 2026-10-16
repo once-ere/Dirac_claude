@@ -3,10 +3,10 @@
 The dark-sector hypotheses of dirac16complex and dirac16complex00 against the Unite values, for the
 author's metric with b4(x4) (the user's metric of 2026-10-14; b4 is a function of x4, never 1).
 
-* Notebook: `Revision/notebooks/dark_sector_hypotheses.ipynb` (47 cells: 26 markdown, 21 code; 471489 bytes;
-  sha256 `49194dbca88dd728aa791e93bf9bca93a453164b1c290dedad75e841b54c36eb`).
+* Notebook: `Revision/notebooks/dark_sector_hypotheses.ipynb` (47 cells: 26 markdown, 21 code; 472097 bytes;
+  sha256 `ddee8168475df239cc0eade3fa5f50c933a344bb8b5c97f0d00227cc1460c2c8`).
 * Builder: `Revision/notebooks/src/dark_sector_hypotheses.py`
-  (sha256 `b99175577cd7e3811be2b471bed7bc582417956fed0af2eaeba43be84d8b22ef`).
+  (sha256 `7f37406281a456ced16caff8abf76ca883e3e687cf1598b4f20d4a7bdbcae2e7`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
@@ -75,7 +75,8 @@ or frozen extra times are used.
    `outputs/eos-summary.json`, and under C w_eff(C) >= -0.333015 >= -1/3 over 1000 gas fractions; the scans with
    a drifting condensate (ratio, A_B, C; 400 ratios x 201 gas fractions x 4 todays) equal `mixture_scan`: the
    closest point to the Unite pair is under C at distance 0.2910614215438 ((-0.58, -0.6758666666667), the pure
-   condensate with w_c = -0.37 today).
+   condensate with w_c = -0.37 today), and every mixture with w0 within 0.1 of -0.861 has wa between
+   -2.639515126434 and -1.41320438962 under C.
 9. Hypothesis00 (`Revision/dark_sector/dirac16complex00/eos-theory.json`), exact on the history b4 ~ a^(4/3):
    N2 tangents M2 (-583/3000, 81037/500000; freezing), M3 (-287/1000, -196963/4500000), M4 with the parameters
    of the withdrawn tuning (-287/1000, -1/15): no longer the Unite pair; positive components bounded by -1/3
@@ -125,11 +126,11 @@ Read (sha256 at the time of the verified builds of 2026-10-15):
 | `Revision/kohn_sham/results/parameters.json` | `c91041b68b6520c7eec890bd18ffd361b260730c0ee4328eb1d90a8f91c83ebb` |
 | `Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv` | `5eee937e5d2626a77ffa5d04abe1fd6440a8a475653202340da5f86c96a92642` |
 | `Revision/dark_sector/dirac16complex/outputs/eos-history.csv` | `1ab8d52364fa8ede9ba6ff0459a9dabfea882fdff43d34f58d06a858695eb4f2` |
-| `Revision/dark_sector/dirac16complex/outputs/eos-summary.json` | `0b5853b8980aabac3d8fd197ddb5369e25665b14622472cf98aeedae765c77bc` |
+| `Revision/dark_sector/dirac16complex/outputs/eos-summary.json` | `ee2ad6074ac7fe45d3c1bce0e6c9c9de51d18267208a0fb54ababef480d9e66c` |
 | `Revision/dark_sector/dirac16complex/outputs/effective-formulas.json` | `aa15a8198973517ea0c206b12377afa0f29246ea4c19503dd28c37f5785a8c2c` |
 | `Revision/dark_sector/dirac16complex/reports/derivation-checks.json` | `67427eaa3e496e4e07adde7bf560b932b68a35a40e54e83b2d8c00e5d054a1a1` |
 | `Revision/dark_sector/dirac16complex/reports/ks-history-run.json` | `873aa221ea313cf1be4425e3b1558ffb44b7f7e71a1a1f931b0f7ea0b075c9f0` |
-| `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | `beaa08a02751e464ee677f072b7abb9b10fe45f5682721edf34c46cc78d0c764` |
+| `Revision/dark_sector/dirac16complex/reports/eos-checks.json` | `b0dce83a31874eb2c77fc790ec2f425544e56256249c1631378a41327fc05059` |
 | `Revision/dark_sector/dirac16complex/reports/independent-checks.json` | `bb475ad3f21db751bc002a6589d2a87af6b21fe29c5c04cb116f2238eb728232` |
 | `Revision/dark_sector/dirac16complex00/eos-theory.json` | `7ab0fcbd8bd4fdc39be91b8fa39ff76c83715e7bdd08b8326eb9809249ecd2ac` |
 | `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json` | `0ed88e5a872621e0054651a43a5d5588c0ea7b4d9e33920653839837ea73e784` |
@@ -140,7 +141,7 @@ Followed but not executed (the notebook reproduces their arithmetic; listed so t
 `Revision/dark_sector/dirac16complex/compute/run_ks_history.py` (sha256
 `469a21c70115ca9e6f5f78dfd03733612c2ecf03f6cc07b6c604e23428f99d0e`) and
 `Revision/dark_sector/dirac16complex/compute/compute_eos.py` (sha256
-`552505cdb01dcb40e0ee85eb32b84e2d3bf96745eb486ada522c5f157b2230db`).
+`1bc9d9e2110e5365ddbbe1d042d2abffb76875eebc0e41abfac11c23625ed5b1`).
 
 Written: the result files and figures into the output folder `<output>` (the folder named by
 `REVISION_NB_OUT`, otherwise `build/revision_notebooks/dark_sector_hypotheses` in the repository, ignored by
@@ -260,6 +261,14 @@ No run time and no path of the computer is printed (paths are shown relative to 
 
 ## 7. Verification record
 
+* 2026-10-15, later the same day: the record's scan with a drifting condensate now also records the LARGEST
+  wa among the mixtures with w0 within 0.1 of the Unite w0 (`compute_eos.py`, key
+  `max_wa_with_w0_within_0p1_of_unite`; the check `mixture_scan_three_definitions_b4` requires it below -1).
+  The document had read the recorded smallest wa as a bound ("only with wa <= -2.64"), which it is not: the
+  range under C is [-2.639515126434, -1.41320438962]. The notebook's scan computes the same key and its check
+  `mixture_scan_equals_record` prints the ranges. `build --out <scratch>/buildD` (13.2 s) wrote 472097 bytes,
+  sha256 `ddee8168475df239cc0eade3fa5f50c933a344bb8b5c97f0d00227cc1460c2c8`; `check --out <scratch>/check3`:
+  PASS, byte-identical; the 129 output files equal those of build A.
 * 2026-10-15, later the same day: a text correction. With b4(x4) the observer's w_eff(C) = -1/3 + (2/3) w_c of a
   condensate is below -1 while its drifting ratio lies in the phantom window, so the detail of the check
   `condensate_phantom_window` no longer calls the phantom ratio an 8-dimensional ratio "at one instant", and

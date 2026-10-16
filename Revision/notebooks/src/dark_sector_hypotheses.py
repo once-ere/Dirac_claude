@@ -1292,7 +1292,7 @@ A condensate with $\lambda \neq 0$ has the ratio $w_c = u/(2 + u)$ today and dri
 $E_c = mS_0(1 + u/2)$, $P_c = mS_0\,u/2$, $E_c' = P_c' = -mS_0\,u$. The next cell repeats the record's scan
 (400 ratios $w_c \in [-3, 0.99]$ today, 201 gas fractions, today $a_4 \in \{0.5, 1, 1.5, 2\}$) for the gas
 (N = 688, $\lambda = 0$) plus such a condensate, in the ratio definition, under A, B and under C, and
-requires the closest points to the Unite pair and the smallest $w_a$ near the Unite $w_0$ to equal
+requires the closest points to the Unite pair and the range of $w_a$ near the Unite $w_0$ to equal
 `outputs/eos-summary.json` (`mixture_scan`). The closest point is under C, at distance 0.291 (the pure
 condensate with $w_c = -0.37$ today).
 """)
@@ -1302,7 +1302,7 @@ dEg, dP3g, dXg = deriv(Eg, H_STEP), deriv(P3g, H_STEP), deriv(Xg, H_STEP)
 SCANS = {}
 for definition in ("ratio", "A_B", "C"):
     best = {"distance": float("inf")}
-    min_wa_near = float("inf")
+    min_wa_near, max_wa_near = float("inf"), float("-inf")
     for t2 in TODAY:
         i2 = int(round(t2 / H_STEP))
         wcs = np.linspace(-3.0, 0.99, 400)
@@ -1329,11 +1329,15 @@ for definition in ("ratio", "A_B", "C"):
             near = np.abs(w0 - UNITE["w0"]) <= 0.1
             if np.any(near):
                 min_wa_near = min(min_wa_near, float(np.min(wa[near])))
+                max_wa_near = max(max_wa_near, float(np.max(wa[near])))
     SCANS[definition] = {"min_wa_with_w0_within_0p1_of_unite": r12(min_wa_near),
+                         "max_wa_with_w0_within_0p1_of_unite": r12(max_wa_near),
                          "closest": {k: (r12(v) if isinstance(v, float) else v) for k, v in best.items()}}
 check("mixture_scan_equals_record", SCANS == SUMMARY["mixture_scan"],
       "closest points to (-0.861, -0.60): " + "; ".join(
           f"{k}: ({SCANS[k]['closest']['w0']}, {SCANS[k]['closest']['wa']}), distance {SCANS[k]['closest']['distance']}"
+          for k in SCANS) + "; every mixture with |w0 + 0.861| <= 0.1 has wa in " + ", ".join(
+          f"{k} [{SCANS[k]['min_wa_with_w0_within_0p1_of_unite']}, {SCANS[k]['max_wa_with_w0_within_0p1_of_unite']}]"
           for k in SCANS) + "; equal to mixture_scan of outputs/eos-summary.json (check mixture_scan_three_definitions_b4)")
 ''')
 

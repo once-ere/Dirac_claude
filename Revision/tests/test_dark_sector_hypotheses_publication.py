@@ -71,8 +71,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "31a08d003af706c82444dcb41611da79180cb233d9a46c8a52c3294b0a3c6a67"
-TEX_SHA256 = "93c62a5d76e019b84db24cc97cc2787a23ddc24be847bd99c7bb2328bc00d5eb"
+MARKDOWN_SHA256 = "7b7549c2ae1be99eba66d3c7ed0e0228b79babb9fb23afb414ae0382ef894cb0"
+TEX_SHA256 = "9d71f61f3a76f2a5a538c5b46bf6dd4d9c5b33c7f3b6c10f0c330bcfc6a620d6"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"
@@ -283,7 +283,8 @@ DETAIL_NUMBERS = (
     (EOS_CHECKS, "condensate_drifts_with_b4", ("-2.695392", "-0.509333", "-0.842667", "-1.796928")),
     (EOS_CHECKS, "mixture_C_cannot_reach_unite_w0_with_lambda0_condensate", ("-0.333015",)),
     (EOS_CHECKS, "mixture_scan_three_definitions_b4",
-     ("0.5891697548245", "0.6119842735815", "0.2910614215438", "-2.639515126434")),
+     ("0.5891697548245", "0.6119842735815", "0.2910614215438", "-2.639515126434", "-1.41320438962",
+      "-3.800209088911", "-2.685081787855", "-4.848176262726", "-3.262703276443")),
     (EOS_CHECKS, "gas_cpl_thawing_sign_small",
      ("[-0.017766, -0.009043]", "[-0.026521, -0.019590]", "[-0.040430, -0.006905]")),
     (INDEPENDENT, "exact_k0_spectra", ("1.421e-14", "1.292292828069")),
@@ -574,6 +575,12 @@ class QuotedNumbers(unittest.TestCase):
         scan = load_json(EOS_SUMMARY)["mixture_scan"]["C"]["closest"]
         self.assertEqual(scan["distance"], 0.2910614215438)
         self.assertQuoted(f"$({scan['w0']}, {scan['wa']})$ under (C) (distance {scan['distance']}")
+        # every scanned mixture with w0 within 0.1 of the Unite w0 has wa in [min, max], both recorded; all below -1
+        scans = load_json(EOS_SUMMARY)["mixture_scan"]
+        near_c = (scans["C"]["min_wa_with_w0_within_0p1_of_unite"], scans["C"]["max_wa_with_w0_within_0p1_of_unite"])
+        self.assertEqual(near_c, (-2.639515126434, -1.41320438962))
+        self.assertLess(max(s["max_wa_with_w0_within_0p1_of_unite"] for s in scans.values()), -1.0)
+        self.assertQuoted(f"$w_a$ between {near_c[0]} and {near_c[1]} under (C)")
         self.assertEqual(load_json(EOS_SUMMARY)["beta"], 4.0 / 3.0)
 
     def test_condensate_ratio(self):

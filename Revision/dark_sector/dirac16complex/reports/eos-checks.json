@@ -69,7 +69,7 @@
   {
    "name": "mixture_scan_three_definitions_b4",
    "verdict": "PASS",
-   "detail": "gas (N = 688, lambda = 0) + condensate with ratio w_c in [-3, 0.99] today (drifting with b4: u ~ e^(-2 a4)), gas fraction in [0, 1], a4_today in [0.5, 1.0, 1.5, 2.0]: closest points to the Unite pair (-0.861, -0.60): ratio: w0 = -0.3, wa = -0.78 (distance 0.5891697548245); A_B: w0 = -0.2733333333333, wa = -0.7708 (distance 0.6119842735815); C: w0 = -0.58, wa = -0.6758666666667 (distance 0.2910614215438); smallest wa with |w0 + 0.861| <= 0.1: ratio -3.800209088911, A_B -4.848176262726, C -2.639515126434"
+   "detail": "gas (N = 688, lambda = 0) + condensate with ratio w_c in [-3, 0.99] today (drifting with b4: u ~ e^(-2 a4)), gas fraction in [0, 1], a4_today in [0.5, 1.0, 1.5, 2.0]: closest points to the Unite pair (-0.861, -0.60): ratio: w0 = -0.3, wa = -0.78 (distance 0.5891697548245); A_B: w0 = -0.2733333333333, wa = -0.7708 (distance 0.6119842735815); C: w0 = -0.58, wa = -0.6758666666667 (distance 0.2910614215438); every mixture with |w0 + 0.861| <= 0.1 has wa in: ratio [-3.800209088911, -2.685081787855], A_B [-4.848176262726, -3.262703276443], C [-2.639515126434, -1.41320438962] (all below -1, far from the Unite -0.60)"
   },
   {
    "name": "gas_cpl_thawing_sign_small",
