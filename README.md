@@ -23,6 +23,18 @@ The Stage-3 dark-sector numerics below were computed before the Revision (comple
 homogeneous backgrounds without b4, with static extra times in two of the five experiments) and are
 superseded by that record.
 
+**Work in progress (2026-10-16): everything in `Revision/` moves to b4(x4).** The order of 2026-10-15 ("move
+everything to b4(x4); b4 is never 1") is carried out in nine phases ([`HANDOFF.md`](HANDOFF.md), section 0.9;
+the rule is in [`Revision/SPEC.md`](Revision/SPEC.md), section 1: exact results for general b4(x4), numerical
+work on the history a4 = H x4, b4 = b4(0) e^{(4/3) H x4}, a prescribed background). Done and pushed: phase 1
+(`Revision/theory/`: Wolfram 84/84, sympy 72/72, scope 15/15 and 14/14, all for general a4 and b4), phases 2
+and 3 (`Revision/field_equations_a4/`: Wolfram 59/59, sympy 65/65; `Revision/lead_checks/`: 10/10, 14/14,
+12/12). In progress: phase 4, the Kohn-Sham record (`Revision/kohn_sham/`). Still open: phases 5 to 9 (the
+Kohn-Sham source, pairing, the Revision notebooks, the documents and the textbook). Until they are done, the
+records of those folders still describe b4 = 1, the gate steps a4-ks-source and a4-ks-source-unittest stop, and
+the publication tests of three Revision documents fail (they quote the b4 = 1 check names); the dark sector
+(`Revision/dark_sector/`) was already computed with b4(x4) on 2026-10-15.
+
 Everything is counted from 0: coordinates `x = {x0,...,x7}`, frame indices
 `a = 0..7`, spinor components `Psi_0..Psi_15`.  The tangent metric is
 `eta = diag(+1,+1,+1,+1,-1,-1,-1,-1)` and `x4` is the evolution time.
