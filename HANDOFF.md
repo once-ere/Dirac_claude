@@ -6,7 +6,34 @@ in this repository; nothing depends on the old session's scratch directory.
 
 ## 0. Exact restart procedure
 
-### 0.8 STATE 2026-10-15 (dark sector with b4) — START HERE
+### 0.9 ORDER 2026-10-15 evening: move EVERYTHING to b4(x4) — START HERE
+
+The user's order (verbatim): "yes, move everything to b4(x4); b4 is never 1".  Scope: the current record
+`Revision/` and the textbook `Revision/textbook/`.  The first-edition stages (`artifacts/`, `provenance/`,
+`studies/`, the first-edition textbook) stay unchanged, as the author ordered on 2026-10-01 ("You must NOT mix
+old with new").  The rule (written into `Revision/SPEC.md`, section 1, "The background history"): exact results
+are derived for general b4(x4); a numerical history is a4 = H x4, b4 = b4(0) e^{(4/3) H x4} (beta = 4/3, the only
+non-constant branch the author's weights allow for a diagonal source; NOT a vacuum solution: it needs the constant
+source kappa (-2/27, -2/9, -22/27, -14/27)); Kohn-Sham states are solved at lambda_hat e^{-2 a4}; b4 = 1 appears only
+as the withdrawn earlier metric (a historical comparison, e.g. with the author's earlier notebook, which has no b4).
+
+Phases (each verified, committed and pushed; every calculation under `timeout 423`; no agent job longer than
+423 s):
+1. `Revision/theory/`: every section of `verify_field_theory.wls` (84 checks at b4 = 1) and of
+   `check_field_theory.py` (70), and the scope checks (15 and 14), for general b4; split into parts so that each
+   run stays under 423 s.
+2. `Revision/field_equations_a4/`: sections 1 to 6 (52 checks at b4 = 1) for general b4.
+3. `Revision/lead_checks/`: the three checks for general b4.
+4. `Revision/kohn_sham/`: ks-theory with the b4 reduction; the Rust solver and the Python reference with the
+   history (lambda_eff); the whole record recomputed (canonical, repeat, refined, determinism, Mermin roots,
+   reference in parts, cross-check, tip convergence, exx).
+5. `Revision/field_equations_a4/ks_source/` and `ks-source-conditions` with b4.
+6. `Revision/pairing/`: T1, T2, Q, T3 with b4 and the T3 demonstrations on the new Kohn-Sham record.
+7. The Revision notebooks `kohn_sham_states` and `lovelock_gkd`.
+8. The documents (field theories, Kohn-Sham, pair creation, Lovelock GKD), READMEs, gate, provenance, index.
+9. The textbook: every chapter and notebook that uses b4 = 1; the book PDF.
+
+### 0.8 STATE 2026-10-15 (dark sector with b4; done, superseded as the start by 0.9)
 
 Never run `python -m unittest Revision.tests.test_universes_in_pairs_textbook` as a whole: it
 takes longer than 423 s (claude_failures D2 and F2). Run its classes one by one.

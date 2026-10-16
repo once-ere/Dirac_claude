@@ -64,12 +64,24 @@ computation).  Signature (4,4): space-like x0, x1, x2, x3; time-like x4, x5, x6,
 sqrt|det g| = b4^{3/2} sin z cot z = b4^{3/2} cos z.  H > 0 is the author's constant; a4(x4) and b4(x4) are
 the metric functions whose field equations section 5 derives.  Derivatives: a4' = d a4 / d x4, b4' = d b4 / d x4.
 
-**The background history.** With the author's Lovelock weights (w1 = 1, w2 = 1/32, w3 = 1/1152,
-Lambda = 10; the notebook's Out[134]/Out[135]) every vacuum solution has b4 = constant and a4 = +-H x4 +
-const (proved in `Revision/metric_b4/results/vacuum-b4.json`); a constant b4 is the rescaling
-x5,6,7 -> b4^{1/2} x5,6,7, i.e. the earlier metric.  Every Revision calculation that needs a background
-history (the Kohn-Sham states on the slices, the dark-sector equations of state) therefore keeps b4 = 1
-and states so; every formula is derived for general b4(x4).
+**The background history (changed 2026-10-15).** The user's orders of 2026-10-15: "b4 is a function of
+x4; b4 is NEVER 1" and "move everything to b4(x4); b4 is never 1".  With the author's Lovelock weights
+(w1 = 1, w2 = 1/32, w3 = 1/1152, Lambda = 10; the notebook's Out[134]/Out[135]) every VACUUM solution has
+b4 = constant and a4 = +-H x4 + const (proved in `Revision/metric_b4/results/vacuum-b4.json`); a constant b4
+is the rescaling x5,6,7 -> b4^{1/2} x5,6,7 of the earlier metric, so it is excluded.  For a source without a
+T^{x4}_{x0} component the mixed (x4, x0) field equation on a4 = H x4 allows exactly d ln b4/d a4 in {0, 4/3}
+(`Revision/dark_sector/dirac16complex/derive/derive_effective.py`, check `author_weights_b4_branch`;
+independently `Revision/dark_sector/reports/wolfram-dark-sector-b4.json`, D6).  Every Revision calculation
+that needs a background history therefore uses
+
+    a4 = H x4,   b4 = b4(0) e^{(4/3) H x4}   (beta = d ln b4/d a4 = 4/3),
+
+on which the extra times still deflate exponentially (scale factor e^{-a4} b4^{1/2} ~ e^{-a4/3}).  This
+history is NOT a vacuum solution: on it the author's equations require the constant source
+kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27) (check `branch_required_source` of
+`Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json`; Wolfram D7), which no recorded state
+supplies; it is a PRESCRIBED BACKGROUND for test fields.  Every formula is derived for general b4(x4);
+b4 = 1 appears only as the withdrawn earlier metric (a historical comparison), never as a result.
 
 ## 2. Clifford algebra, Pin(4,4), Spin(4,4)
 
