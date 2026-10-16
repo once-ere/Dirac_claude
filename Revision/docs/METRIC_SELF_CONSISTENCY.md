@@ -1,0 +1,268 @@
+# The self-consistency of the primordial metric with diagonal sources
+
+## The issue raised by the author on 2026-10-16, why the metric of 2026-10-14 is not self-consistent with diagonal sources, the simplest remedy (the warped metric), its field equations, its exact solutions and what it changes for the fields
+
+## Abstract
+
+A diagonal metric solves the Einstein (or Einstein-Lovelock) field equations $\sum_k \alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu_\nu = \kappa\,T^\mu{}_\nu$ only if every off-diagonal component of the left-hand side equals the corresponding component of the source. The author's notebook states the same as a warning: all off-diagonal source terms must vanish for the earlier solutions for $\Psi_{16}$ to be valid. This document records what the Revision computation found. (1) The metric of 2026-10-14, with the second function $b_4(x_4)$ in the three extra-time components and $g_{44} = -1$, has at every Lovelock order the off-diagonal component $E_{(k)}{}^{x_4}{}_{x_0} \propto \cot z\,b_4'/b_4$; in Einstein gravity it is $\frac32 H\cot z\,b_4'/b_4$, so a diagonal source forces $b_4' = 0$. (2) In the two-parameter family $g_{00} = b_4^{2p}e^{2qa_4}\cot^2 z$, $g_{44} = -\sin^{2\gamma}z$ (every other entry unchanged) the Einstein component vanishes for all $a_4(x_4)$, $b_4(x_4)$ exactly when $q = 0$ and $6\gamma + 4p = 1$, and on that line the Gauss-Bonnet component is proportional to $(6\gamma - 1)\,b_4'(4a_4'b_4 - b_4')^2$. The only member free of off-diagonal terms at every order is $\gamma = 1/6$, $p = 0$: the warped metric, which differs from the metric of 2026-10-14 in one entry, $g_{44} = -\sin^{1/3}z$, so that all seven directions $x_1, \dots, x_7$ carry the same factor $\sin^{1/3}z$. (3) The warped metric is the warped product $ds^2 = dy^2 + e^{2Hy}\hat g_7$ of the hidden line ($y = \ln(\sin z)/(6H)$) and the 7-dimensional metric $\hat g_7$ of $x_1, \dots, x_7$; every mixed Riemann component and every off-diagonal component of the Einstein, Gauss-Bonnet and cubic Lovelock tensors vanishes identically, for all $a_4$, $b_4$ and $H$ (PROVED twice, with sympy and with Wolfram). (4) Its field equations split into layers $\sin^{-j/3}z$ times the Lovelock tensors of $\hat g_7$; Einstein gravity reduces exactly to the 7-dimensional Einstein equations on each slice of constant $x_0$, and with $\Lambda = -21H^2$ the Kasner metrics are exact vacuum solutions in which 3-space expands, the extra times deflate and $b_4 \propto x_4^{2/3}$ is not constant. With the author's weights there is no vacuum history with $b_4$ not constant; the record's history $a_4 = Hx_4$, $b_4 = b_4(0)e^{(4/3)Hx_4}$ needs a diagonal, conserved source, constant in time and layered in $\sin^{-1/3}z$. (5) For the fields the volume factor becomes $b_4^{3/2}\cos z\,\sin^{1/6}z$ and the gravity term of the Dirac operator $\frac72 H\gamma^{(x_0)} + \frac34(b_4'/b_4)\sin^{-1/6}z\,\gamma^{(x_4)}$; a condensate that does not depend on $x_0$ exists only for $\lambda = 0$ and $m = \pm\frac72 H$. The off-diagonal components of the energy-momentum tensor of the fields themselves (the spin-connection bilinears) are a condition on the source that no choice of a diagonal metric removes; the Revision record recomputes them for the warped metric. The withdrawn alternative $g_{00} = b_4^{1/2}\cot^2 z$ makes only the Einstein tensor diagonal.
+
+## 1. The issue
+
+### 1.1 The author's statement
+
+On 2026-10-16 the author wrote: "a diagonal form for the metric of the primordial gravitational field is only self-consistent if all off-diagonal terms of all source terms in the Einstein field equations ARE ZERO. This is not the case here." The author's notebook `WaveFunctionUniverse-4+4-Einstein-Lovelock.nb` (a scratch notebook of the author; it was read to understand the issue, and none of its definitions or conventions is used in the Revision record) carries the same warning next to the sources of the metric: the universe sources are to be added to the Einstein or Einstein-Lovelock field equations, and all their off-diagonal terms must vanish for the diagonal metric, and the earlier solutions for $\Psi_{16}$, to be valid. The notebook uses the metric without $b_4$ (the metric before 2026-10-14).
+
+The order of 2026-10-16 asks for the simplest modification of the metric that is probably self-consistent with the Einstein field equations, for this document, and for the recomputation of every primordial object of the record.
+
+### 1.2 Conventions of the Revision record
+
+The coordinates are the author's $x_0, x_1, \dots, x_7$: $x_0$ is the hidden direction, $z = 6Hx_0 \in (0, \pi/2)$, $H > 0$; $x_1, x_2, x_3$ are 3-space; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, time-like and deflating. Every metric of this document is diagonal and depends on $x_0$ and $x_4$ only. The Riemann tensor is $R^a{}_{bcd}$ in the sign convention of Misner, Thorne and Wheeler, $R^{ab}{}_{cd} = g^{be}R^a{}_{ecd}$; the Lovelock tensors are
+
+$$
+E_{(k)}{}^h{}_j = -\frac{1}{2^{k+1}}\,\delta^{h h_1 \dots h_{2k}}_{j j_1 \dots j_{2k}}\,R^{j_1 j_2}{}_{h_1 h_2}\cdots R^{j_{2k-1} j_{2k}}{}_{h_{2k-1} h_{2k}} ,
+$$
+
+with the generalized Kronecker delta; $E_{(1)}$ is the Einstein tensor, $E_{(2)}$ the Gauss-Bonnet tensor, $E_{(3)}$ the cubic Lovelock tensor. The field equations are $\sum_{k=1}^{3}\alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu_\nu = \kappa\,T^\mu{}_\nu$ (`Revision/field_equations_a4/a4-equations.json`, conventions). The author's weights are $\alpha_k = w_k/H^{2k}$ with $w = (1, 1/32, 1/1152)$. We write $a_4' = da_4/dx_4$, $u = b_4'/b_4$.
+
+## 2. Where off-diagonal terms come from
+
+### 2.1 The geometry
+
+For a diagonal metric $g = \mathrm{diag}(\eta_{\mu\mu}f_\mu^2)$ whose factors depend on $x_0$ and $x_4$ only, every Riemann component is of the form $R^{ab}{}_{ab}$ (a sectional curvature) except the mixed components $R^{x_0 c}{}_{x_4 c}$ and $R^{x_4 c}{}_{x_0 c}$, $c \notin \{x_0, x_4\}$. For factors that separate, $f_c = A_c(x_4)B_c(x_0)$, the mixed component is proportional to
+
+$$
+\partial_0\ln f_c\;\big(\partial_4\ln f_c - \partial_4\ln f_0\big) - \partial_4\ln f_c\;\partial_0\ln f_4 .
+$$
+
+The off-diagonal components of every Lovelock tensor are built from these mixed components, multiplied by sectional curvatures of the remaining directions; the only ones that can be nonzero are $E_{(k)}{}^{x_4}{}_{x_0}$ and $E_{(k)}{}^{x_0}{}_{x_4}$.
+
+In the metric of 2026-10-14, $f_0 = \cot z$ and $f_4 = 1$ do not depend on the other variable, and the six factors $f_i = e^{a_4}\sin^{1/6}z$, $f_t = e^{-a_4}b_4^{1/2}\sin^{1/6}z$ all have $\partial_0\ln f_c = H\cot z$. The mixed component of a 3-space direction is proportional to $a_4'$, that of an extra time to $-a_4' + u/2$. The Einstein tensor adds the six, and the terms with $a_4'$ cancel while those with $u$ do not:
+
+$$
+E_{(1)}{}^{x_4}{}_{x_0} = \frac32\,H\cot z\,\frac{b_4'}{b_4} .
+$$
+
+The Gauss-Bonnet and cubic components are $\cot z\,u$ times polynomials in $a_4'$, $u$ and $H$; with the weights $\alpha_k$ the sum is $\cot z\,u\,Q$ with the record's factor $Q$ (PROVED: check `record_metric_offdiagonal_reproduced`, reproducing `generalSource.offDiagonal_x4x0` of the record). A diagonal source therefore forces $u = 0$ in Einstein gravity, and with the author's weights on the history $a_4 = Hx_4$ it allows only $d\ln b_4/da_4 \in \{0, 4/3\}$, where $Q = 0$.
+
+### 2.2 The fields
+
+The energy-momentum tensor of the fields has off-diagonal components of two kinds (the Revision record, `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md`, and the textbook, chapter 9):
+
+* components with one index $x_0$ and one index $x_4$, $T^{x_4}{}_{x_0} = -\frac14(B_{40} - \cot z\,B_{04})$, built from derivatives along $x_0$ and $x_4$; they vanish for configurations that depend on $x_4$ only (check `commuting_T_x4x0_homogeneous`);
+* components produced by the spin connection, which drops out of the Lagrangian but not of the tensor, for example $K^{x_4}{}_{x_1} = \frac12 e^{a_4}\sin^{1/6}z\,H\,\bar\Phi\gamma^{(4)}\gamma^{(1)}\gamma^{(0)}\Phi$ for a configuration that depends on $x_4$ only (check `spin_connection_in_the_energy_momentum_tensor`). For a generic condensate 42 of the 56 off-diagonal components are not zero; special condensates (the textbook's witnesses) make all of them vanish.
+
+These components belong to the source. No diagonal metric removes them: a self-consistent diagonal metric needs a source whose off-diagonal components vanish, and a source that does not have this property needs a metric that is not diagonal in the corresponding directions.
+
+### 2.3 What follows for the metric of 2026-10-14
+
+* Einstein gravity: a diagonal source forces $b_4' = 0$, which the user excluded ("b4 is never 1").
+* The author's weights: a diagonal source allows the single non-constant branch $d\ln b_4/da_4 = 4/3$ on $a_4 = Hx_4$, with the constant source $\kappa(\rho, p_3, p_t, p_0) = (-2/27, -2/9, -22/27, -14/27)$; no condensate can be that source (check `condensate_cannot_source_branch`).
+
+The metric of 2026-10-14 is therefore self-consistent with diagonal sources only on one tuned branch of one theory. The remedy must remove the geometric off-diagonal term for every history and every Lovelock order; the field's own off-diagonal terms remain a condition on the source.
+
+## 3. The simplest remedy: the warped metric
+
+### 3.1 The family and the conditions
+
+The candidates change one entry each, in the two places where the mixed component can be cancelled: the hidden direction, which may depend on $x_4$, and the time direction, which may depend on $x_0$. The family
+
+$$
+g_{00} = b_4^{2p}\,e^{2qa_4}\cot^2 z,\qquad g_{44} = -\sin^{2\gamma}z
+$$
+
+(every other entry as in the metric of 2026-10-14) contains the metric of 2026-10-14 ($p = q = \gamma = 0$). Two results, each PROVED with sympy and, independently, with Wolfram:
+
+* The only off-diagonal Einstein component is $E_{(1)}{}^{x_4}{}_{x_0} = -\frac{3H\cot z}{2b_4}\sin^{-2\gamma}z\,\big(4q\,a_4'b_4 + (6\gamma + 4p - 1)\,b_4'\big)$. It vanishes for all $a_4$, $b_4$ exactly when $q = 0$ and $6\gamma + 4p = 1$ (check `family_einstein_condition`).
+* On that line ($q = 0$, $p = (1 - 6\gamma)/4$) the Gauss-Bonnet component is $E_{(2)}{}^{x_4}{}_{x_0} = \frac32 H\cot z\,\sin^{-4\gamma}z\,(6\gamma - 1)\,b_4'(4a_4'b_4 - b_4')^2/b_4^3$. It vanishes for all $a_4$, $b_4$ exactly when $\gamma = 1/6$, $p = 0$ (check `family_gauss_bonnet_condition`).
+
+So among these one-entry changes exactly one is free of off-diagonal terms at the Gauss-Bonnet order, and section 3.3 shows that it is free of them at every order:
+
+$$
+\begin{aligned}
+ds^2 = {} & \cot^2 z\,dx_0^2 + \sin^{1/3}z\,\Big(e^{2a_4}\big(dx_1^2 + dx_2^2 + dx_3^2\big) - dx_4^2 \\
+& - e^{-2a_4}\,b_4\,\big(dx_5^2 + dx_6^2 + dx_7^2\big)\Big) .
+\end{aligned}
+$$
+
+This is the **warped metric** of 2026-10-16. It differs from the metric of 2026-10-14 in one entry, $g_{44} = -1 \to -\sin^{1/3}z$: the time direction now carries the same factor $\sin^{1/3}z$ as the six other directions $x_1, x_2, x_3, x_5, x_6, x_7$. The functions $a_4(x_4)$ and $b_4(x_4) > 0$ are free; $b_4$ enters only through $u = b_4'/b_4$, so a constant factor of $b_4$ is a rescaling of $x_5, x_6, x_7$. The 3-space scale factor is $e^{a_4}\sin^{1/6}z$, the extra-time scale factor $e^{-a_4}b_4^{1/2}\sin^{1/6}z$, and the time lapse $\sin^{1/6}z$.
+
+### 3.2 The warped-product form
+
+With the proper coordinate of the hidden direction, $y = \ln(\sin z)/(6H) \in (-\infty, 0)$, one has $dy = \cot z\,dx_0$ and $\sin^{1/3}z = e^{2Hy}$, so (check `proper_hidden_coordinate`)
+
+$$
+ds^2 = dy^2 + e^{2Hy}\,\hat g_7,\qquad \hat g_7 = e^{2a_4}\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 - e^{-2a_4}b_4\big(dx_5^2+dx_6^2+dx_7^2\big).
+$$
+
+This is a warped product of the hidden line with the 7-dimensional metric $\hat g_7$, which depends on $x_4$ only. The coordinate $y$ is the one the Kohn-Sham record already uses. The volume factor is $\sqrt{|g|} = b_4^{3/2}\cos z\,\sin^{1/6}z$ (check `sqrt_det_g`). The tip $z \to 0$ lies at $y \to -\infty$, at infinite proper distance, where the factor $e^{2Hy}$ of all seven directions tends to 0.
+
+### 3.3 Every off-diagonal component vanishes
+
+For the warped metric, $\partial_0\ln f_c = \partial_0\ln f_4 = H\cot z$ for every $c \in \{x_1, \dots, x_7\}$ and $\partial_4\ln f_0 = 0$, so the expression of section 2.1 vanishes for every $c$: there is no mixed Riemann component at all (check `warped_mixed_riemann_vanish`: 28 nonzero components, all of the form $R^{ab}{}_{ab}$, against 12 mixed components in the metric of 2026-10-14). The off-diagonal components of every Lovelock tensor are built from mixed components, so all 56 off-diagonal components of $E_{(1)}$, $E_{(2)}$ and $E_{(3)}$ vanish identically, for all $a_4(x_4)$, $b_4(x_4)$ and $H$ (check `warped_offdiagonal_all_orders`; Wolfram, the same check name). This is the general property of warped products over a line (B. O'Neill, *Semi-Riemannian Geometry*, chapter 7): the curvature has no mixed components between the base and the fiber.
+
+### 3.4 The alternative that was not chosen
+
+On the Einstein line the member $\gamma = 0$, $p = 1/4$ keeps $g_{44} = -1$ and changes the hidden direction instead, $g_{00} = b_4^{1/2}\cot^2 z$. Its Einstein tensor is diagonal, but $E_{(2)}{}^{x_4}{}_{x_0} = -\frac32 H\cot z\,b_4'(4a_4'b_4 - b_4')^2/b_4^3$ and $E_{(3)}{}^{x_4}{}_{x_0}$ do not vanish (check `alternative_hidden_breathing_einstein_only`), and $b_4$ itself, not only $u$, enters the curvature through $H^2b_4^{-1/2}$. It is self-consistent with diagonal sources only for Einstein gravity, so it is not used.
+
+A metric with off-diagonal entries could absorb off-diagonal sources. The sources of section 2.2 have off-diagonal components in many directions (3-space with time, 3-space with the extra times, the hidden direction with the others); absorbing them would need off-diagonal metric entries in all these directions and would give up the homogeneity and isotropy of 3-space and of the extra times. That is not a simple modification, and it is not pursued.
+
+## 4. The field equations of the warped metric
+
+### 4.1 Layers
+
+Write $W = \sin^{-1/3}z$ (the inverse square of the warp factor $\sin^{1/6}z$) and let $\hat E_{(j)}$ be the Lovelock tensor of order $j$ of $\hat g_7$, computed separately in seven dimensions, with $\hat E_{(0)} = 1$; for the hidden direction let $\hat E_{(j)}^{(0)} = -2^{-(j+1)}\,\delta^{h_1 \dots h_{2j}}_{j_1 \dots j_{2j}}\hat R \cdots \hat R$ be its scalar. Then (check `warped_layer_decomposition`, sympy and Wolfram)
+
+$$
+E_{(k)}{}^\mu{}_\mu = \sum_{j=0}^{k} c_{kj}\,H^{2(k-j)}\,W^{j}\,\hat E_{(j)}{}^\mu{}_\mu ,
+$$
+
+with $c_{10} = 21$, $c_{11} = 1$; $c_{20} = -420$, $c_{21} = -40$, $c_{22} = 1$; $c_{30} = 2520$, $c_{31} = 360$, $c_{32} = -18$, $c_{33} = 1$. The constants $c_{k0}$ are those of the maximally symmetric space of curvature $-H^2$ ($\hat g_7$ flat). The field equations become
+
+$$
+\beta_0 + \sum_{j=1}^{3}\beta_j\,W^{j}\,\hat E_{(j)}{}^\mu{}_\nu = \kappa\,T^\mu{}_\nu ,
+$$
+
+with $\beta_0 = 21\alpha_1H^2 - 420\alpha_2H^4 + 2520\alpha_3H^6 + \Lambda$, $\beta_1 = \alpha_1 - 40\alpha_2H^2 + 360\alpha_3H^4$, $\beta_2 = \alpha_2 - 18\alpha_3H^2$, $\beta_3 = \alpha_3$. The author's weights give $\beta_0 = 161/16 + \Lambda$ (in the units of the weights), $\beta_1 = 1/(16H^2)$, $\beta_2 = 1/(64H^4)$, $\beta_3 = 1/(1152H^6)$ (check `warped_field_equations_layers`).
+
+### 4.2 Einstein gravity reduces to seven dimensions
+
+For Einstein gravity ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$) the field equations read $(21H^2 + \Lambda)\,\delta^\mu_\nu + W\,\hat G^\mu{}_\nu = \kappa\,T^\mu{}_\nu$, where $\hat G$ is the Einstein tensor of $\hat g_7$ for $\mu, \nu \in \{x_1, \dots, x_7\}$ and $\hat G^{x_0}{}_{x_0} = -\hat R/2$. With $\Lambda = -21H^2$ every self-consistent source has the form $T^\mu{}_\nu = \sin^{-1/3}z\;\tau^\mu{}_\nu(x_4)$, and the equations are exactly the 7-dimensional Einstein equations $\hat G^\mu{}_\nu = \kappa\,\tau^\mu{}_\nu$ on every slice of constant $x_0$, together with the hidden pressure $\kappa\,\tau^{x_0}{}_{x_0} = -\hat R/2$. The sectional curvatures are
+
+$$
+\hat G^{x_4}{}_{x_4} = \frac34\big(4a_4'^2 - 2a_4'u - u^2\big),\qquad
+\hat G^{x_1}{}_{x_1} = -\frac12\Big(6a_4'^2 - 6a_4'u - 2a_4'' + 3\frac{b_4''}{b_4}\Big),
+$$
+$$
+\hat G^{x_5}{}_{x_5} = -\frac14\Big(12a_4'^2 + 4a_4'' + 4\frac{b_4''}{b_4} - u^2\Big),\qquad
+-\frac{\hat R}{2} = -\frac32\Big(2a_4'^2 - a_4'u + \frac{b_4''}{b_4}\Big)
+$$
+
+(the keys `fiber_lovelock_tensors` and `fiber_lovelock_scalars` of the results file `warped-metric.json`).
+
+### 4.3 Exact vacuum solutions with $b_4$ not constant
+
+For Einstein gravity with $\Lambda = -21H^2$ the vacuum equations are $\hat G = 0$: $\hat g_7$ must be Ricci-flat. The Kasner metrics are Ricci-flat; for $\hat g_7$ they are
+
+$$
+e^{a_4} = x_4^{p_s},\qquad b_4 = x_4^{2/3},\qquad p_s = \frac{1 + \sqrt5}{6},
+$$
+
+with the extra-time scale factor $e^{-a_4}b_4^{1/2} = x_4^{(1-\sqrt5)/6}$ (and the mirror solution with $p_s = (1 - \sqrt5)/6$). All 64 components of the field equations hold at every $x_0$ (check `einstein_vacuum_kasner`, sympy and Wolfram). In this solution 3-space expands as $x_4^{0.539}$ and the three extra times deflate as $x_4^{-0.206}$; in terms of the e-folds of 3-space the extra-time scale factor is $e^{-0.382\,a_4}$ and $d\ln b_4/da_4 = \sqrt5 - 1$. It is an exact, self-consistent primordial solution of the Einstein equations with $b_4$ not constant and a vanishing source. Its expansion is a power of $x_4$, not an exponential.
+
+With the author's weights the vacuum equations must hold at every $x_0$, so each layer vanishes separately: $\beta_0 = 0$ and $\hat E_{(1)} = \hat E_{(2)} = \hat E_{(3)} = 0$. The Kasner metrics have $\hat E_{(2)} \neq 0$, and an exponential $\hat g_7$ ($a_4 = AHx_4$, $b_4 = e^{\beta AHx_4}$) is never Ricci-flat ($\hat E_{(1)}^{(0)} = -\frac32 A^2H^2(\beta^2 - \beta + 2) \neq 0$). The warped metric therefore has no vacuum history of the author's theory with $b_4$ not constant (check `author_weights_vacuum_conditions`). The author's earlier vacuum ($b_4 = 1$, $a_4 = Hx_4$, a solution of the metric before 2026-10-14) is not a solution of the warped metric: its layers with $W$ do not vanish (check `earlier_vacuum_not_warped_solution`).
+
+### 4.4 The record's history and its source
+
+The Revision record uses the prescribed history $a_4 = Hx_4$, $b_4 = b_4(0)\,e^{(4/3)Hx_4}$, on which the extra times deflate exponentially, as $e^{-a_4/3}$. In the warped metric this history is no longer singled out by an off-diagonal condition (every history has a diagonal left-hand side); the record keeps it for continuity, as a prescribed background. Its source is diagonal, isotropic in 3-space and in the extra times, constant in time, and layered in $W = \sin^{-1/3}z$ (check `history_source_einstein`; the values are `history_source` of `warped-metric.json`, reproduced by Wolfram in `history_source_equals_sympy`):
+
+| left-hand side $\sum_k\alpha_kE_{(k)}{}^\mu{}_\mu$ | Einstein gravity | the author's weights (units of the weights) |
+| --- | --- | --- |
+| $\mu = x_4$: $-\kappa\rho - \Lambda$ | $21H^2 - \frac13 H^2 W$ | $\frac{161}{16} - \frac{W}{48} + \frac{W^2}{48} + \frac{5W^3}{432}$ |
+| $\mu = x_1, x_2, x_3$: $\kappa p_3 - \Lambda$ | $21H^2 - \frac53 H^2 W$ | $\frac{161}{16} - \frac{5W}{48} + \frac{17W^2}{432} + \frac{W^3}{432}$ |
+| $\mu = x_5, x_6, x_7$: $\kappa p_t - \Lambda$ | $21H^2 - \frac{13}{3}H^2 W$ | $\frac{161}{16} - \frac{13W}{48} + \frac{11W^2}{144} - \frac{7W^3}{432}$ |
+| $\mu = x_0$: $\kappa p_0 - \Lambda$ | $21H^2 - \frac{11}{3}H^2 W$ | $\frac{161}{16} - \frac{11W}{48} + \frac{53W^2}{432} - \frac{13W^3}{432}$ |
+
+So for Einstein gravity with $\Lambda = -21H^2$ the history needs $\kappa\rho = \frac13 H^2\sin^{-1/3}z > 0$, $\kappa p_3 = -\frac53 H^2\sin^{-1/3}z$, $\kappa p_t = -\frac{13}{3}H^2\sin^{-1/3}z$ and $\kappa p_0 = -\frac{11}{3}H^2\sin^{-1/3}z$. For a diagonal tensor whose entries depend on $x_0$ and $x_4$ the warped metric gives $\nabla_\mu T^\mu{}_\nu = 0$ identically for $\nu \neq x_0, x_4$, and both remaining components vanish for these sources, as the Bianchi identity requires (check `history_source_conserved`). The history remains a PRESCRIBED background: no field of the record is shown to be its source.
+
+## 5. What the warped metric changes for the fields
+
+### 5.1 The vielbein, the volume and the gravity term
+
+The diagonal vielbein is $f = (\cot z,\ e^{a_4}\sin^{1/6}z\ (\times 3),\ \sin^{1/6}z,\ e^{-a_4}b_4^{1/2}\sin^{1/6}z\ (\times 3))$, the volume factor $b_4^{3/2}\cos z\,\sin^{1/6}z$. The gravity term of the Dirac operator, $\gamma^\mu\Omega_\mu = \frac12\sum_a\gamma^{(a)}\frac{1}{\sqrt{|g|}}\partial_a\big(\sqrt{|g|}/f_a\big)$, is
+
+$$
+\gamma^\mu\Omega_\mu = \frac72\,H\,\gamma^{(x_0)} + \frac34\,\frac{b_4'}{b_4}\,\sin^{-1/6}z\;\gamma^{(x_4)}
+$$
+
+(check `dirac_gravity_term`, sympy and Wolfram); in the metric of 2026-10-14 it was $3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$. The hidden coefficient counts seven warped directions instead of six. The anticommutation $\{\gamma^\mu, \Omega_\mu\} = 0$ for each direction separately, which the record proves for every diagonal vielbein, still removes the spin connection from the Lagrangian.
+
+### 5.2 Condensates
+
+The field equation of a configuration $\Phi(x_4)$ that does not depend on the other coordinates reads, in the warped metric,
+
+$$
+\sin^{-1/6}z\;\gamma^{(x_4)}\Big(\partial_4 + \frac34\frac{b_4'}{b_4}\Big)\Phi + \frac72 H\gamma^{(x_0)}\Phi = V\Phi,\qquad V = m + \lambda S .
+$$
+
+Multiplying by $\sin^{1/6}z$, the left side $\gamma^{(x_4)}(\partial_4 + \frac34 u)\Phi$ does not depend on $x_0$, and the right side $\sin^{1/6}z\,(V - \frac72H\gamma^{(x_0)})\Phi$ is $\sin^{1/6}z$ times a column that does not depend on $x_0$. Both must vanish: $\Phi = b_4^{-3/4}\Phi_0$ with a constant column $\Phi_0$, and $\gamma^{(x_0)}\Phi_0 = (2V/7H)\Phi_0$. Because $(\gamma^{(x_0)})^2 = 1$, $V = \pm\frac72 H$ is constant, and since $S = b_4^{-3/2}\Phi_0^\dagger C\Phi_0$ changes with $b_4$, this needs $\lambda = 0$ (or $S = 0$). A condensate that does not depend on $x_0$ therefore exists only for $\lambda S = 0$ and $m = \pm\frac72 H$, with $\gamma^{(x_0)}\Phi_0 = \pm\Phi_0$ (derived in this section; the record re-derives the solutions of the field equations for the warped metric). In the metric of 2026-10-14 condensates existed for every $m$ and $\lambda$; in the warped metric the fields depend on the hidden direction, through the profiles that the warped product separates.
+
+### 5.3 The field's own off-diagonal components
+
+The spin-connection bilinears of section 2.2 are present in the warped metric as well (for example $K^{x_4}{}_{x_1}$ contains $H\,\bar\Phi\gamma^{(4)}\gamma^{(1)}\gamma^{(0)}\Phi$). A self-consistent source must have vanishing off-diagonal components; this is a condition on the configurations of the fields (or on the quantum states whose expectation values are the source), which the recomputation of the field-theory record for the warped metric states component by component. At this commit that condition is OPEN for the warped metric.
+
+## 6. Consequences for the Revision record
+
+The warped metric replaces the metric of 2026-10-14 in `Revision/SPEC.md` section 1 (the user's order of 2026-10-16: "Recompute all primordial objects"). Everything that depends on the metric is recomputed with it: the field theory of both fields (spin connection, field equation, energy-momentum tensor, conservation, exact solutions, quantisation), the field equations for $a_4$ and $b_4$ (Lovelock tensors, sources, the history's source), the lead's checks, the generalized-Kronecker-delta record, the dark sector, the Kohn-Sham record (the hidden-direction mode problem now carries the lapse $\sin^{1/6}z$), the pairing theorems, the notebooks, the documents and the textbook. The metric of 2026-10-14 and its results remain in the repository as the withdrawn earlier record, quoted only for comparison.
+
+## 7. What is proved, computed, assumed and open
+
+### 7.1 Proved (exact symbolic computation, twice: sympy and Wolfram)
+
+* The metric of 2026-10-14 has the off-diagonal pair $(x_4, x_0)$ at every Lovelock order, equal to the record's $\cot z\,u\,Q$.
+* In the family of section 3.1 the Einstein component vanishes for all $a_4$, $b_4$ iff $q = 0$, $6\gamma + 4p = 1$, and the Gauss-Bonnet component on that line iff $\gamma = 1/6$, $p = 0$.
+* The warped metric has no mixed Riemann component, and every off-diagonal component of $E_{(1)}$, $E_{(2)}$, $E_{(3)}$ vanishes identically.
+* The layer decomposition, the effective couplings, the reduction of Einstein gravity to seven dimensions, the Kasner vacuum solutions with $\Lambda = -21H^2$, the absence of a vacuum history of the author's theory with $b_4$ not constant, the history's source and its conservation, the volume factor and the gravity term of the Dirac operator.
+
+### 7.2 Computed
+
+Nothing numerical: every statement of this document is an exact identity.
+
+### 7.3 Assumed
+
+* The history $a_4 = Hx_4$, $b_4 = b_4(0)e^{(4/3)Hx_4}$ is a prescribed background, kept for continuity with the record; its source is computed, not derived from a field.
+* "Simplest" is understood as: one entry of the metric changed, within the family of section 3.1; other families (several entries, or a metric that is not diagonal) are not exhausted.
+
+### 7.4 Open
+
+* Which configurations of dirac16complex00, and which quantum states of dirac16complex, have an energy-momentum tensor without off-diagonal components in the warped metric, and whether any of them can be the source of a history (section 5.3).
+* Whether a source of the layered form of section 4.4 arises from the fields.
+* A history of the author's theory that is driven by the fields themselves.
+
+## 8. Reproduction
+
+Run from the repository root (each run stays below 60 s):
+
+```text
+python Revision/metric_warped/python/derive_warped_metric.py
+wolframscript -file Revision/metric_warped/wolfram/verify_warped_metric.wls
+python scripts/build_provenance_pdf.py Revision/docs/METRIC_SELF_CONSISTENCY.md \
+    --developer-layout --specifications Revision/pdf-specifications.json
+python -m unittest Revision/tests/test_metric_self_consistency_publication.py -v
+```
+
+| command | checks | time |
+| --- | --- | --- |
+| `derive_warped_metric.py` | 16 of 16 PASS | 45 s |
+| `verify_warped_metric.wls` | 11 of 11 PASS | 44 s |
+| `build_provenance_pdf.py` | the PDF build | 6 s |
+
+The last lines of the two programs begin with `python_warped_metric=OK` and `wolfram_warped_metric=OK`.
+
+Two runs of each program give byte-identical outputs. The provenance of the record, with the sha256 of every input and output, is `Revision/metric_warped/WARPED_METRIC_PROVENANCE.md`.
+
+## 9. Verification records
+
+| report | checks |
+| --- | --- |
+| `Revision/metric_warped/reports/python-warped-metric-report.json` | 16 of 16 PASS |
+| `Revision/metric_warped/reports/wolfram-warped-metric-report.json` | 11 of 11 PASS |
+
+| check | sympy | Wolfram |
+| --- | --- | --- |
+| `sqrt_det_g` | PASS | PASS |
+| `proper_hidden_coordinate` | PASS | |
+| `record_metric_offdiagonal_reproduced` | PASS | PASS |
+| `family_einstein_condition` | PASS | PASS |
+| `family_gauss_bonnet_condition` | PASS | PASS |
+| `warped_mixed_riemann_vanish` | PASS | PASS |
+| `warped_offdiagonal_all_orders` | PASS | PASS |
+| `alternative_hidden_breathing_einstein_only` | PASS | PASS |
+| `warped_layer_decomposition` | PASS | PASS |
+| `warped_field_equations_layers` | PASS | |
+| `einstein_vacuum_kasner` | PASS | PASS |
+| `author_weights_vacuum_conditions` | PASS | |
+| `history_source_einstein` | PASS | |
+| `history_source_equals_sympy` | | PASS |
+| `history_source_conserved` | PASS | |
+| `dirac_gravity_term` | PASS | PASS |
+| `earlier_vacuum_not_warped_solution` | PASS | |

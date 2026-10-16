@@ -6,6 +6,54 @@ in this repository; nothing depends on the old session's scratch directory.
 
 ## 0. Exact restart procedure
 
+### 0.10 ORDER 2026-10-16: the warped metric; recompute every primordial object — START HERE
+
+The user's order (verbatim, the defining parts): "a diagonal form for the metric of the primordial gravitational field
+is only self-consistent if all off-diagonal terms of all source terms in the Einstein field equations ARE ZERO.  This
+is not the case here.  I task you to: [1] find the simplest modification for the current metric of the primordial
+gravitational field that is probably self-consistent with the the Einstein field equations.  [2] push your new,
+improved, metric ... to the repo, along with provenance and a pdf file explaination of the issues and remedies.
+[3] Recompute all primordial objects and push to repo; revise all concomitant documention and push.  [4] Continue and
+Complete and push all stages that are still open, and do not stop."  And: read the user's notebook
+`WaveFunctionUniverse-4+4-Einstein-Lovelock.nb` (repository root, NOT committed) only to understand the issue; "DO NOT
+employ either its definitions or conventions".
+
+The answer ([1], [2], DONE 2026-10-16): the warped metric, g44 = -1 -> -Sin[6 H x0]^(1/3) (one entry; all seven
+directions x1..x7 carry Sin[6 H x0]^(1/3)); ds^2 = dy^2 + E^(2 H y) ghat7, y = Log[Sin[6 H x0]]/(6 H).  Every
+off-diagonal component of E_(1), E_(2), E_(3) vanishes for all a4, b4 (the metric of 2026-10-14 had E^x4_x0 ~ Cot[z]
+b4'/b4 at every order); it is the unique such member of the family g00 = b4^(2p) E^(2 q a4) Cot^2, g44 = -Sin^(2 gamma);
+the field equations are layers Sin[z]^(-j/3) Ehat_(j)(ghat7); Einstein gravity reduces to 7D Einstein equations; Kasner
+vacuum with Lambda = -21 H^2 and b4 ~ x4^(2/3); the history a4 = H x4, b4 = b4(0) e^(4/3 H x4) is kept as a prescribed
+background (its layered source: `Revision/metric_warped/results/warped-metric.json`, history_source); sqrt|g| =
+b4^(3/2) cos z sin^(1/6) z; gamma^mu Omega_mu = (7/2) H gamma^(x0) + (3/4)(b4'/b4) sin^(-1/6) z gamma^(x4); a condensate
+independent of x0 exists only for lambda S = 0, m = +-7H/2.  Files: `Revision/metric_warped/` (sympy 16/16, Wolfram
+11/11, provenance `WARPED_METRIC_PROVENANCE.md`, frozen reference of the record of 04fa2e7 in `reference_2026_10_14/`),
+`Revision/docs/METRIC_SELF_CONSISTENCY.{md,tex,pdf}` (registered, 12 pages; test
+`Revision/tests/test_metric_self_consistency_publication.py`), `Revision/SPEC.md` section 1 (the warped metric is
+current; the metric of 2026-10-14 withdrawn), gate steps metric-warped-sympy, metric-warped-wolfram,
+pdf-metric-self-consistency (102 steps, 8727 s).
+
+[3] Phases (each verified, committed and pushed; every calculation under `timeout -k 5 423`; no agent job longer than
+423 s; the work is done sequentially):
+W1. `Revision/theory/`: RevisionFieldTheory.wl / verify_field_theory.wls (six parts) / check_field_theory.py and the
+    scope checks for the warped metric (f4 = Sin^(1/6); Omega_x4 != 0; the gravity term; the evolution form with the
+    lapse; EMT; conservation; exact solutions; quantisation).
+W2. `Revision/field_equations_a4/`: the layers, no off-diagonal component, the history's source, Einstein reduction,
+    the b4 block, `ks_source/`.
+W3. `Revision/lead_checks/`.
+W4. `Revision/gkd_lovelock/`: the Rust monomial lists and verifications for the warped metric.
+W5. `Revision/kohn_sham/`: theory (the hidden-direction mode problem with the lapse), Rust solver, reference,
+    cross-check, tip convergence, exx; `ks_source`.
+W6. `Revision/dark_sector/`, `Revision/pairing/` (T1, T2, Q, T3), `Revision/notebooks/`.
+W7. The six documents of SPEC section 10 for the warped metric; READMEs; gate; provenance; index.
+W8. The textbook (every chapter and notebook; the b4 work of 0.9 phase 9 is superseded and moves directly to the warped
+    metric) and the book PDF; retire the b4 supplements.
+Status (newest last):
+- W0 DONE 2026-10-16: [1] and [2] as above.  KNOWN OPEN until W4: `gkd_lovelock/comparison/compare_with_author.py`
+  (check revision-metric-spec-vs-curvature-json, also run by test_lovelock_gkd_publication) compares the FIRST matrix
+  of SPEC section 1, now the warped metric, with `gkd_lovelock/results/curvature.json`, which still holds the metric
+  of 2026-10-14: one mismatch (x4, x4), expected until the GKD record is recomputed for the warped metric.
+
 ### 0.9 ORDER 2026-10-15 evening: move EVERYTHING to b4(x4) — START HERE
 
 The user's order (verbatim): "yes, move everything to b4(x4); b4 is never 1".  Scope: the current record

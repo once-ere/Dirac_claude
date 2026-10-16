@@ -24,6 +24,11 @@
     "pages": 29,
     "sha256": "40739cec2283b0a29061cd2f5624a1e26006847cdbf052f6daca37e2d539e0e6"
   },
+  "metric-self-consistency": {
+    "path": "Revision/docs/METRIC_SELF_CONSISTENCY.pdf",
+    "pages": 12,
+    "sha256": "b06a3ad10a3b4cf6277da20f8d74607b63615c727d30987d297ca1fa54e5aa46"
+  },
   "pair-creation-proofs": {
     "path": "Revision/docs/PAIR_CREATION_PROOFS.pdf",
     "pages": 34,

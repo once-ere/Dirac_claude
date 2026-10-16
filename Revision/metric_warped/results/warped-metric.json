@@ -1,0 +1,154 @@
+{
+ "alternative_hidden_breathing": {
+  "E2^x4_x0": "-3*H*bd1*cc*(4*ad1*bb - bd1)**2/(2*bb**3)",
+  "E3^x4_x0": "27*H*bd1*cc*(32*H**2*ad1**2*bb**6 - 16*H**2*ad1*bb**5*bd1 + 2*H**2*bb**4*bd1**2 + 32*ad1**4*bb**(13/2) - 32*ad1**3*bb**(11/2)*bd1 + 10*ad1**2*bb**(9/2)*bd1**2 - ad1*bb**(7/2)*bd1**3)/(2*bb**(15/2))",
+  "metric_g00": "b4^(1/2) Cot[6 H x0]^2"
+ },
+ "checks_passed": "16 of 16",
+ "coordinates": "x0 (hidden, z = 6 H x0 in (0, pi/2)), x1, x2, x3 (space), x4 (time), x5, x6, x7 (extra times)",
+ "dirac_gravity_term": "(7/2) H gamma^(x0) + (3/4) (b4'/b4) Sin[6 H x0]^(-1/6) gamma^(x4)",
+ "divergence_of_diagonal_tensor": {
+  "x0": "(7*H*T0(x0, x4) - 3*H*T1(x0, x4) - H*T4(x0, x4) - 3*H*T5(x0, x4) + tan(6*H*x0)*Derivative(T0(x0, x4), x0))/tan(6*H*x0)",
+  "x4": "-3*T1(x0, x4)*Derivative(a4(x4), x4) + 3*T4(x0, x4)*Derivative(b4(x4), x4)/(2*b4(x4)) + 3*T5(x0, x4)*Derivative(a4(x4), x4) - 3*T5(x0, x4)*Derivative(b4(x4), x4)/(2*b4(x4)) + Derivative(T4(x0, x4), x4)"
+ },
+ "effective_couplings": {
+  "beta0": "2520*H**6*alpha3 - 420*H**4*alpha2 + 21*H**2*alpha1 + Lam",
+  "beta1": "360*H**4*alpha3 - 40*H**2*alpha2 + alpha1",
+  "beta2": "-18*H**2*alpha3 + alpha2",
+  "beta3": "alpha3"
+ },
+ "effective_couplings_author_weights": {
+  "beta0": "Lam + 161/16",
+  "beta1": "1/(16*H**2)",
+  "beta2": "1/(64*H**4)",
+  "beta3": "1/(1152*H**6)"
+ },
+ "einstein_vacuum_kasner": {
+  "Lambda": "-21 H^2",
+  "solutions": [
+   {
+    "a4": "(1/6 + sqrt(5)/6)*log(x4)",
+    "b4": "x4^(2/3)",
+    "extra_time_scale": "x4^(1/6 - sqrt(5)/6)",
+    "space_scale": "x4^(1/6 + sqrt(5)/6)"
+   },
+   {
+    "a4": "(1/6 - sqrt(5)/6)*log(x4)",
+    "b4": "x4^(2/3)",
+    "extra_time_scale": "x4^(1/6 + sqrt(5)/6)",
+    "space_scale": "x4^(1/6 - sqrt(5)/6)"
+   }
+  ]
+ },
+ "family_E1_x4x0": "-3*H*W**(6*gamma)*cc*(4*ad1*bb*q + 6*bd1*gamma + 4*bd1*p - bd1)/(2*bb)",
+ "family_E2_x4x0_on_einstein_line": "3*H*W**(12*gamma)*bd1*cc*(6*gamma - 1)*(4*ad1*bb - bd1)**2/(2*bb**3)",
+ "fiber_lovelock_scalars": {
+  "Ehat1^(0)": "-3*(2*ad1**2*bb - ad1*bd1 + bd2)/(2*bb)",
+  "Ehat2^(0)": "3*(16*ad1**4*bb**4 - 16*ad1**3*bb**3*bd1 + 16*ad1**2*bb**3*bd2 + 8*ad1**2*bb**2*bd1**2 + 32*ad1*ad2*bb**3*bd1 - 16*ad1*bb**2*bd1*bd2 + 6*ad1*bb*bd1**3 - 8*ad2*bb**2*bd1**2 - 2*bb*bd1**2*bd2 + bd1**4)/(4*bb**4)",
+  "Ehat3^(0)": "-9*ad1*(2*ad1*bb - bd1)*(8*ad1**4*bb**3 - 8*ad1**3*bb**2*bd1 + 12*ad1**2*bb**2*bd2 + 8*ad1**2*bb*bd1**2 + 48*ad1*ad2*bb**2*bd1 - 18*ad1*bb*bd1*bd2 + 9*ad1*bd1**3 - 12*ad2*bb*bd1**2)/(2*bb**4)"
+ },
+ "fiber_lovelock_tensors": {
+  "Ehat1": {
+   "x1": "-(6*ad1**2*bb - 6*ad1*bd1 - 2*ad2*bb + 3*bd2)/(2*bb)",
+   "x2": "-(6*ad1**2*bb - 6*ad1*bd1 - 2*ad2*bb + 3*bd2)/(2*bb)",
+   "x3": "-(6*ad1**2*bb - 6*ad1*bd1 - 2*ad2*bb + 3*bd2)/(2*bb)",
+   "x4": "3*(4*ad1**2*bb**2 - 2*ad1*bb*bd1 - bd1**2)/(4*bb**2)",
+   "x5": "-(12*ad1**2*bb**2 + 4*ad2*bb**2 + 4*bb*bd2 - bd1**2)/(4*bb**2)",
+   "x6": "-(12*ad1**2*bb**2 + 4*ad2*bb**2 + 4*bb*bd2 - bd1**2)/(4*bb**2)",
+   "x7": "-(12*ad1**2*bb**2 + 4*ad2*bb**2 + 4*bb*bd2 - bd1**2)/(4*bb**2)"
+  },
+  "Ehat2": {
+   "x1": "3*(16*ad1**4*bb**4 - 32*ad1**3*bb**3*bd1 - 32*ad1**2*ad2*bb**4 + 16*ad1**2*bb**3*bd2 + 8*ad1**2*bb**2*bd1**2 + 32*ad1*ad2*bb**3*bd1 - 8*ad1*bb**2*bd1*bd2 + 4*ad1*bb*bd1**3 - 4*ad2*bb**2*bd1**2 - 2*bb*bd1**2*bd2 + bd1**4)/(4*bb**4)",
+   "x2": "3*(16*ad1**4*bb**4 - 32*ad1**3*bb**3*bd1 - 32*ad1**2*ad2*bb**4 + 16*ad1**2*bb**3*bd2 + 8*ad1**2*bb**2*bd1**2 + 32*ad1*ad2*bb**3*bd1 - 8*ad1*bb**2*bd1*bd2 + 4*ad1*bb*bd1**3 - 4*ad2*bb**2*bd1**2 - 2*bb*bd1**2*bd2 + bd1**4)/(4*bb**4)",
+   "x3": "3*(16*ad1**4*bb**4 - 32*ad1**3*bb**3*bd1 - 32*ad1**2*ad2*bb**4 + 16*ad1**2*bb**3*bd2 + 8*ad1**2*bb**2*bd1**2 + 32*ad1*ad2*bb**3*bd1 - 8*ad1*bb**2*bd1*bd2 + 4*ad1*bb*bd1**3 - 4*ad2*bb**2*bd1**2 - 2*bb*bd1**2*bd2 + bd1**4)/(4*bb**4)",
+   "x4": "-9*ad1*(2*ad1*bb - bd1)*(4*ad1**2*bb**2 - 2*ad1*bb*bd1 - bd1**2)/(2*bb**3)",
+   "x5": "3*(4*ad1**4*bb**3 + 8*ad1**2*ad2*bb**3 - 2*ad1*bb*bd1*bd2 + ad1*bd1**3 - ad2*bb*bd1**2)/bb**3",
+   "x6": "3*(4*ad1**4*bb**3 + 8*ad1**2*ad2*bb**3 - 2*ad1*bb*bd1*bd2 + ad1*bd1**3 - ad2*bb*bd1**2)/bb**3",
+   "x7": "3*(4*ad1**4*bb**3 + 8*ad1**2*ad2*bb**3 - 2*ad1*bb*bd1*bd2 + ad1*bd1**3 - ad2*bb*bd1**2)/bb**3"
+  },
+  "Ehat3": {
+   "x1": "-9*ad1*(2*ad1*bb - bd1)**2*(4*ad1**3*bb**2 - 8*ad1**2*bb*bd1 - 20*ad1*ad2*bb**2 + 6*ad1*bb*bd2 - 3*ad1*bd1**2 + 4*ad2*bb*bd1)/(2*bb**4)",
+   "x2": "-9*ad1*(2*ad1*bb - bd1)**2*(4*ad1**3*bb**2 - 8*ad1**2*bb*bd1 - 20*ad1*ad2*bb**2 + 6*ad1*bb*bd2 - 3*ad1*bd1**2 + 4*ad2*bb*bd1)/(2*bb**4)",
+   "x3": "-9*ad1*(2*ad1*bb - bd1)**2*(4*ad1**3*bb**2 - 8*ad1**2*bb*bd1 - 20*ad1*ad2*bb**2 + 6*ad1*bb*bd2 - 3*ad1*bd1**2 + 4*ad2*bb*bd1)/(2*bb**4)",
+   "x4": "45*ad1**3*(2*ad1*bb - bd1)**3/bb**3",
+   "x5": "-18*ad1**2*(2*ad1*bb - bd1)*(2*ad1**3*bb**2 + ad1**2*bb*bd1 + 10*ad1*ad2*bb**2 - 2*ad1*bb*bd2 + ad1*bd1**2 - 3*ad2*bb*bd1)/bb**3",
+   "x6": "-18*ad1**2*(2*ad1*bb - bd1)*(2*ad1**3*bb**2 + ad1**2*bb*bd1 + 10*ad1*ad2*bb**2 - 2*ad1*bb*bd2 + ad1*bd1**2 - 3*ad2*bb*bd1)/bb**3",
+   "x7": "-18*ad1**2*(2*ad1*bb - bd1)*(2*ad1**3*bb**2 + ad1**2*bb*bd1 + 10*ad1*ad2*bb**2 - 2*ad1*bb*bd2 + ad1*bd1**2 - 3*ad2*bb*bd1)/bb**3"
+  }
+ },
+ "history_source": {
+  "author_weights_A1_beta43": {
+   "-rho": "5*W**3/432 + W**2/48 - W/48 + 161/16",
+   "p0": "-13*W**3/432 + 53*W**2/432 - 11*W/48 + 161/16",
+   "p3": "W**3/432 + 17*W**2/432 - 5*W/48 + 161/16",
+   "p_t": "-7*W**3/432 + 11*W**2/144 - 13*W/48 + 161/16"
+  },
+  "author_weights_kappaT_minus_Lambda": {
+   "-rho": "-(5*A**6*W**3*beta**3 - 30*A**6*W**3*beta**2 + 60*A**6*W**3*beta - 40*A**6*W**3 + 9*A**4*W**2*beta**3 - 72*A**4*W**2*beta + 72*A**4*W**2 + 6*A**2*W*beta**2 + 12*A**2*W*beta - 24*A**2*W - 1288)/128",
+   "p0": "-(9*A**6*W**3*beta**4 - 38*A**6*W**3*beta**3 + 48*A**6*W**3*beta**2 - 24*A**6*W**3*beta + 16*A**6*W**3 + 3*A**4*W**2*beta**4 + 30*A**4*W**2*beta**3 - 72*A**4*W**2*beta**2 + 48*A**4*W**2*beta - 48*A**4*W**2 + 24*A**2*W*beta**2 - 24*A**2*W*beta + 48*A**2*W - 2576)/256",
+   "p3": "-(3*A**6*W**3*beta**4 - 20*A**6*W**3*beta**3 + 48*A**6*W**3*beta**2 - 48*A**6*W**3*beta + 16*A**6*W**3 + 3*A**4*W**2*beta**4 + 12*A**4*W**2*beta**3 - 72*A**4*W**2*beta**2 + 96*A**4*W**2*beta - 48*A**4*W**2 + 24*A**2*W*beta**2 - 48*A**2*W*beta + 48*A**2*W - 2576)/256",
+   "p_t": "-(A**6*W**3*beta**3 - 3*A**6*W**3*beta**2 + 4*A**6*W**3 + 3*A**4*W**2*beta**3 - 12*A**4*W**2 + 3*A**2*W*beta**2 + 12*A**2*W - 644)/64"
+  },
+  "einstein_A1_beta43": {
+   "-rho": "-H**2*W/3 + 21*H**2",
+   "p0": "-11*H**2*W/3 + 21*H**2",
+   "p3": "-5*H**2*W/3 + 21*H**2",
+   "p_t": "-13*H**2*W/3 + 21*H**2"
+  },
+  "einstein_kappaT_minus_Lambda": {
+   "-rho": "-3*H**2*(A**2*W*beta**2 + 2*A**2*W*beta - 4*A**2*W - 28)/4",
+   "p0": "-3*H**2*(A**2*W*beta**2 - A**2*W*beta + 2*A**2*W - 14)/2",
+   "p3": "-3*H**2*(A**2*W*beta**2 - 2*A**2*W*beta + 2*A**2*W - 14)/2",
+   "p_t": "-3*H**2*(A**2*W*beta**2 + 4*A**2*W - 28)/4"
+  },
+  "history": "a4 = A H x4, b4 = b4(0) E^(beta A H x4); record values A = 1, beta = 4/3"
+ },
+ "layer_coefficients_c_kj": {
+  "10": 21,
+  "11": 1,
+  "20": -420,
+  "21": -40,
+  "22": 1,
+  "30": 2520,
+  "31": 360,
+  "32": -18,
+  "33": 1
+ },
+ "metric_of_2026_10_14": [
+  "cot(6*H*x0)**2",
+  "exp(2*a4(x4))*sin(6*H*x0)**(1/3)",
+  "exp(2*a4(x4))*sin(6*H*x0)**(1/3)",
+  "exp(2*a4(x4))*sin(6*H*x0)**(1/3)",
+  "-1",
+  "-b4(x4)*exp(-2*a4(x4))*sin(6*H*x0)**(1/3)",
+  "-b4(x4)*exp(-2*a4(x4))*sin(6*H*x0)**(1/3)",
+  "-b4(x4)*exp(-2*a4(x4))*sin(6*H*x0)**(1/3)"
+ ],
+ "metric_of_2026_10_14_offdiagonal": {
+  "E1^x4_x0": "3*H*bd1*cc/(2*bb)",
+  "E2^x4_x0": "-3*H*bd1*cc*(40*H**2*bb**2 + 24*ad1**2*bb**2 - 12*ad1*bb*bd1 - bd1**2)/(2*bb**3)",
+  "E3^x4_x0": "27*H*bd1*cc*(20*H**4*bb**2 + 24*H**2*ad1**2*bb**2 - 12*H**2*ad1*bb*bd1 - H**2*bd1**2 + 20*ad1**4*bb**2 - 20*ad1**3*bb*bd1 + 5*ad1**2*bd1**2)/bb**3"
+ },
+ "metric_warped": [
+  "cot(6*H*x0)**2",
+  "exp(2*a4(x4))*sin(6*H*x0)**(1/3)",
+  "exp(2*a4(x4))*sin(6*H*x0)**(1/3)",
+  "exp(2*a4(x4))*sin(6*H*x0)**(1/3)",
+  "-sin(6*H*x0)**(1/3)",
+  "-b4(x4)*exp(-2*a4(x4))*sin(6*H*x0)**(1/3)",
+  "-b4(x4)*exp(-2*a4(x4))*sin(6*H*x0)**(1/3)",
+  "-b4(x4)*exp(-2*a4(x4))*sin(6*H*x0)**(1/3)"
+ ],
+ "sqrt_det_g": "b4^(3/2) Cos[6 H x0] Sin[6 H x0]^(1/6)",
+ "vielbein_diagonal": [
+  "cot(6*H*x0)",
+  "exp(a4(x4))*sin(6*H*x0)**(1/6)",
+  "exp(a4(x4))*sin(6*H*x0)**(1/6)",
+  "exp(a4(x4))*sin(6*H*x0)**(1/6)",
+  "sin(6*H*x0)**(1/6)",
+  "sqrt(b4(x4))*exp(-a4(x4))*sin(6*H*x0)**(1/6)",
+  "sqrt(b4(x4))*exp(-a4(x4))*sin(6*H*x0)**(1/6)",
+  "sqrt(b4(x4))*exp(-a4(x4))*sin(6*H*x0)**(1/6)"
+ ],
+ "warped_product_form": "ds^2 = dy^2 + E^(2 H y) ghat7, y = Log[Sin[6 H x0]]/(6 H), ghat7 = E^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - E^(-2 a4) b4 (dx5^2 + dx6^2 + dx7^2)"
+}

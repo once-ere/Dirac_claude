@@ -1,0 +1,14 @@
+{
+ "description": "frozen copy of one entry of Revision/field_equations_a4/a4-equations.json for the metric of 2026-10-14 (g44 = -1, b4 in the extra times), commit 04fa2e7; read by Revision/metric_warped/python/derive_warped_metric.py and verify_warped_metric.wls so that their comparison with the withdrawn record does not depend on the later recomputation of that file for the warped metric",
+ "generalSource.offDiagonalFactor_Q": {
+  "input": "(3*alpha1*H)/2 - 36*ad1^2*alpha2*H + 540*ad1^4*alpha3*H - 60*alpha2*H^3 + 648*ad1^2*alpha3*H^3 + 540*alpha3*H^5 + 18*ad1*alpha2*H*uu - 540*ad1^3*alpha3*H*uu - 324*ad1*alpha3*H^3*uu + (3*alpha2*H*uu^2)/2 + 135*ad1^2*alpha3*H*uu^2 - 27*alpha3*H^3*uu^2",
+  "tex": "540 (a_4')^4 \\alpha_3 H-540 (a_4')^3 \\alpha_3 H u-36 (a_4')^2 \\alpha_2 H+648 (a_4')^2 \\alpha_3 H^3+135 (a_4')^2 \\alpha_3 H u^2+18 (a_4') \\alpha_2 H u-324 (a_4') \\alpha_3 H^3 u+\\frac{3 \\alpha_1 H}{2}-60 \\alpha_2 H^3+\\frac{3}{2} \\alpha_2 H u^2+540 \\alpha_3 H^5-27 \\alpha_3 H^3 u^2"
+ },
+ "generalSource.offDiagonal_x4x0": {
+  "input": "(3*cc*uu*(alpha1*H - 24*ad1^2*alpha2*H + 360*ad1^4*alpha3*H - 40*alpha2*H^3 + 432*ad1^2*alpha3*H^3 + 360*alpha3*H^5 + 12*ad1*alpha2*H*uu - 360*ad1^3*alpha3*H*uu - 216*ad1*alpha3*H^3*uu + alpha2*H*uu^2 + 90*ad1^2*alpha3*H*uu^2 - 18*alpha3*H^3*uu^2))/2 == kappa*q40",
+  "tex": "\\frac{3}{2} \\cot z u \\left(360 (a_4')^4 \\alpha_3 H-360 (a_4')^3 \\alpha_3 H u-24 (a_4')^2 \\alpha_2 H+432 (a_4')^2 \\alpha_3 H^3+90 (a_4')^2 \\alpha_3 H u^2+12 (a_4') \\alpha_2 H u-216 (a_4') \\alpha_3 H^3 u+\\alpha_1 H-40 \\alpha_2 H^3+\\alpha_2 H u^2+360 \\alpha_3 H^5-18 \\alpha_3 H^3 u^2\\right) = \\kappa  q_{40}"
+ },
+ "source_commit": "04fa2e752ab204fc2d5255b9ca6f4a4bb5000ca2",
+ "source_file": "Revision/field_equations_a4/a4-equations.json",
+ "source_sha256": "fa2acb5d9b55d49bbee79be2e5551a1efc3c9a78daad101eb3e12f441d47ad00"
+}

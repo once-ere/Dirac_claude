@@ -239,7 +239,7 @@ class StaticGateTests(unittest.TestCase):
     def test_documents_and_unit_tests_covered(self):
         documents = sorted(os.path.splitext(name)[0] for name in os.listdir(os.path.join(ROOT, "Revision", "docs"))
                            if name.endswith(".md"))
-        self.assertEqual(len(documents), 6)
+        self.assertEqual(len(documents), 7)
         for document in documents:
             self.assertIn("scripts/build_provenance_pdf.py Revision/docs/%s.md --developer-layout "
                           "--specifications Revision/pdf-specifications.json" % document, self.commands)

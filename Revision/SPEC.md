@@ -22,6 +22,41 @@
 
 ## 1. The primordial gravitational field (the author's metric, exactly)
 
+**Changed on 2026-10-16 by the user's order: THE WARPED METRIC (current).**  The user's order of 2026-10-16: "a
+diagonal form for the metric of the primordial gravitational field is only self-consistent if all off-diagonal terms
+of all source terms in the Einstein field equations ARE ZERO.  This is not the case here.  I task you to: [1] find the
+simplest modification for the current metric of the primordial gravitational field that is probably self-consistent
+with the Einstein field equations; [2] push your new, improved, metric ... along with provenance and a pdf file
+explanation of the issues and remedies; [3] Recompute all primordial objects ...".  The metric of 2026-10-14 below has
+the off-diagonal component E_(k)^x4_x0 ~ Cot[6 H x0] b4'/b4 at every Lovelock order; in the family
+g00 = b4^(2p) E^(2 q a4) Cot[6 H x0]^2, g44 = -Sin[6 H x0]^(2 gamma) the only member without off-diagonal components
+(Einstein and Gauss-Bonnet, for all a4, b4) is gamma = 1/6, p = q = 0, and it has none at any order.  The current
+metric of the Revision record is therefore, in the author's coordinates x0..x7,
+
+```text
+g = {{Cot[6 H x0]^2,0,0,0,0,0,0,0},{0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0,0},
+     {0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0,0},{0,0,0,E^(2 a4[x4]) Sin[6 H x0]^(1/3),0,0,0,0},
+     {0,0,0,0,-Sin[6 H x0]^(1/3),0,0,0},{0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0,0},
+     {0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),0},{0,0,0,0,0,0,0,-E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}}
+```
+
+It differs from the metric of 2026-10-14 (below) in ONE entry, g44 = -1 -> -Sin[6 H x0]^(1/3): all seven directions
+x1..x7 carry the factor Sin[6 H x0]^(1/3).  With y = Log[Sin[6 H x0]]/(6 H) it is the warped product
+ds^2 = dy^2 + E^(2 H y) ghat7, ghat7 = E^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - E^(-2 a4) b4 (dx5^2 + dx6^2 + dx7^2).
+sqrt|det g| = b4^{3/2} Cos[6 H x0] Sin[6 H x0]^{1/6}; the 3-space scale factor e^{a4} sin^{1/6} z, the extra-time scale
+factor e^{-a4} b4^{1/2} sin^{1/6} z (deflating), the time lapse sin^{1/6} z.  Every off-diagonal component of every
+Lovelock tensor vanishes identically, for all a4(x4) and b4(x4) > 0; the field equations split into layers
+Sin[z]^(-j/3) times the Lovelock tensors of ghat7.  The proof, the checks (sympy 16 of 16, Wolfram 11 of 11) and the
+provenance: `Revision/metric_warped/` (`WARPED_METRIC_PROVENANCE.md`); the explanation of the issue and the remedy:
+`Revision/docs/METRIC_SELF_CONSISTENCY.md` (PDF).  The history used by the record stays the prescribed background
+a4 = H x4, b4 = b4(0) e^{(4/3) H x4} (kept for continuity; in the warped metric every history has a diagonal left-hand
+side, and this one needs the diagonal source of `Revision/metric_warped/results/warped-metric.json`, key
+history_source, layered in Sin[6 H x0]^(-1/3)).  The text from here to the end of this section describes the metric of
+2026-10-14, which is WITHDRAWN on 2026-10-16 and quoted only for comparison; every file of the record that still uses
+it is recomputed for the warped metric (HANDOFF.md section 0.10 lists the order and the status).
+
+**The metric of 2026-10-14 (withdrawn on 2026-10-16).**
+
 **Changed on 2026-10-14 by the user's order** ("We are changing the metric of the primordial gravitation
 field to ... Make this change throughout the entire project; create a provenance that proves that these
 critical changes were correctly made"), from the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb`
@@ -161,6 +196,12 @@ contain a4'' and b4''; the x4 component stays a constraint (first derivatives on
 component of every E_(k) is proportional to Cot[6 H x0] b4' (it vanishes identically for b4' = 0), so a
 source with T^{x4}_{x0} = 0 forces b4' = 0 or the factor Q(a4', b4'/b4) of `Revision/metric_b4/results/vacuum-b4.json`
 to vanish; derive which (a4, b4) each source allows, with b4 = 1 as the earlier special case.
+
+ADDED 2026-10-16 (the warped metric of section 1): every off-diagonal component of every E_(k) vanishes identically,
+so every source must be diagonal (its off-diagonal components must vanish); the diagonal components are layers
+E_(k)^mu_mu = sum_j c_kj H^(2(k-j)) Sin[z]^(-j/3) Ehat_(j)^mu_mu with the Lovelock tensors Ehat_(j) of the
+7-dimensional metric of x1..x7 (`Revision/metric_warped/results/warped-metric.json`); derive the equations for (a4, b4)
+from these layers and the x0-dependence each layer requires of the source.
 
 ## 6. Canonical quantisation in 4 + 4 dimensions (dirac16complex)
 

@@ -65,6 +65,8 @@
 #   metric-b4-wolfram                     90 s
 #   metric-b4-sympy                       40 s
 #   metric-b4-vacuum                      10 s
+#   metric-warped-sympy                   50 s
+#   metric-warped-wolfram                 50 s
 #   theory-wolfram-base                   40 s
 #   theory-wolfram-emt-g                 160 s
 #   theory-wolfram-emt-c                 110 s
@@ -143,6 +145,7 @@
 #   pdf-pair-creation-proofs              30 s
 #   pdf-kohn-sham-deflating-field         30 s
 #   pdf-dark-sector-hypotheses            30 s
+#   pdf-metric-self-consistency           30 s
 #   pdf-lovelock-gkd                      30 s
 #   committed-unchanged                   10 s  always
 #   reports-pass                           5 s  always
@@ -284,6 +287,8 @@ metric-b4-author-extract|10|0|-|Revision/metric_b4/results/author-b4-outputs.jso
 metric-b4-wolfram|90|0|-|Revision/metric_b4/results/metric-b4.json,Revision/metric_b4/results/wolfram-metric-b4-report.json|Revision/metric_b4/results/wolfram-metric-b4-report.json|{wolframscript} -file Revision/metric_b4/wolfram/verify_metric_b4.wls
 metric-b4-sympy|40|0|-|Revision/metric_b4/results/python-metric-b4-report.json|Revision/metric_b4/results/python-metric-b4-report.json|{python} Revision/metric_b4/python/check_metric_b4.py
 metric-b4-vacuum|10|0|-|Revision/metric_b4/results/vacuum-b4.json|Revision/metric_b4/results/vacuum-b4.json|{wolframscript} -file Revision/metric_b4/wolfram/vacuum_b4.wls
+metric-warped-sympy|50|0|-|Revision/metric_warped/results/warped-metric.json,Revision/metric_warped/reports/python-warped-metric-report.json|Revision/metric_warped/reports/python-warped-metric-report.json|{python} Revision/metric_warped/python/derive_warped_metric.py
+metric-warped-wolfram|50|0|-|Revision/metric_warped/reports/wolfram-warped-metric-report.json|Revision/metric_warped/reports/wolfram-warped-metric-report.json|{wolframscript} -file Revision/metric_warped/wolfram/verify_warped_metric.wls
 theory-wolfram-base|40|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls base
 theory-wolfram-emt-g|160|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls emt-G
 theory-wolfram-emt-c|110|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls emt-C
@@ -362,6 +367,7 @@ pdf-dirac16complex00-field-theory|30|0|-|Revision/docs/DIRAC16COMPLEX00_FIELD_TH
 pdf-pair-creation-proofs|30|0|-|Revision/docs/PAIR_CREATION_PROOFS.tex,Revision/docs/PAIR_CREATION_PROOFS.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/PAIR_CREATION_PROOFS.md --developer-layout --specifications Revision/pdf-specifications.json
 pdf-kohn-sham-deflating-field|30|0|-|Revision/docs/KOHN_SHAM_DEFLATING_FIELD.tex,Revision/docs/KOHN_SHAM_DEFLATING_FIELD.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/KOHN_SHAM_DEFLATING_FIELD.md --developer-layout --specifications Revision/pdf-specifications.json
 pdf-dark-sector-hypotheses|30|0|-|Revision/docs/DARK_SECTOR_HYPOTHESES.tex,Revision/docs/DARK_SECTOR_HYPOTHESES.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/DARK_SECTOR_HYPOTHESES.md --developer-layout --specifications Revision/pdf-specifications.json
+pdf-metric-self-consistency|30|0|-|Revision/docs/METRIC_SELF_CONSISTENCY.tex,Revision/docs/METRIC_SELF_CONSISTENCY.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/METRIC_SELF_CONSISTENCY.md --developer-layout --specifications Revision/pdf-specifications.json
 pdf-lovelock-gkd|30|0|-|Revision/docs/LOVELOCK_GKD.tex,Revision/docs/LOVELOCK_GKD.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/LOVELOCK_GKD.md --developer-layout --specifications Revision/pdf-specifications.json
 committed-unchanged|10|A|-|-|-|{audit} unchanged
 reports-pass|5|A|-|-|-|{audit} reports
