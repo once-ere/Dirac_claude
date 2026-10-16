@@ -11,7 +11,7 @@ by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/00c_honesty_ledger.py
 
-It opens every verifier report of the Revision record (51 JSON files), counts their
+It opens every verifier report of the Revision record (52 JSON files), counts their
 checks in each of the three layouts that occur, compares the counts with the reports' own
 summaries, with the table of Revision/README.md, with the counts quoted by the
 Kohn-Sham cross-check and with the dark-sector summary file, assigns every report to one
@@ -26,7 +26,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 from nbkit import code, md, run_builder  # noqa: E402
 
-# The 51 verifier reports of the Revision record, grouped by folder, each with the engine
+# The 52 verifier reports of the Revision record, grouped by folder, each with the engine
 # that did its computation: the language of the program that wrote the report (Wolfram
 # Language, Python, Rust, or the lead's independent Python checks). The notebook prints
 # this list in its cell In [5].
@@ -71,7 +71,7 @@ REPORT_GROUPS = [
         ("Revision/kohn_sham/reports/ks-reference.json", "Python"),
         ("Revision/kohn_sham/reports/ks-crosscheck.json", "Python"),
         ("Revision/kohn_sham/tip_convergence/tip-convergence.json", "Python")]),
-    ("the dark-sector hypotheses of the two fields, investigated", [
+    ("the dark-sector hypotheses of the two fields with b4, investigated", [
         ("Revision/dark_sector/dirac16complex/reports/derivation-checks.json",
          "Python"),
         ("Revision/dark_sector/dirac16complex/reports/ks-history-run.json", "Python"),
@@ -81,7 +81,8 @@ REPORT_GROUPS = [
         ("Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json",
          "Python"),
         ("Revision/dark_sector/dirac16complex00/reports/"
-         "python-independent-numerics.json", "Python")]),
+         "python-independent-numerics.json", "Python"),
+        ("Revision/dark_sector/reports/wolfram-dark-sector-b4.json", "Wolfram")]),
     ("the pairing theorems T1, T2, Q and T3; T3 completed and demonstrated", [
         ("Revision/pairing/reports/wolfram-pairing.json", "Wolfram"),
         ("Revision/pairing/reports/python-pairing.json", "Python"),
@@ -119,7 +120,7 @@ FACTS = {
     "name": "00c_honesty_ledger",
     "title": "The honesty ledger: reading and checking the Revision record",
     "purpose": (
-        "It finds the 51 verifier reports of the Revision record, counts their checks "
+        "It finds the 52 verifier reports of the Revision record, counts their checks "
         "and confirms that none has the verdict FAIL (all are PASS except five "
         "comparisons with the author's outputs that are NOT-AVAILABLE), compares the "
         "counts with the summaries of the reports and with the numbers quoted elsewhere "
@@ -197,7 +198,7 @@ CELLS = [
 
     - opens one report of the Revision record and reads its checks one by one;
     - writes a function that counts the checks of a report in each of the three
-      layouts that occur, searches the whole folder Revision for reports, finds 51,
+      layouts that occur, searches the whole folder Revision for reports, finds 52,
       and counts the checks of all of them;
     - confirms that no check has the verdict FAIL (every check is PASS except five
       comparisons with the author's own outputs that could not be made, verdict
@@ -266,7 +267,7 @@ CELLS = [
     3. **The computation**: run the verifier again and compare its new report with the
        stored one (the last chapter of the book lists every command).
 
-    Two facts make level 2 trustworthy. First, the exact statements of eleven subjects
+    Two facts make level 2 trustworthy. First, the exact statements of twelve subjects
     were checked by two independent verifiers, one in Wolfram Language and one in
     Python, and the Kohn-Sham numbers by two independent solvers, one in Rust and one
     in Python.
@@ -457,7 +458,7 @@ CELLS = [
         say(f"    counted {passed} of {total}; stated {stated_summary(data)}")
     '''),
     md(r"""
-    ## 7. All 51 reports of the Revision record
+    ## 7. All 52 reports of the Revision record
 
     The next cell first searches the whole folder Revision for reports: JSON files
     whose key `checks` holds the checks themselves (a list of checks, or a dictionary
@@ -470,7 +471,7 @@ CELLS = [
     part of the record: the folder Revision/textbook of this book, the folder
     Revision/workflows (the records of the programs that organised the work, rewritten
     while they run; the Revision record says itself that no result depends on them),
-    and the build folders `target` of the Rust programs. The cell then lists the 51
+    and the build folders `target` of the Rust programs. The cell then lists the 52
     verifier reports of the Revision record, grouped by folder, each with its engine
     (the language of the program that wrote the report), counts the checks of each with
     `count_checks`, and prints a table and the totals per engine.
@@ -484,9 +485,9 @@ CELLS = [
     no stored output was found there), so there is nothing to compare; their verdict
     is NOT-AVAILABLE. Three checks follow:
 
-    1. the search finds exactly the 51 reports of the list: no report of the record is
+    1. the search finds exactly the 52 reports of the list: no report of the record is
        left out of the count (and so out of the ledger below);
-    2. no check of the 51 reports has the verdict FAIL: every check is PASS, except
+    2. no check of the 52 reports has the verdict FAIL: every check is PASS, except
        the five NOT-AVAILABLE comparisons of that one report;
     3. for every report that states its own totals, our count equals them (the
        self-test of layout C states only its verdict, SUCCESS, which is checked
@@ -579,7 +580,7 @@ CELLS = [
     md(r"""
     The next cell compares our counts with three other places of the record that quote
     them. First, the table of the file Revision/README.md (its lines that start with
-    a vertical bar and a folder name) prints 49 counts as "19/19", "49/49" and so on;
+    a vertical bar and a folder name) prints 50 counts as "19/19", "49/49" and so on;
     the counts of the reports on the Lovelock tensors stand there twice, in the row
     of their folder and in the row of the documents. The cell finds the counts in the
     order in which they stand there and compares them with our counts of the reports
@@ -633,6 +634,7 @@ CELLS = [
         R + "dark_sector/dirac16complex/reports/independent-checks.json",
         R + "dark_sector/dirac16complex00/reports/python-derive-eos.json",
         R + "dark_sector/dirac16complex00/reports/python-independent-numerics.json",
+        R + "dark_sector/reports/wolfram-dark-sector-b4.json",
         R + "pairing/reports/wolfram-pairing.json",  # row pairing/
         R + "pairing/reports/python-pairing.json",
         R + "pairing/kohn_sham/reports/wolfram-t3.json",
@@ -733,7 +735,7 @@ CELLS = [
     md(r"""
     ## 8. Two independent engines
 
-    For eleven subjects the Revision record has two independent verifiers, one in
+    For twelve subjects the Revision record has two independent verifiers, one in
     Wolfram Language and one in Python. The next cell draws, for each subject, the
     number of checks of the two verifiers side by side. The two verifiers do not
     check exactly the same list of statements (each also checks things the other does
@@ -759,6 +761,8 @@ CELLS = [
          "gkd_lovelock/results/python-lovelock-report.json"),
         ("Kohn-Sham theory", "kohn_sham/reports/ks-theory-wolfram.json",
          "kohn_sham/reports/ks-theory-python.json"),
+        ("the dark sector with b4", "dark_sector/reports/wolfram-dark-sector-b4.json",
+         "dark_sector/dirac16complex/reports/derivation-checks.json"),
         ("pairing theorems T1, T2, Q", "pairing/reports/wolfram-pairing.json",
          "pairing/reports/python-pairing.json"),
         ("pairing theorem T3", "pairing/kohn_sham/reports/wolfram-t3.json",
@@ -773,7 +777,7 @@ CELLS = [
         python_numbers.append(counted["Revision/" + python][1])
         say(f"{subject:36} {wolfram_numbers[-1]:7d} {python_numbers[-1]:7d}")
 
-    widest = max(wolfram_numbers + python_numbers)  # the longest of the 22 bars
+    widest = max(wolfram_numbers + python_numbers)  # the longest of the 24 bars
     fig, ax = plt.subplots(figsize=(7.0, 6.6))
     rows = np.arange(len(SUBJECTS))[::-1]
     height = 0.38  # two bars in each row
@@ -788,28 +792,28 @@ CELLS = [
     ax.set_xlim(0, 1.12 * widest)  # room for the longest bar and its number
     ax.grid(False, axis="y")
     ax.set_xlabel("number of checks (every one has the verdict PASS)")
-    ax.set_title("Eleven subjects, each checked by two independent verifiers")
+    ax.set_title("Twelve subjects, each checked by two independent verifiers")
     ax.legend(loc="lower right")
     save_figure(fig, "two_verifiers",
-                r"For each of eleven subjects of the Revision record (vertical axis), "
+                r"For each of twelve subjects of the Revision record (vertical axis), "
                 r"the number of checks of its Wolfram Language verifier (blue, upper "
                 r"bar) and of its independent Python verifier (orange, lower bar); "
                 r"horizontal axis a count. The two verifiers share no code; each also "
                 r"checks statements that the other does not, so the numbers differ. "
                 f"Together they hold {sum(wolfram_numbers)} Wolfram and "
                 f"{sum(python_numbers)} Python checks, all PASS.")
-    report("checks of the Wolfram verifiers of the eleven subjects",
+    report("checks of the Wolfram verifiers of the twelve subjects",
            sum(wolfram_numbers))
-    report("checks of the Python verifiers of the eleven subjects", sum(python_numbers))
+    report("checks of the Python verifiers of the twelve subjects", sum(python_numbers))
     check(all(w > 0 and p > 0 for w, p in zip(wolfram_numbers, python_numbers)),
-          "each of the eleven subjects has a Wolfram and a Python verifier")
+          "each of the twelve subjects has a Wolfram and a Python verifier")
     '''),
     md(r"""
     ## 9. The honesty ledger
 
     The next cell writes the ledger: twenty rows, each with a statement of the book,
     its label, a short note where one is needed, and the reports that verify it. Every
-    one of the 51 reports belongs to exactly one row. The five rows labelled HYPOTHESIS
+    one of the 52 reports belongs to exactly one row. The five rows labelled HYPOTHESIS
     or OPEN have no report: nothing in the record establishes them, and their notes
     say why. Two rows of PROVED theorems name an assumption in their statement: the
     pairing theorems T2 and T3 hold with the Z2 mirror (a choice of boundary
@@ -943,7 +947,8 @@ CELLS = [
           D + "dirac16complex/reports/eos-checks.json",
           D + "dirac16complex/reports/independent-checks.json",
           D + "dirac16complex00/reports/python-derive-eos.json",
-          D + "dirac16complex00/reports/python-independent-numerics.json"]),
+          D + "dirac16complex00/reports/python-independent-numerics.json",
+          D + "reports/wolfram-dark-sector-b4.json"]),
         ("a time-varying dark sector from the fields", "HYPOTHESIS",
          "investigated (row 15): results stated, not established", []),
         ("our universe has a partner of opposite charge", "HYPOTHESIS",
@@ -1210,7 +1215,7 @@ CELLS = [
     md(r"""
     ## 12. What this notebook showed
 
-    - A search of the whole folder Revision finds 51 verifier reports, the 51 of our
+    - A search of the whole folder Revision finds 52 verifier reports, the 52 of our
       list. No check has the verdict FAIL: every check is PASS except five
       comparisons with values that the author's own notebook does not store, whose
       verdict is NOT-AVAILABLE; section 7 prints how many checks there are, in all and
@@ -1219,7 +1224,7 @@ CELLS = [
     - Each report states the same totals that we counted, and the counts quoted in
       the file Revision/README.md, in the Kohn-Sham cross-check and in the
       dark-sector summary file are the same as well.
-    - Eleven subjects are checked by two independent verifiers, one in Wolfram Language
+    - Twelve subjects are checked by two independent verifiers, one in Wolfram Language
       and one in Python.
     - Every report belongs to exactly one row of the honesty ledger. Fifteen rows have
       reports (eleven PROVED, three COMPUTED, one ASSUMED). The charge obeys a local

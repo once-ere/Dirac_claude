@@ -1448,7 +1448,7 @@ The four figure files must exist in the folder of the figures (in a check run of
 
 ### 0.18 The honesty ledger, and how a report is tied to its files
 
-The **honesty ledger** is the table of the main statements of the book, each with its label (Section 0.3), a short note where one is needed, and the reports of the Revision record that verify it. It is the book's promise in one page: whatever a later chapter says, its label is the one given here, and every reader can open the named reports and read the verdicts (Section 0.4, level 2). The ledger below has twenty rows. Every one of the 51 verifier reports of the Revision record belongs to exactly one row, and the five rows labelled HYPOTHESIS or OPEN have no report at all, because nothing in the record establishes them. Notebook 00c checks all of this and counts the checks of each row; the ledger describes the record on the date of the notebook's last verified run, which its provenance file records. (Reports in the folder `Revision/kohn_sham/reports` are written below with the short folder name `kohn_sham/reports`, and so on; every path starts in the folder `Revision`.)
+The **honesty ledger** is the table of the main statements of the book, each with its label (Section 0.3), a short note where one is needed, and the reports of the Revision record that verify it. It is the book's promise in one page: whatever a later chapter says, its label is the one given here, and every reader can open the named reports and read the verdicts (Section 0.4, level 2). The ledger below has twenty rows. Every one of the 52 verifier reports of the Revision record belongs to exactly one row, and the five rows labelled HYPOTHESIS or OPEN have no report at all, because nothing in the record establishes them. Notebook 00c checks all of this and counts the checks of each row; the ledger describes the record on the date of the notebook's last verified run, which its provenance file records. (Reports in the folder `Revision/kohn_sham/reports` are written below with the short folder name `kohn_sham/reports`, and so on; every path starts in the folder `Revision`.)
 
 | statement (with its row number) | label | verified in (folder Revision) |
 | --- | --- | --- |
@@ -1466,7 +1466,7 @@ The **honesty ledger** is the table of the main statements of the book, each wit
 | (12) T3 and its completion (with the Z2 mirror and the Kohn-Sham approximation ASSUMED): the Kohn-Sham universes of mass $+M$ and $-M$ (Chapter 19) | PROVED | `pairing/kohn_sham/reports/wolfram-t3.json`, `pairing/kohn_sham/reports/python-t3.json`, `pairing/kohn_sham/reports/wolfram-t3-completion.json`, `pairing/kohn_sham/reports/python-t3-completion.json` |
 | (13) T3 shown on computed Kohn-Sham states of mass $+M$ and $-M$ (Chapter 19; demonstrations, not proofs) | COMPUTED | `pairing/kohn_sham/reports/t3-rust-demo.json`, `pairing/kohn_sham/reports/t3-reference-demo.json` |
 | (14) the charge-conjugation matrices $C$ and $\Gamma C$; the local conservation law of the U(1) charge (Chapters 5, 10 and 21) | PROVED | `lead_checks/reports/charge-conjugation-and-u1.json` |
-| (15) the dark-sector investigation: what equations of state each field can give under stated assumptions about the observer (Chapter 22) | COMPUTED | `dark_sector/dirac16complex/reports/derivation-checks.json`, `dark_sector/dirac16complex/reports/ks-history-run.json`, `dark_sector/dirac16complex/reports/eos-checks.json`, `dark_sector/dirac16complex/reports/independent-checks.json`, `dark_sector/dirac16complex00/reports/python-derive-eos.json`, `dark_sector/dirac16complex00/reports/python-independent-numerics.json` |
+| (15) the dark-sector investigation: what equations of state each field can give under stated assumptions about the observer, for the metric with $b_4(x_4)$ (Chapter 22) | COMPUTED | `dark_sector/dirac16complex/reports/derivation-checks.json`, `dark_sector/dirac16complex/reports/ks-history-run.json`, `dark_sector/dirac16complex/reports/eos-checks.json`, `dark_sector/dirac16complex/reports/independent-checks.json`, `dark_sector/dirac16complex00/reports/python-derive-eos.json`, `dark_sector/dirac16complex00/reports/python-independent-numerics.json`, `dark_sector/reports/wolfram-dark-sector-b4.json` |
 | (16) a time-varying dark sector from the fields (Chapter 22) | HYPOTHESIS: investigated (row 15); results stated, not established | no report |
 | (17) our universe has a partner of opposite charge (Chapters 20 and 21) | HYPOTHESIS: the T1 maps exist; that a partner exists is not shown | no report |
 | (18) the total charge $Q$ of one universe is constant (Chapters 18 and 21) | OPEN: holds only with no flux through the brane at $z = \pi/2$ (ASSUMED, not derived) | no report |
@@ -1482,7 +1482,7 @@ Twelve remarks make the table exact.
 - Row 7 compares the curvature computed in the Revision record with the values that the author's own Mathematica notebooks store. Its first report compares with the earlier notebook, whose metric is the case $b_4 = 1$; 73 of its 78 checks are PASS: four checks of the inputs (one that the file holding the author's stored outputs was taken from exactly their notebook, and three of the metric, the last of which finds the author's metric equal to the Revision's in all 64 components), the Ricci scalar, all 64 components of the Einstein tensor, the first Lovelock tensor and its scalar, which all agree exactly, and two negative controls (deliberate errors that the comparison must detect, and does): $4 + 1 + 64 + 2 + 2 = 73$. For five quantities the author's notebook stores no value (for the second and third Lovelock tensors no stored output was found there, and the Christoffel symbols, the Riemann tensor and the Ricci tensor are computed there but their printing is switched off), so nothing can be compared: their verdict is NOT-AVAILABLE, which is neither PASS nor FAIL. The comparison says nothing about these five quantities; the Revision's own computation of them is checked by the reports of row 6. Its other two reports, by the Wolfram verifier (27 checks) and the independent Python verifier (21 checks) of the metric with $b_4$, compare with the author's notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb` of 2026-10-14: the metric, the Ricci tensor and scalar, the Einstein tensor, the three Lovelock tensors and the vacuum equations equal the outputs stored there, and at $b_4 = 1$ they equal the earlier record.
 - Row 10 is labelled ASSUMED although 29 checks belong to it. Those checks show that the computed Kohn-Sham states cannot be the source of the history $a_4 = A H x_4$ in the field equations (their energy-momentum tensor depends on $x_0$, and it violates an algebraic condition of the field equations), and, in the second report, that no recorded Kohn-Sham state is an admissible source, so that nothing about $a_4$ is derived from the coupled problem. So the history cannot be derived from them and is assumed.
 - Row 13 is COMPUTED, next to the PROVED row 12: its two reports solve the Kohn-Sham equations numerically for mass $+M$ and $-M$ (with the Rust solver and with the Python reference solver) and compare the two members as T3 predicts. A numerical demonstration illustrates a theorem; it does not prove it.
-- Row 15 is COMPUTED. The investigation derives exact identities (with sympy), but its results, the equations of state that each field can give, are computed numbers, and they depend on an ASSUMED way in which an observer in 3-space normalises over the extra times. It states what each field can and cannot produce; it establishes neither hypothesis, which is why row 16 stays a HYPOTHESIS.
+- Row 15 is COMPUTED. The investigation derives exact identities (with sympy, and again with the Wolfram Language), but its results, the equations of state that each field can give, are computed numbers, and they depend on an ASSUMED way in which an observer in 3-space normalises over the extra times. It states what each field can and cannot produce; it establishes neither hypothesis, which is why row 16 stays a HYPOTHESIS.
 - Corollary C1 of Section 0.2 has no row of its own: it is T1 (row 11) combined with the checks `einstein_no_vacuum_solution` of `Revision/field_equations_a4/reports/wolfram-a4-report.json` and `einstein_no_vacuum` of `Revision/field_equations_a4/reports/python-a4-report.json` (row 5).
 - Row 17 is a HYPOTHESIS and not a theorem, although T1 is proved. T1 says: if a universe with mass $+m$ is a solution, its image with mass $-m$ is a solution too, with the opposite charge. It does not say that the image exists alongside ours; a single universe is an equally valid solution without its partner, and for universes quantised independently of each other there is no cancellation of the charges (Q).
 - Rows 14 and 18 separate what is proved about the charge from what is not. PROVED is the local law $\partial_\mu(\cos z\, J^\mu) = 0$ on every solution: no charge is made or destroyed at any point. The total charge $Q$ of a slice of space is constant only if no charge flows through its edge, the brane at $z = \pi/2$; this no-flux condition is ASSUMED, not derived, and it fails on the exact homogeneous solutions of Chapter 18. So the constancy of the total charge is OPEN.
@@ -1490,7 +1490,7 @@ Twelve remarks make the table exact.
 
 The ledger is the state of the record on the date of the last verified run of Notebook 00c. The Revision record may still grow (verifier reports may be added or gain checks), and the final ledger of the book is completed when the book is assembled; Notebook 00c is the tool that keeps the table honest, because it fails when a new report appears that no row claims.
 
-**Two independent verifiers.** For eleven subjects (rows 1 to 3, 5, 6, 8 and 11, the two subjects of row 12, T3 and its completion, the metric with $b_4$ of row 7, and the geometry and the Dirac operator with $b_4$ of row 2) the exact statements were checked twice: by a verifier written in the Wolfram Language and by an independent one written in Python with sympy, sharing no code. (The finite model of row 2 is the exception: one Python program checks it.) The two do not check exactly the same list of statements, but where they overlap, an error would have to be made twice, in two languages, by two separate programs, to go unnoticed. The Kohn-Sham numbers (row 9) were computed twice in the same spirit, by the Rust solver and by an independent Python reference solver, and compared with tolerances fixed in advance (Chapter 16); the study of the tip cutoff ran the reference solver for two of its states at two of its values of $L$, 3 and 4 (28 comparisons, check `reference_solver_at_two_L` of `kohn_sham/tip_convergence/tip-convergence.json`).
+**Two independent verifiers.** For twelve subjects (rows 1 to 3, 5, 6, 8 and 11, the two subjects of row 12, T3 and its completion, the metric with $b_4$ of row 7, the geometry and the Dirac operator with $b_4$ of row 2, and the exact identities of the dark sector with $b_4$ of row 15) the exact statements were checked twice: by a verifier written in the Wolfram Language and by an independent one written in Python with sympy, sharing no code. (The finite model of row 2 is the exception: one Python program checks it.) The two do not check exactly the same list of statements, but where they overlap, an error would have to be made twice, in two languages, by two separate programs, to go unnoticed. The Kohn-Sham numbers (row 9) were computed twice in the same spirit, by the Rust solver and by an independent Python reference solver, and compared with tolerances fixed in advance (Chapter 16); the study of the tip cutoff ran the reference solver for two of its states at two of its values of $L$, 3 and 4 (28 comparisons, check `reference_solver_at_two_L` of `kohn_sham/tip_convergence/tip-convergence.json`).
 
 **Fingerprints.** A report is worth something only for the exact files it was computed from. To tie the two together, a report writes down a **fingerprint** of each file it read. The fingerprint used here is **sha256**: a fixed recipe that turns the bytes of a file, however many there are, into a number of 256 binary digits, written as 64 **hexadecimal** characters. Hexadecimal digits are the sixteen symbols 0 to 9 and a to f, standing for the numbers 0 to 15; each one carries 4 binary digits, and $64 \cdot 4 = 256$. The recipe has three properties that matter here:
 
@@ -1524,7 +1524,7 @@ $$
 
 A report of the Revision record records the fingerprints of its input files in dedicated keys (the Wolfram check of the Lovelock tensors lists 15 files in its keys `inputSha256` and `sourceSha256`, and several reports have a key `inputs`, a list of files each with its fingerprint), or inside the detail text of a check, written as (sha256 followed by the 64 characters, or only their first 16). When the fingerprint of today's file equals the recorded one, the report was computed from exactly today's file, byte for byte. Notebook 00c compares 24 of the recorded fingerprints with today's files (those of the two reports on the Lovelock tensors in Python and in the Wolfram Language, and seven in the details of five Kohn-Sham reports; it does not compare the others), and Notebook 00d compares 582 more (Section 0.22).
 
-**Example: the ledger checked by the computer.** Notebook 00c does at level 2 (Section 0.4) what a careful reader would do by hand, but for every report at once. It opens the charge-conjugation report, reads its twelve checks and confirms that three of them state the charge-conjugation matrices of Section 0.2 word for word, and that a fourth proves the local conservation law of the charge and says itself that it does not establish a constant total charge; writes one function that counts the checks of a report in each of the three layouts that occur in the record; searches the folder `Revision` (without the book's own folder and the records of the workflows) for reports and finds exactly the 51 of its list; confirms that no check has the verdict FAIL (all are PASS except five comparisons with the author's own notebook that are NOT-AVAILABLE) and that the counts agree with what the reports say about themselves, with the table of `Revision/README.md`, with the Kohn-Sham cross-check and with the dark-sector summary file; builds the ledger above and checks that every report belongs to exactly one row; prints the twelve sentences of the pairing record about what it does not establish; and compares fingerprints. It draws four figures and ends with ALL 18 CHECKS PASSED (notebook 00c).
+**Example: the ledger checked by the computer.** Notebook 00c does at level 2 (Section 0.4) what a careful reader would do by hand, but for every report at once. It opens the charge-conjugation report, reads its twelve checks and confirms that three of them state the charge-conjugation matrices of Section 0.2 word for word, and that a fourth proves the local conservation law of the charge and says itself that it does not establish a constant total charge; writes one function that counts the checks of a report in each of the three layouts that occur in the record; searches the folder `Revision` (without the book's own folder and the records of the workflows) for reports and finds exactly the 52 of its list; confirms that no check has the verdict FAIL (all are PASS except five comparisons with the author's own notebook that are NOT-AVAILABLE) and that the counts agree with what the reports say about themselves, with the table of `Revision/README.md`, with the Kohn-Sham cross-check and with the dark-sector summary file; builds the ledger above and checks that every report belongs to exactly one row; prints the twelve sentences of the pairing record about what it does not establish; and compares fingerprints. It draws four figures and ends with ALL 18 CHECKS PASSED (notebook 00c).
 
 <!-- NOTEBOOK 00c -->
 
@@ -1742,7 +1742,7 @@ for relative in not_reports:
     say("    " + relative)
 ```
 
-`SKIPPED` is a **tuple** (a list in round brackets that cannot be changed) of two folder names. `rglob("*.json")` lists every file ending in `.json` in the folder `Revision` and in all its sub-folders, and `sorted` puts the list in a fixed order. `path.relative_to(REPO)` is the path from the repository folder on, and `.as_posix()` writes it with `/` on every operating system. `relative.startswith(SKIPPED)` is true when the path starts with either of the two names (`startswith` accepts a tuple and tries each of its entries). `continue` skips the rest of the loop for this file. Three kinds of folders are skipped, because they are not part of the record: the book's own folder `Revision/textbook`; the folder `Revision/workflows`, which holds the records of the programs that organised the work (they are rewritten while those programs run, so a half-written file could stop the notebook, and the Revision record says itself that no result depends on them); and the build folders `target` of the Rust programs. Every other report is collected. `elif` ("else if") collects, in the second list, every file that is not a report but still has a key `checks`, so that no such file is dropped silently. Out [5] begins with the number found, 51, and the one file of the second list, `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`.
+`SKIPPED` is a **tuple** (a list in round brackets that cannot be changed) of two folder names. `rglob("*.json")` lists every file ending in `.json` in the folder `Revision` and in all its sub-folders, and `sorted` puts the list in a fixed order. `path.relative_to(REPO)` is the path from the repository folder on, and `.as_posix()` writes it with `/` on every operating system. `relative.startswith(SKIPPED)` is true when the path starts with either of the two names (`startswith` accepts a tuple and tries each of its entries). `continue` skips the rest of the loop for this file. Three kinds of folders are skipped, because they are not part of the record: the book's own folder `Revision/textbook`; the folder `Revision/workflows`, which holds the records of the programs that organised the work (they are rewritten while those programs run, so a half-written file could stop the notebook, and the Revision record says itself that no result depends on them); and the build folders `target` of the Rust programs. Every other report is collected. `elif` ("else if") collects, in the second list, every file that is not a report but still has a key `checks`, so that no such file is dropped silently. Out [5] begins with the number found, 52, and the one file of the second list, `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`.
 
 ```python
 REPORTS = [  # (report, engine)
@@ -1751,7 +1751,7 @@ REPORTS = [  # (report, engine)
     ("Revision/algebra/reports/python-algebra.json", "Python"),
 ```
 
-The list `REPORTS` holds the 51 reports of the record, each as a pair: the path of the report and the **engine** that did its computation, that is, the language of the program that wrote the report: `"Wolfram"` (the Wolfram Language), `"Python"`, `"Rust"`, or `"lead"` for the lead's short independent Python checks. A comment line before each group names its subject. The first group is the algebra of Chapters 4 and 5 (the gamma matrices, $C$, $\Gamma$, $B$ and the groups), checked by a Wolfram verifier and by an independent Python verifier.
+The list `REPORTS` holds the 52 reports of the record, each as a pair: the path of the report and the **engine** that did its computation, that is, the language of the program that wrote the report: `"Wolfram"` (the Wolfram Language), `"Python"`, `"Rust"`, or `"lead"` for the lead's short independent Python checks. A comment line before each group names its subject. The first group is the algebra of Chapters 4 and 5 (the gamma matrices, $C$, $\Gamma$, $B$ and the groups), checked by a Wolfram verifier and by an independent Python verifier.
 
 ```python
     # the metric with b4 (2026-10-14): curvature, the author's outputs, vacuum
@@ -1816,7 +1816,7 @@ The generalized Kronecker delta and the Lovelock tensors (Chapter 11): the Rust 
 The Kohn-Sham model (Chapters 14 to 16): its theory in Wolfram and in Python; a Wolfram report showing that the Kohn-Sham problem of the good sector does not contain $b_4$; the Rust solver; two Python programs that examine the results of the Rust solver (the repeated and the refined run of Section 0.22, and the roots of the Mermin equation for the chemical potential, computed with 40 digits; Chapter 15); the independent Python reference solver; the cross-check that compares the two solvers (Chapter 16); and the study of the tip cutoff $L$ of the hidden direction, a Python program that runs the Rust solver (and, for two of its states at $L = 3$ and 4, the reference solver) for $L$ from 3 to 6 (Chapter 14; Section 0.18, the remark on row 9). The determinism report, the report on the roots and the tip-cutoff study concern the Rust solver, but their own checks are computed in Python, so their engine is Python.
 
 ```python
-    # the dark-sector hypotheses of the two fields, investigated
+    # the dark-sector hypotheses of the two fields with b4, investigated
     ("Revision/dark_sector/dirac16complex/reports/derivation-checks.json", "Python"),
     ("Revision/dark_sector/dirac16complex/reports/ks-history-run.json", "Python"),
     ("Revision/dark_sector/dirac16complex/reports/eos-checks.json", "Python"),
@@ -1824,9 +1824,10 @@ The Kohn-Sham model (Chapters 14 to 16): its theory in Wolfram and in Python; a 
     ("Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json", "Python"),
     ("Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json",
      "Python"),
+    ("Revision/dark_sector/reports/wolfram-dark-sector-b4.json", "Wolfram"),
 ```
 
-The investigation of the author's two dark-sector hypotheses (Chapter 22), all six reports written by Python programs. For the field dirac16complex: the exact derivation of the identities with sympy; the run of the Rust Kohn-Sham solver along the prescribed history (its checks are computed by the Python program that runs the solver, so its engine is Python); the equations of state computed from that run; and an independent implementation. For the field dirac16complex00: the derivation of its equations of state and of its models, and independent numerics. The last pair is written on two lines, the path on the first and the engine on the second, because one line would be wider than 89 characters.
+The investigation of the author's two dark-sector hypotheses for the metric with $b_4(x_4)$ (Chapter 22): six reports written by Python programs and one by a Wolfram program. For the field dirac16complex: the exact derivation of the identities with sympy; the run of the Rust Kohn-Sham solver along the prescribed history (its checks are computed by the Python program that runs the solver, so its engine is Python); the equations of state computed from that run; and an independent implementation. For the field dirac16complex00: the derivation of its equations of state and of its models, and independent numerics. The last but one pair is written on two lines, the path on the first and the engine on the second, because one line would be wider than 89 characters. The last report is the independent Wolfram verification of the dark sector, which recomputes its exact identities from the author's metric, the author's Lovelock tensors and the author's gamma matrices.
 
 ```python
     # the pairing theorems T1, T2, Q and T3; T3 completed and demonstrated
@@ -1871,7 +1872,7 @@ for path, engine in REPORTS:
     say(f"{short:69} {engine:7} {passed:4d} of {total:3d}")
 ```
 
-Every report is read and counted; the pair (passed, total) is stored in the dictionary `counted` under its path. `removeprefix` removes `Revision/` from the front of the path to keep the table narrow; `{short:69}` writes the path filled with blanks to 69 characters (the longest path has 69), and `{passed:4d}` writes a whole number right-aligned in 4 characters, so that a line of the table has at most 89 characters. The 51 lines of the table in Out [5] are printed here. One line shows fewer passed checks than checks: the comparison with the author's notebook, 73 of 78.
+Every report is read and counted; the pair (passed, total) is stored in the dictionary `counted` under its path. `removeprefix` removes `Revision/` from the front of the path to keep the table narrow; `{short:69}` writes the path filled with blanks to 69 characters (the longest path has 69), and `{passed:4d}` writes a whole number right-aligned in 4 characters, so that a line of the table has at most 89 characters. The 52 lines of the table in Out [5] are printed here. One line shows fewer passed checks than checks: the comparison with the author's notebook, 73 of 78.
 
 ```python
 all_checks = sum(total for _, total in counted.values())
@@ -1886,7 +1887,7 @@ for engine in ("Wolfram", "Python", "Rust", "lead"):
     report(f"checks done with the engine {engine}", engine_totals[engine])
 ```
 
-The totals over all reports, the number of passed checks, and the total per engine: for each engine the numbers of checks of its reports are added (`counted[path][1]` is the total of a report). These are the RESULT lines of Out [5]. The numbers are not written into the notebook: they are counted from the record each time, so they follow the record. In the run printed in Section 0.20 (2026-10-14, the date of the notebook's last verified run, which its provenance file records) they are 1357 checks in all, of which 1352 have the verdict PASS: 465 done with the Wolfram Language, 785 with Python, 70 with Rust and 37 by the lead's checks.
+The totals over all reports, the number of passed checks, and the total per engine: for each engine the numbers of checks of its reports are added (`counted[path][1]` is the total of a report). These are the RESULT lines of Out [5]. The numbers are not written into the notebook: they are counted from the record each time, so they follow the record. In the run printed in Section 0.20 (2026-10-15, the date of the notebook's last verified run, which its provenance file records) they are 1383 checks in all, of which 1378 have the verdict PASS: 473 done with the Wolfram Language, 803 with Python, 70 with Rust and 37 by the lead's checks.
 
 ```python
 COMPARISON = "Revision/gkd_lovelock/comparison/author-comparison-report.json"
@@ -1907,7 +1908,7 @@ check(not_pass == [COMPARISON] and len(other_verdicts) == not_available == 5
       f"{all_checks} in all")
 ```
 
-The check requires four things: the only report with a check that is not PASS is the comparison; its checks that are not PASS are exactly five, and all five are NOT-AVAILABLE; the passed and the not-available checks together are all the checks, so not a single check of the 51 reports has the verdict FAIL; and the four engine totals add up to the total (each report has exactly one engine). Its PASS line prints the three numbers: 1352 PASS, 5 NOT-AVAILABLE, 1357 in all.
+The check requires four things: the only report with a check that is not PASS is the comparison; its checks that are not PASS are exactly five, and all five are NOT-AVAILABLE; the passed and the not-available checks together are all the checks, so not a single check of the 52 reports has the verdict FAIL; and the four engine totals add up to the total (each report has exactly one engine). Its PASS line prints the three numbers: 1378 PASS, 5 NOT-AVAILABLE, 1383 in all.
 
 ```python
 disagree = []  # reports whose own summary differs from our count
@@ -1937,7 +1938,7 @@ README_ORDER = [  # the reports whose counts the README table quotes, in its ord
     R + "metric_b4/results/consequences-b4.json",
 ```
 
-`R + "..."` joins two strings. The list `README_ORDER` names, in the order in which they appear in the table of the file `Revision/README.md`, the reports of the 49 counts that table quotes: 46 different reports, three of which stand there twice, as the last lines of the list show. The first row of the table, `gkd_lovelock/`, quotes three counts: that of the Rust report on the Lovelock tensors, then those of the Python and of the Wolfram verifier. The second row, `metric_b4/`, quotes four: the Wolfram and the Python verifier of the metric with $b_4$, the vacuum and the consequences.
+`R + "..."` joins two strings. The list `README_ORDER` names, in the order in which they appear in the table of the file `Revision/README.md`, the reports of the 50 counts that table quotes: 47 different reports, three of which stand there twice, as the last lines of the list show. The first row of the table, `gkd_lovelock/`, quotes three counts: that of the Rust report on the Lovelock tensors, then those of the Python and of the Wolfram verifier. The second row, `metric_b4/`, quotes four: the Wolfram and the Python verifier of the metric with $b_4$, the vacuum and the consequences.
 
 ```python
     R + "algebra/reports/wolfram-algebra.json",  # row algebra/
@@ -1981,9 +1982,10 @@ The rows `field_equations_a4/` (five counts: Wolfram, Python, the block of $b_4$
     R + "dark_sector/dirac16complex/reports/independent-checks.json",
     R + "dark_sector/dirac16complex00/reports/python-derive-eos.json",
     R + "dark_sector/dirac16complex00/reports/python-independent-numerics.json",
+    R + "dark_sector/reports/wolfram-dark-sector-b4.json",
 ```
 
-The row `dark_sector/` (six counts: four for the field dirac16complex, two for dirac16complex00).
+The row `dark_sector/` (seven counts: four for the field dirac16complex, two for dirac16complex00, one for the Wolfram verification).
 
 ```python
     R + "pairing/reports/wolfram-pairing.json",  # row pairing/
@@ -2055,7 +2057,7 @@ check_reproduces(not_reports == [SUMMARY] and quoted_eos == counted[EOS],
                  f"{SUMMARY}, key checks")
 ```
 
-The summary file that the search of In [5] set aside holds, under its key `checks`, the dictionary `{'total': 13, 'pass': 13}` (Out [6] prints it as Python writes a dictionary, with single quotes). The program that writes the equations of state of the dark sector writes both this file and the report `eos-checks.json`, and the two numbers are the totals of that report. The check requires that the summary file is the only file set aside by the search and that its two numbers, in the order (passed, total), equal our count of `eos-checks.json`. Out [6] ends with this PASS line.
+The summary file that the search of In [5] set aside holds, under its key `checks`, the dictionary `{'total': 15, 'pass': 15}` (Out [6] prints it as Python writes a dictionary, with single quotes). The program that writes the equations of state of the dark sector writes both this file and the report `eos-checks.json`, and the two numbers are the totals of that report. The check requires that the summary file is the only file set aside by the search and that its two numbers, in the order (passed, total), equal our count of `eos-checks.json`. Out [6] ends with this PASS line.
 
 **In [7], a bar for every report.**
 
@@ -2087,7 +2089,7 @@ for row, (path, engine) in zip(rows, REPORTS):
     ax.text(total + 0.015 * longest, row, str(total), va="center", fontsize=9)
 ```
 
-A tall figure, 7.6 by 11.6 inches, one row per report. `np.arange(51)` is 0 to 50, and `[::-1]` reverses it (a step of $-1$), so that the first report gets the highest row and stands at the top. `ax.barh` draws a horizontal bar of the given length in the given row, coloured by the engine; `ax.text` writes the number just after the end of the bar, at a distance of 1.5 per cent of the longest bar.
+A tall figure, 7.6 by 11.6 inches, one row per report. `np.arange(52)` is 0 to 51, and `[::-1]` reverses it (a step of $-1$), so that the first report gets the highest row and stands at the top. `ax.barh` draws a horizontal bar of the given length in the given row, coloured by the engine; `ax.text` writes the number just after the end of the bar, at a distance of 1.5 per cent of the longest bar.
 
 ```python
 # The name of each report without its folder and without the ending .json:
@@ -2102,7 +2104,7 @@ ax.legend(handles=[Patch(color=ENGINE_COLOURS[e], label=ENGINE_NAMES[e])
                    for e in ENGINE_COLOURS], loc="lower right", fontsize=8)
 ```
 
-`rsplit("/", 1)[1]` keeps the part after the last `/`, the file name, and `removesuffix` removes the ending. The names label the rows, in a font of 8.5 points so that 51 names fit. The horizontal axis runs from 0 to 1.12 times the longest bar, which leaves room for the longest bar and its number; because the limit is computed from the counts, the picture stays complete when a report gains checks. Only vertical grid lines are drawn; the axis label says that no check has the verdict FAIL (a bar counts all checks of its report, the five NOT-AVAILABLE ones of the comparison with the author's notebook included); the title contains the total; the legend names the four engines.
+`rsplit("/", 1)[1]` keeps the part after the last `/`, the file name, and `removesuffix` removes the ending. The names label the rows, in a font of 8.5 points so that 52 names fit. The horizontal axis runs from 0 to 1.12 times the longest bar, which leaves room for the longest bar and its number; because the limit is computed from the counts, the picture stays complete when a report gains checks. Only vertical grid lines are drawn; the axis label says that no check has the verdict FAIL (a bar counts all checks of its report, the five NOT-AVAILABLE ones of the comparison with the author's notebook included); the title contains the total; the legend names the four engines.
 
 ```python
 largest_name = largest.rsplit("/", 1)[1]  # its file name without the folders
@@ -2151,13 +2153,15 @@ SUBJECTS = [  # (subject, Wolfram report, Python report)
      "field_equations_a4/reports/python-a4-report.json"),
 ```
 
-The list `SUBJECTS` names the eleven subjects that have two independent verifiers, each as a group of three: a short name, the Wolfram report and the Python report (paths without `Revision/`). Its first six entries are the gammas and the groups, the metric with $b_4$ compared with the author's notebook, the geometry and the Dirac operator with $b_4$, the field theory (Lagrangians, field equations, energy-momentum tensor), the scope of the non-triviality, and the field equations for $a_4$.
+The list `SUBJECTS` names the twelve subjects that have two independent verifiers, each as a group of three: a short name, the Wolfram report and the Python report (paths without `Revision/`). Its first six entries are the gammas and the groups, the metric with $b_4$ compared with the author's notebook, the geometry and the Dirac operator with $b_4$, the field theory (Lagrangians, field equations, energy-momentum tensor), the scope of the non-triviality, and the field equations for $a_4$.
 
 ```python
     ("GKD and the Lovelock tensors", "gkd_lovelock/results/wolfram-gkd-report.json",
      "gkd_lovelock/results/python-lovelock-report.json"),
     ("Kohn-Sham theory", "kohn_sham/reports/ks-theory-wolfram.json",
      "kohn_sham/reports/ks-theory-python.json"),
+    ("the dark sector with b4", "dark_sector/reports/wolfram-dark-sector-b4.json",
+     "dark_sector/dirac16complex/reports/derivation-checks.json"),
     ("pairing theorems T1, T2, Q", "pairing/reports/wolfram-pairing.json",
      "pairing/reports/python-pairing.json"),
     ("pairing theorem T3", "pairing/kohn_sham/reports/wolfram-t3.json",
@@ -2167,7 +2171,7 @@ The list `SUBJECTS` names the eleven subjects that have two independent verifier
 ]
 ```
 
-The other five: GKD and the Lovelock tensors (the Rust results checked by Wolfram and by Python), the Kohn-Sham theory, the pairing theorems T1, T2 and Q, the theorem T3, and its completion. These are the eleven subjects of the remark "Two independent verifiers" of Section 0.18 (rows 1 to 3, 5, 6, 8 and 11 of the ledger, two subjects of row 12, one of row 7 and one more of row 2).
+The other six: GKD and the Lovelock tensors (the Rust results checked by Wolfram and by Python), the Kohn-Sham theory, the exact identities of the dark sector with $b_4$ (the Wolfram verification of Chapter 22 and the sympy derivation of the record), the pairing theorems T1, T2 and Q, the theorem T3, and its completion. These are the twelve subjects of the remark "Two independent verifiers" of Section 0.18 (rows 1 to 3, 5, 6, 8 and 11 of the ledger, two subjects of row 12, one of row 7, one more of row 2 and one of row 15).
 
 ```python
 say("subject                              Wolfram  Python")
@@ -2181,7 +2185,7 @@ for subject, wolfram, python in SUBJECTS:
 For each subject the totals of its two reports are taken from `counted` and printed: the table of Out [8]. `[-1]` is the entry just appended.
 
 ```python
-widest = max(wolfram_numbers + python_numbers)  # the longest of the 22 bars
+widest = max(wolfram_numbers + python_numbers)  # the longest of the 24 bars
 fig, ax = plt.subplots(figsize=(7.0, 6.6))
 rows = np.arange(len(SUBJECTS))[::-1]
 height = 0.38  # two bars in each row
@@ -2194,17 +2198,17 @@ for row, w, p in zip(rows, wolfram_numbers, python_numbers):
     ax.text(p + 0.015 * widest, row - height / 2, str(p), va="center", fontsize=8)
 ```
 
-`wolfram_numbers + python_numbers` joins the two lists of eleven numbers into one list of twenty-two, and `max` finds the longest bar. The figure is 7.0 by 6.6 inches. Two bars in each row, the Wolfram bar half a bar height above the middle of the row and the Python bar half a bar height below it; the numbers are written after the ends of the bars, at a distance of 1.5 per cent of the longest bar.
+`wolfram_numbers + python_numbers` joins the two lists of twelve numbers into one list of twenty-four, and `max` finds the longest bar. The figure is 7.0 by 6.6 inches. Two bars in each row, the Wolfram bar half a bar height above the middle of the row and the Python bar half a bar height below it; the numbers are written after the ends of the bars, at a distance of 1.5 per cent of the longest bar.
 
 ```python
 ax.set_yticks(rows, labels=[subject for subject, _, _ in SUBJECTS])
 ax.set_xlim(0, 1.12 * widest)  # room for the longest bar and its number
 ax.grid(False, axis="y")
 ax.set_xlabel("number of checks (every one has the verdict PASS)")
-ax.set_title("Eleven subjects, each checked by two independent verifiers")
+ax.set_title("Twelve subjects, each checked by two independent verifiers")
 ax.legend(loc="lower right")
 save_figure(fig, "two_verifiers",
-            r"For each of eleven subjects of the Revision record (vertical axis), "
+            r"For each of twelve subjects of the Revision record (vertical axis), "
             r"the number of checks of its Wolfram Language verifier (blue, upper "
             r"bar) and of its independent Python verifier (orange, lower bar); "
             r"horizontal axis a count. The two verifiers share no code; each also "
@@ -2216,14 +2220,14 @@ save_figure(fig, "two_verifiers",
 Labels, a horizontal axis from 0 to 1.12 times the longest bar (computed from the counts, as in In [7]), title, legend and the figure `00c_2_two_verifiers.png`. What Figure 00c.2 shows: every subject has two bars, so every subject was checked twice, in two languages; the bars differ in length because the two verifiers were written independently and test partly different statements.
 
 ```python
-report("checks of the Wolfram verifiers of the eleven subjects",
+report("checks of the Wolfram verifiers of the twelve subjects",
        sum(wolfram_numbers))
-report("checks of the Python verifiers of the eleven subjects", sum(python_numbers))
+report("checks of the Python verifiers of the twelve subjects", sum(python_numbers))
 check(all(w > 0 and p > 0 for w, p in zip(wolfram_numbers, python_numbers)),
-      "each of the eleven subjects has a Wolfram and a Python verifier")
+      "each of the twelve subjects has a Wolfram and a Python verifier")
 ```
 
-The two sums are printed (443 Wolfram and 404 Python checks in the run printed in Section 0.20), and the check requires a nonzero number of checks in both verifiers of every subject.
+The two sums are printed (451 Wolfram and 443 Python checks in the run printed in Section 0.20), and the check requires a nonzero number of checks in both verifiers of every subject.
 
 **In [9], the honesty ledger.**
 
@@ -2327,10 +2331,11 @@ Rows 11 to 14. Rows 11 and 12, PROVED: the pairing theorems, whose statements na
       D + "dirac16complex/reports/eos-checks.json",
       D + "dirac16complex/reports/independent-checks.json",
       D + "dirac16complex00/reports/python-derive-eos.json",
-      D + "dirac16complex00/reports/python-independent-numerics.json"]),
+      D + "dirac16complex00/reports/python-independent-numerics.json",
+      D + "reports/wolfram-dark-sector-b4.json"]),
 ```
 
-Row 15, COMPUTED: the six reports of the dark-sector investigation. The rows 16 to 20 have an empty list of reports and a note:
+Row 15, COMPUTED: the seven reports of the dark-sector investigation for the metric with $b_4(x_4)$. The rows 16 to 20 have an empty list of reports and a note:
 
 ```python
     ("a time-varying dark sector from the fields", "HYPOTHESIS",
@@ -2376,7 +2381,7 @@ check(used == sorted(path for path, _ in REPORTS),
       f"every one of the {len(REPORTS)} reports belongs to exactly one row")
 ```
 
-`used` is the sorted list of all reports named in all rows (a comprehension with two `for` parts runs through the rows and, inside each row, through its reports). It must equal the sorted list of the 51 reports: every report appears, and none twice (a report named twice would appear twice in `used`).
+`used` is the sorted list of all reports named in all rows (a comprehension with two `for` parts runs through the rows and, inside each row, through its reports). It must equal the sorted list of the 52 reports: every report appears, and none twice (a report named twice would appear twice in `used`).
 
 ```python
 check(all((label in ("HYPOTHESIS", "OPEN")) == (paths == [] and note != "")
@@ -3630,7 +3635,7 @@ The chapter also states, without proof, the theorems that later chapters prove: 
 
 - Notebook 00a: the installed versions (In [2] to In [4]); the determinant $-2.000000000000$ (In [5]); the derivative $2 \sin x \cos x$ (In [6]); 30 digits of $\pi$ (In [7]); the tangent line and the two exponentials at 401 points each (In [8], In [9]).
 - Notebook 00b: the names and the signs of the coordinates (In [2]; reproduces `Revision/algebra/reports/wolfram-algebra.json`, check `eta_in_author_order`); the eight entries of the metric with $b_4$ (In [4]; reproduces `Revision/metric_b4/results/wolfram-metric-b4-report.json`, check `metric_equals_author_Out101`) and at $b_4 = 1$ (In [4]; reproduces `Revision/theory/reports/python-field-theory.json`, check `metric_from_vielbein_equals_SPEC`); no wrong sign at 14457 points (In [5]); $\det g = b_4^3 \cos^2 z$ (In [6]; reproduces `Revision/theory/reports/wolfram-field-theory-b4.json`, check `sqrt_det_g`) and $\det g = \cos^2 z$ at $b_4 = 1$ (In [6]; reproduces `Revision/theory/reports/wolfram-field-theory.json`, check `sqrt_det_g_is_cos_z`); $e^{3} = 20.0855$ and $e^{-3} = 0.049787$ (In [7]); the table of the length factors at $z = \pi/4$, $b_4 = 1$ with the product 0.7071 (In [8]; reproduces `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g_is_cos_z`); the volume factor equal to $\cos z$ within $1.0 \times 10^{-15}$ at 200 points for three values of $a_4$ at $b_4 = 1$ (In [9]; reproduces `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`), and equal to $2^{3/2} \cos z$ within $2.7 \times 10^{-15}$ at $a_4 = 1$, $b_4 = 2$ (In [9]; reproduces `Revision/theory/reports/wolfram-field-theory-b4.json`, check `sqrt_det_g`).
-- Notebook 00c: 12 of 12 checks of the charge-conjugation report (In [2]); the statements $\mathcal{C}_+ = C$, $\mathcal{C}_- = \Gamma C$ and $J = 0$ for a real field, word for word in the details of that report (In [3]; checks `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus` and `real_fields_charge_conjugation`); the local conservation law of the charge, and the report's own statement that a constant total charge is not established (In [3]; check `u1_noether_matrix_identity`); the 51 reports of the record, all found by the search, no check FAIL (1352 PASS and 5 NOT-AVAILABLE of 1357 checks in the run of 2026-10-14; the counts follow the record), and each report's own totals equal to the counted ones (In [5]); the 49 counts of the table of `Revision/README.md`, the 3 counts quoted by `Revision/kohn_sham/reports/ks-crosscheck.json`, check `inputs_all_pass`, and the 13 of 13 quoted by `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`, key `checks` (In [6]); the ledger with 11 PROVED, 3 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 3 OPEN rows, every report in exactly one row, and only row 7 with checks that are not PASS, its five NOT-AVAILABLE comparisons (In [9]); the twelve sentences of `Revision/pairing/reports/python-pairing.json`, key `not_established` (In [11]); 54 to 64 changed characters, mean 60.03, for one-character changes (In [12]); 24 recorded fingerprints equal to today's files (In [13]).
+- Notebook 00c: 12 of 12 checks of the charge-conjugation report (In [2]); the statements $\mathcal{C}_+ = C$, $\mathcal{C}_- = \Gamma C$ and $J = 0$ for a real field, word for word in the details of that report (In [3]; checks `charge_conjugation_matrix_plus`, `charge_conjugation_matrix_minus` and `real_fields_charge_conjugation`); the local conservation law of the charge, and the report's own statement that a constant total charge is not established (In [3]; check `u1_noether_matrix_identity`); the 52 reports of the record, all found by the search, no check FAIL (1378 PASS and 5 NOT-AVAILABLE of 1383 checks in the run of 2026-10-15; the counts follow the record), and each report's own totals equal to the counted ones (In [5]); the 50 counts of the table of `Revision/README.md`, the 3 counts quoted by `Revision/kohn_sham/reports/ks-crosscheck.json`, check `inputs_all_pass`, and the 15 of 15 quoted by `Revision/dark_sector/dirac16complex/outputs/eos-summary.json`, key `checks` (In [6]); the ledger with 11 PROVED, 3 COMPUTED, 1 ASSUMED, 2 HYPOTHESIS and 3 OPEN rows, every report in exactly one row, and only row 7 with checks that are not PASS, its five NOT-AVAILABLE comparisons (In [9]); the twelve sentences of `Revision/pairing/reports/python-pairing.json`, key `not_established` (In [11]); 54 to 64 changed characters, mean 60.03, for one-character changes (In [12]); 24 recorded fingerprints equal to today's files (In [13]).
 - Notebook 00d: the forward, backward and pairwise errors of 196, 1 and 3 ulps, and the method error $9.999995 \times 10^{-7}$ (In [5]); the relative difference $2.65 \times 10^{-14}$ of the three sums (In [6]); the eight measured differences of the Kohn-Sham solver below their tolerances with the margins 4.7 to 7692 (In [7]; reproduces `Revision/kohn_sham/reports/ks-rust-determinism.json`, its eight comparison checks named in Section 0.22, from `refined_ground_energies` to `refined_heat_capacity` without the negative control `refined_mermin_root_path`); the negative control with a hidden error up to $8.267 \times 10^{-10}$ in units of $m$ (In [9]; check `refined_mermin_root_path` of the same report); 12 distinct set orders for 12 hash seeds (In [12]); no CR LF line end in the 244 Rust and the 340 reference result files (In [15]; checks `outputs_lf_only` and `reference_outputs_lf_only`); 582 manifest fingerprints equal to today's files, and the record's repeat runs of both solvers byte-identical (In [16]; checks `reference_manifest`, `repeat_byte_identical` and `reference_repeat_byte_identical`).
 
 **ASSUMED** (used, not derived here):
