@@ -31,7 +31,7 @@
 		{
 			"name":"D6_author_weights_branch",
 			"verdict":"PASS",
-			"detail":"the (x4, x0) component of the author's left-hand side on a4 = H x4 + a0, b4 = c E^(be H x4) is (3*be^2*(-4 + 3*be)*Cot[6*H*x0])\/64; it vanishes for be in     4\n{0, -}\n    3: a source without T^x4_x0 allows a constant b4 or d ln b4\/d a4 = 4\/3"
+			"detail":"the (x4, x0) component of the author's left-hand side on a4 = H x4 + a0, b4 = c E^(be H x4) is (3*be^2*(-4 + 3*be)*Cot[6*H*x0])\/64; it vanishes for be in {0, 4\/3}: a source without T^x4_x0 allows a constant b4 or d ln b4\/d a4 = 4\/3"
 		},
 		{
 			"name":"D7_branch_required_source",

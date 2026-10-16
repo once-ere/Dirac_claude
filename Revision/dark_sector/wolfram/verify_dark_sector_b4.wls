@@ -100,7 +100,7 @@ mixed = Simplify[lhsA[[5, 1]] /. {a4f -> (Hs # + a0 &), b4f -> (cB Exp[be Hs #] 
 roots = Sort[be /. Solve[mixed == 0, be, Reals]];
 check["D6_author_weights_branch", roots === {0, 4/3},
   "the (x4, x0) component of the author's left-hand side on a4 = H x4 + a0, b4 = c E^(be H x4) is " <> ToString[InputForm[Factor[mixed]]] <>
-  "; it vanishes for be in " <> ToString[roots] <> ": a source without T^x4_x0 allows a constant b4 or d ln b4/d a4 = 4/3"];
+  "; it vanishes for be in " <> ToString[InputForm[roots]] <> ": a source without T^x4_x0 allows a constant b4 or d ln b4/d a4 = 4/3"];
 
 (* D7 *)
 onBr = Simplify[lhsA /. {a4f -> (Hs # &), b4f -> (cB Exp[(4/3) Hs #] &)}, Hs > 0 && cB > 0 && 0 < z < Pi/2];
