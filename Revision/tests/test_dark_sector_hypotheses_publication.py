@@ -27,7 +27,8 @@ What is tested
     an established physical state, the observer normalisation is an ASSUMPTION, neither hypothesis
     is established), and overclaims are absent (with negative controls);
   * every check name the document cites exists in a Revision report with the verdict PASS, and
-    every check of the six dark-sector reports is listed (complete verification records);
+    every check of the seven dark-sector reports (the Wolfram verification with b4 included) is
+    listed (complete verification records);
   * the report-count table equals the counts recomputed from the reports;
   * every number quoted in the document is read from its JSON report: either it occurs verbatim
     in the detail of the named check, or it is the stated rounding of the named JSON value;

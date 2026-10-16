@@ -7,6 +7,22 @@ field, then in the primordial pair-creation field of the author's notebook, and
 finally a numerical investigation of whether its pressure and energy density
 behave like dark matter and/or dark energy.
 
+## The current record: `Revision/`
+
+Since 2026-10-01 the authoritative record of the author's primordial gravitational field is the
+separate folder [`Revision/`](Revision/README.md) (binding plan [`Revision/SPEC.md`](Revision/SPEC.md)),
+written anew and not mixed with the earlier stages described further below, which are kept unchanged.
+It uses the author's metric with the second function b4(x4) (the change of 2026-10-14; b4 is a
+function of x4, never 1). In particular, the dark-sector hypotheses of dirac16complex and
+dirac16complex00 are investigated there for that metric: the record is
+[`Revision/dark_sector/`](Revision/dark_sector/), the provenance of its change to b4(x4) is
+[`Revision/dark_sector/B4_PROVENANCE.md`](Revision/dark_sector/B4_PROVENANCE.md), and the document is
+[`Revision/docs/DARK_SECTOR_HYPOTHESES.md`](Revision/docs/DARK_SECTOR_HYPOTHESES.md) (neither hypothesis
+is established). The textbook "Universes in Pairs" is in [`Revision/textbook/`](Revision/textbook/).
+The Stage-3 dark-sector numerics below were computed before the Revision (completed 2026-09-30, on
+homogeneous backgrounds without b4, with static extra times in two of the five experiments) and are
+superseded by that record.
+
 Everything is counted from 0: coordinates `x = {x0,...,x7}`, frame indices
 `a = 0..7`, spinor components `Psi_0..Psi_15`.  The tangent metric is
 `eta = diag(+1,+1,+1,+1,-1,-1,-1,-1)` and `x4` is the evolution time.

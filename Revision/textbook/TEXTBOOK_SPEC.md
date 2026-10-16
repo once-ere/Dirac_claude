@@ -287,8 +287,10 @@ Part V — Pairs of universes, matter and antimatter
    These are NEW Revision computations; they must reproduce Revision/lead_checks/
    charge_conjugation_and_u1.py's report.
 22 Open problems: the creation question, TDDFT beyond the adiabatic history, the a4 back-reaction,
-   the Z2 brane junction, the dark-sector hypotheses (being investigated; no results claimed), how
-   a student could attack each.  NB 22a the adiabaticity breakdown estimate (plots).
+   the Z2 brane junction, the dark-sector hypotheses (investigated by the Revision record for the
+   metric with b4(x4), established in neither form; their results stated with their labels), how
+   a student could attack each.  NB 22a the adiabaticity breakdown estimate (plots); NB 22b the
+   dark-sector numbers of the record (plots).
 Appendices
 23 Reproducing everything (all commands, all notebooks, the PDF), glossary, index of checks and of
    notebooks.  NB 23a run every notebook headless and compare (a table and a timing bar chart).
