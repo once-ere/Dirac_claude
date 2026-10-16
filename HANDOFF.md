@@ -52,8 +52,19 @@ Progress (newest last):
   documents still describe b4 = 1 and quote the old check names and texts; the textbook (phase 9) still cites them
   too. The supplements `verify_field_theory_b4*.wls`, `check_field_theory_b4.py` and their outputs are superseded
   but kept unchanged (their sha256 are in METRIC_CHANGE_PROVENANCE.md) until the textbook no longer reads them.
-  NOT YET DONE for phase 1: a second run of every part for byte identity (to be made by the gate steps theory-* after
-  the commit).
+  Second run (2026-10-15, the gate steps theory-* in five batches under 423 s, each revision_verification=OK): every
+  committed output of the theory reproduced byte for byte.
+- Phases 2 and 3 DONE (2026-10-16). `Revision/field_equations_a4`: every section for general a4 and b4 (Wolfram 59 of
+  59, sympy twin rewritten with its own ring including b4^(1/2), u, v: 65 of 65; two runs byte-identical); keys of
+  `a4-equations.json` general (exponentialHistory replaces linearMember; key b4 kept for the dark sector);
+  results: the off-diagonal pair cot z u Q, Einstein Q = 3 H/2, the Bianchi identity with b4, the author's weights
+  beta in {0, 4/3} at a4 = H x4 with the source (-2/27, -2/9, -22/27, -14/27), no vacuum and no condensate source with
+  b4 not constant on exponential histories, the EGB branches beta = 4 and beta = 2 (1 + A^2)/A^2. Provenance
+  `field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` 6.9. `Revision/lead_checks`: all three for general b4
+  (10/10, 14/14, 12/12); the EGB check rewritten with an exact ring (2.4 s) after its first general version ran past
+  423 s (claude_failures G5; `timeout` did not stop the native python process: since then `timeout -k 5 423`).
+  KNOWN OPEN until phase 5: `field_equations_a4/ks_source/ks_source_a4.py` stops (KeyError: it reads the removed
+  b4 = 1 keys), so the gate steps a4-ks-source and a4-ks-source-unittest fail until then.
 
 ### 0.8 STATE 2026-10-15 (dark sector with b4; done, superseded as the start by 0.9)
 

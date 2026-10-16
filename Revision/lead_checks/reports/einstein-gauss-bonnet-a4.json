@@ -1,19 +1,19 @@
 {
  "producer": "Revision/lead_checks/einstein_gauss_bonnet_a4.py (lead, independent; no Revision code imported; reads the record Revision/field_equations_a4/a4-equations.json to compare)",
  "summary": {
-  "passed": 15,
-  "total": 15
+  "passed": 14,
+  "total": 14
  },
  "checks": [
   {
-   "name": "einstein_x0_independent",
+   "name": "einstein_diagonal_x0_independent",
    "verdict": "PASS",
-   "detail": "every component of G^mu_nu is independent of x0 (z)"
+   "detail": "every diagonal component of G^mu_nu is independent of x0 (z) and of e^(a4), and depends on b4 only through u = b4'/b4 and v = u'"
   },
   {
-   "name": "einstein_off_diagonal_zero",
+   "name": "einstein_off_diagonal",
    "verdict": "PASS",
-   "detail": "G^mu_nu is diagonal (in particular G^x4_x0 = G^x0_x4 = 0)"
+   "detail": "the only nonzero off-diagonal components are G^x4_x0 = (3/2) H cot z b4'/b4 and G^x0_x4 = -(3/2) H tan z b4'/b4"
   },
   {
    "name": "einstein_isotropy",
@@ -23,62 +23,57 @@
   {
    "name": "einstein_constraint_x4",
    "verdict": "PASS",
-   "detail": "G^x4_x4 + Lambda = kappa T: mine = 21*H**2 + Lam + 3*ad1**2 + kappa*rho; record: 3*ad1^2 + 21*H^2 + Lam == -(kappa*rho); ratio 1"
+   "detail": "G^x4_x4 + Lambda = kappa T: mine = 21*H**2 + Lam + 3*a1**2 - 3*a1*u/2 + kappa*rho - 3*u**2/4; record: 3*ad1^2 + 21*H^2 + Lam - (3*ad1*uu)/2 - (3*uu^2)/4 == -(kappa*rho)"
   },
   {
    "name": "einstein_space_x1",
    "verdict": "PASS",
-   "detail": "G^x1_x1 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*ad1**2 + ad2 - kappa*p3; record: -3*ad1^2 + ad2 + 15*H^2 + Lam == kappa*p3; ratio 1"
+   "detail": "G^x1_x1 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*a1**2 + 3*a1*u + a2 - kappa*p3 - 3*u**2/2 - 3*v/2; record: -3*ad1^2 + ad2 + 15*H^2 + Lam + 3*ad1*uu - (3*uu^2)/2 - (3*vv)/2 == kappa*p3"
   },
   {
    "name": "einstein_extraTime_x5",
    "verdict": "PASS",
-   "detail": "G^x5_x5 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*ad1**2 - ad2 - kappa*pt; record: -3*ad1^2 - ad2 + 15*H^2 + Lam == kappa*pt; ratio 1"
+   "detail": "G^x5_x5 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*a1**2 - a2 - kappa*pt - 3*u**2/4 - v; record: -3*ad1^2 - ad2 + 15*H^2 + Lam - (3*uu^2)/4 - vv == kappa*pt"
   },
   {
    "name": "einstein_hidden_x0",
    "verdict": "PASS",
-   "detail": "G^x0_x0 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*ad1**2 - kappa*p0; record: -3*ad1^2 + 15*H^2 + Lam == kappa*p0; ratio 1"
+   "detail": "G^x0_x0 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*a1**2 + 3*a1*u/2 - kappa*p0 - 3*u**2/2 - 3*v/2; record: -3*ad1^2 + 15*H^2 + Lam + (3*ad1*uu)/2 - (3*uu^2)/2 - (3*vv)/2 == kappa*p0"
   },
   {
-   "name": "einstein_evolution",
+   "name": "einstein_offDiagonal_x4x0",
    "verdict": "PASS",
-   "detail": "space minus extra-time component: 2*ad2 - kappa*p3 + kappa*pt = 0; record 2*ad2 == kappa*(p3 - pt)"
+   "detail": "G^x4_x0 = kappa q40: mine 3*H*c*u/(2*t**6) - kappa*q40 = 0; record (3*cc*H*uu)/2 == kappa*q40"
   },
   {
    "name": "einstein_null_energy",
    "verdict": "PASS",
-   "detail": "kappa (rho + p0) = -6*H**2 - 6*ad1**2 (< 0 for H > 0): the null energy condition fails along x0"
+   "detail": "kappa (rho + p0) = -6*H**2 - 6*a1**2 + 3*a1*u - 3*u**2/4 - 3*v/2 = -6 H^2 - 3 a4'^2 - (3/4)(u - 2 a4')^2 - (3/2) v: negative wherever v = (b4'/b4)' >= 0"
   },
   {
    "name": "no_vacuum_for_H_positive",
    "verdict": "PASS",
-   "detail": "G^x4_x4 - G^x0_x0 = 6 a4'^2 + 6 H^2 > 0 for H > 0, so T = 0 (G + Lambda = 0) is impossible for every Lambda; solutions of the vacuum system: [{Lam: -18*H**2, ad1: -I*H, ad2: 0}, {Lam: -18*H**2, ad1: I*H, ad2: 0}]"
+   "detail": "T = 0: the x4-x0 component (3/2) H cot z b4'/b4 = 0 forces b4'/b4 = 0, and then G^x4_x4 - G^x0_x0 = 6 a4'^2 + 6 H^2 > 0 for H > 0: no vacuum solution for any Lambda, a4 and b4"
   },
   {
-   "name": "gauss_bonnet_constant",
+   "name": "gauss_bonnet_diagonal_constant",
    "verdict": "PASS",
-   "detail": "for a4 = A H x4 the Gauss-Bonnet tensor H^mu_nu is constant: [12*H**4*(A**4 + 14*A**2 - 15), H**4*(-36*A**4 - 120*A**2 - 420), 12*H**4*(A**4 + 14*A**2 - 15), 12*H**4*(A**4 + 14*A**2 - 15)]"
+   "detail": "for a4 = A H x4, b4 = b4(0) e^(beta A H x4) the diagonal of the Gauss-Bonnet tensor H^mu_nu is constant: [-3*H**4*(A**4*beta**4 + 4*A**4*beta**3 - 24*A**4*beta**2 + 32*A**4*beta - 16*A**4 - 56*A**2*beta**2 + 160*A**2*beta - 224*A**2 + 240)/4, -3*H**4*(3*A**4*beta**3 - 24*A**4*beta + 24*A**4 - 20*A**2*beta**2 - 40*A**2*beta + 80*A**2 + 280)/2, -3*H**4*(A**4*beta**3 - 4*A**4 - 8*A**2*beta**2 + 16*A**2*beta - 56*A**2 + 60), -3*H**4*(A**4*beta**4 + 10*A**4*beta**3 - 24*A**4*beta**2 + 16*A**4*beta - 16*A**4 - 64*A**2*beta**2 + 112*A**2*beta - 224*A**2 + 240)/4]"
   },
   {
-   "name": "gauss_bonnet_isotropic_pressure",
+   "name": "gauss_bonnet_source_alpha2",
    "verdict": "PASS",
-   "detail": "H^x1_x1 = H^x5_x5 = H^x0_x0 for the linear member (so p3 = p_t = p0 = p)"
+   "detail": "alpha_2 parts of kappa rho, kappa p3, kappa p_t, kappa p0 in the record equal -H^x4_x4, H^x1_x1, H^x5_x5, H^x0_x0 of the classical Gauss-Bonnet tensor (record rho: 3*H**4*(3*A**4*beta**3 - 24*A**4*beta + 24*A**4 - 20*A**2*beta**2 - 40*A**2*beta + 80*A**2 + 280)/2)"
   },
   {
-   "name": "gauss_bonnet_rho_alpha2",
+   "name": "gauss_bonnet_offdiagonal_alpha2",
    "verdict": "PASS",
-   "detail": "alpha_2 part of kappa rho: record H**4*(36*A**4 + 120*A**2 + 420), classical Gauss-Bonnet -H^x4_x4 = H**4*(36*A**4 + 120*A**2 + 420)"
+   "detail": "alpha_2 part of kappa q40 in the record equals H^x4_x0 of the classical Gauss-Bonnet tensor: 3*A*H**4*beta*c*(A**2*beta**2 + 12*A**2*beta - 24*A**2 - 40)/(2*t**6)"
   },
   {
-   "name": "gauss_bonnet_p_alpha2",
+   "name": "einstein_exponential_source_alpha1",
    "verdict": "PASS",
-   "detail": "alpha_2 part of kappa p: record 12*H**4*(A**4 + 14*A**2 - 15), classical Gauss-Bonnet H^x1_x1 = 12*H**4*(A**4 + 14*A**2 - 15)"
-  },
-  {
-   "name": "einstein_linear_rho_alpha1",
-   "verdict": "PASS",
-   "detail": "alpha_1 part of kappa rho: record 3*H**2*(-A**2 - 7), -G^x4_x4 = 3*H**2*(-A**2 - 7)"
+   "detail": "alpha_1 parts of kappa rho, p3, p_t, p0 and q40 in the record equal -G^x4_x4, G^x1_x1, G^x5_x5, G^x0_x0 and G^x4_x0 on the history: [3*H**2*(A**2*beta**2 + 2*A**2*beta - 4*A**2 - 28)/4, -3*H**2*(A**2*beta**2 - 2*A**2*beta + 2*A**2 - 10)/2, -3*H**2*(A**2*beta**2 + 4*A**2 - 20)/4, -3*H**2*(A**2*beta**2 - A**2*beta + 2*A**2 - 10)/2]"
   }
  ]
 }

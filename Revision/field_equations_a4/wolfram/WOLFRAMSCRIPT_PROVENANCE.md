@@ -156,16 +156,19 @@ creates). Every file is UTF-8 text with LF line endings, stored byte for byte by
 
 | role | path | bytes | lines | sha256 |
 | --- | --- | --- | --- | --- |
-| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 53312 | 551 | `82c224295feed0aaf0653c5615b0f4dfb2ac9d302431368153a4da7437b45ad5` |
-| package (loaded by the script with `Get`, script line 25) | `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` | 16131 | 229 | `19cd007b0300b1641c753a139ed6afb000ca83c274c6d2e6b20a6ce0f3e037a4` |
+| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 51887 | 531 | `19ab567d4786c17cb67246053f434629d4620ce36132be549237228ee63ef58d` |
+| package (loaded by the script with `Get`, script line 28) | `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` | 16131 | 229 | `19cd007b0300b1641c753a139ed6afb000ca83c274c6d2e6b20a6ce0f3e037a4` |
 | input 1 (read by the package with `Import[..., "RawJSON"]`, package line 167) | `Revision/algebra/gammas.json` | 76894 | 1405 | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` |
-| input 2 (read by the script with `Import[..., "RawJSON"]`, script line 91) | `Revision/gkd_lovelock/results/lovelock-tensors.json` | 163905 | 405 | `f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c` |
-| input 3 (read by the script with `Import[..., "RawJSON"]`, script line 370; section 7, general b4) | `Revision/metric_b4/results/metric-b4.json` | 49637 | 1669 | `7a57e570a5eb4c1a61978399aead9e0bcda2a687fce08bfeec628c802c154c49` |
-| output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 68631 | 922 | `dba03bf4f09c3ac080b3abb6fc34e528bb9ba32e52d21b508c630b6479ba759d` |
-| output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 19869 | 329 | `7caf8938f0c3854c3f90ab0400fd16e044d410bc02c4c24e3dbdb41068e4f5f9` |
+| input 2 (read by the script with `Import[..., "RawJSON"]`, script line 94) | `Revision/gkd_lovelock/results/lovelock-tensors.json` | 163905 | 405 | `f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c` |
+| input 3 (read by the script with `Import[..., "RawJSON"]`, script line 198; section 3, general b4) | `Revision/metric_b4/results/metric-b4.json` | 49637 | 1669 | `7a57e570a5eb4c1a61978399aead9e0bcda2a687fce08bfeec628c802c154c49` |
+| output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 100062 | 935 | `fa2acb5d9b55d49bbee79be2e5551a1efc3c9a78daad101eb3e12f441d47ad00` |
+| output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 22186 | 304 | `31bf1893d2a1d5a6f9e2165b67d67b2d5b5fca825fa11a2b3fdae2ef016eee49` |
 
-The table gives the version of 2026-10-14 (section 6.8). The paragraph that follows describes the versions of
-2026-10-08 (sections 6.3 to 6.7).
+The table gives the version of 2026-10-15 (section 6.9: every section for general b4). The version of 2026-10-14
+(section 6.8): script 53312 bytes, 551 lines, sha256 `82c224295feed0aaf0653c5615b0f4dfb2ac9d302431368153a4da7437b45ad5`;
+output 1 68631 bytes, 922 lines, sha256 `dba03bf4f09c3ac080b3abb6fc34e528bb9ba32e52d21b508c630b6479ba759d`; output 2
+19869 bytes, 329 lines, sha256 `7caf8938f0c3854c3f90ab0400fd16e044d410bc02c4c24e3dbdb41068e4f5f9`. The paragraph that
+follows describes the versions of 2026-10-08 (sections 6.3 to 6.7).
 
 Last commits that changed them: the package and output 2: `e377368` (2026-10-08); the script: `16d538f`
 and output 1: `7daacf6` (automatic snapshots of 2026-10-08, section 6.7; the changes of section 6.6 were first
@@ -191,7 +194,7 @@ does not depend on the folder you start it from. The package also computes the s
 outputs are deterministic: LF line endings, no time stamps, no machine names, fixed key order. The
 script and the package contain no random numbers, no dates, no parallel computation and no network
 functions; the script writes only through its function `writeJSON` (one `OpenWrite`, script line
-41), which it calls twice (line 543 for `a4-equations.json`, then line 548 for the report). Since the metric of
+44), which it calls twice (line 523 for `a4-equations.json`, then line 528 for the report). Since the metric of
 2026-10-14 the script also reads `Revision/metric_b4/results/metric-b4.json` (input 3; if it is missing the run
 stops with `ERROR  <path>: not found (run Revision/metric_b4/wolfram/verify_metric_b4.wls)` and exit code 1).
 
@@ -876,6 +879,32 @@ for byte. Remarks that do not affect a run from a complete clone:
   10 tests OK (19.0 s).
 * Fixes made: the text above. Open discrepancies: none in the results. Not done: a run of the changed script in
   a fresh clone.
+
+### 6.9 Every section for general b4 (2026-10-15)
+
+* Why. The user's orders of 2026-10-15: "b4 is a function of x4; b4 is NEVER 1" and "yes, move everything to b4(x4);
+  b4 is never 1" (`HANDOFF.md` 0.9). Until then the script's sections 3 to 6 restricted the tensors to b4 = 1 (`FEB4One`).
+* Changes. The package is unchanged (it computes for general b4). The script: no restriction to b4 = 1 any more;
+  section 3 (general source) states the components for general a4 and b4 (in u = b4'/b4, v = u'), the off-diagonal pair
+  E^x4_x0 = cot z u Q, E^x0_x4 = -tan z u Q, the second-order system in (a4'', v) with its Jacobian, the identity
+  x1 + x5 - 2 x0, the Bianchi identity with b4 (d4 E^x4_x4 = 3 a4' (E^x1_x1 - E^x5_x5) + (3/2) u (E^x5_x5 - E^x4_x4) +
+  6 H u Q), the conservation law, the Einstein case (Q = 3 H/2: a source without T^x4_x0 forces b4' = 0; no vacuum);
+  section 4 replaces the linear member by the exponential histories a4 = A H x4 + a0, b4 = b4(0) e^(beta A H x4) (the
+  required source; the author's weights: Q = 3 beta (3 beta - 4)/(64 H) at A = 1, the history beta = 4/3 of SPEC
+  section 1 with the source kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27); vacuum only for beta = 0; the
+  Einstein-Gauss-Bonnet vacuum branches beta = 4 and beta = 2 (1 + A^2)/A^2); section 5 (fields) for general b4 (the
+  condensate Phi = b4^(-3/4) chi, b4^(3/2) S constant, the witnesses for every b4, the condensate as a source with b4
+  not constant). `a4-equations.json`: the keys lovelockTensors, generalSource, einstein, exponentialHistory (new,
+  replaces linearMember) and fields are general; the key b4 keeps the formulas of 2026-10-14 for its readers (the dark
+  sector). 59 checks (64 before; the 12 checks of section 7 are merged into sections 3 to 5).
+* A mistake found by the run: the second Einstein-Gauss-Bonnet branch was first written with alpha2 = A^2/(4 H^2 (A^2 -
+  1)^2); Reduce showed the sign is negative; corrected before the commit.
+* Runs (2026-10-15/16, Windows 11, Wolfram 15.0.1, from the repository root, each under `timeout 423`): `checks: 59,
+  failed: 0`, exit code 0, wall 45 s; a second run gave both outputs byte for byte. The sympy twin
+  `check_field_equations_a4.py` (rewritten for general b4: its own ring with b4^(1/2), u, v): 65 of 65, 8 s;
+  `check_b4_block.py` 11 of 11 and `check_ks_source_conditions.py` 6 of 6 with unchanged outputs. `ks_source/ks_source_a4.py`
+  reads keys of the restriction b4 = 1 (lovelockTensors in that form, evolution_F) and stops with a KeyError until it is
+  moved to b4 in phase 5 of `HANDOFF.md` 0.9.
 
 ### 6.8 The metric with b4 and the author's coordinates x0..x7 (2026-10-14)
 

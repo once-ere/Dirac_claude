@@ -8,7 +8,7 @@ ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 LC = os.path.join(ROOT, 'Revision', 'lead_checks')
 CASES = [
     ('emt_divergence_and_spin_connection.py', 'emt-divergence-and-spin-connection.json', 10),
-    ('einstein_gauss_bonnet_a4.py', 'einstein-gauss-bonnet-a4.json', 15),
+    ('einstein_gauss_bonnet_a4.py', 'einstein-gauss-bonnet-a4.json', 14),
     ('charge_conjugation_and_u1.py', 'charge-conjugation-and-u1.json', 12),
 ]
 

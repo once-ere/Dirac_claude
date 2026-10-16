@@ -38,6 +38,16 @@ The exact condensate witnesses are built from null vectors of the author's T16. 
 and therefore depends on the representation (the Cl(1,1)^(x)4 comparison basis gives 204800, 115200, 204800); the
 frequencies, S != 0, its reality and the vanishing of the 15 three-gamma bilinears do not.
 
+**Since 2026-10-15 every section is for GENERAL a4(x4) and b4(x4) > 0** (the user's orders "b4 is a function of x4;
+b4 is NEVER 1" and "move everything to b4(x4)"): 59 Wolfram checks (`wolfram/WOLFRAMSCRIPT_PROVENANCE.md` section
+6.9) and 65 sympy checks; the keys of `a4-equations.json` are general (exponentialHistory replaces the linear member;
+the key b4 keeps the formulas of 2026-10-14 for its readers). Results: the off-diagonal pair E^x4_x0 = cot z u Q
+(u = b4'/b4) forces a source with T^x4_x0 = cot z u Q/kappa unless u Q = 0 (Einstein: Q = 3 H/2); with the author's
+weights the exponential history a4 = H x4 has Q = 0 exactly for beta = d ln b4/d a4 in {0, 4/3}, and beta = 4/3 needs
+the constant source kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27) (SPEC section 1); no exponential history
+with b4 not constant is a vacuum solution for those weights, nor sourced by the homogeneous condensate.
+`ks_source/ks_source_a4.py` still reads the earlier keys and is moved to b4 in phase 5 of `HANDOFF.md` 0.9.
+
 Conventions, the equations and the field-specific statements are in `a4-equations.json`; the sign of the
 matter energy-momentum tensor relative to the gravitational side is the declared convention sigmaT = +1 of
 SPEC section 4 (rho = m S + U, p = S U' - U for homogeneous on-shell states) and is carried as a parameter.

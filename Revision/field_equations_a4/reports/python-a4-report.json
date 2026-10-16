@@ -1,13 +1,13 @@
 {
   "producer": "Revision/field_equations_a4/python/check_field_equations_a4.py (sympy, exact)",
-  "spec": "Revision/SPEC.md section 5",
+  "spec": "Revision/SPEC.md section 5 (the metric with b4(x4), general a4 and b4)",
   "inputsChecked": [
     "Revision/gkd_lovelock/results/lovelock-tensors.json",
     "Revision/field_equations_a4/a4-equations.json",
     "Revision/algebra/gammas.json (author's T16: the primary representation, required)"
   ],
-  "checkCount": 63,
-  "passCount": 63,
+  "checkCount": 65,
+  "passCount": 65,
   "failCount": 0,
   "pendingCount": 0,
   "verdict": "PASS",
@@ -15,7 +15,7 @@
     {
       "name": "mixed_riemann_free_of_warp_and_a4",
       "verdict": "PASS",
-      "detail": "every R^ab_cd is free of sin^(1/6) z and e^(a4) (computed with the symbol calculus of this file); 156 nonzero of 4096 ordered index lists"
+      "detail": "every R^ab_cd is free of sin^(1/6) z, e^(a4) and b4^(1/2) (computed with the symbol calculus of this file, general a4 and b4): b4 enters only through u = b4'/b4 and v = u'; 156 nonzero of 4096 ordered index lists"
     },
     {
       "name": "riemann_pair_antisymmetry",
@@ -25,172 +25,177 @@
     {
       "name": "riemann_entries_laurent",
       "verdict": "PASS",
-      "detail": "the 39 components R^ab_cd (a<b, c<d) are Laurent polynomials in cot z with polynomial coefficients in H, a4', a4''"
+      "detail": "the 39 components R^ab_cd (a<b, c<d) are Laurent polynomials in cot z with polynomial coefficients in H, a4', a4'', u, v"
     },
     {
       "name": "P1_equals_minus_4_Einstein",
       "verdict": "PASS",
-      "detail": "P_(1)^h_j (GKD permutation sign) = -4 G^h_j (Ricci route), all 64 components"
+      "detail": "P_(1)^h_j (GKD permutation sign) = -4 G^h_j (Ricci route), all 64 components (general a4 and b4)"
     },
     {
       "name": "P1_trace_identity",
       "verdict": "PASS",
-      "detail": "sum_h P_(1)^h_h = (8 - 2) L_(1); L_(1) = -84*H**2 + 12*ad1**2"
+      "detail": "sum_h P_(1)^h_h = (8 - 2) L_(1); L_(1) = -84*H**2 + 12*ad1**2 - 6*ad1*uu + 6*uu**2 + 6*vv"
     },
     {
       "name": "P1_structure",
       "verdict": "PASS",
-      "detail": "P_(1) diagonal (x4-x0 components 0), free of x0, x1 = x2 = x3, x5 = x6 = x7"
+      "detail": "P_(1): the only nonzero off-diagonal components are x4-x0 and x0-x4, each proportional to u = b4'/b4; the diagonal is free of x0, x1 = x2 = x3, x5 = x6 = x7"
     },
     {
       "name": "P2_trace_identity",
       "verdict": "PASS",
-      "detail": "sum_h P_(2)^h_h = (8 - 4) L_(2); L_(2) = 3360*H**4 - 2112*H**2*ad1**2 - 96*ad1**4"
+      "detail": "sum_h P_(2)^h_h = (8 - 4) L_(2); L_(2) = 3360*H**4 - 2112*H**2*ad1**2 + 1056*H**2*ad1*uu - 552*H**2*uu**2 - 720*H**2*vv - 96*ad1**4 + 96*ad1**3*uu - 144*ad1**2*uu**2 - 96*ad1**2*vv - 192*ad1*ad2*uu + 60*ad1*uu**3 + 96*ad1*uu*vv + 48*ad2*uu**2 + 6*uu**4 + 12*uu**2*vv"
     },
     {
       "name": "P2_structure",
       "verdict": "PASS",
-      "detail": "P_(2) diagonal (x4-x0 components 0), free of x0, x1 = x2 = x3, x5 = x6 = x7"
+      "detail": "P_(2): the only nonzero off-diagonal components are x4-x0 and x0-x4, each proportional to u = b4'/b4; the diagonal is free of x0, x1 = x2 = x3, x5 = x6 = x7"
     },
     {
       "name": "P3_trace_identity",
       "verdict": "PASS",
-      "detail": "sum_h P_(3)^h_h = (8 - 6) L_(3); L_(3) = -40320*H**6 + 100224*H**4*ad1**2 + 31104*H**2*ad1**4 + 1152*ad1**6"
+      "detail": "sum_h P_(3)^h_h = (8 - 6) L_(3); L_(3) = -40320*H**6 + 100224*H**4*ad1**2 - 50112*H**4*ad1*uu + 13824*H**4*uu**2 + 25920*H**4*vv + 31104*H**2*ad1**4 - 31104*H**2*ad1**3*uu + 10368*H**2*ad1**2*uu**2 + 6912*H**2*ad1**2*vv + 13824*H**2*ad1*ad2*uu - 1296*H**2*ad1*uu**3 - 6912*H**2*ad1*uu*vv - 3456*H**2*ad2*uu**2 - 432*H**2*uu**4 - 864*H**2*uu**2*vv + 1152*ad1**6 - 1728*ad1**5*uu + 3456*ad1**4*uu**2 + 1728*ad1**4*vv + 6912*ad1**3*ad2*uu - 2736*ad1**3*uu**3 - 3456*ad1**3*uu*vv - 5184*ad1**2*ad2*uu**2 + 648*ad1**2*uu**4 + 1296*ad1**2*uu**2*vv + 864*ad1*ad2*uu**3"
     },
     {
       "name": "P3_structure",
       "verdict": "PASS",
-      "detail": "P_(3) diagonal (x4-x0 components 0), free of x0, x1 = x2 = x3, x5 = x6 = x7"
+      "detail": "P_(3): the only nonzero off-diagonal components are x4-x0 and x0-x4, each proportional to u = b4'/b4; the diagonal is free of x0, x1 = x2 = x3, x5 = x6 = x7"
     },
     {
       "name": "P1_equals_gkd_branch_monomials",
       "verdict": "PASS",
-      "detail": "all 64 components of P_(1) computed here equal Revision/gkd_lovelock/results/lovelock-tensors.json (P1_mixed_up_h_down_j); no warp, e^(a4) or higher derivatives in the lists"
+      "detail": "all 64 components of P_(1) computed here equal Revision/gkd_lovelock/results/lovelock-tensors.json (P1_mixed_up_h_down_j) for general b4 (b4^(n) written as b4 times polynomials in u = b4'/b4 and its derivatives); no warp, e^(a4), b4^(1/2) or higher derivatives remain"
     },
     {
       "name": "L1_equals_gkd_branch",
       "verdict": "PASS",
-      "detail": "L_(1) = -84*H**2 + 12*ad1**2"
+      "detail": "L_(1) = -84*H**2 + 12*ad1**2 - 6*ad1*uu + 6*uu**2 + 6*vv"
     },
     {
       "name": "P2_equals_gkd_branch_monomials",
       "verdict": "PASS",
-      "detail": "all 64 components of P_(2) computed here equal Revision/gkd_lovelock/results/lovelock-tensors.json (P2_mixed_up_h_down_j); no warp, e^(a4) or higher derivatives in the lists"
+      "detail": "all 64 components of P_(2) computed here equal Revision/gkd_lovelock/results/lovelock-tensors.json (P2_mixed_up_h_down_j) for general b4 (b4^(n) written as b4 times polynomials in u = b4'/b4 and its derivatives); no warp, e^(a4), b4^(1/2) or higher derivatives remain"
     },
     {
       "name": "L2_equals_gkd_branch",
       "verdict": "PASS",
-      "detail": "L_(2) = 3360*H**4 - 2112*H**2*ad1**2 - 96*ad1**4"
+      "detail": "L_(2) = 3360*H**4 - 2112*H**2*ad1**2 + 1056*H**2*ad1*uu - 552*H**2*uu**2 - 720*H**2*vv - 96*ad1**4 + 96*ad1**3*uu - 144*ad1**2*uu**2 - 96*ad1**2*vv - 192*ad1*ad2*uu + 60*ad1*uu**3 + 96*ad1*uu*vv + 48*ad2*uu**2 + 6*uu**4 + 12*uu**2*vv"
     },
     {
       "name": "P3_equals_gkd_branch_monomials",
       "verdict": "PASS",
-      "detail": "all 64 components of P_(3) computed here equal Revision/gkd_lovelock/results/lovelock-tensors.json (P3_mixed_up_h_down_j); no warp, e^(a4) or higher derivatives in the lists"
+      "detail": "all 64 components of P_(3) computed here equal Revision/gkd_lovelock/results/lovelock-tensors.json (P3_mixed_up_h_down_j) for general b4 (b4^(n) written as b4 times polynomials in u = b4'/b4 and its derivatives); no warp, e^(a4), b4^(1/2) or higher derivatives remain"
     },
     {
       "name": "L3_equals_gkd_branch",
       "verdict": "PASS",
-      "detail": "L_(3) = -40320*H**6 + 100224*H**4*ad1**2 + 31104*H**2*ad1**4 + 1152*ad1**6"
+      "detail": "L_(3) = -40320*H**6 + 100224*H**4*ad1**2 - 50112*H**4*ad1*uu + 13824*H**4*uu**2 + 25920*H**4*vv + 31104*H**2*ad1**4 - 31104*H**2*ad1**3*uu + 10368*H**2*ad1**2*uu**2 + 6912*H**2*ad1**2*vv + 13824*H**2*ad1*ad2*uu - 1296*H**2*ad1*uu**3 - 6912*H**2*ad1*uu*vv - 3456*H**2*ad2*uu**2 - 432*H**2*uu**4 - 864*H**2*uu**2*vv + 1152*ad1**6 - 1728*ad1**5*uu + 3456*ad1**4*uu**2 + 1728*ad1**4*vv + 6912*ad1**3*ad2*uu - 2736*ad1**3*uu**3 - 3456*ad1**3*uu*vv - 5184*ad1**2*ad2*uu**2 + 648*ad1**2*uu**4 + 1296*ad1**2*uu**2*vv + 864*ad1*ad2*uu**3"
     },
     {
       "name": "E1_divergence_free",
       "verdict": "PASS",
-      "detail": "nabla_mu E_(1)^mu_nu = 0 for nu = x0..x7 (Christoffel symbols of this file)"
+      "detail": "nabla_mu E_(1)^mu_nu = 0 for nu = x0..x7 (Christoffel symbols of this file; general a4 and b4)"
     },
     {
       "name": "E2_divergence_free",
       "verdict": "PASS",
-      "detail": "nabla_mu E_(2)^mu_nu = 0 for nu = x0..x7 (Christoffel symbols of this file)"
+      "detail": "nabla_mu E_(2)^mu_nu = 0 for nu = x0..x7 (Christoffel symbols of this file; general a4 and b4)"
     },
     {
       "name": "E3_divergence_free",
       "verdict": "PASS",
-      "detail": "nabla_mu E_(3)^mu_nu = 0 for nu = x0..x7 (Christoffel symbols of this file)"
-    },
-    {
-      "name": "evolution_factorises",
-      "verdict": "PASS",
-      "detail": "sum_k alpha_k (E^x1_x1 - E^x5_x5) = a4'' F(a4'), F = 720*H**4*alpha3 + 864*H**2*ad1**2*alpha3 - 80*H**2*alpha2 + 720*ad1**4*alpha3 - 48*ad1**2*alpha2 + 2*alpha1"
-    },
-    {
-      "name": "evolution_F_not_identically_zero",
-      "verdict": "PASS",
-      "detail": "F vanishes identically in (a4', H) only for alpha1 = alpha2 = alpha3 = 0"
-    },
-    {
-      "name": "algebraic_identity",
-      "verdict": "PASS",
-      "detail": "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x0_x0) = 0 identically: the equations force p3 + p_t = 2 p0"
-    },
-    {
-      "name": "constraint_and_x0_first_order",
-      "verdict": "PASS",
-      "detail": "the x4 and x0 components contain a4' but not a4''"
-    },
-    {
-      "name": "bianchi_x4",
-      "verdict": "PASS",
-      "detail": "d/dx4 sum_k alpha_k E^x4_x4 = 3 a4' sum_k alpha_k (E^x1_x1 - E^x5_x5)"
+      "detail": "nabla_mu E_(3)^mu_nu = 0 for nu = x0..x7 (Christoffel symbols of this file; general a4 and b4)"
     },
     {
       "name": "other_components_vanish",
       "verdict": "PASS",
-      "detail": "every off-diagonal left-hand side (including x4-x0) is 0; x1 = x2 = x3 and x5 = x6 = x7"
+      "detail": "every off-diagonal left-hand side except x4-x0 and x0-x4 is 0; x1 = x2 = x3 and x5 = x6 = x7"
+    },
+    {
+      "name": "offdiagonal_factorises",
+      "verdict": "PASS",
+      "detail": "sum_k alpha_k E^x4_x0 = cot z u Q, sum_k alpha_k E^x0_x4 = -tan z u Q, Q = 540*H**5*alpha3 + 648*H**3*ad1**2*alpha3 - 324*H**3*ad1*alpha3*uu - 60*H**3*alpha2 - 27*H**3*alpha3*uu**2 + 540*H*ad1**4*alpha3 - 540*H*ad1**3*alpha3*uu - 36*H*ad1**2*alpha2 + 135*H*ad1**2*alpha3*uu**2 + 18*H*ad1*alpha2*uu + 3*H*alpha1/2 + 3*H*alpha2*uu**2/2; the diagonal is free of x0"
+    },
+    {
+      "name": "second_order_system",
+      "verdict": "PASS",
+      "detail": "the x1 - x5 and x0 components are linear in (a4'', v), v = (b4'/b4)', with Jacobian J, det J = -3*(129600*H**8*alpha3**2 + 207360*H**6*ad1**2*alpha3**2 - 103680*H**6*ad1*alpha3**2*uu - 28800*H**6*alpha2*alpha3 - 12960*H**6*alpha3**2*uu**2 + 217728*H**4*ad1**4*alpha3**2 - 217728*H**4*ad1**3*alpha3**2*uu - 34560*H**4*ad1**2*alpha2*alpha3 + 54432*H**4*ad1**2*alpha3**2*uu**2 + 17280*H**4*ad1*alpha2*alpha3*uu + 720*H**4*alpha1*alpha3 + 1600*H**4*alpha2**2 + 2160*H**4*alpha2*alpha3*uu**2 + 972*H**4*alpha3**2*uu**4 + 82944*H**2*ad1**6*alpha3**2 - 124416*H**2*ad1**5*alpha3**2*uu - 24192*H**2*ad1**4*alpha2*alpha3 + 64800*H**2*ad1**4*alpha3**2*uu**2 + 24192*H**2*ad1**3*alpha2*alpha3*uu - 12960*H**2*ad1**3*alpha3**2*uu**3 + 576*H**2*ad1**2*alpha1*alpha3 + 1280*H**2*ad1**2*alpha2**2 - 6048*H**2*ad1**2*alpha2*alpha3*uu**2 + 1296*H**2*ad1**2*alpha3**2*uu**4 - 288*H**2*ad1*alpha1*alpha3*uu - 640*H**2*ad1*alpha2**2*uu - 324*H**2*ad1*alpha3**2*uu**5 - 80*H**2*alpha1*alpha2 - 36*H**2*alpha1*alpha3*uu**2 - 80*H**2*alpha2**2*uu**2 - 108*H**2*alpha2*alpha3*uu**4 + 25920*ad1**8*alpha3**2 - 51840*ad1**7*alpha3**2*uu - 4608*ad1**6*alpha2*alpha3 + 38880*ad1**6*alpha3**2*uu**2 + 6912*ad1**5*alpha2*alpha3*uu - 12960*ad1**5*alpha3**2*uu**3 + 432*ad1**4*alpha1*alpha3 + 192*ad1**4*alpha2**2 - 3600*ad1**4*alpha2*alpha3*uu**2 + 1620*ad1**4*alpha3**2*uu**4 - 432*ad1**3*alpha1*alpha3*uu - 192*ad1**3*alpha2**2*uu + 720*ad1**3*alpha2*alpha3*uu**3 - 32*ad1**2*alpha1*alpha2 + 108*ad1**2*alpha1*alpha3*uu**2 + 48*ad1**2*alpha2**2*uu**2 - 72*ad1**2*alpha2*alpha3*uu**4 + 16*ad1*alpha1*alpha2*uu + 18*ad1*alpha2*alpha3*uu**5 + alpha1**2 + 2*alpha1*alpha2*uu**2 + 3*alpha2**2*uu**4) (not identically zero; Einstein J = [[2, -1/2], [0, -3/2]])"
+    },
+    {
+      "name": "algebraic_identity",
+      "verdict": "PASS",
+      "detail": "sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x0_x0) = I, zero for u = v = 0; Einstein I = (3/4) u^2 + v/2: kappa (p3 + p_t - 2 p0) = I"
+    },
+    {
+      "name": "constraint_first_order",
+      "verdict": "PASS",
+      "detail": "the x4 component contains a4' and u but no a4'', no v and no x0"
+    },
+    {
+      "name": "bianchi_x4",
+      "verdict": "PASS",
+      "detail": "d/dx4 sum_k alpha_k E^x4_x4 = 3 a4' (E^x1_x1 - E^x5_x5) + (3/2) u (E^x5_x5 - E^x4_x4) + 6 H u Q identically"
     },
     {
       "name": "conservation_components",
       "verdict": "PASS",
-      "detail": "nabla_mu T^mu_x4 = -d4 rho - 3 a4' (p3 - p_t) + d0 q04 - 6 H tan z q04; nabla_mu T^mu_x0 = d0 p0 + 3 H cot z (2 p0 - p3 - p_t) + d4 q40"
+      "detail": "nabla_mu T^mu_x4 = -d4 rho - 3 a4' (p3 - p_t) - (3/2) u (rho + p_t) + d0 q04 - 6 H tan z q04; nabla_mu T^mu_x0 = d0 p0 + 3 H cot z (2 p0 - p3 - p_t) + d4 q40 + (3/2) u q40"
     },
     {
       "name": "einstein_components",
       "verdict": "PASS",
-      "detail": "G^x4_x4 = 3 a4'^2 + 21 H^2, G^x1_x1 = a4'' - 3 a4'^2 + 15 H^2, G^x5_x5 = -a4'' - 3 a4'^2 + 15 H^2, G^x0_x0 = -3 a4'^2 + 15 H^2"
+      "detail": "Einstein: G^x4_x4 = 3 a4'^2 + 21 H^2 - (3/2) a4' u - (3/4) u^2, G^x1_x1 = a4'' - 3 a4'^2 + 15 H^2 + 3 a4' u - (3/2) u^2 - (3/2) v, G^x5_x5 = -a4'' - 3 a4'^2 + 15 H^2 - (3/4) u^2 - v, G^x0_x0 = -3 a4'^2 + 15 H^2 + (3/2) a4' u - (3/2) u^2 - (3/2) v, Q = 3 H/2"
     },
     {
       "name": "einstein_null_energy_x0",
       "verdict": "PASS",
-      "detail": "Einstein: kappa (rho + p0) = -6 (a4'^2 + H^2) < 0 for every a4, Lambda"
+      "detail": "Einstein: kappa (rho + p0) = -6 H^2 - 3 a4'^2 - (3/4)(u - 2 a4')^2 - (3/2) v < 0 wherever v >= 0"
     },
     {
       "name": "einstein_no_vacuum",
       "verdict": "PASS",
-      "detail": "T = 0: the x4 and x0 equations give (x4 - x0) 6 (a4'^2 + H^2) = 0, impossible for real a4' and H > 0 (and 36 H^2 + 2 Lambda = 0)"
+      "detail": "T = 0: the x4-x0 equation (3/2) H cot z u = 0 forces u = 0, and then the x4 and x0 equations give 6 (a4'^2 + H^2) = 0, impossible for H > 0"
     },
     {
-      "name": "linear_member_equal_pressures",
+      "name": "exponential_history_required_source",
       "verdict": "PASS",
-      "detail": "a4 = A H x4 + a0: p3 = p_t = p0 = p constant, rho constant (any alpha_k)"
+      "detail": "on a4 = A H x4 + a0, b4 = b4(0) e^(beta A H x4) the required rho, p3, p_t, p0 are constants and kappa q40 = cot z beta A H Q, Q = 3*H*(90*AA**4*H**4*alpha3*be**2 - 360*AA**4*H**4*alpha3*be + 360*AA**4*H**4*alpha3 - 18*AA**2*H**4*alpha3*be**2 - 216*AA**2*H**4*alpha3*be + 432*AA**2*H**4*alpha3 + AA**2*H**2*alpha2*be**2 + 12*AA**2*H**2*alpha2*be - 24*AA**2*H**2*alpha2 + 360*H**4*alpha3 - 40*H**2*alpha2 + alpha1)/2 (Einstein Q = 3 H/2)"
     },
     {
-      "name": "linear_member_vacuum_factor",
+      "name": "author_weights_branch",
       "verdict": "PASS",
-      "detail": "sum_k alpha_k (E^x4_x4 - E^x0_x0) at a4' = A H = 6 (A^2 + 1) H^2 V, V = 72*AA**4*H**4*alpha3 + 144*AA**2*H**4*alpha3 - 8*AA**2*H**2*alpha2 + 360*H**4*alpha3 - 40*H**2*alpha2 + alpha1"
+      "detail": "the author's weights (alpha_k = w_k/H^(2k), w = (1, 1/32, 1/1152), Lam = -10): Q = 3*(5*AA**4*be**2 - 20*AA**4*be + 20*AA**4 + AA**2*be**2 + 12*AA**2*be - 24*AA**2 + 4)/(128*H); at A = 1, Q = 3 beta (3 beta - 4)/(64 H): q40 = 0 exactly for beta = 0 and beta = 4/3"
     },
     {
-      "name": "einstein_gauss_bonnet_vacuum_linear",
+      "name": "author_weights_history_source",
       "verdict": "PASS",
-      "detail": "alpha1 = 1, alpha3 = 0: V = 1 - 8 alpha2 H^2 (A^2 + 5); vacuum A^2 = (1 - 40 alpha2 H^2)/(8 alpha2 H^2)"
+      "detail": "a4 = H x4, b4 = b4(0) e^((4/3) H x4), the author's weights: kappa (rho, p3, p_t, p0) = [-2/27, -2/9, -22/27, -14/27], q40 = 0 (not a vacuum)"
     },
     {
-      "name": "condensate_einstein_quadratic_U",
+      "name": "author_weights_no_vacuum_with_b4_not_constant",
       "verdict": "PASS",
-      "detail": "Einstein, linear a4, U = (lambda/2) S^2: kappa sigmaT m S = -(36 H^2 + 2 Lambda), 6 (A^2 + 1) H^2 = -kappa sigmaT S (m + lambda S)"
+      "detail": "the author's weights: the exponential histories that are vacuum solutions are exactly (beta, A) = [(0, -1), (0, 1)] (Groebner basis in beta, A with H as a parameter): b4 constant (the withdrawn metric), none with b4 not constant"
+    },
+    {
+      "name": "egb_exponential_vacuum_branches",
+      "verdict": "PASS",
+      "detail": "Einstein-Gauss-Bonnet (alpha1 = 1, alpha3 = 0): beta = 4, alpha2 = 1/(40 H^2 (1 - A^2)) and beta = 2 (1 + A^2)/A^2, alpha2 = -A^2/(4 H^2 (A^2 - 1)^2) satisfy every vacuum equation; with alpha2 from Q = 0 the remaining differences share the factors (beta - 4) and (A^2 beta - 2 - 2 A^2) and have no other common zero with A beta H != 0 (Groebner basis [1]): these are all vacuum exponential histories with b4 not constant"
     },
     {
       "name": "json_lovelock_components",
       "verdict": "PASS",
-      "detail": "E_(1..3) components x0x0, x1x1, x4x4, x5x5, x4x0, x0x4 in a4-equations.json equal this file's"
+      "detail": "E_(1..3) components x0x0, x1x1, x4x4, x5x5, x4x0, x0x4 in a4-equations.json (in u = b4'/b4, v = u') equal this file's"
     },
     {
       "name": "json_general_source_equations",
       "verdict": "PASS",
-      "detail": "constraint, x1, x5, x0, evolution (with F) and algebraic condition in a4-equations.json equal this file's"
+      "detail": "constraint, x1, x5, x0, the off-diagonal pair with its factor Q, the identity x1 + x5 - 2 x0 and the Jacobian with its determinant in a4-equations.json equal this file's"
     },
     {
       "name": "json_required_source_and_null_combinations",
       "verdict": "PASS",
-      "detail": "sourceRequiredByGivenA4 and nullCombinations equal this file's"
+      "detail": "sourceRequiredByGivenHistory (with q40, q04) and nullCombinations equal this file's"
     },
     {
       "name": "json_conservation",
@@ -200,12 +205,12 @@
     {
       "name": "json_einstein",
       "verdict": "PASS",
-      "detail": "the Einstein special case in a4-equations.json equals this file's"
+      "detail": "the Einstein special case in a4-equations.json (all components, the off-diagonal pair, the null energy) equals this file's"
     },
     {
-      "name": "json_linear_member",
+      "name": "json_exponential_history",
       "verdict": "PASS",
-      "detail": "rho, p, the vacuum factor V and rho + p (Einstein) of the linear member equal this file's"
+      "detail": "rho, p3, p_t, p0, q40 and Q of the exponential history (and Q for the author's weights) in a4-equations.json equal this file's"
     },
     {
       "name": "ownrep_clifford",
@@ -230,12 +235,12 @@
     {
       "name": "ownrep_gravity_term",
       "verdict": "PASS",
-      "detail": "comparison representation (own_rep, built here; not used for any result): gamma^mu Omega_mu = 3 H gamma^x0"
+      "detail": "comparison representation (own_rep, built here; not used for any result): gamma^mu Omega_mu = 3 H gamma^x0 + (3/4)(b4'/b4) gamma^x4"
     },
     {
-      "name": "ownrep_condensate_S_constant",
+      "name": "ownrep_condensate_S_b4_three_halves_constant",
       "verdict": "PASS",
-      "detail": "comparison representation (own_rep, built here; not used for any result): C A + A^T C = 0: S constant along x4"
+      "detail": "comparison representation (own_rep, built here; not used for any result): C A + A^T C = -(3/2)(b4'/b4) C: b4^(3/2) S is constant along x4; A = A0 - (3/4)(b4'/b4) with A0 free of b4"
     },
     {
       "name": "ownrep_condensate_adjoint",
@@ -245,7 +250,7 @@
     {
       "name": "ownrep_condensate_kinetic_diagonal",
       "verdict": "PASS",
-      "detail": "comparison representation (own_rep, built here; not used for any result): K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x0 = K^x0_x4 = 0"
+      "detail": "comparison representation (own_rep, built here; not used for any result): K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x0 = K^x0_x4 = 0 (general b4)"
     },
     {
       "name": "ownrep_condensate_offdiagonal_three_gamma",
@@ -255,7 +260,7 @@
     {
       "name": "ownrep_condensate_witness",
       "verdict": "PASS",
-      "detail": "comparison representation (own_rep, built here; not used for any result): exact witness at (M, H) = (5, 1): Phi = e^{-4 i x4} Phi0, Phi0 = v1 + conj(v1^dagger C v2) v2 from the sectors gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1, +1; all 15 three-gamma bilinears vanish, S != 0 real"
+      "detail": "comparison representation (own_rep, built here; not used for any result): exact witness at (M, H) = (5, 1): Phi = b4^(-3/4) e^{-4 i x4} Phi0, Phi0 = v1 + conj(v1^dagger C v2) v2 from the sectors gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1, +1 of A0; it solves d4 Phi = A Phi for every b4; all 15 three-gamma bilinears vanish, b4^(3/2) S != 0 real"
     },
     {
       "name": "authorT16_fixture_read",
@@ -285,12 +290,12 @@
     {
       "name": "authorT16_gravity_term",
       "verdict": "PASS",
-      "detail": "gamma^mu Omega_mu = 3 H gamma^x0"
+      "detail": "gamma^mu Omega_mu = 3 H gamma^x0 + (3/4)(b4'/b4) gamma^x4"
     },
     {
-      "name": "authorT16_condensate_S_constant",
+      "name": "authorT16_condensate_S_b4_three_halves_constant",
       "verdict": "PASS",
-      "detail": "C A + A^T C = 0: S constant along x4"
+      "detail": "C A + A^T C = -(3/2)(b4'/b4) C: b4^(3/2) S is constant along x4; A = A0 - (3/4)(b4'/b4) with A0 free of b4"
     },
     {
       "name": "authorT16_condensate_adjoint",
@@ -300,7 +305,7 @@
     {
       "name": "authorT16_condensate_kinetic_diagonal",
       "verdict": "PASS",
-      "detail": "K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x0 = K^x0_x4 = 0"
+      "detail": "K^x4_x4 = M S, K^mu_mu = 0 otherwise, K^x4_x0 = K^x0_x4 = 0 (general b4)"
     },
     {
       "name": "authorT16_condensate_offdiagonal_three_gamma",
@@ -310,7 +315,7 @@
     {
       "name": "authorT16_condensate_witness",
       "verdict": "PASS",
-      "detail": "exact witness at (M, H) = (5, 1): Phi = e^{-4 i x4} Phi0, Phi0 = v1 + conj(v1^dagger C v2) v2 from the sectors gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1, +1; all 15 three-gamma bilinears vanish, S != 0 real"
+      "detail": "exact witness at (M, H) = (5, 1): Phi = b4^(-3/4) e^{-4 i x4} Phi0, Phi0 = v1 + conj(v1^dagger C v2) v2 from the sectors gamma^x1 gamma^x5 = gamma^x2 gamma^x6 = gamma^x3 gamma^x7 = -1, +1 of A0; it solves d4 Phi = A Phi for every b4; all 15 three-gamma bilinears vanish, b4^(3/2) S != 0 real"
     },
     {
       "name": "representations_equivalent_authorT16_ownrep",
@@ -320,12 +325,17 @@
     {
       "name": "json_offdiagonal_coefficients",
       "verdict": "PASS",
-      "detail": "every off-diagonal kinetic coefficient of a4-equations.json equals this file's (the author's T16, the primary representation; same triple, value at three exact points to 40 digits)"
+      "detail": "every off-diagonal kinetic coefficient of a4-equations.json equals this file's (the author's T16, the primary representation, general b4; same triple, value at three exact points to 40 digits)"
     },
     {
       "name": "offdiagonal_coefficients_representation_independent",
       "verdict": "PASS",
-      "detail": "the author's T16 (primary) and the comparison representation built here give the same triples and the same coefficients"
+      "detail": "the author's T16 (primary) and the comparison representation built here give the same triples and the same coefficients (general b4)"
+    },
+    {
+      "name": "condensate_source_with_b4_not_constant",
+      "verdict": "PASS",
+      "detail": "a source with q40 = q04 = 0 and p3 = p_t = p0 (the homogeneous condensate) and b4 not constant: Einstein impossible (Q = 3 H/2 forces b4' = 0); the author's weights: no exponential history with beta != 0 (the Groebner basis of the conditions with beta H != 0 contains a polynomial in A without real roots); Einstein-Gauss-Bonnet: only the two branches beta = 4 and beta = 2 (1 + A^2)/A^2 (alpha2 from Q = 0)"
     }
   ]
 }

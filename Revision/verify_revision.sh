@@ -84,8 +84,8 @@
 #   theory-b4-sympy                        5 s
 #   pairing-wolfram                      280 s
 #   pairing-sympy                        240 s
-#   a4-wolfram                            70 s
-#   a4-sympy                              30 s
+#   a4-wolfram                            50 s
+#   a4-sympy                              15 s
 #   a4-b4-block-sympy                     35 s
 #   a4-ks-source-conditions                5 s
 #   a4-ks-source                          20 s
@@ -131,7 +131,7 @@
 #   dark-b4-author-inputs                 10 s
 #   dark-b4-wolfram                       10 s
 #   lead-emt-divergence                   10 s
-#   lead-einstein-gauss-bonnet            20 s
+#   lead-einstein-gauss-bonnet            10 s
 #   lead-charge-conjugation               15 s
 #   notebooks-check                       90 s
 #   pdf-dirac16complex-field-theory       30 s
@@ -298,8 +298,8 @@ theory-b4-emt-g|110|0|-|Revision/theory/reports/wolfram-field-theory-b4-emt-G.js
 theory-b4-sympy|5|0|-|Revision/theory/reports/python-field-theory-b4.json|Revision/theory/reports/python-field-theory-b4.json|{python} Revision/theory/python/check_field_theory_b4.py
 pairing-wolfram|280|0|-|Revision/pairing/pairing-theory.json,Revision/pairing/reports/wolfram-pairing.json|Revision/pairing/reports/wolfram-pairing.json|{wolframscript} -file Revision/pairing/wolfram/verify_pairing.wls
 pairing-sympy|240|0|-|Revision/pairing/reports/python-pairing.json|Revision/pairing/reports/python-pairing.json|{python} Revision/pairing/python/check_pairing.py
-a4-wolfram|70|0|-|Revision/field_equations_a4/a4-equations.json,Revision/field_equations_a4/reports/wolfram-a4-report.json|Revision/field_equations_a4/reports/wolfram-a4-report.json|{wolframscript} -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
-a4-sympy|30|0|-|Revision/field_equations_a4/reports/python-a4-report.json,Revision/field_equations_a4/reports/a4-equations-summary.md|Revision/field_equations_a4/reports/python-a4-report.json|{python} Revision/field_equations_a4/python/check_field_equations_a4.py
+a4-wolfram|50|0|-|Revision/field_equations_a4/a4-equations.json,Revision/field_equations_a4/reports/wolfram-a4-report.json|Revision/field_equations_a4/reports/wolfram-a4-report.json|{wolframscript} -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
+a4-sympy|15|0|-|Revision/field_equations_a4/reports/python-a4-report.json,Revision/field_equations_a4/reports/a4-equations-summary.md|Revision/field_equations_a4/reports/python-a4-report.json|{python} Revision/field_equations_a4/python/check_field_equations_a4.py
 a4-b4-block-sympy|35|0|-|Revision/field_equations_a4/reports/python-b4-block.json|Revision/field_equations_a4/reports/python-b4-block.json|{python} Revision/field_equations_a4/python/check_b4_block.py
 a4-ks-source-conditions|5|0|-|Revision/field_equations_a4/reports/ks-source-conditions.json|Revision/field_equations_a4/reports/ks-source-conditions.json|{python} Revision/field_equations_a4/python/check_ks_source_conditions.py
 a4-ks-source|20|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|Revision/field_equations_a4/ks_source/reports/ks-source-a4.json|{python} Revision/field_equations_a4/ks_source/ks_source_a4.py
@@ -345,7 +345,7 @@ dark-b4-author-notebook|5|0|build/revision/dark-b4-author|-|-|{audit} git-blob b
 dark-b4-author-inputs|10|0|-|Revision/dark_sector/reports/author-notebook-inputs.json|-|{wolframscript} -file Revision/dark_sector/wolfram/author_notebook_inputs.wls Dirac_Einstein-Lovelock_4+4_Nash.nb build/revision/dark-b4-author/Dirac_Einstein-Lovelock_4+4_Nash.nb
 dark-b4-wolfram|10|0|-|Revision/dark_sector/reports/wolfram-dark-sector-b4.json|Revision/dark_sector/reports/wolfram-dark-sector-b4.json|{wolframscript} -file Revision/dark_sector/wolfram/verify_dark_sector_b4.wls
 lead-emt-divergence|10|0|-|Revision/lead_checks/reports/emt-divergence-and-spin-connection.json|Revision/lead_checks/reports/emt-divergence-and-spin-connection.json|{python} Revision/lead_checks/emt_divergence_and_spin_connection.py
-lead-einstein-gauss-bonnet|20|0|-|Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json|Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json|{python} Revision/lead_checks/einstein_gauss_bonnet_a4.py
+lead-einstein-gauss-bonnet|10|0|-|Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json|Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json|{python} Revision/lead_checks/einstein_gauss_bonnet_a4.py
 lead-charge-conjugation|15|0|-|Revision/lead_checks/reports/charge-conjugation-and-u1.json|Revision/lead_checks/reports/charge-conjugation-and-u1.json|{python} Revision/lead_checks/charge_conjugation_and_u1.py
 notebooks-check|90|0|-|Revision/notebooks|-|{audit} notebooks Revision/notebooks/tools/build_notebooks.py
 pdf-dirac16complex-field-theory|30|0|-|Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.tex,Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md --developer-layout --specifications Revision/pdf-specifications.json
