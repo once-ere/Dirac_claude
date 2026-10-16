@@ -131,6 +131,20 @@ Progress (newest last):
   READMEs, gate, provenance, index; then phase 9 (textbook).
   KNOWN OPEN until phase 8: the publication tests of PAIR_CREATION_PROOFS, DIRAC16COMPLEX_FIELD_THEORY and
   DIRAC16COMPLEX00_FIELD_THEORY (the documents cite the former counts and texts).
+- Phase 8 DONE (2026-10-16): DIRAC16COMPLEX_FIELD_THEORY (dd779a9) and DIRAC16COMPLEX00_FIELD_THEORY (8d32afe) for
+  general b4: no section describes b4 = 1 any more (the 00 document's b4 section 17 is merged into the text); the 16
+  component equations with hat-d4 = d4 + (3/4) b4'/b4 (in the 00 document the inverse scale factors are now eps_s,
+  eps_t: u, v denote b4'/b4 and its derivative); the a4 and b4 equations with E_(k) in (a4', a4'', u, v), the
+  off-diagonal factor Q (per order Q_(k)), the identity x1 + x5 - 2 x0 (per order I_(k)), Einstein gravity,
+  exponential histories, the author's weights, the background history and its source; the Kohn-Sham source analysis
+  (22/22); the dark-sector verdict for Hypothesis00 from the current records. Their publication tests render every
+  new block from field-theory.json and a4-equations.json (17 and 16 tests pass); pdfs 39 and 42 pages, warning-free,
+  registered. README (pages; the Kohn-Sham row), the gate (t3-rust-demo marked long: claude_failures G16; --fast
+  now 95 steps), claude_failures G17 (two heredoc patches that changed nothing). All Revision unit tests except the
+  textbook test pass (204 tests, 10 skipped, 123 s). The provenance index has no rows for the documents (nothing to
+  change). NEXT: the gate steps of the six documents and the audits in batches under 423 s; then phase 9 (the
+  textbook: every chapter and notebook that still uses b4 = 1 or cites the former check names, e.g. chapter 17's
+  `ks_verdict_holds_for_every_b4`; the book PDF; retire the b4 supplements once the textbook no longer reads them).
 
 ### 0.8 STATE 2026-10-15 (dark sector with b4; done, superseded as the start by 0.9)
 
