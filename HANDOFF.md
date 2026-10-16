@@ -51,6 +51,10 @@ change; no calculation longer than 423 s; push each piece at once. The conventio
   test_revision_gate, test_execution_provenance, the Revision notebook check, nbkit check of 22b, 00c, 09b and
   23a, chapter23 --check and the textbook classes Book, Files and Validators: all pass, no tracked file
   changed; both registered PDFs equal the registry.
+- ebf703e: the root README (unchanged since 2026-09-30 and silent about `Revision/`) points to the current
+  record and its dark sector with b4(x4); the first-edition stages stay unchanged, as the author ordered
+  ("must NOT mix old with new"). The chapter-22 plan of TEXTBOOK_SPEC and the publication test's docstring
+  are up to date.
 
 **Open (for the user to decide; not part of the dark-sector order):**
 - The general Kohn-Sham record (`Revision/kohn_sham/`) and the textbook chapters on it (for example chapter 14,
