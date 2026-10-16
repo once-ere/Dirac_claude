@@ -2,8 +2,13 @@
 """Revision/dark_sector/dirac16complex/independent/independent_free_gas.py - INDEPENDENT second implementation of
 the key numbers of the dark-sector analysis of dirac16complex for the free (lambda = 0) Kohn-Sham gas.
 
-Coordinates as the author names them: x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the three exponentially
-DEFLATING extra times (scale factor e^{-a4} sin^{1/6} z, a4 increasing); x0 = hidden direction, y = ln(sin z)/(6H).
+Coordinates as the author names them (Dirac_Einstein-Lovelock_4+4_Nash.nb, In[48]): x1, x2, x3 = 3-space; x4 = time;
+x5, x6, x7 = the three exponentially DEFLATING extra times (g55 = g66 = g77 = -e^{-2 a4} b4 sin^{1/3} z, scale factor
+e^{-a4} b4^{1/2} sin^{1/6} z); x0 = hidden direction, y = ln(sin z)/(6H).  b4 is a function of x4 (never 1); the
+history is a4 = H x4, b4(x4) = b4(0) e^{(4/3) H x4} (beta = d ln b4/d a4 = 4/3, compute/run_ks_history.py).  For
+lambda = 0 the good-sector block Hamiltonian below contains no b4 (Revision/kohn_sham/reports/ks-b4-wolfram.json, K2:
+Psi = b4^{-3/4} X, X solves the b4-free equation) and Pt = int p_t = 0, so the free gas has the same levels, E and
+X = P3 - Pt at every b4; b4 enters only the normalisation C: w_eff(C) = X/E - 1 + beta/2 = X/E - 1/3.
 
 Independent of the Rust solver (different method, different code, no solver output read except for the final
 comparison): the 2 x 2 block Hamiltonian of Revision/kohn_sham/ks-theory.json (blockEquation; lambda = 0, so
@@ -38,6 +43,8 @@ HERE = Path(__file__).resolve().parent
 OWN = HERE.parent
 DENSE = OWN / "outputs" / "ks-history-dense.csv"
 SUMMARY = OWN / "outputs" / "eos-summary.json"
+KSB4 = OWN.parent.parent / "kohn_sham" / "reports" / "ks-b4-wolfram.json"
+BETA = 4.0 / 3.0                     # d ln b4/d a4 on the history
 OUT = OWN / "outputs" / "independent-free-gas.json"
 REP = OWN / "reports" / "independent-checks.json"
 Hc, M, L, DK = 1.0, 1.0, 3.0, 0.25            # Revision/kohn_sham/results/parameters.json physics (H = m = 1)
@@ -272,7 +279,7 @@ def main():
             dw = dX / E0 + 3 * (X0 / E0) ** 2
             p = next(q for q in pt[f"N{N}_lam0"]["cplTangent"] if q["a4_today"] == t)
             worstT = max(worstT, abs(-dw - p["w_eff_A_B"]["wa"]), abs(X0 / E0 - p["w_eff_A_B"]["w0"]))
-            tang.append({"N": N, "a4_today": t, "w0_A_B": r(X0 / E0), "w0_C": r(X0 / E0 - 1), "wa": r(-dw),
+            tang.append({"N": N, "a4_today": t, "w0_A_B": r(X0 / E0), "w0_C": r(X0 / E0 - 1 + 0.5 * BETA), "wa": r(-dw),
                          "primary_w0_A_B": p["w_eff_A_B"]["w0"], "primary_wa": p["w_eff_A_B"]["wa"]})
     check("cpl_tangent_vs_primary", worstT < 5e-5,
           f"w0 and wa (a4_today = 0.5, 1, 1.5, 2; N = 136, 688; lambda = 0) independent vs primary (4th-order "
@@ -301,15 +308,25 @@ def main():
           f"lowest even-parity (brane-band, massless at k = 0) level of the same shell: w_eff(A) in "
           f"[{min(wr):.6f}, {max(wr):.6f}], {wr[-1]:.6f} at a4 = 4 (-> 1/3: radiation, no 1/3 -> 0)")
 
+    ksb4 = json.loads(KSB4.read_text(encoding="utf-8"))
+    k2 = next((c for c in ksb4["checks"] if c["name"] == "K2_good_sector_independent_of_b4"), None)
+    check("free_gas_independent_of_b4", k2 is not None and k2.get("verdict") == "PASS" and ksb4["failedCount"] == 0,
+          "the good-sector problem solved here contains no b4: Revision/kohn_sham/reports/ks-b4-wolfram.json, check "
+          "K2_good_sector_independent_of_b4 PASS (Psi = b4^(-3/4) X); at lambda = 0 there is no mean field and Pt = 0, so "
+          "E, X and w_eff(A) = X/E of this free gas are the same on the history with b4(x4); w_eff(C) = X/E - 1/3 "
+          "(beta = 4/3)")
+
     fails = [c for c in CHECKS if c["verdict"] != "PASS"]
     out = {"producer": "Revision/dark_sector/dirac16complex/independent/independent_free_gas.py",
            "method": f"Chebyshev collocation n = {NCHEB} on y in [-L, 0], Hellmann-Feynman level derivatives, "
                      f"Clenshaw-Curtis quadrature; H = m = 1, L = 3, dk = 0.25, lambda = 0, shells n2 <= {N2MAX}",
-           "history": [{"N": N, "a4": r(a4), "E": r(E), "X": r(X), "w_eff_A_B": r(X / E), "w_eff_C": r(X / E - 1)}
+           "history": [{"N": N, "a4": r(a4), "E": r(E), "X": r(X), "w_eff_A_B": r(X / E),
+                        "w_eff_C": r(X / E - 1 + 0.5 * BETA)}
                        for N in (136, 688) for (a4, E, X) in hist[N]],
            "cplTangent": tang, "bulkBand_n2_1": bulk, "braneBand_n2_1": brane,
-           "label": "free (lambda = 0) gas on the PRESCRIBED history a4 = A H x4; instantaneous states; the Z2 brane "
-                    "is ASSUMED; the filling rule is the stated CONVENTION of ks-theory.json"}
+           "label": "free (lambda = 0) gas on the PRESCRIBED history a4 = H x4, b4(x4) = b4(0) e^((4/3) H x4) "
+                    "(beta = 4/3; the free gas does not feel b4, only the normalisation C does); instantaneous states; "
+                    "the Z2 brane is ASSUMED; the filling rule is the stated CONVENTION of ks-theory.json"}
     with open(OUT, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(json.dumps(out, indent=1) + "\n")
     rep = {"producer": out["producer"], "checks": CHECKS,
