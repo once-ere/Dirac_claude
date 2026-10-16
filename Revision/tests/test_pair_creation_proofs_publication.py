@@ -65,8 +65,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "3058487b39f6bab275e6ce46844e5eac54919e1686f4fc52a0e5872f28577135"
-TEX_SHA256 = "565f4a86761a71feb2833d151f1699834f9aad2b5b6b7b3544a5b30911954273"
+MARKDOWN_SHA256 = "e4a18a143cef0eeaa4dc0beddbed0987c3fdaf56c657e351a26dff0f17258f05"
+TEX_SHA256 = "80998fa7994ee1c4fa999b5f16ff6f945f4274192a6b78168d750112da8617df"
 
 PAIRING_THEORY = REVISION / "pairing" / "pairing-theory.json"
 WOLFRAM_PAIRING = REVISION / "pairing" / "reports" / "wolfram-pairing.json"
@@ -128,7 +128,7 @@ SECTIONS = (
     "## 4. Theorem T1: the chirality pairing (both fields)",
     "## 5. Theorem T2: the mirror pairing (both fields)",
     "## 6. The quantum-level reading (dirac16complex)",
-    "## 7. Corollary C1: a T1 pair as the source of the field equations for $a_4$",
+    "## 7. Corollary C1: a T1 pair as the source of the field equations for $a_4$ and $b_4$",
     "## 8. Theorem T3: the Kohn-Sham level (dirac16complex)",
     "## 9. Verification records",
     "## 10. Reproduction",
@@ -469,33 +469,33 @@ class QuotedData(unittest.TestCase):
         self.assertEqual(theory["verification"], [c["name"] for c in load_json(WOLFRAM_T3)["checks"]])
 
     def test_a4_vacuum_polynomial(self):
-        a1, a2, a3, h, a = sp.symbols("alpha1 alpha2 alpha3 H AA")
-        document_v = a1 - 40*a2*h**2 - 8*a**2*a2*h**2 + 360*a3*h**4 + 144*a**2*a3*h**4 + 72*a**4*a3*h**4
-        self.assertIn(r"V = \alpha_1 - 40\alpha_2H^2 - 8A^2\alpha_2H^2 + 360\alpha_3H^4 "
-                      r"+ 144A^2\alpha_3H^4 + 72A^4\alpha_3H^4", self.text)
-        for path in (A4_WOLFRAM, A4_PYTHON):
-            detail = check_detail(path, "linear_member_vacuum_factor")
-            match = re.search(r"V = ([^;]+?)(?:;|$)", detail)
-            self.assertIsNotNone(match, path.name)
-            expression = sp.sympify(match.group(1).replace("^", "**"),
-                                    locals={"alpha1": a1, "alpha2": a2, "alpha3": a3, "H": h, "AA": a})
-            self.assertEqual(sp.expand(expression - document_v), 0, path.name)
+        """Corollary C1 for the metric with b4(x4): the vacuum statements of the a4 and b4 equations."""
         detail = check_detail(A4_WOLFRAM, "einstein_no_vacuum_solution")
-        self.assertIn("36 H^2 + 2 Lambda = 0", detail)
-        self.assertIn("6 a4'^2 + 6 H^2 = 0", detail)
-        self.assertIn(r"$36H^2 + 2\Lambda = 0$ and $6(a_4')^2 + 6H^2 = 0$", self.text)
-        detail = check_detail(A4_WOLFRAM, "einstein_gauss_bonnet_vacuum_linear")
-        self.assertIn("A^2 = (1 - 40 alpha2 H^2)/(8 alpha2 H^2)", detail)
-        self.assertIn("0 < alpha2 H^2 <= 1/40", detail)
-        self.assertIn(r"$A^2 = (1 - 40\alpha_2H^2)/(8\alpha_2H^2)$", self.text)
-        self.assertIn(r"$0 < \alpha_2H^2 \leq 1/40$", self.text)
+        for piece in ("the x4-x0 component forces u = 0", "36 H^2 + 2 Lambda = 0", "6 a4'^2 + 6 H^2 = 0"):
+            self.assertIn(piece, detail)
+        self.assertIn("forces u = 0", check_detail(A4_PYTHON, "einstein_no_vacuum"))
+        self.assertIn(r"the $x_4$-$x_0$ component forces $b_4' = 0$, and then the $x_4$ and $x_0$ components give "
+                      r"$36H^2 + 2\Lambda = 0$ and $6(a_4')^2 + 6H^2 = 0$", self.text)
+        detail = check_detail(A4_WOLFRAM, "author_weights_no_vacuum_with_b4_not_constant")
+        self.assertIn("exactly for beta = 0 (b4 constant: the withdrawn metric) with A = +-1", detail)
+        self.assertIn("no exponential history with b4 not constant is a vacuum solution", detail)
+        self.assertIn("(beta, A) = [(0, -1), (0, 1)]", check_detail(A4_PYTHON, "author_weights_no_vacuum_with_b4_not_constant"))
+        self.assertIn(r"is a vacuum solution exactly for $\beta = 0$ ($b_4$ constant, the withdrawn metric) and $A = \pm1$; "
+                      r"none with $b_4$ not constant", self.text)
+        for path in (A4_WOLFRAM, A4_PYTHON):
+            detail = check_detail(path, "egb_exponential_vacuum_branches")
+            self.assertIn("1/(40 H^2 (1 - A^2))", detail, path.name)
+            self.assertIn("-A^2/(4 H^2 (A^2 - 1)^2)", detail, path.name)
+        self.assertIn(r"$\beta = 4$ with $\alpha_2 = 1/(40H^2(1 - A^2))$ and $\beta = 2(1 + A^2)/A^2$ with "
+                      r"$\alpha_2 = -A^2/(4H^2(A^2 - 1)^2) < 0$", self.text)
+        self.assertIn("w1 = 1, w2 = 1/32, w3 = 1/1152", check_detail(A4_WOLFRAM, "author_weights_branch"))
 
     def test_kohn_sham_self_test_numbers(self):
         detail = check_detail(KS_SOLVER, "t3_block_map_solver_selftest")
         self.assertIn("NOT a proof of T3", detail)
-        for number in ("9.95e-14", "1e-9", "0.01946", "-9.868426190876e-4", "-9.868426190868e-4",
-                       "80 levels", "-2.0145243719e0", "0.0009298", "3.239294915318e1",
-                       "160 levels", "2.9283751318e1"):
+        for number in ("8.35e-14", "1e-9", "0.01946", "-1.341747939926e-4", "-1.341747939933e-4",
+                       "80 levels", "-1.6232217540e0", "0.01206", "3.239983783344e1",
+                       "160 levels", "2.9056626386e1"):
             self.assertIn(number, detail, number)
             self.assertIn(number, self.text, number)
         self.assertIn("labelled in its report as NOT a proof of T3", self.text)
@@ -516,32 +516,32 @@ class QuotedData(unittest.TestCase):
         quoted = (
             (rust, "plus_and_image_runs_converged", "210 states (75 ground, 135 thermal)", "210 states: all 75 ground and 135 Mermin states"),
             (rust, "plus_reproduces_canonical_matrix", "2.538e-10", "2.538e-10"),
-            (rust, "t3_equal_ground_states", "worst deviation 2.179e-13, tolerance 1e-09", "2.179e-13 (ground)"),
-            (rust, "t3_equal_thermal_states", "worst deviation 3.877e-12, tolerance 1e-09", "3.877e-12 (thermal), tolerance 1e-9"),
-            (rust, "negative_control_untransformed_tip", "at least 4.750e+00", "at least 4.750e+00 of its maximum"),
-            (rust, "negative_control_untransformed_tip", "in the 196 states", "196 states with a converged control"),
-            (rust, "negative_control_untransformed_tip", "in 14 states", r"in 14 states, all with $\lambda < 0$"),
+            (rust, "t3_equal_ground_states", "worst deviation 1.741e-13, tolerance 1e-09", "1.741e-13 (ground)"),
+            (rust, "t3_equal_thermal_states", "worst deviation 2.120e-11, tolerance 1e-09", "2.120e-11 (thermal), tolerance 1e-9"),
+            (rust, "negative_control_untransformed_tip", "at least 5.296e-01", "at least 5.296e-01 of its maximum"),
+            (rust, "negative_control_untransformed_tip", "in the 200 states", "200 states with a converged control"),
+            (rust, "negative_control_untransformed_tip", "in 10 states", r"in 10 states, all with $\lambda < 0$"),
             (rust, "negative_control_lambda_sign", "all 150 states", r"in all 150 states with $\lambda \neq 0$"),
-            (rust, "negative_control_lambda_sign", "smallest deviation 1.210e-02", "at least 1.210e-02"),
+            (rust, "negative_control_lambda_sign", "smallest deviation 3.254e-04", "at least 3.254e-04"),
             (reference, "all_members_converged", "18 states", "18 states, finite differences"),
-            (reference, "t3_equal_ground_states", "worst 2.043e-14", "2.043e-14 in the ground states"),
-            (reference, "t3_equal_ground_states", "up to 2.23e-04", "differ by up to 2.23e-04"),
+            (reference, "t3_equal_ground_states", "worst 9.326e-15", "9.326e-15 in the ground states"),
+            (reference, "t3_equal_ground_states", "up to 2.24e-04", "differ by up to 2.24e-04"),
             (reference, "negative_control_untransformed_tip", "at least 5.296e+00", "at least 5.296e+00 of its maximum"),
-            (reference, "reference_image_equals_rust_image", "agree to 1.255e-11", "agree to 1.255e-11"),
+            (reference, "reference_image_equals_rust_image", "agree to 1.262e-11", "agree to 1.262e-11"),
         )
         for details, name, in_report, in_document in quoted:
             self.assertIn(in_report, details[name], name)
             self.assertIn(in_document, self.text, in_document)
-        # the 14 states without a converged control all have lambda < 0 (tag lamm)
+        # the 10 states without a converged control all have lambda < 0 (tag lamm)
         detail = rust["negative_control_untransformed_tip"]
-        states = re.search(r"in 14 states \(([^)]*)\)", detail).group(1).split(", ")
-        self.assertEqual(len(states), 14)
+        states = re.search(r"in 10 states \(([^)]*)\)", detail).group(1).split(", ")
+        self.assertEqual(len(states), 10)
         self.assertTrue(all("_lamm" in state for state in states), states)
 
     def test_ks_source_numbers(self):
         report = load_json(KS_SOURCE_A4)
-        self.assertEqual(report["summary"], {"checks": 23, "pass": 23, "fail": 0})
-        self.assertIn("23 of 23 checks", self.text)
+        self.assertEqual(report["summary"], {"checks": 22, "pass": 22, "fail": 0})
+        self.assertIn("22 of 22 checks", self.text)
         self.assertIn("EXACT: no recorded Kohn-Sham state is an admissible source", report["conclusions"][0])
 
     def test_further_quoted_numbers(self):
