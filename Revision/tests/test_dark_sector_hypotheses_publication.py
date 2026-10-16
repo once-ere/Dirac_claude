@@ -5,7 +5,9 @@ The document is deliverable 5 of Revision/SPEC.md section 10: the two hypotheses
 (Hypothesis for dirac16complex, Hypothesis00 for dirac16complex00), the lead's analysis of SPEC
 section 11 checked point by point, the observer assumption for rho_4 with the definitions (A), (B),
 (C), the method, the results for each field, the comparison with the Supernovae Unite values, the
-verdicts and what remains open.  It is built and registered with
+verdicts and what remains open.  Since 2026-10-15 every result is for the author's metric with the
+second function b4(x4) (a function of x4, never 1), on the history a4 = H x4,
+b4 = b4(0) e^((4/3) H x4) of the author's weights; the b4 = 1 record is withdrawn.  It is built and registered with
 
     python scripts/build_provenance_pdf.py Revision/docs/DARK_SECTOR_HYPOTHESES.md \
         --developer-layout --specifications Revision/pdf-specifications.json [--register]
@@ -69,8 +71,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "b21a8302541ab543eac0ed2838cbd73bb876cd74d048f783576bbebb7867184b"
-TEX_SHA256 = "92f9b212add6b602aeac6bff5b21b816d6549e154229d386bb909c5d62a794bc"
+MARKDOWN_SHA256 = "85f18d1acb1a4372a419f9f7302f32250fc003679706a385b4f55cd591f44710"
+TEX_SHA256 = "3267c0f3ae437d22d2504b9c8a7687077d21d2449f7200ceccbcc88bed10ccca"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"
@@ -85,12 +87,13 @@ DERIVE_EOS = D00 / "reports" / "python-derive-eos.json"
 INDEPENDENT_NUMERICS = D00 / "reports" / "python-independent-numerics.json"
 EOS_THEORY = D00 / "eos-theory.json"
 NUMERICS = D00 / "results" / "independent-numerics.json"
+WOLFRAM = DARK / "reports" / "wolfram-dark-sector-b4.json"
 KS_SOURCE = REVISION / "field_equations_a4" / "reports" / "ks-source-conditions.json"
 A4_EQUATIONS = REVISION / "field_equations_a4" / "a4-equations.json"
 EXACT_FOCK = REVISION / "kohn_sham" / "results" / "exx" / "exact-fock-variant.csv"
 
-# The six dark-sector reports, every check of which the document lists (section 11.2).
-DARK_REPORTS = (DERIVATION, KS_HISTORY, EOS_CHECKS, INDEPENDENT, DERIVE_EOS, INDEPENDENT_NUMERICS)
+# The seven dark-sector reports, every check of which the document lists (section 11.2).
+DARK_REPORTS = (DERIVATION, KS_HISTORY, EOS_CHECKS, INDEPENDENT, DERIVE_EOS, INDEPENDENT_NUMERICS, WOLFRAM)
 # The reports of the count table (section 11.1), in the order of the table.
 COUNTED_REPORTS = (
     "Revision/dark_sector/dirac16complex/reports/derivation-checks.json",
@@ -99,12 +102,14 @@ COUNTED_REPORTS = (
     "Revision/dark_sector/dirac16complex/reports/independent-checks.json",
     "Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json",
     "Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json",
+    "Revision/dark_sector/reports/wolfram-dark-sector-b4.json",
     "Revision/field_equations_a4/reports/ks-source-conditions.json",
 )
 # Every report whose check names the document may cite.
 CITABLE_REPORT_GLOBS = (
     "dark_sector/dirac16complex/reports/*.json",
     "dark_sector/dirac16complex00/reports/*.json",
+    "dark_sector/reports/*.json",
     "field_equations_a4/reports/ks-source-conditions.json",
 )
 
@@ -137,32 +142,28 @@ KEY_STATEMENTS = (
     "Nothing in this record establishes that either field is dark energy or dark matter.",
     "The rho_4 normalisation is an ASSUMPTION about the observer, not a consequence of the field "
     "equations, and this record does not choose one.",
-    r"$w_{\rm eff}(A) = w_{\rm eff}(B) = X/E$ and $w_{\rm eff}(C) = X/E - 1$ with $X = P_3 - P_t$",
-    "every verdict moves by exactly $-1$ between (A, B) and (C)",
+    r"$w_{\rm eff} = X/E - s + (\beta/2)(P_t/E + s)$ with $X = P_3 - P_t$",
+    "every verdict moves by exactly $-1/3$ between (A, B) and (C)",
     "$x_5, x_6, x_7$ are the three extra times, which are time-like and DEFLATE exponentially",
-    "The history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND",
-    "both CHOSEN to solve tangent $= (-0.861, -0.60)$",
-    "the M4 tangent and the M5 fit equal the Unite pair by construction",
-    r"Without its ghost component M5 does not cross $-1$ on $a \in [1/3, 1]$ (`M5_without_ghost_no_crossing`) nor,",
-    "a crossing close to the line's crossing is expected and is not an independent agreement",
+    "$b_4$ is a function of $x_4$, and every result below is computed with it",
+    "The history is therefore a PRESCRIBED BACKGROUND for test fields.",
+    "both CHOSEN on the withdrawn record to solve tangent $= (-0.861, -0.60)$",
+    "On the withdrawn record the M4 tangent and the M5 fit equal the Unite pair by construction.",
+    "so $w_0 = -0.861$ needs $G \\geq 1583/1000$",
+    "the $b_4$-free identity of the withdrawn record fails on the interacting series",
     "NOT FOUND in the computed states",
     "Positive-energy extra-time momentum does NOT supply it",
     "In this convention thawing means $w_a < 0$",
     "$w_{\\rm exp} = -1$ exactly",
     "so it is not the supernova constant-$w$ fit -0.764, which weights the data",
     "No supernova likelihood, distance fit or covariance is computed anywhere in this record.",
-    "the gas fraction 0.436703 is CHOSEN so that $w_{\\rm eff}(C) = -0.861$ today",
-    "the gas fraction 0.6807148417136 is CHOSEN so that the constant-$w$ proxy",
     "This value of $\\lambda S/m$ is CHOSEN to give -0.764: one parameter tuned to one number.",
-    "2. Any Unite value as an output of the field equations: every match is by construction",
+    "2. Any Unite value as an output of the field equations: no positive-energy content reaches them on the history",
     "Negative $E$ is not specific to a negative-norm (Krein) sector in the canonical Kohn-Sham record",
     "This negative $E$ is therefore a property of the approximate functional; good-sector states with "
     "$E < 0$ are not established beyond it.",
-    "which is phantom ($w < -1$) exactly when $\\kappa\\rho > 0$",
-    "a constant ratio $w < -1$ for $\\kappa\\rho > 0$",
-    "$\\kappa\\rho = -(3A^2 + 21)H^2 - \\Lambda$",
-    "which is phantom exactly when $\\Lambda < -(21 + 3A^2)H^2$",
-    "for $\\Lambda = 0$ the ratio is $w = (A^2 - 5)/(A^2 + 7) > -1$, not phantom",
+    "\\kappa\\,(\\rho,\\ p_3,\\ p_t,\\ p_0) = \\Big(-\\frac{2}{27},\\ -\\frac{2}{9},\\ -\\frac{22}{27},\\ -\\frac{14}{27}\\Big)",
+    "no condensate is it",
     "in the positive realisation of the good sector (with the ASSUMED brane condition",
     "crosses $-1$ on $[1/3, 1]$?",
 )
@@ -265,21 +266,26 @@ def series(name: str) -> dict:
 # substring must occur in the check's detail AND in the document.
 DETAIL_NUMBERS = (
     (DERIVATION, "condensate_ratio_equal_unite_constant_w", ("-382/441", "-0.866213151927", "0.566893424036")),
-    (DERIVATION, "mixture_C_matching_w0_unite", ("417/583", "0.715265866209", "0.081037")),
+    (DERIVATION, "mixture_C_matching_w0_unite_b4", ("(-0.388667, 0.278000]",)),
     (DERIVATION, "unite_deep_past", ("-1.461",)),
     (KS_HISTORY, "all_runs_succeeded", ("615 runs (15 series x 41 slices)",)),
-    (KS_HISTORY, "committed_slices_reproduced", ("75 committed states", "0.000e+00")),
+    (KS_HISTORY, "a4_0_states_equal_committed_record", ("0.000e+00",)),
     (KS_HISTORY, "y_conservation_every_state", ("1.951e-08",)),
-    (KS_HISTORY, "particle_number_every_state", ("2.299e-15",)),
-    (EOS_CHECKS, "conservation_dE_da4_equals_minus_3X", ("1.235e-07",)),
-    (EOS_CHECKS, "conservation_integrated_simpson", ("1.927e-08",)),
-    (EOS_CHECKS, "derivative_two_ways", ("1.397e-06",)),
-    (EOS_CHECKS, "gas_radiation_like_band", ("[0.292893, 0.328105]",)),
-    (EOS_CHECKS, "mixture_C_w0_unite_has_positive_wa", ("0.436703", "0.067014")),
-    (EOS_CHECKS, "mixture_C_constant_w_unite_reachable_only_with_freezing_cpl", ("0.6807148417136",)),
-    (EOS_CHECKS, "ratio_mixture_scan_cannot_reach_unite_wa", ("0.600001",)),
+    (KS_HISTORY, "particle_number_every_state", ("2.442e-15",)),
+    (EOS_CHECKS, "conservation_with_b4_term", ("6.351e-06", "6.7e-06")),
+    (EOS_CHECKS, "conservation_without_b4_term_fails", ("1.630e+00",)),
+    (EOS_CHECKS, "conservation_integrated_simpson", ("3.585e-07",)),
+    (EOS_CHECKS, "derivative_two_ways", ("6.394e-07", "3.532e-05")),
+    (EOS_CHECKS, "gas_radiation_like_band", ("[0.292903, 0.326429]",)),
+    (EOS_CHECKS, "gas_C_near_zero_on_b4_history", ("[-0.040430, -0.006905]",)),
+    (EOS_CHECKS, "n8_interacting_zero_modes_dilute_with_b4",
+     ("[0.018402, 0.019031]", "0.018316", "[0.931316, 0.999997]", "[0.620877, 0.666665]")),
+    (EOS_CHECKS, "condensate_drifts_with_b4", ("-2.695392", "-0.509333", "-0.842667", "-1.796928")),
+    (EOS_CHECKS, "mixture_C_cannot_reach_unite_w0_with_lambda0_condensate", ("-0.333015",)),
+    (EOS_CHECKS, "mixture_scan_three_definitions_b4",
+     ("0.5891697548245", "0.6119842735815", "0.2910614215438", "-2.639515126434")),
     (EOS_CHECKS, "gas_cpl_thawing_sign_small",
-     ("[-0.020523, -0.008894]", "[-0.030371, -0.018132]", "[-0.707107, -0.671895]")),
+     ("[-0.017766, -0.009043]", "[-0.026521, -0.019590]", "[-0.040430, -0.006905]")),
     (INDEPENDENT, "exact_k0_spectra", ("1.421e-14", "1.292292828069")),
     (INDEPENDENT, "brane_band_slope", ("1.9051482536",)),
     (INDEPENDENT, "collocation_converged", ("6.01e-15",)),
@@ -292,14 +298,20 @@ DETAIL_NUMBERS = (
     (DERIVE_EOS, "condensate_phantom_interval", ("(-2, -1)",)),
     (DERIVE_EOS, "unite_line_fit_proxy", ("-1.011", "-1.061")),
     (DERIVE_EOS, "unite_crossing_point", ("461/600", "139/461")),
-    (DERIVE_EOS, "M2_tangent_exact", ("417/1000", "81037/500000")),
-    (DERIVE_EOS, "M3_tangent_exact", ("417/1417", "-196963/500000")),
-    (DERIVE_EOS, "M4_parameters_exact", ("264037/403037", "57963/264037")),
-    (DERIVE_EOS, "M4_never_phantom", ("-0.999999214228",)),
-    (INDEPENDENT_NUMERICS, "B_vs_A_M5_crossing", ("0.77905405", "0.77909966367")),
-    (INDEPENDENT_NUMERICS, "B_solve_M3_s", ("0.29426353",)),
-    (INDEPENDENT_NUMERICS, "B_solve_M4", ("0.65505409", "0.21946024")),
-    (INDEPENDENT_NUMERICS, "B_growth_rate", ("1.8433886", "0.54337468", "0.55114035")),
+    (DERIVE_EOS, "condensate_ratio_drift_at_unite_value", ("-84231/31250", "-2.695392")),
+    (DERIVE_EOS, "branch_required_source", ("-2/27", "-2/9", "-22/27", "-14/27")),
+    (DERIVE_EOS, "M2_tangent_exact_b4", ("417/1000", "-583/3000", "81037/500000")),
+    (DERIVE_EOS, "M3_tangent_exact_b4", ("417/1417", "-287/1000", "-196963/4500000")),
+    (DERIVE_EOS, "M4_withdrawn_tuning_on_b4_history", ("264037/403037", "57963/264037", "-0.33280216468")),
+    (DERIVE_EOS, "positive_models_bounded_by_minus_one_third",
+     ("-0.194333333333", "-0.332598868774", "-0.33280216468")),
+    (DERIVE_EOS, "unite_w0_requires_dominant_ghost", ("1583/1000", "1583/2583")),
+    (INDEPENDENT_NUMERICS, "B_solve_M3_s", ("0.29429162", "0.2942837")),
+    (INDEPENDENT_NUMERICS, "B_positive_models_bounded", ("-0.31820563",)),
+    (INDEPENDENT_NUMERICS, "B_growth_rate", ("6.2639848", "0.30893327", "0.31165344")),
+    (INDEPENDENT_NUMERICS, "B_condensate_dilutes_with_b4", ("1.2610746e-13", "0.91990032")),
+    (INDEPENDENT_NUMERICS, "B_dilution_equals_formula_M2", ("4.0240551e-05",)),
+    (WOLFRAM, "D7_branch_required_source", ("-2/27", "-2/9", "-22/27", "-14/27")),
 )
 
 
@@ -395,19 +407,19 @@ class Content(unittest.TestCase):
     def test_tuned_models_are_labelled(self):
         """Every model or mixture tuned to a Unite number is marked CHOSEN and by construction."""
         for row in (
-            "| M2 | positive-energy good-sector gas, $q = 0$ | $k^2/(k^2+m^2) = 417/1000$ at $a = 1$, CHOSEN for "
-            "$w_0 = -0.861$ |",
-            "| M3 | positive-energy extra-time mode, $k = 0$ | $s = q^2/m^2 = 417/1417$, CHOSEN for $w_0 = -0.861$ |",
+            "| M2 | positive-energy good-sector gas, $q = 0$ | $k^2/(k^2+m^2) = 417/1000$ at $a = 1$, CHOSEN on the "
+            "withdrawn record for $w_0 = -0.861$ |",
+            "| M3 | positive-energy extra-time mode, $k = 0$ | $s = q_p^2/m^2 = 417/1417$, CHOSEN on the withdrawn "
+            "record for $w_0 = -0.861$ |",
             "| M4 | condensate + positive extra-time mode | $s = 264037/403037$ and $\\Omega_q = 57963/264037$, "
-            "both CHOSEN to solve tangent $= (-0.861, -0.60)$ |",
+            "both CHOSEN on the withdrawn record to solve tangent $= (-0.861, -0.60)$ |",
             "| M5 | M4-type + GHOST: massless modes of negative classical energy | $G = 3/10$ of the total at "
-            "$a = 1$ (a stated choice); $s$ and $\\Omega_q$ CHOSEN so that the fit over $[1/2, 1]$ is "
-            "$(-0.861, -0.60)$ |",
+            "$a = 1$ (a stated choice); $s$ and $\\Omega_q$ CHOSEN on the withdrawn record so that its fit over "
+            "$[1/2, 1]$ was $(-0.861, -0.60)$ |",
         ):
             self.assertIn(row, self.text, row)
-        self.assertIn("$r_0 = 417/583 = 0.715265866209$, CHOSEN for that purpose", self.text)
-        self.assertGreaterEqual(self.text.count("by construction"), 7)
-        self.assertGreaterEqual(self.text.count("CHOSEN"), 12)
+        self.assertGreaterEqual(self.text.count("by construction"), 6)
+        self.assertGreaterEqual(self.text.count("CHOSEN"), 10)
         self.assertGreaterEqual(self.text.count("ghost-like sector"), 4)
 
     def test_no_overclaims(self):
@@ -476,6 +488,7 @@ class Content(unittest.TestCase):
             ("**dirac16complex, independent_free_gas.py**", INDEPENDENT),
             ("**dirac16complex00, derive_eos.py (A)**", DERIVE_EOS),
             ("**dirac16complex00, independent_numerics.py (B)**", INDEPENDENT_NUMERICS),
+            ("**dark sector, verify_dark_sector_b4.wls (Wolfram)**", WOLFRAM),
         )
         for header, path in headers:
             self.assertIn(f"{header} ({len(load_json(path)['checks'])} checks):", self.text, header)
@@ -487,10 +500,11 @@ class Content(unittest.TestCase):
             self.assertIn(row, self.text, row)
             self.assertEqual(failed, 0, relative)
             self.assertEqual(passed, total, relative)
-        self.assertEqual(load_json(DERIVATION)["summary"], {"total": 30, "pass": 30, "fail": 0})
+        self.assertEqual(load_json(DERIVATION)["summary"], {"total": 39, "pass": 39, "fail": 0})
         self.assertEqual(load_json(DERIVE_EOS)["summary"], "49/49 checks pass")
-        self.assertEqual(load_json(INDEPENDENT_NUMERICS)["summary"], "28/28 checks pass")
-        self.assertIn("30 of 30, 5 of 5, 13 of 13, 9 of 9, 49 of 49 and 28 of 28 checks passed", self.text)
+        self.assertEqual(load_json(INDEPENDENT_NUMERICS)["summary"], "32/32 checks pass")
+        self.assertEqual((load_json(WOLFRAM)["checkCount"], load_json(WOLFRAM)["failedCount"]), (8, 0))
+        self.assertIn("39 of 39, 7 of 7, 15 of 15, 10 of 10, 49 of 49, 32 of 32 and 8 of 8 checks passed", self.text)
 
 
 class QuotedNumbers(unittest.TestCase):
@@ -550,68 +564,64 @@ class QuotedNumbers(unittest.TestCase):
         for a in (0.5, 1.0, 1.5, 2.0):
             t = tangents[a]
             self.assertAlmostEqual(t["w_eff_C"]["wa"], t["w_eff_A_B"]["wa"], places=12)
-            self.assertAlmostEqual(t["w_eff_A_B"]["w0"] - t["w_eff_C"]["w0"], 1.0, places=12)
+            self.assertAlmostEqual(t["w_eff_A_B"]["w0"] - t["w_eff_C"]["w0"], 1.0 / 3.0, places=10)  # 1 - beta/2
         fits = {(f["a4_today"], round(f["a_range"][0], 4)): f for f in s["cplFits"]}
         half, third = fits[(2.0, 0.5)], fits[(2.0, 0.3333)]
         self.assertQuoted(f"over $a \\in [1/2, 1]$, $w_a = {fixed(half['w_eff_C']['wa'], 5)}$ and constant proxy "
                           f"${fixed(half['w_eff_C']['w_const'], 4)}$ under (C)")
         self.assertQuoted(f"over $[1/3, 1]$, $w_a = {fixed(third['w_eff_C']['wa'], 5)}$ and "
                           f"${fixed(third['w_eff_C']['w_const'], 4)}$")
-        mix = load_json(EOS_SUMMARY)["mixture_C_const_fit_minus_0p764"]["cpl_fit_C"]
-        self.assertQuoted(f"$(w_0, w_a) = ({fixed(mix['w0'], 4)}, {fixed(mix['wa'], 4)})$")
-        self.assertQuoted(f"CPL slope $+{fixed(mix['wa'], 4)}$")
+        scan = load_json(EOS_SUMMARY)["mixture_scan"]["C"]["closest"]
+        self.assertEqual(scan["distance"], 0.2910614215438)
+        self.assertQuoted(f"$({scan['w0']}, {scan['wa']})$ under (C) (distance {scan['distance']}")
+        self.assertEqual(load_json(EOS_SUMMARY)["beta"], 4.0 / 3.0)
 
     def test_condensate_ratio(self):
         u = Fraction(-382, 441)
         self.assertEqual(u / (2 + u), Fraction(-764, 1000))
-        self.assertAlmostEqual(load_json(EOS_SUMMARY)["condensate"]["u_for_ratio_minus_0p764"], float(u),
-                               places=12)
+        cond = load_json(EOS_SUMMARY)["condensate"]
+        self.assertAlmostEqual(cond["u_for_ratio_minus_0p764_today"], float(u), places=12)
         self.assertEqual(f"{float(1 + u / 2):.12f}", "0.566893424036")
-        r0 = Fraction(417, 583)
-        self.assertEqual(r0 / (3 * (r0 + 1)) - 1, Fraction(-861, 1000))
+        # on the history lambda S/m = u ~ e^(-2 a4): wa = -dw/da4 = 4 u/(2 + u)^2, exactly -84231/31250
+        self.assertEqual(4 * u / (2 + u) ** 2, Fraction(-84231, 31250))
+        self.assertAlmostEqual(cond["ratio_wa_at_that_u"], float(Fraction(-84231, 31250)), places=12)
+        self.assertQuoted("$-84231/31250 = -2.695392$")
 
     def test_dirac16complex00_models(self):
         models = load_json(EOS_THEORY)["models"]
 
-        m2 = models["M2_positive_good_sector_gas"]["N2"]
-        self.assertEqual(m2["CPL_tangent"]["wa"], "0.162074")
-        f = m2["fit_a_1/2_to_1"]
-        self.assertQuoted(f"| M2 | -0.861 | +0.162074 | {fixed(float(f['w0']), 4)} | {fixed(float(f['wa']), 4)} | "
-                          f"{fixed(float(f['constant_w']), 4)} | no |")
+        def row(name, label, wa_digits):
+            t, f = models[name]["N2"]["CPL_tangent"], models[name]["N2"]["fit_a_1/2_to_1"]
+            wa = fixed(float(t["wa"]), wa_digits)
+            if float(t["wa"]) > 0:
+                wa = "+" + wa
+            return (f"| {label} | {fixed(float(t['w0']), 4)} | {wa} | {fixed(float(f['w0']), 4)} | "
+                    f"{fixed(float(f['wa']), 4)} | {fixed(float(f['constant_w']), 4)} | no |")
+
+        m2 = models["M2_positive_good_sector_gas"]
+        self.assertEqual(m2["N2_tangent_exact"], {"w0": "-583/3000", "wa": "81037/500000"})
+        self.assertEqual(m2["N2"]["CPL_tangent"]["wa"], "0.162074")
+        self.assertQuoted(row("M2_positive_good_sector_gas", "M2", 6))
         m3 = models["M3_positive_extra_time_mode"]
-        f = m3["N2"]["fit_a_1/2_to_1"]
-        self.assertEqual(m3["N2_tangent_exact"]["wa_decimal"], "-0.393926")
-        self.assertQuoted(f"| M3 | -0.861 | -0.393926 | {fixed(float(f['w0']), 4)} | {fixed(float(f['wa']), 4)} | "
-                          f"{fixed(float(f['constant_w']), 4)} | no |")
-        self.assertEqual(m3["turning_point_a_star"]["exact"], "sqrt(1417/417)")
-        self.assertQuoted(f"$a_* = \\sqrt{{1417/417}} = {fixed(math.sqrt(1417 / 417), 4)}$")
+        self.assertEqual((m3["N2_tangent_exact"]["w0"], m3["N2_tangent_exact"]["wa"]), ("-287/1000", "-196963/4500000"))
+        self.assertQuoted(row("M3_positive_extra_time_mode", "M3", 6))
+        self.assertEqual(m3["turning_point_a_star"]["exact"], "(1417/417)^(3/2)")
+        self.assertQuoted(f"$a_* = (1417/417)^{{3/2}} = {fixed((1417 / 417) ** 1.5, 4)}$")
         m4 = models["M4_condensate_plus_extra_time_mode"]
-        f = m4["N2"]["fit_a_1/2_to_1"]
-        self.assertEqual((m4["N2"]["CPL_tangent"]["w0"], m4["N2"]["CPL_tangent"]["wa"]), ("-0.861", "-0.6"))
-        self.assertQuoted(f"| M4 | -0.861 | -0.600 | {fixed(float(f['w0']), 4)} | {fixed(float(f['wa']), 4)} | "
-                          f"{fixed(float(f['constant_w']), 4)} | no |")
-        self.assertQuoted(f"$s = {fixed(float(m4['parameters']['s_decimal']), 4)}$, "
-                          f"$\\Omega_q = {fixed(float(m4['parameters']['Omega_q_decimal']), 4)}$")
-        self.assertEqual(m4["min_w_N2_on_(0,1]"], "-0.999999214228")
+        self.assertEqual((m4["parameters"]["s"], m4["parameters"]["Omega_q"]), ("264037/403037", "57963/264037"))
+        self.assertQuoted(row("M4_condensate_plus_extra_time_mode", "M4", 6))
+        self.assertEqual(m4["min_w_N2_on_(0,1]"], "-0.33280216468")
         self.assertQuoted(f"at $a_* = {fixed(float(m4['turning_point_a_star']), 4)}$ and then grows")
-        self.assertEqual(m4["N2"]["crossings_of_minus_1_in_[1/3,1]"], [])
         m5 = models["M5_with_ghost_component"]
-        t, f = m5["N2"]["CPL_tangent"], m5["N2"]["fit_a_1/2_to_1"]
-        self.assertEqual((f["w0"], f["wa"], f["constant_w"]), ("-0.861", "-0.6", "-1.011"))
-        crossing = fixed(float(m5["N2"]["crossings_of_minus_1_in_[1/3,1]"][0]), 4)
-        self.assertQuoted(f"| M5 | {fixed(float(t['w0']), 4)} | {fixed(float(t['wa']), 4)} | -0.861 | -0.600 | "
-                          f"-1.011 | at $a = {crossing}$ |")
+        self.assertQuoted(row("M5_with_ghost_component", "M5", 4))
         p = m5["parameters"]
         self.assertEqual(p["G"], "3/10")
         self.assertQuoted(f"$s = {fixed(float(p['s']), 4)}$, $\\Omega_q = {fixed(float(p['Omega_q']), 4)}$, "
                           f"condensate fraction $\\Omega_c = {fixed(float(p['Omega_c']), 4)}$")
-        self.assertQuoted(f"the crossing of $-1$ is at $a = {crossing}$ (Unite line: 0.7683)")
         self.assertQuoted(f"its turning point is at $a_* = {fixed(float(m5['turning_point_a_star']), 4)}$")
-        # without the ghost: no crossing on the checked range [1/3, 1]; before a_* by the WKB theorem; past a_* open
-        self.assertIn("has no crossing in [1/3, 1]", check_detail(DERIVE_EOS, "M5_without_ghost_no_crossing"))
-        self.assertQuoted(f"nor, by section 4.7 (within the WKB model), before its turning point "
-                          f"$a_* = {fixed(float(m5['turning_point_a_star']), 4)}$; past $a_*$ this is not established.")
         self.assertQuoted("$G = 3/10$ of the total at $a = 1$")
+        for name in ("M5_with_ghost_component",):
+            self.assertEqual(models[name]["N2"]["crossings_of_minus_1_in_[1/3,1]"], [], name)
         for name in ("M2_positive_good_sector_gas", "M3_positive_extra_time_mode",
                      "M4_condensate_plus_extra_time_mode"):
             self.assertEqual(models[name]["N2"]["crossings_of_minus_1_in_[1/3,1]"], [], name)
@@ -637,18 +647,19 @@ class QuotedNumbers(unittest.TestCase):
         self.assertQuoted("at $\\omega = 1.25$ the vectors with $Q = +1$ and $Q = -1$ have $\\rho = +1.25$ and "
                           "$-1.25$")
         growth = numerics["growth"]
-        self.assertQuoted(f"$10^{{{growth['log10_amplitude_growth_1.5_to_2.2']:.2f}}}$")
-        self.assertQuoted(f"($\\rho/Q$ = {growth['rho_over_Q_at_2.2']!r} at $a = 2.2$")
+        self.assertQuoted(f"$10^{{{growth['log10_amplitude_growth_5.5_to_7.4']:.2f}}}$")
+        self.assertQuoted(f"($\\rho/Q$ = {growth['rho_over_Q_at_7.4']!r} at $a = 7.4$")
         self.assertEqual(numerics["settings"]["eps_AH_over_m"], 0.001)
-        self.assertQuoted("$AH/m = 10^{-3}$")
-        self.assertEqual(numerics["models"]["M5_with_ghost_component"]["crossing_N2"], 0.77905405)
+        self.assertQuoted("$H/m = 10^{-3}$")
+        self.assertEqual(numerics["models"]["M5_with_ghost_component"]["crossings_N2"], 0)
 
     def test_implementation_b_invariants(self):
         drift, onshell, residual, deviation = [], [], [], []
         for check in load_json(INDEPENDENT_NUMERICS)["checks"]:
             detail = check["detail"]
             if check["name"].startswith("B_run_"):
-                drift.append(float(re.search(r"Krein charge drift ([0-9.e+-]+)", detail).group(1)))
+                drift.append(float(re.search(r"Krein charge per coordinate volume b4\^\(3/2\) Q: drift ([0-9.e+-]+)",
+                                             detail).group(1)))
                 onshell.append(float(re.search(r"max \|L0\| \(on shell\) ([0-9.e+-]+)", detail).group(1)))
                 residual.append(float(re.search(r"relative residual ([0-9.e+-]+)", detail).group(1)))
             if check["name"].startswith("B_vs_A_M"):
@@ -656,34 +667,27 @@ class QuotedNumbers(unittest.TestCase):
                 if match:
                     deviation.append(float(match.group(1)))
         self.assertEqual(len(drift), 6)
-        self.assertEqual(f"{max(drift):.7e}", "1.8378632e-12")
-        self.assertEqual(f"{max(onshell):.7e}", "1.1657342e-15")
-        self.assertEqual(f"{max(residual):.7e}", "4.8268616e-07")
-        self.assertEqual(max(deviation), 0.00083082726)
-        for value in ("drift at most 1.8378632e-12", "at most 1.1657342e-15", "at most 4.8268616e-07",
-                      "to within 0.00083082726"):
+        self.assertEqual(f"{max(drift):.7e}", "1.2612134e-13")
+        self.assertEqual(f"{max(onshell):.7e}", "1.3322676e-15")
+        self.assertEqual(f"{max(residual):.7e}", "4.7810141e-08")
+        self.assertEqual(max(deviation), 2.2666232e-05)
+        for value in ("drift at most 1.2612134e-13", "at most 1.3322676e-15", "at most 4.7810141e-08",
+                      "to within 2.2666232e-05"):
             self.assertQuoted(value)
 
-    def test_linear_member_phantom_sign_from_the_record(self):
-        """kappa rho on the Einstein linear member is fixed by the x4 constraint (sections 6.1, 9.2, 13.1)."""
-        record = load_json(A4_EQUATIONS)
-        linear = record["linearMember"]
-        self.assertEqual(linear["rhoEinstein"]["input"], "(-21*H^2)/kappa - (3*AA^2*H^2)/kappa - Lam/kappa")
-        self.assertEqual(linear["pEinstein"]["input"], "(15*H^2)/kappa - (3*AA^2*H^2)/kappa + Lam/kappa")
-        self.assertEqual(linear["rhoPlusPEinstein"]["input"], "(-6*(1 + AA^2)*H^2)/kappa")
-        self.assertIn("kappa rho > 0 needs Lambda < -(3 a4'^2 + 21 H^2)", record["einstein"]["allowedA4"])
-        # exact arithmetic in units H = 1 (kappa cancels in the ratio): w = p/rho
-        for a2 in (Fraction(0), Fraction(1, 3), Fraction(1), Fraction(5), Fraction(40)):
-            for lam in (Fraction(0), Fraction(-10), -21 - 3 * a2 - Fraction(1, 7), Fraction(-100)):
-                kappa_rho = -21 - 3 * a2 - lam
-                kappa_p = 15 - 3 * a2 + lam
-                w = kappa_p / kappa_rho
-                self.assertEqual(w, -1 + 6 * (1 + a2) / ((3 * a2 + 21) + lam))
-                self.assertEqual(w < -1, lam < -(21 + 3 * a2))
-                if lam == 0:
-                    self.assertEqual(w, (a2 - 5) / (a2 + 7))
-                    self.assertGreater(w, -1)
-        self.assertQuoted("`linearMember/rhoEinstein` and `einstein/allowedA4`")
+    def test_branch_required_source(self):
+        """The source the author's equations need on a4 = H x4, b4 ~ e^((4/3) H x4) (sections 2.4, 6.1, 9.2, 13.1):
+        computed in sympy from the record of the a4 equations and in Wolfram from the author's Lovelock tensors;
+        exact arithmetic: it satisfies both conservation identities with b4 (beta = 4/3, constant source)."""
+        src = load_json(EOS_THEORY)["condensate"]["branchRequiredSource"]
+        rho, p3, pt, p0 = (Fraction(src[k]) for k in ("kappa_rho", "kappa_p3", "kappa_pt", "kappa_p0"))
+        self.assertEqual((rho, p3, pt, p0), (Fraction(-2, 27), Fraction(-2, 9), Fraction(-22, 27), Fraction(-14, 27)))
+        self.assertEqual(src["kappa_q40"], "0")
+        self.assertEqual(-3 * (p3 - pt) - Fraction(3, 2) * Fraction(4, 3) * (rho + pt), 0)   # d rho/dx4 = 0
+        self.assertEqual(p3 + pt, 2 * p0)                                                  # the x0 identity
+        self.assertIn("{-2/27, -2/9, -22/27, -14/27}", check_detail(WOLFRAM, "D7_branch_required_source"))
+        self.assertIn("{0, 4/3}", check_detail(WOLFRAM, "D6_author_weights_branch"))
+        self.assertQuoted("which vanishes for a constant $b_4$ and for $\\beta_v = 4/3$")
 
     def test_exact_fock_variant_of_the_n8_states(self):
         """The negative E of the N = 8, lambda > 0 states is a property of the uniform-gas functional (section 4.7)."""
@@ -740,8 +744,8 @@ class QuotedNumbers(unittest.TestCase):
     def test_abstract_numbers(self):
         abstract = self.text.split("## Abstract", 1)[1].split("## 1.", 1)[0]
         for value in ("615 instantaneous states", "0.2929 to 0.3183", "0.239626 to 2.268e-03",
-                      "-0.707107 and -0.671895", "at most 0.030371", "$\\lambda S/m = -382/441$",
-                      "(-0.861, -0.60)", "$w = -0.764$"):
+                      "-0.040430 and -0.006905", "$\\lambda S/m = -382/441$", "(-0.861, -0.60)", "$w = -0.764$",
+                      "1583/1000", "(-2/27, -2/9, -22/27, -14/27)", "closest distance 0.291"):
             self.assertIn(value, abstract, value)
         self.assertEqual(len(load_json(KS_HISTORY)["slices"]) * 15, 615)
 
