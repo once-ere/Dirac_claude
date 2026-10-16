@@ -16,6 +16,8 @@ Writes Revision/pairing/kohn_sham/reports/python-t3.json (deterministic, LF).
 
 The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0 
 (brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.
+The metric is the author's metric with b4(x4) (SPEC section 1; b4 is never 1); b4 does not enter the block
+Hamiltonians h_j (ks-theory.json sectorAndAnsatz.instantaneousProblem), so T3 holds slice by slice for every b4.
 """
 
 import json

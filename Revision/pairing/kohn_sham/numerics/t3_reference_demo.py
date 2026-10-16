@@ -20,9 +20,14 @@ SCF, Mermin root, observables, Richardson) is the reference's code.
 
 States (a subset of the canonical matrix of Revision/kohn_sham, for run time; the Rust demonstration covers all of it):
 ground states N = 8 x lambda tags lam0, lamp2, lamm2 x a4,0 = 0, 1, 2 and N = 136 x lamp2, lamm2 x a4,0 = 0, 2; Mermin
-states N = 8, lamp1 x a4,0 = 0, 2 x T = 0.01, 0.05 and N = 136, lamp1, a4,0 = 2, T = 0.05.  The slices belong to the history a4 = A H x4 (A = 1; x5, x6, x7 DEFLATING as
-e^{-a4}), a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; the states violate the a4 source
-conditions, Revision/field_equations_a4/reports/ks-source-conditions.json).
+states N = 8, lamp1 x a4,0 = 0, 2 x T = 0.01, 0.05 and N = 136, lamp1, a4,0 = 2, T = 0.05.  The slices belong to the
+history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} (A = 1) of the author's metric with b4(x4) (SPEC section 1; b4 is never
+1), with x5, x6, x7 DEFLATING as e^{-a4} b4^{1/2} = b4(0)^{1/2} e^{-a4/3}; the coupling is the reference's lambda_hat,
+held fixed while the cell volume Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} grows (ks_fd.Phys.vol7, beta from
+ks-theory.json).  The history is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; the states violate
+the source conditions of the a4 and b4 equations, Revision/field_equations_a4/reports/ks-source-conditions.json).
+Every member is solved with the reference's solve_state_robust (direct SCF, and the coupling continuation if that
+fails); the members that needed the continuation are listed in the report (scfContinuation).
 
 Usage (from the repository root; after numerics/t3_rust_demo.py, whose table it compares with):
   python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py [--jobs 8]
@@ -173,8 +178,8 @@ def _member(task):
     for G in GRIDS:
         g = K.Grid(ph, G)
         ls = K.relabel(g, ph, ls0)
-        free = K.solve_state(g, ph.copy(lam=0.0), ls, mode=mode)
-        st = free if ph.lam == 0.0 else K.solve_state(g, ph, ls, mode=mode, guess=free.eps)
+        free = K.solve_state_robust(g, ph.copy(lam=0.0), ls, mode=mode)
+        st = free if ph.lam == 0.0 else K.solve_state_robust(g, ph, ls, mode=mode, guess=free.eps)
         o, prof = K.observables(st)
         sc = {k: o[k] for k in ("E_KS", "E_band", "E_int", "int_rho", "int_p3", "int_p_t", "int_p0", "int_n", "N_sum")}
         if T > 0.0:
@@ -187,10 +192,12 @@ def _member(task):
             sc["HOMO"], sc["LUMO"], sc["KS_gap"] = homo, lumo, lumo - homo
         ri = g.report_indices()
         runs.append({"sc": sc, "eps": st.eps, "f": st.f, "keys": ls.keys(), "deg": ls.deg, "res": st.res,
+                     "path": "direct" if st.path == "direct" else "continuation",
                      "prof": {k: prof[k][ri] for k in PROFILE_NAMES}})
     out = {"id": spec["id"], "member": mem, "keys": runs[0]["keys"], "deg": runs[0]["deg"].tolist(),
            "same_keys_all_grids": all(r["keys"] == runs[0]["keys"] for r in runs),
-           "f": runs[-1]["f"].tolist(), "residual_max": max(r["res"] for r in runs), "window": winfo}
+           "f": runs[-1]["f"].tolist(), "residual_max": max(r["res"] for r in runs), "window": winfo,
+           "continuation_grids": [G for G, r in zip(GRIDS, runs) if r["path"] != "direct"]}
     out["sc"] = {}
     for k in runs[0]["sc"]:
         Rv, U = R.rich3(*[r["sc"][k] for r in runs])
@@ -390,10 +397,13 @@ def main():
     ng = sum(1 for s in specs if s["T"] == 0.0)
     nt = len(specs) - ng
     resmax = max(o["residual_max"] for o in outs if "error" not in o)
+    n_ctrl_err = sum(1 for e in errors if " control:" in e)
     check("all_members_converged", resmax <= 1e-12 and not probs and not bad,
-          "%d states x 3 members (plus, image, control), each on G = 300, 600, 1200: SCF residual <= %.2e (tolerance "
-          "1e-12 of the reference), the same label set on every grid, and the key sets of plus and image equal after the "
-          "map (n2, j, parity, rank) -> (n2, -j, other parity, rank)%s" % (len(specs), resmax, "" if not probs else "; problems: " + "; ".join(probs[:8])))
+          "%d states: the plus and image members of every state and the control members of %d states (in the other %d "
+          "the reference found no self-consistent control state, check negative_control_untransformed_tip), each on "
+          "G = 300, 600, 1200: SCF residual <= %.2e (tolerance 1e-12 of the reference), the same label set on every grid, "
+          "and the key sets of plus and image equal after the map (n2, j, parity, rank) -> (n2, -j, other parity, rank)%s"
+          % (len(specs), len(specs) - n_ctrl_err, n_ctrl_err, resmax, "" if not probs else "; problems: " + "; ".join(probs[:8])))
     check("t3_equal_ground_states", worst_g <= TOL,
           "%d ground states (N = 8: lam0, lamp2, lamm2 x a4,0 = 0, 1, 2; N = 136: lamp2, lamm2 x a4,0 = 0, 2), Richardson values: "
           "levels by key (eps, occupation, degeneracy), E_KS, E_band, E_int, the EMT integrals (rho, p3, p_t, p0, n), N, "
@@ -419,7 +429,8 @@ def main():
           "E_KS, the EMT integrals and (thermal) mu and Omega agree to %.3e (%s), tolerance %.0e"
           % (xs_n, len(specs), xs_worst, xs_id or "-", XSOLVER_TOL))
     check("history_is_a_prescribed_background", hist.startswith("PRESCRIBED BACKGROUND"),
-          "the slices belong to the history a4 = A H x4 (extra times deflating as e^{-a4}); ks-theory.json "
+          "the slices belong to the history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} (extra times deflating as e^{-a4} "
+          "b4^{1/2} = b4(0)^{1/2} e^{-a4/3}); ks-theory.json "
           "adiabaticity.historyStatus: '%s...' (Revision/field_equations_a4/reports/ks-source-conditions.json: the "
           "Kohn-Sham states are not admissible sources); T3 holds slice by slice" % hist[:120])
 
@@ -443,8 +454,12 @@ def main():
         "method": "Revision/kohn_sham/reference/ks_fd.py (read only) for plus (m, lambda, tip 0) and control (-m, +lambda, tip 0); "
                   "for the image (-m, +lambda, tip pi) the reference's rotated frame with the tip end rotated by pi/2 "
                   "(phi(-L) = j pi/2), supplied here; Richardson over G = 300, 600, 1200 (run_reference.rich3)",
-        "background": "slices of the PRESCRIBED BACKGROUND history a4 = A H x4 (A = 1; x5, x6, x7 deflating as e^{-a4}); the "
-                      "Kohn-Sham states violate the a4 source conditions (Revision/field_equations_a4/reports/ks-source-conditions.json)",
+        "background": "slices of the PRESCRIBED BACKGROUND history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} (A = 1; x5, x6, x7 "
+                      "deflating as e^{-a4} b4^{1/2} = b4(0)^{1/2} e^{-a4/3}); lambda_hat fixed per tag, Vol_7(a4,0) = ell^3 v_t "
+                      "e^{2 a4,0}; the Kohn-Sham states violate the source conditions of the a4 and b4 equations "
+                      "(Revision/field_equations_a4/reports/ks-source-conditions.json)",
+        "scfContinuation": sorted("%s %s (G = %s)" % (o["id"], o["member"], ", ".join(str(G) for G in o["continuation_grids"]))
+                                  for o in outs if "error" not in o and o["continuation_grids"]),
         "inputs": {"Revision/kohn_sham/ks-theory.json": sh(KS / "ks-theory.json"),
                    "Revision/kohn_sham/reference/ks_fd.py": sh(REFDIR / "ks_fd.py"),
                    "Revision/kohn_sham/reference/run_reference.py": sh(REFDIR / "run_reference.py"),

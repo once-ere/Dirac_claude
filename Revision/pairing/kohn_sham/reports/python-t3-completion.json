@@ -3,7 +3,7 @@
   "producer": "Revision/pairing/kohn_sham/python/check_t3_completion.py",
   "spec": "Revision/SPEC.md section 9, theorem T3 (the Kohn-Sham level): completion",
   "independence": "sympy only; no code shared with Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls",
-  "background": "T3 holds slice by slice; the history a4 = A H x4 of the numerical demonstrations (extra times x5, x6, x7 deflating) is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; Revision/field_equations_a4/reports/ks-source-conditions.json)",
+  "background": "T3 holds slice by slice (b4 does not enter the block Hamiltonians); the history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} of the numerical demonstrations (extra times x5, x6, x7 deflating as e^{-a4} b4^{1/2}) is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; Revision/field_equations_a4/reports/ks-source-conditions.json)",
   "counts": {
     "pass": 7,
     "fail": 0,
@@ -33,12 +33,12 @@
     {
       "name": "T3C.rust_demo_numerical_demonstration",
       "verdict": "PASS",
-      "detail": "Revision/pairing/kohn_sham/reports/t3-rust-demo.json (210 states): 7/7 checks PASS, including t3_equal_ground_states, t3_equal_thermal_states, negative_control_untransformed_tip, negative_control_lambda_sign, plus_reproduces_canonical_matrix, history_is_a_prescribed_background; the slices belong to the PRESCRIBED BACKGROUND history a4 = A H x4; a numerical demonstration of T3 (+M universe (m, lambda, tip 0) = -M universe (-m, +lambda, tip pi), the untransformed tip as negative control), not a proof"
+      "detail": "Revision/pairing/kohn_sham/reports/t3-rust-demo.json (210 states): 7/7 checks PASS, including t3_equal_ground_states, t3_equal_thermal_states, negative_control_untransformed_tip, negative_control_lambda_sign, plus_reproduces_canonical_matrix, history_is_a_prescribed_background; the slices belong to the PRESCRIBED BACKGROUND history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4}; a numerical demonstration of T3 (+M universe (m, lambda, tip 0) = -M universe (-m, +lambda, tip pi), the untransformed tip as negative control), not a proof"
     },
     {
       "name": "T3C.reference_demo_numerical_demonstration",
       "verdict": "PASS",
-      "detail": "Revision/pairing/kohn_sham/reports/t3-reference-demo.json (18 states): 7/7 checks PASS, including image_frame_theta_pi, t3_equal_ground_states, t3_equal_thermal_states, negative_control_untransformed_tip, reference_image_equals_rust_image, history_is_a_prescribed_background; the slices belong to the PRESCRIBED BACKGROUND history a4 = A H x4; a numerical demonstration of T3 (+M universe (m, lambda, tip 0) = -M universe (-m, +lambda, tip pi), the untransformed tip as negative control), not a proof"
+      "detail": "Revision/pairing/kohn_sham/reports/t3-reference-demo.json (18 states): 7/7 checks PASS, including image_frame_theta_pi, t3_equal_ground_states, t3_equal_thermal_states, negative_control_untransformed_tip, reference_image_equals_rust_image, history_is_a_prescribed_background; the slices belong to the PRESCRIBED BACKGROUND history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4}; a numerical demonstration of T3 (+M universe (m, lambda, tip 0) = -M universe (-m, +lambda, tip pi), the untransformed tip as negative control), not a proof"
     },
     {
       "name": "compare.t3_completion",

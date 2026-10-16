@@ -8,8 +8,8 @@ Revision code; it imports nothing from the old stages and shares no code with th
   notebook input cells In[45..372]) and mapped to the author's coordinates x0..x7 (gamma^(xk) = T16[k], SPEC
   section 2); Revision/algebra/gammas.json
   is only READ at the end for an entry-by-entry comparison;
-* the metric of SPEC section 1, its Christoffel symbols, the diagonal vielbein and the canonical spin
-  connection are computed with sympy;
+* the metric of SPEC section 1 with b4(x4) (a4(x4) real, b4(x4) > 0 arbitrary; b4 is never 1), its Christoffel
+  symbols, the diagonal vielbein and the canonical spin connection are computed with sympy;
 * the field is represented by its first jet (Psi, Psi^*, d_mu Psi, d_mu Psi^* at a point) in an
   exact polynomial algebra over sympy coefficients that is either COMMUTING (dirac16complex00) or
   GRASSMANN (dirac16complex, anticommuting generators with the sign of the reordering);
@@ -316,6 +316,7 @@ def transform_jets(J, P, refl, odd):
 x4, z, H = sp.symbols("x4 z H", real=True)
 m, lam = sp.symbols("m lambda", real=True)
 a4 = sp.Function("a4")(x4)
+b4 = sp.Function("b4", positive=True)(x4)   # the extra-time function of SPEC section 1 (b4 > 0, never 1)
 
 
 def dcoord(expr, mu):
@@ -334,7 +335,7 @@ class Geometry:
     def __init__(self, s0=None, f=None, dfun=None, sqrtg=None):
         if f is None:
             E, Em, S6 = sp.exp(a4), sp.exp(-a4), sp.sin(z) ** sp.Rational(1, 6)
-            f = [s0 * sp.cot(z)] + [E * S6] * 3 + [sp.Integer(1)] + [Em * S6] * 3
+            f = [s0 * sp.cot(z)] + [E * S6] * 3 + [sp.Integer(1)] + [Em * sp.sqrt(b4) * S6] * 3
             dfun = dcoord
         self.f = f
         self.d = dfun
@@ -525,13 +526,21 @@ def geometry_checks(geo):
           "d_mu gamma^nu + Gamma^nu_mu lam gamma^lam + [Omega_mu, gamma^nu] = 0 for all mu, nu (the vielbein postulate holds for Omega_mu = (1/2) omega_mu ab S^ab)")
     nz = sorted({(mu, a, b) for mu in range(8) for a in range(8) for b in range(a + 1, 8)
                  if sp.simplify(geo.om[mu][a][b]) != 0})
-    det = "; ".join("omega_%s %s%s = %s" % (COORDS[mu], COORDS[a], COORDS[b], sp.simplify(geo.om[mu][a][b]).subs(sp.Derivative(a4, x4), sp.Symbol("a4p")).subs(a4, sp.Symbol("a4")))
+    det = "; ".join("omega_%s %s%s = %s" % (COORDS[mu], COORDS[a], COORDS[b], sp.simplify(geo.om[mu][a][b]).subs({sp.Derivative(a4, x4): sp.Symbol("a4p"), sp.Derivative(b4, x4): sp.Symbol("b4p")}).subs({a4: sp.Symbol("a4"), b4: sp.Symbol("b4")}))
                     for mu, a, b in nz)
     CHECKS.append({"name": "geometry.spin_connection_components", "verdict": "PASS", "detail": "nonzero components (a < b): " + det})
+    # the field is made with b4(x4) not constant: omega_(x5) (x4)(x5) contains b4'
+    bp = sp.Symbol("b4p")
+    dw = sp.simplify(sp.diff(geo.om[5][4][5].subs(sp.Derivative(b4, x4), bp), bp))
+    ok = dw != 0 and sp.simplify(dw ** 2 - sp.exp(-2 * a4) * sp.sin(z) ** sp.Rational(1, 3) / (4 * b4)) == 0
+    check("geometry.connection_depends_on_b4", ok,
+          "d omega_(x5) (x4)(x5) / d b4' = %s (square e^(-2 a4) sin^(1/3) z/(4 b4)), from the x4 dependence of the "
+          "extra-time vielbein e^-a4 b4^(1/2) sin^(1/6) z: the T1, T2 and Q checks in the metric of SPEC section 1 are made "
+          "with b4(x4) not constant (b4 is never 1)" % sp.simplify(dw).subs(b4, sp.Symbol("b4")).subs(a4, sp.Symbol("a4")))
     rule = {z: sp.pi - z}
     iso = all(sp.simplify(gg.subs(rule) - gg) == 0 for gg in geo.g)
     deg = (sp.limit(geo.g[0], z, sp.pi / 2) == 0 and sp.limit(geo.sqrtg, z, sp.pi / 2) == 0
-           and sp.simplify(geo.sqrtg - sp.cos(z)) == 0)
+           and sp.simplify(geo.sqrtg - b4 ** sp.Rational(3, 2) * sp.cos(z)) == 0)
     check("geometry.brane_degenerate", deg,
           "sqrt|g| = %s on the patch; at the brane z = pi/2: g_00 -> 0 and sqrt|g| -> 0 (a degenerate surface of the metric)" % geo.sqrtg)
     check("geometry.mirror_isometry", iso,
@@ -910,7 +919,7 @@ NOT_ESTABLISHED = [
     "No dynamical necessity: nothing forces the partner configuration to exist; the theorems are correspondences between solutions of two parameter sets, not a mechanism.",
     "T1 pairs (m, lambda) with (-m, -lambda): for lambda != 0 it is not a pure +m / -m pairing; the pure pairing (m, lambda) -> (-m, lambda) is T2, at EQUAL (not opposite) energy-momentum.",
     "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle generator has Krein inertia (4,4) (Q.one_particle_Krein_inertia_proof) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral (Q.one_particle_complex_frequency_Krein_neutral); a positive-norm Fock space for either universe is not established by these theorems.",
-    "The brane z = pi/2 is a degenerate surface of the metric (g_00 = cot^2 z = 0, sqrt|g| = cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
+    "The brane z = pi/2 is a degenerate surface of the metric (g_00 = cot^2 z = 0, sqrt|g| = b4^{3/2} cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
     "The Kohn-Sham level (T3) is not covered by this checker; it is proved separately in Revision/pairing/kohn_sham/ (check_t3.py, with its own hypotheses: ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states).",
 ]
 

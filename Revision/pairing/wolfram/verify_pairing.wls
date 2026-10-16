@@ -14,7 +14,7 @@
          patch end z = 6 H x0 = pi/2 of the hidden coordinate;
      Q   the quantum-level reading (the Krein metric -B of the image field, its own generators, the
          one-particle Hamiltonians of two independently quantised universes);
-   in four gravitational fields: the metric of SPEC section 1 ("primordial"), its mirror patch, a
+   in four gravitational fields: the metric of SPEC section 1 with b4(x4) ("primordial"), its mirror patch, a
    general diagonal test field with eight arbitrary functions of all eight coordinates ("diagonal8"),
    and a general non-diagonal test field at one point (exact rational vielbein and first derivatives,
    "pointwise"), plus the linearity (kernel) argument that covers every field.
@@ -124,20 +124,29 @@ addCheck["T2_kernels_gamma_n_with_frame_reflection",
 
 (* ================= D. the gravitational fields ================= *)
 zz = 6 RPH x0; sx = Sin[zz]^(1/6);
-assumPatch = {RPH > 0, 0 < zz < Pi/2, Element[RPa4[x4], Reals], Element[RPm, Reals], Element[RPlam, Reals]};
-assumMirror = {RPH > 0, Pi/2 < zz < Pi, Element[RPa4[x4], Reals], Element[RPm, Reals], Element[RPlam, Reals]};
+assumPatch = {RPH > 0, 0 < zz < Pi/2, Element[RPa4[x4], Reals], RPb4[x4] > 0, Element[RPm, Reals], Element[RPlam, Reals]};
+assumMirror = {RPH > 0, Pi/2 < zz < Pi, Element[RPa4[x4], Reals], RPb4[x4] > 0, Element[RPm, Reals], Element[RPlam, Reals]};
 simpPatch = Simplify[#, assumPatch] &;
 simpMirror = Simplify[#, assumMirror] &;
-EPrim = DiagonalMatrix[{Cot[zz], E^RPa4[x4] sx, E^RPa4[x4] sx, E^RPa4[x4] sx, 1, E^-RPa4[x4] sx, E^-RPa4[x4] sx, E^-RPa4[x4] sx}];
+(* the author's metric with b4[x4] in the three extra-time components (SPEC section 1; b4 > 0, never 1) *)
+sb = Sqrt[RPb4[x4]]; sqrtgPrim = Cos[zz] RPb4[x4]^(3/2);
+EPrim = DiagonalMatrix[{Cot[zz], E^RPa4[x4] sx, E^RPa4[x4] sx, E^RPa4[x4] sx, 1, E^-RPa4[x4] sb sx, E^-RPa4[x4] sb sx, E^-RPa4[x4] sb sx}];
 gAuthor = DiagonalMatrix[{Cot[zz]^2, E^(2 RPa4[x4]) Sin[zz]^(1/3), E^(2 RPa4[x4]) Sin[zz]^(1/3), E^(2 RPa4[x4]) Sin[zz]^(1/3), -1,
-  -E^(-2 RPa4[x4]) Sin[zz]^(1/3), -E^(-2 RPa4[x4]) Sin[zz]^(1/3), -E^(-2 RPa4[x4]) Sin[zz]^(1/3)}];
+  -E^(-2 RPa4[x4]) RPb4[x4] Sin[zz]^(1/3), -E^(-2 RPa4[x4]) RPb4[x4] Sin[zz]^(1/3), -E^(-2 RPa4[x4]) RPb4[x4] Sin[zz]^(1/3)}];
 addCheck["primordial_vielbein",
-  Simplify[Transpose[EPrim] . eta . EPrim - gAuthor, assumPatch] == ConstantArray[0, {8, 8}] && Simplify[Det[EPrim] - Cos[zz], assumPatch] === 0,
-  "the diagonal vielbein e^a_mu = sqrt|g_mumu| (cot z for x0, e^a4 sin^(1/6) z for x1..x3, 1 for x4, e^-a4 sin^(1/6) z for x5..x7; z = 6 H x0 in (0, pi/2)) gives E^T eta E = the author's metric of SPEC section 1 exactly and sqrt|g| = det E = cos z"];
-geoPrim = RPGeometry[EPrim, Table[D[EPrim, RPX[[r]]], {r, 8}], Cos[zz], simpPatch];
+  Simplify[Transpose[EPrim] . eta . EPrim - gAuthor, assumPatch] == ConstantArray[0, {8, 8}] && Simplify[Det[EPrim] - sqrtgPrim, assumPatch] === 0,
+  "the diagonal vielbein e^a_mu = sqrt|g_mumu| (cot z for x0, e^a4 sin^(1/6) z for x1..x3, 1 for x4, e^-a4 b4^(1/2) sin^(1/6) z for x5..x7; z = 6 H x0 in (0, pi/2); a4 = a4(x4) real, b4 = b4(x4) > 0 arbitrary functions) gives E^T eta E = the author's metric of SPEC section 1 with b4(x4) exactly and sqrt|g| = det E = b4^(3/2) cos z"];
+geoPrim = RPGeometry[EPrim, Table[D[EPrim, RPX[[r]]], {r, 8}], sqrtgPrim, simpPatch];
+Module[{bp, w5, dw},
+  w5 = geoPrim["omegaDown"][[6]] /. Derivative[1][RPb4][x4] -> bp;   (* omega_(x5) ab: position 6 *)
+  dw = Simplify[D[w5, bp], assumPatch];
+  addCheck["primordial_connection_depends_on_b4",
+    dw =!= ConstantArray[0, {8, 8}] && Simplify[dw[[5, 6]]^2 - E^(-2 RPa4[x4]) Sin[zz]^(1/3)/(4 RPb4[x4]), assumPatch] === 0,
+    "the canonical spin connection of the primordial field contains b4'(x4): d omega_(x5) (x4)(x5) / d b4' = " <> ToString[InputForm[dw[[5, 6]]]] <>
+    " (square e^(-2 a4) sin^(1/3) z/(4 b4)), from the x4 dependence of the extra-time vielbein e^-a4 b4^(1/2) sin^(1/6) z: the T1, T2 and Q checks in the fields 'primordial' and 'mirror_patch' are made with b4(x4) not constant"]];
 
-EMir = DiagonalMatrix[{-Cot[zz], E^RPa4[x4] sx, E^RPa4[x4] sx, E^RPa4[x4] sx, 1, E^-RPa4[x4] sx, E^-RPa4[x4] sx, E^-RPa4[x4] sx}];
-geoMir = RPGeometry[EMir, Table[D[EMir, RPX[[r]]], {r, 8}], -Cos[zz], simpMirror];
+EMir = DiagonalMatrix[{-Cot[zz], E^RPa4[x4] sx, E^RPa4[x4] sx, E^RPa4[x4] sx, 1, E^-RPa4[x4] sb sx, E^-RPa4[x4] sb sx, E^-RPa4[x4] sb sx}];
+geoMir = RPGeometry[EMir, Table[D[EMir, RPX[[r]]], {r, 8}], -sqrtgPrim, simpMirror];
 
 hf = Table[Symbol["h" <> ToString[a]], {a, 8}];
 EDiag = DiagonalMatrix[Table[hf[[a]] @@ RPX, {a, 8}]];
@@ -248,8 +257,8 @@ R0 = refl[1];   (* the reflection of the hidden frame direction x0 *)
 addCheck["T2_mirror_is_isometry",
   Simplify[R0 . mirrorSub[Transpose[EMir] . eta . EMir] . R0 - gAuthor, assumPatch] == ConstantArray[0, {8, 8}] &&
   Simplify[mirrorSub[EMir] . R0 - R0 . EPrim, assumPatch] == ConstantArray[0, {8, 8}] &&
-  Simplify[mirrorSub[-Cos[zz]] - Cos[zz], assumPatch] === 0,
-  "phi: x0 -> pi/(6H) - x0 (z -> pi - z) maps the patch z in (0, pi/2) onto the mirror patch (pi/2, pi) and is an isometry of the author's metric (sin z and cot^2 z are invariant); with the positive vielbein on both patches (e^0 = |cot z| dx0: cot z on the patch, -cot z on the mirror) the pulled-back mirror vielbein is R_0 e (the hidden frame direction reflected), and sqrt|g| = |cos z| is invariant. The brane z = pi/2 itself is degenerate (g_00 = cot^2 z = 0, sqrt|g| = 0); the mirror construction across it is the ASSUMED Z2 construction of SPEC section 7"];
+  Simplify[mirrorSub[-sqrtgPrim] - sqrtgPrim, assumPatch] === 0,
+  "phi: x0 -> pi/(6H) - x0 (z -> pi - z) maps the patch z in (0, pi/2) onto the mirror patch (pi/2, pi) and is an isometry of the author's metric with b4(x4) (sin z and cot^2 z are invariant; a4 and b4 depend on x4 only); with the positive vielbein on both patches (e^0 = |cot z| dx0: cot z on the patch, -cot z on the mirror) the pulled-back mirror vielbein is R_0 e (the hidden frame direction reflected), and sqrt|g| = b4^(3/2) |cos z| is invariant. The brane z = pi/2 itself is degenerate (g_00 = cot^2 z = 0, sqrt|g| = 0); the mirror construction across it is the ASSUMED Z2 construction of SPEC section 7"];
 fMir = RPTransformFields[fBase, g[[1]], R0];
 Do[Module[{bM, bRef, bMown, elM, elMsub, elRef, okL, okEL, okT, okJ, okS, tag = modeTag[gr]},
   bM = RPBilinears[gr, geoMir, fMir, RPm, RPlam];
@@ -281,7 +290,7 @@ addCheck["Q_Krein_metric_of_images",
   "M B M^dagger = sigma B for the maps M: " <> StringRiffle[(#[[1]] <> ":" <> ToString[#[[2]]]) & /@ kreinRows, ", "] <>
   ". If Psi obeys {Psi_A, Psi_B^dagger} = B_AB delta/sqrt|g| (SPEC section 6), the image M Psi obeys the same with sigma B: the chirality image Gamma Psi carries the Krein metric -B; the T2 image gamma^(x0) Psi carries +B"];
 
-Do[Module[{bA, bC, bD, ker, kA, kC, kD, cos = Cos[zz], tag = modeTag[gr], HA, HC, HD, jA, jC, jD, hd, jn, sub},
+Do[Module[{bA, bC, bD, ker, kA, kC, kD, cos = sqrtgPrim, tag = modeTag[gr], HA, HC, HD, jA, jC, jD, hd, jn, sub},
   bA = RPBilinears[gr, geoPrim, fBase, RPm, RPlam];
   bC = RPBilinears[gr, geoPrim, fGam, RPm, RPlam];
   bD = RPBilinears[gr, geoPrim, fBase, -RPm, -RPlam];
@@ -312,7 +321,7 @@ conjH[M_] := Transpose[M /. Complex[a_, b_] :> Complex[a, -b]];
 addCheck["Q_one_particle_flat_dispersion",
   Expand[hm . hm - (RPm^2 + kk[[1]]^2 + kk[[2]]^2 + kk[[3]]^2 + kk[[4]]^2 - kk[[6]]^2 - kk[[7]]^2 - kk[[8]]^2) id16] == zero16 &&
   Expand[Bm . hm - conjH[hm] . Bm] == zero16,
-  "flat 4+4 space (H = 0, a4 constant), plane waves exp(-i w x4 + i k.x): h_m(k) = -i m gamma^(x4) - gamma^(x4) sum_(a != x4) k_a gamma^a satisfies h_m^2 = (m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - k7^2) I16 (real frequencies in the good sector k5 = k6 = k7 = 0, imaginary - growing - frequencies when the extra-time momenta dominate) and B h_m = h_m^dagger B for real m, k (h_m is self-adjoint for the Krein form Psi^dagger B Psi)"];
+  "flat 4+4 space (H = 0, a4 and b4 constant, the constant factors absorbed into the coordinates), plane waves exp(-i w x4 + i k.x): h_m(k) = -i m gamma^(x4) - gamma^(x4) sum_(a != x4) k_a gamma^a satisfies h_m^2 = (m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - k7^2) I16 (real frequencies in the good sector k5 = k6 = k7 = 0, imaginary - growing - frequencies when the extra-time momenta dominate) and B h_m = h_m^dagger B for real m, k (h_m is self-adjoint for the Krein form Psi^dagger B Psi)"];
 addCheck["Q_one_particle_maps",
   Gam . hm . Gam == hmm && g[[1]] . hm . g[[1]] == hFlat[-RPm, R0 . kk],
   "Gamma h_m(k) Gamma = h_(-m)(k) and gamma^(x0) h_m(k) gamma^(x0) = h_(-m)(R_0 k): the one-particle Hamiltonians of the +m and -m universes are similar, so their spectra are IDENTICAL (+-w each with multiplicity 8), not opposite"];
@@ -397,8 +406,8 @@ theory = <|
     "energy_momentum" -> "T_mu nu = (1/4)(Psibar gamma_mu D_nu Psi + Psibar gamma_nu D_mu Psi - (D_mu Psibar) gamma_nu Psi - (D_nu Psibar) gamma_mu Psi) - g_mu nu (L / sqrt|g|); every statement below is linear in T, so the sign and normalisation convention of SPEC section 4 does not affect it",
     "current" -> "J^mu = Psibar gamma^mu Psi; charge Q = integral over x4 = const of sqrt|g| J^(x4) d^7x"|>,
   "fields_tested" -> {
-    "primordial: the author's metric of SPEC section 1 on the patch z in (0, pi/2), canonical spin connection from the diagonal vielbein",
-    "mirror_patch: the same metric on z in (pi/2, pi) with its own positive vielbein (e^0 = -cot z dx0)",
+    "primordial: the author's metric of SPEC section 1 with b4(x4) (a4(x4) real and b4(x4) > 0 arbitrary functions of x4; b4 is never 1) on the patch z in (0, pi/2), canonical spin connection from the diagonal vielbein",
+    "mirror_patch: the same metric (with b4(x4)) on z in (pi/2, pi) with its own positive vielbein (e^0 = -cot z dx0)",
     "diagonal8: a general diagonal (4,4) field e^a_mu = h_a(x0, ..., x7) delta^a_mu with eight arbitrary functions of all eight coordinates",
     "pointwise: a general non-diagonal field at one point (exact rational e^a_mu and d_rho e^a_mu, all 512 connection components generic)",
     "every field: the linearity (kernel) argument, valid for any vielbein and any connection coefficients"},
@@ -468,7 +477,7 @@ theory = <|
     "No dynamical necessity: nothing forces the partner configuration to exist or to be realised; T1 and T2 are correspondences between solutions of two theories (parameters (m, lambda) and (-m, -lambda), or (m, lambda) and (-m, lambda)), not a mechanism.",
     "T1 is not a symmetry of a single theory: it changes the parameters and the sign of the action; it pairs (m, lambda) with (-m, -lambda), so for lambda != 0 it is not a pure +m / -m pairing (that is T2, which keeps lambda and pairs at EQUAL energy-momentum).",
     "The vanishing total energy-momentum and charge of the T1 pair holds for classical bilinears (and as an operator identity within ONE quantum system); it does not hold for two independently quantised universes, whose generators add without cancelling.",
-    "Test-field statement only: the gravitational field is fixed and the same for both members; back-reaction through the Einstein-Lovelock equations of SPEC section 5 (which would need the field equations for a4 with the pair as source) is not addressed here.",
+    "Test-field statement only: the gravitational field is fixed and the same for both members; back-reaction through the Einstein-Lovelock equations of SPEC section 5 (which would need the field equations for a4 and b4 with the pair as source) is not addressed here.",
     "The Z2 brane: the mirror across z = pi/2 uses the ASSUMED Z2 construction of SPEC section 7; the metric is degenerate at z = pi/2 (g_00 = 0, sqrt|g| = 0), and no junction condition, brane tension or matching of the field across the brane is derived here.",
     "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle Hamiltonian has Krein inertia (4,4) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral; a positive-norm Fock space for either universe is not established by these theorems.",
     "The Kohn-Sham level (T3) is not established by this file; it is proved separately, with its own hypotheses (ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states), in Revision/pairing/kohn_sham/."}|>;

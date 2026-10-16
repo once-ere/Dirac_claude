@@ -175,7 +175,7 @@ forms = And @@ Table[Simplify[ConjugateTranspose[vb[b]] . gm[[1]] . vb[b]] == s3
     Simplify[ConjugateTranspose[vb[b]] . gm[[1]] . gm[[5]] . vb[b]] == labels[[b + 1, 1]] s1, {b, 0, 7}];
 addCheck["T3_Gamma_is_the_block_map",
   unit && gmap && forms && chir == DiagonalMatrix[Join[ConstantArray[-1, 8], ConstantArray[1, 8]]],
-  "with the unitary block basis V of ks-theory.json (rows = spinor components Psi_0..Psi_15) and Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = diag(-I8, I8) of gammas.json: Gamma V_(j,s2,s3) = V_(-j,s2,s3) (s2 sigma2) for all 8 blocks, and in every block gamma^(x0) = sigma3, gamma^(x0) gamma^(x4) = j sigma1: the 2 x 2 map (chi, j) -> (sigma2 chi, -j) of T3 is the chirality Gamma of the 16-component Kohn-Sham orbital Psi_16 = e^(-i eps x4) e^(i k x1) e^(-3 H y) V_beta chi(y)/sqrt(ell^3 v_t) (up to the phase s2), applied at the same point"];
+  "with the unitary block basis V of ks-theory.json (rows = spinor components Psi_0..Psi_15) and Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = diag(-I8, I8) of gammas.json: Gamma V_(j,s2,s3) = V_(-j,s2,s3) (s2 sigma2) for all 8 blocks, and in every block gamma^(x0) = sigma3, gamma^(x0) gamma^(x4) = j sigma1: the 2 x 2 map (chi, j) -> (sigma2 chi, -j) of T3 is the chirality Gamma of the 16-component Kohn-Sham orbital Psi_16 = e^(-i eps x4) e^(i k x1) e^(-3 H y) b4^(-3/4) V_beta chi(y)/sqrt(ell^3 v_t) (ks-theory.json sectorAndAnsatz.orbital16; up to the phase s2), applied at the same point; Gamma is constant, so the map commutes with the factors e^(-3 H y) b4^(-3/4) of the author's metric with b4(x4)"];
 
 (* the ASSUMED Z2 orbifold: P_A chi(y) = sigma3 chi(-y) *)
 chiY = {u1[y], u2[y]};
@@ -201,12 +201,12 @@ theory = <|
   "status" -> If[nPass == nTot, "all checks of the report passed", "SOME CHECKS FAILED - see the report"],
   "coordinates" -> "the author's coordinates {x0, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times",
   "hypotheses" -> {
-    "H1 (the problem): the instantaneous Kohn-Sham problem of Revision/kohn_sham/ks-theory.json at a fixed slice a4,0 = a4(x4) of the author's metric: good sector (no extra-time momentum), 3-torus lattice of momenta k, block Hamiltonians h_j = j[-i sigma1 d_y + M_eff(y) sigma2 + kappa(y) k sigma3] + v_v(y) on y in [-L, 0], j = +-1, four blocks (s2, s3) per j",
+    "H1 (the problem): the instantaneous Kohn-Sham problem of Revision/kohn_sham/ks-theory.json at a fixed slice a4,0 = a4(x4), b4,0 = b4(x4) of the author's metric with b4(x4) (SPEC section 1; b4 is never 1; b4 does not enter h_j and enters the proper densities only through the cell volume Vol_7, ks-theory.json sectorAndAnsatz.instantaneousProblem): good sector (no extra-time momentum), 3-torus lattice of momenta k, block Hamiltonians h_j = j[-i sigma1 d_y + M_eff(y) sigma2 + kappa(y) k sigma3] + v_v(y) on y in [-L, 0], j = +-1, four blocks (s2, s3) per j",
     "H2 (the functional): Hartree plus the exact uniform-gas exchange, M_eff = m + (15/16) lambda S, v_v = -lambda n/16, e_int = (15/32) lambda S^2 - (1/32) lambda n^2 (no correlation); the energy-momentum tensor of ks-theory.json emt",
     "H3 (the brane, ASSUMED): the Z2 mirror (orbifold) construction at y = 0 of ks-theory.json boundaryConditions.brane; both brane parities (chi2(0) = 0 and chi1(0) = 0) are solved and filled together with the weight w_Z2 = 1/2",
     "H4 (the tip, chosen): (1 - Q(theta)) chi(-L) = 0, Q(theta) = Cos[theta] sigma3 + Sin[theta] sigma2 (canonical theta = 0)",
     "H5 (occupation): Mermin occupations f = 1/(1 + e^((eps - mu)/T)) with the particle number N fixed, and the filling CONVENTION of ks-theory.json thermodynamics (positive branch of the lambda = 0 problem plus the k = 0 zero modes, followed continuously in lambda)",
-    "H6 (same remaining data): the same H, L, a4,0, lattice, extra-time volume, N and T for both members; mean-field (quasi-free) Kohn-Sham states only"},
+    "H6 (same remaining data): the same H, L, a4,0, b4,0, lattice, extra-time volume (hence Vol_7), N and T for both members; mean-field (quasi-free) Kohn-Sham states only"},
   "statement" -> {
     "S1: (chi, j) -> (sigma2 chi, -j) at the same k, i.e. Psi_16 -> Gamma Psi_16 (the chirality, up to the phase s2 per block), maps every eigen-orbital of h_j with (M_eff, v_v) onto an eigen-orbital of h_(-j) with (-M_eff, v_v) at the SAME level eps, and exchanges the brane parities",
     "S2: the tip condition with angle theta goes into the tip condition with angle Pi - theta (canonical theta = 0 -> theta = Pi); with the untransformed tip the spectra differ (control)",
@@ -228,7 +228,7 @@ theory = <|
     "The brane: the Z2 mirror construction at y = 0 is ASSUMED (ks-theory.json); the tip condition is a choice, and T3 needs the transformed tip angle Pi - theta.",
     "Mean-field level only: Hartree plus uniform-gas exchange without correlation, quasi-free states, the filling convention of ks-theory.json (its justification is OPEN).",
     "Not a statement about two independently quantised universes; the pairing is between Kohn-Sham problems with (m, lambda) and (-m, +lambda), not (-m, -lambda).",
-    "No back-reaction: the Kohn-Sham energy-momentum tensor is not a source that satisfies the a4 equations of SPEC section 5 (it depends on x0), see Revision/field_equations_a4/reports/ks-source-conditions.json."}|>;
+    "No back-reaction: the Kohn-Sham energy-momentum tensor is not a source that satisfies the a4 and b4 equations of SPEC section 5 (it depends on x0), see Revision/field_equations_a4/reports/ks-source-conditions.json."}|>;
 theoryText = toJ[theory, ""] <> "\n";
 writeLF[path_, text_String] := Module[{st = Quiet[OpenWrite[path, BinaryFormat -> True]]},
   If[Head[st] =!= OutputStream, Print["ERROR  cannot write ", path]; Exit[1]];

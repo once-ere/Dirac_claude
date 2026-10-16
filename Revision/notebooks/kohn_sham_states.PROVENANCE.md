@@ -2,15 +2,16 @@
 
 The Kohn-Sham states of dirac16complex in the author's deflating primordial field.
 
-* Notebook: `Revision/notebooks/kohn_sham_states.ipynb` (33 cells: 19 markdown, 14 code; 516499 bytes;
-  sha256 `42f9baa292ae958407b0e4f64482f11eb39ea6cf4270bcc09609c05fc0c05f82`).
+* Notebook: `Revision/notebooks/kohn_sham_states.ipynb` (33 cells: 19 markdown, 14 code; 521892 bytes;
+  sha256 `826f987e44e67fbcae4d83257dbc52191dd61f68f8fcce2bedd9e9a88dc01576`).
 * Builder: `Revision/notebooks/src/kohn_sham_states.py`
-  (sha256 `66f5a892fa16eab2d0c0a2ba37d099ad7423f993215340d317b499270c08fa37`).
+  (sha256 `5c43b073fb0ac2e6de850435bcb80030ac699b92425ad6ee265f20ddd0205392`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
   (sha256 `ba6c2cab4048282eb64e9bad8d3b265660438e700815f019dd0592c6f67450bb`).
-* Built and verified on 2026-10-08 and, in the author's coordinates x0..x7, on 2026-10-14 (section 7),
+* Built and verified on 2026-10-08, in the author's coordinates x0..x7 on 2026-10-14, and for the author's metric with
+  b4(x4) (the Kohn-Sham record moved to b4 on 2026-10-16) on 2026-10-16 (section 7),
   Windows 11 Pro for Workstations, Python 3.14.5, numpy 2.4.6,
   matplotlib 3.11.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, nbconvert 7.16.6,
   jupyterlab 4.4.10, cargo 1.91.
@@ -27,7 +28,8 @@ The Kohn-Sham states of dirac16complex in the author's deflating primordial fiel
    parameter block of its result; checks H, m, L, dk, v_t, tip angle and the numerics tag against
    `Revision/kohn_sham/results/parameters.json`.
 3. Solves nine canonical zero-temperature states (N = 8, lambda = 0; N = 136, lambda = +lambda_1 =
-   0.0009298; N = 688, lambda = 0; each at a4,0 = 0, 1, 2) with profiles, and the thermal state
+   0.01206, the solver's lambda_hat, held fixed along the history while Vol_7(a4,0) grows; N = 688, lambda = 0;
+   each at a4,0 = 0, 1, 2 of the history a4 = H x4, b4 = b4(0) e^((4/3) H x4)) with profiles, and the thermal state
    N136_lamp1_a10_T20 (T = 0.02 m).
 4. Compares with the committed record: E_KS, E_band, E_int, iterations, residual, HOMO, LUMO
    (equal floating-point numbers) and the Kohn-Sham gap (within 1e-15 of the larger level, because
@@ -43,11 +45,11 @@ The Kohn-Sham states of dirac16complex in the author's deflating primordial fiel
 6. Takes the 84 rows of `Revision/kohn_sham/reports/ks-crosscheck-table.csv` that belong to the ten
    states (nine quantities for each zero-temperature state; mu, E and the entropy for the thermal
    state): the column `rust` equals the new value to 16 digits (the gap within the rounding rule of
-   item 4), |new - reference| is within the table's tolerance (largest ratio 0.2246) and the verdict
+   item 4), |new - reference| is within the table's tolerance (largest ratio 0.2349) and the verdict
    is PASS.
 7. Reads the seven committed reports and asserts their counts exactly as their JSON files give them:
-   `ks-theory-wolfram.json` 46/46, `ks-theory-python.json` 58/58, `ks-rust-solver.json` 42/42,
-   `ks-rust-determinism.json` 14/14, `ks-rust-mermin-roots.json` 5/5, `ks-reference.json` 37/37,
+   `ks-theory-wolfram.json` 51/51, `ks-theory-python.json` 63/63, `ks-rust-solver.json` 43/43,
+   `ks-rust-determinism.json` 14/14, `ks-rust-mermin-roots.json` 5/5, `ks-reference.json` 38/38,
    `ks-crosscheck.json` 31/31 (0 failed in each; every listed check with verdict PASS).
 8. Draws four figures: the brane band of N = 8 at a4,0 = 0, 1, 2 and the Kohn-Sham gap of the three
    series along the history; the profiles of N136_lamp1_a10 (n, rho, and p3/rho, p_t/rho, p0/rho); E_KS
@@ -66,50 +68,50 @@ Read (sha256 at the time of the verified builds):
 | `Revision/SPEC.md` | (only its existence is used, to find the repository) |
 | `Revision/kohn_sham/solver/Cargo.toml` | `464d553adcfaa1943af53ec3b18324fcba99ee92b3d82efcb08d2dc74bca24b1` |
 | `Revision/kohn_sham/solver/Cargo.lock` | `65b7ed2cbe76d4701a66287cfbdedc8d4a780ee3c9e672de0e4055eb4ae70738` |
-| `Revision/kohn_sham/solver/src/analysis.rs` | `43d69cb108e37b58beca76b613b6d5c80d5a4456884a6b4cbebbe76da598a487` |
+| `Revision/kohn_sham/solver/src/analysis.rs` | `09f90e3ece9e2f910670792e6900045c7d7f4634fdc25e0862f42f80ee84ad8d` |
 | `Revision/kohn_sham/solver/src/json.rs` | `919be3b192ab81d62deb8429229aa065a50d8fd0f8df6877ac4e413909efdf05` |
-| `Revision/kohn_sham/solver/src/main.rs` | `6964c47f87c224d323a443471137c2ffa57b9c6d79e926cd14ddcc6e54efa18c` |
+| `Revision/kohn_sham/solver/src/main.rs` | `70b20addc1379ede2332e53838a8a5d3a63ad943fe767138e2369f6e47881c8d` |
 | `Revision/kohn_sham/solver/src/mermin.rs` | `0be57b4defb8ec056b521c7585138f67d68fb95e3446b8a020b60312cbf6a094` |
-| `Revision/kohn_sham/solver/src/model.rs` | `391ac28244bc07ff246a8f4dcdd2fae74ff3571268187791e0ad8a88e7b486eb` |
+| `Revision/kohn_sham/solver/src/model.rs` | `9cc74d27f5d7ab588768b2d842f75fdcb64935891cff0497a505031384e60073` |
 | `Revision/kohn_sham/solver/src/report.rs` | `0a770aff24dde0de531d0578e968ab9cad3d5f42b7cda532f7c753633b7ff9c7` |
-| `Revision/kohn_sham/solver/src/runs.rs` | `5e944987088de64b10559d42474569ca18cb188aae13bae0d7a474a17df19f55` |
+| `Revision/kohn_sham/solver/src/runs.rs` | `681aed269012d11f6d58904207632280e728723e563d8eeba64a8c12522f9619` |
 | `Revision/kohn_sham/solver/src/scf.rs` | `d27060a8db753b8a933946d35eb3918ba3f982b201263435b448a6c702254dd7` |
 | `Revision/kohn_sham/solver/src/sha256.rs` | `f44ed328e324b26d9b7c78f530e95be9ff1c88b179026ab4839ab38009e15122` |
 | `Revision/kohn_sham/solver/src/shoot.rs` | `39c95fffea255d3977efa9ddadf87131e51c4fd47557bec3a6225fa05bf7d7f4` |
 | `Revision/kohn_sham/solver/src/spectrum.rs` | `b52b6997e1418f094e1e7a5cca6064235b6d5ded6bcb534cce149e3a0d3622de` |
-| `Revision/kohn_sham/solver/src/theory.rs` | `cfde16d6fa442f797ac0e5684227e192394bc4aa75f3d89f78ea00d05965bbb4` |
-| `Revision/kohn_sham/ks-theory.json` | `a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2` |
+| `Revision/kohn_sham/solver/src/theory.rs` | `fdc77ba6601089f98b4bd7a3fff3d11b723687295992620bf29912218e7d393e` |
+| `Revision/kohn_sham/ks-theory.json` | `e3e2869216e2744f83a2888067e5ed9599bf2ddff46cfd876da3fb7c729ba0f0` |
 | `Revision/algebra/gammas.json` | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` |
-| `Revision/kohn_sham/results/parameters.json` | `c91041b68b6520c7eec890bd18ffd361b260730c0ee4328eb1d90a8f91c83ebb` |
-| `Revision/kohn_sham/results/ground/summary.csv` | `6a4b93a78def3b7db4e91907411c5727293e04024a7bdd11a9e59c6c1acee235` |
-| `Revision/kohn_sham/results/ground/emt-integrals.csv` | `0d53384793d54961c64072f11368e7ca28be6ef5d036e66ee87a9545aa8e288c` |
-| `Revision/kohn_sham/results/thermo/thermodynamics.csv` | `420b7482dd8dd3552fb63bb23da2eacb18a12048f33ce5fd25894622f1063200` |
+| `Revision/kohn_sham/results/parameters.json` | `da5756aacb351ecc2691ac159cac7a2d34d6897717b8e877f5d2257d5a8e03a0` |
+| `Revision/kohn_sham/results/ground/summary.csv` | `4cf94cfe7c8c372c217b8431d66c0f8dcfeefc86fd791feef6364a3c7fc28156` |
+| `Revision/kohn_sham/results/ground/emt-integrals.csv` | `0673ad3e6b3c405a6eaf73310fad176d7129af16aece38b1ac256e4b84376b76` |
+| `Revision/kohn_sham/results/thermo/thermodynamics.csv` | `2ff9b680dc62783d1ac4c2d05ea5adde1383261d967a87acf53d6b65eb21b427` |
 | `Revision/kohn_sham/results/ground/levels/N8_lam0_a00.csv` | `dcd43dfe7db6afbdfa1d09a61c8b0700d2d003445375395195c48a09e1231441` |
 | `Revision/kohn_sham/results/ground/levels/N8_lam0_a10.csv` | `7842c9c8d787498096f28fc73061fe0654cd65eb4b676d0728177f7bda64e469` |
 | `Revision/kohn_sham/results/ground/levels/N8_lam0_a20.csv` | `8c82fe629f483632683b75e5e5613397fca2051f69fa2e5c238879ba29819c9a` |
-| `Revision/kohn_sham/results/ground/levels/N136_lamp1_a00.csv` | `f67885312d5b48552c7c7cb0b1ef2b355ab24ee8d0138b9136c2fd31a5959d95` |
-| `Revision/kohn_sham/results/ground/levels/N136_lamp1_a10.csv` | `d1f3727674518ffa35ec7e7b6528ed758f15120243823f6ff18d57baafc1df5c` |
-| `Revision/kohn_sham/results/ground/levels/N136_lamp1_a20.csv` | `49c505b48f5d0c3dd367fed08de26e2662a0f978bf1faeefc6d6a36721812ef1` |
+| `Revision/kohn_sham/results/ground/levels/N136_lamp1_a00.csv` | `4da5ffd80614190c6c1d28b122106429da9a2c7111fd8d61fc105362045e56e5` |
+| `Revision/kohn_sham/results/ground/levels/N136_lamp1_a10.csv` | `259d1e80fad8a71680c2c74adc42778780f854a897bef42513cf91b7c25a5ff6` |
+| `Revision/kohn_sham/results/ground/levels/N136_lamp1_a20.csv` | `c02578637a7b705a822dfa7bacd596370b39dac9060ef0e7b7790e19959d1b27` |
 | `Revision/kohn_sham/results/ground/levels/N688_lam0_a00.csv` | `787a3b385ec7b992bc43046a545c65198ef9da3f27df0c6707ce6fc4fc87369b` |
 | `Revision/kohn_sham/results/ground/levels/N688_lam0_a10.csv` | `bbd4ad60d596a6877584eeac2889fb7c3f01902b4589d75c5f6981a7768397e2` |
 | `Revision/kohn_sham/results/ground/levels/N688_lam0_a20.csv` | `1cbb17edfb3bbdeac0f4972c8a991d977ca70b45c66ad3273cd1827fb88241af` |
 | `Revision/kohn_sham/results/ground/profiles/N8_lam0_a00.csv` | `dc0971b3117558c8040f885556b8076b6c61c4b0e8cee38d5f9b8262c87bfe3f` |
-| `Revision/kohn_sham/results/ground/profiles/N8_lam0_a10.csv` | `dc0971b3117558c8040f885556b8076b6c61c4b0e8cee38d5f9b8262c87bfe3f` |
-| `Revision/kohn_sham/results/ground/profiles/N8_lam0_a20.csv` | `dc0971b3117558c8040f885556b8076b6c61c4b0e8cee38d5f9b8262c87bfe3f` |
-| `Revision/kohn_sham/results/ground/profiles/N136_lamp1_a00.csv` | `436d1e0c9dd30186573fae4d2a78329e6216e6668c73401d2630b98dacbe89bb` |
-| `Revision/kohn_sham/results/ground/profiles/N136_lamp1_a10.csv` | `1308a5dabd9b9b49f3192fc34c02c06b0160109d3506bdf4aef2edb0edfcf094` |
-| `Revision/kohn_sham/results/ground/profiles/N136_lamp1_a20.csv` | `842003b260de2d25b18c376f25fa401260c75f2fcdf1ea65c3fb8b22d2dde6b1` |
+| `Revision/kohn_sham/results/ground/profiles/N8_lam0_a10.csv` | `0253807c66eb6bf2092b3c4504b3481c5042c6c82271ddc4e082a75f5151bfac` |
+| `Revision/kohn_sham/results/ground/profiles/N8_lam0_a20.csv` | `ea13116a5d3173d73810bf4ecc89ad4005c551bdd68e10180de6b53d279fbe4c` |
+| `Revision/kohn_sham/results/ground/profiles/N136_lamp1_a00.csv` | `c51693aab17e7750dc25632bc0904e850f016f28aaef191458e0f30ae5e2dfd7` |
+| `Revision/kohn_sham/results/ground/profiles/N136_lamp1_a10.csv` | `13cc2bc78a6b2daac71ddb8eb43a092c6b78fbddbf95d025d403ac6f8b64bab2` |
+| `Revision/kohn_sham/results/ground/profiles/N136_lamp1_a20.csv` | `6ee511544ef4927b8ece0aec566ce68587874433896ac99fc5c722e791c7b518` |
 | `Revision/kohn_sham/results/ground/profiles/N688_lam0_a00.csv` | `8d252e88edb236dc1d09dc60dc11751379465d95f79d788193da083388744526` |
-| `Revision/kohn_sham/results/ground/profiles/N688_lam0_a10.csv` | `dd651c2c24af6aeeecfe640d69b71812b7f1d6a5bf3f9b14d11e1c73fd9a9871` |
-| `Revision/kohn_sham/results/ground/profiles/N688_lam0_a20.csv` | `ce43e55e92de129631d4fa9097e4a2ba411e12081d9571a442d72a179ba87a5d` |
-| `Revision/kohn_sham/reports/ks-crosscheck-table.csv` | `2c92fc2134b97b869bcc27b5380a941321763b3be6cc2e1d17a3efc13b7fb7b6` |
-| `Revision/kohn_sham/reports/ks-theory-wolfram.json` | `21f7736e340618bf5405acb169bf5000f02c47a8f710ce5fd48d8658cbd1224d` |
-| `Revision/kohn_sham/reports/ks-theory-python.json` | `d39256e3dd7bee6c203493bd08fd4b2f5f7494af0f07dbf69874706d4eb76784` |
-| `Revision/kohn_sham/reports/ks-rust-solver.json` | `59ec76aa382707beff4ef9f8f995ee54cc5f4201d163e67a55fb99e4f150bdd2` |
-| `Revision/kohn_sham/reports/ks-rust-determinism.json` | `bda728a7d596b3d27b747e92289c9d4309a335041f7fc862bbcbc4c13c749796` |
-| `Revision/kohn_sham/reports/ks-rust-mermin-roots.json` | `35afda639a6a359937de77fe7ba513333dd09d2fb0ffae64fe010735b76a7982` |
-| `Revision/kohn_sham/reports/ks-reference.json` | `b9943071f92f797c5ffa9ce7a174b5fddb4c89e7da742e279b8f7046f783c3cb` |
-| `Revision/kohn_sham/reports/ks-crosscheck.json` | `a5d1153a4e4d1b4a50f30313df081dc005f86a5632abc474c48d9b89f49daa3a` |
+| `Revision/kohn_sham/results/ground/profiles/N688_lam0_a10.csv` | `f8208e47dc52a9eb0dccb36ad49fe71d6870b9612509ca476c9a8376a7ae9c27` |
+| `Revision/kohn_sham/results/ground/profiles/N688_lam0_a20.csv` | `0b08adef015136c994fedc26654b10115ff02f9f7766364c112183028113b087` |
+| `Revision/kohn_sham/reports/ks-crosscheck-table.csv` | `07ba6aef4fc934482b664c86e507466f3926ee74c11b270a46c5902fa2e339a9` |
+| `Revision/kohn_sham/reports/ks-theory-wolfram.json` | `304bd5bf10182e07c76db69238c416fae39b9222fd25d3fb76ec901e7d51ebf8` |
+| `Revision/kohn_sham/reports/ks-theory-python.json` | `f85b6303bc4812d55dbf7bd77e7efbf87a516cc84ebfe13831eefaebe4ccbe09` |
+| `Revision/kohn_sham/reports/ks-rust-solver.json` | `0e9441d30efc74ddf3b6bc5746235b2c1d41a403044e4dc6e88b8de8dc643974` |
+| `Revision/kohn_sham/reports/ks-rust-determinism.json` | `3d240a599ffda6a32b478115d306c557aa0ea8ee5d12bc9c99e4bdcfe6bf5048` |
+| `Revision/kohn_sham/reports/ks-rust-mermin-roots.json` | `679295e1abe87f296ba31b5883ddd76ae7c26b707bf4b823ac19ab357ae3de06` |
+| `Revision/kohn_sham/reports/ks-reference.json` | `a87bb124aaca6697a234d7c8e1b2563b52371d6a8b3ac7775335e558e24fedcc` |
+| `Revision/kohn_sham/reports/ks-crosscheck.json` | `796d537884b8879b879e0ec2e810195cace27da36d5fda790d3c4474a1a0c6f1` |
 
 Written: the result files and figures into the output folder `<output>` (the folder named by
 `REVISION_NB_OUT`, otherwise `build/revision_notebooks/kohn_sham_states` in the repository, ignored by
@@ -120,29 +122,29 @@ git), identical in both verified builds and in the `check` run; the Rust build i
 
 | file | bytes | sha256 |
 | --- | --- | --- |
-| `<output>/figures/figure1_brane_band.png` | 86018 | `ab407444808dc130f25d6ec50b91d3855d7c5b12d97741a33a48a54dd3899e05` |
-| `<output>/figures/figure2_profiles.png` | 64672 | `13077a82839687dcb2f5d3fe2c97ae74495f057e47b077014ea77935d4a7eff5` |
-| `<output>/figures/figure3_history.png` | 79921 | `a994fc3158df4bf57c763da701d367885ba0d3330718c208d86f917d9dacfdfe` |
-| `<output>/figures/figure4_crosscheck.png` | 95136 | `d4d4fd20c1d367ada8e095edb087eb8e08b0f1bb75dd955669345b27d8dfb6be` |
-| `<output>/ks_runs/N136_lamp1_a00.csv` | 38057 | `436d1e0c9dd30186573fae4d2a78329e6216e6668c73401d2630b98dacbe89bb` (= record `results/ground/profiles/N136_lamp1_a00.csv`) |
-| `<output>/ks_runs/N136_lamp1_a00.json` | 12834 | `35705769279ce9dcd0f521c276c77665cc92f5b9fbf421af4d9771c1b4990768` |
-| `<output>/ks_runs/N136_lamp1_a10.csv` | 37922 | `1308a5dabd9b9b49f3192fc34c02c06b0160109d3506bdf4aef2edb0edfcf094` (= record `results/ground/profiles/N136_lamp1_a10.csv`) |
-| `<output>/ks_runs/N136_lamp1_a10.json` | 28182 | `c86aed4263691f9414fff4177e06054b4329339d756c077fe800157a70114663` |
-| `<output>/ks_runs/N136_lamp1_a10_T20.json` | 17420 | `57ff7767cf5ef073faac1e984c14bee7325867bf15639f940e7ddf624e17da44` |
-| `<output>/ks_runs/N136_lamp1_a20.csv` | 38032 | `842003b260de2d25b18c376f25fa401260c75f2fcdf1ea65c3fb8b22d2dde6b1` (= record `results/ground/profiles/N136_lamp1_a20.csv`) |
-| `<output>/ks_runs/N136_lamp1_a20.json` | 110731 | `586018ed7b9848b2d4d76bd7cbcdd6eed05090fa5162f6e3e2980cade518350f` |
+| `<output>/figures/figure1_brane_band.png` | 86058 | `1a1b7e298711b8151c62e754cbefaf5a61fdddf269e1545eddbd26e1516dd2ef` |
+| `<output>/figures/figure2_profiles.png` | 67608 | `c9b6b365d1d98b7541cacb641e33dbbc70a4aac47100d65b9dff37f6b0213e73` |
+| `<output>/figures/figure3_history.png` | 79996 | `0410437a57d38bec80a012add446e0a279be22364026b84606fa78dba7d8ad1a` |
+| `<output>/figures/figure4_crosscheck.png` | 95211 | `2955a4d36583423cd96561d5c041e51c3ccbc4442473e18bfc36fd2e95d89471` |
+| `<output>/ks_runs/N136_lamp1_a00.csv` | 38052 | `c51693aab17e7750dc25632bc0904e850f016f28aaef191458e0f30ae5e2dfd7` (= record `results/ground/profiles/N136_lamp1_a00.csv`) |
+| `<output>/ks_runs/N136_lamp1_a00.json` | 12900 | `79a2bfbf980dc3c9463578868a9917c23057ecc7bc7e7263e0280c992929fde3` |
+| `<output>/ks_runs/N136_lamp1_a10.csv` | 38149 | `13cc2bc78a6b2daac71ddb8eb43a092c6b78fbddbf95d025d403ac6f8b64bab2` (= record `results/ground/profiles/N136_lamp1_a10.csv`) |
+| `<output>/ks_runs/N136_lamp1_a10.json` | 28248 | `1ac946be4d087da2978fa53064b690ef7365773c53ce4165fb4ba9e106de079a` |
+| `<output>/ks_runs/N136_lamp1_a10_T20.json` | 17486 | `884da140ac2053df504bf493698ba0c8f5247a63aca2328ee7c2458584af95cd` |
+| `<output>/ks_runs/N136_lamp1_a20.csv` | 38420 | `6ee511544ef4927b8ece0aec566ce68587874433896ac99fc5c722e791c7b518` (= record `results/ground/profiles/N136_lamp1_a20.csv`) |
+| `<output>/ks_runs/N136_lamp1_a20.json` | 110797 | `35145744f34ea3813e5e927d015f8a7c2ac0b09b1e66efb7ed092c7f60666d45` |
 | `<output>/ks_runs/N688_lam0_a00.csv` | 37158 | `8d252e88edb236dc1d09dc60dc11751379465d95f79d788193da083388744526` (= record `results/ground/profiles/N688_lam0_a00.csv`) |
-| `<output>/ks_runs/N688_lam0_a00.json` | 21151 | `74f3da2d7bf421897d1c9d8f4d635a582003cb079024667c01d34fce8b7adaa0` |
-| `<output>/ks_runs/N688_lam0_a10.csv` | 37038 | `dd651c2c24af6aeeecfe640d69b71812b7f1d6a5bf3f9b14d11e1c73fd9a9871` (= record `results/ground/profiles/N688_lam0_a10.csv`) |
-| `<output>/ks_runs/N688_lam0_a10.json` | 40344 | `3eb83db5a2148590e738e6b52a53e00286ad3a13efceb815c0c0471ad7a84ef6` |
-| `<output>/ks_runs/N688_lam0_a20.csv` | 37121 | `ce43e55e92de129631d4fa9097e4a2ba411e12081d9571a442d72a179ba87a5d` (= record `results/ground/profiles/N688_lam0_a20.csv`) |
-| `<output>/ks_runs/N688_lam0_a20.json` | 133182 | `a6258f730ef14d595792b3f0aff18fc56c94316a15aac4ccaf5324e6b9602454` |
+| `<output>/ks_runs/N688_lam0_a00.json` | 21217 | `755488e42b47e9c0f3ea5b9e138ab6c26a024af3cc8fd44a126f6b72dda351f9` |
+| `<output>/ks_runs/N688_lam0_a10.csv` | 37218 | `f8208e47dc52a9eb0dccb36ad49fe71d6870b9612509ca476c9a8376a7ae9c27` (= record `results/ground/profiles/N688_lam0_a10.csv`) |
+| `<output>/ks_runs/N688_lam0_a10.json` | 40410 | `a11ae5763a4ed85841c9b879437995ab46c44458ac6a59f41b8e07004f2dffb8` |
+| `<output>/ks_runs/N688_lam0_a20.csv` | 37431 | `0b08adef015136c994fedc26654b10115ff02f9f7766364c112183028113b087` (= record `results/ground/profiles/N688_lam0_a20.csv`) |
+| `<output>/ks_runs/N688_lam0_a20.json` | 133248 | `17a8638bd4d9e3bb091639d81dd995eb445c75543751fea679f7cfb88c9a6877` |
 | `<output>/ks_runs/N8_lam0_a00.csv` | 36974 | `dc0971b3117558c8040f885556b8076b6c61c4b0e8cee38d5f9b8262c87bfe3f` (= record `results/ground/profiles/N8_lam0_a00.csv`) |
-| `<output>/ks_runs/N8_lam0_a00.json` | 6587 | `5c103b42fb6cc027727ab7c68cc6fb4377f51e18719311b6b2b6fe8abad8f208` |
-| `<output>/ks_runs/N8_lam0_a10.csv` | 36974 | `dc0971b3117558c8040f885556b8076b6c61c4b0e8cee38d5f9b8262c87bfe3f` (= record `results/ground/profiles/N8_lam0_a10.csv`) |
-| `<output>/ks_runs/N8_lam0_a10.json` | 18455 | `a2a07e5a3c8e4ffda1000707aeee402d62a0c7be1bf2734598ba1e5399b50f21` |
-| `<output>/ks_runs/N8_lam0_a20.csv` | 36974 | `dc0971b3117558c8040f885556b8076b6c61c4b0e8cee38d5f9b8262c87bfe3f` (= record `results/ground/profiles/N8_lam0_a20.csv`) |
-| `<output>/ks_runs/N8_lam0_a20.json` | 89961 | `fe2cc57be4f479d57f70962d97f7fb7979c49ab2f144bd1d98ae65bea7711156` |
+| `<output>/ks_runs/N8_lam0_a00.json` | 6653 | `b59f15130d3255819d766ab696753ef51322a067f902dc2af7c4be721924604f` |
+| `<output>/ks_runs/N8_lam0_a10.csv` | 37024 | `0253807c66eb6bf2092b3c4504b3481c5042c6c82271ddc4e082a75f5151bfac` (= record `results/ground/profiles/N8_lam0_a10.csv`) |
+| `<output>/ks_runs/N8_lam0_a10.json` | 18521 | `0f289afe466be69c1336a13e372dd7d3a3c0c1b02b83f65addcec82a0a161f9f` |
+| `<output>/ks_runs/N8_lam0_a20.csv` | 37074 | `ea13116a5d3173d73810bf4ecc89ad4005c551bdd68e10180de6b53d279fbe4c` (= record `results/ground/profiles/N8_lam0_a20.csv`) |
+| `<output>/ks_runs/N8_lam0_a20.json` | 90027 | `ef246fb58e97a464c255a15b9821ef2eb622b33248df464b409e1eb7b9ce8441` |
 | `<cargo-target>/` | about 2.8 MB | the Rust build folder (compiler output; not compared) |
 
 The tool writes `Revision/notebooks/kohn_sham_states.ipynb` (`build`) or
@@ -182,15 +184,15 @@ or, to rebuild and compare with the committed file (from the repository root):
 * Section 5: `exit status: 0`, `compiler warnings: 0`.
 * Section 6: the solver's three indented `PASS` input checks, `-> SUCCESS, exit status 0, input checks
   PASS: 3, other messages: 0`, the parameter block (H 1.0, m 1.0, L 3.0, dk 0.25, v_t 1.0, a4 0.0,
-  lambda 0.0, N 8.0, T 0.0, tipTheta 0.0, exactFockVariant False), lambda_1 = 0.01946, 0.0009298,
-  0.0001846 for N = 8, 136, 688.
+  beta 1.333333333333333, Vol7 15875.21366031351, lambda 0.0, N 8.0, T 0.0, tipTheta 0.0, exactFockVariant False),
+  lambda_1 = 0.01946, 0.01206, 0.006645 for N = 8, 136, 688.
 * Section 7: ten solver runs, each `-> SUCCESS`; eleven PASS lines of the comparison, for example
-  `N136_lamp1_a10_equals_record: E_KS = 32.39294915318298, ...`, and for the thermal state
-  mu = 0.3246592752780658, E = 33.31968443444271, S = 86.5540070269009.
-* Section 8: the N = 8 gap 0.4307337, 0.1703493, 0.0641594 at a4,0 = 0, 1, 2; P3/E = 0.2966, 0.3101,
-  0.3270 (N = 136, +lambda_1) and 0.2929, 0.3018, 0.3183 (N = 688, lambda = 0).
-* Section 9: `crosscheck_rows_reproduced: 84 rows ... (largest ratio 0.2246)`; the table of the seven
-  reports (46 / 58 / 42 / 14 / 5 / 37 / 31 checks, 0 failed).
+  `N136_lamp1_a10_equals_record: E_KS = 32.39983783343836, ...`, and for the thermal state
+  mu = 0.3247437533489824, E = 33.32682376769655, S = 86.58220633830562.
+* Section 8: the N = 8 gap 0.4307337, 0.1703493, 0.0641594 at a4,0 = 0, 1, 2; P3/E = 0.2966, 0.3102,
+  0.3265 (N = 136, +lambda_1) and 0.2929, 0.3018, 0.3183 (N = 688, lambda = 0).
+* Section 9: `crosscheck_rows_reproduced: 84 rows ... (largest ratio 0.2349)`; the table of the seven
+  reports (51 / 63 / 43 / 14 / 5 / 38 / 31 checks, 0 failed).
 * Section 10.5: `checks of this notebook: 24 passed, 0 failed` and the 23 files listed above.
 
 No run time and no path of the computer is printed (paths are shown relative to the repository, as
@@ -198,6 +200,7 @@ No run time and no path of the computer is printed (paths are shown relative to 
 
 ## 5. Measured run time (Windows 11, 2026-10-08)
 
+* 2026-10-16 (the metric with b4(x4); other jobs of this work on the computer): 14.6 s (`build`) and 14.4 s (`check`) of execution.
 * 2026-10-14 (the author's coordinates; other jobs of this work on the computer): 11.5 s (`build`) and 11.6 s (`check`) of execution.
 * Whole notebook, executed by `build_notebooks.py` (current version): 33.0 s (build A), 26.0 s
   (build B) and 28.6 s (`check`) of execution while other work ran on the computer (the previous
@@ -310,6 +313,19 @@ No run time and no path of the computer is printed (paths are shown relative to 
 * 2026-10-14, the author's coordinates x0..x7 (ordered by the user on 2026-10-14; the record had named them x1..x8 with the hidden direction x8 last): the coordinate definition and section 4.1 (the user's metric with b4; the recorded states are at b4 = 1), the hidden-direction pressure p0, P0 (was p8, P8) in the texts, tables and figures. `python Revision/notebooks/tools/build_notebooks.py build kohn_sham_states` - executed in 11.5 s, wrote 516499 bytes, audit PASS, sha256 `42f9baa292ae958407b0e4f64482f11eb39ea6cf4270bcc09609c05fc0c05f82` (the version before: 515946 bytes, `4c63d360f8dc808a...`; builder before `f97211bb1e3c5c70...`); `check kohn_sham_states` - a second independent execution (11.6 s): PASS, the re-executed notebook is byte-identical; the 23 files of the two output folders are byte-identical and equal to the table of section 2 (refreshed from them). The notebook's own checks pass as before (no FAIL line). Tests: `REVISION_NOTEBOOKS_FULL=1 python -m unittest Revision/tests/test_revision_notebooks.py` - 11
   tests OK in 48.6 s (the installed versions equal the pins; `check` of all three notebooks byte-identical). Every run
   with `timeout 423`.
+* 2026-10-16, the author's metric with b4(x4) (the user's order of 2026-10-15, "move everything to b4(x4); b4 is never
+  1"; the Kohn-Sham record moved to b4 on 2026-10-16: ks-theory.json, the solver with lambda_hat and Vol_7(a4,0), the
+  recalibrated couplings, the recomputed canonical matrix and reports): sections 1, 4.1 to 4.4 and 11 of the notebook
+  describe the history a4 = H x4, b4 = b4(0) e^((4/3) H x4), the deflation e^(-a4) b4^(1/2) sin^(1/6) z, the growing
+  cell volume, that b4 does not enter h_j, the couplings lambda_hat and the a4 and b4 equations; the expected counts
+  of the seven reports are 51, 63, 43, 14, 5, 38 and 31 (before 46, 58, 42, 14, 5, 37, 31); no code of the notebook
+  changed otherwise. `python Revision/notebooks/tools/build_notebooks.py build kohn_sham_states` - executed in 14.6 s,
+  wrote 521892 bytes, audit PASS; `check kohn_sham_states` - executed in 14.4 s, PASS, byte-identical; the files of the
+  two output folders are byte-identical and equal to the table of section 2 (the nine profile files equal the
+  record's). `checks of this notebook: 24 passed, 0 failed`. The test file `Revision/tests/test_revision_notebooks.py`
+  (expected counts updated, and the dark-sector count of `ks-history-run.json` corrected from 7 to 8): 9 static
+  tests OK, 2 skipped. Every run with `timeout 423`, from the repository root in the working tree on top of commit
+  `abfb3c7` (not a fresh clone).
 * Not verified here: the run instructions on macOS and Linux (written for them, executed only on
   Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
   the matplotlib version).

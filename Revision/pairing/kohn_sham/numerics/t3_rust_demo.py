@@ -16,11 +16,14 @@ image), occupations, Kohn-Sham energy, chemical potential, entropy, grand potent
 integrals and profiles, with S, Q and M_eff changing sign; the control must differ.  A second control compares plus
 with the image of the opposite coupling, (-m, -lambda, pi) (the T1 parameter map): it must differ too.
 
-States: the slices a4,0 in {0, 0.5, 1, 1.5, 2} of the history a4 = A H x4 (A = 1) with the extra times x5, x6, x7
-DEFLATING exponentially (scale factor e^{-a4} sin^{1/6} z).  This history is a PRESCRIBED BACKGROUND
-(ks-theory.json adiabaticity.historyStatus): the Kohn-Sham states violate the a4 source conditions
-(Revision/field_equations_a4/reports/ks-source-conditions.json), so the gas is a test field without back-reaction.
-T3 holds slice by slice; it does not use the history.  N and lambda are those of the canonical matrix
+States: the slices a4,0 in {0, 0.5, 1, 1.5, 2} of the history a4 = A H x4 (A = 1), b4 = b4(0) e^{(4/3) A H x4} of the
+author's metric with b4(x4) (SPEC section 1; b4 is never 1), with the extra times x5, x6, x7 DEFLATING exponentially
+(scale factor e^{-a4} b4^{1/2} sin^{1/6} z = b4(0)^{1/2} e^{-a4/3} sin^{1/6} z on the history).  This history is a
+PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus): the Kohn-Sham states violate the source conditions
+of the a4 and b4 equations (Revision/field_equations_a4/reports/ks-source-conditions.json), so the gas is a test field
+without back-reaction.  T3 holds slice by slice; it does not use the history (b4 does not enter the block
+Hamiltonians h_j).  N and lambda_hat (the solver's coupling, held fixed along the history while the cell volume
+Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} grows; `single --lambda`) are those of the canonical matrix
 (Revision/kohn_sham/results/parameters.json): 75 ground states and 135 thermal (Mermin) states.
 
 Usage (from the repository root; the solver built from the committed sources, e.g.
@@ -233,12 +236,15 @@ def main():
     ok = hist.startswith("PRESCRIBED BACKGROUND") and "No Kohn-Sham state" in src["conclusion"] and \
         "prescribed background" in src["conclusion"] and src["summary"]["fail"] == 0
     ok = ok and params["physics"]["slicesA4"] == list(SLICES) and params["physics"]["temperatures"] == list(TEMPS)
+    beta = ks["adiabaticity"]["historyBeta"]
+    ok = ok and beta == "4/3" and abs(params["physics"]["historyBeta"] - 4.0 / 3.0) < 1e-12
     check("history_is_a_prescribed_background", ok,
-          "the slices a4,0 = %s of the history a4 = A H x4 (A = %s; extra times x5, x6, x7 deflating as e^{-a4}) are a "
+          "the slices a4,0 = %s of the history a4 = A H x4, b4 = b4(0) e^{beta A H x4} (A = %s, beta = %s from ks-theory.json "
+          "adiabaticity.historyBeta; extra times x5, x6, x7 deflating as e^{-a4} b4^{1/2} = b4(0)^{1/2} e^{-a4/3}) are a "
           "PRESCRIBED BACKGROUND: ks-theory.json adiabaticity.historyStatus begins '%s'; "
           "Revision/field_equations_a4/reports/ks-source-conditions.json (%d/%d checks) concludes: %s T3 is a statement "
           "slice by slice and does not use the history"
-          % (list(SLICES), params["physics"]["historyA"], hist[:22], src["summary"]["pass"], src["summary"]["checks"],
+          % (list(SLICES), params["physics"]["historyA"], beta, hist[:22], src["summary"]["pass"], src["summary"]["checks"],
              src["conclusion"]))
 
     calib = params["couplingCalibration"]["values"]
@@ -401,8 +407,10 @@ def main():
         "members": {"plus": "(m, lambda), tip theta = 0 (canonical boundary conditions)",
                     "image": "(-m, +lambda), tip theta = pi (the T3 image, transformed tip; brane parities exchanged by the map)",
                     "control": "(-m, +lambda), tip theta = 0 (UNtransformed boundary condition: negative control)"},
-        "background": "slices a4,0 in {0, 0.5, 1, 1.5, 2} of the PRESCRIBED BACKGROUND history a4 = A H x4 (A = 1; x5, x6, x7 "
-                      "deflating as e^{-a4}); the Kohn-Sham states violate the a4 source conditions "
+        "background": "slices a4,0 in {0, 0.5, 1, 1.5, 2} of the PRESCRIBED BACKGROUND history a4 = A H x4, b4 = b4(0) "
+                      "e^{(4/3) A H x4} (A = 1; x5, x6, x7 deflating as e^{-a4} b4^{1/2} = b4(0)^{1/2} e^{-a4/3}); the "
+                      "coupling lambda_hat of each tag is held fixed while Vol_7(a4,0) = ell^3 v_t e^{2 a4,0} grows; the "
+                      "Kohn-Sham states violate the source conditions of the a4 and b4 equations "
                       "(Revision/field_equations_a4/reports/ks-source-conditions.json): a test field without back-reaction",
         "inputs": {"Revision/kohn_sham/ks-theory.json": sha(KS / "ks-theory.json"),
                    "Revision/kohn_sham/results/parameters.json": sha(KS / "results" / "parameters.json"),

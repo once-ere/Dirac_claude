@@ -50,10 +50,11 @@ this set; where the theory needs it, it too is a matrix operation (for a real fi
 conjugation changes nothing, so it cannot be charge conjugation).
 
 The statements are checked in four gravitational fields: the author's metric of the primordial
-universe on the patch `0 < z < pi/2` ("primordial"), the same metric on the mirror patch
+universe, with the function b4(x4) in its three extra-time components (b4 > 0 an arbitrary function of
+the time x4, never 1; `Revision/SPEC.md` section 1), on the patch `0 < z < pi/2` ("primordial"), the same metric on the mirror patch
 `pi/2 < z < pi` ("mirror_patch"), a general diagonal field with eight arbitrary functions of all eight
 coordinates ("diagonal8"), and a general non-diagonal field at one point with exact rational numbers
-("pointwise"); in addition a linearity argument covers every field. The script runs 101 checks.
+("pointwise"); in addition a linearity argument covers every field. The script runs 102 checks.
 
 What the set does NOT establish is written into its own output file (`pairing-theory.json`, key
 `not_established`, nine items). In short: it describes no creation process of universes, no rate or
@@ -64,14 +65,14 @@ universes; the gravitational field is a fixed test field (no back-reaction); the
 `z = pi/2` is assumed; a positive-norm Fock space is not established; the Kohn-Sham level (T3) is a
 separate set.
 
-### 1.2 The checks, by group (101 in total)
+### 1.2 The checks, by group (102 in total)
 
 | group | what is checked | checks |
 | --- | --- | --- |
 | A. fixture | the gamma matrices read from the input file satisfy the Clifford relation; `C`, `Gamma`, `B`, `S^ab` re-derived; basic properties of `Gamma`, `C`, `B` | 4 |
 | B. T1 kernels | `Gamma C Gamma = C`, `Gamma C gamma^a Gamma = -C gamma^a`, the 512 connection kernels, the field-equation kernels, the linearity argument (every field) | 5 |
 | C. T2 kernels | `P_n` is in Pin(4,4), covers the reflection `R_n`, its character is `-eta_nn`, `Gamma P_n = gamma^n`, the kernel signs | 5 |
-| D. fields | the primordial vielbein gives the author's metric, the pointwise field is generic, the spin connection of each of the four fields is antisymmetric and satisfies the vielbein postulate | 6 |
+| D. fields | the primordial vielbein gives the author's metric with b4(x4) (and sqrt\|g\| = b4^(3/2) cos z), its spin connection contains b4' (so the checks are made with b4 not constant), the pointwise field is generic, the spin connection of each of the four fields is antisymmetric and satisfies the vielbein postulate | 7 |
 | E. T1 explicitly | in the primordial, diagonal8 and pointwise fields, both statistics: scalar and kinetic term, Lagrangian, negative controls, field-equation covariance, Euler-Lagrange expressions (primordial, diagonal8), energy-momentum, current; an arbitrary potential `U(S)` (primordial, commuting) | 45 |
 | F. T2 | frame reflection of each of the 8 directions in the pointwise field, both statistics (16); the mirror is an isometry (1); mirror Lagrangian, energy-momentum and current, Euler-Lagrange, both statistics (6) | 23 |
 | G. Q | Krein metric of the images, symplectic kernels, generators of the image, flat dispersion, one-particle maps, Krein signatures, the proof for every real frequency, Krein-neutral complex and zero frequencies, a general field, no identification of independent universes | 12 |
@@ -80,12 +81,12 @@ separate set.
 ### 1.3 Documents that cite these results
 
 * `Revision/docs/PAIR_CREATION_PROOFS.md` (and its `.tex` and `.pdf`): theorems T1, T2 and Q, the
-  count table row "`Revision/pairing/reports/wolfram-pairing.json` | 101 | 101 | 0", the samples of
+  count table row "`Revision/pairing/reports/wolfram-pairing.json` | 102 | 102 | 0" (101 before the move to b4(x4) of 2026-10-16), the samples of
   `pairing-theory.json`, the reproduction command.
-* `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md` (and its `.tex` and `.pdf`): "Wolfram: 101 of 101
-  checks pass" for the pairing, and the reproduction command.
+* `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md` (and its `.tex` and `.pdf`): "Wolfram: 102 of 102
+  checks pass" (101 before 2026-10-16) for the pairing, and the reproduction command.
 * `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md` (and its `.tex` and `.pdf`): the count
-  "wolfram-pairing 101", check names cited one by one, and the reproduction command.
+  "wolfram-pairing 102" (101 before 2026-10-16), check names cited one by one, and the reproduction command.
 * The publication tests `Revision/tests/test_pair_creation_proofs_publication.py`,
   `Revision/tests/test_dirac16complex_field_theory_publication.py` and
   `Revision/tests/test_dirac16complex00_field_theory_publication.py` re-read `wolfram-pairing.json`
@@ -120,14 +121,15 @@ separate set.
 
 | file | role | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/pairing/wolfram/verify_pairing.wls` | the script you run (the driver: all 101 checks, writes both outputs) | `990d26ca8778d5d4ae440776dd59f3312a9d423a08a2a8aceee8b1a6afab8bc8` | 502 | 53218 |
-| `Revision/pairing/wolfram/RevisionPairing.wl` | the package the script loads (field algebra for both statistics, spin connection, bilinears, Euler-Lagrange expressions) | `9c5cebbb2d92459d23f8b80bed09fc5cda8dc5038323a4e30fee99ee266fe322` | 234 | 14551 |
+| `Revision/pairing/wolfram/verify_pairing.wls` | the script you run (the driver: all 102 checks, writes both outputs) | `cba975d8971228b7d1c628fedb51d26f29b34757da01d7f6fa31a0db808925a9` | 511 | 54494 |
+| `Revision/pairing/wolfram/RevisionPairing.wl` | the package the script loads (field algebra for both statistics, spin connection, bilinears, Euler-Lagrange expressions) | `e7096856aa357c9930b9357990f0ef026ea334d76c5420679b069b936c1db854` | 235 | 14673 |
 | `Revision/algebra/gammas.json` | INPUT, only read (the 16 x 16 gamma matrices `gamma^(x0..x7)`, `eta`, `C`, `Gamma`, `B`, `S^ab`; written by the algebra set `Revision/algebra/wolfram/verify_algebra.wls`, which you do NOT need to run first) | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` | 1405 | 76894 |
-| `Revision/pairing/reports/wolfram-pairing.json` | OUTPUT, overwritten by every run (every check with its name, verdict `PASS` or `FAIL` and detail; the summary counts) | `bfb87f5b3eaccac7435a8297a92b5805191f9b90254d7c8bff14363b56737f53` | 112 | 40200 |
-| `Revision/pairing/pairing-theory.json` | OUTPUT, overwritten by every run (the theorems T1, T2, Q with hypotheses, statements, proofs, the names of the checks verifying them, data tables, and what is not established) | `6199652cca6a2053c7149f2abb9206fda1f2b48a6b6ff9796945dbf3cf13fc77` | 420 | 22474 |
+| `Revision/pairing/reports/wolfram-pairing.json` | OUTPUT, overwritten by every run (every check with its name, verdict `PASS` or `FAIL` and detail; the summary counts) | `8dfe5d50b7cc09a1f65278126f61992a8e174bcd465697f6443ac4649122eac9` | 113 | 40926 |
+| `Revision/pairing/pairing-theory.json` | OUTPUT, overwritten by every run (the theorems T1, T2, Q with hypotheses, statements, proofs, the names of the checks verifying them, data tables, and what is not established) | `05e576d3f285a817cb0c1ed2652e6f0b099007260eb9765988f6942f610f1b84` | 420 | 22577 |
 
-The table gives the version of 2026-10-14 in the author's coordinates x0..x7 (the last item of section 6). The
-following sentences describe the version before it, whose hashes were those of the committed files (unchanged from commit `70fab64` up to commit `b8a695d`,
+The table gives the version of 2026-10-16, the author's metric with b4(x4) (the last item of section 6; the version
+of 2026-10-14 with b4 = 1, in the author's coordinates x0..x7, is the item before it). The following sentences
+describe the versions before those, whose hashes were those of the committed files (unchanged from commit `70fab64` up to commit `b8a695d`,
 the head of `main` in the evening of 2026-10-07, where they were checked again); a successful run
 reproduces both outputs byte for byte.
 Nothing else is read: no other file of the repository, no network resource, no command-line argument.
@@ -251,7 +253,7 @@ several seconds at the heavier checks. The whole run takes a few minutes: on the
 machine between about 2 and 4.6 minutes, the longer times while dozens of other Wolfram programs ran
 on it at the same time (section 4.4). These times are examples, not limits: a slower or busier
 computer takes longer. Do not close the window while it runs (an interrupted run leaves temporary
-files behind, section 5). Wait for the line `101/101 checks passed; time ... s` and then the line
+files behind, section 5). Wait for the line `102/102 checks passed; time ... s` and then the line
 `exit code: 0`.
 
 ### 3.6 If it fails
@@ -259,18 +261,18 @@ files behind, section 5). Wait for the line `101/101 checks passed; time ... s` 
 | what you see | cause | what to do |
 | --- | --- | --- |
 | a message that the command `wolframscript` does not exist. Its wording depends on the terminal: PowerShell 7 prints `wolframscript: The term 'wolframscript' is not recognized as a name of a cmdlet, function, script file, or executable program.`; Windows PowerShell 5.1 prints `wolframscript : The term 'wolframscript' is not recognized as the name of a cmdlet, function, script file, or operable program.`; zsh (the standard shell of the macOS Terminal) prints `zsh: command not found: wolframscript`; bash prints `bash: wolframscript: command not found` (in the standard Ubuntu terminal: `wolframscript: command not found`) | WolframScript is not installed or not on the command path | do section 3.3, then open a NEW terminal window. On macOS with the Wolfram Engine: install `wolframscript.pkg` from the Wolfram Engine disk image (section 3.3, option A, step 2 (b)), or the stand-alone WolframScript installer from https://www.wolfram.com/wolframscript/. On macOS or Linux with Mathematica: install the stand-alone WolframScript (option B) |
-| `Failed to open file at path: ...` | you are not in the repository root, or the path is mistyped | `cd` into the folder `Dirac_claude` that contains the folder `Revision`, and copy the command exactly. NOTE: in this case `wolframscript` still reports exit code 0, so the exit code alone does not prove success; always look for the line `101/101 checks passed` |
+| `Failed to open file at path: ...` | you are not in the repository root, or the path is mistyped | `cd` into the folder `Dirac_claude` that contains the folder `Revision`, and copy the command exactly. NOTE: in this case `wolframscript` still reports exit code 0, so the exit code alone does not prove success; always look for the line `102/102 checks passed` |
 | a request for activation, or a message that the engine is not activated or has no valid licence | the Wolfram Engine has not been activated on this computer | run `wolframscript -activate` (internet needed) and enter your Wolfram ID and password yourself |
 | within the first seconds: `Import::nffil: File ...\algebra\gammas.json not found during Import.` (on macOS and Linux the path is written with `/`), three `Part::partw: Part ... of $Failed[...] does not exist.` messages and `General::stop: Further output of Part::partw will be suppressed during this calculation.`, the line `FAIL  fixture_Clifford_relation  (<seconds> s)` (for example `(0. s)` or `(0.1 s)`), three `Part::partd: Part specification $Failed[S][[1,1]] is longer than depth of object.` messages (with `[[1,2]]`, `[[1,3]]`) and `General::stop: Further output of Part::partd will be suppressed during this calculation.`, then more `FAIL` lines up to `FAIL  primordial_vielbein`; after that nothing more is printed and the run seems to hang. Wolfram prints all these messages on the normal output (standard output), each after an empty line, not on the error stream | the input `Revision/algebra/gammas.json` is missing (an incomplete download, or only part of the repository was copied) | stop the run with Ctrl+C (if the window does not react, close it); download the repository again with `git clone` (section 3.4) and run again from its root. With the input missing, the run does not end by itself within minutes (the Wolfram kernel keeps computing and its memory grows: 659 MB after 4 minutes on the verification machine), and no output file is written. On Windows the stopped run leaves two files whose names start with `tmp_` in the folder `%LOCALAPPDATA%\Wolfram\WolframScript\WolframScriptTemporary` (one empty, one with a copy of the printed lines); delete them by hand as described in section 5 |
 | `OpenWrite::noopen: Cannot open ...`, followed by `BinaryWrite::stream` and `Close::stream` messages, just before the last line | an output file or folder cannot be written (a read-only file, or a protected or synchronised folder) | the checks ran, but their result was NOT saved: the old output file stays as it was, and the exit code is still 0 (the script does not test whether its writes succeeded), so these messages are the only sign. Clone the repository into a normal folder of your own (for example your home folder) and run again |
-| any line starting with `FAIL`, a last line `N/101 checks passed` with N smaller than 101, and exit code 1 | a check did not pass (this never happened on the verification machine) | do not edit anything; keep the printed output; open `Revision/pairing/reports/wolfram-pairing.json` in a text editor and search for `"FAIL"` to see the failed check and its detail; restore the committed files (section 5) and report the problem together with the output of `wolframscript -version` and `wolframscript -code '$Version'` |
+| any line starting with `FAIL`, a last line `N/102 checks passed` with N smaller than 102, and exit code 1 | a check did not pass (this never happened on the verification machine) | do not edit anything; keep the printed output; open `Revision/pairing/reports/wolfram-pairing.json` in a text editor and search for `"FAIL"` to see the failed check and its detail; restore the committed files (section 5) and report the problem together with the output of `wolframscript -version` and `wolframscript -code '$Version'` |
 | the run takes much longer than a few minutes, without messages | a slow or busy computer (the whole computation runs in one Wolfram kernel) | wait; on the verification machine, with many other jobs running at the same time, it took up to 4.6 minutes (section 4.4), and a slower or busier computer can take longer |
 
 ## 4. Expected output
 
 ### 4.1 Printed in the terminal
 
-102 lines, followed by the `exit code:` line of the command. Lines 1 to 101 have the form
+103 lines, followed by the `exit code:` line of the command. Lines 1 to 102 have the form
 `PASS  <check name>  (<seconds since start> s)`, always in the same order: `fixture_Clifford_relation`,
 `fixture_definitions`, `Gamma_properties`, `C_and_B_basic`, then the T1 and T2 kernels, the fields, T1
 explicitly, T2, Q, and last `theory_file_deterministic`. The seconds differ from run to run and from
@@ -281,11 +283,12 @@ and some values are printed with many digits, for example `(9.200000000000001 s)
 `(4.1000000000000005 s)`. Both are ordinary Wolfram number printing, not an error. The last line is
 
 ```text
-101/101 checks passed; time <T> s
+102/102 checks passed; time <T> s
 ```
 
 with `<T>` the run time measured by the kernel (between 119.62 s and 266.04 s in the eleven
-verification runs of section 6; it may be printed with many digits, for example
+verification runs of section 6 with the earlier metric b4 = 1, 111.99 s and 100.05 s in the two runs of the version with
+b4(x4); it may be printed with many digits, for example
 `time 200.98000000000002 s`). These times are examples from one machine, not limits. No line starts
 with `FAIL`, and nothing is printed on the error stream.
 
@@ -293,18 +296,20 @@ with `FAIL`, and nothing is printed on the error stream.
 
 `0` when every check passes, `1` when any check fails (shown by the `exit code:` part of the commands
 in section 3.5). Remember that a mistyped path also gives `0` (section 3.6): the line
-`101/101 checks passed` is the real verdict.
+`102/102 checks passed` is the real verdict.
 
 ### 4.3 Files written, and how to check them
 
-* `Revision/pairing/reports/wolfram-pairing.json`, 40200 bytes, 112 lines (40151 bytes before 2026-10-14). Its eighth line is the
+* `Revision/pairing/reports/wolfram-pairing.json`, 40926 bytes, 113 lines (40200 bytes and 112 lines with b4 = 1 on
+  2026-10-14, 40151 bytes before 2026-10-14). Its eighth line is the
   summary:
 
   ```text
-    "summary": {"passed": 101, "failed": 0, "total": 101},
+    "summary": {"passed": 102, "failed": 0, "total": 102},
   ```
 
-* `Revision/pairing/pairing-theory.json`, 22474 bytes, 420 lines (22430 bytes before 2026-10-14). Its seventh line is:
+* `Revision/pairing/pairing-theory.json`, 22577 bytes, 420 lines (22474 bytes with b4 = 1 on 2026-10-14, 22430 bytes
+  before 2026-10-14). Its seventh line is:
 
   ```text
     "status": "all checks of the report passed",
@@ -368,6 +373,8 @@ of section 6 at the same time), 221.5 s (38 Wolfram processes) and about 206 s (
 and 10. The longest run so far therefore took 4.6 minutes; a slower or busier computer can take
 longer. An earlier run on the same machine with less load, recorded in the documents of section 1.3,
 took about 80 s.
+The two runs of the version with b4(x4) on 2026-10-16 (section 6), while other jobs of this work ran on the
+machine, were kernel-measured at 111.99 s and 100.05 s (wall time of the first not measured, of the second 102 s).
 
 ## 5. Side effects
 
@@ -378,10 +385,10 @@ took about 80 s.
   written: the report `wolfram-pairing.json` then contains the `FAIL` verdicts and a summary line with
   `"failed"` greater than 0, and `pairing-theory.json` (which holds no verdicts at all, only the
   theorems and the names of the checks) gets the status `SOME CHECKS FAILED - see the report`. That
-  status covers checks 1 to 100 only: it is computed before the last check,
+  status covers checks 1 to 101 only: it is computed before the last check,
   `theory_file_deterministic`, is made, so that check appears only in the report (if it alone failed,
-  the theory file would still say `all checks of the report passed` while the report shows 100 of
-  101). Either way both files then differ from the committed ones. If the run is stopped before its
+  the theory file would still say `all checks of the report passed` while the report shows 101 of
+  102). Either way both files then differ from the committed ones. If the run is stopped before its
   end (Ctrl+C, closing the window), neither file is written. If a file cannot be written (section
   3.6, `OpenWrite::noopen`), it keeps its old contents.
 * **Files created in the repository:** none. (`git status --porcelain --ignored` printed nothing
@@ -705,3 +712,27 @@ took about 80 s.
   and the 16 frame-reflection checks are listed in the coordinate order x0, x1, ..., x7 (x0 first); every detail differs from the version before only
   by the relabelling, the order of the listed directions, the value g^(x4 x4) of the pointwise field above and the
   character count of `pairing-theory.json` (check `theory_file_deterministic`: 22474, before 22430).
+* **The author's metric with b4(x4) (2026-10-16):** on 2026-10-15 the user ordered "move everything to b4(x4); b4 is
+  never 1": the metric of `Revision/SPEC.md` section 1 has the factor b4(x4) in its three extra-time components,
+  -e^(-2 a4) b4 sin^(1/3) z, and b4 = 1 is only the withdrawn earlier metric. Changes: `RevisionPairing.wl` declares
+  the symbol `RPb4` (the metric function b4[x4]); `verify_pairing.wls`: the primordial and mirror vielbeins have
+  e^-a4 b4^(1/2) sin^(1/6) z in the x5, x6, x7 places, the author's metric `gAuthor` has b4 in them, sqrt|g| =
+  det E = b4^(3/2) cos z on the patch (b4^(3/2) |cos z| on the mirror), the assumptions contain b4[x4] > 0, the
+  Krein kernel of the Q checks is normalised with this sqrt|g|, and the texts say so; a new check
+  `primordial_connection_depends_on_b4` (group D) confirms that the spin connection of the primordial field contains
+  b4'(x4), so that the T1, T2 and Q checks in the fields `primordial` and `mirror_patch` are made with b4 not
+  constant (b4 and a4 are arbitrary functions of x4: the statements hold for every history, in particular for the
+  prescribed history a4 = H x4, b4 = b4(0) e^((4/3) H x4) of the Kohn-Sham record). New sha256: script `cba975d8971228b7d1c628fedb51d26f29b34757da01d7f6fa31a0db808925a9`
+  (511 lines, 54494 bytes; before `990d26ca8778d5d4ae440776dd59f3312a9d423a08a2a8aceee8b1a6afab8bc8`, 502 lines, 53218 bytes), package `e7096856aa357c9930b9357990f0ef026ea334d76c5420679b069b936c1db854` (235 lines, 14673 bytes; before `9c5cebbb2d92459d23f8b80bed09fc5cda8dc5038323a4e30fee99ee266fe322`, 234 lines,
+  14551 bytes). Runs (2026-10-16, Windows 11 Pro for Workstations, Wolfram 15.0.1, from the repository root in the
+  working tree on top of commit `abfb3c7`, other jobs of this work on the machine): run 1 `102/102 checks passed;
+  time 111.99 s` (wall time not measured), run 2 `102/102 checks passed; time 100.05 s` (wall time 102 s); both runs wrote byte-identical
+  outputs (sha256 `8dfe5d50b7cc09a1f65278126f61992a8e174bcd465697f6443ac4649122eac9` for `wolfram-pairing.json`, `05e576d3f285a817cb0c1ed2652e6f0b099007260eb9765988f6942f610f1b84` for `pairing-theory.json`). Same verdicts: the 101 checks
+  of the version with b4 = 1 pass again with the same names; their details differ only where they describe the
+  metric (`primordial_vielbein`, `T2_mirror_is_isometry`, `Q_one_particle_flat_dispersion`: "a4 and b4 constant")
+  and in the character count of `pairing-theory.json` (check `theory_file_deterministic`); `pairing-theory.json`
+  names the field `primordial` "the author's metric of SPEC section 1 with b4(x4)" and the back-reaction item "the
+  field equations for a4 and b4". The sympy twin `Revision/pairing/python/check_pairing.py` (the same metric with
+  `b4 = Function("b4", positive=True)(x4)`, and the new check `geometry.connection_depends_on_b4`): 67 PASS, 0 FAIL in
+  202.3 s, its comparison with `pairing-theory.json` included; a second run (177.4 s) wrote a byte-identical
+  `python-pairing.json` (sha256 `18c418ac07d8f50d9735eb0c9f137b3da24014ec4563e402b3bd11d118fca758`). Not done: a run in a fresh clone.

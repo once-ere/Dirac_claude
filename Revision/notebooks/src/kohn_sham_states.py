@@ -42,7 +42,8 @@ against the committed Revision record in `Revision/kohn_sham/results/` and
 
 dirac16complex is the author's 16-component fermion field (complex, anticommuting components, a
 Pin(4,4) spinor). In the author's primordial gravitational field, ordinary space inflates and the
-three extra times deflate exponentially as the metric function $a_4$ grows. The Revision describes a
+three extra times deflate exponentially as the metric function $a_4$ grows; the metric carries a second
+function $b_4(x_4)$ in its three extra-time components ($b_4$ is never 1). The Revision describes a
 gas of dirac16complex particles in this field with a Kohn-Sham model (the method of density
 functional theory: each particle moves in the mean field of all the others), and computes its
 *instantaneous* states at fixed values of $a_4$ (SPEC section 7).
@@ -321,15 +322,23 @@ g_{00} = \cot^2 z,\qquad g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)} \sin^{1/3} z,
 g_{55} = g_{66} = g_{77} = -e^{-2 a_4(x_4)}\, b_4(x_4) \sin^{1/3} z .
 $$
 
-The states of this notebook are on the background $b_4 = 1$ (every vacuum history has $b_4$ constant,
-`Revision/metric_b4/results/vacuum-b4.json`; the good-sector Kohn-Sham problem does not contain $b_4$,
-`Revision/kohn_sham/reports/ks-b4-wolfram.json`).
+$b_4(x_4) > 0$ is a function of the time, never 1 ($b_4 = 1$ is the withdrawn earlier metric). The states
+of this notebook lie on the history of the Kohn-Sham record (`Revision/kohn_sham/ks-theory.json`,
+adiabaticity):
+
+$$
+a_4 = A H x_4,\qquad b_4 = b_4(0)\, e^{\beta A H x_4},\qquad A = 1,\quad \beta = \tfrac{4}{3},
+$$
+
+the branch that the author's Lovelock weights allow for a source without a $T^{x_4}{}_{x_0}$ component.
 
 As $a_4$ increases, ordinary space inflates with the scale factor $e^{a_4}\sin^{1/6} z$ and the three
-extra times **deflate exponentially** with the scale factor $e^{-a_4}\sin^{1/6} z$. The extra times
-are never static here: every state below is computed at its own slice $a_{4,0}$, and the slices
-follow the history $a_4 = A H x_4$ with $A = 1$. The proper 7-volume of a slice does not depend on
-$a_4$ (the factors $e^{3a_4}$ and $e^{-3a_4}$ cancel).
+extra times **deflate exponentially** with the scale factor $e^{-a_4} b_4^{1/2}\sin^{1/6} z =
+b_4(0)^{1/2} e^{-a_4/3}\sin^{1/6} z$. The extra times are never static here: every state below is computed
+at its own slice $a_{4,0}$. The proper 7-volume of a cell grows like $b_4^{3/2} = b_4(0)^{3/2} e^{2 a_4}$
+(the factors $e^{3a_4}$ and $e^{-3a_4}$ cancel, $b_4^{3/2}$ remains); the solver works with the cell
+volume $\mathrm{Vol}_7(a_{4,0}) = \ell^3 v_t\, e^{(3/2)\beta a_{4,0}}$ and the coupling $\hat\lambda =
+\lambda\, b_4(0)^{-3/2}$, so its densities are the proper densities times $b_4(0)^{3/2}$.
 
 ### 4.2 The Kohn-Sham equation
 
@@ -342,7 +351,9 @@ h_j = j\left[-i\sigma_1\,\partial_y + M_\mathrm{eff}(y)\,\sigma_2 + \kappa(y)\,k
 $$
 
 with the 3-momentum $k = \Delta k\,\sqrt{n_2}$ on a lattice ($\Delta k = 0.25\,m$). The factor
-$e^{-a_{4,0}}$ in $\kappa$ is where the deflation enters: the 3-momenta redshift as $a_4$ grows. The
+$e^{-a_{4,0}}$ in $\kappa$ is where the deflation enters: the 3-momenta redshift as $a_4$ grows. $b_4$ does
+not appear in $h_j$ (its derivative term is removed exactly by the factor $b_4^{-3/4}$ of the orbitals);
+it enters only through the cell volume $\mathrm{Vol}_7(a_{4,0})$ that divides the densities. The
 mean field is $M_\mathrm{eff} = m + \tfrac{15}{16}\lambda S$ and $v_v = -\tfrac{1}{16}\lambda n$ (Hartree
 plus the exact local exchange of the uniform gas). The solver finds every level by shooting with a
 Pruefer count, so that no level is missed, and iterates the mean field to self-consistency.
@@ -350,8 +361,10 @@ Pruefer count, so that no level is missed, and iterates the mean field to self-c
 ### 4.3 The canonical states
 
 Units $m = H = 1$; $L = 3$; tip angle 0. Particle numbers $N = 8$ (the $k = 0$ brane zero modes),
-$N = 136$ and $N = 688$ (closed shells of the brane band). Couplings $\lambda = 0, \pm\lambda_1, \pm\lambda_2$,
-calibrated per $N$ (`results/parameters.json`); this notebook uses $\lambda = 0$ and $+\lambda_1$.
+$N = 136$ and $N = 688$ (closed shells of the brane band). Couplings $\hat\lambda = 0, \pm\lambda_1, \pm\lambda_2$,
+calibrated per $N$ along the whole history (`results/parameters.json`) and held fixed while the cell volume
+grows, so the effective coupling of a slice is $\hat\lambda\, e^{-2 a_{4,0}}$; this notebook uses $\hat\lambda = 0$
+and $+\lambda_1$ (the solver's argument `--lambda`).
 Temperatures $T = 0$ and, for the thermal state, $T = 0.02\,m$.
 
 ### 4.4 What is assumed, and what is open
@@ -359,9 +372,9 @@ Temperatures $T = 0$ and, for the thermal state, $T = 0.02\,m$.
 - The $Z_2$ brane is ASSUMED; the regular tip at $L = 3$ is a cutoff choice.
 - The filling of the positive branch and of the zero modes is a CONVENTION of ks-theory.json, whose
   justification is OPEN.
-- The history $a_4 = A H x_4$ is a PRESCRIBED background: the Kohn-Sham gas is a test field without
-  back-reaction, and the recorded states are not admissible sources of the $a_4$ equations
-  (`Revision/field_equations_a4/reports/ks-source-conditions.json`).
+- The history $a_4 = A H x_4$, $b_4 = b_4(0) e^{(4/3) A H x_4}$ is a PRESCRIBED background: the Kohn-Sham
+  gas is a test field without back-reaction, and the recorded states are not admissible sources of the
+  $a_4$ and $b_4$ equations (`Revision/field_equations_a4/reports/ks-source-conditions.json`).
 - The states are instantaneous (adiabatic); the time-dependent (non-adiabatic) problem is OPEN.
 """)
 
@@ -808,8 +821,8 @@ def counts(name):
     return total, passed, failed, listed, len(rep["checks"])
 
 
-EXPECTED = {"ks-theory-wolfram.json": 46, "ks-theory-python.json": 58, "ks-rust-solver.json": 42,
-            "ks-rust-determinism.json": 14, "ks-rust-mermin-roots.json": 5, "ks-reference.json": 37,
+EXPECTED = {"ks-theory-wolfram.json": 51, "ks-theory-python.json": 63, "ks-rust-solver.json": 43,
+            "ks-rust-determinism.json": 14, "ks-rust-mermin-roots.json": 5, "ks-reference.json": 38,
             "ks-crosscheck.json": 31}
 print("record file                                       checks  passed  failed")
 for name, n in EXPECTED.items():
@@ -998,7 +1011,7 @@ md(r"""
 - Along the prescribed deflating history the brane band redshifts: the N = 8 gap falls from
   0.4307 to 0.0642, the gas energy falls, and the integrated ratio $P_3/E$ rises toward 1/3.
 - The new numbers agree with the independent Python reference within the committed cross-check's
-  tolerances, and the seven committed Kohn-Sham reports record 46, 58, 42, 14, 5, 37 and 31 checks,
+  tolerances, and the seven committed Kohn-Sham reports record 51, 63, 43, 14, 5, 38 and 31 checks,
   all passed.
 
 **Did not show.**
@@ -1006,9 +1019,9 @@ md(r"""
 - It does not re-run the whole canonical matrix (75 ground states, 135 thermal states, the
   excited, adiabatic, rescaling and exact-Fock outputs), the determinism and refinement comparison,
   the reference or the cross-check; it reads their committed reports.
-- The history $a_4 = A H x_4$ is prescribed: these are test-field states without back-reaction, not
-  a solution of the $a_4$ field equations with this source; the states are instantaneous, and the
-  time-dependent problem is OPEN.
+- The history $a_4 = A H x_4$, $b_4 = b_4(0) e^{(4/3) A H x_4}$ is prescribed: these are test-field states
+  without back-reaction, not a solution of the $a_4$ and $b_4$ field equations with this source; the
+  states are instantaneous, and the time-dependent problem is OPEN.
 - The $Z_2$ brane is ASSUMED, the tip at $L = 3$ is a cutoff, and the filling of the positive branch is
   a CONVENTION whose justification is OPEN; no correlation energy is included.
 - Nothing here is an equation of state seen by a 3-space observer; that question, and the

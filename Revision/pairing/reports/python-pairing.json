@@ -26,11 +26,11 @@
     "No dynamical necessity: nothing forces the partner configuration to exist; the theorems are correspondences between solutions of two parameter sets, not a mechanism.",
     "T1 pairs (m, lambda) with (-m, -lambda): for lambda != 0 it is not a pure +m / -m pairing; the pure pairing (m, lambda) -> (-m, lambda) is T2, at EQUAL (not opposite) energy-momentum.",
     "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle generator has Krein inertia (4,4) (Q.one_particle_Krein_inertia_proof) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral (Q.one_particle_complex_frequency_Krein_neutral); a positive-norm Fock space for either universe is not established by these theorems.",
-    "The brane z = pi/2 is a degenerate surface of the metric (g_00 = cot^2 z = 0, sqrt|g| = cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
+    "The brane z = pi/2 is a degenerate surface of the metric (g_00 = cot^2 z = 0, sqrt|g| = b4^{3/2} cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
     "The Kohn-Sham level (T3) is not covered by this checker; it is proved separately in Revision/pairing/kohn_sham/ (check_t3.py, with its own hypotheses: ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states)."
   ],
   "counts": {
-    "pass": 66,
+    "pass": 67,
     "fail": 0,
     "pending": 0
   },
@@ -78,12 +78,17 @@
     {
       "name": "geometry.spin_connection_components",
       "verdict": "PASS",
-      "detail": "nonzero components (a < b): omega_x1 x0x1 = -H*exp(a4)*sin(z)**(1/6); omega_x1 x1x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x2 x0x2 = -H*exp(a4)*sin(z)**(1/6); omega_x2 x2x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x3 x0x3 = -H*exp(a4)*sin(z)**(1/6); omega_x3 x3x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x5 x0x5 = H*exp(-a4)*sin(z)**(1/6); omega_x5 x4x5 = -a4p*exp(-a4)*sin(z)**(1/6); omega_x6 x0x6 = H*exp(-a4)*sin(z)**(1/6); omega_x6 x4x6 = -a4p*exp(-a4)*sin(z)**(1/6); omega_x7 x0x7 = H*exp(-a4)*sin(z)**(1/6); omega_x7 x4x7 = -a4p*exp(-a4)*sin(z)**(1/6)"
+      "detail": "nonzero components (a < b): omega_x1 x0x1 = -H*exp(a4)*sin(z)**(1/6); omega_x1 x1x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x2 x0x2 = -H*exp(a4)*sin(z)**(1/6); omega_x2 x2x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x3 x0x3 = -H*exp(a4)*sin(z)**(1/6); omega_x3 x3x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x5 x0x5 = H*sqrt(b4)*exp(-a4)*sin(z)**(1/6); omega_x5 x4x5 = (-a4p*b4 + b4p/2)*exp(-a4)*sin(z)**(1/6)/sqrt(b4); omega_x6 x0x6 = H*sqrt(b4)*exp(-a4)*sin(z)**(1/6); omega_x6 x4x6 = (-a4p*b4 + b4p/2)*exp(-a4)*sin(z)**(1/6)/sqrt(b4); omega_x7 x0x7 = H*sqrt(b4)*exp(-a4)*sin(z)**(1/6); omega_x7 x4x7 = (-a4p*b4 + b4p/2)*exp(-a4)*sin(z)**(1/6)/sqrt(b4)"
+    },
+    {
+      "name": "geometry.connection_depends_on_b4",
+      "verdict": "PASS",
+      "detail": "d omega_(x5) (x4)(x5) / d b4' = exp(-a4)*sin(z)**(1/6)/(2*sqrt(b4)) (square e^(-2 a4) sin^(1/3) z/(4 b4)), from the x4 dependence of the extra-time vielbein e^-a4 b4^(1/2) sin^(1/6) z: the T1, T2 and Q checks in the metric of SPEC section 1 are made with b4(x4) not constant (b4 is never 1)"
     },
     {
       "name": "geometry.brane_degenerate",
       "verdict": "PASS",
-      "detail": "sqrt|g| = cos(z) on the patch; at the brane z = pi/2: g_00 -> 0 and sqrt|g| -> 0 (a degenerate surface of the metric)"
+      "detail": "sqrt|g| = b4(x4)**(3/2)*cos(z) on the patch; at the brane z = pi/2: g_00 -> 0 and sqrt|g| -> 0 (a degenerate surface of the metric)"
     },
     {
       "name": "geometry.mirror_isometry",
@@ -278,7 +283,7 @@
     {
       "name": "Q.canonical_anticommutator",
       "verdict": "PASS",
-      "detail": "from the x4-velocity terms of L (dirac16complex): L = i Psi^dagger M d_4 Psi + ... with M = sqrt|g| B, hence {Psi_A(x), Psi^dagger_B(y)} = B_AB delta^7(x - y)/sqrt|g| (sqrt|g| = cos(z))"
+      "detail": "from the x4-velocity terms of L (dirac16complex): L = i Psi^dagger M d_4 Psi + ... with M = sqrt|g| B, hence {Psi_A(x), Psi^dagger_B(y)} = B_AB delta^7(x - y)/sqrt|g| (sqrt|g| = b4(x4)**(3/2)*cos(z))"
     },
     {
       "name": "Q.image_krein_metric",

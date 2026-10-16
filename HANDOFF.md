@@ -98,6 +98,24 @@ Progress (newest last):
   (test_cited_checks_exist_and_pass: the document cites the former check counts) and
   `Revision/tests/test_revision_notebooks.py` (test_kohn_sham_record_counts_printed); the pairing T3 demonstrations and
   their results (phase 6) still hold the runs of the former couplings.
+- Phase 6 DONE (2026-10-16): `Revision/pairing/` in the author's metric with b4(x4). T1, T2, Q: the primordial and
+  mirror vielbeins with e^-a4 b4^(1/2) sin^(1/6) z, sqrt|g| = b4^(3/2) cos z, b4 > 0 an arbitrary function of x4;
+  `verify_pairing.wls` 102/102 (new check `primordial_connection_depends_on_b4`; 112 s and 100 s, byte-identical),
+  `check_pairing.py` 67/67 (new `geometry.connection_depends_on_b4`; 202 s). T3: b4 does not enter h_j; the texts of
+  `verify_t3.wls` (10/10), `verify_t3_completion.wls` (3/3), `check_t3.py` (13/13), `check_t3_completion.py` (7/7)
+  moved to b4 (orbital factor b4^(-3/4), slice b4,0, the a4 and b4 equations). Demonstrations on the slices of the
+  history with b4 (lambda_hat fixed, Vol_7 growing): Rust 7/7 (316 s, gate 320 s; image = plus to 1.7e-13 / 2.1e-11;
+  T1-parameter control >= 3.3e-4), reference 7/7 (140 s; every member through `solve_state_robust`, none needed the
+  continuation; its convergence check text corrected, claude_failures G13). Provenance: pairing part 6 last item,
+  T3 6.8, index rows 4 and 5; READMEs. NEXT: phase 7 (the Revision notebooks kohn_sham_states and lovelock_gkd).
+- Phase 7, part 1 DONE (2026-10-16): `Revision/notebooks/kohn_sham_states` for the record with b4 (texts: history with
+  b4, deflation e^-a4 b4^(1/2), growing Vol_7, lambda_hat, b4 absent from h_j; expected report counts 51, 63, 43, 14,
+  5, 38, 31): build 24/24 (14.6 s), check byte-identical; its provenance (hash tables refreshed, section 7 entry);
+  `test_revision_notebooks.py` static 9 OK (the stale dark count 7 -> 8 fixed, claude_failures G14). Part 2 (the
+  notebook lovelock_gkd for general b4: identities with all 13 symbols, comparison with a4-equations.json, the history
+  source from the GKD tensors, figures on b4 = b4(0) e^(4 a4/3)) in progress.
+  KNOWN OPEN until phase 8: the publication tests of PAIR_CREATION_PROOFS, DIRAC16COMPLEX_FIELD_THEORY and
+  DIRAC16COMPLEX00_FIELD_THEORY (the documents cite the former counts and texts).
 
 ### 0.8 STATE 2026-10-15 (dark sector with b4; done, superseded as the start by 0.9)
 

@@ -17,8 +17,9 @@ Run order: verify_t3.wls, check_t3.py, verify_t3_completion.wls, numerics/t3_rus
 numerics/t3_reference_demo.py, then this script.
 
 The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0 
-(brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.  The Kohn-Sham history
-a4 = A H x4 used by the demonstrations is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus).
+(brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.  The metric is the
+author's metric with b4(x4) (SPEC section 1; b4 is never 1).  The Kohn-Sham history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4}
+used by the demonstrations is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus).
 """
 
 import json
@@ -172,7 +173,8 @@ def main():
             "PRESCRIBED BACKGROUND" in dm.get("background", "")
         check(label, ok,
               "Revision/pairing/kohn_sham/reports/%s (%d states): %d/%d checks PASS, including %s; the slices belong to "
-              "the PRESCRIBED BACKGROUND history a4 = A H x4; a numerical demonstration of T3 (+M universe (m, lambda, "
+              "the PRESCRIBED BACKGROUND history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4}; a numerical demonstration of T3 "
+              "(+M universe (m, lambda, "
               "tip 0) = -M universe (-m, +lambda, tip pi), the untransformed tip as negative control), not a proof"
               % (fname, dm.get("states", 0), dm["summary"]["pass"], dm["summary"]["checks"], ", ".join(need)))
 
@@ -207,8 +209,9 @@ def main():
         "producer": "Revision/pairing/kohn_sham/python/check_t3_completion.py",
         "spec": "Revision/SPEC.md section 9, theorem T3 (the Kohn-Sham level): completion",
         "independence": "sympy only; no code shared with Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls",
-        "background": "T3 holds slice by slice; the history a4 = A H x4 of the numerical demonstrations (extra times x5, "
-                      "x6, x7 deflating) is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; "
+        "background": "T3 holds slice by slice (b4 does not enter the block Hamiltonians); the history a4 = A H x4, b4 = "
+                      "b4(0) e^{(4/3) A H x4} of the numerical demonstrations (extra times x5, x6, x7 deflating as "
+                      "e^{-a4} b4^{1/2}) is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; "
                       "Revision/field_equations_a4/reports/ks-source-conditions.json)",
         "counts": {"pass": n_pass, "fail": n_fail, "pending": sum(1 for c in CHECKS if c["verdict"] == "pending")},
         "checks": CHECKS,

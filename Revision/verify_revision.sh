@@ -119,7 +119,7 @@
 #   t3-wolfram                            15 s
 #   t3-sympy                              10 s
 #   t3-completion-wolfram                 20 s
-#   t3-rust-demo                         285 s
+#   t3-rust-demo                         320 s
 #   t3-reference-demo                    170 s
 #   t3-completion-sympy                   10 s
 #   dark16-derive                         10 s
@@ -338,7 +338,7 @@ ks-tip-convergence|200|0|build/revision/ks-tip-convergence|Revision/kohn_sham/ti
 t3-wolfram|15|0|-|Revision/pairing/kohn_sham/t3-theory.json,Revision/pairing/kohn_sham/reports/wolfram-t3.json|Revision/pairing/kohn_sham/reports/wolfram-t3.json|{wolframscript} -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
 t3-sympy|10|0|-|Revision/pairing/kohn_sham/reports/python-t3.json|Revision/pairing/kohn_sham/reports/python-t3.json|{python} Revision/pairing/kohn_sham/python/check_t3.py
 t3-completion-wolfram|20|0|-|Revision/pairing/kohn_sham/t3-completion.json,Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json|Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json|{wolframscript} -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls
-t3-rust-demo|285|0|build/revision/t3-rust-demo|Revision/pairing/kohn_sham/reports/t3-rust-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv|Revision/pairing/kohn_sham/reports/t3-rust-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10
+t3-rust-demo|320|0|build/revision/t3-rust-demo|Revision/pairing/kohn_sham/reports/t3-rust-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv|Revision/pairing/kohn_sham/reports/t3-rust-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10
 t3-reference-demo|170|0|-|Revision/pairing/kohn_sham/reports/t3-reference-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-reference-states.csv|Revision/pairing/kohn_sham/reports/t3-reference-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22
 t3-completion-sympy|10|0|-|Revision/pairing/kohn_sham/reports/python-t3-completion.json|Revision/pairing/kohn_sham/reports/python-t3-completion.json|{python} Revision/pairing/kohn_sham/python/check_t3_completion.py
 dark16-derive|10|0|-|Revision/dark_sector/dirac16complex/outputs/effective-formulas.json,Revision/dark_sector/dirac16complex/reports/derivation-checks.json|Revision/dark_sector/dirac16complex/reports/derivation-checks.json|{python} Revision/dark_sector/dirac16complex/derive/derive_effective.py

@@ -167,8 +167,8 @@ class StaticTests(unittest.TestCase):
     def test_kohn_sham_record_counts_printed(self):
         out = all_output_text(notebook("kohn_sham_states"))
         self.assertNotIn("FAIL", out)
-        expected = {"ks-theory-wolfram.json": 46, "ks-theory-python.json": 58, "ks-rust-solver.json": 42,
-                    "ks-rust-determinism.json": 14, "ks-rust-mermin-roots.json": 5, "ks-reference.json": 37,
+        expected = {"ks-theory-wolfram.json": 51, "ks-theory-python.json": 63, "ks-rust-solver.json": 43,
+                    "ks-rust-determinism.json": 14, "ks-rust-mermin-roots.json": 5, "ks-reference.json": 38,
                     "ks-crosscheck.json": 31}
         for name, n in expected.items():
             rep = json.loads((KS_REPORTS / name).read_text(encoding="utf-8"))
@@ -184,7 +184,7 @@ class StaticTests(unittest.TestCase):
     def test_dark_sector_record_counts_printed(self):
         out = all_output_text(notebook("dark_sector_hypotheses"))
         self.assertNotIn("FAIL", out)
-        expected = {("dirac16complex", "derivation-checks.json"): 39, ("dirac16complex", "ks-history-run.json"): 7,
+        expected = {("dirac16complex", "derivation-checks.json"): 39, ("dirac16complex", "ks-history-run.json"): 8,
                     ("dirac16complex", "eos-checks.json"): 15, ("dirac16complex", "independent-checks.json"): 10,
                     ("dirac16complex00", "python-derive-eos.json"): 49,
                     ("dirac16complex00", "python-independent-numerics.json"): 32,
