@@ -2,11 +2,12 @@
 """Publication test for Revision/docs/KOHN_SHAM_DEFLATING_FIELD.{md,tex,pdf}.
 
 The document records the Kohn-Sham model of dirac16complex in the author's primordial field with the
-exponentially deflating extra times x5, x6, x7 (Revision/SPEC.md sections 7 and 10, deliverable 4): the
-block reduction, the instantaneous ground and first excited states along the PRESCRIBED history
-a4 = A H x4, the Mermin thermodynamics, the adiabaticity and the Fermi-level crossings, the
-energy-momentum tensor profiles, the rescaling partners, the source conditions (the recorded states are
-NOT admissible sources of the a4 equations), the pointer to T3 and what is not done.  It is built and
+exponentially deflating extra times x5, x6, x7, in the author's metric with b4(x4) (b4 is never 1; since
+2026-10-16) (Revision/SPEC.md sections 7 and 10, deliverable 4): the block reduction, the instantaneous ground
+and first excited states along the PRESCRIBED history a4 = A H x4, b4 = b4(0) e^((4/3) A H x4), the Mermin
+thermodynamics, the adiabaticity and the Fermi-level crossings, the energy-momentum tensor profiles, the
+rescaling partners, the source conditions (the recorded states are NOT admissible sources of the a4 and b4
+equations), the pointer to T3 and what is not done.  It is built and
 registered with
 
     python scripts/build_provenance_pdf.py Revision/docs/KOHN_SHAM_DEFLATING_FIELD.md \
@@ -65,8 +66,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "ce5962be9d08790fed3751b4c58e1d26105851643b6621c10c34818c0250f546"
-TEX_SHA256 = "7e83baec43605a6beda574f28ee6b401231d15e1827187e995daf61676cce9d7"
+MARKDOWN_SHA256 = "78407ede650bf73e5791b673085387a9c9770bcc2655f01ee72d71868e25a6a4"
+TEX_SHA256 = "52fc36915038a0940f536fdb983a9f6a80651503d1fc7126b5d6e87a6d2132ca"
 
 KS = REVISION / "kohn_sham"
 RESULTS = KS / "results"
@@ -141,28 +142,31 @@ SECTIONS = (
     "## 8. Mermin thermodynamics",
     "## 9. Energy-momentum tensor profiles",
     "## 10. The rescaling partners",
-    "## 11. The recorded states are not admissible sources of the $a_4$ equations",
+    "## 11. The recorded states are not admissible sources of the $a_4$ and $b_4$ equations",
     "## 12. The Kohn-Sham-level pairing T3",
     "## 13. Verification records",
     "## 14. Reproduction",
     "## 15. What is proved, computed, assumed and not established",
 )
 KEY_STATEMENTS = (
-    "the three extra times, which DEFLATE exponentially, with the scale factor $e^{-a_4}\\sin^{1/6}z$",
+    "the three extra times, which DEFLATE exponentially, with the scale factor $e^{-a_4}b_4^{1/2}\\sin^{1/6}z$",
     "they are never treated as static",
     "the $a_4'$ pieces of the three inflating directions, $+\\frac32a_4'\\gamma^4$, and of the three deflating directions, $-\\frac32a_4'\\gamma^4$, cancel",
-    "The factor $W^{-3}$ removes the term $3H\\gamma^0$",
+    "The factor $W^{-3}$ removes the term $3H\\gamma^0$ and the factor $b_4^{-3/4}$ the term $\\frac34(b_4'/b_4)\\gamma^4$",
+    "$b_4$ does not enter $h_j$",
     "M_{\\mathrm{eff}}(y) = m + \\tfrac{15}{16}\\lambda S(y) ,\\qquad v_v(y) = -\\tfrac{\\lambda}{16}n(y) ,",
     "e_x = -\\tfrac{\\lambda}{32}\\big(n^2 + S^2\\big)",
     "**Brane (ASSUMED).**",
     "**Tip (chosen).**",
     "**Filling (CONVENTION, justification OPEN).**",
     "PRESCRIBED, not solved for",
-    "the deflation of the extra times is exactly what keeps it so",
-    "the recorded states are not sources of the field equations for $a_4$; the history $a_4 = AHx_4$ is PRESCRIBED",
-    "has no solution, and nothing about $a_4$ is derived from it",
+    "the same proper cell, because the factor $e^{-3a_{4,0}}$ of the extra times and the growth $b_4^{3/2}$ combine",
+    "the recorded states are not sources of the field equations for $a_4$ and $b_4$; the history $a_4 = AHx_4$, "
+    "$b_4 = b_4(0)e^{(4/3)AHx_4}$ is PRESCRIBED",
+    "has no solution, and nothing about $a_4$ or $b_4$ is derived from it",
     "These are statements of that approximation, not of the field equations.",
-    "the Kohn-Sham gas of this record is a test field on the prescribed background $a_4 = AHx_4$ without back-reaction",
+    "the Kohn-Sham gas of this record is a test field on the prescribed background $a_4 = AHx_4$, "
+    "$b_4 = b_4(0)e^{(4/3)AHx_4}$ without back-reaction",
     "labelled in its report as NOT a proof of T3",
     "T3 does not establish a creation process, a rate or an amplitude.",
     "1. The time-dependent (non-adiabatic) Kohn-Sham problem (TDDFT) is OPEN",
@@ -520,8 +524,11 @@ class QuotedNumbers(unittest.TestCase):
             f"{fixed('N136_lam0_a20', 'int_p0', 'value_L3'):.5f} against "
             f"{fixed('N136_lam0_a20', 'int_p0', 'extrapolated_Linf'):.5f}",
             rf"\mp {fixed('N8_lamm1_a00', 'E_KS', 'value_L3') * 1e4:.3f}\times10^{{-4}}$ at $L = 3$",
-            rf"\mp {fixed('N8_lamm1_a20', 'E_KS', 'extrapolated_Linf') * 1e3:.4f}\times10^{{-3}}$ at large $L$",
-            rf"\mp {fixed('N8_lamm1_a00', 'E_KS', 'extrapolated_Linf') * 1e3:.3f}\times10^{{-3}}$ from $L \leq 4.5$",
+            rf"\mp {fixed('N8_lamm1_a00', 'E_KS', 'extrapolated_Linf') * 1e3:.4f}\times10^{{-3}}$ at large $L$",
+            rf"\mp {fixed('N8_lamm1_a20', 'E_KS', 'value_L3') * 1e5:.3f}\times10^{{-5}}$ at $L = 3$",
+            rf"\mp {fixed('N8_lamm1_a20', 'E_KS', 'extrapolated_Linf') * 1e4:.3f}\times10^{{-4}}$ at large $L$",
+            "(extrapolated; the self-consistent iteration fails from "
+            f"$L = {float(extra[('fixed', 'N8_lamm1_a00', 'E_KS')]['first_failed_L']):g}$)",
             f"{record['k0Spectrum']['bulkEdge_odd_l0_of_L'][l6]:.4f} at $L = 6$",
             f"its KS gap {float(table[('N688_lam0_a00', 3.0)]['KS_gap']):.4f} closes",
         ]
@@ -553,15 +560,16 @@ class QuotedNumbers(unittest.TestCase):
         expected.append(rf"about {plus:.0f} ($+\lambda_1$, value at $L = 5.5$) and {minus:.0f} "
                         rf"($-\lambda_1$, extrapolated)")
         # the +-lambda_1 partners of N = 8 (fixed protocol, the record's step): largest relative deviation
-        # |E(+) + E(-)| / max(|E(+)|, |E(-)|) over every L where both converge (record: 1.0602e-12, 12 pairs)
+        # |E(+) + E(-)| / max(|E(+)|, |E(-)|) over every L where both converge (record with b4: 3.6e-14, 15 pairs)
         deviations = []
         for (state, length), row in table.items():
             partner = table.get((state.replace("lamp1", "lamm1"), length))
             if state.startswith("N8_lamp1") and partner:
                 plus_e, minus_e = float(row["E_KS"]), float(partner["E_KS"])
                 deviations.append(abs(plus_e + minus_e) / max(abs(plus_e), abs(minus_e)))
-        self.assertEqual(len(deviations), 12)
-        expected.append(rf"negatives of each other to ${max(deviations) * 1e12:.1f}\times10^{{-12}}$ relative at "
+        self.assertEqual(len(deviations), 15)
+        mantissa, exponent = f"{max(deviations):.1e}".split("e")
+        expected.append(rf"negatives of each other to ${mantissa}\times10^{{{int(exponent)}}}$ relative at "
                         rf"every $L$ where both converge")
         # counts of the failing and of the not-established interacting states (sections 5 and 15.4)
         expected += [f"for {len(open_limit)} of them the successive differences of $E_{{KS}}$",
@@ -605,18 +613,23 @@ class QuotedNumbers(unittest.TestCase):
         self.assertEqual([s for s in n8 if reached[s] == grid[-1]], ["N8_lamm1_a20"])
         expected += [r"(extrapolated from $\lambda = -\lambda_1$ at $a_{4,0} = 2$, the only interacting $N = 8$ state "
                      f"solved up to $L = {grid[-1]:g}$;"]
-        first = {float(extra[("fixed", s, "E_KS")]["first_failed_L"]) for s in n8 if s != "N8_lamm1_a20"}
-        self.assertEqual(len(first), 1)
-        expected.append(f"because their self-consistent iteration fails from $L = {first.pop():g}$)")
+        first = sorted({float(extra[("fixed", s, "E_KS")]["first_failed_L"]) for s in n8 if s != "N8_lamm1_a20"})
+        self.assertEqual(len(first), 3)
+        expected.append("the self-consistent iteration of the other five fails from "
+                        f"$L = {first[0]:g}$, ${first[1]:g}$ or ${first[2]:g}$)")
         # N = 688 at a_{4,0} = 0: the KS gap closes (the occupied set changes) from the second L of the grid on
         closed = min(length for (s, length), r in table.items() if s == "N688_lam0_a00" and float(r["KS_gap"]) == 0)
         expected += [f"changes its occupied set from $L = {closed:g}$ on",
                      f"from $L = {closed:g}$ on the $N = 688$"]
-        # "about one third": the recorded N = 8 interaction energy over its large-L value
-        ratio = (fixed("N8_lamm1_a20", "E_KS", "value_L3") / fixed("N8_lamm1_a20", "E_KS", "extrapolated_Linf"))
+        # "about one third" at a4,0 = 0 and "about 1/22" at a4,0 = 2: the recorded N = 8 interaction energy over its
+        # large-L value (with b4 the effective coupling falls like e^(-2 a4,0))
+        ratio = (fixed("N8_lamm1_a00", "E_KS", "value_L3") / fixed("N8_lamm1_a00", "E_KS", "extrapolated_Linf"))
         self.assertTrue(0.30 < ratio < 0.36, ratio)
+        late = fixed("N8_lamm1_a20", "E_KS", "extrapolated_Linf") / fixed("N8_lamm1_a20", "E_KS", "value_L3")
         expected += ["the recorded value is about one third of the large-$L$ value",
-                     "the recorded $N = 8$ interaction energy is about one third of its large-$L$ value"]
+                     "the recorded $N = 8$ interaction energy is about one third of its large-$L$ value at "
+                     f"$a_{{4,0}} = 0$ and about 1/{round(late)} at $a_{{4,0}} = 2$",
+                     f"about 1/{round(late)} of the large-$L$ value"]
         for statement in expected:
             self.assertIn(statement, text, statement)
 
@@ -627,14 +640,15 @@ class QuotedNumbers(unittest.TestCase):
 
     def test_tip_convergence_counts_detect_a_changed_value(self):
         # negative controls for the counts, deviations and L values of the study: each change must be detected
-        for old, new in (("1.1\\times10^{-12}$ relative", "1.2\\times10^{-12}$ relative"),
-                         ("for 7 of them", "for 6 of them"), ("nor for the 7 interacting", "nor for the 8 interacting"),
-                         ("13 of the 19 studied", "14 of the 19 studied"), ("of 29 recorded states", "of 28 recorded states"),
+        for old, new in (("3.6\\times10^{-14}$ relative", "3.7\\times10^{-14}$ relative"),
+                         ("for 6 of them", "for 7 of them"), ("nor for the 6 interacting", "nor for the 7 interacting"),
+                         ("14 of the 19 studied", "13 of the 19 studied"), ("of 29 recorded states", "of 28 recorded states"),
                          ("the 27 ground states", "the 26 ground states"), ("$T = 0.02$)", "$T = 0.01$)"),
                          ("$T = 0.05$;", "$T = 0.5$;"), ("in steps of $0.5$", "in steps of $0.25$"),
                          ("7 of 7 checks PASS", "6 of 7 checks PASS"),
                          ("agrees at $L = 3$ and $4$", "agrees at $L = 3$ and $5$"),
-                         ("fails from $L = 5$)", "fails from $L = 5.5$)"),
+                         ("fails from $L = 5$, $5.5$ or $6$)", "fails from $L = 5$, $5.5$ or $6.5$)"),
+                         ("about 1/22 of the large", "about 1/21 of the large"),
                          ("changes its occupied set from $L = 3.5$", "changes its occupied set from $L = 4$"),
                          ("the only interacting $N = 8$ state", "the only $N = 8$ state"),
                          ("about one third of the large", "about one half of the large")):
@@ -668,7 +682,10 @@ class QuotedNumbers(unittest.TestCase):
         self.assertEqual((physics["H"], physics["m"], physics["L_tipCutoff"], physics["dk"], physics["v_t"]),
                          (1.0, 1.0, 3.0, 0.25, 1.0))
         self.assertIn("$H = m = 1$, $L = 3$, $\\Delta k = 0.25$, $v_t = 1$", self.text)
-        self.assertIn(f"$\\mathrm{{Vol}}_7 = {physics['Vol7']!r}$", self.text)
+        self.assertIn(f"$\\mathrm{{Vol}}_7(0) = {physics['Vol7AtA4Zero']!r}$", self.text)
+        self.assertAlmostEqual(physics["historyBeta"], 4 / 3, places=14)
+        self.assertIn("$\\mathrm{Vol}_7(a_{4,0}) = \\mathrm{Vol}_7(0)\\,e^{2a_{4,0}}$", self.text)
+        self.assertIn("$\\beta = 4/3$", self.text)
         self.assertEqual(physics["slicesA4"], [0.0, 0.5, 1.0, 1.5, 2.0])
         self.assertEqual(physics["temperatures"], [0.01, 0.02, 0.05])
         self.assertEqual((physics["tipTheta"], physics["historyA"]), (0.0, 1.0))
@@ -684,11 +701,11 @@ class QuotedNumbers(unittest.TestCase):
 
     def test_matrix_sizes(self):
         crosscheck = load_json(CROSSCHECK)
-        self.assertEqual(crosscheck["comparisons"], 162691)
+        self.assertEqual(crosscheck["comparisons"], 162731)
         self.assertEqual(crosscheck["matrix"], {"ground": 75, "thermal": 135, "exact_fock_variant": 60,
                                                 "rescaling_partners": 60, "particle_hole_lists": 75,
                                                 "crossing_demo_slices": 5})
-        self.assertIn("162691 comparisons", self.text)
+        self.assertIn("162731 comparisons", self.text)
         self.assertIn("75 ground states, 135 thermal states, 60 exact-Fock-variant states, 60 rescaling partners, "
                       "75 particle-hole lists and the 5 slices of the crossing demonstration", self.text)
         rule = crosscheck["tolerance_rule"]
@@ -703,12 +720,18 @@ class QuotedNumbers(unittest.TestCase):
     def test_adiabatic_numbers(self):
         rows = csv_rows("adiabatic/adiabaticity.csv")
         top = max(rows, key=lambda r: float(r["Q_max"]))
-        self.assertEqual(top["id"], "N688_lamm2_a00")
+        self.assertEqual(top["id"], "N688_lamp2_a00")
         self.assertEqual(top["Q_max_pair"], "11:+1:even:0 -> 11:+1:even:1")
-        self.assertIn(f"is {g7(top['Q_max'])} (state N688_lamm2_a00, pair `11:+1:even:0 -> 11:+1:even:1`", self.text)
+        self.assertIn(f"is {g7(top['Q_max'])} (state N688_lamp2_a00, pair `11:+1:even:0 -> 11:+1:even:1`", self.text)
         self.assertIn(f"$Q_{{\\max}} \\leq {g7(top['Q_max'])}$", self.text)
-        self.assertTrue(all(float(r["Q_max"]) == 0.0 for r in rows if r["N"] == "8"))
-        self.pair(check_detail(RUST_SOLVER, "adiabatic_hellmann_feynman"), "worst value 2.609e-9", "(worst 2.609e-9")
+        # N = 8: exactly 0 at lambda = 0; with interaction the effective coupling changes along the history
+        self.assertTrue(all(float(r["Q_max"]) == 0.0 for r in rows if r["N"] == "8" and r["lambda_tag"] == "lam0"))
+        n8 = max((r for r in rows if r["N"] == "8"), key=lambda r: float(r["Q_max"]))
+        self.assertEqual((n8["id"], n8["Q_max_pair"]), ("N8_lamm2_a00", "0:-1:even:0 -> 0:-1:even:1"))
+        mantissa, exponent = f"{float(n8['Q_max']):.3e}".split("e")
+        self.assertIn(f"$Q_{{\\max}} \\leq {mantissa}\\times10^{{{int(exponent)}}}$ (state N8_lamm2_a00, pair "
+                      "`0:-1:even:0 -> 0:-1:even:1`)", self.text)
+        self.pair(check_detail(RUST_SOLVER, "adiabatic_hellmann_feynman"), "worst value 2.614e-9", "(worst 2.614e-9")
         history = load_json(RESULTS / "adiabatic" / "history.json")
         self.assertEqual(len(history["series"]), 15)
         self.assertTrue(all(series["fermiLevelCrossings"] == [] for series in history["series"]))
@@ -720,8 +743,8 @@ class QuotedNumbers(unittest.TestCase):
         self.pair(check_detail(RUST_SOLVER, "excited_delta_scf_free_equals_gap"), "15 cases; worst value 2.011e-11",
                   "worst difference 2.011e-11 over 15 cases")
         detail = check_detail(RUST_SOLVER, "thermo_sea_hole_diagnostic_computed")
-        self.pair(detail, "15 of 135 states (largest 30.976 N)", "15 of 135 states")
-        self.assertIn("the largest is 30.976 N", self.text)
+        self.pair(detail, "15 of 135 states (largest 30.808 N)", "15 of 135 states")
+        self.assertIn("the largest is 30.808 N", self.text)
         thermo = csv_rows("thermo/thermodynamics.csv")
         outside = [r for r in thermo if r["particle_only_convention_within_1pc"] == "false"]
         self.assertEqual(len(outside), 15)
@@ -731,27 +754,27 @@ class QuotedNumbers(unittest.TestCase):
         self.pair(check_detail(MERMIN_ROOTS, "root_precision_self_check"), "7.5e-35")
 
     def test_rescaling_and_t3_numbers(self):
-        self.pair(check_detail(RUST_SOLVER, "rescaling_identity_between_slices"), "worst value 1.478e-13",
-                  "The worst level difference is 1.478e-13")
-        self.pair(check_detail(RUST_SOLVER, "rescaling_identity_energy_profiles"), "worst value 3.318e-13",
-                  "the profiles 3.318e-13")
+        self.pair(check_detail(RUST_SOLVER, "rescaling_identity_between_slices"), "worst value 1.550e-13",
+                  "The worst level difference is 1.550e-13")
+        self.pair(check_detail(RUST_SOLVER, "rescaling_identity_energy_profiles"), "worst value 1.914e-13",
+                  "the profiles 1.914e-13")
         detail = check_detail(RUST_SOLVER, "t3_block_map_solver_selftest")
         self.assertIn("NOT a proof of T3", detail)
-        self.pair(detail, "(worst 9.95e-14, tolerance 1e-9)", "(worst 9.95e-14, tolerance 1e-9;")
+        self.pair(detail, "(worst 8.35e-14, tolerance 1e-9)", "(worst 8.35e-14, tolerance 1e-9;")
 
     def test_determinism_and_refinement_numbers(self):
         self.pair(check_detail(DETERMINISM, "repeat_byte_identical"), "244 files", "all 244 result files")
-        for name, value in (("refined_ground_energies", "1.901e-12"), ("refined_eigenvalues", "2.135e-09"),
-                            ("refined_eigenvalues", "23724"), ("refined_profiles", "2.800e-09"),
-                            ("refined_adiabatic_derivatives", "9.024e-10"),
+        for name, value in (("refined_ground_energies", "2.000e-12"), ("refined_eigenvalues", "2.143e-09"),
+                            ("refined_eigenvalues", "23724"), ("refined_profiles", "7.050e-09"),
+                            ("refined_adiabatic_derivatives", "1.435e-07"),
                             ("refined_thermodynamics", "2.489e-10"), ("refined_heat_capacity", "5.689e-09")):
             self.pair(check_detail(DETERMINISM, name), value)
         description = load_json(KS / "checker" / "rust-refinement.json")["description"]
         self.assertIn("canonical: RK4 G = 900, root tolerance 1e-13, SCF tolerance 1e-11", description)
         self.assertIn("refined: G = 1800, 1e-14, 1e-12", description)
         self.assertIn("(900 to 1800 RK4 steps, root tolerance 1e-14, SCF tolerance 1e-12)", self.text)
-        self.assertEqual(count_report(RUST_SOLVER)[0], 42)
-        self.assertIn("42 of 42 checks PASS in 128 s", self.text)
+        self.assertEqual(count_report(RUST_SOLVER)[0], 43)
+        self.assertIn("43 of 43 checks PASS in 95.6 s", self.text)
 
     def test_reference_numbers(self):
         self.assertIn("(second order: 4", check_detail(REFERENCE, "free_convergence_order_two"))
@@ -761,40 +784,49 @@ class QuotedNumbers(unittest.TestCase):
 
     def test_source_condition_numbers(self):
         detail = check_detail(SOURCE_CONDITIONS, "ks_profiles_depend_on_x0")
-        self.pair(detail, ">= 0.0497329", "\\geq 0.0497329")
+        self.pair(detail, ">= 0.0757506", "\\geq 0.0757506")
         self.assertIn("70 with a nonzero", detail)
         self.assertIn("Every one of the 70 nonzero ground-state profiles", self.text)
         detail = check_detail(SOURCE_CONDITIONS, "ks_profiles_violate_algebraic_condition")
-        self.pair(detail, "between 2.09192", "between 2.09192 and 3.99006")
-        self.assertIn("and 3.99006", detail)
+        self.pair(detail, "between 1.04172", "between 1.04172 and 3.99008")
+        self.assertIn("and 3.99008", detail)
         detail = check_detail(SOURCE_CONDITIONS, "ks_integrals_violate_algebraic_condition")
-        for value in ("0.414328", "N136_lam0_a00: 0.339767", "N136_lam0_a10: 0.25969", "N136_lam0_a20: 0.239714"):
+        for value in ("0.416888", "N136_lam0_a00: 0.339767", "N136_lam0_a10: 0.25969", "N136_lam0_a20: 0.239714"):
             self.pair(detail, value, value.split(": ")[-1])
+        detail = check_detail(SOURCE_CONDITIONS, "ks_history_is_a_prescribed_background")
+        self.pair(detail, "(-2/27, -2/9, -22/27, -14/27)", "(-\\frac{2}{27}, -\\frac29, -\\frac{22}{27}, -\\frac{14}{27})")
+        self.pair(detail, "p3/rho = 3, p_t/rho = 11, p0/rho = 7", "$p_3/\\rho = 3$, $p_t/\\rho = 11$, $p_0/\\rho = 7$")
+        self.assertIn("the off-diagonal condition holds on the history",
+                      check_detail(SOURCE_CONDITIONS, "ks_offdiagonal_condition_on_history"))
         self.assertIn("5 states have an identically vanishing", check_detail(SOURCE_CONDITIONS,
                                                                             "ks_zero_source_states_listed"))
         self.assertIn("Five states have an identically vanishing tensor", self.text)
         conclusions = " ".join(load_json(SOURCE_A4)["conclusions"])
-        for value in ("0.583068", "1.95362", "1.1321", "0.847549", "0.149623", "0.0724197", "0.102772"):
-            self.pair(conclusions, value)
-        self.assertIn("has no solution; nothing about a4 is DERIVED from it", conclusions)
+        for value in ("0.582938", "fold at a4 = 0.024", "0.870762", "1.09136"):
+            self.pair(conclusions, value, value.replace("fold at a4 = ", "at $a_4 = "))
+        self.assertIn("Nothing about a4 or b4 is DERIVED from the coupled problem", conclusions)
 
     def test_run_times_from_the_readmes(self):
         sources = (
             (KS / "theory" / "WOLFRAMSCRIPT_PROVENANCE.md", ("about 40 to 85 seconds", "about 75 to 165 seconds"),
              ("about 40 to 85 s", "about 75 to 165 s")),
-            (KS / "solver" / "README.md", ("78.1 s in total", "repeat of the canonical matrix 178.4 s", "618.6 s"),
-             ("78.1 s on an idle machine", "the repeat 178.4 s", "the refined run 618.6 s")),
-            (KS / "reference" / "README.md", ("578.3 s",), ("the reference 578.3 s",)),
-            (KS / "checker" / "README.md", ("85.2 s and 61.3 s [31.6 s, 31.3 s]", "721.2 s and 777.1 s in total [588.9 s"),
-             ("31.6 s idle and 85.2 s shared", "588.9 s idle and 721.2 s shared")),
-            (REVISION / "field_equations_a4" / "ks_source" / "README.md", ("3 s on an idle development machine, up\nto about 20 s",),
-             ("3 s to about 20 s",)),
+            (KS / "solver" / "README.md", ("canonical matrix 78.0 s", "repeat 75.7 s", "refined-tolerance run 340.6 s"),
+             ("the Rust canonical matrix 78.0 s", "the repeat 75.7 s",
+              "the refined-tolerance run 340.6 s")),
+            (KS / "reference" / "README.md", ("227 s, 190 s, 219 s, 232 s, 124 s and 120 s",),
+             ("the reference in six parts of 227 s, 190 s, 219 s, 232 s, 124 s and 120 s",)),
+            (KS / "checker" / "README.md", ("550 single runs, 32.9 s", "198 s, 179 s, 214 s, 234 s, 117 s and 122 s",
+                                             "--repeat-cache DIR`: 20.5 s"),
+             ("the refinement measurement 32.9 s", "six parts of 198 s, 179 s, 214 s, 234 s, 117 s and 122 s",
+              "the cross-checker itself 20.5 s")),
+            (REVISION / "field_equations_a4" / "ks_source" / "README.md", ("Run time of the script: about 2 s", "about 12 s"),
+             ("the Kohn-Sham source analysis about 2 s and its unit tests about 12 s",)),
             (REVISION / "field_equations_a4" / "README.md", ("43-70 s (Wolfram) and 7-28 s",),
-             ("43 to 70 s (Wolfram) and 7 to 28 s (sympy)",)),
-            (DOCS / "PAIR_CREATION_PROOFS.md", ("the T3 verifiers 10 of 10 (about 3 s) and 13 of 13 (about 1 s)",),
+             ("43 to 70 s (Wolfram) and 7 to 28 s (sympy) on 2026-10-07",)),
+            (REVISION / "pairing" / "kohn_sham" / "README.md", ("about 3 s and 1 s (T3 verifiers)",),
              ("the T3 verifiers about 3 s and 1 s",)),
-            (KS / "tip_convergence" / "README.md", ("two complete runs took 541 s and 553 s",),
-             ("the tip-cutoff study 541 s and 553 s in two complete runs with 8 workers",)),
+            (KS / "tip_convergence" / "README.md", ("187 s in total; 7 of 7 checks PASS",),
+             ("the tip-cutoff study 187 s with 22 workers",)),
         )
         for path, in_source, in_document in sources:
             text = path.read_text(encoding="utf-8")
