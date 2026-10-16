@@ -1,0 +1,49 @@
+{
+	"producer":"Revision\/dark_sector\/wolfram\/verify_dark_sector_b4.wls",
+	"metric":"the author's metric with b4[x4] (In[97]-In[102] of Dirac_Einstein-Lovelock_4+4_Nash.nb); b4 is a function of x4",
+	"history":"a4 = H x4, b4 = b4(0) E^((4\/3) H x4) (the branch of the author's weights for a source without T^x4_x0)",
+	"checks":[
+		{
+			"name":"D1_volume_b4",
+			"verdict":"PASS",
+			"detail":"sqrt|det g| = b4[x4]^(3\/2)*Cos[6*H*x0]; proper extra-time volume element Sqrt[(b4[x4]^3*Sin[6*H*x0])\/E^(6*a4[x4])]"
+		},
+		{
+			"name":"D2_conservation_b4",
+			"verdict":"PASS",
+			"detail":"nabla_mu T^mu_x4 = -d4 rho - 3 a4' (p3 - p_t) - (3\/2)(b4'\/b4)(rho + p_t); nabla_mu T^mu_x0 = d0 p0 + 3 H Cot[z] (2 p0 - p3 - p_t) (no b4); the other components vanish"
+		},
+		{
+			"name":"D3_w_eff_general_b4",
+			"verdict":"PASS",
+			"detail":"w_eff = (beta*Pts - 2*Es*s + beta*Es*s + 2*Xs)\/(2*Es) = X\/E - s + (beta\/2)(Pt\/E + s): A, B (s = 0), C (s = 1)"
+		},
+		{
+			"name":"D4_condensate_b4_T16",
+			"verdict":"PASS",
+			"detail":"A = -gamma^(x4) (M - 3 H gamma^(x0)) - (3\/4)(b4'\/b4) I16 with the author's T16: C A + A^T C = -(3\/2)(b4'\/b4) C, so b4^(3\/2) S is constant; (C g4 A - A^T C g4)\/2 = M C (K_x4 = M S)"
+		},
+		{
+			"name":"D5_kinetic_gas_b4",
+			"verdict":"PASS",
+			"detail":"free modes, omega^2 = M^2 + k^2 E^(-2 a4) - q^2 E^(2 a4)\/b4, density ~ b4^(-3\/2): d rho\/d a4 = -3 (p3 - p_t) - (3\/2)(d ln b4\/d a4)(rho + p_t) exactly"
+		},
+		{
+			"name":"D6_author_weights_branch",
+			"verdict":"PASS",
+			"detail":"the (x4, x0) component of the author's left-hand side on a4 = H x4 + a0, b4 = c E^(be H x4) is (3*be^2*(-4 + 3*be)*Cot[6*H*x0])\/64; it vanishes for be in     4\n{0, -}\n    3: a source without T^x4_x0 allows a constant b4 or d ln b4\/d a4 = 4\/3"
+		},
+		{
+			"name":"D7_branch_required_source",
+			"verdict":"PASS",
+			"detail":"on a4 = H x4, b4 = c E^((4\/3) H x4) the author's left-hand side kappa T^mu_nu is diagonal and constant: kappa (rho, p3, p_t, p0) = {-2\/27, -2\/9, -22\/27, -14\/27}, equal to dirac16complex00\/eos-theory.json (condensate.branchRequiredSource) {-2\/27, -2\/9, -22\/27, -14\/27}"
+		},
+		{
+			"name":"D8_condensate_drift",
+			"verdict":"PASS",
+			"detail":"S ~ b4^(-3\/2) = b4(0)^(-3\/2) E^(-2 a4) on the history, so u = lambda S\/m = u0 E^(-2 a4) and the ratio u\/(2 + u) has wa = -d\/da4 = 4 u\/(2 + u)^2"
+		}
+	],
+	"checkCount":8,
+	"failedCount":0
+}
