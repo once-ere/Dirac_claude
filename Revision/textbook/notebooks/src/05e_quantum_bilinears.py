@@ -184,9 +184,11 @@ CELLS = [
 
     **The canonical rule.** The Revision record quantises dirac16complex with the
     canonical anticommutator $\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,
-    \delta^7(x - y)/\cos z$ on a slice $x4 = \text{const}$, $B = -iC\gamma^{(x4)}$. For
-    the operators of ONE momentum (the record's exact Fock-space example) the delta
-    function and the factor $1/\cos z$ are absent and the rule reads
+    \delta^7(x - y)/(b_4^{3/2}\cos z)$ on a slice $x4 = \text{const}$, with the volume
+    factor $\sqrt{|g|} = b_4^{3/2}\cos z$ of the author's metric and
+    $B = -iC\gamma^{(x4)}$. For the operators of ONE momentum (the record's exact
+    Fock-space example) the delta function and the factor $1/(b_4^{3/2}\cos z)$ are
+    absent and the rule reads
     $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$.
 
     **Why $\Psi^\dagger$ is not the Hilbert adjoint.** Every diagonal entry of $B$ is
@@ -324,7 +326,8 @@ CELLS = [
     theory = json.loads(repository_file("Revision/theory/field-theory.json")
                         .read_text(encoding="utf-8"))
     formula = next(f for f in theory["formulas"] if f["key"] == "quantisation")["wl"]
-    RULE = "{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/Cos[z]"
+    RULE = ("{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/"
+            "(b4^(3/2) Cos[z])")
     POSITIVE = "positive representation chi = Psi^dagger B, {Psi_A, chi_C} = delta_AC"
     say("the record states: " + RULE)
     say("and: " + POSITIVE)
