@@ -177,8 +177,10 @@ CELLS = [
     $w = \lambda S/(2m + \lambda S)$.
 
     **Energy exchange** (formula `energy_exchange`): conservation gives
-    $d\rho/dx_4 = -3a_4'(p_3 - p_t)$. A condensate has $p_3 = p_t$, so its energy
-    density is constant along every history.
+    $d\rho/dx_4 = -3a_4'(p_3 - p_t)$ at $b_4 = 1$. A condensate has $p_3 = p_t$, so
+    its energy density is constant along every history $a_4$ at $b_4 = 1$; with the
+    function $b_4(x_4)$ it is diluted, $b_4^{3/2}S$ stays constant (the dark-sector
+    record, Chapter 22).
 
     **What is not computed here.** The equation of state that an observer living in
     3-space would infer (after integrating over the hidden direction and the extra
