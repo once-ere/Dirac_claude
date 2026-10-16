@@ -114,6 +114,14 @@ Progress (newest last):
   `test_revision_notebooks.py` static 9 OK (the stale dark count 7 -> 8 fixed, claude_failures G14). Part 2 (the
   notebook lovelock_gkd for general b4: identities with all 13 symbols, comparison with a4-equations.json, the history
   source from the GKD tensors, figures on b4 = b4(0) e^(4 a4/3)) in progress.
+- Phase 7 DONE (2026-10-16): `lovelock_gkd` no longer restricts to b4 = 1: the trace identities, E_(1) = G and the
+  density form for general a4, b4; E_(k) in (H, a4', a4'', u, v) equal to a4-equations.json lovelockTensors (all six
+  components, k = 1, 2, 3); on the history the blocks differ for k = 1, 2 and agree for k = 3; with the author's
+  weights the Rust GKD tensors give kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27) H^2, T^x4_x0 = 0. Build
+  45/45, check byte-identical; provenance (a4-equations.json added to its inputs). claude_failures G15 (a wrong
+  expectation of mine, caught by the check). NEXT: phase 8 (the documents KOHN_SHAM_DEFLATING_FIELD, LOVELOCK_GKD,
+  PAIR_CREATION_PROOFS, DIRAC16COMPLEX_FIELD_THEORY, DIRAC16COMPLEX00_FIELD_THEORY and their pdfs and publication
+  tests; READMEs, gate, provenance, index).
   KNOWN OPEN until phase 8: the publication tests of PAIR_CREATION_PROOFS, DIRAC16COMPLEX_FIELD_THEORY and
   DIRAC16COMPLEX00_FIELD_THEORY (the documents cite the former counts and texts).
 
