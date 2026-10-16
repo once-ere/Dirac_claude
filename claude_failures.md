@@ -64,6 +64,8 @@ All four workflows were stopped with TaskStop and every process tree they or the
 | book continuation (wf_dce5cca3-aa8) | verify:05 | 11:56:13 | 12:05:01 | 529 | KILLED (unfinished) |
 | book continuation (wf_dce5cca3-aa8) | verify:15 | 11:57:27 | 12:05:00 | 453 | KILLED (unfinished) |
 
+Follow-up of 2026-10-16 (user order: suspend the 423 s limit for the 23 agents that finished late and let them contribute correctly; the user performs the 16 killed tasks by hand): `A8_LATE_AND_KILLED_AGENTS.md` lists what each of the 23 produced and where it enters the project, and gives one task formulation for each of the 16.
+
 Agents of these workflows that stayed within 423 s: docB:part2 (261 s, KILLED (unfinished)), docA:part2 (19 s, KILLED (unfinished)), skeptic:05:0:0 (140 s, finished), fix:00 (328 s, finished), skeptic:05:0:1 (82 s, finished), skeptic:18:1:0 (80 s, finished), skeptic:15:0:1 (107 s, finished), skeptic:14:0:1 (278 s, finished), skeptic:14:0:0 (144 s, finished), skeptic:15:0:0 (97 s, finished), skeptic:18:1:1 (73 s, finished), skeptic:20:3:0 (103 s, finished), skeptic:20:3:1 (87 s, finished), skeptic:21:0:0 (153 s, finished), skeptic:21:0:1 (137 s, finished), verify:14 (359 s, KILLED (unfinished)), verify:21 (189 s, KILLED (unfinished)).
 
 ## B. Calculations of the project whose recorded wall time already exceeds 423 s
