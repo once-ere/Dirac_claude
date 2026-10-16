@@ -1,6 +1,6 @@
 ## 9. The energy-momentum tensor, pressures, equations of state, conservation identities
 
-Gravity has to be told where the energy is. In Einstein's theory, and in the Einstein-Lovelock theory that Chapter 12 uses for the author's metric, the right-hand side of the field equations is a table of numbers called the energy-momentum tensor. It says, at every point, how much energy there is in a unit of volume, how hard the matter pushes in each direction (the pressures), and how energy and momentum flow. This chapter builds that table for the field dirac16complex00 in the author's primordial metric, splits it into a kinetic part and a potential part, defines the energy density, the pressures of 3-space, of the extra times and of the hidden direction, and the equations of state, and derives the two exact conservation identities that the table obeys: one along the time $x_4$, which describes how energy flows between the inflating 3-space and the deflating extra times, and one along the hidden direction $x_0$. Three notebooks compute every statement anew from the Revision record: Notebook 09a builds the tensor at one point and derives the two identities, Notebook 09b studies the condensates (fields that depend on the time only) and their equations of state, and Notebook 09c computes the complete tensor of a condensate, including the entries off the diagonal that the spin connection creates.
+Gravity has to be told where the energy is. In Einstein's theory, and in the Einstein-Lovelock theory that Chapter 12 uses for the author's metric, the right-hand side of the field equations is a table of numbers called the energy-momentum tensor. It says, at every point, how much energy there is in a unit of volume, how hard the matter pushes in each direction (the pressures), and how energy and momentum flow. This chapter builds that table for the field dirac16complex00 in the author's primordial metric, splits it into a kinetic part and a potential part, defines the energy density, the pressures of 3-space, of the extra times and of the hidden direction, and the equations of state, and derives the two exact conservation identities that the table obeys: one along the time $x_4$, which describes how energy flows between the inflating 3-space and the deflating extra times and how it is diluted by the growth of the second metric function $b_4$, and one along the hidden direction $x_0$. Three notebooks compute every statement anew from the Revision record: Notebook 09a builds the tensor at one point and derives the two identities, Notebook 09b studies the condensates (fields that depend on the time only) and their equations of state, and Notebook 09c computes the complete tensor of a condensate, including the entries off the diagonal that the spin connection creates.
 
 ### 9.1 What this chapter does
 
@@ -14,7 +14,7 @@ Gravity has to be told where the energy is. In Einstein's theory, and in the Ein
 - derives the trace identity and the values that the field equation imposes (Section 9.8);
 - derives the covariant divergence of a diagonal tensor in the author's metric and from it the two conservation identities (Sections 9.9 to 9.11);
 - shows where the spin connection, which drops out of the Lagrangian, does enter the tensor (Section 9.12);
-- builds the exact condensates, computes their equation of state $w = x/(2 + x)$ with $x = \lambda S/m$, and shows that the energy of the commuting field has no lower bound (Sections 9.18 to 9.21);
+- builds the condensates (exact for $\lambda = 0$; for $\lambda \neq 0$ the record reduces them to a 16-component equation that the notebook solves numerically), shows that their scalar is diluted like $b_4^{-3/2}$, computes their equation of state $w = x/(2 + x)$ with $x = \lambda S/m$, which therefore changes in time, and shows that the energy of the commuting field has no lower bound (Sections 9.18 to 9.21);
 - computes the complete tensor of a condensate, with 42 entries off the diagonal, and the exact condensates whose tensor is diagonal (Section 9.26).
 
 **What it does not do.** The equation of state that an observer living in 3-space would infer (after integrating over the hidden direction and the extra times), its change in time and any comparison with supernova data (the measured brightness of distant exploding stars, from which astronomers infer the equation of state of dark energy) are not computed in this chapter (Section 9.19 quotes the record's result for a condensate). The Revision record computes them in `Revision/dark_sector/` (written up in `Revision/docs/DARK_SECTOR_HYPOTHESES.md`; COMPUTED, and taught in Chapter 22) under an ASSUMED normalisation of the observer's energy density over the extra times (three definitions, called A, B and C), compares them with the supernova fit values of a document of the author (the record calls them the Unite values), and establishes neither hypothesis. Which normalisation, if any, describes a physical observer, and a fit to the supernova data themselves, are OPEN. The anticommuting field dirac16complex obeys the same formulas in its Grassmann algebra; for the quantised field the record defines the tensor as a normal-ordered operator, on a positive space of states constructed only for single good-sector momenta with frozen coefficients, and for $\lambda \neq 0$ it verifies the operator form of the on-shell identity only in a finite model under Wick ordering (Section 9.13 explains these words and states these limits exactly); this chapter computes numbers only for the commuting field dirac16complex00.
@@ -23,7 +23,7 @@ Gravity has to be told where the energy is. In Einstein's theory, and in the Ein
 
 ### 9.2 The stage: coordinates, metric and the field dirac16complex00
 
-**Coordinates.** The eight coordinates are named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space; $x_4$ is the time in which everything evolves; $x_5, x_6, x_7$ are the three **extra times**, which behave like time and deflate exponentially; $x_0$ is the **hidden** space direction. We write $z = 6Hx_0$, where $H > 0$ is the author's constant; $z$ lies between $0$ and $\pi/2$. In formulas the letter $i$ always stands for one of the 3-space directions $x_1, x_2, x_3$, and the letter $t$ for one of the extra times $x_5, x_6, x_7$.
+**Coordinates.** The eight coordinates are named as the author names them: $x_1, x_2, x_3$ are ordinary 3-space; $x_4$ is the time in which everything evolves; $x_5, x_6, x_7$ are the three **extra times**, which behave like time and deflate exponentially on the history of the record; $x_0$ is the **hidden** space direction. We write $z = 6Hx_0$, where $H > 0$ is the author's constant; $z$ lies between $0$ and $\pi/2$. In formulas the letter $i$ always stands for one of the 3-space directions $x_1, x_2, x_3$, and the letter $t$ for one of the extra times $x_5, x_6, x_7$.
 
 **The metric.** The author's metric is diagonal (Chapter 3). We write it with eight positive **vielbein factors** $f_0, \dots, f_7$:
 
@@ -32,23 +32,23 @@ g = \mathrm{diag}\big(f_0^2,\, f_1^2,\, f_2^2,\, f_3^2,\, -f_4^2,\, -f_5^2,\, -f
 $$
 
 $$
-f_0 = \cot z, \quad f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z, \quad f_4 = 1, \quad f_5 = f_6 = f_7 = e^{-a_4}\sin^{1/6}z .
+f_0 = \cot z, \quad f_1 = f_2 = f_3 = e^{a_4}\sin^{1/6}z, \quad f_4 = 1, \quad f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}\sin^{1/6}z .
 $$
 
-These are the factors on the backgrounds $b_4 = 1$ of the Revision record. The author's metric of 2026-10-14 has a second function $b_4(x_4) > 0$, and then $f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}\sin^{1/6}z$ and $\sqrt{|g|} = b_4^{3/2}\cos z$ (Chapters 3, 6 and 7). This chapter works at $b_4 = 1$, as the record's energy-momentum checks do (`Revision/theory/reports/wolfram-field-theory.json`); where the record has the tensor or its identities for a general $b_4$, the section says so (Sections 9.10 and 9.11). So $g_{x_1x_1} = e^{2a_4}\sin^{1/3}z$, $g_{x_4x_4} = -1$, $g_{x_5x_5} = -e^{-2a_4}\sin^{1/3}z$ and $g_{x_0x_0} = \cot^2 z$, exactly the author's entries. A small step $dx_\mu$ along the direction $x_\mu$ has the proper length $f_\mu\,|dx_\mu|$; that is the meaning of $f_\mu$. With the frame metric $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$ every entry is $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$. The function $a_4(x_4)$ grows with the time: then the 3-space factor $e^{a_4}$ grows (3-space inflates) and the extra-time factor $e^{-a_4}$ shrinks (the extra times deflate). We write $a_4' = da_4/dx_4$. The examples of this chapter take $a_4 = AHx_4$ with $A = 1$ (the deflating history that the Kohn-Sham part of the book uses as a prescribed background) and, in Notebook 09c, the curved history $a_4 = 0.3x_4 + 0.05x_4^2$; every identity of the chapter holds for every function $a_4$. Which $a_4$ the field equations of gravity allow, and with which source, is the subject of Chapter 12.
+Here $a_4(x_4)$ and $b_4(x_4) > 0$ are the two functions of the time in the author's metric of 2026-10-14 (Chapter 3); the earlier metric, now withdrawn, had $b_4 = 1$. So $g_{x_1x_1} = e^{2a_4}\sin^{1/3}z$, $g_{x_4x_4} = -1$, $g_{x_5x_5} = -e^{-2a_4}b_4\sin^{1/3}z$ and $g_{x_0x_0} = \cot^2 z$, exactly the author's entries (PROVED; `Revision/theory/reports/python-field-theory.json`, check `metric_from_vielbein_equals_SPEC`). Every formula of this chapter holds for all functions $a_4$ and $b_4$, and the record's energy-momentum checks are made with both functions general (`Revision/theory/reports/wolfram-field-theory.json`). A small step $dx_\mu$ along the direction $x_\mu$ has the proper length $f_\mu\,|dx_\mu|$; that is the meaning of $f_\mu$. With the frame metric $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$ every entry is $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$. We write $a_4' = da_4/dx_4$ and $b_4' = db_4/dx_4$. When $a_4$ grows with the time, the 3-space factor $e^{a_4}$ grows (3-space inflates); the extra-time factor $e^{-a_4}b_4^{1/2}$ shrinks (the extra times deflate) when the **extra-time rate** $r = a_4' - b_4'/(2b_4)$ is positive. The examples of this chapter take the history of the record, $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$ and $\beta = \frac43$ (the prescribed background that the Kohn-Sham part of the book uses; Chapter 12 shows that it needs a source). On it $b_4'/b_4 = \frac43AH$ and $r = AH/3$: the extra-time factor shrinks like $e^{-AHx_4/3}$, a third as fast as 3-space grows. Notebook 09c also uses a curved history, $a_4 = 0.3x_4 + 0.05x_4^2$ and $b_4 = e^{0.4x_4 - 0.02x_4^2}$; every identity of the chapter holds for all functions $a_4$ and $b_4$. Which $a_4$ and $b_4$ the field equations of gravity allow, and with which source, is the subject of Chapter 12.
 
 **The volume factor.** The product of the eight factors is the volume factor $\sqrt{|g|}$ (the square root of the absolute value of the determinant of the diagonal matrix $g$, which is the product of its diagonal entries):
 
 $$
 \begin{aligned}
-\sqrt{|g|} &= f_1 f_2 f_3\, f_4\, f_5 f_6 f_7\, f_0 \\
-&= \big(e^{a_4}\sin^{1/6}z\big)^3 \cdot 1 \cdot \big(e^{-a_4}\sin^{1/6}z\big)^3 \cdot \cot z \\
-&= e^{3a_4}\sin^{1/2}z \cdot e^{-3a_4}\sin^{1/2}z \cdot \frac{\cos z}{\sin z} \\
-&= \cos z .
+\sqrt{|g|} &= f_0\, f_1 f_2 f_3\, f_4\, f_5 f_6 f_7 \\
+&= \cot z \cdot \big(e^{a_4}\sin^{1/6}z\big)^3 \cdot 1 \cdot \big(e^{-a_4}b_4^{1/2}\sin^{1/6}z\big)^3 \\
+&= \frac{\cos z}{\sin z} \cdot e^{3a_4}\sin^{1/2}z \cdot e^{-3a_4}b_4^{3/2}\sin^{1/2}z \\
+&= b_4^{3/2}\cos z .
 \end{aligned}
 $$
 
-The first line is the definition; the second inserts the factors; the third multiplies the powers ($(e^{a_4})^3 = e^{3a_4}$, $(\sin^{1/6}z)^3 = \sin^{1/2}z$) and writes $\cot z = \cos z/\sin z$; the fourth uses $e^{3a_4}e^{-3a_4} = 1$ and $\sin^{1/2}z\,\sin^{1/2}z = \sin z$. The volume factor does not depend on the time $x_4$: the growth of 3-space and the shrinking of the extra times cancel exactly (PROVED; `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_cos_z`).
+The first line is the definition; the second inserts the factors; the third multiplies the powers ($(e^{a_4})^3 = e^{3a_4}$, $(b_4^{1/2})^3 = b_4^{3/2}$, $(\sin^{1/6}z)^3 = \sin^{1/2}z$) and writes $\cot z = \cos z/\sin z$; the fourth uses $e^{3a_4}e^{-3a_4} = 1$ and $\sin^{1/2}z\,\sin^{1/2}z = \sin z$. The function $a_4$ drops out: the growth of 3-space and the factor $e^{-a_4}$ of the extra times cancel exactly. The function $b_4$ stays: the volume factor changes in time as $b_4^{3/2}$, and on the history it grows like $e^{\frac32\beta AHx_4} = e^{2AHx_4}$ (PROVED; `Revision/theory/reports/python-field-theory.json`, check `sqrt_det_g_equals_b4_cos_z`).
 
 **The gamma matrices.** The book uses the author's eight **real** $16 \times 16$ gamma matrices (Chapter 4), stored in the Revision fixture `Revision/algebra/gammas.json` in the order $x_0, \dots, x_7$. We write them $\gamma^{(0)}, \dots, \gamma^{(7)}$ ($\gamma^{(4)}$ means $\gamma^{(x_4)}$, and so on). They obey the Clifford relations $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}\cdot 1$. Two consequences are used again and again in this chapter: the square of each gamma is $\eta_{aa}$ times the unit matrix ($+1$ for $x_0, x_1, x_2, x_3$ and $-1$ for $x_4, \dots, x_7$), and two different gammas anticommute, $\gamma^{(a)}\gamma^{(b)} = -\gamma^{(b)}\gamma^{(a)}$ for $a \neq b$. The matrix $C = \gamma^{(0)}\gamma^{(1)}\gamma^{(2)}\gamma^{(3)}$ (Chapter 5) is real and symmetric, $C^2 = 1$, and every product $C\gamma^{(a)}$ is antisymmetric: $(C\gamma^{(a)})^T = -C\gamma^{(a)}$ (PROVED; `Revision/algebra/reports/python-algebra.json`, checks `clifford_relation`, `C_real_symmetric_involution` and `C_gamma_antisymmetric`). The **coordinate gammas** are $\gamma^\mu = \gamma^{(\mu)}/f_\mu$ (no sum), and with a lower index $\gamma_\mu = g_{\mu\mu}\gamma^\mu = \eta_{\mu\mu}f_\mu\gamma^{(\mu)}$.
 
@@ -59,12 +59,12 @@ The first line is the definition; the second inserts the factors; the third mult
 $$
 \begin{aligned}
 \Omega_{x_i} &= \tfrac12 f_i\,\big(a_4'\,\gamma^{(i)}\gamma^{(4)} + H\,\gamma^{(i)}\gamma^{(0)}\big), \qquad i = 1, 2, 3, \\
-\Omega_{x_t} &= -\tfrac12 f_t\,\big(a_4'\,\gamma^{(4)}\gamma^{(t)} + H\,\gamma^{(t)}\gamma^{(0)}\big), \qquad t = 5, 6, 7, \\
+\Omega_{x_t} &= -\tfrac12 f_t\,\big(r\,\gamma^{(4)}\gamma^{(t)} + H\,\gamma^{(t)}\gamma^{(0)}\big), \qquad t = 5, 6, 7, \\
 \Omega_{x_4} &= \Omega_{x_0} = 0,
 \end{aligned}
 $$
 
-with $f_i = e^{a_4}\sin^{1/6}z$ and $f_t = e^{-a_4}\sin^{1/6}z$ (Revision record `Revision/theory/field-theory.json`, formula `Omega_components`). The covariant derivatives are $D_\mu\Phi = \partial_\mu\Phi + \Omega_\mu\Phi$ and $D_\mu\bar\Phi = \partial_\mu\bar\Phi - \bar\Phi\,\Omega_\mu$, where $\partial_\mu$ is the partial derivative with respect to $x_\mu$.
+with $f_i = e^{a_4}\sin^{1/6}z$, $f_t = e^{-a_4}b_4^{1/2}\sin^{1/6}z$ and the extra-time rate $r = a_4' - b_4'/(2b_4)$ (Revision record `Revision/theory/field-theory.json`, formula `Omega_components`). The rate $r$ is the logarithmic derivative of $e^{a_4}b_4^{-1/2}$, the inverse of the time-dependent part of $f_t$, just as $a_4'$ is the logarithmic derivative of the time-dependent part $e^{a_4}$ of $f_i$. The covariant derivatives are $D_\mu\Phi = \partial_\mu\Phi + \Omega_\mu\Phi$ and $D_\mu\bar\Phi = \partial_\mu\bar\Phi - \bar\Phi\,\Omega_\mu$, where $\partial_\mu$ is the partial derivative with respect to $x_\mu$.
 
 **The Lagrangian.** The Lagrangian density is $\mathcal{L} = \sqrt{|g|}\,L_0$ with
 
@@ -72,16 +72,16 @@ $$
 L_0 = \tfrac12\sum_\mu\big(\bar\Phi\gamma^\mu D_\mu\Phi - (D_\mu\bar\Phi)\gamma^\mu\Phi\big) - mS - U(S),
 $$
 
-and its Euler-Lagrange equation is the **field equation** $\gamma^\mu D_\mu\Phi = V\Phi$ with the **effective mass** $V = m + U'(S) = m + \lambda S$ (Chapter 7). Written out in the author's metric (record formula `field_equation`) it reads
+and its Euler-Lagrange equation is the **field equation** $\gamma^\mu D_\mu\Phi = V\Phi$ with the **effective mass** $V = m + U'(S) = m + \lambda S$ (Chapter 7). Written out in the author's metric (record formula `field_equation`; the sum $\gamma^\mu\Omega_\mu$ is Fact 2 of Section 9.3) it reads
 
 $$
-\sum_{a=1}^{8}\frac{1}{f_a}\,\gamma^{(a)}\partial_a\Phi + 3H\gamma^{(0)}\Phi = V\Phi ,
+\sum_{a=0}^{7}\frac{1}{f_a}\,\gamma^{(a)}\partial_a\Phi + 3H\gamma^{(0)}\Phi + \frac34\frac{b_4'}{b_4}\gamma^{(4)}\Phi = V\Phi ,
 $$
 
-and because $(\gamma^{(4)})^2 = -1$ and $f_4 = 1$ it can be solved for the time derivative (the **evolution form**; multiply by $-\gamma^{(4)}$):
+and because $(\gamma^{(4)})^2 = -1$ and $f_4 = 1$ it can be solved for the time derivative (the **evolution form**, record formula `evolution_form`; multiply by $-\gamma^{(4)}$, which turns $\gamma^{(4)}\partial_4\Phi$ into $\partial_4\Phi$ and $\frac34\frac{b_4'}{b_4}\gamma^{(4)}\Phi$ into $\frac34\frac{b_4'}{b_4}\Phi$):
 
 $$
-\partial_4\Phi = -\gamma^{(4)}\Big[V\Phi - \sum_{a \neq 4}\frac{1}{f_a}\,\gamma^{(a)}\partial_a\Phi - 3H\gamma^{(0)}\Phi\Big].
+\partial_4\Phi = -\gamma^{(4)}\Big[V\Phi - \sum_{a \neq 4}\frac{1}{f_a}\,\gamma^{(a)}\partial_a\Phi - 3H\gamma^{(0)}\Phi\Big] - \frac34\frac{b_4'}{b_4}\Phi .
 $$
 
 A configuration that satisfies the field equation is said to be **on shell**; one that need not satisfy it is **off shell**. Some identities of this chapter hold off shell (for every configuration), others only on shell; each statement says which.
@@ -110,36 +110,40 @@ $$
 \end{aligned}
 $$
 
-The first line is the same insertion; the second exchanges the last two gammas of each product, which costs a minus sign because different gammas anticommute ($\gamma^{(4)}\gamma^{(i)} = -\gamma^{(i)}\gamma^{(4)}$, $\gamma^{(0)}\gamma^{(i)} = -\gamma^{(i)}\gamma^{(0)}$); the third uses $\gamma^{(i)}\gamma^{(i)} = 1$ again. Adding the two results gives zero. Now an extra time $x_t$, with $\Omega_{x_t} = -\frac12 f_t(a_4'\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(0)})$:
+The first line is the same insertion; the second exchanges the last two gammas of each product, which costs a minus sign because different gammas anticommute ($\gamma^{(4)}\gamma^{(i)} = -\gamma^{(i)}\gamma^{(4)}$, $\gamma^{(0)}\gamma^{(i)} = -\gamma^{(i)}\gamma^{(0)}$); the third uses $\gamma^{(i)}\gamma^{(i)} = 1$ again. Adding the two results gives zero. Now an extra time $x_t$, with $\Omega_{x_t} = -\frac12 f_t(r\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(0)})$:
 
 $$
 \begin{aligned}
-\gamma^{x_t}\Omega_{x_t} &= -\tfrac12\big(a_4'\,\gamma^{(t)}\gamma^{(4)}\gamma^{(t)} + H\,\gamma^{(t)}\gamma^{(t)}\gamma^{(0)}\big) \\
-&= -\tfrac12\big(-a_4'\,\gamma^{(t)}\gamma^{(t)}\gamma^{(4)} + H\,\gamma^{(t)}\gamma^{(t)}\gamma^{(0)}\big) \\
-&= -\tfrac12\big(a_4'\gamma^{(4)} - H\gamma^{(0)}\big) = -\tfrac{a_4'}{2}\gamma^{(4)} + \tfrac{H}{2}\gamma^{(0)} .
+\gamma^{x_t}\Omega_{x_t} &= -\tfrac12\big(r\,\gamma^{(t)}\gamma^{(4)}\gamma^{(t)} + H\,\gamma^{(t)}\gamma^{(t)}\gamma^{(0)}\big) \\
+&= -\tfrac12\big(-r\,\gamma^{(t)}\gamma^{(t)}\gamma^{(4)} + H\,\gamma^{(t)}\gamma^{(t)}\gamma^{(0)}\big) \\
+&= -\tfrac12\big(r\gamma^{(4)} - H\gamma^{(0)}\big) = -\tfrac{r}{2}\gamma^{(4)} + \tfrac{H}{2}\gamma^{(0)} .
 \end{aligned}
 $$
 
 The first line inserts $\gamma^{x_t} = \gamma^{(t)}/f_t$ and cancels $f_t$; the second exchanges $\gamma^{(4)}$ and $\gamma^{(t)}$ in the first product (a minus sign); the third uses $\gamma^{(t)}\gamma^{(t)} = \eta_{tt} = -1$ in both products and multiplies out. In the same way
 
 $$
-\Omega_{x_t}\gamma^{x_t} = -\tfrac12\big(a_4'\,\gamma^{(4)}\gamma^{(t)}\gamma^{(t)} + H\,\gamma^{(t)}\gamma^{(0)}\gamma^{(t)}\big) = -\tfrac12\big(-a_4'\gamma^{(4)} + H\gamma^{(0)}\big) = \tfrac{a_4'}{2}\gamma^{(4)} - \tfrac{H}{2}\gamma^{(0)},
+\Omega_{x_t}\gamma^{x_t} = -\tfrac12\big(r\,\gamma^{(4)}\gamma^{(t)}\gamma^{(t)} + H\,\gamma^{(t)}\gamma^{(0)}\gamma^{(t)}\big) = -\tfrac12\big(-r\gamma^{(4)} + H\gamma^{(0)}\big) = \tfrac{r}{2}\gamma^{(4)} - \tfrac{H}{2}\gamma^{(0)},
 $$
 
-where the middle step uses $\gamma^{(t)}\gamma^{(t)} = -1$ in the first product and, in the second, $\gamma^{(0)}\gamma^{(t)} = -\gamma^{(t)}\gamma^{(0)}$ followed by $\gamma^{(t)}\gamma^{(t)} = -1$ (two minus signs). The sum is again zero. Fact 1 is PROVED (Revision record `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `gamma_mu_anticommutes_with_Omega_mu_no_sum`).
+where the middle step uses $\gamma^{(t)}\gamma^{(t)} = -1$ in the first product and, in the second, $\gamma^{(0)}\gamma^{(t)} = -\gamma^{(t)}\gamma^{(0)}$ followed by $\gamma^{(t)}\gamma^{(t)} = -1$ (two minus signs). The sum is again zero, for every value of $r$. Fact 1 is PROVED (Revision record `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `gamma_mu_anticommutes_with_Omega_mu_no_sum`).
 
-**Fact 2: summed over the directions, $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$.** Add the results above over the three 3-space directions and the three extra times (the directions $x_4$ and $x_0$ give zero):
+**Fact 2: summed over the directions, $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)} + \frac34\frac{b_4'}{b_4}\gamma^{(4)}$.** Add the results above over the three 3-space directions and the three extra times (the directions $x_4$ and $x_0$ give zero):
 
 $$
-\sum_\mu\gamma^\mu\Omega_\mu = 3\cdot\tfrac12\big(a_4'\gamma^{(4)} + H\gamma^{(0)}\big) + 3\cdot\big(-\tfrac{a_4'}{2}\gamma^{(4)} + \tfrac{H}{2}\gamma^{(0)}\big) = \big(\tfrac{3a_4'}{2} - \tfrac{3a_4'}{2}\big)\gamma^{(4)} + \big(\tfrac{3H}{2} + \tfrac{3H}{2}\big)\gamma^{(0)} = 3H\gamma^{(0)} .
+\begin{aligned}
+\sum_\mu\gamma^\mu\Omega_\mu &= 3\cdot\tfrac12\big(a_4'\gamma^{(4)} + H\gamma^{(0)}\big) + 3\cdot\big(-\tfrac{r}{2}\gamma^{(4)} + \tfrac{H}{2}\gamma^{(0)}\big) \\
+&= \tfrac32\big(a_4' - r\big)\gamma^{(4)} + \big(\tfrac{3H}{2} + \tfrac{3H}{2}\big)\gamma^{(0)} \\
+&= 3H\gamma^{(0)} + \frac34\frac{b_4'}{b_4}\gamma^{(4)} .
+\end{aligned}
 $$
 
-The terms with $a_4'$ cancel: the three inflating directions and the three deflating directions contribute equal and opposite amounts. The cancellation is due to the deflation. The lead's independent check computes the same sum for a metric in which the extra times inflate like 3-space and finds that a term $3a_4'\gamma^{(4)}$ survives. Both statements are PROVED in the Revision record:
+The first line adds the three equal contributions of each family; the second collects the coefficients; the third inserts $a_4' - r = b_4'/(2b_4)$. The terms with $a_4'$ cancel: the three inflating directions and the three extra times contribute $\pm\frac32a_4'\gamma^{(4)}$. The cancellation is due to the factor $e^{-a_4}$ of the extra times. The lead's independent check computes the same sum for a metric in which the extra times inflate like 3-space and finds that a term $3a_4'\gamma^{(4)}$ survives. The terms with $b_4'$ do not cancel: they come from the extra times only, and the three add up to $\frac34\frac{b_4'}{b_4}\gamma^{(4)}$. On the history $b_4'/b_4 = \frac43AH$, so $\gamma^\mu\Omega_\mu = 3H\gamma^{(0)} + AH\gamma^{(4)}$; at the point of Notebook 09a ($H = 0.25$, $A = 1$) it is $0.75\,\gamma^{(0)} + 0.25\,\gamma^{(4)}$. All three statements are PROVED in the Revision record:
 
 | statement | Revision report | check |
 | --- | --- | --- |
-| $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(0)}$ | `Revision/theory/reports/python-field-theory.json` | `gamma_mu_Omega_mu_equals_3H_gamma_x0` |
-| the same, computed independently by the lead | `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json` | `gamma_Omega_equals_3H_gamma0` |
+| $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(0)} + \frac34\frac{b_4'}{b_4}\gamma^{(4)}$ | `Revision/theory/reports/python-field-theory.json` | `gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term` |
+| the same, computed independently by the lead | `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json` | `gamma_Omega_equals_3H_gamma0_plus_b4_term` |
 | with inflating extra times a term $3a_4'\gamma^{(4)}$ survives | `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json` | `negative_control_inflating_extra_times` |
 
 **What Fact 1 does to the Lagrangian.** Insert $D_\mu\Phi = \partial_\mu\Phi + \Omega_\mu\Phi$ and $D_\mu\bar\Phi = \partial_\mu\bar\Phi - \bar\Phi\Omega_\mu$ into one term of $L_0$:
@@ -157,7 +161,7 @@ $$
 L_0 = \sum_\mu K_\mu - mS - U(S), \qquad K_\mu = \frac{1}{2f_\mu}\big(\bar\Phi\gamma^{(\mu)}\partial_\mu\Phi - \partial_\mu\bar\Phi\,\gamma^{(\mu)}\Phi\big).
 $$
 
-The spin connection has disappeared from the Lagrangian; it reaches the field equation only through Fact 2 (the term $3H\gamma^{(0)}\Phi$), and the energy-momentum tensor only off its diagonal (Section 9.12).
+The spin connection has disappeared from the Lagrangian; it reaches the field equation only through Fact 2 (the terms $3H\gamma^{(0)}\Phi + \frac34\frac{b_4'}{b_4}\gamma^{(4)}\Phi$), and the energy-momentum tensor only off its diagonal (Section 9.12).
 
 ### 9.4 What an energy-momentum tensor is
 
@@ -315,7 +319,7 @@ $$
 Four remarks.
 
 - The time derivative $\partial_4\Phi$ does not occur in $\rho$: the kinetic term $K_4$ cancels. As for Dirac's electron field, the field equation is of first order in time, and its energy is fixed by the derivatives along the other seven directions and by the potential.
-- Each kinetic term carries the weight $1/f_\mu$: $e^{-a_4}\sin^{-1/6}z$ along 3-space (it shrinks as 3-space inflates), $1$ along the time, $e^{a_4}\sin^{-1/6}z$ along the extra times (it grows as they deflate) and $\tan z$ along the hidden direction. Figure 09a.1 of Notebook 09a draws these weights.
+- Each kinetic term carries the weight $1/f_\mu$: $e^{-a_4}\sin^{-1/6}z$ along 3-space (it shrinks as 3-space inflates), $1$ along the time, $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ along the extra times (it grows as they deflate; on the history like $e^{AHx_4/3}$) and $\tan z$ along the hidden direction. Figure 09a.1 of Notebook 09a draws these weights.
 - The potential part is the same, $-(mS + U)$, in all seven pressures, and $+(mS + U)$ in the energy density.
 - Neither the $K_\mu$ nor $S$ has a fixed sign, so $\rho$ can be negative (Section 9.21).
 
@@ -384,23 +388,23 @@ $$
 \Gamma^\lambda{}_{\mu\nu} = \frac{1}{2g_{\lambda\lambda}}\big(\partial_\mu g_{\lambda\nu} + \partial_\nu g_{\lambda\mu} - \partial_\lambda g_{\mu\nu}\big) \qquad (\text{no sum over } \lambda).
 $$
 
-The symbol is symmetric in $\mu$ and $\nu$. Six of them, computed line by line (the entries depend only on $x_4$, through $a_4$, and on $x_0$, through $z = 6Hx_0$, whose derivative is $dz/dx_0 = 6H$):
+The symbol is symmetric in $\mu$ and $\nu$. Six of them, computed line by line (the entries depend only on $x_4$, through $a_4$ and $b_4$, and on $x_0$, through $z = 6Hx_0$, whose derivative is $dz/dx_0 = 6H$):
 
 - $\Gamma^{x_1}{}_{x_1x_4} = \frac{1}{2g_{11}}\partial_4 g_{11} = \frac12\,\partial_4\ln g_{11} = \frac12\,\partial_4\big(2a_4 + \tfrac13\ln\sin z\big) = a_4'$; the first step keeps the only nonzero derivative, the second uses $\partial(\ln Q) = \partial Q/Q$, the third writes $\ln g_{11} = 2a_4 + \frac13\ln\sin z$, and the last differentiates ($\sin z$ does not depend on $x_4$).
 - $\Gamma^{x_4}{}_{x_1x_1} = \frac{1}{2g_{44}}\big(-\partial_4 g_{11}\big) = \frac{1}{-2}\big(-2a_4'e^{2a_4}\sin^{1/3}z\big) = a_4'\,e^{2a_4}\sin^{1/3}z$; only the third term of the bracket survives ($g_{41} = 0$), $g_{44} = -1$, and the chain rule gives $\partial_4 e^{2a_4} = 2a_4'e^{2a_4}$.
 - $\Gamma^{x_0}{}_{x_1x_1} = \frac{1}{2g_{00}}\big(-\partial_0 g_{11}\big) = -\frac{\tan^2 z}{2}\,e^{2a_4}\cdot\tfrac13\sin^{-2/3}z\cos z\cdot 6H = -H e^{2a_4}\,\frac{\sin^{4/3}z}{\cos z}$; here $1/g_{00} = \tan^2 z$, the chain rule gives $\partial_0\sin^{1/3}z = \frac13\sin^{-2/3}z\cos z\cdot 6H$, and $\tan^2 z\,\sin^{-2/3}z\cos z = \sin^{4/3}z/\cos z$.
 - $\Gamma^{x_0}{}_{x_0x_0} = \frac12\,\partial_0\ln\cot^2 z = \partial_0\ln\cot z = 6H\cdot\frac{-1/\sin^2 z}{\cot z} = -\frac{6H}{\sin z\cos z} = -\frac{12H}{\sin(12Hx_0)}$, using $\frac{d}{dz}\cot z = -1/\sin^2 z$ and $2\sin z\cos z = \sin 2z$.
-- $\Gamma^{x_4}{}_{x_5x_5} = \frac{1}{2g_{44}}\big(-\partial_4 g_{55}\big) = \frac{1}{-2}\big(-2a_4'e^{-2a_4}\sin^{1/3}z\big) = a_4'\,e^{-2a_4}\sin^{1/3}z$; only the third term of the bracket survives ($g_{45} = 0$), $g_{44} = -1$, and the chain rule gives $\partial_4 g_{55} = \partial_4\big(-e^{-2a_4}\sin^{1/3}z\big) = -(-2a_4')e^{-2a_4}\sin^{1/3}z = 2a_4'e^{-2a_4}\sin^{1/3}z$ (two minus signs: the one of the entry and the one of the exponent $-2a_4$).
-- $\Gamma^{x_0}{}_{x_5x_5} = \frac{1}{2g_{00}}\big(-\partial_0 g_{55}\big) = \frac{\tan^2 z}{2}\,e^{-2a_4}\cdot\tfrac13\sin^{-2/3}z\cos z\cdot 6H = H e^{-2a_4}\,\frac{\sin^{4/3}z}{\cos z}$; here $-\partial_0 g_{55} = +\partial_0\big(e^{-2a_4}\sin^{1/3}z\big)$ because the entry $g_{55}$ carries a minus sign, and the rest is the computation of $\Gamma^{x_0}{}_{x_1x_1}$; the sign is opposite to that of $\Gamma^{x_0}{}_{x_1x_1}$ because $g_{55}$ and $g_{11}$ have opposite signs.
+- $\Gamma^{x_4}{}_{x_5x_5} = \frac{1}{2g_{44}}\big(-\partial_4 g_{55}\big) = \frac{1}{-2}\big(-2r\,e^{-2a_4}b_4\sin^{1/3}z\big) = r\,e^{-2a_4}b_4\sin^{1/3}z$; only the third term of the bracket survives ($g_{45} = 0$), $g_{44} = -1$, and the product and chain rules give $\partial_4\big(e^{-2a_4}b_4\big) = \big(-2a_4' + b_4'/b_4\big)e^{-2a_4}b_4 = -2r\,e^{-2a_4}b_4$, so $\partial_4 g_{55} = \partial_4\big(-e^{-2a_4}b_4\sin^{1/3}z\big) = 2r\,e^{-2a_4}b_4\sin^{1/3}z$ (two minus signs: the one of the entry and the one of $-2r$).
+- $\Gamma^{x_0}{}_{x_5x_5} = \frac{1}{2g_{00}}\big(-\partial_0 g_{55}\big) = \frac{\tan^2 z}{2}\,e^{-2a_4}b_4\cdot\tfrac13\sin^{-2/3}z\cos z\cdot 6H = H e^{-2a_4}b_4\,\frac{\sin^{4/3}z}{\cos z}$; here $-\partial_0 g_{55} = +\partial_0\big(e^{-2a_4}b_4\sin^{1/3}z\big)$ because the entry $g_{55}$ carries a minus sign, and the rest is the computation of $\Gamma^{x_0}{}_{x_1x_1}$; the sign is opposite to that of $\Gamma^{x_0}{}_{x_1x_1}$ because $g_{55}$ and $g_{11}$ have opposite signs.
 
 The three remaining kinds, $\Gamma^{x_i}{}_{x_ix_0}$, $\Gamma^{x_t}{}_{x_4x_t}$ and $\Gamma^{x_t}{}_{x_tx_0}$, have the form of the first bullet, a logarithmic derivative of one diagonal entry; the lemma below gives each of them in one line, and Exercise 1 works two of them out in full. The directions $x_2, x_3$ give the same values as $x_1$, and $x_6, x_7$ the same values as $x_5$, because their entries of the metric are equal. The complete list of the nonzero symbols with $\mu \le \nu$ is (25 symbols: four for each of the six directions $x_i$ and $x_t$, and one more; why there are exactly 25 is shown after the lemma below):
 
 | symbol | value | symbol | value |
 | --- | --- | --- | --- |
-| $\Gamma^{x_i}{}_{x_ix_4}$ | $a_4'$ | $\Gamma^{x_t}{}_{x_4x_t}$ | $-a_4'$ |
+| $\Gamma^{x_i}{}_{x_ix_4}$ | $a_4'$ | $\Gamma^{x_t}{}_{x_4x_t}$ | $-r = -a_4' + b_4'/(2b_4)$ |
 | $\Gamma^{x_i}{}_{x_ix_0}$ | $H\cot z$ | $\Gamma^{x_t}{}_{x_tx_0}$ | $H\cot z$ |
-| $\Gamma^{x_4}{}_{x_ix_i}$ | $a_4'e^{2a_4}\sin^{1/3}z$ | $\Gamma^{x_4}{}_{x_tx_t}$ | $a_4'e^{-2a_4}\sin^{1/3}z$ |
-| $\Gamma^{x_0}{}_{x_ix_i}$ | $-He^{2a_4}\sin^{4/3}z/\cos z$ | $\Gamma^{x_0}{}_{x_tx_t}$ | $He^{-2a_4}\sin^{4/3}z/\cos z$ |
+| $\Gamma^{x_4}{}_{x_ix_i}$ | $a_4'e^{2a_4}\sin^{1/3}z$ | $\Gamma^{x_4}{}_{x_tx_t}$ | $r\,e^{-2a_4}b_4\sin^{1/3}z$ |
+| $\Gamma^{x_0}{}_{x_ix_i}$ | $-He^{2a_4}\sin^{4/3}z/\cos z$ | $\Gamma^{x_0}{}_{x_tx_t}$ | $He^{-2a_4}b_4\sin^{4/3}z/\cos z$ |
 | $\Gamma^{x_0}{}_{x_0x_0}$ | $-6H/(\sin z\cos z)$ | (none) | (none) |
 
 (PROVED; `Revision/theory/field-theory.json`, formula `christoffel_nonzero`, and `Revision/theory/reports/wolfram-field-theory.json`, check `christoffel_count`. Notebook 09a computes the 25 symbols with sympy and compares them with the record one by one.)
@@ -411,7 +415,7 @@ $$
 \Gamma^\mu{}_{\mu\nu} = \frac{1}{2g_{\mu\mu}}\big(\partial_\mu g_{\mu\nu} + \partial_\nu g_{\mu\mu} - \partial_\mu g_{\mu\nu}\big) = \frac{\partial_\nu g_{\mu\mu}}{2g_{\mu\mu}} = \frac{2\eta_{\mu\mu}f_\mu\,\partial_\nu f_\mu}{2\eta_{\mu\mu}f_\mu^2} = \partial_\nu\ln f_\mu .
 $$
 
-The first and the third term of the bracket cancel; then $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$ and the chain rule $\partial_\nu f_\mu^2 = 2f_\mu\partial_\nu f_\mu$; finally $\partial_\nu f_\mu/f_\mu = \partial_\nu\ln f_\mu$. Summed over $\mu$ this gives $\sum_\mu\Gamma^\mu{}_{\mu\nu} = \partial_\nu\ln(f_0\cdots f_7) = \partial_\nu\ln\sqrt{|g|}$. For example, $\Gamma^{x_1}{}_{x_1x_0} = \partial_0\ln f_1 = \partial_0\big(a_4 + \frac16\ln\sin z\big) = \frac16\cdot\frac{\cos z}{\sin z}\cdot 6H = H\cot z$, by the chain rule with $dz/dx_0 = 6H$.
+The first and the third term of the bracket cancel; then $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$ and the chain rule $\partial_\nu f_\mu^2 = 2f_\mu\partial_\nu f_\mu$; finally $\partial_\nu f_\mu/f_\mu = \partial_\nu\ln f_\mu$. Summed over $\mu$ this gives $\sum_\mu\Gamma^\mu{}_{\mu\nu} = \partial_\nu\ln(f_0\cdots f_7) = \partial_\nu\ln\sqrt{|g|}$. For example, $\Gamma^{x_1}{}_{x_1x_0} = \partial_0\ln f_1 = \partial_0\big(a_4 + \frac16\ln\sin z\big) = \frac16\cdot\frac{\cos z}{\sin z}\cdot 6H = H\cot z$, by the chain rule with $dz/dx_0 = 6H$, and $\Gamma^{x_5}{}_{x_4x_5} = \partial_4\ln f_5 = \partial_4\big(-a_4 + \frac12\ln b_4 + \frac16\ln\sin z\big) = -a_4' + \frac{b_4'}{2b_4} = -r$.
 
 **Why there are exactly 25 symbols.** Sort the symbols by how many of the three indices $\lambda, \mu, \nu$ are equal, and use the diagonal formula. Remember that the entries of the metric depend only on $x_4$ and $x_0$, that $g_{44} = -1$ is a constant, and that $g_{00} = \cot^2 z$ does not depend on $x_4$.
 
@@ -420,7 +424,7 @@ The first and the third term of the bracket cancel; then $g_{\mu\mu} = \eta_{\mu
 - $\lambda$ equal to exactly one of $\mu$, $\nu$ (stored as $\Gamma^\lambda{}_{\lambda\nu}$ or $\Gamma^\lambda{}_{\nu\lambda}$, whichever has the smaller index first): by the lemma it is $\partial_\nu\ln f_\lambda$, nonzero only when $f_\lambda$ depends on $x_\nu$, that is for $\lambda$ one of the six directions $x_i$, $x_t$ and $\nu = x_4$ or $x_0$ ($f_4 = 1$ is constant, and $f_0 = \cot z$ does not depend on $x_4$). That makes another $6 \cdot 2 = 12$ symbols.
 - All three equal: $\Gamma^\lambda{}_{\lambda\lambda} = \partial_\lambda\ln f_\lambda$ by the lemma, nonzero only for $\lambda = x_0$, since $f_0 = \cot z$ is the only factor that depends on its own coordinate. One symbol.
 
-The total is $12 + 12 + 1 = 25$, the count of the table and of the record.
+The total is $12 + 12 + 1 = 25$, the count of the table and of the record. The count is for general functions $a_4$ and $b_4$, as in the record; for special ones a symbol can vanish (for example $\Gamma^{x_t}{}_{x_4x_t} = -r$ and $\Gamma^{x_4}{}_{x_tx_t}$ vanish at a moment where $r = 0$).
 
 **The divergence of a diagonal tensor.** Now let $T^\mu{}_\nu$ be diagonal: $T^\mu{}_\nu = 0$ for $\mu \neq \nu$. In each of the three sums of the divergence only the terms with a diagonal entry survive:
 
@@ -440,11 +444,11 @@ $$
 T^\mu{}_\nu = \mathrm{diag}\big(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_0\big),
 $$
 
-whose four entries are any functions of $x_4$ and $x_0$. The logarithmic derivatives we need are, from $\ln f_i = a_4 + \frac16\ln\sin z$, $\ln f_t = -a_4 + \frac16\ln\sin z$, $\ln f_4 = 0$ and $\ln f_0 = \ln\cot z$:
+whose four entries are any functions of $x_4$ and $x_0$. The logarithmic derivatives we need are, from $\ln f_i = a_4 + \frac16\ln\sin z$, $\ln f_t = -a_4 + \frac12\ln b_4 + \frac16\ln\sin z$, $\ln f_4 = 0$ and $\ln f_0 = \ln\cot z$:
 
 $$
 \begin{aligned}
-&\partial_4\ln f_i = a_4', \qquad \partial_4\ln f_t = -a_4', \qquad \partial_4\ln f_4 = \partial_4\ln f_0 = 0, \\
+&\partial_4\ln f_i = a_4', \qquad \partial_4\ln f_t = -a_4' + \frac{b_4'}{2b_4} = -r, \qquad \partial_4\ln f_4 = \partial_4\ln f_0 = 0, \\
 &\partial_0\ln f_i = \partial_0\ln f_t = \tfrac16\cdot\frac{\cos z}{\sin z}\cdot 6H = H\cot z, \qquad \partial_0\ln f_4 = 0 .
 \end{aligned}
 $$
@@ -453,13 +457,14 @@ $$
 
 $$
 \begin{aligned}
-\nabla_\mu T^\mu{}_{x_4} &= \partial_4(-\rho) + 3a_4'\big(-\rho - p_3\big) + 3\big(-a_4'\big)\big(-\rho - p_t\big) \\
-&= -\partial_4\rho - 3a_4'\rho - 3a_4'p_3 + 3a_4'\rho + 3a_4'p_t \\
-&= -\partial_4\rho - 3a_4'\big(p_3 - p_t\big).
+\nabla_\mu T^\mu{}_{x_4} &= \partial_4(-\rho) + 3a_4'\big(-\rho - p_3\big) + 3\big(-r\big)\big(-\rho - p_t\big) \\
+&= -\partial_4\rho - 3a_4'\rho - 3a_4'p_3 + 3r\rho + 3rp_t \\
+&= -\partial_4\rho - 3a_4'\big(p_3 - p_t\big) - 3\big(a_4' - r\big)\big(\rho + p_t\big) \\
+&= -\partial_4\rho - 3a_4'\big(p_3 - p_t\big) - \frac32\,\frac{b_4'}{b_4}\,\big(\rho + p_t\big).
 \end{aligned}
 $$
 
-The first line takes the three 3-space directions (weight $a_4'$, entry $p_3$) and the three extra times (weight $-a_4'$, entry $p_t$); the directions $x_4$ and $x_0$ have weight 0. The second multiplies out; the third cancels $\mp 3a_4'\rho$ and factors.
+The first line takes the three 3-space directions (weight $a_4'$, entry $p_3$) and the three extra times (weight $-r$, entry $p_t$); the directions $x_4$ and $x_0$ have weight 0. The second multiplies out. The third adds and subtracts $3a_4'p_t$ and collects: $-3a_4'p_3 + 3a_4'p_t$ is the first bracket, and the rest, $-3a_4'\rho - 3a_4'p_t + 3r\rho + 3rp_t$, is $-3(a_4' - r)(\rho + p_t)$. The fourth inserts $a_4' - r = b_4'/(2b_4)$. For $b_4' = 0$ the last term vanishes and $r = a_4'$.
 
 **The component $\nu = x_0$.** Here $T^{x_0}{}_{x_0} = p_0$. The direction $\mu = x_0$ gives $(p_0 - p_0) = 0$ whatever its weight, and $\mu = x_4$ has weight 0:
 
@@ -484,34 +489,34 @@ These are exactly the record's statements (PROVED; the table lists the record fi
 Conservation of a diagonal tensor along $x_4$ is therefore
 
 $$
-\frac{\partial\rho}{\partial x_4} = -3a_4'\,\big(p_3 - p_t\big).
+\frac{\partial\rho}{\partial x_4} = -3a_4'\,\big(p_3 - p_t\big) - \frac32\,\frac{b_4'}{b_4}\,\big(\rho + p_t\big).
 $$
 
-**What it says.** On a deflating history ($a_4' > 0$) the energy density falls when the 3-space pressure exceeds the extra-time pressure, rises when it is smaller, and stays constant only when $p_3 = p_t$. Energy flows between 3-space and the extra times. Reversing the history ($a_4' \to -a_4'$: the extra times inflate and 3-space deflates) reverses the flow. Note what is absent: in ordinary cosmology the energy density of a gas always falls as space expands, $d\rho/dt = -3\,(\dot a/a)\,(\rho + p)$ with the scale factor $a$, because the volume grows. Here the volume factor $\sqrt{|g|} = \cos z$ does not change with $x_4$, so no term with $\rho$ itself appears; only the difference of the two pressures drives the energy.
+**What it says.** The right side has two terms. The first is an **exchange**: on a history with $a_4' > 0$ it lowers the energy density when the 3-space pressure exceeds the extra-time pressure and raises it when it is smaller; energy flows between 3-space and the extra times, and reversing the history ($a_4' \to -a_4'$) reverses the flow. The second is a **dilution** of the ordinary cosmological kind. In ordinary cosmology the energy density of a gas falls as space expands, $d\rho/dt = -3\,(\dot a/a)\,(\rho + p)$ with the scale factor $a$, because the volume grows. Here the volume factor $\sqrt{|g|} = b_4^{3/2}\cos z$ changes with $x_4$ only through $b_4$, at the logarithmic rate $\frac32 b_4'/b_4$, so the term with $\rho$ itself has this rate, and it comes with the pressure $p_t$ of the extra times, the only directions whose factors contain $b_4$. When $b_4$ grows, a source with $\rho + p_t > 0$ is diluted. With $b_4 = 1$ (the withdrawn earlier metric) only the exchange term would remain. The derivation above and the sympy computation of Notebook 09a hold for all functions $a_4$ and $b_4$ (PROVED; record formula `energy_exchange` of `Revision/theory/field-theory.json`, the checks of the table at the end of Section 9.9); the $x_0$ component (Section 9.11) does not contain $b_4$.
 
-**With a changing $b_4$.** For the metric with $b_4(x_4)$ the volume factor is $b_4^{3/2}\cos z$, and the extra times shrink at the rate $a_4' - b_4'/(2b_4)$. The Revision record computes the divergence of a diagonal tensor for this metric (`Revision/theory/field-theory-b4.json`, formula `energy_exchange`; `wolfram-field-theory-b4.json`, check `energy_exchange_equation_b4`): the $x_4$ component becomes
+**On the history.** With $a_4' = AH$ and $b_4'/b_4 = \beta AH = \frac43AH$ the identity reads $d\rho/dx_4 = -3AH(p_3 - p_t) - 2AH(\rho + p_t)$.
 
-$$
-\nabla_\mu T^\mu{}_{x_4} = -\frac{\partial\rho}{\partial x_4} - 3a_4'\,\big(p_3 - p_t\big) - \frac32\,\frac{b_4'}{b_4}\,\big(p_t + \rho\big),
-$$
-
-so a changing $b_4$ adds a term of the ordinary cosmological kind, with $\rho + p_t$, for the three extra times; the $x_0$ component is unchanged. The derivation of this section and Notebook 09a are for $b_4 = 1$.
-
-**A first-law reading (an interpretation, not an extra result).** At fixed $x_0$ take a small box of coordinate size 1 along each of the seven directions other than $x_4$. Its 3-space volume is $V_3 = f_1f_2f_3 = e^{3a_4}\sin^{1/2}z$, its extra-time volume $V_t = f_5f_6f_7 = e^{-3a_4}\sin^{1/2}z$, and its 7-volume $V_7 = V_3V_tf_8 = \cos z$ does not change with $x_4$. The first law of thermodynamics says that the energy of a box changes by minus the pressure times the change of its volume. Applied separately to the two families of directions, with each change of volume taken relative to the volume of its family,
+**A first-law reading (an interpretation, not an extra result).** At fixed $x_0$ take a small box of coordinate size 1 along each of the seven directions other than $x_4$. Its 3-space volume is $V_3 = f_1f_2f_3 = e^{3a_4}\sin^{1/2}z$, its extra-time volume $V_t = f_5f_6f_7 = e^{-3a_4}b_4^{3/2}\sin^{1/2}z$, and its 7-volume $V_7 = V_3V_tf_0 = b_4^{3/2}\cos z$ changes with $x_4$ only through $b_4$. The first law of thermodynamics says that the energy of a box changes by minus the pressure times the change of its volume. Applied separately to the two families of directions, with each change of volume taken relative to the volume of its family,
 
 $$
 \frac{d}{dx_4}\big(\rho V_7\big) = -p_3\,\frac{V_7}{V_3}\frac{dV_3}{dx_4} - p_t\,\frac{V_7}{V_t}\frac{dV_t}{dx_4} .
 $$
 
-Divide by the constant $V_7$ and insert $\frac{1}{V_3}\frac{dV_3}{dx_4} = 3a_4'$ and $\frac{1}{V_t}\frac{dV_t}{dx_4} = -3a_4'$ (the logarithmic derivatives of $e^{\pm3a_4}$): the result is $d\rho/dx_4 = -3a_4'p_3 + 3a_4'p_t$, the conservation identity. While 3-space inflates ($dV_3 > 0$), a positive $p_3$ takes energy out of the box; while the extra times deflate ($dV_t < 0$), a positive $p_t$ puts energy in. Notebook 09a checks with sympy that this reading is exactly the identity, and Figure 09a.4 draws the three volumes.
+Divide by $V_7$. The left side becomes $\frac{d\rho}{dx_4} + \rho\,\frac{1}{V_7}\frac{dV_7}{dx_4} = \frac{d\rho}{dx_4} + \frac32\frac{b_4'}{b_4}\rho$, and the logarithmic derivatives on the right are $\frac{1}{V_3}\frac{dV_3}{dx_4} = 3a_4'$ and $\frac{1}{V_t}\frac{dV_t}{dx_4} = -3a_4' + \frac32\frac{b_4'}{b_4} = -3r$. So $\frac{d\rho}{dx_4} = -3a_4'p_3 + 3a_4'p_t - \frac32\frac{b_4'}{b_4}(\rho + p_t)$, the conservation identity. While 3-space inflates ($dV_3 > 0$), a positive $p_3$ takes energy out of the box; while the extra times deflate ($dV_t < 0$), a positive $p_t$ puts energy in; and the growth of the 7-volume with $b_4$ dilutes the energy density. Notebook 09a checks with sympy that this reading is exactly the identity, and Figure 09a.4 draws the three volumes along the history: $V_3$ grows like $e^{3AHx_4}$, $V_t$ shrinks like $e^{-AHx_4}$ and $V_7$ grows like $e^{2AHx_4}$.
 
-**Toy fluids (an ILLUSTRATION, not solutions of the field equations of this book).** Suppose a source had pressures proportional to its energy density, $p_3 = w_3\rho$ and $p_t = w_t\rho$ with constants $w_3$, $w_t$, on the history $a_4 = AHx_4$ ($a_4' = AH$). The identity becomes $d\rho/dx_4 = -3AH(w_3 - w_t)\,\rho$: the rate of change of $\rho$ is a constant times $\rho$. The function $\rho_0e^{cx_4}$ has the derivative $c\,\rho_0e^{cx_4}$, so the solution with $\rho(0) = \rho_0$ is
+**Toy fluids (an ILLUSTRATION, not solutions of the field equations of this book).** Suppose a source had pressures proportional to its energy density, $p_3 = w_3\rho$ and $p_t = w_t\rho$ with constants $w_3$, $w_t$, on the history. With $\Delta w = w_3 - w_t$ the identity becomes
 
 $$
-\rho(x_4) = \rho_0\,e^{-3AH(w_3 - w_t)x_4} .
+\frac{d\rho}{dx_4} = -AH\Big(3\Delta w + \frac32\beta\,(1 + w_t)\Big)\rho = -AH\big(3\Delta w + 2(1 + w_t)\big)\rho ,
 $$
 
-With $A = 1$, $H = 0.25$ and $w_3 - w_t = 1/3$, at $x_4 = 8$ the exponent is $-3\cdot 0.25\cdot\frac13\cdot 8 = -2$ and $\rho(8)/\rho(0) = e^{-2} = 0.135335$, the number that Notebook 09b computes with the Runge-Kutta method. The condensates of Section 9.18 have $p_3 = p_t$ and exchange no energy at all.
+the rate of change of $\rho$ is a constant times $\rho$. The function $\rho_0e^{cx_4}$ has the derivative $c\,\rho_0e^{cx_4}$, so the solution with $\rho(0) = \rho_0$ is
+
+$$
+\rho(x_4) = \rho_0\,e^{-AH(3\Delta w + 2 + 2w_t)x_4} .
+$$
+
+With $A = 1$, $H = 0.25$, $\Delta w = 1/3$ and $w_t = 0$, at $x_4 = 8$ the exponent is $-0.25\cdot(1 + 2)\cdot 8 = -6$ and $\rho(8)/\rho(0) = e^{-6} = 0.002479$, the number that Notebook 09b computes with the Runge-Kutta method. With $w_t = 0$ the exchange and the dilution balance exactly at $\Delta w = -\frac23$. The condensates of Section 9.18 have $p_3 = p_t$: they exchange no energy and are only diluted, $d\rho/dx_4 = -\frac32\frac{b_4'}{b_4}(\rho + p)$.
 
 ### 9.11 The x0 identity: the balance along the hidden direction
 
@@ -529,14 +534,21 @@ $$
 p_0 = \tfrac12\big(p_3 + p_t\big).
 $$
 
-The field equations of gravity force the same condition, $p_3 + p_t = 2p_0$, for every source with which the author's metric solves them (Chapter 12 derives these equations). Add the record's 3-space equation (right-hand side $\kappa p_3$) and its extra-time equation (right-hand side $\kappa p_t$): every term with $a_4''$ appears in the two left-hand sides with opposite signs and cancels, and what remains is exactly twice the left-hand side of the hidden equation (right-hand side $\kappa p_0$). Hence $\kappa(p_3 + p_t) = 2\kappa p_0$, and for a coupling $\kappa \neq 0$, $p_3 + p_t = 2p_0$ (PROVED; the table names the record's entries and checks). The conservation identity and the field equations of gravity are therefore consistent.
+What do the field equations of gravity say about the same combination (Chapter 12 derives these equations)? Add the record's 3-space equation (right-hand side $\kappa p_3$) and its extra-time equation (right-hand side $\kappa p_t$) and subtract twice its hidden equation (right-hand side $\kappa p_0$): the record finds that the left-hand sides combine into a function $I$ of $a_4'$, $a_4''$, $u = b_4'/b_4$ and $v = u'$ that vanishes when $u = v = 0$, so that
+
+$$
+\kappa\,\big(p_3 + p_t - 2p_0\big) = I .
+$$
+
+For Einstein's theory alone $I = \frac34u^2 + \frac12v = \frac14\big(\frac{b_4'}{b_4}\big)^2 + \frac{b_4''}{2b_4}$ (PROVED; the table names the record's entries and checks). With a constant $b_4$ (the withdrawn earlier metric) $I = 0$, and the field equations forced $p_3 + p_t = 2p_0$ for every source. With a changing $b_4$ they do not: the field equations then also have an $x_4$-$x_0$ entry, $\kappa\,T^{x_4}{}_{x_0} = \cot z\;u\,Q$ with a function $Q$ of $a_4'$, $u$ and the couplings ($Q = \frac32H$ for Einstein's theory alone), so a diagonal source is possible only where $uQ = 0$ (Chapter 12). On the record's history with the author's couplings $Q = 0$ exactly, the source is diagonal and constant, and the record gives it as $\kappa(\rho, p_3, p_t, p_0) = \big(-\frac{2}{27}, -\frac29, -\frac{22}{27}, -\frac{14}{27}\big)$ (a prescribed background, not a vacuum). This source passes both conservation identities of this chapter: $p_3 + p_t = -\frac{6}{27} - \frac{22}{27} = -\frac{28}{27} = 2p_0$ (in units of $1/\kappa$), so the $x_0$ identity holds; and with $\rho$ constant the $x_4$ identity requires $-3AH(p_3 - p_t) - 2AH(\rho + p_t) = 0$, which holds, because $-3\big(-\frac{6}{27} + \frac{22}{27}\big) - 2\big(-\frac{2}{27} - \frac{22}{27}\big) = -\frac{48}{27} + \frac{48}{27} = 0$: the energy that the exchange takes out is exactly what the negative $\rho + p_t$ puts back through the dilution term.
 
 | statement | Revision record | entry or check |
 | --- | --- | --- |
 | the 3-space, extra-time and hidden equations | `Revision/field_equations_a4/a4-equations.json` | entry `generalSource`: `space_x1_eq_x2_eq_x3`, `extraTime_x5_eq_x6_eq_x7`, `hidden_x0` |
-| the condition $p_3 + p_t = 2p_0$ | `Revision/field_equations_a4/a4-equations.json` | `generalSource.algebraic_condition` |
+| the combination $\kappa(p_3 + p_t - 2p_0) = I$ | `Revision/field_equations_a4/a4-equations.json` | `generalSource.identity_x1_plus_x5_minus_2x0` |
 | the identity of the Lovelock tensors behind it | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | `algebraic_identity_x1_plus_x5_minus_2x0` |
 | the same, verified independently with sympy | `Revision/field_equations_a4/reports/python-a4-report.json` | `algebraic_identity` |
+| the $x_4$-$x_0$ entry and the source of the history | `Revision/field_equations_a4/a4-equations.json` | `generalSource.offDiagonal_x4x0`, `exponentialHistory.authorWeights` |
 
 **All solutions when $p_3 + p_t = P$ is a constant.** Write $q = p_0 - P/2$. Then $2p_0 - P = 2q$, and with $dz = 6H\,dx_0$ the identity becomes
 
@@ -598,7 +610,7 @@ This chapter therefore computes numbers only for the commuting field dirac16comp
 
 ### 9.14 Example: the tensor at one point and the two identities
 
-The first worked example puts Sections 9.3 to 9.12 on the computer. At one point of the deflating history ($H = 0.25$, $a_4 = AHx_4$ with $A = 1$, so $a_4 = 0.5$ and $a_4' = 0.25$ at $x_4 = 2$, and $z = \pi/4$) it builds the coordinate gammas and the spin connection from the Revision fixture and formula, draws a configuration of dirac16complex00 at random, computes its 64 entries $T^\nu{}_\mu$ literally from the formula of Section 9.6, and checks every identity of Sections 9.5 to 9.8, first off shell and then after putting the configuration on shell with the evolution form. It checks the connection term of Section 9.12. Then it switches to exact symbols: it computes the 25 Christoffel symbols with sympy, compares them with the record, derives the eight components of the divergence of a diagonal tensor and compares them with the record's formula `energy_exchange` and with the lead's checks, checks the first-law reading and the profiles of the $x_0$ balance, and draws five figures.
+The first worked example puts Sections 9.3 to 9.12 on the computer. At one point of the history ($H = 0.25$, $a_4 = AHx_4$ with $A = 1$ and $b_4 = b_4(0)e^{\beta AHx_4}$ with $\beta = \frac43$, so $a_4 = 0.5$, $a_4' = 0.25$, $b_4 = e^{2/3}$ in the unit $b_4(0)$ and $b_4'/b_4 = \frac13$ at $x_4 = 2$, and $z = \pi/4$) it builds the coordinate gammas and the spin connection from the Revision fixture and formula, draws a configuration of dirac16complex00 at random, computes its 64 entries $T^\nu{}_\mu$ literally from the formula of Section 9.6, and checks every identity of Sections 9.5 to 9.8, first off shell and then after putting the configuration on shell with the evolution form. It checks the connection term of Section 9.12. Then it switches to exact symbols: it computes the 25 Christoffel symbols with sympy, compares them with the record, derives the eight components of the divergence of a diagonal tensor and compares them with the record's formula `energy_exchange` and with the lead's checks, checks the first-law reading and the profiles of the $x_0$ balance, and draws five figures.
 
 <!-- NOTEBOOK 09a -->
 
@@ -784,47 +796,51 @@ H = 0.25  # the author's constant H
 A = 1.0  # the history a4 = A H x4; A > 0: the extra times deflate
 m = 1.0  # the mass m of the field
 lam = 0.5  # the strength lambda of the potential U(S) = (lambda/2) S^2
+beta = 4 / 3  # the history b4 = b4(0) e^(beta A H x4), in the unit b4(0)
 X4 = 2.0  # the time x4 of the point
 a4 = A * H * X4  # a4 at the point: 0.5
 a4p = A * H  # its derivative da4/dx4 (written a4p, "a4 prime"): 0.25
+b4 = np.exp(beta * A * H * X4)  # b4 at the point: e^(2/3)
+b4p = beta * A * H * b4  # db4/dx4, so that b4p/b4 = 1/3
 z = np.pi / 4  # z = 6 H x0 at the point
 ```
 
-These lines choose the numbers of the example: $H = 0.25$, the deflating history $a_4 = AHx_4$ with $A = 1$, the mass $m = 1$, the strength $\lambda = 0.5$ (written `lam`, because `lambda` is a reserved word of Python), the time $x_4 = 2$, hence $a_4 = 0.5$ and $a_4' = AH = 0.25$, and $z = \pi/4$ (`np.pi` is $\pi$). They are choices, not results.
+These lines choose the numbers of the example: $H = 0.25$, the deflating history $a_4 = AHx_4$ with $A = 1$, the mass $m = 1$, the strength $\lambda = 0.5$ (written `lam`, because `lambda` is a reserved word of Python), the history $b_4 = b_4(0)e^{\beta AHx_4}$ with the record's $\beta = \frac43$, the time $x_4 = 2$, hence $a_4 = 0.5$, $a_4' = AH = 0.25$, $b_4 = e^{2/3}$ in the unit $b_4(0)$ and $b_4' = \beta AH\,b_4$, so that $b_4'/b_4 = \frac13$, and $z = \pi/4$ (`np.pi` is $\pi$). They are choices, not results.
 
 ```python
-def frame_factors(a4_value, z_value):
+def frame_factors(a4_value, b4_value, z_value):
     """The eight factors f_a of the diagonal vielbein, in the order x0, ..., x7."""
     space = np.exp(a4_value) * np.sin(z_value) ** (1 / 6)  # e^a4 sin^(1/6) z
-    extra = np.exp(-a4_value) * np.sin(z_value) ** (1 / 6)  # e^(-a4) sin^(1/6) z
+    extra = (np.exp(-a4_value) * np.sqrt(b4_value)
+             * np.sin(z_value) ** (1 / 6))  # e^(-a4) b4^(1/2) sin^(1/6) z
     return np.array([1 / np.tan(z_value)] + [space] * 3 + [1.0] + [extra] * 3)
 
 
-f = frame_factors(a4, z)
+f = frame_factors(a4, b4, z)
 g_diag = eta * f ** 2  # the diagonal entries g_mumu = eta_mumu f_mu^2
 ```
 
-`frame_factors` returns the eight factors $f_a$ of Section 9.2. `**` means "to the power", so `np.sin(z_value) ** (1 / 6)` is $\sin^{1/6}z$. `[space] * 3` is a list of three copies of `space`, and `+` joins lists, so the returned array is $(f_1, f_1, f_1, 1, f_5, f_5, f_5, \cot z)$ with $\cot z = 1/\tan z$. Then `f` holds the factors at the point, and `g_diag` the eight diagonal entries $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$; arithmetic on arrays acts entry by entry.
+`frame_factors` returns the eight factors $f_a$ of Section 9.2. `**` means "to the power", so `np.sin(z_value) ** (1 / 6)` is $\sin^{1/6}z$. `[space] * 3` is a list of three copies of `space`, and `+` joins lists, so the returned array is $(\cot z, f_1, f_1, f_1, 1, f_5, f_5, f_5)$ with $\cot z = 1/\tan z$ and $f_5 = e^{-a_4}b_4^{1/2}\sin^{1/6}z$ (`np.sqrt` is the square root). Then `f` holds the factors at the point, and `g_diag` the eight diagonal entries $g_{\mu\mu} = \eta_{\mu\mu}f_\mu^2$; arithmetic on arrays acts entry by entry.
 
 ```python
-# The author's metric written out: e^(2 a4) sin^(1/3) z, -1, -e^(-2 a4) sin^(1/3) z,
-# cot^2 z.
+# The author's metric written out: cot^2 z, e^(2 a4) sin^(1/3) z, -1,
+# -b4 e^(-2 a4) sin^(1/3) z.
 authors = np.array([1 / np.tan(z) ** 2] + [np.exp(2 * a4) * np.sin(z) ** (1 / 3)] * 3
-                   + [-1.0] + [-np.exp(-2 * a4) * np.sin(z) ** (1 / 3)] * 3)
+                   + [-1.0] + [-b4 * np.exp(-2 * a4) * np.sin(z) ** (1 / 3)] * 3)
 THEORY_PY = "Revision/theory/reports/python-field-theory.json"
 check(np.allclose(g_diag, authors, rtol=1e-14, atol=0)
       and recorded(THEORY_PY, "metric_from_vielbein_equals_SPEC") == "PASS",
       "eta_aa f_a^2 is the author's metric at the point",
       record=f"{THEORY_PY}, check metric_from_vielbein_equals_SPEC")
-check(abs(np.prod(f) - np.cos(z)) < 1e-14
-      and recorded(THEORY_PY, "sqrt_det_g_equals_cos_z") == "PASS",
-      "the volume factor f0 f1 ... f7 equals cos z",
-      record=f"{THEORY_PY}, check sqrt_det_g_equals_cos_z")
+check(abs(np.prod(f) - b4 ** 1.5 * np.cos(z)) < 1e-14
+      and recorded(THEORY_PY, "sqrt_det_g_equals_b4_cos_z") == "PASS",
+      "the volume factor f0 f1 ... f7 equals b4^(3/2) cos z",
+      record=f"{THEORY_PY}, check sqrt_det_g_equals_b4_cos_z")
 for name, value in zip(NAMES, f):
     report(f"f_{name}", f"{value:.6f}")
 ```
 
-The two comment lines say what the next line builds: `authors` writes the author's eight metric entries directly, copied from the author's matrix and not from the factors $f_a$, so that the comparison is a real test. `np.allclose(x, y, rtol=1e-14, atol=0)` is true when every entry of `x` differs from the entry of `y` by less than $10^{-14}$ times its size (a relative tolerance; floating-point numbers carry about 16 significant digits). The second check compares the product of the eight factors (`np.prod`) with $\cos z$, the computation of Section 9.2. `zip(NAMES, f)` pairs each name with its factor, and `report` prints each with six decimals (the format `:.6f`): $f_{x_1} = e^{0.5}\sin^{1/6}(\pi/4) = 1.6487213 \cdot 0.9438743 = 1.556186$, $f_{x_4} = 1$, $f_{x_5} = e^{-0.5}\sin^{1/6}(\pi/4) = 0.6065307 \cdot 0.9438743 = 0.572489$ and $f_{x_0} = \cot(\pi/4) = 1$ (each factor written with seven decimals and each product rounded to six, the precision that the notebook prints; with factors rounded to four decimals the sixth decimal of a product would come out wrong).
+The two comment lines say what the next line builds: `authors` writes the author's eight metric entries directly, copied from the author's matrix and not from the factors $f_a$, so that the comparison is a real test. `np.allclose(x, y, rtol=1e-14, atol=0)` is true when every entry of `x` differs from the entry of `y` by less than $10^{-14}$ times its size (a relative tolerance; floating-point numbers carry about 16 significant digits). The second check compares the product of the eight factors (`np.prod`) with $b_4^{3/2}\cos z$, the computation of Section 9.2. `zip(NAMES, f)` pairs each name with its factor, and `report` prints each with six decimals (the format `:.6f`): $f_{x_0} = \cot(\pi/4) = 1$, $f_{x_1} = e^{0.5}\sin^{1/6}(\pi/4) = 1.6487213 \cdot 0.9438743 = 1.556186$, $f_{x_4} = 1$ and $f_{x_5} = e^{-0.5}e^{1/3}\sin^{1/6}(\pi/4) = e^{-1/6}\sin^{1/6}(\pi/4) = 0.8464817 \cdot 0.9438743 = 0.798972$ (each factor written with seven decimals and each product rounded to six, the precision that the notebook prints; with factors rounded to four decimals the sixth decimal of a product would come out wrong).
 
 **In [4], the weights of the kinetic terms (Figure 09a.1).**
 
@@ -834,11 +850,13 @@ from matplotlib.ticker import NullFormatter  # a tick label that prints nothing
 a4_axis = np.linspace(-2.0, 2.0, 401)  # values of a4 for the left panel
 z_axis = np.linspace(0.02, 1.50, 400)  # values of z for the right panel
 fig, (left, right) = plt.subplots(1, 2, figsize=(9.6, 3.9))
-weights_a4 = np.array([1 / frame_factors(value, z) for value in a4_axis])
-weights_z = np.array([1 / frame_factors(a4, value) for value in z_axis])
+# along the history b4 = e^(beta a4) (since a4 = A H x4 and b4 = e^(beta A H x4))
+weights_a4 = np.array([1 / frame_factors(value, np.exp(beta * value), z)
+                       for value in a4_axis])
+weights_z = np.array([1 / frame_factors(a4, b4, value) for value in z_axis])
 ```
 
-`np.linspace(a, b, n)` makes `n` equally spaced numbers from `a` to `b`. `plt.subplots(1, 2, ...)` makes a figure with one row of two panels, named `left` and `right`, 9.6 by 3.9 inches. `weights_a4` is a table with one row per value of $a_4$ and eight columns, the weights $1/f_\mu$ at $z = \pi/4$; `weights_z` is the same against $z$ at $a_4 = 0.5$.
+`np.linspace(a, b, n)` makes `n` equally spaced numbers from `a` to `b`. `plt.subplots(1, 2, ...)` makes a figure with one row of two panels, named `left` and `right`, 9.6 by 3.9 inches. `weights_a4` is a table with one row per value of $a_4$ and eight columns, the weights $1/f_\mu$ at $z = \pi/4$ along the history, where $b_4 = e^{\beta a_4}$ (because $a_4 = AHx_4$ and $b_4 = e^{\beta AHx_4}$, as the comment says); `weights_z` is the same against $z$ at the point ($a_4 = 0.5$, $b_4 = e^{2/3}$).
 
 ```python
 for panel, axis, weights in ((left, a4_axis, weights_a4), (right, z_axis, weights_z)):
@@ -851,15 +869,15 @@ for panel, axis, weights in ((left, a4_axis, weights_a4), (right, z_axis, weight
     panel.set_ylabel("weight $1/f_\\mu$")
 ```
 
-The loop runs twice, once per panel. `weights[:, 1]` is column 1 of the table (all rows), the weight of $x_1$; columns 4, 5 and 0 are $x_4$, $x_5$ and $x_0$. The style string of two hyphens draws a dashed line and `":"` a dotted one; `label` is the name in the legend; text between dollar signs is typeset as mathematics, and a backslash inside a Python string is written twice. On a **logarithmic axis** equal ratios are equal distances, so a function $e^{\pm a_4}$ appears as a straight line. The minor ticks get no labels.
+The loop runs twice, once per panel. `weights[:, 1]` is column 1 of the table (all rows), the weight of $x_1$; columns 4, 5 and 0 are $x_4$, $x_5$ and $x_0$. The style string of two hyphens draws a dashed line and `":"` a dotted one; `label` is the name in the legend; text between dollar signs is typeset as mathematics, and a backslash inside a Python string is written twice. On a **logarithmic axis** equal ratios are equal distances, so an exponential such as $e^{-a_4}$ or $e^{a_4/3}$ appears as a straight line. The minor ticks get no labels.
 
 ```python
 ticks = [0.03, 0.1, 0.2, 0.5, 1, 2, 5, 10]  # plain numbers on the vertical axes
 left.set_yticks(ticks[2:7], [str(t) for t in ticks[2:7]])
 right.set_yticks(ticks, [str(t) for t in ticks])
-left.set_xlabel("$a_4$ (at $z = \\pi/4$)")
-right.set_xlabel("$z = 6 H x_0$ (at $a_4 = 0.5$)")
-left.set_title("Weights against $a_4$")
+left.set_xlabel("$a_4$ (history: $b_4 = e^{4a_4/3}$; $z = \\pi/4$)")
+right.set_xlabel("$z = 6 H x_0$ (at $a_4 = 0.5$, $b_4 = e^{2/3}$)")
+left.set_title("Weights along the history")
 right.set_title("Weights against $z$")
 left.legend(fontsize=8)
 save_figure(fig, "kinetic_weights",
@@ -867,28 +885,29 @@ save_figure(fig, "kinetic_weights",
             ...)
 ```
 
-These lines put plain numbers on the vertical axes (`ticks[2:7]` is the part of the list from position 2 up to, not including, position 7), label the axes, set the titles, draw the legend in the left panel and save the figure as `09a_1_kinetic_weights.png` with its caption. **What Figure 09a.1 shows.** Both panels plot the weight $1/f_\mu$ (a pure number) on a logarithmic vertical axis. Left, against $a_4$: the 3-space weight $e^{-a_4}\sin^{-1/6}z$ falls and the extra-time weight $e^{a_4}\sin^{-1/6}z$ rises, two straight lines of opposite slope; the time weight 1 and the hidden weight $\tan(\pi/4) = 1$ lie on top of each other. The student should see that as the extra times deflate, derivatives along them count more and more in $\rho$ and in the pressures. Right, against $z$: the hidden weight $\tan z$ grows without bound near $z = \pi/2$.
+These lines put plain numbers on the vertical axes (`ticks[2:7]` is the part of the list from position 2 up to, not including, position 7), label the axes, set the titles, draw the legend in the left panel and save the figure as `09a_1_kinetic_weights.png` with its caption. **What Figure 09a.1 shows.** Both panels plot the weight $1/f_\mu$ (a pure number) on a logarithmic vertical axis. Left, against $a_4$ along the history: the 3-space weight $e^{-a_4}\sin^{-1/6}z$ falls and the extra-time weight $e^{a_4}b_4^{-1/2}\sin^{-1/6}z = e^{a_4/3}\sin^{-1/6}z$ rises, two straight lines of opposite sign and a third of the slope; the time weight 1 and the hidden weight $\tan(\pi/4) = 1$ lie on top of each other. The student should see that as the extra times deflate, derivatives along them count more and more in $\rho$ and in the pressures. Right, against $z$: the hidden weight $\tan z$ grows without bound near $z = \pi/2$.
 
 **In [5], the spin connection at the point.**
 
 ```python
-def spin_connection(a4_value, a4p_value, z_value):
+def spin_connection(a4_value, a4p_value, b4_value, b4p_value, z_value):
     """The eight 16 x 16 matrices Omega_mu of the record's formula Omega_components."""
     s = np.sin(z_value) ** (1 / 6)  # sin^(1/6) z
+    rate = a4p_value - b4p_value / (2 * b4_value)  # r = a4' - b4'/(2 b4)
     omega = [np.zeros((16, 16)) for _ in range(8)]  # Omega_x4 = Omega_x0 = 0
     for i in range(1, 4):  # the three 3-space directions x1, x2, x3
         omega[i] = 0.5 * np.exp(a4_value) * s * (
             a4p_value * gamma[i] @ gamma[4] + H * gamma[i] @ gamma[0])
     for t in range(5, 8):  # the three extra times x5, x6, x7
-        omega[t] = -0.5 * np.exp(-a4_value) * s * (
-            a4p_value * gamma[4] @ gamma[t] + H * gamma[t] @ gamma[0])
+        omega[t] = -0.5 * np.exp(-a4_value) * np.sqrt(b4_value) * s * (
+            rate * gamma[4] @ gamma[t] + H * gamma[t] @ gamma[0])
     return omega
 ```
 
-The function writes the formula of Section 9.2 literally. It starts with eight zero matrices (`np.zeros((16, 16))`; the name `_` is used for a loop counter that is not needed), which stay zero for $x_4$ and $x_0$, then fills the 3-space entries $\Omega_{x_i} = \frac12e^{a_4}\sin^{1/6}z\,(a_4'\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(0)})$ at the indices 1, 2, 3 (`range(1, 4)`) and the extra-time entries $\Omega_{x_t} = -\frac12e^{-a_4}\sin^{1/6}z\,(a_4'\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(0)})$ at the indices 5, 6, 7 (`range(5, 8)` is 5, 6, 7): the index is the direction.
+The function writes the formula of Section 9.2 literally. It starts with eight zero matrices (`np.zeros((16, 16))`; the name `_` is used for a loop counter that is not needed), which stay zero for $x_4$ and $x_0$, then fills the 3-space entries $\Omega_{x_i} = \frac12e^{a_4}\sin^{1/6}z\,(a_4'\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(0)})$ at the indices 1, 2, 3 (`range(1, 4)`) and the extra-time entries $\Omega_{x_t} = -\frac12e^{-a_4}b_4^{1/2}\sin^{1/6}z\,(r\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(0)})$, with the rate `rate` $= r = a_4' - b_4'/(2b_4)$, at the indices 5, 6, 7 (`range(5, 8)` is 5, 6, 7): the index is the direction.
 
 ```python
-Omega = spin_connection(a4, a4p, z)
+Omega = spin_connection(a4, a4p, b4, b4p, z)
 gamma_up = [gamma[mu] / f[mu] for mu in range(8)]  # coordinate gammas gamma^mu
 gamma_down = [g_diag[mu] * gamma_up[mu] for mu in range(8)]  # gamma_mu
 # {gamma^mu, Omega_mu} for each mu separately: the largest entry of all eight.
@@ -906,15 +925,17 @@ check(anti < 1e-14
 ```python
 total = sum(gamma_up[mu] @ Omega[mu] for mu in range(8))  # gamma^mu Omega_mu, summed
 LEAD = "Revision/lead_checks/reports/emt-divergence-and-spin-connection.json"
-check(np.abs(total - 3 * H * gamma[0]).max() < 1e-14
-      and recorded(THEORY_PY, "gamma_mu_Omega_mu_equals_3H_gamma_x0") == "PASS"
-      and recorded(LEAD, "gamma_Omega_equals_3H_gamma0") == "PASS",
-      "gamma^mu Omega_mu = 3 H gamma^(x0) at the point",
-      record=f"{THEORY_PY}, check gamma_mu_Omega_mu_equals_3H_gamma_x0; {LEAD}, "
-             "check gamma_Omega_equals_3H_gamma0")
+M_term = 3 * H * gamma[0] + 0.75 * b4p / b4 * gamma[4]  # the term of the equation
+check(np.abs(total - M_term).max() < 1e-14
+      and recorded(THEORY_PY, "gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term")
+      == "PASS"
+      and recorded(LEAD, "gamma_Omega_equals_3H_gamma0_plus_b4_term") == "PASS",
+      "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) at the point",
+      record=f"{THEORY_PY}, check gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term; "
+             f"{LEAD}, check gamma_Omega_equals_3H_gamma0_plus_b4_term")
 ```
 
-`sum(...)` adds the eight products $\gamma^\mu\Omega_\mu$, and the check compares the result with $3H\gamma^{(0)} = 0.75\,\gamma^{(0)}$: Fact 2, which the theory record and the lead's independent check both state.
+`sum(...)` adds the eight products $\gamma^\mu\Omega_\mu$, and the check compares the result with `M_term` $= 3H\gamma^{(0)} + \frac34(b_4'/b_4)\gamma^{(4)} = 0.75\,\gamma^{(0)} + 0.25\,\gamma^{(4)}$: Fact 2, which the theory record and the lead's independent check both state.
 
 **In [6], the Dirac adjoint and the energy-momentum tensor.**
 
@@ -989,7 +1010,7 @@ report("S = Phibar Phi", f"{S:.6f}")
 report("L0", f"{L0:.6f}")
 ```
 
-`.imag` is the imaginary part. The first check confirms the reality of Section 9.6: the largest imaginary part is rounding noise, below $10^{-12}$. Then only the real parts are kept. `g_diag[:, None] * T` multiplies row $\nu$ of the table by $g_{\nu\nu}$ (`[:, None]` turns the eight numbers into a column, which numpy repeats across the eight columns of `T`), giving $T_{\nu\mu}$; the second check compares it with its transpose, the symmetry of Section 9.6 (the 56 entries off the diagonal form 28 pairs). The random values do not solve the field equation, and the table is symmetric because the notebook computes the symmetric (Belinfante) tensor; the tensor of the vielbein variation is in general not symmetric for values that do not solve the field equation (Section 9.6). The cell prints $S = -6.527875$ (negative: $S$ has no fixed sign) and $L_0 = 13.616346$.
+`.imag` is the imaginary part. The first check confirms the reality of Section 9.6: the largest imaginary part is rounding noise, below $10^{-12}$. Then only the real parts are kept. `g_diag[:, None] * T` multiplies row $\nu$ of the table by $g_{\nu\nu}$ (`[:, None]` turns the eight numbers into a column, which numpy repeats across the eight columns of `T`), giving $T_{\nu\mu}$; the second check compares it with its transpose, the symmetry of Section 9.6 (the 56 entries off the diagonal form 28 pairs). The random values do not solve the field equation, and the table is symmetric because the notebook computes the symmetric (Belinfante) tensor; the tensor of the vielbein variation is in general not symmetric for values that do not solve the field equation (Section 9.6). The cell prints $S = -6.527875$ (negative: $S$ has no fixed sign) and $L_0 = 8.428090$.
 
 **In [8], the heat map of the tensor (Figure 09a.2).**
 
@@ -1046,7 +1067,7 @@ check(abs(rho - (rho_kin + potential)) < 1e-12
       "rho = rho_kin + rho_pot and p_mu = (sum of the other K) - (m S + U)")
 ```
 
-These lines build the split of Section 9.7: `potential` is $mS + U$; `kinetic_parts[mu]` is $\sum_{\nu \neq \mu}K_\nu$; `rho` is $-T^{x_4}{}_{x_4}$ (row and column 3 are $x_4$); `rho_kin` is $-\sum_{\mu \neq x_4}K_\mu$. The check confirms $\rho = \rho_{\rm kin} + \rho_{\rm pot}$ and, for every direction, that the diagonal entry is its kinetic part minus $mS + U$.
+These lines build the split of Section 9.7: `potential` is $mS + U$; `kinetic_parts[mu]` is $\sum_{\nu \neq \mu}K_\nu$; `rho` is $-T^{x_4}{}_{x_4}$ (row and column 4 are $x_4$); `rho_kin` is $-\sum_{\mu \neq x_4}K_\mu$. The check confirms $\rho = \rho_{\rm kin} + \rho_{\rm pot}$ and, for every direction, that the diagonal entry is its kinetic part minus $mS + U$.
 
 ```python
 report("rho = -T^x4_x4", f"{rho:.6f}")
@@ -1056,7 +1077,7 @@ for mu in (0, 1, 2, 3, 5, 6, 7):
     report(f"pressure T^{NAMES[mu]}_{NAMES[mu]}", f"{T[mu, mu]:.6f}")
 ```
 
-The cell prints $\rho = -7.531406$, made of $\rho_{\rm kin} = -11.656818$ and $\rho_{\rm pot} = 4.125412$ (indeed $-11.656818 + 4.125412 = -7.531406$), and the seven pressures, from $T^{x_7}{}_{x_7} = -1.976597$ to $T^{x_2}{}_{x_2} = 21.578866$. The energy density of this random configuration is negative, and the three 3-space pressures differ from each other (as do the three extra-time pressures): a random configuration is not isotropic.
+The cell prints $\rho = -2.343149$, made of $\rho_{\rm kin} = -6.468561$ and $\rho_{\rm pot} = 4.125412$ (indeed $-6.468561 + 4.125412 = -2.343149$), and the seven pressures, from $T^{x_7}{}_{x_7} = -2.744742$ to $T^{x_2}{}_{x_2} = 16.390609$. The energy density of this random configuration is negative, and the three 3-space pressures differ from each other (as do the three extra-time pressures): a random configuration is not isotropic.
 
 **In [10], the diagonal entries and their two parts (Figure 09a.3).**
 
@@ -1104,20 +1125,21 @@ report("|E| of the random configuration (it is off shell)",
        f"{np.linalg.norm(E):.6f}")
 ```
 
-`np.trace(T)` is the sum of the diagonal. The two checks confirm, for the random (off-shell) configuration, the trace identity and the kinetic-sum identity of Section 9.8. `np.linalg.norm(E)` is the length of the column $E$, the square root of the sum of the squared sizes of its 16 entries; it is 19.335808, far from zero: the random configuration does not satisfy the field equation.
+`np.trace(T)` is the sum of the diagonal. The two checks confirm, for the random (off-shell) configuration, the trace identity and the kinetic-sum identity of Section 9.8. `np.linalg.norm(E)` is the length of the column $E$, the square root of the sum of the squared sizes of its 16 entries; it is 17.730000, far from zero: the random configuration does not satisfy the field equation.
 
 ```python
 # The evolution form of the field equation gives d4 Phi from the other derivatives.
 rest = sum(gamma[a] @ dPhi[a] / f[a] for a in range(8) if a != 4)
 dPhi_on = dPhi.copy()
-dPhi_on[4] = -gamma[4] @ (V * Phi - rest - 3 * H * gamma[0] @ Phi)
+dPhi_on[4] = (-gamma[4] @ (V * Phi - rest - 3 * H * gamma[0] @ Phi)
+              - 0.75 * b4p / b4 * Phi)
 E_on = sum(gamma_up[mu] @ (dPhi_on[mu] + Omega[mu] @ Phi) for mu in range(8)) - V * Phi
 S_on, U_on, L0_on, K_on, T_on = energy_momentum(Phi, dPhi_on, f, gamma_up, gamma_down,
                                                 Omega)
 check(np.abs(E_on).max() < 1e-12, "with d4 Phi from the evolution form, E = 0")
 ```
 
-Now the configuration is put on shell at the point. `rest` is $\sum_{a \neq 4}\frac{1}{f_a}\gamma^{(a)}\partial_a\Phi$ (the `if a != 3` in the comprehension skips $x_4$). `dPhi.copy()` makes a separate copy of the table, so that the random one is kept, and its row 3 is replaced by the evolution form of Section 9.2, $\partial_4\Phi = -\gamma^{(4)}[V\Phi - \text{rest} - 3H\gamma^{(0)}\Phi]$. The value of $\Phi$ and the other seven derivatives are unchanged, so $S$ and $V$ are unchanged. The field-equation expression is computed again, and the tensor of the new jet; the check confirms that now $E = 0$ up to rounding.
+Now the configuration is put on shell at the point. `rest` is $\sum_{a \neq 4}\frac{1}{f_a}\gamma^{(a)}\partial_a\Phi$ (the `if a != 4` in the comprehension skips $x_4$). `dPhi.copy()` makes a separate copy of the table, so that the random one is kept, and its row 4 is replaced by the evolution form of Section 9.2, $\partial_4\Phi = -\gamma^{(4)}[V\Phi - \text{rest} - 3H\gamma^{(0)}\Phi] - \frac34\frac{b_4'}{b_4}\Phi$. The value of $\Phi$ and the other seven derivatives are unchanged, so $S$ and $V$ are unchanged. The field-equation expression is computed again, and the tensor of the new jet; the check confirms that now $E = 0$ up to rounding.
 
 ```python
 check(abs(K_on.real.sum() - V * S) < 1e-11
@@ -1143,7 +1165,7 @@ expected = 0.5 * np.exp(a4) * np.sin(z) ** (1 / 6) * H * (
     bar(Phi) @ gamma[4] @ gamma[1] @ gamma[0] @ Phi)
 ```
 
-A homogeneous jet has only the time derivative: the table `dPhi_hom` is zero except row 3, which is drawn at random. Then $D_{x_1}\Phi = \Omega_{x_1}\Phi$ and $D_{x_1}\bar\Phi = -\bar\Phi\Omega_{x_1}$ (the derivative parts are zero), `K_41` is $K^{x_4}{}_{x_1} = \frac12(\bar\Phi\gamma^{x_4}D_{x_1}\Phi - D_{x_1}\bar\Phi\gamma^{x_4}\Phi)$, and `expected` is the result of Section 9.12, $\frac12e^{a_4}\sin^{1/6}z\,H\,\bar\Phi\gamma^{(4)}\gamma^{(1)}\gamma^{(0)}\Phi$.
+A homogeneous jet has only the time derivative: the table `dPhi_hom` is zero except row 4, which is drawn at random. Then $D_{x_1}\Phi = \Omega_{x_1}\Phi$ and $D_{x_1}\bar\Phi = -\bar\Phi\Omega_{x_1}$ (the derivative parts are zero), `K_41` is $K^{x_4}{}_{x_1} = \frac12(\bar\Phi\gamma^{x_4}D_{x_1}\Phi - D_{x_1}\bar\Phi\gamma^{x_4}\Phi)$, and `expected` is the result of Section 9.12, $\frac12e^{a_4}\sin^{1/6}z\,H\,\bar\Phi\gamma^{(4)}\gamma^{(1)}\gamma^{(0)}\Phi$.
 
 ```python
 SCOPE_PY = "Revision/theory/reports/python-scope.json"
@@ -1167,13 +1189,14 @@ import sympy as sp  # exact algebra and calculus with symbols
 x = sp.symbols("x0:8", real=True)  # the coordinates x0, ..., x7 (x[0] ... x[7])
 Hs = sp.symbols("H", positive=True)  # the author's constant, as a symbol
 a4_function = sp.Function("a4")(x[4])  # a general function a4(x4)
+b4_function = sp.Function("b4", positive=True)(x[4])  # a general positive b4(x4)
 zs = 6 * Hs * x[0]  # z = 6 H x0
 space_entry = sp.exp(2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
-extra_entry = -sp.exp(-2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
+extra_entry = -b4_function * sp.exp(-2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
 g = sp.diag(*([sp.cot(zs) ** 2] + [space_entry] * 3 + [-1] + [extra_entry] * 3))
 ```
 
-From here on the notebook computes exactly, with symbols instead of numbers. `sp.symbols("x0:8", real=True)` makes the eight real symbols $x_0, \dots, x_7$, stored as `x[0]` to `x[7]`; `Hs` is the symbol $H$, declared positive. `sp.Function("a4")(x[4])` is an unknown function $a_4(x_4)$: the results hold for every history. `sp.Rational(1, 3)` is the exact fraction $1/3$ (the Python number `1 / 3` would be rounded). `sp.diag(*list)` builds the diagonal matrix with the list on its diagonal (the star hands the items of the list over as separate arguments): the author's metric, symbol by symbol.
+From here on the notebook computes exactly, with symbols instead of numbers. `sp.symbols("x0:8", real=True)` makes the eight real symbols $x_0, \dots, x_7$, stored as `x[0]` to `x[7]`; `Hs` is the symbol $H$, declared positive. `sp.Function("a4")(x[4])` is an unknown function $a_4(x_4)$ and `sp.Function("b4", positive=True)(x[4])` an unknown positive function $b_4(x_4)$: the results hold for all functions $a_4$ and $b_4$. `sp.Rational(1, 3)` is the exact fraction $1/3$ (the Python number `1 / 3` would be rounded). `sp.diag(*list)` builds the diagonal matrix with the list on its diagonal (the star hands the items of the list over as separate arguments): the author's metric, symbol by symbol.
 
 ```python
 christoffel = {}  # (lambda, mu, nu) -> Gamma^lambda_mu nu, only the nonzero ones
@@ -1193,20 +1216,25 @@ The three loops take every $\lambda$ (`l`) and every pair $\mu \le \nu$ (`i`, `j
 
 ```python
 a4s, a4ps = sp.symbols("a4 a4p", real=True)  # plain symbols for a4 and da4/dx4
+b4s = sp.Symbol("b4", positive=True)  # plain symbol for b4
+b4ps = sp.Symbol("b4p", real=True)  # plain symbol for db4/dx4
 
 
 def plain(expression):
-    """Replace da4/dx4 by the symbol a4p and a4(x4) by the symbol a4."""
-    return expression.subs(sp.Derivative(a4_function, x[4]), a4ps).subs(
-        a4_function, a4s)
+    """Replace the derivatives and the functions a4(x4), b4(x4) by plain symbols."""
+    expression = expression.subs({sp.Derivative(a4_function, x[4]): a4ps,
+                                  sp.Derivative(b4_function, x[4]): b4ps})
+    return expression.subs({a4_function: a4s, b4_function: b4s})
 ```
 
-The record writes $a_4$ and $a_4'$ as plain names. `plain` makes our symbols comparable: `.subs(old, new)` replaces every occurrence of `old` by `new`; the derivative is replaced first (replacing $a_4(x_4)$ first would destroy it).
+The record writes $a_4$, $a_4'$, $b_4$ and $b_4'$ as plain names. `plain` makes our symbols comparable: `.subs` with a dictionary replaces every occurrence of each key by its value; the derivatives are replaced first (replacing $a_4(x_4)$ first would destroy them).
 
 ```python
 WOLFRAM_TO_SYMPY = [  # (Wolfram text, sympy text), applied in this order
-    ("Derivative[1][a4][x4]", "a4p"), ("Derivative[1, 0][rho][x4, x0]", "rho_4"),
+    ("Derivative[1][a4][x4]", "a4p"), ("Derivative[1][b4][x4]", "b4p"),
+    ("Derivative[1, 0][rho][x4, x0]", "rho_4"),
     ("Derivative[0, 1][p0][x4, x0]", "p0_0"), ("[x4, x0]", ""), ("a4[x4]", "a4"),
+    ("b4[x4]", "b4"),
     ("Sin[", "sin("), ("Cos[", "cos("), ("Cot[", "cot("), ("Sec[", "sec("),
     ("Csc[", "csc("), ("E^", "E**"), ("^", "**"), ("[", "("), ("]", ")"),
     ("{", "["), ("}", "]")]
@@ -1224,7 +1252,8 @@ The record's formulas are written in the Wolfram Language, which uses square bra
 ```python
 FORMULAS = {item["key"]: item["wl"] for item in json.loads(repository_file(
     "Revision/theory/field-theory.json").read_text(encoding="utf-8"))["formulas"]}
-NAMES_SYMPY = {"a4": a4s, "a4p": a4ps, "H": Hs, "x0": x[0], "E": sp.E}
+NAMES_SYMPY = {"a4": a4s, "a4p": a4ps, "b4": b4s, "b4p": b4ps, "H": Hs, "x0": x[0],
+               "E": sp.E}
 record_list = sp.sympify(from_wolfram(FORMULAS["christoffel_nonzero"]),
                          locals=NAMES_SYMPY)
 # The record counts the coordinates 1 ... 8; Python counts 0 ... 7.
@@ -1232,7 +1261,7 @@ record_symbols = {(int(e[0]) - 1, int(e[1]) - 1, int(e[2]) - 1): e[3]
                   for e in record_list}
 ```
 
-`FORMULAS` is a **dictionary comprehension**: it maps the key of every formula of the record file to its Wolfram text. `sp.sympify(text, locals=...)` reads a translated text as a sympy expression, with the names `a4`, `a4p`, `H`, `x0` and `E` (Euler's number $e$) bound to our symbols. The record's list consists of entries $\{\lambda, \mu, \nu, \Gamma^\lambda{}_{\mu\nu}\}$ with the coordinates counted from 1; `record_symbols` stores them under keys counted from 0.
+`FORMULAS` is a **dictionary comprehension**: it maps the key of every formula of the record file to its Wolfram text. `sp.sympify(text, locals=...)` reads a translated text as a sympy expression, with the names `a4`, `a4p`, `b4`, `b4p`, `H`, `x0` and `E` (Euler's number $e$) bound to our symbols. The record's list consists of entries $\{\lambda, \mu, \nu, \Gamma^\lambda{}_{\mu\nu}\}$ with the coordinates counted from 1; `record_symbols` stores them under keys counted from 0.
 
 ```python
 same = sorted(record_symbols) == sorted(christoffel) and all(
@@ -1289,24 +1318,25 @@ def plain_t(expression):
     """Write the derivatives and functions as the plain symbols of the record."""
     expression = expression.subs({sp.Derivative(rho_f, x[4]): rho_4,
                                   sp.Derivative(p0_f, x[0]): p0_0})
-    expression = expression.subs({p3_f: p3s, pt_f: pts, p0_f: p0s,
-                                  rho_f: sp.Symbol("rho", real=True)})
+    expression = expression.subs({p3_f: p3s, pt_f: pts, p0_f: p0s, rho_f: rho_s})
     return plain(expression)
 ```
 
 `plain_t` writes our results with the record's plain names: $\partial_4\rho$ as `rho_4`, $\partial_0p_0$ as `p0_0`, and the four functions as plain symbols; `.subs` also accepts a dictionary of replacements.
 
 ```python
-NAMES_T = dict(NAMES_SYMPY, rho_4=rho_4, p0_0=p0_0, p3=p3s, pt=pts, p0=p0s)
+rho_s = sp.Symbol("rho", real=True)  # the plain symbol for rho
+NAMES_T = dict(NAMES_SYMPY, rho_4=rho_4, p0_0=p0_0, p3=p3s, pt=pts, p0=p0s, rho=rho_s)
 record_divergence = sp.sympify(from_wolfram(FORMULAS["energy_exchange"][0]),
                                locals=NAMES_T)
 agree = all(sp.simplify(plain_t(divergence[n]) - record_divergence[n]) == 0
             for n in range(8))
-x4_line = -rho_4 - 3 * a4ps * (p3s - pts)
+x4_line = (-rho_4 - 3 * a4ps * (p3s - pts)
+           - sp.Rational(3, 2) * b4ps / b4s * (rho_s + pts))
 x0_line = p0_0 + 3 * Hs * sp.cot(zs) * (2 * p0s - p3s - pts)
 ```
 
-`NAMES_T` extends the dictionary of names. The record's formula `energy_exchange` is a list of three texts; the first one (`[0]`) is the list of all eight components of the divergence, which `record_divergence` reads. `agree` is true when each of our eight components equals the record's, exactly. `x4_line` and `x0_line` are the two results of Section 9.9, typed by hand.
+`rho_s` is the plain symbol $\rho$, which `plain_t` uses, and `NAMES_T` extends the dictionary of names. The record's formula `energy_exchange` is a list of three texts; the first one (`[0]`) is the list of all eight components of the divergence, which `record_divergence` reads. `agree` is true when each of our eight components equals the record's, exactly. `x4_line` and `x0_line` are the two results of Section 9.9, typed by hand.
 
 ```python
 check(agree and recorded(THEORY_WL, "energy_exchange_equation") == "PASS"
@@ -1315,7 +1345,7 @@ check(agree and recorded(THEORY_WL, "energy_exchange_equation") == "PASS"
       record=f"{THEORY_WL} and {THEORY_PY}, check energy_exchange_equation")
 check(sp.simplify(plain_t(divergence[4]) - x4_line) == 0
       and recorded(LEAD, "divergence_x4_component") == "PASS",
-      "nabla_mu T^mu_x4 = -d4 rho - 3 a4p (p3 - p_t)",
+      "nabla_mu T^mu_x4 = -d4 rho - 3 a4p (p3 - p_t) - (3/2)(b4p/b4)(rho + p_t)",
       record=f"{LEAD}, check divergence_x4_component")
 check(sp.simplify(plain_t(divergence[0]) - x0_line) == 0
       and recorded(LEAD, "divergence_x0_component") == "PASS",
@@ -1325,24 +1355,26 @@ check(all(divergence[n] == 0 for n in (1, 2, 3, 5, 6, 7))
       and recorded(LEAD, "divergence_other_components_zero") == "PASS",
       "the components x1, x2, x3, x5, x6, x7 vanish identically",
       record=f"{LEAD}, check divergence_other_components_zero")
-print("nabla_mu T^mu_x4 =", x4_line)  # rho_4 = d rho/d x4
+print("nabla_mu T^mu_x4 =", x4_line)  # rho_4 = d rho/d x4, b4p = d b4/d x4
 print("nabla_mu T^mu_x0 =", x0_line)  # p0_0 = d p0/d x0
 ```
 
-Four checks: all eight components agree with the record's formula (whose check passed in both engines); the $x_4$ component and the $x_0$ component equal the hand-derived lines (and the lead's independent checks passed); and the other six components are zero. The last two lines print the two identities in sympy's spelling, `-3*a4p*(p3 - pt) - rho_4` and `3*H*(-p3 + 2*p0 - pt)*cot(6*H*x0) + p0_8`.
+Four checks: all eight components agree with the record's formula (whose check passed in both engines); the $x_4$ component and the $x_0$ component equal the hand-derived lines (and the lead's independent checks passed); and the other six components are zero. The last two lines print the two identities in sympy's spelling, `-3*a4p*(p3 - pt) - rho_4 - 3*b4p*(pt + rho)/(2*b4)` and `3*H*(2*p0 - p3 - pt)*cot(6*H*x0) + p0_0`.
 
 **In [17], the first-law reading.**
 
 ```python
 f_space = sp.exp(a4_function) * sp.sin(zs) ** sp.Rational(1, 6)  # f1 = f2 = f3
-f_extra = sp.exp(-a4_function) * sp.sin(zs) ** sp.Rational(1, 6)  # f5 = f6 = f7
+f_extra = (sp.exp(-a4_function) * sp.sqrt(b4_function)
+           * sp.sin(zs) ** sp.Rational(1, 6))  # f5 = f6 = f7
 V3 = f_space ** 3  # e^(3 a4) sin^(1/2) z
-Vt = f_extra ** 3  # e^(-3 a4) sin^(1/2) z
+Vt = f_extra ** 3  # e^(-3 a4) b4^(3/2) sin^(1/2) z
 V7 = V3 * Vt * sp.cot(zs)  # times f0 = cot z (and f4 = 1)
-check(sp.simplify(V7 - sp.cos(zs)) == 0, "V3 Vt f0 = cos z, independent of x4")
+check(sp.simplify(V7 - b4_function ** sp.Rational(3, 2) * sp.cos(zs)) == 0,
+      "V3 Vt f0 = b4^(3/2) cos z, which depends on x4 only through b4")
 ```
 
-These lines build the three volumes of Section 9.10 with symbols and check $V_7 = \cos z$ exactly.
+These lines build the three volumes of Section 9.10 with symbols and check $V_7 = b_4^{3/2}\cos z$ exactly.
 
 ```python
 first_law = (sp.diff(rho_f * V7, x[4]) + p3_f * V7 / V3 * sp.diff(V3, x[4])
@@ -1359,22 +1391,23 @@ check(sp.simplify(first_law + V7 * divergence[4]) == 0,
 ```python
 x4_axis = np.linspace(0.0, 8.0, 401)  # the time x4
 growth = np.exp(3 * A * H * x4_axis)  # V3(x4)/V3(0) = e^(3 A H x4)
+b4_growth = np.exp(1.5 * beta * A * H * x4_axis)  # b4^(3/2) = e^(2 A H x4)
 fig, ax = plt.subplots()
 ax.plot(x4_axis, growth, label="3-space volume $V_3$ (inflates)")
-ax.plot(x4_axis, 1 / growth, "--", label="extra-time volume $V_t$ (deflates)")
-ax.plot(x4_axis, growth / growth, ":", color="black",
-        label="7-volume $V_7 = V_3 V_t \\cot z$ (constant)")
+ax.plot(x4_axis, b4_growth / growth, "--", label="extra-time volume $V_t$ (deflates)")
+ax.plot(x4_axis, b4_growth, ":", color="black",
+        label="7-volume $V_7 = V_3 V_t \\cot z$ (grows with $b_4$)")
 ax.set_yscale("log")
 ax.set_xlabel("time $x_4$")
 ax.set_ylabel("volume divided by its value at $x_4 = 0$")
-ax.set_title("Volumes along the history $a_4 = A H x_4$ ($A = 1$, $H = 0.25$)")
+ax.set_title("Volumes along the history ($A = 1$, $\\beta = 4/3$, $H = 0.25$)")
 ax.legend()
 save_figure(fig, "volumes_first_law",
             "The 3-space volume $V_3 = e^{3a_4}\\sin^{1/2}z$ (solid), the "
             ...)
 ```
 
-On the history $a_4 = AHx_4$ the ratio $V_3(x_4)/V_3(0)$ is $e^{3AHx_4}$, the ratio for $V_t$ is its inverse, and the ratio for $V_7$ is 1 (`growth / growth`). **What Figure 09a.4 shows.** The three volume ratios (pure numbers) against the time $x_4$ from 0 to 8 on a logarithmic axis: $V_3$ rises along a straight line to $e^{6} \approx 403$, $V_t$ falls along the mirror line to $e^{-6}$, and $V_7$ stays at 1. The student should see that the extra times deflate, exponentially, and that their shrinking exactly compensates the growth of 3-space; this is why the energy density changes only through the difference $p_3 - p_t$.
+On the history the ratio $V_3(x_4)/V_3(0)$ is $e^{3AHx_4}$, the ratio for $V_7$ is $b_4^{3/2}$ (in the unit $b_4(0)$), that is $e^{\frac32\beta AHx_4} = e^{2AHx_4}$ (`b4_growth`), and the ratio for $V_t = V_7/(V_3\cot z)$ is their quotient, $e^{-AHx_4}$. **What Figure 09a.4 shows.** The three volume ratios (pure numbers) against the time $x_4$ from 0 to 8 on a logarithmic axis: $V_3$ rises along a straight line to $e^{6} \approx 403$, $V_t$ falls along a line of a third of that slope to $e^{-2} \approx 0.135$, and $V_7$ rises to $e^{4} \approx 54.6$. The student should see that the extra times deflate, exponentially, but slower than 3-space inflates, so that the 7-volume grows like $b_4^{3/2}$; the energy density therefore changes through the difference $p_3 - p_t$ and through the dilution $-\frac32\frac{b_4'}{b_4}(\rho + p_t)$.
 
 **In [19], the x0 identity with sympy.**
 
@@ -1471,31 +1504,37 @@ all_checks_passed()
 
 The cell reads the captions file back, checks that it holds exactly the five figure names (sorted) and that the five files exist, and prints the last line, `ALL 27 CHECKS PASSED (notebook 09a)`: two checks each in In [2], In [3], In [5], In [7] and In [9], four in In [11], one each in In [12] and In [14], four in In [16], two in In [17], three in In [19], and one each in In [20] and In [21].
 
-### 9.18 Condensates: exact solutions that depend on the time only
+### 9.18 Condensates: solutions that depend on the time only
 
-A **condensate** (also called a **homogeneous configuration**) is a field that is the same at every place: it depends on the time $x_4$ only, not on $x_1, x_2, x_3, x_5, x_6, x_7, x_0$. Condensates are the simplest candidates for a smooth cosmological fluid, and the field equation can be solved for them exactly.
+A **condensate** (also called a **homogeneous configuration**) is a field that is the same at every place: it depends on the time $x_4$ only, not on $x_0, x_1, x_2, x_3, x_5, x_6, x_7$. Condensates are the simplest candidates for a smooth cosmological fluid, and the record reduces their field equation to a linear system of 16 equations.
 
 **The field equation of a condensate.** In the explicit field equation of Section 9.2 every derivative term with $a \neq 4$ vanishes, and $f_4 = 1$:
 
 $$
-\gamma^{(4)}\partial_4\Phi + 3H\gamma^{(0)}\Phi = V\Phi, \qquad V = m + \lambda S .
+\gamma^{(4)}\partial_4\Phi + 3H\gamma^{(0)}\Phi + \frac34\frac{b_4'}{b_4}\gamma^{(4)}\Phi = V\Phi, \qquad V = m + \lambda S .
 $$
 
-Multiply from the left by $-\gamma^{(4)}$. Because $(\gamma^{(4)})^2 = -1$, the first term becomes $-\gamma^{(4)}\gamma^{(4)}\partial_4\Phi = \partial_4\Phi$, the second $-3H\gamma^{(4)}\gamma^{(0)}\Phi$, and the right side $-V\gamma^{(4)}\Phi$. Moving the second term to the right:
+**Removing the dilution.** Write $\Phi = b_4^{-3/4}\chi$. Because $\frac{d}{dx_4}b_4^{-3/4} = -\frac34b_4^{-7/4}b_4' = -\frac34\frac{b_4'}{b_4}b_4^{-3/4}$, the product rule gives $\partial_4\Phi = b_4^{-3/4}\big(\chi' - \frac34\frac{b_4'}{b_4}\chi\big)$, where $\chi' = d\chi/dx_4$. Inserted, the two terms with $b_4'$ cancel:
 
 $$
-\partial_4\Phi = M\Phi, \qquad M = -V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(0)} .
+\gamma^{(4)}\partial_4\Phi + \frac34\frac{b_4'}{b_4}\gamma^{(4)}\Phi = b_4^{-3/4}\Big(\gamma^{(4)}\chi' - \frac34\frac{b_4'}{b_4}\gamma^{(4)}\chi + \frac34\frac{b_4'}{b_4}\gamma^{(4)}\chi\Big) = b_4^{-3/4}\gamma^{(4)}\chi' .
 $$
 
-Neither $a_4$ nor $x_0$ appears: the same condensate solves the field equation on every history $a_4(x_4)$, the deflating one included. (This is the effect of Section 9.3: the connection enters only as $3H\gamma^{(0)}$, which contains no $a_4$.)
-
-**The scalar $S$ is constant.** The equation is nonlinear, because $V$ contains $S = \Phi^\dagger C\Phi$. But $S$ does not change. By the product rule,
+Divide the field equation by $b_4^{-3/4}$ and multiply it from the left by $-\gamma^{(4)}$. Because $(\gamma^{(4)})^2 = -1$, the first term becomes $\chi'$, the second $-3H\gamma^{(4)}\gamma^{(0)}\chi$, and the right side $-V\gamma^{(4)}\chi$. Moving the second term to the right:
 
 $$
-\frac{dS}{dx_4} = (\partial_4\Phi)^\dagger C\Phi + \Phi^\dagger C\,\partial_4\Phi = (M\Phi)^\dagger C\Phi + \Phi^\dagger CM\Phi = \Phi^\dagger\big(M^TC + CM\big)\Phi ,
+\chi' = M\chi, \qquad M = -V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(0)} .
 $$
 
-where the last step uses $(M\Phi)^\dagger = \Phi^\dagger M^\dagger$ and $M^\dagger = M^T$ ($M$ is real). Now compute $M^TC$. From the antisymmetry of $C\gamma^{(a)}$ and the symmetry of $C$: $\gamma^{(a)T}C = (C\gamma^{(a)})^T = -C\gamma^{(a)}$. Hence
+Neither $a_4$ nor $x_0$ appears, and $b_4$ appears only in the factor $b_4^{-3/4}$ and, through $S$, in $V$. (This is the effect of Section 9.3: the connection enters only as $3H\gamma^{(0)} + \frac34\frac{b_4'}{b_4}\gamma^{(4)}$, which contains no $a_4$, and the second term is removed by the factor $b_4^{-3/4}$; record entry `fields.condensate` of `Revision/field_equations_a4/a4-equations.json`.)
+
+**The scalar of $\chi$ is constant, and $S$ is diluted.** The equation is nonlinear, because $V$ contains $S = \Phi^\dagger C\Phi$. Consider first the number $\chi^\dagger C\chi$. By the product rule,
+
+$$
+\frac{d}{dx_4}\big(\chi^\dagger C\chi\big) = (M\chi)^\dagger C\chi + \chi^\dagger CM\chi = \chi^\dagger\big(M^TC + CM\big)\chi ,
+$$
+
+where the last step uses $(M\chi)^\dagger = \chi^\dagger M^\dagger$ and $M^\dagger = M^T$ ($M$ is real, because $V$ is a real number). Now compute $M^TC$. From the antisymmetry of $C\gamma^{(a)}$ and the symmetry of $C$: $\gamma^{(a)T}C = (C\gamma^{(a)})^T = -C\gamma^{(a)}$. Hence
 
 $$
 \begin{aligned}
@@ -1505,7 +1544,13 @@ M^TC &= -V\gamma^{(4)T}C + 3H\big(\gamma^{(4)}\gamma^{(0)}\big)^TC = VC\gamma^{(
 \end{aligned}
 $$
 
-The first line is the rule just stated; the second applies it twice (the transpose of a product is the product of the transposes in reverse order) and then uses $\gamma^{(0)}\gamma^{(4)} = -\gamma^{(4)}\gamma^{(0)}$; the third inserts both. So $M^TC + CM = 0$ and $dS/dx_4 = 0$: $S$ keeps its initial value $S_0 = \chi^\dagger C\chi$, where $\chi = \Phi(0)$. Then $V = m + \lambda S_0$ is a constant, and $M$ is a constant matrix.
+The first line is the rule just stated; the second applies it twice (the transpose of a product is the product of the transposes in reverse order) and then uses $\gamma^{(0)}\gamma^{(4)} = -\gamma^{(4)}\gamma^{(0)}$; the third inserts both. So $M^TC + CM = 0$ for every value of $V$, and $\chi^\dagger C\chi$ keeps its initial value $S_0 = \chi_0^\dagger C\chi_0$, where $\chi_0 = \chi(0)$ is the value at $x_4 = 0$ (in the unit $b_4(0) = 1$, so that $\Phi(0) = \chi_0$). The scalar of the field is therefore
+
+$$
+S = \Phi^\dagger C\Phi = b_4^{-3/2}\,\chi^\dagger C\chi = b_4^{-3/2}S_0 :
+$$
+
+$b_4^{3/2}S$ is constant, and $S$ is **diluted** as $b_4$ grows, at the rate at which the volume factor $b_4^{3/2}\cos z$ of Section 9.2 grows. On the history $b_4^{-3/2} = e^{-2AHx_4}$. Then $V = m + \lambda S_0b_4^{-3/2}$ is a known function of the time, and the equation $\chi' = M\chi$ is linear: once $S_0$ is fixed by the initial value, $M = M(x_4)$ no longer depends on $\chi$.
 
 **The square of $M$.** Multiply out $M^2 = (-V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(0)})(-V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(0)})$:
 
@@ -1517,26 +1562,28 @@ M^2 &= V^2\gamma^{(4)}\gamma^{(4)} - 3HV\big(\gamma^{(4)}\gamma^{(4)}\gamma^{(0)
 \end{aligned}
 $$
 
-The first line multiplies out the four products; the second uses $\gamma^{(4)}\gamma^{(4)} = -1$, then $\gamma^{(4)}\gamma^{(0)}\gamma^{(4)} = -\gamma^{(4)}\gamma^{(4)}\gamma^{(0)} = \gamma^{(0)}$, and $\gamma^{(4)}\gamma^{(0)}\gamma^{(4)}\gamma^{(0)} = -\gamma^{(4)}\gamma^{(4)}\gamma^{(0)}\gamma^{(0)} = -(-1)(+1) = 1$; the third collects.
+The first line multiplies out the four products; the second uses $\gamma^{(4)}\gamma^{(4)} = -1$, then $\gamma^{(4)}\gamma^{(0)}\gamma^{(4)} = -\gamma^{(4)}\gamma^{(4)}\gamma^{(0)} = \gamma^{(0)}$, and $\gamma^{(4)}\gamma^{(0)}\gamma^{(4)}\gamma^{(0)} = -\gamma^{(4)}\gamma^{(4)}\gamma^{(0)}\gamma^{(0)} = -(-1)(+1) = 1$; the third collects. This holds at every moment, with the value of $V$ at that moment.
 
-**The solution.** For a number $k$ the exponential series $e^{kx} = \sum_n (kx)^n/n!$ splits into its even and odd terms, $\cosh(kx) = \sum_j (kx)^{2j}/(2j)!$ and $\sinh(kx) = \sum_j (kx)^{2j+1}/(2j+1)!$. The same series with the matrix $Mx_4$ in place of $kx$ defines the **matrix exponential** $e^{Mx_4}$, and $e^{Mx_4}\chi$ solves $\partial_4\Phi = M\Phi$ with $\Phi(0) = \chi$. Because $M^2 = k^2$, every even power is $M^{2j} = k^{2j}$ and every odd power is $M^{2j+1} = k^{2j}M$, so the even terms sum to $\cosh(kx_4)$ and the odd terms to $\frac{\sinh(kx_4)}{k}M$:
+**The exact solution for $\lambda = 0$.** Then $V = m$ is a constant, and so are $M$ and $k^2$. For a number $k$ the exponential series $e^{kx} = \sum_n (kx)^n/n!$ splits into its even and odd terms, $\cosh(kx) = \sum_j (kx)^{2j}/(2j)!$ and $\sinh(kx) = \sum_j (kx)^{2j+1}/(2j+1)!$. The same series with the matrix $Mx_4$ in place of $kx$ defines the **matrix exponential** $e^{Mx_4}$, and $e^{Mx_4}\chi_0$ solves $\chi' = M\chi$ with $\chi(0) = \chi_0$. Because $M^2 = k^2$, every even power is $M^{2j} = k^{2j}$ and every odd power is $M^{2j+1} = k^{2j}M$, so the even terms sum to $\cosh(kx_4)$ and the odd terms to $\frac{\sinh(kx_4)}{k}M$:
 
 $$
-\Phi(x_4) = \Big(\cosh(kx_4) + \frac{\sinh(kx_4)}{k}\,M\Big)\chi .
+\Phi(x_4) = b_4^{-3/4}\Big(\cosh(kx_4) + \frac{\sinh(kx_4)}{k}\,M\Big)\chi_0 .
 $$
 
-A direct check, without series: at $x_4 = 0$ this is $\chi$; its derivative is $\big(k\sinh(kx_4) + \cosh(kx_4)M\big)\chi$; and $M\Phi = \big(\cosh(kx_4)M + \frac{\sinh(kx_4)}{k}M^2\big)\chi = \big(\cosh(kx_4)M + k\sinh(kx_4)\big)\chi$ (using $M^2 = k^2$), the same. Three cases:
+A direct check, without series: at $x_4 = 0$ the bracket is 1; its derivative is $k\sinh(kx_4) + \cosh(kx_4)M$; and $M$ times the bracket is $\cosh(kx_4)M + \frac{\sinh(kx_4)}{k}M^2 = \cosh(kx_4)M + k\sinh(kx_4)$ (using $M^2 = k^2$), the same. Three cases:
 
-- $k^2 < 0$, that is $|V| > 3H$: $k = i\omega$ with $\omega = \sqrt{V^2 - 9H^2}$; since $\cosh(i\omega x) = \cos(\omega x)$ and $\sinh(i\omega x)/(i\omega) = \sin(\omega x)/\omega$, the condensate **oscillates** with the angular frequency $\omega$;
-- $k^2 > 0$, that is $|V| < 3H$: the solution contains $e^{kx_4}$ and **grows**;
-- $k^2 = 0$: the limit $\Phi = \chi + x_4M\chi$.
+- $k^2 < 0$, that is $|m| > 3H$: $k = i\omega$ with $\omega = \sqrt{m^2 - 9H^2}$; since $\cosh(i\omega x) = \cos(\omega x)$ and $\sinh(i\omega x)/(i\omega) = \sin(\omega x)/\omega$, the column $\chi$ **oscillates** with the angular frequency $\omega$;
+- $k^2 > 0$, that is $|m| < 3H$: the column contains $e^{kx_4}$ and **grows**;
+- $k^2 = 0$: the limit $\chi = \chi_0 + x_4M\chi_0$.
 
-These are the record's exact nonlinear homogeneous solutions (PROVED; record formula `exact_solutions` of `Revision/theory/field-theory.json`, and the checks in the table).
+In every case the field itself carries the factor $b_4^{-3/4}$. This is the record's exact solution (i) with the exponent $\alpha = 0$ of $\sin z$ (record formula `exact_solutions` of `Revision/theory/field-theory.json`).
+
+**For $\lambda \neq 0$ there is no closed formula.** Now $V$ changes with the time, and the matrices $M$ at two different times do not commute: with $V_1$ and $V_2$ the values at the two times, the products of Section 9.3 give $M_1M_2 - M_2M_1 = 6H(V_1 - V_2)\gamma^{(0)} \neq 0$. The solution is therefore not the exponential of one matrix, and the record does not give a closed formula; it proves instead that **every** solution $\chi$ of the linear system $\chi' = M(x_4)\chi$ with $V = m + \lambda S_0b_4^{-3/2}$ gives an exact solution $\Phi = b_4^{-3/4}\chi$ of the nonlinear field equation (PROVED; record formula `exact_solutions`, solution (ii), and the checks in the table). Notebook 09b solves the 16 linear equations with the Runge-Kutta method of Chapter 2 and checks the field equation on the result (COMPUTED). At each moment the sign of $k^2 = 9H^2 - V(x_4)^2$ says whether the column oscillates ($|V| > 3H$) or grows ($|V| < 3H$) at that moment; as $b_4$ grows, $V$ approaches $m$.
 
 | statement | Revision report | check |
 | --- | --- | --- |
 | $M^2 = k^2\cdot 1$ and $M^TC + CM = 0$ | `Revision/theory/reports/wolfram-field-theory.json` | `solution_matrix_square` |
-| the condensate solves the field equation, $S = S_0$, and its $\rho$, $p$ | `Revision/theory/reports/wolfram-field-theory.json` | `exact_solution_nonlinear_homogeneous_C` |
+| every solution of $\chi' = M(x_4)\chi$ gives the solution $\Phi = b_4^{-3/4}\chi$, with $S = b_4^{-3/2}S_0$, and its $\rho$, $p$ | `Revision/theory/reports/wolfram-field-theory.json` | `exact_solution_nonlinear_homogeneous_C` |
 | the same, verified independently with sympy | `Revision/theory/reports/python-field-theory.json` | `exact_nonlinear_homogeneous_solution` |
 
 ### 9.19 The energy density, pressure and equation of state of a condensate
@@ -1558,7 +1605,13 @@ $$
 \rho = mS + \tfrac{\lambda}{2}S^2, \qquad p = \lambda S^2 - \tfrac{\lambda}{2}S^2 = \tfrac{\lambda}{2}S^2 .
 $$
 
-(PROVED; `Revision/theory/reports/python-field-theory.json`, check `commuting_homogeneous_on_shell_rho_p`; record formula `EMT_homogeneous_on_shell`.) The trace is $-\rho + 7p = -mS - \frac{\lambda}{2}S^2 + \frac{7\lambda}{2}S^2 = -mS + 3\lambda S^2$, as Section 9.8 requires. Because $S$ is constant, $\rho$ and $p$ are constant in time; this agrees with the energy exchange of Section 9.10, since $p_3 = p_t$ gives $d\rho/dx_4 = 0$.
+(PROVED; `Revision/theory/reports/python-field-theory.json`, check `commuting_homogeneous_on_shell_rho_p`; record formula `EMT_homogeneous_on_shell`, which notes that the terms with $b_4'$ of $\Phi$ and $\bar\Phi$ cancel in $K_4$.) The trace is $-\rho + 7p = -mS - \frac{\lambda}{2}S^2 + \frac{7\lambda}{2}S^2 = -mS + 3\lambda S^2$, as Section 9.8 requires. Because $S = b_4^{-3/2}S_0$ is diluted, $\rho$ and $p$ change in time. This agrees with the identity of Section 9.10: with $p_3 = p_t = p$ the exchange term vanishes, and the identity requires $d\rho/dx_4 = -\frac32\frac{b_4'}{b_4}(\rho + p)$. Indeed $dS/dx_4 = -\frac32\frac{b_4'}{b_4}S$, so
+
+$$
+\frac{d\rho}{dx_4} = \big(m + \lambda S\big)\frac{dS}{dx_4} = -\frac32\frac{b_4'}{b_4}\big(mS + \lambda S^2\big) = -\frac32\frac{b_4'}{b_4}\big(\rho + p\big),
+$$
+
+because $\rho + p = mS + \lambda S^2$. A condensate exchanges no energy between 3-space and the extra times; it is only diluted.
 
 **No $x_4$-$x_0$ flow.** The record gives the entry (formula `EMT_offdiagonal_x4_x0`)
 
@@ -1566,13 +1619,13 @@ $$
 T^{x_4}{}_{x_0} = -\tfrac14\big(B_{40} - \cot z\,B_{04}\big), \qquad B_{40} = \bar\Phi\gamma^{(4)}\partial_0\Phi - \partial_0\bar\Phi\,\gamma^{(4)}\Phi, \qquad B_{04} = \bar\Phi\gamma^{(0)}\partial_4\Phi - \partial_4\bar\Phi\,\gamma^{(0)}\Phi .
 $$
 
-For a condensate $B_{40} = 0$ (no $x_0$ derivative). For $B_{04}$: $\partial_4\Phi = M\Phi$ and $\partial_4\bar\Phi = (M\Phi)^\dagger C = \Phi^\dagger M^TC = -\Phi^\dagger CM = -\bar\Phi M$, so
+For a condensate $B_{40} = 0$ (no $x_0$ derivative). For $B_{04}$ write $\Phi = b_4^{-3/4}\chi$ and $u = b_4'/b_4$: then $\partial_4\Phi = b_4^{-3/4}(M - \frac34u)\chi$ and $\partial_4\bar\Phi = b_4^{-3/4}\big((M - \frac34u)\chi\big)^\dagger C = b_4^{-3/4}\chi^\dagger(M^TC - \frac34uC) = -b_4^{-3/4}\bar\chi(M + \frac34u)$ with $\bar\chi = \chi^\dagger C$, so
 
 $$
-B_{04} = \bar\Phi\gamma^{(0)}M\Phi + \bar\Phi M\gamma^{(0)}\Phi = \bar\Phi\{\gamma^{(0)}, M\}\Phi = \bar\Phi\big(-V\{\gamma^{(0)}, \gamma^{(4)}\} + 3H\{\gamma^{(0)}, \gamma^{(4)}\gamma^{(0)}\}\big)\Phi = 0,
+B_{04} = b_4^{-3/2}\Big(\bar\chi\gamma^{(0)}\big(M - \tfrac34u\big)\chi + \bar\chi\big(M + \tfrac34u\big)\gamma^{(0)}\chi\Big) = b_4^{-3/2}\,\bar\chi\{\gamma^{(0)}, M\}\chi = b_4^{-3/2}\,\bar\chi\big(-V\{\gamma^{(0)}, \gamma^{(4)}\} + 3H\{\gamma^{(0)}, \gamma^{(4)}\gamma^{(0)}\}\big)\chi = 0,
 $$
 
-because $\{\gamma^{(0)}, \gamma^{(4)}\} = 2\eta^{84} = 0$ and $\{\gamma^{(0)}, \gamma^{(4)}\gamma^{(0)}\} = \gamma^{(0)}\gamma^{(4)}\gamma^{(0)} + \gamma^{(4)}\gamma^{(0)}\gamma^{(0)} = -\gamma^{(4)} + \gamma^{(4)} = 0$. So $T^{x_4}{}_{x_0} = 0$, and $T^{x_0}{}_{x_4} = -\tan^2 z\,T^{x_4}{}_{x_0} = 0$ (PROVED; check `commuting_T_x4x0_homogeneous`). The other entries off the diagonal are not zero in general (Section 9.26).
+where the two terms with $u$ cancel, and because $\{\gamma^{(0)}, \gamma^{(4)}\} = 2\eta^{04} = 0$ and $\{\gamma^{(0)}, \gamma^{(4)}\gamma^{(0)}\} = \gamma^{(0)}\gamma^{(4)}\gamma^{(0)} + \gamma^{(4)}\gamma^{(0)}\gamma^{(0)} = -\gamma^{(4)} + \gamma^{(4)} = 0$. So $T^{x_4}{}_{x_0} = 0$, and $T^{x_0}{}_{x_4} = -\tan^2 z\,T^{x_4}{}_{x_0} = 0$ (PROVED; check `commuting_T_x4x0_homogeneous`). The other entries off the diagonal are not zero in general (Section 9.26).
 
 **The equation of state.** For $S \neq 0$, divide the numerator and the denominator of $p/\rho$ by $mS/2$:
 
@@ -1580,7 +1633,7 @@ $$
 w = \frac{p}{\rho} = \frac{\frac{\lambda}{2}S^2}{mS + \frac{\lambda}{2}S^2} = \frac{\lambda S/m}{2 + \lambda S/m} = \frac{x}{2 + x}, \qquad x = \frac{\lambda S}{m} .
 $$
 
-(The record writes it $w = \lambda S/(2m + \lambda S)$.) It depends on $m$, $\lambda$ and $S$ only through $x$, and the effective mass is $V = m + \lambda S = m(1 + x)$. Its special values, each by elementary algebra:
+(The record writes it $w = \lambda S/(2m + \lambda S)$.) It depends on $m$, $\lambda$ and $S$ only through $x$, and the effective mass is $V = m + \lambda S = m(1 + x)$. Because $S = b_4^{-3/2}S_0$, the number $x = \lambda S_0b_4^{-3/2}/m$ changes in time: on the history it falls like $e^{-2AHx_4}$, so every condensate with $\lambda \neq 0$ drifts towards $x = 0$ and $w = 0$ as $b_4$ grows (PROVED; `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json`, check `condensate_observer_b4`). The table gives the value of $w$ at the moment at which $x$ has the value of its first column. Its special values, each by elementary algebra:
 
 | $x = \lambda S/m$ | $w$ | why |
 | --- | --- | --- |
@@ -1592,28 +1645,28 @@ $$
 | $x < -2$ (with $m > 0$, $S > 0$) | $w > 1$ | $\rho < 0$ and $p < 0$; $x/(2 + x) > 1$ means $x < 2 + x$ after multiplying by the negative $2 + x$ |
 | $x \to \pm\infty$ | $w \to 1$ | $x/(2 + x) = 1/(1 + 2/x)$ |
 
-**What these numbers are, and what they are not.** They are the ratios $p/\rho$ of the eight-dimensional tensor of exact solutions, constant in time (COMPUTED in Notebook 09b on twelve exact solutions; the formula is PROVED in the record). They are not the equation of state that an observer in 3-space would infer: that observer sees neither the extra times nor the hidden direction as space, and to relate the two one must integrate over $x_5, x_6, x_7, x_0$ and follow the deflation. This chapter makes no such computation. The Revision dark-sector record makes it under an ASSUMED normalisation of the observer's energy density (the definitions A, B and C of Chapter 22): for the author's metric with $b_4(x_4)$, on the record's history $b_4 = b_4(0)\,e^{(4/3)Hx_4}$, a homogeneous condensate of either field is diluted ($b_4^{3/2}S$ is constant), and the equation of state $w_{\rm eff}$ that the observer infers from the dilution of that density is $\frac23\,p/\rho$ under A and B and $-\frac13 + \frac23\,p/\rho$ under C, where the ratio $p/\rho$ of this table now changes in time as $\lambda S$ falls like $e^{-2a_4}$ (PROVED in that record: `Revision/dark_sector/dirac16complex/reports/derivation-checks.json`, check `condensate_w_eff_b4`, and `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json`, check `condensate_observer_b4`; `Revision/docs/DARK_SECTOR_HYPOTHESES.md`, sections 5.1 and 6.1; the earlier record with $b_4 = 1$, now withdrawn, had 0 and $-1$, constant in time). Which definition, if any, describes a physical observer, and a fit to supernova data, are OPEN. In particular, the phantom range $w < -1$ of this table is not a claim about dark energy: the commuting field has negative energies (Section 9.21), and any use of them for a phantom equation of state is a HYPOTHESIS, not a result (on the history with $b_4(x_4)$ the record's dark-sector study finds an observer's reading below $-1$ only for a drifting condensate with $\lambda < 0$ under C, whose value of $\lambda S/m$ is chosen, and finds that the observed $w_0$ would need a component of negative classical energy larger than half the total; Chapter 22).
+**What these numbers are, and what they are not.** They are the ratios $p/\rho$ of the eight-dimensional tensor of exact solutions, at one moment (COMPUTED in Notebook 09b on twelve condensates at $x_4 = 1.3$; the formula is PROVED in the record). They are not the equation of state that an observer in 3-space would infer: that observer sees neither the extra times nor the hidden direction as space, and to relate the two one must integrate over $x_5, x_6, x_7, x_0$ and follow the deflation. This chapter makes no such computation. The Revision dark-sector record makes it under an ASSUMED normalisation of the observer's energy density (the definitions A, B and C of Chapter 22): for the author's metric with $b_4(x_4)$, on the record's history $b_4 = b_4(0)\,e^{(4/3)Hx_4}$, a homogeneous condensate of either field is diluted ($b_4^{3/2}S$ is constant), and the equation of state $w_{\rm eff}$ that the observer infers from the dilution of that density is $\frac23\,p/\rho$ under A and B and $-\frac13 + \frac23\,p/\rho$ under C, where the ratio $p/\rho$ of this table now changes in time as $\lambda S$ falls like $e^{-2a_4}$ (PROVED in that record: `Revision/dark_sector/dirac16complex/reports/derivation-checks.json`, check `condensate_w_eff_b4`, and `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json`, check `condensate_observer_b4`; `Revision/docs/DARK_SECTOR_HYPOTHESES.md`, sections 5.1 and 6.1; the earlier record with $b_4 = 1$, now withdrawn, had 0 and $-1$, constant in time). The same record proves that no condensate can be the source that the history requires: its $\rho$ and $p$ decay with $S$, while the required source of Section 9.11 is constant and not zero (`Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json`, check `condensate_cannot_source_branch`). Which definition, if any, describes a physical observer, and a fit to supernova data, are OPEN. In particular, the phantom range $w < -1$ of this table is not a claim about dark energy: the commuting field has negative energies (Section 9.21), and any use of them for a phantom equation of state is a HYPOTHESIS, not a result (on the history with $b_4(x_4)$ the record's dark-sector study finds an observer's reading below $-1$ only for a drifting condensate with $\lambda < 0$ under C, whose value of $\lambda S/m$ is chosen, and finds that the observed $w_0$ would need a component of negative classical energy larger than half the total; Chapter 22).
 
 ### 9.20 Where condensates oscillate and where they grow
 
-With $V = m(1 + x)$ the number $k^2 = 9H^2 - V^2 = 9H^2 - m^2(1 + x)^2$ is positive exactly when $|1 + x| < 3H/|m|$. In the plane of the two pure numbers $x$ and $3H/|m|$ the growing condensates fill the wedge between the lines $3H/|m| = |1 + x|$; outside it they oscillate. The equation of state depends on $x$ alone, so every line of constant $w$ is vertical in this plane. At $x = -1$ ($w = -1$) the effective mass vanishes, $k^2 = 9H^2 > 0$, and the condensate grows like $e^{3Hx_4}$: every condensate with $w = -1$ grows (for $H > 0$).
+With $V = m(1 + x)$ the number $k^2 = 9H^2 - V^2 = 9H^2 - m^2(1 + x)^2$ is positive exactly when $|1 + x| < 3H/|m|$. In the plane of the two pure numbers $x$ and $3H/|m|$ the condensates that grow at a given moment fill the wedge between the lines $3H/|m| = |1 + x|$; outside it they oscillate at that moment. The equation of state depends on $x$ alone, so every line of constant $w$ is vertical in this plane. At $x = -1$ ($w = -1$) the effective mass vanishes and $k^2 = 9H^2 > 0$: every condensate with $w = -1$ lies in the growing wedge at that moment (for $H > 0$). Along the history a condensate does not stay at one point of the map: $x$ falls like $b_4^{-3/2}$, and the point moves horizontally towards $x = 0$.
 
-The two condensates of Notebook 09b have $m = 1$, $H = 0.25$ (so $3H = 0.75$) and $S_0 = 1$:
+The two condensates of Notebook 09b have $m = 1$, $H = 0.25$ (so $3H = 0.75$) and $S_0 = 1$, on the history with $A = 1$ and $\beta = \frac43$, where $b_4^{-3/2} = e^{-x_4/2}$ and $V = 1 + \lambda e^{-x_4/2}$:
 
-- $\lambda = 0.5$: $V = 1.5 > 0.75$, $k^2 = 0.5625 - 2.25 = -1.6875$; it oscillates with $\omega = \sqrt{1.6875} = 1.299$, that is with the period $2\pi/\omega = 4.84$;
-- $\lambda = -0.5$: $V = 0.5 < 0.75$, $k^2 = 0.5625 - 0.25 = 0.3125$, $k = 0.559$; it grows: for large $x_4$ its size $\Phi^\dagger\Phi$ grows like $e^{2kx_4}$, and the exponential factor alone reaches $e^{2 \cdot 0.559 \cdot 12} \approx 7 \cdot 10^5$ at $x_4 = 12$ (Figure 09b.2 shows a growth by more than a factor 100000).
+- $\lambda = 0.5$: $V$ falls from $1.5$ at $x_4 = 0$ to $1.0012$ at $x_4 = 12$, always above $0.75$, so the condensate oscillates all the time; $k^2$ rises from $0.5625 - 2.25 = -1.6875$ to about $-0.440$, so the angular frequency falls from $\omega = \sqrt{1.6875} = 1.299$ (period $2\pi/\omega = 4.84$) to about $0.663$ (period about $9.47$);
+- $\lambda = -0.5$: $V$ rises from $0.5$, where $k^2 = 0.5625 - 0.25 = 0.3125$ and $k = 0.559$, so it grows at first; $V$ passes $3H = 0.75$ when $e^{-x_4/2} = \frac12$, that is at $x_4 = 2\ln 2 = 1.386$, where it leaves the growing wedge, and it oscillates afterwards. The size $\chi^\dagger\chi$ of the column rises from $8.22$ to about $42$ near $x_4 = 3.7$ (just outside the wedge $|k|$ is small and the oscillation is slow) and then oscillates (COMPUTED; Figure 09b.2).
 
-In both cases $S$ stays exactly at 1. A growing $\Phi$ with a constant $S = \Phi^\dagger C\Phi$ is possible because $C$ has eight eigenvalues $+1$ and eight $-1$: the growth happens along directions in which the indefinite form $\Phi^\dagger C\Phi$ does not grow. Whether growing condensates are acceptable physically is the question of well-posedness and boundary conditions discussed in Chapter 8; this chapter only computes their tensor.
+In both cases $b_4^{3/2}S = \chi^\dagger C\chi$ stays exactly at 1, while $S$ itself falls like $e^{-x_4/2}$. A growing $\chi$ with a constant $\chi^\dagger C\chi$ is possible because $C$ has eight eigenvalues $+1$ and eight $-1$: the growth happens along directions in which the indefinite form $\chi^\dagger C\chi$ does not grow. Whether growing condensates are acceptable physically is the question of well-posedness and boundary conditions discussed in Chapter 8; this chapter only computes their tensor.
 
 ### 9.21 The energy of the commuting field has no lower bound
 
 **$S$ has no sign.** $C$ is real and symmetric with $C^2 = 1$, so its eigenvalues are $+1$ or $-1$; the record writes $C = \mathrm{diag}(-\sigma, \sigma)$ (the block $-\sigma$ in the upper left corner, $\sigma$ in the lower right, zeros elsewhere) with a real symmetric $8 \times 8$ matrix $\sigma$ that obeys $\sigma^2 = 1$ and has trace 0. The eigenvalues of $\sigma$ are therefore $+1$ or $-1$ (if $\sigma v = \mu v$ then $v = \sigma^2v = \mu^2v$, so $\mu^2 = 1$), and because the trace of a symmetric matrix is the sum of its eigenvalues, trace 0 means four eigenvalues $+1$ and four $-1$. The block $-\sigma$ has the same eigenvalues with the signs exchanged, again four of each. So $C$ has eight eigenvalues $+1$ and eight $-1$ (PROVED; see the table at the end of this section). For an eigenvector $\chi$ with eigenvalue $-1$, $S_0 = \chi^\dagger C\chi = -\chi^\dagger\chi < 0$. A condensate with $\lambda = 0$ has $\rho = mS_0$: for $m > 0$ its energy density is negative whenever $S_0 < 0$.
 
-**Plane waves of positive frequency with negative energy.** Take flat 4+4 space (all $f_a = 1$, no spin connection), $U = 0$, and a **plane wave** $\Phi = u\,e^{i(k_1x_1 + k_2x_2 + k_3x_3 + k_0x_0 - Ex_4)}$ with a constant column $u$, no dependence on the extra times, and a positive frequency $E$. Then $\partial_a\Phi = ik_a\Phi$ for $a = 1, 2, 3, 8$, $\partial_4\Phi = -iE\Phi$, and $\partial_a\bar\Phi = -ik_a\bar\Phi$ (complex conjugation turns $i$ into $-i$). Line by line:
+**Plane waves of positive frequency with negative energy.** Take flat 4+4 space (all $f_a = 1$, no spin connection), $U = 0$, and a **plane wave** $\Phi = u\,e^{i(k_1x_1 + k_2x_2 + k_3x_3 + k_0x_0 - Ex_4)}$ with a constant column $u$, no dependence on the extra times, and a positive frequency $E$. Then $\partial_a\Phi = ik_a\Phi$ for $a = 0, 1, 2, 3$, $\partial_4\Phi = -iE\Phi$, and $\partial_a\bar\Phi = -ik_a\bar\Phi$ (complex conjugation turns $i$ into $-i$). Line by line:
 
 $$
 \begin{aligned}
-K_a &= \tfrac12\big(\bar\Phi\gamma^{(a)}(ik_a\Phi) - (-ik_a\bar\Phi)\gamma^{(a)}\Phi\big) = ik_a\,\bar\Phi\gamma^{(a)}\Phi \qquad (a = 1, 2, 3, 8), \\
+K_a &= \tfrac12\big(\bar\Phi\gamma^{(a)}(ik_a\Phi) - (-ik_a\bar\Phi)\gamma^{(a)}\Phi\big) = ik_a\,\bar\Phi\gamma^{(a)}\Phi \qquad (a = 0, 1, 2, 3), \\
 \rho &= -\sum_{a \neq x_4}K_a + mS = \bar\Phi\Big(m - i\sum_a k_a\gamma^{(a)}\Big)\Phi, \\
 mu &= -iE\gamma^{(4)}u + i\sum_a k_a\gamma^{(a)}u \quad\Longrightarrow\quad \Big(m - i\sum_a k_a\gamma^{(a)}\Big)\Phi = -iE\gamma^{(4)}\Phi, \\
 \rho &= \bar\Phi\big(-iE\gamma^{(4)}\big)\Phi = E\,\Phi^\dagger\big(-iC\gamma^{(4)}\big)\Phi = E\,\Phi^\dagger B\Phi = E\,u^\dagger Bu .
@@ -1632,7 +1685,7 @@ This is the classical form of the **spin-statistics** problem of a commuting fie
 
 ### 9.22 Example: condensates
 
-The second worked example builds the exact condensates of Section 9.18 and measures their energy-momentum tensor. It first shows with 20000 random columns that $S_0 = \chi^\dagger C\chi$ takes both signs; checks $M^2 = k^2$ and $M^TC + CM = 0$ for 18 pairs $(V, H)$; builds one oscillating ($\lambda = 0.5$) and one growing ($\lambda = -0.5$) condensate with $m = 1$, $H = 0.25$ and $S_0 = 1$ and checks the field equation and the constancy of $S$ at 401 times; computes from the solutions $K_4$, $\rho$, $p$ and $B_{04}$ and checks the values of Section 9.19; measures $w = p/\rho$ on twelve exact solutions and compares it with $x/(2 + x)$; draws the map of Section 9.20; confirms that a condensate keeps its energy density along the deflating history and, as an ILLUSTRATION only, solves the energy exchange of toy fluids with the Runge-Kutta method; and reproduces the negative energies of Section 9.21. It draws seven figures.
+The second worked example builds the condensates of Section 9.18 on the history $a_4 = AHx_4$, $b_4 = e^{\beta AHx_4}$ ($A = 1$, $\beta = \frac43$, in the unit $b_4(0)$) and measures their energy-momentum tensor. It first shows with 20000 random columns that $S_0 = \chi^\dagger C\chi$ takes both signs; checks $M^2 = k^2$ and $M^TC + CM = 0$ for 18 pairs $(V, H)$; solves $\chi' = M(x_4)\chi$ with the Runge-Kutta method for one oscillating ($\lambda = 0.5$) and one first growing ($\lambda = -0.5$) condensate with $m = 1$, $H = 0.25$ and $S_0 = 1$, from $x_4 = 0$ to 12, and checks the field equation with the term $\frac34\frac{b_4'}{b_4}\gamma^{(4)}$ and the dilution $S = b_4^{-3/2}S_0$ at 1201 times; computes from the solutions $K_4$, $\rho$, $p$ and $B_{04}$ and checks the values of Section 9.19; measures $w = p/\rho$ on twelve condensates at $x_4 = 1.3$ and compares it with $x/(2 + x)$; draws the map of Section 9.20 with the paths of the two condensates; confirms that a condensate is only diluted, $d\rho/dx_4 = -\frac32\frac{b_4'}{b_4}(\rho + p)$, and, as an ILLUSTRATION only, solves the energy exchange and dilution of toy fluids with the Runge-Kutta method; and reproduces the negative energies of Section 9.21. It draws seven figures.
 
 <!-- NOTEBOOK 09b -->
 
@@ -1746,6 +1799,8 @@ For six values of $V$ and three of $H$ (18 pairs) the loops compute the largest 
 
 ```python
 m, H = 1.0, 0.25  # the mass and the author's constant
+A, beta = 1.0, 4 / 3  # the history a4 = A H x4, b4 = b4(0) e^(beta A H x4)
+u = beta * A * H  # b4'/b4 on the history: 1/3
 rng = np.random.default_rng(7)
 while True:  # draw until S0 > 0 (the first draw usually succeeds)
     chi = rng.normal(size=16) + 1j * rng.normal(size=16)
@@ -1758,14 +1813,37 @@ chi = chi / np.sqrt(S0)  # now chi^dagger C chi = 1
 The cell fixes $m = 1$ and $H = 0.25$, starts a new random generator with the seed 7, and repeats (`while True:` loops until `break`) drawing a random column until its $S_0$ is positive. Dividing $\chi$ by $\sqrt{S_0}$ divides $S_0 = \chi^\dagger C\chi$ by $S_0$, so afterwards $S_0 = 1$.
 
 ```python
-def condensate(x4, chi_value, M, k2):
-    """Phi(x4) and dPhi/dx4 of the exact condensate with Phi(0) = chi_value."""
-    if k2 == 0.0:  # cosh(k x4) -> 1 and sinh(k x4)/k -> x4 when k -> 0
-        return chi_value + x4 * M @ chi_value, M @ chi_value
-    k = np.sqrt(complex(k2))  # k is imaginary when k2 < 0
-    phi = np.cosh(k * x4) * chi_value + np.sinh(k * x4) / k * (M @ chi_value)
-    dphi = k * np.sinh(k * x4) * chi_value + np.cosh(k * x4) * (M @ chi_value)
-    return phi, dphi
+def b4_of(x4):
+    """b4 = e^(beta A H x4) on the history, in the unit b4(0)."""
+    return np.exp(beta * A * H * x4)
+
+
+def condensate(chi0, lam, x4_end, steps):
+    """RK4 for chi' = M(x4) chi with V = m + lam S0 b4^(-3/2); returns the times,
+    Phi = b4^(-3/4) chi and dPhi/dx4 = b4^(-3/4) (M chi - (3/4) u chi)."""
+    S0_value = (chi0.conj() @ C @ chi0).real  # constant along the solution
+    step = x4_end / steps
+
+    def rate(x4, column):  # M(x4) chi
+        V = m + lam * S0_value * b4_of(x4) ** -1.5
+        return condensate_matrix(V, H)[0] @ column
+
+    times_out, columns = [0.0], [chi0.astype(complex)]
+    column = columns[0]
+    for n in range(steps):
+        x4 = n * step
+        s1 = rate(x4, column)
+        s2 = rate(x4 + step / 2, column + step / 2 * s1)
+        s3 = rate(x4 + step / 2, column + step / 2 * s2)
+        s4 = rate(x4 + step, column + step * s3)
+        column = column + step / 6 * (s1 + 2 * s2 + 2 * s3 + s4)
+        times_out.append((n + 1) * step)
+        columns.append(column)
+    times_out, columns = np.array(times_out), np.array(columns)
+    factor = b4_of(times_out) ** -0.75  # b4^(-3/4) at every time
+    derivatives = np.array([rate(t, c) - 0.75 * u * c
+                            for t, c in zip(times_out, columns)])
+    return times_out, factor[:, None] * columns, factor[:, None] * derivatives
 ```
 
 `condensate` returns $\Phi(x_4) = (\cosh(kx_4) + \frac{\sinh(kx_4)}{k}M)\chi$ and its derivative $\Phi'(x_4) = k\sinh(kx_4)\chi + \cosh(kx_4)M\chi$ (Section 9.18). The special case $k^2 = 0$ uses the limit $\Phi = \chi + x_4M\chi$. `complex(k2)` turns $k^2$ into a complex number, so that `np.sqrt` returns an imaginary $k$ when $k^2 < 0$ (for a real negative number it would fail); numpy computes $\cosh$ and $\sinh$ of complex arguments correctly.
@@ -1780,44 +1858,54 @@ The cell prints `1.000000`.
 **In [6], two exact condensates and the field equation at 401 times.**
 
 ```python
-times = np.linspace(0.0, 12.0, 401)  # the times x4 at which the solution is tested
-EXAMPLES = {"oscillating": 0.5, "growing": -0.5}  # name -> lambda
-solutions = {}  # name -> (Phi at every time, S at every time)
+EXAMPLES = {"oscillating": 0.5, "growing first": -0.5}  # name -> lambda
+solutions = {}  # name -> (times, Phi, dPhi/dx4)
 for name, lam in EXAMPLES.items():
-    V = m + lam * 1.0  # S0 = 1
-    M, k2 = condensate_matrix(V, H)
-    phis, S_values, worst_residual = [], [], 0.0
+    times, phis, dphis = condensate(chi, lam, 12.0, 1200)
+    S_values = np.einsum("ti,ij,tj->t", phis.conj(), C, phis).real
+    S_expected = b4_of(times) ** -1.5  # S0 b4^(-3/2) with S0 = 1
+    worst_residual = 0.0
+    for phi, dphi, S_now in zip(phis, dphis, S_values):
+        residual = (g4 @ dphi + 3 * H * g0 @ phi + 0.75 * u * g4 @ phi
+                    - (m + lam * S_now) * phi)
 ```
 
 The two examples are stored in a dictionary from their names to their $\lambda$; `.items()` gives the pairs. For each, $V = m + \lambda S_0$ with $S_0 = 1$, and $M$, $k^2$ follow. Three empty containers collect the values of $\Phi$, the values of $S$ and the largest residual.
 
 ```python
-    for x4 in times:
-        phi, dphi = condensate(x4, chi, M, k2)
-        S_now = (phi.conj() @ C @ phi).real
-        residual = g4 @ dphi + 3 * H * g0 @ phi - (m + lam * S_now) * phi
-        # The residual relative to the size of the solution at this time.  Rounding
-        # errors grow with the solution (S is a difference of large numbers when
-        # Phi grows), so the tolerance below is 1e-9, not 1e-15.
+    times, phis, dphis = condensate(chi, lam, 12.0, 1200)
+    S_values = np.einsum("ti,ij,tj->t", phis.conj(), C, phis).real
+    S_expected = b4_of(times) ** -1.5  # S0 b4^(-3/2) with S0 = 1
+    worst_residual = 0.0
+    for phi, dphi, S_now in zip(phis, dphis, S_values):
+        residual = (g4 @ dphi + 3 * H * g0 @ phi + 0.75 * u * g4 @ phi
+                    - (m + lam * S_now) * phi)
         worst_residual = max(worst_residual,
-                             np.abs(residual).max() / max(1.0, np.abs(phi).max()))
-        phis.append(phi)
-        S_values.append(S_now)
-    solutions[name] = (np.array(phis), np.array(S_values))
+                             np.abs(residual).max() / np.abs(phi).max())
+    solutions[name] = (times, phis, dphis)
+    report(f"{name}: lambda = {lam}, V = m + lambda S at x4 = 0 and 12",
+           f"{m + lam:.4f} and {m + lam * S_expected[-1]:.4f}")
 ```
 
 At each of the 401 times the inner loop evaluates the solution, its $S$, and the **residual** of the field equation $\gamma^{(4)}\Phi' + 3H\gamma^{(0)}\Phi - (m + \lambda S)\Phi$, which must vanish; note that it uses $S$ computed at that time, so the test also covers the nonlinearity. The residual is divided by the size of the solution (at least 1), because rounding errors grow with a growing solution. The values are appended (`.append`) to the lists and finally stored in `solutions`.
 
 ```python
-    report(f"{name}: lambda = {lam}, V = m + lambda S0", f"{V:.4f}")
-    report(f"{name}: k^2 = 9 H^2 - V^2", f"{k2:.4f}")
+                             np.abs(residual).max() / np.abs(phi).max())
+    solutions[name] = (times, phis, dphis)
+    report(f"{name}: lambda = {lam}, V = m + lambda S at x4 = 0 and 12",
+           f"{m + lam:.4f} and {m + lam * S_expected[-1]:.4f}")
     check(worst_residual < 1e-9,
-          f"{name}: the field equation holds at 401 times")
-    check(np.abs(np.array(S_values) - 1.0).max() < 1e-9,
-          f"{name}: S stays equal to S0 = 1 at 401 times")
+          f"{name}: the field equation with b4 holds at 1201 times")
+    check(np.abs(S_values / S_expected - 1).max() < 1e-9,
+          f"{name}: S = b4^(-3/2) S0 at 1201 times (b4^(3/2) S stays 1)")
+coarse = condensate(chi, -0.5, 12.0, 600)[1][-1]  # twice the step
+fine = solutions["growing first"][1][-1]
+rk4_change = np.abs(coarse - fine).max() / np.abs(fine).max()
+report("change of Phi(12) when the RK4 step is halved", f"{rk4_change:.1e}")
+check(rk4_change < 1e-8, "halving the RK4 step changes Phi(12) by less than 1e-8")
 check(recorded(THEORY_WL, "exact_solution_nonlinear_homogeneous_C") == "PASS"
       and recorded(THEORY_PY, "exact_nonlinear_homogeneous_solution") == "PASS",
-      "both condensates are the record's exact nonlinear homogeneous solution",
+      "both condensates are the record's homogeneous solutions with b4",
       record=f"{THEORY_WL}, check exact_solution_nonlinear_homogeneous_C; "
              f"{THEORY_PY}, check exact_nonlinear_homogeneous_solution")
 ```
@@ -1828,7 +1916,8 @@ For each example the cell prints $V$ and $k^2$ (oscillating: $V = 1.5$, $k^2 = -
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(9.6, 3.9))
-phis, S_values = solutions["oscillating"]
+times, phis, _ = solutions["oscillating"]
+S_values = np.einsum("ti,ij,tj->t", phis.conj(), C, phis).real
 for component in (0, 5, 10):  # three of the 16 components (rows 1, 6 and 11)
     left.plot(times, phis[:, component].real,
               label=f"Re $\\Phi_{{{component + 1}}}$")
@@ -1836,7 +1925,7 @@ left.plot(times, S_values, "k--", label="$S = \\bar\\Phi\\Phi$")
 left.set_xlabel("time $x_4$")
 left.set_ylabel("value")
 left.set_ylim(-0.8, 1.35)  # room for the legend above the curves
-left.set_title("Oscillating: $\\lambda = 0.5$, $V = 1.5$")
+left.set_title("Oscillating: $\\lambda = 0.5$")
 left.legend(fontsize=7, loc="upper center", ncol=4)
 ```
 
@@ -1862,7 +1951,7 @@ The right panel draws, for the growing condensate, the size $\Phi^\dagger\Phi = 
 
 ```python
 def homogeneous_tensor(phi, dphi, lam):
-    """K4, rho, p and B04 of a condensate at one time."""
+    """S, U, K4, rho, p and B04 of a condensate at one time."""
     S = (phi.conj() @ C @ phi).real
     U = lam / 2 * S ** 2
     K4 = 0.5 * (phi.conj() @ C @ g4 @ dphi - dphi.conj() @ C @ g4 @ phi)
@@ -1874,35 +1963,34 @@ def homogeneous_tensor(phi, dphi, lam):
 The function computes from $\Phi$ and $\Phi'$ at one time: $S$, $U$, the kinetic term $K_4 = \frac12(\bar\Phi\gamma^{(4)}\Phi' - \bar\Phi'\gamma^{(4)}\Phi)$ (with $f_4 = 1$; `phi.conj() @ C` is $\bar\Phi$), $L_0 = K_4 - mS - U$ (the other seven kinetic terms vanish), and $B_{04} = \bar\Phi\gamma^{(0)}\Phi' - \bar\Phi'\gamma^{(0)}\Phi$. It returns six values; the fourth is $\rho = -T^{x_4}{}_{x_4} = -(L_0 - K_4) = K_4 - L_0$ and the fifth is $p = T^\mu{}_\mu = L_0 - K_\mu = L_0$ for every $\mu \neq x_4$.
 
 ```python
-values = {}  # name -> (rho, p) of the condensate
 for name, lam in EXAMPLES.items():
-    V = m + lam * 1.0
-    M, k2 = condensate_matrix(V, H)
+    times, phis, dphis = solutions[name]
+    S_expected = b4_of(times) ** -1.5
     rhos, ps, worst = [], [], 0.0
-    for x4 in times:
-        phi, dphi = condensate(x4, chi, M, k2)
+    for phi, dphi in zip(phis, dphis):
         S, U, K4, rho, p, B04 = homogeneous_tensor(phi, dphi, lam)
-        size = max(1.0, (phi.conj() @ phi).real)  # for relative tolerances
-        worst = max(worst, abs(K4.imag) / size, abs(K4.real - V * S) / size,
-                    abs(B04) / size)
+        size = (phi.conj() @ phi).real  # for relative tolerances
+        worst = max(worst, abs(K4.imag) / size,
+                    abs(K4.real - (m + lam * S) * S) / size, abs(B04) / size)
         rhos.append(rho)
         ps.append(p)
     rhos, ps = np.array(rhos), np.array(ps)
-    values[name] = (rhos.mean(), ps.mean())
 ```
 
 For both condensates and all 401 times the loop evaluates the tensor and keeps the largest of three numbers that must vanish: the imaginary part of $K_4$, the difference $K_4 - VS$, and $B_{04}$, each relative to the size $\Phi^\dagger\Phi$ (at least 1). The energy densities and pressures are collected, and their means are stored.
 
 ```python
     check(worst < 1e-12, f"{name}: K4 is real, K4 = V S, and B04 = 0 (T^x4_x0 = 0)")
-    check(np.abs(rhos - (m + lam / 2)).max() < 1e-9
-          and np.abs(ps - lam / 2).max() < 1e-9,
-          f"{name}: rho = m S + lambda S^2/2 and p = lambda S^2/2 at 401 times")
-    check(abs(-values[name][0] + 7 * values[name][1] - (-m + 3 * lam)) < 1e-9,
-          f"{name}: trace -rho + 7 p = -m S + 3 lambda S^2")
-    report(f"{name}: rho", f"{values[name][0]:.6f}")
-    report(f"{name}: p (all seven directions)", f"{values[name][1]:.6f}")
-    report(f"{name}: w = p/rho", f"{values[name][1] / values[name][0]:.6f}")
+    check(np.abs(rhos / (m * S_expected + lam / 2 * S_expected ** 2) - 1).max()
+          < 1e-9 and np.abs(ps / (lam / 2 * S_expected ** 2) - 1).max() < 1e-9,
+          f"{name}: rho = m S + lambda S^2/2, p = lambda S^2/2, S = b4^(-3/2) S0")
+    trace_error = np.abs(-rhos + 7 * ps - (-m * S_expected + 3 * lam
+                                            * S_expected ** 2)).max()
+    check(trace_error < 1e-9,
+          f"{name}: trace -rho + 7 p = -m S + 3 lambda S^2 at every step")
+    for index, label in ((0, "x4 = 0"), (-1, "x4 = 12")):
+        report(f"{name}: rho, p, w at {label}",
+               f"{rhos[index]:.6f}, {ps[index]:.6f}, {ps[index] / rhos[index]:.6f}")
 ```
 
 Three checks per condensate: $K_4$ is real and equals $VS$ and $B_{04} = 0$ (so $T^{x_4}{}_{x_0} = 0$, Section 9.19); $\rho = m + \lambda/2$ and $p = \lambda/2$ at all 401 times (the values $mS + \frac{\lambda}{2}S^2$ and $\frac{\lambda}{2}S^2$ with $S = 1$); and the trace $-\rho + 7p = -mS + 3\lambda S^2$. The printed values are: oscillating, $\rho = 1.25$, $p = 0.25$, $w = 0.2$; growing, $\rho = 0.75$, $p = -0.25$, $w = -0.333333$. (By hand: $1 + 0.5/2 = 1.25$, $0.5/2 = 0.25$, $0.25/1.25 = 0.2$; $1 - 0.25 = 0.75$, $-0.25/0.75 = -1/3$.)
@@ -1956,13 +2044,13 @@ Four curves and two black dots (`"ko"`: black circles) at the zeros $S = 0$ and 
 
 ```python
 x_measured = np.array([-3.5, -3.0, -2.5, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0, 3.0,
-                       4.0])  # values of x = lambda S/m (here lambda = x)
+                       4.0])  # values of x = lambda S/m at the time x4 = 1.3
+S_then = b4_of(1.3) ** -1.5  # S at x4 = 1.3 for S0 = 1: e^(-0.65)
 rho_measured, p_measured = [], []  # rho and p of each of the twelve condensates
 for x_value in x_measured:
-    V = m + x_value * 1.0  # lambda = x_value, S0 = 1
-    M, k2 = condensate_matrix(V, H)
-    phi, dphi = condensate(1.3, chi, M, k2)
-    S, U, K4, rho, p, B04 = homogeneous_tensor(phi, dphi, x_value)
+    lam_x = x_value * m / S_then  # lambda S(1.3) / m = x
+    _, phis, dphis = condensate(chi, lam_x, 1.3, 1300)
+    S, U, K4, rho, p, B04 = homogeneous_tensor(phis[-1], dphis[-1], lam_x)
     rho_measured.append(rho)
     p_measured.append(p)
 rho_measured, p_measured = np.array(rho_measured), np.array(p_measured)
@@ -1974,10 +2062,10 @@ With $m = 1$ and $S_0 = 1$ the number $x = \lambda S/m$ equals $\lambda$, so the
 
 ```python
 check(np.abs(w_measured - w_formula).max() < 1e-9,
-      "w = p/rho of 12 exact condensates equals x/(2 + x), x = lambda S/m")
+      "w = p/rho of 12 condensates at x4 = 1.3 equals x/(2 + x), x = lambda S/m")
 at_minus_one = w_measured[list(x_measured).index(-1.0)]
-check(abs(at_minus_one + 1.0) < 1e-12,
-      "w = -1 exactly where the effective mass m + lambda S vanishes (x = -1)")
+check(abs(at_minus_one + 1.0) < 1e-9,
+      "w = -1 where the effective mass m + lambda S vanishes (x = -1)")
 below = x_measured < -2  # the three condensates with x < -2
 check(np.all(rho_measured[below] < 0) and np.all(p_measured[below] < 0)
       and np.all(w_measured[below] > 1),
@@ -2018,7 +2106,7 @@ The curve $w = x/(2 + x)$ is drawn in two pieces that stop short of $x = -2$, wh
 x_grid = np.linspace(-4.0, 3.0, 701)  # x = lambda S/m
 h_grid = np.linspace(0.0, 3.0, 301)  # h = 3 H/|m|
 X, Hgrid = np.meshgrid(x_grid, h_grid)  # every pair (x, h) of the two grids
-growing_region = (np.abs(1 + X) < Hgrid).astype(float)  # 1 where k^2 > 0
+growing_region = (np.abs(1 + X) < Hgrid).astype(float)  # 1 where 9 H^2 > V^2
 fig, ax = plt.subplots()
 ax.contourf(X, Hgrid, growing_region, levels=[-0.5, 0.5, 1.5],
             colors=["#dbe9f6", "#f6d5d5"])
@@ -2047,10 +2135,25 @@ save_figure(fig, "regime_map",
 The first loop draws the vertical lines of constant $w$ at $x = -1$, 0 and 1 with their labels; the second marks the two condensates of In [6] as black dots at $(x, 3H/|m|) = (0.5, 0.75)$ and $(-0.5, 0.75)$ with their names; two more labels name the regions (`\n` starts a new line). **What Figure 09b.5 shows.** The plane of $x$ (horizontal) and $3H/|m|$ (vertical), both pure numbers: a red wedge with its tip at $x = -1$ on the horizontal axis, opening upwards, where condensates grow, and the blue rest, where they oscillate. The student should see that the line $w = -1$ runs through the middle of the wedge: every condensate with $w = -1$ grows.
 
 ```python
-for name, lam_value in EXAMPLES.items():
-    grows = abs(1 + lam_value / m) < 3 * H / abs(m)
-    check(grows == (name == "growing"),
-          f"the {name} condensate lies in the {name} region of the map")
+            "In the red wedge $|1 + x| < 3H/|m|$ the number $9H^2 - "
+            "(m + \\lambda S)^2$ is positive and the condensate grows at that "
+            "moment; in the blue region it oscillates. The dashed vertical lines "
+            "are the equations of state $w = -1$ ($x = -1$), $w = 0$ and $w = 1/3$ "
+            "($x = 1$); $w$ depends on $x$ only. The black dots and arrows are the "
+            "two condensates of the second figure ($H = 0.25$, $m = 1$) from "
+            "$x_4 = 0$ to $12$: along the history $S = b_4^{-3/2}S_0$ is diluted, "
+            "so each moves towards $x = 0$; the one with $\\lambda = -0.5$ leaves "
+            "the growing wedge at $x_4 = 2\\ln 2$. Every condensate with $w = -1$ "
+            "lies in the growing wedge at that moment.")
+outside = np.abs(1 + paths["oscillating"]) > 3 * H / abs(m)
+inside = np.abs(1 + paths["growing first"]) < 3 * H / abs(m)
+leaves = path_times[np.argmax(~inside)]  # the first time outside the wedge
+check(bool(np.all(outside)),
+      "the oscillating condensate stays in the oscillating region")
+check(bool(inside[0]) and abs(leaves - 2 * np.log(2)) < 0.011,
+      "the other condensate starts in the growing wedge and leaves it at 2 ln 2")
+report("time at which the second condensate leaves the growing wedge",
+       f"{leaves:.2f} (2 ln 2 = {2 * np.log(2):.4f})")
 ```
 
 The two checks confirm that the map puts each condensate of In [6] into the region of its name.
@@ -2058,14 +2161,18 @@ The two checks confirm that the map puts each condensate of In [6] into the regi
 **In [13], a condensate keeps its energy along the deflating history.**
 
 ```python
-A = 1.0  # the deflating history a4 = A H x4
-M, k2 = condensate_matrix(m + 0.5 * 1.0, H)  # the oscillating condensate, S0 = 1
-# rho at every time; homogeneous_tensor returns (S, U, K4, rho, p, B04): index 3.
-# The condensate does not contain a4, so these are its values on this history too.
-rho_at_times = np.array([homogeneous_tensor(*condensate(x4, chi, M, k2), 0.5)[3]
-                         for x4 in times])
-check(np.abs(rho_at_times - rho_at_times[0]).max() < 1e-9,
-      "the condensate has p3 = p_t, so its rho is constant along the history")
+times, phis, dphis = solutions["oscillating"]
+rho_and_p = np.array([homogeneous_tensor(phi, dphi, 0.5)[3:5]
+                      for phi, dphi in zip(phis, dphis)])
+rho_at_times, p_at_times = rho_and_p[:, 0], rho_and_p[:, 1]
+slope = np.gradient(rho_at_times, times)  # d rho/dx4 by finite differences
+dilution = -1.5 * u * (rho_at_times + p_at_times)  # -(3/2)(b4'/b4)(rho + p)
+# [2:-2] leaves out two points at each end, where np.gradient is less exact.
+check(np.abs(slope - dilution)[2:-2].max() < 1e-4 * np.abs(dilution).max()
+      and recorded(THEORY_WL, "energy_exchange_equation") == "PASS"
+      and recorded(THEORY_PY, "energy_exchange_equation") == "PASS",
+      "condensate (p3 = p_t): no exchange, d rho/dx4 = -(3/2)(b4'/b4)(rho + p)",
+      record=f"{THEORY_WL} and {THEORY_PY}, check energy_exchange_equation")
 ```
 
 `A = 1` names the deflating history $a_4 = AHx_4$. The oscillating condensate does not contain $a_4$ (Section 9.18), so it is a solution on this history too. `condensate(...)` returns the pair $(\Phi, \Phi')$, and the star in `homogeneous_tensor(*condensate(...), 0.5)` hands the two over as the first two arguments; `[3]` picks the fourth result, $\rho$. The check confirms that $\rho$ is the same at all 401 times, as $p_3 = p_t$ and the identity of Section 9.10 require.
@@ -2091,8 +2198,8 @@ The **Runge-Kutta method** of fourth order (RK4, Chapter 2) solves an equation $
 ```python
 STEP, COUNT = 0.05, 160  # x4 from 0 to 8
 toy_times = STEP * np.arange(COUNT + 1)
-DELTAS = (-2 / 3, -1 / 3, 0.0, 1 / 3, 2 / 3)  # Delta w = w3 - w_t
-toy = {}  # Delta w -> rho(x4)/rho0 along A = +1
+DELTAS = (-2 / 3, -1 / 3, 0.0, 1 / 3, 2 / 3)  # Delta w = w3 - w_t, with w_t = 0
+toy = {}  # Delta w -> rho(x4)/rho0 along the history
 errors = {STEP: 0.0, STEP / 2: 0.0}  # the largest relative error for two steps
 ```
 
@@ -2102,8 +2209,8 @@ errors = {STEP: 0.0, STEP / 2: 0.0}  # the largest relative error for two steps
 for delta in DELTAS:
     for step in errors:
         count = round(8.0 / step)  # the number of steps from x4 = 0 to 8
-        path = rk4(lambda r, d=delta: -3 * A * H * d * r, 1.0, step, count)
-        exact = np.exp(-3 * A * H * delta * step * np.arange(count + 1))
+        path = rk4(lambda r, d=delta: toy_rate(d, 0.0) * r, 1.0, step, count)
+        exact = np.exp(toy_rate(delta, 0.0) * step * np.arange(count + 1))
         errors[step] = max(errors[step], np.abs(path / exact - 1).max())
         if step == STEP:
             toy[delta] = path
@@ -2112,8 +2219,8 @@ for delta in DELTAS:
 For each toy fluid and each of the two steps, the cell solves $d\rho/dx_4 = -3AH\,\Delta w\,\rho$ from $\rho(0) = 1$ (Section 9.10). `lambda r, d=delta: ...` is a short nameless function of `r`; the extra argument `d=delta` freezes the current value of `delta` inside it. `exact` is the exact solution $e^{-3AH\Delta w\,x_4}$ at the same times, and the largest relative error of the path is kept. The paths with the step 0.05 are stored for the figure.
 
 ```python
-check(errors[STEP] < 1e-7,
-      "RK4 (step 0.05) reproduces rho0 exp(-3 A H Delta w x4) for 5 toy fluids")
+check(errors[STEP] < 1e-6,
+      "RK4 (step 0.05) reproduces the exponential rho of 5 toy fluids")
 ratio = errors[STEP] / errors[STEP / 2]  # RK4: half the step, 1/16 of the error
 check(14 < ratio < 18, "halving the RK4 step divides the error by about 2^4 = 16")
 report("largest relative RK4 error, step 0.05", f"{errors[STEP]:.2e}")
@@ -2123,10 +2230,10 @@ report("error ratio of the steps 0.05 and 0.025", f"{ratio:.2f}")
 The first check requires the error with the step 0.05 to be below $10^{-7}$ (it is $1.33 \cdot 10^{-8}$). The error of a fourth-order method is proportional to the fourth power of the step, so halving the step must divide it by about $2^4 = 16$; the measured ratio is 16.17, and the second check accepts 14 to 18.
 
 ```python
-reversed_path = rk4(lambda r: -3 * (-A) * H * (1 / 3) * r, 1.0, STEP, COUNT)
+reversed_path = rk4(lambda r: toy_rate(1 / 3, 0.0, -1.0) * r, 1.0, STEP, COUNT)
 check(np.abs(reversed_path * toy[1 / 3] - 1).max() < 1e-8,
       "A -> -A reverses the energy flow (the product of the two paths is 1)")
-report("toy fluid Delta w = 1/3: rho(8)/rho(0) along A = 1", f"{toy[1 / 3][-1]:.6f}")
+report("toy fluid Delta w = 1/3, w_t = 0: rho(8)/rho(0)", f"{toy[1 / 3][-1]:.6f}")
 ```
 
 The reversed history ($A \to -A$: the extra times inflate and 3-space deflates) gives the path $e^{+3AH\Delta w\,x_4}$, the inverse of the original: the check requires their product to be 1 at every time. The cell prints $\rho(8)/\rho(0) = 0.135335 = e^{-2}$ for $\Delta w = 1/3$, the number computed by hand in Section 9.10. (`toy[1 / 3][-1]` is the last value of the path; the index $-1$ counts from the end.)
@@ -2143,7 +2250,7 @@ left.plot(times[times <= 8.0], rho_at_times[times <= 8.0] / rho_at_times[0], "k:
 left.set_yscale("log")
 left.set_xlabel("time $x_4$")
 left.set_ylabel("$\\rho(x_4) / \\rho(0)$")
-left.set_title("Energy density along $a_4 = AHx_4$ ($A = 1$)")
+left.set_title("Energy density along the history ($w_t = 0$)")
 left.legend(fontsize=7)
 ```
 
@@ -2171,8 +2278,9 @@ For the toy fluid with $w_3 = 1/3$ and $w_t = 2/3$ the right panel draws the two
 
 ```python
 # [2:-2] leaves out two points at each end, where np.gradient is less exact.
-check(np.abs(np.gradient(rho_toy, toy_times) - (work_space + work_extra))[2:-2].max()
-      < 1e-3, "d rho/dx4 equals the sum of the two work terms on the drawn path")
+check(np.abs(np.gradient(rho_toy, toy_times)
+             - (work_space + work_extra + dilution_toy))[2:-2].max() < 1e-3,
+      "d rho/dx4 equals the sum of the three terms on the drawn path")
 ```
 
 The check confirms that the finite-difference slope equals the sum of the two terms within $10^{-3}$.
@@ -2453,21 +2561,23 @@ say("The gammas, C and the two report helpers are ready.")
 **In [3], the geometry at a point.**
 
 ```python
-def frame_factors(a4, z):
+def frame_factors(a4, b4, z):
     """The eight factors f_a of the diagonal vielbein, in the order x0, ..., x7."""
     space = np.exp(a4) * np.sin(z) ** (1 / 6)  # 3-space: e^a4 sin^(1/6) z
-    extra = np.exp(-a4) * np.sin(z) ** (1 / 6)  # extra times: e^(-a4) sin^(1/6) z
+    extra = np.exp(-a4) * np.sqrt(b4) * np.sin(z) ** (1 / 6)  # extra times
     return np.array([1 / np.tan(z)] + [space] * 3 + [1.0] + [extra] * 3)
 
 
-def spin_connection(a4, a4p, z, H):
-    """The eight matrices Omega_mu (record formula Omega_components)."""
+def spin_connection(a4, a4p, b4, u, z, H):
+    """The eight matrices Omega_mu (record formula Omega_components), u = b4'/b4."""
     s = np.sin(z) ** (1 / 6)  # sin^(1/6) z
+    rate = a4p - u / 2  # the rate r = a4' - b4'/(2 b4) of the extra times
     omega = [np.zeros((16, 16)) for _ in range(8)]  # Omega_x4 = Omega_x0 = 0
     for i in range(1, 4):  # the three 3-space directions x1, x2, x3
         omega[i] = 0.5 * np.exp(a4) * s * (a4p * gamma[i] @ g4 + H * gamma[i] @ g0)
     for t in range(5, 8):  # the three extra times x5, x6, x7
-        omega[t] = -0.5 * np.exp(-a4) * s * (a4p * g4 @ gamma[t] + H * gamma[t] @ g0)
+        omega[t] = -0.5 * np.exp(-a4) * np.sqrt(b4) * s * (
+            rate * g4 @ gamma[t] + H * gamma[t] @ g0)
     return omega
 
 
@@ -2484,11 +2594,11 @@ def bar(vector):
     return vector.conj() @ C
 
 
-def energy_momentum(phi, dphi, m, lam, a4, a4p, z, H):
+def energy_momentum(phi, dphi, m, lam, a4, a4p, b4, u, z, H):
     """The 64 entries T[nu, mu] = T^nu_mu at one point (real parts)."""
-    f = frame_factors(a4, z)
+    f = frame_factors(a4, b4, z)
     g_values = eta * f ** 2  # g_mumu
-    omega = spin_connection(a4, a4p, z, H)
+    omega = spin_connection(a4, a4p, b4, u, z, H)
     gup = [gamma[mu] / f[mu] for mu in range(8)]  # gamma^mu
     S = (bar(phi) @ phi).real
     D = [dphi[mu] + omega[mu] @ phi for mu in range(8)]  # D_mu Phi
@@ -2521,7 +2631,8 @@ The 64 entries are the formula of Section 9.6, with $\gamma_\mu D^\nu$ written a
 
 ```python
 V, H = 5.0, 1.0  # effective mass (m = 5, lambda = 0) and the author's constant
-POINT = {"a4": 0.5, "a4p": 0.25, "z": np.pi / 4}  # a point of a deflating history
+POINT = {"a4": 0.5, "a4p": 0.25, "b4": np.exp(2 / 3), "u": 1 / 3,
+         "z": np.pi / 4}  # a point of the deflating history (u = b4'/b4)
 rng = np.random.default_rng(11)  # a fixed seed
 chi = rng.normal(size=16) + 1j * rng.normal(size=16)
 chi /= np.linalg.norm(chi)  # length 1
@@ -2530,13 +2641,13 @@ chi /= np.linalg.norm(chi)  # length 1
 The example has $V = 5$ (with $m = 5$ and $\lambda = 0$) and $H = 1$, so $V^2 > 9H^2$ and the condensate oscillates. `POINT` is a dictionary with the point $a_4 = 0.5$, $a_4' = 0.25$, $z = \pi/4$. The column $\chi$ is random (seed 11) and divided by its length.
 
 ```python
-def condensate_tensor(column, a4, a4p, z, V_value=V, H_value=H):
+def condensate_tensor(column, a4, a4p, b4, u, z, V_value=V, H_value=H):
     """T of the condensate (lambda = 0, m = V_value) whose jet at the point is
-    Phi = column and d4 Phi = A column, A = -gamma^(x4) (V - 3 H gamma^(x0))."""
+    Phi = column, d4 Phi = (A - (3/4) u) column, A = -gamma^(x4) (V - 3 H gamma^(x0))."""
     A_value = -g4 @ (V_value * I16 - 3 * H_value * g0)
     dphi = np.zeros((8, 16), dtype=complex)
-    dphi[4] = A_value @ column  # the only nonzero derivative
-    return energy_momentum(column, dphi, V_value, 0.0, a4, a4p, z, H_value)
+    dphi[4] = A_value @ column - 0.75 * u * column  # the only nonzero derivative
+    return energy_momentum(column, dphi, V_value, 0.0, a4, a4p, b4, u, z, H_value)
 ```
 
 The jet of a condensate at a point is $\Phi = \chi$ and $\partial_4\Phi = A\chi$ (the solution at $x_4 = 0$; at any other time the solution is another column with the same $S$, so nothing is lost), all other derivatives zero. `V_value=V` gives an argument a **default value**, used when the call leaves it out. With $\lambda = 0$ the mass $m$ equals $V$.
@@ -2571,14 +2682,18 @@ check(np.abs(np.diag(T_generic) - expected_diagonal).max() < 1e-12
 
 ```python
 pairs = off_diagonal_pairs(T_generic)
-# the same condensate and point with a4p = 0 (a4 not changing at this moment)
-pairs_constant_a4 = off_diagonal_pairs(
-    condensate_tensor(chi, POINT["a4"], 0.0, POINT["z"]))
-check(len(pairs) == 42, "a generic condensate has 42 nonzero off-diagonal entries")
+# the same condensate and point at a moment with a4p = 0, and with a4p = u = 0
+pairs_a4_still = off_diagonal_pairs(condensate_tensor(
+    chi, POINT["a4"], 0.0, POINT["b4"], POINT["u"], POINT["z"]))
+pairs_both_still = off_diagonal_pairs(condensate_tensor(
+    chi, POINT["a4"], 0.0, POINT["b4"], 0.0, POINT["z"]))
+check(len(pairs) == 42 and len(pairs_a4_still) == 36,
+      "a generic condensate has 42 nonzero off-diagonal entries (36 when a4p = 0)")
 momentum_flows = sorted([(4, i) for i in (1, 2, 3, 5, 6, 7)]
                         + [(i, 4) for i in (1, 2, 3, 5, 6, 7)])
-check(sorted(pairs_constant_a4) == momentum_flows,
-      "with a4p = 0 only the 12 flows T^x4_xj, T^xj_x4 (j = 1, 2, 3, 5, 6, 7) remain")
+check(sorted(pairs_both_still) == momentum_flows,
+      "with a4p = b4' = 0 only the 12 flows T^x4_xj, T^xj_x4 (j = 1, 2, 3, 5, 6, 7) "
+      "remain")
 report("S of the random column", f"{S_chi:.6f}")
 report("T^x4_x4 = -V S", f"{T_generic[4, 4]:.6f}")
 ```
@@ -2628,14 +2743,17 @@ Both heat maps of the notebook use the fixed colour scale from $-2$ to 2, so the
 
 ```python
 rates = np.linspace(-1.0, 1.0, 41)  # values of a4p
+zero_15 = POINT["u"] / 4  # T^x1_x5 is proportional to 4 a4p - u
 entries = np.array([[T[4, 1], T[1, 5], T[1, 0]] for T in (
-    condensate_tensor(chi, POINT["a4"], rate, POINT["z"]) for rate in rates)])
+    condensate_tensor(chi, POINT["a4"], rate, POINT["b4"], POINT["u"], POINT["z"])
+    for rate in rates)])
 check(np.abs(entries[:, 0] - entries[20, 0]).max() < 1e-12 and abs(entries[20, 0]) > 0.1,
       "T^x4_x1 does not depend on a4p and is not zero")
-slopes = entries[-1, 1:] / rates[-1]  # the slope of each of the other two entries
-check(np.abs(entries[:, 1:] - np.outer(rates, slopes)).max() < 1e-12
+slopes = np.array([entries[-1, 1] / (rates[-1] - zero_15), entries[-1, 2] / rates[-1]])
+check(np.abs(entries[:, 1] - slopes[0] * (rates - zero_15)).max() < 1e-12
+      and np.abs(entries[:, 2] - slopes[1] * rates).max() < 1e-12
       and np.abs(slopes).min() > 1e-3,
-      "T^x1_x5 and T^x1_x0 are proportional to a4p (zero only at a4p = 0)")
+      "T^x1_x5 is proportional to 4 a4p - b4'/b4, T^x1_x0 to a4p")
 report("T^x4_x1", f"{entries[20, 0]:.6f}")
 report("slopes d T^x1_x5/d a4p and d T^x1_x0/d a4p",
        f"{slopes[0]:.6f} and {slopes[1]:.6f}")
@@ -2725,9 +2843,10 @@ import sympy as sp  # exact algebra with symbols
 A4_RECORD = "Revision/field_equations_a4/a4-equations.json"
 record_entries = json.loads(repository_file(A4_RECORD).read_text(encoding="utf-8"))[
     "fields"]["dirac16complex00"]["offDiagonalKinetic"]
-cc, a4v, ad1, H_symbol = sp.symbols("cc a4v ad1 H", real=True)
+cc, a4v, ad1, uu, H_symbol = sp.symbols("cc a4v ad1 uu H", real=True)
+bb = sp.Symbol("bb", positive=True)  # b4
 AT_POINT = {cc: 1 / np.tan(POINT["z"]), a4v: POINT["a4"], ad1: POINT["a4p"],
-            H_symbol: H}
+            bb: POINT["b4"], uu: POINT["u"], H_symbol: H}
 worst_coefficient, groups = 0.0, {}  # groups: formula text -> its first entry
 ```
 
@@ -2746,8 +2865,8 @@ For each entry of the record, `re.findall(r"x(\d)", text)` finds every `x` follo
 
 ```python
     coefficient = float(sp.sympify(
-        formula.replace("E^", "E**").replace("^", "**"),
-        locals={"E": sp.E, "cc": cc, "a4v": a4v, "ad1": ad1, "H": H_symbol},
+        text, locals={"E": sp.E, "cc": cc, "a4v": a4v, "ad1": ad1, "bb": bb,
+                      "uu": uu, "H": H_symbol, "sqrt": sp.sqrt},
     ).subs(AT_POINT))
     for column, T in zip([chi] + columns, [T_generic] + tensors):
         predicted = -coefficient * bilinear(column, tuple(directions))
@@ -2857,16 +2976,17 @@ For each witness, the **rank** of a matrix (`np.linalg.matrix_rank`, the number 
 **In [11], the witnesses are condensates with a diagonal tensor.**
 
 ```python
-grid = [(a4, a4p, z) for a4 in (-1.0, 0.0, 0.5) for a4p in (-0.5, 0.0, 0.25, 1.0)
-        for z in (0.3, 0.8, 1.3)]  # 3 x 4 x 3 = 36 points
+RATES = ((-0.5, 0.2), (0.0, 0.0), (0.25, 1 / 3), (1.0, -0.4))  # (a4p, b4'/b4)
+grid = [(a4, np.exp(4 * a4 / 3), a4p, u, z) for a4 in (-1.0, 0.0, 0.5)
+        for a4p, u in RATES for z in (0.3, 0.8, 1.3)]  # 3 x 4 x 3 = 36 points
 witness_columns = {}  # (V, H) -> Phi0
 unit_S = {}  # (V, H) -> S of Phi0 built from v1 and v2 of length 1
 for (V_w, H_w), (freq, A_w, v1, v2, phi0) in witnesses.items():
     S_w = (bar(phi0) @ phi0).real
     largest_bilinear = max(abs(bilinear(phi0, d)) for d in used)
     worst_off = 0.0  # the largest off-diagonal entry at the 36 points
-    for a4, a4p, z in grid:
-        T = condensate_tensor(phi0, a4, a4p, z, V_w, H_w)
+    for a4, b4, a4p, u, z in grid:
+        T = condensate_tensor(phi0, a4, a4p, b4, u, z, V_w, H_w)
         worst_off = max(worst_off, np.abs(T - np.diag(np.diag(T))).max())
 ```
 
@@ -2965,11 +3085,14 @@ The witness with $(V, H) = (5, 1)$ is drawn at the same point and with the same 
 x = sp.symbols("x0:8", real=True)  # sympy was imported in section 8
 Hs = sp.symbols("H", positive=True)
 a4_function = sp.Function("a4")(x[4])
+b4_function = sp.Function("b4", positive=True)(x[4])
 zs = 6 * Hs * x[0]
 space_entry = sp.exp(2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
-extra_entry = -sp.exp(-2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
+extra_entry = -b4_function * sp.exp(-2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
 g = sp.diag(*([sp.cot(zs) ** 2] + [space_entry] * 3 + [-1] + [extra_entry] * 3))
-history = sp.Rational(3, 10) * x[4] + sp.Rational(1, 20) * x[4] ** 2  # a4(x4)
+history = {  # a4(x4) and b4(x4) of the test
+    a4_function: sp.Rational(3, 10) * x[4] + sp.Rational(1, 20) * x[4] ** 2,
+    b4_function: sp.exp(sp.Rational(2, 5) * x[4] - sp.Rational(1, 50) * x[4] ** 2)}
 ```
 
 The metric with symbols, as in In [13] of Notebook 09a, and the history $a_4 = \frac{3}{10}x_4 + \frac{1}{20}x_4^2$ with exact fractions. It is curved (not linear), increasing for $x_4 > -3$: the extra times deflate at a growing rate $a_4' = 0.3 + 0.1x_4$.
@@ -2983,7 +3106,7 @@ for l in range(8):
                                  - sp.diff(g[i, j], x[l])) / (2 * g[l, l]))
             if value != 0:  # put the history in, then make a numpy function
                 christoffel[(l, i, j)] = sp.lambdify(
-                    (x[4], x[0], Hs), value.subs(a4_function, history).doit(), "numpy")
+                    (x[4], x[0], Hs), value.subs(history).doit(), "numpy")
 check(len(christoffel) == 25, "25 nonzero Christoffel symbols (i <= j)")
 ```
 
@@ -2994,40 +3117,69 @@ The 25 symbols are computed as in Notebook 09a. Then the history is put in (`.su
 ```python
 m9, lam9, H9 = 1.0, 0.5, 0.25  # the parameters of this section
 chi9 = rng.normal(size=16) + 1j * rng.normal(size=16)
-chi9 /= np.linalg.norm(chi9)
-V9 = m9 + lam9 * (bar(chi9) @ chi9).real  # the effective mass
-M_TRUE = -V9 * g4 + 3 * H9 * g4 @ g0  # the true condensate: M^2 = 9 H^2 - V^2
-M_CONTROL = -V9 * g4  # without the term 3 H gamma^(x0): M^2 = -V^2
-K2_TRUE, K2_CONTROL = 9 * H9 ** 2 - V9 ** 2, -V9 ** 2
+chi9 /= np.linalg.norm(chi9)  # the column chi at the time of a test point
+S9 = (bar(chi9) @ chi9).real  # S0 = chi^dagger C chi, constant along chi
 ```
 
 The test uses $m = 1$, $\lambda = 0.5$, $H = 0.25$ and a new random unit column. The true condensate has the matrix $M$ of Section 9.18; the control leaves out $3H\gamma^{(4)}\gamma^{(0)}$, so its matrix squares to $-V^2$ (the same computation as in Section 9.18 with $H = 0$).
 
 ```python
-def field(M, k2, x4):
-    """Phi(x4) and dPhi/dx4 = M Phi(x4) for Phi(0) = chi9 (M^2 = k2)."""
-    k = np.sqrt(complex(k2))
-    phi = np.cosh(k * x4) * chi9 + np.sinh(k * x4) / k * (M @ chi9)
-    return phi, M @ phi
+def a4_of(x4):
+    return 0.3 * x4 + 0.05 * x4 ** 2
 
 
-def tensor_at(M, k2, x4, x0):
-    phi, d4 = field(M, k2, x4)
+def b4_of(x4):
+    return np.exp(0.4 * x4 - 0.02 * x4 ** 2)
+
+
+def M_of(kind, x4):
+    """M(x4) of the true condensate or of the control (no 3 H gamma^(x0))."""
+    V_now = m9 + lam9 * S9 * b4_of(x4) ** -1.5  # the effective mass at x4
+    M = -V_now * g4
+    return M + 3 * H9 * g4 @ g0 if kind == "true" else M
+
+
+def flow(kind, column, x_from, x_to, count=50):
+    """RK4 for chi' = M(x4) chi from x_from to x_to with count steps."""
+    step = (x_to - x_from) / count
+    x4, column = x_from, column.astype(complex)
+    for _ in range(count):
+        s1 = M_of(kind, x4) @ column
+        s2 = M_of(kind, x4 + step / 2) @ (column + step / 2 * s1)
+        s3 = M_of(kind, x4 + step / 2) @ (column + step / 2 * s2)
+        s4 = M_of(kind, x4 + step) @ (column + step * s3)
+        column = column + step / 6 * (s1 + 2 * s2 + 2 * s3 + s4)
+        x4 += step
+    return column
+
+
+def condensate(kind, x4_base):
+    """field(x4) -> (Phi, dPhi/dx4) of the condensate with chi(x4_base) = chi9."""
+    def field(x4):
+        column = chi9 if x4 == x4_base else flow(kind, chi9, x4_base, x4)
+        u = 0.4 - 0.04 * x4  # b4'/b4
+        factor = b4_of(x4) ** -0.75
+        return factor * column, factor * (M_of(kind, x4) @ column - 0.75 * u * column)
+    return field
+
+
+def tensor_at(field, x4, x0):
+    phi, d4 = field(x4)
     dphi = np.zeros((8, 16), dtype=complex)
     dphi[4] = d4
-    return energy_momentum(phi, dphi, m9, lam9, 0.3 * x4 + 0.05 * x4 ** 2,
-                           0.3 + 0.1 * x4, 6 * H9 * x0, H9)
+    return energy_momentum(phi, dphi, m9, lam9, a4_of(x4), 0.3 + 0.1 * x4,
+                           b4_of(x4), 0.4 - 0.04 * x4, 6 * H9 * x0, H9)
 ```
 
 `field` returns $\Phi(x_4)$ and $\partial_4\Phi = M\Phi$ for either matrix. `tensor_at` returns the 64 entries at the point $(x_4, x_0)$ of the curved history: $a_4 = 0.3x_4 + 0.05x_4^2$, $a_4' = 0.3 + 0.1x_4$ and $z = 6Hx_0$.
 
 ```python
-def divergence(M, k2, x4, x0, h):
+def divergence(field, x4, x0, h):
     """The eight components of nabla_mu T^mu_nu, with central differences of step h,
     and the size of the tensor (its largest entry)."""
-    T = tensor_at(M, k2, x4, x0)
-    d4T = (tensor_at(M, k2, x4 + h, x0) - tensor_at(M, k2, x4 - h, x0)) / (2 * h)
-    d0T = (tensor_at(M, k2, x4, x0 + h) - tensor_at(M, k2, x4, x0 - h)) / (2 * h)
+    T = tensor_at(field, x4, x0)
+    d4T = (tensor_at(field, x4 + h, x0) - tensor_at(field, x4 - h, x0)) / (2 * h)
+    d0T = (tensor_at(field, x4, x0 + h) - tensor_at(field, x4, x0 - h)) / (2 * h)
 ```
 
 The tensor of a condensate depends on $x_4$ and $x_0$ only, so its divergence needs $\partial_4T$ and $\partial_0T$. They are replaced by **central finite differences**, $\partial F \approx (F(x + h) - F(x - h))/(2h)$, whose error falls like $h^2$ as the step $h$ shrinks (the Taylor series: the terms of first and third order of $F(x + h)$ and $F(x - h)$ cancel in the difference, up to the error term $\frac{h^2}{6}F'''$).
@@ -3044,7 +3196,8 @@ The tensor of a condensate depends on $x_4$ and $x_0$ only, so its divergence ne
     return result, np.abs(T).max()
 
 
-report("effective mass V = m + lambda S of the test condensate", f"{V9:.6f}")
+report("effective mass V = m + lambda S at x4 = 1",
+       f"{m9 + lam9 * S9 * b4_of(1.0) ** -1.5:.6f}")
 ```
 
 `G` is the $8 \times 8 \times 8$ table of all Christoffel symbols at the point (both orders of the lower indices are filled). For each $\nu$ the divergence is the formula of Section 9.9: the first sum has only the terms $\partial_4T^{x_4}{}_\nu$ and $\partial_0T^{x_0}{}_\nu$; `np.einsum("mml,l->", G, T[:, nu])` is $\sum_{\mu,\lambda}\Gamma^\mu{}_{\mu\lambda}T^\lambda{}_\nu$ (a repeated letter is summed; `->` with nothing after it means "sum everything to one number"), and `np.einsum("lm,ml->", G[:, :, nu], T)` is $\sum_{\lambda,\mu}\Gamma^\lambda{}_{\mu\nu}T^\mu{}_\lambda$. All entries off the diagonal are included. The function returns the eight components and the size of the tensor. The cell prints $V = 0.883522$.
@@ -3054,10 +3207,11 @@ report("effective mass V = m + lambda S of the test condensate", f"{V9:.6f}")
 ```python
 steps = 0.2 / 2.0 ** np.arange(11)  # 0.2, 0.1, ..., about 0.0002
 X4_TEST, X8_TEST = 1.0, 0.5 / (6 * H9)  # x4 = 1 and z = 0.5
+TRUE, CONTROL = condensate("true", X4_TEST), condensate("control", X4_TEST)
 true_sizes, control_sizes = [], []
 for h in steps:
-    div_true, size_true = divergence(M_TRUE, K2_TRUE, X4_TEST, X8_TEST, h)
-    div_control, _ = divergence(M_CONTROL, K2_CONTROL, X4_TEST, X8_TEST, h)
+    div_true, size_true = divergence(TRUE, X4_TEST, X8_TEST, h)
+    div_control, _ = divergence(CONTROL, X4_TEST, X8_TEST, h)
     true_sizes.append(np.abs(div_true).max())
     control_sizes.append(np.abs(div_control).max())
 true_sizes, control_sizes = np.array(true_sizes), np.array(control_sizes)
@@ -3081,8 +3235,9 @@ Three checks. If the exact divergence of the true condensate is zero, what remai
 ```python
 for x4_point, z_point in ((2.0, 1.0), (0.5, 1.2)):
     x0_point = z_point / (6 * H9)
-    coarse, size_other = divergence(M_TRUE, K2_TRUE, x4_point, x0_point, 1e-3)
-    fine, _ = divergence(M_TRUE, K2_TRUE, x4_point, x0_point, 1e-4)
+    other = condensate("true", x4_point)  # chi9 at the time x4_point
+    coarse, size_other = divergence(other, x4_point, x0_point, 1e-3)
+    fine, _ = divergence(other, x4_point, x0_point, 1e-4)
     shrink = np.abs(coarse).max() / np.abs(fine).max()  # about 10^2 for an h^2 error
     check(90 < shrink < 110 and np.abs(fine).max() < 1e-5 * size_other,
           f"true condensate conserved at x4 = {x4_point}, z = {z_point} "
@@ -3152,9 +3307,9 @@ At $h = 0.001$ the cell draws the size of each of the eight components for both 
 momentum = [1, 2, 3, 5, 6, 7]  # the components nu = x1, x2, x3, x5, x6, x7
 check(np.abs(div_control).max() > 1e3 * np.abs(div_true).max()
       and np.abs(div_control[momentum]).min() > 1e-3
-      and max(abs(div_control[4]), abs(div_control[0])) < 1e-9,
+      and max(abs(div_control[4]), abs(div_control[0])) < 1e-6 * size_true,
       "control: its six momentum components are nonzero (over 1000 times the true "
-      "condensate's), its x4 and x0 components vanish")
+      "condensate's), its x4 and x0 components vanish up to the h^2 error")
 ```
 
 The check confirms what the figure shows: the control's divergence is more than 1000 times the true condensate's, each of its six momentum components exceeds $10^{-3}$, and its $x_4$ and $x_0$ components are below $10^{-9}$.

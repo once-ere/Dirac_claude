@@ -11,10 +11,11 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/09c_condensate_tensor.py
 
-It computes the complete 8 x 8 energy-momentum tensor of the exact condensates of
-dirac16complex00 (off-diagonal entries included), reproduces the field-equations
-record's statements about them (42 nonzero off-diagonal entries, each a multiple of one
-of 15 three-gamma bilinears; the exact witness with a diagonal tensor), and tests the
+It computes the complete 8 x 8 energy-momentum tensor of the condensates of
+dirac16complex00 in the metric with b4(x4) (off-diagonal entries included), reproduces
+the field-equations record's statements about them (42 nonzero off-diagonal entries,
+each a multiple of one of 15 three-gamma bilinears; the exact witness with a diagonal
+tensor), and tests the
 conservation of the full tensor numerically with finite differences, with a negative
 control.
 """
@@ -38,8 +39,9 @@ FACTS = {
     "name": "09c_condensate_tensor",
     "title": "The full energy-momentum tensor of a condensate",
     "purpose": (
-        "It computes all 64 entries of the energy-momentum tensor of exact condensates "
-        "of the commuting field dirac16complex00 in the author's metric, including the "
+        "It computes all 64 entries of the energy-momentum tensor of condensates "
+        "Phi = b4^(-3/4) chi of the commuting field dirac16complex00 in the author's "
+        "metric with b4(x4), including the "
         "off-diagonal entries that the spin connection produces, finds the 42 nonzero "
         "off-diagonal entries of a generic condensate and checks that each is a "
         "multiple of one of 15 three-gamma bilinears with exactly the coefficient that "
@@ -47,7 +49,8 @@ FACTS = {
         "whose tensor is diagonal and reproduces their frequencies omega and their S "
         "from the record (S up to one common factor), and tests the conservation of the "
         "full tensor along "
-        "a curved history with finite differences of shrinking step, with a negative "
+        "a curved history of a4 and b4 with finite differences of shrinking step, with "
+        "a negative "
         "control that leaves out the gravitational term of the field equation; five "
         "teaching plots."
     ),
@@ -70,7 +73,7 @@ FACTS = {
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 10,
+    "expected_seconds": 15,
     "timeout_seconds": 300,
     "files_written": ["Revision/textbook/figures/09c.captions.json"] + FIGURES,
     "final_lines": [
@@ -94,26 +97,30 @@ CELLS = [
     density and pressure in every direction. That does not yet make it a *perfect
     fluid*: a perfect fluid at rest has a diagonal energy-momentum tensor, and the
     spin connection of the author's metric puts entries off the diagonal. This
-    notebook computes all 64 entries of the tensor of exact condensates of
-    dirac16complex00 and
+    notebook computes all 64 entries of the tensor of condensates
+    $\Phi = b_4^{-3/4}\chi$ of dirac16complex00 in the metric with the two functions
+    $a_4(x_4)$ and $b_4(x_4)$, and
 
     - shows the tensor of a generic condensate as a heat map and counts its nonzero
-      off-diagonal entries: 42 on the deflating history, 12 when $a_4' = 0$;
-    - shows how these entries depend on the deflation rate $a_4'$;
+      off-diagonal entries: 42 on the deflating history, 36 at a moment with
+      $a_4' = 0$ but $b_4' \neq 0$, 12 when $a_4' = b_4' = 0$;
+    - shows how these entries depend on the rate $a_4'$ (at a fixed $b_4'/b_4$);
     - checks that each of the 42 entries is a multiple of one of 15 *three-gamma
       bilinears* $\bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$, with exactly the
       coefficient that the Revision record lists for it;
     - builds the exact condensates of the Revision record for which all 15
       bilinears vanish, and checks that their tensor is diagonal at 36 points with
-      different $a_4$, $a_4'$ and $z$ (the record states it for all of them);
+      different $a_4$, $a_4'$, $b_4$, $b_4'/b_4$ and $z$ (the record states it for all
+      of them);
     - shows why $S$ of these condensates is never negative, and reproduces the
       record's numbers for them: their frequencies $\omega = 4, 3, 4$ exactly, and
       its three values of $S$ up to one common factor (the record's columns are not
       of length 1);
     - tests the conservation $\nabla_\mu T^\mu{}_\nu = 0$ of the full tensor of a
-      condensate along a curved (non-linear) history with finite differences whose
-      step shrinks, and contrasts it with a configuration that leaves out the
-      gravitational term $3H\gamma^{(0)}$ of the field equation (a negative control);
+      condensate along a curved (non-linear) history of $a_4$ and $b_4$ with finite
+      differences whose step shrinks, and contrasts it with a configuration that
+      leaves out the part $3H\gamma^{(0)}$ of the gravitational term of the field
+      equation (a negative control);
     - draws five teaching plots.
     """),
     md(r"""
@@ -156,12 +163,17 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    **The condensates.** For a field that depends on $x_4$ only, the field equation
-    of dirac16complex00 in the author's metric reduces to $\partial_4\Phi = A\Phi$
-    with $A = -\gamma^{(4)}(V - 3H\gamma^{(0)})$ and the effective mass
-    $V = m + \lambda S$; $S$ is constant, and the exact solution is
-    $\Phi = e^{Ax_4}\chi$. It does not contain $a_4$: it solves the equation on every
-    history $a_4(x_4)$.
+    **The condensates.** For a field that depends on $x_4$ only, write
+    $\Phi = b_4^{-3/4}\chi$. The field equation of dirac16complex00 in the author's
+    metric reduces to $\partial_4\chi = A\chi$ with $A = -\gamma^{(4)}(V -
+    3H\gamma^{(0)})$ and the effective mass $V = m + \lambda S$, where
+    $S = \bar\Phi\Phi = b_4^{-3/2}\chi^\dagger C\chi$ and $\chi^\dagger C\chi$ is
+    constant. For $\lambda = 0$ the solution is $\Phi = b_4^{-3/4}e^{Ax_4}\chi_0$; for
+    $\lambda \neq 0$ the effective mass changes with $b_4$, and the linear system has
+    no closed form (Notebook 09b). At one point the jet of a condensate is
+    $\Phi = b_4^{-3/4}\chi$ and $\partial_4\Phi = (A - \frac34\frac{b_4'}{b_4})\Phi$
+    (the product rule). It does not contain $a_4$: the condensate solves the equation
+    on every history $a_4(x_4)$, and $b_4$ enters through the factor $b_4^{-3/4}$.
 
     **The tensor.** $T^\nu{}_\mu = \delta^\nu_\mu L_0 - \frac14(\bar\Phi\gamma^\nu
     D_\mu\Phi - D_\mu\bar\Phi \gamma^\nu\Phi + \bar\Phi\gamma_\mu D^\nu\Phi
@@ -177,10 +189,11 @@ CELLS = [
     $T^{x_4}{}_{x_0} = T^{x_0}{}_{x_4} = 0$; 42 ordered pairs $(\nu, \mu)$ carry
     nonzero off-diagonal entries, each a multiple of one of the 15 bilinears with
     $\{a, b, c\} = \{i, x_4, x_0\}$ ($i$ any of $x_1, x_2, x_3, x_5, x_6, x_7$) or
-    $\{i, j, x_4\}$ ($i$ in 3-space, $j$ an extra time); and exact witnesses exist
-    for which all 15 vanish. The field equations for $a_4$ require, among other
-    conditions, that every off-diagonal entry of the source vanishes (for a
-    coupling $\kappa \neq 0$; record
+    $\{i, j, x_4\}$ ($i$ in 3-space, $j$ an extra time), with coefficients that depend
+    on $H$, $a_4'$ and $b_4'/b_4$; and exact witnesses exist for which all 15 vanish,
+    for every $b_4$. All of this holds for all functions $a_4$ and $b_4$. The field
+    equations for $a_4$ and $b_4$ require, among other conditions, that every
+    off-diagonal entry of the source vanishes (for a coupling $\kappa \neq 0$; record
     `Revision/field_equations_a4/a4-equations.json`, entries
     `generalSource.offDiagonal_other` and
     `fields.dirac16complex00.offDiagonalConditions`); on the deflating history a
@@ -191,7 +204,8 @@ CELLS = [
     solution (the Noether identity of coordinate invariance) and checks it exactly
     on the condensate (`exact_solution_nonlinear_homogeneous_C`). This notebook
     tests it numerically, for all eight components and with the off-diagonal entries
-    included, along the non-linear history $a_4 = 0.3x_4 + 0.05x_4^2$.
+    included, along the non-linear history $a_4 = 0.3x_4 + 0.05x_4^2$,
+    $b_4 = e^{0.4x_4 - 0.02x_4^2}$ (a choice of this notebook).
     """),
     md(r"""
     ## 5. The gammas, the geometry and the tensor at a point
@@ -233,32 +247,35 @@ CELLS = [
     '''),
     md(r"""
     The next cell defines the geometry at one point, the same functions as in the
-    first example of this chapter: `frame_factors(a4, z)` returns the eight vielbein
-    factors $f_a$ in the order $x_0, \dots, x_7$ ($\cot z$, $e^{a_4}\sin^{1/6}z$ three
-    times, $1$, $e^{-a_4}\sin^{1/6}z$ three times; the background $b_4 = 1$), and
-    `spin_connection(a4, a4p, z, H)` returns the eight
-    $16 \times 16$ matrices $\Omega_\mu$ of the record's formula `Omega_components`:
-    $\Omega_{x_i} = \frac12 e^{a_4}\sin^{1/6}z (a_4'\gamma^{(i)}\gamma^{(4)}
-    + H\gamma^{(i)}\gamma^{(0)})$, $\Omega_{x_t} = -\frac12 e^{-a_4}\sin^{1/6}z
-    (a_4'\gamma^{(4)}\gamma^{(t)} + H\gamma^{(t)}\gamma^{(0)})$ and
+    first example of this chapter: `frame_factors(a4, b4, z)` returns the eight
+    vielbein factors $f_a$ in the order $x_0, \dots, x_7$ ($\cot z$,
+    $e^{a_4}\sin^{1/6}z$ three times, $1$, $e^{-a_4}b_4^{1/2}\sin^{1/6}z$ three
+    times), and `spin_connection(a4, a4p, b4, u, z, H)`, with $u = b_4'/b_4$, returns
+    the eight $16 \times 16$ matrices $\Omega_\mu$ of the record's formula
+    `Omega_components`: $\Omega_{x_i} = \frac12 e^{a_4}\sin^{1/6}z
+    (a_4'\gamma^{(i)}\gamma^{(4)} + H\gamma^{(i)}\gamma^{(0)})$,
+    $\Omega_{x_t} = -\frac12 e^{-a_4}b_4^{1/2}\sin^{1/6}z (r\gamma^{(4)}\gamma^{(t)}
+    + H\gamma^{(t)}\gamma^{(0)})$ with $r = a_4' - u/2$, and
     $\Omega_{x_4} = \Omega_{x_0} = 0$.
     """),
     code(r'''
-    def frame_factors(a4, z):
+    def frame_factors(a4, b4, z):
         """The eight factors f_a of the diagonal vielbein, in the order x0, ..., x7."""
         space = np.exp(a4) * np.sin(z) ** (1 / 6)  # 3-space: e^a4 sin^(1/6) z
-        extra = np.exp(-a4) * np.sin(z) ** (1 / 6)  # extra times: e^(-a4) sin^(1/6) z
+        extra = np.exp(-a4) * np.sqrt(b4) * np.sin(z) ** (1 / 6)  # extra times
         return np.array([1 / np.tan(z)] + [space] * 3 + [1.0] + [extra] * 3)
 
 
-    def spin_connection(a4, a4p, z, H):
-        """The eight matrices Omega_mu (record formula Omega_components)."""
+    def spin_connection(a4, a4p, b4, u, z, H):
+        """The eight matrices Omega_mu (record formula Omega_components), u = b4'/b4."""
         s = np.sin(z) ** (1 / 6)  # sin^(1/6) z
+        rate = a4p - u / 2  # the rate r = a4' - b4'/(2 b4) of the extra times
         omega = [np.zeros((16, 16)) for _ in range(8)]  # Omega_x4 = Omega_x0 = 0
         for i in range(1, 4):  # the three 3-space directions x1, x2, x3
             omega[i] = 0.5 * np.exp(a4) * s * (a4p * gamma[i] @ g4 + H * gamma[i] @ g0)
         for t in range(5, 8):  # the three extra times x5, x6, x7
-            omega[t] = -0.5 * np.exp(-a4) * s * (a4p * g4 @ gamma[t] + H * gamma[t] @ g0)
+            omega[t] = -0.5 * np.exp(-a4) * np.sqrt(b4) * s * (
+                rate * g4 @ gamma[t] + H * gamma[t] @ g0)
         return omega
 
 
@@ -266,7 +283,8 @@ CELLS = [
     '''),
     md(r"""
     The next cell defines `bar(vector)`, the Dirac adjoint $\bar\Phi = \Phi^\dagger C$,
-    and `energy_momentum(phi, dphi, m, lam, a4, a4p, z, H)`, which returns the 64
+    and `energy_momentum(phi, dphi, m, lam, a4, a4p, b4, u, z, H)`, which returns the
+    64
     entries $T^\nu{}_\mu$ (row $\nu$, column $\mu$) of the record's tensor
     $T^\nu{}_\mu = \delta^\nu_\mu L_0 - \frac14(\bar\Phi\gamma^\nu D_\mu\Phi
     - D_\mu\bar\Phi \gamma^\nu\Phi + \bar\Phi\gamma_\mu D^\nu\Phi
@@ -281,11 +299,11 @@ CELLS = [
         return vector.conj() @ C
 
 
-    def energy_momentum(phi, dphi, m, lam, a4, a4p, z, H):
+    def energy_momentum(phi, dphi, m, lam, a4, a4p, b4, u, z, H):
         """The 64 entries T[nu, mu] = T^nu_mu at one point (real parts)."""
-        f = frame_factors(a4, z)
+        f = frame_factors(a4, b4, z)
         g_values = eta * f ** 2  # g_mumu
-        omega = spin_connection(a4, a4p, z, H)
+        omega = spin_connection(a4, a4p, b4, u, z, H)
         gup = [gamma[mu] / f[mu] for mu in range(8)]  # gamma^mu
         S = (bar(phi) @ phi).real
         D = [dphi[mu] + omega[mu] @ phi for mu in range(8)]  # D_mu Phi
@@ -310,32 +328,36 @@ CELLS = [
     ## 6. The tensor of a generic condensate
 
     The next cell takes the effective mass $V = 5$ ($m = 5$, $\lambda = 0$), the
-    constant $H = 1$, a random column $\chi$ of length 1 (fixed seed), and the point
-    $a_4 = 0.5$, $a_4' = 0.25$, $z = \pi/4$ of a deflating history. The condensate's
-    jet at the point is $\Phi = \chi$ and $\partial_4\Phi = A\chi$ (the solution at
-    $x_4 = 0$; any other time gives another column $\chi$ with the same $S$). The
-    cell computes the 64 entries, checks the record's diagonal ($T^{x_4}{}_{x_4} =
-    -VS$ and the other diagonal entries $0$, because $\lambda = 0$ makes $L_0 = 0$ on
-    shell) and $T^{x_4}{}_{x_0} = T^{x_0}{}_{x_4} = 0$, counts the nonzero
-    off-diagonal entries (42), and counts them again with $a_4' = 0$ (12: only the
-    flows $T^{x_4}{}_{x_j}$ and $T^{x_j}{}_{x_4}$ remain, where $x_j$ is one of the
-    six directions $x_1, x_2, x_3, x_5, x_6, x_7$).
+    constant $H = 1$, a random column of length 1 (fixed seed), and the point
+    $a_4 = 0.5$, $a_4' = 0.25$, $b_4 = e^{2/3}$, $b_4'/b_4 = \frac13$, $z = \pi/4$ of
+    the record's history ($a_4 = AHx_4$ and $b_4 = e^{(4/3)AHx_4}$ in the unit
+    $b_4(0)$, with $A = 0.25$, at $x_4 = 2$). The condensate's jet at the point is
+    $\Phi$ = the column and $\partial_4\Phi = (A - \frac34\frac{b_4'}{b_4})\Phi$ (any
+    other column with the same $S$ belongs to the same condensate at another time).
+    The cell computes the 64 entries, checks the record's diagonal ($T^{x_4}{}_{x_4}
+    = -VS$ and the other diagonal entries $0$, because $\lambda = 0$ makes $L_0 = 0$
+    on shell) and $T^{x_4}{}_{x_0} = T^{x_0}{}_{x_4} = 0$, counts the nonzero
+    off-diagonal entries (42), and counts them again at a moment with $a_4' = 0$
+    (36) and with $a_4' = b_4' = 0$ (12: only the flows $T^{x_4}{}_{x_j}$ and
+    $T^{x_j}{}_{x_4}$ remain, where $x_j$ is one of the six directions
+    $x_1, x_2, x_3, x_5, x_6, x_7$).
     """),
     code(r'''
     V, H = 5.0, 1.0  # effective mass (m = 5, lambda = 0) and the author's constant
-    POINT = {"a4": 0.5, "a4p": 0.25, "z": np.pi / 4}  # a point of a deflating history
+    POINT = {"a4": 0.5, "a4p": 0.25, "b4": np.exp(2 / 3), "u": 1 / 3,
+             "z": np.pi / 4}  # a point of the deflating history (u = b4'/b4)
     rng = np.random.default_rng(11)  # a fixed seed
     chi = rng.normal(size=16) + 1j * rng.normal(size=16)
     chi /= np.linalg.norm(chi)  # length 1
 
 
-    def condensate_tensor(column, a4, a4p, z, V_value=V, H_value=H):
+    def condensate_tensor(column, a4, a4p, b4, u, z, V_value=V, H_value=H):
         """T of the condensate (lambda = 0, m = V_value) whose jet at the point is
-        Phi = column and d4 Phi = A column, A = -gamma^(x4) (V - 3 H gamma^(x0))."""
+        Phi = column, d4 Phi = (A - (3/4) u) column, A = -gamma^(x4) (V - 3 H gamma^(x0))."""
         A_value = -g4 @ (V_value * I16 - 3 * H_value * g0)
         dphi = np.zeros((8, 16), dtype=complex)
-        dphi[4] = A_value @ column  # the only nonzero derivative
-        return energy_momentum(column, dphi, V_value, 0.0, a4, a4p, z, H_value)
+        dphi[4] = A_value @ column - 0.75 * u * column  # the only nonzero derivative
+        return energy_momentum(column, dphi, V_value, 0.0, a4, a4p, b4, u, z, H_value)
 
 
     def off_diagonal_pairs(T):
@@ -359,14 +381,18 @@ CELLS = [
           record=f"{A4_WL}, check condensate_kinetic_tensor_diagonal; {A4_PY}, check "
                  "authorT16_condensate_kinetic_diagonal")
     pairs = off_diagonal_pairs(T_generic)
-    # the same condensate and point with a4p = 0 (a4 not changing at this moment)
-    pairs_constant_a4 = off_diagonal_pairs(
-        condensate_tensor(chi, POINT["a4"], 0.0, POINT["z"]))
-    check(len(pairs) == 42, "a generic condensate has 42 nonzero off-diagonal entries")
+    # the same condensate and point at a moment with a4p = 0, and with a4p = u = 0
+    pairs_a4_still = off_diagonal_pairs(condensate_tensor(
+        chi, POINT["a4"], 0.0, POINT["b4"], POINT["u"], POINT["z"]))
+    pairs_both_still = off_diagonal_pairs(condensate_tensor(
+        chi, POINT["a4"], 0.0, POINT["b4"], 0.0, POINT["z"]))
+    check(len(pairs) == 42 and len(pairs_a4_still) == 36,
+          "a generic condensate has 42 nonzero off-diagonal entries (36 when a4p = 0)")
     momentum_flows = sorted([(4, i) for i in (1, 2, 3, 5, 6, 7)]
                             + [(i, 4) for i in (1, 2, 3, 5, 6, 7)])
-    check(sorted(pairs_constant_a4) == momentum_flows,
-          "with a4p = 0 only the 12 flows T^x4_xj, T^xj_x4 (j = 1, 2, 3, 5, 6, 7) remain")
+    check(sorted(pairs_both_still) == momentum_flows,
+          "with a4p = b4' = 0 only the 12 flows T^x4_xj, T^xj_x4 (j = 1, 2, 3, 5, 6, 7) "
+          "remain")
     report("S of the random column", f"{S_chi:.6f}")
     report("T^x4_x4 = -V S", f"{T_generic[4, 4]:.6f}")
     '''),
@@ -404,34 +430,40 @@ CELLS = [
                 "Heat map of the 64 entries $T^\\nu{}_\\mu$ (row $\\nu$, column $\\mu$, "
                 "both running over $x_0, \\dots, x_7$) of a generic exact condensate of "
                 "dirac16complex00 with effective mass $V = 5$, $\\lambda = 0$, $H = 1$, "
-                "a random unit column $\\chi$, at the point $a_4 = 0.5$, $a_4' = 0.25$, "
-                "$z = \\pi/4$; colour scale from $-2$ to $2$ (entries beyond it are "
+                "a random unit column, at the point $a_4 = 0.5$, $a_4' = 0.25$, "
+                "$b_4 = e^{2/3}$, $b_4'/b_4 = 1/3$, $z = \\pi/4$ of the history; colour "
+                "scale from $-2$ to $2$ (entries beyond it are "
                 "shown in the darkest colour and printed), in units of energy per unit "
                 "volume. The diagonal holds only $-VS$ at $x_4$; 42 off-diagonal "
                 "squares are nonzero, all of them produced by the spin connection. The "
                 "squares $(x_4, x_0)$ and $(x_0, x_4)$ are zero.")
     '''),
     md(r"""
-    ## 7. How the off-diagonal entries depend on the deflation rate
+    ## 7. How the off-diagonal entries depend on the rate $a_4'$
 
     The next cell computes three off-diagonal entries of the same condensate at the
-    same point for 41 values of $a_4'$ from $-1$ to $1$: the momentum flow
-    $T^{x_4}{}_{x_1}$, the 3-space/extra-time entry $T^{x_1}{}_{x_5}$ and the
-    3-space/hidden entry $T^{x_1}{}_{x_0}$. The first does not depend on $a_4'$ (it
-    comes from the $H$ part of the spin connection); the other two are proportional
-    to $a_4'$, so they appear only because the extra times deflate (or, for
-    $a_4' < 0$, inflate). The cell checks both statements.
+    same point for 41 values of $a_4'$ from $-1$ to $1$, with $b_4'/b_4 = \frac13$
+    kept fixed: the momentum flow $T^{x_4}{}_{x_1}$, the 3-space/extra-time entry
+    $T^{x_1}{}_{x_5}$ and the 3-space/hidden entry $T^{x_1}{}_{x_0}$. The first does
+    not depend on $a_4'$ (it comes from the $H$ part of the spin connection); the
+    third is proportional to $a_4'$; the second is proportional to
+    $4a_4' - b_4'/b_4$ (the record's coefficient), so it vanishes at
+    $a_4' = \frac14 b_4'/b_4 = \frac{1}{12}$, not at $a_4' = 0$. The cell checks the
+    three statements.
     """),
     code(r'''
     rates = np.linspace(-1.0, 1.0, 41)  # values of a4p
+    zero_15 = POINT["u"] / 4  # T^x1_x5 is proportional to 4 a4p - u
     entries = np.array([[T[4, 1], T[1, 5], T[1, 0]] for T in (
-        condensate_tensor(chi, POINT["a4"], rate, POINT["z"]) for rate in rates)])
+        condensate_tensor(chi, POINT["a4"], rate, POINT["b4"], POINT["u"], POINT["z"])
+        for rate in rates)])
     check(np.abs(entries[:, 0] - entries[20, 0]).max() < 1e-12 and abs(entries[20, 0]) > 0.1,
           "T^x4_x1 does not depend on a4p and is not zero")
-    slopes = entries[-1, 1:] / rates[-1]  # the slope of each of the other two entries
-    check(np.abs(entries[:, 1:] - np.outer(rates, slopes)).max() < 1e-12
+    slopes = np.array([entries[-1, 1] / (rates[-1] - zero_15), entries[-1, 2] / rates[-1]])
+    check(np.abs(entries[:, 1] - slopes[0] * (rates - zero_15)).max() < 1e-12
+          and np.abs(entries[:, 2] - slopes[1] * rates).max() < 1e-12
           and np.abs(slopes).min() > 1e-3,
-          "T^x1_x5 and T^x1_x0 are proportional to a4p (zero only at a4p = 0)")
+          "T^x1_x5 is proportional to 4 a4p - b4'/b4, T^x1_x0 to a4p")
     report("T^x4_x1", f"{entries[20, 0]:.6f}")
     report("slopes d T^x1_x5/d a4p and d T^x1_x0/d a4p",
            f"{slopes[0]:.6f} and {slopes[1]:.6f}")
@@ -439,25 +471,28 @@ CELLS = [
     fig.subplots_adjust(wspace=0.35)
     left.plot(rates, entries[:, 0], label="$T^{x_4}{}_{x_1}$ (momentum flow)")
     left.set_ylim(0.0, 1.2 * entries[20, 0])
-    left.set_xlabel("deflation rate $a_4'$")
+    left.set_xlabel("rate $a_4'$ (with $b_4'/b_4 = 1/3$)")
     left.set_ylabel("entry (energy per unit volume)")
     left.set_title("Comes from $H$: independent of $a_4'$")
     left.legend(fontsize=8)
     right.plot(rates, entries[:, 1], label="$T^{x_1}{}_{x_5}$")
     right.plot(rates, entries[:, 2], "--", label="$T^{x_1}{}_{x_0}$")
     right.axhline(0.0, color="black", linewidth=0.8)
-    right.set_xlabel("deflation rate $a_4'$")
-    right.set_title("Proportional to $a_4'$")
+    right.axvline(zero_15, color="gray", linestyle=":", linewidth=0.9)
+    right.set_xlabel("rate $a_4'$ (with $b_4'/b_4 = 1/3$)")
+    right.set_title("Proportional to $4a_4' - b_4'/b_4$ and to $a_4'$")
     right.legend(fontsize=8)
     save_figure(fig, "offdiagonal_entries",
                 "Three off-diagonal entries of the generic condensate of the previous "
-                "figure ($V = 5$, $H = 1$, $a_4 = 0.5$, $z = \\pi/4$) against the "
-                "deflation rate $a_4'$ from $-1$ to $1$, in units of energy per unit "
-                "volume. Left: the momentum flow $T^{x_4}{}_{x_1}$ comes from the $H$ "
-                "part of the spin connection and does not depend on $a_4'$. Right: "
-                "$T^{x_1}{}_{x_5}$ (solid) and $T^{x_1}{}_{x_0}$ (dashed) are "
-                "proportional to $a_4'$; at $a_4' = 0$ they vanish, and only the 12 "
-                "flows $T^{x_4}{}_{x_j}$ and $T^{x_j}{}_{x_4}$ remain ($x_j$ one of "
+                "figure ($V = 5$, $H = 1$, $a_4 = 0.5$, $b_4 = e^{2/3}$, "
+                "$b_4'/b_4 = 1/3$, $z = \\pi/4$) against the rate $a_4'$ from $-1$ to "
+                "$1$, in units of energy per unit volume. Left: the momentum flow "
+                "$T^{x_4}{}_{x_1}$ comes from the $H$ part of the spin connection and "
+                "does not depend on $a_4'$. Right: $T^{x_1}{}_{x_0}$ (dashed) is "
+                "proportional to $a_4'$, and $T^{x_1}{}_{x_5}$ (solid) to "
+                "$4a_4' - b_4'/b_4$, so it vanishes at $a_4' = 1/12$ (dotted line). Only "
+                "when $a_4' = b_4' = 0$ do all entries but the 12 flows "
+                "$T^{x_4}{}_{x_j}$ and $T^{x_j}{}_{x_4}$ vanish ($x_j$ one of "
                 "$x_1, x_2, x_3, x_5, x_6, x_7$).")
     '''),
     md(r"""
@@ -490,10 +525,11 @@ CELLS = [
     $P_1 = P_2 = P_3 = +1$ a unit vector $v_2$ (each unique up to a factor of size
     1, which does not change the bilinears), put $c = \overline{v_1^\dagger Cv_2}$
     (the bar means the complex conjugate number) and $\Phi_0 = v_1 + cv_2$. The
-    condensate is $\Phi = e^{-i\omega x_4}\Phi_0$: it oscillates with the frequency
-    $\omega$. The record gives three such witnesses, $(V, H) = (5, 1)$, $(5, 4/3)$,
-    $(-5, 1)$, with $\omega = 4$, $3$, $4$ (the record writes the effective mass $V$
-    as $M$ and the frequency $\omega$ as w).
+    condensate is $\Phi = b_4^{-3/4}e^{-i\omega x_4}\Phi_0$: it oscillates with the
+    frequency $\omega$ and is diluted by $b_4$. The record gives three such
+    witnesses, $(V, H) = (5, 1)$, $(5, 4/3)$, $(-5, 1)$, with $\omega = 4$, $3$, $4$
+    (the record writes the effective mass $V$ as $M$ and the frequency $\omega$ as
+    w).
     """),
     code(r'''
     def bilinear_directions(nu, mu):
@@ -536,15 +572,17 @@ CELLS = [
     **The coefficients of the record.** The record
     `Revision/field_equations_a4/a4-equations.json` lists, for each of the 42
     entries, its bilinear and its coefficient as a formula in the Wolfram Language,
-    in the names `cc` $= \cot z$, `a4v` $= a_4$, `ad1` $= a_4'$ and `H`, for the
+    in the names `cc` $= \cot z$, `a4v` $= a_4$, `ad1` $= a_4'$, `bb` $= b_4$,
+    `uu` $= b_4'/b_4$ and `H`, for the
     symmetrised kinetic tensor $K^{(\nu}{}_{\mu)}$, the average of
     $K^\nu{}_\mu = \frac12(\bar\Phi\gamma^\nu D_\mu\Phi - D_\mu\bar\Phi\gamma^\nu\Phi)$
     and of $g^{\nu\nu}g_{\mu\mu}K^\mu{}_\nu$ (the same with the two indices
     exchanged, then moved back to their places with the metric). Off the diagonal the
     tensor is $T^\nu{}_\mu = -K^{(\nu}{}_{\mu)}$, so every entry must equal minus
     the coefficient times the bilinear. The next cell translates each formula into
-    sympy (`E^x` becomes `E**x`, `^` becomes `**`), evaluates it at the point
-    $a_4 = 0.5$, $a_4' = 0.25$, $z = \pi/4$, $H = 1$, and compares, for the generic
+    sympy (`E^x` becomes `E**x`, `^` becomes `**`, `Sqrt[bb]` becomes `sqrt(bb)`),
+    evaluates it at the point $a_4 = 0.5$, $a_4' = 0.25$, $b_4 = e^{2/3}$,
+    $b_4'/b_4 = \frac13$, $z = \pi/4$, $H = 1$, and compares, for the generic
     condensate and for the three random columns, all 42 entries. The coefficients
     contain $V$ nowhere: they are the same for every effective mass. The cell prints
     one entry of each of the ten groups of equal coefficients.
@@ -557,9 +595,10 @@ CELLS = [
     A4_RECORD = "Revision/field_equations_a4/a4-equations.json"
     record_entries = json.loads(repository_file(A4_RECORD).read_text(encoding="utf-8"))[
         "fields"]["dirac16complex00"]["offDiagonalKinetic"]
-    cc, a4v, ad1, H_symbol = sp.symbols("cc a4v ad1 H", real=True)
+    cc, a4v, ad1, uu, H_symbol = sp.symbols("cc a4v ad1 uu H", real=True)
+    bb = sp.Symbol("bb", positive=True)  # b4
     AT_POINT = {cc: 1 / np.tan(POINT["z"]), a4v: POINT["a4"], ad1: POINT["a4p"],
-                H_symbol: H}
+                bb: POINT["b4"], uu: POINT["u"], H_symbol: H}
     worst_coefficient, groups = 0.0, {}  # groups: formula text -> its first entry
     for item in record_entries:
         # "K^x1_x4 (symmetrised)": upper index x1 (row nu), lower index x4 (column mu)
@@ -567,9 +606,11 @@ CELLS = [
         term = item["terms"][0]  # every entry of the record has exactly one term
         directions = [int(digit) for digit in re.findall(r"x(\d)", term["bilinear"])]
         formula = term["coefficient"]["input"]  # the Wolfram Language text
+        text = formula.replace("E^", "E**").replace("^", "**")
+        text = text.replace("Sqrt[", "sqrt(").replace("]", ")")  # Sqrt[bb] -> sqrt(bb)
         coefficient = float(sp.sympify(
-            formula.replace("E^", "E**").replace("^", "**"),
-            locals={"E": sp.E, "cc": cc, "a4v": a4v, "ad1": ad1, "H": H_symbol},
+            text, locals={"E": sp.E, "cc": cc, "a4v": a4v, "ad1": ad1, "bb": bb,
+                          "uu": uu, "H": H_symbol, "sqrt": sp.sqrt},
         ).subs(AT_POINT))
         for column, T in zip([chi] + columns, [T_generic] + tensors):
             predicted = -coefficient * bilinear(column, tuple(directions))
@@ -661,23 +702,26 @@ CELLS = [
     '''),
     md(r"""
     The next cell checks each witness: that $A\Phi_0 = -i\omega\Phi_0$ (so
-    $\Phi = e^{-i\omega x_4}\Phi_0$ is an exact condensate), that all 15 bilinears
-    vanish, that $S \neq 0$, and that the tensor is diagonal at 36 points: every
-    combination of $a_4 \in \{-1, 0, 0.5\}$, $a_4' \in \{-0.5, 0, 0.25, 1\}$ and
-    $z \in \{0.3, 0.8, 1.3\}$. It prints $S$ of each witness (with $v_1$ and $v_2$ of
-    length 1).
+    $\Phi = b_4^{-3/4}e^{-i\omega x_4}\Phi_0$ is an exact condensate for every $b_4$),
+    that all 15 bilinears vanish, that $S \neq 0$, and that the tensor is diagonal at
+    36 points: every combination of $a_4 \in \{-1, 0, 0.5\}$ (with
+    $b_4 = e^{4a_4/3}$), of four pairs $(a_4', b_4'/b_4)$, and of
+    $z \in \{0.3, 0.8, 1.3\}$. At each point the jet is the column $\Phi_0$ and
+    $\partial_4\Phi = (-i\omega - \frac34\frac{b_4'}{b_4})\Phi_0$. It prints $S$ of
+    $\Phi_0$ for each witness (with $v_1$ and $v_2$ of length 1).
     """),
     code(r'''
-    grid = [(a4, a4p, z) for a4 in (-1.0, 0.0, 0.5) for a4p in (-0.5, 0.0, 0.25, 1.0)
-            for z in (0.3, 0.8, 1.3)]  # 3 x 4 x 3 = 36 points
+    RATES = ((-0.5, 0.2), (0.0, 0.0), (0.25, 1 / 3), (1.0, -0.4))  # (a4p, b4'/b4)
+    grid = [(a4, np.exp(4 * a4 / 3), a4p, u, z) for a4 in (-1.0, 0.0, 0.5)
+            for a4p, u in RATES for z in (0.3, 0.8, 1.3)]  # 3 x 4 x 3 = 36 points
     witness_columns = {}  # (V, H) -> Phi0
     unit_S = {}  # (V, H) -> S of Phi0 built from v1 and v2 of length 1
     for (V_w, H_w), (freq, A_w, v1, v2, phi0) in witnesses.items():
         S_w = (bar(phi0) @ phi0).real
         largest_bilinear = max(abs(bilinear(phi0, d)) for d in used)
         worst_off = 0.0  # the largest off-diagonal entry at the 36 points
-        for a4, a4p, z in grid:
-            T = condensate_tensor(phi0, a4, a4p, z, V_w, H_w)
+        for a4, b4, a4p, u, z in grid:
+            T = condensate_tensor(phi0, a4, a4p, b4, u, z, V_w, H_w)
             worst_off = max(worst_off, np.abs(T - np.diag(np.diag(T))).max())
         check(np.abs(A_w @ phi0 + 1j * freq * phi0).max() < 1e-12
               and largest_bilinear < 1e-12 and abs(S_w) > 0.1 and worst_off < 1e-12,
@@ -724,10 +768,11 @@ CELLS = [
     md(r"""
     **The numbers of the record.** The Wolfram report of the record lists, in the
     detail text of its check `condensate_diagonal_witness_exact`, the frequencies
-    $\omega$ (written w there) and the values of $S$ of the three witnesses. The
-    record's verifier builds the witnesses with exact columns $v_1$, $v_2$ that are
-    not of length 1; since $S = 2|v_1^\dagger Cv_2|^2$ grows with the lengths of
-    $v_1$ and $v_2$, its $S$ cannot equal ours, while $\omega = \sqrt{V^2 - 9H^2}$
+    $\omega$ (written w there) and the values of $b_4^{3/2}S$ of the three witnesses,
+    that is of $S$ of their columns $\Phi_0$. The record's verifier builds the
+    witnesses with exact columns $v_1$, $v_2$ that are not of length 1; since
+    $S = 2|v_1^\dagger Cv_2|^2$ grows with the lengths of $v_1$ and $v_2$, its values
+    cannot equal ours, while $\omega = \sqrt{V^2 - 9H^2}$
     must agree exactly. The next cell reads the numbers out of the detail text (with
     a regular expression, a pattern that finds text), prints them, checks $\omega$,
     and divides each $S$ of the record by our $S$: the three quotients must be one
@@ -762,7 +807,8 @@ CELLS = [
     The next cell draws the tensor of the witness $(V, H) = (5, 1)$ at the same point
     and with the same colour scale as the generic condensate: only one square is
     coloured. (The value of $S$, and hence of $-VS$, depends on the lengths of $v_1$
-    and $v_2$; here both have length 1, so $S = 1.28$ and $-VS = -6.4$.)
+    and $v_2$; here both have length 1, and the jet at the point is $\Phi_0$, so
+    $S = 1.28$ and $-VS = -6.4$.)
     """),
     code(r'''
     T_witness = condensate_tensor(witness_columns[(5.0, 1.0)], **POINT)
@@ -771,9 +817,10 @@ CELLS = [
     fig.colorbar(picture, ax=ax, label="value (energy per unit volume)", extend="both")
     save_figure(fig, "witness_condensate",
                 "Heat map of the 64 entries $T^\\nu{}_\\mu$ of the exact witness "
-                "condensate $\\Phi = e^{-4ix_4}\\Phi_0$ of the Revision record with "
-                "$V = 5$, $H = 1$, $\\lambda = 0$, at the same point "
-                "($a_4 = 0.5$, $a_4' = 0.25$, $z = \\pi/4$) and with the same colour "
+                "condensate $\\Phi = b_4^{-3/4}e^{-4ix_4}\\Phi_0$ of the Revision record "
+                "with $V = 5$, $H = 1$, $\\lambda = 0$, at the same point "
+                "($a_4 = 0.5$, $a_4' = 0.25$, $b_4 = e^{2/3}$, $b_4'/b_4 = 1/3$, "
+                "$z = \\pi/4$; jet $\\Phi_0$) and with the same colour "
                 "scale as the generic condensate, in units of energy per unit volume. "
                 "All 15 three-gamma bilinears of $\\Phi_0$ vanish, so every off-diagonal "
                 "entry is zero (by the record, at every point of every history): this "
@@ -788,27 +835,31 @@ CELLS = [
     The full tensor of a condensate, off-diagonal entries included, must satisfy
     $\nabla_\mu T^\mu{}_\nu = 0$. Because the condensate solves the field equation on
     every history, the test uses a non-linear one, $a_4 = 0.3x_4 + 0.05x_4^2$
-    ($a_4' = 0.3 + 0.1x_4$), with $m = 1$, $\lambda = 0.5$, $H = 0.25$ and a random
-    unit column $\chi$. The tensor depends on $x_4$ (through $\Phi$, $a_4$ and $a_4'$)
-    and on $x_0$ (through $z$); the derivatives $\partial_4 T$ and $\partial_0 T$ are
+    ($a_4' = 0.3 + 0.1x_4$) and $b_4 = e^{0.4x_4 - 0.02x_4^2}$
+    ($b_4'/b_4 = 0.4 - 0.04x_4$), with $m = 1$, $\lambda = 0.5$, $H = 0.25$. The
+    tensor depends on $x_4$ (through $\Phi$, $a_4$, $a_4'$, $b_4$ and $b_4'/b_4$) and
+    on $x_0$ (through $z$); the derivatives $\partial_4 T$ and $\partial_0 T$ are
     taken by central finite differences with step $h$.
 
     The next cell computes the 25 Christoffel symbols of the metric with sympy
     (the formula $\Gamma^\lambda{}_{\mu\nu} = \frac{1}{2g_{\lambda\lambda}}
     (\partial_\mu g_{\lambda\nu} + \partial_\nu g_{\lambda\mu}
-    - \partial_\lambda g_{\mu\nu})$ of a diagonal metric), puts the history into
-    them and turns each into a fast numpy function of $(x_4, x_0, H)$ with
-    `sp.lambdify`.
+    - \partial_\lambda g_{\mu\nu})$ of a diagonal metric, with the functions $a_4$
+    and $b_4$), puts the history into them and turns each into a fast numpy function
+    of $(x_4, x_0, H)$ with `sp.lambdify`.
     """),
     code(r'''
     x = sp.symbols("x0:8", real=True)  # sympy was imported in section 8
     Hs = sp.symbols("H", positive=True)
     a4_function = sp.Function("a4")(x[4])
+    b4_function = sp.Function("b4", positive=True)(x[4])
     zs = 6 * Hs * x[0]
     space_entry = sp.exp(2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
-    extra_entry = -sp.exp(-2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
+    extra_entry = -b4_function * sp.exp(-2 * a4_function) * sp.sin(zs) ** sp.Rational(1, 3)
     g = sp.diag(*([sp.cot(zs) ** 2] + [space_entry] * 3 + [-1] + [extra_entry] * 3))
-    history = sp.Rational(3, 10) * x[4] + sp.Rational(1, 20) * x[4] ** 2  # a4(x4)
+    history = {  # a4(x4) and b4(x4) of the test
+        a4_function: sp.Rational(3, 10) * x[4] + sp.Rational(1, 20) * x[4] ** 2,
+        b4_function: sp.exp(sp.Rational(2, 5) * x[4] - sp.Rational(1, 50) * x[4] ** 2)}
     christoffel = {}  # (l, i, j) with i <= j -> a numpy function of (x4, x0, H)
     for l in range(8):
         for i in range(8):
@@ -817,54 +868,92 @@ CELLS = [
                                      - sp.diff(g[i, j], x[l])) / (2 * g[l, l]))
                 if value != 0:  # put the history in, then make a numpy function
                     christoffel[(l, i, j)] = sp.lambdify(
-                        (x[4], x[0], Hs), value.subs(a4_function, history).doit(), "numpy")
+                        (x[4], x[0], Hs), value.subs(history).doit(), "numpy")
     check(len(christoffel) == 25, "25 nonzero Christoffel symbols (i <= j)")
     '''),
     md(r"""
-    The next cell builds the two condensates of the test and the divergence. The
-    true condensate uses $M = -V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(0)}$; the
-    negative control uses $M = -V\gamma^{(4)}$, the condensate of an equation
-    without the gravitational term $3H\gamma^{(0)}$. Its $S$ is also constant, but
+    The next cell builds the two condensates of the test and the divergence. With
+    $\lambda \neq 0$ and a changing $b_4$ the effective mass
+    $V(x_4) = m + \lambda S_0b_4^{-3/2}$ changes in time, and the condensate has no
+    closed form. So the notebook fixes the column $\chi$ at the time of each test
+    point (a random unit column, with $S_0 = \chi^\dagger C\chi$) and computes it at
+    the neighbouring times $x_4 \pm h$ by RK4 with 50 steps (`flow`); the error of
+    RK4 over the distance $h$ is of the order $h^5/50^4$, far below the error $h^2$ of
+    the finite differences. The true condensate uses
+    $M = -V\gamma^{(4)} + 3H\gamma^{(4)}\gamma^{(0)}$; the negative control uses
+    $M = -V\gamma^{(4)}$, the condensate of an equation without the part
+    $3H\gamma^{(0)}$ of the gravitational term. Its $S$ is also $b_4^{-3/2}S_0$, but
     it does not solve the field equation of the author's metric, so its tensor must
-    not be conserved. The function `field(M, k2, x4)` returns $\Phi(x_4)$ and
-    $\partial_4\Phi = M\Phi$, `tensor_at(M, k2, x4, x0)` the 64 entries of the
-    tensor at a point of the history, and `divergence(M, k2, x4, x0, h)` the eight
-    components of $\nabla_\mu T^\mu{}_\nu$, with the derivatives $\partial_4 T$ and
-    $\partial_0 T$ replaced by central finite differences of step $h$ (the tensor of
-    a condensate depends on $x_4$ and $x_0$ only). The cell only defines; it prints
-    the effective mass $V$ of the test.
+    not be conserved. The function `condensate(kind, x4_base)` returns a function
+    `field(x4)` with $\Phi(x_4) = b_4^{-3/4}\chi(x_4)$ and
+    $\partial_4\Phi = b_4^{-3/4}(M\chi - \frac34\frac{b_4'}{b_4}\chi)$,
+    `tensor_at(field, x4, x0)` the 64 entries of the tensor at a point of the
+    history, and `divergence(field, x4, x0, h)` the eight components of
+    $\nabla_\mu T^\mu{}_\nu$, with the derivatives $\partial_4 T$ and $\partial_0 T$
+    replaced by central finite differences of step $h$ (the tensor of a condensate
+    depends on $x_4$ and $x_0$ only). The cell only defines; it prints the
+    effective mass $V$ of the test at $x_4 = 1$.
     """),
     code(r'''
     m9, lam9, H9 = 1.0, 0.5, 0.25  # the parameters of this section
     chi9 = rng.normal(size=16) + 1j * rng.normal(size=16)
-    chi9 /= np.linalg.norm(chi9)
-    V9 = m9 + lam9 * (bar(chi9) @ chi9).real  # the effective mass
-    M_TRUE = -V9 * g4 + 3 * H9 * g4 @ g0  # the true condensate: M^2 = 9 H^2 - V^2
-    M_CONTROL = -V9 * g4  # without the term 3 H gamma^(x0): M^2 = -V^2
-    K2_TRUE, K2_CONTROL = 9 * H9 ** 2 - V9 ** 2, -V9 ** 2
+    chi9 /= np.linalg.norm(chi9)  # the column chi at the time of a test point
+    S9 = (bar(chi9) @ chi9).real  # S0 = chi^dagger C chi, constant along chi
 
 
-    def field(M, k2, x4):
-        """Phi(x4) and dPhi/dx4 = M Phi(x4) for Phi(0) = chi9 (M^2 = k2)."""
-        k = np.sqrt(complex(k2))
-        phi = np.cosh(k * x4) * chi9 + np.sinh(k * x4) / k * (M @ chi9)
-        return phi, M @ phi
+    def a4_of(x4):
+        return 0.3 * x4 + 0.05 * x4 ** 2
 
 
-    def tensor_at(M, k2, x4, x0):
-        phi, d4 = field(M, k2, x4)
+    def b4_of(x4):
+        return np.exp(0.4 * x4 - 0.02 * x4 ** 2)
+
+
+    def M_of(kind, x4):
+        """M(x4) of the true condensate or of the control (no 3 H gamma^(x0))."""
+        V_now = m9 + lam9 * S9 * b4_of(x4) ** -1.5  # the effective mass at x4
+        M = -V_now * g4
+        return M + 3 * H9 * g4 @ g0 if kind == "true" else M
+
+
+    def flow(kind, column, x_from, x_to, count=50):
+        """RK4 for chi' = M(x4) chi from x_from to x_to with count steps."""
+        step = (x_to - x_from) / count
+        x4, column = x_from, column.astype(complex)
+        for _ in range(count):
+            s1 = M_of(kind, x4) @ column
+            s2 = M_of(kind, x4 + step / 2) @ (column + step / 2 * s1)
+            s3 = M_of(kind, x4 + step / 2) @ (column + step / 2 * s2)
+            s4 = M_of(kind, x4 + step) @ (column + step * s3)
+            column = column + step / 6 * (s1 + 2 * s2 + 2 * s3 + s4)
+            x4 += step
+        return column
+
+
+    def condensate(kind, x4_base):
+        """field(x4) -> (Phi, dPhi/dx4) of the condensate with chi(x4_base) = chi9."""
+        def field(x4):
+            column = chi9 if x4 == x4_base else flow(kind, chi9, x4_base, x4)
+            u = 0.4 - 0.04 * x4  # b4'/b4
+            factor = b4_of(x4) ** -0.75
+            return factor * column, factor * (M_of(kind, x4) @ column - 0.75 * u * column)
+        return field
+
+
+    def tensor_at(field, x4, x0):
+        phi, d4 = field(x4)
         dphi = np.zeros((8, 16), dtype=complex)
         dphi[4] = d4
-        return energy_momentum(phi, dphi, m9, lam9, 0.3 * x4 + 0.05 * x4 ** 2,
-                               0.3 + 0.1 * x4, 6 * H9 * x0, H9)
+        return energy_momentum(phi, dphi, m9, lam9, a4_of(x4), 0.3 + 0.1 * x4,
+                               b4_of(x4), 0.4 - 0.04 * x4, 6 * H9 * x0, H9)
 
 
-    def divergence(M, k2, x4, x0, h):
+    def divergence(field, x4, x0, h):
         """The eight components of nabla_mu T^mu_nu, with central differences of step h,
         and the size of the tensor (its largest entry)."""
-        T = tensor_at(M, k2, x4, x0)
-        d4T = (tensor_at(M, k2, x4 + h, x0) - tensor_at(M, k2, x4 - h, x0)) / (2 * h)
-        d0T = (tensor_at(M, k2, x4, x0 + h) - tensor_at(M, k2, x4, x0 - h)) / (2 * h)
+        T = tensor_at(field, x4, x0)
+        d4T = (tensor_at(field, x4 + h, x0) - tensor_at(field, x4 - h, x0)) / (2 * h)
+        d0T = (tensor_at(field, x4, x0 + h) - tensor_at(field, x4, x0 - h)) / (2 * h)
         G = np.zeros((8, 8, 8))  # G[l, i, j] = Gamma^l_ij
         for (l, i, j), function in christoffel.items():
             G[l, i, j] = G[l, j, i] = function(x4, x0, H9)
@@ -876,7 +965,8 @@ CELLS = [
         return result, np.abs(T).max()
 
 
-    report("effective mass V = m + lambda S of the test condensate", f"{V9:.6f}")
+    report("effective mass V = m + lambda S at x4 = 1",
+           f"{m9 + lam9 * S9 * b4_of(1.0) ** -1.5:.6f}")
     '''),
     md(r"""
     The next cell computes the largest of the eight components of the divergence for
@@ -885,16 +975,18 @@ CELLS = [
     must fall like $h^2$ (each halving of $h$ divides it by about 4): the exact
     divergence is zero and only the error of the finite differences is left. For the
     control it must approach a nonzero value. The cell also checks the true
-    condensate at two more points with $h = 0.001$ and $h = 0.0001$: the divergence
-    must shrink about a hundredfold and end below $10^{-5}$ of the size of the tensor.
+    condensate at two more points (each with the column $\chi$ fixed at its own
+    time) with $h = 0.001$ and $h = 0.0001$: the divergence must shrink about a
+    hundredfold and end below $10^{-5}$ of the size of the tensor.
     """),
     code(r'''
     steps = 0.2 / 2.0 ** np.arange(11)  # 0.2, 0.1, ..., about 0.0002
     X4_TEST, X8_TEST = 1.0, 0.5 / (6 * H9)  # x4 = 1 and z = 0.5
+    TRUE, CONTROL = condensate("true", X4_TEST), condensate("control", X4_TEST)
     true_sizes, control_sizes = [], []
     for h in steps:
-        div_true, size_true = divergence(M_TRUE, K2_TRUE, X4_TEST, X8_TEST, h)
-        div_control, _ = divergence(M_CONTROL, K2_CONTROL, X4_TEST, X8_TEST, h)
+        div_true, size_true = divergence(TRUE, X4_TEST, X8_TEST, h)
+        div_control, _ = divergence(CONTROL, X4_TEST, X8_TEST, h)
         true_sizes.append(np.abs(div_true).max())
         control_sizes.append(np.abs(div_control).max())
     true_sizes, control_sizes = np.array(true_sizes), np.array(control_sizes)
@@ -908,8 +1000,9 @@ CELLS = [
           "control: the divergence tends to a nonzero value (it is not conserved)")
     for x4_point, z_point in ((2.0, 1.0), (0.5, 1.2)):
         x0_point = z_point / (6 * H9)
-        coarse, size_other = divergence(M_TRUE, K2_TRUE, x4_point, x0_point, 1e-3)
-        fine, _ = divergence(M_TRUE, K2_TRUE, x4_point, x0_point, 1e-4)
+        other = condensate("true", x4_point)  # chi9 at the time x4_point
+        coarse, size_other = divergence(other, x4_point, x0_point, 1e-3)
+        fine, _ = divergence(other, x4_point, x0_point, 1e-4)
         shrink = np.abs(coarse).max() / np.abs(fine).max()  # about 10^2 for an h^2 error
         check(90 < shrink < 110 and np.abs(fine).max() < 1e-5 * size_other,
               f"true condensate conserved at x4 = {x4_point}, z = {z_point} "
@@ -930,7 +1023,7 @@ CELLS = [
     code(r'''
     fig, ax = plt.subplots()
     ax.loglog(steps, true_sizes, "o-", label="true condensate")
-    ax.loglog(steps, control_sizes, "s-", label="control (no $3H\\gamma^{(0)}$ term)")
+    ax.loglog(steps, control_sizes, "s-", label="control (no $3H\\gamma^{(0)}$ part)")
     ax.loglog(steps, true_sizes[0] * (steps / steps[0]) ** 2, "k:",
               label="proportional to $h^2$")
     ax.set_xlabel("finite-difference step $h$")
@@ -941,33 +1034,35 @@ CELLS = [
                 "The largest of the eight components of the covariant divergence "
                 "$\\nabla_\\mu T^\\mu{}_\\nu$ of the full tensor of a condensate "
                 "($m = 1$, $\\lambda = 0.5$, $H = 0.25$, history "
-                "$a_4 = 0.3x_4 + 0.05x_4^2$, point $x_4 = 1$, $z = 0.5$), computed with "
+                "$a_4 = 0.3x_4 + 0.05x_4^2$, $b_4 = e^{0.4x_4 - 0.02x_4^2}$, point "
+                "$x_4 = 1$, $z = 0.5$), computed with "
                 "central finite differences of step $h$, against $h$ from $0.2$ to "
                 "$0.0002$; both axes logarithmic, the divergence in units of energy per "
                 "unit volume per unit length. For the true condensate (circles) it "
                 "falls like $h^2$ (dotted line): the exact divergence is zero. For the "
-                "control (squares), which leaves out the term $3H\\gamma^{(0)}$ of the "
-                "field equation, it stays near $0.07$: its tensor is not conserved.")
+                "control (squares), which leaves out the part $3H\\gamma^{(0)}$ of the "
+                "field equation, it stays near $0.05$: its tensor is not conserved.")
     '''),
     md(r"""
     The next cell draws the eight components separately at the step $h = 0.001$, for
     the true condensate and for the control, as bars on a logarithmic axis, and
     checks what the picture shows: the control fails in the six momentum components
     (along 3-space and the extra times), while its energy component $\nu = x_4$ and
-    its hidden component $\nu = x_0$ vanish. The control's energy density and
-    pressures are the same as those of the true condensate (its $S$ is constant and
-    $p_3 = p_t$), so its energy balance holds; it is the momentum balance that the
-    missing term $3H\gamma^{(0)}$ breaks.
+    its hidden component $\nu = x_0$ vanish up to the error of the finite
+    differences, as those of the true condensate do. The control's energy density
+    and pressures are the same as those of the true condensate (its $S$ is also
+    $b_4^{-3/2}S_0$ and $p_3 = p_t$), so its energy balance holds; it is the momentum
+    balance that the missing part $3H\gamma^{(0)}$ breaks.
     """),
     code(r'''
-    div_true, _ = divergence(M_TRUE, K2_TRUE, X4_TEST, X8_TEST, 1e-3)
-    div_control, _ = divergence(M_CONTROL, K2_CONTROL, X4_TEST, X8_TEST, 1e-3)
+    div_true, size_true = divergence(TRUE, X4_TEST, X8_TEST, 1e-3)
+    div_control, _ = divergence(CONTROL, X4_TEST, X8_TEST, 1e-3)
     positions = np.arange(8)
     fig, ax = plt.subplots()
     floor = 1e-16  # zero components are drawn at this height on the logarithmic axis
     ax.bar(positions - 0.2, np.abs(div_true) + floor, width=0.4, label="true condensate")
     ax.bar(positions + 0.2, np.abs(div_control) + floor, width=0.4,
-           label="control (no $3H\\gamma^{(0)}$ term)")
+           label="control (no $3H\\gamma^{(0)}$ part)")
     ax.set_yscale("log")
     ax.set_ylim(1e-16, 10.0)
     ax.set_xticks(positions, [f"$\\nu = {n[0]}_{n[1]}$" for n in NAMES], fontsize=8)
@@ -982,16 +1077,16 @@ CELLS = [
                 "$10^{-16}$). The true condensate (left bars) has every component at the "
                 "level of the finite-difference error, below $10^{-6}$. The control "
                 "(right bars) has its six momentum components $\\nu = x_1, x_2, x_3, "
-                "x_5, x_6, x_7$ between about $0.01$ and $0.07$, while its components "
-                "$\\nu = x_4$ and $x_0$ vanish like those of the true condensate: the "
-                "control keeps the energy balance but breaks the momentum balance along "
-                "3-space and the extra times.")
+                "x_5, x_6, x_7$ between about $0.002$ and $0.05$, while its components "
+                "$\\nu = x_4$ and $x_0$ stay at the error level of the true condensate: "
+                "the control keeps the energy balance but breaks the momentum balance "
+                "along 3-space and the extra times.")
     momentum = [1, 2, 3, 5, 6, 7]  # the components nu = x1, x2, x3, x5, x6, x7
     check(np.abs(div_control).max() > 1e3 * np.abs(div_true).max()
           and np.abs(div_control[momentum]).min() > 1e-3
-          and max(abs(div_control[4]), abs(div_control[0])) < 1e-9,
+          and max(abs(div_control[4]), abs(div_control[0])) < 1e-6 * size_true,
           "control: its six momentum components are nonzero (over 1000 times the true "
-          "condensate's), its x4 and x0 components vanish")
+          "condensate's), its x4 and x0 components vanish up to the h^2 error")
     '''),
     md(r"""
     ## 10. The last check
@@ -1013,12 +1108,14 @@ CELLS = [
     md(r"""
     ## 11. What this notebook showed
 
-    - A generic exact condensate of dirac16complex00 has the diagonal of a perfect
-      fluid ($-VS$ at $x_4$, the same pressure elsewhere, zero for $\lambda = 0$) but
-      42 nonzero off-diagonal entries, all produced by the spin connection: the 12
-      flows $T^{x_4}{}_{x_j}$ and $T^{x_j}{}_{x_4}$ ($x_j$ one of the six directions
-      of 3-space and of the extra times), which come from $H$, and 30 more that are
-      proportional to the deflation rate $a_4'$. Its $x_4$-$x_0$ entries vanish.
+    - A generic condensate $\Phi = b_4^{-3/4}\chi$ of dirac16complex00 has the
+      diagonal of a perfect fluid ($-VS$ at $x_4$, the same pressure elsewhere, zero
+      for $\lambda = 0$) but 42 nonzero off-diagonal entries, all produced by the
+      spin connection: the 12 flows $T^{x_4}{}_{x_j}$ and $T^{x_j}{}_{x_4}$ ($x_j$ one
+      of the six directions of 3-space and of the extra times), which come from $H$,
+      and 30 more whose coefficients contain $a_4'$, $2a_4' - b_4'/b_4$ or
+      $4a_4' - b_4'/b_4$ (36 remain at a moment with $a_4' = 0$, 12 when also
+      $b_4' = 0$). Its $x_4$-$x_0$ entries vanish.
     - Each off-diagonal entry is a fixed multiple of one of 15 three-gamma bilinears
       (the record's statement, confirmed with three random columns), and the
       multiple is exactly minus the coefficient that the record lists for the
@@ -1026,7 +1123,7 @@ CELLS = [
     - The record's witnesses, built from joint eigenvectors of
       $\gamma^{(1)}\gamma^{(5)}$, $\gamma^{(2)}\gamma^{(6)}$, $\gamma^{(3)}\gamma^{(7)}$,
       make all 15 bilinears vanish: their tensor is diagonal (the record shows it for
-      every $a_4$ and $a_4'$; this notebook checked 36 points). The space of the
+      all $a_4$, $a_4'$, $b_4$ and $b_4'$; this notebook checked 36 points). The space of the
       eigenvalue $-i\omega$ has dimension 8 and each of its eight sectors dimension
       1, so $v_1$ and $v_2$ are unique up to a factor of size 1. Their
       $S = 2|v_1^\dagger Cv_2|^2$ is never negative; the record's frequencies
@@ -1037,10 +1134,11 @@ CELLS = [
       as these, meet the condition of the $a_4$ field equations that the
       off-diagonal entries of the source vanish (one condition among several).
     - The full tensor of a condensate is conserved, $\nabla_\mu T^\mu{}_\nu = 0$,
-      along a curved history: the finite-difference divergence falls like $h^2$. A
-      configuration that leaves out the gravitational term $3H\gamma^{(0)}$ keeps the
-      energy balance but breaks the six momentum balances along 3-space and the
-      extra times: the term is needed for the conservation of the tensor.
+      along a curved history of $a_4$ and $b_4$: the finite-difference divergence
+      falls like $h^2$. A configuration that leaves out the part $3H\gamma^{(0)}$ of
+      the gravitational term keeps the energy balance but breaks the six momentum
+      balances along 3-space and the extra times: the term is needed for the
+      conservation of the tensor.
     - Status: the statements are PROVED in the Revision record (exact, Wolfram and
       sympy); this notebook confirms them numerically (COMPUTED). The formula
       $S = 2\omega^2/V^2$ for unit $v_1$, $v_2$ is an observation for the three
