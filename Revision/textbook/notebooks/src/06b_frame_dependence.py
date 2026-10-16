@@ -13,9 +13,9 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
 
 Physics source (the Revision record): Revision/theory/reports/python-scope.json and
 wolfram-scope.json (frame dependence, rescaling, blindness to the deflation; the metric
-at b4 = 1), Revision/theory/field-theory.json (Ricci tensor at b4 = 1),
-Revision/metric_b4/results/metric-b4.json (Ricci tensor with b4) and the field-theory
-reports (spinor curvature).  The author's coordinates x0..x7: x0 the hidden direction
+with b4), Revision/theory/field-theory.json (Ricci tensor with b4),
+Revision/kohn_sham/results/parameters.json (the history) and the field-theory reports
+(spinor curvature).  The author's coordinates x0..x7: x0 the hidden direction
 (z = 6 H x0), x1, x2, x3 3-space (inflating), x4 the time, x5, x6, x7 the three extra
 times (deflating exponentially).
 """
@@ -44,8 +44,8 @@ FACTS = {
         "diagonal vielbein in the (x4, x0) plane with a time-dependent rapidity and "
         "computes exactly, with sympy, the new spin connection and the new contraction "
         "gamma^mu Omega_mu = ((6 H - beta)/2)(cosh b gamma^(x0) - sinh b gamma^(x4)) + "
-        "(3/4)(b4'/b4)(cosh b gamma^(x4) - sinh b gamma^(x0)), which vanishes "
-        "identically for the rapidity rate beta = 6 H when b4 is constant; it verifies "
+        "(3/4)(b4'/b4)(cosh b gamma^(x4) - sinh b gamma^(x0)), whose first term "
+        "vanishes for the rapidity rate beta = 6 H while the b4 term remains; it verifies "
         "the local spin covariance of the connection with an explicit spinor boost, "
         "computes the Riemann and Ricci tensors and the curvature of the spinor "
         "connection, which no frame can remove, shows that the rescaling "
@@ -56,21 +56,19 @@ FACTS = {
         ["Revision/algebra/gammas.json",
          "the author's eight real 16 x 16 gamma matrices and the matrix C (input)"],
         ["Revision/theory/field-theory.json",
-         "the exact formulas at b4 = 1: the Ricci tensor and the Ricci scalar "
-         "(reproduced at b4 = 1)"],
-        ["Revision/metric_b4/results/metric-b4.json",
-         "the mixed Ricci tensor and the Ricci scalar of the metric with b4 "
-         "(reproduced)"],
+         "the exact formulas for the metric with b4: the ten nonzero mixed Ricci "
+         "components and the Ricci scalar (reproduced)"],
+        ["Revision/kohn_sham/results/parameters.json",
+         "the history of the Revision record: the slope A and the exponent beta of b4 "
+         "(physics.historyA, physics.historyBeta)"],
         ["Revision/theory/reports/python-scope.json",
-         "the sympy checks of the scope statements at b4 = 1: boosted frame, rescaling, "
-         "blindness to the deflation (reproduced at b4 = 1)"],
+         "the sympy checks of the scope statements for the metric with b4: boosted "
+         "frame, rescaling, blindness to the deflation (reproduced)"],
         ["Revision/theory/reports/wolfram-scope.json",
-         "the WolframScript checks of the same scope statements (reproduced at b4 = 1)"],
+         "the WolframScript checks of the same scope statements (reproduced)"],
         ["Revision/theory/reports/python-field-theory.json",
-         "the sympy checks of the curvature and of the spinor curvature at b4 = 1"],
+         "the sympy checks of the curvature and of the spinor curvature with b4"],
         ["Revision/theory/reports/wolfram-field-theory.json",
-         "the WolframScript checks of the curvature at b4 = 1"],
-        ["Revision/theory/reports/wolfram-field-theory-b4.json",
          "the WolframScript checks of the curvature and of the spinor curvature with b4 "
          "(reproduced)"],
     ],
@@ -106,7 +104,8 @@ CELLS = [
 
     The previous notebook of this chapter (06a) found $\gamma^\mu\Omega_\mu =
     3H\gamma^{(x0)} + \frac34(b_4'/b_4)\gamma^{(x4)}$ for the author's metric in the
-    DIAGONAL vielbein ($3H\gamma^{(x0)}$ when $b_4$ is constant). A vielbein is a
+    DIAGONAL vielbein ($3H\gamma^{(x0)} + H\gamma^{(x4)}$ on the history of the Revision
+    record, where $b_4'/b_4 = \frac43 H$). A vielbein is a
     choice: at every point any other set of eight perpendicular unit directions
     describes the same metric. This notebook asks which results depend on that choice
     and which do not. It
@@ -117,8 +116,9 @@ CELLS = [
     - computes its canonical spin connection and finds exactly
       $\gamma'^\mu\Omega'_\mu = \frac{6H - \beta}{2}\big(\cosh b\,\gamma^{(x0)} -
       \sinh b\,\gamma^{(x4)}\big) + \frac34\frac{b_4'}{b_4}\big(\cosh b\,
-      \gamma^{(x4)} - \sinh b\,\gamma^{(x0)}\big)$, which VANISHES for $\beta = 6H$
-      when $b_4$ is constant, although $\Omega'_\mu$ itself does not vanish;
+      \gamma^{(x4)} - \sinh b\,\gamma^{(x0)}\big)$, whose first term VANISHES for
+      $\beta = 6H$, although $\Omega'_\mu$ itself does not vanish, while the second, the
+      term of the growing $b_4$, remains;
     - explains the formula with the **local spin covariance** of the connection,
       using the explicit spinor boost $R = \cosh\frac{b}{2} -
       \sinh\frac{b}{2}\,\gamma^{(x4)}\gamma^{(x0)}$;
@@ -128,8 +128,7 @@ CELLS = [
       curvature, which no choice of frame can remove, is nonzero for every $H > 0$;
     - shows that the rescaled field $\chi = \sin^{1/2}(z)\,b_4^{3/4}\,\Psi$ obeys an
       equation without the term $\gamma^\mu\Omega_\mu$;
-    - checks every result against the Revision records (with $b_4$ where the record has
-      it, and at $b_4 = 1$) and draws six teaching plots.
+    - checks every result against the Revision records and draws six teaching plots.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -184,8 +183,11 @@ CELLS = [
     -e^{-2a_4}b_4\sin^{1/3}z\ (\times 3)\big).$$
 
     The diagonal vielbein has the factors $f = (\cot z,\ e^{a_4}s\ (\times 3),\ 1,\
-    e^{-a_4}b_4^{1/2}s\ (\times 3))$, $s = \sin^{1/6}z$. On the backgrounds of this
-    book $b_4 = 1$. The canonical spin connection of ANY vielbein $e$ is
+    e^{-a_4}b_4^{1/2}s\ (\times 3))$, $s = \sin^{1/6}z$. On the history of the Revision
+    record, $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$ and
+    $\beta = 4/3$, so $b_4'/b_4 = \frac43 H$ (the letter $\beta$ also names the rate of
+    the rapidity below; the exponent of $b_4$ appears only through the number $4/3$).
+    The canonical spin connection of ANY vielbein $e$ is
     $\omega_\mu{}^a{}_b = \sum_\nu e^a{}_\nu (\partial_\mu e_b{}^\nu +
     \sum_\lambda\Gamma^\nu{}_{\mu\lambda}e_b{}^\lambda)$.
 
@@ -207,8 +209,8 @@ CELLS = [
 
     **Status.** Every statement checked below is PROVED exactly (sympy, symbolic $H$,
     $a_4$, $b_4$, $\beta$, $b_0$). The scope records (`python-scope.json`,
-    `wolfram-scope.json`) state these results for the metric at $b_4 = 1$; the notebook
-    reproduces them there and computes the general case itself. This is the record's
+    `wolfram-scope.json`) state these results for the metric with $b_4$; the notebook
+    reproduces them. This is the record's
     own correction of the non-triviality statement: the value of
     $\gamma^\mu\Omega_\mu$ belongs to the diagonal vielbein; what is
     frame-independent is the curvature.
@@ -284,9 +286,14 @@ CELLS = [
     SCOPE_WL = "Revision/theory/reports/wolfram-scope.json"
     REPORT_PY = "Revision/theory/reports/python-field-theory.json"
     REPORT_WL = "Revision/theory/reports/wolfram-field-theory.json"
-    REPORT_WL_B4 = "Revision/theory/reports/wolfram-field-theory-b4.json"
     THEORY_FILE = "Revision/theory/field-theory.json"
-    METRIC_B4_FILE = "Revision/metric_b4/results/metric-b4.json"
+    PARAMETERS = "Revision/kohn_sham/results/parameters.json"
+    physics = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))["physics"]
+    A_EXACT = sp.nsimplify(physics["historyA"])  # the slope A of the history, 1
+    BETA_B4 = sp.nsimplify(physics["historyBeta"])  # the exponent of b4, 4/3
+    check(A_EXACT == 1 and BETA_B4 == sp.Rational(4, 3),
+          "the history of the record: a4 = A H x4, b4 = b4(0) e^(4 A H x4/3) with A = 1",
+          record=f"{PARAMETERS}, physics.historyA and physics.historyBeta")
     '''),
     md(r"""
     The next cell defines the four general formulas as Python functions, exactly as
@@ -359,10 +366,11 @@ CELLS = [
     functions $a_4(x_4)$ and $b_4(x_4) > 0$, $z = 6Hx_0$), the diagonal vielbein, the
     Christoffel symbols, the spin connection, $\Omega_\mu$ and the curved gammas, and
     checks the result of Notebook 06a, $\gamma^\mu\Omega_\mu = 3H\gamma^{(x0)} +
-    \frac34(b_4'/b_4)\gamma^{(x4)}$, which at $b_4 = 1$ is the record's
-    $3H\gamma^{(x0)}$. This is the CONTROL of the boosted computation: the same code,
-    with no boost, must give the known value. The helper `at_b4_1` puts $b_4 = 1$
-    into an expression and evaluates the derivatives of the constant 1 to 0.
+    \frac34(b_4'/b_4)\gamma^{(x4)}$, the record's value. This is the CONTROL of the
+    boosted computation: the same code, with no boost, must give the known value. The
+    dictionary `on_history` puts in the history of the record ($a_4' = AH$,
+    $b_4' = \frac43 AH\,b_4$, $A = 1$), where the value is $3H\gamma^{(x0)} +
+    H\gamma^{(x4)}$.
     """),
     code(r'''
     x = sp.symbols("x0:8", real=True)  # x[0] = x0, ..., x[4] = x4, ..., x[7] = x7
@@ -377,11 +385,7 @@ CELLS = [
          + [sp.exp(-a4) * sp.sqrt(b4) * s] * 3)  # f_0, ..., f_7
     g = sp.diag(*[ETA[a] * f[a] ** 2 for a in range(8)])  # the author's metric
     e = sp.diag(*f)  # the diagonal vielbein
-
-
-    def at_b4_1(expr):
-        """expr at b4 = 1; doit() evaluates the derivatives of the constant 1 to 0."""
-        return sp.sympify(expr).subs({b4: 1}).doit()
+    on_history = {b4p: BETA_B4 * A_EXACT * H * b4, a4p: A_EXACT * H}  # the record's history
 
 
     Gam = christoffel(g, x)
@@ -391,10 +395,10 @@ CELLS = [
     slash = sum((gup[mu] * Omega[mu] for mu in range(8)), Z16)
     c_b4 = sp.Rational(3, 4) * b4p / b4  # the coefficient (3/4) b4'/b4
     check(matrix_is_zero(slash - 3 * H * gamma[0] - c_b4 * gamma[4])
-          and matrix_is_zero(at_b4_1(slash) - 3 * H * gamma[0]),
+          and matrix_is_zero(slash.subs(on_history) - 3 * H * gamma[0] - H * gamma[4]),
           "control: the diagonal vielbein gives gamma^mu Omega_mu = 3 H gamma^(x0) + "
-          "(3/4)(b4'/b4) gamma^(x4), 3 H gamma^(x0) at b4 = 1",
-          record=f"{SCOPE_PY}, check rescaling_removes_the_connection_term (b4 = 1)")
+          "(3/4)(b4'/b4) gamma^(x4), on the history 3 H gamma^(x0) + H gamma^(x4)",
+          record=f"{SCOPE_PY}, check rescaling_removes_the_connection_term")
     '''),
     md(r"""
     ## 7. A boost of the frame in the plane of $x4$ and $x0$
@@ -477,9 +481,8 @@ CELLS = [
     matrix product $e' = \Lambda(b)\,e$. The next cell checks that it describes the
     author's metric (all 64 entries of $e'^T\eta e'$), computes its canonical spin
     connection, and checks the vielbein postulate (512 equations) and the
-    antisymmetry $\omega'_{\mu ab} = -\omega'_{\mu ba}$, for every $b_4$. At $b_4 = 1$
-    these are the record's checks `boosted_frame_reproduces_metric` and
-    `boosted_frame_canonical_connection`.
+    antisymmetry $\omega'_{\mu ab} = -\omega'_{\mu ba}$, for every $b_4$: the record's
+    checks `boosted_frame_reproduces_metric` and `boosted_frame_canonical_connection`.
     """),
     code(r'''
     beta, b0 = sp.symbols("beta b0", real=True)  # the rate and the start of the rapidity
@@ -488,7 +491,7 @@ CELLS = [
     e_boosted = L * e  # e'^a_mu = sum_c Lambda^a_c e^c_mu
     check(matrix_is_zero(e_boosted.T * eta_matrix * e_boosted - g),
           "the boosted vielbein gives the author's metric (64 entries)",
-          record=f"{SCOPE_PY}, check boosted_frame_reproduces_metric (b4 = 1)")
+          record=f"{SCOPE_PY}, check boosted_frame_reproduces_metric")
     omega_b = spin_connection(e_boosted, Gam, x, ETA)  # omega'_{mu ab}
     postulate = [sp.diff(e_boosted[a, nu], x[mu])
                  - sum(Gam[lam][mu][nu] * e_boosted[a, lam] for lam in range(8))
@@ -498,7 +501,7 @@ CELLS = [
                         for mu in range(8) for a in range(8) for c in range(8))
     check(all(is_zero(v) for v in postulate) and antisymmetric,
           "boosted vielbein: vielbein postulate (512) and antisymmetry of omega'",
-          record=f"{SCOPE_PY}, check boosted_frame_canonical_connection (b4 = 1)")
+          record=f"{SCOPE_PY}, check boosted_frame_canonical_connection")
     Omega_b = spinor_connection(omega_b, S)  # Omega'_mu
     gup_b = curved_gammas(e_boosted, gamma)  # gamma'^mu
     count_b = sum(1 for mu in range(8) for a in range(8) for c in range(a + 1, 8)
@@ -515,8 +518,9 @@ CELLS = [
     w, \qquad v = \cosh b\,\gamma^{(x0)} - \sinh b\,\gamma^{(x4)},\quad
     w = \cosh b\,\gamma^{(x4)} - \sinh b\,\gamma^{(x0)} .$$
 
-    At $b_4 = 1$ the second term is absent, and the formula is the record's. At $b = 0$
-    (no boost) it gives back $3H\gamma^{(x0)} + \frac34(b_4'/b_4)\gamma^{(x4)}$. The
+    This is the record's formula. At $b = 0$ (no boost) it gives back
+    $3H\gamma^{(x0)} + \frac34(b_4'/b_4)\gamma^{(x4)}$; on the history of the record,
+    where $\frac34 b_4'/b_4 = H$, it is $\frac{6H - \beta}{2}\,v + H\,w$. The
     coefficient $(6H - \beta)/2$ already shows the surprise: for the rate
     $\beta = 6H$ the first term is zero.
     """),
@@ -527,28 +531,30 @@ CELLS = [
     formula = (6 * H - beta) / 2 * v + c_b4 * w
     check(matrix_is_zero(slash_b - formula),
           "gamma'^mu Omega'_mu = ((6H - beta)/2) v + (3/4)(b4'/b4) w",
-          record=f"{SCOPE_PY}, check boosted_frame_gammaOmega_formula (b4 = 1)")
+          record=f"{SCOPE_PY}, check boosted_frame_gammaOmega_formula")
     check(matrix_is_zero(formula.subs({beta: 0, b0: 0}) - 3 * H * gamma[0]
                          - c_b4 * gamma[4])
-          and matrix_is_zero(at_b4_1(formula) - (6 * H - beta) / 2 * v),
-          "with no boost the formula is 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4); at "
-          "b4 = 1 it is ((6H - beta)/2) v")
+          and matrix_is_zero(formula.subs(on_history) - (6 * H - beta) / 2 * v - H * w),
+          "with no boost the formula is 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4); on "
+          "the history it is ((6H - beta)/2) v + H w")
     '''),
     md(r"""
-    The next cell draws the two coefficients of the formula at $b_4 = 1$ (the
-    background of this book), the coefficient of $\gamma^{(x0)}$,
-    $\frac{6H-\beta}{2}\cosh b$, and the coefficient of $\gamma^{(x4)}$,
-    $-\frac{6H-\beta}{2}\sinh b$, as functions of the time $x_4$, for $b_0 = 0$,
-    $H = 1$ and the four rates $\beta = 0, 3, 6, 9$. The curves are made from the
-    formula that the previous cell proved. For $\beta = 0$ they are the constants $3$
-    and $0$ of the diagonal vielbein; for $\beta = 6$ both are zero at every time; for
-    $\beta = 9$ they change sign.
+    The next cell draws the two coefficients of the formula on the history of the
+    record ($\frac34 b_4'/b_4 = H$), the coefficient of $\gamma^{(x0)}$,
+    $\frac{6H-\beta}{2}\cosh b - H\sinh b$, and the coefficient of $\gamma^{(x4)}$,
+    $-\frac{6H-\beta}{2}\sinh b + H\cosh b$, as functions of the time $x_4$, for
+    $b_0 = 0$, $H = 1$ and the four rates $\beta = 0, 3, 6, 9$. The curves are made from
+    the formula that the previous cell proved. For $\beta = 0$ they are the constants
+    $3$ and $1$ of the diagonal vielbein; for $\beta = 6$ only the term of $b_4$
+    remains, $-\sinh b$ and $\cosh b$; for $\beta = 9$ the first term changes sign.
     """),
     code(r'''
     times = np.linspace(-0.25, 0.25, 101)
     t_symbol = sp.Symbol("t", real=True)
-    coefficient_x0 = (6 * H - beta) / 2 * sp.cosh(b)  # the coefficient of gamma^(x0)
-    coefficient_x4 = -(6 * H - beta) / 2 * sp.sinh(b)  # the coefficient of gamma^(x4)
+    c_history = c_b4.subs(on_history)  # (3/4) b4'/b4 = H on the history
+    # the coefficients of gamma^(x0) and gamma^(x4) in ((6H - beta)/2) v + H w
+    coefficient_x0 = (6 * H - beta) / 2 * sp.cosh(b) - c_history * sp.sinh(b)
+    coefficient_x4 = -(6 * H - beta) / 2 * sp.sinh(b) + c_history * sp.cosh(b)
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10.0, 4.2), sharey=True)
     for rate, style in ((0, "-"), (3, "--"), (6, "-."), (9, ":")):
         values = {H: 1, beta: rate, b0: 0, x4: t_symbol}
@@ -566,31 +572,30 @@ CELLS = [
     ax_left.set_ylabel("coefficient in $\\gamma'^\\mu\\Omega'_\\mu$ (units of $H$)")
     save_figure(fig, "boosted_contraction",
                 "The contraction $\\gamma'^\\mu\\Omega'_\\mu$ in the boosted vielbein with "
-                "rapidity $b = \\beta x_4$, $H = 1$ and $b_4 = 1$: the coefficient of "
-                "$\\gamma^{(x0)}$ (left) and of $\\gamma^{(x4)}$ (right) versus the time "
-                "$x_4$ in units $1/H$, for the rates $\\beta = 0, 3H, 6H, 9H$. For "
-                "$\\beta = 0$ (no boost) the coefficients are $3$ and $0$, the diagonal "
-                "value $3H\\gamma^{(x0)}$ (on the right the zero lines of $\\beta = 0$ "
-                "and $\\beta = 6H$ lie on top of each other); for $\\beta = 6H$ both "
-                "coefficients vanish at every time; "
-                "the same metric, a different frame, a different value. A changing "
-                "$b_4$ would add $\\frac34(b_4'/b_4)(\\cosh b\\,\\gamma^{(x4)} - "
-                "\\sinh b\\,\\gamma^{(x0)})$.")
+                "rapidity $b = \\beta x_4$, $H = 1$, on the history of the Revision "
+                "record ($\\frac34 b_4'/b_4 = H$): the coefficient of $\\gamma^{(x0)}$ "
+                "(left) and of $\\gamma^{(x4)}$ (right) versus the time $x_4$ in units "
+                "$1/H$, for the rates $\\beta = 0, 3H, 6H, 9H$. For $\\beta = 0$ (no "
+                "boost) the coefficients are $3$ and $1$, the diagonal value "
+                "$3H\\gamma^{(x0)} + H\\gamma^{(x4)}$; for $\\beta = 6H$ the term "
+                "$\\frac{6H - \\beta}{2}(\\cosh b\\,\\gamma^{(x0)} - \\sinh b\\,"
+                "\\gamma^{(x4)})$ vanishes and only the term of the growing $b_4$, "
+                "$H(\\cosh b\\,\\gamma^{(x4)} - \\sinh b\\,\\gamma^{(x0)})$, remains; the "
+                "same metric, a different frame, a different value.")
     '''),
     md(r"""
-    ## 10. The rate $\beta = 6H$: the contraction vanishes for constant $b_4$
+    ## 10. The rate $\beta = 6H$ removes the $H$ term, not the $b_4$ term
 
     The next cell puts $\beta = 6H$ into the boosted spin connection (substituting
     after the computation is allowed, because the computation was done for every
     $\beta$). It checks that $\gamma'^\mu\Omega'_\mu = \frac34(b_4'/b_4)\,w$ is all that
-    remains, so that the contraction is zero identically, for every $H > 0$ and every
-    $a_4$, exactly when $b_4$ is constant (the record's statement at $b_4 = 1$); and
-    that $\Omega'_\mu$ is nonzero for $\mu = x1, \dots, x7$ and zero only for
-    $\mu = x0$. So for a constant $b_4$ the field equation $\gamma'^\mu D'_\mu\Psi' =
-    (m + U')\Psi'$ in this vielbein has no term $\gamma'^\mu\Omega'_\mu\Psi'$ at all,
-    although the spinor connection is everywhere. (The matrices $v$ and $w$ are
-    independent, so no rate $\beta$ removes the term $\frac34(b_4'/b_4)w$ of a changing
-    $b_4$; the rescaling of Section 14 removes the whole term.)
+    remains, for every $H > 0$ and every $a_4$ (the record's check
+    `boosted_frame_removes_only_the_H_term`); and that $\Omega'_\mu$ is nonzero for
+    $\mu = x1, \dots, x7$ and zero only for $\mu = x0$. The contraction would vanish
+    only for a constant $b_4$, the withdrawn metric; on the history of the record it is
+    $H\,w \ne 0$. The matrices $v$ and $w$ are independent, so no rate $\beta$ removes
+    the term $\frac34(b_4'/b_4)w$ of a changing $b_4$; the rescaling of Section 14
+    removes the whole term.
     """),
     code(r'''
     six_H = {beta: 6 * H}
@@ -599,28 +604,35 @@ CELLS = [
     nonzero = [NAMES[mu] for mu in range(8) if not matrix_is_zero(Omega_6H[mu])]
     say(f"Omega'_mu is nonzero for mu = {nonzero}")
     check(matrix_is_zero(slash_6H - c_b4 * w.subs(six_H))
-          and matrix_is_zero(at_b4_1(slash_6H))
           and nonzero == NAMES[1:],
-          "beta = 6H: gamma'^mu Omega'_mu = (3/4)(b4'/b4) w (zero for constant b4), "
+          "beta = 6H: gamma'^mu Omega'_mu = (3/4)(b4'/b4) w, only the b4 term remains; "
           "Omega'_mu nonzero for x1 ... x7",
-          record=f"{SCOPE_PY}, check boosted_frame_gammaOmega_vanishes (b4 = 1)")
+          record=f"{SCOPE_PY}, check boosted_frame_removes_only_the_H_term")
     '''),
     md(r"""
     The next cell draws three 16 x 16 matrices of the boosted vielbein with
     $\beta = 6H$ at the sample point $H = 1$, $b_0 = 0$, $x_4 = 1/6$ (so $b = 1$),
-    $z = \pi/4$, $a_4 = 1/2$, $a_4' = 1/2$ on the background $b_4 = 1$: the spinor
-    connection $\Omega'_{x4}$ (in the diagonal vielbein $\Omega_{x4} = 0$; here it is
-    not, because the frame turns with time), $\Omega'_{x1}$, and the total contraction
-    $\gamma'^\mu\Omega'_\mu$, which is the zero matrix (white).
+    $z = \pi/4$, with the values $a_4 = 1/2$, $a_4' = 1$, $b_4 = e^{2/3}$,
+    $b_4'/b_4 = 4/3$ of the history of the record at $a_4 = 1/2$ (unit $b_4(0)$): the
+    spinor connection $\Omega'_{x4}$ (in the diagonal vielbein $\Omega_{x4} = 0$; here
+    it is not, because the frame turns with time), $\Omega'_{x1}$, and the total
+    contraction $\gamma'^\mu\Omega'_\mu$, which is only the term $H\,w$ of the growing
+    $b_4$.
     """),
     code(r'''
+    B4_SAMPLE = sp.exp(sp.Rational(2, 3))  # b4 at a4 = 1/2 on the history, unit b4(0)
+
+
     def at_sample(expr):
-        """The decimal value of expr at H = 1, b0 = 0, x4 = 1/6, z = pi/4, a4 = 1/2,
-        a4' = 1/2, a4'' = 0, b4 = 1 (derivatives replaced first, then a4 and b4, then
-        x4)."""
-        expr = at_b4_1(expr).subs(sp.Derivative(a4, (x4, 2)), 0)
-        expr = expr.subs(sp.Derivative(a4, x4), sp.Rational(1, 2))
-        expr = expr.subs(a4, sp.Rational(1, 2))
+        """The decimal value of expr at H = 1, b0 = 0, x4 = 1/6, z = pi/4 with the values
+        of the history at a4 = 1/2: a4' = 1, a4'' = 0, b4 = e^(2/3), b4' = (4/3) b4,
+        b4'' = (16/9) b4 (derivatives replaced first, then a4 and b4, then x4)."""
+        rate = sp.Rational(4, 3)  # b4'/b4
+        expr = sp.sympify(expr).subs(sp.Derivative(a4, (x4, 2)), 0)
+        expr = expr.subs(sp.Derivative(b4, (x4, 2)), rate**2 * B4_SAMPLE)
+        expr = expr.subs({sp.Derivative(a4, x4): 1,
+                          sp.Derivative(b4, x4): rate * B4_SAMPLE})
+        expr = expr.subs({a4: sp.Rational(1, 2), b4: B4_SAMPLE})
         expr = expr.subs({H: 1, b0: 0, x4: sp.Rational(1, 6), x0: sp.pi / 24})
         return float(sp.N(expr))
 
@@ -630,7 +642,7 @@ CELLS = [
 
 
     panels = [("$\\Omega'_{x4}$", Omega_6H[4]), ("$\\Omega'_{x1}$", Omega_6H[1]),
-              ("$\\gamma'^\\mu\\Omega'_\\mu$ (all zero)", slash_6H)]
+              ("$\\gamma'^\\mu\\Omega'_\\mu$ (only the $b_4$ term)", slash_6H)]
     tables = [sample_table(M) for _, M in panels]
     fig, axes = plt.subplots(1, 3, figsize=(11.0, 3.6))
     for ax, (title, _), table in zip(axes, panels, tables):
@@ -644,14 +656,18 @@ CELLS = [
     save_figure(fig, "boosted_connection_heat_maps",
                 "The boosted vielbein with the rate $\\beta = 6H$ at the sample point "
                 "$H = 1$, $b_0 = 0$, $x_4 = 1/6$ (rapidity $b = 1$), $z = \\pi/4$, $a_4 = "
-                "1/2$, $a_4' = 1/2$, $b_4 = 1$, as 16 x 16 heat maps (red positive, blue "
-                "negative, white zero; rows and columns are the spinor components; each "
-                "panel has its own colour scale). Left: "
+                "1/2$, $a_4' = 1$, $b_4 = e^{2/3}$, $b_4'/b_4 = 4/3$ (the history of the "
+                "Revision record at $a_4 = 1/2$, unit $b_4(0)$), as 16 x 16 heat maps "
+                "(red positive, blue negative, white zero; rows and columns are the "
+                "spinor components; each panel has its own colour scale). Left: "
                 "$\\Omega'_{x4}$, nonzero because the frame turns with time; middle: "
-                "$\\Omega'_{x1}$; right: the contraction $\\gamma'^\\mu\\Omega'_\\mu$, the "
-                "zero matrix. The spinor connection is present, its contraction is not.")
-    check(np.abs(tables[2]).max() < 1e-12 and np.abs(tables[0]).max() > 0.1,
-          "at the sample point Omega'_x4 is nonzero and the contraction is zero")
+                "$\\Omega'_{x1}$; right: the contraction $\\gamma'^\\mu\\Omega'_\\mu$, "
+                "which is only the term $H(\\cosh b\\,\\gamma^{(x4)} - \\sinh b\\,"
+                "\\gamma^{(x0)})$ of the growing $b_4$: the boost removed the term "
+                "$3H\\gamma^{(x0)}$.")
+    check(np.abs(tables[2] - sample_table(c_b4 * w.subs(six_H))).max() < 1e-12
+          and np.abs(tables[2]).max() > 0.1 and np.abs(tables[0]).max() > 0.1,
+          "at the sample point Omega'_x4 is nonzero and the contraction is the b4 term")
     '''),
     md(r"""
     ## 11. Why: the local spin covariance, with an explicit spinor boost
@@ -708,20 +724,21 @@ CELLS = [
     \Gamma^\rho{}_{\nu\lambda}\Gamma^\lambda{}_{\mu\sigma})$ (it keeps the components
     with $\mu < \nu$; the others follow from the antisymmetry in $\mu, \nu$), then the
     mixed Ricci components $R^\mu{}_\nu$ and the Ricci scalar. It compares them with
-    the record of the metric with $b_4$ (`ricciMixed` and `ricciScalar` of
-    `Revision/metric_b4/results/metric-b4.json`, which also lists the two components
-    off the diagonal, $R^{x4}{}_{x0}$ and $R^{x0}{}_{x4}$, proportional to $b_4'$) and,
-    at $b_4 = 1$, with the record `field-theory.json` (`ricci_mixed_diagonal`,
-    `ricci_scalar`), whose values are
+    the record `field-theory.json` (`ricci_mixed_nonzero`, the ten nonzero components:
+    the eight on the diagonal and the two off it, $R^{x4}{}_{x0}$ and $R^{x0}{}_{x4}$,
+    proportional to $b_4'$; and `ricci_scalar`). On the history of the record
+    ($a_4' = AH$, $a_4'' = 0$, $b_4'/b_4 = \frac43 AH$) their values are
 
     $$R^{x0}{}_{x0} = -6H^2,\quad R^{x1}{}_{x1} = R^{x2}{}_{x2} = R^{x3}{}_{x3} =
-    a_4'' - 6H^2,\quad R^{x4}{}_{x4} = 6a_4'^2,\quad R^{x5}{}_{x5} = R^{x6}{}_{x6} =
-    R^{x7}{}_{x7} = -a_4'' - 6H^2,$$
+    (2A^2 - 6)H^2,\quad R^{x4}{}_{x4} = \tfrac{10}{3}A^2H^2,\quad R^{x5}{}_{x5} =
+    R^{x6}{}_{x6} = R^{x7}{}_{x7} = -(\tfrac23 A^2 + 6)H^2,$$
 
-    and $R = 6(a_4'^2 - 7H^2)$. The component $R^{x0}{}_{x0} = -6H^2$ holds for every
+    $R^{x4}{}_{x0} = 2AH^2\cot z$, $R^{x0}{}_{x4} = -2AH^2\tan z$, and
+    $R = \frac23 H^2(11A^2 - 63)$. The component $R^{x0}{}_{x0} = -6H^2$ holds for every
     $b_4$ and is negative for every $H > 0$ and every $a_4$: the metric is never flat.
-    At $b_4 = 1$ the component $R^{x4}{}_{x4} = 6a_4'^2$ shows that the deflation makes
-    curvature, although $\gamma^\mu\Omega_\mu$ does not contain $a_4$ at all.
+    The component $R^{x4}{}_{x4} = \frac{10}{3}a_4'^2$ on the history shows that the
+    expansion and the deflation make curvature, although $\gamma^\mu\Omega_\mu$ does not
+    contain $a_4$ at all.
     """),
     code(r'''
     def riemann_component(r, sg, mu, nu):
@@ -768,81 +785,84 @@ CELLS = [
             {sp.Symbol(k): value for k, value in names.items()}, simultaneous=True)
 
 
-    metric_b4 = json.loads(repository_file(METRIC_B4_FILE).read_text(encoding="utf-8"))
-    ricci_b4 = {tuple(NAMES.index(n) for n in key.split(",")): wolfram_to_sympy(text)
-                for key, text in metric_b4["ricciMixed"].items()}
-    nonzero_mixed = {(m, n) for m in range(8) for n in range(8)
-                     if not is_zero(ricci_mixed[m, n])}
-    check(nonzero_mixed == set(ricci_b4)
-          and all(is_zero(ricci_mixed[k] - ricci_b4[k]) for k in ricci_b4)
-          and is_zero(sum(ricci_mixed[a, a] for a in range(8))
-                      - wolfram_to_sympy(metric_b4["ricciScalar"])),
-          "the mixed Ricci tensor (10 nonzero components, 2 off the diagonal) and R equal "
-          "the record with b4",
-          record=f"{METRIC_B4_FILE}, keys ricciMixed and ricciScalar")
-    for key in sorted(ricci_b4):
-        say(f"R^{NAMES[key[0]]}_{NAMES[key[1]]} = {ricci_b4[key]}")
     FORMULAS = {item["key"]: item["wl"] for item in json.loads(
         repository_file(THEORY_FILE).read_text(encoding="utf-8"))["formulas"]}
-    ricci_record = wolfram_to_sympy(FORMULAS["ricci_mixed_diagonal"])
+    # the record's list {mu, nu, value}: R^mu_nu, directions numbered from 1 (x0 is 1)
+    ricci_record = {(int(m) - 1, int(n) - 1): value
+                    for m, n, value in wolfram_to_sympy(FORMULAS["ricci_mixed_nonzero"])}
+    nonzero_mixed = {(m, n) for m in range(8) for n in range(8)
+                     if not is_zero(ricci_mixed[m, n])}
     ricci_scalar = sum(ricci_mixed[a, a] for a in range(8))
-    check(all(is_zero(at_b4_1(ricci_mixed[a, a]) - ricci_record[a]) for a in range(8))
-          and is_zero(at_b4_1(ricci_scalar) - wolfram_to_sympy(FORMULAS["ricci_scalar"])),
-          "at b4 = 1: the eight Ricci components and R = 6 (a4'^2 - 7 H^2) equal the record",
-          record=f"{THEORY_FILE}, formulas ricci_mixed_diagonal and ricci_scalar")
+    check(nonzero_mixed == set(ricci_record)
+          and all(is_zero(ricci_mixed[k] - ricci_record[k]) for k in ricci_record)
+          and is_zero(ricci_scalar - wolfram_to_sympy(FORMULAS["ricci_scalar"])),
+          "the mixed Ricci tensor (10 nonzero components, 2 off the diagonal) and R equal "
+          "the record",
+          record=f"{THEORY_FILE}, formulas ricci_mixed_nonzero and ricci_scalar")
+    for key in sorted(ricci_record):
+        say(f"R^{NAMES[key[0]]}_{NAMES[key[1]]} = {ricci_record[key]}")
+    # the history with a general a4 and b4 = b4(0) e^(4 a4/3): b4' and b4'' follow a4
+    follow_a4 = {sp.Derivative(b4, (x4, 2)): (BETA_B4 * sp.Derivative(a4, (x4, 2))
+                                              + BETA_B4**2 * a4p**2) * b4,
+                 b4p: BETA_B4 * a4p * b4}
+    R44_history = sp.simplify(ricci_mixed[4, 4].subs(follow_a4))
+    say(f"with b4 = b4(0) e^(4 a4/3): R^x4_x4 = {R44_history}")
     # multiplied out, the entries of gamma^mu Omega_mu contain neither a4 nor its derivatives
     a4_free = all(not sp.expand(entry).has(a4) for entry in slash)
     check(a4_free and is_zero(ricci_mixed[0, 0] + 6 * H**2)
-          and is_zero(at_b4_1(ricci_mixed[4, 4]) - 6 * a4p ** 2),
-          "gamma^mu Omega_mu contains no a4, but R^x4_x4 = 6 a4'^2 at b4 = 1; "
-          "R^x0_x0 = -6 H^2 for every b4",
-          record=f"{SCOPE_PY}, check gammaOmega_blind_to_the_deflation (b4 = 1)")
+          and is_zero(R44_history - sp.Rational(10, 3) * a4p**2
+                      - 2 * sp.Derivative(a4, (x4, 2))),
+          "gamma^mu Omega_mu contains no a4, but R^x4_x4 = (10/3) a4'^2 + 2 a4'' for "
+          "b4 = b4(0) e^(4 a4/3); R^x0_x0 = -6 H^2 for every b4",
+          record=f"{SCOPE_PY}, check gammaOmega_blind_to_the_deflation")
     '''),
     md(r"""
-    The next cell draws the Ricci components on the background $b_4 = 1$. On the
-    left, the eight values $R^\mu{}_\mu$ at the sample values $H = 1$, $a_4' = 1/2$,
-    $a_4'' = 0$ (in units of $H^2$). On the right, three of them as functions of the
-    rate $a_4'$ (with $a_4'' = 0$): the hidden component $-6H^2$ does not depend on the
-    history, the time component $6a_4'^2$ is made entirely by the expansion and
-    deflation, and the 3-space component $a_4'' - 6H^2$ stays $-6H^2$ for a steady
-    rate ($a_4'' = 0$).
+    The next cell draws the Ricci components on the history of the record, with
+    $b_4'/b_4 = \frac43 a_4'$ and $a_4'' = 0$. On the left, the eight values
+    $R^\mu{}_\mu$ at $H = 1$, $a_4' = 1$ (in units of $H^2$). On the right, three of
+    them as functions of the rate $a_4'$: the hidden component $-6H^2$ does not depend
+    on the history, the time component $\frac{10}{3}a_4'^2$ is made entirely by the
+    expansion and the deflation, and the 3-space component $2a_4'^2 - 6H^2$ is zero
+    at $a_4' = \sqrt3\,H$.
     """),
     code(r'''
-    rate_symbol, accel_symbol = sp.symbols("rate accel", real=True)
-    numeric = [sp.lambdify((rate_symbol, accel_symbol), ricci_record[a].subs(
-        {H: 1, sp.Derivative(a4, (x4, 2)): accel_symbol,
-         sp.Derivative(a4, x4): rate_symbol})) for a in range(8)]
+    rate_symbol = sp.Symbol("rate", real=True)
+    steady = {sp.Derivative(b4, (x4, 2)): BETA_B4**2 * rate_symbol**2 * b4,
+              b4p: BETA_B4 * rate_symbol * b4,
+              sp.Derivative(a4, (x4, 2)): 0}  # the history: a4'' = 0, b4' = (4/3) a4' b4
+    numeric = [sp.lambdify(rate_symbol, sp.simplify(ricci_record[(a, a)].subs(steady).subs(
+        {H: 1, a4p: rate_symbol}))) for a in range(8)]
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
-    values = [float(numeric[a](0.5, 0.0)) for a in range(8)]
+    values = [float(numeric[a](1.0)) for a in range(8)]
     colors = ["black"] + ["tab:red"] * 3 + ["gray"] + ["tab:blue"] * 3
     ax_left.bar(range(8), values, color=colors, width=0.6)
     ax_left.axhline(0.0, color="black", linewidth=0.8)
     ax_left.set_xticks(range(8), [f"$R^{{{n}}}{{}}_{{{n}}}$" for n in NAMES], fontsize=8)
     ax_left.set_ylabel("value (units of $H^2$)")
-    ax_left.set_title("Ricci components at $a_4' = 1/2$, $a_4'' = 0$, $b_4 = 1$")
+    ax_left.set_title("Ricci components on the history, $a_4' = 1$")
     rates = np.linspace(-3.0, 3.0, 121)
     for a, label, style in ((0, "$R^{x0}{}_{x0} = -6H^2$", "-"),
-                            (4, "$R^{x4}{}_{x4} = 6a_4'^2$", "--"),
-                            (1, "$R^{x1}{}_{x1} = a_4'' - 6H^2$", ":")):
-        ax_right.plot(rates, np.broadcast_to(numeric[a](rates, 0.0), rates.shape),
+                            (4, "$R^{x4}{}_{x4} = \\frac{10}{3}a_4'^2$", "--"),
+                            (1, "$R^{x1}{}_{x1} = 2a_4'^2 - 6H^2$", ":")):
+        ax_right.plot(rates, np.broadcast_to(numeric[a](rates), rates.shape),
                       style, label=label)
     ax_right.axhline(0.0, color="black", linewidth=0.8)
-    ax_right.set_xlabel("rate $a_4'$ (units of $H$), with $a_4'' = 0$, $b_4 = 1$")
+    ax_right.set_xlabel("rate $a_4'$ (units of $H$), $a_4'' = 0$, $b_4'/b_4 = "
+                        "\\frac{4}{3} a_4'$")
     ax_right.set_ylabel("value (units of $H^2$)")
     ax_right.set_title("Never flat: $R^{x0}{}_{x0} = -6H^2$")
     ax_right.legend(fontsize=8)
     save_figure(fig, "ricci_components",
                 "The mixed Ricci components $R^\\mu{}_\\mu$ of the author's metric on the "
-                "background $b_4 = 1$, in units of $H^2$. Left: all eight at $H = 1$, "
-                "$a_4' = 1/2$, $a_4^{\\prime\\prime} = 0$ (black: hidden direction, red: "
-                "3-space, gray: time, blue: extra times). Right: $R^{x0}{}_{x0} = -6H^2$ "
-                "(solid), $R^{x4}{}_{x4} = 6a_4'^2$ (dashed) and $R^{x1}{}_{x1} = "
-                "a_4^{\\prime\\prime} - 6H^2$ (dotted) versus the rate $a_4'$ in units of "
-                "$H$ with $a_4^{\\prime\\prime} = 0$. The hidden component "
-                "is negative for every history (and every $b_4$), so the metric is never "
-                "flat, and the time component is curvature made by the expansion and "
-                "deflation (the dotted line lies on the solid one because "
-                "$a_4^{\\prime\\prime} = 0$).")
+                "history of the Revision record ($a_4^{\\prime\\prime} = 0$, "
+                "$b_4'/b_4 = \\frac43 a_4'$), in units of $H^2$. Left: all eight at "
+                "$H = 1$, $a_4' = 1$ (black: hidden direction, red: 3-space, gray: "
+                "time, blue: extra times). Right: $R^{x0}{}_{x0} = -6H^2$ (solid), "
+                "$R^{x4}{}_{x4} = \\frac{10}{3}a_4'^2$ (dashed) and $R^{x1}{}_{x1} = "
+                "2a_4'^2 - 6H^2$ (dotted) versus the rate $a_4'$ in units of $H$. The "
+                "hidden component is negative for every history (and every $b_4$), so "
+                "the metric is never flat, and the time component is curvature made by "
+                "the expansion and the deflation.")
     '''),
     md(r"""
     ## 13. The curvature of the spinor connection
@@ -852,7 +872,7 @@ CELLS = [
     R_{ab\mu\nu}S^{ab}$, where $R_{ab\mu\nu} = \eta_{aa}\,f_a\,R^a{}_{b\mu\nu}/f_b$
     is the Riemann tensor with two frame indices (for the diagonal vielbein), for every
     $b_4$. Then it computes $F'_{x0\,x1}$ in the boosted vielbein with $\beta = 6H$
-    (where the contraction vanished for a constant $b_4$) and checks that it is
+    (where the $H$ term of the contraction vanished) and checks that it is
     $R\,F_{x0\,x1}R^{-1}$ and is not zero: the spinor connection is still there and
     curved.
     """),
@@ -871,25 +891,28 @@ CELLS = [
                                 for a in range(8) for c in range(8)
                                 if (a, c, mu, nu) in riemann), Z16)
             theorem_ok = theorem_ok and matrix_is_zero(F[(mu, nu)] - from_riemann)
-    check(theorem_ok and record_passed(REPORT_WL_B4, "spin_curvature_equals_Riemann"),
+    check(theorem_ok and record_passed(REPORT_WL, "spin_curvature_equals_Riemann")
+          and record_passed(REPORT_PY, "spinor_curvature_equals_riemann"),
           "F_mu nu = (1/2) R_ab mu nu S^ab in all 28 coordinate planes",
-          record=f"{REPORT_WL_B4}, check spin_curvature_equals_Riemann")
+          record=f"{REPORT_WL}, check spin_curvature_equals_Riemann")
     F01_boosted = spinor_curvature(Omega_6H, 0, 1)
     R_6H, R_inv_6H = R.subs(six_H), R_inv.subs(six_H)
     check(matrix_is_zero(F01_boosted - R_6H * F[(0, 1)] * R_inv_6H)
           and np.abs(sample_table(F01_boosted)).max() > 0.1,
           "boosted (beta = 6H): F'_x0x1 = R F_x0x1 R^-1, nonzero",
-          record=f"{SCOPE_PY}, check boosted_frame_curvature_nonzero (b4 = 1)")
+          record=f"{SCOPE_PY}, check boosted_frame_curvature_nonzero")
     '''),
     md(r"""
     The next cell draws the size of the spinor curvature in each coordinate plane: for
     every pair $(\mu, \nu)$ the number $\|F_{\mu\nu}\| = \sqrt{\sum_{i,j}
     (F_{\mu\nu})_{ij}^2}$ (the square root of the sum of the squares of the 256
-    entries) at the sample point $H = 1$, $z = \pi/4$, $a_4 = 1/2$, $a_4' = 1/2$,
-    $a_4^{\prime\prime} = 0$, $b_4 = 1$ (diagonal vielbein). In another frame
-    $F'_{\mu\nu} = R\,F_{\mu\nu}R^{-1}$ with an invertible matrix $R$, so a change of
-    frame can change the sizes, but it can never turn a coloured square white or a
-    white square coloured.
+    entries) at the sample point $H = 1$, $z = \pi/4$ with the values of the history at
+    $a_4 = 1/2$ ($a_4' = 1$, $a_4^{\prime\prime} = 0$, $b_4 = e^{2/3}$,
+    $b_4'/b_4 = 4/3$; diagonal vielbein). At this point the three planes inside 3-space
+    are flat: their curvature is $a_4'^2 - H^2 = 0$ (Chapter 3); the plane of $x0$ and
+    $x4$ is flat everywhere. In another frame $F'_{\mu\nu} = R\,F_{\mu\nu}R^{-1}$ with
+    an invertible matrix $R$, so a change of frame can change the sizes, but it can
+    never turn a coloured square white or a white square coloured.
     """),
     code(r'''
     norms = np.zeros((8, 8))
@@ -915,18 +938,22 @@ CELLS = [
                 "The size $\\|F_{\\mu\\nu}\\|$, the square root of the sum of the squares "
                 "of the 256 entries of the spinor curvature, for every pair of "
                 "coordinates $(\\mu, \\nu)$ in the diagonal vielbein at the sample point "
-                "$H = 1$, $z = \\pi/4$, $a_4 = 1/2$, $a_4' = 1/2$, "
-                "$a_4^{\\prime\\prime} = 0$, $b_4 = 1$, in units "
-                "of $H^2$ (darker is larger, white is zero). All 28 coordinate planes "
-                "except the plane of the hidden direction $x0$ and the time $x4$ are "
-                "curved at this point, and $F_{x0\\,x4} = 0$ exactly; $F_{\\mu\\nu} = "
+                "$H = 1$, $z = \\pi/4$ with the values $a_4 = 1/2$, $a_4' = 1$, "
+                "$a_4^{\\prime\\prime} = 0$, $b_4 = e^{2/3}$, $b_4'/b_4 = 4/3$ of the "
+                "history of the Revision record, in units of $H^2$ (darker is larger, "
+                "white is zero). The plane of the hidden direction $x0$ and the time "
+                "$x4$ is flat everywhere ($F_{x0\\,x4} = 0$ exactly), the three planes "
+                "inside 3-space are flat at this point (curvature $a_4'^2 - H^2 = 0$), "
+                "and the other 24 planes are curved; $F_{\\mu\\nu} = "
                 "\\frac12 R_{ab\\mu\\nu}S^{ab}$ is the Riemann curvature, which no "
                 "change of frame removes.")
     report("largest |F_mu nu| at the sample point (units of H^2)", f"{norms.max():.3f}")
     curved = [pair for pair in F if norms[pair] > 1e-9]  # the curved planes
-    check(matrix_is_zero(F[(0, 4)]) and len(curved) == 27,
-          "F_x0x4 = 0 exactly (every b4); the other 27 planes are curved at the sample "
-          "point")
+    space_planes = [(1, 2), (1, 3), (2, 3)]  # flat at a4' = H
+    check(matrix_is_zero(F[(0, 4)]) and len(curved) == 24
+          and all(pair not in curved for pair in space_planes),
+          "F_x0x4 = 0 exactly (every b4); at the sample point the three 3-space planes "
+          "are flat and the other 24 planes are curved")
     '''),
     md(r"""
     ## 14. The rescaling $\Psi = \sin^{-1/2}(z)\,b_4^{-3/4}\,\chi$ removes the term
@@ -941,9 +968,9 @@ CELLS = [
     \gamma^{(x4)}$. Now $\partial_{x0}\sin^{-1/2}z = -\frac12\sin^{-3/2}z\cdot 6H\cos z$
     gives $\tan z\,\partial_{x0}w_r = -3Hw_r$, and $\partial_{x4}b_4^{-3/4} =
     -\frac34 b_4^{-7/4}b_4'$ gives $\partial_{x4}w_r = -\frac34\frac{b_4'}{b_4}w_r$:
-    the bracket is zero. At $b_4 = 1$ the weight is the record's $\sin^{-1/2}z$. The
-    next cell checks this as a matrix identity and, for safety, on 16 completely
-    general functions $\chi_1, \dots, \chi_{16}$ of all eight coordinates. It also
+    the bracket is zero. This is the record's rescaling. The next cell checks this as
+    a matrix identity and, for safety, on 16 completely general functions
+    $\chi_1, \dots, \chi_{16}$ of all eight coordinates. It also
     checks the record's remark about the potential $U = \frac{\lambda}{2}S^2$: since
     $w_r$ is real, $S[\Psi] = \Psi^\dagger C\Psi = w_r^2\,S[\chi] =
     S[\chi]/(b_4^{3/2}\sin z)$, so the rescaled equation is $\gamma^\mu
@@ -961,25 +988,26 @@ CELLS = [
     dirac_chi = sum((gup[mu] * chi.diff(x[mu]) for mu in range(8)), sp.zeros(16, 1))
     check(matrix_is_zero(bracket) and all(is_zero(v) for v in dirac_psi - w_r * dirac_chi),
           "gamma^mu D_mu (w chi) = w gamma^mu d_mu chi for w = sin^(-1/2) z b4^(-3/4)",
-          record=f"{SCOPE_PY}, check rescaling_removes_the_connection_term (b4 = 1)")
+          record=f"{SCOPE_PY}, check rescaling_removes_the_connection_term")
     chi_conj = sp.Matrix([sp.conjugate(v) for v in chi])  # complex conjugates
     S_psi = (w_r * chi_conj).T * C * (w_r * chi)  # Psi^dagger C Psi (w is real)
     S_chi = chi_conj.T * C * chi
     check(is_zero(S_psi[0, 0] - S_chi[0, 0] / (b4 ** sp.Rational(3, 2) * sp.sin(z))),
-          "S[w chi] = S[chi] / (b4^(3/2) sin z), S[chi] / sin z at b4 = 1",
-          record=f"{SCOPE_PY}, check rescaled_equation_quadratic_potential (b4 = 1)")
+          "S[w chi] = S[chi] / (b4^(3/2) sin z)",
+          record=f"{SCOPE_PY}, check rescaled_equation_quadratic_potential")
     '''),
     md(r"""
-    The next cell draws the rescaling for $H = 1$ on the background $b_4 = 1$, where
-    $w_r = \sin^{-1/2}z$: on the left the weight (large near the tip $z \to 0$, equal
-    to 1 at $z = \pi/2$); on the right the two terms of the coefficient of
-    $\gamma^{(x0)}$, $\tan z\,\partial_{x0}w_r$ and $3Hw_r$, computed from their sympy
-    formulas, and their sum, which is zero at every $z$.
+    The next cell draws the rescaling for $H = 1$ at one time, in the unit
+    $b_4^{-3/4}$ (the factor $b_4^{-3/4}$ does not depend on $z$), where
+    $b_4^{3/4}w_r = \sin^{-1/2}z$: on the left this weight (large near the tip
+    $z \to 0$, equal to 1 at $z = \pi/2$); on the right the two terms of the coefficient
+    of $\gamma^{(x0)}$, $\tan z\,\partial_{x0}w_r$ and $3Hw_r$, computed from their
+    sympy formulas, and their sum, which is zero at every $z$.
     """),
     code(r'''
     z_values = np.linspace(0.05, np.pi / 2 - 0.02, 300)
     x0_symbol = sp.Symbol("u", positive=True)
-    w_1 = at_b4_1(w_r)  # the weight at b4 = 1: sin^(-1/2) z
+    w_1 = sp.simplify(w_r * b4 ** sp.Rational(3, 4))  # the weight in the unit b4^(-3/4)
     term_derivative = sp.lambdify(x0_symbol, (sp.tan(z) * sp.diff(w_1, x0)).subs(
         {H: 1}).subs(x0, x0_symbol))
     term_connection = sp.lambdify(x0_symbol, (3 * H * w_1).subs({H: 1}).subs(x0, x0_symbol))
@@ -987,7 +1015,7 @@ CELLS = [
     u_values = z_values / 6.0  # x0 = z / (6 H) with H = 1
     first, second = term_derivative(u_values), term_connection(u_values)
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
-    ax_left.plot(z_values, weight(u_values), label="$w_r = \\sin^{-1/2} z$ ($b_4 = 1$)")
+    ax_left.plot(z_values, weight(u_values), label="$b_4^{3/4}w_r = \\sin^{-1/2} z$")
     ax_left.set_xlabel("hidden angle $z = 6Hx_0$ (radians)")
     ax_left.set_ylabel("weight (pure number)")
     ax_left.set_title("The rescaling weight")
@@ -1002,8 +1030,9 @@ CELLS = [
     ax_right.legend(fontsize=8)
     save_figure(fig, "rescaling",
                 "The rescaling $\\Psi = w_r\\chi$ with $w_r = \\sin^{-1/2}(z)\\,"
-                "b_4^{-3/4}$, drawn for $H = 1$ on the background $b_4 = 1$. Left: the "
-                "weight $w_r$ versus the hidden angle $z$ in radians. Right: the two "
+                "b_4^{-3/4}$, drawn for $H = 1$ at one time, in the unit $b_4^{-3/4}$. "
+                "Left: the weight $b_4^{3/4}w_r = \\sin^{-1/2}z$ versus the hidden angle "
+                "$z$ in radians. Right: the two "
                 "terms of the coefficient of $\\gamma^{(x0)}\\chi$ in the field "
                 "equation of $\\chi$, the derivative term $\\tan z\\,\\partial_{x0}w_r = "
                 "-3Hw_r$ (solid) and the spin-connection term $3Hw_r$ (dashed), in units "
@@ -1018,13 +1047,14 @@ CELLS = [
     The last cell checks that every check of the Revision reports that states a result
     reproduced in this notebook is recorded there as passed (the sympy scope checker
     `python-scope.json`, the WolframScript scope checker `wolfram-scope.json`, which
-    shares no code with it, and the curvature checks of the field-theory reports, with
-    $b_4$ and at $b_4 = 1$), that all six figure files exist in the folder
+    shares no code with it, and the curvature checks of the field-theory reports, all
+    for the metric with $b_4$), that all six figure files exist in the folder
     Revision/textbook/figures, and prints the number of checks that passed.
     """),
     code(r'''
     scope_names = ["boosted_frame_reproduces_metric", "boosted_frame_canonical_connection",
-                   "boosted_frame_gammaOmega_formula", "boosted_frame_gammaOmega_vanishes",
+                   "boosted_frame_gammaOmega_formula",
+                   "boosted_frame_removes_only_the_H_term",
                    "boosted_frame_curvature_nonzero",
                    "rescaling_removes_the_connection_term",
                    "rescaled_equation_quadratic_potential",
@@ -1033,9 +1063,7 @@ CELLS = [
              REPORT_PY: ["spinor_curvature_equals_riemann",
                          "curvature_nonzero_flat_only_formally"],
              REPORT_WL: ["ricci_scalar", "ricci_mixed_components",
-                         "never_flat_for_H_positive", "spin_curvature_equals_Riemann"],
-             REPORT_WL_B4: ["ricci_equals_metric_b4_set", "ricci_reduces_at_b4_1",
-                            "spin_curvature_equals_Riemann"]}
+                         "never_flat_for_H_positive", "spin_curvature_equals_Riemann"]}
     count = sum(len(v) for v in cited.values())
     check(all(record_passed(path, name) for path, names in cited.items()
               for name in names), f"the {count} cited record checks are recorded as passed")
@@ -1053,9 +1081,11 @@ CELLS = [
       describes the same metric, and its canonical spin connection obeys the vielbein
       postulate. In it $\gamma'^\mu\Omega'_\mu = \frac{6H-\beta}{2}(\cosh b\,
       \gamma^{(x0)} - \sinh b\,\gamma^{(x4)}) + \frac34\frac{b_4'}{b_4}(\cosh b\,
-      \gamma^{(x4)} - \sinh b\,\gamma^{(x0)})$ exactly (PROVED; at $b_4 = 1$ it
-      reproduces the record). For $\beta = 6H$ and a constant $b_4$ the contraction
-      vanishes identically, while $\Omega'_\mu$ is nonzero for $\mu = x1, \dots, x7$.
+      \gamma^{(x4)} - \sinh b\,\gamma^{(x0)})$ exactly (PROVED; reproduces the
+      record). For $\beta = 6H$ the term $3H\gamma^{(x0)}$ is gone and only the term of
+      the growing $b_4$ remains ($H(\cosh b\,\gamma^{(x4)} - \sinh b\,\gamma^{(x0)})$ on
+      the history of the record), while $\Omega'_\mu$ is nonzero for
+      $\mu = x1, \dots, x7$.
     - The reason is the local spin covariance: with the spinor boost
       $R = \cosh\frac b2 - \sinh\frac b2\,\gamma^{(x4)}\gamma^{(x0)}$, $\Omega'_\mu =
       R\Omega_\mu R^{-1} - (\partial_\mu R)R^{-1}$, and the second term contributes
@@ -1067,13 +1097,13 @@ CELLS = [
       records), the spinor curvature is $F_{\mu\nu} = \frac12 R_{ab\mu\nu}S^{ab}$ in
       all 28 planes (PROVED; reproduces the record), and it is nonzero in every frame
       because $F' = RFR^{-1}$; therefore no frame makes $\Omega_\mu$ vanish.
-    - The deflation makes curvature ($R^{x4}{}_{x4} = 6a_4'^2$ at $b_4 = 1$) that the
-      contraction $\gamma^\mu\Omega_\mu$ does not see (PROVED; reproduces the record).
+    - The expansion and the deflation make curvature ($R^{x4}{}_{x4} =
+      \frac{10}{3}a_4'^2$ on the history of the record) that the contraction
+      $\gamma^\mu\Omega_\mu$ does not see (PROVED; reproduces the record).
     - The rescaling $\Psi = \sin^{-1/2}(z)\,b_4^{-3/4}\,\chi$ removes the term
       $\gamma^\mu\Omega_\mu$ from the field equation exactly; with
       $U = \frac\lambda2 S^2$ it becomes the coupling
-      $\lambda S[\chi]/(b_4^{3/2}\sin z)$ (PROVED; at $b_4 = 1$ it reproduces the
-      record).
+      $\lambda S[\chi]/(b_4^{3/2}\sin z)$ (PROVED; reproduces the record).
     - In short, the non-triviality of the field equations holds in the qualified sense
       of the record: the gravitational field enters through the vielbein factors of
       every derivative term and through a spin connection whose curvature cannot be
