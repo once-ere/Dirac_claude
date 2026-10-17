@@ -1,7 +1,7 @@
 # UM-1 provenance: where every ingredient of the universe model comes from
 
-Version 1.1 of 2026-10-17, for `MODEL.md` (the model), `FIELD_EQUATIONS.md` (its field equations) and `SOLUTION.md` (an
-approximate solution). Repository `https://github.com/once-ere/Dirac_claude`, folder `Revision/universe_model/`;
+Version 1.2 of 2026-10-17, for `MODEL.md` (the model), `FIELD_EQUATIONS.md` (its field equations), `SOLUTION.md` (an
+approximate solution) and `ANALYSIS.md` (the analysis of the mass mechanism and of the dark associations, section 7). Repository `https://github.com/once-ere/Dirac_claude`, folder `Revision/universe_model/`;
 the model was started on top of commit `13f9fb9`.
 
 ## 1. The order
@@ -71,12 +71,13 @@ and are used only as targets of fits and as comparisons, never as derived result
 | the Standard-Model fields as eight-dimensional fields of $SU(3)_c \times SU(2)_L \times U(1)_Y$ on the cell, including the gluons | ASSUMED | section 4.3 |
 | the chiral zero modes from the bulk masses $\mu_\psi$ and the fold conditions $\theta_\psi$ | INVENTED (built on the record's fold conditions) | section 4.3 |
 | no Higgs field; the tip sigma field $\Sigma$ (non-linear, no radial mode) and its couplings $v_\Sigma$, $\lambda_f$ | INVENTED | section 4.3 |
-| the mass mechanism: four-dimensional masses as eigenvalues of the $x_0$ operators on the periodic cell, with the uncertainty bound | the AUTHOR's idea, made precise here | section 4.4 |
+| the mass mechanism: four-dimensional masses as eigenvalues of the $x_0$ operators on the periodic cell; the uncertainty bound holds for the $x_0$ excitations and fails for the protected zero modes (1.2) | the AUTHOR's idea, made precise here; analysed in `ANALYSIS.md` | sections 4.4, 9 |
 | the portal operators P1 to P5 | INVENTED | section 4.5 |
 | the requirement of slow deflation after the primordial era | DERIVED requirement (mass constancy) | section 4.4, `SOLUTION.md` |
 | (1.1) the cubic Lovelock weight $w_3 = 1/768$ and $\Lambda = -24H^2 + \delta\Lambda$ | CHANGED (forced by the solution: the author's weights give repulsive gravity in the only static vacuum) | section 4.1, `SOLUTION.md` section 3 |
 | (1.1) the block stabiliser | ASSUMED (its origin OPEN) | section 4.1 |
-| (1.1) the fold-reflection parity that keeps the odd-parity $\Psi$ dark matter stable | ASSUMED | section 8, `SOLUTION.md` section 5 |
+| (1.1) the fold-reflection parity that keeps the odd-parity $\Psi$ dark matter stable | ASSUMED ((1.2) exact to $2\times10^{-27}$, `ANALYSIS.md` 8.3) | section 8, `SOLUTION.md` section 5 |
+| (1.2) the end of the primordial deflation before nucleosynthesis; portal coefficients that differ between the $\Psi$ fold band and the $\Psi$ dark matter (or the one-half count) | DERIVED requirements (`ANALYSIS.md` sections 7 and 8.5) | section 8 |
 
 ## 5. Computations and tools
 
@@ -86,13 +87,40 @@ and are used only as targets of fits and as comparisons, never as derived result
   UNCHANGED (TAKEN), with the portal potentials added by a wrapper (`solution/ks_coupled.py`).
 * Documents: the Markdown files are the sources; `tools/md2tex.py` converts each to LaTeX and `tools/build_pdfs.py`
   compiles it with pdflatex (MiKTeX 26.5), so the .md and the .pdf say the same thing.
+* The analysis (1.2): `analysis/x0_mass_analysis.py` (sympy, numpy, matplotlib; about 30 s) and
+  `analysis/dark_validity.py` (numpy, matplotlib; about 3 s), which also writes the tables of `ANALYSIS.md` section 12.
 * Every calculation runs well within the limit of 423 s per calculation of this project.
 
 ## 6. Status
 
 | deliverable | file | status |
 | --- | --- | --- |
-| the model | `MODEL.md`, `MODEL.pdf` | version 1.1 |
-| this provenance | `PROVENANCE.md`, `PROVENANCE.pdf` | version 1.1 |
-| the coupled field equations | `FIELD_EQUATIONS.md`, `.pdf`; `field_equations/` | see that document |
-| an approximate solution | `SOLUTION.md`, `.pdf`; `solution/` | version 1 (checks in `solution/reports/solution-checks.json`) |
+| the model | `MODEL.md`, `MODEL.pdf` | version 1.2 |
+| this provenance | `PROVENANCE.md`, `PROVENANCE.pdf` | version 1.2 |
+| the coupled field equations | `FIELD_EQUATIONS.md`, `.pdf`; `field_equations/` | version 1.1 (13/13) |
+| an approximate solution | `SOLUTION.md`, `.pdf`; `solution/` | version 1.1 (checks in `solution/reports/solution-checks.json`) |
+| the analysis of the $x_0$ mass mechanism and of the dark associations | `ANALYSIS.md`, `.pdf`; `analysis/` | version 1 (21/21 and 13/13 checks) |
+
+## 7. Provenance of the analysis (`ANALYSIS.md`, version 1.2 of this provenance)
+
+The author's request of 2026-10-17 (quoted): "in your documentations and provenances i want you to analyze the x0 mass
+mechanism, and to analyze the validity of associating dark matter(and dark energy) with dirac16complex". The analysis
+was done by Claude Opus 5.5 in this repository; its scripts are `analysis/x0_mass_analysis.py` and
+`analysis/dark_validity.py`.
+
+| ingredient | origin | label |
+| --- | --- | --- |
+| the $x_0$ operator, the measure, the fold conditions, the flat form, the factorisation $A^\dagger A$, the exact spectrum without cutoff, the spin-1/2 boundary identity, the tip-parameter scaling | derived here from the corrected metric (version 2) and the actions of `MODEL.md` (sympy) | DERIVED (checks A1) |
+| the spectra, the gap theorem, the mass decompositions, the Heisenberg comparison, the sensitivities $d\ln m/d\ln f$ | computed here (two finite-element discretisations, numpy) | DERIVED (checks A2) |
+| $W$, $Z$ tip parameters, fermion $c_f$, $m_{KK}$, $H$, $fL$ | `solution/outputs/masses.json` | TAKEN (from the solution) |
+| the $\Psi$ levels, $g_F$, the dark-matter quanta ($w$, $p_0/\rho$, $p_t$, energies) | `solution/outputs/ks/spectrum.json`, `ks/dm_lam0.json`, `ks/dm_lam1.json` | TAKEN (from the solution) |
+| $H_0$, $\delta\Lambda/H^2$, $h_4/A$, $M_{DM}$; $g_{*s}$ at the $\Psi$ decoupling and $\Delta N_{eff}$ | `solution/outputs/late_time.json`, `cosmology.json` | TAKEN (from the solution) |
+| the effective equation of state on the history, the condensate law, the record's verdict on the gas | `Revision/dark_sector/dirac16complex/README.md` | TAKEN (from the record) |
+| the vector-contact annihilation cross-section $G^2M^2/\pi$ | an explicit Dirac trace in `dark_validity.py` | DERIVED (check B2) |
+| freeze-out ($x_f$ equation, $\Omega h^2 = 1.07\times10^9x_f/(\sqrt{g_*}M_{Pl}\langle\sigma v\rangle)$), the partial-wave unitarity limit, the neutrino-like decoupling estimate | Kolb and Turner; textbook unitarity; neutrino decoupling at about 1 MeV | STANDARD, FROM MEMORY |
+| the LZ spin-independent limit, $2.2\times10^{-48}$ cm$^2$ at 40 GeV (4.2 tonne-years) | LZ collaboration, PRL 135, 011802 (2025), arXiv:2410.17036; the value read from the search results on 2026-10-17; the extrapolation to 50.9 TeV (linear in the mass) is ours | experimental, ESTIMATE for the extrapolation |
+| atomic-clock limits $\dot\alpha/\alpha = (1.0\pm1.1)\times10^{-18}$/yr, $\dot\mu/\mu = (-8\pm36)\times10^{-18}$/yr | Lange et al., PRL 126, 011102 (2021) | FROM MEMORY |
+| $G_F$, $m_N$, $\alpha_s(m_Z) = 0.1180$, the cluster bound $\sigma/M \lesssim 1$ cm$^2$/g, the Tremaine-Gunn bound | PDG and the literature | FROM MEMORY |
+
+Every FROM MEMORY number is used only for orders of magnitude and for comparisons; none enters a DERIVED result. The
+corrections that the analysis made to the other documents are listed in `ANALYSIS.md` section 10.

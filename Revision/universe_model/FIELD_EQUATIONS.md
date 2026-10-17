@@ -1,6 +1,6 @@
 # UM-1: the coupled field equations
 
-Version 1 of 2026-10-17, for the model of `MODEL.md`. Derived by `field_equations/derive_field_equations.py` (sympy;
+Version 1.1 of 2026-10-17, for the model of `MODEL.md` (1.1: the statement of check D3 in section 5 corrected after `ANALYSIS.md`). Derived by `field_equations/derive_field_equations.py` (sympy;
 13 checks, all PASS, 2.7 s; outputs `field_equations/field-equations.json` with every equation as a sympy string and
 `field_equations/reports/field-equations-checks.json`). Labels as in `MODEL.md`: DERIVED (computed here), TAKEN (from
 the Revision record), ASSUMED, OPEN. Run: `python Revision/universe_model/field_equations/derive_field_equations.py`.
@@ -98,11 +98,17 @@ density, $\delta T^1{}_1 = \delta p_3$, $\delta T^0{}_0 = \delta T^5{}_5 = \delt
   $b(0) = 0$, tip $b(-L) = 0$; left-handed) and $(0, e^{-f\mu y})$ (fold $a(0) = 0$, tip $a(-L) = 0$; right-handed,
   theorem T3). Their normalised tip values are $\zeta(\mu)^2 = 2f\mu\,e^{-2f\mu L}/(1 - e^{-2f\mu L})$, and the tip
   coupling gives $m_f = \lambda_f\,\zeta(\mu_L)\,\zeta(\mu_R)$: exponentially small masses for $f\mu L \gg 1$.
-* The uncertainty relation (check D3): the mass squared of a bosonic mode is its mean squared hidden momentum
-  (Rayleigh quotient), so $m \geq \hbar/(2c\,\Delta s)$ for a profile of proper width $\Delta s = f\Delta y$, with
-  equality for a Gaussian. A CHIRAL zero mode is the exception: its hidden momentum is cancelled by the bulk mass
-  ($h\chi = 0$), it is massless however localised it is, and its mass comes from its value at the tip (DERIVED;
-  `SOLUTION.md` section 4 quantifies it).
+* The uncertainty relation (check D3): on a flat line, $\langle p^2\rangle\,\Delta s^2 \geq 1/4$ with equality for a
+  Gaussian, which is the author's estimate $m \geq \hbar/(2c\,\Delta s)$ when $m^2 = \langle p^2\rangle$. CORRECTED
+  (`ANALYSIS.md` sections 3 to 6): in the warped cell the Rayleigh quotient of a bosonic mode is the WEIGHTED mean
+  $\int e^{3Hy}|\partial_su|^2/\int e^{3Hy}|u|^2$, the hidden momentum relative to the geometric zero mode, not the mean
+  squared momentum $\langle\hat p^2\rangle$ of the proper density. In the flat measure
+  $m^2 = \langle\hat p^2\rangle + (3H/2f)^2 - (3H/f)\rho(\text{fold}) + (3H/f)\rho(\text{tips}) + (\text{tip field})$.
+  The estimate is a bound for every odd mode and excitation ($m \geq 3H/(2f)$). It fails for the zero modes: the photon,
+  gluon and graviton zero mode is localised at the fold within $\Delta s = 0.157\,fL$ and massless. A CHIRAL fermion
+  zero mode behaves the same way: its hidden momentum is cancelled by the bulk mass ($h\chi = 0$), it is massless
+  however localised it is, and its mass comes from its value at the tip (DERIVED; `SOLUTION.md` section 4 quantifies
+  it).
 
 ## 6. dirac16complex: the Kohn-Sham equations coupled to all fields
 
@@ -160,5 +166,5 @@ metric response to the localised sources; the derivation of the portal and tip c
 A1 background Einstein tensor = record; A2 constraint in $h_4$; A3 the measure in $y$; B1 four-dimensional
 conservation; B2 the drifts of $k$ and the Planck mass; C1 linear scalar perturbations; C2 the static-block limit is
 four-dimensional general relativity, slip $\Psi_N = \Phi + 4\sigma$; D1 the gauge $x_0$ operator and its boundary
-conditions; D2 massless zero modes, the leading $W$, $Z$ masses, $\rho = 1$; D3 the uncertainty bound; D4 the fermion
+conditions; D2 massless zero modes, the leading $W$, $Z$ masses, $\rho = 1$; D3 the uncertainty bound on a flat line (corrected for the warped cell in `ANALYSIS.md`); D4 the fermion
 zero modes and tip values; E1 gauge invariance; E2 the $W$ and charge conservation.

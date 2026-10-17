@@ -38,7 +38,7 @@
       "c_tip": "W: g5^2 v_Sigma^2 w_tip/4; Z: (g5^2 + g5'^2) v_Sigma^2 w_tip/4; photon, gluons: 0",
       "fermion_block": "h = -(i/f) sigma1 d_y + mu sigma2 (+ kappa k sigma3 + v for k != 0), zero modes (e^(f mu y), 0) and (0, e^(-f mu y))",
       "fermion_mass": "m_f = lambda_f zeta(mu_L) zeta(-mu_R), zeta(mu)^2 = 2 f mu e^(-2 f mu L)/(1 - e^(-2 f mu L))",
-      "uncertainty": "m >= hbar/(2 c Delta s), Delta s the proper width of the x0 profile (saturated by a Gaussian)"
+      "uncertainty": "flat line: <p^2> >= 1/(4 Delta s^2) (saturated by a Gaussian); warped cell: m^2 = <p^2> + (3H/2f)^2 - (3H/f) rho(fold) + (3H/f) rho(tips) + tip field, so m >= hbar/(2 c Delta s) for the odd modes and the excitations only (ANALYSIS.md)"
     },
     "dirac16complex_kohn_sham_with_portals": {
       "block": "h_j = j[-(i/f) sigma1 d_y + M_eff(y) sigma2 + kappa k sigma3] + v_v(y) (Revision/kohn_sham/ks-theory.json)",

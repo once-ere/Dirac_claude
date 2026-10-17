@@ -1,0 +1,71 @@
+{
+ "checks": [
+  {
+   "name": "B1_cold_on_the_static_block",
+   "verdict": "PASS",
+   "detail": "the k = 0 dark-matter quanta (eight in the lowest odd level, solved self-consistently on three grids) have w = p3/rho = 0.0e+00 (lambda = 0) and 0.0018 (lambda_1); on the static block of UM-1 (beta = 2) the record's shift (beta/2 - 1)(P0 + 3 Pt)/(3E) vanishes, so w_eff = w: COLD"
+  },
+  {
+   "name": "B1_not_dust_while_the_block_deflates",
+   "verdict": "PASS",
+   "detail": "on the record's primordial history (beta = 4/3, f = e^{-a4/3}) the same quanta have w_eff(A) = (beta/2 - 1) P0/(3E) = -0.07306, equal to -(1/3) d ln eps/d a4 = -0.07306 from the x0-generated mass: the dark matter is dust only once the block is static (the record's finding that the bulk band falls through 0)"
+  },
+  {
+   "name": "B1_stable_only_with_exact_parity",
+   "verdict": "PASS",
+   "detail": "the lightest odd level (2.174920 m) lies below the lightest even bulk level (3.126177 m) and has no odd state to decay into; with the fold parity broken by an amplitude eps_P the width eps_P^2 M/(8 pi) exceeds the age bound (tau > 1e26 s, the order of the indirect-detection limits) unless eps_P < 1.8e-27: the parity must be exact (ASSUMED, not derived)"
+  },
+  {
+   "name": "B2_vector_contact_annihilation",
+   "verdict": "PASS",
+   "detail": "explicit Dirac trace: sum |M|^2 = 128.0000000000 G^2 M^4 (expected 128) at threshold, so sigma v_rel = G^2 M^2/pi per massless Dirac final state (1/2 for a chiral one) for L = G (chibar gamma^mu chi)(fbar gamma_mu f) (s-wave)"
+  },
+  {
+   "name": "B3_relic_needs_near_unitary_cell_scale_coupling",
+   "verdict": "PASS",
+   "detail": "freeze-out (Kolb-Turner, g* = 60.25, x_f = 29.46): a Dirac relic of 50.9 TeV needs <sigma v> = 6.47e-26 cm^3/s (the familiar 4.4e-26 rescaled to the fewer light states of UM-1: 6.90e-26), 37 % of the thermal s-wave unitarity limit 1.73e-25 cm^3/s (the limit is reached at 83 TeV); as one vector contact channel that is G^{-1/2} = 19.6 TeV, i.e. G = 1.42/H^2: the natural strength of an interaction of the cell, but its derivation from lambda (Psi Psi)^2 and the portals is OPEN"
+  },
+  {
+   "name": "B4_portal_consistency_with_N_eff",
+   "verdict": "PASS",
+   "detail": "if the vector portal that decouples the fold band in the QCD crossover (G^{-1/2} = 12.3 TeV for N_eff = 2.99) acts on the dark matter with the overlap ratio 0.329 of its x0 profile (G^{-1/2} = 21.5 TeV), annihilation into e, nu, u, d gives <sigma v> = 5.2 x the relic value, Omega h^2 = 0.023 (UNDER-abundant), and sigma_SI = 4.6e-45 cm^2, 1.6 x the LZ limit 2.8e-45 cm^2 (linear extrapolation, conservative): the dark-matter reading is in TENSION with the N_eff reading of the fold band unless the portal coefficients of the two modes differ"
+  },
+  {
+   "name": "B4_relic_through_the_portal_is_testable",
+   "verdict": "PASS",
+   "detail": "a thermal relic that annihilates through the vector portal alone needs G^{-1/2} = 32.5 TeV and then predicts sigma_SI = 8.8e-46 cm^2 (0.31 of the extrapolated LZ limit): consistent today, within reach of the next xenon experiments"
+  },
+  {
+   "name": "B5_collisionless",
+   "verdict": "PASS",
+   "detail": "a contact self-interaction of the natural size G = 1/H^2 gives sigma/M = 2.9e-18 cm^2/g, far below the cluster bound of about 1 cm^2/g (FROM MEMORY); the Pauli (Tremaine-Gunn) bound of order 0.1-1 keV is irrelevant at 51 TeV"
+  },
+  {
+   "name": "B6_the_computed_ground_states_are_radiation",
+   "verdict": "PASS",
+   "detail": "the Kohn-Sham ground states of the record and of UM-1 fill the massless fold band (eps = kappa |k| exactly, g_F = 8): they are dark RADIATION (Delta N_eff = 1.975 in the N_eff fit), not dark matter; the dark matter is a different, heavy sector of the same field that the T = 0 states do not populate"
+  },
+  {
+   "name": "B7_hidden_pressure_negligible_today",
+   "verdict": "PASS",
+   "detail": "the hidden pressure p0/rho = 0.6575 of the dark matter shifts the block by delta k/k0 = (p0/rho) 3 Omega_DM (A/H)^2/(3 k0) = 7.9e-95 today"
+  },
+  {
+   "name": "E1_condensate_cannot_be_dark_energy",
+   "verdict": "PASS",
+   "detail": "on the static block the condensate dilutes like dust (S ~ a^{-3}); with lambda < 0 tuned to w0 = -1 today it has wa = -6.0 and its energy density m S (1 + x) vanishes at z = 0.260 and is negative before; for w0 = -0.75, wa = -3.94, zero at z = 0.326; for every w0 <= -0.3 the zero lies below z = 1, where dark energy is measured positive"
+  },
+  {
+   "name": "E2_no_positive_energy_state_accelerates",
+   "verdict": "PASS",
+   "detail": "the dark-matter quanta have positive energy (17.3994, 17.4307 in units of m) and w = 0.0e+00, 0.0018 >= 0; the fold band is exactly massless (w = 1/3); the record's interacting gas has w_eff(A) in [0.3306, 0.3361] (TAKEN): on the static block, where the shift (beta/2 - 1)(P0 + 3 Pt)/(3E) vanishes, no Psi state of positive energy and pressure p3 >= 0 has w < 0, and none accelerates the expansion (w < -1/3)"
+  },
+  {
+   "name": "E3_vacuum_energy_is_the_cosmological_constant_problem",
+   "verdict": "PASS",
+   "detail": "a natural Dirac-sea (Casimir) energy of Psi on the cell, m_KK^4/(16 pi^2) = 1.4e+18 GeV^4, exceeds the dark-energy density 2.5e-47 GeV^4 by 6e+64: the record normal-orders the sea, and UM-1 puts the dark energy into delta Lambda/H^2 = 7.5e-93, a tuned geometric cosmological constant (w = -1 exactly), not into Psi"
+  }
+ ],
+ "pass": 13,
+ "total": 13
+}

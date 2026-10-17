@@ -54,7 +54,7 @@
     {
       "name": "D3_uncertainty_bound_saturated_by_gaussian",
       "verdict": "PASS",
-      "detail": "for a profile of width Delta y (proper width Delta s = f Delta y) the Rayleigh quotient is the mean of p^2 (units hbar = c = 1): m^2 >= <p_s^2> >= 1/(4 Delta s^2), m >= hbar/(2 c Delta s) (the author's estimate); the Gaussian saturates it: <Y^2> <p^2> = 1/4"
+      "detail": "on a flat line <Y^2> <p^2> >= 1/4 (units hbar = c = 1), saturated by the Gaussian: <Y^2> <p^2> = 1/4; this is the author's estimate m >= hbar/(2 c Delta s) when m^2 = <p^2>. In the warped cell the Rayleigh quotient is the weighted mean of |d_s u|^2 (the hidden momentum relative to the geometric zero mode), not <p^2> of the proper density: the bound holds for the odd modes and the excitations and fails for the zero modes (Revision/universe_model/ANALYSIS.md, analysis/x0_mass_analysis.py)"
     },
     {
       "name": "D4_fermion_zero_modes_and_tip_values",

@@ -1,0 +1,111 @@
+{
+ "checks": [
+  {
+   "name": "A1_scalar_x0_operator",
+   "verdict": "PASS",
+   "detail": "sqrt|g| = f^4 e^{3 a4} |cot z| |sin z|^{1/2} and (1/sqrt g) d_0(sqrt g g^00 d_0 u) = (1/f^2) e^{-3Hy}(e^{3Hy} u_y)_y for a generic profile (sympy simplify: zero; numeric spot check 6.3e-14)"
+  },
+  {
+   "name": "A1_fold_conditions_from_flux",
+   "verdict": "PASS",
+   "detail": "the x0 flux is e^{3a4} f^2 sign(cot z) e^{3Hy} u_y: continuity at the fold z = pi/2 gives u_y(0) = 0 for a mode even under z -> pi - z (Neumann) and u(0) = 0 for an odd one (Dirichlet)"
+  },
+  {
+   "name": "A1_flat_form_warp_potential",
+   "verdict": "PASS",
+   "detail": "u = e^{-3Hy/2} v turns the operator into (1/f^2)(-v'' + (9H^2/4) v): the warp of the three extra times is a constant potential 9H^2/(4 f^2) in the flat measure; Neumann u'(0) = 0 becomes the Robin condition v'(0) = (3H/2) v(0)"
+  },
+  {
+   "name": "A1_factorisation",
+   "verdict": "PASS",
+   "detail": "||(d_t - 3 eta/2) v||^2 = int e^{3 eta t} u'^2 = int v'^2 + (9 eta^2/4) int v^2 - (3 eta/2) v(0)^2 + (3 eta/2) v(-1)^2 for a generic profile (deviations 0.0e+00, 0.0e+00): m^2 = <p^2> + warp + fold (negative) + tip (positive) terms, and m^2 >= 0 with equality only for the geometric zero mode v0 = e^{3 eta t/2} (u = const)"
+  },
+  {
+   "name": "A1_exact_spectrum_without_cutoff",
+   "verdict": "PASS",
+   "detail": "L -> infinity: below 3H/(2f) the only normalisable mode is u = e^{(kappa - 3H/2) y}; Neumann at the fold forces kappa = 3H/2, i.e. m = 0 (the flat zero mode, norm int e^{3Hy} dy = 1/(3H) finite), and Dirichlet forbids it; above 3H/(2f) the spectrum is continuous. The proper length of a half cell is infinite, its weighted volume finite"
+  },
+  {
+   "name": "A1_spin_half_boundary_identity",
+   "verdict": "PASS",
+   "detail": "||h chi||^2 = int |chi'|^2 + c^2 int |chi|^2 - c [chi^dag sigma3 chi]_{-1}^{0} (deviation 0.0e+00) and h (e^{ct}, 0) = 0: the chiral zero mode is localised (width 1/(2c)) yet massless; its kinetic c^2 and bulk c^2 are cancelled by the fold term -2c^2/(1 - e^{-2c}) (the Jackiw-Rebbi kink of the bulk mass)"
+  },
+  {
+   "name": "A1_tip_parameter_scaling",
+   "verdict": "PASS",
+   "detail": "matching the bulk gauge kinetic term (1/g^2) e^{3a4} f^2 e^{3Hy} (A_y)^2 to the tip mass term of the sigma field (sqrt|g_tip| = e^{3a4} f^3 e^{3Hy}) gives u'(-1) = beta u(-1) with beta = c g^2 v_Sigma^2 f L: beta is proportional to f (the warp factors cancel); the docstring of solution/masses.py writes c_tip f^2 L e^{3 eta}, a different parametrisation of the same fitted beta"
+  },
+  {
+   "name": "A2_spectra_two_discretisations",
+   "verdict": "PASS",
+   "detail": "the four boundary classes (fold N/D x tip N/D): flat v-form and weighted u-form finite elements (600, 1200 elements, Richardson) agree with the exact levels to 2.6e-09 relative"
+  },
+  {
+   "name": "A2_gap_theorem",
+   "verdict": "PASS",
+   "detail": "for tip parameters beta in {0, 1e-3, 0.0119, 1, 1e2, 1e6}: exactly one level below the warp gap 9 eta^2/4 in the even sector (the zero mode, lifted only by the tip) and none in the odd sector (Dirichlet at the fold removes the attractive fold term): every odd mode and every excitation has m >= 3H/(2f)"
+  },
+  {
+   "name": "A2_no_cutoff_limit",
+   "verdict": "PASS",
+   "detail": "eta = 3, 6, 12, 24: the zero mode stays massless, the first even and odd excitations fall toward the gap 3H/(2f) from above (m_1 f/H = 1.8294, 1.5888, 1.5227, 1.5057 even), the weighted volume tends to 1/(3H)"
+  },
+  {
+   "name": "A2_decomposition_sum_rule",
+   "verdict": "PASS",
+   "detail": "for every boson and Psi level K + warp + fold + tip = (m f L)^2 to 2.8e-04 (finite elements, 1200 elements), for every chiral zero mode K + c^2 + fold + tip = 0 to 2.4e-05 of c^2"
+  },
+  {
+   "name": "A2_localised_massless_modes",
+   "verdict": "PASS",
+   "detail": "the photon/gluon/graviton zero mode is localised at the fold (Delta s = 0.157 fL) with hidden kinetic energy K = 20.25, cancelled by warp 20.25 and fold -40.5: m = 0 while hbar c/(2 Delta s) = 70479 GeV; the uncertainty product on the period is 0.497 >= 1/4"
+  },
+  {
+   "name": "A2_heisenberg_holds_for_excitations",
+   "verdict": "PASS",
+   "detail": "for the x0 excitations the author's estimate is a true lower bound: m/(hbar c/(2 Delta s)) = KK_even_n1 7.487, KK_odd_n1 6.474, Psi_dark_matter_odd 2.611, Psi_even_bulk 4.069"
+  },
+  {
+   "name": "A2_heisenberg_fails_for_light_particles",
+   "verdict": "PASS",
+   "detail": "for the light particles the actual mass is far below the estimate: m/(hbar c/(2 Delta s)) = W 1.14e-03, Z 1.29e-03, fermion_e 2.92e-09, fermion_u 1.32e-08, fermion_d 3.00e-08, fermion_nu 1.64e-16; their masses come from the tip (sigma field, Yukawa), not from localisation"
+  },
+  {
+   "name": "A2_dark_matter_mass_is_x0_momentum",
+   "verdict": "PASS",
+   "detail": "the lowest odd Psi level eps = 2.174920403411 m (record 2.174920403411): the x0 standing wave carries 78.9 % of eps^2 and the bulk mass 21.1 %; its fold and tip terms are positive, so m^2 >= <p^2> + m^2_bulk"
+  },
+  {
+   "name": "A2_W_mass_is_a_tip_term",
+   "verdict": "PASS",
+   "detail": "W: in the dressed split m^2 = ||A v||^2 + tip the x0 dependence of the profile gives 1.32e-03 of m_W^2 and the sigma-field tip term 0.998678 (SOLUTION.md check M3: bulk part 1.32e-03); in the flat form its kinetic energy K = 20.2501 is 1.53e+06 times m_W^2 and is cancelled by warp + fold"
+  },
+  {
+   "name": "A2_localisation_lowers_fermion_masses",
+   "verdict": "PASS",
+   "detail": "electron: c = 11.196, Delta s = 5.64e-22 m, hbar c/(2 Delta s) = 174822 GeV, m_e = 5.110e-04 GeV: m_f = m_KK zeta(c)^2 ~ 2c e^{-2c} m_KK FALLS as the localisation 1/(2c) sharpens (d ln m_f/d ln c = 1 - 2c - ...), the reverse of the Heisenberg argument"
+  },
+  {
+   "name": "A2_coordinate_localisation_is_not_physical",
+   "verdict": "PASS",
+   "detail": "in the coordinate x0 the zero mode, localised at the fold in proper length, has 62 % of its probability within pi/8 of the TIPS (Delta x0/period = 0.399; electron 0.319): g_00 = f^2 cot^2 z vanishes at the fold, so a coordinate uncertainty relation says nothing about the mass; only the proper form Delta s Delta p >= hbar/2 does"
+  },
+  {
+   "name": "A2_sensitivities",
+   "verdict": "PASS",
+   "detail": "d ln m/d ln f: KK -1, W -0.5007, Z -0.5009 (beta proportional to f), e -22.393 (closed form -22.393), u -20.882, d -20.064, nu -39.090, Psi DM -0.6575, alpha -4, G_N -4, Lambda_QCD -51.8 (ESTIMATE), m_p/m_e -29.4"
+  },
+  {
+   "name": "A2_hidden_pressure_is_the_x0_mass",
+   "verdict": "PASS",
+   "detail": "the hidden pressure of the dark-matter quanta in the Kohn-Sham energy-momentum tensor (solution/outputs/ks/dm_lam0.json, Richardson) p0/rho = 0.6575394020 equals -d ln eps/d ln f = 0.6575394031 of the x0-generated mass (deviation 1.1e-09; p_t = 0): the pressure of a quantum on the hidden direction is -dE/d ln(proper length), so the EMT of the record confirms independently that the dark-matter mass is generated by x0 (1 for a pure x0 momentum, 0 for a bulk mass)"
+  },
+  {
+   "name": "A2_deflation_bound_today",
+   "verdict": "PASS",
+   "detail": "atomic clocks (FROM MEMORY) bound |h4|/H0 < 1.2e-08 today; UM-1 has h4/A = -8.86e-94 (SOLUTION.md section 3.4); the primordial h4 = -H/3 would change m_e by a factor e every 3.8e-30 s and must end before nucleosynthesis"
+  }
+ ],
+ "pass": 21,
+ "total": 21
+}

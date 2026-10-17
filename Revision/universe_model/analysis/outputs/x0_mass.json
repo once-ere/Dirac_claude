@@ -1,0 +1,479 @@
+{
+ "deflation_bound_today": {
+  "H0_per_yr": 6.8889891437478e-11,
+  "alpha_bound_per_yr": 3.2000000000000003e-18,
+  "h4_bound_from_alpha_per_yr": 8.000000000000001e-19,
+  "h4_bound_from_mu_per_yr": 2.720251225342359e-18,
+  "h4_over_A_model_today": -8.857271530160712e-94,
+  "h4_over_H0_bound": 1.1612734224237404e-08,
+  "mu_bound_per_yr": 8e-17,
+  "source": "FROM MEMORY: Lange et al. 2021 (Yb+ clocks); used as orders of magnitude"
+ },
+ "exact": {
+  "beta_scaling_exponent_in_f": 1,
+  "x0_operator": "-(1/f^2) e^{-3Hy} d_y(e^{3Hy} d_y u) = m^2 u, measure sqrt|g| dx0 = e^{3 a4} f^4 e^{3Hy} dy"
+ },
+ "gap_theorem": [
+  {
+   "beta": 0.0,
+   "even_below_gap": 1,
+   "even_lowest": 7.119129708856447e-05,
+   "odd_below_gap": 0,
+   "odd_lowest": 27.089021462883416
+  },
+  {
+   "beta": 0.001,
+   "even_below_gap": 1,
+   "even_lowest": 7.23017541020929e-05,
+   "odd_below_gap": 0,
+   "odd_lowest": 27.089454404389823
+  },
+  {
+   "beta": 0.0119,
+   "even_below_gap": 1,
+   "even_lowest": 8.439321701953536e-05,
+   "odd_below_gap": 0,
+   "odd_lowest": 27.094165986449298
+  },
+  {
+   "beta": 1.0,
+   "even_below_gap": 1,
+   "even_lowest": 0.0010711437679054286,
+   "odd_below_gap": 0,
+   "odd_lowest": 27.470673280501195
+  },
+  {
+   "beta": 100.0,
+   "even_below_gap": 1,
+   "even_lowest": 0.009258980794314385,
+   "odd_below_gap": 0,
+   "odd_lowest": 29.933438643173123
+  },
+  {
+   "beta": 1000000.0,
+   "even_below_gap": 1,
+   "even_lowest": 0.010087234551791462,
+   "odd_below_gap": 0,
+   "odd_lowest": 30.119579024758234
+  }
+ ],
+ "hidden_pressure_identity": {
+  "abs_dev": 1.1046135117709355e-09,
+  "minus_dln_eps_dln_f": 0.6575394030792981,
+  "p0_over_rho_KS": 0.6575394019746846,
+  "pt_over_rho_KS": 0.0
+ },
+ "no_cutoff_limit": [
+  {
+   "eta": 3.0,
+   "m1_even_exact_f_over_H": 1.8293776841407439,
+   "m1_even_f_over_H": 1.8293776414273324,
+   "m1_odd_f_over_H": 1.734903850636244,
+   "weighted_volume_H": 0.33329219673197114,
+   "zero_mode_Lambda": 1.7800802324922157e-05
+  },
+  {
+   "eta": 6.0,
+   "m1_even_exact_f_over_H": 1.588759162934407,
+   "m1_even_f_over_H": 1.588759150568487,
+   "m1_odd_f_over_H": 1.5727240990365303,
+   "weighted_volume_H": 0.33333332825667344,
+   "zero_mode_Lambda": 0.0002847584862372167
+  },
+  {
+   "eta": 12.0,
+   "m1_even_exact_f_over_H": 1.5226749224479956,
+   "m1_even_f_over_H": 1.5226749192295645,
+   "m1_odd_f_over_H": 1.5203855773826234,
+   "weighted_volume_H": 0.33333333333333326,
+   "zero_mode_Lambda": 0.004556118343525472
+  },
+  {
+   "eta": 24.0,
+   "m1_even_exact_f_over_H": 1.5057007437943977,
+   "m1_even_f_over_H": 1.505700742980683,
+   "m1_odd_f_over_H": 1.505398000867774,
+   "weighted_volume_H": 0.3333333333333333,
+   "zero_mode_Lambda": 0.0728918012044862
+  }
+ ],
+ "particles": {
+  "KK_even_n1": {
+   "Delta_s_full_cell_over_fL": 0.6821126638738119,
+   "Delta_s_m": 6.0955616350645315e-21,
+   "Delta_x0_over_period": 0.49393385595322326,
+   "K": 9.869581928512698,
+   "Lambda": 30.119604401089358,
+   "Lambda_fem": 30.11959876434551,
+   "Lambda_fem_u": 30.119410717196377,
+   "dressed_kinetic": 30.119410717115567,
+   "dressed_tip_sigma": 0.0,
+   "fold": -2.949119184619184,
+   "heisenberg_GeV": 16186.11968951988,
+   "kind": "massive (x0 excitation, m_KK)",
+   "kinetic_share": 0.32767966660796305,
+   "m_GeV": 121186.28923690817,
+   "m_over_heisenberg": 7.487050112163285,
+   "prob_within_pi_over_8_of_tips": 0.9728633206010804,
+   "sum": 30.11958192850789,
+   "tip_sigma": 0.0,
+   "tip_warp": 2.9491191846143785,
+   "uncertainty_product_full_cell": 4.592096243627781,
+   "warp": 20.25
+  },
+  "KK_odd_n1": {
+   "Delta_s_full_cell_over_fL": 0.6219723406300826,
+   "Delta_s_m": 5.558129819911084e-21,
+   "Delta_x0_over_period": 0.49886163275466827,
+   "K": 4.890519643243242,
+   "Lambda": 27.0890226269161,
+   "Lambda_fem": 27.089021462883416,
+   "Lambda_fem_u": 27.08884096382781,
+   "dressed_kinetic": 27.088840963791352,
+   "dressed_tip_sigma": 0.0,
+   "fold": -0.0,
+   "heisenberg_GeV": 17751.202903997368,
+   "kind": "massive (odd under the fold reflection)",
+   "kinetic_share": 0.18053510865260752,
+   "m_GeV": 114927.91389283109,
+   "m_over_heisenberg": 6.474373286947818,
+   "prob_within_pi_over_8_of_tips": 0.9993952813698805,
+   "sum": 27.0890180099286,
+   "tip_sigma": 0.0,
+   "tip_warp": 1.9484983666853604,
+   "uncertainty_product_full_cell": 1.8918955311452406,
+   "warp": 20.25
+  },
+  "Psi_dark_matter_odd": {
+   "Delta_s_full_cell_over_fL": 0.565887909577154,
+   "Delta_s_m": 5.056942663658701e-21,
+   "K": 2.801711753231728,
+   "Lambda": 5.321563606321069,
+   "bulk_mass": 1.1250000000000002,
+   "bulk_mass_share": 0.21140403145115108,
+   "c": 1.0606601717798214,
+   "eps_fL": 2.3068514486895486,
+   "eps_over_m_record": 2.1749204034111873,
+   "fold": 0.6974258651838623,
+   "fold_density_normalised": 0.6575394115285385,
+   "heisenberg_GeV": 19510.502048804505,
+   "kind": "lowest odd bulk level of Psi (the dark-matter candidate)",
+   "m_GeV": 50938.77357147651,
+   "m_over_heisenberg": 2.6108386880079157,
+   "q": 2.0485515874200164,
+   "sum": 5.321563483599453,
+   "tip": 0.6974258651838621,
+   "uncertainty_product_full_cell": 0.8971897066173594,
+   "x0_momentum_share": 0.788595968548849
+  },
+  "Psi_even_bulk": {
+   "Delta_s_full_cell_over_fL": 0.6135023057283578,
+   "Delta_s_m": 5.482439068911977e-21,
+   "K": 9.869602373411219,
+   "Lambda": 10.99460440108936,
+   "bulk_mass": 1.1250000000000002,
+   "c": 1.0606601717798214,
+   "eps_fL": 3.3158112734426486,
+   "eps_over_m_record": 3.1261768487814643,
+   "fold": -0.9521303284382937,
+   "heisenberg_GeV": 17996.27664983432,
+   "kind": "lowest even bulk level of Psi",
+   "m_GeV": 73218.13450952512,
+   "m_over_heisenberg": 4.068515723234294,
+   "sum": 10.994602373411219,
+   "tip": 0.9521303284382937,
+   "uncertainty_product_full_cell": 3.7147710703376084
+  },
+  "Psi_fold_band": {
+   "Delta_s_full_cell_over_fL": 0.4240682466211727,
+   "Delta_s_m": 3.789599976157761e-21,
+   "K": 1.1250000263405027,
+   "bulk_mass": 1.1250000000000002,
+   "c": 1.0606601717798214,
+   "fold": -2.5564499062559904,
+   "fold_density_normalised": 2.4102441424598613,
+   "heisenberg_GeV": 26035.331122213578,
+   "kind": "massless chiral zero mode of Psi (dark radiation)",
+   "m_GeV": 0.0,
+   "m_over_heisenberg": 0.0,
+   "sum": 7.907487586944484e-08,
+   "tip": 0.3064499589903632,
+   "uncertainty_product_full_cell": 0.20231311725331497
+  },
+  "W": {
+   "Delta_s_full_cell_over_fL": 0.15665123340689716,
+   "Delta_s_m": 1.3998820121851164e-21,
+   "Delta_x0_over_period": 0.3987241732749746,
+   "K": 20.250104927253826,
+   "Lambda": 1.324712331977862e-05,
+   "Lambda_fem": 8.443807276166108e-05,
+   "Lambda_fem_u": 1.3247213711227279e-05,
+   "dressed_kinetic": 1.751839682631151e-08,
+   "dressed_tip_sigma": 1.3229605005405312e-05,
+   "fold": -40.504806784531425,
+   "heisenberg_GeV": 70479.86140345735,
+   "kind": "massive (tip sigma field)",
+   "kinetic_share": 1528641.68607983,
+   "m_GeV": 80.3692,
+   "m_over_heisenberg": 0.0011403143876792235,
+   "prob_within_pi_over_8_of_tips": 0.6164154513349881,
+   "sum": 0.0002969443706628429,
+   "tip_sigma": 1.3229790917374264e-05,
+   "tip_warp": 0.004985571857340891,
+   "uncertainty_product_full_cell": 0.49692965566379377,
+   "warp": 20.25
+  },
+  "Z": {
+   "Delta_s_full_cell_over_fL": 0.15665041570939076,
+   "Delta_s_m": 1.3998747049970034e-21,
+   "Delta_x0_over_period": 0.3987241002787862,
+   "K": 20.250135332488114,
+   "Lambda": 1.7047184798315567e-05,
+   "Lambda_fem": 8.823746022724972e-05,
+   "Lambda_fem_u": 1.7047459732350446e-05,
+   "dressed_kinetic": 2.9010591099954354e-08,
+   "dressed_tip_sigma": 1.7018174343758237e-05,
+   "fold": -40.504833391236936,
+   "heisenberg_GeV": 70480.22930038671,
+   "kind": "massive (tip sigma field)",
+   "kinetic_share": 1187887.3592365251,
+   "m_GeV": 91.17067921626709,
+   "m_over_heisenberg": 0.0012935638848122599,
+   "prob_within_pi_over_8_of_tips": 0.6164152007649328,
+   "sum": 0.00030074464544651685,
+   "tip_sigma": 1.701841343484939e-05,
+   "tip_warp": 0.004981784980833788,
+   "uncertainty_product_full_cell": 0.49692521399564327,
+   "warp": 20.25
+  },
+  "fermion_d": {
+   "Delta_s_full_cell_over_fL": 0.07048428192216089,
+   "Delta_s_m": 6.298685063546605e-22,
+   "Delta_x0_over_period": 0.32983901516448727,
+   "K": 100.64338899128951,
+   "bulk_mass": 100.64317955499897,
+   "c_f": 10.032107433386017,
+   "fold": -201.28593745640396,
+   "heisenberg_GeV": 156641.4088092944,
+   "heisenberg_half_cell_GeV_of_masses_json": 221524.2111422657,
+   "kind": "chiral zero mode, mass from the tip Yukawa m = m_KK zeta(c)^2",
+   "m_GeV": 0.0047,
+   "m_over_heisenberg": 3.000483739087211e-08,
+   "prob_within_pi_over_8_of_tips": 0.342689456237265,
+   "sum": 0.0006314789616034442,
+   "tip": 3.8907706780371435e-07,
+   "uncertainty_product_full_cell": 0.49999977819098396
+  },
+  "fermion_e": {
+   "Delta_s_full_cell_over_fL": 0.06315425752227073,
+   "Delta_s_m": 5.643652282564208e-22,
+   "Delta_x0_over_period": 0.3192777733272411,
+   "K": 125.3616515770372,
+   "bulk_mass": 125.36132691672279,
+   "c_f": 11.196487257918118,
+   "fold": -250.7219990717806,
+   "heisenberg_GeV": 174822.05717176464,
+   "heisenberg_half_cell_GeV_of_masses_json": 247235.4064591399,
+   "kind": "chiral zero mode, mass from the tip Yukawa m = m_KK zeta(c)^2",
+   "m_GeV": 0.00051099895,
+   "m_over_heisenberg": 2.9229661191890553e-09,
+   "prob_within_pi_over_8_of_tips": 0.3026346632643459,
+   "sum": 0.0009794691907984796,
+   "tip": 4.7211432300038734e-08,
+   "uncertainty_product_full_cell": 0.4999999633355608
+  },
+  "fermion_nu": {
+   "Delta_s_full_cell_over_fL": 0.03617830207262323,
+   "Delta_s_m": 3.233000672986397e-22,
+   "Delta_x0_over_period": 0.2645881016860288,
+   "K": 382.0089979976132,
+   "bulk_mass": 382.0060022651724,
+   "c_f": 19.54497383639007,
+   "fold": -764.0059242306722,
+   "heisenberg_GeV": 305176.21299738943,
+   "heisenberg_half_cell_GeV_of_masses_json": 431582.6205924598,
+   "kind": "chiral zero mode, mass from the tip Yukawa m = m_KK zeta(c)^2",
+   "m_GeV": 5e-11,
+   "m_over_heisenberg": 1.6383976820771323e-16,
+   "prob_within_pi_over_8_of_tips": 0.12412850806313422,
+   "sum": 0.009076032113406534,
+   "tip": 8.063956084919171e-15,
+   "uncertainty_product_full_cell": 0.49999994181275087
+  },
+  "fermion_u": {
+   "Delta_s_full_cell_over_fL": 0.06772526223790871,
+   "Delta_s_m": 6.05213085881736e-22,
+   "Delta_x0_over_period": 0.32601757211793486,
+   "K": 109.01054662757949,
+   "bulk_mass": 109.01030099580639,
+   "c_f": 10.440799825483026,
+   "fold": -218.02010704381794,
+   "heisenberg_GeV": 163022.7311695632,
+   "heisenberg_half_cell_GeV_of_masses_json": 230548.71478928762,
+   "kind": "chiral zero mode, mass from the tip Yukawa m = m_KK zeta(c)^2",
+   "m_GeV": 0.00216,
+   "m_over_heisenberg": 1.3249686006998258e-08,
+   "prob_within_pi_over_8_of_tips": 0.32805999042430767,
+   "sum": 0.0007407656622072325,
+   "tip": 1.8609428961169685e-07,
+   "uncertainty_product_full_cell": 0.49999988916035487
+  },
+  "photon_gluon_graviton_zero_mode": {
+   "Delta_s_full_cell_over_fL": 0.15665408457305566,
+   "Delta_s_m": 1.3999074910538889e-21,
+   "Delta_x0_over_period": 0.39872442777293593,
+   "K": 20.249998933845983,
+   "Lambda": 0.0,
+   "Lambda_fem": 7.119129708856447e-05,
+   "Lambda_fem_u": 3.3062237030177117e-12,
+   "dressed_kinetic": 2.0939338488752286e-22,
+   "dressed_tip_sigma": 0.0,
+   "fold": -40.504714021605224,
+   "heisenberg_GeV": 70478.57864216686,
+   "kind": "massless (unbroken gauge, 4D diffeomorphisms)",
+   "kinetic_share": null,
+   "m_GeV": 0.0,
+   "m_over_heisenberg": 0.0,
+   "prob_within_pi_over_8_of_tips": 0.6164163249346872,
+   "sum": 0.00028369650411996187,
+   "tip_sigma": 0.0,
+   "tip_warp": 0.004998784263357197,
+   "uncertainty_product_full_cell": 0.4969451436578419,
+   "warp": 20.25
+  }
+ },
+ "sensitivity_dln_dlnf": {
+  "G_Newton": -4.0,
+  "KK_tower": -1.0,
+  "Lambda_QCD_inputs": {
+   "alpha_s_mKK": 0.05117785869863497,
+   "alpha_s_mZ": 0.118,
+   "b0": 9.666666666666666,
+   "label": "ESTIMATE (one loop, STANDARD formula)"
+  },
+  "Lambda_QCD_proton": -51.80202286516915,
+  "Psi_dark_matter_odd": -0.6575394030792981,
+  "W": -0.5006612182226359,
+  "W_dlnLambda_dlnbeta": 0.9986775635547283,
+  "Z": -0.500850894962984,
+  "Z_dlnLambda_dlnbeta": 0.998298210074032,
+  "alpha_em": -4.0,
+  "fermion_d": -20.064214838659385,
+  "fermion_d_closed_form": -20.0642149055553,
+  "fermion_e": -22.39297444541095,
+  "fermion_e_closed_form": -22.392974520052878,
+  "fermion_nu": -39.08994754249287,
+  "fermion_nu_closed_form": -39.08994767278014,
+  "fermion_u": -20.881599599186853,
+  "fermion_u_closed_form": -20.88159966878985,
+  "mp_over_me": -29.4090484197582,
+  "photon_gluon_graviton": 0.0
+ },
+ "spectra": {
+  "fold_D_tip_D": {
+   "exact": [
+    30.119604401089358,
+    59.72841760435743,
+    109.07643960980423,
+    178.16367041742973,
+    266.990110027234
+   ],
+   "levels_below_gap": 0,
+   "max_rel_dev_u": 8.348144240251811e-10,
+   "max_rel_dev_v": 3.01078807489885e-10,
+   "u_form": [
+    30.119604396571404,
+    59.72841759232997,
+    109.07643957581844,
+    178.16367032713504,
+    266.9901098043468
+   ],
+   "v_form": [
+    30.119604401193016,
+    59.72841760413618,
+    109.07643960615663,
+    178.16367039643646,
+    266.9901099468489
+   ]
+  },
+  "fold_D_tip_N": {
+   "exact": [
+    27.0890226269161,
+    49.48059601018065,
+    89.94514737892175,
+    149.58068287140006,
+    228.74272601164134
+   ],
+   "levels_below_gap": 0,
+   "max_rel_dev_u": 8.620206460456611e-10,
+   "max_rel_dev_v": 1.8092114698394487e-10,
+   "u_form": [
+    27.08902262255792,
+    49.4805959985895,
+    89.9451473471741,
+    149.5806827892935,
+    228.74272581446039
+   ],
+   "v_form": [
+    27.089022627430907,
+    49.48059601067496,
+    89.94514737836498,
+    149.58068286291305,
+    228.74272597025694
+   ]
+  },
+  "fold_N_tip_D": {
+   "exact": [
+    0.010015993153977831,
+    35.06634524595226,
+    73.56430517925205,
+    132.48063258365377,
+    211.30958826040847
+   ],
+   "levels_below_gap": 1,
+   "max_rel_dev_u": 4.682914479873411e-10,
+   "max_rel_dev_v": 1.965446919799385e-09,
+   "u_form": [
+    0.010015993079808357,
+    35.066345241619466,
+    73.56430516705682,
+    132.48063254815554,
+    211.309588161454
+   ],
+   "v_form": [
+    0.010015995119424751,
+    35.066345245963795,
+    73.56430517777821,
+    132.4806325734169,
+    211.30958821609104
+   ]
+  },
+  "fold_N_tip_N": {
+   "exact": [
+    0.0,
+    30.119604401089358,
+    59.72841760435743,
+    109.07643960980423,
+    178.16367041742973
+   ],
+   "levels_below_gap": 1,
+   "max_rel_dev_u": 5.075700696704197e-10,
+   "max_rel_dev_v": 2.5972997320947732e-09,
+   "u_form": [
+    3.976311467590593e-13,
+    30.119604396678366,
+    59.72841759225625,
+    109.07643957601063,
+    178.16367032699918
+   ],
+   "v_form": [
+    2.5972997320947732e-09,
+    30.119604401604068,
+    59.72841760455387,
+    109.07643960657656,
+    178.16367039685647
+   ]
+  }
+ },
+ "units": "H = 1 (cell), eta = H L = 3, f = 8^{-1/2}, t = y/L; Lambda = (m f L)^2"
+}

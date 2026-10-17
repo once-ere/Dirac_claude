@@ -28,7 +28,7 @@
 \tableofcontents
 \newpage
 
-Version 1.1 of 2026-10-17, for \texttt{MODEL.\allowbreak{}md} (the model), \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md} (its field equations) and \texttt{SOLUTION.\allowbreak{}md} (an approximate solution). Repository \texttt{https:/\allowbreak{}/\allowbreak{}github.\allowbreak{}com/\allowbreak{}once-{}\allowbreak{}ere/\allowbreak{}Dirac\_\allowbreak{}claude}, folder \texttt{Revision/\allowbreak{}universe\_\allowbreak{}model/\allowbreak{}}; the model was started on top of commit \texttt{13f9fb9}.
+Version 1.2 of 2026-10-17, for \texttt{MODEL.\allowbreak{}md} (the model), \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md} (its field equations), \texttt{SOLUTION.\allowbreak{}md} (an approximate solution) and \texttt{ANALYSIS.\allowbreak{}md} (the analysis of the mass mechanism and of the dark associations, section 7). Repository \texttt{https:/\allowbreak{}/\allowbreak{}github.\allowbreak{}com/\allowbreak{}once-{}\allowbreak{}ere/\allowbreak{}Dirac\_\allowbreak{}claude}, folder \texttt{Revision/\allowbreak{}universe\_\allowbreak{}model/\allowbreak{}}; the model was started on top of commit \texttt{13f9fb9}.
 
 \section*{1. The order}
 \addcontentsline{toc}{section}{1. The order}
@@ -87,7 +87,7 @@ All standard numbers are quoted from memory, except the eBOSS DR16 table (read f
 \section*{4. Ingredients new in this model (ASSUMED or INVENTED in \texttt{MODEL.\allowbreak{}md})}
 \addcontentsline{toc}{section}{4. Ingredients new in this model (ASSUMED or INVENTED in \texttt{MODEL.\allowbreak{}md})}
 
-\begin{longtable}{>{\raggedright\arraybackslash}p{0.373\linewidth}>{\raggedright\arraybackslash}p{0.300\linewidth}>{\raggedright\arraybackslash}p{0.196\linewidth}}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.368\linewidth}>{\raggedright\arraybackslash}p{0.307\linewidth}>{\raggedright\arraybackslash}p{0.194\linewidth}}
 \toprule
 \textbf{ingredient} & \textbf{label} & \textbf{where} \\
 \midrule
@@ -95,12 +95,13 @@ the metric as a power series around the corrected primordial metric, with the bo
 the Standard-Model fields as eight-dimensional fields of $SU(3)_c \times SU(2)_L \times U(1)_Y$ on the cell, including the gluons & ASSUMED & section 4.3 \\
 the chiral zero modes from the bulk masses $\mu_\psi$ and the fold conditions $\theta_\psi$ & INVENTED (built on the record's fold conditions) & section 4.3 \\
 no Higgs field; the tip sigma field $\Sigma$ (non-linear, no radial mode) and its couplings $v_\Sigma$, $\lambda_f$ & INVENTED & section 4.3 \\
-the mass mechanism: four-dimensional masses as eigenvalues of the $x_0$ operators on the periodic cell, with the uncertainty bound & the AUTHOR's idea, made precise here & section 4.4 \\
+the mass mechanism: four-dimensional masses as eigenvalues of the $x_0$ operators on the periodic cell; the uncertainty bound holds for the $x_0$ excitations and fails for the protected zero modes (1.2) & the AUTHOR's idea, made precise here; analysed in \texttt{ANALYSIS.\allowbreak{}md} & sections 4.4, 9 \\
 the portal operators P1 to P5 & INVENTED & section 4.5 \\
 the requirement of slow deflation after the primordial era & DERIVED requirement (mass constancy) & section 4.4, \texttt{SOLUTION.\allowbreak{}md} \\
 {}(1.1) the cubic Lovelock weight $w_3 = 1/768$ and $\Lambda = -24H^2 + \delta\Lambda$ & CHANGED (forced by the solution: the author's weights give repulsive gravity in the only static vacuum) & section 4.1, \texttt{SOLUTION.\allowbreak{}md} section 3 \\
 {}(1.1) the block stabiliser & ASSUMED (its origin OPEN) & section 4.1 \\
-{}(1.1) the fold-reflection parity that keeps the odd-parity $\Psi$ dark matter stable & ASSUMED & section 8, \texttt{SOLUTION.\allowbreak{}md} section 5 \\
+{}(1.1) the fold-reflection parity that keeps the odd-parity $\Psi$ dark matter stable & ASSUMED ((1.2) exact to $2\times10^{-27}$, \texttt{ANALYSIS.\allowbreak{}md} 8.3) & section 8, \texttt{SOLUTION.\allowbreak{}md} section 5 \\
+{}(1.2) the end of the primordial deflation before nucleosynthesis; portal coefficients that differ between the $\Psi$ fold band and the $\Psi$ dark matter (or the one-half count) & DERIVED requirements (\texttt{ANALYSIS.\allowbreak{}md} sections 7 and 8.5) & section 8 \\
 \bottomrule
 \end{longtable}
 
@@ -111,21 +112,48 @@ the requirement of slow deflation after the primordial era & DERIVED requirement
 \item Symbolic: Python 3.14.5, sympy 1.14.0 (\texttt{field\_\allowbreak{}equations/\allowbreak{}derive\_\allowbreak{}field\_\allowbreak{}equations.\allowbreak{}py}).
 \item Numerical: numpy 2.4.6, no scipy; matplotlib 3.11.0 for the figures (\texttt{solution/\allowbreak{}}). The Kohn-Sham solution uses the record's reference solver \texttt{Revision/\allowbreak{}kohn\_\allowbreak{}sham/\allowbreak{}reference/\allowbreak{}ks\_\allowbreak{}fd.\allowbreak{}py} and its coefficients (\texttt{run\_\allowbreak{}reference.\allowbreak{}py}) UNCHANGED (TAKEN), with the portal potentials added by a wrapper (\texttt{solution/\allowbreak{}ks\_\allowbreak{}coupled.\allowbreak{}py}).
 \item Documents: the Markdown files are the sources; \texttt{tools/\allowbreak{}md2tex.\allowbreak{}py} converts each to LaTeX and \texttt{tools/\allowbreak{}build\_\allowbreak{}pdfs.\allowbreak{}py} compiles it with pdflatex (MiKTeX 26.5), so the .md and the .pdf say the same thing.
+\item The analysis (1.2): \texttt{analysis/\allowbreak{}x0\_\allowbreak{}mass\_\allowbreak{}analysis.\allowbreak{}py} (sympy, numpy, matplotlib; about 30 s) and \texttt{analysis/\allowbreak{}dark\_\allowbreak{}validity.\allowbreak{}py} (numpy, matplotlib; about 3 s), which also writes the tables of \texttt{ANALYSIS.\allowbreak{}md} section 12.
 \item Every calculation runs well within the limit of 423 s per calculation of this project.
 \end{itemize}
 
 \section*{6. Status}
 \addcontentsline{toc}{section}{6. Status}
 
-\begin{longtable}{>{\raggedright\arraybackslash}p{0.259\linewidth}>{\raggedright\arraybackslash}p{0.284\linewidth}>{\raggedright\arraybackslash}p{0.325\linewidth}}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.338\linewidth}>{\raggedright\arraybackslash}p{0.250\linewidth}>{\raggedright\arraybackslash}p{0.280\linewidth}}
 \toprule
 \textbf{deliverable} & \textbf{file} & \textbf{status} \\
 \midrule
-the model & \texttt{MODEL.\allowbreak{}md}, \texttt{MODEL.\allowbreak{}pdf} & version 1.1 \\
-this provenance & \texttt{PROVENANCE.\allowbreak{}md}, \texttt{PROVENANCE.\allowbreak{}pdf} & version 1.1 \\
-the coupled field equations & \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{field\_\allowbreak{}equations/\allowbreak{}} & see that document \\
-an approximate solution & \texttt{SOLUTION.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{solution/\allowbreak{}} & version 1 (checks in \texttt{solution/\allowbreak{}reports/\allowbreak{}solution-{}\allowbreak{}checks.\allowbreak{}json}) \\
+the model & \texttt{MODEL.\allowbreak{}md}, \texttt{MODEL.\allowbreak{}pdf} & version 1.2 \\
+this provenance & \texttt{PROVENANCE.\allowbreak{}md}, \texttt{PROVENANCE.\allowbreak{}pdf} & version 1.2 \\
+the coupled field equations & \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{field\_\allowbreak{}equations/\allowbreak{}} & version 1.1 (13/13) \\
+an approximate solution & \texttt{SOLUTION.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{solution/\allowbreak{}} & version 1.1 (checks in \texttt{solution/\allowbreak{}reports/\allowbreak{}solution-{}\allowbreak{}checks.\allowbreak{}json}) \\
+the analysis of the $x_0$ mass mechanism and of the dark associations & \texttt{ANALYSIS.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{analysis/\allowbreak{}} & version 1 (21/21 and 13/13 checks) \\
 \bottomrule
 \end{longtable}
+
+\section*{7. Provenance of the analysis (\texttt{ANALYSIS.\allowbreak{}md}, version 1.2 of this provenance)}
+\addcontentsline{toc}{section}{7. Provenance of the analysis (\texttt{ANALYSIS.\allowbreak{}md}, version 1.2 of this provenance)}
+
+The author's request of 2026-10-17 (quoted): "in your documentations and provenances i want you to analyze the x0 mass mechanism, and to analyze the validity of associating dark matter(and dark energy) with dirac16complex". The analysis was done by Claude Opus 5.5 in this repository; its scripts are \texttt{analysis/\allowbreak{}x0\_\allowbreak{}mass\_\allowbreak{}analysis.\allowbreak{}py} and \texttt{analysis/\allowbreak{}dark\_\allowbreak{}validity.\allowbreak{}py}.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.333\linewidth}>{\raggedright\arraybackslash}p{0.309\linewidth}>{\raggedright\arraybackslash}p{0.227\linewidth}}
+\toprule
+\textbf{ingredient} & \textbf{origin} & \textbf{label} \\
+\midrule
+the $x_0$ operator, the measure, the fold conditions, the flat form, the factorisation $A^\dagger A$, the exact spectrum without cutoff, the spin-1/2 boundary identity, the tip-parameter scaling & derived here from the corrected metric (version 2) and the actions of \texttt{MODEL.\allowbreak{}md} (sympy) & DERIVED (checks A1) \\
+the spectra, the gap theorem, the mass decompositions, the Heisenberg comparison, the sensitivities $d\ln m/d\ln f$ & computed here (two finite-element discretisations, numpy) & DERIVED (checks A2) \\
+$W$, $Z$ tip parameters, fermion $c_f$, $m_{KK}$, $H$, $fL$ & \texttt{solution/\allowbreak{}outputs/\allowbreak{}masses.\allowbreak{}json} & TAKEN (from the solution) \\
+the $\Psi$ levels, $g_F$, the dark-matter quanta ($w$, $p_0/\rho$, $p_t$, energies) & \texttt{solution/\allowbreak{}outputs/\allowbreak{}ks/\allowbreak{}spectrum.\allowbreak{}json}, \texttt{ks/\allowbreak{}dm\_\allowbreak{}lam0.\allowbreak{}json}, \texttt{ks/\allowbreak{}dm\_\allowbreak{}lam1.\allowbreak{}json} & TAKEN (from the solution) \\
+$H_0$, $\delta\Lambda/H^2$, $h_4/A$, $M_{DM}$; $g_{*s}$ at the $\Psi$ decoupling and $\Delta N_{eff}$ & \texttt{solution/\allowbreak{}outputs/\allowbreak{}late\_\allowbreak{}time.\allowbreak{}json}, \texttt{cosmology.\allowbreak{}json} & TAKEN (from the solution) \\
+the effective equation of state on the history, the condensate law, the record's verdict on the gas & \texttt{Revision/\allowbreak{}dark\_\allowbreak{}sector/\allowbreak{}dirac16complex/\allowbreak{}README.\allowbreak{}md} & TAKEN (from the record) \\
+the vector-contact annihilation cross-section $G^2M^2/\pi$ & an explicit Dirac trace in \texttt{dark\_\allowbreak{}validity.\allowbreak{}py} & DERIVED (check B2) \\
+freeze-out ($x_f$ equation, $\Omega h^2 = 1.07\times10^9x_f/(\sqrt{g_*}M_{Pl}\langle\sigma v\rangle)$), the partial-wave unitarity limit, the neutrino-like decoupling estimate & Kolb and Turner; textbook unitarity; neutrino decoupling at about 1 MeV & STANDARD, FROM MEMORY \\
+the LZ spin-independent limit, $2.2\times10^{-48}$ cm$^2$ at 40 GeV (4.2 tonne-years) & LZ collaboration, PRL 135, 011802 (2025), arXiv:2410.17036; the value read from the search results on 2026-10-17; the extrapolation to 50.9 TeV (linear in the mass) is ours & experimental, ESTIMATE for the extrapolation \\
+atomic-clock limits $\dot\alpha/\alpha = (1.0\pm1.1)\times10^{-18}$/yr, $\dot\mu/\mu = (-8\pm36)\times10^{-18}$/yr & Lange et al., PRL 126, 011102 (2021) & FROM MEMORY \\
+$G_F$, $m_N$, $\alpha_s(m_Z) = 0.1180$, the cluster bound $\sigma/M \lesssim 1$ cm$^2$/g, the Tremaine-Gunn bound & PDG and the literature & FROM MEMORY \\
+\bottomrule
+\end{longtable}
+
+Every FROM MEMORY number is used only for orders of magnitude and for comparisons; none enters a DERIVED result. The corrections that the analysis made to the other documents are listed in \texttt{ANALYSIS.\allowbreak{}md} section 10.
 
 \end{document}

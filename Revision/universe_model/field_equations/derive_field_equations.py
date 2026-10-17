@@ -289,9 +289,11 @@ ug = sp.exp(-yg ** 2 / (4 * sgm ** 2))
 var_y = sp.integrate(yg ** 2 * ug ** 2, (yg, -sp.oo, sp.oo)) / sp.integrate(ug ** 2, (yg, -sp.oo, sp.oo))
 p2 = sp.integrate(sp.diff(ug, yg) ** 2, (yg, -sp.oo, sp.oo)) / sp.integrate(ug ** 2, (yg, -sp.oo, sp.oo))
 check("D3_uncertainty_bound_saturated_by_gaussian", sp.simplify(var_y * p2 - sp.Rational(1, 4)) == 0,
-      "for a profile of width Delta y (proper width Delta s = f Delta y) the Rayleigh quotient is the mean of p^2 "
-      "(units hbar = c = 1): m^2 >= <p_s^2> >= 1/(4 Delta s^2), m >= hbar/(2 c Delta s) (the author's estimate); the "
-      "Gaussian saturates it: <Y^2> <p^2> = %s" % s(sp.simplify(var_y * p2)))
+      "on a flat line <Y^2> <p^2> >= 1/4 (units hbar = c = 1), saturated by the Gaussian: <Y^2> <p^2> = %s; this is the "
+      "author's estimate m >= hbar/(2 c Delta s) when m^2 = <p^2>. In the warped cell the Rayleigh quotient is the "
+      "weighted mean of |d_s u|^2 (the hidden momentum relative to the geometric zero mode), not <p^2> of the proper "
+      "density: the bound holds for the odd modes and the excitations and fails for the zero modes "
+      "(Revision/universe_model/ANALYSIS.md, analysis/x0_mass_analysis.py)" % s(sp.simplify(var_y * p2)))
 # fermion zero modes of the block (k = 0, v = 0, j = +1)
 mu = sp.Symbol("mu", real=True)
 s1 = sp.Matrix([[0, 1], [1, 0]])
@@ -318,7 +320,9 @@ EQ["x0_mass_mechanism"] = {
     "fermion_block": "h = -(i/f) sigma1 d_y + mu sigma2 (+ kappa k sigma3 + v for k != 0), zero modes (e^(f mu y), 0) "
                      "and (0, e^(-f mu y))",
     "fermion_mass": "m_f = lambda_f zeta(mu_L) zeta(-mu_R), zeta(mu)^2 = 2 f mu e^(-2 f mu L)/(1 - e^(-2 f mu L))",
-    "uncertainty": "m >= hbar/(2 c Delta s), Delta s the proper width of the x0 profile (saturated by a Gaussian)"}
+    "uncertainty": "flat line: <p^2> >= 1/(4 Delta s^2) (saturated by a Gaussian); warped cell: m^2 = <p^2> + (3H/2f)^2 "
+                   "- (3H/f) rho(fold) + (3H/f) rho(tips) + tip field, so m >= hbar/(2 c Delta s) for the odd modes and the "
+                   "excitations only (ANALYSIS.md)"}
 
 # ======================================================================================================== part E
 EQ["dirac16complex_kohn_sham_with_portals"] = {

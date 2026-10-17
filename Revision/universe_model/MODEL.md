@@ -1,7 +1,9 @@
 # UM-1: a 4+4 model of the Universe with Einstein-Lovelock gravity, the dirac16complex field and an x0-generated mass spectrum
 
-Version 1.1 of 2026-10-17: version 1 plus the two changes that the solution forces (marked CHANGED in sections 4.1
-and 8; the reasons are in `SOLUTION.md` section 3). Written at the author's order of 2026-10-17 ("create a new model of the Universe"). This
+Version 1.2 of 2026-10-17: version 1 plus the two changes that the solution forces (marked CHANGED in sections 4.1
+and 8; the reasons are in `SOLUTION.md` section 3), and (1.2) the corrections of the analysis `ANALYSIS.md` to sections
+1, 4.4, 6 and 8 and the new section 9; the fields, the action and the parameters are those of version 1.1. Written at
+the author's order of 2026-10-17 ("create a new model of the Universe"). This
 document DEFINES the model. Its field equations are derived in `FIELD_EQUATIONS.md` (scripts in `field_equations/`),
 an approximate solution is computed in `SOLUTION.md` (scripts in `solution/`), and the origin of every ingredient is in
 `PROVENANCE.md`. Every statement below is labelled as one of: DERIVED (computed in this repository, with the file
@@ -14,7 +16,8 @@ The model lives on an eight-dimensional space with the author's coordinates $x_0
 space-like direction, $x_1, x_2, x_3$ are ordinary space, $x_4$ is the time and $x_5, x_6, x_7$ are three extra
 time-like directions that deflate exponentially. Gravity is Einstein-Lovelock gravity in eight dimensions with the
 author's couplings. The dirac16complex field $\Psi$, a 16-component spinor of $Cl(4,4)$ coupled to gravity through the
-canonical spin connection, is the dark-matter candidate. Photons, neutrinos, electrons, up and down quarks, the gluons
+canonical spin connection, is the dark-matter candidate: its heavy odd quanta conditionally, its massless fold band as
+dark radiation, and none of its states as dark energy (`ANALYSIS.md`, section 9 below). Photons, neutrinos, electrons, up and down quarks, the gluons
 (required for consistency with QCD), and the $W^\pm$ and $Z$ bosons are eight-dimensional fields of the gauge group
 $SU(3)_c \times SU(2)_L \times U(1)_Y$. There is NO Higgs field and no Higgs particle.
 
@@ -24,8 +27,12 @@ eight-dimensional wave equation into a tower of four-dimensional fields whose ma
 does not depend on $x_0$ is massless (graviton, photon, gluon). A mode localised in $x_0$ carries a hidden momentum
 $\Delta p_{x_0} \geq \hbar/(2\,\Delta x_0)$ and therefore an effective mass. The model makes this precise: the
 four-dimensional mass of every massive particle is the lowest eigenvalue of its $x_0$ operator on the periodic cell,
-with the boundary conditions at the two special points of the cell (the fold $z = \pi/2$ and the tip $z = 0$),
-and the uncertainty relation is a lower bound that every such eigenvalue satisfies.
+with the boundary conditions at the two special points of the cell (the fold $z = \pi/2$ and the tip $z = 0$).
+CORRECTED in version 1.2 (`ANALYSIS.md`): the uncertainty relation bounds the hidden kinetic part of every such
+eigenvalue, and it bounds the mass itself for the $x_0$ excitations (every mode heavier than the gap $3H/(2f)$,
+including the dark matter). It does not bound the masses of the protected zero modes, which are localised at the fold
+yet massless, and the light masses ($W$, $Z$, $e$, $\nu$, $u$, $d$) come from the tip, not from localisation
+(section 9).
 
 ## 2. Space, coordinates and the periodic cell
 
@@ -139,8 +146,15 @@ of its $x_0$ operator (periodic with period $\ell_0$, the fold and tip condition
 eigenvalue, $m_n^2 = \lambda_n$, and the Rayleigh quotient gives
 $$ m^2 = \frac{\int dy\, w(y)\,|\partial_y u|^2/f^2 + \dots}{\int dy\, w(y)\,|u|^2},\qquad w(y) = e^{3Hy} \ (\text{the measure } \sqrt{|g|}\,dx_0 \propto e^{3Hy}dy) . $$
 For a profile localised within a proper length $\Delta s = f\,\Delta y$ the uncertainty relation on the cell gives
-$\langle p_{x_0}^2\rangle \geq \hbar^2/(4\Delta s^2)$, hence
-$$ m\,c^2 \geq \frac{\hbar c}{2\,\Delta s} \quad (\text{the author's estimate; exact for the Gaussian profile}) . $$
+$\langle \hat p^2\rangle \geq \hbar^2/(4\Delta s^2)$ for the hidden momentum in the orthonormal frame (the author's
+estimate $m\,c^2 \geq \hbar c/(2\Delta s)$). CORRECTED in version 1.2 (`ANALYSIS.md` sections 3 to 6): in the flat
+proper measure $v = e^{3Hy/2}u$ the mass is
+$$ m^2 = \langle\hat p^2\rangle + \Big(\frac{3H}{2f}\Big)^2 - \frac{3H}{f}\,\rho(\text{fold}) + \frac{3H}{f}\,\rho(\text{tips}) + (\text{tip field}) , $$
+with $\rho$ the normalised proper density: the warp of the extra times, an attractive point term at the fold and
+repulsive tip terms (spin 1/2: the bulk mass and the kink of the Jackiw-Rebbi mechanism). The estimate bounds $m$ when
+the fold term is absent or repulsive: every odd mode and every excitation, $m \geq 3H/(2f)$. For the zero modes the
+fold term cancels the kinetic energy exactly, and the cancellation is protected by gauge invariance, general covariance
+and chirality.
 * MASSLESS (no $x_0$ dependence, or an exact zero eigenvalue): the graviton, the photon and the gluons (flat profiles of
   unbroken gauge generators), the fold-band quanta of $\Psi$ (the fold zero modes, $\varepsilon = e^{-a_4}|k|$).
 * MASSIVE: $W^\pm$ and $Z$ (their profiles bend at the tip, where $\Sigma$ acts), $e$, $\nu$, $u$, $d$ (chiral zero modes
@@ -149,7 +163,9 @@ $$ m\,c^2 \geq \frac{\hbar c}{2\,\Delta s} \quad (\text{the author's estimate; e
   the tip), the bulk-band quanta of $\Psi$ and every excited $x_0$ mode (the Kaluza-Klein tower,
   $m_n \simeq n\pi/(fL)$ for $n \geq 1$).
 * Because the profiles depend exponentially on $\mu_\psi f L$, order-one parameters produce the observed hierarchy
-  $m_\nu \ll m_e \ll m_u, m_d \ll m_W$ (DERIVED as a fit in `SOLUTION.md`).
+  $m_\nu \ll m_e \ll m_u, m_d \ll m_W$ (DERIVED as a fit in `SOLUTION.md`). The hierarchy runs AGAINST the
+  uncertainty estimate: a sharper localisation (larger $\mu_\psi fL$) gives a lighter fermion, and the light masses lie
+  $10^{-3}$ ($W$) to $10^{-16}$ ($\nu$) below $\hbar c/(2\Delta s)$ (`ANALYSIS.md` section 5).
 * Every $x_0$-generated mass depends on the block size $f$: $m \propto 1/f$ for Kaluza-Klein masses and
   $m \propto \exp(-\mu f L)$ factors for the localised fermions. A deflating block ($h_4 < 0$) therefore makes masses
   drift in time; the model requires $|h_4| \ll \dot a_4$ after the primordial era (section 7; the bound is computed
@@ -197,10 +213,11 @@ of the $x_0$ profiles):
 | neutrinos (CNB) | $\nu_L$ zero mode | localised, $m_\nu \lesssim 0.1$ eV | relativistic, then non-relativistic |
 | baryons | $u, d \to p, n$ | localised, QCD | $w = 0$ |
 | electrons | $e$ | localised | $w = 0$ after $e^\pm$ annihilation |
-| dark matter | $\Psi$ bulk band | massive, $\varepsilon \geq m$ | $w \simeq 0$ when cold and $f$ frozen |
+| dark matter (CONDITIONAL, `ANALYSIS.md` section 8) | $\Psi$ bulk band, lightest odd level | massive, $\varepsilon \geq m$ | $w = 0$ on the static block; $-0.073$ while the block deflates |
 | dark radiation | $\Psi$ fold band | massless zero modes | $w = 1/3$ ($\Delta N_{eff}$) |
-| dark condensate | $\bar\Psi\Psi$ | homogeneous | $w_c = \lambda S/(2m + \lambda S)$, drifting |
+| dark condensate | $\bar\Psi\Psi$ | homogeneous | $w_c = \lambda S/(2m + \lambda S)$, drifting; dust-like on the static block, NOT dark energy |
 | hidden curvature | geometry, $6H^2 k$, $k = e^{2a_4}/b_4$ | - | acts like a cosmological term when $k$ is constant |
+| dark energy | $\delta\Lambda$ (geometric, tuned) | - | $w = -1$; no $\Psi$ component qualifies (`ANALYSIS.md` section 9) |
 
 ## 7. What the model predicts and what it requires (statements to be computed)
 
@@ -219,7 +236,12 @@ of the $x_0$ profiles):
 
 * ASSUMED: the regular tip at $y = -L$; the compact extra times (normalisation A) and the good sector $q = 0$; the kink
   bulk masses; the tip sigma field; the portal operators; one generation; the zero-mode truncation at order 1; (1.1) the
-  block stabiliser and the exact fold-reflection parity that keeps the odd-parity dark matter stable.
+  block stabiliser and the exact fold-reflection parity that keeps the odd-parity dark matter stable ((1.2) exact to
+  $2\times10^{-27}$ in amplitude for a lifetime above $10^{26}$ s, `ANALYSIS.md` section 8.3).
+* REQUIRED (1.2, `ANALYSIS.md`): the exponential deflation of the primordial era ends long before nucleosynthesis (the
+  electron mass changes like $f^{-22}$); the portal coefficients of the $\Psi$ fold band and of the $\Psi$ dark matter
+  differ beyond their overlaps, or the one-half count $g_F = 4$ holds (otherwise the $N_{eff}$ portal makes the dark
+  matter under-abundant and puts it at 1.6 times the LZ limit).
 * CHANGED (1.1): $w_3 = 1/768$ and $\Lambda = -24H^2 + \delta\Lambda$ (section 4.1). The solution also finds what the
   model requires of the data: $m_{KK} \approx 121$ TeV from $\rho_0$, and, with one generation, a decoupling of the
   $\Psi$ fold band inside the QCD crossover for $N_{eff} \approx 3$ (`SOLUTION.md` sections 4 and 6).
@@ -227,7 +249,34 @@ of the $x_0$ profiles):
   perturbative unitarity of $WW$ scattering without a Higgs (it holds up to the Kaluza-Klein scale $\sim \pi/(fL)$ only
   if that scale lies below about $4\pi v_\Sigma \approx 3$ TeV, as in all Higgsless models); a dynamical mechanism that
   slows the deflation of the block after the primordial era; the origin of the second and third generations; the
-  derivation of the portal coefficients; the non-adiabatic evolution of $\Psi$.
+  derivation of the portal coefficients; the non-adiabatic evolution of $\Psi$; (1.2) the annihilation that fixes the
+  dark-matter abundance ($6.5\times10^{-26}$ cm$^3$/s, 37 % of the s-wave unitarity limit).
 * Consistency with QCD and the electroweak theory is at the level of the gauge group, the representations, anomaly
   cancellation and the electroweak chiral Lagrangian (no Higgs); precision electroweak constraints on Higgsless
   models (the $S$ parameter) apply and are OPEN for this geometry.
+
+## 9. Analysis of the mass mechanism and of the dark associations (version 1.2; DERIVED in `ANALYSIS.md`)
+
+* The mass mechanism. Every four-dimensional mass is an eigenvalue of an $x_0$ operator of a wave function periodic
+  with $\pi/(6H)$: the author's requirement holds. Without a cutoff each period is a whole line in proper length, and
+  every function of $y$ is periodic; the content of the requirement lies in the parities and boundary terms at the fold
+  and the tips. The operator factorises as $A^\dagger A$: the mass is the $x_0$ dependence of the profile RELATIVE to the
+  geometric zero mode. A mode localised as the geometry dictates is massless, and every deviation costs mass.
+* The uncertainty relation is a true lower bound for the $x_0$ excitations ($m \geq 3H/(2f) = 99.4$ TeV; the estimate
+  is exceeded by factors 2.6 to 7.5). The dark matter is one of them: 78.9 % of its $\varepsilon^2$ is $x_0$ momentum.
+  The Kohn-Sham stress tensor confirms this: its hidden pressure $p_0/\rho = 0.6575394$ equals $-d\ln M_{DM}/d\ln f$ to
+  $10^{-9}$.
+* The uncertainty relation is not the origin of the light masses. The photon, gluon and graviton zero mode is
+  localised within $1.4\times10^{-21}$ m and massless. The $W$ mass is 99.87 % tip term. The fermion masses fall as
+  the localisation sharpens. Taken literally as a principle, the Heisenberg argument would put every massive particle
+  above 99 TeV.
+* Constancy: every $x_0$-generated mass tracks $f$ ($m_e \propto f^{-22}$, $\alpha, G_N \propto f^{-4}$); the late
+  block deflation $h_4/A \approx -10^{-93}$ is far within the atomic-clock bound $1.2\times10^{-8}$, and the primordial
+  deflation must end before nucleosynthesis.
+* Dark matter: CONDITIONAL. The odd bulk quanta are cold on the static block, dark, collisionless and massive. They
+  need three things: an exact fold parity (ASSUMED), an annihilation of natural cell strength ($G \approx 1.4/H^2$,
+  OPEN), and portal coefficients that are not universal across $\Psi$ modes. The record's computed states are dark
+  radiation.
+* Dark energy: NOT SUPPORTED. No positive-energy $\Psi$ state has $w < 0$ on the static block. The $\lambda < 0$
+  condensate tuned to $w_0 = -1$ has $w_a = -6$, and its energy turns negative at $z = 0.26$. The vacuum energy is the
+  cosmological-constant problem. The dark energy of UM-1 is $\delta\Lambda$.

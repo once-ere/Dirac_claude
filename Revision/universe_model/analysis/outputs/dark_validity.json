@@ -1,0 +1,145 @@
+{
+ "dark_energy": {
+  "condensate_static_block": [
+   {
+    "w0": -1.2,
+    "wa_tangent": -7.919999999999998,
+    "x0": -0.5454545454545454,
+    "z_energy_zero": 0.2239034103416604
+   },
+   {
+    "w0": -1.0,
+    "wa_tangent": -6.0,
+    "x0": -0.5,
+    "z_energy_zero": 0.25992104989487297
+   },
+   {
+    "w0": -0.9,
+    "wa_tangent": -5.130000000000001,
+    "x0": -0.4736842105263158,
+    "z_energy_zero": 0.2828337104256018
+   },
+   {
+    "w0": -0.75,
+    "wa_tangent": -3.9375,
+    "x0": -0.42857142857142855,
+    "z_energy_zero": 0.3263524026321307
+   },
+   {
+    "w0": -0.5,
+    "wa_tangent": -2.2499999999999996,
+    "x0": -0.3333333333333333,
+    "z_energy_zero": 0.4422495703074085
+   },
+   {
+    "w0": -0.3,
+    "wa_tangent": -1.17,
+    "x0": -0.23076923076923075,
+    "z_energy_zero": 0.6303244155029162
+   },
+   {
+    "w0": -0.1,
+    "wa_tangent": -0.33,
+    "x0": -0.09090909090909091,
+    "z_energy_zero": 1.2239800905693152
+   }
+  ],
+  "gas": {
+   "history": "w_eff(C) >= -4/9 for the computed positive-energy states (record: N2, mixtures); w_eff(A) of the computed gas in [0.330585, 0.336132]",
+   "static_block": "w_eff = P3/E >= 0 for every real-frequency kinetic gas (P3 >= 0) once beta = 2",
+   "w_dm": {
+    "abs_dev": 1.1046135117709355e-09,
+    "minus_dln_eps_dln_f": 0.6575394030792981,
+    "p0_over_rho_KS": 0.6575394019746846,
+    "pt_over_rho_KS": 0.0
+   }
+  },
+  "vacuum_energy": {
+   "deltaLambda_over_H2": 7.544679638187202e-93,
+   "ratio": 5.527682797057712e+64,
+   "rho_Lambda_GeV4": 2.470876895173129e-47,
+   "rho_vac_natural_GeV4": 1.3658223707095877e+18
+  }
+ },
+ "dark_matter": {
+  "M_DM_GeV": 50938.7735714765,
+  "cold": {
+   "p0_over_rho": 0.6575394019746846,
+   "w_dm_lambda0": 0.0,
+   "w_dm_lambda1": 0.001817235414331235,
+   "w_eff_A_history": -0.07305993355274275,
+   "w_eff_A_history_from_x0_mass": -0.07305993367547757,
+   "w_eff_static_block": 0.0
+  },
+  "hidden_pressure_backreaction": {
+   "delta_k_over_k0_today": 7.898069993029562e-95
+  },
+  "overlaps": {
+   "c_Psi": 1.0606601717798214,
+   "c_e": 11.196487257918118,
+   "n_dm_at_fold": 0.6575394019756396,
+   "n_fold_at_fold": 2.4102441424598613,
+   "overlap_dark_matter": 0.7235211149783741,
+   "overlap_fold_band": 2.201676042262278,
+   "ratio_dm_over_fold": 0.3286228768856193
+  },
+  "portal": {
+   "G_dm_overlap_rule_inv_sqrt_TeV": 21.52567152437283,
+   "G_fold_inv_sqrt_TeV": 12.339728529027607,
+   "G_relic_portal_inv_sqrt_TeV": 32.512800965771156,
+   "LZ_limit_linear_extrapolation_cm2": 2.801632546431208e-45,
+   "N_channels": 7.5,
+   "Omega_h2_if_portal_dominates": 0.02305634911357426,
+   "T_dec_GeV": 0.15,
+   "g_star_s_dec": 12.307014314942805,
+   "labels": "ESTIMATE: neutrino-like decoupling G = G_F (T_nu/T_dec)^{3/2} (g*/10.75)^{1/4}; universal c_V for e, nu, u, d; 4D coupling proportional to the overlap with the fold-localised fermions; LZ limit extrapolated linearly from its minimum (2.2e-48 cm^2 at 40 GeV), which is WEAKER than the published curve at high mass",
+   "sigma_SI_at_relic_cm2": 8.800108958746169e-46,
+   "sigma_SI_at_relic_over_limit": 0.314106465173528,
+   "sigma_SI_cm2": 4.5801400293154814e-45,
+   "sigma_SI_over_limit": 1.6348111158080965,
+   "sigma_v_portal_cm3_s": 3.3680239248867004e-25,
+   "sigma_v_portal_over_needed": 5.204640136601282
+  },
+  "record_states": {
+   "N_eff_fit_Delta": 1.9753333333333336,
+   "T0_gas": "exact fold-band gas, w_eff(A) = 1/3 (Revision/dark_sector/dirac16complex/README.md)",
+   "g_F": 8
+  },
+  "relic": {
+   "G_needed_one_channel_inv_sqrt_TeV": 19.646675387427667,
+   "G_needed_times_H2": 1.4211243955265802,
+   "H_TeV": 23.42098289738932,
+   "M_at_unitarity_TeV": 83.31542097783824,
+   "fraction_of_unitarity": 0.3738059266277157,
+   "g_star_at_freeze_out": 60.25,
+   "sigma_v_familiar_rescaled_cm3_s": 6.901308425675706e-26,
+   "sigma_v_needed_GeV-2": 5.5435863653807745e-09,
+   "sigma_v_needed_cm3_s": 6.471194619588198e-26,
+   "unitarity_limit_cm3_s": 1.7311642642929658e-25,
+   "x_f": 29.458684745719978
+  },
+  "self_interaction": {
+   "G_self": "1/H^2 (natural size, ESTIMATE)",
+   "bound_cm2_g": 1.0,
+   "sigma_cm2": 2.6720192188342158e-37,
+   "sigma_over_M_cm2_g": 2.9425381731608246e-18,
+   "tremaine_gunn_keV": 0.1
+  },
+  "stability": {
+   "assumption": "exact fold-reflection parity z -> pi - z (ASSUMED in MODEL.md section 8)",
+   "lightest_even_bulk_eps_over_m": 3.126176848781464,
+   "lightest_odd_eps_over_m": 2.1749204034111873,
+   "max_parity_violation_amplitude": 1.8020986912626727e-27,
+   "tau_required_s": 1e+26
+  },
+  "vector_contact_trace": {
+   "closed_form": "1/pi",
+   "sigma_v_over_G2_M2": 0.3183098861837907,
+   "spin_summed_over_G2_M4": 128.0
+  }
+ },
+ "verdict": {
+  "dark_energy": "NOT SUPPORTED: no Psi state of positive energy accelerates the late universe; the lambda < 0 condensate fails; the dark energy of UM-1 is delta Lambda",
+  "dark_matter": "CONDITIONAL: the heavy odd quanta of Psi are a valid cold-dark-matter candidate only if the fold parity is exact and the relic annihilation is supplied (OPEN); the computed ground states are dark radiation; the N_eff and dark-matter readings of the portal are in tension"
+ }
+}
