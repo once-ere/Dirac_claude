@@ -266,10 +266,19 @@ each field can and cannot produce (e.g. crossing w = -1 needs a non-canonical or
 Prove exactly, with every hypothesis: T1 (chirality map Gamma: L_{m,lambda}[Gamma Psi] =
 -L_{-m,-lambda}[Psi], T -> -T, J -> -J in every gravitational field; the pair's total energy-momentum
 and charge vanish for classical bilinears); T2 (Gamma combined with a Pin(4,4) reflection of character
--1: (m, lambda) -> (-m, lambda), L -> +L, the mirror across the Z2 brane); T3 (the Kohn-Sham level: the
+-1: (m, lambda) -> (-m, lambda), L -> +L, realised in the primordial field by the reflection z -> pi - z
+across the fold between the two halves of a cell); T3 (the Kohn-Sham level: the
 block map with the transformed boundary conditions, (m, lambda) -> (-m, +lambda) with equal energies);
 the quantum-level reading (the image field carries the Krein metric -B; no cancellation between two
 independently quantised universes); and an exact statement of what these theorems do NOT establish.
+
+**In the corrected metric (2026-10-16, `HANDOFF.md` 0.10, phases W6 and W7).**  The reflection z -> pi - z
+(x0 -> pi/(6H) - x0) is an isometry of the corrected metric between the two halves of a cell, which meet at the fold
+z = pi/2, where g_00 and sqrt|g| vanish; T2 relates a configuration on one half to its image on the other half (no
+matching of the field across the fold is derived).  There is no Z2 orbifold: both halves carry the same chi(y), and the
+Kohn-Sham record fills both fold conditions (section 7, ASSUMED), so the -m partner of T3 is a different Kohn-Sham
+problem (the transformed tip pi - theta and the fold conditions exchanged), not a mirror copy carried by the other half
+of the cell.  The metric of 2026-10-14 had a Z2 brane at z = pi/2; that statement is withdrawn with that metric.
 
 ## 10. Deliverables (all under `Revision/`)
 

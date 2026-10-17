@@ -153,30 +153,36 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The author's space-time has eight coordinates $x_0, x_1, \dots, x_7$. In his metric
-    (a diagonal $8 \times 8$ matrix $g$ that measures lengths and durations, with the two
-    metric functions $a_4(x_4)$ and $b_4(x_4) > 0$)
+    The author's space-time has eight coordinates $x_0, x_1, \dots, x_7$. The Revision
+    record uses the corrected metric (version 2 of 2026-10-16): a diagonal $8 \times 8$
+    matrix $g$ that measures lengths and durations, with the two metric functions
+    $a_4(x_4)$ and $b_4(x_4) > 0$ of the time and with $z = 6 H x_0$, which takes every
+    real value ($H > 0$ is the author's constant). In it
 
-    - $x_0$ is a hidden space direction, $z = 6 H x_0$ lies between 0 and $\pi/2$, and
-      $g_{00} = \cot^2 z$;
-    - $x_1, x_2, x_3$ are ordinary 3-space; lengths along them carry the scale factor
-      $e^{a_4} \sin^{1/6} z$, which grows (inflates) as $a_4$ grows;
+    - $x_0$ is a hidden space direction with $g_{00} = e^{-2a_4} b_4 \cot^2 z$; its
+      scale factor $e^{-a_4} b_4^{1/2} |\cot z|$ shrinks together with the extra times;
+    - $x_1, x_2, x_3$ are ordinary 3-space with $g_{11} = g_{22} = g_{33} = e^{2a_4}$;
+      lengths along them carry the scale factor $e^{a_4}$, which grows (inflates) as
+      $a_4$ grows;
     - $x_4$ is the time, with $g_{44} = -1$;
-    - $x_5, x_6, x_7$ are three *extra times* (time-like, like $x_4$); they carry the scale
-      factor $b_4^{1/2} e^{-a_4} \sin^{1/6} z$, so they **deflate exponentially** while
-      3-space inflates.
+    - $x_5, x_6, x_7$ are three *extra times* (time-like, like $x_4$) with
+      $g_{55} = g_{66} = g_{77} = -e^{-2a_4} b_4 (\sin^2 z)^{1/6}$; they carry the scale
+      factor $e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$, so they **deflate exponentially**
+      while 3-space inflates. On the history that the record prescribes,
+      $a_4 = H x_4$ and $b_4 = e^{(4/3) H x_4}$, this factor is
+      $e^{-H x_4/3} (\sin^2 z)^{1/12}$.
 
-    At every point one can choose eight perpendicular unit directions, a *frame*, one
-    along each coordinate. In the frame the metric becomes the matrix of signs
-    $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$: $+1$ for the space-like
-    directions $x_0, x_1, x_2, x_3$ and $-1$ for the time-like directions
+    At every point where $\sin z \cos z \neq 0$ one can choose eight perpendicular unit
+    directions, a *frame*, one along each coordinate. In the frame the metric becomes
+    the matrix of signs $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$: $+1$ for
+    the space-like directions $x_0, x_1, x_2, x_3$ and $-1$ for the time-like directions
     $x_4, x_5, x_6, x_7$. Four of each kind: the signature is (4,4). The gamma matrices
     belong to these frame directions. They are constant matrices, the same at every point
     and at every time. The inflation of 3-space and the deflation of the extra times
     enter the field equations through the *frame factors* $\sqrt{|g_{\mu\mu}|}$ that
-    convert coordinate directions into frame directions ($\cot z$ for $x_0$,
-    $e^{a_4}\sin^{1/6} z$ for $x_1, x_2, x_3$, 1 for $x_4$ and
-    $b_4^{1/2}e^{-a_4}\sin^{1/6} z$ for $x_5, x_6, x_7$), never through the gamma
+    convert coordinate directions into frame directions ($e^{-a_4} b_4^{1/2} |\cot z|$
+    for $x_0$, $e^{a_4}$ for $x_1, x_2, x_3$, 1 for $x_4$ and
+    $e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$ for $x_5, x_6, x_7$), never through the gamma
     matrices.
 
     The gamma matrices must satisfy the Clifford relation
@@ -1128,7 +1134,8 @@ CELLS = [
     - ASSUMED: nothing beyond the author's formulas. The gamma matrices are pure
       algebra: they make no physical claim. They are constant; the inflation of 3-space
       and the deflation of the extra times enter only later, through the frame factors
-      of the metric.
+      of the corrected metric. The same eight matrices serve every diagonal metric of
+      signature (4,4), so nothing in this notebook depends on the metric functions.
     """),
 ]
 

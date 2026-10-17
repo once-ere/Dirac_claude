@@ -160,8 +160,9 @@ CELLS = [
 
     The author's space-time has the coordinates $x_0$ (the hidden direction),
     $x_1, x_2, x_3$ (3-space, inflating), $x_4$ (the time) and $x_5, x_6, x_7$ (three
-    extra times, which deflate exponentially: scale factor
-    $b_4^{1/2}e^{-a_4}\sin^{1/6} z$). In a local
+    extra times, which deflate exponentially: in the corrected metric of the Revision
+    record, version 2 of 2026-10-16, their scale factor is
+    $e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$, with $z = 6 H x_0$ real). In a local
     frame the signs are $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$: four
     space-like and four time-like directions. The gamma matrices are constant matrices
     of the frame; the inflation and the deflation enter the field equation through the

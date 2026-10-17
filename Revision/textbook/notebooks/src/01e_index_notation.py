@@ -48,8 +48,10 @@ FACTS = {
         "Clifford relation of the eight real gamma matrices of the Revision record as "
         "one index formula for all 64 pairs, derives and checks the contractions "
         "gamma^a gamma_a = 8 and gamma^a gamma^b gamma_a = -6 gamma^b, and writes the "
-        "squared length of a coordinate step in the author's metric, whose three extra "
-        "times deflate exponentially, as a sum over indices, with heat maps and plots."
+        "squared length of a coordinate step in the corrected metric of the author, "
+        "whose three extra times deflate exponentially, as a sum over indices and "
+        "follows it along the background history of the Revision record, with heat "
+        "maps and plots."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
@@ -62,6 +64,9 @@ FACTS = {
          "metricDiagonal, the diagonal of the author's metric (read and reproduced)"],
         ["Revision/gkd_lovelock/results/python-lovelock-report.json",
          "check metric_inverse (reproduced)"],
+        ["Revision/field_equations_a4/a4-equations.json",
+         "exponentialHistory, entry recordHistory: the prescribed background history "
+         "a4 = H x4, b4 = e^((4/3) H x4) of the record (read)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -71,7 +76,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 6 figure files of this notebook exist",
-        "ALL 25 CHECKS PASSED (notebook 01e)",
+        "ALL 26 CHECKS PASSED (notebook 01e)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for a file below Revision/algebra or Revision/gkd_lovelock",
@@ -107,7 +112,8 @@ CELLS = [
       $\gamma^a \gamma^b \gamma_a = -6 \gamma^b$;
     - writes the squared length of a small coordinate step in the author's metric
       as a sum over indices, and shows how the growth of space and the exponential
-      deflation of the three extra times change it.
+      deflation of the three extra times and of the hidden direction change it
+      along the background history of the Revision record.
 
     Every check prints a line that starts with PASS; where a check repeats a result
     of the Revision record, a second line names the record file and its check.
@@ -171,17 +177,24 @@ CELLS = [
 
     records only which directions are space-like ($+1$: $x_0, x_1, x_2, x_3$) and
     which are time-like ($-1$: $x_4, \dots, x_7$). The full *metric* of the
-    primordial gravitational field is
+    primordial gravitational field (the corrected metric of the Revision record,
+    version 2 of 2026-10-16) is
 
-    $$g = \mathrm{diag}\big(\cot^2 z, e^{2a_4} s, e^{2a_4} s, e^{2a_4} s, -1,
-    -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),\quad
-    s = \sin^{1/3} z,\ z = 6 H x_0,$$
+    $$g = \mathrm{diag}\big(b_4 e^{-2a_4}\cot^2 z, e^{2a_4}, e^{2a_4}, e^{2a_4}, -1,
+    -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),$$
 
-    with a positive constant $H$, $0 < z < \pi/2$, a function $a_4(x_4)$ and a
-    positive function $b_4(x_4)$ of the time ($b_4 = 1$ in the background of the
-    Revision record): as $a_4$ grows, the lengths along $x_1, x_2, x_3$ grow like
-    $e^{a_4}$ and the lengths along the three extra times shrink like
-    $b_4^{1/2} e^{-a_4}$, that is, for constant $b_4$ they deflate exponentially.
+    $$s = (\sin^2 z)^{1/6} = |\sin z|^{1/3},\qquad z = 6 H x_0,$$
+
+    with a positive constant $H$, $z$ any real number, a function $a_4(x_4)$ and a
+    positive function $b_4(x_4)$ of the time (never the constant 1). The lengths
+    along $x_1, x_2, x_3$ carry the factor $e^{a_4}$, the lengths along the three
+    extra times the factor $b_4^{1/2} e^{-a_4} s^{1/2}$, and the length along the
+    hidden direction the factor $b_4^{1/2} e^{-a_4} |\cot z|$. The Revision record
+    works on a prescribed (not derived) background history, $a_4 = H x_4$ and
+    $b_4 = e^{(4/3) H x_4}$; on it $b_4 = e^{4a_4/3}$ and
+    $b_4^{1/2} e^{-a_4} = e^{2a_4/3 - a_4} = e^{-a_4/3}$: as $a_4$ grows, space
+    inflates like $e^{a_4}$, and the three extra times deflate exponentially, like
+    $e^{-a_4/3}$, together with the hidden direction.
 
     Each equation of the theory is an index formula. For example the field
     equation of the Revision record, $\gamma^\mu D_\mu \Psi = (m + U'(S))\Psi$, is a
@@ -787,8 +800,8 @@ CELLS = [
 
     The Revision record file Revision/gkd_lovelock/results/curvature.json stores
     the diagonal of the author's metric as text in the notation of the program
-    Mathematica, for example `E^(2*a4[x4])*Sin[6*H*x0]^(1/3)` and
-    `-E^(-2*a4[x4])*Sin[6*H*x0]^(1/3)*b4[x4]`. The next cell turns the text into
+    Mathematica, for example `E^(-2*a4[x4])*Cot[6*H*x0]^2*b4[x4]` and
+    `-E^(-2*a4[x4])*(Sin[6*H*x0]^2)^(1/6)*b4[x4]`. The next cell turns the text into
     sympy expressions (with the symbols $a_4$, $b_4$ and $z = 6 H x_0$) and checks
     them against the metric of section 4. Then:
 
@@ -802,23 +815,32 @@ CELLS = [
     - for the step with the same small size $\epsilon$ in all eight coordinates,
       $dx^\mu = \epsilon$, this is
 
-    $$ds^2 = \epsilon^2\big(3e^{2a_4}s - 1 - 3b_4e^{-2a_4}s + \cot^2 z\big),$$
+    $$ds^2 = \epsilon^2\big(b_4 e^{-2a_4}\cot^2 z + 3e^{2a_4} - 1 - 3b_4e^{-2a_4}s\big)
+    = \epsilon^2\big(3e^{2a_4} - 1 + b_4 e^{-2a_4} K(z)\big),$$
 
-    and at $b_4 = 1$, the background of the Revision record,
+    $$K(z) = \cot^2 z - 3s,$$
 
-    $$ds^2 = \epsilon^2\big(6 s \sinh(2a_4) - 1 + \cot^2 z\big),$$
+    because the hidden direction and the three extra times share the factor
+    $b_4 e^{-2a_4}$; on the record's background history $b_4 = e^{4a_4/3}$, so
+    $b_4 e^{-2a_4} = e^{4a_4/3 - 2a_4} = e^{-2a_4/3}$ and
 
-    because $e^{x} - e^{-x} = 2\sinh x$ with $x = 2a_4$; and lowering the index,
-    $dx_\mu = g_{\mu\nu} dx^\nu$, gives the same number as $dx^\mu dx_\mu$.
+    $$ds^2 = \epsilon^2\big(3e^{2a_4} - 1 + e^{-2a_4/3} K(z)\big);$$
 
-    The cell checks all three statements exactly (in units with $\epsilon = 1$).
+    and lowering the index, $dx_\mu = g_{\mu\nu} dx^\nu$, gives the same number as
+    $dx^\mu dx_\mu$.
+
+    The cell reads the history from the record file
+    Revision/field_equations_a4/a4-equations.json (its entry `recordHistory` gives
+    the exponent ratio `be = 4/3` in $b_4 = e^{\mathrm{be}\, a_4}$) and checks all
+    three statements exactly (in units with $\epsilon = 1$).
     """),
     code(r'''
     a4 = sp.Symbol("a4", real=True)  # the value of a4(x4) at one time
     b4 = sp.Symbol("b4", positive=True)  # the value of b4(x4) at one time
-    z = sp.Symbol("z", positive=True)  # z = 6 H x0, between 0 and pi/2
-    s = sp.sin(z) ** sp.Rational(1, 3)
-    g_typed = ([sp.cot(z) ** 2] + [sp.exp(2 * a4) * s] * 3 + [sp.Integer(-1)]
+    z = sp.Symbol("z", real=True)  # z = 6 H x0, any real number
+    s = (sp.sin(z) ** 2) ** sp.Rational(1, 6)  # the positive root, |sin z|^(1/3)
+    g_typed = ([b4 * sp.exp(-2 * a4) * sp.cot(z) ** 2] + [sp.exp(2 * a4)] * 3
+               + [sp.Integer(-1)]
                + [-b4 * sp.exp(-2 * a4) * s] * 3)  # the author's order x0, x1, ..., x7
     curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
                            .read_text(encoding="utf-8"))
@@ -827,8 +849,8 @@ CELLS = [
     def from_record(text):
         """The record's Mathematica text as a sympy expression."""
         text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
-        text = text.replace("Sin[6*H*x0]", "sin(z)")
-        text = text.replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
+        text = text.replace("Sin[6*H*x0]", "sin(z)").replace("Cot[6*H*x0]", "cot(z)")
+        text = text.replace("Sign[", "sign(").replace("]", ")").replace("^", "**")
         return sp.sympify(text, locals={"a4": a4, "b4": b4, "z": z, "E": sp.E})
 
 
@@ -848,68 +870,127 @@ CELLS = [
           "g^mu nu g_nu lambda = delta^mu_lambda",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
                  "metric_inverse")
+    equations = json.loads(repository_file("Revision/field_equations_a4/a4-equations.json")
+                           .read_text(encoding="utf-8"))
+    history = equations["exponentialHistory"]["authorWeights"]["recordHistory"]
+    say(f"the record's history: {history}")
+    beta = sp.Rational(history.split("be = ")[1].split(",")[0])  # the text 4/3 -> 4/3
     step = sp.Matrix([1] * 8)  # dx^mu = 1 for every mu (units with epsilon = 1)
     ds2 = (step.T * g_lower * step)[0, 0]  # g_mu nu dx^mu dx^nu
     step_lower = g_lower * step  # dx_mu = g_mu nu dx^nu
     ds2_contracted = (step.T * step_lower)[0, 0]  # dx^mu dx_mu
-    general_form = 3 * sp.exp(2 * a4) * s - 1 - 3 * b4 * sp.exp(-2 * a4) * s + sp.cot(z) ** 2
-    closed_form = 6 * s * sp.sinh(2 * a4) - 1 + sp.cot(z) ** 2  # at b4 = 1
+    K = sp.cot(z) ** 2 - 3 * s  # the bracket of the hidden direction and extra times
+    general_form = 3 * sp.exp(2 * a4) - 1 + b4 * sp.exp(-2 * a4) * K
+    history_form = 3 * sp.exp(2 * a4) - 1 + sp.exp(-2 * a4 / 3) * K  # b4 = e^(4 a4/3)
     say(f"ds^2 for dx^mu = 1: {ds2}")
-    check(sp.expand(ds2 - general_form) == 0
-          and sp.expand((ds2.subs(b4, 1) - closed_form).rewrite(sp.exp)) == 0
+    check(beta == sp.Rational(4, 3) and sp.expand(ds2 - general_form) == 0
+          and sp.expand(ds2.subs(b4, sp.exp(beta * a4)) - history_form) == 0
           and sp.expand(ds2_contracted - ds2) == 0,
-          "ds^2 = 3 e^(2 a4) s - 1 - 3 b4 e^(-2 a4) s + cot(z)^2 for the step dx^mu = 1, "
-          "= 6 s sinh(2 a4) - 1 + cot(z)^2 at b4 = 1, and dx^mu dx_mu gives the same")
+          "ds^2 = 3 e^(2 a4) - 1 + b4 e^(-2 a4) K(z) for the step dx^mu = 1, "
+          "= 3 e^(2 a4) - 1 + e^(-2 a4/3) K(z) on the record's history, and "
+          "dx^mu dx_mu gives the same",
+          record="Revision/field_equations_a4/a4-equations.json, exponentialHistory, "
+                 "recordHistory")
     '''),
     md(r"""
-    The rest of this section takes $b_4 = 1$. For each $z$, $ds^2$ grows when $a_4$
-    grows ($\sinh$ is an increasing function and $6s > 0$), from very negative values
-    (time-like steps) to very positive ones (space-like steps). It is zero where
-    $6 s \sinh(2a_4) = 1 - \cot^2 z$, that is at
+    The rest of this section works on the record's history,
+    $ds^2/\epsilon^2 = 3e^{2a_4} - 1 + e^{-2a_4/3} K(z)$. Two facts about the
+    bracket $K(z) = \cot^2 z - 3s$:
 
-    $$a_4^{\ast}(z) = \tfrac12\,\mathrm{arcsinh}\!\left(\frac{1 - \cot^2 z}{6 s}\right),$$
+    - $K(\pi - z) = K(z)$, because $\cot(\pi - z) = -\cot z$ has the same square
+      and $\sin(\pi - z) = \sin z$: the picture is mirror-symmetric about the fold
+      $z = \pi/2$;
+    - on $0 < z < \pi/2$, $K$ decreases as $z$ grows ($\cot^2 z$ falls and $3s$
+      rises), from very large values near $z = 0$ to $K(\pi/2) = 0 - 3 = -3$; so it
+      changes sign at exactly one point $z_0$, which bisection finds (halve an
+      interval that contains the sign change, as for $\sqrt 2$). In the cell
+      $0 < z < \pi$ the rows with $K \le 0$ are $z_0 \le z \le \pi - z_0$.
 
-    where $\mathrm{arcsinh}$ undoes $\sinh$. The next cell evaluates $ds^2$ on a
-    grid of 301 values of $a_4$ from $-1.5$ to $1.5$ and 300 values of $z$, checks
-    that it grows with $a_4$ on every row of the grid and that its sign changes
-    exactly at $a_4^{\ast}(z)$, and draws two pictures: the sign map with the curve
-    $a_4^{\ast}(z)$, and at $z = 0.9$ the four kinds of terms of the sum against
-    $a_4$: the growing term of the three space directions, the constant term of
-    the time, the shrinking term of the three deflating extra times, and the
-    constant term of the hidden direction.
+    On a row with $K(z) \le 0$, $ds^2$ grows when $a_4$ grows: $3e^{2a_4}$ grows,
+    and $e^{-2a_4/3} K$ grows too, because a shrinking positive factor times a
+    number $K \le 0$ rises towards 0. At $a_4 = -1.5$ it is negative
+    ($3e^{-3} - 1 < 0$ and $e^{1} K \le 0$), at $a_4 = 1.5$ positive
+    ($3e^{3} - 1 > 59$, while $e^{-1} K \ge -3e^{-1} > -1.2$, since $K \ge -3$). So
+    on such a row the step is time-like for $a_4 < a_4^{\ast}(z)$ and space-like for
+    $a_4 > a_4^{\ast}(z)$, at exactly one point $a_4^{\ast}(z)$, which bisection
+    finds again. Where $K > 0$ (near $z = 0$ and $z = \pi$) the hidden direction
+    adds more than the extra times take away, and the picture shows the step
+    space-like at every $a_4$ of the grid.
+
+    The next cell checks the two facts about $K$, finds $z_0$, evaluates $ds^2$ on a
+    grid of 301 values of $a_4$ from $-1.5$ to $1.5$ and 300 values of $z$ from
+    0.12 to $\pi - 0.12$, checks on every row with $K \le 0$ that $ds^2$ grows with
+    $a_4$ and that its sign changes exactly at $a_4^{\ast}(z)$, and draws two
+    pictures: the sign map with the curve $a_4^{\ast}(z)$, and at $z = 0.9$ the four
+    kinds of terms of the sum against $a_4$: the growing term of the three space
+    directions, the constant term of the time, the shrinking term of the three
+    deflating extra times, and the shrinking term of the hidden direction.
     """),
     code(r'''
-    ds2_numbers = sp.lambdify((a4, z), closed_form, "numpy")  # a formula -> a function
+    K_numbers = sp.lambdify(z, K, "numpy")  # the bracket K(z) as a numpy function
+    ds2_numbers = sp.lambdify((a4, z), history_form, "numpy")  # a4, z -> ds^2
+    check(sp.simplify(K.subs(z, sp.pi - z) - K) == 0
+          and bool(np.all(np.diff(K_numbers(np.linspace(0.05, np.pi / 2, 400))) < 0)),
+          "K(pi - z) = K(z), and K decreases on 0 < z < pi/2 (400 values of z)")
+    low, high = 0.1, np.pi / 2  # K(0.1) > 0 and K(pi/2) = -3 < 0
+    for _ in range(60):  # bisection: halve the interval that holds the sign change
+        middle = (low + high) / 2
+        if K_numbers(middle) > 0:
+            low = middle
+        else:
+            high = middle
+    z_zero = high  # K <= 0 exactly for z_zero <= z <= pi - z_zero in this cell
+    report("z0, where K(z) = cot(z)^2 - 3 (sin(z)^2)^(1/6) changes sign", f"{z_zero:.4f}")
     a4_values = np.linspace(-1.5, 1.5, 301)
-    z_values = np.linspace(0.15, np.pi / 2 - 0.005, 300)
+    z_values = np.linspace(0.12, np.pi - 0.12, 300)
     A4_grid, Z_grid = np.meshgrid(a4_values, z_values)  # rows: z, columns: a4
     values = ds2_numbers(A4_grid, Z_grid)
-    threshold = 0.5 * np.arcsinh((1 - 1 / np.tan(z_values) ** 2)
-                                 / (6 * np.sin(z_values) ** (1 / 3)))
-    check(bool((np.diff(values, axis=1) > 0).all()),
-          "on every row of the grid, ds^2 grows as a4 grows")
-    away = np.abs(A4_grid - threshold[:, None]) > 1e-9  # leave out points on the curve
-    check(bool(((values > 0) == (A4_grid > threshold[:, None]))[away].all()),
-          "ds^2 > 0 exactly to the right of the curve a4*(z)")
+    rows = (z_values >= z_zero) & (z_values <= np.pi - z_zero)  # the rows with K <= 0
+
+
+    def crossing(z_value):
+        """The a4 where ds^2 = 0 on a row with K(z_value) <= 0, by bisection."""
+        left_end, right_end = -1.5, 1.5  # ds^2 < 0 at the left end, > 0 at the right
+        for _ in range(60):
+            middle = (left_end + right_end) / 2
+            if ds2_numbers(middle, z_value) < 0:
+                left_end = middle
+            else:
+                right_end = middle
+        return right_end
+
+
+    threshold = np.array([crossing(z_value) for z_value in z_values[rows]])
+    say(f"{int(rows.sum())} of the 300 rows have K <= 0; there a4* runs from "
+        f"{threshold.min():.4f} to {threshold.max():.4f}")
+    check(bool((np.diff(values[rows], axis=1) > 0).all()),
+          "on every row with K(z) <= 0, ds^2 grows as a4 grows")
+    away = np.abs(A4_grid[rows] - threshold[:, None]) > 1e-9  # off the curve
+    check(bool(((values[rows] > 0) == (A4_grid[rows] > threshold[:, None]))[away].all()),
+          "on these rows ds^2 > 0 exactly to the right of the curve a4*(z)")
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.5, 4.5))
     image = left.imshow(np.tanh(values), origin="lower", aspect="auto", cmap="RdBu_r",
                         vmin=-1, vmax=1, extent=(a4_values[0], a4_values[-1],
                                                  z_values[0], z_values[-1]))
-    left.plot(threshold, z_values, color="black", lw=1.5, label="$ds^2 = 0$")
+    left.plot(threshold, z_values[rows], color="black", lw=1.5, label="$ds^2 = 0$")
+    for z_line in (z_zero, np.pi - z_zero):
+        left.axhline(z_line, color="black", ls="--", lw=0.8)  # where K changes sign
+    left.axhline(np.pi / 2, color="black", ls=":", lw=0.8)  # the fold
     left.set_xlim(a4_values[0], a4_values[-1])
     left.grid(False)  # no grid lines across the coloured map
-    left.text(0.75, 0.4, "space-like\n$ds^2 > 0$", ha="center", color="white")
-    left.text(-0.9, 1.2, "time-like\n$ds^2 < 0$", ha="center", color="white")
+    left.text(0.9, 1.25, "space-like\n$ds^2 > 0$", ha="center", color="white")
+    left.text(-0.95, 1.25, "time-like\n$ds^2 < 0$", ha="center", color="white")
     left.set_xlabel("$a_4$")
     left.set_ylabel("$z = 6 H x_0$")
     left.set_title("sign of $ds^2$ for the step $dx^\\mu = \\epsilon$", fontsize=10)
     left.legend(loc="upper right", fontsize=8)
     fig.colorbar(image, ax=left, label="$\\tanh(ds^2/\\epsilon^2)$")
     z_fixed = 0.9
-    s_fixed = np.sin(z_fixed) ** (1 / 3)
-    space_term = 3 * np.exp(2 * a4_values) * s_fixed  # x1, x2, x3
-    extra_term = -3 * np.exp(-2 * a4_values) * s_fixed  # x5, x6, x7 (deflating)
-    hidden_term = np.full_like(a4_values, 1 / np.tan(z_fixed) ** 2)  # x0
+    s_fixed = abs(np.sin(z_fixed)) ** (1 / 3)
+    shrink = np.exp(-2 * a4_values / 3)  # b4 e^(-2 a4) on the record's history
+    space_term = 3 * np.exp(2 * a4_values)  # x1, x2, x3
+    extra_term = -3 * shrink * s_fixed  # x5, x6, x7 (deflating)
+    hidden_term = shrink / np.tan(z_fixed) ** 2  # x0 (shrinking with them)
     right.plot(a4_values, space_term, color="tab:red", label="space $x_1, x_2, x_3$")
     right.plot(a4_values, np.full_like(a4_values, -1.0), color="tab:gray",
                label="time $x_4$")
@@ -929,16 +1010,19 @@ CELLS = [
     save_figure(fig, "step_length",
                 "The squared length $ds^2 = g_{\\mu\\nu} dx^\\mu dx^\\nu$ of the "
                 "coordinate step with $dx^\\mu = \\epsilon$ in all eight coordinates, "
-                "in the author's metric at $b_4 = 1$. Left: $\\tanh(ds^2/\\epsilon^2)$ "
-                "as colours "
-                "(red space-like, blue time-like) against $a_4$ (horizontal) and "
-                "$z = 6 H x_0$ (vertical), pure numbers, with the curve "
-                "$a_4^{\\ast}(z)$ where $ds^2 = 0$ (black). Right: at $z = 0.9$ the four "
-                "kinds of terms against $a_4$: the three space directions (red, growing "
-                "like $e^{2a_4}$), the time (grey, $-1$), the three extra times (blue, "
-                "shrinking towards 0 like $e^{-2a_4}$ as they deflate) and the hidden "
-                "direction (green), and their sum (black). As $a_4$ grows the same "
-                "coordinate step turns from time-like to space-like.")
+                "in the author's metric along the record's background history "
+                "$b_4 = e^{4a_4/3}$. Left: $\\tanh(ds^2/\\epsilon^2)$ as colours (red "
+                "space-like, blue time-like) against $a_4$ (horizontal) and "
+                "$z = 6 H x_0$ across one cell (vertical), pure numbers, with the "
+                "curve $a_4^{\\ast}(z)$ where $ds^2 = 0$ (black) on the rows between "
+                "$z_0$ and $\\pi - z_0$ (dashed), where $K(z) \\le 0$, and the fold "
+                "$z = \\pi/2$ (dotted); the map is the same at $z$ and $\\pi - z$. "
+                "Right: at $z = 0.9$ the four kinds of terms against $a_4$: the three "
+                "space directions (red, growing like $e^{2a_4}$), the time (grey, "
+                "$-1$), the three extra times (blue) and the hidden direction (green), "
+                "both shrinking towards 0 like $e^{-2a_4/3}$ as they deflate, and "
+                "their sum (black). As $a_4$ grows the same coordinate step turns "
+                "from time-like to space-like.")
     '''),
     md(r"""
     ## 12. The last check
@@ -981,11 +1065,14 @@ CELLS = [
       $\mathrm{tr}(\gamma^a\gamma^b) = 16\eta^{ab}$, derived line by line and
       checked.
     - In the author's metric the step $dx^\mu = \epsilon$ has
-      $ds^2 = \epsilon^2(3e^{2a_4}s - 1 - 3b_4e^{-2a_4}s + \cot^2 z)$, which is
-      $\epsilon^2(6 s\sinh(2a_4) - 1 + \cot^2 z)$ at $b_4 = 1$; as $a_4$ grows, the term
-      of the three space directions grows like $e^{2a_4}$ and the term of the
-      three exponentially deflating extra times shrinks like $e^{-2a_4}$, and the
-      step turns from time-like to space-like at $a_4^{\ast}(z)$.
+      $ds^2 = \epsilon^2(3e^{2a_4} - 1 + b_4e^{-2a_4}K(z))$ with
+      $K(z) = \cot^2 z - 3s$: the hidden direction and the three extra times share
+      the factor $b_4 e^{-2a_4}$, which is $e^{-2a_4/3}$ on the record's background
+      history $b_4 = e^{4a_4/3}$. As $a_4$ grows, the term of the three space
+      directions grows like $e^{2a_4}$ and the terms of the hidden direction and of
+      the three exponentially deflating extra times shrink like $e^{-2a_4/3}$; on
+      every row with $K(z) \le 0$, that is $z_0 \le z \le \pi - z_0$, the step turns
+      from time-like to space-like at one point $a_4^{\ast}(z)$.
     """),
 ]
 

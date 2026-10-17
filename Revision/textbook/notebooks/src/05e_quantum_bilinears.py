@@ -26,6 +26,12 @@ normal ordering removes exactly that constant.  This agrees with the detail text
 record check as corrected on 2026-10-08 ("normal ordering adds no sign"); the earlier
 remark there ("normal ordering supplies one more sign") was contradicted by this
 computation and has been withdrawn from the record.
+
+Updated 2026-10-17 (phase W8) for the corrected metric (version 2 of 2026-10-16): the
+record's canonical rule divides the delta function by the volume factor
+sqrt|g| = e^(-a4) b4^2 |cot z| (sin^2 z)^(1/4) (formula quantisation of
+Revision/theory/field-theory.json); the volume factor b4^(3/2) cos z of the withdrawn
+metric of 2026-10-14 no longer appears.
 """
 
 import sys
@@ -55,8 +61,8 @@ FACTS = {
         ["Revision/algebra/gammas.json",
          "the author's gamma matrices in the coordinate order x0 to x7 (read)"],
         ["Revision/theory/field-theory.json",
-         "the formula quantisation: the canonical rule and its positive realisation "
-         "(read)"],
+         "the formula quantisation: the canonical rule, the volume factor sqrt g of "
+         "the corrected metric of 2026-10-16 and the positive realisation (read)"],
         ["Revision/theory/reports/wolfram-field-theory.json",
          "the WolframScript checks of the field theory (reproduced: "
          "Fock_space_good_sector_example, no_positive_inner_product)"],
@@ -184,11 +190,14 @@ CELLS = [
 
     **The canonical rule.** The Revision record quantises dirac16complex with the
     canonical anticommutator $\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,
-    \delta^7(x - y)/(b_4^{3/2}\cos z)$ on a slice $x4 = \text{const}$, with the volume
-    factor $\sqrt{|g|} = b_4^{3/2}\cos z$ of the author's metric and
-    $B = -iC\gamma^{(x4)}$. For the operators of ONE momentum (the record's exact
-    Fock-space example) the delta function and the factor $1/(b_4^{3/2}\cos z)$ are
-    absent and the rule reads
+    \delta^7(x - y)/\sqrt{|g|}$ on a slice $x4 = \text{const}$, with
+    $B = -iC\gamma^{(x4)}$ and the volume factor of the author's corrected metric
+    (version 2 of 2026-10-16),
+    $$\sqrt{|g|} = e^{-a_4}\,b_4^2\,|\cot z|\,(\sin^2 z)^{1/4}, \qquad z = 6H\,x0 ,$$
+    where $z$ takes every real value and the formula holds wherever
+    $\sin z\cos z \neq 0$. For the operators of ONE momentum (the record's exact
+    Fock-space example) the delta function and the factor $1/\sqrt{|g|}$ are absent
+    and the rule reads
     $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$.
 
     **Why $\Psi^\dagger$ is not the Hilbert adjoint.** Every diagonal entry of $B$ is
@@ -319,20 +328,26 @@ CELLS = [
     md(r"""
     The next cell reads the formula `quantisation` of the Revision record
     `Revision/theory/field-theory.json` and prints the two statements this notebook
-    realises: the canonical rule and its positive representation with $\chi =
-    \Psi^\dagger B$ (equivalently $\Psi^\dagger = \chi B$, because $BB = 1$).
+    realises, the canonical rule and its positive representation with $\chi =
+    \Psi^\dagger B$ (equivalently $\Psi^\dagger = \chi B$, because $BB = 1$), and the
+    volume factor `sqrt g` of the corrected metric by which the rule divides the delta
+    function (the record writes it in its description of the formula, in the notation
+    of the Wolfram Language: `E^-a4` is $e^{-a_4}$, `Cot[z]` is $\cot z$).
     """),
     code(r'''
     theory = json.loads(repository_file("Revision/theory/field-theory.json")
                         .read_text(encoding="utf-8"))
-    formula = next(f for f in theory["formulas"] if f["key"] == "quantisation")["wl"]
-    RULE = ("{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/"
-            "(b4^(3/2) Cos[z])")
+    quantisation = next(f for f in theory["formulas"] if f["key"] == "quantisation")
+    formula = quantisation["wl"]  # the text of the formula
+    RULE = "{Psi_A(x), Psi^dagger_C(y)}_(x4 = y4) = B_AC delta^7(x - y)/sqrt g"
+    VOLUME = "sqrt g = E^-a4 b4^2 |Cot[z]| (Sin[z]^2)^(1/4)"  # the corrected metric
     POSITIVE = "positive representation chi = Psi^dagger B, {Psi_A, chi_C} = delta_AC"
     say("the record states: " + RULE)
+    say("with the volume factor: " + VOLUME)
     say("and: " + POSITIVE)
-    check(RULE in formula and POSITIVE in formula,
-          "the formula quantisation of Revision/theory/field-theory.json states both rules")
+    check(RULE in formula and VOLUME in quantisation["description"]
+          and POSITIVE in formula,
+          "the formula quantisation states the rule, its sqrt g and the positive form")
     '''),
     md(r"""
     ## 6. Fermion operators from zero: two modes
@@ -1167,6 +1182,10 @@ CELLS = [
       $\Psi \to \Gamma\Psi^{\dagger T}$ (among the multiples of 1 and of $\Gamma$ the
       only one, up to a phase factor), reverses the normal-ordered charge of every
       quantum.
+    - READ from the record: the canonical rule divides the delta function by the
+      volume factor $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$ of the
+      corrected metric (version 2 of 2026-10-16); for one momentum this factor and the
+      delta function are absent.
     - SCOPE: one momentum without extra-time part, at one point of space, with the
       metric treated as flat near that point; the vacuum is the Fock vacuum of that
       momentum. The sign argument of section 4 uses only the

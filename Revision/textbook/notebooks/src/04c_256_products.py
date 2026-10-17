@@ -153,9 +153,10 @@ CELLS = [
     $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order of his coordinates
     $x_0, \dots, x_7$: space-like hidden direction $x_0$ and 3-space $x_1, x_2, x_3$,
     time-like time $x_4$ and extra times $x_5, x_6, x_7$ (the extra times deflate
-    exponentially in his metric; the gammas, which belong to the local frame, are
-    constant). Everything below follows from this relation alone; the computer checks
-    each rule for the author's matrices.
+    exponentially in the corrected metric of the Revision record, version 2 of
+    2026-10-16; the gammas, which belong to the local frame, are constant and the same
+    for every metric of signature (4,4)). Everything below follows from this relation
+    alone; the computer checks each rule for the author's matrices.
 
     **Rule R1 (products multiply into products).** Two different gammas anticommute and
     $\gamma^a\gamma^a = \eta^{aa}I_{16}$. To multiply $\gamma_A\gamma_B$, move each factor

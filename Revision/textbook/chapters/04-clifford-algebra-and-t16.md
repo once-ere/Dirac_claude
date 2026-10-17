@@ -6,7 +6,7 @@ The field equations of this book contain eight real $16 \times 16$ matrices, the
 
 The length of an arrow in the plane with the components $p$ and $q$ is $\sqrt{p^2 + q^2}$ (Pythagoras). A square root is an awkward object in an equation: it is not linear, and it cannot be differentiated term by term. A **linear expression** in some variables $p, q, \dots$ is a sum of the variables, each multiplied by a fixed number (or, below, a fixed matrix), its **coefficient**: $\alpha p + \beta q$ is linear, while $p^2$, $pq$ and $\sqrt{p^2 + q^2}$ are not. A **quadratic form** is, in this book, a sum of the squares of the variables, each with a fixed sign $+$ or $-$: $p^2 + q^2$ and $p^2 - q^2$ are quadratic forms. In 1928 Paul Dirac looked for an equation for the electron that contains only first derivatives and whose square is the relation $E^2 = m^2 + k_1^2 + k_2^2 + k_3^2$ between the energy $E$, the mass $m$ and the momentum $(k_1, k_2, k_3)$ of a particle in special relativity; its right-hand side is a quadratic form in $m, k_1, k_2, k_3$. He found that a quadratic form can be written as the square of a linear expression, provided that its coefficients are matrices that **anticommute**: $\alpha\beta = -\beta\alpha$. Such matrices are called gamma matrices, and the rule they obey is the **Clifford relation**. Dirac needed four of them, for the time and the three directions of space, and the smallest ones are $4 \times 4$; that is why Dirac's electron field has four components.
 
-The author's space-time has eight directions $x_0, x_1, \dots, x_7$: a hidden space direction $x_0$, the three directions $x_1, x_2, x_3$ of ordinary space, the time $x_4$, and three **extra times** $x_5, x_6, x_7$, which deflate exponentially in the author's metric. Eight directions need eight gamma matrices, and Section 4.13 proves that eight such matrices must have at least $16 \times 16$ entries. This is why the fields dirac16complex and dirac16complex00 of this book have exactly sixteen components. The author's gamma matrices are **real**: every entry is $-1$, $0$ or $+1$. Later chapters use this fact (Chapter 5 and Chapter 7); this chapter only proves it.
+The author's space-time has eight directions $x_0, x_1, \dots, x_7$: a hidden space direction $x_0$, the three directions $x_1, x_2, x_3$ of ordinary space, the time $x_4$, and three **extra times** $x_5, x_6, x_7$, which deflate exponentially in the corrected metric of the Revision record (Section 4.4). Eight directions need eight gamma matrices, and Section 4.13 proves that eight such matrices must have at least $16 \times 16$ entries. This is why the fields dirac16complex and dirac16complex00 of this book have exactly sixteen components. The author's gamma matrices are **real**: every entry is $-1$, $0$ or $+1$. Later chapters use this fact (Chapter 5 and Chapter 7); this chapter only proves it.
 
 The chapter proceeds as follows.
 
@@ -25,7 +25,8 @@ Every number of this chapter comes either from the Revision record or from the c
 - `Revision/algebra/reports/wolfram-algebra.json`: the exact checks of the algebra computed with WolframScript (45 checks, all passed, as Notebook 04a reads and prints them);
 - `Revision/algebra/reports/python-algebra.json`: the same algebra checked independently with Python (35 checks, all passed, as Notebook 04a prints them);
 - `Revision/algebra/reports/python-gammas.json`: the gammas as rebuilt by the Python program;
-- `Revision/theory/reports/python-field-theory.json` and `Revision/theory/reports/python-scope.json`, the theory reports from which Notebook 04b reproduces four checks about plane waves (each named where it is used).
+- `Revision/theory/reports/python-field-theory.json` and `Revision/theory/reports/python-scope.json`, the theory reports from which Notebook 04b reproduces four checks about plane waves (each named where it is used); both are computed for the corrected metric of 2026-10-16;
+- `Revision/metric_warped/results/warped-metric.json`: the corrected metric (version 2 of 2026-10-16), its frame factors and the prescribed history of the metric functions, which Section 4.4 quotes.
 
 Each statement carries a label: PROVED (exact, with the proof in the text and the record file and check that confirm it), COMPUTED (a floating-point computation with its measured accuracy), ASSUMED (taken as given), HYPOTHESIS or OPEN.
 
@@ -177,24 +178,28 @@ By the block rule of Section 4.2: $(\gamma_D^0)^2 = \mathrm{diag}(I_2, I_2) = I_
 
 ### 4.4 The eight directions of the author's space-time and their signs
 
-The author's metric is the diagonal $8 \times 8$ matrix $g$ that gives the squared length of a small step: a step $dx_\mu$ along the coordinate $x_\mu$ has the squared length $g_{\mu\mu}\, dx_\mu^2$. Its diagonal entries, in the order of the author's coordinates $x_0, \dots, x_7$, are $\cot^2 z$, $e^{2a_4}\sin^{1/3} z$ three times, $-1$, and $-b_4e^{-2a_4}\sin^{1/3} z$ three times, where $a_4$ and $b_4 > 0$ are functions of the time $x_4$ (the metric functions; $b_4 = 1$ gives the metric used before 2026-10-14), $z = 6 H x_0$ lies between 0 and $\pi/2$, and $H > 0$ is the author's constant (Chapter 3 studies this metric in full). A direction with $g_{\mu\mu} > 0$ is **space-like**, one with $g_{\mu\mu} < 0$ is **time-like**. The **frame factor** of a direction is $\sqrt{\lvert g_{\mu\mu} \rvert}$: a coordinate step $dx_\mu$ is a step of the length $\sqrt{\lvert g_{\mu\mu} \rvert}\, \lvert dx_\mu \rvert$.
+The **metric** is the diagonal $8 \times 8$ matrix $g$ that gives the squared length of a small step: a step $dx_\mu$ along the coordinate $x_\mu$ has the squared length $g_{\mu\mu}\, dx_\mu^2$. This book uses the **corrected metric** of the Revision record, version 2 of 2026-10-16 (the record file `Revision/metric_warped/results/warped-metric.json`, key `metric_corrected`; its derivation and checks are in `Revision/metric_warped/WARPED_METRIC_PROVENANCE.md`). Its diagonal entries, in the order of the author's coordinates $x_0, \dots, x_7$, are $e^{-2a_4}b_4\cot^2 z$, then $e^{2a_4}$ three times, then $-1$, then $-e^{-2a_4}b_4(\sin^2 z)^{1/6}$ three times. Here $a_4$ and $b_4 > 0$ are functions of the time $x_4$ (the **metric functions**), $z = 6 H x_0$ takes every real value, $H > 0$ is the author's constant, and $(\sin^2 z)^{1/6}$ is the positive sixth root of $\sin^2 z$, so it is the same at $\sin z$ and at $-\sin z$ (Chapter 3 studies this metric in full). A direction with $g_{\mu\mu} > 0$ is **space-like**, one with $g_{\mu\mu} < 0$ is **time-like**. The **frame factor** of a direction is $\sqrt{\lvert g_{\mu\mu} \rvert}$: a coordinate step $dx_\mu$ is a step of the length $\sqrt{\lvert g_{\mu\mu} \rvert}\, \lvert dx_\mu \rvert$. The square root of a product of positive numbers is the product of their square roots, and $\sqrt{e^{-2a_4}} = e^{-a_4}$, $\sqrt{\cot^2 z} = \lvert\cot z\rvert$ and $\sqrt{(\sin^2 z)^{1/6}} = (\sin^2 z)^{1/12}$; this gives the column of frame factors:
 
 | coordinate | role | metric entry | frame factor | sign $\eta$ |
 | --- | --- | --- | --- | --- |
-| $x_0$ | the hidden space direction | $\cot^2 z$ | $\cot z$ | $+1$ |
-| $x_1, x_2, x_3$ | ordinary 3-space, inflating | $e^{2a_4}\sin^{1/3} z$ | $e^{a_4}\sin^{1/6} z$ | $+1$ |
+| $x_0$ | the hidden space direction, shrinking | $e^{-2a_4}b_4\cot^2 z$ | $e^{-a_4}b_4^{1/2}\lvert\cot z\rvert$ | $+1$ |
+| $x_1, x_2, x_3$ | ordinary 3-space, inflating | $e^{2a_4}$ | $e^{a_4}$ | $+1$ |
 | $x_4$ | the time | $-1$ | $1$ | $-1$ |
-| $x_5, x_6, x_7$ | the extra times, deflating exponentially | $-b_4e^{-2a_4}\sin^{1/3} z$ | $b_4^{1/2}e^{-a_4}\sin^{1/6} z$ | $-1$ |
+| $x_5, x_6, x_7$ | the extra times, deflating exponentially | $-e^{-2a_4}b_4(\sin^2 z)^{1/6}$ | $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$ | $-1$ |
 
-When $a_4$ grows with the time $x_4$ (and $b_4$ stays constant), the frame factor $e^{a_4}$ of 3-space grows (3-space **inflates**) and the frame factor $b_4^{1/2}e^{-a_4}$ of the extra times shrinks exponentially (the extra times **deflate**). Chapter 12 derives the equations that govern $a_4$ and $b_4$.
+The signs of the table hold wherever $\sin z \cos z \neq 0$. A **cell** is an interval of $z$ between two neighbouring zeros of $\sin z$, for example $0 < z < \pi$; inside it the point where $\cos z = 0$ (here $z = \pi/2$) is the **fold** that joins the two halves of the cell. At the fold $g_{00} = 0$, and at the zeros of $\sin z$ the entry $g_{00}$ is infinite and the three extra-time entries are 0; at these points the metric has no signature, and Chapter 3 treats them. The record also writes the frame factor of $x_0$ with a sign, $e^{-a_4}b_4^{1/2}\cot z$ (the same file, key `vielbein_corrected`); that sign plays no role in this chapter.
 
-At every point one can choose eight perpendicular directions of unit length, one along each coordinate: a **frame**. Measured in the frame, the metric becomes the diagonal matrix of signs
+The Revision record follows one history of the metric functions, $a_4 = Hx_4$ and $b_4 = e^{(4/3)Hx_4}$ (the same file, key `history_source`). It is a **prescribed background** (status ASSUMED): it is chosen, not derived from a source; Chapter 12 derives the equations that govern $a_4$ and $b_4$. On this history the frame factor of 3-space is $e^{a_4} = e^{Hx_4}$, which grows: 3-space **inflates**. The common factor $e^{-a_4}b_4^{1/2} = e^{-Hx_4}e^{(2/3)Hx_4} = e^{-Hx_4/3}$ of the extra times and of the hidden direction shrinks exponentially: the extra times **deflate**, and the hidden direction shrinks with them.
+
+Dated history: before 2026-10-16 the Revision record used the metric of 2026-10-14, with a factor $\sin^{1/3} z$ also in the three 3-space entries, and on 2026-10-16 briefly a version 1 of the correction; both are withdrawn and are not used in this book. The gamma matrices of this chapter are not affected by the change: they belong to the frame, and every diagonal metric of signature (4,4) has the same signs $\eta$.
+
+At every point where $\sin z \cos z \neq 0$ one can choose eight perpendicular directions of unit length, one along each coordinate: a **frame**. Measured in the frame, the metric becomes the diagonal matrix of signs
 
 $$
 \eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1) \qquad (\text{order } x_0, \dots, x_7):
 $$
 
-four space-like directions ($x_0, x_1, x_2, x_3$) and four time-like ones ($x_4, x_5, x_6, x_7$), the **signature** (4,4). Because $\eta$ is diagonal with entries $\pm 1$, the entries of $\eta$ and of its inverse are the same numbers, $\eta^{ab} = \eta_{ab}$. The gamma matrices belong to the frame directions: $\gamma^{(x_a)}$ is the gamma matrix of the frame direction along $x_a$, and they satisfy the Clifford relation with this $\eta$. They are **constant**: the same matrices at every point and at every time. The inflation of 3-space and the deflation of the extra times reach the field equation only through the frame factors: the field equation contains $\gamma^\mu = \gamma^{(x_\mu)} / \sqrt{\lvert g_{\mu\mu} \rvert}$, for example $\gamma^{(x_5)}$ multiplied by $b_4^{-1/2}e^{a_4}\sin^{-1/6} z$, a factor that grows as the extra time $x_5$ deflates. The gamma matrices themselves never change.
+four space-like directions ($x_0, x_1, x_2, x_3$) and four time-like ones ($x_4, x_5, x_6, x_7$), the **signature** (4,4). Because $\eta$ is diagonal with entries $\pm 1$, the entries of $\eta$ and of its inverse are the same numbers, $\eta^{ab} = \eta_{ab}$. The gamma matrices belong to the frame directions: $\gamma^{(x_a)}$ is the gamma matrix of the frame direction along $x_a$, and they satisfy the Clifford relation with this $\eta$. They are **constant**: the same matrices at every point and at every time. The inflation of 3-space and the deflation of the extra times reach the field equation only through the frame factors: the field equation contains $\gamma^\mu = \gamma^{(x_\mu)} / \sqrt{\lvert g_{\mu\mu} \rvert}$ (for $x_0$ divided by the signed factor $e^{-a_4}b_4^{1/2}\cot z$), for example $\gamma^{(x_5)}$ multiplied by $e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}$, a factor that grows as the extra time $x_5$ deflates (like $e^{Hx_4/3}$ on the record's history). The gamma matrices themselves never change.
 
 The author's Mathematica notebook numbers the frame directions $A = 0, \dots, 7$ in the order of his coordinates: $A = 0$ is the hidden direction, $A = 1, 2, 3$ are 3-space, $A = 4$ is the time and $A = 5, 6, 7$ are the extra times, and its matrix of signs is eta4488 $= \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)$ (his input cell In[45]). The coordinate map of the Revision record:
 
@@ -209,7 +214,7 @@ The author's Mathematica notebook numbers the frame directions $A = 0, \dots, 7$
 | $x_6$ (extra time, deflating) | 6 | $-1$ |
 | $x_7$ (extra time, deflating) | 7 | $-1$ |
 
-So $\gamma^{(x_k)} = $ T16[$k$] for $k = 0, \dots, 7$: the index $A$ of the author's notebook is the index of his coordinate, and the sign of each coordinate is the entry of eta4488 at that index. Status: ASSUMED (the metric and the coordinate roles are the author's input; the map is the one the Revision record uses and checks: `Revision/algebra/reports/wolfram-algebra.json`, checks `coordinate_map` and `eta_in_author_order`).
+So $\gamma^{(x_k)} = $ T16[$k$] for $k = 0, \dots, 7$: the index $A$ of the author's notebook is the index of his coordinate, and the sign of each coordinate is the entry of eta4488 at that index. Status: ASSUMED (the coordinates and their roles are the author's input, and the corrected metric is the input of the Revision record, the author's metric modified on the user's order of 2026-10-16 so that its field equations have no off-diagonal components; the map is the one the Revision record uses and checks: `Revision/algebra/reports/wolfram-algebra.json`, checks `coordinate_map` and `eta_in_author_order`).
 
 ### 4.5 The author's construction of T16, step by step
 
@@ -1358,7 +1363,7 @@ for all numbers $p_0, \dots, p_7$: the author's eight matrices take the square r
 
 **Complex numbers and the conjugate transpose.** A **complex number** is $x + iy$ with real $x, y$ and $i^2 = -1$; its **complex conjugate** is $x - iy$. The **conjugate transpose** $M^\dagger$ of a matrix transposes it and conjugates every entry. A matrix is **Hermitian** if $M^\dagger = M$; a real symmetric matrix is Hermitian. An **eigenvalue** of $M$ is a number $\lambda$ for which a nonzero column $u$ (an **eigenvector**) has $Mu = \lambda u$. A Hermitian matrix has only real eigenvalues. Proof: from $Mu = \lambda u$ follows $u^\dagger M u = \lambda\, u^\dagger u$ (multiply from the left by the row $u^\dagger$); the number $u^\dagger M u$ equals its own complex conjugate, because its conjugate is $u^\dagger M^\dagger u = u^\dagger M u$, so it is real; and $u^\dagger u = \sum_i \lvert u_i \rvert^2$ is real and positive; so $\lambda$ is a real number divided by a positive one. We also use a fact that Section 1.34 proved for **every** square matrix, Hermitian or not: an $n \times n$ matrix $M$ has $n$ eigenvalues, the $n$ roots of its **characteristic polynomial** $\det(M - \lambda I_n)$, where a root that occurs several times is counted as often as it occurs (its **multiplicity**); and the sum of these $n$ eigenvalues is the trace of $M$. (The proof there compares two ways of writing the characteristic polynomial; it rests on the fundamental theorem of algebra, which Chapter 1 assumes.) Finally, the **smallest singular value** of a square matrix $M$ is the smallest length of $Mu$ over all columns $u$ of length 1; it is 0 exactly when some nonzero $u$ has $Mu = 0$. numpy computes it, and Notebook 04b uses it to locate the energies at which waves exist.
 
-**The model: flat 4+4 space.** The full field equation of the theory, $\gamma^\mu D_\mu\Psi = (m + U'(S))\Psi$, is derived in Chapter 7; it contains the frame factors of Section 4.4, the gravitational correction in $D_\mu$, and a self-interaction $U'(S)$. This section studies the simplest equation with the same algebra,
+**The model: flat 4+4 space.** The full field equation of the theory, $\gamma^\mu D_\mu\Psi = (m + U'(S))\Psi$, is derived in Chapter 7; it contains the frame factors of Section 4.4, the gravitational correction in $D_\mu$, and a self-interaction $U'(S)$. In the corrected metric the gravitational correction adds to the operator the term $\gamma^\mu\Omega_\mu = \tfrac32 He^{a_4}b_4^{-1/2}\gamma^{(x_0)} + (b_4'/b_4 - a_4'/2)\gamma^{(x_4)}$, where $a_4' = da_4/dx_4$ and $b_4' = db_4/dx_4$ (the record file `Revision/metric_warped/results/warped-metric.json`, key `dirac_gravity_term`; Chapter 6 derives it). This section studies the simplest equation with the same algebra,
 
 $$
 \sum_{a=0}^{7} \gamma^{(x_a)}\, \partial_a \Psi = m\Psi ,
@@ -1410,7 +1415,15 @@ So without extra-time momentum $h = m\beta + \sum_a k_a\alpha_a$ (with $a = x_0,
 
 **A momentum along an extra time.** The extra times enter $E^2$ with a minus sign. Adding a momentum $k_5$ along $x_5$ to the example gives $E^2 = 25 - k_5^2$. For $k_5 < 5$ the energies $\pm\sqrt{25 - k_5^2}$ are real. For $k_5 > 5$ they are imaginary, $E = \pm i\kappa$ with $\kappa = \sqrt{k_5^2 - 25}$, and the factor $e^{-iEx_4}$ of the wave becomes, for $E = i\kappa$, $e^{-i \cdot i\kappa\, x_4} = e^{\kappa x_4}$ (because $-i \cdot i = 1$): the wave **grows exponentially** in the time instead of oscillating, and the one with $E = -i\kappa$ shrinks. In general the growth rate is $\kappa = \sqrt{k_5^2 - m^2 - k_0^2 - k_1^2 - k_2^2 - k_3^2}$ whenever this is real; it has no upper bound as $k_5$ grows. Status: PROVED (the formula) and COMPUTED (Notebook 04b checks all 16 eigenvalues for 160 values of $k_5$ to $10^{-10}$); it reproduces `Revision/theory/reports/python-scope.json`, check `extra_time_growth_rates_unbounded`. A problem of the kind "given the field at one time, find it at later times" is called **well posed** (in the sense of the mathematician Jacques Hadamard) when a solution exists, is unique, and changes only a little when the given data change a little. The Revision record draws from the missing upper bound the conclusion that the first-order equation is not well posed in this sense for data that depend on the extra times (`Revision/theory/reports/python-scope.json`, check `extra_time_growth_rates_unbounded`): a wave with a tiny amplitude but a large momentum $k_5$ grows like $e^{\kappa x_4}$ with an arbitrarily large $\kappa$, so arbitrarily small changes of the data cause large changes after any fixed time. Chapter 8 explains this. The record's smallest exact example is $m = 1$ with only $k_5 = 2$: $h^2 = (1 - 4) I_{16} = -3 I_{16}$, so every eigenvalue has $E^2 = -3$, $E = +i\sqrt3$ or $-i\sqrt3$, eight times each (the trace argument again: $\mathrm{tr}\, h = 0$ also with the momentum $k_5$, and the sum of the eigenvalues is the trace for every square matrix, also for this $h$, which is not Hermitian), and the wave with $E = i\sqrt3$ grows like $e^{\sqrt3\, x_4}$. Status: PROVED (exactly, with sympy, in Notebook 04b); it reproduces `Revision/theory/reports/python-field-theory.json`, check `extra_time_modes_grow`.
 
-**Why the deflation matters here.** In the author's space-time a wave with a fixed **coordinate** momentum $k_{x_5}$ along $x_5$, a factor $e^{ik_{x_5}x_5}$, has a **frame** momentum that grows: the derivative along the frame direction is the coordinate derivative divided by the frame factor $b_4^{1/2}e^{-a_4}\sin^{1/6} z$ of $x_5$ (Section 4.4), so the frame momentum is $b_4^{-1/2}e^{a_4}\sin^{-1/6}(z)\, k_{x_5}$. As the extra times deflate ($a_4 - \frac12\ln b_4$ grows), this frame momentum grows like $e^{a_4}b_4^{-1/2}$; on the history of the record, $a_4 = AHx_4$ and $b_4 = b_4(0)e^{(4/3)AHx_4}$, it grows like $e^{AHx_4/3}$ (the Revision check `extra_time_modes_grow` states this for all functions $a_4$ and $b_4$). In the local plane-wave reading that the same check states, every wave along an extra time therefore reaches, sooner or later, the region where its energy is imaginary. Notebook 04b computes only the flat algebra behind this statement; the waves in the curved, deflating space-time are the subject of Chapter 8.
+**Why the deflation matters here.** In the author's space-time a wave with a fixed **coordinate** momentum $k_{x_5}$ along $x_5$, a factor $e^{ik_{x_5}x_5}$, has a **frame** momentum that grows. Line by line:
+
+1. $\partial_5\, e^{ik_{x_5}x_5} = ik_{x_5}\, e^{ik_{x_5}x_5}$ — the derivative of $e^{cx}$ is $c\,e^{cx}$.
+2. The field equation contains this derivative in the term $\gamma^\mu\partial_\mu$ with $\mu = x_5$, that is $\gamma^{(x_5)}\partial_5 / f_5$, with the frame factor $f_5 = e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$ of $x_5$ — the definition of $\gamma^\mu$ and the table of Section 4.4.
+3. So, near one point, the wave enters the flat algebra of this section with the frame momentum $k_5 = k_{x_5}/f_5 = e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}\, k_{x_5}$ — lines 1 and 2, with $1/f_5$ written as the product of the inverse powers.
+4. On the record's history $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$: $e^{a_4}b_4^{-1/2} = e^{Hx_4}e^{-(2/3)Hx_4} = e^{Hx_4/3}$, so $k_5 = e^{Hx_4/3}(\sin^2 z)^{-1/12}\, k_{x_5}$ — line 3 with the history inserted, and $e^u e^v = e^{u+v}$.
+5. $\frac{d}{dx_4}\ln k_5 = H/3$ — the logarithm of line 4 is $Hx_4/3$ plus terms that do not depend on $x_4$.
+
+As the extra times deflate, the frame momentum grows like $e^{Hx_4/3}$ and therefore sooner or later exceeds $\sqrt{m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2}$: in the local plane-wave reading (the coefficients held fixed near one point) every wave along an extra time reaches the region where its energy is imaginary. Because $(\sin^2 z)^{-1/12}$ depends only on $\sin^2 z$, the frame momentum is the same at $\sin z$ and at $-\sin z$. The Revision check `extra_time_modes_grow` of `Revision/theory/reports/python-field-theory.json` states this in the words `k_(x5) = e^{a4} b4^{-1/2} (sin^2 z)^{-1/12} k_x5` and, for the history, `it is ~ e^{-a4/3}`; there "it" is the frame factor $e^{-a_4}b_4^{1/2}$, which equals $e^{-a_4/3}$ when $b_4 = e^{(4/3)a_4}$. Status: PROVED for the frame momentum (lines 1 to 5, and exactly with sympy, for all functions $a_4$ and $b_4 > 0$ and every real $z$ with $\sin z \neq 0$, in Notebook 04b, In [18], which also requires the record's words); ASSUMED for the local plane-wave reading. Notebook 04b computes only the flat algebra and the frame factor; the waves in the curved, deflating space-time are the subject of Chapter 8.
 
 The next three sections hold Notebook 04b.
 
@@ -1418,7 +1431,7 @@ The next three sections hold Notebook 04b.
 
 ### 4.12 Line-by-line walk-through of Notebook 04b
 
-The notebook has 18 code cells, In [1] to In [18]. As in Section 4.8, every line is quoted except two things: the set-up cell In [1], which is the set-up cell of Notebook 04a explained line by line in Section 4.8 and differs from it only as said below, and the long caption texts handed to `save_figure`, which are shortened to a line `...)` (the dots stand for the caption, the bracket closes the call); each caption is printed in full under its figure in Section 4.11.
+The notebook has 19 code cells, In [1] to In [19]. As in Section 4.8, every line is quoted except two things: the set-up cell In [1], which is the set-up cell of Notebook 04a explained line by line in Section 4.8 and differs from it only as said below, and the long caption texts handed to `save_figure`, which are shortened to a line `...)` (the dots stand for the caption, the bracket closes the call); each caption is printed in full under its figure in Section 4.11.
 
 **In [1], the set-up cell.** It is the set-up cell of Notebook 04a, explained line by line in Section 4.8, with one difference: the line `NOTEBOOK_ID = "04b"` names this notebook, so its figures are numbered 04b.1, 04b.2, ..., and its comment lines hold the run instructions of Section 4.10. It prints one line, Set-up of notebook 04b complete: repository folder found, helpers defined.
 
@@ -2077,7 +2090,78 @@ print("         check extra_time_modes_grow (its exact example)")
 
 `detail` is the text of the Revision check `extra_time_modes_grow` (the empty text if the check did not pass, by the rule of In [12]). The check requires $h^2 = -3I_{16}$, the eigenvalues $\pm i\sqrt3$ with multiplicity 8 each, and the record's text to contain the example and the same list of eigenvalues word for word.
 
-**In [18], the last check.**
+**In [18], the frame momentum in the corrected metric.** This cell computes, from the extra-time entry of the corrected metric, the frame factor and the frame momentum of Section 4.9 ("Why the deflation matters here").
+
+```python
+z, x4 = sp.symbols("z x4", real=True)  # z = 6 H x0 takes every real value
+H_const, k_x5 = sp.symbols("H k_x5", positive=True)  # H > 0; coordinate momentum
+a4 = sp.Function("a4", real=True)(x4)  # the metric function a4(x4)
+b4 = sp.Function("b4", positive=True)(x4)  # the metric function b4(x4) > 0
+```
+
+Four symbols and two functions. `z` and `x4` are real symbols with no further restriction: $z = 6Hx_0$ may be any real number, positive or negative. `H_const` (printed as `H`; the name avoids any clash with other names of the notebook) and `k_x5`, the coordinate momentum $k_{x_5}$, are positive. `sp.Function("a4", real=True)(x4)` is an unknown real function $a_4(x_4)$ of the time, and `b4` an unknown positive function $b_4(x_4)$; sympy keeps them general, so everything below holds for all such functions.
+
+```python
+g55 = -sp.exp(-2 * a4) * b4 * (sp.sin(z) ** 2) ** sp.Rational(1, 6)  # corrected
+f5 = sp.sqrt(-g55)  # the frame factor sqrt|g55| of x5 (g55 is negative)
+k5_frame = k_x5 / f5  # the frame momentum of the coordinate momentum k_x5
+say(f"g55 = {g55};  f5 = {f5};  k5 = {k5_frame}")
+```
+
+`g55` is the extra-time entry $g_{55} = -e^{-2a_4}b_4(\sin^2 z)^{1/6}$ of the corrected metric (Section 4.4); `sp.Rational(1, 6)` is the exact fraction $1/6$ (a floating-point `1/6` would not be exact). Since $g_{55}$ is negative, $\lvert g_{55}\rvert = -g_{55}$, and `sp.sqrt(-g55)` is the frame factor $f_5$. `k5_frame` is the frame momentum $k_5 = k_{x_5}/f_5$ (line 3 of the derivation in Section 4.9). The printed line shows how sympy writes them: it turns $(\sin^2 z)^{1/6}$ into `Abs(sin(z))**(1/3)`, the same positive number written with the absolute value $\lvert\sin z\rvert$, so $g_{55}$ = `-b4(x4)*exp(-2*a4(x4))*Abs(sin(z))**(1/3)`, $f_5$ = `sqrt(b4(x4))*exp(-a4(x4))*Abs(sin(z))**(1/6)` and $k_5$ = `k_x5*exp(a4(x4))/(sqrt(b4(x4))*Abs(sin(z))**(1/6))`; `say` breaks the line into three.
+
+```python
+general_ok = (sp.simplify(k5_frame - sp.exp(a4) / sp.sqrt(b4)
+                          * (sp.sin(z) ** 2) ** sp.Rational(-1, 12) * k_x5) == 0
+              and f5.subs(z, -z) == f5)  # the same at sin z and at -sin z
+```
+
+`general_ok` is true when two statements hold for all functions $a_4$, $b_4 > 0$ and every real $z$: the difference between `k5_frame` and the formula $e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}k_{x_5}$ of the record simplifies to 0, and replacing $z$ by $-z$ (which turns $\sin z$ into $-\sin z$) leaves $f_5$ unchanged.
+
+```python
+history = {a4: H_const * x4, b4: sp.exp(sp.Rational(4, 3) * H_const * x4)}
+f5_history = sp.simplify(f5.subs(history))
+k5_history = sp.simplify(k5_frame.subs(history))
+growth = sp.simplify(sp.diff(sp.log(k5_history), x4))  # d ln k5 / d x4
+say(f"on the history a4 = H x4, b4 = exp(4 H x4/3): f5 = {f5_history};  "
+    f"k5 = {k5_history};  d ln k5/dx4 = {growth}")
+```
+
+`history` is a dictionary that replaces the two functions by the record's prescribed history, $a_4 = Hx_4$ and $b_4 = e^{(4/3)Hx_4}$; `.subs(history)` makes the replacement and `sp.simplify` tidies the result. `growth` is the derivative of $\ln k_5$ with respect to $x_4$ (`sp.diff`), the logarithmic growth rate of line 5 of Section 4.9. The printed lines: $f_5$ = `exp(-H*x4/3)*Abs(sin(z))**(1/6)`, $k_5$ = `k_x5*exp(H*x4/3)/Abs(sin(z)**(1/6))` and the rate `H/3`.
+
+```python
+history_ok = (sp.simplify(f5_history - sp.exp(-H_const * x4 / 3)
+                          * (sp.sin(z) ** 2) ** sp.Rational(1, 12)) == 0
+              and growth == H_const / 3)
+```
+
+`history_ok` is true when $f_5 = e^{-Hx_4/3}(\sin^2 z)^{1/12}$ on the history (the frame factor shrinks exponentially: the extra time deflates) and the growth rate is exactly $H/3$.
+
+```python
+point_values = []
+for sin_z in (sp.Rational(1, 64), sp.Rational(-1, 64)):
+    for time in (0, 3 * sp.log(2)):
+        value = sp.simplify(k5_history.subs({H_const: 1, k_x5: 1, x4: time,
+                                             z: sp.asin(sin_z)}))
+        point_values.append(value)
+        report(f"sin z = {sin_z}, x4 = {time}: k5 and E^2 = 1 - k5^2",
+               (value, 1 - value**2))
+```
+
+Two loops evaluate the frame momentum at four points: $H = 1$, $k_{x_5} = 1$, $\sin z = 1/64$ or $-1/64$ (the point $z = \arcsin(\sin z)$, computed by `sp.asin`), and the times $x_4 = 0$ and $x_4 = 3\ln 2$ (`sp.log` is the natural logarithm). Each value is exact and is appended to the list `point_values`; `report` prints it together with $E^2 = m^2 - k_5^2$ for $m = 1$ and no other momentum. The four printed RESULT lines: $(k_5, E^2) = (2, -3)$ at $x_4 = 0$ and $(4, -15)$ at $x_4 = 3\ln 2$, for both signs of $\sin z$. By hand: $(\sin^2 z)^{-1/12} = (1/4096)^{-1/12} = 2$, because $64^2 = 4096 = 2^{12}$, and $e^{3\ln 2/3} = e^{\ln 2} = 2$. At $x_4 = 0$ the wave is the record's exact example $m = 1$, $k_5 = 2$ of In [17]; at $x_4 = 3\ln 2$ the deflation has doubled its frame momentum and $E^2$ has fallen from $-3$ to $-15$, so the growth rate has risen from $\sqrt3$ to $\sqrt{15}$.
+
+```python
+FRAME_WORDS = "k_(x5) = e^{a4} b4^{-1/2} (sin^2 z)^{-1/12} k_x5"
+check(general_ok and history_ok and point_values == [2, 4, 2, 4]
+      and FRAME_WORDS in detail and "it is ~ e^{-a4/3}" in detail,
+      "k5 = e^a4 b4^(-1/2) (sin^2 z)^(-1/12) k_x5 grows like e^(H x4/3)")
+print(f"     reproduces {THEORY}")
+print("         check extra_time_modes_grow (frame momentum, corrected metric)")
+```
+
+`FRAME_WORDS` is the frame momentum in the words of the record. `detail` is still the text of the Revision check `extra_time_modes_grow`, read in In [17]. The check requires the two exact statements above, the four values $2, 4, 2, 4$, and that the record's text contains the frame momentum and the words `it is ~ e^{-a4/3}` (its statement that the frame factor $e^{-a_4}b_4^{1/2}$ behaves like $e^{-a_4/3}$ on the history). The PASS line is followed by the two lines that name the record and its check.
+
+**In [19], the last check.**
 
 ```python
 names = ["04b_1_square_roots_2x2.png", "04b_2_pauli_dirac_tables.png",
@@ -2088,7 +2172,7 @@ check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in names),
 all_checks_passed()
 ```
 
-The six figure files must exist; the last line reads ALL 19 CHECKS PASSED (notebook 04b): one check in each of In [2], In [4], In [6], In [10], In [11], In [12], In [16], In [17] and In [18], and two in each of In [3], In [5], In [8], In [13] and In [15].
+The six figure files must exist; the last line reads ALL 20 CHECKS PASSED (notebook 04b): one check in each of In [2], In [4], In [6], In [10], In [11], In [12], In [16], In [17], In [18] and In [19], and two in each of In [3], In [5], In [8], In [13] and In [15].
 
 ### 4.13 The 256 products: Cl(4,4) is all real 16 by 16 matrices
 
@@ -3599,7 +3683,7 @@ The six figure files must exist; the last line reads ALL 18 CHECKS PASSED (noteb
 
 - The square of a linear expression $\sum_a p_a\gamma^a$ is the quadratic form $\sum_a\eta^{aa}p_a^2$ exactly when the coefficients satisfy the Clifford relation; no ordinary numbers do (Section 4.3; Notebook 04b).
 - The author's formulas give six $4 \times 4$ blocks equal to the six matrices his notebook displays; they are the right (s4) and minus the left (t4) multiplications by the quaternion units, which gives all their rules; the $8 \times 8$ matrices satisfy $\tau_1\tau_2\tau_3 = \tau_4\tau_5\tau_6\tau_7 = \sigma$, $\tau_7 = \mathrm{diag}(-I_4, I_4)$, $\bar\tau_A = -\tau_A$ and the key rule; the sixteen-by-sixteen matrices T16 satisfy the Clifford relation, and T16[8] $= \mathrm{diag}(-I_8, I_8)$; named with the coordinate map ($\gamma^{(x_k)} = $ T16[$k$] for $k = 0, \dots, 7$) they satisfy $\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}I_{16}$ with $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$; they are real signed permutation matrices, symmetric for $x_0, x_1, x_2, x_3$ and antisymmetric for the time $x_4$ and the deflating extra times $x_5, x_6, x_7$ (Section 4.5; Notebook 04a).
-- The author's gammas take the square root of the 4+4 quadratic form; plane waves of the flat equation $\sum_a\gamma^{(x_a)}\partial_a\Psi = m\Psi$ obey $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$; without extra-time momentum $h$ is Hermitian and commutes with the record's matrix $B = -iC\gamma^{(x_4)}$, while a momentum along an extra time mixes the sectors $B = +1$ and $B = -1$; the record's example has the energies $\pm 5$, eight times each on all sixteen components and four times each in the sector $B = +1$; with a momentum along an extra time the energies become imaginary once $k_5^2 > m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2$, with the growth rate $\sqrt{k_5^2 - m^2 - k_0^2 - k_1^2 - k_2^2 - k_3^2}$, which has no upper bound; the record's example $m = 1$, $k_5 = 2$ has $E = \pm i\sqrt3$, eight times each (Section 4.9; Notebook 04b).
+- The author's gammas take the square root of the 4+4 quadratic form; plane waves of the flat equation $\sum_a\gamma^{(x_a)}\partial_a\Psi = m\Psi$ obey $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$; without extra-time momentum $h$ is Hermitian and commutes with the record's matrix $B = -iC\gamma^{(x_4)}$, while a momentum along an extra time mixes the sectors $B = +1$ and $B = -1$; the record's example has the energies $\pm 5$, eight times each on all sixteen components and four times each in the sector $B = +1$; with a momentum along an extra time the energies become imaginary once $k_5^2 > m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2$, with the growth rate $\sqrt{k_5^2 - m^2 - k_0^2 - k_1^2 - k_2^2 - k_3^2}$, which has no upper bound; the record's example $m = 1$, $k_5 = 2$ has $E = \pm i\sqrt3$, eight times each; in the corrected metric the frame factor of an extra time is $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$, the same at $\sin z$ and $-\sin z$, so a wave with the coordinate momentum $k_{x_5}$ has the frame momentum $e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}k_{x_5}$, which on the prescribed history grows like $e^{Hx_4/3}$ as the extra times deflate (Section 4.9; Notebook 04b).
 - The 256 products of the gammas multiply by rule R1, square to $\pm I_{16}$ by rule R2, have trace 0 except $I_{16}$, are perpendicular in the trace sense and independent: Cl(4,4) is the set of all real $16 \times 16$ matrices; 136 products are symmetric and 120 antisymmetric; the 128 even ones span the block diagonal matrices and the 128 odd ones the block off-diagonal matrices; eight gamma matrices need at least sixteen components; $S^{ab} = \tfrac14[\gamma^a, \gamma^b] = \tfrac12\gamma^a\gamma^b$, with 12 rotation planes and 16 boost planes (Section 4.13; Notebook 04c).
 - A second set of real gammas, built from $P$, $N$ and $G$ with Kronecker products, satisfies the same Clifford relation; the author's gammas are this set with the sixteen components renumbered and some signs flipped, $\gamma^{(x_a)} = Q\hat\gamma^{(x_a)}Q^T$ with a signed permutation $Q$; this change of basis is unique up to a factor; and only the multiples of $I_{16}$ commute with all eight of the author's gammas (Section 4.17; Notebook 04d).
 
@@ -3611,7 +3695,7 @@ The Revision record confirms these statements independently. The table names the
 | the stored gammas are the rebuilt ones (Section 4.5) | `Revision/algebra/gammas.json` and `Revision/algebra/reports/python-gammas.json` | all $2 \times 2048$ entries compared, none differs |
 | $h^2$ and the mass shell (Section 4.9) | `Revision/theory/reports/python-field-theory.json` | `mode_hamiltonian_B_selfadjoint_dispersion` |
 | the good-sector example: $\pm 5$ eight times each on all sixteen components, $Bh = hB$, and $\pm 5$ four times each in the sector $B = +1$ (Section 4.9) | `Revision/theory/reports/python-field-theory.json` | `good_sector_spectrum_and_B_sectors` |
-| the growing modes of the example $m = 1$, $k_5 = 2$ | `Revision/theory/reports/python-field-theory.json` | `extra_time_modes_grow` |
+| the growing modes of the example $m = 1$, $k_5 = 2$, and the frame momentum of an extra-time wave in the corrected metric (Section 4.9) | `Revision/theory/reports/python-field-theory.json` | `extra_time_modes_grow` |
 | the growth rate and its missing upper bound | `Revision/theory/reports/python-scope.json` | `extra_time_growth_rates_unbounded` |
 | Cl(4,4) is all real $16 \times 16$ matrices (Section 4.13) | `Revision/algebra/reports/wolfram-algebra.json` | `Clifford_basis_spans_full_matrix_algebra` |
 | the same | `Revision/algebra/reports/python-algebra.json` | `clifford_products_span_M16` |
@@ -3625,7 +3709,7 @@ The Revision record confirms these statements independently. The table names the
 
 **COMPUTED** (floating-point numbers, with the measured accuracy): the eigenvalues of the $2 \times 2$ roots agree with $\pm\sqrt{p^2 \pm 1}$ to $10^{-12}$; $(\sum_a p_a\gamma^{(x_a)})^2 = \eta(p, p)I_{16}$ for 300 random vectors, every deviation below $10^{-12}$ (the bound that the notebook asserts; the sizes themselves, plotted in figure 4 of Notebook 04b, depend on the computer's numerical library); the sixteen energies of the good-sector example lie within $10^{-12}$ of $\pm 5$, with eight independent solutions at each energy, the eight energies in the sector $B = +1$ lie within $10^{-12}$ of $\pm 5$, four of each, and the smallest singular value of $EI_{16} - h$ equals the distance to $\pm 5$ within $10^{-9}$; the $160 \times 16$ energies with a momentum $k_5$ lie within $10^{-10}$ of $\pm\sqrt{25 - k_5^2}$; the floating-point eigenvalues of the penalty matrix $K$ lie within $10^{-9}$ of $0, 4, \dots, 32$ (Notebooks 04b and 04d). Each of these confirms an exact statement proved above.
 
-**ASSUMED**: the author's metric, the roles of his coordinates and his formulas for T16 (the input of the theory; Section 4.4 and Section 4.5); in Section 4.9, flat 4+4 space without self-interaction, a model of the algebra only, since the author's extra times deflate at every moment; and two facts of linear algebra quoted without proof: in a space of dimension $m$ any $m$ independent elements form a basis (Section 4.13), and the number of singular values of a square matrix $M$ that are 0 is the number of independent solutions $u$ of $Mu = 0$ (used for the counts of Notebook 04b). The fact that the trace of every square matrix is the sum of its eigenvalues, counted with their multiplicities, is not assumed here: Section 1.34 proves it from the fundamental theorem of algebra, which Chapter 1 assumes.
+**ASSUMED**: the roles of the author's coordinates, his formulas for T16, the corrected metric of the Revision record (version 2 of 2026-10-16) and the prescribed history $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$ of its metric functions (the input of the theory; Section 4.4 and Section 4.5); in Section 4.9, flat 4+4 space without self-interaction, a model of the algebra only, since the extra times deflate at every moment, and the local plane-wave reading of the frame momentum (the coefficients held fixed near one point); and two facts of linear algebra quoted without proof: in a space of dimension $m$ any $m$ independent elements form a basis (Section 4.13), and the number of singular values of a square matrix $M$ that are 0 is the number of independent solutions $u$ of $Mu = 0$ (used for the counts of Notebook 04b). The fact that the trace of every square matrix is the sum of its eigenvalues, counted with their multiplicities, is not assumed here: Section 1.34 proves it from the fundamental theorem of algebra, which Chapter 1 assumes.
 
 **HYPOTHESIS and OPEN**: this chapter states none. What the growing waves along the extra times mean for the curved, deflating space-time is the subject of Chapter 8. Nothing in this chapter concerns the creation of universes or matter and antimatter; the matrices it builds are used in Part V, where the honest scope of those questions is stated.
 
@@ -3647,9 +3731,9 @@ The Revision record confirms these statements independently. The table names the
 
 *Answer.* $P \otimes N = \begin{pmatrix} 0 \cdot N & 1 \cdot N \\ 1 \cdot N & 0 \cdot N \end{pmatrix} = \begin{pmatrix} 0 & 0 & 0 & 1 \\ 0 & 0 & -1 & 0 \\ 0 & 1 & 0 & 0 \\ -1 & 0 & 0 & 0 \end{pmatrix}$. By the mixed-product rule, $(P \otimes N)^2 = P^2 \otimes N^2 = I_2 \otimes (-I_2) = -I_4$. In code notation, row 0 is $+3$ and row 3 is $-0$, so $((P \otimes N)^2u)_0 = +((P \otimes N)u)_3 = -u_0$, row 0 of $-I_4$.
 
-**Exercise 5.** Take $m = 1$, no momentum in $x_0, x_1, x_2, x_3$, and a wave $e^{ik_{x_5}x_5}$ along the extra time $x_5$ with the coordinate momentum $k_{x_5} = 1$, at a point where $\sin z = 1/64$, on the history of the record with $H = 1$: $a_4 = x_4$ and $b_4 = b_4(0)e^{4x_4/3}$, with $b_4(0)$ as the unit of $b_4$. Using the frame factor of Section 4.4, find the frame momentum and $E^2$ (a) at the time $x_4 = 0$ and (b) at the time $x_4 = 3\ln 2$. What happens to the growth rate as the extra times deflate?
+**Exercise 5.** Take $m = 1$, no momentum in $x_0, x_1, x_2, x_3$, and a wave $e^{ik_{x_5}x_5}$ along the extra time $x_5$ with the coordinate momentum $k_{x_5} = 1$, at a point where $\sin z = 1/64$, on the history of the record with $H = 1$: $a_4 = x_4$ and $b_4 = e^{4x_4/3}$. Using the frame factor of the corrected metric (Section 4.4), find the frame momentum and $E^2$ (a) at the time $x_4 = 0$ and (b) at the time $x_4 = 3\ln 2$. (c) What changes at a point where $\sin z = -1/64$? What happens to the growth rate as the extra times deflate? Compare with the output of In [18] of Notebook 04b.
 
-*Answer.* The frame factor of $x_5$ is $b_4^{1/2}e^{-a_4}\sin^{1/6} z = e^{2x_4/3}e^{-x_4}(1/64)^{1/6} = e^{-x_4/3}/2$, since $b_4^{1/2} = e^{2x_4/3}$ in the unit $b_4(0)^{1/2}$ and $2^6 = 64$. The frame momentum is the coordinate momentum divided by it: $k_5 = 2e^{x_4/3}$. (a) $x_4 = 0$: $k_5 = 2$, and $E^2 = m^2 - k_5^2 = 1 - 4 = -3$, so $E = \pm i\sqrt3$: the exact example of the Revision record, with the growth rate $\sqrt3 \approx 1.73$. (b) $x_4 = 3\ln 2$: $e^{x_4/3} = 2$, $k_5 = 4$, $E^2 = 1 - 16 = -15$, growth rate $\sqrt{15} \approx 3.87$. As the extra times deflate, the frame momentum grows like $e^{a_4}b_4^{-1/2} = e^{x_4/3}$, and the growth rate grows with it. (This is the local plane-wave reading of Section 4.9, with the coefficients held fixed near the point.)
+*Answer.* The frame factor of $x_5$ is $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12} = e^{-x_4}e^{2x_4/3}(1/4096)^{1/12} = e^{-x_4/3}/2$, since $b_4^{1/2} = e^{2x_4/3}$, $\sin^2 z = 1/64^2 = 1/4096$ and $2^{12} = 4096$. The frame momentum is the coordinate momentum divided by it: $k_5 = 2e^{x_4/3}$. (a) $x_4 = 0$: $k_5 = 2$, and $E^2 = m^2 - k_5^2 = 1 - 4 = -3$, so $E = \pm i\sqrt3$: the exact example of the Revision record, with the growth rate $\sqrt3 \approx 1.73$. (b) $x_4 = 3\ln 2$: $e^{x_4/3} = e^{\ln 2} = 2$, $k_5 = 4$, $E^2 = 1 - 16 = -15$, growth rate $\sqrt{15} \approx 3.87$. (c) Nothing: the corrected metric contains $\sin z$ only through $\sin^2 z$, and $(-1/64)^2 = (1/64)^2$, so the frame factor, the frame momentum and $E^2$ are the same; In [18] of Notebook 04b prints $(k_5, E^2) = (2, -3)$ and $(4, -15)$ for both signs. As the extra times deflate, the frame momentum grows like $e^{a_4}b_4^{-1/2} = e^{x_4/3}$, and the growth rate grows with it. (This is the local plane-wave reading of Section 4.9, with the coefficients held fixed near the point.)
 
 **Exercise 6.** For which of the pairs $(x_1, x_2)$, $(x_1, x_4)$, $(x_5, x_6)$, $(x_4, x_0)$ does $(2S^{ab})^2$ equal $-I_{16}$, and for which $+I_{16}$? Which are rotation planes and which boost planes? Show also that $S^{ba} = -S^{ab}$.
 

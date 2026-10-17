@@ -78,8 +78,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "c53e04338fee40b7b72dba10858f0fbc3f5464c588891bb00f93e74e5d146f50"
-TEX_SHA256 = "5c75f8d99c04d05f778129fafa45ea8b32882c9b720adf0574e4de79eede6017"
+MARKDOWN_SHA256 = "c2681fff40baa5137bf2a33913862dbf6ab22aeb7e2dddd30497ad36a4dd01ba"
+TEX_SHA256 = "3f85a6897f44c0ad16ec3747d99b3828c542ce9180dfcd21f8d59e91ed287940"
 
 GKD = REVISION / "gkd_lovelock"
 RESULTS = GKD / "results"

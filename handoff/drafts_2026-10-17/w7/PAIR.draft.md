@@ -37,7 +37,7 @@ $$
 
 with two metric functions $a_4(x_4)$ and $b_4(x_4) > 0$ of the time ($b_4$ is never 1); the hidden direction and the extra times form one block, which deflates with the scale factor $e^{-a_4}b_4^{1/2}$ times the $x_0$-dependent factors $|\cot z|$ and $(\sin^2 z)^{1/12}$. T1, T2, Q and T3 hold for arbitrary functions $a_4(x_4)$ and $b_4(x_4)$ (the pairing verifiers treat both as arbitrary); the Kohn-Sham record of section 8 uses the PRESCRIBED history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$ with $A = 1$ and $b_4(0) = 1$ (`Revision/SPEC.md` section 1; `Revision/kohn_sham/ks-theory.json`, key adiabaticity), that is $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$, on which the scale factor of the block is $b_4(0)^{1/2}e^{-a_4/3} = e^{-a_4/3}$: the extra times deflate exponentially. The metric has signature (4,4) (space-like $x_0, x_1, x_2, x_3$; time-like $x_4, x_5, x_6, x_7$), with $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$; it is degenerate at $z = n\pi/2$, and the points $z = \pi/2 + n\pi$, where $g_{00} = 0$ and $\sqrt{|g|} = 0$, are the folds where the two halves of a cell meet. The pairing verifiers work on the patch $0 < z < \pi/2$ (where $(\sin^2 z)^{1/12} = \sin^{1/6}z$) and on the other half $\pi/2 < z < \pi$ of the cell. The diagonal vielbein is $e^a{}_\mu = f_a\delta^a_\mu$ with $f_0 = e^{-a_4}b_4^{1/2}\cot z$, $f_1 = f_2 = f_3 = e^{a_4}$, $f_4 = 1$ and $f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$; the frame metric is $\eta = \mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ in the order $x_0, \dots, x_7$. Frame indices $a = 0, \dots, 7$ are aligned with the coordinates, so $\gamma^0$ is the hidden-direction gamma $\gamma^{(x_0)}$ and $\gamma^4$ the time gamma $\gamma^{(x_4)}$.
 
-The canonical spin connection (vielbein postulate) has the 10 nonzero components $\omega_{x_0,\,04} = h_4e^{-a_4}b_4^{1/2}\cot z$, $\omega_{x_i,\,i4} = a_4'e^{a_4}$ for the 3-space directions $i = 1, 2, 3$, and $\omega_{x_t,\,4t} = h_4e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$ and $\omega_{x_t,\,0t} = H(\sin^2 z)^{1/12}$ for the extra times $t = 5, 6, 7$, with $h_4 = \frac{b_4'}{2b_4} - a_4'$ the rate of the block and $\Omega_{x_4} = 0$. Contracted with the gammas,
+The canonical spin connection (vielbein postulate) has the 10 nonzero components listed here. For the hidden direction it is $\omega_{x_0,\,04} = h_4e^{-a_4}b_4^{1/2}\cot z$. For each of the 3-space directions $i = 1, 2, 3$ it is $\omega_{x_i,\,i4} = a_4'e^{a_4}$. For each of the extra times $t = 5, 6, 7$ there are two: $\omega_{x_t,\,4t} = h_4e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$ and $\omega_{x_t,\,0t} = H(\sin^2 z)^{1/12}$. Here $h_4 = \frac{b_4'}{2b_4} - a_4'$ is the rate of the block, and $\Omega_{x_4} = 0$. Contracted with the gammas,
 
 $$
 \gamma^\mu\Omega_\mu = c_g\,\gamma^0 + v_g\,\gamma^4,\qquad c_g = \tfrac32He^{a_4}b_4^{-1/2},\qquad v_g = \frac{b_4'}{b_4} - \frac{a_4'}{2} :
@@ -97,8 +97,8 @@ Written out in the corrected metric, the field equation of both fields is
 
 $$
 \begin{aligned}
-& e^{a_4}b_4^{-1/2}\tan z\,\gamma^0\partial_0\Psi + e^{-a_4}\big(\gamma^1\partial_1+\gamma^2\partial_2+\gamma^3\partial_3\big)\Psi + \gamma^4\partial_4\Psi
-+ e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}\big(\gamma^5\partial_5+\gamma^6\partial_6+\gamma^7\partial_7\big)\Psi \\
+& e^{a_4}b_4^{-1/2}\tan z\,\gamma^0\partial_0\Psi + e^{-a_4}\big(\gamma^1\partial_1+\gamma^2\partial_2+\gamma^3\partial_3\big)\Psi + \gamma^4\partial_4\Psi \\
+& \qquad + e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}\big(\gamma^5\partial_5+\gamma^6\partial_6+\gamma^7\partial_7\big)\Psi \\
 & \qquad + c_g\gamma^0\Psi + v_g\gamma^4\Psi = \big(m + U'(S)\big)\Psi ,
 \end{aligned}
 $$

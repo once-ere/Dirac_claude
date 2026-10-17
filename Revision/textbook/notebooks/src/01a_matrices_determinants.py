@@ -47,8 +47,10 @@ FACTS = {
         "draws their meaning as a signed area, reads the real 16 by 16 gamma matrices "
         "and the frame metric of the author's coordinates x0 to x7 from the Revision "
         "record and checks that every gamma matrix is a signed permutation matrix with "
-        "determinant 1, and proves with sympy that the determinant of the author's "
-        "metric is the square of cos(6 H x0) for every value of a4."
+        "determinant 1, and proves with sympy that the determinant of the corrected "
+        "metric of the author is e^(-2 a4) b4^4 cot(z)^2 times the size of sin(z), "
+        "z = 6 H x0, so that the growth of space and the deflation of the three extra "
+        "times cancel in it."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
@@ -103,8 +105,8 @@ CELLS = [
       the Revision record and checks that each one is a *signed permutation matrix*
       whose determinant is 1;
     - reads the author's metric from the Revision record and proves with sympy that
-      its determinant is $b_4^3 \cos^2 z$ with $z = 6 H x_0$, whatever the value of
-      $a_4$.
+      its determinant is $e^{-2a_4} b_4^4 \cot^2 z\,|\sin z|$ with $z = 6 H x_0$:
+      the growth of space and the deflation of the three extra times cancel in it.
 
     Every check prints a line that starts with PASS; where a check repeats a result
     of the Revision record, a second line names the record file and its check.
@@ -155,6 +157,10 @@ CELLS = [
     - **Floating-point number**: the way a computer stores a real number, with about
       16 significant digits, so results can be off in the last digits. **Exact**
       arithmetic (sympy) keeps whole numbers, fractions and symbols without rounding.
+    - **Absolute value** $|x|$: the number $x$ without its sign, so $|-3| = |3| = 3$.
+      The **sign** $\mathrm{sign}(x)$ of a number is $+1$ if $x > 0$ and $-1$ if
+      $x < 0$; for $x \neq 0$, $x \cdot \mathrm{sign}(x) = |x|$, that is
+      $\mathrm{sign}(x) = |x|/x$.
     - **Metric** $g$: the table of numbers that turns small coordinate steps
       $dx_0, \dots, dx_7$ into a squared length,
       $ds^2 = g_{00} dx_0^2 + \dots + g_{77} dx_7^2$ for a diagonal metric; here it is
@@ -167,18 +173,21 @@ CELLS = [
     ## 4. The physical and mathematical situation
 
     The theory of this course works with matrices everywhere. Its spacetime has
-    eight coordinates, which the author calls $x_0, \dots, x_7$: $x_1, x_2, x_3$ are
-    ordinary space, $x_4$ is the time, $x_5, x_6, x_7$ are three extra times whose
-    lengths deflate exponentially as $a_4$ grows, and $x_0$ is a hidden space
-    direction. The author's metric is the diagonal matrix
+    eight coordinates, which the author calls $x_0, \dots, x_7$: $x_0$ is a hidden
+    space direction, $x_1, x_2, x_3$ are ordinary space, $x_4$ is the time, and
+    $x_5, x_6, x_7$ are three extra times whose lengths deflate exponentially. The
+    author's metric (the corrected metric of the Revision record, version 2 of
+    2026-10-16) is the diagonal matrix
 
-    $$g = \mathrm{diag}\big(\cot^2 z, e^{2a_4} s, e^{2a_4} s, e^{2a_4} s, -1,
-    -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),\quad
-    s = \sin^{1/3} z,\ z = 6 H x_0,$$
+    $$g = \mathrm{diag}\big(b_4 e^{-2a_4} \cot^2 z, e^{2a_4}, e^{2a_4}, e^{2a_4},
+    -1, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),$$
 
-    with $0 < z < \pi/2$, a positive constant $H$, a function $a_4(x_4)$ of the
-    time and a positive function $b_4(x_4)$ of the time (the author's metric of
-    2026-10-14; with $b_4 = 1$ it is the earlier metric). The simpler *frame metric*
+    $$s = (\sin^2 z)^{1/6} = |\sin z|^{1/3},\qquad z = 6 H x_0,$$
+
+    where $z$ takes every real value, $H$ is a positive constant, $a_4(x_4)$ is a
+    function of the time and $b_4(x_4)$ is a positive function of the time (never
+    the constant 1). The number $s$ is the positive sixth root of $\sin^2 z$, so it
+    is positive also where $\sin z < 0$. The simpler *frame metric*
     $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ keeps only the signs: $+1$
     for the space-like directions $x_0, x_1, x_2, x_3$ and $-1$ for the time-like
     directions $x_4, x_5, x_6, x_7$. The fields of the theory have 16 components, and
@@ -190,16 +199,21 @@ CELLS = [
     the diagonal, which is 0), so the determinant is the product of the diagonal
     entries. For the author's metric this product is
 
-    $$\det g = \cot^2 z \cdot (e^{2a_4} s)^3 \cdot (-1) \cdot (-b_4 e^{-2a_4} s)^3
-    = b_4^3 e^{6a_4} e^{-6a_4} s^6 \cot^2 z
-    = b_4^3 \sin^2 z \, \frac{\cos^2 z}{\sin^2 z} = b_4^3 \cos^2 z,$$
+    $$\det g = b_4 e^{-2a_4} \cot^2 z \cdot (e^{2a_4})^3 \cdot (-1) \cdot
+    (-b_4 e^{-2a_4} s)^3 = b_4^4\, e^{-2a_4 + 6a_4 - 6a_4}\, s^3 \cot^2 z
+    = e^{-2a_4} b_4^4 \cot^2 z\, |\sin z|,$$
 
-    because $(-1) \cdot (-1)^3 = +1$, $e^{6a_4} e^{-6a_4} = e^0 = 1$,
-    $s^6 = (\sin^{1/3} z)^6 = \sin^2 z$ and $\cot z = \cos z / \sin z$. The growth
-    $e^{6a_4}$ of the three space directions is cancelled exactly by the shrinking
-    $e^{-6a_4}$ of the three extra times; only the factor $b_4^3$ of the three extra
-    times is left. The last part of the notebook checks this with sympy, starting
-    from the metric as it is stored in the Revision record.
+    because $(-1) \cdot (-1)^3 = +1$, the exponents of $e$ add up to $-2a_4$, and
+    $s^3 = (|\sin z|^{1/3})^3 = |\sin z|$. The growth $e^{6a_4}$ of the three space
+    directions is cancelled exactly by the shrinking $e^{-6a_4}$ of the three extra
+    times; left are the factor $b_4 e^{-2a_4}$ of the hidden direction and the
+    factor $b_4^3$ of the three extra times. With $\cot z = \cos z / \sin z$ the
+    determinant is $e^{-2a_4} b_4^4 \cos^2 z / |\sin z|$: it is positive wherever
+    $\sin z \cos z \neq 0$, it is 0 on the *fold* $\cos z = 0$ (at $z = \pi/2$ the
+    fold joins the two halves $0 < z < \pi/2$ and $\pi/2 < z < \pi$ of a cell), and
+    it is not defined where $\sin z = 0$ ($\cot z$ is infinite there). The last
+    part of the notebook checks this with sympy, starting from the metric as it is
+    stored in the Revision record.
     """),
     md(r"""
     ## 5. Vectors and matrices in Python
@@ -745,30 +759,38 @@ CELLS = [
 
     The file Revision/gkd_lovelock/results/curvature.json of the Revision record
     stores the diagonal of the author's metric as text in the notation of the
-    program Mathematica, for example `E^(2*a4[x4])*Sin[6*H*x0]^(1/3)` for
-    $e^{2a_4(x_4)} \sin^{1/3}(6 H x_0)$ and
-    `-E^(-2*a4[x4])*Sin[6*H*x0]^(1/3)*b4[x4]` for
-    $-b_4(x_4) e^{-2a_4(x_4)} \sin^{1/3}(6 H x_0)$, and the square root of the size
-    of its determinant as `Sin[6*H*x0]*Cot[6*H*x0]*b4[x4]^(3/2)`.
+    program Mathematica, for example `E^(-2*a4[x4])*Cot[6*H*x0]^2*b4[x4]` for
+    $b_4(x_4) e^{-2a_4(x_4)} \cot^2(6 H x_0)$ and
+    `-E^(-2*a4[x4])*(Sin[6*H*x0]^2)^(1/6)*b4[x4]` for
+    $-b_4(x_4) e^{-2a_4(x_4)} (\sin^2(6 H x_0))^{1/6}$, and the square root of the
+    size of its determinant as
+    `E^(-1*a4[x4])*(Sin[6*H*x0]^2)^(1/4)*Cot[6*H*x0]*Sign[Cot[6*H*x0]]*b4[x4]^2`,
+    in which `Sign` is the sign function, so that
+    $\cot z \cdot \mathrm{sign}(\cot z) = |\cot z|$.
 
     The next cell types the metric exactly as in section 4 of this notebook, with
     sympy symbols $a_4$ (the value of $a_4(x_4)$ at one time, any real number),
     $b_4$ (the value of $b_4(x_4)$ at one time, a positive number) and
-    $z = 6 H x_0$ (a positive number), translates the record's text into sympy (the
-    function `from_record` replaces the Mathematica names by sympy names), and checks:
+    $z = 6 H x_0$ (any real number), translates the record's text into sympy (the
+    function `from_record` replaces the Mathematica names by sympy names; sympy
+    writes $(\sin^2 z)^{1/6}$ as $|\sin z|^{1/3}$ by itself), and checks:
 
     - the record's diagonal equals the typed one, entry by entry;
-    - the product of the diagonal entries, $\det g$, simplifies to $b_4^3 \cos^2 z$
-      (no $a_4$ is left);
-    - the record's $b_4^{3/2} \sin z \cot z$ equals $b_4^{3/2} \cos z$, whose square
-      is $\det g$.
+    - the product of the diagonal entries, $\det g$, simplifies to
+      $e^{-2a_4} b_4^4 \cot^2 z\,|\sin z|$;
+    - the record's square root of $|\det g|$ equals
+      $e^{-a_4} b_4^2\, |\cot z|\, (\sin^2 z)^{1/4}$ (with the rule
+      $\mathrm{sign}(c) = |c|/c$ for $c = \cot z \neq 0$), and its square is
+      $\det g$.
     """),
     code(r'''
     a4 = sp.Symbol("a4", real=True)  # the value of the function a4(x4) at one time
     b4 = sp.Symbol("b4", positive=True)  # the value of the function b4(x4) at one time
-    z = sp.Symbol("z", positive=True)  # z = 6 H x0, between 0 and pi/2
-    s = sp.sin(z) ** sp.Rational(1, 3)  # sin(z) to the power 1/3
-    g_typed = ([sp.cot(z) ** 2] + [sp.exp(2 * a4) * s] * 3 + [sp.Integer(-1)]
+    z = sp.Symbol("z", real=True)  # z = 6 H x0, any real number
+    s = (sp.sin(z) ** 2) ** sp.Rational(1, 6)  # the positive sixth root of sin(z)^2
+    say(f"sympy writes (sin(z)^2)^(1/6) as {s}")
+    g_typed = ([b4 * sp.exp(-2 * a4) * sp.cot(z) ** 2] + [sp.exp(2 * a4)] * 3
+               + [sp.Integer(-1)]
                + [-b4 * sp.exp(-2 * a4) * s] * 3)  # the author's order x0, x1, ..., x7
     curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
                            .read_text(encoding="utf-8"))
@@ -777,8 +799,8 @@ CELLS = [
     def from_record(text):
         """The record's Mathematica text as a sympy expression."""
         text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
-        text = text.replace("Sin[6*H*x0]", "sin(z)")
-        text = text.replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
+        text = text.replace("Sin[6*H*x0]", "sin(z)").replace("Cot[6*H*x0]", "cot(z)")
+        text = text.replace("Sign[", "sign(").replace("]", ")").replace("^", "**")
         return sp.sympify(text, locals={"a4": a4, "b4": b4, "z": z, "E": sp.E})
 
 
@@ -788,72 +810,81 @@ CELLS = [
           "the record's metric diagonal equals the author's metric typed here")
     det_g = sp.Mul(*g_typed)  # the product of the 8 diagonal entries
     say(f"product of the diagonal entries, as sympy writes it: {det_g}")
-    check(sp.simplify(det_g - b4 ** 3 * sp.cos(z) ** 2) == 0,
-          "det g = b4^3 cos(z)^2 for every a4: the e^(6 a4) of space and the e^(-6 a4) "
-          "of the extra times cancel",
+    det_expected = sp.exp(-2 * a4) * b4 ** 4 * sp.cot(z) ** 2 * sp.Abs(sp.sin(z))
+    check(sp.simplify(det_g - det_expected) == 0,
+          "det g = e^(-2 a4) b4^4 cot(z)^2 |sin z|: the e^(6 a4) of space and the "
+          "e^(-6 a4) of the extra times cancel",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
                  "sqrt_abs_det_g")
     root_record = from_record(curvature["sqrtAbsDetG"])
     say(f"the record's square root of |det g|: {root_record}")
-    check(sp.simplify(root_record - b4 ** sp.Rational(3, 2) * sp.cos(z)) == 0 and
+    # the rule sign(c) = |c|/c for every number c != 0, here for c = cot z:
+    root_rewritten = root_record.subs(sp.sign(sp.cot(z)), sp.Abs(sp.cot(z)) / sp.cot(z))
+    root_expected = (sp.exp(-a4) * b4 ** 2 * sp.Abs(sp.cot(z))
+                     * (sp.sin(z) ** 2) ** sp.Rational(1, 4))
+    check(sp.simplify(root_rewritten - root_expected) == 0 and
           sp.simplify(root_record ** 2 - det_g) == 0,
-          "the record's sqrtAbsDetG = b4^(3/2) sin z cot z = b4^(3/2) cos z, and its "
+          "the record's sqrtAbsDetG = e^(-a4) b4^2 |cot z| (sin(z)^2)^(1/4), and its "
           "square is det g",
           record="Revision/gkd_lovelock/results/curvature.json, sqrtAbsDetG")
     '''),
     md(r"""
     The next cell turns the exact formulas into numbers (sympy's `lambdify` makes a
     numpy function of a formula) and draws two pictures. Left: the heat map of the
-    $8 \times 8$ metric at $a_4 = 0.5$, $b_4 = 1$, $z = 0.9$, with the coordinate
-    names on the axes; only the diagonal is coloured. Right: $\det g / b_4^3$
-    computed with numpy from the $8 \times 8$ matrix for the three pairs
-    $(a_4, b_4) = (-1, 1)$, $(0, 0.5)$ and $(1, 2)$ along $0 < z < \pi/2$, together
-    with $\cos^2 z$: the three curves lie on top of each other. It also checks the
-    agreement in numbers at 300 values of $z$.
+    $8 \times 8$ metric at $a_4 = 0.5$, $b_4 = 2$, $z = 0.9$, with the coordinate
+    names on the axes; only the diagonal is coloured. Right: $\det g$ computed with
+    numpy from the $8 \times 8$ matrix and multiplied by $e^{2a_4}/b_4^4$, for the
+    three pairs $(a_4, b_4) = (-1, 0.5)$, $(0, 2)$ and $(1, 3)$ along one cell
+    $0 < z < \pi$, together with $\cot^2 z\,|\sin z|$: the three curves lie on top
+    of each other and all vanish on the fold $z = \pi/2$. It also checks the
+    agreement in numbers at 300 values of $z$ for each pair.
     """),
     code(r'''
     metric_numbers = sp.lambdify((a4, b4, z), g_typed, "numpy")  # a4, b4, z -> 8 numbers
-    z_values = np.linspace(0.01, np.pi / 2 - 0.01, 300)  # inside (0, pi/2)
+    z_values = np.linspace(0.1, np.pi - 0.1, 300)  # one cell, inside (0, pi)
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.6))
-    g_point = np.diag(np.array(metric_numbers(0.5, 1.0, 0.9), dtype=float))
+    g_point = np.diag(np.array(metric_numbers(0.5, 2.0, 0.9), dtype=float))
     coordinate_labels = [f"$x_{k}$" for k in range(8)]  # x with subscripts 0 ... 7
-    heat_map(left, g_point, "metric $g$ at $a_4 = 0.5$, $b_4 = 1$, $z = 0.9$",
+    heat_map(left, g_point, "metric $g$ at $a_4 = 0.5$, $b_4 = 2$, $z = 0.9$",
              labels=coordinate_labels, digits=2, skip_zeros=True)
     left.tick_params(labelsize=8)
+    shape = np.cos(z_values) ** 2 / np.abs(np.sin(z_values))  # cot(z)^2 |sin z|
     largest_error = 0.0
-    for a4_value, b4_value, style in [(-1.0, 1.0, "-"), (0.0, 0.5, "--"), (1.0, 2.0, ":")]:
+    for a4_value, b4_value, style in [(-1.0, 0.5, "-"), (0.0, 2.0, "--"), (1.0, 3.0, ":")]:
         dets = np.array([np.linalg.det(np.diag(np.array(metric_numbers(a4_value, b4_value,
                                                                        zv), dtype=float)))
-                         for zv in z_values]) / b4_value ** 3
-        largest_error = max(largest_error, float(np.max(np.abs(dets - np.cos(z_values)
-                                                               ** 2))))
-        right.plot(z_values, dets, style, lw=2,
-                   label=f"det g / $b_4^3$, $a_4 = {a4_value:+.0f}$, $b_4 = {b4_value:g}$")
-    right.plot(z_values, np.cos(z_values) ** 2, color="black", lw=0.8,
-               label="$\\cos^2 z$")
+                         for zv in z_values])
+        scaled = dets * np.exp(2 * a4_value) / b4_value ** 4  # det g e^(2 a4) / b4^4
+        largest_error = max(largest_error, float(np.max(np.abs(scaled / shape - 1))))
+        right.plot(z_values, scaled, style, lw=2,
+                   label=f"$a_4 = {a4_value:+.0f}$, $b_4 = {b4_value:g}$")
+    right.plot(z_values, shape, color="black", lw=0.8, label="$\\cot^2 z\\,|\\sin z|$")
+    right.axvline(np.pi / 2, color="0.5", ls=":", lw=1)  # the fold cos z = 0
+    right.set_ylim(0.0, 10.0)
     right.set_xlabel("$z = 6 H x_0$")
-    right.set_ylabel("$\\det g / b_4^3$")
-    right.set_title("$\\det g / b_4^3$ does not depend on $a_4$")
-    right.legend(fontsize=8)
+    right.set_ylabel("$e^{2a_4} \\det g / b_4^4$")
+    right.set_title("$e^{2a_4} \\det g / b_4^4$ does not depend on $a_4$, $b_4$")
+    right.legend(fontsize=8, loc="upper center")
     fig.tight_layout()
     save_figure(fig, "metric_and_determinant",
                 "Left: heat map of the author's $8 \\times 8$ metric at $a_4 = 0.5$, "
-                "$b_4 = 1$ and "
-                "$z = 6 H x_0 = 0.9$, rows and columns labelled by the coordinates "
-                "$x_0$ to $x_7$; only the diagonal is not zero (the plain white "
-                "squares are zeros), positive for $x_0, x_1, x_2, x_3$ and negative "
-                "for $x_4$ to $x_7$. Right: the "
-                "determinant of the metric divided by $b_4^3$, computed numerically "
-                "for $(a_4, b_4) = (-1, 1)$, $(0, 0.5)$ and $(1, 2)$ (three line "
-                "styles) against $z$ from 0 to $\\pi/2$, and "
-                "$\\cos^2 z$ (thin black line); horizontal axis $z$, vertical axis "
-                "$\\det g / b_4^3$ (pure numbers). All curves coincide: the inflation "
-                "of space and the deflation of the extra times cancel in the "
-                "determinant, and $b_4$ enters only as the factor $b_4^3$.")
-    report("largest difference between det g / b4^3 and cos(z)^2 at 900 points",
-           f"{largest_error:.1e}")
-    check(largest_error < 1e-12, "numpy: det g = b4^3 cos(z)^2 at 300 values of z for "
-          "each of (a4, b4) = (-1, 1), (0, 0.5), (1, 2)")
+                "$b_4 = 2$ and $z = 6 H x_0 = 0.9$, rows and columns labelled by the "
+                "coordinates $x_0$ to $x_7$; only the diagonal is not zero (the plain "
+                "white squares are zeros), positive for $x_0, x_1, x_2, x_3$ and "
+                "negative for $x_4$ to $x_7$. Right: the determinant of the metric "
+                "times $e^{2a_4}/b_4^4$, computed numerically for "
+                "$(a_4, b_4) = (-1, 0.5)$, $(0, 2)$ and $(1, 3)$ (three line styles) "
+                "against $z$ across one cell from 0 to $\\pi$, and "
+                "$\\cot^2 z\\,|\\sin z|$ (thin black line); horizontal axis $z$, "
+                "vertical axis $e^{2a_4} \\det g / b_4^4$ (pure numbers). All curves "
+                "coincide: the inflation of space and the deflation of the extra "
+                "times cancel in the determinant, which keeps only the factor "
+                "$e^{-2a_4} b_4^4$; it is 0 on the fold $z = \\pi/2$ (dotted) and "
+                "the same at $z$ and $\\pi - z$.")
+    report("largest relative difference between e^(2 a4) det g / b4^4 and "
+           "cot(z)^2 |sin z| at 900 points", f"{largest_error:.1e}")
+    check(largest_error < 1e-12, "numpy: det g = e^(-2 a4) b4^4 cot(z)^2 |sin z| at "
+          "300 values of z for each of (a4, b4) = (-1, 0.5), (0, 2), (1, 3)")
     '''),
     md(r"""
     ## 14. The last check
@@ -886,11 +917,13 @@ CELLS = [
     - The eight gamma matrices of the Revision record are real signed permutation
       matrices with determinant 1; each squares to $+I$ (space-like directions
       $x_0, x_1, x_2, x_3$) or $-I$ (time-like directions $x_4, \dots, x_7$).
-    - The determinant of the author's metric is $\det g = b_4^3 \cos^2(6 H x_0)$ for
-      every value of $a_4$: the growth $e^{6a_4}$ of the three space directions and
-      the shrinking $e^{-6a_4}$ of the three extra times cancel exactly, and $b_4$
-      enters only as the factor $b_4^3$. This repeats the Revision record's check
-      `sqrt_abs_det_g`.
+    - The determinant of the author's metric is
+      $\det g = e^{-2a_4} b_4^4 \cot^2 z\,|\sin z|$ with $z = 6 H x_0$: the growth
+      $e^{6a_4}$ of the three space directions and the shrinking $e^{-6a_4}$ of the
+      three extra times cancel exactly; left are the factor $b_4 e^{-2a_4}$ of the
+      hidden direction and $b_4^3$ of the extra times. It is positive wherever
+      $\sin z \cos z \neq 0$ and 0 on the fold $\cos z = 0$. This repeats the
+      Revision record's check `sqrt_abs_det_g`.
     """),
 ]
 

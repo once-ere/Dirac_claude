@@ -17,7 +17,8 @@ mode_hamiltonian_B_selfadjoint_dispersion, good_sector_spectrum_and_B_sectors an
 extra_time_modes_grow: the plane-wave relation
 h^2 = (m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - k7^2) I16, the full-space spectrum
 "8 each", the exact example m = 2, k0 = 4, (k1, k2, k3) = (1, 2, 0) with E = +5 and -5
-four times each in the sector B = +1, and the example m = 1, k5 = 2) and
+four times each in the sector B = +1, the example m = 1, k5 = 2, and the frame momentum
+k_(x5) = e^{a4} b4^{-1/2} (sin^2 z)^{-1/12} k_x5 of the corrected metric of 2026-10-16) and
 Revision/theory/reports/python-scope.json (check extra_time_growth_rates_unbounded). The
 notebook asserts the words of these records, so a changed record fails the check.
 """
@@ -39,8 +40,9 @@ FACTS = {
         "Dirac's 4 by 4 matrices and the author's eight 16 by 16 gammas, derives the "
         "plane-wave relation of the first-order equation in flat 4+4 dimensions, shows "
         "that a momentum along an extra time makes the energies imaginary (growing "
-        "waves), reproduces the Revision record of these relations and of their exact "
-        "examples, and draws six figures."
+        "waves), computes from the corrected metric how the deflation of the extra "
+        "times makes the frame momentum of such a wave grow, reproduces the Revision "
+        "record of these relations and of their exact examples, and draws six figures."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
@@ -52,8 +54,10 @@ FACTS = {
          "minus 5, eight each, on all 16 components; B commutes with h; the exact "
          "example in the sector B = +1, energies plus and minus 5, four each) and "
          "extra_time_modes_grow (the exact example with mass 1 and extra-time "
-         "momentum 2, energies plus and minus i times the square root of 3), "
-         "reproduced, with their words asserted"],
+         "momentum 2, energies plus and minus i times the square root of 3, and the "
+         "frame momentum of an extra-time wave in the corrected metric of 2026-10-16, "
+         "which grows as the extra times deflate), reproduced, with their words "
+         "asserted"],
         ["Revision/theory/reports/python-scope.json",
          "check extra_time_growth_rates_unbounded (the formula for h squared and the "
          "growth rate of a wave with momentum along an extra time), reproduced, with "
@@ -74,7 +78,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all six figure files exist",
-        "ALL 19 CHECKS PASSED (notebook 04b)",
+        "ALL 20 CHECKS PASSED (notebook 04b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for `Revision/algebra/gammas.json` or "
@@ -112,6 +116,9 @@ CELLS = [
     - shows that a momentum along an extra time enters $E^2$ with a minus sign and
       makes the energies imaginary (waves that grow in time) when it is large enough,
       and reproduces the Revision record of this growth;
+    - computes, from the extra-time entry of the corrected metric of the Revision
+      record, how the deflation of the extra times makes the frame momentum of such a
+      wave grow, and reproduces the record's words for it;
     - draws six figures.
     """),
     md(r"""
@@ -186,8 +193,10 @@ CELLS = [
 
     **The author's 4+4 space-time.** It has eight directions: 3-space $x_1, x_2, x_3$
     (space-like), the time $x_4$ and the three extra times $x_5, x_6, x_7$ (time-like;
-    in the author's metric they deflate exponentially, with the scale factor
-    $e^{-a_4}\sin^{1/6} z$), and the hidden space direction $x_0$. In a local frame the
+    in the corrected metric of the Revision record, version 2 of 2026-10-16, they
+    deflate exponentially, with the scale factor $e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$,
+    where $z = 6 H x_0$ takes every real value), and the hidden space direction $x_0$
+    (scale factor $e^{-a_4} b_4^{1/2} |\cot z|$). In a local frame the
     signs are $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$, and the author's
     eight real $16 \times 16$ matrices satisfy the Clifford relation with this $\eta$.
     The field equation of the theory is $\gamma^\mu D_\mu\Psi = (m + U'(S))\Psi$, in which
@@ -893,16 +902,6 @@ CELLS = [
     exact eigenvalues and their multiplicities (`eigenvals` returns a dictionary
     eigenvalue: multiplicity), and compares them with the eigenvalues that the record
     prints.
-
-    **Why the deflation matters here.** In the author's metric the extra times
-    deflate. A wave with a fixed *coordinate* momentum $k_{x_5}$ along $x_5$ has the
-    *frame* momentum $b_4^{-1/2}e^{a_4}\sin^{-1/6}(z)\, k_{x_5}$: the derivative along
-    the coordinate $x_5$ is divided by the frame factor $b_4^{1/2}e^{-a_4}\sin^{1/6} z$
-    of the direction $x_5$. As $a_4 - \frac12\ln b_4$ grows (the record states it for
-    all functions $a_4$ and $b_4$) this frame momentum grows like $e^{a_4}b_4^{-1/2}$,
-    so, in the local plane-wave reading that the same Revision check states, every wave
-    along an extra time eventually reaches the region where $E$ is imaginary. This
-    notebook computes only the flat algebra behind that statement.
     """),
     code(r'''
     example_values = {m: 1, k[0]: 0, k[1]: 0, k[2]: 0, k[3]: 0, k[5]: 2, k[6]: 0,
@@ -922,6 +921,69 @@ CELLS = [
           "m = 1, k5 = 2: E = +i sqrt(3) and -i sqrt(3), eight each (growing modes)")
     print(f"     reproduces {THEORY}")
     print("         check extra_time_modes_grow (its exact example)")
+    '''),
+    md(r"""
+    **Why the deflation matters here.** The flat equation has constant coefficients.
+    In the author's space-time the derivative along the coordinate $x_5$ enters the
+    field equation divided by the *frame factor* $f_5 = \sqrt{|g_{55}|}$ of the
+    direction $x_5$. In the corrected metric of the Revision record (version 2 of
+    2026-10-16) the extra-time entry is $g_{55} = -e^{-2a_4} b_4 (\sin^2 z)^{1/6}$, with
+    $z = 6 H x_0$ real, so $f_5 = e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$. The power of
+    $\sin^2 z$ is the positive one, so $f_5$ is the same at $\sin z$ and at $-\sin z$
+    (sympy writes $(\sin^2 z)^{1/6}$ as $|\sin z|^{1/3}$). A wave $e^{i k_{x_5} x_5}$
+    with a fixed *coordinate* momentum $k_{x_5}$ therefore has the *frame* momentum
+    $k_5 = k_{x_5}/f_5 = e^{a_4} b_4^{-1/2} (\sin^2 z)^{-1/12} k_{x_5}$, and in the
+    local plane-wave reading (the coefficients held fixed near one point) it is this
+    $k_5$ that enters $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2$. On the
+    history that the record prescribes, $a_4 = H x_4$ and $b_4 = e^{(4/3) H x_4}$, the
+    frame factor $f_5 = e^{-H x_4/3} (\sin^2 z)^{1/12}$ shrinks exponentially (the extra
+    times deflate) and $k_5$ grows like $e^{H x_4/3}$: its logarithmic growth rate
+    $d \ln k_5 / d x_4$ is $H/3$. So every wave along an extra time sooner or later
+    reaches the region $k_5^2 > m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2$, where $E$ is
+    imaginary.
+
+    The next cell lets sympy compute $f_5$ and $k_5$ from $g_{55}$ for general
+    functions $a_4(x_4)$ and $b_4(x_4) > 0$, then on the history, with the growth rate;
+    it evaluates $k_5$ and $E^2 = m^2 - k_5^2$ for $m = 1$, $H = 1$, $k_{x_5} = 1$ and
+    $\sin z = 1/64$ or $-1/64$ at the times $x_4 = 0$ and $x_4 = 3 \ln 2$; and it
+    requires that the text of the Revision check `extra_time_modes_grow` states the
+    same frame momentum and the same deflation, word for word.
+    """),
+    code(r'''
+    z, x4 = sp.symbols("z x4", real=True)  # z = 6 H x0 takes every real value
+    H_const, k_x5 = sp.symbols("H k_x5", positive=True)  # H > 0; coordinate momentum
+    a4 = sp.Function("a4", real=True)(x4)  # the metric function a4(x4)
+    b4 = sp.Function("b4", positive=True)(x4)  # the metric function b4(x4) > 0
+    g55 = -sp.exp(-2 * a4) * b4 * (sp.sin(z) ** 2) ** sp.Rational(1, 6)  # corrected
+    f5 = sp.sqrt(-g55)  # the frame factor sqrt|g55| of x5 (g55 is negative)
+    k5_frame = k_x5 / f5  # the frame momentum of the coordinate momentum k_x5
+    say(f"g55 = {g55};  f5 = {f5};  k5 = {k5_frame}")
+    general_ok = (sp.simplify(k5_frame - sp.exp(a4) / sp.sqrt(b4)
+                              * (sp.sin(z) ** 2) ** sp.Rational(-1, 12) * k_x5) == 0
+                  and f5.subs(z, -z) == f5)  # the same at sin z and at -sin z
+    history = {a4: H_const * x4, b4: sp.exp(sp.Rational(4, 3) * H_const * x4)}
+    f5_history = sp.simplify(f5.subs(history))
+    k5_history = sp.simplify(k5_frame.subs(history))
+    growth = sp.simplify(sp.diff(sp.log(k5_history), x4))  # d ln k5 / d x4
+    say(f"on the history a4 = H x4, b4 = exp(4 H x4/3): f5 = {f5_history};  "
+        f"k5 = {k5_history};  d ln k5/dx4 = {growth}")
+    history_ok = (sp.simplify(f5_history - sp.exp(-H_const * x4 / 3)
+                              * (sp.sin(z) ** 2) ** sp.Rational(1, 12)) == 0
+                  and growth == H_const / 3)
+    point_values = []
+    for sin_z in (sp.Rational(1, 64), sp.Rational(-1, 64)):
+        for time in (0, 3 * sp.log(2)):
+            value = sp.simplify(k5_history.subs({H_const: 1, k_x5: 1, x4: time,
+                                                 z: sp.asin(sin_z)}))
+            point_values.append(value)
+            report(f"sin z = {sin_z}, x4 = {time}: k5 and E^2 = 1 - k5^2",
+                   (value, 1 - value**2))
+    FRAME_WORDS = "k_(x5) = e^{a4} b4^{-1/2} (sin^2 z)^{-1/12} k_x5"
+    check(general_ok and history_ok and point_values == [2, 4, 2, 4]
+          and FRAME_WORDS in detail and "it is ~ e^{-a4/3}" in detail,
+          "k5 = e^a4 b4^(-1/2) (sin^2 z)^(-1/12) k_x5 grows like e^(H x4/3)")
+    print(f"     reproduces {THEORY}")
+    print("         check extra_time_modes_grow (frame momentum, corrected metric)")
     '''),
     md(r"""
     ## 12. The last check
@@ -974,11 +1036,23 @@ CELLS = [
       $m = 1$, $k_5 = 2$ has the energies $\pm i\sqrt3$, eight each (check
       `extra_time_modes_grow`); the wave with $E = i\sqrt3$ grows like
       $e^{\sqrt3\,x_4}$.
-    - ASSUMED: flat 4+4 space (constant metric $\eta$). The author's space-time is
-      curved, 3-space inflates and the extra times deflate; these effects are not part
-      of this notebook. The deflation multiplies the frame momentum of a wave along an
-      extra time by $e^{a_4}$, so it pushes such waves towards the growing region; the
-      Revision record states this as a local plane-wave statement.
+    - PROVED (exact, sympy, for all functions $a_4$ and $b_4 > 0$ and every real $z$):
+      in the corrected metric the frame factor of the extra time $x_5$ is
+      $f_5 = e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$, the same at $\sin z$ and $-\sin z$,
+      and a wave with the coordinate momentum $k_{x_5}$ has the frame momentum
+      $k_5 = e^{a_4} b_4^{-1/2} (\sin^2 z)^{-1/12} k_{x_5}$; on the prescribed history
+      $a_4 = H x_4$, $b_4 = e^{(4/3) H x_4}$ it grows like $e^{H x_4/3}$ (for $H = 1$,
+      $k_{x_5} = 1$, $\sin z = \pm 1/64$: $k_5 = 2$ at $x_4 = 0$, the record's example,
+      and $k_5 = 4$ at $x_4 = 3 \ln 2$, with $E^2 = -3$ and $-15$ for $m = 1$); the
+      same check `extra_time_modes_grow` states this frame momentum.
+    - ASSUMED: flat 4+4 space (constant metric $\eta$) for the waves themselves, and
+      the local plane-wave reading (coefficients held fixed near one point) for the
+      frame momentum. The author's space-time is curved, 3-space inflates and the extra
+      times deflate; the waves in the curved space-time are not part of this notebook.
+      The deflation multiplies the frame momentum of a wave along an extra time by
+      $e^{a_4} b_4^{-1/2}$, so it pushes such waves towards the growing region; the
+      Revision record states this as a local plane-wave statement. The history
+      $a_4 = H x_4$, $b_4 = e^{(4/3) H x_4}$ is a prescribed background.
     """),
 ]
 

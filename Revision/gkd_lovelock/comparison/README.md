@@ -208,13 +208,14 @@ python Revision/gkd_lovelock/comparison/compare_with_author.py
 | `extract_author_curvature_outputs.wls` | `0a0a17b133ea46dd511b86ccd238c01f828a4e11feff6d1d239d739b1e74a88b` |
 | `compare_with_author.py` | `d8ccc1796f38fd8b652fd1193200385fb0c64e4d4537432e4b2339f2591bfacc` |
 | `author-curvature-outputs.json` | `f041955db36f67d5ec113ad65542f448af1de6eba159c85ecff73f83761039f0` |
-| `author-comparison-report.json` | `e46b487e7e1416a576d7be427ca582d22dd65914339dd39d3657f7c5db6d0189` |
+| `author-comparison-report.json` | `8524627cd96ce25fb010c57a6038e2368edc4bf75d11a4448298d28ec5d627ce` |
 
 The hash of `compare_with_author.py` above is that of 2026-10-16 (section 1.2; until then `038c934d...`, described in
 the next paragraph). The report records the sha256 of `Revision/SPEC.md` among its inputs; after SPEC was extended in
-phase W5 (commit 13f9fb9) it was regenerated on 2026-10-17: the only change is that recorded sha256 (now
-`d88f0778...`, before `a178f092...`), so the report has the hash above (before `4209a338...`, the hash of 2026-10-16;
-until then `2a89ce98...`); checks, verdicts and details unchanged (80: 75 PASS, 0 FAIL, 5 NOT-AVAILABLE).
+phase W5 (commit 13f9fb9) and again in phase W7 (the note of section 9 on the fold) it was regenerated on 2026-10-17
+each time: the only change is that recorded sha256 (now `b4d3f3af...`, before `d88f0778...` and `a178f092...`), so
+the report has the hash above (before `e46b487e...` and `4209a338...`, the hash of 2026-10-16; until then
+`2a89ce98...`); checks, verdicts and details unchanged (80: 75 PASS, 0 FAIL, 5 NOT-AVAILABLE).
 
 The hashes `038c934d...` and `2a89ce98...` were those of 2026-10-14, after
 the change to the author's coordinates x0..x7 (the identity mapping; the Revision results `curvature.json` and
