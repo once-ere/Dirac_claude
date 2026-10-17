@@ -1,6 +1,7 @@
 # UM-1: a 4+4 model of the Universe with Einstein-Lovelock gravity, the dirac16complex field and an x0-generated mass spectrum
 
-Version 1 of 2026-10-17. Written at the author's order of 2026-10-17 ("create a new model of the Universe"). This
+Version 1.1 of 2026-10-17: version 1 plus the two changes that the solution forces (marked CHANGED in sections 4.1
+and 8; the reasons are in `SOLUTION.md` section 3). Written at the author's order of 2026-10-17 ("create a new model of the Universe"). This
 document DEFINES the model. Its field equations are derived in `FIELD_EQUATIONS.md` (scripts in `field_equations/`),
 an approximate solution is computed in `SOLUTION.md` (scripts in `solution/`), and the origin of every ingredient is in
 `PROVENANCE.md`. Every statement below is labelled as one of: DERIVED (computed in this repository, with the file
@@ -75,6 +76,14 @@ $$ S_{EL} = \frac{1}{2\kappa}\int d^8x \sqrt{|g|}\,\Big(\sum_{k=1}^{3}\alpha_k\,
 with $\mathcal{L}_{(1)} = R$, $\mathcal{L}_{(2)}$ the Gauss-Bonnet and $\mathcal{L}_{(3)}$ the cubic Lovelock density, the
 author's weights $\alpha_k = w_k H^{2-2k}$, $w = (1, 1/32, 1/1152)$, and $\Lambda = -10H^2$ in the convention of
 `Revision/field_equations_a4/a4-equations.json`. The graviton is the $x_0$ zero mode of $g_{MN}$ and is massless.
+
+CHANGED in version 1.1 (`SOLUTION.md` section 3, DERIVED there): with the author's weights the only static vacuum,
+$k_0 = 1/(4w_2) = 8$ with $\Lambda_0 = -24H^2$, has the effective-Newton factor $G(k_0) = -5 + 9w_3/(2w_2^2) = -1$, i.e.
+repulsive four-dimensional gravity, and $\Lambda = -10H^2$ admits no static block with a small cosmological term.
+Version 1.1 uses $w = (1, 1/32, 1/768)$ ($G(k_0) = 1$, the Einstein value) and $\Lambda = -24H^2 + \delta\Lambda$, and
+ASSUMES a block stabiliser (an extra potential for $k = e^{2a_4}/b_4$ with curvature above $k_0G(k_0)H^2/4 = 2H^2$,
+since the block mode of the homogeneous reduction has $\lambda^2 = k_0G(k_0)H^2/4$: attractive gravity makes the
+static block unstable). The origin of the stabiliser (the Casimir energy of the cell) is OPEN.
 
 ### 4.2 The dirac16complex field (TAKEN)
 
@@ -209,7 +218,11 @@ of the $x_0$ profiles):
 ## 8. Assumptions and open problems (honesty rule)
 
 * ASSUMED: the regular tip at $y = -L$; the compact extra times (normalisation A) and the good sector $q = 0$; the kink
-  bulk masses; the tip sigma field; the portal operators; one generation; the zero-mode truncation at order 1.
+  bulk masses; the tip sigma field; the portal operators; one generation; the zero-mode truncation at order 1; (1.1) the
+  block stabiliser and the exact fold-reflection parity that keeps the odd-parity dark matter stable.
+* CHANGED (1.1): $w_3 = 1/768$ and $\Lambda = -24H^2 + \delta\Lambda$ (section 4.1). The solution also finds what the
+  model requires of the data: $m_{KK} \approx 121$ TeV from $\rho_0$, and, with one generation, a decoupling of the
+  $\Psi$ fold band inside the QCD crossover for $N_{eff} \approx 3$ (`SOLUTION.md` sections 4 and 6).
 * OPEN: the stability of a theory with three time-like extra dimensions (ghosts and tachyons beyond the good sector);
   perturbative unitarity of $WW$ scattering without a Higgs (it holds up to the Kaluza-Klein scale $\sim \pi/(fL)$ only
   if that scale lies below about $4\pi v_\Sigma \approx 3$ TeV, as in all Higgsless models); a dynamical mechanism that

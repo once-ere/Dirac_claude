@@ -1,6 +1,6 @@
 # UM-1 provenance: where every ingredient of the universe model comes from
 
-Version 1 of 2026-10-17, for `MODEL.md` (the model), `FIELD_EQUATIONS.md` (its field equations) and `SOLUTION.md` (an
+Version 1.1 of 2026-10-17, for `MODEL.md` (the model), `FIELD_EQUATIONS.md` (its field equations) and `SOLUTION.md` (an
 approximate solution). Repository `https://github.com/once-ere/Dirac_claude`, folder `Revision/universe_model/`;
 the model was started on top of commit `13f9fb9`.
 
@@ -47,16 +47,20 @@ the $10^{-10}$ level.
 | input | value used | source |
 | --- | --- | --- |
 | electron mass | $m_e = 0.51099895$ MeV | Particle Data Group (from memory of the PDG tables; to be checked against the current edition) |
-| up, down quark masses ($\overline{MS}$, 2 GeV) | $m_u = 2.16$ MeV, $m_d = 4.67$ MeV | PDG (as above) |
-| $W$ and $Z$ masses | $m_W = 80.37$ GeV, $m_Z = 91.1876$ GeV | PDG (as above) |
+| up, down quark masses ($\overline{MS}$, 2 GeV) | $m_u = 2.16$ MeV, $m_d = 4.70$ MeV | PDG (as above) |
+| $W$ and $Z$ masses | $m_W = 80.3692$ GeV, $m_Z = 91.1880$ GeV | PDG 2024 (as above) |
+| the electroweak $\rho$ parameter | $\rho_0 = 1.00038 \pm 0.00020$ | PDG electroweak review (as above); the target of the $m_{KK}$ fit of `SOLUTION.md` |
+| the neutrino mass of the one generation | $m_\nu = 0.05$ eV | chosen at $\sqrt{|\Delta m^2_{31}|}$ (ASSUMED) |
 | electroweak scale, fine-structure constant | $v = 246.22$ GeV, $\alpha^{-1} = 137.036$ | PDG (as above) |
 | neutrino mass splittings | $\Delta m^2_{21} = 7.5\times10^{-5}$ eV$^2$, $|\Delta m^2_{31}| = 2.5\times10^{-3}$ eV$^2$ | PDG (as above) |
 | CMB temperature | $T_0 = 2.7255$ K | Fixsen 2009 (as above) |
-| cosmological parameters | $\Omega_bh^2 = 0.02237$, $\Omega_ch^2 = 0.1200$, $H_0 = 67.36$ km/s/Mpc, $N_{eff} = 3.044$, $z_* = 1089.92$, $z_{drag} = 1059.94$, $r_{drag} = 147.09$ Mpc, $100\,\theta_* = 1.04110$ | Planck 2018 results VI, Table 2 (as above); used for COMPARISON only |
+| cosmological parameters | $\Omega_bh^2 = 0.02237$, $\Omega_ch^2 = 0.1200$, $H_0 = 67.36$ km/s/Mpc, $N_{eff} = 3.044$, $z_* = 1089.92$, $z_{drag} = 1059.94$, $r_{drag} = 147.09$ Mpc, $100\,\theta_* = 1.04110$; with $N_{eff}$ free: $N_{eff} = 2.99 \pm 0.17$ | Planck 2018 results VI, Table 2 (as above); $\theta_*$ is the target of the $h$ fit, the rest COMPARISON |
+| BAO | the 12 BAO-only consensus measurements of eBOSS DR16, $z = 0.15$ to $2.33$ | Alam et al. 2021 (PRD 103, 083533); the table of `https://www.sdss4.org/science/final-bao-and-rsd-measurements/`, read on 2026-10-17 |
+| fitting formulae | $z_*$ (Hu and Sugiyama 1996), $z_{drag}$ (Eisenstein and Hu 1998), the first-peak shift $\phi_1$ (Hu, Fukugita, Zaldarriaga and Tegmark 2001), $N_{eff} = 3.044$ for three species (Bennett et al. 2021) | literature (from memory), calibrated on Planck $\Lambda$CDM in `solution/cosmology.py` |
 | QCD: confinement of $u, d$ into $p, n$; nucleon masses | $m_p = 938.272$ MeV, $m_n = 939.565$ MeV | PDG (as above) |
 | the electroweak chiral Lagrangian (Higgsless symmetry breaking) and boundary-condition symmetry breaking in extra dimensions | textbook and review literature on Higgsless models and on fermion localisation in extra dimensions | concepts only; no numbers |
 
-All standard numbers are quoted from memory (no network access was used); they are labelled as such in the outputs
+All standard numbers are quoted from memory, except the eBOSS DR16 table (read from the SDSS page above); they are labelled as such in the outputs
 and are used only as targets of fits and as comparisons, never as derived results.
 
 ## 4. Ingredients new in this model (ASSUMED or INVENTED in `MODEL.md`)
@@ -70,11 +74,16 @@ and are used only as targets of fits and as comparisons, never as derived result
 | the mass mechanism: four-dimensional masses as eigenvalues of the $x_0$ operators on the periodic cell, with the uncertainty bound | the AUTHOR's idea, made precise here | section 4.4 |
 | the portal operators P1 to P5 | INVENTED | section 4.5 |
 | the requirement of slow deflation after the primordial era | DERIVED requirement (mass constancy) | section 4.4, `SOLUTION.md` |
+| (1.1) the cubic Lovelock weight $w_3 = 1/768$ and $\Lambda = -24H^2 + \delta\Lambda$ | CHANGED (forced by the solution: the author's weights give repulsive gravity in the only static vacuum) | section 4.1, `SOLUTION.md` section 3 |
+| (1.1) the block stabiliser | ASSUMED (its origin OPEN) | section 4.1 |
+| (1.1) the fold-reflection parity that keeps the odd-parity $\Psi$ dark matter stable | ASSUMED | section 8, `SOLUTION.md` section 5 |
 
 ## 5. Computations and tools
 
 * Symbolic: Python 3.14.5, sympy 1.14.0 (`field_equations/derive_field_equations.py`).
-* Numerical: numpy 2.4.6, no scipy (`solution/solve_model.py`).
+* Numerical: numpy 2.4.6, no scipy; matplotlib 3.11.0 for the figures (`solution/`). The Kohn-Sham solution uses the
+  record's reference solver `Revision/kohn_sham/reference/ks_fd.py` and its coefficients (`run_reference.py`)
+  UNCHANGED (TAKEN), with the portal potentials added by a wrapper (`solution/ks_coupled.py`).
 * Documents: the Markdown files are the sources; `tools/md2tex.py` converts each to LaTeX and `tools/build_pdfs.sh`
   compiles it with pdflatex (MiKTeX 26.5), so the .md and the .pdf say the same thing.
 * Every calculation runs well within the limit of 423 s per calculation of this project.
@@ -83,7 +92,7 @@ and are used only as targets of fits and as comparisons, never as derived result
 
 | deliverable | file | status |
 | --- | --- | --- |
-| the model | `MODEL.md`, `MODEL.pdf` | version 1 |
-| this provenance | `PROVENANCE.md`, `PROVENANCE.pdf` | version 1 |
+| the model | `MODEL.md`, `MODEL.pdf` | version 1.1 |
+| this provenance | `PROVENANCE.md`, `PROVENANCE.pdf` | version 1.1 |
 | the coupled field equations | `FIELD_EQUATIONS.md`, `.pdf`; `field_equations/` | see that document |
-| an approximate solution | `SOLUTION.md`, `.pdf`; `solution/` | see that document |
+| an approximate solution | `SOLUTION.md`, `.pdf`; `solution/` | version 1 (checks in `solution/reports/solution-checks.json`) |

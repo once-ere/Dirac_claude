@@ -1,0 +1,81 @@
+{
+ "part1_static_block_forms": {
+  "F0": "A**4*(216*k*w3/H**2 - 12*w2/H**2) + A**2*(72*k*w2 - 6) + 3*H**2*k + Lam - kappa*p0",
+  "F1": "A**2*(-216*k**2*w3 + 72*k*w2 - 3) - 12*H**2*k**2*w2 + 6*H**2*k + Lam - kappa*p3",
+  "F4": "A**2*(-216*k**2*w3 + 72*k*w2 - 3) - 12*H**2*k**2*w2 + 6*H**2*k + Lam + kappa*rho",
+  "closed_forms_hold": true
+ },
+ "part2_static_vacuum": {
+  "G_k0": "-5 + 9*w3/(2*w2**2)",
+  "solutions": [
+   {
+    "Lambda0": "-3*H**2/(4*w2)",
+    "k0": "1/(4*w2)"
+   }
+  ],
+  "unique_nonzero": true
+ },
+ "part3_block_mode_general": {
+  "charpoly": "lam*(10*H**2*w2**2 - 9*H**2*w3 + 32*lam**2*w2**3)/(32*w2**3)",
+  "constraint_linearised": "0",
+  "det_J": "-24",
+  "lambda2_equals_k0_G_H2_over_4": true,
+  "lambda_squared": "[H**2*(-10*w2**2 + 9*w3)/(32*w2**3)]",
+  "matrix": "Matrix([\n[       0,         0,                         -H**2/2],\n[       0,         0, H**2*(2*w2**2 - 9*w3)/(8*w2**2)],\n[1/(2*w2), -1/(4*w2),                               0]])"
+ },
+ "part4_author": {
+  "G_k0": "-1",
+  "Lambda0": "-24*H**2",
+  "block": "stable (oscillatory)",
+  "eigenvalues": {
+   "-sqrt(2)*I*H": 1,
+   "0": 1,
+   "sqrt(2)*I*H": 1
+  },
+  "gravity": "repulsive",
+  "k0": "8",
+  "w": [
+   "1",
+   "1/32",
+   "1/1152"
+  ]
+ },
+ "part4_author_Lambda_m10": {
+  "G": "-29/36",
+  "Lambda_eff": "35*H**2/6",
+  "k_quasistatic": "10/3"
+ },
+ "part4_author_attractive_band": {
+  "G_zeros": [
+   "6 - 2*sqrt(5)",
+   "2*sqrt(5) + 6"
+  ],
+  "G_zeros_num": [
+   1.5278640450004206,
+   10.47213595499958
+  ]
+ },
+ "part4_benchmark": {
+  "G_k0": "1",
+  "Lambda0": "-24*H**2",
+  "block": "unstable (real eigenvalue)",
+  "eigenvalues": {
+   "-sqrt(2)*H": 1,
+   "0": 1,
+   "sqrt(2)*H": 1
+  },
+  "gravity": "attractive",
+  "k0": "8",
+  "w": [
+   "1",
+   "1/32",
+   "1/768"
+  ]
+ },
+ "part5_near_vacuum": {
+  "F4_to_first_order_in_dk": "A**2*(72*dk*w2 - 108*dk*w3/w2 + 15 - 27*w3/(2*w2**2)) + dLam + kappa*rho",
+  "dF4_ddk_at_k0": "0",
+  "deflation": "h4 = -k'/(2k) = -(dk_track)'/(2 k0): with dLam, p0 constant, h4 = (4/k0) A A'/H^2 < 0 while A decreases (the extra times keep deflating, slowly)",
+  "dk_quasistatic": "(-12*A**2 - dLam + kappa*p0)/(3*H**2)"
+ }
+}

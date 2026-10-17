@@ -16,6 +16,6 @@ for n in "${names[@]}"; do
   done
   cp build/universe_model/$n.pdf $D/$n.pdf
   warn=$(grep -c "LaTeX Warning\|Overfull\|Underfull" build/universe_model/$n.log || true)
-  pages=$(grep -o "Output written on .* (\([0-9]*\) page" build/universe_model/$n.log | grep -o "([0-9]* page" | tr -d '(' )
+  pages=$(tr -d '\r\n' < build/universe_model/$n.log | grep -a -o "Output written on [^(]*([0-9]* page" | grep -o "[0-9]* page")
   echo "$n.pdf: $pages, warnings/over-/underfull boxes: $warn"
 done

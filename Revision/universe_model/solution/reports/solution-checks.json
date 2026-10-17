@@ -1,0 +1,111 @@
+{
+ "checks": [
+  {
+   "detail": "the three components on the static-block slicing equal the stated closed forms for general w2, w3",
+   "name": "V1_static_block_closed_forms",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "k0 = 1/(4*w2), Lambda0 = -3*H**2/(4*w2), G(k0) = -5 + 9*w3/(2*w2**2)",
+   "name": "V2_unique_static_vacuum",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "characteristic polynomial lam*(10*H**2*w2**2 - 9*H**2*w3 + 32*lam**2*w2**3)/(32*w2**3): lambda^2 = k0 G(k0) H^2/4 identically; the linearised constraint vanishes",
+   "name": "V3_block_mode_theorem",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "author's weights: G(k0) = -1 (repulsive gravity, block stable (oscillatory)); benchmark w3 = 1/768: G(k0) = 1 (attractive, block unstable (real eigenvalue))",
+   "name": "V4_author_and_benchmark",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "numerical Neumann levels vs 9 eta^2/4 + n^2 pi^2: 2.64e-13",
+   "name": "M1_neumann_exact",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "beta = 1e7 level 0.010015984 vs tanh q = 2q/(3 eta): 0.010015993; m_W <= 0.01824 m_KK for every positive tip term",
+   "name": "M2_dirichlet_tip_limit",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "beta_W = 0.0119413 > 0 reproduces Lambda_W; Rayleigh quotient (bulk + tip) / Lambda_W - 1 = -4.22e-07",
+   "name": "M3_W_level_and_rayleigh",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "m_KK = 121186 GeV gives rho - 1 = 0.00038 (target 0.00038)",
+   "name": "M4_rho_fit",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "zeta(c_f)^2 = m_f/m_KK and the width of e^{2ct} vs its closed form, for e, u, d, nu",
+   "name": "M5_fermion_zero_modes",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "the W profile at x0 + pi/(6H) equals that at x0: 0.0e+00",
+   "name": "M6_x0_periodicity",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "the photon, gluon and graviton zero modes (Neumann, beta = 0) have Lambda_0 = 0 exactly",
+   "name": "M7_massless",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "bulk edge at a4 = 0: 1.292292828069 vs the record's 1.292292828069",
+   "name": "K1_record_bulk_edge",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "lowest odd and even bulk levels vs ks-theory.json exactK0Spectra: 9.8e-15 (vacuum), 3.1e-15 (a4 = 0)",
+   "name": "K2_analytic_k0_levels",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "massless fold band eps = kappa |k| (slope deviation 0.0e+00), g_F = 8 states per 3-momentum (4 particles, 4 antiparticles)",
+   "name": "K3_fold_band",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "dE_KS/de (Richardson differences, fixed occupations) = int (dM/de S + dv/de n) for every portal, N, lambda, grid: largest relative deviation 1.49e-09; null cases (|dE/de| and the expectation both below 1e-18, the scalar portals on the chiral zero modes, whose scalar density vanishes): 8",
+   "name": "K4_hellmann_feynman",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "[e^{3Hy} p0] - 3H int e^{3Hy} p_t = -int e^{3Hy}(M_ext' S + v_ext' n) at e = 0.02: largest relative residual 3.04e-04, falling with the grid: True; null cases (every term below 1e-12 of the density scale of the state): 8",
+   "name": "K5_y_exchange_identity",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "the k = 0 odd quanta have p3 = 0 at lambda = 0: max |w| = 0.0e+00",
+   "name": "K6_cold_dark_matter",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "Psi <-> Standard Model <-> block fixed point converged for sigma = [0.001, 0.1] in [2, 2] iterations",
+   "name": "K7_coupled_fixed_point",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "the calibrated formulae reproduce Planck LCDM (100 theta* = 1.04110, r_drag = 147.09 Mpc); its eBOSS chi^2 = 10.25 for 12 points",
+   "name": "C1_calibration_LCDM",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "g_*s at the Psi decoupling = 12.3070 gives N_eff = 2.990",
+   "name": "C2_Neff_fit_scenario",
+   "verdict": "PASS"
+  },
+  {
+   "detail": "T_nu/T_gamma = (4/11)^{1/3} = 0.713766 (T_nu = 1.9454 K)",
+   "name": "C3_CNB_temperature",
+   "verdict": "PASS"
+  }
+ ],
+ "pass": 21,
+ "total": 21
+}

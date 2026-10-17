@@ -8,6 +8,7 @@ inline math '$...$' (passed through); '**bold**'; '`code`'.  Everything outside 
 
 Usage: python md2tex.py IN.md OUT.tex ["Title"]   (the first '# ' heading is the title if none is given)
 Deterministic output (no dates); compile with pdflatex twice (table of contents)."""
+import os
 import re
 import sys
 from pathlib import Path
@@ -62,7 +63,7 @@ def inline(s):
                 out.append(esc(s[i:]))
                 break
             code = s[i + 1:j]
-            tt = esc(code).replace("-", "-{}").replace("/", r"/\allowbreak{}").replace(r"\_", r"\_\allowbreak{}").replace(".", r".\allowbreak{}")
+            tt = esc(code).replace("-", r"-{}\allowbreak{}").replace("/", r"/\allowbreak{}").replace(r"\_", r"\_\allowbreak{}").replace(".", r".\allowbreak{}")
             out.append(r"\texttt{" + tt + "}")
             i = j + 1
         elif s.startswith("**", i):
@@ -103,20 +104,56 @@ def split_row(r):
     return cells
 
 
+def visible_len(c):
+    """the rendered width of a cell in characters, roughly: a TeX command counts as one character, the math and
+    grouping characters as none, and a bold header as 1.1"""
+    v = re.sub(r"\\[a-zA-Z]+", "x", c)
+    v = re.sub(r"[${}^_`*]", "", v)
+    return len(v)
+
+
+def longest_token(c):
+    """the visible length of the longest piece of a cell that cannot be broken across lines (split at spaces)"""
+    pieces = []
+    for t in re.split(r"\s+", c.strip()):
+        # code may break after '/', '.', '_' and '-' (inline() adds the break points)
+        pieces += re.split(r"(?<=[/._-])", t) if "`" in t else [t]
+    return max((visible_len(t) for t in pieces if t), default=0)
+
+
 def table(rows):
     cells = [split_row(r) for r in rows]
     head, body = cells[0], cells[2:]
     n = len(head)
-    # column widths in proportion to the longest cell of each column (clipped), 0.92 of the line in all
-    wts = [min(70, max(9, max(len(r[c]) if c < len(r) else 0 for r in [head] + body))) for c in range(n)]
-    widths = [0.90 * w / sum(wts) - 0.012 for w in wts]
+    allrows = [head] + body
+
+    def col(c):
+        return [r[c] if c < len(r) else "" for r in allrows]
+    # every column at least as wide as its longest unbreakable piece (bold header pieces 1.15 x wider); the rest of
+    # the line (0.92, less the column separation 2 x 4pt = 0.0171 of the line per column) in proportion to the
+    # widest cell of each column (clipped)
+    cw = 0.0112 if n >= 7 else 0.0122
+    mins = [cw * (1.0 + max([1.15 * longest_token(head[c]) if c < len(head) else 0] + [longest_token(x) for x in col(c)[1:]]))
+            for c in range(n)]
+    wts = [min(70, max(6, max(1.1 * visible_len(head[c]) if c < len(head) else 0, max(visible_len(x) for x in col(c)[1:]) if body else 0)))
+           for c in range(n)]
+    avail = 0.92 - 0.0171 * n
+    extra = avail - sum(mins)
+    widths = [m + max(extra, 0.0) * w / sum(wts) for m, w in zip(mins, wts)]
     spec = "".join(r">{\raggedright\arraybackslash}p{%.3f\linewidth}" % w for w in widths)
     lines = [r"\begin{longtable}{" + spec + "}", r"\toprule",
              " & ".join(r"\textbf{" + inline(c) + "}" for c in head) + r" \\", r"\midrule"]
     for r in body:
         r = (r + [""] * n)[:n]
-        lines.append(" & ".join(inline(c) for c in r) + r" \\")
+        row = " & ".join(inline(c) for c in r)
+        if row[:1] in "([":
+            # booktabs' rules look ahead for '(' (cmidrule trim) and '[' (width): protect a row that starts with one
+            row = "{}" + row
+        lines.append(row + r" \\")
     lines += [r"\bottomrule", r"\end{longtable}"]
+    if n >= 7:
+        # wide tables in a smaller font
+        lines = [r"\begingroup\small"] + lines + [r"\endgroup"]
     return "\n".join(lines)
 
 
@@ -128,7 +165,7 @@ def heading(kind, text):
     return r"\%s{%s}" % (kind, inline(text))
 
 
-def convert(md, title=None):
+def convert(md, title=None, graphics_dir=None):
     lines = md.split("\n")
     body = []
     i = 0
@@ -148,6 +185,18 @@ def convert(md, title=None):
 
     while i < len(lines):
         l = lines[i]
+        if l.strip().startswith("<!--"):
+            # an HTML comment line (the GENERATED markers): not part of the document
+            i += 1
+            continue
+        mimg = re.match(r"^!\[(.*)\]\((.+)\)\s*$", l.strip())
+        if mimg:
+            close_list()
+            body.append(r"\begin{figure}[htbp]" + "\n" + r"\centering" + "\n" +
+                        r"\includegraphics[width=0.85\linewidth]{" + mimg.group(2) + "}" + "\n" +
+                        r"\caption{" + inline(mimg.group(1)) + "}" + "\n" + r"\end{figure}")
+            i += 1
+            continue
         if l.startswith("```"):
             close_list()
             j = i + 1
@@ -207,11 +256,21 @@ def convert(md, title=None):
                 body.append(r"\begin{" + kind + "}")
                 in_list = kind
             item = [m.group(2)]
+            subs = []                    # nested '- ' bullets (indented), with their continuation lines
             j = i + 1
             while j < len(lines) and lines[j].startswith("  ") and lines[j].strip() and not lines[j].strip().startswith("$$"):
-                item.append(lines[j].strip())
+                sm = re.match(r"^\s+- (.*)$", lines[j])
+                if sm:
+                    subs.append([sm.group(1)])
+                elif subs:
+                    subs[-1].append(lines[j].strip())
+                else:
+                    item.append(lines[j].strip())
                 j += 1
-            body.append(r"\item " + inline(" ".join(item)))
+            text = r"\item " + inline(" ".join(item))
+            if subs:
+                text += "\n" + r"\begin{itemize}" + "\n" + "\n".join(r"\item " + inline(" ".join(s)) for s in subs) + "\n" + r"\end{itemize}"
+            body.append(text)
             i = j
             continue
         if not l.strip():
@@ -229,18 +288,23 @@ def convert(md, title=None):
         close_list()
         para = [l.strip()]
         j = i + 1
-        while j < len(lines) and lines[j].strip() and not re.match(r"^(#|\* |\d+\. |\||```|\$\$)", lines[j].strip()):
+        while j < len(lines) and lines[j].strip() and not re.match(r"^(#|\* |\d+\. |\||```|\$\$|<!--|!\[)", lines[j].strip()):
             para.append(lines[j].strip())
             j += 1
         body.append(inline(" ".join(para)))
         i = j
     close_list()
-    head = PREAMBLE + r"\title{" + inline(title or "") + "}\n" + r"\author{dirac16complex project (with Claude Opus 5.5)}" + "\n" + r"\date{}" + "\n"
+    head = PREAMBLE
+    if graphics_dir is not None:
+        # image paths of the Markdown are relative to its folder; pdflatex runs from the repository root
+        head += r"\graphicspath{{" + graphics_dir + "/}}\n"
+    head += r"\title{" + inline(title or "") + "}\n" + r"\author{dirac16complex project (with Claude Opus 5.5)}" + "\n" + r"\date{}" + "\n"
     return head + "\\begin{document}\n\\maketitle\n\\tableofcontents\n\\newpage\n" + "\n".join(body) + "\n\\end{document}\n"
 
 
 if __name__ == "__main__":
     src, dst = Path(sys.argv[1]), Path(sys.argv[2])
     title = sys.argv[3] if len(sys.argv) > 3 else None
-    dst.write_text(convert(src.read_text(encoding="utf-8"), title), encoding="utf-8", newline="\n")
+    gdir = Path(os.path.relpath(src.resolve().parent)).as_posix()
+    dst.write_text(convert(src.read_text(encoding="utf-8"), title, gdir), encoding="utf-8", newline="\n")
     print("wrote", dst)

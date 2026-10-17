@@ -1,0 +1,13 @@
+{
+ "A_over_H_squared": 3.695862750083829e-93,
+ "H0_GeV": 1.423846048697633e-42,
+ "H_GeV": 23420.98289738932,
+ "block_mode_lambda2_over_H2_benchmark": 2.0,
+ "deltaLambda_over_H2": 7.544679638187202e-93,
+ "fold_radiation_massless": true,
+ "h4_over_A_today": -8.857271530160712e-94,
+ "m_Psi_GeV": 23420.98289738932,
+ "m_dm_GeV": 50938.7735714765,
+ "mass_drift_per_hubble_time": 8.857271530160712e-94,
+ "q0": -0.5206926160902586
+}

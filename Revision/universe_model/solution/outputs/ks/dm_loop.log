@@ -1,0 +1,6 @@
+dm_lam0: 60.1 s
+dm_lam0 exit 0
+dm_lam1: 107.2 s
+dm_lam1 exit 0
+loop: 50.0 s
+loop exit 0

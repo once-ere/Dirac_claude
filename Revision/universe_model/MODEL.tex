@@ -19,6 +19,7 @@
 \renewcommand{\arraystretch}{1.25}
 \setlength{\tabcolsep}{4pt}
 \sloppy
+\graphicspath{{Revision/universe_model/}}
 \title{UM-1: a 4+4 model of the Universe with Einstein-Lovelock gravity, the dirac16complex field and an x0-generated mass spectrum}
 \author{dirac16complex project (with Claude Opus 5.5)}
 \date{}
@@ -27,7 +28,7 @@
 \tableofcontents
 \newpage
 
-Version 1 of 2026-10-17. Written at the author's order of 2026-10-17 ("create a new model of the Universe"). This document DEFINES the model. Its field equations are derived in \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md} (scripts in \texttt{field\_\allowbreak{}equations/\allowbreak{}}), an approximate solution is computed in \texttt{SOLUTION.\allowbreak{}md} (scripts in \texttt{solution/\allowbreak{}}), and the origin of every ingredient is in \texttt{PROVENANCE.\allowbreak{}md}. Every statement below is labelled as one of: DERIVED (computed in this repository, with the file named), TAKEN (from the Revision record, file named), STANDARD (textbook physics, used as input), ASSUMED (a choice of this model), INVENTED (a new phenomenological ingredient of this model) or OPEN.
+Version 1.1 of 2026-10-17: version 1 plus the two changes that the solution forces (marked CHANGED in sections 4.1 and 8; the reasons are in \texttt{SOLUTION.\allowbreak{}md} section 3). Written at the author's order of 2026-10-17 ("create a new model of the Universe"). This document DEFINES the model. Its field equations are derived in \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md} (scripts in \texttt{field\_\allowbreak{}equations/\allowbreak{}}), an approximate solution is computed in \texttt{SOLUTION.\allowbreak{}md} (scripts in \texttt{solution/\allowbreak{}}), and the origin of every ingredient is in \texttt{PROVENANCE.\allowbreak{}md}. Every statement below is labelled as one of: DERIVED (computed in this repository, with the file named), TAKEN (from the Revision record, file named), STANDARD (textbook physics, used as input), ASSUMED (a choice of this model), INVENTED (a new phenomenological ingredient of this model) or OPEN.
 
 \section*{1. Summary}
 \addcontentsline{toc}{section}{1. Summary}
@@ -41,7 +42,7 @@ The central new idea (the author's): every field is a function of $x_0$ that is 
 
 \begin{itemize}
 \item Coordinates (TAKEN, \texttt{Revision/\allowbreak{}SPEC.\allowbreak{}md} section 1): $z = 6Hx_0$ takes every real value; the metric depends on $x_0$ only through $\cot^2 z$ and $(\sin^2 z)^{1/6}$, both periodic with period $\pi$ in $z$, i.e. with period $\ell_0 = \pi/(6H)$ in $x_0$.
-\item The cell (TAKEN, \texttt{Revision/\allowbreak{}kohn\_\allowbreak{}sham/\allowbreak{}ks-{}theory.\allowbreak{}json}, boundaryConditions): one period $0 < z < \pi$ consists of two halves, $0 < z < \pi/2$ and $\pi/2 < z < \pi$, joined at the FOLD $z = \pi/2$ ($\cos z = 0$, where $g_{00}$ and $\sqrt{|g|}$ vanish) and ending at the TIP $z \to 0, \pi$ ($\sin z \to 0$). The hidden coordinate $y = \ln|\sin z|/(6H) \in (-\infty, 0]$ measures the distance from the fold; $dy = \cot z\, dx_0$.
+\item The cell (TAKEN, \texttt{Revision/\allowbreak{}kohn\_\allowbreak{}sham/\allowbreak{}ks-{}\allowbreak{}theory.\allowbreak{}json}, boundaryConditions): one period $0 < z < \pi$ consists of two halves, $0 < z < \pi/2$ and $\pi/2 < z < \pi$, joined at the FOLD $z = \pi/2$ ($\cos z = 0$, where $g_{00}$ and $\sqrt{|g|}$ vanish) and ending at the TIP $z \to 0, \pi$ ($\sin z \to 0$). The hidden coordinate $y = \ln|\sin z|/(6H) \in (-\infty, 0]$ measures the distance from the fold; $dy = \cot z\, dx_0$.
 \item A field periodic in $x_0$ with period $\ell_0$ is a field on the cell. Its two halves are related by the fold condition $(1 - Q(\theta))\chi(0) = 0$, $Q(\theta) = \cos\theta\,\sigma_3 + \sin\theta\,\sigma_2$, with $\theta = 0$ (even) or $\theta = \pi$ (odd) (DERIVED in the Kohn-Sham record up to $\theta$). Periodicity in $x_0$ requires that the two tips of a cell ($z \to 0^+$ and $z \to \pi^-$) be identified; the proper distance to the tip is infinite, so the model replaces the tip by a regular cutoff at $y = -L$ (ASSUMED, as in the Kohn-Sham record; \texttt{tip\_\allowbreak{}convergence/\allowbreak{}} measures the dependence on $L$).
 \end{itemize}
 
@@ -72,7 +73,9 @@ with two GENERAL functions of the time, $a_4(x_4)$ (the observer's scale factor 
 
 \[\adjustbox{max width=\linewidth}{$\displaystyle S_{EL} = \frac{1}{2\kappa}\int d^8x \sqrt{|g|}\,\Big(\sum_{k=1}^{3}\alpha_k\,\mathcal{L}_{(k)} - 2\Lambda\Big),\qquad \sum_k \alpha_k E_{(k)}{}^M{}_N + \Lambda\,\delta^M_N = \kappa\,T^M{}_N$}\]
 
-with $\mathcal{L}_{(1)} = R$, $\mathcal{L}_{(2)}$ the Gauss-Bonnet and $\mathcal{L}_{(3)}$ the cubic Lovelock density, the author's weights $\alpha_k = w_k H^{2-2k}$, $w = (1, 1/32, 1/1152)$, and $\Lambda = -10H^2$ in the convention of \texttt{Revision/\allowbreak{}field\_\allowbreak{}equations\_\allowbreak{}a4/\allowbreak{}a4-{}equations.\allowbreak{}json}. The graviton is the $x_0$ zero mode of $g_{MN}$ and is massless.
+with $\mathcal{L}_{(1)} = R$, $\mathcal{L}_{(2)}$ the Gauss-Bonnet and $\mathcal{L}_{(3)}$ the cubic Lovelock density, the author's weights $\alpha_k = w_k H^{2-2k}$, $w = (1, 1/32, 1/1152)$, and $\Lambda = -10H^2$ in the convention of \texttt{Revision/\allowbreak{}field\_\allowbreak{}equations\_\allowbreak{}a4/\allowbreak{}a4-{}\allowbreak{}equations.\allowbreak{}json}. The graviton is the $x_0$ zero mode of $g_{MN}$ and is massless.
+
+CHANGED in version 1.1 (\texttt{SOLUTION.\allowbreak{}md} section 3, DERIVED there): with the author's weights the only static vacuum, $k_0 = 1/(4w_2) = 8$ with $\Lambda_0 = -24H^2$, has the effective-Newton factor $G(k_0) = -5 + 9w_3/(2w_2^2) = -1$, i.e. repulsive four-dimensional gravity, and $\Lambda = -10H^2$ admits no static block with a small cosmological term. Version 1.1 uses $w = (1, 1/32, 1/768)$ ($G(k_0) = 1$, the Einstein value) and $\Lambda = -24H^2 + \delta\Lambda$, and ASSUMES a block stabiliser (an extra potential for $k = e^{2a_4}/b_4$ with curvature above $k_0G(k_0)H^2/4 = 2H^2$, since the block mode of the homogeneous reduction has $\lambda^2 = k_0G(k_0)H^2/4$: attractive gravity makes the static block unstable). The origin of the stabiliser (the Casimir energy of the cell) is OPEN.
 
 \subsection*{4.2 The dirac16complex field (TAKEN)}
 \addcontentsline{toc}{subsection}{4.2 The dirac16complex field (TAKEN)}
@@ -114,7 +117,7 @@ For a profile localised within a proper length $\Delta s = f\,\Delta y$ the unce
 
 $\Psi$ is neutral, so every interaction with the Standard Model is through gauge-invariant composite operators. The model contains the lowest ones (eight-dimensional coefficients; the four-dimensional couplings follow from the overlaps of the $x_0$ profiles):
 
-\begin{longtable}{>{\raggedright\arraybackslash}p{0.032\linewidth}>{\raggedright\arraybackslash}p{0.332\linewidth}>{\raggedright\arraybackslash}p{0.254\linewidth}>{\raggedright\arraybackslash}p{0.234\linewidth}}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.044\linewidth}>{\raggedright\arraybackslash}p{0.373\linewidth}>{\raggedright\arraybackslash}p{0.171\linewidth}>{\raggedright\arraybackslash}p{0.264\linewidth}}
 \toprule
 \textbf{} & \textbf{operator} & \textbf{couples $\Psi$ to} & \textbf{cosmological role} \\
 \midrule
@@ -142,7 +145,7 @@ P5 & $\frac{c_D}{\Lambda_D^{7}}\,(\bar\Psi\Psi)\,\big(\bar\psi\, i\gamma^M D_M\p
 \section*{6. The cosmological inventory}
 \addcontentsline{toc}{section}{6. The cosmological inventory}
 
-\begin{longtable}{>{\raggedright\arraybackslash}p{0.092\linewidth}>{\raggedright\arraybackslash}p{0.236\linewidth}>{\raggedright\arraybackslash}p{0.210\linewidth}>{\raggedright\arraybackslash}p{0.314\linewidth}}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.172\linewidth}>{\raggedright\arraybackslash}p{0.180\linewidth}>{\raggedright\arraybackslash}p{0.192\linewidth}>{\raggedright\arraybackslash}p{0.307\linewidth}}
 \toprule
 \textbf{component} & \textbf{field} & \textbf{$x_0$ mode} & \textbf{equation of state} \\
 \midrule
@@ -170,7 +173,8 @@ hidden curvature & geometry, $6H^2 k$, $k = e^{2a_4}/b_4$ & - & acts like a cosm
 \addcontentsline{toc}{section}{8. Assumptions and open problems (honesty rule)}
 
 \begin{itemize}
-\item ASSUMED: the regular tip at $y = -L$; the compact extra times (normalisation A) and the good sector $q = 0$; the kink bulk masses; the tip sigma field; the portal operators; one generation; the zero-mode truncation at order 1.
+\item ASSUMED: the regular tip at $y = -L$; the compact extra times (normalisation A) and the good sector $q = 0$; the kink bulk masses; the tip sigma field; the portal operators; one generation; the zero-mode truncation at order 1; (1.1) the block stabiliser and the exact fold-reflection parity that keeps the odd-parity dark matter stable.
+\item CHANGED (1.1): $w_3 = 1/768$ and $\Lambda = -24H^2 + \delta\Lambda$ (section 4.1). The solution also finds what the model requires of the data: $m_{KK} \approx 121$ TeV from $\rho_0$, and, with one generation, a decoupling of the $\Psi$ fold band inside the QCD crossover for $N_{eff} \approx 3$ (\texttt{SOLUTION.\allowbreak{}md} sections 4 and 6).
 \item OPEN: the stability of a theory with three time-like extra dimensions (ghosts and tachyons beyond the good sector); perturbative unitarity of $WW$ scattering without a Higgs (it holds up to the Kaluza-Klein scale $\sim \pi/(fL)$ only if that scale lies below about $4\pi v_\Sigma \approx 3$ TeV, as in all Higgsless models); a dynamical mechanism that slows the deflation of the block after the primordial era; the origin of the second and third generations; the derivation of the portal coefficients; the non-adiabatic evolution of $\Psi$.
 \item Consistency with QCD and the electroweak theory is at the level of the gauge group, the representations, anomaly cancellation and the electroweak chiral Lagrangian (no Higgs); precision electroweak constraints on Higgsless models (the $S$ parameter) apply and are OPEN for this geometry.
 \end{itemize}

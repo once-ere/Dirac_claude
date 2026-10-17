@@ -19,6 +19,7 @@
 \renewcommand{\arraystretch}{1.25}
 \setlength{\tabcolsep}{4pt}
 \sloppy
+\graphicspath{{Revision/universe_model/}}
 \title{UM-1: the coupled field equations}
 \author{dirac16complex project (with Claude Opus 5.5)}
 \date{}
@@ -27,7 +28,7 @@
 \tableofcontents
 \newpage
 
-Version 1 of 2026-10-17, for the model of \texttt{MODEL.\allowbreak{}md}. Derived by \texttt{field\_\allowbreak{}equations/\allowbreak{}derive\_\allowbreak{}field\_\allowbreak{}equations.\allowbreak{}py} (sympy; 13 checks, all PASS, 2.7 s; outputs \texttt{field\_\allowbreak{}equations/\allowbreak{}field-{}equations.\allowbreak{}json} with every equation as a sympy string and \texttt{field\_\allowbreak{}equations/\allowbreak{}reports/\allowbreak{}field-{}equations-{}checks.\allowbreak{}json}). Labels as in \texttt{MODEL.\allowbreak{}md}: DERIVED (computed here), TAKEN (from the Revision record), ASSUMED, OPEN. Run: \texttt{python Revision/\allowbreak{}universe\_\allowbreak{}model/\allowbreak{}field\_\allowbreak{}equations/\allowbreak{}derive\_\allowbreak{}field\_\allowbreak{}equations.\allowbreak{}py}.
+Version 1 of 2026-10-17, for the model of \texttt{MODEL.\allowbreak{}md}. Derived by \texttt{field\_\allowbreak{}equations/\allowbreak{}derive\_\allowbreak{}field\_\allowbreak{}equations.\allowbreak{}py} (sympy; 13 checks, all PASS, 2.7 s; outputs \texttt{field\_\allowbreak{}equations/\allowbreak{}field-{}\allowbreak{}equations.\allowbreak{}json} with every equation as a sympy string and \texttt{field\_\allowbreak{}equations/\allowbreak{}reports/\allowbreak{}field-{}\allowbreak{}equations-{}\allowbreak{}checks.\allowbreak{}json}). Labels as in \texttt{MODEL.\allowbreak{}md}: DERIVED (computed here), TAKEN (from the Revision record), ASSUMED, OPEN. Run: \texttt{python Revision/\allowbreak{}universe\_\allowbreak{}model/\allowbreak{}field\_\allowbreak{}equations/\allowbreak{}derive\_\allowbreak{}field\_\allowbreak{}equations.\allowbreak{}py}.
 
 \section*{1. Notation}
 \addcontentsline{toc}{section}{1. Notation}
@@ -44,7 +45,7 @@ because $g_{00}dx_0^2 = e^{-2a_4}b_4\,dy^2$ and $(\sin^2 z)^{1/6} = e^{2Hy}$; th
 \addcontentsline{toc}{section}{2. Gravity: the background (order $\epsilon^0$)}
 
 \begin{itemize}
-\item The Einstein tensor, recomputed here from the metric with its own Christoffel symbols, equals the record (\texttt{Revision/\allowbreak{}field\_\allowbreak{}equations\_\allowbreak{}a4/\allowbreak{}a4-{}equations.\allowbreak{}json}, key einstein; check A1):
+\item The Einstein tensor, recomputed here from the metric with its own Christoffel symbols, equals the record (\texttt{Revision/\allowbreak{}field\_\allowbreak{}equations\_\allowbreak{}a4/\allowbreak{}a4-{}\allowbreak{}equations.\allowbreak{}json}, key einstein; check A1):
 \end{itemize}
 \[\adjustbox{max width=\linewidth}{$\displaystyle G^{x_4}{}_{x_4} = 3\dot a_4^2 + 6H^2k - \tfrac32 u^2,\quad G^{x_1}{}_{x_1} = -5\dot a_4^2 + 2\ddot a_4 + 6\dot a_4u - \tfrac52u^2 - 2v + 6H^2k,\quad G^{x_0}{}_{x_0} = G^{x_5}{}_{x_5} = -3\dot a_4^2 + \tfrac32\dot a_4u - \tfrac32u^2 - \tfrac32 v + 3H^2k$}\]
 and every off-diagonal component vanishes.
@@ -83,7 +84,7 @@ The metric $g = \bar g + \epsilon\,\delta g$ with $\delta g_{44} = -2\Phi$, $\de
 
 \[\delta G^1{}_1 - \delta G^2{}_2 = \nabla^2\big(\Psi_N - \Phi - 4\sigma\big)\]
 
-The full $\delta G^1{}_1$ and $\delta G^0{}_0 = \delta G^5{}_5$ are in \texttt{field-{}equations.\allowbreak{}json} (key order\_epsilon\_scalar). The equations are $\delta G^M{}_N = \kappa\,\delta T^M{}_N$ ($\delta T^4{}_4 = -\delta\rho$, $\delta T^4{}_1$ the momentum density, $\delta T^1{}_1 = \delta p_3$, $\delta T^0{}_0 = \delta T^5{}_5 = \delta p_0$).
+The full $\delta G^1{}_1$ and $\delta G^0{}_0 = \delta G^5{}_5$ are in \texttt{field-{}\allowbreak{}equations.\allowbreak{}json} (key order\_epsilon\_scalar). The equations are $\delta G^M{}_N = \kappa\,\delta T^M{}_N$ ($\delta T^4{}_4 = -\delta\rho$, $\delta T^4{}_1$ the momentum density, $\delta T^1{}_1 = \delta p_3$, $\delta T^0{}_0 = \delta T^5{}_5 = \delta p_0$).
 
 \begin{itemize}
 \item Static block, no radion (check C2): $\delta G^4{}_4 = 6\dot a_4(\dot\Psi_N + \dot a_4\Phi) - 2\nabla^2\Psi_N$ and $\delta G^4{}_1 = -2\partial_1(\dot\Psi_N + \dot a_4\Phi)$: the Newtonian-gauge equations of four-dimensional general relativity with $H_{obs} = \dot a_4$. The CMB and BAO physics of \texttt{SOLUTION.\allowbreak{}md} uses this limit.
@@ -107,7 +108,7 @@ The full $\delta G^1{}_1$ and $\delta G^0{}_0 = \delta G^5{}_5$ are in \texttt{f
 \section*{6. dirac16complex: the Kohn-Sham equations coupled to all fields}
 \addcontentsline{toc}{section}{6. dirac16complex: the Kohn-Sham equations coupled to all fields}
 
-The good-sector reduction of the record (TAKEN, \texttt{Revision/\allowbreak{}kohn\_\allowbreak{}sham/\allowbreak{}ks-{}theory.\allowbreak{}json}) with the portal mean fields (DERIVED from P1, P2, P5 of \texttt{MODEL.\allowbreak{}md}):
+The good-sector reduction of the record (TAKEN, \texttt{Revision/\allowbreak{}kohn\_\allowbreak{}sham/\allowbreak{}ks-{}\allowbreak{}theory.\allowbreak{}json}) with the portal mean fields (DERIVED from P1, P2, P5 of \texttt{MODEL.\allowbreak{}md}):
 
 \[\adjustbox{max width=\linewidth}{$\displaystyle h_j = j\big[-(i/f)\sigma_1\partial_y + M_{eff}(y)\sigma_2 + \kappa k\sigma_3\big] + v_v(y),\qquad \kappa = e^{-a_4},$}\]
 
@@ -135,7 +136,7 @@ with $n_f(y) = n_f|\chi_f(y)|^2$ the Standard-Model fermion densities in their $
 \section*{9. The coupled system}
 \addcontentsline{toc}{section}{9. The coupled system}
 
-\begin{longtable}{>{\raggedright\arraybackslash}p{0.281\linewidth}>{\raggedright\arraybackslash}p{0.165\linewidth}>{\raggedright\arraybackslash}p{0.418\linewidth}}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.360\linewidth}>{\raggedright\arraybackslash}p{0.180\linewidth}>{\raggedright\arraybackslash}p{0.329\linewidth}}
 \toprule
 \textbf{equation} & \textbf{unknowns} & \textbf{couples to} \\
 \midrule
@@ -150,8 +151,8 @@ Standard-Model field equations & $\psi$, $A$, $\Sigma$ & $\Psi$ (portals), the m
 
 OPEN in version 1: the Lovelock terms and the vector and tensor sectors at order $\epsilon$; the $x_0$-dependent metric response to the localised sources; the derivation of the portal and tip coefficients.
 
-\section*{10. Checks (\texttt{field\_\allowbreak{}equations/\allowbreak{}reports/\allowbreak{}field-{}equations-{}checks.\allowbreak{}json}, 13 of 13 PASS)}
-\addcontentsline{toc}{section}{10. Checks (\texttt{field\_\allowbreak{}equations/\allowbreak{}reports/\allowbreak{}field-{}equations-{}checks.\allowbreak{}json}, 13 of 13 PASS)}
+\section*{10. Checks (\texttt{field\_\allowbreak{}equations/\allowbreak{}reports/\allowbreak{}field-{}\allowbreak{}equations-{}\allowbreak{}checks.\allowbreak{}json}, 13 of 13 PASS)}
+\addcontentsline{toc}{section}{10. Checks (\texttt{field\_\allowbreak{}equations/\allowbreak{}reports/\allowbreak{}field-{}\allowbreak{}equations-{}\allowbreak{}checks.\allowbreak{}json}, 13 of 13 PASS)}
 
 A1 background Einstein tensor = record; A2 constraint in $h_4$; A3 the measure in $y$; B1 four-dimensional conservation; B2 the drifts of $k$ and the Planck mass; C1 linear scalar perturbations; C2 the static-block limit is four-dimensional general relativity, slip $\Psi_N = \Phi + 4\sigma$; D1 the gauge $x_0$ operator and its boundary conditions; D2 massless zero modes, the leading $W$, $Z$ masses, $\rho = 1$; D3 the uncertainty bound; D4 the fermion zero modes and tip values; E1 gauge invariance; E2 the $W$ and charge conservation.
 
