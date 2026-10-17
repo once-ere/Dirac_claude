@@ -40,8 +40,8 @@ ROWS = (
      "`Revision/theory/fock_quartic/reports/fock-quartic.json`"),
     ("the lead's checks of the charge and the U(1) current", ("lead-u1",),
      "`Revision/lead_checks/reports/charge-conjugation-and-u1.json`"),
-    ("dark sector, Hypothesis (SPEC section 8)", ("ds-derivation", "ds-ks-history", "ds-eos", "ds-independent"),
-     "`Revision/dark_sector/dirac16complex/reports/derivation-checks.json`, `Revision/dark_sector/dirac16complex/reports/ks-history-run.json`, `Revision/dark_sector/dirac16complex/reports/eos-checks.json`, `Revision/dark_sector/dirac16complex/reports/independent-checks.json`"),
+    ("dark sector, Hypothesis (SPEC section 8)", ("ds-derivation", "ds-ks-history", "ds-eos", "ds-independent", "ds00-derive-eos"),
+     "`Revision/dark_sector/dirac16complex/reports/derivation-checks.json`, `Revision/dark_sector/dirac16complex/reports/ks-history-run.json`, `Revision/dark_sector/dirac16complex/reports/eos-checks.json`, `Revision/dark_sector/dirac16complex/reports/independent-checks.json`, `Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json`"),
 )
 PREFIX = {"fock-quartic": "Python (sympy and its own exact engine for the anticommutation relations; "}
 

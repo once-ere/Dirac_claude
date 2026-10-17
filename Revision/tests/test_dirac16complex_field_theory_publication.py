@@ -22,7 +22,8 @@ What is tested (fast, read-only), for the corrected metric of 2026-10-16 (versio
   * every check name the document cites (in a code span) exists, with a passing verdict, in one of
     the Revision reports the document is drawn from (REPORTS below); a list of essential checks is cited;
   * the check counts the document quotes equal the counts in the reports, and the statement about
-    the comparison record of the theory branch matches the two theory reports;
+    the comparison record of the theory branch matches the two theory reports; the CHOSEN values of
+    sigma0 quoted in section 13 are those of the Kohn-Sham-source cases file;
   * the 16 component field equations, the Lovelock components E_(k) (in a4', a4'', u = b4'/b4,
     v = u', H, k = e^(2 a4)/b4), the Einstein components and the source of the background history
     with the author's weights in the document are the output of the renderers below applied to
@@ -78,6 +79,7 @@ PDF_RELATIVE = f"Revision/docs/{STEM}.pdf"
 
 FIELD_THEORY = REVISION / "theory" / "field-theory.json"
 A4_EQUATIONS = REVISION / "field_equations_a4" / "a4-equations.json"
+KS_SOURCE_CASES = REVISION / "field_equations_a4" / "ks_source" / "results" / "ks-source-a4-cases.csv"
 REPORTS = {
     "algebra-wolfram": REVISION / "algebra" / "reports" / "wolfram-algebra.json",
     "algebra-python": REVISION / "algebra" / "reports" / "python-algebra.json",
@@ -100,6 +102,8 @@ REPORTS = {
     "ds-ks-history": REVISION / "dark_sector" / "dirac16complex" / "reports" / "ks-history-run.json",
     "ds-eos": REVISION / "dark_sector" / "dirac16complex" / "reports" / "eos-checks.json",
     "ds-independent": REVISION / "dark_sector" / "dirac16complex" / "reports" / "independent-checks.json",
+    # cited by the dirac16complex dark-sector README for the phantom window of the drifting condensate (verdict (iii))
+    "ds00-derive-eos": REVISION / "dark_sector" / "dirac16complex00" / "reports" / "python-derive-eos.json",
     "lead-u1": REVISION / "lead_checks" / "reports" / "charge-conjugation-and-u1.json",
     "fock-quartic": REVISION / "theory" / "fock_quartic" / "reports" / "fock-quartic.json",
 }
@@ -175,6 +179,16 @@ ESSENTIAL_CHECKS = [
     "mode_hamiltonian_good_sector", "good_sector_positive_fock_realisation",
     "trace_identity_operator_identity_wick", "trace_identity_fails_for_every_other_combination",
     "homogeneous_rho_p_operator_identities_wick", "negative_control_free_dynamics",
+    "einstein_second_order_system", "egb_exponential_vacuum_branches",
+    # the Kohn-Sham source (section 13)
+    "ks_profiles_depend_on_x0", "ks_hidden_pressure_condition", "ks_offdiagonal_condition",
+    "ks_history_is_a_prescribed_background", "A1_hidden_equals_extra_times_and_no_offdiagonal",
+    "B2_x0_conservation_on_every_profile", "B3_hidden_direction_mismatch", "C1_averaged_hidden_pressure_condition",
+    "C3_record_history_not_sourced_by_the_gas", "D0_free_gas_average_exact",
+    "D2_author_weights_from_the_record_history", "D4_outcomes",
+    # the dark-sector verdict (section 15)
+    "w_eff_A", "w_eff_C", "free_gas_exact_fold_band", "interacting_gas_ranges", "bulk_band_w_eff",
+    "gas_cpl_far_from_unite", "phantom_condition", "condensate_phantom_interval", "condensate_drifts",
 ]
 
 REQUIRED_PHRASES = [
@@ -219,6 +233,20 @@ REQUIRED_PHRASES = [
     r"and in section 15 (the equation-of-state values $w_{\rm eff}$ of the Kohn-Sham gas",
     r"\kappa(p_3 - p_0) = -\tfrac{9}{16}k^2 + \tfrac{1069}{432}k + \tfrac{2015}{972}",
     "the corrected metric has no Z2 orbifold",
+    # the honesty labels and verdicts of sections 13 and 15
+    "no recorded Kohn-Sham state is an admissible source",
+    "In a stated APPROXIMATION",
+    "is CHOSEN at the six values",
+    "These are statements of that approximation, not of the field equations",
+    "is therefore a PRESCRIBED background for test fields, without back-reaction",
+    "is a CHOSEN pure condensate",
+    "a tuned value, NOT a prediction",
+    r"far from the Unite pair $(w_0, w_a) = (-0.861, -0.60)$",
+    "OPEN in that record",
+    "The computed free Kohn-Sham gas ($\\lambda = 0$) is an exact fold-band gas",
+    # the qualifications of the history values and of the constant-k histories
+    r"I_{16} > 0$ for $x_4 \geq 0$",
+    "so they do not deflate, and none of them is a history of this record",
 ]
 
 # Numbers quoted from the second-wave reports: (report key, text in the report, text in the document).
@@ -242,7 +270,7 @@ QUOTED_NUMBERS: list[tuple[str, str, str]] = [
     ("ks-source-a4", "the constraint fixes kappa rho_bar(0) = 3.57407",
      r"the constraint fixes $\kappa\bar\rho(0) = 3.57407$"),
     ("ks-source-a4", "at x4 = 0.428813 (a4 = 0.361572, b4 = 0.862627, a4'/H = 0.978369, u/H = -2.60176)",
-     r"$x_4 = 0.428813$ ($a_4 = 0.361572$, $b_4 = 0.862627$, $a_4'/H = 0.978369$, $u/H = -2.60176$"),
+     r"$x_4 = 0.428813/H$ ($a_4 = 0.361572$, $b_4 = 0.862627$, $a_4'/H = 0.978369$, $u/H = -2.60176$"),
     ("ks-source-a4", "38 cases (2 free series", "Over 38 cases (the two free series"),
     ("ks-source-a4", "outcomes a4_turns 24, regular 6, runaway 4, singular_second_order_system 4",
      "$a_4$ turning 24 times ($a_4'$ reaches 0), regular 6 times (through $x_4 = 2/H$), runaway 4 times and singular 4 times"),
@@ -260,6 +288,11 @@ QUOTED_NUMBERS: list[tuple[str, str, str]] = [
     ("ds-independent", "it changes sign between a4 = -0.5 and -0.25",
      "changing sign between $a_4 = -0.5$ and $-0.25$"),
     ("ds-derivation", "= w_eff(A) - 4/9 at beta = 4/3", r"$w_{\rm eff}(C) = w_{\rm eff}(A) - 4/9$"),
+    ("ds00-derive-eos", "lambda S/m in (-2, -1)", r"while $\lambda S/m$ lies in $(-2, -1)$"),
+    # first-wave values quoted in section 13 (the tuned EGB vacuum couplings)
+    ("a4-wolfram", "alpha2 = -1/(4 H^2 (A^2 - k0)) and Lambda = -E^x4_x4 at the history "
+                   "((3*(AA^4*H^2 + 3*AA^2*H^2*kk + H^2*kk^2))/(AA^2 - kk))",
+     r"$\alpha_2 = -1/(4H^2(A^2 - k_0))$ and $\Lambda = 3H^2(A^4 + 3A^2k_0 + k_0^2)/(A^2 - k_0)$"),
 ]
 
 PLACEHOLDERS = ["TODO", "TBD", "FIXME", "lorem ipsum", "PLACEHOLDER", "XXX", "@@"]
@@ -551,6 +584,11 @@ def report_count(key: str) -> tuple[int, int]:
         return counts["pass"], counts["pass"] + counts["fail"] + counts["pending"]
     if key.startswith("ds-"):
         return data["summary"]["pass"], data["summary"]["total"]
+    if key == "ds00-derive-eos":
+        match = re.fullmatch(r"(\d+)/(\d+) checks pass", data["summary"])
+        if match is None:
+            raise ValueError(f"unexpected summary {data['summary']!r}")
+        return int(match.group(1)), int(match.group(2))
     raise KeyError(key)
 
 
@@ -576,6 +614,7 @@ QUOTED_COUNTS = {
     "ds-ks-history": "Kohn-Sham history: {p} of {t} checks pass",
     "ds-eos": "equation of state: {p} of {t} checks pass",
     "ds-independent": "independent: {p} of {t} checks pass",
+    "ds00-derive-eos": "dirac16complex00 derivation (cited for the phantom window of the drifting condensate): {p} of {t} checks pass",
     "fock-quartic": "no Wolfram counterpart): {p} of {t} checks pass",
     "lead-u1": "lead checks: {p} of {t} checks pass",
 }
@@ -730,6 +769,17 @@ class CitedChecksTest(unittest.TestCase):
             with self.subTest(report=key, number=in_report):
                 self.assertIn(in_report, REPORTS[key].read_text(encoding="utf-8"))
                 self.assertIn(in_document, text)
+
+    def test_chosen_sigma0_values_match_the_cases_file(self):
+        """Section 13: for the three theories other than the author's weights sigma0 is CHOSEN at six values."""
+        import csv
+        with KS_SOURCE_CASES.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        chosen = {row["case"] for row in rows if row["gravity"] != "author"}
+        self.assertEqual(chosen, {f"sigma0 = {v}" for v in ("-10", "-1", "-1/10", "1/10", "1", "10")})
+        self.assertEqual({row["gravity"] for row in rows}, {"author", "einstein", "egb", "lovelock3"})
+        self.assertEqual({row["case"] for row in rows if row["gravity"] == "author"}, {"Lambda = -10"})
+        self.assertIn(r"is CHOSEN at the six values $-10, -1, -1/10, 1/10, 1, 10$", markdown_text())
 
     def test_comparison_record_statement_matches_the_theory_reports(self):
         text = markdown_text()

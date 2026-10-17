@@ -1206,9 +1206,10 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
 
 * Why. The audit of phase W6 (2026-10-17) found texts of the set that did not yet state the hidden scale f of the
   corrected metric, that described the defect of `verify_t3.wls` fixed on 2026-10-08 (section 6.5) in the present
-  tense, or that numbered the coordinates 1..8. The corrections are text-only.
-* Changes (comments and check-detail strings only; no expression that a check evaluates, no control, no check name
-  and no input changed). `verify_t3.wls` (line 163, the detail of check 8 `T3_exact_k0_spectra`): with chi' = f N chi,
+  tense, or that numbered the coordinates 1..8, and a Gap 5 text that did not yet say that the metric with b4(x4) was
+  withdrawn and `t3-theory.json` regenerated for the corrected metric. The corrections are text-only.
+* Changes (comments, check-detail strings and the Gap 1 and Gap 5 texts of the completion record only; no expression
+  that a check evaluates, no control, no check name and no input changed). `verify_t3.wls` (line 163, the detail of check 8 `T3_exact_k0_spectra`): with chi' = f N chi,
   chi(y) = exp(f N y) chi(0), computed at f = 1 (f enters only through f y, i.e. L -> f L, and the identities hold
   identically in L and M); the spectra eps^2 = M^2 + (n Pi/(f L))^2 and tan(p f L) = -p/M; the zero mode
   (E^(f M y), 0) goes to (0, i E^(f M y)) (checked at f = 1 for every M > 0) (before: chi(y) = exp(N y) chi(0), the
@@ -1223,8 +1224,8 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   2026-10-14 withdrawn (before "the author's metric with b4(x4)") and adds that `t3-theory.json` was regenerated on
   2026-10-17 for the corrected metric of 2026-10-16 (version 2: f = e^(-a4) b4^(1/2), kappa = e^(-a4), the orbital
   factor e^(a4/2) b4^(-1), the fold instead of the Z2 orbifold), with the statement S5 and its check removed
-  (`reports/wolfram-t3.json` 9 checks, `reports/python-t3.json` 12 checks). In this file sections 1.4, 2.3, 2.4 and
-  5.2, the preamble of section 6 and section 6.9 were brought up to date with these texts and sha256.
+  (`reports/wolfram-t3.json` 9 checks, `reports/python-t3.json` 12 checks). In this file the preamble, sections 1.4,
+  2.3, 2.4, 5.2 and 6.5, the preamble of section 6 and section 6.9 were brought up to date with these texts and sha256.
 * No check, verdict or count changed: `verify_t3.wls` 9 of 9, `check_t3.py` 12 of 12, `verify_t3_completion.wls`
   3 of 3, `check_t3_completion.py` 7 of 7, with the same check names. In each changed output only the lines with
   the changed texts differ: `reports/wolfram-t3.json` the detail of `T3_exact_k0_spectra`, `reports/python-t3.json`
@@ -1259,5 +1260,6 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   the 4 lines of section 4.1 ending `3/3 checks passed` (2.9 s); `check_t3_completion.py` exit code 0, 7 `PASS`
   lines and `pass 7 fail 0` (0.8 s). These runs wrote the outputs of section 2.3 and the two sympy reports of
   section 2.4 (sha256 above); `t3-theory.json` and `python-t3-completion.json` were rewritten with the same bytes.
-  Each script ran once; a second run was not made, so byte-for-byte reproduction of the four changed outputs
-  rests on their content (only fixed text and integer counts, section 2.3).
+  A second run of the four scripts at 13:53 PDT, in the same order and under the same limit (3.1 s, 1.5 s, 2.8 s,
+  0.9 s; the same counts), left every output of sections 2.3 and 2.4 byte for byte unchanged (the sha256 of all of
+  them before and after the run were equal).

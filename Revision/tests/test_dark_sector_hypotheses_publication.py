@@ -724,12 +724,16 @@ class QuotedNumbers(unittest.TestCase):
         self.assertIn("w_eff(A) - 4/9", check_detail(DERIVATION, "w_eff_C"))
         self.assertIn("w_eff(N1) - 4/9 on the history beta = 4/3", check_detail(DERIVE_EOS, "observer_N2_weff_identity"))
         self.assertQuoted("$w_{\\rm eff}(C) = w_{\\rm eff}(A) - 4/9$: every verdict moves by exactly $-4/9$")
-        self.assertQuoted("a value $w_{\rm eff}(C) < -1$ needs $P_3/E - (P_0 + 3P_t)/(9E) < -5/9$")
+        self.assertQuoted("a value $w_{\\rm eff}(C) < -1$ needs $P_3/E - (P_0 + 3P_t)/(9E) < -5/9$")
         self.assertIn("P3/E - (P0 + 3 Pt)/(9E) < -5/9", check_detail(DERIVATION, "phantom_condition"))
         self.assertIn("P0 > 9 E (P3/E + 5/9)", check_detail(DERIVATION, "phantom_condition"))
         self.assertQuoted("$P_0 > 9E(P_3/E + 5/9)$")
 
     def test_kohn_sham_history_setup(self):
+        self.assertIn("every occupied orbital is the fold-band orbital (e^(f M y), 0) with eps = e^(-a4) |k|",
+                      check_detail(KS_HISTORY, "lambda0_series_exact_fold_band"))
+        self.assertQuoted("every occupied orbital is the fold-band orbital $(e^{fMy}, 0)$ with "
+                          "$\\varepsilon = e^{-a_4}\\lvert k\\rvert$")
         report = load_json(KS_HISTORY)
         slices = report["slices"]
         self.assertEqual((len(slices), slices[0], slices[-1]), (41, 0.0, 2.0))

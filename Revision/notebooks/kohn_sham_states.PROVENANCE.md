@@ -150,7 +150,7 @@ git), identical in both verified builds and in the `check` run; the Rust build i
 | `<output>/ks_runs/N8_lam0_a10.json` | 33960 | `613ee58be3a197f08c8ad264ddf03833d7862727accc8126317416d9cbab844e` |
 | `<output>/ks_runs/N8_lam0_a20.csv` | 37086 | `99674812a6dfa87d202cc20879875090fb94c1f7a549d50b1d00a211e695b1e6` (= record `results/ground/profiles/N8_lam0_a20.csv`) |
 | `<output>/ks_runs/N8_lam0_a20.json` | 204106 | `2f8f551a895bba8454464e042026c4728f072a2e73fc84fce4b58f104bfcb132` |
-| `<cargo-target>/` | about 2.8 MB | the Rust build folder (compiler output; not compared) |
+| `<cargo-target>/` | about 3.4 MB (3376109 bytes, 13 files, measured 2026-10-17) | the Rust build folder (compiler output; not compared) |
 
 The tool writes `Revision/notebooks/kohn_sham_states.ipynb` (`build`) or
 `<output>/kohn_sham_states.ipynb` (`check`). The notebook has no long mode.
@@ -248,7 +248,7 @@ No run time and no path of the computer is printed (paths are shown relative to 
   committed record `Revision/kohn_sham/results/` and the reports `Revision/kohn_sham/reports/` are only
   read; the notebook raises an error if `<output>` or `<cargo-target>` would place its files there.
   The crate's own `target/` folder is not used (the build goes to `<cargo-target>`).
-* By default `<cargo-target>` is a new folder of about 2.8 MB in the system's temporary folder for
+* By default `<cargo-target>` is a new folder of about 3.4 MB in the system's temporary folder for
   every new `<output>` (every `build` and `check` of the tool uses a new `<output>`); nothing deletes
   it, it can be deleted by hand. It is placed there, short and outside the repository, because on
   Windows the MSVC linker `link.exe` cannot open a file whose path is longer than 259 characters
@@ -371,11 +371,12 @@ No run time and no path of the computer is printed (paths are shown relative to 
   the repository root in the working tree (not a fresh clone). That version (notebook sha256
   `5e68de31c1b994f8ded8220e6cf5fdc7996eeb5f7263f20807e7f128974cbb81`, builder sha256
   `a84d512314664155e24b9d7842e412874e92d1ee00e3639ab8b023030f70c7de`) is replaced by the rebuild below.
-* 2026-10-17, rebuild after the audit (phase W6 of `HANDOFF.md`): the audit found that the texts of the builder
-  still spoke of three input checks of the solver, which now prints four (`theory_input_metric_forms` was added
-  in phase W5), and wrote the hidden coordinate as y = ln(sin z)/(6H). Only markdown cells changed (cells 0, 2,
-  8 and 32: section 1 item 1, the word list of section 3 now y = ln|sin z|/(6H), the introduction of section 6
-  and the first item of section 11); no code cell and no output changed. Builder sha256
+* 2026-10-17, rebuild after the text corrections of the audit (phase W6 of `HANDOFF.md`): the texts of the
+  builder spoke of three input checks of the solver, which prints four (the first is `theory_input_metric_forms`,
+  the forms of the corrected metric), and wrote the hidden coordinate as y = ln(sin z)/(6H). Compared with the
+  version before (notebook `5e68de31c1b994f8...`), only the sources of four markdown cells changed (cells 0, 2, 8
+  and 32: section 1 item 1, the word list of section 3, now y = ln|sin z|/(6H), the introduction of section 6
+  and the first item of section 11); no code cell, no output and no metadata changed. Builder sha256
   `1f1e0b29251f6a5bda1631102ef454471d57ac20c2862dba0972ca3ade211d36`; the build tool
   (`99f18fc03902e092...`) and the pins (`ba6c2cab4048282e...`) are unchanged. Two builds and one check, one
   after the other, from the repository root in the working tree (not a fresh clone):
@@ -399,7 +400,13 @@ No run time and no path of the computer is printed (paths are shown relative to 
     1 + 1 + 11 + 3 + 8, section 4), no FAIL line, no stderr or error output, `checks of this notebook: 24 passed,
     0 failed`.
   * Tests: `python -m unittest Revision/tests/test_revision_notebooks.py` (light; `REVISION_NOTEBOOKS_FULL` not set)
-    - TESTS_RESULT_PLACEHOLDER
+    - 11 tests in 0.050 s, the 2 full tests skipped; every test passes for this notebook (among them
+    `test_cells_equal_builder`, `test_audit_passes`, `test_kohn_sham_record_counts_printed` and the subtest
+    `kohn_sham_states` of `test_provenance_records_current_digests`, which finds the sha256 of the notebook, the
+    builder and the build tool in this file). The run as a whole reported `FAILED (failures=1, skipped=2)`: the one
+    failure is the subtest `dark_sector_hypotheses` of `test_provenance_records_current_digests` (its provenance
+    file did not yet record the sha256 `6d8a326a1c7cbff8...` of that notebook, rebuilt in the same step); that file
+    is kept by its own step of W6, not by this one.
 * Not verified here: the run instructions on macOS and Linux (written for them, executed only on
   Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
   the matplotlib version).
