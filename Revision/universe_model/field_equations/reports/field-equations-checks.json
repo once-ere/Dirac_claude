@@ -1,0 +1,75 @@
+{
+  "report": "Revision/universe_model/field_equations/reports/field-equations-checks.json",
+  "summary": {
+    "checks": 13,
+    "pass": 13,
+    "fail": 0
+  },
+  "checks": [
+    {
+      "name": "A1_background_einstein_tensor_equals_record",
+      "verdict": "PASS",
+      "detail": "G^M_N of the corrected metric, computed here from the metric (own Christoffel symbols, in the hidden coordinate y, valid for every real z): G^x4_x4 = 6*H**2*kk + 3*ad1**2 - 3*uu**2/2, G^x1_x1 = 6*H**2*kk - 5*ad1**2 + 6*ad1*uu + 2*ad2 - 5*uu**2/2 - 2*vv, G^x0_x0 = G^x5_x5 = 3*H**2*kk - 3*ad1**2 + 3*ad1*uu/2 - 3*uu**2/2 - 3*vv/2 (u = b4'/b4, v = u', k = e^(2 a4)/b4); equal to a4-equations.json einstein: True; the off-diagonal components (x4,x0), (x0,x4), (x4,x1), (x1,x0), (x4,x5) vanish: True"
+    },
+    {
+      "name": "A2_constraint_with_block_rate",
+      "verdict": "PASS",
+      "detail": "with u = 2 (h4 + a4') (h4 = u/2 - a4', the rate of the block (x0, x5, x6, x7), f = e^-a4 b4^(1/2)) the Einstein x4 equation G^4_4 + Lambda = -kappa rho reads 3 a4'^2 + 12 a4' h4 + 6 h4^2 - 6 H^2 k = kappa rho + Lambda: the Friedmann equation with the block terms 12 a4' h4 + 6 h4^2 and the hidden-curvature term -6 H^2 k (k' = -2 k h4, constant for a static block)"
+    },
+    {
+      "name": "A3_measure_in_y",
+      "verdict": "PASS",
+      "detail": "sqrt|g| = e^-a4 b4^2 cot z sin^(1/2) z on the patch (|det g| = sqrt|g|^2: True); with dy = cot z dx0 and |sin z| = e^(6Hy): sqrt|g| dx0 = b4(x4)**2*exp(3*H*y - a4(x4)) dy"
+    },
+    {
+      "name": "B1_four_dimensional_conservation",
+      "verdict": "PASS",
+      "detail": "per species: rho_i' = -3 a4' (rho_i + p3_i) - 4 h4 (rho_i + p0_i) + Q_i (energyExchange of a4-equations.json with p0 = p_t and the portal exchange Q_i, sum_i Q_i = 0); the four-dimensional density rho_4 = V_perp rho, V_perp = c f^4 (MODEL.md section 5), obeys rho_4' = -3 a4' (rho_4 + p3_4) - 4 h4 p0_4 + Q_4: the standard four-dimensional law for every species without hidden or extra-time pressure (p0 = p_t = 0: radiation, dust, the Standard-Model zero modes)"
+    },
+    {
+      "name": "B2_drifts_of_k_and_planck_mass",
+      "verdict": "PASS",
+      "detail": "k = e^(2 a4)/b4 obeys k' = -2 k h4 and V_perp ~ f^4 = (e^-a4 b4^(1/2))^4 obeys (f^4)' = 4 h4 f^4: with a deflating block (h4 < 0) the hidden-curvature term 6 H^2 k grows and the four-dimensional Planck mass shrinks"
+    },
+    {
+      "name": "C1_linear_scalar_perturbations",
+      "verdict": "PASS",
+      "detail": "the linearised Einstein tensor of g = gbar + epsilon dg, dg44 = -2 Phi, dg_ii = -2 PsiN e^(2 a4) gbar_ii/e^(2a4), dg_block = 2 sigma gbar_block (Phi, PsiN, sigma functions of (x4, x1), x0 zero modes), computed from the metric: free of x0: True; delta G^x4_x0 = delta G^x1_x0 = 0; delta G^x0_x0 = delta G^x5_x5 (the block stays one block); delta G^4_4 = (3*kk*(-4*H**2*kk*sigma(x4, x1) - 2*ad1**2*Phi(x4, x1) - 2*ad1*Derivative(PsiN(x4, x1), x4) + uu**2*Phi(x4, x1) + 2*uu*Derivative(PsiN(x4, x1), x4) - 2*uu*Derivative(sigma(x4, x1), x4))*b4(x4) - 2*Derivative(PsiN(x4, x1), (x1, 2)) + 4*Derivative(sigma(x4, x1), (x1, 2)))/(kk*b4(x4)); delta G^4_1 = 2*ad1*Derivative(Phi(x4, x1), x1) - 8*ad1*Derivative(sigma(x4, x1), x1) - 2*uu*Derivative(Phi(x4, x1), x1) + 2*uu*Derivative(sigma(x4, x1), x1) - 2*Derivative(PsiN(x4, x1), x1, x4) + 4*Derivative(sigma(x4, x1), x1, x4); delta G^1_1 - delta G^2_2 = (-Derivative(Phi(x4, x1), (x1, 2)) + Derivative(PsiN(x4, x1), (x1, 2)) - 4*Derivative(sigma(x4, x1), (x1, 2)))/(kk*b4(x4))"
+    },
+    {
+      "name": "C2_static_block_gives_standard_perturbation_equations",
+      "verdict": "PASS",
+      "detail": "with a static block (h4 = 0, u = 2 a4', v = 2 a4'') and sigma = 0: delta G^4_4 = 6 a4'(PsiN' + a4' Phi) - 2 e^(-2 a4) d1^2 PsiN and delta G^4_1 = -2 d1(PsiN' + a4' Phi), the Newtonian-gauge equations of four-dimensional general relativity with H_obs = a4'; the 11 - 22 equation is e^(-2 a4) d1^2 (PsiN - Phi - 4 sigma) = kappa (anisotropic stress): without anisotropic stress PsiN = Phi + 4 sigma, the radion shifts the gravitational slip"
+    },
+    {
+      "name": "D1_gauge_x0_operator",
+      "verdict": "PASS",
+      "detail": "a four-dimensional gauge-field component A_mu(x) u(x0) (gauge A_x0 = 0, unbroken or broken generator): the eight-dimensional kinetic term sqrt|g| g^00 g^mumu (d_0 u)^2 becomes, with sqrt|g| dx0 = e^-a4 b4^2 e^(3Hy) dy (A3) and g^00 (d_0)^2 = (1/f^2) d_y^2, the one-dimensional action int dy e^(3Hy) [u'^2/f^2 - m^2 u^2]: Euler-Lagrange -(1/f^2) e^(-3Hy) (e^(3Hy) u')' = m^2 u; boundary terms: fold u'(0) = 0 (Neumann, the even fold condition), tip e^(-3HL) u'(-L)/f^2 = c_tip u(-L) (the Robin condition of the tip term c_tip u(-L)^2)"
+    },
+    {
+      "name": "D2_photon_massless_and_W_Z_leading_mass",
+      "verdict": "PASS",
+      "detail": "u = const solves the operator with m^2 = 0 when c_tip = 0 (the photon, the gluons and the graviton zero mode: unbroken generators); to first order in c_tip (u = const + O(c_tip)): m^2 = c_tip / int_{-L}^0 e^(3Hy) dy = 3*H*c_tip*exp(3*H*L)/(exp(3*H*L) - 1). The tip term (v_Sigma^2/4) tr(D Sigma^dag D Sigma) gives c_tip(W) = g5^2 v_Sigma^2 w_tip/4 and c_tip(Z) = (g5^2 + g5'^2) v_Sigma^2 w_tip/4, c_tip(photon) = 0, so m_Z^2/m_W^2 = 1 + g'^2/g^2 = 1/cos^2(theta_W) at this order (rho = 1, custodial symmetry); the bending of the profiles at higher order is computed in SOLUTION.md"
+    },
+    {
+      "name": "D3_uncertainty_bound_saturated_by_gaussian",
+      "verdict": "PASS",
+      "detail": "for a profile of width Delta y (proper width Delta s = f Delta y) the Rayleigh quotient is the mean of p^2 (units hbar = c = 1): m^2 >= <p_s^2> >= 1/(4 Delta s^2), m >= hbar/(2 c Delta s) (the author's estimate); the Gaussian saturates it: <Y^2> <p^2> = 1/4"
+    },
+    {
+      "name": "D4_fermion_zero_modes_and_tip_values",
+      "verdict": "PASS",
+      "detail": "the block h = -(i/f) sigma1 d_y + mu sigma2 (the Kohn-Sham block at k = 0, v = 0, j = +1, with the bulk mass mu) annihilates (e^(f mu y), 0) (the even fold condition b(0) = 0 and the tip b(-L) = 0: the left-handed zero mode) and (0, e^(-f mu y)) (a(0) = 0, a(-L) = 0: the right-handed zero mode, theorem T3); the normalised tip value zeta(mu)^2 = |chi(-L)|^2 / int |chi|^2 dy = 2*f*mu_p/(exp(2*L*f*mu_p) - 1); the tip coupling lambda_f gives the four-dimensional Dirac mass m_f = lambda_f zeta(mu_L) zeta(-mu_R) to first order in lambda_f (exponentially small for f mu L >> 1: the mass hierarchy from localisation)"
+    },
+    {
+      "name": "E1_tip_and_portal_operators_gauge_invariant",
+      "verdict": "PASS",
+      "detail": "with an explicit SU(2)_L x U(1)_Y representation (Sigma -> U_L Sigma U_Y^dag, U_Y = exp(i alpha tau3/2) acting on the right; L: Y = -1/2, (nu_R, e_R): Y = (0, -1), Q: Y = 1/6, (u_R, d_R): Y = (2/3, -1/3)) and 20 random group elements: L^dag Sigma Lambda_l l_R, Q^dag Sigma Lambda_q q_R (the tip Yukawa terms, P2 times the singlet Psibar Psi) and tr(Sigma^dag D Sigma tau3) (P4) are invariant to 3.6e-15; P1, P3, P5 are products of the singlet Psibar Gamma Psi with invariant Standard-Model operators"
+    },
+    {
+      "name": "E2_W_couples_only_with_a_charged_pair",
+      "verdict": "PASS",
+      "detail": "electric charges {'Psi': '0', 'W+': '1', 'W-': '-1', 'Z': '0', 'photon': '0', 'nu': '0', 'e': '-1', 'u': '2/3', 'd': '-1/3'}: a Psi bilinear is neutral, so a vertex with one W+ needs a Standard-Model pair of total charge -1 (e^- nu-bar, d u-bar): the W enters the portal only through the covariant derivative of P5 and through the gauge self-couplings"
+    }
+  ]
+}

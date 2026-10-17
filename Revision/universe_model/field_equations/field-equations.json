@@ -1,0 +1,57 @@
+{
+  "producer": "Revision/universe_model/field_equations/derive_field_equations.py",
+  "model": "Revision/universe_model/MODEL.md (UM-1, version 1)",
+  "coordinates": "the author's coordinates x0..x7: x0 hidden (z = 6 H x0, period pi/(6H)), x1..x3 space, x4 time, x5..x7 extra times; y = ln|sin z|/(6H), f = e^-a4 b4^(1/2), h4 = u/2 - a4', k = e^(2 a4)/b4",
+  "inputs": {
+    "Revision/field_equations_a4/a4-equations.json": "key einstein (compared), keys generalSource (cited)"
+  },
+  "equations": {
+    "background_einstein": {
+      "G44": "6*H**2*kk + 3*ad1**2 - 3*uu**2/2",
+      "G11": "6*H**2*kk - 5*ad1**2 + 6*ad1*uu + 2*ad2 - 5*uu**2/2 - 2*vv",
+      "G00_eq_G55": "3*H**2*kk - 3*ad1**2 + 3*ad1*uu/2 - 3*uu**2/2 - 3*vv/2",
+      "constraint_h_form": "3*ad1**2 + 12*ad1*h4 + 6*h4**2 - 6*H**2*kk == kappa*rho + Lam",
+      "general_lovelock": "the components sum_k alpha_k E_(k) of a4-equations.json generalSource (constraint_x4, space_x1_eq_x2_eq_x3, hidden_and_extraTimes_x0_eq_x5_eq_x6_eq_x7) with the total source of part B"
+    },
+    "species_conservation": {
+      "eight_dimensional": "rho_i' = -3 a4' (rho_i + p3_i) - 4 h4 (rho_i + p0_i) + Q_i",
+      "four_dimensional": "rho4_i' = -3 a4' (rho4_i + p3_4i) - 4 h4 p0_4i + Q4_i, rho4 = V_perp rho",
+      "requirement": "p0_i = p_t_i for the total source (hiddenEqualsExtraTimes); off-diagonal components and x0 dependence of the averaged source vanish"
+    },
+    "observer_friedmann": {
+      "einstein": "3 a4'^2 = rho_4/M_Pl^2 + Lam_eff - 12 a4' h4 - 6 h4^2, Lam_eff = Lam + 6 H^2 k, M_Pl^2 = V_perp/kappa = 2 f^4 v_t (1 - e^(-3 H L))/(3 H kappa)",
+      "drifts": "k' = -2 k h4 (Lam_eff drifts), (M_Pl^2)' = 4 h4 M_Pl^2 (G drifts), x0 masses ~ 1/f drift with -h4: a slowly deflating block needs |h4| << a4'"
+    },
+    "order_epsilon_scalar": {
+      "metric": "dg44 = -2 Phi, dg_ii = -2 PsiN e^(2 a4) (i = 1, 2, 3), dg_00 = 2 sigma gbar_00, dg_tt = 2 sigma gbar_tt (t = 5, 6, 7); functions of (x4, x1)",
+      "deltaG44": "(3*kk*(-4*H**2*kk*sigma(x4, x1) - 2*ad1**2*Phi(x4, x1) - 2*ad1*Derivative(PsiN(x4, x1), x4) + uu**2*Phi(x4, x1) + 2*uu*Derivative(PsiN(x4, x1), x4) - 2*uu*Derivative(sigma(x4, x1), x4))*b4(x4) - 2*Derivative(PsiN(x4, x1), (x1, 2)) + 4*Derivative(sigma(x4, x1), (x1, 2)))/(kk*b4(x4))",
+      "deltaG41": "2*ad1*Derivative(Phi(x4, x1), x1) - 8*ad1*Derivative(sigma(x4, x1), x1) - 2*uu*Derivative(Phi(x4, x1), x1) + 2*uu*Derivative(sigma(x4, x1), x1) - 2*Derivative(PsiN(x4, x1), x1, x4) + 4*Derivative(sigma(x4, x1), x1, x4)",
+      "deltaG11": "-12*H**2*kk*sigma(x4, x1) + 10*ad1**2*Phi(x4, x1) - 12*ad1*uu*Phi(x4, x1) - 2*ad1*Derivative(Phi(x4, x1), x4) - 2*ad1*Derivative(PsiN(x4, x1), x4) + 12*ad1*Derivative(sigma(x4, x1), x4) - 4*ad2*Phi(x4, x1) + 5*uu**2*Phi(x4, x1) + 2*uu*Derivative(Phi(x4, x1), x4) + 4*uu*Derivative(PsiN(x4, x1), x4) - 10*uu*Derivative(sigma(x4, x1), x4) + 4*vv*Phi(x4, x1) + 2*Derivative(PsiN(x4, x1), (x4, 2)) - 4*Derivative(sigma(x4, x1), (x4, 2))",
+      "deltaG22": "(kk*(-12*H**2*kk*sigma(x4, x1) + 10*ad1**2*Phi(x4, x1) - 12*ad1*uu*Phi(x4, x1) - 2*ad1*Derivative(Phi(x4, x1), x4) - 2*ad1*Derivative(PsiN(x4, x1), x4) + 12*ad1*Derivative(sigma(x4, x1), x4) - 4*ad2*Phi(x4, x1) + 5*uu**2*Phi(x4, x1) + 2*uu*Derivative(Phi(x4, x1), x4) + 4*uu*Derivative(PsiN(x4, x1), x4) - 10*uu*Derivative(sigma(x4, x1), x4) + 4*vv*Phi(x4, x1) + 2*Derivative(PsiN(x4, x1), (x4, 2)) - 4*Derivative(sigma(x4, x1), (x4, 2)))*b4(x4) + Derivative(Phi(x4, x1), (x1, 2)) - Derivative(PsiN(x4, x1), (x1, 2)) + 4*Derivative(sigma(x4, x1), (x1, 2)))/(kk*b4(x4))",
+      "deltaG00_eq_deltaG55": "(3*kk*(-4*H**2*kk*sigma(x4, x1) + 4*ad1**2*Phi(x4, x1) - 2*ad1*uu*Phi(x4, x1) + 2*ad1*Derivative(PsiN(x4, x1), x4) + 2*ad1*Derivative(sigma(x4, x1), x4) + 2*uu**2*Phi(x4, x1) + uu*Derivative(Phi(x4, x1), x4) + 3*uu*Derivative(PsiN(x4, x1), x4) - 4*uu*Derivative(sigma(x4, x1), x4) + 2*vv*Phi(x4, x1) + 2*Derivative(PsiN(x4, x1), (x4, 2)) - 2*Derivative(sigma(x4, x1), (x4, 2)))*b4(x4)/2 + Derivative(Phi(x4, x1), (x1, 2)) - 2*Derivative(PsiN(x4, x1), (x1, 2)) + 3*Derivative(sigma(x4, x1), (x1, 2)))/(kk*b4(x4))",
+      "anisotropy_11_minus_22": "(-Derivative(Phi(x4, x1), (x1, 2)) + Derivative(PsiN(x4, x1), (x1, 2)) - 4*Derivative(sigma(x4, x1), (x1, 2)))/(kk*b4(x4))",
+      "equations": "delta G^M_N = kappa delta T^M_N: delta T^4_4 = -delta rho, delta T^4_1 = (rho + p3) dv/dx1-type momentum density, delta T^1_1 = delta p3, delta T^0_0 = delta T^5_5 = delta p0; with no anisotropic stress the 11 - 22 equation relates Phi, PsiN and sigma"
+    },
+    "x0_mass_mechanism": {
+      "gauge_operator": "-(1/f^2) e^(-3Hy) (e^(3Hy) u')' = m^2 u on [-L, 0] (each half of the cell), u'(0) = 0, e^(-3HL) u'(-L)/f^2 = c_tip u(-L)",
+      "leading_mass": "m^2 = c_tip / int_{-L}^0 e^(3Hy) dy = 3 H c_tip/(1 - e^(-3HL))",
+      "c_tip": "W: g5^2 v_Sigma^2 w_tip/4; Z: (g5^2 + g5'^2) v_Sigma^2 w_tip/4; photon, gluons: 0",
+      "fermion_block": "h = -(i/f) sigma1 d_y + mu sigma2 (+ kappa k sigma3 + v for k != 0), zero modes (e^(f mu y), 0) and (0, e^(-f mu y))",
+      "fermion_mass": "m_f = lambda_f zeta(mu_L) zeta(-mu_R), zeta(mu)^2 = 2 f mu e^(-2 f mu L)/(1 - e^(-2 f mu L))",
+      "uncertainty": "m >= hbar/(2 c Delta s), Delta s the proper width of the x0 profile (saturated by a Gaussian)"
+    },
+    "dirac16complex_kohn_sham_with_portals": {
+      "block": "h_j = j[-(i/f) sigma1 d_y + M_eff(y) sigma2 + kappa k sigma3] + v_v(y) (Revision/kohn_sham/ks-theory.json)",
+      "M_eff": "m + (15/16) lambda S(y) + g_S sum_f s_f delta_tip(y) + g_D sum_f m_f s_f(y)",
+      "v_v": "-(1/16) lambda n(y) + g_V sum_f q_f n_f(y)",
+      "sources": "n_f(y) = n_f |chi_f(y)|^2 (the Standard-Model fermion densities in their x0 zero modes), s_f the scalar densities; g_V = c_V/Lambda_D^6, g_S = c_S/Lambda_D^6, g_D = c_D/Lambda_D^7 (P1, P2, P5); P3 and P4 have no mean field in a neutral, unpolarised, Sigma = 1 background and act through scattering only",
+      "back_reaction": "m_f -> m_f + g_S S_Psi(-L) zeta_L zeta_R + g_D m_f <S_Psi>_f; the Standard-Model vector potentials shift by g_V q_f n_Psi(y); the gravitational source is the total T^M_N",
+      "energy": "the portal energy density g_V n_Psi sum_f q_f n_f + g_S S_Psi s_SM is counted once in the total energy"
+    }
+  },
+  "summary": {
+    "checks": 13,
+    "pass": 13,
+    "fail": 0
+  }
+}
