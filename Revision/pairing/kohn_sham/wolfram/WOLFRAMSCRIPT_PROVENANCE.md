@@ -198,8 +198,8 @@ file `ks-theory.json` writes every `/` as `\/` (for example `"15\/16"`); a JSON 
 The four files contain only fixed text and integer check counts (no date or time of the run, no machine name
 and no computed floating-point number; the dates and decimal numbers in them, for example `2026-10-08`, the
 slices `0.5, 1, 1.5` or `section 6.5`, are part of the fixed text of the scripts), so a passing run reproduces
-them byte for byte (the values above are those of the runs of 2026-10-17, section 6.10). If a check fails, the counts, the
-verdict of that check and the `status` line of the record change. `wolfram-t3.json` had the sha256
+them byte for byte (the values above are those of the runs of 2026-10-17, section 6.10). If a check fails,
+the counts, the verdict of that check and the `status` line of the record change. `wolfram-t3.json` had the sha256
 `904fd1dcb77a6772f7ef21dcabe10d194d8086f509e17df54830bd7f7fb999ab` (6448 bytes) before the fix of section 1.5.
 
 ### 2.4 Downstream files (not part of the set; section 3.8)
@@ -1201,3 +1201,63 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   lambda-sign control at least 5.120e-02), `reports/t3-reference-demo.json`
   `2791d801648418ca725789debba44057f97da8900516fbdbcc79ac3195c64609` (66 lines, 6087 bytes) 7 of 7 (reference image =
   Rust image to 7.311e-11).
+
+### 6.10 Text-only corrections of the W6 audit (2026-10-17)
+
+* Why. The audit of phase W6 (2026-10-17) found texts of the set that did not yet state the hidden scale f of the
+  corrected metric, that described the defect of `verify_t3.wls` fixed on 2026-10-08 (section 6.5) in the present
+  tense, or that numbered the coordinates 1..8. The corrections are text-only.
+* Changes (comments and check-detail strings only; no expression that a check evaluates, no control, no check name
+  and no input changed). `verify_t3.wls` (line 163, the detail of check 8 `T3_exact_k0_spectra`): with chi' = f N chi,
+  chi(y) = exp(f N y) chi(0), computed at f = 1 (f enters only through f y, i.e. L -> f L, and the identities hold
+  identically in L and M); the spectra eps^2 = M^2 + (n Pi/(f L))^2 and tan(p f L) = -p/M; the zero mode
+  (E^(f M y), 0) goes to (0, i E^(f M y)) (checked at f = 1 for every M > 0) (before: chi(y) = exp(N y) chi(0), the
+  zero mode (E^(M y), 0)). `check_t3.py`: the same in the detail of `T3.exact_k0_spectra` (lines 220 to 226; 318
+  lines, before 316). `verify_t3_completion.wls` (143 lines, before 142): the header comment of
+  `T3C_mean_field_coefficients_from_ks_theory` (lines 13 to 15) and the detail of that check (line 54) are in the
+  past tense: `verify_t3.wls` wrote the coefficients into the script and its v_v clause compared vvf[lam, n] with
+  itself until its fix of 2026-10-08 (section 6.5), and since then it reads them, as `check_t3.py` does; the detail
+  of `T3C_krein_rule_16_component` (line 90) gives the coordinate index of Gamma gamma^a Gamma = -gamma^a as
+  a = x0, ..., x7 (before a = 1..8); in the completion record the Gap 1 text (line 110) is in the past tense (both
+  defects fixed on 2026-10-08, section 6.5), and the Gap 5 text (line 114) calls the metric with b4(x4) of
+  2026-10-14 withdrawn (before "the author's metric with b4(x4)") and adds that `t3-theory.json` was regenerated on
+  2026-10-17 for the corrected metric of 2026-10-16 (version 2: f = e^(-a4) b4^(1/2), kappa = e^(-a4), the orbital
+  factor e^(a4/2) b4^(-1), the fold instead of the Z2 orbifold), with the statement S5 and its check removed
+  (`reports/wolfram-t3.json` 9 checks, `reports/python-t3.json` 12 checks). In this file sections 1.4, 2.3, 2.4 and
+  5.2, the preamble of section 6 and section 6.9 were brought up to date with these texts and sha256.
+* No check, verdict or count changed: `verify_t3.wls` 9 of 9, `check_t3.py` 12 of 12, `verify_t3_completion.wls`
+  3 of 3, `check_t3_completion.py` 7 of 7, with the same check names. In each changed output only the lines with
+  the changed texts differ: `reports/wolfram-t3.json` the detail of `T3_exact_k0_spectra`, `reports/python-t3.json`
+  the detail of `T3.exact_k0_spectra`, `reports/wolfram-t3-completion.json` the details of
+  `T3C_mean_field_coefficients_from_ks_theory` and `T3C_krein_rule_16_component`, `t3-completion.json` the Gap 1 and
+  Gap 5 texts.
+* sha256 (old: the versions of section 6.9, which are those of commit `a342b79`, the last commit before the
+  automatic snapshot `0a40e13` that committed the three corrected scripts; new: those of the working tree, the
+  four changed outputs committed in `0a0be28`). Scripts: `verify_t3.wls`
+  `f05c2e7ee0b5f95015f2dad82c453419af29c7b5fad754f4438653f4eb991f94` (245 lines, 27691 bytes) ->
+  `59b66da9b54c8ad400285786fdba0a35a5f10ba984a0cd66b32c5ecf5ccabb5a` (245 lines, 27864 bytes);
+  `verify_t3_completion.wls` `aef4bcf3f7e54949bcb9e3655c8d4a221b5259a7544e141427a1279c3b8bb74f` (142 lines, 19061
+  bytes) -> `98fa8a10fccf2c9a56b89f1a0789b395d1b9f6c7ecd8ebdfda33c60c415be38c` (143 lines, 19638 bytes);
+  `check_t3.py` `b165f3b9a6ead95418e3b0c5d65fc4a47712747e094f3027da41fa9446f0f4cb` (316 lines, 20456 bytes) ->
+  `46746d766d8c5710e5990e99e003ebd1c857cd848b9d9ddef6d70a2f960e486e` (318 lines, 20645 bytes). Changed outputs:
+  `reports/wolfram-t3.json` `771c8ecb9a8e96df65d8a664a8f6b26d8beba0bab31d01abd6eea54ed6b4032c` (18 lines, 6946
+  bytes) -> `960d5c7499dc8fa9d153c4666a015dd39d6795f521907e45ea6e369cbd2c716e` (18 lines, 7119 bytes);
+  `t3-completion.json` `74c0f9adeb9d8c92ab7d1b7f3d7f61af8ff90d9ee827d0c8a4db3899be737909` (38 lines, 8165 bytes) ->
+  `4e47e229a1a38be1c79e1eb9dd04d8a59c98e0a00be811909f0b6d992cfb5614` (38 lines, 8570 bytes);
+  `reports/wolfram-t3-completion.json` `45e4690e475bfe8b40b866407cfaa18eff7c109652ee8dea91db0d3080c699d0` (12 lines,
+  3374 bytes) -> `6a16ffe8427e4a47a9ba65ba9d87a5183a44f05190131e9a0bb15111c90c1b67` (12 lines, 3483 bytes);
+  `reports/python-t3.json` `4f78bb0a1a92c765b879ef9b7cf660dc9dd9f229e8c71b1ba173da90fe412d3a` (80 lines, 7523 bytes)
+  -> `e2aadcdb585c79552c01bf9d2d46b96df3a79a480a20cdbcb837299ad74f71d2` (80 lines, 7686 bytes). Unchanged:
+  `t3-theory.json` `e2ba471cf17b44b04fb4ecf0ed1c9d9d44d335fd05aebce2fdee502b4bdd9720`, `check_t3_completion.py`
+  `64ad17e374773467b6221364a4faebfb8b723d2f20297356f19e190d3fe35eff`, `reports/python-t3-completion.json`
+  `8c1e7a46f99ab8e59cda55a9c686eae6a9703da1031ef1312fe21a7eff256cc1` and the two inputs (section 2.2).
+* Runs (2026-10-17, about 13:41 PDT, Windows 11 Pro for Workstations, Wolfram 15.0.1, Python 3.14.5, from the
+  repository root in the working tree with the scripts, inputs and checkers of section 2; one regeneration
+  sequence of the lead, each step under `timeout -k 5 423`, wall times from its step log): `verify_t3.wls` exit
+  code 0, the 9 `PASS` lines of section 4.1 and `9/9 checks passed; time 0.30000000000000004 s` (4.6 s);
+  `check_t3.py` exit code 0, 12 `PASS` lines and `pass 12 fail 0` (1.2 s); `verify_t3_completion.wls` exit code 0,
+  the 4 lines of section 4.1 ending `3/3 checks passed` (2.9 s); `check_t3_completion.py` exit code 0, 7 `PASS`
+  lines and `pass 7 fail 0` (0.8 s). These runs wrote the outputs of section 2.3 and the two sympy reports of
+  section 2.4 (sha256 above); `t3-theory.json` and `python-t3-completion.json` were rewritten with the same bytes.
+  Each script ran once; a second run was not made, so byte-for-byte reproduction of the four changed outputs
+  rests on their content (only fixed text and integer counts, section 2.3).

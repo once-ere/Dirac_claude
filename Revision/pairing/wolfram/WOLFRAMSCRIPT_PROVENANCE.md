@@ -142,14 +142,16 @@ established; the Kohn-Sham level (T3) is a separate set.
 
 The table gives the version of 2026-10-17, the corrected metric of 2026-10-16 (version 2) (the last item of
 section 6; the version of 2026-10-16 with b4(x4) and the version of 2026-10-14 with b4 = 1, in the author's
-coordinates x0..x7, are the items before it). The following sentences
-describe the versions before those, whose hashes were those of the committed files (unchanged from commit `70fab64` up to commit `b8a695d`,
-the head of `main` in the evening of 2026-10-07, where they were checked again); a successful run
-reproduces both outputs byte for byte.
+coordinates x0..x7, are the items before it). The versions before those had the hashes of the files
+committed at their time, unchanged from commit `70fab64` up to commit `b8a695d`, the head of `main` in
+the evening of 2026-10-07, where they were checked again. A successful run reproduces both outputs byte
+for byte.
 Nothing else is read: no other file of the repository, no network resource, no command-line argument.
-The script finds its package and its output folders relative to its own location; it also finds its
-input there unless the environment variable REVISION_DIR is set, in which case it reads
-algebra/gammas.json from that folder (used to run on a copy; leave it unset for a normal run).
+The script finds its package and its output folders relative to its own location.
+Since commit `6e228a8`, the script finds its input there too only when the environment variable
+REVISION_DIR is not set; when it is set, the script reads algebra/gammas.json from that folder instead
+(used to run on a copy; leave it unset for a normal run). Before `6e228a8` the script always found its
+input relative to its own location.
 
 ## 3. How to run it
 

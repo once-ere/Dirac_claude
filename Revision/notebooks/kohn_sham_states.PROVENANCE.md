@@ -2,20 +2,21 @@
 
 The Kohn-Sham states of dirac16complex in the author's deflating primordial field.
 
-* Notebook: `Revision/notebooks/kohn_sham_states.ipynb` (33 cells: 19 markdown, 14 code; 494159 bytes;
-  sha256 `5e68de31c1b994f8ded8220e6cf5fdc7996eeb5f7263f20807e7f128974cbb81`).
+* Notebook: `Revision/notebooks/kohn_sham_states.ipynb` (33 cells: 19 markdown, 14 code; 494302 bytes;
+  sha256 `028f490cfb7b9fc2db9d7558efff1d9891e68b7021a3edc2c034378b766dacd9`).
 * Builder: `Revision/notebooks/src/kohn_sham_states.py`
-  (sha256 `a84d512314664155e24b9d7842e412874e92d1ee00e3639ab8b023030f70c7de`).
+  (sha256 `1f1e0b29251f6a5bda1631102ef454471d57ac20c2862dba0972ca3ade211d36`).
 * Build tool: `Revision/notebooks/tools/build_notebooks.py`
   (sha256 `99f18fc03902e0920d21e30cfe3d44df6d298583a8abb935b486f383acf345a0`).
 * Pins: `Revision/notebooks/requirements.txt`
   (sha256 `ba6c2cab4048282eb64e9bad8d3b265660438e700815f019dd0592c6f67450bb`).
 * Built and verified on 2026-10-08, in the author's coordinates x0..x7 on 2026-10-14, for the author's metric with
   b4(x4) on 2026-10-16, and for the corrected metric of 2026-10-16 (version 2; the Kohn-Sham record recomputed on
-  2026-10-16/17, phase W5 of `HANDOFF.md`) on 2026-10-17 (section 7),
+  2026-10-16/17, phase W5 of `HANDOFF.md`) on 2026-10-17, rebuilt the same day after the text corrections of
+  the audit (phase W6; section 7),
   Windows 11 Pro for Workstations, Python 3.14.5, numpy 2.4.6,
   matplotlib 3.11.0, nbformat 5.10.4, nbclient 0.10.2, ipykernel 7.1.0, nbconvert 7.16.6,
-  jupyterlab 4.4.10, cargo 1.91.
+  jupyterlab 4.4.10, cargo 1.91.1.
 
 ## 1. What it computes
 
@@ -185,27 +186,49 @@ or, to rebuild and compare with the committed file (from the repository root):
 
 ## 4. Expected output
 
-* Section 5: `exit status: 0`, `compiler warnings: 0`.
-* Section 6: the solver's four indented `PASS` input checks, `-> SUCCESS, exit status 0, input checks
-  PASS: 4, other messages: 0`, the parameter block (H 1.0, m 1.0, L 3.0, dk 0.25, v_t 1.0, a4 0.0,
-  beta 1.333333333333333, f 1.0, coordinateCell False, Vol7 15875.21366031351, lambda 0.0, N 8.0, T 0.0, tipTheta 0.0,
-  exactFockVariant False), lambda_1 = 157.7, 2.131, 0.5363 for N = 8, 592, 2352.
-* Section 7: nine solver runs (ten states with the run of section 6; `states solved: 10`), each `-> SUCCESS`;
-  eleven PASS lines of the comparison, for example
-  `N592_lamp1_a10_equals_record: E_KS = 131.7651779780565, ...`, and for the thermal state
-  mu = 0.2929430552286682, E = 135.5651077811065, S = 387.8116964450197.
+As printed by the committed notebook (sha256 `028f490cfb7b9fc2...`, executed outputs read on 2026-10-17):
+
+* Section 5: `exit status: 0`, `compiler warnings: 0`, and one PASS line (`solver_built`).
+* Section 6: the solver's four indented `PASS` input checks, in this order `theory_input_metric_forms`
+  (the forms of the corrected metric of 2026-10-16 that the solver implements: the hidden scale
+  f = e^(-a4) b4^(1/2), kappa = e^(-a4) constant in y, Vol_7 = ell^3 v_t e^((2 beta - 1) a4,0), the
+  y-conservation, the history identity and the fold-band slope c = e^(-a4,0); `entries not matching: none`),
+  `theory_input_coefficients` (M_eff = m + 0.9375 lambda S, v_v = -0.0625 lambda n),
+  `gamma_fixture_numeric` (max deviation 0e0) and `block_reduction_numeric` (to 1.1e-16); then
+  `-> SUCCESS, exit status 0, input checks PASS: 4, other messages: 0`, the parameter block (H 1.0, m 1.0,
+  L 3.0, dk 0.25, v_t 1.0, a4 0.0, beta 1.333333333333333, f 1.0, coordinateCell False, Vol7 15875.21366031351,
+  lambda 0.0, N 8.0, T 0.0, tipTheta 0.0, exactFockVariant False), one PASS line (`parameters_equal_record`),
+  lambda_1 = 157.7, 2.131, 0.5363 for N = 8, 592, 2352, and the honesty label of the record
+  (`PRESCRIBED BACKGROUND: the history a4 = H x4, b4 = e^{(4/3) H x4} is prescribed, not solved for. ...`).
+* Section 7: nine solver runs (ten states with the run of section 6; `states solved: 10`), each
+  `-> SUCCESS, exit status 0, input checks PASS: 4, other messages: 0`; eleven PASS lines of the comparison,
+  for example `N592_lamp1_a10_equals_record: E_KS = 131.7651779780565, ...`, and for the thermal state
+  mu = 0.2929430552286682, E = 135.5651077811065, S = 387.8116964450197 and F = E - T S = 127.8088738522061.
 * Section 8: the N = 8 gap 0.2500000, 0.0919699, 0.0338338 at a4,0 = 0, 1, 2 (the fold-band level 0.25 e^(-a4,0)); P3/E = 0.3281, 0.3279, 0.3262
-  (N = 592, +lambda_1) and 0.333333333333334, 0.333333333333334, 0.333333333333333 (N = 2352, lambda = 0: 1/3, the exact fold-band gas).
+  (N = 592, +lambda_1) and 0.333333333333334, 0.333333333333334, 0.333333333333333 (N = 2352, lambda = 0: 1/3, the exact fold-band gas);
+  three PASS lines.
 * Section 9: `crosscheck_rows_reproduced: 84 rows ... (largest ratio 0.3006)`; the table of the seven
-  reports (51 / 61 / 45 / 14 / 5 / 39 / 31 checks, 0 failed).
+  reports (51 / 61 / 45 / 14 / 5 / 39 / 31 checks, 0 failed) with one PASS line each (eight PASS lines).
+* Section 10: the four figures, each with its sha256 as in section 2; section 10.2 also prints
+  `max |M_eff - m| = 1.347e-02 m, max |v_v| = 7.461e-02 m`.
 * Section 10.5: `checks of this notebook: 24 passed, 0 failed` and the 23 files listed above.
+
+The 24 PASS lines of the notebook's own (counted in the executed outputs: lines that begin with `PASS`) are
+1 (section 5) + 1 (section 6) + 11 (section 7) + 3 (section 8) + 8 (section 9); the solver's four input checks
+are printed indented, once, in section 6 and are not among them. No line contains `FAIL`; no cell has
+stderr or error output.
 
 No run time and no path of the computer is printed (paths are shown relative to the repository, as
 `.` for the repository itself, or as `<output>/...` and `<cargo-target>/...`).
 
 ## 5. Measured run time (Windows 11)
 
-* 2026-10-17 (the corrected metric; the machine otherwise idle): 18.8 s (`build`) and 20.4 s (`check`) of execution.
+* 2026-10-17, rebuild after the audit (phase W6; the current notebook): 18.6 s (build A), 18.8 s (build B) and
+  18.5 s (`check`) of execution as `build_notebooks.py` printed it; 19.7 s, 19.9 s and 19.5 s for the whole
+  command (the step log). The three commands ran one after the other, before the builds of
+  `dark_sector_hypotheses`.
+* 2026-10-17, first build for the corrected metric (the machine otherwise idle): 18.8 s (`build`) and 20.4 s
+  (`check`) of execution.
 * 2026-10-16 (the metric with b4(x4); other jobs of this work on the computer): 14.6 s (`build`) and 14.4 s (`check`) of execution.
 * 2026-10-14 (the author's coordinates; other jobs of this work on the computer): 11.5 s (`build`) and 11.6 s (`check`) of execution.
 * Whole notebook, version of 2026-10-08 (the withdrawn record with N = 136, 688), executed by

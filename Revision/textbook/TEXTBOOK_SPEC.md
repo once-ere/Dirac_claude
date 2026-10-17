@@ -25,16 +25,23 @@ R1 THE NEW BOOK: `Revision/textbook/UNIVERSES_IN_PAIRS_TEXTBOOK.{md,tex,pdf}`, t
    "Universes in Pairs — A Deep-Dive Course on the dirac16complex Fields in the Author's 4+4
    Primordial Universe, with a Complete Jupyter Notebook for Every Example".
 R2 CORRECT PHYSICS = the Revision record.  The author's coordinates and roles (Revision/SPEC.md
-   section 1; binding by the user's order of 2026-10-14): X = {x0, x1, ..., x7}, with x0 = the
-   hidden space direction listed FIRST, z = 6 H x0 in (0, pi/2), g00 = cot^2 z; x1, x2, x3 =
-   3-space (inflating, scale factor e^{a4} sin^{1/6} z); x4 = the time; x5, x6, x7 = the three
-   EXTRA TIMES, time-like, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} b4^{1/2} sin^{1/6} z);
-   signature (4,4); eta = diag(+,+,+,+,-,-,-,-) in the order x0..x7.  Python index k = xk and
+   section 1; binding by the user's orders of 2026-10-14 and 2026-10-16): X = {x0, x1, ..., x7}, with
+   x0 = the hidden SPACE-LIKE direction listed FIRST, z = 6 H x0 taking EVERY REAL VALUE.  THE
+   CORRECTED METRIC (version 2 of 2026-10-16, the current one): g = diag(e^{-2a4} b4 cot^2 z,
+   e^{2a4}, e^{2a4}, e^{2a4}, -1, -e^{-2a4} b4 (sin^2 z)^{1/6} (three times)), b4(x4) > 0 a
+   function of x4 (never 1); x1, x2, x3 = 3-space (scale factor e^{a4}, no warp); x4 = the time
+   (g44 = -1); x5, x6, x7 = the three EXTRA TIMES, time-like, which DEFLATE EXPONENTIALLY (scale
+   factor e^{-a4} b4^{1/2} (sin^2 z)^{1/12}); the hidden direction has the scale factor
+   e^{-a4} b4^{1/2} |cot z| and shrinks with them; sqrt|g| = e^{-a4} b4^2 |cot z| (sin^2 z)^{1/4};
+   the fold cos z = 0 (z = pi/2) joins the two halves of a cell (g00 and sqrt|g| vanish there; NO
+   Z2 orbifold, no brane, no mirror copy carrying -m); with y = ln|sin z|/(6H) the block
+   (x0, x5, x6, x7) is e^{-2a4} b4 (dy^2 - e^{2Hy}(dx5^2 + dx6^2 + dx7^2)); gravity term of the Dirac
+   operator gamma^mu Omega_mu = (3/2) H e^{a4} b4^{-1/2} gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4).
+   Signature (4,4); eta = diag(+,+,+,+,-,-,-,-) in the order x0..x7.  Python index k = xk and
    gamma^(xk) = T16[k] (T16[8] is Gamma).  Never write x8, x1..x8 or any list with the hidden
-   direction last.  The metric of 2026-10-14 has a second function b4(x4) > 0 in the three
-   extra-time components (b4 = 1 is the earlier metric; Revision/metric_b4): treat the general b4
-   wherever the record has it, and say b4 = 1 wherever a chapter or a notebook works on that
-   background.  NEVER the old static / frozen / window models.  Every formula and number comes from a
+   direction last.  The metric of 2026-10-14 (with sin^{1/3} z in 3-space and the Z2 brane) and
+   version 1 of 2026-10-16 are WITHDRAWN: they appear only as dated history, never as current
+   physics.  NEVER the old static / frozen / window models.  Every formula and number comes from a
    Revision record (Revision/algebra, theory, field_equations_a4, pairing (incl. kohn_sham/),
    gkd_lovelock, kohn_sham, lead_checks, docs) or is computed by the book's own notebooks; old
    stages (artifacts/, provenance/ results, studies/, wolfram/, notebooks/) are never a source of
@@ -42,7 +49,8 @@ R2 CORRECT PHYSICS = the Revision record.  The author's coordinates and roles (R
 R3 HONESTY (overrides the wording of the request; the user was told this on 2026-10-02):
    * "the big bang creates universes in pairs": PROVED are the pairing theorems T1 (chirality map
      Gamma: L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi], T -> -T, J -> -J), T2 (Gamma with a
-     Pin(4,4) reflection and the ASSUMED Z2 mirror: (m,lambda) -> (-m,lambda) at equal T), Q (the
+     Pin(4,4) reflection, realised by the isometry z -> pi - z across the fold between the two
+     halves of a cell: (m,lambda) -> (-m,lambda) at equal T), Q (the
      quantum reading, Krein metric) and T3 (Kohn-Sham level: the +M and -M universes have equal
      energies and energy-momentum tensors), and corollary C1; these are exact MAPS BETWEEN
      SOLUTION SETS.  NOT proved: that any universe is CREATED, in pairs or otherwise; no creation
@@ -51,12 +59,13 @@ R3 HONESTY (overrides the wording of the request; the user was told this on 2026
      complete proofs of what is proved and a precise list of what is not.
    * "this theory solves matter anti-matter mysteries": the book teaches the observed asymmetry
      from zero (baryon-to-photon ratio, Sakharov's three conditions), proves in this theory the
-     exact LOCAL U(1) conservation law d_mu(cos z J^mu) = 0 on shell (lead check
-     u1_noether_matrix_identity: no process creates or destroys charge at any point, so no net
-     charge is made locally inside one universe), states that the TOTAL charge of a universe is
-     constant only if no charge flows through the brane z = pi/2 - an ASSUMED no-flux condition,
-     not derived, which fails on the exact homogeneous solutions of chapter 18 (OPEN; corrected
-     2026-10-08) -, the discrete symmetries, and the pair-level statement (a T1 partner carries the opposite
+     exact LOCAL U(1) conservation law d_mu(sqrt|g| J^mu) = 0 on shell, sqrt|g| = e^{-a4} b4^2
+     |cot z| (sin^2 z)^{1/4} (lead check u1_noether_matrix_identity: no process creates or destroys
+     charge at any point, so no net charge is made locally inside one universe), states that the
+     TOTAL charge Q = Int sqrt|g| Psi^dagger B Psi d^7x over an interval of z between degenerate
+     points (where sin z cos z = 0) is constant only if no charge flows through its ends - an ASSUMED
+     no-flux condition, not derived; constancy of Q is NOT established (the same check; OPEN) -, the
+     discrete symmetries, and the pair-level statement (a T1 partner carries the opposite
      charge, so a {+m, -m} pair has zero total charge: the universe/anti-universe class of ideas;
      cite Boyle, Finn and Turok, Phys. Rev. Lett. 121, 251301 (2018) as the published example of
      the class without attributing to it anything it does not say), and states precisely that the
@@ -202,8 +211,9 @@ Part I — Getting ready
    convergence (log-log plot); NB 02b shooting for a quantum well (plots of the shooting function
    and eigenfunctions).
 03 Spacetime geometry: metric, signature (4,4), the author's metric, scale factors, Christoffel
-   symbols, Riemann, Ricci, Einstein tensors.  NB 03a the author's metric (plots of e^{a4},
-   e^{-a4}, sin^{1/6} z, cot^2 z, proper volumes); NB 03b its curvature (sympy; plots of the
+   symbols, Riemann, Ricci, Einstein tensors.  NB 03a the corrected metric (plots of e^{a4},
+   e^{-a4} b4^{1/2}, (sin^2 z)^{1/12}, cot^2 z, the hidden coordinate y, proper volumes); NB 03b its
+   curvature (sympy; plots of the
    components and of the Kretschmann scalar versus z).  Sources: Revision/SPEC.md s.1,
    Revision/gkd_lovelock/results/curvature.json, Revision/lead_checks.
 Part II — Spinors and fields
@@ -216,7 +226,8 @@ Part II — Spinors and fields
    properties (spectra, heat maps); NB 05b commutant dimensions (rank plots); NB 05c the
    charge-conjugation matrices.  Sources: Revision/algebra, Revision/lead_checks.
 06 Spinors in curved 4+4 space: vielbein, spin connection, covariant derivative, gamma^mu Omega_mu
-   = 3 H gamma^(x0) (+ (3/4)(b4'/b4) gamma^(x4) with b4), the negative control, frame dependence.  NB 06a.  Sources: Revision/theory,
+   = (3/2) H e^{a4} b4^{-1/2} gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4) (the corrected metric), the
+   negative control, frame dependence.  NB 06a.  Sources: Revision/theory,
    Revision/lead_checks.
 07 The two fields and their Lagrangians: Grassmann numbers from zero; dirac16complex (Grassmann) and
    dirac16complex00 (commuting); reality; Euler-Lagrange equations written out in the author's
@@ -250,7 +261,8 @@ Part IV — Density functional theory
    (plots).
 14 The Kohn-Sham model of dirac16complex in the deflating primordial field: the hidden coordinate y,
    the warped form, the stationary-slice (adiabatic) ansatz, the removal of the spin connection, the
-   2x2 blocks, boundary conditions (Z2 mirror ASSUMED, regular tip), the exact rescaling identity,
+   2x2 blocks, boundary conditions (the fold joining the two halves of a cell, both fold conditions
+   filled - ASSUMED -, regular tip), the hidden scale f = e^{-a4} b4^{1/2}, the exact rescaling identity,
    the exact local exchange.  NB 14a block reduction and rescaling identity (checks, plots); NB 14b
    free-field spectra, analytic versus numerical (plots).  Sources: Revision/kohn_sham/theory,
    ks-theory.json, reports.
@@ -278,7 +290,7 @@ Part V — Pairs of universes, matter and antimatter
    docs/PAIR_CREATION_PROOFS.md, lead_checks.
 21 Matter and antimatter from zero: observations, Sakharov's conditions, the exact local U(1)
    conservation law in this theory (the total charge is constant only under the ASSUMED no-flux
-   condition at the brane), the charge-conjugation MATRICES calC_+ and calC_- (R5), real
+   condition at the ends of the z interval), the charge-conjugation MATRICES calC_+ and calC_- (R5), real
    fields, the quantum (unitary-type) conjugation Gamma, P/T and chirality, the pair-level zero
    total charge, the scorecard, what would be needed.  NB 21a the charge-conjugation matrices
    solved exactly from the Revision gammas (heat maps of C, Gamma, Gamma C; the solution-space
@@ -287,8 +299,9 @@ Part V — Pairs of universes, matter and antimatter
    These are NEW Revision computations; they must reproduce Revision/lead_checks/
    charge_conjugation_and_u1.py's report.
 22 Open problems: the creation question, TDDFT beyond the adiabatic history, the a4 back-reaction,
-   the Z2 brane junction, the dark-sector hypotheses (investigated by the Revision record for the
-   metric with b4(x4), established in neither form; their results stated with their labels), how
+   the fold between the two halves of a cell (what, if anything, joins the field across it), the
+   dark-sector hypotheses (investigated by the Revision record for the corrected metric, established
+   in neither form; their results stated with their labels), how
    a student could attack each.  NB 22a the adiabaticity breakdown estimate (plots); NB 22b the
    dark-sector numbers of the record (plots).
 Appendices
