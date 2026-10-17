@@ -289,7 +289,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs", type=int, default=8)
     ap.add_argument("--work", default=None, help="folder of the stored member results (parts)")
-    ap.add_argument("--part", default=None, help="i/n: solve only the members k = i-1 (mod n), store them, stop")
+    ap.add_argument("--part", default=None, help="i/n: solve only the grid runs of part i (the longest-first assignment "
+                                                 "of the 162 grid runs to n parts), store them, stop")
     ap.add_argument("--reuse", action="store_true", help="read the stored member results of --work (the assembly)")
     args = ap.parse_args()
     if (args.part or args.reuse) and not args.work:
