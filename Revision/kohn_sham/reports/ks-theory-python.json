@@ -1,12 +1,12 @@
 {
   "report": "Revision Kohn-Sham theory (SPEC sections 1, 7): independent exact sympy derivation and checks",
   "producer": "Revision/kohn_sham/theory/check_ks_theory.py",
-  "coordinates": "the author's coordinates {x0, ..., x7}: x0 = the hidden direction (proper coordinate y = ln(sin 6Hx0)/(6H) <= 0); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times",
+  "coordinates": "the author's coordinates {x0, ..., x7}: x0 = the hidden direction (y = ln|sin 6Hx0|/(6H) <= 0 on every quarter); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the extra times; the corrected metric of 2026-10-16 (version 2), general a4(x4), b4(x4) > 0, every real z",
   "summary": {
-    "passed": 63,
+    "passed": 61,
     "failed": 0,
     "other": 0,
-    "total": 63
+    "total": 61
   },
   "checks": [
     {
@@ -37,17 +37,17 @@
     {
       "name": "geometry_hidden_coordinate",
       "verdict": "PASS",
-      "detail": "y = ln(sin z)/(6H), sin z = e^{6Hy}: dy = cot z dx0, cot^2 z dx0^2 = dy^2, sin^{1/3} z = e^{2Hy}; z in (0, pi/2) <-> y in (-inf, 0); the patch end z = pi/2 is y = 0"
+      "detail": "y = ln|sin z|/(6H) = ln(sin^2 z)/(12H): dy = cot z dx0 for every real z (x0 real), cot^2 z dx0^2 = dy^2, (sin^2 z)^{1/6} = e^{2Hy}; every quarter of the period of z is y in (-inf, 0) (the fold cos z = 0 is y = 0)"
     },
     {
       "name": "geometry_sqrt_det",
       "verdict": "PASS",
-      "detail": "|det g| = b4^3 sin^2 z cot^2 z = b4^3 cos^2 z in the author's chart x0..x7 (independent of a4): sqrt|g| = b4^{3/2} cos z; in the y chart sqrt|g| = b4^{3/2} W^6 = b4^{3/2} e^{6Hy}, W = e^{Hy} (the a4 factors cancel, e^{3a4} e^{-3a4} = 1; the 7-volume changes as b4^{3/2})"
+      "detail": "det g = e^{-2a4} b4^4 cot^2 z |sin z| in the author's chart (every real z): sqrt|g| = e^{-a4} b4^2 |cot z| (sin^2 z)^{1/4}; in the y chart sqrt|g| = e^{3a4} f^4 e^{3Hy} = e^{-a4} b4^2 e^{3Hy}, f = e^{-a4} b4^{1/2}"
     },
     {
-      "name": "geometry_warped_form",
+      "name": "geometry_line_element",
       "verdict": "PASS",
-      "detail": "ds^2 = e^{2Hy}[e^{2a4(x4)} dx_{1..3}^2 - e^{-2a4(x4)} b4(x4) dx_{5..7}^2] - dx4^2 + dy^2 (the author's metric with b4(x4), sin^{1/3} z = e^{2Hy} and cot^2 z dx0^2 = dy^2), vielbein h = (1, e^{a4}W x3, 1, e^{-a4} b4^{1/2} W x3) in the order (y, x1..x7)"
+      "detail": "ds^2 = e^{2a4(x4)} dx_{1..3}^2 - dx4^2 + f(x4)^2 [dy^2 - e^{2Hy} dx_{5..7}^2], f = e^{-a4} b4^{1/2} (the corrected metric with (sin^2 z)^{1/6} = e^{2Hy} and cot^2 z dx0^2 = dy^2), vielbein h = (f, e^{a4} x3, 1, f e^{Hy} x3) in the order (y, x1..x7)"
     },
     {
       "name": "spin_connection_compatibility",
@@ -57,47 +57,42 @@
     {
       "name": "spin_connection_slash",
       "verdict": "PASS",
-      "detail": "gamma^mu Omega_mu = 3H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) exactly for a4 = a4(x4), b4 = b4(x4): no a4' term survives, the b4' term remains"
+      "detail": "gamma^mu Omega_mu = (3/2)(H/f) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4) exactly for a4 = a4(x4), b4 = b4(x4) (f = e^{-a4} b4^{1/2}; = (3/2) H e^{a4} b4^{-1/2} gamma^(x0) + ...)"
     },
     {
       "name": "spin_connection_time_terms",
       "verdict": "PASS",
-      "detail": "the a4' pieces of the 3 inflating directions (nonzero, see spin_connection_time_term_value) cancel those of the 3 deflating directions exactly; the deflating directions add (3/4)(b4'/b4) gamma^(x4); Omega_x4 = Omega_y = 0"
-    },
-    {
-      "name": "spin_connection_time_term_value",
-      "verdict": "PASS",
-      "detail": "sum over x1..x3 of gamma^i Omega_i at H = 0 equals (3*Derivative(a4(x4), x4)/2) gamma^(x4); the x5..x7 sum equals (-3*Derivative(a4(x4), x4)/2 + 3*Derivative(b4(x4), x4)/(4*b4(x4))) gamma^(x4)"
+      "detail": "per direction: the hidden direction gives (1/2) h4 gamma^(x4), 3-space (3/2) a4' gamma^(x4), the extra times (3/2) h4 gamma^(x4) + (3/2)(H/f) gamma^(x0), h4 = b4'/(2 b4) - a4'; Omega_x4 = 0, Omega_y != 0 (f depends on x4)"
     },
     {
       "name": "spin_connection_slash_x0_chart",
       "verdict": "PASS",
-      "detail": "in the author's chart x0..x7 (frame vector e_(x0) = tan z d_x0 = d_y), a4 = a4(x4), b4 = b4(x4): gamma^mu Omega_mu = 3H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) too"
+      "detail": "in the author's chart x0..x7 (e^x0 = e^{-a4} b4^{1/2} cot z signed, (sin^2 z)^{1/12} = (s sin z)^{1/6} for each sign s of sin z, i.e. every real z), a4 = a4(x4), b4 = b4(x4): gamma^mu Omega_mu = (3/2) H e^{a4} b4^{-1/2} gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4) too"
     },
     {
       "name": "ansatz_removes_spin_connection",
       "verdict": "PASS",
-      "detail": "gamma^mu D_mu (e^{ik.x} W^{-3} b4^{-3/4} chi(y, x4)) = e^{ik.x} W^{-3} b4^{-3/4} [g0 d_y chi + g4 d_x4 chi + i kappa k_j g^j chi], kappa(y, x4) = e^{-Hy - a4(x4)}: exact, for time-dependent a4 and b4, good sector (no x5..x7 dependence); b4 does not appear in the reduced operator"
+      "detail": "gamma^mu D_mu (e^{ik.x} e^{-(3/2)Hy} e^{a4/2} b4^{-1} chi(y, x4)) = e^{ik.x} e^{-(3/2)Hy} e^{a4/2} b4^{-1} [(1/f) g0 d_y chi + g4 d_x4 chi + i kappa k_j g^j chi], kappa = e^{-a4(x4)} (no y): exact, for time-dependent a4 and b4, good sector"
     },
     {
-      "name": "ansatz_without_W3_term_survives",
+      "name": "ansatz_without_y_factor_term_survives",
       "verdict": "PASS",
-      "detail": "without the factor W^{-3} the term 3H gamma^(x0) chi survives"
+      "detail": "without the factor e^{-(3/2)Hy} the term (3/2)(H/f) gamma^(x0) chi survives"
     },
     {
-      "name": "ansatz_without_b4_factor_term_survives",
+      "name": "ansatz_without_x4_factor_term_survives",
       "verdict": "PASS",
-      "detail": "without the factor b4^{-3/4} the term (3/4)(b4'/b4) gamma^(x4) chi survives: b4^{-3/4} is the half-density factor of the volume element b4^{3/2} cos z"
+      "detail": "without the factor e^{a4/2} b4^{-1} the term (b4'/b4 - a4'/2) gamma^(x4) chi survives: e^{-(3/2)Hy} e^{a4/2} b4^{-1} is the half-density of sqrt|g| = e^{-a4} b4^2 e^{3Hy}"
     },
     {
-      "name": "ansatz_norm_b4",
+      "name": "ansatz_norm",
       "verdict": "PASS",
-      "detail": "sqrt|g| (b4^{-3/4} W^{-3})^2 = 1 in the y chart: int sqrt|g| Psi^dag Psi over the hidden direction equals int chi^dag chi dy for every a4 and b4 (the Hilbert norm of the reduced problem)"
+      "detail": "sqrt|g| (e^{-(3/2)Hy} e^{a4/2} b4^{-1})^2 = 1 in the y chart: int sqrt|g| Psi^dag Psi over the hidden direction equals int chi^dag chi dy for every a4 and b4 (the Hilbert norm of the reduced problem)"
     },
     {
       "name": "hamiltonian_16_hermitian",
       "verdict": "PASS",
-      "detail": "i d_x4 chi = h chi, h = i g4 g0 d_y (g4 g0 real symmetric, so i g4 g0 d_y is Hermitian) - kappa k_j g4 g^j + M (-i g4) + v: i g4 g0, g4 g^j, -i g4 are Hermitian, (-i g4)^2 = 1; the KS covariant equation is gamma^mu D_mu Psi = (M_eff - i v_v g4) Psi; the Hilbert norm int chi^dagger chi dy (= int sqrt|g| Psi^dagger Psi over the hidden direction) is a4-independent and conserved when the boundary terms vanish"
+      "detail": "i d_x4 chi = h chi, h = (i/f) g4 g0 d_y (g4 g0 real symmetric, so (i/f) g4 g0 d_y is Hermitian) - kappa k_j g4 g^j + M (-i g4) + v: i g4 g0, g4 g^j, -i g4 are Hermitian, (-i g4)^2 = 1; the KS covariant equation is gamma^mu D_mu Psi = (M_eff - i v_v g4) Psi; the Hilbert norm int chi^dagger chi dy (= int sqrt|g| Psi^dagger Psi over the hidden direction) is conserved when the boundary terms vanish"
     },
     {
       "name": "blocks_commuting_set",
@@ -132,12 +127,12 @@
     {
       "name": "block_hamiltonian",
       "verdict": "PASS",
-      "detail": "h_16 restricted to block (j,s2,s3), k = (k,0,0): h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v; equivalently chi' = N chi, N = M sigma3 - kappa k sigma2 + i j (epsilon - v) sigma1"
+      "detail": "h_16 restricted to block (j,s2,s3), k = (k,0,0): h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v (kappa = e^{-a4}, f = e^{-a4} b4^{1/2}); equivalently chi' = f N chi, N = M sigma3 - kappa k sigma2 + i j (epsilon - v) sigma1"
     },
     {
       "name": "block_ode_equivalent",
       "verdict": "PASS",
-      "detail": "h_j chi = epsilon chi is equivalent to chi' = N chi for j = +-1"
+      "detail": "h_j chi = epsilon chi is equivalent to chi' = f N chi for j = +-1 (the factor f multiplies both sides of -(i j/f) sigma1 chi' = (epsilon - v - j(M sigma2 + kappa k sigma3)) chi)"
     },
     {
       "name": "block_type_relation",
@@ -205,24 +200,19 @@
       "detail": "a level with 2x2 density D = (d0 + d1 s1 + d2 s2 + d3 s3)/2 in each of the 4 blocks of type j = +1 and sigma3 D sigma3 in the 4 blocks of type -1 (the degenerate (-j,-k) partners), averaged over a k -> -k closed shell (= the projection onto the 64-dim commutant of the 3-space rotations; End(16) carries only spin 0 and 1): n = 8 d0, S = 8 d2, Q = <Psi^dag B g0 Psi> = 8 d3; exact local Fock exchange -(lambda/32)(n^2 + S^2 - Q^2 - Y^2), Y = 8 d1 the y-current (zero for eigen-orbitals). The uniform-gas e_x omits +(lambda/32) Q^2."
     },
     {
-      "name": "bc_mirror_map_PA",
+      "name": "bc_fold_same_equation_on_both_halves",
       "verdict": "PASS",
-      "detail": "the reflection P_A: chi(y) -> sigma3 chi(-y) = gamma^(x0) chi(-y) maps a solution with (M(y), v(y), kappa(y)) onto one with (-M(-y), v(-y), kappa(-y)); with the Z2 mirror warp W = e^{-H|y|}, kappa(-y) is the mirror's kappa: P_A is a symmetry of the doubled problem iff M_eff is odd across y = 0"
+      "detail": "the fold cos z = 0 (y = 0) joins the halves z < pi/2 and z > pi/2 of a cell: z -> pi - z keeps y = ln|sin z|/(6H) and flips cot z, so e^x0 dx0 = f cot z dx0 = f dy on both halves, and gamma^mu Omega_mu is free of y: the reduced equation is the same on both halves, so a spinor continuous across the fold has the same chi(y) on both halves"
     },
     {
-      "name": "bc_mirror_parities_of_densities",
+      "name": "bc_fold_conditions",
       "verdict": "PASS",
-      "detail": "under P_A: n and Q even, S and the y-current odd; hence M_eff = m + (15/16) lambda S odd requires the mirror copy to carry (-m, +lambda) (v_v = -lambda n/16 even, same lambda): the (+m, -m) mirror pair (SPEC T3)"
-    },
-    {
-      "name": "bc_brane_parity_conditions",
-      "verdict": "PASS",
-      "detail": "ASSUMED Z2 mirror (orbifold under P_A): continuity of Psi(-y) = +-gamma^(x0) Psi(y) at y = 0 gives (1 -+ gamma^(x0)) chi(0) = 0, in every block chi2(0) = 0 (even) or chi1(0) = 0 (odd); both kill the y-current chi^dag sigma1 chi; real form chi = (a, i b): b(0) = 0 or a(0) = 0"
+      "detail": "the boundary form of the doubled cell at the fold is 2 (-i j/f) phi^dag sigma1 chi(0) (the y direction points to the fold on both halves): self-adjointness needs (1 - Q(theta)) chi(0) = 0; theta = 0: chi2(0) = 0 (even), theta = pi: chi1(0) = 0 (odd), both kill the current chi^dag sigma1 chi, a general chi(0) does not. ASSUMED (the record's convention): both are solved and filled together, each orbital normalised on one half (w = 1/2)"
     },
     {
       "name": "bc_self_adjoint_boundary_term",
       "verdict": "PASS",
-      "detail": "phi^dag h_j chi - (h_j phi)^dag chi = d/dy[-i j phi^dag sigma1 chi] pointwise: with current-killing conditions at both ends h_j is self-adjoint in the flat measure int dy (levels real, orbitals orthogonal)"
+      "detail": "phi^dag h_j chi - (h_j phi)^dag chi = d/dy[-(i j/f) phi^dag sigma1 chi] pointwise: with current-killing conditions at both ends h_j is self-adjoint in the flat measure int dy (levels real, orbitals orthogonal)"
     },
     {
       "name": "bc_tip_family",
@@ -232,22 +222,22 @@
     {
       "name": "bc_current_conserved_along_y",
       "verdict": "PASS",
-      "detail": "N^dag sigma1 + sigma1 N = 0 for real (epsilon, M, v, kappa k): chi^dag sigma1 chi is constant in y on every solution (so zero everywhere for an eigen-orbital); N + N^dag = 2M sigma3 - 2 kappa k sigma2 != 0: the Hilbert density chi^dag chi is not"
+      "detail": "chi' = f N chi with N^dag sigma1 + sigma1 N = 0 for real (epsilon, M, v, kappa k): chi^dag sigma1 chi is constant in y on every solution (so zero everywhere for an eigen-orbital); N + N^dag = 2M sigma3 - 2 kappa k sigma2 != 0: the Hilbert density chi^dag chi is not"
     },
     {
       "name": "bc_exact_k0_spectra",
       "verdict": "PASS",
-      "detail": "k = 0, constant M > 0, v = 0, tip theta = 0: even parity: chiral zero mode epsilon = 0, chi = (e^{My}, 0) (brane-localised, every L) and epsilon = +-sqrt(M^2 + (n pi/L)^2), chi2 ~ sin(n pi y/L); odd parity: epsilon^2 = M^2 + p^2 with M sin(pL) + p cos(pL) = 0, i.e. tan(pL) = -p/M; each level 4-fold per j"
+      "detail": "k = 0, constant M > 0, v = 0, tip theta = 0 (chi' = f N chi): even: chiral zero mode epsilon = 0, chi = (e^{f M y}, 0) (fold-localised, every L) and epsilon = +-sqrt(M^2 + (n pi/(f L))^2), chi2 ~ sin(n pi y/L); odd: epsilon^2 = M^2 + p^2 with M sin(p f L) + p cos(p f L) = 0, i.e. tan(p f L) = -p/M; each level 4-fold per j (f L = the proper hidden length)"
     },
     {
       "name": "bc_tip_asymptotics",
       "verdict": "PASS",
-      "detail": "as y -> -inf, kappa(y) = e^{-Hy-a4} -> inf and N -> -kappa k sigma2: the branches are chi ~ exp(+- k kappa/H) times the sigma2 = -+1 eigenvectors; the regular (decaying toward the tip, k > 0) branch is sigma2 chi = -chi. An orbital with k != 0 is suppressed at the tip like exp(-|k|(kappa(-L) - kappa(y))/H), so for k != 0 any current-killing tip condition gives the same levels up to that factor; the tip condition matters for k = 0, where theta = 0 selects the regular brane-localised zero mode e^{My} and admits no tip-localised mode for M > 0"
+      "detail": "N^2 = (M^2 + kappa^2 k^2 - (eps - v)^2) 1: for constant M, v the branches are e^{+- f lambda y}, lambda = sqrt(M^2 + kappa^2 k^2 - (eps - v)^2), kappa = e^{-a4} constant in y: nothing suppresses an orbital toward the tip (in the metric of 2026-10-14 kappa = e^{-Hy-a4} grew toward the tip); the extended levels depend on L like a box of proper length f L"
     },
     {
       "name": "rescaling_identity",
       "verdict": "PASS",
-      "detail": "a4,0 enters h only through kappa k = e^{-Hy}(k e^{-a4,0}) and b4,0 not at all; the lattice k = Delta k n at slice a4,0 is the lattice Delta k e^{-a4,0} at slice 0. The proper density factor P = e^{-6Hy}/(ell^3 v_t b4,0^{3/2}) is invariant under (ell, v_t) -> (ell e^{a}, v_t e^{-3a}) and under (v_t, b4,0) -> (v_t (b4,0/b4(0))^{3/2}, b4(0)) (same proper cells). Hence EXACTLY (Hartree, exchange, any T): KS(a4,0, b4,0; Delta k, v_t, lambda) = KS(0, b4(0); Delta k e^{-a4,0}, v_t e^{-3 a4,0} (b4,0/b4(0))^{3/2}, lambda), all levels, orbitals, proper densities and EMT profiles equal; on the history b4 = b4(0) e^{(4/3) a4}: KS(a4,0; Delta k, v_t) = KS(0; Delta k e^{-a4,0}, v_t e^{-a4,0})"
+      "detail": "in the proper hidden coordinate Y = f0 y (f0 = e^{-a4,0} b4,0^{1/2}): h_j = j[-(i/f0) sigma1 d_y + M sigma2 + e^{-a4,0} k sigma3] = j[-i sigma1 d_Y + M sigma2 + (k e^{-a4,0}) sigma3], e^{-3Hy} = e^{-3 (H/f0) Y}, chi_Y = chi/sqrt(f0), and the proper density factor P = e^{-3Hy} e^{a4,0}/(ell^3 v_t b4,0^2) equals P'(Y)/f0 of the slice a4 = 0, b4 = 1 with H/f0, ell e^{a4,0}, v_t e^{-3 a4,0} b4,0^{3/2}: KS(a4,0, b4,0; H, L, Delta k, v_t, lambda) = KS(0, 1; H/f0, f0 L, Delta k e^{-a4,0}, v_t e^{-3 a4,0} b4,0^{3/2}, lambda) exactly; on the history b4 = e^{(4/3) a4}: f0 = e^{-a4,0/3}"
     },
     {
       "name": "ks_coupling_volume_scaling",
@@ -257,12 +247,12 @@
     {
       "name": "history_solver_units",
       "verdict": "PASS",
-      "detail": "on the history b4 = b4(0) e^{beta a4} the solver uses lambda_hat = lambda b4(0)^{-3/2}, densities per Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (the proper densities times b4(0)^{3/2}) and otherwise the same formulas: lambda n_proper = lambda_hat n_solver and (ell^3 v_t b4,0^{3/2}) n_proper = Vol_7(a4,0) n_solver, so b4(0) never needs a value; equivalently (ks_coupling_volume_scaling) the slice state is that of the coordinate cell ell^3 v_t at lambda_eff = lambda_hat e^{-(3/2) beta a4,0} = lambda_hat e^{-2 a4,0} (beta = 4/3)"
+      "detail": "on the history b4 = b4(0) e^{beta a4} the proper density factor is P = b4(0)^{-2} e^{-3Hy}/Vol_7(a4,0), Vol_7 = ell^3 v_t e^{(2 beta - 1) a4,0} (beta = 4/3: e^{(5/3) a4,0}); the solver uses lambda_hat = lambda b4(0)^{-2} and the densities per Vol_7, so lambda n_proper = lambda_hat n_solver; equivalently the slice state is that of the coordinate cell at lambda_eff = lambda_hat e^{-(5/3) a4,0}; b4(0) also enters f0 = b4(0)^{1/2} e^{-a4,0/3}, and the record uses b4(0) = 1"
     },
     {
       "name": "emt_orbital_components",
       "verdict": "PASS",
-      "detail": "K^mu_mu(no sum) = (1/2)[Psibar g^mu D_mu Psi - (D_mu Psibar) g^mu Psi] in the expectation rule, for Psi = e^{-i eps x4 + i k x1} W^{-3} b4^{-3/4} V_beta chi /sqrt(ell^3 v_t), a4 = a4(x4) and b4 = b4(x4) general (the spin connection, including its a4' and b4' pieces, and the x4 derivative of b4^{-3/4} drop out of every diagonal component): -K^x1_x1 = P kappa k chi^dag j s3 chi, K^x4_x4 = P eps chi^dag chi, K^x2_x2 = K^x5_x5 = 0, -K^y_y = P[(eps - v) chi^dag chi - M chi^dag j s2 chi - kappa k chi^dag j s3 chi] (on shell), P = e^{-6Hy}/(ell^3 v_t b4^{3/2}) (per proper 7-volume); K_x4y = P (eps - v/2) chi^dag j s1 chi (zero for eigen-orbitals). block 0 (1, 1, 1): K11 True, K44 True, K22=K55=0 True, Kyy True, K_x4y = P (eps - v/2) c True; block 5 (-1, 1, -1): K11 True, K44 True, K22=K55=0 True, Kyy True, K_x4y = P (eps - v/2) c True"
+      "detail": "K^mu_mu(no sum) = (1/2)[Psibar g^mu D_mu Psi - (D_mu Psibar) g^mu Psi] in the expectation rule, for Psi = e^{-i eps x4 + i k x1} e^{-(3/2)Hy} e^{a4/2} b4^{-1} V_beta chi /sqrt(ell^3 v_t), a4 = a4(x4) and b4 = b4(x4) general (the spin connection drops out of every diagonal component): -K^x1_x1 = P kappa k chi^dag j s3 chi, K^x4_x4 = P eps chi^dag chi, K^x2_x2 = K^x5_x5 = 0, -K^y_y = P[(eps - v) chi^dag chi - M chi^dag j s2 chi - kappa k chi^dag j s3 chi] (on shell, chi' = f N chi), P = e^{-3Hy} e^{a4} b4^{-2}/(ell^3 v_t) (per proper 7-volume), kappa = e^{-a4}; K_x4y = f P (eps - v/2) chi^dag j s1 chi (zero for eigen-orbitals). block 0 (1, 1, 1): K11 True, K44 True, K22=K55=0 True, Kyy True, K_x4y = f P (eps - v/2) c True; block 5 (-1, 1, -1): K11 True, K44 True, K22=K55=0 True, Kyy True, K_x4y = f P (eps - v/2) c True"
     },
     {
       "name": "emt_trace_identity",
@@ -272,37 +262,37 @@
     {
       "name": "emt_y_conservation_orbital",
       "verdict": "PASS",
-      "detail": "for one orbital in external M(y), v(y) (coordinate densities, P without e^{-6Hy}): d/dy[(eps - v) n_c - M s_c - kappa k t_c] = H kappa k t_c - v' n_c - M' s_c"
+      "detail": "for one orbital in external M(y), v(y) (chi' = f N chi, kappa constant in y): d/dy[(eps - v) n_c - M s_c - kappa k t_c] = -v' n_c - M' s_c"
     },
     {
       "name": "emt_y_conservation_selfconsistent",
       "verdict": "PASS",
-      "detail": "nabla_mu T^mu_y = p0' + 6H p0 - 3H (p3 + p_t) for diagonal T(y); summing the orbital identity over a closed shell (3 p3_kin = kappa |k| t) and adding e_int, the force terms -M' S - v' n + e_int' cancel exactly for the self-consistent M_eff, v_v: every self-consistent KS state with these potentials satisfies nabla_mu T^mu_y = 0"
+      "detail": "nabla_mu T^mu_y = p0' + 3H (p0 - p_t) for diagonal T(y, x4) (p3 does not enter: 3-space has no warp along y); summing the orbital identity with the factor P ~ e^{-3Hy} and adding e_int, the force terms -M' S - v' n + e_int' cancel exactly for the self-consistent M_eff, v_v: every self-consistent KS state satisfies p0' = -3H (p0 - e_int) = -3H (p0 - p_t)"
     },
     {
       "name": "emt_x4_component",
       "verdict": "PASS",
-      "detail": "with a4 = a4(x4), b4 = b4(x4): nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t) (+ the y-flux divergence, zero for the instantaneous states)"
+      "detail": "with a4 = a4(x4), b4 = b4(x4): nabla_mu T^mu_x4 = -d_x4 rho - 3 a4' (rho + p3) - 3 h4 (rho + p_t) - h4 (rho + p0), h4 = b4'/(2 b4) - a4' (+ the y-flux divergence, zero for the instantaneous states)"
     },
     {
       "name": "emt_energy_change_history",
       "verdict": "PASS",
-      "detail": "with sqrt|g| = b4^{3/2} e^{6Hy} and the conservation law: d_x4 (b4^{3/2} rho) = b4^{3/2} (-3 a4' (p3 - p_t) - (3/2)(b4'/b4) p_t) (+ the y-flux, zero for eigen-orbitals); on the history a4 = A H x4, b4 = b4(0) e^{beta A H x4}: dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7(a4,0) int e^{6Hy} p dy (beta = 4/3: -3 (P3 - P_t) - 2 P_t), the solver check"
+      "detail": "with sqrt|g| = e^{-a4} b4^2 e^{3Hy} and the conservation law: d_x4 (e^{-a4} b4^2 rho) = e^{-a4} b4^2 (-3 a4' p3 - 3 h4 p_t - h4 p0) (+ the y-flux, zero for eigen-orbitals); on the history a4 = A H x4, b4 = b4(0) e^{beta A H x4}: dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0, P = 2 Vol_7(a4,0) int e^{3Hy} p dy (beta = 4/3: -3 P3 + P_t + P0/3), the solver check"
     },
     {
       "name": "adiabatic_hellmann_feynman",
       "verdict": "PASS",
-      "detail": "d_a h_j = -j kappa k sigma3 = -k d_k h_j; for the free (frozen-potential) problem eps(k, a) = eps(k e^{-a}, 0) so d eps/da = -k d eps/dk = -k <j kappa sigma3> (b4 does not enter h; it enters the self-consistent part through the coupling lambda_hat/Vol_7(a4,0)); summed with occupations (Hellmann-Feynman, fixed occupations) this gives the history identity of emt_energy_change_history"
+      "detail": "along the history (b4 = b4(0) e^{beta a4}, f = b4(0)^{1/2} e^{(beta/2 - 1) a4}) with frozen potentials: d_a h_j = -j kappa k sigma3 + (1 - beta/2) j (-(i/f) sigma1 d_y) (beta = 4/3: + (1/3) times the kinetic term); d eps_n/da = <n| d_a h_j |n> (Hellmann-Feynman, fixed occupations), summed with the occupations it gives the history identity of emt_energy_change_history"
     },
     {
       "name": "adiabatic_offdiagonal_identity",
       "verdict": "PASS",
-      "detail": "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (differentiated eigen-equation; verified on an explicit family); measure along a4 = A H x4, b4 = b4(0) e^{beta A H x4}: Q_nm = A H |<n| d_a h_KS |m>| / (eps_n - eps_m)^2 for n occupied, m empty, same (k, block, parity); leading-order transition probability ~ Q_nm^2. The history is a PRESCRIBED BACKGROUND (test field without back-reaction): with the author's weights the a4 and b4 equations allow it only with a constant source (Revision/field_equations_a4/a4-equations.json, exponentialHistory), which the Kohn-Sham states do not supply (Revision/field_equations_a4/reports/ks-source-conditions.json)"
+      "detail": "<n| d_a h |m> = (eps_m - eps_n) <n| d_a m> (differentiated eigen-equation; verified on an explicit family); measure along a4 = A H x4, b4 = b4(0) e^{beta A H x4}: Q_nm = A H |<n| d_a h_KS |m>| / (eps_n - eps_m)^2 for n occupied, m empty, same (k, block, fold condition); leading-order transition probability ~ Q_nm^2. The history is a PRESCRIBED BACKGROUND (test field without back-reaction, not a solution of the a4 and b4 equations with the Kohn-Sham source)"
     },
     {
       "name": "brane_band_slope",
       "verdict": "PASS",
-      "detail": "first-order Hellmann-Feynman at k = 0 (zero mode e^{My}, theta = 0): d eps/dk = j c, c = e^{-a4,0} (2M/(2M-H)) (1 - e^{-(2M-H)L})/(1 - e^{-2ML}); M = H = 1, L = 3: c = 2/(1+e^{-3}) = 1.9051482536; independent RK4 shooting (6000 steps, k = +-1e-3 and +-2e-3 with Richardson extrapolation, j = +1): slope 1.9051482525 at a4,0 = 0 and 1.1555308270 at a4,0 = 0.5 (exact 1.1555308271), the e^{-a4,0} rescaling"
+      "detail": "first-order Hellmann-Feynman at k = 0 (zero mode e^{f M y}, theta = 0, <sigma3> = 1, kappa constant in y): d eps/dk = j c, c = e^{-a4,0} for every M, L, f; independent RK4 shooting (6000 steps, M = 1, L = 3, k = +-1e-3 and +-2e-3 with Richardson extrapolation, j = +1): slope 1.0000000000 at a4,0 = 0, f = 1 and 0.6065306597 at a4,0 = 0.5, f = e^{-1/6} (the history; exact 0.6065306597)"
     },
     {
       "name": "ks_theory_json_basis",
@@ -317,12 +307,12 @@
     {
       "name": "ks_theory_json_slope",
       "verdict": "PASS",
-      "detail": "the exported brane-band slope agrees with this file to 1e-12"
+      "detail": "the exported brane-band slopes (NDSolve) agree with c = e^{-a4,0} to 1e-8 and with this file's RK4 shooting to 1e-6"
     },
     {
       "name": "ks_theory_json_history_label",
       "verdict": "PASS",
-      "detail": "ks-theory.json labels the history a4 = A H x4, b4 = b4(0) e^{beta A H x4} (A = 1, beta = 4/3) of the adiabatic measure as a PRESCRIBED BACKGROUND (adiabaticity.history ends 'PRESCRIBED BACKGROUND (see historyStatus)', adiabaticity.historyBeta = 4/3, adiabaticity.historyStatus names the required constant source and cites the source-condition report): True; the source and the branch beta = 4/3 are those of Revision/field_equations_a4/a4-equations.json (exponentialHistory.authorWeights): True; the source-condition report of the Kohn-Sham states (Revision/field_equations_a4/reports/ks-source-conditions.json, checks ks_history_is_a_prescribed_background and ks_profiles_depend_on_x0) PASS: True. The Kohn-Sham gas is a test field on this background without back-reaction; its states are not solutions of the a4 and b4 equations with the Kohn-Sham source"
+      "detail": "ks-theory.json labels the history a4 = A H x4, b4 = b4(0) e^{beta A H x4} (A = 1, beta = 4/3, b4(0) = 1) of the adiabatic measure as a PRESCRIBED BACKGROUND and cites the source-condition report: True; the record history and its source are those of Revision/field_equations_a4/a4-equations.json (exponentialHistory.authorWeights, corrected metric): True; the source-condition report of the Kohn-Sham states (Revision/field_equations_a4/reports/ks-source-conditions.json) is the one of the corrected metric and its check ks_history_is_a_prescribed_background PASSes: True. The Kohn-Sham gas is a test field on this background without back-reaction"
     }
   ]
 }

@@ -239,6 +239,16 @@ along the history with the extra times deflating (a4 increasing), with an adiaba
 non-adiabatic (time-dependent) problem is OPEN.  The Kohn-Sham energy-momentum tensor is the source
 for section 5.
 
+**In the corrected metric (2026-10-16, `HANDOFF.md` 0.10, phase W5).**  With y = ln|sin z|/(6H) the hidden direction
+carries the scale f = E^(-a4) b4^(1/2) of the extra times (section 1), so the block Hamiltonian is
+h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v with kappa = E^(-a4), constant in y, and the densities carry
+P = E^(-3 H y)/Vol_7.  The patch end z = pi/2 is the fold cos z = 0 that joins the two halves z < pi/2 and z > pi/2 of a
+cell: self-adjointness fixes the fold condition up to a parameter theta, and the record solves and fills both
+theta = 0 and theta = pi (the former even and odd parities), an ASSUMED convention that replaces the Z2 mirror
+construction of the withdrawn metrics.  The regular tip stays a chosen cutoff; nothing suppresses an orbital toward
+it, so the extended levels depend on the cutoff like those of a box of proper length f L
+(`Revision/kohn_sham/ks-theory.json`, `Revision/kohn_sham/tip_convergence`).
+
 ## 8. The two hypotheses (to be INVESTIGATED, not assumed)
 
 Hypothesis: dirac16complex provides a possible physical mechanism for a time-varying dark-energy and/or

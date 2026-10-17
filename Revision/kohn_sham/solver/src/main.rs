@@ -2,12 +2,17 @@
 //! field (Revision/SPEC.md section 7, Revision/kohn_sham/ks-theory.json).
 //!
 //! Usage (from the repository root):
-//!   revision_ks_solver all [--out DIR] [--report FILE] [--refined] [--threads N] [--timing FILE] [--quick]
+//!   revision_ks_solver all [--out DIR] [--report FILE] [--refined] [--threads N] [--inner-threads N] [--timing FILE] [--quick]
+//!                          [--cache DIR [--part i/n]]
+//! With --cache DIR --part i/n the run computes part i of n of the ground and thermal tasks into the job cache DIR
+//! and writes no outputs; with --cache DIR alone it loads the cached tasks, computes any missing one and writes the
+//! outputs (byte for byte those of one run without a cache; src/cache.rs).
 //! Defaults: --out Revision/kohn_sham/results, --report <out>/solver-report.json.
 //! Every check prints `PASS - name: detail` / `FAIL - name: detail` on stderr;
 //! the last stdout line is SUCCESS or FAILURE (exit code 0 / 1).
 
 mod analysis;
+mod cache;
 mod json;
 mod mermin;
 mod model;
@@ -28,9 +33,9 @@ fn main() {
         return;
     }
     if args.len() < 2 || args[1] != "all" {
-        eprintln!("usage: revision_ks_solver all [--root DIR] [--out DIR] [--report FILE] [--refined] [--threads N] [--timing FILE] [--quick]");
-        eprintln!("       revision_ks_solver single --m M --lambda L --a4 A --N N --out FILE.json [--beta B] [--tip-theta TH] [--T T] [--exx] [--margin W] [--profiles FILE.csv] [--mermin-levels FILE.json] [--refined] [--root DIR]");
-        eprintln!("       (single: L = lambda_hat, Vol_7(A) = ell^3 v_t e^{{(3/2) B A}}, B = the history beta of ks-theory.json unless --beta is given)");
+        eprintln!("usage: revision_ks_solver all [--root DIR] [--out DIR] [--report FILE] [--refined] [--threads N] [--inner-threads N] [--timing FILE] [--quick] [--cache DIR [--part i/n]]");
+        eprintln!("       revision_ks_solver single --m M --lambda L --a4 A --N N --out FILE.json [--beta B] [--coordinate-cell] [--tip-theta TH] [--T T] [--exx] [--margin W] [--profiles FILE.csv] [--mermin-levels FILE.json] [--refined] [--root DIR]");
+        eprintln!("       (single: L = lambda_hat, f = e^{{(B/2 - 1) A}}, Vol_7(A) = ell^3 v_t e^{{(2 B - 1) A}} (ell^3 v_t with --coordinate-cell), B = the history beta of ks-theory.json unless --beta is given)");
         std::process::exit(2);
     }
     let mut root = PathBuf::from(".");
@@ -40,6 +45,9 @@ fn main() {
     let mut quick = false;
     let mut threads = std::thread::available_parallelism().map(|n| n.get()).unwrap_or(4).min(22);
     let mut timing = None;
+    let mut cache = None;
+    let mut part = None;
+    let mut inner_threads = 4usize;
     let mut i = 2;
     while i < args.len() {
         match args[i].as_str() {
@@ -63,6 +71,22 @@ fn main() {
                 timing = Some(PathBuf::from(&args[i + 1]));
                 i += 1;
             }
+            "--cache" => {
+                cache = Some(PathBuf::from(&args[i + 1]));
+                i += 1;
+            }
+            "--part" => {
+                let s = &args[i + 1];
+                let (a, b) = s.split_once('/').expect("--part i/n");
+                let (a, b): (usize, usize) = (a.parse().expect("--part i/n"), b.parse().expect("--part i/n"));
+                assert!(a >= 1 && a <= b, "--part i/n needs 1 <= i <= n");
+                part = Some((a, b));
+                i += 1;
+            }
+            "--inner-threads" => {
+                inner_threads = args[i + 1].parse().expect("--inner-threads N");
+                i += 1;
+            }
             "--refined" => refined = true,
             "--quick" => quick = true,
             a => {
@@ -75,7 +99,7 @@ fn main() {
     let out = out.unwrap_or_else(|| root.join("Revision/kohn_sham/results"));
     let report = report.unwrap_or_else(|| out.join("solver-report.json"));
     let num = if refined { model::Numerics::refined() } else { model::Numerics::canonical() };
-    let cfg = runs::Cfg { root: root.clone(), out, report, num, threads, quick, timing };
+    let cfg = runs::Cfg { root: root.clone(), out, report, num, threads, quick, timing, cache, part, inner_threads };
     let mut rep = report::Report::default();
     let th = match theory::read_and_check(&root, &mut rep) {
         Ok(t) => t,
@@ -101,7 +125,7 @@ fn main() {
 
 fn single(args: &[String]) {
     let mut root = PathBuf::from(".");
-    let mut o = runs::SingleOpts { m: 1.0, lambda: 0.0, a4: 0.0, beta: None, n: 8.0, tip_theta: 0.0, temp: 0.0, exx: false, margin: 0.85, out: PathBuf::from("single.json"), profiles: None, mermin_levels: None };
+    let mut o = runs::SingleOpts { m: 1.0, lambda: 0.0, a4: 0.0, beta: None, coord_cell: false, n: 8.0, tip_theta: 0.0, temp: 0.0, exx: false, margin: 0.85, out: PathBuf::from("single.json"), profiles: None, mermin_levels: None };
     let mut refined = false;
     let mut i = 2;
     let val = |i: usize| -> f64 { args.get(i + 1).and_then(|s| s.parse().ok()).unwrap_or_else(|| panic!("{} needs a number", args[i])) };
@@ -111,6 +135,7 @@ fn single(args: &[String]) {
             "--lambda" => { o.lambda = val(i); i += 1; }
             "--a4" => { o.a4 = val(i); i += 1; }
             "--beta" => { o.beta = Some(val(i)); i += 1; }
+            "--coordinate-cell" => o.coord_cell = true,
             "--N" => { o.n = val(i); i += 1; }
             "--tip-theta" => { o.tip_theta = val(i); i += 1; }
             "--T" => { o.temp = val(i); i += 1; }

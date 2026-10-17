@@ -7,10 +7,11 @@
 //!   p_t = e_int,
 //!   p0  = sum w g f [(eps - v) n_o - M s_o - kappa |k| t_o] + e_int
 //! (exact-Fock variant: - w_Q q_o inside the bracket of p0, derived in the
-//! solver README).  Identities checked: 2 Vol_7 int e^{6Hy} rho = E_KS;
-//! (e^{6Hy} p0)' = 3H e^{6Hy} (p3 + p_t) (nabla_mu T^mu_y = 0) pointwise and
-//! integrated; the derivative form of the y-kinetic term
-//! j (a b' - b a') = (eps - v)(a^2+b^2) - M j 2ab - kappa k j (a^2-b^2) - w_Q (a^2-b^2)
+//! solver README).  Identities checked (corrected metric, sqrt|g| = e^{-a4} b4^2 e^{3Hy}):
+//! 2 Vol_7 int e^{3Hy} rho = E_KS; (e^{3Hy} p0)' = 3H e^{3Hy} p_t, i.e.
+//! p0' + 3H (p0 - p_t) = 0 (nabla_mu T^mu_y = 0) pointwise and integrated; the
+//! derivative form of the y-kinetic term
+//! j (a b' - b a') = f [(eps - v)(a^2+b^2) - M j 2ab - kappa k j (a^2-b^2) - w_Q (a^2-b^2)]
 //! with a', b' from finite differences of the stored orbitals (a pointwise
 //! residual of the orbital equation, the non-trivial content of the trace
 //! identity); T^x4_y = 0 holds identically in the real form chi = (a, i b).
@@ -80,7 +81,7 @@ pub fn emt_checks(grid: &Grid, phys: &Physics, st: &State, e: &Emt) -> EmtChecks
     let vol2 = 2.0 * phys.vol7();
     let hh = phys.hh;
     let w = |f: &dyn Fn(usize) -> f64| -> f64 {
-        let v: Vec<f64> = (0..nf).map(|p| grid.e6[p] * f(p)).collect();
+        let v: Vec<f64> = (0..nf).map(|p| grid.e3[p] * f(p)).collect();
         vol2 * grid.integrate(&v)
     };
     let int_rho = w(&|p| e.rho[p]);
@@ -88,29 +89,31 @@ pub fn emt_checks(grid: &Grid, phys: &Physics, st: &State, e: &Emt) -> EmtChecks
     let int_pt = w(&|p| e.pt[p]);
     let int_p0 = w(&|p| e.p0[p]);
     let int_n = w(&|p| st.dens.n[p]);
-    // history identity (ks-theory.json emt.energyChange): dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t with
-    // 3 (p3 - p_t) = sum w g f kappa |k| t_o = tk
-    let de_da_emt = -w(&|p| st.dens.tk[p]) - 1.5 * phys.beta * int_pt;
+    // history identity (ks-theory.json emt.energyChange): dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0
+    // (beta = 4/3: -3 P3 + P_t + P0/3), P = 2 Vol_7 int e^{3Hy} p dy
+    let bh = 0.5 * phys.beta - 1.0;
+    let de_da_emt = -3.0 * int_p3 - 3.0 * bh * int_pt - bh * int_p0;
     let delta_ex_fock = phys.lambda / 32.0 * w(&|p| st.dens.q[p] * st.dens.q[p]);
-    // y-conservation on the node grid
+    // y-conservation on the node grid: (e^{3Hy} p0)' = 3H e^{3Hy} p_t
     let nodes: Vec<usize> = (0..=grid.g).map(|i| 2 * i).collect();
-    let dcoord: Vec<f64> = nodes.iter().map(|&p| grid.e6[p] * e.p0[p]).collect();
-    let rhs: Vec<f64> = nodes.iter().map(|&p| 3.0 * hh * grid.e6[p] * (e.p3[p] + e.pt[p])).collect();
+    let dcoord: Vec<f64> = nodes.iter().map(|&p| grid.e3[p] * e.p0[p]).collect();
+    let rhs: Vec<f64> = nodes.iter().map(|&p| 3.0 * hh * grid.e3[p] * e.pt[p]).collect();
     let dd = deriv4(&dcoord, grid.h);
     // scale: the derivatives themselves or the size of the cancelling terms of p0 (times m, an inverse length)
-    let termscale = (0..nf).map(|p| grid.e6[p] * (st.dens.kyabs[p] + e.eint[p].abs())).fold(0.0f64, f64::max);
+    let termscale = (0..nf).map(|p| grid.e3[p] * (st.dens.kyabs[p] + e.eint[p].abs())).fold(0.0f64, f64::max);
     let scale = dd.iter().chain(rhs.iter()).fold(0.0f64, |m, x| m.max(x.abs())).max(termscale * phys.m.abs()).max(1e-300);
     let pw = dd.iter().zip(&rhs).fold(0.0f64, |m, (a, b)| m.max((a - b).abs())) / scale;
-    let rhs_f: Vec<f64> = (0..nf).map(|p| 3.0 * hh * grid.e6[p] * (e.p3[p] + e.pt[p])).collect();
+    let rhs_f: Vec<f64> = (0..nf).map(|p| 3.0 * hh * grid.e3[p] * e.pt[p]).collect();
     let integ = grid.integrate(&rhs_f);
-    let jump = grid.e6[nf - 1] * e.p0[nf - 1] - grid.e6[0] * e.p0[0];
-    let sc2 = integ.abs().max(jump.abs()).max((grid.e6[0] * e.p0[0]).abs()).max(termscale).max(1e-300);
+    let jump = grid.e3[nf - 1] * e.p0[nf - 1] - grid.e3[0] * e.p0[0];
+    let sc2 = integ.abs().max(jump.abs()).max((grid.e3[0] * e.p0[0]).abs()).max(termscale).max(1e-300);
     let yint = (jump - integ).abs() / sc2;
     if std::env::var("KS_DEBUG").is_ok() {
-        eprintln!("  emt: functional {:?} jump {:e} integral {:e} e6p0(0) {:e} e6p0(-L) {:e} pointwise {:e} max|eint| {:e}", phys.functional, jump, integ, grid.e6[nf - 1] * e.p0[nf - 1], grid.e6[0] * e.p0[0], pw, e.eint.iter().fold(0.0f64, |m, x| m.max(x.abs())));
+        eprintln!("  emt: functional {:?} jump {:e} integral {:e} e3p0(0) {:e} e3p0(-L) {:e} pointwise {:e} max|eint| {:e}", phys.functional, jump, integ, grid.e3[nf - 1] * e.p0[nf - 1], grid.e3[0] * e.p0[0], pw, e.eint.iter().fold(0.0f64, |m, x| m.max(x.abs())));
     }
-    // derivative form of the y-kinetic term, occupied orbitals
+    // derivative form of the y-kinetic term, occupied orbitals: j (a b' - b a') = f [...]
     let kap0 = (-phys.a4).exp();
+    let fh = phys.fh();
     let mut tr: f64 = 0.0;
     for (lv, &f) in st.levels.iter().zip(&st.occ) {
         if f == 0.0 {
@@ -124,13 +127,13 @@ pub fn emt_checks(grid: &Grid, phys: &Physics, st: &State, e: &Emt) -> EmtChecks
         let mut sc: f64 = 0.0;
         let mut dev: f64 = 0.0;
         for (i, &p) in nodes.iter().enumerate() {
-            let kk = kap0 * grid.ew[p] * lv.k;
+            let kk = kap0 * lv.k;
             let t1 = (lv.eps - st.pots.v[p]) * (a[i] * a[i] + b[i] * b[i]);
             let t2 = st.pots.mass[p] * j * 2.0 * a[i] * b[i];
             let t3 = (kk * j + st.pots.wq[p]) * (a[i] * a[i] - b[i] * b[i]);
             let lhs = j * (a[i] * db[i] - b[i] * da[i]);
-            sc = sc.max(t1.abs() + t2.abs() + t3.abs());
-            dev = dev.max((lhs - (t1 - t2 - t3)).abs());
+            sc = sc.max(fh * (t1.abs() + t2.abs() + t3.abs()));
+            dev = dev.max((lhs - fh * (t1 - t2 - t3)).abs());
         }
         tr = tr.max(dev / sc.max(1e-300));
     }
@@ -250,9 +253,13 @@ pub struct Adiab {
 }
 
 /// Adiabaticity measure Q_nm = A H |<n| d_a h |m>| / (eps_n - eps_m)^2 for n
-/// occupied, m empty, same (shell, j, parity); d_a h = -j kappa k sigma3
-/// + j (d_a M_eff) sigma2 + d_a v_v + (d_a w_Q) sigma3 with the self-consistent
-/// derivatives from the a4 +- delta states (fixed occupations).
+/// occupied, m empty, same (shell, j, fold condition); along the history
+/// (f = e^{(beta/2 - 1) a}) d_a h = -j kappa k sigma3 + (1 - beta/2) T_j
+/// + j (d_a M_eff) sigma2 + d_a v_v + (d_a w_Q) sigma3, T_j = j(-(i/f) sigma1 d_y)
+/// the kinetic term (ks-theory.json adiabaticity.derivative), with the
+/// self-consistent derivatives from the a4 +- delta states (fixed occupations).
+/// T_j chi_m = (eps_m - v - j M sigma2 - (j kappa k + w_Q) sigma3) chi_m (the
+/// eigen-equation), so its matrix elements need no derivative of the orbitals.
 /// Richardson-extrapolated central difference from f(+-delta), f(+-2 delta).
 pub fn rich(fp1: f64, fm1: f64, fp2: f64, fm2: f64, delta: f64) -> f64 {
     let d1 = (fp1 - fm1) / (2.0 * delta);
@@ -264,6 +271,7 @@ pub fn rich(fp1: f64, fm1: f64, fp2: f64, fm2: f64, delta: f64) -> f64 {
 pub fn adiabatic(grid: &Grid, phys: &Physics, a_h: f64, st0: &State, nb: [&State; 4], delta: f64) -> Adiab {
     let nf = grid.nf;
     let kap0 = (-phys.a4).exp();
+    let ckin = 1.0 - 0.5 * phys.beta;
     let [sp1, sm1, sp2, sm2] = nb;
     let dm: Vec<f64> = (0..nf).map(|p| rich(sp1.pots.mass[p], sm1.pots.mass[p], sp2.pots.mass[p], sm2.pots.mass[p], delta)).collect();
     let dv: Vec<f64> = (0..nf).map(|p| rich(sp1.pots.v[p], sm1.pots.v[p], sp2.pots.v[p], sm2.pots.v[p], delta)).collect();
@@ -276,8 +284,9 @@ pub fn adiabatic(grid: &Grid, phys: &Physics, a_h: f64, st0: &State, nb: [&State
             let s3 = an * am - bn * bm;
             let s2 = an * bm + bn * am;
             let s0 = an * am + bn * bm;
-            let kk = kap0 * grid.ew[p] * n.k;
-            s += grid.simpson[p] * (-j * kk * s3 + j * dm[p] * s2 + dv[p] * s0 + dw[p] * s3);
+            let kk = kap0 * n.k;
+            let kin = (m.eps - st0.pots.v[p]) * s0 - j * st0.pots.mass[p] * s2 - (j * kk + st0.pots.wq[p]) * s3;
+            s += grid.simpson[p] * (-j * kk * s3 + ckin * kin + j * dm[p] * s2 + dv[p] * s0 + dw[p] * s3);
         }
         s
     };

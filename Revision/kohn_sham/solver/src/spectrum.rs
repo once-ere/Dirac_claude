@@ -1,4 +1,8 @@
-//! Free-field (lambda = 0) spectra and their exact checks.
+//! Free-field (lambda = 0) spectra and their exact checks (corrected metric of
+//! 2026-10-16: h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v with
+//! kappa = e^{-a4,0} and f = e^{-a4,0} b4,0^{1/2} constant in y; ks-theory.json).
+//! Identifiers that contain "brane" (file names, CSV columns, check names) are
+//! kept from the earlier record for continuity; they denote the fold y = 0.
 
 use crate::json::fmt_f;
 use crate::model::*;
@@ -70,25 +74,27 @@ pub fn free_checks(base: &Physics, num: &Numerics, slope_theory: f64, slices: &[
     let mut files = Vec::new();
     let tol = num.root_tol;
     // (a) k = 0 analytic spectra
-    let mut csv = Csv::new(vec!["m", "L", "parity", "label", "eps_numeric", "eps_analytic", "difference"]);
+    let mut csv = Csv::new(vec!["m", "L", "a4", "f", "parity", "label", "eps_numeric", "eps_analytic", "difference"]);
     let mut worst: f64 = 0.0;
     let mut worst_hi: f64 = 0.0;
-    for &(m, l) in &[(1.0, 3.0), (1.0, 2.0), (2.0, 3.0)] {
+    for &(m, l, a4) in &[(1.0, 3.0, 0.0), (1.0, 2.0, 0.0), (2.0, 3.0, 0.0), (1.0, 3.0, 1.5)] {
         let mut ph = base.clone();
         ph.m = m;
         ph.l = l;
+        ph.a4 = a4;
+        let fl = ph.fh() * l;
         let grid = Grid::new(ph.hh, l, ((num.g as f64) * l / 3.0).round() as usize);
         let pots = Pots::free(grid.nf, m);
-        let pr = odd_p_roots(m, l, 6);
+        let pr = odd_p_roots(m, fl, 6);
         for lab in -3i64..=5 {
             // even
-            let ex = if lab == 0 { 0.0 } else { (lab.signum() as f64) * (m * m + (lab as f64 * PI / l).powi(2)).sqrt() };
+            let ex = if lab == 0 { 0.0 } else { (lab.signum() as f64) * (m * m + (lab as f64 * PI / fl).powi(2)).sqrt() };
             let e = level_in(&grid, &ph, &pots, 0.0, 1, Parity::Even, lab, tol);
-            csv.push(vec![f(m), f(l), "even".into(), lab.to_string(), f(e), f(ex), f(e - ex)]);
+            csv.push(vec![f(m), f(l), f(a4), f(ph.fh()), "even".into(), lab.to_string(), f(e), f(ex), f(e - ex)]);
             // odd: labels l >= 0 positive (p_l), l <= -1 negative (p_{-l-1})
             let exo = if lab >= 0 { (m * m + pr[lab as usize].powi(2)).sqrt() } else { -(m * m + pr[(-lab - 1) as usize].powi(2)).sqrt() };
             let eo = level_in(&grid, &ph, &pots, 0.0, 1, Parity::Odd, lab, tol);
-            csv.push(vec![f(m), f(l), "odd".into(), lab.to_string(), f(eo), f(exo), f(eo - exo)]);
+            csv.push(vec![f(m), f(l), f(a4), f(ph.fh()), "odd".into(), lab.to_string(), f(eo), f(exo), f(eo - exo)]);
             for (x, y) in [(e, ex), (eo, exo)] {
                 if y.abs() < 4.0 {
                     worst = worst.max((x - y).abs());
@@ -103,7 +109,7 @@ pub fn free_checks(base: &Physics, num: &Numerics, slope_theory: f64, slices: &[
         "free_k0_analytic_spectra",
         worst < tol_k0 && worst_hi < 64.0 * tol_k0,
         format!(
-            "k = 0, constant M, v = 0, theta_tip = 0 (ks-theory.json boundaryConditions.exactK0Spectra) for (m, L) = (1, 3), (1, 2), (2, 3), labels -3..5 of both parities: even eps = 0 and +-sqrt(M^2 + (n pi/L)^2), odd eps = +-sqrt(M^2 + p^2) with tan(pL) = -p/M; max |difference| {:.2e} for |eps| < 4 m (tolerance {:.0e}, RK4 error ~ (h eps)^4), {:.2e} for 4 m <= |eps| < 7 m (tolerance {:.0e})",
+            "k = 0, constant M, v = 0, theta_tip = 0 (ks-theory.json boundaryConditions.exactK0Spectra) for (m, L, a4,0) = (1, 3, 0), (1, 2, 0), (2, 3, 0) (f = 1) and (1, 3, 1.5) (f = e^(-1/2) on the history), labels -3..5 of both fold conditions: even eps = 0 and +-sqrt(M^2 + (n pi/(f L))^2), odd eps = +-sqrt(M^2 + p^2) with tan(p f L) = -p/M; max |difference| {:.2e} for |eps| < 4 m (tolerance {:.0e}, RK4 error ~ (f h eps)^4), {:.2e} for |eps| >= 4 m (tolerance {:.0e})",
             worst, tol_k0, worst_hi, 64.0 * tol_k0
         ),
     );
@@ -111,27 +117,33 @@ pub fn free_checks(base: &Physics, num: &Numerics, slope_theory: f64, slices: &[
 
     let grid = Grid::new(base.hh, base.l, num.g);
     let pots = Pots::free(grid.nf, base.m);
-    // (b) zero mode exact
+    // (b) zero mode exact, at a4,0 = 0 (f = 1) and a4,0 = 2 (f = e^(-2/3) on the history)
     {
-        let ctx = ctx_for(&grid, base, &pots);
-        let sec = Sector { k: 0.0, j: 1, parity: Parity::Even };
-        let (e, _) = find_level(&ctx, sec, 0.0, 0.0, None, tol).unwrap();
-        let prof = profile(&ctx, sec, e);
-        let m = base.m;
-        let c = (2.0 * m / (1.0 - (-2.0 * m * base.l).exp())).sqrt();
+        let mut emax: f64 = 0.0;
         let mut dev: f64 = 0.0;
         let mut bmax: f64 = 0.0;
-        for p in 0..grid.nf {
-            dev = dev.max((prof[2 * p] - c * (m * grid.y[p]).exp()).abs());
-            bmax = bmax.max(prof[2 * p + 1].abs());
+        for a4 in [0.0, 2.0] {
+            let mut ph = base.clone();
+            ph.a4 = a4;
+            let ctx = ctx_for(&grid, &ph, &pots);
+            let sec = Sector { k: 0.0, j: 1, parity: Parity::Even };
+            let (e, _) = find_level(&ctx, sec, 0.0, 0.0, None, tol).unwrap();
+            let prof = profile(&ctx, sec, e);
+            let fm = ph.fh() * ph.m;
+            let c = (2.0 * fm / (1.0 - (-2.0 * fm * ph.l).exp())).sqrt();
+            emax = emax.max(e.abs());
+            for p in 0..grid.nf {
+                dev = dev.max((prof[2 * p] - c * (fm * grid.y[p]).exp()).abs());
+                bmax = bmax.max(prof[2 * p + 1].abs());
+            }
         }
         rep.check(
             "free_zero_mode_exact",
-            e == 0.0 && bmax == 0.0 && dev < 1e-9,
-            format!("k = 0 brane zero mode (both j): eps = {} exactly, chi = (a, 0) with b = 0 identically (max |b| = {:e}); a = sqrt(2M/(1 - e^(-2ML))) e^(My) to {:.2e} (normalised, Simpson)", e, bmax, dev),
+            emax == 0.0 && bmax == 0.0 && dev < 1e-9,
+            format!("k = 0 fold zero mode (both j) at a4,0 = 0 (f = 1) and a4,0 = 2 (f = e^(-2/3)): eps = 0 exactly (max |eps| = {:e}), chi = (a, 0) with b = 0 identically (max |b| = {:e}); a = sqrt(2fM/(1 - e^(-2fML))) e^(fMy) to {:.2e} (normalised in int dy, Simpson)", emax, bmax, dev),
         );
     }
-    // (c) brane-band slope c at every slice (Richardson from k = 1e-4, 2e-4)
+    // (c) fold-band slope c = e^{-a4,0} at every slice (Richardson from k = 1e-4, 2e-4)
     let mut csv = Csv::new(vec!["a4", "c_numeric", "c_theory", "difference"]);
     let mut wslope: f64 = 0.0;
     for &a4 in slices {
@@ -148,7 +160,7 @@ pub fn free_checks(base: &Physics, num: &Numerics, slope_theory: f64, slices: &[
         "free_brane_band_slope",
         wslope < 1e-9,
         format!(
-            "d eps/dk at k = 0 of the even j = +1 brane band (Richardson extrapolation of eps(k)/k from k = 1e-4, 2e-4) equals ks-theory.json c = {} times e^(-a4,0) at a4,0 = {:?} (M = H = 1, L = 3) to {:.2e} relative",
+            "d eps/dk at k = 0 of the even j = +1 fold band (Richardson extrapolation of eps(k)/k from k = 1e-4, 2e-4) equals ks-theory.json c = {} (braneBandSlope_a0) times e^(-a4,0) at a4,0 = {:?} (M = H = 1, L = 3; f = e^(-a4,0/3) on the history: the slope does not depend on f) to {:.2e} relative",
             slope_theory, slices, wslope
         ),
     );
@@ -201,41 +213,64 @@ pub fn free_checks(base: &Physics, num: &Numerics, slope_theory: f64, slices: &[
         rep.check(
             "free_particle_branch_labels",
             ok,
-            format!("for every shell n2 <= 30 and sector (j, parity): the lowest particle label l_min (first target above Phi(eps = 0)) has eps > 0 and l_min - 1 has eps < 0 (the branch split by the sign of the lambda = 0 level is a split of the Pruefer labels; closest level to zero away from the k = 0 zero modes: {:.4} m); k = 0 even l_min = 0 is the zero mode (convention)", mingap),
+            format!("for every shell n2 <= 30 and sector (j, fold condition): the lowest particle label l_min (first target above Phi(eps = 0)) has eps > 0 and l_min - 1 has eps < 0 (the branch split by the sign of the lambda = 0 level is a split of the Pruefer labels; closest level to zero away from the k = 0 zero modes: {:.4} m); k = 0 even l_min = 0 is the zero mode (convention)", mingap),
         );
     }
-    // (f) tip-angle insensitivity of k != 0 brane-band levels
+    // (f) tip angle: the exact boundary identity and the size of the shifts (no tip suppression: kappa is constant in y)
     {
-        let mut csv = Csv::new(vec!["k", "theta_tip", "eps", "shift_from_theta0", "suppression_factor"]);
-        let mut ok = true;
-        for &k in &[0.25f64, 0.5, 1.0] {
-            let mut e0 = f64::NAN;
-            let kap_l = (base.hh * base.l).exp();
-            let supp = (-k * (kap_l - 1.0) / base.hh).exp();
-            for &th in &[0.0f64, 0.5, 1.0] {
-                let mut ph = base.clone();
-                ph.tip_theta = th;
-                let ctx = ctx_for(&grid, &ph, &pots);
-                let sec = Sector { k, j: 1, parity: Parity::Even };
-                // the brane-band level: the root of Phi = 0 nearest the theta = 0 level
-                let guess = if e0.is_nan() { 0.4 * k } else { e0 };
-                let (e, _) = find_level(&ctx, sec, 0.0, guess, None, tol).unwrap();
-                if th == 0.0 {
-                    e0 = e;
+        let mut csv = Csv::new(vec!["a4", "f", "k", "label", "theta_tip", "eps", "shift_from_theta0", "overlap", "boundary_term", "identity_residual", "fold_band_tail_2fM_exp"]);
+        let mut wres: f64 = 0.0;
+        let mut est_ratio: f64 = 0.0;
+        let mut bulk_min: f64 = f64::INFINITY;
+        let mut band_max: f64 = 0.0;
+        for a4 in [0.0f64, 1.5] {
+            let mut p0 = base.clone();
+            p0.a4 = a4;
+            let fh = p0.fh();
+            let fm = fh * p0.m;
+            let tail = 2.0 * fm * (-2.0 * fm * p0.l).exp() / (1.0 - (-2.0 * fm * p0.l).exp());
+            for &k in &[0.25f64, 0.5, 1.0] {
+                for lab in [0i64, 1] {
+                    let sec = Sector { k, j: 1, parity: Parity::Even };
+                    let ctx0 = ctx_for(&grid, &p0, &pots);
+                    let (e0, _) = find_level(&ctx0, sec, target(Parity::Even, lab), 0.4 * k + lab as f64, None, tol).unwrap();
+                    let pr0 = profile(&ctx0, sec, e0);
+                    for &th in &[0.5f64, 1.0] {
+                        let mut ph = p0.clone();
+                        ph.tip_theta = th;
+                        let ctx = ctx_for(&grid, &ph, &pots);
+                        let (e, _) = find_level(&ctx, sec, target(Parity::Even, lab), e0, None, tol).unwrap();
+                        let pr = profile(&ctx, sec, e);
+                        let ov: Vec<f64> = (0..grid.nf).map(|q| pr0[2 * q] * pr[2 * q] + pr0[2 * q + 1] * pr[2 * q + 1]).collect();
+                        let overlap = grid.integrate(&ov);
+                        // (eps_theta - eps_0) int chi_0^dag chi_theta dy = -j a_0(-L) b_theta(-L) / f (j = +1; b_0(-L) = 0)
+                        let bterm = -pr0[0] * pr[1] / fh;
+                        let res = ((e - e0) * overlap - bterm).abs();
+                        wres = wres.max(res);
+                        let sh = e - e0;
+                        if lab == 0 {
+                            // the fold band: first-order estimate |shift| ~ tan(theta/2) |a_0(-L)|^2/f (INFORMATION)
+                            est_ratio = est_ratio.max(sh.abs() / ((0.5 * th).tan() * tail / fh));
+                            band_max = band_max.max(sh.abs());
+                        } else {
+                            bulk_min = bulk_min.min(sh.abs());
+                        }
+                        csv.push(vec![f(a4), f(fh), f(k), lab.to_string(), f(th), f(e), f(sh), f(overlap), f(bterm), f(res), f(tail)]);
+                    }
                 }
-                let sh = e - e0;
-                ok &= sh.abs() <= supp.max(1e-12);
-                csv.push(vec![f(k), f(th), f(e), f(sh), f(supp)]);
             }
         }
         rep.check(
-            "free_tip_angle_insensitivity",
-            ok,
-            "even j = +1 brane-band level at k = 0.25, 0.5, 1 with tip angles theta = 0, 0.5, 1 (tip family (1 - Q(theta)) chi(-L) = 0): the shift from theta = 0 is below the tip suppression factor exp(-k (kappa(-L) - kappa(0))/H) (spectrum/tip-angle.csv)".into(),
+            "free_tip_angle_boundary_identity",
+            wres < 1e-9,
+            format!(
+                "tip family (1 - Q(theta)) chi(-L) = 0, theta = 0.5, 1 against theta = 0, j = +1 even, k = 0.25, 0.5, 1, a4,0 = 0 (f = 1) and 1.5 (f = e^(-1/2)): the exact boundary identity (eps_theta - eps_0) int chi_0^dag chi_theta dy = -j a_0(-L) b_theta(-L)/f (from phi^dag h chi - (h phi)^dag chi = d/dy[-(i j/f) phi^dag sigma1 chi], ks-theory.json boundaryConditions.selfAdjointness) holds to {:.2e} (tolerance 1e-9); INFORMATION: the fold band (label 0, chi_0 = (e^(f M y), 0) exactly) shifts by at most {:.2e}, at most {:.3} times the first-order estimate tan(theta/2) |a_0(-L)|^2/f, |a_0(-L)|^2 = 2fM e^(-2fML)/(1 - e^(-2fML)) (the tail of the fold band at the tip, e^(-2fML) = e^(-6) at a4,0 = 0 and e^(-3.64) at a4,0 = 1.5); the extended level (label 1) shifts by at least {:.3e}: kappa = e^(-a4) is constant in y, so nothing suppresses an extended orbital toward the tip and its level depends on the tip condition (spectrum/tip-angle.csv)",
+                wres, band_max, est_ratio, bulk_min
+            ),
         );
         files.push(("spectrum/tip-angle.csv".to_string(), csv.text()));
     }
-    // (g) the brane band and the rescaling relation eps(k, a4) = eps(k e^{-a4}, 0)
+    // (g) the fold band eps = kappa k exactly, and the rescaling relation eps(k, a4,0; L) = eps(k e^{-a4,0}, 0; f0 L)
     {
         let mut csv = Csv::new(vec!["k", "eps_band_a0", "eps_band_bulk_even_l1", "eps_odd_l0", "eps_jm1_even_l1"]);
         let mut kk = 0.0;
@@ -251,27 +286,34 @@ pub fn free_checks(base: &Physics, num: &Numerics, slope_theory: f64, slices: &[
         let mut dev: f64 = 0.0;
         let mut mono = true;
         let mut prev = -1.0;
+        let mut band_dev: f64 = 0.0;
         for i in 0..=80 {
             let k = 0.05 * i as f64;
             let b = level_in(&grid, base, &pots, k, 1, Parity::Even, 0, tol);
             mono &= b > prev;
             prev = b;
+            band_dev = band_dev.max((b - k).abs());
         }
         for &a4 in slices {
             let mut ph = base.clone();
             ph.a4 = a4;
+            // the partner slice a4 = 0 (f = 1) with the proper hidden length f0 L on the same number of steps
+            let mut pr = base.clone();
+            pr.l = ph.fh() * base.l;
+            let grid_r = Grid::new(pr.hh, pr.l, num.g);
+            let pots_r = Pots::free(grid_r.nf, base.m);
             for &k in &[0.25, 1.0, 2.5] {
-                for (j, par, l) in [(1, Parity::Even, 0i64), (1, Parity::Odd, 0), (-1, Parity::Even, 1)] {
+                for (j, par, l) in [(1, Parity::Even, 0i64), (1, Parity::Odd, 0), (-1, Parity::Even, 1), (1, Parity::Even, 1)] {
                     let x = level_in(&grid, &ph, &pots, k, j, par, l, tol);
-                    let y = level_in(&grid, base, &pots, k * (-a4).exp(), j, par, l, tol);
+                    let y = level_in(&grid_r, &pr, &pots_r, k * (-a4).exp(), j, par, l, tol);
                     dev = dev.max((x - y).abs());
                 }
             }
         }
         rep.check(
             "free_rescaling_relation_and_band_monotone",
-            dev < 1e-12 && mono,
-            format!("lambda = 0: eps(k, a4,0) = eps(k e^(-a4,0), 0) for k in {{0.25, 1, 2.5}}, a4,0 in {:?}, three sectors, to {:.1e}; the even j = +1 brane band is strictly increasing in k on [0, 4] (spectrum/brane-band.csv): {}", slices, dev, mono),
+            dev < 1e-12 && mono && band_dev < 1e-12,
+            format!("lambda = 0: eps(k, a4,0; L) = eps(k e^(-a4,0), 0; f0 L), f0 = e^(-a4,0/3) (the rescaling identity of ks-theory.json without interaction: H does not enter the free levels), for k in {{0.25, 1, 2.5}}, a4,0 in {:?}, four sectors, on the same number of RK4 steps, to {:.1e}; the even j = +1 fold band is eps = kappa k exactly (chi = (e^(f M y), 0) for every k at theta = 0; max |eps - k| at a4,0 = 0 on [0, 4]: {:.1e}) and strictly increasing (spectrum/brane-band.csv): {}", slices, dev, band_dev, mono),
         );
     }
     files

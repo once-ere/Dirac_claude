@@ -525,6 +525,30 @@ mod tests {
         }
     }
 
+    /// Negative control (synthetic, closed form): a group of 2^30 levels deep below mu and one level near it,
+    /// N = 2^30 + 0.3 (as represented), so that mu = -T ln(1/d - 1), d = N - 2^30, up to e^{-99}.  The direct count sum g f - N adds 0.3 to 2^30
+    /// and resolves the count only to 2^30 eps_mach ~ 2.4e-7, i.e. mu only to about 1e-8; the two
+    /// well-conditioned forms (the split puts the deep group into d = N - sum_S g = 0.3 exactly) reach the root to
+    /// their rounding bound.  In the record of 2026-10-15 the fixture itself contained such a state
+    /// (N8_lamm1_a00_T10, direct count 8.3e-10 m off); in the corrected-metric record no fixture state shows the
+    /// defect (largest direct-count miss 1.7e-13 m), so the control is made here, independent of the data.
+    #[test]
+    fn direct_count_negative_control() {
+        let g0 = (1u64 << 30) as f64;
+        let t = 0.01;
+        let n = g0 + 0.3;
+        // d = N - g0 exactly as represented (N = 2^30 + 0.3 is rounded to a multiple of 2^-22): f(-mu/T) = d
+        let dd = n - g0;
+        let exact = -t * (1.0 / dd - 1.0).ln();
+        let (a, b, d) = all_forms(&[-1.0, 0.0], &[g0, 1.0], n, t);
+        for r in [&a, &b] {
+            assert!((r.mu - exact).abs() <= r.bound + 4.0 * f64::EPSILON * exact.abs(), "mu {} exact {} bound {}", r.mu, exact, r.bound);
+        }
+        let miss = (d.mu - exact).abs();
+        assert!(miss <= d.bound_direct, "direct count {} outside its own bound {}", miss, d.bound_direct);
+        assert!(miss > 1e3 * a.bound.max(b.bound), "direct count {:e} vs new bound {:e}", miss, a.bound.max(b.bound));
+    }
+
     /// The 40-digit mpmath roots of tools/mermin_roots_mp.py on the exact final levels of the
     /// thermal states with the largest conditioning bound of the direct count.
     #[test]
@@ -532,8 +556,6 @@ mod tests {
         let fx = parse(include_str!("../tools/mermin-roots-40digit.json")).unwrap();
         let states = fx.get("fixture").and_then(|x| x.as_arr()).unwrap();
         assert!(states.len() >= 4);
-        let mut worst_direct: f64 = 0.0;
-        let mut worst_bound_new: f64 = 0.0;
         for s in states {
             let num = |k: &str| s.get(k).and_then(|x| x.as_str()).unwrap().parse::<f64>().unwrap();
             let n = num("N");
@@ -549,10 +571,7 @@ mod tests {
             assert!((a.mu - root).abs() <= a.bound, "{}: LogBalance {} vs root {} (bound {})", id, a.mu, root, a.bound);
             assert!((b.mu - root).abs() <= b.bound, "{}: LinearDeviation {} vs root {} (bound {})", id, b.mu, root, b.bound);
             assert!((d.mu - root).abs() <= d.bound_direct, "{}: direct count outside its own bound", id);
-            worst_direct = worst_direct.max((d.mu - root).abs());
-            worst_bound_new = worst_bound_new.max(a.bound.max(b.bound));
         }
-        // negative control: the former direct count misses the root by far more than the new bound
-        assert!(worst_direct > 1e3 * worst_bound_new, "direct count {:e} vs new bound {:e}", worst_direct, worst_bound_new);
+        // the negative control of the former direct count: direct_count_negative_control (synthetic)
     }
 }

@@ -1,6 +1,7 @@
-//! The canonical matrix: instantaneous Kohn-Sham states along the deflating
-//! history a4,0 in {0, 0.5, 1, 1.5, 2} (a4 = A H x4, A = 1, b4 = b4(0) e^{beta a4},
-//! beta = 4/3 from ks-theory.json), N in {8, N_mid, N_large}, lambda_hat in
+//! The canonical matrix: instantaneous Kohn-Sham states in the corrected metric of
+//! 2026-10-16 along the history a4,0 in {0, 0.5, 1, 1.5, 2} (a4 = A H x4, A = 1,
+//! b4 = b4(0) e^{beta a4}, b4(0) = 1, beta = 4/3 from ks-theory.json; hidden scale
+//! f = e^{-a4/3}), N in {8, N_mid, N_large}, lambda_hat in
 //! {0, +-lambda_1, +-lambda_2}; excited states, adiabaticity, rescaling identity,
 //! exact-Fock variant, thermodynamics.
 
@@ -33,11 +34,28 @@ pub struct Cfg {
     pub threads: usize,
     pub quick: bool,
     pub timing: Option<PathBuf>,
+    /// job cache (crate::cache): with `part` a fixed part of the ground and thermal tasks is computed and stored;
+    /// without, cached tasks are loaded, missing ones computed (and stored), and the outputs written
+    pub cache: Option<PathBuf>,
+    /// (i, n): compute part i of n (1-based) into the cache and write no outputs
+    pub part: Option<(usize, usize)>,
+    /// threads inside one Kohn-Sham state (the sectors of solve_levels; results independent of the count)
+    pub inner_threads: usize,
+}
+
+/// What the adiabatically continued state of a later slice needs from a ground state (scf.rs RunInput with fixed
+/// occupations: the label set, the converged potentials as the start and the levels as guesses).
+#[derive(Clone, Debug)]
+pub struct ContSeed {
+    pub lambda: f64,
+    pub specs: Vec<SectorSpec>,
+    pub pots: Pots,
+    pub guesses: BTreeMap<Key, f64>,
 }
 
 /// The canonical parameters; beta = d ln b4/d a4 of the history (ks-theory.json adiabaticity.historyBeta).
 pub fn base_phys(beta: f64) -> Physics {
-    Physics { hh: 1.0, m: 1.0, l: 3.0, dk: 0.25, vt: 1.0, a4: 0.0, beta, lambda: 0.0, n: 8.0, temp: 0.0, functional: Functional::Lda, exx_frac: 1.0, tip_theta: 0.0 }
+    Physics { hh: 1.0, m: 1.0, l: 3.0, dk: 0.25, vt: 1.0, a4: 0.0, beta, lambda: 0.0, n: 8.0, temp: 0.0, functional: Functional::Lda, exx_frac: 1.0, tip_theta: 0.0, coord_cell: false }
 }
 
 pub fn par_map<T: Sync, R: Send>(items: &[T], threads: usize, func: impl Fn(&T) -> R + Sync) -> Vec<R> {
@@ -66,21 +84,21 @@ pub struct Agg {
 }
 
 pub struct Item {
-    pub name: &'static str,
-    pub desc: &'static str,
+    pub name: String,
+    pub desc: String,
     pub tol: f64,
     pub value: f64,
     pub pass: Option<bool>,
 }
 
-fn it(name: &'static str, desc: &'static str, tol: f64, value: f64) -> Item {
-    Item { name, desc, tol, value, pass: None }
+fn it(name: &str, desc: &str, tol: f64, value: f64) -> Item {
+    Item { name: name.to_string(), desc: desc.to_string(), tol, value, pass: None }
 }
 
 impl Agg {
     pub fn add(&mut self, id: &str, x: &Item) {
         let pass = x.pass.unwrap_or(x.value <= x.tol && x.value.is_finite());
-        let e = self.map.entry(x.name.to_string()).or_insert((x.desc.to_string(), x.tol, 0, Vec::new(), f64::NEG_INFINITY, String::new()));
+        let e = self.map.entry(x.name.clone()).or_insert((x.desc.clone(), x.tol, 0, Vec::new(), f64::NEG_INFINITY, String::new()));
         e.2 += 1;
         if !pass {
             e.3.push(format!("{} ({:.3e})", id, x.value));
@@ -155,6 +173,41 @@ pub fn solve_with_continuation(grid: &Grid, phys: &Physics, num: &Numerics, co: 
     }
 }
 
+/// The exact-Fock variant of a uniform-gas ground state `gs`, at its occupations, started from its potentials; if the
+/// direct SCF fails, the continuation in the weight of the exact-Fock term (1/4, 1/2, 3/4, 1, half the mixing).
+/// Returns the state and whether its occupations are the aufbau occupations of its own levels.
+pub fn exx_variant(grid: &Grid, px: &Physics, num: &Numerics, co: Coeffs, gs: &State) -> Result<(State, bool), String> {
+    let occ_u = occ_map(gs);
+    let inp = RunInput { phys: px.clone(), num, co, specs: gs.specs.clone(), occ: Occ::Fixed(occ_u.clone()), start: Some(gs.pots.clone()), guesses: guesses_of(gs) };
+    let sx = match run_scf(grid, &inp) {
+        Ok(mut s) => {
+            s.path = "direct".into();
+            s
+        }
+        Err(e1) => {
+            let num2 = Numerics { anderson_beta: num.anderson_beta / 2.0, scf_max_iter: 2 * num.scf_max_iter, ..num.clone() };
+            let mut start = gs.pots.clone();
+            let mut g = guesses_of(gs);
+            let mut last = None;
+            for fr in [0.25, 0.5, 0.75, 1.0] {
+                let mut pf = px.clone();
+                pf.exx_frac = fr;
+                let s = run_scf(grid, &RunInput { phys: pf, num: &num2, co, specs: gs.specs.clone(), occ: Occ::Fixed(occ_u.clone()), start: Some(start.clone()), guesses: g.clone() }).map_err(|e| format!("exact-Fock variant: direct: {}; continuation at {}: {}", e1, fr, e))?;
+                start = s.pots.clone();
+                g = guesses_of(&s);
+                last = Some(s);
+            }
+            let mut s = last.unwrap();
+            s.path = "continuation in the exact-Fock weight 1/4, 1/2, 3/4, 1".into();
+            s
+        }
+    };
+    let hmax = sx.levels.iter().zip(&sx.occ).filter(|(_, &f)| f > 1e-12).map(|(l, _)| l.eps).fold(f64::NEG_INFINITY, f64::max);
+    let vmin = sx.levels.iter().zip(&sx.occ).filter(|(_, &f)| f < 1.0 - 1e-12).map(|(l, _)| l.eps).fold(f64::INFINITY, f64::min);
+    let consistent = hmax <= vmin + num.deg_tol;
+    Ok((sx, consistent))
+}
+
 fn fixed_run(grid: &Grid, phys: &Physics, num: &Numerics, co: Coeffs, base: &State, occ: BTreeMap<Key, f64>) -> Result<State, String> {
     let inp = RunInput { phys: phys.clone(), num, co, specs: base.specs.clone(), occ: Occ::Fixed(occ), start: Some(base.pots.clone()), guesses: guesses_of(base) };
     run_scf(grid, &inp)
@@ -225,7 +278,7 @@ pub struct GroundOut {
     pub rescale: Option<Vec<String>>,
     pub exx: Option<Vec<String>>,
     pub occ: BTreeMap<Key, f64>,
-    pub state: Option<State>,
+    pub seed: Option<ContSeed>,
     pub record: Json,
     pub error: Option<String>,
     pub e_ks: f64,
@@ -252,17 +305,17 @@ pub fn ground_task(sh: &Shared, n: f64, tag: &str, lam: f64, ia: usize) -> Groun
         rescale: None,
         exx: None,
         occ: BTreeMap::new(),
-        state: None,
+        seed: None,
         record: Json::Null,
         error: None,
         e_ks: f64::NAN,
     };
     if let Err(e) = ground_inner(sh, n, tag, lam, a4, &mut out) {
         out.error = Some(e.clone());
-        out.items.push(Item { name: "ground_runs_completed", desc: "every run of the canonical matrix completed (ground, a4 +- delta, Delta-SCF, rescaling partner, exact-Fock variant)", tol: 0.0, value: 1.0, pass: Some(false) });
+        out.items.push(Item { name: "ground_runs_completed".into(), desc: "every run of the canonical matrix completed (ground, a4 +- delta, Delta-SCF, rescaling partner, exact-Fock variant)".into(), tol: 0.0, value: 1.0, pass: Some(false) });
         eprintln!("ERROR {}: {}", id, e);
     } else {
-        out.items.push(Item { name: "ground_runs_completed", desc: "every run of the canonical matrix completed (ground, a4 +- delta, Delta-SCF, rescaling partner, exact-Fock variant)", tol: 0.0, value: 0.0, pass: Some(true) });
+        out.items.push(Item { name: "ground_runs_completed".into(), desc: "every run of the canonical matrix completed (ground, a4 +- delta, Delta-SCF, rescaling partner, exact-Fock variant)".into(), tol: 0.0, value: 0.0, pass: Some(true) });
     }
     out
 }
@@ -300,22 +353,25 @@ fn ground_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, out: &mut Gro
     // conservation
     let ntot: f64 = gs.levels.iter().zip(&gs.occ).map(|(l, f)| l.deg * f).sum();
     out.items.push(it("ground_scf_converged", "Kohn-Sham SCF (Anderson mixing) converged: final max |potential residual| (units of m)", num.scf_tol, gs.resid));
-    out.items.push(it("ground_N_conservation", "particle number: |sum g f - N| and |2 Vol_7 int e^{6Hy} n dy - N| / N (doubled system; the patch holds N/2)", 1e-9, (ntot - n).abs().max((ec.int_n - n).abs() / n)));
-    out.items.push(it("ground_orbital_boundary_conditions", "max over orbitals of the brane-condition residual |b(0)| (even) or |a(0)| (odd) of the normalised orbital", 1e-8, gs.max_brane_residual));
-    out.items.push(it("ground_energy_two_forms", "E_KS = sum g f eps - 2 Vol_7 int e^{6Hy} e_int equals the variational form (input potentials, output densities): relative difference", 1e-9, (gs.e_ks - gs.e_var).abs() / gs.e_ks.abs().max(1.0)));
-    out.items.push(it("emt_energy_integral", "2 Vol_7 int e^{6Hy} rho dy = E_KS: relative difference", 1e-11, (ec.energy_integral - gs.e_ks).abs() / gs.e_ks.abs().max(1.0)));
-    out.items.push(it("emt_y_conservation_integrated", "[e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy} (p3 + p_t) dy (nabla_mu T^mu_y = 0): relative difference", 1e-7, ec.ycons_integrated_rel));
-    out.items.push(it("emt_y_conservation_pointwise", "(e^{6Hy} p0)' = 3H e^{6Hy}(p3 + p_t) on the node grid (4th-order differences): max relative residual", 1e-5, ec.ycons_pointwise_rel));
-    out.items.push(it("emt_trace_derivative_form", "derivative form of the y-kinetic term j(a b' - b a') = (eps - v)(a^2+b^2) - M j 2ab - kappa k j(a^2-b^2) (orbital equation residual from finite differences of the stored occupied orbitals): max relative deviation", 1e-5, ec.trace_derivative_rel));
-    out.items.push(Item { name: "ground_window_complete", desc: "label set complete: the lowest level outside the label set lies above the LUMO (value: LUMO - lowest excluded, must be < 0)", tol: 0.0, value: lumo - e_complete, pass: Some(lumo < e_complete) });
-    out.items.push(Item { name: "ground_closed_shell", desc: "the aufbau ground state is closed-shell (no fractionally occupied degenerate level; value 1 = open)", tol: 0.0, value: if gs.open_shell { 1.0 } else { 0.0 }, pass: Some(!gs.open_shell) });
+    out.items.push(it("ground_N_conservation", "particle number: |sum g f - N| and |2 Vol_7 int e^{3Hy} n dy - N| / N (the whole cell, both halves; each half holds N/2)", 1e-9, (ntot - n).abs().max((ec.int_n - n).abs() / n)));
+    out.items.push(it("ground_orbital_boundary_conditions", "max over orbitals of the fold-condition residual |b(0)| (theta = 0, even) or |a(0)| (theta = pi, odd) of the normalised orbital", 1e-8, gs.max_brane_residual));
+    out.items.push(it("ground_energy_two_forms", "E_KS = sum g f eps - 2 Vol_7 int e^{3Hy} e_int equals the variational form (input potentials, output densities): relative difference", 1e-9, (gs.e_ks - gs.e_var).abs() / gs.e_ks.abs().max(1.0)));
+    out.items.push(it("emt_energy_integral", "2 Vol_7 int e^{3Hy} rho dy = E_KS: relative difference", 1e-11, (ec.energy_integral - gs.e_ks).abs() / gs.e_ks.abs().max(1.0)));
+    out.items.push(it("emt_y_conservation_integrated", "[e^{3Hy} p0]_{-L}^{0} = 3H int e^{3Hy} p_t dy (nabla_mu T^mu_y = 0: p0' + 3H (p0 - p_t) = 0): relative difference", 1e-7, ec.ycons_integrated_rel));
+    out.items.push(it("emt_y_conservation_pointwise", "(e^{3Hy} p0)' = 3H e^{3Hy} p_t on the node grid (4th-order differences): max relative residual", 1e-5, ec.ycons_pointwise_rel));
+    out.items.push(it("emt_trace_derivative_form", "derivative form of the y-kinetic term j(a b' - b a') = f [(eps - v)(a^2+b^2) - M j 2ab - kappa k j(a^2-b^2)] (orbital equation residual from finite differences of the stored occupied orbitals): max relative deviation", 1e-5, ec.trace_derivative_rel));
+    out.items.push(Item { name: "ground_window_complete".into(), desc: "label set complete: the lowest level outside the label set lies above the LUMO (value: LUMO - lowest excluded, must be < 0)".into(), tol: 0.0, value: lumo - e_complete, pass: Some(lumo < e_complete) });
+    out.items.push(Item { name: "ground_closed_shell".into(), desc: "the aufbau ground state is closed-shell (no fractionally occupied degenerate level; value 1 = open)".into(), tol: 0.0, value: if gs.open_shell { 1.0 } else { 0.0 }, pass: Some(!gs.open_shell) });
     // a4 +- delta (fixed occupations) for d/da4.  The neighbours are converged to scf_tol/10: the difference
-    // quotient amplifies their SCF error by ~1/delta, and with b4 the interacting N = 8 energies fall like
-    // e^{-2 a4} (dE/da4 = 3.6e-5 at a4,0 = 2 for lambda_1), where scf_tol left the quotient 7e-11 off (found by the
-    // refined comparison, compare_runs.py refined_adiabatic_derivatives)
+    // quotient amplifies their SCF error by ~1/delta (in the record of 2026-10-15 scf_tol left the quotient 7e-11 off
+    // at a4,0 = 2, found by the refined comparison, compare_runs.py refined_adiabatic_derivatives).  Along the history
+    // the neighbours change kappa = e^{-a4}, the hidden scale f = e^{-a4/3} and Vol_7 = ell^3 v_t e^{(5/3) a4}.
+    // Not below 1e-14 m: there the residual meets the rounding floor of the potentials (with the refined SCF
+    // tolerance 1e-14 the neighbours of N2352_lamp2_a00 stalled at 1.8e-15 m in 1000 iterations at 1e-15;
+    // claude_failures.md H15); the canonical value 1e-12 m is unchanged
     let occ = occ_map(&gs);
     let dl = num.fd_delta;
-    let num_fd = Numerics { scf_tol: 0.1 * num.scf_tol, ..num.clone() };
+    let num_fd = Numerics { scf_tol: (0.1 * num.scf_tol).max(1e-14), ..num.clone() };
     let mut nbs: Vec<State> = Vec::new();
     for s in [1.0, -1.0, 2.0, -2.0] {
         let mut pp = phys.clone();
@@ -324,9 +380,9 @@ fn ground_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, out: &mut Gro
     }
     let de_fd = rich(nbs[0].e_ks, nbs[1].e_ks, nbs[2].e_ks, nbs[3].e_ks, dl);
     let de_scale = gs.levels.iter().zip(&gs.occ).map(|(l, f)| l.deg * f * l.eps.abs()).sum::<f64>().max(phys.m.abs());
-    out.items.push(it("emt_energy_change_dE_da4", "dE/da4 at fixed occupations (self-consistent states at a4 +- delta, +- 2 delta, delta = 2e-3, Richardson; Vol_7 and with it the effective coupling change with b4 along the history) = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7 int e^{6Hy} p dy (nabla_mu T^mu_x4 = 0 with sqrt|g| = b4^{3/2} e^{6Hy}, Hellmann-Feynman): |difference| / max(sum g f |eps|, m)", 1e-8, (de_fd - ec.de_da_emt).abs() / de_scale));
+    out.items.push(it("emt_energy_change_dE_da4", "dE/da4 at fixed occupations (self-consistent states at a4 +- delta, +- 2 delta, delta = 2e-3, Richardson; kappa, f and Vol_7 change along the history) = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0 (beta = 4/3: -3 P3 + P_t + P0/3), P = 2 Vol_7 int e^{3Hy} p dy (nabla_mu T^mu_x4 = 0 with sqrt|g| = e^{-a4} b4^2 e^{3Hy}, Hellmann-Feynman): |difference| / max(sum g f |eps|, m)", 1e-8, (de_fd - ec.de_da_emt).abs() / de_scale));
     let ad = adiabatic(grid, &phys, A_HIST * phys.hh, &gs, [&nbs[0], &nbs[1], &nbs[2], &nbs[3]], dl);
-    out.items.push(it("adiabatic_hellmann_feynman", "d eps_n/da4 (Richardson differences of the self-consistent levels) = <n| d_a h |n> with d_a h = -j kappa k sigma3 + j (d_a M_eff) sigma2 + d_a v_v (+ d_a w_Q sigma3): max absolute deviation (units of m)", 1e-7, ad.hf_maxdev));
+    out.items.push(it("adiabatic_hellmann_feynman", "d eps_n/da4 (Richardson differences of the self-consistent levels) = <n| d_a h |n> with d_a h = -j kappa k sigma3 + (1 - beta/2) T_j + j (d_a M_eff) sigma2 + d_a v_v (+ d_a w_Q sigma3), T_j = j(-(i/f) sigma1 d_y) the kinetic term (f = e^{(beta/2 - 1) a4}): max absolute deviation (units of m)", 1e-7, ad.hf_maxdev));
     let (stp, stm) = (&nbs[0], &nbs[1]);
     // Delta-SCF (first excited state: one particle from the HOMO group to the LUMO group, uniform over each degenerate group)
     let hg = gr.iter().find(|(e, _)| *e == homo).unwrap();
@@ -362,76 +418,65 @@ fn ground_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, out: &mut Gro
     out.files.push((format!("excited/particle-hole/{}.csv", id), csv.text()));
     // adiabaticity row
     out.adiab = vec![id.clone(), (n as i64).to_string(), out.tag.clone(), f(lam), f(a4), f(ad.qmax), ad.pair.clone(), f(ad.pair_de), f(ad.pair_me), f(ad.qmax * ad.qmax), ad.n_pairs.to_string(), f(ad.hf_maxdev), f(ad.max_deps_da), f(de_fd), f(ec.de_da_emt)];
-    // rescaling partner: slice 0 of the same history with the same proper cell (ks-theory.json rescalingIdentity)
+    // rescaling partner (ks-theory.json rescalingIdentity): the slice a4 = 0, b4 = 1 (f = 1) with H/f0, the proper
+    // hidden length f0 L (the same number of RK4 steps, so node i of the partner is Y = f0 y_i), dk e^{-a4,0} and
+    // v_t e^{-3 a4,0} b4,0^{3/2}; Vol_7 of the partner is Vol_7(a4,0)/f0 and its proper densities at Y = f0 y equal ours
     if a4 > 0.0 {
+        let f0 = phys.fh();
         let mut pr = phys.clone();
         pr.a4 = 0.0;
+        pr.hh = phys.hh / f0;
+        pr.l = phys.l * f0;
         pr.dk = phys.dk * (-a4).exp();
         pr.vt = phys.vt * ((1.5 * phys.beta - 3.0) * a4).exp();
-        let specs_r = specs_t0(grid, &pr, margin_for(tag), 3, num.root_tol)?;
+        let grid_r = Grid::new(pr.hh, pr.l, grid.g);
+        let grid_r = &grid_r;
+        let specs_r = specs_t0(grid_r, &pr, margin_for(tag), 3, num.root_tol)?;
         let mut fpr = pr.clone();
         fpr.lambda = 0.0;
-        let free_r = run_scf(grid, &RunInput { phys: fpr, num, co, specs: specs_r.clone(), occ: Occ::Aufbau, start: None, guesses: BTreeMap::new() })?;
-        let gr_r = if lam == 0.0 { free_r } else { solve_ground(grid, &pr, num, co, &specs_r, &guesses_of(&free_r))? };
+        let free_r = run_scf(grid_r, &RunInput { phys: fpr, num, co, specs: specs_r.clone(), occ: Occ::Aufbau, start: None, guesses: BTreeMap::new() })?;
+        let gr_r = if lam == 0.0 { free_r } else { solve_ground(grid_r, &pr, num, co, &specs_r, &guesses_of(&free_r))? };
         let k1: Vec<Key> = gs.levels.iter().map(|l| l.key).collect();
         let k2: Vec<Key> = gr_r.levels.iter().map(|l| l.key).collect();
         let same_keys = k1 == k2;
         let m2: BTreeMap<Key, f64> = gr_r.levels.iter().map(|l| (l.key, l.eps)).collect();
         let de = gs.levels.iter().filter_map(|l| m2.get(&l.key).map(|x| (x - l.eps).abs())).fold(0.0f64, f64::max);
         let er = emt(&pr, co, &gr_r);
-        let rel = |a: &[f64], b: &[f64]| -> f64 {
-            let s = a.iter().fold(0.0f64, |m, x| m.max(x.abs())).max(1e-300);
-            a.iter().zip(b).fold(0.0f64, |m, (x, y)| m.max((x - y).abs())) / s
-        };
-        let pd = rel(&gs.dens.n, &gr_r.dens.n).max(rel(&gs.dens.s, &gr_r.dens.s)).max(rel(&e.rho, &er.rho)).max(rel(&e.p3, &er.p3)).max(rel(&e.p0, &er.p0));
+        // each profile relative to the scale of its family (densities: max |n|; pressures: max(|rho|, |p3|, |p0|)):
+        // S and p0 vanish identically for some states (lambda = 0 fold-band states chi = (e^{f M y}, 0)), where a
+        // scale of their own would measure round-off against round-off
+        let mx = |a: &[f64]| a.iter().fold(0.0f64, |m, x| m.max(x.abs()));
+        let dmax = |a: &[f64], b: &[f64]| a.iter().zip(b).fold(0.0f64, |m, (x, y)| m.max((x - y).abs()));
+        let sn = mx(&gs.dens.n).max(1e-300);
+        let sp = mx(&e.rho).max(mx(&e.p3)).max(mx(&e.p0)).max(1e-300);
+        let pd = (dmax(&gs.dens.n, &gr_r.dens.n) / sn).max(dmax(&gs.dens.s, &gr_r.dens.s) / sn).max(dmax(&e.rho, &er.rho) / sp).max(dmax(&e.p3, &er.p3) / sp).max(dmax(&e.p0, &er.p0) / sp);
         let d_e = (gs.e_ks - gr_r.e_ks).abs() / gs.e_ks.abs().max(1.0);
         let occ_same = occ_map(&gs) == occ_map(&gr_r);
         out.items.push(Item {
-            name: "rescaling_identity_between_slices",
-            desc: "KS(a4,0; dk, v_t, lambda_hat) = KS(0; dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat) (= v_t e^{-a4,0} for beta = 4/3: the same proper cell), solved independently: same label set and occupations, max |delta eps| (units of m)",
+            name: "rescaling_identity_between_slices".into(),
+            desc: "KS(a4,0; H, L, dk, v_t, lambda_hat) = KS(0; H/f0, f0 L, dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat), f0 = e^{(beta/2 - 1) a4,0} = e^{-a4,0/3} (v_t e^{-a4,0} for beta = 4/3), solved independently on the partner's grid: same label set and occupations, max |delta eps| (units of m)".into(),
             tol: 1e-9,
             value: de,
             pass: Some(same_keys && occ_same && de <= 1e-9),
         });
-        out.items.push(it("rescaling_identity_energy_profiles", "rescaling partner: relative difference of E_KS and max relative difference of the proper profiles n, S, rho, p3, p0", 1e-8, d_e.max(pd)));
-        out.rescale = Some(vec![id.clone(), (n as i64).to_string(), out.tag.clone(), f(lam), f(a4), f(pr.dk), f(pr.vt), same_keys.to_string(), occ_same.to_string(), f(de), f(d_e), f(pd), f(gr_r.e_ks)]);
+        out.items.push(it("rescaling_identity_energy_profiles", "rescaling partner: relative difference of E_KS and max difference of the proper profiles n, S (relative to max |n|) and rho, p3, p0 (relative to max(|rho|, |p3|, |p0|)) at corresponding points Y = f0 y", 1e-8, d_e.max(pd)));
+        out.rescale = Some(vec![id.clone(), (n as i64).to_string(), out.tag.clone(), f(lam), f(a4), f(pr.dk), f(pr.vt), same_keys.to_string(), occ_same.to_string(), f(de), f(d_e), f(pd), f(gr_r.e_ks), f(pr.hh), f(pr.l)]);
     }
-    // exact-Fock variant (lambda != 0)
+    // exact-Fock variant (lambda != 0), solved at the occupations of the uniform-gas ground state (the setting of the
+    // first-order Delta E_x it is compared with); with aufbau occupations it has no self-consistent closed-shell
+    // solution where a level crosses the Fermi level (N2352_lamp1_a00 of 2026-10-16: a two-cycle, residual 4e-2)
     if lam != 0.0 {
         let mut px = phys.clone();
         px.functional = Functional::Exx;
-        let inp = RunInput { phys: px.clone(), num, co, specs: gs.specs.clone(), occ: Occ::Aufbau, start: Some(gs.pots.clone()), guesses: guesses_of(&gs) };
-        let sx = match run_scf(grid, &inp) {
-            Ok(mut s) => {
-                s.path = "direct".into();
-                s
-            }
-            Err(e1) => {
-                // continuation in the weight of the exact-Fock term
-                let num2 = Numerics { anderson_beta: num.anderson_beta / 2.0, scf_max_iter: 2 * num.scf_max_iter, ..num.clone() };
-                let mut start = gs.pots.clone();
-                let mut g = guesses_of(&gs);
-                let mut last = None;
-                for fr in [0.25, 0.5, 0.75, 1.0] {
-                    let mut pf = px.clone();
-                    pf.exx_frac = fr;
-                    let s = run_scf(grid, &RunInput { phys: pf, num: &num2, co, specs: gs.specs.clone(), occ: Occ::Aufbau, start: Some(start.clone()), guesses: g.clone() }).map_err(|e| format!("exact-Fock variant: direct: {}; continuation at {}: {}", e1, fr, e))?;
-                    start = s.pots.clone();
-                    g = guesses_of(&s);
-                    last = Some(s);
-                }
-                let mut s = last.unwrap();
-                s.path = "continuation in the exact-Fock weight 1/4, 1/2, 3/4, 1".into();
-                s
-            }
-        };
+        let (sx, aufbau_consistent) = exx_variant(grid, &px, num, co, &gs)?;
         let ex = emt(&px, co, &sx);
         let cx = emt_checks(grid, &px, &sx, &ex);
         let grx = groups(&sx, num.deg_tol);
         let hx = grx.iter().filter(|(_, m)| m.iter().any(|&i| sx.occ[i] > 1e-12)).map(|(e, _)| *e).fold(f64::NEG_INFINITY, f64::max);
         let lx = grx.iter().filter(|(e, m)| *e > hx && m.iter().any(|&i| sx.occ[i] < 1.0 - 1e-12)).map(|(e, _)| *e).fold(f64::INFINITY, f64::min);
-        out.items.push(it("exx_variant_scf_converged", "exact-Fock-exchange variant (w_Q = lambda Q/16 sigma3, + lambda Q^2/32) converged from the uniform-gas state", num.scf_tol, sx.resid));
-        out.items.push(it("exx_variant_y_conservation", "exact-Fock variant: (e^{6Hy} p0)' = 3H e^{6Hy}(p3 + p_t) with p0 including -w_Q Q (derived): integrated relative residual", 1e-7, cx.ycons_integrated_rel));
+        out.items.push(it("exx_variant_scf_converged", "exact-Fock-exchange variant (w_Q = lambda Q/16 sigma3, + lambda Q^2/32) converged from the uniform-gas state at its occupations", num.scf_tol, sx.resid));
+        out.items.push(Item { name: "exx_variant_occupation_order".into(), desc: "INFORMATION (not a validation): the variant keeps the occupations of the uniform-gas ground state; value 1 where they are not the aufbau occupations of the variant's own levels (highest occupied group not below the lowest group with a vacancy), 0 otherwise; the worst value names such a state".into(), tol: 1.0, value: if aufbau_consistent { 0.0 } else { 1.0 }, pass: Some(true) });
+        out.items.push(it("exx_variant_y_conservation", "exact-Fock variant: (e^{3Hy} p0)' = 3H e^{3Hy} p_t with p0 including -w_Q Q (derived): integrated relative residual", 1e-7, cx.ycons_integrated_rel));
         out.exx = Some(vec![
             id.clone(),
             (n as i64).to_string(),
@@ -447,6 +492,7 @@ fn ground_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, out: &mut Gro
             f(lx - hx),
             sx.iters.to_string(),
             f(cx.ycons_integrated_rel),
+            aufbau_consistent.to_string(),
         ]);
     }
     // files and rows
@@ -527,7 +573,7 @@ fn ground_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, out: &mut Gro
     ]);
     out.occ = occ;
     out.e_ks = gs.e_ks;
-    out.state = Some(gs);
+    out.seed = Some(ContSeed { lambda: lam, specs: gs.specs.clone(), pots: gs.pots.clone(), guesses: guesses_of(&gs) });
     Ok(())
 }
 
@@ -560,7 +606,7 @@ pub fn thermal_task(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64
         Ok(o) => o,
         Err(e) => {
             eprintln!("ERROR {}: {}", id, e);
-            ThermOut { row: vec![], items: vec![Item { name: "thermo_runs_completed", desc: "every thermal run (T, T(1 +- dt)) completed", tol: 0.0, value: 1.0, pass: Some(false) }], id, holes_over_n: f64::NAN, mu: None }
+            ThermOut { row: vec![], items: vec![Item { name: "thermo_runs_completed".into(), desc: "every thermal run (T, T(1 +- dt)) completed".into(), tol: 0.0, value: 1.0, pass: Some(false) }], id, holes_over_n: f64::NAN, mu: None }
         }
     }
 }
@@ -636,7 +682,7 @@ fn thermal_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64, i
             beyond = beyond.min(e[0]);
         }
     }
-    // sea holes excluded by the convention: j = -1 even l = 0 (sea brane band) of every shell up to the window
+    // sea holes excluded by the convention: j = -1 even l = 0 (sea fold band, eps = -kappa k at lambda = 0) of every shell up to the window
     let ctx = ctx_for(grid, &phys, &st.pots);
     let maxn2 = specs.iter().map(|s| s.shell.n2).max().unwrap_or(0);
     let mut holes = 0.0;
@@ -669,14 +715,14 @@ fn thermal_inner(sh: &Shared, n: f64, tag: &str, lam: f64, a4: f64, temp: f64, i
     let mut items = vec![
         it("thermo_scf_converged", "Mermin SCF converged at T, T +- dT, T +- 2 dT (dT = 0.01 T): max final residual", num.scf_tol, nb.iter().fold(st.resid, |m, x| m.max(x.resid))),
         it("thermo_N_conservation", "Mermin: |sum g f - N| at the converged mu", 1e-9, (ntot - n).abs()),
-        it("thermo_grand_potential_two_forms", "Omega = -T sum g ln(1 + e^{-(eps-mu)/T}) - 2 Vol_7 int e^{6Hy} e_int equals F - mu N = E - T S - mu N: relative difference", 1e-10, rel(st.omega_direct, om)),
+        it("thermo_grand_potential_two_forms", "Omega = -T sum g ln(1 + e^{-(eps-mu)/T}) - 2 Vol_7 int e^{3Hy} e_int equals F - mu N = E - T S - mu N: relative difference", 1e-10, rel(st.omega_direct, om)),
         it("thermo_CV_identity", "C_V = T dS/dT (reported; S is computed from the occupations and is well conditioned) equals dE/dT at fixed N (self-consistent Mermin states at T +- dT, T +- 2 dT, dT = 0.01 T, Richardson): |difference| / (1e-4 max(|dE/dT|, |T dS/dT|) + eta), eta = N x root tolerance / dT the noise floor of a difference quotient of energies (it dominates only where the thermal change of E over dT is below ~1e-11, i.e. deep in the activated regime)", 1.0, (cv - tds).abs() / (1e-4 * cv.abs().max(tds.abs()) + eta)),
         it("thermo_entropy_identity", "-dF/dT = S (Richardson differences): |difference| / (1e-4 S + eta), eta as for thermo_CV_identity", 1.0, (mdf - s).abs() / (1e-4 * s.abs() + eta)),
         it("thermo_window_cut", "occupation at the thermal window cut f(ecut) (levels above the cut are omitted)", 2.0 * num.f_cut, fcut),
-        Item { name: "thermo_window_shells_beyond", desc: "the free levels of the five shells beyond the thermal label set lie above the cut (value: cut - lowest such level, must be < 0)", tol: 0.0, value: ecut - beyond, pass: Some(beyond > ecut) },
+        Item { name: "thermo_window_shells_beyond".into(), desc: "the free levels of the five shells beyond the thermal label set lie above the cut (value: cut - lowest such level, must be < 0)".into(), tol: 0.0, value: ecut - beyond, pass: Some(beyond > ecut) },
     ];
-    items.push(Item { name: "thermo_runs_completed", desc: "every thermal run (T, T(1 +- dt)) completed", tol: 0.0, value: 0.0, pass: Some(true) });
-    items.push(Item { name: "thermo_scf_path", desc: "INFORMATION (not a validation): SCF path of the Mermin state at T, 0 = direct Anderson SCF, 1 = the coupling continuation lambda x 1/4, 1/2, 3/4, 1 with half the mixing after a divergent direct run (the fallback of the ground states); the worst value names a state that needed it", tol: 1.0, value: if st.path == "direct" { 0.0 } else { 1.0 }, pass: Some(true) });
+    items.push(Item { name: "thermo_runs_completed".into(), desc: "every thermal run (T, T(1 +- dt)) completed".into(), tol: 0.0, value: 0.0, pass: Some(true) });
+    items.push(Item { name: "thermo_scf_path".into(), desc: "INFORMATION (not a validation): SCF path of the Mermin state at T, 0 = direct Anderson SCF, 1 = the coupling continuation lambda x 1/4, 1/2, 3/4, 1 with half the mixing after a divergent direct run (the fallback of the ground states); the worst value names a state that needed it".into(), tol: 1.0, value: if st.path == "direct" { 0.0 } else { 1.0 }, pass: Some(true) });
     let mmax = st.pots.mass.iter().fold(0.0f64, |m, x| m.max((x - phys.m).abs()));
     let vmax = st.pots.v.iter().fold(0.0f64, |m, x| m.max(x.abs()));
     let nshells = specs.iter().map(|s| s.shell.n2).collect::<std::collections::BTreeSet<_>>().len();
@@ -829,6 +875,60 @@ fn mermin_fixture_check(root: &std::path::Path, rep: &mut Report) {
     }
 }
 
+/// The key of the job cache: every input a task depends on (crate::cache).
+fn cache_key(cfg: &Cfg, th: &TheoryInputs) -> String {
+    format!(
+        "revision_ks_solver job cache\nks-theory.json sha256 {}\ngammas.json sha256 {}\nsolver source sha256 {}\nnumerics {}\nquick {}\n",
+        th.sha_theory,
+        th.sha_gammas,
+        crate::cache::source_sha256(),
+        cfg.num.tag,
+        cfg.quick
+    )
+}
+
+/// Estimated cost (seconds of one thread, canonical numerics) of a ground task: a fit to the record's run of 2026-10-16
+/// (N index 0 = 8, 1 = N_mid, 2 = N_large).  Only the balance of the parts depends on it, never a result.
+fn cost_ground(ni: usize, tag: &str, a4: f64) -> f64 {
+    let (a, b) = match (tag, ni) {
+        ("lam0", i) => (0.2 * (1.0 + 2.0 * i as f64), 0.7),
+        ("lamp1" | "lamm1", 0) => (0.8, 1.5),
+        ("lamp1" | "lamm1", 1) => (3.0, 1.2),
+        ("lamp1" | "lamm1", _) => (20.0, 0.6),
+        (_, 0) => (2.1, 2.0),
+        (_, 1) => (13.0, 1.2),
+        (_, _) => (45.0, 0.6),
+    };
+    a * (b * a4).exp()
+}
+
+/// Estimated cost of a thermal task (the same kind of fit).
+fn cost_thermal(ni: usize, tag: &str, a4: f64, t: f64) -> f64 {
+    let c = if tag == "lam0" { 0.3 } else { 3.0 } * [1.0, 2.0, 4.0][ni.min(2)];
+    c * (0.8 * a4).exp() * (t / 0.02).sqrt()
+}
+
+/// Part pi of pn (1-based) of the jobs (cost, is_ground, index): longest-processing-time assignment in a fixed order.
+fn part_of(jobs: &[(f64, bool, usize)], pi: usize, pn: usize) -> Vec<(bool, usize)> {
+    let mut order: Vec<usize> = (0..jobs.len()).collect();
+    order.sort_by(|&a, &b| jobs[b].0.partial_cmp(&jobs[a].0).unwrap().then(a.cmp(&b)));
+    let mut load = vec![0.0f64; pn.max(1)];
+    let mut out = Vec::new();
+    for k in order {
+        let mut best = 0;
+        for p in 1..load.len() {
+            if load[p] < load[best] {
+                best = p;
+            }
+        }
+        load[best] += jobs[k].0;
+        if best + 1 == pi {
+            out.push((jobs[k].1, jobs[k].2));
+        }
+    }
+    out
+}
+
 pub fn write_files(out: &std::path::Path, files: &BTreeMap<String, String>) -> Result<(), String> {
     for (p, c) in files {
         let path = out.join(p);
@@ -847,10 +947,20 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
     let base = base_phys(th.history_beta);
     let co = Coeffs { meff: th.meff_coeff, vv: th.vv_coeff };
     let mut files: BTreeMap<String, String> = BTreeMap::new();
+    crate::scf::INNER_THREADS.store(cfg.inner_threads.max(1), Ordering::SeqCst);
+    let cache = match &cfg.cache {
+        Some(d) => Some(crate::cache::Cache::open(d, &cache_key(cfg, th))?),
+        None => None,
+    };
+    if cfg.part.is_some() && cache.is_none() {
+        return Err("--part needs --cache".into());
+    }
     // --- free spectra ----------------------------------------------------------
     let t0 = std::time::Instant::now();
-    for (p, c) in free_checks(&base, num, th.slope_m1h1l3, &SLICES, &mut rep) {
-        files.insert(p, c);
+    if cfg.part.is_none() {
+        for (p, c) in free_checks(&base, num, th.slope_a0, &SLICES, &mut rep) {
+            files.insert(p, c);
+        }
     }
     let grid = Grid::new(base.hh, base.l, num.g);
     // closed shells at every slice (free)
@@ -868,7 +978,7 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
         }
     }
     files.insert("spectrum/closed-shells.csv".into(), csv.text());
-    // N choice (documented rule): bulk edge = lowest level that is not on the even j = +1 brane band
+    // N choice (documented rule): bulk edge = lowest level that is not on the even j = +1 fold band
     let bulk_edge = {
         let pots = Pots::free(grid.nf, base.m);
         let odd = crate::spectrum::level_in(&grid, &base, &pots, 0.0, 1, Parity::Odd, 0, num.root_tol);
@@ -936,21 +1046,87 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
             }
         }
     }
+    let mut ttasks: Vec<(f64, &str, f64, f64, f64)> = Vec::new();
+    for &n in &ns {
+        let (l1, _, _) = lambdas[&(n as i64)];
+        for (tag, lam) in [("lam0", 0.0), ("lamp1", l1), ("lamm1", -l1)] {
+            for &a4 in &SLICES {
+                for &t in &TEMPS {
+                    if cfg.quick && (a4 != 0.0 && a4 != 2.0 || t != TEMPS[1]) {
+                        continue;
+                    }
+                    ttasks.push((n, tag, lam, a4, t));
+                }
+            }
+        }
+    }
     let shared = Shared { grid: Grid::new(base.hh, base.l, num.g), num, co, base: base.clone() };
-    let mut gouts = par_map(&tasks, cfg.threads, |t| {
+    let tid = |t: &(f64, &str, f64, f64, f64)| format!("{}_T{}", run_id(t.0, t.1, t.3), (t.4 * 1000.0).round() as i64);
+    if let Some((pi, pn)) = cfg.part {
+        let c = cache.as_ref().unwrap();
+        let nidx = |n: f64| ns.iter().position(|&x| x == n).unwrap_or(0);
+        let mut jobs: Vec<(f64, bool, usize)> = Vec::new();
+        for (i, t) in tasks.iter().enumerate() {
+            jobs.push((cost_ground(nidx(t.0), t.1, SLICES[t.3]), true, i));
+        }
+        for (i, t) in ttasks.iter().enumerate() {
+            jobs.push((cost_thermal(nidx(t.0), t.1, t.3, t.4), false, i));
+        }
+        let mine = part_of(&jobs, pi, pn);
+        let todo: Vec<(bool, usize)> = mine
+            .into_iter()
+            .filter(|&(g, i)| {
+                let (kind, id) = if g { ("ground", run_id(tasks[i].0, tasks[i].1, SLICES[tasks[i].3])) } else { ("thermal", tid(&ttasks[i])) };
+                !matches!(c.load(kind, &id), Ok(Some(_)))
+            })
+            .collect();
+        let res = par_map(&todo, cfg.threads, |&(g, i)| -> Result<(), String> {
+            let tt = std::time::Instant::now();
+            if g {
+                let t = tasks[i];
+                let o = ground_task(&shared, t.0, t.1, t.2, t.3);
+                eprintln!("done {} in {:.1} s", o.id, tt.elapsed().as_secs_f64());
+                c.save("ground", &o.id, &crate::cache::ground_to_json(&o))
+            } else {
+                let t = ttasks[i];
+                let o = thermal_task(&shared, t.0, t.1, t.2, t.3, t.4);
+                eprintln!("done {} in {:.1} s", o.id, tt.elapsed().as_secs_f64());
+                c.save("thermal", &o.id, &crate::cache::thermal_to_json(&o))
+            }
+        });
+        for r in res {
+            r?;
+        }
+        eprintln!("part {}/{}: {} tasks computed into {} ({:.1} s)", pi, pn, todo.len(), c.dir.display(), t_all.elapsed().as_secs_f64());
+        return Ok(true);
+    }
+    let gres = par_map(&tasks, cfg.threads, |t| -> Result<GroundOut, String> {
+        let id = run_id(t.0, t.1, SLICES[t.3]);
+        if let Some(c) = &cache {
+            if let Some(j) = c.load("ground", &id)? {
+                return crate::cache::ground_from_json(&j).map_err(|e| format!("cached {}: {}", id, e));
+            }
+        }
         let tt = std::time::Instant::now();
         let o = ground_task(&shared, t.0, t.1, t.2, t.3);
         eprintln!("done {} in {:.1} s", o.id, tt.elapsed().as_secs_f64());
-        o
+        if let Some(c) = &cache {
+            c.save("ground", &o.id, &crate::cache::ground_to_json(&o))?;
+        }
+        Ok(o)
     });
+    let mut gouts = Vec::new();
+    for r in gres {
+        gouts.push(r?);
+    }
     timing.push(("ground matrix (ground, a4 +- delta, Delta-SCF, rescaling partner, exact-Fock variant)".into(), t0.elapsed().as_secs_f64()));
     let mut agg = Agg::default();
     let mut sum_csv = Csv::new(SUMMARY_HEADER.to_vec());
     let mut exc_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "HOMO", "LUMO", "KS_gap", "g_HOMO_group", "g_LUMO_group", "hole_levels", "particle_levels", "E_excited", "delta_SCF", "delta_SCF_minus_gap", "iterations", "residual"]);
     let mut ad_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "Q_max", "Q_max_pair", "Q_max_delta_eps", "Q_max_matrix_element", "transition_probability_estimate_Q2", "pairs", "HF_max_dev", "max_abs_deps_da4", "dE_da4_finite_difference", "dE_da4_emt"]);
     let mut emt_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "int_rho", "int_p3", "int_p_t", "int_p0", "int_n", "rho_brane", "p3_brane", "p_t_brane", "p0_brane", "rho_tip", "p3_tip", "p_t_tip", "p0_tip", "deltaE_x_exact_fock", "ycons_integrated_rel", "ycons_pointwise_rel", "trace_derivative_rel"]);
-    let mut rs_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "partner_dk", "partner_v_t", "same_label_set", "same_occupations", "max_abs_delta_eps", "rel_delta_E", "max_rel_profile_diff", "partner_E_KS"]);
-    let mut exx_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "E_uniform_gas", "deltaE_x_exact_fock_diag", "E_uniform_gas_plus_deltaE_x", "E_exact_fock_scf", "E_exx_minus_first_order", "gap_uniform_gas", "gap_exact_fock", "iterations", "ycons_integrated_rel"]);
+    let mut rs_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "partner_dk", "partner_v_t", "same_label_set", "same_occupations", "max_abs_delta_eps", "rel_delta_E", "max_rel_profile_diff", "partner_E_KS", "partner_H", "partner_L"]);
+    let mut exx_csv = Csv::new(vec!["id", "N", "lambda_tag", "lambda", "a4", "E_uniform_gas", "deltaE_x_exact_fock_diag", "E_uniform_gas_plus_deltaE_x", "E_exact_fock_scf", "E_exx_minus_first_order", "gap_uniform_gas", "gap_exact_fock", "iterations", "ycons_integrated_rel", "occupations_are_aufbau"]);
     let mut records = Vec::new();
     for o in &gouts {
         for x in &o.items {
@@ -1018,8 +1194,14 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
     let conts = par_map(&cont_tasks, cfg.threads, |&(i0, i)| {
         let g0 = &gouts[i0];
         let gi = &gouts[i];
-        let st = gi.state.as_ref().unwrap();
-        let r = fixed_run(&shared.grid, &st.phys, num, co, st, g0.occ.clone());
+        let sd = gi.seed.as_ref().unwrap();
+        // the phys of the ground state of slice gi (ground_inner): base with N, lambda, a4
+        let mut ph = base.clone();
+        ph.n = gi.n;
+        ph.lambda = sd.lambda;
+        ph.a4 = SLICES[gi.ia];
+        let inp = RunInput { phys: ph, num, co, specs: sd.specs.clone(), occ: Occ::Fixed(g0.occ.clone()), start: Some(sd.pots.clone()), guesses: sd.guesses.clone() };
+        let r = run_scf(&shared.grid, &inp);
         (gi.id.clone(), gi.e_ks, r.map(|s| (s.e_ks, s.resid)))
     });
     let mut cont_csv = Csv::new(vec!["id", "E_aufbau_instantaneous_ground", "E_adiabatically_continued", "difference", "residual", "status"]);
@@ -1027,7 +1209,7 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
         match r {
             Ok((e, res)) => {
                 cont_csv.push(vec![id.clone(), f(*eg), f(*e), f(e - eg), f(*res), "converged".into()]);
-                agg.add(id, &Item { name: "adiabatic_continued_state_not_lower", desc: "where the occupied label set changes along the history, the adiabatically continued state (a4,0 = 0 occupations) is not below the instantaneous aufbau ground state (value: E_aufbau - E_continued)", tol: 1e-9, value: eg - e, pass: None });
+                agg.add(id, &Item { name: "adiabatic_continued_state_not_lower".into(), desc: "where the occupied label set changes along the history, the adiabatically continued state (a4,0 = 0 occupations) is not below the instantaneous aufbau ground state (value: E_aufbau - E_continued)".into(), tol: 1e-9, value: eg - e, pass: None });
             }
             Err(e) => cont_csv.push(vec![id.clone(), f(*eg), "nan".into(), "nan".into(), "nan".into(), format!("failed: {}", e.replace(',', ";"))]),
         }
@@ -1062,7 +1244,7 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
         rep.check(
             "adiabatic_crossing_flag_demonstration",
             flagged && cont_ok,
-            format!("lambda = 0, N = {} (the smallest closed shell of the a4,0 = 0 aufbau that occupies a level off the even j = +1 brane band): the brane-band levels redshift below the k = 0 bulk level along the history, the instantaneous aufbau occupation changes (flagged: {}) and the adiabatically continued state (a4,0 = 0 labels) lies at or above the aufbau ground state at every flagged slice: {} (adiabatic/crossing-demo.csv)", n_demo as i64, flagged, cont_ok),
+            format!("lambda = 0, N = {} (the smallest closed shell of the a4,0 = 0 aufbau that occupies a level off the even j = +1 fold band): along the history the fold-band levels redshift (eps = e^(-a4) k) while the k = 0 bulk levels rise (eps = sqrt(M^2 + (n pi/(f L))^2), f = e^(-a4/3)), the instantaneous aufbau occupation changes (flagged: {}) and the adiabatically continued state (a4,0 = 0 labels) lies at or above the aufbau ground state at every flagged slice: {} (adiabatic/crossing-demo.csv)", n_demo as i64, flagged, cont_ok),
         );
     }
     files.insert("adiabatic/crossing-demo.csv".into(), demo_csv.text());
@@ -1070,31 +1252,30 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
     files.insert("adiabatic/continued-states.csv".into(), cont_csv.text());
     files.insert("adiabatic/history.json".into(), to_pretty(&obj(vec![("A", A_HIST.into()), ("beta", base.beta.into()), ("history", th.history.clone().into()), ("status", th.history_status.clone().into()), ("slices", SLICES.to_vec().into()), ("series", Json::Arr(hist_json))])));
     for o in gouts.iter_mut() {
-        o.state = None;
+        o.seed = None;
     }
     timing.push(("history (crossings, continued states)".into(), t0.elapsed().as_secs_f64()));
     // --- thermodynamics -------------------------------------------------------------
     let t0 = std::time::Instant::now();
-    let mut ttasks: Vec<(f64, &str, f64, f64, f64)> = Vec::new();
-    for &n in &ns {
-        let (l1, _, _) = lambdas[&(n as i64)];
-        for (tag, lam) in [("lam0", 0.0), ("lamp1", l1), ("lamm1", -l1)] {
-            for &a4 in &SLICES {
-                for &t in &TEMPS {
-                    if cfg.quick && (a4 != 0.0 && a4 != 2.0 || t != TEMPS[1]) {
-                        continue;
-                    }
-                    ttasks.push((n, tag, lam, a4, t));
-                }
+    let tres = par_map(&ttasks, cfg.threads, |t| -> Result<ThermOut, String> {
+        let id = tid(t);
+        if let Some(c) = &cache {
+            if let Some(j) = c.load("thermal", &id)? {
+                return crate::cache::thermal_from_json(&j).map_err(|e| format!("cached {}: {}", id, e));
             }
         }
-    }
-    let touts = par_map(&ttasks, cfg.threads, |t| {
         let tt = std::time::Instant::now();
         let o = thermal_task(&shared, t.0, t.1, t.2, t.3, t.4);
         eprintln!("done {} in {:.1} s", o.id, tt.elapsed().as_secs_f64());
-        o
+        if let Some(c) = &cache {
+            c.save("thermal", &o.id, &crate::cache::thermal_to_json(&o))?;
+        }
+        Ok(o)
     });
+    let mut touts = Vec::new();
+    for r in tres {
+        touts.push(r?);
+    }
     let mut th_csv = Csv::new(THERMO_HEADER.to_vec());
     for o in &touts {
         for x in &o.items {
@@ -1112,7 +1293,7 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
             "thermo_sea_hole_diagnostic_computed",
             touts.iter().all(|o| o.holes_over_n.is_finite()),
             format!(
-                "DIAGNOSTIC of the filling CONVENTION (not a validation): for every thermal state the number of thermal holes the excluded sea brane band (j = -1, even, l = 0, eps < 0) would carry at the same mu and T was computed; it exceeds 1% of N in {} of {} states (largest {:.3} N): there the particle-only Mermin ensemble is outside its range of validity and a thermal treatment of the sea (pairs) would be required; listed: {}",
+                "DIAGNOSTIC of the filling CONVENTION (not a validation): for every thermal state the number of thermal holes the excluded sea fold band (j = -1, even, l = 0, eps < 0) would carry at the same mu and T was computed; it exceeds 1% of N in {} of {} states (largest {:.3} N): there the particle-only Mermin ensemble is outside its range of validity and a thermal treatment of the sea (pairs) would be required; listed: {}",
                 bad.len(),
                 touts.len(),
                 worst,
@@ -1123,8 +1304,8 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
     thermo_mu_check(&touts, num, &mut rep);
     mermin_fixture_check(&cfg.root, &mut rep);
     timing.push(("thermodynamics".into(), t0.elapsed().as_secs_f64()));
-    // T3 solver self-test: the block form of Gamma maps (j, M) -> (-j, -M) and swaps the brane
-    // parities and the tip condition b(-L) = 0 -> a(-L) = 0 (tip theta = pi): the instantaneous
+    // T3 solver self-test: the block form of Gamma maps (j, M) -> (-j, -M) and swaps the fold
+    // conditions and the tip condition b(-L) = 0 -> a(-L) = 0 (tip theta = pi): the instantaneous
     // problem with (m, lambda) and the one with (-m, lambda) and the transformed tip must have equal
     // spectra, energies and energy-momentum integrals, S -> -S.
     {
@@ -1185,20 +1366,20 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
     agg.into_report(&mut rep);
     // --- parameters ------------------------------------------------------------------
     let params = obj(vec![
-        ("description", "Revision Kohn-Sham solver (Revision/kohn_sham/solver): instantaneous Kohn-Sham states of dirac16complex in the author's primordial field, the author's metric with b4(x4) in the extra-time components (b4 a function of x4, never 1), along the deflating history a4 = H x4, b4 = b4(0) e^{(4/3) H x4} (SPEC sections 1 and 7, Revision/kohn_sham/ks-theory.json). The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln(sin z)/(6H), z = 6 H x0), x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z ~ e^{-a4/3} on the history).".into()),
+        ("description", "Revision Kohn-Sham solver (Revision/kohn_sham/solver): instantaneous Kohn-Sham states of dirac16complex in the author's primordial field, the corrected primordial metric of 2026-10-16 (version 2; SPEC section 1): g = diag(e^{-2a4} b4 cot^2 z, e^{2a4} (x3), -1, -e^{-2a4} b4 (sin^2 z)^{1/6} (x3)), z = 6 H x0 real, along the PRESCRIBED history a4 = H x4, b4 = e^{(4/3) H x4} (b4(0) = 1; SPEC sections 1 and 7, Revision/kohn_sham/ks-theory.json). The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln|sin z|/(6H) <= 0 on every quarter, the fold cos z = 0 at y = 0), x1..x3 = 3-space, x4 = time, x5..x7 = the extra times; in the y chart ds^2 = e^{2a4} dx_{1..3}^2 - dx4^2 + f^2 [dy^2 - e^{2Hy} dx_{5..7}^2], f = e^{-a4} b4^{1/2} = e^{-a4/3} on the history.".into()),
         ("theoryInputs", inputs_json(th)),
-        ("units", "H = 1, m = 1: energies, momenta, temperatures in units of m = H. b4(0) enters only as a unit (ks-theory.json densities.proper): lambda = lambda_hat = lambda b4(0)^{-3/2} in units of m^-6, the same at every slice; Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (the proper 7-volume of the cell per unit e^{6Hy} in units of b4(0)^{3/2} H^-7); every density, profile and pressure is the proper one times b4(0)^{3/2}; energies, levels, potentials, particle numbers and the integrals 2 Vol_7 int e^{6Hy} (...) dy are the physical ones. Equivalently (ks-theory.json densities.couplingVolumeScaling) a slice state is the state of the coordinate cell ell^3 v_t at lambda_eff = lambda_hat e^{-2 a4,0}".into()),
-        ("physics", obj(vec![("H", base.hh.into()), ("m", base.m.into()), ("L_tipCutoff", base.l.into()), ("dk", base.dk.into()), ("ell", base.ell().into()), ("v_t", base.vt.into()), ("Vol7AtA4Zero", base.vol7().into()), ("Vol7Rule", "Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}".into()), ("tipTheta", base.tip_theta.into()), ("historyA", A_HIST.into()), ("historyBeta", base.beta.into()), ("slicesA4", SLICES.to_vec().into()), ("temperatures", TEMPS.to_vec().into())])),
+        ("units", "H = 1, m = 1: energies, momenta, temperatures in units of m = H. The record uses b4(0) = 1 (ks-theory.json densities.proper): lambda = lambda_hat = lambda b4(0)^{-2} in units of m^-6, the same at every slice; Vol_7(a4,0) = ell^3 v_t e^{-a4,0} b4,0^2 = ell^3 v_t e^{(2 beta - 1) a4,0} = ell^3 v_t e^{(5/3) a4,0} (the proper 7-volume of the cell per unit e^{3Hy}); the hidden scale f = e^{-a4,0} b4,0^{1/2} = e^{-a4,0/3} multiplies the hidden derivative (chi' = f N chi; the proper hidden length of the cell is f L); every density, profile and pressure is the proper one; energies, levels, potentials, particle numbers and the integrals 2 Vol_7 int e^{3Hy} (...) dy are the physical ones. Equivalently (ks-theory.json densities.couplingVolumeScaling) a slice state is the state of the coordinate cell ell^3 v_t at lambda_eff = lambda_hat e^{-(5/3) a4,0}, at the same f and kappa".into()),
+        ("physics", obj(vec![("H", base.hh.into()), ("m", base.m.into()), ("L_tipCutoff", base.l.into()), ("dk", base.dk.into()), ("ell", base.ell().into()), ("v_t", base.vt.into()), ("Vol7AtA4Zero", base.vol7().into()), ("Vol7Rule", "Vol_7(a4,0) = ell^3 v_t e^{(2 beta - 1) a4,0}".into()), ("hiddenScaleRule", "f(a4,0) = e^{(beta/2 - 1) a4,0} (b4(0) = 1)".into()), ("kappaRule", "kappa(a4,0) = e^{-a4,0}, constant in y".into()), ("tipTheta", base.tip_theta.into()), ("historyA", A_HIST.into()), ("historyBeta", base.beta.into()), ("historyB4AtZero", 1.0.into()), ("slicesA4", SLICES.to_vec().into()), ("temperatures", TEMPS.to_vec().into())])),
         ("numerics", obj(vec![("tag", num.tag.into()), ("rk4Steps", num.g.into()), ("rootTolerance", num.root_tol.into()), ("scfTolerance", num.scf_tol.into()), ("scfMaxIterations", num.scf_max_iter.into()), ("andersonDepth", num.anderson_depth.into()), ("andersonBeta", num.anderson_beta.into()), ("thermalOccupationCut", num.f_cut.into()), ("a4FiniteDifferenceStep", num.fd_delta.into()), ("temperatureFiniteDifferenceRelative", num.dt_rel.into()), ("degeneracyTolerance", num.deg_tol.into()), ("merminRoot", num.mermin_form.tag().into())])),
-        ("particleNumbers", obj(vec![("values", ns.clone().into()), ("rule", "N = 8 (the k = 0 brane zero modes, both block types); N_large = the largest closed shell of the free a4,0 = 0 aufbau whose last filled level lies below the bulk edge (the lowest level not on the even j = +1 brane band: min of the odd l = 0 and even l = 1 levels at k = 0); N_mid = the closed shell (>= 8, below the bulk edge) nearest N_large / 4".into()), ("bulkEdge", bulk_edge.into()), ("N_mid", n_mid.into()), ("N_large", n_large.into())])),
-        ("couplingCalibration", obj(vec![("rule", "per N, from the free ground states of that N at every slice a4,0 of the history: strength = max over the slices and over y of max((15/16)|S(y)|, |n(y)|/16) (the solver's densities, per Vol_7(a4,0), which grows like b4^{3/2} = b4(0)^{3/2} e^{2 a4,0}), the first-order mean-field potential per unit lambda_hat; lambda_1 = 0.1/strength and lambda_2 = 0.3/strength rounded to 4 significant digits, so that the first-order mean-field potential stays below 0.1 m and 0.3 m along the whole history (strengthPerLambdaAtSlices shows at which slice it is largest); lambda_hat = lambda b4(0)^{-3/2} is a constant of the theory, the same at every slice".into()), ("values", Json::Arr(calib))])),
+        ("particleNumbers", obj(vec![("values", ns.clone().into()), ("rule", "N = 8 (the k = 0 fold zero modes, both block types); N_large = the largest closed shell of the free a4,0 = 0 aufbau whose last filled level lies below the bulk edge (the lowest level not on the even j = +1 fold band: min of the odd l = 0 and even l = 1 levels at k = 0); N_mid = the closed shell (>= 8, below the bulk edge) nearest N_large / 4".into()), ("bulkEdge", bulk_edge.into()), ("N_mid", n_mid.into()), ("N_large", n_large.into())])),
+        ("couplingCalibration", obj(vec![("rule", "per N, from the free ground states of that N at every slice a4,0 of the history: strength = max over the slices and over y of max((15/16)|S(y)|, |n(y)|/16) (the proper densities, per Vol_7(a4,0) = ell^3 v_t e^{(5/3) a4,0} and with the factor e^{-3Hy}), the first-order mean-field potential per unit lambda_hat; lambda_1 = 0.1/strength and lambda_2 = 0.3/strength rounded to 4 significant digits, so that the first-order mean-field potential stays below 0.1 m and 0.3 m along the whole history (strengthPerLambdaAtSlices shows at which slice it is largest); lambda_hat = lambda b4(0)^{-2} is a constant of the theory, the same at every slice".into()), ("values", Json::Arr(calib))])),
         ("conventions", obj(vec![
-            ("particleNumber", "N = sum g f over both brane parities = particle number of the doubled (universe + Z2 image) system; the patch holds N/2 (ks-theory.json densities.total). The thermodynamics line 'mu fixed by sum w_Z2 g f = N' of ks-theory.json is inconsistent with this and with its own Omega = -T sum g ln(...) + ..., F = Omega + mu N; the solver uses sum g f = N (noted as a discrepancy of the theory file)".into()),
-            ("filling", "particles occupy the positive branch (labels whose lambda = 0 level at the same slice is positive) and the k = 0 brane zero modes (CONVENTION of ks-theory.json, justification OPEN); the negative branch is the normal-ordered sea and is not populated thermally (the excluded thermal sea holes are reported as a diagnostic)".into()),
-            ("brane", "Z2 mirror at y = 0: ASSUMED (b(0) = 0 even, a(0) = 0 odd); tip: regular, theta = 0 (b(-L) = 0)".into()),
+            ("particleNumber", "N = sum g f over both fold conditions = particle number of the cell (the two halves z < pi/2 and z > pi/2 joined at the fold); each half holds N/2 (ks-theory.json densities.total). The thermodynamics line 'mu fixed by sum w g f = N' of ks-theory.json is inconsistent with this and with its own Omega = -T sum g ln(...) + ..., F = Omega + mu N; the solver uses sum g f = N (noted as a discrepancy of the theory file)".into()),
+            ("filling", "particles occupy the positive branch (labels whose lambda = 0 level at the same slice is positive) and the k = 0 fold zero modes (CONVENTION of ks-theory.json, justification OPEN); the negative branch is the normal-ordered sea and is not populated thermally (the excluded thermal sea holes are reported as a diagnostic)".into()),
+            ("brane", "the fold y = 0 (cos z = 0) joins the two halves of a cell: the fold condition (1 - Q(theta)) chi(0) = 0 follows from self-adjointness up to theta; both theta = 0 (b(0) = 0, 'even') and theta = pi (a(0) = 0, 'odd') are solved and filled (ASSUMED convention of the record, ks-theory.json boundaryConditions.fold); tip: regular, theta = 0 (b(-L) = 0); kappa does not grow toward the tip, so the extended levels depend on L like a box of proper length f L (only the fold-localised states have an L-independent limit). The key keeps the name 'brane' of the earlier record".into()),
             ("instantaneous", "states at fixed a4,0 = a4(x4) are instantaneous (adiabatic) Kohn-Sham states; the non-adiabatic (time-dependent) problem is OPEN".into()),
             ("history", format!("{} (ks-theory.json adiabaticity.historyStatus)", th.history_status).into()),
-            ("b4", "b4 does not enter the slice Hamiltonian h (ks-theory.json sectorAndAnsatz.exactReduction: Psi = e^{ik.x} W^{-3} b4^{-3/4} chi); it enters through the proper cell volume, i.e. Vol_7(a4,0) and with it the effective coupling lambda_hat/Vol_7(a4,0) ~ e^{-2 a4,0}, and through the history identity dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t; the lambda = 0 states do not depend on b4".into()),
+            ("b4", "b4 enters the slice Hamiltonian through the hidden scale f = e^{-a4} b4^{1/2} (h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v; ks-theory.json sectorAndAnsatz: Psi = e^{ik.x} e^{-(3/2)Hy} e^{a4/2} b4^{-1} chi), the proper cell volume Vol_7(a4,0) (the effective coupling lambda_hat/Vol_7(a4,0) ~ e^{-(5/3) a4,0}) and the history identity dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0; the lambda = 0 levels depend on a4 and b4 only through kappa k and f L (rescaling identity)".into()),
             ("merminRoot", "mu from sum g f = N with the well-conditioned residual of solver/src/mermin.rs: thermal particles above and holes below a split of the levels (complementary Fermi factors f(-x), never 1 - f), canonical form LogBalance (log-sum-exp balance, Newton + bisection), refined run LinearDeviation (an exactly equivalent form with a different rounding path); the former direct count sum g f - N fixed mu only to eps_mach N/(dN/dmu) (8.3e-10 m in N8_lamm1_a00_T10)".into()),
             ("deltaScf", "first excited state: one particle moved from the highest occupied degenerate group to the lowest empty group, spread uniformly over each group (ensemble Delta-SCF, keeps the block and direction symmetry of the reduction)".into()),
             ("exactExchange", "canonical functional = Hartree + exact local exchange of the uniform 8-fold gas (exact at every temperature for p -> -p symmetric occupations); the exact Fock exchange of the closed-shell slab determinant differs by +lambda Q^2/32 (reported as deltaE_x and solved as a variant)".into()),
@@ -1246,12 +1427,15 @@ pub fn run_all(cfg: &Cfg, th: &TheoryInputs, mut rep: Report) -> Result<bool, St
 /// Options of the `single` subcommand.
 pub struct SingleOpts {
     pub m: f64,
-    /// lambda_hat = lambda b4(0)^{-3/2} (the record's coupling; the slice uses Vol_7(a4) = ell^3 v_t e^{(3/2) beta a4})
+    /// lambda_hat = lambda b4(0)^{-2} (the record's coupling; the slice uses Vol_7(a4) = ell^3 v_t e^{(2 beta - 1) a4})
     pub lambda: f64,
     pub a4: f64,
-    /// beta of Vol_7(a4); None = ks-theory.json adiabaticity.historyBeta (4/3). beta = 0 gives the coordinate-cell
-    /// form, in which --lambda is lambda_eff = lambda_hat e^{-(3/2) beta_history a4} (ks-theory.json densities.couplingVolumeScaling)
+    /// beta of the history b4 = e^{beta a4} (it fixes f = e^{(beta/2 - 1) a4} and Vol_7(a4)); None = ks-theory.json
+    /// adiabaticity.historyBeta (4/3)
     pub beta: Option<f64>,
+    /// coordinate-cell form: Vol_7 = ell^3 v_t (f and kappa of the slice unchanged), in which --lambda is
+    /// lambda_eff = lambda_hat e^{-(2 beta - 1) a4} (ks-theory.json densities.couplingVolumeScaling)
+    pub coord_cell: bool,
     pub n: f64,
     pub tip_theta: f64,
     pub temp: f64,
@@ -1274,6 +1458,7 @@ pub fn run_single(num: &Numerics, th: &TheoryInputs, o: &SingleOpts) -> Result<b
     phys.n = o.n;
     phys.tip_theta = o.tip_theta;
     phys.temp = o.temp;
+    phys.coord_cell = o.coord_cell;
     if o.exx {
         phys.functional = Functional::Exx;
     }
@@ -1308,8 +1493,14 @@ pub fn run_single(num: &Numerics, th: &TheoryInputs, o: &SingleOpts) -> Result<b
     } else if o.temp > 0.0 && !o.exx {
         // the same path as the canonical thermal states: direct, else the coupling continuation
         solve_with_continuation(&grid, &phys, num, co, &specs, &guesses_of(&free), occ)?
-    } else if o.exx {
+    } else if o.exx && o.temp > 0.0 {
         run_scf(&grid, &RunInput { phys: phys.clone(), num, co, specs: specs.clone(), occ, start: None, guesses: guesses_of(&free) })?
+    } else if o.exx {
+        // T = 0: the path of the canonical matrix: the uniform-gas ground state, then the variant at its occupations
+        let mut pu = phys.clone();
+        pu.functional = Functional::Lda;
+        let gs = solve_ground(&grid, &pu, num, co, &specs, &guesses_of(&free))?;
+        exx_variant(&grid, &phys, num, co, &gs)?.0
     } else {
         solve_ground(&grid, &phys, num, co, &specs, &guesses_of(&free))?
     };
@@ -1325,7 +1516,7 @@ pub fn run_single(num: &Numerics, th: &TheoryInputs, o: &SingleOpts) -> Result<b
     let rec = obj(vec![
         ("producer", "Revision/kohn_sham/solver single".into()),
         ("numerics", num.tag.into()),
-        ("parameters", obj(vec![("H", phys.hh.into()), ("m", phys.m.into()), ("L", phys.l.into()), ("dk", phys.dk.into()), ("v_t", phys.vt.into()), ("a4", phys.a4.into()), ("beta", phys.beta.into()), ("Vol7", phys.vol7().into()), ("lambda", phys.lambda.into()), ("N", phys.n.into()), ("T", phys.temp.into()), ("tipTheta", phys.tip_theta.into()), ("exactFockVariant", o.exx.into())])),
+        ("parameters", obj(vec![("H", phys.hh.into()), ("m", phys.m.into()), ("L", phys.l.into()), ("dk", phys.dk.into()), ("v_t", phys.vt.into()), ("a4", phys.a4.into()), ("beta", phys.beta.into()), ("f", phys.fh().into()), ("coordinateCell", o.coord_cell.into()), ("Vol7", phys.vol7().into()), ("lambda", phys.lambda.into()), ("N", phys.n.into()), ("T", phys.temp.into()), ("tipTheta", phys.tip_theta.into()), ("exactFockVariant", o.exx.into())])),
         ("iterations", st.iters.into()),
         ("residual", st.resid.into()),
         ("E_KS", st.e_ks.into()),
@@ -1334,7 +1525,7 @@ pub fn run_single(num: &Numerics, th: &TheoryInputs, o: &SingleOpts) -> Result<b
         ("mu_or_fermi_level", st.mu.into()),
         ("entropy", st.entropy.into()),
         ("particleNumber", ntot.into()),
-        ("emtIntegrals_2Vol7_int_e6Hy", obj(vec![("rho", c.int_rho.into()), ("p3", c.int_p3.into()), ("p_t", c.int_pt.into()), ("p0", c.int_p0.into()), ("n", c.int_n.into())])),
+        ("emtIntegrals_2Vol7_int_e3Hy", obj(vec![("rho", c.int_rho.into()), ("p3", c.int_p3.into()), ("p_t", c.int_pt.into()), ("p0", c.int_p0.into()), ("n", c.int_n.into())])),
         ("yConservationIntegratedRel", c.ycons_integrated_rel.into()),
         ("yConservationPointwiseRel", c.ycons_pointwise_rel.into()),
         ("levels_n2_j_parity_label_eps_deg_f", Json::Arr(levels)),

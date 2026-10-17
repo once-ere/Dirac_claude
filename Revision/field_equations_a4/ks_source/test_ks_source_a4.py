@@ -1,24 +1,25 @@
 #!/usr/bin/env python3
 """Tests for Revision/field_equations_a4/ks_source (the field equations for a4 and b4 with the Kohn-Sham source; the
-author's metric with b4(x4), b4 a function of x4, never 1).
+corrected primordial metric of 2026-10-16, version 2).
 
 Run from the repository root:
     python -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
 
 What is tested
-  * the numerical helpers of ks_source_a4.py (Hermite and spline interpolation, Simpson, Gauss-Legendre, the Newton
-    solve of the two algebraic equations) and the branches of the stated theories, on cases with known exact answers;
+  * the numerical helpers of ks_source_a4.py (Simpson, the 4th-order derivative, the bulk edge of the free k = 0
+    spectrum) on cases with known exact answers, and the theory functions built from a4-equations.json (the Einstein
+    components in closed form, the record's history source);
   * the committed report: every check has a name, a verdict and a detail, all PASS, the summary counts agree, the
     sha256 digests of the inputs recorded in it are those of the current input files (the report is in sync), and
-    the result tables have the expected rows;
+    the result tables have the expected rows; every integrated case satisfies the constraint at its end point,
+    recomputed here from the table and the theory functions;
   * SLOW (skipped when REVISION_FAST=1): the script is run twice into temporary directories; both runs are
     byte-identical, the CSV tables are byte-identical to the committed ones and the report and the summary agree with
     the committed ones up to the output paths;
-  * SLOW negative controls: a copy of the Kohn-Sham results with one profile value of p0 changed (the x0 conservation
-    identity is broken at one grid point) and a copy with one integral changed must make the script fail (exit 1, the
-    expected checks FAIL). Temporary files go to tempfile directories; the committed files are never touched.
-Run time of the whole file: 18 s to 98 s on the development machine, depending on the load (2026-10-08); with
-REVISION_FAST=1 about 7 s.
+  * SLOW negative controls: a copy of the Kohn-Sham results with one profile value of p0 of an interacting state changed
+    (the x0 conservation identity is broken at one grid point; p0 vanishes identically for lambda = 0) and a copy with
+    one integral changed must make the script fail (exit 1, the expected checks FAIL). Temporary files go to tempfile
+    directories; the committed files are never touched.
 """
 
 from __future__ import annotations
@@ -44,6 +45,7 @@ REPORT = HERE / "reports" / "ks-source-a4.json"
 SUMMARY = HERE / "reports" / "ks-source-a4-summary.md"
 MOMENTS = HERE / "results" / "ks-source-moments.csv"
 CASES = HERE / "results" / "ks-source-a4-cases.csv"
+A4_JSON = ROOT / "Revision" / "field_equations_a4" / "a4-equations.json"
 FAST = os.environ.get("REVISION_FAST") == "1"
 
 
@@ -68,52 +70,38 @@ class Helpers(unittest.TestCase):
     def setUpClass(cls):
         cls.m = load_module()
 
-    def test_hermite_reproduces_cubic(self):
-        f = lambda x: 2 * x ** 3 - x ** 2 + 3 * x - 1
-        df = lambda x: 6 * x ** 2 - 2 * x + 3
-        xs = [0.0, 0.5, 1.0, 1.5, 2.0]
-        for x in (0.1, 0.77, 1.3, 1.99):
-            v, dv = self.m.hermite(xs, [f(t) for t in xs], [df(t) for t in xs], x)
-            self.assertAlmostEqual(v, f(x), places=12)
-            self.assertAlmostEqual(dv, df(x), places=11)
-
-    def test_natural_spline_reproduces_linear(self):
-        xs = [0.0, 0.5, 1.0, 1.5, 2.0]
-        sp_ = self.m.natural_spline(xs, [3 - 2 * t for t in xs])
-        for x in (0.2, 0.9, 1.6):
-            self.assertAlmostEqual(sp_(x), 3 - 2 * x, places=13)
-
-    def test_quadratures(self):
+    def test_quadrature_and_derivative(self):
         self.assertAlmostEqual(self.m.simpson([t ** 3 for t in [0, 0.5, 1.0]], 0.5), 0.25, places=14)
-        xs, ws = self.m.gauss_legendre()
-        self.assertAlmostEqual(sum(w * x ** 10 for x, w in zip(xs, ws)), 2 / 11, places=13)
-        self.assertAlmostEqual(sum(ws), 2.0, places=13)
+        h = 0.02
+        xs = [-3.0 + h * i for i in range(151)]
+        d = self.m.deriv4([x ** 4 for x in xs], h)
+        self.assertLess(max(abs(a - 4 * x ** 3) for a, x in zip(d, xs)), 1e-9)     # exact for quartics up to rounding
 
-    def test_newton_two_equations(self):
-        # Q = a^2 + u^2 - 2 (circle), S4 = a - u: the solution with S4 = 0 near (1.1, 0.9) is (1, 1), det J = -4
-        th = {"Q": lambda a, u: a * a + u * u - 2, "Qa": lambda a, u: 2 * a, "Qu": lambda a, u: 2 * u,
-              "S4": lambda a, u: a - u, "S4a": lambda a, u: 1.0, "S4u": lambda a, u: -1.0}
-        a, u, det = self.m.solve_rates(th, 1.1, 0.9, 0.0)
-        self.assertAlmostEqual(a, 1.0, places=14)
-        self.assertAlmostEqual(u, 1.0, places=14)
-        self.assertAlmostEqual(det, -4.0, places=12)
-        self.assertIsNone(self.m.solve_rates(th, 1.1, 0.9, 5.0))       # the line a - u = 5 misses the circle
+    def test_bulk_edge(self):
+        # odd l = 0 level of the free k = 0 problem: sqrt(1 + p^2) with tan(p f L) = -p (M = 1)
+        for f in (1.0, 0.6, 1.4):
+            e = self.m.bulk_edge(f, 3.0)
+            p = math.sqrt(e * e - 1.0)
+            self.assertLess(abs(math.sin(p * f * 3.0) + p * math.cos(p * f * 3.0)), 1e-12)
+            self.assertLess(e, math.sqrt(1.0 + (math.pi / (f * 3.0)) ** 2))
+        self.assertAlmostEqual(self.m.bulk_edge(1.0, 3.0), 1.2922928280687830, places=12)   # results/parameters.json bulkEdge
 
-    def test_branches_of_the_theories(self):
-        th = self.m.part_a(json.loads((ROOT / "Revision" / "field_equations_a4" / "a4-equations.json").read_text(
-            encoding="utf-8")))
-        self.assertEqual(th["einstein"]["roots"], [])                    # Q = 3H/2: no history with b4 not constant
-        self.assertEqual(len(th["author"]["roots"]), 1)
-        self.assertAlmostEqual(th["author"]["roots"][0], 4 / 3, places=14)  # the record's history
-        self.assertTrue(th["author"]["root_zero"])
-        self.assertEqual(len(th["egb"]["roots"]), 2)
-        for r, exact in zip(th["egb"]["roots"], (-6 - 20 ** 0.5, -6 + 20 ** 0.5)):
-            self.assertAlmostEqual(r, exact, places=12)
-        self.assertEqual(th["lovelock3"]["roots"], [])
-        self.assertAlmostEqual(10.0 - th["author"]["S4"](1.0, 4 / 3), -2 / 27, places=14)   # -Lambda - S4, Lambda = -10
+    def test_theory_functions(self):
+        th = self.m.part_a(json.loads(A4_JSON.read_text(encoding="utf-8")))
+        e = th["einstein"]
+        # the Einstein components (a4-equations.json einstein): x4: 3 a'^2 + 6 kk + Lam - (3/2) u^2 (H = 1)
+        for (a, u, kk, lam) in ((1.0, 4 / 3, 1.0, -10.0), (0.3, -0.7, 2.5, 0.4)):
+            self.assertAlmostEqual(e["F4"](a, u, kk, lam), 3 * a * a + 6 * kk + lam - 1.5 * u * u, places=12)
+            self.assertAlmostEqual(e["F1"](a, 0.2, u, -0.1, kk, lam),
+                                   -5 * a * a + 0.4 + 6 * kk + lam + 6 * a * u - 2.5 * u * u + 0.2, places=12)
+            self.assertAlmostEqual(e["F0"](a, 0.2, u, -0.1, kk, lam),
+                                   -3 * a * a + 3 * kk + lam + 1.5 * a * u - 1.5 * u * u + 0.15, places=12)
+            J = e["J"]
+            self.assertEqual([[J[i][k](a, u, kk) for k in range(2)] for i in range(2)], [[2.0, -2.0], [0.0, -1.5]])
+        # the author's weights on the record's history at x4 = 0: kappa rho = -(F4 + Lambda) = 3.57407... (kk = 1)
+        a_ = th["author"]
+        self.assertAlmostEqual(-(a_["F4"](1.0, 4 / 3, 1.0, -10.0)), 10 - (121 / 432 + 161 / 24 - 9 / 16), places=12)
 
-
-class CommittedReport(unittest.TestCase):
     def test_report_all_pass(self):
         rep = json.loads(REPORT.read_text(encoding="utf-8"))
         names = [c["name"] for c in rep["checks"]]
@@ -123,7 +111,16 @@ class CommittedReport(unittest.TestCase):
             self.assertEqual(c["verdict"], "PASS", c["name"])
             self.assertTrue(c["detail"])
         self.assertEqual(rep["summary"], {"checks": len(names), "pass": len(names), "fail": 0})
-        self.assertGreaterEqual(len(names), 22)
+        self.assertEqual(sorted(names), sorted(
+            ["A1_hidden_equals_extra_times_and_no_offdiagonal", "A2_constraint_first_order_second_order_system",
+             "A3_constraint_propagation", "A4_x0_conservation_in_y", "A5_free_fold_band_gas_conserves_energy",
+             "A6_history_source_reproduced", "B0_source_condition_report_verified", "B1_integrals_reproduced",
+             "B2_x0_conservation_on_every_profile", "B3_hidden_direction_mismatch",
+             "C1_averaged_hidden_pressure_condition", "C2_energy_relation_along_the_dense_history",
+             "C3_record_history_not_sourced_by_the_gas", "C4_source_signs", "D0_free_gas_average_exact",
+             "D1_two_step_sizes_agree", "D2_author_weights_from_the_record_history",
+             "D3_constraint_kept_along_the_solutions", "D4_outcomes"]))
+        self.assertIn("corrected primordial metric of 2026-10-16", rep["metric"])
 
     def test_report_in_sync_with_inputs(self):
         rep = json.loads(REPORT.read_text(encoding="utf-8"))
@@ -140,28 +137,19 @@ class CommittedReport(unittest.TestCase):
         with CASES.open(encoding="utf-8", newline="") as fh:
             cas = list(csv.DictReader(fh))
         self.assertEqual(len(mom), 75)
-        self.assertEqual(len(cas), 2 * (1 + 2 * 7))                     # 2 series: author 1 case, EGB 2 branches x 7
-        self.assertEqual({c["event"] for c in cas}, {"regular", "fold", "adiabaticity_lost"})
+        self.assertEqual(len(cas), 2 * (1 + 3 * 6))                     # 2 free series: the author's 1 case, 3 theories x 6
         for b in (MOMENTS, CASES, REPORT, SUMMARY):
             self.assertNotIn(b"\r", b.read_bytes(), b.name)
-        # every regular case satisfies the two algebraic equations at a4 = 2, recomputed here from the table, the
-        # Kohn-Sham integrals (free gas: E at a4 = 2 is the record's, independent of b4) and the theory functions
-        m = load_module()
-        th = m.part_a(json.loads((ROOT / "Revision" / "field_equations_a4" / "a4-equations.json").read_text(
-            encoding="utf-8")))
-        with (KS_RESULTS / "ground" / "emt-integrals.csv").open(encoding="utf-8", newline="") as fh:
-            E = {r["id"]: float(r["int_rho"]) for r in csv.DictReader(fh)}
-        n = 0
+        # every case satisfies the constraint at its end point, recomputed from the table and the theory functions
+        th = self.m.part_a(json.loads(A4_JSON.read_text(encoding="utf-8")))
         for c in cas:
-            if c["event"] != "regular":
-                continue
-            a, u = float(c["rate_a20"]), float(c["u_a20"])
-            t = th[c["gravity"]]
-            sig = float(c["sigma0"]) * E[c["series"] + "_a20"] / E[c["series"] + "_a00"] * float(c["b4_ratio_end"]) ** -1.5
-            self.assertLess(abs(t["Q"](a, u)), 1e-9 * (1 + abs(a) + abs(u)) ** 4, c)
-            self.assertLess(abs(t["S4"](a, u) + float(c["Lambda"]) + sig), 1e-9 * (1 + abs(float(c["Lambda"]))), c)
-            n += 1
-        self.assertEqual(n, 8)
+            a4, b4, ap, u = (float(c[k]) for k in ("a4_end", "b4_end", "a4p_end", "u_end"))
+            lam, sig0 = float(c["Lambda"]), float(c["sigma0"])
+            kk = math.exp(2 * a4) / b4
+            res = th[c["gravity"]]["F4"](ap, u, kk, lam) + sig0 / b4 ** 2
+            scale = abs(sig0) + abs(lam) + 1 + abs(th[c["gravity"]]["F4"](ap, u, kk, 0.0))
+            self.assertLess(abs(res) / scale, 1e-7, c)
+            self.assertEqual(c["outcome"], c["m2_outcome"], c)
 
 
 @unittest.skipIf(FAST, "REVISION_FAST=1")
@@ -188,7 +176,7 @@ class Rerun(unittest.TestCase):
         committed = json.loads(REPORT.read_text(encoding="utf-8"))
         for o in (a, b):
             rep = json.loads(o["reports/ks-source-a4.json"].decode("utf-8"))
-            rep["report"], rep["outputs"] = committed["report"], committed["outputs"]
+            rep["report"] = committed["report"]
             self.assertEqual(rep, committed)
             md = o["reports/ks-source-a4-summary.md"].decode("utf-8").replace(
                 o["dir"] + "/reports/ks-source-a4.json", committed["report"])
@@ -199,6 +187,7 @@ class Rerun(unittest.TestCase):
         ks = d / "ks"
         (ks / "ground").mkdir(parents=True)
         shutil.copytree(KS_RESULTS / "ground" / "profiles", ks / "ground" / "profiles")
+        shutil.copytree(KS_RESULTS / "ground" / "levels", ks / "ground" / "levels")
         shutil.copy(KS_RESULTS / "ground" / "emt-integrals.csv", ks / "ground" / "emt-integrals.csv")
         shutil.copytree(KS_RESULTS / "adiabatic", ks / "adiabatic")
         shutil.copy(KS_RESULTS / "parameters.json", ks / "parameters.json")
@@ -210,7 +199,7 @@ class Rerun(unittest.TestCase):
 
     def test_negative_control_broken_x0_conservation(self):
         def edit(ks):
-            p = ks / "ground" / "profiles" / "N136_lam0_a10.csv"
+            p = ks / "ground" / "profiles" / "N592_lamp1_a10.csv"
             lines = p.read_text(encoding="utf-8").split("\n")
             cols = lines[0].split(",")
             j = cols.index("p0")
@@ -229,7 +218,7 @@ class Rerun(unittest.TestCase):
             cols = lines[0].split(",")
             j = cols.index("int_rho")
             for i, ln in enumerate(lines):
-                if ln.startswith("N688_lam0_a05,"):
+                if ln.startswith("N2352_lam0_a05,"):
                     row = ln.split(",")
                     row[j] = repr(float(row[j]) * 1.001)
                     lines[i] = ",".join(row)

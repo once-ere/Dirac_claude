@@ -5,17 +5,17 @@ The states are read from the committed canonical Rust results (Revision/kohn_sha
 (ground/summary.csv), the 135 thermal states (thermo/thermodynamics.csv), the 60 exact-Fock-variant states
 (exx/exact-fock-variant.csv) and the 5 slices of the crossing demonstration (adiabatic/crossing-demo.csv).  Each is
 run with the Rust `single` command twice, with the canonical numerics (RK4 G = 900, root tolerance 1e-13, SCF
-tolerance 1e-11) and with the refined numerics (G = 1800, 1e-14, 1e-12, thermal cut / 100), with the label-set
+tolerance 1e-11) and with the refined numerics (G = 1800, 1e-14, SCF 1e-14, thermal cut / 100), with the label-set
 margin of the canonical matrix (0.25 + 2 sigma at T = 0, 0.2 + 2 sigma at T > 0).  The difference
 |canonical - refined| measures the canonical error of every quantity that `single` reports (energies, EMT
-integrals, all levels, the 151-point profiles incl. the brane and tip values, mu and the entropy, and for the thermal
+integrals, all levels, the 151-point profiles incl. the fold and tip values, mu and the entropy, and for the thermal
 states the canonical levels with their keys and occupations, which the cross-check compares label by label; for the
 exact-Fock variant its E_KS and, from its levels, its HOMO/LUMO gap; for the crossing demonstration the aufbau
 energy and, from the levels, the energy of the adiabatically continued a4,0 = 0 occupation).  The canonical
 `single` run is also compared with the committed canonical matrix, which it must reproduce, so that the measured
-differences apply to the committed results.  (The exact-Fock variant of the matrix starts from the converged
-uniform-gas state, `single --exx` from zero potentials: both stop at the SCF tolerance, so their difference is
-recorded and is part of the stated uncertainty in the cross-check.)
+differences apply to the committed results.  (The exact-Fock variant is solved at the occupations of the converged
+uniform-gas ground state, started from it, both in the matrix and in `single --exx` (since 2026-10-16 the same path);
+their difference is recorded and is part of the stated uncertainty in the cross-check.)
 
 Writes (deterministic, LF) Revision/kohn_sham/checker/rust-refinement.json; the raw Rust outputs go to --work
 (scratch).  Revision code only; it runs the Revision Rust solver binary.
@@ -121,7 +121,7 @@ def compare(spec, c, r, rust_rows, occ0=None):
     put("E_band", cj["E_band"], rj["E_band"])
     put("E_int", cj["E_int"], rj["E_int"])
     for k in ("rho", "p3", "p_t", "p0", "n"):
-        put("int_" + k, cj["emtIntegrals_2Vol7_int_e6Hy"][k], rj["emtIntegrals_2Vol7_int_e6Hy"][k])
+        put("int_" + k, cj["emtIntegrals_2Vol7_int_e3Hy"][k], rj["emtIntegrals_2Vol7_int_e3Hy"][k])
     if spec["kind"] == "thermo":
         put("mu", cj["mu_or_fermi_level"], rj["mu_or_fermi_level"])
         put("entropy", cj["entropy"], rj["entropy"])
@@ -188,7 +188,7 @@ def compare(spec, c, r, rust_rows, occ0=None):
         srow = rust_rows["summary"][spec["id"]]
         erow = rust_rows["emt"][spec["id"]]
         cm["E_KS_rel"] = abs(cj["E_KS"] - float(srow["E_KS"])) / max(1.0, abs(float(srow["E_KS"])))
-        cm["emt_integrals_rel"] = max(abs(cj["emtIntegrals_2Vol7_int_e6Hy"][k] - float(erow["int_" + k])) / max(1.0, abs(float(erow["int_" + k])))
+        cm["emt_integrals_rel"] = max(abs(cj["emtIntegrals_2Vol7_int_e3Hy"][k] - float(erow["int_" + k])) / max(1.0, abs(float(erow["int_" + k])))
                                       for k in ("rho", "p3", "p_t", "p0", "n"))
         lv = {(int(x["n2"]), int(x["j"]), x["parity"], int(x["label"])): float(x["eps"]) for x in read_csv(RUST / "ground" / "levels" / f"{spec['id']}.csv")}
         cmm = [abs(lc[k] - lv[k]) for k in lc if k in lv]
@@ -267,7 +267,7 @@ def main():
     out = {"description": "Measured grid uncertainty of the Rust Kohn-Sham solver (Revision/kohn_sham/solver) for EVERY state of the canonical "
                           "matrix (75 ground, 135 thermal, 60 exact-Fock-variant states and the 5 slices of the crossing demonstration): "
                           "|canonical - refined| of `revision_ks_solver single` (canonical: RK4 G = 900, root tolerance 1e-13, SCF tolerance "
-                          "1e-11; refined: G = 1800, 1e-14, 1e-12, thermal cut 1e-14), with the label-set margin of the canonical matrix. "
+                          "1e-11; refined: G = 1800, root tolerance 1e-14, SCF tolerance 1e-14, thermal cut 1e-14), with the label-set margin of the canonical matrix. "
                           "The canonical single run reproduces the committed canonical matrix (canonical_single_vs_matrix).",
            "producer": "Revision/kohn_sham/checker/measure_rust_refinement.py",
            "counts": {k: sum(1 for s in specs if s["kind"] == k) for k in KIND_ORDER},

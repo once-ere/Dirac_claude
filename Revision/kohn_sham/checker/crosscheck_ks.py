@@ -12,24 +12,25 @@ TOLERANCE RULE (fixed in this file before any comparison; never adjusted to a re
            grid, Revision/kohn_sham/reports/ks-reference.json check richardson_uncertainty_validated);
   U_Rust = (16/15) |canonical - refined| of the Rust solver (RK4: the refined error is 1/16 of the canonical
            one), measured per state and per quantity by checker/measure_rust_refinement.py where the Rust
-           `single` command reports the quantity (energies, EMT integrals, levels, profiles, brane and tip
+           `single` command reports the quantity (energies, EMT integrals, levels, profiles, fold and tip
            values, mu, entropy; exact-Fock E_KS and gap; crossing-demonstration energies); otherwise the maximum
            over the whole canonical matrix of Revision/kohn_sham/reports/ks-rust-determinism.json, or a
            propagation of measured uncertainties stated in each check.  Where the matrix run and the `single`
-           run take different SCF paths (exact-Fock variant: the matrix starts from the uniform-gas state,
-           `single` from zero potentials), the measured |single - matrix| is added to U_Rust;
+           run could take different SCF paths (exact-Fock variant; since 2026-10-16 both start from the converged
+           uniform-gas ground state at its occupations), the measured |single - matrix| is added to U_Rust;
   scale  = max(1, |x|) for scalars, the profile maximum for profiles (roundoff floor).
 Every comparison yields ratio = |x_Rust - x_ref| / tolerance; a check passes when every ratio <= 1.
 
-The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H) in [-L, 0], z = 6 H x0;
-x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z,
-a4 increasing; the author's metric with b4(x4), b4 a function of x4, never 1, on the history b4 = b4(0) e^{(4/3) H x4}).
-p0 = T^x0_x0 is the hidden-direction pressure.
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6H) in [-L, 0], z = 6 H x0 (the fold
+cos z = 0 at y = 0); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the extra times.  The corrected primordial metric of
+2026-10-16 (version 2): ds^2 = e^{2a4} dx_{1..3}^2 - dx4^2 + f^2 [dy^2 - e^{2Hy} dx_{5..7}^2], f = e^{-a4} b4^{1/2}, on the
+PRESCRIBED history a4 = H x4, b4 = e^{(4/3) H x4} (f = e^{-a4/3}).  p0 = T^x0_x0 is the hidden-direction pressure.  Names
+that contain "brane" (CSV columns, check names) are kept from the earlier record; they denote the fold y = 0.
 
 The reference repeat: the checker itself runs Revision/kohn_sham/reference/run_reference.py into a fresh
 directory <work>/reference-repeat and compares every result file and the report byte for byte with the committed
 ones.  With --repeat-cache DIR that run uses the job cache DIR (run_reference.py --cache DIR): the repeat can then be
-computed beforehand in parts, each within a time limit (run_reference.py --cache DIR --part i/n, i = 1..n), into a
+computed beforehand in parts, each within a time limit (run_reference.py --cache DIR --stage 1|2 --part i/n), into a
 cache of its own (not the one of the canonical run), and the checker's run only assembles it.
 
 Usage (from the repository root):
@@ -63,6 +64,8 @@ FLOOR = 1e-12
 RK4_FACTOR = 16.0 / 15.0
 PROFILES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 EPS_MACH = 2.220446049250313e-16
+# beta of the record history b4 = e^{beta a4} (ks-theory.json adiabaticity.historyBeta; it enters the EMT form of dE/da4)
+BETA_HIST = float(__import__("fractions").Fraction(json.loads((KS / "ks-theory.json").read_text(encoding="utf-8"))["adiabaticity"]["historyBeta"]))
 
 
 def read_csv(p: Path):
@@ -141,7 +144,7 @@ def parse_determinism(rep):
         "refined_ground_homo_lumo_gap": r"KS gap ([0-9.eE+-]+) m",
         "refined_eigenvalues": r"max \|difference\| ([0-9.eE+-]+) m",
         "refined_delta_scf": r"excitation energies ([0-9.eE+-]+) m",
-        "refined_profiles": r"profile maximum ([0-9.eE+-]+)",
+        "refined_profiles": r"the largest of their maxima\) ([0-9.eE+-]+)",   # relative to the maximum of the profile's family
         "refined_adiabatic_derivatives": r"max relative difference ([0-9.eE+-]+)",
         "refined_thermodynamics": r"\): max ([0-9.eE+-]+)",
         "refined_heat_capacity": r"1e-6\)\) ([0-9.eE+-]+)",
@@ -307,6 +310,7 @@ def main():
     U_PROF_REL = RK4_FACTOR * G["refined_profiles"]
     rp, fp = load(rust / "parameters.json"), load(ref / "parameters.json")
     scf_tol_R = float(rp["numerics"]["scfTolerance"])
+    scf_tol_ref = float(fp["numerics"]["scfTolerance"])           # the reference's SCF tolerance (its parameters.json)
 
     # the measured single runs must reproduce the committed canonical matrix
     c_ok, worst = True, {}
@@ -343,8 +347,8 @@ def main():
         if rg >= xw["gap"][0]:
             xw["gap"] = (rg, f"{s['id']} |dgap| {fe(cm['exx_gap_abs'])}")
     emit("rust_refinement_applies_to_matrix_exx", x_ok,
-         f"exact-Fock variant: the matrix starts the SCF from the converged uniform-gas state, `single --exx` from zero potentials; both stop "
-         f"at max |residual| <= scfTolerance = {scf_tol_R:g}, so they agree only to the SCF stopping effect: |E_single - E_matrix| <= N x "
+         f"exact-Fock variant: the matrix and `single --exx` solve it at the occupations of the converged uniform-gas ground state, "
+         f"started from it (the same path); both stop at max |residual| <= scfTolerance = {scf_tol_R:g}: |E_single - E_matrix| <= N x "
          f"scfTolerance and |gap_single - gap_matrix| <= 6 scfTolerance (two levels, three potentials) are required; worst ratios: E "
          f"{xw['E'][0]:.3f} ({xw['E'][1]}), gap {xw['gap'][0]:.3f} ({xw['gap'][1]}); the measured |single - matrix| is added to U_Rust of "
          "the exact-Fock comparisons")
@@ -385,7 +389,8 @@ def main():
               "is the maximum over its fine-grid samples (spacing s = L/(2 x rk4Steps)), the reference value is the continuous maximum "
               "(quartic interpolation), so for an interior maximum 0 <= ref - Rust <= |f''| s^2/8 within 3 (U_ref + U_Rust), with f'' the "
               "reference curvature at the peak; for a maximum at the tip y = -L (a sample point of both) the values must agree; U_Rust = "
-              "the matrix-wide profile maximum (16/15) x " + fe(G["refined_profiles"]) + " x strength")
+              "the matrix-wide maximum (16/15) x " + fe(G["refined_profiles"]) + " of |canonical - refined| relative to the maximum "
+              "of the profile's family (n for the strength) x strength")
     s_R = phys_r["L_tipCutoff"] / (2.0 * rp["numerics"]["rk4Steps"])
     rcal = {v["N"]: v for v in rp["couplingCalibration"]["values"]}
     for cal in der["calibration"]:
@@ -422,13 +427,15 @@ def main():
                                              "flag, delta_eps within the rule (U_Rust = 2 x (16/15) x the largest |canonical - refined| over the levels "
                                              "of the state); compared where the particle lies below both solvers' lowest excluded level; and no "
                                              "reference excitation below the Rust 24th (minus its tolerance) is missing from the Rust list"),
-        "emt_integrals": Check("2 Vol_7 int e^{6Hy} (rho, p3, p_t, p0, n) dy; U_Rust per state measured"),
-        "emt_brane_tip_values": Check("rho, p3, p_t, p0 at the brane y = 0 and at the tip y = -L; U_Rust per state measured (profile end points)"),
-        "ground_profiles": Check("proper profiles n, S, Q, M_eff, v_v, e_int, rho, p3, p_t, p0 at the 151 points y = -3 + 0.02 i, in units of the "
-                                 "profile maximum; U_Rust = (16/15) x the largest |canonical - refined| of that profile of the state"),
-        "exchange_delta_E_x": Check("Delta E_x = (lambda/32) 2 Vol_7 int e^{6Hy} Q^2 dy (exact-Fock minus uniform-gas exchange, first order); U_Rust = "
+        "emt_integrals": Check("2 Vol_7 int e^{3Hy} (rho, p3, p_t, p0, n) dy; U_Rust per state measured"),
+        "emt_brane_tip_values": Check("rho, p3, p_t, p0 at the fold y = 0 and at the tip y = -L; U_Rust per state measured (profile end points)"),
+        "ground_profiles": Check("proper profiles n, S, Q, M_eff, v_v, e_int, rho, p3, p_t, p0 at the 151 points y = -3 + 0.02 i, the roundoff "
+                                 "floor in units of the maximum of the profile's family (n, S, Q: max |n|; rho, p3, p_t, p0, e_int: the "
+                                 "largest of their maxima; M_eff, v_v: their own); U_Rust = (16/15) x the largest |canonical - refined| of "
+                                 "that profile of the state"),
+        "exchange_delta_E_x": Check("Delta E_x = (lambda/32) 2 Vol_7 int e^{3Hy} Q^2 dy (exact-Fock minus uniform-gas exchange, first order); U_Rust = "
                                     "(16/15) x 2 x (largest |canonical - refined| of Q / max |Q|) x |Delta E_x| (derived from the measured Q profile)"),
-        "adiabatic_dE_da4": Check("dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7 int e^{6Hy} p dy (EMT form of the history with b4; U_Rust = 3 (U_Rust(int p3) + U_Rust(int p_t)) measured) and the "
+        "adiabatic_dE_da4": Check("dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0, P = 2 Vol_7 int e^{3Hy} p dy (EMT form of the history; U_Rust = 3 U_Rust(int p3) + 3 |beta/2 - 1| U_Rust(int p_t) + |beta/2 - 1| U_Rust(int p0) measured) and the "
                                   f"fixed-occupation finite difference (U_Rust = matrix-wide relative maximum (16/15) x {fe(G['refined_adiabatic_derivatives'])})"),
         "adiabatic_Q_max": Check(f"adiabaticity Q_max = A H |<n| d_a h |m>| / (eps_n - eps_m)^2 over the same pairs (n occupied, m empty, same sector, "
                                  f"rank <= 2) and the same maximising pair; U_Rust = matrix-wide relative maximum (16/15) x {fe(G['refined_adiabatic_derivatives'])}"),
@@ -555,10 +562,15 @@ def main():
         ys = [float(x["y"]) for x in rpf]
         if max(abs(a - b) for a, b in zip(ys, d["profiles"]["y"])) > 1e-12:
             cp.flag(f"{sid} profile points", False, "the y points differ")
+        # the roundoff floor of a profile is set by the maximum of its family (n, S, Q: max |n|; rho, p3, p_t, p0, e_int: the
+        # largest of their maxima; M_eff and v_v their own): S and p0 vanish identically for the lambda = 0 fold-band
+        # states of the corrected metric, where a profile's own maximum is roundoff
+        fam = {"n": ("n",), "S": ("n",), "Q": ("n",), "M_eff": ("M_eff",), "v_v": ("v_v",)}
+        fam.update({k: ("rho", "p3", "p_t", "p0", "e_int") for k in ("rho", "p3", "p_t", "p0", "e_int")})
         for nm in PROFILES:
             xr = [num(x[nm]) for x in rpf]
             xf, uf = d["profiles"][nm]["value"], d["profiles"][nm]["U"]
-            pmax = max(max(abs(v) for v in xr), 1e-300)
+            pmax = max(max(max(abs(num(x[c])) for x in rpf) for c in fam[nm]), 1e-300)
             ur = RK4_FACTOR * m["profiles"][nm]["max_abs_diff"]
             for i in range(len(xr)):
                 cp.cmp(f"{sid} {nm}(y = {ys[i]:.2f})", xr[i], xf[i], uf[i], ur, scale=pmax)
@@ -569,7 +581,9 @@ def main():
         cq.cmp(f"{sid} deltaE_x", dex, sc["deltaE_x_exact_fock"]["value"], sc["deltaE_x_exact_fock"]["U"], RK4_FACTOR * 2 * qrel * abs(dex), table=table)
         # adiabatic
         ca = C["adiabatic_dE_da4"]
-        ca.cmp(f"{sid} dE_da4_emt", float(r_a["dE_da4_emt"]), sc["dE_da4_emt"]["value"], sc["dE_da4_emt"]["U"], 3 * (U("int_p3") + U("int_p_t")), table=table)
+        bh = abs(0.5 * BETA_HIST - 1.0)
+        ca.cmp(f"{sid} dE_da4_emt", float(r_a["dE_da4_emt"]), sc["dE_da4_emt"]["value"], sc["dE_da4_emt"]["U"],
+               3 * U("int_p3") + 3 * bh * U("int_p_t") + bh * U("int_p0"), table=table)
         xfd = float(r_a["dE_da4_finite_difference"])
         ca.cmp(f"{sid} dE_da4_finite_difference", xfd, sc["dE_da4_fd"]["value"], sc["dE_da4_fd"]["U"], U_ADIAB_REL * abs(xfd), table=table)
         cqm = C["adiabatic_Q_max"]
@@ -603,7 +617,7 @@ def main():
     # ---------------------------------------------------------------- exact-Fock variant (all 60 lambda != 0 states)
     cX = Check("exact-Fock-exchange VARIANT (w_Q = lambda Q/16 sigma3, e_int + lambda Q^2/32), self-consistent in both solvers: E_exact_fock_scf, "
                "gap_exact_fock and E_exx - (E_uniform_gas + Delta E_x); U_Rust(E) = (16/15)|canonical - refined| of `single --exx` + "
-               "|single - matrix| (different SCF start), likewise for the gap (from the `single` levels); U_Rust(E_exx - first order) = "
+               "|single - matrix|, likewise for the gap (from the `single` levels); U_Rust(E_exx - first order) = "
                "U_Rust(E_exx) + U_Rust(E_KS uniform gas) + U_Rust(Delta E_x as in exchange_delta_E_x)")
     for sid in sorted(exx):
         p = ref / "exx" / f"{sid}.json"
@@ -692,7 +706,7 @@ def main():
         "thermo_derivatives": Check(f"C_V = T dS/dT, dE/dT and -dF/dT (Richardson differences in T); U_Rust = matrix-wide relative maximum (16/15) x "
                                     f"{fe(G['refined_heat_capacity'])} of max(|x|, 1e-6) (refined_heat_capacity); dE/dT and -dF/dT are difference "
                                     f"quotients of energies, so each solver's stated noise floor is added: eta_Rust = N x rootTolerance / dT "
-                                    f"(Rust rootTolerance from its parameters.json, as in its thermo_CV_identity check), eta_ref = N x 1e-12 / dT "
+                                    f"(Rust rootTolerance from its parameters.json, as in its thermo_CV_identity check), eta_ref = N x {scf_tol_ref:g} / dT "
                                     f"(the reference SCF tolerance, as in its own thermo_CV_identity check), dT = 0.01 T"),
         "thermo_sea_hole_diagnostic": Check("sea-hole diagnostic of the filling CONVENTION: sea_holes_excluded = sum over the shells n2 >= 1 of the Rust "
                                             "thermal label set (the first `shells` shells) of 4 r3 f((mu - eps_sea)/T), eps_sea the highest sea level "
@@ -726,7 +740,7 @@ def main():
         for k in ("C_V", "C_V_from_dEdT", "minus_dFdT"):
             xr = float(r[k])
             quotient = k != "C_V"
-            u_ref = x[k]["U"] + (N * 1e-12 / dT if quotient else 0.0)
+            u_ref = x[k]["U"] + (N * scf_tol_ref / dT if quotient else 0.0)
             u_rust = U_CV_REL * max(abs(xr), 1e-6) + (N * root_tol_R / dT if quotient else 0.0)
             cd.cmp(f"{sid} {k}", xr, x[k]["value"], u_ref, u_rust, table=table)
         # sea holes over the Rust shells
@@ -936,7 +950,7 @@ def main():
     same_report = rep_report.exists() and rep_report.read_bytes() == Path(args.reference_report).read_bytes()
     emit("reference_repeat_byte_identical", rep_ok and names1 == names2 and not differ and same_report,
          f"this checker ran run_reference.py again into a fresh directory (<work>/reference-repeat; exit SUCCESS: {rep_ok}"
-         f"{'; its jobs computed beforehand in parts into a separate job cache, run_reference.py --cache DIR --part i/n' if args.repeat_cache else ''}): {len(names2)} result "
+         f"{'; its jobs computed beforehand in parts into a separate job cache, run_reference.py --cache DIR --stage 1|2 --part i/n' if args.repeat_cache else ''}): {len(names2)} result "
          f"files, same file set: {names1 == names2}, differing files: {differ if differ else 'none'}; report ks-reference.json byte-identical: "
          f"{same_report}")
 

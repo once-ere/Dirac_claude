@@ -129,6 +129,68 @@ Status (newest last):
   x0-free, record equations, flat vacuum, no exponential vacuum, classical Lanczos tensor = alpha_2 terms of the record),
   `charge_conjugation_and_u1.py` 12/12 (U(1) Noether matrix identity in the corrected metric); all reproduced byte
   for byte; `Revision/tests/test_lead_checks.py` passes (EGB count 14 -> 12).
+- W5 STATE AT THE STOP OF 2026-10-17 ~07:52 (the author: "Stop all stages ... push all you have"; committed as WIP;
+  the paragraph after this one is the older kit, still valid for its steps).  DONE and consistent: theory, the Rust
+  solver's canonical record (`results/`, 243 files; a repeat with the binary of H15 reproduced it byte for byte, 244/244
+  files and the report), `ks-rust-solver.json` 45/45, the reference record of the pre-H15 code (39/39), the tip study
+  (7/7, README rewritten; the run of the pre-H15 sources), the dense history (8/8), `check_ks_source_conditions.py` 5/5,
+  `ks_source_a4.py` 19/19 with its tests (H13: step-doubling substeps in part D), the READMEs of reference, tip study,
+  ks_source and field_equations_a4, provenance 6.11, the gate rows in parts (both twins, `test_revision_gate.py` 16 OK).
+  NOT DONE: the cross-check FAILED 3 of 31 checks (`reports/ks-crosscheck.json` is that failing run;
+  `claude_failures.md` H14, H15, H16): int_p0 and E_exx - first order differ by ~2.4e-10 and 3.4e-10 because the SCF
+  stopping error of both solvers was in neither uncertainty, and the reference's sea-hole list was shorter than three
+  Rust thermal label sets.  The fix is IN THE CODE (uncommitted before this push, now committed) but its records are NOT
+  regenerated: `solver/src/model.rs` (refined run: SCF tolerance 1e-14, cap 1000 iterations), `solver/src/runs.rs` (a4
+  neighbours at scf_tol/10 but not below 1e-14), `reference/ks_fd.py` (SCF_TOL = 1e-14 for every state),
+  `reference/run_reference.py` (sea-hole list + max(5, 10%) shells; texts), `checker/crosscheck_ks.py` (reads the
+  reference's scfTolerance; H14 pattern), `checker/measure_rust_refinement.py` (texts).  So the committed
+  `reference/results`, `reports/ks-reference.json` (scfTolerance 1e-12), `reports/ks-rust-determinism.json`,
+  `checker/rust-refinement.json`, `reports/ks-crosscheck*.{json,csv}` and `tip_convergence/*` (source hashes) are of the
+  pre-H15 code.  RESTART: run, in this order, the gate rows ks-rust-build, ks-rust-test, ks-rust-repeat-part1..3,
+  ks-rust-repeat, ks-rust-repeat-identical, ks-rust-refined-part1..4, ks-rust-refined, ks-rust-determinism,
+  ks-rust-refinement, ks-reference-s1-part1..6, ks-reference-s2-part1..6, ks-reference, ks-crosscheck-repeat-s1/s2-part1..6,
+  ks-crosscheck, ks-tip-convergence-scan-part1..6, -recal-part1..3, ks-tip-convergence, dark16-ks-history-part1..3,
+  dark16-ks-history, a4-ks-source-conditions, a4-ks-source, a4-ks-source-unittest (each under `timeout -k 5 423`; the
+  measured times of the first attempt: repeat parts 75, 80, 90 s, refined parts 185, 190, 207, 176 s); then the
+  READMEs of solver, reference, checker (still the b4-record text), tip study (scripts and drafts in
+  `handoff/drafts_2026-10-17/`), the gate budgets from the measured times, HANDOFF W5 DONE, commit, push.  W6 drafts
+  (pairing, T3 demos, dark sector, dirac16complex00, notebooks plan) are in the same folder with `w6_notes.md`.
+- W5 IN PROGRESS 2026-10-16 (restart kit; replace by the DONE entry).  Done, not yet committed: `kohn_sham/theory`
+  (Wolfram 51/51, sympy 61/61, ks-theory.json; provenance 6.8); the Rust solver and its record (`results/`, 243 files;
+  `ks-rust-solver.json` 45/45, mermin roots 5/5, determinism 14/14 with the refined run in parts; solver README);
+  `field_equations_a4/python/check_ks_source_conditions.py` 5/5; `ks_source/ks_source_a4.py` and its tests rewritten
+  (C4 restated from the measured signs: the N = 8 states have rho_bar with the sign of -lambda).  The reference's a4
+  neighbours are solved to the SCF tolerance 1e-14 (`run_reference.py` NB_TOL, check `ground_a4_neighbours_tight`;
+  `claude_failures.md` H12: the first complete run failed `emt_energy_change_dE_da4` in 9 lambda_2 states; the cache was
+  rebuilt).  Running/next, in this
+  order, every call under `timeout -k 5 423`, in the background, no waits over 60 s: (1) the reference,
+  `run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part i/6 --jobs 20` (i = 1..6), then
+  `--stage 2 --part i/6`, then the assembly without --stage/--part; (2) `checker/measure_rust_refinement.py --work
+  build/revision/ks-refinement`; (3) the same two stages into `build/revision/ks-crosscheck-cache`, then
+  `checker/crosscheck_ks.py --work build/revision/ks-crosscheck --jobs 22 --repeat-cache build/revision/ks-crosscheck-cache`;
+  (4) `tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part i/n`,
+  `--stage recal --part i/n`, `--stage final`; (5) `dark_sector/dirac16complex/compute/run_ks_history.py --solver
+  <binary> --work build/revision/ks-history-work --part i/n`, then without --part; (6) `ks_source_a4.py` and
+  `python -m unittest .../test_ks_source_a4.py`; (7) READMEs (reference, checker, tip_convergence, ks_source,
+  field_equations_a4) and `field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md`; (8) the gate rows (scratch patches
+  `patch_gate_ks.py`, `patch_gate_ks2.py`, budgets from the measured times) and `Revision/tests/test_revision_gate.py`;
+  (9) commit and push W5.  W6 preparation (not durable, session scratch, on disk at
+  `C:\Users\nsh\AppData\Local\Temp\claude\D--Developer-github-Dirac-claude\837d3989-831c-4131-a54e-de216022bedc\scratchpad\`):
+  `w6_notes.md` (the hand derivations for the corrected metric: dE/da4 = -3 P3 - (beta/2 - 1)(P0 + 3 Pt), w_eff(A) =
+  P3/E + (beta/2 - 1)(P0 + 3 Pt)/(3E), w_eff(C) = w_eff(A) - 4/9, condensate S ~ e^{a4} b4^{-2}, w_eff(A) = (5/9) w_c, the
+  free gas w_eff(A) = 1/3 exactly, T3 holds in the same form), drafts `w6/derive_effective.py` (37/37), `w6/compute_eos.py`,
+  `w6/independent_free_gas.py`, `w6/patch_check_t3.py` (untested against the new dense history); dirac16complex00
+  drafts `w6/d00/python/derive_eos.py` (48/48) and `independent_numerics.py` (32/32 against it); the Wolfram twin
+  `w6/verify_dark_sector.wls` (7/7).  W6 findings that change CONTENT, not only numbers: (a) ks-theory.json
+  boundaryConditions.fold: both halves of a cell carry the same chi(y), so the corrected metric has NO Z2 mirror copy
+  carrying -m; T3's statement S5 and check `T3_z2_mirror_copy_carries_minus_m_plus_lambda` must be removed, and the pairing
+  documents must not claim a mirror universe from the brane; T3 itself ((m, lambda, theta) -> (-m, +lambda, pi - theta))
+  still holds (sigma2 h_j(M) sigma2 = h_{-j}(-M) for every f).  (b) The free Kohn-Sham gas is an exact fold-band gas:
+  w_eff(A) = 1/3 exactly; normalisation C shifts by -(4 - 2 beta)/3 = -4/9 (before -1/3); the condensate has
+  w_eff(A) = (5/9) w_c and drifts as e^{-(5/3) a4}; the record's history needs an ANISOTROPIC source (kappa (p3 - p0) =
+  -9 kk^2/16 + 1069 kk/432 + 2015/972), so no condensate sources it.  (c) Bulk-band quanta are blue-shifted by the
+  shrinking hidden direction (1/f = e^{a4/3}): compute their w_eff, do not presume the old dust-like law.
+  (d) Pairing T1/T2/Q: z -> pi - z is still an isometry of the corrected metric; recompute with its vielbein.
 
 ### 0.9 ORDER 2026-10-15 evening: move EVERYTHING to b4(x4) — START HERE
 

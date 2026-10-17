@@ -64,7 +64,13 @@ LIBRARY_MODULES = {
 # Notebook builders Revision/notebooks/src/<name>.py are run by notebooks-check (build_notebooks.py check).
 NOTEBOOK_SOURCES = "Revision/notebooks/src/"
 # Steps that are marked long although they are short themselves, with the long step they need.
-LONG_BY_DEPENDENCY = {"ks-rust-determinism": "ks-rust-refined"}
+LONG_BY_DEPENDENCY = {"ks-rust-determinism": "ks-rust-refined", "ks-rust-refined": "ks-rust-refined-part4",
+                      "ks-rust-refined-part4": "ks-rust-refined-part3", "ks-rust-refined-part3": "ks-rust-refined-part2",
+                      "ks-rust-refined-part2": "ks-rust-refined-part1"}
+# Steps that are marked long by choice although each is short: the first part of a long calculation that the gate runs
+# in parts within the time limit of one step (2026-10-16: the refined-tolerance Kohn-Sham run, about 10 minutes in four
+# parts), so that --fast skips the whole calculation.
+LONG_BY_CHOICE = {"ks-rust-refined-part1"}
 OUTPUT_FLAGS = {"--out", "--report", "--output", "--work"}
 EXCLUDED_TREES = ("Revision/textbook/", "Revision/workflows/")
 
@@ -174,6 +180,8 @@ class StaticGateTests(unittest.TestCase):
                     if needed:
                         self.assertEqual(self.steps[names.index(needed)]["kind"], "1")
                         self.assertLess(names.index(needed), names.index(step["name"]))
+                    elif step["name"] in LONG_BY_CHOICE:
+                        pass
                     else:
                         self.assertGreater(step["seconds"], LONG_SECONDS)
                 else:

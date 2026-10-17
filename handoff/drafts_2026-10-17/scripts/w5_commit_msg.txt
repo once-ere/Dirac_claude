@@ -1,0 +1,21 @@
+W5: the Kohn-Sham record for the corrected metric (version 2): theory, Rust solver, reference, cross-check, tip study, dense history, Kohn-Sham source of the a4 equations
+
+The hidden direction carries the scale f = e^{-a4} b4^{1/2} (e^{-a4/3} on the history a4 = H x4, b4 = e^{(4/3) H x4}),
+the momentum weight kappa = e^{-a4} is constant in y, the densities carry P = e^{-3Hy}/Vol_7 with
+Vol_7 = ell^3 v_t e^{(5/3) a4}, the fold joins the two halves of a cell (both fold conditions filled, ASSUMED).
+
+* Revision/kohn_sham/theory: ks-theory.json, Wolfram 51/51, sympy 61/61 (provenance 6.8).
+* Rust solver and record: N_mid = 592, N_large = 2352, lambda_1 = 157.7, 2.131, 0.5363, lambda_2 = 473.1, 6.393,
+  1.609; the lambda = 0 states are exact fold-band gases; ks-rust-solver.json 45/45, mermin roots 5/5, determinism
+  14/14; the matrix, its repeat and the refined run in parts with a job cache (byte-identical to one run).
+* Python reference: @@REF@@
+* Cross-check: @@CC@@
+* Tip-cutoff study: @@TIP@@
+* Dense history (dark_sector/dirac16complex/compute/run_ks_history.py, in parts): @@HIST@@
+* field_equations_a4: check_ks_source_conditions.py 5/5; ks_source/ks_source_a4.py @@KSS@@
+* Gate: the Kohn-Sham steps in parts (budgets from the measured times); Revision/tests/test_revision_gate.py @@GT@@
+* claude_failures.md H2-H12; HANDOFF.md 0.10 W5 DONE.
+
+Known open (later phases): the dark sector, pairing T3 and the notebooks (W6), the documents (W7), the textbook (W8).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>

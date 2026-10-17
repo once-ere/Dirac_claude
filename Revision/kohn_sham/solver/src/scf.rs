@@ -2,29 +2,36 @@
 //!
 //! Levels: for every lattice shell n2 (|k| = dk sqrt(n2), degeneracy
 //! g = 4 r3(n2) per level of each block type j = +-1), every block type j and
-//! brane parity, the levels are labelled by the Pruefer index l (shoot.rs).
+//! fold condition, the levels are labelled by the Pruefer index l (shoot.rs).
 //! Particles (fillingConvention of ks-theory.json, a CONVENTION): the positive
 //! branch = the labels whose lambda = 0 level at the same slice is positive,
-//! plus the k = 0 brane zero modes (even parity, l = 0, both j); a label keeps
+//! plus the k = 0 fold zero modes (even fold condition, l = 0, both j); a label keeps
 //! its branch when the interaction is switched on (the label is the continuous
 //! continuation).  Since the levels of a sector increase with l, the particle
 //! labels of a sector are exactly l >= l_min(sector).  The negative branch is
 //! the normal-ordered sea and contributes nothing to N, n, S or T.
 //!
-//! Densities (proper, per proper 7-volume), w = w_Z2 = 1/2, P = e^{-6Hy}/Vol_7:
+//! Densities (proper, per proper 7-volume), w = 1/2 (each orbital normalised on one
+//! half of the cell), P = e^{-3Hy}/Vol_7 (corrected metric, ks-theory.json densities):
 //!   n = sum w g f P (a^2+b^2), S = sum w g f P j 2ab, Q = sum w g f P (a^2-b^2),
 //!   t_o = P j (a^2 - b^2).
 //! Potentials: M_eff = m + (15/16) lambda S, v_v = -(1/16) lambda n
 //! [+ w_Q = lambda Q / 16 in the exact-Fock variant];
 //! e_int = lambda [(15/32) S^2 - (1/32) n^2] [+ lambda Q^2 / 32].
-//! N = sum g f over both parities = particle number of the doubled
-//! (universe + Z2 image) system; the patch holds N/2.
-//! E_KS = sum g f eps - 2 Vol_7 int e^{6Hy} e_int dy (doubled system).
+//! N = sum g f over both fold conditions = particle number of the cell (the
+//! two halves z < pi/2 and z > pi/2 joined at the fold); each half holds N/2.
+//! E_KS = sum g f eps - 2 Vol_7 int e^{3Hy} e_int dy (the whole cell).
 
 pub use crate::mermin::MerminForm;
 use crate::model::*;
 use crate::shoot::*;
 use std::collections::BTreeMap;
+use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::Mutex;
+
+/// Threads inside one Kohn-Sham state: the sectors of `solve_levels` are independent problems, solved in
+/// parallel and collected in the order of the label set, so every result is independent of this number.
+pub static INNER_THREADS: AtomicUsize = AtomicUsize::new(1);
 
 pub type Key = (u32, i32, Parity, i64);
 
@@ -107,7 +114,7 @@ pub struct State {
 }
 
 pub fn ctx_for<'a>(grid: &'a Grid, phys: &Physics, pots: &'a Pots) -> Ctx<'a> {
-    Ctx { grid, kap0: (-phys.a4).exp(), pots, tip_angle: 0.5 * phys.tip_theta }
+    Ctx { grid, kap0: (-phys.a4).exp(), fh: phys.fh(), pots, tip_angle: 0.5 * phys.tip_theta }
 }
 
 pub fn kmag(phys: &Physics, sh: Shell) -> f64 {
@@ -122,7 +129,7 @@ pub fn ell_min(grid: &Grid, phys: &Physics, sh: Shell, j: i32, parity: Parity) -
     let phi0 = shoot(&ctx, sec, 0.0, None).phi;
     let pi = std::f64::consts::PI;
     if sh.n2 == 0 {
-        // a k = 0 level at eps = 0 exactly is a brane zero mode: particle by the convention of ks-theory.json
+        // a k = 0 level at eps = 0 exactly is a fold zero mode: particle by the convention of ks-theory.json
         let off = match parity {
             Parity::Even => 0.0,
             Parity::Odd => 0.5 * pi,
@@ -143,13 +150,13 @@ pub fn ell_min(grid: &Grid, phys: &Physics, sh: Shell, j: i32, parity: Parity) -
     Ok(l)
 }
 
-/// Solve every level of the label set in the given potentials.
+/// Solve every level of the label set in the given potentials (the sectors in parallel, INNER_THREADS).
 pub fn solve_levels(grid: &Grid, phys: &Physics, specs: &[SectorSpec], pots: &Pots, guesses: &BTreeMap<Key, f64>, tol: f64) -> Result<(Vec<Level>, usize), String> {
     let ctx = ctx_for(grid, phys, pots);
-    let mut out = Vec::new();
-    let mut evals = 0;
-    for sp in specs {
+    let one = |sp: &SectorSpec| -> Result<(Vec<Level>, usize), String> {
         let sec = Sector { k: kmag(phys, sp.shell), j: sp.j, parity: sp.parity };
+        let mut out = Vec::new();
+        let mut evals = 0;
         let mut prev: Option<f64> = None;
         for i in 0..sp.nlev {
             let l = sp.ell_min + i as i64;
@@ -165,6 +172,34 @@ pub fn solve_levels(grid: &Grid, phys: &Physics, specs: &[SectorSpec], pots: &Po
             out.push(Level { key, k: sec.k, eps, deg: 4.0 * sp.shell.r3 as f64, prof });
             prev = Some(eps);
         }
+        Ok((out, evals))
+    };
+    let nth = INNER_THREADS.load(Ordering::SeqCst).max(1).min(specs.len().max(1));
+    let parts: Vec<Result<(Vec<Level>, usize), String>> = if nth <= 1 {
+        specs.iter().map(one).collect()
+    } else {
+        let next = AtomicUsize::new(0);
+        let slots: Vec<Mutex<Option<Result<(Vec<Level>, usize), String>>>> = (0..specs.len()).map(|_| Mutex::new(None)).collect();
+        std::thread::scope(|s| {
+            for _ in 0..nth {
+                s.spawn(|| loop {
+                    let i = next.fetch_add(1, Ordering::SeqCst);
+                    if i >= specs.len() {
+                        break;
+                    }
+                    let r = one(&specs[i]);
+                    *slots[i].lock().unwrap() = Some(r);
+                });
+            }
+        });
+        slots.into_iter().map(|m| m.into_inner().unwrap().unwrap()).collect()
+    };
+    let mut out = Vec::new();
+    let mut evals = 0;
+    for r in parts {
+        let (lv, ne) = r?;
+        out.extend(lv);
+        evals += ne;
     }
     Ok((out, evals))
 }
@@ -242,12 +277,12 @@ pub fn densities(grid: &Grid, phys: &Physics, levels: &[Level], occ: &[f64], pot
         for p in 0..nf {
             let a = lv.prof[2 * p];
             let b = lv.prof[2 * p + 1];
-            let c = wgf / (grid.e6[p] * vol7);
+            let c = wgf / (grid.e3[p] * vol7);
             let nn = a * a + b * b;
             let qq = a * a - b * b;
             let ss = j * 2.0 * a * b;
             let tt = j * qq;
-            let kk = kap0 * grid.ew[p] * lv.k;
+            let kk = kap0 * lv.k;
             d.n[p] += c * nn;
             d.s[p] += c * ss;
             d.q[p] += c * qq;
@@ -490,11 +525,11 @@ pub fn run_scf(grid: &Grid, inp: &RunInput) -> Result<State, String> {
         let r: Vec<f64> = xo.iter().zip(&x).map(|(a, b)| a - b).collect();
         let res = r.iter().fold(0.0f64, |m, v| m.max(v.abs()));
         let ei = e_int(phys, inp.co, &dens);
-        let w6: Vec<f64> = (0..nf).map(|p| grid.e6[p] * ei[p]).collect();
+        let w3: Vec<f64> = (0..nf).map(|p| grid.e3[p] * ei[p]).collect();
         let vol2 = 2.0 * phys.vol7();
-        let e_int_tot = vol2 * grid.integrate(&w6);
+        let e_int_tot = vol2 * grid.integrate(&w3);
         let e_band: f64 = levels.iter().zip(&occ).map(|(l, f)| l.deg * f * l.eps).sum();
-        let pe: Vec<f64> = (0..nf).map(|p| grid.e6[p] * ((pots.mass[p] - phys.m) * dens.s[p] + pots.v[p] * dens.n[p] + pots.wq[p] * dens.q[p])).collect();
+        let pe: Vec<f64> = (0..nf).map(|p| grid.e3[p] * ((pots.mass[p] - phys.m) * dens.s[p] + pots.v[p] * dens.n[p] + pots.wq[p] * dens.q[p])).collect();
         let e_var = e_band - vol2 * grid.integrate(&pe) + e_int_tot;
         let e_ks = e_band - e_int_tot;
         history.push((it, res, e_ks));

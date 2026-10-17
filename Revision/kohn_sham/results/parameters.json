@@ -1,17 +1,17 @@
 {
-  "description": "Revision Kohn-Sham solver (Revision/kohn_sham/solver): instantaneous Kohn-Sham states of dirac16complex in the author's primordial field, the author's metric with b4(x4) in the extra-time components (b4 a function of x4, never 1), along the deflating history a4 = H x4, b4 = b4(0) e^{(4/3) H x4} (SPEC sections 1 and 7, Revision/kohn_sham/ks-theory.json). The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln(sin z)/(6H), z = 6 H x0), x1..x3 = 3-space, x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z ~ e^{-a4/3} on the history).",
+  "description": "Revision Kohn-Sham solver (Revision/kohn_sham/solver): instantaneous Kohn-Sham states of dirac16complex in the author's primordial field, the corrected primordial metric of 2026-10-16 (version 2; SPEC section 1): g = diag(e^{-2a4} b4 cot^2 z, e^{2a4} (x3), -1, -e^{-2a4} b4 (sin^2 z)^{1/6} (x3)), z = 6 H x0 real, along the PRESCRIBED history a4 = H x4, b4 = e^{(4/3) H x4} (b4(0) = 1; SPEC sections 1 and 7, Revision/kohn_sham/ks-theory.json). The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln|sin z|/(6H) <= 0 on every quarter, the fold cos z = 0 at y = 0), x1..x3 = 3-space, x4 = time, x5..x7 = the extra times; in the y chart ds^2 = e^{2a4} dx_{1..3}^2 - dx4^2 + f^2 [dy^2 - e^{2Hy} dx_{5..7}^2], f = e^{-a4} b4^{1/2} = e^{-a4/3} on the history.",
   "theoryInputs": {
-    "ksTheorySha256": "e3e2869216e2744f83a2888067e5ed9599bf2ddff46cfd876da3fb7c729ba0f0",
+    "ksTheorySha256": "34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98",
     "gammasSha256": "c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c",
     "MeffCoefficientOfLambdaS": 9.375000000000000e-1,
     "vvCoefficientOfLambdaN": -6.250000000000000e-2,
     "exchangeCoefficientN2": -3.125000000000000e-2,
     "exchangeCoefficientS2": -3.125000000000000e-2,
-    "braneBandSlopeTheory_M1_H1_L3": 1.905148253644867e0,
-    "adiabaticityHistory": "a4 = A H x4 (A = 1 canonical), b4 = b4(0) e^{beta A H x4} (beta = 4/3), a4' = A H, b4'/b4 = beta A H; slices a4,0 = a4(x4), b4,0 = b4(0) e^{beta a4,0}; PRESCRIBED BACKGROUND (see historyStatus)",
+    "braneBandSlopeTheory_a0": 1.000000000000000e0,
+    "adiabaticityHistory": "a4 = A H x4 (A = 1 canonical), b4 = b4(0) e^{beta A H x4} (beta = 4/3, b4(0) = 1), a4' = A H, b4'/b4 = beta A H, f = e^{(beta/2 - 1) a4} = e^{-a4/3}; slices a4,0 = a4(x4), b4,0 = e^{beta a4,0}; PRESCRIBED BACKGROUND (see historyStatus)",
     "adiabaticityHistoryBeta": 1.333333333333333e0
   },
-  "units": "H = 1, m = 1: energies, momenta, temperatures in units of m = H. b4(0) enters only as a unit (ks-theory.json densities.proper): lambda = lambda_hat = lambda b4(0)^{-3/2} in units of m^-6, the same at every slice; Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (the proper 7-volume of the cell per unit e^{6Hy} in units of b4(0)^{3/2} H^-7); every density, profile and pressure is the proper one times b4(0)^{3/2}; energies, levels, potentials, particle numbers and the integrals 2 Vol_7 int e^{6Hy} (...) dy are the physical ones. Equivalently (ks-theory.json densities.couplingVolumeScaling) a slice state is the state of the coordinate cell ell^3 v_t at lambda_eff = lambda_hat e^{-2 a4,0}",
+  "units": "H = 1, m = 1: energies, momenta, temperatures in units of m = H. The record uses b4(0) = 1 (ks-theory.json densities.proper): lambda = lambda_hat = lambda b4(0)^{-2} in units of m^-6, the same at every slice; Vol_7(a4,0) = ell^3 v_t e^{-a4,0} b4,0^2 = ell^3 v_t e^{(2 beta - 1) a4,0} = ell^3 v_t e^{(5/3) a4,0} (the proper 7-volume of the cell per unit e^{3Hy}); the hidden scale f = e^{-a4,0} b4,0^{1/2} = e^{-a4,0/3} multiplies the hidden derivative (chi' = f N chi; the proper hidden length of the cell is f L); every density, profile and pressure is the proper one; energies, levels, potentials, particle numbers and the integrals 2 Vol_7 int e^{3Hy} (...) dy are the physical ones. Equivalently (ks-theory.json densities.couplingVolumeScaling) a slice state is the state of the coordinate cell ell^3 v_t at lambda_eff = lambda_hat e^{-(5/3) a4,0}, at the same f and kappa",
   "physics": {
     "H": 1.000000000000000e0,
     "m": 1.000000000000000e0,
@@ -20,10 +20,13 @@
     "ell": 2.513274122871834e1,
     "v_t": 1.000000000000000e0,
     "Vol7AtA4Zero": 1.587521366031351e4,
-    "Vol7Rule": "Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}",
+    "Vol7Rule": "Vol_7(a4,0) = ell^3 v_t e^{(2 beta - 1) a4,0}",
+    "hiddenScaleRule": "f(a4,0) = e^{(beta/2 - 1) a4,0} (b4(0) = 1)",
+    "kappaRule": "kappa(a4,0) = e^{-a4,0}, constant in y",
     "tipTheta": 0.000000000000000e0,
     "historyA": 1.000000000000000e0,
     "historyBeta": 1.333333333333333e0,
+    "historyB4AtZero": 1.000000000000000e0,
     "slicesA4": [0.000000000000000e0, 5.000000000000000e-1, 1.000000000000000e0, 1.500000000000000e0, 2.000000000000000e0],
     "temperatures": [1.000000000000000e-2, 2.000000000000000e-2, 5.000000000000000e-2]
   },
@@ -42,57 +45,57 @@
     "merminRoot": "LogBalance"
   },
   "particleNumbers": {
-    "values": [8.000000000000000e0, 1.360000000000000e2, 6.880000000000000e2],
-    "rule": "N = 8 (the k = 0 brane zero modes, both block types); N_large = the largest closed shell of the free a4,0 = 0 aufbau whose last filled level lies below the bulk edge (the lowest level not on the even j = +1 brane band: min of the odd l = 0 and even l = 1 levels at k = 0); N_mid = the closed shell (>= 8, below the bulk edge) nearest N_large / 4",
+    "values": [8.000000000000000e0, 5.920000000000000e2, 2.352000000000000e3],
+    "rule": "N = 8 (the k = 0 fold zero modes, both block types); N_large = the largest closed shell of the free a4,0 = 0 aufbau whose last filled level lies below the bulk edge (the lowest level not on the even j = +1 fold band: min of the odd l = 0 and even l = 1 levels at k = 0); N_mid = the closed shell (>= 8, below the bulk edge) nearest N_large / 4",
     "bulkEdge": 1.292292828068783e0,
-    "N_mid": 1.360000000000000e2,
-    "N_large": 6.880000000000000e2
+    "N_mid": 5.920000000000000e2,
+    "N_large": 2.352000000000000e3
   },
   "couplingCalibration": {
-    "rule": "per N, from the free ground states of that N at every slice a4,0 of the history: strength = max over the slices and over y of max((15/16)|S(y)|, |n(y)|/16) (the solver's densities, per Vol_7(a4,0), which grows like b4^{3/2} = b4(0)^{3/2} e^{2 a4,0}), the first-order mean-field potential per unit lambda_hat; lambda_1 = 0.1/strength and lambda_2 = 0.3/strength rounded to 4 significant digits, so that the first-order mean-field potential stays below 0.1 m and 0.3 m along the whole history (strengthPerLambdaAtSlices shows at which slice it is largest); lambda_hat = lambda b4(0)^{-3/2} is a constant of the theory, the same at every slice",
+    "rule": "per N, from the free ground states of that N at every slice a4,0 of the history: strength = max over the slices and over y of max((15/16)|S(y)|, |n(y)|/16) (the proper densities, per Vol_7(a4,0) = ell^3 v_t e^{(5/3) a4,0} and with the factor e^{-3Hy}), the first-order mean-field potential per unit lambda_hat; lambda_1 = 0.1/strength and lambda_2 = 0.3/strength rounded to 4 significant digits, so that the first-order mean-field potential stays below 0.1 m and 0.3 m along the whole history (strengthPerLambdaAtSlices shows at which slice it is largest); lambda_hat = lambda b4(0)^{-2} is a constant of the theory, the same at every slice",
     "values": [
       {
         "N": 8.000000000000000e0,
-        "strengthPerLambda": 5.138803993110601e0,
-        "strengthPerLambdaAtSlices": [5.138803993110601e0, 1.890460341275104e0, 6.954614939050594e-1, 2.558459857340498e-1, 9.412047825779904e-2],
-        "lambda1": 1.946000000000000e-2,
-        "lambda2": 5.838000000000000e-2,
-        "firstOrderPotential1": 1.000011257059323e-1,
-        "firstOrderPotential2": 3.000033771177969e-1,
-        "lambda1OverVol7": 1.225810273574340e-6,
-        "lambda2OverVol7": 3.677430820723020e-6
+        "strengthPerLambda": 6.341787940296258e-4,
+        "strengthPerLambdaAtSlices": [6.341787940296258e-4, 5.882811781391932e-4, 4.754842984156689e-4, 3.428490405563163e-4, 2.250609085298295e-4],
+        "lambda1": 1.577000000000000e2,
+        "lambda2": 4.731000000000000e2,
+        "firstOrderPotential1": 1.000099958184720e-1,
+        "firstOrderPotential2": 3.000299874554160e-1,
+        "lambda1OverVol7": 9.933724570538203e-3,
+        "lambda2OverVol7": 2.980117371161461e-2
       },
       {
-        "N": 1.360000000000000e2,
-        "strengthPerLambda": 8.295194132190723e0,
-        "strengthPerLambdaAtSlices": [5.225903546424021e0, 6.373757347561960e0, 8.295194132190723e0, 5.278140881641248e0, 1.969815800918501e0],
-        "lambda1": 1.206000000000000e-2,
-        "lambda2": 3.617000000000000e-2,
-        "firstOrderPotential1": 1.000400412342201e-1,
-        "firstOrderPotential2": 3.000371717613384e-1,
-        "lambda1OverVol7": 7.596748149695037e-7,
-        "lambda2OverVol7": 2.278394532126613e-6
+        "N": 5.920000000000000e2,
+        "strengthPerLambda": 4.692923075819232e-2,
+        "strengthPerLambdaAtSlices": [4.692923075819232e-2, 4.353280718230030e-2, 3.518583808275950e-2, 2.537082900116740e-2, 1.665450723120738e-2],
+        "lambda1": 2.131000000000000e0,
+        "lambda2": 6.393000000000000e0,
+        "firstOrderPotential1": 1.000061907457078e-1,
+        "firstOrderPotential2": 3.000185722371235e-1,
+        "lambda1OverVol7": 1.342344138225549e-4,
+        "lambda2OverVol7": 4.027032414676647e-4
       },
       {
-        "N": 6.880000000000000e2,
-        "strengthPerLambda": 1.504943872162598e1,
-        "strengthPerLambdaAtSlices": [5.225917625089333e0, 7.183022983078978e0, 1.277305077930554e1, 1.504943872162598e1, 9.921811591465506e0],
-        "lambda1": 6.645000000000000e-3,
-        "lambda2": 1.993000000000000e-2,
-        "firstOrderPotential1": 1.000035203052046e-1,
-        "firstOrderPotential2": 2.999353137220057e-1,
-        "lambda1OverVol7": 4.185770435715051e-7,
-        "lambda2OverVol7": 1.255416174323566e-6
+        "N": 2.352000000000000e3,
+        "strengthPerLambda": 1.864485654447100e-1,
+        "strengthPerLambdaAtSlices": [1.864485654447100e-1, 1.729546663729228e-1, 1.397923837342067e-1, 1.007976179235570e-1, 6.616790710776985e-2],
+        "lambda1": 5.363000000000000e-1,
+        "lambda2": 1.609000000000000e0,
+        "firstOrderPotential1": 9.999236564799797e-2,
+        "firstOrderPotential2": 2.999957418005384e-1,
+        "lambda1OverVol7": 3.378222249321267e-5,
+        "lambda2OverVol7": 1.013529666074570e-4
       }
     ]
   },
   "conventions": {
-    "particleNumber": "N = sum g f over both brane parities = particle number of the doubled (universe + Z2 image) system; the patch holds N/2 (ks-theory.json densities.total). The thermodynamics line 'mu fixed by sum w_Z2 g f = N' of ks-theory.json is inconsistent with this and with its own Omega = -T sum g ln(...) + ..., F = Omega + mu N; the solver uses sum g f = N (noted as a discrepancy of the theory file)",
-    "filling": "particles occupy the positive branch (labels whose lambda = 0 level at the same slice is positive) and the k = 0 brane zero modes (CONVENTION of ks-theory.json, justification OPEN); the negative branch is the normal-ordered sea and is not populated thermally (the excluded thermal sea holes are reported as a diagnostic)",
-    "brane": "Z2 mirror at y = 0: ASSUMED (b(0) = 0 even, a(0) = 0 odd); tip: regular, theta = 0 (b(-L) = 0)",
+    "particleNumber": "N = sum g f over both fold conditions = particle number of the cell (the two halves z < pi/2 and z > pi/2 joined at the fold); each half holds N/2 (ks-theory.json densities.total). The thermodynamics line 'mu fixed by sum w g f = N' of ks-theory.json is inconsistent with this and with its own Omega = -T sum g ln(...) + ..., F = Omega + mu N; the solver uses sum g f = N (noted as a discrepancy of the theory file)",
+    "filling": "particles occupy the positive branch (labels whose lambda = 0 level at the same slice is positive) and the k = 0 fold zero modes (CONVENTION of ks-theory.json, justification OPEN); the negative branch is the normal-ordered sea and is not populated thermally (the excluded thermal sea holes are reported as a diagnostic)",
+    "brane": "the fold y = 0 (cos z = 0) joins the two halves of a cell: the fold condition (1 - Q(theta)) chi(0) = 0 follows from self-adjointness up to theta; both theta = 0 (b(0) = 0, 'even') and theta = pi (a(0) = 0, 'odd') are solved and filled (ASSUMED convention of the record, ks-theory.json boundaryConditions.fold); tip: regular, theta = 0 (b(-L) = 0); kappa does not grow toward the tip, so the extended levels depend on L like a box of proper length f L (only the fold-localised states have an L-independent limit). The key keeps the name 'brane' of the earlier record",
     "instantaneous": "states at fixed a4,0 = a4(x4) are instantaneous (adiabatic) Kohn-Sham states; the non-adiabatic (time-dependent) problem is OPEN",
-    "history": "PRESCRIBED BACKGROUND: the history a4 = H x4, b4 = b4(0) e^{(4/3) H x4} is prescribed, not solved for. With the author's Lovelock weights the a4 and b4 equations of SPEC section 5 allow it only with the constant source kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27) (Revision/field_equations_a4/a4-equations.json, exponentialHistory.authorWeights.historySource); the Kohn-Sham states along it do not supply this source (they depend on x0 and change with a4,0: Revision/field_equations_a4/reports/ks-source-conditions.json). The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations. (ks-theory.json adiabaticity.historyStatus)",
-    "b4": "b4 does not enter the slice Hamiltonian h (ks-theory.json sectorAndAnsatz.exactReduction: Psi = e^{ik.x} W^{-3} b4^{-3/4} chi); it enters through the proper cell volume, i.e. Vol_7(a4,0) and with it the effective coupling lambda_hat/Vol_7(a4,0) ~ e^{-2 a4,0}, and through the history identity dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t; the lambda = 0 states do not depend on b4",
+    "history": "PRESCRIBED BACKGROUND: the history a4 = H x4, b4 = e^{(4/3) H x4} is prescribed, not solved for. With the author's Lovelock weights the a4 and b4 equations of SPEC section 5 allow it only with a diagonal source with p0 = p_t that grows with x4 (Revision/field_equations_a4/a4-equations.json, exponentialHistory.authorWeights.historySource_kappaT_minus_Lam); whether the Kohn-Sham states along it supply this source is evaluated in Revision/field_equations_a4/reports/ks-source-conditions.json. The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations. (ks-theory.json adiabaticity.historyStatus)",
+    "b4": "b4 enters the slice Hamiltonian through the hidden scale f = e^{-a4} b4^{1/2} (h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v; ks-theory.json sectorAndAnsatz: Psi = e^{ik.x} e^{-(3/2)Hy} e^{a4/2} b4^{-1} chi), the proper cell volume Vol_7(a4,0) (the effective coupling lambda_hat/Vol_7(a4,0) ~ e^{-(5/3) a4,0}) and the history identity dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0; the lambda = 0 levels depend on a4 and b4 only through kappa k and f L (rescaling identity)",
     "merminRoot": "mu from sum g f = N with the well-conditioned residual of solver/src/mermin.rs: thermal particles above and holes below a split of the levels (complementary Fermi factors f(-x), never 1 - f), canonical form LogBalance (log-sum-exp balance, Newton + bisection), refined run LinearDeviation (an exactly equivalent form with a different rounding path); the former direct count sum g f - N fixed mu only to eps_mach N/(dN/dmu) (8.3e-10 m in N8_lamm1_a00_T10)",
     "deltaScf": "first excited state: one particle moved from the highest occupied degenerate group to the lowest empty group, spread uniformly over each group (ensemble Delta-SCF, keeps the block and direction symmetry of the reduction)",
     "exactExchange": "canonical functional = Hartree + exact local exchange of the uniform 8-fold gas (exact at every temperature for p -> -p symmetric occupations); the exact Fock exchange of the closed-shell slab determinant differs by +lambda Q^2/32 (reported as deltaE_x and solved as a variant)"

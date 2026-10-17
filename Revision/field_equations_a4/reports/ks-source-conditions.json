@@ -1,7 +1,8 @@
 {
  "report": "Revision/field_equations_a4/reports/ks-source-conditions.json",
  "producer": "Revision/field_equations_a4/python/check_ks_source_conditions.py",
- "spec": "Revision/SPEC.md sections 1, 5 and 7: the Kohn-Sham energy-momentum tensor as a source of the a4 and b4 equations, on the history a4 = H x4, b4 = b4(0) e^((4/3) H x4)",
+ "metric": "the corrected metric of 2026-10-16 (version 2; SPEC section 1): g = diag(e^{-2a4} b4 cot^2 z, e^{2a4} (x3), -1, -e^{-2a4} b4 (sin^2 z)^{1/6} (x3)), z = 6 H x0 real",
+ "spec": "Revision/SPEC.md sections 1, 5 and 7: the Kohn-Sham energy-momentum tensor as a source of the a4 and b4 equations, on the history a4 = H x4, b4 = e^((4/3) H x4)",
  "inputs": [
   "Revision/kohn_sham/results/ground/profiles/*.csv",
   "Revision/kohn_sham/results/ground/emt-integrals.csv",
@@ -10,48 +11,43 @@
   "Revision/field_equations_a4/a4-equations.json"
  ],
  "conditions": [
-  "C1: every diagonal component of the source independent of x0 (for every a4 and b4)",
-  "C2: kappa (p3 + p_t - 2 p0) = sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x0_x0); on the history with the author's weights: p3 + p_t = 2 p0",
-  "C3 (the history a4 = H x4, b4 = b4(0) e^((4/3) H x4), the author's weights, Lambda = -10): the constant source kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27) at H = 1",
-  "C4 (off-diagonal): kappa q40 = cot z (b4'/b4) Q; on the history Q = 0, so q40 = q04 = 0"
+  "C1: every component of the source independent of x0 (for every a4 and b4)",
+  "C2: p0 = p_t (the hidden and the extra-time components of the left-hand sides are equal)",
+  "C3: no off-diagonal component (T^x4_x0 = 0)",
+  "C4 (the history a4 = H x4, b4 = e^((4/3) H x4), the author's weights, Lambda = -10): the source kappa T - Lambda of exponentialHistory.authorWeights.historySource_kappaT_minus_Lam (a function of kk = e^{(2/3) H x4}, p0 = p_t)"
  ],
- "conclusion": "No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source of the author's metric: C1 fails for every nonzero state, for every a4(x4) and b4(x4); on the history C2 fails pointwise and after integration over x0, and the states are not the constant source C3 that the history needs (they have positive energy density changing with a4); the off-diagonal condition C4 holds.  The Kohn-Sham history a4 = H x4, b4 = b4(0) e^((4/3) H x4) is a prescribed background without back-reaction.",
- "tolerance": "relative 1e-06",
+ "conclusion": "No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source of the corrected metric: C1 fails for every nonzero state, for every a4(x4) and b4(x4); C2 (p0 = p_t) holds exactly for the lambda = 0 states and fails for lambda != 0; C3 holds; the states are not the source C4 that the history needs (no constant kappa reproduces its ratios).  The Kohn-Sham history a4 = H x4, b4 = e^((4/3) H x4) is a prescribed background without back-reaction.",
+ "tolerance": "relative 1e-06 (failures), 1e-12 (identities)",
  "summary": {
-  "checks": 6,
-  "pass": 6,
+  "checks": 5,
+  "pass": 5,
   "fail": 0
  },
  "checks": [
   {
    "name": "ks_profiles_depend_on_x0",
    "verdict": "PASS",
-   "detail": "75 ground-state profiles of Revision/kohn_sham/results/ground/profiles (70 with a nonzero energy-momentum tensor): for every nonzero one the energy density rho(y) varies along the hidden coordinate y (a function of x0 alone), (max rho - min rho)/max|T| >= 0.0757506 (smallest: N136_lamm2_a15); the diagonal left-hand sides of the a4 and b4 equations (a4-equations.json generalSource, x4, x1..x3, x5..x7 and x0 components) contain no x0 for every a4(x4) and b4(x4): True, so every component of an admissible diagonal source is independent of x0 (C1) and none of these states is an admissible source of the author's metric, for any history"
+   "detail": "75 ground-state profiles of Revision/kohn_sham/results/ground/profiles (70 with a nonzero energy-momentum tensor): for every nonzero one the energy density rho(y) varies along the hidden coordinate y (a function of x0 alone), (max rho - min rho)/max|T| >= 0.456213 (smallest: N592_lamm2_a20); the left-hand sides of the a4 and b4 equations (a4-equations.json generalSource: x4, x1..x3 and x0 = x5..x7 components) contain no x0, cot z or tan z: True (generalSource.x0_dependence: 'the left-hand sides are free of x0 (and of a4, b4 except thr'), so every component of an admissible source is independent of x0 (C1) and none of these states is an admissible source, for any history"
   },
   {
-   "name": "ks_profiles_violate_algebraic_condition",
+   "name": "ks_hidden_pressure_condition",
    "verdict": "PASS",
-   "detail": "C2 for general b4: kappa (p3 + p_t - 2 p0) = sum_k alpha_k (E^x1_x1 + E^x5_x5 - 2 E^x0_x0) (a4-equations.json generalSource.identity_x1_plus_x5_minus_2x0); on the history a4 = H x4, b4 = b4(0) e^((4/3) H x4) with the author's weights the right-hand side is 0, so the condition is p3 + p_t = 2 p0; for every nonzero profile max_y |p3 + p_t - 2 p0| / max|T| lies between 1.04172 (N688_lamp2_a00) and 3.99008 (N8_lamm1_a20): it fails pointwise; example N136_lam0_a10 (N = 136, lambda = 0, a4,0 = 1; densities per Vol_7(a4,0)): y = -3: rho = 5.82892, p3 = 21.4192, p_t = -0, p0 = -58.4287, p3 + p_t - 2 p0 = 138.277 | y = -1.5: rho = 0.0957928, p3 = 0.06751, p_t = 0, p0 = 0.0870645, p3 + p_t - 2 p0 = -0.106619 | y = -0: rho = 0.000286337, p3 = 5.29482e-05, p_t = -0, p0 = 0.000127492, p3 + p_t - 2 p0 = -0.000202037"
+   "detail": "C2: the hidden and the extra-time components of every left-hand side are equal (a4-equations.json generalSource.hiddenEqualsExtraTimes: 'cally, so kappa (p0 - p_t) = 0: p0 = p_t'), so a source needs p0 = p_t; a Kohn-Sham state has p0 - p_t = sum w g f [(eps - v_v) n_o - M_eff s_o - kappa |k| t_o], the kinetic pressure along the hidden direction (ks-theory.json emt.fieldEquationCondition). It holds to rounding (max_y |p0 - p_t|/max|T| <= 1e-12; largest 4.7533e-17) for exactly the 10 nonzero states with lambda = 0: their occupied orbitals are the fold-band orbitals (e^{f M y}, 0) with eps = kappa k (and the k = 0 zero modes), whose hidden kinetic pressure vanishes identically, and e_int = 0; it fails (> 1e-06) for every one of the 60 states with lambda != 0 (smallest: 0.080929 at N2352_lamm1_a00): the interaction bends the orbitals; states in between: none"
   },
   {
-   "name": "ks_integrals_violate_algebraic_condition",
+   "name": "ks_offdiagonal_condition",
    "verdict": "PASS",
-   "detail": "integrated over the patch (results/ground/emt-integrals.csv: 2 Vol_7 int e^(6Hy) T dy), (int p3 + int p_t)/(2 int p0) differs from 1 for every nonzero state (closest to 1: 0.416888 at N688_lamm2_a00); for the history N = 136, lambda = 0: N136_lam0_a00: 0.339767, N136_lam0_a10: 0.25969, N136_lam0_a20: 0.239714 - even an x0-averaged (dimensionally reduced) source would violate p3 + p_t = 2 p0"
+   "detail": "C3: the left-hand sides have no off-diagonal component (a4-equations.json generalSource.offDiagonal: '0 = kappa T^mu_nu for every mu != nu (the left-hand sides va...'), so a source needs T^x4_x0 = 0; the Kohn-Sham eigen-orbitals have it (ks-theory.json emt.offDiagonal: 'T^x4_y = 0 for eigen-orbitals (K_x4y = f P (eps - v/2) c_o, c_o = 0)'): C3 holds for every recorded state; it is C1 (and C2 for lambda != 0) that excludes them"
   },
   {
    "name": "ks_history_is_a_prescribed_background",
    "verdict": "PASS",
-   "detail": "the Kohn-Sham history of Revision/kohn_sham (ks-theory.json adiabaticity.history: a4 = H x4, b4 = b4(0) e^((4/3) H x4), historyBeta = 4/3) needs, with the author's weights and Lambda = -10 (a4-equations.json exponentialHistory.requiredSource at AA = 1, be = 4/3), the constant source kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27) (H = 1; for general H: 10 - 272*H**2/27, 88*H**2/9 - 10, 248*H**2/27 - 10, 256*H**2/27 - 10): a negative energy density, constant in x4 and x0, with p3/rho = 3, p_t/rho = 11, p0/rho = 7 (C3, reproduced: True). Along the history the Kohn-Sham source has (x0 averages per proper cell volume, in units of b4(0)^(-3/2)) N136_lam0_a00: rho_bar = 0.0151712, p3/rho = 0.296619, p_t/rho = 0, p0/rho = 0.436504; N136_lam0_a10: rho_bar = 0.000828218, p3/rho = 0.310021, p_t/rho = 0, p0/rho = 0.596905; N136_lam0_a20: rho_bar = 4.30746e-05, p3/rho = 0.326398, p_t/rho = 0, p0/rho = 0.680808; N688_lam0_a00: rho_bar = 0.128586, p3/rho = 0.292906, p_t/rho = 0, p0/rho = 0.353535; N688_lam0_a10: rho_bar = 0.00714624, p3/rho = 0.30183, p_t/rho = 0, p0/rho = 0.512507; N688_lam0_a20: rho_bar = 0.000382068, p3/rho = 0.318294, p_t/rho = 0, p0/rho = 0.648248: rho_bar > 0, it changes with a4,0 and its ratios are far from (3, 11, 7). The history is therefore a PRESCRIBED test-field background without back-reaction, not a solution of the a4 and b4 equations with the Kohn-Sham source; equations of state derived from it are not consequences of the coupled field equations"
-  },
-  {
-   "name": "ks_offdiagonal_condition_on_history",
-   "verdict": "PASS",
-   "detail": "C4: kappa q40 = cot z (b4'/b4) Q (a4-equations.json generalSource.offDiagonal_x4x0); with the author's weights Q = 0 on the history (exponentialHistory.authorWeights.Q at AA = 1, be = 4/3: the reason why beta = 4/3), so q40 = q04 = 0 is required, and the Kohn-Sham states have it (ks-theory.json emt.offDiagonal: 'T^x4_y = 0 for eigen-orbitals (K_x4y = P (eps - v/2) c_o, c_'): the off-diagonal condition holds on the history; it is the diagonal conditions C1 to C3 that exclude the states. In Einstein gravity ((3*cc*H*uu)/2 == kappa*q40) a source with q40 = 0 forces b4' = 0, which the history excludes"
+   "detail": "the Kohn-Sham history (ks-theory.json adiabaticity.history: a4 = H x4, b4 = e^((4/3) H x4), historyBeta = 4/3; a4-equations.json exponentialHistory.authorWeights.recordHistory: 'AA = 1, be = 4/3, a0 = 0, b4(0) = 1: kk = e^{(2/3) H x4}') needs, with the author's weights and Lambda = -10, the x0-independent source kappa T - Lambda of authorWeights.historySource_kappaT_minus_Lam, a function of kk = e^{(2/3) H x4} with p0 = p_t: True; kappa rho > 0 at every slice: False; a4,0 = 0 (kk = 1): kappa rho = 3.57407, p3/rho = -1.26713, p0/rho = p_t/rho = -2.38212; a4,0 = 0.5 (kk = 1.39561): kappa rho = 1.45327, p3/rho = -1.46539, p0/rho = p_t/rho = -4.51432; a4,0 = 1 (kk = 1.94773): kappa rho = -1.2122, p3/rho = -0.762574, p0/rho = p_t/rho = 3.16321; a4,0 = 1.5 (kk = 2.71828): kappa rho = -4.35889, p3/rho = -1.05837, p0/rho = p_t/rho = 0.00685321; a4,0 = 2 (kk = 3.79367): kappa rho = -7.63383, p3/rho = -1.13246, p0/rho = p_t/rho = -0.691638. Its ratios do not depend on the unknown kappa. The Kohn-Sham source, averaged over x0 per proper volume (the most an x0-independent source could be), has N592_lam0_a00: rho_bar = 0.034125, p3/rho = 0.333333, p0/rho = 0, p_t/rho = 0; N592_lam0_a10: rho_bar = 0.00237112, p3/rho = 0.333333, p0/rho = -5.01209e-18, p_t/rho = 0; N592_lam0_a20: rho_bar = 0.000164754, p3/rho = 0.333333, p0/rho = 0, p_t/rho = 0; N2352_lam0_a00: rho_bar = 0.216249, p3/rho = 0.333333, p0/rho = 0, p_t/rho = 0; N2352_lam0_a10: rho_bar = 0.0150258, p3/rho = 0.333333, p0/rho = -9.32476e-19, p_t/rho = 0; N2352_lam0_a20: rho_bar = 0.00104404, p3/rho = 0.333333, p0/rho = 1.53043e-18, p_t/rho = 0; at every recorded state with a nonzero energy density the ratios (p3/rho, p0/rho, p_t/rho) differ from the needed ones by at least 1.3733 (closest: N592_lamp2_a15). The history is therefore a PRESCRIBED test-field background without back-reaction, not a solution of the a4 and b4 equations with the Kohn-Sham source; equations of state derived from it are not consequences of the coupled field equations"
   },
   {
    "name": "ks_zero_source_states_listed",
    "verdict": "PASS",
-   "detail": "5 states have an identically vanishing energy-momentum tensor (zero source): N8_lam0_a00, N8_lam0_a05, N8_lam0_a10, N8_lam0_a15, N8_lam0_a20. A zero source is not admissible on the history either: with the author's weights every vacuum solution has b4 constant (a4-equations.json key b4.background; b4 is never constant here), and in Einstein gravity the equations have no vacuum solution for H > 0 (einstein.noVacuum)"
+   "detail": "5 states have an identically vanishing energy-momentum tensor (zero source): N8_lam0_a00, N8_lam0_a05, N8_lam0_a10, N8_lam0_a15, N8_lam0_a20 (the k = 0 zero modes at lambda = 0 carry eps = 0, no 3-momentum and no hidden kinetic pressure). A zero source is not admissible on the history either: the history needs the nonzero source of C4 (a4-equations.json exponentialHistory.authorWeights.vacuum: 'no exponential history is a vacuum solution for the author's weights')"
   }
  ]
 }

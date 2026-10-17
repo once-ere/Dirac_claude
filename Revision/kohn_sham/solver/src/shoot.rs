@@ -1,21 +1,23 @@
 //! Shooting for the 2 x 2 block equations in the hidden coordinate y.
 //!
 //! Block equation (ks-theory.json, blockEquation.realForm), chi = (a, i b) with
-//! a, b real:
-//!     a' = M a - (K + j (eps - v)) b,
-//!     b' = (j (eps - v) - K) a - M b,
-//! K(y) = kappa(y) k + j w_Q(y), kappa = e^{-Hy - a4,0}; w_Q = 0 for the
-//! canonical (uniform-gas exchange) functional, w_Q = lambda Q/16 for the
-//! exact-Fock variant.
+//! a, b real, in the corrected metric of 2026-10-16:
+//!     a' = f [M a - (K + j (eps - v)) b],
+//!     b' = f [(j (eps - v) - K) a - M b],
+//! K = kappa k + j w_Q(y), kappa = e^{-a4,0} (constant in y), f = e^{-a4,0} b4,0^{1/2}
+//! the hidden scale; w_Q = 0 for the canonical (uniform-gas exchange) functional,
+//! w_Q = lambda Q/16 for the exact-Fock variant.
 //!
 //! Method (justification): the problem is a 1D Dirac (first-order 2 x 2)
 //! eigenproblem with separated boundary conditions; the Pruefer angle
-//! theta = atan2(b, a) obeys theta' = j(eps - v) - K cos 2theta - M sin 2theta,
-//! and d theta(0)/d eps = j int r^2 dy / r(0)^2, so Phi(eps) = j theta(0) is
+//! theta = atan2(b, a) obeys theta' = f [j(eps - v) - K cos 2theta - M sin 2theta],
+//! and d theta(0)/d eps = j f int r^2 dy / r(0)^2, so Phi(eps) = j theta(0) is
 //! STRICTLY INCREASING in eps.  The tip condition fixes theta(-L) = theta_tip/2
-//! (canonical theta_tip = 0: b(-L) = 0), the ASSUMED Z2 brane conditions are
-//! b(0) = 0 (even parity, Phi = l pi) and a(0) = 0 (odd parity,
-//! Phi = pi/2 + l pi).  Every eigenvalue is therefore the unique root of
+//! (canonical theta_tip = 0: b(-L) = 0), the fold conditions (the two halves of a
+//! cell joined at the fold cos z = 0, y = 0; ks-theory.json boundaryConditions.fold)
+//! are b(0) = 0 (theta = 0, "even", Phi = l pi) and a(0) = 0 (theta = pi, "odd",
+//! Phi = pi/2 + l pi); filling both is the ASSUMED convention of the record.
+//! Every eigenvalue is therefore the unique root of
 //! Phi(eps) = t_l for an integer label l (oscillation theorem): no level in a
 //! window can be missed, and the label l is a topological level index that is
 //! preserved under continuous changes of the potentials (it is used to follow
@@ -41,10 +43,8 @@ pub struct Grid {
     pub nf: usize,
     pub y: Vec<f64>,
     pub simpson: Vec<f64>,
-    /// e^{-H y}
-    pub ew: Vec<f64>,
-    /// e^{6 H y} (proper 7-volume per coordinate volume)
-    pub e6: Vec<f64>,
+    /// e^{3 H y} (sqrt|g| = e^{-a4} b4^2 e^{3Hy}: the proper 7-volume per unit Vol_7 dy)
+    pub e3: Vec<f64>,
 }
 
 impl Grid {
@@ -63,9 +63,8 @@ impl Grid {
                 2.0 * hf / 3.0
             };
         }
-        let ew = y.iter().map(|&y| (-hh * y).exp()).collect();
-        let e6 = y.iter().map(|&y| (6.0 * hh * y).exp()).collect();
-        Grid { g, l, hh, h, nf, y, simpson, ew, e6 }
+        let e3 = y.iter().map(|&y| (3.0 * hh * y).exp()).collect();
+        Grid { g, l, hh, h, nf, y, simpson, e3 }
     }
     pub fn integrate(&self, f: &[f64]) -> f64 {
         let mut s = 0.0;
@@ -92,8 +91,10 @@ impl Pots {
 
 pub struct Ctx<'a> {
     pub grid: &'a Grid,
-    /// e^{-a4,0}
+    /// kappa = e^{-a4,0}
     pub kap0: f64,
+    /// the hidden scale f = e^{-a4,0} b4,0^{1/2}
+    pub fh: f64,
     pub pots: &'a Pots,
     /// initial Pruefer angle theta_tip / 2
     pub tip_angle: f64,
@@ -128,7 +129,7 @@ fn rhs(m: f64, kk: f64, je: f64, a: f64, b: f64) -> (f64, f64) {
     (m * a - (kk + je) * b, (je - kk) * a - m * b)
 }
 
-/// Integrate from the tip to the brane.  If `store` is given (length 2 nf),
+/// Integrate from the tip to the fold.  If `store` is given (length 2 nf),
 /// the node values (a, b) are written at the even fine indices.
 pub fn shoot(ctx: &Ctx, sec: Sector, eps: f64, mut store: Option<&mut [f64]>) -> Shot {
     let gr = ctx.grid;
@@ -142,7 +143,8 @@ pub fn shoot(ctx: &Ctx, sec: Sector, eps: f64, mut store: Option<&mut [f64]>) ->
     let mut b = ctx.tip_angle.sin();
     let mut theta = ctx.tip_angle;
     let mut raw = b.atan2(a);
-    let coef = |f: usize| -> (f64, f64, f64) { (p.mass[f], kk * gr.ew[f] + jf * p.wq[f], jf * (eps - p.v[f])) };
+    let fh = ctx.fh;
+    let coef = |f: usize| -> (f64, f64, f64) { (fh * p.mass[f], fh * (kk + jf * p.wq[f]), fh * jf * (eps - p.v[f])) };
     let mut acc = 0.0;
     let mut r2p = a * a + b * b;
     let mut maxd: f64 = 0.0;
@@ -193,7 +195,7 @@ pub fn shoot(ctx: &Ctx, sec: Sector, eps: f64, mut store: Option<&mut [f64]>) ->
         k0 = k2;
         e0 = e2;
     }
-    Shot { phi: jf * theta, dphi: acc / r2p, max_step_angle: maxd }
+    Shot { phi: jf * theta, dphi: fh * acc / r2p, max_step_angle: maxd }
 }
 
 /// Root of Phi(eps) = t by a safeguarded Newton iteration with a bracket.
@@ -315,7 +317,8 @@ pub fn profile(ctx: &Ctx, sec: Sector, eps: f64) -> Vec<f64> {
     shoot(ctx, sec, eps, Some(&mut s));
     let jf = sec.j as f64;
     let kk = sec.k * ctx.kap0;
-    let deriv = |f: usize, a: f64, b: f64| -> (f64, f64) { rhs(p.mass[f], kk * gr.ew[f] + jf * p.wq[f], jf * (eps - p.v[f]), a, b) };
+    let fh = ctx.fh;
+    let deriv = |f: usize, a: f64, b: f64| -> (f64, f64) { rhs(fh * p.mass[f], fh * (kk + jf * p.wq[f]), fh * jf * (eps - p.v[f]), a, b) };
     let h = gr.h;
     for i in 0..gr.g {
         let f0 = 2 * i;
@@ -338,7 +341,7 @@ pub fn profile(ctx: &Ctx, sec: Sector, eps: f64) -> Vec<f64> {
     s
 }
 
-/// Boundary residual of a normalised profile at the brane (b(0) for even, a(0) for odd).
+/// Boundary residual of a normalised profile at the fold (b(0) for even, a(0) for odd).
 pub fn brane_residual(prof: &[f64], nf: usize, parity: Parity) -> f64 {
     match parity {
         Parity::Even => prof[2 * (nf - 1) + 1].abs(),
@@ -354,7 +357,7 @@ mod tests {
     fn free_k0_even_spectrum_and_zero_mode() {
         let grid = Grid::new(1.0, 3.0, 600);
         let pots = Pots::free(grid.nf, 1.0);
-        let ctx = Ctx { grid: &grid, kap0: 1.0, pots: &pots, tip_angle: 0.0 };
+        let ctx = Ctx { grid: &grid, kap0: 1.0, fh: 1.0, pots: &pots, tip_angle: 0.0 };
         let sec = Sector { k: 0.0, j: 1, parity: Parity::Even };
         let (e0, _) = find_level(&ctx, sec, target(Parity::Even, 0), 0.0, None, 1e-13).unwrap();
         assert_eq!(e0, 0.0);
@@ -366,10 +369,31 @@ mod tests {
     }
 
     #[test]
+    fn free_k0_even_spectrum_with_hidden_scale() {
+        // f = 0.6: eps = sqrt(M^2 + (l pi/(f L))^2), the zero mode (e^{f M y}, 0) (ks-theory.json exactK0Spectra)
+        let grid = Grid::new(1.0, 3.0, 600);
+        let pots = Pots::free(grid.nf, 1.0);
+        let ctx = Ctx { grid: &grid, kap0: 1.0, fh: 0.6, pots: &pots, tip_angle: 0.0 };
+        let sec = Sector { k: 0.0, j: 1, parity: Parity::Even };
+        let (e0, _) = find_level(&ctx, sec, target(Parity::Even, 0), 0.0, None, 1e-13).unwrap();
+        assert_eq!(e0, 0.0);
+        let prof = profile(&ctx, sec, 0.0);
+        let c = (2.0 * 0.6 / (1.0 - (-2.0 * 0.6 * 3.0f64).exp())).sqrt();
+        for f in 0..grid.nf {
+            assert!((prof[2 * f] - c * (0.6 * grid.y[f]).exp()).abs() < 1e-9);
+        }
+        for l in 1..4i64 {
+            let (e, _) = find_level(&ctx, sec, target(Parity::Even, l), 0.0, None, 1e-13).unwrap();
+            let exact = (1.0f64 + (l as f64 * PI / (0.6 * 3.0)).powi(2)).sqrt();
+            assert!((e - exact).abs() < 5e-9, "l {} eps {} exact {}", l, e, exact);
+        }
+    }
+
+    #[test]
     fn phi_is_increasing_for_both_block_types() {
         let grid = Grid::new(1.0, 3.0, 300);
         let pots = Pots::free(grid.nf, 1.0);
-        let ctx = Ctx { grid: &grid, kap0: 1.0, pots: &pots, tip_angle: 0.0 };
+        let ctx = Ctx { grid: &grid, kap0: 1.0, fh: 1.0, pots: &pots, tip_angle: 0.0 };
         for j in [1, -1] {
             let sec = Sector { k: 0.75, j, parity: Parity::Odd };
             let mut prev = f64::NEG_INFINITY;

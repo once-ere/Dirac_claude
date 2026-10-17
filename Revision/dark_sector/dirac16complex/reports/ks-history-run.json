@@ -44,8 +44,9 @@
   1.95,
   2.0
  ],
- "history": "PRESCRIBED BACKGROUND a4 = H x4 and b4(x4) = b4(0) e^((4/3) H x4) (the branch of the author's weights for a source without T^x4_x0, derive_effective.py author_weights_b4_branch): the Kohn-Sham gas is a test field without back-reaction",
- "coupling": "the solver runs at lambda_hat = lambda b4(0)^(-3/2) (the calibrated couplings of Revision/kohn_sham/results/parameters.json) with the cell volume Vol_7(a4) = ell^3 v_t e^(2 a4) (ks-theory.json densities; b4 does not enter the slice Hamiltonian); equivalently the coordinate cell at lambda_eff = lambda_hat e^(-2 a4) (check lambda_eff_form_agrees)",
+ "metric": "the corrected primordial metric of 2026-10-16 (version 2; SPEC section 1)",
+ "history": "PRESCRIBED BACKGROUND a4 = H x4 and b4(x4) = e^((4/3) H x4) (b4(0) = 1; ks-theory.json adiabaticity.historyBeta): the Kohn-Sham gas is a test field without back-reaction",
+ "coupling": "the solver runs at lambda_hat = lambda b4(0)^(-2) (the calibrated couplings of Revision/kohn_sham/results/parameters.json) with the cell volume Vol_7(a4) = ell^3 v_t e^((5/3) a4) and the hidden scale f = e^(-a4/3) (ks-theory.json densities, blockEquation); equivalently the coordinate cell at lambda_eff = lambda_hat e^(-(5/3) a4) with the same f and kappa (check lambda_eff_form_agrees)",
  "beta": "d ln b4/d a4 = 4/3",
  "checks": [
   {
@@ -56,22 +57,22 @@
   {
    "name": "committed_slices_equal_committed_record",
    "verdict": "PASS",
-   "detail": "300 integrals (E, P3, Pt, P0) of the 15 series at the five committed slices a4 = 0, 0.5, ..., 2 compared with Revision/kohn_sham/results/ground/emt-integrals.csv (the same history with b4): max relative deviation 0.000e+00"
+   "detail": "300 integrals (E, P3, Pt, P0) of the 15 series at the five committed slices a4 = 0, 0.5, ..., 2 compared with Revision/kohn_sham/results/ground/emt-integrals.csv (the same history): max relative deviation 0.000e+00"
   },
   {
-   "name": "lambda0_series_independent_of_b4",
+   "name": "lambda0_series_exact_fold_band",
    "verdict": "PASS",
-   "detail": "lambda = 0 (no mean field: b4 does not enter the slice Hamiltonian): 60 integrals of the three series at the five committed slices equal the committed record: max relative deviation 0.000e+00"
+   "detail": "lambda = 0, 123 states (three series x 41 slices): E_KS(a4) = E_KS(0) e^(-a4), int p3 = int rho/3, int p0 = int p_t = 0 and int rho = E_KS to 2.333e-15 (relative to max(1, |x|)): every occupied orbital is the fold-band orbital (e^(f M y), 0) with eps = e^(-a4) |k| or a k = 0 zero mode (ks-theory.json blockEquation; the hidden kinetic pressure vanishes on it), so the free gas redshifts exactly like e^(-a4) with the pressure of radiation in 3-space and no hidden or extra-time pressure"
   },
   {
    "name": "cell_volume_follows_b4",
    "verdict": "PASS",
-   "detail": "every run used Vol_7(a4) = ell^3 v_t e^((3/2) beta a4) = ell^3 v_t e^(2 a4) (beta = 1.333333333333333 from ks-theory.json; the proper cell volume ell^3 v_t b4^(3/2) in units of b4(0)^(3/2)): max relative deviation 2.220e-16, so the effective coupling lambda_hat/Vol_7 falls like e^(-2 a4) and the interacting series change along the history through b4(x4)"
+   "detail": "every run used Vol_7(a4) = ell^3 v_t e^(-a4) b4^2 = ell^3 v_t e^((2 beta - 1) a4) = ell^3 v_t e^((5/3) a4) (beta = 1.333333333333333 from ks-theory.json, b4(0) = 1): max relative deviation 4.441e-16, so the effective coupling lambda_hat/Vol_7 falls like e^(-(5/3) a4)"
   },
   {
    "name": "lambda_eff_form_agrees",
    "verdict": "PASS",
-   "detail": "48 states (12 interacting series x 4 committed slices a4 > 0) solved again in the coordinate-cell form `single --beta 0 --lambda lambda_eff`, lambda_eff = lambda_hat e^(-2 a4): E_KS and the integrals E, P3, Pt, P0 agree with the record's form to 1.969e-13 (relative to max(1, |x|)); failed runs: []"
+   "detail": "48 states (12 interacting series x 4 committed slices a4 > 0) solved again in the coordinate-cell form `single --coordinate-cell --lambda lambda_eff`, lambda_eff = lambda_hat e^(-(5/3) a4) (the same f and kappa): E_KS and the integrals E, P3, Pt, P0 agree with the record's form to 8.159e-13 (relative to max(1, |x|)); failed runs: []"
   },
   {
    "name": "occupied_labels_fixed_along_history",
@@ -81,12 +82,12 @@
   {
    "name": "y_conservation_every_state",
    "verdict": "PASS",
-   "detail": "p0_y + 6 H p0 = 3 H (p3 + p_t): max relative residual over 615 states 1.951e-08 (solver's own)"
+   "detail": "p0_y + 3 H (p0 - p_t) = 0: max relative residual over 615 states 5.751e-10 (solver's own)"
   },
   {
    "name": "particle_number_every_state",
    "verdict": "PASS",
-   "detail": "max |int n - N|/N = 2.331e-15"
+   "detail": "max |int n - N|/N = 2.554e-15"
   }
  ],
  "summary": {

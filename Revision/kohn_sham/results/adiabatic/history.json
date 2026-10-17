@@ -1,8 +1,8 @@
 {
   "A": 1.000000000000000e0,
   "beta": 1.333333333333333e0,
-  "history": "a4 = A H x4 (A = 1 canonical), b4 = b4(0) e^{beta A H x4} (beta = 4/3), a4' = A H, b4'/b4 = beta A H; slices a4,0 = a4(x4), b4,0 = b4(0) e^{beta a4,0}; PRESCRIBED BACKGROUND (see historyStatus)",
-  "status": "PRESCRIBED BACKGROUND: the history a4 = H x4, b4 = b4(0) e^{(4/3) H x4} is prescribed, not solved for. With the author's Lovelock weights the a4 and b4 equations of SPEC section 5 allow it only with the constant source kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27) (Revision/field_equations_a4/a4-equations.json, exponentialHistory.authorWeights.historySource); the Kohn-Sham states along it do not supply this source (they depend on x0 and change with a4,0: Revision/field_equations_a4/reports/ks-source-conditions.json). The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations.",
+  "history": "a4 = A H x4 (A = 1 canonical), b4 = b4(0) e^{beta A H x4} (beta = 4/3, b4(0) = 1), a4' = A H, b4'/b4 = beta A H, f = e^{(beta/2 - 1) a4} = e^{-a4/3}; slices a4,0 = a4(x4), b4,0 = e^{beta a4,0}; PRESCRIBED BACKGROUND (see historyStatus)",
+  "status": "PRESCRIBED BACKGROUND: the history a4 = H x4, b4 = e^{(4/3) H x4} is prescribed, not solved for. With the author's Lovelock weights the a4 and b4 equations of SPEC section 5 allow it only with a diagonal source with p0 = p_t that grows with x4 (Revision/field_equations_a4/a4-equations.json, exponentialHistory.authorWeights.historySource_kappaT_minus_Lam); whether the Kohn-Sham states along it supply this source is evaluated in Revision/field_equations_a4/reports/ks-source-conditions.json. The Kohn-Sham gas is therefore a test field on a prescribed background without back-reaction, and quantities derived along this history (energies, pressures, equations of state) are not consequences of the coupled field equations.",
   "slices": [0.000000000000000e0, 5.000000000000000e-1, 1.000000000000000e0, 1.500000000000000e0, 2.000000000000000e0],
   "series": [
     {
@@ -31,52 +31,52 @@
       "fermiLevelCrossings": []
     },
     {
-      "N": 136,
+      "N": 592,
       "lambdaTag": "lam0",
       "fermiLevelCrossings": []
     },
     {
-      "N": 136,
+      "N": 592,
       "lambdaTag": "lamm1",
       "fermiLevelCrossings": []
     },
     {
-      "N": 136,
+      "N": 592,
       "lambdaTag": "lamm2",
       "fermiLevelCrossings": []
     },
     {
-      "N": 136,
+      "N": 592,
       "lambdaTag": "lamp1",
       "fermiLevelCrossings": []
     },
     {
-      "N": 136,
+      "N": 592,
       "lambdaTag": "lamp2",
       "fermiLevelCrossings": []
     },
     {
-      "N": 688,
+      "N": 2352,
       "lambdaTag": "lam0",
       "fermiLevelCrossings": []
     },
     {
-      "N": 688,
+      "N": 2352,
       "lambdaTag": "lamm1",
       "fermiLevelCrossings": []
     },
     {
-      "N": 688,
+      "N": 2352,
       "lambdaTag": "lamm2",
       "fermiLevelCrossings": []
     },
     {
-      "N": 688,
+      "N": 2352,
       "lambdaTag": "lamp1",
       "fermiLevelCrossings": []
     },
     {
-      "N": 688,
+      "N": 2352,
       "lambdaTag": "lamp2",
       "fermiLevelCrossings": []
     }

@@ -2,8 +2,12 @@
 """Tip-cutoff convergence of the Revision Kohn-Sham record (Revision/kohn_sham).
 
 The record replaces the tip z -> 0 (y -> -infinity) of the author's hidden coordinate
-y = ln(sin z)/(6H) by a CHOSEN regular-tip boundary condition b(-L) = 0 at the cutoff y = -L, L = 3.
-This script measures how the recorded results depend on L.
+y = ln|sin z|/(6H) by a CHOSEN regular-tip boundary condition b(-L) = 0 at the cutoff y = -L, L = 3.
+This script measures how the recorded results depend on L.  In the corrected metric of 2026-10-16 the momentum
+weight kappa = e^{-a4} does not depend on y: nothing suppresses an orbital toward the tip, the extended levels depend
+on L like those of a box of proper length f L (f = e^{-a4/3} on the history), and only the fold-localised states
+(the fold band chi = (e^{f M y}, 0) and the zero modes) have an L-independent limit (ks-theory.json
+boundaryConditions.tip).
 
 How L enters the committed solver: it does NOT read L from results/parameters.json (that file is an
 OUTPUT of the solver); `--root` only locates the theory inputs. L = 3 is a literal in
@@ -11,11 +15,12 @@ OUTPUT of the solver); `--root` only locates the theory inputs. L = 3 is a liter
 `Numerics::canonical()` (solver/src/model.rs). The committed source is NOT changed: this script copies
 the crate into a work directory, applies two one-line patches that read L and G from the environment
 (KS_TIP_L, KS_RK4_STEPS; defaults 3 and 900), builds the copy, and verifies at L = 3, G = 900 that the
-copy reproduces the committed results byte for byte (the whole canonical matrix, and every `single` run
-used here against the committed binary).
+copy reproduces the committed binary byte for byte: the quick matrix (`all --quick`, every code path of the
+matrix; the full matrix takes about 285 s and no longer fits into one time-limited step) of both binaries, every
+`single` run used here against the committed binary, and the single values against the committed full matrix.
 
 Steps (all outputs in this folder, deterministic: no timings, no paths):
-  1. build the patched copy; control (full matrix + singles) at L = 3;
+  1. build the patched copy (reused from the work directory when its source hashes are the committed ones);
   2. the state set at L = 3, 3.5, ..., 6 with G = 300 L (step h = 1/300 as in the record) and the
      h-check G = 600 L; two coupling protocols: FIXED lambda (the recorded constants) and RECALIBRATED
      lambda_1(L) (the record's calibration rule applied at each L);
@@ -23,8 +28,15 @@ Steps (all outputs in this folder, deterministic: no timings, no paths):
      fits, extrapolated L -> infinity values with uncertainties where convergence is reached;
   4. independent check with the reference solver (reference/ks_fd.py) at L = 3 and L = 4.
 
+Every `single` run is stored in the work directory with a status file and reused by later invocations (the runs
+are deterministic), so that the study can be computed in stages and parts, each within a time limit:
+  --stage scan  --part i/n   the control singles, the fixed-lambda scan and the calibration runs, part i of n
+  --stage recal --part i/n   the recalibrated scan (needs every calibration run), part i of n
+  --stage final              anything still missing, the quick-matrix control, the reference, analysis and outputs
+
 Usage (from the repository root):
-  python Revision/kohn_sham/tip_convergence/tip_convergence.py --work <scratch dir> [--jobs N]  (N <= 22, default 8)
+  python Revision/kohn_sham/tip_convergence/tip_convergence.py --work <scratch dir> [--jobs N] [--stage S [--part i/n]]
+  (N <= 22, default 8; without --stage: all stages in one invocation)
 """
 from __future__ import annotations
 
@@ -61,12 +73,15 @@ STEPS_PER_UNIT_L = 300          # G = 300 L: h = L/G = 1/300, the record's step 
 REFINE = 2                      # h-check: G = 600 L
 SLICES_RUN = (0.0, 1.0, 2.0)
 SLICES_CAL = (0.0, 0.5, 1.0, 1.5, 2.0)
-N_VALUES = (8, 136, 688)
+# the particle numbers of the record (8, N_mid, N_large; 8, 592, 2352 in the corrected metric of 2026-10-16)
+_PAR = json.loads((RESULTS / "parameters.json").read_text(encoding="utf-8"))
+N_VALUES = tuple(int(x) for x in _PAR["particleNumbers"]["values"])
+N_MID = int(_PAR["particleNumbers"]["N_mid"])
 TAGS_FIXED = ("lam0", "lamp1", "lamm1")
-THERMAL = ((136, "lam0", 2.0, 0.05), (136, "lamp1", 1.0, 0.02))
+THERMAL = ((N_MID, "lam0", 2.0, 0.05), (N_MID, "lamp1", 1.0, 0.02))
 SIGMA = {"lam0": 0.0, "lamp1": 0.1, "lamm1": 0.1}
 K0_MARGIN = 1.2                 # label-set margin of the free k = 0 spectrum run (N = 8, lambda = 0, a4 = 0)
-REF_STATES = ((8, "lamp1", 0.0), (136, "lam0", 2.0))
+REF_STATES = ((8, "lamp1", 0.0), (N_MID, "lam0", 2.0))
 REF_L = (3.0, 4.0)
 REF_GRIDS_L3 = (300, 600, 1200)
 
@@ -162,6 +177,12 @@ def build_patched(work: Path):
     committed["Cargo.toml"] = sha256(SOLVER / "Cargo.toml")
     committed["Cargo.lock"] = sha256(SOLVER / "Cargo.lock")
     dst = work / "solver_tipL"
+    binp = dst / "target" / "release" / ("revision_ks_solver" + EXE)
+    stamp = dst / "committed-sources.json"
+    if binp.exists() and stamp.exists():
+        old = json.loads(stamp.read_text(encoding="utf-8"))
+        if old["committed"] == committed:
+            return binp, committed, old["applied"]
     if dst.exists():
         shutil.rmtree(dst)
     (dst / "src").mkdir(parents=True)
@@ -184,7 +205,8 @@ def build_patched(work: Path):
                        env=env, capture_output=True, text=True)
     if r.returncode != 0:
         raise SystemExit("cargo build of the patched copy failed:\n" + r.stderr[-3000:])
-    return dst / "target" / "release" / ("revision_ks_solver" + EXE), committed, applied
+    write_text(stamp, json.dumps({"committed": committed, "applied": applied}, indent=1) + "\n")
+    return binp, committed, applied
 
 
 # --------------------------------------------------------------------------------------------------
@@ -194,6 +216,16 @@ def run_single(spec, binary: Path, outdir: Path):
     """spec: dict with id, N, lam, a4, T, L, G, margin. Returns the parsed record (or the failure)."""
     tag = f"{spec['id']}_L{lstr(spec['L'])}_G{spec['G']}"
     js, pr = outdir / f"{tag}.json", outdir / f"{tag}.csv"
+    mark = outdir / f"{tag}.status.json"
+    if mark.exists():
+        # a finished run of an earlier invocation (stage or part): the runs are deterministic
+        st = json.loads(mark.read_text(encoding="utf-8"))
+        rec = {"rc": st["rc"], "json_path": js, "profiles_path": pr, "status": st["status"]}
+        if st["status"] == "scf_failed":
+            rec["error"] = st["error"]
+            return rec
+        rec.update(parse_single(js, pr, spec))
+        return rec
     for p in (js, pr):
         if p.exists():
             p.unlink()
@@ -208,8 +240,13 @@ def run_single(spec, binary: Path, outdir: Path):
         err = [ln for ln in r.stderr.splitlines() if ln.startswith("error")]
         rec["status"] = "scf_failed"
         rec["error"] = (err[-1] if err else r.stderr.strip().splitlines()[-1])[:400]
+    else:
+        rec["status"] = "ok" if r.returncode == 0 else "not_converged"
+    tmp = outdir / f"{tag}.status.json.tmp"
+    write_text(tmp, json.dumps({"rc": r.returncode, "status": rec["status"], "error": rec.get("error")}) + "\n")
+    os.replace(tmp, mark)
+    if rec["status"] == "scf_failed":
         return rec
-    rec["status"] = "ok" if r.returncode == 0 else "not_converged"
     rec.update(parse_single(js, pr, spec))
     return rec
 
@@ -218,7 +255,7 @@ def parse_single(js: Path, pr: Path, spec):
     d = json.loads(js.read_text(encoding="utf-8"))
     o = {"E_KS": d["E_KS"], "E_band": d["E_band"], "E_int": d["E_int"], "iterations": d["iterations"],
          "residual": d["residual"]}
-    em = d["emtIntegrals_2Vol7_int_e6Hy"]
+    em = d["emtIntegrals_2Vol7_int_e3Hy"]
     for k, v in (("int_rho", "rho"), ("int_p3", "p3"), ("int_p_t", "p_t"), ("int_p0", "p0"), ("int_n", "n")):
         o[k] = em[v]
     lv = d["levels_n2_j_parity_label_eps_deg_f"]
@@ -261,6 +298,27 @@ def continuous_max(y, f):
     c = np.polyfit(y[lo:lo + 5] - y[i], f[lo:lo + 5], 4)
     t = np.linspace(y[i - 1] - y[i], y[i + 1] - y[i], 2001)
     return float(max(f[i], np.max(np.polyval(c, t))))
+
+
+def run_cost(spec):
+    """rough relative cost of a `single` run (only the balance of the parts depends on it)"""
+    return (1.0 + spec["N"] / 500.0) * spec["G"] / 900.0 * (3.0 if spec["lam"] != 0.0 else 1.0) * (2.0 if spec["T"] > 0 else 1.0)
+
+
+def part_of(specs, part):
+    """the specs of part i of n (longest-processing-time assignment in a fixed order); part None: all"""
+    if part is None:
+        return list(range(len(specs)))
+    i, n = part
+    order = sorted(range(len(specs)), key=lambda k: (-run_cost(specs[k]), k))
+    load = [0.0] * n
+    mine = []
+    for k in order:
+        b = min(range(n), key=lambda j: (load[j], j))
+        load[b] += run_cost(specs[k])
+        if b == i - 1:
+            mine.append(k)
+    return sorted(mine)
 
 
 def run_pool(specs, binary, outdir, jobs):
@@ -462,11 +520,18 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--work", required=True, help="scratch directory (patched copy, raw runs)")
     ap.add_argument("--jobs", type=int, default=8, help="worker processes (default 8)")
-    ap.add_argument("--debug-skip-control-matrix", action="store_true",
-                    help="development only: skip the full-matrix control (its check then FAILS as not run)")
+    ap.add_argument("--stage", choices=("scan", "recal", "final"), default=None,
+                    help="compute one stage (scan, recal: the single runs into the work directory; final: the rest and the outputs)")
+    ap.add_argument("--part", default=None, help="i/n: only part i of n of the runs of the stage (scan or recal)")
     a = ap.parse_args()
     work = Path(a.work).resolve()
     work.mkdir(parents=True, exist_ok=True)
+    part = None
+    if a.part:
+        i_, n_ = (int(x) for x in a.part.split("/"))
+        if a.stage not in ("scan", "recal") or not 1 <= i_ <= n_:
+            raise SystemExit("--part i/n needs --stage scan or recal and 1 <= i <= n")
+        part = (i_, n_)
     jobs = max(1, min(a.jobs, 22))   # the outputs do not depend on the number of workers (deterministic solver runs)
     t0 = time.time()
     tlog = lambda s: print(f"[{time.time() - t0:7.1f} s] {s}", file=sys.stderr, flush=True)  # noqa: E731
@@ -476,42 +541,63 @@ def main():
         checks.append({"name": name, "criterion": crit, "verdict": "PASS" if ok else "FAIL", "detail": detail})
         print(f"{'PASS' if ok else 'FAIL'} - {name}: {detail}", file=sys.stderr, flush=True)
 
-    # ---- 1. build and control -------------------------------------------------------------------
+    # ---- 1. build -------------------------------------------------------------------------------
     binp, committed_src, applied = build_patched(work)
-    tlog("patched copy built")
-    ctl = work / "control_all"
-    if ctl.exists():
-        shutil.rmtree(ctl)
-    env = dict(os.environ, KS_TIP_L="3", KS_RK4_STEPS="900")
-    if a.debug_skip_control_matrix:
-        ctl.mkdir(parents=True)
-    r = subprocess.CompletedProcess([], 99, "", "") if a.debug_skip_control_matrix else subprocess.run([str(binp), "all", "--root", str(REPO), "--out", str(ctl), "--report",
-                        str(work / "control_all-report.json"), "--threads", str(jobs)],
-                       cwd=str(REPO), env=env, capture_output=True, text=True)
-    man = json.loads((RESULTS / "manifest.json").read_text(encoding="utf-8"))
-    want = {f["path"]: f["sha256"] for f in man["files"]}
-    want["manifest.json"] = sha256(RESULTS / "manifest.json")
-    got = {p.relative_to(ctl).as_posix(): sha256(p) for p in ctl.rglob("*") if p.is_file()}
-    diff = sorted(k for k in set(want) | set(got) if want.get(k) != got.get(k))
-    check("control_full_matrix_byte_identical",
-          "the patched copy with KS_TIP_L = 3, KS_RK4_STEPS = 900 runs `all` (exit SUCCESS) and writes every file of "
-          "Revision/kohn_sham/results byte for byte (SHA-256 of results/manifest.json, and manifest.json itself)",
-          r.returncode == 0 and not diff,
-          f"exit {r.returncode} ({r.stdout.strip().splitlines()[-1] if r.stdout.strip() else ''}); {len(got)} files written, "
-          f"{len(want)} committed; differing or missing: {diff[:10] if diff else 'none'}")
-    tlog("control matrix done")
-
+    tlog("patched copy ready")
     par, cal = committed_couplings()
     lam1 = {N: cal[N]["lambda1"] for N in N_VALUES}
     assert par["physics"]["L_tipCutoff"] == 3.0 and par["numerics"]["rk4Steps"] == 900
     base = fixed_specs(lam1)
     k0spec = {"id": "N8_lam0_a00_k0spectrum", "N": 8, "tag": "lam0", "lam": 0.0, "a4": 0.0, "T": 0.0, "margin": K0_MARGIN}
     raw = work / "runs"
-    if raw.exists():
-        shutil.rmtree(raw)
+    s3 = with_L(base + [k0spec], 3.0)
+    allspecs = []
+    for L in L_VALUES:
+        for rf in (1, REFINE):
+            for s in base + [k0spec]:
+                allspecs.append(dict(s, L=L, G=grid_steps(L, rf), protocol="fixed", refine=rf))
+    calspecs = []
+    for L in L_VALUES:
+        for N in N_VALUES:
+            for a4 in SLICES_CAL:
+                calspecs.append({"id": f"cal_N{N}_a{int(round(10 * a4)):02d}", "N": N, "tag": "lam0", "lam": 0.0, "a4": a4,
+                                 "T": 0.0, "margin": 0.25, "L": L, "G": grid_steps(L), "protocol": "calibration", "refine": 1})
+    if a.stage == "scan":
+        # every single run of the scan stage, part i of n, into the work directory (no outputs)
+        groups = [(s3, BIN_COMMITTED, raw / "control_committed"), (s3, binp, raw / "control_patched"),
+                  (allspecs, binp, raw / "fixed"), (calspecs, binp, raw / "calibration")]
+        flat = [(g, k) for g, (sp, _, _) in enumerate(groups) for k in range(len(sp))]
+        mine = set(part_of([groups[g][0][k] for g, k in flat], part))
+        for g, (sp, b_, od) in enumerate(groups):
+            sel = [sp[k] for j, (gg, k) in enumerate(flat) if gg == g and j in mine]
+            run_pool(sel, b_, od, jobs)
+        tlog(f"stage scan{f' part {part[0]}/{part[1]}' if part else ''}: {len(mine)} runs done")
+        print("PART DONE")
+        return
+
+    # control: the quick matrix of the committed binary and of the patched copy at L = 3, G = 900, byte for byte
+    env = dict(os.environ, KS_TIP_L="3", KS_RK4_STEPS="900")
+    qc, qp = work / "control_quick_committed", work / "control_quick_patched"
+    rq = {}
+    if a.stage != "recal":
+        for nm, b_, od, e_ in (("committed", BIN_COMMITTED, qc, None), ("patched", binp, qp, env)):
+            if od.exists():
+                shutil.rmtree(od)
+            rq[nm] = subprocess.run([str(b_), "all", "--quick", "--root", str(REPO), "--out", str(od / "results"), "--report",
+                                     str(od / "report.json"), "--threads", str(jobs)], cwd=str(REPO), env=e_, capture_output=True, text=True)
+        files_c = {p.relative_to(qc).as_posix(): sha256(p) for p in qc.rglob("*") if p.is_file()}
+        files_p = {p.relative_to(qp).as_posix(): sha256(p) for p in qp.rglob("*") if p.is_file()}
+        diff = sorted(k for k in set(files_c) | set(files_p) if files_c.get(k) != files_p.get(k))
+        check("control_quick_matrix_byte_identical",
+              "the committed binary and the patched copy with KS_TIP_L = 3, KS_RK4_STEPS = 900 run `all --quick` (every code "
+              "path of the canonical matrix: ground states with their neighbours, Delta-SCF, rescaling partners, exact-Fock "
+              "variants, thermal states, history, T3 self-test; exit SUCCESS) and write byte-identical outputs and reports",
+              rq["committed"].returncode == 0 and rq["patched"].returncode == 0 and not diff and len(files_c) > 50,
+              f"exit {rq['committed'].returncode} / {rq['patched'].returncode}; {len(files_c)} / {len(files_p)} files; "
+              f"differing or missing: {diff[:10] if diff else 'none'}")
+        tlog("control quick matrices done")
 
     # control singles: committed binary vs patched copy at L = 3, G = 900
-    s3 = with_L(base + [k0spec], 3.0)
     rc = run_pool(s3, BIN_COMMITTED, raw / "control_committed", jobs)
     rp = run_pool(s3, binp, raw / "control_patched", jobs)
     nbad = [s["id"] for s, x, y in zip(s3, rc, rp)
@@ -553,19 +639,7 @@ def main():
     tlog("control singles done")
 
     # ---- 2. the L scan --------------------------------------------------------------------------
-    # protocol FIXED: the recorded couplings
-    allspecs = []
-    for L in L_VALUES:
-        for rf in (1, REFINE):
-            for s in base + [k0spec]:
-                allspecs.append(dict(s, L=L, G=grid_steps(L, rf), protocol="fixed", refine=rf))
-    # protocol RECAL: calibration runs (free ground states at every slice of the history)
-    calspecs = []
-    for L in L_VALUES:
-        for N in N_VALUES:
-            for a4 in SLICES_CAL:
-                calspecs.append({"id": f"cal_N{N}_a{int(round(10 * a4)):02d}", "N": N, "tag": "lam0", "lam": 0.0, "a4": a4,
-                                 "T": 0.0, "margin": 0.25, "L": L, "G": grid_steps(L), "protocol": "calibration", "refine": 1})
+    # protocol FIXED: the recorded couplings; protocol RECAL: calibration runs (free ground states at every slice)
     res_fixed = run_pool(allspecs, binp, raw / "fixed", jobs)
     tlog("fixed-lambda scan done")
     res_cal = run_pool(calspecs, binp, raw / "calibration", jobs)
@@ -578,7 +652,7 @@ def main():
     check("calibration_rule_reproduced_at_L3",
           "the record's calibration rule evaluated on the free ground states (5 slices; the maximum over y of the 151-point "
           "profiles refined by local quartic interpolation, see continuous_max) gives, "
-          "at L = 3, exactly the recorded lambda_1 (4 significant digits) for N = 8, 136, 688",
+          f"at L = 3, exactly the recorded lambda_1 (4 significant digits) for N = {', '.join(str(N) for N in N_VALUES)}",
           not badcal, f"lambda_1(L=3) = {[lam1_L[(3.0, N)] for N in N_VALUES]}, recorded {[lam1[N] for N in N_VALUES]}; "
           f"relative difference of the strengths {', '.join(f'N={N}: {rels[N]:.1e}' for N in N_VALUES)}")
     recspecs = []
@@ -590,6 +664,12 @@ def main():
                         recspecs.append({"id": state_id(N, tag, a4), "N": N, "tag": tag, "lam": sg * lam1_L[(L, N)],
                                          "a4": a4, "T": 0.0, "margin": 0.25 + 2 * SIGMA[tag], "L": L,
                                          "G": grid_steps(L, rf), "protocol": "recalibrated", "refine": rf})
+    if a.stage == "recal":
+        sel = [recspecs[k] for k in part_of(recspecs, part)]
+        run_pool(sel, binp, raw / "recalibrated", jobs)
+        tlog(f"stage recal{f' part {part[0]}/{part[1]}' if part else ''}: {len(sel)} runs done")
+        print("PART DONE")
+        return
     res_rec = run_pool(recspecs, binp, raw / "recalibrated", jobs)
     tlog("recalibrated scan done")
 
@@ -670,31 +750,31 @@ def main():
           f"(even: 0 and sqrt(m^2 + (l pi/L)^2); odd: sqrt(m^2 + p^2), tan(pL) = -p/m) within {CRIT['k0_analytic_abs']:.0e} m",
           worst_k0 <= CRIT["k0_analytic_abs"], f"{len(k0)} levels, max |difference| {worst_k0:.2e} m")
     bulk_edge = {f16(L): analytic_k0(L, "odd", 0) for L in L_VALUES}
-    # zero-mode density: exact brane and tip values of the free N = 8 state
-    # Vol_7 at a4,0 = 0 (with b4 the cell volume is Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}; every use below is at
-    # a4,0 = 0)
+    # zero-mode density: exact fold and tip values of the free N = 8 state
+    # Vol_7 at a4,0 = 0 (the cell volume is Vol_7(a4,0) = ell^3 v_t e^{(2 beta - 1) a4,0}; every use below is at a4,0 = 0,
+    # where f = 1)
     vol7 = par["physics"]["Vol7AtA4Zero"]
     zm_rows, worst_zm = [], 0.0
     for s, x in zip(allspecs, res_fixed):
         if s["id"] == "N8_lam0_a00" and s["refine"] == 1:
             L = s["L"]
             nb = 8.0 / (vol7 * (1.0 - math.exp(-2.0 * L)))
-            nt = nb * math.exp(4.0 * L)
+            nt = nb * math.exp(L)                      # n(-L) = n(0) e^{(3H - 2m)L}, m = H = 1
             e1 = abs(x["n_brane"] / nb - 1)
             e2 = abs(x["n_tip"] / nt - 1)
             worst_zm = max(worst_zm, e1, e2)
             zm_rows.append({"L": L, "n_brane": x["n_brane"], "n_brane_exact": nb, "n_tip": x["n_tip"], "n_tip_exact": nt})
     check("zero_mode_density_exact",
-          f"free N = 8 (the 8 brane zero modes chi ~ e^{{my}}): proper density n(0) = 8/(Vol_7 (1 - e^{{-2mL}})) and "
-          f"n(-L) = n(0) e^{{(6H - 2m)L}} at every L, within {CRIT['zero_mode_density_rel']:.0e} relative",
+          f"free N = 8 (the 8 fold zero modes chi ~ e^{{fmy}}, f = 1 at a4,0 = 0): proper density (P = e^{{-3Hy}}/Vol_7) "
+          f"n(0) = 8/(Vol_7 (1 - e^{{-2mL}})) and n(-L) = n(0) e^{{(3H - 2m)L}} at every L, within {CRIT['zero_mode_density_rel']:.0e} relative",
           worst_zm <= CRIT["zero_mode_density_rel"], f"{len(zm_rows)} L values, worst relative deviation {worst_zm:.2e}")
     # first-order interaction energy of the zero modes with a fixed lambda (diagnostic)
     fo = []
     for s, x in zip(allspecs, res_fixed):
         if s["N"] == 8 and s["tag"] in ("lamp1", "lamm1") and s["a4"] == 0.0 and s["refine"] == 1:
             L = s["L"]
-            e1 = -(2.0 * s["lam"] / vol7) * math.exp(2.0 * L) / (1.0 - math.exp(-2.0 * L))
-            v1 = abs(s["lam"]) / 16.0 * 8.0 / (vol7 * (1.0 - math.exp(-2.0 * L))) * math.exp(4.0 * L)
+            e1 = -(4.0 * s["lam"] / vol7) * (1.0 - math.exp(-L)) / (1.0 - math.exp(-2.0 * L)) ** 2
+            v1 = abs(s["lam"]) / 16.0 * 8.0 / (vol7 * (1.0 - math.exp(-2.0 * L))) * math.exp(L)
             fo.append({"id": s["id"], "L": L, "lambda": s["lam"], "E_int_first_order": e1, "tip_potential_first_order": v1,
                        "status": x["status"], "E_KS": x.get("E_KS"), "E_int": x.get("E_int"),
                        "max_abs_v_v": x.get("max_abs_v_v"), "E_KS_over_first_order": (x["E_KS"] / e1) if x.get("E_KS") is not None else None,
@@ -756,7 +836,10 @@ def main():
                              "(solver/src/model.rs); results/parameters.json is written by the solver, not read; --root only "
                              "locates ks-theory.json, gammas.json and the Mermin fixture. A scratch root with a modified "
                              "parameters.json is therefore ignored. This study builds a patched COPY (two one-line patches, "
-                             "L and G from the environment) and verifies it at L = 3 against the committed record.",
+                             "L and G from the environment) and verifies it at L = 3 against the committed binary (the quick "
+                             "matrix and every single run, byte for byte) and the committed full matrix (the single values).",
+        "metric": "the corrected metric of 2026-10-16 (version 2): kappa = e^{-a4} constant in y, P = e^{-3Hy}/Vol_7, the hidden "
+                  "scale f = e^{-a4/3} on the history; the extended levels behave like those of a box of proper length f L",
         "committedSolverSourceSha256": committed_src,
         "patches": applied,
         "stepSizeRule": "G = 300 L (h = 1/300, the record's step); h-check G = 600 L at every L; U_h = (16/15)|x(600 L) - x(300 L)| (RK4 order 4)",
@@ -768,14 +851,15 @@ def main():
                       "recalibrated_lambda1_of_L": {str(N): {f16(L): lam1_L[(L, N)] for L in L_VALUES} for N in N_VALUES},
                       "strength_of_L": {str(N): {f16(L): max(strength[(L, N)]) for L in L_VALUES} for N in N_VALUES}},
         "k0Spectrum": {"rows": k0, "bulkEdge_odd_l0_of_L": bulk_edge,
-                       "law": "even: eps = 0 (zero mode) and +-sqrt(m^2 + (l pi/L)^2); odd: +-sqrt(m^2 + p^2), tan(pL) = -p/m; "
-                              "every non-zero level tends to +-m like (l pi)^2/(2 m L^2): algebraic, not exponential"},
+                       "law": "a4,0 = 0 (f = 1): even: eps = 0 (zero mode) and +-sqrt(m^2 + (l pi/(f L))^2); odd: +-sqrt(m^2 + p^2), "
+                              "tan(p f L) = -p/m; every non-zero level tends to +-m like (l pi)^2/(2 m (f L)^2): algebraic, not exponential"},
         "zeroModeDensity": zm_rows,
         "firstOrderZeroModeEnergy": {
-            "law": "free zero modes chi ~ e^{my}, proper density n = n(0) e^{(2m - 6H)y}; first-order interaction energy "
-                   "E_int1 = 2 Vol_7 int e^{6Hy} lambda (-1/32) n^2 dy = -(2 lambda/Vol_7) e^{2L}/(1 - e^{-2L}) for m = H = 1 "
-                   "(in general proportional to e^{(6H - 4m)L}: finite as L -> infinity only for m > 3H/2); tip potential "
-                   "|v_v(-L)| = (lambda/16) n(-L) proportional to e^{(6H - 2m)L} = e^{4L}",
+            "law": "free zero modes chi ~ e^{my} (a4,0 = 0, f = 1), proper density n = n(0) e^{(2m - 3H)y} (P = e^{-3Hy}/Vol_7); "
+                   "first-order interaction energy E_int1 = 2 Vol_7 int e^{3Hy} lambda (-1/32) n^2 dy = -(4 lambda m^2/Vol_7) "
+                   "(1 - e^{-(4m - 3H)L})/((4m - 3H)(1 - e^{-2mL})^2) = -(4 lambda/Vol_7)(1 - e^{-L})/(1 - e^{-2L})^2 for m = H = 1 "
+                   "(finite as L -> infinity for 4m > 3H); tip potential |v_v(-L)| = (lambda/16) n(-L) proportional to "
+                   "e^{(3H - 2m)L} = e^{L}",
             "rows": fo},
         "analysis": analysis,
         "reference": {"jobs": [{"id": state_id(N, tag, a4), "L": L, "values": rr} for (N, tag, lam, a4, L), rr in zip(rjobs, rref)],
@@ -828,9 +912,9 @@ def make_figures(rep, allspecs, res_fixed, recspecs, res_rec):
     for tag, sg in (("lamp1", 1), ("lamm1", -1)):
         rows = [r for r in fo if r["id"].startswith(f"N8_{tag}")]
         lam = rows[0]["lambda"]
-        law = [abs(-(2.0 * lam / rep_vol7(rep)) * math.exp(2 * L) / (1 - math.exp(-2 * L))) for L in Lf]
+        law = [abs(-(4.0 * lam / rep_vol7(rep)) * (1 - math.exp(-L)) / (1 - math.exp(-2 * L)) ** 2) for L in Lf]
         axs[0].semilogy(Lf, law, color=cols[tag], lw=1, ls="--", label=f"|first-order law| {tag}, a4,0 = 0")
-        tp = [abs(lam) / 16.0 * 8.0 / (rep_vol7(rep) * (1 - math.exp(-2 * L))) * math.exp(4 * L) for L in Lf]
+        tp = [abs(lam) / 16.0 * 8.0 / (rep_vol7(rep) * (1 - math.exp(-2 * L))) * math.exp(L) for L in Lf]
         axs[1].semilogy(Lf, tp, color=cols[tag], lw=1, ls="--", label=f"first-order |v_v(-L)| {tag}, a4,0 = 0")
         for a4 in SLICES_RUN:
             sid = state_id(8, tag, a4)
@@ -844,10 +928,10 @@ def make_figures(rep, allspecs, res_fixed, recspecs, res_rec):
             for L, x_ in sel:
                 if x_["status"] != "ok":
                     axs[0].plot([L + off], [2e-4], "x", color=cols[tag], ms=6)
-    axs[0].set_title("N = 8 (brane zero modes), fixed lambda_1: |E_KS| vs tip cutoff" + chr(10) + "(x at the bottom: SCF fails at that L)", fontsize=9)
+    axs[0].set_title("N = 8 (fold zero modes), fixed lambda_1: |E_KS| vs tip cutoff" + chr(10) + "(x at the bottom: SCF fails at that L)", fontsize=9)
     axs[0].set_xlabel("L (points shifted slightly per slice)")
     axs[0].set_ylabel("|E_KS| [m]")
-    axs[1].set_title("tip potential: first order grows like e^{4L}, self-consistent saturates", fontsize=9)
+    axs[1].set_title("tip potential: first order grows like e^{L} (m = H = 1)", fontsize=9)
     axs[1].set_xlabel("L")
     axs[1].set_ylabel("[m]")
     for ax in axs:
@@ -863,9 +947,9 @@ def make_figures(rep, allspecs, res_fixed, recspecs, res_rec):
         pts = [(r["L"], r["eps"]) for r in rep["k0Spectrum"]["rows"] if r["parity"] == par_ and r["label"] == lab and r["j"] == 1]
         ax.plot([p[0] for p in pts], [p[1] for p in pts], "o", color=c, ms=4, label=f"{par_} l={lab}")
     ax.axhline(1.0, color="k", lw=0.6)
-    hom = an["fixed"]["N688_lam0_a00"]["quantities"]["HOMO"]
+    hom = an["fixed"][f"N{N_VALUES[-1]}_lam0_a00"]["quantities"]["HOMO"]
     hp = [(L, v) for L, v in zip(hom["L"], hom["value"]) if v is not None]
-    ax.plot([p[0] for p in hp], [p[1] for p in hp], "k^", ms=5, label="HOMO of N = 688, a4 = 0 (free)")
+    ax.plot([p[0] for p in hp], [p[1] for p in hp], "k^", ms=5, label=f"HOMO of N = {N_VALUES[-1]}, a4 = 0 (free)")
     ax.set_xlabel("L")
     ax.set_ylabel("eps [m]")
     ax.set_title("free k = 0 levels: exact law (lines) and solver (points)", fontsize=9)
@@ -897,7 +981,7 @@ def make_figures(rep, allspecs, res_fixed, recspecs, res_rec):
 
 
 def rep_vol7(rep):
-    # Vol_7 at a4,0 = 0 (the first-order laws of figure 2 are those of a4,0 = 0; at a4,0 they carry e^{-(3/2) beta a4,0})
+    # Vol_7 at a4,0 = 0 (the first-order laws of figure 2 are those of a4,0 = 0)
     return json.loads((RESULTS / "parameters.json").read_text(encoding="utf-8"))["physics"]["Vol7AtA4Zero"]
 
 

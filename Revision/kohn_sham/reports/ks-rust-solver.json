@@ -3,15 +3,20 @@
   "producer": "Revision/kohn_sham/solver (cargo run --release -- all)",
   "numerics": "canonical",
   "summary": {
-    "checks": 43,
-    "pass": 43,
+    "checks": 45,
+    "pass": 45,
     "fail": 0
   },
   "checks": [
     {
+      "name": "theory_input_metric_forms",
+      "verdict": "PASS",
+      "detail": "ks-theory.json (sha256 34f7fa2a4543fd91) states the forms of the corrected metric of 2026-10-16 that the solver implements: chi' = f N chi in real form with the hidden scale f = e^(-a4) b4^(1/2) (model.rs Physics::fh, shoot.rs), kappa = e^(-a4) constant in y, P = e^(-3Hy)/Vol_7 with Vol_7 = ell^3 v_t e^((2 beta - 1) a4,0) (scf.rs, model.rs), the y-conservation p0' + 3H (p0 - p_t) = 0 and the history identity dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0 (analysis.rs), the fold-band slope c = e^(-a4,0) (spectrum.rs; c(a4,0 = 0) = 1); entries not matching: none"
+    },
+    {
       "name": "theory_input_coefficients",
       "verdict": "PASS",
-      "detail": "ks-theory.json (sha256 e3e2869216e2744f): M_eff = m + 0.9375 lambda S, v_v = -0.0625 lambda n, e_x = (-0.03125 n^2 + -0.03125 S^2) lambda; consistent: M_eff - m = d e_int/dS with e_int = (1/2 + -0.03125) lambda S^2 + -0.03125 lambda n^2, v_v = d e_int/dn"
+      "detail": "ks-theory.json (sha256 34f7fa2a4543fd91): M_eff = m + 0.9375 lambda S, v_v = -0.0625 lambda n, e_x = (-0.03125 n^2 + -0.03125 S^2) lambda; consistent: M_eff - m = d e_int/dS with e_int = (1/2 + -0.03125) lambda S^2 + -0.03125 lambda n^2, v_v = d e_int/dn"
     },
     {
       "name": "gamma_fixture_numeric",
@@ -21,22 +26,22 @@
     {
       "name": "block_reduction_numeric",
       "verdict": "PASS",
-      "detail": "basis V of ks-theory.json (rows = spinor components): |V^dag V - 1| = 1.1e-16; off-block entries of V^dag X V 2.8e-17; diagonal blocks equal the solver's forms (i g4 g0 -> -i j sigma1, -i g4 -> j sigma2, -g4 g1 -> j sigma3, B B -> 1, B C -> j sigma2, B B g0 -> sigma3, -i B C g1 -> j sigma3, g0 -> sigma3, B -> j s2) to 1.1e-16: the 2x2 equation h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v integrated by the solver is the 16-component Hamiltonian"
+      "detail": "basis V of ks-theory.json (rows = spinor components): |V^dag V - 1| = 1.1e-16; off-block entries of V^dag X V 2.8e-17; diagonal blocks equal the solver's forms (i g4 g0 -> -i j sigma1, -i g4 -> j sigma2, -g4 g1 -> j sigma3, B B -> 1, B C -> j sigma2, B B g0 -> sigma3, -i B C g1 -> j sigma3, g0 -> sigma3, B -> j s2) to 1.1e-16: the 2x2 equation h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v integrated by the solver is the 16-component Hamiltonian (the scalar 1/f multiplies the d_y term in both)"
     },
     {
       "name": "free_k0_analytic_spectra",
       "verdict": "PASS",
-      "detail": "k = 0, constant M, v = 0, theta_tip = 0 (ks-theory.json boundaryConditions.exactK0Spectra) for (m, L) = (1, 3), (1, 2), (2, 3), labels -3..5 of both parities: even eps = 0 and +-sqrt(M^2 + (n pi/L)^2), odd eps = +-sqrt(M^2 + p^2) with tan(pL) = -p/M; max |difference| 7.23e-10 for |eps| < 4 m (tolerance 5e-9, RK4 error ~ (h eps)^4), 5.05e-8 for 4 m <= |eps| < 7 m (tolerance 3e-7)"
+      "detail": "k = 0, constant M, v = 0, theta_tip = 0 (ks-theory.json boundaryConditions.exactK0Spectra) for (m, L, a4,0) = (1, 3, 0), (1, 2, 0), (2, 3, 0) (f = 1) and (1, 3, 1.5) (f = e^(-1/2) on the history), labels -3..5 of both fold conditions: even eps = 0 and +-sqrt(M^2 + (n pi/(f L))^2), odd eps = +-sqrt(M^2 + p^2) with tan(p f L) = -p/M; max |difference| 7.23e-10 for |eps| < 4 m (tolerance 5e-9, RK4 error ~ (f h eps)^4), 5.05e-8 for |eps| >= 4 m (tolerance 3e-7)"
     },
     {
       "name": "free_zero_mode_exact",
       "verdict": "PASS",
-      "detail": "k = 0 brane zero mode (both j): eps = 0 exactly, chi = (a, 0) with b = 0 identically (max |b| = 0e0); a = sqrt(2M/(1 - e^(-2ML))) e^(My) to 1.35e-12 (normalised, Simpson)"
+      "detail": "k = 0 fold zero mode (both j) at a4,0 = 0 (f = 1) and a4,0 = 2 (f = e^(-2/3)): eps = 0 exactly (max |eps| = 0e0), chi = (a, 0) with b = 0 identically (max |b| = 0e0); a = sqrt(2fM/(1 - e^(-2fML))) e^(fMy) to 1.35e-12 (normalised in int dy, Simpson)"
     },
     {
       "name": "free_brane_band_slope",
       "verdict": "PASS",
-      "detail": "d eps/dk at k = 0 of the even j = +1 brane band (Richardson extrapolation of eps(k)/k from k = 1e-4, 2e-4) equals ks-theory.json c = 1.9051482536448665 times e^(-a4,0) at a4,0 = [0.0, 0.5, 1.0, 1.5, 2.0] (M = H = 1, L = 3) to 1.87e-12 relative"
+      "detail": "d eps/dk at k = 0 of the even j = +1 fold band (Richardson extrapolation of eps(k)/k from k = 1e-4, 2e-4) equals ks-theory.json c = 1 (braneBandSlope_a0) times e^(-a4,0) at a4,0 = [0.0, 0.5, 1.0, 1.5, 2.0] (M = H = 1, L = 3; f = e^(-a4,0/3) on the history: the slope does not depend on f) to 2.05e-16 relative"
     },
     {
       "name": "free_block_type_symmetries",
@@ -46,97 +51,102 @@
     {
       "name": "free_particle_branch_labels",
       "verdict": "PASS",
-      "detail": "for every shell n2 <= 30 and sector (j, parity): the lowest particle label l_min (first target above Phi(eps = 0)) has eps > 0 and l_min - 1 has eps < 0 (the branch split by the sign of the lambda = 0 level is a split of the Pruefer labels; closest level to zero away from the k = 0 zero modes: 0.4307 m); k = 0 even l_min = 0 is the zero mode (convention)"
+      "detail": "for every shell n2 <= 30 and sector (j, fold condition): the lowest particle label l_min (first target above Phi(eps = 0)) has eps > 0 and l_min - 1 has eps < 0 (the branch split by the sign of the lambda = 0 level is a split of the Pruefer labels; closest level to zero away from the k = 0 zero modes: 0.2500 m); k = 0 even l_min = 0 is the zero mode (convention)"
     },
     {
-      "name": "free_tip_angle_insensitivity",
+      "name": "free_tip_angle_boundary_identity",
       "verdict": "PASS",
-      "detail": "even j = +1 brane-band level at k = 0.25, 0.5, 1 with tip angles theta = 0, 0.5, 1 (tip family (1 - Q(theta)) chi(-L) = 0): the shift from theta = 0 is below the tip suppression factor exp(-k (kappa(-L) - kappa(0))/H) (spectrum/tip-angle.csv)"
+      "detail": "tip family (1 - Q(theta)) chi(-L) = 0, theta = 0.5, 1 against theta = 0, j = +1 even, k = 0.25, 0.5, 1, a4,0 = 0 (f = 1) and 1.5 (f = e^(-1/2)): the exact boundary identity (eps_theta - eps_0) int chi_0^dag chi_theta dy = -j a_0(-L) b_theta(-L)/f (from phi^dag h chi - (h phi)^dag chi = d/dy[-(i j/f) phi^dag sigma1 chi], ks-theory.json boundaryConditions.selfAdjointness) holds to 1.09e-12 (tolerance 1e-9); INFORMATION: the fold band (label 0, chi_0 = (e^(f M y), 0) exactly) shifts by at most 3.26e-2, at most 2.127 times the first-order estimate tan(theta/2) |a_0(-L)|^2/f, |a_0(-L)|^2 = 2fM e^(-2fML)/(1 - e^(-2fML)) (the tail of the fold band at the tip, e^(-2fML) = e^(-6) at a4,0 = 0 and e^(-3.64) at a4,0 = 1.5); the extended level (label 1) shifts by at least 6.157e-2: kappa = e^(-a4) is constant in y, so nothing suppresses an extended orbital toward the tip and its level depends on the tip condition (spectrum/tip-angle.csv)"
     },
     {
       "name": "free_rescaling_relation_and_band_monotone",
       "verdict": "PASS",
-      "detail": "lambda = 0: eps(k, a4,0) = eps(k e^(-a4,0), 0) for k in {0.25, 1, 2.5}, a4,0 in [0.0, 0.5, 1.0, 1.5, 2.0], three sectors, to 0.0e0; the even j = +1 brane band is strictly increasing in k on [0, 4] (spectrum/brane-band.csv): true"
+      "detail": "lambda = 0: eps(k, a4,0; L) = eps(k e^(-a4,0), 0; f0 L), f0 = e^(-a4,0/3) (the rescaling identity of ks-theory.json without interaction: H does not enter the free levels), for k in {0.25, 1, 2.5}, a4,0 in [0.0, 0.5, 1.0, 1.5, 2.0], four sectors, on the same number of RK4 steps, to 1.3e-15; the even j = +1 fold band is eps = kappa k exactly (chi = (e^(f M y), 0) for every k at theta = 0; max |eps - k| at a4,0 = 0 on [0, 4]: 0.0e0) and strictly increasing (spectrum/brane-band.csv): true"
     },
     {
       "name": "adiabatic_crossing_flag_demonstration",
       "verdict": "PASS",
-      "detail": "lambda = 0, N = 696 (the smallest closed shell of the a4,0 = 0 aufbau that occupies a level off the even j = +1 brane band): the brane-band levels redshift below the k = 0 bulk level along the history, the instantaneous aufbau occupation changes (flagged: true) and the adiabatically continued state (a4,0 = 0 labels) lies at or above the aufbau ground state at every flagged slice: true (adiabatic/crossing-demo.csv)"
+      "detail": "lambda = 0, N = 2360 (the smallest closed shell of the a4,0 = 0 aufbau that occupies a level off the even j = +1 fold band): along the history the fold-band levels redshift (eps = e^(-a4) k) while the k = 0 bulk levels rise (eps = sqrt(M^2 + (n pi/(f L))^2), f = e^(-a4/3)), the instantaneous aufbau occupation changes (flagged: true) and the adiabatically continued state (a4,0 = 0 labels) lies at or above the aufbau ground state at every flagged slice: true (adiabatic/crossing-demo.csv)"
     },
     {
       "name": "thermo_sea_hole_diagnostic_computed",
       "verdict": "PASS",
-      "detail": "DIAGNOSTIC of the filling CONVENTION (not a validation): for every thermal state the number of thermal holes the excluded sea brane band (j = -1, even, l = 0, eps < 0) would carry at the same mu and T was computed; it exceeds 1% of N in 15 of 135 states (largest 30.808 N): there the particle-only Mermin ensemble is outside its range of validity and a thermal treatment of the sea (pairs) would be required; listed: N8_lam0_a10_T50 (0.097), N8_lam0_a15_T50 (2.054), N8_lam0_a20_T20 (0.133), N8_lam0_a20_T50 (30.804), N8_lamp1_a10_T50 (0.097), N8_lamp1_a15_T50 (2.053), N8_lamp1_a20_T20 (0.132), N8_lamp1_a20_T50 (30.801), N8_lamm1_a10_T50 (0.097), N8_lamm1_a15_T50 (2.054), N8_lamm1_a20_T20 (0.133), N8_lamm1_a20_T50 (30.808), N136_lam0_a20_T50 (0.112), N136_lamp1_a20_T50 (0.112), N136_lamm1_a20_T50 (0.112)"
+      "detail": "DIAGNOSTIC of the filling CONVENTION (not a validation): for every thermal state the number of thermal holes the excluded sea fold band (j = -1, even, l = 0, eps < 0) would carry at the same mu and T was computed; it exceeds 1% of N in 27 of 135 states (largest 594.496 N): there the particle-only Mermin ensemble is outside its range of validity and a thermal treatment of the sea (pairs) would be required; listed: N8_lam0_a05_T50 (0.184), N8_lam0_a10_T50 (3.638), N8_lam0_a15_T20 (0.315), N8_lam0_a15_T50 (51.247), N8_lam0_a20_T10 (0.089), N8_lam0_a20_T20 (5.763), N8_lam0_a20_T50 (594.481), N8_lamp1_a05_T50 (0.184), N8_lamp1_a10_T50 (3.639), N8_lamp1_a15_T20 (0.315), N8_lamp1_a15_T50 (51.250), N8_lamp1_a20_T10 (0.089), N8_lamp1_a20_T20 (5.763), N8_lamp1_a20_T50 (594.496), N8_lamm1_a05_T50 (0.184), N8_lamm1_a10_T50 (3.639), N8_lamm1_a15_T20 (0.315), N8_lamm1_a15_T50 (51.250), N8_lamm1_a20_T10 (0.089), N8_lamm1_a20_T20 (5.763), N8_lamm1_a20_T50 (594.496), N592_lam0_a20_T50 (0.234), N592_lamp1_a20_T50 (0.234), N592_lamm1_a20_T50 (0.234), N2352_lam0_a20_T50 (0.010), N2352_lamp1_a20_T50 (0.010), N2352_lamm1_a20_T50 (0.010)"
     },
     {
       "name": "thermo_mu_well_conditioned_root",
       "verdict": "PASS",
-      "detail": "every thermal state (135 of 135): mu is the root of sum g f = N in the well-conditioned form LogBalance of solver/src/mermin.rs (thermal particles above and holes below a split of the levels, complementary factors f(-x), never 1 - f) on its final levels, bit for bit: true; the two exactly equivalent forms LogBalance and LinearDeviation (different rounding paths; the refined run uses LinearDeviation) agree within the larger of their rounding bounds eps_mach [(n + 2 + L) (P + Hl + |d|)/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3) + 2 |mu|] (n levels, <.> the mean weighted with g f (1 - f), L = max |ln| of the two sides of the balance; first order: rounded arguments, log domain, summation, logarithms and shift, adjacent doubles; mermin.rs): max |difference| 2.220e-16 (N688_lam0_a00_T20), max ratio to the bound 0.318 (N136_lamm1_a05_T10), largest bound 4.77e-14; split passes at most 2. DIAGNOSTIC of the error class removed: the former direct count sum g f - N (bisection) deviates from the LogBalance root by more than 1e-12 m in 3 states, each within its conditioning bound eps_mach [(n + 2) N/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3) + 2 |mu|]: true; largest: N8_lamm1_a00_T10 -8.267e-10 (dN/dmu 1.242e-6, its bound 1.29e-8); N8_lam0_a00_T10 2.722e-10 (dN/dmu 1.229e-6, its bound 1.01e-8); N8_lamp1_a00_T10 6.959e-11 (dN/dmu 1.216e-6, its bound 1.31e-8); N8_lamp1_a05_T10 -4.141e-13 (dN/dmu 3.318e-3, its bound 8.03e-12); N8_lamm1_a05_T10 -3.109e-13 (dN/dmu 3.340e-3, its bound 7.98e-12) (thermodynamics.csv column mu_direct_count_minus_mu: the direct-count root on the same final levels minus mu, for every state)"
+      "detail": "every thermal state (135 of 135): mu is the root of sum g f = N in the well-conditioned form LogBalance of solver/src/mermin.rs (thermal particles above and holes below a split of the levels, complementary factors f(-x), never 1 - f) on its final levels, bit for bit: true; the two exactly equivalent forms LogBalance and LinearDeviation (different rounding paths; the refined run uses LinearDeviation) agree within the larger of their rounding bounds eps_mach [(n + 2 + L) (P + Hl + |d|)/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3) + 2 |mu|] (n levels, <.> the mean weighted with g f (1 - f), L = max |ln| of the two sides of the balance; first order: rounded arguments, log domain, summation, logarithms and shift, adjacent doubles; mermin.rs): max |difference| 2.914e-16 (N592_lamp1_a20_T50), max ratio to the bound 0.196 (N592_lamp1_a00_T10), largest bound 9.43e-14; split passes at most 2. DIAGNOSTIC of the error class removed: the former direct count sum g f - N (bisection) deviates from the LogBalance root by more than 1e-12 m in 0 states, each within its conditioning bound eps_mach [(n + 2) N/(dN/dmu) + 3 <|eps - mu|> + T (ln g_max + 3) + 2 |mu|]: true; largest: N8_lam0_a00_T10 -1.682e-13 (dN/dmu 1.033e-2, its bound 1.72e-12); N8_lamm1_a00_T10 -3.908e-14 (dN/dmu 1.033e-2, its bound 2.41e-12); N8_lamp1_a00_T10 -1.343e-14 (dN/dmu 1.033e-2, its bound 2.41e-12); N2352_lamp1_a00_T50 2.220e-15 (dN/dmu 6.425e3, its bound 7.05e-14); N2352_lamm1_a05_T50 1.110e-15 (dN/dmu 8.858e3, its bound 6.26e-14) (thermodynamics.csv column mu_direct_count_minus_mu: the direct-count root on the same final levels minus mu, for every state)"
     },
     {
       "name": "thermo_mu_vs_40digit_roots",
       "verdict": "PASS",
-      "detail": "the root finder on fixed inputs: tools/mermin-roots-40digit.json (sha256 5b6a136ec89bb443) holds the exact final levels (shortest round-trip decimals of `single --mermin-levels`) of the 8 thermal states with the largest conditioning bound of the direct count and the roots of sum g f = N computed by tools/mermin_roots_mp.py with mpmath at 40 digits; |mu - root| of both forms within their rounding bounds: true (largest ratio 0.124, largest bound 3.6e-16); LogBalance reproduces the recorded canonical mu bit for bit: true; negative control: the former direct count misses the root by up to 8.267e-10 (N8_lamm1_a00_T10), 2.3e6 times the largest new bound. Per state: N8_lamp1_a00_T10 (7 levels, dN/dmu 1.216e-6): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 3.2e-16, 3.2e-16); former direct count 6.959e-11 (its bound 1.3e-8); N8_lamm1_a00_T10 (7 levels, dN/dmu 1.242e-6): LogBalance -2.8e-17, LinearDeviation 0.0e0 (bounds 3.2e-16, 3.2e-16); former direct count -8.267e-10 (its bound 1.3e-8); N8_lam0_a00_T10 (5 levels, dN/dmu 1.229e-6): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 3.1e-16, 3.1e-16); former direct count 2.722e-10 (its bound 1.0e-8); N8_lamp1_a05_T10 (13 levels, dN/dmu 3.318e-3): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 2.2e-16, 2.2e-16); former direct count -4.141e-13 (its bound 8.0e-12); N8_lamm1_a05_T10 (13 levels, dN/dmu 3.340e-3): LogBalance 2.8e-17, LinearDeviation 0.0e0 (bounds 2.2e-16, 2.2e-16); former direct count -3.109e-13 (its bound 8.0e-12); N8_lam0_a05_T10 (8 levels, dN/dmu 3.329e-3): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 2.1e-16, 2.1e-16); former direct count -1.716e-13 (its bound 5.3e-12); N8_lamp1_a00_T20 (11 levels, dN/dmu 2.903e-2): LogBalance 0.0e0, LinearDeviation -2.8e-17 (bounds 3.6e-16, 3.6e-16); former direct count -2.803e-15 (its bound 8.0e-13); N8_lamm1_a00_T20 (11 levels, dN/dmu 2.934e-2): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 3.6e-16, 3.6e-16); former direct count -6.406e-14 (its bound 7.9e-13)"
+      "detail": "the root finder on fixed inputs: tools/mermin-roots-40digit.json (sha256 58df1c1f8f7adbfa) holds the exact final levels (shortest round-trip decimals of `single --mermin-levels`) of the 8 thermal states with the largest conditioning bound of the direct count and the roots of sum g f = N computed by tools/mermin_roots_mp.py with mpmath at 40 digits; |mu - root| of both forms within their rounding bounds: true (largest ratio 0.006, largest bound 9.4e-14); LogBalance reproduces the recorded canonical mu bit for bit: true; negative control: the former direct count misses the root by up to 1.682e-13 (N8_lam0_a00_T10), 1.8e0 times the largest new bound. Per state: N8_lamm1_a00_T10 (12 levels, dN/dmu 1.033e-2): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 2.1e-16, 2.1e-16); former direct count -3.908e-14 (its bound 2.4e-12); N8_lamp1_a00_T10 (12 levels, dN/dmu 1.033e-2): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 2.0e-16, 2.0e-16); former direct count -1.343e-14 (its bound 2.4e-12); N8_lam0_a00_T10 (8 levels, dN/dmu 1.033e-2): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 2.0e-16, 2.0e-16); former direct count -1.682e-13 (its bound 1.7e-12); N2352_lamp1_a00_T50 (856 levels, dN/dmu 6.425e3): LogBalance 0.0e0, LinearDeviation 0.0e0 (bounds 1.4e-14, 1.4e-14); former direct count 2.220e-15 (its bound 7.0e-14); N2352_lamm1_a20_T50 (3961 levels, dN/dmu 3.199e4): LogBalance 8.3e-17, LinearDeviation 0.0e0 (bounds 9.4e-14, 9.4e-14); former direct count 9.437e-16 (its bound 6.5e-14); N2352_lamp1_a20_T50 (3961 levels, dN/dmu 3.199e4): LogBalance 1.7e-16, LinearDeviation 0.0e0 (bounds 9.4e-14, 9.4e-14); former direct count 6.106e-16 (its bound 6.5e-14); N2352_lamm1_a05_T50 (1051 levels, dN/dmu 8.858e3): LogBalance -1.1e-16, LinearDeviation -1.1e-16 (bounds 1.7e-14, 1.7e-14); former direct count 9.992e-16 (its bound 6.3e-14); N2352_lamp1_a05_T50 (1051 levels, dN/dmu 8.858e3): LogBalance 0.0e0, LinearDeviation -1.1e-16 (bounds 1.7e-14, 1.7e-14); former direct count 5.551e-16 (its bound 6.3e-14)"
     },
     {
       "name": "t3_block_map_solver_selftest",
       "verdict": "PASS",
-      "detail": "numerical self-test of the solver for the Kohn-Sham-level block map of ks-theory.json blockForms.Gamma (NOT a proof of T3, which is owned by Revision/pairing/kohn_sham and not established here): (m, lambda, tip theta = 0) and (-m, lambda, tip theta = pi) solved independently give the same sorted levels, occupations, E_KS and EMT integrals and opposite S (worst 8.35e-14, tolerance 1e-9): N = 8, lambda = 0.01946, a4,0 = 1: E_KS -1.341747939926e-4 vs -1.341747939933e-4; 80 levels; max |delta| of sorted (eps, g, f) 4.63e-14, EMT integrals 6.90e-16, |S_a + S_b|/max|S| 7.02e-15; negative control (-m, lambda, untransformed tip b(-L) = 0): E_KS = -1.6232217540e0 vs -1.3417479399e-4 (difference -1.623e0) | N = 136, lambda = 0.01206, a4,0 = 1: E_KS 3.239983783344e1 vs 3.239983783344e1; 160 levels; max |delta| of sorted (eps, g, f) 8.35e-14, EMT integrals 4.39e-16, |S_a + S_b|/max|S| 3.85e-16; negative control (-m, lambda, untransformed tip b(-L) = 0): E_KS = 2.9056626386e1 vs 3.2399837833e1 (difference -3.343e0)"
+      "detail": "numerical self-test of the solver for the Kohn-Sham-level block map of ks-theory.json blockForms.Gamma (NOT a proof of T3, which is owned by Revision/pairing/kohn_sham and not established here): (m, lambda, tip theta = 0) and (-m, lambda, tip theta = pi) solved independently give the same sorted levels, occupations, E_KS and EMT integrals and opposite S (worst 3.62e-13, tolerance 1e-9): N = 8, lambda = 157.7, a4,0 = 1: E_KS -1.457144423225e-2 vs -1.457144423225e-2; 140 levels; max |delta| of sorted (eps, g, f) 8.55e-14, EMT integrals 1.18e-16, |S_a + S_b|/max|S| 9.10e-16; negative control (-m, lambda, untransformed tip b(-L) = 0): E_KS = -1.7604533053e0 vs -1.4571444232e-2 (difference -1.746e0) | N = 592, lambda = 2.131, a4,0 = 1: E_KS 1.317651779781e2 vs 1.317651779781e2; 324 levels; max |delta| of sorted (eps, g, f) 8.24e-14, EMT integrals 1.64e-13, |S_a + S_b|/max|S| 3.62e-13; negative control (-m, lambda, untransformed tip b(-L) = 0): E_KS = -8.1980434559e-1 vs 1.3176517798e2 (difference -1.326e2)"
     },
     {
       "name": "adiabatic_hellmann_feynman",
       "verdict": "PASS",
-      "detail": "d eps_n/da4 (Richardson differences of the self-consistent levels) = <n| d_a h |n> with d_a h = -j kappa k sigma3 + j (d_a M_eff) sigma2 + d_a v_v (+ d_a w_Q sigma3): max absolute deviation (units of m); 75 cases; worst value 2.614e-9 (N688_lamm2_a00); tolerance 1.0e-7; failures: none"
+      "detail": "d eps_n/da4 (Richardson differences of the self-consistent levels) = <n| d_a h |n> with d_a h = -j kappa k sigma3 + (1 - beta/2) T_j + j (d_a M_eff) sigma2 + d_a v_v (+ d_a w_Q sigma3), T_j = j(-(i/f) sigma1 d_y) the kinetic term (f = e^{(beta/2 - 1) a4}): max absolute deviation (units of m); 75 cases; worst value 6.444e-11 (N2352_lamm1_a00); tolerance 1.0e-7; failures: none"
     },
     {
       "name": "emt_energy_change_dE_da4",
       "verdict": "PASS",
-      "detail": "dE/da4 at fixed occupations (self-consistent states at a4 +- delta, +- 2 delta, delta = 2e-3, Richardson; Vol_7 and with it the effective coupling change with b4 along the history) = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7 int e^{6Hy} p dy (nabla_mu T^mu_x4 = 0 with sqrt|g| = b4^{3/2} e^{6Hy}, Hellmann-Feynman): |difference| / max(sum g f |eps|, m); 75 cases; worst value 7.101e-11 (N136_lamm1_a15); tolerance 1.0e-8; failures: none"
+      "detail": "dE/da4 at fixed occupations (self-consistent states at a4 +- delta, +- 2 delta, delta = 2e-3, Richardson; kappa, f and Vol_7 change along the history) = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0 (beta = 4/3: -3 P3 + P_t + P0/3), P = 2 Vol_7 int e^{3Hy} p dy (nabla_mu T^mu_x4 = 0 with sqrt|g| = e^{-a4} b4^2 e^{3Hy}, Hellmann-Feynman): |difference| / max(sum g f |eps|, m); 75 cases; worst value 9.240e-10 (N8_lamp1_a00); tolerance 1.0e-8; failures: none"
     },
     {
       "name": "emt_energy_integral",
       "verdict": "PASS",
-      "detail": "2 Vol_7 int e^{6Hy} rho dy = E_KS: relative difference; 75 cases; worst value 1.608e-15 (N688_lam0_a15); tolerance 1.0e-11; failures: none"
+      "detail": "2 Vol_7 int e^{3Hy} rho dy = E_KS: relative difference; 75 cases; worst value 2.338e-15 (N2352_lam0_a15); tolerance 1.0e-11; failures: none"
     },
     {
       "name": "emt_trace_derivative_form",
       "verdict": "PASS",
-      "detail": "derivative form of the y-kinetic term j(a b' - b a') = (eps - v)(a^2+b^2) - M j 2ab - kappa k j(a^2-b^2) (orbital equation residual from finite differences of the stored occupied orbitals): max relative deviation; 75 cases; worst value 5.388e-8 (N688_lamp2_a15); tolerance 1.0e-5; failures: none"
+      "detail": "derivative form of the y-kinetic term j(a b' - b a') = f [(eps - v)(a^2+b^2) - M j 2ab - kappa k j(a^2-b^2)] (orbital equation residual from finite differences of the stored occupied orbitals): max relative deviation; 75 cases; worst value 2.582e-10 (N2352_lamm2_a20); tolerance 1.0e-5; failures: none"
     },
     {
       "name": "emt_y_conservation_integrated",
       "verdict": "PASS",
-      "detail": "[e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy} (p3 + p_t) dy (nabla_mu T^mu_y = 0): relative difference; 75 cases; worst value 2.752e-10 (N8_lamp1_a20); tolerance 1.0e-7; failures: none"
+      "detail": "[e^{3Hy} p0]_{-L}^{0} = 3H int e^{3Hy} p_t dy (nabla_mu T^mu_y = 0: p0' + 3H (p0 - p_t) = 0): relative difference; 75 cases; worst value 3.564e-11 (N8_lamp2_a10); tolerance 1.0e-7; failures: none"
     },
     {
       "name": "emt_y_conservation_pointwise",
       "verdict": "PASS",
-      "detail": "(e^{6Hy} p0)' = 3H e^{6Hy}(p3 + p_t) on the node grid (4th-order differences): max relative residual; 75 cases; worst value 1.951e-8 (N8_lamp2_a00); tolerance 1.0e-5; failures: none"
+      "detail": "(e^{3Hy} p0)' = 3H e^{3Hy} p_t on the node grid (4th-order differences): max relative residual; 75 cases; worst value 5.191e-10 (N8_lamp2_a10); tolerance 1.0e-5; failures: none"
     },
     {
       "name": "excited_delta_scf_free_equals_gap",
       "verdict": "PASS",
-      "detail": "lambda = 0: Delta-SCF excitation energy equals the KS gap exactly (|difference|, units of m); 15 cases; worst value 2.011e-11 (N688_lam0_a10); tolerance 1.0e-10; failures: none"
+      "detail": "lambda = 0: Delta-SCF excitation energy equals the KS gap exactly (|difference|, units of m); 15 cases; worst value 3.086e-13 (N2352_lam0_a00); tolerance 1.0e-10; failures: none"
     },
     {
       "name": "excited_scf_converged",
       "verdict": "PASS",
-      "detail": "Delta-SCF state (fixed ensemble occupations) converged: final residual; 75 cases; worst value 9.778e-12 (N8_lamp2_a00); tolerance 1.0e-11; failures: none"
+      "detail": "Delta-SCF state (fixed ensemble occupations) converged: final residual; 75 cases; worst value 9.959e-12 (N592_lamm1_a10); tolerance 1.0e-11; failures: none"
+    },
+    {
+      "name": "exx_variant_occupation_order",
+      "verdict": "PASS",
+      "detail": "INFORMATION (not a validation): the variant keeps the occupations of the uniform-gas ground state; value 1 where they are not the aufbau occupations of the variant's own levels (highest occupied group not below the lowest group with a vacancy), 0 otherwise; the worst value names such a state; 60 cases; worst value 1.000e0 (N2352_lamp1_a00); tolerance 1.0e0; failures: none"
     },
     {
       "name": "exx_variant_scf_converged",
       "verdict": "PASS",
-      "detail": "exact-Fock-exchange variant (w_Q = lambda Q/16 sigma3, + lambda Q^2/32) converged from the uniform-gas state; 60 cases; worst value 9.453e-12 (N688_lamp1_a00); tolerance 1.0e-11; failures: none"
+      "detail": "exact-Fock-exchange variant (w_Q = lambda Q/16 sigma3, + lambda Q^2/32) converged from the uniform-gas state at its occupations; 60 cases; worst value 9.220e-12 (N592_lamp1_a00); tolerance 1.0e-11; failures: none"
     },
     {
       "name": "exx_variant_y_conservation",
       "verdict": "PASS",
-      "detail": "exact-Fock variant: (e^{6Hy} p0)' = 3H e^{6Hy}(p3 + p_t) with p0 including -w_Q Q (derived): integrated relative residual; 60 cases; worst value 5.151e-10 (N8_lamp1_a10); tolerance 1.0e-7; failures: none"
+      "detail": "exact-Fock variant: (e^{3Hy} p0)' = 3H e^{3Hy} p_t with p0 including -w_Q Q (derived): integrated relative residual; 60 cases; worst value 1.070e-10 (N8_lamp2_a10); tolerance 1.0e-7; failures: none"
     },
     {
       "name": "ground_N_conservation",
       "verdict": "PASS",
-      "detail": "particle number: |sum g f - N| and |2 Vol_7 int e^{6Hy} n dy - N| / N (doubled system; the patch holds N/2); 75 cases; worst value 1.998e-15 (N8_lamp1_a15); tolerance 1.0e-9; failures: none"
+      "detail": "particle number: |sum g f - N| and |2 Vol_7 int e^{3Hy} n dy - N| / N (the whole cell, both halves; each half holds N/2); 75 cases; worst value 2.442e-15 (N8_lam0_a15); tolerance 1.0e-9; failures: none"
     },
     {
       "name": "ground_closed_shell",
@@ -146,12 +156,12 @@
     {
       "name": "ground_energy_two_forms",
       "verdict": "PASS",
-      "detail": "E_KS = sum g f eps - 2 Vol_7 int e^{6Hy} e_int equals the variational form (input potentials, output densities): relative difference; 75 cases; worst value 2.288e-13 (N688_lamp1_a10); tolerance 1.0e-9; failures: none"
+      "detail": "E_KS = sum g f eps - 2 Vol_7 int e^{3Hy} e_int equals the variational form (input potentials, output densities): relative difference; 75 cases; worst value 1.764e-11 (N8_lamp2_a00); tolerance 1.0e-9; failures: none"
     },
     {
       "name": "ground_orbital_boundary_conditions",
       "verdict": "PASS",
-      "detail": "max over orbitals of the brane-condition residual |b(0)| (even) or |a(0)| (odd) of the normalised orbital; 75 cases; worst value 2.563e-13 (N8_lamm1_a20); tolerance 1.0e-8; failures: none"
+      "detail": "max over orbitals of the fold-condition residual |b(0)| (theta = 0, even) or |a(0)| (theta = pi, odd) of the normalised orbital; 75 cases; worst value 7.090e-13 (N2352_lamp2_a00); tolerance 1.0e-8; failures: none"
     },
     {
       "name": "ground_runs_completed",
@@ -161,42 +171,42 @@
     {
       "name": "ground_scf_converged",
       "verdict": "PASS",
-      "detail": "Kohn-Sham SCF (Anderson mixing) converged: final max |potential residual| (units of m); 75 cases; worst value 9.922e-12 (N136_lamm2_a00); tolerance 1.0e-11; failures: none"
+      "detail": "Kohn-Sham SCF (Anderson mixing) converged: final max |potential residual| (units of m); 75 cases; worst value 9.963e-12 (N2352_lamm2_a00); tolerance 1.0e-11; failures: none"
     },
     {
       "name": "ground_window_complete",
       "verdict": "PASS",
-      "detail": "label set complete: the lowest level outside the label set lies above the LUMO (value: LUMO - lowest excluded, must be < 0); 75 cases; worst value -2.548e-1 (N688_lam0_a20); tolerance 0.0e0; failures: none"
+      "detail": "label set complete: the lowest level outside the label set lies above the LUMO (value: LUMO - lowest excluded, must be < 0); 75 cases; worst value -2.522e-1 (N592_lam0_a20); tolerance 0.0e0; failures: none"
     },
     {
       "name": "rescaling_identity_between_slices",
       "verdict": "PASS",
-      "detail": "KS(a4,0; dk, v_t, lambda_hat) = KS(0; dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat) (= v_t e^{-a4,0} for beta = 4/3: the same proper cell), solved independently: same label set and occupations, max |delta eps| (units of m); 60 cases; worst value 1.550e-13 (N688_lamm2_a10); tolerance 1.0e-9; failures: none"
+      "detail": "KS(a4,0; H, L, dk, v_t, lambda_hat) = KS(0; H/f0, f0 L, dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat), f0 = e^{(beta/2 - 1) a4,0} = e^{-a4,0/3} (v_t e^{-a4,0} for beta = 4/3), solved independently on the partner's grid: same label set and occupations, max |delta eps| (units of m); 60 cases; worst value 1.643e-13 (N2352_lamp2_a10); tolerance 1.0e-9; failures: none"
     },
     {
       "name": "rescaling_identity_energy_profiles",
       "verdict": "PASS",
-      "detail": "rescaling partner: relative difference of E_KS and max relative difference of the proper profiles n, S, rho, p3, p0; 60 cases; worst value 1.914e-13 (N136_lamp2_a20); tolerance 1.0e-8; failures: none"
+      "detail": "rescaling partner: relative difference of E_KS and max difference of the proper profiles n, S (relative to max |n|) and rho, p3, p0 (relative to max(|rho|, |p3|, |p0|)) at corresponding points Y = f0 y; 60 cases; worst value 8.193e-13 (N592_lamm2_a15); tolerance 1.0e-8; failures: none"
     },
     {
       "name": "thermo_CV_identity",
       "verdict": "PASS",
-      "detail": "C_V = T dS/dT (reported; S is computed from the occupations and is well conditioned) equals dE/dT at fixed N (self-consistent Mermin states at T +- dT, T +- 2 dT, dT = 0.01 T, Richardson): |difference| / (1e-4 max(|dE/dT|, |T dS/dT|) + eta), eta = N x root tolerance / dT the noise floor of a difference quotient of energies (it dominates only where the thermal change of E over dT is below ~1e-11, i.e. deep in the activated regime); 135 cases; worst value 1.202e-1 (N8_lamm1_a00_T10); tolerance 1.0e0; failures: none"
+      "detail": "C_V = T dS/dT (reported; S is computed from the occupations and is well conditioned) equals dE/dT at fixed N (self-consistent Mermin states at T +- dT, T +- 2 dT, dT = 0.01 T, Richardson): |difference| / (1e-4 max(|dE/dT|, |T dS/dT|) + eta), eta = N x root tolerance / dT the noise floor of a difference quotient of energies (it dominates only where the thermal change of E over dT is below ~1e-11, i.e. deep in the activated regime); 135 cases; worst value 5.901e-3 (N2352_lamm1_a00_T20); tolerance 1.0e0; failures: none"
     },
     {
       "name": "thermo_N_conservation",
       "verdict": "PASS",
-      "detail": "Mermin: |sum g f - N| at the converged mu; 135 cases; worst value 1.592e-12 (N688_lamm1_a15_T50); tolerance 1.0e-9; failures: none"
+      "detail": "Mermin: |sum g f - N| at the converged mu; 135 cases; worst value 2.865e-11 (N2352_lamm1_a20_T50); tolerance 1.0e-9; failures: none"
     },
     {
       "name": "thermo_entropy_identity",
       "verdict": "PASS",
-      "detail": "-dF/dT = S (Richardson differences): |difference| / (1e-4 S + eta), eta as for thermo_CV_identity; 135 cases; worst value 1.335e-1 (N8_lamm1_a00_T10); tolerance 1.0e0; failures: none"
+      "detail": "-dF/dT = S (Richardson differences): |difference| / (1e-4 S + eta), eta as for thermo_CV_identity; 135 cases; worst value 2.642e-2 (N8_lamm1_a00_T10); tolerance 1.0e0; failures: none"
     },
     {
       "name": "thermo_grand_potential_two_forms",
       "verdict": "PASS",
-      "detail": "Omega = -T sum g ln(1 + e^{-(eps-mu)/T}) - 2 Vol_7 int e^{6Hy} e_int equals F - mu N = E - T S - mu N: relative difference; 135 cases; worst value 1.040e-14 (N8_lamp1_a20_T50); tolerance 1.0e-10; failures: none"
+      "detail": "Omega = -T sum g ln(1 + e^{-(eps-mu)/T}) - 2 Vol_7 int e^{3Hy} e_int equals F - mu N = E - T S - mu N: relative difference; 135 cases; worst value 2.909e-14 (N592_lamm1_a20_T50); tolerance 1.0e-10; failures: none"
     },
     {
       "name": "thermo_runs_completed",
@@ -206,22 +216,22 @@
     {
       "name": "thermo_scf_converged",
       "verdict": "PASS",
-      "detail": "Mermin SCF converged at T, T +- dT, T +- 2 dT (dT = 0.01 T): max final residual; 135 cases; worst value 9.993e-12 (N8_lamm1_a20_T20); tolerance 1.0e-11; failures: none"
+      "detail": "Mermin SCF converged at T, T +- dT, T +- 2 dT (dT = 0.01 T): max final residual; 135 cases; worst value 9.904e-12 (N592_lamm1_a00_T20); tolerance 1.0e-11; failures: none"
     },
     {
       "name": "thermo_scf_path",
       "verdict": "PASS",
-      "detail": "INFORMATION (not a validation): SCF path of the Mermin state at T, 0 = direct Anderson SCF, 1 = the coupling continuation lambda x 1/4, 1/2, 3/4, 1 with half the mixing after a divergent direct run (the fallback of the ground states); the worst value names a state that needed it; 135 cases; worst value 1.000e0 (N688_lamm1_a00_T10); tolerance 1.0e0; failures: none"
+      "detail": "INFORMATION (not a validation): SCF path of the Mermin state at T, 0 = direct Anderson SCF, 1 = the coupling continuation lambda x 1/4, 1/2, 3/4, 1 with half the mixing after a divergent direct run (the fallback of the ground states); the worst value names a state that needed it; 135 cases; worst value 0.000e0 (N8_lam0_a00_T10); tolerance 1.0e0; failures: none"
     },
     {
       "name": "thermo_window_cut",
       "verdict": "PASS",
-      "detail": "occupation at the thermal window cut f(ecut) (levels above the cut are omitted); 135 cases; worst value 1.800e-14 (N688_lam0_a10_T50); tolerance 2.0e-12; failures: none"
+      "detail": "occupation at the thermal window cut f(ecut) (levels above the cut are omitted); 135 cases; worst value 1.547e-14 (N2352_lam0_a10_T50); tolerance 2.0e-12; failures: none"
     },
     {
       "name": "thermo_window_shells_beyond",
       "verdict": "PASS",
-      "detail": "the free levels of the five shells beyond the thermal label set lie above the cut (value: cut - lowest such level, must be < 0); 135 cases; worst value -2.202e-5 (N136_lamp1_a20_T50); tolerance 0.0e0; failures: none"
+      "detail": "the free levels of the five shells beyond the thermal label set lie above the cut (value: cut - lowest such level, must be < 0); 135 cases; worst value -4.772e-6 (N2352_lamp1_a15_T20); tolerance 0.0e0; failures: none"
     }
   ]
 }

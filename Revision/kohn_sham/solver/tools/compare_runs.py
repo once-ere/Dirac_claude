@@ -10,7 +10,10 @@
   different rounding path); the canonical numbers must agree within
   tolerances that bound the canonical discretisation error: eigenvalues 1e-8 m
   (absolute), energies 1e-8 (relative), proper profiles 1e-6 (relative to the
-  profile maximum), thermodynamic quantities (mu, E, F, both forms of Omega,
+  maximum of the profile's family: n and S relative to max |n|, rho, p3, p_t and p0
+  relative to the largest of their maxima; S and p0 vanish identically for the
+  lambda = 0 fold-band states of the corrected metric, where a profile's own maximum
+  is round-off), thermodynamic quantities (mu, E, F, both forms of Omega,
   S) 1e-8 (relative), derived derivatives (Q_max, dE/da4, C_V = T dS/dT) 1e-6
   (relative).
 
@@ -190,14 +193,16 @@ def main():
             if len(A) != len(B) or any(abs(num(x["y"]) - num(y["y"])) > 1e-12 for x, y in zip(A, B)):
                 wp, wpid = float("inf"), name + " (grids differ)"
                 continue
+            fam = {"n": ("n",), "S": ("n",), "rho": ("rho", "p3", "p_t", "p0"), "p3": ("rho", "p3", "p_t", "p0"),
+                   "p_t": ("rho", "p3", "p_t", "p0"), "p0": ("rho", "p3", "p_t", "p0")}
             for col in ("n", "S", "rho", "p3", "p_t", "p0"):
-                mx = max(abs(num(x[col])) for x in A)
+                mx = max(max(abs(num(x[c])) for x in A) for c in fam[col])
                 if mx == 0.0:
                     continue
                 d = max(abs(num(x[col]) - num(y[col])) for x, y in zip(A, B)) / mx
                 if d > wp:
                     wp, wpid = d, f"{name[:-4]} {col}"
-        check("refined_profiles", wp <= TOL["profile"], f"proper profiles n, S, rho, p3, p_t, p0 at the 151 common y points: max difference / profile maximum {wp:.3e} ({wpid}); tolerance {TOL['profile']:.0e}")
+        check("refined_profiles", wp <= TOL["profile"], f"proper profiles n, S, rho, p3, p_t, p0 at the 151 common y points: max difference / maximum of the profile's family (n, S: max |n|; rho, p3, p_t, p0: the largest of their maxima) {wp:.3e} ({wpid}); tolerance {TOL['profile']:.0e}")
         # derived
         ac = rows(os.path.join(a.canonical, "adiabatic/adiabaticity.csv"), ["id"])
         ar = rows(os.path.join(ref, "adiabatic/adiabaticity.csv"), ["id"])

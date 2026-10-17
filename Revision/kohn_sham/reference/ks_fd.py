@@ -4,24 +4,26 @@ Independent of the Rust solver (Revision/kohn_sham/solver): no code is shared an
 different (global symmetric tridiagonal matrices instead of shooting with RK4).  Only the formulas of
 Revision/kohn_sham/ks-theory.json are used.
 
-The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H) in [-L, 0], z = 6 H x0 (brane
-y = 0, tip cutoff y = -L); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three
-EXTRA TIMES, which DEFLATE EXPONENTIALLY (scale factor e^{-a4} b4^{1/2} sin^{1/6} z, a4 increasing).  p0 = T^x0_x0 is the
-hidden-direction pressure.  The metric has b4(x4) in the extra-time components (b4 a function of x4, never 1); b4 does not
-enter the block equation (ks-theory.json sectorAndAnsatz.exactReduction), only the proper cell volume: on the history
-b4 = b4(0) e^{beta a4} the densities are per Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (the proper 7-volume of the cell
-per unit e^{6Hy} in units of b4(0)^{3/2}) and lam is lambda_hat = lambda b4(0)^{-3/2} (ks-theory.json densities).
+The metric is the corrected primordial metric of 2026-10-16 (version 2; SPEC section 1, ks-theory.json geometry).
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6H) in [-L, 0] on every quarter,
+z = 6 H x0 (the fold cos z = 0 at y = 0, tip cutoff y = -L); x1, x2, x3 = 3-space (scale factor e^{a4}); x4 = time;
+x5, x6, x7 = the extra times.  In the y chart ds^2 = e^{2a4} dx_{1..3}^2 - dx4^2 + f^2 [dy^2 - e^{2Hy} dx_{5..7}^2] with
+the hidden scale f = e^{-a4} b4^{1/2}; on the history b4 = b4(0) e^{beta a4}, b4(0) = 1 (the record's value): f =
+e^{(beta/2 - 1) a4} = e^{-a4/3}.  p0 = T^x0_x0 is the hidden-direction pressure.  The densities are per
+Vol_7(a4,0) = ell^3 v_t e^{-a4,0} b4,0^2 = ell^3 v_t e^{(2 beta - 1) a4,0} (the proper 7-volume of the cell per unit
+e^{3Hy}) and lam is lambda_hat = lambda b4(0)^{-2} (ks-theory.json densities).
 
-Block equation (ks-theory.json blockEquation): h_j = j[-i sigma1 d_y + M sigma2 + K sigma3] + v,
-K = kappa(y) |k|, kappa = e^{-Hy - a4,0}.  With chi = (a, i b) (a, b real) h_j is the real symmetric
+Block equation (ks-theory.json blockEquation): h_j = j[-(i/f) sigma1 d_y + M sigma2 + K sigma3] + v,
+K = kappa |k|, kappa = e^{-a4,0} (constant in y).  With chi = (a, i b) (a, b real) h_j is the real symmetric
 operator
-    [ jK + v        j(d_y + M) ]
-    [ j(-d_y + M)   -jK + v    ]      acting on (a, b), inner product int (a^2 + b^2) dy.
-Boundary conditions: regular tip b(-L) = 0 (theta_tip = 0); ASSUMED Z2 brane: even b(0) = 0, odd a(0) = 0.
+    [ jK + v            j((1/f) d_y + M) ]
+    [ j(-(1/f) d_y + M)   -jK + v        ]      acting on (a, b), inner product int (a^2 + b^2) dy.
+Boundary conditions: regular tip b(-L) = 0 (theta_tip = 0); fold conditions (the two halves of a cell joined at the
+fold, ks-theory.json boundaryConditions.fold; both filled, ASSUMED convention): even b(0) = 0, odd a(0) = 0.
 
-Rotated frame (exact, makes both parities Dirichlet in the second component at both ends):
+Rotated frame (exact, makes both fold conditions Dirichlet in the second component at both ends):
 chi = e^{i phi(y) sigma1} psi, psi = (u, i w), i.e. a = cos(phi) u - sin(phi) w, b = sin(phi) u + cos(phi) w.
-Then h' = j[-i sigma1 d_y + phi' + m2 sigma2 + k2 sigma3] + v with m2 = M cos 2phi - K sin 2phi,
+Then h' = j[-(i/f) sigma1 d_y + phi'/f + m2 sigma2 + k2 sigma3] + v with m2 = M cos 2phi - K sin 2phi,
 k2 = M sin 2phi + K cos 2phi.  even parity: phi = 0; odd parity: phi = j (pi/2)(y + L)/L, so that
 w(-L) = 0 <=> b(-L) = 0 and w(0) = 0 <=> a(0) = 0.  The choice phi_j = j phi keeps the exact k = 0
 symmetry j -> -j as the sign flip w -> -w of the discrete problem.
@@ -35,7 +37,7 @@ G, 2G, 4G are combined by Richardson extrapolation.
 Eigenvalues: Sturm counts (number of eigenvalues below x) + bisection give every level by its index in
 the sector (no level can be missed); refinement and eigenvectors by the twisted factorisation
 (Rayleigh-quotient steps), verified by Sturm counts.  The Sturm index minus the index of the lowest
-particle level (CONVENTION of ks-theory.json: positive lambda = 0 levels plus the k = 0 brane zero modes)
+particle level (CONVENTION of ks-theory.json: positive lambda = 0 levels plus the k = 0 fold zero modes)
 is the rank of a level in its sector; it equals the Rust solver's label - label_min.
 """
 
@@ -46,7 +48,7 @@ import math
 import numpy as np
 
 PI = math.pi
-TAU_ZERO = 1e-9          # zero-mode threshold of the particle convention (k = 0 brane zero modes at eps = 0)
+TAU_ZERO = 1e-9          # zero-mode threshold of the particle convention (k = 0 fold zero modes at eps = 0)
 PIVMIN = 1e-290           # replacement of an exact zero pivot in the Sturm / twisted recurrences
 DEG_TOL = 1e-9            # degeneracy groups for the aufbau and HOMO/LUMO
 
@@ -61,7 +63,7 @@ def _extrap_weights(npts):
     return w
 
 
-EXTRAP = _extrap_weights(6)   # quintic extrapolation of u to the tip / brane (error O(h^6))
+EXTRAP = _extrap_weights(6)   # quintic extrapolation of u to the tip / fold (error O(h^6))
 
 SECTOR_ORDER = ((1, 0), (1, 1), (-1, 0), (-1, 1))      # (j, odd): (+1 even), (+1 odd), (-1 even), (-1 odd)
 
@@ -77,7 +79,8 @@ class Phys:
                  beta=4.0 / 3.0):
         self.H, self.m, self.L, self.dk, self.vt = H, m, L, dk, vt
         self.a4, self.lam, self.N, self.T = a4, lam, N, T
-        # beta = d ln b4/d a4 of the history b4 = b4(0) e^{beta a4} (ks-theory.json adiabaticity.historyBeta)
+        # beta = d ln b4/d a4 of the history b4 = b4(0) e^{beta a4} (ks-theory.json adiabaticity.historyBeta); it fixes
+        # the hidden scale f = e^{(beta/2 - 1) a4} and Vol_7 (b4(0) = 1)
         self.beta = beta
         # functional coefficients (ks-theory.json exchange.kohnShamPotentials): M_eff = m + cM lam S,
         # v_v = cV lam n, e_int = lam (cS2 S^2 + cN2 n^2)
@@ -99,8 +102,16 @@ class Phys:
 
     @property
     def vol7(self):
-        # Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}: grows like b4^{3/2} = b4(0)^{3/2} e^{2 a4} on the history
-        return self.ell ** 3 * self.vt * math.exp(1.5 * self.beta * self.a4)
+        # Vol_7(a4,0) = ell^3 v_t e^{-a4,0} b4,0^2 = ell^3 v_t e^{(2 beta - 1) a4,0}: grows like e^{(5/3) a4} on the history
+        return self.ell ** 3 * self.vt * math.exp((2.0 * self.beta - 1.0) * self.a4)
+
+    def fh_at(self, a4):
+        # the hidden scale f = e^{-a4} b4^{1/2} = e^{(beta/2 - 1) a4} (b4(0) = 1)
+        return math.exp((0.5 * self.beta - 1.0) * a4)
+
+    @property
+    def fh(self):
+        return self.fh_at(self.a4)
 
 
 class Grid:
@@ -113,14 +124,14 @@ class Grid:
         self.y = -L + (k + 1) * self.h / 2.0              # interior positions (u at even k, w at odd k)
         self.is_u = (k % 2 == 0)
         self.yext = -L + np.arange(self.n + 2) * self.h / 2.0   # with the ends: ext index e = k + 1
-        self.e6 = np.exp(6.0 * H * self.y)
-        self.e6ext = np.exp(6.0 * H * self.yext)
+        self.e3 = np.exp(3.0 * H * self.y)
+        self.e3ext = np.exp(3.0 * H * self.yext)
         self.phi0 = 0.5 * PI * (self.y + L) / L
         phi0e = 0.5 * PI * (self.yext + L) / L
         self.cos0e = np.cos(phi0e)
         self.sin0e = np.sin(phi0e)
         self.cos0e[0], self.sin0e[0] = 1.0, 0.0
-        self.cos0e[-1], self.sin0e[-1] = 0.0, 1.0          # phi0 = pi/2 exactly at the brane
+        self.cos0e[-1], self.sin0e[-1] = 0.0, 1.0          # phi0 = pi/2 exactly at the fold
         kk = np.arange(self.n - 1)
         self.bu = np.where(kk % 2 == 0, kk, kk + 1)       # u index of the coupling k <-> k+1
         self.bs = np.where(kk % 2 == 0, 1.0, -1.0) / self.h
@@ -190,34 +201,39 @@ def sector_arrays(grid: Grid, phys: Phys, sec: Sectors, M, v, a4=None, wq=None):
     M, v: potentials at the n interior positions; wq (exact-Fock variant only): w_Q at the same positions,
     entering as w_Q sigma3 for both block types, i.e. K -> K + j w_Q in j[... + K sigma3]."""
     a4 = phys.a4 if a4 is None else a4
-    kap = np.exp(-phys.H * grid.y - a4)
-    K = kap[:, None] * sec.kmag(phys.dk)[None, :]
+    finv = 1.0 / phys.fh_at(a4)
+    kap = math.exp(-a4)
+    K = np.full((grid.n, 1), kap) * sec.kmag(phys.dk)[None, :]
     j = sec.j[None, :]
     if wq is not None:
         K = K + j * wq[:, None]
     phi = np.where(sec.odd[None, :], j * grid.phi0[:, None], 0.0)
     c2 = np.where(sec.odd[None, :], np.cos(2.0 * phi), 1.0)
     s2 = np.where(sec.odd[None, :], np.sin(2.0 * phi), 0.0)
-    dphi = np.where(sec.odd, sec.j * PI / (2.0 * phys.L), 0.0)[None, :]
+    dphi = np.where(sec.odd, sec.j * PI / (2.0 * phys.L), 0.0)[None, :] * finv
     m2 = M[:, None] * c2 - K * s2
     k2 = M[:, None] * s2 + K * c2
     alpha = np.where(grid.is_u[:, None], j * (dphi + k2), j * (dphi - k2)) + v[:, None]
-    beta = j * (grid.bs[:, None] + 0.5 * m2[grid.bu, :])
+    beta = j * (grid.bs[:, None] * finv + 0.5 * m2[grid.bu, :])
     return alpha, beta
 
 
 def sector_derivative_arrays(grid: Grid, phys: Phys, sec: Sectors, dM, dv):
-    """d alpha / d a4 and d beta / d a4: frozen part (dK/da4 = -K) plus the self-consistent part dM, dv."""
-    kap = np.exp(-phys.H * grid.y - phys.a4)
-    K = kap[:, None] * sec.kmag(phys.dk)[None, :]
+    """d alpha / d a4 and d beta / d a4 along the history: frozen part (dK/da4 = -K, d(1/f)/da4 = (1 - beta/2)/f: the
+    kinetic terms 1/f d_y and phi'/f) plus the self-consistent part dM, dv."""
+    finv = 1.0 / phys.fh
+    ck = 1.0 - 0.5 * phys.beta
+    kap = math.exp(-phys.a4)
+    K = np.full((grid.n, 1), kap) * sec.kmag(phys.dk)[None, :]
     j = sec.j[None, :]
     phi = np.where(sec.odd[None, :], j * grid.phi0[:, None], 0.0)
     c2 = np.where(sec.odd[None, :], np.cos(2.0 * phi), 1.0)
     s2 = np.where(sec.odd[None, :], np.sin(2.0 * phi), 0.0)
+    ddphi = ck * np.where(sec.odd, sec.j * PI / (2.0 * phys.L), 0.0)[None, :] * finv
     dm2 = dM[:, None] * c2 + K * s2
     dk2 = dM[:, None] * s2 - K * c2
-    dalpha = np.where(grid.is_u[:, None], j * dk2, -j * dk2) + dv[:, None]
-    dbeta = j * 0.5 * dm2[grid.bu, :]
+    dalpha = np.where(grid.is_u[:, None], j * (ddphi + dk2), j * (ddphi - dk2)) + dv[:, None]
+    dbeta = j * (ck * grid.bs[:, None] * finv + 0.5 * dm2[grid.bu, :])
     return dalpha, dbeta
 
 
@@ -334,7 +350,7 @@ def eigen(aT, bT, idx, guess=None, rqi_steps=3, verify_eps=1e-9):
 # orbitals on the ext grid and densities
 # ------------------------------------------------------------------------------------------------
 def orbitals_ext(grid: Grid, Z, j, odd):
-    """(a, b) of the orbitals on the ext grid (n + 2 points incl. the tip and the brane), normalised
+    """(a, b) of the orbitals on the ext grid (n + 2 points incl. the tip and the fold), normalised
     int (a^2 + b^2) dy = 1 in the discrete staggered norm.  Z: (n, B) Euclidean-normalised eigenvectors."""
     n = grid.n
     zp = Z / math.sqrt(grid.h)
@@ -344,7 +360,7 @@ def orbitals_ext(grid: Grid, Z, j, odd):
     U[1:n + 1:2] = zp[0::2]                                   # half nodes
     U[2:n + 1:2] = 0.5 * (zp[0:n - 1:2] + zp[2::2])           # interior nodes: average
     U[0] = EXTRAP @ zp[0:11:2]                                # tip (half nodes 1/2 ... 11/2)
-    U[n + 1] = EXTRAP @ zp[n - 1:n - 12:-2]                   # brane
+    U[n + 1] = EXTRAP @ zp[n - 1:n - 12:-2]                   # fold
     W[2:n + 1:2] = zp[1::2]                                   # interior nodes
     zpad = np.zeros((n + 2, B))
     zpad[1:n + 1] = zp
@@ -360,8 +376,8 @@ class Dens:
     """Proper densities (per proper 7-volume) on the ext grid."""
 
     def __init__(self, grid: Grid, phys: Phys, a, b, wgf, j, kmag, eps):
-        P = np.exp(-6.0 * phys.H * grid.yext) / phys.vol7
-        kap = np.exp(-phys.H * grid.yext - phys.a4)
+        P = np.exp(-3.0 * phys.H * grid.yext) / phys.vol7
+        kap = math.exp(-phys.a4)
         nn = a * a + b * b
         qq = a * a - b * b
         ss = 2.0 * a * b
@@ -506,8 +522,14 @@ class State:
     pass
 
 
+# SCF tolerance of every state (units of m).  The SCF stopping error enters E_band - E_int and p0 at first order (they
+# use the output densities with the levels of the input potential) and is not part of the Richardson uncertainty (it
+# is nearly the same on the three grids); at 1e-12 it reached 4e-11 in int_p0 of N = 2352 (claude_failures.md H15)
+SCF_TOL = 1e-14
+
+
 def solve_state(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", fixed=None, start=None, guess=None,
-                tol=1e-12, maxit=400, mix_beta=0.5):
+                tol=SCF_TOL, maxit=400, mix_beta=0.5):
     """Self-consistent Kohn-Sham state on one grid.  mode: 'aufbau' (T = 0), 'fixed' (occupations given
     per level, e.g. Delta-SCF or a4 +- delta), 'mermin' (T > 0).  Potentials (dM, v) at the n interior
     positions are mixed (Anderson); converged when max |output - input| <= tol (units of m)."""
@@ -579,7 +601,7 @@ def solve_state(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", fixed=None,
     raise RuntimeError(f"SCF not converged in {maxit} iterations (residual {hist[-1]:.3e})")
 
 
-def solve_state_robust(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", guess=None, tol=1e-12, maxit=400):
+def solve_state_robust(grid: Grid, phys: Phys, ls: LevelSet, mode="aufbau", guess=None, tol=SCF_TOL, maxit=400):
     """solve_state from zero potentials; if that SCF fails, a coupling continuation: lam x 1/4, 1/2, 3/4, 1 with half
     the Anderson mixing and twice the iterations, each step started from the potentials of the previous one (the
     strategy of the Rust solver's fallback, implemented here independently).  st.path records the path taken."""
@@ -616,8 +638,8 @@ def observables(st: State):
     pt = eint.copy()
     p0 = d.k4 - vx * d.n - Mx * d.S - d.tk - wx * d.Q + eint
     vol2 = 2.0 * ph.vol7
-    e6 = g.e6ext
-    I = lambda f: vol2 * g.midpoint(e6 * f)
+    e3 = g.e3ext
+    I = lambda f: vol2 * g.midpoint(e3 * f)
     o = {}
     o["E_band"] = float(np.sum(st.ls.deg * st.f * st.eps))
     o["E_int"] = I(eint)
@@ -625,18 +647,20 @@ def observables(st: State):
     pe = st_pot_ext(st, "dM") * d.S + st_pot_ext(st, "v") * d.n
     if ph.exx:
         pe = pe + st_pot_ext(st, "wq") * d.Q
-    o["E_variational"] = o["E_band"] - vol2 * g.midpoint(e6 * pe) + o["E_int"]
+    o["E_variational"] = o["E_band"] - vol2 * g.midpoint(e3 * pe) + o["E_int"]
     o["int_rho"] = I(rho)
     o["int_p3"] = I(p3)
     o["int_p_t"] = I(pt)
     o["int_p0"] = I(p0)
     o["int_n"] = I(d.n)
-    # history identity (ks-theory.json emt.energyChange): dE/da4 = -3 (P3 - P_t) - (3/2) beta P_t, 3 (p3 - p_t) = tk
-    o["dE_da4_emt"] = -vol2 * g.midpoint(e6 * d.tk) - 1.5 * ph.beta * o["int_p_t"]
+    # history identity (ks-theory.json emt.energyChange): dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0
+    bh = 0.5 * ph.beta - 1.0
+    o["dE_da4_emt"] = -3.0 * o["int_p3"] - 3.0 * bh * o["int_p_t"] - bh * o["int_p0"]
     o["deltaE_x_exact_fock"] = lam / 32.0 * I(d.Q ** 2)
-    # y-conservation (nabla_mu T^mu_y = 0): [e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy
-    o["ycons_jump"] = float(e6[-1] * p0[-1] - e6[0] * p0[0])
-    o["ycons_integral"] = 3.0 * ph.H * g.midpoint(e6 * (p3 + pt))
+    # y-conservation (nabla_mu T^mu_y = 0, p0' + 3H (p0 - p_t) = 0): [e^{3Hy} p0]_{-L}^{0} = 3H int e^{3Hy} p_t dy
+    o["ycons_jump"] = float(e3[-1] * p0[-1] - e3[0] * p0[0])
+    o["ycons_integral"] = 3.0 * ph.H * g.midpoint(e3 * pt)
+    # identifier suffix "_brane" kept from the earlier record: the value at the fold y = 0
     for nm, arr in (("rho", rho), ("p3", p3), ("p_t", pt), ("p0", p0)):
         o[nm + "_brane"] = float(arr[-1])
         o[nm + "_tip"] = float(arr[0])
@@ -689,7 +713,7 @@ def matrix_elements(st: State, dalpha_sec, dbeta_sec, pairs):
 # ------------------------------------------------------------------------------------------------
 def particle_offsets(grid: Grid, phys: Phys, sec: Sectors):
     """Sturm index of the lowest particle level of every sector (free problem lambda = 0 at the same
-    slice): the number of free eigenvalues below -TAU_ZERO (the k = 0 brane zero modes at eps = 0 are
+    slice): the number of free eigenvalues below -TAU_ZERO (the k = 0 fold zero modes at eps = 0 are
     particles by the convention)."""
     n = grid.n
     alpha, beta = sector_arrays(grid, phys, sec, np.full(n, phys.m), np.zeros(n))
@@ -817,8 +841,8 @@ def relabel(grid: Grid, phys: Phys, ls0: LevelSet):
 
 def sea_brane_levels(grid: Grid, phys: Phys, shell_list, dM, v, chunk=256):
     """The highest SEA level of the j = -1 even sector of every shell (n2, r3) with n2 >= 1, in the given
-    potentials: Sturm index imin - 1, i.e. rank -1 below the lowest particle level (the sea brane band,
-    eps ~ -c kappa |k|; the normal-ordered sea is not populated by the filling CONVENTION).  Returns eps."""
+    potentials: Sturm index imin - 1, i.e. rank -1 below the lowest particle level (the sea fold band, eps = -kappa |k|
+    at lambda = 0; the normal-ordered sea is not populated by the filling CONVENTION).  Returns eps."""
     sec = Sectors([(n2, r3, -1, False) for (n2, r3) in shell_list])
     out = []
     for c0 in range(0, len(sec), chunk):

@@ -3,13 +3,14 @@
 //! Units: H = 1, m = 1 (canonical), so energies, momenta and temperatures are
 //! in units of m = H.  The good sector has no extra-time momentum; 3-space is
 //! a coordinate 3-torus of size ell = 2 pi / dk, k in dk Z^3; the extra-time
-//! coordinate volume is v_t.  The metric has b4(x4) in the extra-time components
-//! (b4 a function of x4, never 1); on the history b4 = b4(0) e^{beta a4} the
-//! proper 7-volume of the cell per unit e^{6Hy} is ell^3 v_t b4,0^{3/2}, and the
-//! solver works in units of b4(0)^{3/2}: Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0},
-//! densities = proper densities times b4(0)^{3/2}, lambda = lambda_hat =
-//! lambda b4(0)^{-3/2} (ks-theory.json densities.perOrbital, densities.proper;
-//! b4(0) never needs a value).
+//! coordinate volume is v_t.  The metric is the corrected primordial metric of
+//! 2026-10-16 (ks-theory.json geometry): ds^2 = e^{2a4} dx_{1..3}^2 - dx4^2
+//! + f^2 [dy^2 - e^{2Hy} dx_{5..7}^2], f = e^{-a4} b4^{1/2}.  On the history
+//! b4 = b4(0) e^{beta a4} with b4(0) = 1 (the record's value, SPEC section 1) the
+//! hidden scale is f = e^{(beta/2 - 1) a4} (e^{-a4/3} for beta = 4/3) and the proper
+//! 7-volume of the cell per unit e^{3Hy} is Vol_7(a4,0) = ell^3 v_t e^{-a4,0} b4,0^2
+//! = ell^3 v_t e^{(2 beta - 1) a4,0}; lambda = lambda_hat = lambda b4(0)^{-2}
+//! (ks-theory.json densities.perOrbital, densities.proper).
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Parity {
@@ -44,9 +45,10 @@ pub struct Physics {
     pub dk: f64,
     pub vt: f64,
     pub a4: f64,
-    /// beta = d ln b4 / d a4 of the history b4 = b4(0) e^{beta a4} (4/3, ks-theory.json adiabaticity.historyBeta)
+    /// beta = d ln b4 / d a4 of the history b4 = b4(0) e^{beta a4} (4/3, ks-theory.json adiabaticity.historyBeta);
+    /// it fixes the hidden scale f = e^{(beta/2 - 1) a4} and Vol_7(a4) (b4(0) = 1)
     pub beta: f64,
-    /// lambda_hat = lambda b4(0)^{-3/2}, the same at every slice
+    /// lambda_hat = lambda b4(0)^{-2}, the same at every slice
     pub lambda: f64,
     pub n: f64,
     pub temp: f64,
@@ -54,17 +56,29 @@ pub struct Physics {
     /// weight of the exact-Fock term (1 = exact-Fock variant; < 1 only on a continuation path)
     pub exx_frac: f64,
     pub tip_theta: f64,
+    /// coordinate-cell form (`single --coordinate-cell`): Vol_7 = ell^3 v_t at every slice, so lambda is
+    /// lambda_eff = lambda_hat e^{-(2 beta - 1) a4,0} (ks-theory.json densities.couplingVolumeScaling); f is unchanged
+    pub coord_cell: bool,
 }
 
 impl Physics {
     pub fn ell(&self) -> f64 {
         2.0 * std::f64::consts::PI / self.dk
     }
-    /// Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}: the proper 7-volume of the cell per unit e^{6Hy}
-    /// in units of b4(0)^{3/2}; it grows like b4^{3/2} = b4(0)^{3/2} e^{2 a4} on the history (beta = 4/3)
+    /// Vol_7(a4,0) = ell^3 v_t e^{-a4,0} b4,0^2 = ell^3 v_t e^{(2 beta - 1) a4,0}: the proper 7-volume of the cell per
+    /// unit e^{3Hy} (sqrt|g| = e^{-a4} b4^2 e^{3Hy}, b4(0) = 1); it grows like e^{(5/3) a4} on the history (beta = 4/3).
+    /// In the coordinate-cell form it is ell^3 v_t.
     pub fn vol7(&self) -> f64 {
         let l = self.ell();
-        l * l * l * self.vt * (1.5 * self.beta * self.a4).exp()
+        if self.coord_cell {
+            return l * l * l * self.vt;
+        }
+        l * l * l * self.vt * ((2.0 * self.beta - 1.0) * self.a4).exp()
+    }
+    /// the hidden scale f = e^{-a4,0} b4,0^{1/2} = e^{(beta/2 - 1) a4,0} (b4(0) = 1): h_j = j[-(i/f) sigma1 d_y + ...],
+    /// chi' = f N chi; the proper hidden length of the cell [-L, 0] is f L
+    pub fn fh(&self) -> f64 {
+        ((0.5 * self.beta - 1.0) * self.a4).exp()
     }
 }
 
@@ -103,8 +117,14 @@ impl Numerics {
             tag: "canonical",
         }
     }
+    /// The refined run measures the error of the canonical one (U_Rust = (16/15) |canonical - refined|), so it must
+    /// differ in every error source.  Its SCF tolerance is 1e-14, three orders below the canonical 1e-11: with 1e-12
+    /// both runs could stop at the same iteration (the residual can drop from above 1e-11 to below 1e-12 in one
+    /// Anderson step) and carry the same SCF stopping error, which enters E_band - E_int and p0 at first order
+    /// (claude_failures.md H15); the tighter tolerance needs more iterations (up to about 350 for the slowest thermal
+    /// state), hence the larger cap.
     pub fn refined() -> Numerics {
-        Numerics { g: 1800, root_tol: 1e-14, scf_tol: 1e-12, f_cut: 1e-14, mermin_form: crate::mermin::MerminForm::LinearDeviation, tag: "refined", ..Numerics::canonical() }
+        Numerics { g: 1800, root_tol: 1e-14, scf_tol: 1e-14, scf_max_iter: 1000, f_cut: 1e-14, mermin_form: crate::mermin::MerminForm::LinearDeviation, tag: "refined", ..Numerics::canonical() }
     }
 }
 

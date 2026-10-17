@@ -555,7 +555,9 @@ of commit `e377368`, and on 2026-10-08 (6.3) in the version of that commit. 6.4 
 independent verifier of 2026-10-07 and what was done with each; 6.5 the open remarks; 6.6 the change of
 2026-10-08 after that commit (folders normalised, one text of output 1 updated) and its runs; 6.7 a second
 text change of output 1 on the same day (the opening of `fields.dirac16complex.kohnSham`) and its runs.
-6.8 records the version of 2026-10-14 (the metric with b4, the author's coordinates x0..x7, 64 checks).
+6.8 records the version of 2026-10-14 (the metric with b4, the author's coordinates x0..x7, 64 checks). 6.9 makes every
+section general in b4 (2026-10-15), 6.10 records the corrected metric of 2026-10-16 (version 2) and 6.11 the
+Kohn-Sham source parts for it (phase W5); from 6.8 on the newest section comes first.
 
 ### 6.1 Verification of 2026-10-02 (version before the patch)
 
@@ -894,6 +896,40 @@ for byte. Remarks that do not affect a run from a complete clone:
   10 tests OK (19.0 s).
 * Fixes made: the text above. Open discrepancies: none in the results. Not done: a run of the changed script in
   a fresh clone.
+
+### 6.11 The Kohn-Sham source parts for the corrected metric (2026-10-16/17, `HANDOFF.md` 0.10, phase W5)
+
+* Why. Phase W2 (section 6.10) removed the keys of the metric of 2026-10-14 that `python/check_ks_source_conditions.py`
+  and `ks_source/ks_source_a4.py` read (generalSource.identity_*, offDiagonal_*, exponentialHistory.*.Q); both evaluate the
+  Kohn-Sham states, which were recomputed for the corrected metric in phase W5 (`Revision/kohn_sham`: N_mid = 592,
+  N_large = 2352, kappa = e^{-a4} constant in y, P = e^{-3Hy}/Vol_7, the lambda = 0 states exact fold-band gases).
+* `python/check_ks_source_conditions.py` (rewritten, 5 checks; the Wolfram verifier and its sympy twin are unchanged):
+  C1 every component independent of x0 (generalSource.x0_dependence), C2 p0 = p_t (hiddenEqualsExtraTimes), C3 no
+  off-diagonal component (offDiagonal; the eigen-orbitals have T^x4_y = 0), C4 the source that the record's history needs
+  with the author's weights (exponentialHistory.authorWeights.historySource_kappaT_minus_Lam), and the list of the zero
+  states. Result (5 of 5): No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source of the corrected metric: C1 fails for every nonzero state, for every a4(x4) and b4(x4); C2 (p0 = p_t) holds exactly for the lambda = 0 states and fails for lambda != 0; C3 holds; the states are not the source C4 that the history needs (no constant kappa reproduces its ratios).  The Kohn-Sham history a4 = H x4, b4 = e^((4/3) H x4) is a prescribed background without back-reaction.
+* `ks_source/ks_source_a4.py` (rewritten, 19 checks; `ks_source/README.md`): A1 to A6 exact (sympy, from
+  a4-equations.json), B0 to B3 the profiles, C1 to C4 the hidden-direction moments, D0 to D4 the integration of the
+  x0-averaged second-order system with the averaged free fold-band gas (an APPROXIMATION, stated). Result (19 of 19): No recorded Kohn-Sham state is an admissible source of the corrected metric: every nonzero state depends on x0 (B3), and the interacting states violate p0 = p_t also after averaging (C1); the off-diagonal condition holds. The free (lambda = 0) gas is an exact fold-band gas: averaged over x0 it is rho_bar = C b4^{-2}, p3 = rho/3, p0 = p_t = 0, a source that conserves energy for every a4, b4 (A5, D0). The record's history a4 = H x4, b4 = e^{(4/3) H x4} needs a source that changes sign along it (A6, C3); the Kohn-Sham gas does not supply it: the history is a prescribed background without back-reaction. With the averaged free gas as the source, the x0-averaged equations started on the record's history evolve differently (D2, D4; outcomes in results/ks-source-a4-cases.csv).
+* Mistakes found by the runs and corrected before the commit (`claude_failures.md` H10): the first restated C4 claimed
+  that the N = 8 states have rho_bar with the sign of lambda and rho_bar + p3_bar = 0; the data give the sign of -lambda
+  and 0 < p3_bar/rho_bar < 1 (the check states the measured relation). Three texts stated facts that were not computed
+  (the sign of kappa in D2, the sign change and the positivity in C3, the slice count in C2); they now follow the
+  computed values. The first run on the new dense history failed D3 (the x4 constraint along the integrated solutions,
+  tolerance 1e-8 relative): fixed RK4 steps did not resolve the runaway solutions and the approach to det J = 0
+  (residual 1.2e-2 and 4e-6 there, 1e-12 elsewhere); the integration now covers every base step with step-doubling
+  substeps (local error 1e-12) and detects the singular surface at 1e-6 of det J(0); D3 is unchanged and gives 8.9e-11
+  (`claude_failures.md` H13). The unit test asked for at least 20 checks of a record that has 19; it now pins the 19
+  names.
+* Runs (2026-10-17, development machine, Windows 11, from the repository root, each under `timeout -k 5 423`):
+  `python Revision/field_equations_a4/python/check_ks_source_conditions.py`: 5 of 5, 0.7 s.
+  `python Revision/field_equations_a4/ks_source/ks_source_a4.py`: 19 of 19, 4.4 to 4.5 s (two runs, outputs
+  byte-identical); `python -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v`: 9 tests OK
+  (19.8 s; the rerun test reproduces the committed outputs byte for byte, the two negative controls fail as they must).
+  Inputs: the Kohn-Sham record of `Revision/kohn_sham` (the Rust solver of phase W5) and the dense history
+  `Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv` (`run_ks_history.py` in three parts of 23 s and
+  an assembly of 0.7 s; 615 runs, 8 of 8 checks).
+* Not done: a run in a fresh clone (planned after the last phase of `HANDOFF.md` 0.10).
 
 ### 6.10 The corrected metric of 2026-10-16 (version 2)
 

@@ -1,13 +1,14 @@
 //! Theory inputs of the solver and their numerical cross-check.
 //!
 //! Reads `Revision/kohn_sham/ks-theory.json` (the exact block basis, the
-//! Kohn-Sham coefficients, the brane-band slope) and the gamma fixture
+//! Kohn-Sham coefficients, the fold-band slope, the forms of the corrected
+//! metric of 2026-10-16 that the solver implements) and the gamma fixture
 //! `Revision/algebra/gammas.json`, and verifies in floating point (independent
 //! of the Wolfram and sympy code that produced them) that in the exported basis
 //! V the 16-component instantaneous Hamiltonian
-//!     h = i g4 g0 d_y - kappa k g4 g1 + M (-i g4) + v
+//!     h = (i/f) g4 g0 d_y - kappa k g4 g1 + M (-i g4) + v
 //! is block diagonal with the 2 x 2 blocks
-//!     h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v,
+//!     h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v,
 //! and that the density matrices used by the solver have the stated block
 //! forms (n: B B = 1, S: B C = j sigma2, Q: B g0 -> sigma3 via B B g0 = g0,
 //! current: -i B C g1 = j sigma3).  g0 = gamma^(x0) (the hidden direction),
@@ -206,7 +207,7 @@ pub struct TheoryInputs {
     pub vv_coeff: f64,       // -1/16
     pub ex_n2: f64,          // -1/32
     pub ex_s2: f64,          // -1/32
-    pub slope_m1h1l3: f64,   // brane-band slope c at M = H = 1, L = 3, a4 = 0
+    pub slope_a0: f64,       // fold-band slope c at a4,0 = 0 (c = e^{-a4,0} for every M, L, f)
     pub sha_theory: String,
     pub sha_gammas: String,
     /// ks-theory.json adiabaticity.history and its status label (PRESCRIBED BACKGROUND)
@@ -234,11 +235,40 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
     let exn = rational(ug.get("coefficient_n2").and_then(|x| x.as_str()).ok_or("n2 coeff")?)?;
     let exs = rational(ug.get("coefficient_S2").and_then(|x| x.as_str()).ok_or("S2 coeff")?)?;
     let slope: f64 = th
-        .path(&["checksNumeric", "braneBandSlope_M1_H1_L3_a0"])
+        .path(&["checksNumeric", "braneBandSlope_a0"])
         .and_then(|x| x.as_str())
-        .ok_or("slope missing")?
+        .ok_or("slope missing (checksNumeric.braneBandSlope_a0)")?
         .parse()
         .map_err(|_| "slope parse")?;
+    let slope_formula = th.path(&["checksNumeric", "braneBandSlopeFormula"]).and_then(|x| x.as_str()).unwrap_or("").to_string();
+    // the forms of the corrected metric that this solver implements (shoot.rs, scf.rs, analysis.rs, model.rs)
+    let s = |path: &[&str]| -> String { th.path(path).and_then(|x| x.as_str()).unwrap_or("").to_string() };
+    let real_form = s(&["blockEquation", "realForm"]);
+    let kappa = s(&["geometry", "kappa"]);
+    let hidden = s(&["geometry", "hiddenScale"]);
+    let per_orbital = s(&["densities", "perOrbital"]);
+    let ycons = s(&["emt", "conservationY"]);
+    let echange = s(&["emt", "energyChange"]);
+    let forms = [
+        ("blockEquation.realForm", real_form.contains("a' = f [M_eff a - (kappa k + j(eps - v_v)) b], b' = f [(j(eps - v_v) - kappa k) a - M_eff b]")),
+        ("geometry.kappa", kappa.starts_with("kappa(x4) = e^{-a4(x4)}") && kappa.contains("does not depend on y")),
+        ("geometry.hiddenScale", hidden.starts_with("f(x4) = e^{-a4(x4)} b4(x4)^{1/2}") && hidden.contains("f = e^{-a4/3}")),
+        ("densities.perOrbital", per_orbital.starts_with("with P(y) = e^{-3Hy}/Vol_7") && per_orbital.contains("ell^3 v_t e^{(2 beta - 1) a4,0}")),
+        ("emt.conservationY", ycons.starts_with("p0' + 3H (p0 - p_t) = 0")),
+        ("emt.energyChange", echange.contains("dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0, P = 2 Vol_7 int_{-L}^{0} e^{3Hy} p dy")),
+        ("checksNumeric.braneBandSlopeFormula", slope_formula.starts_with("c = e^{-a4,0}") && (slope - 1.0).abs() < 1e-12),
+    ];
+    let bad: Vec<&str> = forms.iter().filter(|(_, ok)| !ok).map(|(n, _)| *n).collect();
+    rep.check(
+        "theory_input_metric_forms",
+        bad.is_empty(),
+        format!(
+            "ks-theory.json (sha256 {}) states the forms of the corrected metric of 2026-10-16 that the solver implements: chi' = f N chi in real form with the hidden scale f = e^(-a4) b4^(1/2) (model.rs Physics::fh, shoot.rs), kappa = e^(-a4) constant in y, P = e^(-3Hy)/Vol_7 with Vol_7 = ell^3 v_t e^((2 beta - 1) a4,0) (scf.rs, model.rs), the y-conservation p0' + 3H (p0 - p_t) = 0 and the history identity dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0 (analysis.rs), the fold-band slope c = e^(-a4,0) (spectrum.rs; c(a4,0 = 0) = {}); entries not matching: {}",
+            &sha_t[..16],
+            slope,
+            if bad.is_empty() { "none".to_string() } else { bad.join(", ") }
+        ),
+    );
     // the history a4 = A H x4 and its label: a PRESCRIBED BACKGROUND, not a solution of the a4 equations
     let history = th.path(&["adiabaticity", "history"]).and_then(|x| x.as_str()).ok_or("adiabaticity.history missing")?.to_string();
     let history_status = th
@@ -382,7 +412,7 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
         "block_reduction_numeric",
         unit < 1e-14 && off < 1e-14 && formdev < 1e-14,
         format!(
-            "basis V of ks-theory.json (rows = spinor components): |V^dag V - 1| = {:.1e}; off-block entries of V^dag X V {:.1e}; diagonal blocks equal the solver's forms (i g4 g0 -> -i j sigma1, -i g4 -> j sigma2, -g4 g1 -> j sigma3, B B -> 1, B C -> j sigma2, B B g0 -> sigma3, -i B C g1 -> j sigma3, g0 -> sigma3, B -> j s2) to {:.1e}: the 2x2 equation h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v integrated by the solver is the 16-component Hamiltonian",
+            "basis V of ks-theory.json (rows = spinor components): |V^dag V - 1| = {:.1e}; off-block entries of V^dag X V {:.1e}; diagonal blocks equal the solver's forms (i g4 g0 -> -i j sigma1, -i g4 -> j sigma2, -g4 g1 -> j sigma3, B B -> 1, B C -> j sigma2, B B g0 -> sigma3, -i B C g1 -> j sigma3, g0 -> sigma3, B -> j s2) to {:.1e}: the 2x2 equation h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v integrated by the solver is the 16-component Hamiltonian (the scalar 1/f multiplies the d_y term in both)",
             unit, off, formdev
         ),
     );
@@ -392,7 +422,7 @@ pub fn read_and_check(root: &std::path::Path, rep: &mut Report) -> Result<Theory
         vv_coeff: vv,
         ex_n2: exn,
         ex_s2: exs,
-        slope_m1h1l3: slope,
+        slope_a0: slope,
         sha_theory: sha_t,
         sha_gammas: sha_g,
         history,
@@ -409,7 +439,7 @@ pub fn inputs_json(t: &TheoryInputs) -> Json {
         ("vvCoefficientOfLambdaN", t.vv_coeff.into()),
         ("exchangeCoefficientN2", t.ex_n2.into()),
         ("exchangeCoefficientS2", t.ex_s2.into()),
-        ("braneBandSlopeTheory_M1_H1_L3", t.slope_m1h1l3.into()),
+        ("braneBandSlopeTheory_a0", t.slope_a0.into()),
         ("adiabaticityHistory", t.history.clone().into()),
         ("adiabaticityHistoryBeta", t.history_beta.into()),
     ])

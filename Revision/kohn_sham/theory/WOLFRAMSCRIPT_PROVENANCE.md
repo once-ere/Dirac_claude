@@ -3,7 +3,8 @@
 This file tells a student who has never used Wolfram or Python what this set of scripts is, how to run
 it from nothing, what it prints and writes, what it changes on the computer, and how it was verified on
 2026-10-02 and verified again, in new fresh clones, on 2026-10-07 (section 6; on 2026-10-08 the script's
-folders were normalised and the script was re-run, section 6.5). Every number below was
+folders were normalised and the script was re-run, section 6.5; on 2026-10-16 the set was recomputed for the
+corrected primordial metric, section 6.8, and sections 1 to 4 describe that version). Every number below was
 measured on the verification machine or read from the files themselves; nothing is copied from another
 document.
 
@@ -13,12 +14,14 @@ document.
 
 `Revision/kohn_sham/theory/verify_ks_theory.wls` (with its package `KohnShamTheory.wl`) derives, with
 exact computer algebra in the Wolfram Language, the Kohn-Sham equations of the author's 16-component
-field dirac16complex in the author's primordial 8-dimensional field (the author's metric with b4(x4) since
-2026-10-16, section 6.7), checks 51 statements about them,
+field dirac16complex in the author's primordial 8-dimensional field (the corrected primordial metric of
+2026-10-16, version 2, section 6.8; before it the withdrawn metrics of sections 6.7 and 6.1 to 6.6), checks 51
+statements about them,
 and writes the result twice: as a check report (`Revision/kohn_sham/reports/ks-theory-wolfram.json`) and
 as the recipe of formulas that the numerical Kohn-Sham solvers read (`Revision/kohn_sham/ks-theory.json`).
 The same folder holds an independent second engine, the Python/sympy program `check_ks_theory.py`
-(63 checks since 2026-10-16, section 6.7; 58 since commit `3d22bc5` of 2026-10-07, 57 before; report
+(61 checks in the corrected metric, section 6.8; 63 with the metric of 2026-10-14, section 6.7; 58 since commit
+`3d22bc5` of 2026-10-07, 57 before; report
 `Revision/kohn_sham/reports/ks-theory-python.json`); it is documented here as an optional companion
 (sections 3.6 and 4.5), because it reads the Wolfram output.
 
@@ -26,8 +29,11 @@ The same folder holds an independent second engine, the Python/sympy program `ch
 
 * The field. The author's field Psi has 16 complex components and lives in 8 dimensions, named as the
   author names them, X = {x0, x1, ..., x7}: x0 is a hidden direction; x1, x2, x3 are ordinary space;
-  x4 is time; x5, x6, x7 are three extra time-like directions whose scale factor shrinks exponentially
-  (they "deflate" while space inflates). (Until 2026-10-14 this set used the withdrawn labels x1..x8 with
+  x4 is time; x5, x6, x7 are three extra time-like directions. The metric (`Revision/SPEC.md` section 1, the
+  corrected version 2 of 2026-10-16) is g = diag(e^{-2a4} b4 cot^2 z, e^{2a4} (x3), -1, -e^{-2a4} b4
+  (sin^2 z)^{1/6} (x3)), z = 6 H x0 real, with two functions a4(x4) and b4(x4) > 0 of time; the hidden direction
+  and the extra times share the scale f = e^{-a4} b4^{1/2}, which shrinks along the record's history
+  a4 = H x4, b4 = e^{(4/3) H x4} (f = e^{-a4/3}) while space grows like e^{a4}. (Until 2026-10-14 this set used the withdrawn labels x1..x8 with
   the hidden direction x8 listed last; section 6.6.) The 16 x 16 gamma matrices that define the field equation are read from the file
   `Revision/algebra/gammas.json` (made by another set, `Revision/algebra/wolfram/`). They are the
   author's eight REAL 16 x 16 Dirac matrices: every entry is 0, +1 or -1 (read from the file on
@@ -48,39 +54,44 @@ The same folder holds an independent second engine, the Python/sympy program `ch
     are read, the defining Clifford relation {gamma^a, gamma^b} = 2 eta^ab with the signature
     (+,+,+,+,-,-,-,-) in the order x0, x1, ..., x7 is verified for all 64 pairs, and the three special matrices C (scalar density),
     B (number density) and Gamma (the chirality, the product of all eight gammas) are checked.
-  * B. The geometry (6 checks). The hidden coordinate is replaced by the proper distance
-    y = ln(sin 6 H x0)/(6 H) <= 0; the volume factor sqrt|g| is checked; the spin connection (how a
-    spinor is carried along in the curved field) is computed from the metric and verified for all 64
-    index pairs; the key result is that gamma^mu Omega_mu = 3 H gamma^(x0) exactly, for any time
-    dependence a4(x4) of the scale factors, because the contributions of the 3 inflating and the
-    3 deflating directions cancel.
-  * C. The ansatz (3 checks). Writing Psi = e^{i k.x} W^{-3} chi(y, x4) with the warp W = e^{H y} removes
-    the spin connection exactly and leaves a Schroedinger-like equation i d chi/dx4 = h chi with a
-    Hermitian Hamiltonian h; without the factor W^{-3} a term survives.
+  * B. The geometry (7 checks). The hidden coordinate is replaced by y = ln|sin 6 H x0|/(6 H) <= 0 (dy = cot z dx0
+    on every quarter of the period of z; the fold cos z = 0 is y = 0); the line element becomes
+    e^{2a4} dx_{1..3}^2 - dx4^2 + f^2 [dy^2 - e^{2Hy} dx_{5..7}^2]; the volume factor sqrt|g| = e^{-a4} b4^2 e^{3Hy} is
+    checked; the spin connection (how a spinor is carried along in the curved field) is computed from the metric
+    and verified for all 64 index pairs; the key result is gamma^mu Omega_mu = (3/2)(H/f) gamma^(x0) +
+    (b4'/b4 - a4'/2) gamma^(x4) exactly, for every time dependence a4(x4), b4(x4), also in the author's chart for
+    every real z.
+  * C. The ansatz (4 checks) and the Hamiltonian (1 check). Writing Psi = e^{i k.x} e^{-(3/2)Hy} e^{a4/2} b4^{-1}
+    chi(y, x4) removes the spin connection exactly and leaves a Schroedinger-like equation i d chi/dx4 = h chi with a
+    Hermitian Hamiltonian h; without either factor a term survives; the factor is the half-density of sqrt|g|.
   * D. The blocks (9 checks). Three commuting matrices J, K1, K2 split the 16 components into eight
     independent 2 x 2 blocks; an exact unitary basis V is constructed (entries 0, +-1, +-i divided by
-    2 sqrt 2) and the Hamiltonian in every block is h_j = j[-i sigma1 d/dy + M sigma2 + kappa k sigma3] + v,
-    j = +-1; the chirality Gamma maps a block of type j with mass M onto a block of type -j with mass -M;
-    the spectra depend only on |k|.
+    2 sqrt 2) and the Hamiltonian in every block is h_j = j[-(i/f) sigma1 d/dy + M sigma2 + kappa k sigma3] + v,
+    j = +-1, kappa = e^{-a4} (constant in y); the chirality Gamma maps a block of type j with mass M onto a block of
+    type -j with mass -M; the spectra depend only on |k|.
   * E. The exchange (7 checks). For the interaction U = (lambda/2) S^2 the Hartree-Fock energy of a
     uniform gas is computed exactly (including an explicit integral over all directions of the
     momentum): e_x = -(lambda/32)(n^2 + S^2); this gives the Kohn-Sham potentials
     M_eff = m + (15/16) lambda S and v_v = -lambda n/16. The exact Fock exchange of a slab is computed by
     averaging over the 48-element spinor octahedral group.
-  * F. The boundary conditions (8 checks). At the brane y = 0 a Z2 mirror construction is ASSUMED (the
-    script labels it so): even parity chi2(0) = 0 or odd parity chi1(0) = 0; at the tip y = -L a family of
-    conditions is allowed; the block Hamiltonian is shown to be self-adjoint with these ends; the exact
-    k = 0 spectra are verified by substituting the closed-form eigenfunctions into the block equation
-    (DSolve is called only to confirm that the system has one general solution).
-  * G. The rescaling identity (1 check). The slice value a4,0 enters only through kappa k, so a slice at
-    a4,0 is exactly a slice at 0 with rescaled momentum lattice and box.
-  * H. The energy-momentum tensor and adiabaticity (8 checks). The energy-momentum tensor of one orbital
-    is computed component by component; its trace identity, its conservation along y, and the law of
-    energy change along x4 (nabla_mu T^mu_x4 = -d rho/dx4 - 3 a4'(p3 - p_t), checked for a general
-    diagonal T; it is a law of change, not a conservation law) are verified; the adiabatic
-    (slow-change) measure is checked on an explicit example; the slope of the brane band d eps/dk at
-    k = 0 is given by an exact formula and confirmed by a numerical shooting computation (NDSolve at
-    25 digits, Richardson extrapolation), which agrees with the formula to better than 1e-8.
+  * F. The boundary conditions (7 checks). The fold y = 0 joins the two halves of a cell; the reduced equation is
+    the same on both halves, and self-adjointness requires (1 - Q(theta)) chi(0) = 0: theta = 0 gives chi2(0) = 0
+    (even), theta = pi chi1(0) = 0 (odd); filling both is the ASSUMED convention of the record (the script labels
+    it so). At the tip y = -L a family of conditions is allowed; the block Hamiltonian is self-adjoint with these
+    ends; the exact k = 0 spectra (with the proper length f L) are verified by substituting the closed-form
+    eigenfunctions into the block equation; for constant M, v nothing suppresses an orbital toward the tip.
+  * G. The rescaling identity and the units (3 checks). A slice at a4,0, b4,0 is exactly the slice a4 = 0, b4 = 1
+    with H/f0, the hidden length f0 L, the momentum lattice rescaled by e^{-a4,0} and the extra-time box by
+    e^{-3 a4,0} b4,0^{3/2}; a state depends on the coupling and the cell volume only through lambda/Vol; the
+    solver's units along the history.
+  * H. The energy-momentum tensor and adiabaticity (8 checks) and the fold-band slope (1 check). The
+    energy-momentum tensor of one orbital is computed component by component; its trace identity, its
+    conservation along y (p0' + 3H (p0 - p_t) = 0), and the law of energy change along x4 (nabla_mu T^mu_x4 =
+    -d rho/dx4 - 3 a4' (rho + p3) - 3 h4 (rho + p_t) - h4 (rho + p0), h4 = b4'/(2 b4) - a4', checked for a general
+    diagonal T; on the history dE/da4 = -3 P3 + P_t + P0/3) are verified; the adiabatic (slow-change) measure and
+    the derivative of h along the history (with the kinetic term (1 - beta/2) T_j) are checked; the slope of the fold
+    band d eps/dk at k = 0 is c = e^{-a4,0} exactly, confirmed by a numerical shooting computation (NDSolve at 25
+    digits, Richardson extrapolation) at a4,0 = 0 (f = 1) and a4,0 = 1/2 (f = e^{-1/6}) to better than 1e-8.
   * Export (1 check: `ks_theory_json_written`). `ks-theory.json` is written, exported twice to make sure
     the text is identical, read back, and its key entries compared with what was computed. It records,
     among others, that the history a4 = A H x4 is a PRESCRIBED BACKGROUND (a test field without
@@ -90,10 +101,12 @@ The same folder holds an independent second engine, the Python/sympy program `ch
 
 Each statement is decided by exact computation with Wolfram Language expressions (matrices, derivatives,
 integrals): `Simplify` must reduce a difference to exactly 0, two exact matrices must be equal, or an
-exact count must come out right (for example the 48 elements of the octahedral group). Only the
-brane-band slope uses floating-point numbers (25-digit working precision, tolerance 1e-8). Every
-check prints `PASS` or `FAIL` with its name; the report lists every check with its verdict and a detail
-text; the exit code is 0 only if all 46 pass and both output files were written. A missing input file
+exact count must come out right (for example the 48 elements of the octahedral group). Statements about the
+author's chart for every real z are decided by the exact zero test `KSZeroX0Q` of the package (reduction modulo
+cos^2 + sin^2 - 1, w^12 - sin^2 with w = (sin^2)^{1/12} and sign(cot z)^2 - 1). Only the fold-band slope uses
+floating-point numbers (25-digit working precision, tolerance 1e-8). Every check prints `PASS` or `FAIL` with its
+name; the report lists every check with its verdict and a detail text; the exit code is 0 only if all 51 pass and
+both output files were written. A missing input file
 or an output file that cannot be written stops the run at once with a line beginning `ERROR` and exit
 code 1 (this guard is the execution fix of 2026-10-02, section 6). The companion `check_ks_theory.py`
 repeats the derivation independently with sympy (it shares no code with the Wolfram script) and in
@@ -105,7 +118,8 @@ BACKGROUND for the reason recorded in `Revision/field_equations_a4/reports/ks-so
 
 * `Revision/docs/PAIR_CREATION_PROOFS.md` (and its `.tex` and `.pdf`): section 8 (Theorem T3 is proved for
   the Kohn-Sham problem of `Revision/kohn_sham/ks-theory.json`), section 9.1 (the table of report counts:
-  `ks-theory-wolfram.json` 46 of 46, `ks-theory-python.json` 58 of 58 since commit `dc6904e`; before it the
+  `ks-theory-wolfram.json` 46 of 46, `ks-theory-python.json` 58 of 58 since commit `dc6904e` (the document describes
+  a withdrawn metric; it is redone in phase W7 of `HANDOFF.md` 0.10 for the corrected metric, 51 and 61); before it the
   row said 57 of 57, out of date since commit `972cad1`, the discrepancy of section 6.3, resolved in 6.4),
   section 10 (the reproduction commands `wolframscript -file Revision/kohn_sham/theory/verify_ks_theory.wls`
   and `python Revision/kohn_sham/theory/check_ks_theory.py`).
@@ -117,7 +131,8 @@ BACKGROUND for the reason recorded in `Revision/field_equations_a4/reports/ks-so
   a `ks-theory.json` without the PRESCRIBED BACKGROUND label), the Python reference
   (`Revision/kohn_sham/reference/ks_fd.py`, `run_reference.py`, `README.md`) and the cross-check
   `Revision/kohn_sham/checker/crosscheck_ks.py`. The sha256 of `ks-theory.json`
-  (`a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2`; before 2026-10-14 `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3`) is pinned in
+  (`34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` in the corrected metric; 2026-10-14
+  `a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2`; before 2026-10-14 `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3`) is pinned in
   `Revision/kohn_sham/results/parameters.json` and `Revision/kohn_sham/reference/results/parameters.json`,
   and its first 16 hex digits are quoted in `Revision/kohn_sham/reports/ks-crosscheck.json`,
   `ks-reference.json` and `ks-rust-solver.json`.
@@ -125,8 +140,8 @@ BACKGROUND for the reason recorded in `Revision/field_equations_a4/reports/ks-so
   `Revision/pairing/kohn_sham/python/check_t3.py` (with `Revision/pairing/kohn_sham/README.md`) read
   `ks-theory.json`.
 * `Revision/field_equations_a4/python/check_ks_source_conditions.py` cites `ks-theory.json`
-  (`adiabaticity.history`, `emt.energyChange`); its report `ks-source-conditions.json` is in turn read by
-  the companion (section 2.2).
+  (`adiabaticity.history`, `emt.offDiagonal`); its report `ks-source-conditions.json` is in turn read by
+  the companion (section 2.2), together with `Revision/field_equations_a4/a4-equations.json`.
 * `Revision/textbook/TEXTBOOK_SPEC.md` (chapter 14) lists `Revision/kohn_sham/theory`, `ks-theory.json` and
   the reports as sources.
 * `provenance/dirac matrices.md` (section "Calculations that use these matrices") lists the three program
@@ -144,15 +159,16 @@ their line endings). Line counts are counts of line-feed characters (`wc -l`).
 
 ### 2.1 The script and the package
 
-The tables of section 2 give the version of 2026-10-14 in the author's coordinates x0..x7 (section 6.6); the
-paragraphs under them describe the earlier versions, whose sha256 values are quoted there and in sections 6.1
-to 6.5.
+The tables of section 2 give the version of 2026-10-16 in the corrected metric (section 6.8); the paragraphs under
+them describe the earlier versions, whose sha256 values are quoted there and in sections 6.1 to 6.7 (the version of
+2026-10-14 in the author's coordinates, section 6.6: script `c7ba3eb5...`, package `4dca70ac...`, companion
+`c58f6775...`).
 
 | File | sha256 | Lines | Bytes |
 | --- | --- | --- | --- |
-| `Revision/kohn_sham/theory/verify_ks_theory.wls` (the script you run) | `c7ba3eb5d38a24deb5d325fcd83ba2d95b3637b9d84b53c30a91c5668a633628` | 463 | 41581 |
-| `Revision/kohn_sham/theory/KohnShamTheory.wl` (its package, loaded by the script with `Get`) | `4dca70acf65b178f8a1a84bf48ab753de251e707243b1078b30a6ed4402dd96c` | 89 | 4798 |
-| `Revision/kohn_sham/theory/check_ks_theory.py` (optional companion, Python/sympy) | `c58f6775ab54247b848716214225271595acc187d6517b8f8df5319c5d94e68f` | 826 | 50072 |
+| `Revision/kohn_sham/theory/verify_ks_theory.wls` (the script you run) | `8b66cb7aa4d9e96c58f09b61bf0489527f7851004097782caf94d2d9238bc093` | 514 | 53952 |
+| `Revision/kohn_sham/theory/KohnShamTheory.wl` (its package, loaded by the script with `Get`) | `4e3944c4c1cb419756d3a6923491c4e15bd2edb72d042b409a43e38e7f91fb65` | 110 | 6737 |
+| `Revision/kohn_sham/theory/check_ks_theory.py` (optional companion, Python/sympy) | `50afd09ab2f8ccdd52eaafdb595da265a23eb57e75cc2369f35e8e16567b8ece` | 914 | 56863 |
 
 The version with the execution fix of 2026-10-02 (section 6) has been committed since commit
 `3f0a577c234501e0e073df1ec1640554bf93d764` (sha256
@@ -185,7 +201,8 @@ the same detail texts.
 | `Revision/algebra/gammas.json` (the 8 gamma matrices and eta) | both | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` | 1405 | 76894 |
 | `Revision/algebra/reports/python-gammas.json` (the same matrices rebuilt in Python) | companion only | `7388509a974f4d9dc383bb5d89cb16818ed01dc5a59784eb8f3e2d6742fcddbe` | 11639 | 94194 |
 | `Revision/kohn_sham/ks-theory.json` (the Wolfram output) | the Wolfram script reads back what it has just written; the companion cross-checks it | see 2.3 | | |
-| `Revision/field_equations_a4/reports/ks-source-conditions.json` (the a4 source conditions of the Kohn-Sham states, written by `Revision/field_equations_a4/python/check_ks_source_conditions.py`) | companion only (check `ks_theory_json_history_label`) | `dfa3d59ee718f09aef4effa6176ff6b729a9ff08f4098acf9918293085eb2709` | 53 | 5086 |
+| `Revision/field_equations_a4/reports/ks-source-conditions.json` (the a4 source conditions of the Kohn-Sham states, written by `Revision/field_equations_a4/python/check_ks_source_conditions.py`) | companion only (check `ks_theory_json_history_label`) | `4da44febfb89da82f4bc7d77fdeb16eca6a157c0ed1ac579ea87205de7e64fe5` | 53 | 6772 |
+| `Revision/field_equations_a4/a4-equations.json` (the field equations for a4 and b4) | companion only (check `ks_theory_json_history_label`) | `fba6e3af9c56f5e6c61819762a1fccfede5f6ab4875f3e4fa736d2afb13df72d` | 837 | 64220 |
 
 The script finds the package and the inputs relative to its own location (`$InputFileName`), not relative
 to the current folder. Before it reads the package and before it reads `gammas.json` it checks that the
@@ -195,9 +212,9 @@ file exists; if not, it prints `ERROR  input file not found: <full path>` and st
 
 | Output | Written by | sha256 (committed and reproduced) | Lines | Bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/kohn_sham/ks-theory.json` (the formulas for the solvers) | `verify_ks_theory.wls` | `a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2` | 477 | 17346 |
-| `Revision/kohn_sham/reports/ks-theory-wolfram.json` (46 checks) | `verify_ks_theory.wls` | `21f7736e340618bf5405acb169bf5000f02c47a8f710ce5fd48d8658cbd1224d` | 56 | 10337 |
-| `Revision/kohn_sham/reports/ks-theory-python.json` (58 checks) | `check_ks_theory.py` | `d39256e3dd7bee6c203493bd08fd4b2f5f7494af0f07dbf69874706d4eb76784` | 303 | 19475 |
+| `Revision/kohn_sham/ks-theory.json` (the formulas for the solvers) | `verify_ks_theory.wls` | `34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` | 484 | 21739 |
+| `Revision/kohn_sham/reports/ks-theory-wolfram.json` (51 checks) | `verify_ks_theory.wls` | `ac7cc653d1d3242d628f8043ed48b3e67238ea0cc5fe0bf245109ab8116d0927` | 61 | 15306 |
+| `Revision/kohn_sham/reports/ks-theory-python.json` (61 checks) | `check_ks_theory.py` | `9fdb72adc94af56a8a535d506f1679907d03b0db74e1a136bc0307f4625ebe7f` | 318 | 21720 |
 
 If the folder `Revision/kohn_sham/reports` is missing, both scripts create it. If an output file cannot
 be opened for writing (for example because it is read-only), the Wolfram script prints the Wolfram
@@ -354,7 +371,7 @@ What the five lines do:
 * The second line shows the exit code of the run. Type it immediately after the first line, because it
   reports the most recent program that ran.
 * The third line shows the kept lines (section 4.1 lists them).
-* The fourth line counts them. It must print `47` (on macOS `wc -l` puts spaces before the number).
+* The fourth line counts them. It must print `52` (on macOS `wc -l` puts spaces before the number).
 * The fifth line counts the lines that contain `::`. It must print `0`.
 
 These five lines write nothing into the repository, and the variable `out` is forgotten when you close the
@@ -366,8 +383,8 @@ script once more): in PowerShell
 
 Then check the result:
 
-1. The last line shown by `$out` (or `echo "$out"`) must begin with `46/46 checks passed`, the exit code
-   must be `0`, the line count must be `47` (46 lines beginning with `PASS` and the final line), and the
+1. The last line shown by `$out` (or `echo "$out"`) must begin with `51/51 checks passed`, the exit code
+   must be `0`, the line count must be `52` (51 lines beginning with `PASS` and the final line), and the
    count of lines containing `::` must be `0`. A line containing `::` is a Wolfram message (for example
    `OpenWrite::noopen`) and means that something went wrong even if the other checks below look right.
 2. The report's summary line. Windows PowerShell:
@@ -376,14 +393,14 @@ Then check the result:
    Select-String -Pattern '"summary"' -Path Revision/kohn_sham/reports/ks-theory-wolfram.json
    ```
 
-   prints `Revision\kohn_sham\reports\ks-theory-wolfram.json:7:  "summary": {"passed": 46, "failed": 0, "total": 46},`.
+   prints `Revision\kohn_sham\reports\ks-theory-wolfram.json:7:  "summary": {"passed": 51, "failed": 0, "total": 51},`.
    macOS and Linux:
 
    ```bash
    grep '"summary"' Revision/kohn_sham/reports/ks-theory-wolfram.json
    ```
 
-   prints `  "summary": {"passed": 46, "failed": 0, "total": 46},`.
+   prints `  "summary": {"passed": 51, "failed": 0, "total": 51},`.
 3. The two outputs are byte-identical to the committed files. Windows PowerShell:
 
    ```powershell
@@ -394,8 +411,8 @@ Then check the result:
    macOS: `shasum -a 256 Revision/kohn_sham/ks-theory.json Revision/kohn_sham/reports/ks-theory-wolfram.json`,
    Linux: `sha256sum Revision/kohn_sham/ks-theory.json Revision/kohn_sham/reports/ks-theory-wolfram.json`,
    and on both `git status --porcelain`. The hashes must be (PowerShell prints them in capital letters)
-   `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3` for `ks-theory.json` and
-   `5d803af6b270bc7dd93120907c13c28e855c4ba351ccdc3b411d7f8086112ae6` for `ks-theory-wolfram.json`, and
+   `34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` for `ks-theory.json` and
+   `ac7cc653d1d3242d628f8043ed48b3e67238ea0cc5fe0bf245109ab8116d0927` for `ks-theory-wolfram.json`, and
    `git status --porcelain` must print nothing at all (an empty answer means that no file of the
    repository differs from the committed version).
 
@@ -445,9 +462,9 @@ anyway, so the result is the same in either order.
    `pip install numpy sympy mpmath` installs versions for your Python; the verdicts are expected to be the
    same, but only the versions above were verified. The checker itself prints its lines while it runs and
    takes about 75 to 165 seconds, longer on a busy computer.
-3. Check: the last line must be `{"passed": 58, "failed": 0, "other": 0, "total": 58}`, the exit code
+3. Check: the last line must be `{"passed": 61, "failed": 0, "other": 0, "total": 61}`, the exit code
    `0`, and the report `Revision/kohn_sham/reports/ks-theory-python.json` must have the sha256
-   `7ae5c6be4dbaf167093a7c0799d9c102d3a7d1d17ec93311a1b17ea5bc26cf9c` (same hash commands as in
+   `9fdb72adc94af56a8a535d506f1679907d03b0db74e1a136bc0307f4625ebe7f` (same hash commands as in
    section 3.5, step 3); `git status --porcelain` must again print nothing. The exit code `0` alone does
    not prove success: a run without `Revision/kohn_sham/ks-theory.json` also ends with exit code `0`
    (section 3.7), so always read the last line.
@@ -512,13 +529,13 @@ anyway, so the result is the same in either order.
   final line still read `46/46 checks passed` and the exit code was `0`, although the report was not
   written. With a read-only report even the hash and `git status` checks of section 3.5, step 3, pass
   (the old file stays in place). Only the `::` lines show the failure: this is why section 3.5, step 1,
-  asks for exactly 47 lines and no `::`.
-* One or more lines begin with `FAIL`, the last line reads `k/46 checks passed` with k smaller than 46,
+  asks for exactly 52 lines and no `::` (the observation above was made with the 46-check version).
+* One or more lines begin with `FAIL`, the last line reads `k/51 checks passed` with k smaller than 51,
   and the exit code is `1`: a check did not hold on your computer. Do not edit the files. Check that the
   sha256 values of the script, the package and `gammas.json` equal those of section 2 (if they differ,
   this record does not apply to your copy), note your Wolfram version (`wolframscript -code '$Version'`,
   single quotes), and report the failing check names.
-* All 46 checks pass but `git status --porcelain` lists `Revision/kohn_sham/reports/ks-theory-wolfram.json`:
+* All 51 checks pass but `git status --porcelain` lists `Revision/kohn_sham/reports/ks-theory-wolfram.json`:
   on another operating system or Wolfram version some detail texts can differ in the last digits (the
   12-digit NDSolve slopes of `brane_band_slope`) or in how an expression is printed (the coefficients of
   `spin_connection_time_terms_cancel`). This was not observed on the verification machine and was not
@@ -547,7 +564,7 @@ anyway, so the result is the same in either order.
 
 ### 4.1 Printed on the screen
 
-The Wolfram script prints exactly 47 lines and nothing else (no warnings, no messages): one line per
+The Wolfram script prints exactly 52 lines and nothing else (no warnings, no messages): one line per
 check, in this order, of the form `PASS  <name>  t=<seconds>` (two spaces before and after the name),
 then the final line. The seconds count from the start of the checks and vary from run to run; they can
 show binary rounding such as `t=0.7000000000000001` or `t=26.700000000000003`, or a whole number written
@@ -555,88 +572,87 @@ with a trailing point such as `t=32.` (Wolfram's way of printing 32.0), which is
 Windows each line ends with a carriage return and a line feed; this is also normal.
 
 ```text
-PASS  fixture_input  t=0.6000000000000001
-PASS  clifford_relation  t=0.6000000000000001
-PASS  C_B_Gamma  t=0.6000000000000001
-PASS  geometry_hidden_coordinate  t=0.7000000000000001
-PASS  geometry_sqrt_det  t=0.7000000000000001
-PASS  spin_connection_compatibility  t=0.9
-PASS  spin_connection_slash_3H  t=0.9
-PASS  spin_connection_time_terms_cancel  t=0.9
-PASS  spin_connection_slash_3H_x0_chart  t=1.2000000000000002
-PASS  ansatz_removes_spin_connection  t=1.2000000000000002
-PASS  ansatz_without_W3_term_survives  t=1.3
-PASS  hamiltonian_16_hermitian  t=1.3
-PASS  blocks_commuting_set  t=1.3
-PASS  blocks_basis_unitary  t=1.3
-PASS  blocks_forms  t=1.3
-PASS  blocks_relation_to_Gamma  t=1.3
-PASS  block_hamiltonian  t=1.3
-PASS  block_ode_equivalent  t=1.4000000000000001
-PASS  block_type_relation  t=1.4000000000000001
-PASS  block_Gamma_map  t=1.4000000000000001
-PASS  rotation_invariance  t=1.4000000000000001
-PASS  gas_mode_projector  t=1.4000000000000001
-PASS  gas_angular_average  t=22.400000000000002
-PASS  gas_densities  t=22.400000000000002
-PASS  exchange_uniform_gas  t=22.400000000000002
-PASS  ks_potentials  t=22.400000000000002
-PASS  ks_onshell_lagrangian  t=22.400000000000002
-PASS  exchange_slab_exact_fock  t=23.1
-PASS  bc_mirror_map_PA  t=23.1
-PASS  bc_mirror_parities_of_densities  t=23.1
-PASS  bc_brane_parity_conditions  t=23.1
-PASS  bc_self_adjoint_boundary_term  t=23.1
-PASS  bc_tip_family  t=23.1
-PASS  bc_current_conserved_along_y  t=23.1
-PASS  bc_exact_k0_spectra  t=23.1
-PASS  bc_tip_asymptotics  t=23.1
-PASS  rescaling_identity  t=23.1
-PASS  emt_orbital_components  t=28.900000000000002
-PASS  emt_trace_identity  t=28.900000000000002
-PASS  emt_y_conservation_orbital  t=28.900000000000002
-PASS  emt_y_conservation_selfconsistent  t=28.900000000000002
-PASS  emt_x4_component  t=28.900000000000002
-PASS  adiabatic_hellmann_feynman  t=28.900000000000002
-PASS  adiabatic_offdiagonal_identity  t=28.900000000000002
-PASS  brane_band_slope  t=30.5
-PASS  ks_theory_json_written  t=30.6
-46/46 checks passed; time 30.6 s
+PASS  fixture_input  t=1.
+PASS  clifford_relation  t=1.
+PASS  C_B_Gamma  t=1.
+PASS  geometry_hidden_coordinate  t=1.2000000000000002
+PASS  geometry_line_element  t=1.3
+PASS  geometry_sqrt_det  t=1.4000000000000001
+PASS  spin_connection_compatibility  t=1.6
+PASS  spin_connection_slash  t=1.6
+PASS  spin_connection_time_terms  t=1.6
+PASS  spin_connection_slash_x0_chart  t=1.9000000000000001
+PASS  ansatz_removes_spin_connection  t=2.
+PASS  ansatz_without_y_factor_term_survives  t=2.1
+PASS  ansatz_without_x4_factor_term_survives  t=2.3000000000000003
+PASS  ansatz_norm  t=2.3000000000000003
+PASS  hamiltonian_16_hermitian  t=2.3000000000000003
+PASS  blocks_commuting_set  t=2.3000000000000003
+PASS  blocks_basis_unitary  t=2.3000000000000003
+PASS  blocks_forms  t=2.4000000000000004
+PASS  blocks_relation_to_Gamma  t=2.4000000000000004
+PASS  block_hamiltonian  t=2.4000000000000004
+PASS  block_ode_equivalent  t=2.4000000000000004
+PASS  block_type_relation  t=2.4000000000000004
+PASS  block_Gamma_map  t=2.4000000000000004
+PASS  rotation_invariance  t=2.4000000000000004
+PASS  gas_mode_projector  t=2.4000000000000004
+PASS  gas_angular_average  t=35.300000000000004
+PASS  gas_densities  t=35.300000000000004
+PASS  exchange_uniform_gas  t=35.300000000000004
+PASS  ks_potentials  t=35.300000000000004
+PASS  ks_onshell_lagrangian  t=35.300000000000004
+PASS  exchange_slab_exact_fock  t=36.2
+PASS  bc_fold_same_equation_on_both_halves  t=36.2
+PASS  bc_fold_conditions  t=36.2
+PASS  bc_self_adjoint_boundary_term  t=36.2
+PASS  bc_tip_family  t=36.2
+PASS  bc_current_conserved_along_y  t=36.2
+PASS  bc_exact_k0_spectra  t=36.4
+PASS  bc_tip_asymptotics  t=36.4
+PASS  rescaling_identity  t=36.4
+PASS  ks_coupling_volume_scaling  t=36.4
+PASS  history_solver_units  t=36.7
+PASS  emt_orbital_components  t=45.400000000000006
+PASS  emt_trace_identity  t=45.5
+PASS  emt_y_conservation_orbital  t=45.5
+PASS  emt_y_conservation_selfconsistent  t=45.5
+PASS  emt_x4_component  t=45.5
+PASS  emt_energy_change_history  t=45.5
+PASS  adiabatic_hellmann_feynman  t=45.5
+PASS  adiabatic_offdiagonal_identity  t=45.5
+PASS  brane_band_slope  t=46.800000000000004
+PASS  ks_theory_json_written  t=46.900000000000006
+51/51 checks passed; time 46.900000000000006 s
 ```
 
-(This is run 2 of 2026-10-14, section 6.6; run 1 ended with `46/46 checks passed; time 26.200000000000003 s`. The runs of 2026-10-02 to
-2026-10-08 printed the same 47 lines, except that the ninth check was named `spin_connection_slash_3H_x8_chart`,
-the name in the withdrawn labels; run 1 of 2026-10-02 ended with `46/46 checks passed; time 33.6 s`.) The runs of
-2026-10-07 printed the same 47 lines in
-the same order with larger `t=` values, because the machine was busier that day; the final lines of the
-two recorded runs of section 6.2 were `46/46 checks passed; time 46.300000000000004 s` and
-`46/46 checks passed; time 45.800000000000004 s`, those of the three complete runs of section 6.3
-`46/46 checks passed; time 76.80000000000001 s`, `46/46 checks passed; time 67.2 s` and
-`46/46 checks passed; time 64. s`.
-The longest single step is the explicit angular integral of `gas_angular_average` (23 to 25 s on
+(This is a run of 2026-10-16 in the corrected metric, section 6.8, on a machine shared with the Rust solver; the other
+recorded runs of that day ended with `51/51 checks passed` after 31.4 s and 35.7 s of wall time. Before 2026-10-16 the
+script printed 47 lines with 46 checks (sections 6.1 to 6.6) or 52 lines with 51 checks of the withdrawn metric of
+2026-10-14 (section 6.7); the names of the corrected set are listed in section 6.8.) The longest single step is the explicit angular integral of `gas_angular_average` (23 to 25 s on
 2026-10-02, 30.4 and 30.7 s in section 6.2, 41.6 to 49.5 s in section 6.3), then the energy-momentum
 components of `emt_orbital_components` (7 to 8 s; 10.5 and 8.8 s; 10.6 to 17.4 s) and the NDSolve
 shooting of `brane_band_slope` (about 2 s; 2.6 and 2.7 s; 3.1 to 4.5 s).
 
 ### 4.2 Exit code
 
-`0` when all 46 checks pass and both output files were written; `1` when at least one check fails, when
+`0` when all 51 checks pass and both output files were written; `1` when at least one check fails, when
 an input file is missing, or when an output file cannot be written (in the last two cases a line
 beginning `ERROR` is printed and the final `checks passed` line is missing; section 3.7). Caution: an
 exit code `0` alone does not prove success. WolframScript also returns `0` when it cannot open the script
 file at all (section 3.7), and the older script of commit `c2b33cc` (section 2.1) returned `0`, with the
 final line `46/46 checks passed`, even when it could not write its outputs. So always also check that
-exactly 47 lines were printed and that none contains `::` (section 3.5, step 1).
+exactly 52 lines were printed and that none contains `::` (section 3.5, step 1).
 
 ### 4.3 Files written
 
 | File | How to check it |
 | --- | --- |
-| `Revision/kohn_sham/reports/ks-theory-wolfram.json` | line 7 is `  "summary": {"passed": 46, "failed": 0, "total": 46},`; 46 entries under `"checks"`, each `"verdict": "PASS"`; sha256 `21f7736e340618bf5405acb169bf5000f02c47a8f710ce5fd48d8658cbd1224d` (2026-10-14; before: `5d803af6b270bc7dd93120907c13c28e855c4ba351ccdc3b411d7f8086112ae6`) |
-| `Revision/kohn_sham/ks-theory.json` | 18 top-level keys from `"description"` to `"solverChecklist"`; `checksNumeric.braneBandSlope_M1_H1_L3_a0` is `"1.9051482536448664"`; `adiabaticity.historyStatus` begins with `PRESCRIBED BACKGROUND`; sha256 `a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2` (2026-10-14; before: `1bf41d79318a24a4bb0bd6c34f0499c399cc8054e8add69ca08d758c5d55afe3`) |
+| `Revision/kohn_sham/reports/ks-theory-wolfram.json` | line 7 is `  "summary": {"passed": 51, "failed": 0, "total": 51},`; 51 entries under `"checks"`, each `"verdict": "PASS"`; 61 lines, 15306 bytes, sha256 `ac7cc653d1d3242d628f8043ed48b3e67238ea0cc5fe0bf245109ab8116d0927` (2026-10-16, the corrected metric; 2026-10-14: `21f7736e340618bf5405acb169bf5000f02c47a8f710ce5fd48d8658cbd1224d`) |
+| `Revision/kohn_sham/ks-theory.json` | 18 top-level keys from `"description"` to `"solverChecklist"`; `checksNumeric.braneBandSlope_a0` is `"1.0000000000000000"` and `checksNumeric.braneBandSlopeFormula` begins with `c = e^{-a4,0}`; `geometry.hiddenScale` begins with `f(x4) = e^{-a4(x4)} b4(x4)^{1/2}`; `adiabaticity.historyStatus` begins with `PRESCRIBED BACKGROUND`; 484 lines, 21739 bytes, sha256 `34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` (2026-10-16, the corrected metric; 2026-10-14: `a40cc2e2fa67039b87a30e5835acab57834f8cb83af8bbdc80f726237d128fd2`) |
 
 The detail of `brane_band_slope` in the report reads, on the verification machine,
-`... c = 2/(1+E^-3) = 1.905148253644866; NDSolve shooting (WorkingPrecision 25, k = +-1e-3, +-2e-3, Richardson): 1.90514825252 (a4,0 = 0), 1.15553082704 (a4,0 = 1/2; exact 1.15553082713)`.
+`... c = E^(-a4,0) exactly ... NDSolve shooting (M = 1, L = 3, WorkingPrecision 25, k = +-1e-3, +-2e-3, Richardson): 1.00000000000 (a4,0 = 0, f = 1), 0.606530659713 (a4,0 = 1/2, f = E^(-1/6) (the history); exact E^(-1/2) = 0.606530659713)` (the corrected metric; before 2026-10-16 the slope was c = 2/(1+E^-3) = 1.905148253644866 at a4,0 = 0).
 
 ### 4.4 Run time and memory on the verification machine
 
@@ -670,25 +686,28 @@ parallel kernels.
 
 ### 4.5 The optional Python companion
 
-It prints 60 lines: 58 lines `[PASS] <name>  t=<seconds>s`, the line `shooting time <seconds> s` (right
+It prints 63 lines: 61 lines `[PASS] <name>  t=<seconds>s`, the line `shooting time <seconds> s` (right
 after `[PASS] brane_band_slope`), and the final line
 
 ```text
-{"passed": 58, "failed": 0, "other": 0, "total": 58}
+{"passed": 61, "failed": 0, "other": 0, "total": 61}
 ```
 
 The first three lines are `[PASS] fixture_input  t=0.0s`, `[PASS] fixture_python_equals_wolfram  t=0.0s`,
 `[PASS] clifford_relation  t=0.0s`; the last four checks are `ks_theory_json_basis`,
 `ks_theory_json_exchange`, `ks_theory_json_slope` (the cross-check of `ks-theory.json`) and
-`ks_theory_json_history_label` (the PRESCRIBED BACKGROUND label, against `ks-source-conditions.json`).
+`ks_theory_json_history_label` (the PRESCRIBED BACKGROUND label, against `a4-equations.json` and the source-condition
+report of the corrected metric, `ks-source-conditions.json`).
 Exit code `0` when no check fails, `1` if a check fails. Caution: an exit code `0` alone does not prove
 success for the companion either. A check whose verdict is neither PASS nor FAIL (the verdict `pending`,
 printed when `ks-theory.json` is missing) is counted as `"other"` and does not change the exit code
-(section 3.7); so the last line must read exactly 58 of 58 as above. It writes
-`Revision/kohn_sham/reports/ks-theory-python.json` (303 lines, 19475 bytes, sha256
-`d39256e3dd7bee6c203493bd08fd4b2f5f7494af0f07dbf69874706d4eb76784`; 2026-10-14, section 6.6; before: 303 lines, 19402 bytes,
-`7ae5c6be4dbaf167093a7c0799d9c102d3a7d1d17ec93311a1b17ea5bc26cf9c`), whose `"summary"` block (lines 5
-to 10) holds `"passed": 58`, `"failed": 0`, `"other": 0`, `"total": 58`. Run time of the extended version
+(section 3.7); so the last line must read exactly 61 of 61 as above. It writes
+`Revision/kohn_sham/reports/ks-theory-python.json` (318 lines, 21720 bytes, sha256
+`9fdb72adc94af56a8a535d506f1679907d03b0db74e1a136bc0307f4625ebe7f`; 2026-10-16, the corrected metric, section 6.8;
+2026-10-14: 303 lines, 19475 bytes, `d39256e3dd7bee6c203493bd08fd4b2f5f7494af0f07dbf69874706d4eb76784`), whose
+`"summary"` block (lines 5 to 10) holds `"passed": 61`, `"failed": 0`, `"other": 0`, `"total": 61`. Run time on
+2026-10-16: 63 s and 66 s wall clock (`shooting time 22.4 s` and `23.7 s`) with the Rust solver on the other
+processors. Run time of the extended version
 (section 6.3): 134.3 s and 128.5 s wall clock (last time stamp 123.5 s and 119.3 s; `shooting time
 38.6 s` and `42.5 s`), on a busy machine. The earlier 57-check version (sections 6.1 and 6.2) took 73.3 to
 90.4 s wall clock over 4 timed runs on 2026-10-02 (the script's own last time stamp 65.3 to 88.4 s over 5
@@ -1234,3 +1253,55 @@ section 3.5 typed literally" in sections 6.1 and 6.2 means that plain form.
   `{"passed": 63, "failed": 0, "other": 0, "total": 63}` twice (wall 49 s and 59 s), byte-identical reports.
 * Consequences. The Rust solver reads `historyBeta` and refuses a ks-theory.json without it; the record
   `Revision/kohn_sham/results` was recomputed (solver README, section "The metric with b4(x4)").
+
+### 6.8 The corrected metric (2026-10-16, version 2)
+
+* Why. The metric of 2026-10-14 (section 6.7) is withdrawn; on 2026-10-16 the author released the recomputation with
+  the corrected primordial metric, version 2 (`HANDOFF.md` 0.10, phase W5; `Revision/SPEC.md` section 1):
+  g = diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1, -E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3)), z = 6 H x0 real, the
+  positive branch of (Sin^2)^(1/6). Every statement is derived for general a4(x4), b4(x4) > 0 and every real z.
+* What changes in the Kohn-Sham problem. With y = ln|sin z|/(6H) (dy = cot z dx0 on every quarter) the line element is
+  ds^2 = E^(2 a4) dx_{1..3}^2 - dx4^2 + f^2 [dy^2 - E^(2 H y) dx_{5..7}^2] with the hidden scale f = E^(-a4) b4^(1/2);
+  sqrt|g| = E^(-a4) b4^2 E^(3 H y); gamma^mu Omega_mu = (3/2)(H/f) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4). The
+  half-density ansatz Psi = e^{ik.x} E^(-3Hy/2) E^(a4/2) b4^(-1) chi removes both terms; the block Hamiltonian is
+  h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v with kappa = E^(-a4), constant in y (before: kappa =
+  E^(-Hy - a4) grew toward the tip), and chi' = f N chi. The densities carry P = E^(-3Hy) E^(a4) b4^(-2)/(ell^3 v_t),
+  the y-conservation is p0' + 3H (p0 - p_t) = 0, the history identity dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t -
+  (beta/2 - 1) P0 (beta = 4/3: -3 P3 + P_t + P0/3), d_a h along the history has the kinetic term (1 - beta/2) T_j.
+  The fold cos z = 0 (y = 0) joins the two halves of a cell; self-adjointness gives the fold conditions (1 - Q(theta))
+  chi(0) = 0 up to theta, and filling both theta = 0 and theta = pi is the ASSUMED convention (it replaces the Z2
+  orbifold of 2026-10-14). The rescaling identity now changes H and L as well: KS(a4,0, b4,0; H, L, Delta k, v_t) =
+  KS(0, 1; H/f0, f0 L, Delta k E^(-a4,0), v_t E^(-3 a4,0) b4,0^(3/2)). The fold-band slope is c = E^(-a4,0) exactly,
+  and nothing suppresses an orbital toward the tip: the extended levels behave like those of a box of proper length
+  f L.
+* Changes. `KohnShamTheory.wl`: `KSGeometryY` with h = {f, E^a4 (x3), 1, f W (x3)}, `KSGeometryX0` with the signed
+  f Cot z and f (Sin^2)^(1/12), and the exact zero test `KSZeroX0Q` for every real z (`KSTrigRules`: reduction modulo
+  cv^2 + sv^2 - 1, ww^12 - sv^2, sgn^2 - 1). `verify_ks_theory.wls` (51 checks): new `geometry_line_element`,
+  `ansatz_without_y_factor_term_survives`, `ansatz_without_x4_factor_term_survives`, `ansatz_norm`,
+  `bc_fold_same_equation_on_both_halves`, `bc_fold_conditions`; removed `ansatz_without_W3_term_survives`,
+  `ansatz_without_b4_factor_term_survives`, `ansatz_norm_b4`, `bc_mirror_map_PA`, `bc_mirror_parities_of_densities`,
+  `bc_brane_parity_conditions`; every other check restated for the corrected metric. `ks-theory.json` (392 leaves):
+  geometry (lineElement, hiddenScale, kappa, sqrtDetG, spinConnection), blockEquation (the factor f), densities
+  (P = E^(-3Hy)/Vol_7, Vol_7 = ell^3 v_t E^((2 beta - 1) a4,0)), boundaryConditions.fold, rescalingIdentity, emt
+  (conservationY, energyChange, fieldEquationCondition p0 = p_t), adiabaticity (history with b4(0) = 1, the source of
+  `a4-equations.json`), checksNumeric (braneBandSlope_a0 = 1, braneBandSlope_a0_half_history = E^(-1/2),
+  braneBandSlopeFormula "c = e^{-a4,0} ..."), solverChecklist. `check_ks_theory.py` (61 checks): the same statements
+  in sympy (the y chart, and the author's chart per sign of sin z with (Sin^2)^(1/6) = (s Sin z)^(1/3)); the slope by
+  RK4 shooting with the factor f at a4,0 = 0 (f = 1) and 0.5 (f = E^(-1/6)); `ks_theory_json_history_label` requires
+  the source-condition report of the corrected metric. New sha256: script
+  `8b66cb7aa4d9e96c58f09b61bf0489527f7851004097782caf94d2d9238bc093` (514 lines, 53952 bytes), package
+  `4e3944c4c1cb419756d3a6923491c4e15bd2edb72d042b409a43e38e7f91fb65` (110 lines, 6737 bytes), companion
+  `50afd09ab2f8ccdd52eaafdb595da265a23eb57e75cc2369f35e8e16567b8ece` (914 lines, 56863 bytes), export `ks-theory.json`
+  `34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` (484 lines, 21739 bytes).
+* Runs (2026-10-16, Windows 11, Wolfram 15.0.1, run from the repository root, every run under `timeout -k 5 423`;
+  the Rust solver used the other processors): run 2 `51/51 checks passed` (wall 35.7 s), run 3 `51/51 checks passed;
+  time 31.4 s`; both wrote byte-identical `ks-theory.json` and `ks-theory-wolfram.json` (the export also equals the
+  one of the first run; the first run's report preceded a wording change of the script). The companion:
+  the first run before the new source-condition report existed: 60 of 61 (`ks_theory_json_history_label`: the report of `Revision/field_equations_a4/python/check_ks_source_conditions.py` still described the metric of 2026-10-14); after that script was rewritten for the corrected metric (5/5): `{"passed": 61, "failed": 0, "other": 0, "total": 61}` twice (wall 63 s and 66 s, `shooting time 22.4 s` and `23.7 s`; the Rust solver used the other processors), byte-identical reports (sha256 `9fdb72adc94af56a8a535d506f1679907d03b0db74e1a136bc0307f4625ebe7f`).
+* Consequences. The Rust solver (`Revision/kohn_sham/solver`, check `theory_input_metric_forms`) reads the corrected
+  forms from ks-theory.json and refuses a file without them; the record `Revision/kohn_sham/results` was recomputed
+  (solver README, section "The corrected metric"). The supplement `verify_ks_b4.wls` (report `ks-b4-wolfram.json`,
+  4/4, reproduced byte for byte on 2026-10-16) is a statement about the withdrawn metric of 2026-10-14 (b4 entered
+  only the extra-time components there); it is kept unchanged as part of that record (`Revision/metric_b4`, which pins
+  its sha256 and whose `consequences_b4.wls` reads its report). In the corrected metric b4 enters the slice
+  Hamiltonian through f.

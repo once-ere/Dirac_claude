@@ -5,16 +5,16 @@ discretisation (staggered finite differences in y, Richardson extrapolation over
 Revision code only: it imports nothing from the old stages and nothing from the Rust solver.  Inputs:
 Revision/kohn_sham/ks-theory.json (the functional coefficients and the checked formulas).  The physical
 constants are the problem definition of SPEC section 7 (H = m = 1, L = 3, dk = 0.25, v_t = 1, regular tip
-theta = 0, ASSUMED Z2 brane, history a4 = A H x4 with A = 1, b4 = b4(0) e^{beta a4} with beta from ks-theory.json
-(adiabaticity.historyBeta = 4/3; SPEC section 1) and slices a4,0 in {0, 0.5, 1, 1.5, 2},
+theta = 0, both fold conditions (ASSUMED convention), history a4 = A H x4 with A = 1, b4 = b4(0) e^{beta a4}, b4(0) = 1,
+with beta from ks-theory.json (adiabaticity.historyBeta = 4/3; SPEC section 1) and slices a4,0 in {0, 0.5, 1, 1.5, 2},
 temperatures {0.01, 0.02, 0.05} m, first-order mean-field targets sigma = 0.1 and 0.3 m).  The particle
 numbers N_mid, N_large and the couplings lambda_1, lambda_2 are RE-DERIVED here from their stated rules.
 
-Coordinates: the author's {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6H), z = 6 H x0; x1, x2, x3 = 3-space;
-x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z, a4 increasing).
-The hidden-direction pressure is p0 = T^x0_x0.  The metric has b4(x4) in the extra-time components (b4 a function of
-x4, never 1): lambda is lambda_hat = lambda b4(0)^{-3/2} and the densities are per Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0}
-(ks-theory.json densities; b4(0) never needs a value).
+Coordinates: the author's {x0, x1, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6H) <= 0, z = 6 H x0; x1, x2, x3 =
+3-space; x4 = time; x5, x6, x7 = the extra times.  The metric is the corrected primordial metric of 2026-10-16 (version 2,
+SPEC section 1): in the y chart ds^2 = e^{2a4} dx_{1..3}^2 - dx4^2 + f^2 [dy^2 - e^{2Hy} dx_{5..7}^2], f = e^{-a4} b4^{1/2}
+= e^{-a4/3} on the history.  The hidden-direction pressure is p0 = T^x0_x0.  lambda is lambda_hat = lambda b4(0)^{-2} and the
+densities are per Vol_7(a4,0) = ell^3 v_t e^{(2 beta - 1) a4,0} with the factor e^{-3Hy} (ks-theory.json densities).
 
 The FULL canonical matrix is solved: 75 ground states (N in {8, N_mid, N_large}, 5 coupling tags, 5 slices) with
 their Delta-SCF states, a4 neighbours, adiabaticity pairs and particle-hole lists; the exact-Fock-exchange
@@ -30,9 +30,11 @@ Usage (from the repository root):
   python Revision/kohn_sham/reference/run_reference.py [--out DIR] [--report FILE] [--timing FILE] [--jobs N] [--cache DIR [--part i/n]]
 Defaults: --out Revision/kohn_sham/reference/results, --report Revision/kohn_sham/reports/ks-reference.json.
 Outputs are deterministic (LF, no timings or paths); --timing writes the wall-clock times separately.
-In parts (each invocation within a time limit): run --cache DIR --part i/n for i = 1..n (each computes a fixed part of
-the jobs, balanced by cost_estimate, saves every finished job in DIR and writes no outputs), then --cache DIR without
---part (computes any job still missing and writes the outputs).  The outputs are the same as those of one run: every
+In parts (each invocation within a time limit): run --cache DIR --stage 1 --part i/n for i = 1..n, then
+--cache DIR --stage 2 --part i/m for i = 1..m (each computes a fixed part of the jobs of its stage, balanced by
+cost_estimate, saves every finished job in DIR and writes no outputs; stage 2 is the temperature neighbours of the
+thermal states, which start from the stage-1 states), then --cache DIR without --part (computes any job still missing
+and writes the outputs).  The outputs are the same as those of one run: every
 job is a pure function of its inputs, and the cache is tied to the SHA-256 of ks-theory.json, run_reference.py and
 ks_fd.py and to the Python and numpy versions (a cache made with other inputs is refused).
 """
@@ -74,6 +76,11 @@ SLICES = (0.0, 0.5, 1.0, 1.5, 2.0)
 TEMPS = (0.01, 0.02, 0.05)
 SIGMA = {"lam0": 0.0, "lamp1": 0.1, "lamm1": 0.1, "lamp2": 0.3, "lamm2": 0.3}
 FD_DELTA = 2e-3          # a4 step of the fixed-occupation neighbours (+- delta, +- 2 delta, Richardson)
+# SCF tolerance of those neighbours: their energies enter dE/da4 with the weights of rich_fd, about 1.5/delta, so an
+# energy noise at the former tolerance 1e-12 m became ~1e-9 in dE/da4, above the Richardson uncertainty in the
+# strongest couplings (claude_failures.md H12); at 1e-14 the finite difference is a clean h^2 series on the three grids.
+# Since H15 every state is solved to ks_fd.SCF_TOL = 1e-14 as well.
+NB_TOL = 1e-14
 DT_REL = 0.01            # temperature step dT = 0.01 T of the thermal neighbours
 PAD_RANKS = 2            # ranks 0..2 in every sector of an occupied shell (pairs of the adiabaticity measure)
 
@@ -87,7 +94,9 @@ THERMO_MATRIX = [(Nk, tag, a4, T) for Nk in N_KEYS for tag in THERMO_TAGS for a4
 VALIDATION_STATE = ("mid", "lamp2", 2.0)
 PH_ROWS = 48             # particle-hole excitations kept per ground state (the Rust solver lists the lowest 24)
 CROSSING_EMAX = 1.6      # free a4,0 = 0 closed shells up to this energy: the N of the crossing demonstration
-SEA_EXTRA_SHELLS = 5     # sea-hole diagnostic: shells beyond the thermal label set that are also evaluated
+SEA_EXTRA_SHELLS = 5     # sea-hole diagnostic: at least this many shells beyond the thermal label set are evaluated,
+SEA_EXTRA_FRACTION = 0.1  # and at least this fraction of the label set's shells: the cross-check sums the Rust sea holes
+                          # over the Rust thermal label set, whose window rule differs (claude_failures.md H15)
 
 PROFILE_NAMES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 
@@ -178,7 +187,7 @@ def theory_coefficients():
     cV = Fraction(ex["kohnShamPotentials"]["vv_coefficient_of_lambda_n"])
     cn2 = Fraction(ex["uniformGas"]["coefficient_n2"])
     cs2 = Fraction(ex["uniformGas"]["coefficient_S2"])
-    slope = float(th["checksNumeric"]["braneBandSlope_M1_H1_L3_a0"])
+    slope = float(th["checksNumeric"]["braneBandSlope_a0"])
     beta = Fraction(th["adiabaticity"]["historyBeta"])       # d ln b4/d a4 of the history (4/3)
     # exact-Fock variant (exchange.exactFockSlab): e_x^exact = -(lambda/c)(n^2 + S^2 - Q^2 - Y^2), Y = 0, so it exceeds
     # the uniform-gas e_x = -(lambda/32)(n^2 + S^2) by +(lambda/c) Q^2; the variant adds w_Q = +lambda Q/d sigma3
@@ -208,9 +217,9 @@ def make_phys(co, **kw):
     return p
 
 
-def slope_formula(a4, M=1.0, H=1.0, L=3.0):
-    """ks-theory.json checksNumeric.braneBandSlopeFormula."""
-    return math.exp(-a4) * (2 * M / (2 * M - H)) * (1 - math.exp(-(2 * M - H) * L)) / (1 - math.exp(-2 * M * L))
+def slope_formula(a4):
+    """ks-theory.json checksNumeric.braneBandSlopeFormula: c = e^{-a4,0} (for every M, L, f)."""
+    return math.exp(-a4)
 
 
 # ------------------------------------------------------------------------------------------------
@@ -234,7 +243,8 @@ def _odd_roots(M, L, nr):
 
 
 def _analytic(M, L, odd, r):
-    """ks-theory.json boundaryConditions.exactK0Spectra (k = 0, constant M, v = 0, theta_tip = 0)."""
+    """ks-theory.json boundaryConditions.exactK0Spectra (k = 0, constant M, v = 0, theta_tip = 0); L is the proper hidden
+    length f L of the cell."""
     if not odd:
         if r == 0:
             return 0.0
@@ -251,8 +261,8 @@ def free_checks_job(co):
     errs = {G: [] for G in (150, 300, 600, 1200, 2400)}
     rerr, ratios, jsym = [], [], 0.0
     ranks = list(range(-3, 6))
-    for (M, L) in ((1.0, 3.0), (1.0, 2.0), (2.0, 3.0)):
-        ph = make_phys(co, m=M, L=L)
+    for (M, L, a4) in ((1.0, 3.0, 0.0), (1.0, 2.0, 0.0), (2.0, 3.0, 0.0), (1.0, 3.0, 1.5)):
+        ph = make_phys(co, m=M, L=L, a4=a4)
         sec = K.Sectors([(0, 1, j, odd) for (j, odd) in K.SECTOR_ORDER])
         vals = {}
         for G in (150, 300, 600, 1200, 2400):
@@ -263,25 +273,25 @@ def free_checks_job(co):
             eps, _ = K.eigen(al[:, ls_sec], be[:, ls_sec], idx)
             vals[G] = eps
             jsym = max(jsym, float(np.max(np.abs(eps[:2 * len(ranks)] - eps[2 * len(ranks):]))))
-        exact = np.array([_analytic(M, L, bool(sec.odd[s]), r) for s in range(4) for r in ranks])
+        exact = np.array([_analytic(M, ph.fh * L, bool(sec.odd[s]), r) for s in range(4) for r in ranks])
         R, U = rich3(vals[300], vals[600], vals[1200])
         for G in errs:
             errs[G].append(np.abs(vals[G] - exact))
         rerr.append(np.abs(R - exact))
         ratios += asym_ratio(vals[300], vals[600], vals[1200])
         for i, (s, r) in enumerate([(s, r) for s in range(4) for r in ranks]):
-            rows.append([f16(M), f16(L), "odd" if sec.odd[s] else "even", int(sec.j[s]), r, f16(R[i]), f16(U[i]),
+            rows.append([f16(M), f16(L), f16(a4), f16(ph.fh), "odd" if sec.odd[s] else "even", int(sec.j[s]), r, f16(R[i]), f16(U[i]),
                          f16(exact[i]), f16(R[i] - exact[i]), f16(vals[1200][i] - exact[i])])
     out["analytic"] = {
-        "rows_header": ["m", "L", "parity", "j", "rank", "eps_richardson", "U", "eps_analytic", "richardson_minus_analytic", "G1200_minus_analytic"],
+        "rows_header": ["m", "L", "a4", "f", "parity", "j", "rank", "eps_richardson", "U", "eps_analytic", "richardson_minus_analytic", "G1200_minus_analytic"],
         "rows": rows,
         "max_error_per_grid": {str(G): float(np.max(np.concatenate(errs[G]))) for G in errs},
         "max_error_richardson": float(np.max(np.concatenate(rerr))),
-        "max_U": max(float(r[6]) for r in rows),
+        "max_U": max(float(r[8]) for r in rows),
         "ratio_median": float(np.median(ratios)), "ratio_min": float(np.min(ratios)), "ratio_max": float(np.max(ratios)),
         "jsym_max": jsym,
     }
-    # (2) the k = 0 brane zero mode (M = H = 1, L = 3)
+    # (2) the k = 0 fold zero mode (M = H = 1, L = 3, a4,0 = 0: f = 1)
     ph = make_phys(co)
     zm = {}
     for G in GRIDS:
@@ -303,16 +313,19 @@ def free_checks_job(co):
         "profile_richardson_max_U": float(np.max(Ua)),
         "jsym_profile": max(float(np.max(np.abs(zm[G]["a"][:, 0] - zm[G]["a"][:, 1]))) for G in GRIDS),
     }
-    # (3) brane-band slope d eps/dk at k = 0 (discrete Hellmann-Feynman, exact for the discrete matrix)
+    # (3) fold-band slope d eps/dk at k = 0 (discrete Hellmann-Feynman, exact for the discrete matrix): the zero mode of
+    # every slice (f = e^{-a4/3}) and dT/dk = kappa (+1 on the u rows, -1 on the w rows), kappa = e^{-a4} constant in y
     srows = []
     sl = {}
     for G in GRIDS:
-        g = K.Grid(ph, G)
-        sec = K.Sectors([(0, 1, 1, 0)])
-        imin, al, be = K.particle_offsets(g, ph, sec)
-        eps, Z = K.eigen(al, be, imin)
-        zu2 = Z[0::2, 0] ** 2
-        sl[G] = [float(np.sum(np.exp(-g.y[0::2] - a4) * zu2)) for a4 in SLICES]
+        sl[G] = []
+        for a4 in SLICES:
+            pa = make_phys(co, a4=a4)
+            g = K.Grid(pa, G)
+            sec = K.Sectors([(0, 1, 1, 0)])
+            imin, al, be = K.particle_offsets(g, pa, sec)
+            eps, Z = K.eigen(al, be, imin)
+            sl[G].append(float(math.exp(-a4) * (np.sum(Z[0::2, 0] ** 2) - np.sum(Z[1::2, 0] ** 2))))
     Rs, Us = rich3(sl[300], sl[600], sl[1200])
     for i, a4 in enumerate(SLICES):
         c = slope_formula(a4)
@@ -390,7 +403,7 @@ def parameters_job(co):
     out["N_large"], out["N_mid"] = n_large, n_mid
     out["N_mid_distance_rule"] = sorted([[c, abs(c - n_large / 4.0)] for c in cand], key=lambda t: t[1])[:4]
     # the N of the crossing demonstration: the smallest closed shell N > 8 of the free a4,0 = 0 aufbau (levels up to
-    # CROSSING_EMAX) whose last group holds a level off the even j = +1 brane band (rank 0 of the (n2, +1, even) sectors)
+    # CROSSING_EMAX) whose last group holds a level off the even j = +1 fold band (rank 0 of the (n2, +1, even) sectors)
     demo = {}
     for G in GRIDS:
         ph = make_phys(co, a4=0.0)
@@ -505,7 +518,7 @@ def _ground_on_grid(co, spec, G, ls0):
     nb = []
     for s in (1.0, -1.0, 2.0, -2.0):
         p = ph.copy(a4=ph.a4 + s * FD_DELTA)
-        st = K.solve_state(g, p, ls, mode="fixed", fixed=gs.f, start=(gs.dM, gs.v), guess=gs.eps)
+        st = K.solve_state(g, p, ls, mode="fixed", fixed=gs.f, start=(gs.dM, gs.v), guess=gs.eps, tol=NB_TOL)
         nb.append((K.observables(st)[0]["E_KS"], st.dM, st.v, st.eps, st.iters, st.res))
     rec["neighbour_iterations"] = [x[4] for x in nb]
     rec["neighbour_residual_max"] = max(x[5] for x in nb)
@@ -625,7 +638,8 @@ def ground_job(co, spec, grids=GRIDS, full=True):
 
 
 # ------------------------------------------------------------------------------------------------
-# job: the exact-Fock-exchange VARIANT of a ground state (lambda != 0), self-consistent on every grid
+# job: the exact-Fock-exchange VARIANT of a ground state (lambda != 0), self-consistent on every grid at the occupations
+# of the uniform-gas ground state
 # ------------------------------------------------------------------------------------------------
 def exx_job(co, spec):
     t0 = time.time()
@@ -640,8 +654,10 @@ def exx_job(co, spec):
         gs = K.solve_state_robust(g, ph, ls, guess=free.eps)
         olda, _ = K.observables(gs)
         px = ph.copy(exx=True)
-        # started from the converged uniform-gas state (w_Q = 0), as in the Rust canonical matrix
-        sx = K.solve_state(g, px, ls, start=(gs.dM, gs.v, np.zeros(g.n)), guess=gs.eps)
+        # at the occupations of the converged uniform-gas state, started from it (w_Q = 0), as in the Rust canonical
+        # matrix (with aufbau occupations the variant has no closed-shell self-consistent solution where a level crosses
+        # the Fermi level)
+        sx = K.solve_state(g, px, ls, mode="fixed", fixed=gs.f, start=(gs.dM, gs.v, np.zeros(g.n)), guess=gs.eps)
         ox, _ = K.observables(sx)
         h, l, _, _ = K.homo_lumo(sx)
         sc = {"E_exact_fock_scf": ox["E_KS"], "E_uniform_gas": olda["E_KS"], "deltaE_x_exact_fock": olda["deltaE_x_exact_fock"],
@@ -651,8 +667,12 @@ def exx_job(co, spec):
               "int_rho": ox["int_rho"], "E_variational": ox["E_variational"], "ycons_jump": ox["ycons_jump"],
               "ycons_integral": ox["ycons_integral"], "p0_tip": ox["p0_tip"], "p0_brane": ox["p0_brane"], "N_sum": ox["N_sum"],
               "max_abs_wQ": float(np.max(np.abs(sx.wq)))}
+        occd = sx.f > 1e-12
+        vac = sx.f < 1.0 - 1e-12
+        aufbau_consistent = bool(np.max(sx.eps[occd]) <= np.min(sx.eps[vac]) + 1e-9) if np.any(vac) else True
         per.append({"G": G, "iterations": sx.iters, "residual": sx.res, "uniform_gas_residual": gs.res,
-                    "same_occupations_as_uniform_gas": bool(np.array_equal(sx.f, gs.f)), "open_shell": sx.open_shell, "scalars": sc})
+                    "same_occupations_as_uniform_gas": bool(np.array_equal(sx.f, gs.f)), "open_shell": sx.open_shell,
+                    "aufbau_consistent": aufbau_consistent, "scalars": sc})
     out = {"id": spec["id"], "N": spec["N"], "lambda_tag": spec["tag"], "lambda": spec["lam"], "a4": spec["a4"], "grids": list(GRIDS),
            "per_grid": per, "scalars": {}}
     for k in per[0]["scalars"]:
@@ -662,14 +682,16 @@ def exx_job(co, spec):
 
 
 # ------------------------------------------------------------------------------------------------
-# job: the rescaling partner KS(0; dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat) of a ground state (a4,0 > 0):
-# slice 0 of the same history with the same proper cell (ks-theory.json rescalingIdentity; v_t e^{-a4,0} for beta = 4/3)
+# job: the rescaling partner KS(0, 1; H/f0, f0 L, dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat) of a ground state
+# (a4,0 > 0), f0 = e^{(beta/2 - 1) a4,0} (ks-theory.json rescalingIdentity; v_t e^{-a4,0} for beta = 4/3); the same G gives
+# node i of the partner at Y = f0 y_i, so the report points correspond
 # ------------------------------------------------------------------------------------------------
 def rescale_job(co, spec):
     t0 = time.time()
     a4 = spec["a4"]
+    f0 = math.exp((0.5 * float(co["beta"]) - 1.0) * a4)
     pr = make_phys(co, a4=0.0, lam=spec["lam"], N=spec["N"], dk=BASE["dk"] * math.exp(-a4),
-                   vt=BASE["vt"] * math.exp((1.5 * float(co["beta"]) - 3.0) * a4))
+                   vt=BASE["vt"] * math.exp((1.5 * float(co["beta"]) - 3.0) * a4), H=BASE["H"] / f0, L=BASE["L"] * f0)
     g0 = K.Grid(pr, GRIDS[0])
     ls0, _ = K.build_window(g0, pr, spec["sigma"], pad_ranks=PAD_RANKS)
     runs = []
@@ -686,7 +708,7 @@ def rescale_job(co, spec):
     R, U = rich3(*[r["E_KS"] for r in runs])
     Re, Ue = rich3(*[r["eps"] for r in runs])
     out = {"id": spec["id"], "N": spec["N"], "lambda_tag": spec["tag"], "lambda": spec["lam"], "a4": a4,
-           "partner_dk": pr.dk, "partner_v_t": pr.vt, "grids": list(GRIDS),
+           "partner_dk": pr.dk, "partner_v_t": pr.vt, "partner_H": pr.H, "partner_L": pr.L, "grids": list(GRIDS),
            "per_grid": [{"G": r["G"], "iterations": r["iterations"], "residual": r["residual"], "E_KS": r["E_KS"]} for r in runs],
            "E_KS": {"value": float(R), "U": float(U)},
            "levels": {"keys": [list(k) for k in keys], "eps": Re, "U": Ue, "f": runs[-1]["f"]},
@@ -820,48 +842,112 @@ def _thermo_on_grid(co, spec, G, ls0, wcut, sea_shells):
     ls = K.relabel(g, ph, ls0)
     free = K.solve_state(g, ph.copy(lam=0.0), ls, mode="mermin")
     st = free if ph.lam == 0.0 else K.solve_state_robust(g, ph, ls, mode="mermin", guess=free.eps)
-    # sea-hole diagnostic of the filling CONVENTION: thermal holes the excluded sea brane band (j = -1, even, the highest
+    # sea-hole diagnostic of the filling CONVENTION: thermal holes the excluded sea fold band (j = -1, even, the highest
     # sea level, rank -1) of every shell n2 >= 1 would carry at the same mu and T, in the converged potentials
     es = K.sea_brane_levels(g, ph, sea_shells, st.dM, st.v)
     holes = 4.0 * np.array([r3 for (_, r3) in sea_shells], dtype=float) * K.fermi((st.mu - es) / ph.T)
 
-    def thermo(s, T):
-        o, _ = K.observables(s)
-        ent, lg = K.mermin_sums(s.eps, ls.deg, s.mu, T)
-        E = o["E_KS"]
-        F = E - T * ent
-        return {"mu": s.mu, "E": E, "entropy": ent, "F": F, "Omega_direct": -T * lg - o["E_int"],
-                "Omega_F_minus_muN": F - s.mu * ph.N, "E_int": o["E_int"], "N_sum": o["N_sum"], "int_n": o["int_n"]}
-
     T = ph.T
-    th = thermo(st, T)
-    dT = DT_REL * T
-    nb = []
-    for s in (1.0, -1.0, 2.0, -2.0):
-        Ts = T + s * dT
-        x = K.solve_state(g, ph.copy(T=Ts), ls, mode="mermin", start=(st.dM, st.v), guess=st.eps)
-        nb.append((thermo(x, Ts), x.iters, x.res))
-    th["C_V"] = T * float(rich_fd(*[x[0]["entropy"] for x in nb], dT))
-    th["C_V_from_dEdT"] = float(rich_fd(*[x[0]["E"] for x in nb], dT))
-    th["minus_dFdT"] = -float(rich_fd(*[x[0]["F"] for x in nb], dT))
+    th = _thermo_values(st, T, ls, ph)
     excl = K.lowest_excluded(g, ph, ls, st.dM, st.v)
     th["lowest_excluded"] = excl
     th["f_at_window_cut"] = float(K.fermi(np.array([(wcut - st.mu) / T]))[0])
     th["f_at_lowest_excluded"] = float(K.fermi(np.array([(excl - st.mu) / T]))[0])
-    rec = {"G": G, "iterations": st.iters, "residual": st.res, "path": getattr(st, "path", "direct"),
-           "neighbour_iterations": [x[1] for x in nb],
-           "neighbour_residual_max": max(x[2] for x in nb)}
-    return {"rec": rec, "th": th, "eps": st.eps, "f": st.f, "keys": ls.keys(), "sea_eps": es, "sea_holes": holes}
+    rec = {"G": G, "iterations": st.iters, "residual": st.res, "path": getattr(st, "path", "direct")}
+    # the start of the temperature neighbours (thermo_nb): the converged potentials and levels of this state
+    return {"rec": rec, "th": th, "eps": st.eps, "f": st.f, "keys": ls.keys(), "sea_eps": es, "sea_holes": holes,
+            "start": (st.dM, st.v), "guess": st.eps}
 
 
-def thermo_job(co, spec):
-    t0 = time.time()
+def _thermo_values(s, T, ls, ph):
+    o, _ = K.observables(s)
+    ent, lg = K.mermin_sums(s.eps, ls.deg, s.mu, T)
+    E = o["E_KS"]
+    F = E - T * ent
+    return {"mu": s.mu, "E": E, "entropy": ent, "F": F, "Omega_direct": -T * lg - o["E_int"],
+            "Omega_F_minus_muN": F - s.mu * ph.N, "E_int": o["E_int"], "N_sum": o["N_sum"], "int_n": o["int_n"]}
+
+
+NB_STEPS = (1.0, -1.0, 2.0, -2.0)       # the temperature neighbours T + s dT, dT = DT_REL T
+
+
+def _thermo_nb_on_grid(co, spec, G, ls0, s, start, guess):
+    """The self-consistent Mermin state at T + s dT on grid G, started from the converged state at T (its potentials and
+    levels): a neighbour of the Richardson differences C_V = T dS/dT, dE/dT and -dF/dT."""
+    ph = make_phys(co, a4=spec["a4"], lam=spec["lam"], N=spec["N"], T=spec["T"])
+    g = K.Grid(ph, G)
+    ls = K.relabel(g, ph, ls0)
+    Ts = ph.T + s * DT_REL * ph.T
+    x = K.solve_state(g, ph.copy(T=Ts), ls, mode="mermin", start=start, guess=guess)
+    return {"thermo": _thermo_values(x, Ts, ls, ph), "iterations": x.iters, "residual": x.res}
+
+
+def thermo_grid_assemble(main, nbs, T):
+    """The record of one grid from its main state and its four neighbours (NB_STEPS order)."""
+    dT = DT_REL * T
+    th = dict(main["th"])
+    th["C_V"] = T * float(rich_fd(*[x["thermo"]["entropy"] for x in nbs], dT))
+    th["C_V_from_dEdT"] = float(rich_fd(*[x["thermo"]["E"] for x in nbs], dT))
+    th["minus_dFdT"] = -float(rich_fd(*[x["thermo"]["F"] for x in nbs], dT))
+    rec = dict(main["rec"])
+    rec["neighbour_iterations"] = [x["iterations"] for x in nbs]
+    rec["neighbour_residual_max"] = max(x["residual"] for x in nbs)
+    return {"rec": rec, "th": th, "eps": main["eps"], "f": main["f"], "keys": main["keys"], "sea_eps": main["sea_eps"],
+            "sea_holes": main["sea_holes"]}
+
+
+def _thermo_window(co, spec):
+    """The label set of a thermal state (from the coarsest grid) and the shells of its sea-hole diagnostic."""
     ph = make_phys(co, a4=spec["a4"], lam=spec["lam"], N=spec["N"], T=spec["T"])
     g0 = K.Grid(ph, GRIDS[0])
     ls0, winfo = K.build_window(g0, ph, spec["sigma"])
-    # the shells of the label set (the first winfo["shells"] shells) and SEA_EXTRA_SHELLS more, without n2 = 0
-    sea_shells = [s for s in K.shells(4096)[:winfo["shells"] + SEA_EXTRA_SHELLS] if s[0] >= 1]
-    runs = [_thermo_on_grid(co, spec, G, ls0, winfo["window_cut"], sea_shells) for G in GRIDS]
+    # the shells of the label set (the first winfo["shells"] shells) and max(SEA_EXTRA_SHELLS, SEA_EXTRA_FRACTION x
+    # shells) more, without n2 = 0
+    extra = max(SEA_EXTRA_SHELLS, int(math.ceil(SEA_EXTRA_FRACTION * winfo["shells"])))
+    sea_shells = [s for s in K.shells(4096)[:winfo["shells"] + extra] if s[0] >= 1]
+    return ls0, winfo, sea_shells
+
+
+def thermo_main_job(co, spec):
+    """Stage 1: the main state at T of one grid G = spec["G"] of a thermal state (the largest thermal states do not fit
+    into one time-limited process on all three grids with their neighbours)."""
+    t0 = time.time()
+    ls0, winfo, sea_shells = _thermo_window(co, spec)
+    run = _thermo_on_grid(co, spec, spec["G"], ls0, winfo["window_cut"], sea_shells)
+    return {"kind": "thermo_main", "id": f"{spec['id']}_G{spec['G']}", "data": {"run": run, "window": winfo, "sea_shells": sea_shells},
+            "seconds": time.time() - t0}
+
+
+def thermo_nb_job(co, spec):
+    """Stage 2: one temperature neighbour T + s dT (s = spec["s"]) of one grid, started from the state of thermo_main
+    (spec["start"], spec["guess"], attached by main() from the job cache)."""
+    t0 = time.time()
+    ls0, _, _ = _thermo_window(co, spec)
+    r = _thermo_nb_on_grid(co, spec, spec["G"], ls0, spec["s"], spec["start"], spec["guess"])
+    return {"kind": "thermo_nb", "id": nb_id(spec), "data": r, "seconds": time.time() - t0}
+
+
+def nb_id(spec):
+    return f"{spec['id']}_G{spec['G']}_s{spec['s']:+g}"
+
+
+def thermo_job(co, spec):
+    """All three grids of a thermal state in one process (the same result as the thermo_main and thermo_nb jobs and
+    thermo_combine)."""
+    t0 = time.time()
+    ls0, winfo, sea_shells = _thermo_window(co, spec)
+    runs = []
+    for G in GRIDS:
+        main = _thermo_on_grid(co, spec, G, ls0, winfo["window_cut"], sea_shells)
+        nbs = [_thermo_nb_on_grid(co, spec, G, ls0, s, main["start"], main["guess"]) for s in NB_STEPS]
+        runs.append(thermo_grid_assemble(main, nbs, spec["T"]))
+    r = thermo_combine(spec, runs, winfo, sea_shells)
+    r["seconds"] = time.time() - t0
+    return r
+
+
+def thermo_combine(spec, runs, winfo, sea_shells):
+    """The record of a thermal state from its runs on the grids GRIDS (Richardson values with their uncertainties)."""
     out = {"id": spec["id"], "N": spec["N"], "lambda_tag": spec["tag"], "lambda": spec["lam"], "a4": spec["a4"],
            "T": spec["T"], "grids": list(GRIDS), "window": winfo, "levels_in_set": len(runs[0]["keys"]),
            "shells_in_set": len(set(k[0] for k in runs[0]["keys"]))}
@@ -885,7 +971,7 @@ def thermo_job(co, spec):
                         "cumulative": Rcum, "U_cumulative": Ucum, "shells_in_window": nw,
                         "total_window": float(Rcum[nw - 1]) if nw > 0 else 0.0, "U_total_window": float(Ucum[nw - 1]) if nw > 0 else 0.0,
                         "extra_shells_contribution": float(Rcum[-1] - (Rcum[nw - 1] if nw > 0 else 0.0))}
-    return {"kind": "thermo", "id": spec["id"], "data": out, "seconds": time.time() - t0}
+    return {"kind": "thermo", "id": spec["id"], "data": out, "seconds": 0.0}
 
 
 def _dispatch(task):
@@ -894,6 +980,10 @@ def _dispatch(task):
         return ground_job(co, spec)
     if kind == "thermo":
         return thermo_job(co, spec)
+    if kind == "thermo_main":
+        return thermo_main_job(co, spec)
+    if kind == "thermo_nb":
+        return thermo_nb_job(co, spec)
     if kind == "exx":
         return exx_job(co, spec)
     if kind == "rescale":
@@ -910,6 +1000,10 @@ def _dispatch(task):
 def task_key(task):
     """The key of a job's result: (kind, state id), "" for the jobs without a state."""
     kind, _, spec = task
+    if kind == "thermo_main":
+        return (kind, f"{spec['id']}_G{spec['G']}")
+    if kind == "thermo_nb":
+        return (kind, nb_id(spec))
     return (kind, spec["id"] if isinstance(spec, dict) else "")
 
 
@@ -966,8 +1060,13 @@ def cost_estimate(task):
     """Rough relative cost of a job (only orders the queue, longest first; outputs do not depend on it)."""
     kind, _, spec = task
     nf = {8.0: 1.0}.get(spec["N"], 2.0) if isinstance(spec, dict) else 1.0
-    if kind == "thermo":
-        return {0.01: 8.0, 0.02: 20.0, 0.05: 60.0}[spec["T"]] * nf * (1.0 + spec["a4"]) * (1.5 if spec["lam"] != 0.0 else 1.0)
+    if kind in ("thermo", "thermo_main", "thermo_nb"):
+        c = {0.01: 8.0, 0.02: 20.0, 0.05: 60.0}[spec["T"]] * nf * (1.0 + spec["a4"]) * (1.5 if spec["lam"] != 0.0 else 1.0)
+        if kind == "thermo":
+            return c
+        # one grid: the main state (with the sea levels and the lowest excluded level) and four neighbours of about
+        # equal cost each
+        return c * spec["G"] / float(sum(GRIDS)) * (0.3 if kind == "thermo_main" else 0.175)
     if kind == "ground":
         return 10.0 * nf * (1.0 + spec["a4"]) * (2.0 if spec["lam"] != 0.0 else 0.5)
     if kind in ("exx", "rescale"):
@@ -1023,8 +1122,9 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
               f"{co['cn2']}, {co['cs2']}: {fock_ok}")
     an = free["analytic"]
     rep.check("free_k0_analytic_spectra", an["max_error_richardson"] <= 1e-11,
-              f"k = 0, constant M, v = 0, theta_tip = 0 (ks-theory.json boundaryConditions.exactK0Spectra), (m, L) = (1, 3), (1, 2), (2, 3), "
-              f"ranks -3..5 of both parities and both block types: Richardson (G = 300, 600, 1200) max |error| {an['max_error_richardson']:.3e} "
+              f"k = 0, constant M, v = 0, theta_tip = 0 (ks-theory.json boundaryConditions.exactK0Spectra: even +-sqrt(M^2 + (n pi/(f L))^2), odd "
+              f"tan(p f L) = -p/M), (m, L, a4,0) = (1, 3, 0), (1, 2, 0), (2, 3, 0) (f = 1) and (1, 3, 1.5) (f = e^(-1/2)), "
+              f"ranks -3..5 of both fold conditions and both block types: Richardson (G = 300, 600, 1200) max |error| {an['max_error_richardson']:.3e} "
               f"(tolerance 1e-11; max stated U {an['max_U']:.2e}); single grids: "
               + ", ".join(f"G = {G}: {e:.3e}" for G, e in an["max_error_per_grid"].items()))
     rep.check("free_convergence_order_two", 3.99 <= an["ratio_min"] and an["ratio_max"] <= 4.01,
@@ -1035,14 +1135,14 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
               f"{free['zero_mode']['jsym_profile']:.1e} (exact discrete symmetry w -> -w of the staggered scheme; tolerance 1e-13)")
     zm = free["zero_mode"]
     rep.check("free_zero_mode", zm["max_abs_eps"] <= 1e-13 and zm["max_w_over_u"] <= 1e-12 and zm["profile_richardson_max_error"] <= 1e-9,
-              f"k = 0 brane zero mode (M = H = 1, L = 3, both j): |eps| <= {zm['max_abs_eps']:.1e} (tolerance 1e-13), "
+              f"k = 0 fold zero mode (M = H = 1, L = 3, a4,0 = 0, both j): |eps| <= {zm['max_abs_eps']:.1e} (tolerance 1e-13), "
               f"max |w| / max |u| = {zm['max_w_over_u']:.1e} (b = 0 identically; tolerance 1e-12), Richardson profile vs "
               f"sqrt(2M/(1 - e^(-2ML))) e^(My) at the 151 report points: max error {zm['profile_richardson_max_error']:.2e} (tolerance 1e-9)")
     bb = free["brane_band_slope"]
     rep.check("free_brane_band_slope", bb["max_rel"] <= 1e-11 and bb["formula_vs_theory_number"] <= 1e-15,
-              f"d eps/dk at k = 0 of the even j = +1 brane band (discrete Hellmann-Feynman, Richardson) equals ks-theory.json "
-              f"c e^(-a4,0) at a4,0 = {list(SLICES)} to {bb['max_rel']:.2e} relative (tolerance 1e-11); the formula reproduces "
-              f"checksNumeric.braneBandSlope_M1_H1_L3_a0 to {bb['formula_vs_theory_number']:.1e}")
+              f"d eps/dk at k = 0 of the even j = +1 fold band (discrete Hellmann-Feynman on the zero mode of every slice, f = e^(-a4,0/3), "
+              f"Richardson) equals ks-theory.json c = e^(-a4,0) at a4,0 = {list(SLICES)} to {bb['max_rel']:.2e} relative (tolerance 1e-11); "
+              f"the formula reproduces checksNumeric.braneBandSlope_a0 to {bb['formula_vs_theory_number']:.1e}")
     pb = free["particle_branch"]
     rep.check("free_particle_branch", pb["violations"] == 0 and pb["closest_to_zero_away_from_zero_modes"] > 1e-3,
               f"shells n2 <= 30 at every slice (G = 300): the lowest particle index (count of free levels below -1e-9) has eps > 0 "
@@ -1062,17 +1162,18 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
               + "; the unrounded couplings lie farther from a 4-digit rounding boundary than 50 x their relative uncertainty: " + str(cal_ok))
     # per-state checks (ground)
     A = {
-        "ground_scf_converged": Agg("SCF converged (max |potential residual|, units of m) for the ground state, the Delta-SCF state and the four a4 neighbours on every grid", 1e-12),
+        "ground_scf_converged": Agg("SCF converged (max |potential residual|, units of m) for the ground state, the Delta-SCF state and the four a4 neighbours on every grid", K.SCF_TOL),
+        "ground_a4_neighbours_tight": Agg("the four fixed-occupation a4 neighbours (the finite difference dE/da4) converged to the tighter SCF tolerance NB_TOL on every grid: max |potential residual| (m)", NB_TOL),
         "ground_grid_consistency": Agg("the same occupations and the same HOMO/LUMO groups on every grid (value 1 = differ)", 0.0),
         "ground_closed_shell": Agg("closed-shell aufbau on every grid (value 1 = open)", 0.0),
         "ground_window_complete": Agg("label set complete on every grid: LUMO - lowest excluded level (must be < 0)", 0.0),
-        "ground_N_conservation": Agg("particle number: |sum g f - N| <= 1e-9 on every grid and |2 Vol_7 int e^{6Hy} n dy - N| (Richardson) <= 3U + 1e-10 N; "
+        "ground_N_conservation": Agg("particle number: |sum g f - N| <= 1e-9 on every grid and |2 Vol_7 int e^{3Hy} n dy - N| (Richardson) <= 3U + 1e-10 N; "
                                      "value = the larger of the two ratios |difference| / allowance", 1.0),
         "ground_energy_two_forms": Agg("E_KS = sum g f eps - E_int equals the variational form on every grid: relative difference", 1e-9),
-        "emt_energy_integral": Agg("2 Vol_7 int e^{6Hy} rho dy = E_KS (Richardson values): |difference| / (3 (U1 + U2) + 1e-12 max(1, |E|))", 1.0),
-        "emt_y_conservation_integrated": Agg("[e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy (Richardson values): |difference| / (3 (U1 + U2) + 1e-8 scale), "
-                                             "scale = max(|jump|, |integral|, |e^{6Hy} p0| at both ends)", 1.0),
-        "emt_energy_change_dE_da4": Agg("dE/da4 at fixed occupations (a4 +- delta, +- 2 delta, Richardson; Vol_7 changes with b4) = -3 (P3 - P_t) - (3/2) beta P_t, P = 2 Vol_7 int e^{6Hy} p dy (Richardson in h): "
+        "emt_energy_integral": Agg("2 Vol_7 int e^{3Hy} rho dy = E_KS (Richardson values): |difference| / (3 (U1 + U2) + 1e-12 max(1, |E|))", 1.0),
+        "emt_y_conservation_integrated": Agg("[e^{3Hy} p0]_{-L}^{0} = 3H int e^{3Hy} p_t dy (p0' + 3H (p0 - p_t) = 0; Richardson values): |difference| / (3 (U1 + U2) + 1e-8 scale), "
+                                             "scale = max(|jump|, |integral|, |e^{3Hy} p0| at both ends)", 1.0),
+        "emt_energy_change_dE_da4": Agg("dE/da4 at fixed occupations (a4 +- delta, +- 2 delta, Richardson; kappa, f and Vol_7 change along the history) = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0, P = 2 Vol_7 int e^{3Hy} p dy (Richardson in h): "
                                         "|difference| / (3 (U1 + U2) + 1e-10 max(1, |dE/da4|))", 1.0),
         "adiabatic_hellmann_feynman_discrete": Agg("d eps_n/da4 (differences of the self-consistent levels) = z_n^T (dT/da4) z_n on every grid: max |deviation| (units of m)", 1e-8),
         "excited_delta_scf_free_equals_gap": Agg("lambda = 0: Delta-SCF excitation energy equals the KS gap on every grid (|difference|, m)", 1e-11),
@@ -1086,6 +1187,7 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
         sc = d["scalars"]
         pg = d["per_grid"]
         A["ground_scf_converged"].add(sid, max(max(r["residual"], r["excited_residual"], r["neighbour_residual_max"]) for r in pg))
+        A["ground_a4_neighbours_tight"].add(sid, max(r["neighbour_residual_max"] for r in pg))
         cons = d["consistency"]
         A["ground_grid_consistency"].add(sid, 0.0 if (cons["same_occupations_all_grids"] and cons["same_homo_lumo_groups_all_grids"]) else 1.0)
         A["ground_closed_shell"].add(sid, 1.0 if any(r["open_shell"] for r in pg) else 0.0)
@@ -1104,7 +1206,7 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
 
         A["emt_energy_integral"].add(sid, cmp("int_rho", "E_KS", 1e-12))
         ysc = max(abs(sc["ycons_integral"]["value"]), abs(sc["ycons_jump"]["value"]),
-                  abs(sc["p0_tip"]["value"]) * math.exp(-18.0), abs(sc["p0_brane"]["value"]), 1e-300)
+                  abs(sc["p0_tip"]["value"]) * math.exp(-3.0 * BASE["H"] * BASE["L"]), abs(sc["p0_brane"]["value"]), 1e-300)
         A["emt_y_conservation_integrated"].add(sid, cmp("ycons_jump", "ycons_integral", 1e-8, scale=ysc))
         A["emt_energy_change_dE_da4"].add(sid, cmp("dE_da4_fd", "dE_da4_emt", 1e-10))
         A["adiabatic_hellmann_feynman_discrete"].add(sid, max(r["hellmann_feynman_maxdev"] for r in pg))
@@ -1121,11 +1223,11 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
     # exact-Fock variant
     X = {
         "exx_scf_converged": Agg("exact-Fock variant (w_Q = lambda Q/16 sigma3, e_int + lambda Q^2/32), started from the converged uniform-gas state: "
-                                 "max |potential residual| (dM, v_v, w_Q) on every grid (m)", 1e-12),
+                                 "max |potential residual| (dM, v_v, w_Q) on every grid (m)", K.SCF_TOL),
         "exx_N_conservation": Agg("exact-Fock variant: |sum g f - N| on every grid", 1e-9),
         "exx_energy_two_forms": Agg("exact-Fock variant: E_KS equals the variational form (incl. - int w_Q Q) on every grid: relative difference", 1e-9),
-        "exx_emt_energy_integral": Agg("exact-Fock variant: 2 Vol_7 int e^{6Hy} rho dy = E_KS (Richardson): |difference| / (3 (U1 + U2) + 1e-12 max(1, |E|))", 1.0),
-        "exx_y_conservation_integrated": Agg("exact-Fock variant: [e^{6Hy} p0]_{-L}^{0} = 3H int e^{6Hy}(p3 + p_t) dy with p0 including - w_Q Q "
+        "exx_emt_energy_integral": Agg("exact-Fock variant: 2 Vol_7 int e^{3Hy} rho dy = E_KS (Richardson): |difference| / (3 (U1 + U2) + 1e-12 max(1, |E|))", 1.0),
+        "exx_y_conservation_integrated": Agg("exact-Fock variant: [e^{3Hy} p0]_{-L}^{0} = 3H int e^{3Hy} p_t dy with p0 including - w_Q Q "
                                              "(Richardson): |difference| / (3 (U1 + U2) + 1e-8 scale)", 1.0),
     }
     for e in exxs:
@@ -1139,7 +1241,7 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
                                                max(1.0, abs(r["scalars"]["E_exact_fock_scf"])) for r in pg))
         x, y = sc["int_rho"], sc["E_exact_fock_scf"]
         X["exx_emt_energy_integral"].add(sid, abs(x["value"] - y["value"]) / (3 * (x["U"] + y["U"]) + 1e-12 * max(1.0, abs(y["value"]))))
-        ysc = max(abs(sc["ycons_integral"]["value"]), abs(sc["ycons_jump"]["value"]), abs(sc["p0_tip"]["value"]) * math.exp(-18.0),
+        ysc = max(abs(sc["ycons_integral"]["value"]), abs(sc["ycons_jump"]["value"]), abs(sc["p0_tip"]["value"]) * math.exp(-3.0 * BASE["H"] * BASE["L"]),
                   abs(sc["p0_brane"]["value"]), 1e-300)
         x, y = sc["ycons_jump"], sc["ycons_integral"]
         X["exx_y_conservation_integrated"].add(sid, abs(x["value"] - y["value"]) / (3 * (x["U"] + y["U"]) + 1e-8 * ysc))
@@ -1147,9 +1249,10 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
         ag.emit(rep, name)
     # rescaling partners (the reference's own identity, solved independently)
     gmap = {g["data"]["id"]: g["data"] for g in grounds}
-    R_ = Agg("KS(a4,0; dk, v_t, lambda_hat) = KS(0; dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat) (the same proper cell; v_t e^{-a4,0} for beta = 4/3), solved independently by the reference: the same "
+    R_ = Agg("KS(a4,0; H, L, dk, v_t, lambda_hat) = KS(0; H/f0, f0 L, dk e^{-a4,0}, v_t e^{(3 beta/2 - 3) a4,0}, lambda_hat), f0 = e^{-a4,0/3} (v_t e^{-a4,0} for beta = 4/3), solved independently by the reference: the same "
              "label set and occupations (value 1e9 otherwise), max over the levels |delta eps| (m), |delta E_KS| / max(1, |E|) and "
-             "max |delta profile| / profile maximum (n, S, rho, p3, p0), all Richardson values: the largest", 1e-10)
+             "max |delta profile| at corresponding points Y = f0 y relative to the scale of its family (n, S: max |n|; rho, p3, p0: max(|rho|, |p3|, |p0|)), "
+             "all Richardson values: the largest", 1e-10)
     for r in rescales:
         d = r["data"]
         g = gmap[d["id"]]
@@ -1159,8 +1262,12 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
             continue
         dl = float(np.max(np.abs(np.asarray(d["levels"]["eps"]) - np.asarray(g["levels"]["eps"]))))
         de = abs(d["E_KS"]["value"] - g["scalars"]["E_KS"]["value"]) / max(1.0, abs(g["scalars"]["E_KS"]["value"]))
-        dp = max(float(np.max(np.abs(np.asarray(d["profiles"][nm]["value"]) - np.asarray(g["profiles"][nm]["value"])))) /
-                 max(float(np.max(np.abs(np.asarray(g["profiles"][nm]["value"])))), 1e-300) for nm in ("n", "S", "rho", "p3", "p0"))
+        # each profile relative to the scale of its family: S and p0 vanish identically for the lambda = 0 fold-band states
+        gmx = lambda nm: float(np.max(np.abs(np.asarray(g["profiles"][nm]["value"]))))
+        fam = {"n": max(gmx("n"), 1e-300), "S": max(gmx("n"), 1e-300)}
+        fam.update({nm: max(gmx("rho"), gmx("p3"), gmx("p0"), 1e-300) for nm in ("rho", "p3", "p0")})
+        dp = max(float(np.max(np.abs(np.asarray(d["profiles"][nm]["value"]) - np.asarray(g["profiles"][nm]["value"])))) / fam[nm]
+                 for nm in ("n", "S", "rho", "p3", "p0"))
         R_.add(d["id"], max(dl, de, dp))
     R_.emit(rep, "rescaling_identity_reference")
     # crossing demonstration
@@ -1172,21 +1279,22 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
     pc = params["crossing_demo"]
     rep.check("crossing_demo_reference", pc["same_on_all_grids"] and rows[0]["occupied_set_equal_to_a4_0"] and bool(flagged) and cont_ok and cons,
               f"lambda = 0, N_demo = {int(cd['N_demo'])} re-derived (the smallest closed shell N > 8 of the free a4,0 = 0 aufbau, levels up to "
-              f"{pc['emax']} m, whose last group holds a level off the even j = +1 brane band; same on all grids: {pc['same_on_all_grids']}); "
+              f"{pc['emax']} m, whose last group holds a level off the even j = +1 fold band; same on all grids: {pc['same_on_all_grids']}); "
               f"the instantaneous aufbau occupation differs from the a4,0 = 0 one at a4,0 = {[r['a4'] for r in flagged]} (flagged: {bool(flagged)}); "
               f"the adiabatically continued state (a4,0 = 0 occupations) is not below the aufbau state there (within 3U): {cont_ok}; occupations "
               f"the same on every grid: {cons}; differences E_cont - E_aufbau: " + ", ".join(f"{r['a4']}: {r['difference']['value']:.10g}" for r in rows))
     # thermal
     T = {
-        "thermo_scf_converged": Agg("Mermin SCF converged at T, T +- dT, T +- 2 dT on every grid: max residual (m)", 1e-12),
+        "thermo_scf_converged": Agg("Mermin SCF converged at T, T +- dT, T +- 2 dT on every grid: max residual (m)", K.SCF_TOL),
         "thermo_N_conservation": Agg("|sum g f - N| / N on every grid", 1e-12),
         "thermo_grand_potential_two_forms": Agg("Omega = -T sum g ln(1 + e^{-(eps-mu)/T}) - E_int equals F - mu N (every grid): relative difference", 1e-11),
         "thermo_CV_identity": Agg("C_V = T dS/dT equals dE/dT (Richardson in T and in h): |difference| / (3 (U1 + U2) + eta + 1e-4 |C_V|), "
-                                  "eta = N x 1e-12 / dT the noise floor of a difference quotient of energies at the SCF tolerance", 1.0),
+                                  f"eta = N x {K.SCF_TOL:g} / dT the noise floor of a difference quotient of energies at the SCF tolerance", 1.0),
         "thermo_entropy_identity": Agg("-dF/dT = S (Richardson in T and in h): |difference| / (3 (U1 + U2) + eta + 1e-4 S), eta as for thermo_CV_identity", 1.0),
         "thermo_window_cut": Agg("occupation at the window cut and at the lowest excluded level (every grid)", 2e-13),
-        "thermo_sea_holes_tail": Agg("sea-hole diagnostic (j = -1 even sea brane band, rank -1, n2 >= 1, converged potentials): finite on every grid, and "
-                                     f"the {SEA_EXTRA_SHELLS} shells beyond the thermal label set add at most 1e-9 max(1, total) (value: their share; "
+        "thermo_sea_holes_tail": Agg("sea-hole diagnostic (j = -1 even sea fold band, rank -1, n2 >= 1, converged potentials): finite on every grid, and "
+                                     f"the max({SEA_EXTRA_SHELLS}, {SEA_EXTRA_FRACTION:g} x shells) shells beyond the thermal label set add at most "
+                                     "1e-9 max(1, total) (value: their share; "
                                      "1e9 if not finite)", 1e-9),
     }
     for t in thermos:
@@ -1199,7 +1307,7 @@ def build_report(co, params, free, grounds, thermos, valid, exxs, rescales, cros
         T["thermo_grand_potential_two_forms"].add(sid, max(abs(r["thermo"]["Omega_direct"] - r["thermo"]["Omega_F_minus_muN"]) /
                                                          max(abs(r["thermo"]["Omega_direct"]), 1e-300) for r in pg))
 
-        eta = d["N"] * 1e-12 / (DT_REL * d["T"])
+        eta = d["N"] * K.SCF_TOL / (DT_REL * d["T"])
 
         def tc(a, b, ref_value):
             return abs(th[a]["value"] - th[b]["value"]) / (3 * (th[a]["U"] + th[b]["U"]) + eta + 1e-4 * abs(ref_value))
@@ -1241,6 +1349,9 @@ def main():
     ap.add_argument("--jobs", type=int, default=min(20, max(1, (os.cpu_count() or 4) - 2)))
     ap.add_argument("--cache", default=None, help="job cache: jobs found there are not recomputed; every finished job is saved there")
     ap.add_argument("--part", default=None, help="i/n (needs --cache): compute only part i of n of the jobs and write no outputs")
+    ap.add_argument("--stage", type=int, choices=(1, 2), default=None,
+                    help="with --part: stage 1 = every job except the temperature neighbours of the thermal states, stage 2 = "
+                         "the neighbours (they start from the cached stage-1 states)")
     args = ap.parse_args()
     out = Path(args.out)
     t_all = time.time()
@@ -1253,6 +1364,8 @@ def main():
         if not cache or not m_ or not 1 <= int(m_.group(1)) <= int(m_.group(2)):
             raise SystemExit("--part i/n needs --cache and 1 <= i <= n")
         part = (int(m_.group(1)), int(m_.group(2)))
+        if args.stage is None:
+            raise SystemExit("--part i/n needs --stage 1 or 2")
     if cache:
         open_cache(cache, co)
 
@@ -1283,31 +1396,56 @@ def main():
     tasks += [("ground", co, gspec(*s)) for s in GROUND_MATRIX]
     tasks += [("exx", co, gspec(*s)) for s in GROUND_MATRIX if gspec(*s)["lam"] != 0.0]
     tasks += [("rescale", co, gspec(*s)) for s in GROUND_MATRIX if s[2] > 0.0]
-    tasks += [("thermo", co, tspec(*s)) for s in THERMO_MATRIX]
-    # longest jobs first (the order changes no output: results are keyed and written in a fixed order)
-    tasks.sort(key=lambda t: -cost_estimate(t))
+    # thermal states: per grid one job for the state at T (stage 1) and one job for each of its four temperature
+    # neighbours (stage 2, started from the stage-1 state), combined below, so that the largest fit into a time-limited
+    # part run
+    tasks += [("thermo_main", co, dict(tspec(*s), G=G)) for s in THERMO_MATRIX for G in GRIDS]
+    nb_tasks = [("thermo_nb", co, dict(tspec(*s), G=G, s=st_)) for s in THERMO_MATRIX for G in GRIDS for st_ in NB_STEPS]
     results = {}
-    for t in tasks:
+    for t in tasks + nb_tasks:
         r = cache_load(cache, task_key(t))
         if r is not None:
             results[task_key(t)] = r
-    todo = partition(tasks, part[1])[part[0] - 1] if part else tasks
-    run = [t for t in todo if task_key(t) not in results]
-    print(f"{len(tasks)} jobs ({len(results)} from the cache); this run computes {len(run)}"
-          f"{f' (part {part[0]}/{part[1]})' if part else ''} on {args.jobs} processes ...", file=sys.stderr, flush=True)
-    if run:
-        with mp.get_context("spawn").Pool(args.jobs) as pool:
-            for key, r in pool.imap_unordered(_dispatch_keyed, run):
-                if key != (r["kind"], r.get("id", "")):
-                    raise SystemExit(f"job key {key} != result key {(r['kind'], r.get('id', ''))}")
-                results[key] = r
-                cache_save(cache, key, r)
-                timing[f"{r['kind']}:{r.get('id', '')}"] = r["seconds"]
-                print(f"  done {r['kind']} {r.get('id', '')} ({r['seconds']:.1f} s; {len(results)}/{len(tasks)})", file=sys.stderr, flush=True)
+
+    def run_jobs(todo, label):
+        run = [t for t in todo if task_key(t) not in results]
+        # longest jobs first (the order changes no output: results are keyed and written in a fixed order)
+        run.sort(key=lambda t: -cost_estimate(t))
+        print(f"{label}: {len(todo)} jobs ({len(todo) - len(run)} from the cache); this run computes {len(run)} on "
+              f"{args.jobs} processes ...", file=sys.stderr, flush=True)
+        if run:
+            with mp.get_context("spawn").Pool(args.jobs) as pool:
+                for key, r in pool.imap_unordered(_dispatch_keyed, run):
+                    if key != (r["kind"], r.get("id", "")):
+                        raise SystemExit(f"job key {key} != result key {(r['kind'], r.get('id', ''))}")
+                    results[key] = r
+                    cache_save(cache, key, r)
+                    timing[f"{r['kind']}:{r.get('id', '')}"] = r["seconds"]
+                    print(f"  done {r['kind']} {r.get('id', '')} ({r['seconds']:.1f} s)", file=sys.stderr, flush=True)
+
+    def attach_start(t):
+        """a neighbour job with the start of its stage-1 state (None if that state is not computed yet)"""
+        kind, c_, sp_ = t
+        m_ = results.get(("thermo_main", f"{sp_['id']}_G{sp_['G']}"))
+        if m_ is None:
+            return None
+        return (kind, c_, dict(sp_, start=m_["data"]["run"]["start"], guess=m_["data"]["run"]["guess"]))
+
+    if part and args.stage == 1:
+        run_jobs(partition(tasks, part[1])[part[0] - 1], f"stage 1, part {part[0]}/{part[1]}")
+    elif part and args.stage == 2:
+        mine = partition(nb_tasks, part[1])[part[0] - 1]
+        ready = [attach_start(t) for t in mine]
+        if any(x is None for x in ready):
+            raise SystemExit("stage 2 needs every thermo_main job of stage 1 in the cache (run the stage-1 parts first)")
+        run_jobs(ready, f"stage 2, part {part[0]}/{part[1]}")
+    else:
+        run_jobs(tasks, "stage 1")
+        run_jobs([attach_start(t) for t in nb_tasks], "stage 2")
     if part:
-        missing = sum(1 for t in tasks if task_key(t) not in results)
-        print(f"part {part[0]}/{part[1]}: {len(run)} jobs computed in {time.time() - t_all:.1f} s; {missing} of {len(tasks)} jobs not yet in the cache",
-              file=sys.stderr)
+        missing = sum(1 for t in tasks + nb_tasks if task_key(t) not in results)
+        print(f"stage {args.stage}, part {part[0]}/{part[1]}: done in {time.time() - t_all:.1f} s; {missing} of {len(tasks) + len(nb_tasks)} jobs "
+              f"not yet in the cache", file=sys.stderr)
         print("PART DONE")
         return 0
     free = results[("free", "")]["data"]
@@ -1316,23 +1454,31 @@ def main():
     grounds = [results[("ground", gspec(*s)["id"])] for s in GROUND_MATRIX]
     exxs = [results[("exx", gspec(*s)["id"])] for s in GROUND_MATRIX if gspec(*s)["lam"] != 0.0]
     rescales = [results[("rescale", gspec(*s)["id"])] for s in GROUND_MATRIX if s[2] > 0.0]
-    thermos = [results[("thermo", tspec(*s)["id"])] for s in THERMO_MATRIX]
+    thermos = []
+    for s in THERMO_MATRIX:
+        sp = tspec(*s)
+        mains = [results[("thermo_main", f"{sp['id']}_G{G}")] for G in GRIDS]
+        nbs_ = [[results[("thermo_nb", nb_id(dict(sp, G=G, s=s_)))] for s_ in NB_STEPS] for G in GRIDS]
+        runs_ = [thermo_grid_assemble(m_["data"]["run"], [x["data"] for x in nb_], sp["T"]) for m_, nb_ in zip(mains, nbs_)]
+        r = thermo_combine(sp, runs_, mains[0]["data"]["window"], mains[0]["data"]["sea_shells"])
+        r["seconds"] = sum(x["seconds"] for x in mains) + sum(x["seconds"] for nb_ in nbs_ for x in nb_)
+        thermos.append(r)
 
     # ---- outputs
     params_out = {
         "description": "Revision Kohn-Sham REFERENCE solver (Revision/kohn_sham/reference): independent Python solver, staggered finite "
                        "differences in y with Richardson extrapolation over G = 300, 600, 1200 (SPEC section 7, Revision/kohn_sham/ks-theory.json). "
-                       "The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln(sin z)/(6H), z = 6 H x0), x1..x3 = 3-space, "
-                       "x4 = time, x5..x7 = the exponentially deflating extra times (scale factor e^{-a4} b4^{1/2} sin^{1/6} z). The author's metric "
-                       "with b4(x4) (b4 a function of x4, never 1) on the history a4 = H x4, b4 = b4(0) e^{beta a4}: lambda = lambda_hat = "
-                       "lambda b4(0)^{-3/2}, densities per Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} (proper densities times b4(0)^{3/2}).",
+                       "The author's coordinates {x0, ..., x7}: x0 = hidden direction (y = ln|sin z|/(6H) <= 0, z = 6 H x0, the fold cos z = 0 at "
+                       "y = 0), x1..x3 = 3-space, x4 = time, x5..x7 = the extra times. The corrected primordial metric of 2026-10-16 (version 2) on the "
+                       "PRESCRIBED history a4 = H x4, b4 = e^{beta a4} (b4(0) = 1): hidden scale f = e^{-a4} b4^{1/2} = e^{(beta/2 - 1) a4}, kappa = e^{-a4}, "
+                       "lambda = lambda_hat = lambda b4(0)^{-2}, densities per Vol_7(a4,0) = ell^3 v_t e^{(2 beta - 1) a4,0} with the factor e^{-3Hy}.",
         "theoryInputs": {"ksTheorySha256": co["sha256"], "MeffCoefficientOfLambdaS": str(co["cM"]), "vvCoefficientOfLambdaN": str(co["cV"]),
                          "eintCoefficientS2": str(co["eS2"]), "eintCoefficientN2": str(co["eN2"]),
                          "exactFockVariantEintCoefficientQ2": str(co["cQ2"]), "exactFockVariantWQCoefficientOfLambdaQ": str(co["cWQ"]),
                          "historyBeta": str(co["beta"])},
         "physics": dict(BASE, tipTheta=0.0, historyA=1.0, historyBeta=float(co["beta"]), slicesA4=list(SLICES), temperatures=list(TEMPS), sigmas=SIGMA),
         "numerics": {"grids": list(GRIDS), "validationGrids": list(G_VALID), "richardson": "R = (64 x(4G) - 20 x(2G) + x(G))/45; U = |R - (4 x(4G) - x(2G))/3| + 2e-12 max(1, |R|)",
-                     "scfTolerance": 1e-12, "degeneracyTolerance": K.DEG_TOL, "zeroModeThreshold": K.TAU_ZERO, "a4Step": FD_DELTA,
+                     "scfTolerance": K.SCF_TOL, "degeneracyTolerance": K.DEG_TOL, "zeroModeThreshold": K.TAU_ZERO, "a4Step": FD_DELTA,
                      "temperatureStepRelative": DT_REL, "endExtrapolation": "quintic from the six nearest half nodes",
                      "windowT0": "free particle levels below max(E_F, LUMO) + 0.25 + 2 sigma, plus ranks 0..2 of every sector of an occupied shell",
                      "windowThermal": "free particle levels below mu + T ln(1e13) + 0.2 + 2 sigma"},
