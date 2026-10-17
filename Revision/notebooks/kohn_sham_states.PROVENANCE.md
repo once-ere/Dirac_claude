@@ -59,7 +59,7 @@ The Kohn-Sham states of dirac16complex in the author's deflating primordial fiel
    and P3/E, P0/E along the history; the cross-check ratios |new - reference|/tolerance.
 9. Ends with "what this notebook showed, and what it did not show".
 
-The notebook prints 24 PASS lines of its own (and the solver's three input checks, indented) and no
+The notebook prints 24 PASS lines of its own (and the solver's four input checks, indented) and no
 FAIL line; its last code cell prints `checks of this notebook: 24 passed, 0 failed`.
 
 ## 2. Files read and written
@@ -190,7 +190,8 @@ or, to rebuild and compare with the committed file (from the repository root):
   PASS: 4, other messages: 0`, the parameter block (H 1.0, m 1.0, L 3.0, dk 0.25, v_t 1.0, a4 0.0,
   beta 1.333333333333333, f 1.0, coordinateCell False, Vol7 15875.21366031351, lambda 0.0, N 8.0, T 0.0, tipTheta 0.0,
   exactFockVariant False), lambda_1 = 157.7, 2.131, 0.5363 for N = 8, 592, 2352.
-* Section 7: ten solver runs, each `-> SUCCESS`; eleven PASS lines of the comparison, for example
+* Section 7: nine solver runs (ten states with the run of section 6; `states solved: 10`), each `-> SUCCESS`;
+  eleven PASS lines of the comparison, for example
   `N592_lamp1_a10_equals_record: E_KS = 131.7651779780565, ...`, and for the thermal state
   mu = 0.2929430552286682, E = 135.5651077811065, S = 387.8116964450197.
 * Section 8: the N = 8 gap 0.2500000, 0.0919699, 0.0338338 at a4,0 = 0, 1, 2 (the fold-band level 0.25 e^(-a4,0)); P3/E = 0.3281, 0.3279, 0.3262
@@ -202,19 +203,21 @@ or, to rebuild and compare with the committed file (from the repository root):
 No run time and no path of the computer is printed (paths are shown relative to the repository, as
 `.` for the repository itself, or as `<output>/...` and `<cargo-target>/...`).
 
-## 5. Measured run time (Windows 11, 2026-10-08)
+## 5. Measured run time (Windows 11)
 
 * 2026-10-17 (the corrected metric; the machine otherwise idle): 18.8 s (`build`) and 20.4 s (`check`) of execution.
 * 2026-10-16 (the metric with b4(x4); other jobs of this work on the computer): 14.6 s (`build`) and 14.4 s (`check`) of execution.
 * 2026-10-14 (the author's coordinates; other jobs of this work on the computer): 11.5 s (`build`) and 11.6 s (`check`) of execution.
-* Whole notebook, executed by `build_notebooks.py` (current version): 33.0 s (build A), 26.0 s
-  (build B) and 28.6 s (`check`) of execution while other work ran on the computer (the previous
-  version: 21.7 s to 38.0 s under load, section 7; the first builds of this notebook took 12.2 s to
-  12.5 s), including the fresh `cargo build --release` of the solver into `<cargo-target>`
-  and the ten solver runs (each under one second when timed separately: 0.06 s for N = 8, 0.5 s for
-  N136_lamp1_a10, 0.9 s for N688_lam0_a20).
-* Not part of the notebook: the canonical matrix of the solver (`revision_ks_solver all`) took 78.1 s
-  on an idle machine and 178.4 s to 244.1 s while other jobs ran (`Revision/kohn_sham/solver/README.md`).
+* Whole notebook, version of 2026-10-08 (the withdrawn record with N = 136, 688), executed by
+  `build_notebooks.py`: 33.0 s (build A), 26.0 s (build B) and 28.6 s (`check`) of execution while other
+  work ran on the computer (the version before: 21.7 s to 38.0 s under load, section 7; the first builds
+  of this notebook took 12.2 s to 12.5 s), including the fresh `cargo build --release` of the solver into
+  `<cargo-target>` and the ten solver runs (each under one second when timed separately: 0.06 s for
+  N = 8, 0.5 s for N136_lamp1_a10, 0.9 s for N688_lam0_a20).
+* Not part of the notebook: the canonical matrix of the solver took 284.5 s in one invocation
+  (`revision_ks_solver all`, no cache) and, as the record is built, 134.6 s + 130.5 s in two parts plus
+  5.4 s for the assembly (2026-10-16; a repeat in three parts on 2026-10-17: 76.7 s, 70.4 s, 85.7 s,
+  assembly 5.7 s) (`Revision/kohn_sham/solver/README.md`, Timings).
 
 ## 6. Side effects
 
@@ -256,7 +259,7 @@ No run time and no path of the computer is printed (paths are shown relative to 
   of mode 0755, refused folders of mode 0777 and 0775, a symbolic link and a folder of another user
   (`/usr`), and was skipped with `REVISION_NB_CARGO_TARGET` set (21 of 21 cases as expected for the three
   builders). The notebook itself was not executed on Linux.
-* Current version, all runs with the system's temporary folder set (TMP, TEMP, TMPDIR) to a scratch
+* Version of 2026-10-08, all runs with the system's temporary folder set (TMP, TEMP, TMPDIR) to a scratch
   folder:
 * 2026-10-08, build A: `python Revision/notebooks/tools/build_notebooks.py build kohn_sham_states --out
   <scratch>/buildA` - executed in 33.0 s, wrote 515946 bytes, audit PASS, sha256

@@ -819,8 +819,9 @@ integrated pressures. The gas N = 2352 and N = 592 ($\lambda = 0$) occupies only
 $\varepsilon = e^{-a_4}|k|$ (and the $k = 0$ zero modes): its energy falls exactly like $e^{-a_4}$ (its 3-momenta
 redshift), $P_3 = E/3$, $P_t = P_0 = 0$. For N = 8 with $\hat\lambda = +\lambda_1$ only the $k = 0$ fold zero modes are
 filled (their levels are $\varepsilon = 0$): $E$ is pure interaction energy, small and negative (the record:
-$E < 0$ for $\lambda > 0$), $P_3 = P_t$, and $E$ falls as the effective coupling does, more slowly than
-$e^{-(5/3)a_4}$ because the shrinking hidden direction concentrates the zero modes.
+$E < 0$ for $\lambda > 0$), $P_3 = P_t$, and $E$ falls much more slowly than the effective coupling
+$\hat\lambda e^{-(5/3)a_4}$ ($E(2)/E(0) = 0.1847$ against $e^{-10/3} = 0.0357$) because the shrinking hidden
+direction concentrates the zero modes.
 """)
 
 code(r'''
@@ -1641,7 +1642,7 @@ Each figure is drawn from the computations of this notebook and is also saved as
 
 Left: $w_\mathrm{eff}(A) = w_\mathrm{eff}(B)$ along the history for the three series, with the reference values
 1/3 (radiation) and 0 (dust): the two gases lie exactly at 1/3 (fold-band gases); the interacting zero modes
-(N = 8) lie between 0.24 and 0.41. Right: the same states under normalisation C,
+(N = 8) lie between 0.2395 and 0.4010. Right: the same states under normalisation C,
 $w_\mathrm{eff}(C) = w_\mathrm{eff}(A) - 4/9$, with the Unite constant $w = -0.764$, the Unite $w_0 = -0.861$ and
 $w = -1$: the gas lies at $-1/9$, far above the Unite values. The two panels show the SAME states: only the
 observer ASSUMPTION differs (by $(4 - 2\beta)/3 = 4/9$ on the history with $b_4 \propto e^{(4/3)a_4}$).
@@ -1855,7 +1856,7 @@ md(r"""
 - The free Kohn-Sham gas is an exact fold-band gas: $w_\mathrm{eff}(A) = w_\mathrm{eff}(B) = 1/3$ exactly
   (radiation-like) at every slice; under the normalisation C the same states read $w_\mathrm{eff}(C) = -1/9$ with
   $w_a = 0$, far from the Unite pair $(-0.861, -0.60)$. The interacting zero modes ($E < 0$) have
-  $w_\mathrm{eff}(A)$ between 0.24 and 0.41.
+  $w_\mathrm{eff}(A)$ between 0.2395 and 0.4010.
 - The condensate ratio equals $-0.764$ exactly at the CHOSEN $\lambda S/m = -382/441$ at one instant (by
   construction); on the history it drifts, with $w_a = -28077/12500$ exactly. Mixtures with a $\lambda = 0$
   condensate stay above $-4/9$ under C; the scans with a drifting condensate come closest to the Unite pair

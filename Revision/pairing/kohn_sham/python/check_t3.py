@@ -217,11 +217,13 @@ def main():
     zm = sp.Matrix([0, sp.I * sp.exp(MM * y)])
     zero_mode = (zm.diff(y) - (-MM * s3) * zm).applyfunc(sp.simplify) == sp.zeros(2, 1) and s2 * sp.Matrix([sp.exp(MM * y), 0]) == zm
     check("T3.exact_k0_spectra", ok and ctl and zero_mode,
-          "k = 0, v = 0, constant M (ks-theory.json boundaryConditions.exactK0Spectra), chi(y) = exp(N y) chi(0), N^2 = "
-          "(M^2 - eps^2) I: the characteristic function of (M, j, even, theta = 0) is minus that of (-M, -j, odd, theta "
-          "= pi), that of (M, j, odd, theta = 0) equals that of (-M, -j, even, theta = pi), identically in eps, M, L, "
-          "both j: equal spectra level by level; the zero mode (e^(M y), 0) maps to (0, i e^(M y)), the zero mode of "
-          "the image; control: with the untransformed tip the image's characteristic function differs")
+          "k = 0, v = 0, constant M (ks-theory.json boundaryConditions.exactK0Spectra), chi' = f N chi, chi(y) = "
+          "exp(f N y) chi(0), N^2 = (M^2 - eps^2) I, computed at f = 1 (f enters only through f y, i.e. L -> f L; the "
+          "identities hold identically in L and M): the characteristic function of (M, j, even, theta = 0) is minus that "
+          "of (-M, -j, odd, theta = pi), that of (M, j, odd, theta = 0) equals that of (-M, -j, even, theta = pi), "
+          "identically in eps, M, L, both j: equal spectra level by level; the zero mode (e^(f M y), 0) maps to "
+          "(0, i e^(f M y)) (checked at f = 1 for every M > 0), the zero mode of the image; control: with the "
+          "untransformed tip the image's characteristic function differs")
 
     # 9. the 16-component chirality
     g = json.loads(GAMMAS.read_text(encoding="utf-8"))

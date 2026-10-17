@@ -51,8 +51,8 @@ method of density functional theory: each particle moves in the mean field of al
 This notebook
 
 1. builds the Revision Rust solver with `cargo build --release` and lets it recite its
-   configuration (the theory coefficients it reads, the gamma matrices, the 2 x 2 block reduction,
-   the parameters of a run);
+   configuration (the forms of the corrected metric and the theory coefficients it reads, the gamma
+   matrices, the 2 x 2 block reduction, the parameters of a run);
 2. solves ten states with the solver's command `single`: nine canonical zero-temperature states
    (N = 8, 592 and 2352 particles at the slices $a_4 = 0, 1, 2$ of the deflating history; the N = 592
    series with the calibrated coupling $+\lambda_1$) and one thermal state;
@@ -272,7 +272,7 @@ md(r"""
 - **$a_4$, slice $a_{4,0}$**: the metric function $a_4(x_4)$; a *slice* is one fixed value $a_{4,0}$ at
   which the instantaneous state is computed. Run ids end in `_a00`, `_a10`, `_a20` for
   $a_{4,0} = 0, 1, 2$.
-- **Hidden coordinate $y$**: $y = \ln(\sin z)/(6H)$ with $z = 6 H x_0$; the solver works on
+- **Hidden coordinate $y$**: $y = \ln|\sin z|/(6H)$ with $z = 6 H x_0$; the solver works on
   $-L \le y \le 0$ with $L = 3$.
 - **Fold** ($y = 0$, where $\cos z = 0$) and **tip** ($y = -L$): the two ends of the hidden interval. One period
   of $x_0$ consists of two halves joined at the fold; a spinor continuous across the fold has the same $\chi(y)$ on
@@ -563,13 +563,13 @@ def run_single(rid, N, lam, a4, T=None, profiles=True, recite=False):
 md(r"""
 ## 6. The solver recites its configuration
 
-Before trusting any result, the solver checks its inputs and says what it reads: the coefficients
-of the Kohn-Sham functional from `Revision/kohn_sham/ks-theory.json` ($\tfrac{15}{16} = 0.9375$ and
-$-\tfrac{1}{16} = -0.0625$), the author's gamma matrices from `Revision/algebra/gammas.json`, and the
-exact reduction of the 16-component Hamiltonian to the $2 \times 2$ blocks of section 4.2. The next
-cell solves the simplest canonical state (N = 8 zero modes, $\lambda = 0$, $a_{4,0} = 0$), prints those
-three input checks and the parameter block of the result file, and checks the parameters against
-the committed `results/parameters.json`.
+Before trusting any result, the solver checks its inputs and says what it reads: the forms of the
+corrected metric that it implements and the coefficients of the Kohn-Sham functional from
+`Revision/kohn_sham/ks-theory.json` ($\tfrac{15}{16} = 0.9375$ and $-\tfrac{1}{16} = -0.0625$), the
+author's gamma matrices from `Revision/algebra/gammas.json`, and the exact reduction of the 16-component
+Hamiltonian to the $2 \times 2$ blocks of section 4.2. The next cell solves the simplest canonical state
+(N = 8 zero modes, $\lambda = 0$, $a_{4,0} = 0$), prints those four input checks and the parameter block
+of the result file, and checks the parameters against the committed `results/parameters.json`.
 """)
 
 code(r'''
@@ -1001,9 +1001,9 @@ md(r"""
 
 **Showed.**
 
-- The Revision Kohn-Sham solver builds without warnings, checks its inputs (the functional's
-  coefficients 15/16 and -1/16, the author's gamma matrices, the exact $2 \times 2$ block reduction)
-  and runs with the parameters of the committed record.
+- The Revision Kohn-Sham solver builds without warnings, checks its inputs (the forms of the corrected
+  metric it implements, the functional's coefficients 15/16 and -1/16, the author's gamma matrices, the
+  exact $2 \times 2$ block reduction) and runs with the parameters of the committed record.
 - Ten states solved anew (nine canonical states, N = 8, 592, 2352 at $a_{4,0} = 0, 1, 2$, and one
   thermal state)
   reproduce the committed record exactly: energies, iterations, residuals, HOMO, LUMO, gap, every
