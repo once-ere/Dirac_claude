@@ -292,21 +292,27 @@ solver's mu lies within its rounding bound of the 40-digit root on its own level
 `single` run equals the committed matrix; the fixture holds the 8 states with the largest direct-count bound.
 
 `Revision/kohn_sham/reports/ks-rust-determinism.json` covers the repeat (byte identity of all files) and the
-refined-tolerance run (RK4 steps x 2, root tolerance / 10, SCF tolerance / 10, thermal cut / 100, and the
-Mermin root in the form `LinearDeviation` instead of `LogBalance`). Its tolerances were fixed before the
-comparison: eigenvalues 1e-8 m, energies 1e-8 relative, profiles 1e-6, thermodynamics 1e-8, derived
-derivatives 1e-6. Because the two runs solve the Mermin root along different rounding paths, |canonical -
-refined| of mu and Omega contains the rounding error of the root instead of sharing it (check
-`refined_mermin_root_path`; `refined_thermodynamics` compares both forms of Omega). Results of 2026-10-16:
-`ks-rust-determinism.json` 14/14. The repeat (three parts with `--inner-threads 2`, assembly with 3, against the
-canonical two parts with 4) is byte-identical in all 244 files (8695824 bytes) and in its report. Refined against
-canonical: E_KS to 1.8e-11 relative (N8_lamp2_a00); HOMO, LUMO and gaps to 2.2e-12 m; 50420 levels label by label to
-5.7e-10 m, label sets and occupations identical; Delta-SCF to 4.4e-9 m; profiles to 2.0e-10 of their family's maximum
-(the measure was changed from the profile's own maximum, see `claude_failures.md` H9); Q_max and dE/da4 to 4.5e-8;
-thermodynamics (mu, E, F, both forms of Omega, S) to 1.9e-10; C_V to 3.9e-9; the analytic spectra converge with the
-error ratio 16.00 (RK4). The Mermin root along the two rounding paths: U_mu <= 1.020e-11 m and U_Omega <= 9.877e-9
-(N2352_lamm1_a00_T50); largest B_c + B_r 2.380e-13 m; the negative control passes in the one state where the former
-direct-count root would be off by more than 2 U_mu (N8_lam0_a00_T10, -1.682e-13 m).
+refined-tolerance run (RK4 steps x 2, root tolerance / 10, SCF tolerance / 1000 with at most 1000 iterations,
+thermal cut / 100, and the Mermin root in the form `LinearDeviation` instead of `LogBalance`). The refined run
+measures the canonical error, so it must differ in every error source: with the SCF tolerance / 10 (1e-12, until
+2026-10-17) both runs could stop at the same iteration (the residual can drop from above 1e-11 to below 1e-12 in one
+Anderson step) and carry the same SCF stopping error, which enters E_band - E_int and p0 at first order; the
+cross-check then found int_p0 2.4e-10 off the reference with U_Rust = 2.7e-12 (`claude_failures.md` H15). Its
+tolerances were fixed before the comparison: eigenvalues 1e-8 m, energies 1e-8 relative, profiles 1e-6,
+thermodynamics 1e-8, derived derivatives 1e-6. Because the two runs solve the Mermin root along different rounding
+paths, |canonical - refined| of mu and Omega contains the rounding error of the root instead of sharing it (check
+`refined_mermin_root_path`; `refined_thermodynamics` compares both forms of Omega). Results of 2026-10-17 (after
+H15): `ks-rust-determinism.json` 14/14. The repeat (three parts with `--inner-threads 2`, assembly with 3, against
+the canonical two parts with 4) is byte-identical in all 244 files (8695824 bytes) and in its report. Refined
+against canonical: E_KS to 1.728e-11 (N8_lamp2_a00) relative; HOMO, LUMO and gaps to 2.177e-12 m; 50420 levels
+label by label to 5.688e-10 m, label sets and occupations identical; Delta-SCF to 4.346e-09 m; profiles to
+1.950e-10 of their family's maximum (the measure was changed from the profile's own maximum, see
+`claude_failures.md` H9); Q_max and dE/da4 to 4.513e-08; thermodynamics (mu, E, F, both forms of Omega, S) to
+1.874e-10; C_V to 3.853e-09; the analytic spectra converge with the error ratio 16.00 (RK4). The Mermin root along
+the two rounding paths: U_mu <= 1.019e-11 m (N2352_lamm1_a00_T50) and U_Omega <= 9.835e-09 (N2352_lamm1_a00_T50);
+largest B_c + B_r 2.380e-13 m (N2352_lamm1_a20_T50); the negative control passes in the one state where the former
+direct-count root would be off by more than 2 U_mu (N8_lam0_a00_T10, -1.682e-13 m). The canonical-refined
+differences now contain the canonical SCF stopping error (refined SCF residual <= 1e-14).
 
 ## Canonical results (from `results/`; units m = H = 1)
 
@@ -367,9 +373,11 @@ direct-count root would be off by more than 2 U_mu (N8_lam0_a00_T10, -1.682e-13 
   `tools/mermin_roots_mp.py` 18.3 s (135 `single` runs 16.1 s, 40-digit roots 2.2 s); the assembly again 5 s (results
   byte-identical, the report differs only by the fixture's sha256 when the fixture changed; here the fixture was
   unchanged).
-* Repeat in three parts: 76.9 s, 73.0 s, 84.7 s; assembly 6 s.
-* Refined-tolerance run (G = 1800, root tolerance 1e-14, SCF tolerance 1e-12, thermal cut 1e-14, Mermin form
-  `LinearDeviation`) in four parts: 152.5 s, 147.8 s, 156.0 s, 125.9 s; assembly 11.3 s.
+* Repeat in three parts: 76.7 s, 70.4 s, 85.7 s; assembly 5.7 s (2026-10-17, with the binary of H15; byte-identical
+  to the record).
+* Refined-tolerance run (G = 1800, root tolerance 1e-14, SCF tolerance 1e-14 with at most 1000 iterations, thermal cut
+  1e-14, Mermin form `LinearDeviation`; 2026-10-17, H15) in four parts: 176.5 s, 186.1 s, 183.0 s, 163.8 s; assembly 11.1 s
+  (before H15, with the SCF tolerance 1e-12: 152.5 s, 147.8 s, 156.0 s, 125.9 s).
 * `cargo test --release`: 13 of 13, below 1 s.
 
 ## The corrected metric (2026-10-16)

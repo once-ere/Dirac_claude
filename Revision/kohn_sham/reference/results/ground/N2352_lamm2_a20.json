@@ -30,8 +30,8 @@
    "lumo_group": [
     "27:+1:even:0"
    ],
-   "excited_iterations": 5,
-   "excited_residual": 3.703357065454327e-13,
+   "excited_iterations": 6,
+   "excited_residual": 1.582067810090848e-15,
    "neighbour_iterations": [
     11,
     11,
@@ -70,8 +70,8 @@
     "max_abs_Meff_minus_m": 0.016810729648716993,
     "max_abs_v_v": 0.10469328146557275,
     "n_max": 1.0410767578925817,
-    "E_excited": 315.81818565189496,
-    "delta_SCF": 0.003286222450981313,
+    "E_excited": 315.81818565189826,
+    "delta_SCF": 0.0032862224542782315,
     "dE_da4_fd": -314.3488920193723,
     "max_abs_deps_da4": 1.9888426421663292
    }
@@ -88,8 +88,8 @@
    "lumo_group": [
     "27:+1:even:0"
    ],
-   "excited_iterations": 5,
-   "excited_residual": 3.7044325940094325e-13,
+   "excited_iterations": 6,
+   "excited_residual": 2.6922908347160046e-15,
    "neighbour_iterations": [
     11,
     11,
@@ -128,8 +128,8 @@
     "max_abs_Meff_minus_m": 0.01681201852330383,
     "max_abs_v_v": 0.10469314493467514,
     "n_max": 1.0410754002205111,
-    "E_excited": 315.8181876870724,
-    "delta_SCF": 0.003286222451208687,
+    "E_excited": 315.8181876870756,
+    "delta_SCF": 0.0032862224543919183,
     "dE_da4_fd": -314.3488616797801,
     "max_abs_deps_da4": 1.9889007583333562
    }
@@ -146,8 +146,8 @@
    "lumo_group": [
     "27:+1:even:0"
    ],
-   "excited_iterations": 5,
-   "excited_residual": 3.7072775405100344e-13,
+   "excited_iterations": 6,
+   "excited_residual": 1.7208456881689926e-15,
    "neighbour_iterations": [
     11,
     11,
@@ -186,8 +186,8 @@
     "max_abs_Meff_minus_m": 0.016812003397523867,
     "max_abs_v_v": 0.10469311080213443,
     "n_max": 1.04107506080432,
-    "E_excited": 315.8181881958879,
-    "delta_SCF": 0.0032862224511518434,
+    "E_excited": 315.81818819589137,
+    "delta_SCF": 0.003286222454619292,
     "dE_da4_fd": -314.3488540948927,
     "max_abs_deps_da4": 1.9889152874953038
    }
@@ -311,12 +311,12 @@
    "U": 2.244464501531702e-12
   },
   "E_excited": {
-   "value": 315.81818836549496,
-   "U": 6.335122095533965e-10
+   "value": 315.81818836549854,
+   "U": 6.335690529722646e-10
   },
   "delta_SCF": {
-   "value": 0.00328622245112279,
-   "U": 2.010105631609303e-12
+   "value": 0.003286222454712768,
+   "U": 2.0176846384758455e-12
   },
   "dE_da4_fd": {
    "value": -314.34885156659783,

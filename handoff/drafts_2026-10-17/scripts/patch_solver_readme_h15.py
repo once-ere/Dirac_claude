@@ -52,7 +52,8 @@ new_res = (
     + g("refined_adiabatic_derivatives", r"max relative difference ([0-9.e+-]+)") + ";\nthermodynamics (mu, E, F, both forms of Omega, S) to "
     + g("refined_thermodynamics", r"\): max ([0-9.e+-]+)") + "; C_V to " + g("refined_heat_capacity", r"1e-6\)\) ([0-9.e+-]+)")
     + "; the analytic spectra converge with the\nerror ratio " + g("refined_free_spectra_convergence_order", r"median error ratio ([0-9.]+)")
-    + " (RK4). The Mermin root along the two rounding paths: " + g("refined_mermin_root_path", r"(U_mu <= [0-9.e+-]+ m and U_Omega <= [0-9.e+-]+ \([^)]*\))")
+    + " (RK4). The Mermin root along the two rounding paths: U_mu <= " + g("refined_mermin_root_path", r"U_mu = [^;]*?max ([0-9.e+-]+ m \([^)]*\))")
+    + " and U_Omega <= " + g("refined_mermin_root_path", r"U_Omega = [^;]*?max ([0-9.e+-]+ \([^)]*\))")
     + ". The canonical-refined differences now contain the canonical SCF stopping error (refined SCF residual <= 1e-14).")
 t = t.replace(old_res, new_res)
 rep('''* Repeat in three parts: 76.9 s, 73.0 s, 84.7 s; assembly 6 s.

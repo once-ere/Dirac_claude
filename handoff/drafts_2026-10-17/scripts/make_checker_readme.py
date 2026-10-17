@@ -107,7 +107,7 @@ corr = corr.replace("@@RUN@@", run_sentence)
 sub("@@CORRECTED@@", corr.rstrip("\n"))
 
 # the rounding bound of mu quoted in the tolerance rule: from the stated-bound check
-mx = grab("thermo_mu_rust_stated_bound", r"largest \|mu_Rust - root\| ([0-9.e+-]+) m")
+mx = grab("thermo_mu_rust_stated_bound", r"largest \|mu_Rust - root\| ([0-9.e+-]+) \(")
 sub("the exact values are needed to test the rounding bound of mu (about 1e-16 m).",
     f"the exact values are needed to test the rounding bound of mu (|mu_Rust - root| at most {mx} m in this run).")
 assert "@@" not in t, re.findall(r"@@\w+@@", t)

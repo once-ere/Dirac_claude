@@ -79,12 +79,16 @@ The repeat run that tests this is made by the cross-checker itself (`../checker/
   densities (P = e^{-3Hy}/Vol_7) n, S, Q, the potentials M_eff = m + (15/16) lambda S and v_v = -(1/16) lambda n,
   e_int and the EMT (rho, p3, p_t, p0 as in ks-theory.json emt) are evaluated at all positions. Integrals are
   2 Vol_7 int e^{3Hy} X dy by the midpoint rule on the half nodes. Fold and tip values use a quintic extrapolation of
-  u from the six nearest half nodes. Anderson mixing of the potentials runs to max |residual| <= 1e-12 m.
+  u from the six nearest half nodes. Anderson mixing of the potentials runs to max |residual| <= 1e-14 m for every
+  state (`ks_fd.SCF_TOL`; before 1e-12 m: the SCF stopping error enters E_band - E_int and p0 at first order, because
+  they use the output densities with the levels of the input potential, and it is not part of the Richardson
+  uncertainty, being nearly the same on the three grids; at 1e-12 m it reached 4e-11 in int_p0 of N = 2352,
+  `claude_failures.md` H15).
 * **Runs per state.** Each state gets the ground state (aufbau, closed shells), the Delta-SCF state (one
   particle from the HOMO group to the LUMO group, uniform over each group), and the four fixed-occupation
-  neighbours at a4 +- delta and +- 2 delta (delta = 2e-3), solved to the tighter SCF tolerance 1e-14 m (their energies
-  enter the finite difference with weights of about 1.5/delta, so the canonical 1e-12 m would put a noise of ~1e-9
-  into dE/da4, above the Richardson uncertainty of the strongest couplings; `claude_failures.md` H12, check
+  neighbours at a4 +- delta and +- 2 delta (delta = 2e-3), solved to the SCF tolerance 1e-14 m (their energies enter
+  the finite difference with weights of about 1.5/delta, so the former tolerance 1e-12 m put a noise of ~1e-9 into
+  dE/da4, above the Richardson uncertainty of the strongest couplings; `claude_failures.md` H12, check
   `ground_a4_neighbours_tight`). The neighbours give dE/da4, compared with the history
   identity dE/da4 = -3 P3 + P_t + P0/3 (beta = 4/3; ks-theory.json emt.energyChange), and the self-consistent
   d_a M_eff and d_a v_v, which enter the exact discrete Hellmann-Feynman matrix elements z_n^T (dT/da4) z_m of
@@ -148,7 +152,9 @@ The repeat run that tests this is made by the cross-checker itself (`../checker/
 * **Rescaling partners (60):** every ground state with a4,0 > 0.
 * **Crossing demonstration:** lambda = 0, N_demo = 2360, the five slices.
 * **Thermal states (135):** N in {8, 592, 2352} x lambda in {0, +-lambda_1} x 5 slices x T in {0.01, 0.02,
-  0.05} m. Each comes with four temperature neighbours and the sea-hole diagnostic.
+  0.05} m. Each comes with four temperature neighbours and the sea-hole diagnostic, evaluated over the shells of the
+  thermal label set and max(5, 10% of them) more shells (before 5: the Rust thermal label sets, whose window rule
+  differs, reached about 50 shells further at a4,0 = 2, where the fold band is dense; H15).
 * **Fourth-grid validation:** N592_lamp2_a20, the strongest coupling of N_mid at the last slice, solved on
   G = 300, 600, 1200, 2400.
 
@@ -212,20 +218,18 @@ The repeat run that tests this is made by the cross-checker itself (`../checker/
   2288.388233459555 (4.6e-9); E_KS(N2352_lamp2_a00) = 2255.043581213520 (4.7e-9); Delta-SCF(N8_lamp2_a00) =
   0.2499328874693825; Q_max(N2352_lam0_a00) = 0.1943290163255606, Q_max(N2352_lamp2_a00) = 0.1801719041261737.
 
-## Timings (this machine, 24 cores, `--jobs 20`, 2026-10-17)
+## Timings (this machine, 24 cores, `--jobs 20`, 2026-10-17, the record of H15)
 
-* Stage 1 (603 jobs, 15258 CPU-seconds: 405 thermal main states 8115 s, 75 ground states 4461 s, 60 exact-Fock
-  variants 1600 s, 60 rescaling partners 952 s, the validation state 83 s, the crossing demonstration 31 s, the free
-  checks 17 s) in six parts, the record's run with the machine otherwise idle: 188.9, 170.9, 199.7, 202.6, 107.2 and
-  207.3 s. The longest single jobs: the thermal main state N592_lamp1_a20_T50 on G = 1200 (201.4 s), N2352_lamm1_a00_T50
-  on G = 1200 (198.3 s) and the ground state N2352_lamp2_a20 with its neighbours (192.0 s).
-* Stage 2 (1620 jobs) in six parts: 119.8, 123.1, 117.7, 119.9, 120.8 and 123.3 s in the first complete run (machine
-  otherwise idle; the temperature neighbours are not touched by the fix of H12, so these timings hold for the record);
-  in the record's run 138.0, 150.8, 164.9, 152.9, 136.6 and 138.4 s, while the Rust refinement measurement and a timing
-  test of the tip study ran in parallel. The longest single jobs: the neighbours of N2352_lam+-1_a20_T50 on G = 1200
-  (103 s).
-* The assembly from the cache: 4.5 s. One invocation without a cache would take about 30 minutes on 20 processes, longer
-  than the limit of 423 s for one calculation; it was not run.
+* Stage 1 (603 jobs, 14759 CPU-seconds: 405 thermal main states 7884 s, 75 ground states 4303 s, 60 exact-Fock variants
+  1559 s, 60 rescaling partners 884 s, the validation state 80 s, the crossing demonstration 32 s, the free checks 16 s)
+  in six parts, the machine otherwise idle: 193.0, 175.4, 214.0, 179.8, 100.7 and 191.2 s. The longest single jobs:
+  N2352_lamm1_a00_T50_G1200 (212.5 s), N2352_lamp2_a20 (178.2 s), N592_lamp1_a20_T50_G1200 (175.7 s).
+* Stage 2 (1620 jobs, the temperature neighbours, 15972 CPU-seconds) in six parts: 136.8, 143.7, 133.7, 133.7, 134.2 and
+  139.8 s. The longest single jobs: N2352_lamm1_a20_T50_G1200_s+2 (110.2 s), N2352_lamp1_a20_T50_G1200_s-2 (109.6 s).
+* The assembly from the cache: 4.4 s. One invocation without a cache would take about 30 minutes on 20 processes,
+  longer than the limit of 423 s for one calculation; it was not run.
+* Before H15 (every state at the SCF tolerance 1e-12 m except the a4 neighbours): stage 1 188.9, 170.9, 199.7, 202.6,
+  107.2 and 207.3 s (15258 CPU-seconds), stage 2 119.8 to 123.3 s per part, the assembly 4.5 s.
 
 ## The corrected metric (2026-10-16/17)
 
@@ -243,7 +247,8 @@ W5). What changed in the code, and why:
   rescalingIdentity); the profile comparisons of the rescaling partner against the scale of the profile's family
   (`claude_failures.md` H6: S and p0 vanish identically for the lambda = 0 fold-band states); the exact-Fock variant at
   the occupations of the uniform-gas state (H3); every thermal grid a job of its own and the two stages of parts (H7);
-  the a4 neighbours at the SCF tolerance 1e-14 m (H12).
+  the a4 neighbours at the SCF tolerance 1e-14 m (H12) and, since H15, every state; the sea-hole list longer by
+  max(5, 10%) shells (H15).
 * What changed in the numbers: everything (solver README, "The corrected metric"): N_mid = 592 and N_large = 2352
   (before 136 and 688), lambda_1 = 157.7, 2.131, 0.5363 and lambda_2 = 473.1, 6.393, 1.609, N_demo = 2360 (before 696),
   the lambda = 0 states are exact fold-band gases, and the excluded sea of the thermal states is much larger at the late
@@ -252,7 +257,10 @@ W5). What changed in the code, and why:
   423 s (H7), so the thermal grids became jobs of their own; the first stage-1 part 4 ran through a 9-hour system sleep
   (H11; its timing is not used); the first complete run failed `emt_energy_change_dE_da4` in 9 of 75 states (H12) and
   was redone with the tighter neighbour tolerance; a stale docstring of `sea_brane_levels` (eps ~ -c kappa |k|) was
-  corrected before the record run, which rebuilt the cache once more.
+  corrected before the record run, which rebuilt the cache once more; the cross-check of that record failed 3 of 31
+  checks (H15: the SCF stopping errors of both solvers at the 1e-10 level in int_p0 and in the exact-Fock first-order
+  difference, and the sea-hole coverage), so every state is now solved to 1e-14 m and the sea-hole list is longer; the
+  record and both job caches were rebuilt.
 
 ## History
 

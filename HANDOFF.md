@@ -48,8 +48,18 @@ Status (folder `Revision/universe_model/`, README there):
   the W5 cross-check) and `dark_sector_hypotheses`; the notebook test pins of kohn_sham_states and dark_sector are
   still those of the old record and fail until then),
   then W7 (documents/PDFs; LOVELOCK_GKD DONE 2026-10-17: rewritten for the corrected metric, 29 pages, registered,
-  its publication test 34/34 with the verify-mode rebuild; the comparison report regenerated for the SPEC sha only)
+  its publication test 34/34 with the verify-mode rebuild; the comparison report regenerated for the SPEC sha only;
+  DIRAC16COMPLEX00_FIELD_THEORY DONE 2026-10-17 (f305563): rewritten, 42 pages, registered, test 20/20)
   and W8 (textbook), each committed and pushed.
+- Restart material for W6/W7 (2026-10-17 midday; drafts in the session scratch `scratchpad/w7/`, copied to
+  `handoff/drafts_2026-10-17/w7/` at each commit): `D16.draft.md` + `fill_d16.py` (DIRAC16COMPLEX_FIELD_THEORY; the
+  new test `Revision/tests/test_dirac16complex_field_theory_publication.py` with renderers for the corrected metric,
+  its record-only tests pass; still needed: the Kohn-Sham-source paragraph of section 13, the dark-sector verdict of
+  section 15 and QUOTED_NUMBERS from the regenerated records), `PAIR.draft.md` + `fill_pair.py` (PAIR_CREATION_PROOFS;
+  the test patched for the fold/no-orbifold statements, C1 and the self-test numbers; still needed: the T3
+  demonstrations, the Kohn-Sham source paragraph, the run log). The T3 reference demo is placed in the repository
+  (N_mid from parameters.json, 1/f, kappa = e^-a4); `verify_t3_completion.wls` and `t3-completion.json` now describe
+  T3 as S1-S4 with 9 + 12 checks (the report is byte-identical).
 
 ### 0.10 ORDER 2026-10-16: the corrected metric (version 2); recompute every primordial object
 
@@ -200,26 +210,30 @@ Status (newest last):
   READMEs of solver, reference, checker (still the b4-record text), tip study (scripts and drafts in
   `handoff/drafts_2026-10-17/`), the gate budgets from the measured times, HANDOFF W5 DONE, commit, push.  W6 drafts
   (pairing, T3 demos, dark sector, dirac16complex00, notebooks plan) are in the same folder with `w6_notes.md`.
-- W5 IN PROGRESS 2026-10-16 (restart kit; replace by the DONE entry).  Done, not yet committed: `kohn_sham/theory`
-  (Wolfram 51/51, sympy 61/61, ks-theory.json; provenance 6.8); the Rust solver and its record (`results/`, 243 files;
-  `ks-rust-solver.json` 45/45, mermin roots 5/5, determinism 14/14 with the refined run in parts; solver README);
-  `field_equations_a4/python/check_ks_source_conditions.py` 5/5; `ks_source/ks_source_a4.py` and its tests rewritten
-  (C4 restated from the measured signs: the N = 8 states have rho_bar with the sign of -lambda).  The reference's a4
-  neighbours are solved to the SCF tolerance 1e-14 (`run_reference.py` NB_TOL, check `ground_a4_neighbours_tight`;
-  `claude_failures.md` H12: the first complete run failed `emt_energy_change_dE_da4` in 9 lambda_2 states; the cache was
-  rebuilt).  Running/next, in this
-  order, every call under `timeout -k 5 423`, in the background, no waits over 60 s: (1) the reference,
-  `run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part i/6 --jobs 20` (i = 1..6), then
-  `--stage 2 --part i/6`, then the assembly without --stage/--part; (2) `checker/measure_rust_refinement.py --work
-  build/revision/ks-refinement`; (3) the same two stages into `build/revision/ks-crosscheck-cache`, then
-  `checker/crosscheck_ks.py --work build/revision/ks-crosscheck --jobs 22 --repeat-cache build/revision/ks-crosscheck-cache`;
-  (4) `tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part i/n`,
-  `--stage recal --part i/n`, `--stage final`; (5) `dark_sector/dirac16complex/compute/run_ks_history.py --solver
-  <binary> --work build/revision/ks-history-work --part i/n`, then without --part; (6) `ks_source_a4.py` and
-  `python -m unittest .../test_ks_source_a4.py`; (7) READMEs (reference, checker, tip_convergence, ks_source,
-  field_equations_a4) and `field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md`; (8) the gate rows (scratch patches
-  `patch_gate_ks.py`, `patch_gate_ks2.py`, budgets from the measured times) and `Revision/tests/test_revision_gate.py`;
-  (9) commit and push W5.  W6 preparation (not durable, session scratch, on disk at
+- W5 DONE 2026-10-17: `Revision/kohn_sham/` and the Kohn-Sham source parts of `Revision/field_equations_a4/` for the
+  corrected metric.  Theory (`kohn_sham/theory`): the hidden direction carries f = e^{-a4} b4^{1/2}, kappa = e^{-a4}
+  constant in y, P = e^{-3Hy}/Vol_7, Vol_7 = ell^3 v_t e^{(5/3) a4}, the fold joins two halves (both fold conditions
+  filled, ASSUMED), y-conservation p0' + 3H (p0 - p_t) = 0, dE/da4 = -3 P3 + P_t + P0/3, the rescaling identity changes
+  H and L; Wolfram 51/51, sympy 61/61 (provenance 6.8).  Rust solver: N_mid = 592, N_large = 2352, lambda_1 = 157.7,
+  2.131, 0.5363, lambda_2 = 473.1, 6.393, 1.609; the lambda = 0 states are exact fold-band gases (eps = e^{-a4}|k|);
+  `ks-rust-solver.json` 45/45, mermin roots 5/5, determinism 14/14 (the refined run at the SCF tolerance 1e-14 since H15); the matrix, its repeat and the refined
+  run in parts
+  with a job cache (`--cache`, `--part`, `--inner-threads`; byte-identical to one run).  Reference: 39/39 (stages 1 and 2 in six parts each with the job cache, assembly 4.4 s; H12: the a4 neighbours at NB_TOL = 1e-14).
+  Cross-check: 31/31 (the repeat of the reference computed beforehand in two stages of six parts into its own cache, then byte-identical to the record).  Tip study: 7/7 (scan 6 parts, recal 3 parts, final; 966 s): the free states are exact fold-band gases independent of L (except N = 2352 at a4,0 = 0, where k = 0 bulk levels become occupied from L = 3.5); the interacting zero modes depend on L the more the later the slice (N = 8 at a4,0 = 2: the recorded E_KS is 0.215 of the large-L value); the calibration rule has no non-trivial limit.  Dense history (`dark_sector/dirac16complex/compute/run_ks_history.py`, in
+  parts): 8/8 (615 runs: 15 series x 41 slices; three parts of 23 s and an assembly of 0.7 s).  `field_equations_a4`: `check_ks_source_conditions.py` 5/5 (no recorded state is an admissible
+  source: C1 fails for every nonzero state, C2 p0 = p_t only for lambda = 0, C3 holds); `ks_source/ks_source_a4.py`
+  19/19 (H13: part D integrates with step-doubling substeps and detects det J -> 0 at 1e-6 of det J(0); the unit test pins the 19 check names).  Failures on the way: `claude_failures.md` H2-H15 (H11: a part's wall time included a 9-hour system sleep;
+  H12: the reference's a4 neighbours needed the SCF tolerance 1e-14; H13: the fixed-step integration of ks_source
+  part D did not resolve the solutions before their events; H14: the cross-check read a changed text of the
+  determinism report; H15: the cross-check failed 3 checks: the SCF stopping error was in neither uncertainty (the
+  Rust refined run now stops at 1e-14, the reference solves every state to 1e-14) and the reference's sea-hole list
+  was shorter than the Rust thermal label sets).  Gate: the Kohn-Sham steps in parts (both twins; patch 1: the Rust matrix, repeat and refined run, the reference and the cross-check's repeat in parts; patch 2: the tip study (scan 6, recal 3, final) and the dense history (3 parts and the assembly), budgets from the measured times; `Revision/tests/test_revision_gate.py` 16 tests OK, 1 skipped (the full gate)).
+  KNOWN OPEN until W6: the dark sector (`compute_eos.py`, `derive_effective.py`, `independent_free_gas.py`,
+  `dirac16complex00`, the Wolfram twin), pairing T3 (`check_t3.py` tests the old Hamiltonian string; the demos read the
+  old key `emtIntegrals_2Vol7_int_e6Hy`), the notebooks (pinned report counts); until W7: the documents and their
+  publication tests; until W8: the textbook.
+- W6 NEXT (restart kit): the dark sector, pairing (T1/T2/Q, T3 and its demos), the notebooks, in the corrected
+  metric.  W6 preparation (not durable, session scratch, on disk at
   `C:\Users\nsh\AppData\Local\Temp\claude\D--Developer-github-Dirac-claude\837d3989-831c-4131-a54e-de216022bedc\scratchpad\`):
   `w6_notes.md` (the hand derivations for the corrected metric: dE/da4 = -3 P3 - (beta/2 - 1)(P0 + 3 Pt), w_eff(A) =
   P3/E + (beta/2 - 1)(P0 + 3 Pt)/(3E), w_eff(C) = w_eff(A) - 4/9, condensate S ~ e^{a4} b4^{-2}, w_eff(A) = (5/9) w_c, the
@@ -236,6 +250,15 @@ Status (newest last):
   -9 kk^2/16 + 1069 kk/432 + 2015/972), so no condensate sources it.  (c) Bulk-band quanta are blue-shifted by the
   shrinking hidden direction (1/f = e^{a4/3}): compute their w_eff, do not presume the old dust-like law.
   (d) Pairing T1/T2/Q: z -> pi - z is still an isometry of the corrected metric; recompute with its vielbein.
+  (e) Drafts of 2026-10-17 in the scratch folder (patch scripts `w6/patch_*.py`, patched copies; NOT yet run unless
+  stated): pairing T1/T2/Q (`w6/pairing/python/check_pairing.py`, `w6/pairing/wolfram/verify_pairing.wls` and
+  `RevisionPairing.wl`: the corrected vielbein, sqrt|g| = e^{-a4} b4^2 cot z sin^{1/2} z, the fold instead of the Z2
+  brane, the not-established tokens 'across the fold' and 'degenerate' in both lists); `Revision/SPEC.md` section 9
+  (`w6/spec9_draft.md`); the T3 demos (`w6/t3demo/`: key e3Hy, Vol_7 e^{(5/3) a4}, N_mid read from parameters.json);
+  check_t3_completion with the zero mode (e^{f M y}, 0); the dirac16complex00 tests (`w6/d00/tests/`); compute_eos
+  13/13 and independent_free_gas 10/10 on the new dense history (the latter after a fix: the collocation leaves a
+  spurious partner of the fold-band mode in a degenerate eigenspace).  RUN-TIME RISK: the gate row t3-rust-demo
+  (3 members x 210 states of the new matrix) will exceed 423 s and must be split into parts before it is run.
 
 ### 0.9 ORDER 2026-10-15 evening: move EVERYTHING to b4(x4) — START HERE
 

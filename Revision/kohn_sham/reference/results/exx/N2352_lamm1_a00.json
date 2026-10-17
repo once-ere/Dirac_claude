@@ -12,83 +12,83 @@
  "per_grid": [
   {
    "G": 300,
-   "iterations": 13,
-   "residual": 1.3858358904883517e-13,
-   "uniform_gas_residual": 4.318767565791859e-14,
+   "iterations": 14,
+   "residual": 4.163336342344337e-16,
+   "uniform_gas_residual": 7.0186911838021615e-15,
    "same_occupations_as_uniform_gas": true,
    "open_shell": false,
    "aufbau_consistent": true,
    "scalars": {
     "E_exact_fock_scf": 2288.388233459555,
-    "E_uniform_gas": 2299.393110157168,
-    "deltaE_x_exact_fock": -10.876003847585348,
-    "E_uniform_gas_plus_deltaE_x": 2288.5171063095827,
-    "E_exx_minus_first_order": -0.12887285002752336,
-    "HOMO_exact_fock": 1.2747548783981961,
-    "LUMO_exact_fock": 1.299038105676658,
-    "gap_exact_fock": 0.024283227278461883,
-    "int_rho": 2288.3882334595546,
-    "E_variational": 2288.388233459555,
-    "ycons_jump": -3.042616703257488e-18,
-    "ycons_integral": 0.0,
-    "p0_tip": 5.551115123125783e-17,
-    "p0_brane": -3.0357660829594124e-18,
-    "N_sum": 2352.0,
-    "max_abs_wQ": 0.09949116021922852
-   }
-  },
-  {
-   "G": 600,
-   "iterations": 13,
-   "residual": 1.407346461590464e-13,
-   "uniform_gas_residual": 4.288236432614667e-14,
-   "same_occupations_as_uniform_gas": true,
-   "open_shell": false,
-   "aufbau_consistent": true,
-   "scalars": {
-    "E_exact_fock_scf": 2288.388233459555,
-    "E_uniform_gas": 2299.3929590937055,
-    "deltaE_x_exact_fock": -10.875848963214077,
-    "E_uniform_gas_plus_deltaE_x": 2288.5171101304913,
-    "E_exx_minus_first_order": -0.12887667093634114,
+    "E_uniform_gas": 2299.3931101571507,
+    "deltaE_x_exact_fock": -10.876003847585011,
+    "E_uniform_gas_plus_deltaE_x": 2288.517106309566,
+    "E_exx_minus_first_order": -0.12887285001058046,
     "HOMO_exact_fock": 1.2747548783981961,
     "LUMO_exact_fock": 1.299038105676658,
     "gap_exact_fock": 0.024283227278461883,
     "int_rho": 2288.388233459555,
     "E_variational": 2288.388233459555,
-    "ycons_jump": 1.2989874208931827e-17,
+    "ycons_jump": -4.7704895589362195e-18,
     "ycons_integral": 0.0,
-    "p0_tip": 1.6653345369377348e-16,
-    "p0_brane": 1.3010426069826053e-17,
+    "p0_tip": 0.0,
+    "p0_brane": -4.7704895589362195e-18,
     "N_sum": 2352.0,
-    "max_abs_wQ": 0.09974207149736963
+    "max_abs_wQ": 0.09949116021938255
    }
   },
   {
-   "G": 1200,
-   "iterations": 13,
-   "residual": 1.3609946503123638e-13,
-   "uniform_gas_residual": 4.3270942384765476e-14,
+   "G": 600,
+   "iterations": 14,
+   "residual": 1.7069679003611782e-15,
+   "uniform_gas_residual": 7.19910242530375e-15,
    "same_occupations_as_uniform_gas": true,
    "open_shell": false,
    "aufbau_consistent": true,
    "scalars": {
     "E_exact_fock_scf": 2288.388233459555,
-    "E_uniform_gas": 2299.392921328559,
-    "deltaE_x_exact_fock": -10.875810242848026,
-    "E_uniform_gas_plus_deltaE_x": 2288.5171110857113,
-    "E_exx_minus_first_order": -0.12887762615607556,
+    "E_uniform_gas": 2299.392959093688,
+    "deltaE_x_exact_fock": -10.87584896321377,
+    "E_uniform_gas_plus_deltaE_x": 2288.5171101304745,
+    "E_exx_minus_first_order": -0.12887667091936805,
     "HOMO_exact_fock": 1.2747548783981961,
     "LUMO_exact_fock": 1.299038105676658,
     "gap_exact_fock": 0.024283227278461883,
-    "int_rho": 2288.3882334595555,
+    "int_rho": 2288.388233459555,
     "E_variational": 2288.388233459555,
-    "ycons_jump": -8.362057968734535e-18,
+    "ycons_jump": 1.114673051570647e-17,
     "ycons_integral": 0.0,
-    "p0_tip": 1.1102230246251565e-16,
-    "p0_brane": -8.348356728138384e-18,
+    "p0_tip": 1.6653345369377348e-16,
+    "p0_brane": 1.1167282376600696e-17,
     "N_sum": 2352.0,
-    "max_abs_wQ": 0.09986729658837816
+    "max_abs_wQ": 0.09974207149752586
+   }
+  },
+  {
+   "G": 1200,
+   "iterations": 14,
+   "residual": 3.83026943495679e-15,
+   "uniform_gas_residual": 7.004813395994347e-15,
+   "same_occupations_as_uniform_gas": true,
+   "open_shell": false,
+   "aufbau_consistent": true,
+   "scalars": {
+    "E_exact_fock_scf": 2288.388233459555,
+    "E_uniform_gas": 2299.3929213285405,
+    "deltaE_x_exact_fock": -10.875810242847688,
+    "E_uniform_gas_plus_deltaE_x": 2288.5171110856927,
+    "E_exx_minus_first_order": -0.12887762613776843,
+    "HOMO_exact_fock": 1.2747548783981961,
+    "LUMO_exact_fock": 1.299038105676658,
+    "gap_exact_fock": 0.024283227278461883,
+    "int_rho": 2288.388233459556,
+    "E_variational": 2288.388233459555,
+    "ycons_jump": -9.439409520921964e-18,
+    "ycons_integral": 0.0,
+    "p0_tip": 5.551115123125783e-17,
+    "p0_brane": -9.432558900623889e-18,
+    "N_sum": 2352.0,
+    "max_abs_wQ": 0.09986729658852946
    }
   }
  ],
@@ -98,20 +98,20 @@
    "U": 4.57677646691911e-09
   },
   "E_uniform_gas": {
-   "value": 2299.392908740241,
-   "U": 4.662905193955473e-09
+   "value": 2299.3929087402216,
+   "U": 4.662450446604548e-09
   },
   "deltaE_x_exact_fock": {
-   "value": -10.875797336123945,
-   "U": 8.63541402075562e-11
+   "value": -10.875797336123592,
+   "U": 8.634881113703729e-11
   },
   "E_uniform_gas_plus_deltaE_x": {
-   "value": 2288.5171114041173,
-   "U": 4.577943717510007e-09
+   "value": 2288.517111404098,
+   "U": 4.577488970159083e-09
   },
   "E_exx_minus_first_order": {
-   "value": -0.1288779445619897,
-   "U": 2.6639966354526905e-12
+   "value": -0.12887794454312,
+   "U": 2.781902320667882e-12
   },
   "HOMO_exact_fock": {
    "value": 1.2747548783981961,
@@ -126,36 +126,36 @@
    "U": 2e-12
   },
   "int_rho": {
-   "value": 2288.388233459556,
-   "U": 4.576776466919112e-09
+   "value": 2288.3882334595564,
+   "U": 4.576776466919113e-09
   },
   "E_variational": {
    "value": 2288.388233459555,
    "U": 4.57677646691911e-09
   },
   "ycons_jump": {
-   "value": -1.7733595797353428e-17,
-   "U": 2.0000022542271026e-12
+   "value": -1.8485051315823805e-17,
+   "U": 2.000002183595116e-12
   },
   "ycons_integral": {
    "value": 0.0,
    "U": 2e-12
   },
   "p0_tip": {
-   "value": 8.511709855459534e-17,
-   "U": 2.0000074014868307e-12
+   "value": 4.934324553889583e-18,
+   "U": 2.000013569392523e-12
   },
   "p0_brane": {
-   "value": -1.772309151289638e-17,
-   "U": 2.000002255140519e-12
+   "value": -1.8484442371797313e-17,
+   "U": 2.000002185269712e-12
   },
   "N_sum": {
    "value": 2352.0,
    "U": 4.704e-09
   },
   "max_abs_wQ": {
-   "value": 0.09991459359840085,
-   "U": 5.55531501985046e-06
+   "value": 0.09991459359855001,
+   "U": 5.55531501935086e-06
   }
  }
 }

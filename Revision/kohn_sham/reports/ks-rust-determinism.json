@@ -42,32 +42,32 @@
     {
       "name": "refined_ground_energies",
       "verdict": "PASS",
-      "detail": "75 ground states, same run set: True; max relative difference of E_KS 1.754e-11 (N8_lamp2_a00); tolerance 1e-08"
+      "detail": "75 ground states, same run set: True; max relative difference of E_KS 1.728e-11 (N8_lamp2_a00); tolerance 1e-08"
     },
     {
       "name": "refined_ground_homo_lumo_gap",
       "verdict": "PASS",
-      "detail": "max |difference| of HOMO, LUMO, KS gap 2.215e-12 m (N8_lamm2_a00); tolerance 1e-08"
+      "detail": "max |difference| of HOMO, LUMO, KS gap 2.177e-12 m (N8_lamm2_a00); tolerance 1e-08"
     },
     {
       "name": "refined_eigenvalues",
       "verdict": "PASS",
-      "detail": "50420 Kohn-Sham levels compared label by label: max |difference| 5.689e-10 m (N592_lamm1_a20 level 3:-1:even:3); label sets and occupations identical: True ; tolerance 1e-08"
+      "detail": "50420 Kohn-Sham levels compared label by label: max |difference| 5.688e-10 m (N592_lamm1_a20 level 1:-1:even:3); label sets and occupations identical: True ; tolerance 1e-08"
     },
     {
       "name": "refined_delta_scf",
       "verdict": "PASS",
-      "detail": "max |difference| of the Delta-SCF excitation energies 4.420e-09 m; tolerance 1e-08"
+      "detail": "max |difference| of the Delta-SCF excitation energies 4.346e-09 m; tolerance 1e-08"
     },
     {
       "name": "refined_profiles",
       "verdict": "PASS",
-      "detail": "proper profiles n, S, rho, p3, p_t, p0 at the 151 common y points: max difference / maximum of the profile's family (n, S: max |n|; rho, p3, p_t, p0: the largest of their maxima) 1.954e-10 (N8_lamm1_a05 p0); tolerance 1e-06"
+      "detail": "proper profiles n, S, rho, p3, p_t, p0 at the 151 common y points: max difference / maximum of the profile's family (n, S: max |n|; rho, p3, p_t, p0: the largest of their maxima) 1.950e-10 (N8_lamm1_a05 p0); tolerance 1e-06"
     },
     {
       "name": "refined_adiabatic_derivatives",
       "verdict": "PASS",
-      "detail": "Q_max, dE/da4 (EMT and finite differences): max relative difference 4.479e-08 (N8_lamp1_a20 dE_da4_finite_difference); tolerance 1e-06"
+      "detail": "Q_max, dE/da4 (EMT and finite differences): max relative difference 4.513e-08 (N8_lamp1_a20 dE_da4_finite_difference); tolerance 1e-06"
     },
     {
       "name": "refined_thermodynamics",
@@ -77,7 +77,7 @@
     {
       "name": "refined_mermin_root_path",
       "verdict": "PASS",
-      "detail": "the canonical run solves sum g f = N with the form LogBalance, the refined run with LinearDeviation (exactly equivalent well-conditioned residuals of solver/src/mermin.rs with different rounding paths); each run's mu is its own form's root bit for bit and the two forms agree within their bounds on that run's levels (check thermo_mu_well_conditioned_root of both reports: canonical True, refined True). Measure of the root: U_mu = |mu_c - mu_r| + B_c + B_r (B = mu_rounding_bound of each run), max 1.020e-11 m (N2352_lamm1_a00_T50); U_Omega = |Omega_c - Omega_r| (both forms) + N (B_c + B_r), max 9.877e-09 (N2352_lamm1_a00_T50); largest B_c + B_r 2.380e-13 m (N2352_lamm1_a20_T50), negligible against the tolerance (<= 1e-3 x 1e-08): True. NEGATIVE CONTROL (column mu_direct_count_minus_mu of both runs: the former direct-count root on the same final levels minus mu; columns present in every state: True): in 1 states the former canonical root would be wrong by more than twice U_mu; there the former measure (direct count in both runs) stays below half that error in every state (True: the two runs shared the rounding), while the present refined run differs from a former canonical root by at least half of it in every state (True): N8_lam0_a00_T10: direct-count error -1.682e-13 m (refined run -1.682e-13), former measure 0.000e+00, present measure against it 1.682e-13, U_mu 3.95e-16"
+      "detail": "the canonical run solves sum g f = N with the form LogBalance, the refined run with LinearDeviation (exactly equivalent well-conditioned residuals of solver/src/mermin.rs with different rounding paths); each run's mu is its own form's root bit for bit and the two forms agree within their bounds on that run's levels (check thermo_mu_well_conditioned_root of both reports: canonical True, refined True). Measure of the root: U_mu = |mu_c - mu_r| + B_c + B_r (B = mu_rounding_bound of each run), max 1.019e-11 m (N2352_lamm1_a00_T50); U_Omega = |Omega_c - Omega_r| (both forms) + N (B_c + B_r), max 9.835e-09 (N2352_lamm1_a00_T50); largest B_c + B_r 2.380e-13 m (N2352_lamm1_a20_T50), negligible against the tolerance (<= 1e-3 x 1e-08): True. NEGATIVE CONTROL (column mu_direct_count_minus_mu of both runs: the former direct-count root on the same final levels minus mu; columns present in every state: True): in 1 states the former canonical root would be wrong by more than twice U_mu; there the former measure (direct count in both runs) stays below half that error in every state (True: the two runs shared the rounding), while the present refined run differs from a former canonical root by at least half of it in every state (True): N8_lam0_a00_T10: direct-count error -1.682e-13 m (refined run -1.682e-13), former measure 0.000e+00, present measure against it 1.682e-13, U_mu 3.95e-16"
     },
     {
       "name": "refined_heat_capacity",

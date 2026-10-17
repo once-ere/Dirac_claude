@@ -100,49 +100,49 @@
 #   ks-rust-repeat-part3                  90 s
 #   ks-rust-repeat                        10 s
 #   ks-rust-repeat-identical               5 s
-#   ks-rust-refined-part1                155 s  long
-#   ks-rust-refined-part2                150 s  long
-#   ks-rust-refined-part3                160 s  long
-#   ks-rust-refined-part4                130 s  long
+#   ks-rust-refined-part1                180 s  long
+#   ks-rust-refined-part2                190 s  long
+#   ks-rust-refined-part3                185 s  long
+#   ks-rust-refined-part4                165 s  long
 #   ks-rust-refined                       15 s  long
-#   ks-rust-determinism                   30 s  long
+#   ks-rust-determinism                    5 s  long
 #   ks-reference-s1-part1                195 s
-#   ks-reference-s1-part2                175 s
-#   ks-reference-s1-part3                205 s
-#   ks-reference-s1-part4                210 s
-#   ks-reference-s1-part5                110 s
-#   ks-reference-s1-part6                210 s
-#   ks-reference-s2-part1                125 s
-#   ks-reference-s2-part2                125 s
-#   ks-reference-s2-part3                125 s
-#   ks-reference-s2-part4                125 s
-#   ks-reference-s2-part5                125 s
-#   ks-reference-s2-part6                125 s
+#   ks-reference-s1-part2                180 s
+#   ks-reference-s1-part3                215 s
+#   ks-reference-s1-part4                180 s
+#   ks-reference-s1-part5                105 s
+#   ks-reference-s1-part6                195 s
+#   ks-reference-s2-part1                140 s
+#   ks-reference-s2-part2                145 s
+#   ks-reference-s2-part3                135 s
+#   ks-reference-s2-part4                135 s
+#   ks-reference-s2-part5                135 s
+#   ks-reference-s2-part6                140 s
 #   ks-reference                           5 s
-#   ks-rust-refinement                   210 s
+#   ks-rust-refinement                   110 s
 #   ks-crosscheck-repeat-s1-part1        195 s
-#   ks-crosscheck-repeat-s1-part2        175 s
-#   ks-crosscheck-repeat-s1-part3        205 s
-#   ks-crosscheck-repeat-s1-part4        210 s
+#   ks-crosscheck-repeat-s1-part2        180 s
+#   ks-crosscheck-repeat-s1-part3        215 s
+#   ks-crosscheck-repeat-s1-part4        185 s
 #   ks-crosscheck-repeat-s1-part5        110 s
-#   ks-crosscheck-repeat-s1-part6        210 s
-#   ks-crosscheck-repeat-s2-part1        125 s
-#   ks-crosscheck-repeat-s2-part2        125 s
-#   ks-crosscheck-repeat-s2-part3        125 s
-#   ks-crosscheck-repeat-s2-part4        125 s
-#   ks-crosscheck-repeat-s2-part5        125 s
-#   ks-crosscheck-repeat-s2-part6        125 s
-#   ks-crosscheck                         25 s
-#   ks-tip-convergence-scan-part1        200 s
-#   ks-tip-convergence-scan-part2        215 s
-#   ks-tip-convergence-scan-part3        110 s
-#   ks-tip-convergence-scan-part4        180 s
-#   ks-tip-convergence-scan-part5         95 s
-#   ks-tip-convergence-scan-part6         90 s
-#   ks-tip-convergence-recal-part1       150 s
+#   ks-crosscheck-repeat-s1-part6        185 s
+#   ks-crosscheck-repeat-s2-part1        130 s
+#   ks-crosscheck-repeat-s2-part2        135 s
+#   ks-crosscheck-repeat-s2-part3        130 s
+#   ks-crosscheck-repeat-s2-part4        130 s
+#   ks-crosscheck-repeat-s2-part5        135 s
+#   ks-crosscheck-repeat-s2-part6        135 s
+#   ks-crosscheck                         90 s
+#   ks-tip-convergence-scan-part1        180 s
+#   ks-tip-convergence-scan-part2        190 s
+#   ks-tip-convergence-scan-part3         90 s
+#   ks-tip-convergence-scan-part4        165 s
+#   ks-tip-convergence-scan-part5         85 s
+#   ks-tip-convergence-scan-part6         75 s
+#   ks-tip-convergence-recal-part1       135 s
 #   ks-tip-convergence-recal-part2        10 s
 #   ks-tip-convergence-recal-part3        25 s
-#   ks-tip-convergence                    35 s
+#   ks-tip-convergence                    30 s
 #   t3-wolfram                            15 s
 #   t3-sympy                              10 s
 #   t3-completion-wolfram                 20 s
@@ -155,8 +155,8 @@
 #   dark16-ks-history-part3               25 s
 #   dark16-ks-history                      5 s
 #   dark16-eos                             5 s
-#   a4-ks-source                          10 s
-#   a4-ks-source-unittest                 30 s
+#   a4-ks-source                           5 s
+#   a4-ks-source-unittest                 20 s
 #   dark16-independent                   180 s
 #   dark00-derive                         30 s
 #   dark00-independent                    30 s
@@ -371,49 +371,49 @@ ks-rust-repeat-part2|75|0|-|-|-|{ks_solver} all --cache build/revision/ks-repeat
 ks-rust-repeat-part3|90|0|-|-|-|{ks_solver} all --cache build/revision/ks-repeat-cache --part 3/3 --inner-threads 2
 ks-rust-repeat|10|0|build/revision/ks-repeat|-|-|{ks_solver} all --cache build/revision/ks-repeat-cache --out build/revision/ks-repeat/results --report build/revision/ks-repeat/report.json --inner-threads 3
 ks-rust-repeat-identical|5|0|-|-|-|{audit} same build/revision/ks-repeat/results Revision/kohn_sham/results build/revision/ks-repeat/report.json Revision/kohn_sham/reports/ks-rust-solver.json
-ks-rust-refined-part1|155|1|build/revision/ks-refined-cache|-|-|{ks_solver} all --refined --cache build/revision/ks-refined-cache --part 1/4
-ks-rust-refined-part2|150|1|-|-|-|{ks_solver} all --refined --cache build/revision/ks-refined-cache --part 2/4
-ks-rust-refined-part3|160|1|-|-|-|{ks_solver} all --refined --cache build/revision/ks-refined-cache --part 3/4
-ks-rust-refined-part4|130|1|-|-|-|{ks_solver} all --refined --cache build/revision/ks-refined-cache --part 4/4
+ks-rust-refined-part1|180|1|build/revision/ks-refined-cache|-|-|{ks_solver} all --refined --cache build/revision/ks-refined-cache --part 1/4
+ks-rust-refined-part2|190|1|-|-|-|{ks_solver} all --refined --cache build/revision/ks-refined-cache --part 2/4
+ks-rust-refined-part3|185|1|-|-|-|{ks_solver} all --refined --cache build/revision/ks-refined-cache --part 3/4
+ks-rust-refined-part4|165|1|-|-|-|{ks_solver} all --refined --cache build/revision/ks-refined-cache --part 4/4
 ks-rust-refined|15|1|build/revision/ks-refined|-|-|{ks_solver} all --refined --cache build/revision/ks-refined-cache --out build/revision/ks-refined/results --report build/revision/ks-refined/report.json
-ks-rust-determinism|30|1|-|Revision/kohn_sham/reports/ks-rust-determinism.json|Revision/kohn_sham/reports/ks-rust-determinism.json|{python} Revision/kohn_sham/solver/tools/compare_runs.py --canonical Revision/kohn_sham/results --canonical-report Revision/kohn_sham/reports/ks-rust-solver.json --repeat build/revision/ks-repeat/results --repeat-report build/revision/ks-repeat/report.json --refined build/revision/ks-refined/results --refined-report build/revision/ks-refined/report.json --report Revision/kohn_sham/reports/ks-rust-determinism.json
+ks-rust-determinism|5|1|-|Revision/kohn_sham/reports/ks-rust-determinism.json|Revision/kohn_sham/reports/ks-rust-determinism.json|{python} Revision/kohn_sham/solver/tools/compare_runs.py --canonical Revision/kohn_sham/results --canonical-report Revision/kohn_sham/reports/ks-rust-solver.json --repeat build/revision/ks-repeat/results --repeat-report build/revision/ks-repeat/report.json --refined build/revision/ks-refined/results --refined-report build/revision/ks-refined/report.json --report Revision/kohn_sham/reports/ks-rust-determinism.json
 ks-reference-s1-part1|195|0|build/revision/ks-reference-cache|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 1/6 --jobs 20
-ks-reference-s1-part2|175|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 2/6 --jobs 20
-ks-reference-s1-part3|205|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 3/6 --jobs 20
-ks-reference-s1-part4|210|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 4/6 --jobs 20
-ks-reference-s1-part5|110|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 5/6 --jobs 20
-ks-reference-s1-part6|210|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 6/6 --jobs 20
-ks-reference-s2-part1|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 1/6 --jobs 20
-ks-reference-s2-part2|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 2/6 --jobs 20
-ks-reference-s2-part3|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 3/6 --jobs 20
-ks-reference-s2-part4|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 4/6 --jobs 20
-ks-reference-s2-part5|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 5/6 --jobs 20
-ks-reference-s2-part6|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 6/6 --jobs 20
+ks-reference-s1-part2|180|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 2/6 --jobs 20
+ks-reference-s1-part3|215|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 3/6 --jobs 20
+ks-reference-s1-part4|180|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 4/6 --jobs 20
+ks-reference-s1-part5|105|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 5/6 --jobs 20
+ks-reference-s1-part6|195|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 1 --part 6/6 --jobs 20
+ks-reference-s2-part1|140|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 1/6 --jobs 20
+ks-reference-s2-part2|145|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 2/6 --jobs 20
+ks-reference-s2-part3|135|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 3/6 --jobs 20
+ks-reference-s2-part4|135|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 4/6 --jobs 20
+ks-reference-s2-part5|135|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 5/6 --jobs 20
+ks-reference-s2-part6|140|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache --stage 2 --part 6/6 --jobs 20
 ks-reference|5|0|-|Revision/kohn_sham/reference/results,Revision/kohn_sham/reports/ks-reference.json|Revision/kohn_sham/reports/ks-reference.json|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-reference-cache
-ks-rust-refinement|210|0|build/revision/ks-refinement|Revision/kohn_sham/checker/rust-refinement.json|-|{python} Revision/kohn_sham/checker/measure_rust_refinement.py --work build/revision/ks-refinement
+ks-rust-refinement|110|0|build/revision/ks-refinement|Revision/kohn_sham/checker/rust-refinement.json|-|{python} Revision/kohn_sham/checker/measure_rust_refinement.py --work build/revision/ks-refinement
 ks-crosscheck-repeat-s1-part1|195|0|build/revision/ks-crosscheck-cache|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 1 --part 1/6 --jobs 20
-ks-crosscheck-repeat-s1-part2|175|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 1 --part 2/6 --jobs 20
-ks-crosscheck-repeat-s1-part3|205|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 1 --part 3/6 --jobs 20
-ks-crosscheck-repeat-s1-part4|210|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 1 --part 4/6 --jobs 20
+ks-crosscheck-repeat-s1-part2|180|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 1 --part 2/6 --jobs 20
+ks-crosscheck-repeat-s1-part3|215|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 1 --part 3/6 --jobs 20
+ks-crosscheck-repeat-s1-part4|185|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 1 --part 4/6 --jobs 20
 ks-crosscheck-repeat-s1-part5|110|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 1 --part 5/6 --jobs 20
-ks-crosscheck-repeat-s1-part6|210|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 1 --part 6/6 --jobs 20
-ks-crosscheck-repeat-s2-part1|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 1/6 --jobs 20
-ks-crosscheck-repeat-s2-part2|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 2/6 --jobs 20
-ks-crosscheck-repeat-s2-part3|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 3/6 --jobs 20
-ks-crosscheck-repeat-s2-part4|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 4/6 --jobs 20
-ks-crosscheck-repeat-s2-part5|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 5/6 --jobs 20
-ks-crosscheck-repeat-s2-part6|125|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 6/6 --jobs 20
-ks-crosscheck|25|0|build/revision/ks-crosscheck|Revision/kohn_sham/reports/ks-crosscheck.json,Revision/kohn_sham/reports/ks-crosscheck-table.csv|Revision/kohn_sham/reports/ks-crosscheck.json|{python} Revision/kohn_sham/checker/crosscheck_ks.py --work build/revision/ks-crosscheck --jobs 22 --repeat-cache build/revision/ks-crosscheck-cache
-ks-tip-convergence-scan-part1|200|0|build/revision/ks-tip-convergence|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 1/6
-ks-tip-convergence-scan-part2|215|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 2/6
-ks-tip-convergence-scan-part3|110|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 3/6
-ks-tip-convergence-scan-part4|180|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 4/6
-ks-tip-convergence-scan-part5|95|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 5/6
-ks-tip-convergence-scan-part6|90|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 6/6
-ks-tip-convergence-recal-part1|150|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage recal --part 1/3
+ks-crosscheck-repeat-s1-part6|185|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 1 --part 6/6 --jobs 20
+ks-crosscheck-repeat-s2-part1|130|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 1/6 --jobs 20
+ks-crosscheck-repeat-s2-part2|135|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 2/6 --jobs 20
+ks-crosscheck-repeat-s2-part3|130|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 3/6 --jobs 20
+ks-crosscheck-repeat-s2-part4|130|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 4/6 --jobs 20
+ks-crosscheck-repeat-s2-part5|135|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 5/6 --jobs 20
+ks-crosscheck-repeat-s2-part6|135|0|-|-|-|{python} Revision/kohn_sham/reference/run_reference.py --cache build/revision/ks-crosscheck-cache --stage 2 --part 6/6 --jobs 20
+ks-crosscheck|90|0|build/revision/ks-crosscheck|Revision/kohn_sham/reports/ks-crosscheck.json,Revision/kohn_sham/reports/ks-crosscheck-table.csv|Revision/kohn_sham/reports/ks-crosscheck.json|{python} Revision/kohn_sham/checker/crosscheck_ks.py --work build/revision/ks-crosscheck --jobs 22 --repeat-cache build/revision/ks-crosscheck-cache
+ks-tip-convergence-scan-part1|180|0|build/revision/ks-tip-convergence|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 1/6
+ks-tip-convergence-scan-part2|190|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 2/6
+ks-tip-convergence-scan-part3|90|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 3/6
+ks-tip-convergence-scan-part4|165|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 4/6
+ks-tip-convergence-scan-part5|85|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 5/6
+ks-tip-convergence-scan-part6|75|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage scan --part 6/6
+ks-tip-convergence-recal-part1|135|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage recal --part 1/3
 ks-tip-convergence-recal-part2|10|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage recal --part 2/3
 ks-tip-convergence-recal-part3|25|0|-|-|-|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage recal --part 3/3
-ks-tip-convergence|35|0|-|Revision/kohn_sham/tip_convergence/tip-convergence.json,Revision/kohn_sham/tip_convergence/tip-convergence-table.csv,Revision/kohn_sham/tip_convergence/tip-convergence-extrapolation.csv,Revision/kohn_sham/tip_convergence/fig-differences-EKS.png,Revision/kohn_sham/tip_convergence/fig-k0-spectrum.png,Revision/kohn_sham/tip_convergence/fig-recalibrated-interaction.png,Revision/kohn_sham/tip_convergence/fig-zero-modes-fixed-lambda.png|Revision/kohn_sham/tip_convergence/tip-convergence.json|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage final
+ks-tip-convergence|30|0|-|Revision/kohn_sham/tip_convergence/tip-convergence.json,Revision/kohn_sham/tip_convergence/tip-convergence-table.csv,Revision/kohn_sham/tip_convergence/tip-convergence-extrapolation.csv,Revision/kohn_sham/tip_convergence/fig-differences-EKS.png,Revision/kohn_sham/tip_convergence/fig-k0-spectrum.png,Revision/kohn_sham/tip_convergence/fig-recalibrated-interaction.png,Revision/kohn_sham/tip_convergence/fig-zero-modes-fixed-lambda.png|Revision/kohn_sham/tip_convergence/tip-convergence.json|{python} Revision/kohn_sham/tip_convergence/tip_convergence.py --work build/revision/ks-tip-convergence --jobs 22 --stage final
 t3-wolfram|15|0|-|Revision/pairing/kohn_sham/t3-theory.json,Revision/pairing/kohn_sham/reports/wolfram-t3.json|Revision/pairing/kohn_sham/reports/wolfram-t3.json|{wolframscript} -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
 t3-sympy|10|0|-|Revision/pairing/kohn_sham/reports/python-t3.json|Revision/pairing/kohn_sham/reports/python-t3.json|{python} Revision/pairing/kohn_sham/python/check_t3.py
 t3-completion-wolfram|20|0|-|Revision/pairing/kohn_sham/t3-completion.json,Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json|Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json|{wolframscript} -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls
@@ -426,8 +426,8 @@ dark16-ks-history-part2|25|0|-|-|-|{python} Revision/dark_sector/dirac16complex/
 dark16-ks-history-part3|25|0|-|-|-|{python} Revision/dark_sector/dirac16complex/compute/run_ks_history.py --solver {ks_solver} --jobs 22 --work build/revision/ks-history-work --part 3/3
 dark16-ks-history|5|0|-|Revision/dark_sector/dirac16complex/outputs/ks-history-dense.csv,Revision/dark_sector/dirac16complex/reports/ks-history-run.json|Revision/dark_sector/dirac16complex/reports/ks-history-run.json|{python} Revision/dark_sector/dirac16complex/compute/run_ks_history.py --solver {ks_solver} --jobs 22 --work build/revision/ks-history-work
 dark16-eos|5|0|-|Revision/dark_sector/dirac16complex/outputs/eos-history.csv,Revision/dark_sector/dirac16complex/outputs/eos-summary.json,Revision/dark_sector/dirac16complex/reports/eos-checks.json|Revision/dark_sector/dirac16complex/reports/eos-checks.json|{python} Revision/dark_sector/dirac16complex/compute/compute_eos.py
-a4-ks-source|10|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|Revision/field_equations_a4/ks_source/reports/ks-source-a4.json|{python} Revision/field_equations_a4/ks_source/ks_source_a4.py
-a4-ks-source-unittest|30|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|-|{python} -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
+a4-ks-source|5|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|Revision/field_equations_a4/ks_source/reports/ks-source-a4.json|{python} Revision/field_equations_a4/ks_source/ks_source_a4.py
+a4-ks-source-unittest|20|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|-|{python} -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
 dark16-independent|180|0|-|Revision/dark_sector/dirac16complex/outputs/independent-free-gas.json,Revision/dark_sector/dirac16complex/reports/independent-checks.json|Revision/dark_sector/dirac16complex/reports/independent-checks.json|{python} Revision/dark_sector/dirac16complex/independent/independent_free_gas.py
 dark00-derive|30|0|-|Revision/dark_sector/dirac16complex00/eos-theory.json,Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json|Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json|{python} Revision/dark_sector/dirac16complex00/python/derive_eos.py
 dark00-independent|30|0|-|Revision/dark_sector/dirac16complex00/results/independent-numerics.json,Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json|Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json|{python} Revision/dark_sector/dirac16complex00/python/independent_numerics.py

@@ -229,8 +229,8 @@ section 4.2, so the calibration rule does not define an interacting $L \to \inft
 
 Reference and Rust agree at $L = 3$ and $L = 4$ in all 28 comparisons ($E_{KS}$, $E_{int}$, HOMO, LUMO, int_p0,
 int_rho of N8_lamp1_a00 and N592_lam0_a20), worst |diff|/tolerance 0.006. The $L$ differences agree:
-$E_{KS}(4) - E_{KS}(3) = -7.658252309\times10^{-4}$ (Rust) and $-7.658252252\times10^{-4}$ (reference) for
-N8_lamp1_a00, int_p0 $-8.069695434\times10^{-3}$ and $-8.069695436\times10^{-3}$; for the fold-band gas N592_lam0_a20
+$E_{KS}(4) - E_{KS}(3) = -7.658252309\times10^{-4}$ (Rust) and $-7.658252247\times10^{-4}$ (reference) for
+N8_lamp1_a00, int_p0 $-8.069695434\times10^{-3}$ and $-8.069695435\times10^{-3}$; for the fold-band gas N592_lam0_a20
 both solvers give the same $E_{KS}$, HOMO, LUMO at $L = 3$ and 4.
 
 ## 5. Checks (`tip-convergence.json`, 7 checks, all PASS)
@@ -306,12 +306,13 @@ with numpy and matplotlib (no scipy). At most `--jobs` (capped at 22; the output
 or threads run at a time. Prints every check as `PASS/FAIL - name: detail` on stderr and SUCCESS/FAILURE last on stdout
 (exit 0/1).
 
-Run of 2026-10-17 (the corrected metric; 22 workers, each invocation under `timeout -k 5 423`): scan parts 198.3,
-214.4, 106.1, 175.7, 94.4 and 85.1 s; recal parts 149.7, 7.0 and 20.8 s; final 32.9 s (quick-matrix control 23.7 s,
-reference 4.9 s, report and figures 2.3 s); 1085 s in all, 7 of 7 checks PASS. The patched copy was built once
-(14.3 s) and reused. The longest single run is N2352_lamp1_a00 at $L = 6$, $G = 3600$: 254.8 s (SCF fails); the parts
-are balanced so that none comes near the limit. A second invocation of the final stage (from the stored singles,
-with the quick-matrix control and the reference recomputed) wrote all 7 output files byte-identical.
+Run of 2026-10-17 (the corrected metric; 22 workers, each invocation under `timeout -k 5 423`; the rerun after the
+reference's SCF tolerance became 1e-14 and the solver's refined numerics changed, `claude_failures.md` H15, with a
+clean work folder): scan parts 177.8, 188.3, 89.7, 164.7, 80.7 and 74.0 s; recal parts 133.9, 6.9 and 20.2 s;
+final 29.8 s; 966 s in all, 7 of 7 checks PASS. Every Rust number of sections 4.1 to 4.5 is the same as in the run
+before H15 (the canonical numerics did not change); the reference comparison of section 4.6 is the new one. The longest single run is N2352_lamp1_a00 at $L = 6$,
+$G = 3600$ (254.8 s in a timing test before H15, SCF fails); the parts are balanced so that none comes near the
+limit.
 
 ## 9. History
 

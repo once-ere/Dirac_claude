@@ -1,0 +1,1 @@
+The ingredients recorded earlier by the Kohn-Sham theory reports agree with these steps: `block_Gamma_map`, `blocks_relation_to_Gamma`, `bc_fold_same_equation_on_both_halves`, `bc_fold_conditions` and `bc_exact_k0_spectra` (both Kohn-Sham theory reports).
