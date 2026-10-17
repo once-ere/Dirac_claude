@@ -185,7 +185,7 @@ The **metric** is the diagonal $8 \times 8$ matrix $g$ that gives the squared le
 | $x_0$ | the hidden space direction, shrinking | $e^{-2a_4}b_4\cot^2 z$ | $e^{-a_4}b_4^{1/2}\lvert\cot z\rvert$ | $+1$ |
 | $x_1, x_2, x_3$ | ordinary 3-space, inflating | $e^{2a_4}$ | $e^{a_4}$ | $+1$ |
 | $x_4$ | the time | $-1$ | $1$ | $-1$ |
-| $x_5, x_6, x_7$ | the extra times, deflating exponentially | $-e^{-2a_4}b_4(\sin^2 z)^{1/6}$ | $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$ | $-1$ |
+| $x_5, x_6, x_7$ | the extra times, deflating exponentially | $-e^{-2a_4}b_4 \times$ $(\sin^2 z)^{1/6}$ | $e^{-a_4}b_4^{1/2} \times$ $(\sin^2 z)^{1/12}$ | $-1$ |
 
 The signs of the table hold wherever $\sin z \cos z \neq 0$. A **cell** is an interval of $z$ between two neighbouring zeros of $\sin z$, for example $0 < z < \pi$; inside it the point where $\cos z = 0$ (here $z = \pi/2$) is the **fold** that joins the two halves of the cell. At the fold $g_{00} = 0$, and at the zeros of $\sin z$ the entry $g_{00}$ is infinite and the three extra-time entries are 0; at these points the metric has no signature, and Chapter 3 treats them. The record also writes the frame factor of $x_0$ with a sign, $e^{-a_4}b_4^{1/2}\cot z$ (the same file, key `vielbein_corrected`); that sign plays no role in this chapter.
 

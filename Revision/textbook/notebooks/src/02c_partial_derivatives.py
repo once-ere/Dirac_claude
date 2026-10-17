@@ -678,8 +678,9 @@ CELLS = [
     md(r"""
     The rates along the hidden coordinate depend on $z$. The next cell draws them
     with $H = 1$ on one cell $0 < z < \pi$, made of two halves joined at the fold
-    $z = \pi/2$ (each drawn from $0.05$ to $0.05$ before its end): $H \cot z$ for
-    the extra-time factors, $0$ for 3-space, $-6H/(\sin z \cos z)$ for the hidden
+    $z = \pi/2$ (each half drawn up to $0.05$ from its ends, where some rates grow
+    without bound): $H \cot z$ for the extra-time factors, $0$ for 3-space,
+    $-6H/(\sin z \cos z)$ for the hidden
     factor $s_0$, and their sum over all eight directions, which must be the
     logarithmic rate of the volume factor, $\partial_0 \ln (|\cot z|
     (\sin^2 z)^{1/4}) = -6H/(\sin z \cos z) + 3H \cot z = -3H (\cot z + 2 \tan z)$.

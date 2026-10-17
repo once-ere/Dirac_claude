@@ -913,9 +913,10 @@ CELLS = [
     ($3e^{3} - 1 > 59$, while $e^{-1} K \ge -3e^{-1} > -1.2$, since $K \ge -3$). So
     on such a row the step is time-like for $a_4 < a_4^{\ast}(z)$ and space-like for
     $a_4 > a_4^{\ast}(z)$, at exactly one point $a_4^{\ast}(z)$, which bisection
-    finds again. Where $K > 0$ (near $z = 0$ and $z = \pi$) the hidden direction
-    adds more than the extra times take away, and the picture shows the step
-    space-like at every $a_4$ of the grid.
+    finds again. Where $K > 0$ (towards $z = 0$ and $z = \pi$) the hidden direction
+    adds more than the extra times take away; the cell checks nothing there, and
+    the picture shows the step space-like at every $a_4$ of the grid except in a
+    thin strip next to the rows $z_0$ and $\pi - z_0$.
 
     The next cell checks the two facts about $K$, finds $z_0$, evaluates $ds^2$ on a
     grid of 301 values of $a_4$ from $-1.5$ to $1.5$ and 300 values of $z$ from
@@ -1010,13 +1011,13 @@ CELLS = [
     save_figure(fig, "step_length",
                 "The squared length $ds^2 = g_{\\mu\\nu} dx^\\mu dx^\\nu$ of the "
                 "coordinate step with $dx^\\mu = \\epsilon$ in all eight coordinates, "
-                "in the author's metric along the record's background history "
+                "in the author's metric along the record's history "
                 "$b_4 = e^{4a_4/3}$. Left: $\\tanh(ds^2/\\epsilon^2)$ as colours (red "
                 "space-like, blue time-like) against $a_4$ (horizontal) and "
                 "$z = 6 H x_0$ across one cell (vertical), pure numbers, with the "
                 "curve $a_4^{\\ast}(z)$ where $ds^2 = 0$ (black) on the rows between "
                 "$z_0$ and $\\pi - z_0$ (dashed), where $K(z) \\le 0$, and the fold "
-                "$z = \\pi/2$ (dotted); the map is the same at $z$ and $\\pi - z$. "
+                "$z = \\pi/2$ (dotted). "
                 "Right: at $z = 0.9$ the four kinds of terms against $a_4$: the three "
                 "space directions (red, growing like $e^{2a_4}$), the time (grey, "
                 "$-1$), the three extra times (blue) and the hidden direction (green), "
