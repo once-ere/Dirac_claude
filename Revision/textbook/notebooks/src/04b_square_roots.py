@@ -18,9 +18,12 @@ extra_time_modes_grow: the plane-wave relation
 h^2 = (m^2 + k0^2 + k1^2 + k2^2 + k3^2 - k5^2 - k6^2 - k7^2) I16, the full-space spectrum
 "8 each", the exact example m = 2, k0 = 4, (k1, k2, k3) = (1, 2, 0) with E = +5 and -5
 four times each in the sector B = +1, the example m = 1, k5 = 2, and the frame momentum
-k_(x5) = e^{a4} b4^{-1/2} (sin^2 z)^{-1/12} k_x5 of the corrected metric of 2026-10-16) and
-Revision/theory/reports/python-scope.json (check extra_time_growth_rates_unbounded). The
-notebook asserts the words of these records, so a changed record fails the check.
+k_(x5) = e^{a4} b4^{-1/2} (sin^2 z)^{-1/12} k_x5 of the corrected metric of 2026-10-16),
+Revision/theory/reports/python-scope.json (check extra_time_growth_rates_unbounded) and
+Revision/metric_warped/results/warped-metric.json (keys metric_corrected, read with sympy's
+Mathematica parser and compared entry by entry with the typed entries g00, g11, g55;
+vielbein_corrected; history_source). The notebook asserts the words of these records, so a
+changed record fails the check.
 """
 
 import sys
@@ -40,9 +43,13 @@ FACTS = {
         "Dirac's 4 by 4 matrices and the author's eight 16 by 16 gammas, derives the "
         "plane-wave relation of the first-order equation in flat 4+4 dimensions, shows "
         "that a momentum along an extra time makes the energies imaginary (growing "
-        "waves), computes from the corrected metric how the deflation of the extra "
-        "times makes the frame momentum of such a wave grow, reproduces the Revision "
-        "record of these relations and of their exact examples, and draws six figures."
+        "waves), reads the corrected metric from the Revision record and compares the "
+        "entries it uses with it, computes from them how the deflation of the extra "
+        "times makes the frame momentum of such a wave grow, and that the frame "
+        "momentum along the shrinking hidden direction grows at the same rate, so "
+        "that a wave reaches the growing region only when its extra-time momentum "
+        "outweighs its hidden momentum, reproduces the Revision record of these "
+        "relations and of their exact examples, and draws six figures."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
@@ -62,6 +69,12 @@ FACTS = {
          "check extra_time_growth_rates_unbounded (the formula for h squared and the "
          "growth rate of a wave with momentum along an extra time), reproduced, with "
          "its words asserted"],
+        ["Revision/metric_warped/results/warped-metric.json",
+         "the corrected metric of 2026-10-16 (key metric_corrected, read with the "
+         "Mathematica parser of sympy and compared entry by entry with the entries "
+         "g00, g11 and g55 that the notebook types), its frame factors (key "
+         "vielbein_corrected) and the prescribed history of the metric functions (key "
+         "history_source), with their words asserted"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -78,16 +91,18 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all six figure files exist",
-        "ALL 20 CHECKS PASSED (notebook 04b)",
+        "ALL 22 CHECKS PASSED (notebook 04b)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for `Revision/algebra/gammas.json` or "
-         "`Revision/theory/reports/python-field-theory.json`",
-         "the notebook reads these Revision record files of the repository; they are "
-         "part of every complete clone. Run `git status` in the repository folder: if "
-         "it reports them as deleted, restore them with the command below and run the "
-         "notebook again.",
-         ["git checkout HEAD Revision/algebra Revision/theory"]],
+        ["\"FileNotFoundError\" for `Revision/algebra/gammas.json`, "
+         "`Revision/theory/reports/python-field-theory.json`, "
+         "`Revision/theory/reports/python-scope.json` or "
+         "`Revision/metric_warped/results/warped-metric.json`",
+         "the notebook reads these four Revision record files of the repository; they "
+         "are part of every complete clone. Run `git status` in the repository folder: "
+         "if it reports one of them as deleted, restore them with the command below "
+         "and run the notebook again.",
+         ["git checkout HEAD Revision/algebra Revision/theory Revision/metric_warped"]],
     ],
 }
 
@@ -116,9 +131,15 @@ CELLS = [
     - shows that a momentum along an extra time enters $E^2$ with a minus sign and
       makes the energies imaginary (waves that grow in time) when it is large enough,
       and reproduces the Revision record of this growth;
-    - computes, from the extra-time entry of the corrected metric of the Revision
-      record, how the deflation of the extra times makes the frame momentum of such a
-      wave grow, and reproduces the record's words for it;
+    - reads the corrected metric from the Revision record
+      `Revision/metric_warped/results/warped-metric.json` and requires that the entries
+      it types (the hidden direction, 3-space and the extra times) are the record's;
+    - computes from these entries how the deflation of the extra times makes the frame
+      momentum of such a wave grow, and reproduces the record's words for it;
+    - computes that the frame momentum along the hidden direction, which shrinks with
+      the extra times, grows at the same rate, so that in the local plane-wave reading
+      a wave reaches the growing region only when its extra-time momentum outweighs
+      its hidden momentum;
     - draws six figures.
     """),
     md(r"""
@@ -923,12 +944,69 @@ CELLS = [
     print("         check extra_time_modes_grow (its exact example)")
     '''),
     md(r"""
+    **The corrected metric of the Revision record.** The next three code cells use
+    three entries of the corrected metric (version 2 of 2026-10-16), in the order of
+    the author's coordinates $x_0, \dots, x_7$: the hidden direction
+    $g_{00} = e^{-2a_4} b_4 \cot^2 z$, 3-space $g_{11} = g_{22} = g_{33} = e^{2a_4}$, the
+    time $g_{44} = -1$ and the extra times
+    $g_{55} = g_{66} = g_{77} = -e^{-2a_4} b_4 (\sin^2 z)^{1/6}$, where $z = 6 H x_0$ takes
+    every real value and $a_4(x_4)$, $b_4(x_4) > 0$ are the metric functions. The next
+    cell types $g_{00}$, $g_{11}$ and $g_{55}$ in sympy, reads the Revision record file
+    `Revision/metric_warped/results/warped-metric.json`, turns the record's metric
+    (written in the notation of Mathematica, with `E^x` for $e^x$, `Sin[...]` for
+    $\sin$ and `a4[x4]` for $a_4(x_4)$) into sympy with `parse_mathematica`, and
+    requires that all eight entries are the typed ones. It also requires that the
+    record's texts for the frame factors (key `vielbein_corrected`) and for the
+    prescribed history (key `history_source`) say what the cells after it use, word for
+    word: if the record ever says something else, the check fails.
+    """),
+    code(r'''
+    from sympy.parsing.mathematica import parse_mathematica  # Mathematica text to sympy
+
+    z, x4 = sp.symbols("z x4", real=True)  # z = 6 H x0 takes every real value
+    H_const = sp.symbols("H", positive=True)  # the author's constant H > 0
+    a4 = sp.Function("a4", real=True)(x4)  # the metric function a4(x4)
+    b4 = sp.Function("b4", positive=True)(x4)  # the metric function b4(x4) > 0
+    g00 = sp.exp(-2 * a4) * b4 * sp.cot(z) ** 2  # the hidden direction x0
+    g11 = sp.exp(2 * a4)  # 3-space: x1 (x2 and x3 have the same entry)
+    g55 = -sp.exp(-2 * a4) * b4 * (sp.sin(z) ** 2) ** sp.Rational(1, 6)  # extra time x5
+    say(f"typed: g00 = {g00};  g11 = {g11};  g55 = {g55}")
+
+    METRIC = "Revision/metric_warped/results/warped-metric.json"
+    metric_record = json.loads(repository_file(METRIC).read_text(encoding="utf-8"))
+    metric_text = metric_record["metric_corrected"]  # "diag(g00, g11, ..., g77)"
+    entries = parse_mathematica("{" + metric_text[len("diag("):-1] + "}")
+    x0_text, x4_text, H_text = sp.symbols("x0 x4 H")  # the parser's plain symbols
+    to_notebook = [(sp.Function("a4")(x4_text), a4), (sp.Function("b4")(x4_text), b4),
+                   (x0_text, z / (6 * H_text))]  # x0 = z/(6 H), so that 6 H x0 = z
+    stored_entries = [entry.subs(to_notebook) for entry in entries]
+    typed_entries = [g00, g11, g11, g11, -1, g55, g55, g55]  # order x0, ..., x7
+    entries_ok = (metric_text.startswith("diag(") and len(stored_entries) == 8
+                  and all(sp.simplify(stored - typed) == 0
+                          for stored, typed in zip(stored_entries, typed_entries)))
+    say(f"record: g00 = {stored_entries[0]};  g11 = {stored_entries[1]};  "
+        f"g44 = {stored_entries[4]};  g55 = {stored_entries[5]}")
+
+    FRAME_WORDS_0 = "f0 = E^(-a4) b4^(1/2) Cot[6 H x0]"
+    FRAME_WORDS_3 = "f1 = f2 = f3 = E^a4"
+    FRAME_WORDS_5 = "f5 = f6 = f7 = E^(-a4) b4^(1/2) (Sin[6 H x0]^2)^(1/12)"
+    HISTORY_WORDS = ("a4 = A H x4, b4 = b4(0) E^(beta A H x4) (b4(0) = 1); "
+                     "record values A = 1, beta = 4/3")
+    frame_text = metric_record["vielbein_corrected"]
+    history_text = metric_record["history_source"]["history"]
+    say(f"record (key history_source): {history_text}")
+    check(entries_ok and FRAME_WORDS_0 in frame_text and FRAME_WORDS_3 in frame_text
+          and FRAME_WORDS_5 in frame_text and HISTORY_WORDS in history_text,
+          "the typed metric entries, frame factors and history are the record's")
+    print(f"     reproduces {METRIC}")
+    print("         keys metric_corrected, vielbein_corrected and history_source")
+    '''),
+    md(r"""
     **Why the deflation matters here.** The flat equation has constant coefficients.
     In the author's space-time the derivative along the coordinate $x_5$ enters the
     field equation divided by the *frame factor* $f_5 = \sqrt{|g_{55}|}$ of the
-    direction $x_5$. In the corrected metric of the Revision record (version 2 of
-    2026-10-16) the extra-time entry is $g_{55} = -e^{-2a_4} b_4 (\sin^2 z)^{1/6}$, with
-    $z = 6 H x_0$ real, so $f_5 = e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$. The power of
+    direction $x_5$. With the record's entry $g_{55} = -e^{-2a_4} b_4 (\sin^2 z)^{1/6}$
+    of the last cell, $f_5 = e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$. The power of
     $\sin^2 z$ is the positive one, so $f_5$ is the same at $\sin z$ and at $-\sin z$
     (sympy writes $(\sin^2 z)^{1/6}$ as $|\sin z|^{1/3}$). A wave $e^{i k_{x_5} x_5}$
     with a fixed *coordinate* momentum $k_{x_5}$ therefore has the *frame* momentum
@@ -938,9 +1016,10 @@ CELLS = [
     history that the record prescribes, $a_4 = H x_4$ and $b_4 = e^{(4/3) H x_4}$, the
     frame factor $f_5 = e^{-H x_4/3} (\sin^2 z)^{1/12}$ shrinks exponentially (the extra
     times deflate) and $k_5$ grows like $e^{H x_4/3}$: its logarithmic growth rate
-    $d \ln k_5 / d x_4$ is $H/3$. So every wave along an extra time sooner or later
-    reaches the region $k_5^2 > m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2$, where $E$ is
-    imaginary.
+    $d \ln k_5 / d x_4$ is $H/3$ (the cell takes $k_{x_5} > 0$; for a negative
+    $k_{x_5}$ the same holds for $|k_5|$). Whether the wave then reaches the region
+    of imaginary energies depends on the other frame momenta too: the cell after the
+    next one computes them.
 
     The next cell lets sympy compute $f_5$ and $k_5$ from $g_{55}$ for general
     functions $a_4(x_4)$ and $b_4(x_4) > 0$, then on the history, with the growth rate;
@@ -950,14 +1029,10 @@ CELLS = [
     same frame momentum and the same deflation, word for word.
     """),
     code(r'''
-    z, x4 = sp.symbols("z x4", real=True)  # z = 6 H x0 takes every real value
-    H_const, k_x5 = sp.symbols("H k_x5", positive=True)  # H > 0; coordinate momentum
-    a4 = sp.Function("a4", real=True)(x4)  # the metric function a4(x4)
-    b4 = sp.Function("b4", positive=True)(x4)  # the metric function b4(x4) > 0
-    g55 = -sp.exp(-2 * a4) * b4 * (sp.sin(z) ** 2) ** sp.Rational(1, 6)  # corrected
+    k_x5 = sp.symbols("k_x5", positive=True)  # the coordinate momentum along x5
     f5 = sp.sqrt(-g55)  # the frame factor sqrt|g55| of x5 (g55 is negative)
     k5_frame = k_x5 / f5  # the frame momentum of the coordinate momentum k_x5
-    say(f"g55 = {g55};  f5 = {f5};  k5 = {k5_frame}")
+    say(f"f5 = {f5};  k5 = {k5_frame}")
     general_ok = (sp.simplify(k5_frame - sp.exp(a4) / sp.sqrt(b4)
                               * (sp.sin(z) ** 2) ** sp.Rational(-1, 12) * k_x5) == 0
                   and f5.subs(z, -z) == f5)  # the same at sin z and at -sin z
@@ -984,6 +1059,85 @@ CELLS = [
           "k5 = e^a4 b4^(-1/2) (sin^2 z)^(-1/12) k_x5 grows like e^(H x4/3)")
     print(f"     reproduces {THEORY}")
     print("         check extra_time_modes_grow (frame momentum, corrected metric)")
+    '''),
+    md(r"""
+    **The hidden direction shrinks with the extra times.** The rule of the last cell
+    holds for every direction: a coordinate momentum $k_{x_\mu}$ enters the flat algebra
+    as the frame momentum $k_{x_\mu}/f_\mu$, with the frame factor
+    $f_\mu = \sqrt{|g_{\mu\mu}|}$. The hidden direction has
+    $f_0 = e^{-a_4} b_4^{1/2} |\cot z|$, the factor of the extra times times
+    $|\cot z|$ instead of $(\sin^2 z)^{1/12}$; so its frame momentum
+    $k_0 = e^{a_4} b_4^{-1/2} |\tan z|\, k_{x_0}$ (up to its sign) grows on the
+    history like $e^{H x_4/3}$, at the same rate as $k_5$. 3-space has $f_1 = e^{a_4}$,
+    so $k_1 = e^{-a_4} k_{x_1}$ shrinks like $e^{-H x_4}$, and $k_2$, $k_3$ alike.
+    Inserting the frame momenta into $E^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2$
+    gives
+
+    $E^2 = m^2 + e^{-2a_4}(k_{x_1}^2 + k_{x_2}^2 + k_{x_3}^2) - e^{2a_4} b_4^{-1} D$
+    with $D = (\sin^2 z)^{-1/6} k_{x_5}^2 - \tan^2 z\, k_{x_0}^2$.
+
+    $D$ does not depend on $x_4$. On the history the factor
+    $e^{2a_4} b_4^{-1} = e^{2 H x_4/3}$ grows without bound, while the first two terms
+    stay between $m^2$ and $m^2 + k_{x_1}^2 + k_{x_2}^2 + k_{x_3}^2$ for $x_4 \geq 0$.
+    So, in the local plane-wave reading, a wave reaches the region $E^2 < 0$
+    (imaginary energies, growing waves) sooner or later exactly when $D > 0$: every
+    wave without hidden momentum ($k_{x_0} = 0$) does; a wave with $D \leq 0$ never
+    does, because then $E^2 \geq m^2$ at every time. (With momenta along $x_6$ and
+    $x_7$ as well, $k_{x_5}^2$ in $D$ becomes $k_{x_5}^2 + k_{x_6}^2 + k_{x_7}^2$,
+    because the three extra times have the same frame factor.) The record's check
+    `extra_time_modes_grow` says that every extra-time mode eventually enters the
+    growing regime, as a local-frame statement; since the hidden frame momentum grows
+    at the same rate, this holds exactly for the waves with $D > 0$.
+
+    The next cell computes $f_0$, $k_0$, $f_1$, $k_1$ and $E^2$ with sympy for general
+    functions $a_4$ and $b_4 > 0$, checks the rates $H/3$ and $-H$ on the history, and
+    evaluates $E^2$ along the history at the point $\sin z = 1/64$ of the last cell,
+    for $m = 1$, $H = 1$, $k_{x_5} = 1$, no 3-space momentum and the hidden momenta
+    $k_{x_0} = 0$, $127$ and $128$. There $\tan^2 z = \sin^2 z/(1 - \sin^2 z) = 1/4095$
+    and $(\sin^2 z)^{-1/6} = 4096^{1/6} = 4$, so $D = 4 - k_{x_0}^2/4095$ changes sign
+    between $127$ and $128$: $127^2 = 16129 < 16380 = 4 \cdot 4095 < 16384 = 128^2$.
+    For $k_{x_0} = 127$, $D = 251/4095$ and $E^2 = 1 - (251/4095)\, e^{2x_4/3}$, which
+    is 0 when $e^{2x_4/3} = 4095/251$, that is at $x_4 = (3/2) \ln(4095/251)$.
+    """),
+    code(r'''
+    k_x0, k_x1, k_x2, k_x3 = sp.symbols("k_x0 k_x1 k_x2 k_x3", real=True)  # coordinate
+    f0, f1 = sp.sqrt(g00), sp.sqrt(g11)  # the frame factors of x0 and of 3-space
+    k0_frame, k1_frame = k_x0 / f0, k_x1 / f1  # their frame momenta (k0 up to a sign)
+    say(f"f0 = {f0};  k0 = {k0_frame};  f1 = {f1};  k1 = {k1_frame}")
+    k0_history = sp.simplify(k0_frame.subs(history))
+    k1_history = sp.simplify(k1_frame.subs(history))
+    rate0 = sp.simplify(sp.diff(k0_history, x4) / k0_history)  # d ln|k0| / d x4
+    rate1 = sp.simplify(sp.diff(k1_history, x4) / k1_history)  # d ln|k1| / d x4
+    say(f"on the history: k0 = {k0_history};  k1 = {k1_history};  "
+        f"k0'/k0 = {rate0};  k1'/k1 = {rate1}")
+
+    E2_local = (m**2 + k0_frame**2 + (k_x1**2 + k_x2**2 + k_x3**2) / f1**2
+                - k5_frame**2)  # the flat mass shell with the frame momenta inserted
+    D = ((sp.sin(z) ** 2) ** sp.Rational(-1, 6) * k_x5**2
+         - sp.tan(z) ** 2 * k_x0**2)  # it does not depend on x4
+    E2_expected = (m**2 + sp.exp(-2 * a4) * (k_x1**2 + k_x2**2 + k_x3**2)
+                   - sp.exp(2 * a4) / b4 * D)
+    general_E2_ok = sp.simplify(E2_local - E2_expected) == 0
+
+    point = {m: 1, H_const: 1, k_x5: 1, k_x1: 0, k_x2: 0, k_x3: 0,
+             z: sp.asin(sp.Rational(1, 64))}  # the point sin z = 1/64 of the last cell
+    E2_point = sp.simplify(E2_local.subs(history).subs(point))
+    say(f"m = H = k_x5 = 1, sin z = 1/64, no 3-space momentum: E^2 = {E2_point}")
+    E2_hidden = {}
+    for hidden in (0, 127, 128):  # three hidden coordinate momenta k_x0
+        E2_hidden[hidden] = sp.simplify(E2_point.subs(k_x0, hidden))
+        report(f"k_x0 = {hidden}: E^2 along the history", E2_hidden[hidden])
+    crossing = sp.Rational(3, 2) * sp.log(sp.Rational(4095, 251))  # E^2 = 0 for 127
+    report("k_x0 = 127: E^2 = 0 at x4 = (3/2) ln(4095/251)", sp.N(crossing, 6))
+
+    grow = sp.exp(2 * x4 / 3)  # the factor e^(2 H x4/3) for H = 1
+    expected = {0: 1 - 4 * grow, 127: 1 - 251 * grow / 4095, 128: 1 + 4 * grow / 4095}
+    check(general_E2_ok and rate0 == H_const / 3 and rate1 == -H_const
+          and sp.simplify(k0_history - sp.exp(H_const * x4 / 3) * sp.Abs(sp.tan(z))
+                          * k_x0) == 0
+          and all(sp.simplify(E2_hidden[n] - expected[n]) == 0 for n in expected)
+          and sp.simplify(E2_hidden[127].subs(x4, crossing)) == 0,
+          "k0 grows like k5, k1 shrinks; E^2 = m^2 + e^(-2 a4) k_space^2 - e^(2 a4)/b4 D")
     '''),
     md(r"""
     ## 12. The last check

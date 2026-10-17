@@ -154,7 +154,8 @@ CELLS = [
     - **Boundary conditions**: at the tip $b(-L) = 0$ (the *regular tip*, a choice
       of the model); at the fold $b(0) = 0$ (*even* orbitals, the fold parameter
       $\theta = 0$) or $a(0) = 0$ (*odd* orbitals, $\theta = \pi$). The record
-      derives these two conditions from the joining of the two halves at the fold
+      derives the fold condition, up to the parameter $\theta$, from the joining of
+      the two halves of a cell at the fold, uses $\theta = 0$ and $\theta = \pi$,
       and labels the filling of both together ASSUMED (its convention).
     - **Pruefer angle** $\theta(y)$: the angle of the point $(a, b)$ seen from the
       origin, $a = r \cos\theta$, $b = r \sin\theta$ with $r > 0$; we count every
@@ -302,8 +303,8 @@ CELLS = [
     G_CANONICAL = parameters["numerics"]["rk4Steps"]  # RK4 steps for L = 3
     ROOT_TOLERANCE = parameters["numerics"]["rootTolerance"]
     M_RECORD, L_RECORD = parameters["physics"]["m"], parameters["physics"]["L_tipCutoff"]
-    top, bottom = theory["adiabaticity"]["historyBeta"].split("/")  # the text "4/3"
-    BETA = float(top) / float(bottom)  # beta = 4/3, as the Rust program reads it
+    numerator, denominator = theory["adiabaticity"]["historyBeta"].split("/")  # "4/3"
+    BETA = float(numerator) / float(denominator)  # 4/3, as the Rust program reads it
 
 
     def hidden_scale(a4):
@@ -1072,7 +1073,7 @@ CELLS = [
     error is smaller than the prediction; far from it the points approach the line.
     """),
     code(r'''
-    w = sp.symbols("omega", positive=True)  # the angle turned in one step, eps h
+    w = sp.symbols("omega", positive=True)  # the angle turned in one step, f eps h
     R_rk4 = 1 + sp.I * w - w ** 2 / 2 - sp.I * w ** 3 / 6 + w ** 4 / 24  # R(i omega)
     turned = sp.atan(sp.im(R_rk4) / sp.re(R_rk4))  # the angle of R(i omega)
     lag = sp.series(turned - w, w, 0, 7).removeO()
@@ -1254,8 +1255,9 @@ CELLS = [
       0.
     - What this notebook does not show: the physics of these equations (where they
       come from, the meaning of the levels, the interacting case); the record
-      derives the two fold conditions from the joining of the two halves of a cell
-      at the fold and labels the filling of both together ASSUMED, and the tip
+      derives the fold condition, up to one parameter, from the joining of the two
+      halves of a cell at the fold and labels the filling of both of its values
+      $\theta = 0$ and $\theta = \pi$ ASSUMED, and the tip
       condition is a choice of the model, as the record states; the history along
       which $f$ shrinks is a PRESCRIBED BACKGROUND.
     """),

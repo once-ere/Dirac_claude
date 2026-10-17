@@ -337,7 +337,7 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 4.1 s, peak memory of the kernel process 175 MiB;
+- the build run: 4.5 s, peak memory of the kernel process 175 MiB;
 - the check run: 4.3 s, peak memory of the kernel process 175 MiB.
 
 ## 5. Environment of the verified execution
@@ -350,8 +350,8 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/02b_shooting_quantum_well.ipynb`: `904dec43c47b642f7543ce3b2fc36fe5de70d86de361ce9cd08ba849513f39f7`
-- `Revision/textbook/notebooks/src/02b_shooting_quantum_well.py`: `530718ee8e7b6ef46f03b83ed02df68dbbd48b43c2421593f818d2b38452cfd3`
+- `Revision/textbook/notebooks/02b_shooting_quantum_well.ipynb`: `0c9092c4752f8a2a39368da4a4a509a2d7b3d5f75a931564e8f7b4694014ac8f`
+- `Revision/textbook/notebooks/src/02b_shooting_quantum_well.py`: `33bea69bc6f5fac71e22a8839871a7ed8e28fb4cec9bf278dc0f6cdea2636c06`
 - `Revision/textbook/figures/02b.captions.json`: `d8a9bf9fa414ef04738653a89b8719a0431827eee138ead2804fab4340373275`
 - `Revision/textbook/figures/02b_1_trial_solutions_string.png`: `243dd1c2cae301e38fe1b47730d6ed25b66cbaafe149567d19ee58633e10b019`
 - `Revision/textbook/figures/02b_2_shooting_function_string.png`: `6ede05cf2b77704011d39cea97825608d02a07e1396a8a5697d340bc65699e6d`
@@ -368,4 +368,4 @@ Expected run time: about 10 seconds (FACTS: 10 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-17: a second, independent execution reproduced the notebook and the 9 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":175.0,"seconds":4.1},"check":{"date":"2026-10-17","files":9,"peak_mb":175.0,"result":"passed","seconds":4.3},"date":"2026-10-17","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":175.0,"seconds":4.5},"check":{"date":"2026-10-17","files":9,"peak_mb":175.0,"result":"passed","seconds":4.3},"date":"2026-10-17","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

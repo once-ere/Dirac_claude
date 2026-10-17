@@ -16,7 +16,10 @@ frame metric eta and the eight real gamma matrices) and
 Revision/gkd_lovelock/results/curvature.json (the diagonal of the author's metric); the
 checks reproduce Revision/algebra/reports/python-algebra.json (checks coordinate_map,
 clifford_relation and symmetry_pattern) and
-Revision/gkd_lovelock/results/python-lovelock-report.json (check metric_inverse).
+Revision/gkd_lovelock/results/python-lovelock-report.json (check metric_inverse); the
+background history a4 = H x4, b4 = e^((4/3) H x4) is read from
+Revision/field_equations_a4/a4-equations.json (exponentialHistory, recordHistory).
+The metric is the corrected metric of 2026-10-16 (version 2).
 """
 
 import sys
@@ -79,7 +82,8 @@ FACTS = {
         "ALL 26 CHECKS PASSED (notebook 01e)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for a file below Revision/algebra or Revision/gkd_lovelock",
+        ["\"FileNotFoundError\" for a file below Revision/algebra, Revision/gkd_lovelock "
+         "or Revision/field_equations_a4",
          "the notebook reads Revision records of the repository; your copy of the "
          "repository is incomplete. Download it again with git clone and open the "
          "notebook inside the new copy."],

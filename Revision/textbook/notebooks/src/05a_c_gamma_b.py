@@ -151,8 +151,8 @@ CELLS = [
 
     $$\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$$
 
-    in the order $x0, \dots, x7$: the four directions with $\eta_{aa} = +1$ ($x1, x2,
-    x3, x0$) are *space-like*, the four with $\eta_{aa} = -1$ ($x4, x5, x6, x7$) are
+    in the order $x0, \dots, x7$: the four directions with $\eta_{aa} = +1$ ($x0, x1,
+    x2, x3$) are *space-like*, the four with $\eta_{aa} = -1$ ($x4, x5, x6, x7$) are
     *time-like*. The gamma matrices obey the **Clifford relation**
 
     $$\{\gamma^a, \gamma^b\} = 2 \eta^{ab}\, 1 ,$$

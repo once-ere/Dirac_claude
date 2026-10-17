@@ -232,7 +232,7 @@ python -m nbconvert --execute --inplace 01e_index_notation.ipynb
 - Windows: the headless run prints a RuntimeWarning that mentions the "Proactor event loop" and zmq: this is a message of the package pyzmq, not an error; the run continues normally.
 - A red box with "Matplotlib is building the font cache; this may take a moment." in the first run after the installation: this is a message, not an error; the run continues and the message does not come again.
 - An AssertionError names a check that failed: choose the menu Kernel > Restart Kernel and Run All Cells; if it fails again, install the packages again with the pip commands of Step 3, because a different package version can change the last digits of a result.
-- "FileNotFoundError" for a file below Revision/algebra or Revision/gkd_lovelock: the notebook reads Revision records of the repository; your copy of the repository is incomplete. Download it again with git clone and open the notebook inside the new copy.
+- "FileNotFoundError" for a file below Revision/algebra, Revision/gkd_lovelock or Revision/field_equations_a4: the notebook reads Revision records of the repository; your copy of the repository is incomplete. Download it again with git clone and open the notebook inside the new copy.
 
 To repeat the verification of the book's maintainers (a second, independent execution whose notebook and files are compared byte for byte with the stored ones; it writes only into a scratch folder), run in the repository folder:
 
@@ -355,8 +355,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.1 s, peak memory of the kernel process 266 MiB;
-- the check run: 4.7 s, peak memory of the kernel process 265 MiB.
+- the build run: 5.1 s, peak memory of the kernel process 265 MiB;
+- the check run: 4.7 s, peak memory of the kernel process 267 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -368,8 +368,8 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/01e_index_notation.ipynb`: `505aed0a9f6d5ac8e1979f36ea4c60181a578983ae79c712152de0905523b09f`
-- `Revision/textbook/notebooks/src/01e_index_notation.py`: `478b95782bd8e73ae889a1ea1bf474ecc20014c0941a4549f49e81fa275623df`
+- `Revision/textbook/notebooks/01e_index_notation.ipynb`: `9f0f0f65604b1c77b7d3032ecfa467f3ca2e619d2db7ee868f3a1ac99f469489`
+- `Revision/textbook/notebooks/src/01e_index_notation.py`: `6fa9c2c6a5cca42f34eb758129f415c8680b23d1cc3123fa7cf94f021b247876`
 - `Revision/textbook/figures/01e.captions.json`: `7f331533e60faff0ac3dedc99cfbb0373c405d4aa420e9f44bb39db84dc612ff`
 - `Revision/textbook/figures/01e_1_eta_and_delta.png`: `1fb8c2e2ffc013d68e6af7888a635002b939ed284307e1a1633c12dfda91371e`
 - `Revision/textbook/figures/01e_2_squared_lengths.png`: `07ea8518a1efce81626c72e02144eab3923e4a2e703a06817c771ff64ab76dbf`
@@ -384,4 +384,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-17: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":266.0,"seconds":5.1},"check":{"date":"2026-10-17","files":7,"peak_mb":265.0,"result":"passed","seconds":4.7},"date":"2026-10-17","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":265.0,"seconds":5.1},"check":{"date":"2026-10-17","files":7,"peak_mb":267.0,"result":"passed","seconds":4.7},"date":"2026-10-17","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->

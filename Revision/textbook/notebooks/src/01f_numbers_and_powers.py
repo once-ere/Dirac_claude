@@ -14,7 +14,10 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
 Revision records read: Revision/gkd_lovelock/results/curvature.json (metricDiagonal and
 sqrtAbsDetG) and Revision/algebra/gammas.json (the frame metric eta); the checks
 reproduce curvature.json's sqrtAbsDetG and
-Revision/gkd_lovelock/results/python-lovelock-report.json (check sqrt_abs_det_g).
+Revision/gkd_lovelock/results/python-lovelock-report.json (check sqrt_abs_det_g); the
+background history a4 = H x4, b4 = e^((4/3) H x4) is read from
+Revision/field_equations_a4/a4-equations.json (exponentialHistory, recordHistory).
+The metric is the corrected metric of 2026-10-16 (version 2).
 """
 
 import sys
@@ -72,7 +75,8 @@ FACTS = {
         "ALL 28 CHECKS PASSED (notebook 01f)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for a file below Revision/gkd_lovelock or Revision/algebra",
+        ["\"FileNotFoundError\" for a file below Revision/gkd_lovelock, Revision/algebra "
+         "or Revision/field_equations_a4",
          "the notebook reads Revision records of the repository; your copy of the "
          "repository is incomplete. Download it again with git clone and open the "
          "notebook inside the new copy."],

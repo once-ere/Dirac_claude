@@ -17,7 +17,10 @@ diagonal of the author's metric); the checks reproduce
 Revision/algebra/reports/python-algebra.json (checks coordinate_map, clifford_relation,
 symmetry_pattern and B_hermitian_involution_signature),
 Revision/theory/reports/python-field-theory.json (check B_properties) and
-Revision/gkd_lovelock/results/python-lovelock-report.json (check sqrt_abs_det_g).
+Revision/gkd_lovelock/results/python-lovelock-report.json (check sqrt_abs_det_g); the
+background history a4 = H x4, b4 = e^((4/3) H x4) is read from
+Revision/field_equations_a4/a4-equations.json (exponentialHistory, recordHistory).
+The metric is the corrected metric of 2026-10-16 (version 2).
 """
 
 import sys
@@ -85,8 +88,8 @@ FACTS = {
         "ALL 30 CHECKS PASSED (notebook 01g)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for a file below Revision/gkd_lovelock, Revision/algebra "
-         "or Revision/theory",
+        ["\"FileNotFoundError\" for a file below Revision/gkd_lovelock, Revision/algebra, "
+         "Revision/theory or Revision/field_equations_a4",
          "the notebook reads Revision records of the repository; your copy of the "
          "repository is incomplete. Download it again with git clone and open the "
          "notebook inside the new copy."],
@@ -798,7 +801,7 @@ CELLS = [
     a4_line = np.linspace(-3.0, 3.0, 301)
     curves = np.array([metric_numbers(value, np.exp(beta * value), 0.9)
                        for value in a4_line], dtype=float)  # along b4 = e^(4 a4/3)
-    styles =[("tab:green", "hidden $x_0$", 0), ("tab:red", "space $x_1, x_2, x_3$", 1),
+    styles = [("tab:green", "hidden $x_0$", 0), ("tab:red", "space $x_1, x_2, x_3$", 1),
               ("tab:gray", "time $x_4$", 4), ("tab:blue", "extra times $x_5, x_6, x_7$", 5)]
     for color, label, index in styles:
         right.plot(a4_line, curves[:, index], color=color, lw=2, label=label)

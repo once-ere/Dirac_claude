@@ -26,9 +26,12 @@ all a4(x4), b4(x4) and every real z; the hidden direction shrinks with the defla
 checks: [`metric_warped/`](metric_warped/README.md) (sympy 14/14, Wolfram 13/13; provenance
 [`metric_warped/WARPED_METRIC_PROVENANCE.md`](metric_warped/WARPED_METRIC_PROVENANCE.md)); the explanation of the
 issue and the remedy: [`docs/METRIC_SELF_CONSISTENCY.md`](docs/METRIC_SELF_CONSISTENCY.md) (PDF, version 2).
-`SPEC.md` section 1 states the corrected metric.  The other records below still describe the metric of 2026-10-14
-(the field-theory files of commit d02ff19 describe version 1) until they are recomputed (`HANDOFF.md` section 0.10
-gives the order and the status).
+`SPEC.md` section 1 states the corrected metric.  Every record of the folder table below has been recomputed for it
+(phases W1 to W6 of `HANDOFF.md` section 0.10, 2026-10-16 and 2026-10-17: general a4(x4), b4(x4) and every real z) and
+the seven documents of `docs/` have been rewritten for it (phase W7); the records of the withdrawn metrics are kept
+only where the table names them, as dated history (`metric_b4/`, the frozen `reference_2026_10_14/` folders,
+`kohn_sham/reports/ks-b4-wolfram.json`, the dark-sector twin `dark_sector/wolfram/verify_dark_sector_b4.wls`).  The
+textbook is being rewritten for the corrected metric (phase W8, in progress).
 
 ## The metric change of 2026-10-14 (user's order, verbatim key sentence)
 
@@ -41,8 +44,10 @@ This record uses the author's coordinates {x0, x1, ..., x7} in the author's orde
 first; ordered by the user on 2026-10-14; the task of 2026-10-01 quoted below writes the hidden direction as x8,
 listed last: x8 -> x0, xk -> xk for k = 1, ..., 7; `SPEC.md` section 1 gives the metric in the author's order).  Against the metric of the task of 2026-10-01 below, the only change is the new function
 b4[x4] in the three extra-time components (b4 = 1 is the earlier metric).  The proof of the change and its
-consequences: [`metric_b4/METRIC_CHANGE_PROVENANCE.md`](metric_b4/METRIC_CHANGE_PROVENANCE.md).  The task
-of 2026-10-01 is quoted below unchanged, as the user gave it then.
+consequences: [`metric_b4/METRIC_CHANGE_PROVENANCE.md`](metric_b4/METRIC_CHANGE_PROVENANCE.md).  This metric is
+WITHDRAWN since 2026-10-16 (its off-diagonal component E_(k)^x4_x0, section above): this section and `metric_b4/` are
+its dated history, and every current record uses the corrected metric.  The task of 2026-10-01 is quoted below
+unchanged, as the user gave it then.
 
 ## The author's task (verbatim, 2026-10-01)
 
@@ -114,9 +119,10 @@ of 2026-10-01 is quoted below unchanged, as the user gave it then.
   convention). Its notation H (Hubble rate) and a (scale factor) differ from the metric's H and a4.
 * Coupling through the canonical spin connection is correct for both fields (both are Pin(4,4)
   spinors). The non-trivial Lagrangian is the Dirac-type one with Psibar = Psi^dagger C; the notebook's
-  real Majorana-type Lg[] is a total derivative for anticommuting fields. In this metric, in the diagonal
-  vielbein, the time-direction spin-connection terms of the 3 inflating and 3 deflating directions cancel
-  exactly, while a hidden-direction term 3 H gamma^(x0) survives. Non-triviality [1], [2] holds in the
+  real Majorana-type Lg[] is a total derivative for anticommuting fields. In this metric (the metric of the task
+  of 2026-10-01), in the diagonal vielbein, the time-direction spin-connection terms of the 3 inflating and 3
+  deflating directions cancel exactly, while a hidden-direction term 3 H gamma^(x0) survives (for the corrected
+  metric of 2026-10-16 the surviving term is given in the correction below). Non-triviality [1], [2] holds in the
   qualified sense stated in the correction below (this sentence was written as a plan before the work and
   has been corrected after it).
 * Canonical quantisation in 4 + 4: when Psi^dagger is realised as the Hilbert adjoint, the canonical

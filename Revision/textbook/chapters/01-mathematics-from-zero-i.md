@@ -191,7 +191,10 @@ $$
 (the root of a product of positive numbers is the product of the roots; $\sqrt{b_4} = b_4^{1/2}$, $\sqrt{e^{-2a_4}} = e^{-a_4}$ and $\sqrt{(\sin^2 z)^{1/6}} = (\sin^2 z)^{1/12}$ by $(a^p)^q = a^{pq}$; $\sqrt{\cot^2 z} = |\cot z|$, because $\cot z$ is negative for $\pi/2 < z < \pi$). The hidden direction has the factor $b_4^{1/2} e^{-a_4}|\cot z|$; the three space directions have $e^{a_4}$, which grows as $a_4$ grows; the time has 1; the three extra times have $b_4^{1/2} e^{-a_4}(\sin^2 z)^{1/12}$. The hidden direction and the extra times share the factor $b_4^{1/2} e^{-a_4}$, which on the record's background history is $e^{2a_4/3} e^{-a_4} = e^{-a_4/3}$ and shrinks exponentially. The product of all eight factors is
 
 $$
-b_4^{1/2} e^{-a_4}|\cot z| \cdot (e^{a_4})^3 \cdot 1 \cdot \big(b_4^{1/2} e^{-a_4}(\sin^2 z)^{1/12}\big)^3 = b_4^{2}\, e^{-a_4 + 3a_4 - 3a_4}\,|\cot z|\,(\sin^2 z)^{3/12} = e^{-a_4} b_4^2\,|\cot z|\,(\sin^2 z)^{1/4}
+\begin{aligned}
+&b_4^{1/2} e^{-a_4}|\cot z| \cdot (e^{a_4})^3 \cdot 1 \cdot \big(b_4^{1/2} e^{-a_4}(\sin^2 z)^{1/12}\big)^3\\
+&\qquad = b_4^{2}\, e^{-a_4 + 3a_4 - 3a_4}\,|\cot z|\,(\sin^2 z)^{3/12} = e^{-a_4} b_4^2\,|\cot z|\,(\sin^2 z)^{1/4}
+\end{aligned}
 $$
 
 (collect the powers of $b_4$, of $e$ and of $\sin^2 z$ with $a^p a^q = a^{p+q}$: $\tfrac12 + 3 \cdot \tfrac12 = 2$, $-a_4 + 3a_4 - 3a_4 = -a_4$ and $3 \cdot \tfrac{1}{12} = \tfrac14$). The growth $e^{3a_4}$ of space and the factor $e^{-3a_4}$ of the extra times cancel exactly in the product; the factor $e^{-a_4}$ of the hidden direction remains. The Revision record stores this product as `sqrtAbsDetG` in `Revision/gkd_lovelock/results/curvature.json`, written with $\cot z \cdot \mathrm{sign}(\cot z)$ in place of $|\cot z|$, and checks it in `python-lovelock-report.json`, check `sqrt_abs_det_g`; Notebook 01f, In [11], reads the metric from the record and reproduces both. (Section 1.21 shows that this product is the square root of the size of the determinant of $g$.)
@@ -2838,7 +2841,7 @@ check(sp.simplify(root_rewritten - root_expected) == 0 and
       record="Revision/gkd_lovelock/results/curvature.json, sqrtAbsDetG")
 ```
 
-The record's `sqrtAbsDetG`, printed as `b4**2*exp(-a4)*cot(z)*sqrt(Abs(sin(z)))*sign(cot(z))`. sympy does not simplify $\cot z\cdot\mathrm{sign}(\cot z)$ by itself, because it does not know that $\cot z \neq 0$; `.subs` therefore replaces $\mathrm{sign}(\cot z)$ by $|\cot z|/\cot z$ (the rule of Section 1.5, valid wherever $\cos z \neq 0$), after which sympy cancels $\cot z$. The result must equal $e^{-a_4} b_4^2|\cot z|(\sin^2 z)^{1/4}$ of Section 1.21, and the record's expression, squared, must give $\det g$ (sympy squares $\mathrm{sign}(\cot z)$ to 1 itself). Four printed lines and three PASS lines in this cell, two of them with a second line naming the record.
+The record's `sqrtAbsDetG`, printed as `b4**2*exp(-a4)*cot(z)*sqrt(Abs(sin(z)))*sign(cot(z))`. sympy does not simplify $\cot z\cdot\mathrm{sign}(\cot z)$ by itself, because it does not know that $\cot z \neq 0$; `.subs` therefore replaces $\mathrm{sign}(\cot z)$ by $|\cot z|/\cot z$ (the rule of Section 1.5, valid wherever $\cos z \neq 0$), after which sympy cancels $\cot z$. The result must equal $e^{-a_4} b_4^2|\cot z|(\sin^2 z)^{1/4}$ of Section 1.21, and the record's expression, squared, must give $\det g$ (sympy squares $\mathrm{sign}(\cot z)$ to 1 itself). The cell prints three `say` lines and three PASS lines, two of the PASS lines with a second line naming the record.
 
 **In [18], the metric in numbers.**
 
@@ -3657,9 +3660,10 @@ On the right the eight factors $c$ as red dots and the dotted line $2 - n = -6$.
 ```python
 a4 = sp.Symbol("a4", real=True)  # the value of a4(x4) at one time
 b4 = sp.Symbol("b4", positive=True)  # the value of b4(x4) at one time
-z = sp.Symbol("z", positive=True)  # z = 6 H x0, between 0 and pi/2
-s = sp.sin(z) ** sp.Rational(1, 3)
-g_typed = ([sp.cot(z) ** 2] + [sp.exp(2 * a4) * s] * 3 + [sp.Integer(-1)]
+z = sp.Symbol("z", real=True)  # z = 6 H x0, any real number
+s = (sp.sin(z) ** 2) ** sp.Rational(1, 6)  # the positive root, |sin z|^(1/3)
+g_typed = ([b4 * sp.exp(-2 * a4) * sp.cot(z) ** 2] + [sp.exp(2 * a4)] * 3
+           + [sp.Integer(-1)]
            + [-b4 * sp.exp(-2 * a4) * s] * 3)  # the author's order x0, x1, ..., x7
 curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
                        .read_text(encoding="utf-8"))
@@ -3671,8 +3675,8 @@ The symbols, the typed metric and the record file, exactly as in Notebook 01a, I
 def from_record(text):
     """The record's Mathematica text as a sympy expression."""
     text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
-    text = text.replace("Sin[6*H*x0]", "sin(z)")
-    text = text.replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
+    text = text.replace("Sin[6*H*x0]", "sin(z)").replace("Cot[6*H*x0]", "cot(z)")
+    text = text.replace("Sign[", "sign(").replace("]", ")").replace("^", "**")
     return sp.sympify(text, locals={"a4": a4, "b4": b4, "z": z, "E": sp.E})
 
 
@@ -3683,7 +3687,7 @@ check(len(g_record) == 8 and
       record="Revision/gkd_lovelock/results/curvature.json, metricDiagonal")
 ```
 
-The same translation function and the comparison with the typed metric (the "section 4" of the check's name is section 4 of the notebook, which states the metric); this check reproduces the record's key `metricDiagonal`.
+The same translation function (Notebook 01f, In [11], Section 1.9) and the comparison with the typed metric (the "section 4" of the check's name is section 4 of the notebook, which states the metric); this check reproduces the record's key `metricDiagonal`.
 
 ```python
 g_lower = sp.diag(*g_record)  # g_mu nu
@@ -3704,69 +3708,126 @@ check((g_upper * g_lower).applyfunc(sp.simplify) == sp.eye(8)
              "metric_inverse")
 ```
 
-$g^{\mu\nu}g_{\nu\lambda} = \delta^\mu{}_\lambda$, reproducing the record's check `metric_inverse`.
+$g^{\mu\nu}g_{\nu\lambda} = \delta^\mu{}_\lambda$, reproducing the record's check `metric_inverse`. `applyfunc(sp.simplify)` simplifies every entry of the product; each diagonal entry is $(1/g_{\mu\mu})g_{\mu\mu}$, which sympy reduces to 1.
+
+```python
+equations = json.loads(repository_file("Revision/field_equations_a4/a4-equations.json")
+                       .read_text(encoding="utf-8"))
+history = equations["exponentialHistory"]["authorWeights"]["recordHistory"]
+say(f"the record's history: {history}")
+beta = sp.Rational(history.split("be = ")[1].split(",")[0])  # the text 4/3 -> 4/3
+```
+
+The record's background history, read from the record file and cut into pieces exactly as in Notebook 01f, In [12] (Section 1.9). Output: the record's history: AA = 1, be = 4/3, a0 = 0, b4(0) = 1: kk = e^{(2/3) H x4}; `beta` is the exact fraction $\tfrac43$ in $b_4 = e^{\mathrm{be}\,a_4}$.
 
 ```python
 step = sp.Matrix([1] * 8)  # dx^mu = 1 for every mu (units with epsilon = 1)
 ds2 = (step.T * g_lower * step)[0, 0]  # g_mu nu dx^mu dx^nu
 step_lower = g_lower * step  # dx_mu = g_mu nu dx^nu
 ds2_contracted = (step.T * step_lower)[0, 0]  # dx^mu dx_mu
-general_form = 3 * sp.exp(2 * a4) * s - 1 - 3 * b4 * sp.exp(-2 * a4) * s + sp.cot(z) ** 2
-closed_form = 6 * s * sp.sinh(2 * a4) - 1 + sp.cot(z) ** 2  # at b4 = 1
+K = sp.cot(z) ** 2 - 3 * s  # the bracket of the hidden direction and extra times
+general_form = 3 * sp.exp(2 * a4) - 1 + b4 * sp.exp(-2 * a4) * K
+history_form = 3 * sp.exp(2 * a4) - 1 + sp.exp(-2 * a4 / 3) * K  # b4 = e^(4 a4/3)
 say(f"ds^2 for dx^mu = 1: {ds2}")
 ```
 
-The step $dx^\mu = 1$ (that is, $\epsilon = 1$) as a column of eight ones. `step.T * g_lower * step` is the row times the table times the column, a $1 \times 1$ matrix whose one entry `[0, 0]` is $g_{\mu\nu}dx^\mu dx^\nu$. The lowered step and the contraction $dx^\mu dx_\mu$; the general form and, at $b_4 = 1$, the closed form of Section 1.29. Output: `-3*b4*exp(-2*a4)*sin(z)**(1/3) + 3*exp(2*a4)*sin(z)**(1/3) + cot(z)**2 - 1`, the first line of the derivation (sympy chooses its own order of the terms).
+The step $dx^\mu = 1$ (that is, $\epsilon = 1$) as a column of eight ones. `step.T * g_lower * step` is the row times the table times the column, a $1 \times 1$ matrix whose one entry `[0, 0]` is $g_{\mu\nu}dx^\mu dx^\nu$. The lowered step and the contraction $dx^\mu dx_\mu$; the bracket $K(z) = \cot^2 z - 3s$, the general form and the form on the record's history of Section 1.29. Output: `b4*exp(-2*a4)*cot(z)**2 - 3*b4*exp(-2*a4)*Abs(sin(z))**(1/3) + 3*exp(2*a4) - 1`, the first line of the derivation (sympy chooses its own order of the terms and writes $s$ as $|\sin z|^{1/3}$).
 
 ```python
-check(sp.expand(ds2 - general_form) == 0
-      and sp.expand((ds2.subs(b4, 1) - closed_form).rewrite(sp.exp)) == 0
+check(beta == sp.Rational(4, 3) and sp.expand(ds2 - general_form) == 0
+      and sp.expand(ds2.subs(b4, sp.exp(beta * a4)) - history_form) == 0
       and sp.expand(ds2_contracted - ds2) == 0,
-      "ds^2 = 3 e^(2 a4) s - 1 - 3 b4 e^(-2 a4) s + cot(z)^2 for the step dx^mu = 1, "
-      "= 6 s sinh(2 a4) - 1 + cot(z)^2 at b4 = 1, and dx^mu dx_mu gives the same")
+      "ds^2 = 3 e^(2 a4) - 1 + b4 e^(-2 a4) K(z) for the step dx^mu = 1, "
+      "= 3 e^(2 a4) - 1 + e^(-2 a4/3) K(z) on the record's history, and "
+      "dx^mu dx_mu gives the same",
+      record="Revision/field_equations_a4/a4-equations.json, exponentialHistory, "
+             "recordHistory")
 ```
 
-The difference from the general form multiplies out to 0; at $b_4 = 1$ (`.subs(b4, 1)`) the difference from the closed form, with $\sinh$ written as exponentials, multiplies out to 0 as well; and both ways of contracting agree. The cell prints three PASS lines.
+The exponent ratio must be $\tfrac43$; the difference from the general form multiplies out to 0; with $b_4 = e^{4a_4/3}$ inserted (`.subs(b4, sp.exp(beta * a4))`; sympy combines $e^{4a_4/3}e^{-2a_4}$ into $e^{-2a_4/3}$ by itself) the difference from the history form multiplies out to 0 as well; and both ways of contracting agree. The cell prints three PASS lines, each with a second line naming the record.
 
 **In [15], where the step changes its kind.**
 
 ```python
-ds2_numbers = sp.lambdify((a4, z), closed_form, "numpy")  # a formula -> a function
-a4_values = np.linspace(-1.5, 1.5, 301)
-z_values = np.linspace(0.15, np.pi / 2 - 0.005, 300)
-A4_grid, Z_grid = np.meshgrid(a4_values, z_values)  # rows: z, columns: a4
-values = ds2_numbers(A4_grid, Z_grid)
+K_numbers = sp.lambdify(z, K, "numpy")  # the bracket K(z) as a numpy function
+ds2_numbers = sp.lambdify((a4, z), history_form, "numpy")  # a4, z -> ds^2
+check(sp.simplify(K.subs(z, sp.pi - z) - K) == 0
+      and bool(np.all(np.diff(K_numbers(np.linspace(0.05, np.pi / 2, 400))) < 0)),
+      "K(pi - z) = K(z), and K decreases on 0 < z < pi/2 (400 values of z)")
 ```
 
-The closed form at $b_4 = 1$ as a numpy function; 301 values of $a_4$ and 300 values of $z$. `np.meshgrid` makes two tables of the same shape, one holding $a_4$ and one holding $z$ at every grid point (a row for each $z$, a column for each $a_4$), so that `values` holds $ds^2/\epsilon^2$ at all $301 \cdot 300$ points.
+The bracket and the history form of $ds^2/\epsilon^2$ as numpy functions. The check confirms the two facts of Section 1.29: exactly, that $K(\pi - z) - K(z)$ simplifies to 0 (`.subs(z, sp.pi - z)` puts $\pi - z$ in place of $z$); and in numbers, that $K$ falls from each of 400 values of $z$ between 0.05 and $\pi/2$ to the next (`np.diff` takes the differences of neighbours, which must all be negative).
 
 ```python
-threshold = 0.5 * np.arcsinh((1 - 1 / np.tan(z_values) ** 2)
-                             / (6 * np.sin(z_values) ** (1 / 3)))
-check(bool((np.diff(values, axis=1) > 0).all()),
-      "on every row of the grid, ds^2 grows as a4 grows")
-away = np.abs(A4_grid - threshold[:, None]) > 1e-9  # leave out points on the curve
-check(bool(((values > 0) == (A4_grid > threshold[:, None]))[away].all()),
-      "ds^2 > 0 exactly to the right of the curve a4*(z)")
+low, high = 0.1, np.pi / 2  # K(0.1) > 0 and K(pi/2) = -3 < 0
+for _ in range(60):  # bisection: halve the interval that holds the sign change
+    middle = (low + high) / 2
+    if K_numbers(middle) > 0:
+        low = middle
+    else:
+        high = middle
+z_zero = high  # K <= 0 exactly for z_zero <= z <= pi - z_zero in this cell
+report("z0, where K(z) = cot(z)^2 - 3 (sin(z)^2)^(1/6) changes sign", f"{z_zero:.4f}")
 ```
 
-`threshold` is $a_4^{\ast}(z)$ for each $z$ ($\cot z = 1/\tan z$). `np.diff(values, axis=1)` takes the differences of neighbours along each row; all positive means that $ds^2$ grows with $a_4$. `threshold[:, None]` turns the list into a column so that it is compared with every column of the grid; at every point not within $10^{-9}$ of the curve, $ds^2 > 0$ must hold exactly when $a_4 > a_4^{\ast}(z)$. Two PASS lines.
+Bisection, as for $\sqrt 2$ in Section 1.3: the interval from 0.1 to $\pi/2$ contains the sign change; the middle replaces the end with the same sign as $K$ there, and after 60 halvings the interval is shorter than $10^{-17}$, below the rounding of floating-point numbers near 0.57. `for _ in range(60)` repeats 60 times (the name `_` says that the counter is not used). `z_zero` is the upper end, where $K \le 0$. The RESULT line prints $z_0 = 0.5693$ (COMPUTED).
+
+```python
+a4_values = np.linspace(-1.5, 1.5, 301)
+z_values = np.linspace(0.12, np.pi - 0.12, 300)
+A4_grid, Z_grid = np.meshgrid(a4_values, z_values)  # rows: z, columns: a4
+values = ds2_numbers(A4_grid, Z_grid)
+rows = (z_values >= z_zero) & (z_values <= np.pi - z_zero)  # the rows with K <= 0
+```
+
+301 values of $a_4$ and 300 values of $z$ across the cell, away from $z = 0$ and $z = \pi$, where $\cot z$ is infinite. `np.meshgrid` makes two tables of the same shape, one holding $a_4$ and one holding $z$ at every grid point (a row for each $z$, a column for each $a_4$), so that `values` holds $ds^2/\epsilon^2$ at all $301 \cdot 300$ points. `rows` is a list of True and False, True for the rows with $z_0 \le z \le \pi - z_0$, where $K \le 0$ (`&` is "and" for such lists).
+
+```python
+def crossing(z_value):
+    """The a4 where ds^2 = 0 on a row with K(z_value) <= 0, by bisection."""
+    left_end, right_end = -1.5, 1.5  # ds^2 < 0 at the left end, > 0 at the right
+    for _ in range(60):
+        middle = (left_end + right_end) / 2
+        if ds2_numbers(middle, z_value) < 0:
+            left_end = middle
+        else:
+            right_end = middle
+    return right_end
+```
+
+The function `crossing` finds $a_4^{\ast}(z)$ on one row by bisection: Section 1.29 showed that on a row with $K \le 0$ the step is time-like at $a_4 = -1.5$ and space-like at $a_4 = 1.5$, and that $ds^2$ grows in between, so halving the interval 60 times pins the one sign change down.
+
+```python
+threshold = np.array([crossing(z_value) for z_value in z_values[rows]])
+say(f"{int(rows.sum())} of the 300 rows have K <= 0; there a4* runs from "
+    f"{threshold.min():.4f} to {threshold.max():.4f}")
+check(bool((np.diff(values[rows], axis=1) > 0).all()),
+      "on every row with K(z) <= 0, ds^2 grows as a4 grows")
+away = np.abs(A4_grid[rows] - threshold[:, None]) > 1e-9  # off the curve
+check(bool(((values[rows] > 0) == (A4_grid[rows] > threshold[:, None]))[away].all()),
+      "on these rows ds^2 > 0 exactly to the right of the curve a4*(z)")
+```
+
+`z_values[rows]` keeps only the rows with $K \le 0$, and `threshold` holds $a_4^{\ast}(z)$ for each of them. `rows.sum()` counts the True entries. Output: 206 of the 300 rows have K <= 0; there a4* runs from -0.4962 to 0.1153 (COMPUTED). `np.diff(values[rows], axis=1)` takes the differences of neighbours along each of these rows; all positive means that $ds^2$ grows with $a_4$. `threshold[:, None]` turns the list into a column so that it is compared with every column of the grid; at every point not within $10^{-9}$ of the curve, $ds^2 > 0$ must hold exactly when $a_4 > a_4^{\ast}(z)$. Two PASS lines.
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(11.5, 4.5))
 image = left.imshow(np.tanh(values), origin="lower", aspect="auto", cmap="RdBu_r",
                     vmin=-1, vmax=1, extent=(a4_values[0], a4_values[-1],
                                              z_values[0], z_values[-1]))
-left.plot(threshold, z_values, color="black", lw=1.5, label="$ds^2 = 0$")
+left.plot(threshold, z_values[rows], color="black", lw=1.5, label="$ds^2 = 0$")
+for z_line in (z_zero, np.pi - z_zero):
+    left.axhline(z_line, color="black", ls="--", lw=0.8)  # where K changes sign
+left.axhline(np.pi / 2, color="black", ls=":", lw=0.8)  # the fold
 left.set_xlim(a4_values[0], a4_values[-1])
 left.grid(False)  # no grid lines across the coloured map
 ```
 
-The left panel shows the whole grid as a coloured map. $\tanh$ squeezes every value into the range $-1$ to 1 while keeping its sign, so that red means space-like and blue time-like. `origin="lower"` puts the first row at the bottom, `extent` gives the map the coordinates of $a_4$ and $z$, and `aspect="auto"` lets it fill the panel. The black curve is $a_4^{\ast}(z)$.
+The left panel shows the whole grid as a coloured map. $\tanh$ squeezes every value into the range $-1$ to 1 while keeping its sign, so that red means space-like and blue time-like. `origin="lower"` puts the first row at the bottom, `extent` gives the map the coordinates of $a_4$ and $z$, and `aspect="auto"` lets it fill the panel. The black curve is $a_4^{\ast}(z)$ on the rows with $K \le 0$; dashed horizontal lines mark $z_0$ and $\pi - z_0$, a dotted one the fold $z = \pi/2$.
 
 ```python
-left.text(0.75, 0.4, "space-like\n$ds^2 > 0$", ha="center", color="white")
-left.text(-0.9, 1.2, "time-like\n$ds^2 < 0$", ha="center", color="white")
+left.text(0.9, 1.25, "space-like\n$ds^2 > 0$", ha="center", color="white")
+left.text(-0.95, 1.25, "time-like\n$ds^2 < 0$", ha="center", color="white")
 left.set_xlabel("$a_4$")
 left.set_ylabel("$z = 6 H x_0$")
 left.set_title("sign of $ds^2$ for the step $dx^\\mu = \\epsilon$", fontsize=10)
@@ -3778,13 +3839,14 @@ Two white labels (`\n` in a string starts a new line), the axis labels, the titl
 
 ```python
 z_fixed = 0.9
-s_fixed = np.sin(z_fixed) ** (1 / 3)
-space_term = 3 * np.exp(2 * a4_values) * s_fixed  # x1, x2, x3
-extra_term = -3 * np.exp(-2 * a4_values) * s_fixed  # x5, x6, x7 (deflating)
-hidden_term = np.full_like(a4_values, 1 / np.tan(z_fixed) ** 2)  # x0
+s_fixed = abs(np.sin(z_fixed)) ** (1 / 3)
+shrink = np.exp(-2 * a4_values / 3)  # b4 e^(-2 a4) on the record's history
+space_term = 3 * np.exp(2 * a4_values)  # x1, x2, x3
+extra_term = -3 * shrink * s_fixed  # x5, x6, x7 (deflating)
+hidden_term = shrink / np.tan(z_fixed) ** 2  # x0 (shrinking with them)
 ```
 
-On the right, at $z = 0.9$, the four kinds of terms of the sum against $a_4$: the three space directions, the three deflating extra times, and the hidden direction (`np.full_like` makes an array of the same length filled with one value).
+On the right, at $z = 0.9$ (a row with $K = -2.14 < 0$), the four kinds of terms of the sum against $a_4$: `shrink` is the common factor $b_4e^{-2a_4} = e^{-2a_4/3}$ of the record's history; the three space directions give $3e^{2a_4}$, the three deflating extra times $-3e^{-2a_4/3}s$, and the hidden direction $e^{-2a_4/3}\cot^2 z$ ($\cot z = 1/\tan z$).
 
 ```python
 right.plot(a4_values, space_term, color="tab:red", label="space $x_1, x_2, x_3$")
@@ -3797,7 +3859,7 @@ right.plot(a4_values, space_term - 1 + extra_term + hidden_term, "k", lw=2.5,
            label="sum $ds^2/\\epsilon^2$")
 ```
 
-The four terms (the time term is the constant $-1$) and their sum as a thick black line.
+The four terms (the time term is the constant $-1$, made by `np.full_like`, an array of the same length filled with one value) and their sum as a thick black line.
 
 ```python
 right.axhline(0, color="black", lw=0.8)
@@ -3813,7 +3875,7 @@ save_figure(fig, "step_length",
             ...)
 ```
 
-The title is an f-string, so the braces of the LaTeX subscript are doubled. What Figure 01e.6 shows: on the left a blue (time-like) region to the left of the black curve and a red (space-like) region to its right; on the right the red space term climbing, the blue extra-time term rising from very negative values towards 0 as the extra times deflate, and the black sum crossing zero.
+The title is an f-string, so the braces of the LaTeX subscript are doubled. What Figure 01e.6 shows: on the left, between the dashed lines, a blue (time-like) region to the left of the black curve and a red (space-like) region to its right, the same above and below the fold; outside the dashed lines, towards $z = 0$ and $z = \pi$, red almost everywhere; on the right the red space term climbing, the blue extra-time term and the green hidden term both shrinking towards 0 as the extra times deflate, and the black sum crossing zero near $a_4 = 0.02$.
 
 **In [16], the last check.**
 
@@ -3826,7 +3888,7 @@ check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_na
 all_checks_passed()
 ```
 
-The last line is ALL 25 CHECKS PASSED (notebook 01e). The 25 checks are: 2 in In [2], 3 in In [3], 1 in In [5], 3 in In [6], 4 in In [8], 3 in In [10], 3 in In [12], 3 in In [14], 2 in In [15] and 1 in In [16].
+The last line is ALL 26 CHECKS PASSED (notebook 01e). The 26 checks are: 2 in In [2], 3 in In [3], 1 in In [5], 3 in In [6], 4 in In [8], 3 in In [10], 3 in In [12], 3 in In [14], 3 in In [15] and 1 in In [16].
 
 ### 1.34 Eigenvalues and eigenvectors; the characteristic polynomial
 
@@ -3978,7 +4040,7 @@ $$
 Q = (Ow)^TS(Ow) = w^T(O^TSO)w = w^T\Lambda w = \lambda_1w_1^2 + \dots + \lambda_nw_n^2
 $$
 
-(insert; the transpose rule $(Ow)^T = w^TO^T$; $O^TSO = O^TO\Lambda O^TO = \Lambda$; a diagonal matrix in a quadratic form gives a sum of squares). So the **signature** $(p, q)$ of a symmetric matrix, the numbers of its positive and its negative eigenvalues, says in how many perpendicular directions $Q$ is positive and in how many it is negative. An eigenvalue 0 would be a direction in which $Q$ vanishes; the metrics of the course have none (their determinants, the products of the eigenvalues, are not 0).
+(insert; the transpose rule $(Ow)^T = w^TO^T$; $O^TSO = O^TO\Lambda O^TO = \Lambda$; a diagonal matrix in a quadratic form gives a sum of squares). So the **signature** $(p, q)$ of a symmetric matrix, the numbers of its positive and its negative eigenvalues, says in how many perpendicular directions $Q$ is positive and in how many it is negative. An eigenvalue 0 would be a direction in which $Q$ vanishes; the metrics of the course have none wherever $\sin z\cos z \neq 0$ (there their determinants, the products of the eigenvalues, are not 0; on the fold $\cos z = 0$ the hidden entry of the author's metric is 0, Section 1.21).
 
 **Sylvester's law of inertia (PROVED from one ASSUMED fact).** A change of coordinates $v = Pw$ with an invertible matrix $P$ gives $Q = w^T(P^TSP)w$: the matrix of the form becomes $P^TSP$. Its eigenvalues are different, but its signature is the same. We use one fact of linear algebra without proof (ASSUMED): more than $n$ vectors with $n$ components are **linearly dependent**, that is, some combination $c_1u_1 + c_2u_2 + \cdots$ with numbers $c_i$ not all 0 gives the zero vector. *Proof.* Let $S$ have $p$ positive eigenvalues with perpendicular unit eigenvectors $u_1, \dots, u_p$, and let $S' = P^TSP$ have $p'$ positive eigenvalues; suppose $p' < p$.
 
@@ -3989,7 +4051,7 @@ $$
 
 So $p' \geq p$. The same argument with the roles exchanged ($S = (P^{-1})^TS'P^{-1}$) gives $p \geq p'$, and the argument for $-S$ counts the negative eigenvalues. So **the signature is a property of the form, not of the coordinates used to describe it.** Notebook 01g, In [10], checks the law on 2000 random matrices $P$: every $P^T\eta P$ has the signature (4,4), with eigenvalues of sizes from $1.4 \times 10^{-8}$ to 37.0, all far enough from 0 that rounding cannot change their signs (COMPUTED; Figure 01g.6, left).
 
-**The signature of the author's spacetime (PROVED).** The eigenvalues of a diagonal matrix are its diagonal entries (each unit vector $e_i$ is an eigenvector: $De_i = d_ie_i$). So $\eta$ has the eigenvalues $+1$ (four times) and $-1$ (four times): the signature (4,4) (record `Revision/algebra/reports/python-algebra.json`, check `coordinate_map`, which states $\eta$). The author's metric $g$ has the eigenvalues $\cot^2 z > 0$, $e^{2a_4}s > 0$ (three times), $-1$ and $-b_4e^{-2a_4}s < 0$ (three times), for every $a_4$, every $b_4 > 0$ and every $0 < z < \pi/2$: again four positive and four negative. As $a_4$ grows (with $b_4$ constant) the three extra-time eigenvalues $-b_4e^{-2a_4}s$ shrink towards 0, the exponential deflation of the extra times, but they never change sign; and their product with the others is $\det g = b_4^3\cos^2 z > 0$ (Section 1.21). Notebook 01g, In [11], checks the signs at $3 \times 61 \times 50 = 9150$ grid points $(a_4, z, b_4)$ and the product to $10^{-12}$ (COMPUTED; Figure 01g.6, right, drawn at $b_4 = 1$).
+**The signature of the author's spacetime (PROVED).** The eigenvalues of a diagonal matrix are its diagonal entries (each unit vector $e_i$ is an eigenvector: $De_i = d_ie_i$). So $\eta$ has the eigenvalues $+1$ (four times) and $-1$ (four times): the signature (4,4) (record `Revision/algebra/reports/python-algebra.json`, check `coordinate_map`, which states $\eta$). The author's metric $g$ has the eigenvalues $b_4e^{-2a_4}\cot^2 z > 0$, $e^{2a_4} > 0$ (three times), $-1$ and $-b_4e^{-2a_4}s < 0$ (three times), for every $a_4$, every $b_4 > 0$ and every real $z$ with $\sin z\cos z \neq 0$ (then $\cot z \neq 0$ and $s = |\sin z|^{1/3} > 0$): again four positive and four negative. On the record's background history $b_4e^{-2a_4} = e^{-2a_4/3}$ (Section 1.29); as $a_4$ grows, the three extra-time eigenvalues $-e^{-2a_4/3}s$ and the hidden one $e^{-2a_4/3}\cot^2 z$ shrink towards 0, the exponential deflation of the extra times, but they never change sign; and the product of all eight is $\det g = e^{-2a_4}b_4^4\cot^2 z\,|\sin z| > 0$ (Section 1.21). Notebook 01g, In [11], checks the signs at $3 \times 61 \times 50 = 9150$ grid points $(a_4, z, b_4)$, with $z$ across two periods from $-\pi + 0.05$ to $\pi - 0.05$, and the product to a relative $10^{-12}$; the largest relative difference is $1.4 \times 10^{-15}$ (COMPUTED; Figure 01g.6, right, drawn along the record's history).
 
 ### 1.37 The eigenvalues of the gamma matrices and of B; power iteration
 
@@ -4039,7 +4101,7 @@ $$
 
 ### 1.38 Example: eigenvalues, eigenvectors and the signature (4,4)
 
-Notebook 01g puts Sections 1.34 to 1.37 to work. It finds the eigenvalues of a $2 \times 2$ matrix by hand and with sympy and numpy and draws how the matrix turns the unit circle into an ellipse; computes the characteristic polynomial of the chain matrix and checks its exact eigenvalues and sine-wave eigenvectors; checks the complex eigenvalues of rotations and the real eigenvalues of boosts; checks on random matrices that symmetric matrices have real eigenvalues and perpendicular eigenvectors; reads $\eta$ and the author's metric from the Revision record, counts their positive and negative eigenvalues and checks Sylvester's law on 2000 random coordinate changes; derives and checks the eigenvalues of the eight gamma matrices and of $\gamma(v)$; finds the signature (8,8) of the record's matrix $B$; and runs power iteration. It ends with the line ALL 30 CHECKS PASSED (notebook 01g).
+Notebook 01g puts Sections 1.34 to 1.37 to work. It finds the eigenvalues of a $2 \times 2$ matrix by hand and with sympy and numpy and draws how the matrix turns the unit circle into an ellipse; computes the characteristic polynomial of the chain matrix and checks its exact eigenvalues and sine-wave eigenvectors; checks the complex eigenvalues of rotations and the real eigenvalues of boosts; checks on random matrices that symmetric matrices have real eigenvalues and perpendicular eigenvectors; reads $\eta$ and the author's metric from the Revision record, counts their positive and negative eigenvalues for every real $z$ (away from the points where $\sin z\cos z = 0$) and checks Sylvester's law on 2000 random coordinate changes; derives and checks the eigenvalues of the eight gamma matrices and of $\gamma(v)$; finds the signature (8,8) of the record's matrix $B$; and runs power iteration. It ends with the line ALL 30 CHECKS PASSED (notebook 01g).
 
 <!-- NOTEBOOK 01g -->
 
@@ -4517,7 +4579,7 @@ Output: signatures found [(4, 4)]; eigenvalue sizes from 1.4e-08 to 37.0. A comp
 ```python
 a4 = sp.Symbol("a4", real=True)  # the value of a4(x4) at one time
 b4 = sp.Symbol("b4", positive=True)  # the value of b4(x4) at one time
-z = sp.Symbol("z", positive=True)  # z = 6 H x0, between 0 and pi/2
+z = sp.Symbol("z", real=True)  # z = 6 H x0, any real number
 curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
                        .read_text(encoding="utf-8"))
 
@@ -4525,8 +4587,8 @@ curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.
 def from_record(text):
     """The record's Mathematica text as a sympy expression."""
     text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
-    text = text.replace("Sin[6*H*x0]", "sin(z)")
-    text = text.replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
+    text = text.replace("Sin[6*H*x0]", "sin(z)").replace("Cot[6*H*x0]", "cot(z)")
+    text = text.replace("Sign[", "sign(").replace("]", ")").replace("^", "**")
     return sp.sympify(text, locals={"a4": a4, "b4": b4, "z": z, "E": sp.E})
 ```
 
@@ -4536,37 +4598,54 @@ The symbols, the record file and the translation function, exactly as in Noteboo
 g_record = [from_record(text) for text in curvature["metricDiagonal"]]
 # a4, b4, z -> the 8 numbers on the diagonal
 metric_numbers = sp.lambdify((a4, b4, z), g_record, "numpy")
+z_grid = np.linspace(-np.pi + 0.05, np.pi - 0.05, 50)  # two periods of the metric
+away = float(np.min(np.abs(np.sin(z_grid) * np.cos(z_grid))))  # from sin z cos z = 0
+```
+
+The record's metric as a numpy function of $a_4$, $b_4$ and $z$. `z_grid` holds 50 values of $z$ from $-\pi + 0.05$ to $\pi - 0.05$: two periods of the metric, with values in all four quarters of each. The metric is not defined where $\sin z = 0$ and its hidden entry is 0 where $\cos z = 0$; `away` is the smallest size of $\sin z\cos z$ on the grid, a measure of how close the grid comes to these points.
+
+```python
 signs_ok, product_error, points = True, 0.0, 0
-for b4_value in (0.5, 1.0, 2.0):
+for b4_value in (0.5, 2.0, 4.0):
     for a4_value in np.linspace(-3.0, 3.0, 61):
-        for z_value in np.linspace(0.05, np.pi / 2 - 0.05, 50):
+        for z_value in z_grid:
             g_values = np.linalg.eigvalsh(np.diag(np.array(
                 metric_numbers(a4_value, b4_value, z_value), dtype=float)))
             signs_ok &= ((int((g_values > 0).sum()), int((g_values < 0).sum()))
                          == (4, 4))
-            product_error = max(product_error, abs(
-                np.prod(g_values) / b4_value ** 3 - np.cos(z_value) ** 2))
+            det_expected = (np.exp(-2 * a4_value) * b4_value ** 4
+                            * np.cos(z_value) ** 2 / abs(np.sin(z_value)))
+            product_error = max(product_error,
+                                abs(np.prod(g_values) / det_expected - 1))
             points += 1
 ```
 
-The record's metric as a numpy function of $a_4$, $b_4$ and $z$; then, for $b_4 = 0.5$, 1 and 2, at 61 values of $a_4$ from $-3$ to 3 and 50 values of $z$ inside $(0, \pi/2)$ (9150 points in all, counted in `points`), the eight eigenvalues of the $8 \times 8$ metric (computed by numpy, although for a diagonal matrix they are its entries), their signs and the distance of their product (`np.prod`) divided by $b_4^3$ from $\cos^2 z$.
+For $b_4 = 0.5$, 2 and 4 (three values of the positive function $b_4$ at one time), 61 values of $a_4$ from $-3$ to 3 and the 50 values of $z$ (9150 points in all, counted in `points`): the eight eigenvalues of the $8 \times 8$ metric (computed by numpy, although for a diagonal matrix they are its entries) and their signs; `det_expected` is $\det g = e^{-2a_4}b_4^4\cos^2 z/|\sin z|$ of Section 1.21, and `product_error` keeps the largest relative distance of the product of the eigenvalues (`np.prod`) from it. A relative distance is used because $\det g$ ranges over many powers of ten on this grid.
 
 ```python
-check(signs_ok and points == 9150, "the author's metric has the signature (4,4) "
-      "at all 9150 grid points (a4, z, b4)")
+say(f"smallest |sin z cos z| on the grid of z: {away:.4f}")
+check(signs_ok and points == 9150 and away > 0.001, "the author's metric has the "
+      "signature (4,4) at all 9150 grid points (a4, z, b4)")
+```
+
+Output: smallest |sin z cos z| on the grid of z: 0.0065: the grid comes as close as about 0.0065 to the fold $z = \pm\pi/2$, and the signature is still (4,4) there. The check requires the signature at all 9150 points and the grid not to sit on a point where $\sin z\cos z = 0$.
+
+```python
 lovelock_report = json.loads(repository_file(
     "Revision/gkd_lovelock/results/python-lovelock-report.json")
     .read_text(encoding="utf-8"))
 root_verdict = {c["name"]: c["verdict"]
                 for c in lovelock_report["checks"]}["sqrt_abs_det_g"]
+report("largest relative difference between the product of the eigenvalues and "
+       "e^(-2 a4) b4^4 cot(z)^2 |sin z|", f"{product_error:.1e}")
 check(product_error < 1e-12 and root_verdict == "PASS",
-      "the product of the eight eigenvalues is det g = b4^3 cos(z)^2 at every grid "
-      "point",
+      "the product of the eight eigenvalues is det g = e^(-2 a4) b4^4 cot(z)^2 "
+      "|sin z| at every grid point",
       record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
              "sqrt_abs_det_g")
 ```
 
-Two checks: the signature at all 9150 points, and the product of the eigenvalues equal to $\det g = b_4^3 \cos^2 z$ to $10^{-12}$ (relative to $b_4^3$), together with the record's verdict PASS of the check `sqrt_abs_det_g`. Two PASS lines.
+The record's verdict of the check `sqrt_abs_det_g`, as in Notebook 01f, In [11]. The RESULT line prints the largest relative difference, $1.4 \times 10^{-15}$, rounding errors only (COMPUTED); the check requires less than $10^{-12}$ and the verdict PASS. Two PASS lines in this cell, the second with a line naming the record.
 
 **In [12], the picture of the signatures.**
 
@@ -4585,16 +4664,26 @@ left.set_title("always 4 positive (red) and 4 negative (blue)")
 On the left, for each of the first 40 matrices $P$, its eight eigenvalues as a column of dots at the horizontal position $1, \dots, 40$ (`np.full(8, column + 1)` is a list of eight equal positions; `scatter` draws dots with one colour each, red for positive and blue for negative). The vertical axis is **symmetric logarithmic** (`"symlog"`): linear between $-0.001$ and 0.001 and logarithmic outside, so that large and small values of both signs fit.
 
 ```python
+equations = json.loads(repository_file("Revision/field_equations_a4/a4-equations.json")
+                       .read_text(encoding="utf-8"))
+history = equations["exponentialHistory"]["authorWeights"]["recordHistory"]
+beta = float(sp.Rational(history.split("be = ")[1].split(",")[0]))  # b4 = e^(beta a4)
+say(f"the record's history: {history}")
+```
+
+The record's background history, read and cut into pieces as in Notebook 01f, In [12] (Section 1.9); `float` turns the exact fraction $\tfrac43$ into the floating-point number 1.3333... that numpy needs. Output: the record's history: AA = 1, be = 4/3, a0 = 0, b4(0) = 1: kk = e^{(2/3) H x4}.
+
+```python
 a4_line = np.linspace(-3.0, 3.0, 301)
-curves = np.array([metric_numbers(value, 1.0, 0.9) for value in a4_line],
-                  dtype=float)  # at b4 = 1
+curves = np.array([metric_numbers(value, np.exp(beta * value), 0.9)
+                   for value in a4_line], dtype=float)  # along b4 = e^(4 a4/3)
 styles = [("tab:green", "hidden $x_0$", 0), ("tab:red", "space $x_1, x_2, x_3$", 1),
           ("tab:gray", "time $x_4$", 4), ("tab:blue", "extra times $x_5, x_6, x_7$", 5)]
 for color, label, index in styles:
     right.plot(a4_line, curves[:, index], color=color, lw=2, label=label)
 ```
 
-On the right the eight diagonal entries of the metric (its eigenvalues) at $z = 0.9$ and $b_4 = 1$ for 301 values of $a_4$, as a table with one column per entry; one curve is drawn for each kind of direction (column 0 for the hidden direction $x_0$, 1 for space, 4 for the time, 5 for the extra times: the column of $x_k$ is $k$).
+On the right the eight diagonal entries of the metric (its eigenvalues) at $z = 0.9$ for 301 values of $a_4$ along the record's history, where $b_4 = e^{4a_4/3}$ is computed from $a_4$ for each point (`np.exp(beta * value)`), as a table with one column per entry; one curve is drawn for each kind of direction (column 0 for the hidden direction $x_0$, 1 for space, 4 for the time, 5 for the extra times: the column of $x_k$ is $k$).
 
 ```python
 right.axhline(0.0, color="black", lw=0.8)
@@ -4621,7 +4710,7 @@ save_figure(fig, "signature",
             ...)
 ```
 
-The caption is written from the data: it counts how many of the $40 \cdot 8 = 320$ drawn eigenvalues are smaller than 0.001 in size (they appear on the zero line of the left panel) and chooses the singular or the plural wording. `tiny == 1` is True when exactly one is that small; `x if condition else y` is a **conditional expression**, which gives `x` when the condition is True and `y` otherwise. So `tiny_text` is "the one eigenvalue" or, for example, "the 3 eigenvalues", and `tiny_verb` is "sits" or "sit". The first `...` stands for three ordinary text lines of the caption; the f-string line inserts `tiny_text` and `tiny_verb` where their names stand in braces. In this run two eigenvalues are that small, and the caption reads "the 2 eigenvalues smaller than 0.001 in size sit on the zero line, but none is zero.". The last `...)` stands for the rest of the caption, about the right panel, which has no insertions. What Figure 01g.6 shows: on the left every column has four red and four blue dots although the values change from column to column; on the right the blue extra-time curve (the three equal extra-time eigenvalues) rises towards 0 as $a_4$ grows, the deflation, without ever crossing it, while the red space curve grows and the grey and green curves stay constant.
+The caption is written from the data: it counts how many of the $40 \cdot 8 = 320$ drawn eigenvalues are smaller than 0.001 in size (they appear on the zero line of the left panel) and chooses the singular or the plural wording. `tiny == 1` is True when exactly one is that small; `x if condition else y` is a **conditional expression**, which gives `x` when the condition is True and `y` otherwise. So `tiny_text` is "the one eigenvalue" or, for example, "the 3 eigenvalues", and `tiny_verb` is "sits" or "sit". The first `...` stands for three ordinary text lines of the caption; the f-string line inserts `tiny_text` and `tiny_verb` where their names stand in braces. In this run two eigenvalues are that small, and the caption reads "the 2 eigenvalues smaller than 0.001 in size sit on the zero line, but none is zero.". The last `...)` stands for the rest of the caption, about the right panel, which has no insertions. What Figure 01g.6 shows: on the left every column has four red and four blue dots although the values change from column to column; on the right the blue extra-time curve (the three equal extra-time eigenvalues $-e^{-2a_4/3}s$) rises towards 0 as $a_4$ grows and the green hidden curve $e^{-2a_4/3}\cot^2 z$ falls towards 0, both the deflation, without ever crossing 0, while the red space curve $e^{2a_4}$ grows and the grey time curve stays at $-1$.
 
 **In [13], the eigenvalues of the gamma matrices.**
 
@@ -5086,7 +5175,7 @@ $$
 
 *Proof.* For full lists ($p = n$), both sides are the product of the signs of the two lists, or 0: by the sign shortcut of Section 1.43, $\delta^{B}_{A} = \mathrm{sign}(A)\,\mathrm{sign}(B) = \varepsilon_A\varepsilon_B$ when both are re-orderings of all labels, and both sides are 0 otherwise. Then contract the last index $n - p$ times with the contraction identity: the first contraction (of a delta with $n$ indices) gives the factor $n - n + 1 = 1$, the next $2$, and the last (of a delta with $p + 1$ indices) $n - p$; the product of the factors is $1 \cdot 2 \cdots (n - p) = (n - p)!$.
 
-**The author's second route.** The author's notebook builds the generalized delta also from two Levi-Civita tensors, in the input cell In[32] (`delta11 = Simplify[(epsilong[-a, -f, ...] epsilong[b, f, ...])/(8 - 1)!]`): the formula above with $n = 8$, $p = 1$ and the divisor $7!$. In the author's notation the second $\varepsilon$ carries upper indices, raised with the metric, and the minus signs mark lower indices. For the frame metric $\eta$, raising all eight indices of $\varepsilon$ multiplies each nonzero entry by the product of the eight diagonal entries of $\eta^{-1}$ (each label occurs exactly once in a nonzero entry), that is by $\det\eta = (+1)^4(-1)^4 = +1$ (PROVED). The author's `epsilong` is the Levi-Civita tensor of a metric $g$ that the author declares in the cell In[29] with `DefMetric[{4, 4, 0}, ...]`: four positive, four negative and no zero eigenvalues, the signature (4,4). For such a tensor the same step gives the sign of $\det g$ (a fact of tensor calculus, ASSUMED here), which is $(-1)^4 = +1$ as for $\eta$ (and for the author's metric of the Revision record, $\det g = \cos^2 z > 0$, Section 1.21). In four-dimensional spacetime, with one $-1$, the same step would give the factor $-1$. So in the signature (4,4) the author's second route gives the generalized delta with no extra sign; Notebook 01c, In [17], checks this: for all 64 pairs $(a, b)$ the sums are $5040 = 7!$ for $a = b$ and 0 otherwise, the $8 \times 8$ identity $\delta^b{}_a$ after the division by $7!$ (COMPUTED).
+**The author's second route.** The author's notebook builds the generalized delta also from two Levi-Civita tensors, in the input cell In[32] (`delta11 = Simplify[(epsilong[-a, -f, ...] epsilong[b, f, ...])/(8 - 1)!]`): the formula above with $n = 8$, $p = 1$ and the divisor $7!$. In the author's notation the second $\varepsilon$ carries upper indices, raised with the metric, and the minus signs mark lower indices. For the frame metric $\eta$, raising all eight indices of $\varepsilon$ multiplies each nonzero entry by the product of the eight diagonal entries of $\eta^{-1}$ (each label occurs exactly once in a nonzero entry), that is by $\det\eta = (+1)^4(-1)^4 = +1$ (PROVED). The author's `epsilong` is the Levi-Civita tensor of a metric $g$ that the author declares in the cell In[29] with `DefMetric[{4, 4, 0}, ...]`: four positive, four negative and no zero eigenvalues, the signature (4,4). For such a tensor the same step gives the sign of $\det g$ (a fact of tensor calculus, ASSUMED here), which is $(-1)^4 = +1$ as for $\eta$ (and for the author's metric of the Revision record, $\det g = e^{-2a_4}b_4^4\cot^2 z\,|\sin z| > 0$ wherever $\sin z\cos z \neq 0$, Section 1.21). In four-dimensional spacetime, with one $-1$, the same step would give the factor $-1$. So in the signature (4,4) the author's second route gives the generalized delta with no extra sign; Notebook 01c, In [17], checks this: for all 64 pairs $(a, b)$ the sums are $5040 = 7!$ for $a = b$ and 0 otherwise, the $8 \times 8$ identity $\delta^b{}_a$ after the division by $7!$ (COMPUTED).
 
 ### 1.45 Example: the generalized Kronecker delta
 
@@ -6843,21 +6932,21 @@ The last line is ALL 19 CHECKS PASSED (notebook 01d). The 19 checks are: 2 in In
 
 **PROVED in this chapter** (by school algebra and the definitions, every derivation written out line by line; every one is also confirmed by a check of a notebook):
 
-- numbers (Sections 1.2 to 1.5): the decimal digits of a fraction $p/q$ end or repeat a block of at most $q - 1$ digits; the formula that turns repeating digits back into a fraction; the digits of $p/q$ in lowest terms end exactly when $q = 2^a5^b$; $\sqrt 2$ is not a fraction; the fractions made by $p' = p + 2q$, $q' = p + q$ have $p^2 - 2q^2 = \pm 1$ and the error $|p/q - \sqrt 2| \approx 0.35355/q^2$; the step from a floating-point number $x$ to the next is $2^{e - 53}$, between $\varepsilon x/2$ and $\varepsilon x$; $1 - \cos x = 2\sin^2(x/2)$; $\ln(xy) = \ln x + \ln y$; $e - (1 + 1/n)^n \approx e/(2n)$; the length factors $e^{a_4}\sin^{1/6}z$, 1, $e^{-a_4}\sin^{1/6}z$ and $\cot z$ of the author's metric and their product $\cos z$ for every $a_4$;
+- numbers (Sections 1.2 to 1.5): the decimal digits of a fraction $p/q$ end or repeat a block of at most $q - 1$ digits; the formula that turns repeating digits back into a fraction; the digits of $p/q$ in lowest terms end exactly when $q = 2^a5^b$; $\sqrt 2$ is not a fraction; the fractions made by $p' = p + 2q$, $q' = p + q$ have $p^2 - 2q^2 = \pm 1$ and the error $|p/q - \sqrt 2| \approx 0.35355/q^2$; the step from a floating-point number $x$ to the next is $2^{e - 53}$, between $\varepsilon x/2$ and $\varepsilon x$; $1 - \cos x = 2\sin^2(x/2)$; $\ln(xy) = \ln x + \ln y$; $e - (1 + 1/n)^n \approx e/(2n)$; the positive sixth root $(y^2)^{1/6} = |y|^{1/3}$ and $\mathrm{sign}(c) = |c|/c$; the length factors $b_4^{1/2}e^{-a_4}|\cot z|$, $e^{a_4}$, 1 and $b_4^{1/2}e^{-a_4}(\sin^2 z)^{1/12}$ of the author's metric and their product $e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$ for every $a_4$, every $b_4 > 0$ and every real $z$ with $\sin z\cos z \neq 0$; on the record's background history $b_4^{1/2}e^{-a_4} = e^{-a_4/3}$;
 - complex numbers (Sections 1.10 to 1.13): the product rule, $(zw)^* = z^*w^*$, $zz^* = |z|^2$, $|zw| = |z|\,|w|$; Euler's formula and the error bound $e^\theta\theta^{N+1}/(N + 1)!$ of its partial sums; the law of exponents $e^{i\alpha}e^{i\beta} = e^{i(\alpha + \beta)}$; multiplication by $re^{i\alpha}$ turns by $\alpha$ and stretches by $r$; $M(z)M(w) = M(zw)$, $J^2 = -I$, $\det M(z) = |z|^2$, $R(\alpha)R(\beta) = R(\alpha + \beta)$, $\det R = 1$, $R^TR = I$; the roots of unity add up to 0; conjugation leaves real numbers unchanged; $\cosh^2 - \sinh^2 = 1$ and the addition theorems of $\cosh$ and $\sinh$; a boost keeps $-t^2 + x^2$, adds rapidities and stretches the light-like directions by $e^{\pm\varphi}$; $e^{-i\varepsilon t}$ has modulus 1 for a real and grows or decays like $e^{\gamma t}$ for an imaginary frequency $\varepsilon = i\gamma$;
-- matrices and determinants (Sections 1.18 to 1.21): $(AB)v = A(Bv)$, associativity, $(AB)^T = B^TA^T$, $\mathrm{tr}(AB) = \mathrm{tr}(BA)$; an exchange of two entries flips the sign of a permutation, half of the permutations are even, and a permutation and its inverse have the same sign; the determinants of diagonal, permutation, signed permutation and triangular matrices; the rules 2 to 6 of determinants for every size and rule 1 for $2 \times 2$ matrices; the inverse of a $2 \times 2$ matrix; the signed area of the image of the unit square is $\det M$; $\det\gamma^a = \pm 1$ for the gamma matrices; $\det g = \cos^2 z$ and $\sqrt{|\det g|} = \sin z\cot z = \cos z$ for the author's metric, for every $a_4$: the growth of space and the exponential deflation of the extra times cancel;
-- index notation (Sections 1.26 to 1.29): the rules of the Kronecker delta, $\delta^a{}_a = 8$; $\eta^{ab}\eta_{bc} = \delta^a{}_c$; lowering changes the signs of the four time-like components; the squared lengths of the examples; in the signature (4,4) exactly half of all random vectors are space-like (with one assumed fact of probability); $S_{ab}A^{ab} = 0$ and its consequence for squared expressions; signed permutation matrices are orthogonal; $(\gamma^a)^T = \eta_{aa}\gamma^a$; $\gamma^a\gamma_a = 8I$, $\gamma^a\gamma^b\gamma_a = -6\gamma^b$, $\mathrm{tr}(\gamma^a\gamma^b) = 16\eta^{ab}$, all from the Clifford relation; the line element $ds^2 = \epsilon^2(\cot^2 z + 3e^{2a_4}s - 1 - 3b_4e^{-2a_4}s)$ of the step $dx^\mu = \epsilon$, which is $\epsilon^2(6s\sinh(2a_4) - 1 + \cot^2 z)$ at $b_4 = 1$, and the place $a_4^{\ast}(z)$ where it then changes from time-like to space-like;
-- eigenvalues (Sections 1.34 to 1.37): the eigenvalues add up to the trace and multiply to the determinant; the eigenvalues and eigenvectors of the $2 \times 2$ example and the ellipse with half-axes 3 and 1; the eigenvalues $2 - 2\cos(k\pi/(n + 1))$ and the sine-wave eigenvectors of the chain matrix; $e^{\pm i\alpha}$ for rotations and $e^{\pm\varphi}$ for boosts; complex eigenvalues of real matrices come in conjugate pairs; symmetric and Hermitian matrices have real eigenvalues, and eigenvectors with different eigenvalues are perpendicular; the quadratic form in the eigenvector coordinates; Sylvester's law of inertia (with one assumed fact of linear algebra); the signature (4,4) of $\eta$ and of the author's metric for every $a_4$ and $z$; the eigenvalues $\pm 1$ or $\pm i$ of the gamma matrices, eight times each; $\gamma(v)^2 = Q(v)I$, and $\gamma(v)$ is nilpotent but not zero for a light-like $v$; $B$ is Hermitian exactly when its imaginary part is antisymmetric; the factor $|\lambda_2/\lambda_1|$ of power iteration;
+- matrices and determinants (Sections 1.18 to 1.21): $(AB)v = A(Bv)$, associativity, $(AB)^T = B^TA^T$, $\mathrm{tr}(AB) = \mathrm{tr}(BA)$; an exchange of two entries flips the sign of a permutation, half of the permutations are even, and a permutation and its inverse have the same sign; the determinants of diagonal, permutation, signed permutation and triangular matrices; the rules 2 to 6 of determinants for every size and rule 1 for $2 \times 2$ matrices; the inverse of a $2 \times 2$ matrix; the signed area of the image of the unit square is $\det M$; $\det\gamma^a = \pm 1$ for the gamma matrices; $\det g = e^{-2a_4}b_4^4\cot^2 z\,|\sin z|$ and $\sqrt{|\det g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$ for the author's metric: the growth $e^{6a_4}$ of space and the factor $e^{-6a_4}$ of the exponentially deflating extra times cancel, the determinant is positive wherever $\sin z\cos z \neq 0$, 0 on the fold $\cos z = 0$, and the same at $z$ and $\pi - z$;
+- index notation (Sections 1.26 to 1.29): the rules of the Kronecker delta, $\delta^a{}_a = 8$; $\eta^{ab}\eta_{bc} = \delta^a{}_c$; lowering changes the signs of the four time-like components; the squared lengths of the examples; in the signature (4,4) exactly half of all random vectors are space-like (with one assumed fact of probability); $S_{ab}A^{ab} = 0$ and its consequence for squared expressions; signed permutation matrices are orthogonal; $(\gamma^a)^T = \eta_{aa}\gamma^a$; $\gamma^a\gamma_a = 8I$, $\gamma^a\gamma^b\gamma_a = -6\gamma^b$, $\mathrm{tr}(\gamma^a\gamma^b) = 16\eta^{ab}$, all from the Clifford relation; the line element $ds^2 = \epsilon^2(3e^{2a_4} - 1 + b_4e^{-2a_4}K(z))$, $K(z) = \cot^2 z - 3s$, of the step $dx^\mu = \epsilon$, which is $\epsilon^2(3e^{2a_4} - 1 + e^{-2a_4/3}K(z))$ on the record's background history; $K(\pi - z) = K(z)$ and $K$ decreases on $0 < z < \pi/2$; on every row with $K(z) \le 0$ the step changes from time-like to space-like at exactly one $a_4^{\ast}(z)$;
+- eigenvalues (Sections 1.34 to 1.37): the eigenvalues add up to the trace and multiply to the determinant; the eigenvalues and eigenvectors of the $2 \times 2$ example and the ellipse with half-axes 3 and 1; the eigenvalues $2 - 2\cos(k\pi/(n + 1))$ and the sine-wave eigenvectors of the chain matrix; $e^{\pm i\alpha}$ for rotations and $e^{\pm\varphi}$ for boosts; complex eigenvalues of real matrices come in conjugate pairs; symmetric and Hermitian matrices have real eigenvalues, and eigenvectors with different eigenvalues are perpendicular; the quadratic form in the eigenvector coordinates; Sylvester's law of inertia (with one assumed fact of linear algebra); the signature (4,4) of $\eta$ and of the author's metric for every $a_4$, every $b_4 > 0$ and every real $z$ with $\sin z\cos z \neq 0$; the eigenvalues $\pm 1$ or $\pm i$ of the gamma matrices, eight times each; $\gamma(v)^2 = Q(v)I$, and $\gamma(v)$ is nilpotent but not zero for a light-like $v$; $B$ is Hermitian exactly when its imaginary part is antisymmetric; the factor $|\lambda_2/\lambda_1|$ of power iteration;
 - the generalized Kronecker delta (Sections 1.42 to 1.44): the four cases, so the fast rule of the program GKD equals the author's determinant for every pair of index lists; the two-index formula and the counts 56, 56, 3984; the number $n!/(n - p)!\cdot p!$ of nonzero values; the sign shortcut $\delta^U_L = \mathrm{sign}(L)\,\mathrm{sign}(U)$ (with rule 1 assumed); the vanishing with nine indices in eight dimensions, so the Lovelock sum stops at $k = 3$; the contraction identity with the factor $n - p + 1$ and the factors $8 - 2k = 6, 4, 2$ of the Lovelock trace identities; the Levi-Civita product formula with $(n - p)!$; $\det\eta = +1$;
 - binary numbers and the record's tests (Sections 1.49 and 1.50): a right shift is whole-number division by $2^k$, a left shift multiplication by $2^k$, an exclusive or done twice is undone; the exporter's file has 3,161,984 bytes; the birthday probability $P(p) = (8!/(8 - p)!)/8^p$ (with the assumed rule that independent chances multiply).
 
 **COMPUTED by the notebooks** (each number in the cell named; where a Revision record is reproduced, the record file and its key or check):
 
-- Notebook 01f: the periods of $1/q$ for $q = 2$ to 300, 23 denominators with the full period $q - 1$ (In [4]); the error $1.84 \times 10^{-9}$ of $19601/13860$ and the limit 0.353553 of the error times $q^2$ (In [5]); $\sqrt 2$ between two fractions $2^{-60}$ apart (In [6]); $0.1$ stored as $3602879701896397/2^{55}$, $\varepsilon = 2^{-52}$ and the step formula at 2301 numbers (In [7]); the largest relative errors $4.4 \times 10^{-16}$ and $1.0$ of the two formulas for $(1 - \cos x)/x^2$ (In [9]); $e/(2n)$ within 1 per cent and the floating-point error $e - 1$ at $n = 10^{16}$ (In [12]); $\ln 1000 = 6.9078$ (In [12]); the length factors and their product (In [11]; reproduces `Revision/gkd_lovelock/results/curvature.json`, key `sqrtAbsDetG`, and `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`).
+- Notebook 01f: the periods of $1/q$ for $q = 2$ to 300, 23 denominators with the full period $q - 1$ (In [4]); the error $1.84 \times 10^{-9}$ of $19601/13860$ and the limit 0.353553 of the error times $q^2$ (In [5]); $\sqrt 2$ between two fractions $2^{-60}$ apart (In [6]); $0.1$ stored as $3602879701896397/2^{55}$, $\varepsilon = 2^{-52}$ and the step formula at 2301 numbers (In [7]); the largest relative errors $4.4 \times 10^{-16}$ and $1.0$ of the two formulas for $(1 - \cos x)/x^2$ (In [9]); the positive sixth root $((-0.5)^2)^{1/6} = 0.7937$ against the real cube root $-0.7937$ (In [10]); the signs of the metric entries at 24 points in all four quarters of the period of $z$, the length factors and their product (In [11]; reproduces `Revision/gkd_lovelock/results/curvature.json`, key `sqrtAbsDetG`, and `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`); $e/(2n)$ within 1 per cent and the floating-point error $e - 1$ at $n = 10^{16}$ (In [12]); the record's history with $\mathrm{be} = \tfrac43$ and the factor $e^{-a_4/3}$, $3\ln 2 = 2.0794$ and $3\ln 1000 = 20.7233$ (In [12]; reproduces `Revision/field_equations_a4/a4-equations.json`, entry `exponentialHistory`, `recordHistory`).
 - Notebook 01b: the error $4.1 \times 10^{-14}$ of 21 terms of the series of $e^{2i}$ (In [5]); the factor $\theta/(N + 2)$ within 10 per cent (In [6]); $e^{i\pi} = -1$ with a leftover imaginary part of size $1.0 \times 10^{-51}$ at 50 digits (In [7]); the rotations, roots of unity, boosts and waves in numbers (In [8] to In [14]). It reads no record.
-- Notebook 01a: the determinants 2, 15, $-35$, $-24$, 730, 15445, 60109 of seven random matrices, three ways (In [10]); $\det M = -192$, $\det N = 128$, $\det(MN) = -24576$ (In [11]); the signed areas of 1000 random matrices (In [12]); $16! = 20922789888000$ (In [13]); the eight gamma matrices are signed permutation matrices with determinant 1 whose squares are $\pm I$ (In [14], In [15]; reproduces `Revision/algebra/reports/python-algebra.json`, checks `reality_signed_permutations` and `clifford_relation`); $\det g = b_4^3\cos^2 z$ exactly and at 900 points to $2.9 \times 10^{-15}$ (In [17], In [18]; reproduces `Revision/gkd_lovelock/results/curvature.json`, key `sqrtAbsDetG`, and `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`).
-- Notebook 01e: $\eta$ from the record (In [3]; reproduces `python-algebra.json`, check `coordinate_map`); the fractions 0.5011 and 0.8177 of space-like random vectors in the signatures (4,4) and (3,1) (In [6]); all 64 Clifford relations and the symmetry pattern (In [10]; reproduces the checks `clifford_relation` and `symmetry_pattern` of the same report); the three contractions (In [12]); the metric and its inverse (In [14]; reproduces `curvature.json`, key `metricDiagonal`, and `python-lovelock-report.json`, check `metric_inverse`); the sign of $ds^2$ on a grid of $301 \times 300$ points (In [15]).
-- Notebook 01g: the eigenvalues of $T_{10}$ within $8.9 \times 10^{-16}$ of the formula (In [5]); 200 random $5 \times 5$ matrices with conjugate pairs (In [6]); 300 random symmetric matrices with real eigenvalues, and 67.7 per cent complex eigenvalues of 300 non-symmetric ones (In [8]); the signature (4,4) of $\eta$ (In [10]; reproduces `python-algebra.json`, check `coordinate_map`); Sylvester's law for 2000 random coordinate changes, eigenvalue sizes $1.4 \times 10^{-8}$ to 37.0 (In [10]); the signature (4,4) of the author's metric at 9150 grid points and the product $b_4^3\cos^2 z$ (In [11]; reproduces `python-lovelock-report.json`, check `sqrt_abs_det_g`); the eigenvalues of the gamma matrices (In [13]; the checks `clifford_relation` and `symmetry_pattern`); $\gamma(v)^2 = Q(v)I$ for 104 vectors (In [14]); the signature (8,8) of $B$ (In [16]; reproduces `python-algebra.json`, check `B_hermitian_involution_signature`, and `Revision/theory/reports/python-field-theory.json`, check `B_properties`); the power-iteration factors 0.333333 and 0.585786 to 0.585789 (In [18]).
+- Notebook 01a: the determinants 2, 15, $-35$, $-24$, 730, 15445, 60109 of seven random matrices, three ways (In [10]); $\det M = -192$, $\det N = 128$, $\det(MN) = -24576$ (In [11]); the signed areas of 1000 random matrices (In [12]); $16! = 20922789888000$ (In [13]); the eight gamma matrices are signed permutation matrices with determinant 1 whose squares are $\pm I$ (In [14], In [15]; reproduces `Revision/algebra/reports/python-algebra.json`, checks `reality_signed_permutations` and `clifford_relation`); $\det g = e^{-2a_4}b_4^4\cot^2 z\,|\sin z|$ exactly and at 900 points to a relative $4.2 \times 10^{-15}$ (In [17], In [18]; reproduces the key `sqrtAbsDetG` of the file `curvature.json` and the check `sqrt_abs_det_g` of the report `python-lovelock-report.json`, both in the folder `Revision/gkd_lovelock/results`).
+- Notebook 01e: $\eta$ from the record (In [3]; reproduces `python-algebra.json`, check `coordinate_map`); the fractions 0.5011 and 0.8177 of space-like random vectors in the signatures (4,4) and (3,1) (In [6]); all 64 Clifford relations and the symmetry pattern (In [10]; reproduces the checks `clifford_relation` and `symmetry_pattern` of the same report); the three contractions (In [12]); the metric and its inverse (In [14]; reproduces `curvature.json`, key `metricDiagonal`, and `python-lovelock-report.json`, check `metric_inverse`); the line element along the record's history (In [14]; reproduces `Revision/field_equations_a4/a4-equations.json`, entry `exponentialHistory`, `recordHistory`); $z_0 = 0.5693$, the 206 rows with $K \le 0$, $a_4^{\ast}$ from $-0.4962$ to $0.1153$, and the sign of $ds^2$ on a grid of $301 \times 300$ points (In [15]).
+- Notebook 01g: the eigenvalues of $T_{10}$ within $8.9 \times 10^{-16}$ of the formula (In [5]); 200 random $5 \times 5$ matrices with conjugate pairs (In [6]); 300 random symmetric matrices with real eigenvalues, and 67.7 per cent complex eigenvalues of 300 non-symmetric ones (In [8]); the signature (4,4) of $\eta$ (In [10]; reproduces `python-algebra.json`, check `coordinate_map`); Sylvester's law for 2000 random coordinate changes, eigenvalue sizes $1.4 \times 10^{-8}$ to 37.0 (In [10]); the signature (4,4) of the author's metric at 9150 grid points with $z$ across two periods, and the product $e^{-2a_4}b_4^4\cot^2 z\,|\sin z|$ to a relative $1.4 \times 10^{-15}$ (In [11]; reproduces `python-lovelock-report.json`, check `sqrt_abs_det_g`); the eigenvalues of the metric along the record's history (In [12]); the eigenvalues of the gamma matrices (In [13]; the checks `clifford_relation` and `symmetry_pattern`); $\gamma(v)^2 = Q(v)I$ for 104 vectors (In [14]); the signature (8,8) of $B$ (In [16]; reproduces `python-algebra.json`, check `B_hermitian_involution_signature`, and `Revision/theory/reports/python-field-theory.json`, check `B_properties`); the power-iteration factors 0.333333 and 0.585786 to 0.585789 (In [18]).
 - Notebook 01c, first part: the author's definition, verbatim as in the record's file `PROVENANCE_OF_THE_COMPUTATION.md`, and their cells In[87], In[32] and In[29] as listed in the record's file `notebook-input-cells.txt` (In [2]; both files lie in the folder `Revision/gkd_lovelock/results`, as do the reports named below); the record's examples (In [6]; reproduces the check `gkd_examples` of `python-lovelock-report.json`, the check `definition_unequal_lengths_stay_unevaluated` of `wolfram-gkd-report.json` and the field `gkdSelfCheck` of `lovelock-report.json`).
 - Notebook 01c, second part: the literal determinant equals the fast rule on all 266,304 pairs of the lengths 1 to 3, with the record's counts (In [8]; reproduces the checks `gkd_equals_kdelta_exhaustive_length_1`, `_length_2` and `_length_3` of `wolfram-gkd-report.json`, their counts and their 0 mismatches), and on all 16,777,216 pairs of length 4 (In [10]; reproduces `gkd-selftest.json`).
 - Notebook 01c, third part: 600 pairs of nine-index lists, all 0 (In [13]; the record's check `gkd_nine_indices_in_eight_dimensions_vanish`); the contraction factors 8 to 1 and 4 to 1 (In [14]); the trace factors 6, 4, 2 (In [15]; reproduces the checks `k1_trace_equals_6_L1`, `k2_trace_equals_4_L2` and `k3_trace_equals_2_L3` of `wolfram-gkd-report.json`); the author's second route, $7!\,\delta^b_a$ (In [17]; with the declaration (4, 4, 0) of the author's cell In[29]).
@@ -6872,7 +6961,8 @@ The last line is ALL 19 CHECKS PASSED (notebook 01d). The 19 checks are: 2 in In
 - the property of SHA-256 that different files have different fingerprints for all practical purposes;
 - tensor calculus: raising all indices of the Levi-Civita tensor of a metric multiplies it by the sign of $\det g$ (Chapter 11);
 - taken from the Revision record and derived in later chapters: the gamma matrices, the Clifford relation and the matrices $C$ and $B$ (Chapters 4 and 5; here read from `Revision/algebra/gammas.json` and checked); the meaning of $B$ as the charge density (Chapters 7 and 10); the curvature and the Lovelock tensors (Chapters 3 and 11);
-- the author's metric itself, the starting point of the theory. Nothing in this chapter depends on the form of the functions $a_4(x_4)$ and $b_4(x_4)$: every statement holds for every value of $a_4$ and every positive value of $b_4$, except where $b_4 = 1$ is said (the line element in the form with $\sinh$, and the pictures drawn at $b_4 = 1$).
+- the author's metric itself, the starting point of the theory, in its corrected form (version 2 of 2026-10-16, as stored in `Revision/gkd_lovelock/results/curvature.json`), with $\sin^{1/3} z$ read as the positive branch $(\sin^2 z)^{1/6}$, as the author directs. Nothing in this chapter depends on the form of the functions $a_4(x_4)$ and $b_4(x_4)$: every statement holds for every value of $a_4$, every positive value of $b_4$ and every real $z$ with $\sin z\cos z \neq 0$, except where the record's background history is said;
+- the background history $a_4 = H x_4$, $b_4 = e^{(4/3) H x_4}$ of the Revision record (`Revision/field_equations_a4/a4-equations.json`, entry `exponentialHistory`, `recordHistory`): a prescribed background, chosen and not derived (the record states that it is not a vacuum solution of the field equations; Chapter 12 shows what source it needs). This chapter uses it only for the factor $e^{-a_4/3}$ of the extra times, the line element along the history and the pictures drawn along it.
 
 **HYPOTHESIS and OPEN.** No hypothesis enters this chapter, and it leaves no question open. It says nothing about pair creation or about matter and antimatter.
 
@@ -6910,9 +7000,9 @@ The last line is ALL 19 CHECKS PASSED (notebook 01d). The 19 checks are: 2 in In
 
 *Answer.* (a) The transpose has the rows $(2, 1 + i)$ and $(1 - i, 3)$; conjugating every entry gives back $A$, so $A^\dagger = A$. (b) $\det(A - \lambda I) = (2 - \lambda)(3 - \lambda) - (1 - i)(1 + i) = \lambda^2 - 5\lambda + 6 - 2 = \lambda^2 - 5\lambda + 4 = (\lambda - 1)(\lambda - 4)$, using $(1 - i)(1 + i) = 1 - i^2 = 2$; the eigenvalues 1 and 4 are real, as Theorem 1 of Section 1.36 requires. (c) For 4: the first row of $(A - 4I)v = 0$ reads $-2v_1 + (1 - i)v_2 = 0$; with $v_2 = 2$, $v = (1 - i, 2)$ (second row: $(1 + i)(1 - i) - 2 = 2 - 2 = 0$). For 1: $v_1 + (1 - i)v_2 = 0$; with $v_2 = 1$, $w = (-1 + i, 1)$ (second row: $(1 + i)(-1 + i) + 2 = (i^2 - 1) + 2 = 0$). Then $w^\dagger v = (-1 - i)(1 - i) + 1\cdot 2 = (-1 + i - i + i^2) + 2 = -2 + 2 = 0$.
 
-**Exercise 9.** Take the author's metric at $a_4 = 0$, $b_4 = 1$ and $z = \pi/4$. (a) Write its eight diagonal entries with $s = \sin^{1/3}(\pi/4)$. (b) Compute the product of the eight entries and compare it with $\cos^2(\pi/4)$. (c) What is its signature, and what happens to its three extra-time entries when $a_4$ grows to $\ln 2$?
+**Exercise 9.** Take the author's metric at the start of the record's background history, $a_4 = 0$ and $b_4 = e^{4a_4/3} = 1$, and at $z = 3\pi/4$, in the second half of the cell $0 < z < \pi$. (a) Write its eight diagonal entries. (b) Compute the product of the eight entries and compare it with the formula $\det g = e^{-2a_4}b_4^4\cot^2 z\,|\sin z|$ of Section 1.21. (c) What is its signature, and what happens to its entries when $a_4$ grows to $\ln 2$ along the history? (d) At $z = -\pi/4$, what sign would the extra-time entries have if $s$ were the real cube root of $\sin z$ instead of $(\sin^2 z)^{1/6}$, and what would the signature be?
 
-*Answer.* (a) $\sin(\pi/4) = \cos(\pi/4) = \sqrt 2/2$ and $\cot(\pi/4) = 1$, so the entries, in the order $x_0, \dots, x_7$, are $1, s, s, s, -1, -s, -s, -s$ with $s = (\sqrt 2/2)^{1/3} = 2^{-1/6} \approx 0.8909$ (since $\sqrt 2/2 = 2^{-1/2}$ and $(2^{-1/2})^{1/3} = 2^{-1/6}$). (b) The product is $1\cdot s^3\cdot(-1)\cdot(-s)^3 = s^6 = (2^{-1/6})^6 = 2^{-1} = \tfrac12$, and $\cos^2(\pi/4) = (\sqrt 2/2)^2 = \tfrac12$: equal, as Section 1.21 proved. (c) Four positive entries (1 and $s$ three times) and four negative ones: the signature (4,4). At $a_4 = \ln 2$ the extra-time entries $-b_4e^{-2a_4}s$ are multiplied by $e^{-2\ln 2} = \tfrac14$ (and the space entries by 4): they shrink towards 0 but keep their sign, so the signature stays (4,4) (Section 1.36).
+*Answer.* (a) $\sin(3\pi/4) = \sqrt 2/2$ and $\cos(3\pi/4) = -\sqrt 2/2$, so $\cot(3\pi/4) = -1$ and $\cot^2(3\pi/4) = 1$; $s = (\sin^2(3\pi/4))^{1/6} = (1/2)^{1/6} = 2^{-1/6} \approx 0.8909$. With $e^0 = 1$ and $b_4 = 1$ the entries, in the order $x_0, \dots, x_7$, are $1, 1, 1, 1, -1, -s, -s, -s$. (b) The product is $1\cdot 1^3\cdot(-1)\cdot(-s)^3 = s^3 = 2^{-1/2} = \sqrt 2/2 \approx 0.7071$ (the minus signs give $(-1)(-1)^3 = +1$, and $(2^{-1/6})^3 = 2^{-1/2}$); the formula gives $1\cdot 1\cdot\cot^2(3\pi/4)\,|\sin(3\pi/4)| = \sqrt 2/2$: equal, as Section 1.21 proved, although $\cot z$ is negative here. (c) Four positive entries and four negative ones: the signature (4,4). At $a_4 = \ln 2$ the history gives $b_4 = e^{(4/3)\ln 2} = 2^{4/3}$, so $b_4e^{-2a_4} = 2^{4/3}\cdot 2^{-2} = 2^{-2/3} \approx 0.630$: the hidden entry becomes $2^{-2/3} \approx 0.630$ and the extra-time entries $-2^{-2/3}s = -2^{-5/6} \approx -0.561$, while the space entries become $e^{2\ln 2} = 4$. The hidden and the extra-time entries shrink, the deflation, but keep their signs, so the signature stays (4,4) (Section 1.36). (d) $\sin(-\pi/4) = -\sqrt 2/2 < 0$, whose real cube root is $-2^{-1/6} \approx -0.8909$; the entries $-b_4e^{-2a_4}s$ would then be $+0.8909$, positive. The three extra times would become space-like, and with the positive hidden entry $\cot^2(-\pi/4) = 1$, the three positive space entries and the time entry $-1$ the signature would be (7,1). With the positive branch, $s = (\sin^2(-\pi/4))^{1/6} = 2^{-1/6} > 0$, the entries stay negative and the signature stays (4,4) for every real $z$ with $\sin z\cos z \neq 0$ (Section 1.5).
 
 **Exercise 10.** (a) Compute $\delta^{x_2x_3x_1x_4}_{x_1x_2x_3x_4}$ (lower list $(x_1, x_2, x_3, x_4)$, upper list $(x_2, x_3, x_1, x_4)$) with the four cases of Section 1.42. (b) Compute $\delta^{x_1x_2x_3x_4}_{x_1x_2x_3x_5}$. (c) How many of the $8^{10}$ pairs of index lists of length 5 over the eight labels have a nonzero value, and how many of them are $+1$?
 

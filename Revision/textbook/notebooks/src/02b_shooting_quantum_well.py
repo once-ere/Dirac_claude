@@ -191,9 +191,9 @@ CELLS = [
     in the same way: two first-order equations in the hidden coordinate are shot
     from the tip of the interval to the fold, the place $\cos z = 0$ where the two
     halves of a cell of the hidden direction meet. There an even or an odd fold
-    condition must hold (the Revision record derives the two conditions and labels
-    the filling of both together ASSUMED), exactly like $u'(0) = 0$ or $u(0) = 0$
-    here.
+    condition must hold (the Revision record derives the fold condition up to one
+    parameter, uses its even and its odd value, and labels the filling of both
+    together ASSUMED), exactly like $u'(0) = 0$ or $u(0) = 0$ here.
     """),
     md(r"""
     ## 5. The tools: RK4 for a system, bisection and the secant rule
