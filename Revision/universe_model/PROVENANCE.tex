@@ -1,0 +1,123 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,array}
+\usepackage{fancyvrb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\pdfinfoomitdate=1
+\pdftrailerid{}
+\pdfsuppressptexinfo=15
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+\setlength{\emergencystretch}{3em}
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{4pt}
+\sloppy
+\title{UM-1 provenance: where every ingredient of the universe model comes from}
+\author{dirac16complex project (with Claude Opus 5.5)}
+\date{}
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+Version 1 of 2026-10-17, for \texttt{MODEL.\allowbreak{}md} (the model), \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md} (its field equations) and \texttt{SOLUTION.\allowbreak{}md} (an approximate solution). Repository \texttt{https:/\allowbreak{}/\allowbreak{}github.\allowbreak{}com/\allowbreak{}once-{}ere/\allowbreak{}Dirac\_\allowbreak{}claude}, folder \texttt{Revision/\allowbreak{}universe\_\allowbreak{}model/\allowbreak{}}; the model was started on top of commit \texttt{13f9fb9}.
+
+\section*{1. The order}
+\addcontentsline{toc}{section}{1. The order}
+
+The author's order of 2026-10-17 (summarised; the quoted words are the author's): create "a new model of the Universe" that includes Einstein-Lovelock gravity and "the dirac16complex quantized spinor field (which is hypothesied to represent dark matter)", coupled to gravity "using a non-trivial canonical spin connection", with "new CRITICAL interactions" of these fields with photons, neutrinos, electrons, up and down quarks and the $W$ and $Z$ bosons, "do NOT include the Higgs particle"; able to model the CMB, the CNB and BAO, so that the metric must be "very general, but perhaps expressible as a power series of terms of decreasing magnitude"; new phenomenological interactions "consistent with qcd and electro-weak models"; and, CRITICALLY, mass is to be given to all non-massless particles (all except the graviton, the photon "and perhaps the quanta of the dirac16complex field") "by appropriate wave function dependence on the space coordinate x0 (either explicit, derived, or assumed), which must be periodic in x0 with period $\pi/(6H)$", with the uncertainty relation $\Delta x_0\,\Delta p_{x_0} \geq \hbar/2$ as the reason. Then: push the model with provenance (.md and .pdf), compute the coupled field equations, compute an accurate approximate solution, document each (.md and .pdf), and complete the open stages.
+
+The mass-from-$x_0$ idea and the periodicity requirement are the AUTHOR's. The assembly of the model, the choices labelled ASSUMED and INVENTED in \texttt{MODEL.\allowbreak{}md}, the derivations and the numerics are by Claude Opus 5.5 working in this repository.
+
+\section*{2. Ingredients taken from the Revision record (TAKEN)}
+\addcontentsline{toc}{section}{2. Ingredients taken from the Revision record (TAKEN)}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.323\linewidth}>{\raggedright\arraybackslash}p{0.323\linewidth}>{\raggedright\arraybackslash}p{0.218\linewidth}}
+\toprule
+\textbf{ingredient} & \textbf{source in this repository} & \textbf{status there} \\
+\midrule
+the author's coordinates $x_0, \dots, x_7$ and the corrected primordial metric (version 2) & \texttt{Revision/\allowbreak{}SPEC.\allowbreak{}md} section 1; \texttt{Revision/\allowbreak{}metric\_\allowbreak{}warped/\allowbreak{}}; \texttt{Revision/\allowbreak{}docs/\allowbreak{}METRIC\_\allowbreak{}SELF\_\allowbreak{}CONSISTENCY.\allowbreak{}md} & sympy 14/14, Wolfram 13/13 \\
+the Einstein-Lovelock equations with a general diagonal source, the author's weights $w = (1, 1/32, 1/1152)$, $\Lambda = -10H^2$ & \texttt{Revision/\allowbreak{}field\_\allowbreak{}equations\_\allowbreak{}a4/\allowbreak{}a4-{}equations.\allowbreak{}json} (keys generalSource, einstein) & Wolfram 57/57, sympy 69/69 \\
+the Lovelock tensors of the corrected metric & \texttt{Revision/\allowbreak{}gkd\_\allowbreak{}lovelock/\allowbreak{}results/\allowbreak{}lovelock-{}tensors.\allowbreak{}json} & W4 \\
+the dirac16complex Lagrangian and the $\gamma$ matrices of $Cl(4,4)$ in the author's order & \texttt{Revision/\allowbreak{}SPEC.\allowbreak{}md} section 3; \texttt{Revision/\allowbreak{}algebra/\allowbreak{}gammas.\allowbreak{}json} & exact \\
+the canonical spin connection, $\gamma^M\Omega_M = \frac32 He^{a_4}b_4^{-1/2}\gamma^{x_0} + (u - \frac12\dot a_4)\gamma^{x_4}$ & \texttt{Revision/\allowbreak{}lead\_\allowbreak{}checks/\allowbreak{}emt\_\allowbreak{}divergence\_\allowbreak{}and\_\allowbreak{}spin\_\allowbreak{}connection.\allowbreak{}py} & 10/10 \\
+the reduction to $2\times2$ blocks, $h_j = j[-(i/f)\sigma_1\partial_y + M\sigma_2 + \kappa k\sigma_3] + v$, the fold and tip conditions, the exact $k = 0$ spectra & \texttt{Revision/\allowbreak{}kohn\_\allowbreak{}sham/\allowbreak{}ks-{}theory.\allowbreak{}json} & Wolfram 51/51, sympy 61/61 \\
+the fold-band quanta $\varepsilon = e^{-a_4}|k|$ (massless), the bulk band $\varepsilon \geq m$ & \texttt{Revision/\allowbreak{}kohn\_\allowbreak{}sham/\allowbreak{}results/\allowbreak{}}, \texttt{Revision/\allowbreak{}kohn\_\allowbreak{}sham/\allowbreak{}tip\_\allowbreak{}convergence/\allowbreak{}} & 45/45, 7/7 \\
+the condensate law $S = S_0e^{a_4}b_4^{-2}$ & \texttt{Revision/\allowbreak{}field\_\allowbreak{}equations\_\allowbreak{}a4/\allowbreak{}a4-{}equations.\allowbreak{}json} (fields) & exact \\
+theorem T3 (the map $\chi \to \sigma_2\chi$, $M \to -M$, $\theta \to \pi - \theta$) & \texttt{Revision/\allowbreak{}pairing/\allowbreak{}kohn\_\allowbreak{}sham/\allowbreak{}t3-{}theory.\allowbreak{}json} & exact \\
+the dark-sector findings for the corrected metric (free gas $w_{eff} = 1/3$, condensate $w_{eff} = \frac59 w_c$, bulk band) & drafts of phase W6, \texttt{handoff/\allowbreak{}drafts\_\allowbreak{}2026-{}10-{}17/\allowbreak{}w6/\allowbreak{}} & drafts (37/37, 13/13, 10/10), not yet the record \\
+\bottomrule
+\end{longtable}
+
+The Kohn-Sham cross-check of the record was NOT complete when this model was started: \texttt{HANDOFF.\allowbreak{}md} 0.10, "W5 STATE AT THE STOP OF 2026-10-17". Nothing of the model depends on the three failing comparisons, which concern numbers at the $10^{-10}$ level.
+
+\section*{3. Standard physics used as input (STANDARD)}
+\addcontentsline{toc}{section}{3. Standard physics used as input (STANDARD)}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.288\linewidth}>{\raggedright\arraybackslash}p{0.288\linewidth}>{\raggedright\arraybackslash}p{0.288\linewidth}}
+\toprule
+\textbf{input} & \textbf{value used} & \textbf{source} \\
+\midrule
+electron mass & $m_e = 0.51099895$ MeV & Particle Data Group (from memory of the PDG tables; to be checked against the current edition) \\
+up, down quark masses ($\overline{MS}$, 2 GeV) & $m_u = 2.16$ MeV, $m_d = 4.67$ MeV & PDG (as above) \\
+$W$ and $Z$ masses & $m_W = 80.37$ GeV, $m_Z = 91.1876$ GeV & PDG (as above) \\
+electroweak scale, fine-structure constant & $v = 246.22$ GeV, $\alpha^{-1} = 137.036$ & PDG (as above) \\
+neutrino mass splittings & $\Delta m^2_{21} = 7.5\times10^{-5}$ eV$^2$, $|\Delta m^2_{31}| = 2.5\times10^{-3}$ eV$^2$ & PDG (as above) \\
+CMB temperature & $T_0 = 2.7255$ K & Fixsen 2009 (as above) \\
+cosmological parameters & $\Omega_bh^2 = 0.02237$, $\Omega_ch^2 = 0.1200$, $H_0 = 67.36$ km/s/Mpc, $N_{eff} = 3.044$, $z_* = 1089.92$, $z_{drag} = 1059.94$, $r_{drag} = 147.09$ Mpc, $100\,\theta_* = 1.04110$ & Planck 2018 results VI, Table 2 (as above); used for COMPARISON only \\
+QCD: confinement of $u, d$ into $p, n$; nucleon masses & $m_p = 938.272$ MeV, $m_n = 939.565$ MeV & PDG (as above) \\
+the electroweak chiral Lagrangian (Higgsless symmetry breaking) and boundary-condition symmetry breaking in extra dimensions & textbook and review literature on Higgsless models and on fermion localisation in extra dimensions & concepts only; no numbers \\
+\bottomrule
+\end{longtable}
+
+All standard numbers are quoted from memory (no network access was used); they are labelled as such in the outputs and are used only as targets of fits and as comparisons, never as derived results.
+
+\section*{4. Ingredients new in this model (ASSUMED or INVENTED in \texttt{MODEL.\allowbreak{}md})}
+\addcontentsline{toc}{section}{4. Ingredients new in this model (ASSUMED or INVENTED in \texttt{MODEL.\allowbreak{}md})}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.425\linewidth}>{\raggedright\arraybackslash}p{0.288\linewidth}>{\raggedright\arraybackslash}p{0.150\linewidth}}
+\toprule
+\textbf{ingredient} & \textbf{label} & \textbf{where} \\
+\midrule
+the metric as a power series around the corrected primordial metric, with the bookkeeping parameter $\epsilon \sim 10^{-5}$ & ASSUMED & \texttt{MODEL.\allowbreak{}md} section 3 \\
+the Standard-Model fields as eight-dimensional fields of $SU(3)_c \times SU(2)_L \times U(1)_Y$ on the cell, including the gluons & ASSUMED & section 4.3 \\
+the chiral zero modes from the bulk masses $\mu_\psi$ and the fold conditions $\theta_\psi$ & INVENTED (built on the record's fold conditions) & section 4.3 \\
+no Higgs field; the tip sigma field $\Sigma$ (non-linear, no radial mode) and its couplings $v_\Sigma$, $\lambda_f$ & INVENTED & section 4.3 \\
+the mass mechanism: four-dimensional masses as eigenvalues of the $x_0$ operators on the periodic cell, with the uncertainty bound & the AUTHOR's idea, made precise here & section 4.4 \\
+the portal operators P1 to P5 & INVENTED & section 4.5 \\
+the requirement of slow deflation after the primordial era & DERIVED requirement (mass constancy) & section 4.4, \texttt{SOLUTION.\allowbreak{}md} \\
+\bottomrule
+\end{longtable}
+
+\section*{5. Computations and tools}
+\addcontentsline{toc}{section}{5. Computations and tools}
+
+\begin{itemize}
+\item Symbolic: Python 3.14.5, sympy 1.14.0 (\texttt{field\_\allowbreak{}equations/\allowbreak{}derive\_\allowbreak{}field\_\allowbreak{}equations.\allowbreak{}py}).
+\item Numerical: numpy 2.4.6, no scipy (\texttt{solution/\allowbreak{}solve\_\allowbreak{}model.\allowbreak{}py}).
+\item Documents: the Markdown files are the sources; \texttt{tools/\allowbreak{}md2tex.\allowbreak{}py} converts each to LaTeX and \texttt{tools/\allowbreak{}build\_\allowbreak{}pdfs.\allowbreak{}sh} compiles it with pdflatex (MiKTeX 26.5), so the .md and the .pdf say the same thing.
+\item Every calculation runs well within the limit of 423 s per calculation of this project.
+\end{itemize}
+
+\section*{6. Status}
+\addcontentsline{toc}{section}{6. Status}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.252\linewidth}>{\raggedright\arraybackslash}p{0.458\linewidth}>{\raggedright\arraybackslash}p{0.154\linewidth}}
+\toprule
+\textbf{deliverable} & \textbf{file} & \textbf{status} \\
+\midrule
+the model & \texttt{MODEL.\allowbreak{}md}, \texttt{MODEL.\allowbreak{}pdf} & version 1 \\
+this provenance & \texttt{PROVENANCE.\allowbreak{}md}, \texttt{PROVENANCE.\allowbreak{}pdf} & version 1 \\
+the coupled field equations & \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{field\_\allowbreak{}equations/\allowbreak{}} & see that document \\
+an approximate solution & \texttt{SOLUTION.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{solution/\allowbreak{}} & see that document \\
+\bottomrule
+\end{longtable}
+
+\end{document}
