@@ -403,10 +403,10 @@ No run time and no path of the computer is printed (paths are shown relative to 
     - 11 tests in 0.050 s, the 2 full tests skipped; every test passes for this notebook (among them
     `test_cells_equal_builder`, `test_audit_passes`, `test_kohn_sham_record_counts_printed` and the subtest
     `kohn_sham_states` of `test_provenance_records_current_digests`, which finds the sha256 of the notebook, the
-    builder and the build tool in this file). The run as a whole reported `FAILED (failures=1, skipped=2)`: the one
-    failure is the subtest `dark_sector_hypotheses` of `test_provenance_records_current_digests` (its provenance
-    file did not yet record the sha256 `6d8a326a1c7cbff8...` of that notebook, rebuilt in the same step); that file
-    is kept by its own step of W6, not by this one.
+    builder and the build tool in this file). A first run reported `FAILED (failures=1, skipped=2)`, the one failure
+    being the subtest `dark_sector_hypotheses` (its provenance file did not yet record the sha256 of that notebook,
+    rebuilt in the same step); after that file was updated, the run reported `Ran 11 tests in 0.047s` and
+    `OK (skipped=2)`.
 * Not verified here: the run instructions on macOS and Linux (written for them, executed only on
   Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
   the matplotlib version).

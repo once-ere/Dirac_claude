@@ -19,14 +19,19 @@ What is tested
     the earlier stages (provenance/pdf-specifications.json); the PDF is structurally sound;
   * title, subtitle and section headings; the last section is "What is proved and what is not";
   * the key statements are present, and overclaims are absent (the phrase "are created in pairs"
-    occurs only inside the quoted request; T3 and pair creation are never called proved);
+    occurs only inside the quoted request; pair creation is never called proved, and T3 is called
+    proved only as a theorem under its stated hypotheses, never as a physical process);
+  * no text of the withdrawn metrics appears as current (the Z2 orbifold and the brane only as
+    withdrawn or absent, no sqrt|g| = b4^(3/2) cos z, no brane parity, no patch end);
   * every check name the document cites exists in a Revision report with the verdict PASS, and every
     check of the two pairing reports is listed (complete verification records);
   * the report-count table equals the counts recomputed from the reports;
-  * the quoted data (reflection table, Krein signs, one-particle samples, the vacuum statements of
-    the a4 and b4 equations, the Kohn-Sham self-test numbers, the Kohn-Sham source numbers, the
-    numbers of the T3 completion and its two numerical demonstrations, the sha256 of the pairing
-    outputs, and further numbers) agree with the Revision reports and records;
+  * the quoted data (the corrected-metric formulas of sections 2.1, 2.5, 5.4 and 9.4, reflection table,
+    Krein signs, one-particle samples, the vacuum statements of the a4 and b4 equations, the Kohn-Sham
+    self-test numbers, the Kohn-Sham source numbers, the numbers of the T3 completion and its two
+    numerical demonstrations, the sha256 and run records of the pairing and T3 verifiers, the
+    reproduction commands of the field-theory record, and further numbers) agree with the Revision
+    reports and records;
   * OPTIONAL (only when REVISION_PDF_REBUILD=1; needs pdflatex, about 10 s): the PDF is rebuilt in
     verify mode and must match the registry.
 
@@ -83,6 +88,12 @@ T3_REFERENCE_DEMO = REVISION / "pairing" / "kohn_sham" / "reports" / "t3-referen
 KS_SOURCE_A4 = REVISION / "field_equations_a4" / "ks_source" / "reports" / "ks-source-a4.json"
 KS_SOURCE_CONDITIONS = REVISION / "field_equations_a4" / "reports" / "ks-source-conditions.json"
 KS_SOLVER = REVISION / "kohn_sham" / "reports" / "ks-rust-solver.json"
+KS_THEORY = REVISION / "kohn_sham" / "ks-theory.json"
+FIELD_THEORY_WOLFRAM = REVISION / "theory" / "reports" / "wolfram-field-theory.json"
+FIELD_THEORY_PYTHON = REVISION / "theory" / "reports" / "python-field-theory.json"
+SCOPE_WOLFRAM = REVISION / "theory" / "reports" / "wolfram-scope.json"
+SCOPE_PYTHON = REVISION / "theory" / "reports" / "python-scope.json"
+T3_PROVENANCE = REVISION / "pairing" / "kohn_sham" / "wolfram" / "WOLFRAMSCRIPT_PROVENANCE.md"
 A4_WOLFRAM = REVISION / "field_equations_a4" / "reports" / "wolfram-a4-report.json"
 A4_PYTHON = REVISION / "field_equations_a4" / "reports" / "python-a4-report.json"
 
@@ -182,6 +193,17 @@ FORBIDDEN = (
     r"\bwe (?:have )?prove[d]? that (?:the )?universes\b",
     r"\bproof of (?:the )?(?:pair )?creation\b",
 )
+# Text of the withdrawn metrics (2026-10-14 and version 1 of 2026-10-16) that must not reappear as current.
+WITHDRAWN_METRIC_TEXT = (
+    r"b_4^{3/2}\cos z",
+    r"b_4^{3/2}",
+    "Z2 brane",
+    "brane parit",
+    "patch end",
+    r"> 0$; `nontriviality_1_dirac16complex`",  # G^2 > 0 without the range x4 >= 0
+)
+# The check that keeps its name from the withdrawn metric (its detail speaks of the degenerate points, the folds).
+BRANE_NAMED_CHECK = "good_sector_hermiticity_up_to_the_brane_flux"
 FILE_SUFFIXES = (".json", ".py", ".wls", ".wl", ".md", ".tex", ".pdf", ".rs", ".csv", ".toml")
 
 
@@ -335,6 +357,26 @@ class Content(unittest.TestCase):
         self.assertEqual(self.text.count("are created in pairs"), self.text.count(REQUEST))
         self.assertGreaterEqual(self.text.count(REQUEST), 3)
 
+    def test_no_withdrawn_metric_text(self):
+        """The Z2 orbifold and the brane of the withdrawn metric occur only as absent or withdrawn."""
+        for text in WITHDRAWN_METRIC_TEXT:
+            self.assertNotIn(text, self.text, text)
+        occurrences = list(re.finditer("Z2", self.text))
+        self.assertGreaterEqual(len(occurrences), 4)
+        for match in occurrences:
+            window = self.text[max(0, match.start() - 200):match.end() + 200]
+            self.assertTrue("no Z2 orbifold" in window or "withdrawn" in window, window)
+        # "brane" only in the name of the one check that kept it, explained in the text, and in "no brane"
+        self.assertIn(f"`{BRANE_NAMED_CHECK}`; the check keeps its name from the withdrawn metric of 2026-10-14, "
+                      "while its detail and the corrected metric have no brane: these degenerate points are the "
+                      "folds of section 2.1", self.text)
+        for path in (SCOPE_WOLFRAM, SCOPE_PYTHON):
+            detail = check_detail(path, BRANE_NAMED_CHECK)
+            self.assertNotIn("brane", detail.lower(), path.name)
+            self.assertIn("degenerate points z = ", detail, path.name)
+        rest = self.text.replace(BRANE_NAMED_CHECK, "").replace("have no brane", "")
+        self.assertNotIn("brane", rest.lower())
+
     def test_negative_controls(self):
         """The content checks are not vacuous: tampered statements are detected."""
         tampered = (
@@ -458,6 +500,118 @@ class QuotedData(unittest.TestCase):
                               - ks[5]**2 - ks[6]**2 - ks[7]**2)
             self.assertEqual(sp.simplify(w_value - sp.sympify(re.sub(r"Sqrt\[(\d+)\]", r"sqrt(\1)", w))), 0)
 
+    def test_corrected_metric_formulas(self):
+        """Sections 2.1, 2.5, 5.4 and 9.4: the formulas of the corrected metric (version 2) are those of the
+        theory, scope and pairing records (plain text in the record, LaTeX in the document)."""
+        quoted = (
+            (FIELD_THEORY_WOLFRAM, "sqrt_det_g", "sqrt|det g| = sig f0...f7 = E^-a4 b4^2 |Cot z| (Sin z^2)^(1/4)",
+             r"$\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$"),
+            (FIELD_THEORY_PYTHON, "sqrt_det_g", "= e^-a4 b4^2 |cot z| (sin^2 z)^(1/4)",
+             r"$\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$"),
+            (FIELD_THEORY_WOLFRAM, "metric_is_the_corrected_metric", "f(x0) = E^-a4 b4^(1/2) Cot[z] (signed)",
+             r"$f_0 = e^{-a_4}b_4^{1/2}\cot z$"),
+            (FIELD_THEORY_WOLFRAM, "metric_is_the_corrected_metric", "f(x1,x2,x3) = E^a4, f(x4) = 1",
+             r"$f_1 = f_2 = f_3 = e^{a_4}$, $f_4 = 1$"),
+            (FIELD_THEORY_WOLFRAM, "metric_is_the_corrected_metric", "f(x5,x6,x7) = E^-a4 b4^(1/2) (Sin[z]^2)^(1/12)",
+             r"$f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$"),
+            (FIELD_THEORY_PYTHON, "metric_from_vielbein_equals_SPEC", "g_x0x0 = b4(x4)*exp(-2*a4(x4))*cot(6*H*x0)**2",
+             r"$g_{00} = e^{-2a_4}b_4\cot^2 z$"),
+            (FIELD_THEORY_PYTHON, "metric_from_vielbein_equals_SPEC", "g_x4x4 = -1", r"$g_{44} = -1$"),
+            (FIELD_THEORY_PYTHON, "metric_from_vielbein_equals_SPEC",
+             "g_x5x5 = -b4(x4)*exp(-2*a4(x4))*Abs(sin(6*H*x0))**(1/3)", r"$g_{tt} = -e^{-2a_4}b_4(\sin^2 z)^{1/6}$"),
+            (FIELD_THEORY_WOLFRAM, "omega_components", "exactly 10 independent nonzero omega_mu,ab",
+             "has the 10 nonzero components"),
+            (FIELD_THEORY_WOLFRAM, "omega_components", "omega_x0,(x0)(x4) = h4 sb Cot[z]",
+             r"$\omega_{x_0,\,04} = h_4e^{-a_4}b_4^{1/2}\cot z$"),
+            (FIELD_THEORY_WOLFRAM, "omega_components", "omega_t,(x0)(t) = H (Sin[z]^2)^(1/12)",
+             r"$\omega_{x_t,\,0t} = H(\sin^2 z)^{1/12}$"),
+            (FIELD_THEORY_WOLFRAM, "gammaOmega_per_direction", "h4 = b4'/(2 b4) - a4'",
+             r"$h_4 = \frac{b_4'}{2b_4} - a_4'$"),
+            (FIELD_THEORY_WOLFRAM, "gammaOmega_per_direction",
+             "gamma^(xt) Omega_xt = (h4/2) gamma^(x4) + (H/2) E^a4 b4^(-1/2) gamma^(x0)",
+             r"each extra time $\frac{h_4}{2}\gamma^4 + \frac{H}{2}e^{a_4}b_4^{-1/2}\gamma^0$"),
+            (FIELD_THEORY_WOLFRAM, "gammaOmega_total",
+             "gamma^mu Omega_mu = (3/2) H E^a4 b4^(-1/2) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4)",
+             r"\gamma^\mu\Omega_\mu = c_g\,\gamma^0 + v_g\,\gamma^4,\qquad c_g = \tfrac32He^{a_4}b_4^{-1/2},"
+             r"\qquad v_g = \frac{b_4'}{b_4} - \frac{a_4'}{2}"),
+            (FIELD_THEORY_PYTHON, "gamma_mu_Omega_mu_equals_hidden_block_terms",
+             "gamma^mu Omega_mu = (3/2) H e^a4 b4^(-1/2) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4)",
+             r"c_g = \tfrac32He^{a_4}b_4^{-1/2}"),
+            (FIELD_THEORY_WOLFRAM, "nontriviality_1_dirac16complex",
+             "gamma^mu d_mu = E^a4 b4^(-1/2) Tan[z] gamma^(x0) d0 + E^-a4 gamma^(xi) d_i + gamma^(x4) d4",
+             r"e^{a_4}b_4^{-1/2}\tan z\,\gamma^0\partial_0\Psi + e^{-a_4}\big(\gamma^1\partial_1+\gamma^2\partial_2"
+             r"+\gamma^3\partial_3\big)\Psi + \gamma^4\partial_4\Psi"),
+            (FIELD_THEORY_WOLFRAM, "nontriviality_1_dirac16complex", "E^a4 b4^(-1/2) (Sin[z]^2)^(-1/12) gamma^(xt) d_t",
+             r"e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}\big(\gamma^5\partial_5"),
+            (FIELD_THEORY_WOLFRAM, "nontriviality_1_dirac16complex", "cg = (3/2) H E^(H x4/3), vg = (5/6) H",
+             r"$c_g = \frac32He^{Hx_4/3}$, $v_g = \frac56H$"),
+            (FIELD_THEORY_WOLFRAM, "nontriviality_1_dirac16complex", "G^2 = H^2 ((9/4) E^(2 H x4/3) - 25/36)",
+             r"$G^2 = H^2(\frac94e^{2Hx_4/3} - \frac{25}{36})I_{16}$, which is positive for $x_4 \geq 0$"),
+            (FIELD_THEORY_WOLFRAM, "nontriviality_2_dirac16complex00", "G^2 = H^2 ((9/4) E^(2 H x4/3) - 25/36)",
+             r"$G^2 = H^2(\frac94e^{2Hx_4/3} - \frac{25}{36})I_{16}$"),
+            (FIELD_THEORY_PYTHON, "gravity_term_square", "M M = H^2 ((9/4) e^(2 H x4/3) - 25/36) I16",
+             r"$G^2 = H^2(\frac94e^{2Hx_4/3} - \frac{25}{36})I_{16}$"),
+            (FIELD_THEORY_WOLFRAM, "flat_member_and_curvature", "the corrected metric is FLAT for a4 = 0, b4 = H^2 x4^2",
+             r"$a_4 = 0$, $b_4 = H^2x_4^2$ (`flat_member_and_curvature`)"),
+            (FIELD_THEORY_PYTHON, "curvature_and_flat_member", "the metric is FLAT for a4 = 0, b4 = H^2 x4^2",
+             r"$a_4 = 0$, $b_4 = H^2x_4^2$ (`flat_member_and_curvature`)"),
+            (SCOPE_WOLFRAM, "rescaling_removes_the_connection_term", "Psi = E^(a4/2) b4^(-1) (Sin z^2)^(-1/8) chi",
+             r"$\Psi = e^{a_4/2}b_4^{-1}(\sin^2 z)^{-1/8}\chi$"),
+            (SCOPE_PYTHON, "rescaling_removes_the_connection_term", "Psi = e^(a4/2) b4^(-1) (sin^2 z)^(-1/8) chi",
+             r"$\Psi = e^{a_4/2}b_4^{-1}(\sin^2 z)^{-1/8}\chi$"),
+            (SCOPE_WOLFRAM, "rescaled_equation_quadratic_potential", "lambda E^a4 S[chi]/(b4^2 |Sin z|^(1/2))",
+             r"$\lambda e^{a_4}S[\chi]/(b_4^2|\sin z|^{1/2})$"),
+            (SCOPE_WOLFRAM, BRANE_NAMED_CHECK, "the degenerate points z = Pi/2 + n Pi of g00",
+             r"the degenerate points $z = \pi/2 + n\pi$"),
+            (SCOPE_WOLFRAM, "good_sector_x0_independent_modes_without_boundary_condition",
+             "wherever m^2 < cg^2 the instantaneous frequencies are imaginary",
+             r"complex frequencies wherever $m^2 < c_g^2$"),
+            (WOLFRAM_PAIRING, "T2_mirror_is_isometry", "x0 -> pi/(6H) - x0 (z -> pi - z)",
+             r"$\phi: x_0 \mapsto \pi/(6H) - x_0$ ($z \mapsto \pi - z$"),
+            (WOLFRAM_PAIRING, "T2_mirror_is_isometry", "(g_00 = e^-2a4 b4 cot^2 z = 0, sqrt|g| = 0)",
+             r"($g_{00} = e^{-2a_4}b_4\cot^2 z = 0$ and $\sqrt{|g|} = 0$ there)"),
+            (WOLFRAM_PAIRING, "T2_mirror_is_isometry", "sqrt|g| = e^-a4 b4^2 |cot z| sin^(1/2) z is invariant",
+             r"($e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$ is invariant"),
+            (WOLFRAM_PAIRING, "T2_mirror_is_isometry", "(no Z2 orbifold)", "the corrected metric has no Z2 orbifold"),
+        )
+        for path, name, in_report, in_document in quoted:
+            self.assertIn(in_report, check_detail(path, name), f"{name} of {path.name}")
+            self.assertIn(in_document, self.text, in_document)
+        # section 2.1: the history of the Kohn-Sham record, A = 1 and b4(0) = 1
+        history = load_json(KS_THEORY)["adiabaticity"]["history"]
+        for part in ("a4 = A H x4 (A = 1 canonical)", "b4 = b4(0) e^{beta A H x4} (beta = 4/3, b4(0) = 1)",
+                     "f = e^{(beta/2 - 1) a4} = e^{-a4/3}"):
+            self.assertIn(part, history, part)
+        self.assertIn(r"$b_4 = b_4(0)e^{(4/3)AHx_4}$ with $A = 1$ and $b_4(0) = 1$ (`Revision/SPEC.md` section 1; "
+                      r"`Revision/kohn_sham/ks-theory.json`, key adiabaticity), that is $a_4 = Hx_4$, "
+                      r"$b_4 = e^{(4/3)Hx_4}$, on which the scale factor of the block is $b_4(0)^{1/2}e^{-a_4/3} = "
+                      r"e^{-a_4/3}$", self.text)
+        # the range of G^2 > 0 on the history: (9/4) e^(2 H x4/3) > 25/36 exactly where e^(2 H x4/3) > 25/81
+        x = sp.Symbol("x", positive=True)
+        self.assertEqual(sp.solve(sp.Rational(9, 4) * x - sp.Rational(25, 36), x), [sp.Rational(25, 81)])
+        self.assertIn(r"vanishes where $e^{2Hx_4/3} = \frac{25}{81}$, at a negative $x_4$", self.text)
+
+    def test_reproduction_commands(self):
+        """Section 10: the field-theory record runs in parts (the usage of its two programs)."""
+        wolfram = (REVISION / "theory" / "wolfram" / "verify_field_theory.wls").read_text(encoding="utf-8")
+        python = (REVISION / "theory" / "python" / "check_field_theory.py").read_text(encoding="utf-8")
+        block = self.text[self.text.index("## 10. Reproduction"):self.text.index("## 11. What is proved")]
+        commands = [f"wolframscript -file Revision/theory/wolfram/verify_field_theory.wls {part}"
+                    for part in ("base", "emt-G", "emt-C", "solutions", "solutions-G", "quantisation", "merge")]
+        commands += ["python Revision/theory/python/check_field_theory.py --part nonlinear",
+                     "python Revision/theory/python/check_field_theory.py"]
+        for command in commands[:7]:
+            self.assertIn(command + "\n", wolfram, command)
+        self.assertIn(commands[7], python)
+        positions = []
+        for command in commands:
+            self.assertIn("\n" + command + "\n", block, command)
+            positions.append(block.index("\n" + command + "\n"))
+        self.assertEqual(positions, sorted(positions))
+        self.assertNotIn("\nwolframscript -file Revision/theory/wolfram/verify_field_theory.wls\n", block)
+        self.assertLess(block.index("\n" + commands[-1] + "\n"),
+                        block.index("\nwolframscript -file Revision/pairing/wolfram/verify_pairing.wls\n"))
+
     def test_t3_record_and_its_checks(self):
         theory = load_json(T3_THEORY)
         self.assertEqual(theory["status"], "all checks of the report passed")
@@ -496,7 +650,21 @@ class QuotedData(unittest.TestCase):
                       check_detail(A4_WOLFRAM, "egb_exponential_vacuum_branches"))
         self.assertIn(r"the vacuum histories are exactly those with $k_0 \neq A^2$", self.text)
         self.assertIn(r"the tuned coupling $\alpha_2 = -1/(4H^2(A^2 - k_0))$", self.text)
+        # Lambda is tuned as well (the x4 component at the history), not free
+        self.assertIn("and Lambda = -E^x4_x4 at the history", check_detail(A4_WOLFRAM, "egb_exponential_vacuum_branches"))
+        self.assertIn("a vacuum exists only for these tuned couplings",
+                      check_detail(A4_WOLFRAM, "egb_exponential_vacuum_branches"))
+        self.assertIn("determine alpha2 = -1/(4 H^2 (A^2 - k)) and Lambda",
+                      check_detail(A4_PYTHON, "egb_exponential_vacuum_branches"))
+        self.assertIn(r"and a tuned $\Lambda$, fixed by the $x_4$ component of the vacuum equations at the history: "
+                      "a vacuum exists only for these tuned couplings.", self.text)
         self.assertIn("w = (1, 1/32, 1/1152)", check_detail(A4_WOLFRAM, "author_weights_history_source"))
+        # the sign convention of Lambda: the record's Lam = -10 is the author's Lambda = 10 (SPEC section 1)
+        self.assertIn("Lambda_author = 10, Lam = -10", check_detail(A4_WOLFRAM, "author_weights_history_source"))
+        self.assertIn("Lambda = 10; the notebook's Out[134]/Out[135]", (REVISION / "SPEC.md").read_text(encoding="utf-8"))
+        self.assertIn(r"$\Lambda = -10$ in the sign convention of the equations in (i), which is the author's "
+                      r"$\Lambda = 10$ of `Revision/SPEC.md` section 1", self.text)
+        self.assertIn(r"$\Lambda = -10$ (the sign convention of section 7)", self.text)
 
     def test_kohn_sham_self_test_numbers(self):
         detail = check_detail(KS_SOLVER, "t3_block_map_solver_selftest")
@@ -547,6 +715,11 @@ class QuotedData(unittest.TestCase):
             (reference, "t3_equal_ground_states", "differ by up to 1.81e-04", "differ by up to 1.81e-04"),
             (reference, "negative_control_untransformed_tip", "at least 3.776e+00", "at least 3.776e+00 of its maximum"),
             (reference, "reference_image_equals_rust_image", "agree to 7.311e-11", "agree to 7.311e-11"),
+            (reference, "reference_image_equals_rust_image",
+             "in 18 of 18 states: E_KS, the EMT integrals and (thermal) mu and Omega agree to 7.311e-11",
+             r"(their $E_{KS}$, energy-momentum integrals and, for the Mermin states, $\mu$ and $\Omega$) "
+             "agree to 7.311e-11 in all 18 states"),
+            (reference, "reference_image_equals_rust_image", "tolerance 1e-08", "in all 18 states, tolerance 1e-8"),
         )
         for details, name, in_report, in_document in quoted:
             self.assertIn(in_report, details[name], name)
@@ -605,6 +778,8 @@ class QuotedData(unittest.TestCase):
              "differ from the needed ones by at least 1.3733"),
             ("B3_hidden_direction_mismatch", "mu1_rho in [0.147738, 0.738255]", "between 0.147738 and 0.738255"),
             ("C3_record_history_not_sourced_by_the_gas", "run from 16.5276 to -7311.81", "run from 16.5276 to -7311.81"),
+            ("C3_record_history_not_sourced_by_the_gas", "of the free gas N = 2352 is positive at every slice",
+             r"of the free gas with $N = 2352$ is positive at every slice"),
         )
         for name, in_report, in_document in quoted:
             self.assertIn(in_report, details[name], name)
@@ -633,6 +808,55 @@ class QuotedData(unittest.TestCase):
         self.assertIn("in four parts of 88, 91, 76 and 67 s and an assembly of 2 s", self.text)
         self.assertIn("in six parts of 219, 170, 78, 122, 115 and 91 s", readme)
         self.assertIn("in six parts of 219, 170, 78, 122, 115 and 91 s", self.text)
+
+    def test_t3_reverification_record(self):
+        """Section 9.3 item 2: the T3 runs are those of sections 6.9 and 6.10 of the T3 provenance."""
+        provenance = T3_PROVENANCE.read_text(encoding="utf-8")
+        start = provenance.index("### 6.9 The corrected metric of 2026-10-16 (version 2) (2026-10-17)")
+        middle = provenance.index("### 6.10 Text-only corrections of the W6 audit (2026-10-17)")
+        following = re.search(r"\n#{2,3} ", provenance[middle + 1:])
+        end = middle + 1 + following.start() if following else len(provenance)
+        runs = " ".join(provenance[start:middle].split())
+        regeneration = " ".join(provenance[middle:end].split())
+        text = " ".join(self.text.split())
+        # section 6.9: the runs that reproduced the outputs of commit 6e228a8
+        for statement in ("`verify_t3.wls` `9/9 checks passed` (5.8 s of wall time)",
+                          "`check_t3.py` 12 of 12 (1.3 s)",
+                          "`verify_t3_completion.wls` `3/3 checks passed` (2.9 s)",
+                          "`check_t3_completion.py` 7 of 7 (0.9 s)"):
+            self.assertIn(statement, runs, statement)
+        reproduced = ("reproduced the committed `t3-theory.json`, `reports/wolfram-t3.json`, `reports/python-t3.json` "
+                      "and `reports/wolfram-t3-completion.json` of commit `6e228a8` byte for byte")
+        self.assertIn(reproduced, runs)
+        self.assertIn(reproduced, text)
+        self.assertIn("`verify_t3.wls` 9 of 9 checks (5.8 s of wall time), `check_t3.py` 12 of 12 (1.3 s), "
+                      "`verify_t3_completion.wls` 3 of 3 (2.9 s) and `check_t3_completion.py` 7 of 7 (0.9 s)", text)
+        readme = (REVISION / "pairing" / "kohn_sham" / "README.md").read_text(encoding="utf-8")
+        self.assertIn("the T3 verifiers 5.8 s and 1.3 s, the completion 2.9 s and 0.9 s", " ".join(readme.split()))
+        # section 6.10: the single regeneration run that wrote the committed T3 reports (commit 0a0be28)
+        for statement in ("`9/9 checks passed; time 0.30000000000000004 s` (4.6 s)", "`pass 12 fail 0` (1.2 s)",
+                          "ending `3/3 checks passed` (2.9 s)", "`pass 7 fail 0` (0.8 s)",
+                          "No check, verdict or count changed",
+                          "the four changed outputs committed in `0a0be28`",
+                          "A second run of the four scripts at 13:53 PDT, in the same order and under the same limit "
+                          "(3.1 s, 1.5 s, 2.8 s, 0.9 s; the same counts), left every output of sections 2.3 and 2.4 "
+                          "byte for byte unchanged"):
+            self.assertIn(statement, regeneration, statement)
+        for path in (WOLFRAM_T3, PYTHON_T3, WOLFRAM_T3C, T3_COMPLETION):
+            self.assertIn(f"-> `{sha256_file(path)}`", regeneration, path.name)
+        unchanged = regeneration[regeneration.index("Unchanged:"):]
+        for path in (T3_THEORY, PYTHON_T3C):
+            self.assertIn(f"`{sha256_file(path)}`", unchanged, path.name)
+        self.assertIn("one further run of each script, with the same counts (4.6 s, 1.2 s, 2.9 s and 0.8 s of wall "
+                      "time), wrote the four changed outputs `reports/wolfram-t3.json`, `reports/python-t3.json`, "
+                      "`reports/wolfram-t3-completion.json` and `t3-completion.json` committed in `0a0be28`", text)
+        self.assertIn("a second run of the four scripts at 13:53 PDT (3.1 s, 1.5 s, 2.8 s and 0.9 s; the same counts) "
+                      "left every output of the T3 verifiers and checkers byte for byte unchanged", text)
+        self.assertEqual([count_report(path) for path in (WOLFRAM_T3, PYTHON_T3, WOLFRAM_T3C, PYTHON_T3C)],
+                         [(9, 9, 0), (12, 12, 0), (3, 3, 0), (7, 7, 0)])
+        # the run times of an earlier draft (13:16 PDT; 3.1 s, 1.2 s, 2.8 s, 0.8 s) are in no record
+        self.assertNotIn("13:16", self.text)
+        self.assertNotIn("in 2.8 s", self.text)
 
     def test_further_quoted_numbers(self):
         wolfram = {check["name"]: check["detail"] for check in load_json(WOLFRAM_PAIRING)["checks"]}
