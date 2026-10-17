@@ -1,5 +1,16 @@
 # field_equations_a4 — the Einstein-Lovelock equations for a4[x4] (SPEC section 5)
 
+**2026-10-16: the corrected metric (version 2).**  The Wolfram verifier and its sympy twin compute the field
+equations of the corrected metric of `Revision/SPEC.md` section 1, diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1,
+-E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3)), for general a4(x4), b4(x4) > 0 and every real z = 6 H x0: every Lovelock tensor is
+diagonal and free of x0, with three independent components (x4, x1 = x2 = x3, x0 = x5 = x6 = x7) in the variables
+a4', a4'', u = b4'/b4, v = u' and k = e^{2 a4}/b4; the source must have p0 = p_t and no off-diagonal component.  Wolfram
+57 of 57 (20 s), sympy 69 of 69 (8 s), both reproduced byte for byte (`wolfram/WOLFRAMSCRIPT_PROVENANCE.md` section 6.10).
+`check_b4_block.py` (the key b4 of the withdrawn metric of 2026-10-14) is retired.  `python/check_ks_source_conditions.py`
+and `ks_source/` evaluate the Kohn-Sham states; they still read the keys of the metric of 2026-10-14 and are redone
+together with the Kohn-Sham record for the corrected metric (`HANDOFF.md` 0.10, phase W5).  The text below the next
+heading describes the versions before 2026-10-16.
+
 Revision code only (nothing imported from the old stages). Two independent derivations:
 
 | file | engine | role |
@@ -14,7 +25,6 @@ Run from the repository root (Wolfram first, the Python checker reads its output
 ```text
 wolframscript -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
 python Revision/field_equations_a4/python/check_field_equations_a4.py
-python Revision/field_equations_a4/python/check_b4_block.py
 python Revision/field_equations_a4/python/check_ks_source_conditions.py
 python Revision/field_equations_a4/ks_source/ks_source_a4.py
 ```

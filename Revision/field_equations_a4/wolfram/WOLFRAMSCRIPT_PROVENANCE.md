@@ -1,5 +1,15 @@
 # WolframScript provenance: the a4 field-equation verifier
 
+**2026-10-16 (section 6.10): the corrected metric (version 2).**  On the user's order "go ahead with the recomputation
+using the corrected metric" (`HANDOFF.md` 0.10, phase W2) the set computes the field equations of the corrected metric of
+`Revision/SPEC.md` section 1, diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1, -E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3)), for
+general a4(x4), b4(x4) > 0 and EVERY real z = 6 H x0 (an exact zero test modulo Cos^2 + Sin^2 - 1, ww^12 - Sin^2,
+Sign[Cot]^2 - 1 replaces the patch 0 < z < Pi/2 and PowerExpand).  Every Lovelock tensor is diagonal and free of x0
+(three independent components x4, x1, x0 = x5); the source must have p0 = p_t and no off-diagonal component.  57 checks,
+all PASS; the sympy twin `check_field_equations_a4.py` 69 of 69; `check_b4_block.py` (the key b4 of the metric of
+2026-10-14) is retired.  The tables of section 2 give the files of 2026-10-16.  The text of sections 1 and 3 to 6.9
+describes the earlier versions (the metric of 2026-10-14 and before); section 6.10 lists what changed.
+
 Set: `Revision/field_equations_a4/wolfram/` (the script `verify_field_equations_a4.wls` and its
 package `FieldEquationsA4.wl`), in the version of 2026-10-14: the user's metric with b4[x4] in the extra-time
 components (commit `c26995c`) in the author's coordinates {x0, x1, ..., x7} (commit `fedf89c`; section 6.8). It
@@ -156,15 +166,20 @@ creates). Every file is UTF-8 text with LF line endings, stored byte for byte by
 
 | role | path | bytes | lines | sha256 |
 | --- | --- | --- | --- | --- |
-| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 51887 | 531 | `19ab567d4786c17cb67246053f434629d4620ce36132be549237228ee63ef58d` |
-| package (loaded by the script with `Get`, script line 28) | `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` | 16131 | 229 | `19cd007b0300b1641c753a139ed6afb000ca83c274c6d2e6b20a6ce0f3e037a4` |
-| input 1 (read by the package with `Import[..., "RawJSON"]`, package line 167) | `Revision/algebra/gammas.json` | 76894 | 1405 | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` |
-| input 2 (read by the script with `Import[..., "RawJSON"]`, script line 94) | `Revision/gkd_lovelock/results/lovelock-tensors.json` | 163905 | 405 | `f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c` |
-| input 3 (read by the script with `Import[..., "RawJSON"]`, script line 198; section 3, general b4) | `Revision/metric_b4/results/metric-b4.json` | 49637 | 1669 | `7a57e570a5eb4c1a61978399aead9e0bcda2a687fce08bfeec628c802c154c49` |
-| output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 100062 | 935 | `fa2acb5d9b55d49bbee79be2e5551a1efc3c9a78daad101eb3e12f441d47ad00` |
-| output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 22186 | 304 | `31bf1893d2a1d5a6f9e2165b67d67b2d5b5fca825fa11a2b3fdae2ef016eee49` |
+| script (the file you run) | `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls` | 52056 | 511 | `8dd70aafb9bfd2ee291af4a4ec8a1e5192125cdfcbab94f1d30379bf9f54797e` |
+| package (loaded by the script with `Get`) | `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl` | 17909 | 254 | `20d49bfcfc83bfc6aead0a3d266ba0f2b97e5688d3062601fc077e1a3143ea71` |
+| input 1 (read by the package with `Import[..., "RawJSON"]`) | `Revision/algebra/gammas.json` | 76894 | 1405 | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` |
+| input 2 (read by the script, section 2) | `Revision/gkd_lovelock/results/lovelock-tensors.json` | 164399 | 405 | `611a60543bcf36261e54d1304a2eb216efc39596ba2ad8fc33c353a740787343` |
+| input 3 (read by the script, sections 3 and 4) | `Revision/metric_warped/results/warped-metric.json` | 5508 | 74 | `c6167b356838f9ce4708f8826c561c001060b512acc73a101df4581f62c01aa6` |
+| output 1 (written, committed) | `Revision/field_equations_a4/a4-equations.json` | 64220 | 837 | `fba6e3af9c56f5e6c61819762a1fccfede5f6ab4875f3e4fa736d2afb13df72d` |
+| output 2 (written, committed) | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 21797 | 294 | `ad4777d477e93f04a4d70f21775f49b2fcd8132f7ad170b1ae724b1b44cda434` |
 
-The table gives the version of 2026-10-15 (section 6.9: every section for general b4). The version of 2026-10-14
+The table gives the version of 2026-10-16 (section 6.10: the corrected metric).  The version of 2026-10-15 (section
+6.9, withdrawn): script 51887 bytes, 531 lines, sha256 `19ab567d4786c17cb67246053f434629d4620ce36132be549237228ee63ef58d`;
+package 16131 bytes, 229 lines, sha256 `19cd007b0300b1641c753a139ed6afb000ca83c274c6d2e6b20a6ce0f3e037a4`; input 3 was
+`Revision/metric_b4/results/metric-b4.json` (sha256 `7a57e570...`); output 1 100062 bytes, 935 lines, sha256
+`fa2acb5d9b55d49bbee79be2e5551a1efc3c9a78daad101eb3e12f441d47ad00`; output 2 22186 bytes, 304 lines, sha256
+`31bf1893d2a1d5a6f9e2165b67d67b2d5b5fca825fa11a2b3fdae2ef016eee49`. The version of 2026-10-14
 (section 6.8): script 53312 bytes, 551 lines, sha256 `82c224295feed0aaf0653c5615b0f4dfb2ac9d302431368153a4da7437b45ad5`;
 output 1 68631 bytes, 922 lines, sha256 `dba03bf4f09c3ac080b3abb6fc34e528bb9ba32e52d21b508c630b6479ba759d`; output 2
 19869 bytes, 329 lines, sha256 `7caf8938f0c3854c3f90ab0400fd16e044d410bc02c4c24e3dbdb41068e4f5f9`. The paragraph that
@@ -879,6 +894,61 @@ for byte. Remarks that do not affect a run from a complete clone:
   10 tests OK (19.0 s).
 * Fixes made: the text above. Open discrepancies: none in the results. Not done: a run of the changed script in
   a fresh clone.
+
+### 6.10 The corrected metric of 2026-10-16 (version 2)
+
+* Why. The user's orders of 2026-10-16 (`Revision/SPEC.md` section 1, version 2; `Revision/metric_warped/`; "go ahead
+  with the recomputation using the corrected metric", `HANDOFF.md` 0.10, phase W2).  The metric of 2026-10-14 has the
+  off-diagonal Lovelock component E^x4_x0 ~ cot z b4'/b4, which no diagonal source can match; the corrected metric
+  diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1, -E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3)) (x0 space-like, x4 the time,
+  z = 6 H x0 real) has none.
+* Changes, package (`FieldEquationsA4.wl`): the metric and the vielbein (e^x0 = E^(-a4) b4^(1/2) Cot z, signed; e^xi =
+  E^a4; e^x4 = 1; e^xt = E^(-a4) b4^(1/2) (Sin^2)^(1/12)); `FENormal` is now an exact normal form for EVERY real z
+  (Sin -> sv, Cos -> cv signed, (Sin^2)^k -> ww^(12 k), |Sin|^k -> ww^(6 k), |Cot| -> sgn cv/sv, Sign[Cot] -> sgn;
+  numerator and denominator reduced modulo the Groebner basis {cv^2 + sv^2 - 1, ww^12 - sv^2, sgn^2 - 1}; an unmapped
+  trigonometric function of x0 stops the run); the patch rules `FETrigToCC` (0 < z < Pi/2, cc > 0) and `PowerExpand`
+  are removed; `FEUVK` writes an x0-free expression in the variables of the field equations (ad1, ad2, uu = b4'/b4,
+  vv = (b4'/b4)', kk = E^(2 a4)/b4) and refuses anything else; the monomial reader takes the 14 exponents of the GKD
+  branch (since 2026-10-16) and refuses 13.
+* Changes, script: section 1: `sqrt_abs_det_g` (E^-a4 b4^2 |cot z| (sin^2 z)^(1/4)), `mixed_riemann_free_of_x0`,
+  `mixed_riemann_only_sectional`, `flat_member` (a4 = 0, b4 = H^2 (x4 - c)^2: R = 0).  Section 2: `P<k>_structure`
+  (diagonal, x0-free, x1 = x2 = x3, x0 = x5 = x6 = x7), `lovelock_variables` (polynomials in H, a4', a4'', u, v, k).
+  Section 3: `independent_components` (three components; p0 = p_t and no off-diagonal source), `constraint_first_order`,
+  `second_order_system_a4pp_vv` (Einstein J = {{2, -2}, {0, -3/2}}), `constraint_propagation_bianchi` (d4 E^x4_x4 =
+  3 a4' (E^x1_x1 - E^x4_x4) + 4 h4 (E^x0_x0 - E^x4_x4), h4 = b4'/(2 b4) - a4'), `conservation_components` (with a
+  general off-diagonal pair), `einstein_equals_metric_warped_record` (input 3 replaces `metric-b4.json`),
+  `einstein_components`, `einstein_null_combinations`, `einstein_flat_vacuum`, `einstein_no_exponential_vacuum`,
+  `einstein_second_order_system`.  Section 4 (exponential histories, k = k0 e^((2 - beta) A H x4)):
+  `exponential_history_required_source`, `author_weights_history_source` (equal to warped-metric.json, key
+  history_source), `author_weights_no_exponential_vacuum`, `egb_exponential_vacuum_branches` (only constant k, beta = 2,
+  alpha2 = -1/(4 H^2 (A^2 - k0))).  Section 5 (fields): `Omega_x4_vanishes_Omega_x0_does_not`, the gravity term
+  (3/2) H e^{a4} b4^{-1/2} gamma^x0 + (b4'/b4 - a4'/2) gamma^x4, the condensate Phi = e^{a4/2} b4^{-1} chi with chi' = B chi,
+  `condensate_S_law` (S = e^{a4} b4^{-2} S0), the kinetic tensor, 24 off-diagonal three-gamma bilinears (36 ordered
+  pairs), `condensate_witness_constant_k_exact` (exact witnesses for histories with constant k and constant M; for k not
+  constant not decided), `condensate_source_equal_pressures` (Einstein: none on the exponential histories; the author's
+  weights: only constant k, k0 = (16 + 2 A^2)/(2 + A^2) at beta = 2 and k0 = 8 at A = 0).  Removed: the off-diagonal
+  pair and its factor Q, the identity x1 + x5 - 2 x0, the key b4 and the checks of the metric of 2026-10-14.  57 checks.
+* `a4-equations.json`: keys conventions, lovelockTensors (x0x0, x1x1, x4x4, x5x5 in ad1, ad2, uu, vv, kk), generalSource
+  (constraint_x4, space_x1_eq_x2_eq_x3, hidden_and_extraTimes_x0_eq_x5_eq_x6_eq_x7, hiddenEqualsExtraTimes, offDiagonal,
+  secondOrderJacobian(Det), x0_dependence, conservation_x4, conservation_x0, energyExchange, constraint_propagation,
+  sourceRequiredByGivenHistory, nullCombinations), einstein, exponentialHistory (requiredSource, einstein, authorWeights
+  with historySource_kappaT_minus_Lam, einsteinGaussBonnetVacuum), fields.  The keys b4, generalSource.offDiagonal_*,
+  offDiagonalFactor_Q, identity_x1_plus_x5_minus_2x0, extraTime_x5_eq_x6_eq_x7, hidden_x0 and exponentialHistory.*.Q are
+  gone; their readers (the Kohn-Sham source conditions, `ks_source/`, the dark sector, the lead checks, the documents
+  and the textbook) are redone in the later phases of `HANDOFF.md` 0.10.
+* Runs (2026-10-16, development machine, Windows 11, Wolfram 15.0.1, from the repository root, each under
+  `timeout -k 5 423`): `checks: 57, failed: 0`, exit code 0, 20 s and 19 s; the two runs wrote both outputs byte for
+  byte (sha256 in section 2).  Mistakes found by the runs and corrected before the commit: the guard of `FENormal`
+  first refused the general source functions p0[x4, x0] (it now refuses only unmapped trigonometric functions of x0);
+  the condensate check first claimed no equal-pressure history for the author's weights, and Reduce showed the two
+  constant-k families above (the check now states them).
+* The sympy twin `check_field_equations_a4.py` (rewritten: symbols Ee, Bq, Cc signed, Ww = (sin^2)^(1/12) with
+  Ww^12 (1 + Cc^2) = 1; the ring QQ[H, a4', a4'', u, v, k]; GKD as a permutation sign; its own off-diagonal
+  decomposition and witness): 69 of 69, 8 s, twice, byte-identical report (sha256
+  `38aa38710df9ffc0ffb50814aa54ff8723ff4396145d60527df65367c32ddedb`) and summary.  Two of its checks failed in the
+  first run and were corrected: the Einstein-Gauss-Bonnet coefficients of (alpha2, Lambda) are the same in the x4 and
+  x1 equations at beta = 2 (the pair x4, x0 determines them), and the root k = -A^2 of the equal-pressure condition is
+  not positive.
 
 ### 6.9 Every section for general b4 (2026-10-15)
 

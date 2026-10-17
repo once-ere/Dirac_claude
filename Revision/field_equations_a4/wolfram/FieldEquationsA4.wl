@@ -2,9 +2,9 @@
 
 (* FieldEquationsA4.wl
 
-   Revision/SPEC.md section 5: the Einstein-Lovelock field equations for a4[x4] in the author's
-   primordial metric (section 1), with a general homogeneous source and with the two fields of
-   section 3 as sources.  Revision code only: nothing is imported from the old stages.
+   Revision/SPEC.md section 5: the Einstein-Lovelock field equations for a4[x4] and b4[x4] in the corrected
+   primordial metric of 2026-10-16 (version 2; SPEC section 1, Revision/metric_warped/), with a general source and
+   with the two fields of section 3 as sources.  Revision code only: nothing is imported from the old stages.
 
    Contents (all definitions carry the prefix FE; the physical symbols are Global`):
      metric, vielbein, Christoffel symbols, Riemann tensor R^{ab}_{cd} (MTW), Ricci, Einstein;
@@ -22,36 +22,58 @@
    A missing or malformed gammas.json stops the run at once with a line "ERROR  ..." and exit code 1
    (never a fallback to another representation).
 
-   Notation of the outputs: ad1 = a4'[x4], ad2 = a4''[x4], cc = Cot[6 H x0] (> 0 on the patch
-   0 < 6 H x0 < Pi/2), the author's coordinates x0..x7 at Wolfram positions 1..8 (x0 = the hidden direction = 1,
-   x4 = 5; until 2026-10-14 the withdrawn labels x1..x8 with the hidden direction x8 last were used); since 2026-10-14 (the user's metric with b4[x4] in the
-   extra-time components): bb = b4[x4] > 0, bd1 = b4'[x4], bd2 = b4''[x4], ...; FEB4One = {bb -> 1, bd1 -> 0, ...}
-   restricts any result to b4 = 1, the metric before 2026-10-14.
+   The metric (SPEC section 1, version 2): g = diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1,
+   -E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3)), z = 6 H x0, for general a4(x4), b4(x4) > 0 and EVERY real z with
+   Sin z Cos z != 0 (x0 is space-like, x4 the time; (Sin^2)^(1/6) is the positive branch).  The metric of
+   2026-10-14 (g00 = Cot^2, g_ii = E^(2 a4) Sin^(1/3), g_tt = -E^(-2 a4) b4 Sin^(1/3) on 0 < z < Pi/2) is withdrawn.
+
+   Notation of the outputs: ad1 = a4'[x4], ad2 = a4''[x4], ..., bb = b4[x4] > 0, bd1 = b4'[x4], bd2 = b4''[x4], ...;
+   the dependence on x0 (for every real z): sv = Sin[z], cv = Cos[z] (signed), ww = (Sin[z]^2)^(1/12) > 0,
+   sgn = Sign[Cot[z]] (sgn^2 = 1), with the relations cv^2 + sv^2 = 1, ww^12 = sv^2; FENormal reduces numerator and
+   denominator modulo the Groebner basis {cv^2 + sv^2 - 1, ww^12 - sv^2, sgn^2 - 1} (leading terms cv^2, ww^12,
+   sgn^2, pairwise coprime), so FENormal[e] === 0 is an exact zero test for every real z (no PowerExpand, no patch
+   0 < z < Pi/2).  The author's coordinates x0..x7 are at Wolfram positions 1..8 (x0 = the hidden direction = 1,
+   x4 = 5).
 *)
 
 FECoords = {x0, x1, x2, x3, x4, x5, x6, x7};
 FEDim = 8;
 
-FEMetricDiag = {Cot[6 H x0]^2, E^(2 a4[x4]) Sin[6 H x0]^(1/3), E^(2 a4[x4]) Sin[6 H x0]^(1/3),
-   E^(2 a4[x4]) Sin[6 H x0]^(1/3), -1, -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3),
-   -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3), -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)};
+FEMetricDiag = {E^(-2 a4[x4]) b4[x4] Cot[6 H x0]^2, E^(2 a4[x4]), E^(2 a4[x4]), E^(2 a4[x4]), -1,
+   -E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6), -E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6),
+   -E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6)};
 FEMetric = DiagonalMatrix[FEMetricDiag];
 FEMetricInv = DiagonalMatrix[1/FEMetricDiag];
 
-(* the patch 0 < z < Pi/2, z = 6 H x0: every trigonometric function written through cc = Cot[z] > 0 *)
-FETrigToCC = {Sin[6 H x0] -> 1/Sqrt[1 + cc^2], Cos[6 H x0] -> cc/Sqrt[1 + cc^2],
-   Cot[6 H x0] -> cc, Tan[6 H x0] -> 1/cc, Csc[6 H x0] -> Sqrt[1 + cc^2],
-   Sec[6 H x0] -> Sqrt[1 + cc^2]/cc};
+(* every real z = 6 H x0: the trigonometric functions through sv, cv (signed), ww = (Sin^2)^(1/12) > 0 and
+   sgn = Sign[Cot]; then numerator and denominator are reduced modulo the Groebner basis FEBasis *)
+FETrigRules = {
+   Power[Power[Sin[6 H x0], 2], k_] :> ww^(12 k),
+   Power[Abs[Sin[6 H x0]], k_] :> ww^(6 k), Abs[Sin[6 H x0]] -> ww^6,
+   Power[Abs[Cot[6 H x0]], k_] :> (sgn cv/sv)^k, Abs[Cot[6 H x0]] -> sgn cv/sv,
+   Sign[Cot[6 H x0]] -> sgn,
+   Sin[12 H x0] -> 2 sv cv, Cos[12 H x0] -> cv^2 - sv^2,
+   Sin[6 H x0] -> sv, Cos[6 H x0] -> cv, Cot[6 H x0] -> cv/sv, Tan[6 H x0] -> sv/cv,
+   Csc[6 H x0] -> 1/sv, Sec[6 H x0] -> 1/cv};
+FEBasis = {cv^2 + sv^2 - 1, ww^12 - sv^2, sgn^2 - 1};
+FEBasisVars = {cv, ww, sgn, sv};
+FEReduce[p_] := Last[PolynomialReduce[Expand[p], FEBasis, FEBasisVars]];
 FEDerivToSym = {Derivative[1][a4][x4] -> ad1, Derivative[2][a4][x4] -> ad2,
    Derivative[3][a4][x4] -> ad3, Derivative[4][a4][x4] -> ad4,
    Derivative[1][b4][x4] -> bd1, Derivative[2][b4][x4] -> bd2, Derivative[3][b4][x4] -> bd3,
    Derivative[4][b4][x4] -> bd4, b4[x4] -> bb};
-FEB4One = {bb -> 1, bd1 -> 0, bd2 -> 0, bd3 -> 0, bd4 -> 0};
 FENormal[e_] := Module[{r},
-  r = e /. FEDerivToSym /. FETrigToCC;
-  r = PowerExpand[r, Assumptions -> cc > 0 && H > 0 && bb > 0];
-  Together[Expand[r]]];
-FEZeroQ[e_] := Module[{r = FENormal[e]}, r === 0 || Simplify[r, cc > 0 && H > 0 && bb > 0] === 0];
+  r = Together[(e /. FEDerivToSym) /. FETrigRules];
+  (* every trigonometric function of x0 must have been mapped (functions of x0 such as a source p0[x4, x0] may stay) *)
+  If[Cases[r, (Sin | Cos | Tan | Cot | Csc | Sec | Abs | Sign)[arg_] /; ! FreeQ[arg, x0], {0, Infinity}] =!= {},
+   Print["ERROR  FENormal cannot map the dependence on x0 of ", InputForm[e]]; Exit[1]];
+  If[r === 0, 0, Together[FEReduce[Numerator[r]]/FEReduce[Denominator[r]]]]];
+FEZeroQ[e_] := FENormal[e] === 0;
+(* the variables of the field equations: uu = b4'/b4, vv = (b4'/b4)' (so b4''/b4 = vv + uu^2), kk = E^(2 a4)/b4 *)
+FEUVK[e_] := Module[{r = Together[FENormal[e] /. {bd1 -> uu bb, bd2 -> (vv + uu^2) bb}]},
+  r = Together[r /. Power[E, n_. a4[x4]] :> Power[kk bb, n/2]];
+  If[! FreeQ[r, bb] || ! FreeQ[r, a4], Print["ERROR  FEUVK: not a function of ad1, ad2, uu, vv, kk: ", InputForm[r]]; Exit[1]];
+  r];
 
 (* ---------- Christoffel symbols, Riemann, Ricci, Einstein ---------- *)
 FEChristoffel = Table[
@@ -65,7 +87,7 @@ FERiemann1 = Table[
     Sum[FEChristoffel[[a, c, e]] FEChristoffel[[e, b, d]] - FEChristoffel[[a, d, e]] FEChristoffel[[e, b, c]], {e, FEDim}],
    {a, FEDim}, {b, FEDim}, {c, FEDim}, {d, FEDim}];
 
-(* R^{ab}_{cd} = g^{be} R^a_{ecd}, normalised (free of Sin^(1/3) if the warp cancels) *)
+(* R^{ab}_{cd} = g^{be} R^a_{ecd}, in the normal form (free of sv, cv, ww, sgn where it does not depend on x0) *)
 FERiemannUU = Table[FENormal[Sum[FEMetricInv[[b, e]] FERiemann1[[a, e, c, d]], {e, FEDim}]],
    {a, FEDim}, {b, FEDim}, {c, FEDim}, {d, FEDim}];
 
@@ -107,14 +129,14 @@ FELovelockScalarDirect[k_Integer] := Module[{acc = 0, up, low},
    FENormal[acc]];
 
 (* ---------- the tensors rebuilt from the GKD branch's monomial lists ---------- *)
-(* exponent order of a monomial (Revision/gkd_lovelock/code/src/poly.rs; 13 exponents since 2026-10-14):
-   H, a4', a4'', a4''', a4'''', E = e^{a4}, S = Sin[6 H x0]^(1/3), C = Cot[6 H x0], Q = b4^(1/2), b4', b4'', b4''', b4'''' *)
-FEMonomialVars = {H, ad1, ad2, ad3, ad4, Exp[a0], sthird, cc, Sqrt[bb], bd1, bd2, bd3, bd4};
+(* exponent order of a monomial (Revision/gkd_lovelock/code/src/poly.rs; 14 exponents since 2026-10-16):
+   H, a4', a4'', a4''', a4'''', E = e^{a4}, W = (Sin[6 H x0]^2)^(1/12), C = Cot[6 H x0], Q = b4^(1/2), b4', b4'', b4''',
+   b4'''', G = Sign[Cot[6 H x0]] *)
+FEMonomialVars = {H, ad1, ad2, ad3, ad4, Exp[a4[x4]], ww, cv/sv, Sqrt[bb], bd1, bd2, bd3, bd4, sgn};
 FEFromMonomials[mons_List] := Module[{e},
-   If[! AllTrue[mons, Length[#[[3]]] == 13 &], Print["ERROR  a monomial of lovelock-tensors.json does not have 13 exponents (the format since 2026-10-14)"]; Exit[1]];
+   If[! AllTrue[mons, Length[#[[3]]] == 14 &], Print["ERROR  a monomial of lovelock-tensors.json does not have 14 exponents (the format since 2026-10-16)"]; Exit[1]];
    e = Total[(#[[1]]/#[[2]]) Times @@ (FEMonomialVars^#[[3]]) & /@ mons];
-   (* S = Sin^(1/3): on the patch Sin = 1/Sqrt[1 + cc^2] *)
-   Together[Expand[PowerExpand[e /. sthird -> (1 + cc^2)^(-1/6), Assumptions -> cc > 0 && bb > 0]]]];
+   FENormal[e]];
 FERebuildMixed[json_Association, key_String] := Table[
    FEFromMonomials[json[key][ToString[FECoords[[h]]] <> "," <> ToString[FECoords[[j]]]]["monomials"]],
    {h, FEDim}, {j, FEDim}];
@@ -123,8 +145,9 @@ FERebuildScalar[json_Association, key_String] := FENormal[ToExpression[json[key]
 (* ---------- covariant divergence of a mixed tensor T^mu_nu (coordinate functions of x4, x0) ---------- *)
 (* the input is expressed with a4[x4] (not ad1) so that it can be differentiated *)
 FESymToDeriv = {ad1 -> Derivative[1][a4][x4], ad2 -> Derivative[2][a4][x4], ad3 -> Derivative[3][a4][x4],
-   ad4 -> Derivative[4][a4][x4], cc -> Cot[6 H x0], bb -> b4[x4], bd1 -> Derivative[1][b4][x4],
-   bd2 -> Derivative[2][b4][x4], bd3 -> Derivative[3][b4][x4], bd4 -> Derivative[4][b4][x4]};
+   ad4 -> Derivative[4][a4][x4], bb -> b4[x4], bd1 -> Derivative[1][b4][x4],
+   bd2 -> Derivative[2][b4][x4], bd3 -> Derivative[3][b4][x4], bd4 -> Derivative[4][b4][x4],
+   sv -> Sin[6 H x0], cv -> Cos[6 H x0], ww -> (Sin[6 H x0]^2)^(1/12)};
 FEDivergence[T_] := Table[
    Sum[D[T[[m, n]], FECoords[[m]]], {m, FEDim}] +
     Sum[FEChristoffel[[m, m, l]] T[[l, n]], {m, FEDim}, {l, FEDim}] -
@@ -210,9 +233,11 @@ FEIntertwinerBasis[from_List, to_List] /; Length[from] == Length[to] := Module[{
         KroneckerProduct[IdentityMatrix[n, SparseArray], SparseArray[Transpose[#1]]]] &, {from, to}];
    Partition[#, n] & /@ (Normal /@ NullSpace[sys])];
 
-(* diagonal vielbein e^a_mu = Sqrt|g_mumu| delta^a_mu; inverse e_a^mu *)
-FEVielbeinPos = DiagonalMatrix[{Cot[6 H x0], E^(a4[x4]) Sin[6 H x0]^(1/6), E^(a4[x4]) Sin[6 H x0]^(1/6), E^(a4[x4]) Sin[6 H x0]^(1/6), 1,
-    E^(-a4[x4]) Sqrt[b4[x4]] Sin[6 H x0]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[6 H x0]^(1/6), E^(-a4[x4]) Sqrt[b4[x4]] Sin[6 H x0]^(1/6)}];
+(* diagonal vielbein e^a_mu with (e^a_mu)^2 = |g_mumu| (the vielbein of the corrected metric; e^x0 = E^(-a4) b4^(1/2)
+   Cot z is signed, the others positive); inverse e_a^mu *)
+FEVielbeinPos = DiagonalMatrix[{E^(-a4[x4]) Sqrt[b4[x4]] Cot[6 H x0], E^(a4[x4]), E^(a4[x4]), E^(a4[x4]), 1,
+    E^(-a4[x4]) Sqrt[b4[x4]] (Sin[6 H x0]^2)^(1/12), E^(-a4[x4]) Sqrt[b4[x4]] (Sin[6 H x0]^2)^(1/12),
+    E^(-a4[x4]) Sqrt[b4[x4]] (Sin[6 H x0]^2)^(1/12)}];
 FEVielbeinInv = Inverse[FEVielbeinPos];
 (* omega_mu^a_b = e^a_nu (d_mu e_b^nu + Gamma^nu_{mu lambda} e_b^lambda) *)
 FESpinConnMixed = Table[

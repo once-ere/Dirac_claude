@@ -82,9 +82,8 @@
 #   theory-fock-quartic                   10 s
 #   pairing-wolfram                      280 s
 #   pairing-sympy                        240 s
-#   a4-wolfram                            50 s
-#   a4-sympy                              15 s
-#   a4-b4-block-sympy                     35 s
+#   a4-wolfram                            20 s
+#   a4-sympy                              10 s
 #   a4-ks-source-conditions                5 s
 #   ks-theory-wolfram                     60 s
 #   ks-theory-sympy                       60 s
@@ -300,9 +299,8 @@ theory-compare|2|0|-|-|-|{audit} json-equals Revision/theory/reports/python-fiel
 theory-fock-quartic|10|0|-|Revision/theory/fock_quartic/reports/fock-quartic.json|Revision/theory/fock_quartic/reports/fock-quartic.json|{python} Revision/theory/fock_quartic/check_fock_quartic.py
 pairing-wolfram|280|0|-|Revision/pairing/pairing-theory.json,Revision/pairing/reports/wolfram-pairing.json|Revision/pairing/reports/wolfram-pairing.json|{wolframscript} -file Revision/pairing/wolfram/verify_pairing.wls
 pairing-sympy|240|0|-|Revision/pairing/reports/python-pairing.json|Revision/pairing/reports/python-pairing.json|{python} Revision/pairing/python/check_pairing.py
-a4-wolfram|50|0|-|Revision/field_equations_a4/a4-equations.json,Revision/field_equations_a4/reports/wolfram-a4-report.json|Revision/field_equations_a4/reports/wolfram-a4-report.json|{wolframscript} -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
-a4-sympy|15|0|-|Revision/field_equations_a4/reports/python-a4-report.json,Revision/field_equations_a4/reports/a4-equations-summary.md|Revision/field_equations_a4/reports/python-a4-report.json|{python} Revision/field_equations_a4/python/check_field_equations_a4.py
-a4-b4-block-sympy|35|0|-|Revision/field_equations_a4/reports/python-b4-block.json|Revision/field_equations_a4/reports/python-b4-block.json|{python} Revision/field_equations_a4/python/check_b4_block.py
+a4-wolfram|20|0|-|Revision/field_equations_a4/a4-equations.json,Revision/field_equations_a4/reports/wolfram-a4-report.json|Revision/field_equations_a4/reports/wolfram-a4-report.json|{wolframscript} -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls
+a4-sympy|10|0|-|Revision/field_equations_a4/reports/python-a4-report.json,Revision/field_equations_a4/reports/a4-equations-summary.md|Revision/field_equations_a4/reports/python-a4-report.json|{python} Revision/field_equations_a4/python/check_field_equations_a4.py
 a4-ks-source-conditions|5|0|-|Revision/field_equations_a4/reports/ks-source-conditions.json|Revision/field_equations_a4/reports/ks-source-conditions.json|{python} Revision/field_equations_a4/python/check_ks_source_conditions.py
 ks-theory-wolfram|60|0|-|Revision/kohn_sham/ks-theory.json,Revision/kohn_sham/reports/ks-theory-wolfram.json|Revision/kohn_sham/reports/ks-theory-wolfram.json|{wolframscript} -file Revision/kohn_sham/theory/verify_ks_theory.wls
 ks-theory-sympy|60|0|-|Revision/kohn_sham/reports/ks-theory-python.json|Revision/kohn_sham/reports/ks-theory-python.json|{python} Revision/kohn_sham/theory/check_ks_theory.py

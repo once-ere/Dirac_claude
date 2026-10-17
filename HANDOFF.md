@@ -105,6 +105,23 @@ Status (newest last):
   (fast and slow tests pass).  KNOWN OPEN: `Revision/docs/LOVELOCK_GKD.md` and `test_lovelock_gkd_publication.py` (W7),
   `Revision/notebooks/src/lovelock_gkd.py` (W6, cites 19 Rust checks), the textbook chapters 3 and 11 (W8);
   `field_equations_a4` reads the new `lovelock-tensors.json` (W2, next).
+- W2 DONE 2026-10-16 (the field equations; the Kohn-Sham parts move to W5): `Revision/field_equations_a4/` for the
+  corrected metric, every real z.  Every E_(k) is diagonal and x0-free; three components x4, x1 (= x2 = x3), x0 (= x5 =
+  x6 = x7) in a4', a4'', u = b4'/b4, v = u', k = e^{2a4}/b4; the source needs p0 = p_t and no off-diagonal component;
+  constraint first order; (x1, x0) linear in (a4'', v), Einstein J = {{2, -2}, {0, -3/2}}; Bianchi d4 E^4_4 =
+  3 a4' (E^1_1 - E^4_4) + 4 h4 (E^0_0 - E^4_4), h4 = u/2 - a4'; Einstein: G^4_4 = 6 H^2 k + 3 a4'^2 - (3/2) u^2, flat
+  vacuum a4 = 0, b4 = H^2 (x4 - c)^2, no exponential-history vacuum; author's weights: the record's history needs the
+  source of warped-metric.json (history_source, grows with k = e^{(2/3) H x4}), no exponential vacuum; EGB: vacuum only
+  for constant k (beta = 2) with alpha2 = -1/(4 H^2 (A^2 - k0)); condensate: gamma Omega = (3/2) H e^{a4} b4^{-1/2}
+  gamma^x0 + (u - a4'/2) gamma^x4, S = e^{a4} b4^{-2} S0, 24 off-diagonal three-gamma bilinears, exact witnesses for
+  constant k; equal pressures on exponential histories: none in Einstein, for the author's weights only k0 = (16 +
+  2 A^2)/(2 + A^2) (beta = 2) and k0 = 8 (A = 0).  Wolfram 57/57 (20 s), sympy 69/69 (8 s), both byte-identical on a
+  second run; `check_b4_block.py` and `python-b4-block.json` retired (gate step removed).  Provenance:
+  `field_equations_a4/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` 6.10.  KNOWN OPEN until W5: `python/check_ks_source_conditions.py`
+  and `ks_source/` (gate steps a4-ks-source-conditions, a4-ks-source, a4-ks-source-unittest) read keys of the metric of
+  2026-10-14 (generalSource.identity_*, offDiagonal_*, exponentialHistory.*.Q) and evaluate the Kohn-Sham states of the
+  old metric; they fail until the Kohn-Sham record is redone (W5).  Also open: the readers of a4-equations.json in
+  lead_checks (W3), kohn_sham/theory (W5), dark_sector and pairing (W6), documents (W7), textbook (W8).
 
 ### 0.9 ORDER 2026-10-15 evening: move EVERYTHING to b4(x4) — START HERE
 
