@@ -122,6 +122,13 @@ Status (newest last):
   2026-10-14 (generalSource.identity_*, offDiagonal_*, exponentialHistory.*.Q) and evaluate the Kohn-Sham states of the
   old metric; they fail until the Kohn-Sham record is redone (W5).  Also open: the readers of a4-equations.json in
   lead_checks (W3), kohn_sham/theory (W5), dark_sector and pairing (W6), documents (W7), textbook (W8).
+- W3 DONE 2026-10-16: `Revision/lead_checks/` for the corrected metric, each statement computed for both signs of
+  sin z ((sin^2)^(1/6) = (s sin z)^(1/3)): `emt_divergence_and_spin_connection.py` 10/10 (divergence with h4, the
+  y-coordinate form, gamma Omega = (3/2) H e^{a4} b4^{-1/2} gamma^x0 + (u - a4'/2) gamma^x4, negative control with a
+  growing block: a4' coefficient +7/2), `einstein_gauss_bonnet_a4.py` 12/12 (own ring t = |sin|^(1/6); G diagonal and
+  x0-free, record equations, flat vacuum, no exponential vacuum, classical Lanczos tensor = alpha_2 terms of the record),
+  `charge_conjugation_and_u1.py` 12/12 (U(1) Noether matrix identity in the corrected metric); all reproduced byte
+  for byte; `Revision/tests/test_lead_checks.py` passes (EGB count 14 -> 12).
 
 ### 0.9 ORDER 2026-10-15 evening: move EVERYTHING to b4(x4) — START HERE
 

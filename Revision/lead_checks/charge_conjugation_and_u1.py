@@ -36,15 +36,18 @@ Checks:
     Psi -> Gamma Psi (= calC_- C Psi for real Psi), which maps (m, lambda) to (-m, -lambda) and reverses J and the
     kinetic term (theorem T1 of the Revision record): for real fields the matter <-> antimatter map is the matrix
     Gamma together with m -> -m.
- 6. U(1) charge conservation in the author's metric with b4(x4) (general a4(x4) and b4(x4) > 0, real V; since
-    2026-10-15, the user's orders "b4 is a function of x4; b4 is NEVER 1" and "move everything to b4(x4)"; until then
-    this check used the withdrawn metric b4 = 1): with sqrt|g| = b4^(3/2) cos z the field-level identity
+ 6. U(1) charge conservation in the corrected primordial metric of 2026-10-16 (version 2; SPEC section 1:
+    diag(e^{-2a4} b4 cot^2 z, e^{2a4} (x3), -1, -e^{-2a4} b4 (sin^2 z)^{1/6} (x3)), general a4(x4) and b4(x4) > 0, every
+    real z with sin z cos z != 0, real V; until 2026-10-16 this check used the metric of 2026-10-14, now withdrawn): with
+    sqrt|g| = e^{-a4} b4^2 |cot z| (sin^2 z)^{1/4} the field-level identity
     d_mu(sqrt|g| J^mu) = -i sqrt|g| (Psi^dagger C E - E^dagger C Psi), E = (gamma^mu D_mu - V) Psi, reduces exactly
     (derivation in the detail string) to the 16 x 16 matrix identity
     sum_mu d_mu(sqrt|g| C gamma^mu) = sqrt|g| sum_mu (C gamma^mu Omega_mu - Omega_mu^T (gamma^mu)^T C),
-    verified exactly; on shell the LOCAL law d_mu(sqrt|g| J^mu) = 0 holds.  The total charge Q = Int sqrt|g| Psi^dagger
-    B Psi d^7x of a slice is constant only if no charge flows through the boundary of the slice; at the brane z = pi/2
-    the flow is not zero in general, so the constancy of Q is NOT established here.
+    verified exactly for both signs of sin z (with (sin^2 z)^(1/6) = (s sin z)^(1/3), s = sign sin z; the identity is
+    linear in sqrt|g|, so the constant sign of cot z cancels); on shell the LOCAL law d_mu(sqrt|g| J^mu) = 0 holds.
+    The total charge Q = Int sqrt|g| Psi^dagger B Psi d^7x over a slice (an interval of z between degenerate points
+    sin z cos z = 0) is constant only if no charge flows through the ends of the interval; that is NOT established
+    here.
 
 Usage (from the repository root):  python Revision/lead_checks/charge_conjugation_and_u1.py
 Output (deterministic, LF): Revision/lead_checks/reports/charge-conjugation-and-u1.json
@@ -203,41 +206,48 @@ H = sp.symbols('H', positive=True)
 a4 = sp.Function('a4', real=True)(x[4])
 b4 = sp.Function('b4', positive=True)(x[4])
 z = 6 * H * x[0]
-E = [sp.cot(z)] + [sp.exp(a4) * sp.sin(z) ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)] + \
-    [sp.exp(-a4) * sp.sqrt(b4) * sp.sin(z) ** sp.Rational(1, 6)] * 3
-g = sp.diag(*[eta[a, a] * E[a] ** 2 for a in range(N)])
-gi = g.inv()
-Gm = [[[sp.simplify(sum(gi[l, m] * (sp.diff(g[m, i], x[j]) + sp.diff(g[m, j], x[i]) - sp.diff(g[i, j], x[m]))
-                        for m in range(N)) / 2) for j in range(N)] for i in range(N)] for l in range(N)]
-e_up = [1 / v for v in E]
-Omega = []
-for mu in range(N):
-    om = sp.zeros(N, N)
-    for a in range(N):
-        for b in range(N):
-            om[a, b] = sp.simplify(E[a] * (sp.diff(e_up[b] if a == b else 0, x[mu]) + Gm[a][mu][b] * e_up[b]))
-    om_ab = eta * om
-    Om = sp.zeros(16, 16)
-    for a in range(N):
-        for b in range(N):
-            if om_ab[a, b] != 0:
-                Om += om_ab[a, b] * S[a][b] / 2
-    Omega.append(Om.applyfunc(sp.simplify))
-check('spinor_connection_real', all(not e.has(sp.I) for Om in Omega for e in Om) and any(Om != sp.zeros(16, 16) for Om in Omega),
-      'every entry of Omega_mu = (1/2) omega_mu,ab S^ab is a real expression on the patch 0 < z < pi/2 (built from real gammas, '
-      'exp(+-a4), b4^(1/2) with b4 > 0, sin z > 0, cot z; no imaginary unit): gamma^mu D_mu is a REAL operator for the metric with b4')
-sqg = b4 ** sp.Rational(3, 2) * sp.cos(z)
-gup = [gam[mu] * e_up[mu] for mu in range(N)]
-lhs = sum((sp.diff(sqg * e_up[mu], x[mu]) * C * gam[mu] for mu in range(N)), sp.zeros(16, 16))
-rhs = sum((sqg * (C * gup[mu] * Omega[mu] - Omega[mu].T * gup[mu].T * C) for mu in range(N)), sp.zeros(16, 16))
-check('u1_noether_matrix_identity', (lhs - rhs).applyfunc(sp.simplify) == sp.zeros(16, 16),
-      'with sqrt|g| = b4^(3/2) cos z: d_mu(sqrt|g| J^mu) = Psi^dagger [d_mu(sqrt|g| K^mu)] Psi + sqrt|g| [(d Psi)^dagger K^mu Psi + Psi^dagger K^mu d Psi], K^mu = -i C gamma^mu; '
+real_ok, noether_ok = True, True
+for s in (1, -1):  # the sign of sin z: (sin^2 z)^(1/12) = (s sin z)^(1/6) with s sin z > 0
+    f = sp.exp(-a4) * sp.sqrt(b4)
+    E = [f * sp.cot(z)] + [sp.exp(a4)] * 3 + [sp.Integer(1)] + [f * (s * sp.sin(z)) ** sp.Rational(1, 6)] * 3
+    g = sp.diag(*[eta[a, a] * E[a] ** 2 for a in range(N)])
+    gi = g.inv()
+    Gm = [[[sp.simplify(sum(gi[l, m] * (sp.diff(g[m, i], x[j]) + sp.diff(g[m, j], x[i]) - sp.diff(g[i, j], x[m]))
+                            for m in range(N)) / 2) for j in range(N)] for i in range(N)] for l in range(N)]
+    e_up = [1 / v for v in E]
+    Omega = []
+    for mu in range(N):
+        om = sp.zeros(N, N)
+        for a in range(N):
+            for b in range(N):
+                om[a, b] = sp.simplify(E[a] * (sp.diff(e_up[b] if a == b else 0, x[mu]) + Gm[a][mu][b] * e_up[b]))
+        om_ab = eta * om
+        Om = sp.zeros(16, 16)
+        for a in range(N):
+            for b in range(N):
+                if om_ab[a, b] != 0:
+                    Om += om_ab[a, b] * S[a][b] / 2
+        Omega.append(Om.applyfunc(sp.simplify))
+    real_ok = real_ok and all(not e.has(sp.I) for Om in Omega for e in Om) and Omega[0] != sp.zeros(16, 16)
+    # sqrt|g| = |prod E|; the signed product differs by the constant sign of cot z, and the identity is linear in sqrt|g|
+    sqg = sp.Mul(*E)
+    gup = [gam[mu] * e_up[mu] for mu in range(N)]
+    lhs = sum((sp.diff(sqg * e_up[mu], x[mu]) * C * gam[mu] for mu in range(N)), sp.zeros(16, 16))
+    rhs = sum((sqg * (C * gup[mu] * Omega[mu] - Omega[mu].T * gup[mu].T * C) for mu in range(N)), sp.zeros(16, 16))
+    noether_ok = noether_ok and (lhs - rhs).applyfunc(sp.simplify) == sp.zeros(16, 16)
+check('spinor_connection_real', real_ok,
+      'every entry of Omega_mu = (1/2) omega_mu,ab S^ab is a real expression for every real z with sin z cos z != 0 (built from real gammas, '
+      'exp(+-a4), b4^(1/2) with b4 > 0, (s sin z)^(1/6) with s = sign sin z, cot z; no imaginary unit; Omega_x0 != 0): gamma^mu D_mu is a REAL '
+      'operator for the corrected metric (both signs of sin z)')
+check('u1_noether_matrix_identity', noether_ok,
+      'with sqrt|g| = e^{-a4} b4^2 |cot z| (sin^2 z)^{1/4} (the identity is linear in sqrt|g|, so the constant sign of cot z cancels): d_mu(sqrt|g| J^mu) = Psi^dagger [d_mu(sqrt|g| K^mu)] Psi + sqrt|g| [(d Psi)^dagger K^mu Psi + Psi^dagger K^mu d Psi], K^mu = -i C gamma^mu; '
       '-i sqrt|g| (Psi^dagger C E - E^dagger C Psi) gives the same derivative terms (i (gamma^mu)^T C = -i C gamma^mu, gamma and Omega real), '
       'the V terms cancel (V real), and the remaining terms agree iff sum_mu d_mu(sqrt|g| C gamma^mu) = sqrt|g| sum_mu (C gamma^mu Omega_mu '
-      '- Omega_mu^T (gamma^mu)^T C): verified exactly for general a4(x4) and b4(x4); on shell the LOCAL law d_mu(sqrt|g| J^mu) = 0 holds; the total charge Q = Int sqrt|g| Psi^dagger B Psi d^7x of a slice is constant only if no charge flows through its boundary (at the brane z = pi/2 the flow is not zero in general): constancy of Q is NOT established by this check')
+      '- Omega_mu^T (gamma^mu)^T C): verified exactly for general a4(x4) and b4(x4) and both signs of sin z; on shell the LOCAL law d_mu(sqrt|g| J^mu) = 0 holds; the total charge Q = Int sqrt|g| Psi^dagger B Psi d^7x over an interval of z between degenerate points is constant only if no charge flows through its ends: constancy of Q is NOT established by this check')
 
 report = {
     'producer': 'Revision/lead_checks/charge_conjugation_and_u1.py (lead, independent; no Revision code imported)',
+    'metric': 'the corrected metric of 2026-10-16 (version 2), every real z (section 6)',
     'summary': {'passed': sum(c['verdict'] == 'PASS' for c in checks), 'total': len(checks)},
     'checks': checks,
 }

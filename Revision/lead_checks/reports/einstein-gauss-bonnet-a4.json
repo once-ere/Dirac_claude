@@ -1,79 +1,70 @@
 {
  "producer": "Revision/lead_checks/einstein_gauss_bonnet_a4.py (lead, independent; no Revision code imported; reads the record Revision/field_equations_a4/a4-equations.json to compare)",
+ "metric": "the corrected metric of 2026-10-16 (version 2): diag(e^{-2a4} b4 cot^2 z, e^{2a4} (x3), -1, -e^{-2a4} b4 (sin^2 z)^{1/6} (x3)), every real z",
  "summary": {
-  "passed": 14,
-  "total": 14
+  "passed": 12,
+  "total": 12
  },
  "checks": [
   {
    "name": "einstein_diagonal_x0_independent",
    "verdict": "PASS",
-   "detail": "every diagonal component of G^mu_nu is independent of x0 (z) and of e^(a4), and depends on b4 only through u = b4'/b4 and v = u'"
+   "detail": "every diagonal component of G^mu_nu is independent of x0 (z) and depends on a4 and b4 only through a4', a4'', u = b4'/b4, v = u' and k = e^(2 a4)/b4 (computed for both signs of sin z: every real z with sin z cos z != 0)"
   },
   {
-   "name": "einstein_off_diagonal",
+   "name": "einstein_off_diagonal_vanish",
    "verdict": "PASS",
-   "detail": "the only nonzero off-diagonal components are G^x4_x0 = (3/2) H cot z b4'/b4 and G^x0_x4 = -(3/2) H tan z b4'/b4"
+   "detail": "every off-diagonal component of G^mu_nu vanishes identically (in the metric of 2026-10-14 G^x4_x0 = (3/2) H cot z b4'/b4 did not) (computed for both signs of sin z: every real z with sin z cos z != 0)"
   },
   {
    "name": "einstein_isotropy",
    "verdict": "PASS",
-   "detail": "G^x1_x1 = G^x2_x2 = G^x3_x3 and G^x5_x5 = G^x6_x6 = G^x7_x7"
+   "detail": "G^x1_x1 = G^x2_x2 = G^x3_x3 and G^x0_x0 = G^x5_x5 = G^x6_x6 = G^x7_x7 (so p0 = p_t) (computed for both signs of sin z: every real z with sin z cos z != 0)"
   },
   {
    "name": "einstein_constraint_x4",
    "verdict": "PASS",
-   "detail": "G^x4_x4 + Lambda = kappa T: mine = 21*H**2 + Lam + 3*a1**2 - 3*a1*u/2 + kappa*rho - 3*u**2/4; record: 3*ad1^2 + 21*H^2 + Lam - (3*ad1*uu)/2 - (3*uu^2)/4 == -(kappa*rho)"
+   "detail": "G + Lambda = kappa T, component constraint_x4: mine G = 6*H**2*kk + 3*a1**2 - 3*u**2/2 (k = e^(2a4)/b4); record: 3*ad1^2 + 6*H^2*kk + Lam - (3*uu^2)/2 == -(kappa*rho) (computed for both signs of sin z: every real z with sin z cos z != 0)"
   },
   {
    "name": "einstein_space_x1",
    "verdict": "PASS",
-   "detail": "G^x1_x1 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*a1**2 + 3*a1*u + a2 - kappa*p3 - 3*u**2/2 - 3*v/2; record: -3*ad1^2 + ad2 + 15*H^2 + Lam + 3*ad1*uu - (3*uu^2)/2 - (3*vv)/2 == kappa*p3"
-  },
-  {
-   "name": "einstein_extraTime_x5",
-   "verdict": "PASS",
-   "detail": "G^x5_x5 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*a1**2 - a2 - kappa*pt - 3*u**2/4 - v; record: -3*ad1^2 - ad2 + 15*H^2 + Lam - (3*uu^2)/4 - vv == kappa*pt"
+   "detail": "G + Lambda = kappa T, component space_x1: mine G = 6*H**2*kk - 5*a1**2 + 6*a1*u + 2*a2 - 5*u**2/2 - 2*v (k = e^(2a4)/b4); record: -5*ad1^2 + 2*ad2 + 6*H^2*kk + Lam + 6*ad1*uu - (5*uu^2)/2 - 2*vv == kappa*p3 (computed for both signs of sin z: every real z with sin z cos z != 0)"
   },
   {
    "name": "einstein_hidden_x0",
    "verdict": "PASS",
-   "detail": "G^x0_x0 + Lambda = kappa T: mine = 15*H**2 + Lam - 3*a1**2 + 3*a1*u/2 - kappa*p0 - 3*u**2/2 - 3*v/2; record: -3*ad1^2 + 15*H^2 + Lam + (3*ad1*uu)/2 - (3*uu^2)/2 - (3*vv)/2 == kappa*p0"
-  },
-  {
-   "name": "einstein_offDiagonal_x4x0",
-   "verdict": "PASS",
-   "detail": "G^x4_x0 = kappa q40: mine 3*H*c*u/(2*t**6) - kappa*q40 = 0; record (3*cc*H*uu)/2 == kappa*q40"
+   "detail": "G + Lambda = kappa T, component hidden_x0: mine G = 3*H**2*kk - 3*a1**2 + 3*a1*u/2 - 3*u**2/2 - 3*v/2 (k = e^(2a4)/b4); record: -3*ad1^2 + 3*H^2*kk + Lam + (3*ad1*uu)/2 - (3*uu^2)/2 - (3*vv)/2 == kappa*p0 (computed for both signs of sin z: every real z with sin z cos z != 0)"
   },
   {
    "name": "einstein_null_energy",
    "verdict": "PASS",
-   "detail": "kappa (rho + p0) = -6*H**2 - 6*a1**2 + 3*a1*u - 3*u**2/4 - 3*v/2 = -6 H^2 - 3 a4'^2 - (3/4)(u - 2 a4')^2 - (3/2) v: negative wherever v = (b4'/b4)' >= 0"
+   "detail": "kappa (rho + p0) = -(3/2)(2 H^2 k + 4 a4'^2 - a4' u + v) and kappa (rho + p3) equal the record's nullEnergy_x0 and nullEnergy_x1 (computed for both signs of sin z: every real z with sin z cos z != 0)"
   },
   {
-   "name": "no_vacuum_for_H_positive",
+   "name": "einstein_flat_vacuum",
    "verdict": "PASS",
-   "detail": "T = 0: the x4-x0 component (3/2) H cot z b4'/b4 = 0 forces b4'/b4 = 0, and then G^x4_x4 - G^x0_x0 = 6 a4'^2 + 6 H^2 > 0 for H > 0: no vacuum solution for any Lambda, a4 and b4"
+   "detail": "a4 = 0, b4 = H^2 (x4 - c)^2: every component of G vanishes (the flat member is a vacuum with Lambda = 0) (computed for both signs of sin z: every real z with sin z cos z != 0)"
   },
   {
-   "name": "gauss_bonnet_diagonal_constant",
+   "name": "einstein_no_exponential_vacuum",
    "verdict": "PASS",
-   "detail": "for a4 = A H x4, b4 = b4(0) e^(beta A H x4) the diagonal of the Gauss-Bonnet tensor H^mu_nu is constant: [-3*H**4*(A**4*beta**4 + 4*A**4*beta**3 - 24*A**4*beta**2 + 32*A**4*beta - 16*A**4 - 56*A**2*beta**2 + 160*A**2*beta - 224*A**2 + 240)/4, -3*H**4*(3*A**4*beta**3 - 24*A**4*beta + 24*A**4 - 20*A**2*beta**2 - 40*A**2*beta + 80*A**2 + 280)/2, -3*H**4*(A**4*beta**3 - 4*A**4 - 8*A**2*beta**2 + 16*A**2*beta - 56*A**2 + 60), -3*H**4*(A**4*beta**4 + 10*A**4*beta**3 - 24*A**4*beta**2 + 16*A**4*beta - 16*A**4 - 64*A**2*beta**2 + 112*A**2*beta - 224*A**2 + 240)/4]"
+   "detail": "exponential histories a4 = A H x4 + a0, b4 = b4(0) e^(beta A H x4): G^x4_x4 - G^x1_x1 = A^2 H^2 (beta - 2)(beta - 4) and G^x4_x4 - G^x0_x0 = 0 needs k = A^2 (beta - 4)/2: beta = 4 or A = 0 give k = 0, beta = 2 gives k = -A^2; no vacuum with k > 0 for any Lambda (computed for both signs of sin z: every real z with sin z cos z != 0)"
+  },
+  {
+   "name": "gauss_bonnet_diagonal",
+   "verdict": "PASS",
+   "detail": "for a4 = A H x4, b4 = b4(0) e^(beta A H x4) the classical Gauss-Bonnet tensor H^mu_nu is diagonal (H^x4_x0 = H^x0_x4 = H^x1_x5 = 0), free of x0, with H^x0_x0 = H^x5_x5; H^x4_x4 = -3*H**4*(A**4*beta**4 + 16*A**4*beta**3 - 48*A**4*beta**2 + 48*A**4 - 8*A**2*beta**2*kk - 64*A**2*beta*kk + 64*A**2*kk + 16*kk**2)/4 (computed for both signs of sin z: every real z with sin z cos z != 0)"
   },
   {
    "name": "gauss_bonnet_source_alpha2",
    "verdict": "PASS",
-   "detail": "alpha_2 parts of kappa rho, kappa p3, kappa p_t, kappa p0 in the record equal -H^x4_x4, H^x1_x1, H^x5_x5, H^x0_x0 of the classical Gauss-Bonnet tensor (record rho: 3*H**4*(3*A**4*beta**3 - 24*A**4*beta + 24*A**4 - 20*A**2*beta**2 - 40*A**2*beta + 80*A**2 + 280)/2)"
-  },
-  {
-   "name": "gauss_bonnet_offdiagonal_alpha2",
-   "verdict": "PASS",
-   "detail": "alpha_2 part of kappa q40 in the record equals H^x4_x0 of the classical Gauss-Bonnet tensor: 3*A*H**4*beta*c*(A**2*beta**2 + 12*A**2*beta - 24*A**2 - 40)/(2*t**6)"
+   "detail": "the alpha_2 parts of kappa rho, kappa p3, kappa p0, kappa p_t in the record (exponentialHistory.requiredSource) equal -H^x4_x4, H^x1_x1, H^x0_x0, H^x5_x5 of the classical Gauss-Bonnet tensor (computed for both signs of sin z: every real z with sin z cos z != 0)"
   },
   {
    "name": "einstein_exponential_source_alpha1",
    "verdict": "PASS",
-   "detail": "alpha_1 parts of kappa rho, p3, p_t, p0 and q40 in the record equal -G^x4_x4, G^x1_x1, G^x5_x5, G^x0_x0 and G^x4_x0 on the history: [3*H**2*(A**2*beta**2 + 2*A**2*beta - 4*A**2 - 28)/4, -3*H**2*(A**2*beta**2 - 2*A**2*beta + 2*A**2 - 10)/2, -3*H**2*(A**2*beta**2 + 4*A**2 - 20)/4, -3*H**2*(A**2*beta**2 - A**2*beta + 2*A**2 - 10)/2]"
+   "detail": "the alpha_1 parts of kappa rho, p3, p0 and p_t in the record equal -G^x4_x4, G^x1_x1, G^x0_x0 and G^x5_x5 on the history (computed for both signs of sin z: every real z with sin z cos z != 0)"
   }
  ]
 }

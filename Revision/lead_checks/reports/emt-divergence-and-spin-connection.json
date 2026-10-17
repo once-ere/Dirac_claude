@@ -1,5 +1,6 @@
 {
  "producer": "Revision/lead_checks/emt_divergence_and_spin_connection.py (lead, independent; no Revision code imported)",
+ "metric": "the corrected metric of 2026-10-16 (version 2): diag(e^{-2a4} b4 cot^2 z, e^{2a4} (x3), -1, -e^{-2a4} b4 (sin^2 z)^{1/6} (x3)), every real z",
  "summary": {
   "passed": 10,
   "total": 10
@@ -8,27 +9,27 @@
   {
    "name": "divergence_x4_component",
    "verdict": "PASS",
-   "detail": "nabla_mu T^mu_x4 = -d rho/d x4 - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t)"
+   "detail": "nabla_mu T^mu_x4 = -d rho/d x4 - 3 a4' (rho + p3) - 3 h4 (rho + p_t) - h4 (rho + p0), h4 = b4'/(2 b4) - a4' (both signs of sin z, i.e. every real z with sin z cos z != 0)"
   },
   {
    "name": "divergence_x0_component",
    "verdict": "PASS",
-   "detail": "nabla_mu T^mu_x0 = d p0/d x0 + 3 H cot z (2 p0 - p3 - p_t), z = 6 H x0"
+   "detail": "nabla_mu T^mu_x0 = d p0/d x0 + 3 H cot z (p0 - p_t), z = 6 H x0 (both signs of sin z, i.e. every real z with sin z cos z != 0)"
   },
   {
    "name": "divergence_other_components_zero",
    "verdict": "PASS",
-   "detail": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7"
+   "detail": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (both signs of sin z, i.e. every real z with sin z cos z != 0)"
   },
   {
    "name": "ks_coordinate_jacobian",
    "verdict": "PASS",
-   "detail": "y = ln(sin z)/(6H) gives dy/dx0 = cot z"
+   "detail": "y = ln|sin z|/(6H) gives dy/dx0 = cot z (both signs of sin z, i.e. every real z with sin z cos z != 0)"
   },
   {
    "name": "ks_coordinate_form",
    "verdict": "PASS",
-   "detail": "x0 component = cot z [p0'(y) + 6 H p0 - 3 H (p3 + p_t)], i.e. (e^{6Hy} p0)' = 3 H e^{6Hy} (p3 + p_t)"
+   "detail": "x0 component = cot z [p0'(y) + 3 H (p0 - p_t)]: for p0 = p_t (the field equations) it is cot z p0'(y), so p0 must not depend on y (both signs of sin z, i.e. every real z with sin z cos z != 0)"
   },
   {
    "name": "fixture_clifford",
@@ -38,22 +39,22 @@
   {
    "name": "vielbein_reproduces_metric",
    "verdict": "PASS",
-   "detail": "g_mu nu = e^a_mu e^b_nu eta_ab for the diagonal vielbein"
+   "detail": "g_mu nu = e^a_mu e^b_nu eta_ab for the diagonal vielbein (e^x0 = e^{-a4} b4^{1/2} cot z signed, e^xt = e^{-a4} b4^{1/2} (sin^2 z)^{1/12}) (both signs of sin z, i.e. every real z with sin z cos z != 0)"
   },
   {
-   "name": "gamma_Omega_equals_3H_gamma0_plus_b4_term",
+   "name": "gamma_Omega_equals_hidden_block_terms",
    "verdict": "PASS",
-   "detail": "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) exactly; no a4 or a4' survives (inflating and deflating terms cancel), the b4' terms of the three extra times add"
+   "detail": "gamma^mu Omega_mu = (3/2) H e^{a4} b4^{-1/2} gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4) exactly: the x0 term comes from the warp of the three extra times along x0, the x4 term from the rates of x0 (-a4' + u/2), 3-space (3 a4') and the extra times (3 (-a4' + u/2)) (both signs of sin z, i.e. every real z with sin z cos z != 0)"
   },
   {
    "name": "gamma_Omega_divergence_formula",
    "verdict": "PASS",
-   "detail": "gamma^mu Omega_mu = (1/2) gamma^a (1/sqrt|g|) d_mu (sqrt|g| e_a^mu) for the diagonal vielbein, computed independently (sqrt|g| = b4^(3/2) cos z; (1/cos z) d_x0 (cos z tan z) = 6 H, (1/b4^(3/2)) d_x4 b4^(3/2) = (3/2) b4'/b4)"
+   "detail": "gamma^mu Omega_mu = (1/2) gamma^a (1/sqrt|g|) d_mu (sqrt|g| e_a^mu) for the diagonal vielbein, computed independently (sqrt|g| = e^{-a4} b4^2 |cot z| (sin^2 z)^{1/4}) (both signs of sin z, i.e. every real z with sin z cos z != 0)"
   },
   {
-   "name": "negative_control_inflating_extra_times",
+   "name": "negative_control_growing_block",
    "verdict": "PASS",
-   "detail": "with INFLATING extra times (g_tt = -e^{2 a4} b4 sin^{1/3} z) gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) + (3*Derivative(a4(x4), x4)) gamma^(x4): an a4' term survives, so the cancellation of the a4' terms in the author's metric is due to the deflation"
+   "detail": "negative control: with the block (x0, x5, x6, x7) GROWING like 3-space (scale factor e^{+a4} b4^{1/2}) gamma^mu Omega_mu = (3/2) H e^{-a4} b4^{-1/2} gamma^(x0) + (b4'/b4 + (7/2) a4') gamma^(x4): the a4' coefficient is +7/2 instead of -1/2, so the check sees the direction of the block's scale factor (both signs of sin z, i.e. every real z with sin z cos z != 0)"
   }
  ]
 }

@@ -1,5 +1,6 @@
 {
  "producer": "Revision/lead_checks/charge_conjugation_and_u1.py (lead, independent; no Revision code imported)",
+ "metric": "the corrected metric of 2026-10-16 (version 2), every real z (section 6)",
  "summary": {
   "passed": 12,
   "total": 12
@@ -58,12 +59,12 @@
   {
    "name": "spinor_connection_real",
    "verdict": "PASS",
-   "detail": "every entry of Omega_mu = (1/2) omega_mu,ab S^ab is a real expression on the patch 0 < z < pi/2 (built from real gammas, exp(+-a4), b4^(1/2) with b4 > 0, sin z > 0, cot z; no imaginary unit): gamma^mu D_mu is a REAL operator for the metric with b4"
+   "detail": "every entry of Omega_mu = (1/2) omega_mu,ab S^ab is a real expression for every real z with sin z cos z != 0 (built from real gammas, exp(+-a4), b4^(1/2) with b4 > 0, (s sin z)^(1/6) with s = sign sin z, cot z; no imaginary unit; Omega_x0 != 0): gamma^mu D_mu is a REAL operator for the corrected metric (both signs of sin z)"
   },
   {
    "name": "u1_noether_matrix_identity",
    "verdict": "PASS",
-   "detail": "with sqrt|g| = b4^(3/2) cos z: d_mu(sqrt|g| J^mu) = Psi^dagger [d_mu(sqrt|g| K^mu)] Psi + sqrt|g| [(d Psi)^dagger K^mu Psi + Psi^dagger K^mu d Psi], K^mu = -i C gamma^mu; -i sqrt|g| (Psi^dagger C E - E^dagger C Psi) gives the same derivative terms (i (gamma^mu)^T C = -i C gamma^mu, gamma and Omega real), the V terms cancel (V real), and the remaining terms agree iff sum_mu d_mu(sqrt|g| C gamma^mu) = sqrt|g| sum_mu (C gamma^mu Omega_mu - Omega_mu^T (gamma^mu)^T C): verified exactly for general a4(x4) and b4(x4); on shell the LOCAL law d_mu(sqrt|g| J^mu) = 0 holds; the total charge Q = Int sqrt|g| Psi^dagger B Psi d^7x of a slice is constant only if no charge flows through its boundary (at the brane z = pi/2 the flow is not zero in general): constancy of Q is NOT established by this check"
+   "detail": "with sqrt|g| = e^{-a4} b4^2 |cot z| (sin^2 z)^{1/4} (the identity is linear in sqrt|g|, so the constant sign of cot z cancels): d_mu(sqrt|g| J^mu) = Psi^dagger [d_mu(sqrt|g| K^mu)] Psi + sqrt|g| [(d Psi)^dagger K^mu Psi + Psi^dagger K^mu d Psi], K^mu = -i C gamma^mu; -i sqrt|g| (Psi^dagger C E - E^dagger C Psi) gives the same derivative terms (i (gamma^mu)^T C = -i C gamma^mu, gamma and Omega real), the V terms cancel (V real), and the remaining terms agree iff sum_mu d_mu(sqrt|g| C gamma^mu) = sqrt|g| sum_mu (C gamma^mu Omega_mu - Omega_mu^T (gamma^mu)^T C): verified exactly for general a4(x4) and b4(x4) and both signs of sin z; on shell the LOCAL law d_mu(sqrt|g| J^mu) = 0 holds; the total charge Q = Int sqrt|g| Psi^dagger B Psi d^7x over an interval of z between degenerate points is constant only if no charge flows through its ends: constancy of Q is NOT established by this check"
   }
  ]
 }
