@@ -13,17 +13,18 @@ What is tested (nothing is rebuilt with pdflatex here; the committed files are n
     edition dirac16complex00-field-theory with this path, its page count and its sha256, and it has
     the PDF header, the end marker and US-letter media boxes;
   * the exact formula blocks of the document are the ones generated here from the Revision outputs
-    for the metric with b4(x4) (the 16 component field equations, with the b4 term, from
-    Revision/theory/field-theory.json; the Lovelock components in a4', a4'', u = b4'/b4, v = u', the
-    off-diagonal factor Q, the identity x1 + x5 - 2 x0, the Einstein case, the factor Q(A, beta) of
-    the author's weights and the off-diagonal kinetic coefficients of the condensate from
+    for the corrected metric of 2026-10-16 (version 2) (the 16 component field equations, with the
+    gravity terms (3/2) H e^a4 b4^(-1/2) gamma^(x0) and (b4'/b4 - a4'/2) gamma^(x4), from
+    Revision/theory/field-theory.json; the Lovelock components in a4', a4'', u = b4'/b4, v = u',
+    k = e^(2 a4)/b4, the Einstein case, the sources required by the exponential histories and by the
+    background history, and the off-diagonal kinetic coefficients of the condensate from
     Revision/field_equations_a4/a4-equations.json);
   * every check name the document cites exists, with a passing verdict, in the Revision report the
     check index names, and every cited report passes as a whole;
   * key statements (Lagrangian, field equation, non-triviality [2], energy-momentum tensor, energy
     density, pressures, equations of state, the a4 and b4 equations, what is not claimed) are
-    present, no statement of the withdrawn metric b4 = 1 is left as a result, and the numbers the
-    document quotes occur in the Revision outputs;
+    present, no statement of the withdrawn metrics (2026-10-14 and version 1 of 2026-10-16) is left
+    as a result, and the numbers the document quotes occur in the Revision outputs;
   * the document names no private input and uses only the characters the builder accepts.
 Optional (REVISION_PDF_REBUILD=1, the switch shared by every Revision publication test; needs pdflatex): the PDF
 is rebuilt in verify mode by scripts/build_provenance_pdf.py and must reproduce the registered edition.
@@ -123,17 +124,39 @@ def theory_formula(key: str):
 # generated formula blocks (the document must contain these lines verbatim)
 # ---------------------------------------------------------------------------------------------
 
+GRAVITY = r"\(-1/2\*Derivative\[1\]\[a4\]\[x4\] \+ Derivative\[1\]\[b4\]\[x4\]/b4\[x4\]\)"
 TERM_PATTERNS = (
     ("x4", re.compile(r'^dd\["x4", Psi\[(\d+)\]\]$')),
-    ("mass", re.compile(r"^3\*H\*Psi\[(\d+)\]$")),
-    ("space", re.compile(
-        r'^dd\["x([123])", Psi\[(\d+)\]\]/\(E\^a4\[x4\]\*Sin\[6\*H\*x0\]\^\(1/6\)\)$')),
-    ("time", re.compile(  # the extra-time factor e^{a4} b4^{-1/2} sin^{-1/6} z
-        r'^\(E\^a4\[x4\]\*dd\["x([567])", Psi\[(\d+)\]\]\)/\(Sqrt\[b4\[x4\]\]\*Sin\[6\*H\*x0\]\^\(1/6\)\)$')),
-    ("hidden", re.compile(r'^dd\["x0", Psi\[(\d+)\]\]\*Tan\[6\*H\*x0\]$')),  # x0: the hidden direction
-    ("b4", re.compile(  # the b4 term (3/4)(b4'/b4) of the gravity term, with the matrix gamma^(x4)
-        r"^\(3\*Psi\[(\d+)\]\*Derivative\[1\]\[b4\]\[x4\]\)/\(4\*b4\[x4\]\)$")),
+    # the hidden-block term (3/2) H e^a4 b4^(-1/2) gamma^(x0) of the spin connection
+    ("mass", re.compile(r"^\(3\*E\^a4\[x4\]\*H\*Psi\[(\d+)\]\)/\(2\*Sqrt\[b4\[x4\]\]\)$")),
+    ("space", re.compile(r'^dd\["x([123])", Psi\[(\d+)\]\]/E\^a4\[x4\]$')),
+    ("time", re.compile(  # the extra-time factor e^{a4} b4^{-1/2} (sin^2 z)^{-1/12}
+        r'^\(E\^a4\[x4\]\*dd\["x([567])", Psi\[(\d+)\]\]\)/\(Sqrt\[b4\[x4\]\]\*\(Sin\[6\*H\*x0\]\^2\)\^\(1/12\)\)$')),
+    ("hidden", re.compile(  # x0: the hidden direction, factor e^{a4} b4^{-1/2} tan z
+        r'^\(E\^a4\[x4\]\*dd\["x0", Psi\[(\d+)\]\]\*Tan\[6\*H\*x0\]\)/Sqrt\[b4\[x4\]\]$')),
+    ("b4", re.compile(  # the term (b4'/b4 - a4'/2) gamma^(x4) of the spin connection
+        r"^Psi\[(\d+)\]\*" + GRAVITY + "$")),
 )
+SPACE_TERM = re.compile(r'dd\["x[123]", Psi\[\d+\]\]/E\^a4\[x4\]')
+
+
+def top_level_terms(text: str) -> list[str]:
+    """Split a Wolfram InputForm sum at the separators ' + ' and ' - ' outside brackets."""
+    pieces, depth, start, i = [], 0, 0, 0
+    while i < len(text):
+        ch = text[i]
+        if ch in "([":
+            depth += 1
+        elif ch in ")]":
+            depth -= 1
+        elif depth == 0 and text.startswith((" + ", " - "), i):
+            pieces.append(text[start:i])
+            start = i + 1
+            i += 2
+            continue
+        i += 1
+    pieces.append(text[start:])
+    return pieces
 
 
 def parse_component_equation(text: str) -> dict:
@@ -142,9 +165,8 @@ def parse_component_equation(text: str) -> dict:
     target = re.fullmatch(r"V\*Psi\[(\d+)\]", rhs)
     if target is None:
         raise ValueError(f"unexpected right-hand side {rhs!r}")
-    pieces = re.split(r" (?=[+-] )", lhs.strip())
     terms = {"space": {}, "time": {}}
-    for piece in pieces:
+    for piece in top_level_terms(lhs.strip()):
         sign = 1
         piece = piece.strip()
         if piece.startswith("+ "):
@@ -153,6 +175,8 @@ def parse_component_equation(text: str) -> dict:
             sign, piece = -1, piece[2:]
         elif piece.startswith("-"):
             sign, piece = -1, piece[1:]
+        if piece.startswith("(") and piece.endswith(")") and SPACE_TERM.fullmatch(piece[1:-1]):
+            piece = piece[1:-1]
         for kind, pattern in TERM_PATTERNS:
             match = pattern.fullmatch(piece)
             if match is None:
@@ -176,14 +200,15 @@ def signed(sign: int, body: str, first: bool) -> str:
 
 def component_equation_lines() -> list[tuple[str, str]]:
     """The 16 component equations as pairs of LaTeX lines (aligned rows) for the document;
-    hat-d4 = d4 + (3/4)(b4'/b4): the b4 term acts on the same component as d4, with the same sign."""
+    hat-d4 = d4 + (b4'/b4 - a4'/2): the term v_g gamma^(x4) acts on the same component as d4, with the
+    same sign; the term c_g gamma^(x0) acts on the component of the hidden-direction derivative."""
     lines = []
     for text in theory_formula("field_equation_components"):
         t = parse_component_equation(text)
         if t["mass"] != (1, t["hidden"][1]) or t["hidden"][0] != 1:
-            raise ValueError("the 3 H and tan z d0 terms must act on the same component with +")
+            raise ValueError("the (3/2) H and tan z d0 terms must act on the same component with +")
         if t["b4"] != t["x4"]:
-            raise ValueError("the b4 term must act on the component of d4 with the sign of d4")
+            raise ValueError("the v_g term must act on the component of d4 with the sign of d4")
         s4, i4 = t["x4"]
         space = "".join(
             signed(t["space"][d][0], rf"\partial_{d}\Phi_{{{t['space'][d][1]}}}", d == 1)
@@ -199,7 +224,7 @@ def component_equation_lines() -> list[tuple[str, str]]:
             + rf" + \epsilon_s\,({space}) \\"
         )
         second = (
-            rf"& + \epsilon_t\,({time}) + (t\,\partial_0 + 3H)\,\Phi_{{{t['hidden'][1]}}}"
+            rf"& + \epsilon_t\,({time}) + \epsilon_0\,(t\,\partial_0 + \tfrac32H)\,\Phi_{{{t['hidden'][1]}}}"
             + rf" = V\,\Phi_{{{t['target']}}}"
         )
         lines.append((first, second))
@@ -207,19 +232,22 @@ def component_equation_lines() -> list[tuple[str, str]]:
 
 
 def lovelock_component_tex() -> dict[tuple[str, str], str]:
-    """(E1|E2|E3, x0x0|x1x1|x4x4|x5x5) -> tex of a4-equations.json."""
+    """(E1|E2|E3, x0x0|x1x1|x4x4) -> tex of a4-equations.json (x5x5 equals x0x0, tested separately)."""
     tensors = load_json(A4_JSON)["lovelockTensors"]
     return {
         (k, c): tensors[k][c]["tex"]
         for k in ("E1", "E2", "E3")
-        for c in ("x0x0", "x1x1", "x4x4", "x5x5")
+        for c in ("x0x0", "x1x1", "x4x4")
     }
 
 
 def notation(tex: str) -> str:
-    """The only notational changes applied to the tex of a4-equations.json: (cot z)^2 is
-    written \\cot^2 z, and a thin space separates a radical from a following factor H."""
-    return tex.replace(r"\cot z^2", r"\cot^2 z").replace(r"+1} H", r"+1}\, H")
+    """The only notational changes applied to the tex of a4-equations.json: (cot z)^2 is written
+    \\cot^2 z, (sin z)^2 inside the off-diagonal coefficients \\sin^2 z, and a thin space separates a
+    radical from a following factor H."""
+    return (tex.replace(r"\cot z^2", r"\cot^2 z")
+            .replace(r"\left(\sin z^2-1\right)", r"\left(\sin^2 z-1\right)")
+            .replace(r"+1} H", r"+1}\, H"))
 
 
 SPACE = ("x1", "x2", "x3")
@@ -236,44 +264,46 @@ def index_class(index: str) -> str:
 
 
 def offdiagonal_rows() -> list[tuple[str, str, str]]:
-    """The 42 off-diagonal kinetic components of the condensate, grouped by index class:
-    (component, bilinear, coefficient); every member of a group must give the same bilinear
-    pattern (its own 3-space index i and extra-time index t substituted) and the same coefficient."""
+    """The 36 off-diagonal kinetic components of the condensate, grouped by index class: one row
+    (component, bilinear, coefficient) per term; every member of a group must give the same terms
+    (its own 3-space index i and extra-time index t substituted) with the same coefficients."""
     entries = load_json(A4_JSON)["fields"]["dirac16complex00"]["offDiagonalKinetic"]
-    groups: dict[tuple[str, str], tuple[str, str]] = {}
+    groups: dict[tuple[str, str], list[tuple[str, str]]] = {}
     sizes: dict[tuple[str, str], int] = {}
     for entry in entries:
-        (term,) = entry["terms"]
         upper, lower = re.fullmatch(r"K\^(x\d)_(x\d) \(symmetrised\)", entry["component"]).groups()
-        pattern = term["bilinear"]
-        for index in (upper, lower):
-            if index in SPACE + EXTRA_TIMES:
-                pattern = pattern.replace(f"gamma^{index} ", f"gamma^{index_class(index)} ")
-        if re.search(r"gamma\^x[1235-7] ", pattern):
-            raise ValueError(f"{entry['component']}: a free index remains in {pattern!r}")
-        value = (pattern, notation(term["coefficient"]["tex"]))
+        value = []
+        for term in entry["terms"]:
+            pattern = term["bilinear"]
+            for index in (upper, lower):
+                if index in SPACE + EXTRA_TIMES:
+                    pattern = pattern.replace(f"gamma^{index} ", f"gamma^{index_class(index)} ")
+            if re.search(r"gamma\^x[1235-7] ", pattern):
+                raise ValueError(f"{entry['component']}: a free index remains in {pattern!r}")
+            value.append((pattern, notation(term["coefficient"]["tex"])))
         key = (index_class(upper), index_class(lower))
         if groups.setdefault(key, value) != value:
             raise ValueError(f"{entry['component']}: the group {key} is not uniform")
         sizes[key] = sizes.get(key, 0) + 1
-    if sum(sizes.values()) != 42:
-        raise ValueError("expected 42 ordered off-diagonal components")
+    if sum(sizes.values()) != 36:
+        raise ValueError("expected 36 ordered off-diagonal components")
     rows = []
-    for (upper, lower), (pattern, coefficient) in groups.items():
-        latex = (
-            pattern.replace("Phibar ", r"\bar\Phi ")
-            .replace(" Phi", r" \Phi")
-            .replace("gamma^x_i", r"\gamma^{x_i}")
-            .replace("gamma^x_t", r"\gamma^{x_t}")
-            .replace("gamma^x4", r"\gamma^{x_4}")
-            .replace("gamma^x0", r"\gamma^{x_0}")
-        )
-        rows.append((rf"$K^{{{upper}}}{{}}_{{{lower}}}$", f"${latex}$", f"${coefficient}$"))
+    for (upper, lower), value in groups.items():
+        for pattern, coefficient in value:
+            latex = (
+                pattern.replace("Phibar ", r"\bar\Phi ")
+                .replace(" Phi", r" \Phi")
+                .replace("gamma^x_i", r"\gamma^{x_i}")
+                .replace("gamma^x_t", r"\gamma^{x_t}")
+                .replace("gamma^x4", r"\gamma^{x_4}")
+                .replace("gamma^x0", r"\gamma^{x_0}")
+            )
+            rows.append((rf"$K^{{{upper}}}{{}}_{{{lower}}}$", f"${latex}$", f"${coefficient}$"))
     return rows
 
 
 def offdiagonal_table_lines() -> list[str]:
-    return [f"| {a} | {b} | {c} |" for a, b, c in offdiagonal_rows()]
+    return [f"| {a}: {b} | {c} |" for a, b, c in offdiagonal_rows()]
 
 
 # ---------------------------------------------------------------------------------------------
@@ -351,6 +381,12 @@ class TestGeneratedFormulaBlocks(unittest.TestCase):
             self.assertIn(first, text)
             self.assertIn(second, text)
 
+    def test_component_parser_detects_a_changed_term(self):
+        # negative control: a term with another factor is not recognised
+        text = theory_formula("field_equation_components")[0].replace("(3*E^a4[x4]*H*", "(3*H*")
+        with self.assertRaises(ValueError):
+            parse_component_equation(text)
+
     def test_lovelock_components(self):
         text = squash(markdown_text())
         for (k, c), tex in lovelock_component_tex().items():
@@ -362,23 +398,31 @@ class TestGeneratedFormulaBlocks(unittest.TestCase):
             # the component must end there (no further terms appended)
             self.assertIn(text[position + len(wanted)], ",.;$", f"{k} {c}")
 
+    def test_hidden_component_equals_extra_time_component(self):
+        tensors = load_json(A4_JSON)["lovelockTensors"]
+        for k in ("E1", "E2", "E3"):
+            self.assertEqual(tensors[k]["x5x5"]["input"], tensors[k]["x0x0"]["input"], k)
+        self.assertIn(r"$E_{(k)}{}^{x_5}{}_{x_5} = E_{(k)}{}^{x_0}{}_{x_0}$ for $k = 1, 2, 3$", markdown_text())
+
     def test_a4_equations_and_special_cases(self):
         data = load_json(A4_JSON)
         text = squash(markdown_text())
-        wanted = [
-            data["generalSource"]["offDiagonalFactor_Q"]["tex"],
-            data["generalSource"]["identity_x1_plus_x5_minus_2x0"]["tex"],
-            data["einstein"]["constraint_x4"]["tex"],
-            data["einstein"]["space_x1"]["tex"],
-            data["einstein"]["extraTime_x5"]["tex"],
-            data["einstein"]["hidden_x0"]["tex"],
-            data["einstein"]["offDiagonal_x4x0"]["tex"],
-            data["einstein"]["nullEnergy"]["tex"],
-            data["exponentialHistory"]["authorWeights"]["Q"]["tex"],
-        ]
+        einstein = data["einstein"]
+        history = data["exponentialHistory"]
+        wanted = [einstein[key]["tex"] for key in ("constraint_x4", "space_x1", "hidden_x0", "nullEnergy_x0",
+                                                   "nullEnergy_x1")]
+        wanted += [history["einstein"][key]["tex"] for key in ("rho", "p3", "p0")]
+        for key in ("historySource_kappaT_minus_Lam", "einsteinHistorySource_kappaT_minus_Lam"):
+            source = history["authorWeights"][key]
+            self.assertEqual(source["p0"]["input"], source["pt"]["input"], key)
+            wanted += [source[entry]["tex"] for entry in ("minus_rho", "p3", "p0")]
         for tex in wanted:
             self.assertIn(squash(tex), text, tex)
-        self.assertIn("Q=" + squash(data["generalSource"]["offDiagonalFactor_Q"]["tex"]), text)
+        self.assertIn(squash(r"\kappa p_0 - \Lambda = \kappa p_t - \Lambda &= "
+                             + history["authorWeights"]["historySource_kappaT_minus_Lam"]["p0"]["tex"]), text)
+        # the field equations need p0 = p_t and no off-diagonal source (record statements)
+        self.assertIn("p0 = p_t", data["generalSource"]["hiddenEqualsExtraTimes"])
+        self.assertIn("T^x4_x0 = T^x0_x4 = 0", data["generalSource"]["offDiagonal"])
 
     def test_offdiagonal_coefficients(self):
         text = markdown_text()
@@ -412,6 +456,17 @@ class TestCitedChecks(unittest.TestCase):
                 self.assertIn(name, verdicts, f"{name} not in {relative}")
                 self.assertIn(verdicts[name], PASSING, f"{name} in {relative}")
         self.assertGreater(cited, 60)
+
+    def test_every_check_named_in_the_sections_is_in_the_index(self):
+        text = markdown_text()
+        index = text.split("## 14. Check index", 1)[1].split("\n## ", 1)[0]
+        body = text.split("## 14. Check index", 1)[0] + text.split("## 15. What is not claimed", 1)[1]
+        indexed = set(re.findall(r"`([^`]+)`", index))
+        names = set()
+        for relative in REPORTS:
+            names.update(report_checks(relative))
+        missing = sorted(t for t in set(re.findall(r"`([^`\s]+)`", body)) if t in names and t not in indexed)
+        self.assertEqual(missing, [])
 
     def test_check_counts_quoted_in_the_index(self):
         text = markdown_text()
@@ -450,29 +505,33 @@ class TestKeyStatements(unittest.TestCase):
         r"\mathcal{L} = \sqrt{|g|}\,\Big[\tfrac12\big(\bar\Phi\gamma^\mu D_\mu\Phi"
         r" - (D_\mu\bar\Phi)\gamma^\mu\Phi\big) - m\,S - U(S)\Big]",
         r"\gamma^\mu D_\mu\Phi = \big(m + U'(S)\big)\,\Phi",
-        r"\gamma^\mu\Omega_\mu = 3H\,\gamma^{(x_0)} + \tfrac34u\,\gamma^{(x_4)}",
-        r"\big(\gamma^\mu\Omega_\mu\big)^2 = \big(9H^2 - \tfrac{9}{16}u^2\big)\,I_{16}",
-        r"\sqrt{|g|} = b_4^{3/2}\cos z",
-        r"R = 6(a_4')^2 - 3a_4'u + 3u^2 + 3v - 42H^2",
-        r"R^{x_0}{}_{x_0} = -6H^2",
-        r"$b_4$ is never 1",
+        r"\gamma^\mu\Omega_\mu = \tfrac32He^{a_4}b_4^{-1/2}\,\gamma^{(x_0)} + \big(u - \tfrac12a_4'\big)\,\gamma^{(x_4)}",
+        r"\big(\gamma^\mu\Omega_\mu\big)^2 = \big(\tfrac94H^2k - (u - \tfrac12a_4')^2\big)\,I_{16}",
+        r"H^2\big(\tfrac94e^{2Hx_4/3} - \tfrac{25}{36}\big)I_{16} > 0",
+        r"\sqrt{|g|} = e^{-a_4}b_4^2\,|\cot z|\,(\sin^2 z)^{1/4}",
+        r"R = -12H^2k + 8(a_4')^2 - 2a_4'' - 8a_4'u + 4\frac{b_4''}{b_4} + u^2",
+        r"for $a_4 = 0$, $b_4 = H^2x_4^2$ all 4096 Riemann components vanish",
+        "21 independent nonzero Christoffel symbols",
+        "Exactly 10 components with $a < b$ are nonzero",
+        "$b_4$ is never 1",
         "NON-TRIVIALITY [2]",
         r"\rho = -T^{x_4}{}_{x_4}",
         r"\rho = m S + U(S)",
         r"p_3 = p_t = p_0 = S\,U'(S) - U(S)",
         r"w = \frac{\lambda S}{2m + \lambda S}",
-        r"\frac{d\rho}{dx_4} = -3\,a_4'\,(p_3 - p_t) - \tfrac32\,u\,(\rho + p_t)",
-        r"b_4^{3/2}S = S_0",
+        r"\frac{d\rho}{dx_4} = -3\,a_4'\,(\rho + p_3) - 4\,h_4\,(\rho + p_t), \qquad p_0 = p_t",
+        r"e^{-a_4}b_4^{2}S = S_0",
         r"a_4 = A H x_4 + a_0",
         r"a_4 = Hx_4,\quad b_4 = b_4(0)\,e^{(4/3)Hx_4}",
-        r"\kappa(\rho, p_3, p_t, p_0) = \big(-\tfrac{2}{27}, -\tfrac29, -\tfrac{22}{27}, -\tfrac{14}{27}\big)",
+        r"\kappa(p_3 - p_0) = -\tfrac{9}{16}k^2 + \tfrac{1069}{432}k + \tfrac{2015}{972}",
+        "they require $p_0 = p_t$ and a source without off-diagonal components",
         "is not quantised",
         "## 15. What is not claimed",
         "no creation process",
         "**Scope of [2] (exact).**",
         "belongs to the diagonal vielbein",
         "no boost in this plane removes",
-        "What cannot be removed in any frame is $\\Omega_\\mu$ itself",
+        "What cannot be removed in any frame where the metric is curved is $\\Omega_\\mu$ itself",
         "The classical energy of dirac16complex00 is unbounded below already for $U = 0$",
         "This does not make the Cauchy problem well posed",
         "is a choice of sign and is not selected by the equations",
@@ -480,20 +539,30 @@ class TestKeyStatements(unittest.TestCase):
         "That record establishes neither Hypothesis nor Hypothesis00",
         r"the tuned value $\lambda S/m = -382/441$",
         "no condensate is the source of the background history",
+        "the corrected metric has no $Z_2$ orbifold",
         "`Revision/docs/DARK_SECTOR_HYPOTHESES`",
         "`Revision/docs/LOVELOCK_GKD`",
         "`Revision/docs/KOHN_SHAM_DEFLATING_FIELD`",
     )
 
-    # statements of the withdrawn metric b4 = 1 that must not reappear as results
+    # statements of the withdrawn metrics that must not reappear as results
     STALE = (
         r"\sqrt{|g|} = \cos z",
+        r"\sqrt{|g|} = b_4^{3/2}\cos z",
+        r"3H\,\gamma^{(x_0)} + \tfrac34u",
+        r"R^{x_0}{}_{x_0} = -6H^2",
+        r"R = 6(a_4')^2 - 3a_4'u + 3u^2 + 3v - 42H^2",
+        r"R = 6\big((a_4')^2 - 7H^2\big)",
+        r"b_4^{3/2}S = S_0",
+        "offDiagonalFactor_Q",
         "F(a_4')",
         "linear member",
         "sections 2 to 16 are written for it",
         "Not recomputed for general",
         "the case $b_4 = 1$",
-        r"R = 6\big((a_4')^2 - 7H^2\big)",
+        "-583/3000",
+        "1583/1000",
+        "never_flat_for_H_positive",
     )
 
     def test_statements_present(self):
@@ -507,20 +576,24 @@ class TestKeyStatements(unittest.TestCase):
         a4_report = (REVISION / "field_equations_a4/reports/wolfram-a4-report.json").read_text(
             encoding="utf-8"
         )
-        for number in ("51200", "28800", "{4, 3, 4}", "(5, 4/3)"):
+        for number in ("51200", "28800", "{4, 3, 4}", "(5, 4/3, 4)"):
             self.assertIn(number, a4_report)
-            self.assertIn(number.strip("{}").replace(", ", ", "), markdown_text())
+            self.assertIn(number.strip("{}"), markdown_text())
         derive = (REVISION / "dark_sector/dirac16complex00/reports/python-derive-eos.json").read_text(
             encoding="utf-8"
         )
         for in_report, in_document in (
             ("lambda S/m = -382/441", r"$\lambda S/m = -382/441$"),
             ("returns (w0, wa) = (-0.861, -0.60)", "$(w_0, w_a) = (-0.861, -0.60)$"),
-            ("w_eff = w_eff(N1) - 1 + beta/2", r"$w_{\rm eff}(N2) = w_{\rm eff}(N1) - 1 + \beta/2$"),
-            ("(-583/3000, 81037/500000)", "$(-583/3000, 81037/500000)$"),
-            ("(-287/1000, -196963/4500000)", "$(-287/1000, -196963/4500000)$"),
-            ("needs G >= 1583/1000", r"$G \geq 1583/1000$"),
-            ("-84231/31250 = -2.695392", "$w_a = -84231/31250 = -2.695392$"),
+            ("w_eff = w_eff(N1) - (4 - 2 beta)/3", r"$w_{\rm eff}(N2) = w_{\rm eff}(N1) - (4 - 2\beta)/3$"),
+            ("(-2749/9000, 81037/500000)", "$(-2749/9000, 81037/500000)$"),
+            ("(-3583/9000, -196963/4500000)", "$(-3583/9000, -196963/4500000)$"),
+            ("(-0.398111111111, -0.0666666666667)", "$(-0.398111111111, -0.0666666666667)$"),
+            ("needs G >= 3749/3000", r"$G \geq 3749/3000$"),
+            ("(-0.443790594178, -0.32308292878)", "$(-0.443790594178, -0.32308292878)$"),
+            ("-28077/12500 = -2.24616", "$w_a = -28077/12500 = -2.24616$"),
+            ("-9*kk**2/16 + 1069*kk/432 + 2015/972",
+             r"\kappa(p_3 - p_0) = -\tfrac{9}{16}k^2 + \tfrac{1069}{432}k + \tfrac{2015}{972}"),
         ):
             self.assertIn(in_report, derive)
             self.assertIn(in_document, markdown_text())
