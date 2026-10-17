@@ -66,23 +66,19 @@
 #   metric-b4-vacuum                      10 s
 #   metric-warped-sympy                   50 s
 #   metric-warped-wolfram                 50 s
-#   theory-wolfram-base                   40 s
-#   theory-wolfram-emt-g                 160 s
-#   theory-wolfram-emt-c                 110 s
-#   theory-wolfram-solutions              35 s
-#   theory-wolfram-solutions-g            55 s
-#   theory-wolfram-quantisation           15 s
+#   theory-wolfram-base                   20 s
+#   theory-wolfram-emt-g                 180 s
+#   theory-wolfram-emt-c                  60 s
+#   theory-wolfram-solutions              40 s
+#   theory-wolfram-solutions-g            20 s
+#   theory-wolfram-quantisation           10 s
 #   theory-wolfram                         5 s
-#   theory-wolfram-scope                  60 s
-#   theory-sympy-nonlinear               210 s
-#   theory-sympy                         130 s
+#   theory-wolfram-scope                  10 s
+#   theory-sympy-nonlinear                35 s
+#   theory-sympy                         150 s
 #   theory-sympy-scope                     5 s
 #   theory-compare                         2 s
 #   theory-fock-quartic                   10 s
-#   theory-b4-wolfram                     15 s
-#   theory-b4-emt-c                      190 s
-#   theory-b4-emt-g                      110 s
-#   theory-b4-sympy                        5 s
 #   pairing-wolfram                      280 s
 #   pairing-sympy                        240 s
 #   a4-wolfram                            50 s
@@ -155,7 +151,7 @@
 # that runs it; ks-rust-mermin-roots follows the canonical matrix (its check compares with it);
 # ks-rust-determinism needs the repeat and the refined run; t3-reference-demo reads the Rust demonstration;
 # t3-completion-sympy reads both demonstrations; the dark sector reads the Kohn-Sham and a4 records.
-# The field theory for b4(x4) (2026-10-15) runs in parts: the six theory-wolfram-* steps write their results to the
+# The field theory (the corrected metric of 2026-10-16) runs in parts: the six theory-wolfram-* steps write their results to the
 # git-ignored build/theory-wolfram/ and theory-wolfram (the merge) assembles the committed record, refusing a part
 # file of another version of its inputs; theory-sympy-nonlinear writes build/theory-python/nonlinear-solution.json,
 # which theory-sympy takes over under the same condition (each part stays well below 7 min 3 s).
@@ -271,23 +267,19 @@ metric-b4-sympy|40|0|-|Revision/metric_b4/results/python-metric-b4-report.json|R
 metric-b4-vacuum|10|0|-|Revision/metric_b4/results/vacuum-b4.json|Revision/metric_b4/results/vacuum-b4.json|{wolframscript} -file Revision/metric_b4/wolfram/vacuum_b4.wls
 metric-warped-sympy|50|0|-|Revision/metric_warped/results/warped-metric.json,Revision/metric_warped/reports/python-warped-metric-report.json|Revision/metric_warped/reports/python-warped-metric-report.json|{python} Revision/metric_warped/python/derive_warped_metric.py
 metric-warped-wolfram|50|0|-|Revision/metric_warped/reports/wolfram-warped-metric-report.json|Revision/metric_warped/reports/wolfram-warped-metric-report.json|{wolframscript} -file Revision/metric_warped/wolfram/verify_warped_metric.wls
-theory-wolfram-base|40|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls base
-theory-wolfram-emt-g|160|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls emt-G
-theory-wolfram-emt-c|110|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls emt-C
-theory-wolfram-solutions|35|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls solutions
-theory-wolfram-solutions-g|55|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls solutions-G
-theory-wolfram-quantisation|15|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls quantisation
+theory-wolfram-base|20|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls base
+theory-wolfram-emt-g|180|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls emt-G
+theory-wolfram-emt-c|60|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls emt-C
+theory-wolfram-solutions|40|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls solutions
+theory-wolfram-solutions-g|20|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls solutions-G
+theory-wolfram-quantisation|10|0|-|-|-|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls quantisation
 theory-wolfram|5|0|-|Revision/theory/field-theory.json,Revision/theory/reports/wolfram-field-theory.json|Revision/theory/reports/wolfram-field-theory.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory.wls merge
-theory-wolfram-scope|60|0|-|Revision/theory/reports/wolfram-scope.json|Revision/theory/reports/wolfram-scope.json|{wolframscript} -file Revision/theory/wolfram/verify_scope.wls
-theory-sympy-nonlinear|210|0|-|-|-|{python} Revision/theory/python/check_field_theory.py --part nonlinear
-theory-sympy|130|0|-|Revision/theory/reports/python-field-theory.json|Revision/theory/reports/python-field-theory.json|{python} Revision/theory/python/check_field_theory.py
+theory-wolfram-scope|10|0|-|Revision/theory/reports/wolfram-scope.json|Revision/theory/reports/wolfram-scope.json|{wolframscript} -file Revision/theory/wolfram/verify_scope.wls
+theory-sympy-nonlinear|35|0|-|-|-|{python} Revision/theory/python/check_field_theory.py --part nonlinear
+theory-sympy|150|0|-|Revision/theory/reports/python-field-theory.json|Revision/theory/reports/python-field-theory.json|{python} Revision/theory/python/check_field_theory.py
 theory-sympy-scope|5|0|-|Revision/theory/reports/python-scope.json|Revision/theory/reports/python-scope.json|{python} Revision/theory/python/check_scope.py
 theory-compare|2|0|-|-|-|{audit} json-equals Revision/theory/reports/python-field-theory.json comparison_with_wolfram.status agree
 theory-fock-quartic|10|0|-|Revision/theory/fock_quartic/reports/fock-quartic.json|Revision/theory/fock_quartic/reports/fock-quartic.json|{python} Revision/theory/fock_quartic/check_fock_quartic.py
-theory-b4-wolfram|15|0|-|Revision/theory/field-theory-b4.json,Revision/theory/reports/wolfram-field-theory-b4.json|Revision/theory/reports/wolfram-field-theory-b4.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory_b4.wls
-theory-b4-emt-c|190|0|-|Revision/theory/reports/wolfram-field-theory-b4-emt-C.json|Revision/theory/reports/wolfram-field-theory-b4-emt-C.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory_b4_emt.wls C
-theory-b4-emt-g|110|0|-|Revision/theory/reports/wolfram-field-theory-b4-emt-G.json|Revision/theory/reports/wolfram-field-theory-b4-emt-G.json|{wolframscript} -file Revision/theory/wolfram/verify_field_theory_b4_emt.wls G
-theory-b4-sympy|5|0|-|Revision/theory/reports/python-field-theory-b4.json|Revision/theory/reports/python-field-theory-b4.json|{python} Revision/theory/python/check_field_theory_b4.py
 pairing-wolfram|280|0|-|Revision/pairing/pairing-theory.json,Revision/pairing/reports/wolfram-pairing.json|Revision/pairing/reports/wolfram-pairing.json|{wolframscript} -file Revision/pairing/wolfram/verify_pairing.wls
 pairing-sympy|240|0|-|Revision/pairing/reports/python-pairing.json|Revision/pairing/reports/python-pairing.json|{python} Revision/pairing/python/check_pairing.py
 a4-wolfram|50|0|-|Revision/field_equations_a4/a4-equations.json,Revision/field_equations_a4/reports/wolfram-a4-report.json|Revision/field_equations_a4/reports/wolfram-a4-report.json|{wolframscript} -file Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls

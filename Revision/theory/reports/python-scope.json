@@ -6,72 +6,78 @@
   "Revision/algebra/gammas.json"
  ],
  "independence": "no code shared with Revision/theory/wolfram/verify_scope.wls or with the other Revision verifiers; own coefficient ring, own vielbein, connection and Riemann computation",
- "coordinates": "the author's coordinates x0..x7: x0 = the hidden direction, z = 6 H x0 in (0, pi/2); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times",
+ "metric": "the corrected metric of 2026-10-16: diag(e^(-2 a4) b4 cot^2 z, e^(2 a4) (x3), -1, -e^(-2 a4) b4 (sin^2 z)^(1/6) (x3)), z = 6 H x0 real",
+ "coordinates": "the author's coordinates x0..x7: x0 = the hidden, space-like direction, z = 6 H x0 real (-infinity < z < infinity); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times",
  "summary": {
-  "checks": 14,
-  "pass": 14,
+  "checks": 15,
+  "pass": 15,
   "fail": 0
  },
  "checks": [
   {
+   "name": "zero_test_controls",
+   "verdict": "PASS",
+   "detail": "the exact zero test of this checker (every real z): c^2 + sv^2 - 1, w^12 - sv^2, sgn^2 - 1 and ch^2 - sh^2 - 1 are zero; w^6 - sv and w^6 + sv (|sin z| -+ sin z) and sgn - 1 are not (no sign of sin z is assumed); the x0 derivatives of the ring respect w^12 = sv^2"
+  },
+  {
    "name": "boosted_frame_reproduces_metric",
    "verdict": "PASS",
-   "detail": "the frame boosted in the (x4, x0) plane, e'^(x4) = cosh b e^(x4) + sinh b e^(x0), e'^(x0) = sinh b e^(x4) + cosh b e^(x0) (other e'^(a) = e^(a), b = b(x4) = beta x4 + b0), with e^(a) the diagonal vielbein (e^a_mu = f_a delta^a_mu, f = (cot z, e^a4 sin^(1/6) z [x3], 1, e^-a4 b4^(1/2) sin^(1/6) z [x3]), order x0..x7): eta_ab e'^a_mu e'^b_nu equals the author's metric with b4 for all 64 (mu, nu), and e' E' = 1 for its inverse"
+   "detail": "the frame boosted in the (x4, x0) plane, e'^(x4) = cosh b e^(x4) + sinh b e^(x0), e'^(x0) = sinh b e^(x4) + cosh b e^(x0) (other e'^(a) = e^(a), b = b(x4) = beta x4 + b0), with e^(a) the diagonal vielbein (f = (e^-a4 b4^(1/2) cot z, e^a4 [x3], 1, e^-a4 b4^(1/2) (sin^2 z)^(1/12) [x3]), order x0..x7): eta_ab e'^a_mu e'^b_nu equals the corrected metric for all 64 (mu, nu) and every real z, and e' E' = 1"
   },
   {
    "name": "boosted_frame_canonical_connection",
    "verdict": "PASS",
-   "detail": "canonical spin connection of the boosted frame, omega_mu^a_b = e'^a_nu (d_mu e'_b^nu + Gamma^nu_mu,lam e'_b^lam): the vielbein postulate holds for all 512 (a, mu, nu) (0 failures) and omega_mu ab = eta_ac omega_mu^c_b is antisymmetric in a, b for every mu (exact, symbolic a4, b4, H, beta)"
+   "detail": "canonical spin connection of the boosted frame, omega_mu^a_b = e'^a_nu (d_mu e'_b^nu + Gamma^nu_mu,lam e'_b^lam): the vielbein postulate holds for all 512 (a, mu, nu) (0 failures) and omega_mu ab = eta_ac omega_mu^c_b is antisymmetric in a, b for every mu (exact, symbolic a4, b4, H, beta, every real z)"
   },
   {
    "name": "boosted_frame_gammaOmega_formula",
    "verdict": "PASS",
-   "detail": "in the boosted frame gamma'^mu Omega'_mu = ((6 H - beta)/2) (cosh b gamma^(x0) - sinh b gamma^(x4)) + (3/4)(b4'/b4) (cosh b gamma^(x4) - sinh b gamma^(x0)) exactly for every a4(x4), b4(x4), H > 0 and rapidity rate beta; at b = 0 (cosh b = 1, sinh b = 0, beta = 0) this is the value 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) of the diagonal frame. Its coefficients c0 (of gamma^(x0)) and c4 (of gamma^(x4)) satisfy cosh b c4 + sinh b c0 = (3/4) b4'/b4 for every beta, so no such boost makes gamma'^mu Omega'_mu vanish unless b4' = 0"
+   "detail": "in the boosted frame gamma'^mu Omega'_mu = (cg - beta/2) (cosh b gamma^(x0) - sinh b gamma^(x4)) + vg (cosh b gamma^(x4) - sinh b gamma^(x0)), cg = (3/2) H e^a4 b4^(-1/2), vg = b4'/b4 - a4'/2, exactly for every a4(x4), b4(x4), H > 0, rapidity rate beta and every real z; at b = 0 this is the value cg gamma^(x0) + vg gamma^(x4) of the diagonal frame. Its coefficients satisfy cosh b c4 + sinh b c0 = vg for every beta, so no such boost makes gamma'^mu Omega'_mu vanish unless b4'/b4 = a4'/2"
   },
   {
    "name": "boosted_frame_removes_only_the_H_term",
    "verdict": "PASS",
-   "detail": "with rapidity b = 6 H x4 + b0 the term of the Euler-Lagrange operator gamma'^mu D'_mu - gamma'^mu d_mu = gamma'^mu Omega'_mu is (3/4)(b4'/b4) (cosh b gamma^(x4) - sinh b gamma^(x0)) for every H > 0, a4(x4), b4(x4) (exact): its H part, 3 H gamma^(x0) in the diagonal frame, belongs to the diagonal vielbein and is not a frame-independent part of the field equation, while the b4' part is not removed by any boost in this plane (previous check). Omega'_mu itself is nonzero for mu = x1, x2, x3, x4, x5, x6, x7 (zero only for x0), as it must be in every frame (its curvature is the Riemann tensor, next check)"
+   "detail": "with a rapidity b(x4) of rate b' = 2 cg = 3 H e^a4 b4^(-1/2) the term gamma'^mu D'_mu - gamma'^mu d_mu = gamma'^mu Omega'_mu is vg (cosh b gamma^(x4) - sinh b gamma^(x0)) for every H > 0, a4(x4), b4(x4) (exact): its cg part belongs to the diagonal vielbein and is not a frame-independent part of the field equation, while the vg part is not removed by any boost in this plane (previous check). Omega'_mu itself is nonzero for mu = x0, x1, x2, x3, x4, x5, x6, x7, as it must be where the metric is curved (next check)"
   },
   {
    "name": "boosted_frame_curvature_nonzero",
    "verdict": "PASS",
-   "detail": "in the boosted frame (b = 6 H x4 + b0) the spinor curvature F'_x1x0 = d_x1 Omega'_x0 - d_x0 Omega'_x1 + [Omega'_x1, Omega'_x0] is nonzero: Omega' cannot vanish in this frame, and in no frame, because its curvature is (1/2) R_ab,mu,nu S^ab and the metric is curved for H > 0; what vanishes in this frame is only the contraction gamma'^mu Omega'_mu"
+   "detail": "in the boosted frame (b' = 2 cg) the spinor curvature F'_x5x0 = d_x5 Omega'_x0 - d_x0 Omega'_x5 + [Omega'_x5, Omega'_x0] is nonzero for general a4, b4: Omega' cannot vanish in this frame, and in no frame where the metric is curved, because its curvature is (1/2) R_ab,mu,nu S^ab; what vanishes in this frame is only the cg part of the contraction gamma'^mu Omega'_mu (the corrected metric is flat for special a4, b4)"
   },
   {
    "name": "rescaling_removes_the_connection_term",
    "verdict": "PASS",
-   "detail": "diagonal frame: gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) (control), and for Psi = b4^(-3/4) sin^(-1/2)(z) chi with any 16 component functions chi(x0, ..., x7): gamma^mu D_mu Psi - b4^(-3/4) sin^(-1/2)(z) gamma^mu d_mu chi = (gamma^mu d_mu (b4^(-3/4) sin^(-1/2) z) + b4^(-3/4) sin^(-1/2) z gamma^mu Omega_mu) chi = 0 exactly (the x0 terms: tan z (-3 H) + 3 H = 0; the x4 terms: -(3/4)(b4'/b4) + (3/4)(b4'/b4) = 0; the operator is first order, so this matrix identity is the identity for every chi). In the variables chi the field equation has no spin-connection term: gamma^mu d_mu chi = (m + U'(S)) chi"
+   "detail": "diagonal frame: gamma^mu Omega_mu = cg gamma^(x0) + vg gamma^(x4) (control), and for Psi = e^(a4/2) b4^(-1) (sin^2 z)^(-1/8) chi with any 16 component functions chi(x0, ..., x7): gamma^mu D_mu Psi - e^(a4/2) b4^(-1) (sin^2 z)^(-1/8) gamma^mu d_mu chi = (gamma^mu d_mu ln W + gamma^mu Omega_mu) W chi = 0 exactly, W the factor (the x0 terms: e^a4 b4^(-1/2) tan z (-(3/2) H cot z) + cg = 0; the x4 terms: a4'/2 - b4'/b4 + vg = 0; the operator is first order, so this matrix identity is the identity for every chi). In the variables chi the field equation has no spin-connection term: gamma^mu d_mu chi = (m + U'(S)) chi"
   },
   {
    "name": "rescaled_equation_quadratic_potential",
    "verdict": "PASS",
-   "detail": "with U = (lambda/2) S^2 and Psi = b4^(-3/4) sin^(-1/2)(z) chi: S[Psi] = Psi^dagger C Psi = b4^(-3/2) sin^(-1)(z) S[chi], so the rescaled equation is gamma^mu d_mu chi = (m + lambda S[chi]/(b4^(3/2) sin z)) chi exactly: for U = 0 the spin-connection term is removed completely, for U != 0 it becomes the x0- and x4-dependent coupling lambda S[chi]/(b4^(3/2) sin z). The exact U = 0 family of the theory record at alpha = -1/2 is the same statement: M = -m gamma^(x4) + 3 H (2 alpha + 1) gamma^(x4) gamma^(x0) = -m gamma^(x4) and k^2 = -m^2 (no H)"
+   "detail": "with U = (lambda/2) S^2 and Psi = e^(a4/2) b4^(-1) (sin^2 z)^(-1/8) chi: S[Psi] = Psi^dagger C Psi = e^a4 b4^(-2) |sin z|^(-1/2) S[chi], so the rescaled equation is gamma^mu d_mu chi = (m + lambda e^a4 S[chi]/(b4^2 |sin z|^(1/2))) chi exactly: for U = 0 the spin-connection term is removed completely, for U != 0 it becomes an x0- and x4-dependent coupling. The exact U = 0 family (i-b) of the theory record (al = -1/4) is the same statement: its coefficient (3/2) H (4 al + 1) e^a4 b4^(-1/2) of gamma^(x4) gamma^(x0) vanishes"
   },
   {
-   "name": "gammaOmega_blind_to_the_deflation",
+   "name": "gammaOmega_sees_the_hidden_block",
    "verdict": "PASS",
-   "detail": "diagonal frame: gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) contains neither e^a4 nor a4' nor a4'' (the a4' terms of the time direction of the 3 inflating and the 3 deflating directions cancel), while the a4 sector is curved: R^x4_x4 = 6 a4'^2 - 3 a4' b4'/b4 - (3/4)(b4'/b4)^2 + (3/2) b4''/b4, R^x1_x1 = a4'' - 6 H^2 + (3/2) a4' b4'/b4, R^x0_x0 = -6 H^2 (own Riemann computation from the Christoffel symbols, compared exactly; ring B2 = b4''/b4 - (b4'/b4)^2). The a4 part of the deflation enters the field equation only through the frame factors e^(-+a4) sin^(-1/6) z of the derivative terms (the b4 part also through (3/4)(b4'/b4) gamma^(x4)); for constant b4 and in the formal limit H -> 0 gamma^mu Omega_mu would vanish although R^x4_x4 = 6 a4'^2 != 0"
+   "detail": "diagonal frame: gamma^mu Omega_mu = (3/2) H e^a4 b4^(-1/2) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4) contains a4 (e^a4 and a4'): its gamma^(x0) coefficient is (3/2) H times the inverse scale factor of the hidden block (unlike the metric of 2026-10-14, whose term 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) contained no a4); own Riemann computation from the Christoffel symbols, compared exactly (ring: b4''/b4 = B2 + B1^2): R^x4_x4 = 7 a4'^2 - a4'' - 4 a4' b4'/b4 + 2 b4''/b4 - (b4'/b4)^2, R^x1_x1 = -a4'^2 + a4'' + 2 a4' b4'/b4, R^x0_x0 = R^x5_x5 = -3 Cb + a4'^2 - a4'' - (5/2) a4' b4'/b4 + (1/2) b4''/b4 + (1/2)(b4'/b4)^2, Cb = H^2 e^(2 a4)/b4"
   },
   {
    "name": "connection_free_lagrangian_same_equations",
    "verdict": "PASS",
-   "detail": "diagonal frame: {gamma^mu, Omega_mu} = 0 for each mu separately, so Psibar {gamma^mu, Omega_mu} Psi = 0 and the canonical spin connection drops out of the symmetrised Lagrangian: L(Omega) = L(Omega = 0) identically, and its Euler-Lagrange equations equal those of the connection-free symmetric Lagrangian, gamma^mu d_mu Psi + (1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) Psi = (m + U') Psi; the matrix identity (1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) = gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) is recomputed here (sqrt|g| = b4^(3/2) cos z): the surviving term is the half-density (volume and vielbein divergence) term"
+   "detail": "diagonal frame: {gamma^mu, Omega_mu} = 0 for each mu separately, so Psibar {gamma^mu, Omega_mu} Psi = 0 and the canonical spin connection drops out of the symmetrised Lagrangian: L(Omega) = L(Omega = 0) identically, and its Euler-Lagrange equations equal those of the connection-free symmetric Lagrangian, gamma^mu d_mu Psi + (1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) Psi = (m + U') Psi; the matrix identity (1/(2 sqrt|g|)) d_mu(sqrt|g| gamma^mu) = gamma^mu Omega_mu = cg gamma^(x0) + vg gamma^(x4) is recomputed here (sqrt|g| = sgn e^-a4 b4^2 cot z (sin^2 z)^(1/4)): the surviving term is the half-density term"
   },
   {
    "name": "spin_connection_in_the_energy_momentum_tensor",
    "verdict": "PASS",
-   "detail": "diagonal frame, homogeneous configuration Phi = Phi(x4): in K^x4_x1 = (1/2)(Phibar gamma^x4 D_x1 Phi - D_x1 Phibar gamma^x4 Phi) the derivative part vanishes and the connection part is (1/2) Phibar {gamma^x4, Omega_x1} Phi = (1/2) e^a4 sin^(1/6) z H Phibar gamma^(x4) gamma^(x1) gamma^(x0) Phi (the a4' part cancels exactly); C gamma^(x4) gamma^(x1) gamma^(x0) != 0, so the canonical spin connection contributes to the off-diagonal energy-momentum tensor although it drops out of the Lagrangian"
+   "detail": "diagonal frame, homogeneous configuration Phi = Phi(x4): the connection part of K^x4_x1 = (1/2)(Phibar gamma^x4 D_x1 Phi - D_x1 Phibar gamma^x4 Phi) is (1/2) Phibar {gamma^x4, Omega_x1} Phi = 0 (3-space does not depend on x0), while that of K^x4_x5 is (1/2) Phibar {gamma^x4, Omega_x5} Phi = (1/2) H (sin^2 z)^(1/12) Phibar gamma^(x4) gamma^(x0) gamma^(x5) Phi (the a4', b4' part cancels exactly); C gamma^(x4) gamma^(x0) gamma^(x5) != 0, so the canonical spin connection contributes to the off-diagonal energy-momentum tensor through the extra times although it drops out of the Lagrangian"
   },
   {
    "name": "good_sector_hermiticity_up_to_the_brane_flux",
    "verdict": "PASS",
-   "detail": "curved good-sector mode operator at k = 0, h = -i m gamma^(x4) + i gamma^(x4) gamma^(x0) (tan z d_x0 + 3 H) - i (3/4)(b4'/b4) (i d_x4 Psi = h Psi for U = 0): sqrt|g| [u^dagger (h v) - (h u)^dagger v] = d_x0(b4^(3/2) sin z u^dagger M0 v) - i (d_x4 sqrt|g|) u^dagger v, sqrt|g| = b4^(3/2) cos z, M0 = i gamma^(x4) gamma^(x0), for all u(x0), v(x0) (matrix identities: cos z * (coefficient of d_x0) = sin z M0, sqrt|g| (A - A^dagger) = b4^(3/2) (d_x0 sin z) M0 - i (d_x4 sqrt|g|) for the algebraic part A, coefficient of d_x0 anti-Hermitian; the anti-Hermitian term -i (3/4)(b4'/b4) compensates the x4 dependence of the measure). So the inner product int sqrt|g| u^dagger v dx0 is conserved only up to the boundary term [b4^(3/2) sin z u^dagger M0 v]: it vanishes at the tip z -> 0 but not at the patch end z = pi/2 (finite proper distance, sin z = 1), e.g. u = v with gamma^(x4) gamma^(x0) u = u gives u^dagger M0 u = 2*I (|u|^2 = 2); conservation (Hermiticity of h for chi = b4^(3/4) Psi with int cos z chi^dagger chi) and Krein self-adjointness need boundary conditions there"
+   "detail": "curved good-sector mode operator at k = 0, h = -i m gamma^(x4) + i gamma^(x4) gamma^(x0) e^a4 b4^(-1/2) (tan z d_x0 + (3/2) H) - i vg (i d_x4 Psi = h Psi for U = 0): sqrt|g| [u^dagger (h v) - (h u)^dagger v] = d_x0(sgn b4^(3/2) (sin^2 z)^(1/4) u^dagger M0 v) - i (d_x4 sqrt|g|) u^dagger v, M0 = i gamma^(x4) gamma^(x0), for all u(x0), v(x0) and every real z (matrix identities: sqrt|g| (coefficient of d_x0) = sgn b4^(3/2) (sin^2 z)^(1/4) M0, sqrt|g| (A - A^dagger) = (d_x0 sgn b4^(3/2) (sin^2 z)^(1/4)) M0 - i (d_x4 sqrt|g|) for the algebraic part A, coefficient of d_x0 anti-Hermitian; d_x4 sqrt|g| = 2 vg sqrt|g|, so the anti-Hermitian term -i vg compensates the x4 dependence of the measure). The inner product int sqrt|g| u^dagger v dx0 is therefore conserved only up to the boundary term [b4^(3/2) (sin^2 z)^(1/4) u^dagger M0 v]: it vanishes where sin z = 0 but not at the degenerate points z = pi/2 + n pi of g00 (|sin z| = 1), e.g. u = v with gamma^(x4) gamma^(x0) u = u gives u^dagger M0 u = 2*I (|u|^2 = 2); conservation and Krein self-adjointness need boundary conditions there"
   },
   {
    "name": "good_sector_x0_independent_modes_without_boundary_condition",
    "verdict": "PASS",
-   "detail": "on x0-independent good-sector functions (k = 0; finite norm, int_0^(pi/(12 H)) cos(6 H x0) dx0 = 1/(6*H)) the curved mode operator acts on Psi as A - i (3/4)(b4'/b4), so Psi = b4^(-3/4) chi with i d4 chi = A chi (verified as a matrix identity), A = -i m gamma^(x4) + 3 i H gamma^(x4) gamma^(x0), which is not Hermitian, and A^2 = (m^2 - 9 H^2) I16 exactly: for m^2 < 9 H^2 the frequencies of chi are imaginary; at m = H = 1 the eigenvalues are +-2 sqrt(2) i (8 each), chi growing like e^(2 sqrt(2) x4) (Psi carries in addition the factor b4^(-3/4)). Without a boundary condition at z = pi/2 the good sector of the author's metric therefore contains growing x0-independent modes for |m + U'| < 3 H (for U != 0: the exact homogeneous solutions with k^2 = 9 H^2 - (m + lambda S0)^2 of the theory record)"
+   "detail": "on x0-independent good-sector functions (k = 0; finite norm on each interval between the degenerate points, int_0^(pi/(12 H)) cot(6 H x0) sin(6 H x0)^(1/2) dx0 = 1/(3*H)) the curved mode operator acts on Psi as A - i vg, so Psi = e^(a4/2) b4^(-1) chi with i d4 chi = A chi (verified as a matrix identity), A = -i m gamma^(x4) + i cg gamma^(x4) gamma^(x0), which is not Hermitian, and A^2 = (m^2 - cg^2) I16 exactly, cg = (3/2) H e^a4 b4^(-1/2): wherever m^2 < cg^2 the instantaneous frequencies of chi are imaginary. On the record's history a4 = H x4, b4 = e^(4 H x4/3), cg = (3/2) H e^(H x4/3) grows, so every mass falls below it at late x4: without a boundary condition at the degenerate points the good sector contains growing x0-independent modes"
   },
   {
    "name": "extra_time_growth_rates_unbounded",
@@ -81,7 +87,7 @@
   {
    "name": "commuting_field_energy_unbounded_below",
    "verdict": "PASS",
-   "detail": "dirac16complex00 (commuting), flat frame, good sector, U = 0, m = 2, k = (k0, k1, k2, k3) = (4, 1, 2, 0), E = 5: h_k commutes with B; the E = +5 eigenspace has dimension 8 and B restricted to it has inertia (4, 4); for the positive-frequency solutions Phi = c u e^(i(k.x - 5 x4)) (field equation verified) with B u = -u and B u = +u (|u| = 1) the energy density rho = -T^x4_x4 = -sum_(mu != x4) K_mu + m S is -5*cc**2 and 5*cc**2 (cc = |c|), and the charge density Phi^dagger B Phi is -cc**2 and cc**2: the classical energy of dirac16complex00 is unbounded below already for U = 0 in the good sector (positive-frequency modes of negative energy), and its U(1) charge is indefinite (only the local law d_mu(b4^(3/2) cos z J^mu) = 0 is proved; the total charge is constant in x4 only if no charge flows through the boundary of the slice x4 = const, which at the brane z = pi/2 is an ASSUMED no-flux condition) - unlike Dirac's 1928 wave function, whose charge density psi^dagger psi is positive"
+   "detail": "dirac16complex00 (commuting), flat frame, good sector, U = 0, m = 2, k = (k0, k1, k2, k3) = (4, 1, 2, 0), E = 5: h_k commutes with B; the E = +5 eigenspace has dimension 8 and B restricted to it has inertia (4, 4); for the positive-frequency solutions Phi = c u e^(i(k.x - 5 x4)) (field equation verified) with B u = -u and B u = +u (|u| = 1) the energy density rho = -T^x4_x4 = -sum_(mu != x4) K_mu + m S is -5*cc**2 and 5*cc**2 (cc = |c|), and the charge density Phi^dagger B Phi is -cc**2 and cc**2: the classical energy of dirac16complex00 is unbounded below already for U = 0 in the good sector (positive-frequency modes of negative energy), and its U(1) charge is indefinite (only the local law d_mu(sqrt|g| J^mu) = 0 is proved; the total charge is constant in x4 only if no charge flows through the boundary of the slice x4 = const, which at the degenerate points z = n pi/2 is an ASSUMED no-flux condition) - unlike Dirac's 1928 wave function, whose charge density psi^dagger psi is positive"
   }
  ]
 }

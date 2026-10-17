@@ -44,9 +44,11 @@ warning-free; test `Revision/tests/test_metric_self_consistency_publication.py`,
 section 1 (the corrected metric is current; version 1 and the metric of 2026-10-14 withdrawn), gate steps
 metric-warped-sympy, metric-warped-wolfram, pdf-metric-self-consistency.
 
-[3] Phases, ON HOLD until the author says so ("Do not take time repairing the repo right now. that will come later");
-each verified, committed and pushed; every calculation under `timeout -k 5 423`; no agent job longer than 423 s; the
-work is done sequentially:
+[3] Phases, released by the author on 2026-10-16 ("go ahead with the recomputation using the corrected metric"; until
+then on hold: "Do not take time repairing the repo right now. that will come later"); each verified, committed and
+pushed; every calculation under `timeout -k 5 423`; no agent job longer than 423 s; the work is done sequentially, in
+the order R0, W1, W4, W2, W3, W5, W6, W7, W8 (W2 rebuilds the Lovelock tensors from
+`gkd_lovelock/results/lovelock-tensors.json`, the output of W4):
 R0. Repository repair: the automatic Stop-hook snapshot d02ff19 committed and pushed the author's
     `WaveFunctionUniverse-4+4-Einstein-Lovelock.nb` and its four `.mx` files, which were never to be committed.
     DONE 2026-10-16 at the author's request ("remove the notebook and .mx files in a new commit"): removed from the
@@ -75,6 +77,17 @@ Status (newest last):
   metric of 2026-10-14.  A fresh run on 2026-10-16 reports mismatches at (x0, x0), (x1..x3) and (x5..x7); the last
   three because curvature.json writes Sin^(1/3), which differs from (Sin^2)^(1/6) for Sin < 0.  The committed
   `author-comparison-report.json` is older (PASS against the SPEC before 7897829) and is regenerated in W4.
+- W1 DONE 2026-10-16: `Revision/theory/` for the corrected metric, general a4, b4 and every real z (exact zero test
+  modulo Cos^2 + Sin^2 - 1, w^12 - Sin^2 with w = (Sin^2)^(1/12), sign(Cot z)^2 - 1; no PowerExpand).  Wolfram
+  `verify_field_theory.wls` 86/86 (six parts, longest emt-G 179 s), `verify_scope.wls` 16/16; sympy
+  `check_field_theory.py` 72/72 with comparison "agree", `check_scope.py` 15/15; every output reproduced byte for byte
+  by a second run.  The b4 supplements of 2026-10-14 (`verify_field_theory_b4*.wls`, `check_field_theory_b4.py`,
+  `field-theory-b4.json` and its four reports) are removed from the repository and the gate.  Provenance:
+  `Revision/theory/wolfram/WOLFRAMSCRIPT_PROVENANCE.md` section 6.10.  KNOWN OPEN until W7/W8: the publication tests
+  of the documents that cite this record (`test_dirac16complex_field_theory_publication.py`,
+  `test_dirac16complex00_field_theory_publication.py`, `test_pair_creation_proofs_publication.py`) fail, because the
+  documents still describe the metric of 2026-10-14 (renamed checks, new counts 86/16/72/15, new formula blocks); the
+  textbook still cites the retired b4 reports.
 
 ### 0.9 ORDER 2026-10-15 evening: move EVERYTHING to b4(x4) — START HERE
 

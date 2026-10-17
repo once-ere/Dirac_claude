@@ -5,10 +5,11 @@ e^a_mu = f_a delta^a_mu given together with a coordinate-derivative operator on 
 The author's coordinates x0..x7 are indexed 0..7 (index k = xk; x0 = the hidden direction, first).  Frame metric
 eta = diag(+1,+1,+1,+1,-1,-1,-1,-1).  (Until 2026-10-14 the withdrawn labels x1..x8, hidden x8 last, were used.)
 
-The author's metric is the one with the second function b4(x4) (SPEC section 1; the change of 2026-10-14; the user's
-orders of 2026-10-15: "b4 is a function of x4; b4 is NEVER 1" and "move everything to b4(x4)"):
-g = diag(cot^2 z, e^{2 a4} sin^{1/3} z (x3), -1, -e^{-2 a4} b4 sin^{1/3} z (x3)), z = 6 H x0, for GENERAL functions
-a4(x4) and b4(x4) > 0.  (Until 2026-10-15 this ring described the withdrawn metric b4 = 1.)
+The metric is the CORRECTED metric of 2026-10-16 (SPEC section 1, version 2; Revision/metric_warped/):
+g = diag(e^{-2 a4} b4 cot^2 z, e^{2 a4} (x3), -1, -e^{-2 a4} b4 (sin^2 z)^{1/6} (x3)), z = 6 H x0 REAL (the user's rules
+of 2026-10-16: -infinity < z < infinity, sin^{1/3} z = (sin^2 z)^{1/6}), for GENERAL functions a4(x4) and b4(x4) > 0.
+(Until 2026-10-16 this ring described the metric of 2026-10-14 on 0 < z < pi/2, withdrawn; until 2026-10-15 the
+metric b4 = 1, withdrawn.)
 """
 
 import sympy as sp
@@ -18,8 +19,11 @@ X0, X4 = 0, 4  # array indices of the hidden direction x0 and the time x4
 
 # ---------------------------------------------------------------- the author's metric as a coefficient ring
 # E = e^{a4(x4)}, A1..A5 = a4', a4'', ..., a4^(5); Q = b4(x4)^(1/2) > 0, B1..B5 = (ln b4)', (ln b4)'', ..., (ln b4)^(5)
-# (so b4'/b4 = B1 and b4''/b4 = B2 + B1^2); s = sin(z)^(1/6), c = cos(z), z = 6 H x0 in (0, pi/2)
-E, s, c, Q = sp.symbols("E s c Q", positive=True)
+# (so b4'/b4 = B1 and b4''/b4 = B2 + B1^2); for EVERY real z = 6 H x0: sv = sin z and c = cos z (signed),
+# w = (sin^2 z)^(1/12) > 0 (w^12 = sv^2), sgn = sign(cot z) = +-1 (sqrt|g| = sgn f0...f7; constant between the
+# degenerate points z = n pi/2, so its derivatives vanish there)
+E, w, Q = sp.symbols("E w Q", positive=True)
+sv, c, sgn = sp.symbols("sv c sgn", real=True)
 A1, A2, A3, A4, A5 = sp.symbols("A1 A2 A3 A4 A5", real=True)
 B1, B2, B3, B4, B5, B6 = sp.symbols("B1 B2 B3 B4 B5 B6", real=True)
 H = sp.symbols("H", positive=True)
@@ -36,17 +40,27 @@ def cd_author(expr, mu):
             r += sp.diff(expr, a) * b
         return r
     if mu == X0:
-        return sp.diff(expr, s) * H * c / s**5 + sp.diff(expr, c) * (-6 * H * s**6)
+        return sp.diff(expr, sv) * 6 * H * c + sp.diff(expr, c) * (-6 * H * sv) + sp.diff(expr, w) * H * c * w / sv
     return sp.Integer(0)
 
 
 def f_author():
-    """Diagonal vielbein f_a = sqrt|g_aa| of SPEC section 1 (metric with b4: f_5..7 = e^{-a4} b4^(1/2) s)."""
-    return [c / s**6, E * s, E * s, E * s, sp.Integer(1), Q * s / E, Q * s / E, Q * s / E]
+    """Diagonal vielbein f_a = sqrt|g_aa| of SPEC section 1 (the corrected metric; f0 signed):
+    f0 = e^{-a4} b4^(1/2) cot z, f1..3 = e^{a4}, f4 = 1, f5..7 = e^{-a4} b4^(1/2) (sin^2 z)^(1/12)."""
+    return [Q * c / (E * sv), E, E, E, sp.Integer(1), Q * w / E, Q * w / E, Q * w / E]
+
+
+def reduce_author(num):
+    """Canonical remainder of a polynomial modulo c^2 + sv^2 - 1, w^12 - sv^2, sgn^2 - 1 (coprime leading terms)."""
+    num = sp.expand(num)
+    for var, rel in ((c, c**2 - 1 + sv**2), (w, w**12 - sv**2), (sgn, sgn**2 - 1)):
+        if num.has(var):
+            num = sp.expand(sp.rem(sp.Poly(num, var), sp.Poly(rel, var)).as_expr())
+    return num
 
 
 def zero_author(expr):
-    """Exact zero test in the author's ring: clear denominators, reduce c^2 -> 1 - s^12."""
+    """Exact zero test in the ring of the corrected metric (every real z): clear denominators, reduce the numerator."""
     expr = sp.sympify(expr)
     if expr == 0:
         return True
@@ -54,31 +68,28 @@ def zero_author(expr):
     num = sp.expand(num)
     if num == 0:
         return True
-    red = sp.rem(sp.Poly(num, c), sp.Poly(c**2 - 1 + s**12, c))
-    return sp.expand(red.as_expr()) == 0
+    return reduce_author(num) == 0
 
 
 def canon_author(expr):
-    """A canonical form (for display and comparison): reduce c^2 -> 1 - s^12 in the numerator."""
+    """A canonical form (for display and comparison): the reduced numerator over the factored denominator."""
     expr = sp.sympify(expr)
     num, den = sp.fraction(sp.together(expr))
-    num = sp.expand(num)
-    if num.has(c):
-        num = sp.expand(sp.rem(sp.Poly(num, c), sp.Poly(c**2 - 1 + s**12, c)).as_expr())
-    return sp.factor(num) / sp.factor(den)
+    return sp.factor(reduce_author(num)) / sp.factor(den)
 
 
 def to_physical(expr):
-    """Rewrite a ring expression in the author's functions: E = e^{a4}, Q = b4^(1/2), s = sin(6 H x0)^(1/6),
-    c = cos(6 H x0), A1 = a4', A2 = a4'', B1 = b4'/b4, B2 = b4''/b4 - (b4'/b4)^2."""
+    """Rewrite a ring expression in the author's functions: E = e^{a4}, Q = b4^(1/2), sv = sin(6 H x0),
+    c = cos(6 H x0), w = (sin(6 H x0)^2)^(1/12), sgn = sign(cot(6 H x0)), A1 = a4', A2 = a4'', B1 = b4'/b4,
+    B2 = b4''/b4 - (b4'/b4)^2."""
     x0, x4 = sp.symbols("x0 x4", real=True)
     a4 = sp.Function("a4")(x4)
     b4 = sp.Function("b4")(x4)
     z = 6 * H * x0
     b1 = sp.Derivative(b4, x4) / b4
     return sp.sympify(expr).subs({B2: sp.Derivative(b4, (x4, 2)) / b4 - b1 ** 2, B1: b1}).subs(
-        {E: sp.exp(a4), Q: sp.sqrt(b4), s: sp.sin(z) ** sp.Rational(1, 6), c: sp.cos(z),
-         A2: sp.Derivative(a4, (x4, 2)), A1: sp.Derivative(a4, x4)})
+        {E: sp.exp(a4), Q: sp.sqrt(b4), w: (sp.sin(z) ** 2) ** sp.Rational(1, 12), sv: sp.sin(z), c: sp.cos(z),
+         sgn: sp.sign(sp.cot(z)), A2: sp.Derivative(a4, (x4, 2)), A1: sp.Derivative(a4, x4)})
 
 
 # ---------------------------------------------------------------- a general diagonal vielbein (jet symbols)
@@ -113,13 +124,15 @@ def zero_generic(expr):
 
 # ---------------------------------------------------------------- geometry of a diagonal vielbein
 class Geometry:
-    def __init__(self, f, cd, simplify=sp.expand):
+    def __init__(self, f, cd, simplify=sp.expand, sign=1):
+        """sign: the factor that makes sqrt|g| = sign * f0...f7 (sgn for the corrected metric, whose f0 is signed;
+        1 for a positive generic vielbein)."""
         self.f = f
         self.cd = cd
         n = 8
         self.g = [ETA[a] * f[a] ** 2 for a in range(n)]
         self.ginv = [sp.Integer(ETA[a]) / f[a] ** 2 for a in range(n)]
-        self.sqrtg = sp.Mul(*f)
+        self.sqrtg = sign * sp.Mul(*f)
         g, gi = self.g, self.ginv
         dg = [[cd(g[l], mu) for mu in range(n)] for l in range(n)]
         Gam = [[[sp.Integer(0)] * n for _ in range(n)] for _ in range(n)]

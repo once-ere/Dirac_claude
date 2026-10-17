@@ -37,6 +37,17 @@ part 156 s); it again has 84 checks, all PASS, and writes 33 formula records. `v
 general b4, all PASS. Where this file describes earlier runs (sections 3 to 6.8) it describes the metric b4 = 1 of
 those days; the instructions for the present version are in section 6.9.
 
+**2026-10-16 (section 6.10): the corrected metric (version 2).** On the user's orders of 2026-10-16 (the remedy of
+`Revision/metric_warped/`: x0 is a hypothetical space-like coordinate and x4 the time, `g44 = -1`, `z = 6 H x0` takes every
+real value, `Sin[z]^(1/3) = (Sin[z]^2)^(1/6)`; "go ahead with the recomputation using the corrected metric") the set
+proves every statement for the corrected metric `diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1,
+-E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3))` for general `a4(x4)`, `b4(x4) > 0` and every real `z` (exact zero test modulo
+`Cos^2 + Sin^2 - 1`, `w^12 - Sin^2` with `w = (Sin[z]^2)^(1/12)`, `sign(Cot z)^2 - 1`; no `PowerExpand`).
+`verify_field_theory.wls` has 86 checks in the same six parts and the merge (longest part 179 s), all PASS, and writes
+33 formula records; `verify_scope.wls` has 16 checks, all PASS. Both were run twice; the outputs of the two runs are
+byte-identical. The supplements of 2026-10-14 for b4 are retired. The tables of section 2 give the files of
+2026-10-16; the metric of 2026-10-15 is described in section 6.9 and withdrawn.
+
 ## 1. What this set is and what it computes
 
 ### 1.1 The set in one sentence
@@ -52,8 +63,11 @@ the repository quote.
   space direction; `x1, x2, x3` are ordinary space; `x4` is ordinary time; `x5, x6, x7` are three extra TIME
   directions, which shrink ("deflate") exponentially while ordinary space expands. The signature is 4 + 4
   (four space-like and four time-like directions).
-* The gravitational field is the author's primordial metric. It depends on `x4` through a function
-  `a4(x4)` and on `x0` through `z = 6 H x0` with a constant `H > 0` and `0 < z < Pi/2`.
+* The gravitational field is the corrected primordial metric of 2026-10-16 (`Revision/SPEC.md` section 1,
+  version 2), `diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1, -E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3))`. It depends on
+  `x4` through two functions `a4(x4)` and `b4(x4) > 0` and on `x0` through `z = 6 H x0` with a constant `H > 0`;
+  `z` takes every real value, and no sign of `Sin z` or `Cos z` is assumed. (Until 2026-10-16: the metric of
+  2026-10-14 on `0 < z < Pi/2`, withdrawn; sections 3 to 6.9 describe the runs of those days.)
 * The matter field is a spinor with 16 complex components (a larger relative of the electron's Dirac
   field), built on the author's eight real 16 x 16 Dirac matrices (read from the file
   `Revision/algebra/gammas.json`), in two versions: `dirac16complex`, whose components ANTICOMMUTE
@@ -71,39 +85,41 @@ computation (fractions, square roots, symbols such as `H`, `a4[x4]`, `m`, `lam`,
 functions) whose result must be exactly zero or exactly `True`. Each such computation is a CHECK with a
 name and a verdict `PASS` or `FAIL`. A script exits with code 0 only if every one of its checks passes.
 
-`verify_field_theory.wls` (84 checks) loads the package `RevisionFieldTheory.wl` and works through these
-sections (the names are printed on the screen while it runs):
+`verify_field_theory.wls` (86 checks since 2026-10-16) loads the package `RevisionFieldTheory.wl` and works
+through these sections (the names are printed on the screen while it runs; the table describes the corrected
+metric of 2026-10-16, section 6.10):
 
 | section (as printed) | checks | what is verified |
 | --- | --- | --- |
-| (before the first section) | 1 | the exact zero test used by all later checks returns True on identities and False on nonzero control expressions |
+| (before the first section) | 1 | the exact zero test used by all later checks (a normal form for every real `z`) returns True on identities and False on nonzero control expressions, among them `(Sin z^2)^(1/2) - Sin z` |
 | `fixture` | 2 | the gamma matrices read from `Revision/algebra/gammas.json` satisfy `{gamma^a, gamma^b} = 2 eta^ab` with `eta = diag(1,1,1,1,-1,-1,-1,-1)` (order x0..x7); the matrices `C`, `B`, `Gamma`, `S^ab` are the stated products |
-| `geometry` | 8 | the diagonal vielbein reproduces the author's metric; `sqrt|det g| = Cos[z]`; `H = 0` is a degenerate limit; 25 nonzero Christoffel symbols; Ricci tensor and Ricci scalar `R = 6 (a4'^2 - 7 H^2)`; the metric is curved for every `H > 0` |
-| `spin connection` | 7 | vielbein postulate, the 12 nonzero spin-connection components, covariant constancy of the gammas, spin curvature equals the Riemann tensor |
-| `gamma^mu Omega_mu` | 3 | `gamma^mu Omega_mu = 3 H gamma^(x0)` exactly; the `a4'` terms of the 3 inflating and the 3 deflating directions cancel |
+| `geometry` | 8 | the diagonal vielbein reproduces the corrected metric; `sqrt|det g| = rftSig E^-a4 b4^2 Cot[z] (Sin[z]^2)^(1/4)`; `H = 0` is a degenerate limit; 21 nonzero Christoffel symbols; the diagonal Ricci tensor and the Ricci scalar equal the sympy record of `Revision/metric_warped`; the metric is flat for `a4 = 0, b4 = H^2 x4^2` and curved on the record's history |
+| `spin connection` | 7 | vielbein postulate, the 10 nonzero spin-connection components (`Omega_x0 != 0`, `Omega_x4 = 0`), covariant constancy of the gammas, spin curvature equals the Riemann tensor |
+| `gamma^mu Omega_mu` | 3 | `gamma^mu Omega_mu = (3/2) H E^a4 b4^(-1/2) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4)` exactly, independent of `x0`; per direction and the divergence form |
 | `Lagrangian, both statistics` | 7 | explicit Grassmann algebra; the Lagrangian is real; symmetrised and unsymmetrised forms differ by a total divergence; the spin connection drops out of the symmetrised Lagrangian |
 | `Euler-Lagrange equations` | 11 | the field equation `gamma^mu D_mu Psi = (m + U'(S)) Psi` and its adjoint, from the Euler-Lagrange derivative of every component; the explicit Dirac operator; the chiral block form; the first-order evolution form in `x4` |
-| `non-triviality` | 3 | the gravitational terms do not drop out: `gamma^mu D_mu Psi - gamma^mu d_mu Psi = 3 H gamma^(x0) Psi`, nonzero for every `H > 0`; the spin connection vanishes only if `a4' = 0` and `H = 0` |
+| `non-triviality` | 3 | the gravitational terms do not drop out: `gamma^mu D_mu Psi - gamma^mu d_mu Psi = gamma^mu Omega_mu Psi`, nonzero for every `H > 0`; the spin connection vanishes only if `a4' = 0`, `b4' = 0` and `H = 0` |
 | `current and integrability` | 8 | the conserved current, its reality, the charge density `Psi^dagger B Psi` (an indefinite form), the Lichnerowicz identity |
 | `Majorana-type Lg` | 2 | negative control: a Majorana-type Lagrangian with real anticommuting components is a total derivative (it gives no field equation) |
 | `energy-momentum tensor by vielbein variation` | 4 | the energy-momentum tensor from the exact first-order vielbein variation, and its symmetric (Belinfante) part |
 | `Noether identities` | 5 | the identities of coordinate invariance and local Lorentz invariance; conservation on shell |
 | `EMT components` | 9 | diagonal components, trace, kinetic sum on shell, the `x4`-`x0` component, the energy-exchange equations |
-| `exact solutions and conservation` | 5 | exact solutions (linear, and nonlinear homogeneous for both statistics) satisfy the field equation and the conservation of the energy-momentum tensor and of the current |
+| `exact solutions and conservation` | 7 | exact solutions (linear: `m = 0` with any exponent `al`, and `al = -1/4` with any `m`; nonlinear homogeneous: commuting for every `m`, Grassmann for `m = 0`) satisfy the field equation and the conservation of the energy-momentum tensor and of the current |
 | `canonical quantisation` | 9 | canonical momentum, the anticommutator `{Psi, Psi^dagger} = B delta / sqrt|g|`, Heisenberg equation = field equation, no positive inner product (Krein space), mode Hamiltonian, explicit Fock-space example |
 
 The last section, `writing outputs`, writes the two output files of section 2.3.
 
-`verify_scope.wls` (15 checks) is an independent program (it does not load `RevisionFieldTheory.wl`). It
-tests the SCOPE of the statements: which values depend on the choice of frame and of field variables, what
-holds only up to boundary terms, and what the indefinite structures imply.
+`verify_scope.wls` (16 checks since 2026-10-16) is an independent program (it does not load
+`RevisionFieldTheory.wl`; it has its own exact zero test for every real `z`). It tests the SCOPE of the statements:
+which values depend on the choice of frame and of field variables, what holds only up to boundary terms, and what
+the indefinite structures imply.
 
 | group | checks | what is verified |
 | --- | --- | --- |
-| `fixture_gammas` | 1 | the gammas of `Revision/algebra/gammas.json` satisfy the Clifford relation; `C` and `B` are the stated products |
-| `boosted_frame_*` | 5 | a frame boosted in the `x4`-`x0` plane reproduces the same metric and its canonical connection satisfies the vielbein postulate; in it `gamma^mu Omega_mu` has a different value and vanishes for the rapidity `6 H x4 + b0`, while the spinor curvature stays nonzero |
-| diagonal frame and field variables | 5 | the rescaling `Psi = Sin[z]^(-1/2) chi` removes the term `3 H gamma^(x0)` (for `U = 0`); this term does not see the deflation `a4`; the connection-free Lagrangian gives the same equations; the spin connection does enter the energy-momentum tensor |
-| boundary terms | 2 | the curved mode operator is Hermitian only up to a boundary term at `z = Pi/2`; without a boundary condition it has complex frequencies |
+| `zero_test_controls`, `fixture_gammas` | 2 | the zero test of the file on identities and nonzero controls; the gammas of `Revision/algebra/gammas.json` satisfy the Clifford relation; `C` and `B` are the stated products |
+| `boosted_frame_*` | 5 | a frame boosted in the `x4`-`x0` plane reproduces the same metric and its canonical connection satisfies the vielbein postulate; in it `gamma^mu Omega_mu` has a different value, its `gamma^(x0)` part vanishes for a rapidity with `b' = 3 H E^a4 b4^(-1/2)`, its `b4'/b4 - a4'/2` part for no boost, while the spinor curvature stays nonzero |
+| diagonal frame and field variables | 5 | the rescaling `Psi = E^(a4/2) b4^(-1) (Sin[z]^2)^(-1/8) chi` removes the term `gamma^mu Omega_mu` (for `U = 0`); this term sees the hidden block (`E^a4 b4^(-1/2)`); the connection-free Lagrangian gives the same equations; the spin connection enters the energy-momentum tensor through the extra times (`K^x4_x5`), not through 3-space |
+| boundary terms | 2 | the curved mode operator is Hermitian only up to a boundary term at the degenerate points `Cos z = 0`; without a boundary condition it has complex frequencies wherever `m^2 < (9/4) H^2 E^(2 a4)/b4` |
 | growth and energy | 2 | growth rates of extra-time modes are unbounded; the classical energy of `dirac16complex00` is unbounded below |
 
 ### 1.4 Which documents and programs use its results
@@ -161,11 +177,15 @@ All files are plain text, pure ASCII (hence also UTF-8), with LF line endings an
 
 | file | role | lines | bytes | sha256 |
 | --- | --- | --- | --- | --- |
-| `Revision/theory/wolfram/verify_field_theory.wls` | script: 84 checks in six parts and a merge; writes the part files, then the field-theory report and the formula file | 964 | 98520 | `de089d562b1f91b4dd72c69e819f73014334636f0f86a6d7ebc00ca3d039bb67` |
-| `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (the metric with b4, geometry, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 298 | 18951 | `3c33d736dbe4362472409b7ff2f007699da55dabac24cc1dd3aa55102975ee14` |
-| `Revision/theory/wolfram/verify_scope.wls` | script: 15 checks; writes the scope report | 229 | 20900 | `7e8d11f58b958bfbec98a052304d8b6cbad291695d982080b06c1c10bfb6f3f3` |
+| `Revision/theory/wolfram/verify_field_theory.wls` | script: 86 checks in six parts and a merge; writes the part files, then the field-theory report and the formula file | 1036 | 106531 | `ea6f1a7ac8e54c0cf87aabfd40d354de4408ba041190790b98d3b8c088a538b7` |
+| `Revision/theory/wolfram/RevisionFieldTheory.wl` | package loaded by `verify_field_theory.wls` (the corrected metric, geometry, the exact zero test for every real z, Grassmann algebra, Lagrangian, Euler-Lagrange derivative, vielbein variation) | 313 | 20516 | `71dd6044d6ac568f3f7edfb6ae0f1d9809e55baa8ffb28106bd7d55ea1482155` |
+| `Revision/theory/wolfram/verify_scope.wls` | script: 16 checks; writes the scope report | 273 | 24039 | `740394da4aed51603749de8bd9deaced3e6ecbaa7b6abf0be88f5da01c1a5a05` |
 
-These are the files of 2026-10-15 (the metric with b4(x4), section 6.9). The files of 2026-10-14 (the author's
+These are the files of 2026-10-16 (the corrected metric, version 2, section 6.10). The files of 2026-10-15 (the
+metric with b4(x4), section 6.9, withdrawn): `verify_field_theory.wls` 964 lines, 98520 bytes, sha256
+`de089d562b1f91b4dd72c69e819f73014334636f0f86a6d7ebc00ca3d039bb67`; `RevisionFieldTheory.wl` 298 lines, 18951 bytes,
+sha256 `3c33d736dbe4362472409b7ff2f007699da55dabac24cc1dd3aa55102975ee14`; `verify_scope.wls` 229 lines, 20900 bytes,
+sha256 `7e8d11f58b958bfbec98a052304d8b6cbad291695d982080b06c1c10bfb6f3f3`. The files of 2026-10-14 (the author's
 coordinates x0..x7 and parallel subkernels, section 6.8; the metric b4 = 1): `verify_field_theory.wls` 769 lines,
 77938 bytes, sha256 `8165a797e117045d2b9f12761fe98a864242d9371c0ccabe697f4cd9cf70f9fd`; `RevisionFieldTheory.wl` 295
 lines, 18614 bytes, sha256 `313e617d6df3cad7f1d389d9d85681af176e655f0a103a015bdb5b99c4c4e88f`; `verify_scope.wls` 212
@@ -195,9 +215,12 @@ runs them from the repository root.
 | file | read by | lines | bytes | sha256 |
 | --- | --- | --- | --- | --- |
 | `Revision/algebra/gammas.json` | both scripts | 1405 | 76894 | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` |
+| `Revision/metric_warped/results/warped-metric.json` | `verify_field_theory.wls` | 74 | 5508 | `c6167b356838f9ce4708f8826c561c001060b512acc73a101df4581f62c01aa6` |
 | `Revision/theory/wolfram/RevisionFieldTheory.wl` | `verify_field_theory.wls` | (section 2.1) | | |
 
-`gammas.json` holds the author's 8 real gamma matrices (16 x 16, exact entries -1, 0 and 1) and the
+`warped-metric.json` is the independent sympy record of the corrected metric (`Revision/metric_warped/python/`,
+committed); `verify_field_theory.wls` compares its metric, Ricci tensor, Ricci scalar and gravity term with it (until
+2026-10-15 this input was `Revision/metric_b4/results/metric-b4.json`). `gammas.json` holds the author's 8 real gamma matrices (16 x 16, exact entries -1, 0 and 1) and the
 derived matrices `C`, `B` (complex), `Gamma`, `S^ab` and `eta`. It is committed; it is produced by the separate set
 `Revision/algebra/wolfram/` (`verify_algebra.wls`), which you do NOT need to run first. No other file is
 read, and nothing is downloaded.
@@ -206,14 +229,18 @@ read, and nothing is downloaded.
 
 | file | written by | lines | bytes | sha256 of the committed (and reproduced) file |
 | --- | --- | --- | --- | --- |
-| `Revision/theory/reports/wolfram-field-theory.json` | `verify_field_theory.wls merge` | 96 | 41247 | `f72453ef97ea1831ba1c6ac44dd6054bee0c953398b00ed2afd3f588336340a3` |
-| `Revision/theory/field-theory.json` | `verify_field_theory.wls merge` | 69 | 29322 | `eda8dfa2d69dbd74a6e09be063c3e7d15c406ec0a0dfa7c416c42ea09b4e544d` |
-| `Revision/theory/reports/wolfram-scope.json` | `verify_scope.wls` | 25 | 8802 | `592920d595b366e1eef130a7b6dae4e9b1ed8a0f298e8436ae676e7119672c3c` |
+| `Revision/theory/reports/wolfram-field-theory.json` | `verify_field_theory.wls merge` | 98 | 46483 | `ba5baa1a2945c685d50765eab1eba675a8eed01ce258df2e25d7d81f25b5b61a` |
+| `Revision/theory/field-theory.json` | `verify_field_theory.wls merge` | 69 | 31015 | `faee42f53b6ffcac5751cd9ff3e2bc7dcb805b1c61b3ec725540251fc946e21c` |
+| `Revision/theory/reports/wolfram-scope.json` | `verify_scope.wls` | 27 | 9714 | `3973f59d0f6282a00a2ceea6d29d82f078b51496650b74f640f460b993eb0827` |
 
-These are the outputs of 2026-10-15 (section 6.9; the metric with b4(x4)). The parts write
+These are the outputs of 2026-10-16 (section 6.10; the corrected metric). The parts write
 `build/theory-wolfram/<part>.json` (git-ignored, not committed; each records the sha256 of the script, the package,
-`Revision/algebra/gammas.json` and `Revision/metric_b4/results/metric-b4.json`, and the merge refuses a part file with
-other values). The outputs of 2026-10-14 (section 6.8; the metric b4 = 1): `wolfram-field-theory.json` 95 lines,
+`Revision/algebra/gammas.json` and `Revision/metric_warped/results/warped-metric.json`, and the merge refuses a part
+file with other values). The outputs of 2026-10-15 (section 6.9; the metric with b4(x4), withdrawn):
+`wolfram-field-theory.json` 96 lines, 41247 bytes, sha256 `f72453ef97ea1831ba1c6ac44dd6054bee0c953398b00ed2afd3f588336340a3`;
+`field-theory.json` 69 lines, 29322 bytes, sha256 `eda8dfa2d69dbd74a6e09be063c3e7d15c406ec0a0dfa7c416c42ea09b4e544d`;
+`wolfram-scope.json` 25 lines, 8802 bytes, sha256 `592920d595b366e1eef130a7b6dae4e9b1ed8a0f298e8436ae676e7119672c3c`.
+The outputs of 2026-10-14 (section 6.8; the metric b4 = 1): `wolfram-field-theory.json` 95 lines,
 35720 bytes, sha256 `88cd9ee66846a567b07062120c02a73f17ca73593ab657c0ae3b586457a6064d`; `field-theory.json` 68 lines,
 24674 bytes, sha256 `536255e3a508bf59292f89dca6c949478e74564879039ea13c7c307c2cfc8e3b`; `wolfram-scope.json` 25 lines,
 7244 bytes, sha256 `0224e5e5bbbdd7a5550f1a07865d841f5081d7d3ec3907b88150deb950afed52`. Before 2026-10-14:
@@ -228,12 +255,14 @@ bytes, sha256 `eed5e0fb01b281d58ccabe7dd84bde3b81574ae09a9c4b05e67f22f6a8065a7e`
 the two checks `charge_density_is_Krein_form_G` and `charge_density_is_Krein_form_C`.
 
 * `wolfram-field-theory.json`: every check with its name, verdict and a sentence stating exactly what was
-  verified, and the summary `{"passed": 84, "failed": 0, "total": 84}`.
+  verified, and the summary `{"passed": 86, "failed": 0, "total": 86}` (84 until 2026-10-15).
 * `field-theory.json`: 33 exact formula records (Wolfram `InputForm` text) for the documents, from
   `christoffel_nonzero` to `quantisation`, each verified by a named check (32 until 2026-10-14; since 2026-10-15 the
   record `ricci_mixed_nonzero` replaces `ricci_mixed_diagonal`, because R^x4_x0 and R^x0_x4 are proportional to b4',
-  and the record `evolution_form` is new).
-* `wolfram-scope.json`: the 15 scope checks and the summary `{"passed": 15, "failed": 0, "total": 15}`.
+  and the record `evolution_form` is new; for the corrected metric of 2026-10-16 `ricci_mixed_nonzero` lists the
+  diagonal entries only, because its Ricci tensor is diagonal).
+* `wolfram-scope.json`: the 16 scope checks and the summary `{"passed": 16, "failed": 0, "total": 16}` (15 until
+  2026-10-15).
 
 ## 3. How to run it (complete instructions)
 
@@ -1065,6 +1094,58 @@ agents edited other folders, not in a fresh clone. The check program is
 
 The read-only experiments of section 6.4 were not repeated; their recorded `OpenWrite::noopen` messages
 show the paths of the versions of commit `a4c5eda`, with `..` components.
+
+### 6.10 The corrected metric of 2026-10-16 (version 2)
+
+* Why. The user's order of 2026-10-16: a diagonal metric is self-consistent only if every off-diagonal component of
+  the sources vanishes; the metric of 2026-10-14 has off-diagonal Lovelock components E^x4_x0 ~ Cot z b4'/b4 that no
+  diagonal source can match. The remedy is the corrected metric of `Revision/metric_warped/` (SPEC section 1,
+  version 2), `diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1, -E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3))`, with the user's
+  rules of the same day: x0 is a hypothetical space-like coordinate and x4 the time, `z = 6 H x0` takes every real
+  value, `Sin[z]^(1/3) = (Sin[z]^2)^(1/6)` (the positive branch). The order to recompute every primordial object
+  ("go ahead with the recomputation using the corrected metric") is `HANDOFF.md` 0.10, phase W1. The files of commit
+  d02ff19 (version 1 of the remedy, `g44 = -Sin[z]^(1/3)`, withdrawn) were replaced: the package and the driver were
+  restored from commit 7897829 and then changed.
+* Changes. `RevisionFieldTheory.wl`: the vielbein `f0 = E^-a4 b4^(1/2) Cot z` (signed), `f1..3 = E^a4`, `f4 = 1`,
+  `f5..7 = E^-a4 b4^(1/2) (Sin z^2)^(1/12)`; `sqrt|g| = rftSig E^-a4 b4^2 Cot z (Sin z^2)^(1/4)` with the symbol
+  `rftSig = sign(Cot z)` (`rftSig^2 = 1`, zero derivatives: constant between the degenerate points `z = n Pi/2`); the
+  exact zero test for EVERY real z (Sin, Cos signed, `w = (Sin z^2)^(1/12) > 0`, reduction modulo
+  `Cos^2 + Sin^2 - 1`, `w^12 - Sin^2`, `rftSig^2 - 1`; no `PowerExpand`, no `0 < z < Pi/2`). `verify_field_theory.wls`:
+  the same parts; the changed statements: 21 Christoffel symbols; the Ricci tensor is diagonal and equal to the sympy
+  record of `Revision/metric_warped` (input file `warped-metric.json` replaces `metric-b4.json`); the metric is flat
+  for `a4 = 0, b4 = H^2 x4^2` (check `flat_member_and_curvature` replaces `never_flat_for_H_positive`, which does not
+  hold for the corrected metric); 10 spin-connection components with `Omega_x0 != 0` and `Omega_x4 = 0`;
+  `gamma^mu Omega_mu = (3/2) H E^a4 b4^(-1/2) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4)`; the energy exchange
+  `nabla_mu T^mu_x4 = -d4 rho - 3 a4' (rho + p3) - 3 h4 (rho + p_t) - h4 (rho + p0)`, `h4 = b4'/(2 b4) - a4'`, and
+  `nabla_mu T^mu_x0 = d0 p0 + 3 H Cot z (p0 - p_t)` (x0-independent entries need `p0 = p_t`); `T^x4_x0 =
+  -(1/4)(B40 - f0 B04)`; the exact solutions: the reduced system `chi' = (-V gamma^(x4) + muA K) chi`,
+  `muA = (3/2) H (4 al + 1) E^a4 b4^(-1/2)`, has closed forms only for `m = 0` (any `al`, check
+  `exact_solution_x4_x0_m0_*`) and for `al = -1/4` (any `m`, `exact_solution_x4_x0_quarter_*`); the commuting nonlinear
+  solutions for every `m` (substitution of the system, as before); the Grassmann nonlinear solution in closed form for
+  `m = 0` only (scope stated in the check); the quantisation with the new measure (`d_x4 sqrt g = (2 b4'/b4 - a4')
+  sqrt g`). `verify_scope.wls`: its own exact zero test for every real z (new check `zero_test_controls`); the boosted
+  frame removes the `gamma^(x0)` part for a rapidity with `b' = 3 H E^a4 b4^(-1/2)` and never the part
+  `b4'/b4 - a4'/2`; the rescaling `Psi = E^(a4/2) b4^(-1) (Sin z^2)^(-1/8) chi`; `gamma^mu Omega_mu` contains `a4`
+  (check `gammaOmega_sees_the_hidden_block` replaces `gammaOmega_blind_to_the_deflation`); the spin connection
+  reaches the energy-momentum tensor through `K^x4_x5`, not `K^x4_x1`.
+* Negative controls (scratch copies, not committed): a wrong scalar factor and a wrong `muA` make all seven solution
+  checks fail; the Hermiticity identity without the `(3/2) H` term fails.
+* Retired: the supplements of 2026-10-14 (`verify_field_theory_b4.wls`, `verify_field_theory_b4_emt.wls`,
+  `Revision/theory/python/check_field_theory_b4.py`) and their outputs (`field-theory-b4.json`,
+  `wolfram-field-theory-b4.json`, `wolfram-field-theory-b4-emt-C.json`, `wolfram-field-theory-b4-emt-G.json`,
+  `python-field-theory-b4.json`) are removed from the repository and from the gate: they verified the withdrawn metric,
+  and their statements for the corrected metric are part of this set and of its sympy twin.
+* Runs (2026-10-16, development machine, Windows 11, 24 threads, Wolfram 14.3; each part under `timeout -k 5 423`,
+  i.e. below the limit of 7 min 3 s for one calculation). First run: base 14 s, emt-C 57 s, emt-G 177 s, solutions
+  39 s, solutions-G 17 s, quantisation 5 s, merge "86/86 checks passed", exit code 0 each; `verify_scope.wls` "16/16
+  checks passed", 2 s. Second run of every part, the merge and the scope script (concurrently with the sympy twin):
+  base 14 s, emt-C 57 s, emt-G 179 s, solutions 36 s, solutions-G 17 s, quantisation 5 s, merge 86/86, scope 16/16,
+  exit code 0 each. The three outputs of the second run are byte-identical to those of the first (the sha256 of
+  section 2.3). The sympy twin (`Revision/theory/python/`): `check_field_theory.py --part nonlinear` (PASS, 32 s),
+  `check_field_theory.py` (72 of 72 PASS, comparison with this set: agree, 161 s and 148 s) and `check_scope.py` (15 of
+  15 PASS, 2 s), run twice with byte-identical outputs (`python-field-theory.json` sha256
+  `ba2eb78b29a1f63b6e486c3c02700383efb703984645fe4b72c84c17b452682d`, `python-scope.json` sha256
+  `6779027163006c2f6d93850f9fc886b146b2fcdccf18409692d0777730b0edc6`).
 
 ### 6.9 Everything for the metric with b4(x4) (2026-10-15)
 
