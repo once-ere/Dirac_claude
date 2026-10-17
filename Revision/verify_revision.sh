@@ -146,7 +146,11 @@
 #   t3-wolfram                            15 s
 #   t3-sympy                              10 s
 #   t3-completion-wolfram                 20 s
-#   t3-rust-demo                         320 s  long
+#   t3-rust-demo-part1                    90 s  long
+#   t3-rust-demo-part2                    95 s  long
+#   t3-rust-demo-part3                    80 s  long
+#   t3-rust-demo-part4                    70 s  long
+#   t3-rust-demo                           5 s  long
 #   t3-reference-demo                    170 s
 #   t3-completion-sympy                   10 s
 #   dark16-derive                         10 s
@@ -157,7 +161,7 @@
 #   dark16-eos                             5 s
 #   a4-ks-source                           5 s
 #   a4-ks-source-unittest                 20 s
-#   dark16-independent                   180 s
+#   dark16-independent                    90 s
 #   dark00-derive                         30 s
 #   dark00-independent                    30 s
 #   dark00-unittest                       30 s
@@ -417,7 +421,11 @@ ks-tip-convergence|30|0|-|Revision/kohn_sham/tip_convergence/tip-convergence.jso
 t3-wolfram|15|0|-|Revision/pairing/kohn_sham/t3-theory.json,Revision/pairing/kohn_sham/reports/wolfram-t3.json|Revision/pairing/kohn_sham/reports/wolfram-t3.json|{wolframscript} -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
 t3-sympy|10|0|-|Revision/pairing/kohn_sham/reports/python-t3.json|Revision/pairing/kohn_sham/reports/python-t3.json|{python} Revision/pairing/kohn_sham/python/check_t3.py
 t3-completion-wolfram|20|0|-|Revision/pairing/kohn_sham/t3-completion.json,Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json|Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json|{wolframscript} -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls
-t3-rust-demo|320|1|build/revision/t3-rust-demo|Revision/pairing/kohn_sham/reports/t3-rust-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv|Revision/pairing/kohn_sham/reports/t3-rust-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10
+t3-rust-demo-part1|90|1|build/revision/t3-rust-demo|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10 --part 1/4
+t3-rust-demo-part2|95|1|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10 --part 2/4
+t3-rust-demo-part3|80|1|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10 --part 3/4
+t3-rust-demo-part4|70|1|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10 --part 4/4
+t3-rust-demo|5|1|-|Revision/pairing/kohn_sham/reports/t3-rust-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv|Revision/pairing/kohn_sham/reports/t3-rust-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10 --reuse
 t3-reference-demo|170|0|-|Revision/pairing/kohn_sham/reports/t3-reference-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-reference-states.csv|Revision/pairing/kohn_sham/reports/t3-reference-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22
 t3-completion-sympy|10|0|-|Revision/pairing/kohn_sham/reports/python-t3-completion.json|Revision/pairing/kohn_sham/reports/python-t3-completion.json|{python} Revision/pairing/kohn_sham/python/check_t3_completion.py
 dark16-derive|10|0|-|Revision/dark_sector/dirac16complex/outputs/effective-formulas.json,Revision/dark_sector/dirac16complex/reports/derivation-checks.json|Revision/dark_sector/dirac16complex/reports/derivation-checks.json|{python} Revision/dark_sector/dirac16complex/derive/derive_effective.py
@@ -428,7 +436,7 @@ dark16-ks-history|5|0|-|Revision/dark_sector/dirac16complex/outputs/ks-history-d
 dark16-eos|5|0|-|Revision/dark_sector/dirac16complex/outputs/eos-history.csv,Revision/dark_sector/dirac16complex/outputs/eos-summary.json,Revision/dark_sector/dirac16complex/reports/eos-checks.json|Revision/dark_sector/dirac16complex/reports/eos-checks.json|{python} Revision/dark_sector/dirac16complex/compute/compute_eos.py
 a4-ks-source|5|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|Revision/field_equations_a4/ks_source/reports/ks-source-a4.json|{python} Revision/field_equations_a4/ks_source/ks_source_a4.py
 a4-ks-source-unittest|20|0|-|Revision/field_equations_a4/ks_source/results,Revision/field_equations_a4/ks_source/reports|-|{python} -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
-dark16-independent|180|0|-|Revision/dark_sector/dirac16complex/outputs/independent-free-gas.json,Revision/dark_sector/dirac16complex/reports/independent-checks.json|Revision/dark_sector/dirac16complex/reports/independent-checks.json|{python} Revision/dark_sector/dirac16complex/independent/independent_free_gas.py
+dark16-independent|90|0|-|Revision/dark_sector/dirac16complex/outputs/independent-free-gas.json,Revision/dark_sector/dirac16complex/reports/independent-checks.json|Revision/dark_sector/dirac16complex/reports/independent-checks.json|{python} Revision/dark_sector/dirac16complex/independent/independent_free_gas.py
 dark00-derive|30|0|-|Revision/dark_sector/dirac16complex00/eos-theory.json,Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json|Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json|{python} Revision/dark_sector/dirac16complex00/python/derive_eos.py
 dark00-independent|30|0|-|Revision/dark_sector/dirac16complex00/results/independent-numerics.json,Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json|Revision/dark_sector/dirac16complex00/reports/python-independent-numerics.json|{python} Revision/dark_sector/dirac16complex00/python/independent_numerics.py
 dark00-unittest|30|0|-|Revision/dark_sector/dirac16complex00|-|{python} -m unittest Revision/dark_sector/dirac16complex00/tests/test_dark_sector_dirac16complex00.py -v

@@ -11,43 +11,60 @@ psi = (u, i w), turns the boundary conditions into w = 0 at both ends; it is wri
 (phi(-L) = 0).  For the T3 image (-m, +lambda, tip theta = pi: a(-L) = 0) this script supplies the same frame with the
 tip end rotated by pi/2 (phi(-L) = j pi/2), in two functions that replace ks_fd.sector_arrays and ks_fd.orbitals_ext
 for the image runs only:
-    phi = j [phi_tip (1 - s) + phi_brane s],  s = (y + L)/L,  phi_tip = 0 (theta = 0) or pi/2 (theta = pi),
-    phi_brane = 0 (even, b(0) = 0) or pi/2 (odd, a(0) = 0),
+    phi = j [phi_tip (1 - s) + phi_fold s],  s = (y + L)/L,  phi_tip = 0 (theta = 0) or pi/2 (theta = pi),
+    phi_fold = 0 (fold condition theta = 0, "even", b(0) = 0) or pi/2 (theta = pi, "odd", a(0) = 0),
 with the transformed operator of ks_fd (mass M cos 2phi - K sin 2phi, momentum term M sin 2phi + K cos 2phi, scalar
 phi').  For theta = 0 the formula is the reference's own frame (checked to the last bit); for theta = pi it is checked
 against the exact k = 0 spectra of the image problem.  Everything else (grids, eigen-solver, densities, functional,
 SCF, Mermin root, observables, Richardson) is the reference's code.
 
 States (a subset of the canonical matrix of Revision/kohn_sham, for run time; the Rust demonstration covers all of it):
-ground states N = 8 x lambda tags lam0, lamp2, lamm2 x a4,0 = 0, 1, 2 and N = 136 x lamp2, lamm2 x a4,0 = 0, 2; Mermin
-states N = 8, lamp1 x a4,0 = 0, 2 x T = 0.01, 0.05 and N = 136, lamp1, a4,0 = 2, T = 0.05.  The slices belong to the
-history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} (A = 1) of the author's metric with b4(x4) (SPEC section 1; b4 is never
-1), with x5, x6, x7 DEFLATING as e^{-a4} b4^{1/2} = b4(0)^{1/2} e^{-a4/3}; the coupling is the reference's lambda_hat,
-held fixed while the cell volume Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} grows (ks_fd.Phys.vol7, beta from
+ground states N = 8 x lambda tags lam0, lamp2, lamm2 x a4,0 = 0, 1, 2 and N = N_mid x lamp2, lamm2 x a4,0 = 0, 2; Mermin
+states N = 8, lamp1 x a4,0 = 0, 2 x T = 0.01, 0.05 and N = N_mid, lamp1, a4,0 = 2, T = 0.05 (N_mid = 592 in the record of
+the corrected metric, read from parameters.json).  The slices belong to the history a4 = A H x4,
+b4 = b4(0) e^{(4/3) A H x4} (A = 1) of the corrected primordial metric of 2026-10-16 (version 2; SPEC section 1), with
+x5, x6, x7 DEFLATING as e^{-a4} b4^{1/2} = b4(0)^{1/2} e^{-a4/3}; the hidden direction carries the same scale f, which
+enters the block Hamiltonians as 1/f; the coupling is the reference's lambda_hat, held fixed while the cell volume
+Vol_7(a4,0) = ell^3 v_t e^{(2 beta - 1) a4,0} = ell^3 v_t e^{(5/3) a4,0} grows (ks_fd.Phys.vol7, beta from
 ks-theory.json).  The history is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; the states violate
 the source conditions of the a4 and b4 equations, Revision/field_equations_a4/reports/ks-source-conditions.json).
 Every member is solved with the reference's solve_state_robust (direct SCF, and the coupling continuation if that
 fails); the members that needed the continuation are listed in the report (scfContinuation).
 
 Usage (from the repository root; after numerics/t3_rust_demo.py, whose table it compares with):
-  python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py [--jobs 8]
+  python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py [--jobs 8] [--work DIR (--part i/n | --reuse)]
+With --work DIR --part i/n only the grid runs of part i of the 162 (18 states x plus, image, control x the grids
+G = 300, 600, 1200; a fixed longest-first assignment by an estimated cost) are solved and stored in DIR (no checks, no
+outputs); --work DIR --reuse then reads them (and solves any that is missing), joins the three grids of every member
+and writes the outputs as one run would.  The gate runs six parts and the assembly, each within the limit of 423 s of
+one step (one run of all 54 members takes longer on the matrix of the corrected metric).
 Writes (deterministic, LF): Revision/pairing/kohn_sham/numerics/results/t3-reference-states.csv and
 Revision/pairing/kohn_sham/reports/t3-reference-demo.json.  Exit 0 iff every check passes.
-The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0 
-(brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6 H) in [-L, 0], z = 6 H x0 real
+(the fold cos z = 0 at y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra
+times.
 """
 
-import argparse
-import csv
-import hashlib
-import io
-import json
-import math
-import multiprocessing as mp
-import sys
-from pathlib import Path
+import os
 
-import numpy as np
+# one BLAS thread per worker process (as Revision/kohn_sham/reference/run_reference.py), set before numpy is imported:
+# with the default (one thread per core in every one of the --jobs processes) the pool oversubscribes the machine
+# (claude_failures.md H18)
+for _v in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+    os.environ.setdefault(_v, "1")
+
+import argparse  # noqa: E402
+import csv  # noqa: E402
+import hashlib  # noqa: E402
+import io  # noqa: E402
+import json  # noqa: E402
+import math  # noqa: E402
+import multiprocessing as mp  # noqa: E402
+import pickle  # noqa: E402
+import sys  # noqa: E402
+from pathlib import Path  # noqa: E402
+
+import numpy as np  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 T3DIR = HERE.parent
@@ -62,11 +79,16 @@ OUT_CSV = HERE / "results" / "t3-reference-states.csv"
 OUT_REPORT = T3DIR / "reports" / "t3-reference-demo.json"
 RUST_CSV = HERE / "results" / "t3-rust-states.csv"
 GRIDS = (300, 600, 1200)
-TOL = 1e-9            # T3 equality (relative, floor 1; profiles relative to their maximum)
+TOL = 1e-9            # T3 equality (relative, floor 1; profiles relative to the maximum of their family)
 CTRL_MIN = 1e-6
 XSOLVER_TOL = 1e-8    # reference image vs Rust image (E_KS, mu: relative, floor 1)
 PROFILE_NAMES = ("n", "S", "Q", "M_eff", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 ODD = ("S", "Q", "M_eff")
+# the scale of a profile difference: the maximum of its family (see t3_rust_demo.py FAMILY)
+FAMILY = {"n": ("n",), "S": ("n",), "Q": ("n",), "M_eff": ("M_eff", "v_v"), "v_v": ("M_eff", "v_v"),
+          "e_int": ("e_int", "rho", "p3", "p_t", "p0"), "rho": ("e_int", "rho", "p3", "p_t", "p0"),
+          "p3": ("e_int", "rho", "p3", "p_t", "p0"), "p_t": ("e_int", "rho", "p3", "p_t", "p0"),
+          "p0": ("e_int", "rho", "p3", "p_t", "p0")}
 STATE = {"tip_pi": False}
 ORIG_SA = K.sector_arrays
 ORIG_OE = K.orbitals_ext
@@ -80,7 +102,7 @@ def frame(y, L, odd, j, tip_pi):
     ks_fd.Grid.phi0 is, so that theta = 0 reproduces the reference's frame bit for bit."""
     lin = 0.5 * math.pi * (y + L) / L
     if tip_pi:
-        # tip end phi = pi/2 (a(-L) = 0); even: pi/2 at the tip -> 0 at the brane; odd: pi/2 throughout
+        # tip end phi = pi/2 (a(-L) = 0); even: pi/2 at the tip -> 0 at the fold; odd: pi/2 throughout
         phig = np.where(odd[None, :], 0.5 * math.pi, (0.5 * math.pi - lin)[:, None])
         dphi = np.where(odd, 0.0, -j * math.pi / (2.0 * L))[None, :]
     else:
@@ -93,12 +115,14 @@ def frame(y, L, odd, j, tip_pi):
 def sector_arrays_general(grid, phys, sec, M, v, a4=None, wq=None, tip_pi=None):
     tip_pi = STATE["tip_pi"] if tip_pi is None else tip_pi
     a4 = phys.a4 if a4 is None else a4
-    kap = np.exp(-phys.H * grid.y - a4)
-    Kk = kap[:, None] * sec.kmag(phys.dk)[None, :]
+    finv = 1.0 / phys.fh_at(a4)                 # the hidden scale f (ks_fd.Phys.fh_at): 1/f on d_y and on phi'
+    kap = math.exp(-a4)                         # kappa = e^{-a4}, constant in y (the corrected metric)
+    Kk = np.full((grid.n, 1), kap) * sec.kmag(phys.dk)[None, :]
     j = sec.j[None, :]
     if wq is not None:
         Kk = Kk + j * wq[:, None]
     phig, dphi = frame(grid.y, phys.L, sec.odd, sec.j, tip_pi)
+    dphi = dphi * finv
     phi = j * phig
     c2, s2 = np.cos(2.0 * phi), np.sin(2.0 * phi)
     if not tip_pi:
@@ -112,7 +136,7 @@ def sector_arrays_general(grid, phys, sec, M, v, a4=None, wq=None, tip_pi=None):
     m2 = M[:, None] * c2 - Kk * s2
     k2 = M[:, None] * s2 + Kk * c2
     alpha = np.where(grid.is_u[:, None], j * (dphi + k2), j * (dphi - k2)) + v[:, None]
-    beta = j * (grid.bs[:, None] + 0.5 * m2[grid.bu, :])
+    beta = j * (grid.bs[:, None] * finv + 0.5 * m2[grid.bu, :])
     return alpha, beta
 
 
@@ -143,7 +167,7 @@ def orbitals_ext_patched(grid, Z, j, odd):
     ce = np.cos(0.5 * math.pi * (1.0 - s))
     se = np.sin(0.5 * math.pi * (1.0 - s))
     ce[0], se[0] = 0.0, 1.0              # tip: phi = j pi/2 exactly
-    ce[-1], se[-1] = 1.0, 0.0            # brane (even): phi = 0 exactly
+    ce[-1], se[-1] = 1.0, 0.0            # fold (even): phi = 0 exactly
     c = np.where(odd[None, :], 0.0, ce[:, None])
     sn = j[None, :] * np.where(odd[None, :], 1.0, se[:, None])
     a = c * U - sn * W
@@ -165,8 +189,16 @@ def member(task):
         return {"id": task[1]["id"], "member": task[2], "error": "%s: %s" % (type(e).__name__, e)}
 
 
-def _member(task):
-    co, spec, mem = task
+def member_grid(task):
+    """one member of one state on ONE grid G: task = (co, spec, member, G)"""
+    try:
+        return _member_grid(task)
+    except Exception as e:  # recorded, not hidden; combine() turns it into the member's error
+        return {"id": task[1]["id"], "member": task[2], "G": task[3], "error": "%s: %s" % (type(e).__name__, e)}
+
+
+def _member_grid(task):
+    co, spec, mem, G = task
     STATE["tip_pi"] = (mem == "image")
     m = 1.0 if mem == "plus" else -1.0
     T = spec["T"]
@@ -174,26 +206,35 @@ def _member(task):
     g0 = K.Grid(ph, GRIDS[0])
     ls0, winfo = K.build_window(g0, ph, spec["sigma"])
     mode = "mermin" if T > 0.0 else "aufbau"
-    runs = []
-    for G in GRIDS:
-        g = K.Grid(ph, G)
-        ls = K.relabel(g, ph, ls0)
-        free = K.solve_state_robust(g, ph.copy(lam=0.0), ls, mode=mode)
-        st = free if ph.lam == 0.0 else K.solve_state_robust(g, ph, ls, mode=mode, guess=free.eps)
-        o, prof = K.observables(st)
-        sc = {k: o[k] for k in ("E_KS", "E_band", "E_int", "int_rho", "int_p3", "int_p_t", "int_p0", "int_n", "N_sum")}
-        if T > 0.0:
-            ent, lg = K.mermin_sums(st.eps, ls.deg, st.mu, T)
-            sc["mu"], sc["entropy"] = st.mu, ent
-            sc["Omega"] = -T * lg - o["E_int"]
-            sc["F"] = sc["Omega"] + st.mu * ph.N
-        else:
-            homo, lumo, _, _ = K.homo_lumo(st)
-            sc["HOMO"], sc["LUMO"], sc["KS_gap"] = homo, lumo, lumo - homo
-        ri = g.report_indices()
-        runs.append({"sc": sc, "eps": st.eps, "f": st.f, "keys": ls.keys(), "deg": ls.deg, "res": st.res,
-                     "path": "direct" if st.path == "direct" else "continuation",
-                     "prof": {k: prof[k][ri] for k in PROFILE_NAMES}})
+    g = K.Grid(ph, G)
+    ls = K.relabel(g, ph, ls0)
+    free = K.solve_state_robust(g, ph.copy(lam=0.0), ls, mode=mode)
+    st = free if ph.lam == 0.0 else K.solve_state_robust(g, ph, ls, mode=mode, guess=free.eps)
+    o, prof = K.observables(st)
+    sc = {k: o[k] for k in ("E_KS", "E_band", "E_int", "int_rho", "int_p3", "int_p_t", "int_p0", "int_n", "N_sum")}
+    if T > 0.0:
+        ent, lg = K.mermin_sums(st.eps, ls.deg, st.mu, T)
+        sc["mu"], sc["entropy"] = st.mu, ent
+        sc["Omega"] = -T * lg - o["E_int"]
+        sc["F"] = sc["Omega"] + st.mu * ph.N
+    else:
+        homo, lumo, _, _ = K.homo_lumo(st)
+        sc["HOMO"], sc["LUMO"], sc["KS_gap"] = homo, lumo, lumo - homo
+    ri = g.report_indices()
+    run = {"sc": sc, "eps": st.eps, "f": st.f, "keys": ls.keys(), "deg": ls.deg, "res": st.res,
+           "path": "direct" if st.path == "direct" else "continuation",
+           "prof": {k: prof[k][ri] for k in PROFILE_NAMES}}
+    return {"id": spec["id"], "member": mem, "G": G, "run": run, "window": winfo}
+
+
+def combine(spec, mem, grid_results):
+    """the member's record from its three grid results (Richardson over GRIDS), as one run computes it"""
+    errs = [r for r in grid_results if "error" in r]
+    if errs:
+        return {"id": spec["id"], "member": mem, "error": errs[0]["error"]}
+    by_g = {r["G"]: r for r in grid_results}
+    runs = [by_g[G]["run"] for G in GRIDS]
+    winfo = by_g[GRIDS[0]]["window"]
     out = {"id": spec["id"], "member": mem, "keys": runs[0]["keys"], "deg": runs[0]["deg"].tolist(),
            "same_keys_all_grids": all(r["keys"] == runs[0]["keys"] for r in runs),
            "f": runs[-1]["f"].tolist(), "residual_max": max(r["res"] for r in runs), "window": winfo,
@@ -212,6 +253,11 @@ def _member(task):
     return out
 
 
+def _member(task):
+    co, spec, mem = task
+    return combine(spec, mem, [member_grid((co, spec, mem, G)) for G in GRIDS])
+
+
 def spec_list(co, params):
     calib = params["couplingCalibration"]["values"]
     sig = {"lam0": 0.0, "lamp1": 0.1, "lamm1": 0.1, "lamp2": 0.3, "lamm2": 0.3}
@@ -223,10 +269,11 @@ def spec_list(co, params):
         v = c["lambda1"] if tag[-1] == "1" else c["lambda2"]
         return v if tag[3] == "p" else -v
 
+    nmid = int(params["particleNumbers"]["N_mid"])
     out = [(8, tag, a4, 0.0) for tag in ("lam0", "lamp2", "lamm2") for a4 in (0.0, 1.0, 2.0)]
-    out += [(136, tag, a4, 0.0) for tag in ("lamp2", "lamm2") for a4 in (0.0, 2.0)]
+    out += [(nmid, tag, a4, 0.0) for tag in ("lamp2", "lamm2") for a4 in (0.0, 2.0)]
     out += [(8, "lamp1", a4, t) for a4 in (0.0, 2.0) for t in (0.01, 0.05)]
-    out += [(136, "lamp1", 2.0, 0.05)]
+    out += [(nmid, "lamp1", 2.0, 0.05)]
     specs = []
     for n, tag, a4, t in out:
         sid = "N%d_%s_a%02d" % (n, tag, int(round(10 * a4))) + ("_T%d" % int(round(1000 * t)) if t else "")
@@ -241,7 +288,12 @@ def rel(a, b):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--jobs", type=int, default=8)
+    ap.add_argument("--work", default=None, help="folder of the stored member results (parts)")
+    ap.add_argument("--part", default=None, help="i/n: solve only the members k = i-1 (mod n), store them, stop")
+    ap.add_argument("--reuse", action="store_true", help="read the stored member results of --work (the assembly)")
     args = ap.parse_args()
+    if (args.part or args.reuse) and not args.work:
+        ap.error("--part and --reuse need --work")
     checks = []
 
     def check(name, ok, detail):
@@ -264,6 +316,7 @@ def main():
     same0 = bool(np.array_equal(a0, a1) and np.array_equal(b0, b1))
     # exact k = 0 spectra (ks-theory.json boundaryConditions.exactK0Spectra for (M, theta = 0)); the image problem
     # (-M, theta = pi) has, by the map, odd parity: eps = 0 and +-sqrt(M^2 + (n pi/L)^2); even: tan(pL) = -p/M
+    # (at a4,0 = 0, where the hidden scale f = 1; in general L -> f L)
     worst = 0.0
     for (Mv, Lv) in ((1.0, 3.0), (2.0, 3.0)):
         phx = R.make_phys(co, m=-Mv, L=Lv, a4=0.0, lam=0.0, N=8.0)
@@ -297,15 +350,68 @@ def main():
     check("image_frame_theta_pi", same0 and worst < 1e-9,
           "the rotated frame with a general tip end: for theta = 0 it gives the reference's sector matrices bit for bit "
           "(%s, 340 sectors, non-constant M(y), v(y)); for the image problem (-M, tip theta = pi) on G = 300, 600, 1200 "
-          "(Richardson) the k = 0 levels equal the exact image spectra (odd parity: eps = 0 and sqrt(M^2 + (n pi/L)^2); "
-          "even parity: tan(pL) = -p/M, the spectra of (M, theta = 0) with the parities exchanged) for (M, L) = (1, 3), "
+          "(Richardson) the k = 0 levels at a4,0 = 0 (f = 1) equal the exact image spectra (odd fold condition: eps = 0 "
+          "and sqrt(M^2 + (n pi/L)^2); even: tan(pL) = -p/M, the spectra of (M, theta = 0) with the fold conditions "
+          "exchanged) for (M, L) = (1, 3), "
           "(2, 3): max |difference| %.2e (tolerance 1e-9)" % ("identical" if same0 else "DIFFERENT", worst))
 
     specs = spec_list(co, params)
+    NMID_TXT = int(params["particleNumbers"]["N_mid"])
     tasks = [(co, s, mem) for s in specs for mem in ("plus", "image", "control")]
-    tasks.sort(key=lambda t: -(t[1]["N"] * (3.0 if t[1]["T"] > 0 else 1.0)))
-    with mp.Pool(args.jobs) as pool:
-        outs = pool.map(member, tasks, chunksize=1)
+    # the unit of work is one member on one grid; scheduling weight (execution order and parts only; the outputs do not
+    # depend on it): N plus a proxy of the thermal window, which grows with T and, on the late slices where the fold
+    # band is dense, like e^(2 a4,0), times the grid size
+    gtasks = [(co, s, mem, G) for (_, s, mem) in tasks for G in GRIDS]
+
+    def cost(t):
+        # (G/300)^1.5: the measured times per grid grow faster than G; a control member (untransformed tip) needs about
+        # twice the SCF work of plus and image
+        return ((t[1]["N"] + 1000.0 * t[1]["T"] * math.exp(2.0 * t[1]["a4"])) * (t[3] / 300.0) ** 1.5
+                * (2.0 if t[2] == "control" else 1.0))
+
+    gtasks.sort(key=lambda t: -cost(t))
+
+    def part_of(n_parts):
+        # deterministic longest-first assignment: each grid run (in the order above) goes to the part with the smallest
+        # summed cost so far (ties: the lowest part number)
+        load, where = [0.0] * n_parts, []
+        for t in gtasks:
+            j = min(range(n_parts), key=lambda q: (load[q], q))
+            load[j] += cost(t)
+            where.append(j)
+        return where
+    work = Path(args.work) if args.work else None
+
+    def stored(gt):
+        return work / ("%s__%s__G%d.pkl" % (gt[1]["id"], gt[2], gt[3]))
+
+    if args.part:
+        i, n_parts = (int(x) for x in args.part.split("/"))
+        assert 1 <= i <= n_parts
+        work.mkdir(parents=True, exist_ok=True)
+        where = part_of(n_parts)
+        mine = [gt for k, gt in enumerate(gtasks) if where[k] == i - 1]
+        with mp.Pool(min(args.jobs, len(mine))) as pool:
+            done = pool.map(member_grid, mine, chunksize=1)
+        for gt, o in zip(mine, done):
+            tmp = stored(gt).with_suffix(".tmp")
+            tmp.write_bytes(pickle.dumps(o, protocol=4))
+            tmp.replace(stored(gt))
+        failed = ["%s %s G%d" % (o["id"], o["member"], o["G"]) for o in done if "error" in o and o["member"] != "control"]
+        print("part %d/%d: %d grid runs, %d failed (plus/image): %s" % (i, n_parts, len(done), len(failed), failed),
+              flush=True)
+        return 1 if failed else 0
+    have = {}
+    if args.reuse:
+        for gt in gtasks:
+            if stored(gt).exists():
+                have[(gt[1]["id"], gt[2], gt[3])] = pickle.loads(stored(gt).read_bytes())
+    todo = [gt for gt in gtasks if (gt[1]["id"], gt[2], gt[3]) not in have]
+    if todo:
+        with mp.Pool(min(args.jobs, len(todo))) as pool:
+            for gt, o in zip(todo, pool.map(member_grid, todo, chunksize=1)):
+                have[(gt[1]["id"], gt[2], gt[3])] = o
+    outs = [combine(s, mem, [have[(s["id"], mem, G)] for G in GRIDS]) for (_, s, mem) in tasks]
     byk = {(o["id"], o["member"]): o for o in outs}
     probs = []
     errors = sorted("%s %s: %s" % (o["id"], o["member"], o["error"]) for o in outs if "error" in o)
@@ -348,7 +454,8 @@ def main():
         for k in PROFILE_NAMES:
             xa, xb = np.array(a["prof"][k][0]), np.array(b["prof"][k][0])
             sg = -1.0 if k in ODD else 1.0
-            dv = float(np.max(np.abs(xa - sg * xb)) / max(float(np.max(np.abs(xa))), 1e-300))
+            mx = max(max(float(np.max(np.abs(np.array(a["prof"][f][0])))) for f in FAMILY[k]), 1e-300)
+            dv = float(np.max(np.abs(xa - sg * xb)) / mx)
             if k in ODD:
                 dpo = max(dpo, dv)
             else:
@@ -402,20 +509,21 @@ def main():
           "%d states: the plus and image members of every state and the control members of %d states (in the other %d "
           "the reference found no self-consistent control state, check negative_control_untransformed_tip), each on "
           "G = 300, 600, 1200: SCF residual <= %.2e (tolerance 1e-12 of the reference), the same label set on every grid, "
-          "and the key sets of plus and image equal after the map (n2, j, parity, rank) -> (n2, -j, other parity, rank)%s"
+          "and the key sets of plus and image equal after the map (n2, j, fold condition, rank) -> (n2, -j, other fold "
+          "condition, rank)%s"
           % (len(specs), len(specs) - n_ctrl_err, n_ctrl_err, resmax, "" if not probs else "; problems: " + "; ".join(probs[:8])))
     check("t3_equal_ground_states", worst_g <= TOL,
-          "%d ground states (N = 8: lam0, lamp2, lamm2 x a4,0 = 0, 1, 2; N = 136: lamp2, lamm2 x a4,0 = 0, 2), Richardson values: "
+          "%d ground states (N = 8: lam0, lamp2, lamm2 x a4,0 = 0, 1, 2; N = %d: lamp2, lamm2 x a4,0 = 0, 2), Richardson values: "
           "levels by key (eps, occupation, degeneracy), E_KS, E_band, E_int, the EMT integrals (rho, p3, p_t, p0, n), N, "
           "HOMO, LUMO, KS gap, the profiles n, v_v, e_int, rho, p3, p_t, p0 (equal) and S, Q, M_eff (opposite sign) of the "
           "image (-m, +lambda, tip pi) equal those of the plus state: worst %.3e (%s), tolerance %.0e. On a single grid the "
           "levels of the two members differ by up to %.2e: the image's rotated frame is not the discrete image of the plus "
           "frame, so the two discretisations differ at O(h^2), and the equality appears in the extrapolated (continuum) "
-          "values" % (ng, worst_g, wid_g, TOL, per_grid_worst))
+          "values" % (ng, NMID_TXT, worst_g, wid_g, TOL, per_grid_worst))
     check("t3_equal_thermal_states", worst_t <= TOL,
-          "%d Mermin states (N = 8, lamp1 x a4,0 = 0, 2 x T = 0.01, 0.05; N = 136, lamp1, a4,0 = 2, T = 0.05): levels and occupations, mu, "
+          "%d Mermin states (N = 8, lamp1 x a4,0 = 0, 2 x T = 0.01, 0.05; N = %d, lamp1, a4,0 = 2, T = 0.05): levels and occupations, mu, "
           "entropy, E_KS, Omega = -T sum g ln(1 + e^(-(eps - mu)/T)) - E_int, F = Omega + mu N, EMT integrals and profiles "
-          "(S, Q, M_eff with opposite sign): worst %.3e (%s), tolerance %.0e" % (nt, worst_t, wid_t, TOL))
+          "(S, Q, M_eff with opposite sign): worst %.3e (%s), tolerance %.0e" % (nt, NMID_TXT, worst_t, wid_t, TOL))
     check("negative_control_untransformed_tip", ctrl_min > CTRL_MIN and nmin[0] > CTRL_MIN,
           "control (-m, +lambda) with the UNtransformed tip theta = 0, solved by the unchanged reference, in all %d states: "
           "the density profile alone, max_y |n_control - n_plus| / max_y |n_plus|, is at least %.3e (%s); the combined measure "
@@ -456,7 +564,7 @@ def main():
                   "(phi(-L) = j pi/2), supplied here; Richardson over G = 300, 600, 1200 (run_reference.rich3)",
         "background": "slices of the PRESCRIBED BACKGROUND history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} (A = 1; x5, x6, x7 "
                       "deflating as e^{-a4} b4^{1/2} = b4(0)^{1/2} e^{-a4/3}); lambda_hat fixed per tag, Vol_7(a4,0) = ell^3 v_t "
-                      "e^{2 a4,0}; the Kohn-Sham states violate the source conditions of the a4 and b4 equations "
+                      "e^{(5/3) a4,0}; the Kohn-Sham states violate the source conditions of the a4 and b4 equations "
                       "(Revision/field_equations_a4/reports/ks-source-conditions.json)",
         "scfContinuation": sorted("%s %s (G = %s)" % (o["id"], o["member"], ", ".join(str(G) for G in o["continuation_grids"]))
                                   for o in outs if "error" not in o and o["continuation_grids"]),

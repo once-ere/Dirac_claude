@@ -139,7 +139,8 @@ KEY_STATEMENTS = (
     REQUEST + " for each case of the dirac16complex and the dirac16complex00 fields.",
     "T1, T2, T3 and the quantum reading Q are proved, each under its stated hypotheses; the creation of pairs is not.",
     "That universes occur in pairs is not proved",
-    "with the ASSUMED Z2 mirror construction",
+    "the corrected metric has no Z2 orbifold",
+    "both fold conditions filled, ASSUMED",
     "identical one-particle ($\\lambda = 0$) spectra (flat space, or frozen coefficients at a point)",
     "No creation process, rate or amplitude follows from these equations.",
     "Not proved: that such universes are CREATED, in pairs or otherwise.",
@@ -152,19 +153,19 @@ KEY_STATEMENTS = (
     "The chirality image $\\chi = \\Gamma\\Psi$ carries the Krein metric $-B$",
     "no cancellation $P_1 + P_2 = 0$ follows",
     "The T2 image $\\gamma^0\\Psi$ keeps the anticommutator $+B$",
-    "the ASSUMED Z2 construction of `Revision/SPEC.md` section 7",
+    "no junction condition or matching of the field across the fold is derived",
     "the same occupations, chemical potential, particle number and entropy, EQUAL Kohn-Sham energy",
     "for every REAL frequency ($w^2 > 0$, with or without extra-time momentum)",
     "The field is a fixed (test) background: it is NOT varied",
     "dirac16complex00 is a classical field and has no quantum reading.",
     "they neither use nor establish a positive-norm Fock space for either universe",
-    "a T1 pair cannot by itself be the source of the author's metric in Einstein gravity",
+    "a T1 pair cannot by itself be the source of any exponential history in Einstein gravity or with the author's weights",
     "1. No creation process:",
     "2. No rate, probability or amplitude:",
     "3. No dynamical necessity:",
     "10. The Kohn-Sham level T3 holds for the instantaneous (adiabatic) mean-field Kohn-Sham states only",
     "### 8.5 Completion of T3 (2026-10-08)",
-    "T3 and its statements S1 to S5 are unchanged.",
+    "T3 and its statements S1 to S4 are unchanged.",
     r"the Kohn-Sham partner carries $+\lambda$",
     "the demonstrations of section 8.5 are numerical, not proofs",
     "the filling convention remains a CONVENTION whose justification is open",
@@ -468,34 +469,30 @@ class QuotedData(unittest.TestCase):
                 self.assertIn(check["name"], cited, f"{check['name']} of {path.name}")
         self.assertEqual(theory["verification"], [c["name"] for c in load_json(WOLFRAM_T3)["checks"]])
 
-    def test_a4_vacuum_polynomial(self):
-        """Corollary C1 for the metric with b4(x4): the vacuum statements of the a4 and b4 equations."""
-        detail = check_detail(A4_WOLFRAM, "einstein_no_vacuum_solution")
-        for piece in ("the x4-x0 component forces u = 0", "36 H^2 + 2 Lambda = 0", "6 a4'^2 + 6 H^2 = 0"):
-            self.assertIn(piece, detail)
-        self.assertIn("forces u = 0", check_detail(A4_PYTHON, "einstein_no_vacuum"))
-        self.assertIn(r"the $x_4$-$x_0$ component forces $b_4' = 0$, and then the $x_4$ and $x_0$ components give "
-                      r"$36H^2 + 2\Lambda = 0$ and $6(a_4')^2 + 6H^2 = 0$", self.text)
-        detail = check_detail(A4_WOLFRAM, "author_weights_no_vacuum_with_b4_not_constant")
-        self.assertIn("exactly for beta = 0 (b4 constant: the withdrawn metric) with A = +-1", detail)
-        self.assertIn("no exponential history with b4 not constant is a vacuum solution", detail)
-        self.assertIn("(beta, A) = [(0, -1), (0, 1)]", check_detail(A4_PYTHON, "author_weights_no_vacuum_with_b4_not_constant"))
-        self.assertIn(r"is a vacuum solution exactly for $\beta = 0$ ($b_4$ constant, the withdrawn metric) and $A = \pm1$; "
-                      r"none with $b_4$ not constant", self.text)
+    def test_a4_vacuum_statements(self):
+        """Corollary C1 for the corrected metric: the vacuum statements of the a4 and b4 equations."""
         for path in (A4_WOLFRAM, A4_PYTHON):
-            detail = check_detail(path, "egb_exponential_vacuum_branches")
-            self.assertIn("1/(40 H^2 (1 - A^2))", detail, path.name)
-            self.assertIn("-A^2/(4 H^2 (A^2 - 1)^2)", detail, path.name)
-        self.assertIn(r"$\beta = 4$ with $\alpha_2 = 1/(40H^2(1 - A^2))$ and $\beta = 2(1 + A^2)/A^2$ with "
-                      r"$\alpha_2 = -A^2/(4H^2(A^2 - 1)^2) < 0$", self.text)
-        self.assertIn("w1 = 1, w2 = 1/32, w3 = 1/1152", check_detail(A4_WOLFRAM, "author_weights_branch"))
+            self.assertIn("a4 = 0, b4 = H^2 (x4 - c)^2", check_detail(path, "einstein_flat_vacuum"), path.name)
+            self.assertIn("Lambda = 0", check_detail(path, "einstein_flat_vacuum"), path.name)
+        self.assertIn("is a vacuum solution, for any A, beta, Lambda", check_detail(A4_WOLFRAM, "einstein_no_exponential_vacuum"))
+        self.assertIn("no solution with k > 0 for any Lambda", check_detail(A4_PYTHON, "einstein_no_exponential_vacuum"))
+        self.assertIn(r"the flat member $a_4 = 0$, $b_4 = H^2(x_4 - c)^2$ solves the vacuum equations with $\Lambda = 0$, "
+                      r"while no exponential history", self.text)
+        for path in (A4_WOLFRAM, A4_PYTHON):
+            self.assertIn("no exponential history is a vacuum solution",
+                          check_detail(path, "author_weights_no_exponential_vacuum"), path.name)
+        self.assertIn(r"no exponential history is a vacuum solution. (c)", self.text)
+        for path in (A4_WOLFRAM, A4_PYTHON):
+            self.assertIn("alpha2 = -1/(4 H^2 (A^2 - k", check_detail(path, "egb_exponential_vacuum_branches"), path.name)
+        self.assertIn("no vacuum exponential history where k varies", check_detail(A4_WOLFRAM, "egb_exponential_vacuum_branches"))
+        self.assertIn(r"the tuned coupling $\alpha_2 = -1/(4H^2(A^2 - k_0))$", self.text)
+        self.assertIn("w = (1, 1/32, 1/1152)", check_detail(A4_WOLFRAM, "author_weights_history_source"))
 
     def test_kohn_sham_self_test_numbers(self):
         detail = check_detail(KS_SOLVER, "t3_block_map_solver_selftest")
         self.assertIn("NOT a proof of T3", detail)
-        for number in ("8.35e-14", "1e-9", "0.01946", "-1.341747939926e-4", "-1.341747939933e-4",
-                       "80 levels", "-1.6232217540e0", "0.01206", "3.239983783344e1",
-                       "160 levels", "2.9056626386e1"):
+        for number in ("3.62e-13", "1e-9", "157.7", "-1.457144423225e-2", "140 levels", "-1.7604533053e0",
+                       "2.131", "1.317651779781e2", "324 levels", "-8.1980434559e-1"):
             self.assertIn(number, detail, number)
             self.assertIn(number, self.text, number)
         self.assertIn("labelled in its report as NOT a proof of T3", self.text)

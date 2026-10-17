@@ -4,52 +4,42 @@
   {
    "name": "formulas_input_present",
    "verdict": "PASS",
-   "detail": "outputs/effective-formulas.json (derive_effective.py): w_eff = (P3 - Pt)/E - s + (beta/2)(Pt/E + s), and the history's beta = d ln b4/d a4 = 4/3 (author_weights_b4_branch)"
+   "detail": "outputs/effective-formulas.json (derive_effective.py, corrected metric): w_eff(A) = P3/E + (beta/2 - 1)(P0 + 3 Pt)/(3E), w_eff(C) = w_eff(A) - (4 - 2 beta)/3; the history's beta = 4/3"
   },
   {
    "name": "dense_history_complete",
    "verdict": "PASS",
-   "detail": "15 series x 41 slices from outputs/ks-history-dense.csv"
+   "detail": "15 series (N = 8, 592, 2352 x 5 couplings) x [41] slices from outputs/ks-history-dense.csv"
   },
   {
-   "name": "conservation_with_b4_term",
+   "name": "conservation_identity",
    "verdict": "PASS",
-   "detail": "4th-order finite differences of E on the dense grid vs -3 (P3 - Pt) - (3/2) beta Pt (beta = 4/3) from the solver's EMT integrals: max |dE/da4 + 3X + 2Pt|/max|E| = 6.351e-06 (interior slices, all series; the truncation error of the stencil on the N = 8 interacting series, whose E falls like e^(-2 a4), is about h^4 2^5/30 = 6.7e-06)"
-  },
-  {
-   "name": "conservation_without_b4_term_fails",
-   "verdict": "PASS",
-   "detail": "the b4-free identity dE/da4 = -3 X of the withdrawn b4 = 1 record does NOT hold on this history: max |dE/da4 + 3X|/max|E| over the interacting series = 1.630e+00: the b4 term -(3/2) beta Pt is needed"
+   "detail": "4th-order finite differences of E on the dense grid (h = 0.05) vs -3 P3 + Pt + P0/3 (beta = 4/3) from the solver's EMT integrals: max |dE/da4 + 3 P3 - Pt - P0/3|/max|E| = 2.103e-06 (interior slices, every series with E != 0)"
   },
   {
    "name": "conservation_integrated_simpson",
    "verdict": "PASS",
-   "detail": "E(a4) - E(0) = -int_0^a4 (3 (P3 - Pt) + (3/2) beta Pt): max relative deviation 3.585e-07"
+   "detail": "E(a4) - E(0) = -int_0^a4 (3 P3 - Pt - P0/3): max relative deviation 2.208e-07"
   },
   {
    "name": "derivative_two_ways",
    "verdict": "PASS",
-   "detail": "d w_eff(A)/da4 by finite differences vs the identity (X' + (beta/2) Pt')/E + w_eff(A) (3X + (3/2) beta Pt)/E at every slice (one-sided 4th-order stencils at the two end slices): gas series N = 136, 688 max deviation 1.366e-06 (<= 1e-5); N = 8 interacting series 3.532e-05, at the end slices, where E and Pt fall like e^(-2 a4) and the one-sided stencil's truncation error is about h^4 2^5/5 = 4.0e-05 (bound 2 h^4 2^5/5)"
+   "detail": "d w_eff(A)/da4 by finite differences vs the identity (P3' - (P0' + 3 Pt')/9)/E + w_eff(A) (3 P3 - Pt - P0/3)/E at the interior slices of every series: max deviation 1.410e-06"
   },
   {
-   "name": "gas_radiation_like_band",
+   "name": "free_gas_exact_fold_band",
    "verdict": "PASS",
-   "detail": "Kohn-Sham gas N = 136, 688 (all lambda): w_eff(A) = X/E + (2/3) Pt/E in [0.292793, 0.326802] (|Pt/E| <= 1.8e-03), below 1/3 and above 0.29 at every slice a4 in [0, 2]"
+   "detail": "lambda = 0, N = 592, 2352: P3/E = 1/3, Pt/E = P0/E = 0 to 7.8e-16 and E e^(a4) constant to 3.1e-15 at every slice (every occupied orbital is the fold-band orbital, eps = e^(-a4) |k|): w_eff(A) = 1/3 exactly (radiation-like), w_eff(C) = 1/3 - 4/9 = -1/9, wa = 0"
   },
   {
-   "name": "gas_X_over_E_rises_toward_one_third",
+   "name": "interacting_gas_ranges",
    "verdict": "PASS",
-   "detail": "w_eff(A) increases monotonically with a4 for every N = 136, 688 series: it rises toward 1/3 (radiation), it does not fall toward 0 (dust)"
+   "detail": "Kohn-Sham gas N = 2352, 592, lambda != 0 (8 series): E > 0 at every slice: True; w_eff(A) in [0.330585, 0.336132], w_eff(C) = w_eff(A) - 4/9 in [-0.113860, -0.108312]; Pt/E in [-3.240e-02, 3.024e-02], P0/E in [-1.192e-01, 1.114e-01]"
   },
   {
-   "name": "gas_C_near_zero_on_b4_history",
+   "name": "n8_interacting_states",
    "verdict": "PASS",
-   "detail": "normalisation C on the history with b4(x4): w_eff(C) = w_eff(A) - 1 + beta/2 = w_eff(A) - 1/3 in [-0.040541, -0.006532]: close to 0 (dust-like dilution per proper 7-volume), not a dark-energy value (the withdrawn b4 = 1 record had w_eff(C) = w_eff(A) - 1)"
-  },
-  {
-   "name": "n8_interacting_zero_modes_dilute_with_b4",
-   "verdict": "PASS",
-   "detail": "N = 8, lambda != 0 (only the k = 0 brane zero modes; pure interaction energy, coupling lambda_hat e^(-2 a4)): P3 = Pt at every slice (X = 0); E(2)/E(0) in [0.018402, 0.019031] (e^(-4) = 0.018316); Pt/E in [0.931316, 0.999997]: w_eff(A) = (2/3) Pt/E in [0.620877, 0.666665], w_eff(C) = w_eff(A) - 1/3 (the withdrawn b4 = 1 record had E constant, w_eff(A) = 0, w_eff(C) = -1)"
+   "detail": "N = 8, lambda != 0 (4 series; only the k = 0 levels, the energy is interaction energy): E has the sign of -lambda at every slice: True; P3/E in [0.948351, 0.998955]; w_eff(A) in [0.232167, 0.408203]"
   },
   {
    "name": "condensate_ratio_value",
@@ -57,29 +47,29 @@
    "detail": "u = -382/441 today: ratio -0.764000000000000"
   },
   {
-   "name": "condensate_drifts_with_b4",
+   "name": "condensate_drifts",
    "verdict": "PASS",
-   "detail": "with b4(x4) the condensate is no longer constant: u = lambda S/m falls like e^(-2 a4), so the ratio w_c = u/(2 + u) has wa = 4u/(2 + u)^2 = -2.695392 at the u that gives w_c = -0.764 today; w_eff(A) = (2/3) w_c = -0.509333 and w_eff(C) = -1/3 + (2/3) w_c = -0.842667 with wa = -1.796928 (the withdrawn b4 = 1 record had a constant condensate, wa = 0)"
+   "detail": "u = lambda S/m falls like e^(-(5/3) a4), so the ratio w_c = u/(2 + u) has wa = (10/3) u/(2 + u)^2 = -2.246160 at the u that gives w_c = -0.764 today; w_eff(A) = (5/9) w_c = -0.424444 and w_eff(C) = (5/9) w_c - 4/9 = -0.868889, both with wa = -1.247867"
   },
   {
    "name": "mixture_C_cannot_reach_unite_w0_with_lambda0_condensate",
    "verdict": "PASS",
-   "detail": "gas + lambda = 0 condensate, normalisation C: w_eff(C) = X_g/(E_g + E_c) - 1 + beta/2 >= -0.333015 >= -1/3 at every slice and gas fraction: neither -0.861 nor a constant -0.764 is reached (on the withdrawn b4 = 1 record a gas fraction 0.4367 gave w_eff(C) = -0.861 with wa = +0.067)"
+   "detail": "free gas N = 2352 + lambda = 0 condensate, normalisation C: w_eff(C) = P3_g/(E_g + E_c) - 4/9 >= -0.444111 >= -4/9 at every slice and gas fraction: neither -0.861 nor a constant -0.764 is reached"
   },
   {
-   "name": "mixture_scan_three_definitions_b4",
+   "name": "mixture_scan_three_definitions",
    "verdict": "PASS",
-   "detail": "gas (N = 688, lambda = 0) + condensate with ratio w_c in [-3, 0.99] today (drifting with b4: u ~ e^(-2 a4)), gas fraction in [0, 1], a4_today in [0.5, 1.0, 1.5, 2.0]: closest points to the Unite pair (-0.861, -0.60): ratio: w0 = -0.3, wa = -0.78 (distance 0.5891697548245); A_B: w0 = -0.2733333333333, wa = -0.7708 (distance 0.6119842735815); C: w0 = -0.58, wa = -0.6758666666667 (distance 0.2910614215438); every mixture with |w0 + 0.861| <= 0.1 has wa in: ratio [-3.800209088911, -2.685081787855], A_B [-4.848176262726, -3.262703276443], C [-2.639515126434, -1.41320438962] (all below -1, far from the Unite -0.60)"
+   "detail": "free gas (N = 2352, lambda = 0) + condensate with ratio w_c in [-3, 0.99] today (drifting: u ~ e^(-(5/3) a4)), gas fraction in [0, 1], a4_today in [0.5, 1.0, 1.5, 2.0]: closest points to the Unite pair (-0.861, -0.60): ratio: w0 = -0.35, wa = -0.7875 (distance 0.5443135585304); A_B: w0 = -0.3, wa = -0.77 (distance 0.5861919480853); C: w0 = -0.7055555555556, wa = -0.6397222222222 (distance 0.1604394909208); the mixtures with |w0 + 0.861| <= 0.1 have wa in: ratio [-3.136, -2.159381216106], A_B [-4.447785313931, -3.006388888889], C [-1.779879740253, -0.8286111111111]"
   },
   {
-   "name": "gas_cpl_thawing_sign_small",
+   "name": "gas_cpl_far_from_unite",
    "verdict": "PASS",
-   "detail": "Kohn-Sham gas (N = 136, 688, all lambda): tangent wa in [-0.019170, -0.008787], least-squares fit wa in [-0.028228, -0.019171] (all < 0: thawing sign; |wa| far below the Unite 0.60); w_eff(C) in [-0.040541, -0.006532]"
+   "detail": "Kohn-Sham gas (N != 8, all lambda): tangent wa in [-0.003892, 0.003904], least-squares fit wa in [-0.002392, 0.002261] (|wa| far below the Unite 0.60); w_eff(C) in [-0.113860, -0.108312] (never near -0.861)"
   }
  ],
  "summary": {
-  "total": 15,
-  "pass": 15,
+  "total": 13,
+  "pass": 13,
   "fail": 0
  }
 }

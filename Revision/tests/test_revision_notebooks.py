@@ -22,12 +22,13 @@ What is tested
         reports exactly as their JSON files give them, and no FAIL line;
       - kohn_sham_states: the same for the seven Kohn-Sham reports, the ten states equal to the
         committed record and the 84 reproduced rows of the cross-check table;
-      - dark_sector_hypotheses (the metric with b4(x4)): the same for the seven dark-sector reports
-        (including the Wolfram verification), the 123 rows of the dense history and of the
-        equation-of-state history reproduced character for character, the conservation law with the
-        b4 term, the three series entries of eos-summary.json, the mixtures and the scans with a
-        drifting condensate, and the exact (Fraction) dirac16complex00 tangents on the b4 history,
-        the ghost fraction 1583/1000 and the branch source.
+      - dark_sector_hypotheses (the corrected metric of 2026-10-16, version 2): the same for the seven
+        dark-sector reports (including the Wolfram verification), the 123 rows of the dense history and
+        of the equation-of-state history reproduced character for character, the conservation law with
+        the terms of the shrinking extra times and hidden direction, the exact fold-band gas, the three
+        series entries of eos-summary.json, the mixtures and the scans with a drifting condensate, and
+        the exact (Fraction) dirac16complex00 tangents on the history, the ghost fraction 3749/3000 and
+        the anisotropic source the history requires.
   * FULL (only when REVISION_NOTEBOOKS_FULL=1; about a minute per notebook; needs cargo and the
     pinned packages): the installed package versions equal the pins, and
     `build_notebooks.py check <name>` re-executes every notebook in a fresh temporary folder
@@ -167,8 +168,8 @@ class StaticTests(unittest.TestCase):
     def test_kohn_sham_record_counts_printed(self):
         out = all_output_text(notebook("kohn_sham_states"))
         self.assertNotIn("FAIL", out)
-        expected = {"ks-theory-wolfram.json": 51, "ks-theory-python.json": 63, "ks-rust-solver.json": 43,
-                    "ks-rust-determinism.json": 14, "ks-rust-mermin-roots.json": 5, "ks-reference.json": 38,
+        expected = {"ks-theory-wolfram.json": 51, "ks-theory-python.json": 61, "ks-rust-solver.json": 45,
+                    "ks-rust-determinism.json": 14, "ks-rust-mermin-roots.json": 5, "ks-reference.json": 39,
                     "ks-crosscheck.json": 31}
         for name, n in expected.items():
             rep = json.loads((KS_REPORTS / name).read_text(encoding="utf-8"))
@@ -177,18 +178,18 @@ class StaticTests(unittest.TestCase):
             self.assertIn(f"{name}: {n}/{n} checks pass, 0 fail, {n} listed checks with verdict PASS", out)
         states = re.findall(r"^PASS - (N\d+_\w+?)_equals_record", out, re.MULTILINE)
         self.assertEqual(len(states), 10, states)
-        self.assertIn("N136_lamp1_a10_T20", states)
+        self.assertIn("N592_lamp1_a10_T20", states)
         self.assertIn("PASS - crosscheck_rows_reproduced: 84 rows", out)
         self.assertRegex(out, r"checks of this notebook: \d+ passed, 0 failed")
 
     def test_dark_sector_record_counts_printed(self):
         out = all_output_text(notebook("dark_sector_hypotheses"))
         self.assertNotIn("FAIL", out)
-        expected = {("dirac16complex", "derivation-checks.json"): 39, ("dirac16complex", "ks-history-run.json"): 8,
-                    ("dirac16complex", "eos-checks.json"): 15, ("dirac16complex", "independent-checks.json"): 10,
-                    ("dirac16complex00", "python-derive-eos.json"): 49,
+        expected = {("dirac16complex", "derivation-checks.json"): 37, ("dirac16complex", "ks-history-run.json"): 8,
+                    ("dirac16complex", "eos-checks.json"): 13, ("dirac16complex", "independent-checks.json"): 10,
+                    ("dirac16complex00", "python-derive-eos.json"): 48,
                     ("dirac16complex00", "python-independent-numerics.json"): 32,
-                    (None, "wolfram-dark-sector-b4.json"): 8}
+                    (None, "wolfram-dark-sector.json"): 7}
         for (folder, name), n in expected.items():
             path = (DARK / folder / "reports" / name) if folder else (DARK / "reports" / name)
             rep = json.loads(path.read_text(encoding="utf-8"))
@@ -198,21 +199,24 @@ class StaticTests(unittest.TestCase):
         self.assertIn("PASS - all_runs_succeeded: 123 runs", out)
         self.assertIn("PASS - dense_rows_bit_identical: 123 of 123 rows", out)
         self.assertIn("PASS - eos_rows_identical: 123 of 123 rows", out)
-        for sid in ("N688_lam0", "N136_lam0", "N8_lamp1"):
+        for sid in ("N2352_lam0", "N592_lam0", "N8_lamp1"):
             self.assertIn(f"PASS - {sid}_summary_equals_record:", out)
-        for name in ("history_with_b4_equals_record", "conservation_with_b4_term", "conservation_without_b4_term_fails",
-                     "gas_C_near_zero", "n8_interacting_zero_modes_dilute_with_b4", "mixtures_equal_record",
-                     "mixture_C_cannot_reach_unite_w0", "mixture_scan_equals_record", "condensate_ratio_exact",
-                     "condensate_drift_exact", "M2_tangent_exact", "M3_tangent_exact", "M4_tangent_exact",
-                     "unite_w0_requires_dominant_ghost", "positive_components_bounded", "M5_no_crossing",
-                     "branch_required_source"):
+        for name in ("history_equals_record", "conservation_with_deflation_terms", "conservation_of_3_space_alone_fails",
+                     "gas_exact_fold_band", "gas_C_minus_one_ninth", "n8_interacting_zero_modes", "gas_cpl_constant",
+                     "mixtures_equal_record", "mixture_C_cannot_reach_unite_w0", "mixture_scan_equals_record",
+                     "condensate_ratio_exact", "condensate_drift_exact", "condensate_phantom_window",
+                     "fold_band_gas_condensate_mixture_formulas", "M2_tangent_exact", "M3_tangent_exact",
+                     "M4_tangent_exact", "unite_w0_requires_dominant_ghost", "positive_components_bounded",
+                     "M5_no_crossing", "history_required_source"):
             self.assertIn(f"PASS - {name}:", out)
         self.assertIn("u = -382/441 gives the ratio -191/250 = -0.764 exactly", out)
-        self.assertIn("wa = 4u/(2 + u)^2 = -84231/31250", out)
-        self.assertIn("M2: (w0, wa) = (-583/3000, 81037/500000) exactly", out)
-        self.assertIn("M3: (w0, wa) = (-287/1000, -196963/4500000) exactly", out)
-        self.assertIn("-0.861 needs G >= 1583/1000", out)
-        self.assertIn("kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27)", out)
+        self.assertIn("wa = (10/3) u/(2 + u)^2 = -28077/12500", out)
+        self.assertIn("M2: (w0, wa) = (-2749/9000, 81037/500000) exactly", out)
+        self.assertIn("M3: (w0, wa) = (-3583/9000, -196963/4500000) exactly", out)
+        self.assertIn("-0.861 needs G >= 3749/3000", out)
+        self.assertIn("the anisotropy kappa (p3 - p0) = -9/16 kk^2 + 1069/432 kk + 2015/972", out)
+        for stale in ("N688", "N136", "84231", "1583/1000", "-2/27"):
+            self.assertNotIn(stale, out, stale)
         self.assertRegex(out, r"checks of this notebook: \d+ passed, 0 failed")
 
 

@@ -7,33 +7,41 @@ independently by Revision/pairing/kohn_sham/python/check_t3.py.  This script sol
 the Rust solver (Revision/kohn_sham/solver), for every state of the canonical matrix of Revision/kohn_sham:
 
   plus     the +M universe:  (m, lambda), tip theta = 0           (the canonical boundary conditions)
-  image    the -M universe:  (-m, +lambda), tip theta = pi        (the T3 image: transformed tip, brane parities
-                                                                    exchanged by the map, solved independently)
+  image    the -M universe:  (-m, +lambda), tip theta = pi        (the T3 image: transformed tip, the two fold
+                                                                    conditions exchanged by the map, solved independently)
   control  negative control: (-m, +lambda), tip theta = 0          (the UNtransformed boundary condition)
 
-and compares them: T3 predicts EQUAL levels (sector (n2, j, parity) of plus <-> sector (n2, -j, other parity) of
+and compares them: T3 predicts EQUAL levels (sector (n2, j, fold condition) of plus <-> sector (n2, -j, other fold
+condition) of
 image), occupations, Kohn-Sham energy, chemical potential, entropy, grand potential, free energy, energy-momentum
 integrals and profiles, with S, Q and M_eff changing sign; the control must differ.  A second control compares plus
 with the image of the opposite coupling, (-m, -lambda, pi) (the T1 parameter map): it must differ too.
 
 States: the slices a4,0 in {0, 0.5, 1, 1.5, 2} of the history a4 = A H x4 (A = 1), b4 = b4(0) e^{(4/3) A H x4} of the
-author's metric with b4(x4) (SPEC section 1; b4 is never 1), with the extra times x5, x6, x7 DEFLATING exponentially
-(scale factor e^{-a4} b4^{1/2} sin^{1/6} z = b4(0)^{1/2} e^{-a4/3} sin^{1/6} z on the history).  This history is a
+corrected primordial metric of 2026-10-16 (version 2; SPEC section 1), with the extra times x5, x6, x7 DEFLATING
+exponentially (scale factor e^{-a4} b4^{1/2} (sin^2 z)^{1/12} = b4(0)^{1/2} e^{-a4/3} (sin^2 z)^{1/12} on the history).
+This history is a
 PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus): the Kohn-Sham states violate the source conditions
 of the a4 and b4 equations (Revision/field_equations_a4/reports/ks-source-conditions.json), so the gas is a test field
-without back-reaction.  T3 holds slice by slice; it does not use the history (b4 does not enter the block
-Hamiltonians h_j).  N and lambda_hat (the solver's coupling, held fixed along the history while the cell volume
-Vol_7(a4,0) = ell^3 v_t e^{(3/2) beta a4,0} grows; `single --lambda`) are those of the canonical matrix
+without back-reaction.  T3 holds slice by slice; it does not use the history (a4 and b4 enter the block
+Hamiltonians h_j only through the positive constants f = e^{-a4} b4^{1/2} and kappa = e^{-a4} of the slice).  N and
+lambda_hat (the solver's coupling, held fixed along the history while the cell volume
+Vol_7(a4,0) = ell^3 v_t e^{(2 beta - 1) a4,0} = ell^3 v_t e^{(5/3) a4,0} grows; `single --lambda`) are those of the
+canonical matrix
 (Revision/kohn_sham/results/parameters.json): 75 ground states and 135 thermal (Mermin) states.
 
 Usage (from the repository root; the solver built from the committed sources, e.g.
   cargo build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml):
   python Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver <path to revision_ks_solver> --work <scratch>
-         [--jobs 10]
+         [--jobs 10] [--part i/n | --reuse]
+With --part i/n only the runs k = i-1, i-1+n, ... of the 630 single runs are solved and left in --work (no checks, no
+outputs); the assembly run with --reuse then reads them (and solves any that is missing).  The gate runs four parts and
+the assembly, each well below the 423 s limit of one step.
 Writes (deterministic, LF): Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv and
 Revision/pairing/kohn_sham/reports/t3-rust-demo.json.  Exit 0 iff every check passes.
-The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0 
-(brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6 H) in [-L, 0], z = 6 H x0 real
+(the fold cos z = 0 at y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra
+times.
 """
 
 import argparse
@@ -60,11 +68,17 @@ TEMPS = (0.01, 0.02, 0.05)
 GROUND_TAGS = ("lam0", "lamp1", "lamm1", "lamp2", "lamm2")
 THERMO_TAGS = ("lam0", "lamp1", "lamm1")
 OPPOSITE = {"lam0": "lam0", "lamp1": "lamm1", "lamm1": "lamp1", "lamp2": "lamm2", "lamm2": "lamp2"}
-TOL = 1e-9          # T3 equality tolerance (relative, floor 1; profiles relative to the column maximum)
+TOL = 1e-9          # T3 equality tolerance (relative, floor 1; profiles relative to the maximum of their family)
 CTRL_MIN = 1e-6     # a negative control must differ by more than this (1000 x TOL)
 CANON_TOL = 1e-9    # plus member against the committed canonical matrix
 EVEN = ("n", "v_v", "e_int", "rho", "p3", "p_t", "p0")
 ODD = ("S", "Q", "M_eff")
+# the scale of a profile difference: the maximum of its family (as the solver's refined_profiles check): a profile
+# that vanishes identically in one member (S, p_t, p0 of the free fold-band gas) is compared at the scale of its family
+FAMILY = {"n": ("n",), "S": ("n",), "Q": ("n",), "M_eff": ("M_eff", "v_v"), "v_v": ("M_eff", "v_v"),
+          "e_int": ("e_int", "rho", "p3", "p_t", "p0"), "rho": ("e_int", "rho", "p3", "p_t", "p0"),
+          "p3": ("e_int", "rho", "p3", "p_t", "p0"), "p_t": ("e_int", "rho", "p3", "p_t", "p0"),
+          "p0": ("e_int", "rho", "p3", "p_t", "p0")}
 
 
 def sha(p):
@@ -170,8 +184,8 @@ def compare_t3(a, b):
     sc = 0.0
     for nm in ("E_KS", "E_band", "E_int", "mu_or_fermi_level", "entropy", "particleNumber"):
         sc = max(sc, rel(a[nm], b[nm]))
-    for nm, x in a["emtIntegrals_2Vol7_int_e6Hy"].items():
-        sc = max(sc, rel(x, b["emtIntegrals_2Vol7_int_e6Hy"][nm]))
+    for nm, x in a["emtIntegrals_2Vol7_int_e3Hy"].items():
+        sc = max(sc, rel(x, b["emtIntegrals_2Vol7_int_e3Hy"][nm]))
     d["scalars"] = sc
     oa, fa = omega_of(a)
     ob, fb = omega_of(b)
@@ -183,7 +197,7 @@ def compare_t3(a, b):
     for nm in EVEN + ODD:
         xa, xb = a["profiles"][nm], b["profiles"][nm]
         sg = -1.0 if nm in ODD else 1.0
-        mx = max(max(abs(v) for v in xa), 1e-300)
+        mx = max(max(max(abs(v) for v in a["profiles"][f]) for f in FAMILY[nm]), 1e-300)
         dv = max(abs(u - sg * v) for u, v in zip(xa, xb)) / mx
         if nm in ODD:
             po = max(po, dv)
@@ -200,8 +214,8 @@ def control_dev(a, c):
     lc = sorted((x[4], x[5]) for x in c["levels_n2_j_parity_label_eps_deg_f"])
     dl = max((max(abs(x[0] - y[0]), abs(x[1] - y[1])) for x, y in zip(la, lc)), default=0.0)
     ds = rel(a["E_KS"], c["E_KS"])
-    for nm, x in a["emtIntegrals_2Vol7_int_e6Hy"].items():
-        ds = max(ds, rel(x, c["emtIntegrals_2Vol7_int_e6Hy"][nm]))
+    for nm, x in a["emtIntegrals_2Vol7_int_e3Hy"].items():
+        ds = max(ds, rel(x, c["emtIntegrals_2Vol7_int_e3Hy"][nm]))
     na, nc = a["profiles"]["n"], c["profiles"]["n"]
     dn = max(abs(u - v) for u, v in zip(na, nc)) / max(max(abs(u) for u in na), 1e-300)
     return max(dl, ds, dn), {"levels": dl, "scalars": ds, "n_profile": dn}
@@ -217,7 +231,8 @@ def main():
     ap.add_argument("--solver", required=True)
     ap.add_argument("--work", required=True)
     ap.add_argument("--jobs", type=int, default=10)
-    ap.add_argument("--reuse", action="store_true", help="reuse the single-run outputs already in --work (development)")
+    ap.add_argument("--reuse", action="store_true", help="reuse the single-run outputs already in --work (parts, development)")
+    ap.add_argument("--part", default=None, help="i/n: solve only the runs k = i-1 (mod n) and stop (no checks, no outputs)")
     args = ap.parse_args()
     # An absolute path: Windows' CreateProcess does not find a relative path written with '/' separators.
     args.solver = str(Path(args.solver).resolve())
@@ -259,6 +274,15 @@ def main():
         jobs.append((sid + "__plus", args.solver, work, m0, lam, a4, n, 0.0, t, args.reuse))
         jobs.append((sid + "__image", args.solver, work, -m0, lam, a4, n, math.pi, t, args.reuse))
         jobs.append((sid + "__control", args.solver, work, -m0, lam, a4, n, 0.0, t, args.reuse))
+    if args.part:
+        i, n_parts = (int(x) for x in args.part.split("/"))
+        assert 1 <= i <= n_parts
+        mine = [j for k, j in enumerate(jobs) if k % n_parts == i - 1]
+        with cf.ThreadPoolExecutor(max_workers=args.jobs) as ex:
+            done = list(ex.map(solve, mine))
+        failed = [k for k, rec, err in done if rec is None and not k.endswith("__control")]
+        print("part %d/%d: %d single runs, %d failed (plus/image)" % (i, n_parts, len(done), len(failed)))
+        return 1 if failed else 0
     res, errs = {}, {}
     with cf.ThreadPoolExecutor(max_workers=args.jobs) as ex:
         for key, rec, err in ex.map(solve, jobs):
@@ -338,10 +362,10 @@ def main():
         rows.append([sid, int(n), tag, repr(lambda_of(calib, n, tag)), repr(a4), repr(t or 0.0),
                      repr(a["E_KS"]), repr(b["E_KS"]), repr(a["mu_or_fermi_level"]), repr(b["mu_or_fermi_level"]),
                      repr(a["entropy"]), repr(b["entropy"]), repr(oa) if oa is not None else "", repr(ob) if ob is not None else "",
-                     repr(a["emtIntegrals_2Vol7_int_e6Hy"]["rho"]), repr(a["emtIntegrals_2Vol7_int_e6Hy"]["p3"]),
-                     repr(a["emtIntegrals_2Vol7_int_e6Hy"]["p_t"]), repr(a["emtIntegrals_2Vol7_int_e6Hy"]["p0"]),
-                     repr(b["emtIntegrals_2Vol7_int_e6Hy"]["rho"]), repr(b["emtIntegrals_2Vol7_int_e6Hy"]["p3"]),
-                     repr(b["emtIntegrals_2Vol7_int_e6Hy"]["p_t"]), repr(b["emtIntegrals_2Vol7_int_e6Hy"]["p0"]),
+                     repr(a["emtIntegrals_2Vol7_int_e3Hy"]["rho"]), repr(a["emtIntegrals_2Vol7_int_e3Hy"]["p3"]),
+                     repr(a["emtIntegrals_2Vol7_int_e3Hy"]["p_t"]), repr(a["emtIntegrals_2Vol7_int_e3Hy"]["p0"]),
+                     repr(b["emtIntegrals_2Vol7_int_e3Hy"]["rho"]), repr(b["emtIntegrals_2Vol7_int_e3Hy"]["p3"]),
+                     repr(b["emtIntegrals_2Vol7_int_e3Hy"]["p_t"]), repr(b["emtIntegrals_2Vol7_int_e3Hy"]["p0"]),
                      len(a["levels_n2_j_parity_label_eps_deg_f"]), "%.3e" % d["worst"],
                      "%.3e" % d["levels_eps"], "%.3e" % d["scalars"], "%.3e" % d["profiles_even"], "%.3e" % d["profiles_odd"],
                      "no state" if c is None else repr(c["E_KS"]), "no state" if c is None else "%.3e" % cd,
@@ -356,11 +380,13 @@ def main():
         cnt = sum(1 for r in rows if (r[5] != "0.0") == (kind == "thermal"))
         check("t3_equal_%s_states" % kind, cnt == nst and worst <= TOL and not [p for p in probs_all if (("_T" in p.split(":")[0]) == (kind == "thermal"))],
               "%d %s: the image (-m, +lambda, tip pi) equals the plus state (m, lambda, tip 0) as T3 states: levels label "
-              "by label with the sector map (n2, j, parity) -> (n2, -j, other parity) (eps, degeneracy, occupation), "
-              "E_KS, E_band, E_int, mu, entropy, N, the EMT integrals 2 Vol_7 int e^(6Hy)(rho, p3, p_t, p0, n) dy, "
+              "by label with the sector map (n2, j, fold condition) -> (n2, -j, other fold condition) (eps, degeneracy, "
+              "occupation), E_KS, E_band, E_int, mu, entropy, N, the EMT integrals 2 Vol_7 int e^(3Hy)(rho, p3, p_t, p0, n) dy, "
               "Omega = -T sum g ln(1 + e^(-(eps - mu)/T)) - E_int and F = Omega + mu N (thermal), HOMO, LUMO and KS "
               "gap (T = 0), the even profiles n, v_v, e_int, rho, p3, p_t, p0 pointwise, and the odd profiles S, Q, M_eff "
-              "with opposite sign (relative to each profile's maximum); worst deviation %.3e, tolerance %.0e; per "
+              "with opposite sign (relative to the maximum of the profile's family: n, S, Q to max |n|; M_eff, v_v to the "
+              "larger of their maxima; e_int, rho, p3, p_t, p0 to the largest of theirs); worst deviation %.3e, "
+              "tolerance %.0e; per "
               "quantity (worst, state): %s%s"
               % (cnt, what, worst, TOL, agg_text(kind), "" if not probs_all else "; problems: " + "; ".join(probs_all[:10])))
 
@@ -368,8 +394,8 @@ def main():
     check("negative_control_untransformed_tip", ctrl_min > CTRL_MIN and nmin[0] > CTRL_MIN,
           "control (-m, +lambda) with the UNtransformed tip theta = 0 (b(-L) = 0) in all %d states: it is not the T3 "
           "image. The density profile alone, max_y |n_control - n_plus| / max_y |n_plus|, is at least %.3e (%s) in every "
-          "state with a control state (with -m and the untransformed tip the k = 0 zero modes (e^(-m y), 0) are localised at "
-          "the tip instead of the brane); the combined "
+          "state with a control state (with -m and the untransformed tip the k = 0 zero modes (e^(-f m y), 0) are localised "
+          "at the tip instead of the fold); the combined "
           "measure (max of that, the globally sorted (eps, degeneracy) list, E_KS and the EMT integrals) is at least %.3e "
           "(%s; its level part %.3e is dominated by the shifted degeneracies, its scalar part is %.1e in %s, where E_KS and "
           "the EMT integrals vanish for both); required > %.0e, in the %d states where the solver found a self-consistent control state; "
@@ -405,11 +431,11 @@ def main():
         "spec": "Revision/SPEC.md section 9, theorem T3 (the Kohn-Sham level): numerical demonstration with the Revision "
                 "Rust Kohn-Sham solver (a demonstration, not part of the proof)",
         "members": {"plus": "(m, lambda), tip theta = 0 (canonical boundary conditions)",
-                    "image": "(-m, +lambda), tip theta = pi (the T3 image, transformed tip; brane parities exchanged by the map)",
+                    "image": "(-m, +lambda), tip theta = pi (the T3 image, transformed tip; the two fold conditions exchanged by the map)",
                     "control": "(-m, +lambda), tip theta = 0 (UNtransformed boundary condition: negative control)"},
         "background": "slices a4,0 in {0, 0.5, 1, 1.5, 2} of the PRESCRIBED BACKGROUND history a4 = A H x4, b4 = b4(0) "
                       "e^{(4/3) A H x4} (A = 1; x5, x6, x7 deflating as e^{-a4} b4^{1/2} = b4(0)^{1/2} e^{-a4/3}); the "
-                      "coupling lambda_hat of each tag is held fixed while Vol_7(a4,0) = ell^3 v_t e^{2 a4,0} grows; the "
+                      "coupling lambda_hat of each tag is held fixed while Vol_7(a4,0) = ell^3 v_t e^{(5/3) a4,0} grows; the "
                       "Kohn-Sham states violate the source conditions of the a4 and b4 equations "
                       "(Revision/field_equations_a4/reports/ks-source-conditions.json): a test field without back-reaction",
         "inputs": {"Revision/kohn_sham/ks-theory.json": sha(KS / "ks-theory.json"),
@@ -425,7 +451,8 @@ def main():
         "summary": {"checks": len(checks), "pass": npass, "fail": len(checks) - npass},
         "checks": checks,
         "not_established": "A numerical demonstration on the canonical matrix, not a proof (the proof is exact: "
-                           "t3-theory.json). Instantaneous (adiabatic) states on a prescribed background; ASSUMED Z2 brane; "
+                           "t3-theory.json). Instantaneous (adiabatic) states on a prescribed background; both fold "
+                           "conditions filled (ASSUMED); "
                            "filling CONVENTION of ks-theory.json; no creation process, rate or amplitude.",
     }
     OUT_REPORT.write_bytes((json.dumps(rep, indent=2, ensure_ascii=True) + "\n").encode("utf-8"))

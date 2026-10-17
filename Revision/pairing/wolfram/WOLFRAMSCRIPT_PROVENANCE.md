@@ -1,5 +1,13 @@
 # WolframScript provenance: the pairing verifier (`Revision/pairing/wolfram/`)
 
+**2026-10-17 (the last entry of section 6): the corrected metric of 2026-10-16 (version 2).**  The set verifies T1, T2
+and the quantum-level reading Q in the corrected primordial metric of `Revision/SPEC.md` section 1,
+diag(e^(-2 a4) b4 cot^2 z, e^(2 a4) (x3), -1, -e^(-2 a4) b4 (sin^2 z)^(1/6) (x3)): the vielbein
+e^x0 = e^(-a4) b4^(1/2) cot z, e^xi = e^a4, e^x4 = 1, e^xt = e^(-a4) b4^(1/2) sin^(1/6) z on the patches, sqrt|g| =
+e^(-a4) b4^2 cot z sin^(1/2) z; the reflection z -> pi - z of T2 is the isometry across the fold z = pi/2 between the two
+halves of a cell (there is no Z2 orbifold); 102 Wolfram checks and 67 sympy checks, the same names and counts as for the
+metric of 2026-10-14. The text of sections 1 to 5 describes that earlier metric (the Z2 brane, sqrt|g| = b4^(3/2) cos z).
+
 This file tells you what the WolframScript set in this folder is, which files it reads and writes,
 exactly how to run it on your own computer (even if you have never used Wolfram software), what you
 should see when it works, what it changes on your disk, and how it was tested. Everything you need to
@@ -736,3 +744,25 @@ machine, were kernel-measured at 111.99 s and 100.05 s (wall time of the first n
   `b4 = Function("b4", positive=True)(x4)`, and the new check `geometry.connection_depends_on_b4`): 67 PASS, 0 FAIL in
   202.3 s, its comparison with `pairing-theory.json` included; a second run (177.4 s) wrote a byte-identical
   `python-pairing.json` (sha256 `18c418ac07d8f50d9735eb0c9f137b3da24014ec4563e402b3bd11d118fca758`). Not done: a run in a fresh clone.
+* **The corrected metric of 2026-10-16, version 2 (2026-10-17):** the user's orders of 2026-10-16 (`Revision/SPEC.md`
+  section 1, version 2; "go ahead with the recomputation using the corrected metric", `HANDOFF.md` 0.10, phase W6).
+  Changes (commit `6e228a8`): `verify_pairing.wls` and its package `RevisionPairing.wl` have the corrected metric
+  `gAuthor` (written as the author writes it, with (Sin[z]^2)^(1/6) in the extra times; on the patches sin z > 0, so
+  (sin^2 z)^(1/12) = sin^(1/6) z), the primordial and mirror vielbeins e^-a4 b4^(1/2) cot z (x0), e^a4 (x1..x3), 1 (x4),
+  e^-a4 b4^(1/2) sin^(1/6) z (x5..x7) and sqrt|g| = e^-a4 b4^2 cot z sin^(1/2) z; the reflection of T2 is described as the
+  isometry z -> pi - z across the fold z = pi/2 between the two halves of a cell, and the not-established list of
+  `pairing-theory.json` replaces the ASSUMED Z2 brane by the fold (the continuation across the fold is not derived; the
+  corrected metric has no Z2 orbifold) and names T3 with its hypothesis "both fold conditions filled, ASSUMED"; the
+  script reads `REVISION_DIR` from the environment if it is set (to run on a copy). The sympy twin
+  `Revision/pairing/python/check_pairing.py`: the same vielbein and sqrt|g|, the check `geometry.brane_degenerate` renamed
+  `geometry.fold_degenerate`, the same texts. Every verdict is unchanged; the details differ where they describe the
+  metric (`primordial_vielbein`, `T2_mirror_is_isometry`, `theory_file_deterministic`: 22764 characters, before 22577).
+  sha256 (2026-10-17): script `b3c66c3b0a60078e7fb641cf092d3110e4601bd966d6da66499326127bffde4c` (513 lines, 55086 bytes), package
+  `eccc3554e96b6dfe0d46d357d67afa253fa933f8c88cf756ab7df3a607c6c95f` (235 lines, 14661 bytes), sympy twin `5eff4d77672a1da4d8945e87b0f99ee8c579db342c95bb4ca6ec242616514a29` (1109 lines, 64482 bytes);
+  outputs `pairing-theory.json` `1039d06e5c6554c13c8007edc903d13e0d1d9d9aaba406f2b736258b5a5b535d` (420 lines, 22764 bytes), `reports/wolfram-pairing.json`
+  `339c4831c749318ea6f4ef826c06f7d123f08850a1871c871aa554477c985ad5` (113 lines, 41052 bytes), `reports/python-pairing.json`
+  `fda131feee205d54a2b181dcb70471b14b50013cecdd3e92b0fdb595cd56f19c` (374 lines, 32147 bytes). Runs (2026-10-17, Windows 11 Pro for Workstations,
+  Wolfram 15.0.1, Python 3.14, from the repository root in the working tree, under `timeout -k 5 423`, other jobs of this
+  work on the machine): `verify_pairing.wls` `102/102 checks passed; time 82.33 s` (85 s of wall time),
+  `check_pairing.py` 67 PASS, 0 FAIL in 177.9 s (179 s of wall time); both reproduced the outputs of commit `6e228a8`
+  byte for byte. Not done: a run in a fresh clone.

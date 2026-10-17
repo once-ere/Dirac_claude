@@ -3,14 +3,15 @@
 Revision code only (nothing from the old stages). T3 is proved here by exact symbolic computation, twice and
 independently; a completion (2026-10-08) adds three exact checks found necessary by an adversarial verification, and
 two numerical demonstrations solve the +M and -M universes with the Revision Rust solver and the independent
-reference solver.
+reference solver. Everything is that of the corrected primordial metric of 2026-10-16 (version 2; `Revision/SPEC.md`
+section 1); the records of the withdrawn metrics are in the git history.
 
 | file | engine | role |
 | --- | --- | --- |
-| `wolfram/verify_t3.wls` | Wolfram | the proof steps of T3; writes `t3-theory.json` (hypotheses, statement, proof, what is not established) and `reports/wolfram-t3.json` (10 checks) |
-| `python/check_t3.py` | sympy | independent re-derivation of every step; compares with `t3-theory.json`; records the numerical self-test of the Rust Kohn-Sham solver as a confirmation (not a proof); writes `reports/python-t3.json` (13 checks) |
+| `wolfram/verify_t3.wls` | Wolfram | the proof steps of T3; writes `t3-theory.json` (hypotheses, statement S1-S4, proof, what is not established) and `reports/wolfram-t3.json` (9 checks) |
+| `python/check_t3.py` | sympy | independent re-derivation of every step; compares with `t3-theory.json`; records the numerical self-test of the Rust Kohn-Sham solver as a confirmation (not a proof); writes `reports/python-t3.json` (12 checks) |
 | `wolfram/verify_t3_completion.wls` | Wolfram | completion: the Kohn-Sham potentials read from ks-theory.json, the filling convention carried onto the -M member, the 16-component Krein expectation rule (statement S6); writes `t3-completion.json` and `reports/wolfram-t3-completion.json` (3 checks) |
-| `python/check_t3_completion.py` | sympy | independent re-derivation of the completion; confirms the T3 reports; reads the two demonstrations as data; compares with `t3-completion.json`; writes `reports/python-t3-completion.json` (7 checks) |
+| `python/check_t3_completion.py` | sympy | independent re-derivation of the completion; confirms the T3 reports (9 and 12 checks); reads the two demonstrations as data; compares with `t3-completion.json`; writes `reports/python-t3-completion.json` (7 checks) |
 | `numerics/t3_rust_demo.py` | Rust solver | numerical demonstration on the whole canonical matrix (210 states); writes `reports/t3-rust-demo.json` (7 checks) and `numerics/results/t3-rust-states.csv` |
 | `numerics/t3_reference_demo.py` | reference solver | numerical demonstration with the independent finite-difference reference (18 states) and the -M universe of the two solvers compared; writes `reports/t3-reference-demo.json` (7 checks) and `numerics/results/t3-reference-states.csv` |
 
@@ -23,17 +24,19 @@ reproduce them) and `Revision/field_equations_a4/reports/ks-source-conditions.js
 
 ## The prescribed background
 
-The metric is the author's metric with b4(x4) in the three extra-time components (`Revision/SPEC.md` section 1; b4
-is never 1, b4 = 1 is the withdrawn earlier metric). T3 is a statement at a fixed slice a4,0 = a4(x4), b4,0 = b4(x4)
-and uses no history; b4 does not enter the block Hamiltonians h_j (it enters the proper densities only through the cell
-volume Vol_7), so T3 holds for every b4. The demonstrations solve the slices a4,0 = 0, 0.5, 1, 1.5, 2 of the
-Kohn-Sham history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} (A = 1), along which the extra times x5, x6, x7 deflate
-exponentially (scale factor e^{-a4} b4^{1/2} sin^{1/6} z = b4(0)^{1/2} e^{-a4/3} sin^{1/6} z); the coupling of each tag
-is the solvers' lambda_hat, held fixed while the cell volume Vol_7(a4,0) = ell^3 v_t e^{2 a4,0} grows, as in the
-canonical matrix. That history is a PRESCRIBED BACKGROUND (`Revision/kohn_sham/ks-theory.json`
-adiabaticity.historyStatus): the Kohn-Sham states violate the source conditions of the a4 and b4 equations
-(`Revision/field_equations_a4/reports/ks-source-conditions.json`, 6/6 checks), so the Kohn-Sham gas is a test field
-without back-reaction, and nothing computed along the history is a consequence of the coupled field equations.
+The metric is the corrected metric diag(e^{-2 a4} b4 cot^2 z, e^{2 a4} (x3), -1, -e^{-2 a4} b4 (sin^2 z)^{1/6} (x3)),
+z = 6 H x0 real. T3 is a statement at a fixed slice a4,0 = a4(x4), b4,0 = b4(x4) and uses no history: a4 and b4 enter
+the block Hamiltonians h_j = j[-(i/f) sigma1 d_y + M_eff sigma2 + kappa k sigma3] + v_v only through the positive
+constants f = e^{-a4} b4^{1/2} (the hidden scale) and kappa = e^{-a4} of the slice, and the proper densities through
+the cell volume Vol_7, so T3 holds for every a4 and b4. The demonstrations solve the slices a4,0 = 0, 0.5, 1, 1.5, 2
+of the Kohn-Sham history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} (A = 1), along which the extra times x5, x6, x7
+deflate exponentially (scale factor e^{-a4} b4^{1/2} (sin^2 z)^{1/12} = b4(0)^{1/2} e^{-a4/3} (sin^2 z)^{1/12}); the
+coupling of each tag is the solvers' lambda_hat, held fixed while the cell volume
+Vol_7(a4,0) = ell^3 v_t e^{(5/3) a4,0} grows, as in the canonical matrix. That history is a PRESCRIBED BACKGROUND
+(`Revision/kohn_sham/ks-theory.json` adiabaticity.historyStatus): the Kohn-Sham states violate the source conditions
+of the a4 and b4 equations (`Revision/field_equations_a4/reports/ks-source-conditions.json`, 5/5 checks), so the
+Kohn-Sham gas is a test field without back-reaction, and nothing computed along the history is a consequence of the
+coupled field equations.
 
 ## Run (from the repository root)
 
@@ -42,54 +45,58 @@ wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
 python Revision/pairing/kohn_sham/python/check_t3.py
 wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls
 cargo build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml        # or with CARGO_TARGET_DIR=<scratch>
-python Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver <target>/release/revision_ks_solver --work <scratch> --jobs 8
-python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 8
+python Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver <target>/release/revision_ks_solver --work <scratch1> --jobs 10 --part 1/4
+                                                                    # ... --part 2/4, 3/4, 4/4, then --reuse
+python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22 --work <scratch2> --part 1/6
+                                                                    # ... --part 2/6 to 6/6, then --reuse
 python Revision/pairing/kohn_sham/python/check_t3_completion.py
 ```
 
 Each exits with code 0 only if every check passes; two runs give byte-identical outputs (LF). The reference
 demonstration compares its -M universe with the Rust table, so it runs after the Rust demonstration; the sympy
-completion checker reads both demonstration reports, so it runs last. Run times on the development machine (shared
-with other jobs): about 3 s and 1 s (T3 verifiers), 15 s and 2 s (completion); for the demonstrations 316 s (Rust,
-630 `single` runs with `--jobs 10`; `--reuse` re-reads the outputs of a former run in `--work`) and 140 s (reference,
-54 members on three grids with `--jobs 22`) on 2026-10-16; with 8 processes each takes longer (10 to 15 min and
-about 10 min on 2026-10-08).
+completion checker reads both demonstration reports, so it runs last. The demonstrations run in parts (each part
+solves a fixed subset of the single runs and stores them in its work folder; `--reuse` assembles them and writes the
+outputs as one run would), because on the matrix of the corrected metric one invocation does not fit into the limit
+of 423 s of one calculation (`claude_failures.md` H18). Run times on the development machine, 2026-10-17: the T3
+verifiers 5.8 s and 1.3 s, the completion 2.9 s and 0.9 s; the Rust demonstration 630 `single` runs with `--jobs 10`
+in four parts of 88, 91, 76 and 67 s and an assembly of 2 s; the reference demonstration (54 members on three grids,
+`--jobs 22`, one BLAS thread per process) @@REF_TIMES@@.
 
 ## The theorem
 
 The block map (chi, j) -> (sigma2 chi, -j) at the same momentum (the chirality Gamma of the 16-component orbital), with
-the brane parities exchanged and the tip angle theta -> pi - theta, maps every self-consistent instantaneous
+the two fold conditions exchanged and the tip angle theta -> pi - theta, maps every self-consistent instantaneous
 Kohn-Sham state with (m, lambda, theta) onto one with (-m, +lambda, pi - theta), with equal levels, occupations,
-Kohn-Sham energy, grand potential and energy-momentum profiles, and S -> -S (`t3-theory.json`, S1-S5). The completion
-adds S6: with the expectation rule rho = sum f u u^dagger B of the canonical quantisation the image state has
-rho' = -Gamma rho Gamma, so n is unchanged, S and Q change sign, and every component of the 16-component
-energy-momentum tensor and of the current is unchanged (`t3-completion.json`). The Z2 brane is ASSUMED (as in
-`Revision/kohn_sham/ks-theory.json`); the states are instantaneous (adiabatic) mean-field states; nothing here is a
-creation process.
+Kohn-Sham energy, grand potential and energy-momentum profiles, and S -> -S (`t3-theory.json`, S1-S4, hypotheses H1-H6).
+The completion adds S6: with the expectation rule rho = sum f u u^dagger B of the canonical quantisation the image
+state has rho' = -Gamma rho Gamma, so n is unchanged, S and Q change sign, and every component of the 16-component
+energy-momentum tensor and of the current is unchanged (`t3-completion.json`). Filling both fold conditions is ASSUMED
+(as in `Revision/kohn_sham/ks-theory.json`); the corrected metric has no Z2 orbifold and no mirror copy (both halves of
+a cell carry the same chi(y)), so T3 relates two Kohn-Sham problems, (m, lambda, theta) and (-m, +lambda, pi - theta),
+not a universe and its mirror image; the states are instantaneous (adiabatic) mean-field states; nothing here is a
+creation process. In the metric of 2026-10-14 the record had a fifth statement, S5 (the Z2 mirror copy carried
+(-m, +lambda)), and 10 and 13 checks; it was removed with the orbifold on 2026-10-17.
 
 ## Adversarial verification (2026-10-08) and completion
 
-Both T3 verifiers were re-run and reproduce `t3-theory.json`, `reports/wolfram-t3.json` and `reports/python-t3.json`
+Both T3 verifiers were re-run and reproduced `t3-theory.json`, `reports/wolfram-t3.json` and `reports/python-t3.json`
 byte for byte; every proof step was re-derived. No error was found in the statement or the proof. Gaps found and
 closed (details in `t3-completion.json` adversarial_verification):
 
 1. `verify_t3.wls` wrote the Kohn-Sham coefficients 15/16, -1/16, 15/32, -1/32 into the script instead of reading
    ks-theory.json, and its v_v clause compared an expression with itself: `T3C_mean_field_coefficients_from_ks_theory`.
-   Fixed at the root on 2026-10-08: `verify_t3.wls` now reads the coefficients from ks-theory.json and its check
+   Fixed at the root on 2026-10-08: `verify_t3.wls` reads the coefficients from ks-theory.json and its check
    `T3_mean_field_map` writes v_v as a function of (m, lambda, n, S) and compares its values at the original and the
-   image arguments (10/10; a broken coefficient makes the check fail; wolfram/WOLFRAMSCRIPT_PROVENANCE.md section 6.5).
+   image arguments (a broken coefficient makes the check fail; wolfram/WOLFRAMSCRIPT_PROVENANCE.md section 6.5).
 2. The filling convention (hypothesis H5) was used for the -M member without showing that its particle set is the
    image of the +M member's: `T3C_filling_convention_mapped`.
 3. The proof covers the four diagonal energy-momentum components of the 2 x 2 reduction; the 16-component Krein rule
    gives every component and the current: `T3C_krein_rule_16_component`.
 4. The recorded numerical confirmation was the solver's two-state self-test: the two demonstrations below.
 
-`t3-theory.json` and the two T3 reports were left byte-identical at the completion, because
-`Revision/docs/PAIR_CREATION_PROOFS`, `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY`, the publication tests in
-`Revision/tests/` and `wolfram/WOLFRAMSCRIPT_PROVENANCE.md` quote their checks, counts and sha256; the completion is a
-separate record. On 2026-10-16 their texts were moved to the author's metric with b4(x4) (the orbital factor
-b4^(-3/4), the slice b4,0 in H1 and H6, the a4 and b4 equations); the checks and their counts are unchanged
-(`wolfram/WOLFRAMSCRIPT_PROVENANCE.md`, section 6.8).
+On 2026-10-17 (the corrected metric) the four verifiers were run again and reproduced `t3-theory.json`,
+`reports/wolfram-t3.json` (9/9), `reports/python-t3.json` (12/12) and `reports/wolfram-t3-completion.json` (3/3) byte
+for byte; `reports/python-t3-completion.json` (7/7) reads the two demonstration reports and changes with them.
 
 ## The numerical demonstrations (not part of the proof)
 
@@ -97,37 +104,35 @@ Members of each state: plus = the +M universe (m, lambda, tip theta = 0); image 
 tip theta = pi); control = (-m, +lambda) with the UNtransformed tip theta = 0. Numbers from the reports:
 
 * Rust solver (`reports/t3-rust-demo.json`), all 75 ground and 135 Mermin states of the canonical matrix
-  (N = 8, 136, 688; lambda = 0, +-lambda_1, +-lambda_2 at T = 0 and 0, +-lambda_1 at T = 0.01, 0.02, 0.05; the five
-  slices): the plus members reproduce the committed canonical matrix to 2.538e-10. Image = plus to 1.741e-13 (ground)
-  and 2.120e-11 (thermal), tolerance 1e-9: levels label by label with the sector map (n2, j, parity) ->
-  (n2, -j, other parity), occupations, E_KS, mu, entropy, Omega, F, HOMO, LUMO, gap, the energy-momentum integrals,
-  the even profiles pointwise and S, Q, M_eff with opposite sign. The shooting method is covariant under the map (the
-  Pruefer equation of the image is that of the original with theta -> pi/2 - theta), so this equality is at the
+  (N = 8, 592, 2352; lambda = 0, +-lambda_1, +-lambda_2 at T = 0 and 0, +-lambda_1 at T = 0.01, 0.02, 0.05; the five
+  slices): the plus members reproduce the committed canonical matrix to 1.916e-10. Image = plus to 1.853e-12 (ground)
+  and 3.502e-12 (thermal), tolerance 1e-9: levels label by label with the sector map (n2, j, fold condition) ->
+  (n2, -j, other fold condition), occupations, E_KS, mu, entropy, Omega, F, HOMO, LUMO, gap, the energy-momentum
+  integrals, the even profiles pointwise and S, Q, M_eff with opposite sign, each profile difference measured against
+  the maximum of its family (n, S, Q against max |n|; M_eff, v_v; e_int, rho, p3, p_t, p0), because S, p_t and p0 of
+  the free fold-band gas vanish identically (`claude_failures.md` H17). The shooting method is covariant under the map
+  (the Pruefer equation of the image is that of the original with theta -> pi/2 - theta), so this equality is at the
   rounding level by construction: it tests the solver's handling of the transformed boundary conditions, labels,
   filling convention, self-consistency and Mermin root for both members. Negative control: with the untransformed tip
-  the density profile n(y) differs from the plus state's by at least 0.5296 of its maximum (N688_lamm1_a00_T50; the
-  k = 0 zero modes (e^(-m y), 0) of -m are localised at the tip) in the 200 states where the solver finds a control
-  state; in 10 states (all with lambda < 0) its SCF diverges, also in its coupling continuation (reported as such, not
-  as a proof that no state exists). The T1 parameters (-m, -lambda, tip pi) differ from the plus state by at least
-  3.254e-4 (N8_lamp1_a20_T10; combined measure of levels, energies, energy-momentum integrals and n(y)) in all 150
-  states with lambda != 0: the Kohn-Sham partner carries +lambda (on the late slices the effective coupling
-  lambda_hat e^{-2 a4,0} is small, so the sign of lambda matters less there than at a4,0 = 0). Two runs on
-  2026-10-16, each from scratch in its own work folder, gave a byte-identical report and table.
+  the density profile n(y) differs from the plus state's by at least 0.4657 of its maximum (N2352_lamm1_a00_T50; the
+  k = 0 zero modes (e^(-f m y), 0) of -m are localised at the tip instead of the fold) in all 210 states. The T1
+  parameters (-m, -lambda, tip pi) differ from the plus state by at least 5.120e-2 (N8_lamp1_a20_T10; combined measure
+  of levels, energies, energy-momentum integrals and n(y)) in all 150 states with lambda != 0: the Kohn-Sham partner
+  carries +lambda.
 * Reference solver (`reports/t3-reference-demo.json`), 13 ground and 5 Mermin states: the reference is used unchanged
   for plus and control; for the image its rotated frame gets the tip end rotated by pi/2 (checked: bit-identical to
   the reference's frame for theta = 0; exact k = 0 image spectra to 2.80e-14). Every member is solved with the
-  reference's `solve_state_robust` (on 2026-10-16 none needed its coupling continuation). Image = plus to 9.326e-15
-  (ground) and 3.038e-14 (thermal) after Richardson extrapolation, while on a single grid the two discretisations
-  differ by up to 2.24e-4 (the image frame is not the discrete image of the plus frame: this equality is the
-  discretisation-independent test, a continuum statement). With the untransformed tip the density profile differs by
-  at least 5.296 of its maximum (N8_lamm2_a00; 3 states without a converged control, N8_lamm2_a10, N8_lamm2_a20 and
-  N136_lamm2_a20, all with lambda < 0). The -M universe of the reference and of the Rust solver agree to 1.262e-11.
-  Two runs on 2026-10-16 gave byte-identical tables (the report differed only in the corrected detail text of
-  `all_members_converged`, claude_failures.md G13).
+  reference's `solve_state_robust` (one member, the control of N8_lamm2_a00 on G = 1200, needed its coupling
+  continuation). Image = plus to 1.332e-14 (ground) and 3.159e-14 (thermal) after Richardson extrapolation, while on a
+  single grid the two discretisations differ by up to 1.81e-4 (the image frame is not the discrete image of the plus
+  frame: this equality is the discretisation-independent test, a continuum statement). With the untransformed tip the
+  density profile differs by at least 3.776 of its maximum (N592_lamp2_a00) in all 18 states. The -M universe of the
+  reference and of the Rust solver agree to 7.311e-11 (N592_lamp1_a20_T50). @@REF_REPEAT@@
 
 ## What is not established
 
 No creation process, rate or amplitude; instantaneous (adiabatic) mean-field states on a prescribed background
-without back-reaction; the ASSUMED Z2 brane, the chosen tip and the filling CONVENTION; not a statement about two
-independently quantised universes; the pairing is (m, lambda) -> (-m, +lambda), not (-m, -lambda). See the
-`not_established` lists of `t3-theory.json` and `t3-completion.json`.
+without back-reaction; both fold conditions filled (ASSUMED), the chosen tip and the filling CONVENTION; not a
+statement about two independently quantised universes or about a mirror universe (the corrected metric has no mirror
+copy); the pairing is (m, lambda) -> (-m, +lambda), not (-m, -lambda). See the `not_established` lists of
+`t3-theory.json` and `t3-completion.json`.

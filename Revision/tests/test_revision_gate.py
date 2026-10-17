@@ -70,11 +70,14 @@ NOTEBOOK_SOURCES = "Revision/notebooks/src/"
 # Steps that are marked long although they are short themselves, with the long step they need.
 LONG_BY_DEPENDENCY = {"ks-rust-determinism": "ks-rust-refined", "ks-rust-refined": "ks-rust-refined-part4",
                       "ks-rust-refined-part4": "ks-rust-refined-part3", "ks-rust-refined-part3": "ks-rust-refined-part2",
-                      "ks-rust-refined-part2": "ks-rust-refined-part1"}
+                      "ks-rust-refined-part2": "ks-rust-refined-part1",
+                      "t3-rust-demo": "t3-rust-demo-part4", "t3-rust-demo-part4": "t3-rust-demo-part3",
+                      "t3-rust-demo-part3": "t3-rust-demo-part2", "t3-rust-demo-part2": "t3-rust-demo-part1"}
 # Steps that are marked long by choice although each is short: the first part of a long calculation that the gate runs
 # in parts within the time limit of one step (2026-10-16: the refined-tolerance Kohn-Sham run, about 10 minutes in four
-# parts), so that --fast skips the whole calculation.
-LONG_BY_CHOICE = {"ks-rust-refined-part1"}
+# parts; 2026-10-17: the T3 demonstration with the Rust solver, about 5.5 minutes in four parts), so that --fast skips
+# the whole calculation.
+LONG_BY_CHOICE = {"ks-rust-refined-part1", "t3-rust-demo-part1"}
 OUTPUT_FLAGS = {"--out", "--report", "--output", "--work"}
 EXCLUDED_TREES = ("Revision/textbook/", "Revision/workflows/")
 

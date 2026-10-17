@@ -41,11 +41,11 @@ against the committed Revision record in `Revision/kohn_sham/results/` and
 ## 1. What this notebook computes
 
 dirac16complex is the author's 16-component fermion field (complex, anticommuting components, a
-Pin(4,4) spinor). In the author's primordial gravitational field, ordinary space inflates and the
-three extra times deflate exponentially as the metric function $a_4$ grows; the metric carries a second
-function $b_4(x_4)$ in its three extra-time components ($b_4$ is never 1). The Revision describes a
-gas of dirac16complex particles in this field with a Kohn-Sham model (the method of density
-functional theory: each particle moves in the mean field of all the others), and computes its
+Pin(4,4) spinor). In the author's primordial gravitational field (the corrected primordial metric of 2026-10-16,
+version 2), ordinary space inflates and the three extra times and the hidden direction deflate exponentially as the
+metric function $a_4$ grows; the metric carries a second function $b_4(x_4)$ in the block of the hidden direction and
+the extra times. The Revision describes a gas of dirac16complex particles in this field with a Kohn-Sham model (the
+method of density functional theory: each particle moves in the mean field of all the others), and computes its
 *instantaneous* states at fixed values of $a_4$ (SPEC section 7).
 
 This notebook
@@ -54,7 +54,7 @@ This notebook
    configuration (the theory coefficients it reads, the gamma matrices, the 2 x 2 block reduction,
    the parameters of a run);
 2. solves ten states with the solver's command `single`: nine canonical zero-temperature states
-   (N = 8, 136 and 688 particles at the slices $a_4 = 0, 1, 2$ of the deflating history; the N = 136
+   (N = 8, 592 and 2352 particles at the slices $a_4 = 0, 1, 2$ of the deflating history; the N = 592
    series with the calibrated coupling $+\lambda_1$) and one thermal state;
 3. compares every level, energy, energy-momentum integral and profile with the committed record
    (bit for bit and byte for byte);
@@ -274,8 +274,10 @@ md(r"""
   $a_{4,0} = 0, 1, 2$.
 - **Hidden coordinate $y$**: $y = \ln(\sin z)/(6H)$ with $z = 6 H x_0$; the solver works on
   $-L \le y \le 0$ with $L = 3$.
-- **Brane** ($y = 0$) and **tip** ($y = -L$): the two ends of the hidden interval. The brane is a
-  mirror ($Z_2$) boundary, an ASSUMED boundary condition; the tip is a regular cutoff.
+- **Fold** ($y = 0$, where $\cos z = 0$) and **tip** ($y = -L$): the two ends of the hidden interval. One period
+  of $x_0$ consists of two halves joined at the fold; a spinor continuous across the fold has the same $\chi(y)$ on
+  both halves, and the fold condition (even: $b(0) = 0$, odd: $a(0) = 0$) is one of two, both filled (ASSUMED);
+  the tip is a regular cutoff.
 - **Kohn-Sham model**: each particle obeys a one-particle Dirac equation in a mean field made from
   the densities of all particles; the mean field is iterated until it reproduces itself
   (**self-consistent field**, SCF).
@@ -288,16 +290,17 @@ md(r"""
   $h_j$, $j = \pm 1$.
 - **Level, label, parity**: an eigenvalue $\varepsilon$ of a block for a 3-momentum shell $n_2 = |n|^2$;
   the *label* $l$ counts the levels of a sector (the Pruefer count); *parity* even or odd is the
-  brane condition.
+  fold condition.
 - **Degeneracy** $g$ and **occupation** $f$: how many states share a level, and the fraction of
   them that is filled (1 or 0 at zero temperature).
 - **Aufbau**: filling the lowest levels first. **HOMO / LUMO**: the highest occupied / lowest
   unoccupied level; **Kohn-Sham gap** = LUMO - HOMO.
-- **Brane band**: the levels that live near the brane; at $k = 0$ it contains the **zero mode**
-  $\varepsilon = 0$, and it redshifts as $e^{-a_{4,0}}$.
+- **Fold band**: the levels $\varepsilon = e^{-a_{4,0}}|k|$ of the even sector of block $j = +1$, exactly (the
+  orbital $(e^{fMy}, 0)$); at $k = 0$ it contains the **zero mode** $\varepsilon = 0$, and it redshifts as
+  $e^{-a_{4,0}}$. Its quanta are massless in four dimensions.
 - **Energy-momentum (EMT) integrals**: $E$, $P_3$, $P_t$, $P_0$ = the energy density $\rho$ and the
   pressures of ordinary space, of the extra times and of the hidden direction, integrated over the
-  proper 7-volume of the doubled (universe + mirror image) system.
+  proper 7-volume of the cell (both halves of a period of $x_0$).
 - **Profile**: a density or pressure as a function of $y$.
 - **Mermin state**: a state at temperature $T > 0$ with Fermi-Dirac occupations and chemical
   potential $\mu$.
@@ -314,62 +317,57 @@ md(r"""
 
 ### 4.1 The author's metric and the deflating extra times
 
-In the author's coordinates $x_0, x_1, \dots, x_7$, with $z = 6 H x_0$, $0 < z < \pi/2$ (the user's metric of
-2026-10-14):
+In the author's coordinates $x_0, x_1, \dots, x_7$, with $z = 6 H x_0$ real (every real value) and
+$(\sin^2 z)^{1/6}$ on the positive branch (the corrected primordial metric of 2026-10-16, version 2, `Revision/SPEC.md`
+section 1):
 
 $$
-g_{00} = \cot^2 z,\qquad g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)} \sin^{1/3} z,\qquad g_{44} = -1,\qquad
-g_{55} = g_{66} = g_{77} = -e^{-2 a_4(x_4)}\, b_4(x_4) \sin^{1/3} z .
+g_{00} = e^{-2 a_4}\, b_4 \cot^2 z,\qquad g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)},\qquad g_{44} = -1,\qquad
+g_{55} = g_{66} = g_{77} = -e^{-2 a_4}\, b_4\, (\sin^2 z)^{1/6} .
 $$
 
-$b_4(x_4) > 0$ is a function of the time, never 1 ($b_4 = 1$ is the withdrawn earlier metric). The states
-of this notebook lie on the history of the Kohn-Sham record (`Revision/kohn_sham/ks-theory.json`,
-adiabaticity):
+$b_4(x_4) > 0$ is a function of the time. The states of this notebook lie on the history of the Kohn-Sham record
+(`Revision/kohn_sham/ks-theory.json`, adiabaticity):
 
 $$
 a_4 = A H x_4,\qquad b_4 = b_4(0)\, e^{\beta A H x_4},\qquad A = 1,\quad \beta = \tfrac{4}{3},
 $$
 
-the branch that the author's Lovelock weights allow for a source without a $T^{x_4}{}_{x_0}$ component.
-
-As $a_4$ increases, ordinary space inflates with the scale factor $e^{a_4}\sin^{1/6} z$ and the three
-extra times **deflate exponentially** with the scale factor $e^{-a_4} b_4^{1/2}\sin^{1/6} z =
-b_4(0)^{1/2} e^{-a_4/3}\sin^{1/6} z$. The extra times are never static here: every state below is computed
-at its own slice $a_{4,0}$. The proper 7-volume of a cell grows like $b_4^{3/2} = b_4(0)^{3/2} e^{2 a_4}$
-(the factors $e^{3a_4}$ and $e^{-3a_4}$ cancel, $b_4^{3/2}$ remains); the solver works with the cell
-volume $\mathrm{Vol}_7(a_{4,0}) = \ell^3 v_t\, e^{(3/2)\beta a_{4,0}}$ and the coupling $\hat\lambda =
-\lambda\, b_4(0)^{-3/2}$, so its densities are the proper densities times $b_4(0)^{3/2}$.
+a PRESCRIBED background. As $a_4$ increases, ordinary space inflates with the scale factor $e^{a_4}$, and the three
+extra times and the hidden direction **deflate exponentially** with the common factor
+$f = e^{-a_4} b_4^{1/2} = b_4(0)^{1/2} e^{-a_4/3}$. The extra times are never static here: every state below is
+computed at its own slice $a_{4,0}$. The proper 7-volume of a cell grows like $e^{-a_4} b_4^2 = b_4(0)^2 e^{(5/3) a_4}$;
+the solver works with $\mathrm{Vol}_7(a_{4,0}) = \ell^3 v_t\, e^{(5/3) a_{4,0}}$ and the coupling
+$\hat\lambda = \lambda\, b_4(0)^{-2}$ ($b_4(0) = 1$ in the record).
 
 ### 4.2 The Kohn-Sham equation
 
 The Revision reduces the 16-component equation exactly (Revision/kohn_sham/ks-theory.json, checked by
-Wolfram and sympy) to eight $2 \times 2$ blocks in the hidden coordinate $y$:
+Wolfram and sympy) to eight $2 \times 2$ blocks in the hidden coordinate $y = \ln|\sin z|/(6H)$:
 
 $$
-h_j = j\left[-i\sigma_1\,\partial_y + M_\mathrm{eff}(y)\,\sigma_2 + \kappa(y)\,k\,\sigma_3\right] + v_v(y),
-\qquad \kappa = e^{-H y - a_{4,0}},\qquad j = \pm 1,
+h_j = j\left[-\tfrac{i}{f}\sigma_1\,\partial_y + M_\mathrm{eff}(y)\,\sigma_2 + \kappa\,k\,\sigma_3\right] + v_v(y),
+\qquad \kappa = e^{-a_{4,0}},\qquad f = e^{-a_{4,0}} b_4^{1/2},\qquad j = \pm 1,
 $$
 
-with the 3-momentum $k = \Delta k\,\sqrt{n_2}$ on a lattice ($\Delta k = 0.25\,m$). The factor
-$e^{-a_{4,0}}$ in $\kappa$ is where the deflation enters: the 3-momenta redshift as $a_4$ grows. $b_4$ does
-not appear in $h_j$ (its derivative term is removed exactly by the factor $b_4^{-3/4}$ of the orbitals);
-it enters only through the cell volume $\mathrm{Vol}_7(a_{4,0})$ that divides the densities. The
-mean field is $M_\mathrm{eff} = m + \tfrac{15}{16}\lambda S$ and $v_v = -\tfrac{1}{16}\lambda n$ (Hartree
-plus the exact local exchange of the uniform gas). The solver finds every level by shooting with a
-Pruefer count, so that no level is missed, and iterates the mean field to self-consistency.
+with the 3-momentum $k = \Delta k\,\sqrt{n_2}$ on a lattice ($\Delta k = 0.25\,m$). The factor $\kappa = e^{-a_{4,0}}$
+is where the inflation of ordinary space enters (the 3-momenta redshift), and $f$ is where the deflation of the hidden
+direction enters (its proper length $fL$ shrinks). The mean field is $M_\mathrm{eff} = m + \tfrac{15}{16}\lambda S$ and
+$v_v = -\tfrac{1}{16}\lambda n$ (Hartree plus the exact local exchange of the uniform gas). The solver finds every
+level by shooting with a Pruefer count, so that no level is missed, and iterates the mean field to self-consistency.
 
 ### 4.3 The canonical states
 
-Units $m = H = 1$; $L = 3$; tip angle 0. Particle numbers $N = 8$ (the $k = 0$ brane zero modes),
-$N = 136$ and $N = 688$ (closed shells of the brane band). Couplings $\hat\lambda = 0, \pm\lambda_1, \pm\lambda_2$,
+Units $m = H = 1$; $L = 3$; tip angle 0. Particle numbers $N = 8$ (the $k = 0$ fold zero modes),
+$N = 592$ and $N = 2352$ (closed shells of the fold band). Couplings $\hat\lambda = 0, \pm\lambda_1, \pm\lambda_2$,
 calibrated per $N$ along the whole history (`results/parameters.json`) and held fixed while the cell volume
-grows, so the effective coupling of a slice is $\hat\lambda\, e^{-2 a_{4,0}}$; this notebook uses $\hat\lambda = 0$
+grows, so the effective coupling of a slice is $\hat\lambda\, e^{-(5/3) a_{4,0}}$; this notebook uses $\hat\lambda = 0$
 and $+\lambda_1$ (the solver's argument `--lambda`).
 Temperatures $T = 0$ and, for the thermal state, $T = 0.02\,m$.
 
 ### 4.4 What is assumed, and what is open
 
-- The $Z_2$ brane is ASSUMED; the regular tip at $L = 3$ is a cutoff choice.
+- Both fold conditions are filled (ASSUMED); the regular tip at $L = 3$ is a cutoff choice.
 - The filling of the positive branch and of the zero modes is a CONVENTION of ks-theory.json, whose
   justification is OPEN.
 - The history $a_4 = A H x_4$, $b_4 = b_4(0) e^{(4/3) A H x_4}$ is a PRESCRIBED background: the Kohn-Sham
@@ -600,15 +598,15 @@ md(r"""
 
 ### 7.1 The runs
 
-The next cell solves nine more states: N = 8 with $\lambda = 0$ at $a_{4,0} = 1, 2$; N = 136 with
-$\lambda = +\lambda_1$ at $a_{4,0} = 0, 1, 2$; N = 688 with $\lambda = 0$ at $a_{4,0} = 0, 1, 2$; and the
-thermal (Mermin) state N = 136, $\lambda = +\lambda_1$, $a_{4,0} = 1$, $T = 0.02\,m$. Each run writes a result
+The next cell solves nine more states: N = 8 with $\lambda = 0$ at $a_{4,0} = 1, 2$; N = 592 with
+$\lambda = +\lambda_1$ at $a_{4,0} = 0, 1, 2$; N = 2352 with $\lambda = 0$ at $a_{4,0} = 0, 1, 2$; and the
+thermal (Mermin) state N = 592, $\lambda = +\lambda_1$, $a_{4,0} = 1$, $T = 0.02\,m$. Each run writes a result
 file `<output>/ks_runs/<id>.json`; the zero-temperature runs also write the profile file
 `<output>/ks_runs/<id>.csv` (the densities and pressures at $y = -3 + 0.02\,i$).
 """)
 
 code(r'''
-SERIES = [("N8_lam0", 8, 0.0), ("N136_lamp1", 136, LAMBDA1[136]), ("N688_lam0", 688, 0.0)]
+SERIES = [("N8_lam0", 8, 0.0), ("N592_lamp1", 592, LAMBDA1[592]), ("N2352_lam0", 2352, 0.0)]
 SLICES = [0.0, 1.0, 2.0]
 GROUND_IDS = []
 for prefix, N, lam in SERIES:
@@ -617,8 +615,8 @@ for prefix, N, lam in SERIES:
         GROUND_IDS.append(rid)
         if rid not in RESULTS:
             RESULTS[rid] = run_single(rid, N, lam, a4)
-THERMAL_ID = "N136_lamp1_a10_T20"
-RESULTS[THERMAL_ID] = run_single(THERMAL_ID, 136, LAMBDA1[136], 1.0, T=0.02, profiles=False)
+THERMAL_ID = "N592_lamp1_a10_T20"
+RESULTS[THERMAL_ID] = run_single(THERMAL_ID, 592, LAMBDA1[592], 1.0, T=0.02, profiles=False)
 print("states solved:", len(RESULTS))
 ''')
 
@@ -674,7 +672,7 @@ for rid in GROUND_IDS:
     top_shell = max(l[0] for l in record_levels)
     levels_ok = record_levels <= new_levels and all(l[6] == 0 and l[0] > top_shell for l in extra) \
         and len(record_levels) == int(s["levels"])
-    emt = d["emtIntegrals_2Vol7_int_e6Hy"]
+    emt = d["emtIntegrals_2Vol7_int_e3Hy"]
     same_emt = all(emt[k] == float(e["int_" + k]) for k in ("rho", "p3", "p_t", "p0", "n"))
     same_profile = (RUN_DIR / f"{rid}.csv").read_bytes() == (RECORD / "ground" / "profiles" / f"{rid}.csv").read_bytes()
     check(f"{rid}_equals_record",
@@ -699,10 +697,10 @@ md(r"""
 ### 8.1 The lowest levels of the zero-mode state
 
 The next cell lists the lowest levels of N = 8, $\lambda = 0$ at the three slices, as the solver wrote
-them: the shell $n_2$ (the 3-momentum is $k = 0.25\sqrt{n_2}$), the block $j$, the brane parity, the
+them: the shell $n_2$ (the 3-momentum is $k = 0.25\sqrt{n_2}$), the block $j$, the fold condition (parity), the
 label, the level $\varepsilon$, the degeneracy $g$ and the occupation $f$. The eight particles fill the
 two $k = 0$ zero modes ($\varepsilon = 0$, $g = 4$ each); the lowest empty level is the $n_2 = 1$ level of
-the brane band, which moves down as $a_{4,0}$ grows.
+the fold band, $\varepsilon = 0.25\,e^{-a_{4,0}}$ exactly, which moves down as $a_{4,0}$ grows.
 """)
 
 code(r'''
@@ -729,20 +727,24 @@ code(r'''
 rows = ["| state | $E_\\mathrm{KS}$ | HOMO | LUMO | KS gap | $P_3/E$ | $P_t/E$ | $P_0/E$ |", "|---|---|---|---|---|---|---|---|"]
 for rid in GROUND_IDS:
     d, h = RESULTS[rid], DERIVED[rid]
-    emt = d["emtIntegrals_2Vol7_int_e6Hy"]
+    emt = d["emtIntegrals_2Vol7_int_e3Hy"]
     ratios = [f"{emt[k] / emt['rho']:.6f}" if emt["rho"] != 0 else "(E = 0)" for k in ("p3", "p_t", "p0")]
     rows.append(f"| {rid} | {d['E_KS']:.7f} | {h['HOMO']:.7f} | {h['LUMO']:.7f} | {h['KS_gap']:.7f} | " + " | ".join(ratios) + " |")
 display(Markdown("\n".join(rows)))
 gaps8 = [DERIVED[f"N8_lam0_a{s}"]["KS_gap"] for s in ("00", "10", "20")]
 print("N = 8, lambda = 0: Kohn-Sham gap", ", ".join(f"{g:.7f}" for g in gaps8),
-      "at a4,0 = 0, 1, 2 (the solver README quotes 0.4307337, 0.1703493, 0.06415941)")
-check("n8_gap_decreases", gaps8[0] > gaps8[1] > gaps8[2] > 0,
-      "the N = 8 gap (the n2 = 1 brane-band level) decreases along the history: the band redshifts")
-for prefix in ("N136_lamp1", "N688_lam0"):
-    w3 = [RESULTS[f"{prefix}_a{s}"]["emtIntegrals_2Vol7_int_e6Hy"] for s in ("00", "10", "20")]
-    r3 = [e["p3"] / e["rho"] for e in w3]
-    check(f"{prefix}_p3_over_E_rises", r3[0] < r3[1] < r3[2] < 1 / 3,
-          f"P3/E = {r3[0]:.4f}, {r3[1]:.4f}, {r3[2]:.4f} rises along the history and stays below 1/3")
+      "at a4,0 = 0, 1, 2 (the n2 = 1 fold-band level 0.25 e^(-a4,0))")
+check("n8_gap_is_the_fold_band", all(abs(g - 0.25 * np.exp(-a)) <= 1e-12 * 0.25 for g, a in zip(gaps8, SLICES)),
+      "the N = 8 gap is the n2 = 1 fold-band level eps = e^(-a4,0) dk, dk = 0.25, exactly (to 1e-12): the band redshifts")
+w3 = [RESULTS[f"N2352_lam0_a{s}"]["emtIntegrals_2Vol7_int_e3Hy"] for s in ("00", "10", "20")]
+r3 = [e["p3"] / e["rho"] for e in w3]
+check("N2352_lam0_p3_over_E_is_one_third", all(abs(r - 1 / 3) <= 1e-12 for r in r3),
+      f"P3/E = {r3[0]:.15f}, {r3[1]:.15f}, {r3[2]:.15f}: the free gas of N = 2352 is an exact fold-band gas "
+      "(radiation-like, P3 = E/3)")
+w3 = [RESULTS[f"N592_lamp1_a{s}"]["emtIntegrals_2Vol7_int_e3Hy"] for s in ("00", "10", "20")]
+r3 = [e["p3"] / e["rho"] for e in w3]
+check("N592_lamp1_p3_over_E", all(0.32 < r < 1 / 3 for r in r3),
+      f"P3/E = {r3[0]:.4f}, {r3[1]:.4f}, {r3[2]:.4f}: the interacting gas stays just below 1/3 along the history")
 ''')
 
 # ------------------------------------------------------------------------------------------------
@@ -771,7 +773,7 @@ def new_value(rid, q):
     if q in DERIVED.get(rid, {}):
         return DERIVED[rid][q]
     if q.startswith("int_"):
-        return d["emtIntegrals_2Vol7_int_e6Hy"][q[4:]]
+        return d["emtIntegrals_2Vol7_int_e3Hy"][q[4:]]
     return {"E_KS": d["E_KS"], "mu": d["mu_or_fermi_level"], "E": d["E_KS"], "entropy": d["entropy"]}[q]
 
 
@@ -821,8 +823,8 @@ def counts(name):
     return total, passed, failed, listed, len(rep["checks"])
 
 
-EXPECTED = {"ks-theory-wolfram.json": 51, "ks-theory-python.json": 63, "ks-rust-solver.json": 43,
-            "ks-rust-determinism.json": 14, "ks-rust-mermin-roots.json": 5, "ks-reference.json": 38,
+EXPECTED = {"ks-theory-wolfram.json": 51, "ks-theory-python.json": 61, "ks-rust-solver.json": 45,
+            "ks-rust-determinism.json": 14, "ks-rust-mermin-roots.json": 5, "ks-reference.json": 39,
             "ks-crosscheck.json": 31}
 print("record file                                       checks  passed  failed")
 for name, n in EXPECTED.items():
@@ -839,13 +841,13 @@ md(r"""
 Each figure is drawn from the solver runs of this notebook and is also saved as a PNG file in
 `<output>/figures`.
 
-### 10.1 Figure 1: the brane band redshifts as the extra times deflate
+### 10.1 Figure 1: the fold band redshifts as space inflates
 
-Left: the lowest even-parity level of block $j = +1$ in each 3-momentum shell $n_2$ (the brane band),
+Left: the lowest even-parity level of block $j = +1$ in each 3-momentum shell $n_2$ (the fold band),
 against $k = 0.25\sqrt{n_2}$, for N = 8, $\lambda = 0$ at $a_{4,0} = 0, 1, 2$. In the block equation the
-momentum enters as $\kappa k$ with $\kappa \propto e^{-a_{4,0}}$, so the band flattens. Right: the
-Kohn-Sham gap of the three series along the history (logarithmic scale), with the line $e^{-a_{4,0}}$
-through the first point of each series for comparison (a guide, not a fit).
+momentum enters as $\kappa k$ with $\kappa = e^{-a_{4,0}}$, so the band is the straight line
+$\varepsilon = e^{-a_{4,0}} k$. Right: the Kohn-Sham gap of the three series along the history (logarithmic scale),
+with the line $e^{-a_{4,0}}$ through the first point of each series for comparison (a guide, not a fit).
 """)
 
 code(r'''
@@ -868,11 +870,11 @@ for rid, colour in (("N8_lam0_a00", "C0"), ("N8_lam0_a10", "C1"), ("N8_lam0_a20"
              label=f"$a_{{4,0}}$ = {RESULTS[rid]['parameters']['a4']:.0f}")
 ax1.set_xlabel(r"3-momentum $k = 0.25\sqrt{n_2}$  (units of $m$)")
 ax1.set_ylabel(r"lowest level $\varepsilon$ of the shell")
-ax1.set_title("brane band, N = 8, $\\lambda$ = 0")
+ax1.set_title("fold band, N = 8, $\\lambda$ = 0")
 ax1.legend(fontsize=8)
 ax1.grid(True, alpha=0.3)
 a4s = np.array(SLICES)
-for prefix, colour in (("N8_lam0", "C0"), ("N136_lamp1", "C1"), ("N688_lam0", "C2")):
+for prefix, colour in (("N8_lam0", "C0"), ("N592_lamp1", "C1"), ("N2352_lam0", "C2")):
     gaps = np.array([DERIVED[f"{prefix}_a{int(10 * a):02d}"]["KS_gap"] for a in SLICES])
     ax2.semilogy(a4s, gaps, "o-", color=colour, lw=2, label=f"KS gap {prefix}")
     ax2.semilogy(a4s, gaps[0] * np.exp(-a4s), ":", color=colour, lw=1)
@@ -882,32 +884,31 @@ ax2.set_title(r"gap along the history (dotted: $e^{-a_{4,0}}$ guides)")
 ax2.legend(fontsize=8)
 ax2.grid(True, which="both", alpha=0.3)
 fig.tight_layout()
-save_and_show(fig, "figure1_brane_band.png")
+save_and_show(fig, "figure1_fold_band.png")
 ''')
 
 md(r"""
 ### 10.2 Figure 2: profiles in the hidden direction
 
-The proper densities and pressures of the state N = 136, $\lambda = +\lambda_1$, $a_{4,0} = 1$ along
-the hidden coordinate $y$ (brane at $y = 0$, tip at $y = -3$), read from the profile file the solver
-has just written. Left: the particle density $n$ and the energy density $\rho$ (logarithmic scale):
-they grow toward the tip, where the proper 7-volume element $e^{6Hy}$ is small. Right: the
-pressures $p_3$, $p_t$, $p_0$ divided by $\rho$; the extra-time pressure $p_t = e_\mathrm{int}$ is small
-because it comes only from the interaction. Pointwise the ratios are not bounded by $1/3$ (near the
-tip $p_3/\rho$ exceeds 1 and $p_0/\rho$ is negative); only the integrated ratio $P_3/E$ of section 8.2
-lies below $1/3$.
+The proper densities and pressures of the state N = 592, $\lambda = +\lambda_1$, $a_{4,0} = 1$ along
+the hidden coordinate $y$ (fold at $y = 0$, tip at $y = -3$), read from the profile file the solver
+has just written. Left: the particle density $n$ and the energy density $\rho$ (logarithmic scale): they grow toward
+the tip, where the volume element $e^{3Hy}$ of the hidden direction is small. Right: the pressures $p_3$, $p_t$,
+$p_0$ divided by $\rho$; the extra-time pressure $p_t = e_\mathrm{int}$ is small because it comes only from the
+interaction. Pointwise the ratios are not those of the integrated gas; only the integrated ratio $P_3/E$ of section
+8.2 lies just below $1/3$.
 """)
 
 code(r'''
-prof = read_csv(RUN_DIR / "N136_lamp1_a10.csv")
+prof = read_csv(RUN_DIR / "N592_lamp1_a10.csv")
 y = np.array([float(r["y"]) for r in prof])
 col = {k: np.array([float(r[k]) for r in prof]) for k in ("n", "S", "rho", "p3", "p_t", "p0", "M_eff", "v_v")}
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.2))
 ax1.semilogy(y, col["n"], lw=2, label="particle density $n$")
 ax1.semilogy(y, col["rho"], lw=2, ls="--", label=r"energy density $\rho$")
-ax1.semilogy(y, np.exp(-6 * y), lw=1, ls=":", color="k", label=r"$e^{-6Hy}$ (inverse volume element)")
-ax1.set_xlabel("hidden coordinate $y$ (tip $-3$, brane 0)")
-ax1.set_title("N = 136, $\\lambda = +\\lambda_1$, $a_{4,0}$ = 1: proper densities")
+ax1.semilogy(y, np.exp(-3 * y), lw=1, ls=":", color="k", label=r"$e^{-3Hy}$ (inverse volume element)")
+ax1.set_xlabel("hidden coordinate $y$ (tip $-3$, fold 0)")
+ax1.set_title("N = 592, $\\lambda = +\\lambda_1$, $a_{4,0}$ = 1: proper densities")
 ax1.legend(fontsize=8)
 ax1.grid(True, which="both", alpha=0.3)
 for k, label in (("p3", r"$p_3/\rho$ (ordinary space)"), ("p_t", r"$p_t/\rho$ (extra times)"),
@@ -927,20 +928,20 @@ print(f"max |M_eff - m| = {np.max(np.abs(col['M_eff'] - 1)):.3e} m, max |v_v| = 
 md(r"""
 ### 10.3 Figure 3: energy and integrated pressures along the history
 
-Left: the Kohn-Sham energy $E_\mathrm{KS}$ of the N = 136 and N = 688 series against $a_{4,0}$
-(logarithmic scale): the gas loses energy as its 3-momenta redshift, roughly like $e^{-a_{4,0}}$.
-Right: the ratios $P_3/E$ and $P_0/E$ of the integrated pressures; $P_3/E$ approaches $1/3$, the value
-of a massless (radiation-like) gas.
+Left: the Kohn-Sham energy $E_\mathrm{KS}$ of the N = 592 and N = 2352 series against $a_{4,0}$
+(logarithmic scale): the gas loses energy as its 3-momenta redshift, like $e^{-a_{4,0}}$ for the free fold-band gas.
+Right: the ratios $P_3/E$ and $P_0/E$ of the integrated pressures; $P_3/E = 1/3$ exactly for the free gas (a massless,
+radiation-like gas) and just below it for the interacting one.
 """)
 
 code(r'''
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.2))
-for prefix, colour in (("N136_lamp1", "C1"), ("N688_lam0", "C2")):
+for prefix, colour in (("N592_lamp1", "C1"), ("N2352_lam0", "C2")):
     ids = [f"{prefix}_a{int(10 * a):02d}" for a in SLICES]
     E = np.array([RESULTS[i]["E_KS"] for i in ids])
     ax1.semilogy(a4s, E, "o-", color=colour, lw=2, label=f"$E_{{KS}}$ {prefix}")
     ax1.semilogy(a4s, E[0] * np.exp(-a4s), ":", color=colour, lw=1)
-    emts = [RESULTS[i]["emtIntegrals_2Vol7_int_e6Hy"] for i in ids]
+    emts = [RESULTS[i]["emtIntegrals_2Vol7_int_e3Hy"] for i in ids]
     ax2.plot(a4s, [e["p3"] / e["rho"] for e in emts], "o-", color=colour, lw=2, label=f"$P_3/E$ {prefix}")
     ax2.plot(a4s, [e["p0"] / e["rho"] for e in emts], "s--", color=colour, lw=1.5, label=f"$P_0/E$ {prefix}")
 ax2.axhline(1 / 3, color="k", lw=0.5, ls=":")
@@ -969,13 +970,13 @@ code(r'''
 labels = [f"{rid}\n{q}" for (rid, q) in XC_RATIOS]
 values = np.array([max(v, 1e-6) for v in XC_RATIOS.values()])
 fig, ax = plt.subplots(figsize=(12, 4.6))
-ax.bar(np.arange(len(values)), values, color=["C0" if "N8" in l else "C1" if "N136" in l else "C2" for l in labels])
+ax.bar(np.arange(len(values)), values, color=["C0" if "N8_" in l else "C1" if "N592" in l else "C2" for l in labels])
 ax.set_yscale("log")
 ax.set_ylim(1e-6, 2)
 ax.axhline(1.0, color="k", lw=1, ls="--")
 ax.set_xticks(np.arange(len(values)), [l.replace("\n", " ") for l in labels], rotation=90, fontsize=5)
 ax.set_ylabel("|new - reference| / tolerance")
-ax.set_title("cross-check ratios of the states solved here (blue N = 8, orange N = 136, green N = 688)")
+ax.set_title("cross-check ratios of the states solved here (blue N = 8, orange N = 592, green N = 2352)")
 ax.grid(True, axis="y", which="both", alpha=0.3)
 fig.tight_layout()
 save_and_show(fig, "figure4_crosscheck.png")
@@ -1003,15 +1004,16 @@ md(r"""
 - The Revision Kohn-Sham solver builds without warnings, checks its inputs (the functional's
   coefficients 15/16 and -1/16, the author's gamma matrices, the exact $2 \times 2$ block reduction)
   and runs with the parameters of the committed record.
-- Ten states solved anew (nine canonical states, N = 8, 136, 688 at $a_{4,0} = 0, 1, 2$, and one
+- Ten states solved anew (nine canonical states, N = 8, 592, 2352 at $a_{4,0} = 0, 1, 2$, and one
   thermal state)
   reproduce the committed record exactly: energies, iterations, residuals, HOMO, LUMO, gap, every
   level and every EMT integral as equal floating-point numbers, and the profile files byte for byte;
   the thermal state's $\mu$, $E$ and entropy equal the committed thermodynamics.
-- Along the prescribed deflating history the brane band redshifts: the N = 8 gap falls from
-  0.4307 to 0.0642, the gas energy falls, and the integrated ratio $P_3/E$ rises toward 1/3.
+- Along the prescribed deflating history the fold band redshifts exactly: the N = 8 gap is $0.25\,e^{-a_{4,0}}$
+  (0.25, 0.0920, 0.0338), the gas energy falls, the free gas has $P_3/E = 1/3$ exactly and the interacting gas
+  just below it.
 - The new numbers agree with the independent Python reference within the committed cross-check's
-  tolerances, and the seven committed Kohn-Sham reports record 51, 63, 43, 14, 5, 38 and 31 checks,
+  tolerances, and the seven committed Kohn-Sham reports record 51, 61, 45, 14, 5, 39 and 31 checks,
   all passed.
 
 **Did not show.**
@@ -1022,8 +1024,8 @@ md(r"""
 - The history $a_4 = A H x_4$, $b_4 = b_4(0) e^{(4/3) A H x_4}$ is prescribed: these are test-field states
   without back-reaction, not a solution of the $a_4$ and $b_4$ field equations with this source; the
   states are instantaneous, and the time-dependent problem is OPEN.
-- The $Z_2$ brane is ASSUMED, the tip at $L = 3$ is a cutoff, and the filling of the positive branch is
-  a CONVENTION whose justification is OPEN; no correlation energy is included.
+- Both fold conditions are filled (ASSUMED), the tip at $L = 3$ is a cutoff, and the filling of the positive
+  branch is a CONVENTION whose justification is OPEN; no correlation energy is included.
 - Nothing here is an equation of state seen by a 3-space observer; that question, and the
   comparison with the Supernovae Unite values, belong to the dark-sector notebook.
 """)

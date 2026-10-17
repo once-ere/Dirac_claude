@@ -4,52 +4,52 @@
   {
    "name": "exact_k0_spectra",
    "verdict": "PASS",
-   "detail": "Chebyshev collocation (n = 96) vs the exact k = 0 spectra: even {0, +-sqrt(m^2 + (n pi/L)^2)}, odd +-sqrt(m^2 + p^2), tan(pL) = -p/m: max deviation 1.421e-14; bulk edge (lowest odd) 1.292292828069"
+   "detail": "Chebyshev collocation (n = 96) vs the exact k = 0 spectra at a4 = 0, 1, 2 (proper length f L, f = e^(-a4/3)): even {0, +-sqrt(m^2 + (n pi/(f L))^2)}, odd +-sqrt(m^2 + p^2), tan(p f L) = -p/m: max deviation 4.086e-14; bulk edge (lowest odd) at a4 = 0: 1.292292828069"
   },
   {
-   "name": "brane_band_slope",
+   "name": "fold_band_dispersion",
    "verdict": "PASS",
-   "detail": "eps_0(k)/k at k = 1e-4: 1.9051481733; formula (2M/(2M-H))(1 - e^-(2M-H)L)/(1 - e^-2ML) = 1.9051482536"
+   "detail": "even sector of h_(+1) at a4 = 0, 1, 2 and |k| = 0.25, 0.5, 0.75: the level eps = e^(-a4) |k| (the fold-band orbital (e^(f m y), 0)) to 4.58e-14, and its Hellmann-Feynman derivative (with the kinetic term) d eps/d a4 = -eps to 5.55e-15"
   },
   {
    "name": "collocation_converged",
    "verdict": "PASS",
-   "detail": "N = 688, a4 = 0: n = 96 vs 128: |dE|/E = 6.01e-15, |dX|/X = 1.71e-15"
+   "detail": "N = 2352, a4 = 0: n = 96 vs 128: |dE|/E = 1.05e-14, |d(dE/da4)|/|dE/da4| = 5.96e-16"
   },
   {
    "name": "aufbau_closed_shells",
    "verdict": "PASS",
-   "detail": "N = 136 and 688 fill closed degenerate groups with a gap above at every slice"
+   "detail": "N = 592, 2352 fill closed degenerate groups with a gap above at every slice, and the next level lies below e^(-a4) |k|_cut (1.6 = the shells n2 <= 40), so no excluded shell can hold a lower level"
   },
   {
    "name": "energy_vs_rust_solver",
    "verdict": "PASS",
-   "detail": "E(a4) of the independent collocation vs the Rust solver (E = 2 Vol_7 int e^(6Hy) rho), 82 states: max relative deviation 1.897e-12"
+   "detail": "E(a4) of the independent collocation vs the Rust solver (E = 2 Vol_7 int e^(3Hy) rho), 82 states: max relative deviation 3.568e-13"
   },
   {
    "name": "w_eff_vs_primary",
    "verdict": "PASS",
-   "detail": "w_eff(A) = X/E with X from Hellmann-Feynman level derivatives vs X = P3 - Pt from the solver's energy-momentum integrals, 82 states: max |difference| 1.492e-12"
+   "detail": "w_eff(A) = -(1/3) d ln E/d a4 with dE/da4 from Hellmann-Feynman level derivatives vs w_eff(A) = P3/E - (P0 + 3 Pt)/(9E) from the solver's energy-momentum integrals, 82 states: max |difference| 1.220e-13"
+  },
+  {
+   "name": "free_gas_w_eff_one_third",
+   "verdict": "PASS",
+   "detail": "independently: w_eff(A) = 1/3 at every slice for N = 592, 2352 (max |w_eff(A) - 1/3| = 1.23e-13): every occupied level is a fold-band level with d eps/d a4 = -eps"
   },
   {
    "name": "cpl_tangent_vs_primary",
    "verdict": "PASS",
-   "detail": "w0 and wa (a4_today = 0.5, 1, 1.5, 2; N = 136, 688; lambda = 0) independent vs primary (4th-order differences of the solver's dense grid): max |difference| 4.027e-07"
+   "detail": "w0 and wa (a4_today = 0.5, 1, 1.5, 2; N = 592, 2352; lambda = 0) independent vs primary (4th-order differences of the solver's dense grid): max |difference| 2.737e-11"
   },
   {
-   "name": "bulk_band_dark_matter_law",
+   "name": "bulk_band_w_eff",
    "verdict": "PASS",
-   "detail": "lowest odd-parity (massive, eps(0) = 1.292293) level of the n2 = 1 shell: w_eff(A) = -(1/3) d ln eps/d a4 falls monotonically from 0.239626 (a4 = -3) to 2.268e-03 (a4 = 4); w(4)/w(3.75) = 0.765177 (e^-0.25 = 0.778801: w ~ k_phys ~ 1/a, a linear term of eps(k) at small k; e^-0.5 would be the flat-space k^2 law): the dark-matter-like fall toward 0 appears for quanta in the BULK band"
+   "detail": "lowest odd-parity (bulk) level of the n2 = 1 shell along a4 in [-3, 4] (f = e^(-a4/3) from 2.7183 to 0.2636): w_eff(A) = -(1/3) d ln eps/d a4 runs from 0.318721 (a4 = -3) to -0.081074 (a4 = 4), monotonically decreasing: True; it changes sign between a4 = -0.5 and -0.25 (the shrinking hidden direction raises the bulk level like 1/f = e^(a4/3), so w_eff(A) -> -1/9 when the hidden momentum dominates): the bulk-band quanta do NOT follow the dust-like 1/3 -> 0 law of a massive flat-space quantum"
   },
   {
-   "name": "brane_band_radiation_law",
+   "name": "fold_band_radiation_law",
    "verdict": "PASS",
-   "detail": "lowest even-parity (brane-band, massless at k = 0) level of the same shell: w_eff(A) in [0.291594, 0.333275], 0.333275 at a4 = 4 (-> 1/3: radiation, no 1/3 -> 0)"
-  },
-  {
-   "name": "free_gas_independent_of_b4",
-   "verdict": "PASS",
-   "detail": "the good-sector problem solved here contains no b4: Revision/kohn_sham/reports/ks-b4-wolfram.json, check K2_good_sector_independent_of_b4 PASS (Psi = b4^(-3/4) X); at lambda = 0 there is no mean field and Pt = 0, so E, X and w_eff(A) = X/E of this free gas are the same on the history with b4(x4); w_eff(C) = X/E - 1/3 (beta = 4/3)"
+   "detail": "lowest even-parity (fold-band) level of the same shell: w_eff(A) = 1/3 at every a4 (max deviation 2.87e-12): radiation, exactly"
   }
  ],
  "summary": {
