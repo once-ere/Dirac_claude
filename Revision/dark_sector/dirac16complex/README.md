@@ -15,7 +15,8 @@ scale factor e^{-a4} b4^{1/2} |cot z| and shrinks with them. **b4 is a function 
 2026-10-14 (with sin^{1/3} z in 3-space) and its version 1 of 2026-10-16 are withdrawn; their records are in the git
 history (the Wolfram verification of the withdrawn metric of 2026-10-14,
 `Revision/dark_sector/wolfram/verify_dark_sector_b4.wls`, is kept and documented in
-`Revision/dark_sector/B4_PROVENANCE.md`). The 3-space observer's scale factor is a = e^{a4} (normalised a = 1 at a
+`Revision/dark_sector/B4_PROVENANCE.md`; the provenance of this record for the corrected metric, with a complete re-run, is
+`Revision/dark_sector/CORRECTED_METRIC_PROVENANCE.md`). The 3-space observer's scale factor is a = e^{a4} (normalised a = 1 at a
 chosen "today" a4_today; a = e^{a4 - a4_today}); b4 does not enter it.
 
 **The history of the numbers.** a4 = H x4 and **b4(x4) = e^{(4/3) H x4}** (b4(0) = 1), beta = d ln b4/d a4 = 4/3: the

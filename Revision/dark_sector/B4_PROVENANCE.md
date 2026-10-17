@@ -4,8 +4,8 @@
 2026-10-16 by the corrected primordial metric (version 2; `Revision/SPEC.md` section 1). This file is kept as the
 provenance of the withdrawn dark-sector record. That record's implementation-A output is frozen in
 `Revision/dark_sector/reference_2026_10_14/eos-theory-b4.json` and is still verified by
-`wolfram/verify_dark_sector_b4.wls`. The provenance of the dark-sector record for the corrected metric is still OPEN
-(W6, `HANDOFF.md` 0.11).
+`wolfram/verify_dark_sector_b4.wls`. The provenance of the dark-sector record for the corrected metric is
+`Revision/dark_sector/CORRECTED_METRIC_PROVENANCE.md` (2026-10-17, phase W6 of `HANDOFF.md`).
 
 Written 2026-10-15. This file records how the whole dark-sector record of the Revision (Hypothesis:
 `Revision/dark_sector/dirac16complex/`; Hypothesis00: `Revision/dark_sector/dirac16complex00/`; the
