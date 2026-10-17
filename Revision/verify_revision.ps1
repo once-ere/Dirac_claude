@@ -52,13 +52,13 @@
 #   gkd-rust-build                        60 s
 #   gkd-rust-lovelock                     15 s
 #   gkd-rust-selftest                    900 s  long
-#   gkd-wolfram                          110 s
-#   gkd-sympy                             30 s
+#   gkd-wolfram                           50 s
+#   gkd-sympy                             15 s
 #   gkd-notebook-extract                  10 s
 #   gkd-notebook-digest                    5 s
 #   gkd-notebook-image                    10 s
 #   gkd-author-extract                   120 s
-#   gkd-author-compare                    60 s
+#   gkd-author-compare                     5 s
 #   metric-b4-author-notebook              5 s
 #   metric-b4-author-extract              10 s
 #   metric-b4-wolfram                     90 s
@@ -253,13 +253,13 @@ algebra-sympy|5|0|-|Revision/algebra/reports/python-algebra.json,Revision/algebr
 gkd-rust-build|60|0|-|-|-|{cargo} build --release --manifest-path Revision/gkd_lovelock/code/Cargo.toml
 gkd-rust-lovelock|15|0|-|Revision/gkd_lovelock/results/curvature.json,Revision/gkd_lovelock/results/lovelock-tensors.json,Revision/gkd_lovelock/results/lovelock-components.md,Revision/gkd_lovelock/results/lovelock-report.json|Revision/gkd_lovelock/results/lovelock-report.json|{gkd_exe} lovelock --output Revision/gkd_lovelock/results --brute-force-k2
 gkd-rust-selftest|900|1|-|Revision/gkd_lovelock/results/gkd-selftest.json|Revision/gkd_lovelock/results/gkd-selftest.json|{gkd_exe} gkd-selftest --exhaustive-max 4 --output Revision/gkd_lovelock/results
-gkd-wolfram|110|0|-|Revision/gkd_lovelock/results/wolfram-gkd-report.json|Revision/gkd_lovelock/results/wolfram-gkd-report.json|{wolframscript} -file Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls Revision/gkd_lovelock/results/wolfram-gkd-report.json
-gkd-sympy|30|0|-|Revision/gkd_lovelock/results/python-lovelock-report.json|Revision/gkd_lovelock/results/python-lovelock-report.json|{python} Revision/gkd_lovelock/verification/check_lovelock_gkd.py
+gkd-wolfram|50|0|-|Revision/gkd_lovelock/results/wolfram-gkd-report.json|Revision/gkd_lovelock/results/wolfram-gkd-report.json|{wolframscript} -file Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls Revision/gkd_lovelock/results/wolfram-gkd-report.json
+gkd-sympy|15|0|-|Revision/gkd_lovelock/results/python-lovelock-report.json|Revision/gkd_lovelock/results/python-lovelock-report.json|{python} Revision/gkd_lovelock/verification/check_lovelock_gkd.py
 gkd-notebook-extract|10|0|-|-|-|{wolframscript} -file Revision/gkd_lovelock/notebook_reading/lovelock_extract_nb_inputs.wls
 gkd-notebook-digest|5|0|-|Revision/gkd_lovelock/results/notebook-input-cells.txt|-|{python} Revision/gkd_lovelock/notebook_reading/lovelock_digest_nb_inputs.py
 gkd-notebook-image|10|0|-|Revision/gkd_lovelock/results/notebook-in68-image.png|-|{wolframscript} -file Revision/gkd_lovelock/notebook_reading/lovelock_export_nb_image.wls
 gkd-author-extract|120|0|-|Revision/gkd_lovelock/comparison/author-curvature-outputs.json|-|{wolframscript} -file Revision/gkd_lovelock/comparison/extract_author_curvature_outputs.wls
-gkd-author-compare|60|0|-|Revision/gkd_lovelock/comparison/author-comparison-report.json|Revision/gkd_lovelock/comparison/author-comparison-report.json|{python} Revision/gkd_lovelock/comparison/compare_with_author.py
+gkd-author-compare|5|0|-|Revision/gkd_lovelock/comparison/author-comparison-report.json|Revision/gkd_lovelock/comparison/author-comparison-report.json|{python} Revision/gkd_lovelock/comparison/compare_with_author.py
 metric-b4-author-notebook|5|0|build/revision/metric-b4-author|-|-|{audit} git-blob b13373c:Dirac_Einstein-Lovelock_4+4_Nash.nb build/revision/metric-b4-author/Dirac_Einstein-Lovelock_4+4_Nash.nb 4f2d83b53e4a35696e1ed4d0569f4cabbfc7463d0036c36ae5534bd6e549aafb
 metric-b4-author-extract|10|0|-|Revision/metric_b4/results/author-b4-outputs.json|-|{wolframscript} -file Revision/metric_b4/wolfram/extract_author_b4_outputs.wls build/revision/metric-b4-author/Dirac_Einstein-Lovelock_4+4_Nash.nb
 metric-b4-wolfram|90|0|-|Revision/metric_b4/results/metric-b4.json,Revision/metric_b4/results/wolfram-metric-b4-report.json|Revision/metric_b4/results/wolfram-metric-b4-report.json|{wolframscript} -file Revision/metric_b4/wolfram/verify_metric_b4.wls

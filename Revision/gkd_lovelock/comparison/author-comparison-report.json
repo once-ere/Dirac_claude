@@ -7,16 +7,20 @@
       "sha256": "f041955db36f67d5ec113ad65542f448af1de6eba159c85ecff73f83761039f0"
     },
     {
-      "path": "Revision/gkd_lovelock/results/curvature.json",
+      "path": "Revision/gkd_lovelock/reference_2026_10_14/curvature.json",
       "sha256": "b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1"
     },
     {
-      "path": "Revision/gkd_lovelock/results/lovelock-tensors.json",
+      "path": "Revision/gkd_lovelock/reference_2026_10_14/lovelock-tensors.json",
       "sha256": "f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c"
     },
     {
+      "path": "Revision/gkd_lovelock/results/curvature.json",
+      "sha256": "67b74b6d3cf92844a8eb48d28e73e5e3481c1f55a213c9c5c14f25adc1a39d47"
+    },
+    {
       "path": "Revision/SPEC.md",
-      "sha256": "ead6a9788d9aba0ca52f4ae308e8153d74fcfd0a40e5a4a55afe6b40098b929f"
+      "sha256": "a178f0922b069628edabd4560954d359bff785afb3a4ff19a08aca2257e96ab8"
     },
     {
       "path": "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb",
@@ -37,6 +41,7 @@
     "function": "a4_Revision(x4) := a4_author(H*x4); therefore a4_author^(n)(H*x4) = H^(-n) a4_Revision^(n)(x4) (chain rule; n = 0, 1, 2); only the argument H*x4 occurs in the author's outputs (checked)",
     "constant": "H is the same constant on both sides",
     "b4": "the metric of 2026-10-14 has b4[x4] in the extra-time components; this author notebook (before 2026-10-14) has no b4, so every comparison with it is made at b4 = 1, b4' = b4'' = 0 (the earlier metric); the comparison of SPEC section 1 with curvature.json keeps b4",
+    "metric": "this notebook's metric is the metric of 2026-10-14 at b4 = 1 (Sin[6 H x0]^(1/3) in the 3-space and the extra times, Cot^2 for x0); the Revision record moved on 2026-10-16 to the corrected metric (version 2, SPEC section 1), which differs from it in g00 and g11..g33 (checked). The notebook's stored outputs are therefore compared with the Revision record of ITS metric, reference_2026_10_14/ (the Rust results of commit c93fe22, frozen, sha256 checked), not with the record of the corrected metric",
     "status": "a definition fixed before the comparison and checked on the metric first; nothing is fitted"
   },
   "normalisations": [
@@ -63,10 +68,25 @@
       }
     },
     {
+      "name": "reference-files-are-the-record-of-2026-10-14",
+      "verdict": "PASS",
+      "detail": {
+        "compared": "sha256 of reference_2026_10_14/curvature.json and lovelock-tensors.json vs the pinned values (the files of commit c93fe22, the Rust results for the metric of 2026-10-14)",
+        "recomputed": {
+          "Revision/gkd_lovelock/reference_2026_10_14/curvature.json": "b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1",
+          "Revision/gkd_lovelock/reference_2026_10_14/lovelock-tensors.json": "f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c"
+        },
+        "pinned": {
+          "Revision/gkd_lovelock/reference_2026_10_14/curvature.json": "b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1",
+          "Revision/gkd_lovelock/reference_2026_10_14/lovelock-tensors.json": "f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c"
+        }
+      }
+    },
+    {
       "name": "revision-metric-spec-vs-curvature-json",
       "verdict": "PASS",
       "detail": {
-        "compared": "Revision/SPEC.md section 1 matrix vs curvature.json metricDiagonal (off-diagonal 0), 64 components",
+        "compared": "Revision/SPEC.md section 1 matrix (the corrected metric of 2026-10-16) vs results/curvature.json metricDiagonal (off-diagonal 0), 64 components, b4 kept",
         "mismatches": []
       }
     },
@@ -74,7 +94,7 @@
       "name": "metric-mapping-author-Out235-vs-revision",
       "verdict": "PASS",
       "detail": {
-        "compared": "all 64 components of the author's Out[235] (mapped) vs the Revision metric",
+        "compared": "all 64 components of the author's Out[235] (mapped) vs the Revision record of the metric of 2026-10-14 at b4 = 1 (reference_2026_10_14/curvature.json)",
         "diagonal": {
           "x0,x0": {
             "authorMapped": "cot(6*H*x0)**2",
@@ -119,6 +139,23 @@
         },
         "offDiagonal": "all 56 off-diagonal components are 0 on both sides",
         "mismatches": []
+      }
+    },
+    {
+      "name": "corrected-metric-differs-from-the-author-notebook-metric",
+      "verdict": "PASS",
+      "detail": {
+        "compared": "the author's Out[235] (mapped) vs the corrected metric of results/curvature.json at b4 = 1, the 8 diagonal components",
+        "differingComponents": [
+          "x0,x0",
+          "x1,x1",
+          "x2,x2",
+          "x3,x3",
+          "x5,x5",
+          "x6,x6",
+          "x7,x7"
+        ],
+        "reading": "g00: Cot^2 vs E^(-2 a4) Cot^2 and g11..g33: E^(2 a4) Sin^(1/3) vs E^(2 a4) differ; g44 = -1 on both sides; g55..g77: -E^(-2 a4) Sin^(1/3) vs -E^(-2 a4) (Sin^2)^(1/6), equal where Sin > 0 and different where Sin < 0 (no assumption on the sign of Sin is made, so they are listed as differing). Hence the author's stored curvature is compared with the record of the metric of 2026-10-14 (reference_2026_10_14/), not with the record of the corrected metric"
       }
     },
     {
@@ -873,10 +910,10 @@
     }
   ],
   "summary": {
-    "PASS": 73,
+    "PASS": 75,
     "FAIL": 0,
     "NOT-AVAILABLE": 5,
-    "total": 78
+    "total": 80
   },
   "stopped": null
 }

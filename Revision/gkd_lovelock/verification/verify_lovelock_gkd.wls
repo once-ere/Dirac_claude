@@ -30,26 +30,29 @@
       the verbatim k\[Delta] on every pair and compares.  The GKD rule is NOT re-implemented in
       Wolfram Language: the values come from the compiled Rust function.
 
-   3. The curvature of the author's metric, from scratch (LGKDCurvature), compared with
-      Revision/gkd_lovelock/results/curvature.json (the Rust program's R^{ab}_{cd}).
+   3. The curvature of the corrected metric of 2026-10-16 (version 2; Revision/SPEC.md section 1), from
+      scratch (LGKDCurvature), compared with Revision/gkd_lovelock/results/curvature.json (the Rust
+      program's R^{ab}_{cd}), for general a4(x4), b4(x4) > 0 and EVERY real z = 6 H x0 with Sin z Cos z != 0.
 
    4. The Lovelock sums with the verbatim k\[Delta]:
-        k = 1, 2: every k-tuple of the 156 nonzero R^{ab}_{cd}, every one of the 64 components
-                  (9,984 and 1,557,504 calls of k\[Delta]); no shortcut;
+        k = 1, 2: every k-tuple of the 112 nonzero R^{ab}_{cd}, every one of the 64 components
+                  (7,168 and 802,816 calls of k\[Delta]); no shortcut;
         k = 3:    all 64 components with index lists that repeat a label in a row skipped (the
                   matrix Outer[delta, lower, upper] then has two equal rows or columns, so
-                  k\[Delta] = 0), k\[Delta] called on every list that is left (1,128,960 calls);
+                  k\[Delta] = 0), k\[Delta] called on every list that is left (645,120 calls);
                   and, only with LOVELOCK_GKD_K3_UNPRUNED=diagonal, the 8 diagonal components again
-                  with NO skip at all (156^3 = 3,796,416 calls of k\[Delta] each).  The committed
-                  report is the default run (LOVELOCK_GKD_K3_UNPRUNED=none, 29 checks; 67 s on the
-                  workstation of 2026-10-01).
+                  with NO skip at all (112^3 = 1,404,928 calls of k\[Delta] each).  The committed
+                  report is the default run (LOVELOCK_GKD_K3_UNPRUNED=none, 29 checks).  (The metric of
+                  2026-10-14, withdrawn, had 156 nonzero entries.)
       No faster equivalent of k\[Delta] (Signature, permutation sign, ...) is used anywhere.
 
    5. Exact comparison with Revision/gkd_lovelock/results/lovelock-tensors.json, rebuilt from its exact
-      monomial lists: FullSimplify[wolfram - rust] must be 0 for every component of P_(k) and of
-      A_(k) (A on the domain 0 < 6 H x0 < Pi/2, b4 > 0, where sqrt|det g| = b4^(3/2) Cos[6 H x0]); plus
-      P_(1) = -4 G (the Einstein tensor from the Ricci tensor), the traces against L_(k), and the
-      numbers of nonzero k\[Delta] terms against the counters of lovelock-report.json.
+      monomial lists: LGKDZeroQ[wolfram - rust] (the exact zero test for every real z of
+      LovelockGKDCheck.wl: reduction modulo Cos^2 + Sin^2 - 1, ww^12 - Sin^2 with ww = (Sin^2)^(1/12),
+      Sign[Cot]^2 - 1; no PowerExpand, no domain 0 < z < Pi/2) must hold for every component of P_(k) and of
+      A_(k) (sqrt|det g| = E^-a4 b4^2 |Cot[6 H x0]| (Sin[6 H x0]^2)^(1/4)); plus P_(1) = -4 G (the Einstein
+      tensor from the Ricci tensor), the traces against L_(k), and the numbers of nonzero k\[Delta] terms
+      against the counters of lovelock-report.json.
 
    Files read: Revision/gkd_lovelock/verification/LovelockGKDCheck.wl, Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md,
    Revision/gkd_lovelock/results/curvature.json, Revision/gkd_lovelock/results/lovelock-tensors.json,
@@ -365,14 +368,24 @@ sqrtG = curvature["sqrtDetG"];
 rustCurvature = readJSON[curvaturePath];
 rustRiemann = rustCurvature["riemannMixedNonzero"];
 rustRiemannIndex = ({labelOf[#["up"][[1]]], labelOf[#["up"][[2]]], labelOf[#["down"][[1]]], labelOf[#["down"][[2]]]} & /@ rustRiemann);
-riemannMatch = Length[entries] === 156 && entries[[All, 1]] === rustRiemannIndex &&
-  And @@ MapThread[Simplify[#1 - ToExpression[#2]] === 0 &, {entryValues, #["value"] & /@ rustRiemann}];
+nEntries = Length[entries];
+riemannMatch = nEntries === Length[rustRiemann] && entries[[All, 1]] === rustRiemannIndex &&
+  And @@ MapThread[LGKDZeroQ[#1 - ToExpression[#2]] &, {entryValues, #["value"] & /@ rustRiemann}] &&
+  FreeQ[entryValues, x0];
 addCheck["riemann_mixed_equals_rust_curvature", riemannMatch,
-  "R^ab_cd computed here (Christoffel and Riemann from the metric with D, Inverse, Simplify; MTW convention) has " <> ToString[Length[entries]] <>
-    " nonzero entries, the same index lists and exactly the same values as riemannMixedNonzero of curvature.json"];
-addCheck["sqrt_det_g_is_cos", Simplify[sqrtG - b4[x4]^(3/2) Cos[6 H x0], LGKDDomainAssumption] === 0 &&
-    Simplify[Det[curvature["metric"]] - b4[x4]^3 Cos[6 H x0]^2] === 0,
-  "det g = b4[x4]^3 Cos[6 H x0]^2 and sqrt|det g| = b4[x4]^(3/2) Cos[6 H x0] on 0 < 6 H x0 < Pi/2, b4 > 0 (the Rust program's Q^3 S^3 C = b4^(3/2) Sin Cot; b4 = 1 before 2026-10-14)"];
+  "R^ab_cd computed here (Christoffel and Riemann from the metric with D and Inverse, exact normal form for every real z; MTW convention) has " <>
+    ToString[nEntries] <> " nonzero entries, all free of x0, the same index lists and exactly the same values as riemannMixedNonzero of curvature.json"];
+(* sqrt|det g|: exact, and numerically at points in the four quarters of the period of z = 6 H x0 *)
+sqrtPoints = {{1/2, 3/10}, {1/2, 9/10}, {1/2, 13/10}, {1/2, 19/10}};  (* {H, x0}: z = 9/10, 27/10, 39/10, 57/10 *)
+sqrtNumericOK = And @@ Map[
+  Function[pt, Module[{rules = {H -> pt[[1]], x0 -> pt[[2]], a4[x4] -> 1/3, b4[x4] -> 7/5}, s, d},
+    s = N[sqrtG /. rules, 30]; d = N[Det[curvature["metric"]] /. rules, 30];
+    s > 0 && Abs[s - Sqrt[Abs[d]]] < 10^-20]], sqrtPoints];
+sqrtExactOK = LGKDZeroQ[sqrtG^2 - Det[curvature["metric"]]] &&
+  LGKDZeroQ[sqrtG - E^(-a4[x4]) b4[x4]^2 Sign[Cot[6 H x0]] Cot[6 H x0] (Sin[6 H x0]^2)^(1/4)] &&
+  LGKDZeroQ[sqrtG - ToExpression[rustCurvature["sqrtAbsDetG"]]];
+addCheck["sqrt_det_g", sqrtExactOK && sqrtNumericOK,
+  "sqrt|det g| computed here (the product of the roots of |g_aa|) = E^-a4 b4^2 |Cot[6 H x0]| (Sin[6 H x0]^2)^(1/4) = E^-a4 b4^2 Sign[Cot] Cot (Sin^2)^(1/4) exactly, its square is det g, it equals sqrtAbsDetG of curvature.json, and at z = 9/10, 27/10, 39/10, 57/10 (Sin, Cot) = (+, +), (+, -), (-, +), (-, -) it is positive and equals Sqrt[Abs[Det[g]]] (30 digits); every real z is allowed"];
 step["curvature"];
 
 (* ============================================================================================ *)
@@ -386,7 +399,7 @@ pMatrix = <||>;
 runSums[k_, mode_, comps_] := Module[{res},
   res = Association[Map[# -> If[mode === "unpruned", LGKDLovelockUnpruned[k, entries, #], LGKDLovelockPruned[k, entries, #]] &, comps]];
   <|"results" -> res,
-    "values" -> Association[KeyValueMap[#1 -> Simplify[LGKDCombine[#2["terms"], entryValues]] &, res]],
+    "values" -> Association[KeyValueMap[#1 -> LGKDCanonical[LGKDCombine[#2["terms"], entryValues]] &, res]],
     "kDeltaCalls" -> Total[#["kDeltaCalls"] & /@ Values[res]],
     "nonzeroCalls" -> Total[#["nonzeroCalls"] & /@ Values[res]],
     "nonIntegerCalls" -> Total[#["nonIntegerCalls"] & /@ Values[res]]|>
@@ -413,7 +426,7 @@ pMatrix[1] = Table[lovelockRuns[{1, "unpruned"}]["values"][{h, j}], {h, 8}, {j, 
 pMatrix[2] = Table[lovelockRuns[{2, "unpruned"}]["values"][{h, j}], {h, 8}, {j, 8}];
 pMatrix[3] = Table[lovelockRuns[{3, "pruned"}]["values"][{h, j}], {h, 8}, {j, 8}];
 (* A_(k)^{lh} = sqrt(g) g^{jl} P_(k)^h_j *)
-aMatrix = Association[Table[k -> Table[Simplify[sqrtG Sum[gInverse[[j, l]] pMatrix[k][[h, j]], {j, 8}], LGKDDomainAssumption], {l, 8}, {h, 8}], {k, 3}]];
+aMatrix = Association[Table[k -> Table[LGKDCanonical[sqrtG Sum[gInverse[[j, l]] pMatrix[k][[h, j]], {j, 8}]], {l, 8}, {h, 8}], {k, 3}]];
 
 nonIntegerTotal = Total[#["nonIntegerCalls"] & /@ Values[lovelockRuns]];
 addCheck["lovelock_kdelta_values_are_integers", nonIntegerTotal === 0,
@@ -428,27 +441,26 @@ rustReport = readJSON[rustReportPath];
 key[r_, c_] := coordinateNames[[r]] <> "," <> coordinateNames[[c]];
 rustP[k_] := Table[LGKDFromMonomials[tensors["P" <> ToString[k] <> "_mixed_up_h_down_j"][key[h, j]]["monomials"]], {h, 8}, {j, 8}];
 rustA[k_] := Table[LGKDFromMonomials[tensors["A" <> ToString[k] <> "_contravariant_l_h"][key[l, h]]["monomials"]], {l, 8}, {h, 8}];
-mismatchList[mine_, rust_, assumption_] := Select[Tuples[Range[8], 2],
-  FullSimplify[mine[[#[[1]], #[[2]]]] - rust[[#[[1]], #[[2]]]], assumption] =!= 0 &];
+mismatchList[mine_, rust_] := Select[Tuples[Range[8], 2], ! LGKDZeroQ[mine[[#[[1]], #[[2]]]] - rust[[#[[1]], #[[2]]]]] &];
 nonzeroComponents[m_] := Select[Tuples[Range[8], 2], m[[#[[1]], #[[2]]]] =!= 0 &];
 compText[list_] := StringRiffle[key @@@ list, "; "];
 
-modeText = <|1 -> "every 1-tuple of nonzero R entries, no skip, 9984 calls of k" <> deltaChar,
-  2 -> "every 2-tuple of nonzero R entries, no skip, 1557504 calls of k" <> deltaChar,
+modeText = <|1 -> "every 1-tuple of nonzero R entries, no skip, " <> ToString[64 nEntries] <> " calls of k" <> deltaChar,
+  2 -> "every 2-tuple of nonzero R entries, no skip, " <> ToString[64 nEntries^2] <> " calls of k" <> deltaChar,
   3 -> "lists repeating a label in a row skipped, k" <> deltaChar <> " on every remaining list, " <>
     ToString[lovelockRuns[{3, "pruned"}]["kDeltaCalls"]] <> " calls"|>;
 Do[
   Module[{rp = rustP[k], ra = rustA[k], badP, badA, nz},
-    badP = mismatchList[pMatrix[k], rp, True];
-    badA = mismatchList[aMatrix[k], ra, LGKDDomainAssumption];
+    badP = mismatchList[pMatrix[k], rp];
+    badA = mismatchList[aMatrix[k], ra];
     nz = nonzeroComponents[pMatrix[k]];
     addCheck["k" <> ToString[k] <> "_P_equals_rust_all_64_components", badP === {},
       "P_(" <> ToString[k] <> ")^h_j from the verbatim k" <> deltaChar <> " (" <> modeText[k] <> ") minus the Rust P_(" <> ToString[k] <>
-        ") rebuilt from its monomials: FullSimplify gives 0 for all 64 components; nonzero components: " <> compText[nz] <>
+        ") rebuilt from its monomials: the exact zero test for every real z gives 0 for all 64 components; nonzero components: " <> compText[nz] <>
         If[badP === {}, "", "; MISMATCH at " <> compText[badP]]];
     addCheck["k" <> ToString[k] <> "_A_equals_rust_all_64_components", badA === {},
       "A_(" <> ToString[k] <> ")^lh = sqrt(g) g^jl P_(" <> ToString[k] <> ")^h_j minus the Rust A_(" <> ToString[k] <>
-        ") rebuilt from its monomials: FullSimplify on 0 < 6 H x0 < Pi/2 gives 0 for all 64 components" <>
+        ") rebuilt from its monomials: the exact zero test for every real z gives 0 for all 64 components" <>
         If[badA === {}, "", "; MISMATCH at " <> compText[badA]]];
     measurements["k" <> ToString[k] <> "NonzeroComponents"] = key @@@ nz;
   ], {k, 3}];
@@ -457,20 +469,21 @@ Module[{rp = rustP[2], ra = rustA[3], badP, badA},
   (* Wolfram position 4 = x3, position 1 = x0 *)
   rp[[4, 4]] = rp[[4, 4]] + H^4/1000;
   ra[[1, 1]] = ra[[1, 1]] (1 + 1/1000);
-  badP = mismatchList[pMatrix[2], rp, True];
-  badA = mismatchList[aMatrix[3], ra, LGKDDomainAssumption];
+  badP = mismatchList[pMatrix[2], rp];
+  badA = mismatchList[aMatrix[3], ra];
   addCheck["negative_control_tensor_comparison_detects_a_change", badP === {{4, 4}} && badA === {{1, 1}},
-    "negative control: after adding H^4/1000 to the Rust P_(2) x3,x3 and multiplying the Rust A_(3) x0,x0 by 1001/1000, the same FullSimplify test flags exactly " <>
+    "negative control: after adding H^4/1000 to the Rust P_(2) x3,x3 and multiplying the Rust A_(3) x0,x0 by 1001/1000, the same exact zero test flags exactly " <>
       compText[badP] <> " (P_(2)) and " <> compText[badA] <> " (A_(3)), so the comparison can fail"]
 ];
 step["compare_with_rust_tensors"];
 
 If[k3UnprunedSetting === "diagonal",
   Module[{bad},
-    bad = Select[diagonal, Simplify[lovelockRuns[{3, "unpruned"}]["values"][#] - lovelockRuns[{3, "pruned"}]["values"][#]] =!= 0 ||
+    bad = Select[diagonal, ! LGKDZeroQ[lovelockRuns[{3, "unpruned"}]["values"][#] - lovelockRuns[{3, "pruned"}]["values"][#]] ||
         lovelockRuns[{3, "unpruned"}]["results"][#]["nonzeroCalls"] =!= lovelockRuns[{3, "pruned"}]["results"][#]["nonzeroCalls"] &];
     addCheck["k3_diagonal_unpruned_equals_skip_sum", bad === {},
-      "for the 8 diagonal components x0,x0 .. x7,x7 the literal sum over every 3-tuple of the 156 nonzero R entries (156^3 = 3796416 calls of k" <>
+      "for the 8 diagonal components x0,x0 .. x7,x7 the literal sum over every 3-tuple of the " <> ToString[nEntries] <> " nonzero R entries (" <>
+        ToString[nEntries] <> "^3 = " <> ToString[nEntries^3] <> " calls of k" <>
         deltaChar <> " per component, " <> ToString[lovelockRuns[{3, "unpruned"}]["kDeltaCalls"]] <>
         " in all, no skip) gives exactly the same P_(3) and the same number of nonzero k" <> deltaChar <> " terms (" <>
         ToString[lovelockRuns[{3, "unpruned"}]["nonzeroCalls"]] <> ") as the sum with the repeated-label skip" <>
@@ -479,33 +492,33 @@ If[k3UnprunedSetting === "diagonal",
 ];
 
 einstein = curvature["einsteinMixed"];
-addCheck["k1_equals_minus_4_einstein", And @@ Flatten[Table[Simplify[pMatrix[1][[h, j]] + 4 einstein[[h, j]]] === 0, {h, 8}, {j, 8}]],
+addCheck["k1_equals_minus_4_einstein", And @@ Flatten[Table[LGKDZeroQ[pMatrix[1][[h, j]] + 4 einstein[[h, j]]], {h, 8}, {j, 8}]],
   "P_(1)^h_j = -4 G^h_j exactly, G^h_j = R^h_j - 1/2 delta^h_j R from the Ricci tensor computed here (an independent route)"];
 Do[
   Module[{lRust = ToExpression[tensors["L" <> ToString[k]]], trace = Sum[pMatrix[k][[a, a]], {a, 8}]},
-    addCheck["k" <> ToString[k] <> "_trace_equals_" <> ToString[8 - 2 k] <> "_L" <> ToString[k], Simplify[trace - (8 - 2 k) lRust] === 0,
+    addCheck["k" <> ToString[k] <> "_trace_equals_" <> ToString[8 - 2 k] <> "_L" <> ToString[k], LGKDZeroQ[trace - (8 - 2 k) lRust],
       "sum_h P_(" <> ToString[k] <> ")^h_h computed here = (8 - " <> ToString[2 k] <> ") L_(" <> ToString[k] <> ") with L_(" <> ToString[k] <>
         ") = " <> tensors["L" <> ToString[k]] <> " of lovelock-tensors.json"]
   ], {k, 3}];
 
 rustCounters = Association[#["k"] -> # & /@ rustReport["counters"]];
 countersOK = <|
-  1 -> lovelockRuns[{1, "unpruned"}]["nonzeroCalls"] === rustCounters[1]["gkdNonzero"] && lovelockRuns[{1, "unpruned"}]["kDeltaCalls"] === 64 156,
-  2 -> lovelockRuns[{2, "unpruned"}]["nonzeroCalls"] === rustCounters[2]["gkdNonzero"] && lovelockRuns[{2, "unpruned"}]["kDeltaCalls"] === 64 156^2,
+  1 -> lovelockRuns[{1, "unpruned"}]["nonzeroCalls"] === rustCounters[1]["gkdNonzero"] && lovelockRuns[{1, "unpruned"}]["kDeltaCalls"] === 64 nEntries,
+  2 -> lovelockRuns[{2, "unpruned"}]["nonzeroCalls"] === rustCounters[2]["gkdNonzero"] && lovelockRuns[{2, "unpruned"}]["kDeltaCalls"] === 64 nEntries^2,
   3 -> lovelockRuns[{3, "pruned"}]["nonzeroCalls"] === rustCounters[3]["gkdNonzero"] && lovelockRuns[{3, "pruned"}]["kDeltaCalls"] === rustCounters[3]["leaves"]|>;
 Do[
   addCheck["k" <> ToString[k] <> "_nonzero_kdelta_terms_equal_rust_counter", countersOK[k],
     "number of nonzero k" <> deltaChar <> " terms here: " <> ToString[lovelockRuns[{k, If[k == 3, "pruned", "unpruned"]}]["nonzeroCalls"]] <>
       "; Rust gkdNonzero: " <> ToString[rustCounters[k]["gkdNonzero"]] <> "; calls of k" <> deltaChar <> " here: " <>
       ToString[lovelockRuns[{k, If[k == 3, "pruned", "unpruned"]}]["kDeltaCalls"]] <>
-      If[k == 3, " = the Rust leaves counter " <> ToString[rustCounters[3]["leaves"]] <> " (the same skip rule)", " = 64 * 156^" <> ToString[k]]],
+      If[k == 3, " = the Rust leaves counter " <> ToString[rustCounters[3]["leaves"]] <> " (the same skip rule)", " = 64 * " <> ToString[nEntries] <> "^" <> ToString[k]]],
   {k, 3}];
 
 Module[{bad = {}},
   Do[
     Do[
       With[{entry = tensors[name][key[r, c]]},
-        If[Simplify[ToExpression[entry["mathematica"]] - LGKDFromMonomials[entry["monomials"]], LGKDDomainAssumption] =!= 0,
+        If[! LGKDZeroQ[ToExpression[entry["mathematica"]] - LGKDFromMonomials[entry["monomials"]]],
           AppendTo[bad, name <> " " <> key[r, c]]]],
       {r, 8}, {c, 8}],
     {name, Flatten[Table[{"P" <> ToString[k] <> "_mixed_up_h_down_j", "A" <> ToString[k] <> "_contravariant_l_h"}, {k, 3}]]}];
@@ -533,7 +546,8 @@ report = <|
   "schemaVersion" -> 1,
   "producer" -> "Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls with Revision/gkd_lovelock/verification/LovelockGKDCheck.wl (context LovelockGKDCheck`), Wolfram Language " <> First[StringSplit[$Version]],
   "task" -> "Wolfram check that GKD (Revision/gkd_lovelock/code/src/gkd.rs) is the author's k" <> deltaChar <>
-    ", and exact recomputation of the Lovelock tensors P_(k), A_(k), k = 1, 2, 3, of (4.38) for the author's 8D test metric with the verbatim k" <> deltaChar,
+    ", and exact recomputation of the Lovelock tensors P_(k), A_(k), k = 1, 2, 3, of (4.38) with the verbatim k" <> deltaChar <>
+    " for the corrected 8D primordial metric of 2026-10-16 (version 2; general a4, b4 > 0, every real z = 6 H x0)",
   "authorDefinition" -> authorDefinitionText,
   "deltaOnCoordinateLabels" -> "delta[a_Integer, b_Integer] := KroneckerDelta[a, b]",
   "gkdValuesSource" -> <|
@@ -545,13 +559,13 @@ report = <|
     "recordLayout" -> "signed bytes: p, lower_1..lower_p, upper_1..upper_p, GKD(lower, upper); labels 0..7"|>,
   "verbatimKDeltaUse" -> Join[{
     "GKD comparison: the verbatim k" <> deltaChar <> " is called on every one of the 346304 pairs",
-    "k = 1: every 1-tuple of the 156 nonzero R^ab_cd for each of the 64 components (9984 calls), no skip",
-    "k = 2: every 2-tuple of the 156 nonzero R^ab_cd for each of the 64 components (1557504 calls), no skip",
+    "k = 1: every 1-tuple of the " <> ToString[nEntries] <> " nonzero R^ab_cd for each of the 64 components (" <> ToString[64 nEntries] <> " calls), no skip",
+    "k = 2: every 2-tuple of the " <> ToString[nEntries] <> " nonzero R^ab_cd for each of the 64 components (" <> ToString[64 nEntries^2] <> " calls), no skip",
     "k = 3, all 64 components: an R entry whose upper (lower) index pair repeats a label already in the lower (upper) row of k" <> deltaChar <>
       " is skipped (two equal rows or columns of Outer[delta, lower, upper], so the determinant is 0); the verbatim k" <> deltaChar <>
       " is called on every one of the " <> ToString[lovelockRuns[{3, "pruned"}]["kDeltaCalls"]] <> " index lists that are left"},
     If[k3UnprunedSetting === "diagonal",
-      {"k = 3, the 8 diagonal components again: every 3-tuple of the 156 nonzero R^ab_cd (" <> ToString[lovelockRuns[{3, "unpruned"}]["kDeltaCalls"]] <>
+      {"k = 3, the 8 diagonal components again: every 3-tuple of the " <> ToString[nEntries] <> " nonzero R^ab_cd (" <> ToString[lovelockRuns[{3, "unpruned"}]["kDeltaCalls"]] <>
         " calls), no skip"}, {}],
     {"no faster equivalent of k" <> deltaChar <> " (Signature, permutation sign, Levi-Civita product) is used anywhere"}],
   "notRead" -> "no Mathematica notebook (.nb file) of the author, not Generalized_Kronecker_Delta.txt, no other file with the author's answers; the definition of k" <>

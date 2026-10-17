@@ -9,6 +9,12 @@ input is unchanged; Windows 11, Wolfram 15.0.1, WolframScript 1.14.0, cargo/rust
 
 * EXECUTES OK: exit code 0, `check_count=29`, `failed_check_count=0`, verdict `SUCCESS`, nothing on
   standard error.
+* 2026-10-16 (part 6.5): the CORRECTED METRIC of 2026-10-16 (version 2; `Revision/SPEC.md` section 1,
+  `Revision/metric_warped/`), diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1, -E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3)),
+  for EVERY real z = 6 H x0 (exact zero test modulo Cos^2 + Sin^2 - 1, ww^12 - Sin^2, Sign[Cot]^2 - 1; no domain
+  0 < z < Pi/2, no FullSimplify).  The tables of part 2 give the files of 2026-10-16; two runs gave 29 of 29 checks,
+  `time_total` 47.5 s and 46.1 s, and byte-identical reports (sha256 `98a5e3c830ed22beaf61510f351db44a1bcfddce31d7c696763366dcaf78c2c1`).  The metric of 2026-10-14 is
+  withdrawn; the statements below about earlier dates refer to the files and the metric as they were then.
 * 2026-10-14 (part 6.4): the metric carries b4[x4] (the user's order) and the set uses the author's coordinates
   x0..x7 (x0 hidden, first; the labels x1..x8 with the hidden direction x8 last are withdrawn). The tables of
   part 2 give the files of that state; the run of 2026-10-14 gave 29 of 29 checks, `time_total=74.4`; report
@@ -49,16 +55,18 @@ computes two things exactly:
    without computing a determinant (it finds the permutation and counts its inversions).
 
 2. **The Lovelock tensors** P_(k)^h_j and A_(k)^{lh} (k = 1, 2, 3) of Lovelock's equation (4.38) for
-   the author's 8-dimensional test metric
+   the corrected 8-dimensional primordial metric of 2026-10-16 (version 2; part 6.5)
 
    ```text
-   g = diag( Cot[6 H x0]^2                           for x0,
-             E^(2 a4[x4]) Sin[6 H x0]^(1/3)          for x1, x2, x3,
-             -1                                      for x4,
-             -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3) for x5, x6, x7 )
+   g = diag( E^(-2 a4[x4]) b4[x4] Cot[6 H x0]^2             for x0,
+             E^(2 a4[x4])                                  for x1, x2, x3,
+             -1                                            for x4,
+             -E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6)   for x5, x6, x7 )
 
-   in the author's coordinates x0, x1, ..., x7 (x0 = the hidden direction, first), with the metric function
-   b4[x4] of the user's order of 2026-10-14 (b4 = 1 is the metric before; part 6.4)
+   in the author's coordinates x0, x1, ..., x7 (x0 = the hidden, space-like direction, first; x4 = the time),
+   for general a4(x4), b4(x4) > 0 and every real z = 6 H x0 with Sin z Cos z != 0 ((Sin^2)^(1/6) is the
+   positive branch).  Until 2026-10-16 it was the metric of 2026-10-14 (g00 = Cot^2, g_ii = E^(2 a4)
+   Sin^(1/3), g_tt = -E^(-2 a4) b4 Sin^(1/3), on 0 < z < Pi/2; part 6.4), now withdrawn
    ```
 
    P_(k)^h_j is a sum over products of k curvature components R^{ab}_{cd}, each product weighted by
@@ -77,17 +85,21 @@ re-implementing the Rust rule:
   The script then evaluates the author's `kδ`, re-typed verbatim, on every pair and compares.
   Result: 0 mismatches.
 * **The curvature from scratch.** Mathematica computes the Christoffel symbols and the Riemann tensor
-  of the metric (Misner-Thorne-Wheeler sign convention) with its own `D`, `Inverse` and `Simplify`,
-  and finds the same 156 nonzero R^{ab}_{cd} as the Rust file `curvature.json`.
-* **The Lovelock tensors with the verbatim kδ.** k = 1 and k = 2: every k-tuple of the 156 nonzero
-  curvature entries for each of the 64 components (9,984 and 1,557,504 calls of `kδ`, no shortcut).
+  of the metric (Misner-Thorne-Wheeler sign convention) with its own `D` and `Inverse`, brings every
+  component to an exact normal form valid for every real z (`LGKDCanonical`: Sin -> sv, Cos -> cv,
+  (Sin^2)^k -> ww^(12 k), |Cot| -> Sign[Cot] Cot, reduction modulo cv^2 + sv^2 - 1, ww^12 - sv^2,
+  Sign[Cot]^2 - 1), and finds the same 112 nonzero R^{ab}_{cd} (all free of x0) as the Rust file
+  `curvature.json` (156 for the metric of 2026-10-14).
+* **The Lovelock tensors with the verbatim kδ.** k = 1 and k = 2: every k-tuple of the 112 nonzero
+  curvature entries for each of the 64 components (7,168 and 802,816 calls of `kδ`, no shortcut).
   k = 3: index lists that repeat a label in a row are skipped (their determinant is 0 because two rows
-  or two columns are equal) and `kδ` is called on every one of the 1,128,960 lists left. The
-  difference with the Rust tensors of `lovelock-tensors.json` is then simplified with `FullSimplify`:
-  it is exactly 0 for all 64 components of P_(k) and of A_(k), k = 1, 2, 3.
+  or two columns are equal) and `kδ` is called on every one of the 645,120 lists left. The
+  difference with the Rust tensors of `lovelock-tensors.json` is then tested with the exact zero test for
+  every real z (`LGKDZeroQ`): it is exactly 0 for all 64 components of P_(k) and of A_(k), k = 1, 2, 3.
+  (Until 2026-10-16: `FullSimplify` on 0 < z < Pi/2, 156 entries, 9,984, 1,557,504 and 1,128,960 calls.)
 * **Identities and counters.** P_(1) = -4 G (Einstein tensor from the Ricci tensor computed here);
-  the traces sum_h P_(k)^h_h = (8 - 2k) L_(k); the numbers of nonzero `kδ` terms (696, 32,640,
-  495,360) equal the counters of the Rust report; the Mathematica text of every component in
+  the traces sum_h P_(k)^h_h = (8 - 2k) L_(k); the numbers of nonzero `kδ` terms (672, 26,880,
+  322,560) equal the counters of the Rust report; the Mathematica text of every component in
   `lovelock-tensors.json` equals the expression rebuilt from its exact monomial list (384 components).
 * **Two negative controls** show that the comparisons CAN fail: comparing against -GKD gives a
   mismatch at exactly every pair where GKD is nonzero, and a deliberately changed P_(2) component and
@@ -107,14 +119,14 @@ checks that it is the text recorded in `Revision/gkd_lovelock/results/PROVENANCE
 | 4-6 | `gkd_equals_kdelta_exhaustive_length_1` .. `_3` | `kδ` = GKD for every pair of lists of length 1, 2, 3 over 0..7 (0 mismatches) |
 | 7-10 | `gkd_equals_kdelta_random_length_4` .. `_7` | `kδ` = GKD for 20,000 pseudo-random pairs of each length 4..7 (0 mismatches; the 10,000 permutation samples all give +1 or -1) |
 | 11 | `negative_control_gkd_comparison_detects_a_sign_flip` | against -GKD the same test fails at exactly the nonzero pairs (8, 112, 2016, 10022, 10005, 10002, 10000) |
-| 12 | `riemann_mixed_equals_rust_curvature` | the 156 nonzero R^{ab}_{cd} computed here equal `riemannMixedNonzero` of `curvature.json` |
-| 13 | `sqrt_det_g_is_cos` | det g = b4[x4]^3 Cos[6 H x0]^2 and sqrt(det g) = b4[x4]^(3/2) Cos[6 H x0] on 0 < 6 H x0 < Pi/2, b4 > 0 |
+| 12 | `riemann_mixed_equals_rust_curvature` | the 112 nonzero R^{ab}_{cd} computed here (all free of x0) equal `riemannMixedNonzero` of `curvature.json` |
+| 13 | `sqrt_det_g` | sqrt|det g| = E^-a4 b4^2 |Cot[6 H x0]| (Sin[6 H x0]^2)^(1/4) exactly (its square is det g; it equals `sqrtAbsDetG` of `curvature.json`), positive and equal to `Sqrt[Abs[Det[g]]]` at four points, one in each quarter of the period of z (until 2026-10-16: `sqrt_det_g_is_cos`, b4^(3/2) Cos[6 H x0] on 0 < z < Pi/2) |
 | 14 | `lovelock_kdelta_values_are_integers` | every `kδ` call in the Lovelock sums returned an integer |
-| 15-20 | `k1_P_equals_rust_all_64_components`, `k1_A_...`, `k2_P_...`, `k2_A_...`, `k3_P_...`, `k3_A_...` | `FullSimplify[wolfram - rust]` is 0 for all 64 components of P_(k) and of A_(k), k = 1, 2, 3 |
+| 15-20 | `k1_P_equals_rust_all_64_components`, `k1_A_...`, `k2_P_...`, `k2_A_...`, `k3_P_...`, `k3_A_...` | `LGKDZeroQ[wolfram - rust]` (exact, every real z) holds for all 64 components of P_(k) and of A_(k), k = 1, 2, 3; the nonzero components are the 8 diagonal ones |
 | 21 | `negative_control_tensor_comparison_detects_a_change` | adding H^4/1000 to the Rust P_(2) x3,x3 and multiplying the Rust A_(3) x0,x0 by 1001/1000 is detected, at exactly those components |
 | 22 | `k1_equals_minus_4_einstein` | P_(1)^h_j = -4 G^h_j exactly |
 | 23-25 | `k1_trace_equals_6_L1`, `k2_trace_equals_4_L2`, `k3_trace_equals_2_L3` | sum_h P_(k)^h_h = (8 - 2k) L_(k) with L_(k) of `lovelock-tensors.json` |
-| 26-28 | `k1_nonzero_kdelta_terms_equal_rust_counter` .. `k3_...` | 696, 32,640 and 495,360 nonzero `kδ` terms, equal to the Rust counters; 9,984 = 64 x 156 and 1,557,504 = 64 x 156^2 calls; 1,128,960 calls = the Rust `leaves` counter |
+| 26-28 | `k1_nonzero_kdelta_terms_equal_rust_counter` .. `k3_...` | 672, 26,880 and 322,560 nonzero `kδ` terms, equal to the Rust counters; 7,168 = 64 x 112 and 802,816 = 64 x 112^2 calls; 645,120 calls = the Rust `leaves` counter |
 | 29 | `rust_json_text_equals_its_monomials` | in `lovelock-tensors.json` the Mathematica text of all 384 components equals the expression rebuilt from its exact monomials |
 
 ### 1.3 Documents that cite its results
@@ -127,7 +139,7 @@ checks that it is the text recorded in `Revision/gkd_lovelock/results/PROVENANCE
 * `Revision/SPEC.md`, section 10: `gkd_lovelock/` "(GKD, Lovelock tensors, done; its verification
   completed)".
 * `Revision/tests/test_gkd_lovelock.py`: pins the sha256 of `wolfram-gkd-report.json`
-  (`71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189`), requires its 29 checks to be PASS, and
+  (`98a5e3c830ed22beaf61510f351db44a1bcfddce31d7c696763366dcaf78c2c1` since 2026-10-16), requires its 29 checks to be PASS, and
   in its slow test `test_SLOW_wolfram_check_reproduces_the_report` runs this script once (report and export
   directory in a temporary folder) and requires the same sha256.
 * `Revision/textbook/TEXTBOOK_SPEC.md` (the specification of the textbook "Universes in Pairs"),
@@ -144,23 +156,23 @@ checks that it is the text recorded in `Revision/gkd_lovelock/results/PROVENANCE
   `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md` and `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md`.
 
 (The same folder also holds `check_lovelock_gkd.py`, an independent sympy checker with its own report
-`python-lovelock-report.json`, 49 checks. It is a Python program, not part of this WolframScript set.)
+`python-lovelock-report.json`, 56 checks since 2026-10-16 (49 before). It is a Python program, not part of this
+WolframScript set.)
 
 ---
 
 ## 2. The files
 
-All paths are relative to the repository root. The sha256 digests and sizes are those of commit
-`c2b33ccd16edb9c8b46585d0db6b2911a1f5d84e`, and they were measured again, identical, in fresh clones of commit
-`a4c5eda1df069a43a55ff8b57148f5de8edd1670` on 2026-10-07. Every file is stored byte for byte (the repository's `.gitattributes`
+All paths are relative to the repository root. The sha256 digests and sizes are those of the corrected metric of
+2026-10-16 (part 6.5); the files of earlier dates are recorded in parts 6.1 to 6.4. Every file is stored byte for byte (the repository's `.gitattributes`
 has `* -text`, so git never converts line endings); both scripts are pure ASCII with LF line endings.
 
 ### 2.1 The scripts of the set
 
 | file | role | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls` | the script you run (WolframScript); builds and runs the exporter, does the checks, writes the report | `58eeeb4d0392c62796369dec80d0d376be362bde56c225bf2d79fc0bac8b8511` | 577 | 36,965 |
-| `Revision/gkd_lovelock/verification/LovelockGKDCheck.wl` | the package it loads (context ``LovelockGKDCheck` ``): the verbatim `kδ`, the metric, the curvature, the Lovelock sums, the monomial reader | `1112c5a3a54191a7fe1eae1e3659c92c9bb2a24002fbb24a64e7bbc7279795bd` | 221 | 14,031 |
+| `Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls` | the script you run (WolframScript); builds and runs the exporter, does the checks, writes the report | `17ae205a5648ebf139fbaf5d7cf494fe24185b18fd4eeda2f7a8695ec96c29c9` | 591 | 38,465 |
+| `Revision/gkd_lovelock/verification/LovelockGKDCheck.wl` | the package it loads (context ``LovelockGKDCheck` ``): the verbatim `kδ`, the metric, the exact zero test and normal form for every real z, the curvature, the Lovelock sums, the monomial reader | `904068075c3e0495c281f4636e10f2334dd07b1e90cfb569fb7b76fc65288fa5` | 260 | 17,050 |
 
 The script finds the package and all its inputs relative to its OWN location
 (`ExpandFileName[$InputFileName]`), so the inputs are found whatever the current directory is; only
@@ -170,18 +182,18 @@ the report path you type is relative to the current directory.
 
 | file | why it is read | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md` | must contain the author's definition of `kδ`, in backquotes | `eb7011d650683737868b43422cfc6c6e311aa1647a3d2608af1c2fb4c8df3759` | 73 | 4,868 |
-| `Revision/gkd_lovelock/results/curvature.json` | the Rust curvature, `riemannMixedNonzero` | `b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1` | 325 | 40,878 |
-| `Revision/gkd_lovelock/results/lovelock-tensors.json` | the Rust P_(k), A_(k), L_(k) (exact monomial lists and Mathematica text) | `f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c` | 405 | 163,905 |
-| `Revision/gkd_lovelock/results/lovelock-report.json` | the Rust counters `gkdNonzero` and `leaves` | `c0202db95902003ad9dfe3b58137c5db798057d75265d7bcd16fe0483fa3b4d0` | 34 | 3,231 |
+| `Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md` | must contain the author's definition of `kδ`, in backquotes | `615d19dc0209ccaad9662c459169e7dd2a54d1b2237dece46b14f8ebc2de1e03` | 96 | 7,171 |
+| `Revision/gkd_lovelock/results/curvature.json` | the Rust curvature, `riemannMixedNonzero`, `sqrtAbsDetG` | `67b74b6d3cf92844a8eb48d28e73e5e3481c1f55a213c9c5c14f25adc1a39d47` | 277 | 39,730 |
+| `Revision/gkd_lovelock/results/lovelock-tensors.json` | the Rust P_(k), A_(k), L_(k) (exact monomial lists and Mathematica text) | `611a60543bcf36261e54d1304a2eb216efc39596ba2ad8fc33c353a740787343` | 405 | 164,399 |
+| `Revision/gkd_lovelock/results/lovelock-report.json` | the Rust counters `gkdNonzero` and `leaves` | `b350e20e49f9e4cafbd097a1d975b8fc673932050893988a9f867bbcfcf38811` | 42 | 5,005 |
 | `Revision/gkd_lovelock/code/Cargo.toml` | the crate compiled by cargo as a path dependency of the exporter | `c6719ffae8040c42034a903b7cf2aefbc2124fee7dd6750de0c455d7cb653d70` | 16 | 400 |
-| `Revision/gkd_lovelock/code/src/geometry.rs` | crate source (compiled) | `83328f22ae19086925db64099cfec1d87f6f14ad4e91d208f05da493a322320c` | 233 | 8,806 |
+| `Revision/gkd_lovelock/code/src/geometry.rs` | crate source (compiled) | `04bcabfa99ffe3a732aa12ef3d5554874cba0a1bcb821cf8e36bb05812efbc22` | 254 | 10,561 |
 | `Revision/gkd_lovelock/code/src/gkd.rs` | crate source: the function `GKD` | `3be0169f6c03d0d6afbd8361e6d80c5b802defb0878ddc2ffeb62e3dde106dd4` | 205 | 7,488 |
 | `Revision/gkd_lovelock/code/src/lib.rs` | crate source (compiled) | `cccd024b5a559ce306d770e4a2674a1bc3eb7b6cf00e05dc0858fb3cc4991da6` | 15 | 645 |
 | `Revision/gkd_lovelock/code/src/lovelock.rs` | crate source (compiled) | `1ce0c7e3a16acd1509890b7f7029cd9e258e72d4816235a0df4bf2f99f1acd1b` | 204 | 7,396 |
-| `Revision/gkd_lovelock/code/src/main.rs` | crate source (hashed; it is the crate's own program, not used by the exporter) | `12e18732dd4b2db7c8e44440fb9b25e883d53a344f615852b265bc4b1c5e724d` | 263 | 15,695 |
+| `Revision/gkd_lovelock/code/src/main.rs` | crate source (hashed; it is the crate's own program, not used by the exporter) | `a5a5c68115dd8e6b18dd6b7e123712a1fd6edc4c8141ece827785c4768b4d5e9` | 289 | 18,009 |
 | `Revision/gkd_lovelock/code/src/output.rs` | crate source (compiled) | `668921a2cf0ce4f19371981702794bcb3934945ffa9faed1f6a77c0254023759` | 72 | 2,543 |
-| `Revision/gkd_lovelock/code/src/poly.rs` | crate source (compiled) | `392a321b76ec60891bbb9b5d226a96425c745cabbb3b59aba9aa3f266d508194` | 488 | 15,560 |
+| `Revision/gkd_lovelock/code/src/poly.rs` | crate source (compiled) | `15a6ec3b0d3cc3d6531a409830f3ee95f13a53ed690ec863c59237861dc8773a` | 539 | 18,379 |
 | `Revision/gkd_lovelock/code/src/rational.rs` | crate source (compiled) | `a8e9b54a655dc9e1d15ef0f4203cb55eda168efd93e52b337573fb6d8c5384ba` | 141 | 3,716 |
 
 All thirteen digests are written into the report (`inputSha256`), together with the digests of the two
@@ -193,7 +205,7 @@ crate's own `target` folder is NOT used or created.
 
 | output | where | content |
 | --- | --- | --- |
-| the JSON report | the path given as the argument; the documented command writes the committed file `Revision/gkd_lovelock/results/wolfram-gkd-report.json` | 344 lines, 18,135 bytes, UTF-8 (it contains the letter δ), LF line endings, tab indentation, final newline; sha256 `71c3f34f2f84662fbed6733379bea115ffad460dbae38f641c692c6824399189` for the default run |
+| the JSON report | the path given as the argument; the documented command writes the committed file `Revision/gkd_lovelock/results/wolfram-gkd-report.json` | 344 lines, 35,968 bytes, UTF-8 (it contains the letter δ), LF line endings, tab indentation, final newline; sha256 `98a5e3c830ed22beaf61510f351db44a1bcfddce31d7c696763366dcaf78c2c1` for the default run (2026-10-16) |
 | the exporter crate | `<export directory>/Cargo.toml` and `<export directory>/src/main.rs` (rewritten only when their text changes) | `main.rs` sha256 `b5130177e38adba151c043fd5048f023b2ab6521acc32f620efcc2b8e794a372` (recorded in the report as `exporterMainRsSha256`); `Cargo.toml` contains the absolute path of YOUR clone's crate, so its digest depends on where you cloned |
 | cargo's files | `<export directory>/Cargo.lock`, `<export directory>/target/` | written by `cargo build --release`; after a first build the whole export directory holds 24 files, about 5.3 MB on disk (on Windows; a tool that adds up file sizes, such as PowerShell's `Measure-Object`, shows 6.8 MB, because the exporter's `.exe` and `.pdb` in `target/release` are hard links to the same files in `target/release/deps`). Each later build from a clone in ANOTHER folder adds 7 more files (about 0.66 MB) under `target/`, so the folder grows; delete it to reclaim the space |
 | the GKD values | `<export directory>/gkd-values.bin` | deleted and rewritten on every run; 3,161,984 bytes; sha256 `3ddccfa744b3708bbd3e251852236b0a2d3370e957c67bae8d94168de6d2d695` (recorded in the report as `valuesFileSha256`) |
@@ -866,3 +878,37 @@ What a run of the documented command creates, overwrites or starts:
   `b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1`, `main.rs` `12e18732dd4b2db7c8e44440fb9b25e883d53a344f615852b265bc4b1c5e724d`,
   `geometry.rs` `83328f22ae19086925db64099cfec1d87f6f14ad4e91d208f05da493a322320c`, `LovelockGKDCheck.wl`
   `1112c5a3a54191a7fe1eae1e3659c92c9bb2a24002fbb24a64e7bbc7279795bd`.
+
+### 6.5 The corrected metric of 2026-10-16 (version 2)
+
+* Why: the user's orders of 2026-10-16 (`Revision/SPEC.md` section 1, version 2; `Revision/metric_warped/`;
+  "go ahead with the recomputation using the corrected metric", `HANDOFF.md` 0.10, phase W4).  The metric is
+  diag(E^(-2 a4) b4 Cot[z]^2, E^(2 a4) (x3), -1, -E^(-2 a4) b4 (Sin[z]^2)^(1/6) (x3)), z = 6 H x0 takes EVERY real
+  value (x0 is space-like, x4 the time), and Sin^(1/3) means (Sin^2)^(1/6), the positive branch.
+* Changes: `LovelockGKDCheck.wl`: the metric; `LGKDDomainAssumption` (0 < z < Pi/2) is replaced by `LGKDAssumptions`
+  (H > 0, x0 and a4 real, b4 > 0; used only to take the root of each |g_aa|) and by the exact zero test `LGKDZeroQ` and
+  the normal form `LGKDCanonical` for every real z (Sin -> sv, Cos -> cv signed, (Sin^2)^k -> ww^(12 k),
+  |Sin|^k -> ww^(6 k), |Cot| -> sgn cv/sv, Sign[Cot] -> sgn; Together; numerator and denominator reduced modulo the
+  Groebner basis {cv^2 + sv^2 - 1, ww^12 - sv^2, sgn^2 - 1}); the curvature is brought to that normal form (no
+  `Simplify`), its nonzero entries are decided by `LGKDZeroQ`; sqrt|det g| is the product of the roots of |g_aa|; the
+  monomial reader takes 14 exponents (W = (Sin^2)^(1/12) at position 7, G = Sign[Cot] at position 14) and refuses 13 or
+  8.  `verify_lovelock_gkd.wls`: every `Simplify`/`FullSimplify` comparison is `LGKDZeroQ`; the number of nonzero
+  R entries is computed (112), not fixed (156); the check `sqrt_det_g_is_cos` is replaced by `sqrt_det_g` (exact and at
+  four points z = 9/10, 27/10, 39/10, 57/10, one in each quarter of the period, 30 digits).  Still 29 checks.  The
+  Rust crate it compiles changed in `geometry.rs`, `main.rs` and `poly.rs` (`results/PROVENANCE_OF_THE_COMPUTATION.md`,
+  note of 2026-10-16); `gkd.rs`, the function the exporter calls, is unchanged, and so are the exporter source
+  (sha256 `b5130177e38a...`) and the GKD values file (`3ddccfa744b3...`, 3,161,984 bytes).
+* Runs (2026-10-16, development machine, Windows 11, Wolfram 15.0.1, cargo/rustc 1.91.1; under `timeout -k 5 423`):
+  `wolframscript -file Revision/gkd_lovelock/verification/verify_lovelock_gkd.wls Revision/gkd_lovelock/results/wolfram-gkd-report.json`
+  twice: exit code 0, `check_count=29`, `failed_check_count=0`, `time_total` 47.5 s and 46.1 s, the two reports
+  byte-identical (sha256 `98a5e3c830ed22beaf61510f351db44a1bcfddce31d7c696763366dcaf78c2c1`).  112 nonzero R^{ab}_{cd}, all free of x0; P_(1..3) diagonal (8 nonzero
+  components each); 7,168, 802,816 and 645,120 calls of `kδ`; 672, 26,880 and 322,560 nonzero terms.
+* Negative controls (in the run): -GKD is detected at every nonzero pair; the changed P_(2) x3,x3 and A_(3) x0,x0 are
+  flagged, and only those.
+* The independent sympy twin `check_lovelock_gkd.py` (adapted in the same change: symbol form with w = |sin|^(1/6),
+  sign(sin), sign(cot), a signed cot, the ring QQ[H, a4', a4'', b4'/b4, b4''/b4, e^(2 a4)/b4], five random points
+  one in each quarter of the period of z and one at z < 0, the plain-sympy route in each quarter, DiracDelta of sin z
+  and cot z (the derivatives of their signs, supported only at the excluded points) set to 0) gives 56 of 56 checks
+  (13 s), twice, byte-identical reports.  The author comparison (`comparison/compare_with_author.py`) now compares the
+  author's notebook (written for the metric of 2026-10-14) with the frozen record of that metric,
+  `Revision/gkd_lovelock/reference_2026_10_14/` (`comparison/README.md` section 1.2).

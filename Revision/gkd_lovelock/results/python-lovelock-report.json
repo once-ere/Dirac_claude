@@ -5,12 +5,13 @@
     "riemann": "MTW: R^a_bcd = d_c Gamma^a_bd - d_d Gamma^a_bc + Gamma^a_ce Gamma^e_bd - Gamma^a_de Gamma^e_bc; R^ab_cd = g^be R^a_ecd; R^h_j = R^ha_ja; G = Ric - R/2",
     "kdelta": "Det[Outer[delta, lower, upper]] with sympy Matrix.det, memoised by the 0/1 matrix",
     "lovelock": "P_(k)^h_j = kdelta[{j,j1..j2k},{h,h1..h2k}] R^{j1j2}_{h1h2}...; L_(k) = kdelta[{j1..},{h1..}] R...R; A_(k)^lh = sqrt|g| g^jl P_(k)^h_j",
-    "sqrtAbsDetG": "cos(6 H x0) (det g = cos^2(6 H x0); domain 0 < 6 H x0 < pi/2)",
-    "symbols": "A1 = a4'(x4), A2 = a4''(x4), c = cot(6 H x0)"
+    "metric": "the corrected metric of 2026-10-16 (version 2, Revision/SPEC.md section 1): diag(e^(-2 a4) b4 cot^2(6 H x0), e^(2 a4) (x3), -1, -e^(-2 a4) b4 (sin^2(6 H x0))^(1/6) (x3)); every real z = 6 H x0 with sin z cos z != 0",
+    "sqrtAbsDetG": "e^(-a4) b4^2 |cot(6 H x0)| (sin(6 H x0)^2)^(1/4) (det g = e^(-2 a4) b4^4 cot^2 |sin|)",
+    "symbols": "A1 = a4'(x4), A2 = a4''(x4), U = b4'/b4, V = b4''/b4, K = e^(2 a4)/b4; symbol form: w = |sin(6 H x0)|^(1/6), c = cot(6 H x0), sg = sign(sin), G = sign(cot)"
   },
   "inputsSha256": {
-    "curvature.json": "b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1",
-    "lovelock-tensors.json": "f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c"
+    "curvature.json": "67b74b6d3cf92844a8eb48d28e73e5e3481c1f55a213c9c5c14f25adc1a39d47",
+    "lovelock-tensors.json": "611a60543bcf36261e54d1304a2eb216efc39596ba2ad8fc33c353a740787343"
   },
   "randomPoints": [
     {
@@ -30,8 +31,8 @@
     },
     {
       "H": "7/20",
-      "x0": "41/210",
-      "6Hx0": "41/100",
+      "x0": "67/70",
+      "6Hx0": "201/100",
       "a4": "27/50",
       "a4'": "-61/100",
       "a4''": "-51/100",
@@ -45,8 +46,8 @@
     },
     {
       "H": "7/50",
-      "x0": "11/21",
-      "6Hx0": "11/25",
+      "x0": "13/3",
+      "6Hx0": "91/25",
       "a4": "-9/10",
       "a4'": "-13/25",
       "a4''": "19/100",
@@ -60,8 +61,8 @@
     },
     {
       "H": "31/100",
-      "x0": "59/186",
-      "6Hx0": "59/100",
+      "x0": "529/186",
+      "6Hx0": "529/100",
       "a4": "9/20",
       "a4'": "-31/100",
       "a4''": "-17/50",
@@ -75,8 +76,8 @@
     },
     {
       "H": "23/100",
-      "x0": "15/23",
-      "6Hx0": "9/10",
+      "x0": "-110/69",
+      "6Hx0": "-11/5",
       "a4": "-93/100",
       "a4'": "-2/5",
       "a4''": "41/100",
@@ -93,70 +94,64 @@
     "lovelockSums": [
       {
         "k": 1,
-        "products": 156,
-        "kdeltaCalls": 5772,
-        "kdeltaNonzero": 804,
-        "distinctMultisets": 156
+        "products": 112,
+        "kdeltaCalls": 4144,
+        "kdeltaNonzero": 784,
+        "distinctMultisets": 112
       },
       {
         "k": 2,
-        "products": 11040,
-        "kdeltaCalls": 187680,
-        "kdeltaNonzero": 39840,
-        "distinctMultisets": 5520
+        "products": 6720,
+        "kdeltaCalls": 114240,
+        "kdeltaNonzero": 33600,
+        "distinctMultisets": 3360
       },
       {
         "k": 3,
-        "products": 282240,
-        "kdeltaCalls": 1411200,
-        "kdeltaNonzero": 708480,
-        "distinctMultisets": 47040
+        "products": 161280,
+        "kdeltaCalls": 806400,
+        "kdeltaNonzero": 483840,
+        "distinctMultisets": 26880
       }
     ],
-    "kdeltaCallsTotal": 4096410,
-    "distinctOuterMatricesDeterminedBySympy": 29096
+    "kdeltaCallsTotal": 2647169,
+    "distinctOuterMatricesDeterminedBySympy": 15016
   },
   "independentResults": {
     "P1_mixed_nonzero": {
-      "x0,x0": "12*A1**2 - 6*A1*B1/B0 - 60*H**2 + 6*B2/B0",
-      "x0,x4": "6*B1*H/(B0*c)",
-      "x1,x1": "12*A1**2 - 12*A1*B1/B0 - 4*A2 - 60*H**2 + 6*B2/B0",
-      "x2,x2": "12*A1**2 - 12*A1*B1/B0 - 4*A2 - 60*H**2 + 6*B2/B0",
-      "x3,x3": "12*A1**2 - 12*A1*B1/B0 - 4*A2 - 60*H**2 + 6*B2/B0",
-      "x4,x0": "-6*B1*H*c/B0",
-      "x4,x4": "-12*A1**2 + 6*A1*B1/B0 - 84*H**2 + 3*B1**2/B0**2",
-      "x5,x5": "12*A1**2 + 4*A2 - 60*H**2 + 4*B2/B0 - B1**2/B0**2",
-      "x6,x6": "12*A1**2 + 4*A2 - 60*H**2 + 4*B2/B0 - B1**2/B0**2",
-      "x7,x7": "12*A1**2 + 4*A2 - 60*H**2 + 4*B2/B0 - B1**2/B0**2"
+      "x0,x0": "12*A1**2 - 6*A1*B1/B0 + 6*B2/B0 - 12*E**2*H**2/B0",
+      "x1,x1": "20*A1**2 - 24*A1*B1/B0 - 8*A2 + 8*B2/B0 - 24*E**2*H**2/B0 + 2*B1**2/B0**2",
+      "x2,x2": "20*A1**2 - 24*A1*B1/B0 - 8*A2 + 8*B2/B0 - 24*E**2*H**2/B0 + 2*B1**2/B0**2",
+      "x3,x3": "20*A1**2 - 24*A1*B1/B0 - 8*A2 + 8*B2/B0 - 24*E**2*H**2/B0 + 2*B1**2/B0**2",
+      "x4,x4": "-12*A1**2 - 24*E**2*H**2/B0 + 6*B1**2/B0**2",
+      "x5,x5": "12*A1**2 - 6*A1*B1/B0 + 6*B2/B0 - 12*E**2*H**2/B0",
+      "x6,x6": "12*A1**2 - 6*A1*B1/B0 + 6*B2/B0 - 12*E**2*H**2/B0",
+      "x7,x7": "12*A1**2 - 6*A1*B1/B0 + 6*B2/B0 - 12*E**2*H**2/B0"
     },
-    "L1": "12*A1**2 - 6*A1*B1/B0 - 84*H**2 + 6*B2/B0",
+    "L1": "16*A1**2 - 16*A1*B1/B0 - 4*A2 + 8*B2/B0 - 24*E**2*H**2/B0 + 2*B1**2/B0**2",
     "P2_mixed_nonzero": {
-      "x0,x0": "-96*A1**4 + 96*A1**3*B1/B0 - 1344*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 672*A1*B1*H**2/B0 + 96*A1*B1*B2/B0**2 - 36*A1*B1**3/B0**3 + 48*A2*B1**2/B0**2 + 1440*H**4 - 480*B2*H**2/B0 + 96*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4",
-      "x0,x4": "-288*A1**2*B1*H/(B0*c) + 144*A1*B1**2*H/(B0**2*c) - 480*B1*H**3/(B0*c) + 12*B1**3*H/(B0**3*c)",
-      "x1,x1": "-96*A1**4 + 192*A1**3*B1/B0 + 192*A1**2*A2 - 1344*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 960*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 + 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 480*B2*H**2/B0 + 144*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4",
-      "x2,x2": "-96*A1**4 + 192*A1**3*B1/B0 + 192*A1**2*A2 - 1344*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 960*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 + 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 480*B2*H**2/B0 + 144*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4",
-      "x3,x3": "-96*A1**4 + 192*A1**3*B1/B0 + 192*A1**2*A2 - 1344*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 960*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 + 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 480*B2*H**2/B0 + 144*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4",
-      "x4,x0": "288*A1**2*B1*H*c/B0 - 144*A1*B1**2*H*c/B0**2 + 480*B1*H**3*c/B0 - 12*B1**3*H*c/B0**3",
-      "x4,x4": "288*A1**4 - 288*A1**3*B1/B0 + 960*A1**2*H**2 - 480*A1*B1*H**2/B0 + 36*A1*B1**3/B0**3 + 3360*H**4 - 240*B1**2*H**2/B0**2",
-      "x5,x5": "-96*A1**4 - 192*A1**2*A2 - 1344*A1**2*H**2 + 384*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 - 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 320*B2*H**2/B0 + 128*B1**2*H**2/B0**2",
-      "x6,x6": "-96*A1**4 - 192*A1**2*A2 - 1344*A1**2*H**2 + 384*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 - 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 320*B2*H**2/B0 + 128*B1**2*H**2/B0**2",
-      "x7,x7": "-96*A1**4 - 192*A1**2*A2 - 1344*A1**2*H**2 + 384*A1*B1*H**2/B0 + 48*A1*B1*B2/B0**2 - 24*A1*B1**3/B0**3 - 320*A2*H**2 + 24*A2*B1**2/B0**2 + 1440*H**4 - 320*B2*H**2/B0 + 128*B1**2*H**2/B0**2"
+      "x0,x0": "-96*A1**4 + 96*A1**3*B1/B0 - 96*A1**2*B2/B0 - 384*A1**2*E**2*H**2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 96*A1*B1*B2/B0**2 - 48*A1*B1*E**2*H**2/B0**2 - 36*A1*B1**3/B0**3 - 192*A2*E**2*H**2/B0 + 48*A2*B1**2/B0**2 - 48*B2*E**2*H**2/B0**2 + 12*B1**2*B2/B0**3 + 24*B1**2*E**2*H**2/B0**3 - 6*B1**4/B0**4",
+      "x1,x1": "-224*A1**4 + 384*A1**3*B1/B0 + 384*A1**2*A2 - 128*A1**2*B2/B0 - 384*A1**2*E**2*H**2/B0 - 32*A1**2*B1**2/B0**2 - 256*A1*A2*B1/B0 + 192*A1*B1*E**2*H**2/B0**2 - 48*A1*B1**3/B0**3 - 192*B2*E**2*H**2/B0**2 + 96*E**4*H**4/B0**2 + 48*B1**2*B2/B0**3 + 48*B1**2*E**2*H**2/B0**3 - 18*B1**4/B0**4",
+      "x2,x2": "-224*A1**4 + 384*A1**3*B1/B0 + 384*A1**2*A2 - 128*A1**2*B2/B0 - 384*A1**2*E**2*H**2/B0 - 32*A1**2*B1**2/B0**2 - 256*A1*A2*B1/B0 + 192*A1*B1*E**2*H**2/B0**2 - 48*A1*B1**3/B0**3 - 192*B2*E**2*H**2/B0**2 + 96*E**4*H**4/B0**2 + 48*B1**2*B2/B0**3 + 48*B1**2*E**2*H**2/B0**3 - 18*B1**4/B0**4",
+      "x3,x3": "-224*A1**4 + 384*A1**3*B1/B0 + 384*A1**2*A2 - 128*A1**2*B2/B0 - 384*A1**2*E**2*H**2/B0 - 32*A1**2*B1**2/B0**2 - 256*A1*A2*B1/B0 + 192*A1*B1*E**2*H**2/B0**2 - 48*A1*B1**3/B0**3 - 192*B2*E**2*H**2/B0**2 + 96*E**4*H**4/B0**2 + 48*B1**2*B2/B0**3 + 48*B1**2*E**2*H**2/B0**3 - 18*B1**4/B0**4",
+      "x4,x4": "288*A1**4 + 384*A1**2*E**2*H**2/B0 - 288*A1**2*B1**2/B0**2 - 384*A1*B1*E**2*H**2/B0**2 + 96*A1*B1**3/B0**3 + 96*E**4*H**4/B0**2 - 48*B1**2*E**2*H**2/B0**3 + 6*B1**4/B0**4",
+      "x5,x5": "-96*A1**4 + 96*A1**3*B1/B0 - 96*A1**2*B2/B0 - 384*A1**2*E**2*H**2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 96*A1*B1*B2/B0**2 - 48*A1*B1*E**2*H**2/B0**2 - 36*A1*B1**3/B0**3 - 192*A2*E**2*H**2/B0 + 48*A2*B1**2/B0**2 - 48*B2*E**2*H**2/B0**2 + 12*B1**2*B2/B0**3 + 24*B1**2*E**2*H**2/B0**3 - 6*B1**4/B0**4",
+      "x6,x6": "-96*A1**4 + 96*A1**3*B1/B0 - 96*A1**2*B2/B0 - 384*A1**2*E**2*H**2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 96*A1*B1*B2/B0**2 - 48*A1*B1*E**2*H**2/B0**2 - 36*A1*B1**3/B0**3 - 192*A2*E**2*H**2/B0 + 48*A2*B1**2/B0**2 - 48*B2*E**2*H**2/B0**2 + 12*B1**2*B2/B0**3 + 24*B1**2*E**2*H**2/B0**3 - 6*B1**4/B0**4",
+      "x7,x7": "-96*A1**4 + 96*A1**3*B1/B0 - 96*A1**2*B2/B0 - 384*A1**2*E**2*H**2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 96*A1*B1*B2/B0**2 - 48*A1*B1*E**2*H**2/B0**2 - 36*A1*B1**3/B0**3 - 192*A2*E**2*H**2/B0 + 48*A2*B1**2/B0**2 - 48*B2*E**2*H**2/B0**2 + 12*B1**2*B2/B0**3 + 24*B1**2*E**2*H**2/B0**3 - 6*B1**4/B0**4"
     },
-    "L2": "-96*A1**4 + 96*A1**3*B1/B0 - 2112*A1**2*H**2 - 96*A1**2*B2/B0 - 48*A1**2*B1**2/B0**2 - 192*A1*A2*B1/B0 + 1056*A1*B1*H**2/B0 + 96*A1*B1*B2/B0**2 - 36*A1*B1**3/B0**3 + 48*A2*B1**2/B0**2 + 3360*H**4 - 720*B2*H**2/B0 + 168*B1**2*H**2/B0**2 + 12*B1**2*B2/B0**3 - 6*B1**4/B0**4",
+    "L2": "-192*A1**4 + 384*A1**3*B1/B0 + 288*A1**2*A2 - 192*A1**2*B2/B0 - 576*A1**2*E**2*H**2/B0 - 144*A1**2*B1**2/B0**2 - 384*A1*A2*B1/B0 + 96*A1*B1*B2/B0**2 - 48*A1*B1**3/B0**3 - 192*A2*E**2*H**2/B0 + 48*A2*B1**2/B0**2 - 192*B2*E**2*H**2/B0**2 + 96*E**4*H**4/B0**2 + 48*B1**2*B2/B0**3 + 48*B1**2*E**2*H**2/B0**3 - 18*B1**4/B0**4",
     "P3_mixed_nonzero": {
-      "x0,x0": "1152*A1**6 - 1728*A1**5*B1/B0 + 10368*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 10368*A1**3*B1*H**2/B0 - 3456*A1**3*B1*B2/B0**2 + 720*A1**3*B1**3/B0**3 - 5184*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 3456*A1**2*B2*H**2/B0 + 1728*A1**2*B1**2*H**2/B0**2 + 1296*A1**2*B1**2*B2/B0**3 - 648*A1**2*B1**4/B0**4 + 6912*A1*A2*B1*H**2/B0 + 864*A1*A2*B1**3/B0**3 - 15552*A1*B1*H**4/B0 - 3456*A1*B1*B2*H**2/B0**2 + 2160*A1*B1**3*H**2/B0**3 - 1728*A2*B1**2*H**2/B0**2 - 5760*H**6 + 8640*B2*H**4/B0 - 3456*B1**2*H**4/B0**2 - 432*B1**2*B2*H**2/B0**3 + 216*B1**4*H**2/B0**4",
-      "x0,x4": "8640*A1**4*B1*H/(B0*c) - 8640*A1**3*B1**2*H/(B0**2*c) + 10368*A1**2*B1*H**3/(B0*c) + 2160*A1**2*B1**3*H/(B0**3*c) - 5184*A1*B1**2*H**3/(B0**2*c) + 8640*B1*H**5/(B0*c) - 432*B1**3*H**3/(B0**3*c)",
-      "x1,x1": "1152*A1**6 - 3456*A1**5*B1/B0 - 5760*A1**4*A2 + 10368*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 6912*A1**3*B1*H**2/B0 - 1728*A1**3*B1*B2/B0**2 + 288*A1**3*B1**3/B0**3 - 6912*A1**2*A2*H**2 - 2592*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 3456*A1**2*B2*H**2/B0 - 3456*A1**2*B1**2*H**2/B0**2 + 432*A1**2*B1**2*B2/B0**3 - 216*A1**2*B1**4/B0**4 + 6912*A1*A2*B1*H**2/B0 + 288*A1*A2*B1**3/B0**3 - 17280*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 2592*A1*B1**3*H**2/B0**3 - 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 8640*B2*H**4/B0 - 5184*B1**2*H**4/B0**2 - 432*B1**2*B2*H**2/B0**3 + 216*B1**4*H**2/B0**4",
-      "x2,x2": "1152*A1**6 - 3456*A1**5*B1/B0 - 5760*A1**4*A2 + 10368*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 6912*A1**3*B1*H**2/B0 - 1728*A1**3*B1*B2/B0**2 + 288*A1**3*B1**3/B0**3 - 6912*A1**2*A2*H**2 - 2592*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 3456*A1**2*B2*H**2/B0 - 3456*A1**2*B1**2*H**2/B0**2 + 432*A1**2*B1**2*B2/B0**3 - 216*A1**2*B1**4/B0**4 + 6912*A1*A2*B1*H**2/B0 + 288*A1*A2*B1**3/B0**3 - 17280*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 2592*A1*B1**3*H**2/B0**3 - 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 8640*B2*H**4/B0 - 5184*B1**2*H**4/B0**2 - 432*B1**2*B2*H**2/B0**3 + 216*B1**4*H**2/B0**4",
-      "x3,x3": "1152*A1**6 - 3456*A1**5*B1/B0 - 5760*A1**4*A2 + 10368*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 6912*A1**3*B1*H**2/B0 - 1728*A1**3*B1*B2/B0**2 + 288*A1**3*B1**3/B0**3 - 6912*A1**2*A2*H**2 - 2592*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 3456*A1**2*B2*H**2/B0 - 3456*A1**2*B1**2*H**2/B0**2 + 432*A1**2*B1**2*B2/B0**3 - 216*A1**2*B1**4/B0**4 + 6912*A1*A2*B1*H**2/B0 + 288*A1*A2*B1**3/B0**3 - 17280*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 2592*A1*B1**3*H**2/B0**3 - 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 8640*B2*H**4/B0 - 5184*B1**2*H**4/B0**2 - 432*B1**2*B2*H**2/B0**3 + 216*B1**4*H**2/B0**4",
-      "x4,x0": "-8640*A1**4*B1*H*c/B0 + 8640*A1**3*B1**2*H*c/B0**2 - 10368*A1**2*B1*H**3*c/B0 - 2160*A1**2*B1**3*H*c/B0**3 + 5184*A1*B1**2*H**3*c/B0**2 - 8640*B1*H**5*c/B0 + 432*B1**3*H**3*c/B0**3",
-      "x4,x4": "-5760*A1**6 + 8640*A1**5*B1/B0 - 10368*A1**4*H**2 - 4320*A1**4*B1**2/B0**2 + 10368*A1**3*B1*H**2/B0 + 720*A1**3*B1**3/B0**3 - 17280*A1**2*H**4 + 8640*A1*B1*H**4/B0 - 1296*A1*B1**3*H**2/B0**3 - 40320*H**6 + 4320*B1**2*H**4/B0**2",
-      "x5,x5": "1152*A1**6 + 5760*A1**4*A2 + 10368*A1**4*H**2 - 1152*A1**4*B2/B0 + 288*A1**4*B1**2/B0**2 - 4608*A1**3*A2*B1/B0 - 13824*A1**3*B1*H**2/B0 + 576*A1**3*B1*B2/B0**2 - 288*A1**3*B1**3/B0**3 + 6912*A1**2*A2*H**2 + 864*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 5184*A1**2*B1**2*H**2/B0**2 - 13824*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 864*A1*B1**3*H**2/B0**3 + 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 5760*B2*H**4/B0 - 3168*B1**2*H**4/B0**2",
-      "x6,x6": "1152*A1**6 + 5760*A1**4*A2 + 10368*A1**4*H**2 - 1152*A1**4*B2/B0 + 288*A1**4*B1**2/B0**2 - 4608*A1**3*A2*B1/B0 - 13824*A1**3*B1*H**2/B0 + 576*A1**3*B1*B2/B0**2 - 288*A1**3*B1**3/B0**3 + 6912*A1**2*A2*H**2 + 864*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 5184*A1**2*B1**2*H**2/B0**2 - 13824*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 864*A1*B1**3*H**2/B0**3 + 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 5760*B2*H**4/B0 - 3168*B1**2*H**4/B0**2",
-      "x7,x7": "1152*A1**6 + 5760*A1**4*A2 + 10368*A1**4*H**2 - 1152*A1**4*B2/B0 + 288*A1**4*B1**2/B0**2 - 4608*A1**3*A2*B1/B0 - 13824*A1**3*B1*H**2/B0 + 576*A1**3*B1*B2/B0**2 - 288*A1**3*B1**3/B0**3 + 6912*A1**2*A2*H**2 + 864*A1**2*A2*B1**2/B0**2 + 31104*A1**2*H**4 + 5184*A1**2*B1**2*H**2/B0**2 - 13824*A1*B1*H**4/B0 - 1728*A1*B1*B2*H**2/B0**2 + 864*A1*B1**3*H**2/B0**3 + 5760*A2*H**4 - 864*A2*B1**2*H**2/B0**2 - 5760*H**6 + 5760*B2*H**4/B0 - 3168*B1**2*H**4/B0**2"
+      "x0,x0": "1152*A1**6 - 1728*A1**5*B1/B0 + 1728*A1**4*B2/B0 + 3456*A1**4*E**2*H**2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 3456*A1**3*B1*B2/B0**2 - 1728*A1**3*B1*E**2*H**2/B0**2 + 720*A1**3*B1**3/B0**3 + 6912*A1**2*A2*E**2*H**2/B0 - 5184*A1**2*A2*B1**2/B0**2 - 1728*A1**2*B2*E**2*H**2/B0**2 + 1296*A1**2*B1**2*B2/B0**3 + 864*A1**2*B1**2*E**2*H**2/B0**3 - 648*A1**2*B1**4/B0**4 - 3456*A1*A2*B1*E**2*H**2/B0**2 + 864*A1*A2*B1**3/B0**3",
+      "x1,x1": "3456*A1**6 - 6912*A1**5*B1/B0 - 11520*A1**4*A2 + 2304*A1**4*B2/B0 + 2304*A1**4*E**2*H**2/B0 + 576*A1**4*B1**2/B0**2 + 9216*A1**3*A2*B1/B0 - 2304*A1**3*B1*E**2*H**2/B0**2 + 1728*A1**3*B1**3/B0**3 + 2304*A1**2*B2*E**2*H**2/B0**2 + 3456*A1**2*E**4*H**4/B0**2 - 1728*A1**2*B1**2*B2/B0**3 + 576*A1**2*B1**2*E**2*H**2/B0**3 + 216*A1**2*B1**4/B0**4 + 4608*A1*A2*B1*E**2*H**2/B0**2 - 1152*A1*A2*B1**3/B0**3 - 2304*A1*B1*B2*E**2*H**2/B0**3 + 576*A1*B1**3*B2/B0**4 + 1152*A1*B1**3*E**2*H**2/B0**4 - 288*A1*B1**5/B0**5 + 2304*A2*E**4*H**4/B0**2 - 1152*A2*B1**2*E**2*H**2/B0**3 + 144*A2*B1**4/B0**4",
+      "x2,x2": "3456*A1**6 - 6912*A1**5*B1/B0 - 11520*A1**4*A2 + 2304*A1**4*B2/B0 + 2304*A1**4*E**2*H**2/B0 + 576*A1**4*B1**2/B0**2 + 9216*A1**3*A2*B1/B0 - 2304*A1**3*B1*E**2*H**2/B0**2 + 1728*A1**3*B1**3/B0**3 + 2304*A1**2*B2*E**2*H**2/B0**2 + 3456*A1**2*E**4*H**4/B0**2 - 1728*A1**2*B1**2*B2/B0**3 + 576*A1**2*B1**2*E**2*H**2/B0**3 + 216*A1**2*B1**4/B0**4 + 4608*A1*A2*B1*E**2*H**2/B0**2 - 1152*A1*A2*B1**3/B0**3 - 2304*A1*B1*B2*E**2*H**2/B0**3 + 576*A1*B1**3*B2/B0**4 + 1152*A1*B1**3*E**2*H**2/B0**4 - 288*A1*B1**5/B0**5 + 2304*A2*E**4*H**4/B0**2 - 1152*A2*B1**2*E**2*H**2/B0**3 + 144*A2*B1**4/B0**4",
+      "x3,x3": "3456*A1**6 - 6912*A1**5*B1/B0 - 11520*A1**4*A2 + 2304*A1**4*B2/B0 + 2304*A1**4*E**2*H**2/B0 + 576*A1**4*B1**2/B0**2 + 9216*A1**3*A2*B1/B0 - 2304*A1**3*B1*E**2*H**2/B0**2 + 1728*A1**3*B1**3/B0**3 + 2304*A1**2*B2*E**2*H**2/B0**2 + 3456*A1**2*E**4*H**4/B0**2 - 1728*A1**2*B1**2*B2/B0**3 + 576*A1**2*B1**2*E**2*H**2/B0**3 + 216*A1**2*B1**4/B0**4 + 4608*A1*A2*B1*E**2*H**2/B0**2 - 1152*A1*A2*B1**3/B0**3 - 2304*A1*B1*B2*E**2*H**2/B0**3 + 576*A1*B1**3*B2/B0**4 + 1152*A1*B1**3*E**2*H**2/B0**4 - 288*A1*B1**5/B0**5 + 2304*A2*E**4*H**4/B0**2 - 1152*A2*B1**2*E**2*H**2/B0**3 + 144*A2*B1**4/B0**4",
+      "x4,x4": "-5760*A1**6 - 6912*A1**4*E**2*H**2/B0 + 8640*A1**4*B1**2/B0**2 + 13824*A1**3*B1*E**2*H**2/B0**2 - 5760*A1**3*B1**3/B0**3 + 3456*A1**2*E**4*H**4/B0**2 - 5184*A1**2*B1**2*E**2*H**2/B0**3 + 1080*A1**2*B1**4/B0**4",
+      "x5,x5": "1152*A1**6 - 1728*A1**5*B1/B0 + 1728*A1**4*B2/B0 + 3456*A1**4*E**2*H**2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 3456*A1**3*B1*B2/B0**2 - 1728*A1**3*B1*E**2*H**2/B0**2 + 720*A1**3*B1**3/B0**3 + 6912*A1**2*A2*E**2*H**2/B0 - 5184*A1**2*A2*B1**2/B0**2 - 1728*A1**2*B2*E**2*H**2/B0**2 + 1296*A1**2*B1**2*B2/B0**3 + 864*A1**2*B1**2*E**2*H**2/B0**3 - 648*A1**2*B1**4/B0**4 - 3456*A1*A2*B1*E**2*H**2/B0**2 + 864*A1*A2*B1**3/B0**3",
+      "x6,x6": "1152*A1**6 - 1728*A1**5*B1/B0 + 1728*A1**4*B2/B0 + 3456*A1**4*E**2*H**2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 3456*A1**3*B1*B2/B0**2 - 1728*A1**3*B1*E**2*H**2/B0**2 + 720*A1**3*B1**3/B0**3 + 6912*A1**2*A2*E**2*H**2/B0 - 5184*A1**2*A2*B1**2/B0**2 - 1728*A1**2*B2*E**2*H**2/B0**2 + 1296*A1**2*B1**2*B2/B0**3 + 864*A1**2*B1**2*E**2*H**2/B0**3 - 648*A1**2*B1**4/B0**4 - 3456*A1*A2*B1*E**2*H**2/B0**2 + 864*A1*A2*B1**3/B0**3",
+      "x7,x7": "1152*A1**6 - 1728*A1**5*B1/B0 + 1728*A1**4*B2/B0 + 3456*A1**4*E**2*H**2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 3456*A1**3*B1*B2/B0**2 - 1728*A1**3*B1*E**2*H**2/B0**2 + 720*A1**3*B1**3/B0**3 + 6912*A1**2*A2*E**2*H**2/B0 - 5184*A1**2*A2*B1**2/B0**2 - 1728*A1**2*B2*E**2*H**2/B0**2 + 1296*A1**2*B1**2*B2/B0**3 + 864*A1**2*B1**2*E**2*H**2/B0**3 - 648*A1**2*B1**4/B0**4 - 3456*A1*A2*B1*E**2*H**2/B0**2 + 864*A1*A2*B1**3/B0**3"
     },
-    "L3": "1152*A1**6 - 1728*A1**5*B1/B0 + 31104*A1**4*H**2 + 1728*A1**4*B2/B0 + 1728*A1**4*B1**2/B0**2 + 6912*A1**3*A2*B1/B0 - 31104*A1**3*B1*H**2/B0 - 3456*A1**3*B1*B2/B0**2 + 720*A1**3*B1**3/B0**3 - 5184*A1**2*A2*B1**2/B0**2 + 100224*A1**2*H**4 + 6912*A1**2*B2*H**2/B0 + 3456*A1**2*B1**2*H**2/B0**2 + 1296*A1**2*B1**2*B2/B0**3 - 648*A1**2*B1**4/B0**4 + 13824*A1*A2*B1*H**2/B0 + 864*A1*A2*B1**3/B0**3 - 50112*A1*B1*H**4/B0 - 6912*A1*B1*B2*H**2/B0**2 + 5616*A1*B1**3*H**2/B0**3 - 3456*A2*B1**2*H**2/B0**2 - 40320*H**6 + 25920*B2*H**4/B0 - 12096*B1**2*H**4/B0**2 - 864*B1**2*B2*H**2/B0**3 + 432*B1**4*H**2/B0**4",
-    "sqrtAbsDetG": "b4(x4)**(3/2)*cos(6*H*x0)"
+    "L3": "4608*A1**6 - 13824*A1**5*B1/B0 - 17280*A1**4*A2 + 6912*A1**4*B2/B0 + 6912*A1**4*E**2*H**2/B0 + 8640*A1**4*B1**2/B0**2 + 27648*A1**3*A2*B1/B0 - 6912*A1**3*B1*B2/B0**2 + 1152*A1**3*B1**3/B0**3 + 13824*A1**2*A2*E**2*H**2/B0 - 10368*A1**2*A2*B1**2/B0**2 + 6912*A1**2*E**4*H**4/B0**2 - 432*A1**2*B1**4/B0**4 - 3456*A1*B1*B2*E**2*H**2/B0**3 + 864*A1*B1**3*B2/B0**4 + 1728*A1*B1**3*E**2*H**2/B0**4 - 432*A1*B1**5/B0**5 + 3456*A2*E**4*H**4/B0**2 - 1728*A2*B1**2*E**2*H**2/B0**3 + 216*A2*B1**4/B0**4",
+    "sqrtAbsDetG": "b4(x4)**2*exp(-a4(x4))*sqrt(Abs(sin(6*H*x0)))*Abs(cot(6*H*x0))"
   },
   "checks": [
     {
@@ -197,7 +192,7 @@
     {
       "name": "sqrt_abs_det_g",
       "verdict": "PASS",
-      "detail": "det g = b4^3 cos^2(6 H x0) exactly, so sqrt|det g| = b4^(3/2) cos(6 H x0) on 0 < 6 H x0 < pi/2, b4 > 0; sympy's sqrt(Abs(det g)) equals b4^(3/2) cos(6 H x0) > 0 at the 5 random points (60 digits)"
+      "detail": "det g = e^(-2 a4) b4^4 cot^2(6 H x0) |sin(6 H x0)| exactly, so sqrt|det g| = e^(-a4) b4^2 |cot(6 H x0)| (sin(6 H x0)^2)^(1/4) for every real z = 6 H x0 with sin z cos z != 0; sympy's sqrt(Abs(det g)) equals it, and it is positive, at the 5 random points (60 digits; one in each quarter of the period of z, one at z < 0)"
     },
     {
       "name": "christoffel_symmetric",
@@ -210,29 +205,34 @@
       "detail": "R^a_{bcd} + R^a_{cdb} + R^a_{dbc} = 0 exactly for all 4096 index lists"
     },
     {
-      "name": "mixed_riemann_free_of_warp_and_exponential",
+      "name": "mixed_riemann_free_of_x0",
       "verdict": "PASS",
-      "detail": "every R^{ab}_{cd} is free of sin(6 H x0)^(1/3) and of e^{a4}: a rational function of H, a4', a4'', b4, b4', b4'', cot(6 H x0)"
+      "detail": "every R^{ab}_{cd} is free of x0 (its normal form has no w = |sin|^(1/6), sign(sin), sign(cot) or cot): a rational function of H, a4', a4'', e^(a4), b4, b4', b4''"
+    },
+    {
+      "name": "mixed_riemann_only_sectional",
+      "verdict": "PASS",
+      "detail": "every non-zero R^ab_cd has {c, d} = {a, b}: 112 entries = 4 x 28 planes (no mixed component such as R^(x5 x0)_(x5 x4))"
     },
     {
       "name": "riemann_antisymmetry_and_pair_symmetry",
       "verdict": "PASS",
-      "detail": "R^ab_cd = -R^ba_cd = -R^ab_dc and R_abcd = R_cdab exactly; 156 non-zero R^ab_cd"
+      "detail": "R^ab_cd = -R^ba_cd = -R^ab_dc and R_abcd = R_cdab exactly; 112 non-zero R^ab_cd"
     },
     {
       "name": "k1_unpruned_literal_sum_agrees",
       "verdict": "PASS",
-      "detail": "the completely unpruned literal sum (156^1 ordered products of non-zero R^ab_cd x 64 (h, j) + the scalar: 10140 kdelta calls) equals the pruned sum exactly, for all 64 components and L_(1)"
+      "detail": "the completely unpruned literal sum (112^1 ordered products of non-zero R^ab_cd x 64 (h, j) + the scalar: 7280 kdelta calls) equals the pruned sum exactly, for all 64 components and L_(1)"
     },
     {
       "name": "k2_unpruned_literal_sum_agrees",
       "verdict": "PASS",
-      "detail": "the completely unpruned literal sum (156^2 ordered products of non-zero R^ab_cd x 64 (h, j) + the scalar: 1581840 kdelta calls) equals the pruned sum exactly, for all 64 components and L_(2)"
+      "detail": "the completely unpruned literal sum (112^2 ordered products of non-zero R^ab_cd x 64 (h, j) + the scalar: 815360 kdelta calls) equals the pruned sum exactly, for all 64 components and L_(2)"
     },
     {
       "name": "k3_pruned_terms_vanish_literally",
       "verdict": "PASS",
-      "detail": "20000 random (3 non-zero R^ab_cd entries, h, j) terms of the unpruned k = 3 sum: 19909 have a repeated index (skipped by the enumeration) and kdelta gives 0 for every one of them (non-zero: 0)"
+      "detail": "20000 random (3 non-zero R^ab_cd entries, h, j) terms of the unpruned k = 3 sum: 19876 have a repeated index (skipped by the enumeration) and kdelta gives 0 for every one of them (non-zero: 0)"
     },
     {
       "name": "k4_terms_vanish_literally",
@@ -295,9 +295,19 @@
       "detail": "g_hh P_(1)^h_j = g_jj P_(1)^j_h exactly, so A_(1)^lh = A_(1)^hl"
     },
     {
-      "name": "k1_free_of_warp",
+      "name": "k1_free_of_x0",
       "verdict": "PASS",
-      "detail": "every P_(1)^h_j is free of sin(6 H x0)^(1/3) and of e^(a4)"
+      "detail": "every P_(1)^h_j is free of x0 (a polynomial in H, a4', a4'', b4'/b4, b4''/b4, e^(2 a4)/b4)"
+    },
+    {
+      "name": "k1_offdiagonal_vanishes",
+      "verdict": "PASS",
+      "detail": "P_(1)^h_j = 0 exactly for all 56 components with h != j (in particular P_(1)^x4_x0 = P_(1)^x0_x4 = 0)"
+    },
+    {
+      "name": "k1_hidden_equals_extra_times",
+      "verdict": "PASS",
+      "detail": "P_(1)^x0_x0 = P_(1)^x5_x5 = P_(1)^x6_x6 = P_(1)^x7_x7 and P_(1)^x1_x1 = P_(1)^x2_x2 = P_(1)^x3_x3 exactly"
     },
     {
       "name": "k2_divergence_free",
@@ -310,9 +320,19 @@
       "detail": "g_hh P_(2)^h_j = g_jj P_(2)^j_h exactly, so A_(2)^lh = A_(2)^hl"
     },
     {
-      "name": "k2_free_of_warp",
+      "name": "k2_free_of_x0",
       "verdict": "PASS",
-      "detail": "every P_(2)^h_j is free of sin(6 H x0)^(1/3) and of e^(a4)"
+      "detail": "every P_(2)^h_j is free of x0 (a polynomial in H, a4', a4'', b4'/b4, b4''/b4, e^(2 a4)/b4)"
+    },
+    {
+      "name": "k2_offdiagonal_vanishes",
+      "verdict": "PASS",
+      "detail": "P_(2)^h_j = 0 exactly for all 56 components with h != j (in particular P_(2)^x4_x0 = P_(2)^x0_x4 = 0)"
+    },
+    {
+      "name": "k2_hidden_equals_extra_times",
+      "verdict": "PASS",
+      "detail": "P_(2)^x0_x0 = P_(2)^x5_x5 = P_(2)^x6_x6 = P_(2)^x7_x7 and P_(2)^x1_x1 = P_(2)^x2_x2 = P_(2)^x3_x3 exactly"
     },
     {
       "name": "k3_divergence_free",
@@ -325,19 +345,29 @@
       "detail": "g_hh P_(3)^h_j = g_jj P_(3)^j_h exactly, so A_(3)^lh = A_(3)^hl"
     },
     {
-      "name": "k3_free_of_warp",
+      "name": "k3_free_of_x0",
       "verdict": "PASS",
-      "detail": "every P_(3)^h_j is free of sin(6 H x0)^(1/3) and of e^(a4)"
+      "detail": "every P_(3)^h_j is free of x0 (a polynomial in H, a4', a4'', b4'/b4, b4''/b4, e^(2 a4)/b4)"
+    },
+    {
+      "name": "k3_offdiagonal_vanishes",
+      "verdict": "PASS",
+      "detail": "P_(3)^h_j = 0 exactly for all 56 components with h != j (in particular P_(3)^x4_x0 = P_(3)^x0_x4 = 0)"
+    },
+    {
+      "name": "k3_hidden_equals_extra_times",
+      "verdict": "PASS",
+      "detail": "P_(3)^x0_x0 = P_(3)^x5_x5 = P_(3)^x6_x6 = P_(3)^x7_x7 and P_(3)^x1_x1 = P_(3)^x2_x2 = P_(3)^x3_x3 exactly"
     },
     {
       "name": "rust_k1_mixed_components_agree",
       "verdict": "PASS",
-      "detail": "P_(1)^h_j: all 64 components of P1_mixed_up_h_down_j present; 64 comparisons (10 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (50 evaluations, max relative deviation 0 at 60 digits); failures: none"
+      "detail": "P_(1)^h_j: all 64 components of P1_mixed_up_h_down_j present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
     },
     {
       "name": "rust_k1_contravariant_components_agree",
       "verdict": "PASS",
-      "detail": "A_(1)^lh: all 64 components of A1_contravariant_l_h present; 64 comparisons (10 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (50 evaluations, max relative deviation 0 at 60 digits); failures: none"
+      "detail": "A_(1)^lh: all 64 components of A1_contravariant_l_h present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
     },
     {
       "name": "rust_L1_agrees",
@@ -347,12 +377,12 @@
     {
       "name": "rust_k2_mixed_components_agree",
       "verdict": "PASS",
-      "detail": "P_(2)^h_j: all 64 components of P2_mixed_up_h_down_j present; 64 comparisons (10 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (50 evaluations, max relative deviation 0 at 60 digits); failures: none"
+      "detail": "P_(2)^h_j: all 64 components of P2_mixed_up_h_down_j present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
     },
     {
       "name": "rust_k2_contravariant_components_agree",
       "verdict": "PASS",
-      "detail": "A_(2)^lh: all 64 components of A2_contravariant_l_h present; 64 comparisons (10 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (50 evaluations, max relative deviation 0 at 60 digits); failures: none"
+      "detail": "A_(2)^lh: all 64 components of A2_contravariant_l_h present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
     },
     {
       "name": "rust_L2_agrees",
@@ -362,12 +392,12 @@
     {
       "name": "rust_k3_mixed_components_agree",
       "verdict": "PASS",
-      "detail": "P_(3)^h_j: all 64 components of P3_mixed_up_h_down_j present; 64 comparisons (10 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (50 evaluations, max relative deviation 0 at 60 digits); failures: none"
+      "detail": "P_(3)^h_j: all 64 components of P3_mixed_up_h_down_j present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
     },
     {
       "name": "rust_k3_contravariant_components_agree",
       "verdict": "PASS",
-      "detail": "A_(3)^lh: all 64 components of A3_contravariant_l_h present; 64 comparisons (10 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (50 evaluations, max relative deviation 0 at 60 digits); failures: none"
+      "detail": "A_(3)^lh: all 64 components of A3_contravariant_l_h present; 64 comparisons (8 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (40 evaluations, max relative deviation 0 at 60 digits); failures: none"
     },
     {
       "name": "rust_L3_agrees",
@@ -377,7 +407,7 @@
     {
       "name": "negative_controls_detected",
       "verdict": "PASS",
-      "detail": "each of canon, plain sympy and the 60-digit numerics separately detects every tampered Rust component: P3^x0_x0 with its first coefficient + 1: (True, True, True); A2^x1x1 with S^2 -> S^1 in its first monomial: (True, True, True); A1^x5x5 with E^2 -> E^-2 in its first monomial: (True, True, True); P2^x4_x4 + 10^-30 H^4: (True, True, True)"
+      "detail": "each of canon, plain sympy and the 60-digit numerics separately detects every tampered Rust component: P3^x0_x0 with its first coefficient + 1: (True, True, True); A2^x1x1 with W^k -> W^(k-1) in its first monomial: (True, True, True); A1^x5x5 with E^2 -> E^-2 in its first monomial: (True, True, True); P2^x4_x4 + 10^-30 H^4: (True, True, True)"
     },
     {
       "name": "rust_metric_and_sqrt_g_agree",
@@ -387,17 +417,17 @@
     {
       "name": "rust_christoffels_agree",
       "verdict": "PASS",
-      "detail": "the 25 non-zero Gamma^a_bc (b <= c) of sympy are exactly the 25 listed; 25 comparisons (25 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (125 evaluations, max relative deviation 0 at 60 digits); failures: none"
+      "detail": "the 21 non-zero Gamma^a_bc (b <= c) of sympy are exactly the 21 listed; 21 comparisons (21 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (105 evaluations, max relative deviation 0 at 60 digits); failures: none"
     },
     {
       "name": "rust_riemann_agrees",
       "verdict": "PASS",
-      "detail": "the 156 non-zero R^ab_cd of sympy are exactly the 156 listed; 156 comparisons (156 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (780 evaluations, max relative deviation 0 at 60 digits); failures: none"
+      "detail": "the 112 non-zero R^ab_cd of sympy are exactly the 112 listed; 112 comparisons (112 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (560 evaluations, max relative deviation 0 at 60 digits); failures: none"
     },
     {
       "name": "rust_ricci_einstein_scalar_agree",
       "verdict": "PASS",
-      "detail": "ricciMixed (64), einsteinMixed (64) from their monomials and ricciScalar: 129 comparisons (21 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (105 evaluations, max relative deviation 0 at 60 digits); failures: none"
+      "detail": "ricciMixed (64), einsteinMixed (64) from their monomials and ricciScalar: 129 comparisons (17 with a non-zero side): the difference vanishes exactly by canon and by sympy expand/simplify, and at the 5 random points (85 evaluations, max relative deviation 0 at 60 digits); failures: none"
     },
     {
       "name": "rust_text_matches_monomials",
@@ -405,7 +435,7 @@
       "detail": "in all 512 components with monomial lists (lovelock-tensors.json and curvature.json), the Mathematica text and the monomial list are the same expression exactly"
     }
   ],
-  "checkCount": 49,
+  "checkCount": 56,
   "failedCheckCount": 0,
   "failedChecks": [],
   "verdict": "SUCCESS"

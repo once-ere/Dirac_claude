@@ -88,6 +88,23 @@ Status (newest last):
   `test_dirac16complex00_field_theory_publication.py`, `test_pair_creation_proofs_publication.py`) fail, because the
   documents still describe the metric of 2026-10-14 (renamed checks, new counts 86/16/72/15, new formula blocks); the
   textbook still cites the retired b4 reports.
+- W4 DONE 2026-10-16: `Revision/gkd_lovelock/` for the corrected metric, every real z.  Rust (`poly.rs`: the symbol
+  W = (Sin^2)^(1/12) replaces S = Sin^(1/3), new symbol G = Sign[Cot], 14 exponents; `geometry.rs`: the metric,
+  sqrt|det g| = G C E^-1 Q^4 W^3; `main.rs`: 27 checks, new `mixed_riemann_free_of_x0`, `mixed_riemann_only_sectional`,
+  `sqrt_det_g_positive_every_quarter`, `k<k>_free_of_x0`, `k<k>_offdiagonal_vanishes`, `k<k>_hidden_equals_extra_times`;
+  10 unit tests in all four quarters of z): 112 nonzero R^ab_cd (all R^ab_ab, x0-free), every P_(k) diagonal and
+  x0-free with P^x0_x0 = P^xt_xt; 27/27, 13 s.  Wolfram `verify_lovelock_gkd.wls` 29/29 (exact zero test
+  `LGKDZeroQ` for every real z; 48 s); sympy `check_lovelock_gkd.py` 56/56 (symbol form w = |sin|^(1/6), sign(sin),
+  sign(cot); 13 s); all reproduced byte for byte by a second run; P_(1) = -4 G agrees with the independent sympy
+  record `metric_warped/results/warped-metric.json` (einstein_diagonal).  `gkd-selftest.json` unchanged (gkd.rs
+  unchanged; the 900 s self-test was not re-run).  The results of the metric of 2026-10-14 are frozen in
+  `gkd_lovelock/reference_2026_10_14/` (files of c93fe22, sha256 pinned); `comparison/compare_with_author.py` compares
+  the author's Pair_Creation notebook (written for that metric) with them: 80 checks, 75 PASS, 0 FAIL, 5 NOT-AVAILABLE
+  (`comparison/README.md` 1.2).  Provenance: `verification/WOLFRAMSCRIPT_PROVENANCE.md` part 6.5,
+  `results/PROVENANCE_OF_THE_COMPUTATION.md` note of 2026-10-16; `Revision/tests/test_gkd_lovelock.py` re-pinned
+  (fast and slow tests pass).  KNOWN OPEN: `Revision/docs/LOVELOCK_GKD.md` and `test_lovelock_gkd_publication.py` (W7),
+  `Revision/notebooks/src/lovelock_gkd.py` (W6, cites 19 Rust checks), the textbook chapters 3 and 11 (W8);
+  `field_equations_a4` reads the new `lovelock-tensors.json` (W2, next).
 
 ### 0.9 ORDER 2026-10-15 evening: move EVERYTHING to b4(x4) — START HERE
 

@@ -7,8 +7,13 @@ Inputs (all read only):
   * author-curvature-outputs.json (next to this script), written by extract_author_curvature_outputs.wls
     from the author's notebook Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb
     (stored OUTPUT cells converted to exact InputForm without evaluating anything);
-  * Revision/gkd_lovelock/results/curvature.json and lovelock-tensors.json (the Revision results);
-  * Revision/SPEC.md section 1 (the binding statement of the metric);
+  * Revision/gkd_lovelock/reference_2026_10_14/curvature.json and lovelock-tensors.json: the Revision results for the
+    metric of 2026-10-14, which (at b4 = 1) is the metric of that notebook; frozen copies of the files of commit
+    c93fe22, sha256 pinned below and checked.  The author's notebook was written for that metric, so its stored
+    outputs are compared with this record of it;
+  * Revision/gkd_lovelock/results/curvature.json (the Revision results for the corrected metric of 2026-10-16,
+    version 2) and Revision/SPEC.md section 1 (the binding statement of the corrected metric): compared with each
+    other, and the corrected metric is shown to differ from the notebook's metric;
   * the notebook file itself, only to recompute its sha256.
 
 Method: every expression string is parsed EXACTLY (a small parser for the Mathematica InputForm subset
@@ -36,7 +41,14 @@ ROOT = os.path.normpath(os.path.join(HERE, "..", "..", ".."))
 NOTEBOOK = "Pair_Creation_of_Universes_WaveFunctionOfUniverse-4+4-Einstein-Lovelock-Nash.nb"
 AUTHOR_JSON = os.path.join(HERE, "author-curvature-outputs.json")
 CURVATURE_JSON = os.path.join(ROOT, "Revision", "gkd_lovelock", "results", "curvature.json")
-LOVELOCK_JSON = os.path.join(ROOT, "Revision", "gkd_lovelock", "results", "lovelock-tensors.json")
+# the Revision record of the metric of 2026-10-14 (the notebook's metric at b4 = 1), frozen on 2026-10-16 from commit c93fe22
+REFERENCE_DIR = os.path.join(ROOT, "Revision", "gkd_lovelock", "reference_2026_10_14")
+REF_CURVATURE_JSON = os.path.join(REFERENCE_DIR, "curvature.json")
+REF_LOVELOCK_JSON = os.path.join(REFERENCE_DIR, "lovelock-tensors.json")
+REFERENCE_SHA256 = {
+    REF_CURVATURE_JSON: "b6951e389572cb4c7b91aaa33c2e543d7387765f101d5faee6c306118aff46c1",
+    REF_LOVELOCK_JSON: "f7b59ebbb3ac54ecbacf74bf528883c6880cc398270cec7855a68c68b04db10c",
+}
 SPEC_MD = os.path.join(ROOT, "Revision", "SPEC.md")
 
 # ----------------------------------------------------------------------------------------------
@@ -64,6 +76,11 @@ MAPPING_TEXT = {
     "b4": "the metric of 2026-10-14 has b4[x4] in the extra-time components; this author notebook (before 2026-10-14) "
           "has no b4, so every comparison with it is made at b4 = 1, b4' = b4'' = 0 (the earlier metric); the "
           "comparison of SPEC section 1 with curvature.json keeps b4",
+    "metric": "this notebook's metric is the metric of 2026-10-14 at b4 = 1 (Sin[6 H x0]^(1/3) in the 3-space and the "
+              "extra times, Cot^2 for x0); the Revision record moved on 2026-10-16 to the corrected metric (version 2, "
+              "SPEC section 1), which differs from it in g00 and g11..g33 (checked). The notebook's stored outputs "
+              "are therefore compared with the Revision record of ITS metric, reference_2026_10_14/ (the Rust "
+              "results of commit c93fe22, frozen, sha256 checked), not with the record of the corrected metric",
     "status": "a definition fixed before the comparison and checked on the metric first; nothing is fitted",
 }
 
@@ -93,7 +110,7 @@ class MappingError(Exception):
 # ----------------------------------------------------------------------------------------------
 TOKEN_RE = re.compile(r"\s*(?:(\d+)|([A-Za-z][A-Za-z0-9]*)|(.))")
 FUNCTIONS = {"Sin": sp.sin, "Cos": sp.cos, "Tan": sp.tan, "Cot": sp.cot, "Sec": sp.sec, "Csc": sp.csc,
-             "Exp": sp.exp, "Log": sp.log, "Sqrt": sp.sqrt}
+             "Exp": sp.exp, "Log": sp.log, "Sqrt": sp.sqrt, "Sign": sp.sign, "Abs": sp.Abs}
 CONSTANTS = {"E": sp.E, "Pi": sp.pi}
 SYMBOLS = {}
 
@@ -376,8 +393,10 @@ def main():
     with open(AUTHOR_JSON, encoding="utf-8") as f:
         author = json.load(f)
     with open(CURVATURE_JSON, encoding="utf-8") as f:
-        curv = json.load(f)
-    with open(LOVELOCK_JSON, encoding="utf-8") as f:
+        curv_corrected = json.load(f)  # the corrected metric of 2026-10-16
+    with open(REF_CURVATURE_JSON, encoding="utf-8") as f:
+        curv = json.load(f)  # the record of the metric of 2026-10-14 (the notebook's metric at b4 = 1)
+    with open(REF_LOVELOCK_JSON, encoding="utf-8") as f:
         love = json.load(f)
 
     outs = {o["label"]: o for o in author["outputCells"]}
@@ -398,22 +417,33 @@ def main():
         {"compared": "Out[235] (gtry = MatrixMetric44) and Out[245] (MatrixMetric44): identical InputForm strings",
          "identical": same})
 
-    # 2. Revision metric: SPEC section 1 versus curvature.json (diagonal list, off-diagonal zero)
-    rev_g = {}
-    for i, a in enumerate(REVISION_ORDER):
-        for j, b in enumerate(REVISION_ORDER):
-            rev_g[(a, b)] = map_revision(parse(curv["metricDiagonal"][i])) if i == j else sp.Integer(0)
+    # 1b. the reference files are the frozen record of the metric of 2026-10-14 (commit c93fe22)
+    ref_sha = {rel(p): sha256_file(p) for p in REFERENCE_SHA256}
+    add("reference-files-are-the-record-of-2026-10-14",
+        "PASS" if all(sha256_file(p) == s for p, s in REFERENCE_SHA256.items()) else "FAIL",
+        {"compared": "sha256 of reference_2026_10_14/curvature.json and lovelock-tensors.json vs the pinned values (the "
+                     "files of commit c93fe22, the Rust results for the metric of 2026-10-14)",
+         "recomputed": ref_sha, "pinned": {rel(p): s for p, s in REFERENCE_SHA256.items()}})
+
+    # 2. Revision metric: SPEC section 1 (the corrected metric) versus results/curvature.json (diagonal list,
+    #    off-diagonal zero), keeping b4
     spec = spec_metric()
     bad = []
     for i, a in enumerate(REVISION_ORDER):
         for j, b in enumerate(REVISION_ORDER):
-            rev_b4 = map_revision(parse(curv["metricDiagonal"][i]), keep_b4=True) if i == j else sp.Integer(0)
+            rev_b4 = map_revision(parse(curv_corrected["metricDiagonal"][i]), keep_b4=True) if i == j else sp.Integer(0)
             ok, how = exact_zero(map_revision(spec[i][j], keep_b4=True) - rev_b4)
             if not ok:
                 bad.append("%s,%s: %s" % (a, b, how))
     add("revision-metric-spec-vs-curvature-json", "PASS" if not bad else "FAIL",
-        {"compared": "Revision/SPEC.md section 1 matrix vs curvature.json metricDiagonal (off-diagonal 0), "
-                     "64 components", "mismatches": bad})
+        {"compared": "Revision/SPEC.md section 1 matrix (the corrected metric of 2026-10-16) vs results/curvature.json "
+                     "metricDiagonal (off-diagonal 0), 64 components, b4 kept", "mismatches": bad})
+
+    # the record of the notebook's metric (2026-10-14 at b4 = 1), used for every comparison with the author below
+    rev_g = {}
+    for i, a in enumerate(REVISION_ORDER):
+        for j, b in enumerate(REVISION_ORDER):
+            rev_g[(a, b)] = map_revision(parse(curv["metricDiagonal"][i])) if i == j else sp.Integer(0)
 
     # 3. FIRST the mapping on the metric itself
     a_g_list = parse(outs["Out[235]="]["inputForm"])
@@ -431,12 +461,32 @@ def main():
                     bad.append("%s,%s: %s" % (a, b, how))
         metric_ok = not bad
         add("metric-mapping-author-Out235-vs-revision", "PASS" if metric_ok else "FAIL",
-            {"compared": "all 64 components of the author's Out[235] (mapped) vs the Revision metric",
+            {"compared": "all 64 components of the author's Out[235] (mapped) vs the Revision record of the metric of "
+                     "2026-10-14 at b4 = 1 (reference_2026_10_14/curvature.json)",
              "diagonal": comps, "offDiagonal": "all 56 off-diagonal components are 0 on both sides" if metric_ok
              else "see mismatches", "mismatches": bad})
     except (MappingError, ParseError) as exc:
         add("metric-mapping-author-Out235-vs-revision", "FAIL", {"error": str(exc)})
         return finish(checks, ins, args, stopped="the mapping failed on the metric; nothing else compared")
+
+    # 3b. the corrected metric is not the notebook's metric: compare them at b4 = 1 (the notebook has no b4)
+    differ = []
+    for i, a in enumerate(REVISION_ORDER):
+        corrected = map_revision(parse(curv_corrected["metricDiagonal"][i]))
+        ok, _ = exact_zero(a_g[(a, a)] - corrected)
+        if not ok:
+            differ.append("%s,%s" % (a, a))
+    expected_differ = ["x0,x0", "x1,x1", "x2,x2", "x3,x3"]
+    add("corrected-metric-differs-from-the-author-notebook-metric",
+        "PASS" if all(d in differ for d in expected_differ) and "x4,x4" not in differ else "FAIL",
+        {"compared": "the author's Out[235] (mapped) vs the corrected metric of results/curvature.json at b4 = 1, the 8 "
+                     "diagonal components",
+         "differingComponents": differ,
+         "reading": "g00: Cot^2 vs E^(-2 a4) Cot^2 and g11..g33: E^(2 a4) Sin^(1/3) vs E^(2 a4) differ; g44 = -1 on both "
+                    "sides; g55..g77: -E^(-2 a4) Sin^(1/3) vs -E^(-2 a4) (Sin^2)^(1/6), equal where Sin > 0 and "
+                    "different where Sin < 0 (no assumption on the sign of Sin is made, so they are listed as "
+                    "differing). Hence the author's stored curvature is compared with the record of the metric of "
+                    "2026-10-14 (reference_2026_10_14/), not with the record of the corrected metric"})
 
     # inverse of the author's (mapped) metric, exactly (it is diagonal; checked)
     offdiag_zero = all(a_g[(a, b)] == 0 for a in REVISION_ORDER for b in REVISION_ORDER if a != b)
@@ -525,7 +575,8 @@ def finish(checks, ins, args, stopped):
         "program": "Revision/gkd_lovelock/comparison/compare_with_author.py",
         "sympyVersion": sp.__version__,
         "inputs": [{"path": rel(p), "sha256": sha256_file(p)}
-                   for p in (AUTHOR_JSON, CURVATURE_JSON, LOVELOCK_JSON, SPEC_MD, os.path.join(ROOT, NOTEBOOK))],
+                   for p in (AUTHOR_JSON, REF_CURVATURE_JSON, REF_LOVELOCK_JSON, CURVATURE_JSON, SPEC_MD,
+                             os.path.join(ROOT, NOTEBOOK))],
         "authorConventions": {
             "rt": "In[214]: Gamma^i_{jk} = (1/2) g^{is}(d_k g_{sj} + d_j g_{sk} - d_s g_{jk}); "
                   "R^mu_{nu alpha beta} = d_alpha Gamma^mu_{nu beta} - d_beta Gamma^mu_{nu alpha} + "

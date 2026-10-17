@@ -10,15 +10,18 @@ author's generalized Kronecker delta), the three non-zero Lovelock tensors of (4
     P_(k)^h_j  = delta^{h h1 ... h2k}_{j j1 ... j2k} R^{j1 j2}_{h1 h2} ... R^{j(2k-1) j2k}_{h(2k-1) h2k},
     k = 1, 2, 3   (n = 8, m = n/2 = 4, the sum of (4.38) runs to k = m - 1 = 3),
 
-for the author's 8 x 8 test metric
+for the corrected primordial metric of 2026-10-16 (version 2; Revision/SPEC.md section 1, Revision/metric_warped/)
 
-    g = diag( cot(6 H x0)^2                   (x0),
-              e^{2 a4(x4)} sin(6 H x0)^{1/3}  (x1, x2, x3),
-              -1                              (x4),
-              -e^{-2 a4(x4)} b4(x4) sin(6 H x0)^{1/3} (x5, x6, x7) ),
+    g = diag( e^{-2 a4(x4)} b4(x4) cot(6 H x0)^2            (x0),
+              e^{2 a4(x4)}                                 (x1, x2, x3),
+              -1                                           (x4),
+              -e^{-2 a4(x4)} b4(x4) (sin(6 H x0)^2)^{1/6}  (x5, x6, x7) ),
 
-in the author's coordinates x0 ... x7 (x0 = the hidden direction, listed first, as in the author's notebooks; the
-labels x1 ... x8 with the hidden direction x8 last, used until 2026-10-14, are withdrawn),
+for general a4(x4), b4(x4) > 0 and EVERY real z = 6 H x0 with sin z cos z != 0 ((sin^2)^{1/6} is the positive
+branch, the author's sin^{1/3}), in the author's coordinates x0 ... x7 (x0 = the hidden, space-like direction, listed
+first; x4 = the time; the labels x1 ... x8 with the hidden direction x8 last, used until 2026-10-14, are withdrawn).
+The metric of 2026-10-14 (g00 = cot^2, g_ii = e^{2 a4} sin^{1/3}, g_tt = -e^{-2 a4} b4 sin^{1/3}, on 0 < z < pi/2) is
+withdrawn; its results are frozen in Revision/gkd_lovelock/reference_2026_10_14/.
 
 and writes them to ``Revision/gkd_lovelock/results/`` (``curvature.json``, ``lovelock-tensors.json``).
 This script recomputes everything from the metric with sympy and compares. It shares NO code
@@ -29,14 +32,15 @@ text) and, for the comparison, the two Rust JSON files. It never reads the autho
 
 CONVENTIONS (stated)
 ====================
-* The author's coordinates x0 ... x7 are indices 0 ... 7 (index k = xk).  H > 0 and a4 is an arbitrary function of x4.
+* The author's coordinates x0 ... x7 are indices 0 ... 7 (index k = xk).  H > 0, x0 real; a4 and b4 > 0 are arbitrary
+  functions of x4.
 * Christoffel symbols: Gamma^a_{bc} = 1/2 g^{ad} (d_b g_{dc} + d_c g_{db} - d_d g_{bc}).
 * Riemann tensor, MTW (Misner-Thorne-Wheeler) sign convention:
       R^a_{bcd} = d_c Gamma^a_{bd} - d_d Gamma^a_{bc} + Gamma^a_{ce} Gamma^e_{bd} - Gamma^a_{de} Gamma^e_{bc},
   R^{ab}_{cd} = g^{be} R^a_{ecd},  Ricci R_{bd} = R^a_{bad}, so R^h_j = R^{ha}_{ja}, R = R^a_a,
   Einstein G^h_j = R^h_j - 1/2 delta^h_j R.  (A round sphere has R > 0 in this convention.)
-* sqrt(g) means sqrt|det g|.  det g = cos^2(6 H x0) exactly (checked), so on the domain
-  0 < 6 H x0 < pi/2 (where sin, cos and cot are positive) sqrt|det g| = cos(6 H x0).
+* sqrt(g) means sqrt|det g|.  det g = e^{-2 a4} b4^4 cot^2 |sin| exactly (checked), so
+  sqrt|det g| = e^{-a4} b4^2 |cot(6 H x0)| (sin(6 H x0)^2)^{1/4} for every real z with sin z cos z != 0.
 * The generalized Kronecker delta is the author's
       kdelta[lower_, upper_] /; Length[lower] == Length[upper] := Det[Outer[delta, lower, upper]]
   i.e. the determinant of the 0/1 matrix M[r][c] = 1 if lower[r] == upper[c] else 0, and
@@ -44,12 +48,16 @@ CONVENTIONS (stated)
   (det M = det M^T, so it does not matter which list labels the rows).
 * L_(k) = delta^{h1 ... h2k}_{j1 ... j2k} R^{j1 j2}_{h1 h2} ... is the k-th Lovelock scalar.
 
-Symbols used for exact simplification ("symbol form"): E = e^{a4(x4)}, s = sin(6 H x0)^{1/3},
-c = cot(6 H x0), A1 ... A4 = a4', a4'', a4''', a4''''.  They satisfy one relation,
-cos^2 + sin^2 = 1, i.e. s^6 (1 + c^2) = 1.  ``canon`` (below) uses it to bring any
-expression to the unique form  b0 + b1 s + ... + b5 s^5  with b_r rational functions of
-(H, A1..A4, E, c) (1, s, ..., s^5 are linearly independent over those functions because
-x^6 - 1/(1 + c^2) is irreducible), so "canon(X - Y) == 0" is an exact proof that X = Y.
+Symbols used for exact simplification ("symbol form", valid for every real z with sin z cos z != 0):
+E = e^{a4(x4)}, w = |sin(6 H x0)|^{1/6} = (sin^2)^{1/12} > 0, c = cot(6 H x0) (signed), sg = sign(sin(6 H x0)),
+G = sign(cot(6 H x0)), A1 ... A4 = a4', ..., a4'''', B0 = b4 > 0, B1 ... B4 = b4', ..., b4''''; so
+sin = sg w^6, cos = sg c w^6, |sin| = w^6, |cot| = G c.  They satisfy cos^2 + sin^2 = 1, i.e.
+w^12 (1 + c^2) = 1, and sg^2 = G^2 = 1.  ``canon`` (below) uses these to bring any expression to the form
+sum b_(i,j,r) sg^i G^j w^r (i, j = 0, 1; r = 0 ... 11) with b rational functions of (H, A, B, E, c).  The form is
+unique: w is algebraic of degree 12 over those functions (x^12 - 1/(1 + c^2) is irreducible), sg takes both
+signs for every value of c, and G = sign(c) is the sign of c, so b + G b' = 0 for all z forces b + b' = 0 for
+c > 0 and b - b' = 0 for c < 0, hence (the b are analytic in c) b = b' = 0.  So "canon(X - Y) == 0" is an exact
+proof that X = Y for every real z.
 
 ENUMERATION (different from the Rust depth-first search)
 ========================================================
@@ -61,7 +69,8 @@ different (a repeated index makes two rows - or two columns - of Outer[delta, lo
 equal, so the determinant is 0: "repeated-index lemma").  Then every product is completed by
 every j not among its lower indices and every h not among its upper indices, and the weight of
 that term is ONE LITERAL CALL of kdelta.  The integer weights are collected per multiset of
-entries and multiplied out once, with sympy's sparse polynomial ring QQ[H, A1, A2, c, 1/c].
+entries and multiplied out once, with sympy's sparse polynomial ring QQ[H, A1, A2, U, V, K]
+(U = b4'/b4, V = b4''/b4, K = e^{2 a4}/b4: every non-zero R^{ab}_{cd} is a polynomial in these, checked).
 The repeated-index lemma is not taken on trust: for k = 1 and k = 2 the completely unpruned
 literal sums (every ordered product of non-zero entries, every (h, j), every index list sent
 to kdelta) are computed as well and must agree exactly; for k = 3 a deterministic random
@@ -97,15 +106,18 @@ COMPARISON WITH THE RUST OUTPUT
 ===============================
 Every one of the 3 x 64 mixed P_(k)^h_j and 3 x 64 contravariant A_(k)^{lh} components of
 ``lovelock-tensors.json`` is rebuilt from its exact monomial list [[num, den, [e_H, e_a4',
-e_a4'', e_a4''', e_a4'''', e_E, e_S, e_C]], ...] with E -> exp(a4(x4)), S -> sin(6 H x0)^(1/3),
-C -> cot(6 H x0), a4^(n) -> Derivative(a4(x4), (x4, n)), and the difference with this script's
-own component is shown to vanish exactly (1) by ``canon`` and (2) by plain sympy (expand /
-simplify after cot = cos/sin), and (3) numerically at 5 random rational points with 60 digits.
+e_a4'', e_a4''', e_a4'''', e_E, e_W, e_C, e_Q, e_b4', ..., e_b4'''', e_G]], ...] with E -> exp(a4(x4)),
+W -> (sin(6 H x0)^2)^(1/12), C -> cot(6 H x0), Q -> b4^(1/2), G -> sign(cot(6 H x0)), a4^(n) ->
+Derivative(a4(x4), (x4, n)), b4^(n) -> Derivative(b4(x4), (x4, n)), and the difference with this script's
+own component is shown to vanish exactly (1) by ``canon`` and (2) by plain sympy (in each of the four quarters
+(sign sin, sign cot) = (+-, +-): |sin| = sign sin, |cot| = sign cot substituted, then expand / simplify after
+cot = cos/sin), and (3) numerically at 5 random rational points with 60 digits (one in each quarter of the period of
+z and one at negative z).
 The same is done for L_(1..3), and for curvature.json: the metric, sqrt|g|, every Christoffel
 symbol, every R^{ab}_{cd}, the Ricci and Einstein tensors and the Ricci scalar.  The Rust
 Mathematica text of each component is also checked against its own monomial list.  Negative
 controls: deliberately tampered Rust components (a coefficient + 1, a wrong power of
-sin^(1/3), a wrong power of e^{a4}, an added 10^-30 H^4) must be detected by each of the
+(sin^2)^(1/12), a wrong power of e^{a4}, an added 10^-30 H^4) must be detected by each of the
 three methods separately.
 
 USAGE (from the repository root)
@@ -147,38 +159,41 @@ H = sp.Symbol("H", positive=True)
 X = sp.symbols("x0:8", real=True)
 x0, x4 = X[0], X[4]
 a4 = sp.Function("a4")
-b4 = sp.Function("b4")  # the metric function of the extra-time components (user's metric of 2026-10-14)
+b4 = sp.Function("b4")  # the metric function b4(x4) > 0 (extra times and, since 2026-10-16, the hidden direction)
 TH = 6 * H * x0
-THIRD = sp.Rational(1, 3)
 DER = [sp.Derivative(a4(x4), (x4, m)) for m in range(1, 5)]  # a4', a4'', a4''', a4''''
 DERB = [sp.Derivative(b4(x4), (x4, m)) for m in range(1, 5)]  # b4', b4'', b4''', b4''''
 
-E_, s_, c_ = sp.symbols("E s c", positive=True)
+E_, w_ = sp.symbols("E w", positive=True)  # E = e^{a4}, w = |sin(6 H x0)|^(1/6) = (sin^2)^(1/12)
+c_ = sp.Symbol("c", real=True)  # cot(6 H x0), signed
+sg_, gg_ = sp.symbols("sg G", real=True)  # sign(sin(6 H x0)), sign(cot(6 H x0)); sg^2 = G^2 = 1
 A_ = sp.symbols("A1:5")
 B0_ = sp.Symbol("B0", positive=True)  # b4 > 0
 B_ = sp.symbols("B1:5")
 U_, V_ = sp.symbols("U V")  # U = b4'/b4, V = b4''/b4 inside the polynomial ring only
-ci_ = sp.Symbol("ci", positive=True)  # 1/c inside the polynomial ring only
-SYMBOL_FORM_SYMBOLS = {H, E_, s_, c_, *A_, B0_, *B_}
+K_ = sp.Symbol("K", positive=True)  # K = e^{2 a4}/b4 inside the polynomial ring only
+SYMBOL_FORM_SYMBOLS = {H, E_, w_, c_, sg_, gg_, *A_, B0_, *B_}
+X0_SYMBOLS = (w_, c_, sg_, gg_)  # the symbols that carry the dependence on x0
 TO_A = {DER[m]: A_[m] for m in range(4)}
 TO_A.update({DERB[m]: B_[m] for m in range(4)})
 FROM_SYMBOLS = {A_[m]: DER[m] for m in range(4)}
 FROM_SYMBOLS.update({B_[m]: DERB[m] for m in range(4)})
-FROM_SYMBOLS.update({E_: sp.exp(a4(x4)), s_: sp.sin(TH) ** THIRD, c_: sp.cot(TH), B0_: b4(x4)})
+FROM_SYMBOLS.update({E_: sp.exp(a4(x4)), w_: (sp.sin(TH) ** 2) ** sp.Rational(1, 12), c_: sp.cot(TH),
+                     sg_: sp.sign(sp.sin(TH)), gg_: sp.sign(sp.cot(TH)), B0_: b4(x4)})
 
-# The polynomial ring used for the Lovelock sums (mixed curvature is free of E and s, and depends on b4
-# only through U = b4'/b4 and V = b4''/b4: a constant factor of b4 is a rescaling of x5, x6, x7).
-RING, _rH, _rA1, _rA2, _rC, rCI, _rU, _rV = ring([H, A_[0], A_[1], c_, ci_, U_, V_], sp.QQ)
-I_C, I_CI = 3, 4  # positions of c and 1/c in the exponent vectors
+# The polynomial ring used for the Lovelock sums: every non-zero mixed R^{ab}_{cd} of the corrected metric is free
+# of x0 and a polynomial in H, a4', a4'', U = b4'/b4, V = b4''/b4 and K = e^{2 a4}/b4 (checked by ring_from_symbol_form).
+RING, _rH, _rA1, _rA2, _rU, _rV, _rK = ring([H, A_[0], A_[1], U_, V_, K_], sp.QQ)
 
-ZERO6 = (sp.Integer(0),) * 6
+SLOTS = [(i, j, r) for i in range(2) for j in range(2) for r in range(12)]  # sg^i G^j w^r; slot 0 = (0, 0, 0)
+ZERO_FORM = (sp.Integer(0),) * len(SLOTS)
 
 
 def metric_diagonal():
-    """The author's metric, typed in from the user's order of 2026-10-14 (function form; b4 = 1 is the
-    metric before 2026-10-14)."""
-    warp = sp.sin(TH) ** THIRD
-    return ([sp.cot(TH) ** 2] + [sp.exp(2 * a4(x4)) * warp] * 3 + [sp.Integer(-1)]
+    """The corrected metric of 2026-10-16 (version 2), typed in from Revision/SPEC.md section 1 (function form;
+    (sin^2)^(1/6) is the positive branch, which sympy writes |sin|^(1/3))."""
+    warp = (sp.sin(TH) ** 2) ** sp.Rational(1, 6)
+    return ([sp.exp(-2 * a4(x4)) * b4(x4) * sp.cot(TH) ** 2] + [sp.exp(2 * a4(x4))] * 3 + [sp.Integer(-1)]
             + [-sp.exp(-2 * a4(x4)) * b4(x4) * warp] * 3)
 
 
@@ -188,7 +203,8 @@ def _check_angle(arg):
 
 
 def to_symbol_form(expr):
-    """Function form -> symbol form (E, s, c, A1..A4, B0 = b4, B1..B4).  Exact, no simplification."""
+    """Function form -> symbol form (E, w, c, sg, G, A1..A4, B0 = b4, B1..B4).  Exact, no simplification;
+    valid for every real z = 6 H x0 with sin z cos z != 0."""
     expr = sp.sympify(expr).xreplace(TO_A).xreplace({b4(x4): B0_})
 
     def fexp(arg):
@@ -197,13 +213,27 @@ def to_symbol_form(expr):
             raise ValueError(f"unexpected exponential exp({arg})")
         return E_ ** q
 
+    def fabs(arg):
+        if arg == sp.sin(TH):
+            return w_ ** 6  # |sin| = w^6
+        if arg == sp.cot(TH):
+            return gg_ * c_  # |cot| = G c
+        raise ValueError(f"unexpected Abs({arg})")
+
+    def fsign(arg):
+        if arg == sp.sin(TH):
+            return sg_
+        if arg == sp.cot(TH):
+            return gg_
+        raise ValueError(f"unexpected sign({arg})")
+
     def fsin(arg):
         _check_angle(arg)
-        return s_ ** 3
+        return sg_ * w_ ** 6
 
     def fcos(arg):
         _check_angle(arg)
-        return c_ * s_ ** 3
+        return sg_ * c_ * w_ ** 6
 
     def fcot(arg):
         _check_angle(arg)
@@ -215,13 +245,14 @@ def to_symbol_form(expr):
 
     def fcsc(arg):
         _check_angle(arg)
-        return s_ ** -3
+        return sg_ * w_ ** -6
 
     def fsec(arg):
         _check_angle(arg)
-        return 1 / (c_ * s_ ** 3)
+        return sg_ / (c_ * w_ ** 6)
 
     expr = expr.replace(sp.exp, fexp)
+    expr = expr.replace(sp.Abs, fabs).replace(sp.sign, fsign)
     for f, rule in ((sp.sin, fsin), (sp.cos, fcos), (sp.cot, fcot), (sp.tan, ftan),
                     (sp.csc, fcsc), (sp.sec, fsec)):
         expr = expr.replace(f, rule)
@@ -237,75 +268,96 @@ def to_function_form(expr):
 
 
 def canon(expr):
-    """Unique normal form (b0, ..., b5): expr = sum_r b_r s^r with s^6 = 1/(1 + c^2)."""
+    """Unique normal form (b_slot for slot = (i, j, r) in SLOTS): expr = sum b_(i,j,r) sg^i G^j w^r with
+    w^12 = 1/(1 + c^2) and sg^2 = G^2 = 1 (see the module docstring)."""
     expr = sp.sympify(expr)
     if expr == 0:
-        return ZERO6
+        return ZERO_FORM
     expr = sp.expand(to_symbol_form(expr))
-    parts = [[] for _ in range(6)]
+    parts = {slot: [] for slot in SLOTS}
     for term in sp.Add.make_args(expr):
-        coeff, k = term.as_coeff_exponent(s_)
-        if not k.is_Integer or coeff.has(s_):
-            raise ValueError(f"term not a monomial in s: {term}")
+        coeff, k = term.as_coeff_exponent(w_)
+        coeff, i = coeff.as_coeff_exponent(sg_)
+        coeff, j = coeff.as_coeff_exponent(gg_)
+        if not (k.is_Integer and i.is_Integer and j.is_Integer) or coeff.has(w_, sg_, gg_):
+            raise ValueError(f"term not a monomial in w, sg, G: {term}")
         k = int(k)
-        r = k % 6
-        parts[r].append(coeff * (1 + c_ ** 2) ** (-((k - r) // 6)))
-    return tuple(sp.cancel(sp.Add(*p)) for p in parts)
+        r = k % 12
+        parts[(int(i) % 2, int(j) % 2, r)].append(coeff * (1 + c_ ** 2) ** (-((k - r) // 12)))
+    return tuple(sp.cancel(sp.Add(*parts[slot])) for slot in SLOTS)
+
+
+def strip_delta(expr):
+    """sign(sin z) and sign(cot z) are constant on every interval of the domain sin z cos z != 0 (the metric is
+    singular at the excluded points z = n pi/2), so their derivatives vanish there: sympy writes them as DiracDelta
+    of sin z or cot z (supported only at the excluded points), which are set to 0.  A DiracDelta of anything else is
+    an error."""
+    def f(*args):
+        if args[0] in (sp.sin(TH), sp.cot(TH)):
+            return sp.Integer(0)
+        raise ValueError(f"unexpected DiracDelta{args}")
+    return sp.sympify(expr).replace(sp.DiracDelta, f)
 
 
 def is_zero(expr):
     return all(b == 0 for b in canon(expr))
 
 
+QUARTERS = ((1, 1), (1, -1), (-1, 1), (-1, -1))  # (sign sin, sign cot) in the four quarters of the period of z
+
+
 def sympy_zero(diff):
-    """Plain sympy: rewrite cot = cos/sin, tan = sin/cos, expand, and simplify if needed."""
-    e = sp.sympify(diff)
-    if e == 0:
+    """Plain sympy, in each of the four quarters (sign sin, sign cot): |sin| = sign sin, |cot| = sign cot and the
+    signs substituted, then cot = cos/sin, tan = sin/cos, expand, and simplify if needed."""
+    e0 = sp.sympify(diff)
+    if e0 == 0:
         return True
-    e = e.replace(sp.cot, lambda a: sp.cos(a) / sp.sin(a)).replace(sp.tan, lambda a: sp.sin(a) / sp.cos(a))
-    e = sp.expand(e)
-    if e == 0:
-        return True
-    return sp.simplify(sp.trigsimp(e)) == 0
+    for s_sin, s_cot in QUARTERS:
+        def fabs(a, s_sin=s_sin, s_cot=s_cot):
+            return s_sin * a if a == sp.sin(TH) else (s_cot * a if a == sp.cot(TH) else sp.Abs(a))
+
+        def fsign(a, s_sin=s_sin, s_cot=s_cot):
+            return sp.Integer(s_sin) if a == sp.sin(TH) else (sp.Integer(s_cot) if a == sp.cot(TH) else sp.sign(a))
+
+        e = e0.replace(sp.Abs, fabs).replace(sp.sign, fsign)
+        e = e.replace(sp.cot, lambda a: sp.cos(a) / sp.sin(a)).replace(sp.tan, lambda a: sp.sin(a) / sp.cos(a))
+        e = sp.expand(e)
+        if e != 0 and sp.simplify(sp.trigsimp(e)) != 0:
+            return False
+    return True
 
 
 # ---------------------------------------------------------------------------------------------
-# Ring helpers (Laurent polynomials in c via the extra generator ci = 1/c)
+# Ring helpers (the polynomial ring QQ[H, A1, A2, U, V, K])
 # ---------------------------------------------------------------------------------------------
 def ring_normalise(p):
-    """Cancel c * ci = 1 in every monomial, so equal Laurent polynomials are equal elements."""
-    acc = {}
-    for monom, coeff in p.terms():
-        e = list(monom)
-        m = min(e[I_C], e[I_CI])
-        e[I_C] -= m
-        e[I_CI] -= m
-        key = tuple(e)
-        acc[key] = acc.get(key, 0) + coeff
-    return RING.from_dict({k: v for k, v in acc.items() if v != 0}) if acc else RING.zero
+    """Elements of the polynomial ring are already in normal form."""
+    return p
 
 
 def ring_from_symbol_form(expr):
-    # b4 enters mixed curvature only through U = b4'/b4 and V = b4''/b4 (checked: B0 must cancel)
-    expr = sp.cancel(sp.sympify(expr).xreplace({B_[0]: U_ * B0_, B_[1]: V_ * B0_}))
-    if expr.has(B0_) or expr.has(B_[2]) or expr.has(B_[3]):
-        raise ValueError(f"mixed curvature not a function of b4'/b4 and b4''/b4 only: {expr}")
-    num, den = sp.fraction(sp.cancel(sp.sympify(expr)))
-    powers = sp.Poly(den, c_).as_dict() if den.has(c_) else {(0,): den}
-    if len(powers) != 1:
-        raise ValueError(f"denominator {den} is not a monomial in c")
-    ((m,), const), = powers.items()
-    if const.free_symbols:
-        raise ValueError(f"denominator {den} is not a monomial in c")
-    return ring_normalise(RING.from_expr(num) * rCI ** m * (1 / sp.Rational(const)))
+    """A mixed curvature component (symbol form, free of x0) as an element of QQ[H, A1, A2, U, V, K]; b4 must
+    enter only through U = b4'/b4, V = b4''/b4 and K = e^{2 a4}/b4 (checked: B0, odd powers of E, the third and fourth
+    derivatives of a4 and b4 and every symbol of x0 must be absent)."""
+    expr = sp.sympify(expr)
+    if expr.has(*X0_SYMBOLS):
+        raise ValueError(f"mixed curvature depends on x0: {expr}")
+    expr = sp.cancel(expr.xreplace({B_[0]: U_ * B0_, B_[1]: V_ * B0_}))
+    expr = sp.cancel(expr.subs(E_, sp.sqrt(K_ * B0_)))
+    if expr.has(B0_) or expr.has(E_) or expr.has(B_[2]) or expr.has(B_[3]) or expr.has(A_[2]) or expr.has(A_[3]):
+        raise ValueError(f"mixed curvature not a polynomial in H, a4', a4'', b4'/b4, b4''/b4, e^(2 a4)/b4: {expr}")
+    num, den = sp.fraction(expr)
+    if den.free_symbols:
+        raise ValueError(f"mixed curvature has the denominator {den}")
+    return RING.from_expr(num) * (1 / sp.Rational(den))
 
 
 def ring_to_symbol_form(p):
-    return sp.sympify(p.as_expr()).xreplace({ci_: 1 / c_, U_: B_[0] / B0_, V_: B_[1] / B0_})
+    return sp.sympify(p.as_expr()).xreplace({U_: B_[0] / B0_, V_: B_[1] / B0_, K_: E_ ** 2 / B0_})
 
 
 def ring_equal(p, q):
-    return ring_normalise(p - q) == RING.zero
+    return p - q == RING.zero
 
 
 # ---------------------------------------------------------------------------------------------
@@ -718,14 +770,15 @@ def geometry(rec):
     ok = all(is_zero((g * gi)[a, b] - (1 if a == b else 0)) for a in range(N) for b in range(N))
     rec.add("metric_inverse", ok, "g g^{-1} = 1 exactly (sympy Matrix.inv)")
     det = g.det()
-    sqrt_g = b4(x4) ** sp.Rational(3, 2) * sp.cos(TH)
+    sqrt_g = sp.exp(-a4(x4)) * b4(x4) ** 2 * sp.Abs(sp.cot(TH)) * (sp.sin(TH) ** 2) ** sp.Rational(1, 4)
     pts = Points()
     literal_root = sp.sqrt(sp.Abs(det))
     numeric_ok = all(abs(pts.evaluate(literal_root, p) - pts.evaluate(sqrt_g, p)) < sp.Float("1e-50", 60)
                      and pts.evaluate(sqrt_g, p) > 0 for p in pts.points)
     rec.add("sqrt_abs_det_g", is_zero(det - sqrt_g ** 2) and numeric_ok,
-            "det g = b4^3 cos^2(6 H x0) exactly, so sqrt|det g| = b4^(3/2) cos(6 H x0) on 0 < 6 H x0 < pi/2, b4 > 0; "
-            "sympy's sqrt(Abs(det g)) equals b4^(3/2) cos(6 H x0) > 0 at the 5 random points (60 digits)")
+            "det g = e^(-2 a4) b4^4 cot^2(6 H x0) |sin(6 H x0)| exactly, so sqrt|det g| = e^(-a4) b4^2 |cot(6 H x0)| "
+            "(sin(6 H x0)^2)^(1/4) for every real z = 6 H x0 with sin z cos z != 0; sympy's sqrt(Abs(det g)) equals it, "
+            "and it is positive, at the 5 random points (60 digits; one in each quarter of the period of z, one at z < 0)")
     gamma = [[[sp.Integer(0)] * N for _ in range(N)] for _ in range(N)]
     for a in range(N):
         for b in range(N):
@@ -750,7 +803,7 @@ def geometry(rec):
         for b in range(N):
             for c in range(N):
                 for d in range(N):
-                    v = sp.diff(gamma[a][b][d], X[c]) - sp.diff(gamma[a][b][c], X[d])
+                    v = strip_delta(sp.diff(gamma[a][b][d], X[c]) - sp.diff(gamma[a][b][c], X[d]))
                     for e in range(N):
                         v += gamma[a][c][e] * gamma[e][b][d] - gamma[a][d][e] * gamma[e][b][c]
                     riem[a, b, c, d] = v
@@ -768,12 +821,17 @@ def geometry(rec):
                         if gi[b, e] != 0:
                             v += gi[b, e] * riem[a, e, c, d]
                     cf = canon(v)
-                    if any(x != 0 for x in cf[1:]) or cf[0].has(E_):
+                    if any(x != 0 for x in cf[1:]) or cf[0].has(c_):
                         free_ok = False
                     if cf[0] != 0:
                         rud[a, b, c, d] = cf[0]
-    rec.add("mixed_riemann_free_of_warp_and_exponential", free_ok,
-            "every R^{ab}_{cd} is free of sin(6 H x0)^(1/3) and of e^{a4}: a rational function of H, a4', a4'', b4, b4', b4'', cot(6 H x0)")
+    rec.add("mixed_riemann_free_of_x0", free_ok,
+            "every R^{ab}_{cd} is free of x0 (its normal form has no w = |sin|^(1/6), sign(sin), sign(cot) or cot): a "
+            "rational function of H, a4', a4'', e^(a4), b4, b4', b4''")
+    sectional_ok = all({c, d} == {a, b} for (a, b, c, d) in rud)
+    rec.add("mixed_riemann_only_sectional", sectional_ok,
+            f"every non-zero R^ab_cd has {{c, d}} = {{a, b}}: {len(rud)} entries = 4 x {len(rud) // 4} planes "
+            "(no mixed component such as R^(x5 x0)_(x5 x4))")
     anti_ok = all(sp.cancel(v + rud.get((b, a, c, d), 0)) == 0 and sp.cancel(v + rud.get((a, b, d, c), 0)) == 0
                   for (a, b, c, d), v in rud.items())
     gsym = [to_symbol_form(x) for x in diag]
@@ -794,24 +852,26 @@ def index_pair(key):
 
 
 def from_monomials(monomials):
-    """Rebuild a component from [[num, den, [eH, ea1, ea2, ea3, ea4, eE, eS, eC, eQ, eb1, eb2, eb3, eb4]], ...]
-    (function form; Q = b4^(1/2); 13 exponents since 2026-10-14)."""
+    """Rebuild a component from [[num, den, [eH, ea1, ea2, ea3, ea4, eE, eW, eC, eQ, eb1, eb2, eb3, eb4, eG]], ...]
+    (function form; W = (sin^2)^(1/12), Q = b4^(1/2), G = sign(cot); 14 exponents since 2026-10-16)."""
     total = sp.Integer(0)
     for num, den, e in monomials:
-        if len(e) != 13:
-            raise ValueError(f"bad exponent vector {e} (13 exponents expected since 2026-10-14)")
+        if len(e) != 14:
+            raise ValueError(f"bad exponent vector {e} (14 exponents expected since 2026-10-16)")
         term = sp.Rational(num, den) * H ** e[0]
         for m in range(4):
             term *= DER[m] ** e[1 + m]
-        term *= sp.exp(a4(x4)) ** e[5] * (sp.sin(TH) ** THIRD) ** e[6] * sp.cot(TH) ** e[7]
+        term *= sp.exp(a4(x4)) ** e[5] * (sp.sin(TH) ** 2) ** sp.Rational(e[6], 12) * sp.cot(TH) ** e[7]
         term *= b4(x4) ** sp.Rational(e[8], 2)
         for m in range(4):
             term *= DERB[m] ** e[9 + m]
+        term *= sp.sign(sp.cot(TH)) ** e[13]
         total += term
     return total
 
 
 _MMA_LOCALS = {"H": H, "x0": x0, "E": sp.E, "a4x4": a4(x4), "b4x4": b4(x4), "sin": sp.sin, "cot": sp.cot,
+               "sign": sp.sign,
                **{f"Da4n{m + 1}": DER[m] for m in range(4)}, **{f"Db4n{m + 1}": DERB[m] for m in range(4)}}
 
 
@@ -820,6 +880,7 @@ def from_mathematica(text):
     t = re.sub(r"Derivative\[(\d)\]\[a4\]\[x4\]", r"Da4n\1", text)
     t = re.sub(r"Derivative\[(\d)\]\[b4\]\[x4\]", r"Db4n\1", t)
     t = t.replace("a4[x4]", "a4x4").replace("b4[x4]", "b4x4").replace("Sin[6*H*x0]", "sin(6*H*x0)").replace("Cot[6*H*x0]", "cot(6*H*x0)")
+    t = t.replace("Sign[cot(6*H*x0)]", "sign(cot(6*H*x0))")
     if "[" in t or "]" in t:
         raise ValueError(f"unparsed Mathematica text: {text}")
     t = t.replace("^", "**")
@@ -834,14 +895,19 @@ def sha256(path):
 
 
 class Points:
-    """5 random rational points with 0 < 6 H x0 < pi/2; values of a4 and of its derivatives."""
+    """5 random rational points, one in each quarter of the period of z = 6 H x0 and one at negative z (every real z
+    is allowed); values of a4, b4 > 0 and of their derivatives."""
+
+    # z in (0.10, 1.50), (1.70, 3.00), (3.30, 4.60), (4.80, 6.10), (-3.00, -1.70): (sign sin, sign cot) =
+    # (+, +), (+, -), (-, +), (-, -), (-, +)
+    THETA_RANGES = ((10, 150), (170, 300), (330, 460), (480, 610), (-300, -170))
 
     def __init__(self, seed=20261001, count=5):
         rng = random.Random(seed)
         self.points = []
-        for _ in range(count):
+        for n in range(count):
             h = sp.Rational(rng.randint(10, 60), 100)
-            theta = sp.Rational(rng.randint(10, 150), 100)  # 0.10 ... 1.50 < pi/2
+            theta = sp.Rational(rng.randint(*self.THETA_RANGES[n]), 100)
             x = theta / (6 * h)
             vals = [sp.Rational(rng.randint(-99, 99), 100) for _ in range(5)]
             self.points.append((h, x, vals))
@@ -1048,15 +1114,23 @@ def run(artifacts: Path, timings: dict):
         for j in range(N):
             v = sp.Integer(0)
             for h in range(N):
-                v += sp.diff(P_fun[k][h][j], X[h])
+                v += strip_delta(sp.diff(P_fun[k][h][j], X[h]))
                 for e in range(N):
                     v += gamma[h][h][e] * P_fun[k][e][j] - gamma[e][h][j] * P_fun[k][h][e]
             div_ok &= is_zero(v)
         rec.add(f"k{k}_divergence_free", div_ok, f"nabla_h P_({k})^h_j = 0 exactly for j = x0..x7 (sympy diff + Christoffels)")
         sym_ok = all(is_zero(gsym[h] * P_sym[k][h][j] - gsym[j] * P_sym[k][j][h]) for h in range(N) for j in range(N))
         rec.add(f"k{k}_symmetric", sym_ok, f"g_hh P_({k})^h_j = g_jj P_({k})^j_h exactly, so A_({k})^lh = A_({k})^hl")
-        free = all(not P_sym[k][h][j].has(s_) and not P_sym[k][h][j].has(E_) for h in range(N) for j in range(N))
-        rec.add(f"k{k}_free_of_warp", free, f"every P_({k})^h_j is free of sin(6 H x0)^(1/3) and of e^(a4)")
+        free = all(not P_sym[k][h][j].has(*X0_SYMBOLS) for h in range(N) for j in range(N))
+        rec.add(f"k{k}_free_of_x0", free, f"every P_({k})^h_j is free of x0 (a polynomial in H, a4', a4'', b4'/b4, "
+                                          f"b4''/b4, e^(2 a4)/b4)")
+        offdiag = all(P[k][h][j] == RING.zero for h in range(N) for j in range(N) if h != j)
+        rec.add(f"k{k}_offdiagonal_vanishes", offdiag, f"P_({k})^h_j = 0 exactly for all 56 components with h != j "
+                                                       f"(in particular P_({k})^x4_x0 = P_({k})^x0_x4 = 0)")
+        same = all(P[k][t][t] == P[k][0][0] for t in (5, 6, 7)) and all(P[k][i][i] == P[k][1][1] for i in (2, 3))
+        rec.add(f"k{k}_hidden_equals_extra_times", same,
+                f"P_({k})^x0_x0 = P_({k})^x5_x5 = P_({k})^x6_x6 = P_({k})^x7_x7 and P_({k})^x1_x1 = P_({k})^x2_x2 = "
+                f"P_({k})^x3_x3 exactly")
     lap("routes")
 
     print("6. Comparison with the Rust output", flush=True)
@@ -1116,7 +1190,7 @@ def run(artifacts: Path, timings: dict):
 
     controls = [
         ("P3^x0_x0 with its first coefficient + 1", P_fun[3][0][0], tampered("P3_mixed_up_h_down_j", "x0,x0", bump)),
-        ("A2^x1x1 with S^2 -> S^1 in its first monomial", A_fun[2][1][1], tampered("A2_contravariant_l_h", "x1,x1", warp)),
+        ("A2^x1x1 with W^k -> W^(k-1) in its first monomial", A_fun[2][1][1], tampered("A2_contravariant_l_h", "x1,x1", warp)),
         ("A1^x5x5 with E^2 -> E^-2 in its first monomial", A_fun[1][5][5], tampered("A1_contravariant_l_h", "x5,x5", flip_e)),
         ("P2^x4_x4 + 10^-30 H^4", P_fun[2][4][4],
          from_monomials(tensors["P2_mixed_up_h_down_j"]["x4,x4"]["monomials"]) + sp.Rational(1, 10 ** 30) * H ** 4),
@@ -1202,8 +1276,12 @@ def build_report(rec, counters, results, inputs, points):
             "kdelta": "Det[Outer[delta, lower, upper]] with sympy Matrix.det, memoised by the 0/1 matrix",
             "lovelock": "P_(k)^h_j = kdelta[{j,j1..j2k},{h,h1..h2k}] R^{j1j2}_{h1h2}...; L_(k) = kdelta[{j1..},{h1..}] R...R; "
                         "A_(k)^lh = sqrt|g| g^jl P_(k)^h_j",
-            "sqrtAbsDetG": "cos(6 H x0) (det g = cos^2(6 H x0); domain 0 < 6 H x0 < pi/2)",
-            "symbols": "A1 = a4'(x4), A2 = a4''(x4), c = cot(6 H x0)",
+            "metric": "the corrected metric of 2026-10-16 (version 2, Revision/SPEC.md section 1): diag(e^(-2 a4) b4 "
+                      "cot^2(6 H x0), e^(2 a4) (x3), -1, -e^(-2 a4) b4 (sin^2(6 H x0))^(1/6) (x3)); every real z = 6 H x0 "
+                      "with sin z cos z != 0",
+            "sqrtAbsDetG": "e^(-a4) b4^2 |cot(6 H x0)| (sin(6 H x0)^2)^(1/4) (det g = e^(-2 a4) b4^4 cot^2 |sin|)",
+            "symbols": "A1 = a4'(x4), A2 = a4''(x4), U = b4'/b4, V = b4''/b4, K = e^(2 a4)/b4; symbol form: w = "
+                       "|sin(6 H x0)|^(1/6), c = cot(6 H x0), sg = sign(sin), G = sign(cot)",
         },
         "inputsSha256": inputs,
         "randomPoints": points.describe(),

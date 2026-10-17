@@ -21,18 +21,20 @@
       determinant is the generalized Kronecker delta delta^{u1 ... up}_{l1 ... lp}.
       This file never replaces it by a "faster" formula.
 
-   2. The metric (exactly as the author gave it, in the author's coordinates x0..x7 = Wolfram positions 1..8
-      here, x0 = the hidden direction first, as in the author's notebook Dirac_Einstein-Lovelock_4+4_Nash.nb;
-      since 2026-10-14 with the metric function b4[x4] of the user's order; b4 = 1 is the metric before
-      2026-10-14; the labels x1..x8 with the hidden direction x8 last, used until 2026-10-14, are withdrawn):
+   2. The metric: since 2026-10-16 the corrected primordial metric (version 2; Revision/SPEC.md section 1,
+      Revision/metric_warped/), in the author's coordinates x0..x7 = Wolfram positions 1..8 here (x0 = the
+      hidden, space-like direction first; x4 = the time):
 
-        g = diag( Cot[6 H x0]^2                           (x0),
-                  E^(2 a4[x4]) Sin[6 H x0]^(1/3)          (x1, x2, x3),
-                  -1                                      (x4),
-                  -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3) (x5, x6, x7) )
+        g = diag( E^(-2 a4[x4]) b4[x4] Cot[6 H x0]^2             (x0),
+                  E^(2 a4[x4])                                  (x1, x2, x3),
+                  -1                                            (x4),
+                  -E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6)   (x5, x6, x7) )
 
-      and its curvature, computed here from scratch with Mathematica's own D, Inverse and
-      Simplify (no file of the Rust program is read for this):
+      for general a4(x4), b4(x4) > 0 and EVERY real z = 6 H x0 with Sin z Cos z != 0 ((Sin^2)^(1/6) is the
+      positive branch, the author's Sin^(1/3)).  The metric of 2026-10-14 (g00 = Cot^2, g_ii = E^(2 a4)
+      Sin^(1/3), g_tt = -E^(-2 a4) b4 Sin^(1/3), on 0 < z < Pi/2) is withdrawn; its results are frozen in
+      Revision/gkd_lovelock/reference_2026_10_14/.  The curvature is computed here from scratch with
+      Mathematica's own D and Inverse (no file of the Rust program is read for this):
 
         Christoffel  Gamma^a_{bc} = (1/2) g^{ad} (d_b g_dc + d_c g_db - d_d g_bc)
         Riemann      R^a_{bcd} = d_c Gamma^a_{db} - d_d Gamma^a_{cb}
@@ -41,6 +43,14 @@
 
       (Misner-Thorne-Wheeler sign convention, the same as Revision/gkd_lovelock/code/src/geometry.rs.)
 
+      Exact zero test for every real z (LGKDZeroQ; no PowerExpand, no domain 0 < z < Pi/2): Sin[6 H x0] -> sv,
+      Cos[6 H x0] -> cv (both signed), (Sin[6 H x0]^2)^k -> ww^(12 k) and Abs[Sin[6 H x0]]^k -> ww^(6 k) with
+      ww = (Sin[6 H x0]^2)^(1/12) > 0, Abs[Cot[6 H x0]] -> sgn cv/sv and Sign[Cot[6 H x0]] -> sgn; Together; the
+      numerator is reduced modulo the Groebner basis {cv^2 + sv^2 - 1, ww^12 - sv^2, sgn^2 - 1} (leading terms
+      cv^2, ww^12, sgn^2 are pairwise coprime) and must give 0.  LGKDCanonical writes an expression as
+      Together[reduced numerator / reduced denominator] (unique normal forms, so an x0-free value comes out free
+      of sv, cv, ww and sgn) and maps the symbols back.
+
    3. The Lovelock sums of (4.38), with the verbatim k\[Delta] as the weight:
 
         P_(k)^h_j = sum k\[Delta][{j, j1, ..., j2k}, {h, h1, ..., h2k}]
@@ -48,11 +58,12 @@
         A_(k)^{lh} = sqrt(g) g^{jl} P_(k)^h_j     (n = 8, m = n/2 = 4, k = 1, 2, 3).
 
       A vanishing factor R gives a vanishing term, so the sum runs over the k-tuples of the
-      NONZERO entries R^{ab}_{cd} (156 of the 4096).  Two ways are provided:
+      NONZERO entries R^{ab}_{cd} (112 of the 4096 for the corrected metric; 156 for the metric of
+      2026-10-14).  Two ways are provided:
 
       * LGKDLovelockUnpruned: every k-tuple of nonzero entries, k\[Delta] called on each one
         (no shortcut at all); used for k = 1 and k = 2 (all 64 components) and, because it
-        costs 156^3 = 3,796,416 calls of k\[Delta] per component, for selected k = 3 components.
+        costs 112^3 = 1,404,928 calls of k\[Delta] per component, for selected k = 3 components.
       * LGKDLovelockPruned: the same sum, but an entry whose upper (lower) pair repeats an index
         already present in the lower (upper) row of k\[Delta] is skipped: the matrix
         Outer[delta, lower, upper] then has two equal rows (columns), so its determinant is 0
@@ -65,9 +76,10 @@
 
    4. LGKDFromMonomials rebuilds an expression from the exact monomial lists of
       Revision/gkd_lovelock/results/lovelock-tensors.json:
-        [[num, den, [e_H, e_a4', e_a4'', e_a4''', e_a4'''', e_E, e_S, e_C, e_Q, e_b4', e_b4'', e_b4''', e_b4'''']], ...]
-      with E = e^{a4[x4]}, S = Sin[6 H x0]^(1/3), C = Cot[6 H x0], Q = b4[x4]^(1/2) (13 exponents since
-      2026-10-14; a list of 8 exponents, the format before, is refused).
+        [[num, den, [e_H, e_a4', e_a4'', e_a4''', e_a4'''', e_E, e_W, e_C, e_Q, e_b4', e_b4'', e_b4''', e_b4'''', e_G]], ...]
+      with E = e^{a4[x4]}, W = (Sin[6 H x0]^2)^(1/12), C = Cot[6 H x0], Q = b4[x4]^(1/2), G = Sign[Cot[6 H x0]]
+      (14 exponents since 2026-10-16; the lists of 13 exponents (S = Sin[6 H x0]^(1/3), 2026-10-14) and of 8
+      exponents (before) are refused).
 
    Encoding: this file is pure ASCII on purpose (WolframScript on Windows reads source files as
    ISO8859-1, so a literal UTF-8 delta would become a different symbol); k\[Delta] is the
@@ -88,13 +100,15 @@ x5::usage = x0::usage; x6::usage = x0::usage; x7::usage = x0::usage;
 
 LGKDCoordinates::usage = "LGKDCoordinates is {x0, x1, x2, x3, x4, x5, x6, x7} (the author's order).";
 LGKDMetric::usage = "LGKDMetric[] is the author's 8 x 8 test metric (diagonal).";
-LGKDDomainAssumption::usage = "LGKDDomainAssumption is 0 < 6 H x0 < Pi/2 and b4[x4] > 0, where sqrt|det g| = b4[x4]^(3/2) Cos[6 H x0] = b4[x4]^(3/2) Sin[6 H x0] Cot[6 H x0].";
-LGKDCurvature::usage = "LGKDCurvature[] computes the inverse metric, sqrt(det g), the Christoffel symbols, the Riemann tensor R^a_bcd, the mixed Riemann tensor R^ab_cd, the mixed Ricci tensor, the Ricci scalar, the mixed Einstein tensor and the list of nonzero R^ab_cd, all simplified, and returns them in an Association.";
+LGKDAssumptions::usage = "LGKDAssumptions is H > 0, x0 real, a4[x4] real, b4[x4] > 0 (used only to take the root of each |g_aa|; every real z = 6 H x0 is allowed).";
+LGKDZeroQ::usage = "LGKDZeroQ[e] is True when e is exactly 0 for every real z = 6 H x0 with Sin z Cos z != 0 (reduction modulo cv^2 + sv^2 - 1, ww^12 - sv^2, sgn^2 - 1).";
+LGKDCanonical::usage = "LGKDCanonical[e] is e as Together[reduced numerator / reduced denominator] in sv, cv, ww, sgn, mapped back to Sin, Cos, (Sin^2)^(1/12), Sign[Cot] (a normal form valid for every real z).";
+LGKDCurvature::usage = "LGKDCurvature[] computes the inverse metric, sqrt|det g|, the Christoffel symbols, the Riemann tensor R^a_bcd, the mixed Riemann tensor R^ab_cd, the mixed Ricci tensor, the Ricci scalar, the mixed Einstein tensor and the list of nonzero R^ab_cd (the curvature in the normal form of LGKDCanonical, nonzero decided by LGKDZeroQ), and returns them in an Association.";
 LGKDDefinitionText::usage = "LGKDDefinitionText[] is the definition of k\[Delta] held by the kernel, printed in InputForm with the Greek letter written as a Unicode character.";
 LGKDLovelockUnpruned::usage = "LGKDLovelockUnpruned[k, nonzeroEntries, {h, j}] sums over every k-tuple of nonzero R^ab_cd entries, calling k\[Delta] on each; returns <|terms, kDeltaCalls, nonzeroCalls, nonIntegerCalls|>.";
 LGKDLovelockPruned::usage = "LGKDLovelockPruned[k, nonzeroEntries, {h, j}] is the same sum with index lists that repeat an index in a row skipped (k\[Delta] = 0 there); k\[Delta] is called on every remaining list; returns <|terms, kDeltaCalls, nonzeroCalls, nonIntegerCalls|>.";
 LGKDCombine::usage = "LGKDCombine[terms, values] multiplies out the collected terms {sortedTuple, coefficient}: Sum coefficient * Times @@ values[[sortedTuple]].";
-LGKDFromMonomials::usage = "LGKDFromMonomials[list] rebuilds an expression from the exact monomial list [[num, den, [e_H, e_a4', e_a4'', e_a4''', e_a4'''', e_E, e_S, e_C, e_Q, e_b4', e_b4'', e_b4''', e_b4'''']], ...] of lovelock-tensors.json.";
+LGKDFromMonomials::usage = "LGKDFromMonomials[list] rebuilds an expression from the exact monomial list [[num, den, [e_H, e_a4', e_a4'', e_a4''', e_a4'''', e_E, e_W, e_C, e_Q, e_b4', e_b4'', e_b4''', e_b4'''', e_G]], ...] of lovelock-tensors.json (W = (Sin[6 H x0]^2)^(1/12), G = Sign[Cot[6 H x0]]).";
 
 Begin["`Private`"];
 
@@ -116,32 +130,57 @@ LGKDDefinitionText[] := Block[
 (* ------------------------------------------------------------------------------------------ *)
 
 LGKDCoordinates = {x0, x1, x2, x3, x4, x5, x6, x7};
-LGKDDomainAssumption = 0 < 6 H x0 < Pi/2 && b4[x4] > 0;
+LGKDAssumptions = H > 0 && Element[x0, Reals] && Element[a4[x4], Reals] && b4[x4] > 0;
 
 LGKDMetric[] := DiagonalMatrix[{
-  Cot[6 H x0]^2,
-  E^(2 a4[x4]) Sin[6 H x0]^(1/3), E^(2 a4[x4]) Sin[6 H x0]^(1/3), E^(2 a4[x4]) Sin[6 H x0]^(1/3),
+  E^(-2 a4[x4]) b4[x4] Cot[6 H x0]^2,
+  E^(2 a4[x4]), E^(2 a4[x4]), E^(2 a4[x4]),
   -1,
-  -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3), -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3), -E^(-2 a4[x4]) b4[x4] Sin[6 H x0]^(1/3)}];
+  -E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6), -E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6),
+  -E^(-2 a4[x4]) b4[x4] (Sin[6 H x0]^2)^(1/6)}];
+
+(* the exact zero test and normal form for every real z (see the header); the private symbols sv, cv, ww, sgn *)
+zeroVariables = {cv, ww, sgn, sv};
+zeroBasis = {cv^2 + sv^2 - 1, ww^12 - sv^2, sgn^2 - 1};
+trigRules = {
+  Power[Power[Sin[6 H x0], 2], k_] :> ww^(12 k),
+  Power[Abs[Sin[6 H x0]], k_] :> ww^(6 k),
+  Abs[Sin[6 H x0]] -> ww^6,
+  Power[Abs[Cot[6 H x0]], k_] :> (sgn cv/sv)^k,
+  Abs[Cot[6 H x0]] -> sgn cv/sv,
+  Sign[Cot[6 H x0]] -> sgn,
+  Sin[12 H x0] -> 2 sv cv, Cos[12 H x0] -> cv^2 - sv^2,
+  Sin[6 H x0] -> sv, Cos[6 H x0] -> cv, Cot[6 H x0] -> cv/sv, Tan[6 H x0] -> sv/cv,
+  Csc[6 H x0] -> 1/sv, Sec[6 H x0] -> 1/cv};
+backRules = {sv -> Sin[6 H x0], cv -> Cos[6 H x0], ww -> (Sin[6 H x0]^2)^(1/12), sgn -> Sign[Cot[6 H x0]]};
+reduceRing[p_] := Last[PolynomialReduce[Expand[p], zeroBasis, zeroVariables]];
+toRing[e_] := Module[{r = e /. trigRules},
+  If[! FreeQ[r, x0], Print["ERROR: LGKDZeroQ/LGKDCanonical cannot map ", InputForm[e]]; Exit[2]];
+  Together[r]];
+LGKDZeroQ[e_] := Module[{t = toRing[e]}, t === 0 || reduceRing[Numerator[t]] === 0];
+LGKDCanonical[e_] := Module[{t = toRing[e]},
+  If[t === 0, 0, Together[reduceRing[Numerator[t]]/reduceRing[Denominator[t]]] /. backRules]];
 
 LGKDCurvature[] := Module[{n = 8, xs = LGKDCoordinates, g, gi, sqrtg, chr, riem, mixed, ricci, scalar, einstein, nonzero},
   g = LGKDMetric[];
-  gi = Simplify[Inverse[g]];
-  sqrtg = Simplify[Sqrt[Abs[Det[g]]], LGKDDomainAssumption];
+  gi = Inverse[g];
+  (* sqrt|det g| = the product of the roots of |g_aa| (diagonal metric) *)
+  sqrtg = LGKDCanonical[Times @@ (Simplify[Sqrt[Abs[#]], LGKDAssumptions] & /@ Diagonal[g])];
   (* Gamma^a_{bc} = 1/2 g^{ad} (d_b g_dc + d_c g_db - d_d g_bc) *)
-  chr = Table[Simplify[1/2 Sum[gi[[a, d]] (D[g[[d, c]], xs[[b]]] + D[g[[d, b]], xs[[c]]] - D[g[[b, c]], xs[[d]]]), {d, n}]],
+  chr = Table[1/2 Sum[gi[[a, d]] (D[g[[d, c]], xs[[b]]] + D[g[[d, b]], xs[[c]]] - D[g[[b, c]], xs[[d]]]), {d, n}],
     {a, n}, {b, n}, {c, n}];
   (* R^a_{bcd} = d_c Gamma^a_{db} - d_d Gamma^a_{cb} + Gamma^a_{ce} Gamma^e_{db} - Gamma^a_{de} Gamma^e_{cb} *)
-  riem = Table[Simplify[D[chr[[a, d, b]], xs[[c]]] - D[chr[[a, c, b]], xs[[d]]]
+  riem = Table[LGKDCanonical[D[chr[[a, d, b]], xs[[c]]] - D[chr[[a, c, b]], xs[[d]]]
       + Sum[chr[[a, c, e]] chr[[e, d, b]] - chr[[a, d, e]] chr[[e, c, b]], {e, n}]],
     {a, n}, {b, n}, {c, n}, {d, n}];
   (* R^{ab}_{cd} = g^{be} R^a_{ecd} *)
-  mixed = Table[Simplify[Sum[gi[[b, e]] riem[[a, e, c, d]], {e, n}]], {a, n}, {b, n}, {c, n}, {d, n}];
-  ricci = Table[Simplify[Sum[mixed[[a, c, b, c]], {c, n}]], {a, n}, {b, n}];
-  scalar = Simplify[Sum[ricci[[a, a]], {a, n}]];
-  einstein = Table[Simplify[ricci[[a, b]] - 1/2 KroneckerDelta[a, b] scalar], {a, n}, {b, n}];
-  (* the nonzero R^{ab}_{cd}, in lexicographic order of (a, b, c, d) *)
-  nonzero = Flatten[Table[If[mixed[[a, b, c, d]] =!= 0, {{{a, b, c, d}, mixed[[a, b, c, d]]}}, {}],
+  mixed = Table[LGKDCanonical[Sum[gi[[b, e]] riem[[a, e, c, d]], {e, n}]], {a, n}, {b, n}, {c, n}, {d, n}];
+  ricci = Table[LGKDCanonical[Sum[mixed[[a, c, b, c]], {c, n}]], {a, n}, {b, n}];
+  scalar = LGKDCanonical[Sum[ricci[[a, a]], {a, n}]];
+  einstein = Table[LGKDCanonical[ricci[[a, b]] - 1/2 KroneckerDelta[a, b] scalar], {a, n}, {b, n}];
+  chr = Map[LGKDCanonical, chr, {3}];
+  (* the nonzero R^{ab}_{cd} (decided by the exact zero test), in lexicographic order of (a, b, c, d) *)
+  nonzero = Flatten[Table[If[! LGKDZeroQ[mixed[[a, b, c, d]]], {{{a, b, c, d}, mixed[[a, b, c, d]]}}, {}],
     {a, n}, {b, n}, {c, n}, {d, n}], 4];
   <|"metric" -> g, "inverseMetric" -> gi, "sqrtDetG" -> sqrtg, "christoffel" -> chr, "riemann" -> riem,
     "riemannMixed" -> mixed, "ricciMixed" -> ricci, "ricciScalar" -> scalar, "einsteinMixed" -> einstein,
@@ -208,11 +247,11 @@ LGKDCombine[terms_List, values_List] := Module[{grouped},
 
 LGKDFromMonomials[monomials_List] := Total[Map[
   Function[term, Module[{c = term[[1]]/term[[2]], e = term[[3]]},
-    If[Length[e] =!= 13, Print["ERROR: a monomial with ", Length[e], " exponents (13 expected since 2026-10-14)"]; Exit[1]];
+    If[Length[e] =!= 14, Print["ERROR: a monomial with ", Length[e], " exponents (14 expected since 2026-10-16)"]; Exit[1]];
     c H^e[[1]] Derivative[1][a4][x4]^e[[2]] Derivative[2][a4][x4]^e[[3]] Derivative[3][a4][x4]^e[[4]]
-      Derivative[4][a4][x4]^e[[5]] E^(e[[6]] a4[x4]) Sin[6 H x0]^(e[[7]]/3) Cot[6 H x0]^e[[8]]
+      Derivative[4][a4][x4]^e[[5]] E^(e[[6]] a4[x4]) (Sin[6 H x0]^2)^(e[[7]]/12) Cot[6 H x0]^e[[8]]
       b4[x4]^(e[[9]]/2) Derivative[1][b4][x4]^e[[10]] Derivative[2][b4][x4]^e[[11]] Derivative[3][b4][x4]^e[[12]]
-      Derivative[4][b4][x4]^e[[13]]
+      Derivative[4][b4][x4]^e[[13]] Sign[Cot[6 H x0]]^e[[14]]
   ]],
   monomials]];
 
