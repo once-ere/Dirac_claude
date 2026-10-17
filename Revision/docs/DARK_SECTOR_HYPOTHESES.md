@@ -74,7 +74,7 @@ $$
 \frac{dE}{da_4} = -3P_3 - \Big(\frac{\beta}{2} - 1\Big)(P_0 + 3P_t) ,
 $$
 
-and $dp_0/dx_0 + 3H\cot z\,(p_0 - p_t) = 0$, free of $a_4$ and $b_4$ (in $y$: $p_{0,y} + 3H(p_0 - p_t) = 0$). On the history $dE/da_4 = -3P_3 + P_t + P_0/3$: a gas loses energy through the 3-space pressure and gains it through the pressures of the shrinking extra times and the shrinking hidden direction. The records of the volumes and of these identities (the negative control: the form without the terms of the hidden direction and the extra times fails):
+and $dp_0/dx_0 + 3H\cot z\,(p_0 - p_t) = 0$, free of $a_4$ and $b_4$ (in $y$: $p_{0,y} + 3H(p_0 - p_t) = 0$). On the history $dE/da_4 = -3P_3 + P_t + P_0/3$: the 3-space pressure and the pressures of the shrinking extra times and the shrinking hidden direction change the energy with opposite signs. The records of the volumes and of these identities (the negative control: the form without the terms of the hidden direction and the extra times fails):
 
 | record | record | record |
 | --- | --- | --- |
@@ -418,15 +418,19 @@ The reports cited in this document are the committed files of phase W6 (2026-10-
 
 ## 12. Reproduction
 
-From the repository root, in this order. Each script exits 0 only if all its checks pass; its outputs are LF and two runs are byte-identical (the folder READMEs). The dirac16complex scripts write into their own `outputs/` and `reports/` folders, and each reads the outputs of the scripts before it; `run_ks_history.py` needs the built Rust solver (`--solver PATH` selects another binary, `--jobs N` the number of parallel runs) and runs in three parts into a work folder and an assembly (one invocation without `--part` computes everything at once). The dirac16complex00 scripts accept `--out DIR`, and `independent_numerics.py` reads implementation A's `eos-theory.json` for its comparison; the Wolfram verifier reads `eos-theory.json` for its comparison of the required source. The second unittest command and the PDF command are each one command; the backslash is the line continuation of a POSIX shell. Python needs numpy and sympy (no scipy).
+From the repository root, in this order. Each script exits 0 only if all its checks pass; its outputs are LF and two runs are byte-identical (the folder READMEs). The dirac16complex scripts write into their own `outputs/` and `reports/` folders, and each reads the outputs of the scripts before it; `run_ks_history.py` needs the built Rust solver (`--solver PATH` selects another binary, `--jobs N` the number of parallel runs) and runs in three parts into a work folder and an assembly (one invocation without `--part` computes everything at once). The dirac16complex00 scripts accept `--out DIR`, and `independent_numerics.py` reads implementation A's `eos-theory.json` for its comparison; the Wolfram verifier reads `eos-theory.json` for its comparison of the required source. Each `run_ks_history.py` command, the second unittest command and the PDF command are each one command; the backslash is the line continuation of a POSIX shell. Python needs numpy and sympy (no scipy).
 
 ```text
 cargo build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml
 python Revision/dark_sector/dirac16complex/derive/derive_effective.py
-python Revision/dark_sector/dirac16complex/compute/run_ks_history.py --work build/revision/ks-history-work --part 1/3
-python Revision/dark_sector/dirac16complex/compute/run_ks_history.py --work build/revision/ks-history-work --part 2/3
-python Revision/dark_sector/dirac16complex/compute/run_ks_history.py --work build/revision/ks-history-work --part 3/3
-python Revision/dark_sector/dirac16complex/compute/run_ks_history.py --work build/revision/ks-history-work
+python Revision/dark_sector/dirac16complex/compute/run_ks_history.py \
+    --work build/revision/ks-history-work --part 1/3
+python Revision/dark_sector/dirac16complex/compute/run_ks_history.py \
+    --work build/revision/ks-history-work --part 2/3
+python Revision/dark_sector/dirac16complex/compute/run_ks_history.py \
+    --work build/revision/ks-history-work --part 3/3
+python Revision/dark_sector/dirac16complex/compute/run_ks_history.py \
+    --work build/revision/ks-history-work
 python Revision/dark_sector/dirac16complex/compute/compute_eos.py
 python Revision/dark_sector/dirac16complex/independent/independent_free_gas.py
 python Revision/dark_sector/dirac16complex00/python/derive_eos.py

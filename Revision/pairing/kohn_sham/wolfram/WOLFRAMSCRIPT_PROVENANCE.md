@@ -8,7 +8,8 @@ and there is no Z2 orbifold, so the statement S5 and the check of the mirror cop
 checks (statements S1-S4; check 4 is `T3_fold_conditions_exchanged`), its sympy twin `check_t3.py` 12, the completion
 3 (unchanged). Sections 1 to 5 give the files, checks and counts of this version (passages with an earlier date or
 commit describe that version); sections 6.1 to 6.8 describe the earlier versions (10 checks, the brane parities, the
-Z2 mirror), and section 6.9 lists what changed.
+Z2 mirror), section 6.9 lists what changed, and section 6.10 records the text-only corrections of the W6 audit
+(2026-10-17; no check, verdict or count changed).
 
 This file is written for a student who has never used Wolfram or a terminal before. It says what the two
 scripts of the set do, which files they read and write, how to install everything and run them on Windows,
@@ -92,13 +93,15 @@ to detect a false statement. The other four checks (2, 4, 5 and 9) have no contr
 | # | check name | what is proved (in words) |
 | --- | --- | --- |
 | 1 | `T3C_mean_field_coefficients_from_ks_theory` | the coefficients 15/16 (M_eff) and -1/16 (v_v) read from `ks-theory.json`, its formulas `Meff`, `vv` and `e_int` as stated text; M_eff - m = d e_int/dS, v_v = d e_int/dn; M_eff(-m, +lambda, -S) = -M_eff(m, lambda, S), e_int even in S, v_v free of S; control: with (-m, -lambda) M_eff is not mapped to -M_eff |
-| 2 | `T3C_filling_convention_mapped` | the map commutes with the continuation in lambda of the filling convention (hypothesis H5) for any S(y), both j; the k = 0 brane zero mode (E^(M y), 0) goes to the zero mode (0, I E^(M y)) of the image problem in its own boundary conditions (odd parity, tip theta = pi); control: it violates the untransformed tip theta = 0 |
+| 2 | `T3C_filling_convention_mapped` | the map commutes with the continuation in lambda of the filling convention (hypothesis H5) for any S(y), both j; the k = 0 fold zero mode (E^(f M y), 0) (f > 0 the hidden scale) goes to the zero mode (0, I E^(f M y)) of the image problem in its own boundary conditions (the other fold condition a(0) = 0, tip theta = pi); control: it violates the untransformed tip theta = 0 |
 | 3 | `T3C_krein_rule_16_component` | with gamma^(x0..x7), B, C and Gamma read from `gammas.json` and the expectation rule rho = sum f u u^dagger B (`ks-theory.json` `exchange.expectationRule`): Gamma^2 = 1, Gamma B Gamma = -B, Gamma C Gamma = C, Gamma gamma^a Gamma = -gamma^a, Gamma S^ab Gamma = S^ab; rho' = -Gamma rho Gamma; n even, S and Q odd, all 8 + 512 kinetic bilinears even: every component of the energy-momentum tensor and of the current is equal for the pair (S6) |
 
-The completion record `t3-completion.json` (and the detail text of its check 1) describes `verify_t3.wls` as
-it was when the completion was written (2026-10-08, before the fix of section 1.5): "writes the coefficients
-into the script" and "its v_v clause compares an expression with itself". That is the historical state that
-the completion closed (gap 1); since the fix of section 1.5, `verify_t3.wls` reads the coefficients itself.
+The completion record `t3-completion.json` (gap 1) and the detail text of its check 1 describe, in the past
+tense (since the text-only corrections of 2026-10-17, section 6.10), the state of `verify_t3.wls` that the
+completion closed: until 2026-10-08 `verify_t3.wls` wrote the coefficients 15/16, -1/16, 15/32, -1/32 into
+the script instead of reading `ks-theory.json`, and its v_v clause `vvf[lam, n] === vvf[lam, n]` compared an
+expression with itself. Both were fixed on 2026-10-08 (sections 1.5 and 6.5); since then `verify_t3.wls`
+reads the coefficients itself, as `check_t3.py` does.
 Unlike `verify_t3.wls`, the completion script has no `ERROR` exit: a missing input gives Wolfram messages and
 `FAIL` lines (section 3.7).
 
@@ -188,12 +191,14 @@ file `ks-theory.json` writes every `/` as `\/` (for example `"15\/16"`); a JSON 
 | file | written by | sha256 | lines | bytes | content |
 | --- | --- | --- | --- | --- | --- |
 | `Revision/pairing/kohn_sham/t3-theory.json` | `verify_t3.wls` | `e2ba471cf17b44b04fb4ecf0ed1c9d9d44d335fd05aebce2fdee502b4bdd9720` | 53 | 7313 | the theorem record: hypotheses H1-H6, statements S1-S4, proof, the 9 check names, what is not established; line 9 `  "status": "all checks of the report passed",` |
-| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | `verify_t3.wls` | `771c8ecb9a8e96df65d8a664a8f6b26d8beba0bab31d01abd6eea54ed6b4032c` | 18 | 6946 | the report; line 6 `  "summary": {"passed": 9, "failed": 0, "total": 9},`; name, verdict and detail of each check |
-| `Revision/pairing/kohn_sham/t3-completion.json` | `verify_t3_completion.wls` | `74c0f9adeb9d8c92ab7d1b7f3d7f61af8ff90d9ee827d0c8a4db3899be737909` | 38 | 8165 | the completion record: S6, the filling convention for the pair, the PRESCRIBED BACKGROUND, the adversarial verification, the 3 check names, what is not established; line 6 `  "status": "all checks of the report passed",` |
-| `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` | `verify_t3_completion.wls` | `45e4690e475bfe8b40b866407cfaa18eff7c109652ee8dea91db0d3080c699d0` | 12 | 3374 | the report; line 6 `  "summary": {"passed": 3, "failed": 0, "total": 3},` |
+| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | `verify_t3.wls` | `960d5c7499dc8fa9d153c4666a015dd39d6795f521907e45ea6e369cbd2c716e` | 18 | 7119 | the report; line 6 `  "summary": {"passed": 9, "failed": 0, "total": 9},`; name, verdict and detail of each check |
+| `Revision/pairing/kohn_sham/t3-completion.json` | `verify_t3_completion.wls` | `4e47e229a1a38be1c79e1eb9dd04d8a59c98e0a00be811909f0b6d992cfb5614` | 38 | 8570 | the completion record: S6, the filling convention for the pair, the PRESCRIBED BACKGROUND, the adversarial verification, the 3 check names, what is not established; line 6 `  "status": "all checks of the report passed",` |
+| `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` | `verify_t3_completion.wls` | `6a16ffe8427e4a47a9ba65ba9d87a5183a44f05190131e9a0bb15111c90c1b67` | 12 | 3483 | the report; line 6 `  "summary": {"passed": 3, "failed": 0, "total": 3},` |
 
-The four files contain only fixed text and integer check counts (no dates, times, machine names or
-floating-point numbers), so a passing run reproduces them byte for byte. If a check fails, the counts, the
+The four files contain only fixed text and integer check counts (no date or time of the run, no machine name
+and no computed floating-point number; the dates and decimal numbers in them, for example `2026-10-08`, the
+slices `0.5, 1, 1.5` or `section 6.5`, are part of the fixed text of the scripts), so a passing run reproduces
+them byte for byte (the values above are those of the runs of 2026-10-17, section 6.10). If a check fails, the counts, the
 verdict of that check and the `status` line of the record change. `wolfram-t3.json` had the sha256
 `904fd1dcb77a6772f7ef21dcabe10d194d8086f509e17df54830bd7f7fb999ab` (6448 bytes) before the fix of section 1.5.
 
@@ -203,7 +208,7 @@ verdict of that check and the `status` line of the record change. `wolfram-t3.js
 | --- | --- | --- | --- |
 | `Revision/pairing/kohn_sham/python/check_t3.py` | `46746d766d8c5710e5990e99e003ebd1c857cd848b9d9ddef6d70a2f960e486e` | 318 | 20645 |
 | `Revision/pairing/kohn_sham/python/check_t3_completion.py` | `64ad17e374773467b6221364a4faebfb8b723d2f20297356f19e190d3fe35eff` | 230 | 14780 |
-| `Revision/pairing/kohn_sham/reports/python-t3.json` (written by `check_t3.py`) | `4f78bb0a1a92c765b879ef9b7cf660dc9dd9f229e8c71b1ba173da90fe412d3a` | 80 | 7523 |
+| `Revision/pairing/kohn_sham/reports/python-t3.json` (written by `check_t3.py`) | `e2aadcdb585c79552c01bf9d2d46b96df3a79a480a20cdbcb837299ad74f71d2` | 80 | 7686 |
 | `Revision/pairing/kohn_sham/reports/python-t3-completion.json` (written by `check_t3_completion.py`) | `8c1e7a46f99ab8e59cda55a9c686eae6a9703da1031ef1312fe21a7eff256cc1` | 49 | 5112 |
 
 `check_t3.py` also reads `Revision/kohn_sham/reports/ks-rust-solver.json`; `check_t3_completion.py` also reads
