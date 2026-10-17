@@ -18,9 +18,12 @@ section 1); the records of the withdrawn metrics are in the git history.
 Inputs: `Revision/kohn_sham/ks-theory.json` (the Kohn-Sham problem: block equation, functional, densities,
 energy-momentum tensor, boundary conditions, block basis V, expectation rule), `Revision/algebra/gammas.json`, and for
 the demonstrations the solvers `Revision/kohn_sham/solver` (Rust, `single` subcommand) and
-`Revision/kohn_sham/reference/ks_fd.py` (used read only), `Revision/kohn_sham/results/parameters.json` (the N and
-lambda of the canonical matrix), `results/ground/summary.csv` and `results/thermo/thermodynamics.csv` (the +M runs must
-reproduce them) and `Revision/field_equations_a4/reports/ks-source-conditions.json`.
+`Revision/kohn_sham/reference/ks_fd.py` and `run_reference.py` (used read only),
+`Revision/kohn_sham/results/parameters.json` (the N and lambda of the canonical matrix),
+`Revision/kohn_sham/results/ground/summary.csv` and `Revision/kohn_sham/results/thermo/thermodynamics.csv` (the +M runs
+must reproduce them), `Revision/field_equations_a4/reports/ks-source-conditions.json`,
+`Revision/kohn_sham/reports/ks-rust-solver.json` (the solver self-test read by `check_t3.py`) and
+`numerics/results/t3-rust-states.csv` (read by the reference demonstration).
 
 ## The prescribed background
 
@@ -28,7 +31,8 @@ The metric is the corrected metric diag(e^{-2 a4} b4 cot^2 z, e^{2 a4} (x3), -1,
 z = 6 H x0 real. T3 is a statement at a fixed slice a4,0 = a4(x4), b4,0 = b4(x4) and uses no history: a4 and b4 enter
 the block Hamiltonians h_j = j[-(i/f) sigma1 d_y + M_eff sigma2 + kappa k sigma3] + v_v only through the positive
 constants f = e^{-a4} b4^{1/2} (the hidden scale) and kappa = e^{-a4} of the slice, and the proper densities through
-the cell volume Vol_7, so T3 holds for every a4 and b4. The demonstrations solve the slices a4,0 = 0, 0.5, 1, 1.5, 2
+the cell volume Vol_7, so T3 holds for every a4 and b4. The Rust demonstration solves the slices
+a4,0 = 0, 0.5, 1, 1.5, 2 (the reference demonstration the slices 0, 1, 2: N = 8 at a4,0 = 0, 1, 2 and N = 592 at 0, 2)
 of the Kohn-Sham history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} (A = 1), along which the extra times x5, x6, x7
 deflate exponentially (scale factor e^{-a4} b4^{1/2} (sin^2 z)^{1/12} = b4(0)^{1/2} e^{-a4/3} (sin^2 z)^{1/12}); the
 coupling of each tag is the solvers' lambda_hat, held fixed while the cell volume
@@ -56,8 +60,9 @@ Each exits with code 0 only if every check passes; two runs give byte-identical 
 demonstration compares its -M universe with the Rust table, so it runs after the Rust demonstration; the sympy
 completion checker reads both demonstration reports, so it runs last. The demonstrations run in parts (each part
 solves a fixed subset of the single runs and stores them in its work folder; `--reuse` assembles them and writes the
-outputs as one run would), because on the matrix of the corrected metric one invocation does not fit into the limit
-of 423 s of one calculation (`claude_failures.md` H18). Run times on the development machine, 2026-10-17: the T3
+outputs as one run would), because on the matrix of the corrected metric one invocation of the reference demonstration
+does not fit into the limit of 423 s of one calculation (`claude_failures.md` H18), and the Rust demonstration is split
+so that every step stays well below that limit. Run times on the development machine, 2026-10-17: the T3
 verifiers 5.8 s and 1.3 s, the completion 2.9 s and 0.9 s; the Rust demonstration 630 `single` runs with `--jobs 10`
 in four parts of 88, 91, 76 and 67 s and an assembly of 2 s; the reference demonstration (54 members on three grids,
 `--jobs 22`, one BLAS thread per process) in six parts of 219, 170, 78, 122, 115 and 91 s (the 162 grid runs, 18 states x plus, image, control x G = 300, 600, 1200, assigned longest-first by an estimated cost) and an assembly of 2 s.
@@ -96,7 +101,13 @@ closed (details in `t3-completion.json` adversarial_verification):
 
 On 2026-10-17 (the corrected metric) the four verifiers were run again and reproduced `t3-theory.json`,
 `reports/wolfram-t3.json` (9/9), `reports/python-t3.json` (12/12) and `reports/wolfram-t3-completion.json` (3/3) byte
-for byte; `reports/python-t3-completion.json` (7/7) reads the two demonstration reports and changes with them.
+for byte; `reports/python-t3-completion.json` (7/7) reads the two demonstration reports and changes with them. After
+that run the detail texts were corrected, text only (no computation, check or count changed): in `verify_t3.wls` and
+`check_t3.py` the exact k = 0 spectra carry the hidden scale f (chi' = f N chi, computed at f = 1), and in
+`verify_t3_completion.wls` the fix of 2026-10-08 is stated in the past tense, the gamma index runs over x0, ..., x7 and
+Gap 5 records the regeneration of `t3-theory.json` for the corrected metric. `t3-theory.json` does not contain these
+texts; `reports/wolfram-t3.json`, `reports/python-t3.json`, `t3-completion.json` and
+`reports/wolfram-t3-completion.json` differ from those of that run only in them.
 
 ## The numerical demonstrations (not part of the proof)
 
@@ -124,7 +135,7 @@ tip theta = pi); control = (-m, +lambda) with the UNtransformed tip theta = 0. N
   the reference's frame for theta = 0; exact k = 0 image spectra to 2.80e-14). Every member is solved with the
   reference's `solve_state_robust` (one member, the control of N8_lamm2_a00 on G = 1200, needed its coupling
   continuation). Image = plus to 1.332e-14 (ground) and 3.159e-14 (thermal) after Richardson extrapolation, while on a
-  single grid the two discretisations differ by up to 1.81e-4 (the image frame is not the discrete image of the plus
+  single grid the levels of the two members differ by up to 1.81e-4 (the image frame is not the discrete image of the plus
   frame: this equality is the discretisation-independent test, a continuum statement). With the untransformed tip the
   density profile differs by at least 3.776 of its maximum (N592_lamp2_a00) in all 18 states. The -M universe of the
   reference and of the Rust solver agree to 7.311e-11 (N592_lamp1_a20_T50). The six-part run of 2026-10-17 (the grid split) and the earlier four-part run (one member per task) wrote byte-identical `reports/t3-reference-demo.json` and `numerics/results/t3-reference-states.csv`: the outputs do not depend on how the work is divided.

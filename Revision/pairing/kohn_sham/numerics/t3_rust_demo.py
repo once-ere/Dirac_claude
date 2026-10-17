@@ -12,23 +12,20 @@ the Rust solver (Revision/kohn_sham/solver), for every state of the canonical ma
   control  negative control: (-m, +lambda), tip theta = 0          (the UNtransformed boundary condition)
 
 and compares them: T3 predicts EQUAL levels (sector (n2, j, fold condition) of plus <-> sector (n2, -j, other fold
-condition) of
-image), occupations, Kohn-Sham energy, chemical potential, entropy, grand potential, free energy, energy-momentum
-integrals and profiles, with S, Q and M_eff changing sign; the control must differ.  A second control compares plus
-with the image of the opposite coupling, (-m, -lambda, pi) (the T1 parameter map): it must differ too.
+condition) of image), occupations, Kohn-Sham energy, chemical potential, entropy, grand potential, free energy,
+energy-momentum integrals and profiles, with S, Q and M_eff changing sign; the control must differ.  A second control
+compares plus with the image of the opposite coupling, (-m, -lambda, pi) (the T1 parameter map): it must differ too.
 
 States: the slices a4,0 in {0, 0.5, 1, 1.5, 2} of the history a4 = A H x4 (A = 1), b4 = b4(0) e^{(4/3) A H x4} of the
 corrected primordial metric of 2026-10-16 (version 2; SPEC section 1), with the extra times x5, x6, x7 DEFLATING
 exponentially (scale factor e^{-a4} b4^{1/2} (sin^2 z)^{1/12} = b4(0)^{1/2} e^{-a4/3} (sin^2 z)^{1/12} on the history).
-This history is a
-PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus): the Kohn-Sham states violate the source conditions
-of the a4 and b4 equations (Revision/field_equations_a4/reports/ks-source-conditions.json), so the gas is a test field
-without back-reaction.  T3 holds slice by slice; it does not use the history (a4 and b4 enter the block
-Hamiltonians h_j only through the positive constants f = e^{-a4} b4^{1/2} and kappa = e^{-a4} of the slice).  N and
-lambda_hat (the solver's coupling, held fixed along the history while the cell volume
+This history is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus): the Kohn-Sham states violate the
+source conditions of the a4 and b4 equations (Revision/field_equations_a4/reports/ks-source-conditions.json), so the
+gas is a test field without back-reaction.  T3 holds slice by slice; it does not use the history (a4 and b4 enter the
+block Hamiltonians h_j only through the positive constants f = e^{-a4} b4^{1/2} and kappa = e^{-a4} of the slice).
+N and lambda_hat (the solver's coupling, held fixed along the history while the cell volume
 Vol_7(a4,0) = ell^3 v_t e^{(2 beta - 1) a4,0} = ell^3 v_t e^{(5/3) a4,0} grows; `single --lambda`) are those of the
-canonical matrix
-(Revision/kohn_sham/results/parameters.json): 75 ground states and 135 thermal (Mermin) states.
+canonical matrix (Revision/kohn_sham/results/parameters.json): 75 ground states and 135 thermal (Mermin) states.
 
 Usage (from the repository root; the solver built from the committed sources, e.g.
   cargo build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml):

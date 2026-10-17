@@ -2,7 +2,7 @@
 
 The generated parts (reflection table, one-particle samples, signs of P_n, per-theorem check tables, count table) are
 made from the Revision records; the parts that need the W5/W6 records are read from the text files next to this script
-(pair_ks_theory.md, pair_ks_source.md, pair_demos.md, pair_runs.md) and must exist.
+(pair_ks_theory_ingredients.md, pair_ks_source_paragraph.md, pair_demos.md, pair_runs.md) and must exist.
 """
 import json
 import re

@@ -6,8 +6,9 @@ h_j = j[-(i/f) sigma1 d_y + M_eff sigma2 + kappa k sigma3] + v_v only through th
 kappa = e^(-a4) of a slice; the fold z = pi/2 joins the two halves of a cell, both fold conditions are filled (ASSUMED),
 and there is no Z2 orbifold, so the statement S5 and the check of the mirror copy were removed: `verify_t3.wls` has 9
 checks (statements S1-S4; check 4 is `T3_fold_conditions_exchanged`), its sympy twin `check_t3.py` 12, the completion
-3 (unchanged). The text of sections 1 to 6.8 describes the earlier versions (10 checks, the brane parities, the Z2
-mirror); section 6.9 lists what changed.
+3 (unchanged). Sections 1 to 5 give the files, checks and counts of this version (passages with an earlier date or
+commit describe that version); sections 6.1 to 6.8 describe the earlier versions (10 checks, the brane parities, the
+Z2 mirror), and section 6.9 lists what changed.
 
 This file is written for a student who has never used Wolfram or a terminal before. It says what the two
 scripts of the set do, which files they read and write, how to install everything and run them on Windows,
@@ -21,7 +22,7 @@ Everything you need is in this file.
 The set is two WolframScript files in `Revision/pairing/kohn_sham/wolfram/`:
 
 1. `verify_t3.wls` proves theorem T3 ("the Kohn-Sham level of the pairing of universes of masses +m and -m")
-   by exact symbolic algebra (10 checks) and writes the theorem record `Revision/pairing/kohn_sham/t3-theory.json`
+   by exact symbolic algebra (9 checks) and writes the theorem record `Revision/pairing/kohn_sham/t3-theory.json`
    and the check report `Revision/pairing/kohn_sham/reports/wolfram-t3.json`.
 2. `verify_t3_completion.wls` adds three exact checks that complete T3 (statement S6 and the filling convention
    of the image) and writes the completion record `Revision/pairing/kohn_sham/t3-completion.json` and the check
@@ -35,11 +36,12 @@ two independent sympy checkers of section 3.8 are not part of the set but read i
 
 - The repository studies a field with 16 complex components (called `dirac16complex`) living in an
   8-dimensional space-time chosen by the author. The coordinates are the author's {x0, x1, ..., x7}:
-  x0 is a hidden direction, written as y = ln(sin z)/(6 H) with y between -L and 0; x1, x2, x3 are ordinary
-  3-space; x4 is time; x5, x6, x7 are three extra "times" that deflate exponentially. The metric is the
-  author's metric with the function b4(x4) in its three extra-time components (`Revision/SPEC.md` section 1; b4
-  is never 1); b4 does not enter the block Hamiltonians below, only the cell volume of the densities, so T3
-  holds for every b4. The end y = 0 is called the brane, the end y = -L is called the tip.
+  x0 is a hidden direction, written as y = ln|sin z|/(6 H) with z = 6 H x0 real and y between -L and 0; x1,
+  x2, x3 are ordinary 3-space; x4 is time; x5, x6, x7 are three extra "times" that deflate exponentially. The
+  metric is the corrected primordial metric of 2026-10-16 (version 2; `Revision/SPEC.md` section 1); a4 and b4
+  enter the block Hamiltonians below only through the constants f = e^(-a4) b4^(1/2) and kappa = e^(-a4) of a
+  slice, so T3 holds slice by slice for every a4 and b4. The end y = 0 is the fold cos z = 0, where the two
+  halves of a cell meet; the end y = -L is called the tip.
 - The Kohn-Sham method is the method behind density-functional theory (DFT). Instead of solving the full
   many-particle problem, every particle moves in an averaged field produced by the densities of all the
   particles; the averaged field depends on the densities, and the densities depend on the orbitals, so the
@@ -47,14 +49,15 @@ two independent sympy checkers of section 3.8 are not part of the set but read i
   repository (`Revision/kohn_sham/ks-theory.json`) the 16 components split into eight independent 2 x 2
   blocks. A block is labelled by a sign j = +1 or -1 (and two more signs, s2 and s3); in each block an
   orbital is a 2-component function chi(y) = (chi1(y), chi2(y)) of the hidden coordinate y, and the block
-  Hamiltonian is h_j = j[-i sigma1 d/dy + M_eff(y) sigma2 + kappa(y) k sigma3] + v_v(y), with the Pauli
-  matrices sigma1, sigma2, sigma3, the effective mass M_eff = m + (15/16) lambda S, the potential
-  v_v = -lambda n/16, the bare mass m, the coupling lambda, the scalar density S and the particle density n.
+  Hamiltonian is h_j = j[-(i/f) sigma1 d/dy + M_eff(y) sigma2 + kappa k sigma3] + v_v(y) (f = e^(-a4) b4^(1/2)
+  and kappa = e^(-a4), constants on a slice), with the Pauli matrices sigma1, sigma2, sigma3, the effective
+  mass M_eff = m + (15/16) lambda S, the potential v_v = -lambda n/16, the bare mass m, the coupling lambda,
+  the scalar density S and the particle density n.
   (Both scripts READ the coefficients 15/16 and -1/16 and the interaction energy
   e_int = (15/32) lambda S^2 - (1/32) lambda n^2 from `ks-theory.json`.)
 - Theorem T3 says: take ANY self-consistent Kohn-Sham state of a universe with mass m, coupling lambda and
   tip angle theta. Replace every orbital chi of block j by sigma2 chi in block -j (in the 16-component
-  language this is the chirality matrix Gamma), exchange the two brane parities and change the tip angle to
+  language this is the chirality matrix Gamma), exchange the two fold conditions and change the tip angle to
   pi - theta. The result is again a self-consistent Kohn-Sham state, of a universe with mass -m, the SAME
   coupling +lambda and tip angle pi - theta. All energy levels, occupations, the chemical potential, the
   particle number, the entropy, the Kohn-Sham energy, the grand potential, the free energy and the
@@ -68,22 +71,21 @@ two independent sympy checkers of section 3.8 are not part of the set but read i
 
 The script does not solve any equation numerically. Each check builds an expression from arbitrary symbolic
 functions (for example M(y), kappa(y), v(y), c1(y), c2(y)) and symbolic numbers, asks Wolfram to simplify it,
-and passes only if the result is exactly zero. Five of the ten checks (checks 1, 3, 6, 7 and 8) also contain
+and passes only if the result is exactly zero. Five of the nine checks (checks 1, 3, 6, 7 and 8) also contain
 a "control": a deliberately wrong variant that must NOT simplify to zero, which shows that the check is able
-to detect a false statement. The other five checks (2, 4, 5, 9 and 10) have no control.
+to detect a false statement. The other four checks (2, 4, 5 and 9) have no control.
 
 | # | check name | what is proved (in words) | control (must fail) |
 | --- | --- | --- | --- |
 | 1 | `T3_block_hamiltonian_map` | sigma2 h_j(M, k, v) chi = h_(-j)(-M, k, v)(sigma2 chi) for arbitrary functions M(y), kappa(y), v(y), any k, both j: an orbital with level eps goes to an orbital with the same level eps | the identity without M -> -M |
 | 2 | `T3_ode_map` | the same statement for the first-order "shooting" form chi' = N chi: sigma2 N_j(M) sigma2 = N_(-j)(-M) | none |
 | 3 | `T3_tip_condition_map` | the tip condition with angle theta becomes the tip condition with angle pi - theta (theta = 0 goes to theta = pi) | the image of (1, 0) violates the untransformed condition theta = 0 |
-| 4 | `T3_brane_parities_exchanged` | the two brane parities (chi2(0) = 0 and chi1(0) = 0) are exchanged; the boundary current and the norm are unchanged | none |
+| 4 | `T3_fold_conditions_exchanged` | the two fold conditions (chi2(0) = 0 and chi1(0) = 0; both solved and filled, ASSUMED, as `ks-theory.json` `boundaryConditions.fold` states) are exchanged; the boundary current and the norm are unchanged | none |
 | 5 | `T3_orbital_densities` | per orbital: n and t are unchanged, s and q change sign, c is unchanged (for arbitrary complex chi, both j) | none |
 | 6 | `T3_mean_field_map` | the coefficients c_M, c_v of M_eff = m + c_M lambda S and v_v = c_v lambda n are READ from `ks-theory.json` (`exchange.kohnShamPotentials`), and c_S, c_n of e_int = c_S lambda S^2 + c_n lambda n^2 are parsed from its stated formula. Consistency: they are the values 15/16, -1/16, 15/32, -1/32 of hypothesis H2; the coefficient fields agree with the stated formulas `Meff` and `vv`; M_eff - m = d e_int/dS and v_v = d e_int/dn. Map: M_eff(-m, +lambda, -S) = -M_eff(m, lambda, S); with v_v written as a function v_v(m, lambda, n, S) of the four arguments of the self-consistency loop, its value at the image arguments (-m, +lambda, n, -S) equals its value at (m, lambda, n, S); e_int is unchanged when S -> -S | with (-m, -lambda): M_eff is not mapped to -M_eff (difference 2 c_M lambda S) and v_v(-m, -lambda, n, -S) differs from v_v(m, lambda, n, S) (difference -2 c_v lambda n) |
 | 7 | `T3_energies_and_emt_profiles_equal` | for two general occupied orbitals of opposite block type: energy density, pressures p3, p_t, p0, the Kohn-Sham energy integrand, entropy terms and the exact-Fock diagnostic are equal; S and Q change sign (the same function v_v(m, lambda, n, S) of check 6 enters p0) | with (-m, -lambda) the energy integrand differs |
 | 8 | `T3_exact_k0_spectra` | for k = 0, v = 0 and constant M the exact characteristic functions of the original and the image problem agree, so the spectra are equal level by level; the zero mode maps to the zero mode | the untransformed tip gives a different spectrum |
 | 9 | `T3_Gamma_is_the_block_map` | with the block basis V read from `ks-theory.json` and the matrices read from `gammas.json`: V is unitary, Gamma = diag(-1 (8 times), +1 (8 times)), Gamma maps block (j, s2, s3) to block (-j, s2, s3) times s2 sigma2, and in every block gamma^(x0) = sigma3 and gamma^(x0) gamma^(x4) = j sigma1 | none |
-| 10 | `T3_z2_mirror_copy_carries_minus_m_plus_lambda` | inside the ASSUMED Z2 mirror (orbifold) construction, the mirror copy of a self-consistent state carries (-m, +lambda) | none |
 
 ### 1.4 What `verify_t3_completion.wls` computes
 
@@ -117,10 +119,11 @@ or unreadable, instead of running on with Wolfram messages.
 
 What T3 does NOT establish (the theorem record says this explicitly): no creation process, rate or amplitude
 (it maps solutions to solutions; it does not make a pair of universes); only instantaneous (adiabatic)
-mean-field states (the time-dependent problem is open); the Z2 brane is an ASSUMPTION and the tip angle must
-be transformed; no correlation beyond Hartree plus exchange; no statement about two independently quantised
-universes; no back-reaction on the geometry. The pairing proved here is (m, lambda) -> (-m, +lambda) at
-equal energies, not (m, lambda) -> (-m, -lambda). The completion adds no creation process either; its
+mean-field states (the time-dependent problem is open); filling both fold conditions is an ASSUMPTION (the
+corrected metric has no mirror copy: both halves of a cell carry the same state, so T3 relates two Kohn-Sham
+problems, not a universe and its mirror image) and the tip angle must be transformed; no correlation beyond
+Hartree plus exchange; no statement about two independently quantised universes; no back-reaction on the
+geometry. The pairing proved here is (m, lambda) -> (-m, +lambda) at equal energies, not (m, lambda) -> (-m, -lambda). The completion adds no creation process either; its
 numerical demonstrations (computed elsewhere) use a PRESCRIBED BACKGROUND history a4 = A H x4,
 b4 = b4(0) e^((4/3) A H x4) without back-reaction.
 
@@ -155,23 +158,28 @@ nothing).
 
 | file | sha256 | lines | bytes |
 | --- | --- | --- | --- |
-| `Revision/pairing/kohn_sham/wolfram/verify_t3.wls` | `8ab3941140fa52e692ae34eb813963fedd4b0fc8fc76a85ae5c7dad3a3fd194e` | 251 | 27943 |
-| `Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls` | `1f2cc3546007022d951e131c26aaddbcdfc4f67e4137f40fec15842a521f28ea` | 140 | 18204 |
+| `Revision/pairing/kohn_sham/wolfram/verify_t3.wls` | `59b66da9b54c8ad400285786fdba0a35a5f10ba984a0cd66b32c5ecf5ccabb5a` | 245 | 27864 |
+| `Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls` | `98fa8a10fccf2c9a56b89f1a0789b395d1b9f6c7ecd8ebdfda33c60c415be38c` | 143 | 19638 |
 
 There is no package file: neither script loads a Wolfram package (`Get`/`Needs` are not used) and neither
 takes command-line arguments. Each finds its input and output files relative to its own location
 (`$InputFileName`), so it does not depend on the folder you run it from - but `wolframscript` must find the
 script itself, so the commands of section 3.5 are typed in the repository root.
+If the environment variable REVISION_DIR is set, both scripts read their two inputs (`kohn_sham/ks-theory.json`
+and `algebra/gammas.json`) from that folder instead of the `Revision` folder of the repository (used to run on a
+copy); their outputs are always written relative to the scripts' own location, in `Revision/pairing/kohn_sham/`
+and its `reports/` folder. Leave REVISION_DIR unset for a normal run.
 
 ### 2.2 Inputs (read only, never modified)
 
 | file | sha256 | lines | bytes | what is read | produced by |
 | --- | --- | --- | --- | --- | --- |
-| `Revision/kohn_sham/ks-theory.json` | `e3e2869216e2744f83a2888067e5ed9599bf2ddff46cfd876da3fb7c729ba0f0` | 480 | 20302 | both scripts: `exchange.kohnShamPotentials` (`Meff_coefficient_of_lambda_S` = `15/16`, `vv_coefficient_of_lambda_n` = `-1/16`, the formulas `Meff`, `vv`, `e_int`); `verify_t3.wls` also `blockBasis.unnormalisedColumns2Sqrt2V` and `blockBasis.labels`; the completion also `exchange.expectationRule` | `Revision/kohn_sham/theory/verify_ks_theory.wls` |
+| `Revision/kohn_sham/ks-theory.json` | `34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` | 484 | 21739 | both scripts: `exchange.kohnShamPotentials` (`Meff_coefficient_of_lambda_S` = `15/16`, `vv_coefficient_of_lambda_n` = `-1/16`, the formulas `Meff`, `vv`, `e_int`); `verify_t3.wls` also `boundaryConditions.fold` (the statement), `blockBasis.unnormalisedColumns2Sqrt2V` and `blockBasis.labels`; the completion also `exchange.expectationRule` | `Revision/kohn_sham/theory/verify_ks_theory.wls` |
 | `Revision/algebra/gammas.json` | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` | 1405 | 76894 | `gamma` (gamma^(x0) ... gamma^(x7)) and `Gamma` (the chirality); the completion also `B` and `C` | `Revision/algebra/wolfram/verify_algebra.wls` |
 
-In `verify_t3.wls` checks 6, 7 and 10 use the Kohn-Sham coefficients read from `ks-theory.json` and check 9
-uses the block basis and the matrices; checks 1 to 5 and 8 use only formulas written in the script. Note: the
+In `verify_t3.wls` checks 6 and 7 use the Kohn-Sham coefficients read from `ks-theory.json`, check 4 reads its
+fold statement (`boundaryConditions.fold`), and check 9 uses the block basis and the matrices; checks 1 to 3, 5
+and 8 use only formulas written in the script. Note: the
 file `ks-theory.json` writes every `/` as `\/` (for example `"15\/16"`); a JSON reader turns this back into
 `15/16`.
 
@@ -179,10 +187,10 @@ file `ks-theory.json` writes every `/` as `\/` (for example `"15\/16"`); a JSON 
 
 | file | written by | sha256 | lines | bytes | content |
 | --- | --- | --- | --- | --- | --- |
-| `Revision/pairing/kohn_sham/t3-theory.json` | `verify_t3.wls` | `a543bcfaf3e495d48765b54813adf046d1fe8ec0801f6e39af2c7279b11a186f` | 55 | 7322 | the theorem record: hypotheses H1-H6, statement S1-S5, proof, the 10 check names, what is not established; line 9 `  "status": "all checks of the report passed",` |
-| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | `verify_t3.wls` | `f0e6d4c2763e362533f2a5a8be59163a7129dc0da1a7d9b8a1587b4b5b8f7891` | 19 | 7358 | the report; line 6 `  "summary": {"passed": 10, "failed": 0, "total": 10},`; name, verdict and detail of each check |
-| `Revision/pairing/kohn_sham/t3-completion.json` | `verify_t3_completion.wls` | `05afc634f1e0d78e88a5f5f0637e38a761a972db0bd39c5947aef0153398e96d` | 38 | 7757 | the completion record: S6, the filling convention for the pair, the PRESCRIBED BACKGROUND, the adversarial verification, the 3 check names, what is not established; line 6 `  "status": "all checks of the report passed",` |
-| `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` | `verify_t3_completion.wls` | `ae3225b81be13536f511b803854e96605ec40f3939c256387dbca3160d701ea0` | 12 | 3309 | the report; line 6 `  "summary": {"passed": 3, "failed": 0, "total": 3},` |
+| `Revision/pairing/kohn_sham/t3-theory.json` | `verify_t3.wls` | `e2ba471cf17b44b04fb4ecf0ed1c9d9d44d335fd05aebce2fdee502b4bdd9720` | 53 | 7313 | the theorem record: hypotheses H1-H6, statements S1-S4, proof, the 9 check names, what is not established; line 9 `  "status": "all checks of the report passed",` |
+| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | `verify_t3.wls` | `771c8ecb9a8e96df65d8a664a8f6b26d8beba0bab31d01abd6eea54ed6b4032c` | 18 | 6946 | the report; line 6 `  "summary": {"passed": 9, "failed": 0, "total": 9},`; name, verdict and detail of each check |
+| `Revision/pairing/kohn_sham/t3-completion.json` | `verify_t3_completion.wls` | `74c0f9adeb9d8c92ab7d1b7f3d7f61af8ff90d9ee827d0c8a4db3899be737909` | 38 | 8165 | the completion record: S6, the filling convention for the pair, the PRESCRIBED BACKGROUND, the adversarial verification, the 3 check names, what is not established; line 6 `  "status": "all checks of the report passed",` |
+| `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` | `verify_t3_completion.wls` | `45e4690e475bfe8b40b866407cfaa18eff7c109652ee8dea91db0d3080c699d0` | 12 | 3374 | the report; line 6 `  "summary": {"passed": 3, "failed": 0, "total": 3},` |
 
 The four files contain only fixed text and integer check counts (no dates, times, machine names or
 floating-point numbers), so a passing run reproduces them byte for byte. If a check fails, the counts, the
@@ -193,10 +201,10 @@ verdict of that check and the `status` line of the record change. `wolfram-t3.js
 
 | file | sha256 | lines | bytes |
 | --- | --- | --- | --- |
-| `Revision/pairing/kohn_sham/python/check_t3.py` | `8e05e23d539e555f6b2289bd0afc8713aa9dfd5a20a19ae373d385db7eaa4183` | 326 | 20752 |
-| `Revision/pairing/kohn_sham/python/check_t3_completion.py` | `923a20e3e2a017d3098e7b2db0af9597a33b159afe0ad1c354a9933f844af592` | 226 | 14444 |
-| `Revision/pairing/kohn_sham/reports/python-t3.json` (written by `check_t3.py`) | `99fa3f01cd2d144dab98c373a66ec7ff58d8754dc0a2e3f0cd41b0761e529c4f` | 85 | 7634 |
-| `Revision/pairing/kohn_sham/reports/python-t3-completion.json` (written by `check_t3_completion.py`) | `6cafa82d7b4e6f282766db62d62aafa3eea94e93edd574ed7ef9177ba80f6513` | 49 | 4989 |
+| `Revision/pairing/kohn_sham/python/check_t3.py` | `46746d766d8c5710e5990e99e003ebd1c857cd848b9d9ddef6d70a2f960e486e` | 318 | 20645 |
+| `Revision/pairing/kohn_sham/python/check_t3_completion.py` | `64ad17e374773467b6221364a4faebfb8b723d2f20297356f19e190d3fe35eff` | 230 | 14780 |
+| `Revision/pairing/kohn_sham/reports/python-t3.json` (written by `check_t3.py`) | `4f78bb0a1a92c765b879ef9b7cf660dc9dd9f229e8c71b1ba173da90fe412d3a` | 80 | 7523 |
+| `Revision/pairing/kohn_sham/reports/python-t3-completion.json` (written by `check_t3_completion.py`) | `8c1e7a46f99ab8e59cda55a9c686eae6a9703da1031ef1312fe21a7eff256cc1` | 49 | 5112 |
 
 `check_t3.py` also reads `Revision/kohn_sham/reports/ks-rust-solver.json`; `check_t3_completion.py` also reads
 `Revision/pairing/kohn_sham/reports/t3-rust-demo.json` and `t3-reference-demo.json` (committed results of the
@@ -323,14 +331,14 @@ the printed result and the output files stay the same. The line after it prints 
      (Get-Content Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json -Raw | ConvertFrom-Json).summary
      ```
 
-     print a small table with the columns `passed failed total` and the values `10 0 10` and `3 0 3`.
+     print a small table with the columns `passed failed total` and the values `9 0 9` and `3 0 3`.
    - macOS or Linux:
 
      ```text
      grep '"summary"' Revision/pairing/kohn_sham/reports/wolfram-t3.json Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json
      ```
 
-     prints `Revision/pairing/kohn_sham/reports/wolfram-t3.json:  "summary": {"passed": 10, "failed": 0, "total": 10},`
+     prints `Revision/pairing/kohn_sham/reports/wolfram-t3.json:  "summary": {"passed": 9, "failed": 0, "total": 9},`
      and `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json:  "summary": {"passed": 3, "failed": 0, "total": 3},`.
    - Windows Command Prompt (cmd.exe; the PowerShell, `grep`, `sha256sum` and `shasum` commands of this
      section do not exist there):
@@ -375,7 +383,7 @@ the printed result and the output files stay the same. The line after it prints 
    ```
 
    Each prints `SHA256 hash of <file>:`, then the hash in small letters (for example
-   `a543bcfaf3e495d48765b54813adf046d1fe8ec0801f6e39af2c7279b11a186f` for `t3-theory.json`), then
+   `e2ba471cf17b44b04fb4ecf0ed1c9d9d44d335fd05aebce2fdee502b4bdd9720` for `t3-theory.json`), then
    `CertUtil: -hashfile command completed successfully.`
 
 ### 3.7 What to do if it fails
@@ -386,13 +394,13 @@ the printed result and the output files stay the same. The line after it prints 
 | the same messages for `git` instead of `wolframscript` (for example `git : The term 'git' is not recognized ...`, `zsh: command not found: git`) | Git is not installed, or (Windows) the terminal window was already open when Git was installed | install Git (section 3.4, step 1), close the terminal, open a new one and check with `git --version` |
 | a request to activate, or a message about a missing or invalid licence | WolframScript is not activated | run `wolframscript -activate` yourself, sign in with your own Wolfram ID, then repeat section 3.3 |
 | a message that no licence or no kernel is available | another Wolfram program uses the kernel(s) your licence allows | close other Wolfram programs and notebooks and run again (each script starts one kernel) |
-| `Failed to open file at path: Revision/pairing/kohn_sham/wolfram/verify_t3.wls` (or `.../verify_t3_completion.wls`) | you are not in the repository root | `cd` into the folder `Dirac_claude` (the one that contains `Revision`) and run again. Note: in this case `wolframscript` still returns exit code `0` although nothing was run, so always look for the line `10/10 checks passed` (or `3/3 checks passed`) |
+| `Failed to open file at path: Revision/pairing/kohn_sham/wolfram/verify_t3.wls` (or `.../verify_t3_completion.wls`) | you are not in the repository root | `cd` into the folder `Dirac_claude` (the one that contains `Revision`) and run again. Note: in this case `wolframscript` still returns exit code `0` although nothing was run, so always look for the line `9/9 checks passed` (or `3/3 checks passed`) |
 | `verify_t3.wls` prints only `ERROR  input file not found: <path>` or `ERROR  input file is not a JSON object: <path>`, exit code `1` | `Revision/kohn_sham/ks-theory.json` or `Revision/algebra/gammas.json` is missing, moved or damaged; nothing was written | restore it with `git checkout -- Revision/kohn_sham/ks-theory.json Revision/algebra/gammas.json` and run again |
 | `verify_t3.wls` prints only `ERROR  cannot read the Kohn-Sham potentials (exchange.kohnShamPotentials: ...) as exact numbers from <path>`, exit code `1` | the coefficients or the formula `e_int` in `ks-theory.json` were changed into something that is not an exact number or not of the form `(p/q) lambda S^2 - (p/q) lambda n^2`; nothing was written | restore `ks-theory.json` as in the previous row |
 | `verify_t3.wls` prints the check lines and then `ERROR  cannot write <path>`, exit code `1` | an output file cannot be written (read-only, locked by another program, or a folder of that name is in its place); `t3-theory.json` is written before the report, so it may already have been rewritten | make the file writable or remove what blocks it, restore the outputs (section 5.4) and run again |
 | `verify_t3_completion.wls` prints `Import::nffil: File ...ks-theory.json not found during Import.` (or `...gammas.json...`) and further messages (`ToExpression::notstrbox`, `Part::partw`, ...), `FAIL` lines, `1/3 checks passed` (`ks-theory.json` missing) or `2/3 checks passed` (`gammas.json` missing), exit code `1` | an input file is missing or was moved; the completion has no `ERROR` exit and writes its two outputs with the failing counts | restore the input as above, restore the outputs (section 5.4) and run again |
-| any other `FAIL  ...` line, fewer than `10/10` (or `3/3`), exit code `1` | an input or a script differs from the committed version, or a different Wolfram version simplifies an expression differently | run `git status` to see which files changed; restore changed files with `git checkout -- <file>`; if the failure remains with the committed files, do not edit anything: record the Wolfram version and report the failing check name. To print the version: PowerShell, macOS and Linux: `wolframscript -code '$Version'` (with the single quotes); Command Prompt: `wolframscript -code $Version` (no quotes; with single quotes Command Prompt prints `ToExpression::sntx: Invalid syntax ...` and `$Failed`). It prints a line such as `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)` |
-| `git status --porcelain` lists an output after a run that printed `10/10` (or `3/3`) | a script file was changed (for example opened and saved in the Wolfram desktop application) | compare its sha256 with section 2.1; restore it with `git checkout -- <script>` and run again |
+| any other `FAIL  ...` line, fewer than `9/9` (or `3/3`), exit code `1` | an input or a script differs from the committed version, or a different Wolfram version simplifies an expression differently | run `git status` to see which files changed; restore changed files with `git checkout -- <file>`; if the failure remains with the committed files, do not edit anything: record the Wolfram version and report the failing check name. To print the version: PowerShell, macOS and Linux: `wolframscript -code '$Version'` (with the single quotes); Command Prompt: `wolframscript -code $Version` (no quotes; with single quotes Command Prompt prints `ToExpression::sntx: Invalid syntax ...` and `$Failed`). It prints a line such as `15.0.1 for Microsoft Windows (64-bit) (July 2, 2026)` |
+| `git status --porcelain` lists an output after a run that printed `9/9` (or `3/3`) | a script file was changed (for example opened and saved in the Wolfram desktop application) | compare its sha256 with section 2.1; restore it with `git checkout -- <script>` and run again |
 
 Do not run the scripts from inside a Wolfram notebook: their last line is `Exit[...]`, which would close the
 notebook's kernel. Use the terminal as described above.
@@ -447,8 +455,8 @@ Run them AFTER the two Wolfram scripts, in this order (`check_t3_completion.py` 
 The `pip install` line downloads sympy (6.3 MB) and mpmath (536 kB) from the internet (22 to 28 s on the
 verification machine) and prints `Successfully installed mpmath-1.3.0 sympy-1.14.0`; a note
 `[notice] A new release of pip is available ...` may also appear and can be ignored.
-`check_t3.py` prints 13 lines such as `[   0.1s] PASS T3.block_hamiltonian_map` and as its last line
-`pass 13 fail 0; <time>s; wrote <full path of the repository>\Revision\pairing\kohn_sham\reports\python-t3.json`
+`check_t3.py` prints 12 lines such as `[   0.1s] PASS T3.block_hamiltonian_map` and as its last line
+`pass 12 fail 0; <time>s; wrote <full path of the repository>\Revision\pairing\kohn_sham\reports\python-t3.json`
 (Windows, backslashes; macOS/Linux with forward slashes), exits with `0` and rewrites `python-t3.json`
 byte-identically. `check_t3_completion.py` prints 7 `PASS` lines (`T3C.mean_field_coefficients_from_ks_theory`,
 `T3C.filling_convention_mapped`, `T3C.krein_rule_16_component`, `T3C.t3_reports_pass`,
@@ -464,23 +472,22 @@ need it.
 
 ### 4.1 Printed on the screen
 
-`verify_t3.wls` prints exactly these 11 lines (nothing is printed as an error):
+`verify_t3.wls` prints exactly these 10 lines (nothing is printed as an error):
 
 ```text
 PASS  T3_block_hamiltonian_map
 PASS  T3_ode_map
 PASS  T3_tip_condition_map
-PASS  T3_brane_parities_exchanged
+PASS  T3_fold_conditions_exchanged
 PASS  T3_orbital_densities
 PASS  T3_mean_field_map
 PASS  T3_energies_and_emt_profiles_equal
 PASS  T3_exact_k0_spectra
 PASS  T3_Gamma_is_the_block_map
-PASS  T3_z2_mirror_copy_carries_minus_m_plus_lambda
-10/10 checks passed; time 0.4 s
+9/9 checks passed; time 0.4 s
 ```
 
-Only the time `<t>` in the last line `10/10 checks passed; time <t> s` changes from run to run: it is the
+Only the time `<t>` in the last line `9/9 checks passed; time <t> s` changes from run to run: it is the
 computing time inside Wolfram, without the start of Wolfram (0.4 to 0.5 s on a quiet machine on 2026-10-08;
 up to 7.2 s on a heavily loaded machine, section 4.4). Wolfram prints the rounded number in its own way, for
 example `time 0.5 s`, `time 1. s`, `time 0.30000000000000004 s` or `time 1.2000000000000002 s`. This is
@@ -1098,37 +1105,6 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   reports differ from the committed ones only in the renamed quantities and in the sha256 of their inputs
   (`ks-theory.json`, the Kohn-Sham `parameters.json`, the solver and reference sources, the source-condition report).
 
-### 6.9 The corrected metric of 2026-10-16 (version 2) (2026-10-17)
-
-* Why. The user's orders of 2026-10-16 (`Revision/SPEC.md` section 1, version 2; "go ahead with the recomputation
-  using the corrected metric", `HANDOFF.md` 0.10, phase W6). In the corrected metric the hidden direction carries the
-  scale f = e^(-a4) b4^(1/2), the 3-momenta the constant weight kappa = e^(-a4), and the fold cos z = 0 joins the two
-  halves of a cell, which carry the same chi(y) (`Revision/kohn_sham/ks-theory.json` boundaryConditions.fold, both
-  fold conditions filled, ASSUMED). The Z2 orbifold of the metric of 2026-10-14, whose mirror copy carried
-  (-m, +lambda), does not exist.
-* Changes. `verify_t3.wls` (commit `6e228a8`): the block Hamiltonian with 1/f in the hidden derivative and the constant
-  kappa (check 1 and the ODE map of check 2 for every positive f); hypotheses H1 (the slice of the corrected metric,
-  f and kappa) and H3 (the fold, ASSUMED); check 4 renamed `T3_fold_conditions_exchanged` (the two fold conditions
-  chi2(0) = 0 and chi1(0) = 0 are exchanged); the statement S5 and the check `T3_z2_mirror_copy_carries_minus_m_plus_lambda`
-  removed (9 checks); the not-established list states that the corrected metric has no mirror copy.
-  `verify_t3_completion.wls` (2026-10-17): the description of T3 as the statements S1-S4 with 9 and 12 checks (the
-  numbers of 2026-10-08, 10 and 13, are kept as "then"); the zero mode of the filling-convention check is
-  (e^(f M y), 0); its three checks and its report are unchanged. `check_t3.py` and `check_t3_completion.py` (the sympy
-  twins): the same changes; `check_t3_completion.py` now requires 9 and 12 checks of the T3 reports.
-* sha256 (2026-10-17): `verify_t3.wls` `f05c2e7ee0b5f95015f2dad82c453419af29c7b5fad754f4438653f4eb991f94` (245 lines, 27691 bytes) (before
-  `8ab3941140fa52e692ae34eb813963fedd4b0fc8fc76a85ae5c7dad3a3fd194e`), `verify_t3_completion.wls`
-  `aef4bcf3f7e54949bcb9e3655c8d4a221b5259a7544e141427a1279c3b8bb74f` (142 lines, 19061 bytes); inputs `ks-theory.json`
-  `34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` (484 lines, 21739 bytes), `gammas.json` `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` (1405 lines, 76894 bytes); outputs
-  `t3-theory.json` `e2ba471cf17b44b04fb4ecf0ed1c9d9d44d335fd05aebce2fdee502b4bdd9720` (53 lines, 7313 bytes), `reports/wolfram-t3.json`
-  `771c8ecb9a8e96df65d8a664a8f6b26d8beba0bab31d01abd6eea54ed6b4032c` (18 lines, 6946 bytes), `t3-completion.json`
-  `74c0f9adeb9d8c92ab7d1b7f3d7f61af8ff90d9ee827d0c8a4db3899be737909` (38 lines, 8165 bytes), `reports/wolfram-t3-completion.json`
-  `45e4690e475bfe8b40b866407cfaa18eff7c109652ee8dea91db0d3080c699d0` (12 lines, 3374 bytes).
-* Runs (2026-10-17, Windows 11 Pro for Workstations, Wolfram 15.0.1, Python 3.14, from the repository root in the
-  working tree, every run under `timeout -k 5 423`): `verify_t3.wls` `9/9 checks passed` (5.8 s of wall time),
-  `check_t3.py` 12 of 12 (1.3 s), `verify_t3_completion.wls` `3/3 checks passed` (2.9 s), `check_t3_completion.py`
-  7 of 7 (0.9 s); these runs reproduced the committed `t3-theory.json`, `reports/wolfram-t3.json`,
-  `reports/python-t3.json` and `reports/wolfram-t3-completion.json` of commit `6e228a8` byte for byte.
-
 ### 6.8 The author's metric with b4(x4) (2026-10-16)
 
 * Why. On 2026-10-15 the user ordered "move everything to b4(x4); b4 is never 1": the metric of `Revision/SPEC.md`
@@ -1163,3 +1139,58 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   members reproduce the canonical matrix to 2.5e-10, and the T1-parameter control (-m, -lambda, tip pi) differs by at
   least 3.3e-4 (N8_lamp1_a20_T10; before 1.2e-2): with lambda_hat fixed the effective coupling lambda_hat
   e^(-2 a4,0) is small on the late slices, so the sign of lambda matters less there; the bound 1e-6 holds.
+
+### 6.9 The corrected metric of 2026-10-16 (version 2) (2026-10-17)
+
+* Why. The user's orders of 2026-10-16 (`Revision/SPEC.md` section 1, version 2; "go ahead with the recomputation
+  using the corrected metric", `HANDOFF.md` 0.10, phase W6). In the corrected metric the hidden direction carries the
+  scale f = e^(-a4) b4^(1/2), the 3-momenta the constant weight kappa = e^(-a4), and the fold cos z = 0 joins the two
+  halves of a cell, which carry the same chi(y) (`Revision/kohn_sham/ks-theory.json` boundaryConditions.fold, both
+  fold conditions filled, ASSUMED). The Z2 orbifold of the metric of 2026-10-14, whose mirror copy carried
+  (-m, +lambda), does not exist.
+* Changes. `verify_t3.wls` (commit `6e228a8`): the block Hamiltonian with 1/f in the hidden derivative and the constant
+  kappa (check 1 and the ODE map of check 2 for every positive f); hypotheses H1 (the slice of the corrected metric,
+  f and kappa) and H3 (the fold, ASSUMED); check 4 renamed `T3_fold_conditions_exchanged` (the two fold conditions
+  chi2(0) = 0 and chi1(0) = 0 are exchanged); the statement S5 and the check `T3_z2_mirror_copy_carries_minus_m_plus_lambda`
+  removed (9 checks); the not-established list states that the corrected metric has no mirror copy.
+  `verify_t3_completion.wls` (commit `6e228a8`): the filling-convention check uses the block Hamiltonian with 1/f in
+  the hidden derivative, and its zero mode is (e^(f M y), 0) (f > 0 the hidden scale), the fold zero mode; the
+  coordinates, background and not-established texts name the corrected metric and the fold; (2026-10-17, commit
+  `9ef092d`): the description of T3 as the statements S1-S4 with 9 and 12 checks (the numbers of 2026-10-08, 10 and
+  13, are kept as "then"). Its three checks and their verdicts are unchanged, but the detail of
+  `T3C_filling_convention_mapped` changed (fold zero modes, (E^(f M y), 0)), so `reports/wolfram-t3-completion.json`
+  has the new sha256 below (before `ae3225b81be13536f511b803854e96605ec40f3939c256387dbca3160d701ea0`, 12 lines, 3309
+  bytes); the change of `9ef092d` left it byte-identical. If the environment variable REVISION_DIR is set, both
+  scripts read their two inputs (`kohn_sham/ks-theory.json` and `algebra/gammas.json`) from that folder instead of
+  the `Revision` folder of the repository (used to run on a copy); their outputs are always written in
+  `Revision/pairing/kohn_sham/` and its `reports/` folder (section 2.1). `check_t3.py` and `check_t3_completion.py`
+  (the sympy twins): the same changes; `check_t3_completion.py` now requires 9 and 12 checks of the T3 reports.
+* sha256 (2026-10-17): `verify_t3.wls` `f05c2e7ee0b5f95015f2dad82c453419af29c7b5fad754f4438653f4eb991f94` (245 lines, 27691 bytes) (before
+  `8ab3941140fa52e692ae34eb813963fedd4b0fc8fc76a85ae5c7dad3a3fd194e`), `verify_t3_completion.wls`
+  `aef4bcf3f7e54949bcb9e3655c8d4a221b5259a7544e141427a1279c3b8bb74f` (142 lines, 19061 bytes); inputs `ks-theory.json`
+  `34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` (484 lines, 21739 bytes), `gammas.json` `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` (1405 lines, 76894 bytes); outputs
+  `t3-theory.json` `e2ba471cf17b44b04fb4ecf0ed1c9d9d44d335fd05aebce2fdee502b4bdd9720` (53 lines, 7313 bytes), `reports/wolfram-t3.json`
+  `771c8ecb9a8e96df65d8a664a8f6b26d8beba0bab31d01abd6eea54ed6b4032c` (18 lines, 6946 bytes), `t3-completion.json`
+  `74c0f9adeb9d8c92ab7d1b7f3d7f61af8ff90d9ee827d0c8a4db3899be737909` (38 lines, 8165 bytes), `reports/wolfram-t3-completion.json`
+  `45e4690e475bfe8b40b866407cfaa18eff7c109652ee8dea91db0d3080c699d0` (12 lines, 3374 bytes); downstream (section 2.4):
+  `check_t3.py` `b165f3b9a6ead95418e3b0c5d65fc4a47712747e094f3027da41fa9446f0f4cb` (316 lines, 20456 bytes),
+  `check_t3_completion.py` `64ad17e374773467b6221364a4faebfb8b723d2f20297356f19e190d3fe35eff` (230 lines, 14780 bytes),
+  `reports/python-t3.json` `4f78bb0a1a92c765b879ef9b7cf660dc9dd9f229e8c71b1ba173da90fe412d3a` (80 lines, 7523 bytes),
+  `reports/python-t3-completion.json` `8c1e7a46f99ab8e59cda55a9c686eae6a9703da1031ef1312fe21a7eff256cc1` (49 lines,
+  5112 bytes).
+* Runs (2026-10-17, Windows 11 Pro for Workstations, Wolfram 15.0.1, Python 3.14, from the repository root in the
+  working tree, every run under `timeout -k 5 423`): `verify_t3.wls` `9/9 checks passed` (5.8 s of wall time),
+  `check_t3.py` 12 of 12 (1.3 s), `verify_t3_completion.wls` `3/3 checks passed` (2.9 s), `check_t3_completion.py`
+  7 of 7 (0.9 s); these runs reproduced the committed `t3-theory.json`, `reports/wolfram-t3.json`,
+  `reports/python-t3.json` and `reports/wolfram-t3-completion.json` of commit `6e228a8` byte for byte.
+* Demonstrations (2026-10-17; committed in `aff492a`): `t3_rust_demo.py --solver <target>/release/revision_ks_solver
+  --work <scratch> --jobs 10 --part 1/4` ... `--part 4/4`, then `--reuse` (630 `single` runs in four parts of 88, 91,
+  76 and 67 s and an assembly of 2 s) and `t3_reference_demo.py --jobs 22 --work <scratch> --part 1/6` ... `6/6`,
+  then `--reuse` (six parts of 219, 170, 78, 122, 115 and 91 s and an assembly of 2 s), each part under the limit of
+  423 s, with `ks-theory.json` `34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` (Vol_7(a4,0) =
+  ell^3 v_t e^((5/3) a4,0), EMT integrals 2 Vol_7 int e^(3Hy)): `reports/t3-rust-demo.json`
+  `a2a0c661bc1cf11a6dab87bf56187464a0361d6871ede26200dd53dd1e8fc294` (69 lines, 8470 bytes) 7 of 7 (image = plus
+  state to 1.853e-12 for ground states and 3.502e-12 for thermal states, canonical matrix reproduced to 1.916e-10,
+  lambda-sign control at least 5.120e-02), `reports/t3-reference-demo.json`
+  `2791d801648418ca725789debba44057f97da8900516fbdbcc79ac3195c64609` (66 lines, 6087 bytes) 7 of 7 (reference image =
+  Rust image to 7.311e-11).

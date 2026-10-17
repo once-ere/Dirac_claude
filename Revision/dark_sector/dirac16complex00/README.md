@@ -50,7 +50,7 @@ Then, with beta = d ln b4/d a4 (EXACT, checks `observer_*`):
 
 - w_eff = -1 - (1/3) d ln rho_4 / d ln a;
 - **w_eff(N1) = w3 + (beta/2 - 1)(w0 + 3 w_t)/3** (isotropic) and **w_eff(N2) = w_eff(N1) - (4 - 2 beta)/3**, which is
-  w_eff(N1) - 4/9 on the history (the metric of 2026-10-14 had -1/3);
+  w_eff(N1) - 4/9 on the history;
 - the ratio **w = p3/rho** does not depend on the normalisation.
 
 INTERPRETATION: supernova distances measure the dilution-inferred w_eff of a 4-dimensional Friedmann observer. It
@@ -81,20 +81,21 @@ agrees with p3/rho only when no energy is exchanged with the block.
   reads w_eff(N2) = (5/9)(1 + w) - 1 < -1 as well. For -382/441 today, lambda S/m drifts into that window toward the
   past: from a = (382/441)^{3/5} = 0.917 back to a = (191/441)^{3/5} = 0.605, where the energy vanishes. The value is
   CHOSEN.
-- **The source the author's equations require on the history** (`a4-equations.json` exponentialHistory.authorWeights,
-  Lambda = -10 H^2; kk = e^{2a4}/b4 = e^{(2/3) H x4}): kappa T - Lambda delta has
-  -rho = -9 kk^2/16 + 161 kk/24 + 121/432, p3 = -9 kk^2/16 + 1601 kk/216 - 5359/3888,
-  p_t = p0 = 79 kk/16 - 497/144. It is anisotropic and grows; a condensate is isotropic and decays, so **no
-  condensate is the source of the history** (`condensate_cannot_source_history`).
+- **The source the author's equations require on the history** (`a4-equations.json` exponentialHistory.authorWeights:
+  alpha_k = w_k/H^{2k}, Lambda = -10; kk = e^{2a4}/b4 = e^{(2/3) H x4}): kappa T - Lambda delta has the components
+  -kappa rho - Lambda = -9 kk^2/16 + 161 kk/24 + 121/432, kappa p3 - Lambda = -9 kk^2/16 + 1601 kk/216 - 5359/3888,
+  kappa p_t - Lambda = kappa p0 - Lambda = 79 kk/16 - 497/144. It is anisotropic and grows; a condensate is isotropic
+  and decays, so **no condensate is the source of the history** (`condensate_cannot_source_history`).
 - The observer's expansion-inferred w_exp = -1 - (2/3) a4''/a4'^2 is -1 exactly on a4 = H x4, for every b4.
 
 **Modes and the Krein-signed classical energy.** Checks `mode_*` and `growing_*` (frozen frame, physical momenta).
 
 - For a plane wave with 3-momentum k and extra-time momentum q, omega^2 = m^2 + k^2 - q^2 (the extra times are
   time-like).
-- Every real-frequency eigenspace is 8-dimensional, with Krein form of signature (4, 4). On it rho = omega Q exactly:
-  **at every real frequency there are modes of both energy signs**. B confirms this: rho = +1.25 and -1.25 at
-  omega = 1.25.
+- In the checked cases ((m, k, q) = (3, 4, 0), (5, 0, 3), (4, 4, 4), at +omega and -omega; h^2 = (m^2 + k^2 - q^2) I16
+  in general) each real-frequency eigenspace is 8-dimensional, with Krein form of signature (4, 4). On it
+  rho = omega Q exactly: **there are modes of both energy signs at every real frequency checked**. B confirms this:
+  rho = +1.25 and -1.25 at omega = 1.25.
 - For q^2 > m^2 + k^2 the modes grow. They are Krein-neutral, with rho = 0 and a growing extra-time pressure.
 - In the deflating field the physical extra-time momentum grows like a^{1/3}. Every mode with q != 0 therefore reaches
   a turning point a_* and then grows: the deflation drives the growth.
@@ -113,12 +114,13 @@ agrees with p3/rho only when no energy is exchanged with the block.
 
 The models keep the physical parameters of the withdrawn records, so that the effect of the corrected metric is seen
 directly. Each model is normalised to rho_tot = 1 at a = 1. The tangent is w0 = w(1), wa = -w'(1). The fits are least
-squares over 101 uniform points in a in [1/2, 1] (z <= 1) and [1/3, 1] (z <= 2). The "constant w" is the mean of w(a),
-a PROXY; applied to the Unite CPL line it gives -1.011 on [1/2, 1]. The Unite line crosses -1 at a = 461/600 = 0.768.
+squares over 101 uniform points in a in [1/2, 1] (redshift <= 1) and [1/3, 1] (redshift <= 2). The "constant w" is the
+mean of w(a), a PROXY; applied to the Unite CPL line it gives -1.011 on [1/2, 1]. The Unite line crosses -1 at
+a = 461/600 = 0.768.
 
 | model (positive energy unless stated) | normalisation | tangent (w0, wa) | fit [1/2, 1] (w0, wa; const) | crosses -1? |
 | --- | --- | --- | --- | --- |
-| M1 condensate | ratio / N1 / N2 | (u/(2+u), (10/3) u/(2+u)^2) / (5/9) of it / -4/9 + (5/9) of it | drifts | no |
+| M1 condensate | ratio / N1 / N2 | (u/(2+u), (10/3) u/(2+u)^2) / (5/9) of it / -4/9 + (5/9) of it | drifts | lambda >= 0: no; lambda < 0 with m S > 0 (positive energy): yes. The ratio and w_eff(N2) are below -1 while lambda S/m is in (-2, -1). For lambda S/m = -382/441 today that is from a = (382/441)^{3/5} = 0.917 back to a = (191/441)^{3/5} = 0.605, where the energy vanishes (`condensate_phantom_interval`) |
 | M2 good-sector gas (q = 0), k^2/(k^2+m^2) = 0.417 at a = 1 | N2 | (-2749/9000, **0.162074**): freezing | (-0.3099, 0.2173; -0.2556) | no |
 | M2 | N1 = ratio | (0.139, 0.162074): 1/3 to 0, **dark-matter-like** | (0.1345, 0.2173; 0.1888) | no |
 | M3 extra-time mode (k = 0), q_p^2/m^2 = 417/1417 | N2 | (-3583/9000, **-0.0437696**): thawing sign | (-0.3982, -0.0420; -0.4087) | no |
@@ -129,7 +131,8 @@ Notes on the table:
 
 - **M3:** omega^2 = m^2 (1 - s a^{2/3}), w_eff(N2) = -4/9 + (1/9) s a^{2/3}/(1 - s a^{2/3}); the turning point is at
   a_* = s^{-3/2} = 6.264.
-- **M4:** min of w_eff(N2) over (0, 1] = -0.4439 >= -4/9; a_* = 1.886.
+- **M4:** min of w_eff(N2) on the grid a = 1/300, 2/300, ..., 1 = -0.4439 (at a = 1/300). On (0, 1], w_eff(N2) > -4/9
+  (both components positive with real frequency, a_* = 1.886 > 1) and tends to -4/9 as a -> 0; a_* = 1.886.
 - **M5:** the composition of the withdrawn record (G = 3/10); it does not cross -1 in [1/3, 1]; a_* = 2.337.
 - **The Unite w0 needs a dominant ghost** (check `unite_w0_requires_dominant_ghost`): w_eff(N2)(1) >= -4/9 - G/3, so
   -0.861 needs a ghost fraction G >= **3749/3000** of the total energy at a = 1.
@@ -155,8 +158,10 @@ w_eff(N2) measured directly from the dilution of the proper density agrees with 
 
 1. **Dark matter.** A positive-energy gas of good-sector modes gives, under N1 and in the ratio p3/rho, a time-varying
    equation of state from 1/3 (relativistic) to 0 (dust) (M2), independent of b4.
-2. **No dark energy from positive-energy mode gases.** On the history every positive-energy model has w_eff(N2) >= -4/9
-   (theorem of section 2; M2: -0.305, M3 and M4: -0.398 today).
+2. **No dark energy from positive-energy mode gases.** On the history, every positive-energy mode gas with real
+   frequencies, with or without a lambda = 0 condensate, has w_eff(N2) >= -4/9 (theorem of section 2;
+   `positive_models_bounded_by_minus_four_ninths`; M2: -0.305, M3 and M4: -0.398 today). The exception is the
+   lambda < 0 condensate of item 3.
 3. **The Unite values.** Reaching w0 = -0.861 under N2 needs a ghost-like component with G >= 3749/3000 of the total
    energy at a = 1. The only negative values without a ghost come from a condensate with lambda < 0 (positive energy for
    m S > 0), whose ratio drifts strongly (wa = -2.24616 at the ratio -0.764) and which reads w_eff(N2) < -1 while
@@ -170,8 +175,10 @@ w_eff(N2) measured directly from the dilution of the proper density agrees with 
 - No supernova likelihood: there are no covariances and no distance fits; the "fits" are least squares of w(a).
 - The models M2 to M5 are illustrative members with stated parameters. They are not predictions, and nothing selects
   their populations.
-- The WKB/local model freezes the hidden-direction warp and drops the hidden momentum (the bulk-band effect of the
-  Kohn-Sham record, which lowers w_eff, is not in these gases). The test-field results are not backreacted.
+- The WKB/local model freezes the hidden-direction warp and drops the hidden momentum (the blueshift of the bulk band by
+  the shrinking hidden direction, which lowers w_eff (normalisation A of that record, which is N1 here) monotonically
+  from 0.318721 at a4 = -3 to -0.081074 at a4 = 4, `Revision/dark_sector/dirac16complex/reports/independent-checks.json`,
+  check `bulk_band_w_eff`, is not in these gases). The test-field results are not backreacted.
 - The growing modes make the Cauchy problem ill-posed (`Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY` section 7).
 - Nothing here establishes that dirac16complex00 *is* dark energy or dark matter.
 
@@ -180,8 +187,8 @@ w_eff(N2) measured directly from the dilution of the proper density agrees with 
 From the repository root:
 
 ```text
-python Revision/dark_sector/dirac16complex00/python/derive_eos.py            # A: 48 checks, about 2 s
-python Revision/dark_sector/dirac16complex00/python/independent_numerics.py  # B: 32 checks, about 7 s (reads A's eos-theory.json)
+python Revision/dark_sector/dirac16complex00/python/derive_eos.py            # A: 48 checks, about 4 s
+python Revision/dark_sector/dirac16complex00/python/independent_numerics.py  # B: 32 checks, about 8 s (reads A's eos-theory.json)
 python -m unittest Revision/dark_sector/dirac16complex00/tests/test_dark_sector_dirac16complex00.py -v
 ```
 

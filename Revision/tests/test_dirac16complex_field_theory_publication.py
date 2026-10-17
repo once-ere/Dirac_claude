@@ -142,7 +142,6 @@ NON_CHECK_SPANS = {
     "sourceRequiredByGivenHistory", "einstein", "exponentialHistory", "requiredSource",
     "authorWeights", "fields", "emtConvention", "comparison_with_wolfram", "dirac_equation_components",
     "not_established", "wolframscript", "pdflatex", "wolfram_checks_without_sympy_counterpart",
-    "gammaOmega_per_direction",
 }
 
 ESSENTIAL_CHECKS = [
@@ -224,7 +223,44 @@ REQUIRED_PHRASES = [
 
 # Numbers quoted from the second-wave reports: (report key, text in the report, text in the document).
 # Filled from the regenerated Kohn-Sham source and dark-sector records (W5, W6).
-QUOTED_NUMBERS: list[tuple[str, str, str]] = []
+QUOTED_NUMBERS: list[tuple[str, str, str]] = [
+    ("ks-source", "(max rho - min rho)/max|T| >= 0.456213", r"$(\max\rho - \min\rho)/\max|T| \geq 0.456213$"),
+    ("ks-source", "fails (> 1e-06) for every one of the 60 states with lambda != 0 (smallest: 0.080929",
+     r"fails for every one of the 60 states with $\lambda \neq 0$ ($\max_y|p_0 - p_t|/\max|T| \geq 0.080929$"),
+    ("ks-source", "a4,0 = 0 (kk = 1): kappa rho = 3.57407", r"$\kappa\rho = 3.57407$ at $a_{4,0} = 0$"),
+    ("ks-source", "a4,0 = 2 (kk = 3.79367): kappa rho = -7.63383", r"$-7.63383$ at $a_{4,0} = 2$"),
+    ("ks-source", "differ from the needed ones by at least 1.3733", "by at least 1.3733 at every recorded state"),
+    ("ks-source-a4", "largest residual relative to the largest term 1.21233e-05",
+     "largest residual 1.21233e-05 of the largest term"),
+    ("ks-source-a4", "mu1_rho in [0.147738, 0.738255]", "lies between 0.147738 and 0.738255"),
+    ("ks-source-a4", "relative to the largest averaged component >= 0.00613418",
+     r"relative violation $\geq 0.00613418$"),
+    ("ks-source-a4", "N = 592, 2352: C = 0.034125, 0.216249", "($C = 0.034125$ and 0.216249"),
+    ("ks-source-a4", "rho_bar = 0.216249 at a4 = 0, 0.00104404 at a4 = 2",
+     r"$\bar\rho = 0.216249$ and $0.00104404$ there"),
+    ("ks-source-a4", "would have to run from 16.5276 to -7311.81", "run from 16.5276 to $-7311.81$"),
+    ("ks-source-a4", "the constraint fixes kappa rho_bar(0) = 3.57407",
+     r"the constraint fixes $\kappa\bar\rho(0) = 3.57407$"),
+    ("ks-source-a4", "at x4 = 0.428813 (a4 = 0.361572, b4 = 0.862627, a4'/H = 0.978369, u/H = -2.60176)",
+     r"$x_4 = 0.428813$ ($a_4 = 0.361572$, $b_4 = 0.862627$, $a_4'/H = 0.978369$, $u/H = -2.60176$"),
+    ("ks-source-a4", "38 cases (2 free series", "Over 38 cases (the two free series"),
+    ("ks-source-a4", "outcomes a4_turns 24, regular 6, runaway 4, singular_second_order_system 4",
+     "$a_4$ turning 24 times ($a_4'$ reaches 0), regular 6 times (through $x_4 = 2/H$), runaway 4 times and singular 4 times"),
+    ("ds-eos", "w_eff(A) = 1/3 exactly (radiation-like), w_eff(C) = 1/3 - 4/9 = -1/9, wa = 0",
+     r"$w_{\rm eff}(A) = 1/3$ exactly (radiation-like), $w_{\rm eff}(C) = -1/9$, $w_a = 0$"),
+    ("ds-eos", "w_eff(A) in [0.330585, 0.336132]", r"$w_{\rm eff}(A)$ between 0.330585 and 0.336132"),
+    ("ds-eos", "w_eff(C) = w_eff(A) - 4/9 in [-0.113860, -0.108312]", "between $-0.113860$ and $-0.108312$ (interacting)"),
+    ("ds-eos", "tangent wa in [-0.003892, 0.003904], least-squares fit wa in [-0.002392, 0.002261]",
+     "tangent $w_a$ lies between $-0.003892$ and 0.003904 and its fitted $w_a$ between $-0.002392$ and 0.002261"),
+    ("ds-eos", "w_eff(C) = (5/9) w_c - 4/9 = -0.868889, both with wa = -1.247867",
+     r"$w_{\rm eff}(C) = -0.868889$ with $w_a = -1.247867$"),
+    ("ds-eos", "w_eff(C) = P3_g/(E_g + E_c) - 4/9 >= -0.444111", r"$w_{\rm eff}(C) \geq -0.444111$"),
+    ("ds-independent", "runs from 0.318721 (a4 = -3) to -0.081074 (a4 = 4), monotonically decreasing",
+     "falls monotonically from 0.318721 ($a_4 = -3$) to $-0.081074$ ($a_4 = 4$)"),
+    ("ds-independent", "it changes sign between a4 = -0.5 and -0.25",
+     "changing sign between $a_4 = -0.5$ and $-0.25$"),
+    ("ds-derivation", "= w_eff(A) - 4/9 at beta = 4/3", r"$w_{\rm eff}(C) = w_{\rm eff}(A) - 4/9$"),
+]
 
 PLACEHOLDERS = ["TODO", "TBD", "FIXME", "lorem ipsum", "PLACEHOLDER", "XXX", "@@"]
 

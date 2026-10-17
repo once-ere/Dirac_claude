@@ -353,7 +353,7 @@ def main():
     wr = [q["w_eff_A_B"] for q in fold]
     mono = all(x > y for x, y in zip(wb, wb[1:]))
     sign_change = next((q["a4"] for q, q2 in zip(bulk, bulk[1:]) if q["w_eff_A_B"] > 0 >= q2["w_eff_A_B"]), None)
-    check("bulk_band_w_eff", all(math.isfinite(x) for x in wb),
+    check("bulk_band_w_eff", all(math.isfinite(x) for x in wb) and mono and sign_change is not None,
           f"lowest odd-parity (bulk) level of the n2 = 1 shell along a4 in [-3, 4] (f = e^(-a4/3) from {fh(-3):.4f} to "
           f"{fh(4):.4f}): w_eff(A) = -(1/3) d ln eps/d a4 runs from {wb[0]:.6f} (a4 = -3) to {wb[-1]:.6f} (a4 = 4), "
           f"monotonically decreasing: {mono}; " +

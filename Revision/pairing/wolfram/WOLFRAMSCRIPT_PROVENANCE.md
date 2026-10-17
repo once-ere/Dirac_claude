@@ -5,8 +5,11 @@ and the quantum-level reading Q in the corrected primordial metric of `Revision/
 diag(e^(-2 a4) b4 cot^2 z, e^(2 a4) (x3), -1, -e^(-2 a4) b4 (sin^2 z)^(1/6) (x3)): the vielbein
 e^x0 = e^(-a4) b4^(1/2) cot z, e^xi = e^a4, e^x4 = 1, e^xt = e^(-a4) b4^(1/2) sin^(1/6) z on the patches, sqrt|g| =
 e^(-a4) b4^2 cot z sin^(1/2) z; the reflection z -> pi - z of T2 is the isometry across the fold z = pi/2 between the two
-halves of a cell (there is no Z2 orbifold); 102 Wolfram checks and 67 sympy checks, the same names and counts as for the
-metric of 2026-10-14. The text of sections 1 to 5 describes that earlier metric (the Z2 brane, sqrt|g| = b4^(3/2) cos z).
+halves of a cell (there is no Z2 orbifold); 102 Wolfram checks and 67 sympy checks, the same counts as for the
+withdrawn metric of 2026-10-14 with b4(x4) (the entry of 2026-10-16 in section 6); the Wolfram check names are
+unchanged, and of the sympy names only geometry.brane_degenerate is renamed geometry.fold_degenerate. Sections 1 to 5
+describe the corrected metric (numbers of earlier versions are given with their dates); the earlier metrics (the Z2
+brane, sqrt|g| = b4^(3/2) cos z) are recorded in section 6.
 
 This file tells you what the WolframScript set in this folder is, which files it reads and writes,
 exactly how to run it on your own computer (even if you have never used Wolfram software), what you
@@ -41,8 +44,9 @@ statements called the pairing theorems:
 * **T2, the mirror pairing.** `Gamma` combined with the reflection `P_n = Gamma gamma^n` of one
   space-like frame direction `n` (an element of the group Pin(4,4) of "character -1") maps
   `(m, lambda)` to `(-m, lambda)` with `L -> +L`; the mirror partner has the SAME (not the opposite)
-  energy-momentum and charge. In the author's metric this reflection is the mirror image across the
-  surface `z = pi/2` of the hidden coordinate (an ASSUMED Z2 construction).
+  energy-momentum and charge. In the corrected metric this reflection is the isometry z -> pi - z
+  across the fold z = pi/2 between the two halves of a cell (there is no Z2 orbifold; the fold is a
+  degenerate surface of the metric, and no matching of the field across it is derived).
 * **Q, the quantum-level reading.** After quantisation the image `Gamma Psi` carries the indefinite
   ("Krein") metric `-B` instead of `B`; its own energy, momentum and charge are the same operators as
   those of `Psi` (it is the same quantum system relabelled, not a second universe); an independently
@@ -57,21 +61,22 @@ none of them is a complex conjugation `Psi -> Psi*`. Charge conjugation itself i
 this set; where the theory needs it, it too is a matrix operation (for a real field, plain complex
 conjugation changes nothing, so it cannot be charge conjugation).
 
-The statements are checked in four gravitational fields: the author's metric of the primordial
-universe, with the function b4(x4) in its three extra-time components (b4 > 0 an arbitrary function of
-the time x4, never 1; `Revision/SPEC.md` section 1), on the patch `0 < z < pi/2` ("primordial"), the same metric on the mirror patch
-`pi/2 < z < pi` ("mirror_patch"), a general diagonal field with eight arbitrary functions of all eight
-coordinates ("diagonal8"), and a general non-diagonal field at one point with exact rational numbers
-("pointwise"); in addition a linearity argument covers every field. The script runs 102 checks.
+The statements are checked in four gravitational fields: the corrected metric of the primordial
+universe (version 2 of 2026-10-16, `Revision/SPEC.md` section 1; a4(x4) real and b4(x4) > 0 arbitrary
+functions of the time x4, b4 in g00 and in the three extra-time components) on the half `0 < z < pi/2` of
+a cell ("primordial"), the same metric on the other half `pi/2 < z < pi` ("mirror_patch"), a general
+diagonal field with eight arbitrary functions of all eight coordinates ("diagonal8"), and a general
+non-diagonal field at one point with exact rational numbers ("pointwise"); in addition a linearity argument covers every field. The script runs 102 checks.
 
 What the set does NOT establish is written into its own output file (`pairing-theory.json`, key
 `not_established`, nine items). In short: it describes no creation process of universes, no rate or
 amplitude, and no dynamical necessity for the partner to exist; T1 changes the parameters and the
 sign of the action, so it is not a symmetry of one theory; the vanishing total energy-momentum holds
 for classical bilinears (and inside one quantum system), not for two independently quantised
-universes; the gravitational field is a fixed test field (no back-reaction); the Z2 brane at
-`z = pi/2` is assumed; a positive-norm Fock space is not established; the Kohn-Sham level (T3) is a
-separate set.
+universes; the gravitational field is a fixed test field (no back-reaction); the fold `z = pi/2`
+between the two halves of a cell is a degenerate surface of the metric and no matching of the field
+across it is derived (the corrected metric has no Z2 orbifold); a positive-norm Fock space is not
+established; the Kohn-Sham level (T3) is a separate set.
 
 ### 1.2 The checks, by group (102 in total)
 
@@ -80,7 +85,7 @@ separate set.
 | A. fixture | the gamma matrices read from the input file satisfy the Clifford relation; `C`, `Gamma`, `B`, `S^ab` re-derived; basic properties of `Gamma`, `C`, `B` | 4 |
 | B. T1 kernels | `Gamma C Gamma = C`, `Gamma C gamma^a Gamma = -C gamma^a`, the 512 connection kernels, the field-equation kernels, the linearity argument (every field) | 5 |
 | C. T2 kernels | `P_n` is in Pin(4,4), covers the reflection `R_n`, its character is `-eta_nn`, `Gamma P_n = gamma^n`, the kernel signs | 5 |
-| D. fields | the primordial vielbein gives the author's metric with b4(x4) (and sqrt\|g\| = b4^(3/2) cos z), its spin connection contains b4' (so the checks are made with b4 not constant), the pointwise field is generic, the spin connection of each of the four fields is antisymmetric and satisfies the vielbein postulate | 7 |
+| D. fields | the primordial vielbein gives the corrected metric of SPEC section 1 (version 2) (and sqrt\|g\| = e^-a4 b4^2 cot z sin^(1/2) z), its spin connection contains b4' (so the checks are made with b4 not constant), the pointwise field is generic, the spin connection of each of the four fields is antisymmetric and satisfies the vielbein postulate | 7 |
 | E. T1 explicitly | in the primordial, diagonal8 and pointwise fields, both statistics: scalar and kinetic term, Lagrangian, negative controls, field-equation covariance, Euler-Lagrange expressions (primordial, diagonal8), energy-momentum, current; an arbitrary potential `U(S)` (primordial, commuting) | 45 |
 | F. T2 | frame reflection of each of the 8 directions in the pointwise field, both statistics (16); the mirror is an isometry (1); mirror Lagrangian, energy-momentum and current, Euler-Lagrange, both statistics (6) | 23 |
 | G. Q | Krein metric of the images, symplectic kernels, generators of the image, flat dispersion, one-particle maps, Krein signatures, the proof for every real frequency, Krein-neutral complex and zero frequencies, a general field, no identification of independent universes | 12 |
@@ -129,20 +134,22 @@ separate set.
 
 | file | role | sha256 | lines | bytes |
 | --- | --- | --- | --- | --- |
-| `Revision/pairing/wolfram/verify_pairing.wls` | the script you run (the driver: all 102 checks, writes both outputs) | `cba975d8971228b7d1c628fedb51d26f29b34757da01d7f6fa31a0db808925a9` | 511 | 54494 |
-| `Revision/pairing/wolfram/RevisionPairing.wl` | the package the script loads (field algebra for both statistics, spin connection, bilinears, Euler-Lagrange expressions) | `e7096856aa357c9930b9357990f0ef026ea334d76c5420679b069b936c1db854` | 235 | 14673 |
+| `Revision/pairing/wolfram/verify_pairing.wls` | the script you run (the driver: all 102 checks, writes both outputs) | `b3c66c3b0a60078e7fb641cf092d3110e4601bd966d6da66499326127bffde4c` | 513 | 55086 |
+| `Revision/pairing/wolfram/RevisionPairing.wl` | the package the script loads (field algebra for both statistics, spin connection, bilinears, Euler-Lagrange expressions) | `eccc3554e96b6dfe0d46d357d67afa253fa933f8c88cf756ab7df3a607c6c95f` | 235 | 14661 |
 | `Revision/algebra/gammas.json` | INPUT, only read (the 16 x 16 gamma matrices `gamma^(x0..x7)`, `eta`, `C`, `Gamma`, `B`, `S^ab`; written by the algebra set `Revision/algebra/wolfram/verify_algebra.wls`, which you do NOT need to run first) | `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` | 1405 | 76894 |
-| `Revision/pairing/reports/wolfram-pairing.json` | OUTPUT, overwritten by every run (every check with its name, verdict `PASS` or `FAIL` and detail; the summary counts) | `8dfe5d50b7cc09a1f65278126f61992a8e174bcd465697f6443ac4649122eac9` | 113 | 40926 |
-| `Revision/pairing/pairing-theory.json` | OUTPUT, overwritten by every run (the theorems T1, T2, Q with hypotheses, statements, proofs, the names of the checks verifying them, data tables, and what is not established) | `05e576d3f285a817cb0c1ed2652e6f0b099007260eb9765988f6942f610f1b84` | 420 | 22577 |
+| `Revision/pairing/reports/wolfram-pairing.json` | OUTPUT, overwritten by every run (every check with its name, verdict `PASS` or `FAIL` and detail; the summary counts) | `339c4831c749318ea6f4ef826c06f7d123f08850a1871c871aa554477c985ad5` | 113 | 41052 |
+| `Revision/pairing/pairing-theory.json` | OUTPUT, overwritten by every run (the theorems T1, T2, Q with hypotheses, statements, proofs, the names of the checks verifying them, data tables, and what is not established) | `1039d06e5c6554c13c8007edc903d13e0d1d9d9aaba406f2b736258b5a5b535d` | 420 | 22764 |
 
-The table gives the version of 2026-10-16, the author's metric with b4(x4) (the last item of section 6; the version
-of 2026-10-14 with b4 = 1, in the author's coordinates x0..x7, is the item before it). The following sentences
+The table gives the version of 2026-10-17, the corrected metric of 2026-10-16 (version 2) (the last item of
+section 6; the version of 2026-10-16 with b4(x4) and the version of 2026-10-14 with b4 = 1, in the author's
+coordinates x0..x7, are the items before it). The following sentences
 describe the versions before those, whose hashes were those of the committed files (unchanged from commit `70fab64` up to commit `b8a695d`,
 the head of `main` in the evening of 2026-10-07, where they were checked again); a successful run
 reproduces both outputs byte for byte.
 Nothing else is read: no other file of the repository, no network resource, no command-line argument.
-The script finds its package, its input and its output folders relative to its own location, so these
-files must keep their places in the repository.
+The script finds its package and its output folders relative to its own location; it also finds its
+input there unless the environment variable REVISION_DIR is set, in which case it reads
+algebra/gammas.json from that folder (used to run on a copy; leave it unset for a normal run).
 
 ## 3. How to run it
 
@@ -296,7 +303,7 @@ and some values are printed with many digits, for example `(9.200000000000001 s)
 
 with `<T>` the run time measured by the kernel (between 119.62 s and 266.04 s in the eleven
 verification runs of section 6 with the earlier metric b4 = 1, 111.99 s and 100.05 s in the two runs of the version with
-b4(x4); it may be printed with many digits, for example
+b4(x4), 82.33 s in the run of the corrected metric on 2026-10-17; it may be printed with many digits, for example
 `time 200.98000000000002 s`). These times are examples from one machine, not limits. No line starts
 with `FAIL`, and nothing is printed on the error stream.
 
@@ -308,16 +315,16 @@ in section 3.5). Remember that a mistyped path also gives `0` (section 3.6): the
 
 ### 4.3 Files written, and how to check them
 
-* `Revision/pairing/reports/wolfram-pairing.json`, 40926 bytes, 113 lines (40200 bytes and 112 lines with b4 = 1 on
-  2026-10-14, 40151 bytes before 2026-10-14). Its eighth line is the
+* `Revision/pairing/reports/wolfram-pairing.json`, 41052 bytes, 113 lines (40926 bytes with b4(x4) on 2026-10-16,
+  40200 bytes and 112 lines with b4 = 1 on 2026-10-14, 40151 bytes before 2026-10-14). Its eighth line is the
   summary:
 
   ```text
     "summary": {"passed": 102, "failed": 0, "total": 102},
   ```
 
-* `Revision/pairing/pairing-theory.json`, 22577 bytes, 420 lines (22474 bytes with b4 = 1 on 2026-10-14, 22430 bytes
-  before 2026-10-14). Its seventh line is:
+* `Revision/pairing/pairing-theory.json`, 22764 bytes, 420 lines (22577 bytes with b4(x4) on 2026-10-16, 22474 bytes
+  with b4 = 1 on 2026-10-14, 22430 bytes before 2026-10-14). Its seventh line is:
 
   ```text
     "status": "all checks of the report passed",
@@ -383,6 +390,8 @@ longer. An earlier run on the same machine with less load, recorded in the docum
 took about 80 s.
 The two runs of the version with b4(x4) on 2026-10-16 (section 6), while other jobs of this work ran on the
 machine, were kernel-measured at 111.99 s and 100.05 s (wall time of the first not measured, of the second 102 s).
+The run of the corrected metric on 2026-10-17 (section 6), under `timeout -k 5 423` while other jobs of this work ran
+on the machine, was kernel-measured at 82.33 s (85 s of wall time).
 
 ## 5. Side effects
 
@@ -746,10 +755,12 @@ machine, were kernel-measured at 111.99 s and 100.05 s (wall time of the first n
   `python-pairing.json` (sha256 `18c418ac07d8f50d9735eb0c9f137b3da24014ec4563e402b3bd11d118fca758`). Not done: a run in a fresh clone.
 * **The corrected metric of 2026-10-16, version 2 (2026-10-17):** the user's orders of 2026-10-16 (`Revision/SPEC.md`
   section 1, version 2; "go ahead with the recomputation using the corrected metric", `HANDOFF.md` 0.10, phase W6).
-  Changes (commit `6e228a8`): `verify_pairing.wls` and its package `RevisionPairing.wl` have the corrected metric
+  Changes (commit `6e228a8`): `verify_pairing.wls` has the corrected metric
   `gAuthor` (written as the author writes it, with (Sin[z]^2)^(1/6) in the extra times; on the patches sin z > 0, so
   (sin^2 z)^(1/12) = sin^(1/6) z), the primordial and mirror vielbeins e^-a4 b4^(1/2) cot z (x0), e^a4 (x1..x3), 1 (x4),
-  e^-a4 b4^(1/2) sin^(1/6) z (x5..x7) and sqrt|g| = e^-a4 b4^2 cot z sin^(1/2) z; the reflection of T2 is described as the
+  e^-a4 b4^(1/2) sin^(1/6) z (x5..x7) and sqrt|g| = e^-a4 b4^2 cot z sin^(1/2) z; its package `RevisionPairing.wl`
+  changed only in two texts (the header names the reflection z -> pi - z across the fold z = pi/2 instead of the Z2
+  mirror across the patch end; the usage text of RPb4); the reflection of T2 is described as the
   isometry z -> pi - z across the fold z = pi/2 between the two halves of a cell, and the not-established list of
   `pairing-theory.json` replaces the ASSUMED Z2 brane by the fold (the continuation across the fold is not derived; the
   corrected metric has no Z2 orbifold) and names T3 with its hypothesis "both fold conditions filled, ASSUMED"; the

@@ -1,5 +1,12 @@
 # Provenance of the dark-sector change to the metric with b4(x4)
 
+**WITHDRAWN METRIC.** The metric of 2026-10-14 recorded here (with Sin[6 H x0]^(1/3) on 3-space) was replaced on
+2026-10-16 by the corrected primordial metric (version 2; `Revision/SPEC.md` section 1). This file is kept as the
+provenance of the withdrawn dark-sector record. That record's implementation-A output is frozen in
+`Revision/dark_sector/reference_2026_10_14/eos-theory-b4.json` and is still verified by
+`wolfram/verify_dark_sector_b4.wls`. The provenance of the dark-sector record for the corrected metric is still OPEN
+(W6, `HANDOFF.md` 0.11).
+
 Written 2026-10-15. This file records how the whole dark-sector record of the Revision (Hypothesis:
 `Revision/dark_sector/dirac16complex/`; Hypothesis00: `Revision/dark_sector/dirac16complex00/`; the
 independent Wolfram verification `Revision/dark_sector/wolfram/`; the document
@@ -7,8 +14,11 @@ independent Wolfram verification `Revision/dark_sector/wolfram/`; the document
 the withdrawn metric with b4 = 1 to the author's metric with the function b4(x4), and the evidence that the
 change was made correctly: where every formula comes from, which independent computations confirm each
 critical step, the commits, the sha256 of every script and output, and a complete re-run on 2026-10-15 that
-reproduced every committed output byte for byte. It is also the execution-provenance file of the two
-WolframScript files of `Revision/dark_sector/wolfram/` (row 31 of `provenance/EXECUTION_PROVENANCE_INDEX.md`).
+reproduced every committed output byte for byte. It is also the execution-provenance file of two of the three
+WolframScript files of `Revision/dark_sector/wolfram/`: `verify_dark_sector_b4.wls` (the verification of the
+withdrawn metric) and `author_notebook_inputs.wls` (row 31 of `provenance/EXECUTION_PROVENANCE_INDEX.md`). The
+execution provenance of `verify_dark_sector.wls` (corrected metric, 7/7, `reports/wolfram-dark-sector.json`, gate
+step dark-wolfram) is OPEN in W6.
 
 ## 1. The order and the source
 
@@ -167,12 +177,17 @@ The two Markdown/LaTeX sources are pinned by `Revision/tests/test_dark_sector_hy
 
 ## 7. The two WolframScript files (execution provenance)
 
-* `verify_dark_sector_b4.wls` (sha256 `43b290c56276ad32c2c1650f38663d000e8de1d9ef530a806632e93f9f70460f`).
+* `verify_dark_sector_b4.wls` (sha256 `b8367aa2f4dcab8a51f83847fedbb47d67f29be79f6655e9a577c8f22d0d2ecb`, 10252
+  bytes, since the text corrections of 2026-10-17 in W6: the header marks the record as withdrawn and the D7 detail
+  names the frozen input; `542cb53dc209ab45d6c40ec28dfb13d94480b0f25df52d20f7bf11336777eaa2`, 9933 bytes, since commit
+  6e228a8, which made it read the frozen input; `43b290c56276ad32c2c1650f38663d000e8de1d9ef530a806632e93f9f70460f`
+  on 2026-10-15).
   Run from the repository root: `wolframscript -file Revision/dark_sector/wolfram/verify_dark_sector_b4.wls`.
   Reads `Revision/metric_b4/wolfram/MetricB4.wl` (the author's metric), `Revision/metric_b4/results/metric-b4.json`
   (the Lovelock tensors E_(1..3)), `Revision/theory/wolfram/RevisionFieldTheory.wl` with
-  `Revision/algebra/gammas.json` (the author's T16) and `Revision/dark_sector/dirac16complex00/eos-theory.json`
-  (the recorded branch source, for D7). Prints one line per check (D1 to D8) and `8/8 checks passed`; writes
+  `Revision/algebra/gammas.json` (the author's T16) and `Revision/dark_sector/reference_2026_10_14/eos-theory-b4.json`
+  (the frozen record of the withdrawn metric, sha256 `7ab0fcbd8bd4fdc39be91b8fa39ff76c83715e7bdd08b8326eb9809249ecd2ac`;
+  the recorded branch source, for D7). Prints one line per check (D1 to D8) and `8/8 checks passed`; writes
   `Revision/dark_sector/reports/wolfram-dark-sector-b4.json` (UTF-8, LF, no time stamps). Exit code 0 iff all
   pass. 4.5 s on 2026-10-15; two runs byte-identical. Changes nothing else on the computer; no network, no
   licence or agreement dialog.

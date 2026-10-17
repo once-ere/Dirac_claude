@@ -23,9 +23,10 @@ What is tested
   * every check name the document cites exists in a Revision report with the verdict PASS, and every
     check of the two pairing reports is listed (complete verification records);
   * the report-count table equals the counts recomputed from the reports;
-  * the quoted data (reflection table, Krein signs, one-particle samples, the a4 vacuum polynomial,
-    the Kohn-Sham self-test numbers, the numbers of the T3 completion and its two numerical
-    demonstrations, and further numbers) agree with the Revision reports;
+  * the quoted data (reflection table, Krein signs, one-particle samples, the vacuum statements of
+    the a4 and b4 equations, the Kohn-Sham self-test numbers, the Kohn-Sham source numbers, the
+    numbers of the T3 completion and its two numerical demonstrations, the sha256 of the pairing
+    outputs, and further numbers) agree with the Revision reports and records;
   * OPTIONAL (only when REVISION_PDF_REBUILD=1; needs pdflatex, about 10 s): the PDF is rebuilt in
     verify mode and must match the registry.
 
@@ -80,6 +81,7 @@ PYTHON_T3C = REVISION / "pairing" / "kohn_sham" / "reports" / "python-t3-complet
 T3_RUST_DEMO = REVISION / "pairing" / "kohn_sham" / "reports" / "t3-rust-demo.json"
 T3_REFERENCE_DEMO = REVISION / "pairing" / "kohn_sham" / "reports" / "t3-reference-demo.json"
 KS_SOURCE_A4 = REVISION / "field_equations_a4" / "ks_source" / "reports" / "ks-source-a4.json"
+KS_SOURCE_CONDITIONS = REVISION / "field_equations_a4" / "reports" / "ks-source-conditions.json"
 KS_SOLVER = REVISION / "kohn_sham" / "reports" / "ks-rust-solver.json"
 A4_WOLFRAM = REVISION / "field_equations_a4" / "reports" / "wolfram-a4-report.json"
 A4_PYTHON = REVISION / "field_equations_a4" / "reports" / "python-a4-report.json"
@@ -213,6 +215,8 @@ def cited_check_names(text: str) -> list[str]:
     names = []
     for span in code_spans(text):
         if span.endswith(FILE_SUFFIXES):
+            continue
+        if re.fullmatch(r"[0-9a-f]{64}", span):  # a sha256 digest (section 9.3), not a check name
             continue
         if re.fullmatch(r"[A-Za-z][A-Za-z0-9_.*]*", span):
             names.append(span)
@@ -484,7 +488,13 @@ class QuotedData(unittest.TestCase):
         self.assertIn(r"no exponential history is a vacuum solution. (c)", self.text)
         for path in (A4_WOLFRAM, A4_PYTHON):
             self.assertIn("alpha2 = -1/(4 H^2 (A^2 - k", check_detail(path, "egb_exponential_vacuum_branches"), path.name)
-        self.assertIn("no vacuum exponential history where k varies", check_detail(A4_WOLFRAM, "egb_exponential_vacuum_branches"))
+        self.assertIn("where k varies there is no vacuum exponential history",
+                      check_detail(A4_WOLFRAM, "egb_exponential_vacuum_branches"))
+        self.assertIn("no solution with H != 0", check_detail(A4_PYTHON, "egb_no_vacuum_where_k_varies"))
+        self.assertIn(r"there is no vacuum exponential history where $k$ varies", self.text)
+        self.assertIn("the vacuum histories are exactly those with k0 != A^2",
+                      check_detail(A4_WOLFRAM, "egb_exponential_vacuum_branches"))
+        self.assertIn(r"the vacuum histories are exactly those with $k_0 \neq A^2$", self.text)
         self.assertIn(r"the tuned coupling $\alpha_2 = -1/(4H^2(A^2 - k_0))$", self.text)
         self.assertIn("w = (1, 1/32, 1/1152)", check_detail(A4_WOLFRAM, "author_weights_history_source"))
 
@@ -510,36 +520,119 @@ class QuotedData(unittest.TestCase):
                 self.assertIn(check["name"], cited, f"{check['name']} of {path.name}")
         rust = {check["name"]: check["detail"] for check in load_json(T3_RUST_DEMO)["checks"]}
         reference = {check["name"]: check["detail"] for check in load_json(T3_REFERENCE_DEMO)["checks"]}
+        # the numbers of the corrected metric (2026-10-17); the earlier editions are in the git history
         quoted = (
+            (rust, "history_is_a_prescribed_background", "a4,0 = [0.0, 0.5, 1.0, 1.5, 2.0]",
+             r"at the slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$"),
             (rust, "plus_and_image_runs_converged", "210 states (75 ground, 135 thermal)", "210 states: all 75 ground and 135 Mermin states"),
-            (rust, "plus_reproduces_canonical_matrix", "2.538e-10", "2.538e-10"),
-            (rust, "t3_equal_ground_states", "worst deviation 1.741e-13, tolerance 1e-09", "1.741e-13 (ground)"),
-            (rust, "t3_equal_thermal_states", "worst deviation 2.120e-11, tolerance 1e-09", "2.120e-11 (thermal), tolerance 1e-9"),
-            (rust, "negative_control_untransformed_tip", "at least 5.296e-01", "at least 5.296e-01 of its maximum"),
-            (rust, "negative_control_untransformed_tip", "in the 200 states", "200 states with a converged control"),
-            (rust, "negative_control_untransformed_tip", "in 10 states", r"in 10 states, all with $\lambda < 0$"),
+            (rust, "t3_equal_ground_states", "N = [8.0, 592.0, 2352.0]", "$N$ = 8, 592, 2352"),
+            (rust, "plus_reproduces_canonical_matrix", "worst deviation 1.916e-10", "to 1.916e-10"),
+            (rust, "t3_equal_ground_states", "worst deviation 1.853e-12, tolerance 1e-09", "1.853e-12 (ground)"),
+            (rust, "t3_equal_thermal_states", "worst deviation 3.502e-12, tolerance 1e-09", "3.502e-12 (thermal), tolerance 1e-9"),
+            (rust, "negative_control_untransformed_tip", "at least 4.657e-01", "at least 4.657e-01 of its maximum"),
+            (rust, "negative_control_untransformed_tip", "in the 210 states where the solver found a self-consistent control state",
+             "in all 210 states, in each of which the solver found a self-consistent control state"),
+            (rust, "negative_control_untransformed_tip", "in 0 states (none) the solver found none",
+             "in each of which the solver found a self-consistent control state"),
+            (rust, "negative_control_untransformed_tip", "(e^(-f m y), 0) are localised at the tip instead of the fold",
+             "$(e^{-fmy}, 0)$ are localised at the tip instead of the fold"),
             (rust, "negative_control_lambda_sign", "all 150 states", r"in all 150 states with $\lambda \neq 0$"),
-            (rust, "negative_control_lambda_sign", "smallest deviation 3.254e-04", "at least 3.254e-04"),
+            (rust, "negative_control_lambda_sign", "smallest deviation 5.120e-02", "at least 5.120e-02"),
             (reference, "all_members_converged", "18 states", "18 states, finite differences"),
-            (reference, "t3_equal_ground_states", "worst 9.326e-15", "9.326e-15 in the ground states"),
-            (reference, "t3_equal_ground_states", "up to 2.24e-04", "differ by up to 2.24e-04"),
-            (reference, "negative_control_untransformed_tip", "at least 5.296e+00", "at least 5.296e+00 of its maximum"),
-            (reference, "reference_image_equals_rust_image", "agree to 1.262e-11", "agree to 1.262e-11"),
+            (reference, "image_frame_theta_pi", "max |difference| 2.80e-14", "exact $k = 0$ image spectra to 2.80e-14"),
+            (reference, "t3_equal_ground_states", "13 ground states", "13 ground and 5 Mermin states"),
+            (reference, "t3_equal_thermal_states", "5 Mermin states", "13 ground and 5 Mermin states"),
+            (reference, "t3_equal_ground_states", "worst 1.332e-14", "1.332e-14 in the ground states"),
+            (reference, "t3_equal_thermal_states", "worst 3.159e-14", "3.159e-14 in the Mermin states"),
+            (reference, "t3_equal_ground_states", "differ by up to 1.81e-04", "differ by up to 1.81e-04"),
+            (reference, "negative_control_untransformed_tip", "at least 3.776e+00", "at least 3.776e+00 of its maximum"),
+            (reference, "reference_image_equals_rust_image", "agree to 7.311e-11", "agree to 7.311e-11"),
         )
         for details, name, in_report, in_document in quoted:
             self.assertIn(in_report, details[name], name)
             self.assertIn(in_document, self.text, in_document)
-        # the 10 states without a converged control all have lambda < 0 (tag lamm)
-        detail = rust["negative_control_untransformed_tip"]
-        states = re.search(r"in 10 states \(([^)]*)\)", detail).group(1).split(", ")
-        self.assertEqual(len(states), 10)
-        self.assertTrue(all("_lamm" in state for state in states), states)
+        # the reference demonstration solves the slices a4,0 = 0, 1, 2 only
+        reference_slices = set(re.findall(r"_a(\d\d)", reference["t3_equal_ground_states"]
+                                          + reference["t3_equal_thermal_states"]))
+        ground = reference["t3_equal_ground_states"]
+        self.assertIn("a4,0 = 0, 1, 2", ground)
+        self.assertIn("a4,0 = 0, 2", ground)
+        self.assertTrue(reference_slices <= {"00", "10", "20"}, reference_slices)
+        self.assertIn(r"the reference demonstration at $a_{4,0} = 0, 1, 2$", self.text)
+        self.assertEqual(load_json(T3_RUST_DEMO)["states"], 210)
+        self.assertEqual(load_json(T3_REFERENCE_DEMO)["states"], 18)
+        self.assertIn("Vol_7(a4,0) = ell^3 v_t e^{(5/3) a4,0}", load_json(T3_RUST_DEMO)["background"])
+        self.assertIn(r"$\mathrm{Vol}_7(a_{4,0}) = \ell^3v_te^{(5/3)a_{4,0}}$", self.text)
 
     def test_ks_source_numbers(self):
+        """The Kohn-Sham states as sources of the a4 and b4 equations (corrected metric, section 8.4)."""
         report = load_json(KS_SOURCE_A4)
-        self.assertEqual(report["summary"], {"checks": 22, "pass": 22, "fail": 0})
-        self.assertIn("22 of 22 checks", self.text)
-        self.assertIn("EXACT: no recorded Kohn-Sham state is an admissible source", report["conclusions"][0])
+        self.assertIn("corrected primordial metric of 2026-10-16 (version 2", report["metric"])
+        self.assertEqual(report["summary"], {"checks": 19, "pass": 19, "fail": 0})
+        self.assertIn("`Revision/field_equations_a4/ks_source/reports/ks-source-a4.json`, 19 of 19 checks", self.text)
+        self.assertIn("No recorded Kohn-Sham state is an admissible source of the corrected metric",
+                      report["conclusions"][0])
+        self.assertTrue(any("APPROXIMATION" in item for item in report["assumptions"]))
+        self.assertIn("a dimensional reduction that it labels an APPROXIMATION", self.text)
+        conditions = load_json(KS_SOURCE_CONDITIONS)
+        self.assertIn("corrected metric of 2026-10-16 (version 2", conditions["metric"])
+        self.assertEqual(conditions["summary"], {"checks": 5, "pass": 5, "fail": 0})
+        self.assertIn("`Revision/field_equations_a4/reports/ks-source-conditions.json` (5 of 5 checks)", self.text)
+        self.assertIn("No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source of the corrected metric",
+                      conditions["conclusion"])
+        self.assertIn("prescribed background without back-reaction", conditions["conclusion"])
+        self.assertIn("is therefore a PRESCRIBED background without back-reaction", self.text)
+        details = {check["name"]: check["detail"] for check in conditions["checks"]}
+        details.update({check["name"]: check["detail"] for check in report["checks"]})
+        quoted = (
+            ("ks_profiles_depend_on_x0", "75 ground-state profiles", "Of the 75 recorded ground states, 70 have"),
+            ("ks_profiles_depend_on_x0", "(70 with a nonzero energy-momentum tensor)", "70 have a nonzero energy-momentum tensor"),
+            ("ks_profiles_depend_on_x0", "(max rho - min rho)/max|T| >= 0.456213",
+             r"$(\max\rho - \min\rho)/\max|T| \geq 0.456213$"),
+            ("ks_hidden_pressure_condition", "for exactly the 10 nonzero states with lambda = 0",
+             r"for the 10 nonzero states with $\lambda = 0$"),
+            ("ks_hidden_pressure_condition", "fails (> 1e-06) for every one of the 60 states with lambda != 0",
+             r"fails for all 60 states with $\lambda \neq 0$"),
+            ("ks_zero_source_states_listed", "5 states have an identically vanishing energy-momentum tensor",
+             "the 5 states with an identically vanishing tensor"),
+            ("ks_history_is_a_prescribed_background", "a4,0 = 0 (kk = 1): kappa rho = 3.57407",
+             r"$\kappa\rho$ = 3.57407 at $a_{4,0} = 0$"),
+            ("ks_history_is_a_prescribed_background", "a4,0 = 2 (kk = 3.79367): kappa rho = -7.63383",
+             r"-7.63383 at $a_{4,0} = 2$"),
+            ("ks_history_is_a_prescribed_background", "kappa rho > 0 at every slice: False",
+             "a source whose energy density changes sign"),
+            ("ks_history_is_a_prescribed_background", "differ from the needed ones by at least 1.3733",
+             "differ from the needed ones by at least 1.3733"),
+            ("B3_hidden_direction_mismatch", "mu1_rho in [0.147738, 0.738255]", "between 0.147738 and 0.738255"),
+            ("C3_record_history_not_sourced_by_the_gas", "run from 16.5276 to -7311.81", "run from 16.5276 to -7311.81"),
+        )
+        for name, in_report, in_document in quoted:
+            self.assertIn(in_report, details[name], name)
+            self.assertIn(in_document, self.text, in_document)
+
+    def test_reverification_record(self):
+        """Section 9.3: the sha256 of the pairing record equal the committed files and the provenance entry."""
+        provenance = (REVISION / "pairing" / "wolfram" / "WOLFRAMSCRIPT_PROVENANCE.md").read_text(encoding="utf-8")
+        entry = provenance[provenance.index("* **The corrected metric of 2026-10-16, version 2 (2026-10-17):**"):]
+        for path in (PAIRING_THEORY, WOLFRAM_PAIRING, PYTHON_PAIRING,
+                     REVISION / "pairing" / "wolfram" / "verify_pairing.wls",
+                     REVISION / "pairing" / "wolfram" / "RevisionPairing.wl",
+                     REVISION / "pairing" / "python" / "check_pairing.py"):
+            digest = sha256_file(path)
+            self.assertIn(digest, entry, path.name)
+            self.assertIn(f"`{digest}` (`", self.text, path.name)
+        for statement in ("`verify_pairing.wls` `102/102 checks passed; time 82.33 s` (85 s of wall time)",
+                          "`check_pairing.py` 67 PASS, 0 FAIL in 177.9 s (179 s of wall time)"):
+            self.assertIn(statement, entry, statement)
+        self.assertIn("`verify_pairing.wls` 102 of 102 checks in 82.33 s of kernel time (85 s of wall time)", self.text)
+        self.assertIn("`check_pairing.py` 67 of 67 in 177.9 s (179 s of wall time)", self.text)
+        self.assertEqual(count_report(WOLFRAM_PAIRING), (102, 102, 0))
+        self.assertEqual(count_report(PYTHON_PAIRING), (67, 67, 0))
+        readme = (REVISION / "pairing" / "kohn_sham" / "README.md").read_text(encoding="utf-8")
+        self.assertIn("in four parts of 88, 91, 76 and 67 s and an assembly of 2 s", readme)
+        self.assertIn("in four parts of 88, 91, 76 and 67 s and an assembly of 2 s", self.text)
+        self.assertIn("in six parts of 219, 170, 78, 122, 115 and 91 s", readme)
+        self.assertIn("in six parts of 219, 170, 78, 122, 115 and 91 s", self.text)
 
     def test_further_quoted_numbers(self):
         wolfram = {check["name"]: check["detail"] for check in load_json(WOLFRAM_PAIRING)["checks"]}

@@ -35,7 +35,7 @@ ds^2 = {} & e^{-2a_4(x_4)}b_4(x_4)\cot^2 z\,dx_0^2 + e^{2a_4(x_4)}\big(dx_1^2+dx
 \end{aligned}
 $$
 
-with two metric functions $a_4(x_4)$ and $b_4(x_4) > 0$ of the time ($b_4$ is never 1); the hidden direction and the extra times form one block, which deflates with the scale factor $e^{-a_4}b_4^{1/2}$ times the static factors $|\cot z|$ and $(\sin^2 z)^{1/12}$. T1, T2, Q and T3 hold for arbitrary functions $a_4(x_4)$ and $b_4(x_4)$ (the pairing verifiers treat both as arbitrary); the Kohn-Sham record of section 8 uses the prescribed history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$. The metric has signature (4,4) (space-like $x_0, x_1, x_2, x_3$; time-like $x_4, x_5, x_6, x_7$), with $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$; it is degenerate at $z = n\pi/2$, and the points $z = \pi/2 + n\pi$, where $g_{00} = 0$ and $\sqrt{|g|} = 0$, are the folds where the two halves of a cell meet. The pairing verifiers work on the patch $0 < z < \pi/2$ (where $(\sin^2 z)^{1/12} = \sin^{1/6}z$) and on the other half $\pi/2 < z < \pi$ of the cell. The diagonal vielbein is $e^a{}_\mu = f_a\delta^a_\mu$ with $f_0 = e^{-a_4}b_4^{1/2}\cot z$, $f_1 = f_2 = f_3 = e^{a_4}$, $f_4 = 1$ and $f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$; the frame metric is $\eta = \mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ in the order $x_0, \dots, x_7$. Frame indices $a = 0, \dots, 7$ are aligned with the coordinates, so $\gamma^0$ is the hidden-direction gamma $\gamma^{(x_0)}$ and $\gamma^4$ the time gamma $\gamma^{(x_4)}$.
+with two metric functions $a_4(x_4)$ and $b_4(x_4) > 0$ of the time ($b_4$ is never 1); the hidden direction and the extra times form one block, which deflates with the scale factor $e^{-a_4}b_4^{1/2}$ times the $x_0$-dependent factors $|\cot z|$ and $(\sin^2 z)^{1/12}$. T1, T2, Q and T3 hold for arbitrary functions $a_4(x_4)$ and $b_4(x_4)$ (the pairing verifiers treat both as arbitrary); the Kohn-Sham record of section 8 uses the PRESCRIBED history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$, on which the scale factor of the block is $b_4(0)^{1/2}e^{-a_4/3}$: the extra times deflate exponentially. The metric has signature (4,4) (space-like $x_0, x_1, x_2, x_3$; time-like $x_4, x_5, x_6, x_7$), with $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$; it is degenerate at $z = n\pi/2$, and the points $z = \pi/2 + n\pi$, where $g_{00} = 0$ and $\sqrt{|g|} = 0$, are the folds where the two halves of a cell meet. The pairing verifiers work on the patch $0 < z < \pi/2$ (where $(\sin^2 z)^{1/12} = \sin^{1/6}z$) and on the other half $\pi/2 < z < \pi$ of the cell. The diagonal vielbein is $e^a{}_\mu = f_a\delta^a_\mu$ with $f_0 = e^{-a_4}b_4^{1/2}\cot z$, $f_1 = f_2 = f_3 = e^{a_4}$, $f_4 = 1$ and $f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$; the frame metric is $\eta = \mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ in the order $x_0, \dots, x_7$. Frame indices $a = 0, \dots, 7$ are aligned with the coordinates, so $\gamma^0$ is the hidden-direction gamma $\gamma^{(x_0)}$ and $\gamma^4$ the time gamma $\gamma^{(x_4)}$.
 
 The canonical spin connection (vielbein postulate) has the 10 nonzero components $\omega_{x_0,\,04} = h_4e^{-a_4}b_4^{1/2}\cot z$, $\omega_{x_i,\,i4} = a_4'e^{a_4}$ for the 3-space directions $i = 1, 2, 3$, and $\omega_{x_t,\,4t} = h_4e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$ and $\omega_{x_t,\,0t} = H(\sin^2 z)^{1/12}$ for the extra times $t = 5, 6, 7$, with $h_4 = \frac{b_4'}{2b_4} - a_4'$ the rate of the block and $\Omega_{x_4} = 0$. Contracted with the gammas,
 
@@ -452,7 +452,7 @@ Independent confirmations inside the same records: for $k = 0$, $v = 0$ and cons
 
 ### 8.4 Numerical confirmation and interpretation
 
-A numerical self-test of the Rust solver, labelled in its report as NOT a proof of T3: $(m, \lambda, \text{tip } \theta = 0)$ and $(-m, \lambda, \text{tip } \theta = \pi)$, solved independently, give the same sorted levels, occupations, Kohn-Sham energies and energy-momentum integrals and opposite $S$ (worst deviation 3.62e-13, tolerance 1e-9). For $N = 8$, $\lambda = 157.7$ and $a_{4,0} = 1$: $E_{KS}$ = -1.457144423225e-2 in both runs (140 levels), while the negative control with the untransformed tip $b(-L) = 0$ gives $E_{KS}$ = -1.7604533053e0. For $N = 592$ and $\lambda = 2.131$: $E_{KS}$ = 1.317651779781e2 in both runs (324 levels), negative control -8.1980434559e-1. The couplings are the solvers' $\hat\lambda$ and the units are those of `Revision/kohn_sham/ks-theory.json`.
+A numerical self-test of the Rust solver, labelled in its report as NOT a proof of T3: $(m, \lambda, \text{tip } \theta = 0)$ and $(-m, \lambda, \text{tip } \theta = \pi)$, solved independently, give the same sorted levels, occupations, Kohn-Sham energies and energy-momentum integrals and opposite $S$ (worst deviation 3.62e-13, tolerance 1e-9). For $N = 8$, $\lambda = 157.7$ and $a_{4,0} = 1$: $E_{KS}$ = -1.457144423225e-2 in both runs (140 levels), while the negative control with the untransformed tip $b(-L) = 0$ gives $E_{KS}$ = -1.7604533053e0. For $N = 592$, $\lambda = 2.131$ and $a_{4,0} = 1$: $E_{KS}$ = 1.317651779781e2 in both runs (324 levels), negative control -8.1980434559e-1. The couplings are the solvers' $\hat\lambda$ and the units are those of `Revision/kohn_sham/ks-theory.json`.
 
 Interpretation (labelled, not a theorem): in its parameters the Kohn-Sham-level map is of the T2 type, $(m,\lambda) \to (-m,+\lambda)$ at equal energies, not of the T1 type, although its 16-component matrix is the chirality $\Gamma$ of T1: the Kohn-Sham expectation values are taken with the fixed Krein metric $B$ of the canonical quantisation, under which $\Gamma$ flips the sign ($\Gamma B\Gamma = -B$, statement Q1), so $S \to -S$ at the Kohn-Sham level while $S[\Gamma\Psi] = S[\Psi]$ for the classical bilinear.
 
@@ -473,11 +473,11 @@ An adversarial verification of T3 (2026-10-08) re-ran both T3 verifiers, which r
 | 3 (S6) | `T3C_krein_rule_16_component` | `T3C.krein_rule_16_component` |
 | T3 reports, the two demonstrations, comparison with the completion record | | `T3C.t3_reports_pass`, `T3C.rust_demo_numerical_demonstration`, `T3C.reference_demo_numerical_demonstration`, `compare.t3_completion` |
 
-The numerical demonstrations (not part of the proof) solve, at the slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$ of the prescribed background history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$ ($A = 1$, the extra times deflating as $e^{-a_4}b_4^{1/2} = b_4(0)^{1/2}e^{-a_4/3}$; the coupling $\hat\lambda$ of each state is held fixed while the cell volume grows), three members of each state: the $+m$ universe $(m,\lambda,\theta = 0)$, the $-m$ universe $(-m,+\lambda,\theta = \pi)$ and a control.
+The numerical demonstrations (not part of the proof) solve, at slices of the prescribed background history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$ (the Rust demonstration at $a_{4,0} = 0, 0.5, 1, 1.5, 2$, the reference demonstration at $a_{4,0} = 0, 1, 2$; $A = 1$, the extra times deflating as $e^{-a_4}b_4^{1/2} = b_4(0)^{1/2}e^{-a_4/3}$; the coupling $\hat\lambda$ of each state is held fixed while the cell volume $\mathrm{Vol}_7(a_{4,0}) = \ell^3v_te^{(5/3)a_{4,0}}$ grows), three members of each state: the $+m$ universe $(m,\lambda,\theta = 0)$, the $-m$ universe $(-m,+\lambda,\theta = \pi)$ and a control.
 
 @@DEMOS@@
 
-What the completion does not establish: the same limits as T3 (section 8.4); in addition the filling convention remains a CONVENTION whose justification is open, and S6 is an equality of expectation values in Kohn-Sham (quasi-free) states with the fixed Krein metric $B$, not a statement about two independently quantised universes (the list of what is not established in the completion record).
+What the completion does not establish: the same limits as T3 (section 8.4); in addition the filling convention remains a CONVENTION whose justification is open, the demonstrations show the equalities only on the states solved and to their stated tolerances, and S6 is an equality of expectation values in Kohn-Sham (quasi-free) states with the fixed Krein metric $B$, not a statement about two independently quantised universes (the list of what is not established in the completion record).
 
 ## 9. Verification records
 
@@ -497,7 +497,7 @@ The tables below list all @@NW@@ checks of the Wolfram pairing report and all @@
 
 ### 9.3 Re-verification for this document
 
-For the first edition (2026-10-01) both pairing verifiers were re-run on a copy of the working tree: 99 of 99 and 64 of 64 checks passed and the outputs were byte-identical to the recorded files. After the review of the same day the pairing verifiers were extended (the Krein inertia of every real-frequency eigenspace, the Krein-neutral imaginary-frequency eigenspaces). On 2026-10-14 the record moved to the author's coordinates $x_0, \dots, x_7$, and on 2026-10-16 to the metric with $b_4(x_4)$, both since withdrawn.
+For the first edition (2026-10-01) both pairing verifiers were re-run on a copy of the working tree: 99 of 99 and 64 of 64 checks passed and the outputs were byte-identical to the recorded files. After the review of the same day the pairing verifiers were extended (the Krein inertia of every real-frequency eigenspace, the Krein-neutral imaginary-frequency eigenspaces). On 2026-10-14 the record moved to the author's coordinates $x_0, \dots, x_7$, which it keeps, and on 2026-10-16 to the metric of 2026-10-14 with $b_4(x_4)$; the metrics of all these editions are withdrawn (section 9.4), and their runs are recorded in the git history of this document and in the provenance files of the pairing record.
 
 @@RUNS@@
 
@@ -513,7 +513,7 @@ The answer of section 11.3 is unchanged. The correction of the metric adds no cr
 
 ## 10. Reproduction
 
-From the repository root (the sympy pairing checker reads the Wolfram theory record for its final comparison, so the Wolfram verifier runs first; the Kohn-Sham theory checker reads the record written by the Kohn-Sham source-conditions checker, so that one runs before it, and so does the analysis of the $a_4$ equations with the Kohn-Sham source, which re-derives that record; the T3 completion runs after the T3 verifiers: the Wolfram completion verifier first, then the Rust demonstration (it needs the built Rust solver; four parts and the assembly, each below the limit of 423 s for one run), then the reference demonstration (it compares its $-m$ universe with the Rust table), and the sympy completion checker last (it reads the completion record and both demonstration reports); `<target>` is the cargo target folder and `<scratch>` an empty working folder; the PDF command is one command, the backslash is the line continuation of a POSIX shell):
+From the repository root (the sympy pairing checker reads the Wolfram theory record for its final comparison, so the Wolfram verifier runs first; the Kohn-Sham theory checker reads the record written by the Kohn-Sham source-conditions checker, so that one runs before it, and so does the analysis of the $a_4$ equations with the Kohn-Sham source, which re-derives that record; the T3 completion runs after the T3 verifiers: the Wolfram completion verifier first, then the Rust demonstration (it needs the built Rust solver; four parts and the assembly, each below the limit of 423 s for one run), then the reference demonstration (it compares its $-m$ universe with the Rust table; six parts and the assembly, each below the same limit), and the sympy completion checker last (it reads the completion record and both demonstration reports); `<target>` is the cargo target folder and `<scratch1>` and `<scratch2>` are two empty working folders; a line ending in a backslash continues on the next, indented line (the line continuation of a POSIX shell)):
 
 ```text
 wolframscript -file Revision/algebra/wolfram/verify_algebra.wls
@@ -535,16 +535,29 @@ python Revision/pairing/kohn_sham/python/check_t3.py
 wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls
 cargo build --release --manifest-path Revision/kohn_sham/solver/Cargo.toml
 python Revision/pairing/kohn_sham/numerics/t3_rust_demo.py \
-    --solver <target>/release/revision_ks_solver --work <scratch> --jobs 10 --part 1/4
+    --solver <target>/release/revision_ks_solver --work <scratch1> --jobs 10 --part 1/4
 python Revision/pairing/kohn_sham/numerics/t3_rust_demo.py \
-    --solver <target>/release/revision_ks_solver --work <scratch> --jobs 10 --part 2/4
+    --solver <target>/release/revision_ks_solver --work <scratch1> --jobs 10 --part 2/4
 python Revision/pairing/kohn_sham/numerics/t3_rust_demo.py \
-    --solver <target>/release/revision_ks_solver --work <scratch> --jobs 10 --part 3/4
+    --solver <target>/release/revision_ks_solver --work <scratch1> --jobs 10 --part 3/4
 python Revision/pairing/kohn_sham/numerics/t3_rust_demo.py \
-    --solver <target>/release/revision_ks_solver --work <scratch> --jobs 10 --part 4/4
+    --solver <target>/release/revision_ks_solver --work <scratch1> --jobs 10 --part 4/4
 python Revision/pairing/kohn_sham/numerics/t3_rust_demo.py \
-    --solver <target>/release/revision_ks_solver --work <scratch> --jobs 10 --reuse
-python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22
+    --solver <target>/release/revision_ks_solver --work <scratch1> --jobs 10 --reuse
+python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py \
+    --jobs 22 --work <scratch2> --part 1/6
+python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py \
+    --jobs 22 --work <scratch2> --part 2/6
+python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py \
+    --jobs 22 --work <scratch2> --part 3/6
+python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py \
+    --jobs 22 --work <scratch2> --part 4/6
+python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py \
+    --jobs 22 --work <scratch2> --part 5/6
+python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py \
+    --jobs 22 --work <scratch2> --part 6/6
+python Revision/pairing/kohn_sham/numerics/t3_reference_demo.py \
+    --jobs 22 --work <scratch2> --reuse
 python Revision/pairing/kohn_sham/python/check_t3_completion.py
 python scripts/build_provenance_pdf.py Revision/docs/PAIR_CREATION_PROOFS.md \
     --developer-layout --specifications Revision/pdf-specifications.json

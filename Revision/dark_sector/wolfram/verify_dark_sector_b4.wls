@@ -3,8 +3,11 @@
 
 (* verify_dark_sector_b4.wls
 
-   Independent Wolfram verification of the dark-sector record (Revision/dark_sector) for the author's metric of
-   2026-10-14 WITH b4[x4] (Dirac_Einstein-Lovelock_4+4_Nash.nb, In[48]: X = {x0[], ..., x7[]}; In[97]-In[102]:
+   Independent Wolfram verification of the WITHDRAWN dark-sector record for the author's metric of 2026-10-14 WITH
+   b4[x4].  That metric was replaced on 2026-10-16 by the corrected metric (version 2; Revision/SPEC.md section 1).
+   This script is kept so that the withdrawn record (Revision/dark_sector/reference_2026_10_14/) stays reproducible;
+   the current verification is verify_dark_sector.wls.  (Dirac_Einstein-Lovelock_4+4_Nash.nb, In[48]:
+   X = {x0[], ..., x7[]}; In[97]-In[102]:
    DiagonalMatrix[{Cot[6 H x0]^2, beta1 {beta3, beta3, beta3}, -1, -beta1 b4[x4] {1/beta3, 1/beta3, 1/beta3}}],
    beta1 = Sin[6 H x0]^(1/3), beta3 = E^(2 a4[x4])).  b4 is a function of x4 (never 1).  Nothing of the Python
    scripts is used: the metric is MetricB4`MB4Metric[], the Lovelock tensors E_(1..3) are those of
@@ -111,7 +114,7 @@ recv = ToExpression /@ {rec["kappa_rho"], rec["kappa_p3"], rec["kappa_pt"], rec[
 check["D7_branch_required_source", offd === {} && vals === {-2/27, -2/9, -22/27, -14/27} && vals === recv &&
    onBr[[3, 3]] === onBr[[2, 2]] && onBr[[7, 7]] === onBr[[6, 6]],
   "on a4 = H x4, b4 = c E^((4/3) H x4) the author's left-hand side kappa T^mu_nu is diagonal and constant: kappa (rho, p3, p_t, p0) = " <>
-  ToString[InputForm[vals]] <> ", equal to dirac16complex00/eos-theory.json (condensate.branchRequiredSource) " <> ToString[InputForm[recv]]];
+  ToString[InputForm[vals]] <> ", equal to reference_2026_10_14/eos-theory-b4.json (condensate.branchRequiredSource, the frozen record of the withdrawn metric) " <> ToString[InputForm[recv]]];
 
 (* D8 *)
 uu = u0 E^(-2 A);

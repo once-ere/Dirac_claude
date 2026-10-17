@@ -1,7 +1,7 @@
 # dark_sector/dirac16complex — the Hypothesis for dirac16complex (SPEC sections 8 and 11)
 
 Revision code only (no-mixing rule of `Revision/SPEC.md` section 0: nothing from the old stages is used). Every number
-below is an output of the scripts in this folder (files named in brackets).
+below is an output of the scripts in this folder or of the Revision file named with it (files named in brackets).
 
 **The corrected primordial metric of 2026-10-16 (version 2; `Revision/SPEC.md` section 1), in the author's coordinates
 {x0, ..., x7}:**
@@ -13,9 +13,10 @@ x1, x2, x3 = ordinary 3-space (scale factor e^{a4}, no warp); x4 = the time; **x
 time-like, which DEFLATE EXPONENTIALLY** (scale factor e^{-a4} b4^{1/2} (sin^2 z)^{1/12}); the hidden direction has the
 scale factor e^{-a4} b4^{1/2} |cot z| and shrinks with them. **b4 is a function of x4 (never 1).** The metrics of
 2026-10-14 (with sin^{1/3} z in 3-space) and its version 1 of 2026-10-16 are withdrawn; their records are in the git
-history (and, for the twin of the Wolfram verification, `Revision/dark_sector/B4_PROVENANCE.md`). The 3-space
-observer's scale factor is a = e^{a4} (normalised a = 1 at a chosen "today" a4_today; a = e^{a4 - a4_today}); b4 does
-not enter it.
+history (the Wolfram verification of the withdrawn metric of 2026-10-14,
+`Revision/dark_sector/wolfram/verify_dark_sector_b4.wls`, is kept and documented in
+`Revision/dark_sector/B4_PROVENANCE.md`). The 3-space observer's scale factor is a = e^{a4} (normalised a = 1 at a
+chosen "today" a4_today; a = e^{a4 - a4_today}); b4 does not enter it.
 
 **The history of the numbers.** a4 = H x4 and **b4(x4) = e^{(4/3) H x4}** (b4(0) = 1), beta = d ln b4/d a4 = 4/3: the
 extra-time scale factor is e^{-a4} b4^{1/2} ~ a^{-1/3}, the extra times deflate exponentially. In the corrected metric
@@ -32,17 +33,18 @@ time-varying dark-energy and/or dark-matter equation of state.
 | file | role |
 | --- | --- |
 | `derive/derive_effective.py` | sympy: every effective formula derived exactly for the corrected metric before any number is computed → `outputs/effective-formulas.json`, `reports/derivation-checks.json` (37 checks) |
-| `compute/run_ks_history.py` | the Kohn-Sham gas on the history: the Revision Rust solver (`Revision/kohn_sham/solver`, command `single`, read-only use) at a4 = 0, 0.05, ..., 2 for N = 8, 592, 2352 and the five calibrated couplings lambda_hat, each with the cell volume Vol_7(a4) = ell^3 v_t e^{(5/3) a4} and the hidden scale f = e^{-a4/3} of the record (615 states; equivalently the coordinate cell at lambda_eff = lambda_hat e^{-(5/3) a4}, solved too at the committed slices as a check) → `outputs/ks-history-dense.csv`, `reports/ks-history-run.json` (8 checks) |
+| `compute/run_ks_history.py` | the Kohn-Sham gas on the history: the Revision Rust solver (`Revision/kohn_sham/solver`, command `single`, read-only use) at a4 = 0, 0.05, ..., 2 for N = 8, 592, 2352 and the five couplings lambda_hat = 0, ±lambda_1, ±lambda_2 (lambda_1, lambda_2 calibrated in `Revision/kohn_sham/results/parameters.json`), each with the cell volume Vol_7(a4) = ell^3 v_t e^{(5/3) a4} and the hidden scale f = e^{-a4/3} of the record (615 states; equivalently the coordinate cell at lambda_eff = lambda_hat e^{-(5/3) a4}, solved too at the committed slices as a check) → `outputs/ks-history-dense.csv`, `reports/ks-history-run.json` (8 checks) |
 | `compute/compute_eos.py` | w_eff for the three normalisations, the ratios, CPL tangents and fits, the condensate, mixtures, the Unite comparison → `outputs/eos-history.csv`, `outputs/eos-summary.json`, `reports/eos-checks.json` (13 checks) |
 | `independent/independent_free_gas.py` | INDEPENDENT second implementation (numpy, Chebyshev collocation + Hellmann-Feynman, no solver output used except for the final comparison) of the key numbers of the free gas; the bulk (massive) band → `outputs/independent-free-gas.json`, `reports/independent-checks.json` (10 checks) |
+| `../wolfram/verify_dark_sector.wls` | the independent Wolfram twin for the corrected metric (D1 volume, D2 conservation, D3 general w_eff, D4 condensate with the author's T16, D5 kinetic gas, D6 the anisotropic history source, D7 condensate drift) → `../reports/wolfram-dark-sector.json` (7 checks; gate step dark-wolfram) |
 
 Run from the repository root, in this order (each exits 0 only if all its checks pass; outputs are LF and two runs
 are byte-identical):
 
 ```text
 python Revision/dark_sector/dirac16complex/derive/derive_effective.py        # ~4 s
-python Revision/dark_sector/dirac16complex/compute/run_ks_history.py --work <scratch> --part 1/3   # and 2/3, 3/3
-python Revision/dark_sector/dirac16complex/compute/run_ks_history.py --work <scratch>              # the assembly
+python Revision/dark_sector/dirac16complex/compute/run_ks_history.py --jobs 22 --work <scratch> --part 1/3   # and 2/3, 3/3
+python Revision/dark_sector/dirac16complex/compute/run_ks_history.py --jobs 22 --work <scratch>              # the assembly
 python Revision/dark_sector/dirac16complex/compute/compute_eos.py            # ~1 s
 python Revision/dark_sector/dirac16complex/independent/independent_free_gas.py   # ~85 s
 ```
@@ -55,8 +57,8 @@ selects another binary). Python needs numpy and sympy (no scipy).
 ## Exact results (derive_effective.py, 37/37)
 
 * Volumes: sqrt|g| = e^{-a4} b4^2 |cot z| |sin z|^{1/2}; proper 3-volume e^{3 a4}, proper extra-time volume
-  e^{-3 a4} b4^{3/2}, proper hidden length e^{-a4} b4^{1/2} |cot z| dx0 = f |dy| with f = e^{-a4} b4^{1/2}; the proper
-  7-volume of a cell grows like e^{-a4} b4^2 = e^{(2 beta - 1) a4} (check `proper_volume_elements`).
+  e^{-3 a4} b4^{3/2} |sin z|^{1/2}, proper hidden length e^{-a4} b4^{1/2} |cot z| dx0 = f |dy| with f = e^{-a4} b4^{1/2};
+  the proper 7-volume of a cell grows like e^{-a4} b4^2 = e^{(2 beta - 1) a4} (check `proper_volume_elements`).
 * Conservation, re-derived from the metric for T = diag(p0, p3, p3, p3, -rho, p_t, p_t, p_t)(x4, x0) and equal to
   `Revision/field_equations_a4/a4-equations.json`: **d rho/d x4 = -3 a4' (rho + p3) - h4 (rho + p0) - 3 h4 (rho + p_t)**,
   h4 = b4'/(2 b4) - a4' (the expansion rate of the hidden direction and of each extra time); **d p0/d x0 + 3 H cot z
@@ -64,8 +66,9 @@ selects another binary). Python needs numpy and sympy (no scipy).
   dE/da4 = -3 P3 + Pt + P0/3, with E, P3, Pt, P0 the proper 7-volume integrals of rho, p3, p_t, p0 per unit coordinate
   volume.
 * **rho_4 is an ASSUMPTION about the observer** (the extra times are time-like): (A) the extra times and the hidden
-  direction are compact with a fixed coordinate period, i.e. closed time-like directions; (B) rho_4 is taken per unit
-  of their coordinate volume; (C) rho_4 is taken per unit proper 7-volume. With w_eff = -1 - (1/3) d ln rho_4/d ln a:
+  direction are compact with a fixed coordinate period, i.e. the extra times are closed time-like directions and the
+  hidden direction x0 a closed space-like one; (B) rho_4 is taken per unit of their coordinate volume; (C) rho_4 is
+  taken per unit proper 7-volume. With w_eff = -1 - (1/3) d ln rho_4/d ln a:
 
   **w_eff = P3/E + (beta/2 - 1)(P0 + 3 Pt)/(3E) - s (4 - 2 beta)/3: w_eff(A) = w_eff(B) (s = 0), w_eff(C) (s = 1)**.
 
@@ -77,9 +80,10 @@ selects another binary). Python needs numpy and sympy (no scipy).
   (`condensate_ratio_equal_unite_constant_w`); it is the 8-dimensional ratio, not the observer's dilution-inferred w.
 * The fold band of the Kohn-Sham record, eps = e^{-a4} |k| exactly, is a massless 3-space quantum: w_eff(A) = 1/3 for
   every b4, w_eff(C) = 1/3 - 4/9 = -1/9 (check `fold_band_quantum_w_eff`). Free mode in the flat (warp-free) limit
-  (labelled; used for signs and limits only): a q = 0 mode does not feel b4, w_eff(A) = k^2/(3 (M^2 a^2 + k^2)): 1/3 → 0
-  (CPL tangent w0 = x/(3(1+x)), wa = 2x/(3(1+x)^2) > 0, x = k^2/M^2); the momenta along the deflating extra times and
-  the hidden direction BLUESHIFT, d ln q_p/d a4 = 1 - beta/2 (q_p ~ a^{1/3} on the history).
+  (labelled; used for signs and limits only): a mode with l = q = 0 (no hidden and no extra-time momentum) does not
+  feel b4, w_eff(A) = k^2/(3 (M^2 a^2 + k^2)): 1/3 → 0 (CPL tangent w0 = x/(3(1+x)), wa = 2x/(3(1+x)^2) > 0,
+  x = k^2/M^2); the momenta along the deflating extra times and the hidden direction BLUESHIFT,
+  d ln q_p/d a4 = 1 - beta/2 (q_p ~ a^{1/3} on the history).
 * Phantom: w_eff(C) < -1 needs P3/E - (P0 + 3 Pt)/(9E) < -5/9 at beta = 4/3; a real-frequency kinetic gas has P3 >= 0,
   Pt <= 0, P0 >= 0, so with E > 0 it needs a large hidden kinetic pressure P0 > 9 E (P3/E + 5/9), or E < 0
   (check `phantom_condition`).
@@ -120,21 +124,27 @@ all 41 slices of every series; y-conservation holds to 5.751e-10.
 * **N = 8 with lambda != 0** (only the k = 0 zero modes, pure interaction energy): E has the sign of -lambda at every
   slice; P3 = Pt, P3/E in [0.948351, 0.998955]; w_eff(A) in [0.232167, 0.408203] (check `n8_interacting_states`).
 * **Expected time-varying dark-matter equation of state (1/3 → 0): not found.** The computed ground states fill the
-  fold band (radiation-like, w_eff(A) = 1/3). The massive BULK band (the lowest odd level of the n2 = 1 shell; the bulk
-  edge at a4 = 0 is 1.292292828069) does not follow the dust-like law either: the shrinking hidden direction raises the
-  bulk level like 1/f = e^{a4/3}, so w_eff(A) = -(1/3) d ln eps/d a4 falls monotonically from 0.318721 (a4 = -3) to
-  -0.081074 (a4 = 4), changing sign between a4 = -0.5 and -0.25, toward -1/9 when the hidden momentum dominates
-  [`outputs/independent-free-gas.json`, check `bulk_band_w_eff`]. The T = 0 states (N <= 2352) are filled below the
-  bulk edge and do not populate that band.
-* Independent check [`reports/independent-checks.json`, 10/10, 85 s]: energies of the independent collocation vs the Rust
+  fold band (radiation-like, w_eff(A) = 1/3). The massive BULK band (the lowest odd level of the n2 = 1 shell,
+  |k| = 0.25, eps = 1.316253 at a4 = 0; the bulk edge, the lowest odd k = 0 level, is 1.292292828069 at a4 = 0) does
+  not follow the dust-like law either: the shrinking hidden direction raises the bulk level like 1/f = e^{a4/3}, so
+  w_eff(A) = -(1/3) d ln eps/d a4 falls monotonically from 0.318721 (a4 = -3) to -0.081074 (a4 = 4), changing sign
+  between a4 = -0.5 and -0.25, toward -1/9 when the hidden momentum dominates [`outputs/independent-free-gas.json`,
+  bulkBand_n2_1; `reports/independent-checks.json`, check `bulk_band_w_eff`]. No T = 0 state of the record (N = 8,
+  592, 2352) occupies an odd-parity (bulk) level (the committed level files
+  `Revision/kohn_sham/results/ground/levels/*.csv`; the occupied label set, parity included, is fixed along the
+  history, check `occupied_labels_fixed_along_history`, 15 of 15 series); the interacting levels are shifted
+  (N = 2352, lambda_hat = -1.609: Fermi level 1.301468 at a4 = 0, above the free edge 1.292293 but below that state's
+  lowest odd level 1.401451).
+* Independent check [`reports/independent-checks.json`, 10/10]: energies of the independent collocation vs the Rust
   solver 3.568e-13 (82 states), w_eff 1.220e-13, CPL tangents 2.737e-11; the fold-band level e^{-a4}|k| to 4.58e-14.
 
 ## The condensate, mixtures and the Unite comparison
 
 * **The condensate drifts** (lambda S/m ~ e^{-(5/3) a4}): at the u that gives the ratio -0.764 today its wa is -2.24616
   (thawing sign); w_eff(A) = (5/9) w_c = -0.424444 and w_eff(C) = (5/9) w_c - 4/9 = -0.868889, both with
-  wa = -1.247867 (check `condensate_drifts`). For u < 0 the condensate energy m S0 (1 + u/2) reaches 0 in the past, at
-  a4 = a4_today - (3/5) ln(2/|u_today|).
+  wa = -1.247867 (check `condensate_drifts`). For -2 < u_today < 0 the condensate energy E = m S0 (1 + u/2)
+  (u = lambda S/m ~ e^{-(5/3) a4}) reaches 0 in the past, at a4 = a4_today - (3/5) ln(2/|u_today|) (it follows from
+  checks `condensate_rho_p` and `condensate_scaling`); for u_today <= -2 it is already <= 0 today.
 * Gas (N = 2352, lambda = 0) + lambda = 0 condensate: w_eff(C) >= -0.444111 >= -4/9 at every slice and gas fraction:
   neither -0.861 nor a constant -0.764 is reached (check `mixture_C_cannot_reach_unite_w0_with_lambda0_condensate`).
 * Gas + a drifting condensate of any ratio w_c in [-3, 0.99] today, any gas fraction, a4_today in {0.5, 1, 1.5, 2}: the
@@ -151,20 +161,24 @@ all 41 slices of every series; y-conservation holds to 5.751e-10.
   (interacting), w_eff(A) near 1/3; only the drifting condensate gives values near the Unite w0 (w_eff(C) = -0.869 at
   the ratio -0.764, with wa = -1.25), and the closest CHOSEN pure condensate to the Unite pair lies at the distance 0.160
   ((-0.706, -0.640)): a tuned value, not a prediction;
-  (iii) no computed Kohn-Sham state has w_eff(C) < -1; a drifting lambda < 0 condensate has, while u lies in (-2, -1);
+  (iii) no computed Kohn-Sham state has w_eff(C) < -1; a drifting lambda < 0 condensate has w_eff(C) < -1 while
+  u = lambda S/m lies in (-2, -1) (`Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json`, check
+  `condensate_phantom_interval`);
   (iv) on the prescribed history the observer's expansion itself reads w_exp = -1 exactly.
 
 ## Status and limits (honesty rule)
 
 * The history a4 = H x4, b4 = e^{(4/3) H x4} is a PRESCRIBED BACKGROUND (test fields without back-reaction): with the
-  author's weights it needs the anisotropic source of `a4-equations.json` (kappa (p3 - p0) = -9 k^2/16 + 1069 k/432 +
-  2015/972, k = e^{(2/3) H x4}; `Revision/dark_sector/dirac16complex00/eos-theory.json`, check `history_required_source`
-  of `reports/python-derive-eos.json` there); no source of this record is it: the Kohn-Sham states are not admissible
-  sources (`Revision/field_equations_a4/reports/ks-source-conditions.json`) and every condensate is isotropic and decays.
+  author's weights it needs the anisotropic source of `a4-equations.json` (kappa (p3 - p0) = -9 kk^2/16 +
+  1069 kk/432 + 2015/972, kk = e^{(2/3) H x4}; `Revision/dark_sector/dirac16complex00/eos-theory.json`, check
+  `history_required_source` of `reports/python-derive-eos.json` there); no source of this record supplies it: the
+  Kohn-Sham states are not admissible sources (`Revision/field_equations_a4/reports/ks-source-conditions.json`) and
+  every condensate is isotropic and decays.
 * Both fold conditions are filled (ASSUMED); the filling of the positive branch and the zero modes is the CONVENTION of
   `Revision/kohn_sham/ks-theory.json`; the normalisation A, B or C of rho_4 is an ASSUMPTION about the observer;
-  a4_today is a free parameter; b4(0) enters only through lambda_hat; only T = 0 states and a4 in [0, 2] (the solver's
-  validated range) are used.
+  a4_today is a free parameter; b4(0) enters only through lambda_hat; only T = 0 states are used, and the Kohn-Sham
+  states only at a4 in [0, 2] (the solver's validated range); the single-level bulk-band study of
+  `independent_free_gas.py` (independent collocation, not the solver) runs over a4 in [-3, 4].
 * OPEN: a self-consistent history with an admissible source; populated bulk-band or thermal states along the
   history (fixed entropy); modes with extra-time momentum (outside the good sector; only their flat-limit sign
   structure is derived here); the non-adiabatic problem.

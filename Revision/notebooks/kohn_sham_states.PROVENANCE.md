@@ -246,14 +246,14 @@ No run time and no path of the computer is printed (paths are shown relative to 
 
 ## 7. Verification record
 
-* 2026-10-08, the reason for the current version (a review of the previous version, two findings):
+* 2026-10-08, the reason for the version of 2026-10-08 (a review of the version before, two findings):
   (1) the final list of written files left out only `<cargo-target>`, so a folder `<output>/cargo-target`
   left in a reused `<output>` by an earlier version was listed file by file; it is now left out as
   well. (2) On Linux the default `<cargo-target>` lies in the shared `/tmp` under a predictable name,
   and the notebook runs the solver built there; on macOS and Linux the folder is now created private
   and an existing folder that is not private is refused (section 6). In the notebook only the sources
   of cell 1 (section 2.6), cell 5 (the folder set-up) and cell 31 (the final list) changed; every
-  output is identical to the previous version.
+  output is identical to the version before.
 * 2026-10-08, the private-folder check: the exact code of the builder, run under WSL Ubuntu 24.04 with
   Python 3.12.3 (scratch script), created a new folder with mode 0700, accepted an existing own folder
   of mode 0755, refused folders of mode 0777 and 0775, a symbolic link and a folder of another user
@@ -277,7 +277,7 @@ No run time and no path of the computer is printed (paths are shown relative to 
   existed beforehand (the reviewer's reproduction) - exit status 0, no error or stderr output in the
   executed notebook, `checks of this notebook: 24 passed, 0 failed`, and the final list holds only the
   23 files of section 2, no `cargo-target` path (34.5 s wall time including nbconvert start).
-* 2026-10-08, tests of the current version: `python -m unittest Revision/tests/test_revision_notebooks.py -v`
+* 2026-10-08, tests of the version of 2026-10-08: `python -m unittest Revision/tests/test_revision_notebooks.py -v`
   - 9 static tests OK, 2 skipped; with `REVISION_NOTEBOOKS_FULL=1` - 11 tests OK in 91.7 s (the installed
   versions equal the pins; `check` of all three notebooks in temporary folders is byte-identical);
   `build_notebooks.py audit` PASS (0 problems) for all three notebooks.
@@ -294,7 +294,7 @@ No run time and no path of the computer is printed (paths are shown relative to 
   260-character path of the program. In a copy of the needed files below a folder of 170
   characters, `check kohn_sham_states` without `--out` (as the gate step notebooks-check runs it)
   failed with `LNK1104` with the previous builder and notebook (those of the last commit before this
-  change) and passed with the current ones (byte-identical, 514141 bytes, 38.0 s). A review had found the same failure for the notebook
+  change) and passed with the new ones (byte-identical, 514141 bytes, 38.0 s). A review had found the same failure for the notebook
   `lovelock_gkd` (above 148 characters); all three notebooks were changed in the same way. Since then
   the build goes to `<cargo-target>` (sections 2 and 6); the results and the figures are unchanged.
 * All runs below with the system's temporary folder set (TMP, TEMP, TMPDIR) to a scratch folder of
