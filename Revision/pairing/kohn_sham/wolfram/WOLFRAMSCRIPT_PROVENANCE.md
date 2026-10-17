@@ -1,5 +1,14 @@
 # Provenance of the wolframscript set `Revision/pairing/kohn_sham/wolfram/` (theorem T3 and its completion)
 
+**2026-10-17 (section 6.9): the corrected metric of 2026-10-16 (version 2).**  The set proves T3 for the corrected
+primordial metric of `Revision/SPEC.md` section 1: a4 and b4 enter the block Hamiltonians
+h_j = j[-(i/f) sigma1 d_y + M_eff sigma2 + kappa k sigma3] + v_v only through the constants f = e^(-a4) b4^(1/2) and
+kappa = e^(-a4) of a slice; the fold z = pi/2 joins the two halves of a cell, both fold conditions are filled (ASSUMED),
+and there is no Z2 orbifold, so the statement S5 and the check of the mirror copy were removed: `verify_t3.wls` has 9
+checks (statements S1-S4; check 4 is `T3_fold_conditions_exchanged`), its sympy twin `check_t3.py` 12, the completion
+3 (unchanged). The text of sections 1 to 6.8 describes the earlier versions (10 checks, the brane parities, the Z2
+mirror); section 6.9 lists what changed.
+
 This file is written for a student who has never used Wolfram or a terminal before. It says what the two
 scripts of the set do, which files they read and write, how to install everything and run them on Windows,
 macOS or Linux, what you should see, what a run changes on your computer, and how and when it was verified.
@@ -1088,6 +1097,37 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   (p8 -> p0, gamma^(x8) -> gamma^(x0), gamma^(x1..x8) -> gamma^(x0..x7), the coordinate sentence); the demonstration
   reports differ from the committed ones only in the renamed quantities and in the sha256 of their inputs
   (`ks-theory.json`, the Kohn-Sham `parameters.json`, the solver and reference sources, the source-condition report).
+
+### 6.9 The corrected metric of 2026-10-16 (version 2) (2026-10-17)
+
+* Why. The user's orders of 2026-10-16 (`Revision/SPEC.md` section 1, version 2; "go ahead with the recomputation
+  using the corrected metric", `HANDOFF.md` 0.10, phase W6). In the corrected metric the hidden direction carries the
+  scale f = e^(-a4) b4^(1/2), the 3-momenta the constant weight kappa = e^(-a4), and the fold cos z = 0 joins the two
+  halves of a cell, which carry the same chi(y) (`Revision/kohn_sham/ks-theory.json` boundaryConditions.fold, both
+  fold conditions filled, ASSUMED). The Z2 orbifold of the metric of 2026-10-14, whose mirror copy carried
+  (-m, +lambda), does not exist.
+* Changes. `verify_t3.wls` (commit `6e228a8`): the block Hamiltonian with 1/f in the hidden derivative and the constant
+  kappa (check 1 and the ODE map of check 2 for every positive f); hypotheses H1 (the slice of the corrected metric,
+  f and kappa) and H3 (the fold, ASSUMED); check 4 renamed `T3_fold_conditions_exchanged` (the two fold conditions
+  chi2(0) = 0 and chi1(0) = 0 are exchanged); the statement S5 and the check `T3_z2_mirror_copy_carries_minus_m_plus_lambda`
+  removed (9 checks); the not-established list states that the corrected metric has no mirror copy.
+  `verify_t3_completion.wls` (2026-10-17): the description of T3 as the statements S1-S4 with 9 and 12 checks (the
+  numbers of 2026-10-08, 10 and 13, are kept as "then"); the zero mode of the filling-convention check is
+  (e^(f M y), 0); its three checks and its report are unchanged. `check_t3.py` and `check_t3_completion.py` (the sympy
+  twins): the same changes; `check_t3_completion.py` now requires 9 and 12 checks of the T3 reports.
+* sha256 (2026-10-17): `verify_t3.wls` `f05c2e7ee0b5f95015f2dad82c453419af29c7b5fad754f4438653f4eb991f94` (245 lines, 27691 bytes) (before
+  `8ab3941140fa52e692ae34eb813963fedd4b0fc8fc76a85ae5c7dad3a3fd194e`), `verify_t3_completion.wls`
+  `aef4bcf3f7e54949bcb9e3655c8d4a221b5259a7544e141427a1279c3b8bb74f` (142 lines, 19061 bytes); inputs `ks-theory.json`
+  `34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` (484 lines, 21739 bytes), `gammas.json` `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` (1405 lines, 76894 bytes); outputs
+  `t3-theory.json` `e2ba471cf17b44b04fb4ecf0ed1c9d9d44d335fd05aebce2fdee502b4bdd9720` (53 lines, 7313 bytes), `reports/wolfram-t3.json`
+  `771c8ecb9a8e96df65d8a664a8f6b26d8beba0bab31d01abd6eea54ed6b4032c` (18 lines, 6946 bytes), `t3-completion.json`
+  `74c0f9adeb9d8c92ab7d1b7f3d7f61af8ff90d9ee827d0c8a4db3899be737909` (38 lines, 8165 bytes), `reports/wolfram-t3-completion.json`
+  `45e4690e475bfe8b40b866407cfaa18eff7c109652ee8dea91db0d3080c699d0` (12 lines, 3374 bytes).
+* Runs (2026-10-17, Windows 11 Pro for Workstations, Wolfram 15.0.1, Python 3.14, from the repository root in the
+  working tree, every run under `timeout -k 5 423`): `verify_t3.wls` `9/9 checks passed` (5.8 s of wall time),
+  `check_t3.py` 12 of 12 (1.3 s), `verify_t3_completion.wls` `3/3 checks passed` (2.9 s), `check_t3_completion.py`
+  7 of 7 (0.9 s); these runs reproduced the committed `t3-theory.json`, `reports/wolfram-t3.json`,
+  `reports/python-t3.json` and `reports/wolfram-t3-completion.json` of commit `6e228a8` byte for byte.
 
 ### 6.8 The author's metric with b4(x4) (2026-10-16)
 

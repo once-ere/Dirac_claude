@@ -16,10 +16,11 @@ t3-rust-demo.json, t3-reference-demo.json.  Writes Revision/pairing/kohn_sham/re
 Run order: verify_t3.wls, check_t3.py, verify_t3_completion.wls, numerics/t3_rust_demo.py,
 numerics/t3_reference_demo.py, then this script.
 
-The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0 
-(brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.  The metric is the
-author's metric with b4(x4) (SPEC section 1; b4 is never 1).  The Kohn-Sham history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4}
-used by the demonstrations is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus).
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6 H) in [-L, 0], z = 6 H x0 real
+(the fold cos z = 0 at y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra
+times.  The metric is the corrected primordial metric of 2026-10-16 (version 2; SPEC section 1).  The Kohn-Sham history
+a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} used by the demonstrations is a PRESCRIBED BACKGROUND (ks-theory.json
+adiabaticity.historyStatus).
 """
 
 import json
@@ -90,32 +91,34 @@ def main():
     # 2. the filling convention on the image
     M = sp.Symbol("M", positive=True)
     L = sp.Symbol("L", positive=True)
-    z0 = sp.Matrix([sp.exp(M * y), 0])
+    fs = sp.Symbol("f", positive=True)          # the hidden scale (ks-theory.json blockEquation), constant on a slice
+    z0 = sp.Matrix([sp.exp(fs * M * y), 0])
     zI = s2 * z0
-    h0 = lambda jj, MM, c: jj * (-sp.I * s1 * c.diff(y) + MM * s2 * c)
+    h0 = lambda jj, MM, c: jj * (-sp.I / fs * s1 * c.diff(y) + MM * s2 * c)
     zero = sp.zeros(2, 1)
-    ok = zI == sp.Matrix([0, sp.I * sp.exp(M * y)])
+    ok = zI == sp.Matrix([0, sp.I * sp.exp(fs * M * y)])
     ok = ok and all(h0(jj, M, z0).applyfunc(sp.simplify) == zero and h0(-jj, -M, zI).applyfunc(sp.simplify) == zero
                     for jj in (1, -1))
     ok = ok and z0[1] == 0 and zI[0] == 0
     ok = ok and ((I2 - tip(0)) * z0.subs(y, -L)).applyfunc(sp.simplify) == zero
     ok = ok and ((I2 - tip(sp.pi)) * zI.subs(y, -L)).applyfunc(sp.simplify) == zero
     ctl = ((I2 - tip(0)) * zI.subs(y, -L)).applyfunc(sp.simplify) != zero
-    ok = ok and sp.simplify((zI.H * zI)[0, 0] - sp.exp(2 * M * y)) == 0
+    ok = ok and sp.simplify((zI.H * zI)[0, 0] - sp.exp(2 * fs * M * y)) == 0
     # the continuation in lambda: S1 at every coupling lambda' and any S(y)
     lp, m0, k = sp.symbols("lambda_p m0 k", real=True)
     Sf, kap, v = sp.Function("S")(y), sp.Function("kappa")(y), sp.Function("v")(y)
     chi = sp.Matrix([sp.Function("c1")(y), sp.Function("c2")(y)])
-    hB = lambda jj, MM, c: jj * (-sp.I * s1 * c.diff(y) + MM * s2 * c + kap * k * s3 * c) + v * c
+    hB = lambda jj, MM, c: jj * (-sp.I / fs * s1 * c.diff(y) + MM * s2 * c + kap * k * s3 * c) + v * c
     Mp = m0 + cM * lp * Sf
     path = all((hB(-jj, -Mp, s2 * chi) - s2 * hB(jj, Mp, chi)).applyfunc(sp.expand) == zero for jj in (1, -1))
     check("T3C.filling_convention_mapped", ok and ctl and path,
-          "the filling CONVENTION (H5: positive lambda = 0 branch plus the k = 0 brane zero modes, followed continuously in "
+          "the filling CONVENTION (H5: positive lambda = 0 branch plus the k = 0 fold zero modes, followed continuously in "
           "lambda) is carried onto the image: sigma2 h_j(m + (15/16) lambda' S) = h_(-j)(-(m + (15/16) lambda' S)) sigma2 "
           "for every lambda' and any S(y) (both j), so eps > 0 at lambda = 0 is kept and the map commutes with the "
-          "continuation; the zero mode (e^(M y), 0) of (M, j, even, theta = 0) maps to (0, i e^(M y)), a zero mode of "
-          "h_(-j)(-M) with odd parity (a(0) = 0) and the transformed tip theta = pi (a(-L) = 0), brane-localised "
-          "(|chi|^2 = e^(2 M y)); control: it violates the untransformed tip")
+          "continuation; the zero mode (e^(f M y), 0) of (M, j, fold condition theta = 0, tip theta = 0) (f > 0 the hidden "
+          "scale) maps to (0, i e^(f M y)), a zero mode of h_(-j)(-M) with the other fold condition (a(0) = 0) and the "
+          "transformed tip theta = pi (a(-L) = 0), fold-localised (|chi|^2 = e^(2 f M y)); control: it violates the "
+          "untransformed tip")
 
     # 3. the 16-component expectation-value (Krein) rule
     g = json.loads(GAMMAS.read_text(encoding="utf-8"))
@@ -147,12 +150,12 @@ def main():
     # 4. the T3 reports themselves (data)
     wt, pt, th = load(REPORTS / "wolfram-t3.json"), load(REPORTS / "python-t3.json"), load(T3DIR / "t3-theory.json")
     ok = wt is not None and pt is not None and th is not None
-    ok = ok and wt["summary"]["failed"] == 0 and wt["summary"]["passed"] == wt["summary"]["total"] == 10
-    ok = ok and pt["counts"]["fail"] == 0 and pt["counts"]["pending"] == 0 and pt["counts"]["pass"] == 13
+    ok = ok and wt["summary"]["failed"] == 0 and wt["summary"]["passed"] == wt["summary"]["total"] == 9
+    ok = ok and pt["counts"]["fail"] == 0 and pt["counts"]["pending"] == 0 and pt["counts"]["pass"] == 12
     ok = ok and th["status"] == "all checks of the report passed" and th["verification"] == [c["name"] for c in wt["checks"]]
     check("T3C.t3_reports_pass", ok,
-          "theorem T3 itself: reports/wolfram-t3.json %s/%s PASS, reports/python-t3.json %s/13 PASS, t3-theory.json status "
-          "'%s' with the 10 Wolfram check names; the completion adds to T3 and changes none of its files"
+          "theorem T3 itself: reports/wolfram-t3.json %s/%s PASS, reports/python-t3.json %s/12 PASS, t3-theory.json status "
+          "'%s' with the 9 Wolfram check names; the completion adds to T3 and changes none of its files"
           % (wt["summary"]["passed"] if wt else "-", wt["summary"]["total"] if wt else "-",
              pt["counts"]["pass"] if pt else "-", th["status"] if th else "-"))
 
@@ -209,7 +212,8 @@ def main():
         "producer": "Revision/pairing/kohn_sham/python/check_t3_completion.py",
         "spec": "Revision/SPEC.md section 9, theorem T3 (the Kohn-Sham level): completion",
         "independence": "sympy only; no code shared with Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls",
-        "background": "T3 holds slice by slice (b4 does not enter the block Hamiltonians); the history a4 = A H x4, b4 = "
+        "background": "T3 holds slice by slice (a4 and b4 enter the block Hamiltonians only through the positive constants f "
+                      "and kappa of the slice); the history a4 = A H x4, b4 = "
                       "b4(0) e^{(4/3) A H x4} of the numerical demonstrations (extra times x5, x6, x7 deflating as "
                       "e^{-a4} b4^{1/2}) is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; "
                       "Revision/field_equations_a4/reports/ks-source-conditions.json)",

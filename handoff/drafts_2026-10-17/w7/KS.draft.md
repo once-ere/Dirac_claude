@@ -158,8 +158,10 @@ Reading (labelled interpretation of these numbers): the free ground states occup
 Exactly (mean field), $i\partial_{x_4}\chi = h(a_4(x_4), f(x_4))\chi$ conserves $k$, the block and the fold condition; transitions occur only between levels of the same $(k, j, \text{block}, \text{fold condition})$. The measure along $a_4 = AHx_4$ is
 
 $$
-Q_{nm} = AH\,\frac{\lvert\langle n\rvert\partial_ah\lvert m\rangle\rvert}{(\varepsilon_n - \varepsilon_m)^2} = AH\,\frac{\lvert\langle n\vert\partial_am\rangle\rvert}{\lvert\varepsilon_n - \varepsilon_m\rvert},\qquad
-\partial_ah_j = -j\kappa k\sigma_3 + \big(1 - \tfrac{\beta}{2}\big)\,j\big(-\tfrac{i}{f}\sigma_1\partial_y\big) + j(\partial_aM_{\mathrm{eff}})\sigma_2 + \partial_av_v ,
+\begin{aligned}
+Q_{nm} &= AH\,\frac{\lvert\langle n\rvert\partial_ah\lvert m\rangle\rvert}{(\varepsilon_n - \varepsilon_m)^2} = AH\,\frac{\lvert\langle n\vert\partial_am\rangle\rvert}{\lvert\varepsilon_n - \varepsilon_m\rvert},\\
+\partial_ah_j &= -j\kappa k\sigma_3 + \big(1 - \tfrac{\beta}{2}\big)\,j\big(-\tfrac{i}{f}\sigma_1\partial_y\big) + j(\partial_aM_{\mathrm{eff}})\sigma_2 + \partial_av_v ,
+\end{aligned}
 $$
 
 for $n$ occupied and $m$ empty in the same sector (the second term, one third of the kinetic term, comes from the shrinking hidden direction); the state is adiabatic if $\max Q_{nm} \ll 1$, and $Q_{nm}^2$ is the leading-order transition probability. The self-consistent derivatives come from the states at $a_{4,0} \pm \delta$, $\pm 2\delta$ ($\delta = 2\times10^{-3}$, Richardson); they contain the change of the effective coupling $\hat\lambda/\mathrm{Vol}_7(a_{4,0})$ along the history. Hellmann-Feynman, $d\varepsilon_n/da = \langle n\rvert\partial_ah\lvert n\rangle$, is checked in 75 cases (worst @@HF@@, record `adiabatic_hellmann_feynman`).
@@ -270,7 +272,12 @@ with $U_{\mathrm{ref}}$ the reference's three-grid Richardson uncertainty and $U
 
 ### 13.3 Determinism and the refinement measurement
 
-The Rust determinism report (@@DET_N@@ of @@DET_N@@ PASS): a repeat of the canonical matrix is byte-identical in all 244 result files and in its check report (`repeat_byte_identical`, `repeat_report_byte_identical`, `outputs_lf_only`); a run with refined tolerances (900 to 1800 RK4 steps, root tolerance 1e-14, SCF tolerance 1e-14 with at most 1000 iterations) agrees with the canonical run to @@DET_E@@ in $E_{KS}$ (relative), @@DET_LEV@@ in @@DET_NLEV@@ levels, @@DET_PROF@@ in the profiles, @@DET_ADIA@@ in $Q_{\max}$ and $dE/da_4$, @@DET_THERMO@@ in the thermodynamics and @@DET_CV@@ in $C_V$ (`refined_same_inputs`, `refined_free_spectra_convergence_order`, `refined_ground_energies`, `refined_ground_homo_lumo_gap`, `refined_eigenvalues`, `refined_delta_scf`, `refined_profiles`, `refined_adiabatic_derivatives`, `refined_thermodynamics`, `refined_mermin_root_path`, `refined_heat_capacity`). The refined run has the SCF tolerance 1e-14, three orders below the canonical one, so that the canonical-refined differences contain the canonical SCF stopping error (with an SCF tolerance only ten times smaller both runs could stop at the same iteration and carry the same stopping error; `claude_failures.md` H15).
+The Rust determinism report (@@DET_N@@ of @@DET_N@@ PASS): a repeat of the canonical matrix is byte-identical in all 244 result files and in its check report; a run with refined tolerances (900 to 1800 RK4 steps, root tolerance 1e-14, SCF tolerance 1e-14 with at most 1000 iterations) agrees with the canonical run to @@DET_E@@ in $E_{KS}$ (relative), @@DET_LEV@@ in @@DET_NLEV@@ levels, @@DET_PROF@@ in the profiles, @@DET_ADIA@@ in $Q_{\max}$ and $dE/da_4$, @@DET_THERMO@@ in the thermodynamics and @@DET_CV@@ in $C_V$. The refined run has the SCF tolerance 1e-14, three orders below the canonical one, so that the canonical-refined differences contain the canonical SCF stopping error (with an SCF tolerance only ten times smaller both runs could stop at the same iteration and carry the same stopping error; `claude_failures.md` H15).
+
+| item | records of `Revision/kohn_sham/reports/ks-rust-determinism.json` |
+| --- | --- |
+| the repeat | `repeat_byte_identical`, `repeat_report_byte_identical`, `outputs_lf_only` |
+| the refined run | `refined_same_inputs`, `refined_free_spectra_convergence_order`, `refined_ground_energies`, `refined_ground_homo_lumo_gap`, `refined_eigenvalues`, `refined_delta_scf`, `refined_profiles`, `refined_adiabatic_derivatives`, `refined_thermodynamics`, `refined_mermin_root_path`, `refined_heat_capacity` |
 
 ### 13.4 Re-verification for this document
 

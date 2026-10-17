@@ -1,0 +1,39 @@
+    def test_run_times_from_the_readmes(self):
+        sources = (
+            (KS / "theory" / "WOLFRAMSCRIPT_PROVENANCE.md", ("about 40 to 85 seconds", "about 75 to 165 seconds"),
+             ("about 40 to 85 s", "about 75 to 165 s")),
+            (KS / "solver" / "README.md",
+             ("part 1/2 134.6 s, part 2/2 130.5 s, assembly 5.4 s", "Repeat in three parts: 76.7 s, 70.4 s, 85.7 s",
+              "in four parts: 176.5 s, 186.1 s, 183.0 s, 163.8 s"),
+             ("the Rust canonical matrix in two parts of 134.6 s and 130.5 s with an assembly of 5.4 s",
+              "the repeat in three parts of 76.7 s, 70.4 s and 85.7 s",
+              "the refined-tolerance run in four parts of 176.5 s, 186.1 s, 183.0 s and 163.8 s")),
+            (KS / "reference" / "README.md",
+             ("193.0, 175.4, 214.0, 179.8, 100.7 and 191.2 s", "136.8, 143.7, 133.7, 133.7, 134.2 and\n  139.8 s"),
+             ("stage 1 193.0, 175.4, 214.0, 179.8, 100.7 and 191.2 s",
+              "stage 2 136.8, 143.7, 133.7, 133.7, 134.2 and 139.8 s")),
+            (KS / "checker" / "README.md", ("in 108.8 s", "87.6 s in total"),
+             ("the refinement measurement 108.8 s", "the cross-checker itself 87.6 s")),
+            (KS / "tip_convergence" / "README.md", ("966 s in all, 7 of 7 checks PASS",),
+             ("the tip-cutoff study 966 s in ten parts",)),
+            (REVISION / "field_equations_a4" / "ks_source" / "README.md",
+             ("The script takes about 4.4 s and the tests about 20 s",),
+             ("the Kohn-Sham source analysis about 4.4 s and its unit tests about 20 s",)),
+            (REVISION / "field_equations_a4" / "README.md", ("Wolfram\n57 of 57 (20 s), sympy 69 of 69 (8 s)",),
+             ("the $a_4$ verifiers 20 s (Wolfram) and 8 s (sympy)",)),
+            (REVISION / "pairing" / "kohn_sham" / "wolfram" / "WOLFRAMSCRIPT_PROVENANCE.md",
+             ("`verify_t3.wls` `9/9 checks passed` (5.8 s of wall time),\n  `check_t3.py` 12 of 12 (1.3 s)",),
+             ("the T3 verifiers 5.8 s and 1.3 s",)),
+        )
+        for path, in_source, in_document in sources:
+            text = path.read_text(encoding="utf-8")
+            for value in in_source:
+                self.assertIn(value, text, f"{value} in {path.name}")
+            for value in in_document:
+                self.assertIn(value, self.text, value)
+        # section 13.4: the re-run of the canonical matrix in parts (the times of the solver README)
+        self.assertIn("(`revision_ks_solver all --cache <scratch> --part i/3 --inner-threads 2`, then `--out "
+                      "<scratch>/results --report <scratch>/report.json`; 76.7 s, 70.4 s, 85.7 s and 5.7 s)", self.text)
+        self.assertIn("assembly 5.7 s", (KS / "solver" / "README.md").read_text(encoding="utf-8"))
+        self.assertIn("(45 of 45 checks PASS)", self.text)
+        self.assertEqual(count_report(RUST_SOLVER)[0], 45)

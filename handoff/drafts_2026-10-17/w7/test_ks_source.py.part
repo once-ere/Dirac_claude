@@ -1,0 +1,39 @@
+    def test_source_condition_numbers(self):
+        detail = check_detail(SOURCE_CONDITIONS, "ks_profiles_depend_on_x0")
+        self.pair(detail, ">= 0.456213", "\\geq 0.456213")
+        self.assertIn("(70 with a nonzero energy-momentum tensor)", detail)
+        self.assertIn("Every one of the 70 nonzero ground-state profiles depends on $x_0$", self.text)
+        detail = check_detail(SOURCE_CONDITIONS, "ks_hidden_pressure_condition")
+        self.assertIn("for exactly the 10 nonzero states with lambda = 0", detail)
+        self.assertIn("fails (> 1e-06) for every one of the 60 states with lambda != 0 (smallest: 0.080929", detail)
+        self.assertIn("for exactly the 10 nonzero states with $\\lambda = 0$", self.text)
+        self.assertIn("fails for every one of the 60 states with $\\lambda \\neq 0$ "
+                      "($\\max_y|p_0 - p_t|/\\max|T| \\geq 0.080929$", self.text)
+        self.assertIn("C3 holds for every recorded state", check_detail(SOURCE_CONDITIONS, "ks_offdiagonal_condition"))
+        detail = check_detail(SOURCE_CONDITIONS, "ks_history_is_a_prescribed_background")
+        self.pair(detail, "kappa rho = 3.57407", "$\\kappa\\rho = 3.57407$ at $a_{4,0} = 0$")
+        self.pair(detail, "kappa rho = -7.63383", "$-7.63383$ at $a_{4,0} = 2$")
+        self.assertIn("5 states have an identically vanishing", check_detail(SOURCE_CONDITIONS, "ks_zero_source_states_listed"))
+        self.assertIn("Five states have an identically vanishing tensor", self.text)
+        conclusion = load_json(SOURCE_CONDITIONS)["conclusion"]
+        self.assertIn("No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source of the corrected metric",
+                      conclusion)
+        a4 = load_json(SOURCE_A4)
+        self.assertEqual(a4["summary"], {"checks": 19, "pass": 19, "fail": 0})
+        for name, in_source, in_document in (
+                ("B2_x0_conservation_on_every_profile", "1.21233e-05", "1.21233e-05"),
+                ("B3_hidden_direction_mismatch", "mu1_rho in [0.147738, 0.738255]", "between 0.147738 and 0.738255"),
+                ("C1_averaged_hidden_pressure_condition", ">= 0.00613418", "$\\geq 0.00613418$"),
+                ("C3_record_history_not_sourced_by_the_gas", "rho_bar = 0.216249 at a4 = 0, 0.00104404 at a4 = 2",
+                 "$\\bar\\rho = 0.216249$ and $0.00104404$"),
+                ("C3_record_history_not_sourced_by_the_gas", "from 16.5276 to -7311.81", "from 16.5276 to $-7311.81$"),
+                ("D2_author_weights_from_the_record_history",
+                 "x4 = 0.428813 (a4 = 0.361572, b4 = 0.862627, a4'/H = 0.978369, u/H = -2.60176)",
+                 "$x_4 = 0.428813$ ($a_4 = 0.361572$, $b_4 = 0.862627$, $a_4'/H = 0.978369$, $u/H = -2.60176$"),
+                ("D4_outcomes", "a4_turns 24, regular 6, runaway 4, singular_second_order_system 4",
+                 "$a_4$ turning 24 times, regular 6 times, runaway 4 times and singular 4 times"),
+                ("D4_outcomes", "38 cases", "over 38 cases")):
+            self.pair(check_detail(SOURCE_A4, name), in_source, in_document)
+        conclusions = " ".join(a4["conclusions"])
+        self.assertIn("No recorded Kohn-Sham state is an admissible source of the corrected metric", conclusions)
+        self.assertIn("the history is a prescribed background without back-reaction", conclusions)

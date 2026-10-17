@@ -4,7 +4,7 @@
 
 ## Abstract
 
-This document records the Kohn-Sham (density-functional) model of the fermion field dirac16complex in the author's primordial gravitational field, deliverable 4 of `Revision/SPEC.md` section 10, as computed by the code in `Revision/kohn_sham/`, in the author's metric with the function $b_4(x_4)$ in the three extra-time components ($b_4$ is never 1; since 2026-10-16). Exact (two independent verifiers, WolframScript and sympy): in the good sector (no extra-time momentum) the ansatz $\Psi = e^{ik\cdot x}W^{-3}b_4^{-3/4}\chi(y,x_4)$ removes the spin-connection terms $3H\gamma^0$ and $\frac34(b_4'/b_4)\gamma^4$ and reduces the 16-component equation, for every history $a_4(x_4)$, $b_4(x_4)$, to eight $2 \times 2$ blocks $h_j = j[-i\sigma_1\,d/dy + M_{\mathrm{eff}}\sigma_2 + \kappa k\sigma_3] + v_v$ in the hidden coordinate $y$, with $\kappa = e^{-Hy-a_4}$; $b_4$ does not enter $h_j$; the deflation of the extra times enters the instantaneous problem only through this redshift of the 3-momenta and through the proper cell volume, which grows like $b_4^{3/2}$; the exact local exchange of the uniform good-sector gas gives $M_{\mathrm{eff}} = m + \frac{15}{16}\lambda S$ and $v_v = -\lambda n/16$. Computed (a Rust solver, an independent Python reference with a different discretisation, and a cross-check of the full canonical matrix, 31 of 31 checks PASS over 162731 comparisons): the instantaneous ground and first excited states of 75 parameter sets ($N = 8, 136, 688$; five couplings $\hat\lambda$, held fixed while the cell grows, so that the effective coupling falls like $e^{-2a_{4,0}}$; five slices $a_{4,0}$ of the prescribed history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$, $A = 1$), 135 Mermin states at three temperatures, the adiabaticity measure ($Q_{\max} \leq 0.0935336$ over the matrix), the Fermi-level crossings (none in the canonical matrix; a demonstration at $N = 696$), the energy-momentum tensor profiles, the exact rescaling partners and the exact-exchange variant. ASSUMED or chosen: the Z2 brane at the patch end, the regular tip at $y = -3$, the filling convention. Measured afterwards (`Revision/kohn_sham/tip_convergence/`, $L = 3$ to $6$, 7 of 7 checks PASS): the free results converge as the tip cutoff $L$ grows and the recorded $L = 3$ values of $E_{KS}$ lie within 1.4% of the large-$L$ values, except $N = 688$ at $a_{4,0} = 0$, which changes its occupied set from $L = 3.5$ on and does not converge up to $L = 6$; the interaction energy of the brane zero modes depends strongly on $L$ (the recorded $N = 8$ value is about one third of the large-$L$ value at $a_{4,0} = 0$ and about 1/22 of it at $a_{4,0} = 2$), and for 6 of the 19 interacting states studied (self-consistent iteration failing at larger $L$ before the differences settle) the limit $L \to \infty$ of $E_{KS}$ is not established. Not admissible as sources: no recorded Kohn-Sham state satisfies the source conditions of the $a_4$ and $b_4$ equations, so the history is a prescribed background without back-reaction. Not done: the time-dependent (non-adiabatic) Kohn-Sham problem, correlation beyond exchange, back-reaction.
+This document records the Kohn-Sham (density-functional) model of the fermion field dirac16complex in the author's primordial gravitational field, deliverable 4 of `Revision/SPEC.md` section 10, as computed by the code in `Revision/kohn_sham/`, in the corrected metric of 2026-10-16 (version 2): $g = \mathrm{diag}\big(e^{-2a_4}b_4\cot^2 z,\ e^{2a_4}\,(\times3),\ -1,\ -e^{-2a_4}b_4(\sin^2 z)^{1/6}\,(\times3)\big)$, $z = 6Hx_0$ real, with two functions $a_4(x_4)$ and $b_4(x_4) > 0$ ($b_4$ is never 1). Exact (two independent verifiers, WolframScript and sympy): in the good sector (no extra-time momentum) the ansatz $\Psi = e^{ik\cdot x}e^{-(3/2)Hy}e^{a_4/2}b_4^{-1}\chi(y,x_4)$ removes the spin-connection terms $\tfrac32(H/f)\gamma^0$ and $(b_4'/b_4 - \tfrac12a_4')\gamma^4$ and reduces the 16-component equation, for every history $a_4(x_4)$, $b_4(x_4)$, to eight $2 \times 2$ blocks $h_j = j[-(i/f)\sigma_1\,d/dy + M_{\mathrm{eff}}\sigma_2 + \kappa k\sigma_3] + v_v$ in the hidden coordinate $y = \ln|\sin z|/(6H)$, with the hidden scale $f = e^{-a_4}b_4^{1/2}$ (the hidden direction shrinks together with the extra times) and the constant momentum weight $\kappa = e^{-a_4}$; the deflation enters the instantaneous problem through $f$, through the redshift $\kappa k$ of the 3-momenta and through the proper cell volume, which grows like $e^{-a_4}b_4^2$, on the history like $e^{(5/3)a_4}$; the exact local exchange of the uniform good-sector gas gives $M_{\mathrm{eff}} = m + \frac{15}{16}\lambda S$ and $v_v = -\lambda n/16$. Computed (a Rust solver, an independent Python reference with a different discretisation, and a cross-check of the full canonical matrix, 31 of 31 checks PASS over 217571 comparisons): the instantaneous ground and first excited states of 75 parameter sets ($N = 8, 592, 2352$; five couplings $\hat\lambda$, held fixed while the cell grows, so that the effective coupling falls like $e^{-(5/3)a_{4,0}}$; five slices $a_{4,0}$ of the prescribed history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$, $A = 1$), 135 Mermin states at three temperatures, the adiabaticity measure ($Q_{\max} \leq 0.1982205$ over the matrix), the Fermi-level crossings (none in the canonical matrix; a demonstration at $N = 2360$), the energy-momentum tensor profiles, the exact rescaling partners and the exact-exchange variant. The free states of the matrix are exact fold-band gases: their occupied levels are $\varepsilon = \kappa|k|$ with the orbital $(e^{fMy}, 0)$, so their energy redshifts exactly like $e^{-a_4}$, with $\int p_3 = E_{KS}/3$ and $\int p_0 = \int p_t = 0$. ASSUMED or chosen: both fold conditions filled at the fold $z = \pi/2$ where the two halves of a cell meet, the regular tip at $y = -3$, the filling convention. The dependence on the tip cutoff is measured ($L = 3$ to $6$): the free fold-band gases do not depend on it (except $N = 2352$ at $a_{4,0} = 0$), the interacting zero modes and the $k = 0$ bulk levels do (section 5). Not admissible as sources: no recorded Kohn-Sham state satisfies the source conditions of the $a_4$ and $b_4$ equations, so the history is a prescribed background without back-reaction. Not done: the time-dependent (non-adiabatic) Kohn-Sham problem, correlation beyond exchange, back-reaction.
 
 ## 1. The task and the answer
 
@@ -12,7 +12,7 @@ The author asked (2026-10-01, quoted from `Revision/README.md`): “plan and emp
 
 The answer of this record:
 
-1. Exact (section 3, section 4): the block reduction, the exchange functional, the boundary conditions, the rescaling identity, the energy-momentum tensor and its conservation laws, the adiabaticity measure, all for the metric with $b_4(x_4)$. Every formula is in `Revision/kohn_sham/ks-theory.json` and verified twice, in `Revision/kohn_sham/reports/ks-theory-wolfram.json` (51 of 51 PASS) and independently in `Revision/kohn_sham/reports/ks-theory-python.json` (63 of 63 PASS).
+1. Exact (section 3, section 4): the block reduction, the exchange functional, the boundary conditions, the rescaling identity, the energy-momentum tensor and its conservation laws, the adiabaticity measure, all for the corrected metric. Every formula is in `Revision/kohn_sham/ks-theory.json` and verified twice, in `Revision/kohn_sham/reports/ks-theory-wolfram.json` (51 of 51 PASS) and independently in `Revision/kohn_sham/reports/ks-theory-python.json` (61 of 61 PASS).
 2. Computed (sections 5 to 10): the instantaneous Kohn-Sham states of the canonical matrix by the Rust solver, independently by the Python reference, and compared state by state on the full matrix.
 3. Not admissible (section 11): the recorded states are not sources of the field equations for $a_4$ and $b_4$; the history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$ is PRESCRIBED.
 4. Open (section 15): the time-dependent Kohn-Sham problem, correlation, back-reaction.
@@ -21,77 +21,77 @@ Every number below is read from the named Revision report or results file (the p
 
 ## 2. Setting: the author's field, the good sector and the hidden coordinate
 
-The coordinates are the author's, $x_0, x_1, \dots, x_7$, in the author's order: $x_0$ is the hidden space direction, $z = 6Hx_0 \in (0,\pi/2)$; $x_1, x_2, x_3$ are ordinary 3-space, inflating with the scale factor $e^{a_4}\sin^{1/6}z$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which DEFLATE exponentially, with the scale factor $e^{-a_4}b_4^{1/2}\sin^{1/6}z$ and $a_4$ increasing (they are never treated as static). (Until 2026-10-14 this record named them $x_1, \dots, x_8$, with the hidden direction $x_8$ listed last; the user ordered the author's coordinates on 2026-10-14.) The metric of `Revision/SPEC.md` section 1, as changed by the author on 2026-10-14 ($g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}(6Hx_0)$; `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`), is
+The coordinates are the author's, $x_0, x_1, \dots, x_7$, in the author's order: $x_0$ is the hidden direction, space-like, $z = 6Hx_0$ real; $x_1, x_2, x_3$ are ordinary 3-space, inflating with the scale factor $e^{a_4}$; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which DEFLATE exponentially, with the scale factor $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$ and $a_4$ increasing (they are never treated as static); the hidden direction has the scale factor $e^{-a_4}b_4^{1/2}|\cot z|$ and shrinks together with them. The metric of `Revision/SPEC.md` section 1 (version 2 of 2026-10-16; `Revision/metric_warped/`) is
 
 $$
 \begin{aligned}
-ds^2 = {} & \cot^2 z\,dx_0^2 + e^{2a_4(x_4)}\sin^{1/3}z\,\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
-& - e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}z\,\big(dx_5^2+dx_6^2+dx_7^2\big) ;
+ds^2 = {} & e^{-2a_4(x_4)}b_4(x_4)\cot^2 z\,dx_0^2 + e^{2a_4(x_4)}\big(dx_1^2+dx_2^2+dx_3^2\big) - dx_4^2 \\
+& - e^{-2a_4(x_4)}\,b_4(x_4)(\sin^2 z)^{1/6}\,\big(dx_5^2+dx_6^2+dx_7^2\big) ;
 \end{aligned}
 $$
 
-$b_4(x_4) > 0$ is a function of the time and never 1 ($b_4 = 1$ is the withdrawn metric of the earlier version of this record). The history of this record is
+$b_4(x_4) > 0$ is a function of the time and never 1. The history of this record is
 
 $$
 a_4 = AHx_4,\qquad b_4 = b_4(0)\,e^{\beta AHx_4},\qquad A = 1,\quad \beta = \tfrac43 ,
 $$
 
-PRESCRIBED, not solved for: with the author's Lovelock weights the mixed $x_4$-$x_0$ equation of a source without a $T^{x_4}{}_{x_0}$ component allows on $a_4 = Hx_4$ exactly $d\ln b_4/da_4 \in \{0, \frac43\}$, and $b_4$ is not constant (`ks-theory.json`, key adiabaticity.historyBetaSource; section 11). On it the extra-time scale factor is $b_4(0)^{1/2}e^{-AHx_4/3}\sin^{1/6}z$.
+PRESCRIBED, not solved for: the record keeps the history of `Revision/SPEC.md` section 1 for continuity, and in the corrected metric it needs an anisotropic, $x_0$-independent source with $p_0 = p_t$ that grows with $x_4$ (`ks-theory.json`, key adiabaticity.historyBetaSource; section 11). On it the hidden scale is $f = e^{-a_4}b_4^{1/2} = e^{-a_4/3}$ ($b_4(0) = 1$).
 
-The Kohn-Sham record uses the hidden coordinate $y = \ln(\sin z)/(6H) \in (-\infty, 0]$, with $dy = \cot z\,dx_0$; the patch end $z = \pi/2$ is $y = 0$ (the brane) and the tip $z \to 0$ is $y \to -\infty$. In it the metric is exactly
+The Kohn-Sham record uses the hidden coordinate $y = \ln|\sin z|/(6H) \in (-\infty, 0]$, with $dy = \cot z\,dx_0$, on every quarter of the period of $z$; the fold $\cos z = 0$ ($z = \pi/2$) is $y = 0$ and the tip $\sin z \to 0$ is $y \to -\infty$; the two halves $z < \pi/2$ and $z > \pi/2$ of a cell $(0, \pi)$ form the doubled system. In it the metric is exactly
 
 $$
-ds^2 = e^{2Hy}\big[e^{2a_4}(dx_1^2+dx_2^2+dx_3^2) - e^{-2a_4}b_4(dx_5^2+dx_6^2+dx_7^2)\big] - dx_4^2 + dy^2 ,
+ds^2 = e^{2a_4}(dx_1^2+dx_2^2+dx_3^2) - dx_4^2 + f^2\big[dy^2 - e^{2Hy}(dx_5^2+dx_6^2+dx_7^2)\big],\qquad f = e^{-a_4}b_4^{1/2},
 $$
 
-with the warp $W = e^{Hy}$ and $\sqrt{|g|} = b_4^{3/2}e^{6Hy}$ ($= b_4^{3/2}\cos z$ in the author's chart). The 7-volume does not depend on $a_4$ (the inflation $e^{3a_4}$ of 3-space is compensated exactly by the factor $e^{-3a_4}$ of the extra times), but it grows like $b_4^{3/2}$, on the history like $b_4(0)^{3/2}e^{2a_4}$. The canonical spin connection gives $\gamma^\mu\Omega_\mu = 3H\gamma^0 + \frac34(b_4'/b_4)\gamma^4$ for every $a_4(x_4)$, $b_4(x_4)$: the $a_4'$ pieces of the three inflating directions, $+\frac32a_4'\gamma^4$, and of the three deflating directions, $-\frac32a_4'\gamma^4$, cancel, and the $b_4'$ piece of the deflating directions remains.
+with the warp $W = e^{Hy}$ on the extra times only (3-space has no warp) and $\sqrt{|g|} = e^{-a_4}b_4^2e^{3Hy}$ ($= e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$ in the author's chart). The proper 7-volume of a coordinate cell grows like $e^{-a_4}b_4^2$, on the history like $e^{(5/3)a_4}$. The canonical spin connection gives $\gamma^\mu\Omega_\mu = \tfrac32(H/f)\gamma^0 + (b_4'/b_4 - \tfrac12a_4')\gamma^4$ for every $a_4(x_4)$, $b_4(x_4)$: the hidden direction contributes $\tfrac12h_4\gamma^4$, 3-space $\tfrac32a_4'\gamma^4$, the extra times $\tfrac32h_4\gamma^4 + \tfrac32(H/f)\gamma^0$, with $h_4 = b_4'/(2b_4) - a_4'$.
 
-The good sector: no dependence on $x_5, x_6, x_7$ (zero extra-time momenta), a coordinate 3-torus of side $\ell$ with the momenta $k \in \Delta k\,\mathbb{Z}^3$, $\Delta k = 2\pi/\ell$, and the extra-time coordinate volume $v_t$; the proper cell volume is $\ell^3v_tb_4^{3/2}$. With the ASSUMED brane condition and the chosen tip condition (section 5; together they kill the $y$-current and make the blocks $h_j$ self-adjoint) the good sector is quantised in the positive realisation of the canonical quantisation of `Revision/SPEC.md` section 6; the field-theory record `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY` (its section 11) constructs that realisation explicitly only for single good-sector momenta with frozen coefficients, and without a boundary condition at $z = \pi/2$ the curved good sector has complex frequencies (for $U = 0$ whenever $m^2 < 9H^2$, which includes the parameters $m = H = 1$ used here). The expectation-value rule $\langle\Psi^\dagger M\Psi\rangle = \mathrm{Tr}(M\rho)$, $\rho = \sum_{\mathrm{occ}} f\,uu^\dagger B$, defines the quasi-free (Slater or Mermin) states used here.
+The good sector: no dependence on $x_5, x_6, x_7$ (zero extra-time momenta), a coordinate 3-torus of side $\ell$ with the momenta $k \in \Delta k\,\mathbb{Z}^3$, $\Delta k = 2\pi/\ell$, and the extra-time coordinate volume $v_t$; the proper cell volume is $\ell^3v_te^{-a_{4,0}}b_{4,0}^2$. With the fold conditions (ASSUMED filling of both) and the chosen tip condition (section 5; together they kill the $y$-current and make the blocks $h_j$ self-adjoint) the good sector is quantised in the positive realisation of the canonical quantisation of `Revision/SPEC.md` section 6; the field-theory record `Revision/docs/DIRAC16COMPLEX_FIELD_THEORY` (its section 11) constructs that realisation explicitly only for single good-sector momenta with frozen coefficients, and without a boundary condition at the degenerate points the curved good sector has complex frequencies wherever $m^2 < \tfrac94H^2e^{2a_4}/b_4$. The expectation-value rule $\langle\Psi^\dagger M\Psi\rangle = \mathrm{Tr}(M\rho)$, $\rho = \sum_{\mathrm{occ}} f\,uu^\dagger B$, defines the quasi-free (Slater or Mermin) states used here.
 
 | item | Wolfram records | sympy records |
 | --- | --- | --- |
 | gammas, $C$, $B$, $\Gamma$ | `fixture_input`, `clifford_relation`, `C_B_Gamma` | `fixture_input`, `fixture_python_equals_wolfram`, `clifford_relation`, `C_B_Gamma`, `BC_and_Cg4` |
-| hidden coordinate, $\sqrt{\lvert g\rvert}$ | `geometry_hidden_coordinate`, `geometry_sqrt_det` | `geometry_hidden_coordinate`, `geometry_sqrt_det`, `geometry_warped_form` |
-| spin connection | `spin_connection_compatibility`, `spin_connection_slash`, `spin_connection_time_terms`, `spin_connection_slash_x0_chart` | `spin_connection_compatibility`, `spin_connection_slash`, `spin_connection_time_terms`, `spin_connection_time_term_value`, `spin_connection_slash_x0_chart` |
+| hidden coordinate, line element, $\sqrt{\lvert g\rvert}$ | `geometry_hidden_coordinate`, `geometry_line_element`, `geometry_sqrt_det` | `geometry_hidden_coordinate`, `geometry_sqrt_det`, `geometry_line_element` |
+| spin connection | `spin_connection_compatibility`, `spin_connection_slash`, `spin_connection_time_terms`, `spin_connection_slash_x0_chart` | `spin_connection_compatibility`, `spin_connection_slash`, `spin_connection_time_terms`, `spin_connection_slash_x0_chart` |
 
-### 2.1 The metric with $b_4(x_4)$ in the Kohn-Sham record
+### 2.1 The corrected metric in the Kohn-Sham record
 
-On 2026-10-14 the author changed the extra-time components to $g_{55} = g_{66} = g_{77} = -e^{-2a_4(x_4)}\,b_4(x_4)\sin^{1/3}(6Hx_0)$ (the change, its source cells and every verification are recorded in `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`), and on 2026-10-15 the user ordered that everything be moved to $b_4(x_4)$, $b_4$ never 1. The Kohn-Sham record was moved on 2026-10-16:
+On 2026-10-16 the primordial metric was corrected (version 2; the hidden direction is space-like and carries $e^{-2a_4}b_4\cot^2 z$, 3-space carries $e^{2a_4}$ without a warp, the extra times $-e^{-2a_4}b_4(\sin^2 z)^{1/6}$, $z$ real); the metric of 2026-10-14, for which the earlier versions of this record were computed, is withdrawn. The Kohn-Sham record was recomputed for it (phase W5 of `HANDOFF.md`, 2026-10-16/17):
 
-1. The reduction (records `ansatz_removes_spin_connection`, `ansatz_without_b4_factor_term_survives`, `ansatz_norm_b4`): the factor $b_4^{-3/4}$ of the orbitals is the half-density factor of the volume element; it removes the term $\frac34(b_4'/b_4)\gamma^4$, $b_4$ does not appear in the reduced operator, and the Hilbert norm of the reduced problem is $\int\chi^\dagger\chi\,dy$ for every $a_4$ and $b_4$.
-2. The densities (records `ks_coupling_volume_scaling`, `history_solver_units`): a proper density is the orbital sum divided by the proper cell volume $\ell^3v_tb_{4,0}^{3/2}$. The solvers use the coupling $\hat\lambda = \lambda\,b_4(0)^{-3/2}$ and the cell volume $\mathrm{Vol}_7(a_{4,0}) = \ell^3v_t\,e^{(3/2)\beta a_{4,0}}$ (the proper volume in units of $b_4(0)^{3/2}$), so $b_4(0)$ never needs a value. A Kohn-Sham state depends on the coupling and the cell volume only through their ratio: the slice state at $(\hat\lambda, \mathrm{Vol}_7(a_{4,0}))$ is the state of the coordinate cell $\ell^3v_t$ at the effective coupling $\hat\lambda\,e^{-(3/2)\beta a_{4,0}} = \hat\lambda\,e^{-2a_{4,0}}$.
-3. The energy along the history (record `emt_energy_change_history`): $dE/da_4 = -3(P_3 - P_t) - \frac32\beta P_t$ with $P = 2\mathrm{Vol}_7(a_{4,0})\int e^{6Hy}p\,dy$ (section 9).
-
-What changed in the numbers: with $\lambda = 0$ nothing (the levels, energies and integrals of the free states are those of the earlier record); for $\lambda \neq 0$ the couplings were recalibrated on the new history (section 5) and every interacting state with $N > 8$ or $a_{4,0} > 0$ changed. The earlier factorisation proof `Revision/kohn_sham/reports/ks-b4-wolfram.json` (records `K1_dirac_operator_b4_factorisation`, `K2_good_sector_independent_of_b4`, `K3_norm_and_volume`; its fourth record described the withdrawn background $b_4 = 1$) remains valid and is superseded by the record above.
+1. The reduction (records `ansatz_removes_spin_connection`, `ansatz_without_y_factor_term_survives`, `ansatz_without_x4_factor_term_survives`, `ansatz_norm`): the factor $e^{-(3/2)Hy}e^{a_4/2}b_4^{-1}$ of the orbitals is the half-density factor of $\sqrt{|g|}$; it removes both spin-connection terms, and the Hilbert norm of the reduced problem is $\int\chi^\dagger\chi\,dy$ for every $a_4$ and $b_4$. The hidden direction enters the block Hamiltonians through $1/f$, the 3-momenta through $\kappa = e^{-a_4}$, which does not depend on $y$ (before: $e^{-Hy - a_4}$).
+2. The densities (records `ks_coupling_volume_scaling`, `history_solver_units`): a proper density is the orbital sum times $P = e^{-3Hy}/\mathrm{Vol}_7$ with $\mathrm{Vol}_7(a_{4,0}) = \ell^3v_t\,e^{(2\beta - 1)a_{4,0}} = \ell^3v_te^{(5/3)a_{4,0}}$ (the proper volume in units of $b_4(0)^2$); the solvers use the coupling $\hat\lambda = \lambda\,b_4(0)^{-2}$. A Kohn-Sham state depends on the coupling and the cell volume only through their ratio: the slice state at $(\hat\lambda, \mathrm{Vol}_7(a_{4,0}))$ is the state of the coordinate cell $\ell^3v_t$ at the effective coupling $\hat\lambda\,e^{-(5/3)a_{4,0}}$, at the same $f$ and $\kappa$.
+3. The boundary conditions: the fold joins the two halves of a cell, a spinor continuous across it has the same $\chi(y)$ on both halves, and the two fold conditions $\chi_2(0) = 0$ and $\chi_1(0) = 0$ are both solved and filled (ASSUMED; section 5). The construction of the withdrawn metric, a Z2 orbifold at the patch end whose mirror copy carried $-m$, does not exist in the corrected metric.
+4. The energy along the history (record `emt_energy_change_history`): $dE/da_4 = -3P_3 - 3(\beta/2 - 1)P_t - (\beta/2 - 1)P_0 = -3P_3 + P_t + \tfrac13P_0$ with $P = 2\mathrm{Vol}_7(a_{4,0})\int e^{3Hy}p\,dy$ (section 9).
+5. The parameters were re-derived from the stated rules (section 5): $N = 8, 592, 2352$ and the couplings of the table there; every state of the matrix changed.
 
 ## 3. The exact block reduction
 
-**Ansatz.** $\Psi = e^{ik\cdot x}W^{-3}b_4^{-3/4}\chi(y,x_4)$ gives EXACTLY, for a time-dependent $a_4$ and $b_4$,
+**Ansatz.** $\Psi = e^{ik\cdot x}e^{-(3/2)Hy}e^{a_4/2}b_4^{-1}\chi(y,x_4)$ gives EXACTLY, for a time-dependent $a_4$ and $b_4$,
 
 $$
-\gamma^0\partial_y\chi + \gamma^4\partial_{x_4}\chi + i\kappa\,k\cdot\gamma\,\chi = (M_{\mathrm{eff}} - iv_v\gamma^4)\chi ,\qquad \kappa(y,x_4) = e^{-Hy-a_4(x_4)} ,
+\tfrac1f\gamma^0\partial_y\chi + \gamma^4\partial_{x_4}\chi + i\kappa\,k\cdot\gamma\,\chi = (M_{\mathrm{eff}} - iv_v\gamma^4)\chi ,\qquad \kappa(x_4) = e^{-a_4(x_4)},\qquad f(x_4) = e^{-a_4}b_4^{1/2} ,
 $$
 
-i.e. $i\partial_{x_4}\chi = h(x_4)\chi$ with $h$ Hermitian in $\int dy\,\chi^\dagger\chi$. The factor $W^{-3}$ removes the term $3H\gamma^0$ and the factor $b_4^{-3/4}$ the term $\frac34(b_4'/b_4)\gamma^4$; without either the term survives. At a fixed instant the instantaneous (adiabatic) problem is $h(a_{4,0})\chi = \varepsilon\chi$ with $a_{4,0} = a_4(x_4)$; it does not contain $b_{4,0} = b_4(x_4)$.
+i.e. $i\partial_{x_4}\chi = h(x_4)\chi$ with $h$ Hermitian in $\int dy\,\chi^\dagger\chi$. The factor $e^{-(3/2)Hy}$ removes the term $\tfrac32(H/f)\gamma^0$ and the factor $e^{a_4/2}b_4^{-1}$ the term $(b_4'/b_4 - \tfrac12a_4')\gamma^4$; without either the term survives. At a fixed instant the instantaneous (adiabatic) problem is $h(a_{4,0}, f_0)\chi = \varepsilon\chi$ with $a_{4,0} = a_4(x_4)$ and $f_0 = f(x_4)$.
 
 **Blocks.** $J = \gamma^0\gamma^1\gamma^4$ ($J^2 = 1$), $K_1 = \gamma^2\gamma^3$ and $K_2 = \gamma^5\gamma^6$ ($K^2 = -1$) commute with each other and with $\gamma^0$, $\gamma^0\gamma^1$, $\gamma^0\gamma^4$, $B$ and $C$; their joint eigenspaces, labelled $(j, s_2, s_3)$ with $j, s_2, s_3 = \pm1$, are eight rank-2 blocks with an explicit unitary basis $V$ (entries of $2\sqrt2\,V$ in $\{0, \pm1, \pm i\}$). For $k$ along $x_1$ (the spinor rotation commutes with $\gamma^0$, $\gamma^4$, $B$, $C$, so the spectra depend on $|k|$ only), every block of type $j$ carries
 
 $$
-h_j = j\big[-i\sigma_1\,\tfrac{d}{dy} + M_{\mathrm{eff}}(y)\sigma_2 + \kappa(y)k\sigma_3\big] + v_v(y) ,
+h_j = j\big[-\tfrac{i}{f}\sigma_1\,\tfrac{d}{dy} + M_{\mathrm{eff}}(y)\sigma_2 + \kappa k\sigma_3\big] + v_v(y) ,
 $$
 
-equivalently $\chi' = N\chi$ with $N = M_{\mathrm{eff}}\sigma_3 - \kappa k\sigma_2 + ij(\varepsilon - v_v)\sigma_1$; in the real form $\chi = (a, ib)$, $a' = M_{\mathrm{eff}}a - (\kappa k + j(\varepsilon - v_v))b$ and $b' = (j(\varepsilon - v_v) - \kappa k)a - M_{\mathrm{eff}}b$. In the block basis $\gamma^0 = \sigma_3$, $B = js_2$ and $C = s_2\sigma_2$.
+equivalently $\chi' = fN\chi$ with $N = M_{\mathrm{eff}}\sigma_3 - \kappa k\sigma_2 + ij(\varepsilon - v_v)\sigma_1$; in the real form $\chi = (a, ib)$, $a' = f[M_{\mathrm{eff}}a - (\kappa k + j(\varepsilon - v_v))b]$ and $b' = f[(j(\varepsilon - v_v) - \kappa k)a - M_{\mathrm{eff}}b]$. In the block basis $\gamma^0 = \sigma_3$, $B = js_2$ and $C = s_2\sigma_2$.
 
-**Symmetries and degeneracies.** $h_{-1} - v = -(h_{+1} - v)$ and $\sigma_3h_j(k)\sigma_3 = h_{-j}(-k)$: the $(j,k)$ and $(-j,-k)$ orbitals are degenerate. On a lattice shell $|k|^2 = \Delta k^2n_2$ with $r_3(n_2)$ vectors every level of $h_j(|k|)$ is $4r_3(n_2)$-fold for each $j$; at $k = 0$ every level is 4-fold per $j$. The chirality $\Gamma$ maps block $(j, s_2, s_3)$ onto $(-j, s_2, s_3)$ with the $2 \times 2$ entry $s_2\sigma_2$, and $\sigma_2h_j(M,k)\sigma_2 = h_{-j}(-M,k)$ with the brane parities exchanged (the ingredient of T3, section 12).
+**Symmetries and degeneracies.** $h_{-1} - v = -(h_{+1} - v)$ and $\sigma_3h_j(k)\sigma_3 = h_{-j}(-k)$: the $(j,k)$ and $(-j,-k)$ orbitals are degenerate. On a lattice shell $|k|^2 = \Delta k^2n_2$ with $r_3(n_2)$ vectors every level of $h_j(|k|)$ is $4r_3(n_2)$-fold for each $j$; at $k = 0$ every level is 4-fold per $j$. The chirality $\Gamma$ maps block $(j, s_2, s_3)$ onto $(-j, s_2, s_3)$ with the $2 \times 2$ entry $s_2\sigma_2$, and $\sigma_2h_j(M,k)\sigma_2 = h_{-j}(-M,k)$ with the two fold conditions exchanged (the ingredient of T3, section 12).
 
-**Where the deflation enters (exact).** $a_{4,0}$ enters $h_j$ only through $\kappa k = e^{-Hy}(ke^{-a_{4,0}})$: the 3-momenta redshift as $ke^{-a_4}$. Because the good sector has no extra-time momentum, the extra-time scale factor $e^{-a_4}b_4^{1/2}$ enters the instantaneous problem only through the proper cell volume, that is through the densities and the mean field (section 2.1 and section 10).
+**Where the deflation enters (exact).** $a_{4,0}$ and $b_{4,0}$ enter $h_j$ through $\kappa k = ke^{-a_{4,0}}$ (the 3-momenta redshift as $ke^{-a_4}$) and through the hidden scale $f_0 = e^{-a_{4,0}}b_{4,0}^{1/2}$, which multiplies the hidden derivative by $1/f_0$ (the proper hidden length of the cut-off cell is $f_0L$); because the good sector has no extra-time momentum, the extra times themselves enter only through the proper cell volume, that is through the densities and the mean field (sections 2.1 and 10).
 
 | item | Wolfram records | sympy records |
 | --- | --- | --- |
-| ansatz and Hamiltonian | `ansatz_removes_spin_connection`, `ansatz_without_W3_term_survives`, `ansatz_without_b4_factor_term_survives`, `ansatz_norm_b4`, `hamiltonian_16_hermitian` | `ansatz_removes_spin_connection`, `ansatz_without_W3_term_survives`, `ansatz_without_b4_factor_term_survives`, `ansatz_norm_b4`, `hamiltonian_16_hermitian` |
+| ansatz and Hamiltonian | `ansatz_removes_spin_connection`, `ansatz_without_y_factor_term_survives`, `ansatz_without_x4_factor_term_survives`, `ansatz_norm`, `hamiltonian_16_hermitian` | `ansatz_removes_spin_connection`, `ansatz_without_y_factor_term_survives`, `ansatz_without_x4_factor_term_survives`, `ansatz_norm`, `hamiltonian_16_hermitian` |
 | blocks | `blocks_commuting_set`, `blocks_basis_unitary`, `blocks_forms`, `blocks_relation_to_Gamma`, `block_hamiltonian`, `block_ode_equivalent` | `blocks_commuting_set`, `blocks_projectors`, `blocks_basis_unitary`, `blocks_forms`, `blocks_not_everything_block_diagonal`, `blocks_relation_to_Gamma`, `block_hamiltonian`, `block_ode_equivalent` |
 | symmetries | `block_type_relation`, `block_Gamma_map`, `rotation_invariance` | `block_type_relation`, `block_Gamma_map`, `rotation_invariance` |
-| solver (numerical basis) | | `block_reduction_numeric`, `gamma_fixture_numeric` (Rust solver report) |
+| solver (numerical basis) | | `theory_input_metric_forms`, `block_reduction_numeric`, `gamma_fixture_numeric` (Rust solver report) |
 
 ## 4. The functional: Hartree, exact uniform-gas exchange, Mermin
 
@@ -108,11 +108,11 @@ $$
 
 with proper densities; for one filled level at rest $E_x/E_H = -1/8$, and on shell $\langle\mathcal{L}\rangle/\sqrt{|g|} = e_{\mathrm{int}}$. In the solvers' units (section 2.1) the same formulas hold with $\lambda \to \hat\lambda$ and every density per $\mathrm{Vol}_7(a_{4,0})$. No correlation is included (Hartree plus exchange only). The Rust solver reads the coefficients from `ks-theory.json` and checks them (`theory_input_coefficients`: $M_{\mathrm{eff}} = m + 0.9375\lambda S$, $v_v = -0.0625\lambda n$).
 
-**Exact Fock exchange of the slab (diagnostic and variant).** For closed shells the exact Fock exchange of the Kohn-Sham determinant is also local, $e_x^{\mathrm{exact}} = -\frac{\lambda}{32}(n^2 + S^2 - Q^2 - Y^2)$ with $Q = \langle\Psi^\dagger B\gamma^0\Psi\rangle$ and $Y = 0$; the canonical functional is the uniform-gas one, the difference $\Delta E_x = \frac{\lambda}{32}\,2\mathrm{Vol}_7\int e^{6Hy}Q^2\,dy$ is reported for every state, and the exact-Fock functional is solved as a variant (60 states, `Revision/kohn_sham/results/exx/exact-fock-variant.csv`).
+**Exact Fock exchange of the slab (diagnostic and variant).** For closed shells the exact Fock exchange of the Kohn-Sham determinant is also local, $e_x^{\mathrm{exact}} = -\frac{\lambda}{32}(n^2 + S^2 - Q^2 - Y^2)$ with $Q = \langle\Psi^\dagger B\gamma^0\Psi\rangle$ and $Y = 0$; the canonical functional is the uniform-gas one, the difference $\Delta E_x = \frac{\lambda}{32}\,2\mathrm{Vol}_7\int e^{3Hy}Q^2\,dy$ is reported for every state, and the exact-Fock functional is solved as a variant (60 states, `Revision/kohn_sham/results/exx/exact-fock-variant.csv`).
 
-**Densities, energy, Mermin.** Per orbital, with $P(y) = e^{-6Hy}/\mathrm{Vol}_7(a_{4,0})$: $n_o = P\chi^\dagger\chi$, $s_o = P\chi^\dagger j\sigma_2\chi$, $t_o = P\chi^\dagger j\sigma_3\chi$, $q_o = P\chi^\dagger\sigma_3\chi$. Totals are $\sum w\,g\,f$ times these, $g = 4r_3(n_2)$, $w = 1/2$ (section 5). The Kohn-Sham energy of the doubled system is $E_{KS} = \sum g f\varepsilon - 2\mathrm{Vol}_7\int_{-L}^{0}e^{6Hy}e_{\mathrm{int}}\,dy$; Mermin's occupations are $f = 1/(1 + e^{(\varepsilon-\mu)/T})$ with $\mu$ fixed by $\sum g f = N$, the entropy is $S_{\mathrm{ent}} = -\sum g[f\ln f + (1-f)\ln(1-f)]$, the grand potential (the thermodynamic effective potential) is $\Omega = -T\sum g\ln(1 + e^{-(\varepsilon-\mu)/T}) - 2\mathrm{Vol}_7\int_{-L}^{0}e^{6Hy}e_{\mathrm{int}}\,dy$, and $F = \Omega + \mu N$.
+**Densities, energy, Mermin.** Per orbital, with $P(y) = e^{-3Hy}/\mathrm{Vol}_7(a_{4,0})$: $n_o = P\chi^\dagger\chi$, $s_o = P\chi^\dagger j\sigma_2\chi$, $t_o = P\chi^\dagger j\sigma_3\chi$, $q_o = P\chi^\dagger\sigma_3\chi$. Totals are $\sum w\,g\,f$ times these, $g = 4r_3(n_2)$, $w = 1/2$ (section 5). The Kohn-Sham energy of the doubled system is $E_{KS} = \sum g f\varepsilon - 2\mathrm{Vol}_7\int_{-L}^{0}e^{3Hy}e_{\mathrm{int}}\,dy$; Mermin's occupations are $f = 1/(1 + e^{(\varepsilon-\mu)/T})$ with $\mu$ fixed by $\sum g f = N$, the entropy is $S_{\mathrm{ent}} = -\sum g[f\ln f + (1-f)\ln(1-f)]$, the grand potential (the thermodynamic effective potential) is $\Omega = -T\sum g\ln(1 + e^{-(\varepsilon-\mu)/T}) - 2\mathrm{Vol}_7\int_{-L}^{0}e^{3Hy}e_{\mathrm{int}}\,dy$, and $F = \Omega + \mu N$.
 
-Discrepancy recorded, not hidden: the line “mu fixed by sum w_Z2 g f = N” of `ks-theory.json` is inconsistent with its own densities, energy and grand potential; the solver and the reference use $\sum g f = N$, and `Revision/kohn_sham/results/parameters.json` records the discrepancy.
+Discrepancy recorded, not hidden: the line “mu fixed by sum w g f = N” of `ks-theory.json` is inconsistent with its own densities, energy and grand potential; the solver and the reference use $\sum g f = N$, and `Revision/kohn_sham/results/parameters.json` records the discrepancy.
 
 | item | Wolfram records | sympy records |
 | --- | --- | --- |
@@ -123,117 +123,117 @@ Discrepancy recorded, not hidden: the line “mu fixed by sum w_Z2 g f = N” of
 
 ## 5. Boundary conditions, filling convention, numerics and parameters
 
-**Brane (ASSUMED).** The Z2 mirror (orbifold) at $y = 0$: $\Psi(-y) = \pm\gamma^0\Psi(y)$ with the mirror warp $e^{-H|y|}$; continuity gives $(1 \mp \gamma^0)\chi(0) = 0$, i.e. the even parity $\chi_2(0) = 0$ ($b(0) = 0$) and the odd parity $\chi_1(0) = 0$ ($a(0) = 0$). Both conditions kill the $y$-current and make $h_j$ self-adjoint. The mirror map $P_A$ takes $(M(y), v(y))$ to $(-M(-y), v(-y))$: the doubled problem is $P_A$-symmetric exactly when the mirror copy carries $(-m, +\lambda)$. Both parities are solved and filled together; $N$ is the particle number of the doubled system (universe and Z2 image), the patch holds $N/2$, and $w = 1/2$ per patch.
+**Fold (both fold conditions filled, ASSUMED).** The fold $\cos z = 0$ at $y = 0$ joins the two halves of a cell; the reduced equation is the same on both halves ($dy = \cot z\,dx_0$, $e^{x_0}dx_0 = f\,dy$, $\gamma^\mu\Omega_\mu$ free of $x_0$), so a spinor continuous across the fold has the same $\chi(y)$ on both halves; the boundary form of the doubled cell at the fold is $2(-ij/f)\phi^\dagger\sigma_1\chi(0)$, and self-adjointness needs $(1 - Q(\theta))\chi(0) = 0$. The record fills both fold conditions, the even $\theta = 0$ ($\chi_2(0) = 0$, $b(0) = 0$) and the odd $\theta = \pi$ ($\chi_1(0) = 0$, $a(0) = 0$), each normalised on one half; $N$ is the particle number of the whole cell, each half holds $N/2$, and $w = 1/2$ per half. That both are filled is ASSUMED (the record's convention); there is no mirror copy.
 
-**Tip (chosen).** At $y = -L$: $(1 - Q(\theta))\chi(-L) = 0$, $Q(\theta) = \cos\theta\,\sigma_3 + \sin\theta\,\sigma_2$, canonical $\theta = 0$, cutoff $L = 3$. For $k \neq 0$ an orbital is suppressed toward the tip like $\exp(-|k|(\kappa(-L) - \kappa(y))/H)$. The dependence on $L$ is measured in `Revision/kohn_sham/tip_convergence/` ($L = 3$ to $6$ in steps of $0.5$ with the record's step $h = 1/300$, every run repeated at $h/2$; a copy of the solver that reads $L$ from the environment reproduces the committed matrix byte for byte at $L = 3$; the reference solver agrees at $L = 3$ and $4$; report `Revision/kohn_sham/tip_convergence/tip-convergence.json`, 7 of 7 checks PASS); the study was rerun for the record with $b_4$ on 2026-10-16. The free results with $k \neq 0$ converge faster than exponentially (this suppression), and the recorded $L = 3$ values are low by up to 1.4% in $E_{KS}$ and 12% in $2\mathrm{Vol}_7\int e^{6Hy}p_0\,dy$ ($N = 136$, $\lambda = 0$, $a_{4,0} = 2$: 12.44507 against the extrapolated 12.62207, and 8.47270 against 9.63839). The $k = 0$ bulk levels approach $\pm m$ only like $(n\pi)^2/(2mL^2)$, so $N = 688$ at $a_{4,0} = 0$ does not converge (Parameters below). The brane zero modes have a proper density that grows toward the tip like $e^{(6H - 2m)|y|}$ (exact, verified), so the interacting $N = 8$ energy depends strongly on $L$: at $a_{4,0} = 0$, $E_{KS} = \mp 9.868\times10^{-4}$ at $L = 3$ ($\hat\lambda = \pm\lambda_1$) against $\mp 3.0073\times10^{-3}$ at large $L$ (extrapolated; the self-consistent iteration fails from $L = 5$): the recorded value is about one third of the large-$L$ value. With $b_4$ the effective coupling falls like $e^{-2a_{4,0}}$, and the ratio falls with it: at $a_{4,0} = 2$, $E_{KS} = \mp 1.816\times10^{-5}$ at $L = 3$ against $\mp 4.063\times10^{-4}$ at large $L$ (extrapolated from $\lambda = -\lambda_1$ at $a_{4,0} = 2$, the only interacting $N = 8$ state solved up to $L = 6$; the self-consistent iteration of the other five fails from $L = 5$, $5.5$ or $6$), about 1/22 of the large-$L$ value. The $\pm\lambda_1$ partners are negatives of each other to $3.6\times10^{-14}$ relative at every $L$ where both converge. The self-consistent iteration fails at some larger $L$ for 14 of the 19 interacting states studied (a failure of the iteration, not a proof that no self-consistent state exists); for 6 of them the successive differences of $E_{KS}$ do not meet the geometric-tail rule of the study before it fails, so their limit is not established.
+**Tip (chosen).** At $y = -L$: $(1 - Q(\theta))\chi(-L) = 0$, $Q(\theta) = \cos\theta\,\sigma_3 + \sin\theta\,\sigma_2$, canonical $\theta = 0$, cutoff $L = 3$. With $\kappa$ independent of $y$ nothing suppresses an orbital toward the tip: for constant $M$ and $v$ the branches are $e^{\pm f\lambda y}$, $\lambda = \sqrt{M^2 + \kappa^2k^2 - (\varepsilon - v)^2}$. The dependence on $L$ is measured in `Revision/kohn_sham/tip_convergence/` ($L = 3$ to $6$ in steps of $0.5$ with the record's step $h = 1/300$, every run repeated at $h/2$; a copy of the solver that reads $L$ from the environment reproduces the committed quick matrix byte for byte at $L = 3$; the reference solver agrees at $L = 3$ and $4$; report `Revision/kohn_sham/tip_convergence/tip-convergence.json`, 7 of 7 checks PASS; rerun for the corrected metric on 2026-10-17). The free states are exact fold-band gases and do not depend on $L$: $E_{KS}$, HOMO, LUMO and the gap of every free state with $N = 8$ and $592$ and of $N = 2352$ at $a_{4,0} = 1, 2$ are the same at every $L$; only the values at the fold change, through the normalisation of the fold-band orbital, $\rho(0; L) = \rho(0; \infty)/(1 - e^{-2fmL})$ (the recorded $L = 3$ fold values are high by 0.25%, 1.38% and 4.81% at $a_{4,0} = 0, 1, 2$). The $k = 0$ bulk levels approach $m$ only algebraically, like the levels of a box of proper length $fL$: the bulk edge 1.2923 that defines $N = 2352$ is an $L = 3$ value (1.0977 at $L = 6$), and the free $N = 2352$, $a_{4,0} = 0$ state changes its occupied set from $L = 3.5$ on (its gap 0.01754 closes; $E_{KS} = 2288.388$ at $L = 3$ and $2245.486$ at $L = 6$, not converged). The interacting zero modes depend on $L$, the more the later the slice: their proper density grows toward the tip like $e^{(3H - 2fm)|y|}$, and for $N = 8$ the recorded $E_{KS}$ is $\mp 3.7787\times10^{-2}$ against $\mp 3.8688\times10^{-2}$ at large $L$ at $a_{4,0} = 0$, $\mp 1.4571\times10^{-2}$ against $\mp 2.1622\times10^{-2}$ at $a_{4,0} = 1$ and $\mp 6.980\times10^{-3}$ against $\mp 3.239\times10^{-2}$ at $a_{4,0} = 2$ ($\hat\lambda = \pm\lambda_1$; 0.977, 0.674 and 0.215 of the large-$L$ values); the interaction shifts $E_{KS}(\pm\lambda_1) - E_{KS}(0)$ of $N = 592$ and $2352$ at $a_{4,0} = 2$ are 4.6 to 4.7 times larger at large $L$ than at $L = 3$. 17 of the 19 interacting states studied converge (geometric tails); the self-consistent iteration fails only for $N = 2352$ at $a_{4,0} = 0$, from $L = 3.5$ for $+\lambda_1$ and from $L = 4.5$ for $-\lambda_1$ (a failure of the iteration, not a proof that no self-consistent state exists). The record's calibration rule applied at each $L$ drives $\lambda_1$ to zero: $157.7$, $2.131$ and $0.5363$ at $L = 3$, $1.249$, $0.01687$ and $1.03\times10^{-5}$ at $L = 6$ ($N = 8, 592, 2352$).
 
-**Exact $k = 0$ spectra.** For constant $M > 0$, $v = 0$, $\theta = 0$: even parity $\varepsilon = 0$ with the brane zero mode $\chi = (e^{My}, 0)$, and $\varepsilon = \pm\sqrt{M^2 + (n\pi/L)^2}$; odd parity $\varepsilon = \pm\sqrt{M^2 + p^2}$ with $\tan(pL) = -p/M$. The brane band has the slope $d\varepsilon/dk = jc$ at $k = 0$, $c = e^{-a_{4,0}}\frac{2M}{2M-H}\frac{1 - e^{-(2M-H)L}}{1 - e^{-2ML}}$; for $M = H = 1$, $L = 3$: $c = 2/(1 + e^{-3}) = 1.905148253644866$ (record `brane_band_slope`).
+**Exact $k = 0$ spectra.** For constant $M > 0$, $v = 0$, $\theta = 0$: the even fold condition has $\varepsilon = 0$ with the fold zero mode $\chi = (e^{fMy}, 0)$, and $\varepsilon = \pm\sqrt{M^2 + (n\pi/(fL))^2}$; the odd fold condition has $\varepsilon = \pm\sqrt{M^2 + p^2}$ with $\tan(pfL) = -p/M$. The even $j = +1$ fold band is $\varepsilon = \kappa k$ EXACTLY for every $k$, with the orbital $(e^{fMy}, 0)$ (record `free_rescaling_relation_and_band_monotone`); its slope is $c = e^{-a_{4,0}}$ for every $M$, $L$ and $f$ (record `brane_band_slope`; the record keeps the name of the earlier construction).
 
-**Filling (CONVENTION, justification OPEN).** Particles occupy the positive branch (the levels with $\varepsilon > 0$ of the $\lambda = 0$ problem) and the $k = 0$ brane zero modes, each followed continuously in $\lambda$; the negative branch is the normal-ordered sea and contributes nothing to $N$, $n$, $S$ or the energy-momentum tensor. The excluded thermal sea holes are reported as a diagnostic (section 8).
+**Filling (CONVENTION, justification OPEN).** Particles occupy the positive branch (the levels with $\varepsilon > 0$ of the $\lambda = 0$ problem) and the $k = 0$ fold zero modes, each followed continuously in $\lambda$; the negative branch is the normal-ordered sea and contributes nothing to $N$, $n$, $S$ or the energy-momentum tensor. The excluded thermal sea holes are reported as a diagnostic (section 8).
 
 **Numerics.** The Rust solver (`Revision/kohn_sham/solver`, own crate, no external crates) solves each block by shooting with RK4 on 900 steps, Pruefer counting and a root tolerance of 1e-13, Anderson-mixed SCF to 1e-11; when the direct iteration diverges it falls back to a continuation in the coupling ($\hat\lambda \times \frac14, \frac12, \frac34, 1$ with half the mixing). The independent Python reference (`Revision/kohn_sham/reference`) uses a staggered finite-difference discretisation on three grids (300, 600, 1200) with Richardson extrapolation and a stated uncertainty, validated on a fourth grid, with its own continuation fallback; its convergence order is two (record `free_convergence_order_two`).
 
-**Parameters** (`Revision/kohn_sham/results/parameters.json`): $H = m = 1$, $L = 3$, $\Delta k = 0.25$, $v_t = 1$, $\mathrm{Vol}_7(0) = 15875.21366031351$ and $\mathrm{Vol}_7(a_{4,0}) = \mathrm{Vol}_7(0)\,e^{2a_{4,0}}$, tip $\theta = 0$, history $A = 1$, $\beta = 4/3$, slices $a_{4,0} \in \{0, 0.5, 1, 1.5, 2\}$, temperatures $T \in \{0.01, 0.02, 0.05\}$. Particle numbers: $N = 8$ (the $k = 0$ brane zero modes of both block types), $N = 688$ (the largest closed shell of the free $a_{4,0} = 0$ aufbau whose last level lies below the bulk edge 1.292292828068783; the bulk edge is an $L = 3$ value: 1.0977 at $L = 6$ and $m$ as $L \to \infty$, and from $L = 3.5$ on the $N = 688$, $a_{4,0} = 0$ aufbau occupies $k = 0$ bulk levels, its KS gap 0.0452 closes and its energy does not converge up to $L = 6$) and $N = 136$ (the closed shell nearest $688/4$). Couplings: $\lambda_1$ and $\lambda_2$ (values of $\hat\lambda$) keep the first-order mean-field potential below 0.1 and 0.3 (units of $m$) along the whole history; the strength is the largest first-order potential per unit $\hat\lambda$ over the five slices, with the densities per $\mathrm{Vol}_7(a_{4,0})$:
+**Parameters** (`Revision/kohn_sham/results/parameters.json`): $H = m = 1$, $L = 3$, $\Delta k = 0.25$, $v_t = 1$, $\mathrm{Vol}_7(0) = 15875.21366031351$ and $\mathrm{Vol}_7(a_{4,0}) = \mathrm{Vol}_7(0)\,e^{(5/3)a_{4,0}}$, tip $\theta = 0$, history $A = 1$, $\beta = 4/3$, slices $a_{4,0} \in \{0, 0.5, 1, 1.5, 2\}$, temperatures $T \in \{0.01, 0.02, 0.05\}$. Particle numbers: $N = 8$ (the $k = 0$ fold zero modes of both block types), $N = 2352$ (the largest closed shell of the free $a_{4,0} = 0$ aufbau whose last level lies below the bulk edge 1.292292828068783, the lowest level not on the even $j = +1$ fold band) and $N = 592$ (the closed shell nearest $2352/4$). Couplings: $\lambda_1$ and $\lambda_2$ (values of $\hat\lambda$) keep the first-order mean-field potential below 0.1 and 0.3 (units of $m$) along the whole history; the strength is the largest first-order potential per unit $\hat\lambda$ over the five slices, with the densities per $\mathrm{Vol}_7(a_{4,0})$:
 
 | N | strength per unit lambda_hat | lambda_1 | lambda_2 |
 | --- | --- | --- | --- |
-| 8 | 5.138804 | 0.01946 | 0.05838 |
-| 136 | 8.295194 | 0.01206 | 0.03617 |
-| 688 | 15.04944 | 0.006645 | 0.01993 |
-
-This calibration is an $L = 3$ statement: the strength grows with $L$ (for $N = 8$ it is the zero-mode potential at the tip, $\propto e^{4L}$), so the same rule applied at larger $L$ drives $\lambda_1$ to zero: $1.2\times10^{-7}$ ($N = 8$, falling like $e^{-4L}$ from 0.01946 at $L = 3$), $1.2\times10^{-7}$ ($N = 136$) and $1.0\times10^{-11}$ ($N = 688$) at $L = 6$ (`Revision/kohn_sham/tip_convergence/`).
+| 8 | 0.0006341788 | 157.7 | 473.1 |
+| 592 | 0.04692923 | 2.131 | 6.393 |
+| 2352 | 0.1864486 | 0.5363 | 1.609 |
 
 The canonical matrix holds 75 ground states ($3$ values of $N$, the five couplings $0, \pm\lambda_1, \pm\lambda_2$, five slices), each with its first excited state, its $a_4$ neighbours, its rescaling partner and, for $\lambda \neq 0$, its exact-Fock variant, and 135 Mermin states ($\hat\lambda \in \{0, \pm\lambda_1\}$, three temperatures).
 
 | item | records |
 | --- | --- |
-| boundary conditions (Wolfram and sympy) | `bc_mirror_map_PA`, `bc_mirror_parities_of_densities`, `bc_brane_parity_conditions`, `bc_self_adjoint_boundary_term`, `bc_tip_family`, `bc_current_conserved_along_y`, `bc_exact_k0_spectra`, `bc_tip_asymptotics`, `brane_band_slope` |
-| free problem (Rust solver) | `free_k0_analytic_spectra`, `free_zero_mode_exact`, `free_brane_band_slope`, `free_block_type_symmetries`, `free_particle_branch_labels`, `free_tip_angle_insensitivity` |
+| boundary conditions (Wolfram and sympy) | `bc_fold_same_equation_on_both_halves`, `bc_fold_conditions`, `bc_self_adjoint_boundary_term`, `bc_tip_family`, `bc_current_conserved_along_y`, `bc_exact_k0_spectra`, `bc_tip_asymptotics`, `brane_band_slope` |
+| free problem (Rust solver) | `free_k0_analytic_spectra`, `free_zero_mode_exact`, `free_brane_band_slope`, `free_block_type_symmetries`, `free_particle_branch_labels`, `free_tip_angle_boundary_identity` |
 | free problem and parameters (reference) | `free_k0_analytic_spectra`, `free_convergence_order_two`, `free_k0_block_type_symmetry`, `free_zero_mode`, `free_brane_band_slope`, `free_particle_branch`, `parameters_closed_shells`, `parameters_calibration`, `richardson_asymptotic_ratio`, `richardson_uncertainty_validated` |
 | parameters (cross-check) | `problem_definition_identical`, `parameters_particle_numbers`, `parameters_couplings` |
 
 ## 6. Instantaneous ground and first excited states along the prescribed history
 
-The history is $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$ with $A = 1$ (the exponentially deflating member: the extra-time scale factor is $b_4(0)^{1/2}e^{-Hx_4/3}\sin^{1/6}z$), PRESCRIBED, not solved for (section 11). At every slice $a_{4,0}$ the ground state is the self-consistent aufbau state of the instantaneous problem; the first excited state is computed three ways: the Kohn-Sham gap $\varepsilon_{\mathrm{LUMO}} - \varepsilon_{\mathrm{HOMO}}$; the ensemble $\Delta$-SCF energy (one particle moved from the highest occupied degenerate group to the lowest empty group, spread uniformly over each group, self-consistent); and the list of the 24 lowest particle-hole excitations (`Revision/kohn_sham/results/excited/particle-hole/`). Every ground state of the matrix is closed-shell.
+The history is $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$ with $A = 1$ (the exponentially deflating member: the scale factor of the extra times is $b_4(0)^{1/2}e^{-Hx_4/3}(\sin^2 z)^{1/12}$), PRESCRIBED, not solved for (section 11). At every slice $a_{4,0}$ the ground state is the self-consistent aufbau state of the instantaneous problem; the first excited state is computed three ways: the Kohn-Sham gap $\varepsilon_{\mathrm{LUMO}} - \varepsilon_{\mathrm{HOMO}}$; the ensemble $\Delta$-SCF energy (one particle moved from the highest occupied degenerate group to the lowest empty group, spread uniformly over each group, self-consistent); and the list of the 24 lowest particle-hole excitations (`Revision/kohn_sham/results/excited/particle-hole/`). Every ground state of the matrix is closed-shell.
 
-Ground and first excited states for $N = 136$ (`Revision/kohn_sham/results/ground/summary.csv` and `Revision/kohn_sham/results/excited/summary.csv`):
+Ground and first excited states for $N = 592$ (`Revision/kohn_sham/results/ground/summary.csv` and `Revision/kohn_sham/results/excited/summary.csv`):
 
 | lambda_hat | a4,0 | E_KS | KS gap | Delta-SCF |
 | --- | --- | --- | --- | --- |
-| 0 | 0 | 80.28222 | 0.08267377 | 0.08267377 |
-| 0 | 1 | 32.38412 | 0.03498894 | 0.03498894 |
-| 0 | 2 | 12.44507 | 0.01445687 | 0.01445687 |
-| 0.01206 | 0 | 80.30152 | 0.08264233 | 0.08264235 |
-| 0.01206 | 1 | 32.39984 | 0.03496186 | 0.03496188 |
-| 0.01206 | 2 | 12.44558 | 0.01446012 | 0.01446012 |
-| -0.01206 | 0 | 80.26318 | 0.0827042 | 0.08270419 |
-| -0.01206 | 1 | 32.36934 | 0.03501284 | 0.03501283 |
-| -0.01206 | 2 | 12.44454 | 0.01445372 | 0.01445372 |
-| 0.03617 | 0 | 80.3408 | 0.08257647 | 0.08257652 |
-| 0.03617 | 1 | 32.4346 | 0.03489553 | 0.03489559 |
-| 0.03617 | 2 | 12.44653 | 0.01446695 | 0.01446695 |
-| -0.03617 | 0 | 80.22592 | 0.08276204 | 0.082762 |
-| -0.03617 | 1 | 32.34221 | 0.03505303 | 0.035053 |
-| -0.03617 | 2 | 12.44345 | 0.0144477 | 0.0144477 |
+| 0 | 0 | 361.1161 | 0.03858678 | 0.03858678 |
+| 0 | 1 | 132.8472 | 0.01419528 | 0.01419528 |
+| 0 | 2 | 48.87176 | 0.005222153 | 0.005222153 |
+| 2.131 | 0 | 358.301 | 0.03858459 | 0.03858459 |
+| 2.131 | 1 | 131.7652 | 0.01419487 | 0.01419487 |
+| 2.131 | 2 | 48.35502 | 0.005222125 | 0.005222125 |
+| -2.131 | 0 | 363.8955 | 0.03858511 | 0.03858511 |
+| -2.131 | 1 | 133.9218 | 0.01419489 | 0.01419489 |
+| -2.131 | 2 | 49.38796 | 0.005222125 | 0.005222125 |
+| 6.393 | 0 | 352.798 | 0.03857391 | 0.03857391 |
+| 6.393 | 1 | 129.6573 | 0.01419216 | 0.01419216 |
+| 6.393 | 2 | 47.3264 | 0.005221902 | 0.005221903 |
+| -6.393 | 0 | 369.2418 | 0.03857847 | 0.03857847 |
+| -6.393 | 1 | 135.982 | 0.0141925 | 0.0141925 |
+| -6.393 | 2 | 50.41245 | 0.005221906 | 0.005221906 |
 
 The free Kohn-Sham gap along the history ($\lambda = 0$, `ground/summary.csv`):
 
 | N | a4,0 = 0 | a4,0 = 0.5 | a4,0 = 1 | a4,0 = 1.5 | a4,0 = 2 |
 | --- | --- | --- | --- | --- | --- |
-| 8 | 0.4307337 | 0.2726449 | 0.1703493 | 0.1050152 | 0.06415941 |
-| 136 | 0.08267377 | 0.05383771 | 0.03498894 | 0.0226437 | 0.01445687 |
-| 688 | 0.04518029 | 0.03145504 | 0.02048367 | 0.01330982 | 0.008610228 |
+| 8 | 0.25 | 0.1516327 | 0.09196986 | 0.05578254 | 0.03383382 |
+| 592 | 0.03858678 | 0.02340407 | 0.01419528 | 0.008609875 | 0.005222153 |
+| 2352 | 0.01753795 | 0.01472852 | 0.0089333 | 0.00541832 | 0.003286377 |
 
-Reading (labelled interpretation of these numbers): as the extra times deflate, the 3-momenta redshift as $ke^{-a_{4,0}}$, the brane band flattens (its slope at $k = 0$ is $c$, proportional to $e^{-a_{4,0}}$, section 5), the Kohn-Sham gap falls for every $N$ and $E_{KS}$ falls for $N = 136$ and $688$; for $N = 8$ (the $k = 0$ zero modes, on which $\kappa k = 0$) the free energy is 0 at every slice, and the interacting energy falls with the effective coupling $\hat\lambda e^{-2a_{4,0}}$. With $\lambda = 0$ the $\Delta$-SCF energy equals the Kohn-Sham gap (worst difference 2.011e-11 over 15 cases, record `excited_delta_scf_free_equals_gap`); with interaction the two differ slightly, because the $\Delta$-SCF state relaxes the mean field self-consistently.
+Reading (labelled interpretation of these numbers): the free ground states occupy the fold band $\varepsilon = \kappa|k|$ and the $k = 0$ zero modes, so as the extra times deflate the 3-momenta redshift as $ke^{-a_{4,0}}$ and the occupied free levels redshift with them: the free energies of $N = 592$ and $2352$ fall exactly like $e^{-a_{4,0}}$, the Kohn-Sham gap of $N = 8$ is $\kappa\Delta k = 0.25\,e^{-a_{4,0}}$ and that of $N = 592$ falls like $e^{-a_{4,0}}$; for $N = 2352$ the lowest empty level at $a_{4,0} = 0$ is the bulk edge (by the choice of $N$), and from $a_{4,0} = 0.5$ on, where the $k = 0$ bulk levels have risen above it, the next fold-band shell, so its gap falls like $e^{-a_{4,0}}$ from there; with interaction the energy changes also with the effective coupling $\hat\lambda e^{-(5/3)a_{4,0}}$. With $\lambda = 0$ the $\Delta$-SCF energy equals the Kohn-Sham gap (worst difference 3.086e-13 over 15 cases, record `excited_delta_scf_free_equals_gap`); with interaction the two differ slightly, because the $\Delta$-SCF state relaxes the mean field self-consistently.
 
 | item | Rust solver records | reference records | cross-check records |
 | --- | --- | --- | --- |
-| ground states | `ground_runs_completed`, `ground_scf_converged`, `ground_closed_shell`, `ground_window_complete`, `ground_N_conservation`, `ground_energy_two_forms`, `ground_orbital_boundary_conditions` | `ground_scf_converged`, `ground_grid_consistency`, `ground_closed_shell`, `ground_window_complete`, `ground_N_conservation`, `ground_energy_two_forms` | `ground_occupations_and_groups`, `ground_energies`, `ground_homo_lumo_gap`, `ground_eigenvalues`, `ground_profiles` |
+| ground states | `ground_runs_completed`, `ground_scf_converged`, `ground_closed_shell`, `ground_window_complete`, `ground_N_conservation`, `ground_energy_two_forms`, `ground_orbital_boundary_conditions` | `ground_scf_converged`, `ground_a4_neighbours_tight`, `ground_grid_consistency`, `ground_closed_shell`, `ground_window_complete`, `ground_N_conservation`, `ground_energy_two_forms` | `ground_occupations_and_groups`, `ground_energies`, `ground_homo_lumo_gap`, `ground_eigenvalues`, `ground_profiles` |
 | first excited state | `excited_delta_scf_free_equals_gap`, `excited_scf_converged` | `excited_delta_scf_free_equals_gap`, `excited_particle_hole_lowest_is_gap` | `excited_delta_scf`, `excited_particle_hole_lists` |
-| exact-Fock variant | `exx_variant_scf_converged`, `exx_variant_y_conservation` | `exx_scf_converged`, `exx_N_conservation`, `exx_energy_two_forms`, `exx_emt_energy_integral`, `exx_y_conservation_integrated` | `exchange_delta_E_x`, `exx_variant_scf` |
+| exact-Fock variant | `exx_variant_scf_converged`, `exx_variant_y_conservation`, `exx_variant_occupation_order` | `exx_scf_converged`, `exx_N_conservation`, `exx_energy_two_forms`, `exx_emt_energy_integral`, `exx_y_conservation_integrated` | `exchange_delta_E_x`, `exx_variant_scf` |
 | SCF path (information) | `thermo_scf_path` | `scf_paths` | |
 
 ## 7. Adiabaticity and Fermi-level crossings
 
-Exactly (mean field), $i\partial_{x_4}\chi = h(a_4(x_4))\chi$ conserves $k$, the block and the brane parity; transitions occur only between levels of the same $(k, j, \text{block}, \text{parity})$. The measure along $a_4 = AHx_4$ is
+Exactly (mean field), $i\partial_{x_4}\chi = h(a_4(x_4), f(x_4))\chi$ conserves $k$, the block and the fold condition; transitions occur only between levels of the same $(k, j, \text{block}, \text{fold condition})$. The measure along $a_4 = AHx_4$ is
 
 $$
-Q_{nm} = AH\,\frac{\lvert\langle n\rvert\partial_ah\lvert m\rangle\rvert}{(\varepsilon_n - \varepsilon_m)^2} = AH\,\frac{\lvert\langle n\vert\partial_am\rangle\rvert}{\lvert\varepsilon_n - \varepsilon_m\rvert},\qquad
-\partial_ah_j = -j\kappa k\sigma_3 + j(\partial_aM_{\mathrm{eff}})\sigma_2 + \partial_av_v ,
+\begin{aligned}
+Q_{nm} &= AH\,\frac{\lvert\langle n\rvert\partial_ah\lvert m\rangle\rvert}{(\varepsilon_n - \varepsilon_m)^2} = AH\,\frac{\lvert\langle n\vert\partial_am\rangle\rvert}{\lvert\varepsilon_n - \varepsilon_m\rvert},\\
+\partial_ah_j &= -j\kappa k\sigma_3 + \big(1 - \tfrac{\beta}{2}\big)\,j\big(-\tfrac{i}{f}\sigma_1\partial_y\big) + j(\partial_aM_{\mathrm{eff}})\sigma_2 + \partial_av_v ,
+\end{aligned}
 $$
 
-for $n$ occupied and $m$ empty in the same sector; the state is adiabatic if $\max Q_{nm} \ll 1$, and $Q_{nm}^2$ is the leading-order transition probability. The self-consistent derivatives come from the states at $a_{4,0} \pm \delta$, $\pm 2\delta$ ($\delta = 2\times10^{-3}$, Richardson); they contain the change of the effective coupling $\hat\lambda/\mathrm{Vol}_7(a_{4,0})$ along the history. Hellmann-Feynman, $d\varepsilon_n/da = \langle n\rvert\partial_ah\lvert n\rangle$, is checked in 75 cases (worst 2.614e-9, record `adiabatic_hellmann_feynman`).
+for $n$ occupied and $m$ empty in the same sector (the second term, one third of the kinetic term, comes from the shrinking hidden direction); the state is adiabatic if $\max Q_{nm} \ll 1$, and $Q_{nm}^2$ is the leading-order transition probability. The self-consistent derivatives come from the states at $a_{4,0} \pm \delta$, $\pm 2\delta$ ($\delta = 2\times10^{-3}$, Richardson); they contain the change of the effective coupling $\hat\lambda/\mathrm{Vol}_7(a_{4,0})$ along the history. Hellmann-Feynman, $d\varepsilon_n/da = \langle n\rvert\partial_ah\lvert n\rangle$, is checked in 75 cases (worst 6.444e-11, record `adiabatic_hellmann_feynman`).
 
-Results (`Revision/kohn_sham/results/adiabatic/adiabaticity.csv`): $Q_{\max} = 0$ exactly for $N = 8$ at $\lambda = 0$ ($\partial_ah$ vanishes on the $k = 0$ sector); for the interacting $N = 8$ states the falling effective coupling gives $\partial_aM_{\mathrm{eff}} \neq 0$ on that sector, and $Q_{\max} \leq 3.865\times10^{-3}$ (state N8_lamm2_a00, pair `0:-1:even:0 -> 0:-1:even:1`). The largest value over the whole matrix is 0.0935336 (state N688_lamp2_a00, pair `11:+1:even:0 -> 11:+1:even:1`: two levels of the same shell, block type and parity). For $\lambda = 0$:
+Results (`Revision/kohn_sham/results/adiabatic/adiabaticity.csv`): because the hidden direction shrinks, $Q_{\max}$ is not zero even for $N = 8$ at $\lambda = 0$ (state N8_lam0_a00: 0.06814928); over the $N = 8$ states the largest value is $Q_{\max} \leq 0.07273792$ (state N8_lamp2_a00, pair `0:-1:even:0 -> 0:-1:even:1`). The largest value over the whole matrix is 0.1982205 (state N2352_lamm1_a00, pair `26:+1:even:0 -> 26:+1:even:1`: two levels of the same shell, block type and fold condition). For $\lambda = 0$:
 
 | N | a4,0 | Q_max | delta eps of the pair | dE/da4 (EMT) | dE/da4 (differences) |
 | --- | --- | --- | --- | --- | --- |
-| 136 | 0 | 0.08514877 | 2.05293 | -71.43976 | -71.43976 |
-| 136 | 0.5 | 0.07455997 | 1.888369 | -46.47084 | -46.47084 |
-| 136 | 1 | 0.06361841 | 1.745737 | -30.11922 | -30.11922 |
-| 136 | 1.5 | 0.05274874 | 1.616341 | -19.33966 | -19.33966 |
-| 136 | 2 | 0.03839473 | 1.524416 | -12.18614 | -12.18614 |
-| 688 | 0 | 0.09345059 | 2.253405 | -597.9157 | -597.9157 |
-| 688 | 0.5 | 0.08526 | 2.055018 | -388.9333 | -388.9333 |
-| 688 | 1 | 0.0746905 | 1.890122 | -253.016 | -253.016 |
-| 688 | 1.5 | 0.06373822 | 1.747327 | -163.9948 | -163.9948 |
-| 688 | 2 | 0.05289328 | 1.617688 | -105.4063 | -105.4063 |
+| 592 | 0 | 0.1396883 | 0.8591647 | -361.1161 | -361.1161 |
+| 592 | 0.5 | 0.09450268 | 1.181936 | -219.028 | -219.028 |
+| 592 | 1 | 0.06819305 | 1.503745 | -132.8472 | -132.8472 |
+| 592 | 1.5 | 0.05108696 | 1.826609 | -80.5759 | -80.5759 |
+| 592 | 2 | 0.03879691 | 2.167139 | -48.87176 | -48.87176 |
+| 2352 | 0 | 0.194329 | 0.6543959 | -2288.388 | -2288.388 |
+| 2352 | 0.5 | 0.11849 | 0.9955121 | -1387.978 | -1387.978 |
+| 2352 | 1 | 0.0782197 | 1.362942 | -841.851 | -841.851 |
+| 2352 | 1.5 | 0.05520876 | 1.730963 | -510.6084 | -510.6084 |
+| 2352 | 2 | 0.04047331 | 2.105635 | -309.6997 | -309.6997 |
 
-The last two columns are the energy change along the history, from the energy-momentum tensor ($dE/da_4 = -3(P_3 - P_t) - \frac32\beta P_t$, $P = 2\mathrm{Vol}_7(a_{4,0})\int e^{6Hy}p\,dy$, section 9) and from finite differences at fixed occupations.
+The last two columns are the energy change along the history, from the energy-momentum tensor ($dE/da_4 = -3P_3 + P_t + \tfrac13P_0$, $P = 2\mathrm{Vol}_7(a_{4,0})\int e^{3Hy}p\,dy$, section 9) and from finite differences at fixed occupations; for the free fold-band gases both equal $-E_{KS}$.
 
-**Fermi-level crossings.** When levels of different $k$ cross the Fermi level between slices, the instantaneous aufbau ground state differs from the adiabatically continued state, and the solver flags it. No crossing occurs in the canonical matrix: every one of the 15 series of `Revision/kohn_sham/results/adiabatic/history.json` has an empty crossing list, and `adiabatic/fermi-level-crossings.csv` records no change of the occupied set. A demonstration at $\lambda = 0$ and $N = 696$ (the smallest closed shell of the $a_{4,0} = 0$ aufbau that occupies a level off the even $j = +1$ brane band; `adiabatic/crossing-demo.csv`):
+**Fermi-level crossings.** When levels of different $k$ cross the Fermi level between slices, the instantaneous aufbau ground state differs from the adiabatically continued state, and the solver flags it. No crossing occurs in the canonical matrix: every one of the 15 series of `Revision/kohn_sham/results/adiabatic/history.json` has an empty crossing list, and `adiabatic/fermi-level-crossings.csv` records no change of the occupied set. A demonstration at $\lambda = 0$ and $N = 2360$ (the smallest closed shell of the $a_{4,0} = 0$ aufbau that occupies a level off the even $j = +1$ fold band; `adiabatic/crossing-demo.csv`):
 
 | a4,0 | occupied set as at a4,0 = 0 | open shell | E aufbau | E adiabatically continued | difference |
 | --- | --- | --- | --- | --- | --- |
-| 0 | true | false | 690.7796 | 690.7796 | 0 |
-| 0.5 | false | true | 444.1946 | 447.8513 | 3.65669 |
-| 1 | false | true | 283.7106 | 289.7632 | 6.052645 |
-| 1.5 | false | true | 179.4593 | 187.0712 | 7.611827 |
-| 2 | false | true | 112.1016 | 120.725 | 8.623384 |
+| 0 | true | false | 2298.727 | 2298.727 | 0 |
+| 0.5 | false | true | 1394.281 | 1398.957 | 4.676354 |
+| 1 | false | true | 845.6741 | 853.6174 | 7.943281 |
+| 1.5 | false | true | 512.9273 | 523.3331 | 10.40583 |
+| 2 | false | true | 311.1061 | 323.5841 | 12.47799 |
 
-From $a_{4,0} = 0.5$ on, the $k = 0$ odd bulk level is emptied and the $n_2 = 12$ brane-band shell is filled: the instantaneous ground state is not the adiabatically reached state, which lies above it by the last column.
+From $a_{4,0} = 0.5$ on, the fold-band levels redshift ($\varepsilon = e^{-a_4}k$) while the $k = 0$ bulk levels rise ($\varepsilon = \sqrt{M^2 + (n\pi/(fL))^2}$, $f = e^{-a_4/3}$): the instantaneous ground state is not the adiabatically reached state, which lies above it by the last column.
 
-Interpretation (labelled): with $Q_{\max} \leq 0.0935336$ the instantaneous states are self-consistently adiabatic for the same-sector transitions at the rate $A = 1$ in the canonical matrix; this does not solve the time-dependent problem (OPEN), and where Fermi-level crossings occur (the demonstration) the instantaneous ground state is not the state that the evolution reaches.
+Interpretation (labelled): with $Q_{\max} \leq 0.1982205$ the instantaneous states are self-consistently adiabatic for the same-sector transitions at the rate $A = 1$ in the canonical matrix only in the weak sense $Q_{\max} < 1$; the largest values approach 0.2 for $N = 2352$ at $a_{4,0} = 0$. This does not solve the time-dependent problem (OPEN), and where Fermi-level crossings occur (the demonstration) the instantaneous ground state is not the state that the evolution reaches.
 
 | Rust solver records | reference records | cross-check records |
 | --- | --- | --- |
@@ -241,22 +241,22 @@ Interpretation (labelled): with $Q_{\max} \leq 0.0935336$ the instantaneous stat
 
 ## 8. Mermin thermodynamics
 
-The Mermin states at $T = 0.01, 0.02, 0.05$ solve the self-consistent problem at fixed $N$ with $\mu$ the root of $\sum g f = N$ in a well-conditioned form (thermal particles above and holes below a split of the levels, `solver/src/mermin.rs`). The checks: $\Omega$ in its two forms, $-dF/dT = S_{\mathrm{ent}}$, $C_V = T\,dS_{\mathrm{ent}}/dT = dE/dT$ at fixed $N$, and the chemical potential against 40-digit roots on the solver's own final levels (40-digit and 50-digit roots agree to 7.5e-35, record `root_precision_self_check`). The thermal state N688_lamm1_a00_T10 needs the coupling continuation in both solvers (record `thermo_scf_path` of the Rust solver names it; record `scf_paths` of the reference lists it as the only state that needed it, on its three grids). For $N = 136$, $\lambda = 0$ (`Revision/kohn_sham/results/thermo/thermodynamics.csv`):
+The Mermin states at $T = 0.01, 0.02, 0.05$ solve the self-consistent problem at fixed $N$ with $\mu$ the root of $\sum g f = N$ in a well-conditioned form (thermal particles above and holes below a split of the levels, `solver/src/mermin.rs`). The checks: $\Omega$ in its two forms, $-dF/dT = S_{\mathrm{ent}}$, $C_V = T\,dS_{\mathrm{ent}}/dT = dE/dT$ at fixed $N$, and the chemical potential against 40-digit roots on the solver's own final levels (40-digit and 50-digit roots agree to 1.5e-38, record `root_precision_self_check`). For $N = 592$, $\lambda = 0$ (`Revision/kohn_sham/results/thermo/thermodynamics.csv`):
 
 | a4,0 | T | mu | E | entropy | Omega | sea holes / N |
 | --- | --- | --- | --- | --- | --- | --- |
-| 0 | 0.01 | 0.8339283 | 80.34462 | 7.763517 | -33.14726 | 2.1e-56 |
-| 0 | 0.02 | 0.8250861 | 80.74027 | 34.38332 | -32.1591 | 9.49e-29 |
-| 0 | 0.05 | 0.7941344 | 82.71202 | 91.45989 | -29.86326 | 4.43e-12 |
-| 2 | 0.01 | 0.1247136 | 12.99426 | 104.8261 | -5.015053 | 1.29e-09 |
-| 2 | 0.02 | 0.1150668 | 14.49922 | 205.4874 | -5.259608 | 4.25e-05 |
-| 2 | 0.05 | 0.05801333 | 23.38445 | 464.1395 | -7.712339 | 0.112 |
+| 0 | 0.01 | 0.8099438 | 361.6116 | 76.01079 | -118.6352 | 3.76e-48 |
+| 0 | 0.02 | 0.8110736 | 362.7433 | 152.6427 | -120.4652 | 3.73e-25 |
+| 0 | 0.05 | 0.8078443 | 369.9279 | 358.7396 | -126.2529 | 3.43e-11 |
+| 2 | 0.01 | 0.1078013 | 51.39934 | 517.9789 | -17.59884 | 5e-08 |
+| 2 | 0.02 | 0.09893307 | 58.47195 | 991.924 | -19.93491 | 0.000221 |
+| 2 | 0.05 | 0.03959481 | 96.58455 | 2112.111 | -32.46113 | 0.234 |
 
-**Validity of the particle-only ensemble (diagnostic of the CONVENTION).** For every thermal state the number of thermal holes that the excluded sea brane band would carry at the same $\mu$ and $T$ is computed. It exceeds 1% of $N$ in 15 of 135 states, all at $a_{4,0} \geq 1$; the largest is 30.808 N (record `thermo_sea_hole_diagnostic_computed`). There the particle-only Mermin ensemble is outside its range of validity and a thermal treatment of the sea (pairs) would be required; in the table above this is the row $a_{4,0} = 2$, $T = 0.05$ (state N136_lam0_a20_T50).
+**Validity of the particle-only ensemble (diagnostic of the CONVENTION).** For every thermal state the number of thermal holes that the excluded sea fold band would carry at the same $\mu$ and $T$ is computed. It exceeds 1% of $N$ in 27 of 135 states, most of them at $N = 8$ and all at $a_{4,0} \geq 0.5$; the largest is 594.496 N (record `thermo_sea_hole_diagnostic_computed`). There the particle-only Mermin ensemble is outside its range of validity and a thermal treatment of the sea (pairs) would be required; in the table above this is the row $a_{4,0} = 2$, $T = 0.05$ (state N592_lam0_a20_T50).
 
 | Rust solver records | reference records | cross-check records |
 | --- | --- | --- |
-| `thermo_runs_completed`, `thermo_scf_converged`, `thermo_N_conservation`, `thermo_grand_potential_two_forms`, `thermo_entropy_identity`, `thermo_CV_identity`, `thermo_window_cut`, `thermo_window_shells_beyond`, `thermo_mu_well_conditioned_root`, `thermo_mu_vs_40digit_roots`, `thermo_sea_hole_diagnostic_computed` | `thermo_scf_converged`, `thermo_N_conservation`, `thermo_grand_potential_two_forms`, `thermo_CV_identity`, `thermo_entropy_identity`, `thermo_window_cut`, `thermo_sea_holes_tail` | `thermo_state_functions`, `thermo_derivatives`, `thermo_sea_hole_diagnostic`, `thermo_levels`, `thermo_mu_high_precision`, `thermo_mu_rounding_diagnostic`, `thermo_mu_rust_stated_bound` |
+| `thermo_runs_completed`, `thermo_scf_converged`, `thermo_N_conservation`, `thermo_grand_potential_two_forms`, `thermo_entropy_identity`, `thermo_CV_identity`, `thermo_window_cut`, `thermo_window_shells_beyond`, `thermo_mu_well_conditioned_root`, `thermo_mu_vs_40digit_roots`, `thermo_sea_hole_diagnostic_computed`, `thermo_scf_path` | `thermo_scf_converged`, `thermo_N_conservation`, `thermo_grand_potential_two_forms`, `thermo_CV_identity`, `thermo_entropy_identity`, `thermo_window_cut`, `thermo_sea_holes_tail`, `scf_paths` | `thermo_state_functions`, `thermo_derivatives`, `thermo_sea_hole_diagnostic`, `thermo_levels`, `thermo_mu_high_precision`, `thermo_mu_rounding_diagnostic`, `thermo_mu_rust_stated_bound` |
 
 | Mermin-root report | records |
 | --- | --- |
@@ -275,22 +275,22 @@ p_0(y) &= \textstyle\sum w g f\,\big[(\varepsilon - v_v)n_o - M_{\mathrm{eff}}s_
 \end{aligned}
 $$
 
-with $T^{x_4}{}_y = 0$ for eigen-orbitals. The extra-time pressure $p_t$ has no kinetic part (good sector). Exact identities, checked for every state: the trace of the kinetic parts is $M_{\mathrm{eff}}S + v_vn$; conservation along the hidden direction, $p_0' + 6Hp_0 = 3H(p_3 + p_t)$; the energy change $\nabla_\mu T^\mu{}_{x_4} = -\partial_{x_4}\rho - 3a_4'(p_3 - p_t) - \frac32(b_4'/b_4)(\rho + p_t)$, i.e. on the history $dE/da_4 = -3(P_3 - P_t) - \frac32\beta P_t$ with $P = 2\mathrm{Vol}_7(a_{4,0})\int_{-L}^{0}e^{6Hy}p\,dy$ ($\beta = \frac43$: $-3(P_3 - P_t) - 2P_t$); and $2\mathrm{Vol}_7\int e^{6Hy}\rho\,dy = E_{KS}$. Integrated profiles ($2\mathrm{Vol}_7(a_{4,0})\int_{-L}^{0}e^{6Hy}X\,dy$, `Revision/kohn_sham/results/ground/emt-integrals.csv`), $\lambda = 0$:
+with $T^{x_4}{}_y = 0$ for eigen-orbitals. The extra-time pressure $p_t$ has no kinetic part (good sector). Exact identities, checked for every state: the trace of the kinetic parts is $M_{\mathrm{eff}}S + v_vn$; conservation along the hidden direction, $p_0' + 3H(p_0 - p_t) = 0$; the energy change $\nabla_\mu T^\mu{}_{x_4} = -\partial_{x_4}\rho - 3a_4'(\rho + p_3) - 3h_4(\rho + p_t) - h_4(\rho + p_0)$, i.e. on the history $dE/da_4 = -3P_3 + P_t + \tfrac13P_0$ with $P = 2\mathrm{Vol}_7(a_{4,0})\int_{-L}^{0}e^{3Hy}p\,dy$; and $2\mathrm{Vol}_7\int e^{3Hy}\rho\,dy = E_{KS}$. Integrated profiles ($2\mathrm{Vol}_7(a_{4,0})\int_{-L}^{0}e^{3Hy}X\,dy$, `Revision/kohn_sham/results/ground/emt-integrals.csv`), $\lambda = 0$:
 
 | N | a4,0 | int rho | int p3 | int p_t | int p0 |
 | --- | --- | --- | --- | --- | --- |
-| 136 | 0 | 80.28222 | 23.81325 | 0 | 35.04349 |
-| 136 | 0.5 | 51.24519 | 15.49028 | 0 | 26.62178 |
-| 136 | 1 | 32.38412 | 10.03974 | 0 | 19.33023 |
-| 136 | 1.5 | 20.20308 | 6.446555 | 0 | 13.173 |
-| 136 | 2 | 12.44507 | 4.062048 | 0 | 8.472703 |
-| 688 | 0 | 680.4412 | 199.3052 | 0 | 240.5598 |
-| 688 | 0.5 | 437.5129 | 129.6444 | 0 | 188.2465 |
-| 688 | 1 | 279.4249 | 84.33868 | 0 | 143.2073 |
-| 688 | 1.5 | 176.7328 | 54.66494 | 0 | 104.3887 |
-| 688 | 2 | 110.3867 | 35.13543 | 0 | 71.5579 |
+| 592 | 0 | 361.1161 | 120.372 | 0 | 0 |
+| 592 | 0.5 | 219.028 | 73.00934 | 0 | -9.693924e-17 |
+| 592 | 1 | 132.8472 | 44.2824 | 0 | -6.658418e-16 |
+| 592 | 1.5 | 80.5759 | 26.85863 | 0 | -1.115453e-15 |
+| 592 | 2 | 48.87176 | 16.29059 | 0 | 0 |
+| 2352 | 0 | 2288.388 | 762.7961 | 0 | 0 |
+| 2352 | 0.5 | 1387.978 | 462.6592 | 0 | 3.00941e-14 |
+| 2352 | 1 | 841.851 | 280.617 | 0 | -7.850057e-16 |
+| 2352 | 1.5 | 510.6084 | 170.2028 | 0 | -6.395636e-17 |
+| 2352 | 2 | 309.6997 | 103.2332 | 0 | 4.739727e-16 |
 
-The profiles on 151 points $y = -3 + 0.02i$ are in `Revision/kohn_sham/results/ground/profiles/` (one file per state; densities per $\mathrm{Vol}_7(a_{4,0})$, that is the proper densities times $b_4(0)^{3/2}$). The energy density varies along the hidden direction in every state with a nonzero tensor (section 11). Equations of state seen by a 3-space observer are not part of this document; they are the work of `Revision/dark_sector/dirac16complex` (its Kohn-Sham history report `Revision/dark_sector/dirac16complex/reports/ks-history-run.json`: 8 of 8 PASS).
+For a fold-band orbital $(e^{fMy}, 0)$ with $\varepsilon = \kappa|k|$ the hidden-direction kinetic pressure vanishes identically, so the free states have $p_0 = p_t = 0$ (the table shows rounding values) and $\int p_3 = E_{KS}/3$: a radiation-like gas of the 3-space momenta, whose energy falls like $e^{-a_4}$ ($dE/da_4 = -E_{KS}$, section 7). The profiles on 151 points $y = -3 + 0.02i$ are in `Revision/kohn_sham/results/ground/profiles/` (one file per state; densities per $\mathrm{Vol}_7(a_{4,0})$, that is the proper densities times $b_4(0)^2$). The energy density varies along the hidden direction in every state with a nonzero tensor (section 11). Equations of state seen by a 3-space observer are not part of this document; they are the work of `Revision/dark_sector/dirac16complex` (its Kohn-Sham history report `Revision/dark_sector/dirac16complex/reports/ks-history-run.json`: 8 of 8 PASS).
 
 | item | Wolfram and sympy records | Rust solver records | reference and cross-check records |
 | --- | --- | --- | --- |
@@ -298,22 +298,22 @@ The profiles on 151 points $y = -3 + 0.02i$ are in `Revision/kohn_sham/results/g
 
 ## 10. The rescaling partners
 
-**Exact identity.** Because $a_{4,0}$ enters only through $\kappa k = e^{-Hy}(ke^{-a_{4,0}})$ and $b_{4,0}$ only through the proper cell volume $\ell^3v_tb_{4,0}^{3/2}$,
+**Exact identity.** With the proper hidden coordinate $Y = f_0y$, $f_0 = e^{-a_{4,0}}b_{4,0}^{1/2}$,
 
 $$
-\mathrm{KS}(a_{4,0}, b_{4,0};\,\Delta k, v_t, \lambda, N, T) = \mathrm{KS}\big(0, b_4(0);\,\Delta k\,e^{-a_{4,0}},\, v_t\,e^{-3a_{4,0}}(b_{4,0}/b_4(0))^{3/2},\, \lambda, N, T\big)
+\mathrm{KS}(a_{4,0}, b_{4,0};\,H, L, \Delta k, v_t, \lambda, N, T) = \mathrm{KS}\big(0, 1;\,H/f_0,\, f_0L,\, \Delta k\,e^{-a_{4,0}},\, v_t\,e^{-3a_{4,0}}b_{4,0}^{3/2},\, \lambda, N, T\big)
 $$
 
-for the levels, orbitals, proper densities and energy-momentum profiles; on the history ($b_{4,0}/b_4(0) = e^{(4/3)a_{4,0}}$) the partner has $\Delta k\,e^{-a_{4,0}}$ and $v_t\,e^{-a_{4,0}}$ at the same $\hat\lambda$. Reading (labelled): the slice $a_{4,0}$ of the deflating history is the slice 0 with a 3-torus larger by $e^{a_{4,0}}$ in each direction and an extra-time coordinate volume smaller by $e^{-a_{4,0}}$: the same proper cell, because the factor $e^{-3a_{4,0}}$ of the extra times and the growth $b_4^{3/2}$ combine to $e^{-a_{4,0}}$ for the coordinate volume while the 3-torus grows by $e^{3a_{4,0}}$. The 3-momenta redshift while the proper cell stays the same.
+for the levels, orbitals ($\chi_Y = \chi/\sqrt{f_0}$), proper densities and energy-momentum profiles; on the history ($b_{4,0} = e^{(4/3)a_{4,0}}$, $f_0 = e^{-a_{4,0}/3}$) the partner has $H e^{a_{4,0}/3}$, $Le^{-a_{4,0}/3}$, $\Delta k\,e^{-a_{4,0}}$ and $v_t\,e^{-a_{4,0}}$ at the same $\hat\lambda$. Reading (labelled): the slice $a_{4,0}$ of the deflating history is the slice 0 with a 3-torus larger by $e^{a_{4,0}}$ in each direction, a shorter and more strongly warped hidden direction and a smaller extra-time coordinate volume: the 3-momenta redshift while the hidden direction and the extra times shrink.
 
-**Computed.** Each solver solves the partner independently (60 partners). The worst level difference is 1.550e-13 and the worst relative difference of $E_{KS}$ and of the profiles 1.914e-13 (records `rescaling_identity_between_slices` and `rescaling_identity_energy_profiles`). For $N = 136$, $\hat\lambda = \lambda_1$ (`Revision/kohn_sham/results/rescaling/rescaling.csv`):
+**Computed.** Each solver solves the partner independently (60 partners). The worst level difference is 1.643e-13 and the worst relative difference of $E_{KS}$ and of the profiles 8.193e-13 (records `rescaling_identity_between_slices` and `rescaling_identity_energy_profiles`). For $N = 592$, $\hat\lambda = \lambda_1$ (`Revision/kohn_sham/results/rescaling/rescaling.csv`):
 
-| a4,0 | partner Delta k | partner v_t | max delta eps | relative delta E | partner E_KS |
-| --- | --- | --- | --- | --- | --- |
-| 0.5 | 0.1516327 | 0.6065307 | 0 | 0 | 51.26441 |
-| 1 | 0.09196986 | 0.3678794 | 9.504e-14 | 0 | 32.39984 |
-| 1.5 | 0.05578254 | 0.2231302 | 2.665e-15 | 1.758e-16 | 20.20944 |
-| 2 | 0.03383382 | 0.1353353 | 9.104e-14 | 0 | 12.44558 |
+| a4,0 | partner Delta k | partner v_t | partner H | partner L | max delta eps | relative delta E | partner E_KS |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0.5 | 0.1516327 | 0.6065307 | 1.18136 | 2.539445 | 1.008e-13 | 1.307e-15 | 217.3785 |
+| 1 | 0.09196986 | 0.3678794 | 1.395612 | 2.149594 | 8.704e-14 | 3.451e-14 | 131.7652 |
+| 1.5 | 0.05578254 | 0.2231302 | 1.648721 | 1.819592 | 9.859e-14 | 3.952e-14 | 79.82634 |
+| 2 | 0.03383382 | 0.1353353 | 1.947734 | 1.540251 | 9.148e-14 | 2.448e-13 | 48.35502 |
 
 | Wolfram and sympy records | Rust solver records | reference and cross-check records |
 | --- | --- | --- |
@@ -321,28 +321,27 @@ for the levels, orbitals, proper densities and energy-momentum profiles; on the 
 
 ## 11. The recorded states are not admissible sources of the $a_4$ and $b_4$ equations
 
-`Revision/SPEC.md` section 7 names the Kohn-Sham energy-momentum tensor as the source of the field equations for $a_4$ and $b_4$. The Einstein-Lovelock equations of the author's metric (`Revision/field_equations_a4`, key generalSource of `a4-equations.json`) require of any source: (C1) every diagonal component independent of $x_0$ (the diagonal left-hand sides contain no $x_0$ for every $a_4$, $b_4$); (C2) the combination $p_3 + p_t - 2p_0$ equals $\sum_k\alpha_k(E^{x_1}{}_{x_1} + E^{x_5}{}_{x_5} - 2E^{x_0}{}_{x_0})/\kappa$, which vanishes on the history with the author's weights; (C3) on the history $a_4 = Hx_4$, $b_4 = b_4(0)e^{(4/3)Hx_4}$ with the author's weights and $\Lambda = -10$, the constant source $\kappa(\rho, p_3, p_t, p_0) = (-\frac{2}{27}, -\frac29, -\frac{22}{27}, -\frac{14}{27})$ ($H = 1$); (C4) the off-diagonal equation $\kappa q_{40} = \cot z\,(b_4'/b_4)\,Q$, where $Q = 0$ on the history (the reason for $\beta = \frac43$). The record `Revision/field_equations_a4/reports/ks-source-conditions.json` (6 of 6 PASS) finds:
+`Revision/SPEC.md` section 7 names the Kohn-Sham energy-momentum tensor as the source of the field equations for $a_4$ and $b_4$. The Einstein-Lovelock equations of the corrected metric (`Revision/field_equations_a4`, key generalSource of `a4-equations.json`) require of any source: (C1) every component independent of $x_0$ (the left-hand sides contain no $x_0$ for every $a_4$, $b_4$); (C2) $p_0 = p_t$ (the hidden and the extra-time components of every left-hand side are equal); (C3) no off-diagonal component, $T^{x_4}{}_{x_0} = 0$; (C4) on the history $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$ with the author's weights and $\Lambda = -10$, the source $\kappa T - \Lambda$ that `a4-equations.json` records for this history (key exponentialHistory, author's weights), a function of $k = e^{(2/3)Hx_4}$ with $p_0 = p_t$. The record `Revision/field_equations_a4/reports/ks-source-conditions.json` (5 of 5 PASS) finds:
 
-1. Every one of the 70 nonzero ground-state profiles depends on $x_0$: $(\max\rho - \min\rho)/\max|T| \geq 0.0757506$ (record `ks_profiles_depend_on_x0`); C1 fails for every $a_4(x_4)$ and $b_4(x_4)$.
-2. On the history $\max_y|p_3 + p_t - 2p_0|/\max|T|$ lies between 1.04172 and 3.99008 (record `ks_profiles_violate_algebraic_condition`): C2 fails pointwise.
-3. Integrated over the patch, $(\int p_3 + \int p_t)/(2\int p_0)$ differs from 1 for every nonzero state (closest 0.416888); for the history $N = 136$, $\lambda = 0$ it is 0.339767, 0.25969 and 0.239714 at $a_{4,0} = 0, 1, 2$ (record `ks_integrals_violate_algebraic_condition`): even an $x_0$-averaged source violates C2.
-4. The history needs the constant source of C3, a negative energy density with $p_3/\rho = 3$, $p_t/\rho = 11$, $p_0/\rho = 7$; the Kohn-Sham source has a positive energy density that changes along the history: the history is a PRESCRIBED background (record `ks_history_is_a_prescribed_background`).
-5. The off-diagonal condition C4 holds: every Kohn-Sham state has $T^{x_4}{}_y = 0$, and $Q = 0$ on the history; in Einstein gravity a source with $q_{40} = 0$ would force $b_4' = 0$ (record `ks_offdiagonal_condition_on_history`).
-6. Five states have an identically vanishing tensor (the free $N = 8$ zero modes), a zero source, which is not admissible either: with the author's weights every vacuum solution has $b_4$ constant, and Einstein gravity has no vacuum solution with $H > 0$ (record `ks_zero_source_states_listed`).
+1. Every one of the 70 nonzero ground-state profiles depends on $x_0$: $(\max\rho - \min\rho)/\max|T| \geq 0.456213$ (record `ks_profiles_depend_on_x0`); C1 fails for every $a_4(x_4)$ and $b_4(x_4)$.
+2. C2 holds to rounding for exactly the 10 nonzero states with $\lambda = 0$ (their fold-band orbitals have no hidden kinetic pressure and $e_{\mathrm{int}} = 0$) and fails for every one of the 60 states with $\lambda \neq 0$ ($\max_y|p_0 - p_t|/\max|T| \geq 0.080929$; record `ks_hidden_pressure_condition`): the interaction bends the orbitals.
+3. C3 holds: every Kohn-Sham eigen-orbital has $T^{x_4}{}_y = 0$ (record `ks_offdiagonal_condition`).
+4. The history needs the source of C4, whose energy density changes sign along it ($\kappa\rho = 3.57407$ at $a_{4,0} = 0$ and $-7.63383$ at $a_{4,0} = 2$; its ratios do not depend on the unknown $\kappa$); the Kohn-Sham sources, averaged over $x_0$ per proper volume, have ratios $(p_3/\rho, p_0/\rho, p_t/\rho)$ that differ from the needed ones by at least 1.3733 at every recorded state with a nonzero energy density (the free gas: $p_3/\rho = 1/3$, $p_0 = p_t = 0$): the history is a PRESCRIBED background (record `ks_history_is_a_prescribed_background`).
+5. Five states have an identically vanishing tensor (the free $N = 8$ zero modes), a zero source, which is not admissible either: no exponential history is a vacuum solution for the author's weights (record `ks_zero_source_states_listed`).
 
-The full analysis `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` (22 of 22 PASS) refines this exactly: the states SATISFY the $x_0$ conservation identity, and $p_3 + p_t - 2p_0 = p_{0,y}/(3H)$ on shell, so the diagonal components depend on $x_0$, which the field equations exclude for every $a_4$ and $b_4$; at least a share 0.582938 of the energy density deviates from its hidden-direction average (L1 measure). The off-diagonal equation needs $Q = 0$ at every instant of a history with changing $b_4$; in Einstein gravity $Q = \frac32H$, so there is no such history at all. Its conclusion: the coupled problem “metric of `Revision/SPEC.md` section 1 with $b_4$ + Kohn-Sham source” has no solution, and nothing about $a_4$ or $b_4$ is derived from it. In a stated approximation (the $x_4$ moment and the off-diagonal equation kept, two algebraic equations for $a_4'$ and $b_4'/b_4$; the other moments dropped, with dropped residuals of order one) the Kohn-Sham source does not start or select the exponential deflation: with the author's weights the start on the record's history needs $\kappa\bar\rho(0) = -\frac{2}{27}H^2$ ($\kappa < 0$ for this gas of positive energy density), and as the gas dilutes the solution leaves the history and reaches a fold of the algebraic system at $a_4 = 0.024$ ($N = 136$, $\lambda = 0$; there $a_4'/H = 0.870762$ and $(b_4'/b_4)/H = 1.09136$, against 1 and $\frac43$ on the history); with the stated Gauss-Bonnet coupling the branch $u_0 = (-6 + 2\sqrt5)H$ runs through $a_4 = 2$ for $\kappa\bar\rho(0) \leq 0$ and ends at a fold for $\kappa\bar\rho(0) > 0$, and on the branch $u_0 = (-6 - 2\sqrt5)H$ the rates grow until the adiabaticity measure reaches 1 or a fold is reached. These are statements of that approximation, not of the field equations.
+The full analysis `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` (19 of 19 PASS) refines this exactly: the recorded states SATISFY the $x_0$ conservation identity $p_{0,y} + 3H(p_0 - p_t) = 0$ (largest residual 1.21233e-05 of the largest term on the output grid), so they fail the field equations because their components depend on $x_0$ ($\mu_1$ of the energy density between 0.147738 and 0.738255 in the L1 measure) and, for $\lambda \neq 0$, because $p_0 \neq p_t$ even after averaging over $x_0$ (relative violation $\geq 0.00613418$), not because conservation fails. The free gas is an exact fold-band gas: averaged over $x_0$ per proper volume it is $\bar\rho = Cb_4^{-2}$ with $p_3 = \rho/3$ and $p_0 = p_t = 0$, a source that conserves energy for every $a_4$ and $b_4$. With the author's weights the record's history needs $\kappa\rho = 3.57407$ at $a_4 = 0$ and $-7.63383$ at $a_4 = 2$, while the averaged free gas $N = 2352$ has $\bar\rho = 0.216249$ and $0.00104404$ there: $\kappa$ would have to run from 16.5276 to $-7311.81$, so no constant $\kappa$ makes the gas the source. In a stated approximation (the $x_0$-averaged equations with the averaged free gas as the source, started on the record's history) the solution does not follow the history: with the author's weights the second-order system becomes singular at $x_4 = 0.428813$ ($a_4 = 0.361572$, $b_4 = 0.862627$, $a_4'/H = 0.978369$, $u/H = -2.60176$, against 1 and $\frac43$ on the history); over 38 cases with three further theories the outcomes are $a_4$ turning 24 times, regular 6 times, runaway 4 times and singular 4 times. These are statements of that approximation, not of the field equations.
 
 Consequence: the Kohn-Sham gas of this record is a test field on the prescribed background $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$ without back-reaction; energies, pressures and equations of state along the history are not consequences of the coupled field equations.
 
 | report | records |
 | --- | --- |
-| `Revision/field_equations_a4/reports/ks-source-conditions.json` | `ks_profiles_depend_on_x0`, `ks_profiles_violate_algebraic_condition`, `ks_integrals_violate_algebraic_condition`, `ks_history_is_a_prescribed_background`, `ks_offdiagonal_condition_on_history`, `ks_zero_source_states_listed` |
-| `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` | `A1_x1_x5_x0_combination_with_b4`, `A2_offdiagonal_equation_needs_Q_zero`, `A5_x0_conservation_in_y`, `A6_branches_at_the_initial_rate`, `B0_source_condition_report_verified`, `B2_x0_conservation_on_every_profile`, `B4_hidden_direction_mismatch`, `C1_averaged_algebraic_condition_fails`, `C3_record_history_not_a_solution_of_the_x4_moment`, `D2_author_weights_start_on_the_record_history`, `D5_outcomes` |
+| `Revision/field_equations_a4/reports/ks-source-conditions.json` | `ks_profiles_depend_on_x0`, `ks_hidden_pressure_condition`, `ks_offdiagonal_condition`, `ks_history_is_a_prescribed_background`, `ks_zero_source_states_listed` |
+| `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` | `A1_hidden_equals_extra_times_and_no_offdiagonal`, `A2_constraint_first_order_second_order_system`, `A3_constraint_propagation`, `A4_x0_conservation_in_y`, `A5_free_fold_band_gas_conserves_energy`, `A6_history_source_reproduced`, `B0_source_condition_report_verified`, `B1_integrals_reproduced`, `B2_x0_conservation_on_every_profile`, `B3_hidden_direction_mismatch`, `C1_averaged_hidden_pressure_condition`, `C2_energy_relation_along_the_dense_history`, `C3_record_history_not_sourced_by_the_gas`, `C4_source_signs`, `D0_free_gas_average_exact`, `D1_two_step_sizes_agree`, `D2_author_weights_from_the_record_history`, `D3_constraint_kept_along_the_solutions`, `D4_outcomes` |
 | Kohn-Sham theory (the record and the label of the history) | `adiabatic_offdiagonal_identity`, `ks_theory_json_written`, `ks_theory_json_basis`, `ks_theory_json_slope`, `ks_theory_json_history_label` |
 
 ## 12. The Kohn-Sham-level pairing T3
 
-The block map of the chirality $\Gamma$, $(\chi, j) \to (\sigma_2\chi, -j)$, with the two brane parities exchanged and the tip angle $\theta \to \pi - \theta$, maps every self-consistent instantaneous Kohn-Sham state with $(m, \lambda, \theta)$ onto one with $(-m, +\lambda, \pi - \theta)$, with equal levels, occupations, Kohn-Sham energies and energy-momentum profiles and $S \to -S$ (ASSUMED Z2 brane, mean-field level); $b_4$ does not enter $h_j$, so it holds slice by slice for every $b_4$. The theorem, its hypotheses and its proof are in `Revision/docs/PAIR_CREATION_PROOFS.md` section 8, verified by `Revision/pairing/kohn_sham/reports/wolfram-t3.json` (10 of 10 PASS) and `Revision/pairing/kohn_sham/reports/python-t3.json` (13 of 13 PASS); its completion record (`Revision/pairing/kohn_sham/t3-completion.json`) by `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` (3 of 3 PASS) and `Revision/pairing/kohn_sham/reports/python-t3-completion.json` (7 of 7 PASS). The Rust solver contains a numerical self-test, labelled in its report as NOT a proof of T3: $(m, \lambda, \theta = 0)$ and $(-m, \lambda, \theta = \pi)$, solved independently, agree with opposite $S$ (worst 8.35e-14, tolerance 1e-9; record `t3_block_map_solver_selftest`). T3 does not establish a creation process, a rate or an amplitude.
+The block map of the chirality $\Gamma$, $(\chi, j) \to (\sigma_2\chi, -j)$, with the two fold conditions exchanged and the tip angle $\theta \to \pi - \theta$, maps every self-consistent instantaneous Kohn-Sham state with $(m, \lambda, \theta)$ onto one with $(-m, +\lambda, \pi - \theta)$, with equal levels, occupations, Kohn-Sham energies and energy-momentum profiles and $S \to -S$ (both fold conditions filled, ASSUMED; mean-field level); $a_4$ and $b_4$ enter $h_j$ only through the constants $f$ and $\kappa$ of the slice, so it holds slice by slice. The theorem, its hypotheses and its proof are in `Revision/docs/PAIR_CREATION_PROOFS.md` section 8, verified by `Revision/pairing/kohn_sham/reports/wolfram-t3.json` (9 of 9 PASS) and `Revision/pairing/kohn_sham/reports/python-t3.json` (12 of 12 PASS); its completion record (`Revision/pairing/kohn_sham/t3-completion.json`) by `Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` (3 of 3 PASS) and `Revision/pairing/kohn_sham/reports/python-t3-completion.json` (7 of 7 PASS). The Rust solver contains a numerical self-test, labelled in its report as NOT a proof of T3: $(m, \lambda, \theta = 0)$ and $(-m, \lambda, \theta = \pi)$, solved independently, agree with opposite $S$ (worst 3.62e-13, tolerance 1e-9; record `t3_block_map_solver_selftest`). T3 does not establish a creation process, a rate or an amplitude.
 
 ## 13. Verification records
 
@@ -353,23 +352,23 @@ Every check has a name, a verdict and a detail. Counts at the time of writing (t
 | report | checks | PASS | FAIL |
 | --- | --- | --- | --- |
 | `Revision/kohn_sham/reports/ks-theory-wolfram.json` | 51 | 51 | 0 |
-| `Revision/kohn_sham/reports/ks-theory-python.json` | 63 | 63 | 0 |
-| `Revision/kohn_sham/reports/ks-rust-solver.json` | 43 | 43 | 0 |
+| `Revision/kohn_sham/reports/ks-theory-python.json` | 61 | 61 | 0 |
+| `Revision/kohn_sham/reports/ks-rust-solver.json` | 45 | 45 | 0 |
 | `Revision/kohn_sham/reports/ks-rust-determinism.json` | 14 | 14 | 0 |
 | `Revision/kohn_sham/reports/ks-rust-mermin-roots.json` | 5 | 5 | 0 |
-| `Revision/kohn_sham/reports/ks-reference.json` | 38 | 38 | 0 |
+| `Revision/kohn_sham/reports/ks-reference.json` | 39 | 39 | 0 |
 | `Revision/kohn_sham/reports/ks-crosscheck.json` | 31 | 31 | 0 |
-| `Revision/field_equations_a4/reports/ks-source-conditions.json` | 6 | 6 | 0 |
-| `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` | 22 | 22 | 0 |
-| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 59 | 59 | 0 |
-| `Revision/field_equations_a4/reports/python-a4-report.json` | 65 | 65 | 0 |
-| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | 10 | 10 | 0 |
-| `Revision/pairing/kohn_sham/reports/python-t3.json` | 13 | 13 | 0 |
+| `Revision/field_equations_a4/reports/ks-source-conditions.json` | 5 | 5 | 0 |
+| `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json` | 19 | 19 | 0 |
+| `Revision/field_equations_a4/reports/wolfram-a4-report.json` | 57 | 57 | 0 |
+| `Revision/field_equations_a4/reports/python-a4-report.json` | 69 | 69 | 0 |
+| `Revision/pairing/kohn_sham/reports/wolfram-t3.json` | 9 | 9 | 0 |
+| `Revision/pairing/kohn_sham/reports/python-t3.json` | 12 | 12 | 0 |
 | `Revision/kohn_sham/tip_convergence/tip-convergence.json` | 7 | 7 | 0 |
 
 ### 13.2 The independent reference and the full cross-check
 
-The reference shares no code with the Rust solver: different discretisation (staggered finite differences with Richardson extrapolation instead of RK4 shooting), its own SCF and continuation fallback, its own parameter derivation (it re-derives the particle numbers and couplings from the stated rules) and its own uncertainty, validated on a fourth grid (record `richardson_uncertainty_validated`). The checker `Revision/kohn_sham/checker/crosscheck_ks.py` compares the two on the FULL canonical matrix: 75 ground states, 135 thermal states, 60 exact-Fock-variant states, 60 rescaling partners, 75 particle-hole lists and the 5 slices of the crossing demonstration, 162731 comparisons in all, under a tolerance rule fixed before the comparison,
+The reference shares no code with the Rust solver: different discretisation (staggered finite differences with Richardson extrapolation instead of RK4 shooting), its own SCF and continuation fallback, its own parameter derivation (it re-derives the particle numbers and couplings from the stated rules) and its own uncertainty, validated on a fourth grid (record `richardson_uncertainty_validated`). The checker `Revision/kohn_sham/checker/crosscheck_ks.py` compares the two on the FULL canonical matrix: 75 ground states, 135 thermal states, 60 exact-Fock-variant states, 60 rescaling partners, 75 particle-hole lists and the 5 slices of the crossing demonstration, 217571 comparisons in all, under a tolerance rule fixed before the comparison,
 
 $$
 \lvert x_{\mathrm{Rust}} - x_{\mathrm{ref}}\rvert \leq 3\,(U_{\mathrm{ref}} + U_{\mathrm{Rust}}) + 10^{-12}\,\mathrm{scale},\qquad
@@ -394,15 +393,20 @@ with $U_{\mathrm{ref}}$ the reference's three-grid Richardson uncertainty and $U
 
 ### 13.3 Determinism and the refinement measurement
 
-The Rust determinism report (14 of 14 PASS): a repeat of the canonical matrix is byte-identical in all 244 result files and in its check report (`repeat_byte_identical`, `repeat_report_byte_identical`, `outputs_lf_only`); a run with refined tolerances (900 to 1800 RK4 steps, root tolerance 1e-14, SCF tolerance 1e-12) agrees with the canonical run to 2.000e-12 in $E_{KS}$ (relative), 2.143e-09 in 23724 levels, 7.050e-09 in the profiles, 1.435e-07 in $Q_{\max}$ and $dE/da_4$, 2.489e-10 in the thermodynamics and 5.689e-09 in $C_V$ (`refined_same_inputs`, `refined_free_spectra_convergence_order`, `refined_ground_energies`, `refined_ground_homo_lumo_gap`, `refined_eigenvalues`, `refined_delta_scf`, `refined_profiles`, `refined_adiabatic_derivatives`, `refined_thermodynamics`, `refined_mermin_root_path`, `refined_heat_capacity`).
+The Rust determinism report (14 of 14 PASS): a repeat of the canonical matrix is byte-identical in all 244 result files and in its check report; a run with refined tolerances (900 to 1800 RK4 steps, root tolerance 1e-14, SCF tolerance 1e-14 with at most 1000 iterations) agrees with the canonical run to 1.728e-11 in $E_{KS}$ (relative), 5.688e-10 in 50420 levels, 1.950e-10 in the profiles, 4.513e-08 in $Q_{\max}$ and $dE/da_4$, 1.874e-10 in the thermodynamics and 3.853e-09 in $C_V$. The refined run has the SCF tolerance 1e-14, three orders below the canonical one, so that the canonical-refined differences contain the canonical SCF stopping error (with an SCF tolerance only ten times smaller both runs could stop at the same iteration and carry the same stopping error; `claude_failures.md` H15).
+
+| item | records of `Revision/kohn_sham/reports/ks-rust-determinism.json` |
+| --- | --- |
+| the repeat | `repeat_byte_identical`, `repeat_report_byte_identical`, `outputs_lf_only` |
+| the refined run | `refined_same_inputs`, `refined_free_spectra_convergence_order`, `refined_ground_energies`, `refined_ground_homo_lumo_gap`, `refined_eigenvalues`, `refined_delta_scf`, `refined_profiles`, `refined_adiabatic_derivatives`, `refined_thermodynamics`, `refined_mermin_root_path`, `refined_heat_capacity` |
 
 ### 13.4 Re-verification for this document
 
-For this document (2026-10-16, the record with $b_4$) the committed Rust binary was run on the canonical matrix into a scratch directory (`revision_ks_solver all --out <scratch>/rerun --report <scratch>/rerun-report.json`): 43 of 43 checks PASS in 95.6 s of wall time, and all 244 result files and the check report were byte-identical to the committed `Revision/kohn_sham/results` and `Revision/kohn_sham/reports/ks-rust-solver.json`. The other reports cited are the files of the working tree; their counts are re-read by the publication test.
+For this document (2026-10-17, the corrected metric) the committed Rust binary was run on the canonical matrix again into a scratch work folder, in the three parts and the assembly of the gate (`revision_ks_solver all --cache <scratch> --part i/3 --inner-threads 2`, then `--out <scratch>/results --report <scratch>/report.json`; 76.7 s, 70.4 s, 85.7 s and 5.7 s): all 244 result files and the check report were byte-identical to the committed `Revision/kohn_sham/results` and `Revision/kohn_sham/reports/ks-rust-solver.json` (45 of 45 checks PASS). The whole Kohn-Sham record (the repeat, the refined run, the reference, its repeat, the cross-check, the tip-cutoff study, the dense history and the source analysis) was regenerated the same day in 57 steps, each under the time limit of 423 s for one calculation, every step with exit code 0 (`claude_failures.md` H15 and H16). The other reports cited are the files of the working tree; their counts are re-read by the publication test.
 
 ## 14. Reproduction
 
-From the repository root, in this order (the Kohn-Sham theory record reads the gammas of `Revision/algebra`; the Rust solver reads `ks-theory.json`; the Mermin-root tool runs after the canonical matrix; the reference runs in six parts with a job cache, each part within a few minutes, and a final run writes its outputs; the cross-checker runs after the reference and the refinement measurement, with its own repeat of the reference, also in parts; the source-conditions checker reads the Kohn-Sham results and the Kohn-Sham theory checker reads its record; the Kohn-Sham source analysis reads the dense free-gas history of the dark sector, `Revision/dark_sector/dirac16complex/compute/run_ks_history.py`; `<scratch>` is any empty directory outside the repository; the backslash is the line continuation of a POSIX shell):
+From the repository root, in this order (the Kohn-Sham theory record reads the gammas of `Revision/algebra`; the Rust solver reads `ks-theory.json`; the Mermin-root tool runs after the canonical matrix; the reference runs in six parts per stage with a job cache, each part within the limit of 423 s for one run, and a final run writes its outputs; the cross-checker runs after the reference and the refinement measurement, with its own repeat of the reference, also in parts; the source-conditions checker reads the Kohn-Sham results and the Kohn-Sham theory checker reads its record; the Kohn-Sham source analysis reads the dense free-gas history of the dark sector, `Revision/dark_sector/dirac16complex/compute/run_ks_history.py`; `<scratch>` is any empty directory outside the repository; the backslash is the line continuation of a POSIX shell; the gate scripts `Revision/verify_revision.sh` and `Revision/verify_revision.ps1` run the same steps in parts):
 
 ```text
 wolframscript -file Revision/algebra/wolfram/verify_algebra.wls
@@ -428,20 +432,20 @@ python Revision/kohn_sham/solver/tools/compare_runs.py \
     --refined-report <scratch>/refined-report.json \
     --report Revision/kohn_sham/reports/ks-rust-determinism.json
 python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache \
-    --part 1/6 --jobs 12          # and so on up to --part 6/6
-python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --jobs 12
+    --stage 1 --part 1/6 --jobs 20   # and so on up to --part 6/6, then --stage 2
+python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/cache --jobs 20
 python Revision/kohn_sham/checker/measure_rust_refinement.py \
     --work <scratch>/rust-single --jobs 22
 python Revision/kohn_sham/reference/run_reference.py --cache <scratch>/repeat-cache \
-    --part 1/6 --jobs 12          # and so on up to --part 6/6
+    --stage 1 --part 1/6 --jobs 20   # and so on, both stages
 python Revision/kohn_sham/checker/crosscheck_ks.py --work <scratch>/cc --jobs 22 \
     --repeat-cache <scratch>/repeat-cache
 python Revision/kohn_sham/tip_convergence/tip_convergence.py \
-    --work <scratch>/tip --jobs 8
+    --work <scratch>/tip --jobs 22 --stage scan --part 1/6   # parts, recal, final
 python Revision/field_equations_a4/python/check_ks_source_conditions.py
 python Revision/kohn_sham/theory/check_ks_theory.py
 python Revision/dark_sector/dirac16complex/compute/run_ks_history.py \
-    --solver Revision/kohn_sham/solver/target/release/revision_ks_solver
+    --solver Revision/kohn_sham/solver/target/release/revision_ks_solver --part 1/3
 python Revision/field_equations_a4/ks_source/ks_source_a4.py
 python -m unittest Revision/field_equations_a4/ks_source/test_ks_source_a4.py -v
 wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3.wls
@@ -451,7 +455,7 @@ python scripts/build_provenance_pdf.py Revision/docs/KOHN_SHAM_DEFLATING_FIELD.m
 python -m unittest Revision/tests/test_kohn_sham_deflating_field_publication.py -v
 ```
 
-Expected output: every verifier ends with all of its checks passing and writes the report of section 13.1 with the counts given there (the Wolfram Kohn-Sham verifier prints 51/51 checks passed; the Rust solver prints SUCCESS after 43 PASS lines; the cross-checker writes 31 of 31 PASS; the tip-cutoff study prints 7 PASS lines and SUCCESS); every run is deterministic, and a second run gives byte-identical outputs. Run times recorded in the READMEs of the folders (longer when the machine is shared): the Wolfram Kohn-Sham verifier about 40 to 85 s and the sympy checker about 75 to 165 s (`Revision/kohn_sham/theory/WOLFRAMSCRIPT_PROVENANCE.md`); on 2026-10-16, on an otherwise idle machine with 22 threads, the Rust canonical matrix 78.0 s, the repeat 75.7 s and the refined-tolerance run 340.6 s (`Revision/kohn_sham/solver/README.md`; 95.6 s in the re-run of section 13.4); the reference in six parts of 227 s, 190 s, 219 s, 232 s, 124 s and 120 s with 12 processes each (`Revision/kohn_sham/reference/README.md`); the refinement measurement 32.9 s, the repeat of the reference for the cross-check in six parts of 198 s, 179 s, 214 s, 234 s, 117 s and 122 s, and the cross-checker itself 20.5 s (`Revision/kohn_sham/checker/README.md`); the tip-cutoff study 187 s with 22 workers (`Revision/kohn_sham/tip_convergence/README.md`); the Kohn-Sham source analysis about 2 s and its unit tests about 12 s (`Revision/field_equations_a4/ks_source/README.md`); the $a_4$ verifiers 43 to 70 s (Wolfram) and 7 to 28 s (sympy) on 2026-10-07 (`Revision/field_equations_a4/README.md`); the T3 verifiers about 3 s and 1 s (`Revision/pairing/kohn_sham/README.md`).
+Expected output: every verifier ends with all of its checks passing and writes the report of section 13.1 with the counts given there (the Wolfram Kohn-Sham verifier prints 51/51 checks passed; the Rust solver prints SUCCESS after 45 PASS lines; the cross-checker writes 31 of 31 PASS; the tip-cutoff study prints 7 PASS lines and SUCCESS); every run is deterministic, and a second run gives byte-identical outputs. Run times recorded in the READMEs of the folders (longer when the machine is shared): the Wolfram Kohn-Sham verifier about 40 to 85 s and the sympy checker about 75 to 165 s (`Revision/kohn_sham/theory/WOLFRAMSCRIPT_PROVENANCE.md`); on 2026-10-16/17 with 22 threads the Rust canonical matrix in two parts of 134.6 s and 130.5 s with an assembly of 5.4 s, the repeat in three parts of 76.7 s, 70.4 s and 85.7 s, the refined-tolerance run in four parts of 176.5 s, 186.1 s, 183.0 s and 163.8 s (`Revision/kohn_sham/solver/README.md`); the reference in two stages of six parts, stage 1 193.0, 175.4, 214.0, 179.8, 100.7 and 191.2 s, stage 2 136.8, 143.7, 133.7, 133.7, 134.2 and 139.8 s (`Revision/kohn_sham/reference/README.md`); the refinement measurement 108.8 s and the cross-checker itself 87.6 s (`Revision/kohn_sham/checker/README.md`); the tip-cutoff study 966 s in ten parts (`Revision/kohn_sham/tip_convergence/README.md`); the Kohn-Sham source analysis about 4.4 s and its unit tests about 20 s (`Revision/field_equations_a4/ks_source/README.md`); the $a_4$ verifiers 20 s (Wolfram) and 8 s (sympy) (`Revision/field_equations_a4/README.md`); the T3 verifiers 5.8 s and 1.3 s (`Revision/pairing/kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md`).
 
 The PDF build runs the Markdown-to-LaTeX builder twice (with different hash seeds), runs pdflatex three times into each of two fresh directories, requires warning-free logs and byte-identical PDFs, and checks the PDF against its entry `kohn-sham-deflating-field` in `Revision/pdf-specifications.json` (the Revision registry; the registry of the earlier stages is not touched).
 
@@ -459,24 +463,24 @@ The PDF build runs the Markdown-to-LaTeX builder twice (with different hash seed
 
 ### 15.1 Proved (exact, two independent verifiers)
 
-1. The block reduction (section 3): for every history $a_4(x_4)$, $b_4(x_4)$ the good-sector equation reduces exactly to eight $2 \times 2$ blocks $h_j$ in the hidden coordinate; the spin-connection terms $3H\gamma^0$ and $\frac34(b_4'/b_4)\gamma^4$ are removed by $W^{-3}$ and $b_4^{-3/4}$; the $a_4'$ terms of the inflating and the deflating directions cancel; $b_4$ does not enter $h_j$.
+1. The block reduction (section 3): for every history $a_4(x_4)$, $b_4(x_4)$ the good-sector equation reduces exactly to eight $2 \times 2$ blocks $h_j$ in the hidden coordinate; the spin-connection terms $\tfrac32(H/f)\gamma^0$ and $(b_4'/b_4 - \tfrac12a_4')\gamma^4$ are removed by the half-density factor $e^{-(3/2)Hy}e^{a_4/2}b_4^{-1}$; the hidden direction enters through $1/f$ and the 3-momenta through the constant $\kappa = e^{-a_4}$.
 2. The exchange functional (section 4): the exact local exchange of the uniform 8-fold good-sector gas at every temperature, $M_{\mathrm{eff}} = m + \frac{15}{16}\lambda S$, $v_v = -\lambda n/16$; the exact Fock exchange of the closed-shell slab differs by $+\lambda Q^2/32$; a state depends on the coupling and the cell volume only through their ratio.
-3. The boundary-value structure (section 5): self-adjointness with current-killing ends, the mirror map and the parities, the exact $k = 0$ spectra, the brane-band slope.
-4. The rescaling identity (section 10), the energy-momentum tensor of the Kohn-Sham states with its trace and conservation identities and the energy change with the $b_4$ term (section 9), and the adiabaticity identity of the measure (section 7).
+3. The boundary-value structure (section 5): self-adjointness with current-killing ends, the fold conditions, the exact $k = 0$ spectra, the fold band $\varepsilon = \kappa k$ and its slope.
+4. The rescaling identity (section 10), the energy-momentum tensor of the Kohn-Sham states with its trace and conservation identities and the energy change along the history (section 9), and the adiabaticity identity of the measure (section 7).
 5. T3 (section 12; proved in `Revision/docs/PAIR_CREATION_PROOFS.md`), under its stated hypotheses.
 
 ### 15.2 Computed (numerical, two independent solvers, cross-checked)
 
-1. The instantaneous ground states, first excited states (gap, $\Delta$-SCF, particle-hole lists), Mermin states, energy-momentum profiles, rescaling partners and exact-Fock variants of the canonical matrix (sections 6 to 10), with the Rust solver and the reference agreeing on the full matrix within the stated uncertainty (31 of 31 checks, 162731 comparisons).
-2. The adiabaticity measure ($Q_{\max} \leq 0.0935336$) and the absence of Fermi-level crossings in the canonical matrix; the crossing demonstration at $N = 696$ (section 7).
+1. The instantaneous ground states, first excited states (gap, $\Delta$-SCF, particle-hole lists), Mermin states, energy-momentum profiles, rescaling partners and exact-Fock variants of the canonical matrix (sections 6 to 10), with the Rust solver and the reference agreeing on the full matrix within the stated uncertainty (31 of 31 checks, 217571 comparisons).
+2. The adiabaticity measure ($Q_{\max} \leq 0.1982205$) and the absence of Fermi-level crossings in the canonical matrix; the crossing demonstration at $N = 2360$ (section 7).
 3. That the recorded states are not admissible sources of the $a_4$ and $b_4$ equations (section 11).
-4. The dependence on the tip cutoff $L$ from 3 to 6 of 29 recorded states, the 27 ground states with $N \in \{8, 136, 688\}$, $\lambda \in \{0, \pm\lambda_1\}$, $a_{4,0} \in \{0, 1, 2\}$ and two Mermin states of $N = 136$ ($\lambda = 0$, $a_{4,0} = 2$, $T = 0.05$; $\lambda = \lambda_1$, $a_{4,0} = 1$, $T = 0.02$) (section 5; `Revision/kohn_sham/tip_convergence/`, 7 of 7 checks PASS; the Rust solver at every $L$, the reference at $L = 3$ and $4$).
+4. The dependence on the tip cutoff $L$ from 3 to 6 of 29 recorded states, the 27 ground states with $N \in \{8, 592, 2352\}$, $\lambda \in \{0, \pm\lambda_1\}$, $a_{4,0} \in \{0, 1, 2\}$ and two Mermin states of $N = 592$ ($\lambda = 0$, $a_{4,0} = 2$, $T = 0.05$; $\lambda = \lambda_1$, $a_{4,0} = 1$, $T = 0.02$) (section 5; `Revision/kohn_sham/tip_convergence/`, 7 of 7 checks PASS; the Rust solver at every $L$, the reference at $L = 3$ and $4$).
 
 ### 15.3 Assumed or chosen
 
-1. The Z2 brane (orbifold) at the patch end $z = \pi/2$ (ASSUMED); the metric is degenerate there and no junction condition is derived.
-2. The regular tip at the cutoff $L = 3$ with $\theta = 0$ (chosen). Its effect is measured (`Revision/kohn_sham/tip_convergence/`, $L = 3$ to $6$; section 5): the recorded free results, except $N = 688$ at $a_{4,0} = 0$, lie within 1.4% ($E_{KS}$) and 12% (the $p_0$ integral) of their large-$L$ values; the interaction effects do not: the proper zero-mode density grows toward the tip like $e^{(6H - 2m)|y|}$, the recorded $N = 8$ interaction energy is about one third of its large-$L$ value at $a_{4,0} = 0$ and about 1/22 at $a_{4,0} = 2$, and the interaction shift $E_{KS}(\pm\lambda_1) - E_{KS}(0)$ of $N = 136$ at $a_{4,0} = 2$ is at large $L$ about 51 ($+\lambda_1$, value at $L = 5.5$) and 34 ($-\lambda_1$, extrapolated) times its $L = 3$ value. The couplings (calibrated at $L = 3$) and $N = 688$ (bulk edge at $L = 3$) are themselves $L = 3$ choices.
-3. The filling convention (particles on the positive branch and on the $k = 0$ zero modes; the sea not populated thermally), whose justification is OPEN; the sea-hole diagnostic shows where it fails (15 of 135 thermal states).
+1. Both fold conditions filled at the fold $z = \pi/2$, where the two halves of a cell meet (ASSUMED); the metric is degenerate there and no junction condition is derived.
+2. The regular tip at the cutoff $L = 3$ with $\theta = 0$ (chosen). Its effect is measured (section 5): the free fold-band gases do not depend on $L$, except their values at the fold (the normalisation of the fold-band orbital) and except $N = 2352$ at $a_{4,0} = 0$; the interaction energies do: the recorded $N = 8$ interaction energy is 0.977, 0.674 and 0.215 of its large-$L$ value at $a_{4,0} = 0, 1, 2$. The couplings (calibrated at $L = 3$) and $N = 2352$ (bulk edge at $L = 3$) are themselves $L = 3$ choices.
+3. The filling convention (particles on the positive branch and on the $k = 0$ zero modes; the sea not populated thermally), whose justification is OPEN; the sea-hole diagnostic shows where it fails (27 of 135 thermal states).
 4. The history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$, $A = 1$, PRESCRIBED, not solved for.
 5. The parameters of section 5 ($N$, $\hat\lambda$, $L$, $\Delta k$, $v_t$, $T$).
 
@@ -487,4 +491,4 @@ The PDF build runs the Markdown-to-LaTeX builder twice (with different hash seed
 3. Back-reaction: the Kohn-Sham states are a test field on a prescribed background; no recorded state is an admissible source of the field equations for $a_4$ and $b_4$, and no history $a_4(x_4)$, $b_4(x_4)$ is derived from the Kohn-Sham source.
 4. Equations of state and the dark-sector hypothesis are not part of this document (`Revision/dark_sector/dirac16complex`).
 5. No creation process, rate or amplitude for universes follows from the Kohn-Sham model or from T3.
-6. A thermal treatment of the Dirac sea (pairs) where the particle-only ensemble fails; states beyond the computed range $a_{4,0} \in [0, 2]$; the continuum limit $\Delta k \to 0$; Kohn-Sham states with extra-time momenta. The limit $L \to \infty$ is established (numerically, with uncertainties) only for the states and quantities marked converged or with a geometric tail in `Revision/kohn_sham/tip_convergence/README.md`; it is NOT established for $N = 688$ at $a_{4,0} = 0$ (the $k = 0$ bulk levels approach $m$ algebraically and the occupied set keeps changing), nor for the 6 interacting states whose successive differences of $E_{KS}$ do not meet the geometric-tail rule before the self-consistent iteration fails (it fails at some larger $L$ for 14 of the 19 studied; for $N = 8$ see section 5). It is not computed at $L \neq 3$ for $\lambda_2$, the slices 0.5 and 1.5, $T = 0.01$ and the other thermal states, the excited states and the adiabaticity measure, nor at $L > 6$. The record's calibration rule drives $\lambda_1$ to zero as $L$ grows.
+6. A thermal treatment of the Dirac sea (pairs) where the particle-only ensemble fails; states beyond the computed range $a_{4,0} \in [0, 2]$; the continuum limit $\Delta k \to 0$; Kohn-Sham states with extra-time momenta. The limit $L \to \infty$ is established (numerically, with uncertainties) only for the states and quantities marked converged in `Revision/kohn_sham/tip_convergence/README.md`; it is NOT established for $N = 2352$ at $a_{4,0} = 0$ (the $k = 0$ bulk levels approach $m$ algebraically and the occupied set changes; the iteration of its interacting partners fails), nor for the Mermin state N592_lam0_a20_T50 (successive changes of about $10^{-8}$ relative that do not meet the geometric-tail rule). It is not computed at $L \neq 3$ for $\lambda_2$, the slices 0.5 and 1.5, $T = 0.01$ and the other thermal states, the excited states and the adiabaticity measure, nor at $L > 6$. The record's calibration rule drives $\lambda_1$ to zero as $L$ grows.

@@ -3,7 +3,7 @@
   "producer": "Revision/pairing/kohn_sham/python/check_t3_completion.py",
   "spec": "Revision/SPEC.md section 9, theorem T3 (the Kohn-Sham level): completion",
   "independence": "sympy only; no code shared with Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls",
-  "background": "T3 holds slice by slice (b4 does not enter the block Hamiltonians); the history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} of the numerical demonstrations (extra times x5, x6, x7 deflating as e^{-a4} b4^{1/2}) is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; Revision/field_equations_a4/reports/ks-source-conditions.json)",
+  "background": "T3 holds slice by slice (a4 and b4 enter the block Hamiltonians only through the positive constants f and kappa of the slice); the history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} of the numerical demonstrations (extra times x5, x6, x7 deflating as e^{-a4} b4^{1/2}) is a PRESCRIBED BACKGROUND (ks-theory.json adiabaticity.historyStatus; Revision/field_equations_a4/reports/ks-source-conditions.json)",
   "counts": {
     "pass": 7,
     "fail": 0,
@@ -18,7 +18,7 @@
     {
       "name": "T3C.filling_convention_mapped",
       "verdict": "PASS",
-      "detail": "the filling CONVENTION (H5: positive lambda = 0 branch plus the k = 0 brane zero modes, followed continuously in lambda) is carried onto the image: sigma2 h_j(m + (15/16) lambda' S) = h_(-j)(-(m + (15/16) lambda' S)) sigma2 for every lambda' and any S(y) (both j), so eps > 0 at lambda = 0 is kept and the map commutes with the continuation; the zero mode (e^(M y), 0) of (M, j, even, theta = 0) maps to (0, i e^(M y)), a zero mode of h_(-j)(-M) with odd parity (a(0) = 0) and the transformed tip theta = pi (a(-L) = 0), brane-localised (|chi|^2 = e^(2 M y)); control: it violates the untransformed tip"
+      "detail": "the filling CONVENTION (H5: positive lambda = 0 branch plus the k = 0 fold zero modes, followed continuously in lambda) is carried onto the image: sigma2 h_j(m + (15/16) lambda' S) = h_(-j)(-(m + (15/16) lambda' S)) sigma2 for every lambda' and any S(y) (both j), so eps > 0 at lambda = 0 is kept and the map commutes with the continuation; the zero mode (e^(f M y), 0) of (M, j, fold condition theta = 0, tip theta = 0) (f > 0 the hidden scale) maps to (0, i e^(f M y)), a zero mode of h_(-j)(-M) with the other fold condition (a(0) = 0) and the transformed tip theta = pi (a(-L) = 0), fold-localised (|chi|^2 = e^(2 f M y)); control: it violates the untransformed tip"
     },
     {
       "name": "T3C.krein_rule_16_component",
@@ -28,7 +28,7 @@
     {
       "name": "T3C.t3_reports_pass",
       "verdict": "PASS",
-      "detail": "theorem T3 itself: reports/wolfram-t3.json 10/10 PASS, reports/python-t3.json 13/13 PASS, t3-theory.json status 'all checks of the report passed' with the 10 Wolfram check names; the completion adds to T3 and changes none of its files"
+      "detail": "theorem T3 itself: reports/wolfram-t3.json 9/9 PASS, reports/python-t3.json 12/12 PASS, t3-theory.json status 'all checks of the report passed' with the 9 Wolfram check names; the completion adds to T3 and changes none of its files"
     },
     {
       "name": "T3C.rust_demo_numerical_demonstration",

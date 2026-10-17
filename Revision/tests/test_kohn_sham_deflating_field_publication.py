@@ -2,13 +2,13 @@
 """Publication test for Revision/docs/KOHN_SHAM_DEFLATING_FIELD.{md,tex,pdf}.
 
 The document records the Kohn-Sham model of dirac16complex in the author's primordial field with the
-exponentially deflating extra times x5, x6, x7, in the author's metric with b4(x4) (b4 is never 1; since
-2026-10-16) (Revision/SPEC.md sections 7 and 10, deliverable 4): the block reduction, the instantaneous ground
+exponentially deflating extra times x5, x6, x7, in the corrected metric of 2026-10-16 (version 2,
+Revision/SPEC.md section 1: g = diag(e^(-2 a4) b4 cot^2 z, e^(2 a4) (x3), -1, -e^(-2 a4) b4 (sin^2 z)^(1/6) (x3)),
+z = 6 H x0 real) (Revision/SPEC.md sections 7 and 10, deliverable 4): the block reduction, the instantaneous ground
 and first excited states along the PRESCRIBED history a4 = A H x4, b4 = b4(0) e^((4/3) A H x4), the Mermin
 thermodynamics, the adiabaticity and the Fermi-level crossings, the energy-momentum tensor profiles, the
 rescaling partners, the source conditions (the recorded states are NOT admissible sources of the a4 and b4
-equations), the pointer to T3 and what is not done.  It is built and
-registered with
+equations), the pointer to T3 and what is not done.  It is built and registered with
 
     python scripts/build_provenance_pdf.py Revision/docs/KOHN_SHAM_DEFLATING_FIELD.md \
         --developer-layout --specifications Revision/pdf-specifications.json [--register]
@@ -23,7 +23,8 @@ What is tested
     kohn-sham-deflating-field: path, page count and sha256 of the committed PDF) and NOT in the registry
     of the earlier stages; the PDF is structurally sound;
   * title, subtitle and section headings; the last section is "What is proved, computed, assumed and
-    not established"; the key statements are present and overclaims are absent;
+    not established"; the key statements are present, the statements of the withdrawn metrics and
+    overclaims are absent;
   * every check name the document cites exists in a Revision report with the verdict PASS, and every
     check of the Kohn-Sham reports and of the source-conditions report is listed;
   * the report-count table and every "(X of Y PASS)" statement equal the counts of the reports;
@@ -41,6 +42,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import math
 import os
 import re
 import subprocess
@@ -66,8 +68,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "78407ede650bf73e5791b673085387a9c9770bcc2655f01ee72d71868e25a6a4"
-TEX_SHA256 = "52fc36915038a0940f536fdb983a9f6a80651503d1fc7126b5d6e87a6d2132ca"
+MARKDOWN_SHA256 = "e39c47efa044aaf41e2a1d45f22db38e5c95770a51738f3515acd7f0a955764d"
+TEX_SHA256 = "e52ff4bdca350807716852565d9132980fd2d862fbdb980811e59e0334f223e8"
 
 KS = REVISION / "kohn_sham"
 RESULTS = KS / "results"
@@ -82,6 +84,7 @@ REFERENCE = REPORTS / "ks-reference.json"
 CROSSCHECK = REPORTS / "ks-crosscheck.json"
 SOURCE_CONDITIONS = REVISION / "field_equations_a4" / "reports" / "ks-source-conditions.json"
 SOURCE_A4 = REVISION / "field_equations_a4" / "ks_source" / "reports" / "ks-source-a4.json"
+TIP = KS / "tip_convergence"
 
 # The reports of the count table (section 13.1), in the order of the table.
 COUNTED_REPORTS = (
@@ -103,7 +106,7 @@ COUNTED_REPORTS = (
 # Reports whose every check the document lists.
 COMPLETELY_LISTED = (
     THEORY_WOLFRAM, THEORY_PYTHON, RUST_SOLVER, DETERMINISM, MERMIN_ROOTS, REFERENCE, CROSSCHECK,
-    SOURCE_CONDITIONS,
+    SOURCE_CONDITIONS, SOURCE_A4,
 )
 # Every report whose check names the document may cite.
 CITABLE_REPORT_GLOBS = (
@@ -124,7 +127,9 @@ PASS_STATEMENTS = (
     ("Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json", "`Revision/pairing/kohn_sham/reports/wolfram-t3-completion.json` ({p} of {t} PASS)"),
     ("Revision/pairing/kohn_sham/reports/python-t3-completion.json", "`Revision/pairing/kohn_sham/reports/python-t3-completion.json` ({p} of {t} PASS)"),
     ("Revision/dark_sector/dirac16complex/reports/ks-history-run.json", "`Revision/dark_sector/dirac16complex/reports/ks-history-run.json`: {p} of {t} PASS"),
-    ("Revision/kohn_sham/reports/ks-crosscheck.json", "31 of 31 checks PASS over"),
+    ("Revision/kohn_sham/reports/ks-crosscheck.json", "{p} of {t} checks PASS over"),
+    ("Revision/kohn_sham/reports/ks-crosscheck.json", "within the stated uncertainty ({p} of {t} checks, "),
+    ("Revision/kohn_sham/reports/ks-rust-determinism.json", "The Rust determinism report ({p} of {t} PASS)"),
     ("Revision/kohn_sham/tip_convergence/tip-convergence.json", "`Revision/kohn_sham/tip_convergence/tip-convergence.json`, {p} of {t} checks PASS"),
 )
 
@@ -134,6 +139,7 @@ SECTIONS = (
     "## Abstract",
     "## 1. The task and the answer",
     "## 2. Setting: the author's field, the good sector and the hidden coordinate",
+    "### 2.1 The corrected metric in the Kohn-Sham record",
     "## 3. The exact block reduction",
     "## 4. The functional: Hartree, exact uniform-gas exchange, Mermin",
     "## 5. Boundary conditions, filling convention, numerics and parameters",
@@ -149,40 +155,64 @@ SECTIONS = (
     "## 15. What is proved, computed, assumed and not established",
 )
 KEY_STATEMENTS = (
-    "the three extra times, which DEFLATE exponentially, with the scale factor $e^{-a_4}b_4^{1/2}\\sin^{1/6}z$",
-    "they are never treated as static",
-    "the $a_4'$ pieces of the three inflating directions, $+\\frac32a_4'\\gamma^4$, and of the three deflating directions, $-\\frac32a_4'\\gamma^4$, cancel",
-    "The factor $W^{-3}$ removes the term $3H\\gamma^0$ and the factor $b_4^{-3/4}$ the term $\\frac34(b_4'/b_4)\\gamma^4$",
-    "$b_4$ does not enter $h_j$",
+    "in the corrected metric of 2026-10-16 (version 2): $g = \\mathrm{diag}\\big(e^{-2a_4}b_4\\cot^2 z,\\ e^{2a_4}\\,(\\times3),\\ -1,\\ "
+    "-e^{-2a_4}b_4(\\sin^2 z)^{1/6}\\,(\\times3)\\big)$, $z = 6Hx_0$ real",
+    "the three extra times, which DEFLATE exponentially, with the scale factor $e^{-a_4}b_4^{1/2}(\\sin^2 z)^{1/12}$ and $a_4$ "
+    "increasing (they are never treated as static)",
+    "the hidden direction has the scale factor $e^{-a_4}b_4^{1/2}|\\cot z|$ and shrinks together with them",
+    "\\Psi = e^{ik\\cdot x}e^{-(3/2)Hy}e^{a_4/2}b_4^{-1}\\chi(y,x_4)",
+    "The factor $e^{-(3/2)Hy}$ removes the term $\\tfrac32(H/f)\\gamma^0$ and the factor $e^{a_4/2}b_4^{-1}$ the term "
+    "$(b_4'/b_4 - \\tfrac12a_4')\\gamma^4$; without either the term survives.",
+    "h_j = j\\big[-\\tfrac{i}{f}\\sigma_1\\,\\tfrac{d}{dy} + M_{\\mathrm{eff}}(y)\\sigma_2 + \\kappa k\\sigma_3\\big] + v_v(y) ,",
+    "\\kappa(x_4) = e^{-a_4(x_4)},\\qquad f(x_4) = e^{-a_4}b_4^{1/2} ,",
     "M_{\\mathrm{eff}}(y) = m + \\tfrac{15}{16}\\lambda S(y) ,\\qquad v_v(y) = -\\tfrac{\\lambda}{16}n(y) ,",
     "e_x = -\\tfrac{\\lambda}{32}\\big(n^2 + S^2\\big)",
-    "**Brane (ASSUMED).**",
+    "$\\mathrm{Vol}_7(a_{4,0}) = \\ell^3v_t\\,e^{(2\\beta - 1)a_{4,0}} = \\ell^3v_te^{(5/3)a_{4,0}}$",
+    "the effective coupling falls like $e^{-(5/3)a_{4,0}}$",
+    "**Fold (both fold conditions filled, ASSUMED).**",
+    "That both are filled is ASSUMED (the record's convention); there is no mirror copy.",
+    "The construction of the withdrawn metric, a Z2 orbifold at the patch end whose mirror copy carried $-m$, does not "
+    "exist in the corrected metric.",
     "**Tip (chosen).**",
+    "With $\\kappa$ independent of $y$ nothing suppresses an orbital toward the tip",
     "**Filling (CONVENTION, justification OPEN).**",
+    "The even $j = +1$ fold band is $\\varepsilon = \\kappa k$ EXACTLY for every $k$, with the orbital $(e^{fMy}, 0)$",
+    "The free states of the matrix are exact fold-band gases",
+    "so the free states have $p_0 = p_t = 0$ (the table shows rounding values) and $\\int p_3 = E_{KS}/3$",
+    "dE/da_4 = -3P_3 + P_t + \\tfrac13P_0",
     "PRESCRIBED, not solved for",
-    "the same proper cell, because the factor $e^{-3a_{4,0}}$ of the extra times and the growth $b_4^{3/2}$ combine",
-    "the recorded states are not sources of the field equations for $a_4$ and $b_4$; the history $a_4 = AHx_4$, "
-    "$b_4 = b_4(0)e^{(4/3)AHx_4}$ is PRESCRIBED",
-    "has no solution, and nothing about $a_4$ or $b_4$ is derived from it",
-    "These are statements of that approximation, not of the field equations.",
-    "the Kohn-Sham gas of this record is a test field on the prescribed background $a_4 = AHx_4$, "
-    "$b_4 = b_4(0)e^{(4/3)AHx_4}$ without back-reaction",
+    "because the hidden direction shrinks, $Q_{\\max}$ is not zero even for $N = 8$ at $\\lambda = 0$",
+    "the instantaneous ground state is not the adiabatically reached state",
     "labelled in its report as NOT a proof of T3",
     "T3 does not establish a creation process, a rate or an amplitude.",
     "1. The time-dependent (non-adiabatic) Kohn-Sham problem (TDDFT) is OPEN",
     "2. Correlation: the functional is Hartree plus exchange only",
     "3. Back-reaction: the Kohn-Sham states are a test field on a prescribed background",
+    "1. Both fold conditions filled at the fold $z = \\pi/2$, where the two halves of a cell meet (ASSUMED); the metric is "
+    "degenerate there and no junction condition is derived.",
     "Discrepancy recorded, not hidden",
-    "the instantaneous ground state is not the adiabatically reached state",
+    "the Kohn-Sham gas of this record is a test field on the prescribed background $a_4 = AHx_4$, "
+    "$b_4 = b_4(0)e^{(4/3)AHx_4}$ without back-reaction",
+    "These are statements of that approximation, not of the field equations.",
+)
+# Statements of the withdrawn metrics (2026-10-14 and version 1 of 2026-10-16) that must not be left.
+STALE = (
+    "W^{-3}", "b_4^{-3/4}", "$b_4$ does not enter $h_j$", "\\sin^{1/6}z", "\\sin^{1/3}", "e^{6Hy}", "e^{-H|y|}",
+    "Z2 brane", "Z2 image", "brane zero mode", "brane parit", "mirror warp", "**Brane (ASSUMED).**", "kappa(-L)",
+    "e^{(6H - 2m)|y|}", "N = 136", "N = 688", "N = 696", "N136", "N688", "e^{2a_{4,0}}$", "162731",
+    "the $a_4'$ pieces of the three inflating directions",
 )
 FORBIDDEN = (
     r"\b(?:TDDFT|time-dependent (?:Kohn-Sham )?problem) (?:is|was|has been) (?:solved|computed|proved|proven)",
     r"\bback-reaction (?:is|was|has been) (?:included|computed|solved|derived)",
-    r"\bthe Z2 (?:brane|mirror) (?:is|has been|was) (?:derived|proved|proven)",
+    r"\bthe Z2 (?:brane|mirror|orbifold) (?:is|has been|was) (?:derived|proved|proven)",
     r"\bthe Kohn-Sham (?:gas|source|states?) (?:drives?|selects?|starts?) (?:the )?(?:exponential )?deflation",
+    r"\b(?:the|both) fold conditions? (?:is|are|has been|have been|was|were) (?:derived|proved|proven)",
 )
 FILE_SUFFIXES = (".json", ".py", ".wls", ".wl", ".md", ".tex", ".pdf", ".rs", ".csv", ".toml")
 SLICES = ("a00", "a05", "a10", "a15", "a20")
+NS = (8, 592, 2352)
+N_MID = 592
 
 
 def sha256_file(path: Path) -> str:
@@ -344,6 +374,10 @@ class Content(unittest.TestCase):
         for statement in KEY_STATEMENTS:
             self.assertIn(statement, self.text, statement)
 
+    def test_no_statement_of_the_withdrawn_metrics(self):
+        for marker in STALE:
+            self.assertNotIn(marker, self.text, marker)
+
     def test_author_request_quoted_from_the_readme(self):
         # the quotation of the README is wrapped over lines that start with "> "
         readme = re.sub(r"\n>[ ]?", " ", (REVISION / "README.md").read_text(encoding="utf-8"))
@@ -364,8 +398,9 @@ class Content(unittest.TestCase):
         tampered = (
             "The time-dependent problem is solved by the solver.",
             "Back-reaction is included through the a4 equations.",
-            "The Z2 brane is derived from the field equations.",
+            "The Z2 orbifold is derived from the field equations.",
             "The Kohn-Sham gas drives the exponential deflation.",
+            "Both fold conditions are derived from the field equations.",
         )
         self.assertEqual(len(tampered), len(FORBIDDEN))
         for pattern, sentence in zip(FORBIDDEN, tampered):
@@ -375,8 +410,11 @@ class Content(unittest.TestCase):
         wrong_row = f"| `Revision/kohn_sham/reports/ks-crosscheck.json` | {total + 1} | {passed} | {failed} |"
         self.assertNotIn(wrong_row, self.text)
         ground = csv_by_id("ground/summary.csv")
-        wrong = f"| 0 | 0 | {g7(float(ground['N136_lam0_a00']['E_KS']) * (1 + 1e-6))} |"
+        wrong = f"| 0 | 0 | {g7(float(ground[f'N{N_MID}_lam0_a00']['E_KS']) * (1 + 1e-6))} |"
         self.assertNotIn(wrong, self.text)
+        # a stale statement of the withdrawn metric inserted into a copy is detected
+        copy = self.text + "\nthe ansatz with $W^{-3}$\n"
+        self.assertTrue(any(marker in copy for marker in STALE))
 
     def test_no_material_of_the_earlier_stages(self):
         for marker in ("artifacts/", "provenance/", "studies/", "notebooks/", "dirac-main", "vendor/"):
@@ -423,16 +461,16 @@ class Tables(unittest.TestCase):
 
     def test_couplings(self):
         params = load_json(RESULTS / "parameters.json")
-        self.assertEqual([v["N"] for v in params["couplingCalibration"]["values"]], [8.0, 136.0, 688.0])
+        self.assertEqual([v["N"] for v in params["couplingCalibration"]["values"]], [float(n) for n in NS])
         self.assert_rows(f"| {int(v['N'])} | {g7(v['strengthPerLambda'])} | {v['lambda1']} | {v['lambda2']} |"
                          for v in params["couplingCalibration"]["values"])
 
-    def test_ground_and_excited_136(self):
+    def test_ground_and_excited_mid(self):
         ground, excited = csv_by_id("ground/summary.csv"), csv_by_id("excited/summary.csv")
         rows = []
         for tag in ("lam0", "lamp1", "lamm1", "lamp2", "lamm2"):
             for s in ("a00", "a10", "a20"):
-                g, e = ground[f"N136_{tag}_{s}"], excited[f"N136_{tag}_{s}"]
+                g, e = ground[f"N{N_MID}_{tag}_{s}"], excited[f"N{N_MID}_{tag}_{s}"]
                 rows.append(f"| {g7(g['lambda'])} | {g7(g['a4'])} | {g7(g['E_KS'])} | {g7(g['KS_gap'])} | "
                             f"{g7(e['delta_SCF'])} |")
         self.assertEqual(len(rows), 15)
@@ -441,22 +479,25 @@ class Tables(unittest.TestCase):
     def test_gap_redshift(self):
         ground = csv_by_id("ground/summary.csv")
         self.assert_rows(f"| {n} | " + " | ".join(g7(ground[f'N{n}_lam0_{s}']['KS_gap']) for s in SLICES) + " |"
-                         for n in (8, 136, 688))
-        for n in (8, 136, 688):
+                         for n in NS)
+        for n in NS:
             gaps = [float(ground[f"N{n}_lam0_{s}"]["KS_gap"]) for s in SLICES]
             self.assertEqual(gaps, sorted(gaps, reverse=True), n)
+        # N = 8: the gap is the fold-band step kappa dk = 0.25 e^(-a4,0)
+        for s, a in zip(SLICES, (0.0, 0.5, 1.0, 1.5, 2.0)):
+            self.assertAlmostEqual(float(ground[f"N8_lam0_{s}"]["KS_gap"]), 0.25 * math.exp(-a), places=10)
 
     def test_adiabaticity(self):
         adia = csv_by_id("adiabatic/adiabaticity.csv")
         self.assert_rows(
             f"| {n} | {g7(a['a4'])} | {g7(a['Q_max'])} | {g7(a['Q_max_delta_eps'])} | {g7(a['dE_da4_emt'])} | "
             f"{g7(a['dE_da4_finite_difference'])} |"
-            for n in (136, 688) for a in (adia[f"N{n}_lam0_{s}"] for s in SLICES))
+            for n in (N_MID, 2352) for a in (adia[f"N{n}_lam0_{s}"] for s in SLICES))
 
     def test_crossing_demo(self):
         rows = csv_rows("adiabatic/crossing-demo.csv")
         self.assertEqual(len(rows), 5)
-        self.assertEqual({r["N"] for r in rows}, {"696"})
+        self.assertEqual({r["N"] for r in rows}, {"2360"})
         self.assert_rows(
             f"| {g7(r['a4'])} | {r['occupied_set_equal_to_a4_0']} | {r['open_shell']} | {g7(r['E_aufbau'])} | "
             f"{g7(r['E_adiabatically_continued'])} | {g7(r['difference'])} |" for r in rows)
@@ -466,24 +507,35 @@ class Tables(unittest.TestCase):
         self.assert_rows(
             f"| {g7(r['a4'])} | {g7(r['T'])} | {g7(r['mu'])} | {g7(r['E'])} | {g7(r['entropy'])} | "
             f"{g7(r['Omega_direct'])} | {g3(r['sea_holes_over_N'])} |"
-            for r in (thermo[f"N136_lam0_{s}_{t}"] for s in ("a00", "a20") for t in ("T10", "T20", "T50")))
+            for r in (thermo[f"N{N_MID}_lam0_{s}_{t}"] for s in ("a00", "a20") for t in ("T10", "T20", "T50")))
 
     def test_emt_integrals(self):
         emt = csv_by_id("ground/emt-integrals.csv")
         self.assert_rows(
             f"| {n} | {g7(r['a4'])} | {g7(r['int_rho'])} | {g7(r['int_p3'])} | {g7(r['int_p_t'])} | {g7(r['int_p0'])} |"
-            for n in (136, 688) for r in (emt[f"N{n}_lam0_{s}"] for s in SLICES))
+            for n in (N_MID, 2352) for r in (emt[f"N{n}_lam0_{s}"] for s in SLICES))
+        # the free states are fold-band gases: int p3 = E_KS/3, int p0 and int p_t vanish to rounding
+        for n in NS:
+            for s in SLICES:
+                r = emt[f"N{n}_lam0_{s}"]
+                scale = max(abs(float(r["int_rho"])), 1e-300)
+                self.assertLess(abs(float(r["int_p3"]) - float(r["int_rho"]) / 3) / scale, 1e-9, r["id"])
+                self.assertLess(abs(float(r["int_p0"])) / scale, 1e-9, r["id"])
+                self.assertLess(abs(float(r["int_p_t"])) / scale, 1e-9, r["id"])
 
     def test_rescaling(self):
         resc = csv_by_id("rescaling/rescaling.csv")
         self.assert_rows(
-            f"| {g7(r['a4'])} | {g7(r['partner_dk'])} | {g7(r['partner_v_t'])} | {g4(r['max_abs_delta_eps'])} | "
-            f"{g4(r['rel_delta_E'])} | {g7(r['partner_E_KS'])} |"
-            for r in (resc[f"N136_lamp1_{s}"] for s in SLICES[1:]))
+            f"| {g7(r['a4'])} | {g7(r['partner_dk'])} | {g7(r['partner_v_t'])} | {g7(r['partner_H'])} | "
+            f"{g7(r['partner_L'])} | {g4(r['max_abs_delta_eps'])} | {g4(r['rel_delta_E'])} | {g7(r['partner_E_KS'])} |"
+            for r in (resc[f"N{N_MID}_lamp1_{s}"] for s in SLICES[1:]))
         for s in SLICES[1:]:
-            r = resc[f"N136_lamp1_{s}"]
+            r = resc[f"N{N_MID}_lamp1_{s}"]
             a = float(r["a4"])
-            self.assertAlmostEqual(float(r["partner_dk"]), 0.25 * 2.718281828459045 ** (-a), places=12)
+            self.assertAlmostEqual(float(r["partner_dk"]), 0.25 * math.exp(-a), places=12)
+            self.assertAlmostEqual(float(r["partner_v_t"]), math.exp(-a), places=12)
+            self.assertAlmostEqual(float(r["partner_H"]), math.exp(a / 3), places=12)
+            self.assertAlmostEqual(float(r["partner_L"]), 3.0 * math.exp(-a / 3), places=12)
             self.assertEqual((r["same_label_set"], r["same_occupations"]), ("true", "true"))
 
 
@@ -501,157 +553,116 @@ class QuotedNumbers(unittest.TestCase):
         """The numbers of the tip-cutoff study quoted in sections 5, 15.2-15.4 and the abstract, re-derived from
         Revision/kohn_sham/tip_convergence/ (tip-convergence.json and its two CSV files)."""
         text = self.text if text is None else text
-        tip = KS / "tip_convergence"
-        record = load_json(tip / "tip-convergence.json")
-        with (tip / "tip-convergence-extrapolation.csv").open(encoding="utf-8", newline="") as handle:
+        record = load_json(TIP / "tip-convergence.json")
+        with (TIP / "tip-convergence-extrapolation.csv").open(encoding="utf-8", newline="") as handle:
             extra = {(r["protocol"], r["id"], r["quantity"]): r for r in csv.DictReader(handle)}
-        with (tip / "tip-convergence-table.csv").open(encoding="utf-8", newline="") as handle:
+        with (TIP / "tip-convergence-table.csv").open(encoding="utf-8", newline="") as handle:
             table = {(r["id"], float(r["L"])): r for r in csv.DictReader(handle)
                      if r["protocol"] == "fixed" and r["status"] == "ok"
                      and int(r["G"]) == round(300 * float(r["L"]))}
-
-        def fixed(state, quantity, key):
-            return float(extra[("fixed", state, quantity)][key])
-
-        def e_ks(state, length):
-            return float(table[(state, length)]["E_KS"])
-
-        lam = record["couplings"]["recalibrated_lambda1_of_L"]
-        l6 = "6.000000000000000e+00"
-        expected = [
-            f"{fixed('N136_lam0_a20', 'E_KS', 'value_L3'):.5f} against the extrapolated "
-            f"{fixed('N136_lam0_a20', 'E_KS', 'extrapolated_Linf'):.5f}",
-            f"{fixed('N136_lam0_a20', 'int_p0', 'value_L3'):.5f} against "
-            f"{fixed('N136_lam0_a20', 'int_p0', 'extrapolated_Linf'):.5f}",
-            rf"\mp {fixed('N8_lamm1_a00', 'E_KS', 'value_L3') * 1e4:.3f}\times10^{{-4}}$ at $L = 3$",
-            rf"\mp {fixed('N8_lamm1_a00', 'E_KS', 'extrapolated_Linf') * 1e3:.4f}\times10^{{-3}}$ at large $L$",
-            rf"\mp {fixed('N8_lamm1_a20', 'E_KS', 'value_L3') * 1e5:.3f}\times10^{{-5}}$ at $L = 3$",
-            rf"\mp {fixed('N8_lamm1_a20', 'E_KS', 'extrapolated_Linf') * 1e4:.3f}\times10^{{-4}}$ at large $L$",
-            "(extrapolated; the self-consistent iteration fails from "
-            f"$L = {float(extra[('fixed', 'N8_lamm1_a00', 'E_KS')]['first_failed_L']):g}$)",
-            f"{record['k0Spectrum']['bulkEdge_odd_l0_of_L'][l6]:.4f} at $L = 6$",
-            f"its KS gap {float(table[('N688_lam0_a00', 3.0)]['KS_gap']):.4f} closes",
-        ]
-        for n, exponent in (("8", 7), ("136", 7), ("688", 11)):
-            expected.append(rf"${lam[n][l6] * 10 ** exponent:.1f}\times10^{{-{exponent}}}$ ($N = {n}$")
-        interacting = [r for (protocol, state, quantity), r in extra.items()
-                       if protocol == "fixed" and quantity == "E_KS" and "lam0" not in state]
-        failing = [r for r in interacting if r["first_failed_L"]]
-        open_limit = [r for r in interacting if not r["verdict"].startswith("converg")]
-        self.assertTrue(all(r["first_failed_L"] for r in open_limit))
-        expected += [f"for {len(open_limit)} of the {len(interacting)} interacting states studied",
-                     f"for {len(failing)} of the {len(interacting)} interacting states studied"]
-        free = [r for (protocol, state, quantity), r in extra.items()
-                if protocol == "fixed" and "lam0" in state and state != "N688_lam0_a00"
-                and r["extrapolated_Linf"] and float(r["extrapolated_Linf"]) != 0]
-
-        def worst(quantity):
-            return max(abs(float(r["value_L3"]) / float(r["extrapolated_Linf"]) - 1)
-                       for r in free if r["quantity"] == quantity)
-
-        expected += [f"low by up to {100 * worst('E_KS'):.1f}% in $E_{{KS}}$ and {100 * worst('int_p0'):.0f}% in",
-                     f"lie within {100 * worst('E_KS'):.1f}% ($E_{{KS}}$) and {100 * worst('int_p0'):.0f}% "
-                     f"(the $p_0$ integral)"]
-        plus = ((e_ks("N136_lamp1_a20", 5.5) - e_ks("N136_lam0_a20", 5.5))
-                / (e_ks("N136_lamp1_a20", 3.0) - e_ks("N136_lam0_a20", 3.0)))
-        minus = ((fixed("N136_lamm1_a20", "E_KS", "extrapolated_Linf")
-                  - fixed("N136_lam0_a20", "E_KS", "extrapolated_Linf"))
-                 / (e_ks("N136_lamm1_a20", 3.0) - e_ks("N136_lam0_a20", 3.0)))
-        expected.append(rf"about {plus:.0f} ($+\lambda_1$, value at $L = 5.5$) and {minus:.0f} "
-                        rf"($-\lambda_1$, extrapolated)")
-        # the +-lambda_1 partners of N = 8 (fixed protocol, the record's step): largest relative deviation
-        # |E(+) + E(-)| / max(|E(+)|, |E(-)|) over every L where both converge (record with b4: 3.6e-14, 15 pairs)
-        deviations = []
-        for (state, length), row in table.items():
-            partner = table.get((state.replace("lamp1", "lamm1"), length))
-            if state.startswith("N8_lamp1") and partner:
-                plus_e, minus_e = float(row["E_KS"]), float(partner["E_KS"])
-                deviations.append(abs(plus_e + minus_e) / max(abs(plus_e), abs(minus_e)))
-        self.assertEqual(len(deviations), 15)
-        mantissa, exponent = f"{max(deviations):.1e}".split("e")
-        expected.append(rf"negatives of each other to ${mantissa}\times10^{{{int(exponent)}}}$ relative at "
-                        rf"every $L$ where both converge")
-        # counts of the failing and of the not-established interacting states (sections 5 and 15.4)
-        expected += [f"for {len(open_limit)} of them the successive differences of $E_{{KS}}$",
-                     f"nor for the {len(open_limit)} interacting states whose successive differences",
-                     f"(it fails at some larger $L$ for {len(failing)} of the {len(interacting)} studied;"]
-        # the recorded states (section 15.2): ground states and the two Mermin states
-        states = record["analysis"]["fixed"]
-        ground = [s for s in states.values() if not s["T"]]
-        thermal = [s for s in states.values() if s["T"]]
-        self.assertEqual({s["N"] for s in ground}, {8, 136, 688})
-        self.assertEqual(len(thermal), 2)
-        self.assertEqual({s["N"] for s in thermal}, {136})
-        tags = {"lam0": "0", "lamp1": r"\lambda_1", "lamm1": r"-\lambda_1"}
-        mermin = "; ".join(rf"$\lambda = {tags[s['lambda_tag']]}$, $a_{{4,0}} = {s['a4']:g}$, $T = {s['T']:g}$"
-                           for s in thermal)
-        expected += [rf"of {len(states)} recorded states, the {len(ground)} ground states with "
-                     rf"$N \in \{{8, 136, 688\}}$",
-                     f"and two Mermin states of $N = 136$ ({mermin})"]
-        # the L grid, the checks of the report and the reference solver's L values
         grid = record["Lvalues"]
         steps = {round(b - a, 12) for a, b in zip(grid, grid[1:])}
         self.assertEqual(len(steps), 1)
-        expected += [f"$L = {grid[0]:g}$ to ${grid[-1]:g}$ in steps of ${steps.pop():g}$",
-                     f"The dependence on the tip cutoff $L$ from {grid[0]:g} to {grid[-1]:g} of"]
         checks = record["checks"]
         self.assertTrue(all(c["verdict"] == "PASS" for c in checks))
         self.assertEqual((record["summary"]["passed"], record["summary"]["total"]), (len(checks), len(checks)))
-        passed = f"{len(checks)} of {len(checks)} checks PASS"
-        expected += [f"$L = {grid[0]:g}$ to ${grid[-1]:g}$, {passed})",
-                     f"tip_convergence/tip-convergence.json`, {passed})",
-                     f"`Revision/kohn_sham/tip_convergence/`, {passed};"]
         comparisons = record["reference"]["comparisons"]
         self.assertTrue(comparisons and all(c["pass"] for c in comparisons))
         reference_l = sorted({c["L"] for c in comparisons} | {j["L"] for j in record["reference"]["jobs"]})
         self.assertEqual(len(reference_l), 2)
-        expected += [f"the reference solver agrees at $L = {reference_l[0]:g}$ and ${reference_l[1]:g}$",
-                     f"the reference at $L = {reference_l[0]:g}$ and ${reference_l[1]:g}$)"]
-        # the N = 8 states: only N8_lamm1_a20 is solved at every L; the other five fail from one common L
-        n8 = sorted(s for (p, s, q) in extra if p == "fixed" and q == "E_KS" and s.startswith("N8_") and "lam0" not in s)
-        reached = {s: max(length for (t, length) in table if t == s) for s in n8}
-        self.assertEqual([s for s in n8 if reached[s] == grid[-1]], ["N8_lamm1_a20"])
-        expected += [r"(extrapolated from $\lambda = -\lambda_1$ at $a_{4,0} = 2$, the only interacting $N = 8$ state "
-                     f"solved up to $L = {grid[-1]:g}$;"]
-        first = sorted({float(extra[("fixed", s, "E_KS")]["first_failed_L"]) for s in n8 if s != "N8_lamm1_a20"})
-        self.assertEqual(len(first), 3)
-        expected.append("the self-consistent iteration of the other five fails from "
-                        f"$L = {first[0]:g}$, ${first[1]:g}$ or ${first[2]:g}$)")
-        # N = 688 at a_{4,0} = 0: the KS gap closes (the occupied set changes) from the second L of the grid on
-        closed = min(length for (s, length), r in table.items() if s == "N688_lam0_a00" and float(r["KS_gap"]) == 0)
-        expected += [f"changes its occupied set from $L = {closed:g}$ on",
-                     f"from $L = {closed:g}$ on the $N = 688$"]
-        # "about one third" at a4,0 = 0 and "about 1/22" at a4,0 = 2: the recorded N = 8 interaction energy over its
-        # large-L value (with b4 the effective coupling falls like e^(-2 a4,0))
-        ratio = (fixed("N8_lamm1_a00", "E_KS", "value_L3") / fixed("N8_lamm1_a00", "E_KS", "extrapolated_Linf"))
-        self.assertTrue(0.30 < ratio < 0.36, ratio)
-        late = fixed("N8_lamm1_a20", "E_KS", "extrapolated_Linf") / fixed("N8_lamm1_a20", "E_KS", "value_L3")
-        expected += ["the recorded value is about one third of the large-$L$ value",
-                     "the recorded $N = 8$ interaction energy is about one third of its large-$L$ value at "
-                     f"$a_{{4,0}} = 0$ and about 1/{round(late)} at $a_{{4,0}} = 2$",
-                     f"about 1/{round(late)} of the large-$L$ value"]
+        expected = [f"$L = {grid[0]:g}$ to ${grid[-1]:g}$ in steps of ${steps.pop():g}$",
+                    f"`Revision/kohn_sham/tip_convergence/tip-convergence.json`, {len(checks)} of {len(checks)} checks PASS",
+                    f"the reference solver agrees at $L = {reference_l[0]:g}$ and ${reference_l[1]:g}$",
+                    f"the reference at $L = {reference_l[0]:g}$ and ${reference_l[1]:g}$)",
+                    f"The dependence on the tip cutoff $L$ from {grid[0]:g} to {grid[-1]:g} of"]
+        # the free fold-band states do not depend on L (every free state except N = 2352 at a4,0 = 0)
+        free = sorted({s for (s, length) in table if "lam0" in s and "_T" not in s and s != "N2352_lam0_a00"})
+        self.assertEqual(len(free), 9)
+        for s in free:
+            for q in ("E_KS", "HOMO", "LUMO", "KS_gap"):
+                values = [float(table[(s, length)][q]) for length in grid if (s, length) in table]
+                self.assertEqual(len(values), len(grid), (s, q))
+                self.assertLessEqual(max(values) - min(values), 1e-15 * max(max(abs(v) for v in values), 1.0), (s, q))
+        # the fold values: rho(0; L) = rho(0; inf)/(1 - e^(-2 f m L)), f = e^(-a4,0/3), checked on the free N = 592 states
+        for a4, pct in ((0.0, "0.25%"), (1.0, "1.38%"), (2.0, "4.81%")):
+            f = math.exp(-a4 / 3)
+            self.assertEqual(f"{100 * (1 / (1 - math.exp(-6 * f)) - 1):.2f}%", pct)
+            sid = f"N592_lam0_a{int(10 * a4):02d}"
+            ratio = float(table[(sid, 3.0)]["rho_brane"]) / float(table[(sid, 6.0)]["rho_brane"])
+            exact = (1 - math.exp(-12 * f)) / (1 - math.exp(-6 * f))
+            self.assertLess(abs(ratio / exact - 1), 1e-12, sid)
+        expected.append("high by 0.25%, 1.38% and 4.81% at $a_{4,0} = 0, 1, 2$")
+        # the bulk edge and N = 2352 at a4,0 = 0
+        edge = record["k0Spectrum"]["bulkEdge_odd_l0_of_L"]
+        expected.append(f"the bulk edge {edge[f'{3.0:.15e}']:.4f} that defines $N = 2352$ is an $L = 3$ value "
+                        f"({edge[f'{6.0:.15e}']:.4f} at $L = 6$)")
+        s = "N2352_lam0_a00"
+        closed = min(length for (t, length), r in table.items() if t == s and float(r["KS_gap"]) == 0.0)
+        expected.append(f"changes its occupied set from $L = {closed:g}$ on (its gap "
+                        f"{float(table[(s, 3.0)]['KS_gap']):.5f} closes; $E_{{KS}} = {float(table[(s, 3.0)]['E_KS']):.3f}$ "
+                        f"at $L = 3$ and ${float(table[(s, 6.0)]['E_KS']):.3f}$ at $L = 6$, not converged)")
+        self.assertTrue(extra[("fixed", s, "E_KS")]["verdict"].startswith("NOT CONVERGED"))
+        # the N = 8 interaction energies at L = 3 and at large L
+        ratios = []
+        for a4, digits in (("a00", 4), ("a10", 4), ("a20", 3)):
+            plus, minus = extra[("fixed", f"N8_lamp1_{a4}", "E_KS")], extra[("fixed", f"N8_lamm1_{a4}", "E_KS")]
+            self.assertEqual(float(plus["value_L3"]), -float(minus["value_L3"]))
+            self.assertEqual(float(plus["extrapolated_Linf"]), -float(minus["extrapolated_Linf"]))
+            self.assertTrue(plus["verdict"].startswith("converg"))
+            v3, vinf = abs(float(plus["value_L3"])), abs(float(plus["extrapolated_Linf"]))
+
+            def sci(v, d):
+                mantissa, exponent = f"{v:.{d}e}".split("e")
+                return rf"\mp {mantissa}\times10^{{{int(exponent)}}}"
+            expected.append(f"${sci(v3, digits)}$ against ${sci(vinf, digits)}$")
+            ratios.append(f"{v3 / vinf:.3f}")
+        expected += [f"{ratios[0]}, {ratios[1]} and {ratios[2]} of the large-$L$ values",
+                     f"the recorded $N = 8$ interaction energy is {ratios[0]}, {ratios[1]} and {ratios[2]} of its large-$L$ "
+                     "value at $a_{4,0} = 0, 1, 2$"]
+        # the interaction shifts at a4,0 = 2
+        shifts = []
+        for n in (592, 2352):
+            for tag in ("lamp1", "lamm1"):
+                e, e0 = extra[("fixed", f"N{n}_{tag}_a20", "E_KS")], extra[("fixed", f"N{n}_lam0_a20", "E_KS")]
+                shifts.append((float(e["extrapolated_Linf"]) - float(e0["extrapolated_Linf"]))
+                              / (float(e["value_L3"]) - float(e0["value_L3"])))
+        expected.append(f"are {min(shifts):.1f} to {max(shifts):.1f} times larger at large $L$ than at $L = 3$")
+        # the interacting states: converged, failing
+        interacting = [r for (p, sid, q), r in extra.items() if p == "fixed" and q == "E_KS" and "lam0" not in sid]
+        converged = [r for r in interacting if r["verdict"].startswith("converg")]
+        failing = sorted((r["id"], float(r["first_failed_L"])) for r in interacting if r["first_failed_L"])
+        self.assertEqual(failing, [("N2352_lamm1_a00", 4.5), ("N2352_lamp1_a00", 3.5)])
+        self.assertEqual({r["id"] for r in interacting} - {r["id"] for r in converged}, {s for s, _ in failing})
+        expected += [f"{len(converged)} of the {len(interacting)} interacting states studied converge",
+                     "from $L = 3.5$ for $+\\lambda_1$ and from $L = 4.5$ for $-\\lambda_1$"]
+        # the Mermin state whose limit is not established
+        self.assertTrue(extra[("fixed", "N592_lam0_a20_T50", "E_KS")]["verdict"].startswith("NOT CONVERGED"))
+        expected.append("nor for the Mermin state N592_lam0_a20_T50")
+        # the recorded states
+        states = record["analysis"]["fixed"]
+        ground = [v for v in states.values() if not v["T"]]
+        thermal = sorted((v["N"], v["lambda_tag"], v["a4"], v["T"]) for v in states.values() if v["T"])
+        self.assertEqual({v["N"] for v in ground}, {8, 592, 2352})
+        self.assertEqual(thermal, [(592, "lam0", 2.0, 0.05), (592, "lamp1", 1.0, 0.02)])
+        expected.append(f"of {len(states)} recorded states, the {len(ground)} ground states with "
+                        "$N \\in \\{8, 592, 2352\\}$")
+        # the calibration rule as a function of L
+        lam = record["couplings"]["recalibrated_lambda1_of_L"]
+        at = lambda n, length: lam[str(n)][f"{length:.15e}"]  # noqa: E731
+        self.assertEqual([at(n, 3.0) for n in (8, 592, 2352)], [157.7, 2.131, 0.5363])
+        self.assertTrue(all(at(n, 6.0) < at(n, 3.0) / 100 for n in (8, 592, 2352)))
+        mantissa, exponent = f"{at(2352, 6.0):.2e}".split("e")
+        expected.append(f"$157.7$, $2.131$ and $0.5363$ at $L = 3$, ${at(8, 6.0):g}$, ${at(592, 6.0):g}$ and "
+                        f"${mantissa}\\times10^{{{int(exponent)}}}$ at $L = 6$")
         for statement in expected:
             self.assertIn(statement, text, statement)
 
     def test_tip_convergence_numbers_detect_a_changed_value(self):
-        # negative control: one quoted number of the study changed in a copy of the text must be detected
-        with self.assertRaises(AssertionError):
-            self.test_tip_convergence_numbers(self.text.replace("12.44507", "12.44508"))
-
-    def test_tip_convergence_counts_detect_a_changed_value(self):
-        # negative controls for the counts, deviations and L values of the study: each change must be detected
-        for old, new in (("3.6\\times10^{-14}$ relative", "3.7\\times10^{-14}$ relative"),
-                         ("for 6 of them", "for 7 of them"), ("nor for the 6 interacting", "nor for the 7 interacting"),
-                         ("14 of the 19 studied", "13 of the 19 studied"), ("of 29 recorded states", "of 28 recorded states"),
-                         ("the 27 ground states", "the 26 ground states"), ("$T = 0.02$)", "$T = 0.01$)"),
-                         ("$T = 0.05$;", "$T = 0.5$;"), ("in steps of $0.5$", "in steps of $0.25$"),
-                         ("7 of 7 checks PASS", "6 of 7 checks PASS"),
-                         ("agrees at $L = 3$ and $4$", "agrees at $L = 3$ and $5$"),
-                         ("fails from $L = 5$, $5.5$ or $6$)", "fails from $L = 5$, $5.5$ or $6.5$)"),
-                         ("about 1/22 of the large", "about 1/21 of the large"),
-                         ("changes its occupied set from $L = 3.5$", "changes its occupied set from $L = 4$"),
-                         ("the only interacting $N = 8$ state", "the only $N = 8$ state"),
-                         ("about one third of the large", "about one half of the large")):
+        # negative controls: one quoted number of the study changed in a copy of the text must be detected
+        for old, new in (("1.2923", "1.2924"), ("4.81%", "4.80%"), ("2245.486", "2245.487"),
+                         ("0.215 of the large", "0.216 of the large"), ("17 of the 19", "18 of the 19"),
+                         ("from $L = 4.5$ for", "from $L = 5$ for"), ("$1.249$", "$1.25$"),
+                         ("of 29 recorded states", "of 28 recorded states")):
             with self.subTest(old=old):
                 self.assertIn(old, self.text)
                 with self.assertRaises(AssertionError):
@@ -668,13 +679,22 @@ class QuotedNumbers(unittest.TestCase):
                          "E_x/E_H = -1/8 for one filled level at rest (n = S)")
         self.assertIn("$E_x/E_H = -1/8$", self.text)
         self.assertIn("PRESCRIBED BACKGROUND", theory["adiabaticity"]["history"])
-        self.assertEqual(theory["boundaryConditions"]["brane"]["status"], "ASSUMED")
+        self.assertIn("filling both theta = 0 and theta = pi is ASSUMED", theory["boundaryConditions"]["fold"]["status"])
         self.assertIn("OPEN", theory["adiabaticity"]["caveat"])
-        self.pair(check_detail(THEORY_WOLFRAM, "brane_band_slope"), "1.905148253644866")
+        detail = check_detail(THEORY_WOLFRAM, "brane_band_slope")
+        self.assertIn("c = E^(-a4,0) exactly", detail)
+        self.assertIn("its slope is $c = e^{-a_{4,0}}$ for every $M$, $L$ and $f$", self.text)
+        self.assertIn("0.606530659713 (a4,0 = 1/2", detail)
         self.pair(check_detail(RUST_SOLVER, "theory_input_coefficients"), "M_eff = m + 0.9375 lambda S",
                   "$M_{\\mathrm{eff}} = m + 0.9375\\lambda S$")
         self.pair(check_detail(RUST_SOLVER, "theory_input_coefficients"), "v_v = -0.0625 lambda n",
                   "$v_v = -0.0625\\lambda n$")
+        self.assertIn("eps = kappa k exactly", check_detail(RUST_SOLVER, "free_rescaling_relation_and_band_monotone"))
+        forms = check_detail(RUST_SOLVER, "theory_input_metric_forms")
+        for piece in ("f = e^(-a4) b4^(1/2)", "kappa = e^(-a4) constant in y", "P = e^(-3Hy)/Vol_7",
+                      "Vol_7 = ell^3 v_t e^((2 beta - 1) a4,0)", "p0' + 3H (p0 - p_t) = 0",
+                      "dE/da4 = -3 P3 - 3 (beta/2 - 1) P_t - (beta/2 - 1) P0", "entries not matching: none"):
+            self.assertIn(piece, forms, piece)
 
     def test_parameters(self):
         params = load_json(RESULTS / "parameters.json")
@@ -684,7 +704,10 @@ class QuotedNumbers(unittest.TestCase):
         self.assertIn("$H = m = 1$, $L = 3$, $\\Delta k = 0.25$, $v_t = 1$", self.text)
         self.assertIn(f"$\\mathrm{{Vol}}_7(0) = {physics['Vol7AtA4Zero']!r}$", self.text)
         self.assertAlmostEqual(physics["historyBeta"], 4 / 3, places=14)
-        self.assertIn("$\\mathrm{Vol}_7(a_{4,0}) = \\mathrm{Vol}_7(0)\\,e^{2a_{4,0}}$", self.text)
+        self.assertEqual(physics["Vol7Rule"], "Vol_7(a4,0) = ell^3 v_t e^{(2 beta - 1) a4,0}")
+        self.assertEqual(physics["hiddenScaleRule"], "f(a4,0) = e^{(beta/2 - 1) a4,0} (b4(0) = 1)")
+        self.assertEqual(physics["kappaRule"], "kappa(a4,0) = e^{-a4,0}, constant in y")
+        self.assertIn("$\\mathrm{Vol}_7(a_{4,0}) = \\mathrm{Vol}_7(0)\\,e^{(5/3)a_{4,0}}$", self.text)
         self.assertIn("$\\beta = 4/3$", self.text)
         self.assertEqual(physics["slicesA4"], [0.0, 0.5, 1.0, 1.5, 2.0])
         self.assertEqual(physics["temperatures"], [0.01, 0.02, 0.05])
@@ -695,17 +718,20 @@ class QuotedNumbers(unittest.TestCase):
                          (900, 1e-13, 1e-11))
         self.assertIn("RK4 on 900 steps, Pruefer counting and a root tolerance of 1e-13, Anderson-mixed SCF to 1e-11",
                       self.text)
-        self.assertEqual(params["particleNumbers"]["values"], [8.0, 136.0, 688.0])
-        self.assertIn(f"bulk edge {params['particleNumbers']['bulkEdge']!r}", self.text)
-        self.assertIn("sum w_Z2 g f = N", params["conventions"]["particleNumber"])
+        self.assertEqual(params["particleNumbers"]["values"], [float(n) for n in NS])
+        self.assertIn("$N = 8, 592, 2352$", self.text)
+        self.assertIn(f"the bulk edge {params['particleNumbers']['bulkEdge']!r}", self.text)
+        self.assertIn("N = sum g f over both fold conditions", params["conventions"]["particleNumber"])
+        self.assertIn("the solver uses sum g f = N", params["conventions"]["particleNumber"])
 
     def test_matrix_sizes(self):
         crosscheck = load_json(CROSSCHECK)
-        self.assertEqual(crosscheck["comparisons"], 162731)
+        comparisons = crosscheck["comparisons"]
+        self.assertEqual(comparisons, 217571)
         self.assertEqual(crosscheck["matrix"], {"ground": 75, "thermal": 135, "exact_fock_variant": 60,
                                                 "rescaling_partners": 60, "particle_hole_lists": 75,
                                                 "crossing_demo_slices": 5})
-        self.assertIn("162731 comparisons", self.text)
+        self.assertIn(f"{comparisons} comparisons", self.text)
         self.assertIn("75 ground states, 135 thermal states, 60 exact-Fock-variant states, 60 rescaling partners, "
                       "75 particle-hole lists and the 5 slices of the crossing demonstration", self.text)
         rule = crosscheck["tolerance_rule"]
@@ -720,113 +746,154 @@ class QuotedNumbers(unittest.TestCase):
     def test_adiabatic_numbers(self):
         rows = csv_rows("adiabatic/adiabaticity.csv")
         top = max(rows, key=lambda r: float(r["Q_max"]))
-        self.assertEqual(top["id"], "N688_lamp2_a00")
-        self.assertEqual(top["Q_max_pair"], "11:+1:even:0 -> 11:+1:even:1")
-        self.assertIn(f"is {g7(top['Q_max'])} (state N688_lamp2_a00, pair `11:+1:even:0 -> 11:+1:even:1`", self.text)
+        self.assertEqual((top["id"], top["Q_max_pair"]), ("N2352_lamm1_a00", "26:+1:even:0 -> 26:+1:even:1"))
+        self.assertIn(f"is {g7(top['Q_max'])} (state N2352_lamm1_a00, pair `26:+1:even:0 -> 26:+1:even:1`", self.text)
         self.assertIn(f"$Q_{{\\max}} \\leq {g7(top['Q_max'])}$", self.text)
-        # N = 8: exactly 0 at lambda = 0; with interaction the effective coupling changes along the history
-        self.assertTrue(all(float(r["Q_max"]) == 0.0 for r in rows if r["N"] == "8" and r["lambda_tag"] == "lam0"))
+        self.assertLess(float(top["Q_max"]), 0.2)
+        self.assertIn("the largest values approach 0.2 for $N = 2352$ at $a_{4,0} = 0$", self.text)
+        # N = 8: nonzero already at lambda = 0 (the hidden direction shrinks along the history)
+        free8 = csv_by_id("adiabatic/adiabaticity.csv")["N8_lam0_a00"]
+        self.assertGreater(float(free8["Q_max"]), 0.0)
+        self.assertIn(f"(state N8_lam0_a00: {g7(free8['Q_max'])})", self.text)
         n8 = max((r for r in rows if r["N"] == "8"), key=lambda r: float(r["Q_max"]))
-        self.assertEqual((n8["id"], n8["Q_max_pair"]), ("N8_lamm2_a00", "0:-1:even:0 -> 0:-1:even:1"))
-        mantissa, exponent = f"{float(n8['Q_max']):.3e}".split("e")
-        self.assertIn(f"$Q_{{\\max}} \\leq {mantissa}\\times10^{{{int(exponent)}}}$ (state N8_lamm2_a00, pair "
+        self.assertEqual((n8["id"], n8["Q_max_pair"]), ("N8_lamp2_a00", "0:-1:even:0 -> 0:-1:even:1"))
+        self.assertIn(f"$Q_{{\\max}} \\leq {g7(n8['Q_max'])}$ (state N8_lamp2_a00, pair "
                       "`0:-1:even:0 -> 0:-1:even:1`)", self.text)
-        self.pair(check_detail(RUST_SOLVER, "adiabatic_hellmann_feynman"), "worst value 2.614e-9", "(worst 2.614e-9")
+        self.pair(check_detail(RUST_SOLVER, "adiabatic_hellmann_feynman"), "worst value 6.444e-11", "(worst 6.444e-11")
+        self.assertIn("(1 - beta/2) T_j", check_detail(RUST_SOLVER, "adiabatic_hellmann_feynman"))
         history = load_json(RESULTS / "adiabatic" / "history.json")
         self.assertEqual(len(history["series"]), 15)
         self.assertTrue(all(series["fermiLevelCrossings"] == [] for series in history["series"]))
         self.assertTrue(all(r["occupied_set_changed"] == "false" for r in csv_rows("adiabatic/fermi-level-crossings.csv")))
         self.assertIn("every one of the 15 series", self.text)
-        self.assertIn("$N = 696$", self.text)
+        self.assertIn("N = 2360 (the smallest closed shell of the a4,0 = 0 aufbau that occupies a level off the even "
+                      "j = +1 fold band)", check_detail(RUST_SOLVER, "adiabatic_crossing_flag_demonstration"))
+        self.assertIn("$\\lambda = 0$ and $N = 2360$ (the smallest closed shell of the $a_{4,0} = 0$ aufbau that "
+                      "occupies a level off the even $j = +1$ fold band", self.text)
+        # the free fold-band gases: dE/da4 = -E_KS in both forms
+        ground = csv_by_id("ground/summary.csv")
+        for n in NS:
+            for s in SLICES:
+                r = csv_by_id("adiabatic/adiabaticity.csv")[f"N{n}_lam0_{s}"]
+                e = float(ground[f"N{n}_lam0_{s}"]["E_KS"])
+                for key in ("dE_da4_emt", "dE_da4_finite_difference"):
+                    self.assertLess(abs(float(r[key]) + e), 1e-6 * max(abs(e), 1.0), (r["id"], key))
 
     def test_excited_and_thermo_numbers(self):
-        self.pair(check_detail(RUST_SOLVER, "excited_delta_scf_free_equals_gap"), "15 cases; worst value 2.011e-11",
-                  "worst difference 2.011e-11 over 15 cases")
+        self.pair(check_detail(RUST_SOLVER, "excited_delta_scf_free_equals_gap"), "15 cases; worst value 3.086e-13",
+                  "worst difference 3.086e-13 over 15 cases")
         detail = check_detail(RUST_SOLVER, "thermo_sea_hole_diagnostic_computed")
-        self.pair(detail, "15 of 135 states (largest 30.808 N)", "15 of 135 states")
-        self.assertIn("the largest is 30.808 N", self.text)
+        self.pair(detail, "27 of 135 states (largest 594.496 N)", "27 of 135 states")
+        self.assertIn("the largest is 594.496 N", self.text)
         thermo = csv_rows("thermo/thermodynamics.csv")
         outside = [r for r in thermo if r["particle_only_convention_within_1pc"] == "false"]
-        self.assertEqual(len(outside), 15)
-        self.assertTrue(all(float(r["a4"]) >= 1.0 for r in outside))
-        self.assertIn("all at $a_{4,0} \\geq 1$", self.text)
-        self.assertIn("N136_lam0_a20_T50", [r["id"] for r in outside])
-        self.pair(check_detail(MERMIN_ROOTS, "root_precision_self_check"), "7.5e-35")
+        self.assertEqual(len(outside), 27)
+        self.assertTrue(all(float(r["a4"]) >= 0.5 for r in outside))
+        self.assertGreater(sum(1 for r in outside if r["N"] == "8"), len(outside) / 2)
+        self.assertIn("most of them at $N = 8$ and all at $a_{4,0} \\geq 0.5$", self.text)
+        self.assertIn(f"N{N_MID}_lam0_a20_T50", [r["id"] for r in outside])
+        self.assertIn(f"(state N{N_MID}_lam0_a20_T50)", self.text)
+        self.pair(check_detail(MERMIN_ROOTS, "root_precision_self_check"), "1.5e-38")
 
     def test_rescaling_and_t3_numbers(self):
-        self.pair(check_detail(RUST_SOLVER, "rescaling_identity_between_slices"), "worst value 1.550e-13",
-                  "The worst level difference is 1.550e-13")
-        self.pair(check_detail(RUST_SOLVER, "rescaling_identity_energy_profiles"), "worst value 1.914e-13",
-                  "the profiles 1.914e-13")
+        self.pair(check_detail(RUST_SOLVER, "rescaling_identity_between_slices"), "worst value 1.643e-13",
+                  "The worst level difference is 1.643e-13")
+        self.pair(check_detail(RUST_SOLVER, "rescaling_identity_energy_profiles"), "worst value 8.193e-13",
+                  "the profiles 8.193e-13")
         detail = check_detail(RUST_SOLVER, "t3_block_map_solver_selftest")
         self.assertIn("NOT a proof of T3", detail)
-        self.pair(detail, "(worst 8.35e-14, tolerance 1e-9)", "(worst 8.35e-14, tolerance 1e-9;")
+        self.pair(detail, "(worst 3.62e-13, tolerance 1e-9)", "(worst 3.62e-13, tolerance 1e-9;")
 
     def test_determinism_and_refinement_numbers(self):
         self.pair(check_detail(DETERMINISM, "repeat_byte_identical"), "244 files", "all 244 result files")
-        for name, value in (("refined_ground_energies", "2.000e-12"), ("refined_eigenvalues", "2.143e-09"),
-                            ("refined_eigenvalues", "23724"), ("refined_profiles", "7.050e-09"),
-                            ("refined_adiabatic_derivatives", "1.435e-07"),
-                            ("refined_thermodynamics", "2.489e-10"), ("refined_heat_capacity", "5.689e-09")):
+        for name, value in (("refined_ground_energies", "1.728e-11"), ("refined_eigenvalues", "5.688e-10"),
+                            ("refined_eigenvalues", "50420"), ("refined_profiles", "1.950e-10"),
+                            ("refined_adiabatic_derivatives", "4.513e-08"),
+                            ("refined_thermodynamics", "1.874e-10"), ("refined_heat_capacity", "3.853e-09")):
             self.pair(check_detail(DETERMINISM, name), value)
         description = load_json(KS / "checker" / "rust-refinement.json")["description"]
         self.assertIn("canonical: RK4 G = 900, root tolerance 1e-13, SCF tolerance 1e-11", description)
-        self.assertIn("refined: G = 1800, 1e-14, 1e-12", description)
-        self.assertIn("(900 to 1800 RK4 steps, root tolerance 1e-14, SCF tolerance 1e-12)", self.text)
-        self.assertEqual(count_report(RUST_SOLVER)[0], 43)
-        self.assertIn("43 of 43 checks PASS in 95.6 s", self.text)
+        self.assertIn("refined: G = 1800, root tolerance 1e-14, SCF tolerance 1e-14", description)
+        model = (KS / "solver" / "src" / "model.rs").read_text(encoding="utf-8")
+        self.assertIn("Numerics { g: 1800, root_tol: 1e-14, scf_tol: 1e-14, scf_max_iter: 1000,", model)
+        self.assertIn("(900 to 1800 RK4 steps, root tolerance 1e-14, SCF tolerance 1e-14 with at most 1000 iterations)",
+                      self.text)
+        self.assertEqual(count_report(RUST_SOLVER)[0], 45)
 
     def test_reference_numbers(self):
         self.assertIn("(second order: 4", check_detail(REFERENCE, "free_convergence_order_two"))
         self.assertIn("G = 300, 600", check_detail(REFERENCE, "free_k0_analytic_spectra"))
         self.assertIn("G = 2400", check_detail(REFERENCE, "richardson_uncertainty_validated"))
         self.assertIn("three grids (300, 600, 1200)", self.text)
+        self.assertIn("differences E_cont - E_aufbau: 0.0: 0, 0.5: 4.676353789",
+                      check_detail(REFERENCE, "crossing_demo_reference"))
 
     def test_source_condition_numbers(self):
         detail = check_detail(SOURCE_CONDITIONS, "ks_profiles_depend_on_x0")
-        self.pair(detail, ">= 0.0757506", "\\geq 0.0757506")
-        self.assertIn("70 with a nonzero", detail)
-        self.assertIn("Every one of the 70 nonzero ground-state profiles", self.text)
-        detail = check_detail(SOURCE_CONDITIONS, "ks_profiles_violate_algebraic_condition")
-        self.pair(detail, "between 1.04172", "between 1.04172 and 3.99008")
-        self.assertIn("and 3.99008", detail)
-        detail = check_detail(SOURCE_CONDITIONS, "ks_integrals_violate_algebraic_condition")
-        for value in ("0.416888", "N136_lam0_a00: 0.339767", "N136_lam0_a10: 0.25969", "N136_lam0_a20: 0.239714"):
-            self.pair(detail, value, value.split(": ")[-1])
+        self.pair(detail, ">= 0.456213", "\\geq 0.456213")
+        self.assertIn("(70 with a nonzero energy-momentum tensor)", detail)
+        self.assertIn("Every one of the 70 nonzero ground-state profiles depends on $x_0$", self.text)
+        detail = check_detail(SOURCE_CONDITIONS, "ks_hidden_pressure_condition")
+        self.assertIn("for exactly the 10 nonzero states with lambda = 0", detail)
+        self.assertIn("fails (> 1e-06) for every one of the 60 states with lambda != 0 (smallest: 0.080929", detail)
+        self.assertIn("for exactly the 10 nonzero states with $\\lambda = 0$", self.text)
+        self.assertIn("fails for every one of the 60 states with $\\lambda \\neq 0$ "
+                      "($\\max_y|p_0 - p_t|/\\max|T| \\geq 0.080929$", self.text)
+        self.assertIn("C3 holds for every recorded state", check_detail(SOURCE_CONDITIONS, "ks_offdiagonal_condition"))
         detail = check_detail(SOURCE_CONDITIONS, "ks_history_is_a_prescribed_background")
-        self.pair(detail, "(-2/27, -2/9, -22/27, -14/27)", "(-\\frac{2}{27}, -\\frac29, -\\frac{22}{27}, -\\frac{14}{27})")
-        self.pair(detail, "p3/rho = 3, p_t/rho = 11, p0/rho = 7", "$p_3/\\rho = 3$, $p_t/\\rho = 11$, $p_0/\\rho = 7$")
-        self.assertIn("the off-diagonal condition holds on the history",
-                      check_detail(SOURCE_CONDITIONS, "ks_offdiagonal_condition_on_history"))
-        self.assertIn("5 states have an identically vanishing", check_detail(SOURCE_CONDITIONS,
-                                                                            "ks_zero_source_states_listed"))
+        self.pair(detail, "kappa rho = 3.57407", "$\\kappa\\rho = 3.57407$ at $a_{4,0} = 0$")
+        self.pair(detail, "kappa rho = -7.63383", "$-7.63383$ at $a_{4,0} = 2$")
+        self.assertIn("5 states have an identically vanishing", check_detail(SOURCE_CONDITIONS, "ks_zero_source_states_listed"))
         self.assertIn("Five states have an identically vanishing tensor", self.text)
-        conclusions = " ".join(load_json(SOURCE_A4)["conclusions"])
-        for value in ("0.582938", "fold at a4 = 0.024", "0.870762", "1.09136"):
-            self.pair(conclusions, value, value.replace("fold at a4 = ", "at $a_4 = "))
-        self.assertIn("Nothing about a4 or b4 is DERIVED from the coupled problem", conclusions)
+        conclusion = load_json(SOURCE_CONDITIONS)["conclusion"]
+        self.assertIn("No Kohn-Sham state recorded in Revision/kohn_sham is an admissible source of the corrected metric",
+                      conclusion)
+        a4 = load_json(SOURCE_A4)
+        self.assertEqual(a4["summary"], {"checks": 19, "pass": 19, "fail": 0})
+        for name, in_source, in_document in (
+                ("B2_x0_conservation_on_every_profile", "1.21233e-05", "1.21233e-05"),
+                ("B3_hidden_direction_mismatch", "mu1_rho in [0.147738, 0.738255]", "between 0.147738 and 0.738255"),
+                ("C1_averaged_hidden_pressure_condition", ">= 0.00613418", "$\\geq 0.00613418$"),
+                ("C3_record_history_not_sourced_by_the_gas", "rho_bar = 0.216249 at a4 = 0, 0.00104404 at a4 = 2",
+                 "$\\bar\\rho = 0.216249$ and $0.00104404$"),
+                ("C3_record_history_not_sourced_by_the_gas", "from 16.5276 to -7311.81", "from 16.5276 to $-7311.81$"),
+                ("D2_author_weights_from_the_record_history",
+                 "x4 = 0.428813 (a4 = 0.361572, b4 = 0.862627, a4'/H = 0.978369, u/H = -2.60176)",
+                 "$x_4 = 0.428813$ ($a_4 = 0.361572$, $b_4 = 0.862627$, $a_4'/H = 0.978369$, $u/H = -2.60176$"),
+                ("D4_outcomes", "a4_turns 24, regular 6, runaway 4, singular_second_order_system 4",
+                 "$a_4$ turning 24 times, regular 6 times, runaway 4 times and singular 4 times"),
+                ("D4_outcomes", "38 cases", "over 38 cases")):
+            self.pair(check_detail(SOURCE_A4, name), in_source, in_document)
+        conclusions = " ".join(a4["conclusions"])
+        self.assertIn("No recorded Kohn-Sham state is an admissible source of the corrected metric", conclusions)
+        self.assertIn("the history is a prescribed background without back-reaction", conclusions)
 
     def test_run_times_from_the_readmes(self):
         sources = (
             (KS / "theory" / "WOLFRAMSCRIPT_PROVENANCE.md", ("about 40 to 85 seconds", "about 75 to 165 seconds"),
              ("about 40 to 85 s", "about 75 to 165 s")),
-            (KS / "solver" / "README.md", ("canonical matrix 78.0 s", "repeat 75.7 s", "refined-tolerance run 340.6 s"),
-             ("the Rust canonical matrix 78.0 s", "the repeat 75.7 s",
-              "the refined-tolerance run 340.6 s")),
-            (KS / "reference" / "README.md", ("227 s, 190 s, 219 s, 232 s, 124 s and 120 s",),
-             ("the reference in six parts of 227 s, 190 s, 219 s, 232 s, 124 s and 120 s",)),
-            (KS / "checker" / "README.md", ("550 single runs, 32.9 s", "198 s, 179 s, 214 s, 234 s, 117 s and 122 s",
-                                             "--repeat-cache DIR`: 20.5 s"),
-             ("the refinement measurement 32.9 s", "six parts of 198 s, 179 s, 214 s, 234 s, 117 s and 122 s",
-              "the cross-checker itself 20.5 s")),
-            (REVISION / "field_equations_a4" / "ks_source" / "README.md", ("Run time of the script: about 2 s", "about 12 s"),
-             ("the Kohn-Sham source analysis about 2 s and its unit tests about 12 s",)),
-            (REVISION / "field_equations_a4" / "README.md", ("43-70 s (Wolfram) and 7-28 s",),
-             ("43 to 70 s (Wolfram) and 7 to 28 s (sympy) on 2026-10-07",)),
-            (REVISION / "pairing" / "kohn_sham" / "README.md", ("about 3 s and 1 s (T3 verifiers)",),
-             ("the T3 verifiers about 3 s and 1 s",)),
-            (KS / "tip_convergence" / "README.md", ("187 s in total; 7 of 7 checks PASS",),
-             ("the tip-cutoff study 187 s with 22 workers",)),
+            (KS / "solver" / "README.md",
+             ("part 1/2 134.6 s, part 2/2 130.5 s, assembly 5.4 s", "Repeat in three parts: 76.7 s, 70.4 s, 85.7 s",
+              "in four parts: 176.5 s, 186.1 s, 183.0 s, 163.8 s"),
+             ("the Rust canonical matrix in two parts of 134.6 s and 130.5 s with an assembly of 5.4 s",
+              "the repeat in three parts of 76.7 s, 70.4 s and 85.7 s",
+              "the refined-tolerance run in four parts of 176.5 s, 186.1 s, 183.0 s and 163.8 s")),
+            (KS / "reference" / "README.md",
+             ("193.0, 175.4, 214.0, 179.8, 100.7 and 191.2 s", "136.8, 143.7, 133.7, 133.7, 134.2 and\n  139.8 s"),
+             ("stage 1 193.0, 175.4, 214.0, 179.8, 100.7 and 191.2 s",
+              "stage 2 136.8, 143.7, 133.7, 133.7, 134.2 and 139.8 s")),
+            (KS / "checker" / "README.md", ("in 108.8 s", "87.6 s in total"),
+             ("the refinement measurement 108.8 s", "the cross-checker itself 87.6 s")),
+            (KS / "tip_convergence" / "README.md", ("966 s in all, 7 of 7 checks PASS",),
+             ("the tip-cutoff study 966 s in ten parts",)),
+            (REVISION / "field_equations_a4" / "ks_source" / "README.md",
+             ("The script takes about 4.4 s and the tests about 20 s",),
+             ("the Kohn-Sham source analysis about 4.4 s and its unit tests about 20 s",)),
+            (REVISION / "field_equations_a4" / "README.md", ("Wolfram\n57 of 57 (20 s), sympy 69 of 69 (8 s)",),
+             ("the $a_4$ verifiers 20 s (Wolfram) and 8 s (sympy)",)),
+            (REVISION / "pairing" / "kohn_sham" / "wolfram" / "WOLFRAMSCRIPT_PROVENANCE.md",
+             ("`verify_t3.wls` `9/9 checks passed` (5.8 s of wall time),\n  `check_t3.py` 12 of 12 (1.3 s)",),
+             ("the T3 verifiers 5.8 s and 1.3 s",)),
         )
         for path, in_source, in_document in sources:
             text = path.read_text(encoding="utf-8")
@@ -834,6 +901,12 @@ class QuotedNumbers(unittest.TestCase):
                 self.assertIn(value, text, f"{value} in {path.name}")
             for value in in_document:
                 self.assertIn(value, self.text, value)
+        # section 13.4: the re-run of the canonical matrix in parts (the times of the solver README)
+        self.assertIn("(`revision_ks_solver all --cache <scratch> --part i/3 --inner-threads 2`, then `--out "
+                      "<scratch>/results --report <scratch>/report.json`; 76.7 s, 70.4 s, 85.7 s and 5.7 s)", self.text)
+        self.assertIn("assembly 5.7 s", (KS / "solver" / "README.md").read_text(encoding="utf-8"))
+        self.assertIn("(45 of 45 checks PASS)", self.text)
+        self.assertEqual(count_report(RUST_SOLVER)[0], 45)
 
 
 if __name__ == "__main__":

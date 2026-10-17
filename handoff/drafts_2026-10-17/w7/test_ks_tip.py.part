@@ -1,0 +1,118 @@
+    def test_tip_convergence_numbers(self, text=None):
+        """The numbers of the tip-cutoff study quoted in sections 5, 15.2-15.4 and the abstract, re-derived from
+        Revision/kohn_sham/tip_convergence/ (tip-convergence.json and its two CSV files)."""
+        text = self.text if text is None else text
+        record = load_json(TIP / "tip-convergence.json")
+        with (TIP / "tip-convergence-extrapolation.csv").open(encoding="utf-8", newline="") as handle:
+            extra = {(r["protocol"], r["id"], r["quantity"]): r for r in csv.DictReader(handle)}
+        with (TIP / "tip-convergence-table.csv").open(encoding="utf-8", newline="") as handle:
+            table = {(r["id"], float(r["L"])): r for r in csv.DictReader(handle)
+                     if r["protocol"] == "fixed" and r["status"] == "ok"
+                     and int(r["G"]) == round(300 * float(r["L"]))}
+        grid = record["Lvalues"]
+        steps = {round(b - a, 12) for a, b in zip(grid, grid[1:])}
+        self.assertEqual(len(steps), 1)
+        checks = record["checks"]
+        self.assertTrue(all(c["verdict"] == "PASS" for c in checks))
+        self.assertEqual((record["summary"]["passed"], record["summary"]["total"]), (len(checks), len(checks)))
+        comparisons = record["reference"]["comparisons"]
+        self.assertTrue(comparisons and all(c["pass"] for c in comparisons))
+        reference_l = sorted({c["L"] for c in comparisons} | {j["L"] for j in record["reference"]["jobs"]})
+        self.assertEqual(len(reference_l), 2)
+        expected = [f"$L = {grid[0]:g}$ to ${grid[-1]:g}$ in steps of ${steps.pop():g}$",
+                    f"`Revision/kohn_sham/tip_convergence/tip-convergence.json`, {len(checks)} of {len(checks)} checks PASS",
+                    f"the reference solver agrees at $L = {reference_l[0]:g}$ and ${reference_l[1]:g}$",
+                    f"the reference at $L = {reference_l[0]:g}$ and ${reference_l[1]:g}$)",
+                    f"The dependence on the tip cutoff $L$ from {grid[0]:g} to {grid[-1]:g} of"]
+        # the free fold-band states do not depend on L (every free state except N = 2352 at a4,0 = 0)
+        free = sorted({s for (s, length) in table if "lam0" in s and "_T" not in s and s != "N2352_lam0_a00"})
+        self.assertEqual(len(free), 9)
+        for s in free:
+            for q in ("E_KS", "HOMO", "LUMO", "KS_gap"):
+                values = [float(table[(s, length)][q]) for length in grid if (s, length) in table]
+                self.assertEqual(len(values), len(grid), (s, q))
+                self.assertLessEqual(max(values) - min(values), 1e-15 * max(max(abs(v) for v in values), 1.0), (s, q))
+        # the fold values: rho(0; L) = rho(0; inf)/(1 - e^(-2 f m L)), f = e^(-a4,0/3), checked on the free N = 592 states
+        for a4, pct in ((0.0, "0.25%"), (1.0, "1.38%"), (2.0, "4.81%")):
+            f = math.exp(-a4 / 3)
+            self.assertEqual(f"{100 * (1 / (1 - math.exp(-6 * f)) - 1):.2f}%", pct)
+            sid = f"N592_lam0_a{int(10 * a4):02d}"
+            ratio = float(table[(sid, 3.0)]["rho_brane"]) / float(table[(sid, 6.0)]["rho_brane"])
+            exact = (1 - math.exp(-12 * f)) / (1 - math.exp(-6 * f))
+            self.assertLess(abs(ratio / exact - 1), 1e-12, sid)
+        expected.append("high by 0.25%, 1.38% and 4.81% at $a_{4,0} = 0, 1, 2$")
+        # the bulk edge and N = 2352 at a4,0 = 0
+        edge = record["k0Spectrum"]["bulkEdge_odd_l0_of_L"]
+        expected.append(f"the bulk edge {edge[f'{3.0:.15e}']:.4f} that defines $N = 2352$ is an $L = 3$ value "
+                        f"({edge[f'{6.0:.15e}']:.4f} at $L = 6$)")
+        s = "N2352_lam0_a00"
+        closed = min(length for (t, length), r in table.items() if t == s and float(r["KS_gap"]) == 0.0)
+        expected.append(f"changes its occupied set from $L = {closed:g}$ on (its gap "
+                        f"{float(table[(s, 3.0)]['KS_gap']):.5f} closes; $E_{{KS}} = {float(table[(s, 3.0)]['E_KS']):.3f}$ "
+                        f"at $L = 3$ and ${float(table[(s, 6.0)]['E_KS']):.3f}$ at $L = 6$, not converged)")
+        self.assertTrue(extra[("fixed", s, "E_KS")]["verdict"].startswith("NOT CONVERGED"))
+        # the N = 8 interaction energies at L = 3 and at large L
+        ratios = []
+        for a4, digits in (("a00", 4), ("a10", 4), ("a20", 3)):
+            plus, minus = extra[("fixed", f"N8_lamp1_{a4}", "E_KS")], extra[("fixed", f"N8_lamm1_{a4}", "E_KS")]
+            self.assertEqual(float(plus["value_L3"]), -float(minus["value_L3"]))
+            self.assertEqual(float(plus["extrapolated_Linf"]), -float(minus["extrapolated_Linf"]))
+            self.assertTrue(plus["verdict"].startswith("converg"))
+            v3, vinf = abs(float(plus["value_L3"])), abs(float(plus["extrapolated_Linf"]))
+
+            def sci(v, d):
+                mantissa, exponent = f"{v:.{d}e}".split("e")
+                return rf"\mp {mantissa}\times10^{{{int(exponent)}}}"
+            expected.append(f"${sci(v3, digits)}$ against ${sci(vinf, digits)}$")
+            ratios.append(f"{v3 / vinf:.3f}")
+        expected += [f"{ratios[0]}, {ratios[1]} and {ratios[2]} of the large-$L$ values",
+                     f"the recorded $N = 8$ interaction energy is {ratios[0]}, {ratios[1]} and {ratios[2]} of its large-$L$ "
+                     "value at $a_{4,0} = 0, 1, 2$"]
+        # the interaction shifts at a4,0 = 2
+        shifts = []
+        for n in (592, 2352):
+            for tag in ("lamp1", "lamm1"):
+                e, e0 = extra[("fixed", f"N{n}_{tag}_a20", "E_KS")], extra[("fixed", f"N{n}_lam0_a20", "E_KS")]
+                shifts.append((float(e["extrapolated_Linf"]) - float(e0["extrapolated_Linf"]))
+                              / (float(e["value_L3"]) - float(e0["value_L3"])))
+        expected.append(f"are {min(shifts):.1f} to {max(shifts):.1f} times larger at large $L$ than at $L = 3$")
+        # the interacting states: converged, failing
+        interacting = [r for (p, sid, q), r in extra.items() if p == "fixed" and q == "E_KS" and "lam0" not in sid]
+        converged = [r for r in interacting if r["verdict"].startswith("converg")]
+        failing = sorted((r["id"], float(r["first_failed_L"])) for r in interacting if r["first_failed_L"])
+        self.assertEqual(failing, [("N2352_lamm1_a00", 4.5), ("N2352_lamp1_a00", 3.5)])
+        self.assertEqual({r["id"] for r in interacting} - {r["id"] for r in converged}, {s for s, _ in failing})
+        expected += [f"{len(converged)} of the {len(interacting)} interacting states studied converge",
+                     "from $L = 3.5$ for $+\\lambda_1$ and from $L = 4.5$ for $-\\lambda_1$"]
+        # the Mermin state whose limit is not established
+        self.assertTrue(extra[("fixed", "N592_lam0_a20_T50", "E_KS")]["verdict"].startswith("NOT CONVERGED"))
+        expected.append("nor for the Mermin state N592_lam0_a20_T50")
+        # the recorded states
+        states = record["analysis"]["fixed"]
+        ground = [v for v in states.values() if not v["T"]]
+        thermal = sorted((v["N"], v["lambda_tag"], v["a4"], v["T"]) for v in states.values() if v["T"])
+        self.assertEqual({v["N"] for v in ground}, {8, 592, 2352})
+        self.assertEqual(thermal, [(592, "lam0", 2.0, 0.05), (592, "lamp1", 1.0, 0.02)])
+        expected.append(f"of {len(states)} recorded states, the {len(ground)} ground states with "
+                        "$N \\in \\{8, 592, 2352\\}$")
+        # the calibration rule as a function of L
+        lam = record["couplings"]["recalibrated_lambda1_of_L"]
+        at = lambda n, length: lam[str(n)][f"{length:.15e}"]  # noqa: E731
+        self.assertEqual([at(n, 3.0) for n in (8, 592, 2352)], [157.7, 2.131, 0.5363])
+        self.assertTrue(all(at(n, 6.0) < at(n, 3.0) / 100 for n in (8, 592, 2352)))
+        mantissa, exponent = f"{at(2352, 6.0):.2e}".split("e")
+        expected.append(f"$157.7$, $2.131$ and $0.5363$ at $L = 3$, ${at(8, 6.0):g}$, ${at(592, 6.0):g}$ and "
+                        f"${mantissa}\\times10^{{{int(exponent)}}}$ at $L = 6$")
+        for statement in expected:
+            self.assertIn(statement, text, statement)
+
+    def test_tip_convergence_numbers_detect_a_changed_value(self):
+        # negative controls: one quoted number of the study changed in a copy of the text must be detected
+        for old, new in (("1.2923", "1.2924"), ("4.81%", "4.80%"), ("2245.486", "2245.487"),
+                         ("0.215 of the large", "0.216 of the large"), ("17 of the 19", "18 of the 19"),
+                         ("from $L = 4.5$ for", "from $L = 5$ for"), ("$1.249$", "$1.25$"),
+                         ("of 29 recorded states", "of 28 recorded states")):
+            with self.subTest(old=old):
+                self.assertIn(old, self.text)
+                with self.assertRaises(AssertionError):
+                    self.test_tip_convergence_numbers(self.text.replace(old, new))
