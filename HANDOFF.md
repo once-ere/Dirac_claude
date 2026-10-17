@@ -39,10 +39,17 @@ Status (folder `Revision/universe_model/`, README there):
   step under `timeout -k 5 423`; then the README/gate-budget patch scripts of that folder and "HANDOFF W5 DONE"), W6
   (placed and passing so far: dark_sector derive_effective 37/37, dirac16complex00 A 48/48 / B 32/32 / tests 4/4 with
   the README rewritten, `dark_sector/wolfram/verify_dark_sector.wls` 7/7 with gate step dark-wolfram (the b4 twin is
-  kept as the record of the withdrawn metric, no step), T3 verify_t3.wls 9/9, check_t3.py 12/12,
-  verify_t3_completion.wls 3/3; pairing T1/T2/Q drafts placed and run; still: compute_eos and independent_free_gas on
-  the regenerated dense history, the T3 demos (split the Rust demo into parts), check_t3_completion.py, the notebooks),
-  then W7 (documents/PDFs) and W8 (textbook), each committed and pushed.
+  kept as the record of the withdrawn metric; its step dark-b4-wolfram reads the frozen
+  `reference_2026_10_14/eos-theory-b4.json`), T3 verify_t3.wls 9/9, check_t3.py 12/12,
+  verify_t3_completion.wls 3/3; pairing T1/T2/Q drafts placed and run; the notebook `lovelock_gkd.ipynb` rebuilt for
+  the corrected metric (Rust 27, sympy 56, Wolfram 29; 47 notebook checks, `check` byte-identical); still:
+  compute_eos and independent_free_gas on the regenerated dense history, the T3 demos (the Rust demo has `--part i/n`,
+  not yet run; gate rows to add), check_t3_completion.py, the notebooks `kohn_sham_states` (builder patched, waits for
+  the W5 cross-check) and `dark_sector_hypotheses`; the notebook test pins of kohn_sham_states and dark_sector are
+  still those of the old record and fail until then),
+  then W7 (documents/PDFs; LOVELOCK_GKD DONE 2026-10-17: rewritten for the corrected metric, 29 pages, registered,
+  its publication test 34/34 with the verify-mode rebuild; the comparison report regenerated for the SPEC sha only)
+  and W8 (textbook), each committed and pushed.
 
 ### 0.10 ORDER 2026-10-16: the corrected metric (version 2); recompute every primordial object
 

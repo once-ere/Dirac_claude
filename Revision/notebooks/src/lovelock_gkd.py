@@ -54,15 +54,16 @@ This notebook
    1, 2 and 3 over eight values, against the literal determinant that defines it;
 3. runs the program once more (about 15 seconds): it computes, exactly and from the metric
    alone, the Christoffel symbols, the Riemann tensor and the Lovelock tensors of order
-   k = 1, 2, 3, runs its 19 checks and writes four result files into a scratch output folder
+   k = 1, 2, 3, runs its 27 checks and writes four result files into a scratch output folder
    (never over the committed record);
 4. shows every non-zero component in tables and re-checks three identities exactly in Python
    (the trace identity, the normalised k = 1 tensor equals Einstein's tensor, and the density
    form of the tensors), for general $a_4(x_4)$ and $b_4(x_4)$;
-5. writes the normalised tensors in the variables $a_4'$, $a_4''$, $u = b_4'/b_4$ and $v = u'$, compares them
-   exactly with the record of the $a_4$ and $b_4$ equations (`Revision/field_equations_a4/a4-equations.json`),
-   and evaluates them on the history of the Kohn-Sham record, $a_4 = H x_4$, $b_4 = b_4(0) e^{(4/3) H x_4}$:
-   with the author's Lovelock weights they give exactly the constant source that this history needs;
+5. writes the normalised tensors in the variables $a_4'$, $a_4''$, $u = b_4'/b_4$, $v = u'$ and $k = e^{2a_4}/b_4$,
+   compares them exactly with the record of the $a_4$ and $b_4$ equations
+   (`Revision/field_equations_a4/a4-equations.json`), and evaluates them on the history of the Kohn-Sham record,
+   $a_4 = H x_4$, $b_4 = b_4(0) e^{(4/3) H x_4}$: with the author's Lovelock weights they give exactly the source
+   (a polynomial in $k$) that this history needs;
 6. compares the four new files byte for byte with the committed record and quotes the check
    counts of the five committed reports exactly as their JSON files give them;
 7. draws three teaching figures;
@@ -292,24 +293,26 @@ md(r"""
 
 ### 4.1 The author's metric
 
-The author's metric (the user's metric of 2026-10-14) is diagonal. With $z = 6 H x_0$ and $0 < z < \pi/2$:
+The metric is the corrected primordial metric of 2026-10-16 (version 2, `Revision/SPEC.md` section 1), in the
+author's coordinates. With $z = 6 H x_0$, which takes EVERY real value, and $(\sin^2 z)^{1/6}$ on the positive branch:
 
 $$
-g_{00} = \cot^2 z,\qquad g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)} \sin^{1/3} z,\qquad g_{44} = -1,\qquad
-g_{55} = g_{66} = g_{77} = -e^{-2 a_4(x_4)}\, b_4(x_4) \sin^{1/3} z .
+g_{00} = e^{-2 a_4(x_4)}\, b_4(x_4) \cot^2 z,\qquad g_{11} = g_{22} = g_{33} = e^{2 a_4(x_4)},\qquad g_{44} = -1,\qquad
+g_{55} = g_{66} = g_{77} = -e^{-2 a_4(x_4)}\, b_4(x_4)\, (\sin^2 z)^{1/6} .
 $$
 
-$H > 0$ is the author's constant and $a_4(x_4)$, $b_4(x_4) > 0$ the metric functions; $a_4' = da_4/dx_4$; $b_4$ is a
-function of the time, never 1 ($b_4 = 1$ is the withdrawn metric before 2026-10-14). Space-like: $x_0, x_1, x_2, x_3$; time-like: $x_4, x_5, x_6, x_7$. The square root of the
-absolute determinant is $\sqrt{|\det g|} = b_4^{3/2} \sin z \cot z = b_4^{3/2} \cos z$.
+$H > 0$ is the author's constant and $a_4(x_4)$, $b_4(x_4) > 0$ the metric functions; $a_4' = da_4/dx_4$. Space-like:
+$x_0, x_1, x_2, x_3$; time-like: $x_4, x_5, x_6, x_7$. The square root of the absolute determinant is
+$\sqrt{|\det g|} = e^{-a_4} b_4^2\, |\cot z|\, (\sin^2 z)^{1/4}$, positive for every real $z$ with $\sin z \cos z \neq 0$.
+The metrics of 2026-10-14 (with $\sin^{1/3} z$ on ordinary space) and of 2026-10-16 version 1 are withdrawn; the
+results of the first are frozen in `Revision/gkd_lovelock/reference_2026_10_14/`.
 
-When $a_4$ increases, ordinary space inflates with the scale factor $e^{a_4}\sin^{1/6} z$ and the three
-extra times **deflate** with the scale factor $e^{-a_4} b_4^{1/2}\sin^{1/6} z$. On the history of the
-Revision's Kohn-Sham record, $a_4 = H x_4$ and $b_4 = b_4(0)\,e^{(4/3) H x_4}$ (the branch that the author's
-Lovelock weights allow for a source without a $T^{x_4}{}_{x_0}$ component; a PRESCRIBED background), the
-extra-time factor is $b_4(0)^{1/2} e^{-H x_4/3}\sin^{1/6} z$: the deflation is exponential in $x_4$. The
-extra times are never static in this computation: $a_4$ and $b_4$ are functions of $x_4$ throughout, and
-their derivatives appear in the results.
+When $a_4$ increases, ordinary space inflates with the scale factor $e^{a_4}$, and the three extra times and the
+hidden direction share the factor $f = e^{-a_4} b_4^{1/2}$ (the extra times also carry the warp
+$(\sin^2 z)^{1/12}$, the hidden direction $|\cot z|$). On the history of the Revision's Kohn-Sham record, $a_4 = H x_4$
+and $b_4 = b_4(0)\,e^{(4/3) H x_4}$ (a PRESCRIBED background), $f = b_4(0)^{1/2} e^{-H x_4/3}$: the extra times deflate
+exponentially in $x_4$. The extra times are never static in this computation: $a_4$ and $b_4$ are functions of $x_4$
+throughout, and their derivatives appear in the results.
 
 ### 4.2 The generalized Kronecker delta
 
@@ -359,14 +362,16 @@ $\sum_{k=1}^{3} \alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu{}_\nu = \kapp
   $R^a{}_{bcd} = \partial_c \Gamma^a{}_{db} - \partial_d \Gamma^a{}_{cb} + \Gamma^a{}_{ce}\Gamma^e{}_{db} - \Gamma^a{}_{de}\Gamma^e{}_{cb}$.
 - Components are labelled by coordinate names, `"x1,x1"` meaning $h = x_1$, $j = x_1$.
 - The program represents every quantity exactly, as a sum of terms (whole-number fraction) times
-  powers of thirteen symbols, in this order: $H$, $a_4'$, $a_4''$, $a_4'''$, $a_4''''$, $e^{a_4}$,
-  $\sin^{1/3} z$, $\cot z$, $Q = b_4^{1/2}$, $b_4'$, $b_4''$, $b_4'''$, $b_4''''$. In the result file each
-  term is `[numerator, denominator, [thirteen exponents]]` (eight before the metric change of 2026-10-14,
-  which added the function $b_4(x_4)$ to the extra-time components; $b_4 = 1$ is the earlier metric).
-- The warp factor $\sin^{1/3} z$ cancels in all mixed components; the mixed Lovelock tensors depend
-  only on $H$, $a_4'$, $a_4''$, $u = b_4'/b_4$ and $v = u' = b_4''/b_4 - u^2$ (checked in section 8.4), and the
-  pair $x_4$-$x_0$ also on $\cot z$. Every identity of section 8.3 is checked for general $a_4$ and $b_4$; the
-  tables of section 8.4 and the figures are written for general $b_4$ or evaluated on the history
+  powers of fourteen symbols, in this order: $H$, $a_4'$, $a_4''$, $a_4'''$, $a_4''''$, $E = e^{a_4}$,
+  $W = (\sin^2 z)^{1/12}$, $C = \cot z$ (signed), $Q = b_4^{1/2}$, $b_4'$, $b_4''$, $b_4'''$, $b_4''''$ and
+  $G = \mathrm{sign}(\cot z)$ ($G^2 = 1$). In the result file each term is `[numerator, denominator, [fourteen
+  exponents]]`. Every metric component is a monomial: $g_{00} = E^{-2} Q^2 C^2$, $g_{ii} = E^2$, $g_{44} = -1$,
+  $g_{tt} = -E^{-2} Q^2 W^2$, and $\sqrt{|\det g|} = G\,C\,E^{-1} Q^4 W^3$.
+- The mixed curvature $R^{ab}{}_{cd}$ is free of $x_0$ and has only sectional components ($R^{ab}{}_{ab}$); the mixed
+  Lovelock tensors are diagonal, free of $x_0$, equal within ordinary space and equal for the hidden direction and the
+  three extra times, and depend only on $H$, $a_4'$, $a_4''$, $u = b_4'/b_4$, $v = u' = b_4''/b_4 - u^2$ and
+  $k = e^{2a_4}/b_4$ (checked in section 8.4). Every identity of section 8.3 is checked for general $a_4$ and $b_4$;
+  the tables of section 8.4 and the figures are written for general $b_4$ or evaluated on the history
   $b_4 = b_4(0) e^{(4/3) a_4}$.
 """)
 
@@ -542,11 +547,10 @@ def run_program(*args):
 md(r"""
 ## 6. The program recites its configuration
 
-Before trusting any result, the program states what it computes: the metric (the user's metric of
-2026-10-14 with the function $b_4(x_4)$ in the extra-time components, in the Revision order of the
-coordinates), the coordinates, the Riemann convention, the Lovelock formula and the GKD rule. The cell
-then checks that the recited metric is, character for character apart from spaces, the metric
-`g = ...` of `Revision/SPEC.md` section 1.
+Before trusting any result, the program states what it computes: the metric (the corrected primordial metric of
+2026-10-16, version 2, in the author's coordinates $x_0, \dots, x_7$), the coordinates, the Riemann convention, the
+Lovelock formula and the GKD rule. The cell then checks that the recited metric is, character for character apart
+from spaces, the metric `g = ...` of `Revision/SPEC.md` section 1.
 """)
 
 code(r'''
@@ -556,10 +560,10 @@ metric = metric_line.split("=", 1)[1].strip()
 spec = (REPO / "Revision" / "SPEC.md").read_text(encoding="utf-8")
 spec_block = re.search(r"```text\n(g = .*?)```", spec, re.S).group(1)
 spec_metric = "".join(spec_block[len("g = "):].split())
-recited = "".join(metric.split(" (the user's")[0].split())
-check("metric_is_the_authors", recited == spec_metric and "b4[x4]" in recited,
-      "the recited metric (with b4[x4], the user's metric of 2026-10-14) equals, character for character apart from "
-      "spaces, the metric g = ... of Revision/SPEC.md section 1")
+recited = "".join(metric.split(" (the corrected")[0].split())
+check("metric_is_the_authors", recited == spec_metric and "b4[x4]" in recited and "(Sin[6 H x0]^2)^(1/6)" in metric,
+      "the recited metric (the corrected primordial metric of 2026-10-16, version 2) equals, character for character "
+      "apart from spaces, the metric g = ... of Revision/SPEC.md section 1")
 ''')
 
 # ------------------------------------------------------------------------------------------------
@@ -742,11 +746,11 @@ md(r"""
 ### 8.2 Tables of the components
 
 The next cell reads the new `lovelock-tensors.json` and first checks its structure: every
-off-diagonal component of $P_{(k)}$ except the pair $x_4$-$x_0$ is zero, every term of that pair contains
-$b_4'$ (it vanishes only for constant $b_4$), and the components are equal within each group of
-directions ($x_1 = x_2 = x_3$ and $x_5 = x_6 = x_7$). It then shows, for $k = 1, 2, 3$, the four
-independent diagonal components and the Lovelock scalar, in the LaTeX form that the program wrote
-(primes are derivatives with respect to $x_4$).
+off-diagonal component of $P_{(k)}$ is zero (the corrected metric has no mixed $x_4$-$x_0$ component, unlike the
+withdrawn metric of 2026-10-14), and the diagonal components are equal within each group of directions
+($x_1 = x_2 = x_3$, and $x_0 = x_5 = x_6 = x_7$: the hidden direction and the extra times share their scale factor).
+It then shows, for $k = 1, 2, 3$, the four independent diagonal components and the Lovelock scalar, in the LaTeX form
+that the program wrote (primes are derivatives with respect to $x_4$).
 """)
 
 code(r'''
@@ -756,16 +760,13 @@ BLOCKS = [("x0", "x0 (hidden direction)"), ("x1", "x1 = x2 = x3 (ordinary space)
           ("x5", "x5 = x6 = x7 (extra times)")]
 for k in (1, 2, 3):
     P = tensors[f"P{k}_mixed_up_h_down_j"]
-    # since 2026-10-14 the metric has b4: the x4-x0 pair is nonzero and every one of its terms carries b4' (index 9
-    # of the 13 exponents); it would vanish only for a constant b4
-    pair = [(h, j) for h in COORDS for j in COORDS if h != j and (h, j) not in (("x4", "x0"), ("x0", "x4"))]
-    off_zero = all(P[f"{h},{j}"]["monomials"] == [] for h, j in pair)
-    pair_b4p = all(P[key]["monomials"] != [] and all(m[2][9] >= 1 for m in P[key]["monomials"]) for key in ("x4,x0", "x0,x4"))
+    # the corrected metric: every off-diagonal component vanishes; x1 = x2 = x3 and x0 = x5 = x6 = x7
+    off_zero = all(P[f"{h},{j}"]["monomials"] == [] for h in COORDS for j in COORDS if h != j)
     groups_equal = all(P[f"{h},{h}"]["monomials"] == P["x1,x1"]["monomials"] for h in ("x2", "x3")) and \
-        all(P[f"{h},{h}"]["monomials"] == P["x5,x5"]["monomials"] for h in ("x6", "x7"))
-    check(f"k{k}_diagonal_and_grouped", off_zero and pair_b4p and groups_equal,
-          f"P_({k}): 54 off-diagonal components are 0; the x4-x0 and x0-x4 components are nonzero and every term "
-          f"contains b4' (it vanishes only for constant b4); x1 = x2 = x3 and x5 = x6 = x7")
+        all(P[f"{h},{h}"]["monomials"] == P["x0,x0"]["monomials"] for h in ("x5", "x6", "x7"))
+    check(f"k{k}_diagonal_and_grouped", off_zero and groups_equal,
+          f"P_({k}): all 56 off-diagonal components are 0; x1 = x2 = x3 and x0 = x5 = x6 = x7 (the record's checks "
+          f"k{k}_offdiagonal_vanishes and k{k}_hidden_equals_extra_times)")
     rows = [f"| component | $P_{{({k})}}{{}}^h{{}}_h$ |", "|---|---|"]
     for h, label in BLOCKS:
         rows.append(f"| {label} | ${P[h + ',' + h]['latex']}$ |")
@@ -785,19 +786,20 @@ The next cell turns the components into exact Python polynomials (fractions, no 
 2. $E_{(1)} = -P_{(1)}/4$ equals the Einstein tensor `einsteinMixed` that the program wrote to
    `curvature.json` from the Ricci tensor - the record's check `k1_equals_minus_4_einstein`;
 3. the density $A_{(k)}{}^{hh} = \sqrt{|\det g|}\,g^{hh}\,P_{(k)}{}^h{}_h$, with
-   $\sqrt{|\det g|} = b_4^{3/2} \sin z \cot z$ written in the program's symbols.
+   $\sqrt{|\det g|} = G\,C\,E^{-1} Q^4 W^3 = e^{-a_4} b_4^2 |\cot z| (\sin^2 z)^{1/4}$ in the program's symbols.
 
-All three are checked with every one of the thirteen symbols, that is for general $a_4(x_4)$ and $b_4(x_4)$.
+All three are checked with every one of the fourteen symbols, that is for general $a_4(x_4)$ and $b_4(x_4)$ and every
+real $z$.
 """)
 
 code(r'''
 def poly_from_monomials(monomials):
-    """Exact polynomial from the monomial lists: 13 exponents (since 2026-10-14) over the program's symbols H, the
-    first four derivatives of a4, e^a4, sin^(1/3) z, cot z, Q = b4^(1/2) and the first four derivatives of b4
-    (general a4 and b4)."""
+    """Exact polynomial from the monomial lists: 14 exponents over the program's symbols H, the first four derivatives
+    of a4, E = e^a4, W = (sin^2 z)^(1/12), C = cot z, Q = b4^(1/2), the first four derivatives of b4 and
+    G = sign(cot z) (general a4 and b4, every real z)."""
     poly = {}
     for num, den, exps in monomials:
-        assert len(exps) == 13, "13 exponents expected (format since 2026-10-14)"
+        assert len(exps) == 14, "14 exponents expected (the corrected metric, version 2)"
         key = tuple(exps)
         poly[key] = poly.get(key, Fraction(0)) + Fraction(num, den)
     return {m: c for m, c in poly.items() if c != 0}
@@ -814,15 +816,51 @@ def poly_times_monomial(a, coeff, exps):
     return {tuple(x + e for x, e in zip(m, exps)): c * coeff for m, c in a.items()}
 
 
+def split_top(text, separator):
+    """split at the separator outside brackets"""
+    out, depth, cur = [], 0, ""
+    for ch in text:
+        depth += (ch in "([") - (ch in ")]")
+        if ch == separator and depth == 0:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    return out + [cur]
+
+
+def terms_of(text):
+    """split a Mathematica sum at the top-level ' + ' and ' - '"""
+    out, depth, cur, i, t = [], 0, "", 0, text.strip()
+    while i < len(t):
+        depth += (t[i] in "([") - (t[i] in ")]")
+        if depth == 0 and t[i:i + 3] in (" + ", " - "):
+            out.append(cur)
+            cur = "-" if t[i + 1] == "-" else ""
+            i += 3
+            continue
+        cur += t[i]
+        i += 1
+    return out + [cur]
+
+
 def poly_from_mathematica(text):
-    """Parse the program's Mathematica text of a Lovelock scalar into the 13 symbols (b4[x4]^e is Q^(2e))."""
+    """Parse the program's Mathematica text of a Lovelock scalar into the 14 symbols (b4[x4]^e is Q^(2e),
+    E^(n*a4[x4]) is E^n)."""
     poly = {}
-    for sign, term in re.findall(r"(^-?|[+-] )([^+-]+?)(?= [+-] |$)", text.strip().replace("^(-", "^(~")):
-        coeff, exps = Fraction(-1 if sign.strip() == "-" else 1), [0] * 13
-        for factor in term.strip().split("*"):
-            factor = factor.replace("~", "-")
-            if factor.startswith("(") and factor.endswith(")"):
+    for term in terms_of(text):
+        term = term.strip()
+        coeff, exps = Fraction(1), [0] * 14
+        if term.startswith("-"):
+            coeff, term = Fraction(-1), term[1:]
+        for factor in split_top(term, "*"):
+            factor = factor.strip()
+            if re.fullmatch(r"\(-?\d+(/\d+)?\)", factor):
                 coeff *= Fraction(factor.strip("()"))
+                continue
+            power_of_e = re.fullmatch(r"E\^\((-?\d+)\*a4\[x4\]\)", factor)
+            if power_of_e:
+                exps[5] += int(power_of_e.group(1))
                 continue
             base, _, power = factor.partition("^")
             power = int(power.strip("()") or 1)
@@ -850,7 +888,7 @@ for k in (1, 2, 3):
     check(f"k{k}_trace_identity_python", poly_add(trace, L, Fraction(-(8 - 2 * k))) == {} and
           any(m[9] > 0 for m in L),
           f"sum_h P_({k})^h_h = (8 - {2 * k}) L_({k}) exactly for general a4 and b4 ({len(L)} terms of L_({k}), "
-          f"{sum(1 for m in L if any(m[9:]))} of them with derivatives of b4); the record's check "
+          f"{sum(1 for m in L if any(m[9:13]))} of them with derivatives of b4); the record's check "
           f"k{k}_trace_identity in Revision/gkd_lovelock/results/lovelock-report.json says the same")
 
 P1 = tensors["P1_mixed_up_h_down_j"]
@@ -862,11 +900,11 @@ check("e1_equals_einstein_python", einstein_equal,
       "-P_(1)/4 equals einsteinMixed of curvature.json in all 64 components; the record's check "
       "k1_equals_minus_4_einstein in Revision/gkd_lovelock/results/lovelock-report.json says the same")
 
-# sqrt|det g| = Q^3 S^3 C (Q = b4^(1/2)) and the inverse metric g^hh, as exponent lists over the 13 symbols (exact,
-# general b4)
-SQRT_DET = [0, 0, 0, 0, 0, 0, 3, 1, 3, 0, 0, 0, 0]
-G_INV = {"x1": (1, [0, 0, 0, 0, 0, -2, -1, 0, 0, 0, 0, 0, 0]), "x4": (-1, [0] * 13),
-         "x5": (-1, [0, 0, 0, 0, 0, 2, -1, 0, -2, 0, 0, 0, 0]), "x0": (1, [0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0])}
+# sqrt|det g| = G C E^-1 Q^4 W^3 and the inverse metric g^hh, as exponent lists over the 14 symbols (exact, general
+# a4 and b4, every real z)
+SQRT_DET = [0, 0, 0, 0, 0, -1, 3, 1, 4, 0, 0, 0, 0, 1]
+G_INV = {"x0": (1, [0, 0, 0, 0, 0, 2, 0, -2, -2, 0, 0, 0, 0, 0]), "x1": (1, [0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0]),
+         "x4": (-1, [0] * 14), "x5": (-1, [0, 0, 0, 0, 0, 2, -2, 0, -2, 0, 0, 0, 0, 0])}
 G_INV.update({"x2": G_INV["x1"], "x3": G_INV["x1"], "x6": G_INV["x5"], "x7": G_INV["x5"]})
 density_ok = True
 for k in (1, 2, 3):
@@ -884,26 +922,29 @@ md(r"""
 ### 8.4 The normalised tensors, the record of the $a_4$ and $b_4$ equations, and the history
 
 The field equations use the normalised tensors $E_{(k)} = -P_{(k)}/2^{k+1}$. The next cell computes them
-exactly and writes each component in the variables $H$, $a_4'$, $a_4''$, $u = b_4'/b_4$ and $v = u'$ (so
-$b_4''/b_4 = v + u^2$). That is possible only if every term contains $b_4$ and its derivatives in the
-combination $b_4^{(n_1)} \cdots b_4^{(n_r)}/b_4^{r}$, with no $e^{a_4}$, no $\sin z$ and no third or fourth
-derivative; the cell checks this for every component. It then compares the components with the record
-of the $a_4$ and $b_4$ equations, `Revision/field_equations_a4/a4-equations.json` (key `lovelockTensors`,
-derived there in WolframScript and sympy from the metric, with no code in common with the Rust program):
-they must be equal as polynomials.
+exactly and writes each component in the variables $H$, $a_4'$, $a_4''$, $u = b_4'/b_4$, $v = u'$ (so
+$b_4''/b_4 = v + u^2$) and $k = e^{2a_4}/b_4$. That is possible only if every term contains $b_4$ and its derivatives
+in the combination $b_4^{(n_1)} \cdots b_4^{(n_r)}/b_4^{r}$ times $k^n = e^{2na_4}/b_4^{n}$, with no other power of
+$e^{a_4}$, no $z$ and no third or fourth derivative; the cell checks this for every component. It then compares the
+components with the record of the $a_4$ and $b_4$ equations, `Revision/field_equations_a4/a4-equations.json` (key
+`lovelockTensors`, derived there in WolframScript and sympy from the metric, with no code in common with the Rust
+program): they must be equal as polynomials.
 """)
 
 code(r"""
-def to_uv(poly, allow_cot=False):
-    # a polynomial in the 13 symbols -> {(H, a4', a4'', u, v, cot z): coefficient}; None if not possible
+def to_uv(poly):
+    # a polynomial in the 14 symbols -> {(H, a4', a4'', u, v, k): coefficient}, k = e^(2 a4)/b4; None if not possible
     out = {}
     for m, c in poly.items():
-        h, a1, a2, a3, a4_, ea, sz, ct, q, b1, b2, b3, b4_ = m
-        if a3 or a4_ or ea or sz or b3 or b4_ or (ct and not allow_cot) or q != -2 * (b1 + b2):
+        h, a1, a2, a3, a4_, ea, w, ct, q, b1, b2, b3, b4_, g = m
+        if a3 or a4_ or w or ct or g or b3 or b4_ or ea % 2 or ea < 0:
             return None
-        # (b4')^b1 (b4'')^b2 / b4^(b1 + b2) = u^b1 (v + u^2)^b2
+        n = ea // 2
+        if q != -2 * (b1 + b2) - 2 * n:
+            return None
+        # (b4')^b1 (b4'')^b2 / b4^(b1 + b2) = u^b1 (v + u^2)^b2; E^(2n) Q^(-2n) = k^n
         for i in range(b2 + 1):
-            key = (h, a1, a2, b1 + 2 * i, b2 - i, ct)
+            key = (h, a1, a2, b1 + 2 * i, b2 - i, n)
             out[key] = out.get(key, Fraction(0)) + c * comb(b2, i)
     return {m: c for m, c in out.items() if c != 0}
 
@@ -916,9 +957,9 @@ def uv_add(a, b, scale=Fraction(1)):
 
 
 class RecordPolynomial(ast.NodeVisitor):
-    # the 'input' strings of a4-equations.json -> {(H, ad1, ad2, uu, vv, cc): coefficient}; only +, -, *, / by a
+    # the 'input' strings of a4-equations.json -> {(H, ad1, ad2, uu, vv, kk): coefficient}; only +, -, *, / by a
     # monomial, ^ with a non-negative integer exponent, integers and the six names are accepted
-    NAMES = {"H": 0, "ad1": 1, "ad2": 2, "uu": 3, "vv": 4, "cc": 5}
+    NAMES = {"H": 0, "ad1": 1, "ad2": 2, "uu": 3, "vv": 4, "kk": 5}
 
     def parse(self, text):
         return self.visit(ast.parse(text.replace("^", "**"), mode="eval").body)
@@ -969,24 +1010,26 @@ class RecordPolynomial(ast.NodeVisitor):
 
 
 A4EQ = load_json(REPO / "Revision" / "field_equations_a4" / "a4-equations.json")
-COMPONENTS = [("x0", "x0"), ("x1", "x1"), ("x4", "x4"), ("x5", "x5"), ("x4", "x0"), ("x0", "x4")]
+COMPONENTS = [("x0", "x0"), ("x1", "x1"), ("x4", "x4"), ("x5", "x5")]
 E = {}
 for k in (1, 2, 3):
     P = tensors[f"P{k}_mixed_up_h_down_j"]
     E[k] = {}
     for h, j in COMPONENTS:
-        E[k][(h, j)] = to_uv(poly_add({}, poly_from_monomials(P[f"{h},{j}"]["monomials"]), Fraction(-1, 2 ** (k + 1))),
-                             allow_cot=(h != j))
-    check(f"k{k}_depends_on_b4_ratios", all(E[k][c] is not None for c in COMPONENTS),
-          f"every term of the six components of E_({k}) contains b4 only as b4^(n1) ... b4^(nr)/b4^r (no third or "
-          "fourth derivative) and no e^a4, no sin z (cot z only in the pair x4-x0): E_(" + str(k) + ") is a polynomial "
-          "in H, a4', a4'', u = b4'/b4 and v = u'")
+        E[k][(h, j)] = to_uv(poly_add({}, poly_from_monomials(P[f"{h},{j}"]["monomials"]), Fraction(-1, 2 ** (k + 1))))
+    check(f"k{k}_depends_on_b4_ratios_and_k", all(E[k][c] is not None for c in COMPONENTS),
+          f"every term of the four diagonal components of E_({k}) contains b4 only as b4^(n1) ... b4^(nr)/b4^r times "
+          "k^n = e^(2 n a4)/b4^n (no third or fourth derivative, no z): E_(" + str(k) + ") is a polynomial in H, a4', "
+          "a4'', u = b4'/b4, v = u' and k = e^(2 a4)/b4")
     record = {c: RecordPolynomial().parse(A4EQ["lovelockTensors"][f"E{k}"][c[0] + c[1]]["input"]) for c in COMPONENTS}
     check(f"k{k}_equals_a4_equations_record", all(E[k][c] == record[c] for c in COMPONENTS),
-          f"the six components E_({k})^x0_x0, ^x1_x1, ^x4_x4, ^x5_x5, ^x4_x0, ^x0_x4 equal the polynomials of "
+          f"the four components E_({k})^x0_x0, ^x1_x1, ^x4_x4, ^x5_x5 equal the polynomials of "
           "Revision/field_equations_a4/a4-equations.json lovelockTensors (exact, for general a4 and b4)")
+    check(f"k{k}_hidden_equals_extra_times_python", E[k][("x0", "x0")] == E[k][("x5", "x5")],
+          f"E_({k})^x0_x0 = E_({k})^x5_x5 exactly: the hidden direction and the extra times have one component "
+          "(the record's check k" + str(k) + "_hidden_equals_extra_times)")
 
-NAMES = {0: "H", 1: "a_4'", 2: "a_4''", 3: "u", 4: "v", 5: "\\cot z"}
+NAMES = {0: "H", 1: "a_4'", 2: "a_4''", 3: "u", 4: "v", 5: "k"}
 
 
 def latex(poly):
@@ -1008,99 +1051,86 @@ def latex(poly):
     return text[2:] if text.startswith("+ ") else "-" + text[2:]
 
 
-rows = ["| $k$ | $E_{(k)}{}^{x_0}{}_{x_0}$ (hidden) | $E_{(k)}{}^{x_1}{}_{x_1}$ (ordinary space) | "
-        "$E_{(k)}{}^{x_4}{}_{x_4}$ (time) | $E_{(k)}{}^{x_5}{}_{x_5}$ (extra times) | $E_{(k)}{}^{x_4}{}_{x_0}$ |",
-        "|---|---|---|---|---|---|"]
+rows = ["| $k$ | $E_{(k)}{}^{x_0}{}_{x_0} = E_{(k)}{}^{x_5}{}_{x_5}$ (hidden, extra times) | "
+        "$E_{(k)}{}^{x_1}{}_{x_1}$ (ordinary space) | $E_{(k)}{}^{x_4}{}_{x_4}$ (time) |", "|---|---|---|---|"]
 for k in (1, 2):
-    rows.append(f"| {k} | " + " | ".join(f"${latex(E[k][c])}$" for c in COMPONENTS[:5]) + " |")
+    rows.append(f"| {k} | " + " | ".join(f"${latex(E[k][c])}$" for c in COMPONENTS[:3]) + " |")
 display(Markdown("\n".join(rows)))
-print("E_(3): " + ", ".join(f"{h}{j} {len(E[3][(h, j)])} terms" for h, j in COMPONENTS[:5]) +
+print("E_(3): " + ", ".join(f"{h}{j} {len(E[3][(h, j)])} terms" for h, j in COMPONENTS) +
       " (too long for the table; the same polynomials as a4-equations.json lovelockTensors.E3)")
 """)
 
 md(r"""
-The difference between the ordinary-space and the extra-time component of each $E_{(k)}$ contains $a_4''$,
-$u$ or $v$ in every term, so for every $k$ the two blocks agree when $a_4'' = 0$ and $b_4$ is constant (the
-withdrawn metric). On the history of the Kohn-Sham record, $a_4' = H$, $a_4'' = 0$, $u = \tfrac{4}{3} H$,
-$v = 0$, they differ for $k = 1$ and $k = 2$; for $k = 3$ they agree, and not by the value of $u$: at
-$a_4'' = v = 0$ and $a_4' = H$ the difference $E_{(3)}{}^{x_1}{}_{x_1} - E_{(3)}{}^{x_5}{}_{x_5}$ vanishes for every
-$u$ (the cell checks both). With the author's Lovelock weights $\alpha_k = w_k/H^{2k}$, $w = (1, \tfrac{1}{32},
-\tfrac{1}{1152})$ and $\Lambda = -10\,H^2$ (`a4-equations.json`, `exponentialHistory.authorWeights`; the
-author's notebook, Out[134] and Out[135]), the left side
-$\sum_k \alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda \delta^\mu{}_\nu = \kappa T^\mu{}_\nu$ evaluated on the history
-is the source that the history needs: the next cell computes it from the Rust tensors and compares it
-with the record's `historySource`, $\kappa(\rho, p_3, p_t, p_0) = (-\tfrac{2}{27}, -\tfrac{2}{9},
--\tfrac{22}{27}, -\tfrac{14}{27})\,H^2$ with $T^{x_4}{}_{x_0} = 0$. This is a statement about the computed
-polynomials (exact), not a solution of the field equations: no matter in the record has this source.
+The hidden direction and the extra times share one component; ordinary space differs from them even when $a_4'' = 0$
+and $b_4$ is constant: for $k = 1$, $E^{x_1}{}_{x_1} - E^{x_5}{}_{x_5}$ contains $-2(a_4')^2 + 3H^2 k$ besides the terms with
+$a_4''$, $u$ or $v$ (the next cell lists, for each $k$, the terms of the difference that contain none of them). With
+the author's Lovelock weights $\alpha_k = w_k/H^{2k}$, $w = (1, \tfrac{1}{32}, \tfrac{1}{1152})$ (`a4-equations.json`,
+`exponentialHistory.authorWeights`; the author's notebook, Out[134] and Out[135]), the left side
+$\sum_k \alpha_k E_{(k)}{}^\mu{}_\nu = \kappa T^\mu{}_\nu - \Lambda \delta^\mu{}_\nu$ evaluated on the history
+($a_4' = H$, $a_4'' = 0$, $u = \tfrac43 H$, $v = 0$, and $k = e^{(2/3) H x_4}$ for $b_4(0) = 1$) is the source that the
+history needs: the next cell computes it from the Rust tensors as a polynomial in $k$ and compares it with the
+record's `historySource_kappaT_minus_Lam`. This is a statement about the computed polynomials (exact), not a solution
+of the field equations: no matter in the record has this source.
 """)
 
 code(r"""
-def on_history(poly, ad1=Fraction(1), ad2=Fraction(0), uu=Fraction(4, 3), vv=Fraction(0)):
-    # the value in units H = 1 (a4' = H, a4'' = 0, u = 4H/3, v = 0); a factor cot z is kept: {cot exponent: value}
+def on_history(poly):
+    # the value in units H = 1 on the history (a4' = H, a4'' = 0, u = 4H/3, v = 0) as a polynomial in k:
+    # {k exponent: coefficient}
     total = {}
-    for (h, a1, a2, u_, v_, ct), c in poly.items():
-        total[ct] = total.get(ct, Fraction(0)) + c * ad1 ** a1 * ad2 ** a2 * uu ** u_ * vv ** v_
-    return {ct: c for ct, c in total.items() if c != 0}
+    for (h, a1, a2, u_, v_, n), c in poly.items():
+        if a2 or v_:
+            continue
+        total[n] = total.get(n, Fraction(0)) + c * Fraction(4, 3) ** u_
+    return {n: c for n, c in total.items() if c != 0}
 
 
 for k in (1, 2, 3):
     diff = uv_add(E[k][("x1", "x1")], E[k][("x5", "x5")], Fraction(-1))
-    check(f"k{k}_space_minus_extra_time_needs_a4pp_or_b4", diff != {} and all(m[2] or m[3] or m[4] for m in diff),
-          f"every one of the {len(diff)} terms of E_({k})^x1_x1 - E_({k})^x5_x5 contains a4'', u or v: the blocks "
-          "agree when a4'' = 0 and b4 is constant (the withdrawn metric)")
+    plain = {m: c for m, c in diff.items() if not (m[2] or m[3] or m[4])}
+    check(f"k{k}_space_differs_from_extra_times", diff != {} and plain != {},
+          f"E_({k})^x1_x1 - E_({k})^x5_x5 has {len(diff)} terms; those without a4'', u or v: "
+          + ", ".join(f"{c} H^{m[0]} (a4')^{m[1]} k^{m[5]}" for m, c in sorted(plain.items()))
+          + " (the blocks differ also for a4'' = 0 and constant b4)")
+
+
+def show_k(poly):
+    return " + ".join(f"({c}) k^{n}" for n, c in sorted(poly.items())) or "0"
+
+
 VALUES = {k: {c: on_history(E[k][c]) for c in COMPONENTS} for k in (1, 2, 3)}
-rows = ["| $k$ | $x_0$ | $x_1$ | $x_4$ | $x_5$ | $x_4$-$x_0$ |", "|---|---|---|---|---|---|"]
+rows = ["| $k$ | $x_0 = x_5$ | $x_1$ | $x_4$ |", "|---|---|---|---|"]
 for k in (1, 2, 3):
-    cells = [str(VALUES[k][c].get(0, Fraction(0))) for c in COMPONENTS[:4]]
-    cells.append(" + ".join(f"{v} cot z" for v in VALUES[k][("x4", "x0")].values()) or "0")
-    rows.append(f"| {k} | " + " | ".join(cells) + " |")
+    rows.append(f"| {k} | " + " | ".join(show_k(VALUES[k][c]) for c in COMPONENTS[:3]) + " |")
 display(Markdown("Values of $E_{(k)}{}^\\mu{}_\\nu / H^{2k}$ on the history $a_4' = H$, $a_4'' = 0$, $u = 4H/3$, "
-                 "$v = 0$:\n\n" + "\n".join(rows)))
-
-def at_a4p_equal_H(poly):
-    # the polynomial in u at H = 1, a4' = 1, a4'' = 0, v = 0: {u exponent: coefficient}
-    out = {}
-    for (h, a1, a2, u_, v_, ct), c in poly.items():
-        if a2 == 0 and v_ == 0:
-            out[(u_, ct)] = out.get((u_, ct), Fraction(0)) + c
-    return {m: c for m, c in out.items() if c != 0}
-
-
-gaps = {k: uv_add(E[k][("x1", "x1")], E[k][("x5", "x5")], Fraction(-1)) for k in (1, 2, 3)}
-check("blocks_on_the_history",
-      VALUES[1][("x1", "x1")] != VALUES[1][("x5", "x5")] and VALUES[2][("x1", "x1")] != VALUES[2][("x5", "x5")]
-      and VALUES[3][("x1", "x1")] == VALUES[3][("x5", "x5")] and at_a4p_equal_H(gaps[3]) == {}
-      and at_a4p_equal_H(gaps[1]) != {} and at_a4p_equal_H(gaps[2]) != {},
-      "on the history the ordinary-space and extra-time components (units H^(2k)) differ for k = 1 ("
-      f"{VALUES[1][('x1', 'x1')][0]} against {VALUES[1][('x5', 'x5')][0]}) and k = 2 ({VALUES[2][('x1', 'x1')][0]} "
-      f"against {VALUES[2][('x5', 'x5')][0]}) and agree for k = 3 ({VALUES[3][('x1', 'x1')][0]}); at a4'' = v = 0, "
-      "a4' = H the difference E_(3)^x1_x1 - E_(3)^x5_x5 vanishes for every u, those of k = 1 and 2 do not")
+                 "$v = 0$, as polynomials in $k = e^{2a_4}/b_4$:\n\n" + "\n".join(rows)))
 
 weights = A4EQ["exponentialHistory"]["authorWeights"]
 assert "w = (1, 1/32, 1/1152), Lam = -10" in weights["weights"], weights["weights"]
 W = {1: Fraction(1), 2: Fraction(1, 32), 3: Fraction(1, 1152)}
-LAM = Fraction(-10)
 total = {}
 for c in COMPONENTS:
     t = {}
     for k in (1, 2, 3):
-        for ct, value in VALUES[k][c].items():
-            t[ct] = t.get(ct, Fraction(0)) + W[k] * value
-    if c[0] == c[1]:
-        t[0] = t.get(0, Fraction(0)) + LAM
-    total[c] = {ct: value for ct, value in t.items() if value != 0}
-source = {"rho": -total[("x4", "x4")].get(0, Fraction(0)), "p3": total[("x1", "x1")].get(0, Fraction(0)),
-          "p_t": total[("x5", "x5")].get(0, Fraction(0)), "p0": total[("x0", "x0")].get(0, Fraction(0))}
-print("kappa (rho, p3, p_t, p0) / H^2 on the history, from the Rust tensors:",
-      ", ".join(f"{name} = {value}" for name, value in source.items()))
-print("kappa T^x4_x0 and kappa T^x0_x4 on the history:", total[("x4", "x0")] or 0, "and", total[("x0", "x4")] or 0)
-expected = (Fraction(-2, 27), Fraction(-2, 9), Fraction(-22, 27), Fraction(-14, 27))
-check("history_source_from_the_gkd_tensors",
-      tuple(source.values()) == expected and not total[("x4", "x0")] and not total[("x0", "x4")]
-      and "(-2/27, -2/9, -22/27, -14/27)" in weights["historySource"],
-      "with the author's weights, sum_k alpha_k E_(k) + Lambda on the history a4 = H x4, b4 = b4(0) e^((4/3) H x4) "
-      "gives kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27) H^2 and kappa T^x4_x0 = kappa T^x0_x4 = 0, the "
-      "historySource of a4-equations.json exponentialHistory.authorWeights: a constant source, not the Kohn-Sham gas")
+        for n, value in VALUES[k][c].items():
+            t[n] = t.get(n, Fraction(0)) + W[k] * value
+    total[c] = {n: value for n, value in t.items() if value != 0}
+
+
+def record_in_k(text):
+    p = RecordPolynomial().parse(text)
+    assert all(m[:5] == (0, 0, 0, 0, 0) for m in p)
+    return {m[5]: c for m, c in p.items()}
+
+
+SOURCE = weights["historySource_kappaT_minus_Lam"]
+pairs = (("minus_rho", ("x4", "x4")), ("p3", ("x1", "x1")), ("pt", ("x5", "x5")), ("p0", ("x0", "x0")))
+for name, c in pairs:
+    print(f"kappa T - Lambda delta, {name:9s} from the Rust tensors: {show_k(total[c])}")
+check("history_source_from_the_gkd_tensors", all(total[c] == record_in_k(SOURCE[name]["input"]) for name, c in pairs),
+      "with the author's weights, sum_k alpha_k E_(k) on the history a4 = H x4, b4 = b4(0) e^((4/3) H x4) equals the "
+      "historySource_kappaT_minus_Lam of a4-equations.json exponentialHistory.authorWeights (minus_rho, p3, pt, p0 as "
+      "polynomials in k = e^(2 a4)/b4, exact): an anisotropic source that grows with k, not the Kohn-Sham gas")
 """)
 
 # ------------------------------------------------------------------------------------------------
@@ -1132,14 +1162,14 @@ print(f"Revision/gkd_lovelock/results/wolfram-gkd-report.json    {wolfram_record
       f"{wolfram_record['failedCheckCount']:6d}  {wolfram_record['verdict']}   (expected {wolfram_record['expectedCheckCount']})")
 print()
 check("rust_record_counts", (record_report["checkCount"], record_report["failedCheckCount"], record_report["verdict"])
-      == (19, 0, "SUCCESS"), "lovelock-report.json: checkCount 19, failedCheckCount 0, verdict SUCCESS")
-check("rust_new_run_all_pass", (new_report["checkCount"], new_report["failedCheckCount"]) == (19, 0)
+      == (27, 0, "SUCCESS"), "lovelock-report.json: checkCount 27, failedCheckCount 0, verdict SUCCESS")
+check("rust_new_run_all_pass", (new_report["checkCount"], new_report["failedCheckCount"]) == (27, 0)
       and all(c["passed"] for c in new_report["checks"].values()) and
       list(new_report["checks"]) == list(record_report["checks"]),
-      "the new run has the same 19 checks as the record, all passed")
+      "the new run has the same 27 checks as the record, all passed")
 check("python_record_counts", (python_record["checkCount"], python_record["failedCheckCount"], python_record["verdict"])
-      == (49, 0, "SUCCESS") and sum(c["verdict"] == "PASS" for c in python_record["checks"]) == 49,
-      "python-lovelock-report.json: checkCount 49, failedCheckCount 0, verdict SUCCESS, 49 checks with verdict PASS")
+      == (56, 0, "SUCCESS") and sum(c["verdict"] == "PASS" for c in python_record["checks"]) == 56,
+      "python-lovelock-report.json: checkCount 56, failedCheckCount 0, verdict SUCCESS, 56 checks with verdict PASS")
 check("wolfram_record_counts",
       (wolfram_record["checkCount"], wolfram_record["expectedCheckCount"], wolfram_record["failedCheckCount"],
        wolfram_record["verdict"]) == (29, 29, 0, "SUCCESS")
@@ -1167,11 +1197,13 @@ polynomials of section 8, the counters of the program's report) and is also save
 
 Left: the scale factors of the directions along $x_4$ on the history of the Kohn-Sham record,
 $a_4 = H x_4$, $b_4 = b_4(0)\,e^{(4/3) H x_4}$, in units $H = 1$ and with $b_4(0) = 1$ (a choice for the picture;
-the notebook does not solve for $a_4$ or $b_4$), at a fixed point of the hidden direction where $\sin z = 1$.
-Ordinary space grows like $e^{a_4}$, each extra time shrinks like $e^{-a_4} b_4^{1/2} = e^{-x_4/3}$, the time
-direction stays fixed, and the product of the six space and extra-time factors is $b_4^{3/2} = e^{2 x_4}$.
-Right: the dependence on the hidden coordinate through $z = 6 H x_0$: the common warp $\sin^{1/6} z$, the
-hidden-direction scale factor $\cot z$, and the volume factor $\sqrt{|\det g|} = b_4^{3/2}\cos z$ at $x_4 = 0$.
+the notebook does not solve for $a_4$ or $b_4$), at a point of the hidden direction where $\sin^2 z = 1$ (for the
+extra times) and $|\cot z| = 1$ (for the hidden direction). Ordinary space grows like $e^{a_4}$; each extra time and the
+hidden direction shrink like $f = e^{-a_4} b_4^{1/2} = e^{-x_4/3}$; the time direction stays fixed; the proper
+7-volume of a cell grows like $e^{3a_4} f^4 = e^{-a_4} b_4^2 = e^{5 x_4/3}$. Right: the dependence on the hidden
+coordinate through $z = 6 H x_0$ over one period $0 < z < \pi$ (every real $z$ repeats it): the warp
+$(\sin^2 z)^{1/12}$ of the extra times, the factor $|\cot z|$ of the hidden direction, and the volume factor
+$\sqrt{|\det g|} = e^{-a_4} b_4^2 |\cot z| (\sin^2 z)^{1/4}$ at $x_4 = 0$.
 """)
 
 code(r'''
@@ -1188,21 +1220,23 @@ a4 = x4
 b4 = np.exp(4 * x4 / 3)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.2))
 ax1.semilogy(x4, np.exp(a4), lw=2, label=r"ordinary space $x_1, x_2, x_3$: $e^{a_4}$")
-ax1.semilogy(x4, np.exp(-a4) * np.sqrt(b4), lw=2, label=r"extra times $x_5, x_6, x_7$: $e^{-a_4} b_4^{1/2} = e^{-x_4/3}$")
+ax1.semilogy(x4, np.exp(-a4) * np.sqrt(b4), lw=2,
+             label=r"extra times and hidden direction: $f = e^{-a_4} b_4^{1/2} = e^{-x_4/3}$")
 ax1.semilogy(x4, np.ones_like(x4), lw=2, ls="--", label=r"time $x_4$: 1")
-ax1.semilogy(x4, np.exp(3 * a4) * (np.exp(-a4) * np.sqrt(b4)) ** 3, lw=1, ls=":", color="k",
-             label=r"product of the six factors: $b_4^{3/2} = e^{2 x_4}$")
+ax1.semilogy(x4, np.exp(-a4) * b4 ** 2, lw=1, ls=":", color="k",
+             label=r"proper 7-volume: $e^{-a_4} b_4^2 = e^{5 x_4/3}$")
 ax1.set_xlabel(r"$x_4$  ($a_4 = x_4$, $b_4 = e^{4 x_4/3}$: $a_4' = 1$, $u = 4/3$)")
-ax1.set_ylabel("scale factor (at sin z = 1)")
+ax1.set_ylabel("scale factor")
 ax1.set_title("inflating space, deflating extra times")
 ax1.legend(fontsize=8, loc="upper left")
 ax1.grid(True, which="both", alpha=0.3)
-z = np.linspace(0.02, np.pi / 2 - 0.02, 400)
-ax2.plot(z, np.sin(z) ** (1 / 6), lw=2, label=r"warp $\sin^{1/6} z$ (factor of $x_1 \dots x_3$, $x_5 \dots x_7$)")
-ax2.plot(z, 1 / np.tan(z), lw=2, label=r"hidden direction $\sqrt{g_{00}} = \cot z$")
-ax2.plot(z, np.cos(z), lw=2, ls="--", label=r"$\sqrt{|\det g|} = b_4^{3/2} \cos z$ at $x_4 = 0$")
+z = np.linspace(0.02, np.pi - 0.02, 600)
+ax2.plot(z, (np.sin(z) ** 2) ** (1 / 12), lw=2, label=r"warp $(\sin^2 z)^{1/12}$ (factor of $x_5, x_6, x_7$)")
+ax2.plot(z, np.abs(1 / np.tan(z)), lw=2, label=r"hidden direction $|\cot z|$ (times $f$)")
+ax2.plot(z, np.abs(1 / np.tan(z)) * (np.sin(z) ** 2) ** 0.25, lw=2, ls="--",
+         label=r"$\sqrt{|\det g|} = e^{-a_4} b_4^2 |\cot z| (\sin^2 z)^{1/4}$ at $x_4 = 0$")
 ax2.set_ylim(0, 3)
-ax2.set_xlabel(r"$z = 6 H x_0$")
+ax2.set_xlabel(r"$z = 6 H x_0$ (one period; the fold at $z = \pi/2$)")
 ax2.set_title("the hidden direction")
 ax2.legend(fontsize=8, loc="upper right")
 ax2.grid(True, alpha=0.3)
@@ -1213,30 +1247,31 @@ save_and_show(fig, "figure1_scale_factors.png")
 md(r"""
 ### 10.2 Figure 2: the normalised Lovelock components
 
-The four diagonal components of $E_{(k)}$, in units of $H^{2k}$, as functions of $a_4'/H$, for
+The three independent diagonal components of $E_{(k)}$, in units of $H^{2k}$, as functions of $a_4'/H$, for
 $k = 1, 2, 3$, along the family $b_4 = b_4(0)\,e^{(4/3) a_4}$ of the Kohn-Sham record's history ($u = \tfrac{4}{3} a_4'$,
-$v = \tfrac{4}{3} a_4''$). Top row: $a_4'' = 0$, the dotted vertical line marks the history $a_4' = H$; the
-ordinary-space, extra-time and hidden-direction curves are separate (section 8.4: they would coincide
-only for constant $b_4$). Bottom row: $a_4'' = 0.5\,H^2$.
+$v = \tfrac{4}{3} a_4''$), at the instant where $k = e^{2a_4}/b_4 = 1$ (the start of the history, $b_4(0) = 1$). Top row:
+$a_4'' = 0$, the dotted vertical line marks the history $a_4' = H$; the ordinary-space and the hidden/extra-time curves
+are separate (section 8.4). Bottom row: $a_4'' = 0.5\,H^2$.
 """)
 
 code(r'''
-def evaluate(poly, h, a1, a2):
-    # on the family b4 = b4(0) e^((4/3) a4): u = (4/3) a4', v = (4/3) a4''
+def evaluate(poly, h, a1, a2, kk=1.0):
+    # on the family b4 = b4(0) e^((4/3) a4): u = (4/3) a4', v = (4/3) a4''; k = e^(2 a4)/b4 fixed (kk)
     total = 0.0
     for m, c in poly.items():
-        total = total + float(c) * h ** m[0] * a1 ** m[1] * a2 ** m[2] * (4 * a1 / 3) ** m[3] * (4 * a2 / 3) ** m[4]
+        total = total + float(c) * h ** m[0] * a1 ** m[1] * a2 ** m[2] * (4 * a1 / 3) ** m[3] * (4 * a2 / 3) ** m[4] \
+            * kk ** m[5]
     return total
 
 
 u = np.linspace(0.0, 3.0, 301)
 STYLE = {"x1": ("ordinary space $x_1$", "-", 3.0), "x4": ("time $x_4$", "-", 2.0),
-         "x5": ("extra times $x_5$", "--", 2.0), "x0": ("hidden $x_0$", ":", 2.0)}
+         "x0": ("hidden $x_0$ = extra times $x_5$", "--", 2.0)}
 fig, axes = plt.subplots(2, 3, figsize=(12, 7), sharex=True)
 for row, a2 in enumerate((0.0, 0.5)):
     for col, k in enumerate((1, 2, 3)):
         ax = axes[row][col]
-        for h in ("x0", "x1", "x4", "x5"):
+        for h in ("x0", "x1", "x4"):
             label, ls, lw = STYLE[h]
             ax.plot(u, evaluate(E[k][(h, h)], 1.0, u, a2), ls=ls, lw=lw, label=label)
         ax.axhline(0.0, color="k", lw=0.5)
@@ -1247,8 +1282,8 @@ for row, a2 in enumerate((0.0, 0.5)):
         if row == 1:
             ax.set_xlabel(r"$a_4' / H$")
 axes[0][0].legend(fontsize=8)
-fig.suptitle("diagonal components of the normalised Lovelock tensors on the family b4 = b4(0) exp(4 a4 / 3) "
-             "(exact polynomials, evaluated)")
+fig.suptitle("diagonal components of the normalised Lovelock tensors on the family b4 = b4(0) exp(4 a4 / 3), "
+             "k = e^(2 a4)/b4 = 1 (exact polynomials, evaluated)")
 fig.tight_layout()
 save_and_show(fig, "figure2_lovelock_components.png")
 ''')
@@ -1326,26 +1361,22 @@ md(r"""
   index lists of length 1, 2 and 3 over eight values (computed here in Python), with the same counts
   of $+1$, $-1$ and $0$ as the committed Rust and Wolfram records.
 - A new run of the program reproduces the four committed result files of
-  `Revision/gkd_lovelock/results/` byte for byte, with all 19 of its checks passed; the committed
-  sympy verification (49 checks) and Wolfram verification (29 checks) report success on input files
+  `Revision/gkd_lovelock/results/` byte for byte, with all 27 of its checks passed; the committed
+  sympy verification (56 checks) and Wolfram verification (29 checks) report success on input files
   whose sha256 fingerprints equal those of the files produced here.
-- For the author's metric with $b_4(x_4)$ the mixed Lovelock tensors of order 1, 2 and 3 are diagonal
-  except for the pair $x_4$-$x_0$, which is proportional to $b_4'$; they are equal within ordinary space and
-  within the extra times, free of the warp $\sin^{1/3} z$, and depend only on $H$, $a_4'$, $a_4''$,
-  $u = b_4'/b_4$ and $v = u'$ (and $\cot z$ in the pair); the trace identities, $E_{(1)} = G$ and the density
-  form were re-checked exactly in Python for general $a_4$ and $b_4$, and every component equals the record
-  of the $a_4$ and $b_4$ equations (`a4-equations.json`). The ordinary-space and extra-time components
-  agree for $a_4'' = 0$ and constant $b_4$; on the history $a_4 = H x_4$, $b_4 = b_4(0) e^{(4/3) H x_4}$ they
-  differ for $k = 1, 2$ and agree for $k = 3$ (at $a_4' = H$ for every $u$), and with the author's weights the
-  tensors give exactly the constant source
-  $\kappa(\rho, p_3, p_t, p_0) = (-\tfrac{2}{27}, -\tfrac{2}{9}, -\tfrac{22}{27}, -\tfrac{14}{27}) H^2$ that this
-  history needs.
+- For the corrected metric (version 2) the mixed Lovelock tensors of order 1, 2 and 3 are diagonal, equal within
+  ordinary space, equal for the hidden direction and the three extra times, free of $z$ for every real $z$, and depend
+  only on $H$, $a_4'$, $a_4''$, $u = b_4'/b_4$, $v = u'$ and $k = e^{2a_4}/b_4$; the trace identities,
+  $E_{(1)} = G$ and the density form were re-checked exactly in Python for general $a_4$ and $b_4$, and every
+  component equals the record of the $a_4$ and $b_4$ equations (`a4-equations.json`). With the author's weights the
+  tensors give, on the history $a_4 = H x_4$, $b_4 = b_4(0) e^{(4/3) H x_4}$, exactly the source of the record: an
+  anisotropic source, a polynomial in $k = e^{(2/3) H x_4}$ that grows along the history.
 
 **Did not show.**
 
 - It does not solve the field equations for $a_4$ and $b_4$: the Lovelock tensors are only their left
   sides; the history of Figure 1 and section 8.4 is the PRESCRIBED background of the Kohn-Sham record, and
-  the source it needs is a constant that no recorded matter provides
+  the source it needs is not provided by any recorded matter
   (`Revision/field_equations_a4/reports/ks-source-conditions.json`).
 - It does not re-run the sympy and Wolfram verifications; it reads their committed reports and
   checks the fingerprints of their inputs.
