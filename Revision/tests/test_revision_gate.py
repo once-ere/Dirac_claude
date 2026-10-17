@@ -30,7 +30,9 @@ Line endings: every file tracked under Revision/ is stored with LF only (Revisio
 git ls-files --eol shows no i/crlf or i/mixed).
 With REVISION_GATE_FULL=1 the gate itself runs with --fast (about 20 min on the development machine on
 2026-10-08; since 2026-10-14 --fast also runs the Kohn-Sham reference, the cross-check, the tip-cutoff study and
-the T3 demonstrations, split into steps of at most 5 minutes: about 110 min by the step table;
+the T3 demonstration with the reference solver, split into steps of at most 5 minutes (the T3 demonstration with the
+Rust solver and the refined-tolerance Kohn-Sham run are long by choice and skipped): about 170 min by the step table of
+2026-10-17;
 REVISION_GATE_TWIN=pwsh runs the PowerShell twin instead of the bash twin) and must end with
 revision_verification=OK.  The gate removes REVISION_GATE_FULL before its own unit-test
 step, so it never runs itself recursively.
@@ -412,7 +414,7 @@ class FailurePathTests(unittest.TestCase):
         return os.path.join(root, "Revision", twin)
 
 
-@unittest.skipUnless(FULL, "set REVISION_GATE_FULL=1 to run the gate with --fast (about 110 min)")
+@unittest.skipUnless(FULL, "set REVISION_GATE_FULL=1 to run the gate with --fast (about 170 min)")
 class FullGateTest(unittest.TestCase):
     def test_gate_fast(self):
         if os.environ.get("REVISION_GATE_TWIN") == "pwsh":

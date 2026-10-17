@@ -46,7 +46,8 @@
 #
 # Steps (dependency order; expected wall time on the development machine, Windows 11, 24 threads, from the
 # folder READMEs and provenance files or measured by this gate on 2026-10-08, the steps of the metric with b4 and
-# the split Kohn-Sham steps measured on 2026-10-14; "long" = skipped by --fast):
+# the split Kohn-Sham steps measured on 2026-10-14, the split T3 demonstrations and dark-sector history steps
+# measured on 2026-10-17; "long" = skipped by --fast):
 #   algebra-wolfram                       10 s
 #   algebra-sympy                          5 s
 #   gkd-rust-build                        60 s
@@ -150,7 +151,13 @@
 #   t3-rust-demo-part3                    80 s  long
 #   t3-rust-demo-part4                    70 s  long
 #   t3-rust-demo                           5 s  long
-#   t3-reference-demo                    170 s
+#   t3-reference-demo-part1              220 s
+#   t3-reference-demo-part2              170 s
+#   t3-reference-demo-part3               80 s
+#   t3-reference-demo-part4              125 s
+#   t3-reference-demo-part5              115 s
+#   t3-reference-demo-part6               95 s
+#   t3-reference-demo                      5 s
 #   t3-completion-sympy                   10 s
 #   dark16-derive                         10 s
 #   dark16-ks-history-part1               25 s
@@ -225,7 +232,9 @@
 # cross-check's own reference repeat runs the same way into the separate cache build/revision/ks-crosscheck-cache,
 # which ks-crosscheck passes to the repeat (--repeat-cache); the tip study runs its stages scan and recal in parts and
 # then final in its work folder build/revision/ks-tip-convergence; the Kohn-Sham history of the dark sector runs its
-# parts into build/revision/ks-history-work, which dark16-ks-history assembles.
+# parts into build/revision/ks-history-work, which dark16-ks-history assembles; the T3 demonstrations run their
+# parts into build/revision/t3-rust-demo (four parts, assembled by t3-rust-demo with --reuse) and
+# build/revision/t3-reference-demo (six parts, assembled by t3-reference-demo with --reuse).
 
 if ($PSVersionTable.PSEdition -ne "Core") {
     $pwshCommand = Get-Command pwsh -CommandType Application -ErrorAction SilentlyContinue |
@@ -411,7 +420,13 @@ t3-rust-demo-part2|95|1|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_ru
 t3-rust-demo-part3|80|1|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10 --part 3/4
 t3-rust-demo-part4|70|1|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10 --part 4/4
 t3-rust-demo|5|1|-|Revision/pairing/kohn_sham/reports/t3-rust-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-rust-states.csv|Revision/pairing/kohn_sham/reports/t3-rust-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_rust_demo.py --solver {ks_solver} --work build/revision/t3-rust-demo --jobs 10 --reuse
-t3-reference-demo|170|0|-|Revision/pairing/kohn_sham/reports/t3-reference-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-reference-states.csv|Revision/pairing/kohn_sham/reports/t3-reference-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22
+t3-reference-demo-part1|220|0|build/revision/t3-reference-demo|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22 --work build/revision/t3-reference-demo --part 1/6
+t3-reference-demo-part2|170|0|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22 --work build/revision/t3-reference-demo --part 2/6
+t3-reference-demo-part3|80|0|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22 --work build/revision/t3-reference-demo --part 3/6
+t3-reference-demo-part4|125|0|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22 --work build/revision/t3-reference-demo --part 4/6
+t3-reference-demo-part5|115|0|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22 --work build/revision/t3-reference-demo --part 5/6
+t3-reference-demo-part6|95|0|-|-|-|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22 --work build/revision/t3-reference-demo --part 6/6
+t3-reference-demo|5|0|-|Revision/pairing/kohn_sham/reports/t3-reference-demo.json,Revision/pairing/kohn_sham/numerics/results/t3-reference-states.csv|Revision/pairing/kohn_sham/reports/t3-reference-demo.json|{python} Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22 --work build/revision/t3-reference-demo --reuse
 t3-completion-sympy|10|0|-|Revision/pairing/kohn_sham/reports/python-t3-completion.json|Revision/pairing/kohn_sham/reports/python-t3-completion.json|{python} Revision/pairing/kohn_sham/python/check_t3_completion.py
 dark16-derive|10|0|-|Revision/dark_sector/dirac16complex/outputs/effective-formulas.json,Revision/dark_sector/dirac16complex/reports/derivation-checks.json|Revision/dark_sector/dirac16complex/reports/derivation-checks.json|{python} Revision/dark_sector/dirac16complex/derive/derive_effective.py
 dark16-ks-history-part1|25|0|build/revision/ks-history-work|-|-|{python} Revision/dark_sector/dirac16complex/compute/run_ks_history.py --solver {ks_solver} --jobs 22 --work build/revision/ks-history-work --part 1/3

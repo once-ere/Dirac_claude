@@ -60,7 +60,7 @@ outputs as one run would), because on the matrix of the corrected metric one inv
 of 423 s of one calculation (`claude_failures.md` H18). Run times on the development machine, 2026-10-17: the T3
 verifiers 5.8 s and 1.3 s, the completion 2.9 s and 0.9 s; the Rust demonstration 630 `single` runs with `--jobs 10`
 in four parts of 88, 91, 76 and 67 s and an assembly of 2 s; the reference demonstration (54 members on three grids,
-`--jobs 22`, one BLAS thread per process) @@REF_TIMES@@.
+`--jobs 22`, one BLAS thread per process) in six parts of 219, 170, 78, 122, 115 and 91 s (the 162 grid runs, 18 states x plus, image, control x G = 300, 600, 1200, assigned longest-first by an estimated cost) and an assembly of 2 s.
 
 ## The theorem
 
@@ -127,7 +127,7 @@ tip theta = pi); control = (-m, +lambda) with the UNtransformed tip theta = 0. N
   single grid the two discretisations differ by up to 1.81e-4 (the image frame is not the discrete image of the plus
   frame: this equality is the discretisation-independent test, a continuum statement). With the untransformed tip the
   density profile differs by at least 3.776 of its maximum (N592_lamp2_a00) in all 18 states. The -M universe of the
-  reference and of the Rust solver agree to 7.311e-11 (N592_lamp1_a20_T50). @@REF_REPEAT@@
+  reference and of the Rust solver agree to 7.311e-11 (N592_lamp1_a20_T50). The six-part run of 2026-10-17 (the grid split) and the earlier four-part run (one member per task) wrote byte-identical `reports/t3-reference-demo.json` and `numerics/results/t3-reference-states.csv`: the outputs do not depend on how the work is divided.
 
 ## What is not established
 
