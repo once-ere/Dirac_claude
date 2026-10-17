@@ -583,8 +583,9 @@ to 6.4).
   `C:\Users\<you>\AppData\Local\Wolfram\WolframScript\WolframScriptTemporary`), each named `tmp_` followed
   by 10 random letters and digits (for example `tmp_NnpCUtx4xQ`): an empty one right when it starts (20 to
   45 ms after the start), and one that receives the printed output while the checks run (2.09 to 2.51 s after
-  the start; at the end 354 bytes for `verify_t3.wls` when the time is printed as `0.4` or `0.5`, other
-  lengths for other printed times, and 141 bytes for the completion). It deletes both when the run ends
+  the start; at the end 354 bytes for the 10-check `verify_t3.wls` of 2026-10-08 when the time is printed as
+  `0.4` or `0.5`, other lengths for other printed times, and 141 bytes for the completion, measured on
+  2026-10-08, section 6.5; not re-measured for the 9-check version). It deletes both when the run ends
   normally. If a run is interrupted, the empty file remains (seen after every kill test of 2026-10-08), and a
   partly filled output file can remain too (seen on 2026-10-02: a 166-byte file with the first six `PASS`
   lines after a kill 3 s after the start); they are harmless and may be deleted by hand. The same folder may
@@ -626,12 +627,13 @@ Sections 6.1 to 6.4 are the record of the EARLIER version of `verify_t3.wls` (sh
 `ea6c436f667c465727967c8b9664e2425227be0d71a55ca36a36e13a3da497d8`, 207 lines, 23070 bytes; its report
 `wolfram-t3.json` then had sha256 `904fd1dcb77a6772f7ef21dcabe10d194d8086f509e17df54830bd7f7fb999ab`, 19
 lines, 6448 bytes); they are kept unchanged as history. Where they say "section 2" they mean those values
-(the theorem record `t3-theory.json` and the two inputs are unchanged since). Where they discuss the `v_v`
-term of check 6 (line 79), they describe the defect fixed in section 6.5. The completion script did not
-exist then. Section 6.5 is the verification of the whole set in the version before the normalisation of
+(the theorem record `t3-theory.json` and the two inputs were unchanged until 2026-10-14). Where they discuss
+the `v_v` term of check 6 (line 79), they describe the defect fixed in section 6.5. The completion script did
+not exist then. Section 6.5 is the verification of the whole set in the version before the normalisation of
 section 6.6 (`verify_t3.wls` sha256 `0cde8c8f36914fbdcc991e11ae44bf26a17f7177d9c9757e58a37cd29ab787c8`,
 `verify_t3_completion.wls` sha256 `35605f5c29bb7e44a7ec10dd6f4e34f3aa5bec37c12d3bc9cd2fc1537fb2d227`; inputs and
-outputs as in section 2); section 6.6 records the current version of the two scripts.
+outputs as in section 2 at that time (sections 6.5 and 6.6)); sections 6.6 to 6.10 record the later versions;
+section 2 gives the current one.
 
 ### 6.1 First verification
 
@@ -952,7 +954,7 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   of the coefficient read from `ks-theory.json` (the same function enters the energy-momentum profiles of
   check 7), and the coefficient fields are compared with the stated formulas `Meff` and `vv` as the
   completion does. Result: the script verified in this section (sha256 `0cde8c8f...87c8`, 250 lines, 27280
-  bytes; section 2.1 now gives the version of section 6.6).
+  bytes; section 2.1 gives the current version, section 6.10).
 - The first negative tests of the earlier, interrupted attempt (07:29) were INVALID and are not used: they
   edited `ks-theory.json` with `sed` on `"15/16"`, but the file writes `"15\/16"`, so nothing was changed
   (the edit counter printed `0`) and the 10/10 of those runs proves nothing. They were redone (next item).
@@ -1170,14 +1172,14 @@ with section 6.3 had already been committed. Each point was re-checked in fresh 
   the `Revision` folder of the repository (used to run on a copy); their outputs are always written in
   `Revision/pairing/kohn_sham/` and its `reports/` folder (section 2.1). `check_t3.py` and `check_t3_completion.py`
   (the sympy twins): the same changes; `check_t3_completion.py` now requires 9 and 12 checks of the T3 reports.
-* sha256 (2026-10-17): `verify_t3.wls` `f05c2e7ee0b5f95015f2dad82c453419af29c7b5fad754f4438653f4eb991f94` (245 lines, 27691 bytes) (before
+* sha256 (2026-10-17; the versions of the runs below, before the text-only corrections of section 6.10): `verify_t3.wls` `f05c2e7ee0b5f95015f2dad82c453419af29c7b5fad754f4438653f4eb991f94` (245 lines, 27691 bytes) (before
   `8ab3941140fa52e692ae34eb813963fedd4b0fc8fc76a85ae5c7dad3a3fd194e`), `verify_t3_completion.wls`
   `aef4bcf3f7e54949bcb9e3655c8d4a221b5259a7544e141427a1279c3b8bb74f` (142 lines, 19061 bytes); inputs `ks-theory.json`
   `34f7fa2a4543fd9192dbcf23592d57e60506fed862ab63505873c2965ca6de98` (484 lines, 21739 bytes), `gammas.json` `c99277bab4793c425bc26849421995fcb5aa8b2c865c0f505686a43654933c3c` (1405 lines, 76894 bytes); outputs
   `t3-theory.json` `e2ba471cf17b44b04fb4ecf0ed1c9d9d44d335fd05aebce2fdee502b4bdd9720` (53 lines, 7313 bytes), `reports/wolfram-t3.json`
   `771c8ecb9a8e96df65d8a664a8f6b26d8beba0bab31d01abd6eea54ed6b4032c` (18 lines, 6946 bytes), `t3-completion.json`
   `74c0f9adeb9d8c92ab7d1b7f3d7f61af8ff90d9ee827d0c8a4db3899be737909` (38 lines, 8165 bytes), `reports/wolfram-t3-completion.json`
-  `45e4690e475bfe8b40b866407cfaa18eff7c109652ee8dea91db0d3080c699d0` (12 lines, 3374 bytes); downstream (section 2.4):
+  `45e4690e475bfe8b40b866407cfaa18eff7c109652ee8dea91db0d3080c699d0` (12 lines, 3374 bytes); downstream at these runs:
   `check_t3.py` `b165f3b9a6ead95418e3b0c5d65fc4a47712747e094f3027da41fa9446f0f4cb` (316 lines, 20456 bytes),
   `check_t3_completion.py` `64ad17e374773467b6221364a4faebfb8b723d2f20297356f19e190d3fe35eff` (230 lines, 14780 bytes),
   `reports/python-t3.json` `4f78bb0a1a92c765b879ef9b7cf660dc9dd9f229e8c71b1ba173da90fe412d3a` (80 lines, 7523 bytes),
