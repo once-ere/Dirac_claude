@@ -36,7 +36,7 @@
 		{
 			"name":"D7_branch_required_source",
 			"verdict":"PASS",
-			"detail":"on a4 = H x4, b4 = c E^((4\/3) H x4) the author's left-hand side kappa T^mu_nu is diagonal and constant: kappa (rho, p3, p_t, p0) = {-2\/27, -2\/9, -22\/27, -14\/27}, equal to dirac16complex00\/eos-theory.json (condensate.branchRequiredSource) {-2\/27, -2\/9, -22\/27, -14\/27}"
+			"detail":"on a4 = H x4, b4 = c E^((4\/3) H x4) the author's left-hand side kappa T^mu_nu is diagonal and constant: kappa (rho, p3, p_t, p0) = {-2\/27, -2\/9, -22\/27, -14\/27}, equal to reference_2026_10_14\/eos-theory-b4.json (condensate.branchRequiredSource, the frozen record of the withdrawn metric) {-2\/27, -2\/9, -22\/27, -14\/27}"
 		},
 		{
 			"name":"D8_condensate_drift",
