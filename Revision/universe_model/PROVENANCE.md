@@ -1,7 +1,8 @@
 # UM-1 provenance: where every ingredient of the universe model comes from
 
-Version 1.2 of 2026-10-17, for `MODEL.md` (the model), `FIELD_EQUATIONS.md` (its field equations), `SOLUTION.md` (an
-approximate solution) and `ANALYSIS.md` (the analysis of the mass mechanism and of the dark associations, section 7). Repository `https://github.com/once-ere/Dirac_claude`, folder `Revision/universe_model/`;
+Version 1.3 of 2026-10-17, for `MODEL.md` (the model), `FIELD_EQUATIONS.md` (its field equations), `SOLUTION.md` (an
+approximate solution), `ANALYSIS.md` (the analysis of the mass mechanism and of the dark associations, section 7) and
+`GAPS.md` (the gaps closed in version 1.3, section 8). Repository `https://github.com/once-ere/Dirac_claude`, folder `Revision/universe_model/`;
 the model was started on top of commit `13f9fb9`.
 
 ## 1. The order
@@ -95,11 +96,12 @@ and are used only as targets of fits and as comparisons, never as derived result
 
 | deliverable | file | status |
 | --- | --- | --- |
-| the model | `MODEL.md`, `MODEL.pdf` | version 1.2 |
-| this provenance | `PROVENANCE.md`, `PROVENANCE.pdf` | version 1.2 |
+| the model | `MODEL.md`, `MODEL.pdf` | version 1.3 |
+| this provenance | `PROVENANCE.md`, `PROVENANCE.pdf` | version 1.3 |
 | the coupled field equations | `FIELD_EQUATIONS.md`, `.pdf`; `field_equations/` | version 1.1 (13/13) |
-| an approximate solution | `SOLUTION.md`, `.pdf`; `solution/` | version 1.1 (checks in `solution/reports/solution-checks.json`) |
+| an approximate solution | `SOLUTION.md`, `.pdf`; `solution/` | version 1.2 (checks in `solution/reports/solution-checks.json`) |
 | the analysis of the $x_0$ mass mechanism and of the dark associations | `ANALYSIS.md`, `.pdf`; `analysis/` | version 1 (21/21 and 13/13 checks) |
+| the gaps closed in version 1.3 | `GAPS.md`, `.pdf`; `analysis/gap_fixes.py` | version 1 (4/4 checks) |
 
 ## 7. Provenance of the analysis (`ANALYSIS.md`, version 1.2 of this provenance)
 
@@ -124,3 +126,18 @@ was done by Claude Opus 5.5 in this repository; its scripts are `analysis/x0_mas
 
 Every FROM MEMORY number is used only for orders of magnitude and for comparisons; none enters a DERIVED result. The
 corrections that the analysis made to the other documents are listed in `ANALYSIS.md` section 10.
+
+## 8. Provenance of the gap fixes (`GAPS.md`, UM-1 version 1.3)
+
+The author's instruction of 2026-10-17 (quoted): "Then go ahead, fix the gaps and push". The fixes were made by Claude
+Opus 5.5 in this repository; the script is `analysis/gap_fixes.py`.
+
+| ingredient | origin | label |
+| --- | --- | --- |
+| the tip resolved as an $x_0$ layer (Dirichlet at its outer edge, stiffness $\beta e^{-3\eta}\delta$) and its equivalence to the Robin condition | derived and computed here (finite elements) | DERIVED equivalence; the layer's inner structure INVENTED |
+| the self-adjoint mixing condition of the tip Yukawa coupling and the exact fermion eigenvalues | derived and computed here (transfer matrices, mpmath 50 digits) | DERIVED |
+| the vector portal P1 restricted to the lepton multiplets $L$, $e_R$ | a choice of this model (gauge invariant multiplet by multiplet) | CHANGED, INVENTED |
+| the overlap ratio, the relic requirement, the vector-contact cross-section, the decoupling estimate | `analysis/outputs/dark_validity.json` (`ANALYSIS.md`) | TAKEN (from the analysis) |
+| the electron-loop (photon-mixing) coupling to protons, $b_p = (\alpha/3\pi)\,G\ln(\Lambda^2/m_e^2)$ | Kopp, Niro, Schwetz and Zupan 2009 (leptophilic dark matter) | STANDARD, FROM MEMORY |
+| the CMB bound on energy injection, $p_{ann} < 3.2\times10^{-28}$ cm$^3$/s/GeV, and $f_{eff} \approx 0.6$ for $e^+e^-$ | Planck 2018 results VI; Slatyer 2016 | FROM MEMORY |
+| the width of the QCD crossover used for the band of $\Omega h^2$ (120 to 180 MeV) | lattice QCD (pseudo-critical temperature about 155 MeV) | FROM MEMORY, ESTIMATE |

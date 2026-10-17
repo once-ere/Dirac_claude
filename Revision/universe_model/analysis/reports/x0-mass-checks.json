@@ -33,7 +33,7 @@
   {
    "name": "A1_tip_parameter_scaling",
    "verdict": "PASS",
-   "detail": "matching the bulk gauge kinetic term (1/g^2) e^{3a4} f^2 e^{3Hy} (A_y)^2 to the tip mass term of the sigma field (sqrt|g_tip| = e^{3a4} f^3 e^{3Hy}) gives u'(-1) = beta u(-1) with beta = c g^2 v_Sigma^2 f L: beta is proportional to f (the warp factors cancel); the docstring of solution/masses.py writes c_tip f^2 L e^{3 eta}, a different parametrisation of the same fitted beta"
+   "detail": "matching the bulk gauge kinetic term (1/g^2) e^{3a4} f^2 e^{3Hy} (A_y)^2 to the tip mass term of the sigma field (sqrt|g_tip| = e^{3a4} f^3 e^{3Hy}) gives u'(-1) = beta u(-1) with beta = c g^2 v_Sigma^2 f L: beta is proportional to f (the warp factors cancel); the docstring of solution/masses.py wrote c_tip f^2 L e^{3 eta} until UM-1 1.3 (GAPS.md), a different parametrisation of the same fitted beta"
   },
   {
    "name": "A2_spectra_two_discretisations",

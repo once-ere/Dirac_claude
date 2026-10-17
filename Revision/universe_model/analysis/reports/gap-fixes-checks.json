@@ -1,0 +1,26 @@
+{
+ "checks": [
+  {
+   "name": "G1a_W_Z_masses_are_x0_gradient_energy",
+   "verdict": "PASS",
+   "detail": "with the tip resolved as a layer of thickness delta and stiffness beta e^{-3 eta} delta (Dirichlet at its outer edge), the lowest level equals the Robin value (W: 3.55e-05, 4.93e-05, 2.78e-05 relative for delta = 1e-2, 1e-3, 1e-4: the finite-element error); the whole of m_W^2 is the x0 gradient energy int w |u'|^2 of the wave function (ratio 0.99997223), 0.9987 of it inside the layer, and in the layer <p^2> >= (pi/2)^2/delta^2 holds: m_W^2 = P_tip <p^2>_tip with P_tip = 4.41e-14 at delta = 1e-4"
+  },
+  {
+   "name": "G1b_fermion_masses_are_exact_x0_eigenvalues",
+   "verdict": "PASS",
+   "detail": "the tip Yukawa as the self-adjoint mixing condition of the coupled (L, R) x0 Dirac problem (kappa = 5.4881 for lambda_f = 1): the lowest exact eigenvalue equals kappa zeta(c)^2 to 5.8e-08 (the correction is O(kappa^2 e^{-2c}), at most 5.8e-08) for e, u, d, nu and reproduces the observed masses to 1e-6; the first-order formula of SOLUTION.md is the exact x0 eigenvalue of the light fermions (for a broad mode, c = 1, the exact eigenvalue differs by -24.67 %)"
+  },
+  {
+   "name": "G2_lepton_portal_predicts_the_relic",
+   "verdict": "PASS",
+   "detail": "with P1 on the lepton multiplets only, the portal that decouples the fold band in the QCD crossover (N_eff = 2.99, G^{-1/2} = 12.3 TeV) gives the dark matter (overlap 0.329, G^{-1/2} = 21.5 TeV) <sigma v> = 1.04 x the relic value, i.e. a PREDICTED Omega h^2 = 0.115 for T_dec = 150 MeV (0.199 to 0.059 for T_dec = 120 to 180 MeV; Planck 0.120 at T_dec = 152 MeV); direct detection only through the electron loop, sigma_SI = 7.7e-50 cm^2 per xenon nucleon (2.8e-05 of the limit); CMB injection 5.3e-31 cm^3/s/GeV against 3.2e-28"
+  },
+  {
+   "name": "G3_masses_docstring_beta_scaling",
+   "verdict": "PASS",
+   "detail": "solution/masses.py states the tip parameter as beta = c g^2 v_Sigma^2 f L, proportional to f (ANALYSIS.md section 3.3), instead of the former c_tip f^2 L e^{3 eta}; the fitted beta and every number of the solution are unchanged"
+  }
+ ],
+ "pass": 4,
+ "total": 4
+}

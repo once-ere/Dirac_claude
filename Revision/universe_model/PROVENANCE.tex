@@ -28,7 +28,7 @@
 \tableofcontents
 \newpage
 
-Version 1.2 of 2026-10-17, for \texttt{MODEL.\allowbreak{}md} (the model), \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md} (its field equations), \texttt{SOLUTION.\allowbreak{}md} (an approximate solution) and \texttt{ANALYSIS.\allowbreak{}md} (the analysis of the mass mechanism and of the dark associations, section 7). Repository \texttt{https:/\allowbreak{}/\allowbreak{}github.\allowbreak{}com/\allowbreak{}once-{}\allowbreak{}ere/\allowbreak{}Dirac\_\allowbreak{}claude}, folder \texttt{Revision/\allowbreak{}universe\_\allowbreak{}model/\allowbreak{}}; the model was started on top of commit \texttt{13f9fb9}.
+Version 1.3 of 2026-10-17, for \texttt{MODEL.\allowbreak{}md} (the model), \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md} (its field equations), \texttt{SOLUTION.\allowbreak{}md} (an approximate solution), \texttt{ANALYSIS.\allowbreak{}md} (the analysis of the mass mechanism and of the dark associations, section 7) and \texttt{GAPS.\allowbreak{}md} (the gaps closed in version 1.3, section 8). Repository \texttt{https:/\allowbreak{}/\allowbreak{}github.\allowbreak{}com/\allowbreak{}once-{}\allowbreak{}ere/\allowbreak{}Dirac\_\allowbreak{}claude}, folder \texttt{Revision/\allowbreak{}universe\_\allowbreak{}model/\allowbreak{}}; the model was started on top of commit \texttt{13f9fb9}.
 
 \section*{1. The order}
 \addcontentsline{toc}{section}{1. The order}
@@ -123,11 +123,12 @@ the requirement of slow deflation after the primordial era & DERIVED requirement
 \toprule
 \textbf{deliverable} & \textbf{file} & \textbf{status} \\
 \midrule
-the model & \texttt{MODEL.\allowbreak{}md}, \texttt{MODEL.\allowbreak{}pdf} & version 1.2 \\
-this provenance & \texttt{PROVENANCE.\allowbreak{}md}, \texttt{PROVENANCE.\allowbreak{}pdf} & version 1.2 \\
+the model & \texttt{MODEL.\allowbreak{}md}, \texttt{MODEL.\allowbreak{}pdf} & version 1.3 \\
+this provenance & \texttt{PROVENANCE.\allowbreak{}md}, \texttt{PROVENANCE.\allowbreak{}pdf} & version 1.3 \\
 the coupled field equations & \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{field\_\allowbreak{}equations/\allowbreak{}} & version 1.1 (13/13) \\
-an approximate solution & \texttt{SOLUTION.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{solution/\allowbreak{}} & version 1.1 (checks in \texttt{solution/\allowbreak{}reports/\allowbreak{}solution-{}\allowbreak{}checks.\allowbreak{}json}) \\
+an approximate solution & \texttt{SOLUTION.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{solution/\allowbreak{}} & version 1.2 (checks in \texttt{solution/\allowbreak{}reports/\allowbreak{}solution-{}\allowbreak{}checks.\allowbreak{}json}) \\
 the analysis of the $x_0$ mass mechanism and of the dark associations & \texttt{ANALYSIS.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{analysis/\allowbreak{}} & version 1 (21/21 and 13/13 checks) \\
+the gaps closed in version 1.3 & \texttt{GAPS.\allowbreak{}md}, \texttt{.\allowbreak{}pdf}; \texttt{analysis/\allowbreak{}gap\_\allowbreak{}fixes.\allowbreak{}py} & version 1 (4/4 checks) \\
 \bottomrule
 \end{longtable}
 
@@ -155,5 +156,24 @@ $G_F$, $m_N$, $\alpha_s(m_Z) = 0.1180$, the cluster bound $\sigma/M \lesssim 1$ 
 \end{longtable}
 
 Every FROM MEMORY number is used only for orders of magnitude and for comparisons; none enters a DERIVED result. The corrections that the analysis made to the other documents are listed in \texttt{ANALYSIS.\allowbreak{}md} section 10.
+
+\section*{8. Provenance of the gap fixes (\texttt{GAPS.\allowbreak{}md}, UM-1 version 1.3)}
+\addcontentsline{toc}{section}{8. Provenance of the gap fixes (\texttt{GAPS.\allowbreak{}md}, UM-1 version 1.3)}
+
+The author's instruction of 2026-10-17 (quoted): "Then go ahead, fix the gaps and push". The fixes were made by Claude Opus 5.5 in this repository; the script is \texttt{analysis/\allowbreak{}gap\_\allowbreak{}fixes.\allowbreak{}py}.
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.332\linewidth}>{\raggedright\arraybackslash}p{0.297\linewidth}>{\raggedright\arraybackslash}p{0.240\linewidth}}
+\toprule
+\textbf{ingredient} & \textbf{origin} & \textbf{label} \\
+\midrule
+the tip resolved as an $x_0$ layer (Dirichlet at its outer edge, stiffness $\beta e^{-3\eta}\delta$) and its equivalence to the Robin condition & derived and computed here (finite elements) & DERIVED equivalence; the layer's inner structure INVENTED \\
+the self-adjoint mixing condition of the tip Yukawa coupling and the exact fermion eigenvalues & derived and computed here (transfer matrices, mpmath 50 digits) & DERIVED \\
+the vector portal P1 restricted to the lepton multiplets $L$, $e_R$ & a choice of this model (gauge invariant multiplet by multiplet) & CHANGED, INVENTED \\
+the overlap ratio, the relic requirement, the vector-contact cross-section, the decoupling estimate & \texttt{analysis/\allowbreak{}outputs/\allowbreak{}dark\_\allowbreak{}validity.\allowbreak{}json} (\texttt{ANALYSIS.\allowbreak{}md}) & TAKEN (from the analysis) \\
+the electron-loop (photon-mixing) coupling to protons, $b_p = (\alpha/3\pi)\,G\ln(\Lambda^2/m_e^2)$ & Kopp, Niro, Schwetz and Zupan 2009 (leptophilic dark matter) & STANDARD, FROM MEMORY \\
+the CMB bound on energy injection, $p_{ann} < 3.2\times10^{-28}$ cm$^3$/s/GeV, and $f_{eff} \approx 0.6$ for $e^+e^-$ & Planck 2018 results VI; Slatyer 2016 & FROM MEMORY \\
+the width of the QCD crossover used for the band of $\Omega h^2$ (120 to 180 MeV) & lattice QCD (pseudo-critical temperature about 155 MeV) & FROM MEMORY, ESTIMATE \\
+\bottomrule
+\end{longtable}
 
 \end{document}

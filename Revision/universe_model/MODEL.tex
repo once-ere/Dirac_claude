@@ -28,7 +28,7 @@
 \tableofcontents
 \newpage
 
-Version 1.2 of 2026-10-17: version 1 plus the two changes that the solution forces (marked CHANGED in sections 4.1 and 8; the reasons are in \texttt{SOLUTION.\allowbreak{}md} section 3), and (1.2) the corrections of the analysis \texttt{ANALYSIS.\allowbreak{}md} to sections 1, 4.4, 6 and 8 and the new section 9; the fields, the action and the parameters are those of version 1.1. Written at the author's order of 2026-10-17 ("create a new model of the Universe"). This document DEFINES the model. Its field equations are derived in \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md} (scripts in \texttt{field\_\allowbreak{}equations/\allowbreak{}}), an approximate solution is computed in \texttt{SOLUTION.\allowbreak{}md} (scripts in \texttt{solution/\allowbreak{}}), and the origin of every ingredient is in \texttt{PROVENANCE.\allowbreak{}md}. Every statement below is labelled as one of: DERIVED (computed in this repository, with the file named), TAKEN (from the Revision record, file named), STANDARD (textbook physics, used as input), ASSUMED (a choice of this model), INVENTED (a new phenomenological ingredient of this model) or OPEN.
+Version 1.3 of 2026-10-17: version 1 plus the two changes that the solution forces (marked CHANGED in sections 4.1 and 8; the reasons are in \texttt{SOLUTION.\allowbreak{}md} section 3), (1.2) the corrections of the analysis \texttt{ANALYSIS.\allowbreak{}md} to sections 1, 4.4, 6 and 8 and the new section 9, and (1.3) the closing of the gaps that the analysis found (\texttt{GAPS.\allowbreak{}md}): the resolved tip (section 4.4) and the vector portal P1 on the lepton multiplets (section 4.5). Written at the author's order of 2026-10-17 ("create a new model of the Universe"). This document DEFINES the model. Its field equations are derived in \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md} (scripts in \texttt{field\_\allowbreak{}equations/\allowbreak{}}), an approximate solution is computed in \texttt{SOLUTION.\allowbreak{}md} (scripts in \texttt{solution/\allowbreak{}}), and the origin of every ingredient is in \texttt{PROVENANCE.\allowbreak{}md}. Every statement below is labelled as one of: DERIVED (computed in this repository, with the file named), TAKEN (from the Revision record, file named), STANDARD (textbook physics, used as input), ASSUMED (a choice of this model), INVENTED (a new phenomenological ingredient of this model) or OPEN.
 
 \section*{1. Summary}
 \addcontentsline{toc}{section}{1. Summary}
@@ -110,6 +110,13 @@ with $\rho$ the normalised proper density: the warp of the extra times, an attra
 \item MASSLESS (no $x_0$ dependence, or an exact zero eigenvalue): the graviton, the photon and the gluons (flat profiles of unbroken gauge generators), the fold-band quanta of $\Psi$ (the fold zero modes, $\varepsilon = e^{-a_4}|k|$).
 \item MASSIVE: $W^\pm$ and $Z$ (their profiles bend at the tip, where $\Sigma$ acts), $e$, $\nu$, $u$, $d$ (chiral zero modes localised by $\mu_\psi$, lifted by $\lambda_f$ at the tip: $m_f = \lambda_f\,\zeta_{fL}\zeta_{fR}$ with $\zeta(\mu)^2 = 2f\mu\,e^{-2f\mu L}/(1 - e^{-2f\mu L})$ the normalised value of the zero mode $(e^{f\mu y}, 0)$ at the tip), the bulk-band quanta of $\Psi$ and every excited $x_0$ mode (the Kaluza-Klein tower, $m_n \simeq n\pi/(fL)$ for $n \geq 1$).
 \item Because the profiles depend exponentially on $\mu_\psi f L$, order-one parameters produce the observed hierarchy $m_\nu \ll m_e \ll m_u, m_d \ll m_W$ (DERIVED as a fit in \texttt{SOLUTION.\allowbreak{}md}). The hierarchy runs AGAINST the uncertainty estimate: a sharper localisation (larger $\mu_\psi fL$) gives a lighter fermion, and the light masses lie $10^{-3}$ ($W$) to $10^{-16}$ ($\nu$) below $\hbar c/(2\Delta s)$ (\texttt{ANALYSIS.\allowbreak{}md} section 5).
+\item The resolved tip (1.3, \texttt{GAPS.\allowbreak{}md} section 2; DERIVED equivalence, INVENTED inner structure). The tip terms are the thin-layer limit of a tip layer in which the broken-generator profiles vanish (symmetry breaking by a boundary condition) and the chiral wave functions mix. Every mass of UM-1 is then the $x_0$ dependence of a wave function relative to the geometric zero mode, $m^2 = \sum P_{\text{region}}\langle\hat p^2\rangle_{\text{region}}$. Three classes follow:
+\begin{itemize}
+\item MASSLESS: flat profiles;
+\item HEAVY: dependence across the cell, $m \geq 3H/(2f)$;
+\item LIGHT: dependence confined to the tip, where the probability $P_{tip}$ is tiny, so $m_W^2 = P_{tip}\langle\hat p^2\rangle_{tip}$.
+\end{itemize}
+The fermion masses are the exact eigenvalues of the coupled $x_0$ Dirac problem with the tip mixing condition.
 \item Every $x_0$-generated mass depends on the block size $f$: $m \propto 1/f$ for Kaluza-Klein masses and $m \propto \exp(-\mu f L)$ factors for the localised fermions. A deflating block ($h_4 < 0$) therefore makes masses drift in time; the model requires $|h_4| \ll \dot a_4$ after the primordial era (section 7; the bound is computed in \texttt{SOLUTION.\allowbreak{}md}). The extra times keep deflating (never static), but slowly.
 \end{itemize}
 
@@ -118,11 +125,11 @@ with $\rho$ the normalised proper density: the warp of the extra times, an attra
 
 $\Psi$ is neutral, so every interaction with the Standard Model is through gauge-invariant composite operators. The model contains the lowest ones (eight-dimensional coefficients; the four-dimensional couplings follow from the overlaps of the $x_0$ profiles):
 
-\begin{longtable}{>{\raggedright\arraybackslash}p{0.044\linewidth}>{\raggedright\arraybackslash}p{0.373\linewidth}>{\raggedright\arraybackslash}p{0.171\linewidth}>{\raggedright\arraybackslash}p{0.264\linewidth}}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.042\linewidth}>{\raggedright\arraybackslash}p{0.378\linewidth}>{\raggedright\arraybackslash}p{0.162\linewidth}>{\raggedright\arraybackslash}p{0.269\linewidth}}
 \toprule
 \textbf{} & \textbf{operator} & \textbf{couples $\Psi$ to} & \textbf{cosmological role} \\
 \midrule
-P1 & $\frac{c_V}{\Lambda_D^{6}}\,(\bar\Psi\gamma^M\Psi)\,(\bar\psi\gamma_M\psi)$, $\psi \in \{L, e_R, Q, u_R, d_R\}$ & $e$, $\nu$, $u$, $d$ (vector currents) & dark matter - baryon and - neutrino scattering \\
+P1 & $\frac{c_V}{\Lambda_D^{6}}\,(\bar\Psi\gamma^M\Psi)\,(\bar\psi\gamma_M\psi)$, $\psi \in \{L, e_R\}$ (1.3; until 1.2 also $Q, u_R, d_R$) & $e$, $\nu$ (vector currents) & the decoupling of the fold band ($N_{eff}$) and the dark-matter relic abundance \\
 P2 & $\frac{c_S}{\Lambda_D^{6}}\,(\bar\Psi\Psi)\,\big(\bar\psi_L\Sigma\psi_R + \mathrm{h.c.}\big)\big|_{tip}$ & $e$, $u$, $d$ (scalar densities) & spin-independent dark matter - nucleon scattering \\
 P3 & $\frac{\mu_D}{\Lambda_D^{3}}\,\bar\Psi S^{MN}\Psi\, B_{MN}$ & photon and $Z$ ($B = \cos\theta_W A - \sin\theta_W Z$) & dark dipole: dark matter - photon drag, $Z$ decays \\
 P4 & $\frac{c_Z}{\Lambda_D^{4}}\,(\bar\Psi\gamma^M\Psi)\,\frac{i v_\Sigma^2}{2}\mathrm{tr}\big(\Sigma^\dagger D_M\Sigma\,\tau^3\big)\big|_{tip}$ & $Z$ (directly) & $Z$-portal \\
@@ -132,6 +139,7 @@ P5 & $\frac{c_D}{\Lambda_D^{7}}\,(\bar\Psi\Psi)\,\big(\bar\psi\, i\gamma^M D_M\p
 
 \begin{itemize}
 \item Charge conservation forbids any gauge-invariant operator in which the neutral $\Psi$ couples to a single $W^\pm$ without a charged pair of Standard-Model fermions; the $W^\pm$ enter the portal through the covariant derivative of P5 (vertices $\bar\Psi\Psi\,W^+\bar e\nu$, $\bar\Psi\Psi\,W^+\bar d u$) and through the gauge self-interactions (DERIVED in \texttt{FIELD\_\allowbreak{}EQUATIONS.\allowbreak{}md} section 5).
+\item CHANGED in version 1.3 (\texttt{GAPS.\allowbreak{}md} section 3): P1 acts on the lepton multiplets only, which is gauge invariant multiplet by multiplet. $\Psi$ couples to the quarks through P2, P3, P4 and P5. With this choice, the portal that decouples the fold band for $N_{eff} = 2.99$ predicts the dark-matter abundance, $\Omega h^2 = 0.115$ (0.06 to 0.20 over the QCD crossover), and direct detection is loop-suppressed ($8\times10^{-50}$ cm$^2$).
 \item The coefficients are free parameters bounded by cosmology and by laboratory limits (\texttt{SOLUTION.\allowbreak{}md} section 6). The word CRITICAL of the order is implemented as follows: these are the only couplings through which the dark sector exchanges energy and momentum with the visible sector; without them $\Psi$ interacts with the Standard Model only through gravity.
 \end{itemize}
 
@@ -176,14 +184,15 @@ dark energy & $\delta\Lambda$ (geometric, tuned) & - & $w = -1$; no $\Psi$ compo
 
 \begin{itemize}
 \item ASSUMED: the regular tip at $y = -L$; the compact extra times (normalisation A) and the good sector $q = 0$; the kink bulk masses; the tip sigma field; the portal operators; one generation; the zero-mode truncation at order 1; (1.1) the block stabiliser and the exact fold-reflection parity that keeps the odd-parity dark matter stable ((1.2) exact to $2\times10^{-27}$ in amplitude for a lifetime above $10^{26}$ s, \texttt{ANALYSIS.\allowbreak{}md} section 8.3).
-\item REQUIRED (1.2, \texttt{ANALYSIS.\allowbreak{}md}): the exponential deflation of the primordial era ends long before nucleosynthesis (the electron mass changes like $f^{-22}$); the portal coefficients of the $\Psi$ fold band and of the $\Psi$ dark matter differ beyond their overlaps, or the one-half count $g_F = 4$ holds (otherwise the $N_{eff}$ portal makes the dark matter under-abundant and puts it at 1.6 times the LZ limit).
+\item REQUIRED (1.2, \texttt{ANALYSIS.\allowbreak{}md}): the exponential deflation of the primordial era ends long before nucleosynthesis (the electron mass changes like $f^{-22}$); the portal coefficients of the $\Psi$ fold band and of the $\Psi$ dark matter differ beyond their overlaps, or the one-half count $g_F = 4$ holds (otherwise the $N_{eff}$ portal makes the dark matter under-abundant and puts it at 1.6 times the LZ limit). (1.3: met by the lepton-only P1; the annihilation of the dark matter into fold-band pairs through $\lambda$ must stay below $6.7\times10^{-26}$ cm$^3$/s.)
+\item CHANGED (1.3): the vector portal P1 on the lepton multiplets only (section 4.5); the tip resolved as an $x_0$ layer (section 4.4; its inner structure INVENTED, only its strength physical).
 \item CHANGED (1.1): $w_3 = 1/768$ and $\Lambda = -24H^2 + \delta\Lambda$ (section 4.1). The solution also finds what the model requires of the data: $m_{KK} \approx 121$ TeV from $\rho_0$, and, with one generation, a decoupling of the $\Psi$ fold band inside the QCD crossover for $N_{eff} \approx 3$ (\texttt{SOLUTION.\allowbreak{}md} sections 4 and 6).
-\item OPEN: the stability of a theory with three time-like extra dimensions (ghosts and tachyons beyond the good sector); perturbative unitarity of $WW$ scattering without a Higgs (it holds up to the Kaluza-Klein scale $\sim \pi/(fL)$ only if that scale lies below about $4\pi v_\Sigma \approx 3$ TeV, as in all Higgsless models); a dynamical mechanism that slows the deflation of the block after the primordial era; the origin of the second and third generations; the derivation of the portal coefficients; the non-adiabatic evolution of $\Psi$; (1.2) the annihilation that fixes the dark-matter abundance ($6.5\times10^{-26}$ cm$^3$/s, 37 \% of the s-wave unitarity limit).
+\item OPEN: the stability of a theory with three time-like extra dimensions (ghosts and tachyons beyond the good sector); perturbative unitarity of $WW$ scattering without a Higgs (it holds up to the Kaluza-Klein scale $\sim \pi/(fL)$ only if that scale lies below about $4\pi v_\Sigma \approx 3$ TeV, as in all Higgsless models); a dynamical mechanism that slows the deflation of the block after the primordial era; the origin of the second and third generations; the derivation of the portal coefficients; the non-adiabatic evolution of $\Psi$; (1.2) the annihilation that fixes the dark-matter abundance ($6.5\times10^{-26}$ cm$^3$/s, 37 \% of the s-wave unitarity limit; (1.3) supplied by the lepton-only P1 within the accuracy of the decoupling estimate, \texttt{GAPS.\allowbreak{}md} section 3).
 \item Consistency with QCD and the electroweak theory is at the level of the gauge group, the representations, anomaly cancellation and the electroweak chiral Lagrangian (no Higgs); precision electroweak constraints on Higgsless models (the $S$ parameter) apply and are OPEN for this geometry.
 \end{itemize}
 
-\section*{9. Analysis of the mass mechanism and of the dark associations (version 1.2; DERIVED in \texttt{ANALYSIS.\allowbreak{}md})}
-\addcontentsline{toc}{section}{9. Analysis of the mass mechanism and of the dark associations (version 1.2; DERIVED in \texttt{ANALYSIS.\allowbreak{}md})}
+\section*{9. Analysis of the mass mechanism and of the dark associations (versions 1.2 and 1.3; \texttt{ANALYSIS.\allowbreak{}md}, \texttt{GAPS.\allowbreak{}md})}
+\addcontentsline{toc}{section}{9. Analysis of the mass mechanism and of the dark associations (versions 1.2 and 1.3; \texttt{ANALYSIS.\allowbreak{}md}, \texttt{GAPS.\allowbreak{}md})}
 
 \begin{itemize}
 \item The mass mechanism. Every four-dimensional mass is an eigenvalue of an $x_0$ operator of a wave function periodic with $\pi/(6H)$: the author's requirement holds. Without a cutoff each period is a whole line in proper length, and every function of $y$ is periodic; the content of the requirement lies in the parities and boundary terms at the fold and the tips. The operator factorises as $A^\dagger A$: the mass is the $x_0$ dependence of the profile RELATIVE to the geometric zero mode. A mode localised as the geometry dictates is massless, and every deviation costs mass.
@@ -192,6 +201,11 @@ dark energy & $\delta\Lambda$ (geometric, tuned) & - & $w = -1$; no $\Psi$ compo
 \item Constancy: every $x_0$-generated mass tracks $f$ ($m_e \propto f^{-22}$, $\alpha, G_N \propto f^{-4}$); the late block deflation $h_4/A \approx -10^{-93}$ is far within the atomic-clock bound $1.2\times10^{-8}$, and the primordial deflation must end before nucleosynthesis.
 \item Dark matter: CONDITIONAL. The odd bulk quanta are cold on the static block, dark, collisionless and massive. They need three things: an exact fold parity (ASSUMED), an annihilation of natural cell strength ($G \approx 1.4/H^2$, OPEN), and portal coefficients that are not universal across $\Psi$ modes. The record's computed states are dark radiation.
 \item Dark energy: NOT SUPPORTED. No positive-energy $\Psi$ state has $w < 0$ on the static block. The $\lambda < 0$ condensate tuned to $w_0 = -1$ has $w_a = -6$, and its energy turns negative at $z = 0.26$. The vacuum energy is the cosmological-constant problem. The dark energy of UM-1 is $\delta\Lambda$.
+\item Version 1.3 (\texttt{GAPS.\allowbreak{}md}) closes two gaps.
+\begin{itemize}
+\item The light masses: with the tip resolved as an $x_0$ layer, every mass is the $x_0$ dependence of a wave function, $m_W^2 = P_{tip}\langle\hat p^2\rangle_{tip}$, and the fermion masses are exact $x_0$ eigenvalues.
+\item The dark-matter conditions: the lepton-only P1 resolves the portal tension and predicts $\Omega_{DM}h^2 = 0.115$ from the $N_{eff}$ requirement.
+\end{itemize}
 \end{itemize}
 
 \end{document}

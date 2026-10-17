@@ -3,7 +3,8 @@ and its fit to the observed masses.
 
 Gauge fields: on each half of the cell, t = y/L in [-1, 0], the operator -(e^{-3 eta t} (e^{3 eta t} u')') = Lambda u with
 eta = H L and Lambda = (m l)^2, l = f L the proper length of a half; fold u'(0) = 0; tip u'(-1) = beta u(-1)
-(beta = c_tip f^2 L e^{3 eta}, the Robin condition of the tip sigma field; beta = 0 for unbroken generators).
+(beta = c g^2 v_Sigma^2 f L, i.e. beta proportional to f, from matching the bulk gauge term to the tip mass term of the
+sigma field, ANALYSIS.md section 3.3; beta = 0 for unbroken generators).
 Exact Neumann spectrum (u = e^{-3 eta t/2} w): Lambda_0 = 0, Lambda_n = 9 eta^2/4 + n^2 pi^2 (n >= 1).
 Solved by shooting (RK4, 4000 steps) and bisection.  Fermions: the chiral zero modes chi = e^{c t} (c = f mu L) with the
 normalised tip value zeta(c)^2 = 2c e^{-2c}/(1 - e^{-2c}); the Dirac mass m_f = lam m_KK zeta(c_L) zeta(c_R)

@@ -161,9 +161,9 @@ $1/(2c)$ yet massless.
 Matching the bulk gauge kinetic term $\hat g^{-2}e^{3a_4}f^2e^{3Hy}(A_y)^2$ to the tip mass term of the sigma field,
 with $\sqrt{|g_{tip}|} = e^{3a_4}f^3e^{3Hy}$, gives the Robin condition $u'(-1) = \beta u(-1)$ with
 $\beta = c\,\hat g^2v_\Sigma^2fL$ (check A1_tip_parameter_scaling). So $\beta$ is proportional to $f$, and the warp
-factors cancel. The docstring of `solution/masses.py` writes $c_{tip}f^2Le^{3\eta}$, a different parametrisation of
-the same fitted $\beta$. The fit is unaffected, and only the $f$ dependence of section 7 uses the scaling derived
-here.
+factors cancel. The docstring of `solution/masses.py` wrote $c_{tip}f^2Le^{3\eta}$, a different parametrisation of
+the same fitted $\beta$; it is corrected in UM-1 version 1.3 (`GAPS.md`). The fit is unaffected, and only the $f$
+dependence of section 7 uses the scaling derived here.
 
 ### 3.4 What the period $\pi/(6H)$ means
 
@@ -392,13 +392,18 @@ not be made.
   $\langle\hat p^2\rangle$. The Gaussian identity of D3 holds on a flat line; the text is corrected.
 * `SOLUTION.md` section 5.2 quoted the Standard-Model relic value $4.4\times10^{-26}$ cm$^3$/s. UM-1 needs
   $6.5\times10^{-26}$ (section 8.4). Corrected, with the unitarity fraction.
-* `solution/masses.py`: the docstring's parametrisation of $\beta$ (section 3.3) is recorded; the fit is unchanged.
+* `solution/masses.py`: the docstring's parametrisation of $\beta$ (section 3.3) is corrected in version 1.3
+  (`GAPS.md`); the fit is unchanged.
 * New requirements of the model, now explicit: the fold parity must be exact (section 8.3); the portal coefficients of
   the fold band and of the dark matter must differ, or the one-half count must hold (section 8.5); the primordial
   deflation must end before nucleosynthesis (section 7).
 * The gaps these open, to be addressed in the next step: the origin of the light masses beyond the tip
   parametrisation; the derivation of the annihilation and portal coefficients; the dark-energy sector, which is
-  $\delta\Lambda$.
+  $\delta\Lambda$. They are addressed in `GAPS.md` (UM-1 version 1.3):
+  - the resolved tip makes every light mass the $x_0$ dependence of its wave function, $m_W^2 = P_{tip}\langle\hat p^2\rangle_{tip}$;
+  - the fermion masses are exact $x_0$ eigenvalues;
+  - the lepton-only vector portal removes the tension of section 8.5 and predicts $\Omega_{DM}h^2 = 0.115$;
+  - the dark energy remains $\delta\Lambda$.
 
 ## 11. Reproduction
 

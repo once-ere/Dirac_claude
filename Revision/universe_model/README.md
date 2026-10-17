@@ -7,6 +7,8 @@
 | `FIELD_EQUATIONS.md`, `FIELD_EQUATIONS.pdf` | the coupled field equations, derived by `field_equations/derive_field_equations.py` (13/13 checks) |
 | `SOLUTION.md`, `SOLUTION.pdf` | an accurate approximate solution, Kohn-Sham for dirac16complex coupled to all fields (21/21 checks) |
 | `ANALYSIS.md`, `ANALYSIS.pdf` | the analysis of the $x_0$ mass mechanism (where the uncertainty argument holds and where it fails) and of the validity of associating dark matter (CONDITIONAL) and dark energy (NOT SUPPORTED) with dirac16complex (34/34 checks) |
+| `GAPS.md`, `GAPS.pdf` | UM-1 version 1.3: the gaps found by the analysis and how they are closed (the resolved tip: every mass is the $x_0$ dependence of a wave function; exact fermion eigenvalues; the lepton-only vector portal that predicts $\Omega_{DM}h^2 = 0.115$ from $N_{eff}$); what remains open |
+| `analysis/gap_fixes.py` | the computations of `GAPS.md` (4 checks); writes its tables |
 | `analysis/x0_mass_analysis.py` | the $x_0$ operators, spectra, gap theorem, mass decompositions, Heisenberg comparison, sensitivities to $f$ (21 checks) |
 | `analysis/dark_validity.py` | the dark-matter criteria (cold, stable, relic, portal, direct detection) and the dark-energy tests (13 checks); writes the tables of `ANALYSIS.md` |
 | `solution/vacua.py` | the Einstein-Lovelock vacuum, the effective Newton factor, the block-mode theorem, the slow deflation |
@@ -18,5 +20,6 @@
 
 Reproduce the solution (from `Revision/universe_model/solution`, every calculation under `timeout -k 5 423`): the eight
 `python ks_coupled.py JOB` runs listed in `SOLUTION.md` section 8, then `python solve_model.py`. Reproduce the analysis:
-`python analysis/x0_mass_analysis.py`, then `python analysis/dark_validity.py` (from `Revision/universe_model`).
+`python analysis/x0_mass_analysis.py`, then `python analysis/dark_validity.py`, then `python analysis/gap_fixes.py`
+(from `Revision/universe_model`).
 Build the PDFs from the repository root: `python Revision/universe_model/tools/build_pdfs.py`. Gate steps: um1-* in `Revision/verify_revision.{sh,ps1}`.

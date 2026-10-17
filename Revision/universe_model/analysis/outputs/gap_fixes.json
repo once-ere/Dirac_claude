@@ -1,0 +1,152 @@
+{
+ "G1a": {
+  "W": {
+   "Lambda_robin": 1.324712331977862e-05,
+   "beta": 0.011941269894751316,
+   "layers": [
+    {
+     "Lambda": 1.3247593296452227e-05,
+     "P_layer": 4.4098928139740676e-10,
+     "P_times_bound_over_Lambda": 0.8213548029283686,
+     "delta": 0.01,
+     "kinetic_share_layer": 0.9986775676097561,
+     "kinetic_total_over_Lambda": 0.9999645271609066,
+     "p2_layer": 29999.833328753903,
+     "poincare_bound_ok": true,
+     "rel_dev_vs_robin": 3.547764010813914e-05
+    },
+    {
+     "Lambda": 1.3247776115460892e-05,
+     "P_layer": 4.409892815066775e-12,
+     "P_times_bound_over_Lambda": 0.8213434684543124,
+     "delta": 0.001,
+     "kinetic_share_layer": 0.9986775676012591,
+     "kinetic_total_over_Lambda": 0.9999507281098754,
+     "p2_layer": 2999983.333416577,
+     "poincare_bound_ok": true,
+     "rel_dev_vs_robin": 4.92782973717798e-05
+    },
+    {
+     "Lambda": 1.3247491287946699e-05,
+     "P_layer": 4.409892380186829e-14,
+     "P_times_bound_over_Lambda": 0.8213610467406534,
+     "delta": 0.0001,
+     "kinetic_share_layer": 0.9986775678452212,
+     "kinetic_total_over_Lambda": 0.9999722275418897,
+     "p2_layer": 299998363.0004861,
+     "poincare_bound_ok": true,
+     "rel_dev_vs_robin": 2.7777213150059765e-05
+    }
+   ]
+  },
+  "Z": {
+   "Lambda_robin": 1.7047184798315567e-05,
+   "beta": 0.015372574438972431,
+   "layers": [
+    {
+     "Lambda": 1.7047596086023028e-05,
+     "P_layer": 5.672756262180021e-10,
+     "P_times_bound_over_Lambda": 0.8210521279510846,
+     "delta": 0.01,
+     "kinetic_share_layer": 0.9982982152821499,
+     "kinetic_total_over_Lambda": 0.9999758787110886,
+     "p2_layer": 29999.8333275616,
+     "poincare_bound_ok": true,
+     "rel_dev_vs_robin": 2.4126429807980188e-05
+    },
+    {
+     "Lambda": 1.704766563760382e-05,
+     "P_layer": 5.672756263951125e-12,
+     "P_times_bound_over_Lambda": 0.8210487784541739,
+     "delta": 0.001,
+     "kinetic_share_layer": 0.9982982152559969,
+     "kinetic_total_over_Lambda": 0.999971799541016,
+     "p2_layer": 2999983.333426068,
+     "poincare_bound_ok": true,
+     "rel_dev_vs_robin": 2.8206375066730516e-05
+    },
+    {
+     "Lambda": 1.70476694059825e-05,
+     "P_layer": 5.6727557047235855e-14,
+     "P_times_bound_over_Lambda": 0.8210485160217409,
+     "delta": 0.0001,
+     "kinetic_share_layer": 0.998298215531651,
+     "kinetic_total_over_Lambda": 0.9999715785033927,
+     "p2_layer": 299998363.00135523,
+     "poincare_bound_ok": true,
+     "rel_dev_vs_robin": 2.842743084352506e-05
+    }
+   ]
+  }
+ },
+ "G1b": {
+  "c_1_example": {
+   "eps_fL_exact": 1.2942154551390446,
+   "kappa_zeta2": 1.7179792969233099,
+   "rel_dev": -0.24666411437156097
+  },
+  "correction_scale_kappa2_exp_m2c_max": 5.8219901061502876e-08,
+  "d": {
+   "c_f": 10.032107433386017,
+   "eps_fL_exact": 2.1284770750115278e-07,
+   "kappa_zeta2": 2.1284771989312365e-07,
+   "m_exact_GeV": 0.004699999726366518,
+   "m_obs_GeV": 0.0047,
+   "rel_dev": -5.821989011431278e-08
+  },
+  "e": {
+   "c_f": 11.196487257918118,
+   "eps_fL_exact": 2.314148101242787e-08,
+   "kappa_zeta2": 2.314148114367661e-08,
+   "m_exact_GeV": 0.0005109989471018281,
+   "m_obs_GeV": 0.00051099895,
+   "rel_dev": -5.67157905806498e-09
+  },
+  "kappa": 5.488133052422231,
+  "nu": {
+   "c_f": 19.54497383639007,
+   "eps_fL_exact": 2.264337445671535e-15,
+   "kappa_zeta2": 2.2643374456715357e-15,
+   "m_exact_GeV": 5.0000000000000163e-11,
+   "m_obs_GeV": 5e-11,
+   "rel_dev": -3.2813517976715225e-16
+  },
+  "u": {
+   "c_f": 10.440799825483026,
+   "eps_fL_exact": 9.781937513816874e-08,
+   "kappa_zeta2": 9.781937765301026e-08,
+   "m_exact_GeV": 0.0021599999444684966,
+   "m_obs_GeV": 0.00216,
+   "rel_dev": -2.570903201993096e-08
+  }
+ },
+ "G2": {
+  "G_dm_inv_sqrt_TeV": 21.52567152437283,
+  "G_fold_inv_sqrt_TeV": 12.339728529027607,
+  "N_lepton_channels": 1.5,
+  "Omega_h2_band": {
+   "120 MeV": 0.05902425373075014,
+   "135 MeV": 0.08404039251897823,
+   "150 MeV": 0.11528174556787131,
+   "165 MeV": 0.15344000335083668,
+   "180 MeV": 0.19920685634128166
+  },
+  "Omega_h2_predicted": 0.11528174556787131,
+  "T_dec_GeV": 0.15,
+  "T_dec_for_Planck_GeV": 0.1520191009612879,
+  "labels": "INVENTED: P1 restricted to the lepton multiplets; ESTIMATE: neutrino-like decoupling and the overlap rule; electron-loop direct detection and the CMB bound FROM MEMORY",
+  "loop_b_p_over_G": 0.029862518967609025,
+  "overlap_ratio": 0.3286228768856193,
+  "p_ann_bound": 3.2e-28,
+  "p_ann_ee_cm3_s_GeV": 5.289524955147561e-31,
+  "requirement_lambda_channel": "sigma v (Psi Psi -> fold band) << 6.7e-26 cm^3/s, i.e. the p-wave lambda channel subdominant",
+  "sigma_SI_limit_cm2": 2.801632546431208e-45,
+  "sigma_SI_over_limit": 2.752471799654386e-05,
+  "sigma_SI_xe_per_nucleon_cm2": 7.711414577045806e-50,
+  "sigma_v_cm3_s": 6.736047849773401e-26,
+  "sigma_v_over_needed": 1.0409280273202564
+ },
+ "G3": {
+  "ok": true
+ }
+}
