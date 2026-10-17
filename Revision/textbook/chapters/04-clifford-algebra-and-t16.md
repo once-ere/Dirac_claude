@@ -2116,7 +2116,7 @@ general_ok = (sp.simplify(k5_frame - sp.exp(a4) / sp.sqrt(b4)
               and f5.subs(z, -z) == f5)  # the same at sin z and at -sin z
 ```
 
-`general_ok` is true when two statements hold for all functions $a_4$, $b_4 > 0$ and every real $z$: the difference between `k5_frame` and the formula $e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}k_{x_5}$ of the record simplifies to 0, and replacing $z$ by $-z$ (which turns $\sin z$ into $-\sin z$) leaves $f_5$ unchanged.
+`general_ok` is true when two statements hold for all functions $a_4$, $b_4 > 0$ and every real $z$ with $\sin z \neq 0$ (where $f_5 \neq 0$): the difference between `k5_frame` and the formula $e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}k_{x_5}$ of the record simplifies to 0, and replacing $z$ by $-z$ (which turns $\sin z$ into $-\sin z$) leaves $f_5$ unchanged.
 
 ```python
 history = {a4: H_const * x4, b4: sp.exp(sp.Rational(4, 3) * H_const * x4)}

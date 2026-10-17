@@ -189,9 +189,11 @@ CELLS = [
 
     **The connection to this book.** The Kohn-Sham equations of the book are solved
     in the same way: two first-order equations in the hidden coordinate are shot
-    from the tip of the interval to the brane, where (with the ASSUMED mirror
-    symmetry) an even or an odd condition must hold, exactly like $u'(0) = 0$ or
-    $u(0) = 0$ here.
+    from the tip of the interval to the fold, the place $\cos z = 0$ where the two
+    halves of a cell of the hidden direction meet. There an even or an odd fold
+    condition must hold (the Revision record derives the two conditions and labels
+    the filling of both together ASSUMED), exactly like $u'(0) = 0$ or $u(0) = 0$
+    here.
     """),
     md(r"""
     ## 5. The tools: RK4 for a system, bisection and the secant rule

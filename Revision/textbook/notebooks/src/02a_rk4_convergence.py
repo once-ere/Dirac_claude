@@ -40,8 +40,9 @@ FACTS = {
     "title": "Euler, midpoint and RK4: the order of a method on a log-log plot",
     "purpose": (
         "It solves two differential equations whose exact solutions are known, the "
-        "decay equation (the deflation of an extra-time scale factor along a linear "
-        "history) and the oscillator equation, with the Euler method, the midpoint "
+        "decay equation (the deflation of the volume factor of the three extra times "
+        "of the corrected metric along the prescribed history of the Revision record) "
+        "and the oscillator equation, with the Euler method, the midpoint "
         "method and the classical fourth-order Runge-Kutta method (RK4); it derives "
         "the exact amplification factor of each method with sympy, measures how the "
         "error at a fixed end time shrinks when the step is halved, finds the orders 1, "
@@ -55,8 +56,8 @@ FACTS = {
     "records": [
         ["Revision/kohn_sham/results/parameters.json",
          "the settings of the Revision Kohn-Sham solver: 900 RK4 steps on the hidden "
-         "interval of length 3, and the linear history with A = H = 1 (read and "
-         "checked)"],
+         "interval of length 3, and the prescribed history a4 = A H x4, b4 = b4(0) "
+         "e^(beta A H x4) with A = H = 1, beta = 4/3 and b4(0) = 1 (read and checked)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -85,9 +86,10 @@ CELLS = [
     - makes one step of each method by hand, with exact fractions;
     - derives with sympy the exact *amplification factor* of each method, the number
       by which one step multiplies the solution of $y' = \lambda y$;
-    - solves the growth of the 3-space scale factor and the deflation of an
-      extra-time scale factor of the author's metric along a linear history, and
-      shows that Euler's method spoils their exact product $1$;
+    - solves the growth of a 3-space scale factor and the deflation of the volume
+      factor of the three extra times of the author's corrected metric along the
+      prescribed history of the Revision record, and shows that Euler's method
+      spoils their exact product $1$;
     - measures the error at a fixed end time for step sizes from $1/2$ down to
       $1/262144$, finds the *orders* $1$, $2$ and $4$ of the three methods as the
       slopes of straight lines on log-log plots, and shows where rounding errors stop
@@ -146,17 +148,22 @@ CELLS = [
 
     *Problem A (decay and growth).* $y' = -y$ with $y(0) = 1$. The exact solution is
     $y(t) = e^{-t}$, because the derivative of $e^{-t}$ is $-e^{-t}$ and $e^{0} = 1$.
-    This equation describes the extra times of the author's metric. Lengths along the
-    three extra times $x_5, x_6, x_7$ carry the scale factor $e^{-a_4}\sin^{1/6}z$
-    and lengths along 3-space $x_1, x_2, x_3$ the factor $e^{a_4}\sin^{1/6}z$, where
-    $a_4(x_4)$ depends on the time $x_4$ and $z = 6 H x_0$ on the hidden coordinate.
-    Along the linear history $a_4 = A H x_4$, which the book uses as a prescribed
-    background (here $A = 1$ and $H = 1$), at a fixed hidden position the factor
-    $\sin^{1/6}z$ does not change with $x_4$, so we leave it out and follow
-    $b = e^{-x_4}$ and $a = e^{x_4}$. The extra-time factor obeys $db/dx_4 = -b$
+    This equation describes the extra times of the author's corrected metric
+    (version 2 of 2026-10-16). Lengths along each of the three extra times
+    $x_5, x_6, x_7$ carry the scale factor $e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$
+    and lengths along 3-space $x_1, x_2, x_3$ the factor $e^{a_4}$, where $a_4(x_4)$
+    and $b_4(x_4) > 0$ depend on the time $x_4$ and $z = 6 H x_0$ on the hidden
+    coordinate. Along the prescribed history of the Revision record,
+    $a_4 = A H x_4$ and $b_4 = e^{(4/3) A H x_4}$ (here $A = 1$ and $H = 1$), each
+    extra-time factor is $e^{-x_4} e^{2 x_4/3} (\sin^2 z)^{1/12} = e^{-x_4/3}
+    (\sin^2 z)^{1/12}$, and at a fixed hidden position $(\sin^2 z)^{1/12}$ does not
+    change with $x_4$. The product of the three extra-time factors, the *volume
+    factor of the extra times*, is $e^{-x_4} (\sin^2 z)^{1/4}$; we leave out the
+    constant $(\sin^2 z)^{1/4}$ and follow $b = e^{-x_4}$, together with one 3-space
+    factor $a = e^{x_4}$. The extra-time volume factor obeys $db/dx_4 = -b$
     (problem A with $t = x_4$: the extra times DEFLATE) and the 3-space factor obeys
     $da/dx_4 = +a$ (3-space inflates). Their product $a b = e^{x_4} e^{-x_4} = 1$
-    never changes.
+    never changes along this history.
 
     *Problem B (oscillation).* $d^2x/dt^2 = -x$ with $x(0) = 1$, $x'(0) = 0$. With the
     velocity $v = x'$ it becomes a system of two first-order equations, $x' = v$ and
@@ -252,12 +259,12 @@ CELLS = [
 
 
     def decay(t, y):
-        """Problem A: y' = -y (an extra-time scale factor along the linear history)."""
+        """Problem A: y' = -y (the extra-time volume factor along the history)."""
         return -y
 
 
     def growth(t, y):
-        """y' = +y (the 3-space scale factor along the same history)."""
+        """y' = +y (a 3-space scale factor along the same history)."""
         return y
 
 
@@ -335,10 +342,11 @@ CELLS = [
     ## 8. The inflating and the deflating scale factor
 
     The next cell solves $da/dt = a$ (the 3-space factor $a = e^{t}$) and
-    $db/dt = -b$ (the extra-time factor $b = e^{-t}$) from $t = 0$ to $t = 2$ with
-    the coarse step $h = 0.25$ (8 steps), by Euler and by RK4, and draws them with
-    the exact curves. Euler multiplies by $1 + h = 1.25$ and by $1 - h = 0.75$ per
-    step, so after 8 steps it gives $1.25^8$ and $0.75^8$; the checks confirm this.
+    $db/dt = -b$ (the extra-time volume factor $b = e^{-t}$) from $t = 0$ to
+    $t = 2$ with the coarse step $h = 0.25$ (8 steps), by Euler and by RK4, and
+    draws them with the exact curves. Euler multiplies by $1 + h = 1.25$ and by
+    $1 - h = 0.75$ per step, so after 8 steps it gives $1.25^8$ and $0.75^8$; the
+    checks confirm this.
     """),
     code(r'''
     H_COARSE, STEPS = 0.25, 8  # step size and number of steps: t from 0 to 2
@@ -360,20 +368,22 @@ CELLS = [
         left.plot(t_n, a_n, **style, label=f"{LABELS[name]}, $h = 0.25$")
         right.plot(t_n, b_n, **style, label=f"{LABELS[name]}, $h = 0.25$")
     left.set_title("3-space factor $a$: $da/dx_4 = +a$ (inflates)")
-    right.set_title("extra-time factor $b$: $db/dx_4 = -b$ (deflates)")
+    right.set_title("extra-time volume factor $b$: $db/dx_4 = -b$ (deflates)")
     for ax in (left, right):
         ax.set_xlabel("time $x_4$ (units $1/H$, $A = 1$)")
         ax.legend(fontsize=8)
     left.set_ylabel("scale factor (pure number)")
     save_figure(fig, "scale_factors",
-                "Left: the 3-space scale factor $a = e^{x_4}$, which obeys "
-                "$da/dx_4 = a$; right: the extra-time scale factor $b = e^{-x_4}$, "
-                "which obeys $db/dx_4 = -b$, along the linear history $a_4 = A H x_4$ "
-                "with $A = H = 1$ at a fixed hidden position. Horizontal axis the time "
-                "$x_4$ in units of $1/H$, vertical axis the scale factor (a pure "
-                "number). Black: the exact curves; squares: Euler with the step "
-                "$h = 0.25$; circles: RK4 with the same step. Euler falls behind the "
-                "growing curve and decays too fast; RK4 lies on both exact curves.")
+                "Left: one 3-space scale factor $a = e^{x_4}$, which obeys "
+                "$da/dx_4 = a$; right: the volume factor $b = e^{-x_4}$ of the three "
+                "extra times (the product of their three scale factors, each "
+                "$e^{-x_4/3}$), which obeys $db/dx_4 = -b$, along the prescribed "
+                "history $a_4 = A H x_4$, $b_4 = e^{(4/3) A H x_4}$ with $A = H = 1$ at "
+                "a fixed hidden position. Horizontal axis the time $x_4$ in units of "
+                "$1/H$, vertical axis the factor (a pure number). Black: the exact "
+                "curves; squares: Euler with the step $h = 0.25$; circles: RK4 with "
+                "the same step. Euler falls behind the growing curve and decays too "
+                "fast; RK4 lies on both exact curves.")
     a_euler, b_euler = curves["euler"][1][-1], curves["euler"][2][-1]
     a_rk4, b_rk4 = curves["rk4"][1][-1], curves["rk4"][2][-1]
     report("a(2): exact, Euler, RK4", f"{math.exp(2):.6f}, {a_euler:.6f}, {a_rk4:.6f}")
@@ -384,9 +394,11 @@ CELLS = [
           "RK4 with h = 0.25 is within 0.1 percent of e^2 and e^(-2)")
     '''),
     md(r"""
-    The exact product $a b = e^{t} e^{-t}$ is $1$ at every time: the inflation of a
-    3-space direction is compensated exactly by the deflation of an extra-time
-    direction. A numerical method multiplies $a$ by $R(h)$ and $b$ by $R(-h)$ per
+    The exact product $a b = e^{t} e^{-t}$ is $1$ at every time: along this history
+    the inflation of one 3-space direction is compensated exactly by the deflation
+    of the three extra times together. (The whole volume factor of the metric is
+    not constant; it also contains the hidden direction and the other two 3-space
+    directions.) A numerical method multiplies $a$ by $R(h)$ and $b$ by $R(-h)$ per
     step, so it multiplies the product by $R(h) R(-h)$. For Euler that is
     $(1 + h)(1 - h) = 1 - h^2$: the product shrinks by the factor $1 - h^2$ at every
     step, however long we compute. For RK4 the cell lets sympy multiply out
@@ -427,10 +439,11 @@ CELLS = [
         ax.legend(fontsize=8)
     save_figure(fig, "scale_factor_product",
                 "Left: the product $a b$ of the 3-space factor and the extra-time "
-                "factor of the previous figure, computed with the step $h = 0.25$; "
-                "right: its distance $|a b - 1|$ from the exact value on a logarithmic "
-                "axis. Horizontal axes the time $x_4$ in units of $1/H$; the product is "
-                "a pure number. Exactly $a b = e^{x_4} e^{-x_4} = 1$ (black line). Euler "
+                "volume factor of the previous figure, computed with the step "
+                "$h = 0.25$; right: its distance $|a b - 1|$ from the exact value on a "
+                "logarithmic axis. Horizontal axes the time $x_4$ in units of $1/H$; "
+                "the product is a pure number. Along the history exactly "
+                "$a b = e^{x_4} e^{-x_4} = 1$ (black line). Euler "
                 "(squares) multiplies the product by $1 - h^2 = 0.9375$ at every step "
                 "and ends at $0.9375^8 = 0.597$; RK4 (circles) multiplies it by "
                 "$1 + h^6/72 + h^8/576$ and ends within $3 \\times 10^{-5}$ of 1. The "
@@ -626,8 +639,9 @@ CELLS = [
     The Rust program of the Revision record that solves the Kohn-Sham equations of
     this book makes $G$ equal RK4 steps over an interval of length $L$ of the hidden
     coordinate. The next cell reads $G$ and $L$ from the record
-    Revision/kohn_sham/results/parameters.json, together with the constants $A$ and
-    $H$ of the linear history $a_4 = A H x_4$ that section 8 used, and computes the
+    Revision/kohn_sham/results/parameters.json, together with the constants $A$,
+    $H$, $\beta$ and $b_4(0)$ of the prescribed history $a_4 = A H x_4$,
+    $b_4 = b_4(0)\, e^{\beta A H x_4}$ that section 8 used, and computes the
     solver's step $h = L/G$. Here we use only this step, not the solver's equations.
 
     How large is the error of a method of order $p$ at this step? For problem A we
@@ -660,13 +674,19 @@ CELLS = [
     L_KS = parameters["physics"]["L_tipCutoff"]  # the length of its interval in y
     A_KS = parameters["physics"]["historyA"]  # the constant A of a4 = A H x4
     H_KS = parameters["physics"]["H"]  # the author's constant H
+    BETA_KS = parameters["physics"]["historyBeta"]  # b4 = b4(0) e^(beta A H x4)
+    B0_KS = parameters["physics"]["historyB4AtZero"]  # b4(0)
     h_ks = L_KS / G_KS  # the solver's step
     report("solver: RK4 steps G, interval length L, step h = L/G",
            f"{G_KS}, {L_KS}, {h_ks:.10f}")
-    report("linear history a4 = A H x4 of the record: A, H", f"{A_KS}, {H_KS}")
-    check(G_KS == 900 and L_KS == 3.0 and A_KS == 1.0 and H_KS == 1.0,
-          "the solver makes 900 RK4 steps on L = 3 (h = 1/300); the history has A = H = 1",
-          record=f"{PARAMETERS}, keys rk4Steps, L_tipCutoff, historyA and H")
+    report("prescribed history of the record: A, H, beta, b4(0)",
+           f"{A_KS}, {H_KS}, {BETA_KS:.15f}, {B0_KS}")
+    check(G_KS == 900 and L_KS == 3.0 and A_KS == 1.0 and H_KS == 1.0
+          and abs(BETA_KS - 4 / 3) < 1e-14 and B0_KS == 1.0,
+          "the solver makes 900 RK4 steps on L = 3 (h = 1/300); the history has "
+          "A = H = 1, beta = 4/3, b4(0) = 1",
+          record=f"{PARAMETERS}, keys rk4Steps, L_tipCutoff, historyA, H, historyBeta "
+          "and historyB4AtZero")
 
     N_KS = round(1.0 / h_ks)  # 300 steps of h = 1/300 reach t = 1
     ORDER = {"euler": 1, "midpoint": 2, "rk4": 4}  # the orders measured in section 9
@@ -901,10 +921,12 @@ CELLS = [
       interval of length 3, read from its record) that is about $-6 \times 10^{-4}$
       for Euler, $7 \times 10^{-7}$ for the midpoint method and
       $4 \times 10^{-13}$ for RK4.
-    - The product of the inflating 3-space factor $e^{x_4}$ and the deflating
-      extra-time factor $e^{-x_4}$ is exactly 1; Euler's method destroys this
-      compensation (factor $1 - h^2$ per step), RK4 keeps it to $3 \times 10^{-5}$
-      even with the coarse step $h = 0.25$ (factor $1 + h^6/72 + h^8/576$).
+    - Along the prescribed history of the Revision record ($a_4 = H x_4$,
+      $b_4 = e^{(4/3) H x_4}$) the product of an inflating 3-space factor $e^{x_4}$
+      and the deflating volume factor $e^{-x_4}$ of the three extra times is
+      exactly 1; Euler's method destroys this compensation (factor $1 - h^2$ per
+      step), RK4 keeps it to $3 \times 10^{-5}$ even with the coarse step
+      $h = 0.25$ (factor $1 + h^6/72 + h^8/576$).
     - For the oscillator the energy factors per step are exactly $1 + h^2$,
       $1 + h^4/4$ and $1 - h^6/72 + h^8/576$; the computed energies follow these
       predictions to 13 digits. The angle of $R(ih)$ predicts how far each method

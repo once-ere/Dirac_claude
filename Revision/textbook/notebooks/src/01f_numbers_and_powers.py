@@ -46,7 +46,8 @@ FACTS = {
         "directions, whose product is the square root of the size of its determinant "
         "recorded in the Revision record, and builds the exponential function and the "
         "logarithm with the growth of space and the exponential deflation of the three "
-        "extra times on logarithmic axes."
+        "extra times along the background history of the Revision record on "
+        "logarithmic axes."
     ),
     "records": [
         ["Revision/gkd_lovelock/results/curvature.json",
@@ -56,6 +57,9 @@ FACTS = {
          "check sqrt_abs_det_g (reproduced)"],
         ["Revision/algebra/gammas.json",
          "the frame metric eta, whose signs are those of the metric entries (read)"],
+        ["Revision/field_equations_a4/a4-equations.json",
+         "exponentialHistory, entry recordHistory: the prescribed background history "
+         "a4 = H x4, b4 = e^((4/3) H x4) of the record (read and reproduced)"],
     ],
     "packages": ["numpy", "sympy", "mpmath", "matplotlib"],
     "needs_rust": [],
@@ -65,7 +69,7 @@ FACTS = {
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS all 6 figure files of this notebook exist",
-        "ALL 26 CHECKS PASSED (notebook 01f)",
+        "ALL 28 CHECKS PASSED (notebook 01f)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for a file below Revision/gkd_lovelock or Revision/algebra",
@@ -96,8 +100,9 @@ CELLS = [
       the author's metric into the eight length factors, whose product is the square
       root of the size of the determinant stored in the Revision record;
     - builds the number $e$ and the exponential function as a limit, and shows the
-      growth $e^{a_4}$ of space and the exponential deflation $e^{-a_4}$ of the
-      three extra times on ordinary and on logarithmic axes.
+      growth $e^{a_4}$ of space and the exponential deflation $e^{-a_4/3}$ of the
+      three extra times along the background history of the Revision record on
+      ordinary and on logarithmic axes.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -133,6 +138,11 @@ CELLS = [
       $a^p a^q = a^{p+q}$, $(a^p)^q = a^{pq}$, $(ab)^p = a^p b^p$,
       $a^{-p} = 1/a^p$ for positive $a, b$.
     - **Absolute value** $|x|$: $x$ without its sign; $\sqrt{x^2} = |x|$.
+    - **Positive root**: $(y^2)^{1/6}$ means the positive sixth root of $y^2$, which
+      is $|y|^{1/3}$; for $y < 0$ it differs from the real cube root of $y$, which
+      is negative.
+    - **Sign** $\mathrm{sign}(c)$: $+1$ for $c > 0$ and $-1$ for $c < 0$; for
+      $c \neq 0$, $c \cdot \mathrm{sign}(c) = |c|$, so $\mathrm{sign}(c) = |c|/c$.
     - **Exponential function** $e^x$ and **natural logarithm** $\ln x$, which
       undoes it: $\ln(e^x) = x$. The number $e = 2.71828\dots$.
     - **e-fold**: a growth by the factor $e$; a growth of $a_4$ by $\ln 2 \approx
@@ -145,23 +155,27 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The author's metric of the primordial gravitational field is the diagonal
-    matrix
+    The author's metric of the primordial gravitational field (the corrected metric
+    of the Revision record, version 2 of 2026-10-16) is the diagonal matrix
 
-    $$g = \mathrm{diag}\big(\cot^2 z, e^{2a_4} s, e^{2a_4} s, e^{2a_4} s, -1,
-    -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),\quad
-    s = \sin^{1/3} z,\ z = 6 H x_0,\ 0 < z < \pi/2,$$
+    $$g = \mathrm{diag}\big(b_4 e^{-2a_4}\cot^2 z, e^{2a_4}, e^{2a_4}, e^{2a_4}, -1,
+    -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),$$
 
-    with a function $a_4(x_4)$ and a positive function $b_4(x_4)$ of the time
-    ($b_4 = 1$ in the background of the Revision record). Its entries are built
-    from powers ($\sin^{1/3} z$ is the cube root of $\sin z$), exponentials
-    ($e^{2a_4}$) and a trigonometric function. A length along a coordinate is the
+    $$s = (\sin^2 z)^{1/6},\qquad z = 6 H x_0,$$
+
+    where $z$ takes every real value, $a_4(x_4)$ is a function and $b_4(x_4)$ a
+    positive function of the time (never the constant 1). Its entries are built
+    from powers ($s$ is the positive sixth root of $\sin^2 z$), exponentials
+    ($e^{2a_4}$) and trigonometric functions. A length along a coordinate is the
     square root of the size of its metric entry: along $x_1, x_2, x_3$ (space) it is
-    $e^{a_4}\sin^{1/6} z$, which grows as $a_4$ grows, and along the three extra
-    times $x_5, x_6, x_7$ it is $b_4^{1/2} e^{-a_4}\sin^{1/6} z$, which shrinks: for
-    constant $b_4$ the extra times deflate exponentially.
-    The time $x_4$ has the factor 1 and the hidden direction $x_0$ the factor
-    $\cot z$. To compute with these expressions correctly one needs the laws of
+    $e^{a_4}$, which grows as $a_4$ grows; along the three extra times
+    $x_5, x_6, x_7$ it is $b_4^{1/2} e^{-a_4} (\sin^2 z)^{1/12}$; along the hidden
+    direction $x_0$ it is $b_4^{1/2} e^{-a_4} |\cot z|$; the time $x_4$ has the
+    factor 1. The Revision record follows the prescribed background history
+    $a_4 = H x_4$, $b_4 = e^{(4/3) H x_4}$, on which
+    $b_4^{1/2} e^{-a_4} = e^{-a_4/3}$: while space inflates, the three extra times,
+    and the hidden direction with them, deflate exponentially.
+    To compute with these expressions correctly one needs the laws of
     powers, roots, exponentials and logarithms, and one needs to know when a
     computer computes exactly (whole numbers, fractions, sympy's symbols) and when
     it rounds (floating-point numbers). Both are built here from zero.
@@ -582,7 +596,12 @@ CELLS = [
     a^{-p} = \frac{1}{a^p},\quad \sqrt a = a^{1/2}.$$
 
     They need $a, b > 0$. For a negative number they can fail:
-    $\sqrt{(-2)^2} = \sqrt 4 = 2$, not $-2$; in general $\sqrt{x^2} = |x|$.
+    $\sqrt{(-2)^2} = \sqrt 4 = 2$, not $-2$; in general $\sqrt{x^2} = |x|$. In the
+    same way $(y^2)^{1/6} = |y|^{1/3}$ is the positive sixth root, which is not the
+    cube root of $y$ when $y < 0$: the real cube root of $-0.5$ is $-0.7937$, while
+    $((-0.5)^2)^{1/6} = +0.7937$. This is why the Revision record writes the
+    author's $\sin^{1/3} z$ as $(\sin^2 z)^{1/6}$: the entry stays positive where
+    $\sin z < 0$.
 
     A worked example with $s > 0$ and real $a$:
 
@@ -595,25 +614,29 @@ CELLS = [
     $e^{-a}$ is $e^a$).
 
     **The length factors.** The length of a small step $dx$ along one coordinate
-    is $\sqrt{|g_{\mu\mu}|}\,dx$. For $0 < z < \pi/2$ both $\sin z$ and $\cos z$
-    are positive, so the laws apply:
+    is $\sqrt{|g_{\mu\mu}|}\,dx$. With $\sqrt{y^2} = |y|$ for the real number
+    $\cot z$ and the laws of powers for the positive numbers $b_4$, $e^{\pm 2a_4}$
+    and $\sin^2 z$ (wherever $\sin z \cos z \neq 0$):
 
-    $$\sqrt{\cot^2 z} = \cot z,\quad \sqrt{e^{2a_4}\sin^{1/3} z} = e^{a_4}\sin^{1/6} z,
-    \quad \sqrt{1} = 1,\quad
-    \sqrt{b_4 e^{-2a_4}\sin^{1/3} z} = b_4^{1/2} e^{-a_4}\sin^{1/6} z,$$
+    $$\sqrt{b_4 e^{-2a_4}\cot^2 z} = b_4^{1/2} e^{-a_4} |\cot z|,\quad
+    \sqrt{e^{2a_4}} = e^{a_4},\quad \sqrt{1} = 1,$$
+
+    $$\sqrt{b_4 e^{-2a_4} (\sin^2 z)^{1/6}} = b_4^{1/2} e^{-a_4} (\sin^2 z)^{1/12},$$
 
     and their product over the eight directions is
 
-    $$\cot z \cdot (e^{a_4}\sin^{1/6} z)^3 \cdot 1 \cdot (b_4^{1/2} e^{-a_4}\sin^{1/6} z)^3
-    = b_4^{3/2}\, e^{3a_4 - 3a_4}\,\sin^{6/6} z\,\cot z = b_4^{3/2} \sin z \cot z
-    = b_4^{3/2} \cos z,$$
+    $$b_4^{1/2} e^{-a_4}|\cot z| \cdot (e^{a_4})^3 \cdot 1 \cdot
+    \big(b_4^{1/2} e^{-a_4} (\sin^2 z)^{1/12}\big)^3
+    = b_4^{2}\, e^{-a_4 + 3a_4 - 3a_4}\, |\cot z|\, (\sin^2 z)^{3/12}
+    = e^{-a_4} b_4^2 |\cot z| (\sin^2 z)^{1/4},$$
 
-    the record's `sqrtAbsDetG` ($b_4^{3/2} \sin z \cot z$; $\cos z$ at $b_4 = 1$).
-    The next cell checks the laws and the example with sympy (with symbols declared
-    positive or real), then reads the metric from the record with the symbols
-    $S = \sin z$ and $C = \cos z$ (both positive, $\cot z = C/S$) and $b_4$
-    (positive), takes the square root of the size of every entry (the sign of entry
-    $\mu$ is $\eta_{\mu\mu}$ of the frame metric), and checks the eight factors and
+    the record's `sqrtAbsDetG`, which writes $\cot z \cdot \mathrm{sign}(\cot z)$ in
+    place of $|\cot z|$. The next cell checks the laws, the positive sixth root and
+    the example with sympy (with symbols declared positive or real); the cell after
+    it reads the metric from the record with a real symbol $z$ (any real number) and
+    positive $b_4$, takes the square root of the size of every entry (the sign of
+    entry $\mu$ is $\eta_{\mu\mu}$ of the frame metric), checks the signs at points
+    in all four quarters of the period $\pi$ of $z$, and checks the eight factors and
     their product.
     """),
     code(r'''
@@ -631,6 +654,12 @@ CELLS = [
         f"{((-2.0) ** 2) ** 0.5}")
     check(sp.sqrt(y ** 2) == sp.Abs(y) and ((-2.0) ** 2) ** 0.5 == 2.0,
           "sqrt(y^2) = |y|: for negative numbers the law (a^p)^q = a^(pq) fails")
+    sixth = (y ** 2) ** sp.Rational(1, 6)  # the positive sixth root of y^2
+    say(f"sympy: (y^2)^(1/6) = {sixth}; numbers: ((-0.5)^2)^(1/6) = "
+        f"{((-0.5) ** 2) ** (1 / 6):.4f}, the real cube root of -0.5 = {np.cbrt(-0.5):.4f}")
+    check(sp.simplify(sixth - sp.Abs(y) ** sp.Rational(1, 3)) == 0
+          and ((-0.5) ** 2) ** (1 / 6) > 0 > np.cbrt(-0.5),
+          "(y^2)^(1/6) = |y|^(1/3) > 0: the positive sixth root, not the cube root of y")
     s_pos, a_real = sp.Symbol("s", positive=True), sp.Symbol("a", real=True)
     example = 1 / sp.sqrt(s_pos ** sp.Rational(1, 3) / sp.exp(2 * a_real))
     check(sp.simplify(example - sp.exp(a_real) / s_pos ** sp.Rational(1, 6)) == 0,
@@ -641,17 +670,17 @@ CELLS = [
     Revision record.
     """),
     code(r'''
-    S, C = sp.symbols("S C", positive=True)  # S = sin z, C = cos z, both > 0
+    z = sp.Symbol("z", real=True)  # z = 6 H x0, any real number
     a4 = sp.Symbol("a4", real=True)  # the value of a4(x4) at one time
     b4 = sp.Symbol("b4", positive=True)  # the value of b4(x4) at one time
 
 
     def from_record(text):
-        """The record's Mathematica text as sympy, with sin z = S and cot z = C/S."""
+        """The record's Mathematica text as a sympy expression of a4, b4 and z."""
         text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
-        text = text.replace("Sin[6*H*x0]", "S")
-        text = text.replace("Cot[6*H*x0]", "(C/S)").replace("^", "**")
-        return sp.sympify(text, locals={"a4": a4, "b4": b4, "S": S, "C": C, "E": sp.E})
+        text = text.replace("Sin[6*H*x0]", "sin(z)").replace("Cot[6*H*x0]", "cot(z)")
+        text = text.replace("Sign[", "sign(").replace("]", ")").replace("^", "**")
+        return sp.sympify(text, locals={"a4": a4, "b4": b4, "z": z, "E": sp.E})
 
 
     curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
@@ -660,20 +689,29 @@ CELLS = [
                      .read_text(encoding="utf-8"))["eta"]  # +1 or -1 for x0 ... x7
     metric = [from_record(text) for text in curvature["metricDiagonal"]]
     sizes = [eta[mu] * metric[mu] for mu in range(8)]  # |g_mu mu| = eta_mu mu g_mu mu
-    check(all(size.is_positive for size in sizes),
-          "every entry of the metric has the sign of eta: eta_mu mu g_mu mu > 0")
+    # 24 points (a4, b4, z); z = -2.5, -0.7, 0.4, 1.3, 1.9, 2.8 lie in all four
+    # quarters of the period pi of z, on both sides of z = 0
+    points = [{a4: sp.Rational(a, 2), b4: sp.Rational(b, 2), z: sp.Rational(c, 10)}
+              for a in (-2, 1) for b in (1, 5) for c in (-25, -7, 4, 13, 19, 28)]
+    check(all(sp.N(size.subs(point)) > 0 for size in sizes for point in points),
+          "every entry of the metric has the sign of eta: eta_mu mu g_mu mu > 0 at 24 "
+          "points with z in all four quarters of the period pi")
     factors = [sp.sqrt(size) for size in sizes]  # the length factors
     # the author's order x0, x1, ..., x7
-    expected = ([C / S] + [sp.exp(a4) * S ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)]
-                + [sp.sqrt(b4) * sp.exp(-a4) * S ** sp.Rational(1, 6)] * 3)
+    twelfth = (sp.sin(z) ** 2) ** sp.Rational(1, 12)  # (sin(z)^2)^(1/12)
+    expected = ([sp.sqrt(b4) * sp.exp(-a4) * sp.Abs(sp.cot(z))]
+                + [sp.exp(a4)] * 3 + [sp.Integer(1)]
+                + [sp.sqrt(b4) * sp.exp(-a4) * twelfth] * 3)
     for mu in range(8):
         say(f"x{mu}: g = {metric[mu]}, length factor {factors[mu]}")
     check(len(factors) == 8 and
           all(sp.simplify(f - e) == 0 for f, e in zip(factors, expected)),
-          "the length factors: cot z = C/S for x0, e^a4 S^(1/6) for x1 to x3, 1 for x4, "
-          "b4^(1/2) e^(-a4) S^(1/6) for x5 to x7")
-    product = sp.simplify(sp.Mul(*factors))
-    record_root = sp.simplify(from_record(curvature["sqrtAbsDetG"]))
+          "the length factors: b4^(1/2) e^(-a4) |cot z| for x0, e^a4 for x1 to x3, 1 for "
+          "x4, b4^(1/2) e^(-a4) (sin(z)^2)^(1/12) for x5 to x7")
+    product = sp.Mul(*factors)
+    record_root = from_record(curvature["sqrtAbsDetG"])
+    # the rule sign(c) = |c|/c for c = cot z (not 0) turns cot z sign(cot z) into |cot z|
+    record_root = record_root.subs(sp.sign(sp.cot(z)), sp.Abs(sp.cot(z)) / sp.cot(z))
     say(f"product of the eight factors = {product}; the record's sqrtAbsDetG = "
         f"{record_root}")
     lovelock_report = json.loads(repository_file(
@@ -681,11 +719,13 @@ CELLS = [
         .read_text(encoding="utf-8"))
     root_verdict = {c["name"]: c["verdict"]
                     for c in lovelock_report["checks"]}["sqrt_abs_det_g"]
-    check(sp.simplify(product - b4 ** sp.Rational(3, 2) * C) == 0
-          and sp.simplify(record_root - b4 ** sp.Rational(3, 2) * C) == 0
+    target = (sp.exp(-a4) * b4 ** 2 * sp.Abs(sp.cot(z))
+              * (sp.sin(z) ** 2) ** sp.Rational(1, 4))
+    check(sp.simplify(product - target) == 0
+          and sp.simplify(record_root - target) == 0
           and root_verdict == "PASS",
-          "the product of the length factors is b4^(3/2) cos z, the record's "
-          "sqrt|det g| = b4^(3/2) sin z cot z, for every a4",
+          "the product of the length factors is e^(-a4) b4^2 |cot z| (sin(z)^2)^(1/4), "
+          "the record's sqrt|det g|",
           record="Revision/gkd_lovelock/results/curvature.json, sqrtAbsDetG; "
                  "python-lovelock-report.json, check sqrt_abs_det_g")
     '''),
@@ -703,15 +743,21 @@ CELLS = [
     The logarithm undoes the exponential, $\ln(e^t) = t$, and turns products into
     sums, $\ln(xy) = \ln x + \ln y$ for positive $x, y$ (because
     $e^{\ln x + \ln y} = e^{\ln x}e^{\ln y} = xy$). In the author's metric the
-    length factors contain $e^{a_4}$ (space) and $e^{-a_4}$ (extra times). When
-    $a_4$ grows by $\ln 2 \approx 0.693$, $e^{a_4}$ doubles and
-    $e^{-a_4}$ halves: $e^{-(a_4 + \ln 2)} = e^{-a_4} e^{-\ln 2} = e^{-a_4}/2$. To
-    shrink the extra times by a factor 1000, $a_4$ must grow by
-    $\ln 1000 \approx 6.91$.
+    length factors contain $e^{a_4}$ (space) and $b_4^{1/2} e^{-a_4}$ (the extra
+    times and the hidden direction). When $a_4$ grows by $\ln 2 \approx 0.693$,
+    $e^{a_4}$ doubles and $e^{-a_4}$ halves:
+    $e^{-(a_4 + \ln 2)} = e^{-a_4} e^{-\ln 2} = e^{-a_4}/2$. On the record's
+    background history $b_4 = e^{4a_4/3}$ (the record file
+    Revision/field_equations_a4/a4-equations.json, entry `recordHistory`, gives
+    `be = 4/3` in $b_4 = e^{\mathrm{be}\,a_4}$), so
+    $b_4^{1/2} e^{-a_4} = e^{2a_4/3} e^{-a_4} = e^{-a_4/3}$: the extra times halve
+    each time $a_4$ grows by $3\ln 2 \approx 2.079$, and to shrink them by a factor
+    1000, $a_4$ must grow by $3\ln 1000 \approx 20.72$.
 
     The next cell computes the errors for $n = 1, 10, \dots, 10^{16}$ both ways,
     checks the $e/(2n)$ law (within 1 per cent for $n \geq 1000$) and the
-    breakdown of the floating-point version, and checks the laws of the logarithm.
+    breakdown of the floating-point version, checks the laws of the logarithm, and
+    reads the record's history and checks the factor $e^{-a_4/3}$.
     """),
     code(r'''
     mpmath.mp.dps = 50
@@ -733,14 +779,28 @@ CELLS = [
           and sp.expand_log(sp.log(u * w)) == sp.log(u) + sp.log(w)
           and sp.simplify(sp.exp(-(a4 + sp.log(2))) - sp.exp(-a4) / 2) == 0,
           "ln(e^t) = t, ln(u w) = ln u + ln w, and e^(-(a4 + ln 2)) = e^(-a4)/2")
-    report("growth of a4 that shrinks the extra times by a factor 1000",
-           f"{math.log(1000):.4f}")
+    equations = json.loads(repository_file("Revision/field_equations_a4/a4-equations.json")
+                           .read_text(encoding="utf-8"))
+    history = equations["exponentialHistory"]["authorWeights"]["recordHistory"]
+    say(f"the record's history: {history}")
+    beta = sp.Rational(history.split("be = ")[1].split(",")[0])  # b4 = e^(beta a4)
+    extra_factor = sp.sqrt(sp.exp(beta * a4)) * sp.exp(-a4)  # b4^(1/2) e^(-a4)
+    check(beta == sp.Rational(4, 3) and sp.simplify(extra_factor - sp.exp(-a4 / 3)) == 0,
+          "on the record's history b4 = e^(4 a4/3), so b4^(1/2) e^(-a4) = e^(-a4/3)",
+          record="Revision/field_equations_a4/a4-equations.json, exponentialHistory, "
+                 "recordHistory")
+    report("growth of a4 that halves the extra times on the record's history",
+           f"{3 * math.log(2):.4f}")
+    report("growth of a4 that shrinks them by a factor 1000",
+           f"{3 * math.log(1000):.4f}")
     '''),
     md(r"""
-    The next cell draws the errors of the limit for $e$ (figure 5) and the two
-    factors $e^{a_4}$ and $e^{-a_4}$ on an ordinary and on a logarithmic vertical
-    axis (figure 6), with the points $a_4 = 0, \ln 2, 2\ln 2, \dots$ where they
-    double and halve.
+    The next cell draws the errors of the limit for $e$ (figure 5) and the factors
+    $e^{a_4}$ of space and $e^{-a_4/3}$ of the extra times on the record's history,
+    with $e^{-a_4}$ alone for comparison, on an ordinary and on a logarithmic
+    vertical axis (figure 6), with the points $a_4 = 0, \ln 2, 2\ln 2, \dots$ where
+    $e^{a_4}$ doubles and $a_4 = 0, 3\ln 2, 6\ln 2, 9\ln 2$ where $e^{-a_4/3}$
+    halves.
     """),
     code(r'''
     fig, ax = plt.subplots(figsize=(8.0, 4.6))
@@ -761,16 +821,19 @@ CELLS = [
                 "numbers it falls only until $n$ is about $10^8$; then the rounding of "
                 "$1 + 1/n$, multiplied by the power $n$, takes over, and at $n = "
                 "10^{16}$ the result is exactly 1, an error of $e - 1$.")
-    a4_values = np.linspace(0.0, 4.0, 401)
-    marks = np.log(2.0) * np.arange(6)  # a4 = 0, ln 2, 2 ln 2, ..., 5 ln 2
+    a4_values = np.linspace(0.0, 6.5, 651)
+    marks = np.log(2.0) * np.arange(10)  # a4 = 0, ln 2, ..., 9 ln 2: e^a4 doubles
+    slow_marks = 3 * np.log(2.0) * np.arange(4)  # a4 = 0, 3 ln 2, 6 ln 2, 9 ln 2
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.3))
     for ax in (left, right):
         ax.plot(a4_values, np.exp(a4_values), color="tab:red",
                 label="$e^{a_4}$: space $x_1, x_2, x_3$")
-        ax.plot(a4_values, np.exp(-a4_values), color="tab:blue",
-                label="$e^{-a_4}$: extra times $x_5, x_6, x_7$")
+        ax.plot(a4_values, np.exp(-a4_values / 3), color="tab:blue",
+                label="$b_4^{1/2} e^{-a_4} = e^{-a_4/3}$: extra times and $x_0$")
+        ax.plot(a4_values, np.exp(-a4_values), color="0.5", ls="--", lw=1,
+                label="$e^{-a_4}$ alone, for comparison")
         ax.plot(marks, np.exp(marks), "o", color="tab:red", ms=4)
-        ax.plot(marks, np.exp(-marks), "o", color="tab:blue", ms=4)
+        ax.plot(slow_marks, np.exp(-slow_marks / 3), "o", color="tab:blue", ms=4)
         ax.set_xlabel("$a_4$")
     left.set_ylabel("factor (ordinary axis)")
     left.set_title("ordinary vertical axis")
@@ -778,21 +841,24 @@ CELLS = [
     right.set_yscale("log")
     right.set_ylabel("factor (logarithmic axis)")
     right.set_title("logarithmic vertical axis: straight lines")
-    for k in range(1, 6):
-        right.text(marks[k], np.exp(-marks[k]) * 0.55, f"$2^{{-{k}}}$", ha="center",
-                   fontsize=8, color="tab:blue")
+    for k in range(1, 4):
+        right.text(slow_marks[k], np.exp(-slow_marks[k] / 3) * 0.5, f"$2^{{-{k}}}$",
+                   ha="center", fontsize=8, color="tab:blue")
     fig.tight_layout()
     save_figure(fig, "growth_and_deflation",
-                "The factors $e^{a_4}$ (red), which multiply the lengths along the three "
-                "space directions, and $e^{-a_4}$ (blue), which multiply the lengths "
-                "along the three extra times, for $a_4$ from 0 to 4 (the factor "
-                "$\\sin^{1/6} z$, which depends on the hidden coordinate $x_0$, is "
-                "left out); horizontal axis $a_4$, vertical axis "
-                "the factor (a pure number), ordinary on the left and logarithmic on "
-                "the right. The dots mark $a_4 = 0, \\ln 2, 2\\ln 2, \\dots$, where "
-                "$e^{a_4}$ doubles and $e^{-a_4}$ halves. On the logarithmic axis both "
-                "are straight lines, one rising and one falling equally fast: the "
-                "extra times deflate exponentially as $a_4$ grows.")
+                "The factor $e^{a_4}$ (red) of the lengths along the three space "
+                "directions and the factor $b_4^{1/2} e^{-a_4} = e^{-a_4/3}$ (blue) "
+                "of the lengths along the three extra times and the hidden direction "
+                "on the record's background history $b_4 = e^{4a_4/3}$ (the factors "
+                "that depend on $z = 6 H x_0$ are left out), with $e^{-a_4}$ alone "
+                "(grey, dashed), for $a_4$ from 0 to 6.5; horizontal axis $a_4$, "
+                "vertical axis the factor (a pure number), ordinary on the left and "
+                "logarithmic on the right. The red dots mark $a_4 = 0, \\ln 2, "
+                "2\\ln 2, \\dots$, where $e^{a_4}$ doubles, the blue dots "
+                "$a_4 = 0, 3\\ln 2, 6\\ln 2, 9\\ln 2$, where $e^{-a_4/3}$ halves. On "
+                "the logarithmic axis all are straight lines: the extra times deflate "
+                "exponentially, three times more slowly than $e^{-a_4}$, because "
+                "$b_4^{1/2} = e^{2a_4/3}$ grows.")
     '''),
     md(r"""
     ## 12. The last check
@@ -822,16 +888,18 @@ CELLS = [
       precision of about $\varepsilon = 2^{-52}$: $0.1 + 0.2 \neq 0.3$, and above
       $2^{53}$ whole numbers are skipped. Subtracting nearly equal numbers loses
       digits (cancellation); rewriting $1 - \cos x$ as $2\sin^2(x/2)$ cures it.
-    - The laws of powers hold for positive bases, and $\sqrt{y^2} = |y|$. Applied
-      to the author's metric of the Revision record they give the length factors
-      $\cot z$ (hidden direction), $e^{a_4}\sin^{1/6} z$ (space), 1 (time) and
-      $b_4^{1/2} e^{-a_4}\sin^{1/6} z$ (the exponentially deflating extra times),
-      whose product is $b_4^{3/2} \cos z$, the record's $\sqrt{|\det g|}$, for every
-      $a_4$ ($\cos z$ at $b_4 = 1$).
+    - The laws of powers hold for positive bases, $\sqrt{y^2} = |y|$ and
+      $(y^2)^{1/6} = |y|^{1/3}$. Applied to the author's metric of the Revision
+      record they give the length factors $b_4^{1/2} e^{-a_4} |\cot z|$ (hidden
+      direction), $e^{a_4}$ (space), 1 (time) and
+      $b_4^{1/2} e^{-a_4} (\sin^2 z)^{1/12}$ (the exponentially deflating extra
+      times), whose product is $e^{-a_4} b_4^2 |\cot z| (\sin^2 z)^{1/4}$, the
+      record's $\sqrt{|\det g|}$, for every real $z$ with $\sin z \cos z \neq 0$.
     - $e$ is the limit of $(1 + 1/n)^n$, with the error $e/(2n)$; floating point
       breaks this limit for $n$ beyond about $10^8$. A growth of $a_4$ by $\ln 2$
-      doubles $e^{a_4}$ and halves $e^{-a_4}$; on a logarithmic axis both are
-      straight lines.
+      doubles $e^{a_4}$ and halves $e^{-a_4}$; on the record's history
+      $b_4 = e^{4a_4/3}$ the extra times carry $e^{-a_4/3}$, which halves when
+      $a_4$ grows by $3\ln 2$; on a logarithmic axis all these are straight lines.
     """),
 ]
 

@@ -972,7 +972,9 @@ CELLS = [
     `DefMetric[{4, 4, 0}, ...]`: four positive, four negative and no zero
     eigenvalues, the signature (4,4). For that tensor the factor is the sign of
     $\det g$, which is $(+1)^4 (-1)^4 = +1$, the same as for $\eta$ (and for the
-    author's metric of the Revision record, $\det g = \cos^2 z > 0$).
+    corrected metric of the Revision record,
+    $\det g = e^{-2a_4} b_4^4 \cot^2 z\,|\sin z| > 0$ wherever
+    $\sin z \cos z \neq 0$, $z = 6 H x_0$).
     The next cell reads $\eta$ from the Revision record and checks
     $\det\eta = +1$; checks the declaration (4, 4, 0) in the cell In[29]; checks
     the formula for $n = 4$ and every $p = 0$ to 4 over all lists; and repeats the

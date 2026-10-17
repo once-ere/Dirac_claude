@@ -147,8 +147,10 @@ CELLS = [
     direction ($x = t$) by $e^{\varphi}$ and shrinks the other ($x = -t$) by
     $e^{-\varphi}$: a growing and a shrinking exponential whose product is 1. The
     lengths of space and of the extra times in the author's metric carry the factors
-    $e^{a_4}$ and $e^{-a_4}$, a pattern of the same form (only the form is the
-    same: $a_4$ is a function of the time, not a rapidity).
+    $e^{a_4}$ and $b_4^{1/2} e^{-a_4}$ (with a second positive function $b_4$ of the
+    time), a pattern of a similar form (only the form is similar: $a_4$ is a
+    function of the time, not a rapidity, and the product of the two factors is
+    $b_4^{1/2}$, not 1).
 
     Finally, the frequency $\varepsilon$ of a wave decides its fate: if $\varepsilon$
     is real, $|e^{-i\varepsilon t}| = 1$ for all times; if $\varepsilon = i\gamma$ is

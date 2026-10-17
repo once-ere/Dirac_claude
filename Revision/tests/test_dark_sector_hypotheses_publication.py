@@ -39,7 +39,9 @@ What is tested
   * the report-count table equals the counts recomputed from the reports;
   * every number quoted in the document is read from its JSON report: either it occurs verbatim
     in the detail of the named check, or it is the stated rounding of the named JSON value, or it
-    follows from them by exact arithmetic recomputed here;
+    follows from them by exact arithmetic recomputed here; the run times of the reproduction table
+    (section 12) are read from the folder READMEs and the gate budgets from Revision/verify_revision.sh;
+  * the statement that no T = 0 state populates the bulk band is re-read from the committed level files;
   * OPTIONAL (only when REVISION_PDF_REBUILD=1; needs pdflatex, about 10 s): the PDF is rebuilt in
     verify mode and must match the registry.
 
@@ -80,8 +82,8 @@ REGISTRY = REVISION / "pdf-specifications.json"
 OLD_REGISTRY = ROOT / "provenance" / "pdf-specifications.json"
 REBUILD = os.environ.get("REVISION_PDF_REBUILD") == "1"
 
-MARKDOWN_SHA256 = "134711d3827b4872d4af7fa67f096065aec1089f95f4498f1596fd654c5ef428"
-TEX_SHA256 = "dc0c830e11a4cf53b435f3a7171e69f8852cac9e7d76d131f3706e269be97e0a"
+MARKDOWN_SHA256 = "638037239abd5f7d05dacb2fd8ff348d14431fb5b8d20f09d675d41fbde161b9"
+TEX_SHA256 = "df4909d92fe7fe9d346402bc71f679acaed46fe68934c35caa02465449f7de8f"
 
 DARK = REVISION / "dark_sector"
 D16 = DARK / "dirac16complex"
@@ -105,6 +107,8 @@ A4_EQUATIONS = REVISION / "field_equations_a4" / "a4-equations.json"
 KS_THEORY = REVISION / "kohn_sham" / "ks-theory.json"
 KS_CROSSCHECK = REVISION / "kohn_sham" / "reports" / "ks-crosscheck.json"
 EXACT_FOCK = REVISION / "kohn_sham" / "results" / "exx" / "exact-fock-variant.csv"
+LEVELS = REVISION / "kohn_sham" / "results" / "ground" / "levels"
+GATE = REVISION / "verify_revision.sh"
 
 # The seven dark-sector reports of the corrected metric, every check of which the document lists (section 11.2).
 DARK_REPORTS = (DERIVATION, KS_HISTORY, EOS_CHECKS, INDEPENDENT, DERIVE_EOS, INDEPENDENT_NUMERICS, WOLFRAM)
@@ -196,6 +200,27 @@ KEY_STATEMENTS = (
     "it is kept so that the withdrawn record stays reproducible",
     "no number or check of this document comes from it",
     "No script was re-run for this document",
+    # the -4/9 bound is a theorem of the WKB mode model; a lambda < 0 condensate of positive energy is the exception
+    "dirac16complex00, in the WKB model (no hidden momentum, an APPROXIMATION): a positive-energy gas of good-sector "
+    "modes has the dark-matter-like law",
+    "every positive-energy mode gas with real frequencies has $w_{\\rm eff}(C) \\geq -4/9$, so such gases reach the "
+    "Unite $w_0$ only with a ghost-like component",
+    "the exception is a condensate with $\\lambda < 0$ and $mS > 0$ (positive energy, not a mode gas), whose "
+    "$w_{\\rm eff}(C) = (5/9)w - 4/9$ is -0.868889 at the CHOSEN ratio -0.764",
+    "The exception is a condensate with $\\lambda < 0$ and $mS > 0$: it has positive energy but is not a mode gas",
+    "only the condensate with a CHOSEN $\\lambda S/m < 0$ and $mS > 0$ gives values near the Unite $w_0$",
+    "none of the positive-energy models M2 to M4 goes below $-4/9$ over $a = 1/300, \\dots, 1$",
+    "What a mode gas needs is negative classical ENERGY",
+    "Within the WKB mode model (positive components with $\\varepsilon_i \\geq 0$: mode gases and $\\lambda = 0$ "
+    "condensates",
+    "a gas of dirac16complex bulk-band quanta, which no computed state populates, would go below $-4/9$ under (C)",
+    # the exact condensate solution is recorded for dirac16complex00; for dirac16complex its mean-field form is ASSUMED
+    "The homogeneous condensate is an exact solution of dirac16complex00 for every $a_4$, $b_4$",
+    "which is ASSUMED (the two differ in general, and the trace identity of the quantised field is ASSUMED, not proved",
+    "No canonical $T = 0$ state ($N = 8, 592, 2352$) occupies an odd-parity (bulk) level",
+    "The general statement, in flat 4+4 space, is the Krein-inertia theorem of `Revision/pairing`.",
+    "“The 7-volume of the metric is constant when $b_4$ is.”",
+    "so that the metric is defined for every real $z$ with $\\sin z \\neq 0$",
 )
 FORBIDDEN = (
     r"\b(?:hypothesis(?:00)?|hypotheses)\s+(?:is|are|has been|have been|was|were)\s+"
@@ -233,6 +258,17 @@ FORBIDDEN = (
     r"\bextra\s+times?\b[^.]*\b(?:static|frozen)\b",
     # no overclaim about pair creation
     r"\buniverses\s+are\s+created\s+in\s+pairs\b",
+    # the -4/9 bound holds for positive-energy MODE GASES in the WKB model; a lambda < 0 condensate of positive energy
+    # goes below it (w_eff(C) = (5/9) w - 4/9 = -0.868889 at the ratio -0.764)
+    r"\bnot\s+with\s+positive\s+energies\b",
+    r"\bno\s+positive-energy\s+model\s+goes\s+below\b",
+    r"\bout\s+of\s+reach\s+without\s+a\s+ghost",
+    # the exact condensate solution is recorded only for dirac16complex00 (for dirac16complex: mean-field, ASSUMED)
+    r"\bexact\s+(?:homogeneous\s+)?solution\s+(?:for|of)\s+both\s+fields\b",
+    # the interacting N = 2352 state at lambda_hat = -1.609 has its Fermi level above the free bulk edge
+    r"\bare\s+filled\s+below\s+the\s+bulk\s+edge\s+and\s+do\s+not\s+populate\b",
+    # SPEC section 11 states the constant 7-volume only for constant b4
+    r"“The\s+7-volume\s+of\s+the\s+metric\s+is\s+constant\.”",
 )
 # Numbers and statements of the withdrawn metric of 2026-10-14 that must not occur in the document any more.
 WITHDRAWN_MARKERS = (
@@ -241,6 +277,8 @@ WITHDRAWN_MARKERS = (
     "1.630e+00", "2.04 \\times 10^{-13}", "2.12 \\times 10^{-13}", "0.9307", "0.6581", "brane band",
     "brane zero mode", "Z2 brane", "b_4^{3/2}\\cos z", "N = 688", "N = 136", "\\sin^{1/3}", "\\sin^{1/6}z",
     "$X = P_3 - P_t$", "X/E", "\\frac34(b_4'/b_4)", "-1 + \\beta/2",
+    # the condensate scaling S ~ b4^(-3/2) and the observer factor (beta/2) w of the withdrawn record
+    "b_4^{3/2}S", "b_4^{-3/2}", "(\\beta/2)w", "(\\beta/2)\\,w",
 )
 FILE_SUFFIXES = (".json", ".py", ".wls", ".wl", ".md", ".tex", ".pdf", ".rs", ".csv", ".toml", ".nb", ".sh")
 
@@ -601,6 +639,12 @@ class Content(unittest.TestCase):
             r"with $z = 6Hx_0 \in (0,\pi/2)$",
             "In this computation the extra times are static.",
             "Universes are created in pairs.",
+            "5. dirac16complex00, dark energy: not with positive energies: $w_{\\rm eff}(C) \\geq -4/9$.",
+            "for dirac16complex00 no positive-energy model goes below $-4/9$ on the history",
+            "so the Unite $w_0$ is out of reach without a ghost-like component",
+            "The homogeneous condensate is an exact solution for both fields and every $a_4$, $b_4$.",
+            "The canonical $T = 0$ states ($N \\leq 2352$) are filled below the bulk edge and do not populate that band.",
+            "1. “The 7-volume of the metric is constant.” CORRECTED for the corrected metric",
         )
         self.assertEqual(len(tampered), len(FORBIDDEN))
         for pattern, sentence in zip(FORBIDDEN, tampered):
@@ -614,6 +658,9 @@ class Content(unittest.TestCase):
         # the markers of the withdrawn metric are detected in a stale sentence
         stale = "w_eff(C) between -0.040541 and -0.006532 on the brane band of N = 688"
         self.assertTrue(any(marker in stale for marker in WITHDRAWN_MARKERS))
+        for stale in ("$S = S_0b_4^{-3/2}$", "so $b_4^{3/2}S$ is constant", "$w_{\\rm eff}(B) = (\\beta/2)w$",
+                      "$w_{\\rm eff}(B) = (\\beta/2)\\,w$"):
+            self.assertTrue(any(marker in stale for marker in WITHDRAWN_MARKERS), stale)
 
     def test_no_material_of_the_earlier_stages(self):
         for marker in ("artifacts/", "provenance/", "studies/", "notebooks/", "dirac-main", "vendor/"):
@@ -881,12 +928,13 @@ class QuotedNumbers(unittest.TestCase):
         self.assertEqual(Fraction(5, 9) * ratio_wa, Fraction(-9359, 7500))
         self.assertEqual(f"{float(Fraction(5, 9) * ratio_wa):.6f}", fixed(cond["wa_A_B_C_at_that_u"], 6))
         self.assertEqual(fixed(cond["wa_A_B_C_at_that_u"], 6), "-1.247867")
-        # M1 under (C): the tangent slope is (5/9)(10/3) u/(2 + u)^2 = (50/27) u/(2 + u)^2
+        # M1 under (C): the tangent slope is (5/9)(10/3) u/(2 + u)^2 = (50/27) u/(2 + u)^2, written in the table as the
+        # stacked fraction 50u/(27 (2 + u)^2) (the inline form is wider than a column of the seven-column table)
         self.assertEqual(Fraction(5, 9) * Fraction(10, 3), Fraction(50, 27))
         m1 = load_json(EOS_THEORY)["models"]["M1_condensate"]
         self.assertEqual(m1["N2"]["w"], "-4/9 + (5/9) u/(2 + u)")
         self.assertEqual(m1["ratio"]["CPL"]["wa"], "(10/3) u/(2 + u)^2")
-        self.assertQuoted("| M1 | $-4/9 + 5w/9$ | $(50/27)\\,u/(2+u)^2$ |")
+        self.assertQuoted("| M1 | $-4/9 + 5w/9$ | $\\frac{50u}{27(2+u)^2}$ |")
         # the observer reads (5/9)(1 + w) - 1 = (5/9) w - 4/9, below -1 exactly where w is
         for w in (Fraction(-3, 2), Fraction(-1), Fraction(-764, 1000), Fraction(1, 3)):
             self.assertEqual(Fraction(5, 9) * (1 + w) - 1, Fraction(5, 9) * w - Fraction(4, 9))
@@ -1110,12 +1158,15 @@ class QuotedNumbers(unittest.TestCase):
         self.assertQuoted(f"the same $N = 8$ states have $\\lvert E\\rvert \\leq {mantissa} \\times 10^{{{int(exponent)}}}$")
         self.assertQuoted(f"$\\lvert E\\rvert \\leq {mantissa} \\times 10^{{{int(exponent)}}}$, section 4.7")
         self.assertQuoted("still leaves $E < 0$ for $\\lambda > 0$, of smaller magnitude")
-        self.assertIn("scfTolerance = 1e-11", check_detail(KS_CROSSCHECK, "rust_refinement_applies_to_matrix_exx"))
+        detail = check_detail(KS_CROSSCHECK, "rust_refinement_applies_to_matrix_exx")
+        self.assertIn("both stop at max |residual| <= scfTolerance = 1e-11", detail)
+        self.assertIn("|E_single - E_matrix| <= N x scfTolerance", detail)
         self.assertIn(self.exact_fock_slices_statement(rows), self.text)
 
     def exact_fock_slices_statement(self, rows):
-        """The slices of the exact-Fock N = 8 rows and |E| below the solver's self-consistency tolerance 1e-11
-        (ks-crosscheck.json) at each of them, as section 4.7 states them."""
+        """The slices of the exact-Fock N = 8 rows and |E| zero within the solver's self-consistency at each of them:
+        the solver stops at max |residual| <= scfTolerance = 1e-11, and energies agree to N x scfTolerance
+        (ks-crosscheck.json, rust_refinement_applies_to_matrix_exx), as section 4.7 states them."""
         slices = sorted({float(row["a4"]) for row in rows})
         self.assertEqual(slices, [0.0, 0.5, 1.0, 1.5, 2.0])
         tags = sorted({row["lambda_tag"] for row in rows})
@@ -1123,10 +1174,12 @@ class QuotedNumbers(unittest.TestCase):
         for tag in tags:
             energies = [float(row["E_exact_fock_scf"]) for row in rows if row["lambda_tag"] == tag]
             self.assertEqual(len(energies), len(slices), tag)
-            self.assertTrue(all(abs(e) <= 1e-11 for e in energies), f"{tag}: E_exact_fock_scf above the tolerance")
+            bound = int(rows[0]["N"]) * 1e-11                                          # N x scfTolerance
+            self.assertTrue(all(abs(e) <= bound for e in energies), f"{tag}: E_exact_fock_scf above N x tolerance")
         listed = ", ".join(f"{a:g}" for a in slices)
-        return (f"(computed at the canonical slices $a_4 = {listed}$, below the solver's self-consistency tolerance "
-                "$10^{-11}$ at each")
+        return (f"(computed at the canonical slices $a_4 = {listed}$, zero within the solver's self-consistency at "
+                "each: it stops at a maximal residual $\\leq 10^{-11}$, and the record requires energies to agree to "
+                "$N \\times 10^{-11}$")
 
     def test_exact_fock_slices_detect_a_change(self):
         # negative controls: a changed slice list in the text, and a changed E at one slice in the data, are detected
@@ -1169,6 +1222,74 @@ class QuotedNumbers(unittest.TestCase):
         self.assertTrue(all(abs(entry["w_eff_A_B"] - 1 / 3) < 1e-11 for entry in free["foldBand_n2_1"]))
         self.assertQuoted("falls monotonically from 0.318721 at $a_4 = -3$ to -0.081074 at $a_4 = 4$")
         self.assertQuoted("its $w_{\\rm eff}(A)$ falls from 0.318721 to -0.081074 for one shell")
+        # section 9.3: w_eff(A) of the bulk level is negative at every sampled a4 >= -0.25 (so w_eff(C) < -4/9 there)
+        self.assertTrue(all(entry["w_eff_A_B"] < 0 for entry in bulk if entry["a4"] >= -0.25))
+        self.assertTrue(all(entry["w_eff_A_B"] > 0 for entry in bulk if entry["a4"] < -0.25))
+        self.assertQuoted("since its $w_{\\rm eff}(A)$ is negative at every sampled $a_4 \\geq -0.25$ (section 5.3)")
+
+    def test_no_state_occupies_the_bulk_band(self):
+        """Section 5.3: no T = 0 state of the record occupies an odd-parity (bulk) level; the free states lie below the
+        bulk edge, while the interaction can lift the Fermi level above the free edge (N = 2352, lambda_hat = -1.609)."""
+        paths = sorted(LEVELS.glob("*.csv"))
+        self.assertEqual(len(paths), 75)                                  # 15 series x 5 committed slices
+        lifted = []
+        for path in paths:
+            with open(path, encoding="utf-8", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            occupied = [row for row in rows if float(row["f"]) > 0]
+            odd = [float(row["eps"]) for row in rows if row["parity"] == "odd"]
+            self.assertTrue(occupied and odd, path.name)
+            self.assertFalse([row for row in occupied if row["parity"] == "odd"], path.name)
+            highest = max(float(row["eps"]) for row in occupied)
+            self.assertLess(highest, min(odd), path.name)
+            if "_lam0_" in path.name:
+                continue
+            free = LEVELS / re.sub(r"_lam[mp][12]_", "_lam0_", path.name)
+            with open(free, encoding="utf-8", newline="") as handle:
+                edge = min(float(row["eps"]) for row in csv.DictReader(handle) if row["parity"] == "odd")
+            if highest > edge:
+                lifted.append(path.name)
+        self.assertIn("N2352_lamm2_a00.csv", lifted)                      # the old wording "filled below" was wrong
+        with open(LEVELS / "N2352_lam0_a00.csv", encoding="utf-8", newline="") as handle:
+            edge = min(float(row["eps"]) for row in csv.DictReader(handle) if row["parity"] == "odd")
+        self.assertEqual(fixed(edge, 12), "1.292292828069")              # the bulk edge of exact_k0_spectra
+        self.assertIn("occupied (n2, j, parity, level, f) set identical at all 41 slices for 15 of 15 series",
+                      check_detail(KS_HISTORY, "occupied_labels_fixed_along_history"))
+        self.assertQuoted("No canonical $T = 0$ state ($N = 8, 592, 2352$) occupies an odd-parity (bulk) level (the "
+                          "committed level files `Revision/kohn_sham/results/ground/levels`; the occupied label set, "
+                          "parity included, is fixed along the history, `occupied_labels_fixed_along_history`)")
+
+    def test_run_times_follow_the_readmes(self):
+        """Section 12: the run times are those of the folder READMEs, the others the gate budgets."""
+        d16 = (D16 / "README.md").read_text(encoding="utf-8")
+        d00 = (D00 / "README.md").read_text(encoding="utf-8")
+        gate = GATE.read_text(encoding="utf-8")
+        rows = (
+            (d16, r"derive_effective\.py\s+# ~(\d+) s\n", "| `derive_effective.py` | 37/37 checks pass | about {} s |"),
+            (d16, r"compute_eos\.py\s+# ~(\d+) s\n", "| `compute_eos.py` | 13/13 checks pass | about {} s |"),
+            (d16, r"independent_free_gas\.py\s+# ~(\d+) s\n",
+             "| `independent_free_gas.py` | 10/10 checks pass | about {} s |"),
+            (d00, r"derive_eos\.py\s+# A: 48 checks, about (\d+) s\n",
+             "| `derive_eos.py` | derive_eos: 48/48 checks pass | about {} s |"),
+            (d00, r"independent_numerics\.py\s+# B: 32 checks, about (\d+) s ",
+             "| `independent_numerics.py` | independent_numerics: 32/32 checks pass | about {} s |"),
+        )
+        for source, pattern, row in rows:
+            match = re.search(pattern, source)
+            self.assertIsNotNone(match, pattern)
+            self.assertQuoted(row.format(match.group(1)))
+        part, assembly, workers = re.search(r"three parts of about ([0-9.]+) s and an assembly of ([0-9.]+) s "
+                                            r"\(2026-10-17, (\d+) workers", d16).groups()
+        self.assertQuoted(f"| about {part} s per part and {assembly} s for the assembly ({workers} workers) |")
+        for step, command in (("dark-wolfram", "verify_dark_sector.wls"),
+                              ("dark00-unittest", "test_dark_sector_dirac16complex00.py"),
+                              ("pdf-dark-sector-hypotheses", "build_provenance_pdf.py")):
+            budget = re.search(rf"^{re.escape(step)}\|(\d+)\|", gate, re.MULTILINE).group(1)
+            self.assertRegex(self.text, rf"\| `{re.escape(command)}` \| [^|\n]+ \| gate budget {budget} s \|")
+        # negative control: the stale times of the README of commit 6e228a8 would be detected
+        stale = self.text.replace("| derive_eos: 48/48 checks pass | about 4 s |",
+                                  "| derive_eos: 48/48 checks pass | about 2 s |")
+        self.assertNotIn("| `derive_eos.py` | derive_eos: 48/48 checks pass | about 4 s |", stale)
 
     def test_abstract_numbers(self):
         abstract = self.text.split("## Abstract", 1)[1].split("## 1.", 1)[0]

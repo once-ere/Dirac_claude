@@ -7,10 +7,10 @@ This chapter builds, from school algebra, every piece of algebra that the rest o
 **Why so much algebra.** The theory of this course lives in a universe with eight directions. The author names them $x_0, \dots, x_7$: a hidden space direction $x_0$, the three directions $x_1, x_2, x_3$ of ordinary space, the time $x_4$, and three further time-like directions $x_5, x_6, x_7$, called the **extra times**. The geometry of this universe is described by the author's **metric**, a list of eight expressions, one for each direction, which says how long a small step along that direction is (the word is explained fully in Sections 1.5 and 1.29):
 
 $$
-g = \mathrm{diag}\big(\cot^2 z,\ e^{2a_4} s,\ e^{2a_4} s,\ e^{2a_4} s,\ -1,\ -b_4 e^{-2a_4} s,\ -b_4 e^{-2a_4} s,\ -b_4 e^{-2a_4} s\big),
+g = \mathrm{diag}\big(b_4 e^{-2a_4}\cot^2 z,\ e^{2a_4},\ e^{2a_4},\ e^{2a_4},\ -1,\ -b_4 e^{-2a_4} s,\ -b_4 e^{-2a_4} s,\ -b_4 e^{-2a_4} s\big),
 $$
 
-with $s = \sin^{1/3} z$ and $z = 6 H x_0$. Here $H$ is a positive constant of the author's, $z$ lies between $0$ and $\pi/2$, and $a_4$ and $b_4$ are functions of the time $x_4$, $b_4$ positive ($b_4$ is the author's change of 2026-10-14; $b_4 = 1$ gives the metric used before, and the backgrounds of the book take $b_4 = 1$, as the Revision record does); as $a_4$ grows, the entries of space grow like $e^{2a_4}$ and the entries of the three extra times shrink like $e^{-2a_4}$: space inflates and the extra times **deflate exponentially**. To read this one line you need powers, roots, the exponential function, the trigonometric functions and the idea of a list of numbers with a sign attached to each entry. The fields of the theory have sixteen complex components at every point, and they are acted on by eight real $16 \times 16$ matrices, the **gamma matrices**. To compute with them you need complex numbers, matrices and their products, determinants, eigenvalues, and a compact notation, index notation, in which one short line stands for dozens of equations. Finally the field equations of gravity in eight dimensions (Chapter 11) are written with the **generalized Kronecker delta**, a determinant of zeros and ones. This chapter teaches all of it.
+with $s = (\sin^2 z)^{1/6}$, the positive sixth root of $\sin^2 z$, and $z = 6 H x_0$. This is the **corrected metric** of the Revision record (version 2 of 2026-10-16; the record stores it in `Revision/gkd_lovelock/results/curvature.json`). Here $H$ is a positive constant of the author's, $z$ takes every real value, and $a_4$ and $b_4$ are functions of the time $x_4$, $b_4$ positive and never the constant 1. The Revision record works on one background history, $a_4 = H x_4$ and $b_4 = e^{(4/3) H x_4}$ (ASSUMED: a prescribed background, chosen and not derived from the field equations; the record states it in `Revision/field_equations_a4/a4-equations.json`, entry `exponentialHistory`, `recordHistory`). As $a_4$ grows, the entries of space grow like $e^{2a_4}$, while the entries of the three extra times and of the hidden direction carry the factor $b_4 e^{-2a_4}$, which on that history is $e^{4a_4/3 - 2a_4} = e^{-2a_4/3}$ and shrinks: space inflates and the extra times **deflate exponentially**, and the hidden direction shrinks with them. The metric of 2026-10-14 (with the factor $\sin^{1/3} z$ in the entries of space and $\cot^2 z$ alone as the hidden entry) and the first version of 2026-10-16 are withdrawn; they appear in this book only as dated history, never as current physics. To read this one line you need powers, roots, the exponential function, the trigonometric functions and the idea of a list of numbers with a sign attached to each entry. The fields of the theory have sixteen complex components at every point, and they are acted on by eight real $16 \times 16$ matrices, the **gamma matrices**. To compute with them you need complex numbers, matrices and their products, determinants, eigenvalues, and a compact notation, index notation, in which one short line stands for dozens of equations. Finally the field equations of gravity in eight dimensions (Chapter 11) are written with the **generalized Kronecker delta**, a determinant of zeros and ones. This chapter teaches all of it.
 
 **The seven notebooks.** The chapter has seven worked examples, each a complete Jupyter notebook, taken in this order:
 
@@ -30,7 +30,7 @@ Each notebook appears in three parts: a section "How to run Notebook 01x", which
 
 **Counting from 1 and from 0.** In mathematics the rows and columns of a table are usually numbered $1, 2, 3, \dots$; the author numbers the coordinates from 0, $x_0$ to $x_7$. The programming language Python numbers the entries of a list $0, 1, 2, \dots$. So the coordinate $x_k$ is entry $k$ of a Python list ($x_0$ is entry 0 and $x_7$ entry 7), while the entry in row 1 and column 1 of a matrix `A` is `A[0, 0]`. Every walk-through says which numbering a line uses.
 
-**The labels of every statement.** Every result in this chapter carries one of the labels of the book: PROVED (an exact derivation is written out here, line by line, and a notebook checks it), COMPUTED (a number found by a notebook, with the cell that prints it), ASSUMED (a standard fact used without proof here, said so where it is used). When a notebook reproduces a number of the **Revision record** (the folder Revision of the repository, in which every computation of the author's theory is done and checked), the text names the record file and the check, exactly as the notebook's PASS line does. The labels HYPOTHESIS (a scenario that is stated, not derived) and OPEN (a question that no record answers yet), used later in the book, do not occur in this chapter. Nothing in this chapter concerns pair creation or matter and antimatter; those questions are treated, with the exact scope of what is proved, in Chapters 18 to 21.
+**The labels of every statement.** Every result in this chapter carries one of the labels of the book: PROVED (an exact derivation is written out here, line by line, and a notebook checks it), COMPUTED (a number found by a notebook, with the cell that prints it), ASSUMED (a standard fact used without proof here, or a choice that is made and not derived, such as the background history of Section 1.1; said so where it is used). When a notebook reproduces a number of the **Revision record** (the folder Revision of the repository, in which every computation of the author's theory is done and checked), the text names the record file and the check, exactly as the notebook's PASS line does. The labels HYPOTHESIS (a scenario that is stated, not derived) and OPEN (a question that no record answers yet), used later in the book, do not occur in this chapter. Nothing in this chapter concerns pair creation or matter and antimatter; those questions are treated, with the exact scope of what is proved, in Chapters 18 to 21.
 
 ### 1.2 Whole numbers and fractions, exactly
 
@@ -163,6 +163,14 @@ $$
 
 These are school algebra (ASSUMED here; Notebook 01f, In [10], confirms them with sympy for symbols declared positive). They need positive bases. For a negative number the law $(a^p)^q = a^{pq}$ can fail: $\sqrt{(-2)^2} = \sqrt 4 = 2$, not $-2$. In general $\sqrt{y^2} = |y|$, the **absolute value** of $y$ ($y$ without its sign).
 
+**The positive sixth root (PROVED).** In the same way, for every real $y$,
+
+$$
+(y^2)^{1/6} = \big(|y|^2\big)^{1/6} = |y|^{2/6} = |y|^{1/3}
+$$
+
+($y^2 = |y|^2$, because squaring removes the sign; then the law $(a^p)^q = a^{pq}$ for the base $|y| \ge 0$). This number is never negative. For $y < 0$ it is not the real cube root of $y$, which is negative: the real cube root of $-0.5$ is $-0.7937$, while $((-0.5)^2)^{1/6} = +0.7937$ (COMPUTED, Notebook 01f, In [10]). This matters for the author's metric. The author writes the extra-time entries with $\sin^{1/3} z$; the Revision record reads this, as the author directs, as $(\sin^2 z)^{1/6} = |\sin z|^{1/3}$, the positive branch, so that the entry keeps its sign also where $\sin z < 0$, which happens because $z$ takes every real value. The **sign** of a number $c \neq 0$ is $\mathrm{sign}(c) = +1$ for $c > 0$ and $-1$ for $c < 0$; then $c \cdot \mathrm{sign}(c) = |c|$, that is $\mathrm{sign}(c) = |c|/c$. The record uses this function in one of its formulas (below).
+
 **A worked example (PROVED).** For $s > 0$ and real $a$:
 
 $$
@@ -171,22 +179,22 @@ $$
 
 (the root is the power $1/2$ and one over it the power $-1/2$; the power of a quotient is the quotient of the powers; $(a^p)^q = a^{pq}$ twice, with $\tfrac13 \cdot (-\tfrac12) = -\tfrac16$ and $2 \cdot (-\tfrac12) = -1$; one over $e^{-a}$ is $e^a$ and $s^{-1/6}$ is one over $s^{1/6}$).
 
-**The length factors of the author's metric (PROVED).** The metric $g$ of Section 1.1 is **diagonal**: it has one entry $g_{\mu\mu}$ for each direction $x_\mu$ ($\mu = 0, \dots, 7$), and the squared length of a small step $dx_\mu$ along that one direction is $g_{\mu\mu}\, dx_\mu^2$. A negative entry marks a **time-like** direction ($x_4$ to $x_7$), a positive entry a **space-like** one ($x_0, x_1, x_2, x_3$). The **length factor** of a direction is $\sqrt{|g_{\mu\mu}|}$: the length of the step is the factor times $|dx_\mu|$. For $0 < z < \pi/2$ both $\sin z$ and $\cos z$ are positive, so the laws of powers apply and give
+**The length factors of the author's metric (PROVED).** The metric $g$ of Section 1.1 is **diagonal**: it has one entry $g_{\mu\mu}$ for each direction $x_\mu$ ($\mu = 0, \dots, 7$), and the squared length of a small step $dx_\mu$ along that one direction is $g_{\mu\mu}\, dx_\mu^2$. A negative entry marks a **time-like** direction ($x_4$ to $x_7$), a positive entry a **space-like** one ($x_0, x_1, x_2, x_3$). The **length factor** of a direction is $\sqrt{|g_{\mu\mu}|}$: the length of the step is the factor times $|dx_\mu|$. Wherever $\sin z \cos z \neq 0$ the numbers $b_4$, $e^{\pm 2a_4}$ and $\sin^2 z$ are positive and $\cot z$ is a real number different from 0, so the laws of powers and $\sqrt{y^2} = |y|$ give
 
 $$
 \begin{aligned}
-&\sqrt{\cot^2 z} = \cot z,\qquad \sqrt{e^{2a_4}\sin^{1/3} z} = e^{a_4}\sin^{1/6} z,\qquad \sqrt{1} = 1,\\
-&\sqrt{b_4 e^{-2a_4}\sin^{1/3} z} = b_4^{1/2} e^{-a_4}\sin^{1/6} z
+&\sqrt{b_4 e^{-2a_4}\cot^2 z} = b_4^{1/2} e^{-a_4}\,|\cot z|,\qquad \sqrt{e^{2a_4}} = e^{a_4},\qquad \sqrt{1} = 1,\\
+&\sqrt{b_4 e^{-2a_4}(\sin^2 z)^{1/6}} = b_4^{1/2} e^{-a_4}(\sin^2 z)^{1/12}
 \end{aligned}
 $$
 
-(the root of a product is the product of the roots; $\sqrt{e^{2a_4}} = e^{a_4}$ and $\sqrt{\sin^{1/3} z} = \sin^{1/6} z$ by $(a^p)^q = a^{pq}$; $\sqrt{b_4} = b_4^{1/2}$; $\cot z > 0$). The hidden direction has the factor $\cot z$; the three space directions have $e^{a_4}\sin^{1/6} z$, which grows as $a_4$ grows; the time has 1; the three extra times have $b_4^{1/2} e^{-a_4}\sin^{1/6} z$, which shrinks exponentially when $b_4$ is constant. The product of all eight factors is
+(the root of a product of positive numbers is the product of the roots; $\sqrt{b_4} = b_4^{1/2}$, $\sqrt{e^{-2a_4}} = e^{-a_4}$ and $\sqrt{(\sin^2 z)^{1/6}} = (\sin^2 z)^{1/12}$ by $(a^p)^q = a^{pq}$; $\sqrt{\cot^2 z} = |\cot z|$, because $\cot z$ is negative for $\pi/2 < z < \pi$). The hidden direction has the factor $b_4^{1/2} e^{-a_4}|\cot z|$; the three space directions have $e^{a_4}$, which grows as $a_4$ grows; the time has 1; the three extra times have $b_4^{1/2} e^{-a_4}(\sin^2 z)^{1/12}$. The hidden direction and the extra times share the factor $b_4^{1/2} e^{-a_4}$, which on the record's background history is $e^{2a_4/3} e^{-a_4} = e^{-a_4/3}$ and shrinks exponentially. The product of all eight factors is
 
 $$
-\cot z \cdot (e^{a_4}\sin^{1/6} z)^3 \cdot 1 \cdot (b_4^{1/2} e^{-a_4}\sin^{1/6} z)^3 = b_4^{3/2}\, e^{3a_4 - 3a_4}\,\sin^{6/6} z\,\cot z = b_4^{3/2} \sin z\cot z = b_4^{3/2} \cos z
+b_4^{1/2} e^{-a_4}|\cot z| \cdot (e^{a_4})^3 \cdot 1 \cdot \big(b_4^{1/2} e^{-a_4}(\sin^2 z)^{1/12}\big)^3 = b_4^{2}\, e^{-a_4 + 3a_4 - 3a_4}\,|\cot z|\,(\sin^2 z)^{3/12} = e^{-a_4} b_4^2\,|\cot z|\,(\sin^2 z)^{1/4}
 $$
 
-(collect the powers of $b_4$, of $e$ and of $\sin z$ with $a^p a^q = a^{p+q}$: $3 \cdot \tfrac12 = \tfrac32$, $3a_4 - 3a_4 = 0$ and $6 \cdot \tfrac16 = 1$; then $\cot z = \cos z/\sin z$). The growth of space and the deflation of the extra times cancel exactly in the product, for every value of $a_4$; at $b_4 = 1$ the product is $\cos z$. The Revision record stores this product as `sqrtAbsDetG` $= b_4^{3/2} \sin z \cot z$ in `Revision/gkd_lovelock/results/curvature.json` and checks it in `python-lovelock-report.json`, check `sqrt_abs_det_g`; Notebook 01f, In [11], reads the metric from the record and reproduces both. (Section 1.21 shows that this product is the square root of the size of the determinant of $g$.)
+(collect the powers of $b_4$, of $e$ and of $\sin^2 z$ with $a^p a^q = a^{p+q}$: $\tfrac12 + 3 \cdot \tfrac12 = 2$, $-a_4 + 3a_4 - 3a_4 = -a_4$ and $3 \cdot \tfrac{1}{12} = \tfrac14$). The growth $e^{3a_4}$ of space and the factor $e^{-3a_4}$ of the extra times cancel exactly in the product; the factor $e^{-a_4}$ of the hidden direction remains. The Revision record stores this product as `sqrtAbsDetG` in `Revision/gkd_lovelock/results/curvature.json`, written with $\cot z \cdot \mathrm{sign}(\cot z)$ in place of $|\cot z|$, and checks it in `python-lovelock-report.json`, check `sqrt_abs_det_g`; Notebook 01f, In [11], reads the metric from the record and reproduces both. (Section 1.21 shows that this product is the square root of the size of the determinant of $g$.)
 
 **The number e.** The number $e = 2.71828\dots$ is the limit of $(1 + 1/n)^n$ for ever larger $n$: the growth of one unit of money in a year at the interest rate of 100 per cent, paid in $n$ equal parts. How fast is the limit reached? With the natural logarithm $\ln$ (defined below) and the series $\ln(1 + u) = u - u^2/2 + u^3/3 - \dots$ for small $u$ (a Taylor series of calculus, ASSUMED here):
 
@@ -208,17 +216,23 @@ $$
 e^{\ln x + \ln y} = e^{\ln x}\, e^{\ln y} = x y\qquad\Rightarrow\qquad \ln(x y) = \ln x + \ln y
 $$
 
-(the law $a^{p+q} = a^p a^q$ with $a = e$; then take the logarithm of both sides). For the author's metric this means: when $a_4$ grows by $\ln 2 \approx 0.693$ (and $b_4$ stays constant), the space factor $e^{a_4}$ doubles and the extra-time factor halves,
+(the law $a^{p+q} = a^p a^q$ with $a = e$; then take the logarithm of both sides). For the author's metric this means: when $a_4$ grows by $\ln 2 \approx 0.693$, the space factor $e^{a_4}$ doubles and the factor $e^{-a_4}$ halves,
 
 $$
 e^{-(a_4 + \ln 2)} = e^{-a_4}\, e^{-\ln 2} = e^{-a_4}\cdot\frac12
 $$
 
-(the law of powers; then $e^{-\ln 2} = 1/e^{\ln 2} = 1/2$). A growth of $a_4$ by 1 multiplies $e^{a_4}$ by $e$, one **e-fold**. To shrink the extra times by a factor 1000, $a_4$ must grow by $\ln 1000 = 6.9078$ (COMPUTED, Notebook 01f, In [12]). On a **logarithmic axis**, on which each equal step multiplies by the same factor, both $e^{a_4}$ and $e^{-a_4}$ are straight lines, one rising and one falling equally fast (Figure 01f.6).
+(the law of powers; then $e^{-\ln 2} = 1/e^{\ln 2} = 1/2$). A growth of $a_4$ by 1 multiplies $e^{a_4}$ by $e$, one **e-fold**. The extra times, however, carry $b_4^{1/2} e^{-a_4}$, and $b_4$ grows as well. On the record's background history $b_4 = e^{4a_4/3}$ (Section 1.1), so
+
+$$
+b_4^{1/2} e^{-a_4} = \big(e^{4a_4/3}\big)^{1/2} e^{-a_4} = e^{2a_4/3 - a_4} = e^{-a_4/3}
+$$
+
+(the law $(a^p)^q = a^{pq}$ with $\tfrac43 \cdot \tfrac12 = \tfrac23$; then $a^p a^q = a^{p+q}$; PROVED, and checked by Notebook 01f, In [12], which reads the value $\tfrac43$ from the record's entry `recordHistory`). This factor halves each time $a_4$ grows by $3\ln 2 = 2.0794$, and to shrink the extra times by a factor 1000, $a_4$ must grow by $3\ln 1000 = 20.7233$ (both COMPUTED, Notebook 01f, In [12]): the extra times deflate exponentially, three times more slowly than $e^{-a_4}$ alone. On a **logarithmic axis**, on which each equal step multiplies by the same factor, $e^{a_4}$, $e^{-a_4/3}$ and $e^{-a_4}$ are all straight lines, one rising and two falling (Figure 01f.6).
 
 ### 1.6 Example: numbers, rounding and the length factors of the author's metric
 
-Notebook 01f puts Sections 1.2 to 1.5 to work. It computes exactly with whole numbers and fractions; writes long division as a program and plots the periods of $1/q$; proves and checks that $\sqrt 2$ is not a fraction and pins it down by bisection and by the fractions $p/q$ with $p^2 - 2q^2 = \pm 1$; shows how floating-point numbers are spaced, why $0.1 + 0.2 \neq 0.3$ in a computer, and how cancellation destroys a formula and how rewriting cures it; checks the laws of powers and applies them to the author's metric as stored in the Revision record; and builds $e$ as a limit and draws the growth $e^{a_4}$ of space and the exponential deflation $e^{-a_4}$ of the extra times. It ends with the line ALL 26 CHECKS PASSED (notebook 01f).
+Notebook 01f puts Sections 1.2 to 1.5 to work. It computes exactly with whole numbers and fractions; writes long division as a program and plots the periods of $1/q$; proves and checks that $\sqrt 2$ is not a fraction and pins it down by bisection and by the fractions $p/q$ with $p^2 - 2q^2 = \pm 1$; shows how floating-point numbers are spaced, why $0.1 + 0.2 \neq 0.3$ in a computer, and how cancellation destroys a formula and how rewriting cures it; checks the laws of powers and the positive sixth root and applies them to the author's metric as stored in the Revision record, for every real $z$; and builds $e$ as a limit and draws the growth $e^{a_4}$ of space and the exponential deflation $e^{-a_4/3}$ of the extra times along the record's background history. It ends with the line ALL 28 CHECKS PASSED (notebook 01f).
 
 <!-- NOTEBOOK 01f -->
 
@@ -804,6 +818,17 @@ check(sp.sqrt(y ** 2) == sp.Abs(y) and ((-2.0) ** 2) ** 0.5 == 2.0,
 For a real symbol of either sign sympy writes $\sqrt{y^2}$ as `Abs(y)`, the absolute value; the number example computes $((-2)^2)^{1/2} = 2$, not $(-2)^{2 \cdot 1/2} = -2$. Output: sympy: sqrt(y^2) = Abs(y); numbers: sqrt((-2)^2) = 2.0, and the PASS line.
 
 ```python
+sixth = (y ** 2) ** sp.Rational(1, 6)  # the positive sixth root of y^2
+say(f"sympy: (y^2)^(1/6) = {sixth}; numbers: ((-0.5)^2)^(1/6) = "
+    f"{((-0.5) ** 2) ** (1 / 6):.4f}, the real cube root of -0.5 = {np.cbrt(-0.5):.4f}")
+check(sp.simplify(sixth - sp.Abs(y) ** sp.Rational(1, 3)) == 0
+      and ((-0.5) ** 2) ** (1 / 6) > 0 > np.cbrt(-0.5),
+      "(y^2)^(1/6) = |y|^(1/3) > 0: the positive sixth root, not the cube root of y")
+```
+
+The positive sixth root of Section 1.5. sympy, given the same real symbol $y$, writes $(y^2)^{1/6}$ by itself as `Abs(y)**(1/3)`, which is $|y|^{1/3}$. The numbers: `((-0.5) ** 2) ** (1 / 6)` squares first and then takes the sixth root of the positive number 0.25, which gives $+0.7937$; numpy's `np.cbrt` is the real cube root, which for $-0.5$ gives $-0.7937$ (`.4f`: four digits after the point). The chained comparison `a > 0 > b` means $a > 0$ and $0 > b$. Output: sympy: (y^2)^(1/6) = Abs(y)**(1/3); numbers: ((-0.5)^2)^(1/6) = 0.7937, the real cube root of -0.5 = -0.7937, and the PASS line. This is the reason why the record writes the author's $\sin^{1/3} z$ as $(\sin^2 z)^{1/6}$.
+
+```python
 s_pos, a_real = sp.Symbol("s", positive=True), sp.Symbol("a", real=True)
 example = 1 / sp.sqrt(s_pos ** sp.Rational(1, 3) / sp.exp(2 * a_real))
 check(sp.simplify(example - sp.exp(a_real) / s_pos ** sp.Rational(1, 6)) == 0,
@@ -815,23 +840,23 @@ The worked example of Section 1.5, with $s > 0$ and real $a$; `sp.exp` is the ex
 **In [11], the length factors of the author's metric, from the record.**
 
 ```python
-S, C = sp.symbols("S C", positive=True)  # S = sin z, C = cos z, both > 0
+z = sp.Symbol("z", real=True)  # z = 6 H x0, any real number
 a4 = sp.Symbol("a4", real=True)  # the value of a4(x4) at one time
 b4 = sp.Symbol("b4", positive=True)  # the value of b4(x4) at one time
 ```
 
-Two positive symbols stand for $\sin z$ and $\cos z$ (both are positive for $0 < z < \pi/2$), a real symbol for the value of $a_4$ at one time, and a positive symbol for the value of $b_4$ at one time.
+A real symbol for $z = 6 H x_0$, which takes every real value, a real symbol for the value of $a_4$ at one time, and a positive symbol for the value of $b_4$ at one time.
 
 ```python
 def from_record(text):
-    """The record's Mathematica text as sympy, with sin z = S and cot z = C/S."""
+    """The record's Mathematica text as a sympy expression of a4, b4 and z."""
     text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
-    text = text.replace("Sin[6*H*x0]", "S")
-    text = text.replace("Cot[6*H*x0]", "(C/S)").replace("^", "**")
-    return sp.sympify(text, locals={"a4": a4, "b4": b4, "S": S, "C": C, "E": sp.E})
+    text = text.replace("Sin[6*H*x0]", "sin(z)").replace("Cot[6*H*x0]", "cot(z)")
+    text = text.replace("Sign[", "sign(").replace("]", ")").replace("^", "**")
+    return sp.sympify(text, locals={"a4": a4, "b4": b4, "z": z, "E": sp.E})
 ```
 
-The Revision record stores the metric as text in the notation of the program Mathematica, for example `E^(2*a4[x4])*Sin[6*H*x0]^(1/3)`. `from_record` translates such a text into a sympy expression: `.replace(old, new)` replaces every occurrence of a piece of text, here the function values `a4[x4]` and `b4[x4]` by the symbol names `a4` and `b4`, $\sin(6Hx_0)$ by `S`, $\cot(6Hx_0)$ by `(C/S)`, and Mathematica's power sign `^` by Python's `**`. `sp.sympify` then reads the text as a sympy expression; `locals` tells it which symbol each name means (`E` is the number $e$).
+The Revision record stores the metric as text in the notation of the program Mathematica, for example `-E^(-2*a4[x4])*(Sin[6*H*x0]^2)^(1/6)*b4[x4]` for an extra-time entry. `from_record` translates such a text into a sympy expression: `.replace(old, new)` replaces every occurrence of a piece of text, here the function values `a4[x4]` and `b4[x4]` by the symbol names `a4` and `b4`, $\sin(6Hx_0)$ by `sin(z)`, $\cot(6Hx_0)$ by `cot(z)`, Mathematica's sign function `Sign[...]` by sympy's `sign(...)` (the opening bracket is replaced first; the order of the replacements matters, because after the first three lines the only square brackets left are those of `Sign`, so the next replacement can turn every remaining `]` into `)`), and Mathematica's power sign `^` by Python's `**`. `sp.sympify` then reads the text as a sympy expression; `locals` tells it which symbol each name means (`E` is the number $e$).
 
 ```python
 curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
@@ -840,47 +865,68 @@ eta = json.loads(repository_file("Revision/algebra/gammas.json")
                  .read_text(encoding="utf-8"))["eta"]  # +1 or -1 for x0 ... x7
 metric = [from_record(text) for text in curvature["metricDiagonal"]]
 sizes = [eta[mu] * metric[mu] for mu in range(8)]  # |g_mu mu| = eta_mu mu g_mu mu
-check(all(size.is_positive for size in sizes),
-      "every entry of the metric has the sign of eta: eta_mu mu g_mu mu > 0")
 ```
 
-`read_text` reads a file of the repository as text, and `json.loads` turns the JSON text into a Python dictionary. From the record file `curvature.json` the cell takes the list `metricDiagonal` (the eight diagonal entries as texts, in the order $x_0, \dots, x_7$); from `gammas.json` it takes the list `eta` of the signs $+1$ or $-1$ of the eight directions (the **frame metric**, Section 1.27). `metric` is the list of the eight entries as sympy expressions. Multiplying each entry by its sign gives its size $|g_{\mu\mu}|$; the check asks sympy whether each size is positive (`.is_positive`), which it can decide because $S$, $C$, $b_4$ and $e^{\pm 2a_4}$ are positive.
+`read_text` reads a file of the repository as text, and `json.loads` turns the JSON text into a Python dictionary. From the record file `curvature.json` the cell takes the list `metricDiagonal` (the eight diagonal entries as texts, in the order $x_0, \dots, x_7$); from `gammas.json` it takes the list `eta` of the signs $+1$ or $-1$ of the eight directions (the **frame metric**, Section 1.27). `metric` is the list of the eight entries as sympy expressions. Multiplying each entry by its sign gives its size $|g_{\mu\mu}|$.
+
+```python
+# 24 points (a4, b4, z); z = -2.5, -0.7, 0.4, 1.3, 1.9, 2.8 lie in all four
+# quarters of the period pi of z, on both sides of z = 0
+points = [{a4: sp.Rational(a, 2), b4: sp.Rational(b, 2), z: sp.Rational(c, 10)}
+          for a in (-2, 1) for b in (1, 5) for c in (-25, -7, 4, 13, 19, 28)]
+check(all(sp.N(size.subs(point)) > 0 for size in sizes for point in points),
+      "every entry of the metric has the sign of eta: eta_mu mu g_mu mu > 0 at 24 "
+      "points with z in all four quarters of the period pi")
+```
+
+sympy cannot decide by itself that $b_4 e^{-2a_4}\cot^2 z$ is positive, because $\cot z = 0$ at $z = \pi/2$; so the cell tests the signs at numbers. The entries repeat when $z$ grows by $\pi$ ($\cot^2 z$ and $\sin^2 z$ have the period $\pi$), and within one period the signs of $\sin z$ and $\cos z$ change at the multiples of $\pi/2$; the six values of $z$ cover all four quarters $(-\pi, -\pi/2)$, $(-\pi/2, 0)$, $(0, \pi/2)$ and $(\pi/2, \pi)$. `points` is a list of 24 dictionaries, one for each combination of $a_4 = -1$ or $\tfrac12$, $b_4 = \tfrac12$ or $\tfrac52$ and the six values of $z$, written as exact fractions (`sp.Rational(c, 10)` is $c/10$); the three `for` parts of the list run through all $2 \cdot 2 \cdot 6$ combinations. `size.subs(point)` puts the numbers into the formula, and `sp.N` evaluates it as a number. The check requires every size to be positive at every point: each entry has the sign of $\eta$.
 
 ```python
 factors = [sp.sqrt(size) for size in sizes]  # the length factors
 # the author's order x0, x1, ..., x7
-expected = ([C / S] + [sp.exp(a4) * S ** sp.Rational(1, 6)] * 3 + [sp.Integer(1)]
-            + [sp.sqrt(b4) * sp.exp(-a4) * S ** sp.Rational(1, 6)] * 3)
+twelfth = (sp.sin(z) ** 2) ** sp.Rational(1, 12)  # (sin(z)^2)^(1/12)
+expected = ([sp.sqrt(b4) * sp.exp(-a4) * sp.Abs(sp.cot(z))]
+            + [sp.exp(a4)] * 3 + [sp.Integer(1)]
+            + [sp.sqrt(b4) * sp.exp(-a4) * twelfth] * 3)
 for mu in range(8):
     say(f"x{mu}: g = {metric[mu]}, length factor {factors[mu]}")
 check(len(factors) == 8 and
       all(sp.simplify(f - e) == 0 for f, e in zip(factors, expected)),
-      "the length factors: cot z = C/S for x0, e^a4 S^(1/6) for x1 to x3, 1 for x4, "
-      "b4^(1/2) e^(-a4) S^(1/6) for x5 to x7")
+      "the length factors: b4^(1/2) e^(-a4) |cot z| for x0, e^a4 for x1 to x3, 1 for "
+      "x4, b4^(1/2) e^(-a4) (sin(z)^2)^(1/12) for x5 to x7")
 ```
 
-`factors` are the eight square roots. `expected` is the list of Section 1.5 in the author's order: $\cot z = C/S$ for $x_0$, three times the space factor, 1 for the time, three times the extra-time factor (a list multiplied by 3 repeats its entry three times, and `+` joins lists). The loop prints, for each direction $x_\mu$ (Python's index `mu` is the author's index, both counting from 0), the entry and its factor; sympy writes $e^{a_4}$ as `exp(a4)`, $S^{1/6}$ as `S**(1/6)` and $b_4^{1/2}$ as `sqrt(b4)`. The check confirms that there are eight factors and that each equals the expected one.
+`factors` are the eight square roots. `expected` is the list of Section 1.5 in the author's order: $b_4^{1/2} e^{-a_4}|\cot z|$ for $x_0$, three times the space factor $e^{a_4}$, 1 for the time, three times the extra-time factor (a list multiplied by 3 repeats its entry three times, and `+` joins lists). The loop prints, for each direction $x_\mu$ (Python's index `mu` is the author's index, both counting from 0), the entry and its factor; sympy writes $e^{a_4}$ as `exp(a4)`, $b_4^{1/2}$ as `sqrt(b4)`, $|\cot z|$ as `Abs(cot(z))`, and $(\sin^2 z)^{1/6}$ and $(\sin^2 z)^{1/12}$ as `Abs(sin(z))**(1/3)` and `Abs(sin(z))**(1/6)`, by the rule of In [10]. Output: for $x_0$ the entry `b4*exp(-2*a4)*cot(z)**2` and the factor `sqrt(b4)*exp(-a4)*Abs(cot(z))`; for $x_1$ to $x_3$ the entry `exp(2*a4)` and the factor `exp(a4)`; for $x_4$ the entry $-1$ and the factor 1; for $x_5$ to $x_7$ the entry `-b4*exp(-2*a4)*Abs(sin(z))**(1/3)` and the factor `sqrt(b4)*exp(-a4)*Abs(sin(z))**(1/6)`. The check confirms that there are eight factors and that each equals the expected one.
 
 ```python
-product = sp.simplify(sp.Mul(*factors))
-record_root = sp.simplify(from_record(curvature["sqrtAbsDetG"]))
+product = sp.Mul(*factors)
+record_root = from_record(curvature["sqrtAbsDetG"])
+# the rule sign(c) = |c|/c for c = cot z (not 0) turns cot z sign(cot z) into |cot z|
+record_root = record_root.subs(sp.sign(sp.cot(z)), sp.Abs(sp.cot(z)) / sp.cot(z))
 say(f"product of the eight factors = {product}; the record's sqrtAbsDetG = "
     f"{record_root}")
+```
+
+`sp.Mul(*factors)` multiplies the eight factors (the star hands the list's entries to `Mul` one by one); sympy collects the powers by itself. The record's text is `E^(-1*a4[x4])*(Sin[6*H*x0]^2)^(1/4)*Cot[6*H*x0]*Sign[Cot[6*H*x0]]*b4[x4]^2`, which contains $\cot z \cdot \mathrm{sign}(\cot z)$. `.subs(old, new)` replaces $\mathrm{sign}(\cot z)$ by $|\cot z|/\cot z$, the rule of Section 1.5 (valid because $\cot z \neq 0$ wherever $\cos z \neq 0$); sympy then cancels $\cot z$ and is left with $|\cot z|$. Output: the product of the eight factors is `b4**2*exp(-a4)*sqrt(Abs(sin(z)))*Abs(cot(z))`, and the record's `sqrtAbsDetG` is printed as the same expression, that is $e^{-a_4} b_4^2 |\cot z|\,|\sin z|^{1/2}$, and $|\sin z|^{1/2} = (\sin^2 z)^{1/4}$.
+
+```python
 lovelock_report = json.loads(repository_file(
     "Revision/gkd_lovelock/results/python-lovelock-report.json")
     .read_text(encoding="utf-8"))
 root_verdict = {c["name"]: c["verdict"]
                 for c in lovelock_report["checks"]}["sqrt_abs_det_g"]
-check(sp.simplify(product - b4 ** sp.Rational(3, 2) * C) == 0
-      and sp.simplify(record_root - b4 ** sp.Rational(3, 2) * C) == 0
+target = (sp.exp(-a4) * b4 ** 2 * sp.Abs(sp.cot(z))
+          * (sp.sin(z) ** 2) ** sp.Rational(1, 4))
+check(sp.simplify(product - target) == 0
+      and sp.simplify(record_root - target) == 0
       and root_verdict == "PASS",
-      "the product of the length factors is b4^(3/2) cos z, the record's "
-      "sqrt|det g| = b4^(3/2) sin z cot z, for every a4",
+      "the product of the length factors is e^(-a4) b4^2 |cot z| (sin(z)^2)^(1/4), "
+      "the record's sqrt|det g|",
       record="Revision/gkd_lovelock/results/curvature.json, sqrtAbsDetG; "
              "python-lovelock-report.json, check sqrt_abs_det_g")
 ```
 
-`sp.Mul(*factors)` multiplies the eight factors (the star hands the list's entries to `Mul` one by one), and `simplify` reduces the product to `C*b4**(3/2)`, that is $b_4^{3/2} \cos z$, as derived in Section 1.5. The record's text `Sin[6*H*x0]*Cot[6*H*x0]*b4[x4]^(3/2)` becomes $S \cdot (C/S) \cdot b_4^{3/2} = b_4^{3/2} C$ as well. The report `python-lovelock-report.json` holds a list of checks, each with a name and a verdict; the **dictionary comprehension** `{c["name"]: c["verdict"] for c in ...}` makes a dictionary from names to verdicts, and `["sqrt_abs_det_g"]` looks up the verdict of the record's check, `PASS`. The check requires that both differences from $b_4^{3/2} C$ simplify to 0 and that the verdict is PASS; it reproduces the record and prints the two record names.
+The report `python-lovelock-report.json` holds a list of checks, each with a name and a verdict; the **dictionary comprehension** `{c["name"]: c["verdict"] for c in ...}` makes a dictionary from names to verdicts, and `["sqrt_abs_det_g"]` looks up the verdict of the record's check, `PASS`. `target` is $e^{-a_4} b_4^2 |\cot z| (\sin^2 z)^{1/4}$, derived in Section 1.5. The check requires that both differences from the target simplify to 0 and that the verdict is PASS; it reproduces the record and prints the two record names. In this cell there are 3 checks.
 
 **In [12], the limit that defines e, and the logarithm.**
 
@@ -914,11 +960,33 @@ check(sp.log(sp.exp(t_sym)) == t_sym
       and sp.expand_log(sp.log(u * w)) == sp.log(u) + sp.log(w)
       and sp.simplify(sp.exp(-(a4 + sp.log(2))) - sp.exp(-a4) / 2) == 0,
       "ln(e^t) = t, ln(u w) = ln u + ln w, and e^(-(a4 + ln 2)) = e^(-a4)/2")
-report("growth of a4 that shrinks the extra times by a factor 1000",
-       f"{math.log(1000):.4f}")
 ```
 
-`sp.log` is the natural logarithm. The check confirms the three laws of Section 1.5; `sp.expand_log` splits the logarithm of a product of positive symbols into a sum. The RESULT line prints $\ln 1000 = 6.9078$ (`.4f`: four digits after the point).
+`sp.log` is the natural logarithm. The check confirms the three laws of Section 1.5; `sp.expand_log` splits the logarithm of a product of positive symbols into a sum. The symbol `a4` is the real symbol of In [11].
+
+```python
+equations = json.loads(repository_file("Revision/field_equations_a4/a4-equations.json")
+                       .read_text(encoding="utf-8"))
+history = equations["exponentialHistory"]["authorWeights"]["recordHistory"]
+say(f"the record's history: {history}")
+beta = sp.Rational(history.split("be = ")[1].split(",")[0])  # b4 = e^(beta a4)
+```
+
+The record file `Revision/field_equations_a4/a4-equations.json` holds the field equations for $a_4$ and $b_4$; its part `exponentialHistory` treats the histories $a_4 = A H x_4 + a_0$, $b_4 = b_4(0) e^{\mathrm{be}\, A H x_4}$, and its entry `authorWeights`, `recordHistory` names the one the record uses. Three keys in brackets walk down into the nested dictionaries. Output: the record's history: AA = 1, be = 4/3, a0 = 0, b4(0) = 1: kk = e^{(2/3) H x4}. So $A = 1$, $a_0 = 0$, $b_4(0) = 1$: $a_4 = H x_4$ and $b_4 = e^{(4/3) H x_4} = e^{4a_4/3}$ (the last entry, kk, is the combination $e^{2a_4}/b_4 = e^{(2/3) H x_4}$ that the field equations use). `history.split("be = ")` cuts the text into the part before and the part after `be = `; `[1]` takes the part after, `.split(",")[0]` the piece before the next comma, which is the text `4/3`; `sp.Rational` turns it into the exact fraction $\tfrac43$.
+
+```python
+extra_factor = sp.sqrt(sp.exp(beta * a4)) * sp.exp(-a4)  # b4^(1/2) e^(-a4)
+check(beta == sp.Rational(4, 3) and sp.simplify(extra_factor - sp.exp(-a4 / 3)) == 0,
+      "on the record's history b4 = e^(4 a4/3), so b4^(1/2) e^(-a4) = e^(-a4/3)",
+      record="Revision/field_equations_a4/a4-equations.json, exponentialHistory, "
+             "recordHistory")
+report("growth of a4 that halves the extra times on the record's history",
+       f"{3 * math.log(2):.4f}")
+report("growth of a4 that shrinks them by a factor 1000",
+       f"{3 * math.log(1000):.4f}")
+```
+
+`extra_factor` is the common factor $b_4^{1/2} e^{-a_4}$ of the extra times and the hidden direction with $b_4 = e^{\mathrm{be}\,a_4}$ inserted; the check confirms $\mathrm{be} = \tfrac43$ and the derivation of Section 1.5, $b_4^{1/2} e^{-a_4} = e^{-a_4/3}$, and prints the record line. The factor $e^{-a_4/3}$ halves when $a_4/3$ grows by $\ln 2$, that is when $a_4$ grows by $3\ln 2$, and shrinks by 1000 when $a_4$ grows by $3\ln 1000$. The two RESULT lines print $3\ln 2 = 2.0794$ and $3\ln 1000 = 20.7233$ (`.4f`: four digits after the point). In this cell there are 4 checks.
 
 **In [13], the figures of e and of growth and deflation.**
 
@@ -942,20 +1010,23 @@ save_figure(fig, "limit_for_e",
 The two error lists of In [12] are drawn against $n$ on logarithmic axes, the 50-digit errors as blue circles joined by lines, the floating-point errors as red squares (`"s-"`), together with the estimate $e/(2n)$ as a dashed line. What Figure 01f.5 shows: the blue points lie on the dashed line all the way to $10^{16}$; the red points follow it only up to about $n = 10^8$, then rise again, because the rounding error multiplied by $n$ takes over.
 
 ```python
-a4_values = np.linspace(0.0, 4.0, 401)
-marks = np.log(2.0) * np.arange(6)  # a4 = 0, ln 2, 2 ln 2, ..., 5 ln 2
+a4_values = np.linspace(0.0, 6.5, 651)
+marks = np.log(2.0) * np.arange(10)  # a4 = 0, ln 2, ..., 9 ln 2: e^a4 doubles
+slow_marks = 3 * np.log(2.0) * np.arange(4)  # a4 = 0, 3 ln 2, 6 ln 2, 9 ln 2
 fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.3))
 for ax in (left, right):
     ax.plot(a4_values, np.exp(a4_values), color="tab:red",
             label="$e^{a_4}$: space $x_1, x_2, x_3$")
-    ax.plot(a4_values, np.exp(-a4_values), color="tab:blue",
-            label="$e^{-a_4}$: extra times $x_5, x_6, x_7$")
+    ax.plot(a4_values, np.exp(-a4_values / 3), color="tab:blue",
+            label="$b_4^{1/2} e^{-a_4} = e^{-a_4/3}$: extra times and $x_0$")
+    ax.plot(a4_values, np.exp(-a4_values), color="0.5", ls="--", lw=1,
+            label="$e^{-a_4}$ alone, for comparison")
     ax.plot(marks, np.exp(marks), "o", color="tab:red", ms=4)
-    ax.plot(marks, np.exp(-marks), "o", color="tab:blue", ms=4)
+    ax.plot(slow_marks, np.exp(-slow_marks / 3), "o", color="tab:blue", ms=4)
     ax.set_xlabel("$a_4$")
 ```
 
-`np.linspace(0.0, 4.0, 401)` makes 401 equally spaced values of $a_4$ from 0 to 4. `marks` are the six values $0, \ln 2, \dots, 5\ln 2$ (`np.log` is the natural logarithm). The loop draws the same four things on both panels: the curves $e^{a_4}$ (red, the factor of space) and $e^{-a_4}$ (blue, the factor of the extra times), and dots at the marks, where the factors have doubled or halved once more.
+`np.linspace(0.0, 6.5, 651)` makes 651 equally spaced values of $a_4$ from 0 to 6.5. `marks` are the ten values $0, \ln 2, \dots, 9\ln 2$ (`np.log` is the natural logarithm), where $e^{a_4}$ has doubled once more; `slow_marks` are the four values $0, 3\ln 2, 6\ln 2, 9\ln 2$, where $e^{-a_4/3}$ has halved once more. The loop draws the same five things on both panels: the curves $e^{a_4}$ (red, the factor of space), $e^{-a_4/3}$ (blue, the factor of the extra times and of the hidden direction on the record's history, In [12]) and, for comparison, $e^{-a_4}$ (grey, dashed: the factor the extra times would have without the growing $b_4^{1/2}$), and the dots at the marks.
 
 ```python
 left.set_ylabel("factor (ordinary axis)")
@@ -964,16 +1035,16 @@ left.legend(fontsize=8, loc="upper left")
 right.set_yscale("log")
 right.set_ylabel("factor (logarithmic axis)")
 right.set_title("logarithmic vertical axis: straight lines")
-for k in range(1, 6):
-    right.text(marks[k], np.exp(-marks[k]) * 0.55, f"$2^{{-{k}}}$", ha="center",
-               fontsize=8, color="tab:blue")
+for k in range(1, 4):
+    right.text(slow_marks[k], np.exp(-slow_marks[k] / 3) * 0.5, f"$2^{{-{k}}}$",
+               ha="center", fontsize=8, color="tab:blue")
 fig.tight_layout()
 save_figure(fig, "growth_and_deflation",
-            "The factors $e^{a_4}$ (red), which multiply the lengths along the three "
+            "The factor $e^{a_4}$ (red) of the lengths along the three space "
             ...)
 ```
 
-The left panel keeps an ordinary vertical axis; the right panel gets a logarithmic one (`set_yscale("log")`). `right.text(x, y, text)` writes a label below each blue dot: $2^{-1}, \dots, 2^{-5}$ (in an f-string, double braces `{{` and `}}` stand for single braces in the text, so that LaTeX receives `2^{-1}`; `ha="center"` centres the text on the point). What Figure 01f.6 shows: on the ordinary axis one curve shoots up and the other creeps towards 0; on the logarithmic axis both are straight lines with opposite slopes, and the blue dots halve at every step $\ln 2$: the extra times deflate exponentially as $a_4$ grows.
+The left panel keeps an ordinary vertical axis; the right panel gets a logarithmic one (`set_yscale("log")`). `right.text(x, y, text)` writes a label below each blue dot after the first: $2^{-1}, 2^{-2}, 2^{-3}$ (in an f-string, double braces `{{` and `}}` stand for single braces in the text, so that LaTeX receives `2^{-1}`; `ha="center"` centres the text on the point). What Figure 01f.6 shows: on the ordinary axis the red curve shoots up to about 665 while the blue and grey curves creep towards 0; on the logarithmic axis all three are straight lines, the red one rising, the blue one falling three times more slowly than the grey one: while $e^{a_4}$ doubles nine times, the extra times halve three times. The extra times deflate exponentially as $a_4$ grows.
 
 **In [14], the last check.**
 
@@ -986,7 +1057,7 @@ check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_na
 all_checks_passed()
 ```
 
-The list holds the names of the six figure files; the check confirms that each exists in the folder `Revision/textbook/figures` (below the output folder). `all_checks_passed()` prints the last line, ALL 26 CHECKS PASSED (notebook 01f). The 26 checks are: 3 in In [2], 1 in In [3], 1 in In [4], 3 in In [5], 1 in In [6], 4 in In [7], 3 in In [9], 3 in In [10], 3 in In [11], 3 in In [12] and 1 in In [14].
+The list holds the names of the six figure files; the check confirms that each exists in the folder `Revision/textbook/figures` (below the output folder). `all_checks_passed()` prints the last line, ALL 28 CHECKS PASSED (notebook 01f). The 28 checks are: 3 in In [2], 1 in In [3], 1 in In [4], 3 in In [5], 1 in In [6], 4 in In [7], 3 in In [9], 4 in In [10], 3 in In [11], 4 in In [12] and 1 in In [14].
 
 ### 1.10 Complex numbers: the rules of arithmetic
 
@@ -1304,7 +1375,7 @@ $$
 \Lambda(\varphi)\begin{pmatrix} 1 \\ 1 \end{pmatrix} = \begin{pmatrix} c + s \\ s + c \end{pmatrix} = e^{\varphi}\begin{pmatrix} 1 \\ 1 \end{pmatrix},\qquad \Lambda(\varphi)\begin{pmatrix} 1 \\ -1 \end{pmatrix} = \begin{pmatrix} c - s \\ s - c \end{pmatrix} = e^{-\varphi}\begin{pmatrix} 1 \\ -1 \end{pmatrix}
 $$
 
-(row times column; then $c \pm s = e^{\pm\varphi}$). A boost stretches one light-like direction by the growing exponential $e^{\varphi}$ and shrinks the other by the decaying exponential $e^{-\varphi}$; the product of the two factors is 1. The lengths along space and along the extra times in the author's metric carry the factors $e^{a_4}$ and $e^{-a_4}$, a pattern of the same form; only the form is the same, because $a_4$ is a function of the time $x_4$ and not the rapidity of a boost. Where a rotation moves a point around a circle $x^2 + y^2 = 1$, a boost moves it along a **hyperbola** $t^2 - x^2 = 1$ that never crosses the light-like lines $t = \pm x$ (Figure 01b.5). Notebook 01b, In [12] and In [13], checks (a) to (c) exactly and in numbers.
+(row times column; then $c \pm s = e^{\pm\varphi}$). A boost stretches one light-like direction by the growing exponential $e^{\varphi}$ and shrinks the other by the decaying exponential $e^{-\varphi}$; the product of the two factors is 1. The lengths along space and along the extra times in the author's metric carry the factors $e^{a_4}$ and $b_4^{1/2} e^{-a_4}$ (Section 1.5), a pattern of a similar form; only the form is similar, because $a_4$ is a function of the time $x_4$ and not the rapidity of a boost, and the product of the two factors is $b_4^{1/2}$, not 1. Where a rotation moves a point around a circle $x^2 + y^2 = 1$, a boost moves it along a **hyperbola** $t^2 - x^2 = 1$ that never crosses the light-like lines $t = \pm x$ (Figure 01b.5). Notebook 01b, In [12] and In [13], checks (a) to (c) exactly and in numbers.
 
 **Oscillation and growth (PROVED).** For a real number $\varepsilon$, the **frequency**, the wave
 
@@ -2138,32 +2209,32 @@ terms. Computers therefore use **elimination**: by rule 6 one may subtract multi
 **The determinant of the author's metric (PROVED).** The author's metric (Section 1.1) is diagonal, so by (a) its determinant is the product of its eight diagonal entries:
 
 $$
-\det g = \cot^2 z\cdot\big(e^{2a_4}s\big)^3\cdot(-1)\cdot\big(-b_4e^{-2a_4}s\big)^3
+\det g = b_4e^{-2a_4}\cot^2 z\cdot\big(e^{2a_4}\big)^3\cdot(-1)\cdot\big(-b_4e^{-2a_4}s\big)^3
 $$
 
 (the determinant of a diagonal matrix; the three equal space entries give a cube, and so do the three equal extra-time entries),
 
 $$
-= \cot^2 z\cdot e^{6a_4}s^3\cdot(-1)\cdot(-1)\,b_4^3e^{-6a_4}s^3
+= b_4e^{-2a_4}\cot^2 z\cdot e^{6a_4}\cdot(-1)\cdot(-1)\,b_4^3e^{-6a_4}s^3
 $$
 
 (the power of a product is the product of the powers, $(e^{2a_4})^3 = e^{6a_4}$, $(b_4e^{-2a_4})^3 = b_4^3e^{-6a_4}$, and $(-x)^3 = -x^3$),
 
 $$
-= b_4^3\,e^{6a_4 - 6a_4}\, s^6\,\cot^2 z = b_4^3\sin^2 z\,\frac{\cos^2 z}{\sin^2 z} = b_4^3\cos^2 z
+= b_4^4\,e^{-2a_4 + 6a_4 - 6a_4}\, s^3\,\cot^2 z = e^{-2a_4}\,b_4^4\,\cot^2 z\,|\sin z| = e^{-2a_4}\,b_4^4\,\frac{\cos^2 z}{|\sin z|}
 $$
 
-(the two signs give $(-1)(-1) = +1$ and the powers of $e$ are collected with $a^pa^q = a^{p+q}$; then $e^0 = 1$, $s^6 = (\sin^{1/3}z)^6 = \sin^2 z$ and $\cot z = \cos z/\sin z$; cancel $\sin^2 z$). The growth $e^{6a_4}$ of the three space directions and the shrinking $e^{-6a_4}$ of the three exponentially deflating extra times cancel exactly, for every value of $a_4$; only the factor $b_4^3$ of the extra times is left. The sign is $+$ because the metric has four negative entries, an even number. Since $\cos z > 0$ for $0 < z < \pi/2$ and $b_4 > 0$,
+(the two signs give $(-1)(-1) = +1$, and the powers of $b_4$ and of $e$ are collected with $a^pa^q = a^{p+q}$; then $s^3 = \big(|\sin z|^{1/3}\big)^3 = |\sin z|$ by the positive sixth root of Section 1.5; last, $\cot^2 z = \cos^2 z/\sin^2 z$ and $\sin^2 z = |\sin z|^2$, so one factor $|\sin z|$ cancels). The growth $e^{6a_4}$ of the three space directions and the shrinking $e^{-6a_4}$ of the three exponentially deflating extra times cancel exactly, for every value of $a_4$; left are the factor $b_4e^{-2a_4}$ of the hidden direction and the factor $b_4^3$ of the extra times. The sign is $+$ because the metric has four negative entries, an even number. The determinant is positive wherever $\sin z\cos z \neq 0$; it is 0 on the **fold** $\cos z = 0$ (at $z = \pi/2$, where the two halves $0 < z < \pi/2$ and $\pi/2 < z < \pi$ of a cell meet, the hidden entry $b_4e^{-2a_4}\cot^2 z$ vanishes), and it is not defined where $\sin z = 0$, where $\cot z$ is infinite. It is the same at $z$ and at $\pi - z$, because $\cot(\pi - z) = -\cot z$ has the same square and $\sin(\pi - z) = \sin z$. Taking the square root of its size (the square root of a product of positive numbers is the product of the square roots, $\sqrt{\cot^2 z} = |\cot z|$ and $\sqrt{|\sin z|} = (\sin^2 z)^{1/4}$),
 
 $$
-\sqrt{|\det g|} = b_4^{3/2}\cos z = b_4^{3/2}\sin z\cot z ,
+\sqrt{|\det g|} = e^{-a_4}\,b_4^{2}\,|\cot z|\,(\sin^2 z)^{1/4},
 $$
 
-and this is the product of the eight length factors of Section 1.5 (the square root of a product of positive numbers is the product of their square roots, and $|\det g| = \prod_\mu |g_{\mu\mu}|$); at $b_4 = 1$ it is $\cos z$. The record stores it as `sqrtAbsDetG` $= b_4^{3/2}\sin z\cot z$ in `Revision/gkd_lovelock/results/curvature.json` and checks it in `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`; Notebook 01a, In [17] and In [18], reproduces both, exactly with sympy and in numbers at 900 points (Figure 01a.6).
+and this is the product of the eight length factors of Section 1.5, because $|\det g| = \prod_\mu |g_{\mu\mu}|$. The record stores it as `sqrtAbsDetG` in `Revision/gkd_lovelock/results/curvature.json`, with $\cot z\cdot\mathrm{sign}(\cot z)$ in place of $|\cot z|$, and checks it in `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `sqrt_abs_det_g`, whose detail begins with `det g = e^(-2 a4) b4^4 cot^2(6 H x0) |sin(6 H x0)| exactly` and holds for every real $z$ with $\sin z\cos z \neq 0$; Notebook 01a, In [17] and In [18], reproduces both, exactly with sympy and in numbers at 900 points (Figure 01a.6).
 
 ### 1.22 Example: matrices, permutations and determinants
 
-Notebook 01a puts Sections 1.18 to 1.21 to work. It computes the dot product, matrix times vector and the matrix product with loops, with `einsum` and with `@`, and shows with heat maps that $AB \neq BA$; lists the permutations of 3 objects with their inversions and signs, checks the exchange theorem for every permutation of up to 6 objects and draws the 24 permutation matrices of 4 objects; writes the Leibniz formula as a Python function and compares it with sympy and numpy; checks the six rules; draws signed areas; plots the cost of the Leibniz formula against elimination; reads the eight gamma matrices from the Revision record and checks that they are signed permutation matrices with determinant 1 whose squares are $\pm I$; and reads the author's metric from the record and proves that its determinant is $b_4^3 \cos^2 z$ for every $a_4$. It ends with the line ALL 30 CHECKS PASSED (notebook 01a).
+Notebook 01a puts Sections 1.18 to 1.21 to work. It computes the dot product, matrix times vector and the matrix product with loops, with `einsum` and with `@`, and shows with heat maps that $AB \neq BA$; lists the permutations of 3 objects with their inversions and signs, checks the exchange theorem for every permutation of up to 6 objects and draws the 24 permutation matrices of 4 objects; writes the Leibniz formula as a Python function and compares it with sympy and numpy; checks the six rules; draws signed areas; plots the cost of the Leibniz formula against elimination; reads the eight gamma matrices from the Revision record and checks that they are signed permutation matrices with determinant 1 whose squares are $\pm I$; and reads the author's metric from the record and proves that its determinant is $e^{-2a_4} b_4^4 \cot^2 z\,|\sin z|$, in which the growth of space and the deflation of the extra times cancel. It ends with the line ALL 30 CHECKS PASSED (notebook 01a).
 
 <!-- NOTEBOOK 01a -->
 
@@ -2706,13 +2777,15 @@ save_figure(fig, "gamma_matrices",
 ```python
 a4 = sp.Symbol("a4", real=True)  # the value of the function a4(x4) at one time
 b4 = sp.Symbol("b4", positive=True)  # the value of the function b4(x4) at one time
-z = sp.Symbol("z", positive=True)  # z = 6 H x0, between 0 and pi/2
-s = sp.sin(z) ** sp.Rational(1, 3)  # sin(z) to the power 1/3
-g_typed = ([sp.cot(z) ** 2] + [sp.exp(2 * a4) * s] * 3 + [sp.Integer(-1)]
+z = sp.Symbol("z", real=True)  # z = 6 H x0, any real number
+s = (sp.sin(z) ** 2) ** sp.Rational(1, 6)  # the positive sixth root of sin(z)^2
+say(f"sympy writes (sin(z)^2)^(1/6) as {s}")
+g_typed = ([b4 * sp.exp(-2 * a4) * sp.cot(z) ** 2] + [sp.exp(2 * a4)] * 3
+           + [sp.Integer(-1)]
            + [-b4 * sp.exp(-2 * a4) * s] * 3)  # the author's order x0, x1, ..., x7
 ```
 
-Symbols for the value of $a_4$ (any real number), for the value of $b_4$ (positive) and for $z$ (positive), $s = \sin^{1/3}z$, and the author's metric typed as the list of its eight diagonal entries in the author's order $x_0, \dots, x_7$, as in Section 1.1 (`sp.Integer(-1)` is the exact whole number $-1$).
+Symbols for the value of $a_4$ (any real number), for the value of $b_4$ (positive) and for $z$ (any real number), $s = (\sin^2 z)^{1/6}$, and the author's metric typed as the list of its eight diagonal entries in the author's order $x_0, \dots, x_7$, as in Section 1.1 (`sp.Integer(-1)` is the exact whole number $-1$). The `say` line shows the rule of the positive sixth root (Section 1.5) at work: output, sympy writes (sin(z)^2)^(1/6) as `Abs(sin(z))**(1/3)`, that is $|\sin z|^{1/3}$.
 
 ```python
 curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
@@ -2722,12 +2795,12 @@ curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.
 def from_record(text):
     """The record's Mathematica text as a sympy expression."""
     text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
-    text = text.replace("Sin[6*H*x0]", "sin(z)")
-    text = text.replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
+    text = text.replace("Sin[6*H*x0]", "sin(z)").replace("Cot[6*H*x0]", "cot(z)")
+    text = text.replace("Sign[", "sign(").replace("]", ")").replace("^", "**")
     return sp.sympify(text, locals={"a4": a4, "b4": b4, "z": z, "E": sp.E})
 ```
 
-The record file, and the translation of its Mathematica texts into sympy, as in Notebook 01f, In [11] (Section 1.9), except that here $\sin(6Hx_0)$ becomes `sin(z)` and $\cot(6Hx_0)$ becomes `cot(z)` with the symbol $z$.
+The record file, and the translation of its Mathematica texts into sympy, line for line as in Notebook 01f, In [11] (Section 1.9): the function values become symbols, $\sin(6Hx_0)$ and $\cot(6Hx_0)$ become `sin(z)` and `cot(z)`, Mathematica's sign function `Sign[...]` becomes sympy's `sign(...)`, and `^` becomes `**`.
 
 ```python
 g_record = [from_record(text) for text in curvature["metricDiagonal"]]
@@ -2738,77 +2811,89 @@ det_g = sp.Mul(*g_typed)  # the product of the 8 diagonal entries
 say(f"product of the diagonal entries, as sympy writes it: {det_g}")
 ```
 
-The record's eight entries are compared one by one with the typed ones (and there must be eight). `det_g` is the product of the diagonal, the determinant by rule (a). Output: sympy writes it `b4**3*sin(z)**2*cot(z)**2`, already without $a_4$.
+The record's eight entries are compared one by one with the typed ones (and there must be eight). `det_g` is the product of the diagonal, the determinant by rule (a). Output: sympy writes it `b4**4*exp(-2*a4)*cot(z)**2*Abs(sin(z))`: it has collected the powers of $b_4$ and of $e$ and the three factors $|\sin z|^{1/3}$ by itself, exactly as in Section 1.21.
 
 ```python
-check(sp.simplify(det_g - b4 ** 3 * sp.cos(z) ** 2) == 0,
-      "det g = b4^3 cos(z)^2 for every a4: the e^(6 a4) of space and the e^(-6 a4) "
-      "of the extra times cancel",
+det_expected = sp.exp(-2 * a4) * b4 ** 4 * sp.cot(z) ** 2 * sp.Abs(sp.sin(z))
+check(sp.simplify(det_g - det_expected) == 0,
+      "det g = e^(-2 a4) b4^4 cot(z)^2 |sin z|: the e^(6 a4) of space and the "
+      "e^(-6 a4) of the extra times cancel",
       record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
              "sqrt_abs_det_g")
+```
+
+The check $\det g = e^{-2a_4} b_4^4 \cot^2 z\,|\sin z|$ (Section 1.21), which reproduces the record's check `sqrt_abs_det_g`.
+
+```python
 root_record = from_record(curvature["sqrtAbsDetG"])
 say(f"the record's square root of |det g|: {root_record}")
-check(sp.simplify(root_record - b4 ** sp.Rational(3, 2) * sp.cos(z)) == 0 and
+# the rule sign(c) = |c|/c for every number c != 0, here for c = cot z:
+root_rewritten = root_record.subs(sp.sign(sp.cot(z)), sp.Abs(sp.cot(z)) / sp.cot(z))
+root_expected = (sp.exp(-a4) * b4 ** 2 * sp.Abs(sp.cot(z))
+                 * (sp.sin(z) ** 2) ** sp.Rational(1, 4))
+check(sp.simplify(root_rewritten - root_expected) == 0 and
       sp.simplify(root_record ** 2 - det_g) == 0,
-      "the record's sqrtAbsDetG = b4^(3/2) sin z cot z = b4^(3/2) cos z, and its "
+      "the record's sqrtAbsDetG = e^(-a4) b4^2 |cot z| (sin(z)^2)^(1/4), and its "
       "square is det g",
       record="Revision/gkd_lovelock/results/curvature.json, sqrtAbsDetG")
 ```
 
-The check $\det g = b_4^3 \cos^2 z$ (Section 1.21), which reproduces the record's check `sqrt_abs_det_g`; then the record's `sqrtAbsDetG`, printed as `b4**(3/2)*sin(z)*cot(z)`, which must simplify to $b_4^{3/2} \cos z$ and square to $\det g$. Three PASS lines, two with a second line naming the record.
+The record's `sqrtAbsDetG`, printed as `b4**2*exp(-a4)*cot(z)*sqrt(Abs(sin(z)))*sign(cot(z))`. sympy does not simplify $\cot z\cdot\mathrm{sign}(\cot z)$ by itself, because it does not know that $\cot z \neq 0$; `.subs` therefore replaces $\mathrm{sign}(\cot z)$ by $|\cot z|/\cot z$ (the rule of Section 1.5, valid wherever $\cos z \neq 0$), after which sympy cancels $\cot z$. The result must equal $e^{-a_4} b_4^2|\cot z|(\sin^2 z)^{1/4}$ of Section 1.21, and the record's expression, squared, must give $\det g$ (sympy squares $\mathrm{sign}(\cot z)$ to 1 itself). Four printed lines and three PASS lines in this cell, two of them with a second line naming the record.
 
 **In [18], the metric in numbers.**
 
 ```python
 metric_numbers = sp.lambdify((a4, b4, z), g_typed, "numpy")  # a4, b4, z -> 8 numbers
-z_values = np.linspace(0.01, np.pi / 2 - 0.01, 300)  # inside (0, pi/2)
+z_values = np.linspace(0.1, np.pi - 0.1, 300)  # one cell, inside (0, pi)
 fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.6))
-g_point = np.diag(np.array(metric_numbers(0.5, 1.0, 0.9), dtype=float))
+g_point = np.diag(np.array(metric_numbers(0.5, 2.0, 0.9), dtype=float))
 coordinate_labels = [f"$x_{k}$" for k in range(8)]  # x with subscripts 0 ... 7
-heat_map(left, g_point, "metric $g$ at $a_4 = 0.5$, $b_4 = 1$, $z = 0.9$",
+heat_map(left, g_point, "metric $g$ at $a_4 = 0.5$, $b_4 = 2$, $z = 0.9$",
          labels=coordinate_labels, digits=2, skip_zeros=True)
 left.tick_params(labelsize=8)
 ```
 
-`sp.lambdify` turns the exact list of formulas into a fast numpy function of $a_4$, $b_4$ and $z$ that returns the eight numbers. `z_values` are 300 values inside $(0, \pi/2)$. On the left, the $8 \times 8$ metric at $a_4 = 0.5$, $b_4 = 1$, $z = 0.9$ (`np.diag` of a list builds the diagonal matrix) is drawn as a heat map with the coordinate names $x_0$ to $x_7$ as labels and two digits, the zero entries left blank.
+`sp.lambdify` turns the exact list of formulas into a fast numpy function of $a_4$, $b_4$ and $z$ that returns the eight numbers. `z_values` are 300 values inside one cell $0 < z < \pi$, from 0.1 to $\pi - 0.1$; they stay away from $z = 0$ and $z = \pi$, where $\cot z$ is infinite, and (300 being an even number of points placed symmetrically) do not hit $z = \pi/2$ exactly. On the left, the $8 \times 8$ metric at $a_4 = 0.5$, $b_4 = 2$, $z = 0.9$ (`np.diag` of a list builds the diagonal matrix) is drawn as a heat map with the coordinate names $x_0$ to $x_7$ as labels and two digits, the zero entries left blank. Its entries are $2e^{-1}\cot^2 0.9 = 0.46$, three times $e^{1} = 2.72$, $-1$, and three times $-2e^{-1}|\sin 0.9|^{1/3} = -0.68$.
 
 ```python
+shape = np.cos(z_values) ** 2 / np.abs(np.sin(z_values))  # cot(z)^2 |sin z|
 largest_error = 0.0
-for a4_value, b4_value, style in [(-1.0, 1.0, "-"), (0.0, 0.5, "--"), (1.0, 2.0, ":")]:
+for a4_value, b4_value, style in [(-1.0, 0.5, "-"), (0.0, 2.0, "--"), (1.0, 3.0, ":")]:
     dets = np.array([np.linalg.det(np.diag(np.array(metric_numbers(a4_value, b4_value,
                                                                    zv), dtype=float)))
-                     for zv in z_values]) / b4_value ** 3
-    largest_error = max(largest_error, float(np.max(np.abs(dets - np.cos(z_values)
-                                                           ** 2))))
-    right.plot(z_values, dets, style, lw=2,
-               label=f"det g / $b_4^3$, $a_4 = {a4_value:+.0f}$, $b_4 = {b4_value:g}$")
+                     for zv in z_values])
+    scaled = dets * np.exp(2 * a4_value) / b4_value ** 4  # det g e^(2 a4) / b4^4
+    largest_error = max(largest_error, float(np.max(np.abs(scaled / shape - 1))))
+    right.plot(z_values, scaled, style, lw=2,
+               label=f"$a_4 = {a4_value:+.0f}$, $b_4 = {b4_value:g}$")
 ```
 
-For the three pairs $(a_4, b_4) = (-1, 1)$, $(0, 0.5)$ and $(1, 2)$ (solid, dashed and dotted lines): at each of the 300 values of $z$ the $8 \times 8$ matrix is built and its determinant computed by numpy's elimination, then divided by $b_4^3$; `largest_error` keeps the largest difference from $\cos^2 z$; the 300 values are drawn against $z$.
+`shape` is the function $\cot^2 z\,|\sin z| = \cos^2 z/|\sin z|$ of Section 1.21 at the 300 values of $z$, written in the second form. For the three pairs $(a_4, b_4) = (-1, 0.5)$, $(0, 2)$ and $(1, 3)$ (solid, dashed and dotted lines): at each of the 300 values of $z$ the $8 \times 8$ matrix is built and its determinant computed by numpy's elimination; `scaled` multiplies it by $e^{2a_4}/b_4^4$, which by Section 1.21 must leave exactly `shape`. `largest_error` keeps the largest **relative** difference, $|\text{scaled}/\text{shape} - 1|$ (relative, because near the fold `shape` is tiny); the 300 values are drawn against $z$.
 
 ```python
-right.plot(z_values, np.cos(z_values) ** 2, color="black", lw=0.8,
-           label="$\\cos^2 z$")
+right.plot(z_values, shape, color="black", lw=0.8, label="$\\cot^2 z\\,|\\sin z|$")
+right.axvline(np.pi / 2, color="0.5", ls=":", lw=1)  # the fold cos z = 0
+right.set_ylim(0.0, 10.0)
 right.set_xlabel("$z = 6 H x_0$")
-right.set_ylabel("$\\det g / b_4^3$")
-right.set_title("$\\det g / b_4^3$ does not depend on $a_4$")
-right.legend(fontsize=8)
+right.set_ylabel("$e^{2a_4} \\det g / b_4^4$")
+right.set_title("$e^{2a_4} \\det g / b_4^4$ does not depend on $a_4$, $b_4$")
+right.legend(fontsize=8, loc="upper center")
 fig.tight_layout()
 save_figure(fig, "metric_and_determinant",
             "Left: heat map of the author's $8 \\times 8$ metric at $a_4 = 0.5$, "
             ...)
 ```
 
-The curve $\cos^2 z$ as a thin black line, labels, a legend in a small font, and the figure. What Figure 01a.6 shows: on the left only the diagonal is coloured, red for $x_0, x_1, x_2, x_3$ and blue for $x_4$ to $x_7$; on the right the three curves of $\det g / b_4^3$ and $\cos^2 z$ lie on top of each other.
+The curve $\cot^2 z\,|\sin z|$ as a thin black line, a dotted vertical line at the fold $z = \pi/2$, the vertical axis cut at 10 (near $z = 0$ and $z = \pi$ the curves grow without bound), labels, a legend in a small font, and the figure. What Figure 01a.6 shows: on the left only the diagonal is coloured, red for $x_0, x_1, x_2, x_3$ and blue for $x_4$ to $x_7$; on the right the three scaled curves and $\cot^2 z\,|\sin z|$ lie on top of each other, are the same at $z$ and $\pi - z$, and touch 0 at the fold.
 
 ```python
-report("largest difference between det g / b4^3 and cos(z)^2 at 900 points",
-       f"{largest_error:.1e}")
-check(largest_error < 1e-12, "numpy: det g = b4^3 cos(z)^2 at 300 values of z for "
-      "each of (a4, b4) = (-1, 1), (0, 0.5), (1, 2)")
+report("largest relative difference between e^(2 a4) det g / b4^4 and "
+       "cot(z)^2 |sin z| at 900 points", f"{largest_error:.1e}")
+check(largest_error < 1e-12, "numpy: det g = e^(-2 a4) b4^4 cot(z)^2 |sin z| at "
+      "300 values of z for each of (a4, b4) = (-1, 0.5), (0, 2), (1, 3)")
 ```
 
-The RESULT line prints $2.9 \times 10^{-15}$, rounding errors only, and the check requires less than $10^{-12}$ (COMPUTED).
+The RESULT line prints $4.2 \times 10^{-15}$, rounding errors only, and the check requires less than $10^{-12}$ (COMPUTED).
 
 **In [19], the last check.**
 
@@ -2977,7 +3062,7 @@ $$
 
 ### 1.29 The author's metric in index notation
 
-**The metric and its inverse.** The author's metric $g_{\mu\nu}$ is the diagonal table of Section 1.1, with the entries $g_{00} = \cot^2 z$, $g_{11} = g_{22} = g_{33} = e^{2a_4}s$, $g_{44} = -1$ and $g_{55} = g_{66} = g_{77} = -b_4e^{-2a_4}s$, where $s = \sin^{1/3}z$ and $z = 6Hx_0$; the record stores it in `Revision/gkd_lovelock/results/curvature.json`, key `metricDiagonal`. Its inverse $g^{\mu\nu}$ is the diagonal table with the entries $g^{\mu\mu} = 1/g_{\mu\mu}$, and $g^{\mu\nu}g_{\nu\lambda} = \delta^\mu{}_\lambda$ (PROVED: the product of two diagonal tables, with $(1/g_{\mu\mu})\,g_{\mu\mu} = 1$); the record checks it in `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `metric_inverse`. The metric lowers and raises coordinate indices as $\eta$ does for frame indices: $dx_\mu = g_{\mu\nu}dx^\nu$.
+**The metric and its inverse.** The author's metric $g_{\mu\nu}$ is the diagonal table of Section 1.1, with the entries $g_{00} = b_4e^{-2a_4}\cot^2 z$, $g_{11} = g_{22} = g_{33} = e^{2a_4}$, $g_{44} = -1$ and $g_{55} = g_{66} = g_{77} = -b_4e^{-2a_4}s$, where $s = (\sin^2 z)^{1/6}$ and $z = 6Hx_0$; the record stores it in `Revision/gkd_lovelock/results/curvature.json`, key `metricDiagonal`. Wherever $\sin z\cos z \neq 0$ no entry is 0, and its inverse $g^{\mu\nu}$ is the diagonal table with the entries $g^{\mu\mu} = 1/g_{\mu\mu}$, and $g^{\mu\nu}g_{\nu\lambda} = \delta^\mu{}_\lambda$ (PROVED: the product of two diagonal tables, with $(1/g_{\mu\mu})\,g_{\mu\mu} = 1$); the record checks it in `Revision/gkd_lovelock/results/python-lovelock-report.json`, check `metric_inverse`. The metric lowers and raises coordinate indices as $\eta$ does for frame indices: $dx_\mu = g_{\mu\nu}dx^\nu$.
 
 **The line element (PROVED).** The squared length of a small step $dx^\mu$ in the coordinates is the **line element**
 
@@ -2988,28 +3073,30 @@ $$
 (a double sum, in which only the terms $\nu = \mu$ survive because $g$ is diagonal; the sum over $\nu$ is the lowered list). For the step with the same small size $\epsilon$ in all eight coordinates, $dx^\mu = \epsilon$:
 
 $$
-ds^2 = \epsilon^2\big(\cot^2 z + 3e^{2a_4}s - 1 - 3b_4e^{-2a_4}s\big)
+ds^2 = \epsilon^2\big(b_4e^{-2a_4}\cot^2 z + 3e^{2a_4} - 1 - 3b_4e^{-2a_4}s\big)
 $$
 
-(the eight diagonal entries, each times $\epsilon^2$: the hidden direction, three equal space entries, the time, three equal extra-time entries). From here on take $b_4 = 1$, the background of the Revision record:
+(the eight diagonal entries, each times $\epsilon^2$: the hidden direction, three equal space entries, the time, three equal extra-time entries),
 
 $$
-= \epsilon^2\big(3s\,(e^{2a_4} - e^{-2a_4}) - 1 + \cot^2 z\big) = \epsilon^2\big(6s\sinh(2a_4) - 1 + \cot^2 z\big)
+= \epsilon^2\big(3e^{2a_4} - 1 + b_4e^{-2a_4}K(z)\big),\qquad K(z) = \cot^2 z - 3s
 $$
 
-(insert $b_4 = 1$ and take out the common factor $3s$; then $e^{x} - e^{-x} = 2\sinh x$ with $x = 2a_4$, the definition of Section 1.13). As $a_4$ grows, the term of the three space directions grows like $e^{2a_4}$ and the term of the three exponentially deflating extra times shrinks towards 0 like $e^{-2a_4}$.
-
-**Where the step changes its kind (PROVED).** Take $b_4 = 1$. For fixed $z$, $ds^2$ grows when $a_4$ grows, because $6s > 0$ and $\sinh$ is an increasing function (its derivative $\cosh$ is positive; the derivative of $6s\sinh(2a_4)$ with respect to $a_4$ is $12s\cosh(2a_4) > 0$). Since $\sinh$ takes every real value exactly once, its inverse function $\mathrm{arcsinh}$ exists, and $ds^2 = 0$ exactly at
+(the hidden entry and the three extra-time entries share the factor $b_4e^{-2a_4}$, which is taken out). On the record's background history $b_4 = e^{4a_4/3}$ (Section 1.1, ASSUMED there as a prescribed background):
 
 $$
-a_4^{\ast}(z) = \tfrac12\,\mathrm{arcsinh}\Big(\frac{1 - \cot^2 z}{6s}\Big)
+b_4e^{-2a_4} = e^{4a_4/3 - 2a_4} = e^{-2a_4/3},\qquad ds^2 = \epsilon^2\big(3e^{2a_4} - 1 + e^{-2a_4/3}K(z)\big)
 $$
 
-(set $ds^2 = 0$; solve for $\sinh(2a_4) = (1 - \cot^2 z)/(6s)$; apply $\mathrm{arcsinh}$; divide by 2). For $a_4 < a_4^{\ast}(z)$ the step is time-like, for $a_4 > a_4^{\ast}(z)$ space-like: as space inflates and the extra times deflate, the same coordinate step turns from time-like to space-like. Notebook 01e, In [14] and In [15], checks the formula exactly and the sign change on a grid of $301 \times 300$ points (Figure 01e.6; COMPUTED).
+(the law $a^pa^q = a^{p+q}$ with $\tfrac43 - 2 = -\tfrac23$; then insert). As $a_4$ grows, the term of the three space directions grows like $e^{2a_4}$, while the terms of the hidden direction and of the three exponentially deflating extra times shrink towards 0 together, like $e^{-2a_4/3}$.
+
+**Two facts about the bracket (PROVED).** *First*, $K(\pi - z) = K(z)$, because $\cot(\pi - z) = -\cot z$ has the same square and $\sin(\pi - z) = \sin z$ gives the same $s$: everything is mirror-symmetric about the fold $z = \pi/2$ that joins the two halves of a cell. *Second*, on $0 < z < \pi/2$ the bracket decreases as $z$ grows: $\cot^2 z$ falls (from very large values near $z = 0$ to 0 at $z = \pi/2$), and $3s = 3|\sin z|^{1/3}$ rises (here $\sin z$ rises from 0 to 1), so their difference falls; at $z = \pi/2$ it is $0 - 3 \cdot 1 = -3$. A decreasing function that starts positive and ends at $-3$ changes sign at exactly one point $z_0$; Notebook 01e, In [15], finds it by bisection (Section 1.3): $z_0 = 0.5693$ (COMPUTED). By the first fact, in the cell $0 < z < \pi$ the bracket satisfies $K(z) \le 0$ exactly for $z_0 \le z \le \pi - z_0$, and there $-3 \le K(z) \le 0$.
+
+**Where the step changes its kind (PROVED for $K \le 0$).** Take the record's history and a value of $z$ with $K(z) \le 0$. Then $ds^2$ grows when $a_4$ grows: $3e^{2a_4}$ grows, and $e^{-2a_4/3}K$ grows as well, because a shrinking positive factor times a number $K \le 0$ rises towards 0. At $a_4 = -1.5$ the step is time-like, $3e^{-3} - 1 + e^{1}K \le 3e^{-3} - 1 < 0$ (since $3e^{-3} \approx 0.15$); at $a_4 = 1.5$ it is space-like, $3e^{3} - 1 + e^{-1}K \ge 3e^{3} - 1 - 3e^{-1} \approx 58.2 > 0$ (since $K \ge -3$). A function that only grows changes sign at most once, so there is exactly one value $a_4^{\ast}(z)$ between $-1.5$ and $1.5$ with $ds^2 = 0$; for $a_4 < a_4^{\ast}(z)$ the step is time-like, for $a_4 > a_4^{\ast}(z)$ space-like: as space inflates and the extra times deflate, the same coordinate step turns from time-like to space-like. There is no formula for $a_4^{\ast}(z)$ with the functions of this chapter, but bisection finds it to any accuracy. Notebook 01e, In [15], finds it on 206 of 300 rows of $z$ (those with $K \le 0$), where it runs from $-0.4962$ to $0.1153$ (the largest next to the fold, where $K = -3$), and checks the growth and the sign change on a grid of $301 \times 300$ points (Figure 01e.6; COMPUTED). Where $K > 0$, towards $z = 0$ and $z = \pi$, the hidden term outweighs the extra times and the step is space-like for most $a_4$; the notebook only draws this region (COMPUTED, no claim is checked there).
 
 ### 1.30 Example: index notation in the author's spacetime
 
-Notebook 01e puts Sections 1.26 to 1.29 to work. It computes sums with free and dummy indices with loops and with `einsum`; reads $\eta$ from the Revision record, lowers and raises an index and checks $\eta^{ab}\eta_{bc} = \delta^a{}_c$ and $\delta^a{}_a = 8$; sorts vectors into space-like, time-like and light-like ones and measures with 200,000 random vectors that half of them are space-like in the signature (4,4) but about 82 per cent in the signature (3,1); checks the theorem on symmetric and antisymmetric arrays exactly with whole numbers; checks all 64 Clifford relations of the record's gamma matrices, their symmetry pattern and the three contractions; and writes the author's line element as a sum over indices and shows how the inflation of space and the deflation of the extra times change it. It ends with the line ALL 25 CHECKS PASSED (notebook 01e).
+Notebook 01e puts Sections 1.26 to 1.29 to work. It computes sums with free and dummy indices with loops and with `einsum`; reads $\eta$ from the Revision record, lowers and raises an index and checks $\eta^{ab}\eta_{bc} = \delta^a{}_c$ and $\delta^a{}_a = 8$; sorts vectors into space-like, time-like and light-like ones and measures with 200,000 random vectors that half of them are space-like in the signature (4,4) but about 82 per cent in the signature (3,1); checks the theorem on symmetric and antisymmetric arrays exactly with whole numbers; checks all 64 Clifford relations of the record's gamma matrices, their symmetry pattern and the three contractions; and writes the author's line element as a sum over indices and shows, along the record's background history, how the inflation of space and the deflation of the extra times and of the hidden direction change it. It ends with the line ALL 26 CHECKS PASSED (notebook 01e).
 
 <!-- NOTEBOOK 01e -->
 

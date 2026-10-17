@@ -67,8 +67,12 @@ FACTS = {
         ["Revision/gkd_lovelock/results/curvature.json",
          "metricDiagonal, the diagonal of the author's metric (read)"],
         ["Revision/gkd_lovelock/results/python-lovelock-report.json",
-         "check sqrt_abs_det_g: the determinant of the metric is the square of cos z "
-         "(reproduced as the product of the eigenvalues)"],
+         "check sqrt_abs_det_g: the determinant of the metric is e^(-2 a4) b4^4 "
+         "cot(z)^2 times the size of sin(z) (reproduced as the product of the "
+         "eigenvalues)"],
+        ["Revision/field_equations_a4/a4-equations.json",
+         "exponentialHistory, entry recordHistory: the prescribed background history "
+         "a4 = H x4, b4 = e^((4/3) H x4) of the record, used for one picture (read)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -199,17 +203,21 @@ CELLS = [
     **The course.** The author's spacetime has the frame metric
     $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order
     $x_0, \dots, x_7$ ($x_1, x_2, x_3$ space, $x_4$ time, $x_5, x_6, x_7$ the
-    three extra times, $x_0$ the hidden direction) and the metric
+    three extra times, $x_0$ the hidden direction) and the metric (the corrected
+    metric of the Revision record, version 2 of 2026-10-16)
 
-    $$g = \mathrm{diag}\big(\cot^2 z, e^{2a_4} s, e^{2a_4} s, e^{2a_4} s, -1,
-    -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),\quad
-    s = \sin^{1/3} z,\ z = 6 H x_0,$$
+    $$g = \mathrm{diag}\big(b_4 e^{-2a_4}\cot^2 z, e^{2a_4}, e^{2a_4}, e^{2a_4}, -1,
+    -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s, -b_4 e^{-2a_4} s\big),$$
 
-    with a function $a_4(x_4)$ and a positive function $b_4(x_4)$ of the time
-    ($b_4 = 1$ in the background of the Revision record), whose extra-time entries
-    shrink like $e^{-2a_4}$ as $a_4$ grows (for constant $b_4$): the extra
-    times deflate exponentially. "Signature (4,4)" means: four positive and four
-    negative eigenvalues. The eight real $16 \times 16$ gamma matrices obey
+    $$s = (\sin^2 z)^{1/6} = |\sin z|^{1/3},\qquad z = 6 H x_0,$$
+
+    with $z$ any real number, a function $a_4(x_4)$ and a positive function
+    $b_4(x_4)$ of the time (never the constant 1). On the prescribed background
+    history of the Revision record, $a_4 = H x_4$ and $b_4 = e^{(4/3) H x_4}$, the
+    factor $b_4 e^{-2a_4}$ of the hidden and the extra-time entries is
+    $e^{-2a_4/3}$: these entries shrink as $a_4$ grows, the extra times deflate
+    exponentially. "Signature (4,4)" means: four positive and four negative
+    eigenvalues. The eight real $16 \times 16$ gamma matrices obey
     $(\gamma^a)^2 = \eta^{aa} I$, which fixes their eigenvalues; and the matrix
     $B = -i C \gamma^{(x_4)}$ of the record, which gives the charge density of
     the fields of the theory, is Hermitian with eigenvalues $+1$ and $-1$.
@@ -667,8 +675,10 @@ CELLS = [
     larger than 1000 times the rounding error, $2.2 \times 10^{-16}$ times the
     largest size). Then it reads the author's metric
     from the record and counts the signs of its eigenvalues on a grid of 61 values
-    of $a_4$ from $-3$ to 3, 50 values of $z$ in $(0, \pi/2)$ and the three values
-    $b_4 = 0.5$, 1 and 2; their product must be $\det g = b_4^3 \cos^2 z > 0$.
+    of $a_4$ from $-3$ to 3, 50 values of $z$ from $-\pi + 0.05$ to $\pi - 0.05$
+    (two full periods of the metric, avoiding the points where
+    $\sin z \cos z = 0$) and the three values $b_4 = 0.5$, 2 and 4; their product
+    must be $\det g = e^{-2a_4} b_4^4 \cot^2 z\,|\sin z| > 0$.
     """),
     code(r'''
     algebra = json.loads(repository_file("Revision/algebra/gammas.json")
@@ -712,7 +722,7 @@ CELLS = [
     code(r'''
     a4 = sp.Symbol("a4", real=True)  # the value of a4(x4) at one time
     b4 = sp.Symbol("b4", positive=True)  # the value of b4(x4) at one time
-    z = sp.Symbol("z", positive=True)  # z = 6 H x0, between 0 and pi/2
+    z = sp.Symbol("z", real=True)  # z = 6 H x0, any real number
     curvature = json.loads(repository_file("Revision/gkd_lovelock/results/curvature.json")
                            .read_text(encoding="utf-8"))
 
@@ -720,43 +730,52 @@ CELLS = [
     def from_record(text):
         """The record's Mathematica text as a sympy expression."""
         text = text.replace("a4[x4]", "a4").replace("b4[x4]", "b4")
-        text = text.replace("Sin[6*H*x0]", "sin(z)")
-        text = text.replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
+        text = text.replace("Sin[6*H*x0]", "sin(z)").replace("Cot[6*H*x0]", "cot(z)")
+        text = text.replace("Sign[", "sign(").replace("]", ")").replace("^", "**")
         return sp.sympify(text, locals={"a4": a4, "b4": b4, "z": z, "E": sp.E})
 
 
     g_record = [from_record(text) for text in curvature["metricDiagonal"]]
     # a4, b4, z -> the 8 numbers on the diagonal
     metric_numbers = sp.lambdify((a4, b4, z), g_record, "numpy")
+    z_grid = np.linspace(-np.pi + 0.05, np.pi - 0.05, 50)  # two periods of the metric
+    away = float(np.min(np.abs(np.sin(z_grid) * np.cos(z_grid))))  # from sin z cos z = 0
     signs_ok, product_error, points = True, 0.0, 0
-    for b4_value in (0.5, 1.0, 2.0):
+    for b4_value in (0.5, 2.0, 4.0):
         for a4_value in np.linspace(-3.0, 3.0, 61):
-            for z_value in np.linspace(0.05, np.pi / 2 - 0.05, 50):
+            for z_value in z_grid:
                 g_values = np.linalg.eigvalsh(np.diag(np.array(
                     metric_numbers(a4_value, b4_value, z_value), dtype=float)))
                 signs_ok &= ((int((g_values > 0).sum()), int((g_values < 0).sum()))
                              == (4, 4))
-                product_error = max(product_error, abs(
-                    np.prod(g_values) / b4_value ** 3 - np.cos(z_value) ** 2))
+                det_expected = (np.exp(-2 * a4_value) * b4_value ** 4
+                                * np.cos(z_value) ** 2 / abs(np.sin(z_value)))
+                product_error = max(product_error,
+                                    abs(np.prod(g_values) / det_expected - 1))
                 points += 1
-    check(signs_ok and points == 9150, "the author's metric has the signature (4,4) "
-          "at all 9150 grid points (a4, z, b4)")
+    say(f"smallest |sin z cos z| on the grid of z: {away:.4f}")
+    check(signs_ok and points == 9150 and away > 0.001, "the author's metric has the "
+          "signature (4,4) at all 9150 grid points (a4, z, b4)")
     lovelock_report = json.loads(repository_file(
         "Revision/gkd_lovelock/results/python-lovelock-report.json")
         .read_text(encoding="utf-8"))
     root_verdict = {c["name"]: c["verdict"]
                     for c in lovelock_report["checks"]}["sqrt_abs_det_g"]
+    report("largest relative difference between the product of the eigenvalues and "
+           "e^(-2 a4) b4^4 cot(z)^2 |sin z|", f"{product_error:.1e}")
     check(product_error < 1e-12 and root_verdict == "PASS",
-          "the product of the eight eigenvalues is det g = b4^3 cos(z)^2 at every grid "
-          "point",
+          "the product of the eight eigenvalues is det g = e^(-2 a4) b4^4 cot(z)^2 "
+          "|sin z| at every grid point",
           record="Revision/gkd_lovelock/results/python-lovelock-report.json, check "
                  "sqrt_abs_det_g")
     '''),
     md(r"""
     The next cell draws both results. Left: the eight eigenvalues of
     $P^T \eta P$ for 40 random $P$ (one column per $P$). Right: the eight
-    eigenvalues of the author's metric at $z = 0.9$, $b_4 = 1$ against $a_4$. Both
-    vertical
+    eigenvalues of the author's metric at $z = 0.9$ against $a_4$ along the
+    background history of the Revision record, $b_4 = e^{4a_4/3}$ (read from the
+    record file Revision/field_equations_a4/a4-equations.json, entry
+    `recordHistory`). Both vertical
     axes are *symmetric logarithmic*: linear in a small band around 0 (between
     $-0.001$ and 0.001 on the left, between $-0.1$ and 0.1 on the right) and
     logarithmic outside, so that large and small values of both signs fit.
@@ -771,10 +790,15 @@ CELLS = [
     left.set_xlabel("random matrix $P$ (number)")
     left.set_ylabel("eigenvalues of $P^T \\eta P$")
     left.set_title("always 4 positive (red) and 4 negative (blue)")
+    equations = json.loads(repository_file("Revision/field_equations_a4/a4-equations.json")
+                           .read_text(encoding="utf-8"))
+    history = equations["exponentialHistory"]["authorWeights"]["recordHistory"]
+    beta = float(sp.Rational(history.split("be = ")[1].split(",")[0]))  # b4 = e^(beta a4)
+    say(f"the record's history: {history}")
     a4_line = np.linspace(-3.0, 3.0, 301)
-    curves = np.array([metric_numbers(value, 1.0, 0.9) for value in a4_line],
-                      dtype=float)  # at b4 = 1
-    styles = [("tab:green", "hidden $x_0$", 0), ("tab:red", "space $x_1, x_2, x_3$", 1),
+    curves = np.array([metric_numbers(value, np.exp(beta * value), 0.9)
+                       for value in a4_line], dtype=float)  # along b4 = e^(4 a4/3)
+    styles =[("tab:green", "hidden $x_0$", 0), ("tab:red", "space $x_1, x_2, x_3$", 1),
               ("tab:gray", "time $x_4$", 4), ("tab:blue", "extra times $x_5, x_6, x_7$", 5)]
     for color, label, index in styles:
         right.plot(a4_line, curves[:, index], color=color, lw=2, label=label)
@@ -797,11 +821,11 @@ CELLS = [
                 f"{tiny_text} smaller than 0.001 in size {tiny_verb} on the zero "
                 "line, but none is zero. "
                 "Right: the eigenvalues of the author's metric $g$ at $z = 6 H x_0 = "
-                "0.9$ and $b_4 = 1$ against $a_4$: the three space entries "
-                "$e^{2a_4} s$ (red, "
-                "growing), the time entry $-1$ (grey), the three extra-time entries "
-                "$-e^{-2a_4} s$ (blue, shrinking towards 0 as the extra times deflate, "
-                "but never crossing it) and the hidden entry $\\cot^2 z$ (green). The "
+                "0.9$ against $a_4$ along the record's history $b_4 = e^{4a_4/3}$: "
+                "the three space entries $e^{2a_4}$ (red, growing), the time entry "
+                "$-1$ (grey), the three extra-time entries $-e^{-2a_4/3} s$ (blue) "
+                "and the hidden entry $e^{-2a_4/3} \\cot^2 z$ (green), both shrinking "
+                "towards 0 but never crossing it. The "
                 "vertical axes are linear near 0 (between $-0.001$ and 0.001 on the "
                 "left, $-0.1$ and 0.1 on the right) and logarithmic outside; all "
                 "quantities are pure numbers.")
@@ -1160,11 +1184,12 @@ CELLS = [
     - Symmetric and Hermitian matrices have real eigenvalues and perpendicular
       eigenvectors (proved; checked on 300 random matrices).
     - The frame metric $\eta$ and the author's metric $g$ have four positive and
-      four negative eigenvalues, the signature (4,4), at every point; the deflation
-      of the extra times shrinks their eigenvalues towards 0 without changing their
-      sign, and the product of the eigenvalues is $\det g = b_4^3 \cos^2 z$. No change of
-      coordinates changes the signature (Sylvester's law of inertia, checked on 2000
-      random coordinate changes).
+      four negative eigenvalues, the signature (4,4), at every point with
+      $\sin z \cos z \neq 0$; the deflation of the extra times shrinks their
+      eigenvalues and the hidden one towards 0 without changing their sign, and the
+      product of the eigenvalues is $\det g = e^{-2a_4} b_4^4 \cot^2 z\,|\sin z|$.
+      No change of coordinates changes the signature (Sylvester's law of inertia,
+      checked on 2000 random coordinate changes).
     - The real gamma matrices of the record have the eigenvalues $\pm 1$
       (space-like directions) or $\pm i$ (time-like directions), eight times each,
       because $(\gamma^a)^2 = \eta^{aa} I$ and $\mathrm{tr}\,\gamma^a = 0$; the

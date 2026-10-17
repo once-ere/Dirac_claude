@@ -1036,7 +1036,8 @@ CELLS = [
       $m = 1$, $k_5 = 2$ has the energies $\pm i\sqrt3$, eight each (check
       `extra_time_modes_grow`); the wave with $E = i\sqrt3$ grows like
       $e^{\sqrt3\,x_4}$.
-    - PROVED (exact, sympy, for all functions $a_4$ and $b_4 > 0$ and every real $z$):
+    - PROVED (exact, sympy, for all functions $a_4$ and $b_4 > 0$ and every real $z$
+      with $\sin z \neq 0$):
       in the corrected metric the frame factor of the extra time $x_5$ is
       $f_5 = e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$, the same at $\sin z$ and $-\sin z$,
       and a wave with the coordinate momentum $k_{x_5}$ has the frame momentum

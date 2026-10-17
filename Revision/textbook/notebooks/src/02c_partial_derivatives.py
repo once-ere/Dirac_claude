@@ -711,7 +711,7 @@ CELLS = [
                 color=BLACK, lw=1.4, label="sum of all eight $= -3H(\\cot z + 2\\tan z)$"
                 if first else None)
     ax.axvline(np.pi / 2, color=GREY, ls=":", lw=1.2)
-    ax.text(np.pi / 2 + 0.04, 52.0, "fold $z = \\pi/2$", fontsize=8, color=GREY)
+    ax.text(np.pi / 2 + 0.04, -56.0, "fold $z = \\pi/2$", fontsize=8, color=GREY)
     ax.set_ylim(-60.0, 60.0)
     ax.set_xlabel("$z = 6 H x_0$")
     ax.set_ylabel("$\\partial_0 \\ln s_a$ (units $H$)")

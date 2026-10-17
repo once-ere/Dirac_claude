@@ -331,7 +331,7 @@ The notebook writes (creates, or overwrites with the same bytes) exactly these f
 | `Revision/textbook/figures/02c_3_finite_differences.png` | 110929 | `9e8a8298d3b1488ede06b1452c0ed20606556b2bf1896e26f17a166081ad574e` |
 | `Revision/textbook/figures/02c_4_chain_rule.png` | 64624 | `d8fb23b146184181402d4d12d5faabc7c8c8a721d929aa57cd75a7ffdf395e59` |
 | `Revision/textbook/figures/02c_5_rates_along_x4.png` | 40973 | `d669882bafabfc00517d07dde6d4b45f6fb36873bb35730fb79343c95e742aa4` |
-| `Revision/textbook/figures/02c_6_rates_along_x0.png` | 78391 | `cdec908bb29254504309a1b265822097e8f59f571db1d2446aa6d4a52d2f417e` |
+| `Revision/textbook/figures/02c_6_rates_along_x0.png` | 78293 | `77cf84413c8a91a5a59e5c81703b32bfc36b1b8e3f986c46e1d632acc3725788` |
 
 Running the notebook headless with `--inplace`, or saving it in JupyterLab, also rewrites the notebook file `Revision/textbook/notebooks/02c_partial_derivatives.ipynb` itself (with new outputs; JupyterLab's copy differs from the stored one in its metadata). JupyterLab also keeps a checkpoint copy in the folder `Revision/textbook/notebooks/.ipynb_checkpoints`, which git ignores.
 
@@ -354,8 +354,8 @@ The notebook does not use the network while it runs. The installation (git clone
 
 Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 s. Measured on the computer of section 5, including the start of the kernel:
 
-- the build run: 5.6 s, peak memory of the kernel process 204 MiB;
-- the check run: 5.1 s, peak memory of the kernel process 204 MiB.
+- the build run: 5.4 s, peak memory of the kernel process 204 MiB;
+- the check run: 5.4 s, peak memory of the kernel process 203 MiB.
 
 ## 5. Environment of the verified execution
 
@@ -367,15 +367,15 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 
 ## 6. Fingerprints (sha256)
 
-- `Revision/textbook/notebooks/02c_partial_derivatives.ipynb`: `fc28d47b5f81f521927d638f11c5ab8d6ec4d43486d4b195df7c61294ed67824`
-- `Revision/textbook/notebooks/src/02c_partial_derivatives.py`: `f30e9b0ba2a34e76f2a0dd27b9e44c69293e210ff1cdc1de63c295e8349fccb2`
+- `Revision/textbook/notebooks/02c_partial_derivatives.ipynb`: `05ee78fdf6e430fd39989c4edc2135f00c5213cf952a89b996fb65f731f3c2f5`
+- `Revision/textbook/notebooks/src/02c_partial_derivatives.py`: `671d87f11f3b42f1a36e057813eb90dde8f048388f752a14fd823e396d1874e6`
 - `Revision/textbook/figures/02c.captions.json`: `a4a24dc0e4755e0f8be203dc665b7586a0ea70b57ab54fc82d5b0f9b232a1a18`
 - `Revision/textbook/figures/02c_1_level_curves_gradient.png`: `293f1181a384ee2383e2e19a12957fbd61cf7c81cc3ff2db9dc4946e1943d429`
 - `Revision/textbook/figures/02c_2_slices_and_slopes.png`: `7a96afd53136d331ade6267d0b2d6495b0170ff43eb27178fa269f99caf7451d`
 - `Revision/textbook/figures/02c_3_finite_differences.png`: `9e8a8298d3b1488ede06b1452c0ed20606556b2bf1896e26f17a166081ad574e`
 - `Revision/textbook/figures/02c_4_chain_rule.png`: `d8fb23b146184181402d4d12d5faabc7c8c8a721d929aa57cd75a7ffdf395e59`
 - `Revision/textbook/figures/02c_5_rates_along_x4.png`: `d669882bafabfc00517d07dde6d4b45f6fb36873bb35730fb79343c95e742aa4`
-- `Revision/textbook/figures/02c_6_rates_along_x0.png`: `cdec908bb29254504309a1b265822097e8f59f571db1d2446aa6d4a52d2f417e`
+- `Revision/textbook/figures/02c_6_rates_along_x0.png`: `77cf84413c8a91a5a59e5c81703b32bfc36b1b8e3f986c46e1d632acc3725788`
 
 ## 7. Verification
 
@@ -383,4 +383,4 @@ Expected run time: about 15 seconds (FACTS: 15 s); nbkit stops a cell after 300 
 - `nbkit check`: PASSED on 2026-10-17: a second, independent execution reproduced the notebook and the 7 files it writes byte for byte, and the provenance file regenerated from this record was identical.
 - `nbkit build` and `nbkit check` also enforce the notebook rules of TEXTBOOK_SPEC section 2: no error and no stderr output, every printed line at most 89 characters of plain ASCII, no memory address and no path of the build computer in the output, every figure saved by `save_figure` (150 dpi, no PNG metadata, at most 1.25 times as high as wide) with a caption, the files written equal to the list in the FACTS, and the final lines as listed.
 
-<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":204.0,"seconds":5.6},"check":{"date":"2026-10-17","files":7,"peak_mb":204.0,"result":"passed","seconds":5.1},"date":"2026-10-17","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
+<!-- nbkit-record {"build":{"kernel_python":"3.14.5","peak_mb":204.0,"seconds":5.4},"check":{"date":"2026-10-17","files":7,"peak_mb":203.0,"result":"passed","seconds":5.4},"date":"2026-10-17","environment":{"cargo":"cargo 1.91.1 (ea2d97820 2025-10-10)","machine":"AMD64","os":"Windows 11 (10.0.26300)","packages":{"ipykernel":"7.1.0","jupyterlab":"4.4.10","matplotlib":"3.11.0","mpmath":"1.3.0","nbclient":"0.10.2","nbconvert":"7.16.6","nbformat":"5.10.4","numpy":"2.4.6","sympy":"1.14.0"},"python":"3.14.5","support_pins_equal_installed":true}} -->
