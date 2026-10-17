@@ -194,9 +194,13 @@ def analyse(g_F=8, m_dm_GeV=None, mnu_eV=0.05):
     out["lcdm_planck"] = {"obs": o_l, "bao_chi2": chi_l, "bao": rows_l}
     neff_sm = NEFF_PER_SPECIES * 1.0
     scen = {}
-    for name, g in (("above_mW", gstar_s_sm1(100.0)), ("QCD_to_mW", gstar_s_sm1(1.0)), ("pion_gas", gstar_s_sm1(0.1)),
-                    ("below_20MeV", gstar_s_sm1(0.01)), ("fit_to_Planck_Neff", g_dec_for(p["N_eff_measured"], g_F, neff_sm))):
-        dN = delta_neff(g_F, g)
+    # g_F counts the fold-band states per 3-momentum of the whole cell (both halves of a period of x0, the record's
+    # particle-number convention); the last scenario counts one half (g_F/2), the alternative reading of the convention
+    for name, g, gf in (("above_mW", gstar_s_sm1(100.0), g_F), ("QCD_to_mW", gstar_s_sm1(1.0), g_F),
+                        ("pion_gas", gstar_s_sm1(0.1), g_F), ("below_20MeV", gstar_s_sm1(0.01), g_F),
+                        ("fit_to_Planck_Neff", g_dec_for(p["N_eff_measured"], g_F, neff_sm), g_F),
+                        ("half_cell_gF_over_2_below_20MeV", gstar_s_sm1(0.01), g_F // 2)):
+        dN = delta_neff(gf, g)
         neff = neff_sm + dN
         h = fit_h(p["omega_b"], p["omega_c"], neff, mnu_eV, cal)
         cm = Cosmo(p["omega_b"], p["omega_c"], h, neff, mnu_eV)
@@ -205,7 +209,7 @@ def analyse(g_F=8, m_dm_GeV=None, mnu_eV=0.05):
         scen[name] = {"g_star_s_at_decoupling": g, "Delta_N_eff": dN, "N_eff": neff,
                       "N_eff_pull_vs_Planck": (neff - p["N_eff_measured"]) / p["N_eff_sigma"],
                       "h_fitted_to_theta_star": h, "H0": 100 * h, "obs": o, "bao_chi2": chi, "bao": rows,
-                      "cnb": cnb(g, g_F)}
+                      "cnb": cnb(g, gf), "g_F": gf}
     out["um1"] = scen
     out["inputs"] = {"g_F": g_F, "N_eff_SM_one_generation": neff_sm, "sum_mnu_eV": mnu_eV, "omega_b": p["omega_b"],
                      "omega_c": p["omega_c"], "T_CMB": T_CMB, "m_dm_GeV": m_dm_GeV}

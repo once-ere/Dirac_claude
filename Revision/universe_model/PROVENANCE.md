@@ -84,7 +84,7 @@ and are used only as targets of fits and as comparisons, never as derived result
 * Numerical: numpy 2.4.6, no scipy; matplotlib 3.11.0 for the figures (`solution/`). The Kohn-Sham solution uses the
   record's reference solver `Revision/kohn_sham/reference/ks_fd.py` and its coefficients (`run_reference.py`)
   UNCHANGED (TAKEN), with the portal potentials added by a wrapper (`solution/ks_coupled.py`).
-* Documents: the Markdown files are the sources; `tools/md2tex.py` converts each to LaTeX and `tools/build_pdfs.sh`
+* Documents: the Markdown files are the sources; `tools/md2tex.py` converts each to LaTeX and `tools/build_pdfs.py`
   compiles it with pdflatex (MiKTeX 26.5), so the .md and the .pdf say the same thing.
 * Every calculation runs well within the limit of 423 s per calculation of this project.
 

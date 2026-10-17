@@ -1,92 +1,92 @@
 {
  "producer": "Revision/dark_sector/dirac16complex/derive/derive_effective.py",
  "engine": "sympy 1.14.0",
- "metric": "the author's metric with b4(x4) of 2026-10-14 (general a4(x4), b4(x4); b4 is never 1)",
+ "metric": "the corrected primordial metric of 2026-10-16 (version 2; general a4(x4), b4(x4); every real z)",
  "checks": [
   {
-   "name": "sqrt_det_g_equals_b4_three_halves_cos_z",
+   "name": "x0_derivative_rules_every_real_z",
    "verdict": "PASS",
-   "detail": "sqrt|det g| = b4**(3/2)*cs (sn = sin z, cs = cos z > 0 on the patch; b4 = b4(x4) > 0); it changes with x4 through b4 (the withdrawn b4 = 1 record had cs)"
+   "detail": "C = cot z and W = (sin^2 z)^(1/12) satisfy dC/dx0 = -6 H (1 + C^2) and dW/dx0 = H C W on both signs of sin z (W = (+-sin z)^(1/6)); every x0 derivative below uses only these rules, so every statement holds for every real z with sin z != 0 (no branch of sin z chosen)"
   },
   {
-   "name": "proper_7_volume_element_b4",
+   "name": "sqrt_det_g",
    "verdict": "PASS",
-   "detail": "(e^(3a4) sin^(1/2) z)(e^(-3a4) b4^(3/2) sin^(1/2) z)(cot z) = b4**(3/2)*cos(z): no a4; the proper 7-volume of a slice changes with x4 through b4(x4)"
+   "detail": "|det g| = (e^(-a4) b4^2 |C| W^3)^2: sqrt|g| = e^(-a4) b4^2 |cot z| |sin z|^(1/2) (C = cot z, W^3 = |sin z|^(1/2)); it changes with x4 through e^(-a4) b4^2"
   },
   {
-   "name": "proper_3_and_extra_time_volume_scalings_b4",
+   "name": "proper_volume_elements",
    "verdict": "PASS",
-   "detail": "d ln(proper 3-volume)/d a4 = +3 (inflating); proper extra-time volume ~ e^{-3 a4} b4^{3/2}: d ln/dx4 = -3 a4' + (3/2) b4'/b4 (deflating while b4'/b4 < 2 a4')"
-  },
-  {
-   "name": "conservation_x4_identity_b4",
-   "verdict": "PASS",
-   "detail": "nabla_mu T^mu_x4 = -d rho/d x4 - 3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t): on shell d rho/d x4 = -3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t); the b4' term is the change of 2026-10-14 (the withdrawn b4 = 1 record had d rho/d x4 = -3 a4' (p3 - p_t))"
-  },
-  {
-   "name": "conservation_x0_identity",
-   "verdict": "PASS",
-   "detail": "nabla_mu T^mu_x0 = d p0/d x0 + 3 H cot z (2 p0 - p3 - p_t), free of b4"
-  },
-  {
-   "name": "conservation_other_components_vanish",
-   "verdict": "PASS",
-   "detail": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (homogeneous diagonal T), for every b4"
-  },
-  {
-   "name": "conservation_equals_a4_record_b4",
-   "verdict": "PASS",
-   "detail": "the x4 and x0 identities derived here equal Revision/field_equations_a4/a4-equations.json (key b4, generalSource.conservation_x4 and conservation_x0) at q40 = q04 = 0 (no T^x4_x0 component)"
+   "detail": "proper 3-volume e^(3 a4) (inflating); proper extra-time volume e^(-3 a4) b4^(3/2) W^3; proper hidden length e^(-a4) b4^(1/2) |cot z| dx0 = f |dy|, f = e^(-a4) b4^(1/2) (y = ln|sin z|/(6H), dy = cot z dx0); their product is sqrt|g|: the proper 7-volume of a cell is Vol_7 ~ e^(-a4) b4^2 = e^((2 beta - 1) a4) on b4 ~ e^(beta a4)"
   },
   {
    "name": "hidden_coordinate_dy_dx0",
    "verdict": "PASS",
-   "detail": "dy/dx0 = cot z"
+   "detail": "y = ln|sin z|/(6H): dy/dx0 = cot z on both signs of sin z, so d/dx0 = cot z d/dy and |sin z| = e^(6Hy)"
+  },
+  {
+   "name": "conservation_x4_identity",
+   "verdict": "PASS",
+   "detail": "nabla_mu T^mu_x4 = -d4 rho - 3 a4' (rho + p3) - h4 (rho + p0) - 3 h4 (rho + p_t), h4 = u/2 - a4', u = b4'/b4 (the expansion rate of the hidden direction and of each extra time): on shell d4 rho = -3 a4' (rho + p3) - h4 (rho + p0) - 3 h4 (rho + p_t), for every a4(x4), b4(x4) and every real z"
+  },
+  {
+   "name": "conservation_x0_identity",
+   "verdict": "PASS",
+   "detail": "nabla_mu T^mu_x0 = d0 p0 + 3 H cot z (p0 - p_t), free of a4 and b4"
+  },
+  {
+   "name": "conservation_other_components_vanish",
+   "verdict": "PASS",
+   "detail": "nabla_mu T^mu_nu = 0 identically for nu = x1, x2, x3, x5, x6, x7 (T depends on x4 and x0 only)"
   },
   {
    "name": "conservation_x0_in_y_form",
    "verdict": "PASS",
-   "detail": "tan z * (x0 identity) = p0_y + 6 H p0 - 3 H (p3 + p_t) (the form checked by the Kohn-Sham solver)"
+   "detail": "with d0 = cot z d_y: (x0 identity)/cot z = p0_y + 3 H (p0 - p_t), the identity of ks-theory.json emt.conservationY that the Kohn-Sham solvers check on every state"
   },
   {
-   "name": "integrated_identity_dE_dx4_b4",
+   "name": "conservation_equals_a4_record",
    "verdict": "PASS",
-   "detail": "family rho = sin^2 z e^(-2a4)/b4, p3 = rho/3, p_t = -rho/3 (satisfies the pointwise identity): E = sqrt(b4(x4))*exp(-2*a4(x4))/(18*H), dE/dx4 = -3 a4' (P3 - Pt) - (3/2)(b4'/b4) Pt; per e-fold of a = e^{a4}: dE/da4 = -3 (P3 - Pt) - (3/2) beta Pt, beta = d ln b4/d a4"
+   "detail": "the x4 and x0 identities derived here equal Revision/field_equations_a4/a4-equations.json generalSource.conservation_x4 and conservation_x0 at q40 = q04 = 0 (no T^x4_x0), and with p_t = p0 the record's energyExchange -d4 rho - 3 a4' (p3 + rho) - 4 h4 (p0 + rho) = 0"
   },
   {
-   "name": "w_eff_A_b4",
+   "name": "integrated_identity_dE_dx4",
    "verdict": "PASS",
-   "detail": "w_eff(A) = (Pt*beta/2 + X)/E = (P3 - Pt)/E + (beta/2) Pt/E"
+   "detail": "for sources that satisfy both pointwise identities, E = int sqrt|g| rho dx0 obeys dE/dx4 = -3 a4' P3 - h4 (P0 + 3 Pt) (P = int sqrt|g| p dx0), i.e. dE/da4 = -3 P3 - (beta/2 - 1)(P0 + 3 Pt), beta = d ln b4/d a4; checked on the x0-averaged free fold-band gas rho = R(x0) b4^(-2), p3 = rho/3, p0 = p_t = 0 (E ~ e^(-a4) for every b4) and on the homogeneous fluid p = w rho, rho ~ (e^(-a4) b4^2)^(-(1 + w)) (E ~ (e^(-a4) b4^2)^(-w)); at beta = 4/3: dE/da4 = -3 P3 + Pt + P0/3"
   },
   {
-   "name": "w_eff_B_equals_w_eff_A_b4",
+   "name": "integrated_identity_equals_ks_theory",
    "verdict": "PASS",
-   "detail": "normalising per unit extra-time coordinate volume divides by a constant: same w_eff as A, for every b4"
+   "detail": "at beta = 4/3 the rule is dE/da4 = -3 P3 + Pt + P0/3, the identity of ks-theory.json emt.energyChange that the Kohn-Sham record satisfies along its history (fixed occupations)"
   },
   {
-   "name": "w_eff_C_b4",
+   "name": "w_eff_A",
    "verdict": "PASS",
-   "detail": "w_eff(C) = (E*beta/2 - E + Pt*beta/2 + X)/E = (P3 - Pt)/E - 1 + (beta/2)(Pt/E + 1)"
+   "detail": "w_eff(A) = (P3 + (P0 + 3*Pt)*(beta - 2)/6)/E = P3/E + (beta/2 - 1)(P0 + 3 Pt)/(3E) (= P3/E - (P0 + 3 Pt)/(9E) at beta = 4/3)"
   },
   {
-   "name": "w_eff_general_normaliser_b4",
+   "name": "w_eff_B_equals_w_eff_A",
    "verdict": "PASS",
-   "detail": "rho_4 = E/(e^{3a4} (e^{-3a4} b4^{3/2})^s): w_eff = (P3 - Pt)/E - s + (beta/2)(Pt/E + s); s = 0 (A, B), s = 1 (C)"
+   "detail": "normalising per unit coordinate volume of the extra times and the hidden direction divides by a constant: the same w_eff as A, for every b4"
   },
   {
-   "name": "w_eff_difference_to_withdrawn_record",
+   "name": "w_eff_C",
    "verdict": "PASS",
-   "detail": "the whole difference to the withdrawn b4 = 1 record (w_eff(A) = w_eff(B) = (P3 - Pt)/E, w_eff(C) = (P3 - Pt)/E - 1) is (beta/2) Pt/E for A and B and (beta/2)(Pt/E + 1) for C; beta = d ln b4/d a4 != 0 because b4 is a function of x4"
+   "detail": "w_eff(C) = (4*E*beta - 8*E + 6*P3 + (P0 + 3*Pt)*(beta - 2))/(6*E) = w_eff(A) - (4 - 2 beta)/3 (= w_eff(A) - 4/9 at beta = 4/3): rho_4 ~ E/Vol_7, Vol_7 ~ e^(-a4) b4^2"
+  },
+  {
+   "name": "w_eff_general_normaliser",
+   "verdict": "PASS",
+   "detail": "rho_4 = E/(e^(3a4) (e^(-4a4) b4^2)^s): w_eff = P3/E + (beta/2 - 1)(P0 + 3 Pt)/(3E) - s (4 - 2 beta)/3; s = 0 (A, B), s = 1 (C)"
   },
   {
    "name": "condensate_rho_p",
    "verdict": "PASS",
-   "detail": "rho = m S + lambda S^2/2, p3 = p_t = p0 = lambda S^2/2"
+   "detail": "rho = m S + lambda S^2/2, p3 = p_t = p0 = S U' - U = lambda S^2/2"
   },
   {
-   "name": "condensate_b4_scaling",
+   "name": "condensate_scaling",
    "verdict": "PASS",
-   "detail": "S = S0 b4^(-3/2) (b4^(3/2) S constant, as Revision/field_equations_a4/a4-equations.json key b4, fields.condensate derives from d4 Phi = (A - (3/4)(b4'/b4)) Phi) satisfies both identities with b4: the condensate dilutes with the proper extra-time volume e^{-3 a4} b4^{3/2} times e^{3 a4}, i.e. with b4^{3/2} (the withdrawn b4 = 1 record had S constant)"
+   "detail": "S = S0 e^(a4) b4^(-2) (a4-equations.json fields.dirac16complex00.homogeneousCondensate) satisfies both identities: the condensate dilutes with the proper 7-volume e^(-a4) b4^2 (S Vol_7 constant)"
   },
   {
    "name": "condensate_ratio_w",
@@ -94,39 +94,34 @@
    "detail": "w_c = p/rho = S*lambda/(S*lambda + 2*m) (at each instant)"
   },
   {
-   "name": "condensate_ratio_time_dependence_b4",
+   "name": "condensate_ratio_time_dependence",
    "verdict": "PASS",
-   "detail": "d w_c/d a4 = -3*S0*beta*lambda*m*B(A)**(3/2)/(S0*lambda + 2*m*B(A)**(3/2))**2: with b4(x4) the ratio varies in time whenever lambda != 0 and m != 0 (the withdrawn b4 = 1 record had a constant ratio, wa = 0)"
+   "detail": "d w_c/d a4 = -2*S0*lambda*m*(2*beta - 1)*B(A)**2*exp(A)/(S0*lambda*exp(A) + 2*m*B(A)**2)**2: lambda S falls like e^((1 - 2 beta) a4) (e^(-(5/3) a4) at beta = 4/3), so the ratio varies in time whenever lambda != 0 and m != 0"
   },
   {
-   "name": "condensate_w_eff_b4",
+   "name": "condensate_w_eff",
    "verdict": "PASS",
-   "detail": "X = 0, Pt/E = w_c: directly from rho_4, w_eff(A) = w_eff(B) = (beta/2) w_c and w_eff(C) = -1 + (beta/2)(1 + w_c) (the general formula with X = 0, Pt = w_c E; the withdrawn b4 = 1 record had 0 and -1)"
+   "detail": "directly from rho_4: w_eff(A) = w_eff(B) = ((2 beta - 1)/3) w_c (5/9 w_c at beta = 4/3) and w_eff(C) = w_eff(A) - (4 - 2 beta)/3; the general formula with P3 = Pt = P0 = w_c E gives the same"
   },
   {
    "name": "condensate_ratio_equal_unite_constant_w",
    "verdict": "PASS",
-   "detail": "u = lambda S/m = -382/441 = -0.866213151927 gives w_c = -0.764 at that instant; rho/(m S) = 1 + u/2 = 0.566893424036 > 0 (rho > 0 iff m S > 0); only at that instant: lambda S = lambda S0 b4^(-3/2) drifts with b4(x4)"
+   "detail": "u = lambda S/m = -382/441 = -0.866213151927 gives w_c = -0.764 at that instant; rho/(m S) = 1 + u/2 = 0.566893424036 > 0; w_eff(A) = (5/9) w_c at beta = 4/3, and only at that instant (lambda S drifts)"
   },
   {
-   "name": "flat_mode_mass_shell_b4",
+   "name": "flat_mode_mass_shell",
    "verdict": "PASS",
-   "detail": "g^{mu nu} k_mu k_nu = -M^2: omega^2 = M^2 + k^2 e^{-2a4} - q^2 e^{2a4}/b4 (k: 3-momentum, q: extra-time momentum; physical q_p = q e^{a4} b4^{-1/2})"
+   "detail": "g^{mu nu} k_mu k_nu = -M^2 with the warp factors set to 1: omega^2 = M^2 + k^2 e^(-2a4) + l^2 e^(2a4)/b4 - q^2 e^(2a4)/b4 (k: 3-momentum, l: hidden momentum, q: extra-time momentum; physical l_p = l e^(a4) b4^(-1/2), q_p = q e^(a4) b4^(-1/2))"
   },
   {
-   "name": "flat_mode_gas_conservation_b4",
+   "name": "flat_mode_gas_conservation",
    "verdict": "PASS",
-   "detail": "kinetic gas of one mode: rho = n omega, p3 = n k_p^2/(3 omega), p_t = -n q_p^2/(3 omega), n ~ b4^(-3/2): d rho/d a4 = -3 (p3 - p_t) - (3/2)(d ln b4/d a4)(rho + p_t) exactly"
-  },
-  {
-   "name": "flat_mode_X_nonnegative",
-   "verdict": "PASS",
-   "detail": "per mode X = P3 - Pt = (k_p^2 + q_p^2)/(3 omega) >= 0 for real omega > 0 (p3 >= 0, p_t <= 0: time-like extra directions), for every b4"
+   "detail": "kinetic gas of one mode: rho = n omega, p3 = n k_p^2/(3 omega), p0 = n l_p^2/omega, p_t = -n q_p^2/(3 omega), n ~ e^(a4) b4^(-2): d rho/d a4 = -3 (rho + p3) - (beta/2 - 1)(rho + p0) - 3 (beta/2 - 1)(rho + p_t) exactly (the x4 identity per unit a4)"
   },
   {
    "name": "massive_mode_w_eff_law",
    "verdict": "PASS",
-   "detail": "q = 0 (Pt = 0): w_eff(A) = k^2/(3 (M^2 a^2 + k^2)) -> 1/3 (a -> 0), -> 0 (a -> oo), independent of b4: the dark-matter-like 1/3 -> 0 law holds for every b4"
+   "detail": "l = q = 0 (a 3-space quantum, E ~ omega per particle): w_eff(A) = -(1/3) d ln omega/d a4 = k^2/(3 (M^2 a^2 + k^2)) -> 1/3 (a -> 0), -> 0 (a -> oo), independent of b4: the dark-matter-like 1/3 -> 0 law"
   },
   {
    "name": "massive_mode_cpl_tangent",
@@ -134,29 +129,24 @@
    "detail": "w0 = x/(3*(x + 1)), wa = 2*x/(3*(x + 1)**2) > 0 (freezing sign in the CPL convention), for every b4"
   },
   {
-   "name": "massless_mode_w_eff",
+   "name": "fold_band_quantum_w_eff",
    "verdict": "PASS",
-   "detail": "M = 0, q = 0: X/E = 1/3 exactly: w_eff(A) = 1/3 (radiation), w_eff(C) = -2/3 + beta/2"
+   "detail": "the occupied fold band of the Kohn-Sham record, eps = e^(-a4) |k| exactly (ks-theory.json, slope c = e^(-a4,0)), is a massless 3-space quantum: w_eff(A) = -(1/3) d ln eps/d a4 = 1/3 (radiation-like) for every b4; w_eff(C) = 1/3 - (4 - 2 beta)/3 = -1/9 at beta = 4/3"
   },
   {
-   "name": "extra_time_momentum_blueshift_b4",
+   "name": "extra_time_momentum_blueshift",
    "verdict": "PASS",
-   "detail": "d ln q_p/d a4 = 1 - beta/2: the deflating extra times (beta < 2) blueshift the extra-time momentum; on the branch beta = 4/3 of the author's weights q_p ~ a^(1/3) instead of a"
+   "detail": "d ln q_p/d a4 = d ln l_p/d a4 = 1 - beta/2: the deflating extra times and hidden direction (beta < 2) blueshift their momenta; at beta = 4/3, q_p ~ a^(1/3)"
   },
   {
-   "name": "mixture_general_b4",
+   "name": "mixture_fold_band_gas_condensate_cpl",
    "verdict": "PASS",
-   "detail": "w_eff is linear in (X, Pt) at fixed E: for a mixture, w_eff = sum X_i/sum E_i - s + (beta/2)(sum Pt_i/sum E_i + s) (the general normaliser with X = sum X_i, Pt = sum Pt_i, E = sum E_i)"
+   "detail": "fold-band gas (P3 = E/3, Pt = P0 = 0, E ~ 1/a for every b4) + the lambda = 0 condensate (E = S0*m, constant for every b4): w_eff(A) = (1/3) r/(1 + r), r = r0/a: w0 = r0/(3*(r0 + 1)), wa = r0/(3*(r0**2 + 2*r0 + 1)) > 0; w_eff(C) = w_eff(A) - (4 - 2 beta)/3: w0 = (r0 + 2*(beta - 2)*(r0 + 1))/(3*(r0 + 1)), same wa"
   },
   {
-   "name": "mixture_radiation_condensate_cpl_b4",
+   "name": "mixture_C_matching_w0_unite",
    "verdict": "PASS",
-   "detail": "gas with X = E/3, Pt = 0 (E ~ 1/a, independent of b4) + lambda = 0 condensate (E = m S0 constant for every b4): w_eff(A) = (1/3) r/(1 + r), r = r0/a: w0 = r0/(3*(r0 + 1)), wa = r0/(3*(r0**2 + 2*r0 + 1)) > 0; w_eff(C) = w_eff(A) - 1 + beta/2: w0 = (r0/3 + (beta - 2)*(r0 + 1)/2)/(r0 + 1), same wa"
-  },
-  {
-   "name": "mixture_C_matching_w0_unite_b4",
-   "verdict": "PASS",
-   "detail": "w_eff(C) = -0.861 at a = 1 needs r0/(3 (1 + r0)) = 0.139 - beta/2 in [0, 1/3), i.e. beta in (-583/1500, 139/500] = (-0.388667, 0.278000]; r0 = 3*(139 - 500*beta)/(1500*beta + 583); on the history of the author's weights (beta = 4/3) there is no such mixture: there w_eff(C) of this mixture lies in [-1/3, 0)"
+   "detail": "w_eff(C) = -0.861 at a = 1 needs r0/(3 (1 + r0)) = -0.861 + (4 - 2 beta)/3 in [0, 1/3), i.e. beta in (417/2000, 1417/2000] = (0.208500, 0.708500]; on the record's history (beta = 4/3) there is no such mixture: there w_eff(C) of this mixture lies in [-4/9, -1/9)"
   },
   {
    "name": "cpl_least_squares_rule",
@@ -171,37 +161,37 @@
   {
    "name": "expansion_inferred_w",
    "verdict": "PASS",
-   "detail": "a = e^{a4(x4)}, t = x4 (g44 = -1): H_obs = a4', w_exp = -1 - (2/3) a4''/a4'^2 (b4 does not enter the observer's scale factor)"
+   "detail": "a = e^(a4(x4)), t = x4 (g44 = -1, no warp of 3-space): H_obs = a4', w_exp = -1 - (2/3) a4''/a4'^2 (b4 does not enter the observer's scale factor)"
   },
   {
-   "name": "einstein_mixed_component_b4",
+   "name": "einstein_no_mixed_component",
    "verdict": "PASS",
-   "detail": "G^x4_x0 = R^x4_x0 = (3/2) H cot z b4'/b4 (computed from the metric; equal to E1 x4x0 of a4-equations.json key b4): since b4 is a function of x4 (b4' != 0), Einstein gravity needs a source with T^x4_x0 = (3/2) H cot z b4'/(kappa b4) != 0; every source of this record is diagonal (T^x4_x0 = 0), so its b4(x4) is the one the author's Lovelock weights allow (author_weights_b4_branch)"
+   "detail": "R^x4_x0 = 0 identically for every a4(x4), b4(x4) and every real z (no mixed component: Einstein gravity admits a diagonal source for every b4); every G^mu_mu is free of x0 and of C, W, and G^x0_x0 = G^x5_x5 (a source needs p0 = p_t), as in a4-equations.json generalSource"
   },
   {
-   "name": "einstein_space_minus_extra_time_b4",
+   "name": "einstein_space_minus_extra_time",
    "verdict": "PASS",
-   "detail": "G^x1_x1 - G^x5_x5 = R^x1_x1 - R^x5_x5 = 2 a4'' + 3 a4' b4'/b4 - b4''/(2 b4) - b4'^2/(4 b4^2) (computed from the metric; equal to E1 x1x1 - x5x5 of a4-equations.json key b4)"
+   "detail": "G^x1_x1 - G^x5_x5 = (6*H**2*kk - 4*ad1**2 + 9*ad1*uu + 4*ad2 - 2*uu**2 - vv)/2 (computed from the metric; equal to E1 x1x1 - x5x5 of a4-equations.json lovelockTensors)"
   },
   {
-   "name": "expansion_inferred_w_einstein_b4",
+   "name": "expansion_inferred_w_einstein",
    "verdict": "PASS",
-   "detail": "Einstein (alpha1 = 1): 2 a4'' = kappa (p3 - p_t) - 3 a4' u + v/2 + u^2/4 (u = b4'/b4, v = b4''/b4), so w_exp = -1 - (kappa (p3 - p_t) - 3 a4' u + v/2 + u^2/4)/(3 a4'^2) (the withdrawn b4 = 1 record had w_exp = -1 - kappa (p3 - p_t)/(3 a4'^2)); the observer's own w_exp = -1 - (2/3) a4''/a4'^2 gives -1 exactly on a4 = A H x4 for every b4 (valid as a source statement only for an ADMISSIBLE source; the Kohn-Sham states are not admissible)"
+   "detail": "Einstein (alpha1 = 1): G^x1_x1 - G^x5_x5 = kappa (p3 - p_t) gives a4'' and w_exp = (6*H**2*kk - 10*ad1**2 + 9*ad1*uu - 2*kappa*p3 + 2*kappa*p_t - 2*uu**2 - vv)/(6*ad1**2) (valid as a source statement only for an ADMISSIBLE source: x0-independent, p0 = p_t; the Kohn-Sham states are not admissible)"
   },
   {
-   "name": "author_weights_b4_branch",
+   "name": "record_history_needs_a_source",
    "verdict": "PASS",
-   "detail": "Q of Revision/metric_b4/results/vacuum-b4.json (author's weights w1 = 1, w2 = 1/32, w3 = 1/1152; alpha = a4'/H, beta_v = b4'/(H b4)); a diagonal source needs beta_v Q = 0. On a4 = +H x4 (alpha = 1): beta_v in [0, 4/3]; on a4 = -H x4: [-4/3, 0]; so b4 constant or d ln b4/d a4 = beta_v/alpha = 4/3 (b4 ~ a^(4/3), extra-time scale factor e^(-a4) b4^(1/2) ~ a^(-1/3), still deflating). Real roots need 5 alpha^4 - 10 alpha^2 + 1 <= 0 (discriminant -16*(5*al**4 - 10*al**2 + 1)). The branch is allowed by the mixed equation only; the other equations then fix the source it needs (not constructed here)"
+   "detail": "the record's history a4 = H x4, b4 = e^((4/3) H x4) (ks-theory.json adiabaticity.historyBeta = 4/3; a4-equations.json exponentialHistory.authorWeights.recordHistory) needs, with the author's weights, the x0-independent source historySource_kappaT_minus_Lam (minus_rho, p3, p0 = pt; a function of kk = e^((2/3) H x4)); the Kohn-Sham gas does not supply it (Revision/field_equations_a4/reports/ks-source-conditions.json): the history is a PRESCRIBED background"
   },
   {
-   "name": "phantom_condition_b4",
+   "name": "phantom_condition",
    "verdict": "PASS",
-   "detail": "w_eff(C) + 1 = X/E + (beta/2)(1 + Pt/E) and w_eff(A) = X/E + (beta/2) Pt/E: with beta > 0 and Pt/E >= -1, w_eff(C) < -1 needs X/E < 0, which needs P_t > P3 with E > 0 (no real-frequency mode supplies it, flat_mode_X_nonnegative) or E < 0 with X > 0. Negative E is not specific to a negative-norm (Krein) sector in the canonical Kohn-Sham record: there the interacting N = 8, lambda > 0 good-sector states have E < 0 with X = 0 exactly, from the interaction energy of the canonical uniform-gas exchange functional (E = 0 at lambda = 0). With the exact Fock exchange solved self-consistently (Revision/kohn_sham/results/exx/exact-fock-variant.csv, at the canonical slices) the same states have |E| <= 2.04e-13; this negative E is therefore a property of the approximate functional. With b4 growing (beta > 0) the b4 term raises w_eff(C) by (beta/2)(1 + Pt/E); with beta < 0 it can push it below -1 (OPEN: no source selects beta < 0)"
+   "detail": "w_eff(C) + 1 = P3/E + (beta/2 - 1)(P0 + 3 Pt)/(3E) + (2 beta - 1)/3: at beta = 4/3, w_eff(C) < -1 needs P3/E - (P0 + 3 Pt)/(9E) < -5/9; w_eff(A) < -1 needs P3/E - (P0 + 3 Pt)/(9E) < -1. A real-frequency kinetic gas has P3 >= 0, Pt <= 0 and P0 >= 0 (flat_mode_gas_conservation: p3 = n k_p^2/(3 omega), p_t = -n q_p^2/(3 omega), p0 = n l_p^2/omega), so with E > 0 it needs a large hidden kinetic pressure P0 > 9 E (P3/E + 5/9) (for C) or E < 0"
   }
  ],
  "summary": {
-  "total": 39,
-  "pass": 39,
+  "total": 37,
+  "pass": 37,
   "fail": 0
  }
 }

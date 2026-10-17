@@ -254,7 +254,7 @@ def job_portal(N, which, grids=(300, 600)):
     base = Portal(ce)
     lam = (0.0, LAM1[N])[which]
     out = {"N": N, "lambda": lam, "c_e": ce, "grids": list(grids), "cases": {}}
-    t0 = time.time()
+
     for _ in (0,):
         case = {}
         for G in grids:
@@ -301,7 +301,6 @@ def job_portal(N, which, grids=(300, 600)):
                                                  "p0_bar": of["p0_bar"], "p_t_bar": of["p_t_bar"], "rho_bar": of["rho_bar"]}}
             case[G] = rec
         out["cases"]["lam%g" % lam] = case
-    out["seconds"] = time.time() - t0
     dump("portal%d_lam%d" % (N, which), out)
     return out
 
@@ -348,8 +347,10 @@ def job_loop(G=300, N=592, eV0=0.01):
     mkk0 = MS.fit_mkk(3.0, MS.OBS["rho0_minus_1"])
     f0 = K0 ** -0.5
     mu = {s: MS.c_for(MS.OBS[s] / mkk0) / f0 for s in ("e", "u", "d", "nu")}     # c_f = f mu_f L (L = 1 in t)
-    out = {"G": G, "N": N, "eV0": eV0, "runs": []}
-    for sigma in (1e-3, 1e-1):
+    out = {"G": G, "N": N, "eV0": eV0, "tolerance": "|dk_new - dk| <= 1e-10 |dk_new| (relative)", "runs": []}
+    # sigma = kappa/H^2 in the units of the Kohn-Sham densities: 0.1 is a weak coupling (the map is nearly constant), 1e6
+    # makes the block shift and the hidden pressure feed back on each other at the per cent level (a real fixed point)
+    for sigma in (1e-1, 1e4, 1e6):
         dk, hist = 0.0, []
         for it in range(40):
             k = K0 + dk
@@ -363,15 +364,17 @@ def job_loop(G=300, N=592, eV0=0.01):
             o, _ = observables_ext(st, pt)
             dk_new = sigma * o["p0_bar"] / 3.0       # vacua part 5: dk = kappa p0/(3 H^2) (A = dLam = 0)
             hist.append({"it": it, "k": k, "f": f, "p0_bar": o["p0_bar"], "dk_new": dk_new, "dm_level": level(st, (0, 1, "odd", 0))})
-            if abs(dk_new - dk) < 1e-12:
-                dk = dk_new
-                break
+            done = abs(dk_new - dk) <= 1e-10 * abs(dk_new)
             dk = dk_new
+            if done:
+                break
         f = (K0 + dk) ** -0.5
         mkk = mkk0 * f0 / f
         masses = {s: mkk * MS.zeta2(mu[s] * f) for s in mu}
-        out["runs"].append({"sigma": sigma, "converged": abs(hist[-1]["dk_new"] - hist[-2]["dk_new"]) < 1e-12 if len(hist) > 1 else True,
-                            "iterations": len(hist), "dk": dk, "df_over_f": f / f0 - 1.0,
+        steps = [h["dk_new"] for h in hist]
+        contraction = (abs(steps[2] - steps[1]) / abs(steps[1] - steps[0])) if len(steps) >= 3 and steps[1] != steps[0] else None
+        out["runs"].append({"sigma": sigma, "converged": len(hist) > 1 and abs(steps[-1] - steps[-2]) <= 1e-10 * abs(steps[-1]),
+                            "iterations": len(hist), "contraction": contraction, "dk": dk, "df_over_f": f / f0 - 1.0,
                             "dm_KK_over_mKK": mkk / mkk0 - 1.0,
                             "dm_over_m": {s: masses[s] / MS.OBS[s] - 1.0 for s in masses}, "history": hist})
     dump("loop", out)

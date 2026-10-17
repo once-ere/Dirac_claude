@@ -21,13 +21,14 @@
    Usage: wolframscript -file Revision/pairing/kohn_sham/wolfram/verify_t3_completion.wls     Exit 0 iff all checks pass.
    Written anew; no code shared with Revision/pairing/kohn_sham/python/check_t3_completion.py.
 
-   The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0
-   (brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.
+   The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6 H) in [-L, 0], z = 6 H x0 real
+   (the fold cos z = 0 at y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra
+   times.  The metric is the corrected primordial metric of 2026-10-16 (version 2; SPEC section 1).
 *)
 
 $here = DirectoryName[$InputFileName];
 $t3Dir = ExpandFileName[FileNameJoin[{$here, ".."}]]; (* NORMALISED: a ".." left in a path can push it past the Windows limit of 260 characters (MAX_PATH) *)
-$revDir = ExpandFileName[FileNameJoin[{$t3Dir, "..", ".."}]];
+$revDir = If[StringQ[Environment["REVISION_DIR"]], Environment["REVISION_DIR"], ExpandFileName[FileNameJoin[{$t3Dir, "..", ".."}]]];
 checks = {};
 addCheck[name_String, ok_, detail_String] := (
   AppendTo[checks, <|"name" -> name, "verdict" -> If[TrueQ[ok], "PASS", "FAIL"], "detail" -> detail|>];
@@ -51,21 +52,21 @@ addCheck["T3C_mean_field_coefficients_from_ks_theory",
   "the Kohn-Sham potentials READ from ks-theory.json exchange.kohnShamPotentials: M_eff coefficient 15/16, v_v coefficient -1/16, e_int = (15/32) lambda S^2 - (1/32) lambda n^2 (verify_t3.wls writes these numbers into the script and its v_v clause compares vvf[lam, n] with itself; check_t3.py reads them). Consistency: M_eff - m = d e_int/dS and v_v = d e_int/dn. Map: M_eff[-m, +lambda, -S] = -M_eff[m, lambda, S], e_int even in S, v_v free of S; with (-m, -lambda) M_eff is not mapped to -M_eff (control)"];
 
 (* C2: the filling convention carried onto the image *)
-zm0 = {E^(MM y), 0}; zmI = s2 . zm0;
-hk0[jj_, M_, c_] := jj (-I s1 . D[c, y] + M s2 . c);
-fillOk = zmI === {0, I E^(MM y)} &&
+zm0 = {E^(fh MM y), 0}; zmI = s2 . zm0;
+hk0[jj_, M_, c_] := jj (-I s1 . D[c, y]/fh + M s2 . c);
+fillOk = zmI === {0, I E^(fh MM y)} &&
   AllTrue[{1, -1}, (Simplify[hk0[#, MM, zm0]] === {0, 0} && Simplify[hk0[-#, -MM, zmI]] === {0, 0}) &] &&
   zm0[[2]] === 0 && zmI[[1]] === 0 &&
   Simplify[(id2 - qTip[0]) . (zm0 /. y -> -LL)] === {0, 0} && Simplify[(id2 - qTip[Pi]) . (zmI /. y -> -LL)] === {0, 0} &&
   ! TrueQ[Simplify[(id2 - qTip[0]) . (zmI /. y -> -LL)] === {0, 0}] &&
-  Simplify[ComplexExpand[Conjugate[zmI] . zmI] - E^(2 MM y), MM > 0 && y \[Element] Reals] === 0;
+  Simplify[ComplexExpand[Conjugate[zmI] . zmI] - E^(2 fh MM y), MM > 0 && fh > 0 && y \[Element] Reals] === 0;
 (* S1 for an arbitrary M(y): the map intertwines the block Hamiltonians at every coupling of the continuation *)
-hB[j_, M_, chi_] := j (-I s1 . D[chi, y] + M s2 . chi + kap[y] k s3 . chi) + vv[y] chi;
+hB[j_, M_, chi_] := j (-I s1 . D[chi, y]/fh + M s2 . chi + kap[y] k s3 . chi) + vv[y] chi;
 chiG = {c1[y], c2[y]};
 pathOk = AllTrue[{1, -1}, Simplify[ComplexExpand[hB[-#, -(mm0 + cMeff lp Sf[y]), s2 . chiG] - s2 . hB[#, mm0 + cMeff lp Sf[y], chiG]]] === {0, 0} &];
 addCheck["T3C_filling_convention_mapped",
   fillOk && pathOk,
-  "the filling CONVENTION of ks-theory.json thermodynamics (hypothesis H5: particles = the levels with eps > 0 of the lambda = 0 problem plus the k = 0 brane zero modes, each followed continuously in lambda) is carried onto the image problem: (i) for every coupling lambda' of the continuation and any S(y), sigma2 h_j(m + (15/16) lambda' S) = h_(-j)(-(m + (15/16) lambda' S)) sigma2 (both j), so the map sends the lambda = 0 levels with eps > 0 onto the image's lambda = 0 levels with eps > 0 (same eps) and commutes with the continuation in lambda; (ii) the k = 0 brane zero mode (E^(M y), 0) of (M, j, even, theta = 0) (h_j = 0, b(0) = 0, b(-L) = 0) goes to (0, I E^(M y)), a zero mode of h_(-j)(-M) with odd parity (a(0) = 0) and the transformed tip theta = Pi (a(-L) = 0), brane-localised like the original (|chi|^2 = E^(2 M y), M > 0), for both j; it violates the UNtransformed tip theta = 0 (control). Hence the occupied set of the image is the image of the occupied set, with the same occupations (equal levels, degeneracies and N)"];
+  "the filling CONVENTION of ks-theory.json thermodynamics (hypothesis H5: particles = the levels with eps > 0 of the lambda = 0 problem plus the k = 0 fold zero modes, each followed continuously in lambda) is carried onto the image problem: (i) for every coupling lambda' of the continuation and any S(y), sigma2 h_j(m + (15/16) lambda' S) = h_(-j)(-(m + (15/16) lambda' S)) sigma2 (both j), so the map sends the lambda = 0 levels with eps > 0 onto the image's lambda = 0 levels with eps > 0 (same eps) and commutes with the continuation in lambda; (ii) the k = 0 fold zero mode (E^(f M y), 0) of (M, j, fold condition theta = 0, tip theta = 0) (h_j = 0, b(0) = 0, b(-L) = 0; f > 0 the hidden scale) goes to (0, I E^(f M y)), a zero mode of h_(-j)(-M) with the other fold condition (a(0) = 0) and the transformed tip theta = Pi (a(-L) = 0), fold-localised like the original (|chi|^2 = E^(2 f M y), M > 0), for both j; it violates the UNtransformed tip theta = 0 (control). Hence the occupied set of the image is the image of the occupied set, with the same occupations (equal levels, degeneracies and N)"];
 
 (* C3: the 16-component expectation-value (Krein) rule *)
 num[x_String] := ToExpression[x]; num[x_] := x;
@@ -100,12 +101,12 @@ record = <|
   "independent_check" -> "Revision/pairing/kohn_sham/python/check_t3_completion.py (sympy; reports/python-t3-completion.json)",
   "status" -> If[nPass == nTot, "all checks of the report passed", "SOME CHECKS FAILED - see the report"],
   "completes" -> "Revision/pairing/kohn_sham/t3-theory.json (theorem T3: hypotheses H1-H6, statements S1-S5, proof; reports/wolfram-t3.json 10 checks and reports/python-t3.json 13 checks). T3 and its statements are unchanged; this record adds S6 and closes the gaps listed under adversarial_verification",
-  "coordinates" -> "the author's coordinates {x0, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times",
-  "background" -> "T3 holds at every fixed slice a4,0 = a4(x4), b4,0 = b4(x4) of the author's metric with b4(x4) (b4 is never 1; it does not enter the block Hamiltonians) and uses no history. Where states along the Kohn-Sham history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} (A = 1, the extra times x5, x6, x7 deflating as e^{-a4} b4^{1/2} = b4(0)^{1/2} e^{-a4/3}) are used (the numerical demonstrations and the solver self-test at a4,0 = 1), that history is a PRESCRIBED BACKGROUND (Revision/kohn_sham/ks-theory.json adiabaticity.historyStatus): the Kohn-Sham states violate the source conditions of the a4 and b4 equations (Revision/field_equations_a4/reports/ks-source-conditions.json), so the Kohn-Sham gas is a test field without back-reaction",
+  "coordinates" -> "the author's coordinates {x0, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6 H) in [-L, 0], z = 6 H x0 real (the fold cos z = 0 at y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times",
+  "background" -> "T3 holds at every fixed slice a4,0 = a4(x4), b4,0 = b4(x4) of the corrected primordial metric (a4 and b4 enter the block Hamiltonians only through the positive constants f = e^(-a4) b4^(1/2) and kappa = e^(-a4) of the slice) and uses no history. Where states along the Kohn-Sham history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} (A = 1, the extra times x5, x6, x7 deflating as e^{-a4} b4^{1/2} = b4(0)^{1/2} e^{-a4/3}) are used (the numerical demonstrations and the solver self-test at a4,0 = 1), that history is a PRESCRIBED BACKGROUND (Revision/kohn_sham/ks-theory.json adiabaticity.historyStatus): the Kohn-Sham states violate the source conditions of the a4 and b4 equations (Revision/field_equations_a4/reports/ks-source-conditions.json), so the Kohn-Sham gas is a test field without back-reaction",
   "adversarial_verification" -> {
     "Re-run: verify_t3.wls (10 checks) and check_t3.py (13 checks) pass and reproduce t3-theory.json, reports/wolfram-t3.json and reports/python-t3.json byte for byte; every step of the proof was re-derived by hand (sigma2 h_j(M) sigma2 = h_(-j)(-M); sigma2 Q(theta) sigma2 = Q(Pi - theta); densities n, t even and s, q odd; M_eff odd exactly for (-m, +lambda)). No error was found in the statement or the proof.",
     "Gap 1 (closed by T3C_mean_field_coefficients_from_ks_theory): verify_t3.wls writes the coefficients 15/16, -1/16, 15/32, -1/32 into the script instead of reading ks-theory.json, and its clause vvf[lam, n] === vvf[lam, n] compares an expression with itself (true for any v_v); the sympy checker reads the coefficients. The completion reads them in Wolfram too and replaces the tautology by the consistency M_eff - m = d e_int/dS, v_v = d e_int/dn and the evenness of e_int.",
-    "Gap 2 (closed by T3C_filling_convention_mapped): hypothesis H5 (the filling convention) is defined for the canonical member (m > 0, theta = 0); the proof uses it for the image through 'both j and both parities are part of each problem' without showing that the image's particle set is the image of the original's. The completion shows it: eps > 0 at lambda = 0 is kept, the map commutes with the continuation in lambda, and the brane zero mode goes to the brane zero mode of the image in its boundary conditions.",
+    "Gap 2 (closed by T3C_filling_convention_mapped): hypothesis H5 (the filling convention) is defined for the canonical member (m > 0, theta = 0); the proof uses it for the image through 'both j and both fold conditions are part of each problem' without showing that the image's particle set is the image of the original's. The completion shows it: eps > 0 at lambda = 0 is kept, the map commutes with the continuation in lambda, and the fold zero mode goes to the fold zero mode of the image in its boundary conditions.",
     "Gap 3 (closed by T3C_krein_rule_16_component): the proof works with the 2 x 2 block densities and the four diagonal components rho, p3, p_t, p0 of ks-theory.json emt. The completion lifts the equality to the 16-component expectation rule of the canonical quantisation: every component of the energy-momentum tensor and the current (S6).",
     "Gap 4 (closed by the numerical demonstrations): the numerical confirmation recorded in t3-theory.json is the solver's self-test of two states. The demonstrations solve the +M and -M universes and the negative controls for the whole canonical matrix (Rust) and a subset (reference), on the slices of the PRESCRIBED BACKGROUND history.",
     "Gap 5 (recorded here): t3-theory.json does not name the history of the demonstrations a PRESCRIBED BACKGROUND; this record does (background). t3-theory.json was left byte-identical on 2026-10-08 because the documents Revision/docs/PAIR_CREATION_PROOFS and DIRAC16COMPLEX_FIELD_THEORY, the publication tests and Revision/pairing/kohn_sham/wolfram/WOLFRAMSCRIPT_PROVENANCE.md quote its checks, counts and sha256; on 2026-10-16 its texts were moved to the author's metric with b4(x4) (the orbital factor b4^(-3/4), the slice b4,0 in H1 and H6, the a4 and b4 equations), its checks and counts unchanged."},
@@ -119,7 +120,7 @@ record = <|
   "not_established" -> {
     "No creation process, rate or amplitude: T3 and S6 map self-consistent Kohn-Sham states to self-consistent Kohn-Sham states of a second parameter set; they do not produce a pair of universes and do not force the partner to exist.",
     "Instantaneous (adiabatic) mean-field states only, slice by slice; the time-dependent problem is OPEN; the history a4 = A H x4, b4 = b4(0) e^{(4/3) A H x4} of the demonstrations is a PRESCRIBED BACKGROUND without back-reaction.",
-    "The Z2 brane is ASSUMED; the tip condition is a choice and T3 needs the transformed tip Pi - theta; the filling convention is a CONVENTION whose justification is OPEN.",
+    "Filling both fold conditions is ASSUMED (the corrected metric has no mirror copy); the tip condition is a choice and T3 needs the transformed tip Pi - theta; the filling convention is a CONVENTION whose justification is OPEN.",
     "S6 is the equality of expectation values in the Kohn-Sham (quasi-free) states with the fixed Krein metric B; it is not a statement about two independently quantised universes, and the pairing is (m, lambda) -> (-m, +lambda), not (-m, -lambda).",
     "The numerical demonstrations show the equalities on the states solved, to their stated tolerances; negative-control states for which a solver found no self-consistent solution are reported as such, not as a proof that none exists."}|>;
 writeLF[path_, text_String] := Module[{st = OpenWrite[path, BinaryFormat -> True]}, BinaryWrite[st, ToCharacterCode[text, "UTF-8"]]; Close[st]];

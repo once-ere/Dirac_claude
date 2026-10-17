@@ -11,8 +11,8 @@
 | `solution/ks_coupled.py` | the Kohn-Sham solution of dirac16complex with the portal mean fields and the block feedback (record solver, unchanged) |
 | `solution/cosmology.py` | CMB ($\theta_*$, $\ell_A$, $\ell_1$), BAO (eBOSS DR16), CNB, $N_{eff}$ |
 | `solution/solve_model.py` | assembles the solution, the checks (`solution/reports/`), the figures (`solution/figures/`) and the tables of `SOLUTION.md` |
-| `tools/md2tex.py`, `tools/build_pdfs.sh` | Markdown → LaTeX → PDF (the .md files are the sources) |
+| `tools/md2tex.py`, `tools/build_pdfs.py` | Markdown → LaTeX → PDF (the .md files are the sources; deterministic output) |
 
-Reproduce the solution (from `Revision/universe_model/solution`, every calculation under `timeout -k 5 423`): the seven
+Reproduce the solution (from `Revision/universe_model/solution`, every calculation under `timeout -k 5 423`): the eight
 `python ks_coupled.py JOB` runs listed in `SOLUTION.md` section 8, then `python solve_model.py`.
-Build the PDFs from the repository root: `bash Revision/universe_model/tools/build_pdfs.sh`.
+Build the PDFs from the repository root: `python Revision/universe_model/tools/build_pdfs.py`. Gate steps: um1-* in `Revision/verify_revision.{sh,ps1}`.

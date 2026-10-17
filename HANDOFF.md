@@ -6,7 +6,45 @@ in this repository; nothing depends on the old session's scratch directory.
 
 ## 0. Exact restart procedure
 
-### 0.10 ORDER 2026-10-16: the corrected metric (version 2); recompute every primordial object — START HERE
+### 0.11 ORDER 2026-10-17: UM-1, a new model of the Universe; then finish W5-W8 — START HERE
+
+The author's order of 2026-10-17 (the defining parts, verbatim): "Stop all stages, even though the Stop hook says to
+continue. push all you have to the repo, check and verify. I task you to : [1] ... create a new model of the Universe
+that includes [a] gravity (Einstein-Lovelock gravity); [b] the dirac16complex quantized spinor field (which is
+hypothesied to represent dark matter) ... coupled to gravity using a non-trivial canonical spin connection; ... new
+CRITICAL interactions ... [c] photons; [d] neutrinos; [e] electrons; [f] quarks (only up and down ...); [g] the 3 weak
+interaction gauge bosons ... However do NOT include the Higgs particle. ... CMB ... CNB ... BAO ... power series ...
+CRITICALLY IMPORTANT: Mass will be given ... by appropriate wave function dependence on the space coordinate x0 ...
+periodic in x0 with period π/(6H) ... [2] push your new, improved, model ... along with provenance (both .md and .pdf
+files). [3] Compute the coupled field equations and push ... [4] Compute an accurate approximate solution to the coupled
+field equations (use Kohn-Sham theory for the dirac16complex field, which couples to all other fields) and push ...
+[5] Continue and Complete and push all stages that are still open, and do not stop. ... Check and verify this repo. DO
+NOT TAKE SHORTCUTS. DO NOT BECOME LAZY. Finish and notify me that you have finished."
+
+Status (folder `Revision/universe_model/`, README there):
+- [1] + [2] DONE (68abc82): `MODEL.md/.pdf` (now version 1.1), `PROVENANCE.md/.pdf`.
+- [3] DONE (0ccb2f9): `FIELD_EQUATIONS.md/.pdf`, `field_equations/derive_field_equations.py` 13/13.
+- [4] DONE (bf60ba1, revised after two adversarial reviews): `SOLUTION.md/.pdf`, `solution/` (vacua.py, masses.py,
+  ks_coupled.py = the record's Kohn-Sham reference solver with the portal mean fields, cosmology.py, solve_model.py),
+  21/21 checks. Findings that CHANGE the model (MODEL.md 1.1): the only static vacuum is k0 = 1/(4 w2),
+  Lambda0 = -3H^2/(4 w2); the effective Newton constant is G_N/G(k0), G(k0) = -5 + 9 w3/(2 w2^2); the block mode has
+  lambda^2 = k0 G(k0) H^2/4 (attractive gravity <=> unstable block); the author's weights give G(k0) = -1 (repulsive
+  gravity), so version 1.1 uses w3 = 1/768, Lambda = -24H^2 + dLambda and an ASSUMED stabiliser (OPEN: the Casimir
+  energy of the cell). m_KK = 121 TeV (fitted to rho0), H = 23.4 TeV, dark matter = the odd bulk level 2.17492 m =
+  50.9 TeV, fold band g_F = 8 (whole cell) or 4 (one half: OPEN which); one generation: N_eff = 2.99 needs the fold band
+  to decouple in the QCD crossover (g_F = 8) or comes out 3.015 untuned (g_F = 4). Gate steps um1-* (both twins).
+  Rebuild: the `python solution/ks_coupled.py JOB` runs of SOLUTION.md section 8, `python solution/solve_model.py`,
+  `python tools/build_pdfs.py` (deterministic PDFs).
+- [5] IN PROGRESS: W5 (the H15 rerun of the Kohn-Sham records: `handoff/drafts_2026-10-17/scripts/run_h15.sh all`, every
+  step under `timeout -k 5 423`; then the README/gate-budget patch scripts of that folder and "HANDOFF W5 DONE"), W6
+  (placed and passing so far: dark_sector derive_effective 37/37, dirac16complex00 A 48/48 / B 32/32 / tests 4/4 with
+  the README rewritten, `dark_sector/wolfram/verify_dark_sector.wls` 7/7 with gate step dark-wolfram (the b4 twin is
+  kept as the record of the withdrawn metric, no step), T3 verify_t3.wls 9/9, check_t3.py 12/12,
+  verify_t3_completion.wls 3/3; pairing T1/T2/Q drafts placed and run; still: compute_eos and independent_free_gas on
+  the regenerated dense history, the T3 demos (split the Rust demo into parts), check_t3_completion.py, the notebooks),
+  then W7 (documents/PDFs) and W8 (textbook), each committed and pushed.
+
+### 0.10 ORDER 2026-10-16: the corrected metric (version 2); recompute every primordial object
 
 The user's order (verbatim, the defining parts): "a diagonal form for the metric of the primordial gravitational field
 is only self-consistent if all off-diagonal terms of all source terms in the Einstein field equations ARE ZERO.  This

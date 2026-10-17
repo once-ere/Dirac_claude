@@ -21,142 +21,142 @@
       "verdict": "PASS"
     },
     {
-      "detail": "Krein charge per coordinate volume b4^(3/2) Q: drift 2.0816682e-15; max |L0| (on shell) 1.3322676e-15; conservation with the b4 term d rho/dx4 = a4' (K1 - K5) - (b4'/(2 b4)) (3 rho + 3 L0 - K5): relative residual 1.4722245e-08 (finite differences)",
+      "detail": "Krein charge per coordinate volume e^(-a4) b4^2 Q: drift 7.71605e-15; max |L0| (on shell) 1.2212453e-15; conservation d rho/dx4 = -a4' (3 rho + 3 L0 - K1) - h4 (4 rho + 4 L0 - K5), h4 = b4'/(2 b4) - a4': relative residual 1.6507265e-08 (finite differences)",
       "name": "B_run_kmode_invariants",
       "verdict": "PASS"
     },
     {
-      "detail": "Krein charge per coordinate volume b4^(3/2) Q: drift 2.3037128e-15; max |L0| (on shell) 4.4408921e-16; conservation with the b4 term d rho/dx4 = a4' (K1 - K5) - (b4'/(2 b4)) (3 rho + 3 L0 - K5): relative residual 1.4643485e-08 (finite differences)",
+      "detail": "Krein charge per coordinate volume e^(-a4) b4^2 Q: drift 5.1625371e-15; max |L0| (on shell) 4.4408921e-16; conservation d rho/dx4 = -a4' (3 rho + 3 L0 - K1) - h4 (4 rho + 4 L0 - K5), h4 = b4'/(2 b4) - a4': relative residual 1.6510071e-08 (finite differences)",
       "name": "B_run_q3_invariants",
       "verdict": "PASS"
     },
     {
-      "detail": "Krein charge per coordinate volume b4^(3/2) Q: drift 2.1926905e-15; max |L0| (on shell) 4.4408921e-16; conservation with the b4 term d rho/dx4 = a4' (K1 - K5) - (b4'/(2 b4)) (3 rho + 3 L0 - K5): relative residual 4.7810141e-08 (finite differences)",
+      "detail": "Krein charge per coordinate volume e^(-a4) b4^2 Q: drift 3.0531133e-15; max |L0| (on shell) 4.4408921e-16; conservation d rho/dx4 = -a4' (3 rho + 3 L0 - K1) - h4 (4 rho + 4 L0 - K5), h4 = b4'/(2 b4) - a4': relative residual 5.542778e-08 (finite differences)",
       "name": "B_run_q4_invariants",
       "verdict": "PASS"
     },
     {
-      "detail": "Krein charge per coordinate volume b4^(3/2) Q: drift 1.8179902e-15; max |L0| (on shell) 4.4408921e-16; conservation with the b4 term d rho/dx4 = a4' (K1 - K5) - (b4'/(2 b4)) (3 rho + 3 L0 - K5): relative residual 3.7066115e-08 (finite differences)",
+      "detail": "Krein charge per coordinate volume e^(-a4) b4^2 Q: drift 3.6914916e-15; max |L0| (on shell) 4.4408921e-16; conservation d rho/dx4 = -a4' (3 rho + 3 L0 - K1) - h4 (4 rho + 4 L0 - K5), h4 = b4'/(2 b4) - a4': relative residual 4.2859377e-08 (finite differences)",
       "name": "B_run_q5_invariants",
       "verdict": "PASS"
     },
     {
-      "detail": "Krein charge per coordinate volume b4^(3/2) Q: drift 1.2612134e-13; max |L0| (on shell) 2.220446e-16; conservation with the b4 term d rho/dx4 = a4' (K1 - K5) - (b4'/(2 b4)) (3 rho + 3 L0 - K5): relative residual 1.6690013e-09 (finite differences)",
+      "detail": "Krein charge per coordinate volume e^(-a4) b4^2 Q: drift 9.8449027e-14; max |L0| (on shell) 2.220446e-16; conservation d rho/dx4 = -a4' (3 rho + 3 L0 - K1) - h4 (4 rho + 4 L0 - K5), h4 = b4'/(2 b4) - a4': relative residual 1.1596751e-09 (finite differences)",
       "name": "B_run_cond_invariants",
       "verdict": "PASS"
     },
     {
-      "detail": "Krein charge per coordinate volume b4^(3/2) Q: drift 4.9821258e-15; max |L0| (on shell) 8.8817842e-16; conservation with the b4 term d rho/dx4 = a4' (K1 - K5) - (b4'/(2 b4)) (3 rho + 3 L0 - K5): relative residual 3.5068268e-10 (finite differences)",
+      "detail": "Krein charge per coordinate volume e^(-a4) b4^2 Q: drift 3.3861802e-15; max |L0| (on shell) 8.8817842e-16; conservation d rho/dx4 = -a4' (3 rho + 3 L0 - K1) - h4 (4 rho + 4 L0 - K5), h4 = b4'/(2 b4) - a4': relative residual 2.7749951e-10 (finite differences)",
       "name": "B_run_ghost_invariants",
       "verdict": "PASS"
     },
     {
-      "detail": "the ghost component (massless, positive frequency, Krein charge -1) has rho < 0 along the whole run: rho(1.06) = -0.075565735",
+      "detail": "the ghost component (massless, positive frequency, Krein charge -1) has rho < 0 along the whole run: rho(1.06) = -0.11509411",
       "name": "B_ghost_negative_energy",
       "verdict": "PASS"
     },
     {
-      "detail": "homogeneous solution (k = q = 0): rho = m S with b4^(3/2) rho constant (range 1.2610746e-13), while rho itself changes by a factor (relative range 0.91990032 over a in [0.3, 1.06]): the condensate dilutes with b4^(3/2) ~ a^2",
-      "name": "B_condensate_dilutes_with_b4",
+      "detail": "homogeneous solution (k = q = 0): rho = m S with e^(-a4) b4^2 rho constant (range 9.8449027e-14), while rho itself changes by a factor (relative range 0.87800024 over a in [0.3, 1.06]): the condensate dilutes with the proper 7-volume e^(-a4) b4^2 ~ a^(5/3)",
+      "name": "B_condensate_dilutes",
       "verdict": "PASS"
     },
     {
-      "detail": "M2_positive_good_sector_gas, N2: tangent (w0, wa) = (-0.19431917, 0.16209667) vs A (-0.194333333333, 0.162074); fit [1/2,1] (-0.19879121, 0.21725401, const -0.14447771) vs A (-0.198806145738, 0.217262379167, -0.144490550946); max deviation 2.2666232e-05",
+      "detail": "M2_positive_good_sector_gas, N2: tangent (w0, wa) = (-0.30543208, 0.16209607) vs A (-0.305444444444, 0.162074); fit [1/2,1] (-0.30990424, 0.21725471, const -0.25559057) vs A (-0.309917256849, 0.217262379167, -0.255601662057); max deviation 2.2072418e-05",
       "name": "B_vs_A_M2_N2",
       "verdict": "PASS"
     },
     {
-      "detail": "M2_positive_good_sector_gas, N1: tangent (w0, wa) = (0.13901416, 0.16209667) vs A (0.139, 0.162074); fit [1/2,1] (0.13454212, 0.21725401, const 0.18885563) vs A (0.134527187596, 0.217262379167, 0.188842782388); max deviation 2.2666232e-05",
+      "detail": "M2_positive_good_sector_gas, N1: tangent (w0, wa) = (0.13901236, 0.16209607) vs A (0.139, 0.162074); fit [1/2,1] (0.1345402, 0.21725471, const 0.18885388) vs A (0.134527187596, 0.217262379167, 0.188842782388); max deviation 2.2072418e-05",
       "name": "B_vs_A_M2_N1",
       "verdict": "PASS"
     },
     {
-      "detail": "M2_positive_good_sector_gas, ratio: tangent (w0, wa) = (0.13901416, 0.16209667) vs A (0.139, 0.162074); fit [1/2,1] (0.13454212, 0.21725401, const 0.18885563) vs A (0.134527187596, 0.217262379167, 0.188842782388); max deviation 2.2666232e-05",
+      "detail": "M2_positive_good_sector_gas, ratio: tangent (w0, wa) = (0.13901236, 0.16209607) vs A (0.139, 0.162074); fit [1/2,1] (0.1345402, 0.21725471, const 0.18885388) vs A (0.134527187596, 0.217262379167, 0.188842782388); max deviation 2.2072418e-05",
       "name": "B_vs_A_M2_ratio",
       "verdict": "PASS"
     },
     {
-      "detail": "M2_positive_good_sector_gas: w_eff(N2) = -1 - (1/3) d ln rho/d ln a measured from the dilution of the proper density of the field-equation solutions equals the formula w_eff(N1) - 1 + beta/2 at a = 1/2, 3/4, 1 to within 4.0240551e-05",
+      "detail": "M2_positive_good_sector_gas: w_eff(N2) = -1 - (1/3) d ln rho/d ln a measured from the dilution of the proper density of the field-equation solutions equals the formula w_eff(N1) - (4 - 2 beta)/3 at a = 1/2, 3/4, 1 to within 2.7779535e-05",
       "name": "B_dilution_equals_formula_M2",
       "verdict": "PASS"
     },
     {
-      "detail": "M3_positive_extra_time_mode, N2: tangent (w0, wa) = (-0.28700226, -0.043763623) vs A (-0.287, -0.0437695555556); fit [1/2,1] (-0.28712788, -0.041999624, const -0.29762778) vs A (-0.287125665107, -0.0420019079483, -0.297626142094); max deviation 5.9328919e-06",
+      "detail": "M3_positive_extra_time_mode, N2: tangent (w0, wa) = (-0.39811288, -0.043764165) vs A (-0.398111111111, -0.0437695555556); fit [1/2,1] (-0.39823851, -0.042000135, const -0.40873854) vs A (-0.398236776218, -0.0420019079483, -0.408737253205); max deviation 5.3902874e-06",
       "name": "B_vs_A_M3_N2",
       "verdict": "PASS"
     },
     {
-      "detail": "M3_positive_extra_time_mode, N1: tangent (w0, wa) = (0.046331076, -0.043763623) vs A (0.0463333333333, -0.0437695555556); fit [1/2,1] (0.046205457, -0.041999624, const 0.035705551) vs A (0.0462076682263, -0.0420019079483, 0.0357071912393); max deviation 5.9328919e-06",
+      "detail": "M3_positive_extra_time_mode, N1: tangent (w0, wa) = (0.046331562, -0.043764165) vs A (0.0463333333333, -0.0437695555556); fit [1/2,1] (0.046205937, -0.042000135, const 0.035705903) vs A (0.0462076682263, -0.0420019079483, 0.0357071912393); max deviation 5.3902874e-06",
       "name": "B_vs_A_M3_N1",
       "verdict": "PASS"
     },
     {
-      "detail": "M3_positive_extra_time_mode, ratio: tangent (w0, wa) = (2.7800461e-18, 8.0124893e-16) vs A (0.0, 0.0); fit [1/2,1] (-9.6379261e-20, -4.1284913e-20, const -1.0670049e-19) vs A (0.0, 0.0, 0.0); max deviation 8.0124893e-16",
+      "detail": "M3_positive_extra_time_mode, ratio: tangent (w0, wa) = (1.8795379e-18, -7.0567625e-16) vs A (0.0, 0.0); fit [1/2,1] (4.5431216e-18, -1.1534402e-17, const 1.6595212e-18) vs A (0.0, 0.0, 0.0); max deviation 7.0567625e-16",
       "name": "B_vs_A_M3_ratio",
       "verdict": "PASS"
     },
     {
-      "detail": "M3_positive_extra_time_mode: w_eff(N2) = -1 - (1/3) d ln rho/d ln a measured from the dilution of the proper density of the field-equation solutions equals the formula w_eff(N1) - 1 + beta/2 at a = 1/2, 3/4, 1 to within 2.38628e-05",
+      "detail": "M3_positive_extra_time_mode: w_eff(N2) = -1 - (1/3) d ln rho/d ln a measured from the dilution of the proper density of the field-equation solutions equals the formula w_eff(N1) - (4 - 2 beta)/3 at a = 1/2, 3/4, 1 to within 1.4356477e-05",
       "name": "B_dilution_equals_formula_M3",
       "verdict": "PASS"
     },
     {
-      "detail": "M4_condensate_plus_extra_time_mode, N2: tangent (w0, wa) = (-0.28700315, -0.066662763) vs A (-0.287, -0.0666666666667); fit [1/2,1] (-0.2881898, -0.05020442, const -0.3007409) vs A (-0.288186590054, -0.0502081903238, -0.300738637635); max deviation 3.903802e-06",
+      "detail": "M4_condensate_plus_extra_time_mode, N2: tangent (w0, wa) = (-0.39811326, -0.066665035) vs A (-0.398111111111, -0.0666666666667); fit [1/2,1] (-0.39929997, -0.050205715, const -0.4118514) vs A (-0.399297701165, -0.0502081903238, -0.411849748746); max deviation 2.475561e-06",
       "name": "B_vs_A_M4_N2",
       "verdict": "PASS"
     },
     {
-      "detail": "M4_condensate_plus_extra_time_mode, N1: tangent (w0, wa) = (0.046330187, -0.066662763) vs A (0.0463333333333, -0.0666666666667); fit [1/2,1] (0.045143537, -0.05020442, const 0.032592432) vs A (0.0451467432793, -0.0502081903238, 0.0325946956984); max deviation 3.903802e-06",
+      "detail": "M4_condensate_plus_extra_time_mode, N1: tangent (w0, wa) = (0.046331183, -0.066665035) vs A (0.0463333333333, -0.0666666666667); fit [1/2,1] (0.04514447, -0.050205715, const 0.032593041) vs A (0.0451467432793, -0.0502081903238, 0.0325946956984); max deviation 2.475561e-06",
       "name": "B_vs_A_M4_N1",
       "verdict": "PASS"
     },
     {
-      "detail": "M4_condensate_plus_extra_time_mode, ratio: tangent (w0, wa) = (7.2410086e-18, 7.9575299e-16) vs A (0.0, 0.0); fit [1/2,1] (2.2807032e-18, -6.0567934e-18, const 7.6650487e-19) vs A (0.0, 0.0, 0.0); max deviation 7.9575299e-16",
+      "detail": "M4_condensate_plus_extra_time_mode, ratio: tangent (w0, wa) = (-1.6345262e-19, -8.0119902e-16) vs A (0.0, 0.0); fit [1/2,1] (2.531742e-19, -7.4687134e-19, const 6.6456366e-20) vs A (0.0, 0.0, 0.0); max deviation 8.0119902e-16",
       "name": "B_vs_A_M4_ratio",
       "verdict": "PASS"
     },
     {
-      "detail": "M4_condensate_plus_extra_time_mode: w_eff(N2) = -1 - (1/3) d ln rho/d ln a measured from the dilution of the proper density of the field-equation solutions equals the formula w_eff(N1) - 1 + beta/2 at a = 1/2, 3/4, 1 to within 1.5016592e-05",
+      "detail": "M4_condensate_plus_extra_time_mode: w_eff(N2) = -1 - (1/3) d ln rho/d ln a measured from the dilution of the proper density of the field-equation solutions equals the formula w_eff(N1) - (4 - 2 beta)/3 at a = 1/2, 3/4, 1 to within 8.0695861e-06",
       "name": "B_dilution_equals_formula_M4",
       "verdict": "PASS"
     },
     {
-      "detail": "M5_with_ghost_component, N2: tangent (w0, wa) = (-0.34654639, -0.19636974) vs A (-0.346540893633, -0.19638683778); fit [1/2,1] (-0.33268467, -0.32308173, const -0.41345511) vs A (-0.332679483067, -0.32308292878, -0.413450215262); max deviation 1.709898e-05",
+      "detail": "M5_with_ghost_component, N2: tangent (w0, wa) = (-0.45765602, -0.19637186) vs A (-0.457652004744, -0.19638683778); fit [1/2,1] (-0.44379443, -0.32308235, const -0.52456502) vs A (-0.443790594178, -0.32308292878, -0.524561326373); max deviation 1.4977573e-05",
       "name": "B_vs_A_M5_N2",
       "verdict": "PASS"
     },
     {
-      "detail": "M5_with_ghost_component, N1: tangent (w0, wa) = (-0.01321306, -0.19636974) vs A (-0.0132075602995, -0.19638683778); fit [1/2,1] (0.00064865899, -0.32308173, const -0.080121774) vs A (0.000653850266115, -0.32308292878, -0.0801168819289); max deviation 1.709898e-05",
+      "detail": "M5_with_ghost_component, N1: tangent (w0, wa) = (-0.013211572, -0.19637186) vs A (-0.0132075602995, -0.19638683778); fit [1/2,1] (0.00065001002, -0.32308235, const -0.080120578) vs A (0.000653850266115, -0.32308292878, -0.0801168819289); max deviation 1.4977573e-05",
       "name": "B_vs_A_M5_N1",
       "verdict": "PASS"
     },
     {
-      "detail": "M5_with_ghost_component, ratio: tangent (w0, wa) = (-0.099999997, -0.10396473) vs A (-0.1, -0.10396226809); fit [1/2,1] (-0.083974086, -0.25699652, const -0.14822321) vs A (-0.083974369723, -0.256992225334, -0.148222426057); max deviation 9.6337175e-06",
+      "detail": "M5_with_ghost_component, ratio: tangent (w0, wa) = (-0.099999997, -0.10396406) vs A (-0.1, -0.10396226809); fit [1/2,1] (-0.083974151, -0.25699547, const -0.14822302) vs A (-0.083974369723, -0.256992225334, -0.148222426057); max deviation 7.3194076e-06",
       "name": "B_vs_A_M5_ratio",
       "verdict": "PASS"
     },
     {
-      "detail": "M5_with_ghost_component: w_eff(N2) = -1 - (1/3) d ln rho/d ln a measured from the dilution of the proper density of the field-equation solutions equals the formula w_eff(N1) - 1 + beta/2 at a = 1/2, 3/4, 1 to within 3.2516377e-05",
+      "detail": "M5_with_ghost_component: w_eff(N2) = -1 - (1/3) d ln rho/d ln a measured from the dilution of the proper density of the field-equation solutions equals the formula w_eff(N1) - (4 - 2 beta)/3 at a = 1/2, 3/4, 1 to within 2.3303265e-05",
       "name": "B_dilution_equals_formula_M5",
       "verdict": "PASS"
     },
     {
-      "detail": "w_eff(N2) of M5 (withdrawn composition) from the field equation on the history b4 ~ a^(4/3): 0 crossings of -1 on a grid of 67 points in [0.34, 1] (A: 0; the withdrawn b4 = 1 record had one, at a = 0.779)",
+      "detail": "w_eff(N2) of M5 (the composition of the withdrawn b4 = 1 record) from the field equation on the record's history: 0 crossings of -1 on a grid of 67 points in [0.34, 1] (A: 0)",
       "name": "B_vs_A_M5_crossing",
       "verdict": "PASS"
     },
     {
-      "detail": "bisection on the field-equation solution: w_eff(N2)(1) = -0.287 (A's M3 value) at s = q_p^2/m^2 = 0.29429162 (A: 417/1417 = 0.2942837)",
+      "detail": "bisection on the field-equation solution: w_eff(N2)(1) = -0.398111111111 (A's M3 value) at s = q_p^2/m^2 = 0.29428947 (A: 417/1417 = 0.2942837)",
       "name": "B_solve_M3_s",
       "verdict": "PASS"
     },
     {
-      "detail": "M2, M3, M4 from the field-equation solutions: min of w_eff(N2) over a in [0.35, 1] = -0.31820563 >= -1/3 (within 0.002): no positive-energy model reaches the Unite w0 on the history b4 ~ a^(4/3)",
+      "detail": "M2, M3, M4 from the field-equation solutions: min of w_eff(N2) over a in [0.35, 1] = -0.42931652 >= -4/9 (within 0.002): no positive-energy model reaches the Unite w0 on the record's history",
       "name": "B_positive_models_bounded",
       "verdict": "PASS"
     },
     {
-      "detail": "q-mode of M3 past its turning point a_* = s^(-3/2) = 6.2639848: d ln|phi|/dx4 over a in [7.0, 7.4] = 0.30893327, WKB rate sqrt(s a^(2/3) - 1) - (3/4) b4'/b4 at the mean a = 0.31165344",
+      "detail": "q-mode of M3 past its turning point a_* = s^(-3/2) = 6.2639848: d ln|phi|/dx4 over a in [7.0, 7.4] = 0.30909994, WKB rate sqrt(s a^(2/3) - 1) - (b4'/b4 - a4'/2) at the mean a = 0.3118201",
       "name": "B_growth_rate",
       "verdict": "PASS"
     }

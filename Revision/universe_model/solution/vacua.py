@@ -7,8 +7,8 @@ constant), v = u' = 0.  Then (exact, part 1) the three components are
     F4 = -3 G(k) A^2 + 6 H^2 k (1 - 2 w2 k) + Lambda + kappa rho,      G(k) = 1 - 24 w2 k + 72 w3 k^2,
     F1 = the same with -kappa p3 in place of kappa rho,
     F0 = 6 (12 w2 k - 1) A^2 - 12 (w2 - 18 w3 k) A^4/H^2 + 3 H^2 k + Lambda - kappa p0,
-so G(k) is the ratio of the effective four-dimensional Newton constant to that of Einstein gravity (G = 1 for
-w2 = w3 = 0): G > 0 attractive gravity, G < 0 repulsive (the x4 constraint reads 3 G A^2 = Lambda_eff + kappa rho).
+so the effective four-dimensional Newton constant is G_N/G(k): 1/G(k) is its ratio to that of Einstein gravity (G = 1
+for w2 = w3 = 0): G > 0 attractive gravity, G < 0 repulsive (the x4 constraint reads 3 G A^2 = Lambda_eff + kappa rho).
 
 Parts: 1 the exact static-block forms; 2 the static vacuum (rho = p3 = p0 = 0): k0 = 1/(4 w2), Lambda0 = -3H^2/(4 w2)
 and G(k0) = -5 + 9 w3/(2 w2^2); 3 the linear stability for GENERAL weights: the characteristic polynomial and the

@@ -1,0 +1,44 @@
+{
+	"producer":"Revision\/dark_sector\/wolfram\/verify_dark_sector.wls",
+	"metric":"the corrected primordial metric of 2026-10-16 (version 2; Revision\/SPEC.md section 1), every real z",
+	"history":"a4 = H x4, b4 = E^((4\/3) H x4) (the record's history, a prescribed background)",
+	"checks":[
+		{
+			"name":"D1_volume",
+			"verdict":"PASS",
+			"detail":"|det g| = (E^(-a4) b4^2 Cot z)^2 (Sin^2 z)^(1\/2) (det g > 0 for every real z): sqrt|g| = E^(-a4) b4^2 |Cot z| |Sin z|^(1\/2); the proper extra-time volume element is E^(-3 a4) b4^(3\/2) |Sin z|^(1\/2)"
+		},
+		{
+			"name":"D2_conservation",
+			"verdict":"PASS",
+			"detail":"nabla_mu T^mu_x4 = -d4 rho - 3 a4' (rho + p3) - h4 (rho + p0) - 3 h4 (rho + p_t), h4 = b4'\/(2 b4) - a4'; nabla_mu T^mu_x0 = d0 p0 + 3 H Cot[z] (p0 - p_t) (no a4, b4); the other components vanish; every real z"
+		},
+		{
+			"name":"D3_w_eff_general",
+			"verdict":"PASS",
+			"detail":"w_eff = ((-2 + beta)*P0s + 6*P3s + (-2 + beta)*(3*Pts + 4*Es*s))\/(6*Es) = P3\/E + (beta\/2 - 1)(P0 + 3 Pt)\/(3E) - s (4 - 2 beta)\/3: A, B (s = 0), C (s = 1)"
+		},
+		{
+			"name":"D4_condensate_T16",
+			"verdict":"PASS",
+			"detail":"A = -M gamma^(x4) + c gamma^(x4) gamma^(x0) - (b4'\/b4 - a4'\/2) I16 with the author's T16 (c = (3\/2) H E^a4 b4^(-1\/2), any value): C A + A^T C = -2 (b4'\/b4 - a4'\/2) C, so S ~ E^(a4) b4^(-2); (C g4 A - A^T C g4)\/2 = M C (K_x4 = M S); as a4-equations.json states"
+		},
+		{
+			"name":"D5_kinetic_gas",
+			"verdict":"PASS",
+			"detail":"free modes, omega^2 = M^2 + k^2 E^(-2 a4) + l^2 E^(2 a4)\/b4 - q^2 E^(2 a4)\/b4 (l hidden, q extra-time momentum), density E^(a4) b4^(-2): d rho\/d a4 = -3 (rho + p3) - (b4'\/(2 b4 a4') - 1)(rho + p0) - 3 (b4'\/(2 b4 a4') - 1)(rho + p_t) exactly"
+		},
+		{
+			"name":"D6_history_source_anisotropic",
+			"verdict":"PASS",
+			"detail":"the record's history a4 = H x4, b4 = E^((4\/3) H x4) with the author's weights needs kappa T - Lambda delta = (minus_rho, p3, p0 = pt) = {121\/432 + (161*kkv)\/24 - (9*kkv^2)\/16, -5359\/3888 + (1601*kkv)\/216 - (9*kkv^2)\/16, -497\/144 + (79*kkv)\/16} (kkv = E^((2\/3) H x4)); kappa (p3 - p0) = 2015\/972 + (1069*kkv)\/432 - (9*kkv^2)\/16 != 0, while every homogeneous condensate has p3 = p0 = p_t: no condensate sources the history; the record of dirac16complex00 states the same source: True"
+		},
+		{
+			"name":"D7_condensate_drift",
+			"verdict":"PASS",
+			"detail":"S ~ E^(a4) b4^(-2) = E^(-(5\/3) a4) on the history, so u = lambda S\/m = u0 E^(-(5\/3) a4) and the ratio u\/(2 + u) has wa = -d\/da4 = (10\/3) u\/(2 + u)^2"
+		}
+	],
+	"checkCount":7,
+	"failedCount":0
+}

@@ -8,7 +8,8 @@ Revision code; it imports nothing from the old stages and shares no code with th
   notebook input cells In[45..372]) and mapped to the author's coordinates x0..x7 (gamma^(xk) = T16[k], SPEC
   section 2); Revision/algebra/gammas.json
   is only READ at the end for an entry-by-entry comparison;
-* the metric of SPEC section 1 with b4(x4) (a4(x4) real, b4(x4) > 0 arbitrary; b4 is never 1), its Christoffel
+* the corrected primordial metric of SPEC section 1 (version 2 of 2026-10-16; a4(x4) real, b4(x4) > 0 arbitrary), on the
+  patches 0 < z < pi/2 and pi/2 < z < pi of a cell (sin z > 0 there, so (sin^2 z)^(1/12) = sin^(1/6) z), its Christoffel
   symbols, the diagonal vielbein and the canonical spin connection are computed with sympy;
 * the field is represented by its first jet (Psi, Psi^*, d_mu Psi, d_mu Psi^* at a point) in an
   exact polynomial algebra over sympy coefficients that is either COMMUTING (dirac16complex00) or
@@ -23,7 +24,7 @@ Checked items (the pairing-wolfram task, every item):
        metric of SPEC section 1 and in a general gravitational field (matrix-level proof for arbitrary
        vielbein and connection, plus a random exact instance in both statistics).
   T2   Gamma combined with the Pin(4,4) reflection of character -1 (Gamma gamma^(x0)), i.e. the spinor
-       matrix gamma^(x0), with the mirror z -> pi - z across the Z2 brane at z = pi/2:
+       matrix gamma^(x0), with the mirror z -> pi - z across the fold z = pi/2 (an isometry of the corrected metric):
        (m, lam) -> (-m, lam), L -> +L; EL, T and J transformation; both statistics.
   Q    quantum reading: canonical anticommutator B/sqrt|g| extracted from L; the image field Gamma Psi
        carries the Krein metric -B, its own generators reproduce the same dynamics; no cancellation
@@ -312,11 +313,11 @@ def transform_jets(J, P, refl, odd):
             [[x.scale(refl[mu]) for x in matvec(P, dps[mu], odd)] for mu in range(8)])
 
 
-# =========================================================================== geometry of SPEC section 1
+# =========================================================================== geometry of SPEC section 1 (corrected metric)
 x4, z, H = sp.symbols("x4 z H", real=True)
 m, lam = sp.symbols("m lambda", real=True)
 a4 = sp.Function("a4")(x4)
-b4 = sp.Function("b4", positive=True)(x4)   # the extra-time function of SPEC section 1 (b4 > 0, never 1)
+b4 = sp.Function("b4", positive=True)(x4)   # the function b4(x4) > 0 of SPEC section 1
 
 
 def dcoord(expr, mu):
@@ -329,13 +330,14 @@ def dcoord(expr, mu):
 
 
 class Geometry:
-    """Diagonal vielbein e^a_mu = f_mu delta (order x0, x1, ..., x7); s0 = +1 on the patch z in (0, pi/2)
-    (f0 = cot z > 0), s0 = -1 on the mirror patch z in (pi/2, pi) (f0 = -cot z > 0): the positive frame sqrt|g_mu mu|."""
+    """Diagonal vielbein e^a_mu = f_mu delta (order x0, x1, ..., x7) of the corrected metric; s0 = +1 on the patch z in
+    (0, pi/2) (f0 = e^{-a4} b4^{1/2} cot z > 0), s0 = -1 on the mirror patch z in (pi/2, pi) (f0 = -e^{-a4} b4^{1/2} cot z > 0):
+    the positive frame sqrt|g_mu mu|."""
 
     def __init__(self, s0=None, f=None, dfun=None, sqrtg=None):
         if f is None:
             E, Em, S6 = sp.exp(a4), sp.exp(-a4), sp.sin(z) ** sp.Rational(1, 6)
-            f = [s0 * sp.cot(z)] + [E * S6] * 3 + [sp.Integer(1)] + [Em * sp.sqrt(b4) * S6] * 3
+            f = [s0 * Em * sp.sqrt(b4) * sp.cot(z)] + [E] * 3 + [sp.Integer(1)] + [Em * sp.sqrt(b4) * S6] * 3
             dfun = dcoord
         self.f = f
         self.d = dfun
@@ -511,7 +513,7 @@ def geometry_checks(geo):
     anti = all(sp.simplify(geo.om[mu][a][b] + geo.om[mu][b][a]) == 0
                for mu in range(8) for a in range(8) for b in range(8))
     check("geometry.omega_antisymmetric", anti,
-          "the canonical spin connection omega_mu ab = eta_ac omega_mu^c_b of the metric of SPEC section 1 is antisymmetric in (a, b) for all mu")
+          "the canonical spin connection omega_mu ab = eta_ac omega_mu^c_b of the corrected metric of SPEC section 1 is antisymmetric in (a, b) for all mu")
     ok = True
     for mu in range(8):
         for nu in range(8):
@@ -535,16 +537,18 @@ def geometry_checks(geo):
     ok = dw != 0 and sp.simplify(dw ** 2 - sp.exp(-2 * a4) * sp.sin(z) ** sp.Rational(1, 3) / (4 * b4)) == 0
     check("geometry.connection_depends_on_b4", ok,
           "d omega_(x5) (x4)(x5) / d b4' = %s (square e^(-2 a4) sin^(1/3) z/(4 b4)), from the x4 dependence of the "
-          "extra-time vielbein e^-a4 b4^(1/2) sin^(1/6) z: the T1, T2 and Q checks in the metric of SPEC section 1 are made "
-          "with b4(x4) not constant (b4 is never 1)" % sp.simplify(dw).subs(b4, sp.Symbol("b4")).subs(a4, sp.Symbol("a4")))
+          "extra-time vielbein e^-a4 b4^(1/2) sin^(1/6) z: the T1, T2 and Q checks in the corrected metric of SPEC section 1 are "
+          "made with b4(x4) not constant" % sp.simplify(dw).subs(b4, sp.Symbol("b4")).subs(a4, sp.Symbol("a4")))
     rule = {z: sp.pi - z}
     iso = all(sp.simplify(gg.subs(rule) - gg) == 0 for gg in geo.g)
     deg = (sp.limit(geo.g[0], z, sp.pi / 2) == 0 and sp.limit(geo.sqrtg, z, sp.pi / 2) == 0
-           and sp.simplify(geo.sqrtg - b4 ** sp.Rational(3, 2) * sp.cos(z)) == 0)
-    check("geometry.brane_degenerate", deg,
-          "sqrt|g| = %s on the patch; at the brane z = pi/2: g_00 -> 0 and sqrt|g| -> 0 (a degenerate surface of the metric)" % geo.sqrtg)
+           and sp.simplify(geo.sqrtg - sp.exp(-a4) * b4 ** 2 * sp.cot(z) * sp.sin(z) ** sp.Rational(1, 2)) == 0)
+    check("geometry.fold_degenerate", deg,
+          "sqrt|g| = %s on the patch; at the fold z = pi/2: g_00 -> 0 and sqrt|g| -> 0 (a degenerate surface of the metric, "
+          "where the two halves of a cell meet)" % geo.sqrtg)
     check("geometry.mirror_isometry", iso,
-          "g_mu mu(pi - z) = g_mu mu(z) for every component: z -> pi - z (x0 -> pi/(6H) - x0, the Z2 brane at z = pi/2) is an isometry of the metric of SPEC section 1")
+          "g_mu mu(pi - z) = g_mu mu(z) for every component: z -> pi - z (x0 -> pi/(6H) - x0, the reflection across the fold "
+          "z = pi/2) is an isometry of the corrected metric of SPEC section 1")
 
 
 def t1_metric(geo, odd):
@@ -559,7 +563,7 @@ def t1_metric(geo, odd):
     L2, _ = lagrangian(geo, J, odd, -m, -lam)
     ok, info = all_zero([("L", L1 + L2)])
     check("T1.metric.%s.lagrangian" % sn, ok,
-          "%s, metric of SPEC section 1 with the canonical spin connection: L_{m,lambda}[Gamma Psi] + L_{-m,-lambda}[Psi] = 0 on the full first jet (%s)" % (fn, info))
+          "%s, corrected metric of SPEC section 1 with the canonical spin connection: L_{m,lambda}[Gamma Psi] + L_{-m,-lambda}[Psi] = 0 on the full first jet (%s)" % (fn, info))
     # negative controls: the wrong mass map, and the identity without the map
     bad1 = alg_is_zero(L1 + lagrangian(geo, J, odd, m, lam)[0])[0]
     bad2 = alg_is_zero(L1 + lagrangian(geo, J, odd, -m, lam)[0])[0]
@@ -626,7 +630,8 @@ def t2_metric(patch, mirror, odd):
                          % (p_name(P), "+" if hit[0] > 0 else "-", "" if hit[1] > 0 else "-", "" if hit[2] > 0 else "-"))
     check("T2.metric.%s.reflection_table" % sn,
           found["gamma^(x0)"] == (1, -1, 1) and found["Gamma gamma^(x0)"] == (-1, 1, -1),
-          "%s, mirror across the Z2 brane z -> pi - z with the positive frame on both sides: " % fn + "; ".join(table)
+          "%s, reflection z -> pi - z across the fold z = pi/2 (an isometry of the corrected metric; the other half of the "
+          "cell) with the positive frame on both sides: " % fn + "; ".join(table)
           + ". So the reflection Gamma gamma^(x0) (spinor action P^-1 gamma^a P = Lambda^a_b gamma^b, character -1 on S) gives L -> -L_{m,-lambda}; combined with Gamma (Gamma Gamma gamma^(x0) = gamma^(x0)) it gives T2: (m, lambda) -> (-m, lambda), L -> +L")
     # T2 in detail for P = gamma^(x0)
     JP = transform_jets(J, G0, LAM0, odd)
@@ -914,13 +919,13 @@ NOT_ESTABLISHED = [
     "No conservation law forces pairing: the theorems are symmetries (maps between solutions); a single universe with mass +m is an equally valid solution of the field equations without its partner.",
     "The vanishing total energy-momentum and charge of a pair (T1) is an identity for a field configuration and its image (classical bilinears, or one operator and its image); it is not a cancellation between two independently quantised universes (Q.no_cancellation_independent_universes).",
     "T2 does not reverse the sign of the energy-momentum tensor: the mirror universe of mass -m has the pulled-back T of the original, not -T.",
-    "The Z2 brane at z = pi/2 and the mirror construction are ASSUMED (a boundary/orbifold choice), not derived from the field equations.",
+    "The continuation across the fold z = pi/2 is not derived: T2 maps a configuration on the half z in (0, pi/2) of a cell to one on the other half (pi/2, pi) through the isometry z -> pi - z; the corrected metric has no Z2 orbifold (the two halves are not identified), and no matching condition of the field between the halves is part of the theorems.",
     "The gravitational back-reaction (the a4 equations of SPEC section 5) is not part of the pairing theorems; T1 maps T -> -T, so a pair sourcing ONE common geometry would have zero total source, which is a statement about sources, not a derivation that such a geometry is created.",
     "No dynamical necessity: nothing forces the partner configuration to exist; the theorems are correspondences between solutions of two parameter sets, not a mechanism.",
     "T1 pairs (m, lambda) with (-m, -lambda): for lambda != 0 it is not a pure +m / -m pairing; the pure pairing (m, lambda) -> (-m, lambda) is T2, at EQUAL (not opposite) energy-momentum.",
     "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle generator has Krein inertia (4,4) (Q.one_particle_Krein_inertia_proof) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral (Q.one_particle_complex_frequency_Krein_neutral); a positive-norm Fock space for either universe is not established by these theorems.",
-    "The brane z = pi/2 is a degenerate surface of the metric (g_00 = cot^2 z = 0, sqrt|g| = b4^{3/2} cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
-    "The Kohn-Sham level (T3) is not covered by this checker; it is proved separately in Revision/pairing/kohn_sham/ (check_t3.py, with its own hypotheses: ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states).",
+    "The fold z = pi/2 is a degenerate surface of the metric (g_00 = e^{-2a4} b4 cot^2 z = 0, sqrt|g| = e^{-a4} b4^2 |cot z| sin^{1/2} z = 0 there, geometry.fold_degenerate); no junction condition or matching of the field at it is derived.",
+    "The Kohn-Sham level (T3) is not covered by this checker; it is proved separately in Revision/pairing/kohn_sham/ (check_t3.py, with its own hypotheses: both fold conditions filled (ASSUMED), instantaneous mean-field Kohn-Sham states).",
 ]
 
 
@@ -1030,9 +1035,10 @@ def compare_with_theory():
     # 5. the not-established lists
     theirs = th.get("not_established", [])
     topics = [("creation process", "process"), ("rate / amplitude", "amplitude"), ("no necessity", "forces"),
-              ("independent universes do not cancel", "independently quantised"), ("Z2 brane assumed", "assumed"),
+              ("independent universes do not cancel", "independently quantised"),
+              ("continuation across the fold not derived", "across the fold"),
               ("back-reaction", "back-reaction"), ("Krein positivity", "krein"),
-              ("T1 not a pure +-m pairing for lambda != 0", "pure"), ("degenerate brane", "degenerate"),
+              ("T1 not a pure +-m pairing for lambda != 0", "pure"), ("degenerate fold", "degenerate"),
               ("T3 not covered", "kohn-sham")]
     rows, good = [], True
     for label, tok in topics:
@@ -1080,11 +1086,11 @@ def main():
             "lagrangian": "L = sqrt|g| [ (1/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m S - (lambda/2) S^2 ], Psibar = Psi^dagger C, S = Psibar Psi",
             "emt": "T_mu nu = (1/4)[Psibar gamma_mu D_nu Psi + Psibar gamma_nu D_mu Psi - (D_mu Psibar) gamma_nu Psi - (D_nu Psibar) gamma_mu Psi] - g_mu nu L/sqrt|g|",
             "current": "J^mu = i Psibar gamma^mu Psi",
-            "mirror": "R: z -> pi - z (x0 -> pi/(6H) - x0), Z2 brane at z = pi/2 (ASSUMED boundary construction); positive frame e^(x0)_(x0) = |cot z| on both sides; Lambda = diag(-1,1,1,1,1,1,1,1)",
+            "mirror": "R: z -> pi - z (x0 -> pi/(6H) - x0), the reflection across the fold z = pi/2, an isometry of the corrected metric between the two halves of a cell (not an orbifold); positive frame e^(x0)_(x0) = e^{-a4} b4^{1/2} |cot z| on both sides; Lambda = diag(-1,1,1,1,1,1,1,1)",
             "statistics": "commuting jets = dirac16complex00 (classical); Grassmann jets = dirac16complex (anticommuting, the same identities hold as operator identities before normal ordering)",
         },
         "theorems_verified": {
-            "T1": "L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi]; E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; T[Gamma Psi; m, lambda] = -T[Psi; -m, -lambda]; J[Gamma Psi] = -J[Psi]; for the pair (Psi, m, lambda) and (Gamma Psi, -m, -lambda): T + T = 0 and J + J = 0 identically; both statistics; the metric of SPEC section 1 and any gravitational field",
+            "T1": "L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi]; E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; T[Gamma Psi; m, lambda] = -T[Psi; -m, -lambda]; J[Gamma Psi] = -J[Psi]; for the pair (Psi, m, lambda) and (Gamma Psi, -m, -lambda): T + T = 0 and J + J = 0 identically; both statistics; the corrected metric of SPEC section 1 and any gravitational field",
             "T2": "with P = gamma^(x0) = Gamma (Gamma gamma^(x0)) and the mirror z -> pi - z: L_{m,lambda}[P Psi(Rx)](x) = +L_{-m,lambda}[Psi](Rx); EL map; T pulled back (no sign change); J pulled back; S -> -S; both statistics",
             "quantum": "{Psi, Psi^dagger} = B/sqrt|g|; the image Gamma Psi carries -B; its own generators (-h) reproduce the same dynamics; no operator cancellation between two independently quantised universes",
         },

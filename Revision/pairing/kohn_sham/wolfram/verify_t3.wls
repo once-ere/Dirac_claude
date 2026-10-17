@@ -24,13 +24,14 @@
    stops the run before the first check with a line "ERROR  ..." and exit code 1 (nothing is written); an output
    file that cannot be written stops the run with "ERROR  cannot write ..." and exit code 1.
 
-   The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0
-   (brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.
+   The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6 H) in [-L, 0], z = 6 H x0 real
+   (the fold cos z = 0 at y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra
+   times.  The metric is the corrected primordial metric of 2026-10-16 (version 2; SPEC section 1).
 *)
 
 $here = DirectoryName[$InputFileName];
 $t3Dir = ExpandFileName[FileNameJoin[{$here, ".."}]]; (* NORMALISED: a ".." left in a path can push it past the Windows limit of 260 characters (MAX_PATH) *)
-$revDir = ExpandFileName[FileNameJoin[{$t3Dir, "..", ".."}]];
+$revDir = If[StringQ[Environment["REVISION_DIR"]], Environment["REVISION_DIR"], ExpandFileName[FileNameJoin[{$t3Dir, "..", ".."}]]];
 t0 = AbsoluteTime[];
 checks = {};
 addCheck[name_String, ok_, detail_String] := (
@@ -66,20 +67,21 @@ s1 = {{0, 1}, {1, 0}}; s2 = {{0, -I}, {I, 0}}; s3 = {{1, 0}, {0, -1}}; id2 = Ide
 zeroQ[e_] := TrueQ[Simplify[ComplexExpand[e]] == 0];
 vzeroQ[v_] := AllTrue[Flatten[{v}], zeroQ];
 
-(* the block Hamiltonian of ks-theory.json blockEquation: h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v *)
-hBlock[j_, M_, k_, chi_] := j (-I s1 . D[chi, y] + M[y] s2 . chi + kap[y] k s3 . chi) + vv[y] chi;
+(* the block Hamiltonian of ks-theory.json blockEquation: h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v, f > 0 the
+   hidden scale (a constant on a slice) *)
+hBlock[j_, M_, k_, chi_] := j (-I s1 . D[chi, y]/fh + M[y] s2 . chi + kap[y] k s3 . chi) + vv[y] chi;
 chi = {c1[y], c2[y]};
 negM[y_] := -Mf[y];
 lhs = hBlock[-j, negM, k, s2 . chi];
 rhs = s2 . hBlock[j, Mf, k, chi];
 addCheck["T3_block_hamiltonian_map",
   vzeroQ[(lhs - rhs) /. j -> 1] && vzeroQ[(lhs - rhs) /. j -> -1] && ! vzeroQ[(hBlock[-j, Mf, k, s2 . chi] - rhs) /. j -> 1],
-  "for arbitrary functions M(y), kappa(y), v(y), any k and both block types j = +-1: h_(-j)(-M, k, v) (sigma2 chi) = sigma2 h_j(M, k, v) chi as differential operators (chi = (c1(y), c2(y)) arbitrary); so h_j(M) chi = eps chi iff h_(-j)(-M) (sigma2 chi) = eps (sigma2 chi): equal eigenvalue eps, same k, same potential v. Control: without M -> -M the identity fails"];
+  "for arbitrary functions M(y), kappa(y), v(y), any k, any hidden scale f > 0 and both block types j = +-1: h_(-j)(-M, k, v) (sigma2 chi) = sigma2 h_j(M, k, v) chi as differential operators (chi = (c1(y), c2(y)) arbitrary); so h_j(M) chi = eps chi iff h_(-j)(-M) (sigma2 chi) = eps (sigma2 chi): equal eigenvalue eps, same k, same potential v. Control: without M -> -M the identity fails"];
 
 nOde[j_, M_, k_, eps_] := M s3 - kap k s2 + I j (eps - vv) s1;
 addCheck["T3_ode_map",
   Simplify[s2 . nOde[j, M, k, eps] . s2 - nOde[-j, -M, k, eps]] == z2,
-  "the shooting form chi' = N chi with N = M_eff sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1 (ks-theory.json blockEquation.ode): sigma2 N_j(M, k, eps) sigma2 = N_(-j)(-M, k, eps) exactly, so sigma2 maps solutions of the block-j ODE with M onto solutions of the block-(-j) ODE with -M at the same eps"];
+  "the shooting form chi' = f N chi with N = M_eff sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1 (ks-theory.json blockEquation.ode): sigma2 N_j(M, k, eps) sigma2 = N_(-j)(-M, k, eps) exactly, so sigma2 maps solutions of the block-j ODE with M onto solutions of the block-(-j) ODE with -M at the same eps"];
 
 qTip[th_] := Cos[th] s3 + Sin[th] s2;
 addCheck["T3_tip_condition_map",
@@ -89,13 +91,15 @@ addCheck["T3_tip_condition_map",
 
 jCur[j_, ph_, ch_] := -I j Conjugate[ph] . s1 . ch;
 ph = {pa + I pb, pc + I pd}; ch = {qa + I qb, qc + I qd};
-addCheck["T3_brane_parities_exchanged",
+foldSt = Lookup[Lookup[Lookup[ks, "boundaryConditions", <||>], "fold", <||>], "statement", ""];
+foldOk = StringContainsQ[foldSt, "same chi(y) on both halves"] && StringContainsQ[foldSt, "w = 1/2"];
+addCheck["T3_fold_conditions_exchanged",
   (s2 . {1, 0})[[2]] =!= 0 && (s2 . {1, 0})[[1]] === 0 && (s2 . {0, 1})[[2]] === 0 &&
   Simplify[s2 . (id2 - s3) . s2 - (id2 + s3)] == z2 &&
-  zeroQ[jCur[-j, s2 . ph, s2 . ch] - jCur[j, ph, ch]] && zeroQ[Conjugate[s2 . ch] . (s2 . ch) - Conjugate[ch] . ch],
-  "brane (ASSUMED Z2 orbifold, ks-theory.json boundaryConditions.brane): even parity chi2(0) = 0 and odd parity chi1(0) = 0, i.e. (1 -+ gamma^(x0)) chi(0) = 0 with gamma^(x0) = sigma3 in every block; sigma2 (1 - sigma3) sigma2 = 1 + sigma3, so the map exchanges the two parities (both are solved and filled together in the Kohn-Sham record, so the set of boundary problems is mapped onto itself); the boundary current -i j phi^dagger sigma1 chi (selfAdjointness) and the norm chi^dagger chi are invariant under (chi, j) -> (sigma2 chi, -j): current-killing ends stay current-killing, the image block operator is self-adjoint with real levels"];
+  zeroQ[jCur[-j, s2 . ph, s2 . ch] - jCur[j, ph, ch]] && zeroQ[Conjugate[s2 . ch] . (s2 . ch) - Conjugate[ch] . ch] && foldOk,
+  "the fold (ks-theory.json boundaryConditions.fold: the fold cos z = 0 joins the two halves of a cell, a spinor continuous across it has the same chi(y) on both halves, so there is no mirror copy; the record fills both fold conditions, theta = 0: chi2(0) = 0 and theta = Pi: chi1(0) = 0, w = 1/2, ASSUMED), i.e. (1 -+ gamma^(x0)) chi(0) = 0 with gamma^(x0) = sigma3 in every block; sigma2 (1 - sigma3) sigma2 = 1 + sigma3, so the map exchanges the two fold conditions (both are solved and filled together, so the set of boundary problems is mapped onto itself); the boundary current -i j phi^dagger sigma1 chi (selfAdjointness) and the norm chi^dagger chi are invariant under (chi, j) -> (sigma2 chi, -j): current-killing ends stay current-killing, the image block operator is self-adjoint with real levels"];
 
-(* per-orbital densities of ks-theory.json densities.perOrbital (P = e^(-6 H y)/(ell^3 v_t) cancels) *)
+(* per-orbital densities of ks-theory.json densities.perOrbital (P = e^(-3 H y)/Vol_7 cancels) *)
 chiC = {a1 + I b1, a2 + I b2};
 dens[j_, c_] := ComplexExpand[{Conjugate[c] . c, j Conjugate[c] . s2 . c, j Conjugate[c] . s3 . c, Conjugate[c] . s3 . c, j Conjugate[c] . s1 . c}];
 dO = dens[j, chiC] /. j -> 1; dI = dens[-j, s2 . chiC] /. j -> 1;
@@ -141,7 +145,7 @@ pO = profiles[orbs, m, lam]; pI = profiles[imgOrb /@ orbs, -m, lam]; pC = profil
 addCheck["T3_energies_and_emt_profiles_equal",
   Simplify[ComplexExpand[pI[[1 ;; 7]] - pO[[1 ;; 7]]]] === ConstantArray[0, 7] && Simplify[ComplexExpand[pI[[8]] + pO[[8]]]] === 0 &&
   Simplify[ComplexExpand[pI[[9]] + pO[[9]]]] === 0 && Simplify[ComplexExpand[pC[[5]] - pO[[5]]]] =!= 0,
-  "for arbitrary occupied orbitals of both block types (general complex chi, eps, occupation f, degeneracy g, momentum k, weight w = w_Z2) the pointwise energy density rho = sum w g f eps n_o - e_int, the pressures p3 = sum w g f (kappa |k|/3) t_o + e_int, p_t = e_int, p0 = sum w g f [(eps - v_v) n_o - M_eff s_o - kappa |k| t_o] + e_int (ks-theory.json emt), the integrand of E_KS = sum g f eps - 2 Vol_7 int e^(6Hy) e_int, the entropy terms and the exact-Fock diagnostic e_int + (lambda/32) Q^2 are EQUAL for the image state with (-m, +lambda), while S and Q change sign (control: with (-m, -lambda) the E_KS integrand differs). Levels eps and occupations f are carried over unchanged, so the Mermin chemical potential, N, the entropy, the grand potential Omega = -T sum g ln(1 + e^(-(eps - mu)/T)) - 2 Vol_7 int e^(6Hy) e_int and F = Omega + mu N are equal too"];
+  "for arbitrary occupied orbitals of both block types (general complex chi, eps, occupation f, degeneracy g, momentum k, weight w of the two fold conditions) the pointwise energy density rho = sum w g f eps n_o - e_int, the pressures p3 = sum w g f (kappa |k|/3) t_o + e_int, p_t = e_int, p0 = sum w g f [(eps - v_v) n_o - M_eff s_o - kappa |k| t_o] + e_int (ks-theory.json emt), the integrand of E_KS = sum g f eps - 2 Vol_7 int e^(3Hy) e_int, the entropy terms and the exact-Fock diagnostic e_int + (lambda/32) Q^2 are EQUAL for the image state with (-m, +lambda), while S and Q change sign (control: with (-m, -lambda) the E_KS integrand differs). Levels eps and occupations f are carried over unchanged, so the Mermin chemical potential, N, the entropy, the grand potential Omega = -T sum g ln(1 + e^(-(eps - mu)/T)) - 2 Vol_7 int e^(3Hy) e_int and F = Omega + mu N are equal too"];
 
 (* exact k = 0 spectra with constant M: characteristic functions *)
 nk0[j_, M_] := M s3 + I j eps s1;
@@ -175,16 +179,7 @@ forms = And @@ Table[Simplify[ConjugateTranspose[vb[b]] . gm[[1]] . vb[b]] == s3
     Simplify[ConjugateTranspose[vb[b]] . gm[[1]] . gm[[5]] . vb[b]] == labels[[b + 1, 1]] s1, {b, 0, 7}];
 addCheck["T3_Gamma_is_the_block_map",
   unit && gmap && forms && chir == DiagonalMatrix[Join[ConstantArray[-1, 8], ConstantArray[1, 8]]],
-  "with the unitary block basis V of ks-theory.json (rows = spinor components Psi_0..Psi_15) and Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = diag(-I8, I8) of gammas.json: Gamma V_(j,s2,s3) = V_(-j,s2,s3) (s2 sigma2) for all 8 blocks, and in every block gamma^(x0) = sigma3, gamma^(x0) gamma^(x4) = j sigma1: the 2 x 2 map (chi, j) -> (sigma2 chi, -j) of T3 is the chirality Gamma of the 16-component Kohn-Sham orbital Psi_16 = e^(-i eps x4) e^(i k x1) e^(-3 H y) b4^(-3/4) V_beta chi(y)/sqrt(ell^3 v_t) (ks-theory.json sectorAndAnsatz.orbital16; up to the phase s2), applied at the same point; Gamma is constant, so the map commutes with the factors e^(-3 H y) b4^(-3/4) of the author's metric with b4(x4)"];
-
-(* the ASSUMED Z2 orbifold: P_A chi(y) = sigma3 chi(-y) *)
-chiY = {u1[y], u2[y]};
-hPA[M_, K_, V_, c_] := (-I s1 . D[c, y] + M s2 . c + K kk0 s3 . c) + V c;
-lhsPA = hPA[-Mf[-y], kap[-y], vv[-y], s3 . (chiY /. y -> -y)];
-rhsPA = s3 . ((hPA[Mf[y], kap[y], vv[y], chiY]) /. y -> -y);
-addCheck["T3_z2_mirror_copy_carries_minus_m_plus_lambda",
-  vzeroQ[lhsPA - rhsPA] && Simplify[meff[m, lam, -S] + meff[-m, lam, S]] === 0,
-  "the ASSUMED Z2 mirror of the Kohn-Sham record: P_A chi(y) = sigma3 chi(-y) satisfies h(-M(-y), kappa(-y), v(-y)) P_A chi = P_A h(M, kappa, v) chi (general functions), so the doubled (universe + mirror image) problem is P_A-symmetric iff M_eff is odd in y; with n even and S odd under P_A (n_o, s_o of sigma3 chi: sigma3 commutes with 1 and anticommutes with sigma2), M_eff(-y) = -M_eff(y) holds iff the mirror copy carries (-m, +lambda): m + (15/16) lambda S on the patch and -m + (15/16) lambda S(-y) = -(m + (15/16) lambda S(y)) on the mirror patch"];
+  "with the unitary block basis V of ks-theory.json (rows = spinor components Psi_0..Psi_15) and Gamma = gamma^(x0) gamma^(x1) ... gamma^(x7) = diag(-I8, I8) of gammas.json: Gamma V_(j,s2,s3) = V_(-j,s2,s3) (s2 sigma2) for all 8 blocks, and in every block gamma^(x0) = sigma3, gamma^(x0) gamma^(x4) = j sigma1: the 2 x 2 map (chi, j) -> (sigma2 chi, -j) of T3 is the chirality Gamma of the 16-component Kohn-Sham orbital Psi_16 = e^(-i eps x4) e^(i k x1) e^(-(3/2) H y) e^(a4/2) b4^(-1) V_beta chi(y)/sqrt(ell^3 v_t) (ks-theory.json sectorAndAnsatz.orbital16; up to the phase s2), applied at the same point; Gamma is constant, so the map commutes with the half-density factor e^(-(3/2) H y) e^(a4/2) b4^(-1) of the corrected metric"];
 
 (* ------------------------------------------------------------------ theorem record *)
 nPass = Count[checks, c_ /; c["verdict"] == "PASS"]; nTot = Length[checks];
@@ -199,33 +194,32 @@ theory = <|
   "report" -> "Revision/pairing/kohn_sham/reports/wolfram-t3.json",
   "inputs" -> {"Revision/kohn_sham/ks-theory.json (block equation, functional, densities, energy-momentum tensor, boundary conditions, block basis V)", "Revision/algebra/gammas.json"},
   "status" -> If[nPass == nTot, "all checks of the report passed", "SOME CHECKS FAILED - see the report"],
-  "coordinates" -> "the author's coordinates {x0, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0] (brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times",
+  "coordinates" -> "the author's coordinates {x0, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6 H) in [-L, 0], z = 6 H x0 real (the fold cos z = 0 at y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially deflating extra times",
   "hypotheses" -> {
-    "H1 (the problem): the instantaneous Kohn-Sham problem of Revision/kohn_sham/ks-theory.json at a fixed slice a4,0 = a4(x4), b4,0 = b4(x4) of the author's metric with b4(x4) (SPEC section 1; b4 is never 1; b4 does not enter h_j and enters the proper densities only through the cell volume Vol_7, ks-theory.json sectorAndAnsatz.instantaneousProblem): good sector (no extra-time momentum), 3-torus lattice of momenta k, block Hamiltonians h_j = j[-i sigma1 d_y + M_eff(y) sigma2 + kappa(y) k sigma3] + v_v(y) on y in [-L, 0], j = +-1, four blocks (s2, s3) per j",
+    "H1 (the problem): the instantaneous Kohn-Sham problem of Revision/kohn_sham/ks-theory.json at a fixed slice a4,0 = a4(x4), b4,0 = b4(x4) of the corrected primordial metric of 2026-10-16 (SPEC section 1; a4 and b4 enter h_j through the hidden scale f = e^(-a4) b4^(1/2) and kappa = e^(-a4), positive constants on a slice, and the proper densities through the cell volume Vol_7): good sector (no extra-time momentum), 3-torus lattice of momenta k, block Hamiltonians h_j = j[-(i/f) sigma1 d_y + M_eff(y) sigma2 + kappa k sigma3] + v_v(y) on y in [-L, 0], j = +-1, four blocks (s2, s3) per j",
     "H2 (the functional): Hartree plus the exact uniform-gas exchange, M_eff = m + (15/16) lambda S, v_v = -lambda n/16, e_int = (15/32) lambda S^2 - (1/32) lambda n^2 (no correlation); the energy-momentum tensor of ks-theory.json emt",
-    "H3 (the brane, ASSUMED): the Z2 mirror (orbifold) construction at y = 0 of ks-theory.json boundaryConditions.brane; both brane parities (chi2(0) = 0 and chi1(0) = 0) are solved and filled together with the weight w_Z2 = 1/2",
+    "H3 (the fold, ASSUMED): the fold cos z = 0 joins the two halves of a cell (ks-theory.json boundaryConditions.fold; the same chi(y) on both halves, no mirror copy); both fold conditions (chi2(0) = 0 and chi1(0) = 0) are solved and filled together with the weight w = 1/2",
     "H4 (the tip, chosen): (1 - Q(theta)) chi(-L) = 0, Q(theta) = Cos[theta] sigma3 + Sin[theta] sigma2 (canonical theta = 0)",
     "H5 (occupation): Mermin occupations f = 1/(1 + e^((eps - mu)/T)) with the particle number N fixed, and the filling CONVENTION of ks-theory.json thermodynamics (positive branch of the lambda = 0 problem plus the k = 0 zero modes, followed continuously in lambda)",
     "H6 (same remaining data): the same H, L, a4,0, b4,0, lattice, extra-time volume (hence Vol_7), N and T for both members; mean-field (quasi-free) Kohn-Sham states only"},
   "statement" -> {
-    "S1: (chi, j) -> (sigma2 chi, -j) at the same k, i.e. Psi_16 -> Gamma Psi_16 (the chirality, up to the phase s2 per block), maps every eigen-orbital of h_j with (M_eff, v_v) onto an eigen-orbital of h_(-j) with (-M_eff, v_v) at the SAME level eps, and exchanges the brane parities",
+    "S1: (chi, j) -> (sigma2 chi, -j) at the same k, i.e. Psi_16 -> Gamma Psi_16 (the chirality, up to the phase s2 per block), maps every eigen-orbital of h_j with (M_eff, v_v) onto an eigen-orbital of h_(-j) with (-M_eff, v_v) at the SAME level eps, and exchanges the two fold conditions",
     "S2: the tip condition with angle theta goes into the tip condition with angle Pi - theta (canonical theta = 0 -> theta = Pi); with the untransformed tip the spectra differ (control)",
     "S3: the densities transform as n -> n, S -> -S, t -> t, Q -> -Q; hence M_eff -> -M_eff and v_v -> v_v exactly when (m, lambda) -> (-m, +lambda): every self-consistent Kohn-Sham state with (m, lambda, theta) is mapped onto a self-consistent Kohn-Sham state with (-m, +lambda, Pi - theta), and conversely (the map is an involution)",
-    "S4: EQUAL Kohn-Sham levels with their degeneracies, occupations, chemical potential, particle number, entropy, Kohn-Sham energy E_KS, grand potential Omega and free energy F, and equal energy-momentum profiles rho(y), p3(y), p_t(y), p0(y) (also for the exact-Fock diagnostic); S(y) and Q(y) change sign",
-    "S5: inside the ASSUMED Z2 orbifold the mirror copy of a self-consistent state carries (-m, +lambda) (P_A symmetry of the doubled problem), consistent with S3"},
+    "S4: EQUAL Kohn-Sham levels with their degeneracies, occupations, chemical potential, particle number, entropy, Kohn-Sham energy E_KS, grand potential Omega and free energy F, and equal energy-momentum profiles rho(y), p3(y), p_t(y), p0(y) (also for the exact-Fock diagnostic); S(y) and Q(y) change sign"},
   "proof" -> {
     "sigma2 h_j(M, k, v) sigma2 = h_(-j)(-M, k, v) and sigma2 N_j sigma2 = N_(-j)(-M) (checks T3_block_hamiltonian_map, T3_ode_map)",
-    "sigma2 Q(theta) sigma2 = Q(Pi - theta), sigma2 (1 - sigma3) sigma2 = 1 + sigma3; the boundary current and the norm are invariant (T3_tip_condition_map, T3_brane_parities_exchanged)",
+    "sigma2 Q(theta) sigma2 = Q(Pi - theta), sigma2 (1 - sigma3) sigma2 = 1 + sigma3; the boundary current and the norm are invariant (T3_tip_condition_map, T3_fold_conditions_exchanged)",
     "per orbital n_o, t_o even and s_o, q_o odd (T3_orbital_densities); M_eff[-m, lambda, -S] = -M_eff[m, lambda, S], v_v and e_int even in S (T3_mean_field_map)",
-    "the map is a bijection between the eigen-orbitals of the two problems with equal eps (both j and both parities are part of each problem), so the occupations, mu, N and the entropy are equal; every term of E_KS, Omega, F and of the energy-momentum profiles is a sum over orbitals of even densities, or of M_eff s_o (product of two odd factors), plus e_int (even): equal (T3_energies_and_emt_profiles_equal)",
-    "independent confirmation on exactly solvable data: equal k = 0 spectra level by level, and a different spectrum for the untransformed tip (T3_exact_k0_spectra); the 2 x 2 map is the 16-component chirality Gamma in the block basis (T3_Gamma_is_the_block_map); the Z2 mirror copy (T3_z2_mirror_copy_carries_minus_m_plus_lambda)"},
+    "the map is a bijection between the eigen-orbitals of the two problems with equal eps (both j and both fold conditions are part of each problem), so the occupations, mu, N and the entropy are equal; every term of E_KS, Omega, F and of the energy-momentum profiles is a sum over orbitals of even densities, or of M_eff s_o (product of two odd factors), plus e_int (even): equal (T3_energies_and_emt_profiles_equal)",
+    "independent confirmation on exactly solvable data: equal k = 0 spectra level by level, and a different spectrum for the untransformed tip (T3_exact_k0_spectra); the 2 x 2 map is the 16-component chirality Gamma in the block basis (T3_Gamma_is_the_block_map)"},
   "relation_to_T1_T2" -> "Interpretation (labelled, not a theorem): the 16-component matrix is the chirality Gamma of T1, but at the Kohn-Sham level the expectation values are taken with the fixed Krein metric B of the canonical quantisation (rho = sum f u u^dagger B), under which Gamma flips B (Gamma B Gamma = -B); the result is a pairing (m, lambda) -> (-m, +lambda) at EQUAL energies, of the T2 type in its parameters, not the T1 pairing (m, lambda) -> (-m, -lambda) with opposite energy-momentum",
   "verification" -> (#["name"] & /@ checks),
   "numerical_confirmation" -> "Revision/kohn_sham/reports/ks-rust-solver.json check t3_block_map_solver_selftest: (m, lambda, theta = 0) and (-m, lambda, theta = Pi) solved independently by the Rust Kohn-Sham solver give the same levels, occupations, E_KS and energy-momentum integrals and opposite S (a numerical test, not part of the proof)",
   "not_established" -> {
     "No creation process, rate or amplitude: T3 maps self-consistent Kohn-Sham states to self-consistent Kohn-Sham states of a second parameter set; it does not produce a pair of universes and does not force the partner to exist.",
     "Instantaneous (adiabatic) states only: the non-adiabatic, time-dependent Kohn-Sham problem along the history with the extra times deflating is OPEN; T3 holds slice by slice.",
-    "The brane: the Z2 mirror construction at y = 0 is ASSUMED (ks-theory.json); the tip condition is a choice, and T3 needs the transformed tip angle Pi - theta.",
+    "The fold: filling both fold conditions is ASSUMED (ks-theory.json); the corrected metric has no mirror copy (both halves of a cell carry the same state), so T3 relates two Kohn-Sham problems, not a universe and its mirror image; the tip condition is a choice, and T3 needs the transformed tip angle Pi - theta.",
     "Mean-field level only: Hartree plus uniform-gas exchange without correlation, quasi-free states, the filling convention of ks-theory.json (its justification is OPEN).",
     "Not a statement about two independently quantised universes; the pairing is between Kohn-Sham problems with (m, lambda) and (-m, +lambda), not (-m, -lambda).",
     "No back-reaction: the Kohn-Sham energy-momentum tensor is not a source that satisfies the a4 and b4 equations of SPEC section 5 (it depends on x0), see Revision/field_equations_a4/reports/ks-source-conditions.json."}|>;

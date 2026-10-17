@@ -4,8 +4,8 @@ stated in the README are the ones in the outputs.
 
 Run from the repository root:
     python -m unittest Revision/dark_sector/dirac16complex00/tests/test_dark_sector_dirac16complex00.py -v
-(about 10 s: implementation A about 4 s, implementation B about 7 s; the metric with b4(x4), the history
-b4 ~ a^(4/3) of the author's weights)
+(about 12 s: implementation A about 4 s, implementation B about 8 s; the corrected primordial metric of 2026-10-16,
+version 2, on the history a4 = H x4, b4 = e^((4/3) H x4))
 """
 
 import json
@@ -62,29 +62,31 @@ class TestDarkSectorDirac16complex00(unittest.TestCase):
     def test_key_numbers(self):
         m = load("eos-theory.json")["models"]
         self.assertEqual(m["unite"]["crossing_of_minus_1"]["a"], "461/600")
-        self.assertEqual(m["M2_positive_good_sector_gas"]["N2_tangent_exact"], {"w0": "-583/3000", "wa": "81037/500000"})
-        self.assertEqual(m["M3_positive_extra_time_mode"]["N2_tangent_exact"]["w0"], "-287/1000")
+        self.assertEqual(m["M2_positive_good_sector_gas"]["N2_tangent_exact"], {"w0": "-2749/9000", "wa": "81037/500000"})
+        self.assertEqual(m["M3_positive_extra_time_mode"]["N2_tangent_exact"]["w0"], "-3583/9000")
         self.assertEqual(m["M3_positive_extra_time_mode"]["N2_tangent_exact"]["wa"], "-196963/4500000")
         m4 = m["M4_condensate_plus_extra_time_mode"]
         self.assertEqual(m4["parameters"]["s"], "264037/403037")
         self.assertEqual(m4["parameters"]["Omega_q"], "57963/264037")
-        self.assertEqual(m4["N2"]["CPL_tangent"], {"w0": "-0.287", "wa": "-0.0666666666667", "w0_plus_wa": "-0.353666666667"})
+        self.assertEqual(m4["N2"]["CPL_tangent"], {"w0": "-0.398111111111", "wa": "-0.0666666666667", "w0_plus_wa": "-0.464777777778"})
         self.assertEqual(m4["N2"]["crossings_of_minus_1_in_[1/3,1]"], [])
         m5 = m["M5_with_ghost_component"]
-        self.assertEqual(m5["N2"]["fit_a_1/2_to_1"]["w0"], "-0.332679483067")
+        self.assertEqual(m5["N2"]["fit_a_1/2_to_1"]["w0"], "-0.443790594178")
         self.assertEqual(m5["N2"]["fit_a_1/2_to_1"]["wa"], "-0.32308292878")
         self.assertEqual(m5["N2"]["crossings_of_minus_1_in_[1/3,1]"], [])
         b = load("results/independent-numerics.json")
         self.assertEqual(b["models"]["M5_with_ghost_component"]["crossings_N2"], 0)
-        src = load("eos-theory.json")["condensate"]["branchRequiredSource"]
-        self.assertEqual((src["kappa_rho"], src["kappa_p3"], src["kappa_pt"], src["kappa_p0"]), ("-2/27", "-2/9", "-22/27", "-14/27"))
+        src = load("eos-theory.json")["condensate"]["historyRequiredSource"]
+        self.assertEqual((src["minus_rho"], src["p3"], src["pt"], src["p0"]),
+                         ("-9*kk**2/16 + 161*kk/24 + 121/432", "-9*kk**2/16 + 1601*kk/216 - 5359/3888",
+                          "79*kk/16 - 497/144", "79*kk/16 - 497/144"))
         self.assertEqual(load("eos-theory.json")["beta"], "d ln b4/d a4 = 4/3")
 
     def test_readme_cites_the_numbers(self):
         with open(os.path.join(OWN, "README.md"), encoding="utf-8") as fh:
             text = fh.read()
-        for s in ("461/600", "264037/403037", "57963/264037", "-382/441", "0.162074", "-0.0437696", "-2/27", "1583/1000",
-                  "6.264", "b4"):
+        for s in ("461/600", "264037/403037", "57963/264037", "-382/441", "0.162074", "-0.0437696", "3749/3000", "-4/9",
+                  "corrected", "b4"):
             self.assertIn(s, text, s)
 
 

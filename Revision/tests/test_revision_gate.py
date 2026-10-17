@@ -60,6 +60,10 @@ LIBRARY_MODULES = {
     "Revision/theory/python/quantum.py": "Revision/theory/python/check_field_theory.py",
     "Revision/theory/python/superalg.py": "Revision/theory/python/check_field_theory.py",
     "Revision/kohn_sham/reference/ks_fd.py": "Revision/kohn_sham/reference/run_reference.py",
+    "Revision/universe_model/solution/vacua.py": "Revision/universe_model/solution/solve_model.py",
+    "Revision/universe_model/solution/masses.py": "Revision/universe_model/solution/solve_model.py",
+    "Revision/universe_model/solution/cosmology.py": "Revision/universe_model/solution/solve_model.py",
+    "Revision/universe_model/tools/md2tex.py": "Revision/universe_model/tools/build_pdfs.py",
 }
 # Notebook builders Revision/notebooks/src/<name>.py are run by notebooks-check (build_notebooks.py check).
 NOTEBOOK_SOURCES = "Revision/notebooks/src/"

@@ -4,7 +4,7 @@ Revision/SPEC.md section 9 (the Kohn-Sham level of the pairing of universes of m
 
 T3: the block map (chi, j) -> (sigma2 chi, -j) at the same momentum (the chirality Gamma of the 16-component
 orbital in the block basis of Revision/kohn_sham/ks-theory.json), together with the transformed boundary
-conditions (brane parities exchanged, tip angle theta -> pi - theta), maps every self-consistent instantaneous
+conditions (the two fold conditions exchanged, tip angle theta -> pi - theta), maps every self-consistent instantaneous
 Kohn-Sham state with (m, lambda, theta) onto one with (-m, +lambda, pi - theta), with equal levels, occupations,
 Kohn-Sham energy, grand potential and energy-momentum profiles; S and Q change sign.
 
@@ -14,10 +14,11 @@ Revision/algebra/gammas.json, and - at the end, as data - Revision/pairing/kohn_
 theorem record) and Revision/kohn_sham/reports/ks-rust-solver.json (a numerical confirmation, not a proof).
 Writes Revision/pairing/kohn_sham/reports/python-t3.json (deterministic, LF).
 
-The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln(sin z)/(6 H) in [-L, 0], z = 6 H x0 
-(brane y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra times.
-The metric is the author's metric with b4(x4) (SPEC section 1; b4 is never 1); b4 does not enter the block
-Hamiltonians h_j (ks-theory.json sectorAndAnsatz.instantaneousProblem), so T3 holds slice by slice for every b4.
+The author's coordinates {x0, x1, ..., x7}: x0 = hidden direction, y = ln|sin z|/(6 H) in [-L, 0], z = 6 H x0 real
+(the fold cos z = 0 at y = 0, tip y = -L); x1, x2, x3 = 3-space; x4 = time; x5, x6, x7 = the exponentially DEFLATING extra
+times.  The metric is the corrected primordial metric of 2026-10-16 (version 2; SPEC section 1): a4 and b4 enter the
+block Hamiltonians h_j only through the hidden scale f = e^{-a4} b4^{1/2} and kappa = e^{-a4}, positive constants on a
+slice (ks-theory.json blockEquation), so T3 holds slice by slice for every a4, b4.
 """
 
 import json
@@ -55,9 +56,9 @@ def vzero(v):
     return all(sp.simplify(sp.expand(x)) == 0 for x in v)
 
 
-def h_block(j, M, kap, v, chi):
-    """h_j = j[-i sigma1 d_y + M sigma2 + kappa k sigma3] + v  (ks-theory.json blockEquation.hamiltonian)."""
-    return j * (-sp.I * s1 * chi.diff(y) + M * s2 * chi + kap * k * s3 * chi) + v * chi
+def h_block(j, M, kap, v, chi, f=1):
+    """h_j = j[-(i/f) sigma1 d_y + M sigma2 + kappa k sigma3] + v  (ks-theory.json blockEquation.hamiltonian)."""
+    return j * (-sp.I / f * s1 * chi.diff(y) + M * s2 * chi + kap * k * s3 * chi) + v * chi
 
 
 def main():
@@ -69,18 +70,19 @@ def main():
     chi = sp.Matrix([c1, c2])
     # stated formulas are those of the Kohn-Sham record
     stated = ks["blockEquation"]["hamiltonian"].replace(" ", "")
-    ok_stated = "h_j=j[-isigma1d/dy+M_eff(y)sigma2+kappa(y)ksigma3]+v_v(y)" in stated
+    ok_stated = "h_j=j[-(i/f)sigma1d/dy+M_eff(y)sigma2+kappaksigma3]+v_v(y)" in stated
 
     # 1. block Hamiltonian
     ok = True
+    fs = sp.Symbol("f", positive=True)          # the hidden scale, a positive constant on a slice
     for j in (1, -1):
-        lhs = h_block(-j, -M, kap, v, s2 * chi)
-        rhs = s2 * h_block(j, M, kap, v, chi)
+        lhs = h_block(-j, -M, kap, v, s2 * chi, fs)
+        rhs = s2 * h_block(j, M, kap, v, chi, fs)
         ok = ok and vzero(lhs - rhs)
-    ctl = not vzero(h_block(-1, M, kap, v, s2 * chi) - s2 * h_block(1, M, kap, v, chi))
+    ctl = not vzero(h_block(-1, M, kap, v, s2 * chi, fs) - s2 * h_block(1, M, kap, v, chi, fs))
     check("T3.block_hamiltonian_map", ok and ctl and ok_stated,
-          "with the block Hamiltonian of ks-theory.json blockEquation (h_j = j[-i sigma1 d_y + M_eff sigma2 + kappa k "
-          "sigma3] + v_v, stated there and re-typed here), general M(y), kappa(y), v(y), k: h_(-j)(-M) (sigma2 chi) = "
+          "with the block Hamiltonian of ks-theory.json blockEquation (h_j = j[-(i/f) sigma1 d_y + M_eff sigma2 + kappa k "
+          "sigma3] + v_v, stated there and re-typed here), general M(y), kappa(y), v(y), k and hidden scale f > 0: h_(-j)(-M) (sigma2 chi) = "
           "sigma2 h_j(M) chi for j = +-1 and arbitrary chi(y): equal level eps, same k and v; control: without M -> -M "
           "the identity fails")
 
@@ -91,8 +93,8 @@ def main():
     j_ = sp.Symbol("j", real=True)
     N = lambda jj, MM: MM * s3 - kp * k * s2 + sp.I * jj * (eps - vv) * s1
     check("T3.ode_map", (s2 * N(j_, Ms) * s2 - N(-j_, -Ms)).applyfunc(sp.expand) == Z2,
-          "chi' = N chi, N = M_eff sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1 (ks-theory.json blockEquation.ode): "
-          "sigma2 N_j(M) sigma2 = N_(-j)(-M) exactly")
+          "chi' = f N chi, N = M_eff sigma3 - kappa k sigma2 + i j (eps - v_v) sigma1 (ks-theory.json blockEquation.ode; f > 0 "
+          "the hidden scale): sigma2 N_j(M) sigma2 = N_(-j)(-M) exactly, so sigma2 (f N_j(M)) sigma2 = f N_(-j)(-M)")
 
     # 3. tip condition
     Q = lambda t: sp.cos(t) * s3 + sp.sin(t) * s2
@@ -105,7 +107,7 @@ def main():
           "Q(pi - theta); the canonical theta = 0 goes to theta = pi; control: the image of the theta = 0 solution "
           "(1, 0) violates the untransformed condition and satisfies the transformed one")
 
-    # 4. brane parities, current, norm
+    # 4. the fold conditions, current, norm
     a = sp.symbols("a1:9", real=True)
     ph = sp.Matrix([a[0] + sp.I * a[1], a[2] + sp.I * a[3]])
     ch = sp.Matrix([a[4] + sp.I * a[5], a[6] + sp.I * a[7]])
@@ -113,11 +115,15 @@ def main():
     par = (s2 * (I2 - s3) * s2 - (I2 + s3)) == Z2 and (s2 * e1)[0] == 0 and (s2 * sp.Matrix([0, 1]))[1] == 0
     curok = all(sp.expand(cur(-jj, s2 * ph, s2 * ch) - cur(jj, ph, ch)) == 0 for jj in (1, -1))
     normok = sp.expand(((s2 * ch).H * (s2 * ch))[0, 0] - (ch.H * ch)[0, 0]) == 0
-    check("T3.brane_parities_exchanged", par and curok and normok,
-          "brane (ASSUMED Z2 orbifold of ks-theory.json): even chi2(0) = 0, odd chi1(0) = 0, i.e. (1 -+ sigma3) "
-          "chi(0) = 0; sigma2 (1 - sigma3) sigma2 = 1 + sigma3: the map exchanges the parities (both are part of the "
-          "problem); the boundary current -i j phi^dagger sigma1 chi and the norm are invariant under (chi, j) -> "
-          "(sigma2 chi, -j), so self-adjointness and the orbital normalisation carry over")
+    fold = ks["boundaryConditions"]["fold"]
+    fold_ok = "same chi(y) on both halves" in fold["statement"] and "w = 1/2" in fold["statement"] and "ASSUMED" in fold["status"]
+    check("T3.fold_conditions_exchanged", par and curok and normok and fold_ok,
+          "the fold (ks-theory.json boundaryConditions.fold: the fold cos z = 0 joins the two halves of a cell, a spinor "
+          "continuous across it has the same chi(y) on both halves, so there is no mirror copy; self-adjointness gives "
+          "(1 - Q(theta)) chi(0) = 0, and the record fills theta = 0 (chi2(0) = 0) and theta = pi (chi1(0) = 0) together, "
+          "w = 1/2, ASSUMED): sigma2 (1 - sigma3) sigma2 = 1 + sigma3, so the map exchanges the two fold conditions (both are "
+          "part of the problem); the boundary current -i j phi^dagger sigma1 chi and the norm are invariant under (chi, j) "
+          "-> (sigma2 chi, -j), so self-adjointness and the orbital normalisation carry over")
 
     # 5. per-orbital densities
     def dens(jj, c):
@@ -242,21 +248,6 @@ def main():
           "gamma^(x0) gamma^(x4) = j sigma1 in every block: the 2 x 2 map of T3 is the chirality of the 16-component "
           "Kohn-Sham orbital (up to the phase s2)")
 
-    # 10. the ASSUMED Z2 mirror P_A
-    u1, u2 = sp.Function("u1"), sp.Function("u2")
-    chiY = sp.Matrix([u1(y), u2(y)])
-    Mf, kf, vf = sp.Function("M"), sp.Function("kappa"), sp.Function("v")
-    hP = lambda Mv, Kv, Vv, c: (-sp.I * s1 * c.diff(y) + Mv * s2 * c + Kv * k * s3 * c) + Vv * c
-    lhs = hP(-Mf(-y), kf(-y), vf(-y), s3 * chiY.subs(y, -y))
-    rhs = (s3 * hP(Mf(y), kf(y), vf(y), chiY)).subs(y, -y)
-    pa_ok = vzero(lhs - rhs)
-    odd = sp.expand(meff(-m, lam, -S) + meff(m, lam, S)) == 0
-    n_even = sp.expand(dens(1, s3 * ch)[0] - dens(1, ch)[0]) == 0 and sp.expand(dens(1, s3 * ch)[1] + dens(1, ch)[1]) == 0
-    check("T3.z2_mirror_copy_carries_minus_m_plus_lambda", pa_ok and odd and n_even,
-          "ASSUMED Z2 orbifold: P_A chi(y) = sigma3 chi(-y) gives h(-M(-y), kappa(-y), v(-y)) P_A chi = P_A h(M, kappa, v) "
-          "chi for general functions; n_o is even and s_o odd under sigma3; so the doubled problem is P_A-symmetric "
-          "iff M_eff is odd, i.e. iff the mirror copy carries (-m, +lambda)")
-
     # 11. numerical confirmation (data, not a proof)
     rust = json.loads(RUST_REPORT.read_text(encoding="utf-8"))
     rc = next((c for c in rust.get("checks", []) if c.get("name") == "t3_block_map_solver_selftest"), None)
@@ -274,11 +265,10 @@ def main():
         names = {c["name"] for c in CHECKS if c["verdict"] == "PASS"}
         pairs = [("T3_block_hamiltonian_map", "T3.block_hamiltonian_map"), ("T3_ode_map", "T3.ode_map"),
                  ("T3_tip_condition_map", "T3.tip_condition_map"),
-                 ("T3_brane_parities_exchanged", "T3.brane_parities_exchanged"),
+                 ("T3_fold_conditions_exchanged", "T3.fold_conditions_exchanged"),
                  ("T3_orbital_densities", "T3.orbital_densities"), ("T3_mean_field_map", "T3.mean_field_map"),
                  ("T3_energies_and_emt_profiles_equal", "T3.energies_and_emt_profiles_equal"),
-                 ("T3_exact_k0_spectra", "T3.exact_k0_spectra"), ("T3_Gamma_is_the_block_map", "T3.Gamma_is_the_block_map"),
-                 ("T3_z2_mirror_copy_carries_minus_m_plus_lambda", "T3.z2_mirror_copy_carries_minus_m_plus_lambda")]
+                 ("T3_exact_k0_spectra", "T3.exact_k0_spectra"), ("T3_Gamma_is_the_block_map", "T3.Gamma_is_the_block_map")]
         ver = thr.get("verification", [])
         ok = "all checks" in thr.get("status", "") and all(wn in ver and sn in names for wn, sn in pairs) and len(ver) == len(pairs)
         st = " ".join(thr.get("statement", []))
@@ -307,11 +297,11 @@ def main():
         "inputs": ["Revision/kohn_sham/ks-theory.json", "Revision/algebra/gammas.json",
                    "Revision/pairing/kohn_sham/t3-theory.json (comparison, read only)",
                    "Revision/kohn_sham/reports/ks-rust-solver.json (numerical confirmation, read only)"],
-        "theorem": "T3: (chi, j) -> (sigma2 chi, -j) (Psi_16 -> Gamma Psi_16) with brane parities exchanged and tip "
+        "theorem": "T3: (chi, j) -> (sigma2 chi, -j) (Psi_16 -> Gamma Psi_16) with the two fold conditions exchanged and tip "
                    "angle theta -> pi - theta maps every self-consistent instantaneous Kohn-Sham state with (m, lambda, "
                    "theta) onto one with (-m, +lambda, pi - theta): equal levels, occupations, E_KS, Omega, F and "
                    "energy-momentum profiles; S -> -S, Q -> -Q. Hypotheses: those of t3-theory.json (Kohn-Sham problem "
-                   "and functional of ks-theory.json, ASSUMED Z2 brane, chosen tip, Mermin occupations with the filling "
+                   "and functional of ks-theory.json, the fold with both conditions filled (ASSUMED), chosen tip, Mermin occupations with the filling "
                    "convention, same remaining data)",
         "counts": {"pass": n_pass, "fail": n_fail, "pending": sum(1 for c in CHECKS if c["verdict"] == "pending")},
         "checks": CHECKS,

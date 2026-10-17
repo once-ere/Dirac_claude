@@ -48,8 +48,12 @@ $A = \dot a_4$ is the four-dimensional Hubble rate, and the Lovelock weights are
 5. Cosmology (section 6, DERIVED, `solution/cosmology.py`).
    - UM-1 has ONE generation (the author's particle list), so its Standard-Model $N_{eff}$ is 1.015. The $\Psi$ fold band
      must supply $\Delta N_{eff} \approx 2$.
-   - That requires $\Psi$ to decouple from the plasma at $g_{*s} = 12.3$, i.e. in the QCD crossover. Decoupling above it
-     gives $N_{eff} = 1.30$ to $1.37$, excluded by about $10\sigma$; decoupling in the pion gas gives $3.54$ ($+3.2\sigma$).
+   - With $g_F = 8$ (the fold-band states of the whole cell) that requires $\Psi$ to decouple from the plasma at
+     $g_{*s} = 12.3$, i.e. in the QCD crossover. Decoupling above it gives $N_{eff} = 1.30$ to $1.37$, excluded by about
+     $10\sigma$; decoupling in the pion gas gives $3.54$ ($+3.2\sigma$).
+   - If the four-dimensional states are counted on one half of the cell ($g_F = 4$, the other reading of the record's
+     convention), any decoupling between neutrino decoupling and 20 MeV gives $N_{eff} = 3.015$ ($+0.15\sigma$) with no
+     tuning, $H_0 = 67.04$ km/s/Mpc and BAO $\chi^2 = 10.9$. Which reading holds is a question of the model (OPEN).
    - With $N_{eff} = 2.99$ and $\theta_*$ fixed, $H_0 = 66.75$ km/s/Mpc and $r_{drag} = 147.4$ Mpc. The eBOSS DR16 BAO give
      $\chi^2 = 11.6$ for 12 points (Planck $\Lambda$CDM: 10.2).
    - The CNB has $T_\nu = (4/11)^{1/3}T_{CMB} = 1.945$ K.
@@ -94,9 +98,10 @@ $$ F_4 = -3G(k)A^2 + 6H^2k(1 - 2w_2k) + \Lambda + \kappa\rho,\qquad G(k) = 1 - 2
 $$ F_0 = 6(12w_2k - 1)A^2 - 12(w_2 - 18w_3k)A^4/H^2 + 3H^2k + \Lambda - \kappa p_0 $$
 
 $F_1$ is $F_4$ with $-\kappa p_3$ in place of $\kappa\rho$. In Einstein gravity ($w_2 = w_3 = 0$), $F_4 = 0$ is the
-Friedmann equation $3A^2 = \Lambda + 6H^2k + \kappa\rho$. $G(k)$ is therefore the ratio of the effective
-four-dimensional Newton constant to the Einstein one. $G > 0$ means attractive gravity; $G < 0$ means a negative Newton
-constant, i.e. matter decelerates the expansion in the wrong direction.
+Friedmann equation $3A^2 = \Lambda + 6H^2k + \kappa\rho$. In general $A^2 = \kappa\rho/(3G) + \dots$, so the
+effective four-dimensional Newton constant is $G_N/G(k)$: $1/G(k)$ is its ratio to the Einstein value. $G > 0$ means
+attractive gravity; $G < 0$ means a negative Newton constant, i.e. matter decelerates the expansion in the wrong
+direction.
 
 ### 3.2 The static vacuum and the effective Newton constant
 
@@ -231,7 +236,9 @@ Free spectrum on three grids (300, 600, 1200), Richardson-extrapolated:
 * Fold zero modes: 8 states at $k = 0$ (the two even sectors).
 * The fold band $\varepsilon = \kappa|k|$ holds exactly (check K3). Its quanta are MASSLESS in four dimensions, with
   $g_F = 8$ states per 3-momentum: 4 particles (sector $j = +1$, even) and 4 antiparticles (the holes of the sea band
-  $\varepsilon = -\kappa|k|$ of sector $j = -1$, even). They are the dark radiation.
+  $\varepsilon = -\kappa|k|$ of sector $j = -1$, even). They are the dark radiation. The count is per cell, i.e. both
+  halves of a period of $x_0$ (the record's particle-number convention, `ks-theory.json` densities: each half holds
+  half of the particles); counted on one half it is $g_F = 4$ (section 6).
 * The lightest odd-parity level is $\varepsilon = 2.174920\,m$ at $k = 0$; the lightest even bulk level is $3.12618\,m$.
   The fold reflection $z \to \pi - z$ maps the even and odd sectors to themselves. If this parity is exact (ASSUMED; the
   self-interaction and the portals are reflection symmetric), the lightest odd state is stable: the DARK MATTER, with
@@ -264,8 +271,11 @@ portal; this is the dark-matter–Standard-Model interaction of the model in the
 ### 5.4 Cold dark matter
 
 Eight dark-matter quanta are placed in the lowest odd levels ($k = 0$, $j = \pm1$) on top of the $N = 8$ ground state,
-with fixed occupations and solved self-consistently on three grids. The added energy-momentum is cold: $w = p_3/\rho = 0$
-at $\lambda = 0$ (check K6). It has a hidden pressure $p_0/\rho$ (section 9), which pushes on the block through
+with fixed occupations and solved self-consistently on three grids. The energy they add, integrated from the
+energy-momentum tensor over the cell, is 8 times the analytic odd level to $10^{-9}$ (check K6, the bookkeeping of the
+fixed-occupation states). At $\lambda = 0$ the added matter has $w = p_3/\rho = 0$ by construction ($k = 0$ and no
+interaction energy); with $\lambda_1$ it has $w = 0.0018$. These are $k = 0$ eigenstates, not a relic momentum
+distribution. The quanta have a hidden pressure $p_0/\rho = 0.66$ (section 9), which pushes on the block through
 $\delta k = \kappa p_0/(3H^2)$.
 
 ### 5.5 The coupled fixed point
@@ -278,9 +288,13 @@ The loop runs as follows:
 5. the new portal profile and the new Standard-Model masses;
 6. the Kohn-Sham state again.
 
-It converges for $\sigma = 10^{-3}$ and $10^{-1}$ (check K7). The resulting shifts of $f$ and of the masses are in
-section 9. At late times $\sigma\bar p_0$ is of order $(A/H)^2$, so the feedback is of order $10^{-93}$. The coupling
-of $\Psi$ to all other fields matters in the primordial era, which is the subject of the record's phases W5 to W8.
+The loop stops when successive block shifts agree to $10^{-10}$ relative (check K7). For $\sigma = 0.1$ the map is
+nearly constant (the loop is in effect one evaluation); for $\sigma = 10^4$ and $10^6$ the hidden pressure responds to
+the block shift and the loop is a genuine fixed-point iteration, whose contraction factor is listed in section 9 with
+the shifts of $f$ and of the masses. Only the hidden pressure of $\Psi$ sources the block here; the Standard-Model
+share of the portal stress is left out (it is of the same order as the portal energy, small at these amplitudes). At
+late times $\sigma\bar p_0$ is of order $(A/H)^2$, so the feedback is of order $10^{-93}$. The coupling of $\Psi$ to
+all other fields matters in the primordial era, which is the subject of the record's phases W5 to W8.
 
 ## 6. CMB, CNB and BAO
 
@@ -305,13 +319,17 @@ components are:
 Results (section 9):
 * Decoupling above the QCD crossover gives $N_{eff} = 1.30$ to $1.37$, excluded at about $10\sigma$. It also forces
   $H_0 \approx 48$ km/s/Mpc at fixed $\theta_*$ and $\omega$'s, and BAO $\chi^2 > 600$.
-* Pion-gas decoupling gives $N_{eff} = 3.54$ ($+3.2\sigma$, BAO $\chi^2 = 33.8$). Decoupling below 20 MeV gives 5.02.
+* Pion-gas decoupling gives $N_{eff} = 3.54$ ($+3.2\sigma$, BAO $\chi^2 = 33.8$). Decoupling below 20 MeV gives 5.01.
 * $N_{eff} = 2.99$ requires $g_{*s}(T_{dec}) = 12.31$: $\Psi$ must decouple inside the QCD crossover (about 150 MeV).
   Then $H_0 = 66.75$ km/s/Mpc, $r_{drag} = 147.39$ Mpc, $\ell_A = 301.76$ (fixed by the fit of $\theta_*$), $\ell_1 = 220.7$, and BAO $\chi^2 = 11.6$ for 12
   points.
 * This is the model's sharpest cosmological prediction: the dirac16complex fold band must stand in for the two missing
-  neutrino species, and its decoupling temperature is fixed to the QCD crossover. With the 4D portal scale this sets
-  $G_V^{-1/2} \approx 13$ TeV (a neutrino-like decoupling estimate, STANDARD).
+  neutrino species. With the whole-cell count ($g_F = 8$) its decoupling temperature is fixed to the QCD crossover,
+  which with the 4D portal scale sets $G_V^{-1/2} \approx 13$ TeV (a neutrino-like decoupling estimate, STANDARD).
+* With the one-half count ($g_F = 4$) decoupling anywhere between about 2 and 20 MeV gives $N_{eff} = 3.015$
+  ($+0.15\sigma$), $H_0 = 67.04$ km/s/Mpc, $r_{drag} = 147.27$ Mpc and BAO $\chi^2 = 10.9$: a fit as good as
+  $\Lambda$CDM without tuning. The counting convention (whether the four-dimensional observer's states are those of
+  the whole cell or of one half) decides between the two; it is OPEN.
 * CNB: $T_\nu = 1.9454$ K and $n_\nu = 112$ cm$^{-3}$ for the one species. The $\Psi$ fold background has
   $T_\Psi = 1.63$ K and $n_\Psi = 264$ cm$^{-3}$ (section 9). Both are relativistic today except the massive
   $\nu$ ($m_\nu \gg T_\nu$).
@@ -331,14 +349,16 @@ Results (section 9):
   - $\lambda_f = 1$ and $c_L = c_R$ for the fermions;
   - $m_\nu = 0.05$ eV;
   - the fermion profile shapes of the portal fields;
-  - Planck's $\omega_b$ and $\omega_c$ as inputs.
+  - Planck's $\omega_b$ and $\omega_c$ as inputs;
+  - the whole-cell count of the fold-band states ($g_F = 8$; the one-half count is shown as the alternative).
 * LABELLED DEPARTURE: in the late era the extra times deflate at the rate $h_4 \approx -10^{-93}A$ (section 3.4), not
   exponentially. They are never static.
 * CONFLICTS WITH DATA:
   - No Higgs, while a 125 GeV Higgs boson is observed. Without it, the longitudinal $WW$ amplitude grows like $s/v^2$ and
     violates unitarity near $\sqrt{8\pi}\,v \approx 1.2$ TeV, while the KK modes that could restore it lie at 121 TeV.
   - The S parameter of the Higgsless tip is not computed (OPEN).
-  - One generation makes $N_{eff}$ fit only for a decoupling inside the QCD crossover.
+  - One generation makes $N_{eff}$ fit only for a decoupling inside the QCD crossover (whole-cell count, $g_F = 8$),
+    or naturally with the one-half count ($g_F = 4$, section 6).
   - The cosmological term needs $\delta\Lambda/H^2 \approx 7.5\times10^{-93}$ (the cosmological-constant problem, unsolved
     here).
 * OPEN:
@@ -362,12 +382,12 @@ python ks_coupled.py portal592_lam0   # 53 s
 python ks_coupled.py portal592_lam1   # 158 s
 python ks_coupled.py dm_lam0          # 60 s
 python ks_coupled.py dm_lam1          # 107 s
-python ks_coupled.py loop             # 50 s
+python ks_coupled.py loop             # 190 s
 python solve_model.py                 # 35 s: vacua, masses, cosmology,
                                       # figures, checks, the tables below
 ```
 
-The PDF is built from the repository root with `bash Revision/universe_model/tools/build_pdfs.sh SOLUTION`.
+The PDF is built from the repository root with `python Revision/universe_model/tools/build_pdfs.py SOLUTION`; the gate steps are um1-* in `Revision/verify_revision.{sh,ps1}`.
 
 ## 9. Results
 
@@ -453,10 +473,11 @@ The PDF is built from the repository root with `bash Revision/universe_model/too
 | N = 592, $\lambda$ = 2.131 | eS | $0.03571$ | $1.947 \times 10^{-9}$ | $4.766 \times 10^{-8}$ |
 | N = 592, $\lambda$ = 2.131 | eV | $0.03266$ | $-3.968 \times 10^{-7}$ | $-1.898 \times 10^{-5}$ |
 
-| coupled fixed point | iterations | $\delta k$ | $\delta f/f$ | $\delta m_e/m_e$ | $\delta m_\nu/m_\nu$ |
-| --- | --- | --- | --- | --- | --- |
-| $\sigma$ = 0.001 | 2 | $-1.617 \times 10^{-10}$ | $1.011 \times 10^{-11}$ | $-2.263 \times 10^{-10}$ | $-3.950 \times 10^{-10}$ |
-| $\sigma$ = 0.1 | 2 | $-1.617 \times 10^{-8}$ | $1.011 \times 10^{-9}$ | $-2.263 \times 10^{-8}$ | $-3.950 \times 10^{-8}$ |
+| coupled fixed point | iterations | contraction | $\delta k$ | $\delta f/f$ | $\delta m_e/m_e$ | $\delta m_\nu/m_\nu$ |
+| --- | --- | --- | --- | --- | --- | --- |
+| $\sigma$ = 0.1 | 3 | $0$ | $-1.617 \times 10^{-8}$ | $1.011 \times 10^{-9}$ | $-2.263 \times 10^{-8}$ | $-3.950 \times 10^{-8}$ |
+| $\sigma$ = 10000 | 5 | $7.472 \times 10^{-4}$ | $-0.001618$ | $1.011 \times 10^{-4}$ | $-0.002262$ | $-0.003946$ |
+| $\sigma$ = 1.000 \times 10^{6} | 11 | $0.08263$ | $-0.1755$ | $0.01115$ | $-0.221$ | $-0.3534$ |
 
 **Cosmology (cosmology.py).**
 
@@ -468,6 +489,7 @@ The PDF is built from the repository root with `bash Revision/universe_model/too
 | UM-1, pion gas | 10.25 | 3.536 | 3.21 | 73.11 | 33.77 |
 | UM-1, below 20MeV | 7.25 | 5.015 | 11.9 | 90.63 | 390 |
 | UM-1, fit to Planck Neff | 12.31 | 2.99 | 0 | 66.75 | 11.64 |
+| UM-1, half cell gF over 2 below 20MeV | 7.25 | 3.015 | 0.145 | 67.04 | 10.86 |
 
 | model | $100\theta_*$ | $z_*$ | $r_{drag}$ (Mpc) | $\ell_A$ | $\ell_1$ |
 | --- | --- | --- | --- | --- | --- |
@@ -477,6 +499,7 @@ The PDF is built from the repository root with `bash Revision/universe_model/too
 | UM-1, pion gas | 1.0411 | 1091.85 | 144.79 | 301.76 | 220.2 |
 | UM-1, below 20MeV | 1.0411 | 1091.85 | 138.48 | 301.76 | 218.7 |
 | UM-1, fit to Planck Neff | 1.0411 | 1091.85 | 147.39 | 301.76 | 220.7 |
+| UM-1, half cell gF over 2 below 20MeV | 1.0411 | 1091.85 | 147.27 | 301.76 | 220.7 |
 
 | background today | value |
 | --- | --- |

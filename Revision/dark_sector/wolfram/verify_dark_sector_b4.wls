@@ -24,7 +24,7 @@
      D6  the author's weights (w1 = 1, w2 = 1/32, w3 = 1/1152, Lambda = 10): on a4 = H x4 + a0 with b4 = c E^(be H x4)
          the (x4, x0) component of -Lambda delta + sum_k w_k E_(k)/H^(2k) vanishes exactly for be = 0 and be = 4/3.
      D7  on a4 = H x4, b4 = c E^((4/3) H x4) that left-hand side (= kappa T^mu_nu) is diagonal and constant:
-         kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27), as Revision/dark_sector/dirac16complex00/eos-theory.json
+         kappa (rho, p3, p_t, p0) = (-2/27, -2/9, -22/27, -14/27), as Revision/dark_sector/reference_2026_10_14/eos-theory-b4.json
          (condensate.branchRequiredSource) records from the record of the a4 equations.
      D8  on that history the condensate's lambda S/m falls like E^(-2 a4) and its ratio has wa = 4 u/(2 + u)^2.
    Writes Revision/dark_sector/reports/wolfram-dark-sector-b4.json (UTF-8, LF, no time stamps).  Exit 0 iff all pass.
@@ -39,7 +39,7 @@ If[Get[FileNameJoin[{$rev, "theory", "wolfram", "RevisionFieldTheory.wl"}]] === 
 rftLoadFixture[FileNameJoin[{$rev, "algebra", "gammas.json"}]];
 mb = Import[FileNameJoin[{$rev, "metric_b4", "results", "metric-b4.json"}], "RawJSON"];
 If[! AssociationQ[mb], Print["ERROR  metric-b4.json not readable"]; Exit[1]];
-eos00 = Import[FileNameJoin[{$rev, "dark_sector", "dirac16complex00", "eos-theory.json"}], "RawJSON"];
+eos00 = Import[FileNameJoin[{$rev, "dark_sector", "reference_2026_10_14", "eos-theory-b4.json"}], "RawJSON"];
 checks = {};
 check[name_, ok_, detail_] := (AppendTo[checks, <|"name" -> name, "verdict" -> If[TrueQ[ok], "PASS", "FAIL"], "detail" -> detail|>];
   Print[If[TrueQ[ok], "PASS  ", "FAIL  "], name]);

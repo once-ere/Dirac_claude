@@ -81,12 +81,12 @@
    "verdict": "PASS"
   },
   {
-   "detail": "the k = 0 odd quanta have p3 = 0 at lambda = 0: max |w| = 0.0e+00",
-   "name": "K6_cold_dark_matter",
+   "detail": "E(N = 8 + 8 odd quanta) - E(N = 8) = 17.3993632273 vs 8 x the analytic odd level 17.3993632273 (relative 4.4e-16)",
+   "name": "K6_dark_matter_energy",
    "verdict": "PASS"
   },
   {
-   "detail": "Psi <-> Standard Model <-> block fixed point converged for sigma = [0.001, 0.1] in [2, 2] iterations",
+   "detail": "Psi <-> Standard Model <-> block fixed point converged for sigma = [0.1, 10000.0, 1000000.0] in [3, 5, 11] iterations",
    "name": "K7_coupled_fixed_point",
    "verdict": "PASS"
   },

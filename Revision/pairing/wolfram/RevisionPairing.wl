@@ -4,7 +4,7 @@
 
    Exact machinery for the pairing theorems of the Revision record (Revision/SPEC.md, section 9):
    T1 (the chirality map Gamma), T2 (Gamma combined with a Pin(4,4) reflection of character -1; the
-   Z2 mirror across the patch end z = pi/2 of the hidden coordinate) and the quantum-level reading.
+   reflection z -> pi - z across the fold z = pi/2 of the hidden coordinate) and the quantum-level reading.
    Context RevisionPairing`.  Driven by Revision/pairing/wolfram/verify_pairing.wls.
 
    Inputs: ONLY the Revision fixture Revision/algebra/gammas.json (gamma^(x0..x7), C, Gamma, B, S in
@@ -58,7 +58,7 @@ RPS::usage = "RPS[[a, b]] = S^ab.";
 RPX::usage = "RPX = {x0, x1, ..., x7} (the author's coordinate symbols).";
 RPH::usage = "RPH: the author's constant H.";
 RPa4::usage = "RPa4: the metric function a4[x4].";
-RPb4::usage = "RPb4: the metric function b4[x4] > 0 of the three extra-time components (never 1; SPEC section 1).";
+RPb4::usage = "RPb4: the metric function b4[x4] > 0 of the corrected metric (SPEC section 1).";
 RPm::usage = "RPm: the mass parameter m.";
 RPlam::usage = "RPlam: the coupling lambda of U(S) = (lambda/2) S^2.";
 RPpsi::usage = "RPpsi[A]: generator Psi_A."; RPpsis::usage = "RPpsis[A]: generator Psi_A^dagger.";

@@ -164,9 +164,21 @@
 #   dark-b4-author-notebook                5 s
 #   dark-b4-author-inputs                 10 s
 #   dark-b4-wolfram                       10 s
+#   dark-wolfram                          10 s
 #   lead-emt-divergence                   10 s
 #   lead-einstein-gauss-bonnet            10 s
 #   lead-charge-conjugation               15 s
+#   um1-field-equations                   10 s
+#   um1-ks-spectrum                       10 s
+#   um1-ks-portal8-lam0                   70 s
+#   um1-ks-portal8-lam1                  170 s
+#   um1-ks-portal592-lam0                 70 s
+#   um1-ks-portal592-lam1                190 s
+#   um1-ks-dm-lam0                        80 s
+#   um1-ks-dm-lam1                       130 s
+#   um1-ks-loop                          230 s
+#   um1-solve                             45 s
+#   um1-pdfs                              60 s
 #   notebooks-check                       90 s
 #   pdf-dirac16complex-field-theory       30 s
 #   pdf-dirac16complex00-field-theory     30 s
@@ -190,7 +202,9 @@
 # which theory-sympy takes over under the same condition (each part stays well below 7 min 3 s).
 # The dark sector with b4 (2026-10-15): dark-b4-author-notebook writes the author's notebook at commit b13373c
 # (sha256 pinned) into its work folder for dark-b4-author-inputs, which compares it with the notebook at the
-# root; dark-b4-wolfram reads metric-b4.json and eos-theory.json.
+# root; dark-b4-wolfram verifies the record of the withdrawn metric of 2026-10-14 (metric-b4.json and the frozen
+# Revision/dark_sector/reference_2026_10_14/eos-theory-b4.json); dark-wolfram (W6, 2026-10-17) reads the corrected
+# metric (MetricWarped.wl) and the current eos-theory.json.
 # a4-ks-source (2026-10-16) reads the dense free-gas history of dark16-ks-history, so it follows dark16-eos.
 # The metric with b4 (2026-10-14): metric-b4-author-notebook writes the author's notebook at the version of the
 # user's order (commit b13373c, sha256 pinned; the working tree may hold a later version) into its work folder for
@@ -421,9 +435,21 @@ dark00-unittest|30|0|-|Revision/dark_sector/dirac16complex00|-|{python} -m unitt
 dark-b4-author-notebook|5|0|build/revision/dark-b4-author|-|-|{audit} git-blob b13373c:Dirac_Einstein-Lovelock_4+4_Nash.nb build/revision/dark-b4-author/Dirac_Einstein-Lovelock_4+4_Nash.nb 4f2d83b53e4a35696e1ed4d0569f4cabbfc7463d0036c36ae5534bd6e549aafb
 dark-b4-author-inputs|10|0|-|Revision/dark_sector/reports/author-notebook-inputs.json|-|{wolframscript} -file Revision/dark_sector/wolfram/author_notebook_inputs.wls Dirac_Einstein-Lovelock_4+4_Nash.nb build/revision/dark-b4-author/Dirac_Einstein-Lovelock_4+4_Nash.nb
 dark-b4-wolfram|10|0|-|Revision/dark_sector/reports/wolfram-dark-sector-b4.json|Revision/dark_sector/reports/wolfram-dark-sector-b4.json|{wolframscript} -file Revision/dark_sector/wolfram/verify_dark_sector_b4.wls
+dark-wolfram|10|0|-|Revision/dark_sector/reports/wolfram-dark-sector.json|Revision/dark_sector/reports/wolfram-dark-sector.json|{wolframscript} -file Revision/dark_sector/wolfram/verify_dark_sector.wls
 lead-emt-divergence|10|0|-|Revision/lead_checks/reports/emt-divergence-and-spin-connection.json|Revision/lead_checks/reports/emt-divergence-and-spin-connection.json|{python} Revision/lead_checks/emt_divergence_and_spin_connection.py
 lead-einstein-gauss-bonnet|10|0|-|Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json|Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json|{python} Revision/lead_checks/einstein_gauss_bonnet_a4.py
 lead-charge-conjugation|15|0|-|Revision/lead_checks/reports/charge-conjugation-and-u1.json|Revision/lead_checks/reports/charge-conjugation-and-u1.json|{python} Revision/lead_checks/charge_conjugation_and_u1.py
+um1-field-equations|10|0|-|Revision/universe_model/field_equations/field-equations.json,Revision/universe_model/field_equations/reports/field-equations-checks.json|Revision/universe_model/field_equations/reports/field-equations-checks.json|{python} Revision/universe_model/field_equations/derive_field_equations.py
+um1-ks-spectrum|10|0|-|Revision/universe_model/solution/outputs/ks/spectrum.json|-|{python} Revision/universe_model/solution/ks_coupled.py spectrum
+um1-ks-portal8-lam0|70|0|-|Revision/universe_model/solution/outputs/ks/portal8_lam0.json|-|{python} Revision/universe_model/solution/ks_coupled.py portal8_lam0
+um1-ks-portal8-lam1|170|0|-|Revision/universe_model/solution/outputs/ks/portal8_lam1.json|-|{python} Revision/universe_model/solution/ks_coupled.py portal8_lam1
+um1-ks-portal592-lam0|70|0|-|Revision/universe_model/solution/outputs/ks/portal592_lam0.json|-|{python} Revision/universe_model/solution/ks_coupled.py portal592_lam0
+um1-ks-portal592-lam1|190|0|-|Revision/universe_model/solution/outputs/ks/portal592_lam1.json|-|{python} Revision/universe_model/solution/ks_coupled.py portal592_lam1
+um1-ks-dm-lam0|80|0|-|Revision/universe_model/solution/outputs/ks/dm_lam0.json|-|{python} Revision/universe_model/solution/ks_coupled.py dm_lam0
+um1-ks-dm-lam1|130|0|-|Revision/universe_model/solution/outputs/ks/dm_lam1.json|-|{python} Revision/universe_model/solution/ks_coupled.py dm_lam1
+um1-ks-loop|230|0|-|Revision/universe_model/solution/outputs/ks/loop.json|-|{python} Revision/universe_model/solution/ks_coupled.py loop
+um1-solve|45|0|-|Revision/universe_model/solution/outputs/vacua.json,Revision/universe_model/solution/outputs/masses.json,Revision/universe_model/solution/outputs/cosmology.json,Revision/universe_model/solution/outputs/late_time.json,Revision/universe_model/solution/outputs/generated_tables.md,Revision/universe_model/solution/figures,Revision/universe_model/solution/reports/solution-checks.json,Revision/universe_model/SOLUTION.md|Revision/universe_model/solution/reports/solution-checks.json|{python} Revision/universe_model/solution/solve_model.py
+um1-pdfs|60|0|-|Revision/universe_model/FIELD_EQUATIONS.tex,Revision/universe_model/FIELD_EQUATIONS.pdf,Revision/universe_model/MODEL.tex,Revision/universe_model/MODEL.pdf,Revision/universe_model/PROVENANCE.tex,Revision/universe_model/PROVENANCE.pdf,Revision/universe_model/SOLUTION.tex,Revision/universe_model/SOLUTION.pdf|-|{python} Revision/universe_model/tools/build_pdfs.py
 notebooks-check|90|0|-|Revision/notebooks|-|{audit} notebooks Revision/notebooks/tools/build_notebooks.py
 pdf-dirac16complex-field-theory|30|0|-|Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.tex,Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md --developer-layout --specifications Revision/pdf-specifications.json
 pdf-dirac16complex00-field-theory|30|0|-|Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.tex,Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.pdf|-|{python} scripts/build_provenance_pdf.py Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md --developer-layout --specifications Revision/pdf-specifications.json

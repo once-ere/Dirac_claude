@@ -7,11 +7,11 @@
     "lagrangian": "L = sqrt|g| [ (1/2)(Psibar gamma^mu D_mu Psi - (D_mu Psibar) gamma^mu Psi) - m S - (lambda/2) S^2 ], Psibar = Psi^dagger C, S = Psibar Psi",
     "emt": "T_mu nu = (1/4)[Psibar gamma_mu D_nu Psi + Psibar gamma_nu D_mu Psi - (D_mu Psibar) gamma_nu Psi - (D_nu Psibar) gamma_mu Psi] - g_mu nu L/sqrt|g|",
     "current": "J^mu = i Psibar gamma^mu Psi",
-    "mirror": "R: z -> pi - z (x0 -> pi/(6H) - x0), Z2 brane at z = pi/2 (ASSUMED boundary construction); positive frame e^(x0)_(x0) = |cot z| on both sides; Lambda = diag(-1,1,1,1,1,1,1,1)",
+    "mirror": "R: z -> pi - z (x0 -> pi/(6H) - x0), the reflection across the fold z = pi/2, an isometry of the corrected metric between the two halves of a cell (not an orbifold); positive frame e^(x0)_(x0) = e^{-a4} b4^{1/2} |cot z| on both sides; Lambda = diag(-1,1,1,1,1,1,1,1)",
     "statistics": "commuting jets = dirac16complex00 (classical); Grassmann jets = dirac16complex (anticommuting, the same identities hold as operator identities before normal ordering)"
   },
   "theorems_verified": {
-    "T1": "L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi]; E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; T[Gamma Psi; m, lambda] = -T[Psi; -m, -lambda]; J[Gamma Psi] = -J[Psi]; for the pair (Psi, m, lambda) and (Gamma Psi, -m, -lambda): T + T = 0 and J + J = 0 identically; both statistics; the metric of SPEC section 1 and any gravitational field",
+    "T1": "L_{m,lambda}[Gamma Psi] = -L_{-m,-lambda}[Psi]; E_{m,lambda}[Gamma Psi] = -Gamma E_{-m,-lambda}[Psi]; T[Gamma Psi; m, lambda] = -T[Psi; -m, -lambda]; J[Gamma Psi] = -J[Psi]; for the pair (Psi, m, lambda) and (Gamma Psi, -m, -lambda): T + T = 0 and J + J = 0 identically; both statistics; the corrected metric of SPEC section 1 and any gravitational field",
     "T2": "with P = gamma^(x0) = Gamma (Gamma gamma^(x0)) and the mirror z -> pi - z: L_{m,lambda}[P Psi(Rx)](x) = +L_{-m,lambda}[Psi](Rx); EL map; T pulled back (no sign change); J pulled back; S -> -S; both statistics",
     "quantum": "{Psi, Psi^dagger} = B/sqrt|g|; the image Gamma Psi carries -B; its own generators (-h) reproduce the same dynamics; no operator cancellation between two independently quantised universes"
   },
@@ -21,13 +21,13 @@
     "No conservation law forces pairing: the theorems are symmetries (maps between solutions); a single universe with mass +m is an equally valid solution of the field equations without its partner.",
     "The vanishing total energy-momentum and charge of a pair (T1) is an identity for a field configuration and its image (classical bilinears, or one operator and its image); it is not a cancellation between two independently quantised universes (Q.no_cancellation_independent_universes).",
     "T2 does not reverse the sign of the energy-momentum tensor: the mirror universe of mass -m has the pulled-back T of the original, not -T.",
-    "The Z2 brane at z = pi/2 and the mirror construction are ASSUMED (a boundary/orbifold choice), not derived from the field equations.",
+    "The continuation across the fold z = pi/2 is not derived: T2 maps a configuration on the half z in (0, pi/2) of a cell to one on the other half (pi/2, pi) through the isometry z -> pi - z; the corrected metric has no Z2 orbifold (the two halves are not identified), and no matching condition of the field between the halves is part of the theorems.",
     "The gravitational back-reaction (the a4 equations of SPEC section 5) is not part of the pairing theorems; T1 maps T -> -T, so a pair sourcing ONE common geometry would have zero total source, which is a statement about sources, not a derivation that such a geometry is created.",
     "No dynamical necessity: nothing forces the partner configuration to exist; the theorems are correspondences between solutions of two parameter sets, not a mechanism.",
     "T1 pairs (m, lambda) with (-m, -lambda): for lambda != 0 it is not a pure +m / -m pairing; the pure pairing (m, lambda) -> (-m, lambda) is T2, at EQUAL (not opposite) energy-momentum.",
     "Quantum positivity: in flat 4+4 space every real-frequency energy eigenspace of the one-particle generator has Krein inertia (4,4) (Q.one_particle_Krein_inertia_proof) and every imaginary- or zero-frequency eigenspace (the growing extra-time modes) is Krein-neutral (Q.one_particle_complex_frequency_Krein_neutral); a positive-norm Fock space for either universe is not established by these theorems.",
-    "The brane z = pi/2 is a degenerate surface of the metric (g_00 = cot^2 z = 0, sqrt|g| = b4^{3/2} cos z = 0 there, geometry.brane_degenerate); no junction condition, brane tension or matching of the field across it is derived.",
-    "The Kohn-Sham level (T3) is not covered by this checker; it is proved separately in Revision/pairing/kohn_sham/ (check_t3.py, with its own hypotheses: ASSUMED Z2 brane, instantaneous mean-field Kohn-Sham states)."
+    "The fold z = pi/2 is a degenerate surface of the metric (g_00 = e^{-2a4} b4 cot^2 z = 0, sqrt|g| = e^{-a4} b4^2 |cot z| sin^{1/2} z = 0 there, geometry.fold_degenerate); no junction condition or matching of the field at it is derived.",
+    "The Kohn-Sham level (T3) is not covered by this checker; it is proved separately in Revision/pairing/kohn_sham/ (check_t3.py, with its own hypotheses: both fold conditions filled (ASSUMED), instantaneous mean-field Kohn-Sham states)."
   ],
   "counts": {
     "pass": 67,
@@ -68,7 +68,7 @@
     {
       "name": "geometry.omega_antisymmetric",
       "verdict": "PASS",
-      "detail": "the canonical spin connection omega_mu ab = eta_ac omega_mu^c_b of the metric of SPEC section 1 is antisymmetric in (a, b) for all mu"
+      "detail": "the canonical spin connection omega_mu ab = eta_ac omega_mu^c_b of the corrected metric of SPEC section 1 is antisymmetric in (a, b) for all mu"
     },
     {
       "name": "geometry.gamma_covariantly_constant",
@@ -78,22 +78,22 @@
     {
       "name": "geometry.spin_connection_components",
       "verdict": "PASS",
-      "detail": "nonzero components (a < b): omega_x1 x0x1 = -H*exp(a4)*sin(z)**(1/6); omega_x1 x1x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x2 x0x2 = -H*exp(a4)*sin(z)**(1/6); omega_x2 x2x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x3 x0x3 = -H*exp(a4)*sin(z)**(1/6); omega_x3 x3x4 = a4p*exp(a4)*sin(z)**(1/6); omega_x5 x0x5 = H*sqrt(b4)*exp(-a4)*sin(z)**(1/6); omega_x5 x4x5 = (-a4p*b4 + b4p/2)*exp(-a4)*sin(z)**(1/6)/sqrt(b4); omega_x6 x0x6 = H*sqrt(b4)*exp(-a4)*sin(z)**(1/6); omega_x6 x4x6 = (-a4p*b4 + b4p/2)*exp(-a4)*sin(z)**(1/6)/sqrt(b4); omega_x7 x0x7 = H*sqrt(b4)*exp(-a4)*sin(z)**(1/6); omega_x7 x4x7 = (-a4p*b4 + b4p/2)*exp(-a4)*sin(z)**(1/6)/sqrt(b4)"
+      "detail": "nonzero components (a < b): omega_x0 x0x4 = (-2*a4p*b4 + b4p)*exp(-a4)*cot(z)/(2*sqrt(b4)); omega_x1 x1x4 = a4p*exp(a4); omega_x2 x2x4 = a4p*exp(a4); omega_x3 x3x4 = a4p*exp(a4); omega_x5 x0x5 = H*sin(z)**(1/6); omega_x5 x4x5 = (-a4p*b4 + b4p/2)*exp(-a4)*sin(z)**(1/6)/sqrt(b4); omega_x6 x0x6 = H*sin(z)**(1/6); omega_x6 x4x6 = (-a4p*b4 + b4p/2)*exp(-a4)*sin(z)**(1/6)/sqrt(b4); omega_x7 x0x7 = H*sin(z)**(1/6); omega_x7 x4x7 = (-a4p*b4 + b4p/2)*exp(-a4)*sin(z)**(1/6)/sqrt(b4)"
     },
     {
       "name": "geometry.connection_depends_on_b4",
       "verdict": "PASS",
-      "detail": "d omega_(x5) (x4)(x5) / d b4' = exp(-a4)*sin(z)**(1/6)/(2*sqrt(b4)) (square e^(-2 a4) sin^(1/3) z/(4 b4)), from the x4 dependence of the extra-time vielbein e^-a4 b4^(1/2) sin^(1/6) z: the T1, T2 and Q checks in the metric of SPEC section 1 are made with b4(x4) not constant (b4 is never 1)"
+      "detail": "d omega_(x5) (x4)(x5) / d b4' = exp(-a4)*sin(z)**(1/6)/(2*sqrt(b4)) (square e^(-2 a4) sin^(1/3) z/(4 b4)), from the x4 dependence of the extra-time vielbein e^-a4 b4^(1/2) sin^(1/6) z: the T1, T2 and Q checks in the corrected metric of SPEC section 1 are made with b4(x4) not constant"
     },
     {
-      "name": "geometry.brane_degenerate",
+      "name": "geometry.fold_degenerate",
       "verdict": "PASS",
-      "detail": "sqrt|g| = b4(x4)**(3/2)*cos(z) on the patch; at the brane z = pi/2: g_00 -> 0 and sqrt|g| -> 0 (a degenerate surface of the metric)"
+      "detail": "sqrt|g| = b4(x4)**2*exp(-a4(x4))*sqrt(sin(z))*cot(z) on the patch; at the fold z = pi/2: g_00 -> 0 and sqrt|g| -> 0 (a degenerate surface of the metric, where the two halves of a cell meet)"
     },
     {
       "name": "geometry.mirror_isometry",
       "verdict": "PASS",
-      "detail": "g_mu mu(pi - z) = g_mu mu(z) for every component: z -> pi - z (x0 -> pi/(6H) - x0, the Z2 brane at z = pi/2) is an isometry of the metric of SPEC section 1"
+      "detail": "g_mu mu(pi - z) = g_mu mu(z) for every component: z -> pi - z (x0 -> pi/(6H) - x0, the reflection across the fold z = pi/2) is an isometry of the corrected metric of SPEC section 1"
     },
     {
       "name": "T1.general_field.matrix_identities",
@@ -128,7 +128,7 @@
     {
       "name": "T1.metric.commuting.lagrangian",
       "verdict": "PASS",
-      "detail": "dirac16complex00, metric of SPEC section 1 with the canonical spin connection: L_{m,lambda}[Gamma Psi] + L_{-m,-lambda}[Psi] = 0 on the full first jet (1 components identically zero)"
+      "detail": "dirac16complex00, corrected metric of SPEC section 1 with the canonical spin connection: L_{m,lambda}[Gamma Psi] + L_{-m,-lambda}[Psi] = 0 on the full first jet (1 components identically zero)"
     },
     {
       "name": "T1.metric.commuting.negative_controls",
@@ -168,7 +168,7 @@
     {
       "name": "T1.metric.grassmann.lagrangian",
       "verdict": "PASS",
-      "detail": "dirac16complex, metric of SPEC section 1 with the canonical spin connection: L_{m,lambda}[Gamma Psi] + L_{-m,-lambda}[Psi] = 0 on the full first jet (1 components identically zero)"
+      "detail": "dirac16complex, corrected metric of SPEC section 1 with the canonical spin connection: L_{m,lambda}[Gamma Psi] + L_{-m,-lambda}[Psi] = 0 on the full first jet (1 components identically zero)"
     },
     {
       "name": "T1.metric.grassmann.negative_controls",
@@ -203,7 +203,7 @@
     {
       "name": "T2.metric.commuting.reflection_table",
       "verdict": "PASS",
-      "detail": "dirac16complex00, mirror across the Z2 brane z -> pi - z with the positive frame on both sides: P = 1: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = Gamma: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = gamma^(x0): L_{m,lambda}[P Psi(Rx)] = + L_{-m,lambda}[Psi](Rx); P = Gamma gamma^(x0): L_{m,lambda}[P Psi(Rx)] = - L_{m,-lambda}[Psi](Rx). So the reflection Gamma gamma^(x0) (spinor action P^-1 gamma^a P = Lambda^a_b gamma^b, character -1 on S) gives L -> -L_{m,-lambda}; combined with Gamma (Gamma Gamma gamma^(x0) = gamma^(x0)) it gives T2: (m, lambda) -> (-m, lambda), L -> +L"
+      "detail": "dirac16complex00, reflection z -> pi - z across the fold z = pi/2 (an isometry of the corrected metric; the other half of the cell) with the positive frame on both sides: P = 1: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = Gamma: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = gamma^(x0): L_{m,lambda}[P Psi(Rx)] = + L_{-m,lambda}[Psi](Rx); P = Gamma gamma^(x0): L_{m,lambda}[P Psi(Rx)] = - L_{m,-lambda}[Psi](Rx). So the reflection Gamma gamma^(x0) (spinor action P^-1 gamma^a P = Lambda^a_b gamma^b, character -1 on S) gives L -> -L_{m,-lambda}; combined with Gamma (Gamma Gamma gamma^(x0) = gamma^(x0)) it gives T2: (m, lambda) -> (-m, lambda), L -> +L"
     },
     {
       "name": "T2.metric.commuting.euler_lagrange_map",
@@ -228,7 +228,7 @@
     {
       "name": "T2.metric.grassmann.reflection_table",
       "verdict": "PASS",
-      "detail": "dirac16complex, mirror across the Z2 brane z -> pi - z with the positive frame on both sides: P = 1: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = Gamma: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = gamma^(x0): L_{m,lambda}[P Psi(Rx)] = + L_{-m,lambda}[Psi](Rx); P = Gamma gamma^(x0): L_{m,lambda}[P Psi(Rx)] = - L_{m,-lambda}[Psi](Rx). So the reflection Gamma gamma^(x0) (spinor action P^-1 gamma^a P = Lambda^a_b gamma^b, character -1 on S) gives L -> -L_{m,-lambda}; combined with Gamma (Gamma Gamma gamma^(x0) = gamma^(x0)) it gives T2: (m, lambda) -> (-m, lambda), L -> +L"
+      "detail": "dirac16complex, reflection z -> pi - z across the fold z = pi/2 (an isometry of the corrected metric; the other half of the cell) with the positive frame on both sides: P = 1: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = Gamma: no relation L_mirror = sigma L_patch(R x) with (m, lambda) -> (+-m, +-lambda); P = gamma^(x0): L_{m,lambda}[P Psi(Rx)] = + L_{-m,lambda}[Psi](Rx); P = Gamma gamma^(x0): L_{m,lambda}[P Psi(Rx)] = - L_{m,-lambda}[Psi](Rx). So the reflection Gamma gamma^(x0) (spinor action P^-1 gamma^a P = Lambda^a_b gamma^b, character -1 on S) gives L -> -L_{m,-lambda}; combined with Gamma (Gamma Gamma gamma^(x0) = gamma^(x0)) it gives T2: (m, lambda) -> (-m, lambda), L -> +L"
     },
     {
       "name": "T2.metric.grassmann.euler_lagrange_map",
@@ -283,7 +283,7 @@
     {
       "name": "Q.canonical_anticommutator",
       "verdict": "PASS",
-      "detail": "from the x4-velocity terms of L (dirac16complex): L = i Psi^dagger M d_4 Psi + ... with M = sqrt|g| B, hence {Psi_A(x), Psi^dagger_B(y)} = B_AB delta^7(x - y)/sqrt|g| (sqrt|g| = b4(x4)**(3/2)*cos(z))"
+      "detail": "from the x4-velocity terms of L (dirac16complex): L = i Psi^dagger M d_4 Psi + ... with M = sqrt|g| B, hence {Psi_A(x), Psi^dagger_B(y)} = B_AB delta^7(x - y)/sqrt|g| (sqrt|g| = b4(x4)**2*exp(-a4(x4))*sqrt(sin(z))*cot(z))"
     },
     {
       "name": "Q.image_krein_metric",
@@ -368,7 +368,7 @@
     {
       "name": "compare.theory.not_established",
       "verdict": "PASS",
-      "detail": "the two independently written lists of what the theorems do NOT establish cover the same topics: creation process: Wolfram yes, sympy yes; rate / amplitude: Wolfram yes, sympy yes; no necessity: Wolfram yes, sympy yes; independent universes do not cancel: Wolfram yes, sympy yes; Z2 brane assumed: Wolfram yes, sympy yes; back-reaction: Wolfram yes, sympy yes; Krein positivity: Wolfram yes, sympy yes; T1 not a pure +-m pairing for lambda != 0: Wolfram yes, sympy yes; degenerate brane: Wolfram yes, sympy yes; T3 not covered: Wolfram yes, sympy yes"
+      "detail": "the two independently written lists of what the theorems do NOT establish cover the same topics: creation process: Wolfram yes, sympy yes; rate / amplitude: Wolfram yes, sympy yes; no necessity: Wolfram yes, sympy yes; independent universes do not cancel: Wolfram yes, sympy yes; continuation across the fold not derived: Wolfram yes, sympy yes; back-reaction: Wolfram yes, sympy yes; Krein positivity: Wolfram yes, sympy yes; T1 not a pure +-m pairing for lambda != 0: Wolfram yes, sympy yes; degenerate fold: Wolfram yes, sympy yes; T3 not covered: Wolfram yes, sympy yes"
     }
   ]
 }

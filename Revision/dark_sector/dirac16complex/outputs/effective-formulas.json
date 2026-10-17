@@ -1,70 +1,70 @@
 {
- "description": "Exact effective formulas of the dark-sector analysis of dirac16complex (SPEC sections 8, 11) for the author's metric with b4(x4) (2026-10-14), derived by Revision/dark_sector/dirac16complex/derive/derive_effective.py (sympy); every entry is a named check of reports/derivation-checks.json.",
- "coordinates": "the author's coordinates {x0, ..., x7} (Dirac_Einstein-Lovelock_4+4_Nash.nb, In[48]): x0 = hidden direction, z = 6 H x0 in (0, pi/2), y = ln(sin z)/(6 H); x1, x2, x3 = 3-space (scale factor e^{a4} sin^{1/6} z); x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (time-like, scale factor e^{-a4} b4^{1/2} sin^{1/6} z).",
- "metric": "diag(cot^2 z, e^{2 a4} sin^{1/3} z (x3), -1, -e^{-2 a4} b4 sin^{1/3} z (x3)) (the author's In[97]-In[102]); b4 = b4(x4) > 0, a function of x4 (the withdrawn record before 2026-10-14 used b4 = 1)",
- "observerScaleFactor": "a = e^{a4} (3-space scale factor on the brane z = pi/2, normalised a = 1 at the chosen 'today' a4 = a4_today, i.e. a = e^{a4 - a4_today}); b4 does not enter it",
- "beta": "beta = d ln b4/d a4 = b4'/(a4' b4) != 0 along a history (b4 is a function of x4, never 1); on a4 = H x4 with the author's weights and a diagonal source beta = 4/3, b4(x4) = b4(0) e^{(4/3) H x4}",
- "withdrawnRecord": "the record before 2026-10-14 used b4 = 1 (withdrawn); its formulas are the terms without beta",
+ "description": "Exact effective formulas of the dark-sector analysis of dirac16complex (SPEC sections 8, 11) for the corrected primordial metric of 2026-10-16 (version 2), derived by Revision/dark_sector/dirac16complex/derive/derive_effective.py (sympy); every entry is a named check of reports/derivation-checks.json.",
+ "coordinates": "the author's coordinates {x0, ..., x7}: x0 = hidden direction, z = 6 H x0 real, y = ln|sin z|/(6 H); x1, x2, x3 = 3-space (scale factor e^{a4}); x4 = time; x5, x6, x7 = the three exponentially DEFLATING extra times (time-like, scale factor e^{-a4} b4^{1/2} (sin^2 z)^{1/12}); the hidden direction carries e^{-a4} b4^{1/2} too",
+ "metric": "diag(e^{-2 a4} b4 cot^2 z, e^{2 a4} (x3), -1, -e^{-2 a4} b4 (sin^2 z)^{1/6} (x3)) (Revision/SPEC.md section 1, version 2); b4 = b4(x4) > 0",
+ "observerScaleFactor": "a = e^{a4} (3-space scale factor, no warp), normalised a = 1 at the chosen 'today' a4 = a4_today, i.e. a = e^{a4 - a4_today}; b4 does not enter it",
+ "beta": "beta = d ln b4/d a4 = b4'/(a4' b4); the record's history a4 = H x4, b4 = e^{(4/3) H x4} has beta = 4/3 (a prescribed background: it needs the source exponentialHistory.authorWeights.historySource_kappaT_minus_Lam)",
  "volumes": {
-  "sqrtDetG": "b4^{3/2} cos z",
-  "proper7VolumeElement": "b4^{3/2} cos z (independent of a4)",
-  "proper3VolumeElement": "e^{3 a4} sin^{1/2} z",
-  "properExtraTimeVolumeElement": "e^{-3 a4} b4^{3/2} sin^{1/2} z",
-  "hiddenLengthElement": "cot z dx0 = dy"
+  "sqrtDetG": "e^{-a4} b4^2 |cot z| |sin z|^{1/2}",
+  "proper3VolumeElement": "e^{3 a4}",
+  "properExtraTimeVolumeElement": "e^{-3 a4} b4^{3/2} |sin z|^{1/2}",
+  "hiddenLengthElement": "e^{-a4} b4^{1/2} |cot z| dx0 = f |dy|, f = e^{-a4} b4^{1/2}",
+  "cellVolume": "Vol_7 ~ e^{-a4} b4^2 = e^{(2 beta - 1) a4}"
  },
  "conservation": {
-  "x4": "d rho/d x4 = -3 a4' (p3 - p_t) - (3/2)(b4'/b4)(rho + p_t)",
-  "x0": "d p0/d x0 + 3 H cot z (2 p0 - p3 - p_t) = 0  <=>  p0_y + 6 H p0 = 3 H (p3 + p_t)",
-  "integrated": "dE/d a4 = -3 (P3 - Pt) - (3/2) beta Pt, E = int rho sqrt|g| d^7x, P3 = int p3 sqrt|g| d^7x, Pt = int p_t sqrt|g| d^7x (per unit coordinate volume; fixed occupations / exact solutions)"
+  "x4": "d4 rho = -3 a4' (rho + p3) - h4 (rho + p0) - 3 h4 (rho + p_t), h4 = b4'/(2 b4) - a4'",
+  "x0": "d0 p0 + 3 H cot z (p0 - p_t) = 0  <=>  p0_y + 3 H (p0 - p_t) = 0",
+  "integrated": "dE/da4 = -3 P3 - (beta/2 - 1)(P0 + 3 Pt) (beta = 4/3: -3 P3 + Pt + P0/3), E = int rho sqrt|g| d^7x, P = int p sqrt|g| d^7x per unit coordinate volume (fixed occupations / exact solutions)"
  },
  "rho4": {
-  "A_compact_coordinate_period": "ASSUMPTION: the extra times are compact with a fixed coordinate period (closed time-like directions); rho_4 = E/(proper 3-volume) ~ E e^{-3 a4}",
-  "B_per_unit_extra_time_coordinate_volume": "non-compact extra times; rho_4 = E/(proper 3-volume x extra-time coordinate volume) ~ E e^{-3 a4}",
-  "C_per_unit_proper_7_volume": "rho_4 = E/(proper 7-volume) x (constant) ~ E b4^{-3/2} (equivalently per unit proper extra-time volume e^{-3 a4} b4^{3/2})",
-  "general": "rho_4 ~ E e^{-3 a4} (e^{-3 a4} b4^{3/2})^{-s}: s = 0 (A, B), s = 1 (C)"
+  "A_compact_coordinate_period": "ASSUMPTION: the extra times and the hidden direction are compact with a fixed coordinate period; rho_4 = E/(proper 3-volume) ~ E e^{-3 a4}",
+  "B_per_unit_coordinate_volume": "per unit coordinate volume of the extra times and the hidden direction; rho_4 ~ E e^{-3 a4}",
+  "C_per_unit_proper_7_volume": "rho_4 = E/Vol_7 x (constant) ~ E e^{a4} b4^{-2}",
+  "general": "rho_4 ~ E e^{-3 a4} (e^{-4 a4} b4^2)^{-s}: s = 0 (A, B), s = 1 (C)"
  },
  "wEff": {
   "definition": "w_eff = -1 - (1/3) d ln rho_4/d ln a",
-  "A": "(P3 - Pt)/E + (beta/2) Pt/E",
-  "B": "(P3 - Pt)/E + (beta/2) Pt/E",
-  "C": "(P3 - Pt)/E - 1 + (beta/2)(Pt/E + 1)",
-  "general": "(P3 - Pt)/E - s + (beta/2)(Pt/E + s)",
-  "withdrawnB4Equal1": "A = B = (P3 - Pt)/E, C = (P3 - Pt)/E - 1"
+  "A": "P3/E + (beta/2 - 1)(P0 + 3 Pt)/(3E)",
+  "B": "P3/E + (beta/2 - 1)(P0 + 3 Pt)/(3E)",
+  "C": "A - (4 - 2 beta)/3",
+  "general": "P3/E + (beta/2 - 1)(P0 + 3 Pt)/(3E) - s (4 - 2 beta)/3",
+  "atBeta4over3": {
+   "A": "P3/E - (P0 + 3 Pt)/(9E)",
+   "C": "A - 4/9"
+  }
  },
  "ratios": {
   "w3": "P3/E",
   "wt": "Pt/E",
-  "wx0": "P0/E (integrated; the x0 ratio, not the CPL w0); brane-local p3/rho etc. also reported"
+  "wx0": "P0/E (integrated; the x0 ratio, not the CPL w0)"
  },
  "condensate": {
-  "S": "S0 b4^{-3/2} (b4^{3/2} S constant)",
+  "S": "S0 e^{a4} b4^{-2} (S Vol_7 constant)",
   "rho": "m S + lambda S^2/2",
   "p3=p_t=p0": "lambda S^2/2",
   "w_ratio": "w_c = lambda S/(2 m + lambda S)",
-  "dw_ratio_da4": "-3*S0*beta*lambda*m*B(A)**(3/2)/(S0*lambda + 2*m*B(A)**(3/2))**2",
-  "w_eff_A": "(beta/2) w_c",
-  "w_eff_C": "-1 + (beta/2)(1 + w_c)",
-  "withdrawnB4Equal1": "w_eff(A) = 0, w_eff(C) = -1, wa = 0 (every definition)",
+  "dw_ratio_da4": "-2*S0*lambda*m*(2*beta - 1)*B(A)**2*exp(A)/(S0*lambda*exp(A) + 2*m*B(A)**2)**2",
+  "w_eff_A": "((2 beta - 1)/3) w_c",
+  "w_eff_C": "A - (4 - 2 beta)/3",
   "ratio_equals_minus_0p764_at_lambdaS_over_m": "-382/441"
  },
  "flatModeLabelled": {
   "status": "flat (warp-free) limit, used for the sign structure and the limits only",
-  "omega2": "M^2 + k^2 e^{-2 a4} - q^2 e^{2 a4}/b4",
-  "X": "(k_p^2 + q_p^2)/(3 omega), k_p = k e^{-a4}, q_p = q e^{a4} b4^{-1/2}",
-  "q_p_rate": "d ln q_p/d a4 = 1 - beta/2",
-  "massive_w_eff_A": "k^2/(3 (M^2 a^2 + k^2)) (q = 0: independent of b4)",
+  "omega2": "M^2 + k^2 e^{-2 a4} + l^2 e^{2 a4}/b4 - q^2 e^{2 a4}/b4",
+  "q_p_rate": "d ln q_p/d a4 = d ln l_p/d a4 = 1 - beta/2",
+  "massive_w_eff_A": "k^2/(3 (M^2 a^2 + k^2)) (l = q = 0: independent of b4)",
   "massive_w0": "x/(3*(x + 1))",
-  "massive_wa": "2*x/(3*(x + 1)**2)"
+  "massive_wa": "2*x/(3*(x + 1)**2)",
+  "foldBand": "eps = e^{-a4} |k| exactly (ks-theory.json): w_eff(A) = 1/3, w_eff(C) = 1/3 - (4 - 2 beta)/3"
  },
  "mixtures": {
-  "w_eff": "sum_i X_i/sum_i E_i - s + (beta/2)(sum_i Pt_i/sum_i E_i + s)",
-  "radiation_plus_lambda0_condensate_A": "(1/3) r/(1 + r), r = r0/a",
-  "C": "A - 1 + beta/2",
+  "w_eff": "linear in (P3, Pt, P0) at fixed E: sum over the components",
+  "foldBandGas_plus_lambda0_condensate_A": "(1/3) r/(1 + r), r = r0/a",
+  "C": "A - (4 - 2 beta)/3",
   "w0_A": "r0/(3*(r0 + 1))",
-  "w0_C": "(r0/3 + (beta - 2)*(r0 + 1)/2)/(r0 + 1)",
+  "w0_C": "(r0 + 2*(beta - 2)*(r0 + 1))/(3*(r0 + 1))",
   "wa": "r0/(3*(r0**2 + 2*r0 + 1))",
-  "r0_for_w_eff_C_equal_minus_0p861": "3*(139 - 500*beta)/(1500*beta + 583)",
-  "betaRangeForThatMatch": "(-583/1500, 139/500]; none on beta = 4/3"
+  "betaRangeForW0CEqualMinus0p861": "(417/2000, 1417/2000]; none at beta = 4/3"
  },
  "cpl": {
   "convention": "w(a) = w0 + wa (1 - a); thawing wa < 0, freezing wa > 0 (the formula decides)",
@@ -75,15 +75,31 @@
  },
  "expansionInferred": {
   "w_exp": "-1 - (2/3) a4''/a4'^2",
-  "einstein": "-1 - (kappa (p3 - p_t) - 3 a4' u + v/2 + u^2/4)/(3 a4'^2), u = b4'/b4, v = b4''/b4",
-  "einsteinMixed": "G^x4_x0 = (3/2) H cot z b4'/b4 = kappa T^x4_x0: with b4' != 0 Einstein gravity has no diagonal source",
+  "einstein": "(6*H**2*kk - 10*ad1**2 + 9*ad1*uu - 2*kappa*p3 + 2*kappa*p_t - 2*uu**2 - vv)/(6*ad1**2)",
+  "einsteinMixed": "G^x4_x0 = 0 identically (the corrected metric has no mixed component)",
   "linearMember": "-1"
  },
- "authorWeightsB4Branch": {
-  "Q": "3*(4 - 24*al^2 + 20*al^4 + 12*al*be - 20*al^3*be + be^2 + 5*al^2*be^2)",
-  "variables": "alpha = a4'/H, beta = b4'/(H b4), p = a4''/H^2, q = b4''/(H^2 b4)",
-  "linearHistory": "alpha = 1: beta_v in {0, 4/3}; alpha = -1: beta_v in {-4/3, 0}; d ln b4/d a4 in {0, 4/3}",
-  "status": "allowed by the mixed equation of a diagonal source; the source the other equations require is not constructed (OPEN)"
+ "recordHistory": {
+  "history": "a4 = H x4, b4 = e^{(4/3) H x4}",
+  "source": {
+   "minus_rho": {
+    "input": "121/432 + (161*kk)/24 - (9*kk^2)/16",
+    "tex": "-\\frac{9 k^2}{16}+\\frac{161 k}{24}+\\frac{121}{432}"
+   },
+   "p3": {
+    "input": "-5359/3888 + (1601*kk)/216 - (9*kk^2)/16",
+    "tex": "-\\frac{9 k^2}{16}+\\frac{1601 k}{216}-\\frac{5359}{3888}"
+   },
+   "p0": {
+    "input": "-497/144 + (79*kk)/16",
+    "tex": "\\frac{79 k}{16}-\\frac{497}{144}"
+   },
+   "pt": {
+    "input": "-497/144 + (79*kk)/16",
+    "tex": "\\frac{79 k}{16}-\\frac{497}{144}"
+   }
+  },
+  "status": "a prescribed background; the Kohn-Sham gas is not its source"
  },
  "unite": {
   "constant_w": "-0.764",

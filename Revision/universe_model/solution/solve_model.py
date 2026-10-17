@@ -170,9 +170,14 @@ def main():
            "[e^{3Hy} p0] - 3H int e^{3Hy} p_t = -int e^{3Hy}(M_ext' S + v_ext' n) at e = 0.02: largest relative residual %.2e, "
            "falling with the grid: %s; null cases (every term below 1e-12 of the density scale of the state): %d" % (ymax, ydecr, sum("(exchange)" in x for x in nulls)))
     dm = dict(ks["dm_lam0"]["cases"], **ks["dm_lam1"]["cases"])
-    w0 = max(abs(dm["lam0"][G]["w_dm"]) for G in dm["lam0"] if G != "richardson")
-    ch.add("K6_cold_dark_matter", w0 < 1e-10,
-           "the k = 0 odd quanta have p3 = 0 at lambda = 0: max |w| = %.1e" % w0)
+    # the dark-matter energy bookkeeping: the energy added by 8 odd quanta (fixed occupations, the EMT integrated over the
+    # cell, three grids, Richardson) equals 8 times the analytic lowest odd level at lambda = 0 (w = 0 there holds by
+    # construction, k = 0 and e_int = 0, and is a result, not a check)
+    dE8 = dm["lam0"]["richardson"]["dE"][0]
+    e_an = sp["lowest_odd_bulk_analytic"]
+    ch.add("K6_dark_matter_energy", abs(dE8 / (8.0 * e_an) - 1.0) < 1e-9,
+           "E(N = 8 + 8 odd quanta) - E(N = 8) = %.12g vs 8 x the analytic odd level %.12g (relative %.1e)"
+           % (dE8, 8.0 * e_an, abs(dE8 / (8.0 * e_an) - 1.0)))
     lp = ks["loop"]["runs"]
     ch.add("K7_coupled_fixed_point", all(r["converged"] for r in lp),
            "Psi <-> Standard Model <-> block fixed point converged for sigma = %s in %s iterations"
@@ -226,7 +231,7 @@ def figures(vac, ms, ks, co):
     ax.axvline(8, color="gray", ls="--", lw=0.8)
     ax.text(8.15, 2.2, "static vacuum k0 = 1/(4 w2) = 8", fontsize=8)
     ax.set_xlabel("k = e^{2 a4}/b4")
-    ax.set_ylabel("G(k) = G_eff/G_Einstein")
+    ax.set_ylabel("G(k) = G_Einstein/G_eff")
     ax.set_title("Effective 4D Newton factor; block mode lambda^2 = k0 G(k0) H^2/4")
     ax.legend(fontsize=8)
     fig.tight_layout()
@@ -271,9 +276,10 @@ def figures(vac, ms, ks, co):
     # 4: N_eff vs g_*s at decoupling
     gF = ks["spectrum"]["vacuum"]["g_F"]
     gg = np.linspace(7.25, 60, 400)
-    ne = CO.NEFF_PER_SPECIES + np.array([CO.delta_neff(gF, x) for x in gg])
     fig, ax = plt.subplots(figsize=(6.4, 3.4))
-    ax.plot(gg, ne, label="N_eff = 1.0147 + (g_F/2)(7.25/g_dec)^{4/3}, g_F = %d" % gF)
+    for gf, ls_ in ((gF, "-"), (gF // 2, "--")):
+        ne = CO.NEFF_PER_SPECIES + np.array([CO.delta_neff(gf, x) for x in gg])
+        ax.plot(gg, ne, ls_, label="N_eff = 1.0147 + (g_F/2)(7.25/g_dec)^{4/3}, g_F = %d%s" % (gf, "" if gf == gF else " (one half of the cell)"))
     ax.axhspan(CO.PLANCK["N_eff_measured"] - CO.PLANCK["N_eff_sigma"], CO.PLANCK["N_eff_measured"] + CO.PLANCK["N_eff_sigma"],
                color="C1", alpha=0.3, label="Planck 2018 N_eff (1 sigma)")
     for nm, s in co["um1"].items():
@@ -394,10 +400,12 @@ def write_generated(vac, ms, ks, co, late, ch):
     L.append("")
     L.extend(tabB)
     L.append("")
-    L.append("| coupled fixed point | iterations | $\\delta k$ | $\\delta f/f$ | $\\delta m_e/m_e$ | $\\delta m_\\nu/m_\\nu$ |")
-    L.append("| --- | --- | --- | --- | --- | --- |")
+    L.append("| coupled fixed point | iterations | contraction | $\\delta k$ | $\\delta f/f$ | $\\delta m_e/m_e$ | $\\delta m_\\nu/m_\\nu$ |")
+    L.append("| --- | --- | --- | --- | --- | --- | --- |")
     for r in ks["loop"]["runs"]:
-        L.append("| $\\sigma$ = %s | %d | $%s$ | $%s$ | $%s$ | $%s$ |" % (g(r["sigma"]), r["iterations"], g(r["dk"]), g(r["df_over_f"]), g(r["dm_over_m"]["e"]), g(r["dm_over_m"]["nu"])))
+        L.append("| $\\sigma$ = %s | %d | %s | $%s$ | $%s$ | $%s$ | $%s$ |" % (g(r["sigma"]), r["iterations"],
+                                                                         "$%s$" % g(r["contraction"]) if r.get("contraction") is not None else "-",
+                                                                         g(r["dk"]), g(r["df_over_f"]), g(r["dm_over_m"]["e"]), g(r["dm_over_m"]["nu"])))
     L.append("")
     L.append("**Cosmology (cosmology.py).**")
     L.append("")
