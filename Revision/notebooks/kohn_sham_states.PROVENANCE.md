@@ -368,7 +368,38 @@ No run time and no path of the computer is printed (paths are shown relative to 
   494159 bytes, audit PASS; `check kohn_sham_states --out <scratch>` - executed in 20.4 s, PASS, byte-identical;
   the 23 files of the two output folders are byte-identical and equal to the table of section 2 (the nine profile
   files equal the record's). `checks of this notebook: 24 passed, 0 failed`. Every run with `timeout -k 5 423`, from
-  the repository root in the working tree (not a fresh clone).
+  the repository root in the working tree (not a fresh clone). That version (notebook sha256
+  `5e68de31c1b994f8ded8220e6cf5fdc7996eeb5f7263f20807e7f128974cbb81`, builder sha256
+  `a84d512314664155e24b9d7842e412874e92d1ee00e3639ab8b023030f70c7de`) is replaced by the rebuild below.
+* 2026-10-17, rebuild after the audit (phase W6 of `HANDOFF.md`): the audit found that the texts of the builder
+  still spoke of three input checks of the solver, which now prints four (`theory_input_metric_forms` was added
+  in phase W5), and wrote the hidden coordinate as y = ln(sin z)/(6H). Only markdown cells changed (cells 0, 2,
+  8 and 32: section 1 item 1, the word list of section 3 now y = ln|sin z|/(6H), the introduction of section 6
+  and the first item of section 11); no code cell and no output changed. Builder sha256
+  `1f1e0b29251f6a5bda1631102ef454471d57ac20c2862dba0972ca3ade211d36`; the build tool
+  (`99f18fc03902e092...`) and the pins (`ba6c2cab4048282e...`) are unchanged. Two builds and one check, one
+  after the other, from the repository root in the working tree (not a fresh clone):
+  * build A: `python Revision/notebooks/tools/build_notebooks.py build kohn_sham_states --out <scratch>/kohn_sham_states_buildA`
+    - exit status 0, executed in 18.6 s (19.7 s for the command), wrote `Revision/notebooks/kohn_sham_states.ipynb`
+    (494302 bytes), audit PASS;
+  * build B: the same command with `--out <scratch>/kohn_sham_states_buildB` - exit status 0, executed in 18.8 s
+    (19.9 s for the command), wrote 494302 bytes, audit PASS;
+  * check: `python Revision/notebooks/tools/build_notebooks.py check kohn_sham_states --out <scratch>/kohn_sham_states_check`
+    - exit status 0, executed in 18.5 s (19.5 s for the command): `check kohn_sham_states: PASS - the re-executed
+    notebook is byte-identical to Revision/notebooks/kohn_sham_states.ipynb (494302 bytes)`.
+  * The notebook written by build A, by build B and by the check has the same sha256
+    `028f490cfb7b9fc2db9d7558efff1d9891e68b7021a3edc2c034378b766dacd9` (the step log; the committed notebook and
+    `<scratch>/kohn_sham_states_check/kohn_sham_states.ipynb` have it on disk). The output folders compared file by
+    file (sha256 and bytes): build A and build B hold the same 23 files (1675672 bytes), byte-identical; the check
+    folder holds the same 23 files, byte-identical to them, plus the re-executed notebook; all 23 equal the table of
+    section 2 (bytes and sha256; the nine profile files equal the record's), and the 47 read files of section 2
+    have the recorded sha256.
+  * The executed outputs of the committed notebook: the solver's four input checks PASS (printed indented in
+    section 6, `input checks PASS: 4` for each of the ten runs), 24 PASS lines of the notebook's own (counted:
+    1 + 1 + 11 + 3 + 8, section 4), no FAIL line, no stderr or error output, `checks of this notebook: 24 passed,
+    0 failed`.
+  * Tests: `python -m unittest Revision/tests/test_revision_notebooks.py` (light; `REVISION_NOTEBOOKS_FULL` not set)
+    - TESTS_RESULT_PLACEHOLDER
 * Not verified here: the run instructions on macOS and Linux (written for them, executed only on
   Windows 11); byte-identity across different computers or package versions (the PNG figures depend on
   the matplotlib version).

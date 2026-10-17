@@ -35,31 +35,21 @@ Status (folder `Revision/universe_model/`, README there):
   to decouple in the QCD crossover (g_F = 8) or comes out 3.015 untuned (g_F = 4). Gate steps um1-* (both twins).
   Rebuild: the `python solution/ks_coupled.py JOB` runs of SOLUTION.md section 8, `python solution/solve_model.py`,
   `python tools/build_pdfs.py` (deterministic PDFs).
-- [5] IN PROGRESS: W5 (the H15 rerun of the Kohn-Sham records: `handoff/drafts_2026-10-17/scripts/run_h15.sh all`, every
-  step under `timeout -k 5 423`; then the README/gate-budget patch scripts of that folder and "HANDOFF W5 DONE"), W6
-  (placed and passing so far: dark_sector derive_effective 37/37, dirac16complex00 A 48/48 / B 32/32 / tests 4/4 with
-  the README rewritten, `dark_sector/wolfram/verify_dark_sector.wls` 7/7 with gate step dark-wolfram (the b4 twin is
-  kept as the record of the withdrawn metric; its step dark-b4-wolfram reads the frozen
-  `reference_2026_10_14/eos-theory-b4.json`), T3 verify_t3.wls 9/9, check_t3.py 12/12,
-  verify_t3_completion.wls 3/3; pairing T1/T2/Q drafts placed and run; the notebook `lovelock_gkd.ipynb` rebuilt for
-  the corrected metric (Rust 27, sympy 56, Wolfram 29; 47 notebook checks, `check` byte-identical); still:
-  compute_eos and independent_free_gas on the regenerated dense history, the T3 demos (the Rust demo has `--part i/n`,
-  not yet run; gate rows to add), check_t3_completion.py, the notebooks `kohn_sham_states` (builder patched, waits for
-  the W5 cross-check) and `dark_sector_hypotheses`; the notebook test pins of kohn_sham_states and dark_sector are
-  still those of the old record and fail until then),
-  then W7 (documents/PDFs; LOVELOCK_GKD DONE 2026-10-17: rewritten for the corrected metric, 29 pages, registered,
-  its publication test 34/34 with the verify-mode rebuild; the comparison report regenerated for the SPEC sha only;
-  DIRAC16COMPLEX00_FIELD_THEORY DONE 2026-10-17 (f305563): rewritten, 42 pages, registered, test 20/20)
-  and W8 (textbook), each committed and pushed.
-- Restart material for W6/W7 (2026-10-17 midday; drafts in the session scratch `scratchpad/w7/`, copied to
-  `handoff/drafts_2026-10-17/w7/` at each commit): `D16.draft.md` + `fill_d16.py` (DIRAC16COMPLEX_FIELD_THEORY; the
-  new test `Revision/tests/test_dirac16complex_field_theory_publication.py` with renderers for the corrected metric,
-  its record-only tests pass; still needed: the Kohn-Sham-source paragraph of section 13, the dark-sector verdict of
-  section 15 and QUOTED_NUMBERS from the regenerated records), `PAIR.draft.md` + `fill_pair.py` (PAIR_CREATION_PROOFS;
-  the test patched for the fold/no-orbifold statements, C1 and the self-test numbers; still needed: the T3
-  demonstrations, the Kohn-Sham source paragraph, the run log). The T3 reference demo is placed in the repository
-  (N_mid from parameters.json, 1/f, kappa = e^-a4); `verify_t3_completion.wls` and `t3-completion.json` now describe
-  T3 as S1-S4 with 9 + 12 checks (the report is byte-identical).
+- UM-1 analysis and version 1.3 (2026-10-17, at the author's requests "analyze the x0 mass mechanism ... the validity of
+  associating dark matter (and dark energy) with dirac16complex" and "fix the gaps"): `Revision/universe_model/ANALYSIS.md`
+  (21 + 13 checks; commit 5c7dcae) and `GAPS.md` (4 checks; 20446aa); the PDF builder made independent of earlier builds
+  (cd6c020).
+- [5] W5 DONE (0aa3c29; see 0.10).  W6 DONE 2026-10-17 (see 0.10, the entry "W6 DONE").  W7 IN PROGRESS: LOVELOCK_GKD,
+  DIRAC16COMPLEX00_FIELD_THEORY and KOHN_SHAM_DEFLATING_FIELD done earlier; PAIR_CREATION_PROOFS,
+  DIRAC16COMPLEX_FIELD_THEORY and DARK_SECTOR_HYPOTHESES are being rewritten by the workflow `w7-documents` (scratch
+  `w7/w7_documents.js`: one drafting agent per document - its block files in `handoff/drafts_2026-10-17/w7/`, the .md and
+  its publication test with every content test passing -, an adversarial reviewer, a fixer); the lead then builds the
+  PDFs in verify mode, registers them, pins the sha256 in the tests, and updates `Revision/README.md` (documents rows,
+  the pairing row with T3 9/9, 12/12) and `Revision/SPEC.md` section 9.  Then W8 (the textbook: every chapter and
+  notebook; first TEXTBOOK_SPEC R2/R3 for the corrected metric; notes in the scratch `w8/notes.md`), each committed and
+  pushed.
+- Restart material for W7 (2026-10-17): the drafts and fill scripts in `handoff/drafts_2026-10-17/w7/` (`D16.draft.md` +
+  `fill_d16.py` + `d16_*.md`; `PAIR.draft.md` + `fill_pair.py` + `pair_*.md`); the tests carry the requirements.
 
 ### 0.10 ORDER 2026-10-16: the corrected metric (version 2); recompute every primordial object
 
@@ -259,6 +249,28 @@ Status (newest last):
   13/13 and independent_free_gas 10/10 on the new dense history (the latter after a fix: the collocation leaves a
   spurious partner of the fold-band mode in a degenerate eigenspace).  RUN-TIME RISK: the gate row t3-rust-demo
   (3 members x 210 states of the new matrix) will exceed 423 s and must be split into parts before it is run.
+- W6 DONE 2026-10-17 (resumed after UM-1 1.3 at the author's order "resume the paused W6 work and push"): the dark
+  sector, pairing (T1/T2/Q, T3 and its two demonstrations) and the notebooks in the corrected metric (version 2).
+  Pairing: `verify_pairing.wls` 102/102 and `check_pairing.py` 67/67 (the reflection z -> pi - z across the fold z = pi/2
+  between the two halves of a cell; no Z2 orbifold); T3 `verify_t3.wls` 9/9 and `check_t3.py` 12/12 (statements S1-S4;
+  the statement S5 of the mirror copy is removed), completion `verify_t3_completion.wls` 3/3 and `check_t3_completion.py`
+  7/7; demonstrations (not proofs): the Rust solver 7/7 (630 single runs in four parts, the family measure of H17) and
+  the reference solver 7/7 (162 grid runs in six parts of 219, 170, 78, 122, 115 and 91 s and an assembly of 2 s, byte-identical to the
+  earlier four-part run; H18).  Dark sector: `derive_effective.py` 37/37, the dense Kohn-Sham history 8/8 (615 states),
+  `compute_eos.py` 13/13, `independent_free_gas.py` 10/10, dirac16complex00 A 48/48 and B 32/32 and its tests 4/4,
+  Wolfram `verify_dark_sector.wls` 7/7 (and the twin of the withdrawn metric 8/8); results: the free Kohn-Sham gas is an
+  exact fold-band gas (w_eff(A) = 1/3, w_eff(C) = -1/9), the interacting gas w_eff(A) in [0.330585, 0.336132], the
+  massive bulk band is blue-shifted (w_eff(A) from 0.318721 to -0.081074), the condensate drifts (wa = -28077/12500),
+  neither hypothesis is established; `Revision/dark_sector/CORRECTED_METRIC_PROVENANCE.md` records the change and a
+  complete re-run that reproduced every output byte for byte.  Notebooks: `kohn_sham_states` and
+  `dark_sector_hypotheses` rebuilt for the corrected metric (two builds and one check each: kohn_sham_states 19.7, 19.9 and 19.5 s, dark_sector_hypotheses 22.2, 21.7 and 21.9 s), each `check` byte-identical, provenance files
+  updated.  A read-only audit of the W6 deliverables (workflow, 12 agents: 104 findings, 94 confirmed by
+  adversarial verification) was applied by fixer agents and checked; the producers whose comment or detail texts changed
+  were re-run (the reports differ only in those texts).  Gate: t3-reference-demo in six parts and an assembly (budgets
+  from the measured times), comments, `test_revision_gate.py` (--fast about 170 min by the step table).  KNOWN OPEN until
+  W7: the publication tests of PAIR_CREATION_PROOFS, DIRAC16COMPLEX_FIELD_THEORY and DARK_SECTOR_HYPOTHESES, the
+  documents rows of `Revision/README.md`; until W8: the textbook (e.g. `00c_honesty_ledger.py` README_ORDER lacks
+  `dark_sector/reports/wolfram-dark-sector.json`).
 
 ### 0.9 ORDER 2026-10-15 evening: move EVERYTHING to b4(x4) — START HERE
 
