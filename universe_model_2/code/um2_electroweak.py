@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """UM-2 electroweak sector: charges, anomaly cancellation, the W+- and Z, the chiral tip Z portal of dirac16complex,
 the two halves Psi_A (B = -1) and Psi_B (B = +1), the Z charges of the fold band and of the dark matter, the Z invisible
-width with three neutrinos, the bound on the Z coupling of the Psi_A fold band, and the Z widths of the three generations.
+width with three neutrinos, the fate of the chiral tip Z portal (dropped), and the Z widths of the three generations.
 (N_eff and the cosmic neutrino background of the three neutrino flavours are computed in um2_neutrino.py.)
 
 E1  Charges Q = T3 + Y of the zero-mode spectrum (three generations, version of 2026-10-18); W+- = (W1 -+ i W2)/sqrt2
@@ -13,13 +13,14 @@ E3  Algebra of the chiral projector P_+ = (1 + Gamma4)/2, Gamma4 = i g1 g2 g3 g4
     Lorentz generators and with C gamma^mu (mu = x1..x4), so Psibar gamma^mu P_+ Psi is a 4D vector current; in the block
     basis P_+ = (1 - B sigma3)/2 with B = j s2; B commutes with the 4D Lorentz generators and with C (Psibar Psi does not
     mix the halves B = +-1); the halves Psi_A (B = -1) and Psi_B (B = +1) are 4D-Lorentz-invariant subspaces.
-E4  Z charges at the regular tip (b(-L) = 0 for every orbital): P_+ selects the a-component in Psi_A, the b-component
-    (zero at the tip) in Psi_B.  The Psi_A fold band (2 Weyl species, Gamma4 = +1) couples; the Psi_B fold band and the
-    Psi_B dark matter have zero Z charge AND zero transition current at the tip, exactly.
-E5  Z invisible width with the three neutrinos and the Psi_A fold band: N_nu = 3 + 2 r^2, r = g_Z(Psi_A)/g_Z(nu); the PDG 2025
-    value N_nu = 2.9963 +- 0.0074 bounds r^2; N_eff bounds it far more strongly (a thermalised Psi_A fold band would add two
-    neutrino species); UM-2 sets the even (diagonal) part of the chiral tip Z portal to zero, c_Z = 0 (r = 0), and keeps its
-    oriented part c'_Z (decays of the heavy odd Psi_A states).  The Z widths of the three generations at tree level.
+E4  Chiral charge densities u^dagger P_+ u at the regular tip (b(-L) = 0 for every orbital), i.e. what a chiral tip Z portal
+    would couple to (UM-2 has none since the three-generation version, E5): P_+ selects the a-component in Psi_A, the
+    b-component (zero at the tip) in Psi_B.  The Psi_A fold band (2 Weyl species, Gamma4 = +1) and the Psi_A odd states have
+    non-zero densities; the Psi_B fold band and the Psi_B dark matter have zero density AND zero transition current, exactly.
+E5  Z invisible width with the three neutrinos and a possible Z coupling of the Psi_A fold band: N_nu = 3 + 2 r^2,
+    r = g_Z(Psi_A)/g_Z(nu); the PDG 2025 value N_nu = 2.9963 +- 0.0074 bounds r^2.  The chiral tip Z portal I9 of the
+    one-generation version (even part c_Z, oriented part c'_Z) would thermalise the Psi_A fold band and add Delta N_eff = 2 (c_Z
+    at the N_nu bound) or 0.10-0.13 (c'_Z); UM-2 drops I9 (c_Z = c'_Z = 0).  The Z widths of the three generations at tree level.
 Writes outputs/electroweak.json and reports/electroweak-checks.json.
 """
 import math
@@ -191,9 +192,10 @@ def main():
     dA = [charges_dm[str(LABELS[b])] for b in groupA]
     dB = [charges_dm[str(LABELS[b])] for b in groupB]
     rep.check('Z_charge_fold_band', all(abs(x - a0_tip2) < 1e-12 for x in zA) and all(abs(x) < 1e-14 for x in zB),
-              'Z charge density u^dagger P_+ u at the tip: Psi_A fold band a0(-L)^2 = %.6e per unit length in each of its 4 blocks, Psi_B fold band 0 exactly' % a0_tip2)
+              'chiral tip charge density u^dagger P_+ u (what a chiral tip Z portal would couple to; UM-2 has none): Psi_A fold band '
+              'a0(-L)^2 = %.6e per unit length in each of its 4 blocks, Psi_B fold band 0 exactly' % a0_tip2)
     rep.check('Z_charge_dark_matter', all(abs(x - adm_tip2) < 1e-12 for x in dA) and all(abs(x) < 1e-14 for x in dB) and trans_ok,
-              'Psi_A dark-matter states: a_DM(-L)^2 = %.6e; Psi_B dark-matter states: 0 exactly, and every transition current '
+              'lowest odd states: Psi_A a_DM(-L)^2 = %.6e; Psi_B 0 exactly, and every transition current '
               'Psibar_A gamma^mu P_+ Psi_B and Psibar_B gamma^mu P_+ Psi_A vanishes at the tip (P_+ Psi_B = 0 there)' % adm_tip2)
     out['a0_tip2'] = a0_tip2
     out['adm_tip2'] = adm_tip2
@@ -208,28 +210,56 @@ def main():
               'with the three neutrinos and the Psi_A fold band of Z coupling r times the neutrino\'s, N_nu = 3 + 2 r^2; the PDG 2025 value '
               'N_nu = %.4f +- %.4f (Janot and Jadach 2020) is reproduced by r = 0 (pull %.2f) and bounds r^2 < %.4f (two standard deviations); '
               '(the superseded LEP 2006 value 2.9840 +- 0.0082 lies 1.9 standard deviations below 3)' % (Nnu, dNnu, (3.0 - Nnu) / dNnu, r2_max))
-    # N_eff: a thermalised Psi_A fold band (two Weyl species) would add Delta N_eff = 2 (10.75/g_s(T_dec))^{4/3}.  Below the Z mass
-    # its neutral-current rate is r^2 times the neutrino's: decoupling at T_dec = 2.6 MeV r^{-2/3} (FROM MEMORY: NC-only species
-    # decouple near 2.6 MeV); above the Z mass the rate is unsuppressed, Gamma ~ 0.1 r^2 alpha_Z^2 T against H = 1.66 sqrt(g*) T^2/M_Pl
-    # (ESTIMATE), so the fold band thermalises in a radiation era hotter than ~100 GeV unless r^2 < 1e-12.
+    # What the chiral tip Z portal I9 of the one-generation version would do with three generations (ESTIMATES, from the
+    # decoupling condition of a species of two Weyl fermions; g_s counts the plasma it decouples from):
+    #  (a) even part c_Z: Z coupling r times the neutrino's; below the Z mass its neutral-current rate is r^2 times the neutrino's,
+    #      so it decouples at T = 2.6 MeV r^{-2/3} (FROM MEMORY: a species with neutral-current interactions only decouples near
+    #      2.6 MeV); at the Z-width bound this is still in the plasma of photons, e+- and three neutrinos (g_s = 10.75);
+    #  (b) oriented part c'_Z: Psi_A^odd <-> Psi_A^fold + Z and Psi_A^fold Z -> Psi_A^fold Z (Psi_A^odd exchange) keep the Psi_A
+    #      fold band in equilibrium while the heavy odd states or the Z bosons are abundant, i.e. until T ~ M/30 (g_s = 105.75: the
+    #      Standard Model without a Higgs particle; right-handed neutrinos never thermalised) or, for c'_Z of the size of the
+    #      neutrino's Z coupling, until the Z bosons annihilate near T ~ 15 GeV (g_s = 86.25: t, W, Z gone).
+    # Delta N_eff = 2 (10.75/g_s)^{4/3} x F, F = [(T_nu/T_gamma)(11/4)^{1/3}/(1 + heating)]^4 the correction for the non-instantaneous
+    # neutrino decoupling (the fold band, decoupled long before, is not heated by e+e- annihilation), from um2_neutrino.py.
+    nu = read_json(os.path.join(OUT, 'neutrino.json'))
+    run_ = nu['N_eff_runs']['FD_common_NLO']
+    Fnon = (run_['Tnu_e_over_Tgamma'] * (11.0 / 4.0) ** (1.0 / 3.0) / (1 + run_['heating_Te_a'])) ** 4
+    Neff_sm = nu['N_eff_adopted']['value']
+
+    def dNeff(gs, nweyl=2):
+        return nweyl * (10.75 / gs) ** (4.0 / 3.0) * Fnon
+    g_s = {'neutrino plasma (photons, e+-, 3 nu)': 10.75, 'just above the QCD crossover (+ gluons, u, d, s, mu)': 61.75,
+           'after t, W, Z annihilation (T ~ 15 GeV)': 86.25, 'above the electroweak scale (Standard Model without a Higgs particle)': 105.75}
     T_nu_dec = 2.6e-3
     T_dec_at_bound = T_nu_dec * r2_max ** (-1.0 / 3.0)
-    dNeff_at_bound = 2.0 * (10.75 / 10.75) ** (4.0 / 3.0) if T_dec_at_bound < 0.03 else None
-    alphaZ = (4 * math.pi / val('alpha_inv_0')) / (4 * math.pi) / (1 - val('sin2_theta_W_MSbar')) / val('sin2_theta_W_MSbar')
-    MPl = val('M_Pl_GeV')
-    gstar_EW = 105.75
-    r2_never = 1.66 * math.sqrt(gstar_EW) * 100.0 / (0.1 * alphaZ ** 2 * MPl)        # Gamma/H < 1 at T = 100 GeV
-    out['Psi_A_thermalisation'] = {'T_dec_GeV_at_Z_width_bound': T_dec_at_bound, 'Delta_Neff_at_Z_width_bound': dNeff_at_bound,
-                                   'alpha_Z': alphaZ, 'r2_for_no_thermalisation_above_EW_ESTIMATE': r2_never}
+    dN_a = dNeff(10.75) if T_dec_at_bound < 0.03 else None
+    dN_b = (dNeff(105.75), dNeff(86.25))
     Neff_cmb, dNeff_cmb = val('N_eff_Planck2018'), INPUTS['N_eff_Planck2018'][1]
-    out['Psi_A_thermalisation']['N_eff_Planck2018'] = [Neff_cmb, dNeff_cmb]
-    rep.check('Psi_A_decoupled_from_Z', dNeff_at_bound is not None and (3.0432 + dNeff_at_bound - Neff_cmb) / dNeff_cmb > 5 and r2_never < 1e-10,
-              'at the Z-width bound (r^2 = %.4f) the Psi_A fold band would decouple at %.1f MeV, where g_s = 10.75 (photons, e+-, three neutrinos), '
-              'so it would carry the neutrino temperature and add Delta N_eff = %.0f (excluded: N_eff = %.2f +- %.2f, Planck 2018); above the Z mass its production rate ~ 0.1 r^2 alpha_Z^2 T (alpha_Z = %.4f) stays below '
-              'the Hubble rate only for r^2 < %.0e (ESTIMATE). UM-2 therefore sets the even part of the chiral tip Z portal to zero, c_Z = 0: '
-              'the Psi_A fold band, like the Psi_B fold band, is never thermalised and is not part of the CNB; the oriented part c\'_Z (odd under '
-              'the fold reflection) keeps the decays of the heavy odd Psi_A states' % (r2_max, T_dec_at_bound * 1e3, dNeff_at_bound, Neff_cmb, dNeff_cmb,
-                                                                                 alphaZ, r2_never))
+    Neff_act, dNeff_act = val('N_eff_ACT_DR6'), INPUTS['N_eff_ACT_DR6'][1]
+    out['Psi_A_thermalisation'] = {
+        'non_instantaneous_factor_F': Fnon, 'g_s_reference_values': g_s,
+        'Delta_Neff_two_Weyl_species': {k: dNeff(v) for k, v in g_s.items()},
+        'even_part_T_dec_GeV_at_Z_width_bound': T_dec_at_bound, 'even_part_Delta_Neff_at_Z_width_bound': dN_a,
+        'oriented_part_Delta_Neff_range': list(dN_b), 'N_eff_with_oriented_part_range': [Neff_sm + dN_b[0], Neff_sm + dN_b[1]],
+        'N_eff_Planck2018': [Neff_cmb, dNeff_cmb], 'N_eff_ACT_DR6': [Neff_act, dNeff_act],
+        'pull_ACT_DR6_SM': (Neff_sm - Neff_act) / dNeff_act,
+        'pull_ACT_DR6_oriented_part': [(Neff_sm + x - Neff_act) / dNeff_act for x in dN_b],
+        'decision': 'I9 dropped: c_Z = c\'_Z = 0'}
+    out['Z_portal']['I9'] = 'dropped in the three-generation version (c_Z = c\'_Z = 0)'
+    rep.check('tip_Z_portal_dropped', dN_a is not None and (Neff_sm + dN_a - Neff_cmb) / dNeff_cmb > 5 and
+              (Neff_sm + dN_b[0] - Neff_act) / dNeff_act > 2,
+              'the chiral tip Z portal I9 of the one-generation version made the Psi_A fold band stand in for the missing nu_mu, nu_tau. '
+              'With three generations: (a) its even part c_Z is bounded by N_nu (r^2 < %.4f); at the bound the fold band would decouple at '
+              '%.1f MeV (g_s = 10.75) and add Delta N_eff = %.2f, excluded (N_eff = %.2f +- %.2f, Planck 2018; %.2f +- %.2f, ACT DR6); '
+              '(b) its oriented part c\'_Z would keep the fold band in equilibrium through Psi_A^odd <-> Psi_A^fold + Z until T ~ M/30 or '
+              'until the Z bosons annihilate (ESTIMATE), adding Delta N_eff = %.4f to %.4f (g_s = 105.75 to 86.25, with the factor %.4f of '
+              'non-instantaneous neutrino decoupling): N_eff = %.3f to %.3f, %.1f to %.1f standard deviations above ACT DR6 (the Standard '
+              'Model value %.4f: %.1f). UM-2 therefore drops I9 (c_Z = c\'_Z = 0): N_nu = 3 exactly; neither fold band is ever thermalised '
+              '(no tip operator, zero scalar density for I12, c_V = 0 for I11); both halves keep an exact fold parity, so the lightest odd '
+              'states of Psi_A and of Psi_B are both stable (um2_analysis.py, part B)' % (
+                  r2_max, T_dec_at_bound * 1e3, dN_a, Neff_cmb, dNeff_cmb, Neff_act, dNeff_act, dN_b[0], dN_b[1], Fnon,
+                  Neff_sm + dN_b[0], Neff_sm + dN_b[1], (Neff_sm + dN_b[0] - Neff_act) / dNeff_act,
+                  (Neff_sm + dN_b[1] - Neff_act) / dNeff_act, Neff_sm, (Neff_sm - Neff_act) / dNeff_act))
     # Z widths of three generations (tree level, massless fermions; hadronic channels with the QCD factor 1 + alpha_s/pi for comparison)
     GF = val('G_F_GeV-2')
     mZ = val('m_Z_GeV')

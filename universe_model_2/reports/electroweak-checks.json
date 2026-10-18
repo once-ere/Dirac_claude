@@ -67,12 +67,12 @@
    "passed": true
   },
   {
-   "detail": "Z charge density u^dagger P_+ u at the tip: Psi_A fold band a0(-L)^2 = 1.629960e-01 per unit length in each of its 4 blocks, Psi_B fold band 0 exactly",
+   "detail": "chiral tip charge density u^dagger P_+ u (what a chiral tip Z portal would couple to; UM-2 has none): Psi_A fold band a0(-L)^2 = 1.629960e-01 per unit length in each of its 4 blocks, Psi_B fold band 0 exactly",
    "name": "Z_charge_fold_band",
    "passed": true
   },
   {
-   "detail": "Psi_A dark-matter states: a_DM(-L)^2 = 2.573448e-01; Psi_B dark-matter states: 0 exactly, and every transition current Psibar_A gamma^mu P_+ Psi_B and Psibar_B gamma^mu P_+ Psi_A vanishes at the tip (P_+ Psi_B = 0 there)",
+   "detail": "lowest odd states: Psi_A a_DM(-L)^2 = 2.573448e-01; Psi_B 0 exactly, and every transition current Psibar_A gamma^mu P_+ Psi_B and Psibar_B gamma^mu P_+ Psi_A vanishes at the tip (P_+ Psi_B = 0 there)",
    "name": "Z_charge_dark_matter",
    "passed": true
   },
@@ -82,8 +82,8 @@
    "passed": true
   },
   {
-   "detail": "at the Z-width bound (r^2 = 0.0056) the Psi_A fold band would decouple at 14.7 MeV, where g_s = 10.75 (photons, e+-, three neutrinos), so it would carry the neutrino temperature and add Delta N_eff = 2 (excluded: N_eff = 2.99 +- 0.17, Planck 2018); above the Z mass its production rate ~ 0.1 r^2 alpha_Z^2 T (alpha_Z = 0.0411) stays below the Hubble rate only for r^2 < 8e-13 (ESTIMATE). UM-2 therefore sets the even part of the chiral tip Z portal to zero, c_Z = 0: the Psi_A fold band, like the Psi_B fold band, is never thermalised and is not part of the CNB; the oriented part c'_Z (odd under the fold reflection) keeps the decays of the heavy odd Psi_A states",
-   "name": "Psi_A_decoupled_from_Z",
+   "detail": "the chiral tip Z portal I9 of the one-generation version made the Psi_A fold band stand in for the missing nu_mu, nu_tau. With three generations: (a) its even part c_Z is bounded by N_nu (r^2 < 0.0056); at the bound the fold band would decouple at 14.7 MeV (g_s = 10.75) and add Delta N_eff = 2.02, excluded (N_eff = 2.99 +- 0.17, Planck 2018; 2.86 +- 0.13, ACT DR6); (b) its oriented part c'_Z would keep the fold band in equilibrium through Psi_A^odd <-> Psi_A^fold + Z until T ~ M/30 or until the Z bosons annihilate (ESTIMATE), adding Delta N_eff = 0.0958 to 0.1257 (g_s = 105.75 to 86.25, with the factor 1.0095 of non-instantaneous neutrino decoupling): N_eff = 3.139 to 3.169, 2.1 to 2.4 standard deviations above ACT DR6 (the Standard Model value 3.0432: 1.4). UM-2 therefore drops I9 (c_Z = c'_Z = 0): N_nu = 3 exactly; neither fold band is ever thermalised (no tip operator, zero scalar density for I12, c_V = 0 for I11); both halves keep an exact fold parity, so the lightest odd states of Psi_A and of Psi_B are both stable (um2_analysis.py, part B)",
+   "name": "tip_Z_portal_dropped",
    "passed": true
   },
   {

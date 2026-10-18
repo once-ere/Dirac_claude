@@ -1,33 +1,38 @@
 {
- "check_count": 5,
+ "check_count": 6,
  "checks": [
   {
-   "detail": "100 theta_* = 1.04113 (UM-2) and 1.04114 (LCDM); H0 = 67.43 and 67.34 km/s/Mpc",
+   "detail": "100 theta_* = 1.04114 (UM-2) and 1.04114 (LCDM); H0 = 67.37 and 67.34 km/s/Mpc",
    "name": "theta_star_matched",
    "passed": true
   },
   {
-   "detail": "UM-2 TT and EE spectra agree with Planck LCDM to 2.22e-04 and 3.75e-04 (relative, 30 <= l <= 2500), at most 0.01 of the cosmic variance of a single multipole",
+   "detail": "CAMB evolves the three mass eigenstates separately (each with N_eff = 1.0144; masses m_i deg^{-1/4} after 13 iterations, reproducing m_i = 1.0000, 8.7121, 50.1398 meV to 7.8e-12); sum m_nu = 0.0599 eV (normal-ordering minimum 0.0588 eV) below the DESI DR2 bound 0.064 eV (95 %, LCDM), which allows m_1 < 4.1 meV; Omega_nu h^2 today = 6.4511e-04 (CAMB), 6.4510e-04 from um2_neutrino.py (instantaneous decoupling) times deg^{3/4} (ratio 1.00002)",
+   "name": "three_massive_neutrinos",
+   "passed": true
+  },
+  {
+   "detail": "UM-2 TT and EE spectra agree with Planck LCDM to 2.80e-04 and 2.80e-04 (relative, 30 <= l <= 2500), at most 0.01 of the cosmic variance of a single multipole; binned full-sky cosmic-variance chi^2 of TT = 0.023; by themselves the three mass eigenstates (59.9 meV in three states instead of 60 meV in one) move TT, EE by 2.6e-04, 2.3e-04 and N_eff = 3.0432 instead of 3.044 by 1.3e-04, 1.3e-04",
    "name": "cmb_spectra_close_to_lcdm",
    "passed": true
   },
   {
-   "detail": "DESI DR2 BAO chi^2 = 30.31 for 13 measurements (LCDM with Planck parameters: 32.55; with thermalised Psi_B: 15.97)",
+   "detail": "DESI DR2 BAO chi^2 = 31.72 for 13 measurements (LCDM with Planck parameters: 32.55; with dark radiation Delta N_eff = 0.0958: 15.43; 0.1963: 10.65)",
    "name": "bao_desi",
    "passed": true
   },
   {
-   "detail": "variant with the Psi_B fold band thermalised above the QCD crossover (Delta N_eff = 2 (10.75/47.75)^{4/3} = 0.2739; 0.2176 for decoupling above the electroweak scale, g_s = 56.75), N_eff = 3.318, at fixed Planck omega_b, omega_c, theta_*: TT changes by up to 4.24e-02 (2.1 cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 = 2314): it is NOT a fit to the CMB; a joint CMB + BAO fit of this variant is OPEN",
-   "name": "psiB_variant_cmb_shift",
+   "detail": "variants with a thermalised fold band of dirac16complex (two Weyl species, Delta N_eff = 2 (10.75/g_s)^{4/3} x 1.0095): N_eff = 3.1390 (g_s = 105.75) and 3.2395 (g_s = 61.75), 2.1 and 2.9 standard deviations above ACT DR6 (2.86 +- 0.13; UM-2: 1.4); at fixed Planck omega_b, omega_c, theta_* the TT spectrum moves by up to 1.52e-02 and 3.07e-02 (0.8 and 1.5 cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 293 and 1208): neither is a fit to the CMB; UM-2 contains no such thermalisation (um2_electroweak.py)",
+   "name": "dark_radiation_variants",
    "passed": true
   },
   {
-   "detail": "N_eff = 3.0440 (BBN helium fraction Y_He = 0.24566 from the CAMB/BBN interpolation, LCDM 0.24566)",
+   "detail": "N_eff = 3.0432, all of it in the three massive eigenstates (BBN helium fraction Y_He = 0.24566 from the CAMB/BBN interpolation, LCDM 0.24566)",
    "name": "neff_and_helium",
    "passed": true
   }
  ],
- "description": "UM-2: CMB (TT, EE), CNB and BAO of the four-dimensional effective theory with the UM-2 particle content (CAMB), compared with Planck 2018 LCDM and DESI DR2 BAO",
+ "description": "UM-2: CMB (TT, EE), CNB and BAO of the four-dimensional effective theory with the UM-2 particle content of three generations (CAMB), compared with Planck 2018 LCDM and DESI DR2 BAO",
  "environment": {
   "python": "3.13.16"
  },

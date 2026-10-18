@@ -39,6 +39,8 @@ INPUTS = {
     'B_Z_ll': (0.033658, 0.000023, 'PDG 2025, Z branching fraction to l+l- (lepton-universality average), (3.3658 +- 0.0023) %', 'verified'),
     # the CMB value of N_eff
     'N_eff_Planck2018': (2.99, 0.17, 'Planck 2018 VI, A&A 641 (2020) A6, abstract: N_eff = 2.99 +- 0.17 (Planck + BAO)', 'verified'),
+    'N_eff_ACT_DR6': (2.86, 0.13, 'ACT DR6 extended models, Calabrese et al., arXiv:2503.14454, abstract: N_eff = 2.86 +- 0.13 (2.89 +- 0.11 '
+                      'with BBN)', 'verified'),
     'm_p_MeV': (938.272, None, 'PDG', 'memory'),
     'm_n_MeV': (939.565, None, 'PDG', 'memory'),
     'hbar_c_GeV_m': (1.973269804e-16, None, 'hbar c in GeV m (CODATA)', 'memory'),

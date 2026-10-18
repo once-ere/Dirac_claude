@@ -1,15 +1,45 @@
 {
  "Psi_A_thermalisation": {
-  "Delta_Neff_at_Z_width_bound": 2.0,
+  "Delta_Neff_two_Weyl_species": {
+   "above the electroweak scale (Standard Model without a Higgs particle)": 0.0957871730997,
+   "after t, W, Z annihilation (T ~ 15 GeV)": 0.125700127872,
+   "just above the QCD crossover (+ gluons, u, d, s, mu)": 0.196260051545,
+   "neutrino plasma (photons, e+-, 3 nu)": 2.01900117711
+  },
+  "N_eff_ACT_DR6": [
+   2.86,
+   0.13
+  ],
   "N_eff_Planck2018": [
    2.99,
    0.17
   ],
-  "T_dec_GeV_at_Z_width_bound": 0.0146850587027,
-  "alpha_Z": 0.0410523342645,
-  "r2_for_no_thermalisation_above_EW_ESTIMATE": 8.29638528031e-13
+  "N_eff_with_oriented_part_range": [
+   3.1389871731,
+   3.16890012787
+  ],
+  "decision": "I9 dropped: c_Z = c'_Z = 0",
+  "even_part_Delta_Neff_at_Z_width_bound": 2.01900117711,
+  "even_part_T_dec_GeV_at_Z_width_bound": 0.0146850587027,
+  "g_s_reference_values": {
+   "above the electroweak scale (Standard Model without a Higgs particle)": 105.75,
+   "after t, W, Z annihilation (T ~ 15 GeV)": 86.25,
+   "just above the QCD crossover (+ gluons, u, d, s, mu)": 61.75,
+   "neutrino plasma (photons, e+-, 3 nu)": 10.75
+  },
+  "non_instantaneous_factor_F": 1.00950058855,
+  "oriented_part_Delta_Neff_range": [
+   0.0957871730997,
+   0.125700127872
+  ],
+  "pull_ACT_DR6_SM": 1.40923076923,
+  "pull_ACT_DR6_oriented_part": [
+   2.14605517769,
+   2.37615482979
+  ]
  },
  "Z_portal": {
+  "I9": "dropped in the three-generation version (c_Z = c'_Z = 0)",
   "N_nu": 2.9963,
   "N_nu_model": 3.0,
   "N_nu_uncertainty": 0.0074,

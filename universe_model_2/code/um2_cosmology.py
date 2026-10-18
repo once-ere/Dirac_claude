@@ -5,17 +5,22 @@ effective theory, solved with the Einstein-Boltzmann code CAMB.
 The four-dimensional effective theory of the stabilised block is EXACT general relativity with Newton's constant
 G_N = kappa/(8 pi V_perp G(k*)) and the cosmological term Lambda4 (the dimensional reduction of the Lovelock densities on
 M4 x block gives G(k*) R4 + (topological GB4) + 0 x (cubic, vanishing in 4D) - 2 Lambda4: um2_background.py), so the
-linear perturbations obey the standard Einstein-Boltzmann equations.  The model's particle content enters through:
-  photons; one neutrino species nu_e (Dirac, m_nu = 0.05 eV, its right-handed partner never thermalised);
-  the Psi_A fold band: two massless Weyl species with the neutrino's Z coupling (r^2 = 0.992), decoupled with the
-  neutrinos (T = T_nu): N_eff = 3.044 in total;
-  optionally the Psi_B fold band (two sterile Weyl species) if it was thermalised above the QCD crossover:
-  Delta N_eff = 2 (10.75/g_s)^{4/3} with g_s counting the plasma it decouples from (photons, gluons, u, d, e, nu_e and the two
-  Psi_A species): 0.274 for decoupling just above the QCD crossover (g_s = 47.75), 0.218 above the electroweak scale (g_s = 56.75);
-  baryons (u, d confined in p, n; omega_b), dark matter (the Psi_B odd quanta; omega_c), Lambda4 (flatness).
-The comparison model is Planck 2018 LCDM (three neutrinos, sum m_nu = 0.06 eV).  theta_* is held at the Planck value
-(H0 fitted), so the CMB peaks match and the BAO are a test.
-Writes outputs/cosmology.json, figures/fig_cmb_*.png, fig_bao.png, reports/cosmology-checks.json.
+linear perturbations obey the standard Einstein-Boltzmann equations.  The model's particle content (three generations,
+version of 2026-10-18) enters through:
+  photons; the three neutrino mass eigenstates nu_1, nu_2, nu_3 (Dirac; masses 1.000, 8.712, 50.140 meV from um2_spectra.py:
+  normal ordering, NuFIT 6.0 splittings, lightest mass 1 meV ASSUMED; the right-handed partners never thermalised), an
+  incoherent mixture of mass eigenstates after decoupling, with N_eff = 3.0432 (the three-flavour Standard-Model value with
+  non-instantaneous decoupling, QED corrections and oscillations; um2_neutrino.py reproduces it to 0.005), shared equally
+  by the three eigenstates (CAMB degeneracy 3.0432/3 each; CAMB's mass of eigenstate i is m_i (3.0432/3)^{-1/4} so that the
+  late-time density is m_i n_nu (3.0432/3)^{3/4});
+  no dark radiation: the fold bands of dirac16complex are never thermalised (no tip Z portal, zero scalar density for I12,
+  c_V = 0 for I11; um2_electroweak.py);
+  variants with dark radiation: two Weyl species (a fold band) thermalised and decoupled with g_s = 105.75 (above the
+  electroweak scale, Delta N_eff = 0.0958) or g_s = 61.75 (just above the QCD crossover, Delta N_eff = 0.1963);
+  baryons (omega_b), dark matter (the odd quanta of Psi_A and Psi_B; omega_c), Lambda4 (flatness).
+The comparison model is LCDM with the Planck 2018 parameters (CAMB defaults: one massive neutrino of 0.06 eV, N_eff = 3.044).
+theta_* is held at the Planck value (H0 fitted), so the CMB peaks match and the BAO are a test.
+Writes outputs/cosmology.json, figures/fig_cmb_spectra.png, fig_bao.png, reports/cosmology-checks.json.
 """
 import math
 import os
@@ -25,6 +30,7 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from um2_common import FIG, OUT, Report, read_json, write_json  # noqa: E402
+from um2_constants import INPUTS, NUFIT60_NO, SUM_MNU_BOUND_EV, val  # noqa: E402
 
 PLANCK = {'ombh2': 0.02237, 'omch2': 0.1200, 'cosmomc_theta': 1.04092e-2, 'tau': 0.0544, 'As': math.exp(3.044) * 1e-10,
           'ns': 0.9649}
@@ -40,14 +46,58 @@ DESI = [
 ]
 
 
-def run(name, num_massive, mnu, nnu, lmax=2600):
+KB_EV_PER_K = None     # set in main() from the constants
+
+
+def nu_setup(pars, masses, neff_nu, dN):
+    """Three distinct massive eigenstates, each with N_eff = neff_nu/3, plus dN massless species (dark radiation).  CAMB gives
+    each massive eigenstate the density deg x rho_FD(m'; T_nu) with T_nu = (4/11)^{1/3} T_CMB; the physical heated spectrum has
+    the number density n_nu deg^{3/4}, so m' = m deg^{-1/4} reproduces the late-time density m n_nu deg^{3/4}.  CAMB finds m'
+    from omnuh2 x fraction by inverting the full (relativistic) density, so omnuh2 and the fractions are iterated until the
+    three masses agree."""
+    import camb
+    deg = neff_nu / 3.0
+    Tnu = pars.TCMB * (4.0 / 11.0) ** (1.0 / 3.0)
+    target = np.array([m * deg ** -0.25 / (KB_EV_PER_K * Tnu) for m in masses])       # CAMB's m'/T_nu
+    om = np.array([m * deg ** 0.75 for m in masses]) / camb.constants.neutrino_mass_fac
+    pars.num_nu_massive = 3
+    pars.nu_mass_eigenstates = 3
+    pars.nu_mass_numbers = [1, 1, 1]
+    pars.nu_mass_degeneracies = [deg] * 3
+    pars.num_nu_massless = dN
+    pars.share_delta_neff = False
+    hist = []
+    for it in range(60):
+        pars.omnuh2 = float(np.sum(om))
+        pars.nu_mass_fractions = list(om / np.sum(om))
+        got = np.array(list(camb.get_background(pars, no_thermo=True).nu_masses)[:3])
+        err = got / target - 1
+        hist.append(float(np.max(np.abs(err))))
+        if np.max(np.abs(err)) < 1e-11:
+            break
+        # d ln m'/d ln omega >= 1 (= 1 for a non-relativistic state): a damped Newton step in log space
+        om = om * (target / got) ** 0.8
+    return got * KB_EV_PER_K * Tnu, hist
+
+
+def run(name, masses=None, neff_nu=3.044, dN=0.0, lmax=2600):
+    """masses = None: LCDM with the CAMB defaults (one massive neutrino of 0.06 eV, N_eff = neff_nu, default 3.044)."""
     import camb
     pars = camb.CAMBparams()
-    pars.set_cosmology(ombh2=PLANCK['ombh2'], omch2=PLANCK['omch2'], cosmomc_theta=PLANCK['cosmomc_theta'], tau=PLANCK['tau'],
-                       mnu=mnu, num_massive_neutrinos=num_massive, nnu=nnu, neutrino_hierarchy='degenerate')
+    if masses is None:
+        pars.set_cosmology(ombh2=PLANCK['ombh2'], omch2=PLANCK['omch2'], cosmomc_theta=PLANCK['cosmomc_theta'], tau=PLANCK['tau'],
+                           mnu=0.06, num_massive_neutrinos=1, nnu=neff_nu, neutrino_hierarchy='degenerate')
+        mcamb, hist = [0.06], []
+    else:
+        pars.set_cosmology(H0=67.0, ombh2=PLANCK['ombh2'], omch2=PLANCK['omch2'], tau=PLANCK['tau'], mnu=float(sum(masses)),
+                           num_massive_neutrinos=3, nnu=neff_nu + dN, standard_neutrino_neff=neff_nu, neutrino_hierarchy='degenerate')
+        mcamb, hist = nu_setup(pars, masses, neff_nu, dN)
+        pars.set_H0_for_theta(PLANCK['cosmomc_theta'], cosmomc_approx=True)
     pars.InitPower.set_params(As=PLANCK['As'], ns=PLANCK['ns'])
     pars.set_for_lmax(lmax, lens_potential_accuracy=1)
     res = camb.get_results(pars)
+    if masses is not None:          # the masses of the final run (after the H0 search), not those of the iteration
+        mcamb = [float(x) * KB_EV_PER_K * pars.TCMB * (4.0 / 11.0) ** (1.0 / 3.0) for x in list(res.nu_masses)[:3]]
     der = res.get_derived_params()
     cls = res.get_cmb_power_spectra(pars, CMB_unit='muK', raw_cl=False)['total']
     rd = der['rdrag']
@@ -65,8 +115,12 @@ def run(name, num_massive, mnu, nnu, lmax=2600):
             Cm = np.array([[dm[1] ** 2, r * dm[1] * dh[1]], [r * dm[1] * dh[1], dh[1] ** 2]])
             chi2 += float(d @ np.linalg.solve(Cm, d))
         bao.append(row)
+    nnu = pars.N_eff
     out = {'name': name, 'H0': pars.H0, 'omegam': (pars.ombh2 + pars.omch2 + pars.omnuh2) / (pars.H0 / 100) ** 2,
-           'Neff': nnu, 'mnu_sum_eV': mnu, 'num_massive': num_massive,
+           'Neff': nnu, 'Neff_massive': float(sum(list(pars.nu_mass_degeneracies)[:pars.nu_mass_eigenstates])),
+           'Neff_massless': pars.num_nu_massless, 'mnu_sum_eV': float(sum(masses)) if masses is not None else 0.06,
+           'num_massive': pars.num_nu_massive, 'camb_masses_eV': [float(x) for x in mcamb], 'camb_mass_iteration': hist,
+           'omnuh2': pars.omnuh2, 'omnuh2_camb_today': res.get_Omega('nu') * (pars.H0 / 100) ** 2,
            'theta_star_100': der['thetastar'], 'z_star': der['zstar'], 'r_star': der['rstar'], 'z_drag': der['zdrag'],
            'r_drag': rd, 'age_Gyr': der['age'], 'YHe': pars.YHe, 'bao': bao, 'bao_chi2': chi2, 'bao_npts': 13,
            'cl_TT_l': [[int(l), float(cls[l, 0])] for l in (2, 10, 30, 100, 220, 300, 540, 800, 1000, 1500, 2000, 2500)]}
@@ -74,60 +128,104 @@ def run(name, num_massive, mnu, nnu, lmax=2600):
 
 
 def main():
+    global KB_EV_PER_K
+    KB_EV_PER_K = val('k_B_eV_per_K')
     rep = Report('cosmology-checks', 'UM-2: CMB (TT, EE), CNB and BAO of the four-dimensional effective theory with the UM-2 particle '
-                 'content (CAMB), compared with Planck 2018 LCDM and DESI DR2 BAO')
+                 'content of three generations (CAMB), compared with Planck 2018 LCDM and DESI DR2 BAO')
+    nu = read_json(os.path.join(OUT, 'neutrino.json'))
     ew = read_json(os.path.join(OUT, 'electroweak.json'))
-    Neff = ew['N_eff']
-    lcdm, cl0 = run('Planck 2018 LCDM (3 nu, sum 0.06 eV)', 1, 0.06, 3.044)
-    um2, cl1 = run('UM-2: nu_e (0.05 eV) + 2 Psi_A (massless), Psi_B not thermalised', 1, 0.05, Neff)
-    # g_s at neutrino decoupling: photons 2 + e 3.5 + nu_e 1.75 + Psi_A 3.5 = 10.75; just above the QCD crossover:
-    # + gluons 16 + u, d 21 = 47.75 (the Psi_B fold band is the decoupling species and is not counted)
-    dB = 2 * (10.75 / 47.75) ** (4.0 / 3.0)
-    um2b, cl2 = run('UM-2 with the Psi_B fold band thermalised above the QCD crossover', 1, 0.05, Neff + dB)
-    out = {'models': [lcdm, um2, um2b], 'Delta_Neff_PsiB_QCD': dB}
+    masses = nu['masses_eV']
+    Neff_nu = nu['N_eff_adopted']['value']
+    dr = ew['Psi_A_thermalisation']['Delta_Neff_two_Weyl_species']
+    dN_ew = dr['above the electroweak scale (Standard Model without a Higgs particle)']
+    dN_qcd = dr['just above the QCD crossover (+ gluons, u, d, s, mu)']
+    lcdm, cl0 = run('LCDM, Planck 2018 parameters (CAMB defaults: one massive neutrino 0.06 eV, N_eff = 3.044)')
+    um2, cl1 = run('UM-2: nu_1, nu_2, nu_3 (1.000, 8.712, 50.140 meV), N_eff = 3.0432, no dark radiation', masses, Neff_nu, 0.0)
+    um2e, cl2 = run('UM-2 + a fold band thermalised above the electroweak scale (Delta N_eff = %.4f)' % dN_ew, masses, Neff_nu, dN_ew)
+    um2q, cl3 = run('UM-2 + a fold band thermalised above the QCD crossover (Delta N_eff = %.4f)' % dN_qcd, masses, Neff_nu, dN_qcd)
+    # attribution of the small UM-2 - LCDM difference: each change separately
+    _, cla = run('LCDM with N_eff = 3.0432', None, Neff_nu)
+    _, clb = run('UM-2 neutrino masses with N_eff = 3.044', masses, 3.044, 0.0)
+    out = {'models': [lcdm, um2, um2e, um2q], 'Delta_Neff_dark_radiation_EW': dN_ew, 'Delta_Neff_dark_radiation_QCD': dN_qcd}
     # comparisons
     l = np.arange(cl0.shape[0])
     sel = (l >= 30) & (l <= 2500)
     dTT = np.max(np.abs(cl1[sel, 0] / cl0[sel, 0] - 1))
     dEE = np.max(np.abs(cl1[sel, 1] / cl0[sel, 1] - 1))
-    # cosmic-variance-limited relative error of a single multipole: sqrt(2/(2l+1)); compare the rms deviation in bins of 50
     cv = np.sqrt(2.0 / (2 * l[sel] + 1))
     ratio = np.abs(cl1[sel, 0] / cl0[sel, 0] - 1) / cv
-    ratio_b = np.abs(cl2[sel, 0] / cl0[sel, 0] - 1) / cv
-    out['PsiB_variant_max_rel_dev_TT'] = float(np.max(np.abs(cl2[sel, 0] / cl0[sel, 0] - 1)))
-    out['PsiB_variant_max_dev_in_cosmic_variance_units'] = float(np.max(ratio_b))
-    # binned (Delta l = 50) significance of the Psi_B variant relative to LCDM in cosmic-variance units (full sky, TT only)
-    chi2_cv = 0.0
-    for lo_ in range(30, 2500, 50):
-        mm = (l[sel] >= lo_) & (l[sel] < lo_ + 50)
-        dev = np.mean(cl2[sel, 0][mm] / cl0[sel, 0][mm] - 1)
-        err = np.sqrt(2.0 / np.sum(2 * l[sel][mm] + 1))
-        chi2_cv += (dev / err) ** 2
-    out['PsiB_variant_TT_chi2_cosmic_variance_full_sky'] = chi2_cv
+
+    def binned_chi2_cv(cla, clb):
+        """binned (Delta l = 50) TT deviation of cla from clb in full-sky cosmic-variance units"""
+        c2 = 0.0
+        for lo_ in range(30, 2500, 50):
+            mm = (l[sel] >= lo_) & (l[sel] < lo_ + 50)
+            dev = np.mean(cla[sel, 0][mm] / clb[sel, 0][mm] - 1)
+            err = np.sqrt(2.0 / np.sum(2 * l[sel][mm] + 1))
+            c2 += (dev / err) ** 2
+        return c2
+    for key, cl in (('UM2', cl1), ('dark_radiation_EW', cl2), ('dark_radiation_QCD', cl3)):
+        out[key + '_max_rel_dev_TT'] = float(np.max(np.abs(cl[sel, 0] / cl0[sel, 0] - 1)))
+        out[key + '_max_dev_in_cosmic_variance_units'] = float(np.max(np.abs(cl[sel, 0] / cl0[sel, 0] - 1) / cv))
+        out[key + '_TT_chi2_cosmic_variance_full_sky'] = binned_chi2_cv(cl, cl0)
     out['max_rel_dev_TT'] = float(dTT)
     out['max_rel_dev_EE'] = float(dEE)
+    out['attribution_max_rel_dev'] = {
+        'N_eff 3.0432 instead of 3.044 (one massive neutrino 0.06 eV)': [float(np.max(np.abs(cla[sel, k] / cl0[sel, k] - 1))) for k in (0, 1)],
+        'three eigenstates 1.000, 8.712, 50.140 meV instead of one of 60 meV (N_eff 3.044)': [
+            float(np.max(np.abs(clb[sel, k] / cl0[sel, k] - 1))) for k in (0, 1)]}
+    att = list(out['attribution_max_rel_dev'].values())
     out['max_dev_in_cosmic_variance_units'] = float(np.max(ratio))
     rep.check('theta_star_matched', abs(um2['theta_star_100'] - lcdm['theta_star_100']) < 2e-4,
               '100 theta_* = %.5f (UM-2) and %.5f (LCDM); H0 = %.2f and %.2f km/s/Mpc' % (um2['theta_star_100'], lcdm['theta_star_100'],
                                                                                     um2['H0'], lcdm['H0']))
+    # the three neutrino eigenstates in CAMB, the mass sum and its bound
+    deg = Neff_nu / 3.0
+    mphys = [m * deg ** 0.25 for m in um2['camb_masses_eV']]
+    merr = max(abs(a / b - 1) for a, b in zip(mphys, masses))
+    msum = float(sum(masses))
+    bound = SUM_MNU_BOUND_EV[0]
+    s21, s31 = NUFIT60_NO['dm2_21_eV2'][0], NUFIT60_NO['dm2_31_eV2'][0]
+    from scipy.optimize import brentq
+    m1max = brentq(lambda m1: m1 + math.sqrt(m1 * m1 + s21) + math.sqrt(m1 * m1 + s31) - bound, 0.0, bound)
+    msum_min = math.sqrt(s21) + math.sqrt(s31)
+    om_ratio = um2['omnuh2_camb_today'] / (nu['CNB']['Omega_nu_h2'] * deg ** 0.75)
+    out['neutrinos'] = {'masses_eV': masses, 'camb_masses_eV': um2['camb_masses_eV'], 'camb_masses_times_deg_quarter_eV': mphys,
+                        'sum_eV': msum, 'sum_bound_eV': bound, 'sum_min_normal_ordering_eV': msum_min,
+                        'm1_max_from_bound_eV': m1max, 'Omega_nu_h2_camb': um2['omnuh2_camb_today'],
+                        'Omega_nu_h2_um2_neutrino_times_deg34': nu['CNB']['Omega_nu_h2'] * deg ** 0.75,
+                        'camb_mass_iterations': len(um2['camb_mass_iteration'])}
+    rep.check('three_massive_neutrinos', merr < 1e-9 and msum < bound and abs(om_ratio - 1) < 2e-3,
+              'CAMB evolves the three mass eigenstates separately (each with N_eff = %.4f; masses m_i deg^{-1/4} after %d iterations, '
+              'reproducing m_i = %.4f, %.4f, %.4f meV to %.1e); sum m_nu = %.4f eV (normal-ordering minimum %.4f eV) below the DESI DR2 '
+              'bound %.3f eV (95 %%, LCDM), which allows m_1 < %.1f meV; Omega_nu h^2 today = %.4e (CAMB), %.4e from um2_neutrino.py '
+              '(instantaneous decoupling) times deg^{3/4} (ratio %.5f)' % (deg, len(um2['camb_mass_iteration']), 1e3 * masses[0], 1e3 * masses[1], 1e3 * masses[2], merr, msum,
+                             msum_min, bound, 1e3 * m1max, um2['omnuh2_camb_today'], nu['CNB']['Omega_nu_h2'] * deg ** 0.75, om_ratio))
     rep.check('cmb_spectra_close_to_lcdm', dTT < 0.01 and dEE < 0.01,
               'UM-2 TT and EE spectra agree with Planck LCDM to %.2e and %.2e (relative, 30 <= l <= 2500), at most %.2f of the cosmic variance '
-              'of a single multipole' % (dTT, dEE, np.max(ratio)))
+              'of a single multipole; binned full-sky cosmic-variance chi^2 of TT = %.3f; by themselves the three mass eigenstates (59.9 meV in '
+              'three states instead of 60 meV in one) move TT, EE by %.1e, %.1e and N_eff = 3.0432 instead of 3.044 by %.1e, %.1e' % (
+                  dTT, dEE, np.max(ratio), out['UM2_TT_chi2_cosmic_variance_full_sky'], att[1][0], att[1][1], att[0][0], att[0][1]))
     rep.check('bao_desi', um2['bao_chi2'] < 40,
-              'DESI DR2 BAO chi^2 = %.2f for 13 measurements (LCDM with Planck parameters: %.2f; with thermalised Psi_B: %.2f)' % (
-                  um2['bao_chi2'], lcdm['bao_chi2'], um2b['bao_chi2']))
-    dB_ew = 2 * (10.75 / 56.75) ** (4.0 / 3.0)
-    out['Delta_Neff_PsiB_EW'] = dB_ew
-    rep.check('psiB_variant_cmb_shift', abs(um2b['Neff'] - (Neff + dB)) < 1e-9 and abs(dB - 0.2743) < 5e-4 and abs(dB_ew - 0.2179) < 5e-4,
-              'variant with the Psi_B fold band thermalised above the QCD crossover (Delta N_eff = 2 (10.75/47.75)^{4/3} = %.4f; %.4f for decoupling '
-              'above the electroweak scale, g_s = 56.75), N_eff = %.3f, at fixed Planck omega_b, omega_c, theta_*: TT changes by up to %.2e '
-              '(%.1f cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 = %.0f): it is NOT a fit to the CMB; a joint '
-              'CMB + BAO fit of this variant is OPEN' % (dB, dB_ew, Neff + dB, out['PsiB_variant_max_rel_dev_TT'],
-                                                         out['PsiB_variant_max_dev_in_cosmic_variance_units'],
-                                                         out['PsiB_variant_TT_chi2_cosmic_variance_full_sky']))
-    rep.check('neff_and_helium', abs(um2['Neff'] - 3.044) < 1e-6,
-              'N_eff = %.4f (BBN helium fraction Y_He = %.5f from the CAMB/BBN interpolation, LCDM %.5f)' % (um2['Neff'], um2['YHe'], lcdm['YHe']))
-    out['CNB'] = ew['CNB']
+              'DESI DR2 BAO chi^2 = %.2f for 13 measurements (LCDM with Planck parameters: %.2f; with dark radiation Delta N_eff = %.4f: '
+              '%.2f; %.4f: %.2f)' % (um2['bao_chi2'], lcdm['bao_chi2'], dN_ew, um2e['bao_chi2'], dN_qcd, um2q['bao_chi2']))
+    Neff_act, dNeff_act = val('N_eff_ACT_DR6'), INPUTS['N_eff_ACT_DR6'][1]
+    rep.check('dark_radiation_variants', abs(um2e['Neff'] - (Neff_nu + dN_ew)) < 1e-9 and abs(um2q['Neff'] - (Neff_nu + dN_qcd)) < 1e-9
+              and dN_ew < dN_qcd,
+              'variants with a thermalised fold band of dirac16complex (two Weyl species, Delta N_eff = 2 (10.75/g_s)^{4/3} x 1.0095): '
+              'N_eff = %.4f (g_s = 105.75) and %.4f (g_s = 61.75), %.1f and %.1f standard deviations above ACT DR6 (%.2f +- %.2f; '
+              'UM-2: %.1f); at fixed Planck omega_b, omega_c, theta_* the TT spectrum moves by up to %.2e and %.2e (%.1f and %.1f '
+              'cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 %.0f and %.0f): neither is a fit to the '
+              'CMB; UM-2 contains no such thermalisation (um2_electroweak.py)' % (
+                  um2e['Neff'], um2q['Neff'], (um2e['Neff'] - Neff_act) / dNeff_act, (um2q['Neff'] - Neff_act) / dNeff_act, Neff_act,
+                  dNeff_act, (um2['Neff'] - Neff_act) / dNeff_act, out['dark_radiation_EW_max_rel_dev_TT'],
+                  out['dark_radiation_QCD_max_rel_dev_TT'], out['dark_radiation_EW_max_dev_in_cosmic_variance_units'],
+                  out['dark_radiation_QCD_max_dev_in_cosmic_variance_units'], out['dark_radiation_EW_TT_chi2_cosmic_variance_full_sky'],
+                  out['dark_radiation_QCD_TT_chi2_cosmic_variance_full_sky']))
+    rep.check('neff_and_helium', abs(um2['Neff'] - Neff_nu) < 1e-12 and abs(um2['Neff_massive'] - Neff_nu) < 1e-12 and um2['Neff_massless'] == 0,
+              'N_eff = %.4f, all of it in the three massive eigenstates (BBN helium fraction Y_He = %.5f from the CAMB/BBN interpolation, '
+              'LCDM %.5f)' % (um2['Neff'], um2['YHe'], lcdm['YHe']))
+    out['CNB'] = nu['CNB']
     # figures
     import matplotlib
     matplotlib.use('Agg')
@@ -136,13 +234,13 @@ def main():
     ll = l[2:2501]
     for j, (lab, col) in enumerate([('TT', 0), ('EE', 1)]):
         axs[0, j].plot(ll, cl0[2:2501, col], 'k-', lw=1.2, label='Planck 2018 LCDM')
-        axs[0, j].plot(ll, cl1[2:2501, col], 'C1--', lw=1.0, label='UM-2')
-        axs[0, j].plot(ll, cl2[2:2501, col], 'C2:', lw=1.0, label='UM-2, Psi_B thermalised')
+        axs[0, j].plot(ll, cl1[2:2501, col], 'C1--', lw=1.0, label='UM-2 (three massive neutrinos)')
+        axs[0, j].plot(ll, cl3[2:2501, col], 'C2:', lw=1.0, label='UM-2 + fold band thermalised above QCD')
         axs[0, j].set_ylabel(r'$\ell(\ell+1)C_\ell/2\pi$ [$\mu$K$^2$] (%s)' % lab)
         axs[0, j].set_xscale('log')
         axs[0, j].legend(fontsize=8)
         axs[1, j].plot(ll, cl1[2:2501, col] / cl0[2:2501, col] - 1, 'C1-', lw=0.8)
-        axs[1, j].plot(ll, cl2[2:2501, col] / cl0[2:2501, col] - 1, 'C2-', lw=0.8)
+        axs[1, j].plot(ll, cl3[2:2501, col] / cl0[2:2501, col] - 1, 'C2-', lw=0.8)
         axs[1, j].plot(ll, np.sqrt(2.0 / (2 * ll + 1)), 'k:', lw=0.6)
         axs[1, j].plot(ll, -np.sqrt(2.0 / (2 * ll + 1)), 'k:', lw=0.6)
         axs[1, j].set_xscale('log')
@@ -154,7 +252,8 @@ def main():
     plt.close(fig)
     fig, axs = plt.subplots(1, 3, figsize=(13, 3.6))
     for qi, (q, lab) in enumerate([('DV_rd', r'$D_V/r_d$'), ('DM_rd', r'$D_M/r_d$'), ('DH_rd', r'$D_H/r_d$')]):
-        for mdl, st, lab_m in [(lcdm, 'k-', 'Planck 2018 LCDM'), (um2, 'C1--', 'UM-2'), (um2b, 'C2:', 'UM-2, Psi_B thermalised')]:
+        for mdl, st, lab_m in [(lcdm, 'k-', 'Planck 2018 LCDM'), (um2, 'C1--', 'UM-2'),
+                               (um2q, 'C2:', 'UM-2 + fold band thermalised above QCD')]:
             zz = [b['z'] for b in mdl['bao']]
             axs[qi].plot(zz, [b[q] / math.sqrt(b['z']) for b in mdl['bao']], st, lw=1, label=lab_m)
         labelled = False
