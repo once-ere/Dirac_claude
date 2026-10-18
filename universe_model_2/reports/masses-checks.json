@@ -1,5 +1,5 @@
 {
- "check_count": 13,
+ "check_count": 14,
  "checks": [
   {
    "detail": "beta = 0 (photon, gluons, graviton): Lambda = 0, 9 eta^2/4 + n^2 pi^2 (n = 1, 2, 3) = ['0.0000000000', '30.1196044011', '59.7284176044', '109.0764396098']",
@@ -32,22 +32,27 @@
    "passed": true
   },
   {
-   "detail": "beta_W = 0.011932 gives rho_tree - 1 = 0.000380 (target rho0 - 1 = 0.00038); m_KK = m_W sqrt(Lambda_1/Lambda_W) = 121220.8 GeV",
+   "detail": "beta_W = 0.011912 gives rho_tree - 1 = 0.000380 (target rho0 - 1 = 0.00038) with the angle of the couplings cos^2 = (m_W/m_Z)^2/rho0 = 0.776368 (on-shell 0.776663); m_KK = m_W sqrt(Lambda_1/Lambda_W) = 121323.9 GeV",
    "name": "rho_fit",
    "passed": true
   },
   {
-   "detail": "quadratic finite elements on 100/200/400 elements, eigenvalue from the gradient-form Rayleigh quotient (observed order 4.01, Richardson) reproduce Lambda_W = 1.3237364280e-05 to 3.2e-14",
+   "detail": "the model reproduces both masses: m_W = 80.3625 GeV (input) and m_Z = m_W sqrt(Lambda_Z/Lambda_W) = 91.187900 GeV (measured 91.1879)",
+   "name": "mZ_reproduced",
+   "passed": true
+  },
+  {
+   "detail": "quadratic finite elements on 100/200/400 elements, eigenvalue from the gradient-form Rayleigh quotient (observed order 4.01, Richardson) reproduce Lambda_W = 1.3214879668e-05 to 3.1e-14",
    "name": "fem_crosscheck_W",
    "passed": true
   },
   {
-   "detail": "H = 14283.5 GeV, f* = 0.215556, proper half-cell f L = 8.934e-21 m, x0 period pi/(6H) = 7.234e-21 m, gap 3H/(2f) = 99395.1 GeV, radion 48378.8 GeV",
+   "detail": "H = 14295.6 GeV, f* = 0.215556, proper half-cell f L = 8.926e-21 m, x0 period pi/(6H) = 7.227e-21 m, gap 3H/(2f) = 99479.7 GeV, radion 48420.0 GeV",
    "name": "scales",
    "passed": true
   },
   {
-   "detail": "with the universal tip mixing kappa_f = 1 the exact x0 eigenvalues reproduce m_nu, m_e, m_u, m_d for c = nu 18.6709, e 10.3038, u 9.5448, d 9.1341",
+   "detail": "with the universal tip mixing kappa_f = 1 the exact x0 eigenvalues reproduce m_nu, m_e, m_u, m_d for c = nu 18.6714, e 10.3042, u 9.5452, d 9.1345",
    "name": "fermion_fit",
    "passed": true
   },

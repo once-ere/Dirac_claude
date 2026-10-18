@@ -7,7 +7,10 @@ y(z) = ln|sin z|/(6H), z = 6 H x0, hence periodic in x0 with period pi/(6H).
 
 Bosons (gauge fields, transverse-traceless graviton in Einstein gravity): -e^{-3 eta t} (e^{3 eta t} u')' = Lambda u,
 fold u'(0) = 0 (even) or u(0) = 0 (odd), tip u'(-1) = beta u(-1) (beta >= 0: the tip sigma field; beta = 0 for unbroken
-generators).  With u = e^{-3 eta t/2} w, q^2 = Lambda - 9 eta^2/4, the exact conditions are
+generators).  W and Z: beta_Z = beta_W/cos^2(theta_W) with theta_W the angle of the gauge couplings,
+cos^2 = g^2/(g^2 + g'^2); rho = Lambda_W/(Lambda_Z cos^2) is fitted to the measured rho0 (the custodial violation beyond the
+Standard-Model loops) and cos^2 is fixed by the measured masses, rho = m_W^2/(m_Z^2 cos^2) = rho0, i.e.
+cos^2 = (m_W/m_Z)^2/rho0, so that the model reproduces both m_W and m_Z.  With u = e^{-3 eta t/2} w, q^2 = Lambda - 9 eta^2/4, the exact conditions are
   even: [q^2 + (3 eta/2)(beta + 3 eta/2)] sin q - beta q cos q = 0,   odd: q cos q + (beta + 3 eta/2) sin q = 0
 (q = i kappa below the gap 9 eta^2/4).  Cross-checked by quadratic finite elements.
 Fermions (doublet L with c_L = f mu_L L > 0, singlet R with c_R < 0, in the selected blocks; tip mixing kappa_f):
@@ -204,8 +207,10 @@ def main():
     out['Lambda_D'] = LamD
     # --- W and Z ---
     mW, mZ = val('m_W_GeV'), val('m_Z_GeV')
-    c2 = (mW / mZ) ** 2           # on-shell: reproduces m_Z/m_W at leading order in beta
     rho_t = val('rho0_minus_1')
+    c2os = (mW / mZ) ** 2         # on-shell angle of the measured masses
+    # angle of the gauge couplings, cos^2 = g^2/(g^2 + g'^2): with the measured masses, rho = m_W^2/(m_Z^2 cos^2) = rho0
+    c2 = c2os / (1 + rho_t)
 
     def LamW(b):
         return boson_levels(eta, b, 'even', 1)[0][0]
@@ -228,11 +233,16 @@ def main():
     bZ = bW / c2
     LW, LZ = LamW(bW), LamW(bZ)
     mKK = mW * math.sqrt(Lam1 / LW)
-    out['WZ'] = {'cos2_theta_onshell': c2, 'beta_W': bW, 'beta_Z': bZ, 'Lambda_W': LW, 'Lambda_Z': LZ,
-                 'rho_minus_1': rho_minus_1(bW), 'm_KK_GeV': mKK, 'm_Z_pred_GeV': mW * math.sqrt(LZ / LW)}
+    mZpred = mW * math.sqrt(LZ / LW)
+    out['WZ'] = {'cos2_theta_onshell': c2os, 'cos2_theta_couplings': c2, 'sin2_theta_couplings': 1 - c2, 'beta_W': bW,
+                 'beta_Z': bZ, 'Lambda_W': LW, 'Lambda_Z': LZ, 'rho_minus_1': rho_minus_1(bW), 'm_KK_GeV': mKK,
+                 'm_Z_pred_GeV': mZpred}
     rep.check('rho_fit', abs(rho_minus_1(bW) - rho_t) < 1e-8,
-              'beta_W = %.6f gives rho_tree - 1 = %.6f (target rho0 - 1 = %.5f); m_KK = m_W sqrt(Lambda_1/Lambda_W) = %.1f GeV' % (
-                  bW, rho_minus_1(bW), rho_t, mKK))
+              'beta_W = %.6f gives rho_tree - 1 = %.6f (target rho0 - 1 = %.5f) with the angle of the couplings cos^2 = (m_W/m_Z)^2/rho0 '
+              '= %.6f (on-shell %.6f); m_KK = m_W sqrt(Lambda_1/Lambda_W) = %.1f GeV' % (bW, rho_minus_1(bW), rho_t, c2, c2os, mKK))
+    rep.check('mZ_reproduced', abs(mZpred - mZ) / mZ < 1e-8,
+              'the model reproduces both masses: m_W = %.4f GeV (input) and m_Z = m_W sqrt(Lambda_Z/Lambda_W) = %.6f GeV (measured %.4f)' % (
+                  mW, mZpred, mZ))
     # FEM cross-check of the W level
     fW = [boson_fem(eta, bW, 'even', ne, 1, refine=True)[0] for ne in (100, 200, 400)]
     femW = (16 * fW[2] - fW[1]) / 15          # P2 eigenvalue error O(h^4): Richardson
