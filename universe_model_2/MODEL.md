@@ -235,7 +235,11 @@ $$ S_{gauge} = -\frac14\int d^8x\sqrt{|g|}\,g^{MP}g^{NQ}\Big(\frac{1}{\hat g_s^2
 $$ G^\alpha_{MN} = \partial_MG^\alpha_N - \partial_NG^\alpha_M + f^{\alpha\beta\gamma}G^\beta_MG^\gamma_N,\quad
    W^a_{MN} = \partial_MW^a_N - \partial_NW^a_M + \epsilon^{abc}W^b_MW^c_N,\quad B_{MN} = \partial_MB_N - \partial_NB_M . $$
 The four-dimensional couplings are $g_s^2 = \hat g_s^2/V_\perp$, $g^2 = \hat g^2/V_\perp$, $g'^2 = \hat g'^2/V_\perp$, where
-$V_\perp$ is the proper volume of the block per unit 4-volume (section 7). The physical fields are
+$V_\perp$ is the proper volume of the block per unit 4-volume (section 7). In this geometric normalisation the couplings
+stand in front of the kinetic terms and not in the covariant derivatives; the dimensions are $[G_M] = [W_M] = [B_M] = 1$,
+$[\hat g^2] = -4$ (mass units), and the four-dimensional couplings are dimensionless. From here on $W^\pm$, $Z$, $A$
+and every formula that shows $\hat g$, $\hat g'$ explicitly refer to the canonically normalised fields
+$W^a/\hat g$, $B/\hat g'$, $G^\alpha/\hat g_s$ (written with the same letters). The physical fields are
 $$ W^\pm_M = \frac{W^1_M \mp iW^2_M}{\sqrt2},\qquad Z_M = \cos\theta_W\,W^3_M - \sin\theta_W\,B_M,\qquad
    A_M = \sin\theta_W\,W^3_M + \cos\theta_W\,B_M,\qquad \tan\theta_W = \frac{g'}{g} . $$
 **$W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$** ($[T_3, T_\pm] = \pm T_\pm$, $Y(W) = 0$; $W^-$ is the
@@ -312,7 +316,8 @@ $$ S_{I9} = \int_{y=-L} d^7x\,\sqrt{|g_{tip}|}\,\big[c_Z\,(\bar\Psi\gamma^\mu P_
 where $\varsigma = \pm1$ distinguishes the two sides of a tip (the end $z \to n\pi^+$ of one period and the end
 $z \to n\pi^-$ of the previous one). In the unitary gauge
 $\frac{i v_\Sigma^2}{2}\mathrm{tr}(\Sigma^\dagger D_\mu\Sigma\tau^3) = \frac{v_\Sigma^2}{2}\sqrt{\hat g^2 + \hat g'^2}\,Z_\mu$: the
-operator couples $\Psi$ to the $Z$ and to nothing else. Properties (DERIVED):
+operator couples $\Psi$ to the $Z$ and to nothing else ($c_Z$, $c'_Z$ have mass dimension $-6$ on the seven-dimensional
+tip, where $[v_\Sigma^2] = 5$; only the ratio $r$ below enters the results). Properties (DERIVED):
 
 * $P_+$ is a Hermitian projector that commutes with the 4D Lorentz generators and with $C\gamma^\mu$, so
   $\bar\Psi\gamma^\mu P_+\Psi = (P_+\Psi)^\dagger C\gamma^\mu(P_+\Psi)$ is the four-vector current of the $\Gamma_4 = +1$ part;
@@ -328,14 +333,17 @@ The coupling is fixed by the $Z$ invisible width: the $Z$-coupling of the $\Psi_
 neutrino's ($r^2 = 0.992 \pm 0.004$; section 10).
 
 **I11: the vector contact portal.**
-$$ S_{I11} = \int d^8x\,\sqrt{|g|}\;\frac{c_V}{\Lambda_D^{6}}\,(\bar\Psi\gamma^M\Psi)\sum_{\psi}q_\psi\,(\bar\psi\gamma_M\psi), $$
-summed over the multiplets with charges $q_\psi$ (each term is separately gauge invariant). It couples both halves of
+$$ S_{I11} = \int d^8x\,\sqrt{|g|}\;\frac{c_V}{\Lambda_\star^{6}}\,(\bar\Psi\gamma^M\Psi)\sum_{\psi}q_\psi\,(\bar\psi\gamma_M\psi), $$
+summed over the multiplets with charges $q_\psi$ (each term is separately gauge invariant); $\Lambda_\star$ is the common
+scale of the two bulk portals I11 and I12, and $c_V$ is dimensionless ($[\bar\Psi\gamma^M\Psi] = [\bar\psi\gamma_M\psi] = 7$). It couples both halves of
 $\Psi$, including the fold bands, to the fermion currents. To keep the sterile $\Psi_B$ fold band out of thermal
 equilibrium it must be weak: UM-2 sets $c_V = 0$ in the benchmark and computes only the linear response of $\Psi$ to it
 (section 9).
 
 **I12: the gauge-kinetic scalar portal.**
-$$ S_{I12} = -\int d^8x\,\sqrt{|g|}\;\frac{\bar\Psi\Psi}{\Lambda_D^{5}}\Big[c_G\,G^\alpha_{MN}G^{\alpha MN} + c_W\,W^a_{MN}W^{aMN} + c_B\,B_{MN}B^{MN}\Big] .$$
+$$ S_{I12} = -\int d^8x\,\sqrt{|g|}\;\frac{\bar\Psi\Psi}{\Lambda_\star^{3}}\Big[c_G\,G^\alpha_{MN}G^{\alpha MN} + c_W\,W^a_{MN}W^{aMN} + c_B\,B_{MN}B^{MN}\Big] $$
+(field strengths in the geometric normalisation of section 5.4; $c_G, c_W, c_B$ dimensionless, since
+$[\bar\Psi\Psi] = 7$ and $[G_{MN}G^{MN}] = 4$).
 With $W^aW^a = 2W^+_{MN}W^{-MN} + W^3W^3 + \dots$ and $W^3 = \cos\theta_W Z + \sin\theta_W A$, $B = -\sin\theta_W Z + \cos\theta_W A$,
 it couples $\bar\Psi\Psi$ to the pairs $W^+W^-$, $ZZ$, $Z\gamma$, $\gamma\gamma$ and gluon pairs. The scalar density of every
 chiral zero mode vanishes identically (its lower component is zero), so **I12 does not touch the massless fold bands**;
@@ -599,9 +607,11 @@ is cold ($w = 0$ at rest), electrically neutral and $Z$-neutral exactly at tree 
 stable as long as the fold parity of $\Psi_B$ is exact (it is a symmetry of every interaction that reaches $\Psi_B$) and
 $N_B$ is conserved. 90 % of its $\varepsilon^2$ is $x_0$ momentum: its mass is the author's $x_0$ mechanism in the
 Heisenberg sense. A thermal relic through I12 (p-wave annihilation into $W^+W^-$, $ZZ$, $Z\gamma$, $\gamma\gamma$, gluon pairs)
-needs $\langle\sigma v\rangle(x_f) = 1.37\times10^{-25}$ cm$^3$/s, i.e.
-$(8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (16.6\ \text{TeV})^{-3}$ for the four-dimensional coefficients $G_i = c_i/\Lambda_D^5 \times$
-(overlap), below the unitarity scale; direct detection is far below current limits.
+needs $\langle\sigma v\rangle(x_f) = 1.37\times10^{-25}$ cm$^3$/s, below the thermal unitarity scale, i.e.
+$(8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (16.6\ \text{TeV})^{-3}$ for the four-dimensional coefficients of
+$G_i\,\bar\chi\chi F^i_{\mu\nu}F^{i\mu\nu}$ (canonical fields), $G_i = \mathcal O\,c_i\,g_i^2/\Lambda_\star^3$ with $g_i$ the
+four-dimensional gauge couplings and $\mathcal O = \partial\varepsilon_{DM}/\partial m = 0.7072$ the response of the
+dark-matter level to a uniform mass shift (DERIVED, Hellmann-Feynman); direct detection is far below current limits.
 
 **Dark energy (NOT SUPPORTED).** No positive-energy state of $\Psi$ has $w < 0$ on the static block; a $\lambda < 0$
 condensate tuned to $w_0 = -1$ runs away ($w_a = -6$) and its energy density turns negative at $z = 0.26$. The dark energy
