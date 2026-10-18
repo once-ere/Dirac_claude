@@ -6,7 +6,34 @@ in this repository; nothing depends on the old session's scratch directory.
 
 ## 0. Exact restart procedure
 
-### 0.12 ORDER 2026-10-17/18: UM-2, the universe model with Kohn-Sham dirac16complex; then all open stages — START HERE
+### 0.13 ORDER 2026-10-18 15:42: STOP/PAUSE everything; UM-2 version 4 (organisation and presentation) — START HERE
+
+The author's order of 2026-10-18 15:42 (attachment; binding text in `universe_model_2/docs_src/STYLE_V4.md`): "STOP or
+PAUSE everything. We need to organize and present your solution better." Then the UM-2 tasks again ([1] precisely, but
+approximately, solve the coupled field equations and document an accurate approximate solution with Kohn-Sham theory for
+dirac16complex coupled to gravity and all Standard-Model fields, no Higgs particle; "For each and every field equation
+that you use, you must clearly state, write down, document the field equation itself, define each and every symbol that
+appears in the field equation EVEN if you have done this before"; analyse the approximate solution in concert with the
+other field equations; md + tex + pdf ALWAYS; CMB, CNB, BAO; the metric as a power series; the x0 mass mechanism with the
+uncertainty argument; every interaction in equation form; never refer the reader to another file; [2]-[4] push the model,
+the field equations and the solution with provenance; check and verify; notify; [5] then the open stages; "Then we may
+possibly resume or re-start the PAUSED/STOPPED agents' tasks"). 15:44: "do not forget to push results as soon as they are
+completed and verified".
+
+State (2026-10-18 ~17:00):
+- Paused: W8 (the textbook). Verified chapters on main (01-05, 07, 13, 14); the unverified partial work of the stopped
+  chapter agents is on branch `w8-wip-2026-10-18` (state note `handoff/drafts_2026-10-18/w8_wip_state.md` on that branch).
+- Old Stage 4: its detached jobs (reference rerun of m1_L3_N1016_lamm2_T0 at grid level 2, canonical repeat at scf) were
+  paused at 15:44 and then KILLED by a container restart at ~16:52; to be restarted (`scripts/ks_reference_solver.py
+  --resume` on a fresh copy of the committed reference tree, about 4.5 h; the repeat and refined Rust runs from scratch).
+- UM-2 version 4 in progress: `universe_model_2/tools/symbols_tool.py` (symbol lists generated from the registry
+  `universe_model_2/docs_src/symbols/*.json` and checked: every display equation followed by the complete list of its
+  symbols, one symbol one meaning), `docs_src/STYLE_V4.md` (rules S1-S6); the inventory of field equations FE-n and
+  interaction terms IN-n (`docs_src/equations.json`), the notation (`docs_src/NOTATION.md`), the residuals of the
+  approximate solution in every field equation and in concert (`code/um2_residuals.py`), then MODEL, FIELD_EQUATIONS,
+  SOLUTION, ANALYSIS, PROVENANCE rewritten as version 4, built, verified from a fresh clone, pushed.
+
+### 0.12 ORDER 2026-10-17/18: UM-2, the universe model with Kohn-Sham dirac16complex; then all open stages
 
 The author's orders (the defining parts, verbatim): 2026-10-17: a new model of the Universe with Einstein-Lovelock gravity, the
 dirac16complex field coupled through the canonical spin connection and to all Standard-Model fields except the Higgs particle,
