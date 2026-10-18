@@ -280,7 +280,7 @@ def main():
         Qp = np.exp(1j * th / 6) * (UL @ Qv)
         qRp = np.array([np.exp(1j * th * 2 / 3) * qR[0], np.exp(-1j * th / 3) * qR[1]])
         maxdev = max(maxdev, abs(np.conj(Qv) @ Sig @ Lam_q @ qR - np.conj(Qp) @ Sigp @ Lam_q @ qRp))
-        # portal P1: (Psibar G Psi)(Lbar G L): Psi is a singlet; Lbar L invariant
+        # vector contact portal I11: (Psibar gamma Psi)(Lbar gamma L): Psi is a singlet; the lepton bilinear Lbar L is invariant
         maxdev = max(maxdev, abs(np.vdot(Lv, Lv) - np.vdot(Lp, Lp)))
         # tr(Sigma^dagger D Sigma tau3) structure: Sigma^dagger dSigma -> U_Y (Sigma^dagger dSigma) U_Y^dagger, trace with tau3
         # commuting with U_Y: invariant
@@ -294,7 +294,7 @@ def main():
         maxdev = max(maxdev, abs(k1 - k2))
     rep.check('tip_terms_gauge_invariant', maxdev < 1e-12,
               'tip Yukawa couplings Lbar Sigma Lambda_l l_R (l_R = (nu_R, e_R)) and Qbar Sigma Lambda_q q_R (q_R = (u_R, d_R)), '
-              'tr(Sigma^dagger D Sigma tau3), tr(D Sigma^dagger D Sigma) and the lepton bilinear of P1 are '
+              'tr(Sigma^dagger D Sigma tau3), tr(D Sigma^dagger D Sigma) and the lepton bilinear of the vector contact portal I11 are '
               'invariant under SU(2)_L x U(1)_Y (Sigma -> U_L Sigma U_Y^dagger) for 20 random group elements: max deviation %.1e' % maxdev)
     out['gauge_invariance_max_deviation'] = maxdev
     write_json(os.path.join(OUT, 'fields.json'), out)

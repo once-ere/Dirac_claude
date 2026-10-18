@@ -2,7 +2,7 @@
  "check_count": 4,
  "checks": [
   {
-   "detail": "Richardson-estimated basis error of E_KS below 4.0e-10 (relative) at 120 levels per sector; observed orders (N = 8, lambda > 0): E nan, int p0 nan, conservation residual nan",
+   "detail": "Richardson-estimated basis error of E_KS below 4.0e-10 (relative) at 120 levels per sector; conservative orders E 4, p0 3 (the orders are measured on the N = 8 stress state in job ground8)",
    "name": "ground_basis_convergence",
    "passed": true
   },

@@ -72,7 +72,7 @@
    "passed": true
   },
   {
-   "detail": "tip Yukawa couplings Lbar Sigma Lambda_l l_R (l_R = (nu_R, e_R)) and Qbar Sigma Lambda_q q_R (q_R = (u_R, d_R)), tr(Sigma^dagger D Sigma tau3), tr(D Sigma^dagger D Sigma) and the lepton bilinear of P1 are invariant under SU(2)_L x U(1)_Y (Sigma -> U_L Sigma U_Y^dagger) for 20 random group elements: max deviation 3.6e-15",
+   "detail": "tip Yukawa couplings Lbar Sigma Lambda_l l_R (l_R = (nu_R, e_R)) and Qbar Sigma Lambda_q q_R (q_R = (u_R, d_R)), tr(Sigma^dagger D Sigma tau3), tr(D Sigma^dagger D Sigma) and the lepton bilinear of the vector contact portal I11 are invariant under SU(2)_L x U(1)_Y (Sigma -> U_L Sigma U_Y^dagger) for 20 random group elements: max deviation 3.6e-15",
    "name": "tip_terms_gauge_invariant",
    "passed": true
   }

@@ -6,12 +6,15 @@ Jobs:
   validate   the independent solver reproduces the record's reference states (Revision/kohn_sham/reference) at a4 = 0
   spectrum   the free spectrum at the static block f* (exact formulas vs solver): fold band, dark-matter level, bulk
   ground     interacting ground states N = 8 (the k = 0 fold zero modes) and N = 592 (a fold-band gas) with
-             lambda = +-lambda_rec f*^4 (the record's dimensionless coupling lambda/Vol7), EMT, conservation
+             lambda = 0, +-LAM_B (the benchmark) and lambda_rec f*^4 (the record's dimensionless coupling lambda/Vol7,
+             a stress test of the solver); EMT, the y-conservation law, basis convergence (Richardson)
   darkmatter 8 dark-matter quanta (lowest odd level, k = 0) on the N = 8 ground state: energy, w, hidden pressure,
              the hidden-pressure identity p0/rho = -d ln eps_DM / d ln f
-  portals    linear response of the dark-matter level and of the fold band to the portal mean fields (vector P1/P2,
-             derivative-scalar P6, gauge-kinetic P5, Z portal P4 at the tip); Hellmann-Feynman check
-  feedback   the block response to the Kohn-Sham hidden pressure and the self-consistent loop with the fermion masses
+  portals    linear response of the dark-matter level and of the fold band to the portal mean fields (I11 vector contact
+             with the electron and up-quark densities, I12 gauge-kinetic portal in the gluon condensate, I9 chiral tip
+             Z portal on Psi_A); Hellmann-Feynman check
+  feedback   the static response of the stabilised block to the Kohn-Sham hidden pressure (block stiffness) and the
+             decoupling of the 4D cosmological term from a small block shift
 Writes outputs/ks/<job>.json and reports/ks-checks-<job>.json.
 """
 import json
@@ -185,10 +188,13 @@ def job_ground(rep, which):
     out['observed_orders_stress_state'] = orders
     nbs = (60, 120)
     unc = max(v['E_KS_uncertainty'] / max(1, abs(v['E_KS'])) for k, v in out.items() if k.startswith('N'))
+    if orders:
+        otxt = ('observed orders (N = 8 stress state, nb = 60/120/240): E %.2f, int p0 %.2f, conservation residual %.2f'
+                % (orders['E_KS'], orders['int_p0'], orders['cons_residual']))
+    else:
+        otxt = 'conservative orders E 4, p0 3 (the orders are measured on the N = 8 stress state in job ground8)'
     rep.check('ground_basis_convergence', unc < 1e-8,
-              'Richardson-estimated basis error of E_KS below %.1e (relative) at %d levels per sector; observed orders (N = 8, lambda > 0): '
-              'E %.2f, int p0 %.2f, conservation residual %.2f' % (unc, nbs[-1], orders.get('E_KS', float('nan')),
-                                                                      orders.get('int_p0', float('nan')), orders.get('cons_residual', float('nan'))))
+              'Richardson-estimated basis error of E_KS below %.1e (relative) at %d levels per sector; %s' % (unc, nbs[-1], otxt))
     cons = max(abs(v['cons_residual_richardson']) / v['cons_scale'] for k, v in out.items() if k.startswith('N') and v['lambda'] != 0)
     rep.check('ground_y_conservation', cons < 1e-6,
               'nabla_M T^M_y = 0 integrated over the half cell, [e^{3Hy} p0]_{-L}^{0} = 3H int e^{3Hy} p_t dy, holds for every interacting '
