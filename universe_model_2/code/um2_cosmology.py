@@ -150,11 +150,13 @@ def main():
         for mdl, st, lab_m in [(lcdm, 'k-', 'Planck 2018 LCDM'), (um2, 'C1--', 'UM-2'), (um2b, 'C2:', 'UM-2, Psi_B thermalised')]:
             zz = [b['z'] for b in mdl['bao']]
             axs[qi].plot(zz, [b[q] / math.sqrt(b['z']) for b in mdl['bao']], st, lw=1, label=lab_m)
+        labelled = False
         for (tr, z, dv, dm, dh, r) in DESI:
             dat = {'DV_rd': dv, 'DM_rd': dm, 'DH_rd': dh}[q]
             if dat is not None:
                 axs[qi].errorbar([z], [dat[0] / math.sqrt(z)], yerr=[dat[1] / math.sqrt(z)], fmt='o', ms=4, color='C0',
-                                 label='DESI DR2' if tr == 'LRG1' or (q == 'DV_rd' and tr == 'BGS') else None)
+                                 label=None if labelled else 'DESI DR2')
+                labelled = True
         axs[qi].set_xlabel('z')
         axs[qi].set_ylabel(lab + r'$/\sqrt{z}$')
     axs[0].legend(fontsize=7)
