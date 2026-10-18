@@ -525,7 +525,7 @@ def main():
               '(Gauss-Legendre panels; the logarithmic singularity of J2 removed by q = p(1 - s^2))' % (
                   abs(r_hi[3] / (-5 * E2 * Thi ** 4 / 288) - 1), abs(r_hi[4] / (E2 ** 1.5 * Thi ** 4 / (36 * math.sqrt(3) * math.pi)) - 1),
                   abs(r_hi[0] / (7 * math.pi ** 2 / 60 * Thi ** 4) - 1)))
-    # Escudero's effective low-energy couplings with radiative corrections (arXiv:2001.04466, eq. 3.5): g_eL = 0.727, g_eR = 0.233,
+    # Escudero's effective low-energy couplings with radiative corrections (arXiv:2001.04466, read 2026-10-18): g_eL = 0.727, g_eR = 0.233,
     # g_muL = -0.273, g_muR = 0.233 (the tree-level forms are 1/2 + s^2, s^2, -1/2 + s^2, s^2)
     cE = (0.727, 0.233, -0.273, 0.233)
     s2c = 1 - (val('m_W_GeV') / val('m_Z_GeV')) ** 2 / (1 + val('rho0_minus_1'))      # UM-2 tree-level angle of the couplings
@@ -544,12 +544,14 @@ def main():
     out['N_eff_history_separate'] = runs['FD_separate_NLO']['history']
     ne = {k: (v if isinstance(v, float) else v['N_eff']) for k, v in runs.items()}
     rep.check('N_eff_method_validation', abs(ne['instantaneous_noQED'] - 3.0) < 2e-4 and abs(ne['instantaneous_LO'] - 3.011) < 1.5e-3
-              and abs(ne['FD_common_noQED'] - 3.039) < 1.5e-3 and abs(ne['FD_common_NLO'] - 3.049) < 1.5e-3,
-              'the same method as Escudero (arXiv:2001.04466; Table 1 there: instantaneous 3.000, + LO QED 3.011, FD collision terms 3.039, '
-              '+ NLO QED 3.049) reproduces: instantaneous decoupling %.4f, + O(e^2) QED %.4f, + O(e^3) %.4f; FD energy transfer with one '
-              'neutrino temperature %.4f, + O(e^2) %.4f, + O(e^3) %.4f' % (ne['instantaneous_noQED'], ne['instantaneous_LO'],
-                                                                     ne['instantaneous_NLO'], ne['FD_common_noQED'], ne['FD_common_LO'],
-                                                                     ne['FD_common_NLO']))
+              and abs(ne['instantaneous_NLO'] - 3.010) < 1.5e-3 and abs(ne['FD_common_noQED'] - 3.039) < 1.5e-3
+              and abs(ne['FD_common_NLO'] - 3.049) < 1.5e-3 and abs(runs['FD_separate_NLO']['N_eff'] - 3.048) < 1.5e-3,
+              'the same method as Escudero (arXiv:2001.04466; Table 1 there, read 2026-10-18: instantaneous 3.000, + LO QED 3.011, + NLO QED '
+              '3.010, FD collision terms 3.039, + NLO QED 3.049, the same with separate nu_e and nu_mu,tau temperatures 3.048) reproduces: '
+              'instantaneous decoupling %.4f, + O(e^2) QED %.4f, + O(e^3) %.4f; FD energy transfer with one neutrino temperature %.4f, '
+              '+ O(e^2) %.4f, + O(e^3) %.4f; with separate temperatures and O(e^3) %.4f' % (
+                  ne['instantaneous_noQED'], ne['instantaneous_LO'], ne['instantaneous_NLO'], ne['FD_common_noQED'], ne['FD_common_LO'],
+                  ne['FD_common_NLO'], runs['FD_separate_NLO']['N_eff']))
     # adopted value: the precision Standard-Model computation applies to UM-2 (same plasma at MeV temperatures, three flavours)
     neff_um2 = runs['FD_separate_NLO']['N_eff']
     out['N_eff_UM2_computed'] = {'separate_temperatures': neff_um2, 'common_temperature': runs['FD_common_NLO']['N_eff'],

@@ -483,7 +483,7 @@ $$ N_{eff} = \Big(\frac{11}{4}\Big)^{4/3}\Big[\Big(\frac{T_{\nu_e}}{T_\gamma}\Bi
 for instantaneous decoupling at $T_d = 20$ MeV the plasma entropy $a^3(\rho + p)/T$ (with $\rho_{int}$, $P_{int}$) is conserved and
 $T_\nu \propto 1/a$. Results (DERIVED):
 
-| run | $N_{eff}$ | published (Escudero 2020, same method) |
+| run | $N_{eff}$ | published (Escudero 2020, same method, Table 1 there) |
 | --- | --- | --- |
 | instantaneous decoupling, no QED | $3.0002$ | $3.000$ |
 | instantaneous, $O(e^2)$ QED | $3.0108$ | $3.011$ |
@@ -491,7 +491,7 @@ $T_\nu \propto 1/a$. Results (DERIVED):
 | Fermi-Dirac energy transfer, one neutrino temperature, no QED | $3.0393$ | $3.039$ |
 | the same with $O(e^2)$ | $3.0495$ | |
 | the same with $O(e^2) + O(e^3)$ | $3.0485$ | $3.049$ |
-| UM-2, separate $\nu_e$ and $\nu_{\mu,\tau}$ temperatures (no oscillations), $O(e^3)$ | $3.0476$ | |
+| UM-2, separate $\nu_e$ and $\nu_{\mu,\tau}$ temperatures (no oscillations), $O(e^3)$ | $3.0476$ | $3.048$ (separate temperatures) |
 | UM-2, separate temperatures, UM-2 tree-level couplings | $3.0472$ | |
 | UM-2, one common temperature (efficient oscillations) | $3.0485$ | |
 

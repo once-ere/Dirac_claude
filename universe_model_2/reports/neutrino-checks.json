@@ -37,7 +37,7 @@
    "passed": true
   },
   {
-   "detail": "the same method as Escudero (arXiv:2001.04466; Table 1 there: instantaneous 3.000, + LO QED 3.011, FD collision terms 3.039, + NLO QED 3.049) reproduces: instantaneous decoupling 3.0002, + O(e^2) QED 3.0108, + O(e^3) 3.0098; FD energy transfer with one neutrino temperature 3.0393, + O(e^2) 3.0495, + O(e^3) 3.0485",
+   "detail": "the same method as Escudero (arXiv:2001.04466; Table 1 there, read 2026-10-18: instantaneous 3.000, + LO QED 3.011, + NLO QED 3.010, FD collision terms 3.039, + NLO QED 3.049, the same with separate nu_e and nu_mu,tau temperatures 3.048) reproduces: instantaneous decoupling 3.0002, + O(e^2) QED 3.0108, + O(e^3) 3.0098; FD energy transfer with one neutrino temperature 3.0393, + O(e^2) 3.0495, + O(e^3) 3.0485; with separate temperatures and O(e^3) 3.0476",
    "name": "N_eff_method_validation",
    "passed": true
   },

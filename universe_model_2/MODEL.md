@@ -852,8 +852,8 @@ $$ N_{eff} = \Big(\frac{11}{4}\Big)^{4/3}\Big[\Big(\frac{T_{\nu_e}}{T_\gamma}\Bi
 With efficient oscillations the three flavours share one temperature, $dT_\nu/dt = -HT_\nu + (\delta\rho_{\nu_e}/\delta t + 2\delta\rho_{\nu_\mu}/\delta t)/(3\,d\rho_\nu/dT_\nu)$.
 The method reproduces the published values of the same method (DERIVED: instantaneous decoupling $3.0002$, with the QED
 corrections $3.0108$ and $3.0098$; Fermi-Dirac energy transfer $3.0393$, with QED $3.0495$ and $3.0485$; published $3.000$,
-$3.011$, $3.010$, $3.039$, $3.049$). For UM-2 it gives $N_{eff} = 3.0476$ with separate $\nu_e$ and $\nu_{\mu,\tau}$ temperatures and
-$3.0485$ with one common temperature; $T_{\nu_e}/T_\gamma = 0.71732$, $T_{\nu_\mu}/T_\gamma = 0.71621$, the comoving neutrino temperatures being
+$3.011$, $3.010$, $3.039$, $3.049$). For UM-2 it gives $N_{eff} = 3.0476$ with separate $\nu_e$ and $\nu_{\mu,\tau}$ temperatures (published
+with separate temperatures: $3.048$) and $3.0485$ with one common temperature; $T_{\nu_e}/T_\gamma = 0.71732$, $T_{\nu_\mu}/T_\gamma = 0.71621$, the comoving neutrino temperatures being
 raised by $0.265$ % ($\nu_e$) and $0.109$ % ($\nu_{\mu,\tau}$) by $e^+e^-$ annihilation. The plasma at MeV temperatures is that of the
 three-flavour Standard Model and there is no extra radiation (neither fold band is ever thermalised), so UM-2 adopts the
 precision Standard-Model value with oscillations and the electron mass in the rates,

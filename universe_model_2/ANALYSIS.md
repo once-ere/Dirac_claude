@@ -241,8 +241,8 @@ from $d\ln(m_j^2 - m_i^2)/d\ln f = 2(m_j^2s_j - m_i^2s_i)/(m_j^2 - m_i^2)$ with 
 $$ \frac{d\ln\Delta m^2_{21}}{d\ln f} = -77.5,\qquad \frac{d\ln\Delta m^2_{31}}{d\ln f} = -74.0,\qquad \frac{d\ln\Delta m^2_{32}}{d\ln f} = -73.9 .$$
 The light neutrino states also mix with the Kaluza-Klein excitations of the lepton fields, which makes the $3\times3$ PMNS matrix
 non-unitary at relative order $(m_i/m_{KK})^2 \le 1.7\times10^{-31}$ (ESTIMATE; for the top quark $2.0\times10^{-6}$): unobservable. The
-flavour conversion of UM-2 is therefore that of the three-flavour Standard Model with Dirac neutrinos (computed for the vacuum,
-the Earth, the Sun, the early Universe and supernovae in the solution document).
+flavour conversion of UM-2 is therefore that of the three-flavour Standard Model with Dirac neutrinos, which UM-2 computes for the
+vacuum, the Earth, the Sun, the early Universe and supernovae.
 
 ## The mass mechanism, the block and the deflating extra times
 
