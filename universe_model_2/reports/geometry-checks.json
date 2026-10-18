@@ -1,0 +1,137 @@
+{
+ "check_count": 25,
+ "checks": [
+  {
+   "detail": "R^{ab}_{cd} = 0 unless {a,b} = {c,d}: 0 non-pair components",
+   "name": "y_chart_pair_diagonal",
+   "passed": true
+  },
+  {
+   "detail": "in the chart x0..x7 with (sin^2 z)^{1/6} = sin(z)^{1/3} on 0 < z < pi: 0 non-pair components",
+   "name": "author_chart_pair_diagonal",
+   "passed": true
+  },
+  {
+   "detail": "every sectional curvature K_ab is the same in the chart x0..x7 and in the y chart (substituting sin z = e^{6Hy}): the curvature is free of x0 and holds on both halves of a cell",
+   "name": "charts_agree",
+   "passed": true
+  },
+  {
+   "detail": "G^a_a = R^a_a - R/2 equals E_(1)^a_a of the pairing formula; Ricci is diagonal",
+   "name": "einstein_from_ricci_equals_pairing_k1",
+   "passed": true
+  },
+  {
+   "detail": "the explicit Gauss-Bonnet tensor H^a_a = 2(R R^a_a - 2 R^a_b R^b_a - 2 R^{bc} R^a_{b a c} + R^{a bcd} R_{a bcd}) - GB/2 equals E_(2)^a_a of the pairing formula",
+   "name": "gauss_bonnet_tensor_equals_pairing_k2",
+   "passed": true
+  },
+  {
+   "detail": "nabla_M E_(1)^M_N = 0 identically for every N",
+   "name": "bianchi_identity_k1",
+   "passed": true
+  },
+  {
+   "detail": "nabla_M E_(2)^M_N = 0 identically for every N",
+   "name": "bianchi_identity_k2",
+   "passed": true
+  },
+  {
+   "detail": "nabla_M E_(3)^M_N = 0 identically for every N",
+   "name": "bianchi_identity_k3",
+   "passed": true
+  },
+  {
+   "detail": "the minisuperspace metric with a lapse is pair-diagonal",
+   "name": "lapse_metric_pair_diagonal",
+   "passed": true
+  },
+  {
+   "detail": "Euler-Lagrange equations of int sqrt|g| L_1 with respect to the lapse, the 3-space scale A and the block scale F equal -2 sqrt|g| (E^4_4/Nl, 3 E^1_1/A, (E^0_0 + 3 E^5_5)/F) of the pairing tensor",
+   "name": "minisuperspace_variation_k1",
+   "passed": true
+  },
+  {
+   "detail": "Euler-Lagrange equations of int sqrt|g| L_2 with respect to the lapse, the 3-space scale A and the block scale F equal -2 sqrt|g| (E^4_4/Nl, 3 E^1_1/A, (E^0_0 + 3 E^5_5)/F) of the pairing tensor",
+   "name": "minisuperspace_variation_k2",
+   "passed": true
+  },
+  {
+   "detail": "Euler-Lagrange equations of int sqrt|g| L_3 with respect to the lapse, the 3-space scale A and the block scale F equal -2 sqrt|g| (E^4_4/Nl, 3 E^1_1/A, (E^0_0 + 3 E^5_5)/F) of the pairing tensor",
+   "name": "minisuperspace_variation_k3",
+   "passed": true
+  },
+  {
+   "detail": "E_(1)^0_0 = E_(1)^5_5 and no component depends on y (hence on x0)",
+   "name": "hidden_equals_extra_times_k1",
+   "passed": true
+  },
+  {
+   "detail": "E_(2)^0_0 = E_(2)^5_5 and no component depends on y (hence on x0)",
+   "name": "hidden_equals_extra_times_k2",
+   "passed": true
+  },
+  {
+   "detail": "E_(3)^0_0 = E_(3)^5_5 and no component depends on y (hence on x0)",
+   "name": "hidden_equals_extra_times_k3",
+   "passed": true
+  },
+  {
+   "detail": "sum_k alpha_k E_(k) + Lambda delta = kappa T equals the record's generalSource.constraint_x4 (Revision/field_equations_a4/a4-equations.json)",
+   "name": "record_equation constraint_x4",
+   "passed": true
+  },
+  {
+   "detail": "sum_k alpha_k E_(k) + Lambda delta = kappa T equals the record's generalSource.space_x1_eq_x2_eq_x3 (Revision/field_equations_a4/a4-equations.json)",
+   "name": "record_equation space_x1_eq_x2_eq_x3",
+   "passed": true
+  },
+  {
+   "detail": "sum_k alpha_k E_(k) + Lambda delta = kappa T equals the record's generalSource.hidden_and_extraTimes_x0_eq_x5_eq_x6_eq_x7 (Revision/field_equations_a4/a4-equations.json)",
+   "name": "record_equation hidden_and_extraTimes_x0_eq_x5_eq_x6_eq_x7",
+   "passed": true
+  },
+  {
+   "detail": "static block (a4' = A, a4'' = 0, b4'/b4 = 2A): x4 component = -3 G(k) A^2 + 6 H^2 k (1 - 2 w2 k) + Lambda + kappa rho, G(k) = 1 - 24 w2 k + 72 w3 k^2",
+   "name": "static_block_constraint",
+   "passed": true
+  },
+  {
+   "detail": "static block: x1 component = the x4 component with -kappa p3 in place of kappa rho",
+   "name": "static_block_space",
+   "passed": true
+  },
+  {
+   "detail": "static block: x0 component = 6(12 w2 k - 1) A^2 - 12 (w2 - 18 w3 k) A^4/H^2 + 3 H^2 k + Lambda - kappa p0",
+   "name": "static_block_hidden",
+   "passed": true
+  },
+  {
+   "detail": "g_mu mu = eta_aa (e^a_mu)^2 with e^0_0 = f cot z (signed), e^i_i = e^{a4}, e^4_4 = 1, e^t_t = f sin(z)^{1/6}",
+   "name": "vielbein",
+   "passed": true
+  },
+  {
+   "detail": "d_mu gamma^nu + Gamma^nu_{mu l} gamma^l + [Omega_mu, gamma^nu] = 0 for all mu, nu: Omega_mu = (1/2) omega_mu ab S^ab is the canonical (metric-compatible, torsion-free) spin connection",
+   "name": "gamma_covariantly_constant",
+   "passed": true
+  },
+  {
+   "detail": "gamma^mu Omega_mu = (3/2)(H/f) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4), f = e^{-a4} b4^{1/2} (0 < z < pi)",
+   "name": "gamma_mu_Omega_mu",
+   "passed": true
+  },
+  {
+   "detail": "gamma^mu Omega_mu vanishes only for H = 0 with constant a4, b4 (flat 4+4 space): the canonical spin connection is non-trivial",
+   "name": "nontrivial_unless_flat",
+   "passed": true
+  }
+ ],
+ "description": "UM-2: curvature of the order-0 metric, Lovelock tensors (four routes), the background equations with the author's weights, the canonical spin connection",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "geometry-checks"
+}

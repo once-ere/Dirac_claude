@@ -1,0 +1,167 @@
+{
+ "check_count": 31,
+ "checks": [
+  {
+   "detail": "(1/2)(tau[A].taubar[B] + tau[B].taubar[A]) = eta_AB I8 for A, B = 0..7",
+   "name": "tau_relations_of_the_notebook",
+   "passed": true
+  },
+  {
+   "detail": "sigma = tau1 tau2 tau3 = tau4 tau5 tau6 tau7, tau1...tau7 = I8 (notebook Out[323], Out[324], Out[322])",
+   "name": "notebook_identities_sigma",
+   "passed": true
+  },
+  {
+   "detail": "{gamma^a, gamma^b} = 2 eta^ab I16, eta = diag(+,+,+,+,-,-,-,-) in the order x0..x7",
+   "name": "clifford_relations",
+   "passed": true
+  },
+  {
+   "detail": "every gamma^a is a real 16x16 matrix",
+   "name": "gammas_real",
+   "passed": true
+  },
+  {
+   "detail": "the rebuilt T16[a] equal Revision/algebra/gammas.json gamma[a] entry by entry",
+   "name": "identical_to_record_gammas",
+   "passed": true
+  },
+  {
+   "detail": "C = gamma^(x0) gamma^(x1) gamma^(x2) gamma^(x3) = sigma16 = {{-sigma,0},{0,sigma}}",
+   "name": "C_is_sigma16",
+   "passed": true
+  },
+  {
+   "detail": "C^T = C, C^2 = I16",
+   "name": "C_real_symmetric_involution",
+   "passed": true
+  },
+  {
+   "detail": "(C gamma^a)^T = -C gamma^a for every a (the author's sigma16.T16[a] antisymmetric)",
+   "name": "C_gamma_antisymmetric",
+   "passed": true
+  },
+  {
+   "detail": "Gamma = gamma^(x0)...gamma^(x7) = diag(-I8, I8)",
+   "name": "chirality_diag",
+   "passed": true
+  },
+  {
+   "detail": "B = -i C gamma^(x4): B^dagger = B, B^2 = 1",
+   "name": "B_hermitian_involution",
+   "passed": true
+  },
+  {
+   "detail": "eigenvalues of B: +1 (8 times), -1 (8 times): the Krein metric is indefinite",
+   "name": "B_signature_8_8",
+   "passed": true
+  },
+  {
+   "detail": "B gamma^(x4) gamma^a is Hermitian for a != 4 (Hermitian Dirac Hamiltonian in the Krein metric)",
+   "name": "B_gamma4_gamma_a_hermitian",
+   "passed": true
+  },
+  {
+   "detail": "commutant of {gamma^a} has complex dimension 1: the 16-dim representation of Pin(4,4) is irreducible",
+   "name": "pin44_irreducible",
+   "passed": true
+  },
+  {
+   "detail": "commutant of {S^ab} has dimension 2 (= span{I, Gamma})",
+   "name": "spin44_commutant_dim_2",
+   "passed": true
+  },
+  {
+   "detail": "every S^ab is block diagonal in the Gamma = -1, +1 halves",
+   "name": "spin44_preserves_chiral_halves",
+   "passed": true
+  },
+  {
+   "detail": "commutants of Spin(4,4) on the two 8-dim halves: 1, 1",
+   "name": "chiral_halves_irreducible",
+   "passed": true
+  },
+  {
+   "detail": "intertwiners from the Gamma = -1 half to the Gamma = +1 half: dimension 0",
+   "name": "chiral_halves_inequivalent",
+   "passed": true
+  },
+  {
+   "detail": "J^2 = 1, K1^2 = K2^2 = -1, mutually commuting",
+   "name": "commuting_set",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger V = I16 for the record's block basis",
+   "name": "block_basis_unitary",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger M V in the 8 blocks (j, s2, s3)",
+   "name": "block_form gamma^(x0) = sigma3",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger M V in the 8 blocks (j, s2, s3)",
+   "name": "block_form gamma^(x0)gamma^(x1) = -i sigma2",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger M V in the 8 blocks (j, s2, s3)",
+   "name": "block_form gamma^(x0)gamma^(x4) = j sigma1",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger M V in the 8 blocks (j, s2, s3)",
+   "name": "block_form B = j s2 (number)",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger M V in the 8 blocks (j, s2, s3)",
+   "name": "block_form C = s2 sigma2",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger M V in the 8 blocks (j, s2, s3)",
+   "name": "block_form J = j",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger M V in the 8 blocks (j, s2, s3)",
+   "name": "block_form K1 = i s2",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger M V in the 8 blocks (j, s2, s3)",
+   "name": "block_form K2 = i s3",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger M V in the 8 blocks (j, s2, s3)",
+   "name": "block_form gamma^(x4)gamma^(x1) = -j sigma3",
+   "passed": true
+  },
+  {
+   "detail": "V^dagger M V in the 8 blocks (j, s2, s3)",
+   "name": "block_form B gamma^(x0) = j s2 sigma3",
+   "passed": true
+  },
+  {
+   "detail": "Gamma = (g1 g2 g3 g4)(g0 g5 g6 g7) up to sign: sign +",
+   "name": "product_of_4D_and_internal_chirality",
+   "passed": true
+  },
+  {
+   "detail": "(g1 g2 g3 g4)^2 = -1 and (g0 g5 g6 g7)^2 = -1, so Gamma4 = i g1 g2 g3 g4 and Gamma_int = i g0 g5 g6 g7 are involutions",
+   "name": "chirality_squares",
+   "passed": true
+  }
+ ],
+ "description": "UM-2: the author's Cl(4,4) gamma matrices rebuilt from the author's formulas; Clifford relations, C, chirality, B, Pin(4,4)/Spin(4,4) representation content, Kohn-Sham block basis",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "algebra-checks"
+}
