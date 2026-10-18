@@ -1,5 +1,5 @@
 {
- "check_count": 18,
+ "check_count": 19,
  "checks": [
   {
    "detail": "Q = T3 + Y: (u, d)_L = (2/3, -1/3), (nu, e)_L = (0, -1), u_R 2/3, d_R -1/3, e_R -1, nu_R 0",
@@ -44,6 +44,11 @@
   {
    "detail": "B commutes with every 4D Lorentz generator and with C: the halves B = -1 (Psi_A) and B = +1 (Psi_B) are 4D-Lorentz-invariant and Psibar Psi = S_A + S_B does not mix them",
    "name": "B_lorentz_invariant",
+   "passed": true
+  },
+  {
+   "detail": "Gamma4 = i g1 g2 g3 g4 = -B gamma^(x0) as 16 x 16 matrices, [B, gamma^(x0)] = 0: P_+ = (1 - B gamma^(x0))/2, i.e. (1 + gamma^(x0))/2 on Psi_A and (1 - gamma^(x0))/2 on Psi_B, which annihilates Psi_B wherever (1 - gamma^(x0)) Psi = 0 (the regular tip)",
+   "name": "Gamma4_equals_minus_B_gamma0",
    "passed": true
   },
   {

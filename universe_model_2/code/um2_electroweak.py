@@ -108,6 +108,9 @@ def main():
     rep.check('B_lorentz_invariant', all(comm(Bm, L) == Z16 for L in lorentz) and comm(Bm, C) == Z16,
               'B commutes with every 4D Lorentz generator and with C: the halves B = -1 (Psi_A) and B = +1 (Psi_B) are 4D-Lorentz-invariant and '
               'Psibar Psi = S_A + S_B does not mix them')
+    rep.check('Gamma4_equals_minus_B_gamma0', (G4 + Bm * gm[0]).applyfunc(sp.simplify) == Z16 and comm(Bm, gm[0]) == Z16,
+              'Gamma4 = i g1 g2 g3 g4 = -B gamma^(x0) as 16 x 16 matrices, [B, gamma^(x0)] = 0: P_+ = (1 - B gamma^(x0))/2, i.e. (1 + gamma^(x0))/2 on '
+              'Psi_A and (1 - gamma^(x0))/2 on Psi_B, which annihilates Psi_B wherever (1 - gamma^(x0)) Psi = 0 (the regular tip)')
     ks = read_json(os.path.join(ROOT, 'Revision', 'kohn_sham', 'ks-theory.json'))
     cols = ks['blockBasis']['unnormalisedColumns2Sqrt2V']
     V = sp.Matrix(16, 16, lambda r, c: sp.sympify(cols[r][c])) / (2 * sp.sqrt(2))

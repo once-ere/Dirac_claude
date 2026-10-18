@@ -218,7 +218,8 @@ def main():
             out['zero_mode_direction'] = [str(sp.simplify(x)) for x in nullv[0]] if nullv else []
             om = max(abs(v.imag) for v in evq)
             out['radion_frequency_over_H'] = om
-            out['radion_frequency_squared_over_H2_exact'] = str(sp.nsimplify(sp.simplify(-sp.Matrix(J[1:, 1:]).det() / H ** 2)))
+            # (h, k) block [[0, J_hk], [J_kh, 0]]: lambda^2 = J_hk J_kh = -det; omega^2 = -lambda^2 = det
+            out['radion_omega_squared_over_H2_exact'] = str(sp.nsimplify(sp.simplify(sp.Matrix(J[1:, 1:]).det() / H ** 2)))
             rep.check('block_stable_nu1', all(v.real <= 1e-10 for v in evq) and om > 0,
                       'eigenvalues of the linearised (A, h, k) system about the nu = 1 static block: %s (units H); no growing mode: '
                       'the block oscillates about k* with omega = %.6f H (the radion mass); the zero eigenvalue is the A direction '
