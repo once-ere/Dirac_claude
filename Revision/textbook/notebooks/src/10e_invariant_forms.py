@@ -153,7 +153,7 @@ CELLS = [
 
     **Which transformations keep $B$.** $B$ is $-i$ times the product of the five gammas
     $\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}\gamma^{(x_4)}$. A gamma of
-    $x_1, x_2, x_3, x_4, x_0$ anticommutes with four of the five factors and commutes
+    $x_0, x_1, x_2, x_3, x_4$ anticommutes with four of the five factors and commutes
     with itself, so it commutes with $B$; a gamma of $x_5, x_6, x_7$ anticommutes with
     all five and so anticommutes with $B$. For an anti-Hermitian generator the Krein
     condition $S^\dagger B + BS = 0$ means $[B, S] = 0$; for a Hermitian one it means
@@ -432,7 +432,7 @@ CELLS = [
     code(r'''
     grid = np.full((8, 8), np.nan)  # NaN: no generator (diagonal and below)
     for (a, b), (anti_hermitian, _, krein) in kinds.items():
-        grid[a - 1, b - 1] = 0 if (anti_hermitian and krein) else (1 if krein else 2)
+        grid[a, b] = 0 if (anti_hermitian and krein) else (1 if krein else 2)  # row a
     colours = ListedColormap([BLUE, GREEN, ORANGE])
     fig, ax = plt.subplots(figsize=(6.0, 5.4))
     ax.imshow(grid, cmap=colours, vmin=-0.5, vmax=2.5)
@@ -442,7 +442,7 @@ CELLS = [
     ax.grid(False)
     for (a, b), (anti_hermitian, _, krein) in kinds.items():
         mark = "rot" if anti_hermitian else "boost"  # a rotation or a boost
-        ax.text(b - 1, a - 1, mark, ha="center", va="center", color="white", fontsize=7)
+        ax.text(b, a, mark, ha="center", va="center", color="white", fontsize=7)
     ax.plot([], [], "s", color=BLUE, label="unitary and Krein-unitary (9)")
     ax.plot([], [], "s", color=GREEN, label="Krein-unitary only (12)")
     ax.plot([], [], "s", color=ORANGE, label="breaks the anticommutator (7)")

@@ -134,8 +134,11 @@ CELLS = [
     - **Chirality image**: for a field $\Psi$, the field $\chi = \Gamma\Psi$. Because
       $\Gamma^2 = I_{16}$, also $\Psi = \Gamma\chi$: the image carries exactly the
       same information, written in other variables.
-    - **Mirror image**: the field $\gamma^{(x_0)}\Psi$ (with the hidden direction
-      reflected) of the pairing theorem T2.
+    - **Mirror image (T2 image)**: the field $\gamma^{(x_0)}\Psi$ of the pairing theorem
+      T2. In the author's universe T2 relates a configuration on one half of a cell to
+      its image on the other half, through the reflection $z \to \pi - z$ of the hidden
+      coordinate across the fold $z = \pi/2$ where the two halves meet; at one point,
+      as here, only the matrix $\gamma^{(x_0)}$ enters.
     - **Lagrangian $\mathcal{L}_m[\Psi]$**: the Lagrangian density of dirac16complex
       with mass $m$, evaluated on the field $\Psi$. Here (flat 4+4 space, $U = 0$) it is
       $\frac12\sum_a(\Psi^\dagger C\gamma^{(x_a)}\partial_a\Psi -
@@ -307,7 +310,7 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
         encoding="utf-8"))
-    # gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 1, ..., 8.
+    # gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 0, ..., 7.
     gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
     C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
     Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
@@ -755,8 +758,9 @@ CELLS = [
     first field $\Psi$:
 
     - the chirality image $\Gamma\Psi$ (T1);
-    - the mirror image $\gamma^{(x_0)}\Psi$ (T2, here without the reflection of the
-      hidden coordinate, which does not change the anticommutators at one point);
+    - the mirror image $\gamma^{(x_0)}\Psi$ (T2, here without the reflection
+      $z \to \pi - z$ of the hidden coordinate, which does not change the
+      anticommutators at one point);
     - the conjugate field $\Psi^c = \Gamma\Psi^{\dagger T}$, that is
       $\Psi^c_A = \sum_D\Gamma_{AD}\Psi^\dagger_D$, the conjugation of the quantised
       field that keeps the canonical rule (it reverses the mass; second notebook of
@@ -809,9 +813,9 @@ CELLS = [
     the right rule $+B$, but they too are built from the operators of the first field
     and do not anticommute with it. The rule $+B$ of the mirror image matches the rule
     of an independently quantised mirror universe, so such a universe can be quantised
-    as an ordinary copy (statement Q5 of the record); for the chirality image this is
-    impossible (statement Q3). A second universe must therefore be a NEW field on a
-    larger state space, which the next section builds.
+    as an ordinary copy with equal energies (statement Q5 of the record); for the
+    chirality image this is impossible (statement Q3). A second universe must therefore
+    be a NEW field on a larger state space, which the next section builds.
     """),
     md(r"""
     ## 10. Two independently quantised universes
@@ -1111,10 +1115,11 @@ CELLS = [
     fig.colorbar(image, ax=ax, label="$\\log_{10}$ of the number of states")
     save_figure(fig, "two_universe_states",
                 "All $2^{32}$ quantum states of two independently quantised universes "
-                "of masses $+m$ and $-m$ for one good-sector momentum ($m = 2$, $k = (1, "
-                "2, 0, 4)$, $E = 5$ in both), sorted by the total charge (horizontal "
-                "axis) and the number of quanta (vertical axis; the normal-ordered total "
-                "energy is $5$ times the number of quanta). The colour is the base-10 "
+                "of masses $+m$ and $-m$ for one good-sector momentum ($m = 2$, $(k_0, "
+                "k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$ in both), sorted by the total "
+                "charge (horizontal axis) and the number of quanta (vertical axis; the "
+                "normal-ordered total energy is $5$ times the number of quanta). The "
+                "colour is the base-10 "
                 "logarithm of the number of states in each square; white squares are "
                 "empty. The energies of the two universes add: only the vacuum has "
                 "total energy 0, every other state has a positive energy, and a pair of "

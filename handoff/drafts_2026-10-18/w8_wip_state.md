@@ -1,0 +1,138 @@
+# W8 work in progress, paused by the author's order of 2026-10-18 15:42 ("STOP or PAUSE everything")
+
+Branch `w8-wip-2026-10-18` holds the UNVERIFIED partial work of the chapter agents that were running when the order
+came (they were stopped at once). `main` holds only the verified chapters.
+
+Verified and on main (chapter_check OK, walk-throughs match the notebooks): chapters 01 and 05 (already current;
+05a rebuilt), 02, 03, 04, 07, 13, 14 (commits 786d60d, a2ef949, 7214410, 7ba2b65, efc3ebb).
+
+Partial on this branch (NOT verified; the chapter texts were not yet rewritten except chapter 06, partly):
+- 06: notebooks 06a, 06b, 06c rebuilt for the corrected metric; chapter text partly rewritten.
+- 08: 08a, 08b, 08d rebuilt (08c not yet); text not rewritten.
+- 09: 09a, 09b, 09c rebuilt; text not rewritten.
+- 10: 10a-10e, 10g rebuilt or re-run (the rounding-only rule may require restoring some stored Windows builds); text
+  not rewritten.
+- 11: 11a, 11b, 11c rebuilt; text not rewritten.
+- 12: 12a-12d rebuilt (new figure names); text not rewritten.
+- 15: 15e figures rebuilt; others not yet.
+- 16, 17, 18, 19: agents had started; see the files changed on this branch.
+- 20, 21, 22, 00, 23, abstract: not started.
+
+To resume: check out this branch, compare every rebuilt notebook with its builder (`nbkit check`), finish the chapter
+texts per `handoff/drafts_2026-10-18/w8_chapter_brief.md` (environment: NPY_DISABLE_CPU_FEATURES=X86_V4,
+OPENBLAS_CORETYPE=Haswell, zlib-ng on LD_LIBRARY_PATH; the rounding-only rule), run check_chapter.py per chapter,
+then merge into main chapter by chapter. The global check of 2026-10-18 (reasons per notebook) and the open items
+collected from the agents are listed below.
+## Open items collected from the agents
+
+1. Revision record wording `extra_time_modes_grow` (Revision/theory/python/check_field_theory.py line ~857 and
+   Revision/docs/DIRAC16COMPLEX_FIELD_THEORY.md line 444): "every extra-time mode eventually enters the growing regime"
+   holds only when D = (sin^2 z)^{-1/6} k_x5^2 - tan^2 z k_x0^2 > 0 (the hidden frame momentum grows at the same rate
+   e^{H x4/3}); always true without hidden momentum. Textbook chapter 04 (Notebook 04b In [20]) states the limit.
+   Fix: qualify the document text (and the check detail if the verifiers are rerun; Notebook 04b quotes record words).
+2. Chapter 23 glossary: regenerate with tools/chapter23/run_all.py after all chapters (new bold terms in 02, 04, ...).
+3. Notebook 02c's text calls z -> pi - z "the mirror property" (correct, but could be confused with the withdrawn mirror
+   copy); reword if 02c is ever rebuilt.
+4. Notebooks kept as stored Windows builds although nbkit check differs on Linux at the rounding level: 02a (figure 3),
+   02c (figure 3), 02d (four printed rounding-level values in In [9] and In [12]), 13a (one residual 1.8e-12 vs 2.0e-12),
+   10a/10c/10d/10e/10g (printed rounding errors; to be confirmed by the chapter-10 agent), 07d (figure 3; chapter-07 agent).
+5. 03a kept as built on Windows (figure 03a_5 differs on Linux in 93 of 750,252 pixels by at most 3 levels).
+6. 03d: its text could add that the extra-time particle reaches the tip near tau = 2.81 (chapter 03, Exercise 10), so
+   that the "turning point predicted by the exact law at tau = 6.877" is never reached inside the half cell; the
+   notebook's wording ("would reach", the check "reaches the tip cut-off before any turning point") is correct.
+7. Revision/kohn_sham/ks-theory.json (thermodynamics) says mu is fixed by sum w g f = N, while the solver and
+   parameters.json (conventions.particleNumber) use sum g f = N; chapters 13 and 14 follow parameters.json and say so.
+8. The KS record keeps legacy "brane" names (results/spectrum/brane-band.csv, brane-band-slope.csv, check
+   brane_band_slope, key braneBandSlope, parameters.json conventions.brane); the textbook explains them in one
+   parenthesis; renaming them would be a Revision record change.
+9. Notebook 13a: its printed residuals (~1e-12) vary from run to run in the last digit even on one machine (numpy's
+   SIMD reductions depend on the alignment of arrays); kept as stored; chapter 13 says another computer may print
+   other last digits.
+10. 07d kept as stored (figure 3 differs in 4 pixels by at most 2 levels).
+
+## Global nbkit check of 2026-10-18 (before the rewrites; first problem per notebook)
+```text
+00a_check_installation: FAILED |  | stored=      "cargo version: cargo 1.91.1 (ea2d97820 2025-10-10)\n" | new=      "cargo version: cargo 1.97.0 (c980f4866 2026-06-30)\n" | figures: 
+00b_eight_directions: FAILED | problem=Revision/textbook/notebooks/src/00b_eight_directions.py: record 'Revision/theory/reports/wolfram-field-theory-b4.json' does not exist |  |  | figures: 
+00c_honesty_ledger: FAILED | problem=Revision/textbook/notebooks/src/00c_honesty_ledger.py: record 'Revision/theory/reports/wolfram-field-theory-b4.json' does not exist |  |  | figures: 
+00d_reproducible_runs: FAILED | AssertionError: check failed: one shared rounding path hid errors up to 1.7e-13 m; two paths show them |  |  | figures: 
+01a_matrices_determinants: PASSED
+01b_complex_rotations: PASSED
+01c_generalized_delta: PASSED
+01d_gkd_record_selftests: PASSED
+01e_index_notation: PASSED
+01f_numbers_and_powers: PASSED
+01g_eigenvalues_signature: PASSED
+02a_rk4_convergence: PASSED
+02b_shooting_quantum_well: PASSED
+02c_partial_derivatives: FAILED |  | stored=      "image/png": "iVBORw0KGgoAAAANSUhEUgAAA7IAAALDCAYAAAAoiTwkAAAACXBIWXMAABcSAAAXEgFnn9JSAAEAAElEQVR4nOzdBXSTVxsH8H9d | new=      "image/png": "iVBORw0KG
+02d_pruefer_shooting: FAILED |  | stored=      "RESULT levels whose 16 digits equal the column eps_numeric = 72 of 72\n", | new=      "RESULT levels whose 16 digits equal the column eps_numeric = 64 o
+04a_t16_from_formulas: PASSED
+04b_square_roots: FAILED |  | stored=    "- computes, from the extra-time entry of the corrected metric of the Revision\n", | new=    "- reads the corrected metric from the Revision record\n", | figur
+04c_256_products: PASSED
+04d_tensor_gammas: PASSED
+05a_c_gamma_b: FAILED |  | stored=    "in the order $x0, \\dots, x7$: the four directions with $\\eta_{aa} = +1$ ($x1, x2,\n", | new=    "in the order $x0, \\dots, x7$: the four directions with $\\eta
+05b_commutants: PASSED
+05c_charge_conjugation: PASSED
+05d_spin_transformations: PASSED
+05e_quantum_bilinears: PASSED
+05f_pin_generation: PASSED
+06a_spin_connection: FAILED | AssertionError: check failed: eta_aa f_a^2 is the author's metric with b4 (all 64 entries) |  |  | figures: 
+06b_frame_dependence: FAILED | AssertionError: check failed: the mixed Ricci tensor (10 nonzero components, 2 off the diagonal) and R equal the record |  |  | figures: 
+06c_mixed_contraction: FAILED | AssertionError: check failed: the 12 nonzero lowered components omega_mu ab equal the record |  |  | figures: 
+07a_grassmann_algebra: PASSED
+07b_euler_lagrange_metric: FAILED | ValueError: sqrt_det_g_equals_b4_cos_z is not a passing check of Revision/theory/reports/python-field-theory.json |  |  | figures: 
+07c_real_fields: FAILED | ValueError: gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term is not a passing check of Revision/theory/reports/python-field-theory.json |  |  | figures: 
+07d_action_principle: FAILED |  | stored=      "image/png": "iVBORw0KGgoAAAANSUhEUgAABa4AAAI5CAYAAABJp61+AAAACXBIWXMAABcSAAAXEgFnn9JSAAEAAElEQVR4nOzdB3iT5dcG8MNe | new=      "image/png": "iVBORw0KGgoA
+08a_growth_rates: PASSED
+08b_deflation_onset: FAILED | KeyError: 'sqrt_det_g_equals_b4_cos_z' |  |  | figures: 
+08c_frame_dependence: FAILED | AssertionError: check failed: eta_aa f_a^2 is the author's metric (all 8 diagonal entries) |  |  | figures: 
+08d_rescaling_modes: FAILED | KeyError: 'gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term' |  |  | figures: 
+09a_emt_and_identities: FAILED | KeyError: 'Revision/theory/reports/python-field-theory.json has no check sqrt_det_g_equals_b4_cos_z' |  |  | figures: 
+09b_condensates: FAILED |  | stored=      "RESULT smallest and largest rho of the 5000 samples = -4.3821 and 4.4892\n" | new=      "RESULT smallest and largest rho of the 5000 samples = -4.4007 and 4.
+09c_condensate_tensor: FAILED | TypeError: Cannot convert expression to float |  |  | figures: 
+10a_krein_spectra: FAILED |  | stored=      "RESULT largest entry of h^2 - w^2 I (rounding only) = 8.9e-16\n", | new=      "RESULT largest entry of h^2 - w^2 I (rounding only) = 1.1e-16\n", | figures:
+10b_canonical_krein: PASSED
+10c_good_sector_fock: FAILED |  | stored=      "RESULT largest deviation from the rule (100 random M) = 1.8e-15\n", | new=      "RESULT largest deviation from the rule (100 random M) = 1.4e-15\n", | f
+10d_curved_good_sector: FAILED |  | stored=      "RESULT largest |left - right| on the grid = 5.7e-13\n", | new=      "RESULT largest |left - right| on the grid = 4.5e-13\n", | figures: 
+10e_invariant_forms: FAILED |  | stored=      "RESULT largest of them and smallest nonzero eigenvalue = 1.3e-15 and 7.0000\n", | new=      "RESULT largest of them and smallest nonzero eigenvalue = 1.7
+10f_krein_along_history: FAILED | ValueError: Error from parse_expr with transformed code: "[(Symbol ('Sqrt' )[Symbol ('b4' )[Symbol ('x4' )]]*cot (z ))/exp (a4 ),exp (a4 ),exp (a4 ),exp (a4 ),Integer
+10g_quantum_pair_reading: FAILED |  | stored=      "RESULT largest deviation from +-sqrt(m^2 + k1^2), 16 each = 4.9e-15\n", | new=      "RESULT largest deviation from +-sqrt(m^2 + k1^2), 16 each = 5.3
+11a_kronecker_delta_gkd: FAILED | AssertionError: check failed: the order-3 Lovelock sum calls GKD 495360 times, as section 4 of this notebook says |  |  | figures: 
+11b_lovelock_tensors: FAILED | AssertionError: check failed: all 19 checks of the Rust program passed |  |  | figures: 
+11c_lovelock_components: FAILED | ValueError: the component contains a3, a4 derivatives, e^a4, sin^(1/3) z or higher derivatives of b4 |  |  | figures: 
+12a_a4_field_equations: FAILED | AssertionError: check failed: det g = cos(z)^2, so sqrt|det g| = cos z, independent of a4 |  |  | figures: 
+12b_required_source: FAILED | AssertionError: check failed: linear member: p3 = pt = p0 = p |  |  | figures: 
+12c_a4_evolution: FAILED | KeyError: 'evolution_F' |  |  | figures: 
+12d_condensate_solution: FAILED | AssertionError: check failed: the record leaves this combination open |  |  | figures: 
+13a_kohn_sham_1d_toy: FAILED |  | stored=      "Anderson mixing: 19 passes, last residual 1.8e-12\n", | new=      "Anderson mixing: 19 passes, last residual 2.0e-12\n", | figures: Revision/textbook/fi
+13b_contact_exchange_gas: FAILED | KeyError: 'ks_profiles_violate_algebraic_condition' |  |  | figures: 
+13c_two_site_model: PASSED
+13d_charge_sloshing: PASSED
+13e_mermin_delta_scf: PASSED
+15a_canonical_matrix: FAILED | zmq.error.ZMQError: Socket operation on non-socket |  |  | figures: 
+15b_emt_profiles: FAILED | KeyError: 136 |  |  | figures: 
+15c_adiabaticity: FAILED | FileNotFoundError: [Errno 2] No such file or directory: '/home/claude/dirac_claude/Revision/kohn_sham/results/ground/levels/N136_lam0_a00.csv' |  |  | figures: 
+15d_thermodynamics: FAILED | KeyError: 'N136_lam0_a00_T10' |  |  | figures: 
+15e_shooting_by_hand: FAILED | ValueError: too many values to unpack (expected 7, got 9) |  |  | figures: 
+16a_reference_crosscheck: FAILED | AssertionError: check failed: the three committed reports pass every check (37, 42 and 31) |  |  | figures: 
+16b_staggered_grid: FAILED | AssertionError: check failed: sector_matrix equals the reference's matrices for both parities, both block types, k = 0 and k = 0.5 |  |  | figures: 
+16c_mermin_root: FAILED | AssertionError: check failed: the root on the Rust levels equals the fixture root40 to 1e-32 |  |  | figures: 
+17a_source_conditions: FAILED | AssertionError: check failed: the record on the Kohn-Sham source conditions has 6 checks, all PASS |  |  | figures: 
+17b_conserved_sources: FAILED | AssertionError: check failed: dy/dx0 = cot z, g_yy = 1, sin^(1/3) z = e^(2Hy), sqrt|g| = cos z or e^(6Hy) |  |  | figures: 
+18a_pairing_matrices: PASSED
+18b_t1_t2_symbolic: FAILED | AssertionError: check failed: the 12 nonzero connection components equal the recorded list |  |  | figures: 
+18c_pairs_numerically: FAILED | AssertionError: check failed: the formula gives the 12 recorded spin connection components |  |  | figures: 
+19a_t3_rust_pairs: FAILED | AssertionError: check failed: the proof records of T3 pass completely (10 and 13 checks) |  |  | figures: 
+19b_t3_by_hand: FAILED | AssertionError: check failed: the k = 0 levels of A are the analytic levels of the record |  |  | figures: 
+20a_c1_zero_source: FAILED | AssertionError: check failed: the record states the corollary C1 |  |  | figures: 
+20b_one_universe_partners: FAILED | AssertionError: check failed: Einstein: kappa M S = -6 (A^2 + 1) H^2, kappa m S = -(36 H^2 + 2 Lambda) |  |  | figures: 
+20c_allowed_not_happens: PASSED
+21a_conjugation_matrices: FAILED | AssertionError: check failed: the record states the field equation and the exact solution (i) used here |  |  | figures: 
+21b_charge_conservation: FAILED | AssertionError: check failed: Omega_mu equals the record formula Omega_components |  |  | figures: 
+21c_quantum_conjugation: FAILED | AssertionError: check failed: the record's anticommutator B_AC delta / cos z and positive representation |  |  | figures: 
+21d_sakharov_scorecard: FAILED | AssertionError: check failed: commuting field: L[Psi*] = L[Psi], the same-mass conjugation is exact |  |  | figures: 
+22a_adiabatic_breakdown: FAILED | KeyError: 'N136_lam0_a00' |  |  | figures: 
+22b_dark_sector: FAILED | AssertionError: check failed: all 39 checks of the report derive are PASS |  |  | figures: 
+23a_reproduce_everything: FAILED |  | stored=      "01a Matrices, permutations and dete...     30    6 2026-10-14 passed    4.1    1.23\n", | new=      "01a Matrices, permutations and dete...     30  
+```

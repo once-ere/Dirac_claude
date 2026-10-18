@@ -128,8 +128,10 @@ CELLS = [
       the vacuum value.
     - **Charge**: the U(1) charge $Q = \Psi^\dagger B\Psi$ of the field (its density, an
       indefinite form). Its local conservation law is proved; the total over a slice is
-      constant only if no charge flows through the boundary, which at $z = \pi/2$ is an
-      ASSUMED no-flux condition that the Revision record does not impose.
+      constant only if no charge flows through the boundary, which at the degenerate
+      points of the author's metric (among them the folds $z = \pi/2 + n\pi$, where the
+      two halves of a cell meet) is an ASSUMED no-flux condition that the Revision
+      record does not impose.
     - **Expectation value**: $\langle\phi|X|\phi\rangle$ in a normalised state $\phi$.
     - **Fock space, pattern, vacuum, $f_p$, $f_p^*$**: as in the previous notebook of
       this chapter: a basis state is a pattern of occupations of 16 fermion modes,
@@ -144,7 +146,7 @@ CELLS = [
 
     **One good-sector momentum.** In the good sector $h = m\beta + \sum_{a}k_a\alpha^a$
     with $\beta = -i\gamma^{(x_4)}$ and $\alpha^a = -\gamma^{(x_4)}\gamma^{(x_a)}$ for
-    $a = 1, 2, 3, 8$; all five matrices are Hermitian, so $h$ is Hermitian and has real
+    $a = 0, 1, 2, 3$; all five matrices are Hermitian, so $h$ is Hermitian and has real
     eigenvalues; $h^2 = E^2 I_{16}$ and $\mathrm{tr}\,h = 0$ give eight eigenvalues $+E$
     and eight $-E$. Choose orthonormal eigenvectors $u_1, \dots, u_8$ ($hu_s = Eu_s$) and
     $v_1, \dots, v_8$ ($hv_s = -Ev_s$). Eigenvectors of a Hermitian matrix for different
@@ -266,7 +268,7 @@ CELLS = [
     ## 6. One good-sector momentum: $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$
 
     The sympy verifier of the Revision record uses the mass $m = 2$ and the momenta
-    $k_1 = 1$, $k_2 = 2$, $k_3 = 0$, $k_0 = 4$, so $E = \sqrt{4 + 1 + 4 + 0 + 16} = 5$.
+    $k_0 = 4$, $k_1 = 1$, $k_2 = 2$, $k_3 = 0$, so $E = \sqrt{4 + 16 + 1 + 4 + 0} = 5$.
     The next cell builds $h$, checks that it is Hermitian, that $h^2 = 25 I_{16}$ and
     that it commutes with $B$, and computes the eigenvectors as the orthonormal columns
     of the projectors $\frac12(I \pm h/E)$ (the same procedure as in the first notebook
@@ -487,12 +489,12 @@ CELLS = [
     save_figure(fig, "expectation_rule",
                 "For 100 random complex $16 \\times 16$ matrices $M$: the normal-ordered "
                 "expectation value of the bilinear $\\Psi^\\dagger M\\Psi$ computed on "
-                "the positive Fock space of the good-sector momentum $m = 2$, $k = (1, "
-                "2, 0, 4)$ (vertical axis), against the formula $u^\\dagger BMu$ in a "
-                "particle state (blue dots) and $-v^\\dagger BMv$ in an antiparticle "
-                "state (orange squares); horizontal axis: the formula; real parts, "
-                "pure numbers. All points lie on the diagonal: the rule of the "
-                "Revision record holds.")
+                "the positive Fock space of the good-sector momentum $m = 2$, $(k_0, "
+                "k_1, k_2, k_3) = (4, 1, 2, 0)$ (vertical axis), against the formula "
+                "$u^\\dagger BMu$ in a particle state (blue dots) and $-v^\\dagger BMv$ "
+                "in an antiparticle state (orange squares); horizontal axis: the "
+                "formula; real parts, pure numbers. All points lie on the diagonal: the "
+                "rule of the Revision record holds.")
     '''),
     md(r"""
     The WolframScript verifier of the Revision record checks the same construction on a
@@ -760,11 +762,11 @@ CELLS = [
                 "Histogram of the energy density $\\rho = E\\,u^\\dagger Bu$ (horizontal "
                 "axis, units of $m$, between $-5$ and $5$) of 4000 random "
                 "positive-frequency plane waves $\\Phi = u\\,e^{i(k\\cdot x - 5x_4)}$ of "
-                "the classical commuting field dirac16complex00 with $m = 2$, $k = (1, "
-                "2, 0, 4)$ and $u^\\dagger u = 1$ (vertical axis: number of waves per "
-                "bin). About half of the waves have negative energy density; multiplying a "
-                "wave by a large number makes its energy as negative as one likes: the "
-                "classical energy is unbounded below.")
+                "the classical commuting field dirac16complex00 with $m = 2$, $(k_0, "
+                "k_1, k_2, k_3) = (4, 1, 2, 0)$ and $u^\\dagger u = 1$ (vertical axis: "
+                "number of waves per bin). About half of the waves have negative energy "
+                "density; multiplying a wave by a large number makes its energy as "
+                "negative as one likes: the classical energy is unbounded below.")
     '''),
     md(r"""
     ## 12. The last check
@@ -808,7 +810,8 @@ CELLS = [
       ($\lambda \neq 0$) beyond a finite model of one good-sector mode set (in which the
       energy-momentum tensor operator obeys the on-shell identity with Wick ordering
       only) are not constructed; the next notebook shows what happens in the curved
-      good sector of the author's metric without a boundary condition at $z = \pi/2$.
+      good sector of the author's metric without a boundary condition at the folds
+      $z = \pi/2 + n\pi$.
     """),
 ]
 
