@@ -2,13 +2,18 @@
  "check_count": 5,
  "checks": [
   {
-   "detail": "response of the lowest odd level d eps/de = 5.079605845e-01 equals the Hellmann-Feynman expectation 5.079605800e-01; the fold-band gap at the smallest shell changes by 1.6e-10 per unit e (the fold band stays massless)",
+   "detail": "response of the lowest odd level d eps/de = 8.247793768e-01 equals the Hellmann-Feynman expectation 8.247793737e-01; the fold-band gap at the smallest shell changes by 5.4e-11 per unit e (the fold band stays massless)",
    "name": "portal_HF I11 vector contact, electron density (v)",
    "passed": true
   },
   {
-   "detail": "response of the lowest odd level d eps/de = 5.485275177e-01 equals the Hellmann-Feynman expectation 5.485275129e-01; the fold-band gap at the smallest shell changes by 2.1e-10 per unit e (the fold band stays massless)",
+   "detail": "response of the lowest odd level d eps/de = 4.328803136e+00 equals the Hellmann-Feynman expectation 4.328803095e+00; the fold-band gap at the smallest shell changes by 3.1e-09 per unit e (the fold band stays massless)",
    "name": "portal_HF I11 vector contact, up-quark density (v)",
+   "passed": true
+  },
+  {
+   "detail": "response of the lowest odd level d eps/de = 1.252406001e+00 equals the Hellmann-Feynman expectation 1.252405999e+00; the fold-band gap at the smallest shell changes by -1.1e-10 per unit e (the fold band stays massless)",
+   "name": "portal_HF I11 vector contact, neutrino density (v, left-chiral)",
    "passed": true
   },
   {
@@ -17,12 +22,7 @@
    "passed": true
   },
   {
-   "detail": "response of the lowest odd level d eps/de = 2.594893629e-01 equals the Hellmann-Feynman expectation 2.594893652e-01; the fold-band gap at the smallest shell changes by 7.9e-11 per unit e (the fold band stays massless)",
-   "name": "portal_HF I9 chiral tip Z portal on Psi_A (a-component)",
-   "passed": true
-  },
-  {
-   "detail": "every Psi orbital has b(-L) = 0, hence Psibar Psi = s2 2ab = 0 at the tip: a tip operator built on Psibar Psi does not couple to dirac16complex; the a-component does not vanish there (the chiral tip Z portal I9 acts on the a-component of Psi_A)",
+   "detail": "every Psi orbital has b(-L) = 0, hence Psibar Psi = s2 2ab = 0 at the tip: a tip operator built on Psibar Psi does not couple to dirac16complex; the a-component does not vanish there (a chiral tip current would act on the a-component of Psi_A; UM-2 has none)",
    "name": "scalar_density_vanishes_at_tip",
    "passed": true
   }

@@ -16,11 +16,14 @@ F3  Boundary conditions: in every block the conditions chi2 = 0 (theta = 0) or c
       elsewhere, bulk mass < 0): exactly one 4D Weyl zero mode, Gamma4 = -1, in the same blocks (so the tip coupling
       Lbar Sigma R can give a Dirac mass).  Helicity of the particle state is fixed for both signs of k.
 F4  The tip mixing condition of the boundary term -lambda_f (psibar_L Sigma psi_R + h.c.): b_L = kappa_f b_R,
-    a_R = -kappa_f a_L at y = -L is self-adjoint (boundary form of the coupled (L, R) problem vanishes).
+    a_R = -kappa_f a_L at y = -L is self-adjoint (boundary form of the coupled (L, R) problem vanishes); for three
+    generations, b_L = K b_R, a_R = -K^dagger a_L with an arbitrary complex 3 x 3 tip matrix K (the generation vectors of
+    boundary values) is self-adjoint as well.
 F5  Gauge fields: for A_mu(x) u(y) (gauge A_y = 0) the reduced action gives -(1/f^2) e^{-3Hy} (e^{3Hy} u')' = m^2 u,
     the fold condition u'(0) = 0 (even) or u(0) = 0 (odd), and the tip Robin condition from the sigma-field term.
-F6  Gauge invariance of the tip terms (Sigma kinetic term, tip Yukawa couplings, Z portal) and of the portal operators
-    under SU(2)_L x U(1)_Y with random group elements.
+F6  Gauge invariance of the tip terms (Sigma kinetic term, tip Yukawa couplings of the three generations with complex
+    3 x 3 matrices, the chiral structure tr(Sigma^dagger D Sigma tau3)) and of the portal operators under SU(2)_L x U(1)_Y
+    with random group elements.
 Writes outputs/fields.json and reports/fields-checks.json.
 """
 import os
@@ -229,6 +232,28 @@ def main():
     rep.check('tip_mixing_self_adjoint', sp.simplify(form) == 0,
               'with b_L = kappa_f b_R and a_R = -kappa_f a_L at the tip (for both functions) the boundary form of the coupled (L, R) '
               'Dirac problem vanishes: the tip Yukawa coupling defines a self-adjoint mixing condition')
+    # three generations: boundary values are 3-vectors a, b (complex), chi = (a, i b) per generation; conditions
+    # b_L = K b_R, a_R = -K^dagger a_L (and the same for the second function phi = (p, i q)), K complex 3 x 3
+    def cvec(name, n=3):
+        re = sp.symbols(name + 'r0:%d' % n, real=True)
+        im = sp.symbols(name + 'i0:%d' % n, real=True)
+        return sp.Matrix([re[k] + I * im[k] for k in range(n)])
+    Kr = sp.Matrix(3, 3, sp.symbols('Kr0:9', real=True))
+    Ki = sp.Matrix(3, 3, sp.symbols('Ki0:9', real=True))
+    K3 = Kr + I * Ki
+    aL3, bR3, pL3, qR3 = cvec('aL'), cvec('bR'), cvec('pL'), cvec('qR')
+    bL3, aR3, qL3, pR3 = K3 * bR3, -K3.H * aL3, K3 * qR3, -K3.H * pL3
+    S1 = sp.Matrix(sp.BlockMatrix([[sp.zeros(3), sp.eye(3)], [sp.eye(3), sp.zeros(3)]]))
+    def stack(a_, b_):
+        return sp.Matrix.vstack(a_, I * b_)
+    chiL3, chiR3, phiL3, phiR3 = stack(aL3, bL3), stack(aR3, bR3), stack(pL3, qL3), stack(pR3, qR3)
+    form3 = (phiL3.H * S1 * chiL3)[0] - (chiL3.H * S1 * phiL3)[0] + (phiR3.H * S1 * chiR3)[0] - (chiR3.H * S1 * phiR3)[0]
+    form3 = sp.expand(form3)
+    rep.check('tip_mixing_self_adjoint_three_generations', form3 == 0,
+              'three generations: with b_L = K b_R and a_R = -K^dagger a_L (generation 3-vectors of complex boundary values, K an arbitrary '
+              'complex 3 x 3 matrix, for both functions) the boundary form sum_g [phi^dagger sigma1 chi - chi^dagger sigma1 phi]_(L+R) vanishes '
+              'identically (symbolic, 42 real variables): the tip matrices kappa_nu = U_PMNS, kappa_d = V_CKM of um2_flavour.py define a '
+              'self-adjoint problem')
 
     # ---------------- F5: gauge field x0 operator ----------------
     # 8D Yang-Mills with the y-chart metric; abelian component A_1(x4, x3) u(y) with A_y = 0 (static block a4, b4 const).
@@ -257,31 +282,36 @@ def main():
         v /= np.linalg.norm(v)
         return np.array([[v[0] + 1j * v[3], v[2] + 1j * v[1]], [-v[2] + 1j * v[1], v[0] - 1j * v[3]]])
     maxdev = 0.0
+    def cplx(*shape):
+        return rng.normal(size=shape) + 1j * rng.normal(size=shape)
+
+    def yukawa(Lm, Sg, Yup, Ydn, Rm):
+        # sum_{g,h} Lbar_g Sigma diag(Yup_gh, Ydn_gh) R_h: L, R are 2 x 3 (isospin x generation)
+        return sum(np.conj(Lm[:, g_]) @ Sg @ np.diag([Yup[g_, h_], Ydn[g_, h_]]) @ Rm[:, h_] for g_ in range(3) for h_ in range(3))
     for trial in range(20):
         UL = rand_su2()
         th = rng.uniform(0, 2 * np.pi)
         Sig = rand_su2()
-        Lv = rng.normal(size=2) + 1j * rng.normal(size=2)
-        lR = rng.normal(size=2) + 1j * rng.normal(size=2)      # (nu_R, e_R)
-        Lam_l = np.diag([0.3, 1.7])
+        # three generations: L_g doublets, l_R,g = (nu_R,g, e_R,g); complex generation matrices (Dirac neutrino and charged lepton)
+        Lv = cplx(2, 3)
+        lR = cplx(2, 3)
+        Ynu, Ye = cplx(3, 3), cplx(3, 3)
         # charges: L: Y = -1/2; nu_R: Y = 0; e_R: Y = -1; Sigma -> U_L Sigma U_Y^dagger with U_Y = diag(e^{i th/2}, e^{-i th/2})
         UY = np.diag([np.exp(1j * th / 2), np.exp(-1j * th / 2)])
         # convention: a field of hypercharge Y transforms as psi -> e^{i Y th} psi (Sigma -> U_L Sigma U_Y^dagger)
         Lp = np.exp(1j * th * (-0.5)) * (UL @ Lv)
-        lRp = np.array([lR[0], np.exp(1j * th * (-1.0)) * lR[1]])
+        lRp = np.vstack([lR[0], np.exp(1j * th * (-1.0)) * lR[1]])
         Sigp = UL @ Sig @ UY.conj().T
-        y1 = np.conj(Lv) @ Sig @ Lam_l @ lR
-        y2 = np.conj(Lp) @ Sigp @ Lam_l @ lRp
-        maxdev = max(maxdev, abs(y1 - y2))
-        # quark tip Yukawa Qbar Sigma Lambda_q q_R: Q (Y = 1/6), u_R (2/3), d_R (-1/3)
-        Qv = rng.normal(size=2) + 1j * rng.normal(size=2)
-        qR = rng.normal(size=2) + 1j * rng.normal(size=2)
-        Lam_q = np.diag([0.7, 1.3])
+        maxdev = max(maxdev, abs(yukawa(Lv, Sig, Ynu, Ye, lR) - yukawa(Lp, Sigp, Ynu, Ye, lRp)))
+        # quark tip Yukawa sum Qbar_g Sigma diag(Y_u, Y_d)_gh q_R,h: Q (Y = 1/6), u_R (2/3), d_R (-1/3)
+        Qv = cplx(2, 3)
+        qR = cplx(2, 3)
+        Yu, Yd = cplx(3, 3), cplx(3, 3)
         Qp = np.exp(1j * th / 6) * (UL @ Qv)
-        qRp = np.array([np.exp(1j * th * 2 / 3) * qR[0], np.exp(-1j * th / 3) * qR[1]])
-        maxdev = max(maxdev, abs(np.conj(Qv) @ Sig @ Lam_q @ qR - np.conj(Qp) @ Sigp @ Lam_q @ qRp))
+        qRp = np.vstack([np.exp(1j * th * 2 / 3) * qR[0], np.exp(-1j * th / 3) * qR[1]])
+        maxdev = max(maxdev, abs(yukawa(Qv, Sig, Yu, Yd, qR) - yukawa(Qp, Sigp, Yu, Yd, qRp)))
         # vector contact portal I11: (Psibar gamma Psi)(Lbar gamma L): Psi is a singlet; the lepton bilinear Lbar L is invariant
-        maxdev = max(maxdev, abs(np.vdot(Lv, Lv) - np.vdot(Lp, Lp)))
+        maxdev = max(maxdev, abs(np.vdot(Lv, Lv) - np.vdot(Lp, Lp)))      # summed over isospin and generations
         # tr(Sigma^dagger D Sigma tau3) structure: Sigma^dagger dSigma -> U_Y (Sigma^dagger dSigma) U_Y^dagger, trace with tau3
         # commuting with U_Y: invariant
         dS = rand_su2() - np.eye(2)
@@ -293,7 +323,8 @@ def main():
         k2 = np.trace((UL @ dS @ UY.conj().T).conj().T @ (UL @ dS @ UY.conj().T))
         maxdev = max(maxdev, abs(k1 - k2))
     rep.check('tip_terms_gauge_invariant', maxdev < 1e-12,
-              'tip Yukawa couplings Lbar Sigma Lambda_l l_R (l_R = (nu_R, e_R)) and Qbar Sigma Lambda_q q_R (q_R = (u_R, d_R)), '
+              'tip Yukawa couplings of the three generations sum_gh Lbar_g Sigma diag(Y_nu, Y_e)_gh l_R,h (l_R = (nu_R, e_R)) and '
+              'sum_gh Qbar_g Sigma diag(Y_u, Y_d)_gh q_R,h (q_R = (u_R, d_R)) with random complex 3 x 3 matrices, '
               'tr(Sigma^dagger D Sigma tau3), tr(D Sigma^dagger D Sigma) and the lepton bilinear of the vector contact portal I11 are '
               'invariant under SU(2)_L x U(1)_Y (Sigma -> U_L Sigma U_Y^dagger) for 20 random group elements: max deviation %.1e' % maxdev)
     out['gauge_invariance_max_deviation'] = maxdev

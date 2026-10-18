@@ -1,28 +1,30 @@
 {
  "I11 vector contact, electron density (v)": {
-  "d_eps_dm_de": 0.507960584532,
-  "d_fold_gap_de": 1.58179025433e-10,
-  "hellmann_feynman": 0.507960579965
+  "d_eps_dm_de": 0.824779376841,
+  "d_fold_gap_de": 5.44980727213e-11,
+  "hellmann_feynman": 0.824779373732
+ },
+ "I11 vector contact, neutrino density (v, left-chiral)": {
+  "d_eps_dm_de": 1.25240600121,
+  "d_fold_gap_de": -1.07788777903e-10,
+  "hellmann_feynman": 1.2524059985
  },
  "I11 vector contact, up-quark density (v)": {
-  "d_eps_dm_de": 0.54852751773,
-  "d_fold_gap_de": 2.07986405876e-10,
-  "hellmann_feynman": 0.548527512929
+  "d_eps_dm_de": 4.32880313608,
+  "d_fold_gap_de": 3.09546832611e-09,
+  "hellmann_feynman": 4.32880309517
  },
  "I12 gluon condensate <G G> (M, uniform)": {
   "d_eps_dm_de": 0.707196000285,
   "d_fold_gap_de": 2.89768209427e-11,
   "hellmann_feynman": 0.707196002672
  },
- "I9 chiral tip Z portal on Psi_A (a-component)": {
-  "d_eps_dm_de": 0.259489362928,
-  "d_fold_gap_de": 7.91033905045e-11,
-  "hellmann_feynman": 0.259489365167
- },
  "_meta": {
-  "c_e": 10.3042383559,
-  "c_u": 9.54523369264,
+  "c_L_leptons": 5.9528834764,
+  "c_Q_quarks": 3.38230353233,
+  "c_e_singlet": 14.5539075478,
+  "c_u_singlet": 15.4300081937,
   "nb": 80
  },
- "runtime_s": 3.6
+ "runtime_s": 3.9
 }

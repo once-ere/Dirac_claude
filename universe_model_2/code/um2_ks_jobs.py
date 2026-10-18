@@ -11,8 +11,8 @@ Jobs:
   darkmatter 8 dark-matter quanta (lowest odd level, k = 0) on the N = 8 ground state: energy, w, hidden pressure,
              the hidden-pressure identity p0/rho = -d ln eps_DM / d ln f
   portals    linear response of the dark-matter level and of the fold band to the portal mean fields (I11 vector contact
-             with the electron and up-quark densities, I12 gauge-kinetic portal in the gluon condensate, I9 chiral tip
-             Z portal on Psi_A); Hellmann-Feynman check
+             with the electron, up-quark and neutrino densities of the three-generation zero modes, I12 gauge-kinetic portal
+             in the gluon condensate); Hellmann-Feynman check
   feedback   the static response of the stabilised block to the Kohn-Sham hidden pressure (block stiffness) and the
              decoupling of the 4D cosmological term from a small block shift
 Writes outputs/ks/<job>.json and reports/ks-checks-<job>.json.
@@ -258,8 +258,13 @@ def sm_profile(cf, y):
 def job_portals(rep):
     f = fstar()
     masses = read_json(os.path.join(OUT, 'masses.json'))
-    ce = masses['fermions']['e']['c']
-    cu = masses['fermions']['u']['c']
+    # three generations: a fermion of mass m is the tip mixture of a doublet zero mode (c_L for the leptons, c_Q for the quarks,
+    # common to the generations) and a singlet zero mode (c = -c_R); the vector density of an unpolarised fermion is the average
+    # of the two zero-mode densities; the neutrinos of the plasma, the Sun and the CNB are produced left-chiral (doublet zero mode)
+    cL = masses['doublet_c']['leptons']
+    cQ = masses['doublet_c']['quarks']
+    ceR = -masses['fermions']['e']['c_R']
+    cuR = -masses['fermions']['u']['c_R']
     out = {}
     nb = 80
     c = Cell(f=f, L=L, H=H, m=M_PSI_OVER_H, nb=nb, nq=10 * nb)
@@ -268,10 +273,10 @@ def job_portals(rep):
     # portal mean-field shapes (the amplitude e carries the 8D coefficient and the 4D density; the shapes are those of the
     # sources: SM zero-mode densities times P(y) ~ e^{-3Hy}, the flat gluon zero mode, a tip-localised Z charge)
     shapes = {
-        'I11 vector contact, electron density (v)': ('v', sm_profile(ce, y) * np.exp(-3 * H * y)),
-        'I11 vector contact, up-quark density (v)': ('v', sm_profile(cu, y) * np.exp(-3 * H * y)),
+        'I11 vector contact, electron density (v)': ('v', 0.5 * (sm_profile(cL, y) + sm_profile(ceR, y)) * np.exp(-3 * H * y)),
+        'I11 vector contact, up-quark density (v)': ('v', 0.5 * (sm_profile(cQ, y) + sm_profile(cuR, y)) * np.exp(-3 * H * y)),
+        'I11 vector contact, neutrino density (v, left-chiral)': ('v', sm_profile(cL, y) * np.exp(-3 * H * y)),
         'I12 gluon condensate <G G> (M, uniform)': ('M', np.ones_like(y)),
-        'I9 chiral tip Z portal on Psi_A (a-component)': ('va', np.exp(-(y + L) / 0.02) / 0.02 / (1 - math.exp(-L / 0.02))),
     }
     for name, (kind, shp) in shapes.items():
         res = {}
@@ -315,8 +320,9 @@ def job_portals(rep):
     Ae, Be = c.eval_at(1, 'odd', np.array([-L]))
     rep.check('scalar_density_vanishes_at_tip', float(np.max(np.abs(Be))) < 1e-12,
               'every Psi orbital has b(-L) = 0, hence Psibar Psi = s2 2ab = 0 at the tip: a tip operator built on Psibar Psi does not couple '
-              'to dirac16complex; the a-component does not vanish there (the chiral tip Z portal I9 acts on the a-component of Psi_A)')
-    out['_meta'] = {'c_e': ce, 'c_u': cu, 'nb': nb}
+              'to dirac16complex; the a-component does not vanish there (a chiral tip current would act on the a-component of Psi_A; UM-2 '
+              'has none)')
+    out['_meta'] = {'c_L_leptons': cL, 'c_Q_quarks': cQ, 'c_e_singlet': ceR, 'c_u_singlet': cuR, 'nb': nb}
     return out
 
 

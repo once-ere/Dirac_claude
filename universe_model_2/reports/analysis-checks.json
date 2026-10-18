@@ -37,12 +37,12 @@
    "passed": true
   },
   {
-   "detail": "light fermions: m/m_H = 1.7e-16, 3.2e-09, 1.4e-08, 3.3e-08 (nu, e, u, d): their masses come from the tip mixing of chiral zero modes, not from localisation",
-   "name": "A3_light_fermions_far_below_heisenberg",
+   "detail": "fermions: m/m_H = 1.1e-17, 9.4e-17, 5.4e-16, 5.5e-09, 1.1e-06, 1.9e-05, 4.0e-08, 2.4e-05, 3.2e-03, 8.7e-08, 1.7e-06, 7.8e-05 (nu1, nu2, nu3, e, mu, tau, u, c, t, d, s, b; m_H of the broader of the two zero modes, 93 TeV for the leptons, 54 TeV for the quarks): every fermion lies far below the uncertainty estimate, the top quark by a factor 312: the masses come from the tip mixing of chiral zero modes, not from localisation",
+   "name": "A3_fermions_far_below_heisenberg",
    "passed": true
   },
   {
-   "detail": "d ln m_f/d ln c = -36.34, -19.61, -18.09, -17.27 < 0: a sharper x0 localisation (larger c) gives a LIGHTER fermion, the reverse of the Heisenberg intuition",
+   "detail": "d ln m_f/d ln c = -5.45, -2.89, -34.55, -32.35, -30.57, -14.05, -8.48, -5.45, -14.93, -8.27, -2.89, -14.13, -11.02, -7.00 < 0 (lepton doublet, quark doublet, then the singlets of nu1, nu2, nu3, e, mu, tau, u, c, t, d, s, b): a sharper x0 localisation (larger c) of either zero mode gives a LIGHTER fermion, the reverse of the Heisenberg intuition",
    "name": "A3_sharper_localisation_lighter_fermion",
    "passed": true
   },
@@ -52,12 +52,12 @@
    "passed": true
   },
   {
-   "detail": "d ln X/d ln f: KK -1, m_W -0.501, m_e -20.6, m_u -19.1, m_d -18.3, m_nu -37.3, M_DM -0.772, alpha and the gauge couplings -4, G_N +2.048 (= -4 + 2 k* G'(k*)/G(k*): the Lovelock factor of the 4D Newton constant also varies with the block): the masses track the block; the stabilised block (radion mass 48420 GeV) freezes them after the primordial era",
+   "detail": "d ln X/d ln f: KK -1, m_W -0.501, fermions -41.0, -38.8, -37.0, -20.5, -14.9, -11.9, -18.8, -12.2, -6.8, -18.0, -14.9, -10.9 (nu1, nu2, nu3, e, mu, tau, u, c, t, d, s, b), M_DM -0.772, alpha and the gauge couplings -4, G_N +2.048 (= -4 + 2 k* G'(k*)/G(k*): the Lovelock factor of the 4D Newton constant also varies with the block): the masses track the block; the stabilised block (radion mass 48420 GeV) freezes them after the primordial era",
    "name": "A5_sensitivities",
    "passed": true
   },
   {
-   "detail": "Psi_B lowest odd Dirac fermion: M_DM = 3.1022 m = 44.35 TeV (m = H), w = 0 at rest, zero Z charge and zero transition currents at the tip (exact); a gauge singlet",
+   "detail": "the lowest odd Dirac fermions of Psi_A and of Psi_B (the same orbital in all eight blocks: degenerate): M_DM = 3.1022 m = 44.35 TeV (m = H), w = 0 at rest; gauge singlets; Psi_B has zero chiral tip charge and zero transition currents at the tip (exact); Psi_A has a non-zero chiral tip charge (0.257), but UM-2 has no tip Z portal (dropped in the three-generation version, um2_electroweak.py), so neither half couples to the Z",
    "name": "B1_mass_cold_neutral",
    "passed": true
   },
@@ -77,17 +77,17 @@
    "passed": true
   },
   {
-   "detail": "thermal relic of the Psi_B Dirac fermion through the gauge-kinetic portal I12 (p-wave): x_f = 30.31, g* = 56.75, <sigma v>(x_f) = 1.37e-25 cm^3/s required, i.e. (8 G_g^2 + 3 G_W^2 + G_B^2)^{1/2} = (16.6 TeV)^-3, below the thermal unitarity scale 2.3e-25 cm^3/s",
+   "detail": "thermal relic of the two degenerate Dirac fermions (lowest odd states of Psi_A and Psi_B, each freezing out separately through the gauge-kinetic portal I12, p-wave; Omega h^2 = 0.060 each, 0.120 in all): x_f = 30.38, g* = 105.75, <sigma v>(x_f) = 2.01e-25 cm^3/s required per species, i.e. (8 G_g^2 + 3 G_W^2 + G_B^2)^{1/2} = (15.5 TeV)^-3 (a single species would need (17.6 TeV)^-3), below the thermal unitarity scale 2.3e-25 cm^3/s",
    "name": "B3_relic_requirement",
    "passed": true
   },
   {
-   "detail": "even if the relic annihilation went only into gluons, the trace-anomaly coupling gives sigma_SI = 4.3e-53 cm^2, far below the LZ limit 2.4e-45 cm^2 at 44.3 TeV (ESTIMATE; linear extrapolation of the published limit): the portal I12 is unconstrained by direct detection; annihilation into W+W-, ZZ, Z gamma, gamma gamma has no tree-level nucleon coupling at all",
+   "detail": "even if the relic annihilation went only into gluons, the trace-anomaly coupling gives sigma_SI = 6.3e-53 cm^2 for each half (the two halves have the same cross-section and together the full local density, so the limit applies as for one species), far below the LZ limit 2.4e-45 cm^2 at 44.3 TeV (ESTIMATE; linear extrapolation of the published limit): the portal I12 is unconstrained by direct detection; annihilation into W+W-, ZZ, Z gamma, gamma gamma has no tree-level nucleon coupling at all",
    "name": "B4_direct_detection",
    "passed": true
   },
   {
-   "detail": "with the author's matrices: B commutes with C, with gamma^a and C gamma^a for a = x0..x4 and with S^ab inside {x0..x4} and inside {x5, x6, x7}, and anticommutes with gamma^a, C gamma^a for a = x5, x6, x7: in the good sector (no extra-time momenta) the Dirac operator gamma^M D_M (with gamma^M Omega_M = (3/2)(H/f) gamma^(x0) + (...) gamma^(x4)), the mass and contact terms (Psibar Psi), I11 and I12 (4D currents, Psibar Psi) and I9 (4D current, P_+ = (1 - B gamma^(x0))/2) all commute with B, so N_A and N_B are separately conserved; extra-time momenta (outside the good sector, OPEN) would mix the halves. The fold parity of Psi_B is exact because P_+ Psi_B = 0 at the tip and the bulk is reflection symmetric; the heavy odd Psi_A states (tip charge 1.579 times that of the Psi_A fold band) decay through the oriented part of I9",
+   "detail": "with the author's matrices: B commutes with C, with gamma^a and C gamma^a for a = x0..x4 and with S^ab inside {x0..x4} and inside {x5, x6, x7}, and anticommutes with gamma^a, C gamma^a for a = x5, x6, x7: in the good sector (no extra-time momenta) the Dirac operator gamma^M D_M (with gamma^M Omega_M = (3/2)(H/f) gamma^(x0) + (...) gamma^(x4)), the mass and contact terms (Psibar Psi), I11 and I12 (4D currents, Psibar Psi) all commute with B (so would a chiral tip current with P_+ = (1 - B gamma^(x0))/2), so N_A and N_B are separately conserved; extra-time momenta (outside the good sector, OPEN) would mix the halves. The bulk is reflection symmetric and UM-2 has no oriented tip operator (the tip Z portal of the one-generation version, whose oriented part let the odd Psi_A states decay, is dropped), so the fold parity is exact in both halves and the lowest odd states of Psi_A and Psi_B are both stable (their chiral tip charges would be 1.579 times that of the Psi_A fold band, and 0 for Psi_B)",
    "name": "B5_stability_and_neutrality",
    "passed": true
   },

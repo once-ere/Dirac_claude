@@ -9,11 +9,14 @@ A1  exact identity: for u = e^{-3 eta t/2} v, e^{3 eta t} u'^2 = v'^2 + (9 eta^2
     extra times is a constant potential, the fold an attractive point term, the tip a repulsive one);
 A2  gap theorem: for every tip parameter beta >= 0 the even sector has exactly one level below 9 eta^2/4 and the odd sector none;
 A3  decomposition of (m f L)^2 of every particle into hidden kinetic energy <p^2>, warp (or bulk mass), fold and tip terms, and the
-    comparison of m with the author's uncertainty estimate m_H = hbar c/(2 Delta s) (Delta s on one full period);
+    comparison of m with the author's uncertainty estimate m_H = hbar c/(2 Delta s) (Delta s on one full period); the twelve
+    fermions of the three generations each consist of a doublet zero mode (c_L for leptons, c_Q for quarks) and a singlet zero
+    mode (c_R), mixed at the tip;
 A4  localisation in the coordinate x0 versus proper localisation;
 A5  sensitivities d ln m / d ln f and the constancy of the masses today;
-B   dark matter: the Psi_B lowest odd Dirac fermion: mass, coldness, Z neutrality, stability, the relic requirement for the
-    gauge-kinetic portal I12 (p-wave), unitarity, direct detection, self-interaction;
+B   dark matter: the lowest odd Dirac fermions of the two halves Psi_A and Psi_B (degenerate; both stable since UM-2 has no tip Z
+    portal): mass, coldness, neutrality, stability, the relic requirement for the gauge-kinetic portal I12 (p-wave), unitarity,
+    direct detection;
 C   dark energy: positive-energy Kohn-Sham states, the lambda < 0 condensate, the vacuum energy, the tuning of Lambda4.
 Writes outputs/analysis.json, figures/fig_analysis_*.png, reports/analysis-checks.json.
 """
@@ -29,6 +32,15 @@ from scipy.optimize import brentq
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from um2_common import FIG, OUT, Report, read_json, write_json  # noqa: E402
 from um2_constants import ETA, M_PSI_OVER_H, val  # noqa: E402
+
+FERMIONS = ['nu1', 'nu2', 'nu3', 'e', 'mu', 'tau', 'u', 'c', 't', 'd', 's', 'b']
+SECTOR = {'nu1': 'leptons', 'nu2': 'leptons', 'nu3': 'leptons', 'e': 'leptons', 'mu': 'leptons', 'tau': 'leptons',
+          'u': 'quarks', 'c': 'quarks', 't': 'quarks', 'd': 'quarks', 's': 'quarks', 'b': 'quarks'}
+
+
+def dlnzeta2(c, h=1e-6):
+    """d ln zeta(c)^2 / d ln c (zeta^2 = tip density of the zero mode with localisation c > 0)"""
+    return float((mp.log(zeta2(c * (1 + h))) - mp.log(zeta2(c * (1 - h)))) / (math.log(1 + h) - math.log(1 - h)))
 from um2_spectra import boson_levels, zeta2  # noqa: E402
 
 KS = os.path.join(OUT, 'ks')
@@ -151,12 +163,14 @@ def main():
     table['first even KK mode'] = decomp_boson(Lam1, 0.0, eta, 'even')
     table['first odd mode'] = decomp_boson(LamO, 0.0, eta, 'odd')
     sumrule = max(abs(v['sum'] - v['Lambda']) / max(1, v['Lambda']) for v in table.values())
-    for name in ('nu', 'e', 'u', 'd'):
-        c = masses['fermions'][name]['c']
-        d = decomp_fermion_zero(c)
-        d['m_GeV'] = masses['fermions'][name]['m_GeV']
-        d['mfL'] = d['m_GeV'] * fL_GeV
-        table['%s (chiral zero mode, mass from the tip)' % name] = d
+    # chiral zero modes: one doublet zero mode per sector (common to the three generations) and one singlet zero mode per fermion;
+    # each zero mode alone is massless (sum rule 0); the masses come from their mixing at the tip (um2_spectra.py)
+    F = masses['fermions']
+    cD = masses['doublet_c']
+    table['lepton doublet zero mode (c_L = %.4f, chiral zero mode)' % cD['leptons']] = decomp_fermion_zero(cD['leptons'])
+    table['quark doublet zero mode (c_Q = %.4f, chiral zero mode)' % cD['quarks']] = decomp_fermion_zero(cD['quarks'])
+    for name in FERMIONS:
+        table['%s singlet zero mode (c = -c_R = %.4f, chiral zero mode)' % (name, -F[name]['c_R'])] = decomp_fermion_zero(-F[name]['c_R'])
     sp_ = read_json(os.path.join(KS, 'spectrum.json'))
     cpsi = sp_['c_psi']
     dfold = decomp_fermion_zero(cpsi)
@@ -172,6 +186,16 @@ def main():
         v['m_over_mH'] = v.get('mfL', 0.0) / v['mH_fL']
         v['Delta_s_m'] = v['Delta_t'] * fL_GeV * hbarc
         v['mH_GeV'] = v['mH_fL'] / fL_GeV
+    # the twelve fermions: mass against the uncertainty estimate of the broader (smaller m_H) of their two zero modes
+    ferm = {}
+    for name in FERMIONS:
+        dL = table['%s doublet zero mode (c_%s = %.4f, chiral zero mode)' % ('lepton' if SECTOR[name] == 'leptons' else 'quark',
+                                                                          'L' if SECTOR[name] == 'leptons' else 'Q', cD[SECTOR[name]])]
+        dR = table['%s singlet zero mode (c = -c_R = %.4f, chiral zero mode)' % (name, -F[name]['c_R'])]
+        mH = min(dL['mH_GeV'], dR['mH_GeV'])
+        ferm[name] = {'m_GeV': F[name]['m_GeV'], 'c_L': F[name]['c_L'], 'c_R': F[name]['c_R'], 'mH_doublet_GeV': dL['mH_GeV'],
+                      'mH_singlet_GeV': dR['mH_GeV'], 'mH_GeV': mH, 'm_over_mH': F[name]['m_GeV'] / mH}
+    out['fermions_vs_uncertainty_estimate'] = ferm
     # the uncertainty relation on the cell: with rho normalised on [-1, 0], int rho dt = [t rho]_{-1}^{0} - int t rho' dt
     # = rho(tip) - int t rho' dt (the fold end t = 0 contributes nothing), and rho' = 2 v v' (bosons) or 2 Re chi^+ chi' (fermions);
     # Cauchy-Schwarz gives sqrt(<p^2>) Delta t >= (1 - rho(tip))/2, which reduces to <p^2> Delta t^2 >= 1/4 only when rho(tip) -> 0
@@ -204,20 +228,23 @@ def main():
               'for the computed x0 excitations the uncertainty estimate lies below the mass: m/m_H = %.2f (first even KK), %.2f (first odd), %.2f '
               '(Psi dark matter, x0-momentum fraction of eps^2 = %.3f)' % (ex[0]['m_over_mH'], ex[1]['m_over_mH'], ex[2]['m_over_mH'],
                                                                          ddm['x0_momentum_fraction']))
-    fe = [table['%s (chiral zero mode, mass from the tip)' % n] for n in ('nu', 'e', 'u', 'd')]
-    rep.check('A3_light_fermions_far_below_heisenberg', all(v['m_over_mH'] < 1e-6 for v in fe),
-              'light fermions: m/m_H = %s (nu, e, u, d): their masses come from the tip mixing of chiral zero modes, not from localisation' % (
-                  ', '.join('%.1e' % v['m_over_mH'] for v in fe)))
-    # fermion mass versus localisation: d ln m / d ln c < 0
-    dl = []
-    for n in ('nu', 'e', 'u', 'd'):
-        c = masses['fermions'][n]['c']
-        h = 1e-6
-        dl.append(float((mp.log(zeta2(c * (1 + h))) - mp.log(zeta2(c * (1 - h)))) / (math.log(1 + h) - math.log(1 - h))))
-    out['dlnm_dlnc_fermions'] = dl
-    rep.check('A3_sharper_localisation_lighter_fermion', all(x < 0 for x in dl),
-              'd ln m_f/d ln c = %s < 0: a sharper x0 localisation (larger c) gives a LIGHTER fermion, the reverse of the Heisenberg intuition' % (
-                  ', '.join('%.2f' % x for x in dl)))
+    rmax = max(v['m_over_mH'] for v in ferm.values())
+    rep.check('A3_fermions_far_below_heisenberg', rmax < 0.01,
+              'fermions: m/m_H = %s (%s; m_H of the broader of the two zero modes, %.0f TeV for the leptons, %.0f TeV for the quarks): every '
+              'fermion lies far below the uncertainty estimate, the top quark by a factor %.0f: the masses come from the tip mixing of chiral '
+              'zero modes, not from localisation' % (
+                  ', '.join('%.1e' % ferm[n]['m_over_mH'] for n in FERMIONS), ', '.join(FERMIONS), ferm['e']['mH_GeV'] / 1e3,
+                  ferm['u']['mH_GeV'] / 1e3, 1 / ferm['t']['m_over_mH']))
+    # fermion mass versus localisation: with m ~ kappa zeta(c_L) zeta(-c_R), d ln m/d ln c_L = (1/2) d ln zeta^2(c_L)/d ln c_L (doublet)
+    # and d ln m/d ln(-c_R) = (1/2) d ln zeta^2(-c_R)/d ln(-c_R) (singlet)
+    dl = {'lepton doublet': 0.5 * dlnzeta2(cD['leptons']), 'quark doublet': 0.5 * dlnzeta2(cD['quarks'])}
+    for n in FERMIONS:
+        dl[n + ' singlet'] = 0.5 * dlnzeta2(-F[n]['c_R'])
+    out['dlnm_dlnc_zero_modes'] = dl
+    rep.check('A3_sharper_localisation_lighter_fermion', all(x < 0 for x in dl.values()),
+              'd ln m_f/d ln c = %s < 0 (lepton doublet, quark doublet, then the singlets of %s): a sharper x0 localisation (larger c) of '
+              'either zero mode gives a LIGHTER fermion, the reverse of the Heisenberg intuition' % (
+                  ', '.join('%.2f' % x for x in dl.values()), ', '.join(FERMIONS)))
 
     # ---------------- A4 coordinate localisation ----------------
     # the flat zero mode u = 1: proper weight e^{3Hy} dy; in the coordinate z = 6 H x0 (0 < z < pi/2 on one half): dy = cot z dz/(6H),
@@ -238,9 +265,9 @@ def main():
     LWp = boson_levels(eta, bW * (1 + h), 'even', 1)[0][0]
     LWm = boson_levels(eta, bW * (1 - h), 'even', 1)[0][0]
     sens['m_W'] = -1.0 + 0.5 * (math.log(LWp) - math.log(LWm)) / (math.log(1 + h) - math.log(1 - h))
-    for n in ('nu', 'e', 'u', 'd'):
-        c = masses['fermions'][n]['c']
-        sens['m_' + n] = -1.0 + float((mp.log(zeta2(c * (1 + h))) - mp.log(zeta2(c * (1 - h)))) / (math.log(1 + h) - math.log(1 - h)))
+    # m_f = e_f/(f L) with e_f = kappa zeta(c_L) zeta(-c_R) and both localisations c = mu f L proportional to f
+    for n in FERMIONS:
+        sens['m_' + n] = -1.0 + 0.5 * (dlnzeta2(F[n]['c_L']) + dlnzeta2(-F[n]['c_R']))
     sens['M_DM'] = sp_['dln_eps_dm_dln_f']
     # 8 pi G_N = kappa/(G(k) V_perp) with V_perp ~ f^4 and k = 1/f^2: d ln G_N/d ln f = -4 + 2 k G'(k)/G(k);
     # the gauge couplings g^2 = ghat^2/V_perp: d ln alpha/d ln f = -4
@@ -253,10 +280,11 @@ def main():
     out['sensitivities_dlnX_dlnf'] = sens
     prim = read_json(os.path.join(OUT, 'primordial.json'))
     rep.check('A5_sensitivities', sens['m_e'] < -15 and -1.2 < sens['M_DM'] < 0,
-              'd ln X/d ln f: KK -1, m_W %.3f, m_e %.1f, m_u %.1f, m_d %.1f, m_nu %.1f, M_DM %.3f, alpha and the gauge couplings -4, '
+              'd ln X/d ln f: KK -1, m_W %.3f, fermions %s (%s), M_DM %.3f, alpha and the gauge couplings -4, '
               'G_N %+.3f (= -4 + 2 k* G\'(k*)/G(k*): the Lovelock factor of the 4D Newton constant also varies with the block): the masses '
               'track the block; the stabilised block (radion mass %.0f GeV) freezes them after the primordial era' % (
-                  sens['m_W'], sens['m_e'], sens['m_u'], sens['m_d'], sens['m_nu'], sens['M_DM'], sens['G_N'], sc['radion_mass_GeV']))
+                  sens['m_W'], ', '.join('%.1f' % sens['m_' + n] for n in FERMIONS), ', '.join(FERMIONS), sens['M_DM'], sens['G_N'],
+                  sc['radion_mass_GeV']))
 
     # ---------------- B dark matter ----------------
     ew = read_json(os.path.join(OUT, 'electroweak.json'))
@@ -265,9 +293,13 @@ def main():
     MDM = sp_['eps_dm'] * M_PSI_OVER_H * Hgev
     out['M_DM_GeV'] = MDM
     zB = [v for k, v in ew['tip_charge_dm_by_block'].items() if eval(k)[0] * eval(k)[1] == 1]
-    rep.check('B1_mass_cold_neutral', abs(dm['0']['w_dm']) < 1e-12 and all(abs(x) < 1e-14 for x in zB),
-              'Psi_B lowest odd Dirac fermion: M_DM = %.4f m = %.2f TeV (m = H), w = 0 at rest, zero Z charge and zero transition currents at the tip '
-              '(exact); a gauge singlet' % (sp_['eps_dm'], MDM / 1e3))
+    zA = [v for k, v in ew['tip_charge_dm_by_block'].items() if eval(k)[0] * eval(k)[1] == -1]
+    rep.check('B1_mass_cold_neutral', abs(dm['0']['w_dm']) < 1e-12 and all(abs(x) < 1e-14 for x in zB) and min(zA) > 0.1 and
+              'dropped' in ew['Z_portal']['I9'],
+              'the lowest odd Dirac fermions of Psi_A and of Psi_B (the same orbital in all eight blocks: degenerate): M_DM = %.4f m = '
+              '%.2f TeV (m = H), w = 0 at rest; gauge singlets; Psi_B has zero chiral tip charge and zero transition currents at the tip '
+              '(exact); Psi_A has a non-zero chiral tip charge (%.3f), but UM-2 has no tip Z portal (dropped in the three-generation '
+              'version, um2_electroweak.py), so neither half couples to the Z' % (sp_['eps_dm'], MDM / 1e3, min(zA)))
     # relic: p-wave from the gauge-kinetic portal I12: sigma v = (M^4 v_rel^2/pi) (8 G_g^2 + 3 G_W^2 + G_B^2)
     # verify the polarisation sum and spin trace numerically
     rng = np.random.default_rng(1)
@@ -305,15 +337,21 @@ def main():
     rep.check('B2_cross_section_formula', abs(sv_exact - s * (s - 4 * Mx * Mx) / (4 * math.pi)) < 1e-12 and abs(sv_exact / sv_nr - 1) < 0.1,
               'L = G chibar chi F F: sigma v = G^2 s (s - 4 M^2)/(4 pi) -> G^2 M^4 v_rel^2/pi (p-wave) per abelian channel; total '
               '(M^4 v^2/pi)(8 G_g^2 + 3 G_W^2 + G_B^2) for the gluon, W^a and B channels')
-    # freeze-out (Kolb-Turner), Dirac: Omega_tot h^2 = 2 x 1.07e9 x_f/(sqrt(g*) M_Pl (a + 3 b/x_f)), <sigma v> = a + 6 b/x
-    MPl = 1.22e19
-    gst = 56.75
+    # freeze-out (Kolb-Turner), Dirac: Omega_tot h^2 = 2 x 1.07e9 x_f/(sqrt(g*) M_Pl (a + 3 b/x_f)), <sigma v> = a + 6 b/x.
+    # Two degenerate Dirac species (the lowest odd states of Psi_A and Psi_B) with the same I12 couplings; Psibar Psi = S_A + S_B does
+    # not mix the halves, so each species freezes out separately and contributes half of the dark matter.
+    # g* at T_f = M/x_f ~ 1.5 TeV: the Standard Model without a Higgs particle, three generations (right-handed neutrinos and the
+    # fold bands of dirac16complex are never thermalised): 105.75
+    MPl = val('M_Pl_GeV')
+    gst = 105.75
+    n_species = 2
     def omega(b_GeV, M):
         xf = 25.0
         for _ in range(50):
             xf = math.log(0.038 * 0.5 * 2.5 * 2 * MPl * M * (6 * b_GeV / xf) / math.sqrt(gst * xf))
         return 2 * 1.07e9 * xf / (math.sqrt(gst) * MPl * (3 * b_GeV / xf)), xf
-    target = 0.120
+    target_total = 0.120          # Planck 2018 omega_c (the value used in um2_cosmology.py)
+    target = target_total / n_species
     lo, hi = 1e-30, 1e-5
     for _ in range(200):
         mid = math.sqrt(lo * hi)
@@ -328,12 +366,26 @@ def main():
     svreq = 6 * breq / xf * GeV2_to_cm3s
     G_eff = math.sqrt(breq * math.pi / MDM ** 4)          # equivalent single-channel coefficient (8 G_g^2 + 3 G_W^2 + G_B^2 = G_eff^2)
     unit = 4 * math.pi / MDM ** 2 * math.sqrt(xf / math.pi) * GeV2_to_cm3s   # s-wave thermal unitarity scale (ESTIMATE)
-    out['relic'] = {'g_star': gst, 'x_f': xf, 'b_required_GeV-2': breq, 'sigma_v_required_cm3_s': svreq,
-                    'G_eff_required_GeV-3': G_eff, 'Lambda_eff_TeV': G_eff ** (-1.0 / 3.0) / 1e3, 'unitarity_scale_cm3_s': unit}
+    # for comparison: a single species carrying all the dark matter (the one-generation version, where the odd Psi_A states decayed)
+    lo1, hi1 = 1e-30, 1e-5
+    for _ in range(200):
+        mid = math.sqrt(lo1 * hi1)
+        if omega(mid, MDM)[0] > target_total:
+            lo1 = mid
+        else:
+            hi1 = mid
+    b1 = math.sqrt(lo1 * hi1)
+    G1 = math.sqrt(b1 * math.pi / MDM ** 4)
+    out['relic'] = {'g_star': gst, 'n_species': n_species, 'Omega_h2_per_species': om, 'Omega_h2_total': n_species * om, 'x_f': xf,
+                    'b_required_GeV-2': breq, 'sigma_v_required_cm3_s': svreq, 'G_eff_required_GeV-3': G_eff,
+                    'Lambda_eff_TeV': G_eff ** (-1.0 / 3.0) / 1e3, 'unitarity_scale_cm3_s': unit,
+                    'single_species_Lambda_eff_TeV': G1 ** (-1.0 / 3.0) / 1e3}
     rep.check('B3_relic_requirement', abs(om - target) < 1e-6 and svreq < unit,
-              'thermal relic of the Psi_B Dirac fermion through the gauge-kinetic portal I12 (p-wave): x_f = %.2f, g* = %.2f, '
-              '<sigma v>(x_f) = %.2e cm^3/s required, i.e. (8 G_g^2 + 3 G_W^2 + G_B^2)^{1/2} = (%.1f TeV)^-3, below the thermal unitarity '
-              'scale %.1e cm^3/s' % (xf, gst, svreq, G_eff ** (-1.0 / 3.0) / 1e3, unit))
+              'thermal relic of the two degenerate Dirac fermions (lowest odd states of Psi_A and Psi_B, each freezing out separately '
+              'through the gauge-kinetic portal I12, p-wave; Omega h^2 = %.3f each, %.3f in all): x_f = %.2f, g* = %.2f, '
+              '<sigma v>(x_f) = %.2e cm^3/s required per species, i.e. (8 G_g^2 + 3 G_W^2 + G_B^2)^{1/2} = (%.1f TeV)^-3 (a single species '
+              'would need (%.1f TeV)^-3), below the thermal unitarity scale %.1e cm^3/s' % (
+                  om, n_species * om, xf, gst, svreq, G_eff ** (-1.0 / 3.0) / 1e3, G1 ** (-1.0 / 3.0) / 1e3, unit))
     # direct detection through the gluon portal only (trace anomaly): f_N = -(8 pi/9 alpha_s)... use G_g * (8 pi/9) * m_N f_TG / ...
     # sigma_SI = (4 mu^2/pi) f_N^2, f_N = G_g (16 pi/9)(m_N f_TG)/alpha_s... ESTIMATE with f_TG = 0.92 and alpha_s(2 GeV) = 0.3
     mN = 0.939
@@ -350,7 +402,9 @@ def main():
     out['direct_detection'] = {'LZ_limit_cm2_linear_extrapolation': lz, 'sigma_SI_if_gluon_dominated_cm2': sigSI(G_eff / math.sqrt(8)),
                                'G_g_max_GeV-3': Gg_max, 'fraction_of_relic_coupling_allowed_in_gluons': (Gg_max * math.sqrt(8) / G_eff) ** 2}
     rep.check('B4_direct_detection', sigSI(G_eff / math.sqrt(8)) < lz,
-              'even if the relic annihilation went only into gluons, the trace-anomaly coupling gives sigma_SI = %.1e cm^2, far below the LZ limit '
+              'even if the relic annihilation went only into gluons, the trace-anomaly coupling gives sigma_SI = %.1e cm^2 for each half (the two '
+              'halves have the same cross-section and together the full local density, so the limit applies as for one species), far below '
+              'the LZ limit '
               '%.1e cm^2 at %.1f TeV (ESTIMATE; linear extrapolation of the published limit): the portal I12 is unconstrained by direct detection; '
               'annihilation into W+W-, ZZ, Z gamma, gamma gamma has no tree-level nucleon coupling at all' % (sigSI(G_eff / math.sqrt(8)), lz, MDM / 1e3))
     # B5: which bilinears and operators preserve the halves Psi_A (B = -1) and Psi_B (B = +1)?  A term Psi^dagger X Psi (or the
@@ -375,10 +429,12 @@ def main():
               'with the author\'s matrices: B commutes with C, with gamma^a and C gamma^a for a = x0..x4 and with S^ab inside {x0..x4} and '
               'inside {x5, x6, x7}, and anticommutes with gamma^a, C gamma^a for a = x5, x6, x7: in the good sector (no extra-time '
               'momenta) the Dirac operator gamma^M D_M (with gamma^M Omega_M = (3/2)(H/f) gamma^(x0) + (...) gamma^(x4)), the mass and '
-              'contact terms (Psibar Psi), I11 and I12 (4D currents, Psibar Psi) and I9 (4D current, P_+ = (1 - B gamma^(x0))/2) all '
-              'commute with B, so N_A and N_B are separately conserved; extra-time momenta (outside the good sector, OPEN) would mix the '
-              'halves. The fold parity of Psi_B is exact because P_+ Psi_B = 0 at the tip and the bulk is reflection symmetric; the heavy '
-              'odd Psi_A states (tip charge %.3f times that of the Psi_A fold band) decay through the oriented part of I9' % ew['ratio_dm_to_fold_band_Psi_A'])
+              'contact terms (Psibar Psi), I11 and I12 (4D currents, Psibar Psi) all commute with B (so would a chiral tip current with '
+              'P_+ = (1 - B gamma^(x0))/2), so N_A and N_B are separately conserved; extra-time momenta (outside the good sector, OPEN) '
+              'would mix the halves. The bulk is reflection symmetric and UM-2 has no oriented tip operator (the tip Z portal of the '
+              'one-generation version, whose oriented part let the odd Psi_A states decay, is dropped), so the fold parity is exact in '
+              'both halves and the lowest odd states of Psi_A and Psi_B are both stable (their chiral tip charges would be %.3f times '
+              'that of the Psi_A fold band, and 0 for Psi_B)' % ew['ratio_dm_to_fold_band_Psi_A'])
 
     # ---------------- C dark energy ----------------
     # Kohn-Sham states on the static block: w = P3/E
@@ -434,20 +490,20 @@ def main():
               'problem of UM-2 (OPEN)' % (mr, rad[1]['tau_s'], rad[1]['T_RH_MeV'], Cmin))
 
     # A6: how static must the block be today?  Every mass and coupling depends on f (A5); a block rate h = f'/f today changes
-    # alpha by d ln alpha/dt = -4 h, G_N by (d ln G_N/d ln f) h and m_e by -20.6 h.  Atomic-clock bound |d ln alpha/dt| < 1e-17
+    # alpha by d ln alpha/dt = -4 h, G_N by (d ln G_N/d ln f) h and m_e by (d ln m_e/d ln f) h.  Atomic-clock bound |d ln alpha/dt| < 1e-17
     # per year and lunar-laser-ranging bound |d ln G/dt| < 1e-13 per year (FROM MEMORY) -> bounds on |h| (ESTIMATE).
     H0_per_yr = 67.43 * 1e3 / 3.0857e22 * 3.15576e7
     h_alpha = 1e-17 / abs(sens['alpha and the gauge couplings (1/V_perp)'])
     h_G = 1e-13 / abs(sens['G_N'])
     out['block_rate_today_bound'] = {'H0_per_yr': H0_per_yr, 'h_max_from_alpha_per_yr': h_alpha, 'h_max_from_G_per_yr': h_G,
                                      'h_max_over_H0_alpha': h_alpha / H0_per_yr, 'h_max_over_H0_G': h_G / H0_per_yr,
-                                     'm_e_drift_if_h_equals_H0_per_yr': 20.6 * H0_per_yr}
+                                     'm_e_drift_if_h_equals_H0_per_yr': abs(sens['m_e']) * H0_per_yr}
     rep.check('A6_block_frozen_today', h_alpha / H0_per_yr < 1e-6,
               'ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = %+.2f, the atomic-clock bound |d ln alpha/dt| < 1e-17/yr and the '
               'lunar-ranging bound |d ln G/dt| < 1e-13/yr (FROM MEMORY) require |h| < %.1e/yr = %.1e H0 and |h| < %.1e/yr = %.1e H0 today; '
               'a block deflating at the Hubble rate would change m_e by %.1e per year: the extra times (and x0) must be frozen today, '
               'their exponential deflation confined to the primordial era' % (
-                  sens['G_N'], h_alpha, h_alpha / H0_per_yr, h_G, h_G / H0_per_yr, 20.6 * H0_per_yr))
+                  sens['G_N'], h_alpha, h_alpha / H0_per_yr, h_G, h_G / H0_per_yr, abs(sens['m_e']) * H0_per_yr))
 
     # figures
     import matplotlib
@@ -462,14 +518,19 @@ def main():
             names.append(k.split(' (')[0])
             m_.append(v['mfL'] / fL_GeV)
             mh_.append(v['mH_GeV'])
-    ax.loglog(mh_, m_, 'o')
+    ax.loglog(mh_, m_, 'o', color='C0', label='gauge bosons, x0 excitations, dark matter')
+    fn = list(ferm.keys())
+    ax.loglog([ferm[n]['mH_GeV'] for n in fn], [ferm[n]['m_GeV'] for n in fn], 's', color='C3', ms=4,
+              label='fermions (m_H of the broader zero mode)')
     # label placement chosen to avoid overlaps (the KK pair and the W, Z pair sit almost on top of each other)
     lab = {'first even KK mode': ('first even KK', (-62, 7)), 'first odd mode': ('first odd', (6, 7)),
-           'Psi lowest odd level': ('Psi_B dark matter', (6, -11)), 'W': ('W+, W-', (7, -9)), 'Z': ('Z', (7, 4)),
-           'nu': ('nu', (6, 2)), 'e': ('e', (6, -3)), 'u': ('u', (6, 0)), 'd': ('d', (6, 3))}
+           'Psi lowest odd level': ('Psi_A, Psi_B dark matter', (6, -11)), 'W': ('W+, W-', (7, -9)), 'Z': ('Z', (7, 4))}
+    foff = {'u': (6, -6), 'd': (6, 3), 'c': (6, -6), 'b': (6, 2)}
     for n_, x_, y_ in zip(names, mh_, m_):
         t_, off = lab.get(n_, (n_, (4, 2)))
         ax.annotate(t_, (x_, y_), fontsize=7, xytext=off, textcoords='offset points')
+    for n_ in fn:
+        ax.annotate(n_, (ferm[n_]['mH_GeV'], ferm[n_]['m_GeV']), fontsize=7, xytext=foff.get(n_, (6, -2)), textcoords='offset points')
     xx = np.logspace(3.5, 6, 10)
     ax.loglog(xx, xx, 'k--', lw=0.8, label='m = hbar c/(2 Delta s)')
     ax.set_xlabel('uncertainty estimate hbar c/(2 Delta s) [GeV]')
