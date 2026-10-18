@@ -1,0 +1,144 @@
+{
+ "gamma4_block_form": "-j s2 sigma3",
+ "gauge_invariance_max_deviation": 3.55286223674e-15,
+ "selected_blocks": [
+  [
+   1,
+   -1,
+   1
+  ],
+  [
+   -1,
+   1,
+   1
+  ]
+ ],
+ "zero_mode_content": {
+  "dirac16complex": [
+   {
+    "block": [
+     1,
+     1,
+     1
+    ],
+    "gamma4": -1,
+    "localised_at": "fold",
+    "shape": "(e^{f mu y}, 0)"
+   },
+   {
+    "block": [
+     1,
+     1,
+     -1
+    ],
+    "gamma4": -1,
+    "localised_at": "fold",
+    "shape": "(e^{f mu y}, 0)"
+   },
+   {
+    "block": [
+     1,
+     -1,
+     1
+    ],
+    "gamma4": 1,
+    "localised_at": "fold",
+    "shape": "(e^{f mu y}, 0)"
+   },
+   {
+    "block": [
+     1,
+     -1,
+     -1
+    ],
+    "gamma4": 1,
+    "localised_at": "fold",
+    "shape": "(e^{f mu y}, 0)"
+   },
+   {
+    "block": [
+     -1,
+     1,
+     1
+    ],
+    "gamma4": 1,
+    "localised_at": "fold",
+    "shape": "(e^{f mu y}, 0)"
+   },
+   {
+    "block": [
+     -1,
+     1,
+     -1
+    ],
+    "gamma4": 1,
+    "localised_at": "fold",
+    "shape": "(e^{f mu y}, 0)"
+   },
+   {
+    "block": [
+     -1,
+     -1,
+     1
+    ],
+    "gamma4": -1,
+    "localised_at": "fold",
+    "shape": "(e^{f mu y}, 0)"
+   },
+   {
+    "block": [
+     -1,
+     -1,
+     -1
+    ],
+    "gamma4": -1,
+    "localised_at": "fold",
+    "shape": "(e^{f mu y}, 0)"
+   }
+  ],
+  "doublet (L, Q)": [
+   {
+    "block": [
+     1,
+     -1,
+     1
+    ],
+    "gamma4": 1,
+    "localised_at": "fold",
+    "shape": "(e^{f mu y}, 0)"
+   },
+   {
+    "block": [
+     -1,
+     1,
+     1
+    ],
+    "gamma4": 1,
+    "localised_at": "fold",
+    "shape": "(e^{f mu y}, 0)"
+   }
+  ],
+  "singlet (e_R, nu_R, u_R, d_R)": [
+   {
+    "block": [
+     1,
+     -1,
+     1
+    ],
+    "gamma4": -1,
+    "localised_at": "fold",
+    "shape": "(0, e^{-f mu y})"
+   },
+   {
+    "block": [
+     -1,
+     1,
+     1
+    ],
+    "gamma4": -1,
+    "localised_at": "fold",
+    "shape": "(0, e^{-f mu y})"
+   }
+  ]
+ }
+}

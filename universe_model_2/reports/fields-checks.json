@@ -1,0 +1,87 @@
+{
+ "check_count": 15,
+ "checks": [
+  {
+   "detail": "for every block (j, s2, s3): gamma^mu D_mu Psi - (M(y) - i v(y) gamma^(x4)) Psi = gamma^(x4) V_beta [d_4 chi + i h_j chi] with Psi = e^{i k x1} e^{-(3/2) H y} e^{a4/2} b4^{-1} V_beta chi, h_j = j[-(i/f) sigma1 d_y + M sigma2 + e^{-a4} k sigma3] + v; general a4(x4), b4(x4), M(y), v(y) (canonical spin connection included exactly)",
+   "name": "dirac_reduction_exact",
+   "passed": true
+  },
+  {
+   "detail": "Gamma4 = i g1 g2 g3 g4 = -j s2 sigma3 in block (j, s2, s3) (block diagonal)",
+   "name": "gamma4_block_form",
+   "passed": true
+  },
+  {
+   "detail": "P_sel = (1 + Gamma4 gamma^(x0))/2 (1 - i gamma^(x5) gamma^(x6))/2 is a projector commuting with every 4D Lorentz generator gamma^a gamma^b (a, b = x1..x4)",
+   "name": "selection_operator_lorentz_invariant",
+   "passed": true
+  },
+  {
+   "detail": "P_sel = 1 exactly on the blocks (j, s2, s3) = (1, -1, 1) and (-1, 1, 1) (Gamma4 gamma^(x0) = +1, s3 = +1), 0 elsewhere: selected = [(1, -1, 1), (-1, 1, 1)]",
+   "name": "selected_blocks",
+   "passed": true
+  },
+  {
+   "detail": "chi2 = 0 and chi1 = 0 are each Lagrangian for the boundary form phi^dagger sigma1 chi of h_j: h_j is self-adjoint with any per-block choice of theta in {0, pi} at the fold and at the tip",
+   "name": "bc_lagrangian",
+   "passed": true
+  },
+  {
+   "detail": "h chi = 0 (k = 0) has the general solution chi = (A e^{f mu y}, B e^{-f mu y}); a zero mode needs both ends compatible",
+   "name": "zero_mode_general_solution",
+   "passed": true
+  },
+  {
+   "detail": "dirac16complex (theta = 0 in all blocks): 8 fold zero modes, 4 with Gamma4 = +1 and 4 with Gamma4 = -1 (4D vector-like: g_F = 8 states per 3-momentum, two massless 4D Dirac fermions)",
+   "name": "zero_modes_dirac16complex",
+   "passed": true
+  },
+  {
+   "detail": "SM doublet field: zero modes only in the 2 selected blocks, one with j = +1 and one with j = -1, both Gamma4 = +1, fold-localised for mu > 0: exactly one 4D Weyl fermion (particle + antiparticle)",
+   "name": "zero_modes_doublet",
+   "passed": true
+  },
+  {
+   "detail": "SM singlet field: exactly one 4D Weyl fermion with Gamma4 = -1, fold-localised for mu < 0, in the SAME blocks as the doublet zero modes",
+   "name": "zero_modes_singlet",
+   "passed": true
+  },
+  {
+   "detail": "the positive-energy (particle) zero mode of the doublet field has s2 sign(k) = -1 for both directions of k: definite helicity, as for a 4D Weyl fermion",
+   "name": "weyl_helicity_definite",
+   "passed": true
+  },
+  {
+   "detail": "h_j (e^{f mu y}, 0) = j kappa k (e^{f mu y}, 0) exactly: the zero modes are massless 4D particles, eps = kappa |k| = e^{-a4} |k| (physical momentum)",
+   "name": "zero_mode_dispersion",
+   "passed": true
+  },
+  {
+   "detail": "with b_L = kappa_f b_R and a_R = -kappa_f a_L at the tip (for both functions) the boundary form of the coupled (L, R) Dirac problem vanishes: the tip Yukawa coupling defines a self-adjoint mixing condition",
+   "name": "tip_mixing_self_adjoint",
+   "passed": true
+  },
+  {
+   "detail": "the reduced action int dy f^4 e^{3Hy} [u'^2/f^2 - m^2 u^2] gives -(1/f^2) e^{-3Hy} (e^{3Hy} u')' = m^2 u (the same operator for every 4D component of a gauge field and for the transverse-traceless graviton in Einstein gravity)",
+   "name": "gauge_x0_operator",
+   "passed": true
+  },
+  {
+   "detail": "boundary term of the variation: [2 f^2 e^{3Hy} u' delta u]_{-L}^{0}; at the fold (even) u'(0) = 0 or (odd) u(0) = 0; at the tip the sigma-field term c_tip u(-L)^2 gives f^2 e^{-3HL} u'(-L) = c_tip u(-L) (Robin)",
+   "name": "gauge_boundary_conditions",
+   "passed": true
+  },
+  {
+   "detail": "tip Yukawa couplings Lbar Sigma Lambda_l l_R (l_R = (nu_R, e_R)) and Qbar Sigma Lambda_q q_R (q_R = (u_R, d_R)), tr(Sigma^dagger D Sigma tau3), tr(D Sigma^dagger D Sigma) and the lepton bilinear of P1 are invariant under SU(2)_L x U(1)_Y (Sigma -> U_L Sigma U_Y^dagger) for 20 random group elements: max deviation 3.6e-15",
+   "name": "tip_terms_gauge_invariant",
+   "passed": true
+  }
+ ],
+ "description": "UM-2: exact x0 reductions of the 8D field equations, boundary conditions, zero-mode content, tip mixing, gauge x0 operator, gauge invariance of tip and portal operators",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "fields-checks"
+}
