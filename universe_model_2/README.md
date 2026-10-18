@@ -12,7 +12,7 @@ $\{x_0, x_1, \dots, x_7\}$: $x_0$ the hidden space direction, $x_1, x_2, x_3$ sp
 | document | content |
 | --- | --- |
 | `MODEL` | the model: fields, metric power series, action, every interaction in equation form, the $x_0$ mass mechanism, gravity, the dark sector, parameters, assumptions and conflicts |
-| `PROVENANCE` | where every ingredient, equation and number comes from; the computations and their 180 checks; corrections; reproduction |
+| `PROVENANCE` | where every ingredient, equation and number comes from; the computations and their 182 checks; corrections; reproduction |
 | `FIELD_EQUATIONS` | the coupled field equations: energy-momentum tensors, matter equations with every interaction, boundary conditions, the exact background equations, the $x_0$ reductions, the Kohn-Sham equations, the linear perturbations |
 | `SOLUTION` | the approximate solution: static block and primordial deflation, all masses, Kohn-Sham states of dirac16complex coupled to gravity and to the Standard Model, electroweak sector, $N_{eff}$ and CNB, CMB and BAO, dark-matter relic |
 | `ANALYSIS` | the $x_0$ mass mechanism and the uncertainty relation, the deflating extra times, dirac16complex as dark matter and as dark energy |
@@ -39,9 +39,9 @@ $\{x_0, x_1, \dots, x_7\}$: $x_0$ the hidden space direction, $x_1, x_2, x_3$ sp
 | `code/um2_geometry.py` | 25/25 | 71 |
 | `code/um2_background.py` | 22/22 | 126 |
 | `code/um2_fields.py` | 15/15 | 50 |
-| `code/um2_spectra.py` | 13/13 | 27 |
+| `code/um2_spectra.py` | 14/14 | 27 |
 | `code/um2_ks_jobs.py validate, spectrum, ground8, ground592, darkmatter, portals, feedback` | 2/2, 3/3, 3/3, 4/4, 3/3, 5/5, 2/2 | 77, 1, 125, 129, 15, 5, 0.4 |
-| `code/um2_electroweak.py` | 19/19 | 1 |
+| `code/um2_electroweak.py` | 20/20 | 1 |
 | `code/um2_primordial.py` | 5/5 | 248 |
 | `code/um2_cosmology.py` | 5/5 | 11 |
 | `code/um2_analysis.py` | 23/23 | 4 |

@@ -288,7 +288,7 @@ checks
 2 & \texttt{run\ code/um2\_geometry.py} & 71 s & 25 \\
 3 & \texttt{run\ code/um2\_background.py} & 126 s & 22 \\
 4 & \texttt{run\ code/um2\_fields.py} & 50 s & 15 \\
-5 & \texttt{run\ code/um2\_spectra.py} & 27 s & 13 \\
+5 & \texttt{run\ code/um2\_spectra.py} & 27 s & 14 \\
 6 & \texttt{run\ code/um2\_ks\_jobs.py\ validate} and
 \texttt{run\ code/um2\_ks\_jobs.py\ spectrum} & 77 s, 1 s & 2, 3 \\
 7 & \texttt{run\ code/um2\_ks\_jobs.py\ ground8} & 125 s & 3 \\
@@ -297,7 +297,7 @@ checks
 \texttt{run\ code/um2\_ks\_jobs.py\ portals},
 \texttt{run\ code/um2\_ks\_jobs.py\ feedback} & 15 s, 5 s, 0.4 s & 3, 5,
 2 \\
-10 & \texttt{run\ code/um2\_electroweak.py} & 1 s & 19 \\
+10 & \texttt{run\ code/um2\_electroweak.py} & 1 s & 20 \\
 11 & \texttt{run\ code/um2\_primordial.py} & 248 s & 5 \\
 12 & \texttt{run\ code/um2\_cosmology.py} and
 \texttt{run\ code/um2\_analysis.py} & 11 s, 4 s & 5, 23 \\
@@ -517,14 +517,15 @@ for UM-2 refers to TT (the code computes it for TT).
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{python3 tools/build\_docs.py}
-\NormalTok{grep {-}c \textquotesingle{}\textbackslash{}\textbackslash{}\textbackslash{}$\textquotesingle{} *.tex}
-\NormalTok{grep {-}n \textquotesingle{}textbackslash\textquotesingle{} *.tex}
+\NormalTok{grep {-}c \textquotesingle{}\textbackslash{}\textbackslash{}\textbackslash{}$\textquotesingle{} MODEL.tex PROVENANCE.tex FIELD\_EQUATIONS.tex SOLUTION.tex ANALYSIS.tex}
+\NormalTok{grep {-}n \textquotesingle{}textbackslash\textquotesingle{} MODEL.tex PROVENANCE.tex FIELD\_EQUATIONS.tex SOLUTION.tex ANALYSIS.tex}
 \end{Highlighting}
 \end{Shaded}
 
 Check: every document reports \texttt{overfull\ boxes:\ 0}; there is no
-\texttt{\textbackslash{}\$} (an unparsed dollar sign) in the LaTeX
-files; \texttt{textbackslash} appears only inside
+\texttt{\textbackslash{}\$} (an unparsed dollar sign) in the LaTeX files
+of the five model documents (this document contains it once, in the text
+of this check); \texttt{textbackslash} appears only inside
 \texttt{\textbackslash{}texorpdfstring\{...\}\{...\}} (the plain-text
 PDF bookmarks of section titles).
 
@@ -580,7 +581,15 @@ PROVENANCE; the verification statements credited an older commit; ``true
 lower bound'' wording for \(m \ge m_H\), which is observed for the
 computed states, not derived; the sign convention of \(w_a\); old
 notation in the report texts of two checks; ``every state'' meaning
-every tabulated state. Their incorporation is recorded in PROVENANCE
-(corrections) as each is carried out.
+every tabulated state.
+
+All four errors and the minor items were incorporated on 2026-10-18
+(PROVENANCE, corrections, item 20). For error 4 the computation was
+changed, not only the text: the angle of the couplings is now fixed by
+the measured masses and \(\rho_0\),
+\(\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0 = 0.776368\), so that the model
+reproduces both \(m_W\) and \(m_Z\); every scale in GeV moved by
+\(+8.5\times10^{-4}\) (\(m_{KK} = 121.32\) TeV, \(H = 14.296\) TeV) and
+the dependent computations were rerun.
 
 \end{document}

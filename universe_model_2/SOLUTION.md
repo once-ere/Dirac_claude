@@ -25,7 +25,13 @@ four-dimensional one; in the $x_0$ eigenvalue problems of step 2, $\Lambda = (m\
 $\Lambda_\star$ is the scale of the effective interactions. $n$ is a number density, except as a level number ($n\pi$) and in
 the lattice vector $\vec n \in \mathbb Z^3$ of a momentum shell; $N$ is a particle number. The subscript $t$ ($p_t$, $v_t$)
 refers to the extra times $x_5, x_6, x_7$; $\xi = y/L$ is the scaled hidden coordinate; primes denote $d/d\xi$ in step 2 and
-$d/d\tau$ (conformal time) in step 5. $f$ is the block scale and $f_o$ an occupation number.
+$d/d\tau$ (conformal time) in step 5. $f$ is the block scale and $f_o$ an occupation number. $\rho$ is an energy density, except
+for the electroweak parameter $\rho = \Lambda_W/(\Lambda_Z\cos^2\theta_W)$ (measured value $\rho_0$), and $\theta_W$ is the angle of the gauge
+couplings. $w$ denotes the Lovelock weights ($w_2$, $w_3$), the weight $1/2$ of a fold parity in the Kohn-Sham sums,
+$\sqrt{c^2 - e^2}$ in the fermion mass condition and an equation-of-state parameter. $\psi$ is a Standard-Model fermion field
+and, in step 5, the Newtonian potential; $\sigma$ is a Pauli matrix ($\sigma_1, \sigma_2, \sigma_3$), the annihilation cross-section ($\sigma v$),
+$\sigma_{SI}$ the scattering cross-section, $\sigma_b$ the cosmic variance of a bin of multipoles and, in step 5, the shear; $t_o$ is an
+orbital density.
 
 # The equations being solved
 
@@ -76,7 +82,7 @@ $G(k_*) > 0$: four-dimensional gravity is attractive with the author's weights a
 stabiliser the only static block with $A = 0$ is $k_0 = 8$ with $G = -1$, repulsive.) The linearised system has the
 eigenvalues $0, \pm i\omega_r$,
 $$ \omega_r^2 = \Big(\frac{31552}{2249} - \frac{2416\sqrt{51}}{6747}\Big)H^2,\qquad \omega_r = 3.38705H,$$
-so the block is stable; the radion mass is $m_r = 3.387H = 48.38$ TeV. The whole stabiliser family $p_0 = \nu\rho_b$
+so the block is stable; the radion mass is $m_r = 3.387H = 48.42$ TeV. The whole stabiliser family $p_0 = \nu\rho_b$
 ($\nu = 1/4$ to $3$) gives stable blocks with $\omega_r = 3.33H$ to $4.10H$ (DERIVED).
 
 ## The primordial era: the deflating extra times
@@ -133,24 +139,26 @@ $$ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big
 | first even Kaluza-Klein level | $9\eta^2/4 + \pi^2 = 30.1196$ | DERIVED (finite elements $1.9\times10^{-10}$) |
 | first odd level | $27.0890$ ($q\cot q = -9/2$) | DERIVED (finite elements $4.5\times10^{-10}$) |
 | gap | $9\eta^2/4 = 20.25$ | DERIVED |
-| $W^+$, $W^-$ ($\beta_W = 0.011932$) | $1.32374\times10^{-5}$ | DERIVED (fit, finite elements $3\times10^{-14}$) |
-| $Z$ ($\beta_Z = \beta_W/\cos^2\theta_W = 0.015364$, on-shell $\cos^2\theta_W = m_W^2/m_Z^2 = 0.77666$) | $1.70374\times10^{-5}$ | DERIVED |
+| $W^+$, $W^-$ ($\beta_W = 0.011912$) | $1.32149\times10^{-5}$ | DERIVED (fit, finite elements $3\times10^{-14}$) |
+| $Z$ ($\beta_Z = \beta_W/\cos^2\theta_W = 0.015343$, angle of the couplings $\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0 = 0.776368$) | $1.70150\times10^{-5}$ | DERIVED |
 | Dirichlet bound ($\beta \to \infty$) | $0.010016$: $m_W \le 0.01824\,m_{KK}$ | DERIVED |
 
-$\beta_W$ is fixed by the measured $\rho_0 - 1 = 0.00038$: the bending of the tip-localised profiles moves the model's mass
-ratio $m_W^2/m_Z^2 = \Lambda_W/\Lambda_Z$ away from the on-shell $\cos^2\theta_W$ of the measured masses, and the electroweak parameter
+Here $\theta_W$ is the angle of the gauge couplings, $\cos^2\theta_W = \hat g^2/(\hat g^2 + \hat g'^2)$. The bending of the tip-localised
+profiles moves the mass ratio $m_W^2/m_Z^2 = \Lambda_W/\Lambda_Z$ away from $\cos^2\theta_W$, and the electroweak parameter
 $\rho = \Lambda_W/(\Lambda_Z\cos^2\theta_W)$ exceeds 1 ($\rho - 1 = 3.2\times10^{-8}$ at $\beta_W = 10^{-6}$: custodial symmetry at leading
-order; $6.4\times10^{-5}$ at $\beta_W = 0.002$, $3.2\times10^{-3}$ at $0.1$). With $m_W = 80.3625$ GeV this gives the scales
-(DERIVED)
+order; $6.4\times10^{-5}$ at $\beta_W = 0.002$, $3.2\times10^{-3}$ at $0.1$). This tree-level custodial violation is fitted to the
+measured $\rho_0 - 1 = 0.00038$ (the violation beyond the Standard-Model loops), and the angle of the couplings is fixed by
+the measured masses, $\rho = m_W^2/(m_Z^2\cos^2\theta_W) = \rho_0$, i.e. $\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0 = 0.776368$ (on-shell
+$m_W^2/m_Z^2 = 0.776663$); both masses are then reproduced. With $m_W = 80.3625$ GeV this gives the scales (DERIVED)
 
 | quantity | value |
 | --- | --- |
-| Kaluza-Klein mass $m_{KK} = m_W\sqrt{\Lambda_1/\Lambda_W}$ | $121.22$ TeV |
-| $H = m_{KK}f_*\eta/\sqrt{\Lambda_1}$ | $14.283$ TeV |
-| proper half cell $fL$; period of $x_0$, $\pi/(6H)$ | $8.934\times10^{-21}$ m; $7.234\times10^{-21}$ m |
-| gap $3H/(2f_*)$ | $99.40$ TeV |
-| radion mass $3.387H$ | $48.38$ TeV |
-| model $m_Z = m_W\sqrt{\Lambda_Z/\Lambda_W}$ | $91.171$ GeV (measured $91.188$) |
+| Kaluza-Klein mass $m_{KK} = m_W\sqrt{\Lambda_1/\Lambda_W}$ | $121.32$ TeV |
+| $H = m_{KK}f_*\eta/\sqrt{\Lambda_1}$ | $14.296$ TeV |
+| proper half cell $fL$; period of $x_0$, $\pi/(6H)$ | $8.926\times10^{-21}$ m; $7.227\times10^{-21}$ m |
+| gap $3H/(2f_*)$ | $99.48$ TeV |
+| radion mass $3.387H$ | $48.42$ TeV |
+| model $m_Z = m_W\sqrt{\Lambda_Z/\Lambda_W}$ | $91.1879$ GeV (the measured value, reproduced) |
 
 ## Fermions
 
@@ -163,10 +171,10 @@ $\kappa_f = 1$ and $c_L = -c_R = c$ (DERIVED):
 
 | fermion | mass | $c$ | $\mu/H$ | proper width $fL/(2c)$ | $e = m\,fL$ |
 | --- | --- | --- | --- | --- | --- |
-| $\nu$ | $0.05$ eV | $18.6709$ | $28.873$ | $2.39\times10^{-22}$ m | $2.264\times10^{-15}$ |
-| $e$ | $0.511$ MeV | $10.3038$ | $15.934$ | $4.34\times10^{-22}$ m | $2.313\times10^{-8}$ |
-| $u$ | $2.16$ MeV | $9.5448$ | $14.760$ | $4.68\times10^{-22}$ m | $9.779\times10^{-8}$ |
-| $d$ | $4.70$ MeV | $9.1341$ | $14.125$ | $4.89\times10^{-22}$ m | $2.128\times10^{-7}$ |
+| $\nu$ | $0.05$ eV | $18.6714$ | $28.873$ | $2.39\times10^{-22}$ m | $2.262\times10^{-15}$ |
+| $e$ | $0.511$ MeV | $10.3042$ | $15.934$ | $4.33\times10^{-22}$ m | $2.312\times10^{-8}$ |
+| $u$ | $2.16$ MeV | $9.5452$ | $14.761$ | $4.68\times10^{-22}$ m | $9.771\times10^{-8}$ |
+| $d$ | $4.70$ MeV | $9.1345$ | $14.126$ | $4.89\times10^{-22}$ m | $2.126\times10^{-7}$ |
 
 ## dirac16complex
 
@@ -253,8 +261,8 @@ $d\varepsilon/de = \langle\chi\vert\partial h/\partial e\vert\chi\rangle$ to $10
 
 | portal mean field | $d\varepsilon_{odd}/de$ | change of the fold-band gap |
 | --- | --- | --- |
-| I11, electron density ($v$) | $0.507981$ | $1.2\times10^{-10}$ |
-| I11, up-quark density ($v$) | $0.548555$ | $1.6\times10^{-10}$ |
+| I11, electron density ($v$) | $0.507961$ | $1.6\times10^{-10}$ |
+| I11, up-quark density ($v$) | $0.548528$ | $2.1\times10^{-10}$ |
 | I12, gluon condensate (uniform $M$) | $0.707196$ | $2.9\times10^{-11}$ |
 | I9, tip $Z$ charge (upper component): $\Psi_A$ odd level; $\Psi_B$ (the dark matter) | $0.259489$; exactly $0$ | $7.9\times10^{-11}$ |
 
@@ -305,6 +313,10 @@ with the $\overline{MS}$ value $\sin^2\theta_W = 0.23122$, $g_A = T_3$):
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | width (MeV) | $165.9$ | $83.4$ | $285.4$ | $367.9$ | $329.1$ | $1231.7$ | $2495.5$ |
 
+The $\overline{MS}$ angle absorbs the Standard-Model loop corrections; with the tree-level angle of the couplings of the mass fit,
+$\sin^2\theta_W = 0.22363$, the widths of $e$, $u$, $d$ would be larger by $0.55$ %, $1.39$ % and $0.95$ % and the total would be $1239.6$ MeV
+(DERIVED): a per-cent scheme ambiguity, far below the factor-two conflict of the total width.
+
 The invisible width is reproduced through the fit of $N_\nu$ (tree level $495$ MeV against the measured $499.0 \pm 1.5$ MeV);
 the total is not, because the order restricts the particle content to one
 generation (the $\mu$, $\tau$, $s$, $c$, $b$ channels are missing): an inherent conflict of the specified content with data.
@@ -329,14 +341,16 @@ fold band thermalised above the QCD crossover (DERIVED):
 | UM-2 | $67.43$ | $0.3143$ | $3.044$ | $0.24566$ | $13.793$ | $1089.91$ | $147.105$ | $30.31$ |
 | UM-2, $\Psi_B$ hot | $70.62$ | $0.2865$ | $3.318$ | $0.24925$ | $13.515$ | $1090.17$ | $145.750$ | $15.97$ |
 
-The UM-2 TT and EE spectra agree with Planck $\Lambda$CDM to $2.2\times10^{-4}$ and $3.7\times10^{-4}$ ($30 \le \ell \le 2500$), at most
+The UM-2 TT and EE spectra agree with Planck $\Lambda$CDM to $2.2\times10^{-4}$ and $3.7\times10^{-4}$ ($30 \le \ell \le 2500$), for TT at most
 $0.011$ of the cosmic variance $\sqrt{2/(2\ell + 1)}$ of a single multipole: UM-2 reproduces the CMB of $\Lambda$CDM. If the
 $\Psi_B$ fold band were thermalised and decoupled just above the QCD crossover, it would add
 $\Delta N_{eff} = 2(10.75/g_s)^{4/3} = 0.274$, with $g_s = 47.75$ counting the plasma it leaves (photons, gluons, $u$, $d$, $e$, $\nu_e$
 and the two $\Psi_A$ species) and $10.75$ the same count at neutrino decoupling ($0.218$ for decoupling above the electroweak
-scale, $g_s = 56.75$). At fixed Planck parameters this variant changes TT by up to $4.2$ % for $30 \le \ell \le 2500$ ($4.9$ % at $\ell = 2$, where the
-cosmic variance of one multipole is $63$ %; $2.1$ cosmic-variance units of a single multipole; the full-sky cosmic-variance $\chi^2 = \sum_b(\bar\delta_b/\sigma_b)^2$ over bins $b$ of $\Delta\ell = 50$, with $\bar\delta_b$ the
-mean relative deviation and $\sigma_b = \sqrt{2/\sum_{\ell\in b}(2\ell + 1)}$, is $2314$); it is not a fit to the CMB, and a joint CMB and
+scale, $g_s = 56.75$). At fixed Planck parameters this variant changes TT by up to $4.2$ % for $30 \le \ell \le 2500$: the largest change, $-4.2$ % at the
+upper end $\ell = 2500$ of the range (the change still grows into the damping tail), is $2.1$ cosmic-variance units of a single
+multipole; at $\ell = 2$ the change is $4.9$ %, where the cosmic variance of one multipole is $63$ %; the full-sky cosmic-variance
+$\chi^2 = \sum_b(\bar\delta_b/\sigma_b)^2$ over bins $b$ of $\Delta\ell = 50$, with $\bar\delta_b$ the mean relative deviation and
+$\sigma_b = \sqrt{2/\sum_{\ell\in b}(2\ell + 1)}$, is $2314$; it is not a fit to the CMB, and a joint CMB and
 BAO fit of it is OPEN (it is not excluded by this computation). The CNB enters through $N_{eff} = 3.044$ and the $\nu_e$ mass.
 
 ![CMB temperature (left) and E-mode (right) spectra of UM-2, of Planck 2018 $\Lambda$CDM and of the variant with a thermalised $\Psi_B$ fold band; lower panels: relative difference to $\Lambda$CDM with the cosmic variance of one multipole (dotted).](figures/fig_cmb_spectra.png)
@@ -345,7 +359,7 @@ BAO fit of it is OPEN (it is not excluded by this computation). The CNB enters t
 
 # Step 6: the dark-matter relic and its detection
 
-The lightest odd state of $\Psi_B$ is a Dirac fermion of mass $M_{DM} = 3.102204\,m = 44.31$ TeV ($m = H$), cold, neutral, with no
+The lightest odd state of $\Psi_B$ is a Dirac fermion of mass $M_{DM} = 3.102204\,m = 44.35$ TeV ($m = H$), cold, neutral, with no
 tree-level $Z$ coupling. Through I12 it annihilates in the p-wave into gauge-boson pairs: for $\mathcal L = G\,\bar\chi\chi F_{\mu\nu}F^{\mu\nu}$
 per abelian channel, $\sigma v = G^2s(s - 4M^2)/(4\pi) \to G^2M^4v^2/\pi$, in total $\sigma v = (M^4v^2/\pi)(8G_g^2 + 3G_W^2 + G_B^2)$
 (the polarisation sum $\sum\lvert(k_1\cdot k_2)(e_1\cdot e_2) - (k_1\cdot e_2)(k_2\cdot e_1)\rvert^2 = s^2/2$ and the spin trace

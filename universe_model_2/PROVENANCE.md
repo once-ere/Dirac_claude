@@ -35,9 +35,13 @@ Symbols with more than one use: $k$ is the block variable $1/f^2$, the Lovelock 
 and the momentum of a mode along $x_1, x_2, x_3$ in $e^{ikx_1}$ and $h_j$; $\Lambda = -10H^2$ is the eight-dimensional
 cosmological constant, $\Lambda = (m\,fL)^2$ in the $x_0$ eigenvalue problems a dimensionless eigenvalue, and $\Lambda_\star$ the
 scale of the effective interactions; $\xi = y/L$ is the scaled hidden coordinate (primes denote $d/d\xi$ in the methods),
-while the subscript $t$ ($p_t$, $v_t$, $x_t$) refers to the extra times; $\rho$ is an energy density ($\rho_0$ the electroweak
-parameter) and $\varrho$ a probability density in $\xi$; $n$ is a number density, $\vec n \in \mathbb Z^3$ the lattice vector of a
-momentum shell.
+while the subscript $t$ ($p_t$, $v_t$, $x_t$) refers to the extra times and $s_h$, $t_h$ are the $4\times4$ blocks of the gamma
+matrices; $\rho$ is an energy density, except for the electroweak parameter $\rho = \Lambda_W/(\Lambda_Z\cos^2\theta_W)$ (measured value
+$\rho_0$), and $\varrho$ a probability density in $\xi$; $\theta_W$ is the angle of the gauge couplings; $n$ is a number density, except
+as a level index ($u_n$, $h^{(1,n)}$, $n \ge 1$) and as the basis size in the Richardson formula, where $p$ is the order;
+$w_k$ are the Lovelock weights, $w = 1/2$ the weight of a fold parity, $w = \sqrt{c^2 - e^2}$ in the fermion mass condition and
+$w$ an equation-of-state parameter in the supernova fits; $\sigma$ is the radion in the metric expansion and, with indices,
+an uncertainty or a Pauli matrix.
 
 # The order
 
@@ -205,7 +209,9 @@ $K_2 = \gamma^{x_5}\gamma^{x_6}$ (eigenvalues $j$, $is_2$, $is_3$), with the con
 record's Hartree-plus-exchange treatment of the contact interaction
 $$ e_{int} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2,\qquad M_{eff} = m + \frac{15}{16}\lambda S,\qquad v = -\frac{\lambda}{16}n , $$
 the fold conditions $\theta \in \{0, \pi\}$ (both parities filled, weight $w = 1/2$ each), the regular tip, and the
-densities carrying $P = e^{-3Hy}/\mathrm{Vol}_7$. The record's mass is $m = 3HM$ with $M = 1/3$, i.e. $m = H$; UM-2
+densities carrying $P = e^{-3Hy}/\mathrm{Vol}_7$, with $\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf^4$ the normalisation volume of a cell
+($\Delta k$ the spacing of the momentum lattice, $v_t$ the coordinate volume of the extra times, $a_4 = 0$; the proper
+seven-volume of a cell is $2\,\mathrm{Vol}_7(1 - e^{-3\eta})/(3H)$). The record's mass is $m = 3HM$ with $M = 1/3$, i.e. $m = H$; UM-2
 keeps it (ASSUMED). Two reference states of the record (at $f = 1$, $a_4 = 0$: $N = 8$ with $\lambda = 157.7$, and
 $N = 592$ with $\lambda = 2.131$) serve as validation targets of the independent UM-2 solver (section 8).
 
@@ -243,7 +249,7 @@ Every measured value enters UM-2 only as the target of a fit or as a comparison,
 | dark-matter density | $\Omega_ch^2 = 0.120$ | Planck 2018 | from memory |
 | Planck mass (freeze-out) | $M_{Pl} = G_N^{-1/2} = 1.22\times10^{19}$ GeV | | from memory |
 | reduced Planck mass (radion decay) | $\bar M_{Pl} = (8\pi G_N)^{-1/2} = 2.435\times10^{18}$ GeV | | from memory |
-| on-shell weak mixing angle | $\cos^2\theta_W = m_W^2/m_Z^2 = 0.77666$ (used for $\beta_Z = \beta_W/\cos^2\theta_W$ and in $\rho = \Lambda_W/(\Lambda_Z\cos^2\theta_W)$) | computed from the $W^\pm$ and $Z$ masses above | computed |
+| angle of the gauge couplings | $\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0 = 0.776368$ (used for $\beta_Z = \beta_W/\cos^2\theta_W$ and in $\rho = \Lambda_W/(\Lambda_Z\cos^2\theta_W)$); the on-shell value $m_W^2/m_Z^2 = 0.776663$ for comparison | computed from the $W^\pm$, $Z$ masses and $\rho_0$ above | computed |
 | direct-detection limit | LZ: $2.2\times10^{-48}$ cm$^2$ at 40 GeV, scaled linearly with the mass | LZ 2024 | from memory; the extrapolation is an ESTIMATE |
 | nucleon gluon content, strong coupling | $f_{TG} = 0.92$, $\alpha_s = 0.3$ (low scale) | standard | from memory; ESTIMATE |
 | dark-energy density | $\rho_\Lambda \approx 2.5\times10^{-47}$ GeV$^4$ | | from memory |
@@ -261,8 +267,9 @@ The DESI DR2 BAO measurements used ($z$; $D_V/r_d$; $D_M/r_d$; $D_H/r_d$; correl
 | QSO | 1.484 | | $30.512 \pm 0.760$ | $12.817 \pm 0.516$ | $-0.500$ |
 | Ly$\alpha$ | 2.330 | | $38.988 \pm 0.531$ | $8.632 \pm 0.101$ | $-0.431$ |
 
-with $\chi^2 = \sum_i (d_i - t_i)^TC_i^{-1}(d_i - t_i)$, $C_i = \begin{pmatrix}\sigma_M^2 & r_{MH}\sigma_M\sigma_H\\ r_{MH}\sigma_M\sigma_H & \sigma_H^2\end{pmatrix}$
-for the anisotropic tracers and $(d - t)^2/\sigma_V^2$ for BGS, where $D_M(z) = \int_0^z c\,dz'/H(z')$ (flat),
+with
+$$ \chi^2 = \sum_i (d_i - d_i^{th})^TC_i^{-1}(d_i - d_i^{th}),\qquad C_i = \begin{pmatrix}\sigma_M^2 & r_{MH}\sigma_M\sigma_H\\ r_{MH}\sigma_M\sigma_H & \sigma_H^2\end{pmatrix} $$
+($d_i$ the measured and $d_i^{th}$ the computed pair of $D_M/r_d$, $D_H/r_d$) for the anisotropic tracers and $(d - d^{th})^2/\sigma_V^2$ for BGS, where $D_M(z) = \int_0^z c\,dz'/H(z')$ (flat),
 $D_H = c/H(z)$, $D_V = (zD_M^2D_H)^{1/3}$.
 
 Standard theory used: the Standard-Model gauge theory $SU(3)_c\times SU(2)_L\times U(1)_Y$ with one generation; QCD
@@ -334,7 +341,7 @@ below 5 % of $m$ in the densest benchmark state); the extra-time coordinate volu
 
 All computations are Python scripts in the folder `universe_model_2/code`; each writes its numbers to
 `universe_model_2/outputs` and a report of named checks (name, verdict, detail) to `universe_model_2/reports`; no
-single run exceeds 423 s. In total 180 checks, none failed.
+single run exceeds 423 s. In total 182 checks, none failed.
 
 | script | what it computes | method | checks |
 | --- | --- | --- | --- |
@@ -342,9 +349,9 @@ single run exceeds 423 s. In total 180 checks, none failed.
 | `um2_geometry.py` | Riemann tensor of $\bar g$ in two charts; Lovelock tensors by four routes (pairing formula, Ricci, explicit Gauss-Bonnet tensor, minisuperspace variation with a lapse); Bianchi identities; the record's equations; the static block; the canonical spin connection | sympy, exact | 25/25 |
 | `um2_background.py` | the class-form background equations; the static block; the stabiliser and its family; the radion; the linear response of the block to matter sources; the dimensional reduction | sympy, exact; eigenvalues numerically | 22/22 |
 | `um2_fields.py` | the exact $x_0$ reduction of the eight-dimensional Dirac equation (all blocks, general $a_4$, $b_4$, $M(y)$, $v(y)$); boundary conditions; zero modes; tip mixing; the gauge $x_0$ operator; gauge invariance of the tip terms | sympy and numpy | 15/15 |
-| `um2_spectra.py` | the $x_0$ spectra of gauge bosons and graviton; the $W^\pm$, $Z$ fit to $\rho_0$; the fermion masses as exact $x_0$ eigenvalues | mpmath root finding; quadratic finite elements with Richardson; ODE shooting | 13/13 |
+| `um2_spectra.py` | the $x_0$ spectra of gauge bosons and graviton; the $W^\pm$, $Z$ fit to $\rho_0$ with the angle of the couplings fixed by the measured masses (both masses reproduced); the fermion masses as exact $x_0$ eigenvalues | mpmath root finding; quadratic finite elements with Richardson; ODE shooting | 14/14 |
 | `um2_ks_jobs.py` | Kohn-Sham: validation against the record (2/2), free spectrum (3/3), interacting ground states $N = 8$ (3/3) and $N = 592$ (4/4), dark-matter quanta (3/3), portal responses (5/5), block feedback (2/2) | Galerkin in the free basis, safeguarded Anderson self-consistency, Richardson in the basis size | 22/22 |
-| `um2_electroweak.py` | charges ($W^+$: $+e$, $W^-$: $-e$), anomalies, couplings, $P_+$, $\Gamma_4 = -B\gamma^{x_0}$, $Z$ charges of $\Psi_A$, $\Psi_B$, $N_\nu$, $N_{eff}$, CNB, $Z$ widths | sympy and numerics | 19/19 |
+| `um2_electroweak.py` | charges ($W^+$: $+e$, $W^-$: $-e$), anomalies, couplings, $P_+$, $\Gamma_4 = -B\gamma^{x_0}$, $Z$ charges of $\Psi_A$, $\Psi_B$, $N_\nu$, $N_{eff}$, CNB, $Z$ widths and their dependence on the angle | sympy and numerics | 20/20 |
 | `um2_primordial.py` | the nonlinear primordial evolution, the basin, the separatrix, the radion oscillation | DOP853 integration, bisection | 5/5 |
 | `um2_cosmology.py` | TT and EE spectra, BAO $\chi^2$, $N_{eff}$, helium, the variant with a thermalised $\Psi_B$ fold band | CAMB 2.0.5 | 5/5 |
 | `um2_analysis.py` | the $x_0$ decompositions and the uncertainty relation on the cell (with its tip term); the gap theorem; sum rules; the conservation of the halves $\Psi_A$, $\Psi_B$; relic abundance; direct detection; the condensate; the vacuum energy; the sensitivities to the block size; the bound on the block rate today; the radion decay | mpmath, numpy, sympy | 23/23 |
@@ -354,21 +361,21 @@ single run exceeds 423 s. In total 180 checks, none failed.
 | quantity | value | computed by |
 | --- | --- | --- |
 | static block $k_*$, $f_*$, $G(k_*)$, $\kappa\rho_b^*$ | $12 + \tfrac43\sqrt{51} = 21.5219$, $0.215556$, $\tfrac{20}{3} + \sqrt{51} = 13.8081$, $(26 + 4\sqrt{51})H^2$ | `um2_background.py` |
-| radion | $\omega_r^2/H^2 = 31552/2249 - 2416\sqrt{51}/6747 = 11.4721$, $m_r = 3.387H = 48.38$ TeV | `um2_background.py`, `um2_spectra.py` |
+| radion | $\omega_r^2/H^2 = 31552/2249 - 2416\sqrt{51}/6747 = 11.4721$, $m_r = 3.387H = 48.42$ TeV | `um2_background.py`, `um2_spectra.py` |
 | unbroken $x_0$ spectrum ($\eta = 3$) | $\Lambda = 0$; $\Lambda_1 = 30.1196$; odd $27.0890$; gap $20.25$ | `um2_spectra.py` |
-| $W^\pm$, $Z$ | $\beta_W = 0.011932$, $\beta_Z = 0.015364$ (on-shell angle), $\Lambda_W = 1.32374\times10^{-5}$, $\Lambda_Z = 1.70374\times10^{-5}$; Dirichlet bound $\Lambda_D = 0.010016$ | `um2_spectra.py` |
-| scales | $m_{KK} = 121.22$ TeV, $H = 14.283$ TeV, proper half cell $fL = 8.934\times10^{-21}$ m, $x_0$ period $7.234\times10^{-21}$ m, gap $99.40$ TeV | `um2_spectra.py` |
-| fermion localisations ($\kappa_f = 1$) | $c_\nu = 18.6709$, $c_e = 10.3038$, $c_u = 9.5448$, $c_d = 9.1341$ | `um2_spectra.py` |
+| $W^\pm$, $Z$ | $\beta_W = 0.011912$, $\beta_Z = 0.015343$ ($\cos^2\theta_W = 0.776368$), $\Lambda_W = 1.32149\times10^{-5}$, $\Lambda_Z = 1.70150\times10^{-5}$, $\rho - 1 = 0.00038$, model $m_Z = 91.1879$ GeV; Dirichlet bound $\Lambda_D = 0.010016$ | `um2_spectra.py` |
+| scales | $m_{KK} = 121.32$ TeV, $H = 14.296$ TeV, proper half cell $fL = 8.926\times10^{-21}$ m, $x_0$ period $7.227\times10^{-21}$ m, gap $99.48$ TeV | `um2_spectra.py` |
+| fermion localisations ($\kappa_f = 1$) | $c_\nu = 18.6714$, $c_e = 10.3042$, $c_u = 9.5452$, $c_d = 9.1345$ | `um2_spectra.py` |
 | dirac16complex at $f_*$ | $c_\psi = 0.646667$; $\varepsilon_{DM} = 3.102204\,m$ ($p = 2.93661\,m$); even bulk $4.959981\,m$; $x_0$-momentum fraction $0.896$ | `um2_ks_jobs.py spectrum` |
-| dark matter | $M_{DM} = 44.31$ TeV; $w = 0$; $p_0/\rho = 0.772034343$ $= -d\ln\varepsilon_{DM}/d\ln f$ | `um2_ks_jobs.py darkmatter` |
+| dark matter | $M_{DM} = 44.35$ TeV; $w = 0$; $p_0/\rho = 0.772034343$ $= -d\ln\varepsilon_{DM}/d\ln f$ | `um2_ks_jobs.py darkmatter` |
 | $Z$ portal | $r^2 = 0.9920 \pm 0.0041$; $\Psi_A$ decoupling at $2.61$ MeV; $N_{eff} = 3.044$; CNB $1.9454$ K, $112.0$ per cm$^3$ per species, $336$ in all | `um2_electroweak.py` |
-| one-generation $Z$ width | $1232$ MeV (measured $2495.5$ MeV) | `um2_electroweak.py` |
+| one-generation $Z$ width | $1232$ MeV (measured $2495.5$ MeV); $1240$ MeV with the tree-level angle of the couplings | `um2_electroweak.py` |
 | primordial era | separatrix $k_c = 2.6983, 2.5991, 2.5301$; deflation factor up to $2.9166$; radion $3.3868H$ measured | `um2_primordial.py` |
 | cosmology | $H_0 = 67.43$ km/s/Mpc, $r_{drag} = 147.105$ Mpc, BAO $\chi^2 = 30.31$ (13 points; $\Lambda$CDM $32.55$), TT/EE within $2.2\times10^{-4}$/$3.7\times10^{-4}$ of $\Lambda$CDM | `um2_cosmology.py` |
 | relic | $x_f = 30.31$, $g_* = 56.75$, $\langle\sigma v\rangle = 1.37\times10^{-25}$ cm$^3$/s, $(8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (16.6\ \text{TeV})^{-3}$ | `um2_analysis.py` |
 | direct detection | $\sigma_{SI} = 4.3\times10^{-53}$ cm$^2$ (gluon-only) against $2.4\times10^{-45}$ cm$^2$ | `um2_analysis.py` |
 | dark energy | condensate tuned to $w_0 = -1$: $w_a = -6$, energy zero at $z = 0.260$; vacuum-energy ratio $5.5\times10^{64}$; $(H_0/H)^2 = 1.0\times10^{-92}$ | `um2_analysis.py` |
-| uncertainty relation | $m/m_H$: first KK $7.49$, first odd $6.47$, dark matter $2.29$, $W^\pm$ $1.14\times10^{-3}$, $Z$ $1.29\times10^{-3}$, $e$ $3.2\times10^{-9}$, $\nu$ $1.7\times10^{-16}$; $\langle p^2\rangle\Delta\xi^2$: photon zero mode $0.497$, $\Psi$ fold zero mode $0.097$ ($\varrho(\text{tip}) = 0.489$); $\sqrt{\langle p^2\rangle}\Delta\xi \ge (1 - \varrho(\text{tip}))/2$ for every state | `um2_analysis.py` |
+| uncertainty relation | $m/m_H$: first KK $7.49$, first odd $6.47$, dark matter $2.29$, $W^\pm$ $1.14\times10^{-3}$, $Z$ $1.29\times10^{-3}$, $e$ $3.2\times10^{-9}$, $\nu$ $1.7\times10^{-16}$; $\langle p^2\rangle\Delta\xi^2$: photon zero mode $0.497$, $\Psi$ fold zero mode $0.097$ ($\varrho(\text{tip}) = 0.489$); $\sqrt{\langle p^2\rangle}\Delta\xi \ge (1 - \varrho(\text{tip}))/2$ for every tabulated state | `um2_analysis.py` |
 | sensitivities $d\ln X/d\ln f$ | KK $-1$, $m_W$ $-0.501$, $m_e$ $-20.6$, $m_u$ $-19.1$, $m_d$ $-18.3$, $m_\nu$ $-37.3$, $M_{DM}$ $-0.772$, $\alpha$ and the gauge couplings $-4$, $G_N$ $+2.05$ | `um2_analysis.py` |
 | block rate today (ESTIMATE) | $\lvert h\rvert < 3.6\times10^{-8}H_0$ (from $\lvert\dot\alpha/\alpha\rvert < 10^{-17}$/yr), $< 7.1\times10^{-4}H_0$ (from $\lvert\dot G/G\rvert < 10^{-13}$/yr) | `um2_analysis.py` |
 | radion decay (ESTIMATE) | $\Gamma = C_r\,m_r^3/(4\pi\bar M_{Pl}^2)$, $T_{RH} = (90/(\pi^2g_*))^{1/4}\sqrt{\Gamma\bar M_{Pl}}$ ($g_* = 10.75$): $\tau = 0.43\,\text{s}/C_r$, $T_{RH} = 1.85\sqrt{C_r}$ MeV ($< 4.7$ MeV unless $C_r > 6.5$) | `um2_analysis.py` |
@@ -422,7 +429,10 @@ single run exceeds 423 s. In total 180 checks, none failed.
   $\langle p^2\rangle = \int\lvert\chi'\rvert^2/\!\int\lvert\chi\rvert^2$ for fermions); the Heisenberg estimate is $m_H = \hbar c/(2\Delta s)$ with
   $\Delta s = fL\,\Delta\xi$, $\Delta\xi^2 = \int\xi^2\varrho\,d\xi/\!\int\varrho\,d\xi$ the mean square distance from the fold. On the cell the
   relation reads $\sqrt{\langle p^2\rangle}\,\Delta\xi \ge (1 - \varrho(\text{tip}))/2$, from $1 = \varrho(\text{tip}) - \int\xi\varrho'\,d\xi$ and the
-  Cauchy-Schwarz inequality; it is checked for every state.
+  Cauchy-Schwarz inequality (a theorem); it is also checked numerically for each of the eleven tabulated states.
+* **$W^\pm$, $Z$ fit.** $\rho(\beta_W) - 1 = \Lambda_W(\beta_W)/[\Lambda_Z(\beta_W/\cos^2\theta_W)\cos^2\theta_W] - 1$ with
+  $\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0$ is solved for $\rho - 1 = \rho_0 - 1$ by bisection in $\ln\beta_W$ (80 steps); the model's
+  $m_Z = m_W\sqrt{\Lambda_Z/\Lambda_W}$ then equals the measured value to $10^{-8}$ (checked).
 * **Cosmic variance.** The relative error of a single multipole is $\sqrt{2/(2\ell + 1)}$; the binned full-sky
   $\chi^2 = \sum_b(\bar\delta_b/\sigma_b)^2$ uses bins of $\Delta\ell = 50$, the mean relative deviation $\bar\delta_b$ and
   $\sigma_b = \sqrt{2/\sum_{\ell\in b}(2\ell + 1)}$.
@@ -471,11 +481,11 @@ single run exceeds 423 s. In total 180 checks, none failed.
 18. An independent review of the five documents against the outputs found, and the documents now correct: the
     first-order fermion mass formula (it needs $\zeta(-c_R)$ for the singlet, $c_R < 0$; the code always used $\lvert c\rvert$); the gap
     statement, which holds for the boson operators but not for $\Psi$ (the dark matter, $44.3$ TeV, lies below the boson gap
-    of $99.4$ TeV); the sensitivity of $G_N$ to the block, which is $d\ln G_N/d\ln f = -4 + 2k_*G'(k_*)/G(k_*) = +2.05$ and not
+    of $99.5$ TeV); the sensitivity of $G_N$ to the block, which is $d\ln G_N/d\ln f = -4 + 2k_*G'(k_*)/G(k_*) = +2.05$ and not
     $-4$ (recomputed; the lunar-ranging bound becomes $7.1\times10^{-4}H_0$); $\Delta N_{eff}$ of a thermalised $\Psi_B$ fold band, which
     must count the two $\Psi_A$ species in the plasma ($0.274$, not $0.179$; the CAMB variant recomputed); a level spacing
     ($0.25000$); a rounding ($1.948$); the definitions of $\bar M_{Pl}$, $M_{Pl}$, the radion formulas, $\Delta s$, the unitarity estimate
-    and the cosmic-variance measure; the on-shell angle for $\beta_Z$; the response of the $\Psi_B$ dark matter to I9 (exactly
+    and the cosmic-variance measure; the angle used for $\beta_Z$ (then the on-shell angle; see item 20); the response of the $\Psi_B$ dark matter to I9 (exactly
     zero; the tabulated $0.2595$ is the $\Psi_A$ odd level); the statement on proper and coordinate localisation; and several
     notational clashes ($\kappa = e^{-a_4}$ is now written out).
 19. A second review found, and the documents now correct: the electroweak parameter was written
@@ -490,6 +500,25 @@ single run exceeds 423 s. In total 180 checks, none failed.
     matrix $\Lambda_\ell$, and the notation ($\xi = y/L$ for the scaled hidden coordinate, $\tilde u$ for the flat-measure profile, $\varrho$
     for the probability density, $p$ for the Lovelock order where the block variable appears in the same formula,
     $\tau_{reio}$ for the optical depth, and a list of the symbols with more than one use in each document).
+20. A third review found, and the computations and documents now correct: (a) the $W^\pm$, $Z$ fit set the angle of the
+    gauge couplings equal to the on-shell angle of the measured masses, $\cos^2\theta_W = m_W^2/m_Z^2$, and fitted the tree-level
+    $\rho - 1$ to $\rho_0 - 1$, which put the model's $m_Z = 91.1706$ GeV $17$ MeV below the measured value; since $\rho_0$ measures
+    the custodial violation beyond the Standard-Model loops, the angle of the couplings is now fixed by the measured masses,
+    $\rho = m_W^2/(m_Z^2\cos^2\theta_W) = \rho_0$, $\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0 = 0.776368$, and the model reproduces both masses
+    (new check `mZ_reproduced`). The fit gives $\beta_W = 0.011912$ (was $0.011932$) and moves every scale in GeV by
+    $+8.50\times10^{-4}$: $m_{KK} = 121.32$ TeV (was $121.22$), $H = 14.296$ TeV, gap $99.48$ TeV, radion $48.42$ TeV, $M_{DM} = 44.35$ TeV;
+    the fermion localisations move in their fifth digit, and the portal responses and every quantity of the analysis in
+    GeV were recomputed (`um2_spectra.py`, `um2_ks_jobs.py portals`, `um2_analysis.py`). The tree-level $Z$ widths with
+    the angle of the couplings instead of the $\overline{MS}$ value were added (check `Z_width_scheme`: at most $+1.39$ %). (b) The
+    familiar bound $\langle p^2\rangle \ge 1/(4\Delta\xi^2)$ is guaranteed only for profiles negligible at the tip (it was said to hold only
+    for them). (c) The symbol lists: $\rho$ as the electroweak parameter in PROVENANCE, $n$ as level index and basis size,
+    $\mathrm{Vol}_7$ defined in PROVENANCE, primes in the reduced actions written $\partial_yu$, $G'(k) = dG/dk$ and $dU/dS$ in
+    ANALYSIS, the condensate variable renamed $X$ (it clashed with $x_0$), the $\nu_e$ multipoles renamed $\mathcal N_l$ and their
+    energy $E_\nu$, the BAO theory vector $d^{th}$. (d) Wording: the uncertainty estimate lies below the masses of the computed
+    heavy states (observed, not derived); "every tabulated state"; the sign convention $w_a = -dw/da$; the cosmic-variance
+    fraction $0.011$ refers to TT; the largest TT change of the thermalised-$\Psi_B$ variant lies at $\ell = 2500$; the probability
+    density normalised wherever it is defined. The two long tasks of this work (the fresh-clone verification and the
+    review) are written out for manual execution in the document MANUAL_TASKS.
 
 ## What is not in the repository, and why
 

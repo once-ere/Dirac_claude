@@ -97,12 +97,12 @@ before it; the expected durations are those of the run of 2026-10-18).
 | 2 | `run code/um2_geometry.py` | 71 s | 25 |
 | 3 | `run code/um2_background.py` | 126 s | 22 |
 | 4 | `run code/um2_fields.py` | 50 s | 15 |
-| 5 | `run code/um2_spectra.py` | 27 s | 13 |
+| 5 | `run code/um2_spectra.py` | 27 s | 14 |
 | 6 | `run code/um2_ks_jobs.py validate` and `run code/um2_ks_jobs.py spectrum` | 77 s, 1 s | 2, 3 |
 | 7 | `run code/um2_ks_jobs.py ground8` | 125 s | 3 |
 | 8 | `run code/um2_ks_jobs.py ground592` | 129 s | 4 |
 | 9 | `run code/um2_ks_jobs.py darkmatter`, `run code/um2_ks_jobs.py portals`, `run code/um2_ks_jobs.py feedback` | 15 s, 5 s, 0.4 s | 3, 5, 2 |
-| 10 | `run code/um2_electroweak.py` | 1 s | 19 |
+| 10 | `run code/um2_electroweak.py` | 1 s | 20 |
 | 11 | `run code/um2_primordial.py` | 248 s | 5 |
 | 12 | `run code/um2_cosmology.py` and `run code/um2_analysis.py` | 11 s, 4 s | 5, 23 |
 | 13 | `run tools/build_docs.py` | 12 s | |
@@ -246,11 +246,12 @@ the documents state that range; the cosmic-variance fraction quoted for UM-2 ref
 
 ```text
 python3 tools/build_docs.py
-grep -c '\\\$' *.tex
-grep -n 'textbackslash' *.tex
+grep -c '\\\$' MODEL.tex PROVENANCE.tex FIELD_EQUATIONS.tex SOLUTION.tex ANALYSIS.tex
+grep -n 'textbackslash' MODEL.tex PROVENANCE.tex FIELD_EQUATIONS.tex SOLUTION.tex ANALYSIS.tex
 ```
 
-Check: every document reports `overfull boxes: 0`; there is no `\$` (an unparsed dollar sign) in the LaTeX files;
+Check: every document reports `overfull boxes: 0`; there is no `\$` (an unparsed dollar sign) in the LaTeX files of the
+five model documents (this document contains it once, in the text of this check);
 `textbackslash` appears only inside `\texorpdfstring{...}{...}` (the plain-text PDF bookmarks of section titles).
 
 **What to report back.** For each item: OK, or the file, the line, what is wrong and the proposed correction.
@@ -277,4 +278,9 @@ deviation of the thermalised-$\Psi_B$ variant lies at the edge $\ell = 2500$ of 
 refers to TT only (EE: 0.018); gaps in the lists of symbols; $\mathrm{Vol}_7$ not defined in PROVENANCE; the verification
 statements credited an older commit; "true lower bound" wording for $m \ge m_H$, which is observed for the computed states,
 not derived; the sign convention of $w_a$; old notation in the report texts of two checks; "every state" meaning every
-tabulated state. Their incorporation is recorded in PROVENANCE (corrections) as each is carried out.
+tabulated state.
+
+All four errors and the minor items were incorporated on 2026-10-18 (PROVENANCE, corrections, item 20). For error 4 the
+computation was changed, not only the text: the angle of the couplings is now fixed by the measured masses and $\rho_0$,
+$\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0 = 0.776368$, so that the model reproduces both $m_W$ and $m_Z$; every scale in GeV moved by
+$+8.5\times10^{-4}$ ($m_{KK} = 121.32$ TeV, $H = 14.296$ TeV) and the dependent computations were rerun.

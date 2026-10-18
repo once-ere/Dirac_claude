@@ -412,7 +412,7 @@ cell, $\Lambda = (m\,fL)^2$ for bosons and $e = \varepsilon\, fL$ for fermions.
 ## Gauge fields and the graviton (DERIVED)
 
 A four-dimensional component $A_\mu(x)\,u(y)$ of a gauge field (gauge $A_y = 0$) has the reduced action
-$\int_{-L}^{0}dy\,f^4e^{3Hy}\big[u'^2/f^2 - m^2u^2\big]$ per half, hence the $x_0$ operator and boundary conditions
+$\int_{-L}^{0}dy\,f^4e^{3Hy}\big[(\partial_yu)^2/f^2 - m^2u^2\big]$ per half, hence the $x_0$ operator and boundary conditions
 $$ -\frac{1}{f^2}\,e^{-3Hy}\,\partial_y\big(e^{3Hy}\partial_yu\big) = m^2u
    \quad\Longleftrightarrow\quad -e^{-3\eta\xi}\big(e^{3\eta\xi}u'\big)' = \Lambda\,u ,$$
 $$ \text{fold: } u'(0) = 0\ \text{(even)},\quad u(0) = 0\ \text{(odd)};\qquad \text{tip: } u'(-1) = \beta\,u(-1), $$
@@ -430,14 +430,17 @@ roots of $q\cot q = -3\eta/2$ (odd); for $\eta = 3$: $\Lambda_1 = 30.1196$, odd 
 elements agree to $5\times10^{-10}$). The Kaluza-Klein scale is $m_{KK} = \sqrt{\Lambda_1}/(fL)$.
 
 **$W^\pm$ and $Z$.** The $\Sigma$ term gives $\beta_W$ for $W^\pm$ (one value for both charges) and, by custodial symmetry,
-$\beta_Z = \beta_W/\cos^2\theta_W$ (on-shell angle, $\cos^2\theta_W = m_W^2/m_Z^2 = 0.77666$); at small $\beta$, $\Lambda \simeq \beta\cdot 3\eta e^{-3\eta}/(1 - e^{-3\eta})$ and
-$m_Z/m_W = 1/\cos\theta_W$. Beyond leading order the bending of the profiles moves the model's mass ratio
-$m_W^2/m_Z^2 = \Lambda_W/\Lambda_Z$ ($\Lambda_W$, $\Lambda_Z$ the lowest even eigenvalues for $\beta_W$ and $\beta_Z$) away from the on-shell
-$\cos^2\theta_W$ of the measured masses, so that the electroweak parameter
+$\beta_Z = \beta_W/\cos^2\theta_W$, with $\theta_W$ the angle of the gauge couplings, $\cos^2\theta_W = \hat g^2/(\hat g^2 + \hat g'^2)$; at small
+$\beta$, $\Lambda \simeq \beta\cdot 3\eta e^{-3\eta}/(1 - e^{-3\eta})$ and $m_Z/m_W = 1/\cos\theta_W$. Beyond leading order the bending of the profiles
+moves the mass ratio $m_W^2/m_Z^2 = \Lambda_W/\Lambda_Z$ ($\Lambda_W$, $\Lambda_Z$ the lowest even eigenvalues for $\beta_W$ and $\beta_Z$) away from
+$\cos^2\theta_W$: the electroweak parameter
 $$ \rho = \frac{\Lambda_W}{\Lambda_Z\cos^2\theta_W} $$
-exceeds 1; fitting the measured $\rho_0 - 1 = 0.00038$ gives (DERIVED)
-$$ \beta_W = 0.011932,\qquad \Lambda_W = 1.32374\times10^{-5},\qquad m_{KK} = m_W\sqrt{\Lambda_1/\Lambda_W} = 121.2\ \text{TeV}, $$
-and the model's $m_Z = m_W\sqrt{\Lambda_Z/\Lambda_W} = 91.171$ GeV (measured $91.188$ GeV).
+exceeds 1. This tree-level custodial violation is what the measured $\rho_0 - 1 = 0.00038$ constrains ($\rho_0$ measures the
+violation beyond the Standard-Model loops). With the measured masses, $\rho = m_W^2/(m_Z^2\cos^2\theta_W) = \rho_0$ fixes the angle
+of the couplings, $\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0 = 0.776368$ (the on-shell value $m_W^2/m_Z^2$ is $0.776663$), and the
+fit gives (DERIVED)
+$$ \beta_W = 0.011912,\qquad \Lambda_W = 1.32149\times10^{-5},\qquad m_{KK} = m_W\sqrt{\Lambda_1/\Lambda_W} = 121.3\ \text{TeV}, $$
+with both masses reproduced: $m_Z = m_W\sqrt{\Lambda_Z/\Lambda_W} = 91.1879$ GeV.
 A positive tip term cannot make $W^\pm$ heavier than the Dirichlet limit $\tanh\tilde q = 2\tilde q/(3\eta)$,
 $\Lambda_D = 0.010016$, i.e. $m_W \le 0.01824\,m_{KK}$.
 
@@ -477,7 +480,7 @@ $c_L = -c_R = c$ the measured masses require (DERIVED; the first-order formula a
 | $\nu$ | 0.05 eV | 18.671 | 28.87 | $2.4\times10^{-22}$ m |
 | $e$ | 0.511 MeV | 10.304 | 15.93 | $4.3\times10^{-22}$ m |
 | $u$ | 2.16 MeV | 9.545 | 14.76 | $4.7\times10^{-22}$ m |
-| $d$ | 4.70 MeV | 9.134 | 14.12 | $4.9\times10^{-22}$ m |
+| $d$ | 4.70 MeV | 9.135 | 14.13 | $4.9\times10^{-22}$ m |
 
 Order-one bulk masses give the whole hierarchy, because the tip densities depend exponentially on $c$. The neutrino
 is a Dirac fermion; its right-handed partner $\nu_R$ is a gauge singlet that is never thermalised.
@@ -509,19 +512,22 @@ uncertainty relation bounds only the hidden kinetic energy. On the cell, which e
 $$ \sqrt{\langle p^2\rangle}\,\Delta\xi \ge \frac{1 - \varrho(\text{tip})}{2},\qquad \Delta\xi^2 = \int_{-1}^{0}\xi^2\varrho\,d\xi , $$
 since $1 = \int\varrho\,d\xi = \varrho(\text{tip}) - \int\xi\varrho'\,d\xi$ (the fold end $\xi = 0$ contributes nothing) and the Cauchy-Schwarz
 inequality bounds $\lvert\int\xi\varrho'\,d\xi\rvert$ by $2\Delta\xi\sqrt{\langle p^2\rangle}$; $\Delta s = fL\,\Delta\xi$ is the root-mean-square proper
-distance from the fold. The familiar $\langle p^2\rangle \ge 1/(4\Delta\xi^2)$ holds only for profiles negligible at the tip: the photon
-zero mode has $\langle p^2\rangle\Delta\xi^2 = 0.497$, the broad fold zero mode of $\Psi$ ($\varrho(\text{tip}) = 0.489$) only $0.097$ (DERIVED; the relation
-with the tip term is checked for every state of the three classes below). Three classes follow:
+distance from the fold. The familiar $\langle p^2\rangle \ge 1/(4\Delta\xi^2)$ is guaranteed only for profiles negligible at the tip
+(it can hold otherwise: the first even Kaluza-Klein mode, with $\varrho(\text{tip}) = 0.655$, has $\langle p^2\rangle\Delta\xi^2 = 4.59$); the photon
+zero mode has $0.497$, the broad fold zero mode of $\Psi$ ($\varrho(\text{tip}) = 0.489$) only $0.097$. The relation with the tip term is a
+theorem; it is also checked numerically for each of the eleven computed states (the zero mode of the photon, gluons and
+graviton, $W^\pm$, $Z$, the first even and odd Kaluza-Klein modes, the $\nu$, $e$, $u$, $d$ zero modes, the fold zero mode of $\Psi$ and
+the dark matter; DERIVED). Three classes follow:
 
 * **massless**: profiles flat relative to the geometry ($u = \text{const}$ or $h\chi = 0$): the fold term cancels the kinetic
   energy and the warp exactly; graviton, photon, gluons and the $\Psi$ fold band. They are localised at the fold
   ($\Delta s = 1.4\times10^{-21}$ m for the photon) and yet massless;
 * **heavy**: the $x_0$ dependence fills the cell. For the gauge fields and the graviton every odd mode and every
-  excitation has $m \ge 3H/(2f) = 99.4$ TeV (the gap theorem of the boson operator: one even level below the gap for
+  excitation has $m \ge 3H/(2f) = 99.5$ TeV (the gap theorem of the boson operator: one even level below the gap for
   every $\beta \ge 0$, no odd level); the $\Psi$ excitations start at its lowest odd level, $3.10m = 44.3$ TeV (the dark
-  matter), since the Dirac operator has no warp gap. For all of these the author's estimate $\hbar c/(2\Delta s)$, with $\Delta s$
-  the root-mean-square proper distance from the fold, is a true lower bound (exceeded by factors 2.3 to 7.5, the dark
-  matter included);
+  matter), since the Dirac operator has no warp gap. For the computed states of this class the author's estimate $\hbar c/(2\Delta s)$, with $\Delta s$
+  the root-mean-square proper distance from the fold, lies below the mass (by factors 2.3 to 7.5, the dark matter
+  included); this is observed for these states, not derived for all;
 * **light**: the $x_0$ dependence that costs mass sits at the tip, where the probability is tiny: $W^\pm$, $Z$, $e$, $\nu$,
   $u$, $d$. Their masses lie $10^{-3}$ ($W^\pm$) to $10^{-16}$ ($\nu$) below $\hbar c/(2\Delta s)$, and a sharper localisation
   gives a LIGHTER fermion ($d\ln m_f/d\ln c = -17$ to $-36$).
@@ -665,7 +671,7 @@ thermalised (no tip coupling, no scalar density, $c_V = 0$) and contributes noth
 # The dark sector
 
 **Dark matter (CONDITIONAL candidate).** The lightest odd state of $\Psi_B$, a Dirac fermion of mass
-$$ M_{DM} = \varepsilon_{DM} = 3.10220\,m = 44.3\ \text{TeV}\qquad (m = H = 14.28\ \text{TeV}), $$
+$$ M_{DM} = \varepsilon_{DM} = 3.10220\,m = 44.3\ \text{TeV}\qquad (m = H = 14.30\ \text{TeV}), $$
 is cold ($w = 0$ at rest), electrically neutral and $Z$-neutral exactly at tree level (no tip operator reaches $\Psi_B$),
 stable as long as the fold parity of $\Psi_B$ is exact (it is a symmetry of every interaction that reaches $\Psi_B$) and
 $N_B$ is conserved (both hold in the good sector). Its hidden wave number carries 90 % of $\varepsilon^2$: its mass is the
@@ -681,8 +687,8 @@ relic value assumes that the radion oscillation left over from the deflation doe
 after freeze-out, i.e. it is conditional on the solution of the moduli problem (section 14).
 
 **Dark energy (NOT SUPPORTED).** No positive-energy state of $\Psi$ has an equation of state $w = p_3/\rho < 0$ on the static
-block; a $\lambda < 0$ condensate tuned to $w_0 = -1$ runs away ($w_a = -6$, the slope of the form $w = w_0 + w_a(1 - a)$ at
-$a = 1$, $a$ the scale factor) and its energy density turns negative at redshift $z = 0.26$. The dark energy
+block; a $\lambda < 0$ condensate tuned to $w_0 = -1$ runs away ($w_a = -dw/da = -6$ at $a = 1$, the coefficient of the form
+$w = w_0 + w_a(1 - a)$, $a$ the scale factor) and its energy density turns negative at redshift $z = 0.26$. The dark energy
 of UM-2 is the tuned residual $\Lambda_4$.
 
 # Cosmology: CMB, CNB, BAO
@@ -691,7 +697,7 @@ The four-dimensional effective theory is general relativity (section 8.5) with p
 species, baryons, the $\Psi_B$ dark matter and $\Lambda_4$. Its linear perturbations (order $\epsilon$) obey the standard
 Einstein-Boltzmann equations. Solved with the Einstein-Boltzmann code CAMB at the Planck 2018 values of $\omega_b$,
 $\omega_c$, $\tau_{reio}$ (the optical depth to reionisation), $A_s$, $n_s$ and $\theta_*$ (DERIVED): $H_0 = 67.43$ km/s/Mpc, $r_{drag} = 147.10$ Mpc, the TT and EE
-spectra agree with Planck $\Lambda$CDM to $2.2\times10^{-4}$ and $3.7\times10^{-4}$ ($30 \le \ell \le 2500$; at most 0.011 of
+spectra agree with Planck $\Lambda$CDM to $2.2\times10^{-4}$ and $3.7\times10^{-4}$ ($30 \le \ell \le 2500$; for TT at most 0.011 of
 the cosmic variance $\sqrt{2/(2\ell + 1)}$ of a single multipole), and the
 DESI DR2 BAO give $\chi^2 = 30.3$ for 13 measurements (Planck $\Lambda$CDM: 32.6).
 
@@ -699,16 +705,16 @@ DESI DR2 BAO give $\chi^2 = 30.3$ for 13 measurements (Planck $\Lambda$CDM: 32.6
 
 | parameter | value | status |
 | --- | --- | --- |
-| $H$ | 14.28 TeV | DERIVED from $m_{KK}$, $\eta$ and $f_*$ |
+| $H$ | 14.30 TeV | DERIVED from $m_{KK}$, $\eta$ and $f_*$ |
 | Lovelock weights $w$, $\Lambda$ | $(1, 1/32, 1/1152)$, $-10H^2$ | AUTHOR |
 | $\eta = HL$ | 3 | ASSUMED (record) |
 | $m = 3HM$ | $M = 1/3$ ($m = H$) | ASSUMED (record) |
 | stabiliser law | $\rho_b \propto f^{-8}$, $p_0 = p_t = \rho_b = -p_3$ | ASSUMED |
 | $k_*$, $f_*$, $G(k_*)$ | 21.522, 0.21556, 13.808 | DERIVED |
 | $m_r$ | 48.4 TeV | DERIVED |
-| $m_{KK}$ | 121.2 TeV | DERIVED (fit to $\rho_0 - 1$) |
-| $\beta_W$, $\beta_Z$ | 0.011932, 0.015364 | DERIVED (fit; $\beta_Z = \beta_W/\cos^2\theta_W$, on-shell angle) |
-| $\kappa_f$; $c_\nu, c_e, c_u, c_d$ | 1; 18.671, 10.304, 9.545, 9.134 | ASSUMED; DERIVED (fit to the masses) |
+| $m_{KK}$ | 121.3 TeV | DERIVED (fit to $\rho_0 - 1$ and $m_W$) |
+| $\beta_W$, $\beta_Z$; $\cos^2\theta_W$ | 0.011912, 0.015343; 0.776368 | DERIVED (fit; $\beta_Z = \beta_W/\cos^2\theta_W$, $\theta_W$ the angle of the couplings, fixed by $m_W/m_Z$ and $\rho_0$) |
+| $\kappa_f$; $c_\nu, c_e, c_u, c_d$ | 1; 18.671, 10.304, 9.545, 9.135 | ASSUMED; DERIVED (fit to the masses) |
 | $m_\nu$ | 0.05 eV | ASSUMED |
 | $r^2$ (I9) | 0.992 | DERIVED (fit to $N_\nu$) |
 | $c_V$ (I11) | 0 (benchmark) | ASSUMED |
@@ -728,7 +734,10 @@ DESI DR2 BAO give $\chi^2 = 30.3$ for 13 measurements (Planck $\Lambda$CDM: 32.6
   $T_{RH} = (90/(\pi^2g_*))^{1/4}\sqrt{\Gamma\bar M_{Pl}} = 1.85\sqrt{C_r}$ MeV ($g_* = 10.75$), below the 4.7 MeV that nucleosynthesis needs
   unless $C_r > 6.5$: the cosmological moduli problem, which also conditions the dark-matter relic); the
   Kaluza-Klein graviton spectrum with the Lovelock corrections; the $S$ parameter of the Higgsless tip; anomalies of the
-  eight-dimensional bulk theory; the cosmological constant ($\Lambda_4$ tuned to $10^{-92}H^2$).
+  eight-dimensional bulk theory; the cosmological constant ($\Lambda_4$ tuned to $10^{-92}H^2$); the electroweak sector beyond tree
+  level (the angle of the couplings of the $W^\pm$, $Z$ mass fit, $\sin^2\theta_W = 0.22363$, differs from the $\overline{MS}$ value
+  $0.23122$ used in the $Z$ couplings by the Standard-Model loop corrections, which UM-2 does not compute; the tree-level
+  $Z$ widths differ by at most 1.4 % between the two).
 * **CONFLICTS WITH DATA, inherent in the order**: there is no Higgs boson while one is observed at 125 GeV; without it the
   longitudinal $W^+W^-$ scattering violates perturbative unitarity near $\sqrt{8\pi}\,v \approx 1.2$ TeV, far below the
   Kaluza-Klein modes that could restore it; with one generation the total $Z$ width is 1.23 GeV against the measured

@@ -19,21 +19,24 @@ FROM MEMORY (a measured bound quoted from memory), OPEN. Units $\hbar = c = 1$. 
 $x_0, \dots, x_7$ ($x_0$ hidden space, $x_1, x_2, x_3$ space, $x_4$ time, $x_5, x_6, x_7$ extra times); $W^+$ has charge $+e$,
 $W^-$ charge $-e$.
 
-Symbols with more than one use: $\xi = y/L$ is the scaled hidden coordinate (primes denote $d/d\xi$), $t$ the cosmic time in
-the bounds on varying constants; $\Lambda = (m\,fL)^2$ is a dimensionless eigenvalue of an $x_0$ operator, while in the formula
+Symbols with more than one use: $\xi = y/L$ is the scaled hidden coordinate (primes denote $d/d\xi$, except $G'(k) = dG/dk$),
+$t$ the cosmic time in the bounds on varying constants; $\Lambda = (m\,fL)^2$ is a dimensionless eigenvalue of an $x_0$ operator, while in the formula
 for the four-dimensional cosmological term $\Lambda_4$ the symbol $\Lambda = -10H^2$ is the eight-dimensional cosmological constant;
 $\Lambda_\star$ is the scale of the effective interactions; $k$ is the momentum of a mode along $x_1, x_2, x_3$ in $h_j$ and in
 $\varepsilon = e^{-a_4}\lvert k\rvert$, and the block variable $1/f^2$ in $k_*$, $G(k)$ and $\Lambda_4$; $\rho$ is an energy density ($\rho_0$ the
 electroweak parameter) and $\varrho$ a probability density in $\xi$; $w$ is an equation-of-state parameter ($w_0$, $w_a$ of the
 form $w = w_0 + w_a(1 - a)$, $a$ the scale factor), except in the fermion mass condition ($w = \sqrt{c^2 - e^2}$) and the
-Lovelock weight $w_2$; $z = 6Hx_0$, except where it is a redshift.
+Lovelock weight $w_2$; $z = 6Hx_0$, except where it is a redshift. $s = fy$ is the proper hidden length ($\Delta s$ its spread),
+except in $s = \sinh w/w$ and $s_L$, $s_R$ of the fermion mass condition; $p$ is the momentum conjugate to $\xi$ ($\langle p^2\rangle$), the
+hidden wave number of the dark matter ($p\,fL = 1.899$) and a pressure ($p_0$, $p_3$, $p_t$, and $p$ of the condensate); $a$ is the scale
+factor ($a = e^{a_4}$), while $a_L$, $a_R$ are spinor components.
 
 **Summary of the verdicts.**
 
 | question | verdict |
 | --- | --- |
 | Can every mass come from the $x_0$ dependence of wave functions periodic with period $\pi/(6H)$? | YES (DERIVED): every four-dimensional mass of UM-2 is an eigenvalue of an $x_0$ operator; graviton, photon, gluons and the dirac16complex fold band are exactly massless |
-| Is the uncertainty relation the reason for the masses? | ONLY FOR THE HEAVY STATES: it bounds the Kaluza-Klein and odd excitations (and the dark matter) from below, but the light masses ($W^\pm$, $Z$, $e$, $\nu$, $u$, $d$) lie $10^{-3}$ to $10^{-16}$ below the uncertainty estimate and come from the tip of the $x_0$ cell |
+| Is the uncertainty relation the reason for the masses? | ONLY FOR THE HEAVY STATES: the uncertainty estimate lies below the masses of the computed Kaluza-Klein and odd excitations (and of the dark matter), but the light masses ($W^\pm$, $Z$, $e$, $\nu$, $u$, $d$) lie $10^{-3}$ to $10^{-16}$ below the uncertainty estimate and come from the tip of the $x_0$ cell |
 | Do the extra times deflate to irrelevance? | IN THE PRIMORDIAL ERA, then FROZEN: they deflate by up to a factor 2.9 into the stabilised block; a continuing deflation is excluded because every mass and coupling depends on the block size |
 | Is dirac16complex dark matter? | CONDITIONALLY YES: the lightest odd quantum of the $\Psi_B$ half (44.3 TeV, cold, neutral, stable) is a viable candidate whose relic abundance fixes one portal scale; the massless fold bands are radiation, not dark matter |
 | Is dirac16complex dark energy? | NOT SUPPORTED: no positive-energy state has $w < 0$; a negative-coupling condensate runs away; the dark energy of UM-2 is a tuned four-dimensional cosmological term |
@@ -49,8 +52,8 @@ UM-2 depends on $x_0$ through $y(z)$, so it is periodic in $x_0$ with period $\p
 proper hidden length $s = fy$, reads $\Delta s\,\Delta p_s \ge \frac12$ on an unbounded line (on the cell, which ends at the tips,
 it acquires a tip term; section 2.3), and the author's estimate of a mass is
 $$ m_H = \frac{\hbar c}{2\Delta s},\qquad \Delta s = fL\,\Delta\xi,\qquad \Delta\xi^2 = \frac{\int_{-1}^{0}\xi^2\varrho(\xi)\,d\xi}{\int_{-1}^{0}\varrho(\xi)\,d\xi},$$
-the root-mean-square proper distance from the fold of the probability density $\varrho$ in the flat measure ($\varrho = \tilde u^2$,
-$\tilde u = e^{3\eta\xi/2}u$, for bosons; $\varrho = \lvert\chi\rvert^2$ for fermions), $\xi = y/L$; over the full period the density is symmetric
+the root-mean-square proper distance from the fold of the probability density $\varrho$ in the flat measure ($\varrho = \tilde u^2/\!\int\tilde u^2$,
+$\tilde u = e^{3\eta\xi/2}u$, for bosons; $\varrho = \lvert\chi\rvert^2/\!\int\lvert\chi\rvert^2$ for fermions; integrals over $[-1, 0]$), $\xi = y/L$; over the full period the density is symmetric
 about the fold, so $\Delta\xi$ is also the spread of the full-period profile.
 
 ## Every mass is an $x_0$ eigenvalue (DERIVED)
@@ -59,16 +62,18 @@ With $\xi = y/L$:
 
 * **Gauge bosons and the graviton**: $-e^{-3\eta\xi}(e^{3\eta\xi}u')' = \Lambda u$, $\Lambda = (m\,fL)^2$; fold $u'(0) = 0$ (even) or
   $u(0) = 0$ (odd); tip $u'(-1) = \beta u(-1)$ with $\beta = 0$ for the photon, the gluons and the graviton and
-  $\beta_W = 0.011932$ ($W^+$, $W^-$), $\beta_Z = \beta_W/\cos^2\theta_W$ ($Z$; on-shell angle, $\cos^2\theta_W = m_W^2/m_Z^2 = 0.77666$).
+  $\beta_W = 0.011912$ ($W^+$, $W^-$), $\beta_Z = \beta_W/\cos^2\theta_W$ ($Z$; $\theta_W$ the angle of the gauge couplings,
+  $\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0 = 0.776368$, fixed by the measured masses and $\rho_0$).
 * **Fermions**: $h_j = j[-\frac{i}{f}\sigma_1\partial_y + \mu\sigma_2 + e^{-a_4}k\sigma_3]$ ($k$ the momentum) with the chiral boundary conditions and the tip
   mixing $b_L = \kappa_fb_R$, $a_R = -\kappa_fa_L$; the mass is the root of
   $D(e) = e^2s_Ls_R - \kappa_f^2(C_L - c_Ls_L)(C_R + c_Rs_R)$, $s = \sinh w/w$, $C = \cosh w$, $w = \sqrt{c^2 - e^2}$, $c = f\mu L$.
 * **dirac16complex**: $h_j$ with $M = m$, fold $\chi_2(0) = 0$ (even) or $\chi_1(0) = 0$ (odd), tip $\chi_2(-L) = 0$.
 
 The masses (DERIVED): photon, gluons, graviton $0$ exactly (flat profile); dirac16complex fold band $0$ exactly
-(chiral zero mode, $\varepsilon = e^{-a_4}\lvert k\rvert$); $W^\pm$ $80.36$ GeV and $Z$ $91.17$ GeV (fit of $\beta_W$ to $\rho_0$);
-$\nu$, $e$, $u$, $d$ with $c = 18.67, 10.30, 9.54, 9.13$; the dark matter $3.102204\,m = 44.31$ TeV; Kaluza-Klein levels from
-$121$ TeV; every odd mode and every excitation of the gauge fields and the graviton above the gap $3H/(2f_*) = 99.4$ TeV;
+(chiral zero mode, $\varepsilon = e^{-a_4}\lvert k\rvert$); $W^\pm$ $80.36$ GeV and $Z$ $91.19$ GeV (both reproduced: $\beta_W$
+fitted to $\rho_0$, the angle of the couplings to $m_W/m_Z$); $\nu$, $e$, $u$, $d$ with $c = 18.67, 10.30, 9.55, 9.13$; the dark matter
+$3.102204\,m = 44.35$ TeV; Kaluza-Klein levels from $121$ TeV; every odd mode and every excitation of the gauge fields and the
+graviton above the gap $3H/(2f_*) = 99.5$ TeV;
 the $\Psi$ excitations from its lowest odd level, $44.3$ TeV, upwards.
 
 ## What the uncertainty relation does and does not bound (DERIVED)
@@ -84,10 +89,11 @@ kinetic term is bounded by the uncertainty relation. On the cell, which ends at 
 $$ \sqrt{\langle p^2\rangle}\,\Delta\xi \ge \frac{1 - \varrho(\text{tip})}{2}, $$
 because $1 = \int_{-1}^{0}\varrho\,d\xi = \varrho(\text{tip}) - \int_{-1}^{0}\xi\varrho'\,d\xi$ (integration by parts; the fold end $\xi = 0$ contributes
 nothing) and the Cauchy-Schwarz inequality gives $\lvert\int\xi\varrho'\,d\xi\rvert \le 2\Delta\xi\sqrt{\langle p^2\rangle}$. The familiar form
-$\langle p^2\rangle \ge 1/(4\Delta\xi^2)$ needs a profile negligible at the tip: the broad fold zero mode of $\Psi$ violates it
+$\langle p^2\rangle \ge 1/(4\Delta\xi^2)$ is guaranteed only for profiles negligible at the tip (it can hold otherwise: the first even
+Kaluza-Klein mode, $\varrho(\text{tip}) = 0.655$, has $\langle p^2\rangle\Delta\xi^2 = 4.59$); the broad fold zero mode of $\Psi$ violates it
 ($\langle p^2\rangle\Delta\xi^2 = 0.097$, $\varrho(\text{tip}) = 0.489$) and satisfies the relation with the tip term. Computed for every class
 of particle (DERIVED; sum rules reproduce the eigenvalues to $10^{-8}$, the dark matter to $10^{-11}$; the relation with the
-tip term holds for every state, with the smallest margin $0.057$ for the $\Psi$ fold band):
+tip term, a theorem, holds for every tabulated state, with the smallest margin $0.057$ for the $\Psi$ fold band):
 
 Bosons (the warp term is $9\eta^2/4 = 20.25$ for every mode):
 
@@ -103,10 +109,10 @@ Fermions (the kinetic term $\langle\lvert\chi'\rvert^2\rangle$ equals the bulk t
 
 | state | $\langle\lvert\chi'\rvert^2\rangle$ | bulk $c^2$ | boundary term | $(\varepsilon fL)^2$ | $m/m_H$ |
 | --- | --- | --- | --- | --- | --- |
-| $\nu$ zero mode | $348.60$ | $348.60$ | $-697.21$ | $0$ | $1.7\times10^{-16}$ |
-| $e$ zero mode | $106.17$ | $106.17$ | $-212.34$ | $0$ | $3.2\times10^{-9}$ |
-| $u$ zero mode | $91.10$ | $91.10$ | $-182.21$ | $0$ | $1.4\times10^{-8}$ |
-| $d$ zero mode | $83.43$ | $83.43$ | $-166.86$ | $0$ | $3.3\times10^{-8}$ |
+| $\nu$ zero mode | $348.62$ | $348.62$ | $-697.24$ | $0$ | $1.7\times10^{-16}$ |
+| $e$ zero mode | $106.18$ | $106.18$ | $-212.35$ | $0$ | $3.2\times10^{-9}$ |
+| $u$ zero mode | $91.11$ | $91.11$ | $-182.22$ | $0$ | $1.4\times10^{-8}$ |
+| $d$ zero mode | $83.44$ | $83.44$ | $-166.88$ | $0$ | $3.3\times10^{-8}$ |
 | $\Psi$ fold band | $0.418$ | $0.418$ | $-0.836$ | $0$ | $0$ |
 | $\Psi_B$ dark matter | $2.608$ | $0.418$ | $0.998$ | $4.024$ | $2.29$ |
 
@@ -115,26 +121,26 @@ estimates, tip densities and uncertainty products:
 
 | state | $\Delta s$ (m) | $m_H = \hbar c/(2\Delta s)$ (GeV) | $\varrho(\text{tip})$ | $\langle p^2\rangle\Delta\xi^2$ |
 | --- | --- | --- | --- | --- |
-| photon, gluons, graviton; $W^\pm$; $Z$ | $1.40\times10^{-21}$ | $70\,500$ | $1.1\times10^{-3}$ | $0.497$ |
-| first even Kaluza-Klein mode; first odd mode | $6.09$; $5.56\times10^{-21}$ | $16\,191$; $17\,756$ | $0.655$; $0.433$ | $4.59$; $1.89$ |
-| $\nu$; $e$; $u$; $d$ zero modes | $3.38$; $6.13$; $6.62$; $6.92\times10^{-22}$ | $291\,611$; $160\,929$; $149\,075$; $142\,660$ | $2.3\times10^{-15}$ to $2.1\times10^{-7}$ | $0.500$ |
-| $\Psi$ fold band; $\Psi_B$ dark matter | $4.31$; $5.09\times10^{-21}$ | $22\,884$; $19\,378$ | $0.489$; $0.772$ | $0.097$; $0.847$ |
+| photon, gluons, graviton; $W^\pm$; $Z$ | $1.40\times10^{-21}$ | $70\,560$ | $1.1\times10^{-3}$ | $0.497$ |
+| first even Kaluza-Klein mode; first odd mode | $6.09$; $5.55\times10^{-21}$ | $16\,204$; $17\,771$ | $0.655$; $0.433$ | $4.59$; $1.89$ |
+| $\nu$; $e$; $u$; $d$ zero modes | $3.38$; $6.13$; $6.61$; $6.91\times10^{-22}$ | $291\,866$; $161\,073$; $149\,209$; $142\,788$ | $2.3\times10^{-15}$ to $2.1\times10^{-7}$ | $0.500$ |
+| $\Psi$ fold band; $\Psi_B$ dark matter | $4.31$; $5.09\times10^{-21}$ | $22\,903$; $19\,395$ | $0.489$; $0.772$ | $0.097$; $0.847$ |
 
 Three classes follow.
 
 * **Massless although localised.** The photon, the gluons and the graviton are localised at the fold
-  ($\Delta s = 1.40\times10^{-21}$ m, $m_H = 70.5$ TeV, $\langle p^2\rangle\Delta\xi^2 = 0.497$), yet exactly massless: the fold
+  ($\Delta s = 1.40\times10^{-21}$ m, $m_H = 70.6$ TeV, $\langle p^2\rangle\Delta\xi^2 = 0.497$), yet exactly massless: the fold
   term cancels the hidden kinetic energy and the warp. The cancellation is exact because the flat profile is an
   eigenfunction with $\Lambda = 0$, protected by four-dimensional gauge invariance and general covariance. The fold bands
   of dirac16complex are massless for the analogous chiral reason ($\chi = (e^{f\int Mdy}, 0)$ is a zero mode for every mass
   profile).
-* **Heavy: the uncertainty relation is a true lower bound.** Every $x_0$ excitation of the gauge fields and the graviton
+* **Heavy: the uncertainty estimate lies below the mass.** Every $x_0$ excitation of the gauge fields and the graviton
   lies above the gap of their operator: for every tip coupling $\beta$ from $0$ to $10^6$ exactly one even level lies below
   $9\eta^2/4$ (the zero mode, lifted only by the tip) and no odd level does (the gap theorem, DERIVED), so every odd mode and
-  every excitation of these fields has $m \ge 3H/(2f_*) = 99.4$ TeV. The Dirac operator of $\Psi$ has no such warp gap; its
-  excitations start at the lowest odd level, $3.10m = 44.3$ TeV (the dark matter). For all these states $m_H$ is exceeded by
+  every excitation of these fields has $m \ge 3H/(2f_*) = 99.5$ TeV. The Dirac operator of $\Psi$ has no such warp gap; its
+  excitations start at the lowest odd level, $3.10m = 44.3$ TeV (the dark matter). For the computed states $m_H$ is exceeded by
   factors 2.3 to 7.5 (dark matter 2.29, first odd 6.47, first even 7.49): the author's
-  Heisenberg estimate holds as a bound, and the dark-matter mass is an $x_0$ mass in this sense (its hidden wave number $p$
+  Heisenberg estimate lies below these masses (observed for these states, not derived for all), and the dark-matter mass is an $x_0$ mass in this sense (its hidden wave number $p$
   carries $p^2/\varepsilon^2 = 0.896$ of $\varepsilon^2$).
 * **Light: the mass comes from the tip, not from localisation.** For $W^\pm$, $Z$, $e$, $\nu$, $u$, $d$ the $x_0$ dependence that costs
   energy sits at the tip, where the probability is small: $m/m_H = 10^{-3}$ ($W^\pm$, $Z$) to $10^{-16}$ ($\nu$). For the fermions
@@ -200,7 +206,7 @@ $\gamma^M\Omega_M = \frac32\frac Hf\gamma^{x_0} + (\frac{\dot b_4}{b_4} - \frac{
 separately conserved. The tip projector of the $Z$ portal, $P_+ = (1 + \Gamma_4)/2 = (1 - B\gamma^{x_0})/2$ ($\Gamma_4 = -B\gamma^{x_0}$,
 DERIVED), annihilates every $\Psi_B$ orbital at the tip. The dark-matter candidate is the lightest odd state of $\Psi_B$:
 
-* a Dirac fermion of mass $M_{DM} = \sqrt{m^2 + p^2} = 3.102204\,m = 44.31$ TeV ($\tan(p\,fL) = -p/m$, $m = H$);
+* a Dirac fermion of mass $M_{DM} = \sqrt{m^2 + p^2} = 3.102204\,m = 44.35$ TeV ($\tan(p\,fL) = -p/m$, $m = H$);
 * cold: $w = p_3/\rho = 0$ for quanta at rest (Kohn-Sham, DERIVED; $2.8\times10^{-5}$ with the benchmark self-coupling);
 * electrically neutral (a gauge singlet) and with no $Z$ coupling and no transition current at the tip (exactly);
 * stable: $N_B$ is conserved and its fold parity is exact (no tip operator reaches $\Psi_B$; the bulk is symmetric under the
@@ -259,10 +265,10 @@ $\lambda_B$), fold-band gas $1/3$ ($0.3312$ with $+\lambda_B$, $0.3354$ with $-\
 
 ## The condensate runs away (DERIVED)
 
-A homogeneous condensate $S = \bar\Psi\Psi \propto a^{-3}$ with $U = \frac{\lambda}{2}S^2$ has $\rho = mS + U$, $p = SU' - U = \frac{\lambda}{2}S^2$, so
-$$ w(a) = \frac{x(a)}{1 + x(a)},\qquad x(a) = \frac{\lambda S}{2m} = x_0a^{-3},\qquad x_0 = \frac{w_0}{1 - w_0},\qquad
-   w_a \equiv -\frac{dw}{da}\Big\vert_{a=1} = \frac{3x_0}{(1 + x_0)^2}.$$
-$w < 0$ needs $\lambda < 0$, and then the energy density $\rho = mS(1 + x)$ crosses zero at $a = (-x_0)^{1/3}$:
+A homogeneous condensate $S = \bar\Psi\Psi \propto a^{-3}$ with $U = \frac{\lambda}{2}S^2$ has $\rho = mS + U$, $p = S\,dU/dS - U = \frac{\lambda}{2}S^2$, so
+$$ w(a) = \frac{X(a)}{1 + X(a)},\qquad X(a) = \frac{\lambda S}{2m} = X_0a^{-3},\qquad X_0 = \frac{w_0}{1 - w_0},\qquad
+   w_a \equiv -\frac{dw}{da}\Big\vert_{a=1} = \frac{3X_0}{(1 + X_0)^2}.$$
+$w < 0$ needs $\lambda < 0$, and then the energy density $\rho = mS(1 + X)$ crosses zero at $a = (-X_0)^{1/3}$:
 
 | $w_0$ | $-1.2$ | $-1$ | $-0.9$ | $-0.861$ | $-0.764$ | $-0.5$ | $-0.3$ |
 | --- | --- | --- | --- | --- | --- | --- | --- |

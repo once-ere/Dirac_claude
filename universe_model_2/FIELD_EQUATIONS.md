@@ -44,7 +44,7 @@ $[\Psi] = [\psi] = 7/2$, $[\kappa] = -6$ ($\kappa = 8\pi G_8$).
   $S^{ab} = \frac14[\gamma^a, \gamma^b]$. Since every $C\gamma^a$ is real and antisymmetric, $\bar\Psi\gamma^a\Psi$ is anti-Hermitian and
   the Hermitian vector currents are $i\bar\Psi\gamma^a\Psi$; $\bar\Psi\Psi$ is Hermitian.
 * A delta function on the tip $y = -L$ in proper length is $\delta_{tip} = \delta(y + L)/f$.
-* Notation: $\kappa = 8\pi G_8$ throughout. $k$ denotes the block variable $1/f^2$ ($k_*$, $k_\pm$, $\delta k$, $G(k)$); as the
+* Notation: $\kappa = 8\pi G_8$ throughout ($\kappa_f$, with its subscript, is the tip mixing of a fermion). $k$ denotes the block variable $1/f^2$ ($k_*$, $k_\pm$, $\delta k$, $G(k)$); as the
   index of $\alpha_k$, $E_{(k)}$ and $\mathcal L_{(k)}$ it is the Lovelock order (written $p$ in the reduction formula of
   section 5.6, where the block variable appears as well); in $e^{ikx_1}$, in $h_j$, in $\vec k$ and $\Delta k$ and in the
   dispersion $\varepsilon = e^{-a_4}\lvert k\rvert$ it is the momentum of a mode along $x_1, x_2, x_3$; in the perturbation equations of
@@ -55,8 +55,12 @@ $[\Psi] = [\psi] = 7/2$, $[\kappa] = -6$ ($\kappa = 8\pi G_8$).
 * $n$ is a number density ($n_o$ of a Kohn-Sham orbital, $n_\psi$ of a Standard-Model fermion), except as a level number
   ($n^2\pi^2$, the $n \ge 1$ modes) and in the lattice vector $\vec n \in \mathbb Z^3$ of a momentum shell. The subscript $t$
   ($x_t$, $p_t$, $v_t$) refers to the extra times $x_5, x_6, x_7$; $\xi = y/L$ is the scaled hidden coordinate; primes
-  denote $d/d\xi$ in section 6 and $d/d\tau$ (conformal time) in section 8. $f$ is the block scale, $f_o$ an occupation
-  number, and the label $f$ in $S_f$ and $T^M{}_N[f]$ stands for the Standard-Model fermions.
+  denote $d/d\xi$ in section 6 and $d/d\tau$ (conformal time) in section 8 ($\hat g'$ and $c'_Z$ are names of couplings).
+  $f$ is the block scale, $f_o$ an occupation number, and the label $f$ in $S_f$ and $T^M{}_N[f]$ stands for the
+  Standard-Model fermions.
+* $w_k$ are the Lovelock weights; $w = 1/2$ is the weight of a fold parity in the Kohn-Sham sums, and $w = \sqrt{c^2 - e^2}$ in
+  the fermion mass condition. $\psi$ is a Standard-Model fermion field, except in section 8, where $\psi$ and $\phi$ are the
+  Newtonian-gauge potentials. $\varepsilon$ is the energy of a mode or orbital.
 
 # The action
 
@@ -328,14 +332,15 @@ on each half of a period, bosonic eigenvalues are $\Lambda = (m\,fL)^2$ and ferm
 
 ## Gauge fields and the graviton
 
-A four-dimensional component $A_\mu(x)u(y)$ (gauge $A_y = 0$) has the reduced action $\int_{-L}^0dy\,f^4e^{3Hy}\big[u'^2/f^2 - m^2u^2\big]$
+A four-dimensional component $A_\mu(x)u(y)$ (gauge $A_y = 0$) has the reduced action $\int_{-L}^0dy\,f^4e^{3Hy}\big[(\partial_yu)^2/f^2 - m^2u^2\big]$
 per half (times $1/\hat g^2$), hence (DERIVED)
 $$ -\frac{1}{f^2}e^{-3Hy}\partial_y\big(e^{3Hy}\partial_yu\big) = m^2u \;\Longleftrightarrow\; -e^{-3\eta\xi}\big(e^{3\eta\xi}u'\big)' = \Lambda u ,$$
 $$ \text{fold: } u'(0) = 0 \text{ (even) or } u(0) = 0 \text{ (odd)};\qquad \text{tip: } u'(-1) = \beta\,u(-1) ,$$
 the tip condition being the natural boundary condition of the tip mass term: $\beta = 0$ for the photon and the gluons,
 $\beta_W$ for $W^+$ and $W^-$ (one value for both: they are particle and antiparticle), $\beta_Z = \beta_W/\cos^2\theta_W$
-(on-shell angle, $\cos^2\theta_W = m_W^2/m_Z^2$) for the
-$Z$ (the ratio of the coefficients $\hat g^2$ and $\hat g^2 + \hat g'^2$ of the tip mass terms). The transverse-traceless
+for the $Z$ (the ratio of the coefficients $\hat g^2$ and $\hat g^2 + \hat g'^2$ of the tip mass terms; $\theta_W$ is the angle of the
+couplings, $\cos^2\theta_W = \hat g^2/(\hat g^2 + \hat g'^2)$, fixed in UM-2 by the measured masses and the measured electroweak
+parameter $\rho_0$ as $\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0$). The transverse-traceless
 graviton obeys the same operator with $\beta = 0$ in Einstein gravity. With $u = e^{-3\eta\xi/2}\tilde u$, $q^2 = \Lambda - 9\eta^2/4$:
 $$ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big]\sin q - \beta q\cos q = 0,\qquad
    \text{odd: } q\cos q + \Big(\beta + \frac{3\eta}{2}\Big)\sin q = 0 .$$
@@ -391,7 +396,7 @@ $$ \phi'' + \mathcal H(\psi' + 2\phi') + (2\mathcal H' + \mathcal H^2)\psi + \fr
 summed over the species of UM-2:
 
 * **dark matter** ($\Psi_B$ odd quanta, cold): $\delta_c' = -\theta_c + 3\phi'$, $\theta_c' = -\mathcal H\theta_c + k^2\psi$;
-* **baryons** ($u$, $d$ confined in $p$, $n$; electrons): $\delta_b' = -\theta_b + 3\phi'$,
+* **baryons** ($u$, $d$ confined in protons and neutrons; electrons): $\delta_b' = -\theta_b + 3\phi'$,
   $\theta_b' = -\mathcal H\theta_b + c_s^2k^2\delta_b + \frac{4\bar\rho_\gamma}{3\bar\rho_b}an_e\sigma_T(\theta_\gamma - \theta_b) + k^2\psi$;
 * **photons**: $\delta_\gamma' = -\frac43\theta_\gamma + 4\phi'$, $\theta_\gamma' = k^2(\frac14\delta_\gamma - \sigma_\gamma) + k^2\psi + an_e\sigma_T(\theta_b - \theta_\gamma)$,
   $F_{\gamma2}' = 2\sigma_\gamma' = \frac{8}{15}\theta_\gamma - \frac35kF_{\gamma3} - \frac95an_e\sigma_T\sigma_\gamma + \frac{1}{10}an_e\sigma_T(G_{\gamma0} + G_{\gamma2})$,
@@ -400,9 +405,10 @@ summed over the species of UM-2:
 * **the two $\Psi_A$ Weyl species** (massless, decoupled with the neutrinos): $\delta' = -\frac43\theta + 4\phi'$,
   $\theta' = k^2(\frac14\delta - \sigma) + k^2\psi$, $F_2' = 2\sigma' = \frac{8}{15}\theta - \frac35kF_3$,
   $F_l' = \frac{k}{2l+1}[lF_{l-1} - (l+1)F_{l+1}]$ ($l \ge 3$);
-* **$\nu_e$** (mass $0.05$ eV, comoving momentum $q$, $\varepsilon = \sqrt{q^2 + a^2m_\nu^2}$, Fermi-Dirac $f_0(q)$):
-  $\Psi_0' = -\frac{qk}{\varepsilon}\Psi_1 - \phi'\frac{d\ln f_0}{d\ln q}$, $\Psi_1' = \frac{qk}{3\varepsilon}(\Psi_0 - 2\Psi_2) - \frac{\varepsilon k}{3q}\psi\frac{d\ln f_0}{d\ln q}$,
-  $\Psi_l' = \frac{qk}{(2l+1)\varepsilon}[l\Psi_{l-1} - (l+1)\Psi_{l+1}]$ ($l \ge 2$);
+* **$\nu_e$** (mass $0.05$ eV, comoving momentum $q$, comoving energy $E_\nu = \sqrt{q^2 + a^2m_\nu^2}$, Fermi-Dirac distribution
+  $\bar f_\nu(q)$, multipoles $\mathcal N_l$ of the perturbed distribution):
+  $\mathcal N_0' = -\frac{qk}{E_\nu}\mathcal N_1 - \phi'\frac{d\ln\bar f_\nu}{d\ln q}$, $\mathcal N_1' = \frac{qk}{3E_\nu}(\mathcal N_0 - 2\mathcal N_2) - \frac{E_\nu k}{3q}\psi\frac{d\ln\bar f_\nu}{d\ln q}$,
+  $\mathcal N_l' = \frac{qk}{(2l+1)E_\nu}[l\mathcal N_{l-1} - (l+1)\mathcal N_{l+1}]$ ($l \ge 2$);
 * the $\Psi_B$ fold band is never thermalised and does not contribute.
 
 The background is $\mathcal H^2 = \frac{8\pi G_N}{3}a^2\bar\rho_{tot} + \frac{\Lambda_4}{3}a^2$, adiabatic initial conditions with the power
