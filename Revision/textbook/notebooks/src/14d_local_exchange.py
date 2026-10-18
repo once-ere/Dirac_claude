@@ -12,9 +12,10 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/14d_local_exchange.py
 
 Every exact statement reproduces a check of Revision/kohn_sham/reports/
-ks-theory-python.json (section E of check_ks_theory.py); the zero-mode densities
+ks-theory-python.json (sections E and G of check_ks_theory.py), written for the
+corrected metric of 2026-10-16; the zero-mode densities along the deflating history
 reproduce the calibration of the coupling in Revision/kohn_sham/results/
-parameters.json and the free density maximum of ground/summary.csv.
+parameters.json and the free density maxima of ground/summary.csv.
 """
 
 import sys
@@ -38,31 +39,38 @@ FACTS = {
         "local exchange -(lambda/32)(n^2 + S^2), the filled-shell ratio -1/8, the "
         "Kohn-Sham potentials M_eff = m + (15/16) lambda S and v_v = -lambda n/16, "
         "and the exact Fock exchange of the closed-shell slab, which differs by "
-        "+(lambda/32) Q^2; it then computes the densities of the eight brane zero "
-        "modes and reproduces the Revision calibration of the coupling for N = 8 and "
-        "the vanishing exact-Fock energy of that state, with four teaching figures."
+        "+(lambda/32) Q^2. It checks that a Kohn-Sham state depends on the coupling "
+        "and the cell volume only through their ratio, with the cell volume "
+        "ell^3 v_t exp(5 a4/3) of the prescribed deflating history (the corrected "
+        "metric of 2026-10-16); it then computes the densities of the eight fold zero "
+        "modes at the five slices of the history and reproduces the Revision "
+        "calibration of the coupling for N = 8 and the vanishing exact-Fock energy of "
+        "that state, with four teaching figures."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
          "the author's 16 x 16 gamma matrices in the order x0 to x7 (read)"],
         ["Revision/kohn_sham/ks-theory.json",
-         "the block basis and the exchange coefficients (read and reproduced)"],
+         "the block basis, the exchange coefficients and the densities of the "
+         "corrected metric (read and reproduced)"],
         ["Revision/kohn_sham/reports/ks-theory-python.json",
          "the sympy checks of the exchange that this notebook reproduces"],
         ["Revision/kohn_sham/reports/ks-theory-wolfram.json",
          "the same checks in WolframScript (their verdicts are read)"],
         ["Revision/kohn_sham/results/parameters.json",
          "the coefficients used by the Rust solver and the calibration of the "
-         "coupling for N = 8 (reproduced)"],
+         "coupling for N = 8 at the five slices (reproduced)"],
         ["Revision/kohn_sham/results/ground/summary.csv",
-         "the largest proper density of the free N = 8 state (reproduced)"],
+         "the largest proper density of the free N = 8 state at the five slices "
+         "(reproduced)"],
         ["Revision/kohn_sham/results/exx/exact-fock-variant.csv",
-         "the self-consistent exact-Fock energies of the N = 8 states (compared)"],
+         "the self-consistent exact-Fock energies and gaps of the N = 8 states "
+         "(compared)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
-    "expected_seconds": 30,
-    "timeout_seconds": 300,
+    "expected_seconds": 40,
+    "timeout_seconds": 400,
     "files_written": [
         "Revision/textbook/figures/14d.captions.json",
         "Revision/textbook/figures/14d_1_pair_average.png",
@@ -72,7 +80,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS all four figure files of this notebook exist",
-        "ALL 16 CHECKS PASSED (notebook 14d)",
+        "ALL 18 CHECKS PASSED (notebook 14d)",
     ],
     "troubleshooting": [],
 }
@@ -99,11 +107,15 @@ CELLS = [
     - the exact Fock exchange of a closed-shell slab state, $-\frac{\lambda}{32}
       (n^2 + S^2 - Q^2)$, which the uniform-gas formula misses by
       $+\frac{\lambda}{32}Q^2$ (figure 3);
-    - the densities and potentials of the eight brane zero modes (the state
-      $N = 8$), which reproduce the Revision calibration of the coupling, and why the
-      exact Fock exchange of that state is exactly zero (figure 4).
+    - that a Kohn-Sham state depends on the coupling and the volume of the cell only
+      through their ratio, and the cell volume $\ell^3v_te^{(5/3)a_{4,0}}$ of the
+      prescribed deflating history (the corrected metric of 2026-10-16);
+    - the densities and potentials of the eight fold zero modes (the state
+      $N = 8$) at the five slices of the history, which reproduce the Revision
+      calibration of the coupling, and why the exact Fock exchange of that state is
+      exactly zero (figure 4).
 
-    It prints a PASS line for every check (16 in all) and saves four figures.
+    It prints a PASS line for every check (18 in all) and saves four figures.
     """),
     md(r"""
     ## 3. The words used in this notebook
@@ -115,11 +127,17 @@ CELLS = [
       $n = \langle\Psi^\dagger B\Psi\rangle$; scalar density
       $S = \langle\bar\Psi\Psi\rangle = \langle\Psi^\dagger C\Psi\rangle$; the
       density $Q = \langle\Psi^\dagger B\gamma^{(x_0)}\Psi\rangle$. PROPER densities
-      are per proper 7-volume.
+      are per proper 7-volume; in the model they are the orbital densities times
+      $P = e^{-3Hy}/\mathrm{Vol}_7$.
+    - **Cell, cell volume**: the coordinate 3-torus of size $\ell$, the
+      extra-time coordinate volume $v_t$ and the two halves of the hidden direction;
+      $\mathrm{Vol}_7 = \ell^3v_te^{(5/3)a_{4,0}}$ is its proper 7-volume per unit
+      $e^{3Hy}dy$ at the slice $a_{4,0}$ of the history.
     - **Expectation-value rule**: for one quantum in the mode $u$,
       $\langle\Psi^\dagger X\Psi\rangle = u^\dagger BXu$; for many,
       $\langle\Psi^\dagger X\Psi\rangle = \mathrm{Tr}(X\rho)$ with the one-body
-      matrix $\rho = \sum_{\rm occupied} f\,uu^\dagger B$ ($f$ the occupation).
+      matrix $\rho = \sum_{\rm occupied} f_{\rm occ}\,uu^\dagger B$ ($f_{\rm occ}$ the
+      occupation).
     - **Trace** $\mathrm{Tr}\,X$: the sum of the diagonal entries; $\mathrm{Tr}(XY)
       = \mathrm{Tr}(YX)$.
     - **Normal ordering** $:\;:$: the operators of the free sea are reordered so
@@ -135,8 +153,9 @@ CELLS = [
     - **Closed-shell slab**: the Kohn-Sham states of the model, uniform along 3-space
       but not along the hidden coordinate $y$, with complete lattice shells filled.
     - **Commutant**: all matrices that commute with a given set of matrices.
-    - **Zero modes, $N = 8$**: the eight brane-bound orbitals at zero 3-momentum,
-      $\chi = (a, 0)$ with $a \propto e^{My}$; filling them gives the state $N = 8$.
+    - **Zero modes, $N = 8$**: the eight orbitals at zero 3-momentum that sit at the
+      fold (where the two halves of a cell meet), $\chi = (a, 0)$ with
+      $a \propto e^{fMy}$, $f = e^{-a_{4,0}/3}$; filling them gives the state $N = 8$.
     """),
     md(r"""
     ## 4. The physical and mathematical situation
@@ -156,6 +175,11 @@ CELLS = [
        turns into $(\mathrm{Tr}\,C\rho)^2 - \mathrm{Tr}(C\rho C\rho)$.
     4. For symmetric occupations $\rho = (nB + SC)/16$, and the second trace is
        $(n^2 + S^2)/16$.
+
+    These steps use only the gamma matrices and flat plane waves: they do not depend
+    on the metric. The metric enters the model through the densities, which are
+    proper densities: per proper 7-volume of the cell, whose size changes along the
+    prescribed history (sections 12 and 13).
 
     Status: every formula here is PROVED (exact; verified twice in the Revision
     record). The use of the uniform-gas exchange for the slab states of the model is
@@ -561,7 +585,7 @@ CELLS = [
     ratio $e_x^{\rm exact}/e_x^{\rm gas} = (n^2 + S^2 - Q^2)/(n^2 + S^2)$ of the exact
     Fock exchange to the uniform-gas exchange ($Y = 0$). On the line $Q = 0$ the two
     agree; at the point $S = 0$, $Q = n$, which is the state of the zero modes
-    (section 12), the exact exchange vanishes.
+    (section 13), the exact exchange vanishes.
     """),
     code(r'''
     grid = np.linspace(-1.0, 1.0, 401)
@@ -595,59 +619,145 @@ CELLS = [
                 "eight zero modes) the exact exchange vanishes.")
     '''),
     md(r"""
-    ## 12. The state of the eight zero modes (N = 8)
+    ## 12. The coupling and the volume of the cell along the history
 
-    The simplest Kohn-Sham state of the model fills the eight brane zero modes at
-    $k = 0$ (both block types, even parity). Each orbital is $\chi = (a, 0)$ with
-    $a = \sqrt{2M/(1 - e^{-2ML})}\,e^{My}$ (normalised on the patch). The densities,
-    line by line (Revision record, `densities`):
+    The Kohn-Sham states are computed in a cell: a coordinate 3-torus of size
+    $\ell$, the extra-time coordinate volume $v_t$, and the hidden coordinate
+    $-L \le y \le 0$ on each half. With $\sqrt{|g|} = e^{-a_4}b_4^2e^{3Hy}$ the proper
+    7-volume of the cell per unit $e^{3Hy}dy$ is $\ell^3v_te^{-a_{4,0}}b_{4,0}^2$; the
+    Revision solver writes it, on the history $b_4 = b_4(0)e^{(4/3)a_4}$ and in units
+    of $b_4(0)^2$, as $\mathrm{Vol}_7(a_{4,0}) = \ell^3v_te^{(5/3)a_{4,0}}$, and a
+    proper density of one orbital is its orbital density times
+    $P = e^{-3Hy}/\mathrm{Vol}_7(a_{4,0})$ (Revision record, `densities`). Two exact
+    facts follow, line by line:
+
+    1. Every density is (orbital sum)/Vol. Then $M_{\rm eff} - m =
+       \frac{15}{16}\lambda S$ and $v_v = -\frac{1}{16}\lambda n$ contain $\lambda$
+       and Vol only as $\lambda/\mathrm{Vol}$, and the interaction energy of the
+       cell, $\mathrm{Vol}\,e_{\rm int} = \mathrm{Vol}(\frac{15}{32}\lambda S^2 -
+       \frac1{32}\lambda n^2)$ with $S, n \propto 1/\mathrm{Vol}$, does too. So
+       $(\lambda, \mathrm{Vol}) \to (c\lambda, c\mathrm{Vol})$ changes nothing: a
+       Kohn-Sham state depends on the coupling and the cell volume only through their
+       ratio.
+    2. In the solver's units: $\lambda P_{\rm proper} = \hat\lambda P$ with
+       $\hat\lambda = \lambda b_4(0)^{-2}$, and the slice state at $\hat\lambda$ and
+       $\mathrm{Vol}_7(a_{4,0})$ is the state of the coordinate cell $\ell^3v_t$ at
+       the effective coupling $\hat\lambda e^{-(5/3)a_{4,0}}$ (at the same $f$ and
+       $\kappa$): as the cell grows along the history, a fixed $\hat\lambda$ acts more
+       and more weakly.
+
+    The next cell checks both with sympy, as the Revision record did.
+    """),
+    code(r'''
+    c_s, Vol, ell_s, v_t_s = sp.symbols("c Vol ell v_t", positive=True)
+    a_s, beta_s, y_s = sp.symbols("a beta y", real=True)
+    H_s, b_init = sp.symbols("H b_0", positive=True)
+
+
+    def cell_energy(l_, V_):
+        """Vol e_int with the densities S/Vol and n/Vol (S, n: orbital sums)."""
+        return V_ * (sp.Rational(15, 32) * l_ * (S / V_) ** 2 - l_ * (n / V_) ** 2 / 32)
+
+
+    ok_scaling = (sp.simplify(cell_energy(c_s * lam, c_s * Vol) - cell_energy(lam, Vol))
+                  == 0
+                  and sp.simplify(sp.Rational(15, 16) * c_s * lam * S / (c_s * Vol)
+                                  - sp.Rational(15, 16) * lam * S / Vol) == 0
+                  and sp.simplify(-c_s * lam * n / (16 * c_s * Vol)
+                                  + lam * n / (16 * Vol)) == 0)
+    check(ok_scaling and record_check("ks_coupling_volume_scaling"),
+          "a Kohn-Sham state depends on the coupling and the volume only as lambda/Vol",
+          record=f"{PY_REPORT}, check ks_coupling_volume_scaling")
+    b_on_history = b_init * sp.exp(beta_s * a_s)  # b4 = b4(0) e^(beta a4)
+    P_proper = (sp.exp(-3 * H_s * y_s) * sp.exp(a_s)
+                / (ell_s ** 3 * v_t_s * b_on_history ** 2))  # per proper 7-volume
+    Vol7 = ell_s ** 3 * v_t_s * sp.exp((2 * beta_s - 1) * a_s)  # Vol_7 of the solver
+    P_solver = sp.exp(-3 * H_s * y_s) / Vol7
+    lam_hat = lam * b_init ** -2  # the solver's coupling
+    lam_eff = lam_hat * sp.exp(-(2 * beta_s - 1) * a_s)  # in the coordinate cell
+    ok_units = (sp.simplify(lam * P_proper - lam_hat * P_solver) == 0
+                and sp.simplify(lam_hat * P_solver
+                                - lam_eff * sp.exp(-3 * H_s * y_s) / (ell_s ** 3 * v_t_s))
+                == 0
+                and sp.simplify(lam_eff.subs(beta_s, sp.Rational(4, 3))
+                                - lam_hat * sp.exp(-sp.Rational(5, 3) * a_s)) == 0)
+    say(f"Vol_7 on the history (beta = 4/3): {Vol7.subs(beta_s, sp.Rational(4, 3))}")
+    check(ok_units and record_check("history_solver_units"),
+          "lambda P_proper = lambda_hat e^(-3Hy)/Vol_7; lambda_eff = lambda_hat e^(-5a/3)",
+          record=f"{PY_REPORT}, check history_solver_units")
+    '''),
+    md(r"""
+    ## 13. The state of the eight zero modes (N = 8) along the history
+
+    The simplest Kohn-Sham state of the model fills the eight fold zero modes at
+    $k = 0$ (both block types, even fold condition). At the slice $a_{4,0}$ each
+    orbital is $\chi = (a, 0)$ with $a = \sqrt{2fM/(1 - e^{-2fML})}\,e^{fMy}$,
+    normalised on one half of the cell, $f = e^{-a_{4,0}/3}$ (Notebook 14b). The
+    densities, line by line (Revision record, `densities`):
 
     1. One orbital: $n_o = P\,(a^2 + b^2) = Pa^2$, $s_o = P\,j\,2ab = 0$,
-       $q_o = P\,(a^2 - b^2) = Pa^2$, with $P = e^{-6Hy}/(\ell^3v_t)$ (the factor
-       that makes the densities proper).
-    2. The state: $n = \sum w\,g\,f\,n_o$ with the weight $w = \frac12$ of the
-       ASSUMED Z2 doubled system, the degeneracy $g = 4$ per block type and $f = 1$:
-       $n = \frac12(4 + 4)Pa^2 = 4Pa^2$; $S = 0$; $Q = n$.
-    3. The potentials to first order in $\lambda$ (free orbitals):
+       $q_o = P\,(a^2 - b^2) = Pa^2$, with $P = e^{-3Hy}/\mathrm{Vol}_7(a_{4,0})$.
+    2. The state: $n = \sum w\,g\,f_{\rm occ}\,n_o$ with the degeneracy $g = 4$ per
+       block type, the occupation $f_{\rm occ} = 1$ and the weight $w = \frac12$: the
+       orbital has the same $\chi(y)$ on both halves of the cell and is normalised on
+       one half, so each half holds half of it (the record's convention of the doubled
+       cell; the filling of both fold conditions is ASSUMED). So
+       $n = \frac12(4 + 4)Pa^2 = 4Pa^2$; $S = 0$; $Q = n$; and the whole cell holds
+       $2\mathrm{Vol}_7\int e^{3Hy}n\,dy = 8$ particles.
+    3. $n \propto e^{(2fM - 3H)y}$: since $2fM < 3H$ at every slice, the proper
+       density grows toward the tip like $e^{(3H - 2fM)|y|}$ and is largest at the
+       cutoff $y = -L$, although the orbital sits at the fold.
+    4. The potentials to first order in $\lambda$ (free orbitals):
        $M_{\rm eff} - m = \frac{15}{16}\lambda S = 0$, $v_v = -\frac{\lambda}{16}n$.
-    4. The Revision solver calibrates its couplings by the largest first-order
-       potential per unit $\lambda$, max over $y$ of $\max(\frac{15}{16}|S|,
-       |n|/16)$, here $n_{\max}/16$; $\lambda_1$ and $\lambda_2$ are $0.1$ and $0.3$
-       divided by it, rounded to 4 significant digits.
-    5. Exact Fock exchange: with $S = 0$ and $Q = n$, $e_x^{\rm exact} =
+    5. The Revision solver calibrates its couplings by the largest first-order
+       potential per unit $\hat\lambda$, the maximum over the five slices and over $y$
+       of $\max(\frac{15}{16}|S|, |n|/16)$, here $n_{\max}/16$; $\lambda_1$ and
+       $\lambda_2$ are $0.1$ and $0.3$ divided by it, rounded to 4 significant
+       digits.
+    6. Exact Fock exchange: with $S = 0$ and $Q = n$, $e_x^{\rm exact} =
        -\frac{\lambda}{32}(n^2 - Q^2) = 0$. In the exact-Fock functional the
        potential is $v_v + w_Q\sigma_3$ with $w_Q = \frac{\lambda}{16}Q$, which on
-       $(a, 0)$ acts as $\frac{\lambda}{16}(Q - n) = 0$: the zero modes stay exact
-       solutions with $\varepsilon = 0$ and the energy of the state is exactly 0.
+       $(a, 0)$ acts as $\frac{\lambda}{16}(Q - n) = 0$: the zero modes, and the
+       fold-band orbitals $(e^{fMy}, 0)$ above them, stay exact solutions, the energy
+       of the state is exactly 0 and its gap stays $\kappa\Delta k = 0.25e^{-a_{4,0}}$.
 
     With $H = m = 1$, $L = 3$, $\ell = 2\pi/0.25$, $v_t = 1$, the next cell computes
-    $n(y)$ and its maximum (at the tip $y = -3$, where $e^{-6Hy}a^2 \propto
-    e^{(2M - 6H)y}$ is largest) and compares with the records: the largest proper
-    density of the free state $N = 8$ (`ground/summary.csv`, column `n_max`), the
-    strength per $\lambda$, $\lambda_{1,2}$ and the first-order potentials
-    (`parameters.json`), and the self-consistent exact-Fock energies of all twenty
-    $N = 8$ states (`exx/exact-fock-variant.csv`), which must be zero to rounding.
+    $n(y)$ at the five slices and compares with the records: the largest proper
+    density of the free state $N = 8$ at each slice (`ground/summary.csv`, column
+    `n_max`), the strength per $\hat\lambda$ at each slice, its maximum,
+    $\lambda_{1,2}$ and the first-order potentials (`parameters.json`), and the
+    self-consistent exact-Fock energies and gaps of all twenty $N = 8$ states
+    (`exx/exact-fock-variant.csv`), whose energies must be zero to rounding.
     """),
     code(r'''
     H_val, m_val, L_val = 1.0, 1.0, 3.0
+    BETA = 4.0 / 3.0  # the history b4 = b4(0) e^(beta a4), b4(0) = 1
+    SLICES = [0.0, 0.5, 1.0, 1.5, 2.0]
     ell = 2.0 * math.pi / 0.25  # the coordinate size of the 3-torus
-    vol7 = ell ** 3 * 1.0  # the coordinate 7-volume ell^3 v_t
     y = np.linspace(-L_val, 0.0, 1801)  # the hidden coordinate
-    a_sq = 2.0 * m_val / (1.0 - math.exp(-2.0 * m_val * L_val)) * np.exp(2.0 * m_val * y)
-    P = np.exp(-6.0 * H_val * y) / vol7  # proper-density factor
-    n_y = 4.0 * P * a_sq  # line 2
-    n_max = float(np.max(n_y))
     summary = repository_file("Revision/kohn_sham/results/ground/summary.csv") \
         .read_text(encoding="utf-8").splitlines()
     header = summary[0].split(",")
-    free8 = dict(zip(header, [r for r in summary if r.startswith("N8_lam0_a00,")][0]
-                     .split(",")))
-    report("largest proper density of the free N = 8 state", f"{n_max:.10f}",
-           "per unit proper 7-volume")
-    check(abs(n_max / float(free8["n_max"]) - 1.0) < 1e-9 and float(y[np.argmax(n_y)])
-          == -3.0,
-          "n_max = 4 P a^2 at the tip y = -3 equals the record",
-          record="Revision/kohn_sham/results/ground/summary.csv, N8_lam0_a00, n_max")
+    free8 = {r.split(",")[0]: dict(zip(header, r.split(","))) for r in summary[1:]
+             if r.startswith("N8_lam0_")}
+    n_curves, n_max, worst_n, at_tip = {}, [], 0.0, True
+    for a_, tag in zip(SLICES, ("a00", "a05", "a10", "a15", "a20")):
+        f_ = math.exp((0.5 * BETA - 1.0) * a_)  # the hidden scale of the slice
+        vol7 = ell ** 3 * 1.0 * math.exp((2.0 * BETA - 1.0) * a_)  # Vol_7(a4,0)
+        fM = f_ * m_val
+        a_sq = 2.0 * fM / (1.0 - math.exp(-2.0 * fM * L_val)) * np.exp(2.0 * fM * y)
+        P = np.exp(-3.0 * H_val * y) / vol7  # the proper-density factor
+        n_y = 4.0 * P * a_sq  # line 2
+        n_curves[a_] = (n_y, a_sq, vol7)
+        n_max.append(float(np.max(n_y)))
+        worst_n = max(worst_n, abs(n_max[-1] / float(free8[f"N8_lam0_{tag}"]["n_max"])
+                                   - 1.0))
+        at_tip &= float(y[np.argmax(n_y)]) == -L_val
+        say(f"slice a4,0 = {a_}: f = {f_:.6f}, Vol_7 = {vol7:.4f}, n_max = "
+            f"{n_max[-1]:.10e} at y = {float(y[np.argmax(n_y)]):.1f}")
+    check(worst_n < 1e-9 and at_tip,
+          "n_max = 4 P a^2 at the tip y = -3 equals the record at all five slices",
+          record="Revision/kohn_sham/results/ground/summary.csv, N8_lam0, n_max")
 
 
     def round_significant(x, digits):
@@ -657,77 +767,94 @@ CELLS = [
         return math.copysign(math.floor(abs(x) * scale + 0.5), x) / scale
 
 
-    strength = n_max / 16.0  # line 4: the largest first-order potential per lambda
+    strengths = [x / 16.0 for x in n_max]  # line 5 at each slice (S = 0)
+    strength = max(strengths)  # the largest first-order potential per lambda_hat
     lambda_1 = round_significant(0.1 / strength, 4)
     lambda_2 = round_significant(0.3 / strength, 4)
     parameters = json.loads(repository_file("Revision/kohn_sham/results/parameters.json")
                             .read_text(encoding="utf-8"))
     calibration = [c for c in parameters["couplingCalibration"]["values"]
                    if c["N"] == 8.0][0]
-    report("strength per lambda", f"{strength:.9f}")
+    report("strength per lambda_hat at the five slices",
+           ", ".join(f"{x:.6e}" for x in strengths))
     report("lambda_1, lambda_2", f"{lambda_1}, {lambda_2}")
     report("first-order potentials", f"{lambda_1 * strength:.10f}, "
            f"{lambda_2 * strength:.10f}", "m")
-    check(abs(strength / calibration["strengthPerLambda"] - 1.0) < 1e-9
+    worst_s = max(abs(x / r - 1.0) for x, r in
+                  zip(strengths, calibration["strengthPerLambdaAtSlices"]))
+    check(worst_s < 1e-9 and abs(strength / calibration["strengthPerLambda"] - 1.0) < 1e-9
           and lambda_1 == calibration["lambda1"] and lambda_2 == calibration["lambda2"]
           and abs(lambda_1 * strength - calibration["firstOrderPotential1"]) < 1e-9
-          and len(set(calibration["strengthPerLambdaAtSlices"])) == 1,
-          "strength 5.1388, lambda_1 = 0.01946, lambda_2 = 0.05838 (the same at all "
-          "slices)", record="Revision/kohn_sham/results/parameters.json, "
-          "couplingCalibration N = 8")
+          and abs(lambda_2 * strength - calibration["firstOrderPotential2"]) < 1e-9,
+          f"strengths at the five slices; lambda_1 = {lambda_1}, lambda_2 = {lambda_2}",
+          record="Revision/kohn_sham/results/parameters.json, couplingCalibration N = 8")
     exx = repository_file("Revision/kohn_sham/results/exx/exact-fock-variant.csv") \
         .read_text(encoding="utf-8").splitlines()
     exx_header = exx[0].split(",")
     rows8 = [dict(zip(exx_header, r.split(","))) for r in exx[1:] if r.startswith("N8_")]
     largest = max(abs(float(r["E_exact_fock_scf"])) for r in rows8)
-    check(len(rows8) == 20 and largest < 1e-12,
-          "the self-consistent exact-Fock energy of all 20 N = 8 states is 0",
+    smallest_gas = min(abs(float(r["E_uniform_gas"])) for r in rows8)
+    gap_dev = max(abs(float(r["gap_exact_fock"]) - 0.25 * math.exp(-float(r["a4"])))
+                  for r in rows8)
+    report("largest |E| of the 20 exact-Fock N = 8 states", f"{largest:.1e}")
+    report("smallest |E| of the same states with the uniform-gas exchange",
+           f"{smallest_gas:.3e}")
+    report("largest deviation of their gaps from 0.25 e^(-a4,0)", f"{gap_dev:.1e}", "m")
+    check(len(rows8) == 20 and largest < 1e-11 and gap_dev < 1e-11,
+          "the exact-Fock energy of all 20 N = 8 states is 0, the gap 0.25 e^(-a4,0)",
           record="Revision/kohn_sham/results/exx/exact-fock-variant.csv, "
-                 "E_exact_fock_scf")
+                 "E_exact_fock_scf and gap_exact_fock")
     '''),
     md(r"""
-    The next cell draws the state. Left: the proper density $n(y)$ and the
-    coordinate density $e^{6Hy}n(y)$ (particles per unit $y$ and per unit coordinate
-    volume) on a logarithmic axis: the zero modes sit at the brane in the coordinate
-    density, but because the proper 7-volume $e^{6Hy}$ shrinks toward the tip, the
-    PROPER density, which the interaction feels, is largest at the tip. Right: the
-    first-order vector potential $v_v = -\lambda n/16$ of the uniform-gas
-    functional for $\lambda_1$ and $\lambda_2$ (its largest size is $0.1$ and
-    $0.3\,m$, by the calibration) and the exact-Fock combination
-    $v_v + w_Q = \frac{\lambda}{16}(Q - n) = 0$.
+    The next cell draws the state. Left: the proper density $n(y)$ at the five
+    slices on a logarithmic axis, and the density per unit $y$ of the cell,
+    $\mathrm{Vol}_7e^{3Hy}n(y) = 4a^2$, at the slices 0 and 2: the zero modes sit at
+    the fold, but because the proper 7-volume $e^{3Hy}$ shrinks toward the tip, the
+    PROPER density, which the interaction feels, is largest at the tip; along the
+    history the cell grows and the proper density falls. Right: the first-order
+    vector potential $v_v = -\lambda_1 n/16$ of the uniform-gas functional at the
+    five slices (its largest size is $0.1\,m$, at the slice 0, by the calibration)
+    and the exact-Fock combination $v_v + w_Q = \frac{\lambda}{16}(Q - n) = 0$.
     """),
     code(r'''
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.5, 4.0))
     fig.subplots_adjust(wspace=0.32)  # room for the label of the right panel
-    left.semilogy(y, n_y, label="proper density $n(y) = 4Pa^2$")
-    left.semilogy(y, np.exp(6.0 * y) * n_y, "--",
-                  label="coordinate density $e^{6Hy} n(y)$")
-    left.set_xlabel("$y$ (units of $1/H$; tip at $-3$, brane at $0$)")
-    left.set_ylabel("density (logarithmic)")
-    left.set_title("the eight zero modes ($N = 8$, $\\lambda = 0$)")
-    left.legend(fontsize=8)
-    right.plot(y, -lambda_1 * n_y / 16.0, label=f"$v_v$, $\\lambda_1 = {lambda_1}$")
-    right.plot(y, -lambda_2 * n_y / 16.0, label=f"$v_v$, $\\lambda_2 = {lambda_2}$")
+    for index, a_ in enumerate(SLICES):
+        n_y, a_sq, vol7 = n_curves[a_]
+        left.semilogy(y, n_y, color=f"C{index}", label=f"$n(y)$, $a_{{4,0}} = {a_}$")
+        right.plot(y, -lambda_1 * n_y / 16.0, color=f"C{index}",
+                   label=f"$a_{{4,0}} = {a_}$")
+    for a_, index in ((0.0, 0), (2.0, 4)):
+        left.semilogy(y, 4.0 * n_curves[a_][1], "--", color=f"C{index}",
+                      label=f"$4a^2$ per unit $y$, $a_{{4,0}} = {a_:g}$")
     right.plot(y, np.zeros_like(y), ":", color="black",
                label="exact Fock: $v_v + w_Q = 0$")
+    left.set_xlabel("$y$ (units of $1/H$; tip cutoff at $-3$, fold at $0$)")
+    left.set_ylabel("density (logarithmic)")
+    left.set_title("the eight zero modes ($N = 8$, $\\lambda = 0$)")
+    left.legend(fontsize=6, loc="center right")
     right.set_xlabel("$y$ (units of $1/H$)")
-    right.set_ylabel("first-order potential (units of $m$)")
-    right.set_title("the Kohn-Sham potential of the zero modes")
-    right.legend(fontsize=8, loc="lower right")
+    right.set_ylabel("first-order potential $v_v$ (units of $m$)")
+    right.set_title(f"$v_v = -\\lambda_1 n/16$, $\\lambda_1 = {lambda_1}$")
+    right.legend(fontsize=7, loc="lower right")
     save_figure(fig, "zero_mode_state",
-                "The state of the eight brane zero modes ($N = 8$, $m = H = 1$, "
-                "$L = 3$, $\\Delta k = 0.25$, $v_t = 1$). Left, logarithmic axis: the "
-                "proper density $n(y) = 4Pa^2$ (solid) and the coordinate density "
-                "$e^{6Hy}n(y)$ (dashed) against $y$ (units of $1/H$); the orbitals "
-                "sit at the brane, but the proper density is largest at the tip, "
-                "$n_{\\max} = 82.22$ at $y = -3$. Right: the first-order vector "
-                "potential $v_v = -\\lambda n/16$ of the uniform-gas functional for "
-                "$\\lambda_1 = 0.01946$ and $\\lambda_2 = 0.05838$ (lowest values "
-                "$-0.1$ and $-0.3$ in units of $m$, the calibration of the Revision "
-                "runs) and the exact-Fock potential, which is zero for this state.")
+                "The state of the eight fold zero modes ($N = 8$, $m = H = 1$, "
+                "$L = 3$, $\\Delta k = 0.25$, $v_t = 1$) along the history. Left, "
+                "logarithmic axis: the proper density $n(y) = 4Pa^2$ with "
+                "$P = e^{-3Hy}/\\mathrm{Vol}_7(a_{4,0})$ at the five slices "
+                "$a_{4,0} = 0$ to $2$ (solid) and the density per unit $y$ of the "
+                "cell, $4a^2$, at the slices 0 and 2 (dashed), against $y$ (units of "
+                "$1/H$); the orbitals sit at the fold, but the proper density is "
+                "largest at the tip ($n_{\\max} = 1.0147\\times10^{-2}$ at $y = -3$ at "
+                "the slice 0) and falls along the history as the cell grows. Right: "
+                "the first-order vector potential $v_v = -\\lambda_1 n/16$ of the "
+                "uniform-gas functional for $\\lambda_1 = 157.7$ at the five slices "
+                "(lowest value $-0.1\\,m$, the calibration of the Revision runs, at "
+                "the slice 0) and the exact-Fock potential, which is zero for this "
+                "state.")
     '''),
     md(r"""
-    ## 13. The last check
+    ## 14. The last check
 
     The last cell checks that the four figure files exist and prints the number of
     checks that passed.
@@ -740,7 +867,7 @@ CELLS = [
     all_checks_passed()
     '''),
     md(r"""
-    ## 14. What this notebook showed
+    ## 15. What this notebook showed
 
     - The flat good-sector plane waves have the energies $\pm\sqrt{M^2 + p^2}$, each
       8 times; every occupation symmetric under $\mathbf p \to -\mathbf p$ has the
@@ -756,12 +883,17 @@ CELLS = [
       $-\frac{\lambda}{32}(n^2 + S^2 - Q^2 - Y^2)$; the canonical (uniform-gas)
       functional omits $+\frac{\lambda}{32}Q^2$ (PROVED; a DIAGNOSTIC of the
       functional; there is no correlation energy in either).
+    - A Kohn-Sham state depends on the coupling and the cell volume only through
+      their ratio; along the history the cell grows like $e^{(5/3)a_{4,0}}$, so a
+      fixed $\hat\lambda$ acts like $\hat\lambda e^{-(5/3)a_{4,0}}$ in the coordinate
+      cell (PROVED).
     - The eight zero modes have $S = 0$ and $Q = n$; their proper density is largest
-      at the tip ($n_{\max} = 82.22$); this fixes the Revision couplings
-      $\lambda_1 = 0.01946$, $\lambda_2 = 0.05838$ for $N = 8$; and their exact Fock
-      exchange vanishes, so their exact-Fock energy is exactly zero (the record's
-      self-consistent values are zero to rounding).
-    - ASSUMED: the Z2 doubled system (the weight $w = \frac12$) and the good sector.
+      at the tip ($n_{\max} = 1.0147\times10^{-2}$ at the slice 0); this fixes the
+      Revision couplings $\lambda_1 = 157.7$, $\lambda_2 = 473.1$ for $N = 8$; and
+      their exact Fock exchange vanishes, so their exact-Fock energy is exactly zero
+      (the record's self-consistent values are zero to rounding).
+    - ASSUMED: the filling of both fold conditions of the doubled cell (the weight
+      $w = \frac12$) and the good sector.
     """),
 ]
 
