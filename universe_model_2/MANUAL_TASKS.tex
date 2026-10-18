@@ -152,8 +152,8 @@ Two tasks of the UM-2 work are long when they are run as single jobs:
 \tightlist
 \item
   \textbf{Task 1, the fresh-clone verification}: all 21 computations of
-  version 3 and the document build took 1100 s (about 18 minutes) on
-  2026-10-18 at commit \texttt{726997f}, although every individual
+  version 3 and the document build took 1116 s (about 19 minutes) on
+  2026-10-18 at commit \texttt{815db9e}, although every individual
   computation takes at most about 4.5 minutes (the primordial
   integration, 269 s).
 \item
@@ -278,7 +278,7 @@ every named check of that computation passes.
 \textbf{Step 1.3: the computations, one block at a time, in this order}
 (each block depends on the outputs of the blocks before it; the expected
 durations are those of the run of 2026-10-18 at commit
-\texttt{726997f}).
+\texttt{815db9e}).
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0541}}
@@ -299,28 +299,28 @@ checks
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-1 & \texttt{run\ code/um2\_algebra.py} & 54 s & 31 \\
-2 & \texttt{run\ code/um2\_geometry.py} & 73 s & 25 \\
-3 & \texttt{run\ code/um2\_background.py} & 133 s & 22 \\
+1 & \texttt{run\ code/um2\_algebra.py} & 53 s & 31 \\
+2 & \texttt{run\ code/um2\_geometry.py} & 76 s & 25 \\
+3 & \texttt{run\ code/um2\_background.py} & 137 s & 22 \\
 4 & \texttt{run\ code/um2\_fields.py} & 54 s & 16 \\
 5 & \texttt{run\ code/um2\_spectra.py} & 28 s & 14 \\
 6 & \texttt{run\ code/um2\_flavour.py} and
-\texttt{run\ code/um2\_neutrino.py} & 5 s, 32 s & 7, 16 \\
+\texttt{run\ code/um2\_neutrino.py} & 5 s, 33 s & 7, 16 \\
 7 & \texttt{run\ code/um2\_ks\_jobs.py\ validate} and
-\texttt{run\ code/um2\_ks\_jobs.py\ spectrum} & 39 s, 1 s & 2, 3 \\
-8 & \texttt{run\ code/um2\_ks\_jobs.py\ ground8} & 138 s & 3 \\
-9 & \texttt{run\ code/um2\_ks\_jobs.py\ ground592} & 139 s & 4 \\
+\texttt{run\ code/um2\_ks\_jobs.py\ spectrum} & 42 s, 0.9 s & 2, 3 \\
+8 & \texttt{run\ code/um2\_ks\_jobs.py\ ground8} & 142 s & 3 \\
+9 & \texttt{run\ code/um2\_ks\_jobs.py\ ground592} & 140 s & 4 \\
 10 & \texttt{run\ code/um2\_ks\_jobs.py\ darkmatter},
 \texttt{run\ code/um2\_ks\_jobs.py\ portals},
-\texttt{run\ code/um2\_ks\_jobs.py\ feedback} & 17 s, 5 s, 0.5 s & 3, 5,
+\texttt{run\ code/um2\_ks\_jobs.py\ feedback} & 16 s, 4 s, 0.5 s & 3, 5,
 2 \\
-11 & \texttt{run\ code/um2\_electroweak.py} & 1 s & 19 \\
+11 & \texttt{run\ code/um2\_electroweak.py} & 1.1 s & 19 \\
 12 & \texttt{run\ code/um2\_primordial.py} & 269 s & 5 \\
 13 & \texttt{run\ code/um2\_cosmology.py} and
-\texttt{run\ code/um2\_analysis.py} & 49 s, 4 s & 8, 23 \\
+\texttt{run\ code/um2\_analysis.py} & 52 s, 4 s & 8, 23 \\
 14 & \texttt{run\ code/um2\_thermal.py},
 \texttt{run\ code/um2\_coupled.py} and \texttt{run\ code/um2\_series.py}
-& 15 s, 24 s, 0.5 s & 7, 16, 4 \\
+& 14 s, 24 s, 0.5 s & 7, 16, 4 \\
 15 & \texttt{run\ tools/build\_docs.py} & 20 s & \\
 \end{longtable}
 
@@ -356,15 +356,15 @@ tolerance of \(10^{-9}\).
 \end{Highlighting}
 \end{Shaded}
 
-Expected result: \texttt{result:\ REPRODUCED}. In the run of 2026-10-18
-at commit \texttt{726997f} (as in the run of version 2 at
-\texttt{4a6421d}) only the run times, the texts of two check details and
-one Kohn-Sham integral (a relative difference of \(1.1\times10^{-12}\),
-caused by threaded linear algebra that does not sum in a fixed order)
-differed; the LaTeX sources, the PDF documents and the figures were
-byte-identical. With other software versions, files reported as
-\texttt{CHANGED\ (not\ JSON)} (PDF, LaTeX, PNG) are expected and are not
-errors; open them to confirm that their content is the same.
+Expected result: \texttt{result:\ REPRODUCED}. In the runs of 2026-10-18
+at commits \texttt{726997f} and \texttt{815db9e} (as in the run of
+version 2 at \texttt{4a6421d}) only the run times, the texts of two
+check details and one Kohn-Sham integral (a relative difference of
+\(1.1\times10^{-12}\), caused by threaded linear algebra that does not
+sum in a fixed order) differed; the LaTeX sources, the PDF documents and
+the figures were byte-identical. With other software versions, files
+reported as \texttt{CHANGED\ (not\ JSON)} (PDF, LaTeX, PNG) are expected
+and are not errors; open them to confirm that their content is the same.
 
 \textbf{Step 1.6: what to report back.} The contents of
 \texttt{\textasciitilde{}/um2\_check\_commit.txt},

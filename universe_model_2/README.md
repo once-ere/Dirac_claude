@@ -61,25 +61,25 @@ decreasing magnitude (with the Kaluza-Klein graviton tower and the radion), and 
 
 | script | checks | time (s) |
 | --- | --- | --- |
-| `code/um2_algebra.py` | 31/31 | 54 |
-| `code/um2_geometry.py` | 25/25 | 73 |
-| `code/um2_background.py` | 22/22 | 133 |
+| `code/um2_algebra.py` | 31/31 | 53 |
+| `code/um2_geometry.py` | 25/25 | 76 |
+| `code/um2_background.py` | 22/22 | 137 |
 | `code/um2_fields.py` | 16/16 | 54 |
 | `code/um2_spectra.py` | 14/14 | 28 |
 | `code/um2_flavour.py` | 7/7 | 5 |
-| `code/um2_neutrino.py` | 16/16 | 32 |
-| `code/um2_ks_jobs.py validate, spectrum, ground8, ground592, darkmatter, portals, feedback` | 2/2, 3/3, 3/3, 4/4, 3/3, 5/5, 2/2 | 39, 1, 138, 139, 17, 5, 0.5 |
-| `code/um2_electroweak.py` | 19/19 | 1 |
+| `code/um2_neutrino.py` | 16/16 | 33 |
+| `code/um2_ks_jobs.py validate, spectrum, ground8, ground592, darkmatter, portals, feedback` | 2/2, 3/3, 3/3, 4/4, 3/3, 5/5, 2/2 | 42, 0.9, 142, 140, 16, 4, 0.5 |
+| `code/um2_electroweak.py` | 19/19 | 1.1 |
 | `code/um2_primordial.py` | 5/5 | 269 |
-| `code/um2_cosmology.py` | 8/8 | 49 |
+| `code/um2_cosmology.py` | 8/8 | 52 |
 | `code/um2_analysis.py` | 23/23 | 4 |
-| `code/um2_thermal.py` | 7/7 | 15 |
+| `code/um2_thermal.py` | 7/7 | 14 |
 | `code/um2_coupled.py` | 16/16 | 24 |
 | `code/um2_series.py` | 4/4 | 0.5 |
 | `tools/build_docs.py` (all six PDFs) | | 20 |
 
-Times are those of the verification run of version 3 from a fresh clone of the repository (2026-10-18, commit `726997f`,
-every computation run as a separate step, 1100 s in all): all 233 checks passed, every stored number was reproduced (identical
+Times are those of the verification run of version 3 from a fresh clone of the repository (2026-10-18, commit `815db9e`,
+after the fixes of the independent review; every computation run as a separate step, 1116 s in all): all 235 checks passed, every stored number was reproduced (identical
 except the run times, the texts of two check details and one Kohn-Sham integral, which differs by $1.1\times10^{-12}$ relative),
 and the six PDFs, their LaTeX sources and the figures were rebuilt byte-identical. `tools/compare_outputs.py` performs this comparison; `MANUAL_TASKS`
 describes the whole verification step by step. Every script writes its numbers to `outputs/` and its named checks to

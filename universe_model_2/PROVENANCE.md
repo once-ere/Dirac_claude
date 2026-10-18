@@ -1013,8 +1013,10 @@ the PDF documents from the Markdown sources (pandoc and a TeX Live installation 
 for the last command). Version 1 was rerun from fresh clones of the repository (2026-10-17 at commit `b3c3c1a`; 2026-10-18 at
 commits `fa7305f`, `9285bb6` and `5b73d16`), version 2 on 2026-10-18 at commit `4a6421d` (every computation as a separate step,
 1027 s in all) and version 3 on 2026-10-18 at commit `726997f` (every computation as a separate step, 1100 s in all, the longest
-the primordial integration with 269 s): every check passed (205 of 205 for version 2, 233 of 233 for version 3) and every stored
-number was reproduced to a relative $10^{-9}$ or better (in both runs all numbers were identical except one Kohn-Sham integral,
+the primordial integration with 269 s) and again, after the fixes of its independent review, at commit `815db9e` (1116 s in all,
+the primordial integration 269 s): every check passed (205 of 205 for version 2, 233 of 233 for version 3 at `726997f`, 235 of
+235 at `815db9e`) and every stored
+number was reproduced to a relative $10^{-9}$ or better (in all three runs all numbers were identical except one Kohn-Sham integral,
 which differs by $1.1\times10^{-12}$ relative, because the threaded linear algebra does not sum in a fixed order), and the LaTeX
 sources, the PDF documents and the figures were rebuilt byte-identical. Between the two runs, `um2_analysis.py` gained the
 $^3P_0$ unitarity bound of item 22 (new stored numbers, the same 23 checks). After the run of version 3 the fixes of its independent review
@@ -1040,4 +1042,4 @@ the corrected 1-3 resonance (`b999f57`), the documents MODEL (`9a5b92b`), FIELD_
 ANALYSIS (`df6d94a`) and PROVENANCE (`4a6421d`), and the fixes of the independent review of version 2 (item 22; `ecca926`). Version 3:
 the thermal history, the coupled solution, I13, the metric series and $\sigma_8$ (`15c2aab`), I13 on the baryon-number current (`3fa1b49`), the
 documents MODEL (`765f0b8`), FIELD_EQUATIONS (`41e921a`), SOLUTION (`df23013`), ANALYSIS (`19d2c06`) and PROVENANCE (`726997f`), and the fixes
-of the independent review of version 3 with the record of the fresh-clone verification of `726997f` (item 24; the commit that carries this text).
+of the independent review of version 3 with the record of the fresh-clone verification of `726997f` (item 24; `815db9e`), and the record of the fresh-clone verification of `815db9e` (the commit that carries this text).

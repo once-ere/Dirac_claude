@@ -23,8 +23,8 @@ this repo. DO NOT TAKE SHORTCUTS. DO NOT BECOME LAZY. Finish and notify me that 
 Status (folder `universe_model_2/`, README there; every document as .md, .tex and .pdf, each self-contained):
 - Version 1 (2026-10-17, one generation) and version 2 (2026-10-18, three generations, three neutrino flavours with mixing and
   flavour conversion; commit ecca926) are superseded by version 3.
-- Version 3 (2026-10-18, commits 15c2aab to 726997f; the fixes of its independent review in the commit after 17e5f5d,
-  PROVENANCE item 24): the portal I13 (an x0-chiral vector coupling of dirac16complex to the baryon-number current, summed
+- Version 3 (2026-10-18, commits 15c2aab to 726997f; the fixes of its independent review in 815db9e, PROVENANCE item
+  24; reproduced from a fresh clone at 815db9e: 235 of 235 checks, every stored number, documents byte-identical): the portal I13 (an x0-chiral vector coupling of dirac16complex to the baryon-number current, summed
   over the seven directions M != x0, where its bilinear is Hermitian; with B - L it would thermalise the right-handed
   neutrinos, Delta N_eff = 0.144) gives the dark-matter relic within the unitarity limit (Omega h^2 = 0.060 per species,
   G_A = 1.278e-9 GeV^-2, direct detection 0.16 of the LZ limit); the thermal history (g_rho, g_s, freeze-in of the fold
@@ -50,6 +50,8 @@ Status (folder `universe_model_2/`, README there; every document as .md, .tex an
   (a), the summary pass, the checker with (b) and (c) into `python-check-report.json` (expected 63 checks, 0 failed), the
   errata line of `provenance/ERRATA_FIRST_EDITION_TEXTBOOK.md` (CURRENT_COUNTS_FORMAT), the notebook refresh (builder,
   route B, route A, audit), sections 13.4, 13.5 and 14, the abstract and the status text, the student guide, review, gate.
+- [5] W8 started in the cloud session on 2026-10-18 (plan and per-chapter brief: `handoff/drafts_2026-10-18/w8_plan.md`,
+  `w8_chapter_brief.md`; chapters 03 and 14 first; the old Stage 4 jobs resumed at 13:55 at the lowest priority).
 - [5] W8 (the textbook for the corrected metric) and old Stage 5 (pairs numerics: the reference pairs run needs about 4.5 h
   on 24 cores and up to 167 GB in two workers without the E5.3 guard; the Rust pairs canonical, repeat and refined runs) are
   open. The textbook's notebooks are byte-reproducible only in the environment of `Revision/textbook/requirements.txt`

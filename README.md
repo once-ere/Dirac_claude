@@ -26,6 +26,8 @@ coupling of dirac16complex to the baryon-number current), with which each of the
 Kohn-Sham solution in ten environments, and the metric as a power series of terms of decreasing magnitude. An independent
 review of version 3 led to the I13 sum over the seven directions other than x0 (where its bilinear is Hermitian), the full
 block response to the hot plasma, the order-alpha electroweak condensates and a bound on the self-interaction of dirac16complex.
+Version 3 with these fixes was reproduced from a fresh clone of the repository on 2026-10-18 (commit 815db9e, all 235
+checks passed, every stored number reproduced, the documents rebuilt byte-identical).
 
 ## The current record: `Revision/`
 

@@ -2397,23 +2397,26 @@ rerun from fresh clones of the repository (2026-10-17 at commit
 commit \texttt{4a6421d} (every computation as a separate step, 1027 s in
 all) and version 3 on 2026-10-18 at commit \texttt{726997f} (every
 computation as a separate step, 1100 s in all, the longest the
-primordial integration with 269 s): every check passed (205 of 205 for
-version 2, 233 of 233 for version 3) and every stored number was
-reproduced to a relative \(10^{-9}\) or better (in both runs all numbers
-were identical except one Kohn-Sham integral, which differs by
-\(1.1\times10^{-12}\) relative, because the threaded linear algebra does
-not sum in a fixed order), and the LaTeX sources, the PDF documents and
-the figures were rebuilt byte-identical. Between the two runs,
-\texttt{um2\_analysis.py} gained the \(^3P_0\) unitarity bound of item
-22 (new stored numbers, the same 23 checks). After the run of version 3
-the fixes of its independent review (item 24) changed
-\texttt{um2\_thermal.py}, \texttt{um2\_coupled.py},
-\texttt{um2\_series.py}, \texttt{um2\_cosmology.py} and the
-\texttt{feedback} job of \texttt{um2\_ks\_jobs.py}, which were rerun in
-dependency order (thermal, coupled, series; cosmology and feedback;
-every check passed, 235 in all). The document build is deterministic: no
-dates in the LaTeX sources, PDF dates and trailer identifiers
-suppressed, a fixed \texttt{SOURCE\_DATE\_EPOCH}.
+primordial integration with 269 s) and again, after the fixes of its
+independent review, at commit \texttt{815db9e} (1116 s in all, the
+primordial integration 269 s): every check passed (205 of 205 for
+version 2, 233 of 233 for version 3 at \texttt{726997f}, 235 of 235 at
+\texttt{815db9e}) and every stored number was reproduced to a relative
+\(10^{-9}\) or better (in all three runs all numbers were identical
+except one Kohn-Sham integral, which differs by \(1.1\times10^{-12}\)
+relative, because the threaded linear algebra does not sum in a fixed
+order), and the LaTeX sources, the PDF documents and the figures were
+rebuilt byte-identical. Between the two runs, \texttt{um2\_analysis.py}
+gained the \(^3P_0\) unitarity bound of item 22 (new stored numbers, the
+same 23 checks). After the run of version 3 the fixes of its independent
+review (item 24) changed \texttt{um2\_thermal.py},
+\texttt{um2\_coupled.py}, \texttt{um2\_series.py},
+\texttt{um2\_cosmology.py} and the \texttt{feedback} job of
+\texttt{um2\_ks\_jobs.py}, which were rerun in dependency order
+(thermal, coupled, series; cosmology and feedback; every check passed,
+235 in all). The document build is deterministic: no dates in the LaTeX
+sources, PDF dates and trailer identifiers suppressed, a fixed
+\texttt{SOURCE\_DATE\_EPOCH}.
 
 Software used: Python 3.13.16, sympy 1.14.0, numpy 2.5.3, scipy 1.18.1,
 mpmath 1.3.0, matplotlib 3.11.2, camb 2.0.5, pandoc 3.1.3, pdfTeX
@@ -2452,6 +2455,7 @@ I13 on the baryon-number current (\texttt{3fa1b49}), the documents MODEL
 (\texttt{df23013}), ANALYSIS (\texttt{19d2c06}) and PROVENANCE
 (\texttt{726997f}), and the fixes of the independent review of version 3
 with the record of the fresh-clone verification of \texttt{726997f}
-(item 24; the commit that carries this text).
+(item 24; \texttt{815db9e}), and the record of the fresh-clone
+verification of \texttt{815db9e} (the commit that carries this text).
 
 \end{document}
