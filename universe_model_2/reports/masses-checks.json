@@ -52,22 +52,22 @@
    "passed": true
   },
   {
-   "detail": "with the universal tip mixing kappa_f = 1 the exact x0 eigenvalues reproduce m_nu, m_e, m_u, m_d for c = nu 18.6714, e 10.3042, u 9.5452, d 9.1345",
+   "detail": "with the universal tip mixing kappa_f = 1 the exact x0 eigenvalues reproduce all twelve masses: the three lepton doublets share c_L = 5.9529 (fixed by the tau, c_R(tau) = -c_L), the three quark doublets share c_Q = 3.3823 (fixed by the top, c_R(t) = -c_Q); right-handed bulk masses c_R = e -14.5539, mu -8.9809, tau -5.9529, nu1 -35.0452, nu2 -32.8481, nu3 -31.0702, u -15.4300, c -8.7683, t -3.3823, d -14.6258, s -11.5158, b -7.5005; neutrino masses 1.0000e-03, 8.7121e-03, 5.0140e-02 eV (normal ordering, m1 chosen)",
    "name": "fermion_fit",
    "passed": true
   },
   {
-   "detail": "the first-order formula e = kappa_f zeta(c_L) zeta(c_R) agrees with the exact root to 1.2e-08",
+   "detail": "the first-order formula e = kappa_f zeta(c_L) zeta(-c_R) agrees with the exact root to e 1.4e-06, mu 2.2e-06, tau 6.8e-06, nu1 5.7e-07, nu2 6.1e-07, nu3 6.5e-07, u 1.3e-04, c 2.2e-04, t 1.1e-03, d 1.3e-04, s 1.7e-04, b 2.6e-04; the largest deviation, 1.1e-03 (t), belongs to the broadest profiles; every quoted mass is the exact root",
    "name": "first_order_formula",
    "passed": true
   },
   {
-   "detail": "direct ODE integration (DOP853, rtol 1e-13) of the coupled (L, R) problem: the determinant vanishes at the transfer-matrix root (relative residuals ['3.5e-10', '1.5e-12'])",
+   "detail": "direct ODE integration (DOP853, rtol 1e-13) of the coupled (L, R) problem: the determinant vanishes at the transfer-matrix root (relative residuals ['6.1e-10', '1.5e-11', '5.6e-12', '1.5e-12'] for e, tau, t and a broad mode c = 1)",
    "name": "shooting_crosscheck",
    "passed": true
   },
   {
-   "detail": "the lighter the fermion, the larger c (the sharper its x0 localisation at the fold): c_nu > c_e > c_u > c_d",
+   "detail": "the lighter the fermion, the sharper its right-handed x0 localisation at the fold (at the common doublet bulk mass of its sector): |c_R| = tau 5.953, mu 8.981, e 14.554, nu3 31.070, nu2 32.848, nu1 35.045, t 3.382, c 8.768, u 15.430, b 7.501, s 11.516, d 14.626",
    "name": "localisation_lowers_mass",
    "passed": true
   }

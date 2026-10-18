@@ -1,0 +1,47 @@
+{
+ "check_count": 7,
+ "checks": [
+  {
+   "detail": "U = R23 U13(delta) R12 with NuFIT 6.0 NO (theta12 33.71 deg, theta13 8.56, theta23 43.28, delta 212): unitary to 1.1e-16; J = Im(U_e2 U_mu3 U*_e3 U*_mu2) = -0.01777 = c12 s12 c23 s23 c13^2 s13 sin(delta); J_max = 0.0335 (NuFIT: 0.0333 +- 0.0007)",
+   "name": "PMNS_unitary_and_Jarlskog",
+   "passed": true
+  },
+  {
+   "detail": "V = R23 U13(delta) R12 with the PDG global fit (s12 0.22501, s13 0.003732, s23 0.04183, delta 1.147 rad): unitary to 1.1e-16; J = 3.117e-05 (PDG 3.12e-5 +- 0.13e-5); |V| = [[0.97435 0.22501 0.00373]\n [0.22488 0.97349 0.04183]\n [0.00858 0.04111 0.99912]]",
+   "name": "CKM_unitary_and_Jarlskog",
+   "passed": true
+  },
+  {
+   "detail": "the roots of the exact 3 x 3 tip determinant det[diag(b_L) + kappa diag(b_R/a_R) kappa^dagger diag(a_L)] (mpmath, 50 digits) equal the one-generation roots with kappa_f = 1 to 3.0e-42 (relative) in all four sectors (neutrinos with kappa = U_PMNS, charged leptons, up quarks, down quarks with kappa = V_CKM), and the null vectors are the columns of the tip matrix to 1.1e-16: with a common doublet bulk mass the masses of um2_spectra.py are exact and the mixing matrices ARE the tip matrices",
+   "name": "three_generation_tip_condition_exact",
+   "passed": true
+  },
+  {
+   "detail": "for a random complex O(1) tip matrix (common c_L = 5.9529, c_R = -6, -9, -12) the exact roots agree with the singular values of zeta(c_L) kappa diag(zeta(-c_R)) to 3.5e-05, 2.8e-06, 2.0e-06 and the null vectors with its left singular vectors (overlaps 1.000000000, 1.000000000, 1.000000000): masses and left-handed mixing follow from the tip matrix and the wave functions at the tip",
+   "name": "general_tip_matrix",
+   "passed": true
+  },
+  {
+   "detail": "the coupling of the first even KK gauge mode to the zero modes, relative to the zero mode: left-handed leptons 0.14434 (universal: common c_L), left-handed quarks -0.30066; in the mass basis the largest off-diagonal element is 1.0e-17: no tree-level flavour-changing neutral current from the KK gauge bosons. With different doublet bulk masses (here |c_R| of e, mu, tau used as c_L) the PMNS rotation would create off-diagonal KK couplings up to 0.033",
+   "name": "no_tree_level_FCNC_from_KK",
+   "passed": true
+  },
+  {
+   "detail": "BR(mu -> e gamma) = (3 alpha/(32 pi)) |sum_i U*_mu i U_e i m_i^2/m_W^2|^2 = 2.8e-55 (Dirac neutrinos, GIM-suppressed): charged-lepton flavour violation is unobservable, as in the Standard Model with neutrino masses",
+   "name": "mu_to_e_gamma",
+   "passed": true
+  },
+  {
+   "detail": "every lepton doublet has c_L = 5.952883 and every quark doublet c_Q = 3.382304: the W and Z zero modes couple to all generations with the same strength (lepton universality; the CKM and PMNS matrices carry the whole flavour structure of the charged currents)",
+   "name": "lepton_universality",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 flavour: three generations, the exact three-generation tip condition, PMNS and CKM from the tip matrices, no tree-level FCNC from the KK gauge bosons, mu -> e gamma, universality",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "flavour-checks"
+}

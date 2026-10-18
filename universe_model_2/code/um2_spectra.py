@@ -17,6 +17,14 @@ Fermions (doublet L with c_L = f mu_L L > 0, singlet R with c_R < 0, in the sele
   D(e) = e^2 s_L s_R - kappa_f^2 (C_L - c_L s_L)(C_R + c_R s_R) = 0,  s = sinh(w)/w, C = cosh(w), w = sqrt(c^2 - e^2);
 first order: e = kappa_f zeta(c_L) zeta(-c_R), zeta(c)^2 = c e^{-c}/sinh c (c_L > 0, c_R < 0: both zero modes at the fold;
 the code evaluates zeta at |c|).  Cross-checked by direct ODE shooting.
+Three generations (version of 2026-10-18, three neutrino flavours with mixing): the bulk mass of an SU(2) doublet is one
+number for both of its members, and in each sector the three doublets share ONE bulk mass, fixed by the heaviest charged
+fermion of the sector with equal left and right localisation (ASSUMED): c_L(leptons) by the tau, c_R(tau) = -c_L; c_Q(quarks)
+by the top, c_R(t) = -c_Q.  The right-handed bulk masses of the other fermions are then fitted: e, mu; u, c; d, s, b; and the
+three right-handed neutrinos to m_1 (chosen), m_2 = sqrt(m_1^2 + dm2_21), m_3 = sqrt(m_1^2 + dm2_31) of NuFIT 6.0 (normal
+ordering).  With a common doublet bulk mass and unitary tip matrices the three-generation tip condition separates exactly
+into three one-generation conditions with kappa_f = 1 (um2_flavour.py), so these roots are the exact masses, the neutrino tip
+matrix is the PMNS matrix and the down-quark tip matrix is the CKM matrix.
 Writes outputs/masses.json, reports/masses-checks.json.
 """
 import math
@@ -30,7 +38,7 @@ from scipy.linalg import eigh
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from um2_common import OUT, Report, read_json, write_json  # noqa: E402
-from um2_constants import ETA, val  # noqa: E402
+from um2_constants import ETA, M_NU_LIGHTEST_EV, NUFIT60_NO, val  # noqa: E402
 
 mp.mp.dps = 60
 
@@ -270,42 +278,83 @@ def main():
                                    bg['radion_frequency_over_H'] * Hgev))
     # --- fermions ---
     kf = 1.0
-    targets = {'nu': val('m_nu_eV') * 1e-9, 'e': val('m_e_MeV') * 1e-3, 'u': val('m_u_MeV_2GeV') * 1e-3, 'd': val('m_d_MeV_2GeV') * 1e-3}
+
+    def fit_c_symmetric(e_target):
+        """c with c_L = c, c_R = -c such that the exact root equals e_target."""
+        g_of_c = lambda c: mp.log(fermion_mass(c, -c, kf)[0]) - mp.log(e_target)
+        return mp.findroot(g_of_c, mp.mpf(10))
+
+    def fit_c_right(cL, e_target):
+        """c_R < 0 at fixed c_L such that the exact root equals e_target (start: the first-order value)."""
+        z = e_target / mp.sqrt(zeta2(cL))                       # zeta(|c_R|) at first order
+        c0 = mp.findroot(lambda c: mp.log(zeta2(c)) - 2 * mp.log(z), mp.mpf(5) if z < 0.5 else mp.mpf('0.5'))
+        g_of_c = lambda cR: mp.log(fermion_mass(cL, cR, kf)[0]) - mp.log(e_target)
+        return mp.findroot(g_of_c, -c0)
+
+    def record(m, cL, cR):
+        r, e1 = fermion_mass(cL, cR, kf)
+        return {'m_GeV': m, 'c_L': float(cL), 'c_R': float(cR), 'mu_L_over_H': float(cL) / (fstar * eta),
+                'mu_R_over_H': float(cR) / (fstar * eta), 'e_exact': float(r), 'e_first_order': float(e1),
+                'zeta2_L': float(zeta2(cL)), 'zeta2_R': float(zeta2(cR)), 'width_L_t': 1.0 / (2 * float(cL)),
+                'width_R_t': 1.0 / (2 * abs(float(cR))), 'width_L_m': fL_GeVinv * hbarc / (2 * float(cL)),
+                'width_R_m': fL_GeVinv * hbarc / (2 * abs(float(cR)))}
+
+    nu = {k: v[0] for k, v in NUFIT60_NO.items()}
+    m1 = M_NU_LIGHTEST_EV
+    m2 = math.sqrt(m1 ** 2 + nu['dm2_21_eV2'])
+    m3 = math.sqrt(m1 ** 2 + nu['dm2_31_eV2'])
+    targets = {'e': val('m_e_MeV') * 1e-3, 'mu': val('m_mu_MeV') * 1e-3, 'tau': val('m_tau_MeV') * 1e-3,
+               'nu1': m1 * 1e-9, 'nu2': m2 * 1e-9, 'nu3': m3 * 1e-9,
+               'u': val('m_u_MeV_2GeV') * 1e-3, 'c': val('m_c_GeV_mc'), 't': val('m_t_GeV'),
+               'd': val('m_d_MeV_2GeV') * 1e-3, 's': val('m_s_MeV_2GeV') * 1e-3, 'b': val('m_b_GeV_mb')}
+    sectors = {'leptons': ('tau', ['e', 'mu', 'nu1', 'nu2', 'nu3']),
+               'quarks': ('t', ['u', 'c', 'd', 's', 'b'])}
     ferm = {}
-    first_vs_exact = 0.0
-    for name, m in targets.items():
-        e_target = mp.mpf(m) * fL_GeVinv
-        # solve for c (c_L = c, c_R = -c) such that the exact e = e_target
-        def g_of_c(c):
-            r, _ = fermion_mass(c, -c, kf)
-            return mp.log(r) - mp.log(e_target)
-        c = mp.findroot(g_of_c, mp.mpf(10))
-        r, e1 = fermion_mass(c, -c, kf)
-        first_vs_exact = max(first_vs_exact, float(abs(e1 / r - 1)))
-        ferm[name] = {'m_GeV': m, 'c': float(c), 'mu_over_H': float(c) / (fstar * eta), 'e_exact': float(r), 'e_first_order': float(e1),
-                      'zeta2': float(zeta2(c)), 'width_t': 1.0 / (2 * float(c)), 'width_m': fL_GeVinv * hbarc / (2 * float(c))}
+    doublet_c = {}
+    for sector, (heaviest, others) in sectors.items():
+        cD = fit_c_symmetric(mp.mpf(targets[heaviest]) * fL_GeVinv)      # c_L of the three doublets of the sector
+        doublet_c[sector] = float(cD)
+        ferm[heaviest] = record(targets[heaviest], cD, -cD)
+        for name in others:
+            ferm[name] = record(targets[name], cD, fit_c_right(cD, mp.mpf(targets[name]) * fL_GeVinv))
     out['fermions'] = ferm
     out['kappa_f'] = kf
+    out['doublet_c'] = doublet_c
+    out['neutrino_masses_eV'] = {'m1': m1, 'm2': m2, 'm3': m3, 'sum': m1 + m2 + m3, 'ordering': 'normal',
+                                 'source': 'NuFIT 6.0 IC24 NO splittings; m1 ASSUMED'}
+    order = ['e', 'mu', 'tau', 'nu1', 'nu2', 'nu3', 'u', 'c', 't', 'd', 's', 'b']
+    first_vs_exact = {n: abs(ferm[n]['e_first_order'] / ferm[n]['e_exact'] - 1) for n in ferm}
     rep.check('fermion_fit', all(abs(ferm[n]['e_exact'] / (targets[n] * fL_GeVinv) - 1) < 1e-12 for n in targets),
-              'with the universal tip mixing kappa_f = 1 the exact x0 eigenvalues reproduce m_nu, m_e, m_u, m_d for c = %s' % (
-                  ', '.join('%s %.4f' % (n, ferm[n]['c']) for n in targets)))
-    rep.check('first_order_formula', first_vs_exact < 1e-6,
-              'the first-order formula e = kappa_f zeta(c_L) zeta(c_R) agrees with the exact root to %.1e' % first_vs_exact)
-    # ODE shooting cross-check for the electron and a broad mode
+              'with the universal tip mixing kappa_f = 1 the exact x0 eigenvalues reproduce all twelve masses: the three lepton doublets '
+              'share c_L = %.4f (fixed by the tau, c_R(tau) = -c_L), the three quark doublets share c_Q = %.4f (fixed by the top, '
+              'c_R(t) = -c_Q); right-handed bulk masses c_R = %s; neutrino masses %.4e, %.4e, %.4e eV (normal ordering, m1 chosen)' % (
+                  doublet_c['leptons'], doublet_c['quarks'], ', '.join('%s %.4f' % (n, ferm[n]['c_R']) for n in order), m1, m2, m3))
+    worst = max(first_vs_exact, key=first_vs_exact.get)
+    rep.check('first_order_formula', max(first_vs_exact.values()) < 0.05,
+              'the first-order formula e = kappa_f zeta(c_L) zeta(-c_R) agrees with the exact root to %s; the largest deviation, %.1e '
+              '(%s), belongs to the broadest profiles; every quoted mass is the exact root' % (
+                  ', '.join('%s %.1e' % (n, first_vs_exact[n]) for n in order), first_vs_exact[worst], worst))
+    # ODE shooting cross-check for the electron, the tau, the top and a broad mode
     sh = []
-    for (cc, kk) in [(ferm['e']['c'], kf), (1.0, 1.0)]:
-        r, _ = fermion_mass(cc, -cc, kk)
-        val_at = fermion_shoot(float(r), cc, -cc, kk)
-        scale = abs(fermion_shoot(float(r) * 1.01, cc, -cc, kk) - val_at)
+    for (ca, cb, kk) in [(ferm['e']['c_L'], ferm['e']['c_R'], kf), (ferm['tau']['c_L'], ferm['tau']['c_R'], kf),
+                         (ferm['t']['c_L'], ferm['t']['c_R'], kf), (1.0, -1.0, 1.0)]:
+        r, _ = fermion_mass(ca, cb, kk)
+        val_at = fermion_shoot(float(r), ca, cb, kk)
+        scale = abs(fermion_shoot(float(r) * 1.01, ca, cb, kk) - val_at)
         sh.append(abs(val_at) / scale if scale > 0 else abs(val_at))
     rep.check('shooting_crosscheck', all(s < 1e-6 for s in sh),
               'direct ODE integration (DOP853, rtol 1e-13) of the coupled (L, R) problem: the determinant vanishes at the transfer-'
-              'matrix root (relative residuals %s)' % ['%.1e' % s for s in sh])
+              'matrix root (relative residuals %s for e, tau, t and a broad mode c = 1)' % ['%.1e' % s for s in sh])
     r1, e11 = fermion_mass(1.0, -1.0, 1.0)
     out['broad_mode_c1'] = {'exact': float(r1), 'first_order': float(e11)}
-    # hierarchy statement: sharper localisation -> lighter
-    rep.check('localisation_lowers_mass', ferm['nu']['c'] > ferm['e']['c'] > ferm['u']['c'] > ferm['d']['c'],
-              'the lighter the fermion, the larger c (the sharper its x0 localisation at the fold): c_nu > c_e > c_u > c_d')
+    # hierarchy statement: at a common doublet c_L, a sharper right-handed localisation gives a lighter fermion
+    lep = sorted(['e', 'mu', 'tau', 'nu1', 'nu2', 'nu3'], key=lambda n: targets[n], reverse=True)
+    up = ['t', 'c', 'u']
+    dn = ['b', 's', 'd']
+    mono = all(all(abs(ferm[a]['c_R']) < abs(ferm[b]['c_R']) for a, b in zip(s, s[1:])) for s in (lep, up, dn))
+    rep.check('localisation_lowers_mass', mono,
+              'the lighter the fermion, the sharper its right-handed x0 localisation at the fold (at the common doublet bulk mass of its '
+              'sector): |c_R| = %s' % ', '.join('%s %.3f' % (n, abs(ferm[n]['c_R'])) for n in lep + up + dn))
     write_json(os.path.join(OUT, 'masses.json'), out)
     ok = rep.write()
     sys.exit(0 if ok else 1)
