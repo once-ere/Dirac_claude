@@ -69,6 +69,7 @@
   "sigma_n_xenon_cm2": 4.01080200761e-46,
   "sigma_v_I12_at_xf_cm3_s": 9.90602160817e-28,
   "sigma_v_I13_at_xf_cm3_s": 9.50018798879e-26,
+  "sigma_v_today_cm3_s": 9.76069730784e-26,
   "sqrt_s_unitarity_crossing_GeV": 91825.5755862,
   "sum_Nc_q2_Ib2": 16.3506254126,
   "v_crossing": 0.517710021861,

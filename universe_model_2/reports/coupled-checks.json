@@ -37,7 +37,7 @@
    "passed": true
   },
   {
-   "detail": "I13 and I11 couple the dark matter coherently to the quark vector currents: f_p = 1.915e-09, f_n = 1.917e-09 GeV^-2, sigma_n = mu^2 f^2/pi = 4.01e-46 cm^2 for xenon, 0.16 of the LZ limit 2.44e-45 cm^2 at 44.3 TeV: allowed, and within reach of the next generation of xenon detectors",
+   "detail": "I13 and I11 couple the dark matter coherently to the quark vector currents: f_p = 1.915e-09, f_n = 1.917e-09 GeV^-2, sigma_n = mu^2 f^2/pi = 4.01e-46 cm^2 for xenon, 0.16 of the LZ limit 2.44e-45 cm^2 at 44.3 TeV: allowed, and within reach of the next generation of xenon detectors; annihilation today (s-wave, into quark pairs) sigma v = sum N_c G_f^2 M^2/(2 pi) = 9.76e-26 cm^3/s",
    "name": "C8_I13_direct_detection",
    "passed": true
   },

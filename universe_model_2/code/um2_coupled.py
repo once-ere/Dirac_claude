@@ -422,7 +422,10 @@ def main():
     fp13, fn13 = 2 * Gu13 + Gd13 + fp, Gu13 + 2 * Gd13 + fn
     fN13 = (Z * fp13 + (A - Z) * fn13) / A
     sig_n13 = mu_n ** 2 * fN13 ** 2 / math.pi * GEV2_CM2
+    # annihilation today (galactic velocities v ~ 1e-3: the s-wave limit; the J = 1 bound pi 3/(4 p^2) is far above)
+    sv_today = S13 * GA ** 2 * MDM ** 2 / (2 * math.pi) * GEV2_CM2 * 2.99792458e10
     out['I13'] = {'sum_Nc_q2_Ib2': S13, 'G_A_GeV-2': GA, 'G_A_over_G_F': GA / val('G_F_GeV-2'), 'G_A_effective_operator_GeV-2': GA_eff,
+                  'sigma_v_today_cm3_s': sv_today,
                   'Omega_h2_per_species_effective': omA, 'x_f_effective': xfA, 'Omega_h2_per_species_capped': omAc, 'x_f_capped': xfAc,
                   'fraction_of_rate_saturated_capped': frac13c, 'v_crossing_capped': 2 * math.sqrt(zcc / (1 + zcc)),
                   'sigma_v_I13_at_xf_cm3_s': sv13_xf, 'sigma_v_I12_at_xf_cm3_s': sv12_xf, 'sqrt_s_unitarity_crossing_GeV': math.sqrt(sc13),
@@ -441,7 +444,8 @@ def main():
     rep.check('C8_I13_direct_detection', sig_n13 < lz,
               'I13 and I11 couple the dark matter coherently to the quark vector currents: f_p = %.3e, f_n = %.3e GeV^-2, '
               'sigma_n = mu^2 f^2/pi = %.2e cm^2 for xenon, %.2f of the LZ limit %.2e cm^2 at %.1f TeV: allowed, and within reach of the next '
-              'generation of xenon detectors' % (fp13, fn13, sig_n13, sig_n13 / lz, lz, MDM / 1e3))
+              'generation of xenon detectors; annihilation today (s-wave, into quark pairs) sigma v = sum N_c G_f^2 M^2/(2 pi) = %.2e cm^3/s' % (
+                  fp13, fn13, sig_n13, sig_n13 / lz, lz, MDM / 1e3, sv_today))
 
     # ---------------- C9 the B - L alternative of I13 thermalises the right-handed neutrinos ----------------
     # relic coupling with the B - L current: the effective cross-section scales with S13, so G_A(B-L) = G_A_eff sqrt(S13/S13_BL)
