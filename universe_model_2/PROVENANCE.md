@@ -322,7 +322,7 @@ below 5 % of $m$ in the densest benchmark state); the extra-time coordinate volu
 
 All computations are Python scripts in the folder `universe_model_2/code`; each writes its numbers to
 `universe_model_2/outputs` and a report of named checks (name, verdict, detail) to `universe_model_2/reports`; no
-single run exceeds 423 s. In total 177 checks, none failed.
+single run exceeds 423 s. In total 179 checks, none failed.
 
 | script | what it computes | method | checks |
 | --- | --- | --- | --- |
@@ -335,7 +335,7 @@ single run exceeds 423 s. In total 177 checks, none failed.
 | `um2_electroweak.py` | charges ($W^+$: $+e$, $W^-$: $-e$), anomalies, couplings, $P_+$, $\Gamma_4 = -B\gamma^{x_0}$, $Z$ charges of $\Psi_A$, $\Psi_B$, $N_\nu$, $N_{eff}$, CNB, $Z$ widths | sympy and numerics | 19/19 |
 | `um2_primordial.py` | the nonlinear primordial evolution, the basin, the separatrix, the radion oscillation | DOP853 integration, bisection | 5/5 |
 | `um2_cosmology.py` | TT and EE spectra, BAO $\chi^2$, $N_{eff}$, helium, the variant with a thermalised $\Psi_B$ fold band | CAMB 2.0.5 | 5/5 |
-| `um2_analysis.py` | the $x_0$ decompositions and the uncertainty relation; the gap theorem; sum rules; relic abundance; direct detection; the condensate; the vacuum energy; the sensitivities to the block size | mpmath, numpy | 20/20 |
+| `um2_analysis.py` | the $x_0$ decompositions and the uncertainty relation; the gap theorem; sum rules; the conservation of the halves $\Psi_A$, $\Psi_B$; relic abundance; direct detection; the condensate; the vacuum energy; the sensitivities to the block size; the bound on the block rate today; the radion decay | mpmath, numpy, sympy | 22/22 |
 
 ## The principal numbers and where they come from
 
@@ -358,6 +358,9 @@ single run exceeds 423 s. In total 177 checks, none failed.
 | dark energy | condensate tuned to $w_0 = -1$: $w_a = -6$, energy zero at $z = 0.260$; vacuum-energy ratio $5.5\times10^{64}$; $(H_0/H)^2 = 1.0\times10^{-92}$ | `um2_analysis.py` |
 | uncertainty relation | $m/m_H$: first KK $7.49$, first odd $6.47$, dark matter $2.29$, $W$ $1.14\times10^{-3}$, $Z$ $1.29\times10^{-3}$, $e$ $3.2\times10^{-9}$, $\nu$ $1.7\times10^{-16}$ | `um2_analysis.py` |
 | sensitivities $d\ln X/d\ln f$ | KK $-1$, $m_W$ $-0.501$, $m_e$ $-20.6$, $m_u$ $-19.1$, $m_d$ $-18.3$, $m_\nu$ $-37.3$, $M_{DM}$ $-0.772$, $G_N$ and $\alpha$ $-4$ | `um2_analysis.py` |
+| block rate today (ESTIMATE) | $\lvert h\rvert < 3.6\times10^{-8}H_0$ (from $\lvert\dot\alpha/\alpha\rvert < 10^{-17}$/yr), $< 3.6\times10^{-4}H_0$ (from $\lvert\dot G/G\rvert < 10^{-13}$/yr) | `um2_analysis.py` |
+| radion decay (ESTIMATE) | $\Gamma = C\,m_r^3/(4\pi M_P^2)$: $\tau = 0.43\,\text{s}/C$, $T_{RH} = 1.85\sqrt C$ MeV ($< 4.7$ MeV unless $C > 6.5$) | `um2_analysis.py` |
+| first-order block response | $s_{h3} = 0.028666$, $s_{hp} = 0.037320$, $q_h = -0.009555$; adiabatic $\delta k = (-0.1076\,\kappa\delta p_3 - 0.1400\,\kappa\delta\bar p + 0.0359\,\kappa\delta\rho)/H^2$ | `um2_background.py` |
 
 ## Methods, with the equations they use
 
@@ -436,7 +439,16 @@ single run exceeds 423 s. In total 177 checks, none failed.
     written as the Hermitian currents $i\bar\Psi\gamma^M\Psi$ (I9, I11) and the Standard-Model currents as $i\bar\psi\gamma^M\psi$.
 14. The block response to the hidden pressure of a Kohn-Sham state first used $p_0$ alone; the common block scale is
     driven by the block-averaged pressure $\bar p = (p_0 + 3p_t)/4$, and $p_0 - p_t$ drives a block-shape mode outside the
-    order-0 metric (OPEN). The linearised sourced equations were added (`um2_background.py`, 2 checks).
+    order-0 metric (OPEN). The linearised sourced equations were added (`um2_background.py`, 2 checks); they first
+    omitted the density, which enters at first order through $3G(k_*)A^2 = \kappa\delta\rho$; with it the adiabatic response
+    reproduces the four-dimensional Friedmann acceleration equation exactly.
+15. The statement that $N_A$ and $N_B$ are separately conserved was first recorded as an asserted check; it is now
+    computed with the author's matrices (commutators of $B$ with $C$, $\gamma^a$, $C\gamma^a$, $S^{ab}$), which also shows that
+    extra-time momenta, outside the good sector, would mix the halves.
+16. The radion lifetime was first quoted as an unverified estimate; it is now computed (ESTIMATE, with the coupling
+    factor $C$ explicit), as is the bound on the block rate today.
+17. Figures: the BAO legend showed the data label twice and two labels of the uncertainty figure overlapped; the
+    condensate figure no longer draws the vertical lines where $w$ diverges.
 
 ## What is not in the repository, and why
 
@@ -484,4 +496,5 @@ pandoc 3.1.3, pdfTeX 1.40.25 (TeX Live 2023).
 UM-2 was started on top of commit `0cb4916`. Its computations were committed in the order algebra and geometry
 (`ca523d9`), background gravity (`0b3e10d`), field reductions (`6fc35a0`), mass spectra (`dcfd528`), Kohn-Sham
 (`2f3018e`), electroweak sector (`2e4c48d`), primordial era (`a502e62`), cosmology (`717b46e`), analysis (`a06b55e`),
-followed by the corrections listed above and the documents.
+followed by the corrections listed above, the sourced block equations, the radion and block-rate estimates, and the
+documents MODEL, PROVENANCE, FIELD_EQUATIONS, SOLUTION and ANALYSIS (Markdown, LaTeX and PDF each).

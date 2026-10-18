@@ -708,7 +708,7 @@ All computations are Python scripts in the folder
 \texttt{universe\_model\_2/code}; each writes its numbers to
 \texttt{universe\_model\_2/outputs} and a report of named checks (name,
 verdict, detail) to \texttt{universe\_model\_2/reports}; no single run
-exceeds 423 s. In total 177 checks, none failed.
+exceeds 423 s. In total 179 checks, none failed.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
@@ -768,9 +768,11 @@ bisection & 5/5 \\
 \(N_{eff}\), helium, the variant with a thermalised \(\Psi_B\) fold band
 & CAMB 2.0.5 & 5/5 \\
 \texttt{um2\_analysis.py} & the \(x_0\) decompositions and the
-uncertainty relation; the gap theorem; sum rules; relic abundance;
-direct detection; the condensate; the vacuum energy; the sensitivities
-to the block size & mpmath, numpy & 20/20 \\
+uncertainty relation; the gap theorem; sum rules; the conservation of
+the halves \(\Psi_A\), \(\Psi_B\); relic abundance; direct detection;
+the condensate; the vacuum energy; the sensitivities to the block size;
+the bound on the block rate today; the radion decay & mpmath, numpy,
+sympy & 22/22 \\
 \end{longtable}
 
 \hypertarget{the-principal-numbers-and-where-they-come-from}{%
@@ -850,6 +852,17 @@ sensitivities \(d\ln X/d\ln f\) & KK \(-1\), \(m_W\) \(-0.501\), \(m_e\)
 \(-20.6\), \(m_u\) \(-19.1\), \(m_d\) \(-18.3\), \(m_\nu\) \(-37.3\),
 \(M_{DM}\) \(-0.772\), \(G_N\) and \(\alpha\) \(-4\) &
 \texttt{um2\_analysis.py} \\
+block rate today (ESTIMATE) & \(\lvert h\rvert < 3.6\times10^{-8}H_0\)
+(from \(\lvert\dot\alpha/\alpha\rvert < 10^{-17}\)/yr),
+\(< 3.6\times10^{-4}H_0\) (from \(\lvert\dot G/G\rvert < 10^{-13}\)/yr)
+& \texttt{um2\_analysis.py} \\
+radion decay (ESTIMATE) & \(\Gamma = C\,m_r^3/(4\pi M_P^2)\):
+\(\tau = 0.43\,\text{s}/C\), \(T_{RH} = 1.85\sqrt C\) MeV (\(< 4.7\) MeV
+unless \(C > 6.5\)) & \texttt{um2\_analysis.py} \\
+first-order block response & \(s_{h3} = 0.028666\),
+\(s_{hp} = 0.037320\), \(q_h = -0.009555\); adiabatic
+\(\delta k = (-0.1076\,\kappa\delta p_3 - 0.1400\,\kappa\delta\bar p + 0.0359\,\kappa\delta\rho)/H^2\)
+& \texttt{um2\_background.py} \\
 \end{longtable}
 
 \hypertarget{methods-with-the-equations-they-use}{%
@@ -1018,7 +1031,24 @@ work}\label{corrections-made-during-the-work}}
   block-averaged pressure \(\bar p = (p_0 + 3p_t)/4\), and \(p_0 - p_t\)
   drives a block-shape mode outside the order-0 metric (OPEN). The
   linearised sourced equations were added (\texttt{um2\_background.py},
-  2 checks).
+  2 checks); they first omitted the density, which enters at first order
+  through \(3G(k_*)A^2 = \kappa\delta\rho\); with it the adiabatic
+  response reproduces the four-dimensional Friedmann acceleration
+  equation exactly.
+\item
+  The statement that \(N_A\) and \(N_B\) are separately conserved was
+  first recorded as an asserted check; it is now computed with the
+  author's matrices (commutators of \(B\) with \(C\), \(\gamma^a\),
+  \(C\gamma^a\), \(S^{ab}\)), which also shows that extra-time momenta,
+  outside the good sector, would mix the halves.
+\item
+  The radion lifetime was first quoted as an unverified estimate; it is
+  now computed (ESTIMATE, with the coupling factor \(C\) explicit), as
+  is the bound on the block rate today.
+\item
+  Figures: the BAO legend showed the data label twice and two labels of
+  the uncertainty figure overlapped; the condensate figure no longer
+  draws the vertical lines where \(w\) diverges.
 \end{enumerate}
 
 \hypertarget{what-is-not-in-the-repository-and-why}{%
@@ -1091,7 +1121,9 @@ background gravity (\texttt{0b3e10d}), field reductions
 (\texttt{6fc35a0}), mass spectra (\texttt{dcfd528}), Kohn-Sham
 (\texttt{2f3018e}), electroweak sector (\texttt{2e4c48d}), primordial
 era (\texttt{a502e62}), cosmology (\texttt{717b46e}), analysis
-(\texttt{a06b55e}), followed by the corrections listed above and the
-documents.
+(\texttt{a06b55e}), followed by the corrections listed above, the
+sourced block equations, the radion and block-rate estimates, and the
+documents MODEL, PROVENANCE, FIELD\_EQUATIONS, SOLUTION and ANALYSIS
+(Markdown, LaTeX and PDF each).
 
 \end{document}
