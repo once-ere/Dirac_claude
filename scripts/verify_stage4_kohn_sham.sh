@@ -534,11 +534,12 @@ else
     skip_step stage4-31-mathematica-unchanged "no Mathematica run"
 fi
 
-run_step stage4-32-pdf-primordial 0 "$(expect 32)" "${documents[0]}.md" \
-    "$python_command" scripts/build_provenance_pdf.py "${documents[0]}.md"
-# The student guide is built in the developer layout of the PDF builder
+# Both documents are built in the developer layout of the PDF builder
 # (ragged table columns, breakable code spans), as registered; without the
 # flag the builder writes a different .tex.
+run_step stage4-32-pdf-primordial 0 "$(expect 32)" "${documents[0]}.md" \
+    "$python_command" scripts/build_provenance_pdf.py --developer-layout \
+    "${documents[0]}.md"
 run_step stage4-33-pdf-student-guide 0 "$(expect 33)" "${documents[1]}.md" \
     "$python_command" scripts/build_provenance_pdf.py --developer-layout \
     "${documents[1]}.md"

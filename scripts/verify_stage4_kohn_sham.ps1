@@ -144,9 +144,9 @@
 #                                  (skipped without wolframscript)
 #   stage4-31-mathematica-unchanged mathematica-report.json (modulo engine.binary) and
 #                                  figures/mathematica rewritten byte for byte
-#   stage4-32/33-pdf-*             build_provenance_pdf.py (verify mode) for
-#                                  DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL.md and, with
-#                                  --developer-layout, DIRAC16COMPLEX_KOHN_SHAM_STUDENT_GUIDE.md
+#   stage4-32/33-pdf-*             build_provenance_pdf.py --developer-layout (verify
+#                                  mode) for DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL.md and
+#                                  DIRAC16COMPLEX_KOHN_SHAM_STUDENT_GUIDE.md
 #   stage4-34-committed-unchanged  every snapshotted committed file is byte-identical
 #   stage4-35-unit-tests           python -m unittest discover -s tests
 #                                  -p "test_d16c_kohn_sham*.py" -v
@@ -654,12 +654,12 @@ if ($wolframscriptCommand) {
     Write-Skipped -Name "stage4-31-mathematica-unchanged" -Reason "no Mathematica run"
 }
 
-Invoke-GateStep -Name "stage4-32-pdf-primordial" -Expected $expect["32"] `
-    -Inputs @("$($documents[0]).md") `
-    -Command "python scripts/build_provenance_pdf.py $($documents[0]).md"
-# The student guide is built in the builder's developer layout (ragged table
+# Both documents are built in the builder's developer layout (ragged table
 # columns, breakable code spans), as registered; without the flag the
 # builder writes a different .tex.
+Invoke-GateStep -Name "stage4-32-pdf-primordial" -Expected $expect["32"] `
+    -Inputs @("$($documents[0]).md") `
+    -Command "python scripts/build_provenance_pdf.py --developer-layout $($documents[0]).md"
 Invoke-GateStep -Name "stage4-33-pdf-student-guide" -Expected $expect["33"] `
     -Inputs @("$($documents[1]).md") `
     -Command "python scripts/build_provenance_pdf.py --developer-layout $($documents[1]).md"
