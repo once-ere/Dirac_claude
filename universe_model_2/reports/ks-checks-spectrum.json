@@ -1,0 +1,27 @@
+{
+ "check_count": 3,
+ "checks": [
+  {
+   "detail": "at k = 0: fold zero mode eps = 0, lowest odd (dark-matter) level eps = sqrt(m^2 + p^2), tan(p f L) = -p/m, = 3.102204132863 m, lowest even bulk level sqrt(m^2 + (pi/(f L))^2) = 4.959980780392 m (solver = exact to 1e-12)",
+   "name": "spectrum_exact_k0",
+   "passed": true
+  },
+  {
+   "detail": "the fold band eps = |k| exactly (physical momentum): massless 4D quanta (max deviation of eps/|k| from 1: 5.9e-14)",
+   "name": "fold_band_massless",
+   "passed": true
+  },
+  {
+   "detail": "at k = 0 and v = 0 the spectrum of h_{-1} is minus that of h_{+1} (max deviation 0.0e+00)",
+   "name": "j_mirror_k0",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 Kohn-Sham job spectrum",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "ks-checks-spectrum"
+}

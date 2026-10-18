@@ -1,0 +1,27 @@
+{
+ "check_count": 3,
+ "checks": [
+  {
+   "detail": "Richardson-estimated basis error of E_KS below 1.5e-09 (relative) at 120 levels per sector; observed orders (N = 8, lambda > 0): E 4.95, int p0 2.97, conservation residual 2.97",
+   "name": "ground_basis_convergence",
+   "passed": true
+  },
+  {
+   "detail": "nabla_M T^M_y = 0 integrated over the half cell, [e^{3Hy} p0]_{-L}^{0} = 3H int e^{3Hy} p_t dy, holds for every interacting self-consistent state: Richardson-extrapolated relative residual 8.0e-08 (the unextrapolated residual falls like nb^-3)",
+   "name": "ground_y_conservation",
+   "passed": true
+  },
+  {
+   "detail": "E_KS = 2 Vol7 int e^{3Hy} rho dy (max relative deviation 4.0e-15)",
+   "name": "ground_energy_equals_integrated_rho",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 Kohn-Sham job ground8",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "ks-checks-ground8"
+}

@@ -1,0 +1,33 @@
+{
+ "P1_vector_leptons (v)": {
+  "d_eps_dm_de": 0.507981220896,
+  "d_fold_gap_de": 1.16656684312e-10,
+  "hellmann_feynman": 0.50798121629
+ },
+ "P2_vector_quarks (v)": {
+  "d_eps_dm_de": 0.548555236364,
+  "d_fold_gap_de": 1.5971945988e-10,
+  "hellmann_feynman": 0.548555231557
+ },
+ "P4_Z_tip (v)": {
+  "d_eps_dm_de": 0.259581366493,
+  "d_fold_gap_de": 1.71251901548e-11,
+  "hellmann_feynman": 0.259581365003
+ },
+ "P5_gauge_kinetic (M)": {
+  "d_eps_dm_de": 0.707196000285,
+  "d_fold_gap_de": 2.89768209427e-11,
+  "hellmann_feynman": 0.707196002672
+ },
+ "P6_derivative_scalar (M)": {
+  "d_eps_dm_de": 0.158544283815,
+  "d_fold_gap_de": 7.9936057773e-12,
+  "hellmann_feynman": 0.158544282003
+ },
+ "_meta": {
+  "c_e": 10.303791677,
+  "c_u": 9.54478519482,
+  "nb": 80
+ },
+ "runtime_s": 4.6
+}

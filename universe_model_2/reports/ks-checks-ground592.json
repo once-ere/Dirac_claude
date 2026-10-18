@@ -1,0 +1,32 @@
+{
+ "check_count": 4,
+ "checks": [
+  {
+   "detail": "Richardson-estimated basis error of E_KS below 4.0e-10 (relative) at 120 levels per sector; observed orders (N = 8, lambda > 0): E nan, int p0 nan, conservation residual nan",
+   "name": "ground_basis_convergence",
+   "passed": true
+  },
+  {
+   "detail": "nabla_M T^M_y = 0 integrated over the half cell, [e^{3Hy} p0]_{-L}^{0} = 3H int e^{3Hy} p_t dy, holds for every interacting self-consistent state: Richardson-extrapolated relative residual 8.8e-08 (the unextrapolated residual falls like nb^-3)",
+   "name": "ground_y_conservation",
+   "passed": true
+  },
+  {
+   "detail": "E_KS = 2 Vol7 int e^{3Hy} rho dy (max relative deviation 3.7e-15)",
+   "name": "ground_energy_equals_integrated_rho",
+   "passed": true
+  },
+  {
+   "detail": "free N = 592 state (fold band only): w = int p3/int rho = 0.333333333333333 = 1/3 (massless 4D radiation)",
+   "name": "fold_band_gas_radiation",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 Kohn-Sham job ground592",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "ks-checks-ground592"
+}

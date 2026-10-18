@@ -1,0 +1,22 @@
+{
+ "check_count": 2,
+ "checks": [
+  {
+   "detail": "block stiffness d/dk[3H^2 k - kappa p0_b(k)] = -7.141428 H^2 < 0 at k*: a positive hidden pressure dp0 shifts the block by dk = kappa dp0/(-7.1414 H^2) < 0 (k decreases: the block scale f = k^{-1/2} grows slightly)",
+   "name": "block_response",
+   "passed": true
+  },
+  {
+   "detail": "d/dk [6 H^2 k (1 - 2 w2 k) + kappa rho_b(k)] = -6.3e-12 at k*: a small block shift does not change the 4D cosmological term at linear order",
+   "name": "friedmann_decoupled_from_block_shift",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 Kohn-Sham job feedback",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "ks-checks-feedback"
+}

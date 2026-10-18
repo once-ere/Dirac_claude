@@ -1,0 +1,27 @@
+{
+ "check_count": 3,
+ "checks": [
+  {
+   "detail": "lambda = 0: 8 quanta in the lowest odd level add exactly 8 eps_DM = 24.817633062880 (computed 24.817633062901)",
+   "name": "dm_energy_bookkeeping",
+   "passed": true
+  },
+  {
+   "detail": "k = 0 dark-matter quanta: w = p3/rho = 0.0e+00 (dust) at lambda = 0; 2.82e-05 with lambda",
+   "name": "dm_cold",
+   "passed": true
+  },
+  {
+   "detail": "the Kohn-Sham stress tensor gives p0/rho = 0.772034343 for the dark-matter quanta; the x0 eigenvalue gives -d ln eps_DM/d ln f = 0.772034343: two independent computations of the same x0 mass",
+   "name": "dm_hidden_pressure_identity",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 Kohn-Sham job darkmatter",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "ks-checks-darkmatter"
+}
