@@ -1,0 +1,102 @@
+{
+ "check_count": 18,
+ "checks": [
+  {
+   "detail": "Q = T3 + Y: (u, d)_L = (2/3, -1/3), (nu, e)_L = (0, -1), u_R 2/3, d_R -1/3, e_R -1, nu_R 0",
+   "name": "electric_charges",
+   "passed": true
+  },
+  {
+   "detail": "[T3, T+] = +T+, [T3, T-] = -T-: W+ = (W1 - i W2)/sqrt2 carries Q = +1, W- = (W1 + i W2)/sqrt2 carries Q = -1 (Y(W) = 0); W- is the antiparticle of W+",
+   "name": "W_charges",
+   "passed": true
+  },
+  {
+   "detail": "A = sin(theta_W) W3 + cos(theta_W) B couples with g T3 sin + g' Y cos = e (T3 + Y), e = g g'/sqrt(g^2 + g'^2): e for e-, 2e/3 for u, -e/3 for d, 0 for nu; the W+W-gamma vertex has strength e",
+   "name": "photon_coupling",
+   "passed": true
+  },
+  {
+   "detail": "Z = cos W3 - sin B couples with sqrt(g^2 + g'^2)(T3 - Q sin^2 theta_W)",
+   "name": "Z_coupling",
+   "passed": true
+  },
+  {
+   "detail": "one generation (Q, u_R, d_R, L, e_R, nu_R) as 4D Weyl zero modes: SU(3)^2U(1) 0, SU(2)^2U(1) 0, U(1)^3 0, grav^2U(1) 0, SU(3)^3 0; 4 SU(2) doublets (even: no Witten anomaly); dirac16complex is a gauge singlet",
+   "name": "anomaly_cancellation",
+   "passed": true
+  },
+  {
+   "detail": "P_+ = (1 + Gamma4)/2 is a Hermitian projector",
+   "name": "P_plus_projector_hermitian",
+   "passed": true
+  },
+  {
+   "detail": "P_+ commutes with every 4D Lorentz generator gamma^a gamma^b (a, b = x1..x4)",
+   "name": "P_plus_lorentz_invariant",
+   "passed": true
+  },
+  {
+   "detail": "P_+ commutes with C gamma^mu (mu = x1..x4): Psibar gamma^mu P_+ Psi = (P_+ Psi)^dagger C gamma^mu (P_+ Psi) is the 4D vector current of the Gamma4 = +1 part",
+   "name": "chiral_current_is_vector",
+   "passed": true
+  },
+  {
+   "detail": "B commutes with every 4D Lorentz generator and with C: the halves B = -1 (Psi_A) and B = +1 (Psi_B) are 4D-Lorentz-invariant and Psibar Psi = S_A + S_B does not mix them",
+   "name": "B_lorentz_invariant",
+   "passed": true
+  },
+  {
+   "detail": "in block (j, s2, s3): P_+ = (1 - B sigma3)/2, B = j s2: the a-component in Psi_A (B = -1), the b-component in Psi_B (B = +1)",
+   "name": "P_plus_block_form",
+   "passed": true
+  },
+  {
+   "detail": "the blocks that carry the Standard-Model zero modes, [[1, -1, 1], [-1, 1, 1]], have B = -1: the visible zero modes live in the B = -1 half",
+   "name": "sm_zero_modes_in_psiA_blocks",
+   "passed": true
+  },
+  {
+   "detail": "the dark-matter orbital satisfies b(-L) = 0 (regular tip): -3.6e-17",
+   "name": "tip_condition_b_zero",
+   "passed": true
+  },
+  {
+   "detail": "Z charge density u^dagger P_+ u at the tip: Psi_A fold band a0(-L)^2 = 1.629960e-01 per unit length in each of its 4 blocks, Psi_B fold band 0 exactly",
+   "name": "Z_charge_fold_band",
+   "passed": true
+  },
+  {
+   "detail": "Psi_A dark-matter states: a_DM(-L)^2 = 2.573448e-01; Psi_B dark-matter states: 0 exactly, and every transition current Psibar_A gamma^mu P_+ Psi_B and Psibar_B gamma^mu P_+ Psi_A vanishes at the tip (P_+ Psi_B = 0 there)",
+   "name": "Z_charge_dark_matter",
+   "passed": true
+  },
+  {
+   "detail": "with one neutrino and the two Psi_A Weyl species: N_nu = 1 + 2 r^2 = 2.9840 for r^2 = (g_Z(Psi_A)/g_Z(nu))^2 = 0.9920 +- 0.0041",
+   "name": "Z_invisible_width_fit",
+   "passed": true
+  },
+  {
+   "detail": "Psi_A decouples at about 2.61 MeV (NC rate scaled by r^2), after the QCD and pion entropy releases: T(Psi_A) = T(nu) for every r^2 > 2.2e-03; then N_eff = 3.0440 (the three-flavour value: nu_e plus two NC-coupled Weyl species)",
+   "name": "N_eff_prediction",
+   "passed": true
+  },
+  {
+   "detail": "T_nu = (4/11)^{1/3} T_CMB = 1.9454 K; 112.0 per cm^3 per Weyl species (nu + nubar); UM-2 CNB: nu_e (0.05 eV, non-relativistic today) + two massless Psi_A species, 336 per cm^3 in total",
+   "name": "CNB",
+   "passed": true
+  },
+  {
+   "detail": "tree-level Z widths of the one-generation model: total 1232 MeV against the measured 2495.5 MeV (the missing mu, tau, s, c, b channels): an inherent conflict of the particle content of the order; the invisible width 495 MeV is reproduced by Psi_A",
+   "name": "Z_total_width_conflict",
+   "passed": true
+  }
+ ],
+ "description": "UM-2: charges, anomalies, W+- and Z, the chiral tip Z portal, the halves Psi_A and Psi_B, Z charges, Z invisible width, N_eff and the CNB",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "electroweak-checks"
+}
