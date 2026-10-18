@@ -2,9 +2,9 @@
  "M_DM_GeV": 44310.2249351,
  "block_rate_today_bound": {
   "H0_per_yr": 6.89609802638e-11,
-  "h_max_from_G_per_yr": 2.5e-14,
+  "h_max_from_G_per_yr": 4.88214297619e-14,
   "h_max_from_alpha_per_yr": 2.5e-18,
-  "h_max_over_H0_G": 0.000362523849057,
+  "h_max_over_H0_G": 0.000707957305351,
   "h_max_over_H0_alpha": 3.62523849057e-08,
   "m_e_drift_if_h_equals_H0_per_yr": 1.42059619343e-09
  },
@@ -373,9 +373,10 @@
   "x_f": 30.3096521875
  },
  "sensitivities_dlnX_dlnf": {
-  "G_N and alpha (1/V_perp)": -4.0,
+  "G_N": 2.04828085715,
   "KK masses and the gap 3H/(2f)": -1.0,
   "M_DM": -0.772034343206,
+  "alpha and the gauge couplings (1/V_perp)": -4.0,
   "m_W": -0.500660731128,
   "m_d": -18.2681322478,
   "m_e": -20.6075833084,

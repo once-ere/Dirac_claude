@@ -12,12 +12,12 @@
    "passed": true
   },
   {
-   "detail": "DESI DR2 BAO chi^2 = 30.31 for 13 measurements (LCDM with Planck parameters: 32.55; with thermalised Psi_B: 10.58)",
+   "detail": "DESI DR2 BAO chi^2 = 30.31 for 13 measurements (LCDM with Planck parameters: 32.55; with thermalised Psi_B: 15.97)",
    "name": "bao_desi",
    "passed": true
   },
   {
-   "detail": "variant with the Psi_B fold band thermalised (N_eff = 3.223) at fixed Planck omega_b, omega_c, theta_*: TT changes by up to 2.81e-02 (1.4 cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 = 1012): it is NOT a fit to the CMB; a joint CMB + BAO fit of this variant is OPEN",
+   "detail": "variant with the Psi_B fold band thermalised above the QCD crossover (Delta N_eff = 2 (10.75/47.75)^{4/3} = 0.2739; 0.2176 for decoupling above the electroweak scale, g_s = 56.75), N_eff = 3.318, at fixed Planck omega_b, omega_c, theta_*: TT changes by up to 4.24e-02 (2.1 cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 = 2314): it is NOT a fit to the CMB; a joint CMB + BAO fit of this variant is OPEN",
    "name": "psiB_variant_cmb_shift",
    "passed": true
   },

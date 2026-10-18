@@ -47,7 +47,7 @@
    "passed": true
   },
   {
-   "detail": "d ln X/d ln f: KK -1, m_W -0.501, m_e -20.6, m_u -19.1, m_d -18.3, m_nu -37.3, M_DM -0.772, G_N and alpha -4: the masses track the block; the stabilised block (radion mass 48379 GeV) freezes them after the primordial era",
+   "detail": "d ln X/d ln f: KK -1, m_W -0.501, m_e -20.6, m_u -19.1, m_d -18.3, m_nu -37.3, M_DM -0.772, alpha and the gauge couplings -4, G_N +2.048 (= -4 + 2 k* G'(k*)/G(k*): the Lovelock factor of the 4D Newton constant also varies with the block): the masses track the block; the stabilised block (radion mass 48379 GeV) freezes them after the primordial era",
    "name": "A5_sensitivities",
    "passed": true
   },
@@ -107,7 +107,7 @@
    "passed": true
   },
   {
-   "detail": "ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = -4, the atomic-clock bound |d ln alpha/dt| < 1e-17/yr and the lunar-ranging bound |d ln G/dt| < 1e-13/yr (FROM MEMORY) require |h| < 2.5e-18/yr = 3.6e-08 H0 and |h| < 2.5e-14/yr = 3.6e-04 H0 today; a block deflating at the Hubble rate would change m_e by 1.4e-09 per year: the extra times (and x0) must be frozen today, their exponential deflation confined to the primordial era",
+   "detail": "ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = +2.05, the atomic-clock bound |d ln alpha/dt| < 1e-17/yr and the lunar-ranging bound |d ln G/dt| < 1e-13/yr (FROM MEMORY) require |h| < 2.5e-18/yr = 3.6e-08 H0 and |h| < 4.9e-14/yr = 7.1e-04 H0 today; a block deflating at the Hubble rate would change m_e by 1.4e-09 per year: the extra times (and x0) must be frozen today, their exponential deflation confined to the primordial era",
    "name": "A6_block_frozen_today",
    "passed": true
   }

@@ -12,7 +12,8 @@ generators).  With u = e^{-3 eta t/2} w, q^2 = Lambda - 9 eta^2/4, the exact con
 (q = i kappa below the gap 9 eta^2/4).  Cross-checked by quadratic finite elements.
 Fermions (doublet L with c_L = f mu_L L > 0, singlet R with c_R < 0, in the selected blocks; tip mixing kappa_f):
   D(e) = e^2 s_L s_R - kappa_f^2 (C_L - c_L s_L)(C_R + c_R s_R) = 0,  s = sinh(w)/w, C = cosh(w), w = sqrt(c^2 - e^2);
-first order: e = kappa_f zeta(c_L) zeta(c_R), zeta(c)^2 = c e^{-c}/sinh c.  Cross-checked by direct ODE shooting.
+first order: e = kappa_f zeta(c_L) zeta(-c_R), zeta(c)^2 = c e^{-c}/sinh c (c_L > 0, c_R < 0: both zero modes at the fold;
+the code evaluates zeta at |c|).  Cross-checked by direct ODE shooting.
 Writes outputs/masses.json, reports/masses-checks.json.
 """
 import math

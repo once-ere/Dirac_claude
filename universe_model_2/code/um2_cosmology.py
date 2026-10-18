@@ -10,7 +10,8 @@ linear perturbations obey the standard Einstein-Boltzmann equations.  The model'
   the Psi_A fold band: two massless Weyl species with the neutrino's Z coupling (r^2 = 0.992), decoupled with the
   neutrinos (T = T_nu): N_eff = 3.044 in total;
   optionally the Psi_B fold band (two sterile Weyl species) if it was thermalised above the QCD crossover:
-  Delta N_eff = 2 (7.25/g_s)^{4/3} (0.18 for g_s = 44.25, 0.14 for g_s = 53.25);
+  Delta N_eff = 2 (10.75/g_s)^{4/3} with g_s counting the plasma it decouples from (photons, gluons, u, d, e, nu_e and the two
+  Psi_A species): 0.274 for decoupling just above the QCD crossover (g_s = 47.75), 0.218 above the electroweak scale (g_s = 56.75);
   baryons (u, d confined in p, n; omega_b), dark matter (the Psi_B odd quanta; omega_c), Lambda4 (flatness).
 The comparison model is Planck 2018 LCDM (three neutrinos, sum m_nu = 0.06 eV).  theta_* is held at the Planck value
 (H0 fitted), so the CMB peaks match and the BAO are a test.
@@ -79,7 +80,9 @@ def main():
     Neff = ew['N_eff']
     lcdm, cl0 = run('Planck 2018 LCDM (3 nu, sum 0.06 eV)', 1, 0.06, 3.044)
     um2, cl1 = run('UM-2: nu_e (0.05 eV) + 2 Psi_A (massless), Psi_B not thermalised', 1, 0.05, Neff)
-    dB = 2 * (7.25 / 44.25) ** (4.0 / 3.0)
+    # g_s at neutrino decoupling: photons 2 + e 3.5 + nu_e 1.75 + Psi_A 3.5 = 10.75; just above the QCD crossover:
+    # + gluons 16 + u, d 21 = 47.75 (the Psi_B fold band is the decoupling species and is not counted)
+    dB = 2 * (10.75 / 47.75) ** (4.0 / 3.0)
     um2b, cl2 = run('UM-2 with the Psi_B fold band thermalised above the QCD crossover', 1, 0.05, Neff + dB)
     out = {'models': [lcdm, um2, um2b], 'Delta_Neff_PsiB_QCD': dB}
     # comparisons
@@ -113,10 +116,14 @@ def main():
     rep.check('bao_desi', um2['bao_chi2'] < 40,
               'DESI DR2 BAO chi^2 = %.2f for 13 measurements (LCDM with Planck parameters: %.2f; with thermalised Psi_B: %.2f)' % (
                   um2['bao_chi2'], lcdm['bao_chi2'], um2b['bao_chi2']))
-    rep.check('psiB_variant_cmb_shift', True,
-              'variant with the Psi_B fold band thermalised (N_eff = %.3f) at fixed Planck omega_b, omega_c, theta_*: TT changes by up to %.2e '
+    dB_ew = 2 * (10.75 / 56.75) ** (4.0 / 3.0)
+    out['Delta_Neff_PsiB_EW'] = dB_ew
+    rep.check('psiB_variant_cmb_shift', abs(um2b['Neff'] - (Neff + dB)) < 1e-9 and abs(dB - 0.2743) < 5e-4 and abs(dB_ew - 0.2179) < 5e-4,
+              'variant with the Psi_B fold band thermalised above the QCD crossover (Delta N_eff = 2 (10.75/47.75)^{4/3} = %.4f; %.4f for decoupling '
+              'above the electroweak scale, g_s = 56.75), N_eff = %.3f, at fixed Planck omega_b, omega_c, theta_*: TT changes by up to %.2e '
               '(%.1f cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 = %.0f): it is NOT a fit to the CMB; a joint '
-              'CMB + BAO fit of this variant is OPEN' % (Neff + dB, out['PsiB_variant_max_rel_dev_TT'], out['PsiB_variant_max_dev_in_cosmic_variance_units'],
+              'CMB + BAO fit of this variant is OPEN' % (dB, dB_ew, Neff + dB, out['PsiB_variant_max_rel_dev_TT'],
+                                                         out['PsiB_variant_max_dev_in_cosmic_variance_units'],
                                                          out['PsiB_variant_TT_chi2_cosmic_variance_full_sky']))
     rep.check('neff_and_helium', abs(um2['Neff'] - 3.044) < 1e-6,
               'N_eff = %.4f (BBN helium fraction Y_He = %.5f from the CAMB/BBN interpolation, LCDM %.5f)' % (um2['Neff'], um2['YHe'], lcdm['YHe']))

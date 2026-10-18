@@ -225,13 +225,21 @@ def main():
         c = masses['fermions'][n]['c']
         sens['m_' + n] = -1.0 + float((mp.log(zeta2(c * (1 + h))) - mp.log(zeta2(c * (1 - h)))) / (math.log(1 + h) - math.log(1 - h)))
     sens['M_DM'] = sp_['dln_eps_dm_dln_f']
-    sens['G_N and alpha (1/V_perp)'] = -4.0
+    # 8 pi G_N = kappa/(G(k) V_perp) with V_perp ~ f^4 and k = 1/f^2: d ln G_N/d ln f = -4 + 2 k G'(k)/G(k);
+    # the gauge couplings g^2 = ghat^2/V_perp: d ln alpha/d ln f = -4
+    bgd = read_json(os.path.join(OUT, 'background.json'))['casimir_type']
+    kst, Gst = bgd['k_star_value'], bgd['G_k_star_value']
+    w2a, w3a = 1.0 / 32.0, 1.0 / 1152.0
+    dG = -24 * w2a + 144 * w3a * kst
+    sens['G_N'] = -4.0 + 2 * kst * dG / Gst
+    sens['alpha and the gauge couplings (1/V_perp)'] = -4.0
     out['sensitivities_dlnX_dlnf'] = sens
     prim = read_json(os.path.join(OUT, 'primordial.json'))
     rep.check('A5_sensitivities', sens['m_e'] < -15 and -1.2 < sens['M_DM'] < 0,
-              'd ln X/d ln f: KK -1, m_W %.3f, m_e %.1f, m_u %.1f, m_d %.1f, m_nu %.1f, M_DM %.3f, G_N and alpha -4: the masses track the block; the '
-              'stabilised block (radion mass %.0f GeV) freezes them after the primordial era' % (
-                  sens['m_W'], sens['m_e'], sens['m_u'], sens['m_d'], sens['m_nu'], sens['M_DM'], sc['radion_mass_GeV']))
+              'd ln X/d ln f: KK -1, m_W %.3f, m_e %.1f, m_u %.1f, m_d %.1f, m_nu %.1f, M_DM %.3f, alpha and the gauge couplings -4, '
+              'G_N %+.3f (= -4 + 2 k* G\'(k*)/G(k*): the Lovelock factor of the 4D Newton constant also varies with the block): the masses '
+              'track the block; the stabilised block (radion mass %.0f GeV) freezes them after the primordial era' % (
+                  sens['m_W'], sens['m_e'], sens['m_u'], sens['m_d'], sens['m_nu'], sens['M_DM'], sens['G_N'], sc['radion_mass_GeV']))
 
     # ---------------- B dark matter ----------------
     ew = read_json(os.path.join(OUT, 'electroweak.json'))
@@ -408,20 +416,20 @@ def main():
               'problem of UM-2 (OPEN)' % (mr, rad[1]['tau_s'], rad[1]['T_RH_MeV'], Cmin))
 
     # A6: how static must the block be today?  Every mass and coupling depends on f (A5); a block rate h = f'/f today changes
-    # alpha by d ln alpha/dt = -4 h and m_e by d ln m_e/dt = -20.6 h.  Atomic-clock bound |d ln alpha/dt| < 1e-17 per year and
-    # lunar-laser-ranging bound |d ln G/dt| < 1e-13 per year (FROM MEMORY) -> bounds on |h| (ESTIMATE).
+    # alpha by d ln alpha/dt = -4 h, G_N by (d ln G_N/d ln f) h and m_e by -20.6 h.  Atomic-clock bound |d ln alpha/dt| < 1e-17
+    # per year and lunar-laser-ranging bound |d ln G/dt| < 1e-13 per year (FROM MEMORY) -> bounds on |h| (ESTIMATE).
     H0_per_yr = 67.43 * 1e3 / 3.0857e22 * 3.15576e7
-    h_alpha = 1e-17 / 4.0
-    h_G = 1e-13 / 4.0
+    h_alpha = 1e-17 / abs(sens['alpha and the gauge couplings (1/V_perp)'])
+    h_G = 1e-13 / abs(sens['G_N'])
     out['block_rate_today_bound'] = {'H0_per_yr': H0_per_yr, 'h_max_from_alpha_per_yr': h_alpha, 'h_max_from_G_per_yr': h_G,
                                      'h_max_over_H0_alpha': h_alpha / H0_per_yr, 'h_max_over_H0_G': h_G / H0_per_yr,
                                      'm_e_drift_if_h_equals_H0_per_yr': 20.6 * H0_per_yr}
     rep.check('A6_block_frozen_today', h_alpha / H0_per_yr < 1e-6,
-              'ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = -4, the atomic-clock bound |d ln alpha/dt| < 1e-17/yr and the '
+              'ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = %+.2f, the atomic-clock bound |d ln alpha/dt| < 1e-17/yr and the '
               'lunar-ranging bound |d ln G/dt| < 1e-13/yr (FROM MEMORY) require |h| < %.1e/yr = %.1e H0 and |h| < %.1e/yr = %.1e H0 today; '
               'a block deflating at the Hubble rate would change m_e by %.1e per year: the extra times (and x0) must be frozen today, '
               'their exponential deflation confined to the primordial era' % (
-                  h_alpha, h_alpha / H0_per_yr, h_G, h_G / H0_per_yr, 20.6 * H0_per_yr))
+                  sens['G_N'], h_alpha, h_alpha / H0_per_yr, h_G, h_G / H0_per_yr, 20.6 * H0_per_yr))
 
     # figures
     import matplotlib
