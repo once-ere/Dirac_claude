@@ -422,20 +422,30 @@ def main():
         lbl[name] = {'L_km': Lkm, 'E_MeV': EMeV, 'rho': rho, 'P_mue_nu': float(Pn[0, 1]), 'P_mue_antinu': float(Pa[0, 1]),
                      'P_mue_nu_vacuum': float(Pv[0, 1]), 'P_mumu_nu': float(Pn[1, 1])}
     out['long_baseline'] = lbl
-    # MSW resonance energies (1-3 at rho = 2.8, 1-2) and a check of the exact two-flavour formula in the 1-3 limit
+    # MSW resonance energies.  1-3: rotating the flavour basis by R23 (which commutes with diag(V, 0, 0)) leaves, for dm2_21 -> 0, a
+    # two-flavour (e, tau') problem with angle theta13 and the full potential V: 2 E V = dm2_31 cos 2theta13; with dm2_21 the
+    # effective splitting is dm2_ee = c12^2 dm2_31 + s12^2 dm2_32 = dm2_31 - s12^2 dm2_21.  1-2 (the Sun): after the 1-3 rotation the
+    # 1-2 problem sees V c13^2: 2 E V c13^2 = dm2_21 cos 2theta12.  The exact three-flavour resonance is where the heaviest matter
+    # eigenstate is half nu_e, |U_e3^m|^2 = 1/2 (root of the exact Hamiltonian).
     Vm = V_of_rho(2.8)
     c2t13 = 1 - 2 * nu['sin2_theta13']
-    E_res13 = nu['dm2_31_eV2'] * c2t13 / (2 * Vm * (1 - nu['sin2_theta13']))      # V c13^2 in the 1-3 two-flavour limit
+    dm2_ee = nu['dm2_31_eV2'] - nu['sin2_theta12'] * nu['dm2_21_eV2']
+    E_res13 = dm2_ee * c2t13 / (2 * Vm)
+    E_res13_2fl = nu['dm2_31_eV2'] * c2t13 / (2 * Vm)
+
+    def ue3_matter(E):
+        wr_, Qr_ = np.linalg.eigh(hamiltonian(U, m2, E, Vm))
+        return abs(Qr_[0, 2]) ** 2
+    E_res13_exact = brentq(lambda E: ue3_matter(E) - 0.5, 0.3 * E_res13, 3.0 * E_res13, xtol=1e-6 * E_res13)
     E_res12_sun = nu['dm2_21_eV2'] * (1 - 2 * nu['sin2_theta12']) / (2 * SQ2GF_CM3 * 100 * NA * (1 - nu['sin2_theta13']))
-    out['MSW_resonance'] = {'E_res_13_rho2p8_GeV': E_res13 * 1e-9, 'E_res_12_sun_center_MeV': E_res12_sun * 1e-6}
-    # in-matter mixing at the 1-3 resonance from the exact three-flavour Hamiltonian
-    Hres = hamiltonian(U, m2, E_res13, Vm)
-    wr, Qr = np.linalg.eigh(Hres)
-    Ue3_m = abs(Qr[0, 2]) ** 2
-    rep.check('MSW_resonance_13', 0.35 < Ue3_m < 0.65,
-              'at E_res = dm2_31 cos(2 theta13)/(2 V c13^2) = %.2f GeV (rho = 2.8 g/cm^3, Y_e = 0.5) the heaviest matter eigenstate has '
-              '|U_e3^m|^2 = %.3f (maximal mixing 1/2 up to the 1-2 and 2-3 admixtures); the 1-2 resonance at the centre of the Sun lies at %.2f MeV' % (
-                  E_res13 * 1e-9, Ue3_m, E_res12_sun * 1e-6))
+    out['MSW_resonance'] = {'E_res_13_rho2p8_GeV': E_res13 * 1e-9, 'E_res_13_rho2p8_exact_GeV': E_res13_exact * 1e-9,
+                            'E_res_13_rho2p8_dm2_31_only_GeV': E_res13_2fl * 1e-9, 'E_res_12_sun_center_MeV': E_res12_sun * 1e-6,
+                            'Ue3_matter_at_formula_energy': ue3_matter(E_res13)}
+    rep.check('MSW_resonance_13', abs(E_res13 / E_res13_exact - 1) < 1e-3,
+              'the 1-3 MSW resonance in matter of rho = 2.8 g/cm^3 (Y_e = 0.5): E_res = dm2_ee cos(2 theta13)/(2 V) = %.3f GeV (dm2_ee = c12^2 dm2_31 '
+              '+ s12^2 dm2_32) against the exact three-flavour resonance |U_e3^m|^2 = 1/2 at %.3f GeV (relative %.1e; with dm2_31 alone %.2f GeV); '
+              'the 1-2 resonance at the centre of the Sun (2 E V c13^2 = dm2_21 cos 2theta12) lies at %.2f MeV' % (
+                  E_res13 * 1e-9, E_res13_exact * 1e-9, E_res13 / E_res13_exact - 1, E_res13_2fl * 1e-9, E_res12_sun * 1e-6))
     rep.check('long_baseline_matter_and_CP', all(abs(v['P_mue_nu'] - v['P_mue_antinu']) > 1e-3 for v in lbl.values()),
               'nu_mu -> nu_e appearance (normal ordering, delta = 212 deg, matter of constant density): ' + '; '.join(
                   '%s %.0f km %.1f GeV: P(nu) = %.4f, P(antinu) = %.4f (vacuum %.4f)' % (k, v['L_km'], v['E_MeV'] / 1e3, v['P_mue_nu'],
@@ -515,7 +525,8 @@ def main():
               '(Gauss-Legendre panels; the logarithmic singularity of J2 removed by q = p(1 - s^2))' % (
                   abs(r_hi[3] / (-5 * E2 * Thi ** 4 / 288) - 1), abs(r_hi[4] / (E2 ** 1.5 * Thi ** 4 / (36 * math.sqrt(3) * math.pi)) - 1),
                   abs(r_hi[0] / (7 * math.pi ** 2 / 60 * Thi ** 4) - 1)))
-    # Escudero's effective couplings (g_eL = 1/2 + s^2, g_eR = s^2, g_muL = -1/2 + s^2 with s^2 = 0.233)
+    # Escudero's effective low-energy couplings with radiative corrections (arXiv:2001.04466, eq. 3.5): g_eL = 0.727, g_eR = 0.233,
+    # g_muL = -0.273, g_muR = 0.233 (the tree-level forms are 1/2 + s^2, s^2, -1/2 + s^2, s^2)
     cE = (0.727, 0.233, -0.273, 0.233)
     s2c = 1 - (val('m_W_GeV') / val('m_Z_GeV')) ** 2 / (1 + val('rho0_minus_1'))      # UM-2 tree-level angle of the couplings
     cU = (0.5 + s2c, s2c, -0.5 + s2c, s2c)

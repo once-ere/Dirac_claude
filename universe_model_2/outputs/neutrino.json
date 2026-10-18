@@ -45,7 +45,10 @@
  },
  "MSW_resonance": {
   "E_res_12_sun_center_MeV": 1.92684099788,
-  "E_res_13_rho2p8_GeV": 11.4926154501
+  "E_res_13_rho2p8_GeV": 11.1348893081,
+  "E_res_13_rho2p8_dm2_31_only_GeV": 11.2380540179,
+  "E_res_13_rho2p8_exact_GeV": 11.1331482128,
+  "Ue3_matter_at_formula_energy": 0.50025375289
  },
  "N_eff_UM2_computed": {
   "common_UM2_tree_couplings": 3.04811348514,

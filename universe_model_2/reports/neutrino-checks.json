@@ -12,7 +12,7 @@
    "passed": true
   },
   {
-   "detail": "at E_res = dm2_31 cos(2 theta13)/(2 V c13^2) = 11.49 GeV (rho = 2.8 g/cm^3, Y_e = 0.5) the heaviest matter eigenstate has |U_e3^m|^2 = 0.552 (maximal mixing 1/2 up to the 1-2 and 2-3 admixtures); the 1-2 resonance at the centre of the Sun lies at 1.93 MeV",
+   "detail": "the 1-3 MSW resonance in matter of rho = 2.8 g/cm^3 (Y_e = 0.5): E_res = dm2_ee cos(2 theta13)/(2 V) = 11.135 GeV (dm2_ee = c12^2 dm2_31 + s12^2 dm2_32) against the exact three-flavour resonance |U_e3^m|^2 = 1/2 at 11.133 GeV (relative 1.6e-04; with dm2_31 alone 11.24 GeV); the 1-2 resonance at the centre of the Sun (2 E V c13^2 = dm2_21 cos 2theta12) lies at 1.93 MeV",
    "name": "MSW_resonance_13",
    "passed": true
   },
