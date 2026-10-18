@@ -7,6 +7,16 @@ field, then in the primordial pair-creation field of the author's notebook, and
 finally a numerical investigation of whether its pressure and energy density
 behave like dark matter and/or dark energy.
 
+## The universe model UM-2: `universe_model_2/`
+
+On 2026-10-17 the author ordered a new model of the Universe: Einstein-Lovelock gravity with the author's weights and
+Lambda, the dirac16complex field (the dark-matter hypothesis) coupled through the canonical spin connection, photons,
+neutrinos, electrons, up and down quarks, gluons, W+ (charge +e), W- (charge -e) and Z, no Higgs particle, every mass from
+the x0 dependence of wave functions with period pi/(6H). The model, its provenance, its coupled field equations, an
+approximate solution with Kohn-Sham theory for dirac16complex, and the analysis of the x0 mass mechanism and of the
+dark-matter and dark-energy associations are in [`universe_model_2/`](universe_model_2/README.md) (documents as .md, .tex
+and .pdf; 179 verification checks, all passing).
+
 ## The current record: `Revision/`
 
 Since 2026-10-01 the authoritative record of the author's primordial gravitational field is the
