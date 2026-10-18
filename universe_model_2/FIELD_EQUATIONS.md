@@ -1,0 +1,421 @@
+---
+title: "UM-2 field equations"
+subtitle: 'The coupled field equations of Einstein-Lovelock gravity, the dirac16complex field, the gauge fields $G$, $W^+$, $W^-$, $W^3$ ($Z$, $\gamma$), $B$, the fermions $\nu$, $e$, $u$, $d$ and the tip sigma field, with every interaction'
+author:
+  - "Underlying theory: Patrick L. Nash"
+  - "Derived and verified by Claude (Anthropic)"
+  - "Field equations, version 1, 2026-10-17"
+  - "Repository once-ere/Dirac_claude, folder universe_model_2"
+---
+
+# How to read this document
+
+This document derives and states the complete set of coupled field equations of the universe model UM-2: the
+gravitational equations with every source, the equations of every matter field with every interaction, their boundary
+conditions, the exact background (order-0) equations, the exact reductions to the hidden coordinate $x_0$ that give the
+particle masses, the Kohn-Sham equations of dirac16complex coupled to all the other fields, and the linear (order
+$\epsilon$) equations that describe the CMB, the CNB and the BAO. It is self-contained: every equation it uses is written
+here. Labels: AUTHOR (the author's notebooks), RECORD (the Revision record of this repository), STANDARD (textbook),
+ASSUMED, INVENTED (new in UM-2), DERIVED (computed and verified in UM-2; the verification is stated), OPEN.
+
+## Coordinates, signature, units
+
+The author's coordinates are $X = \{x_0, x_1, \dots, x_7\}$: $x_0$ the hidden space-like direction, $x_1, x_2, x_3$ ordinary
+space, $x_4$ the time, $x_5, x_6, x_7$ three extra time-like directions. Frame metric
+$\eta_{ab} = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ ($a = 0, \dots, 7$ aligned with $x_0, \dots, x_7$); capital indices
+$M, N, \dots$ run over $x_0, \dots, x_7$, Greek $\mu, \nu$ over the four observable coordinates $x_1, \dots, x_4$ (signature
+$(+,+,+,-)$). $z = 6Hx_0$; one period of $x_0$ is $\pi/(6H)$. Units $\hbar = c = 1$; mass dimensions in eight dimensions:
+$[\Psi] = [\psi] = 7/2$, $[\kappa] = -6$ ($\kappa = 8\pi G_8$).
+
+## Conventions
+
+* The energy-momentum tensor is $T_{MN} = -\frac{2}{\sqrt{\lvert g\rvert}}\frac{\delta S_{matter}}{\delta g^{MN}}$ (vielbein
+  variation for spinors), so that the energy density is $\rho = -T^{x_4}{}_{x_4}$ and the pressures are $p_M = T^M{}_M$ (no sum)
+  for $M \ne x_4$; for a diagonal source $T^M{}_N = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)$.
+* Gauge fields are in the geometric normalisation: the couplings stand in front of the kinetic terms,
+  $D_M = \partial_M + \Omega_M$ $- iG^\alpha_MT^\alpha - iW^a_M\frac{\tau^a}{2} - iYB_M$, with $[G_M] = [W_M] = [B_M] = 1$ and $[\hat g^2] = -4$.
+  Formulas that show $\hat g$, $\hat g'$, $g$, $g'$ explicitly refer to the canonically normalised fields $W^a/\hat g$,
+  $B/\hat g'$, $G^\alpha/\hat g_s$, written with the same letters. The weak bosons are
+  $W^\pm = (W^1 \mp iW^2)/\sqrt2$: **$W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$**;
+  $Z = \cos\theta_W W^3 - \sin\theta_W B$, $A = \sin\theta_W W^3 + \cos\theta_W B$.
+* The gamma matrices are the author's real $16\times16$ matrices of $Cl(4,4)$, $\{\gamma^a, \gamma^b\} = 2\eta^{ab}$;
+  $\bar\Psi = \Psi^\dagger C$ with $C = \gamma^{x_0}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}$ (real, symmetric, $C^2 = 1$),
+  $B = -iC\gamma^{x_4}$ (Hermitian, eigenvalues $\pm1$, eight each), $\Gamma_4 = i\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}\gamma^{x_4}$,
+  $S^{ab} = \frac14[\gamma^a, \gamma^b]$. Since every $C\gamma^a$ is real and antisymmetric, $\bar\Psi\gamma^a\Psi$ is anti-Hermitian and
+  the Hermitian vector currents are $i\bar\Psi\gamma^a\Psi$; $\bar\Psi\Psi$ is Hermitian.
+* A delta function on the tip $y = -L$ in proper length is $\delta_{tip} = \delta(y + L)/f$.
+
+# The action
+
+$$ S = S_{EL} + S_{stab} + S_\Psi + S_{gauge} + S_f + S_{tip} + S_{I9} + S_{I11} + S_{I12} .$$
+
+**Gravity** (AUTHOR weights):
+$$ S_{EL} = \frac{1}{2\kappa}\int d^8x\sqrt{\lvert g\rvert}\Big(\sum_{k=1}^{3}\alpha_k\mathcal L_{(k)} - 2\Lambda\Big),\qquad
+   \alpha_k = w_kH^{2-2k},\quad w = \Big(1, \frac1{32}, \frac1{1152}\Big),\quad \Lambda = -10H^2, $$
+$$ \mathcal L_{(k)} = \frac{1}{2^k}\,\delta^{A_1B_1\cdots A_kB_k}_{C_1D_1\cdots C_kD_k}\,R^{C_1D_1}{}_{A_1B_1}\cdots R^{C_kD_k}{}_{A_kB_k}:\qquad
+   \mathcal L_{(1)} = R,\quad \mathcal L_{(2)} = R^2 - 4R_{AB}R^{AB} + R_{ABCD}R^{ABCD} .$$
+
+**Block stabiliser** (ASSUMED; origin OPEN):
+$$ S_{stab} = -\int d^8x\sqrt{\lvert g\rvert}\,\rho_b(f),\qquad \kappa\rho_b(f) = \kappa\rho_b^*\Big(\frac{f_*}{f}\Big)^8,\qquad f = e^{-a_4}b_4^{1/2},$$
+whose energy-momentum tensor is $T^M{}_N[\text{stab}] = \mathrm{diag}(\rho_b, -\rho_b, -\rho_b, -\rho_b, -\rho_b, \rho_b, \rho_b, \rho_b)$.
+
+**dirac16complex** (RECORD Lagrangian, canonical spin connection):
+$$ S_\Psi = \int d^8x\sqrt{\lvert g\rvert}\Big[\tfrac12\big(\bar\Psi\gamma^MD_M\Psi - (D_M\bar\Psi)\gamma^M\Psi\big) - m\bar\Psi\Psi - \frac{\lambda}{2}(\bar\Psi\Psi)^2\Big],\qquad m = 3HM = H, $$
+$$ D_M\Psi = \partial_M\Psi + \Omega_M\Psi,\quad D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M,\quad \Omega_M = \tfrac12\omega_{Mab}S^{ab},$$
+$$ \omega_M{}^a{}_b = e^a{}_N\big(\partial_Me_b{}^N + \Gamma^N{}_{ML}e_b{}^L\big),\qquad \gamma^M = e_a{}^M\gamma^a .$$
+
+**Gauge fields** (ASSUMED structure; $SU(3)_c\times SU(2)_L\times U(1)_Y$ in eight dimensions):
+$$ S_{gauge} = -\frac14\int d^8x\sqrt{\lvert g\rvert}\Big(\frac{1}{\hat g_s^2}G^\alpha_{MN}G^{\alpha MN} + \frac{1}{\hat g^2}W^a_{MN}W^{aMN} + \frac{1}{\hat g'^2}B_{MN}B^{MN}\Big), $$
+$$ G^\alpha_{MN} = \partial_MG^\alpha_N - \partial_NG^\alpha_M + f^{\alpha\beta\gamma}G^\beta_MG^\gamma_N,\quad
+   W^a_{MN} = \partial_MW^a_N - \partial_NW^a_M + \epsilon^{abc}W^b_MW^c_N,\quad B_{MN} = \partial_MB_N - \partial_NB_M .$$
+
+**Fermions** (one generation; ASSUMED structure, boundary conditions INVENTED):
+$$ S_f = \sum_{\psi}\int d^8x\sqrt{\lvert g\rvert}\Big[\tfrac12\big(\bar\psi\gamma^MD_M\psi - (D_M\bar\psi)\gamma^M\psi\big) - \mu_\psi\bar\psi\psi\Big],\qquad
+   \psi \in \{Q, u_R, d_R, L, e_R, \nu_R\},$$
+with $Q = (u, d)_L$ ($\mathbf 3, \mathbf 2, 1/6$), $u_R$ ($\mathbf 3, \mathbf 1, 2/3$), $d_R$ ($\mathbf 3, \mathbf 1, -1/3$),
+$L = (\nu, e)_L$ ($\mathbf 1, \mathbf 2, -1/2$), $e_R$ ($\mathbf 1, \mathbf 1, -1$), $\nu_R$ ($\mathbf 1, \mathbf 1, 0$); $Q = T_3 + Y$.
+
+**The tip sigma field** (INVENTED; no Higgs particle), on the seven-dimensional tip $y = -L$:
+$$ S_{tip} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\Big[-\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
+   - \big(\bar L\,\Sigma\,\Lambda_\ell\,\ell_R + \bar Q\,\Sigma\,\Lambda_q\,q_R + \text{h.c.}\big)\Big],\qquad \Sigma \in SU(2), $$
+$$ D_\mu\Sigma = \partial_\mu\Sigma - iW^a_\mu\frac{\tau^a}{2}\Sigma + iB_\mu\Sigma\frac{\tau^3}{2},\qquad \ell_R = (\nu_R, e_R)^T,\quad q_R = (u_R, d_R)^T,$$
+$$ \Lambda_\ell = \mathrm{diag}(\lambda_\nu, \lambda_e),\qquad \Lambda_q = \mathrm{diag}(\lambda_u, \lambda_d),$$
+invariant under $\Sigma \to U_L\Sigma U_Y^\dagger$, $U_Y = e^{i\theta\tau^3/2}$.
+
+**Portals** (INVENTED):
+$$ S_{I9} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\,(c_Z + c'_Z\varsigma)\,(i\bar\Psi\gamma^\mu P_+\Psi)\,\mathcal Z_\mu,\qquad
+   \mathcal Z_\mu = \frac{iv_\Sigma^2}{2}\mathrm{tr}\big(\Sigma^\dagger D_\mu\Sigma\,\tau^3\big),\qquad P_+ = \frac{1 + \Gamma_4}{2},\quad \varsigma = \pm1,$$
+$$ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}\,(i\bar\Psi\gamma^M\Psi)\,\mathcal J_M,\qquad \mathcal J_M = \sum_\psi q_\psi\,(i\bar\psi\gamma_M\psi),$$
+$$ S_{I12} = -\int d^8x\sqrt{\lvert g\rvert}\;\frac{\bar\Psi\Psi}{\Lambda_\star^3}\,\mathcal F,\qquad
+   \mathcal F = c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN} .$$
+In the unitary gauge $\Sigma = 1$: $\mathcal Z_\mu = \frac{v_\Sigma^2}{2}\sqrt{\hat g^2 + \hat g'^2}\,Z_\mu$, and the sigma-field kinetic term becomes
+$-\frac{v_\Sigma^2}{8}\big[2\hat g^2W^+_\mu W^{-\mu} + (\hat g^2 + \hat g'^2)Z_\mu Z^\mu\big]$ (canonical fields).
+
+# The gravitational field equations
+
+Varying $S$ with respect to the metric gives
+$$ \sum_{k=1}^{3}\alpha_k\,E_{(k)}{}^M{}_N + \Lambda\,\delta^M_N = \kappa\,T^M{}_N,\qquad
+   E_{(k)}{}^M{}_N = -\frac{1}{2^{k+1}}\,\delta^{MA_1B_1\cdots A_kB_k}_{NC_1D_1\cdots C_kD_k}\,R^{C_1D_1}{}_{A_1B_1}\cdots R^{C_kD_k}{}_{A_kB_k}, $$
+$E_{(1)}$ being the Einstein tensor. Every $E_{(k)}$ is divergence-free identically (DERIVED for the order-0 metric for
+$k = 1, 2, 3$), so the field equations imply $\nabla_MT^M{}_N = 0$, which holds on the matter field equations. The total
+source is
+$$ T^M{}_N = T^M{}_N[\text{stab}] + T^M{}_N[\Psi] + T^M{}_N[\text{gauge}] + T^M{}_N[f] + T^M{}_N[\text{tip}] + T^M{}_N[I9] + T^M{}_N[I11] + T^M{}_N[I12] .$$
+
+## The energy-momentum tensors
+
+**Stabiliser.** $\rho_b$ depends on the metric through the proper block volume $V_b \propto f^4$, $\rho_b \propto V_b^{-2}$;
+the variation gives $T_{\mu\nu} = -g_{\mu\nu}\rho_b$ for $\mu, \nu \in \{x_1, \dots, x_4\}$ and $T_{AB} = +g_{AB}\rho_b$ for
+$A, B \in \{x_0, x_5, x_6, x_7\}$, i.e. $\rho = \rho_b$, $p_3 = -\rho_b$, $p_0 = p_t = \rho_b$.
+
+**dirac16complex** (and every Standard-Model fermion with $m \to \mu_\psi$, $\lambda \to 0$, $D_M$ with gauge fields):
+$$ T_{MN}[\Psi] = -\frac12\Big[\bar\Psi\gamma_{(M}D_{N)}\Psi - \big(D_{(M}\bar\Psi\big)\gamma_{N)}\Psi\Big] + g_{MN}\,\hat{\mathcal L}_\Psi,\qquad
+   \hat{\mathcal L}_\Psi = \tfrac12\big(\bar\Psi\gamma^PD_P\Psi - (D_P\bar\Psi)\gamma^P\Psi\big) - mS - \frac{\lambda}{2}S^2, $$
+with $X_{(MN)} = \frac12(X_{MN} + X_{NM})$ and $S = \bar\Psi\Psi$. On shell for a homogeneous state this gives $\rho = mS + U$,
+$p = SU' - U$ with $U = \frac{\lambda}{2}S^2$ (the record's convention, $\rho = -T^{x_4}{}_{x_4}$).
+
+**Gauge fields:**
+$$ \begin{aligned} T_{MN}[\text{gauge}] = &\frac{1}{\hat g_s^2}\Big(G^\alpha_{MP}G^\alpha{}_N{}^P - \frac14g_{MN}G^\alpha_{PQ}G^{\alpha PQ}\Big) + \frac{1}{\hat g^2}\Big(W^a_{MP}W^a{}_N{}^P - \frac14g_{MN}W^a_{PQ}W^{aPQ}\Big)\\
+   &+ \frac{1}{\hat g'^2}\Big(B_{MP}B_N{}^P - \frac14g_{MN}B_{PQ}B^{PQ}\Big). \end{aligned} $$
+
+**Tip** (for $\mu, \nu$ tangent to the tip; zero for the $y$ components):
+$$ T_{\mu\nu}[\text{tip}] = \delta_{tip}\Big[\frac{v_\Sigma^2}{2}\,\mathrm{tr}\big((D_{(\mu}\Sigma)^\dagger D_{\nu)}\Sigma\big) + g_{\mu\nu}\,\hat{\mathcal L}_{tip}\Big],\qquad
+   \hat{\mathcal L}_{tip} = -\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D\Sigma)^\dagger D\Sigma\big) - \big(\bar L\Sigma\Lambda_\ell\ell_R + \bar Q\Sigma\Lambda_qq_R + \text{h.c.}\big).$$
+
+**Portals.** The frame currents $i\bar\Psi\gamma^a\Psi$, $i\bar\psi\gamma^a\psi$ and the scalars $\bar\Psi\Psi$ do not depend on the vielbein,
+so only $\sqrt{\lvert g\rvert}$ and the explicit metric factors vary:
+$$ T_{MN}[I11] = g_{MN}\,\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^P\Psi)\mathcal J_P,$$
+$$ T_{MN}[I12] = \frac{4\bar\Psi\Psi}{\Lambda_\star^3}\Big[c_G\Big(G^\alpha_{MP}G^\alpha{}_N{}^P - \frac14g_{MN}G^\alpha_{PQ}G^{\alpha PQ}\Big) + (W, c_W) + (B, c_B)\Big], $$
+so I12 acts as a field-dependent gauge coupling, $1/\hat g_i^2 \to 1/\hat g_i^2 + 4c_i\bar\Psi\Psi/\Lambda_\star^3$. The tip portal I9
+contains the vielbein through $\gamma^\rho = e_a{}^\rho\gamma^a$ only ($\mathcal Z_\rho$ carries a lower index and no metric), so
+$$ T_{\mu\nu}[I9] = \delta_{tip}\,(c_Z + c'_Z\varsigma)\Big[g_{\mu\nu}\,(i\bar\Psi\gamma^\rho P_+\Psi)\mathcal Z_\rho - (i\bar\Psi\gamma_{(\mu}P_+\Psi)\,\mathcal Z_{\nu)}\Big].$$
+
+# The matter field equations
+
+## dirac16complex
+
+$$ \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\,\frac{c_V}{\Lambda_\star^6}\,\mathcal J_M\gamma^M\Psi
+   - i\,\delta_{tip}\,(c_Z + c'_Z\varsigma)\,\mathcal Z_\mu\gamma^\mu P_+\Psi, $$
+and its conjugate. The gravitational term is $\gamma^M\Omega_M$; for the order-0 metric (DERIVED, exact for every $a_4$, $b_4$
+and on both halves of a period)
+$$ \gamma^M\Omega_M = \frac32\,\frac{H}{f}\,\gamma^{x_0} + \Big(\frac{\dot b_4}{b_4} - \frac{\dot a_4}{2}\Big)\gamma^{x_4}, $$
+which vanishes only in flat 4+4 space ($H = 0$, constant $a_4$, $b_4$): the coupling of $\Psi$ to gravity is non-trivial.
+$\Psi$ is a singlet of the Standard-Model group: it couples to the Standard Model only through I9, I11, I12.
+
+## The Standard-Model fermions
+
+For a multiplet $\psi$ of charge $q_\psi$ (I11),
+$$ \gamma^MD_M\psi = \mu_\psi\,\psi - i\,\frac{c_V}{\Lambda_\star^6}\,q_\psi\,(i\bar\Psi\gamma_M\Psi)\,\gamma^M\psi + \delta_{tip}\,(\text{Yukawa}),$$
+$$ (\text{Yukawa})_L = \Sigma\Lambda_\ell\,\ell_R,\quad (\text{Yukawa})_{\ell_R} = \Lambda_\ell\Sigma^\dagger L,\quad (\text{Yukawa})_Q = \Sigma\Lambda_q\,q_R,\quad (\text{Yukawa})_{q_R} = \Lambda_q\Sigma^\dagger Q .$$
+The tip terms are equivalent to the self-adjoint mixing conditions at $y = -L$ (DERIVED; block form $\chi = (a, ib)$)
+$$ b_L(-L) = \kappa_f\,b_R(-L),\qquad a_R(-L) = -\kappa_f\,a_L(-L),$$
+with $\kappa_f$ the tip mixing of the fermion ($\kappa_f = 1$ in UM-2, ASSUMED).
+
+## The gauge fields
+
+With the fermion currents $j^{\alpha N}_s = \sum_q i\bar q\gamma^NT^\alpha q$, $j^{aN} = \sum_{\text{doublets}} i\bar\psi\gamma^N\frac{\tau^a}{2}\psi$,
+$j^N_Y = \sum_\psi Y_\psi\,i\bar\psi\gamma^N\psi$, the effective inverse couplings
+$\frac{1}{\hat g_{i,eff}^2} = \frac{1}{\hat g_i^2} + \frac{4c_i\bar\Psi\Psi}{\Lambda_\star^3}$ (I12), and in the unitary gauge $\Sigma = 1$ (geometric fields),
+$$ D_M\Big(\frac{1}{\hat g_{s,eff}^2}G^{\alpha MN}\Big) = j^{\alpha N}_s,$$
+$$ D_M\Big(\frac{1}{\hat g_{eff}^2}W^{1,2\,MN}\Big) = j^{1,2\,N} + \delta_{tip}\frac{v_\Sigma^2}{4}W^{1,2\,N},$$
+$$ D_M\Big(\frac{1}{\hat g_{eff}^2}W^{3\,MN}\Big) = j^{3N} + \delta_{tip}\Big[\frac{v_\Sigma^2}{4}(W^3 - B)^N - (c_Z + c'_Z\varsigma)\frac{v_\Sigma^2}{2}(i\bar\Psi\gamma^NP_+\Psi)\Big],$$
+$$ \nabla_M\Big(\frac{1}{\hat g'^2_{eff}}B^{MN}\Big) = j^N_Y - \delta_{tip}\Big[\frac{v_\Sigma^2}{4}(W^3 - B)^N - (c_Z + c'_Z\varsigma)\frac{v_\Sigma^2}{2}(i\bar\Psi\gamma^NP_+\Psi)\Big],$$
+where $N$ runs over the tip directions in the $\delta_{tip}$ terms. The tip terms are mass terms for $W^\pm$ and $Z$ only:
+the combination $A = \sin\theta_WW^3 + \cos\theta_WB$ (canonical fields) receives none, and the photon stays massless; the
+$\Psi$ current enters only through $Z$. For an $x_0$ profile these tip terms become the Robin conditions of section 6.1.
+
+## The tip sigma field
+
+$\Sigma$ has no radial mode. Its equations of motion are the Noether identities of the gauge symmetry: they follow from
+the divergence of the tip parts of the gauge-field equations (STANDARD for a gauged non-linear sigma model), so in the
+unitary gauge $\Sigma = 1$ they are not independent; its three modes are the longitudinal $W^+$, $W^-$ and $Z$.
+
+## Boundary conditions
+
+The variational principle with the fold reflection $R: z \to \pi - z$ and the regular tip at $y = -L$ gives:
+
+* **gravity and gauge fields**: even (Neumann) or odd (Dirichlet) at the fold, $\partial_yu = 0$ or $u = 0$; at the tip the
+  natural (Robin) condition from the tip terms;
+* **dirac16complex**: fold $(1 - \gamma^{x_0})\Psi = 0$ (even) or $(1 + \gamma^{x_0})\Psi = 0$ (odd), both parities being modes of the
+  full period; tip $(1 - \gamma^{x_0})\Psi = 0$;
+* **Standard-Model fermions**, with $P_{sel} = \frac{1 + \Gamma_4\gamma^{x_0}}{2}\,\frac{1 - i\gamma^{x_5}\gamma^{x_6}}{2}$: doublets ($\mu_\psi > 0$)
+  $P_{sel}(1 - \gamma^{x_0})\psi = 0$ and $(1 - P_{sel})(1 + \gamma^{x_0})\psi = 0$ at the fold, $(1 - \gamma^{x_0})\psi = 0$ at the tip; singlets
+  ($\mu_\psi < 0$) the same with $\gamma^{x_0} \to -\gamma^{x_0}$; at the tip modified by the mixing conditions above.
+
+Each condition is Lagrangian for the boundary form of the Dirac operator, so every operator is self-adjoint (DERIVED).
+
+# The background (order 0)
+
+## The metric, the variables and the curvature
+
+The order-0 metric is the corrected primordial metric of the Revision record (version 2) in the author's coordinates,
+$$ \begin{aligned} \bar g = \mathrm{diag}\big(&e^{-2a_4}b_4\cot^2z,\; e^{2a_4},\; e^{2a_4},\; e^{2a_4},\; -1,\\
+   &-e^{-2a_4}b_4(\sin^2z)^{1/6},\; -e^{-2a_4}b_4(\sin^2z)^{1/6},\; -e^{-2a_4}b_4(\sin^2z)^{1/6}\big),\qquad z = 6Hx_0, \end{aligned} $$
+with $a_4(x_4)$, $b_4(x_4) > 0$. With $y = \ln\lvert\sin z\rvert/(6H)$ ($dy = \cot z\,dx_0$) it reads
+$$ ds^2 = e^{2a_4}d\vec x^{\,2} - dx_4^2 + f^2\big[dy^2 - e^{2Hy}d\vec x_t^{\,2}\big],\qquad
+   f = e^{-a_4}b_4^{1/2},\quad k = \frac{1}{f^2},\quad A = \dot a_4,\quad h = \frac{\dot f}{f} = \frac{\dot b_4}{2b_4} - \dot a_4 ,$$
+dots denoting $d/dx_4$; $\dot k = -2kh$. $\sqrt{\lvert\bar g\rvert} = e^{3a_4}f^4\lvert\cot z\rvert(\sin^2z)^{1/4} = e^{3a_4}f^4e^{3Hy}\lvert dy/dx_0\rvert$.
+The Riemann tensor is pair-diagonal ($R^{ab}{}_{cd} = 0$ unless $\{a,b\} = \{c,d\}$) and every sectional curvature
+$K_{ab} = R^{ab}{}_{ab}$ is one of (DERIVED, identical in both charts, independent of $x_0$)
+$$ K_{ij} = A^2,\quad K_{i4} = A^2 + \dot A,\quad K_{iB} = Ah,\quad K_{4B} = h^2 + \dot h,\quad K_{BB'} = h^2 - H^2k ,$$
+$i, j \in \{1,2,3\}$, $B, B' \in \{0, 5, 6, 7\}$. For a pair-diagonal Riemann tensor the Lovelock densities and tensors are
+(DERIVED; checked against the Ricci route, the explicit Gauss-Bonnet tensor, the Bianchi identities and the
+minisuperspace variation with a lapse)
+$$ \mathcal L_{(k)} = 2^kk!\sum_{k\text{ disjoint pairs}}\prod_{\text{pairs}}K_{ab},\qquad
+   E_{(k)}{}^h{}_h = -2^{k-1}k!\sum_{k\text{ disjoint pairs avoiding }h}\;\prod_{\text{pairs}}K_{ab} .$$
+
+## The Lovelock tensors of the background
+
+Every off-diagonal component vanishes; the $x_0$ and the extra-time components coincide,
+$E_{(k)}{}^{x_0}{}_{x_0} = E_{(k)}{}^{x_5}{}_{x_5}$, and nothing depends on $x_0$ (DERIVED). The independent components are
+$$ E_{(1)}{}^{x_4}{}_{x_4} = 6 k H^{2} - 12 A h - 6 h^{2} - 3 A^{2} $$
+$$ E_{(1)}{}^{x_1}{}_{x_1} = 6 k H^{2} - 8 A h - 4 \dot h - 10 h^{2} - 2 \dot A - 3 A^{2} $$
+$$ E_{(1)}{}^{x_0}{}_{x_0} = 3 k H^{2} - 9 A h - 3 \dot h - 6 h^{2} - 3 \dot A - 6 A^{2} $$
+$$ \begin{aligned} E_{(2)}{}^{x_4}{}_{x_4} = &144 A h k H^{2} + 24 k H^{2} h^{2} + 72 k A^{2} H^{2} - 12 H^{4} k^{2} - 48 h A^{3} - 216 A^{2} h^{2} \\
+   &- 144 A h^{3} - 12 h^{4} \end{aligned} $$
+$$ \begin{aligned} E_{(2)}{}^{x_1}{}_{x_1} = &96 A h k H^{2} + 48 \dot h k H^{2} + 72 k H^{2} h^{2} + 48 \dot A k H^{2} + 72 k A^{2} H^{2} - 96 A h \dot h \\
+   &- 32 A \dot A h - 48 \dot h h^{2} - 12 H^{4} k^{2} - 48 \dot A h^{2} - 32 h A^{3} - 16 \dot h A^{2} \\
+   &- 136 A^{2} h^{2} - 192 A h^{3} - 60 h^{4} \end{aligned} $$
+$$ \begin{aligned} E_{(2)}{}^{x_0}{}_{x_0} = &36 A h k H^{2} + 12 \dot h k H^{2} + 12 k H^{2} h^{2} + 36 \dot A k H^{2} + 72 k A^{2} H^{2} - 72 A h \dot h \\
+   &- 72 A \dot A h - 12 \dot h h^{2} - 36 \dot A h^{2} - 108 h A^{3} - 36 \dot h A^{2} - 180 A^{2} h^{2} \\
+   &- 12 \dot A A^{2} - 108 A h^{3} - 12 h^{4} - 12 A^{4} \end{aligned} $$
+$$ E_{(3)}{}^{x_4}{}_{x_4} = 864 h k A^{3} H^{2} + 1296 k A^{2} H^{2} h^{2} - 216 A^{2} H^{4} k^{2} - 1440 A^{3} h^{3} - 1080 A^{2} h^{4} $$
+$$ \begin{aligned} E_{(3)}{}^{x_1}{}_{x_1} = &576 A h \dot h k H^{2} + 576 A \dot A h k H^{2} + 288 \dot A k H^{2} h^{2} + 576 h k A^{3} H^{2} + 288 \dot h k A^{2} H^{2} + 1008 k A^{2} H^{2} h^{2} \\
+   &+ 576 A k H^{2} h^{3} - 144 \dot A H^{4} k^{2} - 864 \dot h A^{2} h^{2} - 216 A^{2} H^{4} k^{2} - 576 A \dot h h^{3} - 576 A \dot A h^{3} \\
+   &- 144 \dot A h^{4} - 576 A^{3} h^{3} - 1368 A^{2} h^{4} - 576 A h^{5} \end{aligned} $$
+$$ \begin{aligned} E_{(3)}{}^{x_0}{}_{x_0} = &432 A \dot A h k H^{2} + 648 h k A^{3} H^{2} + 216 \dot h k A^{2} H^{2} + 216 k A^{2} H^{2} h^{2} + 216 \dot A k A^{2} H^{2} + 216 k A^{4} H^{2} \\
+   &- 432 h \dot h A^{3} - 648 \dot h A^{2} h^{2} - 648 \dot A A^{2} h^{2} - 432 A \dot A h^{3} - 648 A^{4} h^{2} - 1224 A^{3} h^{3} \\
+   &- 648 A^{2} h^{4} \end{aligned} $$
+
+## The background field equations
+
+With the author's weights and $\Lambda = -10H^2$ the three independent components are (DERIVED; the $x_4$ component is a
+constraint, the other two are linear in $\dot A$ and $\dot h$)
+$$ \begin{aligned} x_4:\quad &- \frac{15 A^{2} h^{4}}{16 H^{4}} - \frac{5 A^{3} h^{3}}{4 H^{4}} - \frac{3 h^{4}}{8 H^{2}} - \frac{9 A h^{3}}{2 H^{2}} - \frac{27 A^{2} h^{2}}{4 H^{2}} + \frac{9 k A^{2} h^{2}}{8 H^{2}} \\
+   &- \frac{3 h A^{3}}{2 H^{2}} + \frac{3 h k A^{3}}{4 H^{2}} - 6 h^{2} + \frac{3 k h^{2}}{4} - 12 A h + \frac{9 A h k}{2} \\
+   &- 3 A^{2} + \frac{9 k A^{2}}{4} - \frac{3 A^{2} k^{2}}{16} - 10 H^{2} + 6 k H^{2} - \frac{3 H^{2} k^{2}}{8} \\
+   &= -\kappa\rho \end{aligned} $$
+$$ \begin{aligned} x_1:\quad &\Big[- \frac{h^{4}}{8 H^{4}} - \frac{A h^{3}}{2 H^{4}} - \frac{3 h^{2}}{2 H^{2}} + \frac{k h^{2}}{4 H^{2}} - \frac{A h}{H^{2}} + \frac{A h k}{2 H^{2}} \\
+   &\quad -2 + \frac{3 k}{2} - \frac{k^{2}}{8}\Big]\,\dot A \\
+   &+ \Big[- \frac{A h^{3}}{2 H^{4}} - \frac{3 A^{2} h^{2}}{4 H^{4}} - \frac{3 h^{2}}{2 H^{2}} - \frac{3 A h}{H^{2}} + \frac{A h k}{2 H^{2}} - \frac{A^{2}}{2 H^{2}} \\
+   &\quad + \frac{k A^{2}}{4 H^{2}} - 4 + \frac{3 k}{2}\Big]\,\dot h \\
+   &- \frac{A h^{5}}{2 H^{4}} - \frac{19 A^{2} h^{4}}{16 H^{4}} - \frac{A^{3} h^{3}}{2 H^{4}} - \frac{15 h^{4}}{8 H^{2}} - \frac{6 A h^{3}}{H^{2}} + \frac{A k h^{3}}{2 H^{2}} \\
+   &- \frac{17 A^{2} h^{2}}{4 H^{2}} + \frac{7 k A^{2} h^{2}}{8 H^{2}} - \frac{h A^{3}}{H^{2}} + \frac{h k A^{3}}{2 H^{2}} - 10 h^{2} + \frac{9 k h^{2}}{4} \\
+   &- 8 A h + 3 A h k - 3 A^{2} + \frac{9 k A^{2}}{4} - \frac{3 A^{2} k^{2}}{16} - 10 H^{2} \\
+   &+ 6 k H^{2} - \frac{3 H^{2} k^{2}}{8} \\
+   &= \kappa p_3 \end{aligned} $$
+$$ \begin{aligned} x_0:\quad &\Big[- \frac{3 A h^{3}}{8 H^{4}} - \frac{9 A^{2} h^{2}}{16 H^{4}} - \frac{9 h^{2}}{8 H^{2}} - \frac{9 A h}{4 H^{2}} + \frac{3 A h k}{8 H^{2}} - \frac{3 A^{2}}{8 H^{2}} \\
+   &\quad + \frac{3 k A^{2}}{16 H^{2}} - 3 + \frac{9 k}{8}\Big]\,\dot A \\
+   &+ \Big[- \frac{9 A^{2} h^{2}}{16 H^{4}} - \frac{3 h A^{3}}{8 H^{4}} - \frac{3 h^{2}}{8 H^{2}} - \frac{9 A h}{4 H^{2}} - \frac{9 A^{2}}{8 H^{2}} + \frac{3 k A^{2}}{16 H^{2}} \\
+   &\quad -3 + \frac{3 k}{8}\Big]\,\dot h \\
+   &- \frac{9 A^{2} h^{4}}{16 H^{4}} - \frac{17 A^{3} h^{3}}{16 H^{4}} - \frac{9 A^{4} h^{2}}{16 H^{4}} - \frac{3 h^{4}}{8 H^{2}} - \frac{27 A h^{3}}{8 H^{2}} - \frac{45 A^{2} h^{2}}{8 H^{2}} \\
+   &+ \frac{3 k A^{2} h^{2}}{16 H^{2}} - \frac{27 h A^{3}}{8 H^{2}} + \frac{9 h k A^{3}}{16 H^{2}} - \frac{3 A^{4}}{8 H^{2}} + \frac{3 k A^{4}}{16 H^{2}} - 6 h^{2} \\
+   &+ \frac{3 k h^{2}}{8} - 9 A h + \frac{9 A h k}{8} - 6 A^{2} + \frac{9 k A^{2}}{4} - 10 H^{2} \\
+   &+ 3 k H^{2} \\
+   &= \kappa\bar p \end{aligned} $$
+
+Here $\bar p = (p_0 + 3p_t)/4$. Because $E^{x_0}{}_{x_0} = E^{x_5}{}_{x_5}$ identically, the order-0 metric admits only sources
+with $p_0 = p_t$ (and no off-diagonal components); for a source with $p_0 \ne p_t$ the variation of the action with
+respect to the common block scale $f$ gives the equation above with $\bar p$, and $p_0 - p_t$ drives a block-shape mode
+outside the order-0 metric (OPEN). The source is conserved,
+$$ \dot\rho = -3A(\rho + p_3) - h(\rho + p_0) - 3h(\rho + p_t) = -3A(\rho + p_3) - 4h(\rho + \bar p) .$$
+The total source is the stabiliser ($\kappa\rho_b = R_*(k/k_*)^4$, $p_3 = -\rho_b$, $\bar p = \rho_b$) plus matter.
+
+## The static block and the stabiliser
+
+For $h = 0$, $\dot A = 0$:
+$$ x_4:\; -3G(k)A^2 + 6H^2k(1 - 2w_2k) + \Lambda + \kappa\rho = 0,\qquad x_1:\; \text{the same with } -\kappa p_3 \text{ for } \kappa\rho,$$
+$$ x_0:\; 6(12w_2k - 1)A^2 - \frac{12(w_2 - 18w_3k)}{H^2}A^4 + 3H^2k + \Lambda - \kappa\bar p = 0,\qquad G(k) = 1 - 24w_2k + 72w_3k^2 = \frac{k^2 - 12k + 16}{16}.$$
+Without sources and with $A = 0$ the only static block is $k_0 = 1/(4w_2) = 8$, $\Lambda_0 = -3H^2/(4w_2) = -24H^2$, with
+$G(k_0) = -1$ (repulsive four-dimensional gravity). With the stabiliser and $A = 0$:
+$$ \kappa\rho_b = 10H^2 - 6H^2k + \tfrac38H^2k^2 = \kappa\bar p = 3H^2k - 10H^2 \;\Longrightarrow\; k_\pm = 12 \pm \tfrac43\sqrt{51},$$
+$$ k_* = 12 + \tfrac43\sqrt{51} = 21.5219,\quad f_* = 0.215556,\quad G(k_*) = \tfrac{20}{3} + \sqrt{51} = 13.8081,\quad \kappa\rho_b^* = (26 + 4\sqrt{51})H^2 .$$
+
+## The dynamical system, the radion and the response to matter
+
+The $x_1$ and $x_0$ components are solved for $\dot A$ and $\dot h$; with $\dot k = -2kh$ and the constraint they form a closed
+system for $(A, h, k)$. Linearised about $(0, 0, k_*)$ (DERIVED):
+$$ \delta\dot A = J_{Ak}\delta k,\quad \delta\dot h = J_{hk}\delta k,\quad \delta\dot k = -2k_*\delta h,\qquad
+   \omega_r^2 = 2k_*J_{hk} = \Big(\frac{31552}{2249} - \frac{2416\sqrt{51}}{6747}\Big)H^2 = (3.38705H)^2 ,$$
+eigenvalues $0, \pm i\omega_r$: the block is stable and oscillates (the radion), the zero mode being the direction $\delta A$
+(a small four-dimensional cosmological term). For the stabiliser family $\bar p_b = \nu\rho_b$, $\rho_b \propto k^{2(1+\nu)}$, the
+static block is stable for every $\nu \in \{1/4, 1/2, 3/4, 1, 5/4, 3/2, 2, 3\}$ ($\omega_r = 3.33H$ to $4.10H$). With matter
+sources to first order ($A^2$ counts as first order: the constraint gives $3G(k_*)A^2 = \kappa\delta\rho$ because
+$\frac{d}{dk}[6H^2k(1 - 2w_2k) + \kappa\rho_b]$ vanishes at $k_*$):
+$$ \delta\dot A = J_{Ak}\,\delta k + s_{A3}\,\kappa\delta p_3 + s_{Ap}\,\kappa\delta\bar p + q_A\,\kappa\delta\rho,$$
+$$ \delta\dot h = J_{hk}\,\delta k + s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p + q_h\,\kappa\delta\rho,$$
+$$ \delta\ddot k + \omega_r^2\,\delta k = -2k_*\big(s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p + q_h\,\kappa\delta\rho\big),$$
+$$ J_{Ak} = \tfrac{6(238 - 19\sqrt{51})}{2249}H^2,\quad J_{hk} = \tfrac{4063 - 485\sqrt{51}}{2249}H^2,\quad
+   s_{A3} = \tfrac{2283}{4498} - \tfrac{162\sqrt{51}}{2249},\quad s_{Ap} = \tfrac{28\sqrt{51} - 114}{2249},$$
+$$ q_A = \tfrac{135021}{265382} - \tfrac{10308\sqrt{51}}{132691},\quad s_{h3} = \tfrac{21\sqrt{51}}{2249} - \tfrac{171}{4498},\quad
+   s_{hp} = \tfrac{239\sqrt{51}}{6747} - \tfrac{485}{2249},\quad q_h = \tfrac{57}{4498} - \tfrac{7\sqrt{51}}{2249}$$
+(numerically $0.272956H^2$, $0.266522H^2$, $-0.006853$, $0.038221$, $-0.045997$, $0.028666$, $0.037320$, $-0.009555$). In
+the adiabatic response ($\delta\ddot k = 0$),
+$\delta k = (-0.107556\,\kappa\delta p_3 - 0.140028\,\kappa\delta\bar p + 0.035852\,\kappa\delta\rho)/H^2$, and 3-space obeys exactly
+$$ \delta\dot A = -\frac{\kappa(\delta\rho + \delta p_3)}{2G(k_*)},$$
+the four-dimensional Friedmann acceleration equation (DERIVED).
+
+## The four-dimensional effective gravity
+
+On a product of a four-dimensional metric with the static block (constant curvature $K = -H^2k$) the Lovelock densities
+factorise, $\mathcal L_{(k)} = \sum_{j+l=k}\frac{k!}{j!\,l!}\mathcal L^{(4)}_{(j)}\mathcal L^{(int)}_{(l)}$, with $\mathcal L^{(int)}_{(l)} = (1, 12K, 24K^2, 0)$,
+$\mathcal L^{(4)}_{(3)} \equiv 0$ and $\mathcal L^{(4)}_{(2)}$ topological in four dimensions, so
+$$ \sum_k\alpha_k\mathcal L_{(k)} - 2\Lambda - 2\kappa\rho_b = G(k)\,R^{(4)} + (\text{topological}) - 2G(k)\Lambda_4,\qquad
+   \Lambda_4 = \frac{6H^2k(1 - 2w_2k) + \Lambda + \kappa\rho_b}{G(k)}, $$
+and the four-dimensional field equations are those of general relativity,
+$$ G^{(4)}_{\mu\nu} + \Lambda_4\,g^{(4)}_{\mu\nu} = 8\pi G_N\,T^{(4)}_{\mu\nu},\qquad 8\pi G_N = \frac{\kappa}{G(k_*)V_\perp},\qquad
+   V_\perp = \frac{2f^4v_t(1 - e^{-3\eta})}{3H},\qquad T^{(4)}_{\mu\nu} = \int d^4y\sqrt{g_\perp}\,T_{\mu\nu} ,$$
+with $\Lambda_4 = 0$ at the static point (the observed dark energy is a tuned residual, $\Lambda_4/H^2 \sim 10^{-92}$, OPEN).
+The gauge couplings are $g_i^2 = \hat g_i^2/V_\perp$.
+
+# The field equations in the hidden coordinate: the masses
+
+On the static block every four-dimensional mass is an eigenvalue of the $x_0$ operator of its field (the author's
+requirement: the wave functions depend on $x_0$ periodically with period $\pi/(6H)$, through $y(z)$). With $t = y/L \in [-1, 0]$
+on each half of a period, bosonic eigenvalues are $\Lambda = (m\,fL)^2$ and fermionic ones $e = \varepsilon\,fL$.
+
+## Gauge fields and the graviton
+
+A four-dimensional component $A_\mu(x)u(y)$ (gauge $A_y = 0$) has the reduced action $\int_{-L}^0dy\,f^4e^{3Hy}\big[u'^2/f^2 - m^2u^2\big]$
+per half (times $1/\hat g^2$), hence (DERIVED)
+$$ -\frac{1}{f^2}e^{-3Hy}\partial_y\big(e^{3Hy}\partial_yu\big) = m^2u \;\Longleftrightarrow\; -e^{-3\eta t}\big(e^{3\eta t}u'\big)' = \Lambda u ,$$
+$$ \text{fold: } u'(0) = 0 \text{ (even) or } u(0) = 0 \text{ (odd)};\qquad \text{tip: } u'(-1) = \beta\,u(-1) ,$$
+the tip condition being the natural boundary condition of the tip mass term: $\beta = 0$ for the photon and the gluons,
+$\beta_W$ for $W^+$ and $W^-$ (one value for both: they are particle and antiparticle), $\beta_Z = \beta_W/\cos^2\theta_W$ for the
+$Z$ (the ratio of the coefficients $\hat g^2$ and $\hat g^2 + \hat g'^2$ of the tip mass terms). The transverse-traceless
+graviton obeys the same operator with $\beta = 0$ in Einstein gravity. With $u = e^{-3\eta t/2}w$, $q^2 = \Lambda - 9\eta^2/4$:
+$$ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big]\sin q - \beta q\cos q = 0,\qquad
+   \text{odd: } q\cos q + \Big(\beta + \frac{3\eta}{2}\Big)\sin q = 0 .$$
+For $\beta = 0$: $\Lambda = 0$ (the flat profile; graviton, photon and gluons are exactly massless), $9\eta^2/4 + n^2\pi^2$
+(even), $q\cot q = -3\eta/2$ (odd).
+
+## Fermions
+
+With $\Psi = e^{ik x_1}e^{-\frac32Hy}e^{a_4/2}b_4^{-1}V_\beta\,\chi(y, x_4)$ the eight-dimensional Dirac equation (canonical spin connection
+included) is EXACTLY (DERIVED, all blocks, general $a_4$, $b_4$, $M(y)$, $v(y)$)
+$$ \gamma^\mu D_\mu\Psi - \big(M(y) - iv(y)\gamma^{x_4}\big)\Psi = \gamma^{x_4}V_\beta\big[\partial_4\chi + ih_j\chi\big],\qquad
+   h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\sigma_2 + \kappa k\sigma_3\Big] + v(y),\quad \kappa = e^{-a_4},$$
+so $i\partial_4\chi = h_j\chi$. In every block $(j, s_2, s_3)$: $\gamma^{x_0} = \sigma_3$, $B = js_2$, $C = s_2\sigma_2$, $\Gamma_4 = -js_2\sigma_3$,
+$P_+ = (1 - B\sigma_3)/2$. For a Standard-Model multiplet $M = \mu_\psi$, $v = 0$; with $c = f\mu_\psi L$ the zero modes are
+$\chi = (e^{ct}, 0)$ (doublet, $\Gamma_4 = +1$) and $\chi = (0, e^{-ct})$ (singlet, $\Gamma_4 = -1$), with $h_j(e^{ct}, 0) = j\kappa k(e^{ct}, 0)$
+exactly (massless four-dimensional particles). The tip mixing conditions give the exact mass condition
+$$ D(e) = e^2s_Ls_R - \kappa_f^2\,(C_L - c_Ls_L)(C_R + c_Rs_R) = 0,\qquad s = \frac{\sinh w}{w},\quad C = \cosh w,\quad w = \sqrt{c^2 - e^2},$$
+$$ e \simeq \kappa_f\,\zeta(c_L)\,\zeta(c_R),\qquad \zeta(c)^2 = \frac{c\,e^{-c}}{\sinh c} .$$
+
+# dirac16complex: the Kohn-Sham equations coupled to all fields
+
+The interacting many-body state of $\Psi$ on the block is described by Kohn-Sham orbitals of
+$$ h_j\chi = \varepsilon\chi,\qquad M_{eff}(y) = m + \frac{15}{16}\lambda S(y) + \frac{\langle\mathcal F\rangle}{\Lambda_\star^3},\qquad
+   v(y) = -\frac{\lambda}{16}n(y) + \frac{c_V}{\Lambda_\star^6}\sum_\psi q_\psi n_\psi(y) + v_{I9}(y),$$
+where $\langle\mathcal F\rangle = c_G\langle G^\alpha_{MN}G^{\alpha MN}\rangle + \dots$ is the gauge-field condensate (in the QCD vacuum the gluon
+condensate, a uniform mass shift), $n_\psi$ the number densities of the Standard-Model fermions
+($\langle\bar\psi\gamma^{x_4}\psi\rangle = i\,n_\psi$; I11), and $v_{I9} = \delta_{tip}(c_Z + c'_Z\varsigma)\mathcal Z_4$ acts at the tip on the
+$P_+$ component, i.e. on the upper component of the $\Psi_A$ blocks ($B = -1$) only (I9). The densities are
+$$ n = \sum_o w\,g\,f_o\,n_o,\quad S = \sum_o w\,g\,f_o\,s_o,\qquad n_o = P\chi_o^\dagger\chi_o,\quad s_o = P\chi_o^\dagger j\sigma_2\chi_o,\quad t_o = P\chi_o^\dagger j\sigma_3\chi_o,
+   \quad P = \frac{e^{-3Hy}}{\mathrm{Vol}_7},$$
+with $w = 1/2$ for each fold parity, $g = 4r_3(n^2)$ the degeneracy of the momentum shell $\vec k = \Delta k\,\vec n$ ($r_3$ the number
+of representations of $n^2$ as a sum of three squares), $\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf^4$, and occupations $f_o$ (aufbau, or
+Mermin $f_o = 1/(e^{(\varepsilon_o - \mu)/T} + 1)$). The energy and the energy-momentum tensor are
+$$ E_{KS} = \sum_o g\,f_o\,\varepsilon_o - 2\,\mathrm{Vol}_7\int_{-L}^0e^{3Hy}e_{int}\,dy,\qquad e_{int} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2,$$
+$$ \rho = \sum wgf\varepsilon\,n_o - e_{int},\quad p_3 = \sum wgf\,\frac{\kappa\lvert k\rvert}{3}t_o + e_{int},\quad p_t = e_{int},\quad
+   p_0 = \sum wgf\big[(\varepsilon - v)n_o - M_{eff}s_o - \kappa\lvert k\rvert t_o\big] + e_{int} ,$$
+which satisfy $E_{KS} = 2\mathrm{Vol}_7\int e^{3Hy}\rho\,dy$ and the $y$-conservation law
+$\big[e^{3Hy}p_0\big]_{-L}^0 = 3H\int_{-L}^0e^{3Hy}p_t\,dy$ (DERIVED for every self-consistent state). Boundary conditions: fold
+$\chi_2(0) = 0$ (even) or $\chi_1(0) = 0$ (odd), tip $\chi_2(-L) = 0$ (from $(1 \mp \gamma^{x_0})\Psi = 0$). The Kohn-Sham source enters the
+background equations through its block averages $\rho$, $p_3$ and $\bar p = (p_0 + 3p_t)/4$.
+
+# The linear perturbations (order $\epsilon$): CMB, CNB, BAO
+
+The $x_0$-independent ($n = 0$) perturbations obey the four-dimensional Einstein equations of section 5.6 linearised about
+a flat Friedmann background; the $n \ge 1$ modes (Kaluza-Klein gravitons and gauge bosons, mass $\ge 99$ TeV) and the
+radion ($48$ TeV) are absent at cosmological scales. In conformal time $\tau$ ($dx_4 = a\,d\tau$, $a = e^{a_4}$, $\mathcal H = a'/a$)
+and the Newtonian gauge $ds^2 = a^2\big[-(1 + 2\psi)d\tau^2 + (1 - 2\phi)d\vec x^{\,2}\big]$ (UM-2: $\psi = \epsilon\Phi$, $\phi = \epsilon\Psi_N$), for
+a Fourier mode $k$ (STANDARD, Ma and Bertschinger):
+$$ k^2\phi + 3\mathcal H(\phi' + \mathcal H\psi) = -4\pi G_Na^2\delta\rho,\qquad k^2(\phi' + \mathcal H\psi) = 4\pi G_Na^2(\bar\rho + \bar P)\theta,$$
+$$ \phi'' + \mathcal H(\psi' + 2\phi') + (2\mathcal H' + \mathcal H^2)\psi + \frac{k^2}{3}(\phi - \psi) = 4\pi G_Na^2\delta P,\qquad k^2(\phi - \psi) = 12\pi G_Na^2(\bar\rho + \bar P)\sigma ,$$
+summed over the species of UM-2:
+
+* **dark matter** ($\Psi_B$ odd quanta, cold): $\delta_c' = -\theta_c + 3\phi'$, $\theta_c' = -\mathcal H\theta_c + k^2\psi$;
+* **baryons** ($u$, $d$ confined in $p$, $n$; electrons): $\delta_b' = -\theta_b + 3\phi'$,
+  $\theta_b' = -\mathcal H\theta_b + c_s^2k^2\delta_b + \frac{4\bar\rho_\gamma}{3\bar\rho_b}an_e\sigma_T(\theta_\gamma - \theta_b) + k^2\psi$;
+* **photons**: $\delta_\gamma' = -\frac43\theta_\gamma + 4\phi'$, $\theta_\gamma' = k^2(\frac14\delta_\gamma - \sigma_\gamma) + k^2\psi + an_e\sigma_T(\theta_b - \theta_\gamma)$,
+  $F_{\gamma2}' = 2\sigma_\gamma' = \frac{8}{15}\theta_\gamma - \frac35kF_{\gamma3} - \frac95an_e\sigma_T\sigma_\gamma + \frac{1}{10}an_e\sigma_T(G_{\gamma0} + G_{\gamma2})$,
+  $F_{\gamma l}' = \frac{k}{2l+1}[lF_{\gamma(l-1)} - (l+1)F_{\gamma(l+1)}] - an_e\sigma_TF_{\gamma l}$ ($l \ge 3$),
+  $G_{\gamma l}' = \frac{k}{2l+1}[lG_{\gamma(l-1)} - (l+1)G_{\gamma(l+1)}] + an_e\sigma_T[-G_{\gamma l} + \frac12(F_{\gamma2} + G_{\gamma0} + G_{\gamma2})(\delta_{l0} + \frac{\delta_{l2}}{5})]$;
+* **the two $\Psi_A$ Weyl species** (massless, decoupled with the neutrinos): $\delta' = -\frac43\theta + 4\phi'$,
+  $\theta' = k^2(\frac14\delta - \sigma) + k^2\psi$, $F_2' = 2\sigma' = \frac{8}{15}\theta - \frac35kF_3$,
+  $F_l' = \frac{k}{2l+1}[lF_{l-1} - (l+1)F_{l+1}]$ ($l \ge 3$);
+* **$\nu_e$** (mass $0.05$ eV, comoving momentum $q$, $\varepsilon = \sqrt{q^2 + a^2m_\nu^2}$, Fermi-Dirac $f_0(q)$):
+  $\Psi_0' = -\frac{qk}{\varepsilon}\Psi_1 - \phi'\frac{d\ln f_0}{d\ln q}$, $\Psi_1' = \frac{qk}{3\varepsilon}(\Psi_0 - 2\Psi_2) - \frac{\varepsilon k}{3q}\psi\frac{d\ln f_0}{d\ln q}$,
+  $\Psi_l' = \frac{qk}{(2l+1)\varepsilon}[l\Psi_{l-1} - (l+1)\Psi_{l+1}]$ ($l \ge 2$);
+* the $\Psi_B$ fold band is never thermalised and does not contribute.
+
+The background is $\mathcal H^2 = \frac{8\pi G_N}{3}a^2\bar\rho_{tot} + \frac{\Lambda_4}{3}a^2$, adiabatic initial conditions with the power
+spectrum $\mathcal P(k) = A_s(k/k_0)^{n_s - 1}$. The relativistic content is $N_{eff} = 3.044$ ($\nu_e$ plus the two $\Psi_A$ species at
+$T_\nu = (4/11)^{1/3}T_\gamma$).
+
+# The coupled system and how it is solved
+
+The fields couple as follows: gravity to everything (the canonical spin connection for $\Psi$ and the fermions, the
+metric in every kinetic term, the stabiliser); $\Psi$ to gravity, to itself ($\lambda$), to the fermion currents (I11), to
+the gauge-field invariants (I12) and, at the tip, to $Z$ (I9); the fermions to the gauge fields, to $\Sigma$ at the tip and
+to $\Psi$ (I11); the gauge fields to the fermions, to $\Sigma$ at the tip, to $\Psi$ through I12 (a field-dependent coupling)
+and, for $Z$, through I9. UM-2 solves the coupled system in the following hierarchy, each step feeding the next:
+
+1. the background: the static block $(A, h, k) = (0, 0, k_*)$ with the stabiliser, its stability and its first-order
+   response to every block-averaged source; the primordial approach to it from the full nonlinear equations;
+2. the $x_0$ eigenvalue problems on the static block: all masses (gauge bosons, graviton, fermions, $\Psi$);
+3. the Kohn-Sham equations of $\Psi$ with the portal mean fields of the other fields and the self-interaction; the
+   Kohn-Sham energy-momentum tensor returned to step 1 (the adiabatic block response);
+4. the four-dimensional effective theory and its linear perturbations (CMB, CNB, BAO).
+
+# What was verified
+
+* the Lovelock tensors of the order-0 metric by four routes, the Bianchi identities ($k = 1, 2, 3$), the record's equations
+  and the minisuperspace variation (sympy, exact);
+* the static block, the stabiliser, the radion, the stabiliser family, the first-order response and the 4D Friedmann
+  acceleration equation, the dimensional reduction (sympy, exact);
+* the exact Dirac reduction in all eight blocks, the boundary conditions, the zero modes, the tip mixing condition, the
+  gauge $x_0$ operator and the gauge invariance of the tip terms;
+* the $x_0$ spectra (mpmath; finite elements to $5\times10^{-10}$; shooting to $10^{-10}$);
+* the Kohn-Sham solver (record reference states to $10^{-13}$; energy identity; conservation law; Richardson; Hellmann-
+  Feynman for every portal mean field).

@@ -303,7 +303,7 @@ $$ -\frac{v_\Sigma^2}{8}\Big[\hat g^2\big(W^1_\mu W^{1\mu} + W^2_\mu W^{2\mu}\bi
    = -\frac{v_\Sigma^2}{8}\Big[2\hat g^2\,W^+_\mu W^{-\mu} + (\hat g^2 + \hat g'^2) Z_\mu Z^\mu\Big] ,$$
 which gives $W^+$ and $W^-$ one common mass (they are particle and antiparticle), the $Z$ a mass larger by
 $1/\cos\theta_W$ at leading order (custodial symmetry), and leaves the photon massless. The second term mixes the
-doublet and singlet zero modes at the tip and gives the fermions their masses (section 6.4).
+doublet and singlet zero modes at the tip and gives the fermions their masses (section 6.2).
 
 ## The portal interactions of dirac16complex (INVENTED, gauge invariant)
 
@@ -515,15 +515,20 @@ of section 5.1 with the sectional curvatures of section 4.1. A source with $p_0 
 and the matter at the fold have it; the dark matter has $p_0/\rho = 0.772$, $p_t = 0$) acts on the common block scale
 $f$ through the block-averaged pressure $\bar p = (p_0 + 3p_t)/4$ (the variation of the action with respect to $f$),
 while $p_0 - p_t$ drives a block-shape mode that the order-0 metric does not contain (OPEN); for matter its size
-relative to the stabiliser is of order $(A/H)^2$, $10^{-92}$ today. Linearised about the static block of section 8.2 with
-block-averaged matter sources, the equations give (DERIVED)
-$$ \delta\dot A = J_{Ak}\,\delta k + s_{A3}\,\kappa\delta p_3 + s_{Ap}\,\kappa\delta\bar p,\qquad
-   \delta\dot h = J_{hk}\,\delta k + s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p,\qquad \delta\dot k = -2k_*\,\delta h ,$$
-$$ \delta\ddot k + \omega_r^2\,\delta k = -2k_*\big(s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p\big),\qquad \omega_r^2 = 2k_*J_{hk},$$
-with $J_{Ak} = \frac{1428 - 114\sqrt{51}}{2249}H^2 = 0.272956H^2$, $J_{hk} = \frac{4063 - 485\sqrt{51}}{2249}H^2 = 0.266522H^2$,
+relative to the stabiliser is of order $(A/H)^2$, $10^{-92}$ today. To first order about the static block of section 8.2
+with block-averaged matter sources ($A^2$ counts as first order: the $x_4$ constraint gives $3G(k_*)A^2 = \kappa\delta\rho$,
+because $\frac{d}{dk}[6H^2k(1 - 2w_2k) + \kappa\rho_b]$ vanishes at $k_*$), the equations give (DERIVED)
+$$ \delta\dot A = J_{Ak}\,\delta k + s_{A3}\,\kappa\delta p_3 + s_{Ap}\,\kappa\delta\bar p + q_A\,\kappa\delta\rho,$$
+$$ \delta\dot h = J_{hk}\,\delta k + s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p + q_h\,\kappa\delta\rho,\qquad \delta\dot k = -2k_*\,\delta h ,$$
+$$ \delta\ddot k + \omega_r^2\,\delta k = -2k_*\big(s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p + q_h\,\kappa\delta\rho\big),\qquad \omega_r^2 = 2k_*J_{hk},$$
+with $J_{Ak} = \frac{6(238 - 19\sqrt{51})}{2249}H^2 = 0.272956H^2$, $J_{hk} = \frac{4063 - 485\sqrt{51}}{2249}H^2 = 0.266522H^2$,
 $s_{A3} = \frac{2283}{4498} - \frac{162\sqrt{51}}{2249} = -0.006853$, $s_{Ap} = \frac{28\sqrt{51} - 114}{2249} = 0.038221$,
-$s_{h3} = \frac{21\sqrt{51}}{2249} - \frac{171}{4498} = 0.028666$, $s_{hp} = \frac{239\sqrt{51}}{6747} - \frac{485}{2249} = 0.037320$; a constant $\kappa\delta\bar p$ displaces the block by
-$\delta k = -0.140028\,\kappa\delta\bar p/H^2$ without accelerating 3-space.
+$q_A = \frac{135021}{265382} - \frac{10308\sqrt{51}}{132691} = -0.045997$, $s_{h3} = \frac{21\sqrt{51}}{2249} - \frac{171}{4498} = 0.028666$,
+$s_{hp} = \frac{239\sqrt{51}}{6747} - \frac{485}{2249} = 0.037320$, $q_h = \frac{57}{4498} - \frac{7\sqrt{51}}{2249} = -0.009555$. In the adiabatic
+response ($\delta\ddot k = 0$) the block shifts by
+$\delta k = (-0.107556\,\kappa\delta p_3 - 0.140028\,\kappa\delta\bar p + 0.035852\,\kappa\delta\rho)/H^2$ and 3-space obeys exactly
+$\delta\dot A = -\kappa(\delta\rho + \delta p_3)/(2G(k_*))$: the four-dimensional Friedmann acceleration equation with
+$8\pi G_N = \kappa/(G(k_*)V_\perp)$.
 
 ## The static block and attractive gravity with the author's weights (DERIVED)
 
