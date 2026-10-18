@@ -692,10 +692,16 @@ CELLS = [
 
     $u^4$ falls, and would reach $0$ (a turning point) at
     $\tau = \frac{3}{2AH}\ln\frac{1}{q(0)}$. The next cell integrates the path in steps
-    of $0.001$ until the particle passes the tip cut-off $y = -L = -3$ of the Revision
+    of $0.00025$ until the particle passes the tip cut-off $y = -L = -3$ of the Revision
     Kohn-Sham solver, checks the conservation laws, checks that $u^4$ follows the exact
     formula on every step, and reports where the particle is when it passes the
-    cut-off, and the instant of the turning point that the formula predicts.
+    cut-off, and the instant of the turning point that the formula predicts. The step
+    is a quarter of the step $0.001$ used so far: near the tip the symbols with the
+    index $x_0$ grow like $\cot z$, which is about $10^8$ at the cut-off, and the
+    particle moves ever faster there; with the step $0.001$ the squared length
+    $g(u, u)$ would drift by about $10^{-6}$ near the cut-off, with the step $0.00025$
+    (the error of RK4 falls like the fourth power of the step) it stays within
+    $10^{-8}$.
 
     The cell also prints the definition of the **good sector** of the Revision
     Kohn-Sham work: its states have no dependence on $x_5, x_6, x_7$, that is no
@@ -706,7 +712,7 @@ CELLS = [
     """),
     code(r'''
     L_tip = physics["physics"]["L_tipCutoff"]  # the tip cut-off of the record, 3/H
-    DT = 0.001  # the step of RK4
+    DT = 0.00025  # the step of RK4: a quarter of 0.001, for the accuracy near the tip
     path = [start(Y0, [0, 0, 0, 0, 0, 0.2, 0, 0])]
     while math.log(abs(math.sin(6 * H_value * path[-1][0]))) / (6 * H_value) > -L_tip:
         s = path[-1]  # one RK4 step, as in rk4_path
@@ -792,12 +798,12 @@ CELLS = [
     axes[1].legend(fontsize=8, loc="upper left")
     save_figure(fig, "frame_velocities",
                 "Frame velocities of freely falling test particles in the corrected "
-                "metric along the deflating history $a_4 = x_4$, $b_4 = e^{4x_4/3}$ "
-                "($A = 1$, $H = 1$, $\\beta = 4/3$), all started "
+                "metric along the deflating history $a_4 = x_4$, $b_4 = e^{4x_4/3}$, "
+                "all started "
                 "at $x_4 = 0$, $y = -1$, computed with RK4 from the Christoffel symbols "
                 "of the Revision record; horizontal axes the time $x_4$ in units of "
-                "$1/H$, vertical axes the frame velocity (proper length per proper "
-                "time, a pure number) on logarithmic scales. Left: three particles "
+                "$1/H$, vertical axes the frame velocity (a pure number) on "
+                "logarithmic scales. Left: three particles "
                 "started along $x_1$ with $0.25$, $0.5$ and $1$; their frame velocity "
                 "falls exactly like the pure redshift $e^{-a_4}$ (dotted), because "
                 "3-space has no warp. Right: a particle started along the extra time "
@@ -831,7 +837,7 @@ CELLS = [
                      label=f"3-space, start {speed:g}")
     axes[0].plot(tau_t, extra[:, 12], color=VIOLET, lw=1.8, ls="-.",
                  label="extra time, start 0.2")
-    axes[0].plot(tau_t[::200], exact_u4[::200], "o", color=VIOLET, ms=5,
+    axes[0].plot(tau_t[::800], exact_u4[::800], "o", color=VIOLET, ms=5,
                  label="exact law of section 11")
     axes[1].plot(tau_t, extra[:, 4], color=VIOLET, lw=1.8, ls="-.",
                  label="extra time, start 0.2")
@@ -889,7 +895,7 @@ CELLS = [
     largest_gap = float(np.max(np.abs(numeric - law)[1:-1]) / np.max(np.abs(law)))
     space_push = max(float(np.max(np.abs(space_paths[s][2] - Y0))) for s in SPEEDS)
     axes[1].plot(tau_t, law, color=VIOLET, lw=1.8, label="law $-H\\sum_j(\\hat u^j)^2$")
-    axes[1].plot(tau_t[::100], numeric[::100], "o", color=VIOLET, ms=5,
+    axes[1].plot(tau_t[::400], numeric[::400], "o", color=VIOLET, ms=5,
                  label="from RK4, numerical derivative")
     axes[1].axhline(0.0, color="grey", lw=0.8)
     axes[1].set_xlabel("proper time $\\tau$ (unit $1/H$)")
@@ -970,8 +976,9 @@ CELLS = [
     ## 13. How accurate is the computation?
 
     Two tests. First, the conserved quantities: the next cell draws, against $\tau$, how
-    far the computed $p_1$ (fastest 3-space particle), $p_5$ (extra-time particle) and
-    $g(u, u)$ (both) drift from their starting values, on a logarithmic axis. Second,
+    far the computed $p_1$ (fastest 3-space particle, RK4 step $0.001$), $p_5$
+    (extra-time particle, RK4 step $0.00025$) and $g(u, u)$ (both) drift from their
+    starting values, on a logarithmic axis. Second,
     the order of RK4: it integrates both particles from $\tau = 0$ to $2$ with
     $50, 100, 200, 400, 800, 1600$ steps and measures the largest difference of the end
     states of two successive step sizes; for a method of order 4 each halving of the
@@ -1004,7 +1011,7 @@ CELLS = [
                          ls=style, lw=1.6, label=label)
     axes[0].set_xlabel("proper time $\\tau$ (unit $1/H$)")
     axes[0].set_ylabel("relative drift from the start")
-    axes[0].set_title("Conserved quantities, RK4 with step $0.001$")
+    axes[0].set_title("Conserved quantities (RK4 steps $0.001$ and $0.00025$)")
     axes[0].legend(fontsize=7, loc="lower right")
     dts = 2.0 / np.array(STEPS[:-1])  # the larger step of each pair
     for (label, values), colour in zip(differences.items(), (RED, VIOLET)):
@@ -1023,11 +1030,13 @@ CELLS = [
                 "metric along the deflating history $a_4 = x_4$, $b_4 = e^{4x_4/3}$. "
                 "Left: the relative drift of "
                 "the conserved momentum $p_1$ and of $g(u, u) + 1$ for the 3-space "
-                "particle started with frame velocity $1$, and of $p_5$ and "
-                "$g(u, u) + 1$ for the extra-time particle started with $0.2$, against "
+                "particle started with frame velocity $1$ (RK4 step $0.001$), and of "
+                "$p_5$ and $g(u, u) + 1$ for the extra-time particle started with $0.2$ "
+                "(RK4 step $0.00025$), against "
                 "the proper time $\\tau$ in units of $1/H$, logarithmic vertical axis; "
-                "all stay below $10^{-8}$ (the extra-time particle drifts more "
-                "because its velocities grow). Right: the largest difference between "
+                "all stay below $10^{-8}$ (the extra-time particle drifts most near "
+                "the tip cut-off, where it moves fastest). Right: the largest "
+                "difference between "
                 "the end states at $\\tau = 2$ computed with the step $\\Delta\\tau$ and "
                 "with half of it, against $\\Delta\\tau$ on logarithmic axes, for the "
                 "same two particles; the points follow the dashed line of slope 4: "
@@ -1071,7 +1080,8 @@ CELLS = [
       $e^{a_4/3}$; only extra-time motion pushes a particle along $y$, towards the tip;
       3-space motion pushes nothing. For a particle without 3-space motion the $x_4$
       velocity obeys $du^4/d\tau = -\alpha_t((u^4)^2 - 1)$, solved exactly on the history.
-    - COMPUTED (RK4 with the step $0.001$, along the prescribed history $a_4 = x_4$,
+    - COMPUTED (RK4 with the step $0.001$, and $0.00025$ for the particle that moves
+      along an extra time, along the prescribed history $a_4 = x_4$,
       $b_4 = e^{4x_4/3}$, $H = 1$, from $y = -1$): a particle at rest stays at rest with
       $x_4 = \tau$; three particles moving in 3-space slow down exactly like the
       redshift and stay at their height; a particle started along the extra time $x_5$
@@ -1085,8 +1095,8 @@ CELLS = [
     - ASSUMED: the history $a_4 = AHx_4$, $b_4 = b_4(0)\,e^{\beta AHx_4}$ with
       $\beta = 4/3$, $b_4(0) = 1$ (a prescribed background); test particles that do not
       change the metric. NOT computed here: whether the waves of the fields follow
-      these paths in the curved metric, and what happens to a path at the tip
-      $\sin z = 0$, where this chart of the metric ends.
+      these paths in the curved metric, and what happens to a path at the degenerate
+      points of the metric, the tip $\sin z = 0$ and the fold $\cos z = 0$.
     """),
 ]
 

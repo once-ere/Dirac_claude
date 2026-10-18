@@ -557,8 +557,8 @@ CELLS = [
     first that the two lists name the same 21 index combinations, then that each value
     agrees exactly. In the record the keys `a`, `b`, `c` are the indices of
     $\Gamma^a{}_{bc}$, and the list runs in the author's order $x_0, \dots, x_7$.
-    sympy chooses its own way of writing some symbols: $H\cot z$ appears as
-    `H/tan(z)`, $H W^2 \tan z$ as `H*w**2*tan(z)`, and
+    sympy chooses its own way of writing some symbols: $H W^2 \tan z$ appears as
+    `H*w**2*tan(z)` (`w` is the warp factor $W$), and
     $\Gamma^{x_0}{}_{x_0x_0} = -6H/(\sin z\cos z)$ as `-12*H/sin(2*z)`. The symbols
     with the index $x_4$ contain the two rates: $\Gamma^{x_1}{}_{x_1x_4} = a_4'$ and
     $\Gamma^{x_5}{}_{x_4x_5} = \Gamma^{x_0}{}_{x_0x_4} = -a_4' + b_4'/(2b_4)$: the hidden
@@ -1621,9 +1621,9 @@ CELLS = [
                 "Left: the eight diagonal components for the canonical slope $A = 1$ of "
                 "the Revision record at the first slice $a_4 = 0$ (hatched bars: "
                 "$-2/3$, $41/9$ three times, $19/3$, $-2/3$ three times) and at the last "
-                "slice $a_4 = 2$ (plain bars: $3e^{4/3} - 11/3 = 7.72$, "
+                "slice $a_4 = 2$ (plain bars: $3e^{4/3} - 11/3 = 7.71$, "
                 "$6e^{4/3} - 13/9 = 21.3$ three times, $6e^{4/3} + 1/3 = 23.1$, "
-                "$7.72$ three times); the hidden component equals the extra-time ones. "
+                "$7.71$ three times); the hidden component equals the extra-time ones. "
                 "Right: the 3-space (solid), hidden and extra-time (dotted) and time "
                 "(dashed) components versus the time $x_4$ along the canonical history, "
                 "where $k = e^{2x_4/3}$; the shaded gap $(3k + 4)H^2$ between the time "
