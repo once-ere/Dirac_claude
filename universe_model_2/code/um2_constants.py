@@ -32,6 +32,13 @@ INPUTS = {
              'corrected with the updated Bhabha cross section and the correlated luminosity bias)', 'verified'),
     'N_nu_LEP2006': (2.9840, 0.0082, 'LEP/SLD Z-pole combination, Phys. Rept. 427 (2006) 257 (superseded; used by the one-generation '
                      'version of UM-2)', 'verified'),
+    # Z widths (PDG 2025 Z listing, pdglive S044, read 2026-10-18)
+    'Gamma_Z_MeV': (2495.5, 2.3, 'PDG 2025, Z full width 2.4955 +- 0.0023 GeV (pdglive S044W)', 'verified'),
+    'B_Z_invisible': (0.20000, 0.00055, 'PDG 2025, Z branching fraction to invisible, (20.000 +- 0.055) %', 'verified'),
+    'B_Z_hadrons': (0.69911, 0.00056, 'PDG 2025, Z branching fraction to hadrons, (69.911 +- 0.056) %', 'verified'),
+    'B_Z_ll': (0.033658, 0.000023, 'PDG 2025, Z branching fraction to l+l- (lepton-universality average), (3.3658 +- 0.0023) %', 'verified'),
+    # the CMB value of N_eff
+    'N_eff_Planck2018': (2.99, 0.17, 'Planck 2018 VI, A&A 641 (2020) A6, abstract: N_eff = 2.99 +- 0.17 (Planck + BAO)', 'verified'),
     'm_p_MeV': (938.272, None, 'PDG', 'memory'),
     'm_n_MeV': (939.565, None, 'PDG', 'memory'),
     'hbar_c_GeV_m': (1.973269804e-16, None, 'hbar c in GeV m (CODATA)', 'memory'),

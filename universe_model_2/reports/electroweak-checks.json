@@ -1,8 +1,8 @@
 {
- "check_count": 20,
+ "check_count": 19,
  "checks": [
   {
-   "detail": "Q = T3 + Y: (u, d)_L = (2/3, -1/3), (nu, e)_L = (0, -1), u_R 2/3, d_R -1/3, e_R -1, nu_R 0",
+   "detail": "Q = T3 + Y in every generation: (u, d)_L = (2/3, -1/3) [also (c, s), (t, b)], (nu, l)_L = (0, -1) [l = e, mu, tau], up-type singlets 2/3, down-type -1/3, charged-lepton singlets -1, nu_R 0",
    "name": "electric_charges",
    "passed": true
   },
@@ -22,7 +22,7 @@
    "passed": true
   },
   {
-   "detail": "one generation (Q, u_R, d_R, L, e_R, nu_R) as 4D Weyl zero modes: SU(3)^2U(1) 0, SU(2)^2U(1) 0, U(1)^3 0, grav^2U(1) 0, SU(3)^3 0; 4 SU(2) doublets (even: no Witten anomaly); dirac16complex is a gauge singlet",
+   "detail": "three generations (Q, u_R, d_R, L, e_R, nu_R) as 4D Weyl zero modes: SU(3)^2U(1) 0, SU(2)^2U(1) 0, U(1)^3 0, grav^2U(1) 0, SU(3)^3 0; 12 SU(2) doublets (even: no Witten anomaly); dirac16complex is a gauge singlet. Three lepton generations with ONE quark generation would leave SU(2)^2U(1) = -1 and U(1)^3 = 3/2: the second and third quark generations are required",
    "name": "anomaly_cancellation",
    "passed": true
   },
@@ -77,32 +77,27 @@
    "passed": true
   },
   {
-   "detail": "with one neutrino and the two Psi_A Weyl species: N_nu = 1 + 2 r^2 = 2.9840 for r^2 = (g_Z(Psi_A)/g_Z(nu))^2 = 0.9920 +- 0.0041",
-   "name": "Z_invisible_width_fit",
+   "detail": "with the three neutrinos and the Psi_A fold band of Z coupling r times the neutrino's, N_nu = 3 + 2 r^2; the PDG 2025 value N_nu = 2.9963 +- 0.0074 (Janot and Jadach 2020) is reproduced by r = 0 (pull 0.50) and bounds r^2 < 0.0056 (two standard deviations); (the superseded LEP 2006 value 2.9840 +- 0.0082 lies 1.9 standard deviations below 3)",
+   "name": "Z_invisible_width",
    "passed": true
   },
   {
-   "detail": "Psi_A decouples at about 2.61 MeV (NC rate scaled by r^2), after the QCD and pion entropy releases: T(Psi_A) = T(nu) for every r^2 > 2.2e-03; then N_eff = 3.0440 (the three-flavour value: nu_e plus two NC-coupled Weyl species)",
-   "name": "N_eff_prediction",
+   "detail": "at the Z-width bound (r^2 = 0.0056) the Psi_A fold band would decouple at 14.7 MeV, where g_s = 10.75 (photons, e+-, three neutrinos), so it would carry the neutrino temperature and add Delta N_eff = 2 (excluded: N_eff = 2.99 +- 0.17, Planck 2018); above the Z mass its production rate ~ 0.1 r^2 alpha_Z^2 T (alpha_Z = 0.0411) stays below the Hubble rate only for r^2 < 8e-13 (ESTIMATE). UM-2 therefore sets the even part of the chiral tip Z portal to zero, c_Z = 0: the Psi_A fold band, like the Psi_B fold band, is never thermalised and is not part of the CNB; the oriented part c'_Z (odd under the fold reflection) keeps the decays of the heavy odd Psi_A states",
+   "name": "Psi_A_decoupled_from_Z",
    "passed": true
   },
   {
-   "detail": "T_nu = (4/11)^{1/3} T_CMB = 1.9454 K; 112.0 per cm^3 per Weyl species (nu + nubar); UM-2 CNB: nu_e (0.05 eV, non-relativistic today) + two massless Psi_A species, 336 per cm^3 in total",
-   "name": "CNB",
-   "passed": true
-  },
-  {
-   "detail": "with the tree-level angle of the couplings of the mass fit (sin^2 = 0.22363) instead of the MS-bar 0.23122 the widths change by +0.55 % (e), +1.39 % (u), +0.95 % (d), +0.64 % (total 1240 MeV): a scheme ambiguity at the per-cent level, far below the factor-two conflict of the total width",
+   "detail": "with the tree-level angle of the couplings of the mass fit (sin^2 = 0.22363) instead of the MS-bar 0.23122 the total tree-level width changes by +0.82 %: a scheme ambiguity at the per-cent level",
    "name": "Z_width_scheme",
    "passed": true
   },
   {
-   "detail": "tree-level Z widths of the one-generation model: total 1232 MeV against the measured 2495.5 MeV (the missing mu, tau, s, c, b channels): an inherent conflict of the particle content of the order; the invisible width 495 MeV is reproduced by Psi_A",
-   "name": "Z_total_width_conflict",
+   "detail": "tree-level Z widths of the three generations (massless fermions, MS-bar angle): invisible (3 nu) 497.7 MeV (measured 499.1, PDG 2025), each charged lepton 83.4 MeV, hadronic 1674.4 MeV (with the QCD factor 1 + alpha_s/pi: 1737.3 MeV), total 2422.3 MeV (2485.2 MeV with the QCD factor; measured 2495.5 MeV); R_l = 20.83 (measured 20.77): the three generations reproduce the Z width to the size of the electroweak loop corrections that UM-2 does not compute; the one-generation conflict (total 1232 MeV) is gone",
+   "name": "Z_widths_three_generations",
    "passed": true
   }
  ],
- "description": "UM-2: charges, anomalies, W+- and Z, the chiral tip Z portal, the halves Psi_A and Psi_B, Z charges, Z invisible width, N_eff and the CNB",
+ "description": "UM-2: charges, anomalies (three generations), W+- and Z, the chiral tip Z portal, the halves Psi_A and Psi_B, Z charges, Z invisible width with three neutrinos, the Psi_A Z coupling, Z widths of three generations",
  "environment": {
   "python": "3.13.16"
  },

@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """UM-2 electroweak sector: charges, anomaly cancellation, the W+- and Z, the chiral tip Z portal of dirac16complex,
 the two halves Psi_A (B = -1) and Psi_B (B = +1), the Z charges of the fold band and of the dark matter, the Z invisible
-width, N_eff and the cosmic neutrino background.
+width with three neutrinos, the bound on the Z coupling of the Psi_A fold band, and the Z widths of the three generations.
+(N_eff and the cosmic neutrino background of the three neutrino flavours are computed in um2_neutrino.py.)
 
-E1  Charges Q = T3 + Y of the one-generation zero-mode spectrum; W+- = (W1 -+ i W2)/sqrt2 carry Q = +-1
-    ([T3, T+-] = +-T+-); photon coupling e = g g'/sqrt(g^2 + g'^2) to e, u, d and to W+W-.
-E2  Gauge anomalies of the 4D zero-mode spectrum (one generation; Psi is a gauge singlet): SU(3)^3, SU(3)^2 U(1),
-    SU(2)^2 U(1), U(1)^3, grav^2 U(1) vanish; SU(2) Witten anomaly: even number of doublets.
+E1  Charges Q = T3 + Y of the zero-mode spectrum (three generations, version of 2026-10-18); W+- = (W1 -+ i W2)/sqrt2
+    carry Q = +-1 ([T3, T+-] = +-T+-); photon coupling e = g g'/sqrt(g^2 + g'^2) to the charged fermions and to W+W-.
+E2  Gauge anomalies of the 4D zero-mode spectrum (three generations of Q, u_R, d_R, L, e_R, nu_R; Psi is a gauge singlet):
+    SU(3)^3, SU(3)^2 U(1), SU(2)^2 U(1), U(1)^3, grav^2 U(1) vanish generation by generation; SU(2) Witten anomaly: even number
+    of doublets (12).  For comparison: three lepton generations with one quark generation would leave SU(2)^2 U(1) and U(1)^3.
 E3  Algebra of the chiral projector P_+ = (1 + Gamma4)/2, Gamma4 = i g1 g2 g3 g4: Hermitian, commutes with the 4D
     Lorentz generators and with C gamma^mu (mu = x1..x4), so Psibar gamma^mu P_+ Psi is a 4D vector current; in the block
     basis P_+ = (1 - B sigma3)/2 with B = j s2; B commutes with the 4D Lorentz generators and with C (Psibar Psi does not
@@ -14,8 +16,10 @@ E3  Algebra of the chiral projector P_+ = (1 + Gamma4)/2, Gamma4 = i g1 g2 g3 g4
 E4  Z charges at the regular tip (b(-L) = 0 for every orbital): P_+ selects the a-component in Psi_A, the b-component
     (zero at the tip) in Psi_B.  The Psi_A fold band (2 Weyl species, Gamma4 = +1) couples; the Psi_B fold band and the
     Psi_B dark matter have zero Z charge AND zero transition current at the tip, exactly.
-E5  Z invisible width with one neutrino plus the Psi_A fold band: N_nu = 1 + 2 r^2, r = g_Z(Psi_A)/g_Z(nu); fit to the
-    LEP value; N_eff and the CNB composition; the decoupling window that keeps T(Psi_A) = T(nu).
+E5  Z invisible width with the three neutrinos and the Psi_A fold band: N_nu = 3 + 2 r^2, r = g_Z(Psi_A)/g_Z(nu); the PDG 2025
+    value N_nu = 2.9963 +- 0.0074 bounds r^2; N_eff bounds it far more strongly (a thermalised Psi_A fold band would add two
+    neutrino species); UM-2 sets the even (diagonal) part of the chiral tip Z portal to zero, c_Z = 0 (r = 0), and keeps its
+    oriented part c'_Z (decays of the heavy odd Psi_A states).  The Z widths of the three generations at tree level.
 Writes outputs/electroweak.json and reports/electroweak-checks.json.
 """
 import math
@@ -36,13 +40,14 @@ LABELS = [(1, 1, 1), (1, 1, -1), (1, -1, 1), (1, -1, -1), (-1, 1, 1), (-1, 1, -1
 
 
 def main():
-    rep = Report('electroweak-checks', 'UM-2: charges, anomalies, W+- and Z, the chiral tip Z portal, the halves Psi_A and '
-                 'Psi_B, Z charges, Z invisible width, N_eff and the CNB')
+    rep = Report('electroweak-checks', 'UM-2: charges, anomalies (three generations), W+- and Z, the chiral tip Z portal, the halves '
+                 'Psi_A and Psi_B, Z charges, Z invisible width with three neutrinos, the Psi_A Z coupling, Z widths of three generations')
     out = {}
     # ---------------- E1: charges ----------------
-    fields = {  # name: (SU(3) dim, SU(2) dim, Y, chirality L/R as 4D Weyl)
+    generation = {  # name: (SU(3) dim, SU(2) dim, Y, chirality L/R as 4D Weyl)
         'Q': (3, 2, Fr(1, 6), 'L'), 'u_R': (3, 1, Fr(2, 3), 'R'), 'd_R': (3, 1, Fr(-1, 3), 'R'),
         'L': (1, 2, Fr(-1, 2), 'L'), 'e_R': (1, 1, Fr(-1), 'R'), 'nu_R': (1, 1, Fr(0), 'R')}
+    fields = generation                    # the charges are the same in every generation
     charges = {}
     for name, (nc, nw, Y, ch) in fields.items():
         if nw == 2:
@@ -52,7 +57,8 @@ def main():
     out['electric_charges'] = charges
     ok = charges['Q'] == ['2/3', '-1/3'] and charges['L'] == ['0', '-1'] and charges['u_R'] == ['2/3'] and \
         charges['d_R'] == ['-1/3'] and charges['e_R'] == ['-1'] and charges['nu_R'] == ['0']
-    rep.check('electric_charges', ok, 'Q = T3 + Y: (u, d)_L = (2/3, -1/3), (nu, e)_L = (0, -1), u_R 2/3, d_R -1/3, e_R -1, nu_R 0')
+    rep.check('electric_charges', ok, 'Q = T3 + Y in every generation: (u, d)_L = (2/3, -1/3) [also (c, s), (t, b)], (nu, l)_L = (0, -1) '
+              '[l = e, mu, tau], up-type singlets 2/3, down-type -1/3, charged-lepton singlets -1, nu_R 0')
     tp = sp.Matrix([[0, 1], [0, 0]])
     t3 = sp.Matrix([[sp.Rational(1, 2), 0], [0, -sp.Rational(1, 2)]])
     rep.check('W_charges', t3 * tp - tp * t3 == tp and t3 * tp.T - tp.T * t3 == -tp.T,
@@ -72,22 +78,33 @@ def main():
     rep.check('Z_coupling', coupZ == 0, 'Z = cos W3 - sin B couples with sqrt(g^2 + g\'^2)(T3 - Q sin^2 theta_W)')
 
     # ---------------- E2: anomalies (left-handed Weyl basis: R fields enter with -Y) ----------------
-    def weyl_list():
+    def weyl_list(content):
         lst = []
-        for name, (nc, nw, Y, ch) in fields.items():
-            s = 1 if ch == 'L' else -1
-            lst.append((name, nc, nw, s * Y, s))
+        for (name, (nc, nw, Y, ch), copies) in content:
+            sgn = 1 if ch == 'L' else -1
+            for _ in range(copies):
+                lst.append((name, nc, nw, sgn * Y, sgn))
         return lst
-    W = weyl_list()
-    a_33_1 = sum(nw * Y * (1 if nc == 3 else 0) for (_, nc, nw, Y, s) in W)          # SU(3)^2 U(1): Tr(T^2) Y over triplets
-    a_22_1 = sum(nc * Y * (1 if nw == 2 else 0) for (_, nc, nw, Y, s) in W)          # SU(2)^2 U(1)
-    a_111 = sum(nc * nw * Y ** 3 for (_, nc, nw, Y, s) in W)                          # U(1)^3
-    a_grav = sum(nc * nw * Y for (_, nc, nw, Y, s) in W)                              # grav^2 U(1)
-    a_333 = sum(s * nw * (1 if nc == 3 else 0) for (_, nc, nw, Y, s) in W)          # SU(3)^3 (triplets L minus R)
-    ndoub = sum(nc for (_, nc, nw, Y, s) in W if nw == 2)
-    rep.check('anomaly_cancellation', a_33_1 == 0 and a_22_1 == 0 and a_111 == 0 and a_grav == 0 and a_333 == 0 and ndoub % 2 == 0,
-              'one generation (Q, u_R, d_R, L, e_R, nu_R) as 4D Weyl zero modes: SU(3)^2U(1) %s, SU(2)^2U(1) %s, U(1)^3 %s, grav^2U(1) %s, '
-              'SU(3)^3 %s; %d SU(2) doublets (even: no Witten anomaly); dirac16complex is a gauge singlet' % (a_33_1, a_22_1, a_111, a_grav, a_333, ndoub))
+
+    def anomalies(W):
+        a_33_1 = sum(nw * Y * (1 if nc == 3 else 0) for (_, nc, nw, Y, s_) in W)        # SU(3)^2 U(1): Tr(T^2) Y over triplets
+        a_22_1 = sum(nc * Y * (1 if nw == 2 else 0) for (_, nc, nw, Y, s_) in W)        # SU(2)^2 U(1)
+        a_111 = sum(nc * nw * Y ** 3 for (_, nc, nw, Y, s_) in W)                        # U(1)^3
+        a_grav = sum(nc * nw * Y for (_, nc, nw, Y, s_) in W)                            # grav^2 U(1)
+        a_333 = sum(s_ * nw * (1 if nc == 3 else 0) for (_, nc, nw, Y, s_) in W)        # SU(3)^3 (triplets L minus R)
+        ndoub = sum(nc for (_, nc, nw, Y, s_) in W if nw == 2)
+        return a_33_1, a_22_1, a_111, a_grav, a_333, ndoub
+    W3 = weyl_list([(n, generation[n], 3) for n in generation])
+    a3 = anomalies(W3)
+    Wcf = weyl_list([(n, generation[n], 1 if n in ('Q', 'u_R', 'd_R') else 3) for n in generation])
+    acf = anomalies(Wcf)
+    out['anomalies_three_generations'] = [str(x) for x in a3]
+    out['anomalies_three_lepton_one_quark_generation'] = [str(x) for x in acf]
+    rep.check('anomaly_cancellation', all(x == 0 for x in a3[:5]) and a3[5] % 2 == 0 and (acf[1] != 0 and acf[2] != 0),
+              'three generations (Q, u_R, d_R, L, e_R, nu_R) as 4D Weyl zero modes: SU(3)^2U(1) %s, SU(2)^2U(1) %s, U(1)^3 %s, grav^2U(1) %s, '
+              'SU(3)^3 %s; %d SU(2) doublets (even: no Witten anomaly); dirac16complex is a gauge singlet. Three lepton generations with ONE '
+              'quark generation would leave SU(2)^2U(1) = %s and U(1)^3 = %s: the second and third quark generations are required' % (
+                  a3[0], a3[1], a3[2], a3[3], a3[4], a3[5], acf[1], acf[2]))
 
     # ---------------- E3: chiral projector algebra ----------------
     alg = read_json(os.path.join(OUT, 'algebra.json'))
@@ -182,69 +199,79 @@ def main():
     out['adm_tip2'] = adm_tip2
     out['ratio_dm_to_fold_band_Psi_A'] = adm_tip2 / a0_tip2
 
-    # ---------------- E5: Z invisible width, N_eff, CNB ----------------
-    Nnu, dNnu = INPUTS['N_nu_LEP'][0], INPUTS['N_nu_LEP'][1]
-    r2 = (Nnu - 1.0) / 2.0
-    dr2 = dNnu / 2.0
-    out['Z_portal'] = {'N_nu_LEP': Nnu, 'r2': r2, 'r2_uncertainty': dr2, 'r': math.sqrt(r2)}
-    rep.check('Z_invisible_width_fit', abs(1 + 2 * r2 - Nnu) < 1e-12,
-              'with one neutrino and the two Psi_A Weyl species: N_nu = 1 + 2 r^2 = %.4f for r^2 = (g_Z(Psi_A)/g_Z(nu))^2 = %.4f +- %.4f' % (Nnu, r2, dr2))
-    # decoupling: NC rate ~ r^2 G_F^2 T^5 vs H ~ 1.66 sqrt(g*) T^2/M_Pl ; neutrino NC decoupling ~ 2.6 MeV (nu_mu,tau-like) STANDARD estimate
-    T_nu_dec = 2.6e-3       # GeV (NC-only species), FROM MEMORY
-    T_dec_PsiA = T_nu_dec * r2 ** (-1.0 / 3.0)
-    out['T_dec_PsiA_GeV'] = T_dec_PsiA
-    # T(Psi_A) = T(nu) if Psi_A decouples after the last entropy release before nu decoupling (pions, T < ~20 MeV) ->
-    r2min = (T_nu_dec / 0.020) ** 3
-    out['r2_min_for_T_equal'] = r2min
-    Neff_SM3 = 3.0440        # three flavours with non-instantaneous decoupling and QED corrections (Bennett et al. 2021) FROM MEMORY
-    Neff = Neff_SM3          # nu_e + 2 Psi_A with nu_mu,tau-like (NC) couplings, r^2 = 0.992: the same thermal history
-    out['N_eff'] = Neff
-    rep.check('N_eff_prediction', r2min < r2 <= 1.0,
-              'Psi_A decouples at about %.2f MeV (NC rate scaled by r^2), after the QCD and pion entropy releases: T(Psi_A) = T(nu) for every '
-              'r^2 > %.1e; then N_eff = %.4f (the three-flavour value: nu_e plus two NC-coupled Weyl species)' % (T_dec_PsiA * 1e3, r2min, Neff))
-    # CNB: n per Weyl species = (3/4)(zeta3/pi^2) 2 T^3
-    kB = 8.617333262e-5         # eV/K
-    hbarc_cm = 1.973269804e-5   # eV cm
-    T0 = 2.7255
-    Tnu = (4.0 / 11.0) ** (1.0 / 3.0) * T0
-    zeta3 = 1.2020569031595942
-    nW = 0.75 * zeta3 / math.pi ** 2 * 2 * (kB * Tnu / hbarc_cm) ** 3
-    out['CNB'] = {'T_nu_K': Tnu, 'n_per_Weyl_species_cm3': nW, 'species': {'nu_e (massive)': 1, 'Psi_A (massless)': 2},
-                  'n_total_cm3': 3 * nW, 'T_nu_eV': kB * Tnu}
-    rep.check('CNB', abs(Tnu - 1.9454) < 1e-3 and abs(nW - 112.0) < 0.5,
-              'T_nu = (4/11)^{1/3} T_CMB = %.4f K; %.1f per cm^3 per Weyl species (nu + nubar); UM-2 CNB: nu_e (0.05 eV, non-relativistic today) '
-              '+ two massless Psi_A species, %.0f per cm^3 in total' % (Tnu, nW, 3 * nW))
-    # Z widths of the one-generation model (tree level, for the record of the conflict)
-    GF = 1.1663788e-5
+    # ---------------- E5: Z invisible width, the Psi_A coupling, Z widths ----------------
+    Nnu, dNnu = INPUTS['N_nu'][0], INPUTS['N_nu'][1]
+    r2_max = (Nnu + 2 * dNnu - 3.0) / 2.0          # N_nu = 3 + 2 r^2 within two standard deviations
+    out['Z_portal'] = {'N_nu': Nnu, 'N_nu_uncertainty': dNnu, 'N_nu_model': 3.0, 'pull_r0': (3.0 - Nnu) / dNnu,
+                       'r2_max_Z_width_2sigma': r2_max, 'r2_benchmark': 0.0, 'c_Z_benchmark': 0.0}
+    rep.check('Z_invisible_width', abs((3.0 - Nnu) / dNnu) < 1.0 and 0 < r2_max < 0.01,
+              'with the three neutrinos and the Psi_A fold band of Z coupling r times the neutrino\'s, N_nu = 3 + 2 r^2; the PDG 2025 value '
+              'N_nu = %.4f +- %.4f (Janot and Jadach 2020) is reproduced by r = 0 (pull %.2f) and bounds r^2 < %.4f (two standard deviations); '
+              '(the superseded LEP 2006 value 2.9840 +- 0.0082 lies 1.9 standard deviations below 3)' % (Nnu, dNnu, (3.0 - Nnu) / dNnu, r2_max))
+    # N_eff: a thermalised Psi_A fold band (two Weyl species) would add Delta N_eff = 2 (10.75/g_s(T_dec))^{4/3}.  Below the Z mass
+    # its neutral-current rate is r^2 times the neutrino's: decoupling at T_dec = 2.6 MeV r^{-2/3} (FROM MEMORY: NC-only species
+    # decouple near 2.6 MeV); above the Z mass the rate is unsuppressed, Gamma ~ 0.1 r^2 alpha_Z^2 T against H = 1.66 sqrt(g*) T^2/M_Pl
+    # (ESTIMATE), so the fold band thermalises in a radiation era hotter than ~100 GeV unless r^2 < 1e-12.
+    T_nu_dec = 2.6e-3
+    T_dec_at_bound = T_nu_dec * r2_max ** (-1.0 / 3.0)
+    dNeff_at_bound = 2.0 * (10.75 / 10.75) ** (4.0 / 3.0) if T_dec_at_bound < 0.03 else None
+    alphaZ = (4 * math.pi / val('alpha_inv_0')) / (4 * math.pi) / (1 - val('sin2_theta_W_MSbar')) / val('sin2_theta_W_MSbar')
+    MPl = val('M_Pl_GeV')
+    gstar_EW = 105.75
+    r2_never = 1.66 * math.sqrt(gstar_EW) * 100.0 / (0.1 * alphaZ ** 2 * MPl)        # Gamma/H < 1 at T = 100 GeV
+    out['Psi_A_thermalisation'] = {'T_dec_GeV_at_Z_width_bound': T_dec_at_bound, 'Delta_Neff_at_Z_width_bound': dNeff_at_bound,
+                                   'alpha_Z': alphaZ, 'r2_for_no_thermalisation_above_EW_ESTIMATE': r2_never}
+    Neff_cmb, dNeff_cmb = val('N_eff_Planck2018'), INPUTS['N_eff_Planck2018'][1]
+    out['Psi_A_thermalisation']['N_eff_Planck2018'] = [Neff_cmb, dNeff_cmb]
+    rep.check('Psi_A_decoupled_from_Z', dNeff_at_bound is not None and (3.0432 + dNeff_at_bound - Neff_cmb) / dNeff_cmb > 5 and r2_never < 1e-10,
+              'at the Z-width bound (r^2 = %.4f) the Psi_A fold band would decouple at %.1f MeV, where g_s = 10.75 (photons, e+-, three neutrinos), '
+              'so it would carry the neutrino temperature and add Delta N_eff = %.0f (excluded: N_eff = %.2f +- %.2f, Planck 2018); above the Z mass its production rate ~ 0.1 r^2 alpha_Z^2 T (alpha_Z = %.4f) stays below '
+              'the Hubble rate only for r^2 < %.0e (ESTIMATE). UM-2 therefore sets the even part of the chiral tip Z portal to zero, c_Z = 0: '
+              'the Psi_A fold band, like the Psi_B fold band, is never thermalised and is not part of the CNB; the oriented part c\'_Z (odd under '
+              'the fold reflection) keeps the decays of the heavy odd Psi_A states' % (r2_max, T_dec_at_bound * 1e3, dNeff_at_bound, Neff_cmb, dNeff_cmb,
+                                                                                 alphaZ, r2_never))
+    # Z widths of three generations (tree level, massless fermions; hadronic channels with the QCD factor 1 + alpha_s/pi for comparison)
+    GF = val('G_F_GeV-2')
     mZ = val('m_Z_GeV')
     s2 = val('sin2_theta_W_MSbar')
     G0 = GF * mZ ** 3 / (6 * math.sqrt(2) * math.pi)
-    # Gamma(Z -> f fbar) = Nc G_F mZ^3/(6 sqrt2 pi) (gV^2 + gA^2) with gV = T3 - 2Q s2, gA = T3 (tree level, massless)
-    Gnu = G0 * ((0.5) ** 2 + (0.5) ** 2)
-    Ge = G0 * ((-0.5 + 2 * s2) ** 2 + 0.25)
-    Gu = 3 * G0 * ((0.5 - 4.0 / 3.0 * s2) ** 2 + 0.25)
-    Gd = 3 * G0 * ((-0.5 + 2.0 / 3.0 * s2) ** 2 + 0.25)
-    GPsi = 2 * r2 * Gnu
-    tot = Gnu + Ge + Gu + Gd + GPsi
-    out['Z_widths_tree_MeV'] = {'nu_e': Gnu * 1e3, 'e': Ge * 1e3, 'u': Gu * 1e3, 'd': Gd * 1e3, 'Psi_A (2 Weyl)': GPsi * 1e3,
-                                'total': tot * 1e3, 'measured_total': 2495.5, 'measured_invisible': 499.0}
-    # scheme dependence of the tree-level widths: the angle of the couplings of the W/Z mass fit (um2_spectra.py),
-    # cos^2 = (m_W/m_Z)^2/rho0, instead of the MS-bar value, which absorbs the Standard-Model loop corrections
+
+    def width(T3, Q, Nc, s2_):
+        return Nc * G0 * ((T3 - 2 * Q * s2_) ** 2 + T3 ** 2)
+    chans = {'nu (each of 3)': (0.5, 0, 1), 'charged lepton (each of e, mu, tau)': (-0.5, -1, 1),
+             'up-type quark (each of u, c)': (0.5, 2.0 / 3.0, 3), 'down-type quark (each of d, s, b)': (-0.5, -1.0 / 3.0, 3)}
+    Wd = {k: width(*v, s2) for k, v in chans.items()}
+    G_inv = 3 * Wd['nu (each of 3)']
+    G_lep = Wd['charged lepton (each of e, mu, tau)']
+    G_had = 2 * Wd['up-type quark (each of u, c)'] + 3 * Wd['down-type quark (each of d, s, b)']
+    tot = G_inv + 3 * G_lep + G_had
+    qcd = 1 + val('alpha_s_mZ') / math.pi
+    tot_qcd = G_inv + 3 * G_lep + qcd * G_had
+    GZ_meas = val('Gamma_Z_MeV')
+    Ginv_meas = val('B_Z_invisible') * GZ_meas
+    Rl_meas = val('B_Z_hadrons') / val('B_Z_ll')
+    out['Z_widths_tree_MeV'] = {k: v * 1e3 for k, v in Wd.items()}
+    out['Z_widths_tree_MeV'].update({'invisible (3 nu)': G_inv * 1e3, 'hadronic': G_had * 1e3, 'total': tot * 1e3,
+                                     'hadronic_with_QCD_factor': qcd * G_had * 1e3, 'total_with_QCD_factor': tot_qcd * 1e3,
+                                     'R_l_with_QCD_factor': qcd * G_had / G_lep, 'measured_total': GZ_meas, 'measured_invisible': Ginv_meas,
+                                     'measured_R_l': Rl_meas, 'Psi_A': 0.0, 'top': 'kinematically closed'})
+    # scheme dependence: the tree-level angle of the couplings of the W/Z mass fit instead of the MS-bar value
     s2c = 1 - (val('m_W_GeV') / mZ) ** 2 / (1 + val('rho0_minus_1'))
-    Gec = G0 * ((-0.5 + 2 * s2c) ** 2 + 0.25)
-    Guc = 3 * G0 * ((0.5 - 4.0 / 3.0 * s2c) ** 2 + 0.25)
-    Gdc = 3 * G0 * ((-0.5 + 2.0 / 3.0 * s2c) ** 2 + 0.25)
-    totc = Gnu + Gec + Guc + Gdc + GPsi
-    rel = {'e': Gec / Ge - 1, 'u': Guc / Gu - 1, 'd': Gdc / Gd - 1, 'total': totc / tot - 1}
-    out['Z_widths_tree_MeV_coupling_angle'] = {'sin2_theta': s2c, 'e': Gec * 1e3, 'u': Guc * 1e3, 'd': Gdc * 1e3,
-                                               'total': totc * 1e3, 'relative_change': rel}
-    rep.check('Z_width_scheme', max(abs(x) for x in rel.values()) < 0.02 and abs(rel['total']) < 0.01,
-              'with the tree-level angle of the couplings of the mass fit (sin^2 = %.5f) instead of the MS-bar %.5f the widths change by '
-              '%+.2f %% (e), %+.2f %% (u), %+.2f %% (d), %+.2f %% (total %.0f MeV): a scheme ambiguity at the per-cent level, far below the '
-              'factor-two conflict of the total width' % (s2c, s2, 100 * rel['e'], 100 * rel['u'], 100 * rel['d'], 100 * rel['total'], totc * 1e3))
-    rep.check('Z_total_width_conflict', tot < 0.6 * 2.4955,
-              'tree-level Z widths of the one-generation model: total %.0f MeV against the measured 2495.5 MeV (the missing mu, tau, s, c, b '
-              'channels): an inherent conflict of the particle content of the order; the invisible width %.0f MeV is reproduced by Psi_A' % (tot * 1e3, (Gnu + GPsi) * 1e3))
+    Wc = {k: width(*v, s2c) for k, v in chans.items()}
+    totc = 3 * Wc['nu (each of 3)'] + 3 * Wc['charged lepton (each of e, mu, tau)'] + 2 * Wc['up-type quark (each of u, c)'] + \
+        3 * Wc['down-type quark (each of d, s, b)']
+    out['Z_widths_tree_MeV_coupling_angle'] = {'sin2_theta': s2c, 'total': totc * 1e3, 'relative_change_total': totc / tot - 1}
+    rep.check('Z_width_scheme', abs(totc / tot - 1) < 0.02,
+              'with the tree-level angle of the couplings of the mass fit (sin^2 = %.5f) instead of the MS-bar %.5f the total tree-level width '
+              'changes by %+.2f %%: a scheme ambiguity at the per-cent level' % (s2c, s2, 100 * (totc / tot - 1)))
+    rep.check('Z_widths_three_generations', abs(tot_qcd * 1e3 / GZ_meas - 1) < 0.01 and abs(G_inv * 1e3 / Ginv_meas - 1) < 0.01 and
+              abs(qcd * G_had / G_lep / Rl_meas - 1) < 0.01,
+              'tree-level Z widths of the three generations (massless fermions, MS-bar angle): invisible (3 nu) %.1f MeV (measured %.1f, PDG 2025), '
+              'each charged lepton %.1f MeV, hadronic %.1f MeV (with the QCD factor 1 + alpha_s/pi: %.1f MeV), total %.1f MeV (%.1f MeV with the '
+              'QCD factor; measured %.1f MeV); R_l = %.2f (measured %.2f): the three generations reproduce the Z width to the size of the '
+              'electroweak loop corrections that UM-2 does not compute; the one-generation conflict (total 1232 MeV) is gone' % (
+                  G_inv * 1e3, Ginv_meas, G_lep * 1e3, G_had * 1e3, qcd * G_had * 1e3, tot * 1e3, tot_qcd * 1e3, GZ_meas,
+                  qcd * G_had / G_lep, Rl_meas))
     write_json(os.path.join(OUT, 'electroweak.json'), out)
     ok = rep.write()
     sys.exit(0 if ok else 1)
