@@ -1,5 +1,5 @@
 {
- "check_count": 13,
+ "check_count": 14,
  "checks": [
   {
    "detail": "the overlap Itilde = int (a^2 + b^2) rho_f e^{-3Hy} dy of the dark-matter level with the Standard-Model zero modes equals the derivative of the self-consistent Kohn-Sham level with respect to the I11 amplitude (finite differences at 1e-4 and 2e-4, Richardson) to 3.1e-10: Q 8.272211, e_R 0.397153, L 1.252406; fold band: Q 6.685235, L 1.659210, e_R 8.0805e-01",
@@ -32,13 +32,18 @@
    "passed": true
   },
   {
-   "detail": "with the unitarity-safe I12 benchmark and the s-wave portal I13 (B - L currents, sum N_c (q Itilde^(b))^2 = 22.917 over the Weyl components) each species leaves Omega h^2 = 0.060 for G_A = 1.072e-09 GeV^-2 if the effective cross-section held at every energy (x_f = 31.23; <sigma v>(x_f): I13 9.500e-26, I12 9.906e-28 cm^3/s); that cross-section reaches the J = 1 bound sigma <= 3 pi/(4 p^2) (one channel, 3S1) above v = 0.52, which carries 24.5 % of the rate at freeze-out; with the cross-section capped at the bound the relic needs G_A = 1.080e-09 GeV^-2 (9.3e-05 G_F; x_f = 31.23), and 19.0 % of the freeze-out rate then comes from collisions at the bound (v > 0.51): the relic is reached with most annihilations in the perturbative regime",
+   "detail": "with the unitarity-safe I12 benchmark and the s-wave portal I13 (baryon-number current, sum N_c (q Itilde^(b))^2 = 16.351 over the quark Weyl components) each species leaves Omega h^2 = 0.060 for G_A = 1.269e-09 GeV^-2 if the effective cross-section held at every energy (x_f = 31.23; <sigma v>(x_f): I13 9.500e-26, I12 9.906e-28 cm^3/s); that cross-section reaches the J = 1 bound sigma <= 3 pi/(4 p^2) (one channel, 3S1) above v = 0.52, which carries 24.5 % of the rate at freeze-out; with the cross-section capped at the bound the relic needs G_A = 1.278e-09 GeV^-2 (1.1e-04 G_F; x_f = 31.23), and 19.0 % of the freeze-out rate then comes from collisions at the bound (v > 0.51): the relic is reached with most annihilations in the perturbative regime",
    "name": "C8_I13_relic",
    "passed": true
   },
   {
-   "detail": "I13 and I11 couple the dark matter coherently to the quark vector currents: f_p = 1.617e-09, f_n = 1.619e-09 GeV^-2, sigma_n = mu^2 f^2/pi = 2.86e-46 cm^2 for xenon, 0.12 of the LZ limit 2.44e-45 cm^2 at 44.3 TeV: allowed, and within reach of the next generation of xenon detectors",
+   "detail": "I13 and I11 couple the dark matter coherently to the quark vector currents: f_p = 1.915e-09, f_n = 1.917e-09 GeV^-2, sigma_n = mu^2 f^2/pi = 4.01e-46 cm^2 for xenon, 0.16 of the LZ limit 2.44e-45 cm^2 at 44.3 TeV: allowed, and within reach of the next generation of xenon detectors",
    "name": "C8_I13_direct_detection",
+   "passed": true
+  },
+  {
+   "detail": "with the B - L current instead of J^B, I13 would need G_A = 1.072e-09 GeV^-2 (sum N_c (q Itilde^(b))^2 = 22.92; the three nu_R carry 1.2 % of the annihilation) and chi chibar <-> nu_R nubar_R would bring the right-handed neutrinos into equilibrium: from zero abundance at M/T = 2 they reach 0.9997 of the equilibrium number by M/T = 40; the number-changing rate falls below the Hubble rate at M/T = 16.1 and elastic scattering on the dark matter at M/T = 25.1 (T = 1769 GeV, g_s = 105.74); the three nu_R would then add Delta N_eff = 3 (10.75/g_s)^(4/3) F_h = 0.144, N_eff = 3.187, 2.5 standard deviations above ACT DR6 (2.86 +- 0.13): hence I13 couples to the baryon-number current, which leaves the nu_R untouched",
+   "name": "C9_B_minus_L_alternative_thermalises_nuR",
    "passed": true
   },
   {
@@ -47,7 +52,7 @@
    "passed": true
   },
   {
-   "detail": "the Standard-Model mean fields shift the dark-matter level by at most 1.6e-06 of its mass over the ten environments (largest: dark-matter freeze-out (T = 1.46 TeV), where the thermal gauge condensates are of order T^4; at most 8.1e-17 from nucleosynthesis to today) (I11 and I13 from the quark and electron B - L densities with their x0 profiles; I12 from the QCD vacuum condensate, the thermal QCD interaction measure and the thermal W, Z condensates); the fold band stays massless",
+   "detail": "the Standard-Model mean fields shift the dark-matter level by at most 1.6e-06 of its mass over the ten environments (largest: dark-matter freeze-out (T = 1.46 TeV), where the thermal gauge condensates are of order T^4; at most 1.0e-16 from nucleosynthesis to today) (I11 from the quark and electron B - L densities, I13 from the quark baryon-number densities, each with its x0 profiles; I12 from the QCD vacuum condensate, the thermal QCD interaction measure and the thermal W, Z condensates); the fold band stays massless",
    "name": "C4_mean_fields_in_environments",
    "passed": true
   },

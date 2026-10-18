@@ -1,11 +1,11 @@
 {
  "I13": {
-  "G_A_GeV-2": 1.07964979254e-09,
-  "G_A_effective_operator_GeV-2": 1.07187018247e-09,
-  "G_A_over_G_F": 9.25642503572e-05,
+  "G_A_GeV-2": 1.27818421371e-09,
+  "G_A_effective_operator_GeV-2": 1.26897402915e-09,
+  "G_A_over_G_F": 0.000109585686375,
   "LZ_cm2": 2.43913477451e-45,
-  "Omega_h2_per_species_capped": 0.0599999998539,
-  "Omega_h2_per_species_effective": 0.0599999993337,
+  "Omega_h2_per_species_capped": 0.0599999999878,
+  "Omega_h2_per_species_effective": 0.0599999995663,
   "components": [
    {
     "Itilde_b": 2.61345394593,
@@ -26,24 +26,6 @@
     "q": 0.333333333333
    },
    {
-    "Itilde_b": 0.913409773488,
-    "mult": 2,
-    "name": "L1",
-    "q": -1.0
-   },
-   {
-    "Itilde_b": 0.389992326533,
-    "mult": 1,
-    "name": "e_R",
-    "q": -1.0
-   },
-   {
-    "Itilde_b": 0.300981812738,
-    "mult": 1,
-    "name": "nu1_R",
-    "q": -1.0
-   },
-   {
     "Itilde_b": 2.61345394593,
     "mult": 6,
     "name": "Q2",
@@ -62,24 +44,6 @@
     "q": 0.333333333333
    },
    {
-    "Itilde_b": 0.913409773488,
-    "mult": 2,
-    "name": "L2",
-    "q": -1.0
-   },
-   {
-    "Itilde_b": 0.544168451304,
-    "mult": 1,
-    "name": "mu_R",
-    "q": -1.0
-   },
-   {
-    "Itilde_b": 0.304379009291,
-    "mult": 1,
-    "name": "nu2_R",
-    "q": -1.0
-   },
-   {
     "Itilde_b": 2.61345394593,
     "mult": 6,
     "name": "Q3",
@@ -96,39 +60,32 @@
     "mult": 3,
     "name": "b_R",
     "q": 0.333333333333
-   },
-   {
-    "Itilde_b": 0.913409773488,
-    "mult": 2,
-    "name": "L3",
-    "q": -1.0
-   },
-   {
-    "Itilde_b": 0.913409773488,
-    "mult": 1,
-    "name": "tau_R",
-    "q": -1.0
-   },
-   {
-    "Itilde_b": 0.307540245179,
-    "mult": 1,
-    "name": "nu3_R",
-    "q": -1.0
    }
   ],
-  "f_n_GeV-2": 1.61910406143e-09,
-  "f_p_GeV-2": 1.6173755861e-09,
-  "fraction_of_rate_above_crossing_at_xf": 0.244575046188,
-  "fraction_of_rate_saturated_capped": 0.189634902364,
-  "sigma_n_xenon_cm2": 2.86160806958e-46,
+  "f_n_GeV-2": 1.91683750443e-09,
+  "f_p_GeV-2": 1.9147911836e-09,
+  "fraction_of_rate_above_crossing_at_xf": 0.244575045433,
+  "fraction_of_rate_saturated_capped": 0.189634901113,
+  "sigma_n_xenon_cm2": 4.01080200761e-46,
   "sigma_v_I12_at_xf_cm3_s": 9.90602160817e-28,
-  "sigma_v_I13_at_xf_cm3_s": 9.50018799857e-26,
-  "sqrt_s_unitarity_crossing_GeV": 91825.5755807,
-  "sum_Nc_q2_Ib2": 22.9168782662,
-  "v_crossing": 0.517710021432,
-  "v_crossing_capped": 0.511699517452,
+  "sigma_v_I13_at_xf_cm3_s": 9.50018798879e-26,
+  "sqrt_s_unitarity_crossing_GeV": 91825.5755862,
+  "sum_Nc_q2_Ib2": 16.3506254126,
+  "v_crossing": 0.517710021861,
+  "v_crossing_capped": 0.511699518444,
   "x_f_capped": 31.2311046115,
   "x_f_effective": 31.2311046115
+ },
+ "I13_B_minus_L_alternative": {
+  "Delta_Neff": 0.143707238865,
+  "G_A_BL_GeV-2": 1.07187018192e-09,
+  "S13_BL": 22.9168782662,
+  "T_kinetic_decoupling_GeV": 1768.96310296,
+  "Y_nuR_over_Yeq_at_x40": 0.999697682771,
+  "g_s_at_decoupling": 105.735339463,
+  "nuR_share_of_annihilation": 0.0121228394231,
+  "x_chemical_decoupling": 16.11,
+  "x_kinetic_decoupling": 25.07
  },
  "I13_checks": [
   {
@@ -175,8 +132,8 @@
    "dM_I12_GeV": 5.24145412749e-15,
    "d_eps_DM_I11_GeV": 4.3952624768e-33,
    "d_eps_DM_I12_GeV": 3.70675635896e-15,
-   "d_eps_DM_I13_GeV": 3.26479347978e-26,
-   "d_eps_DM_over_M": 8.35835731076e-20,
+   "d_eps_DM_I13_GeV": 4.88455007187e-26,
+   "d_eps_DM_over_M": 8.3583573108e-20,
    "dalpha_over_alpha": {
     "SU2": -9.52564408825e-61,
     "U1": -2.743856967e-61,
@@ -207,7 +164,7 @@
    "dM_I12_GeV": 5.24145412749e-15,
    "d_eps_DM_I11_GeV": 1.17993235253e-57,
    "d_eps_DM_I12_GeV": 3.70675635896e-15,
-   "d_eps_DM_I13_GeV": 7.02092993786e-51,
+   "d_eps_DM_I13_GeV": 1.4712307266e-50,
    "d_eps_DM_over_M": 8.35835731069e-20,
    "dalpha_over_alpha": {
     "SU2": -9.52564408825e-61,
@@ -239,8 +196,8 @@
    "dM_I12_GeV": 2.7566166152e-15,
    "d_eps_DM_I11_GeV": 2.03996085532e-28,
    "d_eps_DM_I12_GeV": 1.94947927027e-15,
-   "d_eps_DM_I13_GeV": 1.50406585949e-21,
-   "d_eps_DM_over_M": 4.39588019936e-20,
+   "d_eps_DM_I13_GeV": 2.27733922026e-21,
+   "d_eps_DM_over_M": 4.39588194301e-20,
    "dalpha_over_alpha": {
     "SU2": -2.94516294932e-29,
     "U1": -8.48352699573e-30,
@@ -271,8 +228,8 @@
    "dM_I12_GeV": 5.24145412749e-15,
    "d_eps_DM_I11_GeV": 1.12495580575e-31,
    "d_eps_DM_I12_GeV": 3.70675635896e-15,
-   "d_eps_DM_I13_GeV": 7.78187626377e-25,
-   "d_eps_DM_over_M": 8.35835731245e-20,
+   "d_eps_DM_I13_GeV": 1.30286839208e-24,
+   "d_eps_DM_over_M": 8.35835731363e-20,
    "dalpha_over_alpha": {
     "SU2": -9.52564408825e-61,
     "U1": -2.743856967e-61,
@@ -303,7 +260,7 @@
    "dM_I12_GeV": 5.24145412749e-15,
    "d_eps_DM_I11_GeV": 3.05001755189e-64,
    "d_eps_DM_I12_GeV": 3.70675635896e-15,
-   "d_eps_DM_I13_GeV": 1.93099576925e-57,
+   "d_eps_DM_I13_GeV": 3.69644868687e-57,
    "d_eps_DM_over_M": 8.35835731069e-20,
    "dalpha_over_alpha": {
     "SU2": -3.01109419887e-66,
@@ -335,8 +292,8 @@
    "dM_I12_GeV": -0.100012426783,
    "d_eps_DM_I11_GeV": 7.93479932404e-17,
    "d_eps_DM_I12_GeV": -0.0707287882212,
-   "d_eps_DM_I13_GeV": 5.85361346673e-10,
-   "d_eps_DM_over_M": -1.59486198164e-06,
+   "d_eps_DM_I13_GeV": 8.85512110738e-10,
+   "d_eps_DM_over_M": -1.59486197487e-06,
    "dalpha_over_alpha": {
     "SU2": -2.32723131814e-16,
     "U1": -6.70357805408e-17,
@@ -367,8 +324,8 @@
    "dM_I12_GeV": -3.29434286382e-06,
    "d_eps_DM_I11_GeV": 2.55081906942e-20,
    "d_eps_DM_I12_GeV": -2.32975927329e-06,
-   "d_eps_DM_I13_GeV": 1.88177327294e-13,
-   "d_eps_DM_over_M": -5.25336898233e-11,
+   "d_eps_DM_I13_GeV": 2.8466789311e-13,
+   "d_eps_DM_over_M": -5.25336876475e-11,
    "dalpha_over_alpha": {
     "SU2": -6.0685549927e-21,
     "U1": -1.74804419965e-21,
@@ -399,8 +356,8 @@
    "dM_I12_GeV": 5.24145412749e-15,
    "d_eps_DM_I11_GeV": 4.29091742218e-19,
    "d_eps_DM_I12_GeV": 3.70675635896e-15,
-   "d_eps_DM_I13_GeV": 3.5695341743e-12,
-   "d_eps_DM_over_M": 8.05729461282e-17,
+   "d_eps_DM_I13_GeV": 4.41793736737e-12,
+   "d_eps_DM_over_M": 9.97035723266e-17,
    "dalpha_over_alpha": {
     "SU2": -9.52564408825e-61,
     "U1": -2.743856967e-61,
@@ -431,7 +388,7 @@
    "dM_I12_GeV": 5.24145412749e-15,
    "d_eps_DM_I11_GeV": 2.39765048125e-35,
    "d_eps_DM_I12_GeV": 3.70675635896e-15,
-   "d_eps_DM_I13_GeV": 1.58338603355e-28,
+   "d_eps_DM_I13_GeV": 2.84581325175e-28,
    "d_eps_DM_over_M": 8.35835731069e-20,
    "dalpha_over_alpha": {
     "SU2": -6.27830410378e-37,
@@ -463,8 +420,8 @@
    "dM_I12_GeV": 5.24145412749e-15,
    "d_eps_DM_I11_GeV": 7.94337658278e-28,
    "d_eps_DM_I12_GeV": 3.70675635896e-15,
-   "d_eps_DM_I13_GeV": 5.85994148072e-21,
-   "d_eps_DM_over_M": 8.35837052426e-20,
+   "d_eps_DM_I13_GeV": 8.86469279187e-21,
+   "d_eps_DM_over_M": 8.35837729967e-20,
    "dalpha_over_alpha": {
     "SU2": -9.52564408825e-61,
     "U1": -2.743856967e-61,
@@ -736,7 +693,7 @@
  },
  "validity": {
   "I12_benchmark_unitarity_crossing_sqrt_s_over_M": 2.3983845492,
-  "I13_capped_crossing_velocity": 0.511699517452,
+  "I13_capped_crossing_velocity": 0.511699518444,
   "M_over_T": 1.62099015285,
   "T_at_which_dalpha_s_over_alpha_s_reaches_0.1_GeV": 27358.5283125,
   "unitarity_velocity_relic_strength_I12": 0.274185300853

@@ -20,12 +20,16 @@ C2  I11 with the B - L charges (quarks 1/3, leptons -1): the freeze-in of the fo
     sigma = G^2 s/(12 pi) per Dirac pair, from the Standard-Model plasma below T_max: Delta N_eff(G_V, T_max); the benchmark
     G_V for Delta N_eff = 1e-3 at T_max = 10 TeV (ASSUMED); the fold bands are never in equilibrium (Gamma/H << 1).
 C3  Direct detection through I11: coherent vector coupling to the quarks of the nucleus, against the LZ limit.
-C8  The x0-chiral vector portal I13, (c_A/Lambda*^6)(i Psibar gamma^M P_b Psi) J^(B-L)_M with P_b = (1 - gamma^(x0))/2: the
-    bilinear is Hermitian and a 4D vector (P_a gamma^mu = gamma^mu P_b, C P_b C^-1 = P_a) and vanishes identically on the fold
-    band (b = 0); its overlaps Itilde^(b)_of = int b_o^2 rho_f e^{-3Hy} dy (checked by self-consistent Kohn-Sham solutions with a
-    b-component potential); the s-wave annihilation chi chibar -> f fbar (3S1), the relic of the two species together with the
-    unitarity-safe I12 benchmark (numerical Boltzmann equation, exact thermal averages), the J = 1 unitarity bound
-    sigma <= 3 pi/(4 p^2), and direct detection.
+C8  The x0-chiral vector portal I13, (c_A/Lambda*^6)(i Psibar gamma^M P_b Psi) J^B_M with P_b = (1 - gamma^(x0))/2 and the
+    baryon-number current J^B_M = (1/3) sum_i sum_{Q_i, u_Ri, d_Ri} i psibar gamma_M psi: the bilinear is Hermitian and a 4D vector
+    (P_a gamma^mu = gamma^mu P_b, C P_b C^-1 = P_a) and vanishes identically on the fold band (b = 0); its overlaps
+    Itilde^(b)_of = int b_o^2 rho_f e^{-3Hy} dy (checked by self-consistent Kohn-Sham solutions with a b-component potential); the
+    s-wave annihilation chi chibar -> q qbar (3S1), the relic of the two species together with the unitarity-safe I12 benchmark
+    (numerical Boltzmann equation, exact thermal averages), the J = 1 unitarity bound sigma <= 3 pi/(4 p^2), and direct detection.
+C9  Why I13 couples to J^B and not to J^(B-L): with the B - L current the annihilation chi chibar <-> nu_R nubar_R would bring the
+    three right-handed neutrinos into equilibrium above the dark-matter freeze-out (number-changing and elastic rates against the
+    Hubble rate, Boltzmann equation for nu_R from zero abundance), and they would decouple as three thermal Weyl species with
+    Delta N_eff = 3 (10.75/g_s)^(4/3) F_h, about 0.14, in tension with ACT DR6; with J^B they are never thermalised.
 C4  The Standard-Model fields acting on Psi (mean fields of the Kohn-Sham equations) in environments: I11 from the B - L
     densities of quarks and electrons (each chirality with its own x0 profile), I12 from the gauge condensates (the QCD
     vacuum condensate, the thermal QCD interaction measure, the thermal W and Z condensates <F^2> = -2(rho - 3p)).
@@ -345,16 +349,19 @@ def main():
               'the fold bands' % (devb, IbD['Q (quark doublets)'], IbD['L (lepton doublets)'], IbD['u_R'], fsh))
     # (b) s-wave annihilation chi chibar -> f fbar through G_f (chibar gamma chi)(fbar_chi gamma f_chi) per Weyl component f_chi:
     # sigma = N_c G_f^2 s (1 + 2 M^2/s)/(24 pi beta_i) (half of the Dirac value), beta_i = sqrt(1 - 4M^2/s);
-    # final states: every Weyl component with B - L charge, including nu_R (a final state, never thermal)
+    # final states: every quark Weyl component (baryon number 1/3); the B - L alternative (leptons -1, nu_R -1) is C9
     comps13 = []
+    comps13_BL = []
     for gen, (uq, dq, lq, nq) in enumerate([('u', 'd', 'e', 'nu1'), ('c', 's', 'mu', 'nu2'), ('t', 'b', 'tau', 'nu3')]):
-        comps13.append(('Q%d' % (gen + 1), IbD['Q (quark doublets)'], 1 / 3., 6, (F[uq]['m_GeV'] + F[dq]['m_GeV']) / 2))
-        comps13.append((uq + '_R', IbD[uq + '_R'], 1 / 3., 3, F[uq]['m_GeV']))
-        comps13.append((dq + '_R', IbD[dq + '_R'], 1 / 3., 3, F[dq]['m_GeV']))
-        comps13.append(('L%d' % (gen + 1), IbD['L (lepton doublets)'], -1.0, 2, F[lq]['m_GeV']))
-        comps13.append((lq + '_R', IbD[lq + '_R'], -1.0, 1, F[lq]['m_GeV']))
-        comps13.append((nq + '_R', IbD[nq + '_R'], -1.0, 1, 0.0))
+        for lst in (comps13, comps13_BL):
+            lst.append(('Q%d' % (gen + 1), IbD['Q (quark doublets)'], 1 / 3., 6, (F[uq]['m_GeV'] + F[dq]['m_GeV']) / 2))
+            lst.append((uq + '_R', IbD[uq + '_R'], 1 / 3., 3, F[uq]['m_GeV']))
+            lst.append((dq + '_R', IbD[dq + '_R'], 1 / 3., 3, F[dq]['m_GeV']))
+        comps13_BL.append(('L%d' % (gen + 1), IbD['L (lepton doublets)'], -1.0, 2, F[lq]['m_GeV']))
+        comps13_BL.append((lq + '_R', IbD[lq + '_R'], -1.0, 1, F[lq]['m_GeV']))
+        comps13_BL.append((nq + '_R', IbD[nq + '_R'], -1.0, 1, 0.0))
     S13 = sum(mult * (q * It) ** 2 for (_, It, q, mult, _) in comps13)
+    S13_BL = sum(mult * (q * It) ** 2 for (_, It, q, mult, _) in comps13_BL)
     sp_ = species(masses, MDM)
     cosmo = Cosmo(sp_)
     s0 = th['s0_cm3']
@@ -423,8 +430,8 @@ def main():
                   'sigma_n_xenon_cm2': sig_n13, 'LZ_cm2': lz,
                   'components': [{'name': a_, 'Itilde_b': b_, 'q': q_, 'mult': m_} for (a_, b_, q_, m_, _) in comps13]}
     rep.check('C8_I13_relic', abs(omA - 0.060) < 1e-4 and abs(omAc - 0.060) < 1e-4 and frac13c < 0.5,
-              'with the unitarity-safe I12 benchmark and the s-wave portal I13 (B - L currents, sum N_c (q Itilde^(b))^2 = %.3f over the '
-              'Weyl components) each species leaves Omega h^2 = 0.060 for G_A = %.3e GeV^-2 if the effective cross-section held at every '
+              'with the unitarity-safe I12 benchmark and the s-wave portal I13 (baryon-number current, sum N_c (q Itilde^(b))^2 = %.3f over '
+              'the quark Weyl components) each species leaves Omega h^2 = 0.060 for G_A = %.3e GeV^-2 if the effective cross-section held at every '
               'energy (x_f = %.2f; <sigma v>(x_f): I13 %.3e, I12 %.3e cm^3/s); that cross-section reaches the J = 1 bound '
               'sigma <= 3 pi/(4 p^2) (one channel, 3S1) above v = %.2f, which carries %.1f %% of the rate at freeze-out; with the cross-section '
               'capped at the bound the relic needs G_A = %.3e GeV^-2 (%.1e G_F; x_f = %.2f), and %.1f %% of the freeze-out rate then comes '
@@ -435,6 +442,78 @@ def main():
               'I13 and I11 couple the dark matter coherently to the quark vector currents: f_p = %.3e, f_n = %.3e GeV^-2, '
               'sigma_n = mu^2 f^2/pi = %.2e cm^2 for xenon, %.2f of the LZ limit %.2e cm^2 at %.1f TeV: allowed, and within reach of the next '
               'generation of xenon detectors' % (fp13, fn13, sig_n13, sig_n13 / lz, lz, MDM / 1e3))
+
+    # ---------------- C9 the B - L alternative of I13 thermalises the right-handed neutrinos ----------------
+    # relic coupling with the B - L current: the effective cross-section scales with S13, so G_A(B-L) = G_A_eff sqrt(S13/S13_BL)
+    GA_BL = GA_eff * math.sqrt(S13 / S13_BL)
+    Inu = [IbD['nu1_R'], IbD['nu2_R'], IbD['nu3_R']]
+    zeta3 = 1.2020569
+    gs_curve = th['g_star_curve']
+    lnTg = np.log(gs_curve['T_GeV'])
+    grv = np.array(gs_curve['g_rho'])
+    gsv_ = np.array(gs_curve['g_s'])
+
+    def g_at(T):
+        lt = math.log(T)
+        return float(np.interp(lt, lnTg, grv)), float(np.interp(lt, lnTg, gsv_))
+
+    Ibar = math.sqrt(sum(I_ * I_ for I_ in Inu) / 3.0)          # the three overlaps differ by 2 %: one representative flavour
+
+    def rates_nuR(x):
+        """For one nu_R flavour: the pair-production rate density gamma = sum_{A,B} n_chi n_chibar <sigma v> (chi chibar <-> nu_R nubar_R,
+        s-wave <sigma v> = G^2 M^2/(2 pi) per Weyl component, G = G_A Itilde^(b)), the equilibrium density of nu_R particles
+        n_eq = (3/4) zeta(3) T^3/pi^2, and the elastic rate per nu_R, Gamma_el = sum_{A,B} (n_chi + n_chibar) G^2 E^2/pi with E ~ 3T
+        (ESTIMATE), with the Hubble rate"""
+        T = MDM / x
+        gr_, gs_ = g_at(T)
+        Hh = math.sqrt(8 * math.pi ** 3 * gr_ / 90) * T * T / MPl
+        nchi = 2 * (MDM * T / (2 * math.pi)) ** 1.5 * math.exp(-x)            # one Dirac species: particles (2 spin states)
+        n_nu = 0.75 * zeta3 / math.pi ** 2 * T ** 3
+        G2 = (GA_BL * Ibar) ** 2
+        gam = 2 * nchi * nchi * G2 * MDM ** 2 / (2 * math.pi)
+        Gel = 2 * 2 * nchi * G2 * (3 * T) ** 2 / math.pi
+        return gam, n_nu, Hh, Gel
+    # chemical (number-changing) decoupling and kinetic decoupling
+    xs = np.linspace(1.0, 60.0, 5901)
+    xchem = None
+    xkin = None
+    for x in xs:
+        gam, n_nu, Hh, Gel = rates_nuR(x)
+        if xchem is None and gam / (n_nu * Hh) < 1.0:
+            xchem = float(x)
+        if xkin is None and Gel / Hh < 1.0:
+            xkin = float(x)
+    # Boltzmann equation for the nu_R number (one flavour, particles) from zero abundance at x = 2: dY/dx = gamma/(s H x) (1 - Y^2/Y_eq^2)
+    from scipy.integrate import solve_ivp as _ivp
+
+    def rhs(x, Y):
+        gam, n_nu, Hh, Gel = rates_nuR(x)
+        T = MDM / x
+        gr_, gs_ = g_at(T)
+        sden = 2 * math.pi ** 2 / 45 * gs_ * T ** 3
+        Yeq = n_nu / sden
+        return [gam / (sden * Hh * x) * (1 - (Y[0] / Yeq) ** 2)]
+    solY = _ivp(rhs, (2.0, 40.0), [0.0], method='Radau', rtol=1e-8, atol=1e-30, dense_output=True)
+    Yend = float(solY.y[0][-1])
+    gam, n_nu, Hh, Gel = rates_nuR(40.0)
+    gr_, gs_ = g_at(MDM / 40.0)
+    Yeq_end = n_nu / (2 * math.pi ** 2 / 45 * gs_ * (MDM / 40.0) ** 3)
+    Fh = 1.0095
+    gs_dec = g_at(MDM / xkin)[1]
+    dNeff_BL = 3 * (10.75 / gs_dec) ** (4.0 / 3.0) * Fh
+    out['I13_B_minus_L_alternative'] = {'S13_BL': S13_BL, 'G_A_BL_GeV-2': GA_BL, 'x_chemical_decoupling': xchem, 'x_kinetic_decoupling': xkin,
+                                        'T_kinetic_decoupling_GeV': MDM / xkin, 'Y_nuR_over_Yeq_at_x40': Yend / Yeq_end, 'g_s_at_decoupling': gs_dec,
+                                        'Delta_Neff': dNeff_BL, 'nuR_share_of_annihilation': sum((I_ ** 2) for I_ in Inu) / S13_BL}
+    Neff_act, sNeff = 2.86, 0.13
+    rep.check('C9_B_minus_L_alternative_thermalises_nuR', abs(Yend / Yeq_end - 1) < 0.05 and dNeff_BL > 0.1,
+              'with the B - L current instead of J^B, I13 would need G_A = %.3e GeV^-2 (sum N_c (q Itilde^(b))^2 = %.2f; the three nu_R carry %.1f %% '
+              'of the annihilation) and chi chibar <-> nu_R nubar_R would bring the right-handed neutrinos into equilibrium: from zero abundance at '
+              'M/T = 2 they reach %.4f of the equilibrium number by M/T = 40; the number-changing rate falls below the Hubble rate at M/T = %.1f '
+              'and elastic scattering on the dark matter at M/T = %.1f (T = %.0f GeV, g_s = %.2f); the three nu_R would then add Delta N_eff = '
+              '3 (10.75/g_s)^(4/3) F_h = %.3f, N_eff = %.3f, %.1f standard deviations above ACT DR6 (2.86 +- 0.13): hence I13 couples to the '
+              'baryon-number current, which leaves the nu_R untouched' % (
+                  GA_BL, S13_BL, 100 * out['I13_B_minus_L_alternative']['nuR_share_of_annihilation'], Yend / Yeq_end, xchem, xkin, MDM / xkin,
+                  gs_dec, dNeff_BL, 3.0432 + dNeff_BL, (3.0432 + dNeff_BL - Neff_act) / sNeff))
 
     # ---------------- C4/C5/C6 environments ----------------
     # densities in cm^-3 (net particle numbers: antiparticles of a symmetric plasma do not contribute to I11), T in GeV
@@ -543,8 +622,7 @@ def main():
                       (1 / 3.) * nd_ * 0.5 * (Idm['Q (quark doublets)'] + Idm['d_R']) -
                       1.0 * nn['n_e'] * 0.5 * (Idm['L (lepton doublets)'] + Idm['e_R']))
         dI13 = GA * ((1 / 3.) * nu_ * 0.5 * (IbD['Q (quark doublets)'] + IbD['u_R']) +
-                     (1 / 3.) * nd_ * 0.5 * (IbD['Q (quark doublets)'] + IbD['d_R']) -
-                     1.0 * nn['n_e'] * 0.5 * (IbD['L (lepton doublets)'] + IbD['e_R']))
+                     (1 / 3.) * nd_ * 0.5 * (IbD['Q (quark doublets)'] + IbD['d_R']))
         # I12 mean field: c (<GG> + <WW> + <BB>)/Lambda*^3 in geometric normalisation
         GG = GG_vac                 # <G G>_T = <G G>_0 - (8/b)(rho - 3p)_T (trace anomaly, vacuum subtracted)
         Iq = qcd_measure(T)
@@ -603,7 +681,8 @@ def main():
     rep.check('C4_mean_fields_in_environments', worst < 1e-4,
               'the Standard-Model mean fields shift the dark-matter level by at most %.1e of its mass over the ten environments (largest: '
               '%s, where the thermal gauge condensates are of order T^4; at most %.1e from nucleosynthesis to today) '
-              '(I11 and I13 from the quark and electron B - L densities with their x0 profiles; I12 from the QCD vacuum condensate, the thermal '
+              '(I11 from the quark and electron B - L densities, I13 from the quark baryon-number densities, each with its x0 profiles; I12 '
+              'from the QCD vacuum condensate, the thermal '
               'QCD interaction measure and the thermal W, Z condensates); the fold band stays massless' % (worst, worst_env, late))
     rep.check('C6_gravity_loop', worst_gain < 1e-6 and all(v['iterations'] < 10 for v in res_env.values()),
               'hidden pressures of nucleons (d ln m_p/d ln f = %.1f), electrons and dark matter shift the block by at most delta ln f = %.1e '
