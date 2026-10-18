@@ -149,6 +149,47 @@ the eight coordinates, \(a, b, \dots\) over the orthonormal frame,
 \(\mu, \nu\) over the four observable coordinates
 \(x_1, x_2, x_3, x_4\).
 
+Symbols with more than one use:
+
+\begin{itemize}
+\tightlist
+\item
+  \(k\) is the block variable \(1/f^2\) (\(k_*\), \(k_\pm\),
+  \(\delta k\), \(G(k)\)); as the index of \(\alpha_k\), \(E_{(k)}\) and
+  \(\mathcal L_{(k)}\) it is the Lovelock order (written \(p\) in the
+  reduction formula of section 8.5, where the block variable appears as
+  well); in \(e^{ikx_1}\), in \(h_j\), in \(\vec k\), in \(\Delta k\)
+  and in the dispersion \(\varepsilon = e^{-a_4}\lvert k\rvert\) it is
+  the momentum of a mode along \(x_1, x_2, x_3\).
+\item
+  \(\Lambda = -10H^2\) is the eight-dimensional cosmological constant
+  and \(\Lambda_4\) the four-dimensional one; in the \(x_0\) eigenvalue
+  problems \(\Lambda = (m\,fL)^2\) is a dimensionless eigenvalue
+  (\(\Lambda_n\), \(\Lambda_W\), \(\Lambda_Z\), \(\Lambda_D\) are
+  particular ones); \(\Lambda_\star\) is the scale of the effective
+  interactions; \(\Lambda_\ell\) and \(\Lambda_q\) are the tip coupling
+  matrices.
+\item
+  \(n\) is a number density (\(n_o\) that of a Kohn-Sham orbital),
+  except as a level or period number (\(\Lambda_n\), \(z \to n\pi\)) and
+  in the lattice vector \(\vec n \in \mathbb Z^3\) of a momentum shell.
+\item
+  The subscript \(t\) (\(x_t\), \(p_t\), \(v_t\)) refers to the extra
+  times \(x_5, x_6, x_7\); \(\xi = y/L\) is the scaled hidden
+  coordinate.
+\item
+  \(f\) is the block scale and \(f_o\) an occupation number. \(\rho\) is
+  an energy density, except for the electroweak parameter
+  \(\rho = \Lambda_W/(\Lambda_Z\cos^2\theta_W)\); \(\varrho\) is a
+  probability density in \(\xi\).
+\item
+  \(w = (w_1, w_2, w_3)\) are the Lovelock weights; \(w\) is also the
+  weight \(1/2\) of a fold parity in the Kohn-Sham sums,
+  \(\sqrt{c^2 - e^2}\) in the fermion mass condition, and the
+  equation-of-state parameter \(p_3/\rho\). \(z = 6Hx_0\), except where
+  it is a redshift (dark energy, cosmology).
+\end{itemize}
+
 \hypertarget{summary}{%
 \section{Summary}\label{summary}}
 
@@ -341,8 +382,8 @@ Order 2 contains the products of order-1 terms and the back-reaction of
 \hypertarget{the-action}{%
 \section{The action}\label{the-action}}
 
-\[ S = S_{EL}[g] + S_{stab}[g] + S_\Psi[g, \Psi] + S_{gauge}[g, G, W, B] + S_{f}[g, \psi; G, W, B] + S_{tip}[g; W, B, \Sigma, \psi]
-   + S_{portal}[\Psi; \psi, G, W, B, \Sigma] . \]
+\[ \begin{aligned} S = {}& S_{EL}[g] + S_{stab}[g] + S_\Psi[g, \Psi] + S_{gauge}[g, G, W, B] + S_{f}[g, \psi; G, W, B]\\
+   &+ S_{tip}[g; W, B, \Sigma, \psi] + S_{portal}[\Psi; \psi, G, W, B, \Sigma] . \end{aligned} \]
 
 \hypertarget{einstein-lovelock-gravity-author-weights}{%
 \subsection{Einstein-Lovelock gravity (AUTHOR
@@ -795,8 +836,8 @@ four-dimensional mass is an eigenvalue of the \(x_0\) operator of its
 field, acting on wave functions of \(y(z) = \ln|\sin z|/(6H)\),
 \(z = 6Hx_0\), which are periodic in \(x_0\) with period \(\pi/(6H)\).
 Throughout this section the block is static (\(f\) constant),
-\(t = y/L \in [-1, 0]\) on each half, and eigenvalues are given in units
-of the proper half cell, \(\Lambda = (m\,fL)^2\) for bosons and
+\(\xi = y/L \in [-1, 0]\) on each half, and eigenvalues are given in
+units of the proper half cell, \(\Lambda = (m\,fL)^2\) for bosons and
 \(e = \varepsilon\, fL\) for fermions.
 
 \hypertarget{gauge-fields-and-the-graviton-derived}{%
@@ -808,14 +849,14 @@ A four-dimensional component \(A_\mu(x)\,u(y)\) of a gauge field (gauge
 \(\int_{-L}^{0}dy\,f^4e^{3Hy}\big[u'^2/f^2 - m^2u^2\big]\) per half,
 hence the \(x_0\) operator and boundary conditions
 \[ -\frac{1}{f^2}\,e^{-3Hy}\,\partial_y\big(e^{3Hy}\partial_yu\big) = m^2u
-   \quad\Longleftrightarrow\quad -e^{-3\eta t}\big(e^{3\eta t}u'\big)' = \Lambda\,u ,\]
+   \quad\Longleftrightarrow\quad -e^{-3\eta\xi}\big(e^{3\eta\xi}u'\big)' = \Lambda\,u ,\]
 \[ \text{fold: } u'(0) = 0\ \text{(even)},\quad u(0) = 0\ \text{(odd)};\qquad \text{tip: } u'(-1) = \beta\,u(-1), \]
 with \(\beta = 0\) for the unbroken generators (photon, gluons) and
 \(\beta > 0\) for the broken ones (\(W^\pm\), \(Z\); from the \(\Sigma\)
 term). The transverse-traceless graviton obeys the same operator in
-Einstein gravity. With \(u = e^{-3\eta t/2}w\) and
-\(q^2 = \Lambda - 9\eta^2/4\) the solutions are elementary and the
-eigenvalue conditions are
+Einstein gravity. With \(u = e^{-3\eta\xi/2}\tilde u\) and
+\(q^2 = \Lambda - 9\eta^2/4\) (primes denote \(d/d\xi\)) the solutions
+are elementary and the eigenvalue conditions are
 \[ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big]\sin q - \beta\,q\cos q = 0,\qquad
    \text{odd: } q\cos q + \Big(\beta + \frac{3\eta}{2}\Big)\sin q = 0 \]
 (\(q = i\tilde q\) below the gap \(9\eta^2/4\)).
@@ -836,13 +877,19 @@ elements agree to \(5\times10^{-10}\)). The Kaluza-Klein scale is
 \(\beta_Z = \beta_W/\cos^2\theta_W\) (on-shell angle,
 \(\cos^2\theta_W = m_W^2/m_Z^2 = 0.77666\)); at small \(\beta\),
 \(\Lambda \simeq \beta\cdot 3\eta e^{-3\eta}/(1 - e^{-3\eta})\) and
-\(m_Z/m_W = 1/\cos\theta_W\). The bending of the profiles beyond leading
-order makes \(\rho = m_W^2/(m_Z^2\cos^2\theta_W)\) exceed 1; fitting the
-measured \(\rho_0 - 1 = 0.00038\) gives (DERIVED)
-\[ \beta_W = 0.011932,\qquad \Lambda_W = 1.32374\times10^{-5},\qquad m_{KK} = m_W\sqrt{\Lambda_1/\Lambda_W} = 121.2\ \text{TeV}. \]
-A positive tip term cannot make \(W^\pm\) heavier than the Dirichlet
-limit \(\tanh\tilde q = 2\tilde q/(3\eta)\), \(\Lambda_D = 0.010016\),
-i.e.~\(m_W \le 0.01824\,m_{KK}\).
+\(m_Z/m_W = 1/\cos\theta_W\). Beyond leading order the bending of the
+profiles moves the model's mass ratio
+\(m_W^2/m_Z^2 = \Lambda_W/\Lambda_Z\) (\(\Lambda_W\), \(\Lambda_Z\) the
+lowest even eigenvalues for \(\beta_W\) and \(\beta_Z\)) away from the
+on-shell \(\cos^2\theta_W\) of the measured masses, so that the
+electroweak parameter
+\[ \rho = \frac{\Lambda_W}{\Lambda_Z\cos^2\theta_W} \] exceeds 1;
+fitting the measured \(\rho_0 - 1 = 0.00038\) gives (DERIVED)
+\[ \beta_W = 0.011932,\qquad \Lambda_W = 1.32374\times10^{-5},\qquad m_{KK} = m_W\sqrt{\Lambda_1/\Lambda_W} = 121.2\ \text{TeV}, \]
+and the model's \(m_Z = m_W\sqrt{\Lambda_Z/\Lambda_W} = 91.171\) GeV
+(measured \(91.188\) GeV). A positive tip term cannot make \(W^\pm\)
+heavier than the Dirichlet limit \(\tanh\tilde q = 2\tilde q/(3\eta)\),
+\(\Lambda_D = 0.010016\), i.e.~\(m_W \le 0.01824\,m_{KK}\).
 
 \hypertarget{fermions-derived}{%
 \subsection{Fermions (DERIVED)}\label{fermions-derived}}
@@ -852,7 +899,8 @@ reduces EXACTLY (all eight blocks, general \(a_4(x_4)\), \(b_4(x_4)\),
 \(y\)-dependent mass \(M(y)\) and potential \(v(y)\); DERIVED with the
 author's matrices) under
 \[ \Psi = e^{ik x_1}\,e^{-\frac32Hy}\,e^{a_4/2}\,b_4^{-1}\,V_\beta\,\chi(y, x_4) \]
-to \(i\partial_4\chi = h_j\chi\) with the \(2\times2\) block Hamiltonian
+to \(i\partial_4\chi = h_j\chi\) (\(k\) the momentum of the mode along
+\(x_1\)) with the \(2\times2\) block Hamiltonian
 \[ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\,\sigma_2 + e^{-a_4}k\,\sigma_3\Big] + v(y), \]
 where \(V_\beta\) (\(\beta = 0..7\)) are the columns of the block basis
 of the commuting operators \(J = \gamma^{x_0}\gamma^{x_1}\gamma^{x_4}\),
@@ -869,20 +917,21 @@ section 5.5 select one component. With \(c = f\mu L\):
 \begin{itemize}
 \tightlist
 \item
-  doublet zero mode \(\chi = (e^{ct}, 0)\), \(\Gamma_4 = +1\), localised
-  at the fold for \(c > 0\);
+  doublet zero mode \(\chi = (e^{c\xi}, 0)\), \(\Gamma_4 = +1\),
+  localised at the fold for \(c > 0\);
 \item
-  singlet zero mode \(\chi = (0, e^{-ct})\), \(\Gamma_4 = -1\),
+  singlet zero mode \(\chi = (0, e^{-c\xi})\), \(\Gamma_4 = -1\),
   localised at the fold for \(c < 0\);
 \item
-  at \(k \ne 0\): \(h_j(e^{ct}, 0) = je^{-a_4}k\,(e^{ct}, 0)\) exactly:
-  the zero modes are massless four-dimensional particles with
+  at \(k \ne 0\): \(h_j(e^{c\xi}, 0) = je^{-a_4}k\,(e^{c\xi}, 0)\)
+  exactly: the zero modes are massless four-dimensional particles with
   \(\varepsilon = e^{-a_4}|k|\) (physical momentum).
 \end{itemize}
 
 \textbf{Masses from the tip.} The tip coupling
-\(\bar L\Sigma\Lambda\ell_R\) turns the tip conditions into the
-self-adjoint mixing condition (DERIVED)
+\(\bar L\Sigma\Lambda_\ell\ell_R\) (and \(\bar Q\Sigma\Lambda_qq_R\) for
+the quarks) turns the tip conditions into the self-adjoint mixing
+condition (DERIVED)
 \[ b_L(-1) = \kappa_f\, b_R(-1), \qquad a_R(-1) = -\kappa_f\, a_L(-1), \qquad \chi = (a, ib), \]
 and the four-dimensional mass is the lowest root of the exact \(x_0\)
 eigenvalue equation (DERIVED; direct ODE shooting agrees to
@@ -928,8 +977,8 @@ period. With \(c_\psi = f m L\) the exact \(k = 0\) spectrum is
 \begin{itemize}
 \tightlist
 \item
-  even: the zero mode \(\chi = (e^{c_\psi t}, 0)\), \(\varepsilon = 0\),
-  in all eight blocks, and
+  even: the zero mode \(\chi = (e^{c_\psi\xi}, 0)\),
+  \(\varepsilon = 0\), in all eight blocks, and
   \(\varepsilon = \pm\sqrt{m^2 + (n\pi/(fL))^2}\);
 \item
   odd: \(\varepsilon = \pm\sqrt{m^2 + p^2}\) with
@@ -949,14 +998,31 @@ The odd level is the dark-matter candidate (section 11).
 \subsection{What the uncertainty relation does and does not bound
 (DERIVED)}\label{what-the-uncertainty-relation-does-and-does-not-bound-derived}}
 
-In the flat measure \(u = e^{-3\eta t/2}v\) the exact identity
-\(e^{3\eta t}u'^2 = v'^2 + \tfrac94\eta^2v^2 - \tfrac32\eta\,(v^2)'\)
+In the flat measure \(u = e^{-3\eta\xi/2}\tilde u\) the exact identity
+\(e^{3\eta\xi}u'^2 = \tilde u'^2 + \tfrac94\eta^2\tilde u^2 - \tfrac32\eta\,(\tilde u^2)'\)
 turns every bosonic eigenvalue into
-\[ (m\,fL)^2 = \langle p^2\rangle + \frac{9\eta^2}{4} - \frac{3\eta}{2}\,\rho(\text{fold}) + \Big(\frac{3\eta}{2} + \beta\Big)\rho(\text{tip}),
-   \qquad \rho = \frac{v^2}{\int v^2}, \] and every fermionic one into
-\(\langle|\chi'|^2\rangle + c^2 - c\,[\chi^\dagger\sigma_3\chi]_{-1}^{0}/\!\int|\chi|^2\).
-The proper uncertainty relation bounds only the hidden kinetic energy
-\(\langle p^2\rangle \ge 1/(4\Delta t^2)\). Three classes follow:
+\[ (m\,fL)^2 = \langle p^2\rangle + \frac{9\eta^2}{4} - \frac{3\eta}{2}\,\varrho(\text{fold}) + \Big(\frac{3\eta}{2} + \beta\Big)\varrho(\text{tip}),
+   \qquad \langle p^2\rangle = \frac{\int\tilde u'^2}{\int\tilde u^2},\quad \varrho = \frac{\tilde u^2}{\int\tilde u^2}, \]
+and every fermionic one into
+\((\varepsilon fL)^2 = \langle|\chi'|^2\rangle + c^2 - c\,[\chi^\dagger\sigma_3\chi]_{-1}^{0}/\!\int|\chi|^2\),
+with \(\langle p^2\rangle = \langle|\chi'|^2\rangle\) and
+\(\varrho = |\chi|^2/\!\int|\chi|^2\) (integrals over
+\(\xi \in [-1, 0]\), primes \(d/d\xi\)). The proper uncertainty relation
+bounds only the hidden kinetic energy. On the cell, which ends at the
+tips, it reads
+\[ \sqrt{\langle p^2\rangle}\,\Delta\xi \ge \frac{1 - \varrho(\text{tip})}{2},\qquad \Delta\xi^2 = \int_{-1}^{0}\xi^2\varrho\,d\xi , \]
+since
+\(1 = \int\varrho\,d\xi = \varrho(\text{tip}) - \int\xi\varrho'\,d\xi\)
+(the fold end \(\xi = 0\) contributes nothing) and the Cauchy-Schwarz
+inequality bounds \(\lvert\int\xi\varrho'\,d\xi\rvert\) by
+\(2\Delta\xi\sqrt{\langle p^2\rangle}\); \(\Delta s = fL\,\Delta\xi\) is
+the root-mean-square proper distance from the fold. The familiar
+\(\langle p^2\rangle \ge 1/(4\Delta\xi^2)\) holds only for profiles
+negligible at the tip: the photon zero mode has
+\(\langle p^2\rangle\Delta\xi^2 = 0.497\), the broad fold zero mode of
+\(\Psi\) (\(\varrho(\text{tip}) = 0.489\)) only \(0.097\) (DERIVED; the
+relation with the tip term is checked for every state of the three
+classes below). Three classes follow:
 
 \begin{itemize}
 \tightlist
@@ -1140,13 +1206,14 @@ nonlinear Einstein-Lovelock equations with the author's weights).}
 
 On a product of a four-dimensional metric with the static block
 (constant curvature \(K = -H^2k\)), the Lovelock densities factorise,
-\(\mathcal L_{(k)} = \sum_{j+l=k}\frac{k!}{j!\,l!}\mathcal L^{(4)}_{(j)}\mathcal L^{(int)}_{(l)}\)
-with \(\mathcal L^{(int)}_{(l)} = (1, 12K, 24K^2, 0)\), and
-\(\mathcal L^{(4)}_{(3)} \equiv 0\) in four dimensions while
-\(\mathcal L^{(4)}_{(2)}\) (the four-dimensional Gauss-Bonnet density)
-is topological. The reduced Lagrangian (gravity plus the stabiliser, in
-units of \(1/(2\kappa)\)) is
-\[ \sum_k\alpha_k\mathcal L_{(k)} - 2\Lambda - 2\kappa\rho_b = G(k)\,R^{(4)} + (\text{topological}) - 2\,G(k)\,\Lambda_4,\qquad
+\(\mathcal L_{(p)} = \sum_{r+s=p}\frac{p!}{r!\,s!}\mathcal L^{(4)}_{(r)}\mathcal L^{(int)}_{(s)}\)
+(\(p = 1, 2, 3\) the Lovelock order) with
+\(\mathcal L^{(int)}_{(s)} = (1, 12K, 24K^2, 0)\) for
+\(s = 0, 1, 2, 3\), and \(\mathcal L^{(4)}_{(3)} \equiv 0\) in four
+dimensions while \(\mathcal L^{(4)}_{(2)}\) (the four-dimensional
+Gauss-Bonnet density) is topological. The reduced Lagrangian (gravity
+plus the stabiliser, in units of \(1/(2\kappa)\)) is
+\[ \sum_p\alpha_p\mathcal L_{(p)} - 2\Lambda - 2\kappa\rho_b = G(k)\,R^{(4)} + (\text{topological}) - 2\,G(k)\,\Lambda_4,\qquad
    \Lambda_4 = \frac{6H^2k(1 - 2w_2k) + \Lambda + \kappa\rho_b}{G(k)} , \]
 so the four-dimensional gravity of UM-2 is EXACTLY general relativity
 with Newton's constant \(8\pi G_N = \kappa/(G(k_*)V_\perp)\) and the
@@ -1167,24 +1234,29 @@ block as particles (the record's convention, ASSUMED). The interacting
 many-body state is described by Kohn-Sham theory: orbitals of \(h_j\)
 with the mean fields
 \[ M_{eff}(y) = m + \tfrac{15}{16}\lambda S(y) + \delta M_{portal}(y),\qquad v(y) = -\tfrac{1}{16}\lambda\,n(y) + v_{portal}(y), \]
-\[ e_{int} = \tfrac{15}{32}\lambda S^2 - \tfrac{1}{32}\lambda n^2,\qquad E_{KS} = \sum g f\varepsilon - 2\,\mathrm{Vol}_7\!\int_{-L}^{0}\!e^{3Hy}e_{int}\,dy ,\]
+\[ e_{int} = \tfrac{15}{32}\lambda S^2 - \tfrac{1}{32}\lambda n^2,\qquad E_{KS} = \sum_o gf_o\varepsilon_o - 2\,\mathrm{Vol}_7\!\int_{-L}^{0}\!e^{3Hy}e_{int}\,dy ,\]
 where \(n\) and \(S = \bar\Psi\Psi\) are the proper densities,
-\(g = 4r_3(n^2)\) the degeneracy of the momentum shell
-\(\vec k = \Delta k\,\vec n\) (\(\vec n \in \mathbb Z^3\), \(r_3(n^2)\)
-the number of representations of \(n^2\) as a sum of three squares,
-\(\Delta k = 0.25H\)), \(\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf^4\) the
-proper seven-volume of the cell, \(f\) the occupations (aufbau or
-Mermin), and the portal mean fields come from I11 (the fermion
-densities), I12 (the gluon condensate) and I9 (the \(Z\) charge at the
-tip, on \(\Psi_A\) only). The energy-momentum tensor of a Kohn-Sham
-state,
-\[ \rho = \sum wgf\varepsilon\,n_o - e_{int},\qquad p_3 = \sum wgf\,\tfrac{e^{-a_4}|k|}{3}t_o + e_{int},\qquad p_t = e_{int},\]
-\[ p_0 = \sum wgf\big[(\varepsilon - v)n_o - M_{eff}s_o - e^{-a_4}|k|t_o\big] + e_{int} , \]
-with \(n_o = P\chi^\dagger\chi\), \(s_o = P\chi^\dagger j\sigma_2\chi\),
-\(t_o = P\chi^\dagger j\sigma_3\chi\), \(P = e^{-3Hy}/\mathrm{Vol}_7\)
-and \(w = 1/2\), is the source of \(\Psi\) in the gravitational
-equations; its block-averaged pressure \((p_0 + 3p_t)/4\) pushes on the
-block (section 8.1).
+\(g = 4r_3(\lvert\vec n\rvert^2)\) the degeneracy of the momentum shell
+\(\vec k = \Delta k\,\vec n\) (\(\vec n \in \mathbb Z^3\),
+\(r_3(\lvert\vec n\rvert^2)\) the number of representations of
+\(\lvert\vec n\rvert^2\) as a sum of three squares,
+\(\Delta k = 0.25H\)), \(\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf^4\) (at
+\(a_4 = 0\)) the normalisation volume of a cell, of dimension
+length\(^6\) (the proper seven-volume of a cell, with its hidden extent,
+is \(2\,\mathrm{Vol}_7(1 - e^{-3\eta})/(3H)\)), \(f_o\) the occupations
+(aufbau or Mermin), and the portal mean fields come from I11 (the
+fermion densities), I12 (the gluon condensate) and I9 (the \(Z\) charge
+at the tip, on \(\Psi_A\) only). The energy-momentum tensor of a
+Kohn-Sham state,
+\[ \rho = \sum_o wgf_o\varepsilon_o\,n_o - e_{int},\qquad p_3 = \sum_o wgf_o\,\tfrac{e^{-a_4}|k|}{3}t_o + e_{int},\qquad p_t = e_{int},\]
+\[ p_0 = \sum_o wgf_o\big[(\varepsilon_o - v)n_o - M_{eff}s_o - e^{-a_4}|k|t_o\big] + e_{int} , \]
+with \(n_o = P\chi_o^\dagger\chi_o\),
+\(s_o = P\chi_o^\dagger j\sigma_2\chi_o\),
+\(t_o = P\chi_o^\dagger j\sigma_3\chi_o\),
+\(P = e^{-3Hy}/\mathrm{Vol}_7\) and \(w = 1/2\) (the densities are
+\(n = \sum_o wgf_on_o\) and \(S = \sum_o wgf_os_o\)), is the source of
+\(\Psi\) in the gravitational equations; its block-averaged pressure
+\((p_0 + 3p_t)/4\) pushes on the block (section 8.1).
 
 \hypertarget{neutrinos-psi_a-the-z-invisible-width-n_eff-and-the-cnb-derived}{%
 \section{\texorpdfstring{Neutrinos, \(\Psi_A\), the \(Z\) invisible
@@ -1239,10 +1311,12 @@ i.e.~it is conditional on the solution of the moduli problem (section
 14).
 
 \textbf{Dark energy (NOT SUPPORTED).} No positive-energy state of
-\(\Psi\) has \(w < 0\) on the static block; a \(\lambda < 0\) condensate
-tuned to \(w_0 = -1\) runs away (\(w_a = -6\)) and its energy density
-turns negative at \(z = 0.26\). The dark energy of UM-2 is the tuned
-residual \(\Lambda_4\).
+\(\Psi\) has an equation of state \(w = p_3/\rho < 0\) on the static
+block; a \(\lambda < 0\) condensate tuned to \(w_0 = -1\) runs away
+(\(w_a = -6\), the slope of the form \(w = w_0 + w_a(1 - a)\) at
+\(a = 1\), \(a\) the scale factor) and its energy density turns negative
+at redshift \(z = 0.26\). The dark energy of UM-2 is the tuned residual
+\(\Lambda_4\).
 
 \hypertarget{cosmology-cmb-cnb-bao}{%
 \section{Cosmology: CMB, CNB, BAO}\label{cosmology-cmb-cnb-bao}}
@@ -1252,13 +1326,14 @@ The four-dimensional effective theory is general relativity (section
 \(\Psi_B\) dark matter and \(\Lambda_4\). Its linear perturbations
 (order \(\epsilon\)) obey the standard Einstein-Boltzmann equations.
 Solved with the Einstein-Boltzmann code CAMB at the Planck 2018 values
-of \(\omega_b\), \(\omega_c\), \(\tau\), \(A_s\), \(n_s\) and
-\(\theta_*\) (DERIVED): \(H_0 = 67.43\) km/s/Mpc, \(r_{drag} = 147.10\)
-Mpc, the TT and EE spectra agree with Planck \(\Lambda\)CDM to
-\(2.2\times10^{-4}\) and \(3.7\times10^{-4}\) (\(30 \le \ell \le 2500\);
-at most 0.011 of the cosmic variance \(\sqrt{2/(2\ell + 1)}\) of a
-single multipole), and the DESI DR2 BAO give \(\chi^2 = 30.3\) for 13
-measurements (Planck \(\Lambda\)CDM: 32.6).
+of \(\omega_b\), \(\omega_c\), \(\tau_{reio}\) (the optical depth to
+reionisation), \(A_s\), \(n_s\) and \(\theta_*\) (DERIVED):
+\(H_0 = 67.43\) km/s/Mpc, \(r_{drag} = 147.10\) Mpc, the TT and EE
+spectra agree with Planck \(\Lambda\)CDM to \(2.2\times10^{-4}\) and
+\(3.7\times10^{-4}\) (\(30 \le \ell \le 2500\); at most 0.011 of the
+cosmic variance \(\sqrt{2/(2\ell + 1)}\) of a single multipole), and the
+DESI DR2 BAO give \(\chi^2 = 30.3\) for 13 measurements (Planck
+\(\Lambda\)CDM: 32.6).
 
 \hypertarget{parameters}{%
 \section{Parameters}\label{parameters}}

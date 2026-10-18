@@ -19,6 +19,15 @@ FROM MEMORY (a measured bound quoted from memory), OPEN. Units $\hbar = c = 1$. 
 $x_0, \dots, x_7$ ($x_0$ hidden space, $x_1, x_2, x_3$ space, $x_4$ time, $x_5, x_6, x_7$ extra times); $W^+$ has charge $+e$,
 $W^-$ charge $-e$.
 
+Symbols with more than one use: $\xi = y/L$ is the scaled hidden coordinate (primes denote $d/d\xi$), $t$ the cosmic time in
+the bounds on varying constants; $\Lambda = (m\,fL)^2$ is a dimensionless eigenvalue of an $x_0$ operator, while in the formula
+for the four-dimensional cosmological term $\Lambda_4$ the symbol $\Lambda = -10H^2$ is the eight-dimensional cosmological constant;
+$\Lambda_\star$ is the scale of the effective interactions; $k$ is the momentum of a mode along $x_1, x_2, x_3$ in $h_j$ and in
+$\varepsilon = e^{-a_4}\lvert k\rvert$, and the block variable $1/f^2$ in $k_*$, $G(k)$ and $\Lambda_4$; $\rho$ is an energy density ($\rho_0$ the
+electroweak parameter) and $\varrho$ a probability density in $\xi$; $w$ is an equation-of-state parameter ($w_0$, $w_a$ of the
+form $w = w_0 + w_a(1 - a)$, $a$ the scale factor), except in the fermion mass condition ($w = \sqrt{c^2 - e^2}$) and the
+Lovelock weight $w_2$; $z = 6Hx_0$, except where it is a redshift.
+
 **Summary of the verdicts.**
 
 | question | verdict |
@@ -37,19 +46,20 @@ The hidden coordinate enters through $z = 6Hx_0$; one period is $\ell_0 = \pi/(6
 $$ y = \frac{\ln\lvert\sin z\rvert}{6H} \in (-L, 0],\qquad dy = \cot z\,dx_0,\qquad ds_{hidden} = f\,dy ,$$
 the fold $y = 0$ ($z = \pi/2$) joining the two halves and the tip $y = -L$ ($\eta = HL = 3$) closing them. Every wave function of
 UM-2 depends on $x_0$ through $y(z)$, so it is periodic in $x_0$ with period $\pi/(6H)$. The uncertainty relation, in the
-proper hidden length $s = fy$, reads $\Delta s\,\Delta p_s \ge \frac12$, and the author's estimate of a mass is
-$$ m_H = \frac{\hbar c}{2\Delta s},\qquad \Delta s = fL\,\Delta t,\qquad \Delta t^2 = \frac{\int_{-1}^{0}t^2\varrho(t)\,dt}{\int_{-1}^{0}\varrho(t)\,dt},$$
-the root-mean-square proper distance from the fold of the probability density $\varrho$ in the flat measure ($\varrho = v^2$,
-$v = e^{3\eta t/2}u$, for bosons; $\varrho = \lvert\chi\rvert^2$ for fermions), $t = y/L$; over the full period the density is symmetric
-about the fold, so $\Delta t$ is also the spread of the full-period profile.
+proper hidden length $s = fy$, reads $\Delta s\,\Delta p_s \ge \frac12$ on an unbounded line (on the cell, which ends at the tips,
+it acquires a tip term; section 2.3), and the author's estimate of a mass is
+$$ m_H = \frac{\hbar c}{2\Delta s},\qquad \Delta s = fL\,\Delta\xi,\qquad \Delta\xi^2 = \frac{\int_{-1}^{0}\xi^2\varrho(\xi)\,d\xi}{\int_{-1}^{0}\varrho(\xi)\,d\xi},$$
+the root-mean-square proper distance from the fold of the probability density $\varrho$ in the flat measure ($\varrho = \tilde u^2$,
+$\tilde u = e^{3\eta\xi/2}u$, for bosons; $\varrho = \lvert\chi\rvert^2$ for fermions), $\xi = y/L$; over the full period the density is symmetric
+about the fold, so $\Delta\xi$ is also the spread of the full-period profile.
 
 ## Every mass is an $x_0$ eigenvalue (DERIVED)
 
-With $t = y/L$:
+With $\xi = y/L$:
 
-* **Gauge bosons and the graviton**: $-e^{-3\eta t}(e^{3\eta t}u')' = \Lambda u$, $\Lambda = (m\,fL)^2$; fold $u'(0) = 0$ (even) or
+* **Gauge bosons and the graviton**: $-e^{-3\eta\xi}(e^{3\eta\xi}u')' = \Lambda u$, $\Lambda = (m\,fL)^2$; fold $u'(0) = 0$ (even) or
   $u(0) = 0$ (odd); tip $u'(-1) = \beta u(-1)$ with $\beta = 0$ for the photon, the gluons and the graviton and
-  $\beta_W = 0.011932$ ($W^+$, $W^-$), $\beta_Z = \beta_W/\cos^2\theta_W$ ($Z$).
+  $\beta_W = 0.011932$ ($W^+$, $W^-$), $\beta_Z = \beta_W/\cos^2\theta_W$ ($Z$; on-shell angle, $\cos^2\theta_W = m_W^2/m_Z^2 = 0.77666$).
 * **Fermions**: $h_j = j[-\frac{i}{f}\sigma_1\partial_y + \mu\sigma_2 + e^{-a_4}k\sigma_3]$ ($k$ the momentum) with the chiral boundary conditions and the tip
   mixing $b_L = \kappa_fb_R$, $a_R = -\kappa_fa_L$; the mass is the root of
   $D(e) = e^2s_Ls_R - \kappa_f^2(C_L - c_Ls_L)(C_R + c_Rs_R)$, $s = \sinh w/w$, $C = \cosh w$, $w = \sqrt{c^2 - e^2}$, $c = f\mu L$.
@@ -63,14 +73,21 @@ the $\Psi$ excitations from its lowest odd level, $44.3$ TeV, upwards.
 
 ## What the uncertainty relation does and does not bound (DERIVED)
 
-For a boson, write $u = e^{-3\eta t/2}v$. The exact identity
-$$ e^{3\eta t}u'^2 = v'^2 + \frac94\eta^2v^2 - \frac32\eta\,(v^2)'$$
-turns the Rayleigh quotient into the decomposition
-$$ (m\,fL)^2 = \langle p^2\rangle + \frac{9\eta^2}{4} - \frac{3\eta}{2}\rho(\text{fold}) + \Big(\frac{3\eta}{2} + \beta\Big)\rho(\text{tip}),\qquad
-   \langle p^2\rangle = \frac{\int v'^2}{\int v^2},\quad \rho = \frac{v^2}{\int v^2}, $$
-and for a fermion $(\varepsilon fL)^2 = \langle\lvert\chi'\rvert^2\rangle + c^2 - c\,[\chi^\dagger\sigma_3\chi]_{-1}^{0}/\!\int\lvert\chi\rvert^2$. Only the
-hidden kinetic term is bounded by the uncertainty relation, $\langle p^2\rangle \ge 1/(4\Delta t^2)$. Computed for every class
-of particle (DERIVED; sum rules reproduce the eigenvalues to $10^{-8}$, the dark matter to $10^{-11}$):
+For a boson, write $u = e^{-3\eta\xi/2}\tilde u$. The exact identity
+$$ e^{3\eta\xi}u'^2 = \tilde u'^2 + \frac94\eta^2\tilde u^2 - \frac32\eta\,(\tilde u^2)'$$
+turns the Rayleigh quotient $(m\,fL)^2 = \big[\int e^{3\eta\xi}u'^2d\xi + \beta e^{-3\eta}u(-1)^2\big]/\!\int e^{3\eta\xi}u^2d\xi$ into the decomposition
+$$ (m\,fL)^2 = \langle p^2\rangle + \frac{9\eta^2}{4} - \frac{3\eta}{2}\varrho(\text{fold}) + \Big(\frac{3\eta}{2} + \beta\Big)\varrho(\text{tip}),\qquad
+   \langle p^2\rangle = \frac{\int\tilde u'^2}{\int\tilde u^2},\quad \varrho = \frac{\tilde u^2}{\int\tilde u^2}, $$
+and for a fermion $(\varepsilon fL)^2 = \langle\lvert\chi'\rvert^2\rangle + c^2 - c\,[\chi^\dagger\sigma_3\chi]_{-1}^{0}/\!\int\lvert\chi\rvert^2$, with
+$\langle p^2\rangle = \langle\lvert\chi'\rvert^2\rangle$ and $\varrho = \lvert\chi\rvert^2/\!\int\lvert\chi\rvert^2$ (integrals over $\xi \in [-1, 0]$). Only the hidden
+kinetic term is bounded by the uncertainty relation. On the cell, which ends at the tips, the relation reads
+$$ \sqrt{\langle p^2\rangle}\,\Delta\xi \ge \frac{1 - \varrho(\text{tip})}{2}, $$
+because $1 = \int_{-1}^{0}\varrho\,d\xi = \varrho(\text{tip}) - \int_{-1}^{0}\xi\varrho'\,d\xi$ (integration by parts; the fold end $\xi = 0$ contributes
+nothing) and the Cauchy-Schwarz inequality gives $\lvert\int\xi\varrho'\,d\xi\rvert \le 2\Delta\xi\sqrt{\langle p^2\rangle}$. The familiar form
+$\langle p^2\rangle \ge 1/(4\Delta\xi^2)$ needs a profile negligible at the tip: the broad fold zero mode of $\Psi$ violates it
+($\langle p^2\rangle\Delta\xi^2 = 0.097$, $\varrho(\text{tip}) = 0.489$) and satisfies the relation with the tip term. Computed for every class
+of particle (DERIVED; sum rules reproduce the eigenvalues to $10^{-8}$, the dark matter to $10^{-11}$; the relation with the
+tip term holds for every state, with the smallest margin $0.057$ for the $\Psi$ fold band):
 
 Bosons (the warp term is $9\eta^2/4 = 20.25$ for every mode):
 
@@ -93,20 +110,20 @@ Fermions (the kinetic term $\langle\lvert\chi'\rvert^2\rangle$ equals the bulk t
 | $\Psi$ fold band | $0.418$ | $0.418$ | $-0.836$ | $0$ | $0$ |
 | $\Psi_B$ dark matter | $2.608$ | $0.418$ | $0.998$ | $4.024$ | $2.29$ |
 
-(the masses of $\nu$, $e$, $u$, $d$ come from the tip mixing, not from these zero modes). Proper spreads and uncertainty
-estimates:
+(the masses of $\nu$, $e$, $u$, $d$ come from the tip mixing, not from these zero modes). Proper spreads, uncertainty
+estimates, tip densities and uncertainty products:
 
-| state | $\Delta s$ (m) | $m_H = \hbar c/(2\Delta s)$ (GeV) |
-| --- | --- | --- |
-| photon, gluons, graviton; $W^\pm$; $Z$ | $1.40\times10^{-21}$ | $70\,500$ |
-| first even Kaluza-Klein mode; first odd mode | $6.09\times10^{-21}$; $5.56\times10^{-21}$ | $16\,191$; $17\,756$ |
-| $\nu$; $e$; $u$; $d$ zero modes | $3.38$; $6.13$; $6.62$; $6.92\times10^{-22}$ | $291\,611$; $160\,929$; $149\,075$; $142\,660$ |
-| $\Psi$ fold band; $\Psi_B$ dark matter | $4.31\times10^{-21}$; $5.09\times10^{-21}$ | $22\,884$; $19\,378$ |
+| state | $\Delta s$ (m) | $m_H = \hbar c/(2\Delta s)$ (GeV) | $\varrho(\text{tip})$ | $\langle p^2\rangle\Delta\xi^2$ |
+| --- | --- | --- | --- | --- |
+| photon, gluons, graviton; $W^\pm$; $Z$ | $1.40\times10^{-21}$ | $70\,500$ | $1.1\times10^{-3}$ | $0.497$ |
+| first even Kaluza-Klein mode; first odd mode | $6.09$; $5.56\times10^{-21}$ | $16\,191$; $17\,756$ | $0.655$; $0.433$ | $4.59$; $1.89$ |
+| $\nu$; $e$; $u$; $d$ zero modes | $3.38$; $6.13$; $6.62$; $6.92\times10^{-22}$ | $291\,611$; $160\,929$; $149\,075$; $142\,660$ | $2.3\times10^{-15}$ to $2.1\times10^{-7}$ | $0.500$ |
+| $\Psi$ fold band; $\Psi_B$ dark matter | $4.31$; $5.09\times10^{-21}$ | $22\,884$; $19\,378$ | $0.489$; $0.772$ | $0.097$; $0.847$ |
 
 Three classes follow.
 
 * **Massless although localised.** The photon, the gluons and the graviton are localised at the fold
-  ($\Delta s = 1.40\times10^{-21}$ m, $m_H = 70.5$ TeV, $\langle p^2\rangle\Delta t^2 = 0.497 \ge 1/4$), yet exactly massless: the fold
+  ($\Delta s = 1.40\times10^{-21}$ m, $m_H = 70.5$ TeV, $\langle p^2\rangle\Delta\xi^2 = 0.497$), yet exactly massless: the fold
   term cancels the hidden kinetic energy and the warp. The cancellation is exact because the flat profile is an
   eigenfunction with $\Lambda = 0$, protected by four-dimensional gauge invariance and general covariance. The fold bands
   of dirac16complex are massless for the analogous chiral reason ($\chi = (e^{f\int Mdy}, 0)$ is a zero mode for every mass
@@ -130,7 +147,7 @@ Three classes follow.
 
 The photon zero mode, localised at the fold in proper length, has 61.9 % of its probability within $\pi/8$ of the tips in
 the coordinate $z = 6Hx_0$: localisation in the coordinate $x_0$ is chart dependent, because $ds_{hidden} = f\cot z\,dx_0$ vanishes
-at the fold and diverges at the tips. A profile confined to a small proper distance from the fold ($\Delta t = 0.157$, i.e.
+at the fold and diverges at the tips. A profile confined to a small proper distance from the fold ($\Delta\xi = 0.157$, i.e.
 $\lvert y\rvert \lesssim 0.47/H$, $\sin z \gtrsim e^{-2.8}$) therefore extends over almost the whole coordinate range of $z$, and its
 probability per unit $z$ is largest near the tips. Only the proper hidden length enters the masses; a statement
 "$\Delta x_0$ small" must therefore be read as "$\Delta s$ small".
@@ -152,7 +169,7 @@ The author's metric lets the extra times $x_5, x_6, x_7$ (and, in the corrected 
 exponentially. In UM-2 they do so in the primordial era: the full nonlinear equations take a large block into the
 stabilised one at rates up to $\lvert h\rvert = 2.63H$ (in the stored runs), deflating by up to $f(k_c)/f_* = 2.917$, after which the block oscillates
 about $f_*$ (the radion) and stays frozen. A continuing deflation today is excluded (ESTIMATE, bounds FROM MEMORY): the
-atomic-clock bound $\lvert d\ln\alpha/dt\rvert < 10^{-17}$/yr and $d\ln\alpha/d\ln f = -4$ require $\lvert h\rvert < 2.5\times10^{-18}$/yr
+atomic-clock bound $\lvert d\ln\alpha/dt\rvert < 10^{-17}$/yr ($t$ the cosmic time) and $d\ln\alpha/d\ln f = -4$ require $\lvert h\rvert < 2.5\times10^{-18}$/yr
 $= 3.6\times10^{-8}H_0$; lunar ranging ($\lvert d\ln G/dt\rvert < 10^{-13}$/yr, $d\ln G_N/d\ln f = +2.05$) requires $\lvert h\rvert < 7.1\times10^{-4}H_0$; a block deflating at the
 Hubble rate would change the electron mass by $1.4\times10^{-9}$ per year. The extra times are irrelevant at low energies
 not because they keep deflating but because they are small (the proper half cell $f_*L = 3f_*/H = 8.9\times10^{-21}$ m, Kaluza-Klein
@@ -222,7 +239,7 @@ $w = 1/3$ exactly (Kohn-Sham, DERIVED). The $\Psi_A$ fold band couples to the $Z
 ($N_{eff} = 3.044$, two of the three CNB species; it replaces $\nu_\mu$ and $\nu_\tau$ in the $Z$ invisible width, $r^2 = 0.992$). The
 $\Psi_B$ fold band must stay cold: if it were thermalised above the QCD crossover it would add
 $\Delta N_{eff} = 2(10.75/47.75)^{4/3} = 0.274$ ($0.218$ above the electroweak scale), which at fixed Planck parameters changes the
-CMB temperature spectrum by up to 4.2 % (a joint refit is OPEN).
+CMB temperature spectrum by up to 4.2 % for $30 \le \ell \le 2500$ (a joint refit is OPEN).
 
 ## Assessment
 

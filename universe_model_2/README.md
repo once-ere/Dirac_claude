@@ -12,7 +12,7 @@ $\{x_0, x_1, \dots, x_7\}$: $x_0$ the hidden space direction, $x_1, x_2, x_3$ sp
 | document | content |
 | --- | --- |
 | `MODEL` | the model: fields, metric power series, action, every interaction in equation form, the $x_0$ mass mechanism, gravity, the dark sector, parameters, assumptions and conflicts |
-| `PROVENANCE` | where every ingredient, equation and number comes from; the computations and their 179 checks; corrections; reproduction |
+| `PROVENANCE` | where every ingredient, equation and number comes from; the computations and their 180 checks; corrections; reproduction |
 | `FIELD_EQUATIONS` | the coupled field equations: energy-momentum tensors, matter equations with every interaction, boundary conditions, the exact background equations, the $x_0$ reductions, the Kohn-Sham equations, the linear perturbations |
 | `SOLUTION` | the approximate solution: static block and primordial deflation, all masses, Kohn-Sham states of dirac16complex coupled to gravity and to the Standard Model, electroweak sector, $N_{eff}$ and CNB, CMB and BAO, dark-matter relic |
 | `ANALYSIS` | the $x_0$ mass mechanism and the uncertainty relation, the deflating extra times, dirac16complex as dark matter and as dark energy |
@@ -26,8 +26,8 @@ $\{x_0, x_1, \dots, x_7\}$: $x_0$ the hidden space direction, $x_1, x_2, x_3$ sp
   from the tip of the $x_0$ cell; $m_{KK} = 121$ TeV, $H = 14.3$ TeV.
 * Dark matter: the lightest odd quantum of the $\Psi_B$ half of dirac16complex, $44.3$ TeV, cold, neutral, stable (conditional);
   dark energy is not supported by dirac16complex.
-* $N_{eff} = 3.044$; CNB of $\nu_e$ and two massless $\Psi_A$ species; CMB within $2\times10^{-4}$ of Planck $\Lambda$CDM; DESI DR2 BAO
-  $\chi^2 = 30.3$ for 13 points.
+* $N_{eff} = 3.044$; CNB of $\nu_e$ and two massless $\Psi_A$ species; CMB TT and EE spectra within $2.2\times10^{-4}$ and
+  $3.7\times10^{-4}$ of Planck $\Lambda$CDM ($30 \le \ell \le 2500$); DESI DR2 BAO $\chi^2 = 30.3$ for 13 points.
 * Conflicts inherent in the specified content: no Higgs boson, $W^+W^-$ unitarity near 1.2 TeV, one-generation $Z$ width.
 
 ## Computations
@@ -43,7 +43,7 @@ $\{x_0, x_1, \dots, x_7\}$: $x_0$ the hidden space direction, $x_1, x_2, x_3$ sp
 | `code/um2_electroweak.py` | 19/19 | 1 |
 | `code/um2_primordial.py` | 5/5 | 247 |
 | `code/um2_cosmology.py` | 5/5 | 9 |
-| `code/um2_analysis.py` | 22/22 | 4 |
+| `code/um2_analysis.py` | 23/23 | 4 |
 | `tools/build_docs.py` (all five PDFs) | | 11 |
 
 Times are those of the verification run from a fresh clone of the repository (2026-10-17, commit `b3c3c1a`): every

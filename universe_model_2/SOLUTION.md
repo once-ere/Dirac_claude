@@ -17,6 +17,16 @@ numerical work $H = 1$ and $m = H$ unless a physical unit is given. The coordina
 $x_0, x_1, \dots, x_7$ ($x_0$ the hidden space direction, $x_1, x_2, x_3$ space, $x_4$ the time, $x_5, x_6, x_7$ the extra
 times); $W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$.
 
+Symbols with more than one use: $k$ is the block variable $1/f^2$ ($k_*$, $\delta k$, $G(k)$), the Lovelock order as the index of
+$\alpha_k$, $E_{(k)}$, $\mathcal L_{(k)}$ (written $p$ where the block variable appears in the same formula), the momentum of a mode
+along $x_1, x_2, x_3$ in $h_j$, $\vec k$, $\Delta k$ and $\varepsilon = e^{-a_4}\lvert k\rvert$, and the comoving Fourier wavenumber in the
+perturbation equations of step 5. $\Lambda = -10H^2$ is the eight-dimensional cosmological constant and $\Lambda_4$ the
+four-dimensional one; in the $x_0$ eigenvalue problems of step 2, $\Lambda = (m\,fL)^2$ is a dimensionless eigenvalue;
+$\Lambda_\star$ is the scale of the effective interactions. $n$ is a number density, except as a level number ($n\pi$) and in
+the lattice vector $\vec n \in \mathbb Z^3$ of a momentum shell; $N$ is a particle number. The subscript $t$ ($p_t$, $v_t$)
+refers to the extra times $x_5, x_6, x_7$; $\xi = y/L$ is the scaled hidden coordinate; primes denote $d/d\xi$ in step 2 and
+$d/d\tau$ (conformal time) in step 5. $f$ is the block scale and $f_o$ an occupation number.
+
 # The equations being solved
 
 The action of UM-2 is
@@ -101,7 +111,7 @@ $$ \delta\ddot k + \omega_r^2\,\delta k = -2k_*\big(s_{h3}\,\kappa\delta p_3 + s
    s_{h3} = 0.028666,\quad s_{hp} = 0.037320,\quad q_h = -0.009555;$$
 the adiabatic shift is $\delta k = (-0.107556\,\kappa\delta p_3 - 0.140028\,\kappa\delta\bar p + 0.035852\,\kappa\delta\rho)/H^2$, and 3-space obeys
 $\delta\dot A = -\kappa(\delta\rho + \delta p_3)/(2G(k_*))$. Together with the constraint $3G(k_*)A^2 = \kappa\rho$ and the dimensional
-reduction ($\sum\alpha_k\mathcal L_{(k)} - 2\Lambda - 2\kappa\rho_b = G(k)R^{(4)} + \text{topological} - 2G(k)\Lambda_4$), the four-dimensional
+reduction ($\sum_p\alpha_p\mathcal L_{(p)} - 2\Lambda - 2\kappa\rho_b = G(k)R^{(4)} + \text{topological} - 2G(k)\Lambda_4$, $p$ the Lovelock order), the four-dimensional
 gravity of UM-2 is general relativity,
 $$ G^{(4)}_{\mu\nu} + \Lambda_4g_{\mu\nu} = 8\pi G_NT^{(4)}_{\mu\nu},\qquad 8\pi G_N = \frac{\kappa}{G(k_*)V_\perp},\qquad V_\perp = \frac{2f_*^4v_t(1 - e^{-3\eta})}{3H},$$
 with $\Lambda_4 = [6H^2k(1 - 2w_2k) + \Lambda + \kappa\rho_b]/G(k) = 0$ at the static point; the observed dark energy needs
@@ -110,11 +120,11 @@ $\Lambda_4/H^2 \sim (H_0/H)^2 = 1.0\times10^{-92}$ (tuned; OPEN).
 # Step 2: the masses from the $x_0$ dependence of the wave functions
 
 Every four-dimensional mass is an eigenvalue of the $x_0$ operator of its field on the static block; the eigenfunctions
-depend on $x_0$ through $y(6Hx_0)$ and are periodic with period $\pi/(6H)$ (the author's requirement). With $t = y/L$:
+depend on $x_0$ through $y(6Hx_0)$ and are periodic with period $\pi/(6H)$ (the author's requirement). With $\xi = y/L$:
 
 ## Gauge bosons and the graviton
 
-$$ -e^{-3\eta t}\big(e^{3\eta t}u'\big)' = \Lambda u,\qquad \Lambda = (m\,fL)^2,\qquad u'(0) = 0 \text{ (even) or } u(0) = 0 \text{ (odd)},\qquad u'(-1) = \beta u(-1),$$
+$$ -e^{-3\eta\xi}\big(e^{3\eta\xi}u'\big)' = \Lambda u,\qquad \Lambda = (m\,fL)^2,\qquad u'(0) = 0 \text{ (even) or } u(0) = 0 \text{ (odd)},\qquad u'(-1) = \beta u(-1),$$
 $$ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big]\sin q - \beta q\cos q = 0,\qquad \text{odd: } q\cos q + \Big(\beta + \frac{3\eta}{2}\Big)\sin q = 0,\qquad q^2 = \Lambda - \frac{9\eta^2}{4}.$$
 
 | mode ($\eta = 3$) | $\Lambda = (m\,fL)^2$ | status |
@@ -127,8 +137,9 @@ $$ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big
 | $Z$ ($\beta_Z = \beta_W/\cos^2\theta_W = 0.015364$, on-shell $\cos^2\theta_W = m_W^2/m_Z^2 = 0.77666$) | $1.70374\times10^{-5}$ | DERIVED |
 | Dirichlet bound ($\beta \to \infty$) | $0.010016$: $m_W \le 0.01824\,m_{KK}$ | DERIVED |
 
-$\beta_W$ is fixed by the measured $\rho_0 - 1 = 0.00038$: the bending of the tip-localised profiles makes
-$\rho = m_W^2/(m_Z^2\cos^2\theta_W)$ exceed 1 ($\rho - 1 = 3.2\times10^{-8}$ at $\beta_W = 10^{-6}$: custodial symmetry at leading
+$\beta_W$ is fixed by the measured $\rho_0 - 1 = 0.00038$: the bending of the tip-localised profiles moves the model's mass
+ratio $m_W^2/m_Z^2 = \Lambda_W/\Lambda_Z$ away from the on-shell $\cos^2\theta_W$ of the measured masses, and the electroweak parameter
+$\rho = \Lambda_W/(\Lambda_Z\cos^2\theta_W)$ exceeds 1 ($\rho - 1 = 3.2\times10^{-8}$ at $\beta_W = 10^{-6}$: custodial symmetry at leading
 order; $6.4\times10^{-5}$ at $\beta_W = 0.002$, $3.2\times10^{-3}$ at $0.1$). With $m_W = 80.3625$ GeV this gives the scales
 (DERIVED)
 
@@ -139,13 +150,13 @@ order; $6.4\times10^{-5}$ at $\beta_W = 0.002$, $3.2\times10^{-3}$ at $0.1$). Wi
 | proper half cell $fL$; period of $x_0$, $\pi/(6H)$ | $8.934\times10^{-21}$ m; $7.234\times10^{-21}$ m |
 | gap $3H/(2f_*)$ | $99.40$ TeV |
 | radion mass $3.387H$ | $48.38$ TeV |
-| $m_Z$ from $m_W$, $\rho$ and the on-shell angle | $91.171$ GeV (measured $91.188$) |
+| model $m_Z = m_W\sqrt{\Lambda_Z/\Lambda_W}$ | $91.171$ GeV (measured $91.188$) |
 
 ## Fermions
 
 $$ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + \mu\,\sigma_2 + e^{-a_4}k\,\sigma_3\Big],$$
 $$ D(e) = e^2s_Ls_R - \kappa_f^2(C_L - c_Ls_L)(C_R + c_Rs_R) = 0,\qquad s = \frac{\sinh w}{w},\quad C = \cosh w,\quad w = \sqrt{c^2 - e^2},$$
-with $c = f\mu L$; the first-order solution $e = \kappa_f\zeta(c_L)\zeta(-c_R)$, $\zeta(c)^2 = c\,e^{-c}/\sinh c$ ($c_L > 0$, $c_R < 0$: both
+with $k$ the momentum of the mode along $x_1$ (not the block variable) and $c = f\mu L$; the first-order solution $e = \kappa_f\zeta(c_L)\zeta(-c_R)$, $\zeta(c)^2 = c\,e^{-c}/\sinh c$ ($c_L > 0$, $c_R < 0$: both
 zero modes at the fold), agrees with the exact root to $1.2\times10^{-8}$, and direct shooting of the coupled Dirac system
 agrees with the determinant to $3.5\times10^{-10}$. With
 $\kappa_f = 1$ and $c_L = -c_R = c$ (DERIVED):
@@ -172,11 +183,12 @@ $$ h_j\chi_o = \varepsilon_o\chi_o,\qquad M_{eff} = m + \frac{15}{16}\lambda S +
    v = -\frac{\lambda}{16}n + \frac{c_V}{\Lambda_\star^6}\sum_\psi q_\psi n_\psi + v_{I9},$$
 $$ n = \sum wgf_on_o,\quad S = \sum wgf_os_o,\quad n_o = P\chi_o^\dagger\chi_o,\quad s_o = P\chi_o^\dagger j\sigma_2\chi_o,\quad t_o = P\chi_o^\dagger j\sigma_3\chi_o,\quad P = \frac{e^{-3Hy}}{\mathrm{Vol}_7},$$
 $$ E_{KS} = \sum gf_o\varepsilon_o - 2\mathrm{Vol}_7\int e^{3Hy}e_{int}dy,\qquad e_{int} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2,$$
-$$ \rho = \sum wgf\varepsilon n_o - e_{int},\qquad p_3 = \sum wgf\tfrac{e^{-a_4}\lvert k\rvert}{3}t_o + e_{int},\qquad p_t = e_{int},$$
-$$ p_0 = \sum wgf[(\varepsilon - v)n_o - M_{eff}s_o - e^{-a_4}\lvert k\rvert t_o] + e_{int},$$
-with $w = 1/2$ per fold parity, $g = 4r_3(n^2)$ for the momentum shell $\vec k = \Delta k\,\vec n$ ($\vec n \in \mathbb Z^3$, $r_3(n^2)$ the number of
-representations of $n^2$ as a sum of three squares, $\Delta k = 0.25$; here $k$ is the momentum, not the block variable), and
-$\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf_*^4 = 34.27$ ($v_t = 1$). The orbitals are expanded in the exact free eigenfunctions of each
+$$ \rho = \sum wgf_o\varepsilon_on_o - e_{int},\qquad p_3 = \sum wgf_o\tfrac{e^{-a_4}\lvert k\rvert}{3}t_o + e_{int},\qquad p_t = e_{int},$$
+$$ p_0 = \sum wgf_o[(\varepsilon_o - v)n_o - M_{eff}s_o - e^{-a_4}\lvert k\rvert t_o] + e_{int},$$
+with $w = 1/2$ per fold parity, $g = 4r_3(\lvert\vec n\rvert^2)$ for the momentum shell $\vec k = \Delta k\,\vec n$ ($\vec n \in \mathbb Z^3$, $r_3(\lvert\vec n\rvert^2)$ the
+number of representations of $\lvert\vec n\rvert^2$ as a sum of three squares, $\Delta k = 0.25$; here $k$ is the momentum, not the block
+variable), occupations $f_o$, and $\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf_*^4 = 34.27$ ($v_t = 1$, $a_4 = 0$; the proper seven-volume of a
+cell is $2\,\mathrm{Vol}_7(1 - e^{-3\eta})/(3H)$). The orbitals are expanded in the exact free eigenfunctions of each
 sector (60, 120, 240 per sector), iterated to self-consistency (tolerance $10^{-13}$, safeguarded Anderson mixing), and
 extrapolated in the basis size (Richardson).
 
@@ -286,8 +298,8 @@ $$ N_{eff} = 3.044,\qquad T_\nu = \Big(\frac{4}{11}\Big)^{1/3}T_\gamma = 1.9454\
 The cosmic neutrino background of UM-2: $\nu_e$ ($0.05$ eV, non-relativistic today) and two massless $\Psi_A$ species, $336$ cm$^{-3}$
 in all (DERIVED). The $\Psi_B$ fold band has no tip coupling and no scalar density and, with $c_V = 0$, is never thermalised.
 
-**The $Z$ width of one generation** (tree level, $\Gamma(Z \to f\bar f) = N_cG_Fm_Z^3(g_V^2 + g_A^2)/(6\sqrt2\pi)$, $g_V = T_3 - 2Q\sin^2\theta_W$,
-$g_A = T_3$):
+**The $Z$ width of one generation** (tree level, $\Gamma(Z \to f\bar f) = N_cG_Fm_Z^3(g_V^2 + g_A^2)/(6\sqrt2\pi)$, $g_V = T_3 - 2Q\sin^2\theta_W$
+with the $\overline{MS}$ value $\sin^2\theta_W = 0.23122$, $g_A = T_3$):
 
 | channel | $\nu_e$ | $e$ | $u$ | $d$ | $\Psi_A$ (2 Weyl) | total | measured |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -306,7 +318,7 @@ $$ k^2\phi + 3\mathcal H(\phi' + \mathcal H\psi) = -4\pi G_Na^2\delta\rho,\qquad
 $$ \phi'' + \mathcal H(\psi' + 2\phi') + (2\mathcal H' + \mathcal H^2)\psi + \frac{k^2}{3}(\phi - \psi) = 4\pi G_Na^2\delta P,\qquad k^2(\phi - \psi) = 12\pi G_Na^2(\bar\rho + \bar P)\sigma,$$
 with the cold dark matter $\delta_c' = -\theta_c + 3\phi'$, $\theta_c' = -\mathcal H\theta_c + k^2\psi$, the baryon-photon fluid with Thomson
 scattering, the massless hierarchy for $\Psi_A$ and the massive hierarchy for $\nu_e$. They were solved with CAMB 2.0.5 at the
-Planck 2018 values $\omega_b = 0.02237$, $\omega_c = 0.1200$, $100\theta_{MC} = 1.04092$, $\tau = 0.0544$, $\ln(10^{10}A_s) = 3.044$,
+Planck 2018 values $\omega_b = 0.02237$, $\omega_c = 0.1200$, $100\theta_{MC} = 1.04092$, $\tau_{reio} = 0.0544$ (the optical depth to reionisation), $\ln(10^{10}A_s) = 3.044$,
 $n_s = 0.9649$ ($\theta$ held fixed, so $H_0$ is an output; $H_0$ in km/s/Mpc). The models are Planck 2018 $\Lambda$CDM (three
 neutrinos, $\sum m_\nu = 0.06$ eV), UM-2 ($\nu_e$ of $0.05$ eV and two massless $\Psi_A$ species) and the UM-2 variant with the $\Psi_B$
 fold band thermalised above the QCD crossover (DERIVED):
@@ -322,8 +334,8 @@ $0.011$ of the cosmic variance $\sqrt{2/(2\ell + 1)}$ of a single multipole: UM-
 $\Psi_B$ fold band were thermalised and decoupled just above the QCD crossover, it would add
 $\Delta N_{eff} = 2(10.75/g_s)^{4/3} = 0.274$, with $g_s = 47.75$ counting the plasma it leaves (photons, gluons, $u$, $d$, $e$, $\nu_e$
 and the two $\Psi_A$ species) and $10.75$ the same count at neutrino decoupling ($0.218$ for decoupling above the electroweak
-scale, $g_s = 56.75$). At fixed Planck parameters this variant changes TT by up to $4.2$ % ($2.1$ cosmic-variance units of a
-single multipole; the full-sky cosmic-variance $\chi^2 = \sum_b(\bar\delta_b/\sigma_b)^2$ over bins $b$ of $\Delta\ell = 50$, with $\bar\delta_b$ the
+scale, $g_s = 56.75$). At fixed Planck parameters this variant changes TT by up to $4.2$ % for $30 \le \ell \le 2500$ ($4.9$ % at $\ell = 2$, where the
+cosmic variance of one multipole is $63$ %; $2.1$ cosmic-variance units of a single multipole; the full-sky cosmic-variance $\chi^2 = \sum_b(\bar\delta_b/\sigma_b)^2$ over bins $b$ of $\Delta\ell = 50$, with $\bar\delta_b$ the
 mean relative deviation and $\sigma_b = \sqrt{2/\sum_{\ell\in b}(2\ell + 1)}$, is $2314$); it is not a fit to the CMB, and a joint CMB and
 BAO fit of it is OPEN (it is not excluded by this computation). The CNB enters through $N_{eff} = 3.044$ and the $\nu_e$ mass.
 
@@ -356,7 +368,7 @@ below).
 * Exact (symbolic): the background equations, the static block, $G(k_*)$, the radion frequency, the first-order block
   response, the dimensional reduction, the field reductions and the zero modes.
 * Numerical, with measured errors: boson levels (mpmath, 30 digits; finite elements $\le 5\times10^{-10}$); fermion masses
-  (exact roots; first order $1.2\times10^{-8}$; shooting $10^{-10}$); Kohn-Sham energies (Richardson errors below
+  (exact roots; first order $1.2\times10^{-8}$; shooting $3.5\times10^{-10}$); Kohn-Sham energies (Richardson errors below
   $1.5\times10^{-9}$ relative; conservation $9\times10^{-8}$); primordial integrations (constraint below $6\times10^{-10}$);
   CMB (CAMB default accuracy, lensing included).
 * Approximations: the static block with an assumed stabiliser; the good sector (no extra-time momenta); the Kohn-Sham

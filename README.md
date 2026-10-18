@@ -15,7 +15,7 @@ neutrinos, electrons, up and down quarks, gluons, W+ (charge +e), W- (charge -e)
 the x0 dependence of wave functions with period pi/(6H). The model, its provenance, its coupled field equations, an
 approximate solution with Kohn-Sham theory for dirac16complex, and the analysis of the x0 mass mechanism and of the
 dark-matter and dark-energy associations are in [`universe_model_2/`](universe_model_2/README.md) (documents as .md, .tex
-and .pdf; 179 verification checks, all passing).
+and .pdf; 180 verification checks, all passing).
 
 ## The current record: `Revision/`
 

@@ -44,8 +44,19 @@ $[\Psi] = [\psi] = 7/2$, $[\kappa] = -6$ ($\kappa = 8\pi G_8$).
   $S^{ab} = \frac14[\gamma^a, \gamma^b]$. Since every $C\gamma^a$ is real and antisymmetric, $\bar\Psi\gamma^a\Psi$ is anti-Hermitian and
   the Hermitian vector currents are $i\bar\Psi\gamma^a\Psi$; $\bar\Psi\Psi$ is Hermitian.
 * A delta function on the tip $y = -L$ in proper length is $\delta_{tip} = \delta(y + L)/f$.
-* Notation: $\kappa = 8\pi G_8$ throughout; $k$ denotes the block variable $1/f^2$, except in $e^{ikx_1}$, in $h_j$ and in the
-  dispersion $\varepsilon = e^{-a_4}\lvert k\rvert$, where it is the momentum of a mode.
+* Notation: $\kappa = 8\pi G_8$ throughout. $k$ denotes the block variable $1/f^2$ ($k_*$, $k_\pm$, $\delta k$, $G(k)$); as the
+  index of $\alpha_k$, $E_{(k)}$ and $\mathcal L_{(k)}$ it is the Lovelock order (written $p$ in the reduction formula of
+  section 5.6, where the block variable appears as well); in $e^{ikx_1}$, in $h_j$, in $\vec k$ and $\Delta k$ and in the
+  dispersion $\varepsilon = e^{-a_4}\lvert k\rvert$ it is the momentum of a mode along $x_1, x_2, x_3$; in the perturbation equations of
+  section 8 it is the comoving Fourier wavenumber.
+* $\Lambda = -10H^2$ is the eight-dimensional cosmological constant and $\Lambda_4$ the four-dimensional one; in the $x_0$
+  eigenvalue problems of section 6, $\Lambda = (m\,fL)^2$ is a dimensionless eigenvalue; $\Lambda_\star$ is the scale of the
+  effective interactions; $\Lambda_\ell$ and $\Lambda_q$ are the tip coupling matrices.
+* $n$ is a number density ($n_o$ of a Kohn-Sham orbital, $n_\psi$ of a Standard-Model fermion), except as a level number
+  ($n^2\pi^2$, the $n \ge 1$ modes) and in the lattice vector $\vec n \in \mathbb Z^3$ of a momentum shell. The subscript $t$
+  ($x_t$, $p_t$, $v_t$) refers to the extra times $x_5, x_6, x_7$; $\xi = y/L$ is the scaled hidden coordinate; primes
+  denote $d/d\xi$ in section 6 and $d/d\tau$ (conformal time) in section 8. $f$ is the block scale, $f_o$ an occupation
+  number, and the label $f$ in $S_f$ and $T^M{}_N[f]$ stands for the Standard-Model fermions.
 
 # The action
 
@@ -299,9 +310,9 @@ the four-dimensional Friedmann acceleration equation (DERIVED).
 ## The four-dimensional effective gravity
 
 On a product of a four-dimensional metric with the static block (constant curvature $K = -H^2k$) the Lovelock densities
-factorise, $\mathcal L_{(k)} = \sum_{j+l=k}\frac{k!}{j!\,l!}\mathcal L^{(4)}_{(j)}\mathcal L^{(int)}_{(l)}$, with $\mathcal L^{(int)}_{(l)} = (1, 12K, 24K^2, 0)$,
+factorise, $\mathcal L_{(p)} = \sum_{r+s=p}\frac{p!}{r!\,s!}\mathcal L^{(4)}_{(r)}\mathcal L^{(int)}_{(s)}$ ($p = 1, 2, 3$ the Lovelock order), with $\mathcal L^{(int)}_{(s)} = (1, 12K, 24K^2, 0)$ for $s = 0, 1, 2, 3$,
 $\mathcal L^{(4)}_{(3)} \equiv 0$ and $\mathcal L^{(4)}_{(2)}$ topological in four dimensions, so
-$$ \sum_k\alpha_k\mathcal L_{(k)} - 2\Lambda - 2\kappa\rho_b = G(k)\,R^{(4)} + (\text{topological}) - 2G(k)\Lambda_4,\qquad
+$$ \sum_p\alpha_p\mathcal L_{(p)} - 2\Lambda - 2\kappa\rho_b = G(k)\,R^{(4)} + (\text{topological}) - 2G(k)\Lambda_4,\qquad
    \Lambda_4 = \frac{6H^2k(1 - 2w_2k) + \Lambda + \kappa\rho_b}{G(k)}, $$
 and the four-dimensional field equations are those of general relativity,
 $$ G^{(4)}_{\mu\nu} + \Lambda_4\,g^{(4)}_{\mu\nu} = 8\pi G_N\,T^{(4)}_{\mu\nu},\qquad 8\pi G_N = \frac{\kappa}{G(k_*)V_\perp},$$
@@ -312,20 +323,20 @@ The gauge couplings are $g_i^2 = \hat g_i^2/V_\perp$.
 # The field equations in the hidden coordinate: the masses
 
 On the static block every four-dimensional mass is an eigenvalue of the $x_0$ operator of its field (the author's
-requirement: the wave functions depend on $x_0$ periodically with period $\pi/(6H)$, through $y(z)$). With $t = y/L \in [-1, 0]$
+requirement: the wave functions depend on $x_0$ periodically with period $\pi/(6H)$, through $y(z)$). With $\xi = y/L \in [-1, 0]$
 on each half of a period, bosonic eigenvalues are $\Lambda = (m\,fL)^2$ and fermionic ones $e = \varepsilon\,fL$.
 
 ## Gauge fields and the graviton
 
 A four-dimensional component $A_\mu(x)u(y)$ (gauge $A_y = 0$) has the reduced action $\int_{-L}^0dy\,f^4e^{3Hy}\big[u'^2/f^2 - m^2u^2\big]$
 per half (times $1/\hat g^2$), hence (DERIVED)
-$$ -\frac{1}{f^2}e^{-3Hy}\partial_y\big(e^{3Hy}\partial_yu\big) = m^2u \;\Longleftrightarrow\; -e^{-3\eta t}\big(e^{3\eta t}u'\big)' = \Lambda u ,$$
+$$ -\frac{1}{f^2}e^{-3Hy}\partial_y\big(e^{3Hy}\partial_yu\big) = m^2u \;\Longleftrightarrow\; -e^{-3\eta\xi}\big(e^{3\eta\xi}u'\big)' = \Lambda u ,$$
 $$ \text{fold: } u'(0) = 0 \text{ (even) or } u(0) = 0 \text{ (odd)};\qquad \text{tip: } u'(-1) = \beta\,u(-1) ,$$
 the tip condition being the natural boundary condition of the tip mass term: $\beta = 0$ for the photon and the gluons,
 $\beta_W$ for $W^+$ and $W^-$ (one value for both: they are particle and antiparticle), $\beta_Z = \beta_W/\cos^2\theta_W$
 (on-shell angle, $\cos^2\theta_W = m_W^2/m_Z^2$) for the
 $Z$ (the ratio of the coefficients $\hat g^2$ and $\hat g^2 + \hat g'^2$ of the tip mass terms). The transverse-traceless
-graviton obeys the same operator with $\beta = 0$ in Einstein gravity. With $u = e^{-3\eta t/2}w$, $q^2 = \Lambda - 9\eta^2/4$:
+graviton obeys the same operator with $\beta = 0$ in Einstein gravity. With $u = e^{-3\eta\xi/2}\tilde u$, $q^2 = \Lambda - 9\eta^2/4$:
 $$ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big]\sin q - \beta q\cos q = 0,\qquad
    \text{odd: } q\cos q + \Big(\beta + \frac{3\eta}{2}\Big)\sin q = 0 .$$
 For $\beta = 0$: $\Lambda = 0$ (the flat profile; graviton, photon and gluons are exactly massless), $9\eta^2/4 + n^2\pi^2$
@@ -339,7 +350,7 @@ $$ \gamma^MD_M\Psi - \big(M(y) - iv(y)\gamma^{x_4}\big)\Psi = e^{ikx_1}e^{-\frac
 $$ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\sigma_2 + e^{-a_4}k\,\sigma_3\Big] + v(y),$$
 so $i\partial_4\chi = h_j\chi$. In every block $(j, s_2, s_3)$: $\gamma^{x_0} = \sigma_3$, $B = js_2$, $C = s_2\sigma_2$, $\Gamma_4 = -js_2\sigma_3$,
 $P_+ = (1 - B\sigma_3)/2$. For a Standard-Model multiplet $M = \mu_\psi$, $v = 0$; with $c = f\mu_\psi L$ the zero modes are
-$\chi = (e^{ct}, 0)$ (doublet, $\Gamma_4 = +1$) and $\chi = (0, e^{-ct})$ (singlet, $\Gamma_4 = -1$), with $h_j(e^{ct}, 0) = je^{-a_4}k\,(e^{ct}, 0)$
+$\chi = (e^{c\xi}, 0)$ (doublet, $\Gamma_4 = +1$) and $\chi = (0, e^{-c\xi})$ (singlet, $\Gamma_4 = -1$), with $h_j(e^{c\xi}, 0) = je^{-a_4}k\,(e^{c\xi}, 0)$
 exactly (massless four-dimensional particles). The tip mixing conditions give the exact mass condition
 $$ D(e) = e^2s_Ls_R - \kappa_f^2\,(C_L - c_Ls_L)(C_R + c_Rs_R) = 0,\qquad s = \frac{\sinh w}{w},\quad C = \cosh w,\quad w = \sqrt{c^2 - e^2},$$
 $$ e \simeq \kappa_f\,\zeta(c_L)\,\zeta(-c_R),\qquad \zeta(c)^2 = \frac{c\,e^{-c}}{\sinh c}\qquad (c_L > 0,\ c_R < 0).$$
@@ -355,12 +366,14 @@ condensate, a uniform mass shift), $n_\psi$ the number densities of the Standard
 $P_+$ component, i.e. on the upper component of the $\Psi_A$ blocks ($B = -1$) only (I9). The densities are
 $$ n = \sum_o w\,g\,f_o\,n_o,\quad S = \sum_o w\,g\,f_o\,s_o,\qquad n_o = P\chi_o^\dagger\chi_o,\quad s_o = P\chi_o^\dagger j\sigma_2\chi_o,\quad t_o = P\chi_o^\dagger j\sigma_3\chi_o,
    \quad P = \frac{e^{-3Hy}}{\mathrm{Vol}_7},$$
-with $w = 1/2$ for each fold parity, $g = 4r_3(n^2)$ the degeneracy of the momentum shell $\vec k = \Delta k\,\vec n$ ($r_3$ the number
-of representations of $n^2$ as a sum of three squares), $\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf^4$, and occupations $f_o$ (aufbau, or
+with $w = 1/2$ for each fold parity, $g = 4r_3(\lvert\vec n\rvert^2)$ the degeneracy of the momentum shell $\vec k = \Delta k\,\vec n$ ($\vec n \in \mathbb Z^3$,
+$r_3(\lvert\vec n\rvert^2)$ the number of representations of $\lvert\vec n\rvert^2$ as a sum of three squares), $\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf^4$ (at $a_4 = 0$;
+$v_t$ the coordinate volume of the extra times) the normalisation volume of a cell, of dimension length$^6$ (the proper
+seven-volume of a cell, with its hidden extent, is $2\,\mathrm{Vol}_7(1 - e^{-3\eta})/(3H)$), and occupations $f_o$ (aufbau, or
 Mermin $f_o = 1/(e^{(\varepsilon_o - \mu)/T} + 1)$). The energy and the energy-momentum tensor are
 $$ E_{KS} = \sum_o g\,f_o\,\varepsilon_o - 2\,\mathrm{Vol}_7\int_{-L}^0e^{3Hy}e_{int}\,dy,\qquad e_{int} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2,$$
-$$ \rho = \sum wgf\varepsilon\,n_o - e_{int},\qquad p_3 = \sum wgf\,\frac{e^{-a_4}\lvert k\rvert}{3}t_o + e_{int},\qquad p_t = e_{int},$$
-$$ p_0 = \sum wgf\big[(\varepsilon - v)n_o - M_{eff}s_o - e^{-a_4}\lvert k\rvert t_o\big] + e_{int} ,$$
+$$ \rho = \sum_o wgf_o\varepsilon_o\,n_o - e_{int},\qquad p_3 = \sum_o wgf_o\,\frac{e^{-a_4}\lvert k\rvert}{3}t_o + e_{int},\qquad p_t = e_{int},$$
+$$ p_0 = \sum_o wgf_o\big[(\varepsilon_o - v)n_o - M_{eff}s_o - e^{-a_4}\lvert k\rvert t_o\big] + e_{int} ,$$
 which satisfy $E_{KS} = 2\mathrm{Vol}_7\int e^{3Hy}\rho\,dy$ and the $y$-conservation law
 $\big[e^{3Hy}p_0\big]_{-L}^0 = 3H\int_{-L}^0e^{3Hy}p_t\,dy$ (DERIVED for every self-consistent state). Boundary conditions: fold
 $\chi_2(0) = 0$ (even) or $\chi_1(0) = 0$ (odd), tip $\chi_2(-L) = 0$ (from $(1 \mp \gamma^{x_0})\Psi = 0$). The Kohn-Sham source enters the
