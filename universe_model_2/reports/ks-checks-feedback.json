@@ -2,7 +2,7 @@
  "check_count": 2,
  "checks": [
   {
-   "detail": "block stiffness d/dk[3H^2 k - kappa p0_b(k)] = -7.141428 H^2 < 0 at k*: a positive hidden pressure dp0 shifts the block by dk = kappa dp0/(-7.1414 H^2) < 0 (k decreases: the block scale f = k^{-1/2} grows slightly)",
+   "detail": "block stiffness d/dk[3H^2 k - kappa p0_b(k)] = -7.141428 H^2 < 0 at k*: a positive block-averaged hidden pressure dpbar = (dp0 + 3 dp_t)/4 shifts the block by dk = kappa dpbar/(-7.1414 H^2) < 0 (k decreases: the block scale f = k^{-1/2} grows slightly), as the linearised field equations give (um2_background.py: -0.140028 kappa dpbar/H^2, no 3-space acceleration)",
    "name": "block_response",
    "passed": true
   },

@@ -321,7 +321,9 @@ def job_portals(rep):
 
 
 def job_feedback(rep):
-    """Static response of the stabilised block to a hidden pressure: (3 H^2 - kappa d p0_b/dk) dk = kappa dp0 at k*."""
+    """Static response of the stabilised block to the block-averaged hidden pressure pbar = (p0 + 3 p_t)/4 of a Kohn-Sham
+    state: (3 H^2 - kappa d p0_b/dk) dk = kappa dpbar at k* (um2_background.py, linear_response: no 3-space acceleration).
+    The order-0 metric admits p0 = p_t only; p0 - p_t sources a block-shape mode outside the order-0 family (OPEN)."""
     bg = read_json(os.path.join(OUT, 'background.json'))
     ks = bg['casimir_type']['k_star_value']
     krho_b = bg['casimir_type']['kappa_rho_b_over_H2']
@@ -329,14 +331,21 @@ def job_feedback(rep):
     gs = dict(read_json(os.path.join(KSDIR, 'ground8.json')))
     gs.update(read_json(os.path.join(KSDIR, 'ground592.json')))
     out = {'k_star': ks, 'stiffness_over_H2': stiff}
-    # hidden pressure averaged over the 7-volume of the cell: p0_avg = int_p0 / (2 Vol7 int e^{3Hy} dy)
+    # pressures averaged over the 7-volume of the cell: p_avg = int p / (2 Vol7 int e^{3Hy} dy); pbar = (p0 + 3 p_t)/4
     f = fstar()
     w = 2 * vol7(f) * (1 - math.exp(-3 * H * L)) / (3 * H)
     for key in ('N8_lamp', 'N592_lamp', 'N592_lam0'):
         p0avg = gs[key]['int_p0_richardson'] / w
-        out[key] = {'p0_avg': p0avg, 'dk_per_unit_kappa': p0avg / stiff}
-    rep.check('block_response', stiff < 0, 'block stiffness d/dk[3H^2 k - kappa p0_b(k)] = %.6f H^2 < 0 at k*: a positive hidden pressure '
-              'dp0 shifts the block by dk = kappa dp0/(%.4f H^2) < 0 (k decreases: the block scale f = k^{-1/2} grows slightly)' % (stiff, stiff))
+        ptavg = gs[key]['int_pt'] / w
+        pbar = (p0avg + 3 * ptavg) / 4
+        out[key] = {'p0_avg': p0avg, 'pt_avg': ptavg, 'pbar_avg': pbar, 'shape_source_p0_minus_pt': p0avg - ptavg,
+                    'dk_per_unit_kappa': pbar / stiff}
+    bgl = bg.get('linear_response_static_dk_per_kappa_dpbar_H2')
+    rep.check('block_response', stiff < 0 and bgl is not None and abs(bgl - 1 / stiff) < 1e-9,
+              'block stiffness d/dk[3H^2 k - kappa p0_b(k)] = %.6f H^2 < 0 at k*: a positive block-averaged hidden pressure '
+              'dpbar = (dp0 + 3 dp_t)/4 shifts the block by dk = kappa dpbar/(%.4f H^2) < 0 (k decreases: the block scale f = k^{-1/2} '
+              'grows slightly), as the linearised field equations give (um2_background.py: %.6f kappa dpbar/H^2, no 3-space '
+              'acceleration)' % (stiff, stiff, bgl))
     # x4 component: its k-derivative vanishes at k* (so the 4D Friedmann equation is unaffected at linear order)
     d4 = 6.0 * (1 - 4 * (1 / 32.0) * ks) + 4.0 * krho_b / ks
     rep.check('friedmann_decoupled_from_block_shift', abs(d4) < 1e-9,

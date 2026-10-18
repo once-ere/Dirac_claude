@@ -229,6 +229,41 @@ def main():
               'for every nu in {1/4, ..., 3} the attractive-gravity static block solves all components and is linearly stable; '
               'radion masses / H: %s' % ', '.join('%.3f' % max(abs(e[1]) for e in x['eigenvalues_over_H']) for x in fam))
 
+    # ---- B6: linear response of the stabilised block to block-averaged matter sources ----
+    # Matter on top of the stabiliser: kappa (rho_b + d rho, p3_b + d p3, pbar_b + d pbar) with pbar = (p0 + 3 p_t)/4, the
+    # source of the common block scale (the minisuperspace variation with respect to f couples to E^0_0 + 3 E^5_5 and to
+    # p0 + 3 p_t; E^0_0 = E^5_5 identically, so the order-0 metric admits p0 = p_t only, and p0 - p_t sources a block-shape
+    # mode outside the order-0 family).  Linearise about A = h = 0, k = k* with kappa rho_b = R* (k/k*)^4 (nu = 1).
+    d3, dpb = sp.symbols('d3 dpbar', real=True)
+    Rlaw = krho_star * (k / kstar) ** 4
+    e1s = sp.expand((LHS[1] - (-Rlaw + d3)).subs(AUTHOR).subs(Lam, LAM_AUTHOR))
+    e0s = sp.expand((LHS[0] - (Rlaw + dpb)).subs(AUTHOR).subs(Lam, LAM_AUTHOR))
+    ssol = sp.solve([e1s, e0s], [Ad, hd], dict=True)[0]
+    pt0 = {A: 0, h: 0, k: kstar, d3: 0, dpb: 0}
+    lin = lambda ex, v: sp.nsimplify(sp.simplify(sp.diff(ex, v).subs(pt0)))
+    co = {'J_Ak': lin(ssol[Ad], k), 'J_hk': lin(ssol[hd], k), 's_A3': lin(ssol[Ad], d3), 's_Ap': lin(ssol[Ad], dpb),
+          's_h3': lin(ssol[hd], d3), 's_hp': lin(ssol[hd], dpb),
+          'J_AA': lin(ssol[Ad], A), 'J_Ah': lin(ssol[Ad], h), 'J_hA': lin(ssol[hd], A), 'J_hh': lin(ssol[hd], h)}
+    om2_lin = sp.nsimplify(sp.simplify(2 * kstar * co['J_hk']))
+    dk_stat = sp.simplify(-2 * kstar * co['s_hp'] / om2_lin)
+    dA_stat = sp.simplify(co['J_Ak'] * dk_stat + co['s_Ap'])
+    stiff = sp.simplify(3 * H ** 2 - 4 * krho_star / kstar)
+    out['linear_response'] = {kk_: str(v) for kk_, v in co.items()}
+    out['linear_response_values'] = {kk_: float(v / (H ** 2 if kk_ in ('J_Ak', 'J_hk') else 1)) for kk_, v in co.items()}
+    out['linear_response_static_dk_per_kappa_dpbar_H2'] = float(dk_stat * H ** 2)
+    rep.check('sourced_radion_equation', sp.simplify(om2_lin - sp.Matrix(J[1:, 1:]).det()) == 0 and
+              all(co[x] == 0 for x in ('J_AA', 'J_Ah', 'J_hA', 'J_hh')),
+              'linearised with block-averaged matter sources: dA\' = J_Ak dk + s_A3 kappa dp3 + s_Ap kappa dpbar, '
+              'dh\' = J_hk dk + s_h3 kappa dp3 + s_hp kappa dpbar, dk\' = -2 k* dh, hence dk\'\' + omega_r^2 dk = '
+              '-2 k* (s_h3 kappa dp3 + s_hp kappa dpbar) with omega_r^2 = 2 k* J_hk = %s H^2 (the radion); J_Ak = %.6f H^2, '
+              'J_hk = %.6f H^2, s_A3 = %.6f, s_Ap = %.6f, s_h3 = %.6f, s_hp = %.6f' % (
+                  sp.nsimplify(om2_lin / H ** 2), float(co['J_Ak'] / H ** 2), float(co['J_hk'] / H ** 2), float(co['s_A3']),
+                  float(co['s_Ap']), float(co['s_h3']), float(co['s_hp'])))
+    rep.check('static_block_response', sp.simplify(dA_stat) == 0 and sp.simplify(dk_stat - 1 / stiff) == 0,
+              'a constant block-averaged hidden pressure kappa dpbar displaces the block by dk = kappa dpbar/(3 H^2 - kappa '
+              'dp0_b/dk) = %.6f kappa dpbar/H^2 with no 3-space acceleration (dA\' = 0): the stiffness 3 H^2 - 4 kappa rho_b*/k* = '
+              '%.6f H^2 < 0' % (float(dk_stat * H ** 2), float(stiff / H ** 2)))
+
     # ---- B5: dimensional reduction ----
     Kint = sp.Symbol('K', real=True)
     Lint = {0: 1, 1: 12 * Kint, 2: 24 * Kint ** 2, 3: 0}
