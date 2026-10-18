@@ -120,8 +120,8 @@ def main():
     ident = sp.simplify(sp.exp(3 * et * tt) * sp.diff(uf, tt) ** 2 - (sp.diff(vf, tt) ** 2 + sp.Rational(9, 4) * et ** 2 * vf ** 2
                                                                       - sp.Rational(3, 2) * et * sp.diff(vf ** 2, tt)))
     rep.check('A1_flat_form_identity', ident == 0,
-              'e^{3 eta t} u\'^2 = v\'^2 + (9 eta^2/4) v^2 - (3 eta/2)(v^2)\' for u = e^{-3 eta t/2} v: (m f L)^2 = <p^2> + 9 eta^2/4 '
-              '- (3 eta/2) rho(fold) + (3 eta/2 + beta) rho(tip)')
+              'with xi = y/L: e^{3 eta xi} u\'^2 = ut\'^2 + (9 eta^2/4) ut^2 - (3 eta/2)(ut^2)\' for u = e^{-3 eta xi/2} ut (the flat-measure '
+              'profile ut): (m f L)^2 = <p^2> + 9 eta^2/4 - (3 eta/2) varrho(fold) + (3 eta/2 + beta) varrho(tip), varrho = ut^2/int ut^2')
 
     # ---------------- A2 gap theorem ----------------
     gap_ok = True
@@ -185,13 +185,14 @@ def main():
     z0 = table['photon, gluons, graviton (zero mode)']
     fb = table['Psi fold band (both halves)']
     rep.check('A3_uncertainty_relation_on_the_cell', margins[kmin] > 0 and fb['p2_Dt2'] < 0.25 <= z0['p2_Dt2'],
-              'on the cell, which ends at the tips, the uncertainty relation reads sqrt(<p^2>) Delta t >= (1 - rho(tip))/2 (from int rho = '
-              'rho(tip) - int t rho\' dt and the Cauchy-Schwarz inequality); it holds for every state (smallest margin %.4f, %s); it reduces to '
-              '<p^2> Delta t^2 >= 1/4 only for profiles negligible at the tip: photon zero mode %.4f (rho(tip) = %.5f), broad Psi fold zero '
-              'mode %.4f < 1/4 (rho(tip) = %.4f)' % (margins[kmin], kmin, z0['p2_Dt2'], z0['rho_tip'], fb['p2_Dt2'], fb['rho_tip']))
+              'on the cell, which ends at the tips, the uncertainty relation reads sqrt(<p^2>) Delta xi >= (1 - varrho(tip))/2 (from int varrho '
+              '= varrho(tip) - int xi varrho\' dxi and the Cauchy-Schwarz inequality); it holds for every tabulated state (smallest margin %.4f, '
+              '%s); <p^2> Delta xi^2 >= 1/4 is guaranteed only for profiles negligible at the tip: photon zero mode %.4f (varrho(tip) = %.5f), '
+              'broad Psi fold zero mode %.4f < 1/4 (varrho(tip) = %.4f)' % (margins[kmin], kmin, z0['p2_Dt2'], z0['rho_tip'], fb['p2_Dt2'],
+                                                                       fb['rho_tip']))
     rep.check('A3_zero_mode_localised_but_massless', z0['mfL'] == 0 and z0['p2'] > 1 and abs(z0['sum']) < 1e-6 and z0['p2_Dt2'] >= 0.25,
               'the photon/gluon/graviton zero mode has <p^2> = %.3f, Delta s = %.2e m, m_H = %.0f GeV, yet m = 0: warp %.2f, fold %.3f and tip %.4f '
-              'cancel its hidden kinetic energy exactly; <p^2> Delta t^2 = %.3f >= 1/4 (the uncertainty relation holds but does not bound the mass)' % (
+              'cancel its hidden kinetic energy exactly; <p^2> Delta xi^2 = %.3f >= 1/4 (the uncertainty relation holds but does not bound the mass)' % (
                   z0['p2'], z0['Delta_s_m'], z0['mH_GeV'], z0['warp'], z0['fold'], z0['tip'], z0['p2_Dt2']))
     Wt = table['W']
     rep.check('A3_W_mass_from_the_tip', Wt['tip'] > 0 and Wt['m_over_mH'] < 0.01,
@@ -200,7 +201,7 @@ def main():
                                                                                          Wt['tip'], Wt['m_over_mH']))
     ex = [table['first even KK mode'], table['first odd mode'], ddm]
     rep.check('A3_heisenberg_bounds_excitations', all(v['m_over_mH'] > 1 for v in ex),
-              'for the x0 excitations the uncertainty estimate is a true lower bound: m/m_H = %.2f (first even KK), %.2f (first odd), %.2f '
+              'for the computed x0 excitations the uncertainty estimate lies below the mass: m/m_H = %.2f (first even KK), %.2f (first odd), %.2f '
               '(Psi dark matter, x0-momentum fraction of eps^2 = %.3f)' % (ex[0]['m_over_mH'], ex[1]['m_over_mH'], ex[2]['m_over_mH'],
                                                                          ddm['x0_momentum_fraction']))
     fe = [table['%s (chiral zero mode, mass from the tip)' % n] for n in ('nu', 'e', 'u', 'd')]

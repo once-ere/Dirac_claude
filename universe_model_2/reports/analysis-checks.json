@@ -2,12 +2,12 @@
  "check_count": 23,
  "checks": [
   {
-   "detail": "e^{3 eta t} u'^2 = v'^2 + (9 eta^2/4) v^2 - (3 eta/2)(v^2)' for u = e^{-3 eta t/2} v: (m f L)^2 = <p^2> + 9 eta^2/4 - (3 eta/2) rho(fold) + (3 eta/2 + beta) rho(tip)",
+   "detail": "with xi = y/L: e^{3 eta xi} u'^2 = ut'^2 + (9 eta^2/4) ut^2 - (3 eta/2)(ut^2)' for u = e^{-3 eta xi/2} ut (the flat-measure profile ut): (m f L)^2 = <p^2> + 9 eta^2/4 - (3 eta/2) varrho(fold) + (3 eta/2 + beta) varrho(tip), varrho = ut^2/int ut^2",
    "name": "A1_flat_form_identity",
    "passed": true
   },
   {
-   "detail": "for beta in {0, ..., 1e6}: exactly one even level below the gap 9 eta^2/4 = 20.25 (the zero mode, lifted only by the tip) and no odd level: every odd mode and every excitation of the boson operator (gauge fields, graviton) has m >= 3H/(2f) = 99395.1 GeV (the Dirac operator of Psi has no such gap)",
+   "detail": "for beta in {0, ..., 1e6}: exactly one even level below the gap 9 eta^2/4 = 20.25 (the zero mode, lifted only by the tip) and no odd level: every odd mode and every excitation of the boson operator (gauge fields, graviton) has m >= 3H/(2f) = 99479.7 GeV (the Dirac operator of Psi has no such gap)",
    "name": "A2_gap_theorem",
    "passed": true
   },
@@ -17,22 +17,22 @@
    "passed": true
   },
   {
-   "detail": "on the cell, which ends at the tips, the uncertainty relation reads sqrt(<p^2>) Delta t >= (1 - rho(tip))/2 (from int rho = rho(tip) - int t rho' dt and the Cauchy-Schwarz inequality); it holds for every state (smallest margin 0.0566, Psi fold band (both halves)); it reduces to <p^2> Delta t^2 >= 1/4 only for profiles negligible at the tip: photon zero mode 0.4969 (rho(tip) = 0.00111), broad Psi fold zero mode 0.0974 < 1/4 (rho(tip) = 0.4890)",
+   "detail": "on the cell, which ends at the tips, the uncertainty relation reads sqrt(<p^2>) Delta xi >= (1 - varrho(tip))/2 (from int varrho = varrho(tip) - int xi varrho' dxi and the Cauchy-Schwarz inequality); it holds for every tabulated state (smallest margin 0.0566, Psi fold band (both halves)); <p^2> Delta xi^2 >= 1/4 is guaranteed only for profiles negligible at the tip: photon zero mode 0.4969 (varrho(tip) = 0.00111), broad Psi fold zero mode 0.0974 < 1/4 (varrho(tip) = 0.4890)",
    "name": "A3_uncertainty_relation_on_the_cell",
    "passed": true
   },
   {
-   "detail": "the photon/gluon/graviton zero mode has <p^2> = 20.250, Delta s = 1.40e-21 m, m_H = 70499 GeV, yet m = 0: warp 20.25, fold -40.505 and tip 0.0050 cancel its hidden kinetic energy exactly; <p^2> Delta t^2 = 0.497 >= 1/4 (the uncertainty relation holds but does not bound the mass)",
+   "detail": "the photon/gluon/graviton zero mode has <p^2> = 20.250, Delta s = 1.40e-21 m, m_H = 70559 GeV, yet m = 0: warp 20.25, fold -40.505 and tip 0.0050 cancel its hidden kinetic energy exactly; <p^2> Delta xi^2 = 0.497 >= 1/4 (the uncertainty relation holds but does not bound the mass)",
    "name": "A3_zero_mode_localised_but_massless",
    "passed": true
   },
   {
-   "detail": "W: (m f L)^2 = 1.324e-05 = <p^2> 20.250 + warp 20.25 + fold -40.505 + tip 0.005; m_W/m_H = 1.14e-03: the W is light although its profile carries the photon's hidden momentum; its mass is the small tip-induced bending",
+   "detail": "W: (m f L)^2 = 1.321e-05 = <p^2> 20.250 + warp 20.25 + fold -40.505 + tip 0.005; m_W/m_H = 1.14e-03: the W is light although its profile carries the photon's hidden momentum; its mass is the small tip-induced bending",
    "name": "A3_W_mass_from_the_tip",
    "passed": true
   },
   {
-   "detail": "for the x0 excitations the uncertainty estimate is a true lower bound: m/m_H = 7.49 (first even KK), 6.47 (first odd), 2.29 (Psi dark matter, x0-momentum fraction of eps^2 = 0.896)",
+   "detail": "for the computed x0 excitations the uncertainty estimate lies below the mass: m/m_H = 7.49 (first even KK), 6.47 (first odd), 2.29 (Psi dark matter, x0-momentum fraction of eps^2 = 0.896)",
    "name": "A3_heisenberg_bounds_excitations",
    "passed": true
   },
@@ -52,12 +52,12 @@
    "passed": true
   },
   {
-   "detail": "d ln X/d ln f: KK -1, m_W -0.501, m_e -20.6, m_u -19.1, m_d -18.3, m_nu -37.3, M_DM -0.772, alpha and the gauge couplings -4, G_N +2.048 (= -4 + 2 k* G'(k*)/G(k*): the Lovelock factor of the 4D Newton constant also varies with the block): the masses track the block; the stabilised block (radion mass 48379 GeV) freezes them after the primordial era",
+   "detail": "d ln X/d ln f: KK -1, m_W -0.501, m_e -20.6, m_u -19.1, m_d -18.3, m_nu -37.3, M_DM -0.772, alpha and the gauge couplings -4, G_N +2.048 (= -4 + 2 k* G'(k*)/G(k*): the Lovelock factor of the 4D Newton constant also varies with the block): the masses track the block; the stabilised block (radion mass 48420 GeV) freezes them after the primordial era",
    "name": "A5_sensitivities",
    "passed": true
   },
   {
-   "detail": "Psi_B lowest odd Dirac fermion: M_DM = 3.1022 m = 44.31 TeV (m = H), w = 0 at rest, zero Z charge and zero transition currents at the tip (exact); a gauge singlet",
+   "detail": "Psi_B lowest odd Dirac fermion: M_DM = 3.1022 m = 44.35 TeV (m = H), w = 0 at rest, zero Z charge and zero transition currents at the tip (exact); a gauge singlet",
    "name": "B1_mass_cold_neutral",
    "passed": true
   },
@@ -107,7 +107,7 @@
    "passed": true
   },
   {
-   "detail": "ESTIMATE: the radion (m_r = 48379 GeV) left over from the deflation decays with Gamma = C_r m_r^3/(4 pi Mbar_Pl^2) (Mbar_Pl = 2.435e18 GeV, the reduced Planck mass): tau = 0.43 s/C_r, reheating to T_RH = 1.85 sqrt(C_r) MeV, below the 4.7 MeV that nucleosynthesis needs unless C_r > 6.5: the cosmological moduli problem of UM-2 (OPEN)",
+   "detail": "ESTIMATE: the radion (m_r = 48420 GeV) left over from the deflation decays with Gamma = C_r m_r^3/(4 pi Mbar_Pl^2) (Mbar_Pl = 2.435e18 GeV, the reduced Planck mass): tau = 0.43 s/C_r, reheating to T_RH = 1.85 sqrt(C_r) MeV, below the 4.7 MeV that nucleosynthesis needs unless C_r > 6.5: the cosmological moduli problem of UM-2 (OPEN)",
    "name": "C4_radion_moduli_problem",
    "passed": true
   },
