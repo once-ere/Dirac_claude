@@ -673,8 +673,9 @@ DESI DR2 BAO give $\chi^2 = 30.3$ for 13 measurements (Planck $\Lambda$CDM: 32.6
   $c_L = -c_R$; $m_\nu = 0.05$ eV; the record's particle convention for the Krein metric.
 * **INVENTED**: the portals I9, I11, I12; the oriented part of I9.
 * **OPEN**: the microscopic origin of the stabiliser; the tachyonic extra-time modes outside the good sector; the radion
-  oscillation left over from the deflation (its Planck-suppressed decay, an estimated lifetime of order 0.1 to 1 s, would
-  reheat the Universe below the temperature that nucleosynthesis needs: the cosmological moduli problem); the
+  oscillation left over from the deflation (ESTIMATE: its Planck-suppressed decay, $\Gamma = C\,m_r^3/(4\pi M_P^2)$ with an
+  order-one factor $C$, gives a lifetime of $0.43\,\text{s}/C$ and a reheating temperature $1.85\sqrt C$ MeV, below the
+  4.7 MeV that nucleosynthesis needs unless $C > 6.5$: the cosmological moduli problem); the
   Kaluza-Klein graviton spectrum with the Lovelock corrections; the $S$ parameter of the Higgsless tip; anomalies of the
   eight-dimensional bulk theory; the cosmological constant ($\Lambda_4$ tuned to $10^{-92}H^2$).
 * **CONFLICTS WITH DATA, inherent in the order**: there is no Higgs boson while one is observed at 125 GeV; without it the

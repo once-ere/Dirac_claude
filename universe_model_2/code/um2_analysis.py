@@ -368,6 +368,24 @@ def main():
               'the residual of the stabiliser balance, Lambda4/H^2 ~ (H0/H)^2 = %.1e: tuned (the cosmological-constant problem)' % (
                   vac, vac / rhoDE, (H0 / Hgev) ** 2))
 
+    # C4: the radion left over from the primordial deflation (ESTIMATE): a Planck-suppressed modulus of mass m_r decays with
+    # Gamma = C m_r^3/(4 pi M_P^2) (C an order-one coupling factor, reduced Planck mass M_P = 2.435e18 GeV) and reheats to
+    # T_RH = (90/(pi^2 g*))^{1/4} sqrt(Gamma M_P) with g* = 10.75; nucleosynthesis needs T_RH >~ 4.7 MeV (FROM MEMORY).
+    mr = sc['radion_mass_GeV']
+    MP = 2.435e18
+    hbar_s = 6.582119569e-25
+    rad = []
+    for Cc in (0.1, 1.0, 10.0):
+        Gam = Cc * mr ** 3 / (4 * math.pi * MP ** 2)
+        TRH = (90 / (math.pi ** 2 * 10.75)) ** 0.25 * math.sqrt(Gam * MP)
+        rad.append({'C': Cc, 'Gamma_GeV': Gam, 'tau_s': hbar_s / Gam, 'T_RH_MeV': TRH * 1e3})
+    Cmin = (4.7e-3 / rad[1]['T_RH_MeV'] * 1e3) ** 2
+    out['radion_decay_estimate'] = {'m_r_GeV': mr, 'cases': rad, 'C_needed_for_T_RH_4p7MeV': Cmin}
+    rep.check('C4_radion_moduli_problem', rad[1]['T_RH_MeV'] < 4.7,
+              'ESTIMATE: the radion (m_r = %.0f GeV) left over from the deflation decays with Gamma = C m_r^3/(4 pi M_P^2): tau = %.2f s/C, '
+              'reheating to T_RH = %.2f sqrt(C) MeV, below the 4.7 MeV that nucleosynthesis needs unless C > %.1f: the cosmological moduli '
+              'problem of UM-2 (OPEN)' % (mr, rad[1]['tau_s'], rad[1]['T_RH_MeV'], Cmin))
+
     # figures
     import matplotlib
     matplotlib.use('Agg')

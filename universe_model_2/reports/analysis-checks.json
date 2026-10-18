@@ -1,5 +1,5 @@
 {
- "check_count": 20,
+ "check_count": 21,
  "checks": [
   {
    "detail": "e^{3 eta t} u'^2 = v'^2 + (9 eta^2/4) v^2 - (3 eta/2)(v^2)' for u = e^{-3 eta t/2} v: (m f L)^2 = <p^2> + 9 eta^2/4 - (3 eta/2) rho(fold) + (3 eta/2 + beta) rho(tip)",
@@ -99,6 +99,11 @@
   {
    "detail": "a natural vacuum energy of the cell m_KK^4/(16 pi^2) = 1.4e+18 GeV^4 exceeds the dark-energy density by 5e+64; the 4D cosmological term of UM-2 is the residual of the stabiliser balance, Lambda4/H^2 ~ (H0/H)^2 = 1.0e-92: tuned (the cosmological-constant problem)",
    "name": "C3_vacuum_energy_and_tuning",
+   "passed": true
+  },
+  {
+   "detail": "ESTIMATE: the radion (m_r = 48379 GeV) left over from the deflation decays with Gamma = C m_r^3/(4 pi M_P^2): tau = 0.43 s/C, reheating to T_RH = 1.85 sqrt(C) MeV, below the 4.7 MeV that nucleosynthesis needs unless C > 6.5: the cosmological moduli problem of UM-2 (OPEN)",
+   "name": "C4_radion_moduli_problem",
    "passed": true
   }
  ],
