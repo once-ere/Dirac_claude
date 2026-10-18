@@ -1,0 +1,112 @@
+{
+ "check_count": 20,
+ "checks": [
+  {
+   "detail": "E_(1)^x0_x0 = E_(1)^x5_x5 in the class form",
+   "name": "hidden_equals_extra_times_k1",
+   "passed": true
+  },
+  {
+   "detail": "E_(2)^x0_x0 = E_(2)^x5_x5 in the class form",
+   "name": "hidden_equals_extra_times_k2",
+   "passed": true
+  },
+  {
+   "detail": "E_(3)^x0_x0 = E_(3)^x5_x5 in the class form",
+   "name": "hidden_equals_extra_times_k3",
+   "passed": true
+  },
+  {
+   "detail": "the class-form E_(k) (k = 1, 2, 3; components x0, x1, x4) equal the components computed from the full Riemann tensor (um2_geometry.py)",
+   "name": "class_form_equals_full_tensor",
+   "passed": true
+  },
+  {
+   "detail": "x4 at h = 0, A' = 0: -3 G(k) A^2 + 6 H^2 k (1 - 2 w2 k) + Lambda + kappa rho = 0",
+   "name": "static_block_x4",
+   "passed": true
+  },
+  {
+   "detail": "x0 at h = 0, A' = 0: 6(12 w2 k - 1) A^2 - 12 (w2 - 18 w3 k) A^4/H^2 + 3 H^2 k + Lambda - kappa p0 = 0",
+   "name": "static_block_x0",
+   "passed": true
+  },
+  {
+   "detail": "the only sourceless static block with k != 0: k0 = 1/(4 w2), Lambda0 = -3 H^2/(4 w2)",
+   "name": "static_vacuum_general",
+   "passed": true
+  },
+  {
+   "detail": "G(k0) = -5 + 9 w3/(2 w2^2); author's weights: G(k0) = -1 (repulsive), Lambda0 = -24 H^2 != -10 H^2",
+   "name": "newton_factor_at_vacuum",
+   "passed": true
+  },
+  {
+   "detail": "author's weights: G(k) = (k^2 - 12 k + 16)/16 > 0 only for k < 6 - 2 sqrt5 = 1.528 or k > 6 + 2 sqrt5 = 10.472",
+   "name": "newton_factor_author_roots",
+   "passed": true
+  },
+  {
+   "detail": "a static block with A = 0 and the author's weights and Lambda needs kappa rho_b = 10 H^2 - 6 H^2 k + (3/8) H^2 k^2, kappa p3_b = -kappa rho_b, kappa p0_b = 3 H^2 k - 10 H^2",
+   "name": "stabiliser_requirement",
+   "passed": true
+  },
+  {
+   "detail": "nu = 1 (p0 = rho, a vacuum energy ~ f^-8): k* = 12 -+ (4/3) sqrt(51) = 2.478095, 21.521905",
+   "name": "casimir_type_static_blocks",
+   "passed": true
+  },
+  {
+   "detail": "G(k*) = 20/3 + sqrt(51) = 13.808095 > 0 on the upper root (attractive 4D gravity, G_N = kappa/(V_perp G(k*))); the lower root has G = -0.474762 < 0",
+   "name": "casimir_type_attractive_gravity",
+   "passed": true
+  },
+  {
+   "detail": "at k* the block vacuum energy is positive: kappa rho_b = 26 + 4*sqrt(51) = 54.565714 H^2 (p0 = rho_b, p3 = -rho_b)",
+   "name": "casimir_type_positive_energy",
+   "passed": true
+  },
+  {
+   "detail": "the x1 and x0 components solve uniquely for A' and h' (non-degenerate Jacobian at the static block)",
+   "name": "second_order_system_solvable",
+   "passed": true
+  },
+  {
+   "detail": "A = 0, h = 0, k = k* with kappa rho_b(k*) is an exact solution of all three components (x1, x0 dynamical, x4 constraint)",
+   "name": "static_point_is_a_solution",
+   "passed": true
+  },
+  {
+   "detail": "eigenvalues of the linearised (A, h, k) system about the nu = 1 static block: 0.000000+3.387050i, 0.000000-3.387050i, 0.000000+0.000000i (units H); no growing mode: the block oscillates about k* with omega = 3.387050 H (the radion mass); the zero eigenvalue is the A direction (a small 4D cosmological term)",
+   "name": "block_stable_nu1",
+   "passed": true
+  },
+  {
+   "detail": "for every nu in {1/4, ..., 3} the attractive-gravity static block solves all components and is linearly stable; radion masses / H: 3.441, 3.328, 3.334, 3.387, 3.461, 3.546, 3.728, 4.097",
+   "name": "block_stable_family",
+   "passed": true
+  },
+  {
+   "detail": "L_m of a 4-dim space of constant curvature K: L_1 = 12 K, L_2 = 24 K^2, L_3 = 0",
+   "name": "internal_lovelock_densities",
+   "passed": true
+  },
+  {
+   "detail": "dimensional reduction on the static block: the coefficient of the 4D Einstein-Hilbert term is G(k) = 1 - 24 w2 k + 72 w3 k^2 (the same factor as in the x4 component)",
+   "name": "reduction_newton_factor",
+   "passed": true
+  },
+  {
+   "detail": "the 4D cosmological term of the reduced action, Lambda4 = (6 H^2 k (1 - 2 w2 k) + Lambda)/G(k), equals A^2/3 x 3 from the x4 component (3 G A^2 = 6 H^2 k (1 - 2 w2 k) + Lambda)",
+   "name": "reduction_cosmological_term",
+   "passed": true
+  }
+ ],
+ "description": "UM-2: background Einstein-Lovelock equations, the static block with the author's weights, the block vacuum energy (stabiliser), dimensional reduction, linear stability",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "background-checks"
+}
