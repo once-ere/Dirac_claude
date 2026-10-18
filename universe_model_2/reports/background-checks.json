@@ -87,12 +87,12 @@
    "passed": true
   },
   {
-   "detail": "linearised with block-averaged matter sources: dA' = J_Ak dk + s_A3 kappa dp3 + s_Ap kappa dpbar, dh' = J_hk dk + s_h3 kappa dp3 + s_hp kappa dpbar, dk' = -2 k* dh, hence dk'' + omega_r^2 dk = -2 k* (s_h3 kappa dp3 + s_hp kappa dpbar) with omega_r^2 = 2 k* J_hk = 31552/2249 - 2416*sqrt(51)/6747 H^2 (the radion); J_Ak = 0.272956 H^2, J_hk = 0.266522 H^2, s_A3 = -0.006853, s_Ap = 0.038221, s_h3 = 0.028666, s_hp = 0.037320",
+   "detail": "first order with block-averaged matter sources (A^2 = kappa d rho/(3 G(k*)) from the constraint, whose k-derivative vanishes at k*): dA' = J_Ak dk + s_A3 kappa dp3 + s_Ap kappa dpbar + q_A kappa drho, dh' = J_hk dk + s_h3 kappa dp3 + s_hp kappa dpbar + q_h kappa drho, dk' = -2 k* dh, hence dk'' + omega_r^2 dk = -2 k* (s_h3 kappa dp3 + s_hp kappa dpbar + q_h kappa drho), omega_r^2 = 2 k* J_hk = 31552/2249 - 2416*sqrt(51)/6747 H^2; J_Ak = 0.272956 H^2, J_hk = 0.266522 H^2, s_A3 = -0.006853, s_Ap = 0.038221, q_A = -0.045997, s_h3 = 0.028666, s_hp = 0.037320, q_h = -0.009555",
    "name": "sourced_radion_equation",
    "passed": true
   },
   {
-   "detail": "a constant block-averaged hidden pressure kappa dpbar displaces the block by dk = kappa dpbar/(3 H^2 - kappa dp0_b/dk) = -0.140028 kappa dpbar/H^2 with no 3-space acceleration (dA' = 0): the stiffness 3 H^2 - 4 kappa rho_b*/k* = -7.141428 H^2 < 0",
+   "detail": "adiabatic response (dk'' = 0): dk = -0.107556 kappa dp3/H^2 + -0.140028 kappa dpbar/H^2 + 0.035852 kappa drho/H^2, and then dA' = -kappa (drho + dp3)/(2 G(k*)) exactly: the 4D Friedmann acceleration equation with 8 pi G_N = kappa/(G(k*) V_perp); the hidden-pressure stiffness 3 H^2 - 4 kappa rho_b*/k* = -7.141428 H^2 < 0",
    "name": "static_block_response",
    "passed": true
   },

@@ -233,36 +233,70 @@ def main():
     # Matter on top of the stabiliser: kappa (rho_b + d rho, p3_b + d p3, pbar_b + d pbar) with pbar = (p0 + 3 p_t)/4, the
     # source of the common block scale (the minisuperspace variation with respect to f couples to E^0_0 + 3 E^5_5 and to
     # p0 + 3 p_t; E^0_0 = E^5_5 identically, so the order-0 metric admits p0 = p_t only, and p0 - p_t sources a block-shape
-    # mode outside the order-0 family).  Linearise about A = h = 0, k = k* with kappa rho_b = R* (k/k*)^4 (nu = 1).
-    d3, dpb = sp.symbols('d3 dpbar', real=True)
+    # mode outside the order-0 family).  First order about A = h = 0, k = k* (kappa rho_b = R* (k/k*)^4, nu = 1): A^2 is of
+    # first order (the x4 constraint gives 3 G(k*) A^2 = kappa d rho, because d/dk [6 H^2 k (1 - 2 w2 k) + kappa rho_b] = 0
+    # at k*), while A h, A^3 h, A^2 A', A^4 are of higher order.
+    d3, dpb, drh = sp.symbols('d3 dpbar drho', real=True)
     Rlaw = krho_star * (k / kstar) ** 4
     e1s = sp.expand((LHS[1] - (-Rlaw + d3)).subs(AUTHOR).subs(Lam, LAM_AUTHOR))
     e0s = sp.expand((LHS[0] - (Rlaw + dpb)).subs(AUTHOR).subs(Lam, LAM_AUTHOR))
-    ssol = sp.solve([e1s, e0s], [Ad, hd], dict=True)[0]
+    e4s = sp.expand((LHS[4] + Rlaw + drh).subs(AUTHOR).subs(Lam, LAM_AUTHOR))
+    # the two components are linear in (A', h'): e = Mm (A', h')^T + Nv; at the static point Nv = 0 and dNv/dA = 0, so the
+    # first derivatives of (A', h') are -Mm^-1 dNv and the A^2 coefficients are -Mm^-1 (d^2 Nv/dA^2)/2
+    Mm = sp.Matrix([[sp.diff(e1s, Ad), sp.diff(e1s, hd)], [sp.diff(e0s, Ad), sp.diff(e0s, hd)]])
+    Nv = sp.Matrix([e1s, e0s]).subs({Ad: 0, hd: 0})
     pt0 = {A: 0, h: 0, k: kstar, d3: 0, dpb: 0}
-    lin = lambda ex, v: sp.nsimplify(sp.simplify(sp.diff(ex, v).subs(pt0)))
+    Minv = sp.simplify(Mm.subs(pt0).inv())
+
+    class _Sol(dict):
+        pass
+    ssol = _Sol()
+
+    def _dvec(v, order=1):
+        dn = sp.diff(Nv, v, order).subs(pt0) / (2 if order == 2 else 1)
+        return sp.simplify(-Minv * dn)
+
+    def lin(which, v):
+        return sp.nsimplify(sp.simplify(_dvec(v)[0 if which is Ad else 1]))
+
+    def half2(which):
+        return sp.nsimplify(sp.simplify(_dvec(A, 2)[0 if which is Ad else 1]))
+    ssol[Ad], ssol[hd] = Ad, hd
+    Gst = sp.nsimplify(GA.subs(k, kstar))
+    # the constraint at first order: (d e4s/d A^2) A^2 + (d e4s/dk) dk + d rho = 0 with d e4s/dk = 0 at k*
+    c4A2 = sp.nsimplify(sp.simplify(sp.diff(e4s, A, 2).subs(pt0) / 2))
+    c4k = sp.nsimplify(sp.simplify(sp.diff(e4s, k).subs(pt0)))
     co = {'J_Ak': lin(ssol[Ad], k), 'J_hk': lin(ssol[hd], k), 's_A3': lin(ssol[Ad], d3), 's_Ap': lin(ssol[Ad], dpb),
           's_h3': lin(ssol[hd], d3), 's_hp': lin(ssol[hd], dpb),
+          'q_A': sp.nsimplify(sp.simplify(half2(ssol[Ad]) * (-1 / c4A2))),
+          'q_h': sp.nsimplify(sp.simplify(half2(ssol[hd]) * (-1 / c4A2))),
           'J_AA': lin(ssol[Ad], A), 'J_Ah': lin(ssol[Ad], h), 'J_hA': lin(ssol[hd], A), 'J_hh': lin(ssol[hd], h)}
     om2_lin = sp.nsimplify(sp.simplify(2 * kstar * co['J_hk']))
-    dk_stat = sp.simplify(-2 * kstar * co['s_hp'] / om2_lin)
-    dA_stat = sp.simplify(co['J_Ak'] * dk_stat + co['s_Ap'])
     stiff = sp.simplify(3 * H ** 2 - 4 * krho_star / kstar)
     out['linear_response'] = {kk_: str(v) for kk_, v in co.items()}
     out['linear_response_values'] = {kk_: float(v / (H ** 2 if kk_ in ('J_Ak', 'J_hk') else 1)) for kk_, v in co.items()}
-    out['linear_response_static_dk_per_kappa_dpbar_H2'] = float(dk_stat * H ** 2)
-    rep.check('sourced_radion_equation', sp.simplify(om2_lin - sp.Matrix(J[1:, 1:]).det()) == 0 and
-              all(co[x] == 0 for x in ('J_AA', 'J_Ah', 'J_hA', 'J_hh')),
-              'linearised with block-averaged matter sources: dA\' = J_Ak dk + s_A3 kappa dp3 + s_Ap kappa dpbar, '
-              'dh\' = J_hk dk + s_h3 kappa dp3 + s_hp kappa dpbar, dk\' = -2 k* dh, hence dk\'\' + omega_r^2 dk = '
-              '-2 k* (s_h3 kappa dp3 + s_hp kappa dpbar) with omega_r^2 = 2 k* J_hk = %s H^2 (the radion); J_Ak = %.6f H^2, '
-              'J_hk = %.6f H^2, s_A3 = %.6f, s_Ap = %.6f, s_h3 = %.6f, s_hp = %.6f' % (
+    rep.check('sourced_radion_equation', sp.simplify(om2_lin - sp.Matrix(J[1:, 1:]).det()) == 0 and c4k == 0 and
+              sp.simplify(c4A2 + 3 * Gst) == 0 and all(co[x] == 0 for x in ('J_AA', 'J_Ah', 'J_hA', 'J_hh')),
+              'first order with block-averaged matter sources (A^2 = kappa d rho/(3 G(k*)) from the constraint, whose k-derivative '
+              'vanishes at k*): dA\' = J_Ak dk + s_A3 kappa dp3 + s_Ap kappa dpbar + q_A kappa drho, dh\' = J_hk dk + s_h3 kappa dp3 + '
+              's_hp kappa dpbar + q_h kappa drho, dk\' = -2 k* dh, hence dk\'\' + omega_r^2 dk = -2 k* (s_h3 kappa dp3 + s_hp kappa dpbar '
+              '+ q_h kappa drho), omega_r^2 = 2 k* J_hk = %s H^2; J_Ak = %.6f H^2, J_hk = %.6f H^2, s_A3 = %.6f, s_Ap = %.6f, '
+              'q_A = %.6f, s_h3 = %.6f, s_hp = %.6f, q_h = %.6f' % (
                   sp.nsimplify(om2_lin / H ** 2), float(co['J_Ak'] / H ** 2), float(co['J_hk'] / H ** 2), float(co['s_A3']),
-                  float(co['s_Ap']), float(co['s_h3']), float(co['s_hp'])))
-    rep.check('static_block_response', sp.simplify(dA_stat) == 0 and sp.simplify(dk_stat - 1 / stiff) == 0,
-              'a constant block-averaged hidden pressure kappa dpbar displaces the block by dk = kappa dpbar/(3 H^2 - kappa '
-              'dp0_b/dk) = %.6f kappa dpbar/H^2 with no 3-space acceleration (dA\' = 0): the stiffness 3 H^2 - 4 kappa rho_b*/k* = '
-              '%.6f H^2 < 0' % (float(dk_stat * H ** 2), float(stiff / H ** 2)))
+                  float(co['s_Ap']), float(co['q_A']), float(co['s_h3']), float(co['s_hp']), float(co['q_h'])))
+    # adiabatic (static) response and the 4D Friedmann acceleration equation
+    dk_s = sp.simplify(-2 * kstar * (co['s_h3'] * d3 + co['s_hp'] * dpb + co['q_h'] * drh) / om2_lin)
+    Adot_s = sp.simplify(co['J_Ak'] * dk_s + co['s_A3'] * d3 + co['s_Ap'] * dpb + co['q_A'] * drh)
+    fried = sp.simplify(Adot_s + (drh + d3) / (2 * Gst))
+    dk_p = sp.simplify(sp.diff(dk_s, dpb))
+    out['linear_response_static_dk'] = {'per_kappa_dp3_H2': float(sp.diff(dk_s, d3) * H ** 2),
+                                        'per_kappa_dpbar_H2': float(dk_p * H ** 2), 'per_kappa_drho_H2': float(sp.diff(dk_s, drh) * H ** 2)}
+    out['linear_response_static_dk_per_kappa_dpbar_H2'] = float(dk_p * H ** 2)
+    rep.check('static_block_response', fried == 0 and sp.simplify(dk_p - 1 / stiff) == 0,
+              'adiabatic response (dk\'\' = 0): dk = %.6f kappa dp3/H^2 + %.6f kappa dpbar/H^2 + %.6f kappa drho/H^2, and then '
+              'dA\' = -kappa (drho + dp3)/(2 G(k*)) exactly: the 4D Friedmann acceleration equation with 8 pi G_N = kappa/(G(k*) V_perp); '
+              'the hidden-pressure stiffness 3 H^2 - 4 kappa rho_b*/k* = %.6f H^2 < 0' % (
+                  float(sp.diff(dk_s, d3) * H ** 2), float(dk_p * H ** 2), float(sp.diff(dk_s, drh) * H ** 2), float(stiff / H ** 2)))
 
     # ---- B5: dimensional reduction ----
     Kint = sp.Symbol('K', real=True)
