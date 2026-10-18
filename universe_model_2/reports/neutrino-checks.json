@@ -1,0 +1,87 @@
+{
+ "check_count": 15,
+ "checks": [
+  {
+   "detail": "normal ordering: m = 1.0000e-03, 8.7121e-03, 5.0140e-02 eV (m1 chosen), dm2_21 = 7.490e-05, dm2_31 = 2.5130e-03 eV^2 (NuFIT 6.0); sum = 0.0599 eV < 0.064 eV (DESI DR2 + CMB, 95 %)",
+   "name": "masses_and_cosmological_bound",
+   "passed": true
+  },
+  {
+   "detail": "exact evolution exp(-i H L) against the analytic formula P(a->b) = |sum_i U_bi U*_ai e^{-i m_i^2 L/2E}|^2: 3.9e-15; unitarity 1.8e-15; CPT P(a->b) = Pbar(b->a): 2.8e-16; T-odd difference P(mu->e) - P(e->mu) = -16 J sin D21 sin D31 sin D32 to 5.9e-14 (reactor, accelerator and atmospheric baselines)",
+   "name": "vacuum_oscillations",
+   "passed": true
+  },
+  {
+   "detail": "at E_res = dm2_31 cos(2 theta13)/(2 V c13^2) = 11.49 GeV (rho = 2.8 g/cm^3, Y_e = 0.5) the heaviest matter eigenstate has |U_e3^m|^2 = 0.552 (maximal mixing 1/2 up to the 1-2 and 2-3 admixtures); the 1-2 resonance at the centre of the Sun lies at 1.93 MeV",
+   "name": "MSW_resonance_13",
+   "passed": true
+  },
+  {
+   "detail": "nu_mu -> nu_e appearance (normal ordering, delta = 212 deg, matter of constant density): T2K 295 km 0.6 GeV: P(nu) = 0.0517, P(antinu) = 0.0313 (vacuum 0.0478); NOvA 810 km 2.0 GeV: P(nu) = 0.0481, P(antinu) = 0.0236 (vacuum 0.0404); DUNE 1300 km 2.5 GeV: P(nu) = 0.0701, P(antinu) = 0.0195 (vacuum 0.0491)",
+   "name": "long_baseline_matter_and_CP",
+   "passed": true
+  },
+  {
+   "detail": "solar nu_e survival (decoherent at the Earth): P_ee = 0.30 MeV (pp) 0.5408, 0.86 MeV (7Be) 0.5196, 1.44 MeV (pep) 0.4976, 5.00 MeV (8B) 0.3767, 10.00 MeV (8B) 0.3185, 15.00 MeV (8B) 0.3043; the numerical three-flavour evolution through the solar electron density (40000 layers) agrees with the adiabatic formula c13^4 (1/2 + 1/2 cos 2theta12 cos 2theta12^m) + s13^4 to 1.3e-03 (layer convergence 2.2e-06): the MSW conversion is adiabatic; vacuum-dominated at low energy, matter-dominated for 8B",
+   "name": "solar_MSW",
+   "passed": true
+  },
+  {
+   "detail": "the thermal potential of the e+- plasma, V_e - V_mu = -(8 sqrt2 G_F p/(3 m_W^2)) (7 pi^2/60) T^4 (m_W of the UM-2 fit), suppresses the mixing until it falls below dm2 cos(2 theta)/(2p) at p = 3.15 T: the atmospheric oscillations start at T = 4.99 MeV, the solar ones at T = 2.39 MeV, i.e. around neutrino decoupling: flavour conversion is active while the neutrinos decouple",
+   "name": "early_universe_oscillation_onset",
+   "passed": true
+  },
+  {
+   "detail": "massless limits: P2 = -5 e^2 T^4/288 to 0.0e+00, P3 = e^3 T^4/(36 sqrt3 pi) to 1.1e-16, rho_e = (7 pi^2/60) T^4 to 2.2e-16 (Gauss-Legendre panels; the logarithmic singularity of J2 removed by q = p(1 - s^2))",
+   "name": "plasma_integrals",
+   "passed": true
+  },
+  {
+   "detail": "the same method as Escudero (arXiv:2001.04466; Table 1 there: instantaneous 3.000, + LO QED 3.011, FD collision terms 3.039, + NLO QED 3.049) reproduces: instantaneous decoupling 3.0002, + O(e^2) QED 3.0108, + O(e^3) 3.0098; FD energy transfer with one neutrino temperature 3.0393, + O(e^2) 3.0495, + O(e^3) 3.0485",
+   "name": "N_eff_method_validation",
+   "passed": true
+  },
+  {
+   "detail": "UM-2 (three flavours, its tree-level couplings 3.0472, or the effective 3.0476; no extra radiation: both dirac16complex fold bands are never thermalised): N_eff = 3.0476 with separate nu_e and nu_mu,tau temperatures (no oscillations), 3.0485 with one common temperature (efficient oscillations); T_nu_e/T_gamma = 0.71732, T_nu_mu/T_gamma = 0.71621 (comoving heating by e+ e- annihilation +0.265 % and +0.109 %); the precision value with oscillations and the electron mass in the rates, 3.0432 (Cielo, Escudero, Mangano, Pisanti, arXiv:2306.05460 (\"Neff in the Standard Model at NLO is 3.043\")), is adopted for the cosmology",
+   "name": "N_eff_three_flavours",
+   "passed": true
+  },
+  {
+   "detail": "the CNB of UM-2 is three neutrino MASS eigenstates (decoherent), T_nu = 1.9454 K, 112.0 per cm^3 each (nu + nubar), 336 per cm^3 in all; mean velocities 0.435, 0.0604, 0.0105 c today; flavour content of the states e: 0.677, 0.301, 0.022; Omega_nu h^2 = 6.382e-04 (sum m/93.14 eV = 6.426e-04); the dirac16complex fold bands are not part of it",
+   "name": "CNB_three_mass_states",
+   "passed": true
+  },
+  {
+   "detail": "in the stellar envelope the H (1-3) resonance lies at rho = 1573 g/cm^3 for 20 MeV (r = 1.85e+04 km) with adiabaticity gamma = 178 (Landau-Zener crossing probability 2.7e-122): adiabatic; for normal ordering a nu_e from the core leaves the star as nu_3, P(nu_e -> nu_e) = |U_e3|^2 = 0.0221, and an antineutrino as nubar_1, Pbar(nu_e -> nu_e) = |U_e1|^2 = 0.6767 (without collective effects and Earth matter)",
+   "name": "supernova_MSW",
+   "passed": true
+  },
+  {
+   "detail": "three independent evaluations agree to 1.2e-14 (units mu = sqrt2 G_F n_nue): the analytic growth sqrt(4 I1^2 - (I0 + I2)^2)/2 of the mode K = Lambda (I_n = int du/2 G u^n) and the root of the dispersion relation at k = 0; the eigenvalues of the discretised homogeneous linear equations i dS_u/dt = (Lambda0 - u Lambda3) S_u - int du'/2 G(u')(1 - u u') S_u' and the root at k = -Lambda3 (homogeneous growth 0.01848, 0.00000, 0.00000 for the three cases)",
+   "name": "fast_flavour_solver_consistency",
+   "passed": true
+  },
+  {
+   "detail": "the dispersion relation det Pi = 0, Pi^{mu nu} = eta^{mu nu} + int du/2 G v^mu v^nu/(omega - k u), both branches (axisymmetric and azimuthal) for real k along the axis: with an ELN crossing the gas is unstable (forward-peaked antineutrinos: largest growth 0.0877 mu at k = -0.30, homogeneous 0.0185 mu; linear distributions: 0.0979 mu at k = -0.10 although the homogeneous mode is stable); without a crossing no mode grows (0.0e+00): flavour conversion needs a crossing, as the general theorem (Morinaga 2022) states",
+   "name": "fast_flavour_crossing_criterion",
+   "passed": true
+  },
+  {
+   "detail": "near the neutrinosphere (n_nu_e = 1e32 to 1e33 cm^-3, mu = sqrt2 G_F n = 1.3e-05 to 1.3e-04 eV) the instability grows by e in 5.9e-10 to 5.9e-11 s over 17.8 to 1.78 cm: a million times faster than the hydrodynamics (milliseconds), which is why the explosion models treat the conversion as instantaneous",
+   "name": "fast_flavour_time_scale",
+   "passed": true
+  },
+  {
+   "detail": "schematic charged-current heating behind the shock, proportional to N <E^2> of nu_e and nubar_e, for representative accretion-phase neutrinospheres (L = 6, 6, 4 x 1e52 erg/s; <E> = 11, 14, 15.5 MeV): flavour equipartition changes it by the factor 0.884 (full three-flavour equipartition) or 0.760 (ELN-conserving pair conversion until nubar_e is equipartitioned): the heavy-lepton neutrinos have higher energies but fewer particles and no charged-current absorption, so the heating falls; Gogilashvili and Tamborra (2026) find in 195 collapse simulations that this raises the fraction of failed explosions from 25.6 % to 50.8 - 96.4 %",
+   "name": "equipartition_reduces_heating",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 neutrinos: three flavours, mixing and flavour conversion (vacuum, matter, the Sun, the early Universe and N_eff, the CNB, supernovae and the fast flavour instability)",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "neutrino-checks"
+}
