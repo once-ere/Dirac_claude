@@ -20,15 +20,15 @@ times); $W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$.
 # The equations being solved
 
 The action of UM-2 is
-$$ S = \frac{1}{2\kappa}\int\sqrt{\lvert g\rvert}\Big(\sum_{k=1}^3\alpha_k\mathcal L_{(k)} - 2\Lambda\Big) - \int\sqrt{\lvert g\rvert}\rho_b(f) + S_\Psi + S_{gauge} + S_f + S_{tip} + S_{I9} + S_{I11} + S_{I12},$$
+$$ S = \frac{1}{2\kappa}\int d^8x\sqrt{\lvert g\rvert}\Big(\sum_{k=1}^3\alpha_k\mathcal L_{(k)} - 2\Lambda\Big) - \int d^8x\sqrt{\lvert g\rvert}\,\rho_b(f) + S_\Psi + S_{gauge} + S_f + S_{tip} + S_{I9} + S_{I11} + S_{I12},$$
 with the author's $\alpha_k = w_kH^{2-2k}$, $w = (1, \frac1{32}, \frac1{1152})$, $\Lambda = -10H^2$; the stabiliser
 $\kappa\rho_b = \kappa\rho_b^*(f_*/f)^8$; the dirac16complex Lagrangian
 $\sqrt{\lvert g\rvert}[\frac12(\bar\Psi\gamma^MD_M\Psi - (D_M\bar\Psi)\gamma^M\Psi) - m\bar\Psi\Psi - \frac{\lambda}{2}(\bar\Psi\Psi)^2]$ with the canonical spin
 connection; the eight-dimensional $SU(3)_c\times SU(2)_L\times U(1)_Y$ gauge fields and one generation of fermions; the tip
 sigma field $\Sigma \in SU(2)$ (no Higgs particle); and the portals
-$$ S_{I9} = \int_{tip}(c_Z + c'_Z\varsigma)(i\bar\Psi\gamma^\mu P_+\Psi)\mathcal Z_\mu,\qquad
-   S_{I11} = \int\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^M\Psi)\sum_\psi q_\psi(i\bar\psi\gamma_M\psi),$$
-$$ S_{I12} = -\int\frac{\bar\Psi\Psi}{\Lambda_\star^3}\big(c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN}\big),$$
+$$ S_{I9} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\,(c_Z + c'_Z\varsigma)(i\bar\Psi\gamma^\mu P_+\Psi)\mathcal Z_\mu,\qquad
+   S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\,\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^M\Psi)\sum_\psi q_\psi(i\bar\psi\gamma_M\psi),$$
+$$ S_{I12} = -\int d^8x\sqrt{\lvert g\rvert}\,\frac{\bar\Psi\Psi}{\Lambda_\star^3}\big(c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN}\big),$$
 $\mathcal Z_\mu = \frac{iv_\Sigma^2}{2}\mathrm{tr}(\Sigma^\dagger D_\mu\Sigma\tau^3) \to \frac{v_\Sigma^2}{2}\sqrt{\hat g^2 + \hat g'^2}Z_\mu$, $P_+ = (1 + \Gamma_4)/2$. The field equations are
 $$ \sum_k\alpha_kE_{(k)}{}^M{}_N + \Lambda\delta^M_N = \kappa T^M{}_N,\qquad
    \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\frac{c_V}{\Lambda_\star^6}\mathcal J_M\gamma^M\Psi - i\delta_{tip}(c_Z + c'_Z\varsigma)\mathcal Z_\mu\gamma^\mu P_+\Psi ,$$
@@ -87,7 +87,7 @@ $k_0$ from $1.5$ to $20$ (DERIVED):
 
 Every start above the separatrix $k_c = 2.5301, 2.5991, 2.6983$ (for $h_0 = -H/10, -H/3, -H/2$; just above the unstable
 static block $k_- = 2.4781$) ends at the stable block: the extra times $x_5, x_6, x_7$ and the hidden direction $x_0$ deflate
-at rates up to $\lvert h\rvert = 2.63H$, by up to $f(k_c)/f_* = 2.917$, reach $k_*$ within $x_4 < 1/H$, and then oscillate about it
+at rates up to $\lvert h\rvert = 2.63H$ (in the stored runs $k_0 = 3, 5, 10$), by up to $f(k_c)/f_* = 2.917$, reach $k_*$ within $x_4 < 1/H$, and then oscillate about it
 with the radion frequency ($3.3868H$ measured, $3.3870H$ linear), while 3-space keeps expanding; the oscillation energy
 redshifts like dust ($A\,x_4 \to 0.667$ to $0.670$; $2/3$ for dust). The extra times therefore deflate exponentially only in a
 short primordial era and are then frozen: the masses, all of which depend on $f$, become constant.
@@ -124,7 +124,7 @@ $$ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big
 | first odd level | $27.0890$ ($q\cot q = -9/2$) | DERIVED (finite elements $4.5\times10^{-10}$) |
 | gap | $9\eta^2/4 = 20.25$ | DERIVED |
 | $W^+$, $W^-$ ($\beta_W = 0.011932$) | $1.32374\times10^{-5}$ | DERIVED (fit, finite elements $3\times10^{-14}$) |
-| $Z$ ($\beta_Z = \beta_W/\cos^2\theta_W = 0.015364$) | $1.70374\times10^{-5}$ | DERIVED |
+| $Z$ ($\beta_Z = \beta_W/\cos^2\theta_W = 0.015364$, on-shell $\cos^2\theta_W = m_W^2/m_Z^2 = 0.77666$) | $1.70374\times10^{-5}$ | DERIVED |
 | Dirichlet bound ($\beta \to \infty$) | $0.010016$: $m_W \le 0.01824\,m_{KK}$ | DERIVED |
 
 $\beta_W$ is fixed by the measured $\rho_0 - 1 = 0.00038$: the bending of the tip-localised profiles makes
@@ -143,10 +143,11 @@ order; $6.4\times10^{-5}$ at $\beta_W = 0.002$, $3.2\times10^{-3}$ at $0.1$). Wi
 
 ## Fermions
 
-$$ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + \mu\,\sigma_2 + \kappa k\,\sigma_3\Big],$$
+$$ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + \mu\,\sigma_2 + e^{-a_4}k\,\sigma_3\Big],$$
 $$ D(e) = e^2s_Ls_R - \kappa_f^2(C_L - c_Ls_L)(C_R + c_Rs_R) = 0,\qquad s = \frac{\sinh w}{w},\quad C = \cosh w,\quad w = \sqrt{c^2 - e^2},$$
-with $c = f\mu L$; the first-order solution $e = \kappa_f\zeta(c_L)\zeta(c_R)$, $\zeta(c)^2 = c\,e^{-c}/\sinh c$, agrees with the exact root to
-$1.2\times10^{-8}$, and direct shooting of the coupled Dirac system agrees with the determinant to $10^{-10}$. With
+with $c = f\mu L$; the first-order solution $e = \kappa_f\zeta(c_L)\zeta(-c_R)$, $\zeta(c)^2 = c\,e^{-c}/\sinh c$ ($c_L > 0$, $c_R < 0$: both
+zero modes at the fold), agrees with the exact root to $1.2\times10^{-8}$, and direct shooting of the coupled Dirac system
+agrees with the determinant to $3.5\times10^{-10}$. With
 $\kappa_f = 1$ and $c_L = -c_R = c$ (DERIVED):
 
 | fermion | mass | $c$ | $\mu/H$ | proper width $fL/(2c)$ | $e = m\,fL$ |
@@ -161,7 +162,7 @@ $\kappa_f = 1$ and $c_L = -c_R = c$ (DERIVED):
 With $M = m$, fold condition $\chi_2(0) = 0$ (even) or $\chi_1(0) = 0$ (odd), tip $\chi_2(-L) = 0$ and $c_\psi = f_*mL = 0.646667$, the exact
 $k = 0$ spectrum is: the fold zero mode ($\varepsilon = 0$, all eight blocks); even bulk levels $\sqrt{m^2 + (n\pi/(fL))^2}$, the lowest
 $4.959981\,m$; odd levels $\sqrt{m^2 + p^2}$ with $\tan(p\,fL) = -p/m$, the lowest $3.102204\,m$ ($p = 2.93661\,m$,
-$p\,fL = 1.89901$); and the fold band $\varepsilon = \kappa\lvert k\rvert$ (massless, $\varepsilon/\lvert k\rvert = 1$ to $6\times10^{-14}$) (DERIVED).
+$p\,fL = 1.89901$); and the fold band $\varepsilon = e^{-a_4}\lvert k\rvert$ (massless, $\varepsilon/\lvert k\rvert = 1$ to $6\times10^{-14}$) (DERIVED).
 
 # Step 3: Kohn-Sham states of dirac16complex coupled to all fields
 
@@ -171,8 +172,10 @@ $$ h_j\chi_o = \varepsilon_o\chi_o,\qquad M_{eff} = m + \frac{15}{16}\lambda S +
    v = -\frac{\lambda}{16}n + \frac{c_V}{\Lambda_\star^6}\sum_\psi q_\psi n_\psi + v_{I9},$$
 $$ n = \sum wgf_on_o,\quad S = \sum wgf_os_o,\quad n_o = P\chi_o^\dagger\chi_o,\quad s_o = P\chi_o^\dagger j\sigma_2\chi_o,\quad t_o = P\chi_o^\dagger j\sigma_3\chi_o,\quad P = \frac{e^{-3Hy}}{\mathrm{Vol}_7},$$
 $$ E_{KS} = \sum gf_o\varepsilon_o - 2\mathrm{Vol}_7\int e^{3Hy}e_{int}dy,\qquad e_{int} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2,$$
-$$ \rho = \sum wgf\varepsilon n_o - e_{int},\quad p_3 = \sum wgf\tfrac{\kappa\lvert k\rvert}{3}t_o + e_{int},\quad p_t = e_{int},\quad p_0 = \sum wgf[(\varepsilon - v)n_o - M_{eff}s_o - \kappa\lvert k\rvert t_o] + e_{int},$$
-with $w = 1/2$ per fold parity, $g = 4r_3(n^2)$ for the momentum shell $\vec k = \Delta k\,\vec n$ ($\Delta k = 0.25$), and
+$$ \rho = \sum wgf\varepsilon n_o - e_{int},\qquad p_3 = \sum wgf\tfrac{e^{-a_4}\lvert k\rvert}{3}t_o + e_{int},\qquad p_t = e_{int},$$
+$$ p_0 = \sum wgf[(\varepsilon - v)n_o - M_{eff}s_o - e^{-a_4}\lvert k\rvert t_o] + e_{int},$$
+with $w = 1/2$ per fold parity, $g = 4r_3(n^2)$ for the momentum shell $\vec k = \Delta k\,\vec n$ ($\vec n \in \mathbb Z^3$, $r_3(n^2)$ the number of
+representations of $n^2$ as a sum of three squares, $\Delta k = 0.25$; here $k$ is the momentum, not the block variable), and
 $\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf_*^4 = 34.27$ ($v_t = 1$). The orbitals are expanded in the exact free eigenfunctions of each
 sector (60, 120, 240 per sector), iterated to self-consistency (tolerance $10^{-13}$, safeguarded Anderson mixing), and
 extrapolated in the basis size (Richardson).
@@ -218,7 +221,7 @@ Checks (DERIVED): $E_{KS} = 2\mathrm{Vol}_7\int e^{3Hy}\rho\,dy$ to $4\times10^{
 $[e^{3Hy}p_0]_{-L}^0 = 3H\int e^{3Hy}p_tdy$ to $9\times10^{-8}$ (Richardson; the raw residual falls like $n_b^{-3}$); observed basis
 orders 4.95 (energy) and 2.97 (hidden pressure); the free gas has $w = \int p_3/\int\rho = 1/3$ exactly (four-dimensional
 radiation). The self-interaction shifts the fold-band levels almost rigidly (the spacing between $k = 0$ and the first
-shell is $0.25$ free, $0.24995$ at $\lambda_B$, $0.2490$ in the $N = 8$ stress state). A scalar mean field cannot gap the fold
+shell is $0.25$ free, $0.25000$ at $\lambda_B$, $0.2490$ in the $N = 8$ stress state). A scalar mean field cannot gap the fold
 band at $k = 0$: $\chi = (e^{f\int M_{eff}dy}, 0)$ solves $j[-\frac{i}{f}\sigma_1\partial_y + M_{eff}\sigma_2]\chi = 0$ with both boundary conditions
 for every $M_{eff}(y)$.
 
@@ -233,15 +236,15 @@ $x_0$ eigenvalue (DERIVED): the dark-matter mass is an $x_0$ eigenvalue, and it 
 
 The portal mean fields were applied with amplitude $e$ and shapes given by the sources (the electron and up-quark zero-mode
 densities times $P$ for I11; a uniform gluon condensate for I12; a tip-localised $Z$ charge on the upper component for I9).
-Linear responses of the dark-matter level (DERIVED; equal to the Hellmann-Feynman expectation
+Linear responses of the lowest odd level (DERIVED; equal to the Hellmann-Feynman expectation
 $d\varepsilon/de = \langle\chi\vert\partial h/\partial e\vert\chi\rangle$ to $10^{-8}$):
 
-| portal mean field | $d\varepsilon_{DM}/de$ | change of the fold-band gap |
+| portal mean field | $d\varepsilon_{odd}/de$ | change of the fold-band gap |
 | --- | --- | --- |
 | I11, electron density ($v$) | $0.507981$ | $1.2\times10^{-10}$ |
 | I11, up-quark density ($v$) | $0.548555$ | $1.6\times10^{-10}$ |
 | I12, gluon condensate (uniform $M$) | $0.707196$ | $2.9\times10^{-11}$ |
-| I9, tip $Z$ charge (upper component, $\Psi_A$) | $0.259489$ | $7.9\times10^{-11}$ |
+| I9, tip $Z$ charge (upper component): $\Psi_A$ odd level; $\Psi_B$ (the dark matter) | $0.259489$; exactly $0$ | $7.9\times10^{-11}$ |
 
 The fold band stays massless under every portal. Every orbital has $\chi_2(-L) = 0$, so the scalar density
 $\bar\Psi\Psi = 2s_2ab$ vanishes at the tip: no tip operator built on $\bar\Psi\Psi$ reaches dirac16complex, and I9 acts on the upper
@@ -290,7 +293,8 @@ $g_A = T_3$):
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | width (MeV) | $165.9$ | $83.4$ | $285.4$ | $367.9$ | $329.1$ | $1231.7$ | $2495.5$ |
 
-The invisible width ($495$ MeV) is reproduced; the total is not, because the order restricts the particle content to one
+The invisible width is reproduced through the fit of $N_\nu$ (tree level $495$ MeV against the measured $499.0 \pm 1.5$ MeV);
+the total is not, because the order restricts the particle content to one
 generation (the $\mu$, $\tau$, $s$, $c$, $b$ channels are missing): an inherent conflict of the specified content with data.
 
 # Step 5: the CMB, the CNB and the BAO
@@ -311,13 +315,17 @@ fold band thermalised above the QCD crossover (DERIVED):
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | $\Lambda$CDM | $67.34$ | $0.3154$ | $3.044$ | $0.24566$ | $13.799$ | $1089.91$ | $147.103$ | $32.55$ |
 | UM-2 | $67.43$ | $0.3143$ | $3.044$ | $0.24566$ | $13.793$ | $1089.91$ | $147.105$ | $30.31$ |
-| UM-2, $\Psi_B$ hot | $69.52$ | $0.2957$ | $3.223$ | $0.24802$ | $13.610$ | $1090.08$ | $146.213$ | $10.58$ |
+| UM-2, $\Psi_B$ hot | $70.62$ | $0.2865$ | $3.318$ | $0.24925$ | $13.515$ | $1090.17$ | $145.750$ | $15.97$ |
 
 The UM-2 TT and EE spectra agree with Planck $\Lambda$CDM to $2.2\times10^{-4}$ and $3.7\times10^{-4}$ ($30 \le \ell \le 2500$), at most
-$0.011$ of the cosmic variance of a single multipole: UM-2 reproduces the CMB of $\Lambda$CDM. The variant with a thermalised
-$\Psi_B$ fold band ($\Delta N_{eff} = 2(7.25/g_s)^{4/3} = 0.179$ for decoupling at $g_s = 44.25$) changes TT by up to 2.8 % at fixed
-Planck parameters (binned cosmic-variance $\chi^2 = 1012$); it is not a fit to the CMB, and a joint CMB and BAO fit of it is
-OPEN (it is not excluded by this computation). The CNB enters through $N_{eff} = 3.044$ and the $\nu_e$ mass.
+$0.011$ of the cosmic variance $\sqrt{2/(2\ell + 1)}$ of a single multipole: UM-2 reproduces the CMB of $\Lambda$CDM. If the
+$\Psi_B$ fold band were thermalised and decoupled just above the QCD crossover, it would add
+$\Delta N_{eff} = 2(10.75/g_s)^{4/3} = 0.274$, with $g_s = 47.75$ counting the plasma it leaves (photons, gluons, $u$, $d$, $e$, $\nu_e$
+and the two $\Psi_A$ species) and $10.75$ the same count at neutrino decoupling ($0.218$ for decoupling above the electroweak
+scale, $g_s = 56.75$). At fixed Planck parameters this variant changes TT by up to $4.2$ % ($2.1$ cosmic-variance units of a
+single multipole; the full-sky cosmic-variance $\chi^2 = \sum_b(\bar\delta_b/\sigma_b)^2$ over bins $b$ of $\Delta\ell = 50$, with $\bar\delta_b$ the
+mean relative deviation and $\sigma_b = \sqrt{2/\sum_{\ell\in b}(2\ell + 1)}$, is $2314$); it is not a fit to the CMB, and a joint CMB and
+BAO fit of it is OPEN (it is not excluded by this computation). The CNB enters through $N_{eff} = 3.044$ and the $\nu_e$ mass.
 
 ![CMB temperature (left) and E-mode (right) spectra of UM-2, of Planck 2018 $\Lambda$CDM and of the variant with a thermalised $\Psi_B$ fold band; lower panels: relative difference to $\Lambda$CDM with the cosmic variance of one multipole (dotted).](figures/fig_cmb_spectra.png)
 
@@ -332,13 +340,16 @@ per abelian channel, $\sigma v = G^2s(s - 4M^2)/(4\pi) \to G^2M^4v^2/\pi$, in to
 $\mathrm{Tr}[(\not p_1 + M)(\not p_2 - M)] = 2(s - 4M^2)$ checked numerically). Freeze-out (Dirac fermion, $g_* = 56.75$:
 the gauge bosons without a Higgs, $e$, $\nu_L$, $u$, $d$ and the two $\Psi_A$ species; $\nu_R$ never thermalised):
 $$ x_f = \ln\Big[0.038\,c(c+2)\,g\,M_{Pl}M\langle\sigma v\rangle/\sqrt{g_*x_f}\Big] = 30.31,\qquad \Omega h^2 = \frac{2\times1.07\times10^9\,\text{GeV}^{-1}\,x_f}{\sqrt{g_*}\,M_{Pl}\,3b/x_f} = 0.120$$
-($\langle\sigma v\rangle = 6b/x$, $c = 1/2$, $g = 2$) requires $\langle\sigma v\rangle(x_f) = 1.37\times10^{-25}$ cm$^3$/s, below the thermal unitarity
-scale $2.3\times10^{-25}$ cm$^3$/s, i.e.
+($\langle\sigma v\rangle = 6b/x$, $c = 1/2$, $g = 2$, $M_{Pl} = G_N^{-1/2} = 1.22\times10^{19}$ GeV, standard radiation-dominated freeze-out) requires
+$\langle\sigma v\rangle(x_f) = 1.37\times10^{-25}$ cm$^3$/s, below the s-wave thermal unitarity estimate $(4\pi/M^2)\sqrt{x_f/\pi} = 2.3\times10^{-25}$ cm$^3$/s
+(an estimate made for an s-wave process, applied here to a p-wave one), i.e.
 $$ (8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (16.6\ \text{TeV})^{-3},\qquad G_i = \mathcal O\,c_ig_i^2/\Lambda_\star^3,\quad \mathcal O = 0.7072 .$$
 Direct detection (ESTIMATE): even if the whole annihilation went into gluons, the trace anomaly
 ($\langle N\vert G^\alpha G^\alpha\vert N\rangle = -\frac{8\pi}{9\alpha_s}m_Nf_{TG}$) gives $\sigma_{SI} = \mu^2f_N^2/\pi = 4.3\times10^{-53}$ cm$^2$, eight
 orders below the LZ limit extrapolated to $44$ TeV ($2.4\times10^{-45}$ cm$^2$); the electroweak channels have no tree-level
-nucleon coupling.
+nucleon coupling. The relic value is conditional: if the radion oscillation left over from the deflation (which redshifts
+like dust) dominated the Universe until it decayed, it would dilute the dark matter after freeze-out (the moduli problem,
+below).
 
 # Accuracy of the solution
 
@@ -359,8 +370,11 @@ nucleon coupling.
   longitudinal $W^+W^-$ scattering violates perturbative unitarity near $\sqrt{8\pi}\,v \approx 1.2$ TeV, far below the
   Kaluza-Klein modes; the total $Z$ width of one generation, $1.23$ GeV against $2.4955$ GeV.
 * **Open**: the origin of the stabiliser; the extra-time modes outside the good sector (tachyonic for momentum $q > fM$);
-  the radion left over from the deflation (ESTIMATE: lifetime $0.43\,\text{s}/C$, reheating to $1.85\sqrt C$ MeV, below the
-  4.7 MeV that nucleosynthesis needs unless $C > 6.5$: a moduli problem); the block-shape mode driven by $p_0 - p_t$; the
+  the closed time-like curves implied by compact extra times; the radion left over from the deflation (ESTIMATE: a
+  Planck-suppressed decay $\Gamma = C_r\,m_r^3/(4\pi\bar M_{Pl}^2)$, with the reduced Planck mass $\bar M_{Pl} = 2.435\times10^{18}$ GeV and an
+  order-one coupling factor $C_r$, gives the lifetime $0.43\,\text{s}/C_r$ and the reheating temperature
+  $T_{RH} = (90/(\pi^2g_*))^{1/4}\sqrt{\Gamma\bar M_{Pl}} = 1.85\sqrt{C_r}$ MeV, $g_* = 10.75$, below the 4.7 MeV that nucleosynthesis needs
+  unless $C_r > 6.5$: a moduli problem); the block-shape mode driven by $p_0 - p_t$; the
   tuning of $\Lambda_4$ ($10^{-92}H^2$); the Kaluza-Klein graviton spectrum with the Lovelock corrections; the
   electroweak $S$ parameter of the Higgsless tip; anomalies of the eight-dimensional bulk theory; the joint fit of the
   thermalised-$\Psi_B$ variant.

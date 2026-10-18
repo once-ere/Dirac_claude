@@ -38,7 +38,10 @@ $$ y = \frac{\ln\lvert\sin z\rvert}{6H} \in (-L, 0],\qquad dy = \cot z\,dx_0,\qq
 the fold $y = 0$ ($z = \pi/2$) joining the two halves and the tip $y = -L$ ($\eta = HL = 3$) closing them. Every wave function of
 UM-2 depends on $x_0$ through $y(z)$, so it is periodic in $x_0$ with period $\pi/(6H)$. The uncertainty relation, in the
 proper hidden length $s = fy$, reads $\Delta s\,\Delta p_s \ge \frac12$, and the author's estimate of a mass is
-$$ m_H = \frac{\hbar c}{2\Delta s}.$$
+$$ m_H = \frac{\hbar c}{2\Delta s},\qquad \Delta s = fL\,\Delta t,\qquad \Delta t^2 = \frac{\int_{-1}^{0}t^2\varrho(t)\,dt}{\int_{-1}^{0}\varrho(t)\,dt},$$
+the root-mean-square proper distance from the fold of the probability density $\varrho$ in the flat measure ($\varrho = v^2$,
+$v = e^{3\eta t/2}u$, for bosons; $\varrho = \lvert\chi\rvert^2$ for fermions), $t = y/L$; over the full period the density is symmetric
+about the fold, so $\Delta t$ is also the spread of the full-period profile.
 
 ## Every mass is an $x_0$ eigenvalue (DERIVED)
 
@@ -47,15 +50,16 @@ With $t = y/L$:
 * **Gauge bosons and the graviton**: $-e^{-3\eta t}(e^{3\eta t}u')' = \Lambda u$, $\Lambda = (m\,fL)^2$; fold $u'(0) = 0$ (even) or
   $u(0) = 0$ (odd); tip $u'(-1) = \beta u(-1)$ with $\beta = 0$ for the photon, the gluons and the graviton and
   $\beta_W = 0.011932$ ($W^+$, $W^-$), $\beta_Z = \beta_W/\cos^2\theta_W$ ($Z$).
-* **Fermions**: $h_j = j[-\frac{i}{f}\sigma_1\partial_y + \mu\sigma_2 + \kappa k\sigma_3]$ with the chiral boundary conditions and the tip
+* **Fermions**: $h_j = j[-\frac{i}{f}\sigma_1\partial_y + \mu\sigma_2 + e^{-a_4}k\sigma_3]$ ($k$ the momentum) with the chiral boundary conditions and the tip
   mixing $b_L = \kappa_fb_R$, $a_R = -\kappa_fa_L$; the mass is the root of
   $D(e) = e^2s_Ls_R - \kappa_f^2(C_L - c_Ls_L)(C_R + c_Rs_R)$, $s = \sinh w/w$, $C = \cosh w$, $w = \sqrt{c^2 - e^2}$, $c = f\mu L$.
 * **dirac16complex**: $h_j$ with $M = m$, fold $\chi_2(0) = 0$ (even) or $\chi_1(0) = 0$ (odd), tip $\chi_2(-L) = 0$.
 
 The masses (DERIVED): photon, gluons, graviton $0$ exactly (flat profile); dirac16complex fold band $0$ exactly
-(chiral zero mode, $\varepsilon = \kappa\lvert k\rvert$); $W^\pm$ $80.36$ GeV and $Z$ $91.17$ GeV (fit of $\beta_W$ to $\rho_0$);
+(chiral zero mode, $\varepsilon = e^{-a_4}\lvert k\rvert$); $W^\pm$ $80.36$ GeV and $Z$ $91.17$ GeV (fit of $\beta_W$ to $\rho_0$);
 $\nu$, $e$, $u$, $d$ with $c = 18.67, 10.30, 9.54, 9.13$; the dark matter $3.102204\,m = 44.31$ TeV; Kaluza-Klein levels from
-$121$ TeV; every odd mode and every excitation above the gap $3H/(2f_*) = 99.4$ TeV.
+$121$ TeV; every odd mode and every excitation of the gauge fields and the graviton above the gap $3H/(2f_*) = 99.4$ TeV;
+the $\Psi$ excitations from its lowest odd level, $44.3$ TeV, upwards.
 
 ## What the uncertainty relation does and does not bound (DERIVED)
 
@@ -76,7 +80,7 @@ Bosons (the warp term is $9\eta^2/4 = 20.25$ for every mode):
 | $W^\pm$ | $20.250$ | $-40.505$ | $0.0050$ | $1.32\times10^{-5}$ | $1.14\times10^{-3}$ |
 | $Z$ | $20.250$ | $-40.505$ | $0.0050$ | $1.70\times10^{-5}$ | $1.29\times10^{-3}$ |
 | first even Kaluza-Klein mode | $9.870$ | $-2.949$ | $2.949$ | $30.120$ | $7.49$ |
-| first odd mode | $4.891$ | $0$ | $1.949$ | $27.089$ | $6.47$ |
+| first odd mode | $4.891$ | $0$ | $1.948$ | $27.089$ | $6.47$ |
 
 Fermions (the kinetic term $\langle\lvert\chi'\rvert^2\rangle$ equals the bulk term $c^2$ for the zero modes):
 
@@ -107,10 +111,12 @@ Three classes follow.
   eigenfunction with $\Lambda = 0$, protected by four-dimensional gauge invariance and general covariance. The fold bands
   of dirac16complex are massless for the analogous chiral reason ($\chi = (e^{f\int Mdy}, 0)$ is a zero mode for every mass
   profile).
-* **Heavy: the uncertainty relation is a true lower bound.** Every $x_0$ excitation lies above the gap: for every tip
-  coupling $\beta$ from $0$ to $10^6$ exactly one even level lies below $9\eta^2/4$ (the zero mode, lifted only by the tip) and
-  no odd level does (the gap theorem, DERIVED), so every odd mode and every excitation has $m \ge 3H/(2f_*) = 99.4$ TeV. For
-  these states $m_H$ is exceeded by factors 2.3 to 7.5 (dark matter 2.29, first odd 6.47, first even 7.49): the author's
+* **Heavy: the uncertainty relation is a true lower bound.** Every $x_0$ excitation of the gauge fields and the graviton
+  lies above the gap of their operator: for every tip coupling $\beta$ from $0$ to $10^6$ exactly one even level lies below
+  $9\eta^2/4$ (the zero mode, lifted only by the tip) and no odd level does (the gap theorem, DERIVED), so every odd mode and
+  every excitation of these fields has $m \ge 3H/(2f_*) = 99.4$ TeV. The Dirac operator of $\Psi$ has no such warp gap; its
+  excitations start at the lowest odd level, $3.10m = 44.3$ TeV (the dark matter). For all these states $m_H$ is exceeded by
+  factors 2.3 to 7.5 (dark matter 2.29, first odd 6.47, first even 7.49): the author's
   Heisenberg estimate holds as a bound, and the dark-matter mass is an $x_0$ mass in this sense (its hidden wave number $p$
   carries $p^2/\varepsilon^2 = 0.896$ of $\varepsilon^2$).
 * **Light: the mass comes from the tip, not from localisation.** For $W^\pm$, $Z$, $e$, $\nu$, $u$, $d$ the $x_0$ dependence that costs
@@ -123,9 +129,11 @@ Three classes follow.
 ## Proper versus coordinate localisation (DERIVED)
 
 The photon zero mode, localised at the fold in proper length, has 61.9 % of its probability within $\pi/8$ of the tips in
-the coordinate $z = 6Hx_0$: localisation in the coordinate $x_0$ is chart dependent, because $ds_{hidden} = f\cot z\,dx_0$ diverges
-at the fold. Only the proper hidden length enters the masses; a statement "$\Delta x_0$ small" must therefore be read as
-"$\Delta s$ small".
+the coordinate $z = 6Hx_0$: localisation in the coordinate $x_0$ is chart dependent, because $ds_{hidden} = f\cot z\,dx_0$ vanishes
+at the fold and diverges at the tips. A profile confined to a small proper distance from the fold ($\Delta t = 0.157$, i.e.
+$\lvert y\rvert \lesssim 0.47/H$, $\sin z \gtrsim e^{-2.8}$) therefore extends over almost the whole coordinate range of $z$, and its
+probability per unit $z$ is largest near the tips. Only the proper hidden length enters the masses; a statement
+"$\Delta x_0$ small" must therefore be read as "$\Delta s$ small".
 
 ## The mass mechanism, the block and the deflating extra times
 
@@ -137,19 +145,22 @@ Every mass and coupling depends on the block scale $f$ (DERIVED):
 | $m_W$ (and $m_Z$) | $-0.501$ |
 | $m_e$, $m_u$, $m_d$, $m_\nu$ | $-20.6$, $-19.1$, $-18.3$, $-37.3$ |
 | $M_{DM}$ | $-0.772$ |
-| $G_N$ and the gauge couplings ($\propto 1/V_\perp \propto f^{-4}$) | $-4$ |
+| $\alpha$ and the gauge couplings ($g^2 = \hat g^2/V_\perp \propto f^{-4}$) | $-4$ |
+| $G_N$ ($8\pi G_N = \kappa/(G(k)V_\perp)$: $-4 + 2k_*G'(k_*)/G(k_*)$) | $+2.05$ |
 
 The author's metric lets the extra times $x_5, x_6, x_7$ (and, in the corrected metric, $x_0$ with them) deflate
 exponentially. In UM-2 they do so in the primordial era: the full nonlinear equations take a large block into the
-stabilised one at rates up to $\lvert h\rvert = 2.63H$, deflating by up to $f(k_c)/f_* = 2.917$, after which the block oscillates
+stabilised one at rates up to $\lvert h\rvert = 2.63H$ (in the stored runs), deflating by up to $f(k_c)/f_* = 2.917$, after which the block oscillates
 about $f_*$ (the radion) and stays frozen. A continuing deflation today is excluded (ESTIMATE, bounds FROM MEMORY): the
 atomic-clock bound $\lvert d\ln\alpha/dt\rvert < 10^{-17}$/yr and $d\ln\alpha/d\ln f = -4$ require $\lvert h\rvert < 2.5\times10^{-18}$/yr
-$= 3.6\times10^{-8}H_0$; lunar ranging ($\lvert d\ln G/dt\rvert < 10^{-13}$/yr) requires $\lvert h\rvert < 3.6\times10^{-4}H_0$; a block deflating at the
+$= 3.6\times10^{-8}H_0$; lunar ranging ($\lvert d\ln G/dt\rvert < 10^{-13}$/yr, $d\ln G_N/d\ln f = +2.05$) requires $\lvert h\rvert < 7.1\times10^{-4}H_0$; a block deflating at the
 Hubble rate would change the electron mass by $1.4\times10^{-9}$ per year. The extra times are irrelevant at low energies
-not because they keep deflating but because they are small ($f_*/H$, a proper cell of $9\times10^{-21}$ m, Kaluza-Klein
+not because they keep deflating but because they are small (the proper half cell $f_*L = 3f_*/H = 8.9\times10^{-21}$ m, Kaluza-Klein
 masses above 100 TeV) and frozen. The price is the stabiliser (ASSUMED, origin OPEN) and the radion left over from the
-deflation (ESTIMATE: lifetime $0.43\,\text{s}/C$, reheating to $1.85\sqrt C$ MeV, below the 4.7 MeV that nucleosynthesis needs unless
-the order-one coupling factor $C > 6.5$: a moduli problem, OPEN).
+deflation (ESTIMATE: a Planck-suppressed decay $\Gamma = C_r\,m_r^3/(4\pi\bar M_{Pl}^2)$, with the reduced Planck mass
+$\bar M_{Pl} = 2.435\times10^{18}$ GeV and an order-one coupling factor $C_r$, gives the lifetime $0.43\,\text{s}/C_r$ and the reheating
+temperature $T_{RH} = (90/(\pi^2g_*))^{1/4}\sqrt{\Gamma\bar M_{Pl}} = 1.85\sqrt{C_r}$ MeV, $g_* = 10.75$, below the 4.7 MeV that
+nucleosynthesis needs unless $C_r > 6.5$: a moduli problem, OPEN).
 
 ## Assessment of the mechanism
 
@@ -185,16 +196,20 @@ DERIVED), annihilates every $\Psi_B$ orbital at the tip. The dark-matter candida
 Through the gauge-kinetic portal $S_{I12} = -\int\sqrt{\lvert g\rvert}\,\bar\Psi\Psi(c_GG^2 + c_WW^2 + c_BB^2)/\Lambda_\star^3$ the four-dimensional
 operator is $G_i\bar\chi\chi F^i_{\mu\nu}F^{i\mu\nu}$ with $G_i = \mathcal O\,c_ig_i^2/\Lambda_\star^3$, $\mathcal O = \partial\varepsilon_{DM}/\partial m = 0.7072$. The annihilation is
 p-wave: $\sigma v = G^2s(s - 4M^2)/(4\pi) \to G^2M^4v^2/\pi$ per abelian channel, $(M^4v^2/\pi)(8G_g^2 + 3G_W^2 + G_B^2)$ in total. The
-thermal relic (Kolb-Turner freeze-out, Dirac fermion, $g_* = 56.75$) requires (DERIVED)
+thermal relic (Kolb-Turner freeze-out in a radiation-dominated Universe, Dirac fermion, $g_* = 56.75$) requires (DERIVED)
 $$ x_f = 30.31,\qquad \langle\sigma v\rangle(x_f) = 1.37\times10^{-25}\ \text{cm}^3/\text{s},\qquad (8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (16.6\ \text{TeV})^{-3},$$
-below the thermal unitarity scale ($2.3\times10^{-25}$ cm$^3$/s). The portal scale is therefore of the order of the dark-matter
-mass, not far above it: the effective description is at its edge (a dedicated ultraviolet completion of I12 is OPEN).
+below the s-wave thermal unitarity estimate $(4\pi/M_{DM}^2)\sqrt{x_f/\pi} = 2.3\times10^{-25}$ cm$^3$/s (an s-wave estimate applied to a
+p-wave process). The portal scale is therefore of the order of the dark-matter mass, not far above it: the effective
+description is at its edge (a dedicated ultraviolet completion of I12 is OPEN). The relic value also assumes that the
+radion oscillation left over from the deflation, which redshifts like dust, does not dominate and dilute the Universe
+after freeze-out: it is conditional on the solution of the moduli problem.
 
 ## Detection
 
 * Direct (ESTIMATE): through gluons only, $\sigma_{SI} = \mu^2f_N^2/\pi = 4.3\times10^{-53}$ cm$^2$ with
   $f_N = G_g\frac{8\pi}{9\alpha_s}m_Nf_{TG}$, eight orders below the LZ limit extrapolated to 44 TeV ($2.4\times10^{-45}$ cm$^2$): the relic
-  coupling could sit entirely in gluons ($5.7\times10^7$ times the allowed fraction). The electroweak channels have no
+  coupling could sit entirely in gluons (the limit would allow a gluon coupling whose square is $5.7\times10^7$ times the relic
+  requirement). The electroweak channels have no
   tree-level nucleon coupling.
 * Indirect: the annihilation is p-wave, $\propto v^2 \sim 10^{-6}$ in galaxies today, so present-day annihilation signals are
   suppressed by about $10^{-5}$ relative to freeze-out.
@@ -202,18 +217,20 @@ mass, not far above it: the effective description is at its edge (a dedicated ul
 
 ## The massless quanta are not dark matter
 
-The fold bands of both halves are massless four-dimensional fermions ($\varepsilon = \kappa\lvert k\rvert$); a gas of them has
+The fold bands of both halves are massless four-dimensional fermions ($\varepsilon = e^{-a_4}\lvert k\rvert$); a gas of them has
 $w = 1/3$ exactly (Kohn-Sham, DERIVED). The $\Psi_A$ fold band couples to the $Z$ through I9 and is part of the radiation
 ($N_{eff} = 3.044$, two of the three CNB species; it replaces $\nu_\mu$ and $\nu_\tau$ in the $Z$ invisible width, $r^2 = 0.992$). The
-$\Psi_B$ fold band must stay cold: if it were thermalised above the QCD crossover it would add $\Delta N_{eff} = 0.18$, which at
-fixed Planck parameters changes the CMB temperature spectrum by up to 2.8 % (a joint refit is OPEN).
+$\Psi_B$ fold band must stay cold: if it were thermalised above the QCD crossover it would add
+$\Delta N_{eff} = 2(10.75/47.75)^{4/3} = 0.274$ ($0.218$ above the electroweak scale), which at fixed Planck parameters changes the
+CMB temperature spectrum by up to 4.2 % (a joint refit is OPEN).
 
 ## Assessment
 
 The association of dirac16complex with dark matter is valid in UM-2 under stated conditions: (i) the good sector (no
 extra-time momenta; outside it the halves mix and modes are tachyonic, OPEN); (ii) the exact fold parity of $\Psi_B$, which
 UM-2 derives from $P_+\Psi_B = 0$ at the tip; (iii) a gauge-kinetic portal I12 with coefficients set by the relic
-abundance; (iv) a $\Psi_B$ fold band that never thermalises. It is the heavy odd part of one half of the field, not the
+abundance; (iv) a $\Psi_B$ fold band that never thermalises; (v) no late dilution by the radion (the moduli problem). It
+is the heavy odd part of one half of the field, not the
 field as a whole, that is dark matter; the field's massless fold bands are radiation.
 
 # dirac16complex as dark energy
@@ -261,7 +278,8 @@ $\Lambda_4$.
 * **Conditions on which the conclusions rest** (ASSUMED): the stabiliser and its $f^{-8}$ law; the good sector; the regular
   tip at $\eta = 3$; $m = H$; the tip sigma field and the boundary assignments of the Standard-Model fields; the portals
   I9, I11, I12 (INVENTED).
-* **Open**: the origin of the stabiliser; the extra-time modes; the radion moduli problem; the block-shape mode driven by
+* **Open**: the origin of the stabiliser; the extra-time modes; the closed time-like curves implied by compact extra times;
+  the radion moduli problem; the block-shape mode driven by
   $p_0 - p_t$; the ultraviolet completion of I12; the joint CMB and BAO fit of the variant with a thermalised $\Psi_B$ fold band;
   the cosmological-constant problem.
 * **Conflicts with data inherent in the order**: no Higgs boson (one is observed), perturbative unitarity of $W^+W^-$

@@ -293,10 +293,12 @@ In the author's chart, with two general functions of the time
    -e^{-2a_4} b_4 (\sin^2 z)^{1/6},\; -e^{-2a_4} b_4 (\sin^2 z)^{1/6},\; -e^{-2a_4} b_4 (\sin^2 z)^{1/6} \Big), \]
 where \((\sin^2 z)^{1/6}\) is the positive branch. This is the metric of
 the Revision record of 2026-10-16 (version 2), whose sources are all
-diagonal; the author's earlier metric
-\(\mathrm{diag}(\cot^2 z, e^{2a_4}\sin^{1/3}z, \dots, -1, -e^{-2a_4}b_4\sin^{1/3}z, \dots)\)
-of the notebook differs from it in \(g_{00}\) and in the 3-space warp.
-Define
+diagonal. The notebook metric
+\[ \begin{aligned} g^{\text{nb}} = \mathrm{diag}\big(&\cot^2 z,\; e^{2a_4}(\sin^2z)^{1/6},\; e^{2a_4}(\sin^2z)^{1/6},\; e^{2a_4}(\sin^2z)^{1/6},\\
+   &-1,\; -e^{-2a_4}(\sin^2z)^{1/6},\; -e^{-2a_4}(\sin^2z)^{1/6},\; -e^{-2a_4}(\sin^2z)^{1/6}\big), \end{aligned} \]
+to whose extra-time components the author's order of 2026-10-14 added
+the factor \(b_4\), differs from it in \(g_{00}\) and in the 3-space
+warp. Define
 \[ f = e^{-a_4} b_4^{1/2}, \qquad k = \frac{1}{f^2} = \frac{e^{2a_4}}{b_4}, \qquad A = \dot a_4, \qquad h = \frac{\dot f}{f} = \frac{\dot b_4}{2b_4} - \dot a_4 , \]
 dots being \(d/dx_4\). In the \(y\) chart the metric is
 \[ d\bar s^2 = e^{2a_4}(dx_1^2 + dx_2^2 + dx_3^2) - dx_4^2 + f^2\big[dy^2 - e^{2Hy}(dx_5^2 + dx_6^2 + dx_7^2)\big] .\]
@@ -390,11 +392,8 @@ field equations require (section 8.1), and it does not depend on
 density whose only scale is the size of the block (a Casimir-type or
 flux energy). Its normalisation is fixed by the static block (section
 8.2): \(\kappa\rho_b^* = (26 + 4\sqrt{51})H^2\) at \(f_* = k_*^{-1/2}\).
-Its microscopic origin is OPEN: a Casimir energy of the light fields of
-the cell is far too small, and a four-form flux gives an
-\(x_0\)-dependent energy density; a vacuum energy of order
-\((0.1\,M_8)^8\), with \(M_8\) the eight-dimensional Planck scale, has
-the required size.
+Its microscopic origin is OPEN (a Casimir energy of the fields of the
+cell or a flux are natural candidates; neither was computed in UM-2).
 
 \hypertarget{the-dirac16complex-field}{%
 \subsection{The dirac16complex field}\label{the-dirac16complex-field}}
@@ -464,10 +463,14 @@ and the fold parity
 \[ \Psi = \Psi_A + \Psi_B, \qquad B\Psi_A = -\Psi_A, \qquad B\Psi_B = +\Psi_B \]
 splits \(\Psi\) into two four-dimensionally Lorentz-invariant halves of
 8 components, and \(\bar\Psi\Psi = \bar\Psi_A\Psi_A + \bar\Psi_B\Psi_B\)
-does not mix them. Every interaction of UM-2 is built from bilinears
-that do not mix the halves, so the numbers \(N_A\) and \(N_B\) are
-separately conserved. Under the fold reflection \(R\) the modes are even
-or odd; the bulk Lagrangian is \(R\)-symmetric.
+does not mix them. In the good sector (no extra-time momenta) every
+interaction of UM-2 commutes with \(B\) (DERIVED with the author's
+matrices: \(B\) commutes with \(C\), \(\gamma^a\) and \(C\gamma^a\) for
+\(a = x_0, \dots, x_4\) and anticommutes with them for
+\(a = x_5, x_6, x_7\)), so the numbers \(N_A\) and \(N_B\) are
+separately conserved; extra-time momenta would mix the halves. Under the
+fold reflection \(R\) the modes are even or odd; the bulk Lagrangian is
+\(R\)-symmetric.
 
 \hypertarget{the-standard-model-gauge-fields-assumed-structure-standard-content}{%
 \subsection{The Standard-Model gauge fields (ASSUMED structure, STANDARD
@@ -761,9 +764,9 @@ decay, \(n \leftrightarrow p\), neutrino decoupling \\
 9 & gauge self-interactions & \(W^\pm\), \(Z\), \(\gamma\) &
 \(W^+W^-Z\), \(W^+W^-W^+W^-\), \(W^+W^-\gamma\gamma\),
 \(W^+W^-Z\gamma\), \(W^+W^-ZZ\) & electroweak consistency \\
-10 & \(W^\pm\), \(Z\) masses & \(\Sigma\), \(W\), \(B\) &
-\(-\frac{v_\Sigma^2}{4}\mathrm{tr}(D\Sigma^\dagger D\Sigma)\) at the tip
-& \(x_0\) profiles bent at the tip \\
+10 & \(W^\pm\), \(Z\) masses & \(\Sigma\), \(W^a\) (\(W^\pm\), \(W^3\)),
+\(B\) & \(-\frac{v_\Sigma^2}{4}\mathrm{tr}(D\Sigma^\dagger D\Sigma)\) at
+the tip & \(x_0\) profiles bent at the tip \\
 11 & fermion masses & \(\Sigma\), \(L\), \(\ell_R\), \(Q\), \(q_R\) &
 \(\bar L\Sigma\Lambda_\ell\ell_R + \bar Q\Sigma\Lambda_q q_R\) at the
 tip & tip mixing of the chiral zero modes \\
@@ -815,7 +818,7 @@ Einstein gravity. With \(u = e^{-3\eta t/2}w\) and
 eigenvalue conditions are
 \[ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big]\sin q - \beta\,q\cos q = 0,\qquad
    \text{odd: } q\cos q + \Big(\beta + \frac{3\eta}{2}\Big)\sin q = 0 \]
-(\(q = i\kappa\) below the gap \(9\eta^2/4\)).
+(\(q = i\tilde q\) below the gap \(9\eta^2/4\)).
 
 \textbf{Massless particles.} For \(\beta = 0\) the flat profile
 \(u = \text{const}\) is an exact eigenfunction with \(\Lambda = 0\): the
@@ -830,14 +833,15 @@ elements agree to \(5\times10^{-10}\)). The Kaluza-Klein scale is
 
 \textbf{\(W^\pm\) and \(Z\).} The \(\Sigma\) term gives \(\beta_W\) for
 \(W^\pm\) (one value for both charges) and, by custodial symmetry,
-\(\beta_Z = \beta_W/\cos^2\theta_W\); at small \(\beta\),
+\(\beta_Z = \beta_W/\cos^2\theta_W\) (on-shell angle,
+\(\cos^2\theta_W = m_W^2/m_Z^2 = 0.77666\)); at small \(\beta\),
 \(\Lambda \simeq \beta\cdot 3\eta e^{-3\eta}/(1 - e^{-3\eta})\) and
 \(m_Z/m_W = 1/\cos\theta_W\). The bending of the profiles beyond leading
 order makes \(\rho = m_W^2/(m_Z^2\cos^2\theta_W)\) exceed 1; fitting the
 measured \(\rho_0 - 1 = 0.00038\) gives (DERIVED)
 \[ \beta_W = 0.011932,\qquad \Lambda_W = 1.32374\times10^{-5},\qquad m_{KK} = m_W\sqrt{\Lambda_1/\Lambda_W} = 121.2\ \text{TeV}. \]
-A positive tip term cannot make the \(W\) heavier than the Dirichlet
-limit \(\tanh\kappa = 2\kappa/(3\eta)\), \(\Lambda_D = 0.010016\),
+A positive tip term cannot make \(W^\pm\) heavier than the Dirichlet
+limit \(\tanh\tilde q = 2\tilde q/(3\eta)\), \(\Lambda_D = 0.010016\),
 i.e.~\(m_W \le 0.01824\,m_{KK}\).
 
 \hypertarget{fermions-derived}{%
@@ -849,7 +853,7 @@ reduces EXACTLY (all eight blocks, general \(a_4(x_4)\), \(b_4(x_4)\),
 author's matrices) under
 \[ \Psi = e^{ik x_1}\,e^{-\frac32Hy}\,e^{a_4/2}\,b_4^{-1}\,V_\beta\,\chi(y, x_4) \]
 to \(i\partial_4\chi = h_j\chi\) with the \(2\times2\) block Hamiltonian
-\[ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\,\sigma_2 + \kappa k\,\sigma_3\Big] + v(y), \qquad \kappa = e^{-a_4}, \]
+\[ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\,\sigma_2 + e^{-a_4}k\,\sigma_3\Big] + v(y), \]
 where \(V_\beta\) (\(\beta = 0..7\)) are the columns of the block basis
 of the commuting operators \(J = \gamma^{x_0}\gamma^{x_1}\gamma^{x_4}\),
 \(K_1 = \gamma^{x_2}\gamma^{x_3}\), \(K_2 = \gamma^{x_5}\gamma^{x_6}\)
@@ -871,9 +875,9 @@ section 5.5 select one component. With \(c = f\mu L\):
   singlet zero mode \(\chi = (0, e^{-ct})\), \(\Gamma_4 = -1\),
   localised at the fold for \(c < 0\);
 \item
-  at \(k \ne 0\): \(h_j(e^{ct}, 0) = j\kappa k\,(e^{ct}, 0)\) exactly:
+  at \(k \ne 0\): \(h_j(e^{ct}, 0) = je^{-a_4}k\,(e^{ct}, 0)\) exactly:
   the zero modes are massless four-dimensional particles with
-  \(\varepsilon = \kappa|k|\) (physical momentum).
+  \(\varepsilon = e^{-a_4}|k|\) (physical momentum).
 \end{itemize}
 
 \textbf{Masses from the tip.} The tip coupling
@@ -882,12 +886,13 @@ self-adjoint mixing condition (DERIVED)
 \[ b_L(-1) = \kappa_f\, b_R(-1), \qquad a_R(-1) = -\kappa_f\, a_L(-1), \qquad \chi = (a, ib), \]
 and the four-dimensional mass is the lowest root of the exact \(x_0\)
 eigenvalue equation (DERIVED; direct ODE shooting agrees to
-\(10^{-10}\))
+\(3.5\times10^{-10}\))
 \[ D(e) = e^2 s_Ls_R - \kappa_f^2\,(C_L - c_Ls_L)(C_R + c_Rs_R) = 0,\qquad s = \frac{\sinh w}{w},\quad C = \cosh w,\quad w = \sqrt{c^2 - e^2}, \]
 whose first-order solution is
-\[ e = \kappa_f\,\zeta(c_L)\,\zeta(c_R),\qquad \zeta(c)^2 = \frac{c\,e^{-c}}{\sinh c}\simeq 2c\,e^{-2c} , \]
+\[ e = \kappa_f\,\zeta(c_L)\,\zeta(-c_R),\qquad \zeta(c)^2 = \frac{c\,e^{-c}}{\sinh c}\simeq 2c\,e^{-2c}\quad (c > 0), \]
 i.e.~the tip mixing times the probability densities of the two chiral
-wave functions at the tip. With \(\kappa_f = 1\) and \(c_L = -c_R = c\)
+wave functions at the tip (\(c_L > 0\) and \(c_R < 0\): both zero modes
+are localised at the fold). With \(\kappa_f = 1\) and \(c_L = -c_R = c\)
 the measured masses require (DERIVED; the first-order formula agrees
 with the exact root to \(1.2\times10^{-8}\))
 
@@ -931,8 +936,8 @@ period. With \(c_\psi = f m L\) the exact \(k = 0\) spectrum is
   \(\tan(p\,fL) = -p/m\).
 \end{itemize}
 
-The \textbf{fold band} \(\varepsilon = \kappa|k|\) is massless: 8 states
-per 3-momentum, 4 in \(\Psi_A\) (two Weyl species with
+The \textbf{fold band} \(\varepsilon = e^{-a_4}|k|\) is massless: 8
+states per 3-momentum, 4 in \(\Psi_A\) (two Weyl species with
 \(\Gamma_4 = +1\)) and 4 in \(\Psi_B\) (two Weyl species with
 \(\Gamma_4 = -1\)). The \textbf{bulk band} is massive; at the stabilised
 block (\(f_* = 0.21556\), \(c_\psi = 0.64667\)) its lowest level is the
@@ -962,16 +967,20 @@ The proper uncertainty relation bounds only the hidden kinetic energy
   \(\Psi\) fold band. They are localised at the fold
   (\(\Delta s = 1.4\times10^{-21}\) m for the photon) and yet massless;
 \item
-  \textbf{heavy}: the \(x_0\) dependence fills the cell; every odd mode
-  and every excitation has \(m \ge 3H/(2f) = 99.4\) TeV (the gap
-  theorem: one even level below the gap for every \(\beta \ge 0\), no
-  odd level), and for these the author's estimate
-  \(\hbar c/(2\Delta s)\) is a true lower bound (exceeded by factors 2.3
+  \textbf{heavy}: the \(x_0\) dependence fills the cell. For the gauge
+  fields and the graviton every odd mode and every excitation has
+  \(m \ge 3H/(2f) = 99.4\) TeV (the gap theorem of the boson operator:
+  one even level below the gap for every \(\beta \ge 0\), no odd level);
+  the \(\Psi\) excitations start at its lowest odd level,
+  \(3.10m = 44.3\) TeV (the dark matter), since the Dirac operator has
+  no warp gap. For all of these the author's estimate
+  \(\hbar c/(2\Delta s)\), with \(\Delta s\) the root-mean-square proper
+  distance from the fold, is a true lower bound (exceeded by factors 2.3
   to 7.5, the dark matter included);
 \item
   \textbf{light}: the \(x_0\) dependence that costs mass sits at the
   tip, where the probability is tiny: \(W^\pm\), \(Z\), \(e\), \(\nu\),
-  \(u\), \(d\). Their masses lie \(10^{-3}\) (\(W\)) to \(10^{-16}\)
+  \(u\), \(d\). Their masses lie \(10^{-3}\) (\(W^\pm\)) to \(10^{-16}\)
   (\(\nu\)) below \(\hbar c/(2\Delta s)\), and a sharper localisation
   gives a LIGHTER fermion (\(d\ln m_f/d\ln c = -17\) to \(-36\)).
 \end{itemize}
@@ -988,10 +997,13 @@ modes with extra-time momentum \(q\) have
 extra times, the proper block volume per unit 4-volume is
 \[ V_\perp = 2\int_{-L}^{0}dy\,f^4e^{3Hy}\;v_t = \frac{2f^4v_t\,(1 - e^{-3\eta})}{3H}, \]
 and the reduced action of section 8.5 gives
-\[ M_{Pl}^2 = \frac{G(k)\,V_\perp}{\kappa},\qquad 8\pi G_N = \frac{\kappa}{G(k)\,V_\perp},\qquad g^2 = \frac{\hat g^2}{V_\perp},\quad
+\[ \bar M_{Pl}^2 = \frac{G(k)\,V_\perp}{\kappa} = \frac{1}{8\pi G_N},\qquad g^2 = \frac{\hat g^2}{V_\perp},\quad
    g'^2 = \frac{\hat g'^2}{V_\perp},\quad g_s^2 = \frac{\hat g_s^2}{V_\perp}. \]
-Every four-dimensional constant depends on the block: \(G_N\),
-\(\alpha \propto f^{-4}\), Kaluza-Klein masses \(\propto f^{-1}\),
+(\(\bar M_{Pl}\) is the reduced Planck mass). Every four-dimensional
+constant depends on the block: \(\alpha\) and the gauge couplings
+\(\propto f^{-4}\), \(G_N \propto f^{+2.05}\)
+(\(d\ln G_N/d\ln f = -4 + 2kG'(k)/G(k)\) at \(k_*\): the Lovelock factor
+varies too), Kaluza-Klein masses \(\propto f^{-1}\),
 \(m_W \propto f^{-0.50}\), \(m_e \propto f^{-20.6}\),
 \(M_{DM} \propto f^{-0.77}\) (DERIVED). The masses are constant only
 because the block is stabilised.
@@ -1085,9 +1097,10 @@ Linearising the 3-space and block components (solved for \(\dot A\),
 the block is stable and oscillates; the zero eigenvalue is the direction
 of a small four-dimensional cosmological term. The radion (the quantum
 of block-size oscillations) has the mass \(m_r = 3.387H = 48.4\) TeV.
-Stability holds for every stabiliser law \(p_0 = \nu\rho_b\),
-\(\rho_b \propto k^{2(1+\nu)}\), with \(\nu\) from \(1/4\) to 3 (radion
-masses \(3.3H\) to \(4.1H\)).
+Stability holds for each of the stabiliser laws \(p_0 = \nu\rho_b\),
+\(\rho_b \propto k^{2(1+\nu)}\), computed at
+\(\nu = 1/4, 1/2, 3/4, 1, 5/4, 3/2, 2, 3\) (radion masses \(3.33H\) to
+\(4.10H\)).
 
 \hypertarget{the-deflating-extra-times-derived-full-nonlinear-equations}{%
 \subsection{The deflating extra times (DERIVED, full nonlinear
@@ -1102,16 +1115,17 @@ with \(k_0\) above the separatrix \(k_c(h_0) = 2.6983, 2.5991, 2.5301\)
 (for \(h_0 = -H/2, -H/3, -H/10\); just above the unstable static block
 \(k_- = 2.4781\), whose stable manifold the separatrix is) ends at
 \(k_*\): \(x_5, x_6, x_7\) and \(x_0\) deflate (at rates up to
-\(|h| = 2.63H\)) by up to the factor
+\(|h| = 2.63H\) in the stored runs) by up to the factor
 \(f(k_c)/f_* = (k_*/k_c)^{1/2} = 2.917\), reach \(k_*\) for the first
 time within \(x_4 < 1/H\), and then oscillate about \(k_*\) with the
 radion frequency (\(3.3868H\) measured, \(3.3870H\) linear), while
 3-space keeps expanding; the oscillation energy redshifts like dust
 (\(A\,x_4 = 0.667\) to \(0.670\) late, \(2/3\) for dust). Starts with
 \(k_0 < k_c\) (still larger blocks) become singular within
-\(x_4 = 0.2/H\) to \(1.4/H\). The extra times therefore deflate
-exponentially only for a short primordial era and are then frozen, which
-is what the constancy of the masses requires (section 7).
+\(x_4 = 0.2/H\) to \(1.4/H\) or admit no expanding initial data. The
+extra times therefore deflate exponentially only for a short primordial
+era and are then frozen, which is what the constancy of the masses
+requires (section 7).
 
 \begin{figure}
 \centering
@@ -1146,21 +1160,26 @@ cosmological-constant problem, OPEN).
 description}\label{dirac16complex-in-the-cell-kohn-sham-description}}
 
 \(\Psi\) is quantised canonically with \(x_4\) as the time,
-\(\{\Psi_A(x), \Psi_B^\dagger(x')\} = B_{AB}\,\delta^7(x - x')/\sqrt{|g|}\)
-on a slice; the indefinite Krein metric \(B\) is handled in the good
-sector by counting the positive branch of every block as particles (the
-record's convention, ASSUMED). The interacting many-body state is
-described by Kohn-Sham theory: orbitals of \(h_j\) with the mean fields
+\(\{\Psi_r(x), \Psi_s^\dagger(x')\} = B_{rs}\,\delta^7(x - x')/\sqrt{|g|}\)
+on a slice (\(r, s\) spinor indices); the indefinite Krein metric \(B\)
+is handled in the good sector by counting the positive branch of every
+block as particles (the record's convention, ASSUMED). The interacting
+many-body state is described by Kohn-Sham theory: orbitals of \(h_j\)
+with the mean fields
 \[ M_{eff}(y) = m + \tfrac{15}{16}\lambda S(y) + \delta M_{portal}(y),\qquad v(y) = -\tfrac{1}{16}\lambda\,n(y) + v_{portal}(y), \]
 \[ e_{int} = \tfrac{15}{32}\lambda S^2 - \tfrac{1}{32}\lambda n^2,\qquad E_{KS} = \sum g f\varepsilon - 2\,\mathrm{Vol}_7\!\int_{-L}^{0}\!e^{3Hy}e_{int}\,dy ,\]
 where \(n\) and \(S = \bar\Psi\Psi\) are the proper densities,
-\(g = 4r_3(n^2)\) the degeneracy of a lattice shell, \(f\) the
-occupations (aufbau or Mermin), and the portal mean fields come from I11
-(the fermion densities), I12 (the gluon condensate) and I9 (the \(Z\)
-charge at the tip, on \(\Psi_A\) only). The energy-momentum tensor of a
-Kohn-Sham state,
-\[ \rho = \sum wgf\varepsilon\,n_o - e_{int},\quad p_3 = \sum wgf\,\tfrac{\kappa|k|}{3}t_o + e_{int},\quad p_t = e_{int},\quad
-   p_0 = \sum wgf\big[(\varepsilon - v)n_o - M_{eff}s_o - \kappa|k|t_o\big] + e_{int} , \]
+\(g = 4r_3(n^2)\) the degeneracy of the momentum shell
+\(\vec k = \Delta k\,\vec n\) (\(\vec n \in \mathbb Z^3\), \(r_3(n^2)\)
+the number of representations of \(n^2\) as a sum of three squares,
+\(\Delta k = 0.25H\)), \(\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf^4\) the
+proper seven-volume of the cell, \(f\) the occupations (aufbau or
+Mermin), and the portal mean fields come from I11 (the fermion
+densities), I12 (the gluon condensate) and I9 (the \(Z\) charge at the
+tip, on \(\Psi_A\) only). The energy-momentum tensor of a Kohn-Sham
+state,
+\[ \rho = \sum wgf\varepsilon\,n_o - e_{int},\qquad p_3 = \sum wgf\,\tfrac{e^{-a_4}|k|}{3}t_o + e_{int},\qquad p_t = e_{int},\]
+\[ p_0 = \sum wgf\big[(\varepsilon - v)n_o - M_{eff}s_o - e^{-a_4}|k|t_o\big] + e_{int} , \]
 with \(n_o = P\chi^\dagger\chi\), \(s_o = P\chi^\dagger j\sigma_2\chi\),
 \(t_o = P\chi^\dagger j\sigma_3\chi\), \(P = e^{-3Hy}/\mathrm{Vol}_7\)
 and \(w = 1/2\), is the source of \(\Psi\) in the gravitational
@@ -1197,13 +1216,15 @@ density, \(c_V = 0\)) and contributes nothing.
 is cold (\(w = 0\) at rest), electrically neutral and \(Z\)-neutral
 exactly at tree level (no tip operator reaches \(\Psi_B\)), stable as
 long as the fold parity of \(\Psi_B\) is exact (it is a symmetry of
-every interaction that reaches \(\Psi_B\)) and \(N_B\) is conserved. 90
-\% of its \(\varepsilon^2\) is \(x_0\) momentum: its mass is the
-author's \(x_0\) mechanism in the Heisenberg sense. A thermal relic
-through I12 (p-wave annihilation into \(W^+W^-\), \(ZZ\), \(Z\gamma\),
-\(\gamma\gamma\), gluon pairs) needs
+every interaction that reaches \(\Psi_B\)) and \(N_B\) is conserved
+(both hold in the good sector). Its hidden wave number carries 90 \% of
+\(\varepsilon^2\): its mass is the author's \(x_0\) mechanism in the
+Heisenberg sense. A thermal relic through I12 (p-wave annihilation into
+\(W^+W^-\), \(ZZ\), \(Z\gamma\), \(\gamma\gamma\), gluon pairs; standard
+radiation-dominated freeze-out) needs
 \(\langle\sigma v\rangle(x_f) = 1.37\times10^{-25}\) cm\(^3\)/s, below
-the thermal unitarity scale, i.e.
+the s-wave thermal unitarity estimate
+\((4\pi/M_{DM}^2)\sqrt{x_f/\pi} = 2.3\times10^{-25}\) cm\(^3\)/s, i.e.
 \((8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (16.6\ \text{TeV})^{-3}\) for the
 four-dimensional coefficients of
 \(G_i\,\bar\chi\chi F^i_{\mu\nu}F^{i\mu\nu}\) (canonical fields),
@@ -1211,7 +1232,11 @@ four-dimensional coefficients of
 four-dimensional gauge couplings and
 \(\mathcal O = \partial\varepsilon_{DM}/\partial m = 0.7072\) the
 response of the dark-matter level to a uniform mass shift (DERIVED,
-Hellmann-Feynman); direct detection is far below current limits.
+Hellmann-Feynman); direct detection is far below current limits. The
+relic value assumes that the radion oscillation left over from the
+deflation does not dominate and dilute the Universe after freeze-out,
+i.e.~it is conditional on the solution of the moduli problem (section
+14).
 
 \textbf{Dark energy (NOT SUPPORTED).} No positive-energy state of
 \(\Psi\) has \(w < 0\) on the static block; a \(\lambda < 0\) condensate
@@ -1231,9 +1256,9 @@ of \(\omega_b\), \(\omega_c\), \(\tau\), \(A_s\), \(n_s\) and
 \(\theta_*\) (DERIVED): \(H_0 = 67.43\) km/s/Mpc, \(r_{drag} = 147.10\)
 Mpc, the TT and EE spectra agree with Planck \(\Lambda\)CDM to
 \(2.2\times10^{-4}\) and \(3.7\times10^{-4}\) (\(30 \le \ell \le 2500\);
-at most 0.011 of the cosmic variance of a single multipole), and the
-DESI DR2 BAO give \(\chi^2 = 30.3\) for 13 measurements (Planck
-\(\Lambda\)CDM: 32.6).
+at most 0.011 of the cosmic variance \(\sqrt{2/(2\ell + 1)}\) of a
+single multipole), and the DESI DR2 BAO give \(\chi^2 = 30.3\) for 13
+measurements (Planck \(\Lambda\)CDM: 32.6).
 
 \hypertarget{parameters}{%
 \section{Parameters}\label{parameters}}
@@ -1264,7 +1289,8 @@ stabiliser law & \(\rho_b \propto f^{-8}\),
 \(k_*\), \(f_*\), \(G(k_*)\) & 21.522, 0.21556, 13.808 & DERIVED \\
 \(m_r\) & 48.4 TeV & DERIVED \\
 \(m_{KK}\) & 121.2 TeV & DERIVED (fit to \(\rho_0 - 1\)) \\
-\(\beta_W\), \(\beta_Z\) & 0.011932, 0.015364 & DERIVED (fit) \\
+\(\beta_W\), \(\beta_Z\) & 0.011932, 0.015364 & DERIVED (fit;
+\(\beta_Z = \beta_W/\cos^2\theta_W\), on-shell angle) \\
 \(\kappa_f\); \(c_\nu, c_e, c_u, c_d\) & 1; 18.671, 10.304, 9.545, 9.134
 & ASSUMED; DERIVED (fit to the masses) \\
 \(m_\nu\) & 0.05 eV & ASSUMED \\
@@ -1293,15 +1319,20 @@ data}\label{assumptions-open-problems-and-conflicts-with-data}}
   \textbf{INVENTED}: the portals I9, I11, I12; the oriented part of I9.
 \item
   \textbf{OPEN}: the microscopic origin of the stabiliser; the tachyonic
-  extra-time modes outside the good sector; the radion oscillation left
-  over from the deflation (ESTIMATE: its Planck-suppressed decay,
-  \(\Gamma = C\,m_r^3/(4\pi M_P^2)\) with an order-one factor \(C\),
-  gives a lifetime of \(0.43\,\text{s}/C\) and a reheating temperature
-  \(1.85\sqrt C\) MeV, below the 4.7 MeV that nucleosynthesis needs
-  unless \(C > 6.5\): the cosmological moduli problem); the Kaluza-Klein
-  graviton spectrum with the Lovelock corrections; the \(S\) parameter
-  of the Higgsless tip; anomalies of the eight-dimensional bulk theory;
-  the cosmological constant (\(\Lambda_4\) tuned to \(10^{-92}H^2\)).
+  extra-time modes outside the good sector; the closed time-like curves
+  implied by compact extra times; the radion oscillation left over from
+  the deflation (ESTIMATE: its Planck-suppressed decay rate
+  \(\Gamma = C_r\,m_r^3/(4\pi\bar M_{Pl}^2)\), with
+  \(\bar M_{Pl} = 2.435\times10^{18}\) GeV and an order-one coupling
+  factor \(C_r\), gives a lifetime of \(0.43\,\text{s}/C_r\) and the
+  reheating temperature
+  \(T_{RH} = (90/(\pi^2g_*))^{1/4}\sqrt{\Gamma\bar M_{Pl}} = 1.85\sqrt{C_r}\)
+  MeV (\(g_* = 10.75\)), below the 4.7 MeV that nucleosynthesis needs
+  unless \(C_r > 6.5\): the cosmological moduli problem, which also
+  conditions the dark-matter relic); the Kaluza-Klein graviton spectrum
+  with the Lovelock corrections; the \(S\) parameter of the Higgsless
+  tip; anomalies of the eight-dimensional bulk theory; the cosmological
+  constant (\(\Lambda_4\) tuned to \(10^{-92}H^2\)).
 \item
   \textbf{CONFLICTS WITH DATA, inherent in the order}: there is no Higgs
   boson while one is observed at 125 GeV; without it the longitudinal
@@ -1310,7 +1341,7 @@ data}\label{assumptions-open-problems-and-conflicts-with-data}}
   that could restore it; with one generation the total \(Z\) width is
   1.23 GeV against the measured 2.4955 GeV (the \(\mu\), \(\tau\),
   \(s\), \(c\), \(b\) channels are missing), while its invisible part is
-  reproduced.
+  reproduced through the fit of \(N_\nu\).
 \end{itemize}
 
 \end{document}

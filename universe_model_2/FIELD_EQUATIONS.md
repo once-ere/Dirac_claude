@@ -44,6 +44,8 @@ $[\Psi] = [\psi] = 7/2$, $[\kappa] = -6$ ($\kappa = 8\pi G_8$).
   $S^{ab} = \frac14[\gamma^a, \gamma^b]$. Since every $C\gamma^a$ is real and antisymmetric, $\bar\Psi\gamma^a\Psi$ is anti-Hermitian and
   the Hermitian vector currents are $i\bar\Psi\gamma^a\Psi$; $\bar\Psi\Psi$ is Hermitian.
 * A delta function on the tip $y = -L$ in proper length is $\delta_{tip} = \delta(y + L)/f$.
+* Notation: $\kappa = 8\pi G_8$ throughout; $k$ denotes the block variable $1/f^2$, except in $e^{ikx_1}$, in $h_j$ and in the
+  dispersion $\varepsilon = e^{-a_4}\lvert k\rvert$, where it is the momentum of a mode.
 
 # The action
 
@@ -258,7 +260,7 @@ with $p_0 = p_t$ (and no off-diagonal components); for a source with $p_0 \ne p_
 respect to the common block scale $f$ gives the equation above with $\bar p$, and $p_0 - p_t$ drives a block-shape mode
 outside the order-0 metric (OPEN). The source is conserved,
 $$ \dot\rho = -3A(\rho + p_3) - h(\rho + p_0) - 3h(\rho + p_t) = -3A(\rho + p_3) - 4h(\rho + \bar p) .$$
-The total source is the stabiliser ($\kappa\rho_b = R_*(k/k_*)^4$, $p_3 = -\rho_b$, $\bar p = \rho_b$) plus matter.
+The total source is the stabiliser ($\kappa\rho_b = \kappa\rho_b^*(k/k_*)^4$, $p_3 = -\rho_b$, $\bar p = \rho_b$) plus matter.
 
 ## The static block and the stabiliser
 
@@ -302,8 +304,8 @@ $\mathcal L^{(4)}_{(3)} \equiv 0$ and $\mathcal L^{(4)}_{(2)}$ topological in fo
 $$ \sum_k\alpha_k\mathcal L_{(k)} - 2\Lambda - 2\kappa\rho_b = G(k)\,R^{(4)} + (\text{topological}) - 2G(k)\Lambda_4,\qquad
    \Lambda_4 = \frac{6H^2k(1 - 2w_2k) + \Lambda + \kappa\rho_b}{G(k)}, $$
 and the four-dimensional field equations are those of general relativity,
-$$ G^{(4)}_{\mu\nu} + \Lambda_4\,g^{(4)}_{\mu\nu} = 8\pi G_N\,T^{(4)}_{\mu\nu},\qquad 8\pi G_N = \frac{\kappa}{G(k_*)V_\perp},\qquad
-   V_\perp = \frac{2f^4v_t(1 - e^{-3\eta})}{3H},\qquad T^{(4)}_{\mu\nu} = \int d^4y\sqrt{g_\perp}\,T_{\mu\nu} ,$$
+$$ G^{(4)}_{\mu\nu} + \Lambda_4\,g^{(4)}_{\mu\nu} = 8\pi G_N\,T^{(4)}_{\mu\nu},\qquad 8\pi G_N = \frac{\kappa}{G(k_*)V_\perp},$$
+$$ V_\perp = \frac{2f^4v_t(1 - e^{-3\eta})}{3H},\qquad T^{(4)}_{\mu\nu} = \int dx_0\,dx_5\,dx_6\,dx_7\sqrt{\lvert g_\perp\rvert}\,T_{\mu\nu} ,$$
 with $\Lambda_4 = 0$ at the static point (the observed dark energy is a tuned residual, $\Lambda_4/H^2 \sim 10^{-92}$, OPEN).
 The gauge couplings are $g_i^2 = \hat g_i^2/V_\perp$.
 
@@ -320,7 +322,8 @@ per half (times $1/\hat g^2$), hence (DERIVED)
 $$ -\frac{1}{f^2}e^{-3Hy}\partial_y\big(e^{3Hy}\partial_yu\big) = m^2u \;\Longleftrightarrow\; -e^{-3\eta t}\big(e^{3\eta t}u'\big)' = \Lambda u ,$$
 $$ \text{fold: } u'(0) = 0 \text{ (even) or } u(0) = 0 \text{ (odd)};\qquad \text{tip: } u'(-1) = \beta\,u(-1) ,$$
 the tip condition being the natural boundary condition of the tip mass term: $\beta = 0$ for the photon and the gluons,
-$\beta_W$ for $W^+$ and $W^-$ (one value for both: they are particle and antiparticle), $\beta_Z = \beta_W/\cos^2\theta_W$ for the
+$\beta_W$ for $W^+$ and $W^-$ (one value for both: they are particle and antiparticle), $\beta_Z = \beta_W/\cos^2\theta_W$
+(on-shell angle, $\cos^2\theta_W = m_W^2/m_Z^2$) for the
 $Z$ (the ratio of the coefficients $\hat g^2$ and $\hat g^2 + \hat g'^2$ of the tip mass terms). The transverse-traceless
 graviton obeys the same operator with $\beta = 0$ in Einstein gravity. With $u = e^{-3\eta t/2}w$, $q^2 = \Lambda - 9\eta^2/4$:
 $$ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big]\sin q - \beta q\cos q = 0,\qquad
@@ -332,14 +335,14 @@ For $\beta = 0$: $\Lambda = 0$ (the flat profile; graviton, photon and gluons ar
 
 With $\Psi = e^{ik x_1}e^{-\frac32Hy}e^{a_4/2}b_4^{-1}V_\beta\,\chi(y, x_4)$ the eight-dimensional Dirac equation (canonical spin connection
 included) is EXACTLY (DERIVED, all blocks, general $a_4$, $b_4$, $M(y)$, $v(y)$)
-$$ \gamma^\mu D_\mu\Psi - \big(M(y) - iv(y)\gamma^{x_4}\big)\Psi = \gamma^{x_4}V_\beta\big[\partial_4\chi + ih_j\chi\big],\qquad
-   h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\sigma_2 + \kappa k\sigma_3\Big] + v(y),\quad \kappa = e^{-a_4},$$
+$$ \gamma^MD_M\Psi - \big(M(y) - iv(y)\gamma^{x_4}\big)\Psi = e^{ikx_1}e^{-\frac32Hy}e^{a_4/2}b_4^{-1}\,\gamma^{x_4}V_\beta\big[\partial_4\chi + ih_j\chi\big],$$
+$$ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\sigma_2 + e^{-a_4}k\,\sigma_3\Big] + v(y),$$
 so $i\partial_4\chi = h_j\chi$. In every block $(j, s_2, s_3)$: $\gamma^{x_0} = \sigma_3$, $B = js_2$, $C = s_2\sigma_2$, $\Gamma_4 = -js_2\sigma_3$,
 $P_+ = (1 - B\sigma_3)/2$. For a Standard-Model multiplet $M = \mu_\psi$, $v = 0$; with $c = f\mu_\psi L$ the zero modes are
-$\chi = (e^{ct}, 0)$ (doublet, $\Gamma_4 = +1$) and $\chi = (0, e^{-ct})$ (singlet, $\Gamma_4 = -1$), with $h_j(e^{ct}, 0) = j\kappa k(e^{ct}, 0)$
+$\chi = (e^{ct}, 0)$ (doublet, $\Gamma_4 = +1$) and $\chi = (0, e^{-ct})$ (singlet, $\Gamma_4 = -1$), with $h_j(e^{ct}, 0) = je^{-a_4}k\,(e^{ct}, 0)$
 exactly (massless four-dimensional particles). The tip mixing conditions give the exact mass condition
 $$ D(e) = e^2s_Ls_R - \kappa_f^2\,(C_L - c_Ls_L)(C_R + c_Rs_R) = 0,\qquad s = \frac{\sinh w}{w},\quad C = \cosh w,\quad w = \sqrt{c^2 - e^2},$$
-$$ e \simeq \kappa_f\,\zeta(c_L)\,\zeta(c_R),\qquad \zeta(c)^2 = \frac{c\,e^{-c}}{\sinh c} .$$
+$$ e \simeq \kappa_f\,\zeta(c_L)\,\zeta(-c_R),\qquad \zeta(c)^2 = \frac{c\,e^{-c}}{\sinh c}\qquad (c_L > 0,\ c_R < 0).$$
 
 # dirac16complex: the Kohn-Sham equations coupled to all fields
 
@@ -356,8 +359,8 @@ with $w = 1/2$ for each fold parity, $g = 4r_3(n^2)$ the degeneracy of the momen
 of representations of $n^2$ as a sum of three squares), $\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf^4$, and occupations $f_o$ (aufbau, or
 Mermin $f_o = 1/(e^{(\varepsilon_o - \mu)/T} + 1)$). The energy and the energy-momentum tensor are
 $$ E_{KS} = \sum_o g\,f_o\,\varepsilon_o - 2\,\mathrm{Vol}_7\int_{-L}^0e^{3Hy}e_{int}\,dy,\qquad e_{int} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2,$$
-$$ \rho = \sum wgf\varepsilon\,n_o - e_{int},\quad p_3 = \sum wgf\,\frac{\kappa\lvert k\rvert}{3}t_o + e_{int},\quad p_t = e_{int},\quad
-   p_0 = \sum wgf\big[(\varepsilon - v)n_o - M_{eff}s_o - \kappa\lvert k\rvert t_o\big] + e_{int} ,$$
+$$ \rho = \sum wgf\varepsilon\,n_o - e_{int},\qquad p_3 = \sum wgf\,\frac{e^{-a_4}\lvert k\rvert}{3}t_o + e_{int},\qquad p_t = e_{int},$$
+$$ p_0 = \sum wgf\big[(\varepsilon - v)n_o - M_{eff}s_o - e^{-a_4}\lvert k\rvert t_o\big] + e_{int} ,$$
 which satisfy $E_{KS} = 2\mathrm{Vol}_7\int e^{3Hy}\rho\,dy$ and the $y$-conservation law
 $\big[e^{3Hy}p_0\big]_{-L}^0 = 3H\int_{-L}^0e^{3Hy}p_t\,dy$ (DERIVED for every self-consistent state). Boundary conditions: fold
 $\chi_2(0) = 0$ (even) or $\chi_1(0) = 0$ (odd), tip $\chi_2(-L) = 0$ (from $(1 \mp \gamma^{x_0})\Psi = 0$). The Kohn-Sham source enters the
@@ -416,6 +419,6 @@ and, for $Z$, through I9. UM-2 solves the coupled system in the following hierar
   acceleration equation, the dimensional reduction (sympy, exact);
 * the exact Dirac reduction in all eight blocks, the boundary conditions, the zero modes, the tip mixing condition, the
   gauge $x_0$ operator and the gauge invariance of the tip terms;
-* the $x_0$ spectra (mpmath; finite elements to $5\times10^{-10}$; shooting to $10^{-10}$);
+* the $x_0$ spectra (mpmath; finite elements to $5\times10^{-10}$; shooting to $3.5\times10^{-10}$);
 * the Kohn-Sham solver (record reference states to $10^{-13}$; energy identity; conservation law; Richardson; Hellmann-
   Feynman for every portal mean field).

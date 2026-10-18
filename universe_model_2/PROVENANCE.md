@@ -95,6 +95,7 @@ function of x4; b4 is NEVER 1"), and $(\sin z)^{1/3}$ means $(\sin^2 z)^{1/6}$, 
 
 The notebook writes the Einstein-Lovelock vacuum equations (after Lovelock and Rund) as
 $$ 0 = -\Lambda^{\text{nb}} + H^{-2}w_1\,\text{Lovelock1} + H^{-4}w_2\,\text{Lovelock2} + H^{-6}w_3\,\text{Lovelock3}, $$
+where Lovelock$k$ denotes the notebook's Lovelock tensor of order $k$, the tensor $E_{(k)}{}^M{}_N$ below,
 with $(w_1, w_2, w_3, \Lambda^{\text{nb}}) = (1, 1/32, 1/1152, 10)$: in the notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb`
 (In[133] to In[136]) the author sets $w_1 = 1$, $w_2 = 1/2^5$ and solves the vacuum equations on the history
 $a_4 = Hx_4$, $b_4 = 1$ of the notebook metric for $w_3$ and $\Lambda^{\text{nb}}$ (In[134]); In[136] factors
@@ -181,7 +182,7 @@ $\omega_M{}^a{}_b$, which lacks a metric factor. The field equation is $\gamma^M
 
 ## Canonical quantisation and the Krein metric
 
-With $x_4$ as the evolution time, $\{\Psi_A(x), \Psi_B^\dagger(x')\} = B_{AB}\,\delta^7(x - x')/\sqrt{\lvert g\rvert}$ on a slice
+With $x_4$ as the evolution time, $\{\Psi_r(x), \Psi_s^\dagger(x')\} = B_{rs}\,\delta^7(x - x')/\sqrt{\lvert g\rvert}$ ($r, s$ spinor indices) on a slice
 $x_4 = \text{const}$; $B$ has eigenvalues $+1$ (8 times) and $-1$ (8 times), so the inner product is indefinite (a Krein
 space). The record works in the good sector (no extra-time momentum), counts the positive-energy branch of every block
 as particles, and evaluates expectation values as $\langle\Psi^\dagger M\Psi\rangle = u^\dagger BMu$.
@@ -189,8 +190,8 @@ as particles, and evaluates expectation values as $\langle\Psi^\dagger M\Psi\ran
 ## The Kohn-Sham reduction
 
 For the corrected metric the record reduces the 16-component equation, with
-$\Psi = e^{ik\cdot x}\,e^{-\frac32Hy}\,e^{a_4/2}b_4^{-1}\,V_\beta\,\chi(y, x_4)$, to the $2\times2$ block Hamiltonians
-$$ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\,\sigma_2 + \kappa k\,\sigma_3\Big] + v(y),\qquad \kappa = e^{-a_4}, $$
+$\Psi = e^{ikx_1}\,e^{-\frac32Hy}\,e^{a_4/2}b_4^{-1}\,V_\beta\,\chi(y, x_4)$ ($k$ the momentum along $x_1$), to the $2\times2$ block Hamiltonians
+$$ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\,\sigma_2 + e^{-a_4}k\,\sigma_3\Big] + v(y), $$
 in the blocks $(j, s_2, s_3)$ of the commuting set $J = \gamma^{x_0}\gamma^{x_1}\gamma^{x_4}$, $K_1 = \gamma^{x_2}\gamma^{x_3}$,
 $K_2 = \gamma^{x_5}\gamma^{x_6}$ (eigenvalues $j$, $is_2$, $is_3$), with the contact-interaction mean fields of the
 record's Hartree-plus-exchange treatment of the contact interaction
@@ -212,7 +213,7 @@ Every measured value enters UM-2 only as the target of a fit or as a comparison,
 
 | input | value used | source | status |
 | --- | --- | --- | --- |
-| $W$ mass | $80.3625 \pm 0.0077$ GeV | PDG 2026, OUR EVALUATION (pdgLive S043M) | verified |
+| $W^\pm$ mass | $80.3625 \pm 0.0077$ GeV | PDG 2026, OUR EVALUATION (pdgLive S043M) | verified |
 | $Z$ mass | $91.1879 \pm 0.0020$ GeV | PDG 2026, OUR AVERAGE (pdgLive S044M) | verified |
 | $\sin^2\theta_W$ ($\overline{MS}$, $M_Z$) | $0.23122 \pm 0.00004$ | PDG electroweak review | from memory |
 | electroweak $\rho$ parameter | $\rho_0 - 1 = 0.00038 \pm 0.00020$ | PDG electroweak review (global fit) | from memory |
@@ -232,7 +233,9 @@ Every measured value enters UM-2 only as the target of a fit or as a comparison,
 | $N_{eff}$ with free $N_{eff}$ | $2.99 \pm 0.17$ | Planck 2018 results VI | from memory |
 | BAO | DESI DR2: 13 measurements of $D_V/r_d$, $D_M/r_d$, $D_H/r_d$ (table below) | DESI collaboration, arXiv:2503.14738 | values verified (2026-10-17) against Table 2 of arXiv:2603.26861; correlations from memory |
 | dark-matter density | $\Omega_ch^2 = 0.120$ | Planck 2018 | from memory |
-| Planck mass | $M_{Pl} = 1.22\times10^{19}$ GeV | | from memory |
+| Planck mass (freeze-out) | $M_{Pl} = G_N^{-1/2} = 1.22\times10^{19}$ GeV | | from memory |
+| reduced Planck mass (radion decay) | $\bar M_{Pl} = (8\pi G_N)^{-1/2} = 2.435\times10^{18}$ GeV | | from memory |
+| on-shell weak mixing angle | $\cos^2\theta_W = m_W^2/m_Z^2 = 0.77666$ (used for $\beta_Z = \beta_W/\cos^2\theta_W$) | computed from the $W^\pm$ and $Z$ masses above | |
 | direct-detection limit | LZ: $2.2\times10^{-48}$ cm$^2$ at 40 GeV, scaled linearly with the mass | LZ 2024 | from memory; the extrapolation is an ESTIMATE |
 | nucleon gluon content, strong coupling | $f_{TG} = 0.92$, $\alpha_s = 0.3$ (low scale) | standard | from memory; ESTIMATE |
 | dark-energy density | $\rho_\Lambda \approx 2.5\times10^{-47}$ GeV$^4$ | | from memory |
@@ -282,7 +285,7 @@ weights and $\Lambda$ admit no static block with attractive four-dimensional gra
 sourceless static block with $A = 0$ is $k_0 = 1/(4w_2) = 8$, where the coefficient of the four-dimensional
 Einstein-Hilbert term is $G(k_0) = 1 - 24w_2k_0 + 72w_3k_0^2 = -1$ (repulsive), with $\Lambda_0 = -24H^2 \ne -10H^2$
 (`um2_background.py`).
-The family $p_0 = p_t = \nu\rho_b$, $\rho_b \propto f^{-4(1+\nu)}$, $\nu \in [1/4, 3]$, was also computed.
+The family $p_0 = p_t = \nu\rho_b$, $\rho_b \propto f^{-4(1+\nu)}$, was also computed at $\nu = 1/4, 1/2, 3/4, 1, 5/4, 3/2, 2, 3$.
 
 ## The Standard-Model fields in eight dimensions (ASSUMED structure; boundary conditions INVENTED)
 
@@ -330,7 +333,7 @@ single run exceeds 423 s. In total 179 checks, none failed.
 | `um2_geometry.py` | Riemann tensor of $\bar g$ in two charts; Lovelock tensors by four routes (pairing formula, Ricci, explicit Gauss-Bonnet tensor, minisuperspace variation with a lapse); Bianchi identities; the record's equations; the static block; the canonical spin connection | sympy, exact | 25/25 |
 | `um2_background.py` | the class-form background equations; the static block; the stabiliser and its family; the radion; the linear response of the block to matter sources; the dimensional reduction | sympy, exact; eigenvalues numerically | 22/22 |
 | `um2_fields.py` | the exact $x_0$ reduction of the eight-dimensional Dirac equation (all blocks, general $a_4$, $b_4$, $M(y)$, $v(y)$); boundary conditions; zero modes; tip mixing; the gauge $x_0$ operator; gauge invariance of the tip terms | sympy and numpy | 15/15 |
-| `um2_spectra.py` | the $x_0$ spectra of gauge bosons and graviton; the $W$, $Z$ fit to $\rho_0$; the fermion masses as exact $x_0$ eigenvalues | mpmath root finding; quadratic finite elements with Richardson; ODE shooting | 13/13 |
+| `um2_spectra.py` | the $x_0$ spectra of gauge bosons and graviton; the $W^\pm$, $Z$ fit to $\rho_0$; the fermion masses as exact $x_0$ eigenvalues | mpmath root finding; quadratic finite elements with Richardson; ODE shooting | 13/13 |
 | `um2_ks_jobs.py` | Kohn-Sham: validation against the record (2/2), free spectrum (3/3), interacting ground states $N = 8$ (3/3) and $N = 592$ (4/4), dark-matter quanta (3/3), portal responses (5/5), block feedback (2/2) | Galerkin in the free basis, safeguarded Anderson self-consistency, Richardson in the basis size | 22/22 |
 | `um2_electroweak.py` | charges ($W^+$: $+e$, $W^-$: $-e$), anomalies, couplings, $P_+$, $\Gamma_4 = -B\gamma^{x_0}$, $Z$ charges of $\Psi_A$, $\Psi_B$, $N_\nu$, $N_{eff}$, CNB, $Z$ widths | sympy and numerics | 19/19 |
 | `um2_primordial.py` | the nonlinear primordial evolution, the basin, the separatrix, the radion oscillation | DOP853 integration, bisection | 5/5 |
@@ -344,7 +347,7 @@ single run exceeds 423 s. In total 179 checks, none failed.
 | static block $k_*$, $f_*$, $G(k_*)$, $\kappa\rho_b^*$ | $12 + \tfrac43\sqrt{51} = 21.5219$, $0.215556$, $\tfrac{20}{3} + \sqrt{51} = 13.8081$, $(26 + 4\sqrt{51})H^2$ | `um2_background.py` |
 | radion | $\omega_r^2/H^2 = 31552/2249 - 2416\sqrt{51}/6747 = 11.4721$, $m_r = 3.387H = 48.38$ TeV | `um2_background.py`, `um2_spectra.py` |
 | unbroken $x_0$ spectrum ($\eta = 3$) | $\Lambda = 0$; $\Lambda_1 = 30.1196$; odd $27.0890$; gap $20.25$ | `um2_spectra.py` |
-| $W^\pm$, $Z$ | $\beta_W = 0.011932$, $\beta_Z = 0.015364$, $\Lambda_W = 1.32374\times10^{-5}$, $\Lambda_Z = 1.70374\times10^{-5}$; Dirichlet bound $\Lambda_D = 0.010016$ | `um2_spectra.py` |
+| $W^\pm$, $Z$ | $\beta_W = 0.011932$, $\beta_Z = 0.015364$ (on-shell angle), $\Lambda_W = 1.32374\times10^{-5}$, $\Lambda_Z = 1.70374\times10^{-5}$; Dirichlet bound $\Lambda_D = 0.010016$ | `um2_spectra.py` |
 | scales | $m_{KK} = 121.22$ TeV, $H = 14.283$ TeV, proper half cell $fL = 8.934\times10^{-21}$ m, $x_0$ period $7.234\times10^{-21}$ m, gap $99.40$ TeV | `um2_spectra.py` |
 | fermion localisations ($\kappa_f = 1$) | $c_\nu = 18.6709$, $c_e = 10.3038$, $c_u = 9.5448$, $c_d = 9.1341$ | `um2_spectra.py` |
 | dirac16complex at $f_*$ | $c_\psi = 0.646667$; $\varepsilon_{DM} = 3.102204\,m$ ($p = 2.93661\,m$); even bulk $4.959981\,m$; $x_0$-momentum fraction $0.896$ | `um2_ks_jobs.py spectrum` |
@@ -356,10 +359,10 @@ single run exceeds 423 s. In total 179 checks, none failed.
 | relic | $x_f = 30.31$, $g_* = 56.75$, $\langle\sigma v\rangle = 1.37\times10^{-25}$ cm$^3$/s, $(8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (16.6\ \text{TeV})^{-3}$ | `um2_analysis.py` |
 | direct detection | $\sigma_{SI} = 4.3\times10^{-53}$ cm$^2$ (gluon-only) against $2.4\times10^{-45}$ cm$^2$ | `um2_analysis.py` |
 | dark energy | condensate tuned to $w_0 = -1$: $w_a = -6$, energy zero at $z = 0.260$; vacuum-energy ratio $5.5\times10^{64}$; $(H_0/H)^2 = 1.0\times10^{-92}$ | `um2_analysis.py` |
-| uncertainty relation | $m/m_H$: first KK $7.49$, first odd $6.47$, dark matter $2.29$, $W$ $1.14\times10^{-3}$, $Z$ $1.29\times10^{-3}$, $e$ $3.2\times10^{-9}$, $\nu$ $1.7\times10^{-16}$ | `um2_analysis.py` |
-| sensitivities $d\ln X/d\ln f$ | KK $-1$, $m_W$ $-0.501$, $m_e$ $-20.6$, $m_u$ $-19.1$, $m_d$ $-18.3$, $m_\nu$ $-37.3$, $M_{DM}$ $-0.772$, $G_N$ and $\alpha$ $-4$ | `um2_analysis.py` |
-| block rate today (ESTIMATE) | $\lvert h\rvert < 3.6\times10^{-8}H_0$ (from $\lvert\dot\alpha/\alpha\rvert < 10^{-17}$/yr), $< 3.6\times10^{-4}H_0$ (from $\lvert\dot G/G\rvert < 10^{-13}$/yr) | `um2_analysis.py` |
-| radion decay (ESTIMATE) | $\Gamma = C\,m_r^3/(4\pi M_P^2)$: $\tau = 0.43\,\text{s}/C$, $T_{RH} = 1.85\sqrt C$ MeV ($< 4.7$ MeV unless $C > 6.5$) | `um2_analysis.py` |
+| uncertainty relation | $m/m_H$: first KK $7.49$, first odd $6.47$, dark matter $2.29$, $W^\pm$ $1.14\times10^{-3}$, $Z$ $1.29\times10^{-3}$, $e$ $3.2\times10^{-9}$, $\nu$ $1.7\times10^{-16}$ | `um2_analysis.py` |
+| sensitivities $d\ln X/d\ln f$ | KK $-1$, $m_W$ $-0.501$, $m_e$ $-20.6$, $m_u$ $-19.1$, $m_d$ $-18.3$, $m_\nu$ $-37.3$, $M_{DM}$ $-0.772$, $\alpha$ and the gauge couplings $-4$, $G_N$ $+2.05$ | `um2_analysis.py` |
+| block rate today (ESTIMATE) | $\lvert h\rvert < 3.6\times10^{-8}H_0$ (from $\lvert\dot\alpha/\alpha\rvert < 10^{-17}$/yr), $< 7.1\times10^{-4}H_0$ (from $\lvert\dot G/G\rvert < 10^{-13}$/yr) | `um2_analysis.py` |
+| radion decay (ESTIMATE) | $\Gamma = C_r\,m_r^3/(4\pi\bar M_{Pl}^2)$, $T_{RH} = (90/(\pi^2g_*))^{1/4}\sqrt{\Gamma\bar M_{Pl}}$ ($g_* = 10.75$): $\tau = 0.43\,\text{s}/C_r$, $T_{RH} = 1.85\sqrt{C_r}$ MeV ($< 4.7$ MeV unless $C_r > 6.5$) | `um2_analysis.py` |
 | first-order block response | $s_{h3} = 0.028666$, $s_{hp} = 0.037320$, $q_h = -0.009555$; adiabatic $\delta k = (-0.1076\,\kappa\delta p_3 - 0.1400\,\kappa\delta\bar p + 0.0359\,\kappa\delta\rho)/H^2$ | `um2_background.py` |
 
 ## Methods, with the equations they use
@@ -377,7 +380,7 @@ single run exceeds 423 s. In total 179 checks, none failed.
   observed order is $\log_2[(x_n - x_{2n})/(x_{2n} - x_{4n})]$.
 * **Fermion eigenvalues.** The exact condition
   $D(e) = e^2s_Ls_R - \kappa_f^2(C_L - c_Ls_L)(C_R + c_Rs_R)$, $s = \sinh w/w$, $C = \cosh w$, $w = \sqrt{c^2 - e^2}$, solved
-  with mpmath; the first-order solution $e = \kappa_f\zeta(c_L)\zeta(c_R)$, $\zeta(c)^2 = c\,e^{-c}/\sinh c$; cross-check by
+  with mpmath; the first-order solution $e = \kappa_f\zeta(c_L)\zeta(-c_R)$, $\zeta(c)^2 = c\,e^{-c}/\sinh c$ ($c_L > 0$, $c_R < 0$); cross-check by
   direct integration of the coupled $(L, R)$ Dirac system (DOP853, relative tolerance $10^{-13}$).
 * **Kohn-Sham.** Orbitals of $h_j$ are expanded in the exact eigenfunctions of the free problem of each sector
   (60, 120 or 240 functions, quadrature with ten points per function), the mean fields
@@ -398,15 +401,19 @@ single run exceeds 423 s. In total 179 checks, none failed.
   $\sigma v = (M^4v^2/\pi)(8G_g^2 + 3G_W^2 + G_B^2)$, $\langle\sigma v\rangle(x) = 6b/x$ with $b = (M^4/\pi)(8G_g^2 + 3G_W^2 + G_B^2)$;
   freeze-out (Kolb and Turner, Dirac fermion, $g = 2$, $c = 1/2$):
   $x_f = \ln\big[0.038\,c(c + 2)\,g\,M_{Pl}M\langle\sigma v\rangle(x_f)/\sqrt{g_*x_f}\big]$,
-  $\Omega h^2 = 2\times1.07\times10^9\,\text{GeV}^{-1}\,x_f/\big(\sqrt{g_*}\,M_{Pl}\,3b/x_f\big) = 0.120$, with $g_* = 56.75$ (one
-  generation without $\nu_R$, the two $\Psi_A$ species, the gauge bosons; no Higgs).
+  $\Omega h^2 = 2\times1.07\times10^9\,\text{GeV}^{-1}\,x_f/\big(\sqrt{g_*}\,M_{Pl}\,3b/x_f\big) = 0.120$, with $M_{Pl} = 1.22\times10^{19}$ GeV and
+  $g_* = 56.75$ (one generation without $\nu_R$, the two $\Psi_A$ species, the gauge bosons; no Higgs); the comparison scale is
+  the s-wave thermal unitarity estimate $\langle\sigma v\rangle_{max} = (4\pi/M^2)\sqrt{x_f/\pi}$ (applied to a p-wave process).
 * **Direct detection** (ESTIMATE). Trace anomaly: $\langle N\vert G^\alpha G^\alpha\vert N\rangle = -\frac{8\pi}{9\alpha_s}m_Nf_{TG}$,
   $f_N = G_g\frac{8\pi}{9\alpha_s}m_Nf_{TG}$, $\sigma_{SI} = \mu^2f_N^2/\pi$.
 * **Uncertainty relation.** For bosons, with $u = e^{-3\eta t/2}v$:
   $e^{3\eta t}u'^2 = v'^2 + \tfrac94\eta^2v^2 - \tfrac32\eta(v^2)'$, hence
   $(m\,fL)^2 = \langle p^2\rangle + \tfrac{9\eta^2}{4} - \tfrac{3\eta}{2}\rho(\text{fold}) + (\tfrac{3\eta}{2} + \beta)\rho(\text{tip})$; the
-  Heisenberg estimate is $m_H = \hbar c/(2\Delta s)$ with $\Delta s$ the proper spread of the profile in the hidden
-  direction.
+  Heisenberg estimate is $m_H = \hbar c/(2\Delta s)$ with $\Delta s = fL\,\Delta t$, $\Delta t^2 = \int t^2\varrho\,dt/\int\varrho\,dt$ the mean square
+  distance from the fold of the probability density in the flat measure ($\varrho = v^2$ for bosons, $\lvert\chi\rvert^2$ for fermions).
+* **Cosmic variance.** The relative error of a single multipole is $\sqrt{2/(2\ell + 1)}$; the binned full-sky
+  $\chi^2 = \sum_b(\bar\delta_b/\sigma_b)^2$ uses bins of $\Delta\ell = 50$, the mean relative deviation $\bar\delta_b$ and
+  $\sigma_b = \sqrt{2/\sum_{\ell\in b}(2\ell + 1)}$.
 
 ## Corrections made during the work
 
@@ -449,6 +456,16 @@ single run exceeds 423 s. In total 179 checks, none failed.
     factor $C$ explicit), as is the bound on the block rate today.
 17. Figures: the BAO legend showed the data label twice and two labels of the uncertainty figure overlapped; the
     condensate figure no longer draws the vertical lines where $w$ diverges.
+18. An independent review of the five documents against the outputs found, and the documents now correct: the
+    first-order fermion mass formula (it needs $\zeta(-c_R)$ for the singlet, $c_R < 0$; the code always used $\lvert c\rvert$); the gap
+    statement, which holds for the boson operators but not for $\Psi$ (the dark matter, $44.3$ TeV, lies below the boson gap
+    of $99.4$ TeV); the sensitivity of $G_N$ to the block, which is $d\ln G_N/d\ln f = -4 + 2k_*G'(k_*)/G(k_*) = +2.05$ and not
+    $-4$ (recomputed; the lunar-ranging bound becomes $7.1\times10^{-4}H_0$); $\Delta N_{eff}$ of a thermalised $\Psi_B$ fold band, which
+    must count the two $\Psi_A$ species in the plasma ($0.274$, not $0.179$; the CAMB variant recomputed); a level spacing
+    ($0.25000$); a rounding ($1.948$); the definitions of $\bar M_{Pl}$, $M_{Pl}$, the radion formulas, $\Delta s$, the unitarity estimate
+    and the cosmic-variance measure; the on-shell angle for $\beta_Z$; the response of the $\Psi_B$ dark matter to I9 (exactly
+    zero; the tabulated $0.2595$ is the $\Psi_A$ odd level); the statement on proper and coordinate localisation; and several
+    notational clashes ($\kappa = e^{-a_4}$ is now written out).
 
 ## What is not in the repository, and why
 
