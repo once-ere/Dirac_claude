@@ -138,8 +138,8 @@ $\langle p^2\rangle \ge 1/(4\Delta\xi^2)$ is guaranteed only for profiles neglig
 Kaluza-Klein mode, $\varrho(\text{tip}) = 0.655$, has $\langle p^2\rangle\Delta\xi^2 = 4.59$); the broad fold zero mode of $\Psi$ violates it
 ($\langle p^2\rangle\Delta\xi^2 = 0.097$, $\varrho(\text{tip}) = 0.489$) and satisfies the relation with the tip term. Computed for every class
 of particle (DERIVED; the sum rules reproduce the boson eigenvalues $(m\,fL)^2$ to $1.0\times10^{-8}$ in absolute value, the discretisation error of the
-finite-element profiles — relative $7.8\times10^{-4}$ for $W^\pm$ and $6.0\times10^{-4}$ for $Z$, whose eigenvalues are only $1.3$ and $1.7\times10^{-5}$, and
-below $3\times10^{-11}$ for the excitations — and the dark matter to $1.2\times10^{-11}$ relative; the relation with the tip term, a theorem, holds for
+finite-element profiles (relative $7.8\times10^{-4}$ for $W^\pm$ and $6.0\times10^{-4}$ for $Z$, whose eigenvalues are only $1.3$ and $1.7\times10^{-5}$, and
+below $3\times10^{-11}$ for the excitations), and the dark matter to $1.2\times10^{-11}$ relative; the relation with the tip term, a theorem, holds for
 every tabulated state, with the smallest margin $0.057$ for the $\Psi$ fold band):
 
 Bosons (the warp term is $9\eta^2/4 = 20.25$ for every mode):
