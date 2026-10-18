@@ -16,6 +16,7 @@ $\{x_0, x_1, \dots, x_7\}$: $x_0$ the hidden space direction, $x_1, x_2, x_3$ sp
 | `FIELD_EQUATIONS` | the coupled field equations: energy-momentum tensors, matter equations with every interaction, boundary conditions, the exact background equations, the $x_0$ reductions, the Kohn-Sham equations, the linear perturbations |
 | `SOLUTION` | the approximate solution: static block and primordial deflation, all masses, Kohn-Sham states of dirac16complex coupled to gravity and to the Standard Model, electroweak sector, $N_{eff}$ and CNB, CMB and BAO, dark-matter relic |
 | `ANALYSIS` | the $x_0$ mass mechanism and the uncertainty relation, the deflating extra times, dirac16complex as dark matter and as dark energy |
+| `MANUAL_TASKS` | how to carry out by hand, in steps of a few minutes each, the fresh-clone verification and the independent review of the documents; the findings of the review of 2026-10-18 |
 
 ## Principal results
 

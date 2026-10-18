@@ -16,7 +16,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 DOCS = HERE.parent
 BUILD = DOCS.parent / 'build' / 'universe_model_2'
-NAMES = ['MODEL', 'PROVENANCE', 'FIELD_EQUATIONS', 'SOLUTION', 'ANALYSIS']
+NAMES = ['MODEL', 'PROVENANCE', 'FIELD_EQUATIONS', 'SOLUTION', 'ANALYSIS', 'MANUAL_TASKS']
 
 HEADER = r"""
 \usepackage{amsmath,amssymb}
