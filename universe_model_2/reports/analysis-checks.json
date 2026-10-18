@@ -1,5 +1,5 @@
 {
- "check_count": 21,
+ "check_count": 22,
  "checks": [
   {
    "detail": "e^{3 eta t} u'^2 = v'^2 + (9 eta^2/4) v^2 - (3 eta/2)(v^2)' for u = e^{-3 eta t/2} v: (m f L)^2 = <p^2> + 9 eta^2/4 - (3 eta/2) rho(fold) + (3 eta/2 + beta) rho(tip)",
@@ -82,7 +82,7 @@
    "passed": true
   },
   {
-   "detail": "Psi_B stability: N_B (the number of the B = +1 half) is conserved by every interaction of UM-2 (all bilinears are half-diagonal); the fold parity of Psi_B is exact because P_+ Psi_B = 0 at the tip (no tip operator reaches the B half) and the bulk is reflection symmetric; the heavy odd Psi_A states (Z-charged: tip charge 1.579 times that of the Psi_A fold band) decay through the oriented part of the tip portal I9",
+   "detail": "with the author's matrices: B commutes with C, with gamma^a and C gamma^a for a = x0..x4 and with S^ab inside {x0..x4} and inside {x5, x6, x7}, and anticommutes with gamma^a, C gamma^a for a = x5, x6, x7: in the good sector (no extra-time momenta) the Dirac operator gamma^M D_M (with gamma^M Omega_M = (3/2)(H/f) gamma^(x0) + (...) gamma^(x4)), the mass and contact terms (Psibar Psi), I11 and I12 (4D currents, Psibar Psi) and I9 (4D current, P_+ = (1 - B gamma^(x0))/2) all commute with B, so N_A and N_B are separately conserved; extra-time momenta (outside the good sector, OPEN) would mix the halves. The fold parity of Psi_B is exact because P_+ Psi_B = 0 at the tip and the bulk is reflection symmetric; the heavy odd Psi_A states (tip charge 1.579 times that of the Psi_A fold band) decay through the oriented part of I9",
    "name": "B5_stability_and_neutrality",
    "passed": true
   },
@@ -104,6 +104,11 @@
   {
    "detail": "ESTIMATE: the radion (m_r = 48379 GeV) left over from the deflation decays with Gamma = C m_r^3/(4 pi M_P^2): tau = 0.43 s/C, reheating to T_RH = 1.85 sqrt(C) MeV, below the 4.7 MeV that nucleosynthesis needs unless C > 6.5: the cosmological moduli problem of UM-2 (OPEN)",
    "name": "C4_radion_moduli_problem",
+   "passed": true
+  },
+  {
+   "detail": "ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = -4, the atomic-clock bound |d ln alpha/dt| < 1e-17/yr and the lunar-ranging bound |d ln G/dt| < 1e-13/yr (FROM MEMORY) require |h| < 2.5e-18/yr = 3.6e-08 H0 and |h| < 2.5e-14/yr = 3.6e-04 H0 today; a block deflating at the Hubble rate would change m_e by 1.4e-09 per year: the extra times (and x0) must be frozen today, their exponential deflation confined to the primordial era",
+   "name": "A6_block_frozen_today",
    "passed": true
   }
  ],

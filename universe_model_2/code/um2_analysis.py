@@ -328,11 +328,32 @@ def main():
               'even if the relic annihilation went only into gluons, the trace-anomaly coupling gives sigma_SI = %.1e cm^2, far below the LZ limit '
               '%.1e cm^2 at %.1f TeV (ESTIMATE; linear extrapolation of the published limit): the portal I12 is unconstrained by direct detection; '
               'annihilation into W+W-, ZZ, Z gamma, gamma gamma has no tree-level nucleon coupling at all' % (sigSI(G_eff / math.sqrt(8)), lz, MDM / 1e3))
-    rep.check('B5_stability_and_neutrality', True,
-              'Psi_B stability: N_B (the number of the B = +1 half) is conserved by every interaction of UM-2 (all bilinears are half-diagonal); the fold '
-              'parity of Psi_B is exact because P_+ Psi_B = 0 at the tip (no tip operator reaches the B half) and the bulk is reflection symmetric; '
-              'the heavy odd Psi_A states (Z-charged: tip charge %.3f times that of the Psi_A fold band) decay through the oriented part of the tip '
-              'portal I9' % ew['ratio_dm_to_fold_band_Psi_A'])
+    # B5: which bilinears and operators preserve the halves Psi_A (B = -1) and Psi_B (B = +1)?  A term Psi^dagger X Psi (or the
+    # Dirac operator acting on Psi) keeps the halves apart iff X commutes with B.  Computed with the author's matrices.
+    from um2_algebra import author_gammas
+    T16 = [sp.Matrix(g) for g in author_gammas()[0]]
+    Cm = T16[0] * T16[1] * T16[2] * T16[3]
+    Bm = -sp.I * Cm * T16[4]
+    comm = lambda X: (Bm * X - X * Bm).is_zero_matrix
+    acomm = lambda X: (Bm * X + X * Bm).is_zero_matrix
+    cg_comm = [comm(Cm * T16[a]) for a in range(8)]
+    cg_acomm = [acomm(Cm * T16[a]) for a in range(8)]
+    g_comm = [comm(T16[a]) for a in range(8)]
+    S_ok = all(comm(T16[a] * T16[b]) for a in range(8) for b in range(8)
+               if (a <= 4 and b <= 4) or (a >= 5 and b >= 5))
+    S_mix = all(acomm(T16[a] * T16[b]) for a in range(5) for b in range(5, 8))
+    keeps = all(cg_comm[a] for a in range(5)) and all(cg_acomm[a] for a in range(5, 8)) and all(g_comm[a] for a in range(5)) \
+        and comm(Cm) and S_ok and S_mix
+    out['halves'] = {'B_commutes_with_C_gamma_a': cg_comm, 'B_anticommutes_with_C_gamma_a': cg_acomm,
+                     'B_commutes_with_gamma_a': g_comm}
+    rep.check('B5_stability_and_neutrality', keeps,
+              'with the author\'s matrices: B commutes with C, with gamma^a and C gamma^a for a = x0..x4 and with S^ab inside {x0..x4} and '
+              'inside {x5, x6, x7}, and anticommutes with gamma^a, C gamma^a for a = x5, x6, x7: in the good sector (no extra-time '
+              'momenta) the Dirac operator gamma^M D_M (with gamma^M Omega_M = (3/2)(H/f) gamma^(x0) + (...) gamma^(x4)), the mass and '
+              'contact terms (Psibar Psi), I11 and I12 (4D currents, Psibar Psi) and I9 (4D current, P_+ = (1 - B gamma^(x0))/2) all '
+              'commute with B, so N_A and N_B are separately conserved; extra-time momenta (outside the good sector, OPEN) would mix the '
+              'halves. The fold parity of Psi_B is exact because P_+ Psi_B = 0 at the tip and the bulk is reflection symmetric; the heavy '
+              'odd Psi_A states (tip charge %.3f times that of the Psi_A fold band) decay through the oriented part of I9' % ew['ratio_dm_to_fold_band_Psi_A'])
 
     # ---------------- C dark energy ----------------
     # Kohn-Sham states on the static block: w = P3/E
@@ -386,6 +407,22 @@ def main():
               'reheating to T_RH = %.2f sqrt(C) MeV, below the 4.7 MeV that nucleosynthesis needs unless C > %.1f: the cosmological moduli '
               'problem of UM-2 (OPEN)' % (mr, rad[1]['tau_s'], rad[1]['T_RH_MeV'], Cmin))
 
+    # A6: how static must the block be today?  Every mass and coupling depends on f (A5); a block rate h = f'/f today changes
+    # alpha by d ln alpha/dt = -4 h and m_e by d ln m_e/dt = -20.6 h.  Atomic-clock bound |d ln alpha/dt| < 1e-17 per year and
+    # lunar-laser-ranging bound |d ln G/dt| < 1e-13 per year (FROM MEMORY) -> bounds on |h| (ESTIMATE).
+    H0_per_yr = 67.43 * 1e3 / 3.0857e22 * 3.15576e7
+    h_alpha = 1e-17 / 4.0
+    h_G = 1e-13 / 4.0
+    out['block_rate_today_bound'] = {'H0_per_yr': H0_per_yr, 'h_max_from_alpha_per_yr': h_alpha, 'h_max_from_G_per_yr': h_G,
+                                     'h_max_over_H0_alpha': h_alpha / H0_per_yr, 'h_max_over_H0_G': h_G / H0_per_yr,
+                                     'm_e_drift_if_h_equals_H0_per_yr': 20.6 * H0_per_yr}
+    rep.check('A6_block_frozen_today', h_alpha / H0_per_yr < 1e-6,
+              'ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = -4, the atomic-clock bound |d ln alpha/dt| < 1e-17/yr and the '
+              'lunar-ranging bound |d ln G/dt| < 1e-13/yr (FROM MEMORY) require |h| < %.1e/yr = %.1e H0 and |h| < %.1e/yr = %.1e H0 today; '
+              'a block deflating at the Hubble rate would change m_e by %.1e per year: the extra times (and x0) must be frozen today, '
+              'their exponential deflation confined to the primordial era' % (
+                  h_alpha, h_alpha / H0_per_yr, h_G, h_G / H0_per_yr, 20.6 * H0_per_yr))
+
     # figures
     import matplotlib
     matplotlib.use('Agg')
@@ -400,8 +437,13 @@ def main():
             m_.append(v['mfL'] / fL_GeV)
             mh_.append(v['mH_GeV'])
     ax.loglog(mh_, m_, 'o')
+    # label placement chosen to avoid overlaps (the KK pair and the W, Z pair sit almost on top of each other)
+    lab = {'first even KK mode': ('first even KK', (-62, 7)), 'first odd mode': ('first odd', (6, 7)),
+           'Psi lowest odd level': ('Psi_B dark matter', (6, -11)), 'W': ('W+, W-', (7, -9)), 'Z': ('Z', (7, 4)),
+           'nu': ('nu', (6, 2)), 'e': ('e', (6, -3)), 'u': ('u', (6, 0)), 'd': ('d', (6, 3))}
     for n_, x_, y_ in zip(names, mh_, m_):
-        ax.annotate(n_, (x_, y_), fontsize=7, xytext=(4, 2), textcoords='offset points')
+        t_, off = lab.get(n_, (n_, (4, 2)))
+        ax.annotate(t_, (x_, y_), fontsize=7, xytext=off, textcoords='offset points')
     xx = np.logspace(3.5, 6, 10)
     ax.loglog(xx, xx, 'k--', lw=0.8, label='m = hbar c/(2 Delta s)')
     ax.set_xlabel('uncertainty estimate hbar c/(2 Delta s) [GeV]')
@@ -416,12 +458,13 @@ def main():
     for c_ in cond:
         x0 = c_['x0']
         w = x0 * a ** -3 / (1 + x0 * a ** -3)
+        w = np.where(np.abs(w) > 50, np.nan, w)          # w diverges where the energy density crosses zero
         ax.plot(1 / a - 1, w, label='w0 = %g' % c_['w0'])
     ax.set_ylim(-6, 1)
     ax.set_xlabel('z')
     ax.set_ylabel('w of the lambda < 0 condensate')
     ax.legend(fontsize=7)
-    ax.set_title('the condensate is not dark energy: w runs away, energy turns negative')
+    ax.set_title('the condensate is not dark energy: w runs away (energy density crosses zero)')
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, 'fig_analysis_condensate.png'), dpi=130)
     plt.close(fig)
