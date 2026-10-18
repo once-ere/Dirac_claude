@@ -1,13 +1,13 @@
 {
  "I11 vector contact, electron density (v)": {
-  "d_eps_dm_de": 0.507981220896,
-  "d_fold_gap_de": 1.16656684312e-10,
-  "hellmann_feynman": 0.50798121629
+  "d_eps_dm_de": 0.507960584532,
+  "d_fold_gap_de": 1.58179025433e-10,
+  "hellmann_feynman": 0.507960579965
  },
  "I11 vector contact, up-quark density (v)": {
-  "d_eps_dm_de": 0.548555236364,
-  "d_fold_gap_de": 1.5971945988e-10,
-  "hellmann_feynman": 0.548555231557
+  "d_eps_dm_de": 0.54852751773,
+  "d_fold_gap_de": 2.07986405876e-10,
+  "hellmann_feynman": 0.548527512929
  },
  "I12 gluon condensate <G G> (M, uniform)": {
   "d_eps_dm_de": 0.707196000285,
@@ -20,9 +20,9 @@
   "hellmann_feynman": 0.259489365167
  },
  "_meta": {
-  "c_e": 10.303791677,
-  "c_u": 9.54478519482,
+  "c_e": 10.3042383559,
+  "c_u": 9.54523369264,
   "nb": 80
  },
- "runtime_s": 3.5
+ "runtime_s": 3.6
 }

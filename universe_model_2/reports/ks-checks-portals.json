@@ -2,12 +2,12 @@
  "check_count": 5,
  "checks": [
   {
-   "detail": "response of the lowest odd level d eps/de = 5.079812209e-01 equals the Hellmann-Feynman expectation 5.079812163e-01; the fold-band gap at the smallest shell changes by 1.2e-10 per unit e (the fold band stays massless)",
+   "detail": "response of the lowest odd level d eps/de = 5.079605845e-01 equals the Hellmann-Feynman expectation 5.079605800e-01; the fold-band gap at the smallest shell changes by 1.6e-10 per unit e (the fold band stays massless)",
    "name": "portal_HF I11 vector contact, electron density (v)",
    "passed": true
   },
   {
-   "detail": "response of the lowest odd level d eps/de = 5.485552364e-01 equals the Hellmann-Feynman expectation 5.485552316e-01; the fold-band gap at the smallest shell changes by 1.6e-10 per unit e (the fold band stays massless)",
+   "detail": "response of the lowest odd level d eps/de = 5.485275177e-01 equals the Hellmann-Feynman expectation 5.485275129e-01; the fold-band gap at the smallest shell changes by 2.1e-10 per unit e (the fold band stays massless)",
    "name": "portal_HF I11 vector contact, up-quark density (v)",
    "passed": true
   },
