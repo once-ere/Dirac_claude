@@ -4,7 +4,7 @@ subtitle: "The $x_0$ mass mechanism, and the validity of associating dark matter
 author:
   - "Underlying theory: Patrick L. Nash"
   - "Derived and verified by Claude (Anthropic)"
-  - "Analysis, version 2, 2026-10-18 (version 1: 2026-10-17)"
+  - "Analysis, version 3, 2026-10-18 (version 2: 2026-10-18; version 1: 2026-10-17)"
   - "Repository once-ere/Dirac_claude, folder universe_model_2"
 ---
 
@@ -23,6 +23,12 @@ Version 2 (2026-10-18) analyses the model with three generations of quarks and l
 their mixing: twelve fermion masses instead of four, the neutrino masses and mixing as $x_0$ observables, the dark matter of
 both halves of dirac16complex (the chiral tip $Z$ portal of version 1 is removed), and fold bands that are never thermalised.
 
+Version 3 (2026-10-18) analyses the completed solution: the dark matter with the new portal I13, which gives it the observed relic
+abundance within the unitarity limit (and couples to the baryon-number current, because a $B - L$ current would thermalise the
+right-handed neutrinos); the fold bands produced by freeze-in through I11 (radiation, $\Delta N_{eff} = 0.001$); the nucleon mass as the most
+block-sensitive mass, through the QCD scale; the Kaluza-Klein gravitons, which do not couple to the gluon energy; the Majorana
+alternative, which the $x_0$ mechanism disfavours; and the back-reactions of the coupled solution, which are all small.
+
 Symbols with more than one use: $\xi = y/L$ is the scaled hidden coordinate (primes denote $d/d\xi$, except $G'(k) = dG/dk$);
 dots denote $d/dx_4$, and $h = \dot f/f$ is the rate of change of the block scale ($h_\nu$, with a subscript, the comoving heating of
 the neutrinos); $H = 14.296$ TeV is the eight-dimensional scale and $H_0$ the Hubble constant; $\Lambda = (m\,fL)^2$ is a dimensionless eigenvalue of an $x_0$ operator, while in the formula
@@ -38,7 +44,9 @@ $p_t$, and $p$ of the condensate); $a$ is the scale factor ($a = e^{a_4}$), whil
 tip; $e$ is the eigenvalue $\varepsilon fL$ of a fermion, the electron and the elementary charge; $\mu$ is a bulk mass ($\mu_L$, $\mu_Q$, $\mu_R$),
 $\mu_N$ the dark-matter-nucleon reduced mass and $\mu$ the muon; $i, j = 1, 2, 3$ label generations and neutrino mass states, $\alpha \in \{e, \mu, \tau\}$ flavours ($\alpha$ is also
 the fine-structure constant, $\alpha_s$ the strong coupling); $U$ is the PMNS and $V$ the CKM matrix; $\kappa$ ($\kappa_\nu$, $\kappa_e$, $\kappa_u$, $\kappa_d$, $\kappa_f$) a
-tip matrix; $G(k)$ is the gravity factor of the block, $G_N$ Newton's constant and $G_g$, $G_W$, $G_B$ the four-dimensional couplings of the dark
+tip matrix ($\kappa_M$ the Majorana tip coupling); $G_V$, $G_A$ the
+strengths of I11 and I13, $\tilde I$, $\tilde I^{(b)}$ overlap integrals, $P_b = (1 - \gamma^{x_0})/2$, $J^B$ the baryon-number current, $\Lambda^{(n_f)}$ the QCD scale
+with $n_f$ flavours, $\sigma_{\pi N}$, $\sigma_s$ the nucleon sigma terms; $G(k)$ is the gravity factor of the block, $G_N$ Newton's constant and $G_g$, $G_W$, $G_B$ the four-dimensional couplings of the dark
 matter to gluons, $W$ and $B$ fields ($G$ without a subscript their combination, $G^\alpha$ the gluon field); $F$ is a field strength, $F_h$ the
 decoupling factor of $\Delta N_{eff}$; $g$ is the degeneracy of a momentum shell in the Kohn-Sham sums or the number of internal states
 of a particle, $g_*$ and $g_s$ the effective numbers of relativistic degrees of freedom (energy, entropy), $g_i$ the gauge couplings.
@@ -51,8 +59,9 @@ of a particle, $g_*$ and $g_s$ the effective numbers of relativistic degrees of 
 | Is the uncertainty relation the reason for the masses? | ONLY FOR THE HEAVY STATES: the uncertainty estimate lies below the masses of the computed Kaluza-Klein and odd excitations (and of the dark matter), but the light masses ($W^\pm$, $Z$ and all twelve fermions) lie $3\times10^{-3}$ (top quark) to $10^{-17}$ (lightest neutrino) below the uncertainty estimate and come from the tip of the $x_0$ cell |
 | Are the neutrino masses and their mixing $x_0$ effects? | YES for the masses, NO for the mixing angles: the three neutrino masses are $x_0$ eigenvalues (the most sensitive to the block of all masses), the PMNS matrix is the tip matrix $\kappa_\nu$, an input; given both, the flavour conversion follows |
 | Do the extra times deflate to irrelevance? | IN THE PRIMORDIAL ERA, then FROZEN: they deflate by up to a factor 2.9 into the stabilised block; a continuing deflation is excluded because every mass and coupling depends on the block size |
-| Is dirac16complex dark matter? | A CANDIDATE WITHOUT A RELIC MECHANISM: the lightest odd quanta of its two halves $\Psi_A$ and $\Psi_B$ (two degenerate Dirac fermions of 44.35 TeV) are cold, neutral and stable (DERIVED, conditional), but their only annihilation channel, the gauge-kinetic portal I12, cannot produce the relic abundance within perturbative unitarity (the freeze-out requirement exceeds the $^3P_0$ bound 3.5 times): the relic is OPEN; the massless fold bands are never thermalised and are not dark matter |
+| Is dirac16complex dark matter? | YES, CONDITIONALLY (version 3): the lightest odd quanta of its two halves $\Psi_A$ and $\Psi_B$ (two degenerate Dirac fermions of 44.35 TeV) are cold, neutral and stable (DERIVED, conditional); the gauge-kinetic portal I12 alone cannot produce their relic abundance within perturbative unitarity (version 2), but with the s-wave portal I13 (INVENTED) they freeze out with $\Omega h^2 = 0.060$ each within the unitarity limit, and their scattering on xenon is 0.16 of the present LZ limit (testable); the massless fold bands are radiation ($\Delta N_{eff} = 0.001$ by freeze-in), not dark matter |
 | Is dirac16complex dark energy? | NOT SUPPORTED: no positive-energy state has $w < 0$; a negative-coupling condensate runs away; the dark energy of UM-2 is a tuned four-dimensional cosmological term |
+| Does the $x_0$ mechanism fix the nucleon mass? | INDIRECTLY (version 3): the nucleon mass is QCD binding energy, $\propto\Lambda_{QCD}$, set by the gauge coupling at the Kaluza-Klein scale, itself an $x_0$ quantity; $d\ln m_p/d\ln f = -46$ makes it the most block-sensitive mass of UM-2 |
 
 # The $x_0$ mass mechanism
 
@@ -256,6 +265,15 @@ non-unitary at relative order $(m_i/m_{KK})^2 \le 1.7\times10^{-31}$ (ESTIMATE; 
 flavour conversion of UM-2 is therefore that of the three-flavour Standard Model with Dirac neutrinos, which UM-2 computes for the
 vacuum, the Earth, the Sun, the early Universe and supernovae.
 
+**Dirac or Majorana (DERIVED, version 3).** The $x_0$ mechanism explains the small Dirac masses by the localisation of the right-handed
+singlets with tip couplings of order one. Without right-handed neutrinos the masses would be Majorana masses from the gauge-invariant
+tip operator $-\frac12\sum_{ij}m_{ij}\overline{N^c_i}N_j + \text{h.c.}$, $N_i = (\Sigma^\dagger L_i)_1$ (neutral, since $\Sigma \to U_L\Sigma U_Y^\dagger$), with
+$$ m_\nu = \kappa_M\,\frac{\zeta(c_L)^2}{fL},\qquad \zeta(c_L)^2 = 8.04\times10^{-5},\qquad \frac{1}{fL} = 22.1\ \text{TeV}, $$
+which needs $\kappa_M = 5.6\times10^{-13}$, $4.9\times10^{-12}$, $2.8\times10^{-11}$: a hierarchy of tip couplings that the mechanism does not explain. The $x_0$ mechanism
+therefore favours Dirac neutrinos. The Majorana case would show up in neutrinoless double-beta decay with
+$m_{\beta\beta} = \lvert\sum_iU_{ei}^2m_ie^{i\alpha_i}\rvert$ between $0.84$ and $4.41$ meV ($\alpha_i$ the Majorana phases) and in a twice larger capture rate of the
+non-relativistic CNB; the flavour conversion is the same.
+
 ## The mass mechanism, the block and the deflating extra times
 
 Every mass and coupling depends on the block scale $f$ (DERIVED):
@@ -287,6 +305,25 @@ $\bar M_{Pl} = 2.435\times10^{18}$ GeV and an order-one coupling factor $C_r$, g
 temperature $T_{RH} = (90/(\pi^2g_*))^{1/4}\sqrt{\Gamma\bar M_{Pl}} = 1.85\sqrt{C_r}$ MeV, $g_* = 10.75$, below the 4.7 MeV that
 nucleosynthesis needs unless $C_r > 6.5$: a moduli problem, OPEN).
 
+## The nucleon mass and the block (version 3)
+
+Most of the visible mass is nucleon mass, i.e. QCD binding energy, which is not an $x_0$ eigenvalue of a field but follows from the
+strong coupling by dimensional transmutation. In UM-2 the coupling is fixed at the Kaluza-Klein scale, $g_s^2 = \hat g_s^2/V_\perp \propto f^{-4}$, so the
+QCD scale is an $x_0$ quantity too (DERIVED, ESTIMATE at one loop): with $1/\alpha_s(m_{KK}) = 1/\alpha_s(m_Z) + \frac{7}{2\pi}\ln(m_{KK}/m_Z)$, $\alpha_s(m_{KK}) = 0.0606$,
+$\Lambda^{(6)} = m_{KK}e^{-2\pi/(7\alpha_s(m_{KK}))}$, the matching $\Lambda^{(3)} = \Lambda^{(6)\,21/27}(m_cm_bm_t)^{2/27}$ and the sigma terms $\sigma_{\pi N} = 45$ MeV, $\sigma_s = 40$ MeV,
+$$ \frac{d\ln\Lambda^{(6)}}{d\ln f} = -1 - \frac{8\pi}{7\alpha_s(m_{KK})} = -60.2,\qquad \frac{d\ln\Lambda^{(3)}}{d\ln f} = \frac{21}{27}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{27}\sum_{q=c,b,t}\frac{d\ln m_q}{d\ln f} = -49.0, $$
+$$ \frac{d\ln m_p}{d\ln f} = \Big(1 - \frac{\sigma_{\pi N} + \sigma_s}{m_p}\Big)\frac{d\ln\Lambda^{(3)}}{d\ln f} + \frac{\sigma_{\pi N}}{2m_p}\Big(\frac{d\ln m_u}{d\ln f} + \frac{d\ln m_d}{d\ln f}\Big) + \frac{\sigma_s}{m_p}\frac{d\ln m_s}{d\ln f} = -46.1 :$$
+the nucleon mass is the most block-sensitive mass of UM-2, more than the lightest neutrino ($-41.0$); a block that drifted today would
+change the proton-to-electron mass ratio by $(46.1 - 20.5)\lvert h\rvert$ per unit time. In the coupled solution the hidden pressures of all
+species shift the block by at most $\delta\ln f = 5.6\times10^{-45}$ (at the dark-matter freeze-out; $10^{-62}$ in the Earth), so the masses are
+fixed to that accuracy.
+
+The Kaluza-Klein gravitons couple to a source through the overlap of its $x_0$ profile with theirs; their profiles
+$u_n = e^{-a\xi}(\cos n\pi\xi + \frac{a}{n\pi}\sin n\pi\xi)$ ($a = 3\eta/2$) are orthogonal to the flat profile of the gauge zero modes in the measure
+$e^{3\eta\xi}$, so the gluon field energy that makes up most of the nucleon mass excites none of them (DERIVED to $2\times10^{-10}$): gravity
+at short distances feels the localised quark and lepton zero modes only, with Yukawa strengths $0.09$ and $0.02$ for the first mode and a
+range of $1.6\times10^{-21}$ m.
+
 ## Assessment of the mechanism
 
 The author's mechanism works in UM-2 in a precise sense: all masses are $x_0$ eigenvalues, the period $\pi/(6H)$ is built
@@ -296,7 +333,11 @@ not consequences of the uncertainty relation: the tip of the cell (where electro
 exponentially localised chiral zero modes, whose overlap at the tip ($\zeta(c)^2 \simeq 2c\,e^{-2c}$) produces the hierarchy of the
 twelve fermion masses, fourteen orders of magnitude from $\nu_1$ to the top quark, from bulk masses between $5.2H$ and $54.2H$ in
 magnitude. The mixing matrices are tip matrices and are not explained by the mechanism. The scales are not free: once the
-Kaluza-Klein scale is fitted ($m_{KK} = 121$ TeV from $\rho_0$), the dark-matter mass ($44$ TeV) and the radion ($48$ TeV) follow.
+Kaluza-Klein scale is fitted ($m_{KK} = 121$ TeV from $\rho_0$), the dark-matter mass ($44$ TeV) and the radion ($48$ TeV) follow. Version 3
+adds three observations: the nucleon mass, the bulk of the visible mass, depends on the block through the QCD scale more strongly than
+any $x_0$ eigenvalue ($-46$); the mechanism favours Dirac over Majorana neutrinos; and in the coupled solution every back-reaction on
+the masses (Standard-Model mean fields on dirac16complex, dirac16complex on the gauge couplings, all species on the block) stays below
+$1.6\times10^{-6}$, so the $x_0$ spectra of the static block are the masses of the solution.
 
 # dirac16complex as dark matter
 
@@ -345,10 +386,28 @@ exceeds the bound 3.47 times, and the effective cross-section $G^2M_{DM}^4v^2/\p
 $v > v_c = (\pi/(GM_{DM}^3))^{2/3} = 0.263$, i.e. for 79 % of the pairs at freeze-out. Version 1 compared the requirement with
 $(4\pi/M_{DM}^2)\sqrt{x_f/\pi} = 2.32\times10^{-25}$ cm$^3$/s, the bound of a single helicity channel without the spin average and the restriction
 to $^3P_0$, four times too large. The gauge-kinetic portal I12 therefore cannot produce the relic abundance within perturbative
-unitarity: the relic abundance of the dark matter of UM-2 is OPEN. It needs an additional annihilation channel (an s-wave
-operator, which unitarity bounds by $3\pi/(4p^2)$ from its $J = 1$ states) or a non-thermal origin. Any relic value would also
-depend on the radion oscillation left over from the deflation, which redshifts like dust: if it dominated the Universe until it
-decayed, it would dilute the dark matter after freeze-out (the moduli problem).
+unitarity (version 2).
+
+**The relic in version 3** (DERIVED). The Boltzmann equation of one Dirac species ($Y = (n_\chi + n_{\bar\chi})/s$, $x = M/T$),
+$$ \frac{dY}{dx} = -\frac{(1 + \delta)s\langle\sigma v\rangle}{2xH}(Y^2 - Y_{eq}^2),\qquad \delta = \frac13\frac{d\ln g_s}{d\ln T},\qquad
+   \langle\sigma v\rangle = \frac{\int_{4M^2}^\infty\sigma(s)(s - 4M^2)\sqrt s\,K_1(\sqrt s/T)\,ds}{8M^4TK_2(x)^2}, $$
+with $Y_{eq} = 4M^2TK_2(x)/(2\pi^2s)$, $H = (8\pi^3g_\rho/90)^{1/2}T^2/M_{Pl}$, $s = \frac{2\pi^2}{45}g_sT^3$, and the degrees of freedom $g_\rho(T)$, $g_s(T)$ of the
+particle content of UM-2 with its $x_0$ masses, confirms the conclusion and quantifies it: the effective I12 would need $(15.86\ \text{TeV})^{-3}$,
+crossing the $^3P_0$ bound at $v = 0.274$; a cross-section at that bound at every energy, the largest annihilation from $^3P_0$, leaves
+$\Omega h^2 = 0.058$ per species, so I12 could produce the relic only as a strongly coupled channel at the unitarity limit, outside the
+validity of the effective description. Version 3 therefore keeps I12 at the unitarity-safe benchmark $G = \pi/(2M^3) = (38.2\ \text{TeV})^{-3}$ (alone:
+$\Omega h^2 = 8.0$ per species) and adds the INVENTED portal
+$$ S_{I13} = \int d^8x\sqrt{\lvert g\rvert}\,\frac{c_A}{\Lambda_\star^6}(i\bar\Psi\gamma^MP_b\Psi)J^B_M,\qquad P_b = \frac{1 - \gamma^{x_0}}{2},\qquad J^B_M = \frac13\sum_{i=1}^3\sum_{\psi\in\{Q_i, u_{Ri}, d_{Ri}\}}i\bar\psi\gamma_M\psi, $$
+whose $x_0$-chiral current is Hermitian, a four-dimensional vector, diagonal in the halves, and zero on the fold bands ($\gamma^{x_0} = \sigma_3$ in
+the block form and the fold bands have no lower component). On the zero modes it couples the dark matter to each quark Weyl component
+$f$ with $G_f = G_A\frac13\tilde I^{(b)}_f$, $\tilde I^{(b)}_f = \int_{-L}^0b^2\varrho_fe^{-3Hy}dy$ ($b$ the lower component of the dark-matter orbital, $\varrho_f$ the zero-mode
+profile), and the dark matter annihilates in the s-wave,
+$$ \sigma = \sum_f\frac{N_cG_f^2\,s\,(1 + 2M^2/s)}{24\pi\beta} \;\le\; \frac{3\pi}{4p^2}\qquad (\beta = \sqrt{1 - 4M^2/s},\ J = 1). $$
+Each species then freezes out with $\Omega h^2 = 0.060$ for $G_A = 1.278\times10^{-9}$ GeV$^{-2}$ ($1.1\times10^{-4}G_F$; $x_f = 31.2$), the cross-section reaching its
+bound only above $v = 0.51$ (19 % of the freeze-out rate): a perturbative thermal relic. The current must be the baryon-number current: a
+$B - L$ current would bring the three right-handed neutrinos into equilibrium through $\chi\bar\chi \leftrightarrow \nu_R\bar\nu_R$ until $T = 1.8$ TeV and add
+$\Delta N_{eff} = 3(10.75/g_s)^{4/3}F_h = 0.144$, 2.5 standard deviations above ACT DR6. The relic value assumes that the radion oscillation left over
+from the deflation, which redshifts like dust, does not dominate and dilute the Universe after the freeze-out (the moduli problem).
 
 ## Detection
 
@@ -360,17 +419,24 @@ decayed, it would dilute the dark matter after freeze-out (the moduli problem).
   eight orders below the LZ limit extrapolated linearly in the mass from $2.2\times10^{-48}$ cm$^2$ at 40 GeV to 44 TeV
   ($2.4\times10^{-45}$ cm$^2$): the limit would allow a gluon coupling whose square is $3.9\times10^7$ times the relic requirement. The
   electroweak channels have no tree-level nucleon coupling.
-* Indirect: the annihilation is p-wave, $\propto v^2 \sim 10^{-6}$ in galaxies today, so present-day annihilation signals are
-  suppressed by about $10^{-5}$ relative to freeze-out.
+* Direct, version 3 (DERIVED, ESTIMATE for the limit): I13 (and I11) couple the dark matter coherently to the quark number. With
+  $G_{u,d} = G_A\frac13\frac12(\tilde I^{(b)}_Q + \tilde I^{(b)}_{u_R,d_R}) + G_V\frac13\frac12(\tilde I_Q + \tilde I_{u_R,d_R})$,
+  $$ f_p = 2G_u + G_d,\qquad f_n = G_u + 2G_d,\qquad \sigma_n = \frac{\mu_N^2}{\pi}\Big(\frac{Zf_p + (A - Z)f_n}{A}\Big)^2 = 4.0\times10^{-46}\ \text{cm}^2 $$
+  for xenon ($Z = 54$, $A = 131$; $f_p = 1.915\times10^{-9}$, $f_n = 1.917\times10^{-9}$ GeV$^{-2}$), 0.16 of the extrapolated LZ limit: the dark matter of UM-2 is
+  testable by the next generation of xenon detectors.
+* Indirect: the I12 annihilation is p-wave, $\propto v^2 \sim 10^{-6}$ in galaxies today; the I13 annihilation is s-wave and continues today with
+  $\sigma v = \sum_fN_cG_f^2M^2/(2\pi) = 9.8\times10^{-26}$ cm$^3$/s into quark pairs, the thermal value for a heavy relic.
 * Colliders: 44 TeV is beyond the reach of present and planned colliders.
 
 ## The massless quanta are not dark matter
 
 The fold bands of both halves are massless four-dimensional fermions ($\varepsilon = e^{-a_4}\lvert k\rvert$); a gas of them has
 $w = 1/3$ exactly (Kohn-Sham, DERIVED). In UM-2 they are never thermalised: there is no tip operator, the scalar density of a chiral
-zero mode vanishes identically (so I12 does not touch them), and the vector portal I11 is set to zero in the benchmark ($c_V = 0$).
-They are therefore not part of the radiation: the CNB consists of the three neutrino mass states only, and $N_{eff} = 3.0432$. Had one
-half's fold band (two Weyl species) been thermalised, it would add (DERIVED)
+zero mode vanishes identically (so I12 does not touch them), I13 vanishes on them, and the vector portal I11 is weak. In version 3
+I11 has its benchmark strength (with the $B - L$ charges $q_f$ and the fold-band overlaps $\tilde I_f$): the plasma produces fold-band pairs
+by freeze-in at the rate $\gamma = \frac{4}{\pi^5}N_\chi G_V^2T^8\sum_fN_c(q_f\tilde I_f)^2$ ($N_\chi = 2$; each pair carries $8T$), which from $T_{max} = 10$ TeV adds
+$\Delta N_{eff} = 0.001$ for $G_V = 4.38\times10^{-17}$ GeV$^{-2}$ without ever reaching equilibrium: a trace of dark radiation, not dark matter, and
+$N_{eff} = 3.0442$ instead of $3.0432$. Had one half's fold band (two Weyl species) been thermalised, it would add (DERIVED)
 $$ \Delta N_{eff} = n_W\Big(\frac{10.75}{g_s}\Big)^{4/3}F_h,\qquad n_W = 2,\qquad F_h = \Big[\frac{T_\nu}{T_\gamma}\Big(\frac{11}{4}\Big)^{1/3}\Big/(1 + h_\nu)\Big]^4 = 1.0095 ,$$
 ($g_s$ the entropy degrees of freedom at its decoupling; $F_h$ corrects for the heating of the neutrinos by $e^+e^-$ annihilation that an
 earlier-decoupled species does not receive, with the computed neutrino-to-photon temperature ratio $T_\nu/T_\gamma = 0.71664$ and the
@@ -381,15 +447,16 @@ Whether the fold bands are produced gravitationally during the primordial deflat
 
 ## Assessment
 
-The association of dirac16complex with dark matter is valid in UM-2 for the candidate but incomplete for its abundance. The
-candidate's properties are derived under stated conditions: (i) the good sector (no extra-time momenta; outside it the halves
-mix and modes are tachyonic, OPEN); (ii) the exact fold parity of both halves, which UM-2 secures by containing no oriented tip
-operator ($P_+\Psi_B = 0$ at the tip even protects $\Psi_B$ against any chiral tip current); (iii) fold bands that never thermalise
-($c_V$ small enough, no dipole portal, no significant gravitational production). Its abundance is not: (iv) the gauge-kinetic
-portal I12, the only annihilation channel of UM-2 version 2, would need a cross-section 3.5 times above the $^3P_0$ unitarity bound,
-so the relic needs an additional annihilation channel or a non-thermal origin (OPEN); and (v) any relic value requires that the
-radion not dilute the Universe late (the moduli problem). It is the heavy odd part of the field, not the field as a whole, that
-could be dark matter; the field's massless fold bands, if populated, would be radiation.
+The association of dirac16complex with dark matter is valid in UM-2 version 3 under stated conditions: (i) the good sector (no
+extra-time momenta; outside it the halves mix and modes are tachyonic, OPEN); (ii) the exact fold parity of both halves, which UM-2
+secures by containing no oriented tip operator ($P_+\Psi_B = 0$ at the tip even protects $\Psi_B$ against any chiral tip current); (iii)
+fold bands that never thermalise (I11 weak, I12 and I13 blind to them, no dipole portal, no significant gravitational production);
+(iv) an annihilation channel that produces the relic within unitarity: in version 2 the gauge-kinetic portal I12 alone could not
+(its freeze-out requirement exceeds the $^3P_0$ bound 3.5 times); in version 3 the INVENTED s-wave portal I13 to the baryon-number
+current does, with $G_A = 1.28\times10^{-9}$ GeV$^{-2}$, and predicts a direct-detection signal at 0.16 of the present LZ limit; (v) no late
+dilution by the radion (the moduli problem). The candidate is falsifiable: a xenon exposure about six times that of LZ would test it.
+It is the heavy odd part of the field, not the field as a whole, that is dark matter; the field's massless fold bands are radiation
+($\Delta N_{eff} = 0.001$).
 
 # dirac16complex as dark energy
 
@@ -444,11 +511,14 @@ $\Lambda_4$.
 
 * **Conditions on which the conclusions rest** (ASSUMED): the stabiliser and its $f^{-8}$ law; the good sector; the regular
   tip at $\eta = 3$; $m = H$; the tip sigma field, the tip matrices and the boundary assignments of the Standard-Model fields of three
-  generations; the lightest neutrino mass $m_1 = 1$ meV and the normal ordering; the portals I11 and I12 (INVENTED; $c_V = 0$ in the
-  benchmark).
+  generations; the lightest neutrino mass $m_1 = 1$ meV and the normal ordering; the portals I11, I12 and I13 (INVENTED) with the
+  benchmark strengths of I11 and I12 and the highest temperature $T_{max} = 10$ TeV (ASSUMED; the strength of I13 follows from the
+  relic abundance).
 * **Open**: the origin of the stabiliser; the extra-time modes; the closed time-like curves implied by compact extra times;
-  the radion moduli problem; the block-shape mode driven by $p_0 - p_t$; the relic abundance of the dark matter (the freeze-out
-  requirement of I12 exceeds the $^3P_0$ unitarity bound 3.5 times); the gravitational production of the fold bands; the origin of the tip matrices (the mixing angles); the cosmological-constant problem.
+  the radion moduli problem; the block-shape mode driven by $p_0 - p_t$; the microscopic origin of the portals (I12 alone could give
+  the relic only as a strongly coupled $^3P_0$ channel; version 3 obtains it through I13); the gravitational production of the fold bands;
+  the origin of the tip matrices (the mixing angles); Dirac or Majorana neutrinos (the mechanism favours Dirac); the
+  cosmological-constant problem.
 * **Conflicts with data inherent in the order**: no Higgs boson (one is observed), and perturbative unitarity of $W^+W^-$
   scattering lost near 1.2 TeV. (The one-generation conflict of version 1, a $Z$ width of $1.23$ GeV, is removed: three generations
   give $2.485$ GeV against the measured $2.4955$ GeV.)
