@@ -63,7 +63,7 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={UM-2 field equations},
-  pdfauthor={Underlying theory: Patrick L. Nash; Derived and verified by Claude (Anthropic); Field equations, version 2, 2026-10-18 (version 1: 2026-10-17); Repository once-ere/Dirac\_claude, folder universe\_model\_2},
+  pdfauthor={Underlying theory: Patrick L. Nash; Derived and verified by Claude (Anthropic); Field equations, version 3, 2026-10-18 (version 2: 2026-10-18; version 1: 2026-10-17); Repository once-ere/Dirac\_claude, folder universe\_model\_2},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -84,9 +84,9 @@ dirac16complex field, the gauge fields \(G\), \(W^+\), \(W^-\), \(W^3\)
 the tip sigma field, with every interaction, and the flavour evolution
 of the three neutrinos}
 \author{Underlying theory: Patrick L. Nash \and Derived and verified by
-Claude (Anthropic) \and Field equations, version 2, 2026-10-18 (version
-1: 2026-10-17) \and Repository once-ere/Dirac\_claude, folder
-universe\_model\_2}
+Claude (Anthropic) \and Field equations, version 3, 2026-10-18 (version
+2: 2026-10-18; version 1: 2026-10-17) \and Repository
+once-ere/Dirac\_claude, folder universe\_model\_2}
 \date{}
 
 \begin{document}
@@ -122,6 +122,17 @@ matrices, from which the mixing matrices follow as
 \(U = \kappa_e^\dagger\kappa_\nu\) and \(V = \kappa_u^\dagger\kappa_d\)
 (section 6.2); the flavour evolution of the neutrinos is section 9. The
 chiral tip \(Z\) portal of version 1 is removed (section 2).
+
+Version 3 (2026-10-18) adds the portal I13, an \(x_0\)-chiral vector
+coupling of dirac16complex to the baryon-number current, to the action,
+the energy-momentum tensor and the field equations (sections 2 to 4);
+the four-dimensional reduction of the portals and the mean fields of the
+Standard-Model fields in an environment, which couple the Kohn-Sham
+equations to every field (section 7.1); the equations of the terms of
+the metric series beyond \(n = 0\) (section 8.1); and the equations of
+the thermal history: the degrees of freedom, the Boltzmann equations of
+the dark matter and of the right-handed neutrinos, the freeze-in of the
+fold bands and the unitarity bounds (section 10).
 
 \hypertarget{coordinates-signature-units}{%
 \subsection{Coordinates, signature,
@@ -238,20 +249,33 @@ Units \(\hbar = c = 1\); mass dimensions in eight dimensions:
   \(u = \cos\vartheta\) is the direction cosine of a neutrino (\(u\) is
   also the up quark and \(u(y)\) a boson profile).
 \item
+  Portals: \(G_V\), \(G_g\), \(G_W\), \(G_B\), \(G_A\) are
+  four-dimensional coupling strengths (\(G_N\), \(G_F\) Newton's and
+  Fermi's constants); \(\tilde I_{of}\), \(\tilde I^{(b)}_{of}\) overlap
+  integrals; \(q_\psi\) the \(B - L\) charge of a multiplet;
+  \(P_a = (1 + \gamma^{x_0})/2\), \(P_b = (1 - \gamma^{x_0})/2\) the
+  \(x_0\)-chiral projectors (\(P_\pm = (1 \pm \Gamma_4)/2\) the
+  four-dimensional ones); \(J^B_M\) the baryon-number current. In
+  section 10, \(x = M/T\), \(Y = n/s\) (\(s\) the entropy density),
+  \(g_\rho\), \(g_s\) effective numbers of degrees of freedom,
+  \(\gamma\) a rate density (not a gamma matrix) and \(K_1\), \(K_2\)
+  modified Bessel functions.
+\item
   \(H\) is the author's constant, except in the neutrino-decoupling
-  equations of section 9, where \(H\) is the Hubble rate; the time is
-  always \(x_4\) (dots and \(d/dx_4\)), and the symmetry axis of the
-  fast-flavour analysis is \(x_3\). \(\Lambda^0\), \(\Lambda^3\) (upper
-  indices) are the fast-flavour potentials. \(G(k)\) is the
-  Einstein-Hilbert coefficient and \(G(u)\) the electron-lepton-number
-  distribution; \(F_h = 1.0095\) is the heating factor of
-  \(\Delta N_{eff}\) and \(F(T_1, T_2)\) the energy-transfer kernel.
+  equations of section 9 and in section 10, where \(H\) is the Hubble
+  rate; the time is always \(x_4\) (dots and \(d/dx_4\)), and the
+  symmetry axis of the fast-flavour analysis is \(x_3\). \(\Lambda^0\),
+  \(\Lambda^3\) (upper indices) are the fast-flavour potentials.
+  \(G(k)\) is the Einstein-Hilbert coefficient and \(G(u)\) the
+  electron-lepton-number distribution; \(F_h = 1.0095\) is the heating
+  factor of \(\Delta N_{eff}\) and \(F(T_1, T_2)\) the energy-transfer
+  kernel.
 \end{itemize}
 
 \hypertarget{the-action}{%
 \section{The action}\label{the-action}}
 
-\[ S = S_{EL} + S_{stab} + S_\Psi + S_{gauge} + S_f + S_{tip} + S_{I11} + S_{I12} .\]
+\[ S = S_{EL} + S_{stab} + S_\Psi + S_{gauge} + S_f + S_{tip} + S_{I11} + S_{I12} + S_{I13} .\]
 
 \textbf{Gravity} (AUTHOR weights):
 \[ S_{EL} = \frac{1}{2\kappa}\int d^8x\sqrt{\lvert g\rvert}\Big(\sum_{k=1}^{3}\alpha_k\mathcal L_{(k)} - 2\Lambda\Big),\qquad
@@ -304,9 +328,19 @@ random complex matrices, deviation \(1.1\times10^{-14}\)).
 
 \textbf{Portals} (INVENTED):
 \[ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}\,(i\bar\Psi\gamma^M\Psi)\,\mathcal J_M,\qquad \mathcal J_M = \sum_{i=1}^{3}\sum_\psi q_\psi\,(i\bar\psi_i\gamma_M\psi_i),\]
+with the \(B - L\) charges \(q_Q = q_{u_R} = q_{d_R} = \frac13\),
+\(q_L = q_{e_R} = q_{\nu_R} = -1\);
 \[ S_{I12} = -\int d^8x\sqrt{\lvert g\rvert}\;\frac{\bar\Psi\Psi}{\Lambda_\star^3}\,\mathcal F,\qquad
-   \mathcal F = c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN} .\]
-In the unitary gauge \(\Sigma = 1\) the sigma-field kinetic term becomes
+   \mathcal F = c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN} ;\]
+\[ S_{I13} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_A}{\Lambda_\star^6}\,(i\bar\Psi\gamma^MP_b\Psi)\,J^B_M,\qquad P_b = \frac{1 - \gamma^{x_0}}{2},\qquad
+   J^B_M = \frac13\sum_{i=1}^{3}\sum_{\psi\in\{Q_i,\,u_{Ri},\,d_{Ri}\}}i\bar\psi\gamma_M\psi \]
+(version 3; \(\gamma^{x_0}\) the frame matrix). Since \(\gamma^{x_0}\)
+anticommutes with \(\gamma^\mu\) and with \(C\),
+\(P_a\gamma^\mu = \gamma^\mu P_b\) and \(CP_bC^{-1} = P_a\)
+(\(P_a = (1 + \gamma^{x_0})/2\)), so \(i\bar\Psi\gamma^\mu P_b\Psi\) is
+Hermitian; it is a four-dimensional vector and commutes with \(B\)
+(DERIVED). In the unitary gauge \(\Sigma = 1\) the sigma-field kinetic
+term becomes
 \(-\frac{v_\Sigma^2}{8}\big[2\hat g^2W^+_\mu W^{-\mu} + (\hat g^2 + \hat g'^2)Z_\mu Z^\mu\big]\)
 (canonical fields).
 
@@ -346,7 +380,7 @@ Varying \(S\) with respect to the metric gives
 divergence-free identically (DERIVED for the order-0 metric for
 \(k = 1, 2, 3\)), so the field equations imply \(\nabla_MT^M{}_N = 0\),
 which holds on the matter field equations. The total source is
-\[ T^M{}_N = T^M{}_N[\text{stab}] + T^M{}_N[\Psi] + T^M{}_N[\text{gauge}] + T^M{}_N[f] + T^M{}_N[\text{tip}] + T^M{}_N[I11] + T^M{}_N[I12] .\]
+\[ T^M{}_N = T^M{}_N[\text{stab}] + T^M{}_N[\Psi] + T^M{}_N[\text{gauge}] + T^M{}_N[f] + T^M{}_N[\text{tip}] + T^M{}_N[I11] + T^M{}_N[I12] + T^M{}_N[I13] .\]
 
 \hypertarget{the-energy-momentum-tensors}{%
 \subsection{The energy-momentum
@@ -381,7 +415,7 @@ components):
 \(i\bar\psi\gamma^a\psi\) and the scalars \(\bar\Psi\Psi\) do not depend
 on the vielbein, so only \(\sqrt{\lvert g\rvert}\) and the explicit
 metric factors vary:
-\[ T_{MN}[I11] = g_{MN}\,\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^P\Psi)\mathcal J_P,\]
+\[ T_{MN}[I11] = g_{MN}\,\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^P\Psi)\mathcal J_P,\qquad T_{MN}[I13] = g_{MN}\,\frac{c_A}{\Lambda_\star^6}(i\bar\Psi\gamma^PP_b\Psi)J^B_P,\]
 \[ T_{MN}[I12] = \frac{4\bar\Psi\Psi}{\Lambda_\star^3}\Big[c_G\Big(G^\alpha_{MP}G^\alpha{}_N{}^P - \frac14g_{MN}G^\alpha_{PQ}G^{\alpha PQ}\Big) + (W, c_W) + (B, c_B)\Big], \]
 so I12 acts as a field-dependent gauge coupling,
 \(1/\hat g_i^2 \to 1/\hat g_i^2 + 4c_i\bar\Psi\Psi/\Lambda_\star^3\).
@@ -392,7 +426,7 @@ so I12 acts as a field-dependent gauge coupling,
 \hypertarget{dirac16complex}{%
 \subsection{dirac16complex}\label{dirac16complex}}
 
-\[ \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\,\frac{c_V}{\Lambda_\star^6}\,\mathcal J_M\gamma^M\Psi, \]
+\[ \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\,\frac{c_V}{\Lambda_\star^6}\,\mathcal J_M\gamma^M\Psi - i\,\frac{c_A}{\Lambda_\star^6}\,J^B_M\gamma^MP_b\Psi, \]
 and its conjugate. The gravitational term is \(\gamma^M\Omega_M\); for
 the order-0 metric (DERIVED, exact for every \(a_4\), \(b_4\) and on
 both halves of a period)
@@ -400,15 +434,16 @@ both halves of a period)
 which vanishes only in flat 4+4 space (\(H = 0\), constant \(a_4\),
 \(b_4\)): the coupling of \(\Psi\) to gravity is non-trivial. \(\Psi\)
 is a singlet of the Standard-Model group: it couples to the Standard
-Model only through I11 and I12.
+Model only through I11, I12 and I13.
 
 \hypertarget{the-standard-model-fermions}{%
 \subsection{The Standard-Model
 fermions}\label{the-standard-model-fermions}}
 
 For a multiplet \(\psi_i\) of generation \(i\) and charge \(q_\psi\)
-(I11),
-\[ \gamma^MD_M\psi_i = \mu_{\psi i}\,\psi_i - i\,\frac{c_V}{\Lambda_\star^6}\,q_\psi\,(i\bar\Psi\gamma_M\Psi)\,\gamma^M\psi_i + \delta_{tip}\,(\text{Yukawa})_i,\]
+(I11; the I13 term only for the quark multiplets \(Q_i\), \(u_{Ri}\),
+\(d_{Ri}\)),
+\[ \gamma^MD_M\psi_i = \mu_{\psi i}\,\psi_i - i\,\frac{c_V}{\Lambda_\star^6}\,q_\psi\,(i\bar\Psi\gamma_M\Psi)\,\gamma^M\psi_i - i\,\frac{c_A}{\Lambda_\star^6}\,\frac13\,(i\bar\Psi\gamma_MP_b\Psi)\,\gamma^M\psi_i + \delta_{tip}\,(\text{Yukawa})_i,\]
 \[ (\text{Yukawa})_{L_i} = \sum_j\Sigma(\Lambda_\ell)_{ij}\,\ell_{Rj},\qquad (\text{Yukawa})_{\ell_{Rj}} = \sum_i(\Lambda_\ell)^*_{ij}\Sigma^\dagger L_i, \]
 \[ (\text{Yukawa})_{Q_i} = \sum_j\Sigma(\Lambda_q)_{ij}\,q_{Rj},\qquad (\text{Yukawa})_{q_{Rj}} = \sum_i(\Lambda_q)^*_{ij}\Sigma^\dagger Q_i .\]
 For one generation the tip terms are equivalent to the self-adjoint
@@ -781,6 +816,88 @@ for every self-consistent state). Boundary conditions: fold
 Kohn-Sham source enters the background equations through its block
 averages \(\rho\), \(p_3\) and \(\bar p = (p_0 + 3p_t)/4\).
 
+\hypertarget{the-portals-on-the-zero-modes-and-the-mean-fields-of-an-environment-version-3}{%
+\subsection{The portals on the zero modes and the mean fields of an
+environment (version
+3)}\label{the-portals-on-the-zero-modes-and-the-mean-fields-of-an-environment-version-3}}
+
+In the block form \(\gamma^{x_0} = \sigma_3\), so I13 adds to the
+Kohn-Sham Hamiltonian a potential on the lower component only:
+\[ h_j \;\to\; h_j + P_b\,v_b(y),\qquad P_b = \tfrac12(1 - \sigma_3),\qquad v_b(y) = \frac{c_A}{\Lambda_\star^6}\,\frac13\sum_qn_q(y), \]
+with \(n_q(y)\) the proper eight-dimensional density of the quarks. On
+the zero modes the portals become four-dimensional contact interactions.
+A four-dimensional particle of density \(n\) (per 3-volume) in an
+orbital or zero mode with the normalised profile \(\varrho(y)\)
+(\(\int_{-L}^0\varrho\,dy = 1\)) has the proper eight-dimensional
+density \(n\,\varrho(y)\,e^{-3Hy}/(2f^4v_t)\) on each half of the period
+(proper transverse volume element \(f^4e^{3Hy}dy\,d^3x_t\), two halves;
+\(v_t\) the coordinate volume of the extra times), so a state \(o\) of
+\(\Psi\) (orbital \((a_o, b_o)\),
+\(\int_{-L}^0(a_o^2 + b_o^2)\,dy = 1\)) and a chirality component \(f\)
+of a Standard-Model fermion (zero-mode profile \(\varrho_f\);
+\(\varrho_c(y) = (2c/L)e^{2cy/L}/(1 - e^{-2c})\) for the localisation
+\(c\)) interact with
+\[ \mathcal L_4 = \big(G_Vq_f\tilde I_{of} + G_Aq^B_f\tilde I^{(b)}_{of}\big)\,(i\bar\chi_o\gamma^\mu\chi_o)(i\bar f\gamma_\mu f),\qquad
+   \tilde I_{of} = \int_{-L}^{0}(a_o^2 + b_o^2)\varrho_fe^{-3Hy}dy,\qquad \tilde I^{(b)}_{of} = \int_{-L}^{0}b_o^2\varrho_fe^{-3Hy}dy, \]
+\[ G_V = \frac{c_VH}{2f^4v_t\Lambda_\star^6},\qquad G_A = \frac{c_AH}{2f^4v_t\Lambda_\star^6},\qquad q^B_f = \tfrac13\ \text{(quarks)},\ 0\ \text{(leptons)} \]
+(\(\tilde I\) in units of \(H\)). \(\tilde I_{of}\) and
+\(\tilde I^{(b)}_{of}\) are exactly the responses \(d\varepsilon_o/de\)
+of the Kohn-Sham level to the mean fields
+\(v = e\,\varrho_f(y)e^{-3Hy}\) and \(v_b = e\,\varrho_f(y)e^{-3Hy}\)
+(Hellmann-Feynman). I12 becomes
+\(G_i\bar\chi\chi F^i_{\mu\nu}F^{i\mu\nu}\) (canonical fields) with
+\(G_i = \mathcal O\,c_ig_i^2/\Lambda_\star^3\),
+\(\mathcal O = \partial\varepsilon_{DM}/\partial m\).
+
+In an environment with the net densities \(n_p\), \(n_n\), \(n_e\) of
+protons, neutrons and electrons (unpolarised: each chirality carries
+half; \(n_u = 2n_p + n_n\), \(n_d = n_p + 2n_n\)) and the temperature
+\(T\), the level \(\varepsilon_o\) moves by
+\[ \delta\varepsilon_o = \sum_f\big(G_Vq_f\tilde I_{of} + G_Aq^B_f\tilde I^{(b)}_{of}\big)\,n_f + \mathcal O\,\frac{c}{\Lambda_\star^3}\Big[\langle g_s^2G^\alpha G^\alpha\rangle + \langle g^2W^aW^a\rangle + \langle g'^2BB\rangle\Big] \]
+(universal \(c_G = c_W = c_B = c\); canonical field strengths), with the
+gluon condensate from the trace anomaly
+\(\theta^\mu{}_\mu = -\frac{b\alpha_s}{8\pi}G^\alpha_{\mu\nu}G^{\alpha\mu\nu} + \dots\),
+\[ \Big\langle\frac{\alpha_s}{\pi}G^\alpha G^\alpha\Big\rangle_T = \Big\langle\frac{\alpha_s}{\pi}G^\alpha G^\alpha\Big\rangle_0 - \frac{8}{b}(\rho - 3p)_{QCD},\qquad b = 11 - \frac23n_f,\qquad
+   \langle g_s^2G^2\rangle = 4\pi^2\Big\langle\frac{\alpha_s}{\pi}G^2\Big\rangle, \]
+\(\langle\frac{\alpha_s}{\pi}G^2\rangle_0 = 0.012\) GeV\(^4\)
+(STANDARD), the QCD interaction measure
+\((\rho - 3p)/T^4 = 4\exp[-\ln^2(T/0.2\ \text{GeV})/0.5]\) below 1 GeV
+(ESTIMATE) and \(\frac{b}{3}(1 + \frac{5n_f}{12})\alpha_s^2\) above,
+which follows from the pressure
+\(p = \frac{8\pi^2}{45}T^4[1 + \frac{21n_f}{32} - \frac{15}{4}(1 + \frac{5n_f}{12})\frac{\alpha_s}{\pi}]\)
+and \(d\alpha_s/d\ln T = -\frac{b}{2\pi}\alpha_s^2\) through
+\(\rho - 3p = T^5\,d(p/T^4)/dT\); and for each massive vector boson
+\(V\) of mass \(m_V\) the thermal condensate
+\[ \langle F_{\mu\nu}F^{\mu\nu}\rangle_T = -2(\rho - 3p)_V,\qquad (\rho - 3p)_V = \rho_V - 3p_V\ \text{of its ideal gas,} \]
+because on shell the Proca Lagrangian \(-\frac14F^2 + \frac12m_V^2A^2\)
+is a total derivative (so
+\(\langle -\frac14F^2\rangle = -\langle\frac12m_V^2A^2\rangle\)) while
+\(T^\mu{}_\mu = -m_V^2A_\mu A^\mu\); thus
+\(\langle g^2W^aW^a\rangle = g^2[2(-2I_W) + \cos^2\theta_W(-2I_Z)]\),
+\(\langle g'^2BB\rangle = g'^2\sin^2\theta_W(-2I_Z)\),
+\(I_V = (\rho - 3p)_V\). Conversely \(\Psi\) acts on the Standard Model
+through the field-dependent couplings of section 3.1,
+\(\delta\alpha_i/\alpha_i = -4G_in_{DM}\), and on the \(x_0\) problem of
+the \(W\) and \(Z\) through the kinetic function \(1 + e\,s_{DM}(y)\),
+\[ -\frac{1}{K e^{3\eta\xi}}\big(Ke^{3\eta\xi}u'\big)' = \Lambda u,\qquad K(\xi) = 1 + e\,s_{DM}(y),\qquad u'(0) = 0,\qquad K(-1)u'(-1) = \beta u(-1), \]
+\(s_{DM} = 2ab\) the scalar density of the dark-matter orbital (primes
+\(d/d\xi\)). Gravity closes the loop: every species pushes on the block
+with its hidden pressure \(p_0 = -\rho\,d\ln m/d\ln f\), so that
+\[ \kappa\bar p = -\frac{8\pi G_NG(k_*)}{4}\sum_s\rho_s\frac{d\ln m_s}{d\ln f},\qquad \delta k = \frac{\kappa\bar p}{3H^2 - 4\kappa\rho_b^*/k_*},\qquad \delta\ln f = -\frac{\delta k}{2k_*},\qquad
+   \delta\ln m_s = \frac{d\ln m_s}{d\ln f}\,\delta\ln f , \] iterated
+with the masses until self-consistency. The nucleon follows the QCD
+scale: with
+\(1/\alpha_s(m_{KK}) = 1/\alpha_s(m_Z) + \frac{7}{2\pi}\ln(m_{KK}/m_Z)\)
+(six flavours, one loop), \(\alpha_s \propto f^{-4}\),
+\(m_{KK} \propto 1/f\),
+\(\Lambda^{(6)} = m_{KK}e^{-2\pi/(7\alpha_s(m_{KK}))}\), the one-loop
+matching \(\Lambda^{(3)} = \Lambda^{(6)\,21/27}(m_cm_bm_t)^{2/27}\) and
+\(m_p = (1 - \frac{\sigma_{\pi N} + \sigma_s}{m_p})\,C\Lambda^{(3)} + \sigma\)
+terms,
+\[ \frac{d\ln m_p}{d\ln f} = \Big(1 - \frac{\sigma_{\pi N} + \sigma_s}{m_p}\Big)\Big[\frac{21}{27}\Big(-1 - \frac{8\pi}{7\alpha_s(m_{KK})}\Big) + \frac{2}{27}\sum_{q=c,b,t}\frac{d\ln m_q}{d\ln f}\Big]
+   + \frac{\sigma_{\pi N}}{2m_p}\Big(\frac{d\ln m_u}{d\ln f} + \frac{d\ln m_d}{d\ln f}\Big) + \frac{\sigma_s}{m_p}\frac{d\ln m_s}{d\ln f} \]
+(\(\sigma_{\pi N} = 45\) MeV, \(\sigma_s = 40\) MeV; ESTIMATE).
+
 \hypertarget{the-linear-perturbations-order-epsilon-cmb-cnb-bao}{%
 \section{\texorpdfstring{The linear perturbations (order \(\epsilon\)):
 CMB, CNB,
@@ -843,7 +960,44 @@ the degeneracy \(N_{eff}/3 = 1.0144\) at the temperature
 \(T_\nu = (4/11)^{1/3}T_\gamma\) of instantaneous decoupling, which
 represents the spectrum heated by \(e^+e^-\) annihilation; the adopted
 \(N_{eff} = 3.0432\) is the precision value, close to the \(3.0476\) to
-\(3.0485\) computed in section 9.4).
+\(3.0485\) computed in section 9.4); in version 3 the fold bands
+produced by freeze-in (section 10) add massless free-streaming radiation
+with \(\Delta N_{eff} = 0.001\), obeying the massless limit of the
+neutrino hierarchy. The rms potential per logarithmic wavenumber is
+\(\Delta_\Phi(k) = [k^3P_\Phi(k)/(2\pi^2)]^{1/2}\); inside the horizon
+the Poisson equation \(\Phi = \frac32\Omega_mH_0^2\delta_m/(ak^2)\)
+holds, and on the largest scales in the matter era
+\(\Phi = \frac35\zeta\) (\(\zeta\) the primordial curvature
+perturbation), suppressed by \(\Lambda_4\) with the growth factor
+\(g(a) = D(a)/a\), \(D(a) = \frac52\Omega_mE(a)\int_0^a db/[bE(b)]^3\),
+\(E(a) = (\Omega_ma^{-3} + 1 - \Omega_m)^{1/2}\). The amplitude of the
+matter fluctuations is
+\(\sigma_8^2 = \int_0^\infty\frac{dk}{k}\frac{k^3P_m(k)}{2\pi^2}W^2(kR)\)
+with the top hat \(W(x) = 3(\sin x - x\cos x)/x^3\), \(R = 8h^{-1}\)
+Mpc.
+
+\hypertarget{beyond-n-0-the-kaluza-klein-gravitons-and-the-radion-version-3}{%
+\subsection{\texorpdfstring{Beyond \(n = 0\): the Kaluza-Klein gravitons
+and the radion (version
+3)}{Beyond n = 0: the Kaluza-Klein gravitons and the radion (version 3)}}\label{beyond-n-0-the-kaluza-klein-gravitons-and-the-radion-version-3}}
+
+The \(n \ge 1\) terms of \(h^{(1)}_{MN} = \sum_nh^{(1,n)}_{MN}u_n(x_0)\)
+are massive. For the graviton (\(\beta = 0\)) the even profiles and
+masses are
+\[ u_n(\xi) = e^{-a\xi}\Big(\cos q_n\xi + \frac{a}{q_n}\sin q_n\xi\Big),\qquad q_n = n\pi,\qquad a = \frac{3\eta}{2},\qquad m_n = \frac{\sqrt{\Lambda_n}}{fL},\quad \Lambda_n = \frac{9\eta^2}{4} + n^2\pi^2, \]
+normalised by
+\(N_n = \int_{-1}^0e^{3\eta\xi}u_n^2d\xi = \frac12(1 + a^2/q_n^2)\)
+(\(N_0 = (1 - e^{-3\eta})/(3\eta)\) for \(u_0 = 1\)). Each mode couples
+to a source with the normalised \(x_0\) profile \(\varrho\) through
+\(\int\varrho\,u_n\,d\xi\), so a static source \(M\) attracts a mass
+\(m\) with
+\[ V(r) = -\frac{G_NMm}{r}\Big[1 + \sum_{n\ge1}\alpha_ne^{-m_nr}\Big],\qquad \alpha_n = \frac{N_0}{N_n}\Big(\int_{-1}^0\varrho\,u_n\,d\xi\Big)^2 ; \]
+a source with the flat profile \(\varrho \propto e^{3\eta\xi}\) of a
+gauge zero mode has \(\alpha_n = 0\) (orthogonality of \(u_n\) to
+\(u_0\)). The radion \(\sigma = \delta\ln f\) obeys the linearised block
+equations of section 5.5 with the hidden pressure of matter as its
+source; its static response is \(\delta\ln f\) of section 7.1, its mass
+\(m_r = \omega_r\).
 
 \hypertarget{the-flavour-evolution-of-the-three-neutrinos}{%
 \section{The flavour evolution of the three
@@ -1027,6 +1181,78 @@ and the mean velocity
 The flavour content of the mass state \(\nu_i\) is
 \(\lvert U_{\alpha i}\rvert^2\).
 
+\hypertarget{the-thermal-history-and-the-boltzmann-equations-version-3}{%
+\section{The thermal history and the Boltzmann equations (version
+3)}\label{the-thermal-history-and-the-boltzmann-equations-version-3}}
+
+\textbf{Degrees of freedom.} In the hot Universe every species \(i\) of
+UM-2 in equilibrium (photon, gluons, \(W^+\), \(W^-\), \(Z\), the six
+quarks, three charged leptons, three neutrinos, the dark matter; masses
+from the \(x_0\) eigenvalues; no Higgs particle; the right-handed
+neutrinos and the fold bands not thermalised) contributes the ideal-gas
+densities (\(g_i\) internal states, upper sign for fermions)
+\[ \rho_i = \frac{g_i}{2\pi^2}\int_0^\infty\frac{p^2E\,dp}{e^{E/T}\pm1},\qquad p_i = \frac{g_i}{6\pi^2}\int_0^\infty\frac{p^4\,dp}{E\,(e^{E/T}\pm1)},\qquad s_i = \frac{\rho_i + p_i}{T},\]
+\[ g_\rho(T) = \frac{30}{\pi^2T^4}\sum_i\rho_i,\qquad g_s(T) = \frac{45}{2\pi^2T^3}\sum_is_i,\qquad H = \Big(\frac{8\pi^3g_\rho}{90}\Big)^{1/2}\frac{T^2}{M_{Pl}}, \]
+with the quark-gluon plasma weighted by
+\(w(T) = \frac12[1 + \tanh((T - T_c)/\Delta T)]\) and a hadron gas by
+\(1 - w(T)\) (\(T_c = 155\) MeV, \(\Delta T = 15\) MeV; ASSUMED model of
+the crossover), and the neutrinos decoupled instantaneously at 2 MeV,
+after which their temperature follows from the separately conserved
+photon-electron entropy, \(T_\nu/T = (g_{s,e\gamma}(T)/(11/2))^{1/3}\).
+The temperature falls as \(d\ln T/dx_4 = -H/(1 + \delta)\),
+\(\delta = \frac13\,d\ln g_s/d\ln T\).
+
+\textbf{The dark matter.} For one Dirac species of mass \(M\)
+(\(Y = (n_\chi + n_{\bar\chi})/s\), \(x = M/T\),
+\(s = \frac{2\pi^2}{45}g_sT^3\))
+\[ \frac{dn_\chi}{dx_4} + 3Hn_\chi = -\langle\sigma v\rangle\big(n_\chi n_{\bar\chi} - n_{\chi,eq}^2\big)\quad\Longrightarrow\quad
+   \frac{dY}{dx} = -\frac{(1 + \delta)\,s\,\langle\sigma v\rangle}{2xH}\big(Y^2 - Y_{eq}^2\big),\qquad Y_{eq} = \frac{4M^2TK_2(x)}{2\pi^2s}, \]
+with the relativistic thermal average of the total annihilation
+cross-section (Gondolo and Gelmini)
+\[ \langle\sigma v\rangle = \frac{1}{8M^4TK_2(x)^2}\int_{4M^2}^{\infty}\sigma(s)\,(s - 4M^2)\,\sqrt s\,K_1(\sqrt s/T)\,ds , \]
+and the relic \(\Omega h^2 = MY_\infty s_0/(\rho_c/h^2)\),
+\(\rho_c/h^2 = 1.05368\times10^{-5}\) GeV/cm\(^3\), \(s_0\) today. The
+cross-sections are (spin averaged; \(\beta = \sqrt{1 - 4M^2/s}\),
+\(p = \sqrt{s/4 - M^2}\) the centre-of-mass momentum)
+\[ \sigma_{I12} = \frac{G^2s^{3/2}(s - 4M^2)^{1/2}}{8\pi},\quad G^2 = 8G_g^2 + 3G_W^2 + G_B^2;\qquad
+   \sigma_{I13} = \sum_f\frac{N_cG_f^2\,s\,(1 + 2M^2/s)}{24\pi\beta},\quad G_f = G_A\,\tfrac13\,\tilde I^{(b)}_f , \]
+the first from \(\sigma v_{rel} = G^2s(s - 4M^2)/(4\pi)\) per abelian
+channel with the relative velocity \(v_{rel} = 2\beta\) in the
+centre-of-mass frame (p-wave, from \(^3P_0\) only), the second summed
+over the quark Weyl components (s-wave, from \(^3S_1\)), and
+partial-wave unitarity bounds them by
+\[ \sigma_{I12} \le \frac{\pi}{4p^2}\quad (J = 0),\qquad \sigma_{I13} \le \frac{3\pi}{4p^2}\quad (J = 1) ; \]
+where the effective cross-section exceeds its bound it is replaced by
+the bound (a unitarity-respecting completion that saturates it).
+
+\textbf{The fold bands (freeze-in through I11).} With
+\(G_f = G_Vq_f\tilde I_f\) and the fold-band overlaps \(\tilde I_f\),
+the pair-production rate density and the energy density of the fold
+bands obey (Maxwell-Boltzmann, massless)
+\[ \gamma = \frac{T}{32\pi^4}\int_0^\infty ds\,\Big(\sum_{\text{spins}}\sigma\Big)\,s^{3/2}K_1(\sqrt s/T) = \frac{4}{\pi^5}N_\chi G_V^2T^8\sum_fN_c(q_f\tilde I_f)^2,\qquad
+   \frac{d(\rho_{fold}a^4)}{dx_4} = 8T\,\gamma\,a^4 ,\]
+(\(\int_0^\infty x^6K_1(x)dx = 384\),
+\(\int_0^\infty x^7K_2(x)dx = 3072\); \(a \propto g_s^{-1/3}/T\)),
+integrated from the highest temperature \(T_{max}\) of the hot Universe;
+today \(\Delta N_{eff} = \rho_{fold}/\rho_\nu\) with
+\(\rho_\nu = \frac78\frac{\pi^2}{15}T_\nu^4\) per flavour. They stay out
+of equilibrium if \(2\gamma/(n_{fold,eq}H) \ll 1\),
+\(n_{fold,eq} = N_\chi\cdot4\cdot\frac34\frac{\zeta(3)}{\pi^2}T^3\).
+
+\textbf{The right-handed neutrinos.} For one flavour \(\nu_R\) coupled
+to the dark matter with \(G = G_A'\tilde I^{(b)}_{\nu_R}\) (the
+\(B - L\) alternative of I13, with charge \(-1\)), the number density of
+\(\nu_R\) particles obeys
+\[ \frac{dn_{\nu_R}}{dx_4} + 3Hn_{\nu_R} = \gamma_\nu\Big(1 - \frac{n_{\nu_R}^2}{n_{\nu_R,eq}^2}\Big),\qquad \gamma_\nu = \sum_{A,B}n_{\chi,eq}n_{\bar\chi,eq}\frac{G^2M^2}{2\pi},\qquad
+   n_{\nu_R,eq} = \frac34\frac{\zeta(3)}{\pi^2}T^3 , \]
+(\(n_{\chi,eq} = 2(MT/2\pi)^{3/2}e^{-x}\) per Dirac species), while
+elastic scattering on the dark matter keeps the \(\nu_R\) at the plasma
+temperature as long as
+\(\Gamma_{el} = \sum_{A,B}(n_\chi + n_{\bar\chi})G^2E^2/\pi > H\)
+(\(E \simeq 3T\); ESTIMATE); a species of \(n_W\) Weyl fermions in
+equilibrium until the plasma has \(g_s\) entropy degrees of freedom adds
+\(\Delta N_{eff} = n_W(10.75/g_s)^{4/3}F_h\).
+
 \hypertarget{the-coupled-system-and-how-it-is-solved}{%
 \section{The coupled system and how it is
 solved}\label{the-coupled-system-and-how-it-is-solved}}
@@ -1034,13 +1260,14 @@ solved}\label{the-coupled-system-and-how-it-is-solved}}
 The fields couple as follows: gravity to everything (the canonical spin
 connection for \(\Psi\) and the fermions, the metric in every kinetic
 term, the stabiliser); \(\Psi\) to gravity, to itself (\(\lambda\)), to
-the fermion currents (I11) and to the gauge-field invariants (I12); the
+the fermion currents (I11), to the gauge-field invariants (I12) and,
+with its \(x_0\)-chiral current, to the baryon-number current (I13); the
 fermions of the three generations to the gauge fields, to \(\Sigma\) at
 the tip (through the tip matrices, which carry the flavour mixing) and
-to \(\Psi\) (I11); the gauge fields to the fermions, to \(\Sigma\) at
-the tip and to \(\Psi\) through I12 (a field-dependent coupling). UM-2
-solves the coupled system in the following hierarchy, each step feeding
-the next:
+to \(\Psi\) (I11, and I13 for the quarks); the gauge fields to the
+fermions, to \(\Sigma\) at the tip and to \(\Psi\) through I12 (a
+field-dependent coupling). UM-2 solves the coupled system in the
+following hierarchy, each step feeding the next:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1064,7 +1291,20 @@ the next:
   step 5) and in dense neutrino gases;
 \item
   the four-dimensional effective theory and its linear perturbations
-  (CMB, CNB, BAO).
+  (CMB, CNB, BAO);
+\item
+  (version 3) the coupled iteration in environments: the Kohn-Sham
+  levels with the mean fields of section 7.1 from the densities and
+  condensates of the environment, the field-dependent couplings and the
+  \(W\), \(Z\) eigenvalues with the dark-matter density, and the block
+  response to the hidden pressures of all species, repeated until the
+  masses are self-consistent;
+\item
+  (version 3) the thermal history: the degrees of freedom from the
+  \(x_0\) masses, the Boltzmann equations of section 10 for the dark
+  matter (relic), the fold bands (freeze-in) and the right-handed
+  neutrinos, and the terms of the metric series beyond \(n = 0\)
+  (section 8.1).
 \end{enumerate}
 
 \hypertarget{what-was-verified}{%
@@ -1107,7 +1347,21 @@ the next:
 \item
   the Kohn-Sham solver (record reference states to \(10^{-13}\); energy
   identity; conservation law; Richardson; Hellmann- Feynman for every
-  portal mean field).
+  portal mean field);
+\item
+  (version 3) the overlaps \(\tilde I\) and \(\tilde I^{(b)}\) against
+  the derivatives of self-consistent Kohn-Sham levels (to
+  \(3\times10^{-10}\)), the vanishing of I13 on the fold bands (to
+  \(7\times10^{-14}\)), the screening of the response in the interacting
+  state, the fold band massless under I11; the Bessel moments of the
+  freeze-in rate; the Boltzmann solver against the late-time integral
+  (\(1.3\times10^{-8}\)) and the freeze-out formula; the thermal average
+  against its non-relativistic limit; the degrees of freedom against
+  their exact limits (\(105.75\), \(86.25\), \(10.75\), \(43/11\)); the
+  graviton tower against finite elements (\(4\times10^{-9}\)) and the
+  orthogonality of the flat profile (\(2\times10^{-10}\)); the potential
+  from the Weyl variable against the Poisson equation
+  (\(1.4\times10^{-6}\)).
 \end{itemize}
 
 \end{document}
