@@ -69,7 +69,7 @@ def decomp_boson(Lam, beta, eta, parity):
     tip = g * rhot + beta * rhot
     dt = math.sqrt(trap(T * T * v * v) / nrm)       # full period: symmetric about the fold, mean zero
     return {'Lambda': Lam, 'p2': p2, 'warp': warp, 'fold': fold, 'tip': tip, 'sum': p2 + warp + fold + tip,
-            'Delta_t': dt, 'mfL': math.sqrt(max(Lam, 0)), 'mH_fL': 1 / (2 * dt), 'p2_Dt2': p2 * dt * dt}
+            'Delta_t': dt, 'mfL': math.sqrt(max(Lam, 0)), 'mH_fL': 1 / (2 * dt), 'p2_Dt2': p2 * dt * dt, 'rho_tip': rhot}
 
 
 def decomp_fermion_zero(c):
@@ -83,7 +83,7 @@ def decomp_fermion_zero(c):
     fold_tip = float(-cm * (rho0 - rhot))
     dt = float(mp.sqrt(mp.quad(lambda t: t * t * mp.exp(2 * cm * t), [-1, -mp.mpf(1) / (2 * cm), 0]) / nrm))
     return {'p2': kin, 'bulk': bulk, 'boundary': fold_tip, 'sum': kin + bulk + fold_tip, 'Delta_t': dt, 'mH_fL': 1 / (2 * dt),
-            'p2_Dt2': kin * dt * dt}
+            'p2_Dt2': kin * dt * dt, 'rho_tip': float(rhot)}
 
 
 def decomp_psi_odd(c, pfl):
@@ -99,7 +99,7 @@ def decomp_psi_odd(c, pfl):
     bnd = -c * ((a[-1] ** 2 - b[-1] ** 2) - (a[0] ** 2 - b[0] ** 2)) / nrm
     dt = math.sqrt(trap(T * T * (a * a + b * b)) / nrm)
     return {'E2': E * E, 'p2': kin, 'bulk': bulk, 'boundary': bnd, 'sum': kin + bulk + bnd, 'Delta_t': dt, 'mfL': E,
-            'mH_fL': 1 / (2 * dt), 'x0_momentum_fraction': pfl * pfl / (E * E)}
+            'mH_fL': 1 / (2 * dt), 'x0_momentum_fraction': pfl * pfl / (E * E), 'rho_tip': (a[0] ** 2 + b[0] ** 2) / nrm}
 
 
 def main():
@@ -136,7 +136,8 @@ def main():
             gap_ok = False
     out['gap_theorem'] = rows
     rep.check('A2_gap_theorem', gap_ok, 'for beta in {0, ..., 1e6}: exactly one even level below the gap 9 eta^2/4 = %.2f (the zero mode, lifted only '
-              'by the tip) and no odd level: every odd mode and every excitation has m >= 3H/(2f) = %.1f GeV' % (g * g, sc['gap_GeV']))
+              'by the tip) and no odd level: every odd mode and every excitation of the boson operator (gauge fields, graviton) has '
+              'm >= 3H/(2f) = %.1f GeV (the Dirac operator of Psi has no such gap)' % (g * g, sc['gap_GeV']))
 
     # ---------------- A3 decomposition ----------------
     Lam1 = masses['unbroken']['Lambda1']
@@ -171,8 +172,23 @@ def main():
         v['m_over_mH'] = v.get('mfL', 0.0) / v['mH_fL']
         v['Delta_s_m'] = v['Delta_t'] * fL_GeV * hbarc
         v['mH_GeV'] = v['mH_fL'] / fL_GeV
+    # the uncertainty relation on the cell: with rho normalised on [-1, 0], int rho dt = [t rho]_{-1}^{0} - int t rho' dt
+    # = rho(tip) - int t rho' dt (the fold end t = 0 contributes nothing), and rho' = 2 v v' (bosons) or 2 Re chi^+ chi' (fermions);
+    # Cauchy-Schwarz gives sqrt(<p^2>) Delta t >= (1 - rho(tip))/2, which reduces to <p^2> Delta t^2 >= 1/4 only when rho(tip) -> 0
+    for k, v in table.items():
+        v['p2_Dt2'] = v['p2'] * v['Delta_t'] ** 2
+        v['uncertainty_lhs'] = math.sqrt(v['p2']) * v['Delta_t']
+        v['uncertainty_bound'] = (1 - v['rho_tip']) / 2
+    margins = {k: v['uncertainty_lhs'] - v['uncertainty_bound'] for k, v in table.items()}
+    kmin = min(margins, key=margins.get)
     out['decomposition'] = table
     z0 = table['photon, gluons, graviton (zero mode)']
+    fb = table['Psi fold band (both halves)']
+    rep.check('A3_uncertainty_relation_on_the_cell', margins[kmin] > 0 and fb['p2_Dt2'] < 0.25 <= z0['p2_Dt2'],
+              'on the cell, which ends at the tips, the uncertainty relation reads sqrt(<p^2>) Delta t >= (1 - rho(tip))/2 (from int rho = '
+              'rho(tip) - int t rho\' dt and the Cauchy-Schwarz inequality); it holds for every state (smallest margin %.4f, %s); it reduces to '
+              '<p^2> Delta t^2 >= 1/4 only for profiles negligible at the tip: photon zero mode %.4f (rho(tip) = %.5f), broad Psi fold zero '
+              'mode %.4f < 1/4 (rho(tip) = %.4f)' % (margins[kmin], kmin, z0['p2_Dt2'], z0['rho_tip'], fb['p2_Dt2'], fb['rho_tip']))
     rep.check('A3_zero_mode_localised_but_massless', z0['mfL'] == 0 and z0['p2'] > 1 and abs(z0['sum']) < 1e-6 and z0['p2_Dt2'] >= 0.25,
               'the photon/gluon/graviton zero mode has <p^2> = %.3f, Delta s = %.2e m, m_H = %.0f GeV, yet m = 0: warp %.2f, fold %.3f and tip %.4f '
               'cancel its hidden kinetic energy exactly; <p^2> Delta t^2 = %.3f >= 1/4 (the uncertainty relation holds but does not bound the mass)' % (
@@ -398,8 +414,8 @@ def main():
                   vac, vac / rhoDE, (H0 / Hgev) ** 2))
 
     # C4: the radion left over from the primordial deflation (ESTIMATE): a Planck-suppressed modulus of mass m_r decays with
-    # Gamma = C m_r^3/(4 pi M_P^2) (C an order-one coupling factor, reduced Planck mass M_P = 2.435e18 GeV) and reheats to
-    # T_RH = (90/(pi^2 g*))^{1/4} sqrt(Gamma M_P) with g* = 10.75; nucleosynthesis needs T_RH >~ 4.7 MeV (FROM MEMORY).
+    # Gamma = C_r m_r^3/(4 pi Mbar_Pl^2) (C_r an order-one coupling factor, reduced Planck mass Mbar_Pl = 2.435e18 GeV) and reheats to
+    # T_RH = (90/(pi^2 g*))^{1/4} sqrt(Gamma Mbar_Pl) with g* = 10.75; nucleosynthesis needs T_RH >~ 4.7 MeV (FROM MEMORY).
     mr = sc['radion_mass_GeV']
     MP = 2.435e18
     hbar_s = 6.582119569e-25
@@ -411,8 +427,9 @@ def main():
     Cmin = (4.7e-3 / rad[1]['T_RH_MeV'] * 1e3) ** 2
     out['radion_decay_estimate'] = {'m_r_GeV': mr, 'cases': rad, 'C_needed_for_T_RH_4p7MeV': Cmin}
     rep.check('C4_radion_moduli_problem', rad[1]['T_RH_MeV'] < 4.7,
-              'ESTIMATE: the radion (m_r = %.0f GeV) left over from the deflation decays with Gamma = C m_r^3/(4 pi M_P^2): tau = %.2f s/C, '
-              'reheating to T_RH = %.2f sqrt(C) MeV, below the 4.7 MeV that nucleosynthesis needs unless C > %.1f: the cosmological moduli '
+              'ESTIMATE: the radion (m_r = %.0f GeV) left over from the deflation decays with Gamma = C_r m_r^3/(4 pi Mbar_Pl^2) (Mbar_Pl = '
+              '2.435e18 GeV, the reduced Planck mass): tau = %.2f s/C_r, reheating to T_RH = %.2f sqrt(C_r) MeV, below the 4.7 MeV that '
+              'nucleosynthesis needs unless C_r > %.1f: the cosmological moduli '
               'problem of UM-2 (OPEN)' % (mr, rad[1]['tau_s'], rad[1]['T_RH_MeV'], Cmin))
 
     # A6: how static must the block be today?  Every mass and coupling depends on f (A5); a block rate h = f'/f today changes
