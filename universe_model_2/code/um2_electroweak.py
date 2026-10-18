@@ -228,6 +228,20 @@ def main():
     tot = Gnu + Ge + Gu + Gd + GPsi
     out['Z_widths_tree_MeV'] = {'nu_e': Gnu * 1e3, 'e': Ge * 1e3, 'u': Gu * 1e3, 'd': Gd * 1e3, 'Psi_A (2 Weyl)': GPsi * 1e3,
                                 'total': tot * 1e3, 'measured_total': 2495.5, 'measured_invisible': 499.0}
+    # scheme dependence of the tree-level widths: the angle of the couplings of the W/Z mass fit (um2_spectra.py),
+    # cos^2 = (m_W/m_Z)^2/rho0, instead of the MS-bar value, which absorbs the Standard-Model loop corrections
+    s2c = 1 - (val('m_W_GeV') / mZ) ** 2 / (1 + val('rho0_minus_1'))
+    Gec = G0 * ((-0.5 + 2 * s2c) ** 2 + 0.25)
+    Guc = 3 * G0 * ((0.5 - 4.0 / 3.0 * s2c) ** 2 + 0.25)
+    Gdc = 3 * G0 * ((-0.5 + 2.0 / 3.0 * s2c) ** 2 + 0.25)
+    totc = Gnu + Gec + Guc + Gdc + GPsi
+    rel = {'e': Gec / Ge - 1, 'u': Guc / Gu - 1, 'd': Gdc / Gd - 1, 'total': totc / tot - 1}
+    out['Z_widths_tree_MeV_coupling_angle'] = {'sin2_theta': s2c, 'e': Gec * 1e3, 'u': Guc * 1e3, 'd': Gdc * 1e3,
+                                               'total': totc * 1e3, 'relative_change': rel}
+    rep.check('Z_width_scheme', max(abs(x) for x in rel.values()) < 0.02 and abs(rel['total']) < 0.01,
+              'with the tree-level angle of the couplings of the mass fit (sin^2 = %.5f) instead of the MS-bar %.5f the widths change by '
+              '%+.2f %% (e), %+.2f %% (u), %+.2f %% (d), %+.2f %% (total %.0f MeV): a scheme ambiguity at the per-cent level, far below the '
+              'factor-two conflict of the total width' % (s2c, s2, 100 * rel['e'], 100 * rel['u'], 100 * rel['d'], 100 * rel['total'], totc * 1e3))
     rep.check('Z_total_width_conflict', tot < 0.6 * 2.4955,
               'tree-level Z widths of the one-generation model: total %.0f MeV against the measured 2495.5 MeV (the missing mu, tau, s, c, b '
               'channels): an inherent conflict of the particle content of the order; the invisible width %.0f MeV is reproduced by Psi_A' % (tot * 1e3, (Gnu + GPsi) * 1e3))

@@ -1,5 +1,5 @@
 {
- "check_count": 19,
+ "check_count": 20,
  "checks": [
   {
    "detail": "Q = T3 + Y: (u, d)_L = (2/3, -1/3), (nu, e)_L = (0, -1), u_R 2/3, d_R -1/3, e_R -1, nu_R 0",
@@ -89,6 +89,11 @@
   {
    "detail": "T_nu = (4/11)^{1/3} T_CMB = 1.9454 K; 112.0 per cm^3 per Weyl species (nu + nubar); UM-2 CNB: nu_e (0.05 eV, non-relativistic today) + two massless Psi_A species, 336 per cm^3 in total",
    "name": "CNB",
+   "passed": true
+  },
+  {
+   "detail": "with the tree-level angle of the couplings of the mass fit (sin^2 = 0.22363) instead of the MS-bar 0.23122 the widths change by +0.55 % (e), +1.39 % (u), +0.95 % (d), +0.64 % (total 1240 MeV): a scheme ambiguity at the per-cent level, far below the factor-two conflict of the total width",
+   "name": "Z_width_scheme",
    "passed": true
   },
   {
