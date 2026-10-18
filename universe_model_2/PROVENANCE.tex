@@ -672,7 +672,7 @@ weak bosons are \(W^\pm = (W^1 \mp iW^2)/\sqrt2\), with electric charges
 \subsection{The tip sigma field (INVENTED for this geometry; no Higgs
 particle)}\label{the-tip-sigma-field-invented-for-this-geometry-no-higgs-particle}}
 
-\[ S_{tip} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\Big[\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
+\[ S_{tip} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\Big[-\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
    - \big(\bar L\,\Sigma\,\Lambda_\ell\,\ell_R + \bar Q\,\Sigma\,\Lambda_q\,q_R + \text{h.c.}\big)\Big],\qquad \Sigma \in SU(2),\]
 \[ D_\mu\Sigma = \partial_\mu\Sigma - iW^a_\mu\frac{\tau^a}{2}\Sigma + iB_\mu\Sigma\frac{\tau^3}{2},\qquad \Sigma \to U_L\Sigma U_Y^\dagger,\quad U_Y = e^{i\theta\tau^3/2} .\]
 
@@ -680,8 +680,8 @@ particle)}\label{the-tip-sigma-field-invented-for-this-geometry-no-higgs-particl
 \subsection{The portal interactions
 (INVENTED)}\label{the-portal-interactions-invented}}
 
-\[ S_{I9} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\big[c_Z + c'_Z\varsigma\big](\bar\Psi\gamma^\mu P_+\Psi)\,\frac{iv_\Sigma^2}{2}\mathrm{tr}\big(\Sigma^\dagger D_\mu\Sigma\,\tau^3\big),\qquad P_+ = \frac{1 + \Gamma_4}{2},\quad \varsigma = \pm1,\]
-\[ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}(\bar\Psi\gamma^M\Psi)\sum_\psi q_\psi(\bar\psi\gamma_M\psi),\]
+\[ S_{I9} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\big[c_Z + c'_Z\varsigma\big](i\bar\Psi\gamma^\mu P_+\Psi)\,\frac{iv_\Sigma^2}{2}\mathrm{tr}\big(\Sigma^\dagger D_\mu\Sigma\,\tau^3\big),\qquad P_+ = \frac{1 + \Gamma_4}{2},\quad \varsigma = \pm1,\]
+\[ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^M\Psi)\sum_\psi q_\psi(i\bar\psi\gamma_M\psi),\]
 \[ S_{I12} = -\int d^8x\sqrt{\lvert g\rvert}\;\frac{\bar\Psi\Psi}{\Lambda_\star^3}\big[c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN}\big].\]
 Operators considered and rejected: a dipole portal
 \(\bar\Psi S^{MN}\Psi B_{MN}\) (it would thermalise the sterile
@@ -708,7 +708,7 @@ All computations are Python scripts in the folder
 \texttt{universe\_model\_2/code}; each writes its numbers to
 \texttt{universe\_model\_2/outputs} and a report of named checks (name,
 verdict, detail) to \texttt{universe\_model\_2/reports}; no single run
-exceeds 423 s. In total 175 checks, none failed.
+exceeds 423 s. In total 177 checks, none failed.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
@@ -740,8 +740,9 @@ Gauss-Bonnet tensor, minisuperspace variation with a lapse); Bianchi
 identities; the record's equations; the static block; the canonical spin
 connection & sympy, exact & 25/25 \\
 \texttt{um2\_background.py} & the class-form background equations; the
-static block; the stabiliser and its family; the radion; the dimensional
-reduction & sympy, exact; eigenvalues numerically & 20/20 \\
+static block; the stabiliser and its family; the radion; the linear
+response of the block to matter sources; the dimensional reduction &
+sympy, exact; eigenvalues numerically & 22/22 \\
 \texttt{um2\_fields.py} & the exact \(x_0\) reduction of the
 eight-dimensional Dirac equation (all blocks, general \(a_4\), \(b_4\),
 \(M(y)\), \(v(y)\)); boundary conditions; zero modes; tip mixing; the
@@ -999,6 +1000,25 @@ work}\label{corrections-made-during-the-work}}
   \(5\times10^{-10}\), the TT and EE agreements \(2.2\times10^{-4}\) and
   \(3.7\times10^{-4}\), and the restriction \(A = 0\) of the sourceless
   static block).
+\item
+  The kinetic term of the tip sigma field was first written with the
+  sign of the signature \((+,-,-,-)\); in the signature \((+,+,+,-)\) of
+  \(x_1, \dots, x_4\) it is
+  \(-\frac{v_\Sigma^2}{4}\mathrm{tr}((D_\mu\Sigma)^\dagger D^\mu\Sigma)\),
+  which gives the mass terms \(-\frac12m^2V_\mu V^\mu\) with \(m^2 > 0\)
+  (the computations always used \(m^2 > 0\)).
+\item
+  With the real matrices \(C\gamma^a\) antisymmetric,
+  \(\bar\Psi\gamma^a\Psi\) is anti-Hermitian; the portal currents are
+  now written as the Hermitian currents \(i\bar\Psi\gamma^M\Psi\) (I9,
+  I11) and the Standard-Model currents as \(i\bar\psi\gamma^M\psi\).
+\item
+  The block response to the hidden pressure of a Kohn-Sham state first
+  used \(p_0\) alone; the common block scale is driven by the
+  block-averaged pressure \(\bar p = (p_0 + 3p_t)/4\), and \(p_0 - p_t\)
+  drives a block-shape mode outside the order-0 metric (OPEN). The
+  linearised sourced equations were added (\texttt{um2\_background.py},
+  2 checks).
 \end{enumerate}
 
 \hypertarget{what-is-not-in-the-repository-and-why}{%
@@ -1049,9 +1069,14 @@ the commands
 rerun every computation in dependency order (each exits with code 0 if
 and only if all its checks pass) and rebuild the PDF documents from the
 Markdown sources (pandoc and a TeX Live installation with the
-\texttt{lmodern} package are needed for the last command). The document
-build is deterministic: no dates in the LaTeX sources, PDF dates and
-trailer identifiers suppressed, a fixed \texttt{SOURCE\_DATE\_EPOCH}.
+\texttt{lmodern} package are needed for the last command). A rerun from
+a fresh clone of the repository (2026-10-17) reproduced every stored
+number to a relative \(10^{-9}\) or better; quantities at the round-off
+level (\(10^{-14}\), e.g.~HOMO deviations) differ in their last digits
+because the threaded linear algebra does not sum in a fixed order. The
+document build is deterministic: no dates in the LaTeX sources, PDF
+dates and trailer identifiers suppressed, a fixed
+\texttt{SOURCE\_DATE\_EPOCH}.
 
 Software used: Python 3.13.16, sympy 1.14.0, numpy 2.5.3, scipy 1.18.1,
 mpmath 1.3.0, matplotlib 3.11.2, camb 2.0.5, pandoc 3.1.3, pdfTeX

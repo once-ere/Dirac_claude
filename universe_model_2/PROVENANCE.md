@@ -299,14 +299,14 @@ $W^\pm = (W^1 \mp iW^2)/\sqrt2$, with electric charges $+e$ ($W^+$) and $-e$ ($W
 
 ## The tip sigma field (INVENTED for this geometry; no Higgs particle)
 
-$$ S_{tip} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\Big[\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
+$$ S_{tip} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\Big[-\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
    - \big(\bar L\,\Sigma\,\Lambda_\ell\,\ell_R + \bar Q\,\Sigma\,\Lambda_q\,q_R + \text{h.c.}\big)\Big],\qquad \Sigma \in SU(2),$$
 $$ D_\mu\Sigma = \partial_\mu\Sigma - iW^a_\mu\frac{\tau^a}{2}\Sigma + iB_\mu\Sigma\frac{\tau^3}{2},\qquad \Sigma \to U_L\Sigma U_Y^\dagger,\quad U_Y = e^{i\theta\tau^3/2} .$$
 
 ## The portal interactions (INVENTED)
 
-$$ S_{I9} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\big[c_Z + c'_Z\varsigma\big](\bar\Psi\gamma^\mu P_+\Psi)\,\frac{iv_\Sigma^2}{2}\mathrm{tr}\big(\Sigma^\dagger D_\mu\Sigma\,\tau^3\big),\qquad P_+ = \frac{1 + \Gamma_4}{2},\quad \varsigma = \pm1,$$
-$$ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}(\bar\Psi\gamma^M\Psi)\sum_\psi q_\psi(\bar\psi\gamma_M\psi),$$
+$$ S_{I9} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\big[c_Z + c'_Z\varsigma\big](i\bar\Psi\gamma^\mu P_+\Psi)\,\frac{iv_\Sigma^2}{2}\mathrm{tr}\big(\Sigma^\dagger D_\mu\Sigma\,\tau^3\big),\qquad P_+ = \frac{1 + \Gamma_4}{2},\quad \varsigma = \pm1,$$
+$$ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^M\Psi)\sum_\psi q_\psi(i\bar\psi\gamma_M\psi),$$
 $$ S_{I12} = -\int d^8x\sqrt{\lvert g\rvert}\;\frac{\bar\Psi\Psi}{\Lambda_\star^3}\big[c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN}\big].$$
 Operators considered and rejected: a dipole portal $\bar\Psi S^{MN}\Psi B_{MN}$ (it would thermalise the sterile $\Psi_B$ fold
 band through the photon: too much dark radiation) and any operator coupling the neutral $\Psi$ to a single $W^+$ or
@@ -322,13 +322,13 @@ below 5 % of $m$ in the densest benchmark state); the extra-time coordinate volu
 
 All computations are Python scripts in the folder `universe_model_2/code`; each writes its numbers to
 `universe_model_2/outputs` and a report of named checks (name, verdict, detail) to `universe_model_2/reports`; no
-single run exceeds 423 s. In total 175 checks, none failed.
+single run exceeds 423 s. In total 177 checks, none failed.
 
 | script | what it computes | method | checks |
 | --- | --- | --- | --- |
 | `um2_algebra.py` | the author's gamma matrices rebuilt from the notebook formulas; $C$, $\Gamma$, $B$; Pin(4,4) irreducibility; the two inequivalent Spin(4,4) halves; the $2\times2$ block basis and the block forms of every matrix the reductions use | sympy, exact | 31/31 |
 | `um2_geometry.py` | Riemann tensor of $\bar g$ in two charts; Lovelock tensors by four routes (pairing formula, Ricci, explicit Gauss-Bonnet tensor, minisuperspace variation with a lapse); Bianchi identities; the record's equations; the static block; the canonical spin connection | sympy, exact | 25/25 |
-| `um2_background.py` | the class-form background equations; the static block; the stabiliser and its family; the radion; the dimensional reduction | sympy, exact; eigenvalues numerically | 20/20 |
+| `um2_background.py` | the class-form background equations; the static block; the stabiliser and its family; the radion; the linear response of the block to matter sources; the dimensional reduction | sympy, exact; eigenvalues numerically | 22/22 |
 | `um2_fields.py` | the exact $x_0$ reduction of the eight-dimensional Dirac equation (all blocks, general $a_4$, $b_4$, $M(y)$, $v(y)$); boundary conditions; zero modes; tip mixing; the gauge $x_0$ operator; gauge invariance of the tip terms | sympy and numpy | 15/15 |
 | `um2_spectra.py` | the $x_0$ spectra of gauge bosons and graviton; the $W$, $Z$ fit to $\rho_0$; the fermion masses as exact $x_0$ eigenvalues | mpmath root finding; quadratic finite elements with Richardson; ODE shooting | 13/13 |
 | `um2_ks_jobs.py` | Kohn-Sham: validation against the record (2/2), free spectrum (3/3), interacting ground states $N = 8$ (3/3) and $N = 592$ (4/4), dark-matter quanta (3/3), portal responses (5/5), block feedback (2/2) | Galerkin in the free basis, safeguarded Anderson self-consistency, Richardson in the basis size | 22/22 |
@@ -429,6 +429,14 @@ single run exceeds 423 s. In total 175 checks, none failed.
 11. Before publication every number of the documents was compared with the computed outputs; four statements were
     corrected (the dark-matter momentum $p\,fL = 1.89901$, the finite-element agreement $5\times10^{-10}$, the TT and EE
     agreements $2.2\times10^{-4}$ and $3.7\times10^{-4}$, and the restriction $A = 0$ of the sourceless static block).
+12. The kinetic term of the tip sigma field was first written with the sign of the signature $(+,-,-,-)$; in the
+    signature $(+,+,+,-)$ of $x_1, \dots, x_4$ it is $-\frac{v_\Sigma^2}{4}\mathrm{tr}((D_\mu\Sigma)^\dagger D^\mu\Sigma)$, which gives the
+    mass terms $-\frac12m^2V_\mu V^\mu$ with $m^2 > 0$ (the computations always used $m^2 > 0$).
+13. With the real matrices $C\gamma^a$ antisymmetric, $\bar\Psi\gamma^a\Psi$ is anti-Hermitian; the portal currents are now
+    written as the Hermitian currents $i\bar\Psi\gamma^M\Psi$ (I9, I11) and the Standard-Model currents as $i\bar\psi\gamma^M\psi$.
+14. The block response to the hidden pressure of a Kohn-Sham state first used $p_0$ alone; the common block scale is
+    driven by the block-averaged pressure $\bar p = (p_0 + 3p_t)/4$, and $p_0 - p_t$ drives a block-shape mode outside the
+    order-0 metric (OPEN). The linearised sourced equations were added (`um2_background.py`, 2 checks).
 
 ## What is not in the repository, and why
 
@@ -463,7 +471,9 @@ python universe_model_2/tools/build_docs.py
 ```
 rerun every computation in dependency order (each exits with code 0 if and only if all its checks pass) and rebuild
 the PDF documents from the Markdown sources (pandoc and a TeX Live installation with the `lmodern` package are needed
-for the last command). The document build is deterministic: no dates in the LaTeX sources, PDF dates and trailer
+for the last command). A rerun from a fresh clone of the repository (2026-10-17) reproduced every stored number to a
+relative $10^{-9}$ or better; quantities at the round-off level ($10^{-14}$, e.g. HOMO deviations) differ in their last
+digits because the threaded linear algebra does not sum in a fixed order. The document build is deterministic: no dates in the LaTeX sources, PDF dates and trailer
 identifiers suppressed, a fixed `SOURCE_DATE_EPOCH`.
 
 Software used: Python 3.13.16, sympy 1.14.0, numpy 2.5.3, scipy 1.18.1, mpmath 1.3.0, matplotlib 3.11.2, camb 2.0.5,

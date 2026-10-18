@@ -292,15 +292,15 @@ $g_s^2 = \hat g_s^2/V_\perp$.
 
 At the regular tip a non-linear sigma field $\Sigma(x) \in SU(2)$, $\Sigma^\dagger\Sigma = 1$, transforming as
 $\Sigma \to U_L\,\Sigma\,U_Y^\dagger$ with $U_Y = \exp(i\theta\tau^3/2)$, carries the electroweak symmetry breaking:
-$$ S_{tip} = \int_{y = -L} d^7x\,\sqrt{|g_{tip}|}\Big[\frac{v_\Sigma^2}{4}\,\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
+$$ S_{tip} = \int_{y = -L} d^7x\,\sqrt{|g_{tip}|}\Big[-\frac{v_\Sigma^2}{4}\,\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
    - \big(\bar L\,\Sigma\,\Lambda_\ell\,\ell_R + \bar Q\,\Sigma\,\Lambda_q\,q_R + \text{h.c.}\big)\Big], $$
 $$ D_\mu\Sigma = \partial_\mu\Sigma - iW^a_\mu\frac{\tau^a}{2}\Sigma + iB_\mu\,\Sigma\frac{\tau^3}{2},\qquad
    \ell_R = (\nu_R, e_R),\quad q_R = (u_R, d_R),\quad \Lambda_\ell = \mathrm{diag}(\lambda_\nu, \lambda_e),\quad \Lambda_q = \mathrm{diag}(\lambda_u, \lambda_d) .$$
 $\Sigma$ has no radial mode, so there is no Higgs particle; its three would-be Goldstone modes become the longitudinal
 $W^+$, $W^-$ and $Z$. Every term is $SU(2)_L\times U(1)_Y$ invariant (DERIVED with random group elements, deviation
 $4\times10^{-15}$). In the unitary gauge $\Sigma = 1$ the first term is
-$$ \frac{v_\Sigma^2}{8}\Big[\hat g^2\big((W^1_\mu)^2 + (W^2_\mu)^2\big) + (\hat g^2 + \hat g'^2) Z_\mu^2\Big]
-   = \frac{v_\Sigma^2}{8}\Big[2\hat g^2\,W^+_\mu W^{-\mu} + (\hat g^2 + \hat g'^2) Z_\mu Z^\mu\Big] ,$$
+$$ -\frac{v_\Sigma^2}{8}\Big[\hat g^2\big(W^1_\mu W^{1\mu} + W^2_\mu W^{2\mu}\big) + (\hat g^2 + \hat g'^2) Z_\mu Z^\mu\Big]
+   = -\frac{v_\Sigma^2}{8}\Big[2\hat g^2\,W^+_\mu W^{-\mu} + (\hat g^2 + \hat g'^2) Z_\mu Z^\mu\Big] ,$$
 which gives $W^+$ and $W^-$ one common mass (they are particle and antiparticle), the $Z$ a mass larger by
 $1/\cos\theta_W$ at leading order (custodial symmetry), and leaves the photon massless. The second term mixes the
 doublet and singlet zero modes at the tip and gives the fermions their masses (section 6.4).
@@ -311,7 +311,7 @@ $\Psi$ is a singlet of $SU(3)_c\times SU(2)_L\times U(1)_Y$, so it couples to th
 composite operators. UM-2 contains three of them.
 
 **I9: the chiral tip $Z$ portal.**
-$$ S_{I9} = \int_{y=-L} d^7x\,\sqrt{|g_{tip}|}\,\big[c_Z\,(\bar\Psi\gamma^\mu P_+\Psi) + c'_Z\,\varsigma\,(\bar\Psi\gamma^\mu P_+\Psi)\big]\,
+$$ S_{I9} = \int_{y=-L} d^7x\,\sqrt{|g_{tip}|}\,\big(c_Z + c'_Z\,\varsigma\big)\,(i\bar\Psi\gamma^\mu P_+\Psi)\,
    \frac{i v_\Sigma^2}{2}\mathrm{tr}\big(\Sigma^\dagger D_\mu\Sigma\,\tau^3\big),\qquad P_+ = \frac{1 + \Gamma_4}{2}, $$
 where $\varsigma = \pm1$ distinguishes the two sides of a tip (the end $z \to n\pi^+$ of one period and the end
 $z \to n\pi^-$ of the previous one). In the unitary gauge
@@ -320,7 +320,8 @@ operator couples $\Psi$ to the $Z$ and to nothing else ($c_Z$, $c'_Z$ have mass 
 tip, where $[v_\Sigma^2] = 5$; only the ratio $r$ below enters the results). Properties (DERIVED):
 
 * $P_+$ is a Hermitian projector that commutes with the 4D Lorentz generators and with $C\gamma^\mu$, so
-  $\bar\Psi\gamma^\mu P_+\Psi = (P_+\Psi)^\dagger C\gamma^\mu(P_+\Psi)$ is the four-vector current of the $\Gamma_4 = +1$ part;
+  $i\bar\Psi\gamma^\mu P_+\Psi = i(P_+\Psi)^\dagger C\gamma^\mu(P_+\Psi)$ is the (Hermitian) four-vector current of the $\Gamma_4 = +1$
+  part (with the real matrices $C\gamma^a$ antisymmetric, $\bar\Psi\gamma^a\Psi$ is anti-Hermitian and $i\bar\Psi\gamma^a\Psi$ Hermitian);
 * $\Gamma_4 = -B\gamma^{x_0}$, so $P_+ = (1 - B\gamma^{x_0})/2$: on $\Psi_A$ it is $(1 + \gamma^{x_0})/2$, on $\Psi_B$ it is
   $(1 - \gamma^{x_0})/2$, which annihilates $\Psi_B$ at the tip because every orbital satisfies the tip condition
   $(1 - \gamma^{x_0})\Psi = 0$. Hence **no tip operator reaches $\Psi_B$**: the $\Psi_B$ fold band and the $\Psi_B$ dark
@@ -333,7 +334,7 @@ The coupling is fixed by the $Z$ invisible width: the $Z$-coupling of the $\Psi_
 neutrino's ($r^2 = 0.992 \pm 0.004$; section 10).
 
 **I11: the vector contact portal.**
-$$ S_{I11} = \int d^8x\,\sqrt{|g|}\;\frac{c_V}{\Lambda_\star^{6}}\,(\bar\Psi\gamma^M\Psi)\sum_{\psi}q_\psi\,(\bar\psi\gamma_M\psi), $$
+$$ S_{I11} = \int d^8x\,\sqrt{|g|}\;\frac{c_V}{\Lambda_\star^{6}}\,(i\bar\Psi\gamma^M\Psi)\sum_{\psi}q_\psi\,(i\bar\psi\gamma_M\psi), $$
 summed over the multiplets with charges $q_\psi$ (each term is separately gauge invariant); $\Lambda_\star$ is the common
 scale of the two bulk portals I11 and I12, and $c_V$ is dimensionless ($[\bar\Psi\gamma^M\Psi] = [\bar\psi\gamma_M\psi] = 7$). It couples both halves of
 $\Psi$, including the fold bands, to the fermion currents. To keep the sterile $\Psi_B$ fold band out of thermal
@@ -363,12 +364,12 @@ I11).
 | 2 | gravity of every field | $g$ with all | $\sqrt{|g|}$, $g^{MN}$, $\Omega_M$ in each action | universal coupling; $\Psi$ through the canonical spin connection |
 | 3 | block stabiliser | $g$ | $-\sqrt{|g|}\rho_b(f)$ | static, stable block with attractive 4D gravity |
 | 4 | $\Psi$ self-interaction | $\Psi$ | $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ | Kohn-Sham mean fields $M_{eff}$, $v$ |
-| 5 | strong interaction | $G$, $u$, $d$ | $\bar q\gamma^M T^\alpha q\,G^\alpha_M$, $f^{\alpha\beta\gamma}GGG$, $GGGG$ | confinement, $p$ and $n$ |
-| 6 | electromagnetic interaction | $A$, $e$, $u$, $d$, $W^\pm$ | $eQ\bar\psi\gamma^M\psi A_M$; $W^+W^-\gamma$ (strength $e$) | CMB photons, recombination, Thomson drag |
-| 7 | weak charged current | $W^\pm$, $(\nu, e)$, $(u, d)$ | $\frac{g}{\sqrt2}(\bar\nu\gamma^MP_+e\,W^+_M + \bar u\gamma^MP_+d\,W^+_M + \text{h.c.})$ | $\beta$ decay, $n \leftrightarrow p$, neutrino decoupling |
-| 8 | weak neutral current | $Z$, all fermions | $\sqrt{g^2+g'^2}(T_3 - Q\sin^2\theta_W)\bar\psi\gamma^M\psi Z_M$ | neutrino and $\Psi_A$ decoupling |
+| 5 | strong interaction | $G$, $u$, $d$ | $-G^\alpha_M\,(i\bar q\gamma^M T^\alpha q)$, $f^{\alpha\beta\gamma}GGG$, $GGGG$ | confinement, $p$ and $n$ |
+| 6 | electromagnetic interaction | $A$, $e$, $u$, $d$, $W^\pm$ | $-eQ\,A_M\,(i\bar\psi\gamma^M\psi)$; $W^+W^-\gamma$ (strength $e$) | CMB photons, recombination, Thomson drag |
+| 7 | weak charged current | $W^\pm$, $(\nu, e)$, $(u, d)$ | $-\tfrac{g}{\sqrt2}W^+_M\,i\bar\nu\gamma^MP_+e$, $-\tfrac{g}{\sqrt2}W^+_M\,i\bar u\gamma^MP_+d$, and h.c. | $\beta$ decay, $n \leftrightarrow p$, neutrino decoupling |
+| 8 | weak neutral current | $Z$, all fermions | $-\sqrt{g^2+g'^2}\,Z_M$ $\times(T_3 - Q\sin^2\theta_W)\,i\bar\psi\gamma^M\psi$ | neutrino and $\Psi_A$ decoupling |
 | 9 | gauge self-interactions | $W^\pm$, $Z$, $\gamma$ | $W^+W^-Z$, $W^+W^-W^+W^-$, $W^+W^-\gamma\gamma$, $W^+W^-Z\gamma$, $W^+W^-ZZ$ | electroweak consistency |
-| 10 | $W^\pm$, $Z$ masses | $\Sigma$, $W$, $B$ | $\frac{v_\Sigma^2}{4}\mathrm{tr}(D\Sigma^\dagger D\Sigma)$ at the tip | $x_0$ profiles bent at the tip |
+| 10 | $W^\pm$, $Z$ masses | $\Sigma$, $W$, $B$ | $-\frac{v_\Sigma^2}{4}\mathrm{tr}(D\Sigma^\dagger D\Sigma)$ at the tip | $x_0$ profiles bent at the tip |
 | 11 | fermion masses | $\Sigma$, $L$, $\ell_R$, $Q$, $q_R$ | $\bar L\Sigma\Lambda_\ell\ell_R + \bar Q\Sigma\Lambda_q q_R$ at the tip | tip mixing of the chiral zero modes |
 | 12 | $\Psi_A$ - $Z$ | $\Psi_A$, $Z$ | I9 | $Z$ invisible width, $N_{eff}$, decay of heavy $\Psi_A$ |
 | 13 | $\Psi$ - fermion currents | $\Psi$, all fermions | I11 | bounded; Kohn-Sham response |
@@ -510,7 +511,19 @@ components coincide, so the source must be diagonal, independent of $x_0$ and bl
 $$ T^M{}_N = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t),\qquad p_0 = p_t. $$
 The three independent components are the $x_4$ constraint (first order in time derivatives), the 3-space component and
 the block component; the last two are linear in $(\dot A, \dot h)$. Their complete form follows from the pairing formula
-of section 5.1 with the sectional curvatures of section 4.1.
+of section 5.1 with the sectional curvatures of section 4.1. A source with $p_0 \ne p_t$ (the Kohn-Sham states of $\Psi$
+and the matter at the fold have it; the dark matter has $p_0/\rho = 0.772$, $p_t = 0$) acts on the common block scale
+$f$ through the block-averaged pressure $\bar p = (p_0 + 3p_t)/4$ (the variation of the action with respect to $f$),
+while $p_0 - p_t$ drives a block-shape mode that the order-0 metric does not contain (OPEN); for matter its size
+relative to the stabiliser is of order $(A/H)^2$, $10^{-92}$ today. Linearised about the static block of section 8.2 with
+block-averaged matter sources, the equations give (DERIVED)
+$$ \delta\dot A = J_{Ak}\,\delta k + s_{A3}\,\kappa\delta p_3 + s_{Ap}\,\kappa\delta\bar p,\qquad
+   \delta\dot h = J_{hk}\,\delta k + s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p,\qquad \delta\dot k = -2k_*\,\delta h ,$$
+$$ \delta\ddot k + \omega_r^2\,\delta k = -2k_*\big(s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p\big),\qquad \omega_r^2 = 2k_*J_{hk},$$
+with $J_{Ak} = \frac{1428 - 114\sqrt{51}}{2249}H^2 = 0.272956H^2$, $J_{hk} = \frac{4063 - 485\sqrt{51}}{2249}H^2 = 0.266522H^2$,
+$s_{A3} = \frac{2283}{4498} - \frac{162\sqrt{51}}{2249} = -0.006853$, $s_{Ap} = \frac{28\sqrt{51} - 114}{2249} = 0.038221$,
+$s_{h3} = \frac{21\sqrt{51}}{2249} - \frac{171}{4498} = 0.028666$, $s_{hp} = \frac{239\sqrt{51}}{6747} - \frac{485}{2249} = 0.037320$; a constant $\kappa\delta\bar p$ displaces the block by
+$\delta k = -0.140028\,\kappa\delta\bar p/H^2$ without accelerating 3-space.
 
 ## The static block and attractive gravity with the author's weights (DERIVED)
 
@@ -585,7 +598,8 @@ condensate) and I9 (the $Z$ charge at the tip, on $\Psi_A$ only). The energy-mom
 $$ \rho = \sum wgf\varepsilon\,n_o - e_{int},\quad p_3 = \sum wgf\,\tfrac{\kappa|k|}{3}t_o + e_{int},\quad p_t = e_{int},\quad
    p_0 = \sum wgf\big[(\varepsilon - v)n_o - M_{eff}s_o - \kappa|k|t_o\big] + e_{int} , $$
 with $n_o = P\chi^\dagger\chi$, $s_o = P\chi^\dagger j\sigma_2\chi$, $t_o = P\chi^\dagger j\sigma_3\chi$, $P = e^{-3Hy}/\mathrm{Vol}_7$ and
-$w = 1/2$, is the source of $\Psi$ in the gravitational equations; its hidden pressure $p_0$ pushes on the block.
+$w = 1/2$, is the source of $\Psi$ in the gravitational equations; its block-averaged pressure $(p_0 + 3p_t)/4$ pushes on
+the block (section 8.1).
 
 # Neutrinos, $\Psi_A$, the $Z$ invisible width, $N_{eff}$ and the CNB (DERIVED)
 
