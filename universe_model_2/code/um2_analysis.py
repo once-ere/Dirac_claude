@@ -278,6 +278,14 @@ def main():
     sens['G_N'] = -4.0 + 2 * kst * dG / Gst
     sens['alpha and the gauge couplings (1/V_perp)'] = -4.0
     out['sensitivities_dlnX_dlnf'] = sens
+    # the neutrino mass splittings measured by flavour conversion: d ln(m_j^2 - m_i^2)/d ln f = 2 (m_j^2 s_j - m_i^2 s_i)/(m_j^2 - m_i^2)
+    mnu = {n: F[n]['m_GeV'] for n in ('nu1', 'nu2', 'nu3')}
+    def dsplit(j, i):
+        return 2 * (mnu[j] ** 2 * sens['m_' + j] - mnu[i] ** 2 * sens['m_' + i]) / (mnu[j] ** 2 - mnu[i] ** 2)
+    out['neutrino_splitting_sensitivities'] = {'dln_dm2_21_dlnf': dsplit('nu2', 'nu1'), 'dln_dm2_31_dlnf': dsplit('nu3', 'nu1'),
+                                               'dln_dm2_32_dlnf': dsplit('nu3', 'nu2')}
+    # ESTIMATE: the light modes mix with the Kaluza-Klein excitations at relative order (m/m_KK)^2 (non-unitarity of the mixing matrices)
+    out['kk_mixing_estimate'] = {n: (F[n]['m_GeV'] / sc['m_KK_GeV']) ** 2 for n in FERMIONS}
     prim = read_json(os.path.join(OUT, 'primordial.json'))
     rep.check('A5_sensitivities', sens['m_e'] < -15 and -1.2 < sens['M_DM'] < 0,
               'd ln X/d ln f: KK -1, m_W %.3f, fermions %s (%s), M_DM %.3f, alpha and the gauge couplings -4, '
