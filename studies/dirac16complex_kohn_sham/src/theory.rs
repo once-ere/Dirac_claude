@@ -13,7 +13,9 @@
 //!   this crate derived (`blocks::expected_form`) for the labels
 //!   `(s, c1) = (J, -Im K1)` MEASURED on that basis.  The theory's own label
 //!   letters `(j, s2, s3)` are related to the measured ones and the relation
-//!   is recorded (the theory file labels its blocks by `j = -J`);
+//!   is recorded with a tolerance (`LABEL_TOLERANCE`; the measured labels are
+//!   +-1 only to round-off): the theory file labels its blocks by `j = -J`,
+//!   `s2 = -c1`, `s3 = -c2` (all eight blocks);
 //! * exchange: filled-shell ratio 1/8, the closed form `-(lambda/32)(n^2+S^2)`,
 //!   the kernel and the LDA potentials (string content);
 //! * the brane zero-mode splitting `d eps_0/dk` at `k = 0`: the theory's
@@ -36,6 +38,9 @@ use crate::Tolerances;
 
 pub const THEORY_PATH: &str = "artifacts/dirac16complex/kohn-sham/kohn-sham-theory.json";
 pub const EXCHANGE_TABLE_PATH: &str = "artifacts/dirac16complex/kohn-sham/exchange-table.json";
+/// Tolerance for relating the theory's exact block labels (+-1) to the labels
+/// measured on the normalised basis (equal to +-1 only to round-off, < 1e-14).
+pub const LABEL_TOLERANCE: f64 = 1.0e-12;
 
 /// One comparison item.
 #[derive(Clone, Debug)]
@@ -348,7 +353,7 @@ pub fn compare(path: &str, tolerances: Tolerances) -> Comparison {
                 // measured labels and forms
                 let yj = &transformed[9].1;
                 let mut form_defect: f64 = 0.0;
-                let mut relation_counts = [0i32; 4];
+                let mut relation_counts = [0i32; 6];
                 for b in 0..8 {
                     let s = yj.re[2 * b][2 * b];
                     let c1 = -yk1.im[2 * b][2 * b];
@@ -378,17 +383,28 @@ pub fn compare(path: &str, tolerances: Tolerances) -> Comparison {
                         .unwrap_or(f64::NAN)
                     };
                     let (j, s2, s3) = (their("j"), their("s2"), their("s3"));
-                    if j == -s {
+                    // The measured labels s, c1, c2 are diagonal entries of U^dagger X U with
+                    // U normalised by 1/sqrt(8): they equal +-1 only to round-off (the form
+                    // check below bounds the defect by 1e-14), so the theory's exact labels
+                    // are compared with a tolerance, never with ==.
+                    let same = |a: f64, b: f64| (a - b).abs() < LABEL_TOLERANCE;
+                    if same(j, -s) {
                         relation_counts[0] += 1;
                     }
-                    if j == s {
+                    if same(j, s) {
                         relation_counts[1] += 1;
                     }
-                    if s2 == c1 {
+                    if same(s2, c1) {
                         relation_counts[2] += 1;
                     }
-                    if s3 == c2 {
+                    if same(s2, -c1) {
                         relation_counts[3] += 1;
+                    }
+                    if same(s3, c2) {
+                        relation_counts[4] += 1;
+                    }
+                    if same(s3, -c2) {
+                        relation_counts[5] += 1;
                     }
                 }
                 out.item(
@@ -397,8 +413,13 @@ pub fn compare(path: &str, tolerances: Tolerances) -> Comparison {
                     format!("max |block - expected_form(J_measured, -Im K1_measured)| = {form_defect:e}"),
                 );
                 label_relation = format!(
-                    "blocks with theory j = -J_measured: {}, j = +J_measured: {}; s2 = -Im(K1) (our c1): {}; s3 = -Im(K2) (our c2): {}",
-                    relation_counts[0], relation_counts[1], relation_counts[2], relation_counts[3]
+                    "blocks with theory j = -J_measured: {}, j = +J_measured: {}; s2 = c1: {}, s2 = -c1: {}; s3 = c2: {}, s3 = -c2: {} (c1 = -Im K1_measured, c2 = -Im K2_measured)",
+                    relation_counts[0],
+                    relation_counts[1],
+                    relation_counts[2],
+                    relation_counts[3],
+                    relation_counts[4],
+                    relation_counts[5]
                 );
             }
         }
@@ -646,6 +667,39 @@ mod tests {
         for item in &check.items {
             println!("{}: {}", item.name, item.detail);
             assert!(item.passed, "{}: {}", item.name, item.detail);
+        }
+    }
+
+    #[test]
+    fn label_relation_relates_every_block() {
+        // The committed theory file labels its eight blocks exactly; the labels measured
+        // on its normalised basis carry round-off.  Before the tolerance comparison every
+        // count of the note was 0 (exact == on floating-point labels).
+        let path = format!("../../{THEORY_PATH}");
+        if fs::metadata(&path).is_err() {
+            return;
+        }
+        let comparison = compare(&path, crate::shooting::DEFAULT_TOLERANCES);
+        let note = comparison
+            .notes
+            .iter()
+            .find(|(key, _)| key == "labelRelation")
+            .map(|(_, value)| value.clone())
+            .expect("labelRelation note present");
+        println!("{note}");
+        // the six counts are the numbers after the six colons
+        let counts: Vec<i32> = note
+            .split(':')
+            .skip(1)
+            .filter_map(|part| part.trim().split([',', ';', ' ']).next())
+            .filter_map(|word| word.trim().parse::<i32>().ok())
+            .collect();
+        assert_eq!(counts.len(), 6, "{note}");
+        // for each label letter every block satisfies exactly one of the two relations,
+        // and one relation holds for all eight blocks
+        for pair in counts.chunks(2) {
+            assert_eq!(pair[0] + pair[1], 8, "{note}");
+            assert!(pair[0] == 8 || pair[1] == 8, "{note}");
         }
     }
 

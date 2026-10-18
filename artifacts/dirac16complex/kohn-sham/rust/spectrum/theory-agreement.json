@@ -65,6 +65,6 @@
     }
   },
   "notes": {
-    "labelRelation": "blocks with theory j = -J_measured: 0, j = +J_measured: 0; s2 = -Im(K1) (our c1): 0; s3 = -Im(K2) (our c2): 0"
+    "labelRelation": "blocks with theory j = -J_measured: 8, j = +J_measured: 0; s2 = c1: 0, s2 = -c1: 8; s3 = c2: 0, s3 = -c2: 8 (c1 = -Im K1_measured, c2 = -Im K2_measured)"
   }
 }

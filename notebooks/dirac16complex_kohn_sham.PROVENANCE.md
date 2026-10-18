@@ -160,7 +160,7 @@ The 15 files of the `spectrum` re-run (written into `build/notebook-kohn-sham/sp
 | `geometry.json` | `8c1357007a865d02f1fa0b6c4275e1a7cfa5ae910e54a2f408819994a6bd2eba` | 2100 |
 | `reduction.json` | `3d2081f6a12db3bba46788e748405fb9736b34ac6b5dedb7b612a7c7a1da2b9e` | 63894 |
 | `summary.json` | `52d4eb13142740b90ad7aad1c2868748501291ecd9c103149ecc1dadb95c5091` | 8197 |
-| `theory-agreement.json` | `42b47ef64141d57b96bdb2e23f66db34ce6a3e7c5a2d03f86c3d33cf20016448` | 2636 |
+| `theory-agreement.json` | `7fc2bf0b294835a9e98c7ee9a68099830d4a5069c2682b36e16bf1575be66f35` | 2679 |
 | `uniform-gas-table.csv` | `a70ea9fe71405d74d00b21f9bd0f5d4ff7d2a8ec4484d058b3a711ff0e4e0561` | 3918 |
 
 ### 2.5 Complete list of the input files read (SHA-256)
@@ -556,7 +556,7 @@ c9d4b01371ca748bbeda5b06402cc3c8b7bf1f884de992cfb43d15b776f3c7d8  artifacts/dira
 8c1357007a865d02f1fa0b6c4275e1a7cfa5ae910e54a2f408819994a6bd2eba  artifacts/dirac16complex/kohn-sham/rust/spectrum/geometry.json
 3d2081f6a12db3bba46788e748405fb9736b34ac6b5dedb7b612a7c7a1da2b9e  artifacts/dirac16complex/kohn-sham/rust/spectrum/reduction.json
 52d4eb13142740b90ad7aad1c2868748501291ecd9c103149ecc1dadb95c5091  artifacts/dirac16complex/kohn-sham/rust/spectrum/summary.json
-42b47ef64141d57b96bdb2e23f66db34ce6a3e7c5a2d03f86c3d33cf20016448  artifacts/dirac16complex/kohn-sham/rust/spectrum/theory-agreement.json
+7fc2bf0b294835a9e98c7ee9a68099830d4a5069c2682b36e16bf1575be66f35  artifacts/dirac16complex/kohn-sham/rust/spectrum/theory-agreement.json
 a70ea9fe71405d74d00b21f9bd0f5d4ff7d2a8ec4484d058b3a711ff0e4e0561  artifacts/dirac16complex/kohn-sham/rust/spectrum/uniform-gas-table.csv
 70c5e3059ccb2f87c423ca4e0b215e67fe3d049c382c072fec3fa5114d499e16  artifacts/dirac16complex/kohn-sham/rust/thermo/m1_L3_N112_lam0_T0/levels.csv
 87ffc9ef64fcb83dcde7063a8d36daeb360df0d4a484bd80195f4f0eeff6c922  artifacts/dirac16complex/kohn-sham/rust/thermo/m1_L3_N112_lam0_T0/profiles.csv
