@@ -15,7 +15,7 @@ Binding documents: `STAGE4_SPEC.md`, `CONTRACT.md` (with errata),
 ```
 cd studies/dirac16complex_kohn_sham
 cargo build --release
-cargo test --release          # 46 unit tests (35 Stage 4, 11 Stage 5), 2 ignored timing probes
+cargo test --release          # 48 unit tests (36 Stage 4, 12 Stage 5), 2 ignored timing probes
 cargo clippy --release --all-targets && cargo fmt --check
 cd ../..                      # run from the repository root (relative artifact paths)
 ./studies/dirac16complex_kohn_sham/target/release/dirac16complex_kohn_sham print-config
@@ -320,8 +320,15 @@ per-run sign lists) and reproduces the `spectrum` tree of 6e7d2a93 byte for
 byte (15 files).  `excited` was produced by the final build (SHA-256
 3bbc395a...), which adds the occupation-floor particle-hole rule, the
 parameter blocks of the excited records and the 601-point refinement run;
-its other excited outputs are byte-identical to those of 6e7d2a93.  The
-Stage-4 gate reproduces every subcommand with the final build.  The repeat
+its other excited outputs are byte-identical to those of 6e7d2a93.  Two
+later source changes (2026-10-18) leave every other output unchanged: the
+tolerance comparison of the block labels in `theory.rs`, which regenerated
+`spectrum/theory-agreement.json` (note `labelRelation`; the other 14
+spectrum files reproduced byte for byte), and the corrected `print-config`
+line `T = 0 fallback` (it had named the reference solver's smearings 1e-4 m,
+1e-3 m instead of this crate's continuation with 1e-3 m, 1e-2 m;
+`print-config` writes no output file).  The Stage-4 gate reproduces every
+subcommand with the final build.  The repeat
 and refined trees were produced the same way (the same build per
 subcommand), so the byte comparison of `determinism-report.json` compares
 like with like.  Temporary diagnostic examples used during development are
