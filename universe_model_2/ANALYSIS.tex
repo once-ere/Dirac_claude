@@ -143,14 +143,16 @@ fermion masses instead of four, the neutrino masses and mixing as
 that are never thermalised.
 
 Symbols with more than one use: \(\xi = y/L\) is the scaled hidden
-coordinate (primes denote \(d/d\xi\), except \(G'(k) = dG/dk\)), \(t\)
-the cosmic time in the bounds on varying constants;
-\(\Lambda = (m\,fL)^2\) is a dimensionless eigenvalue of an \(x_0\)
-operator, while in the formula for the four-dimensional cosmological
-term \(\Lambda_4\) the symbol \(\Lambda = -10H^2\) is the
-eight-dimensional cosmological constant; \(\Lambda_\star\) is the scale
-of the effective interactions; \(k\) is the momentum of a mode along
-\(x_1, x_2, x_3\) in \(h_j\) and in
+coordinate (primes denote \(d/d\xi\), except \(G'(k) = dG/dk\)); dots
+denote \(d/dx_4\), and \(h = \dot f/f\) is the rate of change of the
+block scale (\(h_\nu\), with a subscript, the comoving heating of the
+neutrinos); \(H = 14.296\) TeV is the eight-dimensional scale and
+\(H_0\) the Hubble constant; \(\Lambda = (m\,fL)^2\) is a dimensionless
+eigenvalue of an \(x_0\) operator, while in the formula for the
+four-dimensional cosmological term \(\Lambda_4\) the symbol
+\(\Lambda = -10H^2\) is the eight-dimensional cosmological constant;
+\(\Lambda_\star\) is the scale of the effective interactions; \(k\) is
+the momentum of a mode along \(x_1, x_2, x_3\) in \(h_j\) and in
 \(\varepsilon = e^{-a_4}\lvert k\rvert\), and the block variable
 \(1/f^2\) in \(k_*\), \(G(k)\) and \(\Lambda_4\); \(\rho\) is an energy
 density (\(\rho_0\) the electroweak parameter) and \(\varrho\) a
@@ -168,10 +170,21 @@ of the condensate); \(a\) is the scale factor (\(a = e^{a_4}\)), while
 \(a_L\), \(a_R\), \(b_L\), \(b_R\) are spinor components at the tip;
 \(e\) is the eigenvalue \(\varepsilon fL\) of a fermion, the electron
 and the elementary charge; \(\mu\) is a bulk mass (\(\mu_L\), \(\mu_Q\),
-\(\mu_R\)) and the muon; \(i, j = 1, 2, 3\) label generations and
-neutrino mass states, \(\alpha \in \{e, \mu, \tau\}\) flavours; \(U\) is
-the PMNS and \(V\) the CKM matrix; \(\kappa\) (\(\kappa_\nu\),
-\(\kappa_e\), \(\kappa_u\), \(\kappa_d\), \(\kappa_f\)) a tip matrix.
+\(\mu_R\)), \(\mu_N\) the dark-matter-nucleon reduced mass and \(\mu\)
+the muon; \(i, j = 1, 2, 3\) label generations and neutrino mass states,
+\(\alpha \in \{e, \mu, \tau\}\) flavours (\(\alpha\) is also the
+fine-structure constant, \(\alpha_s\) the strong coupling); \(U\) is the
+PMNS and \(V\) the CKM matrix; \(\kappa\) (\(\kappa_\nu\), \(\kappa_e\),
+\(\kappa_u\), \(\kappa_d\), \(\kappa_f\)) a tip matrix; \(G(k)\) is the
+gravity factor of the block, \(G_N\) Newton's constant and \(G_g\),
+\(G_W\), \(G_B\) the four-dimensional couplings of the dark matter to
+gluons, \(W\) and \(B\) fields (\(G\) without a subscript their
+combination, \(G^\alpha\) the gluon field); \(F\) is a field strength,
+\(F_h\) the decoupling factor of \(\Delta N_{eff}\); \(g\) is the
+degeneracy of a momentum shell in the Kohn-Sham sums or the number of
+internal states of a particle, \(g_*\) and \(g_s\) the effective numbers
+of relativistic degrees of freedom (energy, entropy), \(g_i\) the gauge
+couplings.
 
 \textbf{Summary of the verdicts.}
 
@@ -209,11 +222,14 @@ Do the extra times deflate to irrelevance? & IN THE PRIMORDIAL ERA, then
 FROZEN: they deflate by up to a factor 2.9 into the stabilised block; a
 continuing deflation is excluded because every mass and coupling depends
 on the block size \\
-Is dirac16complex dark matter? & CONDITIONALLY YES: the lightest odd
-quanta of its two halves \(\Psi_A\) and \(\Psi_B\) (two degenerate Dirac
-fermions of 44.35 TeV, cold, neutral, stable) are a viable candidate
-whose relic abundance fixes one portal scale; the massless fold bands
-are never thermalised and are not dark matter \\
+Is dirac16complex dark matter? & A CANDIDATE WITHOUT A RELIC MECHANISM:
+the lightest odd quanta of its two halves \(\Psi_A\) and \(\Psi_B\) (two
+degenerate Dirac fermions of 44.35 TeV) are cold, neutral and stable
+(DERIVED, conditional), but their only annihilation channel, the
+gauge-kinetic portal I12, cannot produce the relic abundance within
+perturbative unitarity (the freeze-out requirement exceeds the \(^3P_0\)
+bound 3.5 times): the relic is OPEN; the massless fold bands are never
+thermalised and are not dark matter \\
 Is dirac16complex dark energy? & NOT SUPPORTED: no positive-energy state
 has \(w < 0\); a negative-coupling condensate runs away; the dark energy
 of UM-2 is a tuned four-dimensional cosmological term \\
@@ -268,11 +284,17 @@ With \(\xi = y/L\):
 \item
   \textbf{Fermions} (three generations):
   \(h_j = j[-\frac{i}{f}\sigma_1\partial_y + \mu\sigma_2 + e^{-a_4}k\sigma_3]\)
-  (\(k\) the momentum) with the chiral boundary conditions; the doublet
-  zero mode (\(c_L = f\mu_LL > 0\)) and the singlet zero mode
-  (\(c_R = f\mu_RL < 0\)) reach the tip with
-  \((a_L, b_L) = (C_L - c_Ls_L, -s_Le)\) and
-  \((a_R, b_R) = (s_Re, C_R + c_Rs_R)\), \(s = \sinh w/w\),
+  (\(k\) the momentum along \(x_1\)) with the chiral boundary
+  conditions. With \(c = f\mu L\), \(e = \varepsilon fL\) and \(k = 0\),
+  the components \((a, b)\) of a block \(j = +1\) obey
+  \[ a' = c\,a - e\,b,\qquad b' = e\,a - c\,b ;\] the fold condition is
+  \(b(0) = 0\) for a doublet (\(c_L = f\mu_LL > 0\)) and \(a(0) = 0\)
+  for a singlet (\(c_R = f\mu_RL < 0\)), whose solutions
+  \((a_L, b_L) = (\cosh w\xi + (c_L/w)\sinh w\xi,\ (e/w)\sinh w\xi)\)
+  and
+  \((a_R, b_R) = (-(e/w)\sinh w\xi,\ \cosh w\xi - (c_R/w)\sinh w\xi)\)
+  reach the tip \(\xi = -1\) with \((a_L, b_L) = (C_L - c_Ls_L, -s_Le)\)
+  and \((a_R, b_R) = (s_Re, C_R + c_Rs_R)\), \(s = \sinh w/w\),
   \(C = \cosh w\), \(w = \sqrt{c^2 - e^2}\). The tip conditions
   \(b_L = \kappa b_R\), \(a_R = -\kappa^\dagger a_L\) (vectors over the
   generations, \(\kappa\) the \(3\times3\) tip matrix of a sector) give
@@ -284,7 +306,9 @@ With \(\xi = y/L\):
   and the left-handed mixing matrix of the sector is \(\kappa\) itself
   (\(\kappa_\nu = U_{PMNS}\), \(\kappa_e = 1\), \(\kappa_u = 1\),
   \(\kappa_d = V_{CKM}\); the roots of the \(3\times3\) determinant
-  agree with the one-generation roots to \(3.0\times10^{-42}\)).
+  agree with the one-generation roots, both refined in the same 50-digit
+  computation, to \(3.0\times10^{-42}\); the stored masses agree with
+  them to \(4.5\times10^{-11}\)).
 \item
   \textbf{dirac16complex}: \(h_j\) with \(M = m\), fold
   \(\chi_2(0) = 0\) (even) or \(\chi_1(0) = 0\) (odd), tip
@@ -406,10 +430,14 @@ otherwise: the first even Kaluza-Klein mode,
 \(\Psi\) violates it (\(\langle p^2\rangle\Delta\xi^2 = 0.097\),
 \(\varrho(\text{tip}) = 0.489\)) and satisfies the relation with the tip
 term. Computed for every class of particle (DERIVED; the sum rules
-reproduce the eigenvalues to \(1.0\times10^{-8}\), the dark matter to
-\(1.2\times10^{-11}\); the relation with the tip term, a theorem, holds
-for every tabulated state, with the smallest margin \(0.057\) for the
-\(\Psi\) fold band):
+reproduce the boson eigenvalues \((m\,fL)^2\) to \(1.0\times10^{-8}\) in
+absolute value, the discretisation error of the finite-element profiles
+--- relative \(7.8\times10^{-4}\) for \(W^\pm\) and \(6.0\times10^{-4}\)
+for \(Z\), whose eigenvalues are only \(1.3\) and \(1.7\times10^{-5}\),
+and below \(3\times10^{-11}\) for the excitations --- and the dark
+matter to \(1.2\times10^{-11}\) relative; the relation with the tip
+term, a theorem, holds for every tabulated state, with the smallest
+margin \(0.057\) for the \(\Psi\) fold band):
 
 Bosons (the warp term is \(9\eta^2/4 = 20.25\) for every mode):
 
@@ -761,13 +789,15 @@ Given the masses and \(U\), flavour conversion follows from the
 four-dimensional effective theory: a neutrino produced with flavour
 \(\alpha\) is
 \(\lvert\nu_\alpha\rangle = \sum_iU^*_{\alpha i}\lvert\nu_i\rangle\) and
-evolves with
-\(i\,d\psi/dt = [U\,\mathrm{diag}(m_i^2)U^\dagger/(2E) + \mathrm{diag}(V_{CC}, 0, 0)]\psi\),
-\(V_{CC} = \sqrt2G_Fn_e\). The oscillation phases
-\(\Delta m^2_{ij}L/(4E)\) are differences of squared \(x_0\)
-eigenvalues, so oscillation experiments measure the \(x_0\) spectrum
-directly. They are the quantities of UM-2 most sensitive to the block
-scale (DERIVED, from
+its flavour amplitudes \(\psi = (\psi_e, \psi_\mu, \psi_\tau)\) evolve
+along the path with
+\[ i\,\frac{d\psi}{dx_4} = \Big[\frac{U\,\mathrm{diag}(m_1^2, m_2^2, m_3^2)\,U^\dagger}{2E} + \mathrm{diag}(V_{CC}, 0, 0)\Big]\psi,\qquad V_{CC} = \sqrt2G_Fn_e \]
+(\(E\) the energy, \(n_e\) the electron density; the neutral-current
+potential is common to the three flavours and drops out). The
+oscillation phases \(\Delta m^2_{ij}L/(4E)\) are differences of squared
+\(x_0\) eigenvalues, so oscillation experiments measure the \(x_0\)
+spectrum directly. They are the quantities of UM-2 most sensitive to the
+block scale (DERIVED, from
 \(d\ln(m_j^2 - m_i^2)/d\ln f = 2(m_j^2s_j - m_i^2s_i)/(m_j^2 - m_i^2)\)
 with \(s_i = d\ln m_i/d\ln f\)):
 \[ \frac{d\ln\Delta m^2_{21}}{d\ln f} = -77.5,\qquad \frac{d\ln\Delta m^2_{31}}{d\ln f} = -74.0,\qquad \frac{d\ln\Delta m^2_{32}}{d\ln f} = -73.9 .\]
@@ -819,22 +849,25 @@ block into the stabilised one at rates up to \(\lvert h\rvert = 2.63H\)
 (in the stored runs), deflating by up to \(f(k_c)/f_* = 2.917\), after
 which the block oscillates about \(f_*\) (the radion) and stays frozen.
 A continuing deflation today is excluded (ESTIMATE, bounds FROM MEMORY):
-the atomic-clock bound \(\lvert d\ln\alpha/dt\rvert < 10^{-17}\)/yr
-(\(t\) the cosmic time) and \(d\ln\alpha/d\ln f = -4\) require
-\(\lvert h\rvert < 2.5\times10^{-18}\)/yr \(= 3.6\times10^{-8}H_0\);
-lunar ranging (\(\lvert d\ln G/dt\rvert < 10^{-13}\)/yr,
+since \(d\ln X/dx_4 = (d\ln X/d\ln f)\,h\), the atomic-clock bound
+\(\lvert d\ln\alpha/dx_4\rvert < 10^{-17}\)/yr (\(x_4\) the time) and
+\(d\ln\alpha/d\ln f = -4\) require
+\(\lvert h\rvert < 2.5\times10^{-18}\)/yr \(= 3.6\times10^{-8}H_0\)
+(\(H_0 = 6.90\times10^{-11}\)/yr); lunar ranging
+(\(\lvert d\ln G_N/dx_4\rvert < 10^{-13}\)/yr,
 \(d\ln G_N/d\ln f = +2.05\)) requires
 \(\lvert h\rvert < 4.9\times10^{-14}\)/yr \(= 7.1\times10^{-4}H_0\); a
-block deflating at the Hubble rate would change the electron mass by
-\(1.4\times10^{-9}\) per year. The extra times are irrelevant at low
-energies not because they keep deflating but because they are small (the
-proper half cell \(f_*L = 3f_*/H = 8.9\times10^{-21}\) m, Kaluza-Klein
-masses above 100 TeV) and frozen. The price is the stabiliser (ASSUMED,
-origin OPEN) and the radion left over from the deflation (ESTIMATE: a
-Planck-suppressed decay \(\Gamma = C_r\,m_r^3/(4\pi\bar M_{Pl}^2)\),
-with the reduced Planck mass \(\bar M_{Pl} = 2.435\times10^{18}\) GeV
-and an order-one coupling factor \(C_r\), gives the lifetime
-\(0.43\,\text{s}/C_r\) and the reheating temperature
+block deflating at the Hubble rate (\(\lvert h\rvert = H_0\)) would
+change the electron mass by \(20.5H_0 = 1.4\times10^{-9}\) per year. The
+extra times are irrelevant at low energies not because they keep
+deflating but because they are small (the proper half cell
+\(f_*L = 3f_*/H = 8.9\times10^{-21}\) m, Kaluza-Klein masses above 100
+TeV) and frozen. The price is the stabiliser (ASSUMED, origin OPEN) and
+the radion left over from the deflation (ESTIMATE: a Planck-suppressed
+decay \(\Gamma = C_r\,m_r^3/(4\pi\bar M_{Pl}^2)\), with the reduced
+Planck mass \(\bar M_{Pl} = 2.435\times10^{18}\) GeV and an order-one
+coupling factor \(C_r\), gives the lifetime \(0.43\,\text{s}/C_r\) and
+the reheating temperature
 \(T_{RH} = (90/(\pi^2g_*))^{1/4}\sqrt{\Gamma\bar M_{Pl}} = 1.85\sqrt{C_r}\)
 MeV, \(g_* = 10.75\), below the 4.7 MeV that nucleosynthesis needs
 unless \(C_r > 6.5\): a moduli problem, OPEN).
@@ -891,7 +924,8 @@ lightest odd state of each half:
   (\(\tan(p\,fL) = -p/m\), \(m = H\)), degenerate (the same orbital in
   all eight blocks);
 \item
-  cold: \(w = p_3/\rho = 0\) for quanta at rest (Kohn-Sham, DERIVED;
+  cold: \(w = p_3/\rho = 0\) for quanta at rest (Kohn-Sham, DERIVED with
+  the equations of the section on dark energy below;
   \(2.8\times10^{-5}\) with the benchmark self-coupling);
 \item
   electrically neutral (gauge singlets), with no \(Z\) coupling;
@@ -927,19 +961,38 @@ radiation-dominated Universe, Dirac fermion, \(g_* = 105.75\) at
 a Higgs particle; the right-handed neutrinos and the fold bands are
 never thermalised) requires (DERIVED)
 \[ x_f = \ln\Big[0.038\,c(c+2)\,g\,M_{Pl}M\langle\sigma v\rangle/\sqrt{g_*x_f}\Big] = 30.38,\qquad \Omega h^2 = \frac{2\times1.07\times10^9\,\text{GeV}^{-1}\,x_f}{\sqrt{g_*}\,M_{Pl}\,3b/x_f} = 0.060\ \text{per species},\]
-(\(\langle\sigma v\rangle = 6b/x\), \(c = 1/2\), \(g = 2\),
+(\(\langle\sigma v\rangle = 6b/x\),
+\(b = (M_{DM}^4/\pi)(8G_g^2 + 3G_W^2 + G_B^2)\), \(c = 1/2\), \(g = 2\),
 \(M_{Pl} = 1.22091\times10^{19}\) GeV), i.e.
-\[ \langle\sigma v\rangle(x_f) = 2.01\times10^{-25}\ \text{cm}^3/\text{s per species},\qquad (8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (15.5\ \text{TeV})^{-3},\]
-\(87\) \% of the s-wave thermal unitarity estimate
-\((4\pi/M_{DM}^2)\sqrt{x_f/\pi} = 2.32\times10^{-25}\) cm\(^3\)/s (an
-s-wave estimate applied to a p-wave process; a single species carrying
-all the dark matter would need \((17.6\ \text{TeV})^{-3}\)). The portal
-scale is therefore below the dark-matter mass: the effective description
-is at its edge (a dedicated ultraviolet completion of I12 is OPEN). The
-relic value also assumes that the radion oscillation left over from the
-deflation, which redshifts like dust, does not dominate and dilute the
-Universe after freeze-out: it is conditional on the solution of the
-moduli problem.
+\[ \langle\sigma v\rangle(x_f) = 2.01\times10^{-25}\ \text{cm}^3/\text{s per species},\qquad G \equiv (8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (15.5\ \text{TeV})^{-3}\]
+(a single species carrying all the dark matter would need
+\((17.6\ \text{TeV})^{-3}\) with the same \(g_*\)).
+
+\textbf{Unitarity} (DERIVED). The operator
+\(\bar\chi\chi F_{\mu\nu}F^{\mu\nu}\) annihilates a fermion pair only
+from the state with \(J = 0\) and positive parity, \(^3P_0\).
+Partial-wave unitarity bounds the inelastic cross-section from one
+\(J = 0\) state by \(\pi/p^2\); averaged over the four spin states of an
+unpolarised Dirac pair, of which one is \(^3P_0\),
+\[ \sigma \le \frac{\pi}{4p^2},\qquad p = \frac{M_{DM}v}{2}\ (v \ll 1),\qquad \sigma v \le \frac{\pi}{M_{DM}^2v}, \]
+\[ \Big\langle\frac{\pi}{M_{DM}^2v}\Big\rangle = \frac{\sqrt{\pi x}}{M_{DM}^2} = 5.79\times10^{-26}\ \text{cm}^3/\text{s at } x_f = 30.38 ,\]
+the thermal average over the relative velocity with
+\(f(v) \propto v^2e^{-xv^2/4}\) (checked by numerical averaging). The
+freeze-out requirement exceeds the bound 3.47 times, and the effective
+cross-section \(G^2M_{DM}^4v^2/\pi\) at the relic strength exceeds it
+for \(v > v_c = (\pi/(GM_{DM}^3))^{2/3} = 0.263\), i.e.~for 79 \% of the
+pairs at freeze-out. Version 1 compared the requirement with
+\((4\pi/M_{DM}^2)\sqrt{x_f/\pi} = 2.32\times10^{-25}\) cm\(^3\)/s, the
+bound of a single helicity channel without the spin average and the
+restriction to \(^3P_0\), four times too large. The gauge-kinetic portal
+I12 therefore cannot produce the relic abundance within perturbative
+unitarity: the relic abundance of the dark matter of UM-2 is OPEN. It
+needs an additional annihilation channel (an s-wave operator, which
+unitarity bounds by \(3\pi/(4p^2)\) from its \(J = 1\) states) or a
+non-thermal origin. Any relic value would also depend on the radion
+oscillation left over from the deflation, which redshifts like dust: if
+it dominated the Universe until it decayed, it would dilute the dark
+matter after freeze-out (the moduli problem).
 
 \hypertarget{detection}{%
 \subsection{Detection}\label{detection}}
@@ -947,17 +1000,21 @@ moduli problem.
 \begin{itemize}
 \tightlist
 \item
-  Direct (ESTIMATE): even if the whole annihilation went into gluons,
-  the trace-anomaly coupling
-  \(f_N = G_g\frac{8\pi}{9\alpha_s}m_Nf_{TG}\) gives
-  \(\sigma_{SI} = \mu_N^2f_N^2/\pi = 6.3\times10^{-53}\) cm\(^2\)
-  (\(\mu_N\) the reduced mass) for each half (the two halves have the
-  same cross-section and together the full local density, so the limit
-  applies as for one species), eight orders below the LZ limit
-  extrapolated to 44 TeV (\(2.4\times10^{-45}\) cm\(^2\)): the limit
-  would allow a gluon coupling whose square is \(3.9\times10^7\) times
-  the relic requirement. The electroweak channels have no tree-level
-  nucleon coupling.
+  Direct (ESTIMATE): even if the whole coupling were in gluons
+  (\(G_g = G/\sqrt8\)), the trace anomaly
+  \(\langle N\vert G^\alpha_{\mu\nu}G^{\alpha\mu\nu}\vert N\rangle = -\frac{8\pi}{9\alpha_s}m_Nf_{TG}\)
+  gives the nucleon coupling and cross-section
+  \[ f_N = G_g\,\frac{8\pi}{9\alpha_s}\,m_Nf_{TG},\qquad \sigma_{SI} = \frac{\mu_N^2f_N^2}{\pi} = 6.3\times10^{-53}\ \text{cm}^2 \]
+  (\(f_{TG} = 0.92\), \(\alpha_s = 0.3\) at a low scale, \(m_N = 0.939\)
+  GeV, \(\mu_N\) the dark-matter-nucleon reduced mass; FROM MEMORY) for
+  each half (the two halves have the same cross-section and together the
+  full local density, so the limit applies as for one species), eight
+  orders below the LZ limit extrapolated linearly in the mass from
+  \(2.2\times10^{-48}\) cm\(^2\) at 40 GeV to 44 TeV
+  (\(2.4\times10^{-45}\) cm\(^2\)): the limit would allow a gluon
+  coupling whose square is \(3.9\times10^7\) times the relic
+  requirement. The electroweak channels have no tree-level nucleon
+  coupling.
 \item
   Indirect: the annihilation is p-wave, \(\propto v^2 \sim 10^{-6}\) in
   galaxies today, so present-day annihilation signals are suppressed by
@@ -980,33 +1037,41 @@ vector portal I11 is set to zero in the benchmark (\(c_V = 0\)). They
 are therefore not part of the radiation: the CNB consists of the three
 neutrino mass states only, and \(N_{eff} = 3.0432\). Had one half's fold
 band (two Weyl species) been thermalised, it would add (DERIVED)
-\[ \Delta N_{eff} = n_W\Big(\frac{10.75}{g_s}\Big)^{4/3}F,\qquad n_W = 2,\quad F = 1.0095 ,\]
-(\(g_s\) the entropy degrees of freedom at its decoupling, \(F\) the
-correction for the heating of the neutrinos by \(e^+e^-\) annihilation
-that an earlier-decoupled species does not receive), i.e.~\(0.0958\) for
-a decoupling above the electroweak scale (\(g_s = 105.75\)) and
-\(0.1963\) just above the QCD crossover (\(g_s = 61.75\)); at fixed
-Planck parameters these change the CMB temperature spectrum by up to
-\(1.5\) \% and \(3.1\) \% for \(30 \le \ell \le 2500\), and put
-\(N_{eff}\) \(2.1\) and \(2.9\) standard deviations above the ACT DR6
-value \(2.86 \pm 0.13\). Whether the fold bands are produced
-gravitationally during the primordial deflation is OPEN.
+\[ \Delta N_{eff} = n_W\Big(\frac{10.75}{g_s}\Big)^{4/3}F_h,\qquad n_W = 2,\qquad F_h = \Big[\frac{T_\nu}{T_\gamma}\Big(\frac{11}{4}\Big)^{1/3}\Big/(1 + h_\nu)\Big]^4 = 1.0095 ,\]
+(\(g_s\) the entropy degrees of freedom at its decoupling; \(F_h\)
+corrects for the heating of the neutrinos by \(e^+e^-\) annihilation
+that an earlier-decoupled species does not receive, with the computed
+neutrino-to-photon temperature ratio \(T_\nu/T_\gamma = 0.71664\) and
+the comoving heating \(h_\nu = 0.00165\) of one common neutrino
+temperature), i.e.~\(0.0958\) for a decoupling above the electroweak
+scale (\(g_s = 105.75\)) and \(0.1963\) just above the QCD crossover
+(\(g_s = 61.75\)); at fixed Planck parameters these change the CMB
+temperature spectrum by up to \(1.5\) \% and \(3.1\) \% for
+\(30 \le \ell \le 2500\), and put \(N_{eff}\) \(2.1\) and \(2.9\)
+standard deviations above the ACT DR6 value \(2.86 \pm 0.13\). Whether
+the fold bands are produced gravitationally during the primordial
+deflation is OPEN.
 
 \hypertarget{assessment}{%
 \subsection{Assessment}\label{assessment}}
 
-The association of dirac16complex with dark matter is valid in UM-2
-under stated conditions: (i) the good sector (no extra-time momenta;
-outside it the halves mix and modes are tachyonic, OPEN); (ii) the exact
-fold parity of both halves, which UM-2 secures by containing no oriented
-tip operator (\(P_+\Psi_B = 0\) at the tip even protects \(\Psi_B\)
-against any chiral tip current); (iii) a gauge-kinetic portal I12 with
-coefficients set by the relic abundance; (iv) fold bands that never
-thermalise (\(c_V\) small enough, no dipole portal, no significant
-gravitational production); (v) no late dilution by the radion (the
-moduli problem). It is the heavy odd part of the field, not the field as
-a whole, that is dark matter; the field's massless fold bands, if
-populated, would be radiation.
+The association of dirac16complex with dark matter is valid in UM-2 for
+the candidate but incomplete for its abundance. The candidate's
+properties are derived under stated conditions: (i) the good sector (no
+extra-time momenta; outside it the halves mix and modes are tachyonic,
+OPEN); (ii) the exact fold parity of both halves, which UM-2 secures by
+containing no oriented tip operator (\(P_+\Psi_B = 0\) at the tip even
+protects \(\Psi_B\) against any chiral tip current); (iii) fold bands
+that never thermalise (\(c_V\) small enough, no dipole portal, no
+significant gravitational production). Its abundance is not: (iv) the
+gauge-kinetic portal I12, the only annihilation channel of UM-2 version
+2, would need a cross-section 3.5 times above the \(^3P_0\) unitarity
+bound, so the relic needs an additional annihilation channel or a
+non-thermal origin (OPEN); and (v) any relic value requires that the
+radion not dilute the Universe late (the moduli problem). It is the
+heavy odd part of the field, not the field as a whole, that could be
+dark matter; the field's massless fold bands, if populated, would be
+radiation.
 
 \hypertarget{dirac16complex-as-dark-energy}{%
 \section{dirac16complex as dark
@@ -1016,10 +1081,28 @@ energy}\label{dirac16complex-as-dark-energy}}
 \subsection{No positive-energy state accelerates
 (DERIVED)}\label{no-positive-energy-state-accelerates-derived}}
 
-On the static block every computed Kohn-Sham state of \(\Psi\) has
-\(w = \int p_3/\int\rho \ge 0\): dark matter \(0\) (\(2.8\times10^{-5}\)
-with \(\lambda_B\)), fold-band gas \(1/3\) (\(0.3312\) with
-\(+\lambda_B\), \(0.3354\) with \(-\lambda_B\)).
+The many-body states of \(\Psi\) on the static block (units \(H = 1\),
+\(a_4 = 0\), \(f = f_*\)) are described by Kohn-Sham orbitals
+\(\chi_o\),
+\[ h_j\chi_o = \varepsilon_o\chi_o,\qquad h_j = j\Big[-\frac if\sigma_1\partial_y + M_{eff}\sigma_2 + e^{-a_4}k\sigma_3\Big] + v,\qquad
+   M_{eff} = m + \frac{15}{16}\lambda S + \frac{\langle\mathcal F\rangle}{\Lambda_\star^3},\qquad v = -\frac{\lambda}{16}n + v_{I11}, \]
+\[ n = \sum_owgf_on_o,\quad S = \sum_owgf_os_o,\quad n_o = P\chi_o^\dagger\chi_o,\quad s_o = P\chi_o^\dagger j\sigma_2\chi_o,\quad t_o = P\chi_o^\dagger j\sigma_3\chi_o,\quad P = \frac{e^{-3Hy}}{\mathrm{Vol}_7}, \]
+\[ \rho = \sum_owgf_o\varepsilon_on_o - e_{int},\qquad p_3 = \sum_owgf_o\frac{e^{-a_4}\lvert k\rvert}{3}t_o + e_{int},\qquad e_{int} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2 ,\]
+with the fold conditions \(\chi_2(0) = 0\) (even) or \(\chi_1(0) = 0\)
+(odd) and the tip condition \(\chi_2(-L) = 0\); \(w = 1/2\) per fold
+parity, \(g = 4r_3(\lvert\vec n\rvert^2)\) the degeneracy of the
+momentum shell \(\vec k = \Delta k\,\vec n\) (\(\Delta k = 0.25\),
+\(r_3\) the number of representations as a sum of three squares),
+occupations \(f_o\),
+\(\mathrm{Vol}_7 = (2\pi/\Delta k)^3f_*^4 = 34.27\); \(\lambda\) is the
+contact self-coupling (\(\lambda_B = 7\times10^{-5}H^{-6}\) the
+benchmark), \(\langle\mathcal F\rangle/\Lambda_\star^3\) the mean field
+of I12 and \(v_{I11}\) that of I11 (both zero for the states below).
+Every computed state has \(w = \int p_3/\int\rho \ge 0\) (integrals
+\(2\mathrm{Vol}_7\int e^{3Hy}(\cdot)\,dy\)): eight dark-matter quanta at
+rest \(0\) (\(2.8\times10^{-5}\) with \(\lambda_B\)); the fold-band gas
+of 592 quanta \(1/3\) (\(0.3312\) with \(+\lambda_B\), \(0.3354\) with
+\(-\lambda_B\)).
 
 \hypertarget{the-condensate-runs-away-derived}{%
 \subsection{The condensate runs away
@@ -1129,9 +1212,10 @@ conflicts}\label{conditions-open-problems-and-conflicts}}
   \textbf{Open}: the origin of the stabiliser; the extra-time modes; the
   closed time-like curves implied by compact extra times; the radion
   moduli problem; the block-shape mode driven by \(p_0 - p_t\); the
-  ultraviolet completion of I12; the gravitational production of the
-  fold bands; the origin of the tip matrices (the mixing angles); the
-  cosmological-constant problem.
+  relic abundance of the dark matter (the freeze-out requirement of I12
+  exceeds the \(^3P_0\) unitarity bound 3.5 times); the gravitational
+  production of the fold bands; the origin of the tip matrices (the
+  mixing angles); the cosmological-constant problem.
 \item
   \textbf{Conflicts with data inherent in the order}: no Higgs boson
   (one is observed), and perturbative unitarity of \(W^+W^-\) scattering

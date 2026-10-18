@@ -17,7 +17,9 @@ document is self-contained: every equation it mentions is written here.
 
 Version 2 (2026-10-18) contains three generations of quarks and leptons and three neutrino flavours with their mixing and
 their flavour conversion, ordered by the author on 2026-10-18; it removes the chiral tip $Z$ portal of version 1. What
-changed, and why, is listed in the section on corrections (item 21).
+changed, and why, is listed in the section on corrections (item 21); the independent review of version 2 and its fixes,
+among them the finding that the relic abundance of the dark matter cannot be produced by the gauge-kinetic portal within
+perturbative unitarity, are item 22.
 
 Labels used throughout:
 
@@ -49,7 +51,16 @@ $w$ an equation-of-state parameter in the supernova fits; $\sigma$ is the radion
 an uncertainty or a Pauli matrix; $i, j = 1, 2, 3$ label generations and neutrino mass states and $\alpha \in \{e, \mu, \tau\}$ flavours;
 $U$ is the PMNS and $V$ the CKM matrix (a matter potential carries a subscript, $V_{CC}$); $\kappa$ ($\kappa_\nu$, $\kappa_e$, $\kappa_u$, $\kappa_d$,
 $\kappa_f$) is a tip matrix; $e$ is the eigenvalue $\varepsilon fL$ of a fermion, the electron and the elementary charge; $\mu$ is a bulk
-mass and the muon, and $\mu = \sqrt2G_Fn_{\nu_e}$ (no subscript) the unit of the neutrino self-interaction in the supernova analysis.
+mass and the muon, $\mu_N$ the dark-matter-nucleon reduced mass, and $\mu = \sqrt2G_Fn_{\nu_e}$ (no subscript) the unit of the neutrino
+self-interaction in the supernova analysis. The time is always $x_4$ (dots denote $d/dx_4$), and the symmetry axis of the fast-flavour
+analysis is $x_3$; $A = \dot a_4$ and $h = \dot f/f$ are the expansion rates of 3-space and of the block ($h_\nu$, with a subscript, the comoving
+heating of the neutrinos); $H$ is the author's constant, except in the neutrino-decoupling equations, where $H = \sqrt{8\pi\rho/3}/M_{Pl}$ is
+the Hubble rate ($H_0$ the Hubble constant today); $F(T_1, T_2)$ is the energy-transfer kernel of the decoupling equations, $F_h$ the
+decoupling factor of $\Delta N_{eff}$ and $F_{\mu\nu}$ a field strength; $G(k)$ is the Einstein-Hilbert coefficient of the block, $G(u)$ the
+electron-lepton-number distribution of the fast-flavour analysis with its moments $J_n$, $I_n$ and $\Lambda^\mu$ (upper index), and $G_N$, $G_F$,
+$G_g$, $G_W$, $G_B$ are couplings; $\eta = HL = 3$ is the depth of the cell and $\eta^{\mu\nu} = \mathrm{diag}(1, -1)$ the flat metric on $(x_4, x_3)$
+in the dispersion relation; $\alpha$ is a flavour index, the fine-structure constant and, in the fast-flavour analysis, the density
+ratio $n_{\bar\nu_e}/n_{\nu_e}$ ($\alpha_s$ the strong coupling).
 
 # The orders
 
@@ -249,7 +260,12 @@ listed in item 21 of the corrections.
 
 # Standard physics and measured values (STANDARD)
 
-Every measured value enters UM-2 only as the target of a fit or as a comparison, never as a derived result.
+Every measured value enters UM-2 in one of three roles, never as a derived result: as the target of a fit (the $W^\pm$ and $Z$
+masses with $\rho_0$, the twelve fermion masses, the two neutrino splittings with the chosen $m_1$, and $\Omega_ch^2$ for the freeze-out
+requirement), as a direct input (the angles and phases of the PMNS and CKM matrices, $G_F$, the $\overline{MS}$ value of $\sin^2\theta_W$ in the
+$Z$ widths, $\alpha_s$, $\alpha$, $T_0$, the Planck 2018 parameters of the cosmology, the effective couplings and kernel factors of the decoupling
+equations, the matter densities and the supernova parameters), or as a comparison (the $Z$ widths, $N_\nu$, $N_{eff}$, the BAO, the
+explosion statistics, the supernova dark-energy fits, the LZ limit).
 
 | input | value used | source | status |
 | --- | --- | --- | --- |
@@ -315,8 +331,9 @@ confinement of the quarks into hadrons (protons and neutrons); the PMNS and CKM 
 $$ U = \begin{pmatrix} c_{12}c_{13} & s_{12}c_{13} & s_{13}e^{-i\delta}\\ -s_{12}c_{23} - c_{12}s_{23}s_{13}e^{i\delta} & c_{12}c_{23} - s_{12}s_{23}s_{13}e^{i\delta} & s_{23}c_{13}\\
    s_{12}s_{23} - c_{12}c_{23}s_{13}e^{i\delta} & -c_{12}s_{23} - s_{12}c_{23}s_{13}e^{i\delta} & c_{23}c_{13}\end{pmatrix} $$
 ($s_{ij} = \sin\theta_{ij}$, $c_{ij} = \cos\theta_{ij}$; the CKM matrix $V$ has the same form) with the Jarlskog invariant
-$J = c_{12}s_{12}c_{23}s_{23}c_{13}^2s_{13}\sin\delta$; the flavour evolution $i\,d\psi/dt = [U\,\mathrm{diag}(m_i^2)U^\dagger/(2E) + \mathrm{diag}(V_{CC}, 0, 0)]\psi$ with
-$V_{CC} = \sqrt2G_Fn_e$ (Wolfenstein, Mikheyev and Smirnov); the tree-level $Z$ partial width
+$J = c_{12}s_{12}c_{23}s_{23}c_{13}^2s_{13}\sin\delta$; the flavour evolution of the amplitudes $\psi = (\psi_e, \psi_\mu, \psi_\tau)$ of a neutrino of energy $E$
+along its path, $i\,d\psi/dx_4 = [U\,\mathrm{diag}(m_1^2, m_2^2, m_3^2)U^\dagger/(2E) + \mathrm{diag}(V_{CC}, 0, 0)]\psi$ with $V_{CC} = \sqrt2G_Fn_e$
+(Wolfenstein, Mikheyev and Smirnov; antineutrinos $U \to U^*$, $V_{CC} \to -V_{CC}$); the tree-level $Z$ partial width
 $\Gamma(Z\to f\bar f) = N_c\,G_Fm_Z^3(g_V^2 + g_A^2)/(6\sqrt2\pi)$, $g_V = T_3 - 2Q\sin^2\theta_W$ (with the $\overline{MS}$ value
 $\sin^2\theta_W = 0.23122$), $g_A = T_3$; the radiative decay $\mathrm{BR}(\mu\to e\gamma) = \frac{3\alpha}{32\pi}\lvert\sum_iU^*_{\mu i}U_{ei}m_i^2/m_W^2\rvert^2$ for Dirac
 neutrinos; the freeze-out of a relic (Kolb and Turner); the trace-anomaly nucleon matrix element; the Einstein-Boltzmann
@@ -352,8 +369,9 @@ The family $p_0 = p_t = \nu\rho_b$, $\rho_b \propto f^{-4(1+\nu)}$, was also com
 $$ S_{gauge} = -\frac14\int d^8x\sqrt{\lvert g\rvert}\,g^{MP}g^{NQ}\Big(\frac{1}{\hat g_s^2}G^\alpha_{MN}G^\alpha_{PQ} + \frac{1}{\hat g^2}W^a_{MN}W^a_{PQ} + \frac{1}{\hat g'^2}B_{MN}B_{PQ}\Big),$$
 $$ S_f = \sum_{i=1}^3\sum_\psi\int d^8x\sqrt{\lvert g\rvert}\Big[\tfrac12\big(\bar\psi_i\gamma^MD_M\psi_i - (D_M\bar\psi_i)\gamma^M\psi_i\big) - \mu_{\psi i}\bar\psi_i\psi_i\Big],$$
 $$ D_M = \partial_M + \Omega_M - iG^\alpha_MT^\alpha - iW^a_M\frac{\tau^a}{2} - iYB_M ,$$
-for three generations $Q_i = (u_i, d_i)_L$, $u_{Ri}$, $d_{Ri}$, $L_i = (\nu_i, \ell_i)_L$, $\ell_{Ri}$, $\nu_{Ri}$ ($u_i = u, c, t$; $d_i = d, s, b$; $\ell_i = e, \mu, \tau$;
-hypercharges $1/6, 2/3, -1/3, -1/2, -1, 0$), each a 16-component spinor of the same Clifford algebra times its gauge indices,
+for three generations $i = 1, 2, 3$ of $Q_i$ ($(u, d)_L$, $(c, s)_L$, $(t, b)_L$), $u_{Ri}$ ($u_R$, $c_R$, $t_R$), $d_{Ri}$ ($d_R$, $s_R$, $b_R$), $L_i$
+($(\nu_e, e)_L$, $(\nu_\mu, \mu)_L$, $(\nu_\tau, \tau)_L$, the neutrinos here the weak partners, not the mass states $\nu_1, \nu_2, \nu_3$), $e_{Ri}$ ($e_R$, $\mu_R$, $\tau_R$) and
+$\nu_{Ri}$ (hypercharges $1/6, 2/3, -1/3, -1/2, -1, 0$), each a 16-component spinor of the same Clifford algebra times its gauge indices,
 with one doublet bulk mass per sector ($\mu_{Li} = \mu_L$, $\mu_{Qi} = \mu_Q$; ASSUMED). With the selection projector
 $$ P_{sel} = \frac{1 + \Gamma_4\gamma^{x_0}}{2}\,\frac{1 - i\gamma^{x_5}\gamma^{x_6}}{2},\qquad \Gamma_4 = i\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}\gamma^{x_4}, $$
 the conditions at the fold and the tip are, for doublets ($\mu_\psi > 0$),
@@ -366,8 +384,9 @@ $W^\pm = (W^1 \mp iW^2)/\sqrt2$, with electric charges $+e$ ($W^+$) and $-e$ ($W
 $$ S_{tip} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\Big[-\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
    - \sum_{i,j=1}^3\big(\bar L_i\,\Sigma\,(\Lambda_\ell)_{ij}\,\ell_{Rj} + \bar Q_i\,\Sigma\,(\Lambda_q)_{ij}\,q_{Rj} + \text{h.c.}\big)\Big],\qquad \Sigma \in SU(2),$$
 $$ D_\mu\Sigma = \partial_\mu\Sigma - iW^a_\mu\frac{\tau^a}{2}\Sigma + iB_\mu\Sigma\frac{\tau^3}{2},\qquad \Sigma \to U_L\Sigma U_Y^\dagger,\quad U_Y = e^{i\theta\tau^3/2} ,$$
-with $\ell_R = (\nu_R, \ell_R)$, $q_R = (u_R, d_R)$ arranged as $SU(2)_R$-type doublets and $\Lambda_\ell = \mathrm{diag}(\Lambda_\nu, \Lambda_e)$,
-$\Lambda_q = \mathrm{diag}(\Lambda_u, \Lambda_d)$ complex $3\times3$ generation matrices. On the zero modes they become the tip conditions
+with the singlets arranged as $SU(2)_R$-type doublets $\ell_{Rj} = (\nu_{Rj}, e_{Rj})$, $q_{Rj} = (u_{Rj}, d_{Rj})$ and
+$(\Lambda_\ell)_{ij} = \mathrm{diag}((\lambda_\nu)_{ij}, (\lambda_e)_{ij})$, $(\Lambda_q)_{ij} = \mathrm{diag}((\lambda_u)_{ij}, (\lambda_d)_{ij})$ with four complex $3\times3$ tip coupling
+matrices $\lambda_\nu$, $\lambda_e$, $\lambda_u$, $\lambda_d$ (the upper component of $\Sigma^\dagger L_i$ couples to $\nu_R$, the lower one to $e_R$). On the zero modes they become the tip conditions
 $b_L = \kappa b_R$, $a_R = -\kappa^\dagger a_L$ with the tip matrices (ASSUMED values)
 $$ \kappa_\nu = U_{PMNS},\qquad \kappa_e = 1,\qquad \kappa_u = 1,\qquad \kappa_d = V_{CKM} .$$
 
@@ -433,7 +452,7 @@ All computations are Python scripts in the folder `universe_model_2/code`; each 
 | $Z$ widths | invisible $497.7$ MeV (measured $499.1$), total $2422.3$ MeV tree level, $2485.2$ MeV with $1 + \alpha_s/\pi$ (measured $2495.5$); $R_\ell = 20.83$ (measured $20.77$) | `um2_electroweak.py` |
 | primordial era | separatrix $k_c = 2.6983, 2.5991, 2.5301$; deflation factor up to $2.9166$; radion $3.3868H$ measured | `um2_primordial.py` |
 | cosmology | UM-2: $H_0 = 67.37$ km/s/Mpc, $\Omega_m = 0.3151$, $r_{drag} = 147.109$ Mpc, BAO $\chi^2 = 31.72$ (13 points; $\Lambda$CDM $32.55$), TT/EE within $2.8\times10^{-4}$ of $\Lambda$CDM | `um2_cosmology.py` |
-| relic | two species, $x_f = 30.38$, $g_* = 105.75$, $\langle\sigma v\rangle = 2.01\times10^{-25}$ cm$^3$/s per species, $(8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (15.5\ \text{TeV})^{-3}$ | `um2_analysis.py` |
+| relic | two species, $x_f = 30.38$, $g_* = 105.75$, required $\langle\sigma v\rangle = 2.01\times10^{-25}$ cm$^3$/s per species, $(8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (15.5\ \text{TeV})^{-3}$; the $^3P_0$ unitarity bound $\sqrt{\pi x_f}/M^2 = 5.79\times10^{-26}$ cm$^3$/s is exceeded 3.47 times ($v_c = 0.263$, 79 % of the pairs above it): relic OPEN | `um2_analysis.py` |
 | direct detection | $\sigma_{SI} = 6.3\times10^{-53}$ cm$^2$ (gluon-only) against $2.4\times10^{-45}$ cm$^2$ | `um2_analysis.py` |
 | dark energy | condensate tuned to $w_0 = -1$: $w_a = -6$, energy zero at $z = 0.260$; vacuum-energy ratio $5.5\times10^{64}$; $(H_0/H)^2 = 1.0\times10^{-92}$ | `um2_analysis.py` |
 | uncertainty relation | $m/m_H$: first KK $7.49$, first odd $6.47$, dark matter $2.29$, $W^\pm$ $1.14\times10^{-3}$, $Z$ $1.29\times10^{-3}$, top quark $3.2\times10^{-3}$, electron $5.5\times10^{-9}$, $\nu_1$ $1.1\times10^{-17}$; $\langle p^2\rangle\Delta\xi^2$: photon zero mode $0.497$, $\Psi$ fold zero mode $0.097$ ($\varrho(\text{tip}) = 0.489$); $\sqrt{\langle p^2\rangle}\Delta\xi \ge (1 - \varrho(\text{tip}))/2$ for every tabulated state | `um2_analysis.py` |
@@ -446,6 +465,14 @@ All computations are Python scripts in the folder `universe_model_2/code`; each 
 
 * **Exact checks.** Symbolic identities are verified with sympy by simplifying the difference to zero; matrix identities
   entry by entry.
+* **Curvature and Lovelock tensors.** For the order-0 metric the Riemann tensor is pair-diagonal, $R^{ab}{}_{cd} = 0$ unless
+  $\{a, b\} = \{c, d\}$, with the sectional curvatures $K_{ab} = R^{ab}{}_{ab}$ ($i, j \in \{1, 2, 3\}$; $B, B' \in \{0, 5, 6, 7\}$; $A = \dot a_4$, $h = \dot f/f$, $k = 1/f^2$)
+  $$ K_{ij} = A^2,\quad K_{i4} = A^2 + \dot A,\quad K_{iB} = A h,\quad K_{4B} = h^2 + \dot h,\quad K_{BB'} = h^2 - H^2 k, $$
+  and the Lovelock densities and tensors follow from the pairing formula
+  $$ \mathcal L_{(k)} = 2^k k! \sum_{\text{k disjoint pairs}}\ \prod_{\text{pairs}} K_{ab}, \qquad
+     E_{(k)}{}^h{}_h = -2^{k-1} k!\!\!\sum_{\text{k disjoint pairs avoiding } h}\ \prod_{\text{pairs}} K_{ab}, $$
+  checked against the Einstein tensor from the Ricci tensor ($k = 1$), the explicit Gauss-Bonnet tensor ($k = 2$), the Bianchi identity
+  $\nabla_ME_{(k)}{}^M{}_N = 0$ and the Euler-Lagrange equations of the action with a lapse ($k = 1, 2, 3$).
 * **Boson eigenvalues.** With $\xi = y/L$, $u = e^{-3\eta\xi/2}\tilde u$, $q^2 = \Lambda - 9\eta^2/4$, the operator
   $-e^{-3\eta\xi}(e^{3\eta\xi}u')' = \Lambda u$ with $u'(0) = 0$ (even) or $u(0) = 0$ (odd) and $u'(-1) = \beta u(-1)$ has the
   eigenvalue conditions
@@ -466,22 +493,74 @@ All computations are Python scripts in the folder `universe_model_2/code`; each 
   50 digits and whose roots are found by the Illinois (modified regula falsi) method in a $\pm2$ % bracket around the one-generation
   roots; the null vectors (right singular vectors of the smallest singular value) are compared with the columns of $\kappa$. For a non-unitary random tip matrix the masses are compared with the singular values of
   $\zeta(c_L)\,\kappa\,\mathrm{diag}(\zeta(-c_{Ri}))$.
-* **Flavour evolution.** $S = e^{-i\mathcal HL}$ by diagonalisation of the Hermitian $\mathcal H$ for constant density; the ordered product of
-  layer operators (20000 and 40000 layers) through the Sun, followed by the incoherent sum $P_{ee} = \sum_i\lvert U_{ei}\rvert^2P(\nu_i)$; the
-  exact 1-3 resonance from $\lvert U^m_{e3}\rvert^2 = 1/2$ by Brent's method.
-* **Neutrino decoupling.** The temperature equations of Escudero with the energy-transfer kernel
-  $F(T_1, T_2) = 32f_a(T_1^9 - T_2^9) + 56f_sT_1^4T_2^4(T_1 - T_2)$ and the QED pressure
-  $P_2 = -\frac{e^2T^2}{12\pi^2}J_1 - \frac{e^2}{8\pi^4}J_1^2 + \frac{e^2m_e^2}{16\pi^4}J_2$, $P_3 = \frac{e^3T}{12\pi^4}I^{3/2}$, with
-  $J_1 = \int dp\,(p^2/E)n_D$, $J_2 = \iint dp\,dq\,\frac{pq}{E_pE_q}\ln\lvert\frac{p+q}{p-q}\rvert n_D(p)n_D(q)$, $I = \int dp\,\frac{p^2 + E^2}{E}n_D$,
-  $n_D = 2/(e^{E/T} + 1)$; Gauss-Legendre panels, the logarithmic singularity of $J_2$ removed by $q = p(1 - s^2)$; LSODA from 20 MeV to
-  5 keV (relative tolerance $10^{-11}$); $N_{eff} = (11/4)^{4/3}[(T_{\nu_e}/T_\gamma)^4 + 2(T_{\nu_\mu}/T_\gamma)^4]$.
-* **Fast flavour instability.** The dispersion relation $\det\Pi = 0$, $\Pi^{\mu\nu} = \eta^{\mu\nu} + \int du/2\,G\,v^\mu v^\nu/(\omega - ku)$, solved for real $k$
-  by vectorised Newton iterations with the analytic derivative from a grid of complex starting points; cross-checks against the
-  analytic growth $\frac12\sqrt{4I_1^2 - (I_0 + I_2)^2}$ of the mode $K = \Lambda^3$ and the eigenvalues of the discretised homogeneous equations
-  (300 nodes).
-* **Kohn-Sham.** Orbitals of $h_j$ are expanded in the exact eigenfunctions of the free problem of each sector
+* **Flavour evolution.** With $\mathcal H = U\,\mathrm{diag}(m_1^2, m_2^2, m_3^2)\,U^\dagger/(2E) + \mathrm{diag}(V_{CC}, 0, 0)$, $S = e^{-i\mathcal HL}$ by diagonalisation of the
+  Hermitian $\mathcal H$ for constant density and $P(\nu_\alpha\to\nu_\beta) = \lvert S_{\beta\alpha}\rvert^2$; the ordered product of layer operators (20000 and
+  40000 layers) through the Sun with $n_e(r) = N_A\min(245\,e^{-10.54\,r/R_\odot}, 100)$ cm$^{-3}$, followed by the incoherent sum
+  $P_{ee} = \sum_i\lvert U_{ei}\rvert^2P(\nu_i)$, compared with the adiabatic formula
+  $$ P_{ee} = c_{13}^4\Big(\frac12 + \frac12\cos2\theta_{12}\cos2\theta^m_{12}(r_0)\Big) + s_{13}^4,$$
+  $$ \cos2\theta^m_{12} = \frac{\cos2\theta_{12} - A}{\sqrt{(\cos2\theta_{12} - A)^2 + \sin^22\theta_{12}}},\qquad A = \frac{2EV_{CC}(r_0)c_{13}^2}{\Delta m^2_{21}} $$
+  ($r_0$ the production radius); the 1-3 resonance condition $2EV_{CC} = \Delta m^2_{ee}\cos2\theta_{13}$, $\Delta m^2_{ee} = c_{12}^2\Delta m^2_{31} + s_{12}^2\Delta m^2_{32}$,
+  against the exact three-flavour resonance $\lvert U^m_{e3}\rvert^2 = 1/2$ found by Brent's method; the onset of oscillations in the early Universe
+  where the thermal potential of the $e^\pm$ plasma,
+  $$ V_e - V_\mu = -\frac{8\sqrt2\,G_Fp}{3m_W^2}\,\frac{7\pi^2}{60}T^4 , $$
+  falls below $\Delta m^2\cos2\theta/(2p)$ at the mean momentum $p = 3.15T$.
+* **Supernovae.** In the envelope $\rho(r) = 10^4\,(10^9\,\text{cm}/r)^3$ g/cm$^3$, $Y_e = 0.5$, a two-flavour resonance ($\Delta m^2_{31}$, $\theta_{13}$ for H;
+  $\Delta m^2_{21}$, $\theta_{12}$ for L) lies at $n_e = \Delta m^2\cos2\theta/(2\sqrt2\,G_FE)$, where $d\ln n_e/dr = -3/r$; its adiabaticity and jump probability are
+  $$ \gamma = \frac{\Delta m^2\sin^22\theta}{2E\cos2\theta\,\lvert d\ln n_e/dr\rvert},\qquad P_{LZ} = e^{-\pi\gamma/2} ;$$
+  with both resonances adiabatic (normal ordering) a $\nu_e$ leaves the star as $\nu_3$, $P(\nu_e\to\nu_e) = \lvert U_{e3}\rvert^2$, and an $\bar\nu_e$ as $\bar\nu_1$,
+  $\bar P(\bar\nu_e\to\bar\nu_e) = \lvert U_{e1}\rvert^2$; the observed mean energies are
+  $\langle E\rangle_{\nu_e} = [PN_e\langle E\rangle_e + (1 - P)N_x\langle E\rangle_x]/[PN_e + (1 - P)N_x]$ (and the same with $\bar P$, $N_{\bar e}$, $\langle E\rangle_{\bar e}$ for $\bar\nu_e$) with
+  $N \propto L/\langle E\rangle$; the schematic charged-current heating $q \propto N_e\langle E^2\rangle_e + N_{\bar e}\langle E^2\rangle_{\bar e}$, $\langle E^2\rangle = \frac54\langle E\rangle^2$, becomes
+  $q' = \frac13(N_e\langle E^2\rangle_e + 2N_x\langle E^2\rangle_x) + \frac13(N_{\bar e}\langle E^2\rangle_{\bar e} + 2N_x\langle E^2\rangle_x)$ under three-flavour equipartition and
+  $q'' = (1 - \Delta/N_e)N_e\langle E^2\rangle_e + (1 - \Delta/N_{\bar e})N_{\bar e}\langle E^2\rangle_{\bar e}$, $\Delta = \frac23(N_{\bar e} - N_x)$, under pair conversion.
+* **Neutrino decoupling.** The temperature equations of Escudero (MeV units; $H = \sqrt{8\pi\rho/3}/M_{Pl}$ the Hubble rate of the total density,
+  $M_{Pl} = 1.22091\times10^{19}$ GeV)
+  $$ \frac{dT_\gamma}{dx_4} = -\frac{4H\rho_\gamma + 3H(\rho_e + p_e) + 3HT_\gamma\frac{dP_{int}}{dT_\gamma} + \frac{\delta\rho_{\nu_e}}{\delta x_4} + 2\frac{\delta\rho_{\nu_\mu}}{\delta x_4}}
+     {\frac{d\rho_\gamma}{dT_\gamma} + \frac{d\rho_e}{dT_\gamma} + T_\gamma\frac{d^2P_{int}}{dT_\gamma^2}},\qquad
+     \frac{dT_{\nu_\alpha}}{dx_4} = -HT_{\nu_\alpha} + \frac{\delta\rho_{\nu_\alpha}/\delta x_4}{d\rho_{\nu_\alpha}/dT_{\nu_\alpha}}, $$
+  $$ \frac{\delta\rho_{\nu_e}}{\delta x_4} = \frac{G_F^2}{\pi^5}\Big[4(g_{eL}^2 + g_{eR}^2)F(T_\gamma, T_{\nu_e}) + 2F(T_{\nu_\mu}, T_{\nu_e})\Big],\qquad
+     \frac{\delta\rho_{\nu_\mu}}{\delta x_4} = \frac{G_F^2}{\pi^5}\Big[4(g_{\mu L}^2 + g_{\mu R}^2)F(T_\gamma, T_{\nu_\mu}) - F(T_{\nu_\mu}, T_{\nu_e})\Big], $$
+  $$ F(T_1, T_2) = 32f_a(T_1^9 - T_2^9) + 56f_sT_1^4T_2^4(T_1 - T_2),\qquad f_a = 0.884,\quad f_s = 0.829, $$
+  with $\rho_\gamma = \pi^2T_\gamma^4/15$, $\rho_{\nu_\alpha} = 7\pi^2T_{\nu_\alpha}^4/120$ per flavour ($\nu_\tau$ as $\nu_\mu$), the $e^\pm$ density and pressure with the electron
+  mass, the effective couplings $g_{eL} = 0.727$, $g_{eR} = 0.233$, $g_{\mu L} = -0.273$, $g_{\mu R} = 0.233$ (or the UM-2 tree-level couplings
+  $\frac12 + s^2$, $s^2$, $-\frac12 + s^2$, $s^2$, $s^2 = 0.22363$), and the QED interaction pressure $P_{int} = P_2 + P_3$,
+  $$ P_2 = -\frac{e^2T^2}{12\pi^2}J_1 - \frac{e^2}{8\pi^4}J_1^2 + \frac{e^2m_e^2}{16\pi^4}J_2,\qquad P_3 = \frac{e^3T}{12\pi^4}I^{3/2},\qquad \rho_{int} = -P_{int} + T\frac{dP_{int}}{dT}, $$
+  $$ J_1 = \int_0^\infty dp\,\frac{p^2}{E}n_D,\qquad J_2 = \int_0^\infty\!\!\int_0^\infty dp\,dq\,\frac{pq}{E_pE_q}\ln\Big\lvert\frac{p + q}{p - q}\Big\rvert n_D(p)n_D(q),\qquad
+     I = \int_0^\infty dp\,\frac{p^2 + E^2}{E}n_D, $$
+  $n_D = 2/(e^{E/T} + 1)$, $E = \sqrt{p^2 + m_e^2}$.
+  The integrals are evaluated with Gauss-Legendre panels, the logarithmic singularity of $J_2$ removed by $q = p(1 - s^2)$; LSODA from
+  20 MeV to 5 keV (relative tolerance $10^{-11}$);
+  $$ N_{eff} = \Big(\frac{11}{4}\Big)^{4/3}\Big[\Big(\frac{T_{\nu_e}}{T_\gamma}\Big)^4 + 2\Big(\frac{T_{\nu_\mu}}{T_\gamma}\Big)^4\Big] ;$$
+  for instantaneous decoupling the plasma entropy $a^3(\rho + p)/T$ is conserved and $T_\nu \propto 1/a$.
+* **Cosmic neutrino background.** The three mass states with the Fermi-Dirac spectrum $f = 1/(e^{p/T_\nu} + 1)$:
+  $$ T_\nu = \Big(\frac{4}{11}\Big)^{1/3}T_{CMB},\qquad n_i = \frac{3\zeta(3)}{2\pi^2}T_\nu^3\ (\nu_i + \bar\nu_i),\qquad
+     \rho_i = 2\int\frac{d^3p}{(2\pi)^3}\sqrt{p^2 + m_i^2}\,f,\qquad \Omega_\nu h^2 = \frac{\sum_i\rho_i}{\rho_c/h^2}, $$
+  $\rho_c/h^2 = 1.05368\times10^4$ eV/cm$^3$, and the mean velocity $\langle v\rangle = \int p^2(p/E)f\,dp/\!\int p^2f\,dp$, $E = \sqrt{p^2 + m_i^2}$.
+* **Dark radiation of a thermalised species.** A species of $n_W$ Weyl fermions decoupled when the entropy degrees of freedom were $g_s$ adds
+  $$ \Delta N_{eff} = n_W\Big(\frac{10.75}{g_s}\Big)^{4/3}F_h,\qquad F_h = \Big[\frac{T_\nu}{T_\gamma}\Big(\frac{11}{4}\Big)^{1/3}\Big/(1 + h_\nu)\Big]^4 = 1.0095 ,$$
+  with the computed $T_\nu/T_\gamma = 0.71664$ and comoving heating $h_\nu = 0.00165$ of the common-temperature decoupling ($F_h$ corrects for the
+  heating of the neutrinos by $e^+e^-$ annihilation that an earlier-decoupled species does not receive).
+* **Fast flavour instability.** With the electron-lepton-number distribution $G(u) = \sqrt2G_F[n_{\nu_e}g_{\nu_e}(u) - n_{\bar\nu_e}g_{\bar\nu_e}(u)]$ over the
+  direction cosine $u$ (in units of $\mu = \sqrt2G_Fn_{\nu_e}$; $\alpha = n_{\bar\nu_e}/n_{\nu_e}$), modes $e^{-i(\Omega x_4 - Kx_3)}$ along the symmetry axis $x_3$,
+  $v = (1, u)$, $\Lambda^\mu = \int du/2\,G\,v^\mu$, $\omega = \Omega - \Lambda^0$, $k = K - \Lambda^3$ and $\eta^{\mu\nu} = \mathrm{diag}(1, -1)$ on $(x_4, x_3)$, the dispersion relation
+  $$ \det\Pi = 0,\qquad \Pi^{\mu\nu} = \eta^{\mu\nu} + \int_{-1}^{1}\frac{du}{2}\,G(u)\,\frac{v^\mu v^\nu}{\omega - ku} $$
+  has the axisymmetric branch $(1 + J_0)(-1 + J_2) - J_1^2 = 0$, $J_n = \int du/2\,G\,u^n/(\omega - ku)$, and the azimuthal branch
+  $-1 + \int du/2\,G(1 - u^2)/(2(\omega - ku)) = 0$; it is solved for real $k$ by vectorised Newton iterations with the analytic derivative from a grid
+  of complex starting points; cross-checks against the analytic growth $\frac12\sqrt{4I_1^2 - (I_0 + I_2)^2}$ ($I_n = \int du/2\,G\,u^n$) of the mode $K = \Lambda^3$
+  and the eigenvalues of the discretised homogeneous equations
+  $i\,dS_u/dx_4 = (\Lambda^0 - u\Lambda^3)S_u - \int du'/2\,G(u')(1 - uu')S_{u'}$ (300 nodes).
+* **Kohn-Sham.** The orbitals $h_j\chi_o = \varepsilon_o\chi_o$ (fold $\chi_2(0) = 0$ even or $\chi_1(0) = 0$ odd, tip $\chi_2(-L) = 0$) build the densities
+  $$ n = \sum_o w\,g\,f_o\,n_o,\quad S = \sum_o w\,g\,f_o\,s_o,\qquad n_o = P\chi_o^\dagger\chi_o,\quad s_o = P\chi_o^\dagger j\sigma_2\chi_o,\quad t_o = P\chi_o^\dagger j\sigma_3\chi_o,
+     \quad P = \frac{e^{-3Hy}}{\mathrm{Vol}_7},$$
+  ($w = 1/2$ per fold parity, $g = 4r_3(\lvert\vec n\rvert^2)$ the degeneracy of the momentum shell $\vec k = \Delta k\,\vec n$, $r_3$ the number of
+  representations as a sum of three squares, $f_o$ the occupations), the energy and the energy-momentum tensor
+  $$ E_{KS} = \sum_o g\,f_o\,\varepsilon_o - 2\,\mathrm{Vol}_7\int_{-L}^0e^{3Hy}e_{int}\,dy,\qquad e_{int} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2,$$
+  $$ \rho = \sum_o wgf_o\varepsilon_o\,n_o - e_{int},\qquad p_3 = \sum_o wgf_o\,\frac{e^{-a_4}\lvert k\rvert}{3}t_o + e_{int},\qquad p_t = e_{int},$$
+  $$ p_0 = \sum_o wgf_o\big[(\varepsilon_o - v)n_o - M_{eff}s_o - e^{-a_4}\lvert k\rvert t_o\big] + e_{int} ,$$
+  Orbitals of $h_j$ are expanded in the exact eigenfunctions of the free problem of each sector
   (60, 120 or 240 functions, quadrature with ten points per function), the mean fields
-  $M_{eff} = m + \tfrac{15}{16}\lambda S$, $v = -\tfrac{1}{16}\lambda n$ are iterated to self-consistency (tolerance $10^{-13}$)
+  $M_{eff} = m + \tfrac{15}{16}\lambda S$, $v = -\tfrac{1}{16}\lambda n$ (plus the portal mean fields $\langle\mathcal F\rangle/\Lambda_\star^3$ of I12 and
+  $(c_V/\Lambda_\star^6)\sum_i\sum_\psi q_\psi n_{\psi i}$ of I11 where stated) are iterated to self-consistency (tolerance $10^{-13}$)
   with a safeguarded Anderson mixing and a fixed labelling of the occupied set; checks: the energy identity
   $E_{KS} = 2\,\mathrm{Vol}_7\int_{-L}^0e^{3Hy}\rho\,dy$, the $y$-conservation law
   $\big[e^{3Hy}p_0\big]_{-L}^{0} = 3H\int_{-L}^0e^{3Hy}p_t\,dy$, Richardson in the basis size, the Hellmann-Feynman theorem
@@ -489,10 +568,50 @@ All computations are Python scripts in the folder `universe_model_2/code`; each 
   record's two reference states to $10^{-13}$ (energies, HOMO, LUMO) and $10^{-9}$ (integrated hidden pressure). The portal sources
   are the zero-mode densities $\varrho_c(y) = (2c/L)e^{2cy/L}/(1 - e^{-2c})$: the electron $\frac12(\varrho_{c_L} + \varrho_{-c_R(e)})$, the up quark
   $\frac12(\varrho_{c_Q} + \varrho_{-c_R(u)})$, the neutrino $\varrho_{c_L}$.
-* **Primordial era.** The 3-space and block components of the field equations are solved for $\dot A$, $\dot h$, with
-  $\dot k = -2kh$ and the stabiliser $\kappa\rho_b \propto k^4$; the $x_4$ constraint fixes the initial $A$ and is monitored
-  (residual below $6\times10^{-10}$); the separatrix is found by bisection in the initial $k$.
-* **Cosmology.** CAMB 2.0.5 with the Planck 2018 parameters above, $\theta_{MC}$ fixed (so $H_0$ is an output), $\ell_{max} = 2600$,
+* **Primordial era.** The three independent components of the field equations of the order-0 metric with the author's weights and
+  $\Lambda = -10H^2$ (from the pairing formula and the sectional curvatures above; $\rho$, $p_3$ and $\bar p = (p_0 + 3p_t)/4$ the source)
+  $$ \begin{aligned} x_4:\quad &- \frac{15 A^{2} h^{4}}{16 H^{4}} - \frac{5 A^{3} h^{3}}{4 H^{4}} - \frac{3 h^{4}}{8 H^{2}} - \frac{9 A h^{3}}{2 H^{2}} - \frac{27 A^{2} h^{2}}{4 H^{2}} + \frac{9 k A^{2} h^{2}}{8 H^{2}} \\
+     &- \frac{3 h A^{3}}{2 H^{2}} + \frac{3 h k A^{3}}{4 H^{2}} - 6 h^{2} + \frac{3 k h^{2}}{4} - 12 A h + \frac{9 A h k}{2} \\
+     &- 3 A^{2} + \frac{9 k A^{2}}{4} - \frac{3 A^{2} k^{2}}{16} - 10 H^{2} + 6 k H^{2} - \frac{3 H^{2} k^{2}}{8} \\
+     &= -\kappa\rho \end{aligned} $$
+  $$ \begin{aligned} x_1:\quad &\Big[- \frac{h^{4}}{8 H^{4}} - \frac{A h^{3}}{2 H^{4}} - \frac{3 h^{2}}{2 H^{2}} + \frac{k h^{2}}{4 H^{2}} - \frac{A h}{H^{2}} + \frac{A h k}{2 H^{2}} \\
+     &\quad -2 + \frac{3 k}{2} - \frac{k^{2}}{8}\Big]\,\dot A \\
+     &+ \Big[- \frac{A h^{3}}{2 H^{4}} - \frac{3 A^{2} h^{2}}{4 H^{4}} - \frac{3 h^{2}}{2 H^{2}} - \frac{3 A h}{H^{2}} + \frac{A h k}{2 H^{2}} - \frac{A^{2}}{2 H^{2}} \\
+     &\quad + \frac{k A^{2}}{4 H^{2}} - 4 + \frac{3 k}{2}\Big]\,\dot h \\
+     &- \frac{A h^{5}}{2 H^{4}} - \frac{19 A^{2} h^{4}}{16 H^{4}} - \frac{A^{3} h^{3}}{2 H^{4}} - \frac{15 h^{4}}{8 H^{2}} - \frac{6 A h^{3}}{H^{2}} + \frac{A k h^{3}}{2 H^{2}} \\
+     &- \frac{17 A^{2} h^{2}}{4 H^{2}} + \frac{7 k A^{2} h^{2}}{8 H^{2}} - \frac{h A^{3}}{H^{2}} + \frac{h k A^{3}}{2 H^{2}} - 10 h^{2} + \frac{9 k h^{2}}{4} \\
+     &- 8 A h + 3 A h k - 3 A^{2} + \frac{9 k A^{2}}{4} - \frac{3 A^{2} k^{2}}{16} - 10 H^{2} \\
+     &+ 6 k H^{2} - \frac{3 H^{2} k^{2}}{8} \\
+     &= \kappa p_3 \end{aligned} $$
+  $$ \begin{aligned} x_0:\quad &\Big[- \frac{3 A h^{3}}{8 H^{4}} - \frac{9 A^{2} h^{2}}{16 H^{4}} - \frac{9 h^{2}}{8 H^{2}} - \frac{9 A h}{4 H^{2}} + \frac{3 A h k}{8 H^{2}} - \frac{3 A^{2}}{8 H^{2}} \\
+     &\quad + \frac{3 k A^{2}}{16 H^{2}} - 3 + \frac{9 k}{8}\Big]\,\dot A \\
+     &+ \Big[- \frac{9 A^{2} h^{2}}{16 H^{4}} - \frac{3 h A^{3}}{8 H^{4}} - \frac{3 h^{2}}{8 H^{2}} - \frac{9 A h}{4 H^{2}} - \frac{9 A^{2}}{8 H^{2}} + \frac{3 k A^{2}}{16 H^{2}} \\
+     &\quad -3 + \frac{3 k}{8}\Big]\,\dot h \\
+     &- \frac{9 A^{2} h^{4}}{16 H^{4}} - \frac{17 A^{3} h^{3}}{16 H^{4}} - \frac{9 A^{4} h^{2}}{16 H^{4}} - \frac{3 h^{4}}{8 H^{2}} - \frac{27 A h^{3}}{8 H^{2}} - \frac{45 A^{2} h^{2}}{8 H^{2}} \\
+     &+ \frac{3 k A^{2} h^{2}}{16 H^{2}} - \frac{27 h A^{3}}{8 H^{2}} + \frac{9 h k A^{3}}{16 H^{2}} - \frac{3 A^{4}}{8 H^{2}} + \frac{3 k A^{4}}{16 H^{2}} - 6 h^{2} \\
+     &+ \frac{3 k h^{2}}{8} - 9 A h + \frac{9 A h k}{8} - 6 A^{2} + \frac{9 k A^{2}}{4} - 10 H^{2} \\
+     &+ 3 k H^{2} \\
+     &= \kappa\bar p \end{aligned} $$
+  are solved for $\dot A$, $\dot h$ (the 3-space and block components are linear in them), with $\dot k = -2kh$ and the stabiliser
+  $\kappa\rho_b = \kappa\rho_b^*(k/k_*)^4$, $p_3 = -\rho_b$, $\bar p = \rho_b$ (plus radiation where stated); the $x_4$ constraint fixes the initial $A$ and is
+  monitored (residual below $6\times10^{-10}$); the separatrix is found by bisection in the initial $k$.
+* **Cosmology.** The linear perturbations obey the Einstein-Boltzmann equations (Newtonian gauge, conformal time $\tau$ with
+  $dx_4 = a\,d\tau$, $\mathcal H = a'/a$, $ds^2 = a^2[-(1 + 2\psi)d\tau^2 + (1 - 2\phi)d\vec x^{\,2}]$, a Fourier mode $k$; Ma and Bertschinger)
+  $$ k^2\phi + 3\mathcal H(\phi' + \mathcal H\psi) = -4\pi G_Na^2\delta\rho,\qquad k^2(\phi' + \mathcal H\psi) = 4\pi G_Na^2(\bar\rho + \bar P)\theta,$$
+  $$ \phi'' + \mathcal H(\psi' + 2\phi') + (2\mathcal H' + \mathcal H^2)\psi + \frac{k^2}{3}(\phi - \psi) = 4\pi G_Na^2\delta P,\qquad k^2(\phi - \psi) = 12\pi G_Na^2(\bar\rho + \bar P)\sigma,$$
+  with the cold dark matter $\delta_c' = -\theta_c + 3\phi'$, $\theta_c' = -\mathcal H\theta_c + k^2\psi$; the baryons and photons coupled by Thomson
+  scattering ($n_e$ the free-electron density, $\sigma_T$ the Thomson cross-section, $R = 4\bar\rho_\gamma/(3\bar\rho_b)$, $c_s$ the baryon sound speed,
+  $F_{\gamma l}$ and $G_{\gamma l}$ the temperature and polarisation multipoles, $F_{\gamma2} = 2\sigma_\gamma$),
+  $$ \delta_b' = -\theta_b + 3\phi',\qquad \theta_b' = -\mathcal H\theta_b + c_s^2k^2\delta_b + R\,an_e\sigma_T(\theta_\gamma - \theta_b) + k^2\psi, $$
+  $$ \delta_\gamma' = -\tfrac43\theta_\gamma + 4\phi',\qquad \theta_\gamma' = k^2\big(\tfrac14\delta_\gamma - \sigma_\gamma\big) + k^2\psi + an_e\sigma_T(\theta_b - \theta_\gamma), $$
+  $$ F_{\gamma l}' = \frac{k}{2l + 1}\big[lF_{\gamma(l-1)} - (l + 1)F_{\gamma(l+1)}\big] - an_e\sigma_T\Big[F_{\gamma l} - \frac{\delta_{l2}}{10}\big(F_{\gamma2} + G_{\gamma0} + G_{\gamma2}\big)\Big]\quad (l \ge 2),$$
+  $$ G_{\gamma l}' = \frac{k}{2l + 1}\big[lG_{\gamma(l-1)} - (l + 1)G_{\gamma(l+1)}\big] + an_e\sigma_T\Big[-G_{\gamma l} + \frac12\big(F_{\gamma2} + G_{\gamma0} + G_{\gamma2}\big)\Big(\delta_{l0} + \frac{\delta_{l2}}{5}\Big)\Big] ;$$
+  and one massive hierarchy per neutrino mass state $i$ (comoving momentum $q$, energy $E_i = \sqrt{q^2 + a^2m_i^2}$,
+  multipoles $\mathcal N^{(i)}_l$ of the perturbed Fermi-Dirac distribution $\bar f_\nu$):
+  $\mathcal N^{(i)\prime}_0 = -\frac{qk}{E_i}\mathcal N^{(i)}_1 - \phi'\frac{d\ln\bar f_\nu}{d\ln q}$,
+  $\mathcal N^{(i)\prime}_1 = \frac{qk}{3E_i}(\mathcal N^{(i)}_0 - 2\mathcal N^{(i)}_2) - \frac{E_ik}{3q}\psi\frac{d\ln\bar f_\nu}{d\ln q}$,
+  $\mathcal N^{(i)\prime}_l = \frac{qk}{(2l+1)E_i}[l\mathcal N^{(i)}_{l-1} - (l+1)\mathcal N^{(i)}_{l+1}]$ ($l \ge 2$).
+  CAMB 2.0.5 solves them with the Planck 2018 parameters above, $\theta_{MC}$ fixed (so $H_0$ is an output), $\ell_{max} = 2600$,
   lensing included. UM-2 has three massive eigenstates, each with the degeneracy $N_{eff}/3 = 1.0144$; CAMB gives each the density
   $\deg\times\rho_{FD}(m'; T_\nu)$, so the masses passed are $m'_i = m_i\deg^{-1/4}$; because CAMB recovers them by inverting the relativistic
   density from $\omega_\nu$ and the mass fractions, $\omega_\nu$ and the fractions are iterated (damped exponent 0.8, 13 iterations) until the
@@ -503,10 +622,16 @@ All computations are Python scripts in the folder `universe_model_2/code`; each 
   freeze-out (Kolb and Turner, Dirac fermion, $g = 2$, $c = 1/2$):
   $x_f = \ln\big[0.038\,c(c + 2)\,g\,M_{Pl}M\langle\sigma v\rangle(x_f)/\sqrt{g_*x_f}\big]$,
   $\Omega h^2 = 2\times1.07\times10^9\,\text{GeV}^{-1}\,x_f/\big(\sqrt{g_*}\,M_{Pl}\,3b/x_f\big) = 0.060$ per species (two species), with $M_{Pl} = 1.22091\times10^{19}$ GeV and
-  $g_* = 105.75$ (three generations without $\nu_R$, the gauge bosons; no Higgs; the fold bands not thermalised); the comparison scale is
-  the s-wave thermal unitarity estimate $\langle\sigma v\rangle_{max} = (4\pi/M^2)\sqrt{x_f/\pi}$ (applied to a p-wave process).
+  $g_* = 105.75$ (three generations without $\nu_R$, the gauge bosons; no Higgs; the fold bands not thermalised). Unitarity: the operator
+  annihilates a pair only from $^3P_0$ ($J = 0$), so for unpolarised Dirac fermions $\sigma \le \pi/(4p^2)$, $p = Mv/2$, i.e. $\sigma v \le \pi/(M^2v)$, whose
+  thermal average over $f(v) \propto v^2e^{-xv^2/4}$ is $\langle\pi/(M^2v)\rangle = \sqrt{\pi x}/M^2$ (checked by numerical averaging); the effective cross-section
+  $G^2M^4v^2/\pi$, $G = (8G_g^2 + 3G_W^2 + G_B^2)^{1/2}$, exceeds the bound for $v > v_c = (\pi/(GM^3))^{2/3}$.
 * **Direct detection** (ESTIMATE). Trace anomaly: $\langle N\vert G^\alpha G^\alpha\vert N\rangle = -\frac{8\pi}{9\alpha_s}m_Nf_{TG}$,
-  $f_N = G_g\frac{8\pi}{9\alpha_s}m_Nf_{TG}$, $\sigma_{SI} = \mu_N^2f_N^2/\pi$ ($\mu_N$ the reduced mass).
+  $f_N = G_g\frac{8\pi}{9\alpha_s}m_Nf_{TG}$, $\sigma_{SI} = \mu_N^2f_N^2/\pi$ ($\mu_N$ the dark-matter-nucleon reduced mass; $f_{TG} = 0.92$, $\alpha_s = 0.3$,
+  $m_N = 0.939$ GeV, $G_g = G/\sqrt8$ if the whole coupling were in gluons), against the LZ limit scaled linearly from $2.2\times10^{-48}$ cm$^2$ at 40 GeV.
+* **Condensate.** A homogeneous condensate $S = \bar\Psi\Psi \propto a^{-3}$ with $U = \frac{\lambda}{2}S^2$ has $\rho = mS + U$, $p = S\,dU/dS - U = \frac{\lambda}{2}S^2$, so
+  $$ w(a) = \frac{X(a)}{1 + X(a)},\qquad X(a) = \frac{\lambda S}{2m} = X_0a^{-3},\qquad X_0 = \frac{w_0}{1 - w_0},\qquad w_a \equiv -\frac{dw}{da}\Big\vert_{a=1} = \frac{3X_0}{(1 + X_0)^2},$$
+  and the energy density $\rho = mS(1 + X)$ crosses zero at $a = (-X_0)^{1/3}$ when $\lambda < 0$.
 * **Uncertainty relation.** For bosons, with $u = e^{-3\eta\xi/2}\tilde u$:
   $e^{3\eta\xi}u'^2 = \tilde u'^2 + \tfrac94\eta^2\tilde u^2 - \tfrac32\eta(\tilde u^2)'$, hence
   $(m\,fL)^2 = \langle p^2\rangle + \tfrac{9\eta^2}{4} - \tfrac{3\eta}{2}\varrho(\text{fold}) + (\tfrac{3\eta}{2} + \beta)\varrho(\text{tip})$ with
@@ -614,6 +739,29 @@ All computations are Python scripts in the folder `universe_model_2/code`; each 
     $\Omega_\nu h^2$ (the non-relativistic coefficient $94.06$ eV at the instantaneous-decoupling temperature, $93.14$ eV with the heating)
     were corrected; the published values of the decoupling method were read from the source (Escudero 2020, Table 1) and the
     separate-temperature value $3.048$ added to the validation.
+22. **Independent review of version 2 (2026-10-18).** A review of the five documents of version 2 against the outputs found every
+    computed number in agreement except three roundings, and found the following, all corrected in the documents: (a) the
+    dark-matter relic: the operator $\bar\chi\chi F_{\mu\nu}F^{\mu\nu}$ annihilates a pair only from $^3P_0$, so the unitarity bound on the spin-averaged
+    cross-section is $\sigma \le \pi/(4p^2)$ and $\langle\sigma v\rangle \le \sqrt{\pi x_f}/M^2 = 5.79\times10^{-26}$ cm$^3$/s; the freeze-out requirement
+    $2.01\times10^{-25}$ cm$^3$/s exceeds it 3.47 times (the documents had compared it with $(4\pi/M^2)\sqrt{x_f/\pi} = 2.32\times10^{-25}$ cm$^3$/s, the
+    bound of one helicity channel without the spin average, and called the requirement 87 % of it); the relic abundance of the dark
+    matter is therefore OPEN in version 2, and the check `B3_relic_requirement_and_unitarity` of `um2_analysis.py` now computes the
+    bound, its numerical thermal average, the crossing velocity $v_c = 0.263$ and the fraction (79 %) of pairs above it; (b) "no tip
+    operator reaches $\Psi_B$" holds only for chiral $P_+$ tip currents and for operators built on $\bar\Psi\Psi$ (a non-chiral tip current would
+    reach $\Psi_B$); (c) the fast-flavour dispersion relation is written with the upper-index shifts $\Lambda^0$, $\Lambda^3$ and the stated metric
+    $\eta^{\mu\nu} = \mathrm{diag}(1, -1)$ on $(x_4, x_3)$; (d) $c_Z = c'_Z = 0$ is a modelling choice (ASSUMED): the invisible width bounds the even part
+    and $N_{eff}$ disfavours, but does not exclude, the oriented part; (e) the coordinate rule: the flavour, decoupling and
+    fast-flavour equations had written $t$ for $x_4$ and $z$ for the symmetry axis $x_3$; (f) roundings: the adiabatic solar $P_{ee}$ at 15 MeV
+    ($0.306$), the $\tau$ singlet bulk mass ($-9.205H$), the Kohn-Sham accuracy ($2.2\times10^{-9}$ relative); (g) minor items: $J_{max}$ computed from the
+    best-fit angles ($0.0335$) against NuFIT's marginalised value ($0.0333 \pm 0.0007$); the conventions of the supernova resonances
+    (two-flavour conditions); the tip matrices equal the mixing matrices only with $\kappa_e = \kappa_u = 1$ (ASSUMED); the three roles of the
+    measured values; the sum rules of the uncertainty analysis (absolute $1.0\times10^{-8}$, relative $7.8\times10^{-4}$ and $6.0\times10^{-4}$ for $W^\pm$ and
+    $Z$); the 50-digit roots against the stored masses ($4.5\times10^{-11}$); the labels ESTIMATE and STANDARD; the number required for a single
+    species ($(17.6\ \text{TeV})^{-3}$ with $g_* = 105.75$, not a version-1 value); further notational clashes added to the symbol lists; (h)
+    self-containment: equations and inputs used but not written in a document (the relic and $\Delta N_{eff}$ formulas, the Einstein-Boltzmann
+    equations, the BAO $\chi^2$ and data, the nonlinear background equations, the fermion equations with their boundary conditions, the
+    decoupling equations, the CNB, Landau-Zener, adiabatic solar, condensate and pairing formulas, the Kohn-Sham equations behind the
+    quoted equations of state) are now written out in every document that uses them.
 
 ## What is not in the repository, and why
 
@@ -652,9 +800,12 @@ python universe_model_2/tools/build_docs.py
 rerun every computation in dependency order (each exits with code 0 if and only if all its checks pass) and rebuild
 the PDF documents from the Markdown sources (pandoc and a TeX Live installation with the `lmodern` package are needed
 for the last command). Version 1 was rerun from fresh clones of the repository (2026-10-17 at commit `b3c3c1a`; 2026-10-18 at
-commits `fa7305f`, `9285bb6` and `5b73d16`): every check passed and every stored number was reproduced to a relative $10^{-9}$ or
-better (quantities at the round-off level differ in their last digits because the threaded linear algebra does not sum in a
-fixed order), and the LaTeX sources, the PDF documents and the figures were rebuilt byte-identical. The document build is
+commits `fa7305f`, `9285bb6` and `5b73d16`), and version 2 on 2026-10-18 at commit `4a6421d` (every computation as a separate step,
+1027 s in all, the longest the primordial integration with 268 s): every check passed (205 of 205 for version 2) and every stored
+number was reproduced to a relative $10^{-9}$ or better (in the version-2 run all numbers were identical except one Kohn-Sham
+integral, which differs by $1.1\times10^{-12}$ relative, because the threaded linear algebra does not sum in a fixed order), and the
+LaTeX sources, the PDF documents and the figures were rebuilt byte-identical. After that run, `um2_analysis.py` gained the
+$^3P_0$ unitarity bound of item 22 (new stored numbers, the same 23 checks, all passing when rerun). The document build is
 deterministic: no dates in the LaTeX sources, PDF dates and trailer identifiers suppressed, a fixed `SOURCE_DATE_EPOCH`.
 
 Software used: Python 3.13.16, sympy 1.14.0, numpy 2.5.3, scipy 1.18.1, mpmath 1.3.0, matplotlib 3.11.2, camb 2.0.5,
@@ -671,5 +822,6 @@ followed by the corrections listed above and the documents MODEL, PROVENANCE, FI
 Version 2: three generations and the masses and mixing (`94621af`), the neutrino flavour conversion (`a0d750a`), the electroweak
 sector of three generations (`cf824d5`), the removal of the tip $Z$ portal and the cosmology with three massive neutrinos
 (`53c5139`), the dark matter of both halves, the twelve-fermion tables and the three-generation tip and gauge checks (`b755990`),
-the corrected 1-3 resonance (`b999f57`), and the documents MODEL (`9a5b92b`), FIELD_EQUATIONS (`79d9d31`), SOLUTION (`a3dcc6a`),
-ANALYSIS (`df6d94a`) and PROVENANCE (this version).
+the corrected 1-3 resonance (`b999f57`), the documents MODEL (`9a5b92b`), FIELD_EQUATIONS (`79d9d31`), SOLUTION (`a3dcc6a`),
+ANALYSIS (`df6d94a`) and PROVENANCE (`4a6421d`), and the fixes of the independent review of version 2 (item 22; the commit that
+carries this text).

@@ -373,7 +373,18 @@ def main():
     GeV2_to_cm3s = 1.1663e-17
     svreq = 6 * breq / xf * GeV2_to_cm3s
     G_eff = math.sqrt(breq * math.pi / MDM ** 4)          # equivalent single-channel coefficient (8 G_g^2 + 3 G_W^2 + G_B^2 = G_eff^2)
-    unit = 4 * math.pi / MDM ** 2 * math.sqrt(xf / math.pi) * GeV2_to_cm3s   # s-wave thermal unitarity scale (ESTIMATE)
+    unit = 4 * math.pi / MDM ** 2 * math.sqrt(xf / math.pi) * GeV2_to_cm3s   # s-wave estimate of version 1 (one helicity channel)
+    # partial-wave unitarity for this operator: chibar chi F F annihilates a Dirac pair only from J = 0, P = + (3P0); for unpolarised
+    # fermions sigma <= pi/(4 p^2) (p the CM momentum, p = M v/2 for v << 1), i.e. sigma v <= pi/(M^2 v); its thermal average over the
+    # Maxwell-Boltzmann distribution of the relative velocity, f(v) ~ v^2 exp(-x v^2/4), is sqrt(pi x)/M^2
+    from scipy.integrate import quad as _q
+    fv = lambda v: v * v * math.exp(-xf * v * v / 4)
+    nrm = _q(fv, 0, 60 / math.sqrt(xf))[0]
+    inv_v = _q(lambda v: fv(v) / v, 0, 60 / math.sqrt(xf))[0] / nrm
+    unit3P0 = math.pi / MDM ** 2 * inv_v * GeV2_to_cm3s
+    unit3P0_formula = math.sqrt(math.pi * xf) / MDM ** 2 * GeV2_to_cm3s
+    vc = (math.pi / (G_eff * MDM ** 3)) ** (2.0 / 3.0)      # G^2 M^4 v^2/pi = pi/(M^2 v)
+    frac_vc = _q(fv, vc, 60 / math.sqrt(xf))[0] / nrm
     # for comparison: a single species carrying all the dark matter (the one-generation version, where the odd Psi_A states decayed)
     lo1, hi1 = 1e-30, 1e-5
     for _ in range(200):
@@ -386,14 +397,20 @@ def main():
     G1 = math.sqrt(b1 * math.pi / MDM ** 4)
     out['relic'] = {'g_star': gst, 'n_species': n_species, 'Omega_h2_per_species': om, 'Omega_h2_total': n_species * om, 'x_f': xf,
                     'b_required_GeV-2': breq, 'sigma_v_required_cm3_s': svreq, 'G_eff_required_GeV-3': G_eff,
-                    'Lambda_eff_TeV': G_eff ** (-1.0 / 3.0) / 1e3, 'unitarity_scale_cm3_s': unit,
-                    'single_species_Lambda_eff_TeV': G1 ** (-1.0 / 3.0) / 1e3}
-    rep.check('B3_relic_requirement', abs(om - target) < 1e-6 and svreq < unit,
-              'thermal relic of the two degenerate Dirac fermions (lowest odd states of Psi_A and Psi_B, each freezing out separately '
-              'through the gauge-kinetic portal I12, p-wave; Omega h^2 = %.3f each, %.3f in all): x_f = %.2f, g* = %.2f, '
-              '<sigma v>(x_f) = %.2e cm^3/s required per species, i.e. (8 G_g^2 + 3 G_W^2 + G_B^2)^{1/2} = (%.1f TeV)^-3 (a single species '
-              'would need (%.1f TeV)^-3), below the thermal unitarity scale %.1e cm^3/s' % (
-                  om, n_species * om, xf, gst, svreq, G_eff ** (-1.0 / 3.0) / 1e3, G1 ** (-1.0 / 3.0) / 1e3, unit))
+                    'Lambda_eff_TeV': G_eff ** (-1.0 / 3.0) / 1e3, 'unitarity_scale_swave_estimate_cm3_s': unit,
+                    'unitarity_bound_3P0_cm3_s': unit3P0, 'required_over_3P0_bound': svreq / unit3P0, 'v_crossing': vc,
+                    'fraction_of_pairs_above_v_crossing': frac_vc, 'single_species_Lambda_eff_TeV': G1 ** (-1.0 / 3.0) / 1e3}
+    rep.check('B3_relic_requirement_and_unitarity', abs(om - target) < 1e-6 and abs(unit3P0 / unit3P0_formula - 1) < 1e-6
+              and abs(G_eff ** 2 * MDM ** 4 * vc ** 2 / math.pi - math.pi / (MDM ** 2 * vc)) < 1e-9 * math.pi / (MDM ** 2 * vc),
+              'freeze-out formula for the two degenerate Dirac fermions (each freezing out separately through I12, p-wave, Omega h^2 = %.3f '
+              'each): x_f = %.2f, g* = %.2f, <sigma v>(x_f) = %.2e cm^3/s per species, (8 G_g^2 + 3 G_W^2 + G_B^2)^{1/2} = (%.1f TeV)^-3 (a '
+              'single species: (%.1f TeV)^-3). Unitarity: the operator annihilates only from 3P0 (J = 0), sigma <= pi/(4 p^2) for unpolarised '
+              'Dirac fermions, whose thermal average <pi/(M^2 v)> = sqrt(pi x_f)/M^2 = %.2e cm^3/s (numerical average %.2e); the requirement '
+              'exceeds it %.2f times (the s-wave estimate %.2e cm^3/s used in version 1 counted one helicity channel); the effective '
+              'cross-section exceeds the bound for v > %.3f, i.e. for %.0f %% of the pairs at freeze-out: the relic cannot be produced by '
+              'I12 within perturbative unitarity (OPEN)' % (
+                  om, xf, gst, svreq, G_eff ** (-1.0 / 3.0) / 1e3, G1 ** (-1.0 / 3.0) / 1e3, unit3P0_formula, unit3P0,
+                  svreq / unit3P0, unit, vc, 100 * frac_vc))
     # direct detection through the gluon portal only (trace anomaly): f_N = -(8 pi/9 alpha_s)... use G_g * (8 pi/9) * m_N f_TG / ...
     # sigma_SI = (4 mu^2/pi) f_N^2, f_N = G_g (16 pi/9)(m_N f_TG)/alpha_s... ESTIMATE with f_TG = 0.92 and alpha_s(2 GeV) = 0.3
     mN = 0.939
@@ -498,8 +515,8 @@ def main():
               'problem of UM-2 (OPEN)' % (mr, rad[1]['tau_s'], rad[1]['T_RH_MeV'], Cmin))
 
     # A6: how static must the block be today?  Every mass and coupling depends on f (A5); a block rate h = f'/f today changes
-    # alpha by d ln alpha/dt = -4 h, G_N by (d ln G_N/d ln f) h and m_e by (d ln m_e/d ln f) h.  Atomic-clock bound |d ln alpha/dt| < 1e-17
-    # per year and lunar-laser-ranging bound |d ln G/dt| < 1e-13 per year (FROM MEMORY) -> bounds on |h| (ESTIMATE).
+    # alpha by d ln alpha/dx4 = -4 h, G_N by (d ln G_N/d ln f) h and m_e by (d ln m_e/d ln f) h.  Atomic-clock bound |d ln alpha/dx4| < 1e-17
+    # per year and lunar-laser-ranging bound |d ln G_N/dx4| < 1e-13 per year (FROM MEMORY) -> bounds on |h| (ESTIMATE).
     H0_per_yr = 67.43 * 1e3 / 3.0857e22 * 3.15576e7
     h_alpha = 1e-17 / abs(sens['alpha and the gauge couplings (1/V_perp)'])
     h_G = 1e-13 / abs(sens['G_N'])
@@ -507,8 +524,8 @@ def main():
                                      'h_max_over_H0_alpha': h_alpha / H0_per_yr, 'h_max_over_H0_G': h_G / H0_per_yr,
                                      'm_e_drift_if_h_equals_H0_per_yr': abs(sens['m_e']) * H0_per_yr}
     rep.check('A6_block_frozen_today', h_alpha / H0_per_yr < 1e-6,
-              'ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = %+.2f, the atomic-clock bound |d ln alpha/dt| < 1e-17/yr and the '
-              'lunar-ranging bound |d ln G/dt| < 1e-13/yr (FROM MEMORY) require |h| < %.1e/yr = %.1e H0 and |h| < %.1e/yr = %.1e H0 today; '
+              'ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = %+.2f, the atomic-clock bound |d ln alpha/dx4| < 1e-17/yr (x4 the time) and the '
+              'lunar-ranging bound |d ln G_N/dx4| < 1e-13/yr (FROM MEMORY) require |h| < %.1e/yr = %.1e H0 and |h| < %.1e/yr = %.1e H0 today; '
               'a block deflating at the Hubble rate would change m_e by %.1e per year: the extra times (and x0) must be frozen today, '
               'their exponential deflation confined to the primordial era' % (
                   sens['G_N'], h_alpha, h_alpha / H0_per_yr, h_G, h_G / H0_per_yr, abs(sens['m_e']) * H0_per_yr))

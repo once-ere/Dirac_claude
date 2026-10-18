@@ -684,11 +684,15 @@
   "Omega_h2_per_species": 0.06,
   "Omega_h2_total": 0.12,
   "b_required_GeV-2": 8.74102445164e-08,
+  "fraction_of_pairs_above_v_crossing": 0.788200721495,
   "g_star": 105.75,
   "n_species": 2,
+  "required_over_3P0_bound": 3.47497101699,
   "sigma_v_required_cm3_s": 2.01326715425e-25,
   "single_species_Lambda_eff_TeV": 17.5805804831,
-  "unitarity_scale_cm3_s": 2.31744914638e-25,
+  "unitarity_bound_3P0_cm3_s": 5.79362286594e-26,
+  "unitarity_scale_swave_estimate_cm3_s": 2.31744914638e-25,
+  "v_crossing": 0.263398788784,
   "x_f": 30.3824262858
  },
  "sensitivities_dlnX_dlnf": {

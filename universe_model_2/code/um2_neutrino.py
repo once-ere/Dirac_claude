@@ -3,7 +3,7 @@
 
 The neutrino masses m_1 < m_2 < m_3 (normal ordering, exact x0 eigenvalues: um2_spectra.py) and the PMNS matrix U (the neutrino
 tip matrix: um2_flavour.py) define the flavour evolution of a neutrino of momentum p,
-    i d psi_alpha/dt = [U diag(m_i^2) U^dagger/(2p) + V(x)]_{alpha beta} psi_beta,      V = diag(V_CC, 0, 0) + V_NC 1,
+    i d psi_alpha/dx4 = [U diag(m_i^2) U^dagger/(2p) + V(x)]_{alpha beta} psi_beta,      V = diag(V_CC, 0, 0) + V_NC 1,
 V_CC = sqrt2 G_F n_e (charged current on electrons), V_NC flavour universal; antineutrinos: U -> U*, V -> -V.  In a dense
 neutrino gas the density matrices rho_p obey i (d_t + v.grad) rho_p = [Omega_p + V + V_nunu(rho), rho_p] + i C[rho] with
 V_nunu = sqrt2 G_F int d^3q/(2pi)^3 (1 - v_p.v_q)(rho_q - rho_bar_q).  Units: eV, km, MeV as stated.
@@ -195,7 +195,7 @@ def F_rate(T1, T2, fa=0.884, fs=0.829):
 
 
 def neff_run(plasma, couplings, common=False, Tstart=20.0, Tend=0.005, GF=val('G_F_GeV-2') * 1e-6):
-    """Neutrino decoupling: dT/dt equations (Escudero, arXiv:2001.04466, eqs. 3.2-3.3), MeV units. Returns N_eff and history."""
+    """Neutrino decoupling: dT/dx4 equations (Escudero, arXiv:2001.04466, eqs. 3.2-3.3), MeV units. Returns N_eff and history."""
     geL, geR, gmL, gmR = couplings
     rho_nu1 = lambda T: 7 * math.pi ** 2 / 120 * T ** 4          # one flavour, nu + nubar
     drho_nu1 = lambda T: 7 * math.pi ** 2 / 30 * T ** 3
@@ -273,7 +273,7 @@ def homogeneous_growth(G):
 
 def homogeneous_growth_matrix(G, n=200):
     """Eigenvalues of the discretised linear equation of the homogeneous axisymmetric mode,
-    i dS_u/dt = (Lam0 - u Lam3) S_u - int du'/2 G(u') (1 - u u') S_u'."""
+    i dS_u/dx4 = (Lam^0 - u Lam^3) S_u - int du'/2 G(u') (1 - u u') S_u'."""
     u, w = np.polynomial.legendre.leggauss(n)
     g = G(u)
     lam0 = np.sum(w * g) / 2
@@ -679,7 +679,7 @@ def main():
     rep.check('fast_flavour_solver_consistency', cons < 1e-6,
               'three independent evaluations agree to %.1e (units mu = sqrt2 G_F n_nue): the analytic growth sqrt(4 I1^2 - (I0 + I2)^2)/2 of the '
               'mode K = Lambda (I_n = int du/2 G u^n) and the root of the dispersion relation at k = 0; the eigenvalues of the discretised '
-              'homogeneous linear equations i dS_u/dt = (Lambda0 - u Lambda3) S_u - int du\'/2 G(u\')(1 - u u\') S_u\' and the root at k = -Lambda3 '
+              'homogeneous linear equations i dS_u/dx4 = (Lambda^0 - u Lambda^3) S_u - int du\'/2 G(u\')(1 - u u\') S_u\' and the root at k = -Lambda^3 '
               '(homogeneous growth %.5f, %.5f, %.5f for the three cases)' % (cons, c1['growth_homogeneous_matrix'],
                                                                              c2_['growth_homogeneous_matrix'], c3['growth_homogeneous_matrix']))
     rep.check('fast_flavour_crossing_criterion', c1['crossing'] and c2_['crossing'] and not c3['crossing'] and c1['max_growth_any_k'] > 1e-3

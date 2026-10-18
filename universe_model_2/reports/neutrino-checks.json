@@ -57,7 +57,7 @@
    "passed": true
   },
   {
-   "detail": "three independent evaluations agree to 1.2e-14 (units mu = sqrt2 G_F n_nue): the analytic growth sqrt(4 I1^2 - (I0 + I2)^2)/2 of the mode K = Lambda (I_n = int du/2 G u^n) and the root of the dispersion relation at k = 0; the eigenvalues of the discretised homogeneous linear equations i dS_u/dt = (Lambda0 - u Lambda3) S_u - int du'/2 G(u')(1 - u u') S_u' and the root at k = -Lambda3 (homogeneous growth 0.01848, 0.00000, 0.00000 for the three cases)",
+   "detail": "three independent evaluations agree to 1.2e-14 (units mu = sqrt2 G_F n_nue): the analytic growth sqrt(4 I1^2 - (I0 + I2)^2)/2 of the mode K = Lambda (I_n = int du/2 G u^n) and the root of the dispersion relation at k = 0; the eigenvalues of the discretised homogeneous linear equations i dS_u/dx4 = (Lambda^0 - u Lambda^3) S_u - int du'/2 G(u')(1 - u u') S_u' and the root at k = -Lambda^3 (homogeneous growth 0.01848, 0.00000, 0.00000 for the three cases)",
    "name": "fast_flavour_solver_consistency",
    "passed": true
   },

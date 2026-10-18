@@ -77,8 +77,8 @@
    "passed": true
   },
   {
-   "detail": "thermal relic of the two degenerate Dirac fermions (lowest odd states of Psi_A and Psi_B, each freezing out separately through the gauge-kinetic portal I12, p-wave; Omega h^2 = 0.060 each, 0.120 in all): x_f = 30.38, g* = 105.75, <sigma v>(x_f) = 2.01e-25 cm^3/s required per species, i.e. (8 G_g^2 + 3 G_W^2 + G_B^2)^{1/2} = (15.5 TeV)^-3 (a single species would need (17.6 TeV)^-3), below the thermal unitarity scale 2.3e-25 cm^3/s",
-   "name": "B3_relic_requirement",
+   "detail": "freeze-out formula for the two degenerate Dirac fermions (each freezing out separately through I12, p-wave, Omega h^2 = 0.060 each): x_f = 30.38, g* = 105.75, <sigma v>(x_f) = 2.01e-25 cm^3/s per species, (8 G_g^2 + 3 G_W^2 + G_B^2)^{1/2} = (15.5 TeV)^-3 (a single species: (17.6 TeV)^-3). Unitarity: the operator annihilates only from 3P0 (J = 0), sigma <= pi/(4 p^2) for unpolarised Dirac fermions, whose thermal average <pi/(M^2 v)> = sqrt(pi x_f)/M^2 = 5.79e-26 cm^3/s (numerical average 5.79e-26); the requirement exceeds it 3.47 times (the s-wave estimate 2.32e-25 cm^3/s used in version 1 counted one helicity channel); the effective cross-section exceeds the bound for v > 0.263, i.e. for 79 % of the pairs at freeze-out: the relic cannot be produced by I12 within perturbative unitarity (OPEN)",
+   "name": "B3_relic_requirement_and_unitarity",
    "passed": true
   },
   {
@@ -112,7 +112,7 @@
    "passed": true
   },
   {
-   "detail": "ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = +2.05, the atomic-clock bound |d ln alpha/dt| < 1e-17/yr and the lunar-ranging bound |d ln G/dt| < 1e-13/yr (FROM MEMORY) require |h| < 2.5e-18/yr = 3.6e-08 H0 and |h| < 4.9e-14/yr = 7.1e-04 H0 today; a block deflating at the Hubble rate would change m_e by 1.4e-09 per year: the extra times (and x0) must be frozen today, their exponential deflation confined to the primordial era",
+   "detail": "ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = +2.05, the atomic-clock bound |d ln alpha/dx4| < 1e-17/yr (x4 the time) and the lunar-ranging bound |d ln G_N/dx4| < 1e-13/yr (FROM MEMORY) require |h| < 2.5e-18/yr = 3.6e-08 H0 and |h| < 4.9e-14/yr = 7.1e-04 H0 today; a block deflating at the Hubble rate would change m_e by 1.4e-09 per year: the extra times (and x0) must be frozen today, their exponential deflation confined to the primordial era",
    "name": "A6_block_frozen_today",
    "passed": true
   }

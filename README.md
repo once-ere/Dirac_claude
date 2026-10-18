@@ -11,11 +11,16 @@ behave like dark matter and/or dark energy.
 
 On 2026-10-17 the author ordered a new model of the Universe: Einstein-Lovelock gravity with the author's weights and
 Lambda, the dirac16complex field (the dark-matter hypothesis) coupled through the canonical spin connection, photons,
-neutrinos, electrons, up and down quarks, gluons, W+ (charge +e), W- (charge -e) and Z, no Higgs particle, every mass from
-the x0 dependence of wave functions with period pi/(6H). The model, its provenance, its coupled field equations, an
-approximate solution with Kohn-Sham theory for dirac16complex, and the analysis of the x0 mass mechanism and of the
-dark-matter and dark-energy associations are in [`universe_model_2/`](universe_model_2/README.md) (documents as .md, .tex
-and .pdf; 182 verification checks, all passing).
+neutrinos, electrons, quarks, gluons, W+ (charge +e), W- (charge -e) and Z, no Higgs particle, every mass from the x0
+dependence of wave functions with period pi/(6H). On 2026-10-18 he ordered three neutrino flavours with mixing and flavour
+conversion; version 2 of the model therefore has three full generations of quarks and leptons (anomaly free generation by
+generation), the PMNS and CKM matrices from the x0 mechanism, and the flavour conversion of the neutrinos in vacuum, matter,
+the Sun, the early Universe (N_eff), the cosmic neutrino background and supernovae. The model, its provenance, its coupled
+field equations, an approximate solution with Kohn-Sham theory for dirac16complex, and the analysis of the x0 mass mechanism
+and of the dark-matter and dark-energy associations are in [`universe_model_2/`](universe_model_2/README.md) (documents as
+.md, .tex and .pdf; 205 verification checks, all passing, reproduced from a fresh clone). An independent review of version 2
+found that the relic abundance of its dark matter (the heavy odd quanta of dirac16complex) cannot be produced by the
+gauge-kinetic portal within perturbative unitarity: in version 2 that relic is open.
 
 ## The current record: `Revision/`
 

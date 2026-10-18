@@ -113,14 +113,15 @@ the early Universe and in dense neutrino gases. It is self-contained:
 every equation it uses is written here. Labels: AUTHOR (the author's
 notebooks), RECORD (the Revision record of this repository), STANDARD
 (textbook), ASSUMED, INVENTED (new in UM-2), DERIVED (computed and
-verified in UM-2; the verification is stated), OPEN.
+verified in UM-2; the verification is stated), ESTIMATE (an
+order-of-magnitude evaluation), OPEN.
 
 Version 2 (2026-10-18) has three generations of quarks and leptons,
 anomaly free generation by generation, with \(3\times3\) tip coupling
-matrices whose neutrino and down-quark parts are the PMNS and CKM
-matrices (section 6.2); the flavour evolution of the neutrinos is
-section 9. The chiral tip \(Z\) portal of version 1 is removed (section
-2).
+matrices, from which the mixing matrices follow as
+\(U = \kappa_e^\dagger\kappa_\nu\) and \(V = \kappa_u^\dagger\kappa_d\)
+(section 6.2); the flavour evolution of the neutrinos is section 9. The
+chiral tip \(Z\) portal of version 1 is removed (section 2).
 
 \hypertarget{coordinates-signature-units}{%
 \subsection{Coordinates, signature,
@@ -236,6 +237,15 @@ Units \(\hbar = c = 1\); mass dimensions in eight dimensions:
   block operator \(\gamma^{x_0}\gamma^{x_1}\gamma^{x_4}\)); in section 9
   \(u = \cos\vartheta\) is the direction cosine of a neutrino (\(u\) is
   also the up quark and \(u(y)\) a boson profile).
+\item
+  \(H\) is the author's constant, except in the neutrino-decoupling
+  equations of section 9, where \(H\) is the Hubble rate; the time is
+  always \(x_4\) (dots and \(d/dx_4\)), and the symmetry axis of the
+  fast-flavour analysis is \(x_3\). \(\Lambda^0\), \(\Lambda^3\) (upper
+  indices) are the fast-flavour potentials. \(G(k)\) is the
+  Einstein-Hilbert coefficient and \(G(u)\) the electron-lepton-number
+  distribution; \(F_h = 1.0095\) is the heating factor of
+  \(\Delta N_{eff}\) and \(F(T_1, T_2)\) the energy-transfer kernel.
 \end{itemize}
 
 \hypertarget{the-action}{%
@@ -307,15 +317,23 @@ In the unitary gauge \(\Sigma = 1\) the sigma-field kinetic term becomes
 which let a band of dirac16complex stand in for the neutrinos missing
 from one generation. With three generations its even part \(c_Z\) is
 bounded by the \(Z\) invisible width
-(\(N_\nu = 3 + 2r^2 = 2.9963 \pm 0.0074\) gives \(r^2 < 0.0056\)) and
-would still add two neutrino-like species to \(N_{eff}\), and its
-oriented part \(c'_Z\) would thermalise the \(\Psi_A\) fold band through
+(\(N_\nu = 3 + 2r^2 = 2.9963 \pm 0.0074\) gives \(r^2 < 0.0056\);
+DERIVED) and would still keep two neutrino-like species in equilibrium
+down to \(14.7\) MeV, adding
+\[ \Delta N_{eff} = n_W\Big(\frac{10.75}{g_s}\Big)^{4/3}F_h,\qquad F_h = \Big[\frac{T_\nu}{T_\gamma}\Big(\frac{11}{4}\Big)^{1/3}\Big/(1 + h_\nu)\Big]^4 = 1.0095 \]
+(\(n_W = 2\) Weyl species decoupling when the plasma has \(g_s\) entropy
+degrees of freedom; \(F_h\) corrects for the heating of the neutrinos by
+\(e^+e^-\) annihilation, which an earlier-decoupled species does not
+receive, with \(T_\nu/T_\gamma = 0.71664\) and the comoving heating
+\(h_\nu = 0.00165\) of the common-temperature decoupling of section
+9.4), i.e.~\(\Delta N_{eff} = 2.02\) at \(g_s = 10.75\); its oriented
+part \(c'_Z\) would thermalise the \(\Psi_A\) fold band through
 \(\Psi_A^{odd} \leftrightarrow \Psi_A^{fold} + Z\) and add
-\(\Delta N_{eff} = 0.096\) to \(0.126\), \(2.1\) to \(2.4\) standard
-deviations above the ACT DR6 value \(N_{eff} = 2.86 \pm 0.13\) (DERIVED
-and ESTIMATE): UM-2 sets \(c_Z = c'_Z = 0\), so neither fold band of
-\(\Psi\) is ever thermalised and the fold parity is exact in both
-halves.
+\(\Delta N_{eff} = 0.096\) to \(0.126\) (\(g_s = 105.75\) to \(86.25\);
+ESTIMATE), \(2.1\) to \(2.4\) standard deviations above the ACT DR6
+value \(N_{eff} = 2.86 \pm 0.13\) (disfavoured): UM-2 sets
+\(c_Z = c'_Z = 0\) (ASSUMED), so neither fold band of \(\Psi\) is ever
+thermalised and the fold parity is exact in both halves.
 
 \hypertarget{the-gravitational-field-equations}{%
 \section{The gravitational field
@@ -716,9 +734,12 @@ unitary \(\kappa\) (DERIVED)
 \[ \det\Big[\dots\Big] = \prod_{i=1}^{3}\frac{b_La_{Ri} + a_Lb_{Ri}}{a_{Ri}},\qquad b_La_R + a_Lb_R = -D(e)\big\vert_{\kappa_f = 1},\qquad
    \mathcal A^{(i)} = \kappa\,\hat e_i,\quad \mathcal B^{(i)} \propto \hat e_i : \]
 the masses are the one-generation roots with \(\kappa_f = 1\), the
-left-handed mixing matrix is the tip matrix, and the right-handed
-rotations are trivial (verified with mpmath at 50 digits to
-\(3.0\times10^{-42}\)).
+left-handed rotation of each sector is its tip matrix (so that
+\(U = \kappa_e^\dagger\kappa_\nu\) and
+\(V = \kappa_u^\dagger\kappa_d\)), and the right-handed rotations are
+trivial (verified with mpmath at 50 digits to \(3.0\times10^{-42}\), the
+two sets of roots refined in the same computation; the masses stored by
+the mass computation agree with them to \(4.5\times10^{-11}\)).
 
 \hypertarget{dirac16complex-the-kohn-sham-equations-coupled-to-all-fields}{%
 \section{dirac16complex: the Kohn-Sham equations coupled to all
@@ -817,9 +838,12 @@ The background is
 \(\mathcal H^2 = \frac{8\pi G_N}{3}a^2\bar\rho_{tot} + \frac{\Lambda_4}{3}a^2\),
 adiabatic initial conditions with the power spectrum
 \(\mathcal P(k) = A_s(k/k_0)^{n_s - 1}\). The relativistic content is
-\(N_{eff} = 3.0432\), carried by the three mass eigenstates (each
-\(N_{eff}/3\); the neutrino temperature \((4/11)^{1/3}T_\gamma\) of
-instantaneous decoupling raised by the heating of section 9.4).
+\(N_{eff} = 3.0432\), carried by the three mass eigenstates (each with
+the degeneracy \(N_{eff}/3 = 1.0144\) at the temperature
+\(T_\nu = (4/11)^{1/3}T_\gamma\) of instantaneous decoupling, which
+represents the spectrum heated by \(e^+e^-\) annihilation; the adopted
+\(N_{eff} = 3.0432\) is the precision value, close to the \(3.0476\) to
+\(3.0485\) computed in section 9.4).
 
 \hypertarget{the-flavour-evolution-of-the-three-neutrinos}{%
 \section{The flavour evolution of the three
@@ -858,7 +882,7 @@ Antineutrinos have \(-V\).
 
 The flavour amplitudes \(\psi_\alpha\) of a neutrino of energy
 \(E \gg m_i\) evolve along its path as
-\[ i\frac{d\psi}{dt} = \mathcal H\psi,\qquad \mathcal H = \frac{1}{2E}\,U\,\mathrm{diag}(m_1^2, m_2^2, m_3^2)\,U^\dagger + V , \]
+\[ i\frac{d\psi}{dx_4} = \mathcal H\psi,\qquad \mathcal H = \frac{1}{2E}\,U\,\mathrm{diag}(m_1^2, m_2^2, m_3^2)\,U^\dagger + V , \]
 with \(U \to U^*\) and \(V \to -V\) for antineutrinos (\(V_{NC}\) is a
 multiple of the identity and drops out). For a constant potential the
 evolution operator is \(S(L) = e^{-i\mathcal HL}\) and
@@ -909,25 +933,26 @@ is a \(3\times3\) density matrix \(\rho_{\vec p}\) (diagonal elements
 the occupation numbers of the flavours, off-diagonal ones the flavour
 coherence), and \(\bar\rho_{\vec p}\) for antineutrinos. They obey
 (STANDARD)
-\[ i(\partial_t + \vec v_p\cdot\nabla)\rho_{\vec p} = \big[\Omega_{\vec p} + V + V_{\nu\nu}, \rho_{\vec p}\big] + i\,\mathcal C[\rho],\qquad \Omega_{\vec p} = \frac{U\,\mathrm{diag}(m_i^2)\,U^\dagger}{2p}, \]
+\[ i(\partial_{x_4} + \vec v_p\cdot\nabla)\rho_{\vec p} = \big[\Omega_{\vec p} + V + V_{\nu\nu}, \rho_{\vec p}\big] + i\,\mathcal C[\rho],\qquad \Omega_{\vec p} = \frac{U\,\mathrm{diag}(m_i^2)\,U^\dagger}{2p}, \]
 \[ V_{\nu\nu} = \sqrt2\,G_F\int\frac{d^3q}{(2\pi)^3}\,(1 - \vec v_p\cdot\vec v_q)\big(\rho_{\vec q} - \bar\rho_{\vec q}\big),\qquad \vec v_p = \frac{\vec p}{p}, \]
 with \(\mathcal C\) the collision term of \(\mathcal L_{CC}\) and
 \(\mathcal L_{NC}\) (in an expanding Universe
-\(\partial_t \to \partial_t - Hp\,\partial_p\)). During neutrino
+\(\partial_{x_4} \to \partial_{x_4} - Hp\,\partial_p\)). During neutrino
 decoupling the energy exchanged between the plasma and the neutrinos is
 followed with one temperature per species (STANDARD; Escudero 2020):
 with the photon temperature \(T_\gamma\), the neutrino temperatures
 \(T_{\nu_e}\) and \(T_{\nu_\mu} = T_{\nu_\tau}\), the Hubble rate
-\(H = \sqrt{8\pi\rho/3}/M_{Pl}\) of the total density, the energy
-densities \(\rho_\gamma = \pi^2T_\gamma^4/15\) and
+\(H = \sqrt{8\pi\rho/3}/M_{Pl}\) of the total density (here \(H\) is not
+the author's constant; \(M_{Pl} = G_N^{-1/2} = 1.22091\times10^{19}\)
+GeV), the energy densities \(\rho_\gamma = \pi^2T_\gamma^4/15\) and
 \(\rho_{\nu_\alpha} = 7\pi^2T_{\nu_\alpha}^4/120\) per flavour and the
 \(e^\pm\) energy density \(\rho_e\) and pressure \(p_e\) (with the
 electron mass, \(g = 4\), no chemical potential),
-\[ \frac{dT_\gamma}{dt} = -\frac{4H\rho_\gamma + 3H(\rho_e + p_e) + 3HT_\gamma\frac{dP_{int}}{dT_\gamma} + \frac{\delta\rho_{\nu_e}}{\delta t} + 2\frac{\delta\rho_{\nu_\mu}}{\delta t}}
+\[ \frac{dT_\gamma}{dx_4} = -\frac{4H\rho_\gamma + 3H(\rho_e + p_e) + 3HT_\gamma\frac{dP_{int}}{dT_\gamma} + \frac{\delta\rho_{\nu_e}}{\delta x_4} + 2\frac{\delta\rho_{\nu_\mu}}{\delta x_4}}
    {\frac{d\rho_\gamma}{dT_\gamma} + \frac{d\rho_e}{dT_\gamma} + T_\gamma\frac{d^2P_{int}}{dT_\gamma^2}},\qquad
-   \frac{dT_{\nu_\alpha}}{dt} = -HT_{\nu_\alpha} + \frac{\delta\rho_{\nu_\alpha}/\delta t}{d\rho_{\nu_\alpha}/dT_{\nu_\alpha}}, \]
-\[ \frac{\delta\rho_{\nu_e}}{\delta t} = \frac{G_F^2}{\pi^5}\Big[4(g_{eL}^2 + g_{eR}^2)F(T_\gamma, T_{\nu_e}) + 2F(T_{\nu_\mu}, T_{\nu_e})\Big],\qquad
-   \frac{\delta\rho_{\nu_\mu}}{\delta t} = \frac{G_F^2}{\pi^5}\Big[4(g_{\mu L}^2 + g_{\mu R}^2)F(T_\gamma, T_{\nu_\mu}) - F(T_{\nu_\mu}, T_{\nu_e})\Big], \]
+   \frac{dT_{\nu_\alpha}}{dx_4} = -HT_{\nu_\alpha} + \frac{\delta\rho_{\nu_\alpha}/\delta x_4}{d\rho_{\nu_\alpha}/dT_{\nu_\alpha}}, \]
+\[ \frac{\delta\rho_{\nu_e}}{\delta x_4} = \frac{G_F^2}{\pi^5}\Big[4(g_{eL}^2 + g_{eR}^2)F(T_\gamma, T_{\nu_e}) + 2F(T_{\nu_\mu}, T_{\nu_e})\Big],\qquad
+   \frac{\delta\rho_{\nu_\mu}}{\delta x_4} = \frac{G_F^2}{\pi^5}\Big[4(g_{\mu L}^2 + g_{\mu R}^2)F(T_\gamma, T_{\nu_\mu}) - F(T_{\nu_\mu}, T_{\nu_e})\Big], \]
 \[ F(T_1, T_2) = 32f_a(T_1^9 - T_2^9) + 56f_sT_1^4T_2^4(T_1 - T_2),\qquad f_a = 0.884,\quad f_s = 0.829 \]
 (\(f_a\), \(f_s\) the Fermi-Dirac factors of the annihilation and
 scattering rates; \(g_{eL} = \frac12 + s^2\), \(g_{eR} = s^2\) for
@@ -936,7 +961,7 @@ scattering rates; \(g_{eL} = \frac12 + s^2\), \(g_{eR} = s^2\) for
 \(\nu_{\mu,\tau}\), with \(s^2 = \sin^2\theta_W\), or the radiatively
 corrected values \(0.727\), \(0.233\), \(-0.273\), \(0.233\)). When
 oscillations equalise the flavours, one temperature \(T_\nu\) obeys
-\(dT_\nu/dt = -HT_\nu + (\delta\rho_{\nu_e}/\delta t + 2\delta\rho_{\nu_\mu}/\delta t)/(3\,d\rho_\nu/dT_\nu)\).
+\(dT_\nu/dx_4 = -HT_\nu + (\delta\rho_{\nu_e}/\delta x_4 + 2\delta\rho_{\nu_\mu}/\delta x_4)/(3\,d\rho_\nu/dT_\nu)\).
 The finite-temperature QED corrections enter through the interaction
 pressure of the \(e^\pm\gamma\) plasma, \(P_{int} = P_2 + P_3\), and its
 energy density \(\rho_{int} = -P_{int} + T\,dP_{int}/dT\) (STANDARD;
@@ -967,16 +992,17 @@ distribution
 governs the linearised evolution of the small flavour coherence \(S_u\)
 (the \(e x\) element of \(\rho\), \(x\) a heavy-lepton flavour). With
 \(v = (1, u)\), \(\Lambda^\mu = \int du/2\,G(u)\,v^\mu\) and modes
-\(S_u \propto e^{-i(\Omega t - Kz)}\) in the shifted variables
-\(\omega = \Omega - \Lambda^0\), \(k = K - \Lambda^3\), the linear
-equations have non-trivial solutions if (STANDARD)
-\[ \det\Pi(\omega, k) = 0,\qquad \Pi^{\mu\nu} = \eta^{\mu\nu} + \int_{-1}^{1}\frac{du}{2}\,G(u)\,\frac{v^\mu v^\nu}{\omega - ku}\qquad (\eta = \mathrm{diag}(1, -1)\ \text{on}\ (t, z)), \]
+\(S_u \propto e^{-i(\Omega x_4 - Kx_3)}\) (\(x_3\) the symmetry axis) in
+the shifted variables \(\omega = \Omega - \Lambda^0\),
+\(k = K - \Lambda^3\), the linear equations have non-trivial solutions
+if (STANDARD)
+\[ \det\Pi(\omega, k) = 0,\qquad \Pi^{\mu\nu} = \eta^{\mu\nu} + \int_{-1}^{1}\frac{du}{2}\,G(u)\,\frac{v^\mu v^\nu}{\omega - ku}\qquad (\eta = \mathrm{diag}(1, -1)\ \text{on}\ (x_4, x_3)), \]
 which splits into the axisymmetric branch and the azimuthal branch
 \[ (1 + J_0)(-1 + J_2) - J_1^2 = 0,\quad J_n = \int_{-1}^{1}\frac{du}{2}\,\frac{G(u)\,u^n}{\omega - ku};\qquad -1 + \int_{-1}^{1}\frac{du}{2}\,\frac{G(u)\,(1 - u^2)}{2(\omega - ku)} = 0 . \]
 A root with \(\mathrm{Im}\,\omega > 0\) for real \(k\) is an instability
 with the growth rate \(\mathrm{Im}\,\omega\). The homogeneous mode
 (\(K = 0\), i.e. \(k = -\Lambda^3\)) obeys
-\[ i\frac{dS_u}{dt} = (\Lambda^0 - u\Lambda^3)\,S_u - \int_{-1}^{1}\frac{du'}{2}\,G(u')\,(1 - uu')\,S_{u'} , \]
+\[ i\frac{dS_u}{dx_4} = (\Lambda^0 - u\Lambda^3)\,S_u - \int_{-1}^{1}\frac{du'}{2}\,G(u')\,(1 - uu')\,S_{u'} , \]
 and for the mode \(K = \Lambda^3\) (\(k = 0\)) the dispersion relation
 is the quadratic
 \(\omega^2 - (I_2 - I_0)\omega - (I_0I_2 - I_1^2) = 0\),
