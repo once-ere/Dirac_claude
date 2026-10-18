@@ -11,7 +11,14 @@ the chapter plan for it) and `Revision/textbook/tools/README.md` (the notebook a
 - The PNG bytes depend on the zlib of Pillow: run every notebook build or check with a zlib-ng build in compat mode on
   `LD_LIBRARY_PATH` (zlib-ng 2.2.5 or 2.3.3, `cmake -DZLIB_COMPAT=ON`); with it `nbkit check` reproduces notebooks built on
   Windows byte for byte (verified on 01b, 2026-10-18).
-- Command form: `LD_LIBRARY_PATH=<zlib-ng build> <venv>/bin/python Revision/textbook/tools/nbkit.py check|build <builder> --scratch <dir>`.
+- numpy's AVX-512 kernels: on a machine with AVX-512 (the cloud container has it) numpy 2.4 dispatches tan, exp, log, log1p,
+  expm1, arctan, sinh, cbrt and power to kernels whose last bits differ from the Windows builds; with
+  `NPY_DISABLE_CPU_FEATURES=X86_V4` the Windows bytes are reproduced (01f fails without it and passes with it).
+- What stays different on Linux: the C math library (glibc against the Windows UCRT) in the last bit of some functions;
+  02c (figure 3, finite-difference errors) and 02d (one printed count of 16-digit agreements: 72 of 72 on Windows, 64 of
+  72 on Linux) therefore reproduce only on Windows; the cargo version printed by 00a (1.91.1 on Windows, 1.97.0 here).
+  Notebooks rebuilt in the cloud carry the Linux bytes; a libm-sensitive one may need a rebuild on the PC.
+- Command form: `NPY_DISABLE_CPU_FEATURES=X86_V4 LD_LIBRARY_PATH=<zlib-ng build> <venv>/bin/python Revision/textbook/tools/nbkit.py check|build <builder> --scratch <dir>`.
 
 ## State found on 2026-10-18 (static survey: builder against stored notebook, provenance current)
 

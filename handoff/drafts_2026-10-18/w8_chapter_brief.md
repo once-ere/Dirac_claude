@@ -54,12 +54,18 @@ output file, ASSUMED, HYPOTHESIS, OPEN).
 S=/tmp/claude-0/-home-claude/b01d490e-90a5-59ef-9e41-d6c1af230b6f/scratchpad
 PY=$S/tb314/bin/python                       # Python 3.14.5 with exactly Revision/textbook/requirements.txt
 ZNG=$S/zng/build-2.3.3                       # zlib-ng in compat mode: PNG bytes as on the Windows builds
+export NPY_DISABLE_CPU_FEATURES=X86_V4          # numpy without its AVX-512 kernels: the bytes of the Windows builds
 LD_LIBRARY_PATH=$ZNG nice -n 5 $PY Revision/textbook/tools/nbkit.py lint  Revision/textbook/notebooks/src/NNx_name.py
 LD_LIBRARY_PATH=$ZNG nice -n 5 $PY Revision/textbook/tools/nbkit.py build Revision/textbook/notebooks/src/NNx_name.py \
     --date 2026-10-18 --scratch $S/w8/<your folder>
 LD_LIBRARY_PATH=$ZNG nice -n 5 $PY Revision/textbook/tools/check_chapter.py Revision/textbook/chapters/NN-name.md \
     --scratch $S/w8/<your folder>
 ```
+
+NPY_DISABLE_CPU_FEATURES=X86_V4 is REQUIRED for every nbkit and check_chapter run: this machine has AVX-512, and numpy's
+AVX-512 kernels (tan, exp, log, log1p, expm1, arctan, sinh, cbrt, power) differ in the last bits from the author's Windows
+builds; with X86_V4 disabled the stored Windows notebooks reproduce byte for byte (verified on 01f). The cargo version
+here (1.97.0) differs from the Windows builds (1.91.1); only Notebook 00a prints it.
 
 Use your own scratch folder `$S/w8/chNN`. Run at most one build at a time (the machine has two cores). A build prints
 `build_NNx=OK` when the second execution reproduced everything byte for byte. `check_chapter.py` must end with
