@@ -1,0 +1,37 @@
+{
+ "check_count": 5,
+ "checks": [
+  {
+   "detail": "100 theta_* = 1.04113 (UM-2) and 1.04114 (LCDM); H0 = 67.43 and 67.34 km/s/Mpc",
+   "name": "theta_star_matched",
+   "passed": true
+  },
+  {
+   "detail": "UM-2 TT and EE spectra agree with Planck LCDM to 2.22e-04 and 3.75e-04 (relative, 30 <= l <= 2500), at most 0.01 of the cosmic variance of a single multipole",
+   "name": "cmb_spectra_close_to_lcdm",
+   "passed": true
+  },
+  {
+   "detail": "DESI DR2 BAO chi^2 = 30.31 for 13 measurements (LCDM with Planck parameters: 32.55; with thermalised Psi_B: 10.58)",
+   "name": "bao_desi",
+   "passed": true
+  },
+  {
+   "detail": "variant with the Psi_B fold band thermalised (N_eff = 3.223) at fixed Planck omega_b, omega_c, theta_*: TT changes by up to 2.81e-02 (1.4 cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 = 1012): it is NOT a fit to the CMB; a joint CMB + BAO fit of this variant is OPEN",
+   "name": "psiB_variant_cmb_shift",
+   "passed": true
+  },
+  {
+   "detail": "N_eff = 3.0440 (BBN helium fraction Y_He = 0.24566 from the CAMB/BBN interpolation, LCDM 0.24566)",
+   "name": "neff_and_helium",
+   "passed": true
+  }
+ ],
+ "description": "UM-2: CMB (TT, EE), CNB and BAO of the four-dimensional effective theory with the UM-2 particle content (CAMB), compared with Planck 2018 LCDM and DESI DR2 BAO",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "cosmology-checks"
+}
