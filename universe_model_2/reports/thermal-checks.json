@@ -1,0 +1,47 @@
+{
+ "check_count": 7,
+ "checks": [
+  {
+   "detail": "ideal-gas sums with the x0 masses: g_rho = 105.749 at 5 TeV (105.75: three generations, massive W+, W-, Z, no Higgs particle; no right-handed neutrinos, no fold bands), 86.219 at 10 GeV (86.25 without t, W, Z), 10.743 at 3 MeV (10.75), today g_s = 3.9091 (43/11 = 3.9091) and g_rho = 3.3626 (3.3626); s0 = 2891.3 cm^-3",
+   "name": "T1_degrees_of_freedom",
+   "passed": true
+  },
+  {
+   "detail": "Gondolo-Gelmini average of sigma = G^2 s^(3/2) (s - 4M^2)^(1/2)/(8 pi) against the non-relativistic 6 b/x (b = G^2 M^4/pi): relative excess 4.078e-01, 1.109e-01, 3.095e-02, 3.009e-03 at x = 10, 30, 100, 1000, i.e. x times the excess = 4.08, 3.33, 3.10, 3.01: the expansion <sigma v> = (6b/x)(1 + c1/x + ...) with c1 ~ 3 (the momentum dependence s(s - 4M^2) = 16 (M^2 + p^2) p^2 gives 2.5/x from <p^4>/<p^2>); at freeze-out the non-relativistic formula used in version 2 underestimates <sigma v> by about 10 %",
+   "name": "T2_thermal_average",
+   "passed": true
+  },
+  {
+   "detail": "s-wave Dirac species with <sigma v> = 4.4e-26 cm^3/s at M = 44348 GeV: numerical Omega h^2 = 0.1275 (particle + antiparticle), freeze-out formula 0.1306 (x_f 30.3 against 28.9); the late-time integral 1/Y(inf) - 1/Y(x*) = int lambda dx is reproduced to 1.3e-08 (the standard result: about 4.4e-26 cm^3/s for Omega h^2 = 0.12, FROM MEMORY)",
+   "name": "T3_boltzmann_solver",
+   "passed": true
+  },
+  {
+   "detail": "numerical Boltzmann solution (exact thermal average, g_rho(T), g_s(T)): each species gives Omega h^2 = 0.060 for (8 G_g^2 + 3 G_W^2 + G_B^2)^(1/2) = 2.5088e-13 GeV^-3 = (15.855 TeV)^-3 (x_f = 31.70, <sigma v>(x_f) = 1.891e-25 cm^3/s), against (15.54 TeV)^-3 from the freeze-out formula of version 2 (if the effective operator held at every energy)",
+   "name": "T4_relic_numerical",
+   "passed": true
+  },
+  {
+   "detail": "the effective cross-section of the relic strength exceeds the J = 0 (3P0) unitarity bound sigma <= pi/(4 p^2) above the relative velocity v_c = 0.274 (sqrt(s) = 89510.5 GeV, 814.6 GeV above threshold); at freeze-out (x = 31.7) 75 % of the annihilating pairs have v > v_c: the effective operator I12 cannot be used for the relic",
+   "name": "T5_unitarity_violated_by_effective_operator",
+   "passed": true
+  },
+  {
+   "detail": "with sigma = pi/(4 p^2) at every energy (the largest annihilation any interaction can give from the 3P0 channel) each species leaves Omega h^2 = 0.0582 (x_f = 30.77; <sigma v>(x_f) = 5.429e-26 cm^3/s, non-relativistic sqrt(pi x)/M^2 = 5.923e-26; version 2 compared with the s-wave estimate 2.317e-25); the capped effective operator gives 0.1544, 0.1081, 0.0836, 0.0649, 0.0585 for G^2/G^2_relic = 1, 3, 10, 100, 1e4: a relic of 0.060 per species is reachable only near the unitarity limit",
+   "name": "T5_unitarity_limited_relic",
+   "passed": true
+  },
+  {
+   "detail": "benchmark (8 G_g^2 + 3 G_W^2 + G_B^2)^(1/2) = pi/(2 M^3) = 1.801e-14 GeV^-3 = (38.2 TeV)^-3: the effective cross-section stays below the 3P0 bound up to sqrt(s) = 106363 GeV (2.40 M; a fraction 5.3e-04 of the annihilation rate at x = 30 comes from collisions above it); alone it would leave Omega h^2 = 8.0 per species (the relic needs the s-wave portal I13); with c_G = c_W = c_B = c and one-loop couplings at 2 M = 88696 GeV (g_s^2 = 0.779, g^2 = 0.378, g'^2 = 0.138; sqrt(8 g_s^4 + 3 g^4 + g'^4) = 2.302): c/Lambda*^3 = 1.106e-14 GeV^-3, Lambda*/c^(1/3) = 44.9 TeV",
+   "name": "T6_I12_benchmark",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 thermal history (x0 masses, three generations, no Higgs) and the dark-matter relic from the Boltzmann equation; partial-wave unitarity of the gauge-kinetic portal",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "thermal-checks"
+}

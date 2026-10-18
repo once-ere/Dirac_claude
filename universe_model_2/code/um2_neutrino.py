@@ -30,6 +30,12 @@ N6  Supernovae: the MSW resonances in the stellar envelope (densities, adiabatic
     stable; no instability without an ELN crossing), its time and length scales, and the effect of flavour equipartition on
     the charged-current heating behind the shock (schematic; the explosion study of Gogilashvili and Tamborra 2026 is cited for
     the dynamical consequences).
+N7  Dirac or Majorana (version 3): UM-2 gives the neutrinos Dirac masses from the overlap of the lepton doublet zero mode with
+    sharply localised right-handed singlets (tip couplings of order one).  The alternative without right-handed neutrinos is a
+    Majorana mass from the gauge-invariant tip operator -(1/2) m_ij N_i^T C N_j + h.c., N_i = (Sigma^dagger L_i)_1 (neutral: Sigma
+    absorbs the SU(2) and hypercharge phases), whose 4D mass is m_nu = kappa_M zeta(c_L)^2/(f L): the tip couplings needed, the
+    effective mass of neutrinoless double beta decay m_bb = |sum_i U_ei^2 m_i e^(i alpha_i)| over all Majorana phases, and the
+    factor 2 between the capture rates of the non-relativistic CNB for Majorana and Dirac neutrinos.
 Writes outputs/neutrino.json, figures/fig_neutrino_*.png and reports/neutrino-checks.json.
 """
 import cmath
@@ -787,6 +793,30 @@ def main():
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, 'fig_neutrino_decoupling.png'), dpi=130)
     plt.close(fig)
+    # ---------------- N7 Dirac or Majorana ----------------
+    zL2 = masses['fermions']['e']['zeta2_L']                 # zeta(c_L)^2 of the common lepton doublet
+    fL = masses['scales']['fL_GeV_inv']
+    kM = [float(mi * 1e-9 * fL / zL2) for mi in m]          # first order: m_i = kappa_Mi zeta(c_L)^2/(f L)
+    Ue2 = np.abs(U[0, :]) ** 2
+    terms = Ue2 * m * 1e3                                    # meV
+    mbb_max = float(terms.sum())
+    mbb_min = float(max(0.0, 2 * terms.max() - terms.sum()))
+    # numerical scan over the two Majorana phases (the third is unphysical)
+    ph = np.linspace(0, 2 * np.pi, 721)
+    A1, A2 = np.meshgrid(ph, ph)
+    mbb = np.abs(terms[0] + terms[1] * np.exp(1j * A1) + terms[2] * np.exp(1j * A2))
+    out['Majorana_alternative'] = {'zeta2_cL': zL2, 'kappa_M_needed': kM, 'm_bb_min_meV': mbb_min, 'm_bb_max_meV': mbb_max,
+                                   'm_bb_scan_min_meV': float(mbb.min()), 'm_bb_scan_max_meV': float(mbb.max()),
+                                   'Ue_i_squared_m_i_meV': terms.tolist(), 'CNB_capture_ratio_Majorana_over_Dirac': 2.0}
+    rep.check('N7_dirac_or_majorana', abs(mbb.max() - mbb_max) < 1e-6 * mbb_max and abs(mbb.min() - mbb_min) < 0.02 * mbb_max
+              and max(kM) < 1e-9,
+              'Dirac (UM-2): tip couplings of order one, the smallness of m_nu from the singlet localisation |c_R| = 31 to 35. Majorana '
+              '(alternative, no right-handed neutrinos): with the doublet localisation fixed by the tau mass, zeta(c_L)^2 = %.3e, the tip '
+              'couplings must be kappa_M = %.2e, %.2e, %.2e (an unexplained hierarchy: the x0 mechanism favours Dirac neutrinos); '
+              'neutrinoless double beta decay would have m_bb between %.2f and %.2f meV for all Majorana phases (|U_ei|^2 m_i = %.3f, %.3f, '
+              '%.3f meV; phase scan %.2f to %.2f meV), below the reach of present experiments; the non-relativistic CNB would be '
+              'captured twice as often as for Dirac neutrinos (both helicities active)' % (
+                  zL2, kM[0], kM[1], kM[2], mbb_min, mbb_max, terms[0], terms[1], terms[2], mbb.min(), mbb.max()))
     write_json(os.path.join(OUT, 'neutrino.json'), out)
     ok = rep.write()
     sys.exit(0 if ok else 1)

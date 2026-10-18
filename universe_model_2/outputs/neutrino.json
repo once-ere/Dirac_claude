@@ -50,6 +50,24 @@
   "E_res_13_rho2p8_exact_GeV": 11.1331482128,
   "Ue3_matter_at_formula_energy": 0.50025375289
  },
+ "Majorana_alternative": {
+  "CNB_capture_ratio_Majorana_over_Dirac": 2.0,
+  "Ue_i_squared_m_i_meV": [
+   0.6766722,
+   2.62387924674,
+   1.11059667071
+  ],
+  "kappa_M_needed": [
+   5.62764571302e-13,
+   4.90283905201e-12,
+   2.8216905611e-11
+  ],
+  "m_bb_max_meV": 4.41114811745,
+  "m_bb_min_meV": 0.836610376023,
+  "m_bb_scan_max_meV": 4.41114811745,
+  "m_bb_scan_min_meV": 0.836610376023,
+  "zeta2_cL": 8.03806324431e-05
+ },
  "N_eff_UM2_computed": {
   "common_UM2_tree_couplings": 3.04811348514,
   "common_temperature": 3.04854326394,

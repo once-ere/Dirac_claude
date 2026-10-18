@@ -20,6 +20,11 @@ version of 2026-10-18) enters through:
   baryons (omega_b), dark matter (the odd quanta of Psi_A and Psi_B; omega_c), Lambda4 (flatness).
 The comparison model is LCDM with the Planck 2018 parameters (CAMB defaults: one massive neutrino of 0.06 eV, N_eff = 3.044).
 theta_* is held at the Planck value (H0 fitted), so the CMB peaks match and the BAO are a test.
+Version 3 (2026-10-18) adds: the model of version 3, whose vector portal I11 (B - L) produces the fold bands by freeze-in with
+the benchmark Delta N_eff = 0.001 (um2_coupled.py fixes the I11 strength so); the matter power spectrum of every model (a
+separate CAMB run without the CMB, so the CMB numbers are unchanged): sigma_8, f sigma_8(z), and the rms Newtonian potential per
+logarithmic interval of k today, Delta_Phi(k), from the Weyl potential and, as a check, from the matter density through the
+Poisson equation (the first-order term of the metric power series; um2_series.py).
 Writes outputs/cosmology.json, figures/fig_cmb_spectra.png, fig_bao.png, reports/cosmology-checks.json.
 """
 import math
@@ -47,6 +52,9 @@ DESI = [
 
 
 KB_EV_PER_K = None     # set in main() from the constants
+DN_FREEZE_IN = 1.0e-3  # version 3: Delta N_eff of the fold bands produced by freeze-in through I11 (benchmark, um2_coupled.py)
+K_PHI = (1e-4, 1e-3, 1e-2, 0.05, 0.1, 0.3, 1.0)     # Mpc^-1
+Z_S8 = (2.0, 1.0, 0.5, 0.0)
 
 
 def nu_setup(pars, masses, neff_nu, dN):
@@ -100,6 +108,22 @@ def run(name, masses=None, neff_nu=3.044, dN=0.0, lmax=2600):
         mcamb = [float(x) * KB_EV_PER_K * pars.TCMB * (4.0 / 11.0) ** (1.0 / 3.0) for x in list(res.nu_masses)[:3]]
     der = res.get_derived_params()
     cls = res.get_cmb_power_spectra(pars, CMB_unit='muK', raw_cl=False)['total']
+    # matter power spectrum: a separate run of the same model without the CMB
+    p2 = pars.copy()
+    p2.WantCls = False
+    p2.set_matter_power(redshifts=list(Z_S8), kmax=20.0)
+    r2 = camb.get_results(p2)
+    s8z = [float(v) for v in r2.get_sigma8()]            # in the order of increasing time: z = 2, 1, 0.5, 0
+    fs8z = [float(v) for v in r2.get_fsigma8()]
+    PW = r2.get_matter_power_interpolator(nonlinear=False, var1='Weyl', var2='Weyl', hubble_units=False, k_hunit=False)
+    PD = r2.get_matter_power_interpolator(nonlinear=False, var1='delta_tot', var2='delta_tot', hubble_units=False, k_hunit=False)
+    Om_tot = (p2.ombh2 + p2.omch2 + p2.omnuh2) / (p2.H0 / 100) ** 2
+    cH = (p2.H0 / 299792.458) ** 2                       # (H0/c)^2 in Mpc^-2
+    dphi = []
+    for k in K_PHI:
+        dW = math.sqrt(k ** 3 * PW.P(0.0, k) / (2 * math.pi ** 2)) / k ** 2           # Weyl variable = k^2 (phi + psi)/2
+        dP = 1.5 * Om_tot * cH * math.sqrt(k ** 3 * PD.P(0.0, k) / (2 * math.pi ** 2)) / k ** 2
+        dphi.append({'k_Mpc-1': k, 'Delta_Phi_Weyl': dW, 'Delta_Phi_Poisson': dP})
     rd = der['rdrag']
     bao = []
     chi2 = 0.0
@@ -123,6 +147,8 @@ def run(name, masses=None, neff_nu=3.044, dN=0.0, lmax=2600):
            'omnuh2': pars.omnuh2, 'omnuh2_camb_today': res.get_Omega('nu') * (pars.H0 / 100) ** 2,
            'theta_star_100': der['thetastar'], 'z_star': der['zstar'], 'r_star': der['rstar'], 'z_drag': der['zdrag'],
            'r_drag': rd, 'age_Gyr': der['age'], 'YHe': pars.YHe, 'bao': bao, 'bao_chi2': chi2, 'bao_npts': 13,
+           'sigma8': s8z[-1], 'sigma8_z': dict(zip(['%.1f' % z for z in Z_S8], s8z)), 'fsigma8_z': dict(zip(['%.1f' % z for z in Z_S8], fs8z)),
+           'Delta_Phi_z0': dphi, 'Omega_m_total': Om_tot,
            'cl_TT_l': [[int(l), float(cls[l, 0])] for l in (2, 10, 30, 100, 220, 300, 540, 800, 1000, 1500, 2000, 2500)]}
     return out, cls
 
@@ -143,10 +169,13 @@ def main():
     um2, cl1 = run('UM-2: nu_1, nu_2, nu_3 (1.000, 8.712, 50.140 meV), N_eff = 3.0432, no dark radiation', masses, Neff_nu, 0.0)
     um2e, cl2 = run('UM-2 + a fold band thermalised above the electroweak scale (Delta N_eff = %.4f)' % dN_ew, masses, Neff_nu, dN_ew)
     um2q, cl3 = run('UM-2 + a fold band thermalised above the QCD crossover (Delta N_eff = %.4f)' % dN_qcd, masses, Neff_nu, dN_qcd)
+    um2v3, cl4 = run('UM-2 version 3: + the fold bands produced by freeze-in through I11 (Delta N_eff = %.4f)' % DN_FREEZE_IN, masses,
+                     Neff_nu, DN_FREEZE_IN)
     # attribution of the small UM-2 - LCDM difference: each change separately
     _, cla = run('LCDM with N_eff = 3.0432', None, Neff_nu)
     _, clb = run('UM-2 neutrino masses with N_eff = 3.044', masses, 3.044, 0.0)
-    out = {'models': [lcdm, um2, um2e, um2q], 'Delta_Neff_dark_radiation_EW': dN_ew, 'Delta_Neff_dark_radiation_QCD': dN_qcd}
+    out = {'models': [lcdm, um2, um2e, um2q], 'Delta_Neff_dark_radiation_EW': dN_ew, 'Delta_Neff_dark_radiation_QCD': dN_qcd,
+           'model_version_3': um2v3, 'Delta_Neff_freeze_in_benchmark': DN_FREEZE_IN}
     # comparisons
     l = np.arange(cl0.shape[0])
     sel = (l >= 30) & (l <= 2500)
@@ -164,7 +193,7 @@ def main():
             err = np.sqrt(2.0 / np.sum(2 * l[sel][mm] + 1))
             c2 += (dev / err) ** 2
         return c2
-    for key, cl in (('UM2', cl1), ('dark_radiation_EW', cl2), ('dark_radiation_QCD', cl3)):
+    for key, cl in (('UM2', cl1), ('dark_radiation_EW', cl2), ('dark_radiation_QCD', cl3), ('UM2_v3', cl4)):
         out[key + '_max_rel_dev_TT'] = float(np.max(np.abs(cl[sel, 0] / cl0[sel, 0] - 1)))
         out[key + '_max_dev_in_cosmic_variance_units'] = float(np.max(np.abs(cl[sel, 0] / cl0[sel, 0] - 1) / cv))
         out[key + '_TT_chi2_cosmic_variance_full_sky'] = binned_chi2_cv(cl, cl0)
@@ -225,6 +254,33 @@ def main():
     rep.check('neff_and_helium', abs(um2['Neff'] - Neff_nu) < 1e-12 and abs(um2['Neff_massive'] - Neff_nu) < 1e-12 and um2['Neff_massless'] == 0,
               'N_eff = %.4f, all of it in the three massive eigenstates (BBN helium fraction Y_He = %.5f from the CAMB/BBN interpolation, '
               'LCDM %.5f)' % (um2['Neff'], um2['YHe'], lcdm['YHe']))
+    # version 3: the model with the freeze-in fold bands, sigma_8 and the first-order potential
+    dv3_TT = float(np.max(np.abs(cl4[sel, 0] / cl1[sel, 0] - 1)))
+    out['UM2_v3_vs_v2_max_rel_dev_TT'] = dv3_TT
+    rep.check('version3_freeze_in_radiation', abs(um2v3['Neff'] - (Neff_nu + DN_FREEZE_IN)) < 1e-9 and dv3_TT < 1e-3,
+              'version 3 (fold bands produced by freeze-in through I11, Delta N_eff = %.3f): N_eff = %.4f; its TT spectrum differs from that '
+              'of version 2 by at most %.1e (30 <= l <= 2500) and from LCDM by %.2e; BAO chi^2 = %.2f; 100 theta_* = %.5f, H0 = %.2f km/s/Mpc' % (
+                  DN_FREEZE_IN, um2v3['Neff'], dv3_TT, out['UM2_v3_max_rel_dev_TT'], um2v3['bao_chi2'], um2v3['theta_star_100'], um2v3['H0']))
+    # growth suppression by Lambda4 today, g(0) = D(1)/a normalised to D = a deep in matter domination (no radiation, Omega_m total)
+    from scipy.integrate import quad as _q
+    Om = um2['Omega_m_total']
+    E = lambda a: math.sqrt(Om / a ** 3 + (1 - Om))
+    D = lambda a: 2.5 * Om * E(a) * _q(lambda b: 1.0 / (b * E(b)) ** 3, 0.0, a, limit=200)[0]
+    g0 = D(1.0)
+    ns, As = PLANCK['ns'], PLANCK['As']
+    big = um2['Delta_Phi_z0'][0]
+    pred = 0.6 * math.sqrt(As) * (big['k_Mpc-1'] / 0.05) ** ((ns - 1) / 2) * g0
+    pois = max(abs(r['Delta_Phi_Weyl'] / r['Delta_Phi_Poisson'] - 1) for r in um2['Delta_Phi_z0'] if r['k_Mpc-1'] >= 1e-2)
+    out['growth_suppression_g0'] = g0
+    rep.check('sigma8_and_first_order_potential', abs(lcdm['sigma8'] - 0.811) < 0.006 and pois < 1e-4 and abs(big['Delta_Phi_Weyl'] / pred - 1) < 0.02,
+              'sigma_8 = %.4f (UM-2), %.4f (version 3), %.4f (LCDM; Planck 2018 0.811, FROM MEMORY); f sigma_8 at z = 0.5: %.4f (UM-2), %.4f (LCDM); '
+              'the rms Newtonian potential today per logarithmic k, Delta_Phi = %s at k = %s Mpc^-1 (UM-2): the first-order term of the metric '
+              'is 2e-5 and smaller; from the Weyl potential and from the matter density through the Poisson equation it agrees to %.1e for '
+              'k >= 0.01 Mpc^-1; on the largest scales it equals (3/5) A_s^(1/2) (k/k_0)^((n_s - 1)/2) g(0) to %.1e (g(0) = %.4f, the '
+              'growth suppression by the cosmological term)' % (
+                  um2['sigma8'], um2v3['sigma8'], lcdm['sigma8'], um2['fsigma8_z']['0.5'], lcdm['fsigma8_z']['0.5'],
+                  ', '.join('%.2e' % r['Delta_Phi_Weyl'] for r in um2['Delta_Phi_z0']), ', '.join('%g' % r['k_Mpc-1'] for r in um2['Delta_Phi_z0']),
+                  pois, abs(big['Delta_Phi_Weyl'] / pred - 1), g0))
     out['CNB'] = nu['CNB']
     # figures
     import matplotlib

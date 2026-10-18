@@ -1,5 +1,5 @@
 {
- "check_count": 15,
+ "check_count": 16,
  "checks": [
   {
    "detail": "normal ordering: m = 1.0000e-03, 8.7121e-03, 5.0140e-02 eV (m1 chosen), dm2_21 = 7.490e-05, dm2_31 = 2.5130e-03 eV^2 (NuFIT 6.0); sum = 0.0599 eV < 0.064 eV (DESI DR2 + CMB, 95 %)",
@@ -74,6 +74,11 @@
   {
    "detail": "schematic charged-current heating behind the shock, proportional to N <E^2> of nu_e and nubar_e, for representative accretion-phase neutrinospheres (L = 6, 6, 4 x 1e52 erg/s; <E> = 11, 14, 15.5 MeV): flavour equipartition changes it by the factor 0.884 (full three-flavour equipartition) or 0.760 (ELN-conserving pair conversion until nubar_e is equipartitioned): the heavy-lepton neutrinos have higher energies but fewer particles and no charged-current absorption, so the heating falls; Gogilashvili and Tamborra (2026) find in 195 collapse simulations that this raises the fraction of failed explosions from 25.6 % to 50.8 - 96.4 %",
    "name": "equipartition_reduces_heating",
+   "passed": true
+  },
+  {
+   "detail": "Dirac (UM-2): tip couplings of order one, the smallness of m_nu from the singlet localisation |c_R| = 31 to 35. Majorana (alternative, no right-handed neutrinos): with the doublet localisation fixed by the tau mass, zeta(c_L)^2 = 8.038e-05, the tip couplings must be kappa_M = 5.63e-13, 4.90e-12, 2.82e-11 (an unexplained hierarchy: the x0 mechanism favours Dirac neutrinos); neutrinoless double beta decay would have m_bb between 0.84 and 4.41 meV for all Majorana phases (|U_ei|^2 m_i = 0.677, 2.624, 1.111 meV; phase scan 0.84 to 4.41 meV), below the reach of present experiments; the non-relativistic CNB would be captured twice as often as for Dirac neutrinos (both helicities active)",
+   "name": "N7_dirac_or_majorana",
    "passed": true
   }
  ],

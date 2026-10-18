@@ -1,0 +1,744 @@
+{
+ "I13": {
+  "G_A_GeV-2": 1.07964979254e-09,
+  "G_A_effective_operator_GeV-2": 1.07187018247e-09,
+  "G_A_over_G_F": 9.25642503572e-05,
+  "LZ_cm2": 2.43913477451e-45,
+  "Omega_h2_per_species_capped": 0.0599999998539,
+  "Omega_h2_per_species_effective": 0.0599999993337,
+  "components": [
+   {
+    "Itilde_b": 2.61345394593,
+    "mult": 6,
+    "name": "Q1",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde_b": 0.379455296151,
+    "mult": 3,
+    "name": "u_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde_b": 0.389061051259,
+    "mult": 3,
+    "name": "d_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde_b": 0.913409773488,
+    "mult": 2,
+    "name": "L1",
+    "q": -1.0
+   },
+   {
+    "Itilde_b": 0.389992326533,
+    "mult": 1,
+    "name": "e_R",
+    "q": -1.0
+   },
+   {
+    "Itilde_b": 0.300981812738,
+    "mult": 1,
+    "name": "nu1_R",
+    "q": -1.0
+   },
+   {
+    "Itilde_b": 2.61345394593,
+    "mult": 6,
+    "name": "Q2",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde_b": 0.556897035901,
+    "mult": 3,
+    "name": "c_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde_b": 0.445938724901,
+    "mult": 3,
+    "name": "s_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde_b": 0.913409773488,
+    "mult": 2,
+    "name": "L2",
+    "q": -1.0
+   },
+   {
+    "Itilde_b": 0.544168451304,
+    "mult": 1,
+    "name": "mu_R",
+    "q": -1.0
+   },
+   {
+    "Itilde_b": 0.304379009291,
+    "mult": 1,
+    "name": "nu2_R",
+    "q": -1.0
+   },
+   {
+    "Itilde_b": 2.61345394593,
+    "mult": 6,
+    "name": "Q3",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde_b": 2.61345394593,
+    "mult": 3,
+    "name": "t_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde_b": 0.660708004404,
+    "mult": 3,
+    "name": "b_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde_b": 0.913409773488,
+    "mult": 2,
+    "name": "L3",
+    "q": -1.0
+   },
+   {
+    "Itilde_b": 0.913409773488,
+    "mult": 1,
+    "name": "tau_R",
+    "q": -1.0
+   },
+   {
+    "Itilde_b": 0.307540245179,
+    "mult": 1,
+    "name": "nu3_R",
+    "q": -1.0
+   }
+  ],
+  "f_n_GeV-2": 1.61910406143e-09,
+  "f_p_GeV-2": 1.6173755861e-09,
+  "fraction_of_rate_above_crossing_at_xf": 0.244575046188,
+  "fraction_of_rate_saturated_capped": 0.189634902364,
+  "sigma_n_xenon_cm2": 2.86160806958e-46,
+  "sigma_v_I12_at_xf_cm3_s": 9.90602160817e-28,
+  "sigma_v_I13_at_xf_cm3_s": 9.50018799857e-26,
+  "sqrt_s_unitarity_crossing_GeV": 91825.5755807,
+  "sum_Nc_q2_Ib2": 22.9168782662,
+  "v_crossing": 0.517710021432,
+  "v_crossing_capped": 0.511699517452,
+  "x_f_capped": 31.2311046115,
+  "x_f_effective": 31.2311046115
+ },
+ "I13_checks": [
+  {
+   "finite_difference": 2.61345394629,
+   "fold_band_shift": 3.77475828373e-14,
+   "overlap_b": 2.61345394593,
+   "zero_mode": "Q (quark doublets)"
+  },
+  {
+   "finite_difference": 0.913409773697,
+   "fold_band_shift": 6.75015598972e-14,
+   "overlap_b": 0.913409773488,
+   "zero_mode": "L (lepton doublets)"
+  },
+  {
+   "finite_difference": 0.379455296188,
+   "fold_band_shift": 6.04238881152e-14,
+   "overlap_b": 0.379455296151,
+   "zero_mode": "u_R"
+  }
+ ],
+ "WZ_kinetic_shift": {
+  "Lambda_W_fem": 1.32148508324e-05,
+  "O_integral": 0.707196002672,
+  "dlnLambdaW_damp": -0.112600820548,
+  "photon_Lambda_with_K": -2.49802649064e-11
+ },
+ "direct_detection_I11": {
+  "G_d_GeV-2": 6.32838748463e-17,
+  "G_u_GeV-2": 6.3205663885e-17,
+  "LZ_cm2": 2.43913477451e-45,
+  "f_n": 1.89773413578e-16,
+  "f_p": 1.89695202616e-16,
+  "sigma_n_cm2": 3.93338184116e-60
+ },
+ "environments": {
+  "Earth (mean density 5.51 g/cm^3)": {
+   "T_GeV": 0.0,
+   "condensates_GeV4": {
+    "BB": 0.0,
+    "GG": 0.473741011252,
+    "WW": 0.0
+   },
+   "dM_I12_GeV": 5.24145412749e-15,
+   "d_eps_DM_I11_GeV": 4.3952624768e-33,
+   "d_eps_DM_I12_GeV": 3.70675635896e-15,
+   "d_eps_DM_I13_GeV": 3.26479347978e-26,
+   "d_eps_DM_over_M": 8.35835731076e-20,
+   "dalpha_over_alpha": {
+    "SU2": -9.52564408825e-61,
+    "U1": -2.743856967e-61,
+    "strong": -1.68880047922e-60
+   },
+   "delta_k": -4.39913441319e-61,
+   "delta_ln_f": 1.02201326992e-62,
+   "delta_ln_f_self_consistent": 1.02201326992e-62,
+   "delta_ln_m_e": -2.09582536247e-61,
+   "delta_ln_m_p": -4.71224387162e-61,
+   "densities_cm3": {
+    "n_DM": 9.01959179537e-06,
+    "n_e": 1.59273578549e+24,
+    "n_n": 1.72546376762e+24,
+    "n_p": 1.59273578549e+24
+   },
+   "iterations": 2,
+   "kappa_pbar_GeV2": 6.4203365273e-52,
+   "loop_gain": 4.71193970086e-61
+  },
+  "Milky Way at the Sun": {
+   "T_GeV": 0.0,
+   "condensates_GeV4": {
+    "BB": 0.0,
+    "GG": 0.473741011252,
+    "WW": 0.0
+   },
+   "dM_I12_GeV": 5.24145412749e-15,
+   "d_eps_DM_I11_GeV": 1.17993235253e-57,
+   "d_eps_DM_I12_GeV": 3.70675635896e-15,
+   "d_eps_DM_I13_GeV": 7.02092993786e-51,
+   "d_eps_DM_over_M": 8.35835731069e-20,
+   "dalpha_over_alpha": {
+    "SU2": -9.52564408825e-61,
+    "U1": -2.743856967e-61,
+    "strong": -1.68880047922e-60
+   },
+   "delta_k": -1.33538904772e-85,
+   "delta_ln_f": 3.10239515117e-87,
+   "delta_ln_f_self_consistent": 3.10239515117e-87,
+   "delta_ln_m_e": -6.36202937238e-86,
+   "delta_ln_m_p": -1.43043568696e-85,
+   "densities_cm3": {
+    "n_DM": 9.01959179537e-06,
+    "n_e": 1.0,
+    "n_n": 0.0,
+    "n_p": 1.0
+   },
+   "iterations": 2,
+   "kappa_pbar_GeV2": 1.94893955855e-76,
+   "loop_gain": 1.42027830149e-85
+  },
+  "QCD crossover (T = 200 MeV)": {
+   "T_GeV": 0.2,
+   "condensates_GeV4": {
+    "BB": -0.0,
+    "GG": 0.249152679992,
+    "WW": -0.0
+   },
+   "dM_I12_GeV": 2.7566166152e-15,
+   "d_eps_DM_I11_GeV": 2.03996085532e-28,
+   "d_eps_DM_I12_GeV": 1.94947927027e-15,
+   "d_eps_DM_I13_GeV": 1.50406585949e-21,
+   "d_eps_DM_over_M": 4.39588019936e-20,
+   "dalpha_over_alpha": {
+    "SU2": -2.94516294932e-29,
+    "U1": -8.48352699573e-30,
+    "strong": -5.22147642103e-29
+   },
+   "delta_k": -4.97676011213e-56,
+   "delta_ln_f": 1.1562081078e-57,
+   "delta_ln_f_self_consistent": 1.1562081078e-57,
+   "delta_ln_m_e": -2.37101645147e-56,
+   "delta_ln_m_p": -5.33098221973e-56,
+   "densities_cm3": {
+    "n_DM": 2.78870040992e+26,
+    "n_e": 7.76046307757e+28,
+    "n_n": 7.71044079163e+28,
+    "n_p": 7.76046307757e+28
+   },
+   "iterations": 2,
+   "kappa_pbar_GeV2": 7.26335495449e-47,
+   "loop_gain": 2.2493934114e-56
+  },
+  "centre of the Sun (150 g/cm^3)": {
+   "T_GeV": 0.0,
+   "condensates_GeV4": {
+    "BB": 0.0,
+    "GG": 0.473741011252,
+    "WW": 0.0
+   },
+   "dM_I12_GeV": 5.24145412749e-15,
+   "d_eps_DM_I11_GeV": 1.12495580575e-31,
+   "d_eps_DM_I12_GeV": 3.70675635896e-15,
+   "d_eps_DM_I13_GeV": 7.78187626377e-25,
+   "d_eps_DM_over_M": 8.35835731245e-20,
+   "dalpha_over_alpha": {
+    "SU2": -9.52564408825e-61,
+    "U1": -2.743856967e-61,
+    "strong": -1.68880047922e-60
+   },
+   "delta_k": -1.17368976472e-59,
+   "delta_ln_f": 2.72673303801e-61,
+   "delta_ln_f_self_consistent": 2.72673303801e-61,
+   "delta_ln_m_e": -5.59166541759e-60,
+   "delta_ln_m_p": -1.25722741828e-59,
+   "densities_cm3": {
+    "n_DM": 9.01959179537e-06,
+    "n_e": 5.96191934225e+25,
+    "n_n": 2.89062755988e+25,
+    "n_p": 5.96191934225e+25
+   },
+   "iterations": 2,
+   "kappa_pbar_GeV2": 1.71294681188e-50,
+   "loop_gain": 1.25711356126e-59
+  },
+  "cosmic mean today": {
+   "T_GeV": 0.0,
+   "condensates_GeV4": {
+    "BB": 0.0,
+    "GG": 0.473741011252,
+    "WW": 0.0
+   },
+   "dM_I12_GeV": 5.24145412749e-15,
+   "d_eps_DM_I11_GeV": 3.05001755189e-64,
+   "d_eps_DM_I12_GeV": 3.70675635896e-15,
+   "d_eps_DM_I13_GeV": 1.93099576925e-57,
+   "d_eps_DM_over_M": 8.35835731069e-20,
+   "dalpha_over_alpha": {
+    "SU2": -3.01109419887e-66,
+    "U1": -8.67344162698e-67,
+    "strong": -5.33836586684e-66
+   },
+   "delta_k": -3.62995459622e-92,
+   "delta_ln_f": 8.43316302277e-94,
+   "delta_ln_f_self_consistent": 8.43316302277e-94,
+   "delta_ln_m_e": -1.72937450707e-92,
+   "delta_ln_m_p": -3.88831749469e-92,
+   "densities_cm3": {
+    "n_DM": 2.85112904488e-11,
+    "n_e": 2.20358932747e-07,
+    "n_n": 3.08568324377e-08,
+    "n_p": 2.20358932747e-07
+   },
+   "iterations": 2,
+   "kappa_pbar_GeV2": 5.29775358003e-83,
+   "loop_gain": 3.57285440657e-92
+  },
+  "dark-matter freeze-out (T = 1.46 TeV)": {
+   "T_GeV": 1459.77304118,
+   "condensates_GeV4": {
+    "BB": -236466631.111,
+    "GG": -9030646560930.0,
+    "WW": -8590952297.54
+   },
+   "dM_I12_GeV": -0.100012426783,
+   "d_eps_DM_I11_GeV": 7.93479932404e-17,
+   "d_eps_DM_I12_GeV": -0.0707287882212,
+   "d_eps_DM_I13_GeV": 5.85361346673e-10,
+   "d_eps_DM_over_M": -1.59486198164e-06,
+   "dalpha_over_alpha": {
+    "SU2": -2.32723131814e-16,
+    "U1": -6.70357805408e-17,
+    "strong": -4.12594605563e-16
+   },
+   "delta_k": -2.39158915486e-43,
+   "delta_ln_f": 5.55617451728e-45,
+   "delta_ln_f_self_consistent": 5.55617451728e-45,
+   "delta_ln_m_e": -1.13939533021e-43,
+   "delta_ln_m_p": -2.5618110928e-43,
+   "densities_cm3": {
+    "n_DM": 2.20359655563e+39,
+    "n_e": 3.00782049376e+40,
+    "n_n": 3.00781782889e+40,
+    "n_p": 3.00782049376e+40
+   },
+   "iterations": 2,
+   "kappa_pbar_GeV2": 3.49041556066e-34,
+   "loop_gain": 1.26889114255e-44
+  },
+  "electroweak era (T = 100 GeV)": {
+   "T_GeV": 100.0,
+   "condensates_GeV4": {
+    "BB": -531376.369775,
+    "GG": -276768574.547,
+    "WW": -20454313.7882
+   },
+   "dM_I12_GeV": -3.29434286382e-06,
+   "d_eps_DM_I11_GeV": 2.55081906942e-20,
+   "d_eps_DM_I12_GeV": -2.32975927329e-06,
+   "d_eps_DM_I13_GeV": 1.88177327294e-13,
+   "d_eps_DM_over_M": -5.25336898233e-11,
+   "dalpha_over_alpha": {
+    "SU2": -6.0685549927e-21,
+    "U1": -1.74804419965e-21,
+    "strong": -1.07589350231e-20
+   },
+   "delta_k": -8.59225894048e-48,
+   "delta_ln_f": 1.99616602517e-49,
+   "delta_ln_f_self_consistent": 1.99616602517e-49,
+   "delta_ln_m_e": -4.09350397531e-48,
+   "delta_ln_m_p": -9.20381505377e-48,
+   "densities_cm3": {
+    "n_DM": 5.74616144744e+34,
+    "n_e": 9.66937744633e+36,
+    "n_n": 9.66925239018e+36,
+    "n_p": 9.66937744633e+36
+   },
+   "iterations": 2,
+   "kappa_pbar_GeV2": 1.2540010999e-38,
+   "loop_gain": 2.85427313165e-48
+  },
+  "neutron star core (0.3 fm^-3)": {
+   "T_GeV": 0.0,
+   "condensates_GeV4": {
+    "BB": 0.0,
+    "GG": 0.473741011252,
+    "WW": 0.0
+   },
+   "dM_I12_GeV": 5.24145412749e-15,
+   "d_eps_DM_I11_GeV": 4.29091742218e-19,
+   "d_eps_DM_I12_GeV": 3.70675635896e-15,
+   "d_eps_DM_I13_GeV": 3.5695341743e-12,
+   "d_eps_DM_over_M": 8.05729461282e-17,
+   "dalpha_over_alpha": {
+    "SU2": -9.52564408825e-61,
+    "U1": -2.743856967e-61,
+    "strong": -1.68880047922e-60
+   },
+   "delta_k": -3.97691230032e-47,
+   "delta_ln_f": 9.23922017944e-49,
+   "delta_ln_f_self_consistent": 9.23922017944e-49,
+   "delta_ln_m_e": -1.89467128768e-47,
+   "delta_ln_m_p": -4.2599699975e-47,
+   "densities_cm3": {
+    "n_DM": 9.01959179537e-06,
+    "n_e": 3e+37,
+    "n_n": 2.7e+38,
+    "n_p": 3e+37
+   },
+   "iterations": 2,
+   "kappa_pbar_GeV2": 5.80412256353e-38,
+   "loop_gain": 4.25991270537e-47
+  },
+  "nucleosynthesis (T = 1 MeV)": {
+   "T_GeV": 0.001,
+   "condensates_GeV4": {
+    "BB": -0.0,
+    "GG": 0.473741011252,
+    "WW": -0.0
+   },
+   "dM_I12_GeV": 5.24145412749e-15,
+   "d_eps_DM_I11_GeV": 2.39765048125e-35,
+   "d_eps_DM_I12_GeV": 3.70675635896e-15,
+   "d_eps_DM_I13_GeV": 1.58338603355e-28,
+   "d_eps_DM_over_M": 8.35835731069e-20,
+   "dalpha_over_alpha": {
+    "SU2": -6.27830410378e-37,
+    "U1": -1.80846232512e-37,
+    "strong": -1.11307990105e-36
+   },
+   "delta_k": -3.18770343014e-63,
+   "delta_ln_f": 7.40571871686e-65,
+   "delta_ln_f_self_consistent": 7.40571871686e-65,
+   "delta_ln_m_e": -1.51867823744e-63,
+   "delta_ln_m_p": -3.41458899464e-63,
+   "densities_cm3": {
+    "n_DM": 5.94476758302e+18,
+    "n_e": 1.51752218831e+22,
+    "n_n": 4.16340795339e+21,
+    "n_p": 1.51752218831e+22
+   },
+   "iterations": 2,
+   "kappa_pbar_GeV2": 4.65230812437e-54,
+   "loop_gain": 2.75741800586e-63
+  },
+  "white dwarf (1e6 g/cm^3, C/O)": {
+   "T_GeV": 0.0,
+   "condensates_GeV4": {
+    "BB": 0.0,
+    "GG": 0.473741011252,
+    "WW": 0.0
+   },
+   "dM_I12_GeV": 5.24145412749e-15,
+   "d_eps_DM_I11_GeV": 7.94337658278e-28,
+   "d_eps_DM_I12_GeV": 3.70675635896e-15,
+   "d_eps_DM_I13_GeV": 5.85994148072e-21,
+   "d_eps_DM_over_M": 8.35837052426e-20,
+   "dalpha_over_alpha": {
+    "SU2": -9.52564408825e-61,
+    "U1": -2.743856967e-61,
+    "strong": -1.68880047922e-60
+   },
+   "delta_k": -7.9839486794e-56,
+   "delta_ln_f": 1.85484250544e-57,
+   "delta_ln_f_self_consistent": 1.85484250544e-57,
+   "delta_ln_m_e": -3.80369421874e-56,
+   "delta_ln_m_p": -8.55220816237e-56,
+   "densities_cm3": {
+    "n_DM": 9.01959179537e-06,
+    "n_e": 3.01107037488e+29,
+    "n_n": 3.01107037488e+29,
+    "n_p": 3.01107037488e+29
+   },
+   "iterations": 2,
+   "kappa_pbar_GeV2": 1.16522098494e-46,
+   "loop_gain": 8.55163312689e-56
+  }
+ },
+ "fold_band_under_I11": {
+  "d2_gap_de2": -0.0406706531786,
+  "d_gap_de_linear": -1.07788777903e-10,
+  "dispersion_ratio_k2_over_k1": {
+   "-0.001": 2.0,
+   "0.0": 2.0,
+   "0.001": 2.0
+  }
+ },
+ "freeze_in": {
+  "Bessel_x6K1": 384.0,
+  "Bessel_x7K2": 3072.0,
+  "Delta_Neff_per_GV2": 5.21172100372e+29,
+  "Delta_Neff_vs_Tmax": {
+   "10000 GeV": 0.001,
+   "2000 GeV": 8.00394479304e-06,
+   "20000 GeV": 0.00799991952774,
+   "5000 GeV": 0.000125007330074
+  },
+  "G_V_benchmark_GeV-2": 4.38035612815e-17,
+  "Gamma_over_H_at_Tmax": 0.0124538779698,
+  "T_max_GeV": 10000.0,
+  "components": [
+   {
+    "Itilde": 6.68523516082,
+    "mult": 6,
+    "name": "Q1",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde": 0.791858111979,
+    "mult": 3,
+    "name": "u_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde": 0.806621328855,
+    "mult": 3,
+    "name": "d_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde": 1.65920956095,
+    "mult": 2,
+    "name": "L1",
+    "q": -1.0
+   },
+   {
+    "Itilde": 0.808048773846,
+    "mult": 1,
+    "name": "e_R",
+    "q": -1.0
+   },
+   {
+    "Itilde": 6.68523516082,
+    "mult": 6,
+    "name": "Q2",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde": 1.05983035601,
+    "mult": 3,
+    "name": "c_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde": 0.892873969835,
+    "mult": 3,
+    "name": "s_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde": 1.65920956095,
+    "mult": 2,
+    "name": "L2",
+    "q": -1.0
+   },
+   {
+    "Itilde": 1.04053623649,
+    "mult": 1,
+    "name": "mu_R",
+    "q": -1.0
+   },
+   {
+    "Itilde": 6.68523516082,
+    "mult": 6,
+    "name": "Q3",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde": 6.68523516082,
+    "mult": 3,
+    "name": "t_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde": 1.2209640721,
+    "mult": 3,
+    "name": "b_R",
+    "q": 0.333333333333
+   },
+   {
+    "Itilde": 1.65920956095,
+    "mult": 2,
+    "name": "L3",
+    "q": -1.0
+   },
+   {
+    "Itilde": 1.65920956095,
+    "mult": 1,
+    "name": "tau_R",
+    "q": -1.0
+   }
+  ],
+  "sum_Nc_q2_I2": 126.851652684
+ },
+ "orbital_energies_over_H": {
+  "dark matter (lowest odd level)": 3.10220413286,
+  "first even bulk level": 4.95998078039,
+  "fold band (zero mode)": 0.0
+ },
+ "overlap_checks_finite_amplitude": [
+  {
+   "finite_difference": 8.27221102711,
+   "overlap": 8.27221102684,
+   "zero_mode": "Q (quark doublets)"
+  },
+  {
+   "finite_difference": 0.397152748976,
+   "overlap": 0.397152748959,
+   "zero_mode": "e_R"
+  },
+  {
+   "finite_difference": 1.25240599812,
+   "overlap": 1.2524059985,
+   "zero_mode": "L (lepton doublets)"
+  }
+ ],
+ "overlaps_Itilde": {
+  "dark matter (lowest odd level)": {
+   "L (lepton doublets)": 1.2524059985,
+   "Q (quark doublets)": 8.27221102684,
+   "b_R": 0.762218387602,
+   "c_R": 0.605555763521,
+   "d_R": 0.396108122777,
+   "e_R": 0.397152748959,
+   "mu_R": 0.587934453526,
+   "nu1_R": 0.301616139296,
+   "nu2_R": 0.305122339736,
+   "nu3_R": 0.308393612303,
+   "s_R": 0.462027870271,
+   "t_R": 8.27221102684,
+   "tau_R": 1.2524059985,
+   "u_R": 0.38539516351
+  },
+  "first even bulk level": {
+   "L (lepton doublets)": 1.18467720458,
+   "Q (quark doublets)": 8.9200051021,
+   "b_R": 0.733083180874,
+   "c_R": 0.602033817101,
+   "d_R": 0.43670935503,
+   "e_R": 0.437533829559,
+   "mu_R": 0.587789548758,
+   "nu1_R": 0.359371977638,
+   "nu2_R": 0.362386993148,
+   "nu3_R": 0.365186366834,
+   "s_R": 0.488309804192,
+   "t_R": 8.9200051021,
+   "tau_R": 1.18467720458,
+   "u_R": 0.428230956969
+  },
+  "fold band (zero mode)": {
+   "L (lepton doublets)": 1.65920956095,
+   "Q (quark doublets)": 6.68523516082,
+   "b_R": 1.2209640721,
+   "c_R": 1.05983035601,
+   "d_R": 0.806621328855,
+   "e_R": 0.808048773846,
+   "mu_R": 1.04053623649,
+   "nu1_R": 0.667501550445,
+   "nu2_R": 0.673062986593,
+   "nu3_R": 0.678220721725,
+   "s_R": 0.892873969835,
+   "t_R": 6.68523516082,
+   "tau_R": 1.65920956095,
+   "u_R": 0.791858111979
+  }
+ },
+ "overlaps_Itilde_b": {
+  "dark matter (lowest odd level)": {
+   "L (lepton doublets)": 0.913409773488,
+   "Q (quark doublets)": 2.61345394593,
+   "b_R": 0.660708004404,
+   "c_R": 0.556897035901,
+   "d_R": 0.389061051259,
+   "e_R": 0.389992326533,
+   "mu_R": 0.544168451304,
+   "nu1_R": 0.300981812738,
+   "nu2_R": 0.304379009291,
+   "nu3_R": 0.307540245179,
+   "s_R": 0.445938724901,
+   "t_R": 2.61345394593,
+   "tau_R": 0.913409773488,
+   "u_R": 0.379455296151
+  },
+  "first even bulk level": {
+   "L (lepton doublets)": 0.531790433271,
+   "Q (quark doublets)": 3.74259901355,
+   "b_R": 0.21733533904,
+   "c_R": 0.120282524167,
+   "d_R": 0.0211382249451,
+   "e_R": 0.0214616606359,
+   "mu_R": 0.110071089335,
+   "nu1_R": 0.00200160741331,
+   "nu2_R": 0.00234307252532,
+   "nu3_R": 0.00268707531933,
+   "s_R": 0.0456921237407,
+   "t_R": 3.74259901355,
+   "tau_R": 0.531790433271,
+   "u_R": 0.0179547416035
+  },
+  "fold band (zero mode)": {
+   "L (lepton doublets)": 0.0,
+   "Q (quark doublets)": 0.0,
+   "b_R": 0.0,
+   "c_R": 0.0,
+   "d_R": 0.0,
+   "e_R": 0.0,
+   "mu_R": 0.0,
+   "nu1_R": 0.0,
+   "nu2_R": 0.0,
+   "nu3_R": 0.0,
+   "s_R": 0.0,
+   "t_R": 0.0,
+   "tau_R": 0.0,
+   "u_R": 0.0
+  }
+ },
+ "proton_sensitivity": {
+  "alpha_s_mKK": 0.0606482650446,
+  "dlnLambda3_dlnf": -49.030826325,
+  "dlnLambda6_dlnf": -60.2002360078,
+  "dln_mp_dlnf": -46.1074626945
+ },
+ "screened_response_Q": {
+  "bare": 8.27221102684,
+  "interacting": 8.26932210311
+ },
+ "validity": {
+  "I12_benchmark_unitarity_crossing_sqrt_s_over_M": 2.3983845492,
+  "I13_capped_crossing_velocity": 0.511699517452,
+  "M_over_T": 1.62099015285,
+  "T_at_which_dalpha_s_over_alpha_s_reaches_0.1_GeV": 27358.5283125,
+  "unitarity_velocity_relic_strength_I12": 0.274185300853
+ }
+}

@@ -162,7 +162,7 @@ class KSState:
 
     def __init__(self, cell, dk, N, lam=0.0, vol7=None, T=0.0, n2max=None, kappa=1.0,
                  ext_M=None, ext_v=None, cM=15.0 / 16.0, cV=-1.0 / 16.0, cS2=15.0 / 32.0, cN2=-1.0 / 32.0,
-                 fixed=None, ext_va=None):
+                 fixed=None, ext_va=None, ext_vb=None):
         self.c, self.dk, self.N, self.lam, self.T, self.kappa = cell, dk, N, lam, T, kappa
         self.vol7 = vol7 if vol7 is not None else (2 * math.pi / dk) ** 3
         self.cM, self.cV, self.cS2, self.cN2 = cM, cV, cS2, cN2
@@ -171,6 +171,7 @@ class KSState:
         self.ext_M = ext_M if ext_M is not None else np.zeros_like(y)
         self.ext_v = ext_v if ext_v is not None else np.zeros_like(y)
         self.ext_va = ext_va       # potential acting on the a-component only, (1 + sigma3)/2 v_a (chiral tip Z portal on Psi_A)
+        self.ext_vb = ext_vb       # potential acting on the b-component only, (1 - sigma3)/2 v_b = (1 - gamma^(x0))/2 v_b (portal I13)
         self.fixed = fixed     # optional list of (sector key, level index, occupation g f) for fixed occupations
         if n2max is None:
             n2max = 64
@@ -193,6 +194,8 @@ class KSState:
             Pv = (A * (W * v)) @ A.T + (B * (W * v)) @ B.T
             if self.ext_va is not None:
                 Pv = Pv + (A * (W * self.ext_va)) @ A.T
+            if self.ext_vb is not None:
+                Pv = Pv + (B * (W * self.ext_vb)) @ B.T
             base = np.diag(bs['E']) + PM + Pv
             KA = bs['Aov'] - bs['Bov']
             for (n2, r3) in self.shells:

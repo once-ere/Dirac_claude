@@ -1,0 +1,77 @@
+{
+ "check_count": 13,
+ "checks": [
+  {
+   "detail": "the overlap Itilde = int (a^2 + b^2) rho_f e^{-3Hy} dy of the dark-matter level with the Standard-Model zero modes equals the derivative of the self-consistent Kohn-Sham level with respect to the I11 amplitude (finite differences at 1e-4 and 2e-4, Richardson) to 3.1e-10: Q 8.272211, e_R 0.397153, L 1.252406; fold band: Q 6.685235, L 1.659210, e_R 8.0805e-01",
+   "name": "C1_overlaps",
+   "passed": true
+  },
+  {
+   "detail": "in the interacting Kohn-Sham state (8 fold zero modes and 8 dark-matter quanta, lambda_B) the response of the dark-matter level to the quark-doublet I11 field is 8.269322 against the bare overlap 8.272211 (relative -3.49e-04): the self-consistent screening by the Psi gas is small",
+   "name": "C1_screened_response",
+   "passed": true
+  },
+  {
+   "detail": "with the lepton-doublet I11 field the spacing between the k = 0 fold zero mode and the first momentum shell changes by -1.1e-10 per unit amplitude at first order (second order -0.041 e^2, a change of the group velocity: the ratio of the energies of the shells |k| = 2 dk and dk above the zero mode stays 2.000000000, 2.000000000, 2.000000000, i.e. the dispersion stays linear); at the physical amplitudes (below 1e-40 in these units) the fold band is massless",
+   "name": "C1_fold_band_massless",
+   "passed": true
+  },
+  {
+   "detail": "f fbar -> Psi_fold Psibar_fold through I11 (B - L): gamma = (4/pi^5) N_chi sum N_c (q Itilde)^2 G_V^2 T^8 (Maxwell-Boltzmann; Bessel moments 384 and 3072 checked), each pair carrying 8T; sum N_c (q Itilde)^2 = 1.2685e+02 over the Weyl components of three generations; Delta N_eff = 5.212e+29 G_V^2 GeV^4 for T_max = 10 TeV, so the benchmark Delta N_eff = 1e-3 means G_V = 4.380e-17 GeV^-2 (3.8e-12 G_F); Delta N_eff = 8.00e-06, 1.25e-04, 1.00e-03, 8.00e-03 for T_max = 2, 5, 10, 20 TeV; at T_max the production rate per fold quantum is 1.2e-02 of the Hubble rate: the fold bands are never in equilibrium",
+   "name": "C2_freeze_in_benchmark",
+   "passed": true
+  },
+  {
+   "detail": "the benchmark I11 couples the dark matter coherently to the quark vector currents (f_p = 2 G_u + G_d = 1.897e-16 GeV^-2, f_n = 1.898e-16 GeV^-2): sigma_n = mu^2 f^2/pi = 3.9e-60 cm^2 for xenon, against the LZ limit 2.4e-45 cm^2",
+   "name": "C3_direct_detection_I11",
+   "passed": true
+  },
+  {
+   "detail": "a mean field on the b-component, (1 - gamma^(x0))/2 v_b(y) = (1 - sigma3)/2 v_b(y), shifts the dark-matter level by Itilde^(b) = int b^2 rho_f e^{-3Hy} dy (self-consistent Kohn-Sham solutions, Richardson in the amplitude, agreement 2.3e-10: Q 2.613454, L 0.913410, u_R 0.379455) and leaves the fold zero mode and the first fold shell unchanged to 6.8e-14: I13 does not act on the fold bands",
+   "name": "C8_I13_overlaps_and_fold_band",
+   "passed": true
+  },
+  {
+   "detail": "with the unitarity-safe I12 benchmark and the s-wave portal I13 (B - L currents, sum N_c (q Itilde^(b))^2 = 22.917 over the Weyl components) each species leaves Omega h^2 = 0.060 for G_A = 1.072e-09 GeV^-2 if the effective cross-section held at every energy (x_f = 31.23; <sigma v>(x_f): I13 9.500e-26, I12 9.906e-28 cm^3/s); that cross-section reaches the J = 1 bound sigma <= 3 pi/(4 p^2) (one channel, 3S1) above v = 0.52, which carries 24.5 % of the rate at freeze-out; with the cross-section capped at the bound the relic needs G_A = 1.080e-09 GeV^-2 (9.3e-05 G_F; x_f = 31.23), and 19.0 % of the freeze-out rate then comes from collisions at the bound (v > 0.51): the relic is reached with most annihilations in the perturbative regime",
+   "name": "C8_I13_relic",
+   "passed": true
+  },
+  {
+   "detail": "I13 and I11 couple the dark matter coherently to the quark vector currents: f_p = 1.617e-09, f_n = 1.619e-09 GeV^-2, sigma_n = mu^2 f^2/pi = 2.86e-46 cm^2 for xenon, 0.12 of the LZ limit 2.44e-45 cm^2 at 44.3 TeV: allowed, and within reach of the next generation of xenon detectors",
+   "name": "C8_I13_direct_detection",
+   "passed": true
+  },
+  {
+   "detail": "the QCD scale tracks the block exponentially: with alpha_s(m_KK) = 0.0606 proportional to f^-4 and m_KK ~ 1/f, d ln Lambda^(6)/d ln f = -1 - (2 pi/(7 alpha_s)) 4 = -60.2; through the c, b, t thresholds d ln Lambda^(3)/d ln f = -49.0; with the sigma terms d ln m_p/d ln f = -46.1 (ESTIMATE, one loop): the nucleon mass is the most block-sensitive mass of UM-2",
+   "name": "C6_proton_sensitivity",
+   "passed": true
+  },
+  {
+   "detail": "the Standard-Model mean fields shift the dark-matter level by at most 1.6e-06 of its mass over the ten environments (largest: dark-matter freeze-out (T = 1.46 TeV), where the thermal gauge condensates are of order T^4; at most 8.1e-17 from nucleosynthesis to today) (I11 and I13 from the quark and electron B - L densities with their x0 profiles; I12 from the QCD vacuum condensate, the thermal QCD interaction measure and the thermal W, Z condensates); the fold band stays massless",
+   "name": "C4_mean_fields_in_environments",
+   "passed": true
+  },
+  {
+   "detail": "hidden pressures of nucleons (d ln m_p/d ln f = -46.1), electrons and dark matter shift the block by at most delta ln f = 5.6e-45 (nucleon mass 2.6e-43) in the ten environments; the gain of the loop mass -> hidden pressure -> block -> mass is at most 1.3e-44, so the self-consistent iteration converges at once",
+   "name": "C6_gravity_loop",
+   "passed": true
+  },
+  {
+   "detail": "with the kinetic function 1 + e s_DM(y) (s_DM = 2ab of the dark-matter orbital) the W eigenvalue changes by d ln Lambda_W/de = -0.1126 (finite elements, Richardson in e), i.e. m_W follows the 4D coupling, while the photon (and gluon) zero mode stays exactly massless (Lambda = -2.5e-11 with e = 0.01); the relevant amplitude in the environments is e ~ 4 c g^2 n_DM/Lambda*^3 < 1e-50",
+   "name": "C5_WZ_and_photon",
+   "passed": true
+  },
+  {
+   "detail": "the gauge-kinetic portal of the benchmark changes the strong coupling by 10 % through the thermal dark-matter density at T = 27359 GeV (M/T = 1.62): the coupled effective description holds below this temperature, i.e. through dark-matter freeze-out (M/T = 31) and everything later; the benchmark I12 respects the 3P0 unitarity bound up to sqrt(s) = 2.40 M (an I12 of the relic strength of version 2 would violate it above v = 0.274), and I13 reaches its J = 1 bound only above v = 0.51",
+   "name": "C7_validity_domain",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 coupled solution: Kohn-Sham theory for dirac16complex coupled to gravity and to every Standard-Model field, in environments from the laboratory to neutron stars and the early Universe",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "coupled-checks"
+}

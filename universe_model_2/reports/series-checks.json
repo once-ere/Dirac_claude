@@ -1,0 +1,32 @@
+{
+ "check_count": 4,
+ "checks": [
+  {
+   "detail": "the first-order four-dimensional term: rms Newtonian potential per logarithmic k today Delta_Phi = 2.42e-05, 2.28e-05, 1.51e-05, 4.12e-06, 1.74e-06, 3.55e-07, 5.04e-08 at k = 0.0001, 0.001, 0.01, 0.05, 0.1, 0.3, 1 Mpc^-1 (decreasing with k; sigma_8 = 0.8119 for UM-2, 0.8118 for version 3); bound objects: Phi = 7.0e-10, 2.1e-06, 1.0e-04, 1.7e-01, 5.4e-07, 1.1e-05 (Earth (surface), Sun (surface), white dwarf (0.6 Msun, 8700 km), neutron star (1.4 Msun, 12 km), Milky Way (v = 220 km/s), galaxy cluster (sigma_v = 1000 km/s)): the series in eps converges quickly everywhere except near neutron stars (Phi = 0.17) and black holes, where the full nonlinear equations apply",
+   "name": "S2_first_order_n0",
+   "passed": true
+  },
+  {
+   "detail": "even graviton tower (beta = 0): Lambda_n = 9 eta^2/4 + (n pi)^2 = 30.1196, 59.7284, 109.0764 agrees with finite elements to 3.9e-09; norms (1 + a^2/q^2)/2 to 1.8e-10; m_1 = 121.32 TeV (= m_KK), range hbar c/m_1 = 1.63e-21 m; Yukawa strengths for a source at the fold alpha_n = N_0/N_n = 0.0728, 0.1469, 0.1809, for the quark-doublet profile 0.0904, 0.0136, 0.0057, for the lepton-doublet profile 0.0208, 0.0197, 0.0105; a source with the flat zero-mode profile (e.g. gluon field energy) excites none (overlap 1.7e-10); at r = 50 micrometres e^{-m_1 r} = e^{-3.1e+16}: Newton's law is exact at every measurable distance",
+   "name": "S3_kaluza_klein_gravitons",
+   "passed": true
+  },
+  {
+   "detail": "the radion term sigma = delta ln f: the static response to matter is at most 5.6e-45 (dark-matter freeze-out (T = 1.46 TeV)); its range hbar c/m_r = 4.08e-21 m (m_r = 48.4 TeV); the primordial oscillation decays with lifetime 0.43 s/C_r (um2_analysis.py): the radion term is negligible in every observable regime after nucleosynthesis (if C_r > 6.5)",
+   "name": "S4_radion",
+   "passed": true
+  },
+  {
+   "detail": "on cosmological scales the terms decrease: order 0 (1), order 1 (Delta_Phi = 2.4e-05), order 2 (5.2e-10), radion (5.6e-45), Kaluza-Klein (0 at any measurable distance); tensor modes below 8.7e-06 (r < 0.036, FROM MEMORY): the metric of UM-2 is a power series of terms of decreasing magnitude, with the n = 0 term carrying the CMB, CNB and BAO",
+   "name": "S7_decreasing_magnitudes",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 metric power series: the terms of g = gbar + eps h1 + eps^2 h2 + ... and their magnitudes",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "series-checks"
+}
