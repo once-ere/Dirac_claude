@@ -6,7 +6,7 @@ This chapter teaches the second half of the mathematics that the book needs: dif
 
 The book's physics lives in equations that say how quantities change. Two places in the book need the tools of this chapter.
 
-First, the author's metric. The metric (introduced from zero in Chapter 3; here we only need its formulas) is a list of eight numbers $g_{00}, \dots, g_{77}$ that turn small coordinate steps along the eight directions $x_0, \dots, x_7$ into true lengths. The book uses the author's corrected metric, version 2 of 2026-10-16 (the earlier metric of 2026-10-14 and version 1 of 2026-10-16 are withdrawn). Its entries depend on TWO variables: the time $x_4$ and the hidden coordinate $x_0$. Lengths along the three directions of ordinary space, $x_1, x_2, x_3$, carry the **scale factor** $e^{a_4}$; lengths along the three **extra times** $x_5, x_6, x_7$ carry the scale factor $e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$; and lengths along the hidden direction $x_0$ carry $e^{-a_4} b_4^{1/2} |\cot z|$. Here $a_4(x_4)$ and $b_4(x_4) > 0$ are functions of the time ($b_4$ is never the constant 1) and $z = 6 H x_0$ (with the author's positive constant $H$), which takes every real value, is the author's variable for the hidden direction. Along the prescribed history of the Revision record, $a_4 = H x_4$ and $b_4 = e^{(4/3) H x_4}$, ordinary space inflates like $e^{H x_4}$, while the three extra times and the hidden direction **deflate exponentially**, like $e^{-H x_4/3}$. To say how fast each length changes with $x_4$ or with $x_0$ we need **partial derivatives**, the derivatives of a function of several variables (Sections 2.18 and 2.19).
+First, the author's metric. The metric (introduced from zero in Chapter 3; here we only need its formulas) is a list of eight numbers $g_{00}, \dots, g_{77}$ that turn small coordinate steps along the eight directions $x_0, \dots, x_7$ into true lengths. The book uses the author's corrected metric, version 2 of 2026-10-16 (the earlier metric of 2026-10-14 and version 1 of 2026-10-16 were withdrawn on 2026-10-16). Its entries depend on TWO variables: the time $x_4$ and the hidden coordinate $x_0$. Lengths along the three directions of ordinary space, $x_1, x_2, x_3$, carry the **scale factor** $e^{a_4}$; lengths along the three **extra times** $x_5, x_6, x_7$ carry the scale factor $e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}$; and lengths along the hidden direction $x_0$ carry $e^{-a_4} b_4^{1/2} |\cot z|$. Here $a_4(x_4)$ and $b_4(x_4) > 0$ are functions of the time ($b_4$ is never the constant 1) and $z = 6 H x_0$ (with the author's positive constant $H$), which takes every real value, is the author's variable for the hidden direction. Along the prescribed history of the Revision record, $a_4 = H x_4$ and $b_4 = e^{(4/3) H x_4}$, ordinary space inflates like $e^{H x_4}$, while the three extra times and the hidden direction **deflate exponentially**, like $e^{-H x_4/3}$. To say how fast each length changes with $x_4$ or with $x_0$ we need **partial derivatives**, the derivatives of a function of several variables (Sections 2.18 and 2.19).
 
 Second, the Kohn-Sham equations of the book (Chapters 14 and 15). They are two coupled first-order differential equations for the two components of an **orbital** (the wave function of one particle of the model) along the hidden coordinate, with one condition at each end of an interval, and they have solutions only for special energies, the **energy levels**. The Rust program of the Revision record solves them by the **shooting method**: it guesses an energy, integrates the equations from one end to the other with the **classical fourth-order Runge-Kutta method (RK4)** in 900 steps, measures by how much the condition at the far end fails, and corrects the energy with Newton's method. Sections 2.2 to 2.7 teach RK4 and the measurement of its accuracy, Sections 2.12 and 2.13 the shooting method, and Section 2.24 the special form of shooting (with the **Prüfer angle**) that the program uses.
 
@@ -1180,7 +1180,7 @@ check(G_KS == 900 and L_KS == 3.0 and A_KS == 1.0 and H_KS == 1.0
       "and historyB4AtZero")
 ```
 
-The two RESULT lines print 900, 3.0, 0.0033333333 and 1.0, 1.0, 1.333333333333333, 1.0; the check confirms the values and names the record and its keys in its second line (COMPUTED: reproduces `Revision/kohn_sham/results/parameters.json`, keys `rk4Steps`, `L_tipCutoff`, `historyA`, `H`, `historyBeta` and `historyB4AtZero`). The record stores $\beta$ as the decimal number 1.333333333333333 (16 digits), which differs from $4/3$ by about $3 \times 10^{-16}$; the check therefore asks for agreement within $10^{-14}$ instead of exact equality.
+The two RESULT lines print 900, 3.0, 0.0033333333 and 1.0, 1.0, 1.333333333333333, 1.0. The check confirms these values, and its second line names the record and the six keys it reproduces (COMPUTED: the keys `rk4Steps`, `L_tipCutoff`, `historyA`, `H`, `historyBeta` and `historyB4AtZero` of the record `Revision/kohn_sham/results/parameters.json`). The record stores $\beta$ as the decimal number 1.333333333333333 (16 digits), which differs from $4/3$ by about $3 \times 10^{-16}$; the check therefore asks for agreement within $10^{-14}$ instead of exact equality.
 
 ```python
 N_KS = round(1.0 / h_ks)  # 300 steps of h = 1/300 reach t = 1
@@ -2520,7 +2520,7 @@ $$
 g_{00} = e^{-2 a_4} b_4 \cot^2 z, \quad g_{11} = g_{22} = g_{33} = e^{2 a_4}, \quad g_{44} = -1, \quad g_{55} = g_{66} = g_{77} = -e^{-2 a_4} b_4 (\sin^2 z)^{1/6}
 $$
 
-(the author's corrected metric, version 2 of 2026-10-16, with the two functions $a_4(x_4)$ and $b_4(x_4) > 0$ of the time; $b_4$ is never the constant 1; COMPUTED: Notebook 02c, In [8], reads these eight entries from the Revision record `Revision/gkd_lovelock/results/curvature.json`, key `metricDiagonal`, and checks them against the formulas on every quarter of the period of $z$). Here $(\sin^2 z)^{1/6}$ is the **positive branch**, the positive sixth root of the positive number $\sin^2 z$ (it equals $|\sin z|^{1/3}$). The metric is used wherever $\sin z \cos z \neq 0$. At the points with $\cos z = 0$, for example $z = \pi/2$, $g_{00}$ vanishes: this is the **fold**, which joins the two halves $0 < z < \pi/2$ and $\pi/2 < z < \pi$ of a **cell** of the hidden direction. (The metric of 2026-10-14, which had the factor $\sin^{1/3} z$ in 3-space, and version 1 of 2026-10-16 are withdrawn; earlier drafts of this chapter used the first of them.) The entries are positive for the space-like directions $x_0, x_1, x_2, x_3$ and negative for the time-like directions $x_4, x_5, x_6, x_7$; four positive and four negative entries are what the **signature** (4,4) means. The scale factor $s_a = \sqrt{|g_{aa}|}$ of each direction is
+(the author's corrected metric, version 2 of 2026-10-16, with the two functions $a_4(x_4)$ and $b_4(x_4) > 0$ of the time; $b_4$ is never the constant 1; COMPUTED: Notebook 02c, In [8], reads these eight entries from the Revision record `Revision/gkd_lovelock/results/curvature.json`, key `metricDiagonal`, and checks them against the formulas on every quarter of the period of $z$). Here $(\sin^2 z)^{1/6}$ is the **positive branch**, the positive sixth root of the positive number $\sin^2 z$ (it equals $|\sin z|^{1/3}$). The metric is used wherever $\sin z \cos z \neq 0$. At the points with $\cos z = 0$, for example $z = \pi/2$, $g_{00}$ vanishes: this is the **fold**, which joins the two halves $0 < z < \pi/2$ and $\pi/2 < z < \pi$ of a **cell** of the hidden direction. (History, dated: the metric of 2026-10-14, which had the factor $\sin^{1/3} z$ in 3-space, and version 1 of 2026-10-16 were withdrawn on 2026-10-16; earlier drafts of this chapter used the first of them.) The entries are positive for the space-like directions $x_0, x_1, x_2, x_3$ and negative for the time-like directions $x_4, x_5, x_6, x_7$; four positive and four negative entries are what the **signature** (4,4) means. The scale factor $s_a = \sqrt{|g_{aa}|}$ of each direction is
 
 $$
 s_0 = e^{-a_4} b_4^{1/2}\, |\cot z|, \qquad s_{1,2,3} = e^{a_4}, \qquad s_4 = 1, \qquad s_{5,6,7} = e^{-a_4} b_4^{1/2} (\sin^2 z)^{1/12}
@@ -2583,12 +2583,18 @@ $$
 (the hidden direction, three 3-space directions, the time, three extra times; the terms with $a_4'$ add up to $(-1 + 3 - 3)\, a_4'$, those with $b_4'/b_4$ to $4 \cdot \frac12 = 2$ times $b_4'/b_4$). On the history it is $-1 + 2 \cdot \frac43 = \frac53$ (with $H = 1$): positive, so the volume grows. Along $x_0$:
 
 $$
-\sum_{a=0}^{7} \partial_0 \ln s_a = -\frac{6H}{\sin z \cos z} + 3H\cot z = 3H\, \frac{-2 + \cos^2 z}{\sin z \cos z} = -3H\, \frac{\cos^2 z + 2\sin^2 z}{\sin z\cos z} = -3H(\cot z + 2\tan z)
+\sum_{a=0}^{7} \partial_0 \ln s_a = -\frac{6H}{\sin z \cos z} + 3H\cot z = 3H\, \frac{-2 + \cos^2 z}{\sin z \cos z}
 $$
 
-(three directions with $H\cot z$; both terms written over the denominator $\sin z\cos z$, using $\cot z = \cos^2 z/(\sin z \cos z)$; then $2 - \cos^2 z = 2\sin^2 z + 2\cos^2 z - \cos^2 z = \cos^2 z + 2\sin^2 z$, because $\sin^2 z + \cos^2 z = 1$; finally the fraction split into $\cos^2 z/(\sin z\cos z) = \cot z$ and $2\sin^2 z/(\sin z \cos z) = 2\tan z$). We now show that these sums are the rates of the **volume factor** $\sqrt{|\det g|}$.
+(the rate of the hidden direction plus the three rates $H\cot z$ of the extra times, the other four rates being 0; then both terms written over the denominator $\sin z\cos z$, using $\cot z = \cos^2 z/(\sin z \cos z)$);
 
-**A mirror property.** Replacing $z$ by $\pi - z$ leaves $\sin z$ unchanged and reverses the sign of $\cos z$ ($\sin(\pi - z) = \sin z$ and $\cos(\pi - z) = -\cos z$, the subtraction formulas of the sine and the cosine), and therefore also of $\cot z$ and $\tan z$. So $\cot^2 z$ and $\sin^2 z$, and with them the whole metric, do not change, while every rate along $x_0$ above changes its sign: $H\cot z$, $-6H/(\sin z\cos z)$ and their sum all contain exactly one factor $\cos z$ (or $\tan z$, $\cot z$). The two halves of a cell, on either side of the fold $z = \pi/2$, are mirror images of each other: a rate measured in the direction of growing $x_0$ at a point of one half is minus the rate at the mirror point of the other half, because the mirror reverses the direction of $x_0$ (PROVED here; checked exactly in Notebook 02c, In [10]).
+$$
+3H\, \frac{-2 + \cos^2 z}{\sin z \cos z} = -3H\, \frac{\cos^2 z + 2\sin^2 z}{\sin z\cos z} = -3H(\cot z + 2\tan z)
+$$
+
+($2 - \cos^2 z = 2\sin^2 z + 2\cos^2 z - \cos^2 z = \cos^2 z + 2\sin^2 z$, because $\sin^2 z + \cos^2 z = 1$; then the fraction split into $\cos^2 z/(\sin z\cos z) = \cot z$ and $2\sin^2 z/(\sin z \cos z) = 2\tan z$). We now show that these sums are the rates of the **volume factor** $\sqrt{|\det g|}$.
+
+**The reflection across the fold.** Replacing $z$ by $\pi - z$ leaves $\sin z$ unchanged and reverses the sign of $\cos z$ ($\sin(\pi - z) = \sin z$ and $\cos(\pi - z) = -\cos z$, the subtraction formulas of the sine and the cosine), and therefore also of $\cot z$ and $\tan z$. So $\cot^2 z$ and $\sin^2 z$, and with them the whole metric, do not change, while every rate along $x_0$ above changes its sign: $H\cot z$, $-6H/(\sin z\cos z)$ and their sum all contain exactly one factor $\cos z$ (or $\tan z$, $\cot z$). The map $z \to \pi - z$ is the **reflection across the fold** $z = \pi/2$: it carries each half of a cell onto the other half, reverses the direction of $x_0$, and leaves the metric unchanged (a change of coordinates that leaves the metric unchanged is called an **isometry**). So a rate measured in the direction of growing $x_0$ at a point of one half is minus the rate at the reflected point of the other half (PROVED here; checked exactly in Notebook 02c, In [10], whose text calls it the mirror property). This reflection is the isometry used by the pairing theorem T2, which Chapter 18 proves.
 
 **The determinant.** The **determinant** of a diagonal matrix is the product of its diagonal entries (Chapter 1). So
 
@@ -2608,7 +2614,7 @@ $$
 \sqrt{|\det g|} = e^{-a_4}\, b_4^2\, |\cot z|\, (\sin^2 z)^{1/4}
 $$
 
-(the square root of each factor: $\sqrt{e^{-2a_4}} = e^{-a_4}$, $\sqrt{b_4^4} = b_4^2$, $\sqrt{\cot^2 z} = |\cot z|$ and $\sqrt{(\sin^2 z)^{1/2}} = (\sin^2 z)^{1/4}$). The factors $e^{6a_4}$ of the inflating 3-space and $e^{-6a_4}$ of the deflating extra times cancel, but the factor $e^{-2a_4} b_4$ of the hidden direction and the factor $b_4^3$ of the extra times remain: the volume factor changes with $x_4$, at the rate $-a_4' + 2b_4'/b_4$ found above. Along the history it grows like $e^{(5/3) H x_4}$; the exponent $\frac53 = 2\beta - 1$ is the one of the record's rule $\mathrm{Vol}_7 \propto e^{(2\beta - 1) a_4}$ for the proper volume of the Kohn-Sham cell (`Revision/kohn_sham/results/parameters.json`, key `Vol7Rule`). (In the withdrawn metric of 2026-10-14 the volume factor did not depend on $x_4$ when $b_4$ was constant; in the corrected metric it does.) PROVED here; COMPUTED in Notebook 02c, In [9] and In [11], which reproduces the record's entry `sqrtAbsDetG` of `Revision/gkd_lovelock/results/curvature.json`, written there as $e^{-a_4} b_4^2 (\sin^2 z)^{1/4} \cot z\, \mathrm{sign}(\cot z)$ (the **sign** of a number is $+1$ or $-1$, so $\cot z\, \mathrm{sign}(\cot z) = |\cot z|$), and the Wolfram check `sqrt_abs_det_g` of `Revision/field_equations_a4/reports/wolfram-a4-report.json`, which states $\sqrt{|\det g|} = e^{-a_4} b_4^2 |\cot z| (\sin^2 z)^{1/4}$ for every real $z$ with $\sin z \cos z \neq 0$.
+(the square root of each factor: $\sqrt{e^{-2a_4}} = e^{-a_4}$, $\sqrt{b_4^4} = b_4^2$, $\sqrt{\cot^2 z} = |\cot z|$ and $\sqrt{(\sin^2 z)^{1/2}} = (\sin^2 z)^{1/4}$). The factors $e^{6a_4}$ of the inflating 3-space and $e^{-6a_4}$ of the deflating extra times cancel, but the factor $e^{-2a_4} b_4$ of the hidden direction and the factor $b_4^3$ of the extra times remain: the volume factor changes with $x_4$, at the rate $-a_4' + 2b_4'/b_4$ found above. Along the history it grows like $e^{(5/3) H x_4}$; the exponent $\frac53 = 2\beta - 1$ is the one of the record's rule $\mathrm{Vol}_7 \propto e^{(2\beta - 1) a_4}$ for the proper volume of the Kohn-Sham cell (`Revision/kohn_sham/results/parameters.json`, key `Vol7Rule`). (History, dated: in the metric of 2026-10-14, withdrawn on 2026-10-16, the volume factor did not depend on $x_4$ when $b_4$ was constant; in the corrected metric it does.) PROVED here; COMPUTED in Notebook 02c, In [9] and In [11], which reproduces the record's entry `sqrtAbsDetG` of `Revision/gkd_lovelock/results/curvature.json`, written there as $e^{-a_4} b_4^2 (\sin^2 z)^{1/4} \cot z\, \mathrm{sign}(\cot z)$ (the **sign** of a number is $+1$ or $-1$, so $\cot z\, \mathrm{sign}(\cot z) = |\cot z|$), and the Wolfram check `sqrt_abs_det_g` of `Revision/field_equations_a4/reports/wolfram-a4-report.json`, which states $\sqrt{|\det g|} = e^{-a_4} b_4^2 |\cot z| (\sin^2 z)^{1/4}$ for every real $z$ with $\sin z \cos z \neq 0$.
 
 **Jacobi's formula** for the derivative of the volume factor of a diagonal metric:
 
@@ -3193,7 +3199,7 @@ check(all(same(m, -r) for m, r in zip(mirrored, rate0)),
       "under z -> pi - z every rate along x0 changes its sign")
 ```
 
-The first check: the sum of the eight rates along $x_0$ is $-3H(\cot z + 2\tan z)$, the rate of the volume factor along $x_0$ (Section 2.19). The second check is the mirror property of Section 2.19: `.subs(x0, (sp.pi - z) / (6 * H))` replaces $x_0$ by $(\pi - 6Hx_0)/(6H)$, so that $z = 6Hx_0$ becomes $\pi - z$ (sympy then writes $\cot(\pi - z)$ as $-\cot z$ by itself), and every mirrored rate must equal minus the original one, on all four quarters.
+The first check: the sum of the eight rates along $x_0$ is $-3H(\cot z + 2\tan z)$, the rate of the volume factor along $x_0$ (Section 2.19). The second check is the reflection across the fold of Section 2.19 (the notebook calls it the mirror property, and the list `mirrored` holds the reflected rates): `.subs(x0, (sp.pi - z) / (6 * H))` replaces $x_0$ by $(\pi - 6Hx_0)/(6H)$, so that $z = 6Hx_0$ becomes $\pi - z$ (sympy then writes $\cot(\pi - z)$ as $-\cot z$ by itself), and every reflected rate must equal minus the original one, on all four quarters.
 
 ```python
 fig, ax = plt.subplots()
@@ -3233,7 +3239,7 @@ save_figure(fig, "rates_along_x0",
             ...)
 ```
 
-A dotted vertical line marks the fold $z = \pi/2$, with a small label near the bottom; axis range, labels and the saved figure `02c_6_rates_along_x0.png`. **What Figure 02c.6 shows:** on the first half the extra-time factors grow along $x_0$ (rate $\cot z > 0$), the hidden factor $e^{-a_4} b_4^{1/2}|\cot z|$ shrinks fastest near both ends of the half, and the sum, the rate of the volume factor, is negative; on the second half every curve is the mirror image of the first half turned upside down (at $\pi - z$ the value is minus the value at $z$); 3-space and the time do not change along $x_0$ at all.
+A dotted vertical line marks the fold $z = \pi/2$, with a small label near the bottom; axis range, labels and the saved figure `02c_6_rates_along_x0.png`. **What Figure 02c.6 shows:** on the first half the extra-time factors grow along $x_0$ (rate $\cot z > 0$), the hidden factor $e^{-a_4} b_4^{1/2}|\cot z|$ shrinks fastest near both ends of the half, and the sum, the rate of the volume factor, is negative; on the second half every curve is the first half reflected across the fold and turned upside down (at $\pi - z$ the value is minus the value at $z$); 3-space and the time do not change along $x_0$ at all.
 
 **In [11], the volume factor and Jacobi's formula.**
 
@@ -3246,7 +3252,21 @@ volume = sp.exp(-a4(x4)) * b4(x4) ** 2 * sp.Abs(sp.cot(z)) * (sp.sin(z) ** 2) **
     sp.Rational(1, 4))  # e^(-a4) b4^2 |cot z| (sin^2 z)^(1/4)
 ```
 
-`G.det()` is the determinant; sympy writes it as `b4(x4)**4*exp(-2*a4(x4))*cot(6*H*x0)**2*Abs(sin(6*H*x0))` (its $(\sin^2 z)^{1/2}$ is $|\sin z|$). The record's entry `sqrtAbsDetG` is printed as `b4(x4)**2*exp(-a4(x4))*cot(6*H*x0)*sqrt(Abs(sin(6*H*x0)))*sign(cot(6*H*x0))`, the form $e^{-a_4} b_4^2 \cot z\, \mathrm{sign}(\cot z) (\sin^2 z)^{1/4}$. `volume` is the formula of Section 2.19 typed in by hand (`sp.Abs` is the absolute value).
+`G.det()` is the determinant, and `sqrt_record` is the record's entry `sqrtAbsDetG` translated by `from_record`. The two lines printed are
+
+```text
+det g = b4(x4)**4*exp(-2*a4(x4))*cot(6*H*x0)**2*Abs(sin(6*H*x0))
+sqrtAbsDetG of the record =
+    b4(x4)**2*exp(-a4(x4))*cot(6*H*x0)*sqrt(Abs(sin(6*H*x0)))*sign(cot(6*H*x0))
+```
+
+In the notation of this chapter they read
+
+$$
+\det g = e^{-2a_4}\, b_4^4 \cot^2 z\, |\sin z|, \qquad \sqrt{|\det g|} = e^{-a_4}\, b_4^2 \cot z\; \mathrm{sign}(\cot z)\, (\sin^2 z)^{1/4}
+$$
+
+(sympy writes $(\sin^2 z)^{1/2}$ as $|\sin z|$, and the record writes $|\cot z|$ as $\cot z\, \mathrm{sign}(\cot z)$). `volume` is the formula of Section 2.19 typed in by hand (`sp.Abs` is the absolute value).
 
 ```python
 check(same(det_g, sp.exp(-2 * a4(x4)) * b4(x4) ** 4 * sp.cot(z) ** 2
@@ -3354,7 +3374,7 @@ $$
 b(-L) = 0 \ \ \text{(tip)}, \qquad b(0) = 0 \ \ \text{(even orbitals)} \quad \text{or} \quad a(0) = 0 \ \ \text{(odd orbitals)} .
 $$
 
-*Status.* The tip condition is a choice of the model (the record's status: "chosen (regular tip)"). The two **fold conditions** come from the joining of the two halves of a cell at the fold: the reduced equation is the same on both halves, and a well-behaved (self-adjoint) problem on the doubled cell needs a condition at the fold, which the record derives up to one parameter $\theta$. The record uses $\theta = 0$ ($b(0) = 0$, even) and $\theta = \pi$ ($a(0) = 0$, odd), solves and fills both together, and labels this filling of both ASSUMED, its convention (key `boundaryConditions.fold.status`: "derived up to the parameter theta; filling both theta = 0 and theta = pi is ASSUMED"). Everything below is exact mathematics for these equations under these conditions. The record's values are $M = m = 1$, $H = 1$, $L = 3$ and $f = 1$ (units with $m = H = 1$: energies in units of the mass $m$, lengths along $y$ in units of $1/H$); the program also checks $L = 2$, $M = 2$, and $L = 3$ on the slice $a_4 = 1.5$ of the history, where $f = e^{-1/2}$.
+*Status.* The tip condition is a choice of the model (the record's status: "chosen (regular tip)"). The two **fold conditions** come from the joining of the two halves of a cell at the fold: the reduced equation is the same on both halves, and a well-behaved (self-adjoint) problem on the whole cell, the two halves together, needs a condition at the fold, which the record derives up to one parameter $\theta$. The record uses $\theta = 0$ ($b(0) = 0$, even) and $\theta = \pi$ ($a(0) = 0$, odd), solves and fills both together, and labels this filling of both ASSUMED, its convention (key `boundaryConditions.fold.status`: "derived up to the parameter theta; filling both theta = 0 and theta = pi is ASSUMED"). Exercise 11 writes the two fold conditions and the tip condition as one matrix condition. (History, dated: in the metric of 2026-10-14, withdrawn on 2026-10-16, the end $y = 0$ of the interval was described by a different, ASSUMED construction with a mirror copy carrying the mass $-m$; that construction does not exist in the corrected metric, and $b(0) = 0$ and $a(0) = 0$ are now the two fold conditions.) Everything below is exact mathematics for these equations under these conditions. The record's values are $M = m = 1$, $H = 1$, $L = 3$ and $f = 1$ (units with $m = H = 1$: energies in units of the mass $m$, lengths along $y$ in units of $1/H$); the program also checks $L = 2$, $M = 2$, and $L = 3$ on the slice $a_4 = 1.5$ of the history, where $f = e^{-1/2}$.
 
 **Only the proper length counts.** Put $s = f y$, the true distance from the fold along the hidden direction (a step $dy$ has the true length $f\, dy$). Then
 
@@ -3602,7 +3622,7 @@ Notebook 02d reads the theory, the parameters and the table of the free spectrum
 
 ### 2.28 Line-by-line walk-through of Notebook 02d
 
-The notebook has thirteen code cells, In [1] to In [13]. A quoted line `...)` stands for the rest of a figure caption, which Section 2.27 prints in full under its figure.
+The notebook has fourteen code cells, In [1] to In [14]. A quoted line `...)` stands for the rest of a figure caption, which Section 2.27 prints in full under its figure. The printed numbers quoted below are those of the stored notebook, executed on 2026-10-17 on a Windows computer, on which all 72 levels agree with the Revision record in every printed digit; In [9] and In [12] say which last digits another computer may print differently.
 
 **In [1], the set-up cell.** Its comment lines are the run instructions of Section 2.26; its code is the set-up code of Notebook 02a explained in Section 2.11, with `NOTEBOOK_ID = "02d"`. It prints Set-up of notebook 02d complete: repository folder found, helpers defined.
 
@@ -3621,7 +3641,7 @@ BLUE, ORANGE, AQUA, VIOLET = "#2a78d6", "#eb6834", "#1baf7a", "#4a3aa7"
 GREY, BLACK = "#8a8986", "#000000"
 ```
 
-`csv` reads tables stored as comma-separated values (one row per line, the cells separated by commas), `re` finds patterns (here numbers) inside a text (**regular expressions**); the other packages and the colours are as before.
+`csv` reads tables stored as **comma-separated values** (one row per line, the cells separated by commas); `math` gives `sqrt`, `atan2` and $\pi$ for single numbers; `re` finds patterns, here numbers, inside a text (**regular expressions**); `mpmath`, `numpy` and `sympy` are the packages of Notebooks 02b and 02c. The two lines of colours name six colours by their codes, as in the earlier notebooks.
 
 ```python
 THEORY = "Revision/kohn_sham/ks-theory.json"
@@ -3634,39 +3654,75 @@ with open(repository_file(TABLE), encoding="utf-8", newline="") as table:
     ROWS = list(csv.DictReader(table))  # one dictionary per level
 ```
 
-The four Revision records of the notebook: the Kohn-Sham theory, the solver's parameters, the table of the free spectrum written by the Rust program, and the program's report of checks. The two JSON files are read as in Notebook 02a. `with open(...) as table:` opens the table file and closes it again at the end of the block; `csv.DictReader` reads it row by row, each row as a dictionary from the column names of the first line (`m`, `L`, `parity`, `label`, `eps_numeric`, `eps_analytic`, `difference`) to the cell texts.
+The names of the four Revision records of the notebook: the Kohn-Sham theory, the solver's parameters, the table of the free spectrum written by the Rust program, and the program's report of checks. The two JSON files are read as in Notebook 02a. `with open(...) as table:` opens the table file and closes it again at the end of the block; `csv.DictReader` reads it row by row, each row as a dictionary from the column names of the first line (`m`, `L`, `a4`, `f`, `parity`, `label`, `eps_numeric`, `eps_analytic`, `difference`) to the texts of the cells, and `list` collects the 72 rows.
 
 ```python
 say("realForm: " + theory["blockEquation"]["realForm"])
-say("brane status: " + theory["boundaryConditions"]["brane"]["status"])
+FOLD_STATUS = theory["boundaryConditions"]["fold"]["status"]
+say("fold status: " + FOLD_STATUS)
 say("tip status: " + theory["boundaryConditions"]["tip"]["status"])
 say("exact k = 0 spectra: " + theory["boundaryConditions"]["exactK0Spectra"])
 ```
 
-Four statements of the theory record are printed: the real form of the block equation (with the general mass `M_eff`, momentum weight `kappa k` and potential `v_v` that Section 2.24 sets to $M$, 0 and 0), the status of the brane conditions (ASSUMED), the status of the tip condition (chosen, regular tip), and the exact $k = 0$ spectra derived in Section 2.24.
+Four statements of the theory record are printed; Section 2.27 shows them in full. First the real form of the block equation, $a' = f[M_{\rm eff} a - (\kappa k + j(\varepsilon - v_v)) b]$ and $b' = f[(j(\varepsilon - v_v) - \kappa k) a - M_{\rm eff} b]$, with the general mass `M_eff`, the momentum term `kappa k`, the potential `v_v` and the block type `j`, which Section 2.24 sets to $M$, 0, 0 and $+1$. Then the status of the fold conditions, "derived up to the parameter theta; filling both theta = 0 and theta = pi is ASSUMED (the record's convention)", kept under the name `FOLD_STATUS` for the check at the end of the cell; the status of the tip condition, "chosen (regular tip)"; and the exact $k = 0$ spectra derived in Section 2.24.
 
 ```python
 G_CANONICAL = parameters["numerics"]["rk4Steps"]  # RK4 steps for L = 3
 ROOT_TOLERANCE = parameters["numerics"]["rootTolerance"]
 M_RECORD, L_RECORD = parameters["physics"]["m"], parameters["physics"]["L_tipCutoff"]
-report("RK4 steps, root tolerance, m, L of the record",
-       f"{G_CANONICAL}, {ROOT_TOLERANCE}, {M_RECORD}, {L_RECORD}")
-report("levels in the table", len(ROWS))
-check(theory["boundaryConditions"]["brane"]["status"] == "ASSUMED"
-      and G_CANONICAL == 900 and ROOT_TOLERANCE == 1e-13 and len(ROWS) == 54,
-      "records read: brane ASSUMED, 900 RK4 steps, tolerance 1e-13, 54 levels")
+numerator, denominator = theory["adiabaticity"]["historyBeta"].split("/")  # "4/3"
+BETA = float(numerator) / float(denominator)  # 4/3, as the Rust program reads it
 ```
 
-The solver's settings: 900 RK4 steps, the root tolerance $10^{-13}$, $m = 1$ and $L = 3$; the table has 54 rows. The check confirms these values and that the brane conditions are labelled ASSUMED in the record.
+The solver's settings from the parameters record: `G_CANONICAL`, the 900 RK4 steps for $L = 3$; the root tolerance $10^{-13}$; the mass $m = 1$ and the tip cut-off $L = 3$ (one line reads two values at once). The exponent $\beta$ of the history is stored in the theory record as the text `"4/3"` (key `adiabaticity.historyBeta`); `.split("/")` cuts the text at the slash into the two texts `"4"` and `"3"`, and `float` turns each into a number, so that `BETA` is $4/3$ computed exactly as the Rust program computes it (it also splits the text at the slash and divides; the same division gives the same last binary digit).
+
+```python
+def hidden_scale(a4):
+    """f = e^((beta/2 - 1) a4), the record's hidden-scale rule (b4(0) = 1)."""
+    return math.exp((0.5 * BETA - 1.0) * a4)
+```
+
+The function `hidden_scale` is the record's rule for the hidden scale along the history: with $b_4 = b_4(0)\, e^{\beta a_4}$ and $b_4(0) = 1$,
+
+$$
+f = e^{-a_4}\, b_4^{1/2} = e^{-a_4}\, e^{\beta a_4/2} = e^{(\beta/2 - 1)\, a_4}
+$$
+
+(the square root halves the exponent; then $e^{u} e^{v} = e^{u + v}$). For $\beta = 4/3$ the exponent is $\frac23 - 1 = -\frac13$, so $f = e^{-a_4/3}$.
+
+```python
+say("hidden-scale rule: " + parameters["physics"]["hiddenScaleRule"])
+report("RK4 steps, root tolerance, m, L of the record",
+       f"{G_CANONICAL}, {ROOT_TOLERANCE}, {M_RECORD}, {L_RECORD}")
+TABLE_CASES = sorted({(float(r["m"]), float(r["L"]), float(r["a4"])) for r in ROWS})
+report("levels in the table; the cases (m, L, a4)", f"{len(ROWS)}; " + ", ".join(
+    f"({m:g}, {L:g}, {a4:g})" for m, L, a4 in TABLE_CASES))
+report("hidden scale f at a4 = 0 and at a4 = 1.5",
+       f"{hidden_scale(0.0)}, {hidden_scale(1.5):.16f}")
+```
+
+The record's own statement of the rule, `f(a4,0) = e^{(beta/2 - 1) a4,0} (b4(0) = 1)`, is printed, then three RESULT lines: the settings 900, 1e-13, 1.0, 3.0; the number of rows, 72, and the four cases $(m, L, a_4)$ of the table, $(1, 2, 0)$, $(1, 3, 0)$, $(1, 3, 1.5)$ and $(2, 3, 0)$; and the hidden scale at $a_4 = 0$ and at $a_4 = 1.5$, 1.0 and $0.6065306597126334 = e^{-1/2}$ (COMPUTED). `TABLE_CASES` is made from a **set** (the curly brackets `{...}`), a collection in which each element appears once: the triples $(m, L, a_4)$ of the 72 rows give the four cases, and `sorted` puts them in a fixed order. In the f-strings, `:g` writes a number in its shortest form (3.0 as 3) and `:.16f` with 16 digits after the point; `", ".join(...)` joins the texts with commas.
+
+```python
+check("ASSUMED" in FOLD_STATUS and "realForm" in theory["blockEquation"]
+      and "f [M_eff a" in theory["blockEquation"]["realForm"]
+      and G_CANONICAL == 900 and ROOT_TOLERANCE == 1e-13 and len(ROWS) == 72,
+      "records read: equations with f, filling both fold conditions ASSUMED, "
+      "900 RK4 steps, tolerance 1e-13, 72 levels")
+```
+
+The check confirms what the notebook relies on: the fold status contains the word ASSUMED, the theory record has the key `realForm` and its equation contains the hidden scale (the text `"f [M_eff a"`), the solver makes 900 steps with the tolerance $10^{-13}$, and the table has 72 rows.
 
 **In [3], shooting with RK4 and counting the turns.**
 
 ```python
-def shoot(eps, M, L, G, keep=False):
-    """RK4 from y = -L, (a, b) = (1, 0), to y = 0 in G steps.  Returns Phi =
-    theta(0), the slope dPhi/deps = (integral of r^2) / r(0)^2 and the largest
-    turn of one step; with keep=True also the arrays y, a, b, theta of the path."""
+def shoot(eps, M, L, G, f=1.0, keep=False):
+    """RK4 from y = -L, (a, b) = (1, 0), to y = 0 in G steps, hidden scale f.
+    Returns Phi = theta(0), the slope dPhi/deps = f (integral of r^2) / r(0)^2
+    and the largest turn of one step; with keep=True also the arrays y, a, b,
+    theta of the path."""
     h = L / G  # the step
+    fM, fe = f * M, f * eps  # f M and f eps, as the program multiplies them
     a, b = 1.0, 0.0  # the tip: b(-L) = 0, so theta(-L) = 0
     theta, raw = 0.0, 0.0  # the counted angle and the last atan2 value
     integral, r2_before = 0.0, 1.0  # running integral of r^2; r^2 at the last node
@@ -3674,22 +3730,22 @@ def shoot(eps, M, L, G, keep=False):
     path = [(-L, a, b, theta)]
 ```
 
-The function follows the Rust function `shoot` of `Revision/kohn_sham/solver/src/shoot.rs` for the free case. The start at the tip is $(a, b) = (1, 0)$, so $\theta = 0$. `theta` is the counted angle and `raw` the last value returned by `atan2`; `integral` collects $\int r^2 dy$ and `r2_before` holds $r^2$ at the last node (1 at the start); `largest` records the largest turn of one step; `path` holds $(y, a, b, \theta)$ at the nodes when it is asked for.
+The function follows the Rust function `shoot` of `Revision/kohn_sham/solver/src/shoot.rs` for the free case. `h` is the step $L/G$. Like the program, it multiplies the mass and the energy by the hidden scale once, `fM` $= fM$ and `fe` $= f\varepsilon$, and uses only these products below: the equations $a' = f(Ma - \varepsilon b)$ and $b' = f(\varepsilon a - Mb)$ read $a' = (fM)\,a - (f\varepsilon)\,b$ and $b' = (f\varepsilon)\,a - (fM)\,b$. The start at the tip is $(a, b) = (1, 0)$, so $b(-L) = 0$ and $\theta(-L) = 0$. `theta` is the counted angle and `raw` the last value returned by `atan2`; `integral` collects $\int r^2 dy$ and `r2_before` holds $r^2$ at the last node (1 at the start); `largest` records the largest turn of one step; `path` holds $(y, a, b, \theta)$ at the nodes, when the path is asked for.
 
 ```python
     for i in range(G):
-        p1a, p1b = M * a - eps * b, eps * a - M * b  # the slopes (a', b') at start
+        p1a, p1b = fM * a - fe * b, fe * a - fM * b  # the slopes (a', b') at start
         a2, b2 = a + h / 2 * p1a, b + h / 2 * p1b  # half a step with them
-        p2a, p2b = M * a2 - eps * b2, eps * a2 - M * b2  # the slopes there
+        p2a, p2b = fM * a2 - fe * b2, fe * a2 - fM * b2  # the slopes there
         a3, b3 = a + h / 2 * p2a, b + h / 2 * p2b  # half a step with these
-        p3a, p3b = M * a3 - eps * b3, eps * a3 - M * b3  # the slopes there
+        p3a, p3b = fM * a3 - fe * b3, fe * a3 - fM * b3  # the slopes there
         a4, b4 = a + h * p3a, b + h * p3b  # a whole step with the third slopes
-        p4a, p4b = M * a4 - eps * b4, eps * a4 - M * b4  # the slopes at the end
+        p4a, p4b = fM * a4 - fe * b4, fe * a4 - fM * b4  # the slopes at the end
         a += h / 6 * (p1a + 2 * p2a + 2 * p3a + p4a)  # weights 1 : 2 : 2 : 1
         b += h / 6 * (p1b + 2 * p2b + 2 * p3b + p4b)
 ```
 
-One RK4 step of the two equations $a' = Ma - \varepsilon b$, $b' = \varepsilon a - Mb$, written out component by component as the Rust code writes it: the four pairs of slopes `p1` to `p4` are the $k_1$ to $k_4$ of Section 2.4 for $a$ and for $b$, and `a += ...` means "add the right side to `a`". (The names `a4`, `b4` here are the RK4 end-of-step values; they have nothing to do with the metric function $a_4$.)
+One RK4 step of the two equations, written out component by component as the Rust code writes it: the four pairs of slopes `p1` to `p4` are the $k_1$ to $k_4$ of Section 2.4 for $a$ and for $b$, and `a += ...` means "add the right side to `a`". (The names `a4`, `b4` here are the end-of-step values of RK4; they have nothing to do with the metric functions $a_4$ and $b_4$.)
 
 ```python
         new = math.atan2(b, a)  # the angle of (a, b), between -pi and pi
@@ -3703,7 +3759,7 @@ One RK4 step of the two equations $a' = Ma - \varepsilon b$, $b' = \varepsilon a
         raw = new
 ```
 
-The winding count of Section 2.24: the new `atan2` angle minus the previous one, brought into $(-\pi, \pi]$ (a jump of almost $+2\pi$ means that the point crossed the negative horizontal axis downwards, where `atan2` jumps from $\pi$ to $-\pi$, and so on); the change is added to the counted angle, and the largest change is remembered.
+The winding count of Section 2.24: the new `atan2` angle minus the previous one, brought into the range $(-\pi, \pi]$ (a jump of almost $+2\pi$ means that the point crossed the negative horizontal axis downwards, where `atan2` jumps from $\pi$ to $-\pi$, and a jump of almost $-2\pi$ the other way round); the change is added to the counted angle, and the largest change is remembered.
 
 ```python
         r2 = a * a + b * b  # r^2 at the new node
@@ -3713,24 +3769,25 @@ The winding count of Section 2.24: the new `atan2` angle minus the previous one,
             path.append((-L + (i + 1) * h, a, b, theta))
 ```
 
-The trapezoid rule adds the step length times the average of $r^2$ at the two ends of the step; the node is stored if the path was asked for.
+The trapezoid rule adds the step length times the average of $r^2$ at the two ends of the step; the node is stored if the path was asked for (`-L + (i + 1) * h` is the position reached by the step number `i`, counted from 0).
 
 ```python
     if keep:
-        return theta, integral / r2_before, largest, np.array(path).T
-    return theta, integral / r2_before, largest
+        return theta, f * integral / r2_before, largest, np.array(path).T
+    return theta, f * integral / r2_before, largest
 ```
 
-After the last step `r2_before` is $r(0)^2$, so `integral / r2_before` is the slope $d\Phi/d\varepsilon$ of Section 2.24. The function returns $\Phi = \theta(0)$, that slope and the largest turn; with `keep=True` also the path, turned by `.T` (transpose) into four rows: all $y$, all $a$, all $b$, all $\theta$. (The Rust function also rescales $(a, b)$ when $r^2$ exceeds $10^{250}$; in this free case $r^2$ stays far below that, so the rewrite leaves it out.)
+After the last step `r2_before` is $r(0)^2$, so `f * integral / r2_before` is the slope $d\Phi/d\varepsilon = f\int r^2 dy/r(0)^2$ of Section 2.24. The function returns $\Phi = \theta(0)$, that slope and the largest turn; with `keep=True` also the path, turned by `.T` (transpose) into four rows: all $y$, all $a$, all $b$, all $\theta$. (The Rust function also rescales $(a, b)$ when $r^2$ exceeds $10^{250}$; in the free case of this notebook $r^2$ stays far below that, so the rewrite leaves it out.)
 
 ```python
-def angle_equation(eps, M, L, G):
-    """RK4 for the single equation theta' = eps - M sin(2 theta), theta(-L) = 0."""
+def angle_equation(eps, M, L, G, f=1.0):
+    """RK4 for the single equation theta' = f (eps - M sin(2 theta)),
+    theta(-L) = 0."""
     h = L / G
     theta = 0.0
 
     def slope(t):
-        return eps - M * math.sin(2 * t)
+        return f * (eps - M * math.sin(2 * t))
     for _ in range(G):
         k1 = slope(theta)
         k2 = slope(theta + h / 2 * k1)
@@ -3740,7 +3797,7 @@ def angle_equation(eps, M, L, G):
     return theta
 ```
 
-An independent way to the same end angle: RK4 applied to the single angle equation $\theta' = \varepsilon - M\sin 2\theta$ of Section 2.24 (the right side does not depend on $y$, so `slope` takes only the angle).
+An independent way to the same end angle: RK4 applied to the single angle equation $\theta' = f(\varepsilon - M\sin 2\theta)$ of Section 2.24. The right side does not depend on $y$, so the inner function `slope` takes only the angle; the loop variable `_` is not used.
 
 ```python
 M1, L3 = 1.0, 3.0  # the canonical case of the record
@@ -3750,7 +3807,7 @@ for eps in (-2.0, 0.0, 1.0, 2.5):
         f"by the angle equation = {angle_equation(eps, M1, L3, 900):+.12f}")
 ```
 
-For four energies the two computations are printed side by side, for example $\Phi(2.5) = 6.798217350015$ by $(a, b)$ and $6.798217350074$ by the angle equation.
+The canonical case of the record, $M = 1$ and $L = 3$, with the default $f = 1$. For four energies the two computations are printed side by side, for example $\Phi(2.5) = 6.798217350015$ by $(a, b)$ and $6.798217350074$ by the angle equation, and $\Phi(0) = 0$ by both (COMPUTED).
 
 ```python
 differences = [abs(shoot(e, M1, L3, 900)[0] - angle_equation(e, M1, L3, 900))
@@ -3759,7 +3816,19 @@ check(max(differences) < 1e-8 and shoot(0.0, M1, L3, 900)[0] == 0.0,
       "both ways of computing Phi agree within 1e-8; Phi(0) is exactly 0")
 ```
 
-On 21 energies from $-5$ to 5 the two ways agree within $10^{-8}$ (they are different computations, each with its own small RK4 error), and at $\varepsilon = 0$ the shot gives exactly $\Phi = 0$, because $b$ stays exactly 0.
+On 21 energies from $-5$ to 5 the two ways agree within $10^{-8}$ (they are different computations, each with its own small RK4 error), and at $\varepsilon = 0$ the shot gives exactly $\Phi = 0$, because $b$ stays exactly 0: with `fe` $= 0$ every slope of $b$ is $-fM\,b = 0$.
+
+```python
+F15 = hidden_scale(1.5)  # f = e^(-1/2) at a4 = 1.5 on the history
+proper = [abs(shoot(e, M1, L3, 900, f=F15)[0] - shoot(e, M1, F15 * L3, 900)[0])
+          for e in np.linspace(-5.0, 5.0, 21)]
+report("largest |Phi(f = e^(-1/2), L = 3) - Phi(f = 1, L = 3 e^(-1/2))|",
+       f"{max(proper):.1e}")
+check(max(proper) < 1e-12,
+      "with the hidden scale f only the proper length f L matters")
+```
+
+The test of "only the proper length counts" (Section 2.24). `F15` is the hidden scale $e^{-1/2}$ at $a_4 = 1.5$ on the history. For 21 energies the shot with the hidden scale $f = e^{-1/2}$ on the interval of length 3 is compared with the shot with $f = 1$ on the interval of the proper length $\ell = fL = 3e^{-1/2}$; the largest difference of the end angles is $8.9 \times 10^{-15}$ (COMPUTED), rounding only, and the check requires less than $10^{-12}$. Step for step the two shots compute the same numbers: in the first the step is $h = 3/900$ and the slopes carry the factor $f$; in the second the step is $f$ times as long and the slopes carry no $f$; a step times a slope is the same product.
 
 **In [4], the staircase.**
 
@@ -3771,20 +3840,21 @@ slope_grid = np.array([s[1] for s in shots])  # dPhi/deps by the formula
 check(np.all(np.diff(Phi_grid) > 0), "Phi(eps) increases on the whole grid")
 ```
 
-651 energies from $-6$ to 7 (spacing 0.02) are shot; `Phi_grid` holds the end angles and `slope_grid` the slopes by the formula. `np.diff` gives the differences of neighbouring entries; the check requires all of them to be positive: $\Phi$ increases, as proved in Section 2.24.
+651 energies from $-6$ to 7 (spacing 0.02) are shot; `Phi_grid` holds the end angles and `slope_grid` the slopes by the formula (`s[0]` and `s[1]` are elements 0 and 1 of each result). `np.diff` gives the differences of neighbouring entries; the check requires all of them to be positive: $\Phi$ increases, as proved in Section 2.24.
 
 ```python
-gap_ends = []  # Phi at eps = -M and eps = +M for the three cases of the table
-for M, L in sorted({(float(r["m"]), float(r["L"])) for r in ROWS}):
+gap_ends = []  # Phi at eps = -M and eps = +M for the four cases of the table
+for M, L, a4 in TABLE_CASES:
     G = round(G_CANONICAL * L / 3.0)  # the record's step h = 1/300
-    gap_ends += [shoot(-M, M, L, G)[0], shoot(M, M, L, G)[0]]
-report("largest |Phi(-M)|, |Phi(+M)| in units of pi (three cases)",
+    f = hidden_scale(a4)
+    gap_ends += [shoot(-M, M, L, G, f=f)[0], shoot(M, M, L, G, f=f)[0]]
+report("largest |Phi(-M)|, |Phi(+M)| in units of pi (four cases)",
        f"{max(abs(p) for p in gap_ends) / math.pi:.4f}")
 check(max(abs(p) for p in gap_ends) < math.pi / 2,
       "for |eps| <= M the staircase crosses no target but 0: only the zero mode")
 ```
 
-These lines test the statement of Section 2.24 that between $-M$ and $M$ the only level is the zero mode. The curly brackets `{...}` make a **set**, a collection in which each element appears once: the pairs $(M, L)$ of all 54 rows give the three cases $(1, 2)$, $(1, 3)$ and $(2, 3)$, and `sorted` puts them in a fixed order. For each case `G` is the record's number of steps for that $L$ (900 for $L = 3$, 600 for $L = 2$), and the end angle is computed at the edges of the mass gap, $\varepsilon = -M$ and $\varepsilon = +M$ (`+=` appends both to the list). Since $\Phi$ increases with $\varepsilon$, every $\Phi(\varepsilon)$ with $|\varepsilon| \le M$ lies between $\Phi(-M)$ and $\Phi(+M)$. The RESULT line prints the largest of the six sizes, $0.2256\pi$ (COMPUTED, for $M = 2$); the check requires all six to be below $\pi/2$. Then for $|\varepsilon| \le M$ the end angle stays strictly between $-\pi/2$ and $\pi/2$, and the only target in that range is $0$ (the even target with $l = 0$): no level except the zero mode lies in the gap, in all three cases.
+These lines test the statement of Section 2.24 that between $-M$ and $M$ the only level is the zero mode, for the four cases of the table. For each case `G` is the record's number of steps for that $L$ (900 for $L = 3$, 600 for $L = 2$: the same step $h = 1/300$), `f` the hidden scale of the case (1 at $a_4 = 0$, $e^{-1/2}$ at $a_4 = 1.5$), and the end angle is computed at the edges of the mass gap, $\varepsilon = -M$ and $\varepsilon = +M$ (`+=` appends both to the list). Since $\Phi$ increases with $\varepsilon$, every $\Phi(\varepsilon)$ with $|\varepsilon| \le M$ lies between $\Phi(-M)$ and $\Phi(+M)$. The RESULT line prints the largest of the eight sizes, $0.2256\pi$ (COMPUTED; it belongs to the case $M = 2$); the check requires all eight to be below $\pi/2$. Then for $|\varepsilon| \le M$ the end angle stays strictly between $-\pi/2$ and $\pi/2$, and the only target in that range is 0, the even target with $l = 0$: no level except the zero mode lies in the gap, in all four cases.
 
 ```python
 def target(parity, label):
@@ -3792,10 +3862,11 @@ def target(parity, label):
     return label * math.pi if parity == "even" else math.pi / 2 + label * math.pi
 
 
-canonical = [r for r in ROWS if float(r["m"]) == 1.0 and float(r["L"]) == 3.0]
+canonical = [r for r in ROWS if float(r["m"]) == 1.0 and float(r["L"]) == 3.0
+             and float(r["a4"]) == 0.0]  # the case M = 1, L = 3, f = 1
 ```
 
-`target` returns $l\pi$ for an even and $\pi/2 + l\pi$ for an odd level (the program's function of the same name). `canonical` keeps the 18 rows of the table with $M = 1$ and $L = 3$ (the cells are texts, so `float` turns them into numbers).
+`target` returns $l\pi$ for an even and $\pi/2 + l\pi$ for an odd level (the program's function of the same name). `canonical` keeps the 18 rows of the table with $M = 1$, $L = 3$ and $a_4 = 0$ (that is $f = 1$); the cells of the table are texts, so `float` turns them into numbers.
 
 ```python
 fig, ax = plt.subplots(figsize=(7.0, 5.4))
@@ -3806,7 +3877,7 @@ for label in range(-4, 7):
     ax.axhline(label + 0.5, color=ORANGE, lw=0.6, ls="--", alpha=0.6)
 ```
 
-The staircase $\Phi/\pi$ in black, and horizontal target lines: blue at the whole numbers (even targets $l\pi$), dashed orange halfway between them (odd targets).
+The staircase $\Phi/\pi$ in black, and horizontal target lines: blue at the whole numbers $-4$ to 6 (the even targets $l\pi$) and dashed orange halfway between them (the odd targets); `alpha=0.6` makes the lines partly transparent.
 
 ```python
 for r in canonical:
@@ -3817,20 +3888,20 @@ ax.plot([], [], "o", color=BLUE, label="even levels: $\\Phi = l\\pi$")
 ax.plot([], [], "s", color=ORANGE, label="odd levels: $\\Phi = \\pi/2 + l\\pi$")
 ```
 
-Each of the record's 18 levels is marked at its energy and its target (a blue dot for even, an orange square for odd); two empty plots add the legend entries.
+Each of the record's 18 levels of this case is marked at its energy and its target (a blue dot for even, an orange square for odd); two empty plots add the legend entries.
 
 ```python
 ax.set_ylim(-4.2, 6.2)
 ax.set_xlabel("energy $\\varepsilon$ (units $m$)")
 ax.set_ylabel("end angle $\\Phi = \\theta(0)$ in units of $\\pi$")
-ax.set_title("The Pruefer staircase: $M = 1$, $L = 3$")
+ax.set_title("The Pruefer staircase: $M = 1$, $L = 3$, $f = 1$")
 ax.legend(loc="upper left", fontsize=8)
 save_figure(fig, "pruefer_staircase",
             "The end value of the Pruefer angle, $\\Phi(\\varepsilon) = "
-            ...)
+...)
 ```
 
-Labels and the saved figure `02d_1_pruefer_staircase.png`. **What Figure 02d.1 shows:** the curve rises steadily and crosses every target line exactly once, at a level of the record; even and odd levels alternate; the zero mode sits at $\varepsilon = 0$, $\Phi = 0$; between $-1$ and 1 (inside the mass gap, $|\varepsilon| < M$) the curve rises only slowly (In [5] finds slopes between 0.5 and 0.7 there) and crosses only the line 0, in agreement with Section 2.24.
+Labels and the saved figure `02d_1_pruefer_staircase.png`. **What Figure 02d.1 shows:** the curve rises steadily and crosses every target line exactly once, at a level of the record; even and odd levels alternate; the zero mode sits at $\varepsilon = 0$, $\Phi = 0$; between $-1$ and 1 (inside the mass gap $|\varepsilon| < M$) the curve rises only slowly and crosses only the line 0 (In [5] finds the slopes 0.57, 0.50 and 0.67 at $\varepsilon = -0.5$, 0 and 0.7), in agreement with Section 2.24; just outside the gap, near $|\varepsilon| = 1.34$, the curve climbs steeply through the targets $\pm\pi/2$ and $\pm\pi$ (the peaks of the slope in Figure 02d.2).
 
 **In [5], the slope of the staircase.**
 
@@ -3846,16 +3917,17 @@ for e in tested:
     say(f"eps = {e:+.2f}: formula {formula:9.5f}, central difference {central:9.5f}")
 ```
 
-At seven energies the slope formula $\int r^2 dy/r(0)^2$ is compared with the central difference $(\Phi(\varepsilon + \delta) - \Phi(\varepsilon - \delta))/(2\delta)$ of Section 2.18 with $\delta = 10^{-4}$; the relative differences are collected. The printout shows, for example, 3.85717 at $\varepsilon = -4$, 12.49831 at $-1.34$ and 0.49876 at 0.
+At the seven energies of the list `tested` the slope formula $f\int r^2 dy/r(0)^2$ (element 1 of the result of `shoot`) is compared with the central difference $(\Phi(\varepsilon + \delta) - \Phi(\varepsilon - \delta))/(2\delta)$ of Section 2.18 with $\delta = 10^{-4}$; the relative differences $|{\rm central}/{\rm formula} - 1|$ are collected, and each pair is printed (`:9.5f` writes a number in 9 places with 5 digits after the point). The printout shows, for example, 3.85717 at $\varepsilon = -4$, 12.49831 at $-1.34$ (12.49830 by the central difference) and 0.49876 at 0 (COMPUTED).
 
 ```python
 report("largest relative difference formula - central difference",
        f"{max(relative):.1e}")
 check(max(relative) < 1e-4 and np.all(slope_grid > 0),
-      "dPhi/deps = (integral of r^2)/r(0)^2 > 0 (agrees with central differences)")
+      "dPhi/deps = f (integral of r^2)/r(0)^2 > 0 (agrees with central "
+      "differences)")
 ```
 
-The largest relative difference is $3.7 \times 10^{-6}$ (COMPUTED); the check requires less than $10^{-4}$, and a positive slope at all 651 energies of the grid.
+The largest relative difference is $3.7 \times 10^{-6}$ (COMPUTED); the check requires less than $10^{-4}$, and a positive slope at all 651 energies of the grid of In [4].
 
 ```python
 # At eps = 0 the shot is exactly a = e^(M(y + L)), b = 0, so the integral can be
@@ -3867,19 +3939,19 @@ check(abs(shoot(0.0, M1, L3, 900)[1] - at_zero) < 1e-4,
       "at eps = 0 the slope is (1 - e^(-2ML))/(2M), about 1/(2M)")
 ```
 
-The slope at $\varepsilon = 0$ computed by hand in Section 2.24, $(1 - e^{-6})/2 = 0.498761$, against the program's 0.498762 (the difference is the error of the trapezoid rule).
+The slope at $\varepsilon = 0$ computed by hand in Section 2.24 for $f = 1$, $(1 - e^{-6})/2 = 0.498761$, against the formula's 0.498762 (COMPUTED; the difference is the error of the trapezoid rule). The two comment lines repeat the hand calculation.
 
 ```python
 grid_difference = (Phi_grid[2:] - Phi_grid[:-2]) / (eps_grid[2:] - eps_grid[:-2])
 fig, ax = plt.subplots()
 ax.plot(eps_grid, slope_grid, color=BLACK, lw=1.4,
-        label="formula $\\int r^2 dy / r(0)^2$")
+        label="formula $f \\int r^2 dy / r(0)^2$, $f = 1$")
 ax.plot(eps_grid[1:-1][::6], grid_difference[::6], "o", color=AQUA, ms=4,
         label="central differences of the staircase")
 ax.axhline(L3, color=GREY, ls="--", lw=1.0, label="$L = 3$")
 ```
 
-`grid_difference` is the central difference of the staircase on the grid itself (the value one place ahead minus the value one place back, divided by the energy distance 0.04 between them: entry $i$ of `grid_difference` is $(\Phi_{i+2} - \Phi_i)/(\varepsilon_{i+2} - \varepsilon_i)$, centred on the grid point $i + 1$), belonging to the inner energies `eps_grid[1:-1]`; every sixth one is drawn (`[::6]`) as an aqua dot over the black formula curve, with a dashed line at $L = 3$.
+`grid_difference` is the central difference of the staircase on the grid itself: its entry $i$ is $(\Phi_{i+2} - \Phi_i)/(\varepsilon_{i+2} - \varepsilon_i)$, centred on the grid point $i + 1$, so the differences belong to the inner energies `eps_grid[1:-1]` (all but the first and the last). Every sixth one is drawn (`[::6]`) as an aqua dot over the black formula curve, with a dashed line at $L = 3$.
 
 ```python
 ax.set_ylim(0.0, 17.5)  # room for the legend above the two peaks
@@ -3889,10 +3961,10 @@ ax.set_title("The slope of the staircase is never negative")
 ax.legend(loc="upper right", fontsize=8)
 save_figure(fig, "staircase_slope",
             "The slope $d\\Phi/d\\varepsilon$ of the end angle (vertical axis, "
-            ...)
+...)
 ```
 
-Labels and the saved figure `02d_2_staircase_slope.png`. **What Figure 02d.2 shows:** the dots lie on the formula curve; the slope is positive everywhere; it is about $L = 3$ far from the mass, about $1/(2M) = 0.5$ near $\varepsilon = 0$ (the zero-mode shot grows towards the brane, so $r(0)^2$ is large), and it has two peaks near $|\varepsilon| = 1.34$ (there the shot ends with a small $r(0)$ compared with its size inside, so a small change of energy turns the end angle a lot).
+Labels and the saved figure `02d_2_staircase_slope.png`. **What Figure 02d.2 shows:** the dots lie on the formula curve; the slope is positive everywhere; far from the mass it wobbles around $L = 3$, between about 2 and 6; near $\varepsilon = 0$ it is about $1/(2M) = 0.5$, because the zero-mode shot grows towards the fold and $r(0)^2$ is large; and it has two sharp peaks of about 12.5 near $\varepsilon = \pm 1.34$, where the shot ends with a small $r(0)$ compared with its size inside the interval, so that a small change of energy turns the end angle a lot.
 
 **In [6], the angle along the interval.**
 
@@ -3902,7 +3974,7 @@ level_of = {(r["parity"], int(r["label"])): float(r["eps_numeric"]) for r in can
 fig, ax = plt.subplots()
 ```
 
-Five levels of the canonical case, named by parity and label; `level_of` maps each (parity, label) of the canonical rows to the record's numerical level.
+Five levels of the canonical case, named by parity and label; `level_of` is a dictionary from the (parity, label) of each of the 18 canonical rows to the record's numerical level.
 
 ```python
 for (parity, label), color in zip(chosen, [BLACK, ORANGE, BLUE, VIOLET, AQUA]):
@@ -3914,19 +3986,19 @@ for (parity, label), color in zip(chosen, [BLACK, ORANGE, BLUE, VIOLET, AQUA]):
     ax.plot([0.0], [target(parity, label) / math.pi], "o", color=color, ms=6)
 ```
 
-For each chosen level the shot is repeated with `keep=True`; element 3 of the result is the path, unpacked into its four rows. $\theta/\pi$ is drawn against $y$ (solid for even, dashed for odd), and a dot marks the target at the brane.
+For each chosen level and its colour (`zip` pairs the two lists) the shot is repeated with `keep=True`; element 3 of the result is the path, unpacked into its four rows. $\theta/\pi$ is drawn against $y$, solid for even and dashed for odd levels, with a legend entry that names the level, and a dot marks the target at the fold $y = 0$.
 
 ```python
-ax.set_xlabel("hidden coordinate $y$ (units $1/H$): tip at $-3$, brane at $0$")
+ax.set_xlabel("hidden coordinate $y$ (units $1/H$): tip at $-3$, fold at $0$")
 ax.set_ylabel("Pruefer angle $\\theta(y)/\\pi$")
-ax.set_title("The angle winds up to its target at the brane")
+ax.set_title("The angle winds up to its target at the fold")
 ax.legend(loc="upper left", fontsize=8)
 save_figure(fig, "angle_along_y",
             "The Pruefer angle $\\theta(y)$ in units of $\\pi$ (vertical axis) "
-            ...)
+...)
 ```
 
-Labels and the saved figure `02d_3_angle_along_y.png`. **What Figure 02d.3 shows:** every curve starts at 0 at the tip and ends exactly on its dot; the zero mode stays at 0; the number of half-turns made is the label; higher levels wind faster, at the average rate $\varepsilon$.
+Labels and the saved figure `02d_3_angle_along_y.png`. **What Figure 02d.3 shows:** every curve starts at 0 at the tip $y = -3$ and ends exactly on its dot at the fold: the zero mode stays at 0, the odd label 0 ends at $\pi/2$, the even label 1 at $\pi$, the odd label 1 at $3\pi/2$ and the even label 3 at $3\pi$; an even level with label $l$ makes $l$ half-turns, an odd one $l + \frac12$; the higher levels wind faster, at the average rate $f\varepsilon$ (here $f = 1$).
 
 **In [7], the exact levels, computed again.**
 
@@ -3934,52 +4006,54 @@ Labels and the saved figure `02d_3_angle_along_y.png`. **What Figure 02d.3 shows
 mpmath.mp.dps = 30
 
 
-def odd_root(M, L, n):
-    """The n-th positive root p of M sin(pL) + p cos(pL) = 0 (30 digits)."""
-    g = lambda p: M * mpmath.sin(p * L) + p * mpmath.cos(p * L)  # noqa: E731
-    return mpmath.findroot(g, ((n + 0.5) * mpmath.pi / L, (n + 1) * mpmath.pi / L),
-                           solver="anderson")
+def odd_root(M, ell, n):
+    """The n-th positive root p of M sin(p ell) + p cos(p ell) = 0 (30 digits)."""
+    g = lambda p: M * mpmath.sin(p * ell) + p * mpmath.cos(p * ell)  # noqa: E731
+    return mpmath.findroot(g, ((n + 0.5) * mpmath.pi / ell,
+                               (n + 1) * mpmath.pi / ell), solver="anderson")
 ```
 
-mpmath at 30 digits. The odd condition $\tan(pL) = -p/M$ multiplied by $M\cos(pL)$ is $M\sin(pL) + p\cos(pL) = 0$ (no infinities). The $n$-th root lies between $(n + \frac12)\pi/L$ and $(n + 1)\pi/L$ (Section 2.24), and `findroot` refines it in that bracket. (The comment `noqa: E731` tells a style checker that the one-line `lambda` function is intended.)
+mpmath at 30 digits. The odd condition $\tan(p\ell) = -p/M$ multiplied by $M\cos(p\ell)$ is $M\sin(p\ell) + p\cos(p\ell) = 0$, which has no infinities; here $\ell$ is the proper length $fL$. The $n$-th root lies between $(n + \frac12)\pi/\ell$ and $(n + 1)\pi/\ell$ (Section 2.24), and `findroot` refines it in that bracket (`solver="anderson"` names a bracketing method of mpmath). The comment `noqa: E731` tells a style checker that the one-line `lambda` function is intended.
 
 ```python
-def exact_level(M, L, parity, label):
-    """The exact level of the given parity and label."""
+def exact_level(M, ell, parity, label):
+    """The exact level of the given parity and label for the proper length ell."""
     if parity == "even":
         if label == 0:
             return 0.0  # the zero mode
-        return math.copysign(float(mpmath.sqrt(M ** 2 + (label * mpmath.pi / L) ** 2)),
-                             label)
+        return math.copysign(
+            float(mpmath.sqrt(M ** 2 + (label * mpmath.pi / ell) ** 2)), label)
     n = label if label >= 0 else -label - 1
-    value = float(mpmath.sqrt(M ** 2 + odd_root(M, L, n) ** 2))
+    value = float(mpmath.sqrt(M ** 2 + odd_root(M, ell, n) ** 2))
     return value if label >= 0 else -value
 ```
 
-The exact level for a parity and a label, as the record defines them: even label 0 is the zero mode; even label $l \ne 0$ is $\pm\sqrt{M^2 + (l\pi/L)^2}$ with the sign of $l$ (`math.copysign(x, s)` is $|x|$ with the sign of $s$); the odd label $l \ge 0$ uses the root $p_l$ and gives $+\sqrt{M^2 + p_l^2}$, the odd label $l \le -1$ uses the root $p_{-l-1}$ and gives the negative level.
+The exact level for a parity and a label, as the record defines them, for the proper length `ell`: even label 0 is the zero mode; even label $l \neq 0$ is $\pm\sqrt{M^2 + (l\pi/\ell)^2}$ with the sign of $l$ (`math.copysign(x, s)` is $|x|$ with the sign of $s$); the odd label $l \ge 0$ uses the root $p_l$ and gives $+\sqrt{M^2 + p_l^2}$, the odd label $l \le -1$ uses the root $p_{-l-1}$ and gives the negative level (so the labels $-1$ and $0$ share the root $p_0$, with the two signs).
 
 ```python
-analytic_ours = [exact_level(float(r["m"]), float(r["L"]), r["parity"],
-                             int(r["label"])) for r in ROWS]
+analytic_ours = [exact_level(float(r["m"]),
+                             hidden_scale(float(r["a4"])) * float(r["L"]),
+                             r["parity"], int(r["label"])) for r in ROWS]
 analytic_record = [float(r["eps_analytic"]) for r in ROWS]
 worst_analytic = max(abs(a - b) for a, b in zip(analytic_ours, analytic_record))
 report("largest |exact level (here) - eps_analytic (record)|", f"{worst_analytic:.1e}")
-check(worst_analytic < 1e-14, "all 54 exact levels equal the column eps_analytic",
+check(worst_analytic < 1e-14, "all 72 exact levels equal the column eps_analytic",
       record=f"{TABLE}, column eps_analytic")
 ```
 
-All 54 exact levels are computed here and compared with the record's column `eps_analytic`: the largest difference is $1.8 \times 10^{-15}$, the size of the last printed digit (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, column `eps_analytic`).
+All 72 exact levels, each for the proper length $\ell = fL$ of its row (`hidden_scale` of the row's $a_4$, times the row's $L$), are compared with the record's column `eps_analytic`: the largest difference is $1.8 \times 10^{-15}$, the size of the last printed digit (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, column `eps_analytic`).
 
 ```python
 p_axis = np.linspace(0.01, 3.3, 3000)
 tangent = np.tan(p_axis * L3)
 tangent[np.abs(tangent) > 8] = np.nan  # do not draw the jumps at the poles
 fig, ax = plt.subplots()
-ax.plot(p_axis, tangent, color=BLUE, lw=1.4, label="$\\tan(pL)$, $L = 3$")
+ax.plot(p_axis, tangent, color=BLUE, lw=1.4,
+        label="$\\tan(p\\ell)$, $\\ell = fL = 3$")
 ax.plot(p_axis, -p_axis / M1, color=ORANGE, lw=1.4, ls="--", label="$-p/M$, $M = 1$")
 ```
 
-The graphical solution of the odd condition for $M = 1$, $L = 3$: the branches of $\tan(pL)$ (with the jumps removed as in Notebook 02b) and the falling line $-p/M$.
+The graphical solution of the odd condition for $M = 1$ and $\ell = 3$ (the case $f = 1$, $L = 3$): 3000 values of $p$ from 0.01 to 3.3, the branches of $\tan(p\ell)$, with the values above 8 in size replaced by `np.nan` ("not a number", which matplotlib leaves out) so that the jumps at the poles are not drawn, and the falling line $-p/M$.
 
 ```python
 for n in range(3):
@@ -3991,23 +4065,29 @@ ax.axhline(0.0, color=BLACK, lw=0.6)
 ax.set_ylim(-6.0, 6.0)
 ax.set_xlabel("$p$ (units $m$)")
 ax.set_ylabel("value of each side")
-ax.set_title("Odd levels: $\\tan(pL) = -p/M$, then $\\varepsilon = \\sqrt{M^2 + p^2}$")
+ax.set_title("Odd levels: $\\tan(p\\ell) = -p/M$, then "
+             "$\\varepsilon = \\sqrt{M^2 + p^2}$")
 ax.legend(loc="upper right", fontsize=8)
-save_figure(fig, "odd_level_equation",
-            "The equation of the odd levels for $M = 1$ and $L = 3$: the branches "
-            ...)
 ```
 
-The first three roots are marked and labelled on the line; labels and the saved figure `02d_4_odd_level_equation.png`. **What Figure 02d.4 shows:** one crossing on every branch of the tangent, each a root $p_n$; the first three give the odd levels 1.2923, 2.0106 and 2.9119.
+The first three roots are computed, marked with black dots on the line and labelled with their values (`annotate` writes a text near a point, shifted by 6 points to the right and 14 points down). Then come the zero line, the vertical range, labels, a title and the legend.
+
+```python
+save_figure(fig, "odd_level_equation",
+            "The equation of the odd levels for $M = 1$ and the proper length "
+...)
+```
+
+The saved figure `02d_4_odd_level_equation.png`. **What Figure 02d.4 shows:** one crossing on every branch of the tangent, each between the point where the branch rises from $-\infty$ and its zero: $p_0 = 0.8185$, $p_1 = 1.7443$ and $p_2 = 2.7348$, which give the odd levels $\sqrt{1 + p_n^2} = 1.2923$, 2.0106 and 2.9119.
 
 **In [8], Newton's method with a safety net.**
 
 ```python
-def find_level(M, L, G, goal, tolerance=ROOT_TOLERANCE, log=None):
-    """The energy with Phi(eps) = goal, found as the Rust program finds it.  If log
-    is a list, every energy that is shot is appended to it."""
+def find_level(M, L, G, goal, f=1.0, tolerance=ROOT_TOLERANCE, log=None):
+    """The energy with Phi(eps) = goal (hidden scale f), found as the Rust program
+    finds it.  If log is a list, every energy that is shot is appended to it."""
     def mismatch(eps):
-        Phi, slope, largest = shoot(eps, M, L, G)
+        Phi, slope, largest = shoot(eps, M, L, G, f=f)
         if largest >= 2.0:  # the program refuses such a shot
             raise ValueError(f"one step turns the angle by {largest:.2f}")
         if log is not None:
@@ -4015,7 +4095,7 @@ def find_level(M, L, G, goal, tolerance=ROOT_TOLERANCE, log=None):
         return Phi - goal, slope  # F(eps) and F'(eps)
 ```
 
-`find_level` is the program's function of the same name, line for line (Section 2.24). The inner function `mismatch` shoots one energy, refuses a shot in which one step turns by 2 or more, records the energy if a list was given, and returns $F = \Phi - t$ and $F' = d\Phi/d\varepsilon$.
+`find_level` is the program's function of the same name, line for line (Section 2.24), with the hidden scale `f` handed on to `shoot`. The inner function `mismatch` shoots one energy, refuses a shot in which one step turns by 2 radians or more (`raise ValueError` stops with an error message), records the energy if a list was given, and returns $F = \Phi - t$ and $F' = d\Phi/d\varepsilon$.
 
 ```python
     e_c = 0.0  # step 1: the starting guess
@@ -4024,7 +4104,7 @@ def find_level(M, L, G, goal, tolerance=ROOT_TOLERANCE, log=None):
         return e_c
 ```
 
-Step 1: shoot at $\varepsilon = 0$; for the zero mode ($t = 0$) the mismatch is exactly 0 and the search ends at once with the energy exactly 0.
+Step 1: shoot at $\varepsilon = 0$. For the zero mode (target $t = 0$) the mismatch is exactly 0, and the search ends at once with the energy exactly 0.
 
 ```python
     if F_c < 0.0:  # step 2, upwards: the level lies above
@@ -4042,7 +4122,7 @@ Step 1: shoot at $\varepsilon = 0$; for the zero mode ($t = 0$) the mismatch is 
             step *= 2.0
 ```
 
-Step 2 when $F(0) < 0$ (the level lies above, because $\Phi$ increases): the first step is 1.2 times Newton's estimate $-F/F'$, limited to between $10^{-4}$ and 2 (`max` then `min`). The `while True` loop repeats until `break`: it shoots one step further up; if the sign has changed the bracket is (`low`, `e`), and the better of the two end guesses becomes the current guess; otherwise the new point becomes the lower end and the current guess, and the step is doubled.
+Step 2 when $F(0) < 0$ (the level lies above, because $\Phi$ increases): the first step is 1.2 times Newton's estimate $-F/F'$, limited to between $10^{-4}$ and 2 (`max` then `min`). The `while True` loop repeats until `break`: it shoots one step further up; if the sign has changed, the bracket is (`low`, `e`), and the better of the two end guesses becomes the current guess; otherwise the new point becomes the lower end and the current guess, and the step is doubled.
 
 ```python
     else:  # step 2, downwards: the level lies below
@@ -4062,7 +4142,7 @@ Step 2 when $F(0) < 0$ (the level lies above, because $\Phi$ increases): the fir
         return e_c
 ```
 
-The same walk downwards when $F(0) > 0$. If the walk happens to land exactly on the level, the search ends. (The Rust function can also be given a known lower bound for the downward bracket, and it gives up after 400 shots without a bracket; neither is needed in this notebook.)
+The same walk downwards when $F(0) > 0$. If the walk happens to land exactly on the level, the search ends. (The Rust function can also be given a known lower end for the downward bracket, and it gives up after 400 shots without a bracket; neither is needed in this notebook.)
 
 ```python
     previous = math.inf  # |F| at the previous step
@@ -4110,7 +4190,7 @@ def find_level_by_bisection(M, L, G, goal, tolerance=ROOT_TOLERANCE, log=None):
     return 0.5 * (low + high)
 ```
 
-For comparison, plain bisection on the bracket $(-12, 12)$: because $\Phi$ increases, $\Phi(m) <$ target means that the level lies above the midpoint $m$.
+For comparison, plain bisection on the bracket $(-12, 12)$ (with $f = 1$): because $\Phi$ increases, an end angle at the midpoint below the target means that the level lies above the midpoint.
 
 ```python
 newton_log, bisection_log = [], []
@@ -4124,7 +4204,7 @@ for k, e in enumerate(newton_log, 1):
     say(f"Newton shot {k}: eps = {e:.15f}, error {abs(e - by_newton):.1e}")
 ```
 
-Both search the even level with label 3 (target $3\pi$) of the case $M = 1$, $L = 3$, recording every energy they shoot. Newton finds 3.296908309775607 with 9 shots, bisection 3.296908309775617 with 48 shots (COMPUTED). The nine Newton shots are printed: 0 (step 1), 2 and 6 (the bracket walk: the first step is limited to 2, the doubled step 4 reaches 6, where $F$ has changed sign), then 3.1476, 3.2796, 3.29660, 3.2969082, ... with the errors $1.5 \times 10^{-1}$, $1.7 \times 10^{-2}$, $3.1 \times 10^{-4}$, $1.0 \times 10^{-7}$, $1.3 \times 10^{-14}$, 0: from the fourth shot on, each error is roughly the square of the previous one times a constant, so the number of correct digits about doubles.
+Both search the even level with label 3 (target $3\pi$) of the case $M = 1$, $L = 3$, $f = 1$, recording every energy they shoot. Newton finds 3.296908309775607 with 9 shots, bisection 3.296908309775617 with 48 shots (COMPUTED; Exercise 6 explains the 48). The nine Newton shots are printed (`enumerate(newton_log, 1)` counts them from 1): 0 (step 1); 2 and 6 (the bracket walk: the first step is limited to 2, the doubled step 4 reaches 6, where $F$ has changed sign); then 3.147568065578289, 3.279643841475118, 3.296597009921515, 3.296908208194133, 3.296908309775594 and 3.296908309775607, with the errors $1.5 \times 10^{-1}$, $1.7 \times 10^{-2}$, $3.1 \times 10^{-4}$, $1.0 \times 10^{-7}$, $1.3 \times 10^{-14}$ and 0. From the fourth shot on each error is about the square of the previous one, so the number of correct digits about doubles at every step.
 
 ```python
 fig, ax = plt.subplots()
@@ -4141,10 +4221,10 @@ ax.set_title("Finding the even level $l = 3$ ($M = 1$, $L = 3$)")
 ax.legend(loc="upper right", fontsize=8)
 save_figure(fig, "newton_vs_bisection",
             "The distance $|\\varepsilon - \\varepsilon_3|$ (units of $m$, "
-            ...)
+...)
 ```
 
-The distance of every shot energy from the level, on a logarithmic axis (exact zeros drawn at $10^{-17}$), for both methods; the saved figure is `02d_5_newton_vs_bisection.png`. **What Figure 02d.5 shows:** the bisection squares fall along a straight line (a factor 2 per shot) and need 48 shots; the Newton circles first jump around while the bracket is made, then plunge, and stop after 9 shots.
+The distance of every shot energy from the level, on a logarithmic vertical axis (`semilogy`); `np.maximum(..., 1e-17)` draws exact zeros at $10^{-17}$, because zero has no logarithm. The saved figure is `02d_5_newton_vs_bisection.png`. **What Figure 02d.5 shows:** the bisection squares fall, with small ups and downs, along a straight line (a factor 2 per shot) and need 48 shots; the Newton circles first stay near 1 while the bracket is made, then plunge, and stop after 9 shots.
 
 ```python
 check(abs(by_newton - level_of[("even", 3)]) < 1e-12
@@ -4154,9 +4234,9 @@ check(abs(by_newton - level_of[("even", 3)]) < 1e-12
       record=f"{TABLE}, column eps_numeric")
 ```
 
-The Newton result equals the record's level within $10^{-12}$, bisection agrees within $10^{-13}$, and the numbers of shots are fewer than 15 and more than 45 (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, column `eps_numeric`, for this level).
+The Newton result equals the record's level within $10^{-12}$, bisection agrees within $10^{-13}$, and the numbers of shots are fewer than 15 and more than 45; the chained comparison `a < 15 < 45 < b` means `a < 15` and `45 < b` (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, column `eps_numeric`, for this level).
 
-**In [9], all 54 levels against the Rust program.**
+**In [9], all 72 levels against the Rust program.**
 
 ```python
 def rust_text(x):
@@ -4168,54 +4248,64 @@ def rust_text(x):
 `f"{x:.15e}"` writes $x$ with 16 significant digits in scientific notation, for example `3.296908309775607e+00`; the program writes the exponent as `e0`. The function splits the text at the `e` and writes the exponent back as a whole number, which turns `+00` into `0` and `-10` into `-10`.
 
 ```python
-CASES = [(1.0, 3.0), (1.0, 2.0), (2.0, 3.0)]  # the three cases (M, L) of the table
+scales = [hidden_scale(float(r["a4"])) for r in ROWS]  # f of every row
+f_identical = sum(rust_text(f) == r["f"] for f, r in zip(scales, ROWS))
+report("rows whose f (here) equals the column f in all 16 digits", f"{f_identical}"
+       f" of {len(ROWS)}")
+```
+
+`scales` holds the hidden scale of every row, computed from the row's $a_4$ by `hidden_scale`; `f_identical` counts the rows whose $f$, written as the program writes numbers, equals the record's text in the column `f` (the `sum` of `True` and `False` values counts the `True` ones). The RESULT line prints 72 of 72 (COMPUTED): the hidden scale is computed here with exactly the program's arithmetic.
+
+```python
 numeric_ours, shots_per_level = [], []
-for r in ROWS:
+for r, f in zip(ROWS, scales):
     M, L = float(r["m"]), float(r["L"])
     G = round(G_CANONICAL * L / 3.0)  # 900 steps for L = 3, 600 for L = 2
     log = []
     numeric_ours.append(find_level(M, L, G, target(r["parity"], int(r["label"])),
-                                   log=log))
+                                   f=f, log=log))
     shots_per_level.append(len(log))
 ```
 
-`CASES` names the three cases of the table (a reminder; the loop takes $M$ and $L$ from each row). For every row the level is found with the program's number of steps, $G = 900 L/3$, which keeps the step $h = 1/300$, and the number of shots is recorded.
+For every row the level is found with `find_level`, with the row's target, the row's hidden scale and the program's number of steps $G = 900L/3$, which keeps the step $h = 1/300$; the number of shots of each search is recorded.
 
 ```python
 numeric_record = [float(r["eps_numeric"]) for r in ROWS]
 identical = sum(rust_text(x) == r["eps_numeric"] for x, r in zip(numeric_ours, ROWS))
 worst_numeric = max(abs(a - b) for a, b in zip(numeric_ours, numeric_record))
-report("levels whose 16 digits equal the column eps_numeric", f"{identical} of 54")
+report("levels whose 16 digits equal the column eps_numeric", f"{identical} of 72")
 report("largest |level (here) - eps_numeric (Rust program)|", f"{worst_numeric:.1e}")
-report("shots per level (fewest, most, all 54 together)",
+report("shots per level (fewest, most, all 72 together)",
        f"{min(shots_per_level)}, {max(shots_per_level)}, {sum(shots_per_level)}")
 ```
 
-`identical` counts the levels whose text, written as the program writes it, equals the record's text (`sum` of `True`/`False` values counts the `True` ones): 54 of 54 on the computer that made the record. The largest numerical difference is $8.9 \times 10^{-16}$, and the searches needed between 1 and 15 shots, 510 in all (COMPUTED).
+`identical` counts the levels whose text, written as the program writes it, equals the record's text, and `worst_numeric` is the largest numerical difference. The stored notebook prints 72 of 72, $8.9 \times 10^{-16}$, and between 1 and 15 shots per level, 662 in all (COMPUTED). These three lines depend on the last binary digit of the functions `atan2` and `exp` of the computer's mathematics library: on a Linux computer on which this chapter was checked (2026-10-18) they read 64 of 72, $7.1 \times 10^{-15}$ and 660 shots, and nothing else in the cell changed. The checks below allow $10^{-12}$ and pass on both computers.
 
 ```python
-check(worst_numeric < 1e-12 and max(shots_per_level) <= 20,
-      "all 54 shooting levels equal the column eps_numeric (at most 20 shots each)",
-      record=f"{TABLE}, column eps_numeric")
+check(max(abs(f - float(r["f"])) for f, r in zip(scales, ROWS)) < 1e-15
+      and worst_numeric < 1e-12 and max(shots_per_level) <= 20,
+      "the hidden scales and all 72 shooting levels equal the columns f and "
+      "eps_numeric (at most 20 shots each)",
+      record=f"{TABLE}, columns f and eps_numeric")
 zero_rows = [i for i, r in enumerate(ROWS) if r["parity"] == "even"
              and int(r["label"]) == 0]
 check(all(numeric_ours[i] == 0.0 == numeric_record[i] for i in zero_rows),
-      "the zero mode has the energy exactly 0 in all three cases",
+      "the zero mode has the energy exactly 0 in all four cases",
       record=f"{SOLVER_REPORT}, check free_zero_mode_exact")
 ```
 
-The first check allows $10^{-12}$ rather than requiring identical digits, because on another computer the system's `atan2` may round differently in the last binary place (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, column `eps_numeric`). The second finds the three zero-mode rows and requires the energy exactly 0 both here and in the record (the chained comparison `a == 0.0 == b` means `a == 0.0` and `0.0 == b`; COMPUTED: reproduces `Revision/kohn_sham/reports/ks-rust-solver.json`, check `free_zero_mode_exact`).
+The first check requires every computed hidden scale to equal the column `f` within $10^{-15}$, every level to equal the column `eps_numeric` within $10^{-12}$ (ten times the root tolerance; not identical digits, for the reason just given), and at most 20 shots per level (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, columns `f` and `eps_numeric`). The second finds the four zero-mode rows (even, label 0) and requires the energy exactly 0 both here and in the record; the chained comparison `a == 0.0 == b` means `a == 0.0` and `0.0 == b` (COMPUTED: reproduces `Revision/kohn_sham/reports/ks-rust-solver.json`, check `free_zero_mode_exact`).
 
 ```python
 differences_ours = [n - a for n, a in zip(numeric_ours, analytic_ours)]
 pairs = list(zip(differences_ours, analytic_ours))
 low_band = max(abs(d) for d, a in pairs if abs(a) < 4)  # all levels below 4 m
 high_band = max(abs(d) for d, a in pairs if abs(a) >= 4)  # all levels from 4 m on
-below_7 = max(abs(d) for d, a in pairs if 4 <= abs(a) < 7)
 top = max(abs(a) for _, a in pairs)  # the highest level of the table
+report("the highest level of the table (units m)", f"{top:.4f}")
 ```
 
-The numerical minus the exact level for every row, and the largest difference in three bands of $|\varepsilon|$: below $4m$, from $4m$ on, and from $4m$ to below $7m$; `top` is the highest level of the table.
+The numerical minus the exact level for every row, and the largest difference in the two bands of $|\varepsilon|$ that the program's check uses: below $4m$, and from $4m$ on. `top` is the highest level of the table, $9.6055m$ (COMPUTED); it is the odd level with label 5 at $a_4 = 1.5$, where the hidden scale $f = e^{-1/2}$ shortens the proper length and raises the levels.
 
 ```python
 solver_report = json.loads(repository_file(SOLVER_REPORT).read_text(encoding="utf-8"))
@@ -4223,52 +4313,49 @@ detail = [c["detail"] for c in solver_report["checks"]
           if c["name"] == "free_k0_analytic_spectra"][0]
 quoted = float(re.findall(r"max \|difference\| ([0-9.]+e-[0-9]+) for \|eps\| < 4 m",
                           detail)[0])
-quoted_high = float(re.findall(r"([0-9.]+e-[0-9]+) for 4 m <= \|eps\| < 7 m",
+quoted_high = float(re.findall(r"([0-9.]+e-[0-9]+) for \|eps\| >= 4 m",
                                detail)[0])
 ```
 
-The cell reads the text of the program's check `free_k0_analytic_spectra` and finds in it the two numbers it quotes. `re.findall(pattern, text)` returns every piece of the text that matches the pattern; in the pattern, `[0-9.]+` is one or more digits or points, `e-[0-9]+` an exponent, `\|` a literal vertical bar, and the round brackets mark the part to return. The two numbers are $7.23 \times 10^{-10}$ (levels below $4m$) and $5.05 \times 10^{-8}$ (the second band).
+The cell reads the program's report of checks, takes the text (`detail`) of its check `free_k0_analytic_spectra`, and finds in it the two numbers it quotes. `re.findall(pattern, text)` returns every piece of the text that matches the pattern; in the pattern, `[0-9.]+` is one or more digits or points, `e-[0-9]+` an exponent, `\|` a literal vertical bar, and the round brackets mark the part to return; `[0]` takes the first match, and `float` turns it into a number. The two numbers are $7.23 \times 10^{-10}$ (levels below $4m$) and $5.05 \times 10^{-8}$ (levels from $4m$ on).
 
 ```python
 report("largest |numeric - exact| for |eps| < 4 m (here, record)",
        f"{low_band:.2e}, {quoted:.2e}")
 report("largest |numeric - exact| for |eps| >= 4 m (here, record)",
        f"{high_band:.2e}, {quoted_high:.2e}")
-say(f"Note: the record's check text names its second band 4 m <= |eps| < 7 m, but "
-    f"the solver puts every level with |eps| >= 4 m into it, and the table's "
-    f"levels reach {top:.4f} m; the quoted number belongs to that level. For "
-    f"4 m <= |eps| < 7 m alone the largest difference is {below_7:.2e}.")
 check(abs(low_band / quoted - 1) < 0.005 and abs(high_band / quoted_high - 1) < 0.005,
       "the two largest differences quoted by the solver check are reproduced",
       record=f"{SOLVER_REPORT}, check free_k0_analytic_spectra")
 ```
 
-Both quoted numbers are reproduced: $7.23 \times 10^{-10}$ and $5.05 \times 10^{-8}$ (COMPUTED: reproduces `Revision/kohn_sham/reports/ks-rust-solver.json`, check `free_k0_analytic_spectra`). The printed note records a wording error in that record: its text calls the second band "$4m \le |\varepsilon| < 7m$", but the Rust code (file `Revision/kohn_sham/solver/src/spectrum.rs`) puts every level with $|\varepsilon| \ge 4m$ into it, and the table reaches $8.7539m$; the quoted $5.05 \times 10^{-8}$ belongs to that highest level, while for $4m \le |\varepsilon| < 7m$ alone the largest difference is $9.95 \times 10^{-9}$. The check's verdict is unaffected, because its tolerance $3 \times 10^{-7}$ covers both numbers.
+Both quoted numbers are reproduced, $7.23 \times 10^{-10}$ and $5.05 \times 10^{-8}$ here and in the record (COMPUTED: reproduces `Revision/kohn_sham/reports/ks-rust-solver.json`, check `free_k0_analytic_spectra`, whose tolerances are $5 \times 10^{-9}$ and $3 \times 10^{-7}$). The check asks for agreement within half a per cent, because the record prints three digits.
 
 **In [10], the orbitals.**
 
 ```python
-def orbital(eps, M, L, G):
+def orbital(eps, M, L, G, f=1.0):
     """The normalised orbital on the fine grid of 2G + 1 points, made as the Rust
     program makes it.  Returns the arrays y, a, b."""
     h = L / G
     nf = 2 * G + 1  # nodes and step midpoints
     y = -L * ((nf - 1 - np.arange(nf)) / (nf - 1))  # the fine grid, as in the program
-    _, a_nodes, b_nodes, _ = shoot(eps, M, L, G, keep=True)[3]
+    _, a_nodes, b_nodes, _ = shoot(eps, M, L, G, f=f, keep=True)[3]
 ```
 
-The program's function `profile` rewritten. The fine grid has $2G + 1$ points (the nodes and the step midpoints); its positions are computed exactly as the program computes them, $y_f = -L\,(n_f - 1 - f)/(n_f - 1)$, which runs from $-L$ to 0 (the same formula, so that the rounding is the same). The shot with `keep=True` gives $a$ and $b$ at the $G + 1$ nodes.
+The program's function `profile` rewritten. The fine grid has $2G + 1$ points, the nodes and the step midpoints; its positions are computed exactly as the program computes them, $y_k = -L\,(n_f - 1 - k)/(n_f - 1)$ for $k = 0, \dots, n_f - 1$, which runs from $-L$ to 0 (the same formula, so that the rounding is the same). The shot with `keep=True` gives $a$ and $b$ at the $G + 1$ nodes; the underscores `_` receive the rows of $y$ and $\theta$, which are not needed.
 
 ```python
-    da = M * a_nodes - eps * b_nodes  # the slopes a' at the nodes (the equations)
-    db = eps * a_nodes - M * b_nodes  # the slopes b'
+    fM, fe = f * M, f * eps
+    da = fM * a_nodes - fe * b_nodes  # the slopes a' at the nodes (the equations)
+    db = fe * a_nodes - fM * b_nodes  # the slopes b'
     a, b = np.zeros(nf), np.zeros(nf)
     a[0::2], b[0::2] = a_nodes, b_nodes  # the nodes take the even places
     a[1::2] = 0.5 * (a_nodes[:-1] + a_nodes[1:]) + h / 8.0 * (da[:-1] - da[1:])
     b[1::2] = 0.5 * (b_nodes[:-1] + b_nodes[1:]) + h / 8.0 * (db[:-1] - db[1:])
 ```
 
-The slopes at the nodes come from the equations themselves. The node values fill the even places of the fine grid (`0::2`: every second place from 0), and the odd places (`1::2`) get the cubic Hermite midpoint values $(f_0 + f_1)/2 + h(f_0' - f_1')/8$ of Section 2.24, for all steps at once.
+The slopes at the nodes come from the equations themselves, with the hidden scale: $a' = fMa - f\varepsilon b$ and $b' = f\varepsilon a - fMb$. The node values fill the even places of the fine grid (`0::2`: every second place from 0), and the odd places (`1::2`) get the cubic Hermite midpoint values $(f_0 + f_1)/2 + h(f_0' - f_1')/8$ of Section 2.24, for all steps at once: `a_nodes[:-1]` are the values at the starts of the steps and `a_nodes[1:]` those at their ends.
 
 ```python
     half = 0.5 * h  # the spacing of the fine grid
@@ -4279,7 +4366,7 @@ The slopes at the nodes come from the equations themselves. The node values fill
     return y, a * scale, b * scale
 ```
 
-Simpson's weights for the spacing $h/2$: $\frac{h/2}{3}$ times 1 at the ends, 4 at the odd places and 2 at the inner even places (`np.full` makes an array filled with one value). The norm $\int(a^2 + b^2)dy$ is the weighted sum, and the orbital is divided by its square root, so that $\int(a^2 + b^2)dy = 1$.
+Simpson's weights for the spacing $h/2$: $\frac{h/2}{3}$ times 1 at the ends, 4 at the odd places and 2 at the inner even places (`np.full` makes an array filled with one value). The norm $\int(a^2 + b^2)dy$ is the weighted sum, and the orbital is divided by its square root, so that $\int_{-L}^{0}(a^2 + b^2)dy = 1$.
 
 ```python
 fig, axes = plt.subplots(2, 2, figsize=(9.0, 6.4), sharex=True)
@@ -4292,7 +4379,7 @@ for ax, (parity, label) in zip(axes.flat, [("even", 0), ("odd", 0), ("even", 1),
     residuals.append(abs(end))
 ```
 
-A figure with $2 \times 2$ panels sharing the horizontal axis; `axes.flat` walks through the four panels. For four levels the orbital is built and the component that the brane condition must make zero ($b(0)$ for even, $a(0)$ for odd) is recorded.
+A figure with $2 \times 2$ panels sharing the horizontal axis; `axes.flat` walks through the four panels. For four levels of the canonical case the orbital is built, and the component that the fold condition must make zero is recorded: $b(0)$ for an even level, $a(0)$ for an odd one (index `-1` is the last point of the fine grid, $y = 0$).
 
 ```python
     ax.plot(y_fine, a_fine, color=BLUE, lw=1.5, label="$a(y)$")
@@ -4305,45 +4392,52 @@ A figure with $2 \times 2$ panels sharing the horizontal axis; `axes.flat` walks
 Each panel draws $a(y)$ (solid blue) and $b(y)$ (dashed orange) with the zero line and a title naming the level.
 
 ```python
-    if parity == "even" and label == 0:  # the zero mode against its exact form
-        exact_a = math.sqrt(2 * M1 / (1 - math.exp(-2 * M1 * L3))) * np.exp(M1 * y_fine)
-        zero_mode_distance = np.max(np.abs(a_fine - exact_a))
-        zero_mode_b = np.max(np.abs(b_fine))
-```
-
-For the zero mode the exact normalised form is $a = \sqrt{2M/(1 - e^{-2ML})}\, e^{My}$, $b = 0$ (the factor makes $\int_{-L}^{0} a^2 dy = 1$, because $\int_{-L}^0 e^{2My}dy = (1 - e^{-2ML})/(2M)$). The cell records the largest distance of the computed $a$ from it and the largest $|b|$.
-
-```python
 for ax in axes[1]:
     ax.set_xlabel("hidden coordinate $y$ (units $1/H$)")
 for ax in axes[:, 0]:
     ax.set_ylabel("component (units $H^{1/2}$)")
 save_figure(fig, "orbitals",
-            "The normalised orbitals of four levels of the case $M = 1$, $L = 3$: "
-            ...)
+            "The normalised orbitals of four levels of the case $M = 1$, $L = 3$, "
+...)
 ```
 
-Axis labels on the bottom row (`axes[1]`) and the left column (`axes[:, 0]`); the components carry the unit $H^{1/2}$ because $\int(a^2 + b^2)dy = 1$ with $y$ in units of $1/H$. The saved figure is `02d_6_orbitals.png`. **What Figure 02d.6 shows:** the zero mode ($a \propto e^{y}$, $b = 0$) is concentrated at the brane; every orbital has $b = 0$ at the tip $y = -3$; at the brane the even orbitals have $b = 0$ and the odd ones $a = 0$; higher levels oscillate more.
+Axis labels on the bottom row (`axes[1]`) and the left column (`axes[:, 0]`); the components carry the unit $H^{1/2}$ because $\int(a^2 + b^2)dy = 1$ with $y$ in units of $1/H$. The saved figure is `02d_6_orbitals.png`. **What Figure 02d.6 shows:** the zero mode ($a \propto e^{y}$, $b = 0$) rises from about 0.07 at the tip to about 1.4 at the fold: it is concentrated at the fold; every orbital has $b = 0$ at the tip $y = -3$; at the fold the even orbitals have $b = 0$ and the odd ones $a = 0$; higher levels oscillate more (the odd label 2 has two zeros of $a$ inside the interval besides the one at the fold).
 
 ```python
-report("largest brane residual |b(0)| or |a(0)|", f"{max(residuals):.1e}")
+report("largest fold residual |b(0)| or |a(0)|", f"{max(residuals):.1e}")
+zero_distance, zero_b = [], []  # at a4 = 0 (f = 1) and a4 = 2 (f = e^(-2/3))
+for a4 in (0.0, 2.0):
+    f = hidden_scale(a4)
+    eps0 = find_level(M1, L3, 900, target("even", 0), f=f)  # the zero mode
+    y_fine, a_fine, b_fine = orbital(eps0, M1, L3, 900, f=f)
+    fM = f * M1
+    exact_a = math.sqrt(2.0 * fM / (1.0 - math.exp(-2.0 * fM * L3))) * np.exp(
+        fM * y_fine)  # the exact normalised zero mode
+    zero_distance.append(np.max(np.abs(a_fine - exact_a)))
+    zero_b.append(np.max(np.abs(b_fine)) + abs(eps0))
+```
+
+The largest fold residual is $8.6 \times 10^{-16}$ (COMPUTED), rounding only. Then the zero mode at two slices of the history, $a_4 = 0$ ($f = 1$) and $a_4 = 2$ ($f = e^{-2/3}$): it is found with `find_level` (target 0, so the search ends after one shot with the energy exactly 0), its orbital is built, and it is compared with its exact normalised form $a = \sqrt{2fM/(1 - e^{-2fML})}\, e^{fMy}$, $b = 0$. The factor makes $\int_{-L}^{0} a^2 dy = 1$, because $\int_{-L}^{0} e^{2fMy}dy = (1 - e^{-2fML})/(2fM)$ (the antiderivative $e^{2fMy}/(2fM)$ taken between $-L$ and 0). The cell records the largest distance of the computed $a$ from the exact form, and the largest $|b|$ plus $|\varepsilon|$, which must be exactly 0.
+
+```python
 zero_detail = [c["detail"] for c in solver_report["checks"]
                if c["name"] == "free_zero_mode_exact"][0]
-zero_quoted = float(re.findall(r"e\^\(My\) to ([0-9.]+e-[0-9]+)", zero_detail)[0])
-report("zero mode: largest distance from the exact normalised form (here, record)",
-       f"{zero_mode_distance:.2e}, {zero_quoted:.2e}")
+zero_quoted = float(re.findall(r"e\^\(fMy\) to ([0-9.]+e-[0-9]+)", zero_detail)[0])
+report("zero mode: distance from the exact form at a4 = 0, at a4 = 2 (here); record",
+       f"{zero_distance[0]:.2e}, {zero_distance[1]:.2e}; {zero_quoted:.2e}")
 ```
 
-The largest brane residual is $8.6 \times 10^{-16}$. The text of the program's check `free_zero_mode_exact` quotes the distance of the computed zero mode from its exact form after the words `e^(My) to`; in the pattern, `\^`, `\(` and `\)` stand for the literal characters. Both distances are $1.35 \times 10^{-12}$ (COMPUTED).
+The text of the program's check `free_zero_mode_exact` quotes the distance after the words `e^(fMy) to`; in the pattern, `\^`, `\(` and `\)` stand for the literal characters. The RESULT line prints the distances $1.35 \times 10^{-12}$ at $a_4 = 0$ and $6.37 \times 10^{-14}$ at $a_4 = 2$, and the record's $1.35 \times 10^{-12}$ (COMPUTED): the record quotes the larger of the two.
 
 ```python
-check(max(residuals) < 1e-10, "every orbital meets its brane condition within 1e-10")
-check(zero_mode_b == 0.0 and abs(zero_mode_distance / zero_quoted - 1) < 0.01,
-      "the zero mode: b = 0 exactly, distance 1.35e-12 from sqrt(2M/(1 - e^(-2ML))) "
-      "e^(My)", record=f"{SOLVER_REPORT}, check free_zero_mode_exact")
+check(max(residuals) < 1e-10, "every orbital meets its fold condition within 1e-10")
+check(max(zero_b) == 0.0 and abs(max(zero_distance) / zero_quoted - 1) < 0.01,
+      "the zero mode: eps = 0 and b = 0 exactly, distance 1.35e-12 from "
+      "sqrt(2fM/(1 - e^(-2fML))) e^(fMy)",
+      record=f"{SOLVER_REPORT}, check free_zero_mode_exact")
 ```
 
-Two checks: the brane conditions hold within $10^{-10}$; the zero mode has $b$ exactly 0 and reproduces the quoted distance within 1 per cent (COMPUTED: reproduces `Revision/kohn_sham/reports/ks-rust-solver.json`, check `free_zero_mode_exact`).
+Two checks: the fold conditions hold within $10^{-10}$; the zero mode has $\varepsilon$ and $b$ exactly 0 at both slices, and the larger distance equals the quoted one within 1 per cent (COMPUTED: reproduces `Revision/kohn_sham/reports/ks-rust-solver.json`, check `free_zero_mode_exact`).
 
 **In [11], how the error depends on the step.**
 
@@ -4354,7 +4448,7 @@ fig, ax = plt.subplots()
 orders = []
 ```
 
-Six step counts and three levels to follow.
+Six step counts, and three levels of the canonical case to follow.
 
 ```python
 for (parity, label), color, marker in zip(tracked, [BLUE, ORANGE, AQUA],
@@ -4369,7 +4463,7 @@ for (parity, label), color, marker in zip(tracked, [BLUE, ORANGE, AQUA],
               label=f"{parity} $l = {label}$ ($\\varepsilon = {exact:.4f}$)")
 ```
 
-For each level the search is repeated with every step count and the error against the exact level is stored; a straight line is fitted through the errors above $10^{-11}$ (below that the root tolerance and rounding interfere), and its slope (element 0 of `polyfit`'s result) is the measured order. The errors are drawn on a log-log plot.
+For each level, with its colour and marker, the search is repeated with every step count (with $f = 1$), and the error against the exact level of In [7] is stored. A straight line is fitted through the logarithms of the errors above $10^{-11}$ (below that the root tolerance and rounding interfere) against the logarithms of the steps, and its slope, element 0 of the result of `polyfit`, is the measured order. The errors are drawn on a log-log plot (`loglog`).
 
 ```python
 h_guide = L3 / np.array(G_LIST, dtype=float)
@@ -4388,17 +4482,22 @@ ax.set_title("The levels converge like $h^4$")
 ax.legend(loc="lower right", fontsize=8)
 save_figure(fig, "level_convergence",
             "The error of three levels of the case $M = 1$, $L = 3$ found by "
-            ...)
+...)
+```
+
+Labels and the saved figure `02d_7_level_convergence.png`. **What Figure 02d.7 shows:** three parallel straight lines of slope 4, the even label 5 ($\varepsilon = 5.3306$) on top and the even label 1 ($\varepsilon = 1.4480$) at the bottom: the higher the level, the larger its error at a given step; at the record's step $1/300$ (the dotted line, just left of the smallest step drawn) the errors lie between about $10^{-12}$ and $10^{-8}$.
+
+```python
 report("measured orders", ", ".join(f"{q:.2f}" for q in orders))
 check(all(3.8 < q < 4.2 for q in orders), "the level errors fall like h^4")
 ```
 
-Labels and the saved figure `02d_7_level_convergence.png`; the measured orders are 4.00, 3.99 and 3.97 (COMPUTED), and the check requires them between 3.8 and 4.2. **What Figure 02d.7 shows:** three parallel lines of slope 4; the higher the level, the larger its error at a given step; at the record's step $1/300$ the errors are far below $10^{-6}$.
+The measured orders are 4.00, 3.99 and 3.97 (COMPUTED), and the check requires them between 3.8 and 4.2: the levels have the order of RK4.
 
 **In [12], why the error grows with the level.**
 
 ```python
-w = sp.symbols("omega", positive=True)  # the angle turned in one step, eps h
+w = sp.symbols("omega", positive=True)  # the angle turned in one step, f eps h
 R_rk4 = 1 + sp.I * w - w ** 2 / 2 - sp.I * w ** 3 / 6 + w ** 4 / 24  # R(i omega)
 turned = sp.atan(sp.im(R_rk4) / sp.re(R_rk4))  # the angle of R(i omega)
 lag = sp.series(turned - w, w, 0, 7).removeO()
@@ -4407,55 +4506,64 @@ check(sp.simplify(lag + w ** 5 / 120) == 0,
       "one RK4 step turns by omega - omega^5/120: the phase lags")
 ```
 
-`R_rk4` is $R(i\omega)$ written out (Section 2.7). `sp.im` and `sp.re` take its imaginary and real parts, and the arctangent of their quotient is its angle (for small $\omega$ the real part is positive, so no turn is lost). `sp.series(..., w, 0, 7)` expands the angle minus $\omega$ up to $\omega^6$; the printout is `-omega**5/120`, and the check confirms the phase lag $\omega^5/120$ derived in Section 2.24. The symbol is declared positive (`positive=True`), which keeps sympy's expansion simple; for a negative angle the same result follows, because $R(-i|\omega|)$ is the complex conjugate of $R(i|\omega|)$, so its angle is minus that of $R(i|\omega|)$, and $-(|\omega| - |\omega|^5/120) = \omega - \omega^5/120$ for $\omega = -|\omega|$.
+`R_rk4` is $R(i\omega)$ written out (Section 2.7), where $\omega = f\varepsilon h$ is the angle turned in one step. `sp.im` and `sp.re` take its imaginary and real parts, and the arctangent of their quotient is its angle (for small $\omega$ the real part is positive, so no turn is lost). `sp.series(..., w, 0, 7)` expands the angle minus $\omega$ in powers of $\omega$ up to $\omega^6$, and `.removeO()` drops the symbol of the left-out higher terms; the printout is `-omega**5/120`, and the check confirms the phase lag $\omega^5/120$ derived in Section 2.24. The symbol is declared positive (`positive=True`), which keeps sympy's expansion simple; for a negative angle the same result follows, because $R(-i|\omega|)$ is the complex conjugate of $R(i|\omega|)$, so its angle is minus that of $R(i|\omega|)$, and $-(|\omega| - |\omega|^5/120) = \omega - \omega^5/120$ for $\omega = -|\omega|$.
 
 ```python
 nonzero = [i for i, a in enumerate(analytic_record) if a != 0.0]
 eps_abs = np.array([abs(analytic_record[i]) for i in nonzero])
-x_values = eps_abs / 300.0  # h |eps| with h = 1/300
+f_rows = np.array([scales[i] for i in nonzero])  # the hidden scale of each level
+x_values = f_rows * eps_abs / 300.0  # f h |eps| with h = 1/300
 record_diff = np.array([abs(float(ROWS[i]["difference"])) for i in nonzero])
 our_diff = np.array([abs(differences_ours[i]) for i in nonzero])
 masses = np.array([float(ROWS[i]["m"]) for i in nonzero])
 ```
 
-The 51 rows with a nonzero level (all except the three zero modes): their sizes $|\varepsilon|$, the quantity $h|\varepsilon|$ with $h = 1/300$ (the same step for all three cases), the size (`abs`) of the record's column `difference` (numerical minus exact level), the sizes of our own differences from In [9], and the masses. The sizes are needed for the logarithmic axes; the signs are tested at the end of the cell.
+The 68 rows with a nonzero level (all except the four zero modes): their sizes $|\varepsilon|$, their hidden scales $f$ (from In [9]), the quantity $fh|\varepsilon|$ with $h = 1/300$ (the same step for all four cases), the size (`abs`) of the record's column `difference` (numerical minus exact level), the sizes of our own differences from In [9], and the masses. The sizes are needed for the logarithmic axes; the signs are tested at the end of the cell.
+
+```python
+GROUPS = [((f_rows == 1.0) & (masses == 1.0), BLUE, "record, $M = 1$, $f = 1$"),
+          (masses == 2.0, ORANGE, "record, $M = 2$, $f = 1$"),
+          (f_rows < 1.0, AQUA, "record, $M = 1$, $f = e^{-1/2}$")]
+```
+
+The three groups of points of the figure, each with a **mask** (an array of `True` and `False` values, made by comparing an array with a number) that selects its rows, a colour and a legend text: $M = 1$ with $f = 1$ (both lengths $L = 3$ and $L = 2$), $M = 2$, and $M = 1$ with $f = e^{-1/2}$ (`&` means "and" for arrays).
 
 ```python
 fig, ax = plt.subplots()
-for mass, color in ((1.0, BLUE), (2.0, ORANGE)):
-    pick = masses == mass
+for pick, color, name in GROUPS:
     ax.loglog(x_values[pick], record_diff[pick] / eps_abs[pick], "o", color=color,
-              ms=6, label=f"record, $M = {mass:.0f}$")
+              ms=6, label=name)
 ax.loglog(x_values, our_diff / eps_abs, "x", color=BLACK, ms=5,
           label="this notebook")
 x_guide = np.linspace(x_values.min(), x_values.max(), 50)
 ax.loglog(x_guide, x_guide ** 4 / 120, "--", color=GREY,
-          label="prediction $(h\\varepsilon)^4/120$")
+          label="prediction $(f h\\varepsilon)^4/120$")
 ```
 
-The relative errors $\delta\varepsilon/|\varepsilon|$ of the record (dots, blue for $M = 1$ and orange for $M = 2$; `pick` selects the rows of one mass) and of this notebook (black crosses) against $h|\varepsilon|$ on log-log axes, with the prediction $(h\varepsilon)^4/120$ of Section 2.24 as a dashed line.
+The relative errors $\delta\varepsilon/|\varepsilon|$ of the record (dots, one colour per group; indexing an array with a mask keeps the entries where it is `True`) and of this notebook (black crosses) against $fh|\varepsilon|$ on log-log axes, with the prediction $(fh\varepsilon)^4/120$ of Section 2.24 as a dashed line over the range of the points.
 
 ```python
-ax.set_xlabel("$h |\\varepsilon|$ with $h = 1/300$ (pure number)")
+ax.set_xlabel("$f h |\\varepsilon|$ with $h = 1/300$ (pure number)")
 ax.set_ylabel("relative error $\\delta\\varepsilon / |\\varepsilon|$")
-ax.set_title("The RK4 error of all 51 nonzero levels of the record")
+ax.set_title("The RK4 error of all 68 nonzero levels of the record")
 ax.legend(loc="upper left", fontsize=8)
 save_figure(fig, "record_differences",
             "The relative error $\\delta\\varepsilon/|\\varepsilon|$ of the "
-            ...)
+...)
 ```
 
-Labels and the saved figure `02d_8_record_differences.png`. **What Figure 02d.8 shows:** the crosses sit on the record's dots (our shooting reproduces the program's errors); all points lie below the dashed prediction, and the levels far from the mass approach it, while those near the mass (where the point does not turn uniformly) lie further below.
+Labels and the saved figure `02d_8_record_differences.png`. **What Figure 02d.8 shows:** the crosses sit on the record's dots (our shooting reproduces the program's errors); all points lie below the dashed prediction; the levels far from the mass approach it (at the top right, up to $fh|\varepsilon| = 0.03$ and relative errors near $6 \times 10^{-9}$), while those near the mass, where the point does not turn uniformly, lie further below; the aqua points of the slice $a_4 = 1.5$ follow the same law in the variable $fh|\varepsilon|$ as the blue ones, as Section 2.24 predicts for the hidden scale.
 
 ```python
 ratio = (record_diff / eps_abs) / (x_values ** 4 / 120)
+far = eps_abs > 7  # the levels far from the mass M = 1
 report("error / prediction for the levels above 7 m",
-       ", ".join(f"{q:.3f}" for q in ratio[eps_abs > 7]))
-check(np.all(ratio < 1) and np.all(ratio[eps_abs > 7] > 0.9),
+       ", ".join(f"{q:.3f}" for q in ratio[far]))
+check(np.all(ratio < 1) and np.all(ratio[far] > 0.9),
       "every level error lies below the prediction, within 10 % above 7 m")
 ```
 
-The ratio of each measured relative error to the prediction; for the three levels above $7m$ it is 0.934, 0.953 and 0.955 (COMPUTED). The check requires every ratio below 1 and those above $7m$ above 0.9.
+The ratio of each measured relative error to the prediction; for the six levels above $7m$ (the mask `far`) it is 0.934, 0.953, 0.955, 0.944, 0.961 and 0.962 (COMPUTED). The check requires every ratio below 1, and those above $7m$ above 0.9.
 
 ```python
 report("largest |difference (here) - difference (record)|",
@@ -4465,7 +4573,7 @@ check(np.max(np.abs(record_diff - our_diff)) < 1e-12,
       record=f"{TABLE}, column difference")
 ```
 
-Our differences equal the record's column `difference` to $1.8 \times 10^{-15}$ (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, column `difference`).
+Our differences equal the record's column `difference` to $1.8 \times 10^{-15}$ in the stored notebook (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, column `difference`); on the Linux computer named in In [9] this line reads $7.1 \times 10^{-15}$, far inside the allowed $10^{-12}$.
 
 ```python
 signed = np.array([float(ROWS[i]["difference"]) for i in nonzero])  # with sign
@@ -4478,49 +4586,119 @@ check(np.all(np.sign(signed) == np.sign(levels)),
       record=f"{TABLE}, columns difference and eps_analytic")
 ```
 
-The last lines test the sign of the error, which Section 2.24 predicts: $\delta\varepsilon \approx \varepsilon^5 h^4/120$ has the sign of $\varepsilon$. `signed` holds the record's column `difference` with its sign, and `levels` the exact levels. `(levels > 0) & (signed > 0)` is `True` for a positive level computed too high (`&` means "and" for arrays), and `np.sum` counts the `True` entries. The RESULT line prints 33 of 33 and 18 of 18 (COMPUTED): every positive level comes out too high and every negative level too low. `np.sign` is $+1$, $-1$ or 0 for a positive, negative or zero number, and the check requires the sign of each difference to equal the sign of its level; that is, every computed level lies farther from 0 than the exact one (reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, columns `difference` and `eps_analytic`).
+The last lines test the sign of the error, which Section 2.24 predicts: $\delta\varepsilon \approx f^4\varepsilon^5 h^4/120$ has the sign of $\varepsilon$. `signed` holds the record's column `difference` with its sign, and `levels` the exact levels. `(levels > 0) & (signed > 0)` is `True` for a positive level computed too high, and `np.sum` counts the `True` entries. The RESULT line prints 44 of 44 and 24 of 24 (COMPUTED): every positive level comes out too high and every negative level too low. `np.sign` is $+1$, $-1$ or 0 for a positive, negative or zero number, and the check requires the sign of each difference to equal the sign of its level; that is, every computed level lies farther from 0 than the exact one (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, columns `difference` and `eps_analytic`).
 
-**In [13], the last check.**
+**In [13], the free levels along the deflating history.**
+
+```python
+a4_axis = np.linspace(0.0, 2.0, 41)
+curves = {("even", 0): [0.0] * len(a4_axis)}  # the zero mode stays at 0
+for label in (0, 1, 2):
+    curves[("odd", label)] = [exact_level(M1, hidden_scale(a) * L3, "odd", label)
+                              for a in a4_axis]
+for label in (1, 2, 3):
+    curves[("even", label)] = [exact_level(M1, hidden_scale(a) * L3, "even", label)
+                               for a in a4_axis]
+```
+
+41 values of $a_4$ from 0 to 2 (spacing 0.05). `curves` is a dictionary from (parity, label) to the list of the exact levels along the history: the zero mode stays at 0 (`[0.0] * len(a4_axis)` is a list of 41 zeros); the odd labels 0, 1, 2 and the even labels 1, 2, 3 are computed with `exact_level` for the proper length $\ell = f(a_4)\, L = 3e^{-a_4/3}$ at every $a_4$.
+
+```python
+fig, ax = plt.subplots(figsize=(7.0, 5.0))
+for (parity, label), values in sorted(curves.items()):
+    is_even = parity == "even"
+    ax.plot(a4_axis, values, color=BLUE if is_even else ORANGE, lw=1.5,
+            ls="-" if is_even else "--")
+    ax.text(2.03, values[-1], f"{parity} {label}", fontsize=7, va="center")
+```
+
+Each curve is drawn (solid blue for even, dashed orange for odd) and named by a small text just right of its end at $a_4 = 2$ (`va="center"` centres the text vertically on the point); `sorted` fixes the order of the curves.
+
+```python
+for r in ROWS:  # the record's shooting levels of the two slices with M = 1, L = 3
+    key = (r["parity"], int(r["label"]))
+    if float(r["m"]) == 1.0 and float(r["L"]) == 3.0 and key in curves:
+        is_even = r["parity"] == "even"
+        ax.plot(float(r["a4"]), float(r["eps_numeric"]), "o" if is_even else "s",
+                color=BLUE if is_even else ORANGE, ms=6, mec=BLACK)
+```
+
+The record's shooting levels of the two slices with $M = 1$ and $L = 3$ ($a_4 = 0$ and $a_4 = 1.5$), for the labels that have a curve, are marked at their $a_4$ (dots for even, squares for odd, with a black edge: `mec` is the colour of the marker's edge).
+
+```python
+ax.plot([], [], "-", color=BLUE, label="even levels (exact)")
+ax.plot([], [], "--", color=ORANGE, label="odd levels (exact)")
+ax.plot([], [], "o", color=GREY, mec=BLACK, label="record, shooting")
+ax.set_xlim(0.0, 2.35)  # room for the labels on the right
+ax.set_ylim(-0.2, 6.6)
+ax.set_xlabel("$a_4$ along the history ($f = e^{-a_4/3}$)")
+ax.set_ylabel("level $\\varepsilon$ (units $m$)")
+ax.set_title("Free levels at $k = 0$ along the deflating history "
+             "($M = 1$, $L = 3$)")
+ax.legend(loc="upper left", fontsize=8)
+save_figure(fig, "levels_along_history",
+            "The positive free levels at $k = 0$ of the case $M = 1$, $L = 3$ "
+...)
+```
+
+Three empty plots make the legend; then the axis ranges (with room on the right for the names), labels, a title and the saved figure `02d_9_levels_along_history.png`. **What Figure 02d.9 shows:** every nonzero level rises along the history, the higher ones faster (the even label 3 from 3.2969 to 6.2002, the even label 1 from 1.4480 to 2.2716), while the zero mode stays at 0; the record's shooting levels at $a_4 = 0$ and $a_4 = 1.5$ lie on the exact curves. As $a_4$ grows, the proper length $fL$ of the interval shrinks like $e^{-a_4/3}$, and the levels rise like those of a box that becomes shorter.
+
+```python
+rising = all(np.all(np.diff(values) > 0) for key, values in curves.items()
+             if key != ("even", 0))
+first_even = curves[("even", 1)]  # the even level with label 1
+report("even label 1 at a4 = 0 and at a4 = 2 (exact)",
+       f"{first_even[0]:.4f}, {first_even[-1]:.4f}")
+zero_on_history = [float(r["eps_numeric"]) for r in ROWS if float(r["a4"]) > 0
+                   and r["parity"] == "even" and int(r["label"]) == 0]
+check(rising and zero_on_history == [0.0],
+      "along the history every nonzero free level rises; the zero mode stays at 0",
+      record=f"{TABLE}, rows with a4 = 1.5")
+```
+
+`rising` is `True` when every nonzero curve increases from each value of $a_4$ to the next (`np.diff` again; the condition `if key != ("even", 0)` leaves out the zero mode). The RESULT line prints the even level with label 1 at $a_4 = 0$ and at $a_4 = 2$, 1.4480 and 2.2716 (COMPUTED). `zero_on_history` collects the record's numerical zero-mode levels at $a_4 > 0$; there is one, at $a_4 = 1.5$, and it is exactly 0. The check requires both (COMPUTED: reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, the rows with $a_4 = 1.5$).
+
+**In [14], the last check.**
 
 ```python
 names = ["pruefer_staircase", "staircase_slope", "angle_along_y",
          "odd_level_equation", "newton_vs_bisection", "orbitals",
-         "level_convergence", "record_differences"]
+         "level_convergence", "record_differences", "levels_along_history"]
 present = [output_file(f"{FIGURE_FOLDER}/02d_{k}_{name}.png").is_file()
            for k, name in enumerate(names, 1)]
 check(all(present), f"all {len(names)} figure files of notebook 02d exist")
 all_checks_passed()
 ```
 
-As in Notebook 02a: the eight figure files must exist, and the last line is ALL 19 CHECKS PASSED (notebook 02d). The 19 checks are: 1 in In [2], 1 in In [3], 2 in In [4], 2 in In [5], 1 in In [7], 1 in In [8], 3 in In [9], 2 in In [10], 1 in In [11], 4 in In [12] and 1 in In [13].
+As in Notebook 02a: the nine figure files must exist, and the last line is ALL 21 CHECKS PASSED (notebook 02d). The 21 checks are: 1 in In [2], 2 in In [3], 2 in In [4], 2 in In [5], 1 in In [7], 1 in In [8], 3 in In [9], 2 in In [10], 1 in In [11], 4 in In [12], 1 in In [13] and 1 in In [14].
 
 ### 2.29 What we proved, what we computed, what we assumed
 
 **PROVED in this chapter** (by elementary algebra and calculus, each derivation written out line by line). Each statement is also confirmed by a check of a notebook, directly or through the check of a computation that uses it, with two exceptions that the notebooks only illustrate: the conservation of the oscillator energy by the exact solution (the dashed circle of Figure 02a.6) and the estimates of the best spacing (Notebook 02c, In [6], measures the best spacings but does not check the estimates).
 
-- along the history $a_4 = A H x_4$ the extra-time scale factor obeys $ds_5/dx_4 = -AH\, s_5$ (it deflates exponentially) and the 3-space factor $ds_1/dx_4 = +AH\, s_1$; their product is constant (Section 2.2); the oscillator conserves $E = (x^2 + v^2)/2$;
+- along the prescribed history $a_4 = A H x_4$, $b_4 = e^{(4/3) A H x_4}$ the scale factor of each extra time obeys $ds_5/dx_4 = -(AH/3)\, s_5$: it deflates exponentially; the volume factor of the extra times, $e^{-AHx_4}(\sin^2 z)^{1/4}$, changes at the rate $-AH$ and a 3-space factor $e^{AHx_4}$ at the rate $+AH$, so that their product is constant along this history (a property of its exponent $4/3$, not a law of the theory) (Section 2.2); the oscillator conserves $E = (x^2 + v^2)/2$;
 - one step of size $1/2$ for $y' = -y$ gives $1/2$, $5/8$ and $233/384$; the amplification factors of Euler, midpoint and RK4 are the first 2, 3 and 5 terms of the series of $e^{z}$ (Sections 2.4 and 2.5);
 - to leading order, the error of a method of order $p$ for Problem A at $t = 1$ is $e^{-1}(-1)^p h^p/(p+1)!$; halving the step divides an error $C h^p$ by $2^p$; Richardson's estimate $(Y_h - Y_{h/2})/(2^p - 1)$ (Section 2.6);
 - the energy factors per step $1 + h^2$, $1 + h^4/4$, $1 - h^6/72 + h^8/576$ and the scale-factor product factors $1 - h^2$ (Euler) and $1 + h^6/72 + h^8/576$ (RK4) (Section 2.7);
 - the string's eigenvalues $n^2\pi^2$; the secant formula; the even and odd conditions of the finite well, $\tan z = \sqrt{z_0^2 - z^2}/z$ and $-\cot z = \sqrt{z_0^2 - z^2}/z$, and its four bound states for $z_0 = \sqrt{30}$; the tail integral $1/(2\kappa)$; the orthogonality of states of different parity; Simpson's weights (Sections 2.12 and 2.13);
 - the partial derivatives of $x^2\sin y$; the linear approximation; the gradient is perpendicular to the level curves and points uphill; the orders 1 and 2 of the forward and central differences and the scale of the best spacing (Section 2.18);
-- $\partial_0 = 6H\, d/dz$; the rates $a_4'$, $-a_4' + b_4'/(2b_4)$, $H\cot z$ and $-6H/(\sin z\cos z)$ of the scale factors; $\det g = b_4^3\cos^2 z$ and $\sqrt{|\det g|} = b_4^{3/2}\sin z\cot z = b_4^{3/2}\cos z$, independent of $x_4$ for every $a_4(x_4)$ when $b_4$ is constant, because the inflation of 3-space and the deflation of the extra times cancel; Jacobi's formula for a diagonal metric; the 25 nonzero Christoffel entries, given their formula (Section 2.19);
-- the exact levels of the free Kohn-Sham block (the zero mode, $\pm\sqrt{M^2 + (n\pi/L)^2}$, $\pm\sqrt{M^2 + p^2}$ with $\tan(pL) = -p/M$) and the absence of any other level with $|\varepsilon| \le M$; the Prüfer equation $\theta' = \varepsilon - M\sin 2\theta$; $d\Phi/d\varepsilon = \int r^2 dy/r(0)^2 > 0$, so every level is found exactly once with its own label; the slope $(1 - e^{-2ML})/(2M)$ at $\varepsilon = 0$; the cubic Hermite midpoint formula; the RK4 phase lag $\omega^5/120$ per step and the level error $\delta\varepsilon \approx \varepsilon^5 h^4/120$ far from the mass, which has the sign of $\varepsilon$, so that every computed level lies farther from zero than the exact one (Section 2.24).
+- $\partial_0 = 6H\, d/dz$; for the corrected metric the rates of the scale factors along $x_4$, $a_4'$ (3-space), $-a_4' + b_4'/(2b_4)$ (the hidden direction and the extra times, which shrink together) and 0 (the time), and along $x_0$, $-6H/(\sin z\cos z)$ (hidden), $H\cot z$ (extra times) and 0 (3-space and the time); their sums $-a_4' + 2b_4'/b_4$ and $-3H(\cot z + 2\tan z)$; the reflection $z \to \pi - z$ across the fold leaves the metric unchanged and reverses every rate along $x_0$; $\det g = e^{-2a_4} b_4^4 \cot^2 z\, (\sin^2 z)^{1/2}$ and $\sqrt{|\det g|} = e^{-a_4} b_4^2 |\cot z| (\sin^2 z)^{1/4}$, in which the factors $e^{6a_4}$ of 3-space and $e^{-6a_4}$ of the extra times cancel, while the volume factor still changes with $x_4$ at the rate $-a_4' + 2b_4'/b_4$, which is $5/3$ along the history; Jacobi's formula for a diagonal metric; the 21 nonzero Christoffel entries, given their formula (Section 2.19);
+- the exact levels of the free Kohn-Sham block with the hidden scale $f$ (the zero mode $a \propto e^{fMy}$, $b = 0$; $\pm\sqrt{M^2 + (n\pi/(fL))^2}$; $\pm\sqrt{M^2 + p^2}$ with $\tan(pfL) = -p/M$), which depend on $f$ and $L$ only through the proper length $fL$, and the absence of any other level with $|\varepsilon| \le M$; the Prüfer equation $\theta' = f(\varepsilon - M\sin 2\theta)$; $d\Phi/d\varepsilon = f\int r^2 dy/r(0)^2 > 0$, so that every level is found exactly once with its own label; the slope $(1 - e^{-2fML})/(2M)$ at $\varepsilon = 0$; the cubic Hermite midpoint formula; the RK4 phase lag $\omega^5/120$ per step and the level error $\delta\varepsilon \approx f^4\varepsilon^5 h^4/120$ far from the mass, which has the sign of $\varepsilon$, so that every computed level lies farther from zero than the exact one (Section 2.24).
 
-**COMPUTED by the notebooks** (each number in the cell named; where a Revision record is reproduced, the record file and its key or check):
+**COMPUTED by the notebooks** (each number in the cell named; where a Revision record is reproduced, the record file and its key or check). The numbers are those of the stored notebooks; on another computer a few printed rounding-level numbers can differ in their last digits, as the walk-through of Notebook 02d explains for its In [9] and In [12].
 
-- Notebook 02a: measured orders 1.0014, 2.0025, 4.0439 (In [7]); halving ratios 2.00020, 4.00073, 16.1047 (In [9]); the smallest RK4 error $1.110 \times 10^{-16}$ at $N = 4096$ and $5.773 \times 10^{-15}$ at $N = 262144$, past the minimum 524 to 3709 times below the bound $N\epsilon e^{-1}$ (In [10]); the Revision solver's step $h = L/G = 3/900 = 1/300$ and the history constants $A = H = 1$ (In [11]; reproduces `Revision/kohn_sham/results/parameters.json`, keys `rk4Steps`, `L_tipCutoff`, `historyA` and `H`); the errors at that step, $-6.1399 \times 10^{-4}$, $+6.8296 \times 10^{-7}$, $+3.7920 \times 10^{-13}$, within 0.3 per cent of the predictions (In [11]); the oscillator energies (In [12], In [13]); the radii 2.6658, 1.0100, 1.0000 and the angles $-0.1302$, $+0.06586$ and $-1.314 \times 10^{-4}$ rad by which Euler, midpoint and RK4 run ahead of the exact solution at $t = 10$, each equal to $50\,(\arg R(ih) - h)$ (In [12]); Richardson's estimate within 6 per cent from $N = 8$ on (In [14]).
+- Notebook 02a: measured orders 1.0014, 2.0025, 4.0439 (In [7]); halving ratios 2.00020, 4.00073, 16.1047 (In [9]); the smallest RK4 error $1.110 \times 10^{-16}$ at $N = 4096$ and $5.773 \times 10^{-15}$ at $N = 262144$, past the minimum 524 to 3709 times below the bound $N\epsilon e^{-1}$ (In [10]); the Revision solver's step $h = L/G = 3/900 = 1/300$ and the history constants $A = H = 1$, $\beta = 4/3$, $b_4(0) = 1$ (In [11]; reproduces `Revision/kohn_sham/results/parameters.json`, keys `rk4Steps`, `L_tipCutoff`, `historyA`, `H`, `historyBeta` and `historyB4AtZero`); the errors at that step, $-6.1399 \times 10^{-4}$, $+6.8296 \times 10^{-7}$, $+3.7920 \times 10^{-13}$, within 0.3 per cent of the predictions (In [11]); the oscillator energies (In [12], In [13]); the radii 2.6658, 1.0100, 1.0000 and the angles $-0.1302$, $+0.06586$ and $-1.314 \times 10^{-4}$ rad by which Euler, midpoint and RK4 run ahead of the exact solution at $t = 10$, each equal to $50\,(\arg R(ih) - h)$ (In [12]); Richardson's estimate within 6 per cent from $N = 8$ on (In [14]).
 - Notebook 02b: the RK4 eigenvalue of the string 9.869604411103, within $1.0 \times 10^{-8}$ of $\pi^2$; 45 bisection steps against about 9 secant steps (In [5]); the four well levels $-14.1206$, $-11.5181$, $-7.3330$, $-2.0437$ (In [6]) and their shooting values within $10^{-7}$ (In [8]); nodes 0, 1, 2, 3 and orthonormality within $1.6 \times 10^{-10}$; for the four pairs of different parity the integral over $-3 \le x \le 3$ at most $9.5 \times 10^{-17}$, although each half integral is at least 0.16 in size (In [10]); orders 3.99, 3.98, 3.96, 3.92 (In [11]).
-- Notebook 02c: the rise of $f$ along the gradient, 1.898407 per unit length against $|\nabla f| = 1.898293$ (In [4]); the best finite-difference spacings $1.0 \times 10^{-8}$, $1.8 \times 10^{-6}$, $5.6 \times 10^{-5}$ (In [6]); the metric (In [8]; reproduces `Revision/gkd_lovelock/results/curvature.json`, key `metricDiagonal`); the volume factor (In [11]; reproduces the same record's key `sqrtAbsDetG` and `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g_is_cos_z`); all 25 Christoffel entries (In [12]; reproduces `Revision/gkd_lovelock/results/curvature.json`, key `christoffelNonzero_b_le_c`).
-- Notebook 02d: all 54 levels of the free spectrum, identical in all 16 printed digits on the computer that made the record, largest difference $8.9 \times 10^{-16}$ (In [9]; reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, column `eps_numeric`); the exact column to $1.8 \times 10^{-15}$ (In [7]; column `eps_analytic`) and the column `difference` to $1.8 \times 10^{-15}$ (In [12]); the zero mode exactly 0 and its distance $1.35 \times 10^{-12}$ from the exact form (In [9], In [10]; reproduces `Revision/kohn_sham/reports/ks-rust-solver.json`, check `free_zero_mode_exact`); the quoted largest differences $7.23 \times 10^{-10}$ and $5.05 \times 10^{-8}$ (In [9]; reproduces the same report's check `free_k0_analytic_spectra`, whose text misnames its second band as "$4m \le |\varepsilon| < 7m$" although it contains every level from $4m$ up to $8.7539m$; for the band below $7m$ alone the largest difference is $9.95 \times 10^{-9}$; the verdict is unaffected); Newton with 9 shots against bisection with 48 (In [8]); orders 4.00, 3.99, 3.97 (In [11]); errors 0.934 to 0.955 times the phase-lag prediction above $7m$, and the signs of all 51 nonzero differences: 33 of 33 positive levels too high, 18 of 18 negative levels too low (In [12]; reproduces the same table's columns `difference` and `eps_analytic`); the end angles at the edges of the mass gap, $|\Phi(\pm M)| \le 0.2256\pi < \pi/2$ in all three cases, so no level but the zero mode lies in the gap (In [4]).
+- Notebook 02c: the rise of $f$ along the gradient, 1.898407 per unit length against $|\nabla f| = 1.898293$ (In [4]); the best finite-difference spacings $1.0 \times 10^{-8}$, $1.8 \times 10^{-6}$, $5.6 \times 10^{-5}$ (In [6]); the corrected metric (In [8]; reproduces `Revision/gkd_lovelock/results/curvature.json`, key `metricDiagonal`); the sixteen rates along $x_4$ and $x_0$, their sums and their change of sign under $z \to \pi - z$, exactly on all four quarters of the period (In [9], In [10]); the eight rates on the history, $-1/3, 1, 1, 1, 0, -1/3, -1/3, -1/3$, which add up to $5/3 = 2\beta - 1$ (In [9]; reproduces `Revision/kohn_sham/results/parameters.json`, keys `historyA`, `H`, `historyBeta`, `historyB4AtZero` and `Vol7Rule`); the volume factor $e^{-a_4} b_4^2 |\cot z| (\sin^2 z)^{1/4}$ and its rate $-a_4' + 2b_4'/b_4$ along $x_4$ (In [11]; reproduces the curvature record's key `sqrtAbsDetG` and `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g`); all 21 Christoffel entries (In [12]; reproduces `Revision/gkd_lovelock/results/curvature.json`, key `christoffelNonzero_b_le_c`).
+- Notebook 02d: only the proper length $fL$ matters, to $8.9 \times 10^{-15}$ (In [3]); the end angles at the edges of the mass gap, $|\Phi(\pm M)| \le 0.2256\pi < \pi/2$ in all four cases, so that no level but the zero mode lies in the gap (In [4]); the exact column of the free spectrum to $1.8 \times 10^{-15}$ (In [7]; reproduces `Revision/kohn_sham/results/spectrum/free-k0-analytic.csv`, column `eps_analytic`); Newton with 9 shots against bisection with 48 (In [8]); the hidden scales and all 72 numerical levels of the four cases, one of them at $a_4 = 1.5$ with $f = e^{-1/2}$, identical in all 16 printed digits in the stored notebook, largest difference $8.9 \times 10^{-16}$ (In [9]; reproduces the same table's columns `f` and `eps_numeric`); the zero mode exactly 0 in all four cases and its distance $1.35 \times 10^{-12}$ from the exact form (In [9], In [10]; reproduces `Revision/kohn_sham/reports/ks-rust-solver.json`, check `free_zero_mode_exact`); the quoted largest differences $7.23 \times 10^{-10}$ (levels below $4m$) and $5.05 \times 10^{-8}$ (levels from $4m$ up to the highest, $9.6055m$) (In [9]; reproduces the same report's check `free_k0_analytic_spectra`); orders 4.00, 3.99, 3.97 (In [11]); errors 0.934 to 0.962 times the phase-lag prediction above $7m$, the column `difference` to $1.8 \times 10^{-15}$, and the signs of all 68 nonzero differences: 44 of 44 positive levels too high, 24 of 24 negative levels too low (In [12]; reproduces the same table's columns `difference` and `eps_analytic`); along the history every nonzero free level at $k = 0$ rises (the even level with label 1 from 1.4480 at $a_4 = 0$ to 2.2716 at $a_4 = 2$) and the zero mode stays at 0 (In [13]; reproduces the table's rows with $a_4 = 1.5$).
 
 **ASSUMED** (used, not derived here):
 
 - standard theorems of calculus and numerical analysis, quoted without proof: the existence and uniqueness of solutions of initial-value problems (Picard and Lindelöf); Taylor's theorem; the intermediate value theorem; Schwarz's theorem; the mean value theorem; the speed of the secant rule (digits multiplied by about 1.618) and of Newton's method (digits doubled); the $h^4$ error orders of Simpson's rule and of cubic Hermite interpolation;
 - from quantum mechanics, used only as an example: the Schrödinger equation, the uniqueness (up to a factor) of a one-dimensional bound state, and the orthogonality of states of different energies;
-- the formula of the Christoffel symbols (derived in Chapter 3) and the Kohn-Sham block equations (taken from `Revision/kohn_sham/ks-theory.json`; derived in Chapter 14);
-- the linear history $a_4 = A H x_4$ with $A = 1$, a PRESCRIBED BACKGROUND, not a solution of the field equations with the Kohn-Sham source (`Revision/field_equations_a4/reports/ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`);
-- the brane conditions $b(0) = 0$ or $a(0) = 0$, which rest on the mirror symmetry that the record labels ASSUMED; the tip condition $b(-L) = 0$ is a choice of the model ("chosen (regular tip)").
+- the formula of the Christoffel symbols (derived in Chapter 3) and the Kohn-Sham block equations of the corrected metric with the hidden scale $f$ (taken from `Revision/kohn_sham/ks-theory.json`; derived in Chapter 14);
+- the history $a_4 = A H x_4$, $b_4 = b_4(0)\, e^{(4/3) A H x_4}$ with $A = 1$ and $b_4(0) = 1$, a PRESCRIBED BACKGROUND, not a solution of the field equations with the Kohn-Sham source (the check `ks_history_is_a_prescribed_background` of the record `Revision/field_equations_a4/reports/ks-source-conditions.json`);
+- the filling of both fold conditions, $b(0) = 0$ ($\theta = 0$, even) and $a(0) = 0$ ($\theta = \pi$, odd), at the fold $\cos z = 0$ where the two halves of a cell meet: the record derives the fold condition up to the parameter $\theta$ from the joining of the two halves and labels the filling of both values ASSUMED, its convention; the tip condition $b(-L) = 0$ is a choice of the model ("chosen (regular tip)").
 
 **HYPOTHESIS and OPEN.** No hypothesis enters this chapter, and it leaves no question open. It does not show where the Kohn-Sham equations come from or what their levels mean physically; that is the work of Chapters 14 and 15.
 
@@ -4552,16 +4730,96 @@ As in Notebook 02a: the eight figure files must exist, and the last line is ALL 
 
 **Exercise 7.** Show that the free block of Section 2.24 has no level with $\varepsilon = +M$ or $\varepsilon = -M$.
 
-*Answer.* For $\varepsilon^2 = M^2$ the equation $a'' = (M^2 - \varepsilon^2)a$ becomes $a'' = 0$, so $a = \alpha + \beta y$ with constants $\alpha$, $\beta$, and $b = (Ma - a')/\varepsilon$ vanishes where $Ma - a' = M(\alpha + \beta y) - \beta = 0$. Even orbitals need this at $y = 0$ and at $y = -L$: $M\alpha - \beta = 0$ and $M\alpha - M\beta L - \beta = 0$; subtracting the first from the second gives $-M\beta L = 0$, so $\beta = 0$ (because $M > 0$ and $L > 0$), and then $\alpha = \beta/M = 0$. Odd orbitals need $a(0) = \alpha = 0$ and the tip condition $M(-\beta L) - \beta = -\beta(ML + 1) = 0$, so $\beta = 0$. In both cases $a = 0$, and then $b = 0$: no level.
+*Answer.* For $\varepsilon^2 = M^2$ the equation $a'' = (M^2 - \varepsilon^2)a$ becomes $a'' = 0$, so $a = \alpha + \beta y$ with constants $\alpha$, $\beta$, and $b = (Ma - a')/\varepsilon$ vanishes where $Ma - a' = M(\alpha + \beta y) - \beta = 0$. Even orbitals need this at $y = 0$ and at $y = -L$: $M\alpha - \beta = 0$ and $M\alpha - M\beta L - \beta = 0$; subtracting the first from the second gives $-M\beta L = 0$, so $\beta = 0$ (because $M > 0$ and $L > 0$), and then $\alpha = \beta/M = 0$. Odd orbitals need $a(0) = \alpha = 0$ and the tip condition $M(-\beta L) - \beta = -\beta(ML + 1) = 0$, so $\beta = 0$. In both cases $a = 0$, and then $b = 0$: no level. (This is the case $f = 1$; with the hidden scale $f$ the same steps hold in the proper distance $s = fy$, with $L$ replaced by the proper length $fL$, as Section 2.24 showed.)
 
 **Exercise 8.** Check the cubic Hermite midpoint formula $(f_0 + f_1)/2 + h(f_0' - f_1')/8$ of Section 2.24 on $f(s) = s^2$ and $f(s) = s^3$ on the step $0 \le s \le h$.
 
 *Answer.* For $s^2$: $f_0 = 0$, $f_1 = h^2$, $f_0' = 0$, $f_1' = 2h$; the formula gives $\frac{h^2}{2} + \frac{h}{8}(0 - 2h) = \frac{h^2}{2} - \frac{h^2}{4} = \frac{h^2}{4} = (h/2)^2$, the exact value at $s = h/2$. For $s^3$: $f_0 = 0$, $f_1 = h^3$, $f_0' = 0$, $f_1' = 3h^2$; the formula gives $\frac{h^3}{2} - \frac{3h^3}{8} = \frac{h^3}{8} = (h/2)^3$, exact again. (It is exact for every polynomial of degree at most 3, because then the cubic through the four data is the polynomial itself.)
 
-**Exercise 9.** For $M = 0$ the Prüfer equation is $\theta' = \varepsilon$. Find the even and odd levels directly from it and compare with the formulas of Section 2.24 at $M = 0$.
+**Exercise 9.** For $M = 0$ the Prüfer equation $\theta' = f(\varepsilon - M\sin 2\theta)$ of Section 2.24 becomes $\theta' = f\varepsilon$. Find the even and odd levels directly from it and compare with the formulas of Section 2.24 at $M = 0$.
 
-*Answer.* With $\theta(-L) = 0$ and $\theta' = \varepsilon$ we get $\theta(y) = \varepsilon(y + L)$, so $\Phi = \varepsilon L$. Even: $\varepsilon L = l\pi$, $\varepsilon = l\pi/L$. Odd: $\varepsilon L = \pi/2 + l\pi$, $\varepsilon = (l + \frac12)\pi/L$. The general formulas give the same: $\pm\sqrt{0 + (n\pi/L)^2} = \pm n\pi/L$ for the even levels; and as $M \to 0$ the odd condition $\tan(pL) = -p/M$ demands an infinitely large tangent, $pL = (n + \frac12)\pi$, so $\pm p = \pm(n + \frac12)\pi/L$.
+*Answer.* With $\theta(-L) = 0$ and the constant slope $\theta' = f\varepsilon$ we get $\theta(y) = f\varepsilon(y + L)$ (a function with a constant derivative is a straight line), so $\Phi = \theta(0) = f\varepsilon L$. Even: $f\varepsilon L = l\pi$, so $\varepsilon = l\pi/(fL)$. Odd: $f\varepsilon L = \pi/2 + l\pi$, so $\varepsilon = (l + \frac12)\pi/(fL)$. The general formulas give the same: $\pm\sqrt{0 + (n\pi/(fL))^2} = \pm n\pi/(fL)$ for the even levels (and the zero mode $\varepsilon = 0$ is the even label $l = 0$); and as $M \to 0$ the odd condition $\tan(pfL) = -p/M$ demands an infinitely large tangent, $pfL = (n + \frac12)\pi$, so the odd levels are $\pm p = \pm(n + \frac12)\pi/(fL)$: the labels $l = n \ge 0$ give the positive and $l = -n - 1$ the negative ones. Only the proper length $fL$ enters, as it must.
 
-**Exercise 10.** Compute $\partial_0 g_{11}$ for $g_{11} = e^{2a_4}\sin^{1/3}(6Hx_0)$, and use it to confirm the Christoffel entry $\Gamma^1{}_{01} = H\cot z$ of Section 2.19.
+**Exercise 10.** Compute $\partial_0 g_{55}$ and $\partial_4 g_{55}$ for the entry $g_{55} = -e^{-2a_4} b_4 (\sin^2 z)^{1/6}$ of the corrected metric, with $z = 6Hx_0$, and use them to confirm the Christoffel entries $\Gamma^5{}_{05} = H\cot z$ and $\Gamma^4{}_{55} = (a_4' b_4 - \frac12 b_4')\, e^{-2a_4}(\sin^2 z)^{1/6}$ of the table of Section 2.19. What is $\Gamma^4{}_{55}$ along the prescribed history $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$?
 
-*Answer.* With $z = 6Hx_0$: $\partial_0 \sin^{1/3} z = \frac13 \sin^{-2/3} z \cdot \cos z \cdot 6H = 2H\sin^{-2/3} z\cos z$ (the power rule, the derivative of the sine, and the chain rule with $\partial z/\partial x_0 = 6H$). So $\partial_0 g_{11} = 2H e^{2a_4}\sin^{-2/3} z\cos z$. Then $\Gamma^1{}_{01} = \partial_0 g_{11}/(2g_{11}) = 2H e^{2a_4}\sin^{-2/3}z\cos z/(2e^{2a_4}\sin^{1/3} z) = H\cos z/\sin z = H\cot z$ (the factors $e^{2a_4}$ cancel and $\sin^{-2/3} z/\sin^{1/3} z = 1/\sin z$), the value listed in the record and in the table of Section 2.19.
+*Answer.* Along $x_0$ only the factor $(\sin^2 z)^{1/6}$ changes, and Section 2.19 found $\partial_0 (\sin^2 z)^{1/6} = 2H (\sin^2 z)^{1/6}\cot z$ (the power rule and the chain rule twice). So
+
+$$
+\partial_0 g_{55} = -e^{-2a_4} b_4 \cdot 2H (\sin^2 z)^{1/6}\cot z = 2H\cot z\; g_{55}
+$$
+
+(the factor $-e^{-2a_4} b_4$ does not depend on $x_0$; then the definition of $g_{55}$). The case formula $\Gamma^a{}_{ac} = \partial_c g_{aa}/(2g_{aa})$ of Section 2.19 with $a = 5$, $c = 0$ gives
+
+$$
+\Gamma^5{}_{50} = \Gamma^5{}_{05} = \frac{2H\cot z\; g_{55}}{2 g_{55}} = H\cot z
+$$
+
+(the symbol is symmetric in its two lower indices; then the factor $g_{55}$ cancels). Along $x_4$ only the factor $e^{-2a_4} b_4$ changes:
+
+$$
+\partial_4 g_{55} = -(\sin^2 z)^{1/6}\,\big(-2a_4'\, e^{-2a_4} b_4 + e^{-2a_4} b_4'\big) = (2a_4' b_4 - b_4')\, e^{-2a_4} (\sin^2 z)^{1/6}
+$$
+
+(the product rule for $e^{-2a_4} b_4$, with the derivative $-2a_4' e^{-2a_4}$ of $e^{-2a_4}$ by the chain rule; then the minus sign multiplied in). The case formula $\Gamma^a{}_{bb} = -\partial_a g_{bb}/(2g_{aa})$ of Section 2.19 with $a = 4$, $b = 5$ and $g_{44} = -1$ gives
+
+$$
+\Gamma^4{}_{55} = -\frac{\partial_4 g_{55}}{2 \cdot (-1)} = \frac{\partial_4 g_{55}}{2} = \big(a_4' b_4 - \tfrac12 b_4'\big)\, e^{-2a_4} (\sin^2 z)^{1/6}
+$$
+
+(the two minus signs cancel; then half of the previous line), the value of the table and of the record. Along the history $a_4' = H$ and $b_4' = \frac43 H\, b_4$, so $a_4' b_4 - \frac12 b_4' = H b_4 - \frac23 H b_4 = \frac13 H b_4$ and
+
+$$
+\Gamma^4{}_{55} = \frac{H}{3}\, e^{-2a_4} b_4 (\sin^2 z)^{1/6} = \frac{H}{3}\, |g_{55}|
+$$
+
+(insert both derivatives; then $|g_{55}| = e^{-2a_4} b_4 (\sin^2 z)^{1/6}$). The number $\frac13$ is the deflation rate of the extra times along the history once more (Sections 2.2 and 2.19).
+
+**Exercise 11.** The Revision record writes the conditions at the fold and at the tip in one form (key `boundaryConditions` of `Revision/kohn_sham/ks-theory.json`): $(1 - Q(\theta))\,\chi = 0$ with the matrix $Q(\theta) = \cos\theta\,\sigma_3 + \sin\theta\,\sigma_2$, where
+
+$$
+\sigma_3 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}, \qquad \sigma_2 = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \qquad \chi = \begin{pmatrix} a \\ i b \end{pmatrix}
+$$
+
+with real $a$ and $b$, and $1$ is the $2 \times 2$ unit matrix. (This boundary parameter $\theta$ is not the Prüfer angle $\theta(y)$ of Section 2.24.) Show that $\theta = 0$ gives $b = 0$ and $\theta = \pi$ gives $a = 0$, so that the even and the odd fold conditions are the two values $\theta = 0$ and $\theta = \pi$ at $y = 0$, and the regular tip $b(-L) = 0$ is $\theta = 0$ at $y = -L$. Then show that for every $\theta$ the condition says that the Prüfer angle at that point is $\theta/2$ up to a multiple of $\pi$.
+
+*Answer.* For $\theta = 0$: $Q(0) = \sigma_3$ ($\cos 0 = 1$, $\sin 0 = 0$), and
+
+$$
+(1 - \sigma_3)\,\chi = \begin{pmatrix} 0 & 0 \\ 0 & 2 \end{pmatrix}\begin{pmatrix} a \\ i b \end{pmatrix} = \begin{pmatrix} 0 \\ 2ib \end{pmatrix}
+$$
+
+(the unit matrix minus $\sigma_3$, entry by entry; then the product of a matrix with a column, Chapter 1), which vanishes exactly when $b = 0$. For $\theta = \pi$: $Q(\pi) = -\sigma_3$ ($\cos\pi = -1$, $\sin\pi = 0$), and
+
+$$
+(1 + \sigma_3)\,\chi = \begin{pmatrix} 2 & 0 \\ 0 & 0 \end{pmatrix}\begin{pmatrix} a \\ i b \end{pmatrix} = \begin{pmatrix} 2a \\ 0 \end{pmatrix}
+$$
+
+(the same two rules), which vanishes exactly when $a = 0$. So $\theta = 0$ at the fold is the even condition $b(0) = 0$, $\theta = \pi$ the odd condition $a(0) = 0$, and $\theta = 0$ at $y = -L$ the regular tip $b(-L) = 0$; the record solves and fills both fold values together (ASSUMED) and chooses $\theta = 0$ at the tip. For a general $\theta$:
+
+$$
+Q(\theta)\,\chi = \cos\theta\begin{pmatrix} a \\ -ib \end{pmatrix} + \sin\theta\begin{pmatrix} b \\ ia \end{pmatrix} = \begin{pmatrix} a\cos\theta + b\sin\theta \\ i\,(a\sin\theta - b\cos\theta) \end{pmatrix}
+$$
+
+($\sigma_3\chi = (a, -ib)$ and $\sigma_2\chi = (-i \cdot ib,\ ia) = (b,\ ia)$, because $-i \cdot i = 1$). Write $a = r\cos\varphi$ and $b = r\sin\varphi$ with $r > 0$, where $\varphi$ is the Prüfer angle at that point (called $\theta(y)$ in Section 2.24; here it needs another letter). Then
+
+$$
+a\cos\theta + b\sin\theta = r\cos(\theta - \varphi), \qquad a\sin\theta - b\cos\theta = r\sin(\theta - \varphi)
+$$
+
+(the subtraction formulas $\cos(\theta - \varphi) = \cos\theta\cos\varphi + \sin\theta\sin\varphi$ and $\sin(\theta - \varphi) = \sin\theta\cos\varphi - \cos\theta\sin\varphi$). The condition $Q(\theta)\chi = \chi$ therefore reads $\cos(\theta - \varphi) = \cos\varphi$ and $\sin(\theta - \varphi) = \sin\varphi$ (divide both components by $r$, and the second also by $i$): the two angles $\theta - \varphi$ and $\varphi$ have the same cosine and the same sine, so they differ by a multiple of $2\pi$, $\theta - 2\varphi = 2\pi n$, that is $\varphi = \theta/2 - n\pi$. The Prüfer angle is $\theta/2$ up to a multiple of $\pi$: 0 for the even fold condition and the tip, $\pi/2$ for the odd fold condition, which are the targets $l\pi$ and $\pi/2 + l\pi$ of Section 2.24. (The Rust program starts every shot with the angle $\theta_{\rm tip}/2$, which is 0 for the record's tip.)
+
+**Exercise 12.** On the slice $a_4 = 1.5$ of the prescribed history the hidden scale is $f = e^{-1/2}$. Compute the even level with label 1 of the case $M = 1$, $L = 3$ there from the exact formula of Section 2.24, compare it with the same level at $a_4 = 0$, and say why it has changed.
+
+*Answer.* The proper length is $fL = 3e^{-1/2} = 3 \cdot 0.6065307 = 1.8195920$ (the value of $e^{-1/2}$ printed by Notebook 02d, In [2]). Then
+
+$$
+\frac{\pi}{fL} = \frac{3.1415927}{1.8195920} = 1.7265369
+$$
+
+(the quotient that enters the even level $\sqrt{M^2 + (n\pi/(fL))^2}$ with $n = 1$), and with $M = 1$
+
+$$
+\varepsilon_1 = \sqrt{1 + 1.7265369^2} = \sqrt{1 + 2.9809296} = \sqrt{3.9809296} = 1.9952267
+$$
+
+(the square, the sum and the square root), the value 1.995226701058766 of the record's column `eps_analytic` for this row; the shooting level of the record, 1.995226701060615, is larger by $1.8 \times 10^{-12}$, the RK4 error of Section 2.24 (Notebook 02d reproduces both, In [7] and In [9]). At $a_4 = 0$, where $f = 1$, the same level is $\sqrt{1 + (\pi/3)^2} = 1.4479719$. The level has risen by the factor $1.9952267/1.4479719 = 1.378$, because along the history the hidden direction deflates together with the extra times: the proper length $fL$ of the interval has shrunk by the factor $e^{-1/2}$, and a shorter interval has higher levels, like a shorter box (Figure 02d.9).

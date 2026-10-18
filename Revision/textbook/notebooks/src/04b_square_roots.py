@@ -94,14 +94,14 @@ FACTS = {
         "ALL 22 CHECKS PASSED (notebook 04b)",
     ],
     "troubleshooting": [
-        ["\"FileNotFoundError\" for `Revision/algebra/gammas.json`, "
-         "`Revision/theory/reports/python-field-theory.json`, "
-         "`Revision/theory/reports/python-scope.json` or "
-         "`Revision/metric_warped/results/warped-metric.json`",
-         "the notebook reads these four Revision record files of the repository; they "
-         "are part of every complete clone. Run `git status` in the repository folder: "
-         "if it reports one of them as deleted, restore them with the command below "
-         "and run the notebook again.",
+        ["\"FileNotFoundError\" for a file in `Revision/algebra`, `Revision/theory` or "
+         "`Revision/metric_warped`",
+         "the notebook reads four Revision record files of the repository, "
+         "`Revision/algebra/gammas.json`, two reports in `Revision/theory/reports` and "
+         "`Revision/metric_warped/results/warped-metric.json`; they are part of every "
+         "complete clone. Run `git status` in the repository folder: if it reports one "
+         "of them as deleted, restore them with the command below and run the notebook "
+         "again.",
          ["git checkout HEAD Revision/algebra Revision/theory Revision/metric_warped"]],
     ],
 }
@@ -1200,14 +1200,27 @@ CELLS = [
       $k_{x_5} = 1$, $\sin z = \pm 1/64$: $k_5 = 2$ at $x_4 = 0$, the record's example,
       and $k_5 = 4$ at $x_4 = 3 \ln 2$, with $E^2 = -3$ and $-15$ for $m = 1$); the
       same check `extra_time_modes_grow` states this frame momentum.
+    - PROVED (exact, sympy, for all functions $a_4$ and $b_4 > 0$): the hidden direction
+      has the frame factor $f_0 = e^{-a_4} b_4^{1/2} |\cot z|$ and shrinks with the extra
+      times, so a wave with the coordinate momentum $k_{x_0}$ has the frame momentum
+      $k_0 = e^{a_4} b_4^{-1/2} |\tan z|\, k_{x_0}$ (up to its sign), which grows on the
+      history like $e^{H x_4/3}$, at the same rate as $k_5$; the frame momenta of
+      3-space shrink like $e^{-H x_4}$. With all frame momenta inserted,
+      $E^2 = m^2 + e^{-2a_4}(k_{x_1}^2 + k_{x_2}^2 + k_{x_3}^2) - e^{2a_4} b_4^{-1} D$
+      with $D = (\sin^2 z)^{-1/6} k_{x_5}^2 - \tan^2 z\, k_{x_0}^2$, which does not depend
+      on $x_4$; on the history a wave reaches the growing region exactly when $D > 0$
+      (for $m = H = k_{x_5} = 1$ and $\sin z = 1/64$: $E^2 = 0$ at
+      $x_4 = (3/2) \ln(4095/251) = 4.18810$ for $k_{x_0} = 127$, while $E^2 > 1$ at
+      every time for $k_{x_0} = 128$).
     - ASSUMED: flat 4+4 space (constant metric $\eta$) for the waves themselves, and
       the local plane-wave reading (coefficients held fixed near one point) for the
-      frame momentum. The author's space-time is curved, 3-space inflates and the extra
+      frame momenta. The author's space-time is curved, 3-space inflates and the extra
       times deflate; the waves in the curved space-time are not part of this notebook.
-      The deflation multiplies the frame momentum of a wave along an extra time by
-      $e^{a_4} b_4^{-1/2}$, so it pushes such waves towards the growing region; the
-      Revision record states this as a local plane-wave statement. The history
-      $a_4 = H x_4$, $b_4 = e^{(4/3) H x_4}$ is a prescribed background.
+      The deflation multiplies the frame momenta of a wave along an extra time and
+      along the hidden direction by the same factor $e^{a_4} b_4^{-1/2}$, so it pushes
+      a wave towards the growing region only when $D > 0$; the Revision record states
+      the growth of the extra-time momentum as a local plane-wave statement. The
+      history $a_4 = H x_4$, $b_4 = e^{(4/3) H x_4}$ is a prescribed background.
     """),
 ]
 
