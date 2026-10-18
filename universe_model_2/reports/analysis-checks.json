@@ -1,0 +1,112 @@
+{
+ "check_count": 20,
+ "checks": [
+  {
+   "detail": "e^{3 eta t} u'^2 = v'^2 + (9 eta^2/4) v^2 - (3 eta/2)(v^2)' for u = e^{-3 eta t/2} v: (m f L)^2 = <p^2> + 9 eta^2/4 - (3 eta/2) rho(fold) + (3 eta/2 + beta) rho(tip)",
+   "name": "A1_flat_form_identity",
+   "passed": true
+  },
+  {
+   "detail": "for beta in {0, ..., 1e6}: exactly one even level below the gap 9 eta^2/4 = 20.25 (the zero mode, lifted only by the tip) and no odd level: every odd mode and every excitation has m >= 3H/(2f) = 99395.1 GeV",
+   "name": "A2_gap_theorem",
+   "passed": true
+  },
+  {
+   "detail": "the decompositions reproduce the eigenvalues: bosons to 1.0e-08, chiral zero modes sum to 1.0e-08 (exactly 0: kinetic c^2 + bulk c^2 + boundary -2c^2), the dark-matter level to 1.2e-11",
+   "name": "A3_sum_rules",
+   "passed": true
+  },
+  {
+   "detail": "the photon/gluon/graviton zero mode has <p^2> = 20.250, Delta s = 1.40e-21 m, m_H = 70499 GeV, yet m = 0: warp 20.25, fold -40.505 and tip 0.0050 cancel its hidden kinetic energy exactly; <p^2> Delta t^2 = 0.497 >= 1/4 (the uncertainty relation holds but does not bound the mass)",
+   "name": "A3_zero_mode_localised_but_massless",
+   "passed": true
+  },
+  {
+   "detail": "W: (m f L)^2 = 1.324e-05 = <p^2> 20.250 + warp 20.25 + fold -40.505 + tip 0.005; m_W/m_H = 1.14e-03: the W is light although its profile carries the photon's hidden momentum; its mass is the small tip-induced bending",
+   "name": "A3_W_mass_from_the_tip",
+   "passed": true
+  },
+  {
+   "detail": "for the x0 excitations the uncertainty estimate is a true lower bound: m/m_H = 7.49 (first even KK), 6.47 (first odd), 2.29 (Psi dark matter, x0-momentum fraction of eps^2 = 0.896)",
+   "name": "A3_heisenberg_bounds_excitations",
+   "passed": true
+  },
+  {
+   "detail": "light fermions: m/m_H = 1.7e-16, 3.2e-09, 1.4e-08, 3.3e-08 (nu, e, u, d): their masses come from the tip mixing of chiral zero modes, not from localisation",
+   "name": "A3_light_fermions_far_below_heisenberg",
+   "passed": true
+  },
+  {
+   "detail": "d ln m_f/d ln c = -36.34, -19.61, -18.09, -17.27 < 0: a sharper x0 localisation (larger c) gives a LIGHTER fermion, the reverse of the Heisenberg intuition",
+   "name": "A3_sharper_localisation_lighter_fermion",
+   "passed": true
+  },
+  {
+   "detail": "the zero mode, localised at the fold in proper length (Delta s = 1.40e-21 m), has 61.9 % of its probability within pi/8 of the TIPS in the coordinate z = 6 H x0: localisation in the coordinate x0 is chart-dependent; only the proper hidden length enters the masses",
+   "name": "A4_coordinate_vs_proper",
+   "passed": true
+  },
+  {
+   "detail": "d ln X/d ln f: KK -1, m_W -0.501, m_e -20.6, m_u -19.1, m_d -18.3, m_nu -37.3, M_DM -0.772, G_N and alpha -4: the masses track the block; the stabilised block (radion mass 48379 GeV) freezes them after the primordial era",
+   "name": "A5_sensitivities",
+   "passed": true
+  },
+  {
+   "detail": "Psi_B lowest odd Dirac fermion: M_DM = 3.1022 m = 44.31 TeV (m = H), w = 0 at rest, zero Z charge and zero transition currents at the tip (exact); a gauge singlet",
+   "name": "B1_mass_cold_neutral",
+   "passed": true
+  },
+  {
+   "detail": "sum over spins |vbar(p2) u(p1)|^2 = Tr[(p1slash + M)(p2slash - M)] = 2 (s - 4 M^2)",
+   "name": "B2_spin_trace",
+   "passed": true
+  },
+  {
+   "detail": "sum over photon polarisations |(k1.k2)(e1.e2) - (k1.e2)(k2.e1)|^2 = 2 (k1.k2)^2 = s^2/2 (the F F vertex is 4 times the bracket)",
+   "name": "B2_polarisation_sum",
+   "passed": true
+  },
+  {
+   "detail": "L = G chibar chi F F: sigma v = G^2 s (s - 4 M^2)/(4 pi) -> G^2 M^4 v_rel^2/pi (p-wave) per abelian channel; total (M^4 v^2/pi)(8 G_g^2 + 3 G_W^2 + G_B^2) for the gluon, W^a and B channels",
+   "name": "B2_cross_section_formula",
+   "passed": true
+  },
+  {
+   "detail": "thermal relic of the Psi_B Dirac fermion through the gauge-kinetic portal I12 (p-wave): x_f = 30.31, g* = 56.75, <sigma v>(x_f) = 1.37e-25 cm^3/s required, i.e. (8 G_g^2 + 3 G_W^2 + G_B^2)^{1/2} = (16.6 TeV)^-3, below the thermal unitarity scale 2.3e-25 cm^3/s",
+   "name": "B3_relic_requirement",
+   "passed": true
+  },
+  {
+   "detail": "even if the relic annihilation went only into gluons, the trace-anomaly coupling gives sigma_SI = 4.3e-53 cm^2, far below the LZ limit 2.4e-45 cm^2 at 44.3 TeV (ESTIMATE; linear extrapolation of the published limit): the portal I12 is unconstrained by direct detection; annihilation into W+W-, ZZ, Z gamma, gamma gamma has no tree-level nucleon coupling at all",
+   "name": "B4_direct_detection",
+   "passed": true
+  },
+  {
+   "detail": "Psi_B stability: N_B (the number of the B = +1 half) is conserved by every interaction of UM-2 (all bilinears are half-diagonal); the fold parity of Psi_B is exact because P_+ Psi_B = 0 at the tip (no tip operator reaches the B half) and the bulk is reflection symmetric; the heavy odd Psi_A states (Z-charged: tip charge 1.579 times that of the Psi_A fold band) decay through the oriented part of the tip portal I9",
+   "name": "B5_stability_and_neutrality",
+   "passed": true
+  },
+  {
+   "detail": "on the static block every computed Kohn-Sham state of Psi has w = P3/E >= 0: 0.0000, 0.0000, 0.3333, 0.3312, 0.3354",
+   "name": "C1_no_positive_energy_state_accelerates",
+   "passed": true
+  },
+  {
+   "detail": "the lambda < 0 condensate tuned to w0 runs away: w0 = -1 gives w_a = -6.00 and an energy density that turns negative at z = 0.260; for the Union-like w0 = -0.764: w_a = -4.04, zero at z = 0.322; the measured (w0, w_a) = (-0.861, -0.60) of the author's file is not reproduced",
+   "name": "C2_condensate_not_dark_energy",
+   "passed": true
+  },
+  {
+   "detail": "a natural vacuum energy of the cell m_KK^4/(16 pi^2) = 1.4e+18 GeV^4 exceeds the dark-energy density by 5e+64; the 4D cosmological term of UM-2 is the residual of the stabiliser balance, Lambda4/H^2 ~ (H0/H)^2 = 1.0e-92: tuned (the cosmological-constant problem)",
+   "name": "C3_vacuum_energy_and_tuning",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 analysis: the x0 mass mechanism and the uncertainty relation; dirac16complex as dark matter and as dark energy",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "analysis-checks"
+}

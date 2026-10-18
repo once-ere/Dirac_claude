@@ -259,20 +259,22 @@ def job_portals(rep):
     c = Cell(f=f, L=L, H=H, m=M_PSI_OVER_H, nb=nb, nq=10 * nb)
     y = c.y
     # portal mean-field shapes (the amplitude e carries the 8D coupling and the 4D density; shapes from the zero modes and P(y))
+    # portal mean-field shapes (the amplitude e carries the 8D coefficient and the 4D density; the shapes are those of the
+    # sources: SM zero-mode densities times P(y) ~ e^{-3Hy}, the flat gluon zero mode, a tip-localised Z charge)
     shapes = {
-        'P1_vector_leptons (v)': ('v', sm_profile(ce, y) * np.exp(-3 * H * y)),
-        'P2_vector_quarks (v)': ('v', sm_profile(cu, y) * np.exp(-3 * H * y)),
-        'P6_derivative_scalar (M)': ('M', sm_profile(ce, y) * np.exp(-3 * H * y)),
-        'P5_gauge_kinetic (M)': ('M', np.ones_like(y)),
-        'P4_Z_tip (v)': ('v', np.exp(-(y + L) / 0.02) / 0.02 / (1 - math.exp(-L / 0.02))),
+        'I11 vector contact, electron density (v)': ('v', sm_profile(ce, y) * np.exp(-3 * H * y)),
+        'I11 vector contact, up-quark density (v)': ('v', sm_profile(cu, y) * np.exp(-3 * H * y)),
+        'I12 gluon condensate <G G> (M, uniform)': ('M', np.ones_like(y)),
+        'I9 chiral tip Z portal on Psi_A (a-component)': ('va', np.exp(-(y + L) / 0.02) / 0.02 / (1 - math.exp(-L / 0.02))),
     }
     for name, (kind, shp) in shapes.items():
         res = {}
         for e in (0.0, 1e-3, -1e-3):
             ext_M = e * shp if kind == 'M' else None
             ext_v = e * shp if kind == 'v' else None
-            st = KSState(c, dk=DK, N=16, lam=0.0, n2max=16, vol7=vol7(f), fixed=fixed_dm(4), ext_M=ext_M, ext_v=ext_v).scf()
-            # dark-matter level (lowest odd, j = +1, k = 0) and fold band at the smallest shell
+            ext_va = e * shp if kind == 'va' else None
+            st = KSState(c, dk=DK, N=16, lam=0.0, n2max=16, vol7=vol7(f), fixed=fixed_dm(4), ext_M=ext_M, ext_v=ext_v,
+                         ext_va=ext_va).scf()
             edm = None
             efold = None
             for s in st.secs:
@@ -285,7 +287,6 @@ def job_portals(rep):
             res[e] = (edm, efold, ezero, st)
         d_dm = (res[1e-3][0] - res[-1e-3][0]) / 2e-3
         d_fold_gap = ((res[1e-3][1] - res[1e-3][2]) - (res[-1e-3][1] - res[-1e-3][2])) / 2e-3
-        # Hellmann-Feynman: d eps/d e = int chi^dag (dH/de) chi
         st0 = res[0.0][3]
         hf = None
         for si, s in enumerate(st0.secs):
@@ -296,17 +297,19 @@ def job_portals(rep):
                 b = coef @ bs['B']
                 if kind == 'v':
                     hf = float(np.sum(c.wq * shp * (a * a + b * b)))
+                elif kind == 'va':
+                    hf = float(np.sum(c.wq * shp * a * a))
                 else:
                     hf = float(np.sum(c.wq * shp * 2 * a * b))      # j = +1: dM enters as j 2ab
         out[name] = {'d_eps_dm_de': d_dm, 'hellmann_feynman': hf, 'd_fold_gap_de': d_fold_gap}
-        rep.check('portal_HF ' + name, abs(d_dm - hf) < 1e-6 * max(1, abs(hf)),
-                  'dark-matter level response d eps_DM/de = %.9e equals the Hellmann-Feynman expectation %.9e; fold-band gap at the '
-                  'smallest shell changes by %.1e per unit e' % (d_dm, hf, d_fold_gap))
+        rep.check('portal_HF ' + name, abs(d_dm - hf) < 1e-6 * max(1, abs(hf)) and abs(d_fold_gap) < 1e-8,
+                  'response of the lowest odd level d eps/de = %.9e equals the Hellmann-Feynman expectation %.9e; the fold-band gap at the '
+                  'smallest shell changes by %.1e per unit e (the fold band stays massless)' % (d_dm, hf, d_fold_gap))
     # the scalar density of every Psi orbital vanishes at the regular tip (b(-L) = 0): tip scalar portals do not act on Psi
     Ae, Be = c.eval_at(1, 'odd', np.array([-L]))
     rep.check('scalar_density_vanishes_at_tip', float(np.max(np.abs(Be))) < 1e-12,
               'every Psi orbital has b(-L) = 0, hence Psibar Psi = s2 2ab = 0 at the tip: a tip operator built on Psibar Psi does not couple '
-              'to dirac16complex; the vector density a^2 + b^2 does not vanish there (the Z portal P4 at the tip acts)')
+              'to dirac16complex; the a-component does not vanish there (the chiral tip Z portal I9 acts on the a-component of Psi_A)')
     out['_meta'] = {'c_e': ce, 'c_u': cu, 'nb': nb}
     return out
 

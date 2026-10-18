@@ -1,33 +1,28 @@
 {
- "check_count": 6,
+ "check_count": 5,
  "checks": [
   {
-   "detail": "dark-matter level response d eps_DM/de = 5.079812209e-01 equals the Hellmann-Feynman expectation 5.079812163e-01; fold-band gap at the smallest shell changes by 1.2e-10 per unit e",
-   "name": "portal_HF P1_vector_leptons (v)",
+   "detail": "response of the lowest odd level d eps/de = 5.079812209e-01 equals the Hellmann-Feynman expectation 5.079812163e-01; the fold-band gap at the smallest shell changes by 1.2e-10 per unit e (the fold band stays massless)",
+   "name": "portal_HF I11 vector contact, electron density (v)",
    "passed": true
   },
   {
-   "detail": "dark-matter level response d eps_DM/de = 5.485552364e-01 equals the Hellmann-Feynman expectation 5.485552316e-01; fold-band gap at the smallest shell changes by 1.6e-10 per unit e",
-   "name": "portal_HF P2_vector_quarks (v)",
+   "detail": "response of the lowest odd level d eps/de = 5.485552364e-01 equals the Hellmann-Feynman expectation 5.485552316e-01; the fold-band gap at the smallest shell changes by 1.6e-10 per unit e (the fold band stays massless)",
+   "name": "portal_HF I11 vector contact, up-quark density (v)",
    "passed": true
   },
   {
-   "detail": "dark-matter level response d eps_DM/de = 1.585442838e-01 equals the Hellmann-Feynman expectation 1.585442820e-01; fold-band gap at the smallest shell changes by 8.0e-12 per unit e",
-   "name": "portal_HF P6_derivative_scalar (M)",
+   "detail": "response of the lowest odd level d eps/de = 7.071960003e-01 equals the Hellmann-Feynman expectation 7.071960027e-01; the fold-band gap at the smallest shell changes by 2.9e-11 per unit e (the fold band stays massless)",
+   "name": "portal_HF I12 gluon condensate <G G> (M, uniform)",
    "passed": true
   },
   {
-   "detail": "dark-matter level response d eps_DM/de = 7.071960003e-01 equals the Hellmann-Feynman expectation 7.071960027e-01; fold-band gap at the smallest shell changes by 2.9e-11 per unit e",
-   "name": "portal_HF P5_gauge_kinetic (M)",
+   "detail": "response of the lowest odd level d eps/de = 2.594893629e-01 equals the Hellmann-Feynman expectation 2.594893652e-01; the fold-band gap at the smallest shell changes by 7.9e-11 per unit e (the fold band stays massless)",
+   "name": "portal_HF I9 chiral tip Z portal on Psi_A (a-component)",
    "passed": true
   },
   {
-   "detail": "dark-matter level response d eps_DM/de = 2.595813665e-01 equals the Hellmann-Feynman expectation 2.595813650e-01; fold-band gap at the smallest shell changes by 1.7e-11 per unit e",
-   "name": "portal_HF P4_Z_tip (v)",
-   "passed": true
-  },
-  {
-   "detail": "every Psi orbital has b(-L) = 0, hence Psibar Psi = s2 2ab = 0 at the tip: a tip operator built on Psibar Psi does not couple to dirac16complex; the vector density a^2 + b^2 does not vanish there (the Z portal P4 at the tip acts)",
+   "detail": "every Psi orbital has b(-L) = 0, hence Psibar Psi = s2 2ab = 0 at the tip: a tip operator built on Psibar Psi does not couple to dirac16complex; the a-component does not vanish there (the chiral tip Z portal I9 acts on the a-component of Psi_A)",
    "name": "scalar_density_vanishes_at_tip",
    "passed": true
   }
