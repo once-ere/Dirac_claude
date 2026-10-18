@@ -4,7 +4,7 @@ subtitle: "Einstein-Lovelock gravity, the dirac16complex field, photons, neutrin
 author:
   - "Underlying theory: Patrick L. Nash"
   - "Derived and verified by Claude (Anthropic)"
-  - "Model definition, version 1, 2026-10-17"
+  - "Model definition, version 1, 2026-10-17, revised 2026-10-18"
   - "Repository once-ere/Dirac_claude, folder universe_model_2"
 ---
 

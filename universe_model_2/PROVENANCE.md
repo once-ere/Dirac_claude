@@ -4,7 +4,7 @@ subtitle: "Where every ingredient, equation and number of the universe model UM-
 author:
   - "Underlying theory: Patrick L. Nash"
   - "Derived and verified by Claude (Anthropic)"
-  - "Provenance, version 1, 2026-10-17"
+  - "Provenance, version 1, 2026-10-17, revised 2026-10-18"
   - "Repository once-ere/Dirac_claude, folder universe_model_2"
 ---
 
@@ -524,9 +524,12 @@ python universe_model_2/tools/build_docs.py
 ```
 rerun every computation in dependency order (each exits with code 0 if and only if all its checks pass) and rebuild
 the PDF documents from the Markdown sources (pandoc and a TeX Live installation with the `lmodern` package are needed
-for the last command). A rerun from a fresh clone of the repository (2026-10-17) reproduced every stored number to a
-relative $10^{-9}$ or better; quantities at the round-off level ($10^{-14}$, e.g. HOMO deviations) differ in their last
-digits because the threaded linear algebra does not sum in a fixed order. The document build is deterministic: no dates in the LaTeX sources, PDF dates and trailer
+for the last command). Reruns from fresh clones of the repository (2026-10-17 at commit `b3c3c1a`; 2026-10-18 at commits
+`fa7305f` and `9285bb6`) passed every check and reproduced every stored number to a relative $10^{-9}$ or better; in the
+last run (180 checks) every stored number was identical except the run times and one Kohn-Sham integral, which differs
+by $1\times10^{-12}$ relative, and quantities at the round-off level ($10^{-14}$, e.g. HOMO deviations) differ in their last
+digits because the threaded linear algebra does not sum in a fixed order; the LaTeX sources, the PDF documents and the
+figures were rebuilt byte-identical. The document build is deterministic: no dates in the LaTeX sources, PDF dates and trailer
 identifiers suppressed, a fixed `SOURCE_DATE_EPOCH`.
 
 Software used: Python 3.13.16, sympy 1.14.0, numpy 2.5.3, scipy 1.18.1, mpmath 1.3.0, matplotlib 3.11.2, camb 2.0.5,
@@ -538,4 +541,6 @@ UM-2 was started on top of commit `0cb4916`. Its computations were committed in 
 (`ca523d9`), background gravity (`0b3e10d`), field reductions (`6fc35a0`), mass spectra (`dcfd528`), Kohn-Sham
 (`2f3018e`), electroweak sector (`2e4c48d`), primordial era (`a502e62`), cosmology (`717b46e`), analysis (`a06b55e`),
 followed by the corrections listed above, the sourced block equations, the radion and block-rate estimates, and the
-documents MODEL, PROVENANCE, FIELD_EQUATIONS, SOLUTION and ANALYSIS (Markdown, LaTeX and PDF each).
+documents MODEL, PROVENANCE, FIELD_EQUATIONS, SOLUTION and ANALYSIS (Markdown, LaTeX and PDF each). The fixes of the
+first independent review are in `b386446` (computations) and `fa7305f` (documents), those of the second review and the
+uncertainty relation on the cell in `b0e686e` (computations) and `9285bb6` (documents).

@@ -4,7 +4,7 @@ subtitle: 'The coupled field equations of Einstein-Lovelock gravity, the dirac16
 author:
   - "Underlying theory: Patrick L. Nash"
   - "Derived and verified by Claude (Anthropic)"
-  - "Field equations, version 1, 2026-10-17"
+  - "Field equations, version 1, 2026-10-17, revised 2026-10-18"
   - "Repository once-ere/Dirac_claude, folder universe_model_2"
 ---
 

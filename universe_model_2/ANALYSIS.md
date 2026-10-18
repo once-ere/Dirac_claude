@@ -4,7 +4,7 @@ subtitle: "The $x_0$ mass mechanism, and the validity of associating dark matter
 author:
   - "Underlying theory: Patrick L. Nash"
   - "Derived and verified by Claude (Anthropic)"
-  - "Analysis, version 1, 2026-10-17"
+  - "Analysis, version 1, 2026-10-17, revised 2026-10-18"
   - "Repository once-ere/Dirac_claude, folder universe_model_2"
 ---
 
