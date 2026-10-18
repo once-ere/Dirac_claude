@@ -63,7 +63,7 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={UM-2 field equations},
-  pdfauthor={Underlying theory: Patrick L. Nash; Derived and verified by Claude (Anthropic); Field equations, version 1, 2026-10-17, revised 2026-10-18; Repository once-ere/Dirac\_claude, folder universe\_model\_2},
+  pdfauthor={Underlying theory: Patrick L. Nash; Derived and verified by Claude (Anthropic); Field equations, version 2, 2026-10-18 (version 1: 2026-10-17); Repository once-ere/Dirac\_claude, folder universe\_model\_2},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -80,11 +80,12 @@
 \makeatother
 \subtitle{The coupled field equations of Einstein-Lovelock gravity, the
 dirac16complex field, the gauge fields \(G\), \(W^+\), \(W^-\), \(W^3\)
-(\(Z\), \(\gamma\)), \(B\), the fermions \(\nu\), \(e\), \(u\), \(d\)
-and the tip sigma field, with every interaction}
+(\(Z\), \(\gamma\)), \(B\), three generations of quarks and leptons and
+the tip sigma field, with every interaction, and the flavour evolution
+of the three neutrinos}
 \author{Underlying theory: Patrick L. Nash \and Derived and verified by
-Claude (Anthropic) \and Field equations, version 1, 2026-10-17, revised
-2026-10-18 \and Repository once-ere/Dirac\_claude, folder
+Claude (Anthropic) \and Field equations, version 2, 2026-10-18 (version
+1: 2026-10-17) \and Repository once-ere/Dirac\_claude, folder
 universe\_model\_2}
 \date{}
 
@@ -106,12 +107,20 @@ interaction, their boundary conditions, the exact background (order-0)
 equations, the exact reductions to the hidden coordinate \(x_0\) that
 give the particle masses, the Kohn-Sham equations of dirac16complex
 coupled to all the other fields, and the linear (order \(\epsilon\))
-equations that describe the CMB, the CNB and the BAO. It is
-self-contained: every equation it uses is written here. Labels: AUTHOR
-(the author's notebooks), RECORD (the Revision record of this
-repository), STANDARD (textbook), ASSUMED, INVENTED (new in UM-2),
-DERIVED (computed and verified in UM-2; the verification is stated),
-OPEN.
+equations that describe the CMB, the CNB and the BAO, and the equations
+of the flavour evolution of the three neutrinos in vacuum, in matter, in
+the early Universe and in dense neutrino gases. It is self-contained:
+every equation it uses is written here. Labels: AUTHOR (the author's
+notebooks), RECORD (the Revision record of this repository), STANDARD
+(textbook), ASSUMED, INVENTED (new in UM-2), DERIVED (computed and
+verified in UM-2; the verification is stated), OPEN.
+
+Version 2 (2026-10-18) has three generations of quarks and leptons,
+anomaly free generation by generation, with \(3\times3\) tip coupling
+matrices whose neutrino and down-quark parts are the PMNS and CKM
+matrices (section 6.2); the flavour evolution of the neutrinos is
+section 9. The chiral tip \(Z\) portal of version 1 is removed (section
+2).
 
 \hypertarget{coordinates-signature-units}{%
 \subsection{Coordinates, signature,
@@ -202,14 +211,37 @@ Units \(\hbar = c = 1\); mass dimensions in eight dimensions:
   parity in the Kohn-Sham sums, and \(w = \sqrt{c^2 - e^2}\) in the
   fermion mass condition. \(\psi\) is a Standard-Model fermion field,
   except in section 8, where \(\psi\) and \(\phi\) are the
-  Newtonian-gauge potentials. \(\varepsilon\) is the energy of a mode or
+  Newtonian-gauge potentials, and in section 9, where \(\psi_\alpha\)
+  are flavour amplitudes. \(\varepsilon\) is the energy of a mode or
   orbital.
+\item
+  Flavour: \(i = 1, 2, 3\) is the generation index of the fermion fields
+  and labels the neutrino mass states (\(i, j\) are 3-space indices in
+  the background curvatures); \(\alpha \in \{e, \mu, \tau\}\) is a
+  flavour index (a colour index on \(G^\alpha\), \(T^\alpha\),
+  \(f^{\alpha\beta\gamma}\)); \(U\) is the PMNS and \(V\) the CKM matrix
+  (the gauge transformations are \(U_L\), \(U_Y\), the block basis
+  \(V_\beta\), the transverse volume \(V_\perp\), and the matter
+  potentials carry subscripts, \(V_{CC}\), \(V_{NC}\), \(V_{\nu\nu}\));
+  \(\kappa_\nu\), \(\kappa_e\), \(\kappa_u\), \(\kappa_d\) are the
+  \(3\times3\) tip matrices; \(\rho_{\vec p}\) (with a momentum
+  subscript) is a neutrino density matrix; \(\mu = \sqrt2G_Fn_{\nu_e}\)
+  (without subscript) is the unit of the neutrino self-interaction,
+  \(\mu_\psi\) a bulk mass and \(\mu\) also the muon; \(e\) is the
+  elementary charge, the electron and the fermion eigenvalue
+  \(\varepsilon fL\); \(s\) is also \(\sinh w/w\), and
+  \(s_{ij} = \sin\theta_{ij}\), \(c_{ij} = \cos\theta_{ij}\) (while
+  \(c\) with the subscripts \(L\), \(Q\), \(R\), \(\psi\) is a
+  localisation \(f\mu L\)); \(J\) is the Jarlskog invariant (and the
+  block operator \(\gamma^{x_0}\gamma^{x_1}\gamma^{x_4}\)); in section 9
+  \(u = \cos\vartheta\) is the direction cosine of a neutrino (\(u\) is
+  also the up quark and \(u(y)\) a boson profile).
 \end{itemize}
 
 \hypertarget{the-action}{%
 \section{The action}\label{the-action}}
 
-\[ S = S_{EL} + S_{stab} + S_\Psi + S_{gauge} + S_f + S_{tip} + S_{I9} + S_{I11} + S_{I12} .\]
+\[ S = S_{EL} + S_{stab} + S_\Psi + S_{gauge} + S_f + S_{tip} + S_{I11} + S_{I12} .\]
 
 \textbf{Gravity} (AUTHOR weights):
 \[ S_{EL} = \frac{1}{2\kappa}\int d^8x\sqrt{\lvert g\rvert}\Big(\sum_{k=1}^{3}\alpha_k\mathcal L_{(k)} - 2\Lambda\Big),\qquad
@@ -233,37 +265,57 @@ whose energy-momentum tensor is
 \[ G^\alpha_{MN} = \partial_MG^\alpha_N - \partial_NG^\alpha_M + f^{\alpha\beta\gamma}G^\beta_MG^\gamma_N,\quad
    W^a_{MN} = \partial_MW^a_N - \partial_NW^a_M + \epsilon^{abc}W^b_MW^c_N,\quad B_{MN} = \partial_MB_N - \partial_NB_M .\]
 
-\textbf{Fermions} (one generation; ASSUMED structure, boundary
+\textbf{Fermions} (three generations; ASSUMED structure, boundary
 conditions INVENTED):
-\[ S_f = \sum_{\psi}\int d^8x\sqrt{\lvert g\rvert}\Big[\tfrac12\big(\bar\psi\gamma^MD_M\psi - (D_M\bar\psi)\gamma^M\psi\big) - \mu_\psi\bar\psi\psi\Big],\qquad
-   \psi \in \{Q, u_R, d_R, L, e_R, \nu_R\},\] with \(Q = (u, d)_L\)
-(\(\mathbf 3, \mathbf 2, 1/6\)), \(u_R\)
-(\(\mathbf 3, \mathbf 1, 2/3\)), \(d_R\)
-(\(\mathbf 3, \mathbf 1, -1/3\)), \(L = (\nu, e)_L\)
-(\(\mathbf 1, \mathbf 2, -1/2\)), \(e_R\)
-(\(\mathbf 1, \mathbf 1, -1\)), \(\nu_R\) (\(\mathbf 1, \mathbf 1, 0\));
-\(Q = T_3 + Y\).
+\[ S_f = \sum_{i=1}^{3}\sum_{\psi}\int d^8x\sqrt{\lvert g\rvert}\Big[\tfrac12\big(\bar\psi_i\gamma^MD_M\psi_i - (D_M\bar\psi_i)\gamma^M\psi_i\big) - \mu_{\psi i}\bar\psi_i\psi_i\Big],\qquad
+   \psi \in \{Q, u_R, d_R, L, e_R, \nu_R\},\] with, in every generation
+\(i\), \(Q_i\) (\(\mathbf 3, \mathbf 2, 1/6\))
+\(= (u, d)_L, (c, s)_L, (t, b)_L\), \(u_{Ri}\)
+(\(\mathbf 3, \mathbf 1, 2/3\)) \(= u_R, c_R, t_R\), \(d_{Ri}\)
+(\(\mathbf 3, \mathbf 1, -1/3\)) \(= d_R, s_R, b_R\), \(L_i\)
+(\(\mathbf 1, \mathbf 2, -1/2\))
+\(= (\nu_e, e)_L, (\nu_\mu, \mu)_L, (\nu_\tau, \tau)_L\), \(e_{Ri}\)
+(\(\mathbf 1, \mathbf 1, -1\)) \(= e_R, \mu_R, \tau_R\) and \(\nu_{Ri}\)
+(\(\mathbf 1, \mathbf 1, 0\)); \(Q = T_3 + Y\). The bulk masses are
+diagonal in the generation index, and the doublets of a sector share one
+bulk mass (ASSUMED): \(\mu_{Li} = \mu_L\), \(\mu_{Qi} = \mu_Q\).
 
 \textbf{The tip sigma field} (INVENTED; no Higgs particle), on the
 seven-dimensional tip \(y = -L\):
 \[ S_{tip} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\Big[-\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
-   - \big(\bar L\,\Sigma\,\Lambda_\ell\,\ell_R + \bar Q\,\Sigma\,\Lambda_q\,q_R + \text{h.c.}\big)\Big],\qquad \Sigma \in SU(2), \]
-\[ D_\mu\Sigma = \partial_\mu\Sigma - iW^a_\mu\frac{\tau^a}{2}\Sigma + iB_\mu\Sigma\frac{\tau^3}{2},\qquad \ell_R = (\nu_R, e_R)^T,\quad q_R = (u_R, d_R)^T,\]
-\[ \Lambda_\ell = \mathrm{diag}(\lambda_\nu, \lambda_e),\qquad \Lambda_q = \mathrm{diag}(\lambda_u, \lambda_d),\]
-invariant under \(\Sigma \to U_L\Sigma U_Y^\dagger\),
-\(U_Y = e^{i\theta\tau^3/2}\).
+   - \sum_{i,j}\big(\bar L_i\,\Sigma\,(\Lambda_\ell)_{ij}\,\ell_{Rj} + \bar Q_i\,\Sigma\,(\Lambda_q)_{ij}\,q_{Rj} + \text{h.c.}\big)\Big],\qquad \Sigma \in SU(2), \]
+\[ D_\mu\Sigma = \partial_\mu\Sigma - iW^a_\mu\frac{\tau^a}{2}\Sigma + iB_\mu\Sigma\frac{\tau^3}{2},\qquad \ell_{Rj} = (\nu_{Rj}, e_{Rj})^T,\quad q_{Rj} = (u_{Rj}, d_{Rj})^T,\]
+\[ (\Lambda_\ell)_{ij} = \mathrm{diag}\big((\lambda_\nu)_{ij}, (\lambda_e)_{ij}\big),\qquad (\Lambda_q)_{ij} = \mathrm{diag}\big((\lambda_u)_{ij}, (\lambda_d)_{ij}\big),\]
+with complex \(3\times3\) tip coupling matrices \(\lambda_\nu\),
+\(\lambda_e\), \(\lambda_u\), \(\lambda_d\); invariant under
+\(\Sigma \to U_L\Sigma U_Y^\dagger\), \(U_Y = e^{i\theta\tau^3/2}\), for
+every choice of the matrices (DERIVED with random group elements and
+random complex matrices, deviation \(1.1\times10^{-14}\)).
 
 \textbf{Portals} (INVENTED):
-\[ S_{I9} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\,(c_Z + c'_Z\varsigma)\,(i\bar\Psi\gamma^\mu P_+\Psi)\,\mathcal Z_\mu,\qquad
-   \mathcal Z_\mu = \frac{iv_\Sigma^2}{2}\mathrm{tr}\big(\Sigma^\dagger D_\mu\Sigma\,\tau^3\big),\qquad P_+ = \frac{1 + \Gamma_4}{2},\quad \varsigma = \pm1,\]
-\[ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}\,(i\bar\Psi\gamma^M\Psi)\,\mathcal J_M,\qquad \mathcal J_M = \sum_\psi q_\psi\,(i\bar\psi\gamma_M\psi),\]
+\[ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}\,(i\bar\Psi\gamma^M\Psi)\,\mathcal J_M,\qquad \mathcal J_M = \sum_{i=1}^{3}\sum_\psi q_\psi\,(i\bar\psi_i\gamma_M\psi_i),\]
 \[ S_{I12} = -\int d^8x\sqrt{\lvert g\rvert}\;\frac{\bar\Psi\Psi}{\Lambda_\star^3}\,\mathcal F,\qquad
    \mathcal F = c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN} .\]
-In the unitary gauge \(\Sigma = 1\):
-\(\mathcal Z_\mu = \frac{v_\Sigma^2}{2}\sqrt{\hat g^2 + \hat g'^2}\,Z_\mu\),
-and the sigma-field kinetic term becomes
+In the unitary gauge \(\Sigma = 1\) the sigma-field kinetic term becomes
 \(-\frac{v_\Sigma^2}{8}\big[2\hat g^2W^+_\mu W^{-\mu} + (\hat g^2 + \hat g'^2)Z_\mu Z^\mu\big]\)
 (canonical fields).
+
+\textbf{Removed in version 2.} Version 1 also contained the chiral tip
+\(Z\) portal
+\(S_{I9} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\,(c_Z + c'_Z\varsigma)(i\bar\Psi\gamma^\mu P_+\Psi)\,\frac{iv_\Sigma^2}{2}\mathrm{tr}(\Sigma^\dagger D_\mu\Sigma\tau^3)\)
+(\(P_+ = (1 + \Gamma_4)/2\), \(\varsigma = \pm1\) the side of the tip),
+which let a band of dirac16complex stand in for the neutrinos missing
+from one generation. With three generations its even part \(c_Z\) is
+bounded by the \(Z\) invisible width
+(\(N_\nu = 3 + 2r^2 = 2.9963 \pm 0.0074\) gives \(r^2 < 0.0056\)) and
+would still add two neutrino-like species to \(N_{eff}\), and its
+oriented part \(c'_Z\) would thermalise the \(\Psi_A\) fold band through
+\(\Psi_A^{odd} \leftrightarrow \Psi_A^{fold} + Z\) and add
+\(\Delta N_{eff} = 0.096\) to \(0.126\), \(2.1\) to \(2.4\) standard
+deviations above the ACT DR6 value \(N_{eff} = 2.86 \pm 0.13\) (DERIVED
+and ESTIMATE): UM-2 sets \(c_Z = c'_Z = 0\), so neither fold band of
+\(\Psi\) is ever thermalised and the fold parity is exact in both
+halves.
 
 \hypertarget{the-gravitational-field-equations}{%
 \section{The gravitational field
@@ -276,7 +328,7 @@ Varying \(S\) with respect to the metric gives
 divergence-free identically (DERIVED for the order-0 metric for
 \(k = 1, 2, 3\)), so the field equations imply \(\nabla_MT^M{}_N = 0\),
 which holds on the matter field equations. The total source is
-\[ T^M{}_N = T^M{}_N[\text{stab}] + T^M{}_N[\Psi] + T^M{}_N[\text{gauge}] + T^M{}_N[f] + T^M{}_N[\text{tip}] + T^M{}_N[I9] + T^M{}_N[I11] + T^M{}_N[I12] .\]
+\[ T^M{}_N = T^M{}_N[\text{stab}] + T^M{}_N[\Psi] + T^M{}_N[\text{gauge}] + T^M{}_N[f] + T^M{}_N[\text{tip}] + T^M{}_N[I11] + T^M{}_N[I12] .\]
 
 \hypertarget{the-energy-momentum-tensors}{%
 \subsection{The energy-momentum
@@ -315,10 +367,6 @@ metric factors vary:
 \[ T_{MN}[I12] = \frac{4\bar\Psi\Psi}{\Lambda_\star^3}\Big[c_G\Big(G^\alpha_{MP}G^\alpha{}_N{}^P - \frac14g_{MN}G^\alpha_{PQ}G^{\alpha PQ}\Big) + (W, c_W) + (B, c_B)\Big], \]
 so I12 acts as a field-dependent gauge coupling,
 \(1/\hat g_i^2 \to 1/\hat g_i^2 + 4c_i\bar\Psi\Psi/\Lambda_\star^3\).
-The tip portal I9 contains the vielbein through
-\(\gamma^\rho = e_a{}^\rho\gamma^a\) only (\(\mathcal Z_\rho\) carries a
-lower index and no metric), so
-\[ T_{\mu\nu}[I9] = \delta_{tip}\,(c_Z + c'_Z\varsigma)\Big[g_{\mu\nu}\,(i\bar\Psi\gamma^\rho P_+\Psi)\mathcal Z_\rho - (i\bar\Psi\gamma_{(\mu}P_+\Psi)\,\mathcal Z_{\nu)}\Big].\]
 
 \hypertarget{the-matter-field-equations}{%
 \section{The matter field equations}\label{the-matter-field-equations}}
@@ -326,8 +374,7 @@ lower index and no metric), so
 \hypertarget{dirac16complex}{%
 \subsection{dirac16complex}\label{dirac16complex}}
 
-\[ \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\,\frac{c_V}{\Lambda_\star^6}\,\mathcal J_M\gamma^M\Psi
-   - i\,\delta_{tip}\,(c_Z + c'_Z\varsigma)\,\mathcal Z_\mu\gamma^\mu P_+\Psi, \]
+\[ \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\,\frac{c_V}{\Lambda_\star^6}\,\mathcal J_M\gamma^M\Psi, \]
 and its conjugate. The gravitational term is \(\gamma^M\Omega_M\); for
 the order-0 metric (DERIVED, exact for every \(a_4\), \(b_4\) and on
 both halves of a period)
@@ -335,20 +382,33 @@ both halves of a period)
 which vanishes only in flat 4+4 space (\(H = 0\), constant \(a_4\),
 \(b_4\)): the coupling of \(\Psi\) to gravity is non-trivial. \(\Psi\)
 is a singlet of the Standard-Model group: it couples to the Standard
-Model only through I9, I11, I12.
+Model only through I11 and I12.
 
 \hypertarget{the-standard-model-fermions}{%
 \subsection{The Standard-Model
 fermions}\label{the-standard-model-fermions}}
 
-For a multiplet \(\psi\) of charge \(q_\psi\) (I11),
-\[ \gamma^MD_M\psi = \mu_\psi\,\psi - i\,\frac{c_V}{\Lambda_\star^6}\,q_\psi\,(i\bar\Psi\gamma_M\Psi)\,\gamma^M\psi + \delta_{tip}\,(\text{Yukawa}),\]
-\[ (\text{Yukawa})_L = \Sigma\Lambda_\ell\,\ell_R,\quad (\text{Yukawa})_{\ell_R} = \Lambda_\ell\Sigma^\dagger L,\quad (\text{Yukawa})_Q = \Sigma\Lambda_q\,q_R,\quad (\text{Yukawa})_{q_R} = \Lambda_q\Sigma^\dagger Q .\]
-The tip terms are equivalent to the self-adjoint mixing conditions at
-\(y = -L\) (DERIVED; block form \(\chi = (a, ib)\))
+For a multiplet \(\psi_i\) of generation \(i\) and charge \(q_\psi\)
+(I11),
+\[ \gamma^MD_M\psi_i = \mu_{\psi i}\,\psi_i - i\,\frac{c_V}{\Lambda_\star^6}\,q_\psi\,(i\bar\Psi\gamma_M\Psi)\,\gamma^M\psi_i + \delta_{tip}\,(\text{Yukawa})_i,\]
+\[ (\text{Yukawa})_{L_i} = \sum_j\Sigma(\Lambda_\ell)_{ij}\,\ell_{Rj},\qquad (\text{Yukawa})_{\ell_{Rj}} = \sum_i(\Lambda_\ell)^*_{ij}\Sigma^\dagger L_i, \]
+\[ (\text{Yukawa})_{Q_i} = \sum_j\Sigma(\Lambda_q)_{ij}\,q_{Rj},\qquad (\text{Yukawa})_{q_{Rj}} = \sum_i(\Lambda_q)^*_{ij}\Sigma^\dagger Q_i .\]
+For one generation the tip terms are equivalent to the self-adjoint
+mixing conditions at \(y = -L\) (DERIVED; block form \(\chi = (a, ib)\))
 \[ b_L(-L) = \kappa_f\,b_R(-L),\qquad a_R(-L) = -\kappa_f\,a_L(-L),\]
-with \(\kappa_f\) the tip mixing of the fermion (\(\kappa_f = 1\) in
-UM-2, ASSUMED).
+with \(\kappa_f\) the dimensionless tip mixing. For three generations
+they hold in each sector (neutrinos, charged leptons, up-type quarks,
+down-type quarks) for the vectors of boundary values over the
+generations,
+\[ b_L(-L) = \kappa\,b_R(-L),\qquad a_R(-L) = -\kappa^\dagger a_L(-L), \]
+with a \(3\times3\) tip matrix \(\kappa\) (\(\kappa_\nu\), \(\kappa_e\),
+\(\kappa_u\), \(\kappa_d\)), and are self-adjoint for every complex
+\(\kappa\): the boundary form
+\(\sum[\phi^\dagger\sigma_1\chi - \chi^\dagger\sigma_1\phi]\) of the
+coupled \((L, R)\) problem over the three generations vanishes
+identically (DERIVED, sympy, 42 real variables). UM-2 takes (ASSUMED)
+\(\kappa_e = \kappa_u = 1\), \(\kappa_\nu = U_{PMNS}\),
+\(\kappa_d = V_{CKM}\).
 
 \hypertarget{the-gauge-fields}{%
 \subsection{The gauge fields}\label{the-gauge-fields}}
@@ -362,14 +422,14 @@ inverse couplings
 (I12), and in the unitary gauge \(\Sigma = 1\) (geometric fields),
 \[ D_M\Big(\frac{1}{\hat g_{s,eff}^2}G^{\alpha MN}\Big) = j^{\alpha N}_s,\]
 \[ D_M\Big(\frac{1}{\hat g_{eff}^2}W^{1,2\,MN}\Big) = j^{1,2\,N} + \delta_{tip}\frac{v_\Sigma^2}{4}W^{1,2\,N},\]
-\[ D_M\Big(\frac{1}{\hat g_{eff}^2}W^{3\,MN}\Big) = j^{3N} + \delta_{tip}\Big[\frac{v_\Sigma^2}{4}(W^3 - B)^N - (c_Z + c'_Z\varsigma)\frac{v_\Sigma^2}{2}(i\bar\Psi\gamma^NP_+\Psi)\Big],\]
-\[ \nabla_M\Big(\frac{1}{\hat g'^2_{eff}}B^{MN}\Big) = j^N_Y - \delta_{tip}\Big[\frac{v_\Sigma^2}{4}(W^3 - B)^N - (c_Z + c'_Z\varsigma)\frac{v_\Sigma^2}{2}(i\bar\Psi\gamma^NP_+\Psi)\Big],\]
-where \(N\) runs over the tip directions in the \(\delta_{tip}\) terms.
-The tip terms are mass terms for \(W^\pm\) and \(Z\) only: the
-combination \(A = \sin\theta_WW^3 + \cos\theta_WB\) (canonical fields)
-receives none, and the photon stays massless; the \(\Psi\) current
-enters only through \(Z\). For an \(x_0\) profile these tip terms become
-the Robin conditions of section 6.1.
+\[ D_M\Big(\frac{1}{\hat g_{eff}^2}W^{3\,MN}\Big) = j^{3N} + \delta_{tip}\frac{v_\Sigma^2}{4}(W^3 - B)^N,\]
+\[ \nabla_M\Big(\frac{1}{\hat g'^2_{eff}}B^{MN}\Big) = j^N_Y - \delta_{tip}\frac{v_\Sigma^2}{4}(W^3 - B)^N,\]
+where \(N\) runs over the tip directions in the \(\delta_{tip}\) terms
+and the fermion currents are summed over the three generations. The tip
+terms are mass terms for \(W^\pm\) and \(Z\) only: the combination
+\(A = \sin\theta_WW^3 + \cos\theta_WB\) (canonical fields) receives
+none, and the photon stays massless. For an \(x_0\) profile these tip
+terms become the Robin conditions of section 6.1.
 
 \hypertarget{the-tip-sigma-field}{%
 \subsection{The tip sigma field}\label{the-tip-sigma-field}}
@@ -634,10 +694,31 @@ Standard-Model multiplet \(M = \mu_\psi\), \(v = 0\); with
 (doublet, \(\Gamma_4 = +1\)) and \(\chi = (0, e^{-c\xi})\) (singlet,
 \(\Gamma_4 = -1\)), with
 \(h_j(e^{c\xi}, 0) = je^{-a_4}k\,(e^{c\xi}, 0)\) exactly (massless
-four-dimensional particles). The tip mixing conditions give the exact
-mass condition
-\[ D(e) = e^2s_Ls_R - \kappa_f^2\,(C_L - c_Ls_L)(C_R + c_Rs_R) = 0,\qquad s = \frac{\sinh w}{w},\quad C = \cosh w,\quad w = \sqrt{c^2 - e^2},\]
+four-dimensional particles). At \(k = 0\) in the block \(j = +1\) the
+components of \(\chi = (a, ib)\) obey \(a' = c\,a - e\,b\),
+\(b' = e\,a - c\,b\) (\(e = \varepsilon fL\)); the doublet (\(c_L > 0\))
+and singlet (\(c_R < 0\)) solutions that satisfy the fold conditions
+reach the tip with
+\[ (a_L, b_L) = (C_L - c_Ls_L,\; -s_Le),\qquad (a_R, b_R) = (s_Re,\; C_R + c_Rs_R),\qquad s = \frac{\sinh w}{w},\quad C = \cosh w,\quad w = \sqrt{c^2 - e^2}, \]
+and the tip mixing conditions of one generation give the exact mass
+condition
+\[ D(e) = e^2s_Ls_R - \kappa_f^2\,(C_L - c_Ls_L)(C_R + c_Rs_R) = 0, \]
 \[ e \simeq \kappa_f\,\zeta(c_L)\,\zeta(-c_R),\qquad \zeta(c)^2 = \frac{c\,e^{-c}}{\sinh c}\qquad (c_L > 0,\ c_R < 0).\]
+For three generations, with doublet amplitudes \(\mathcal A_\alpha\) and
+singlet amplitudes \(\mathcal B_i\), the matrix conditions
+\(\mathrm{diag}(b_{L\alpha})\mathcal A = \kappa\,\mathrm{diag}(b_{Ri})\mathcal B\),
+\(\mathrm{diag}(a_{Ri})\mathcal B = -\kappa^\dagger\mathrm{diag}(a_{L\alpha})\mathcal A\)
+give
+\[ \Big[\mathrm{diag}(b_{L\alpha}) + \kappa\,\mathrm{diag}\Big(\frac{b_{Ri}}{a_{Ri}}\Big)\kappa^\dagger\,\mathrm{diag}(a_{L\alpha})\Big]\mathcal A = 0, \]
+the masses being the roots of its determinant and \(\mathcal A\) the
+left-handed flavour content. For a common doublet bulk mass and a
+unitary \(\kappa\) (DERIVED)
+\[ \det\Big[\dots\Big] = \prod_{i=1}^{3}\frac{b_La_{Ri} + a_Lb_{Ri}}{a_{Ri}},\qquad b_La_R + a_Lb_R = -D(e)\big\vert_{\kappa_f = 1},\qquad
+   \mathcal A^{(i)} = \kappa\,\hat e_i,\quad \mathcal B^{(i)} \propto \hat e_i : \]
+the masses are the one-generation roots with \(\kappa_f = 1\), the
+left-handed mixing matrix is the tip matrix, and the right-handed
+rotations are trivial (verified with mpmath at 50 digits to
+\(3.0\times10^{-42}\)).
 
 \hypertarget{dirac16complex-the-kohn-sham-equations-coupled-to-all-fields}{%
 \section{dirac16complex: the Kohn-Sham equations coupled to all
@@ -646,16 +727,14 @@ fields}\label{dirac16complex-the-kohn-sham-equations-coupled-to-all-fields}}
 The interacting many-body state of \(\Psi\) on the block is described by
 Kohn-Sham orbitals of
 \[ h_j\chi = \varepsilon\chi,\qquad M_{eff}(y) = m + \frac{15}{16}\lambda S(y) + \frac{\langle\mathcal F\rangle}{\Lambda_\star^3},\qquad
-   v(y) = -\frac{\lambda}{16}n(y) + \frac{c_V}{\Lambda_\star^6}\sum_\psi q_\psi n_\psi(y) + v_{I9}(y),\]
+   v(y) = -\frac{\lambda}{16}n(y) + \frac{c_V}{\Lambda_\star^6}\sum_{i=1}^{3}\sum_\psi q_\psi n_{\psi i}(y),\]
 where
 \(\langle\mathcal F\rangle = c_G\langle G^\alpha_{MN}G^{\alpha MN}\rangle + \dots\)
 is the gauge-field condensate (in the QCD vacuum the gluon condensate, a
-uniform mass shift), \(n_\psi\) the number densities of the
-Standard-Model fermions
-(\(\langle\bar\psi\gamma^{x_4}\psi\rangle = i\,n_\psi\); I11), and
-\(v_{I9} = \delta_{tip}(c_Z + c'_Z\varsigma)\mathcal Z_4\) acts at the
-tip on the \(P_+\) component, i.e.~on the upper component of the
-\(\Psi_A\) blocks (\(B = -1\)) only (I9). The densities are
+uniform mass shift), \(n_{\psi i}\) the number densities of the
+Standard-Model fermions of the three generations
+(\(\langle\bar\psi_i\gamma^{x_4}\psi_i\rangle = i\,n_{\psi i}\); I11).
+The densities are
 \[ n = \sum_o w\,g\,f_o\,n_o,\quad S = \sum_o w\,g\,f_o\,s_o,\qquad n_o = P\chi_o^\dagger\chi_o,\quad s_o = P\chi_o^\dagger j\sigma_2\chi_o,\quad t_o = P\chi_o^\dagger j\sigma_3\chi_o,
    \quad P = \frac{e^{-3Hy}}{\mathrm{Vol}_7},\] with \(w = 1/2\) for
 each fold parity, \(g = 4r_3(\lvert\vec n\rvert^2)\) the degeneracy of
@@ -703,8 +782,8 @@ summed over the species of UM-2:
 \begin{itemize}
 \tightlist
 \item
-  \textbf{dark matter} (\(\Psi_B\) odd quanta, cold):
-  \(\delta_c' = -\theta_c + 3\phi'\),
+  \textbf{dark matter} (the odd quanta of \(\Psi_A\) and \(\Psi_B\),
+  cold): \(\delta_c' = -\theta_c + 3\phi'\),
   \(\theta_c' = -\mathcal H\theta_c + k^2\psi\);
 \item
   \textbf{baryons} (\(u\), \(d\) confined in protons and neutrons;
@@ -718,30 +797,209 @@ summed over the species of UM-2:
   (\(l \ge 3\)),
   \(G_{\gamma l}' = \frac{k}{2l+1}[lG_{\gamma(l-1)} - (l+1)G_{\gamma(l+1)}] + an_e\sigma_T[-G_{\gamma l} + \frac12(F_{\gamma2} + G_{\gamma0} + G_{\gamma2})(\delta_{l0} + \frac{\delta_{l2}}{5})]\);
 \item
-  \textbf{the two \(\Psi_A\) Weyl species} (massless, decoupled with the
-  neutrinos): \(\delta' = -\frac43\theta + 4\phi'\),
-  \(\theta' = k^2(\frac14\delta - \sigma) + k^2\psi\),
-  \(F_2' = 2\sigma' = \frac{8}{15}\theta - \frac35kF_3\),
-  \(F_l' = \frac{k}{2l+1}[lF_{l-1} - (l+1)F_{l+1}]\) (\(l \ge 3\));
-\item
-  \textbf{\(\nu_e\)} (mass \(0.05\) eV, comoving momentum \(q\),
-  comoving energy \(E_\nu = \sqrt{q^2 + a^2m_\nu^2}\), Fermi-Dirac
-  distribution \(\bar f_\nu(q)\), multipoles \(\mathcal N_l\) of the
-  perturbed distribution):
-  \(\mathcal N_0' = -\frac{qk}{E_\nu}\mathcal N_1 - \phi'\frac{d\ln\bar f_\nu}{d\ln q}\),
-  \(\mathcal N_1' = \frac{qk}{3E_\nu}(\mathcal N_0 - 2\mathcal N_2) - \frac{E_\nu k}{3q}\psi\frac{d\ln\bar f_\nu}{d\ln q}\),
-  \(\mathcal N_l' = \frac{qk}{(2l+1)E_\nu}[l\mathcal N_{l-1} - (l+1)\mathcal N_{l+1}]\)
+  \textbf{the three neutrino mass eigenstates} \(\nu_i\),
+  \(i = 1, 2, 3\) (masses \(m_i = 1.000\), \(8.712\), \(50.140\) meV;
+  after decoupling the flavour coherence is lost and each mass state
+  propagates on its own; comoving momentum \(q\), comoving energy
+  \(E_i = \sqrt{q^2 + a^2m_i^2}\), Fermi-Dirac distribution
+  \(\bar f_\nu(q)\), multipoles \(\mathcal N^{(i)}_l\) of the perturbed
+  distribution):
+  \(\mathcal N^{(i)\prime}_0 = -\frac{qk}{E_i}\mathcal N^{(i)}_1 - \phi'\frac{d\ln\bar f_\nu}{d\ln q}\),
+  \(\mathcal N^{(i)\prime}_1 = \frac{qk}{3E_i}(\mathcal N^{(i)}_0 - 2\mathcal N^{(i)}_2) - \frac{E_ik}{3q}\psi\frac{d\ln\bar f_\nu}{d\ln q}\),
+  \(\mathcal N^{(i)\prime}_l = \frac{qk}{(2l+1)E_i}[l\mathcal N^{(i)}_{l-1} - (l+1)\mathcal N^{(i)}_{l+1}]\)
   (\(l \ge 2\));
 \item
-  the \(\Psi_B\) fold band is never thermalised and does not contribute.
+  the fold bands of \(\Psi\) are never thermalised and do not
+  contribute: there is no dark radiation.
 \end{itemize}
 
 The background is
 \(\mathcal H^2 = \frac{8\pi G_N}{3}a^2\bar\rho_{tot} + \frac{\Lambda_4}{3}a^2\),
 adiabatic initial conditions with the power spectrum
 \(\mathcal P(k) = A_s(k/k_0)^{n_s - 1}\). The relativistic content is
-\(N_{eff} = 3.044\) (\(\nu_e\) plus the two \(\Psi_A\) species at
-\(T_\nu = (4/11)^{1/3}T_\gamma\)).
+\(N_{eff} = 3.0432\), carried by the three mass eigenstates (each
+\(N_{eff}/3\); the neutrino temperature \((4/11)^{1/3}T_\gamma\) of
+instantaneous decoupling raised by the heating of section 9.4).
+
+\hypertarget{the-flavour-evolution-of-the-three-neutrinos}{%
+\section{The flavour evolution of the three
+neutrinos}\label{the-flavour-evolution-of-the-three-neutrinos}}
+
+\hypertarget{the-four-fermion-interactions-at-low-energy}{%
+\subsection{The four-fermion interactions at low
+energy}\label{the-four-fermion-interactions-at-low-energy}}
+
+At momentum transfers far below \(m_W\) and \(m_Z\) the exchange of
+\(W^\pm\) and \(Z\) between the zero-mode fermions (sections 2 and 4)
+reduces to current-current interactions. Written for the
+four-dimensional zero-mode fields in four-component notation, with
+\(P_L \equiv P_+ = (1 + \Gamma_4)/2\) the projector on the chirality of
+the doublet zero modes and \(P_R = (1 - \Gamma_4)/2\), they are
+(STANDARD)
+\[ \mathcal L_{CC} = -2\sqrt2\,G_F\,\big(\bar\nu_\alpha\gamma^\mu P_L\ell_\alpha\big)\big(\bar\ell_\beta\gamma_\mu P_L\nu_\beta\big),\qquad
+   \mathcal L_{NC} = -2\sqrt2\,G_F\,\big(\bar\nu_\alpha\gamma^\mu P_L\nu_\alpha\big)\sum_f\bar f\gamma_\mu\big(g_L^fP_L + g_R^fP_R\big)f, \]
+\[ \frac{G_F}{\sqrt2} = \frac{g^2}{8m_W^2},\qquad g_L^f = T_3^f - Q^f\sin^2\theta_W,\qquad g_R^f = -Q^f\sin^2\theta_W, \]
+summed over the flavours \(\alpha, \beta \in \{e, \mu, \tau\}\) and the
+fermions \(f\) of the medium (the neutrino background is the term
+\(V_{\nu\nu}\) of section 9.4), with
+\(\nu_\alpha = \sum_iU_{\alpha i}\nu_i\) the flavour fields (UM-2 uses
+the measured \(G_F = 1.1663788\times10^{-5}\) GeV\(^{-2}\)). A neutrino
+crossing a medium scatters forward coherently on it; averaged over an
+unpolarised medium at rest, the interactions add to its Hamiltonian the
+flavour-diagonal potentials
+\[ V_\alpha = \sqrt2\,G_F\Big[\delta_{\alpha e}\,(n_{e^-} - n_{e^+}) + \sum_f g_V^f\,(n_f - n_{\bar f})\Big],\qquad g_V^f = g_L^f + g_R^f = T_3^f - 2Q^f\sin^2\theta_W , \]
+and in electrically neutral matter of electrons, protons and neutrons
+(\(g_V^p = -g_V^e\), \(g_V^n = -\frac12\))
+\[ V = \mathrm{diag}(V_{CC}, 0, 0) + V_{NC}\,1,\qquad V_{CC} = \sqrt2\,G_Fn_e,\qquad V_{NC} = -\frac{G_Fn_n}{\sqrt2} . \]
+Antineutrinos have \(-V\).
+
+\hypertarget{vacuum-and-matter}{%
+\subsection{Vacuum and matter}\label{vacuum-and-matter}}
+
+The flavour amplitudes \(\psi_\alpha\) of a neutrino of energy
+\(E \gg m_i\) evolve along its path as
+\[ i\frac{d\psi}{dt} = \mathcal H\psi,\qquad \mathcal H = \frac{1}{2E}\,U\,\mathrm{diag}(m_1^2, m_2^2, m_3^2)\,U^\dagger + V , \]
+with \(U \to U^*\) and \(V \to -V\) for antineutrinos (\(V_{NC}\) is a
+multiple of the identity and drops out). For a constant potential the
+evolution operator is \(S(L) = e^{-i\mathcal HL}\) and
+\(P(\nu_\alpha\to\nu_\beta) = \lvert S_{\beta\alpha}\rvert^2\); for a
+varying one it is the ordered product of the operators of thin layers.
+In vacuum
+\[ P(\nu_\alpha\to\nu_\beta) = \Big\lvert\sum_iU_{\beta i}U^*_{\alpha i}\,e^{-im_i^2L/(2E)}\Big\rvert^2, \]
+\[ P(\nu_\mu\to\nu_e) - P(\nu_e\to\nu_\mu) = -16J\sin\Delta_{21}\sin\Delta_{31}\sin\Delta_{32},\qquad \Delta_{ij} = \frac{\Delta m^2_{ij}L}{4E}, \]
+with the Jarlskog invariant
+\(J = \mathrm{Im}(U_{e2}U_{\mu3}U^*_{e3}U^*_{\mu2}) = c_{12}s_{12}c_{23}s_{23}c_{13}^2s_{13}\sin\delta\)
+and CPT,
+\(P(\nu_\alpha\to\nu_\beta) = \bar P(\bar\nu_\beta\to\bar\nu_\alpha)\).
+In matter the mixing is resonant (the MSW effect) where the potential
+cancels the vacuum splitting of a sector: for the 1-3 sector, after the
+rotation \(R_{23}\) (which commutes with \(V\)),
+\[ 2EV_{CC} = \Delta m^2_{ee}\cos2\theta_{13},\qquad \Delta m^2_{ee} = c_{12}^2\Delta m^2_{31} + s_{12}^2\Delta m^2_{32}, \]
+and for the 1-2 sector, after the rotation by \(\theta_{13}\), which
+leaves the potential \(V_{CC}c_{13}^2\),
+\[ 2EV_{CC}c_{13}^2 = \Delta m^2_{21}\cos2\theta_{12} . \] A neutrino
+produced at a density where the effective 1-2 mixing angle is
+\(\theta^m_{12}\) and propagating adiabatically to the vacuum arrives,
+averaged over the incoherent mass states, with
+\[ P_{ee} = c_{13}^4\Big(\frac12 + \frac12\cos2\theta_{12}\cos2\theta^m_{12}\Big) + s_{13}^4,\qquad
+   \cos2\theta^m_{12} = \frac{\cos2\theta_{12} - A}{\sqrt{(\cos2\theta_{12} - A)^2 + \sin^22\theta_{12}}},\qquad A = \frac{2EV_{CC}c_{13}^2}{\Delta m^2_{21}} . \]
+A resonance at the density
+\(n_e = \Delta m^2\cos2\theta/(2\sqrt2\,G_FE)\) is crossed adiabatically
+if the adiabaticity
+\[ \gamma = \frac{\Delta m^2\sin^22\theta}{2E\cos2\theta\,\lvert d\ln n_e/dr\rvert} \gg 1 ; \]
+the probability of a jump between the matter eigenstates is the
+Landau-Zener expression \(P_{LZ} = e^{-\pi\gamma/2}\).
+
+\hypertarget{the-thermal-potential}{%
+\subsection{The thermal potential}\label{the-thermal-potential}}
+
+In the early Universe the electrons and positrons are relativistic and
+the potential is dominated by the thermal term of the \(W\) exchange
+(STANDARD; to leading order in \(T/m_W\)),
+\[ V_e - V_\mu = -\frac{8\sqrt2\,G_Fp}{3m_W^2}\,\rho_{e^\pm},\qquad \rho_{e^\pm} = \frac{7\pi^2}{60}T^4 , \]
+for a neutrino of momentum \(p\); it suppresses the mixing as long as it
+exceeds \(\Delta m^2\cos2\theta/(2p)\).
+
+\hypertarget{the-quantum-kinetic-equations-and-neutrino-decoupling}{%
+\subsection{The quantum kinetic equations and neutrino
+decoupling}\label{the-quantum-kinetic-equations-and-neutrino-decoupling}}
+
+In a gas of neutrinos the state of the neutrinos of momentum \(\vec p\)
+is a \(3\times3\) density matrix \(\rho_{\vec p}\) (diagonal elements
+the occupation numbers of the flavours, off-diagonal ones the flavour
+coherence), and \(\bar\rho_{\vec p}\) for antineutrinos. They obey
+(STANDARD)
+\[ i(\partial_t + \vec v_p\cdot\nabla)\rho_{\vec p} = \big[\Omega_{\vec p} + V + V_{\nu\nu}, \rho_{\vec p}\big] + i\,\mathcal C[\rho],\qquad \Omega_{\vec p} = \frac{U\,\mathrm{diag}(m_i^2)\,U^\dagger}{2p}, \]
+\[ V_{\nu\nu} = \sqrt2\,G_F\int\frac{d^3q}{(2\pi)^3}\,(1 - \vec v_p\cdot\vec v_q)\big(\rho_{\vec q} - \bar\rho_{\vec q}\big),\qquad \vec v_p = \frac{\vec p}{p}, \]
+with \(\mathcal C\) the collision term of \(\mathcal L_{CC}\) and
+\(\mathcal L_{NC}\) (in an expanding Universe
+\(\partial_t \to \partial_t - Hp\,\partial_p\)). During neutrino
+decoupling the energy exchanged between the plasma and the neutrinos is
+followed with one temperature per species (STANDARD; Escudero 2020):
+with the photon temperature \(T_\gamma\), the neutrino temperatures
+\(T_{\nu_e}\) and \(T_{\nu_\mu} = T_{\nu_\tau}\), the Hubble rate
+\(H = \sqrt{8\pi\rho/3}/M_{Pl}\) of the total density, the energy
+densities \(\rho_\gamma = \pi^2T_\gamma^4/15\) and
+\(\rho_{\nu_\alpha} = 7\pi^2T_{\nu_\alpha}^4/120\) per flavour and the
+\(e^\pm\) energy density \(\rho_e\) and pressure \(p_e\) (with the
+electron mass, \(g = 4\), no chemical potential),
+\[ \frac{dT_\gamma}{dt} = -\frac{4H\rho_\gamma + 3H(\rho_e + p_e) + 3HT_\gamma\frac{dP_{int}}{dT_\gamma} + \frac{\delta\rho_{\nu_e}}{\delta t} + 2\frac{\delta\rho_{\nu_\mu}}{\delta t}}
+   {\frac{d\rho_\gamma}{dT_\gamma} + \frac{d\rho_e}{dT_\gamma} + T_\gamma\frac{d^2P_{int}}{dT_\gamma^2}},\qquad
+   \frac{dT_{\nu_\alpha}}{dt} = -HT_{\nu_\alpha} + \frac{\delta\rho_{\nu_\alpha}/\delta t}{d\rho_{\nu_\alpha}/dT_{\nu_\alpha}}, \]
+\[ \frac{\delta\rho_{\nu_e}}{\delta t} = \frac{G_F^2}{\pi^5}\Big[4(g_{eL}^2 + g_{eR}^2)F(T_\gamma, T_{\nu_e}) + 2F(T_{\nu_\mu}, T_{\nu_e})\Big],\qquad
+   \frac{\delta\rho_{\nu_\mu}}{\delta t} = \frac{G_F^2}{\pi^5}\Big[4(g_{\mu L}^2 + g_{\mu R}^2)F(T_\gamma, T_{\nu_\mu}) - F(T_{\nu_\mu}, T_{\nu_e})\Big], \]
+\[ F(T_1, T_2) = 32f_a(T_1^9 - T_2^9) + 56f_sT_1^4T_2^4(T_1 - T_2),\qquad f_a = 0.884,\quad f_s = 0.829 \]
+(\(f_a\), \(f_s\) the Fermi-Dirac factors of the annihilation and
+scattering rates; \(g_{eL} = \frac12 + s^2\), \(g_{eR} = s^2\) for
+\(\nu_e\), which interacts with electrons through both currents, and
+\(g_{\mu L} = -\frac12 + s^2\), \(g_{\mu R} = s^2\) for
+\(\nu_{\mu,\tau}\), with \(s^2 = \sin^2\theta_W\), or the radiatively
+corrected values \(0.727\), \(0.233\), \(-0.273\), \(0.233\)). When
+oscillations equalise the flavours, one temperature \(T_\nu\) obeys
+\(dT_\nu/dt = -HT_\nu + (\delta\rho_{\nu_e}/\delta t + 2\delta\rho_{\nu_\mu}/\delta t)/(3\,d\rho_\nu/dT_\nu)\).
+The finite-temperature QED corrections enter through the interaction
+pressure of the \(e^\pm\gamma\) plasma, \(P_{int} = P_2 + P_3\), and its
+energy density \(\rho_{int} = -P_{int} + T\,dP_{int}/dT\) (STANDARD;
+Bennett et al.~2020),
+\[ P_2 = -\frac{e^2T^2}{12\pi^2}J_1 - \frac{e^2}{8\pi^4}J_1^2 + \frac{e^2m_e^2}{16\pi^4}J_2,\qquad P_3 = \frac{e^3T}{12\pi^4}I^{3/2}, \]
+\[ J_1 = \int_0^\infty dp\,\frac{p^2}{E}n_D,\qquad J_2 = \int_0^\infty\!\!\int_0^\infty dp\,dq\,\frac{pq}{E_pE_q}\ln\Big\lvert\frac{p + q}{p - q}\Big\rvert n_D(p)n_D(q), \]
+\[ I = \int_0^\infty dp\,\frac{p^2 + E^2}{E}n_D,\qquad n_D = \frac{2}{e^{E/T} + 1},\qquad E = \sqrt{p^2 + m_e^2} , \]
+whose massless limits are \(P_2 = -5e^2T^4/288\) and
+\(P_3 = e^3T^4/(36\sqrt3\,\pi)\). The effective number of neutrino
+species is
+\[ N_{eff} = \Big(\frac{11}{4}\Big)^{4/3}\Big[\Big(\frac{T_{\nu_e}}{T_\gamma}\Big)^4 + 2\Big(\frac{T_{\nu_\mu}}{T_\gamma}\Big)^4\Big] \]
+after \(e^+e^-\) annihilation. For instantaneous decoupling at \(T_d\)
+the plasma conserves its entropy \(a^3s\),
+\(s = (\rho_\gamma + \frac13\rho_\gamma + \rho_e + p_e + \rho_{int} + P_{int})/T\),
+while \(T_\nu \propto 1/a\).
+
+\hypertarget{the-dense-neutrino-gas-the-fast-flavour-instability}{%
+\subsection{The dense neutrino gas: the fast flavour
+instability}\label{the-dense-neutrino-gas-the-fast-flavour-instability}}
+
+Near a supernova core \(V_{\nu\nu}\) dominates \(\Omega_{\vec p}\). For
+a homogeneous, axially symmetric gas of \(\nu_e\) and \(\bar\nu_e\) with
+the angular distributions \(g_{\nu_e}(u)\), \(g_{\bar\nu_e}(u)\)
+(\(u = \cos\vartheta\) along the symmetry axis,
+\(\int_{-1}^{1}g\,du/2 = 1\)), the electron-lepton-number (ELN)
+distribution
+\[ G(u) = \sqrt2\,G_F\big[n_{\nu_e}g_{\nu_e}(u) - n_{\bar\nu_e}g_{\bar\nu_e}(u)\big] \]
+governs the linearised evolution of the small flavour coherence \(S_u\)
+(the \(e x\) element of \(\rho\), \(x\) a heavy-lepton flavour). With
+\(v = (1, u)\), \(\Lambda^\mu = \int du/2\,G(u)\,v^\mu\) and modes
+\(S_u \propto e^{-i(\Omega t - Kz)}\) in the shifted variables
+\(\omega = \Omega - \Lambda^0\), \(k = K - \Lambda^3\), the linear
+equations have non-trivial solutions if (STANDARD)
+\[ \det\Pi(\omega, k) = 0,\qquad \Pi^{\mu\nu} = \eta^{\mu\nu} + \int_{-1}^{1}\frac{du}{2}\,G(u)\,\frac{v^\mu v^\nu}{\omega - ku}\qquad (\eta = \mathrm{diag}(1, -1)\ \text{on}\ (t, z)), \]
+which splits into the axisymmetric branch and the azimuthal branch
+\[ (1 + J_0)(-1 + J_2) - J_1^2 = 0,\quad J_n = \int_{-1}^{1}\frac{du}{2}\,\frac{G(u)\,u^n}{\omega - ku};\qquad -1 + \int_{-1}^{1}\frac{du}{2}\,\frac{G(u)\,(1 - u^2)}{2(\omega - ku)} = 0 . \]
+A root with \(\mathrm{Im}\,\omega > 0\) for real \(k\) is an instability
+with the growth rate \(\mathrm{Im}\,\omega\). The homogeneous mode
+(\(K = 0\), i.e. \(k = -\Lambda^3\)) obeys
+\[ i\frac{dS_u}{dt} = (\Lambda^0 - u\Lambda^3)\,S_u - \int_{-1}^{1}\frac{du'}{2}\,G(u')\,(1 - uu')\,S_{u'} , \]
+and for the mode \(K = \Lambda^3\) (\(k = 0\)) the dispersion relation
+is the quadratic
+\(\omega^2 - (I_2 - I_0)\omega - (I_0I_2 - I_1^2) = 0\),
+\(I_n = \int du/2\,G\,u^n\), unstable with the growth rate
+\(\frac12\sqrt{4I_1^2 - (I_0 + I_2)^2}\) when this is real. An
+instability exists only if \(G(u)\) changes sign (an ELN crossing;
+Morinaga 2022).
+
+\hypertarget{the-cosmic-neutrino-background}{%
+\subsection{The cosmic neutrino
+background}\label{the-cosmic-neutrino-background}}
+
+After decoupling the neutrinos keep the Fermi-Dirac distribution
+\(f(p) = 1/(e^{p/T_\nu} + 1)\) of their momentum, redshifted with
+\(T_\nu \propto 1/a\), and lose their flavour coherence: the background
+is an incoherent mixture of the mass states, each with the number
+density and the energy density
+\[ n_i = 2\int\frac{d^3p}{(2\pi)^3}f(p) = \frac{3\zeta(3)}{2\pi^2}T_\nu^3,\qquad \rho_i = 2\int\frac{d^3p}{(2\pi)^3}\sqrt{p^2 + m_i^2}\,f(p) \]
+(the factor 2 counts \(\nu_i\) and \(\bar\nu_i\), one helicity each),
+and the mean velocity
+\(\langle v\rangle_i = \int p^2\,(p/\sqrt{p^2 + m_i^2})f\,dp/\int p^2f\,dp\).
+The flavour content of the mass state \(\nu_i\) is
+\(\lvert U_{\alpha i}\rvert^2\).
 
 \hypertarget{the-coupled-system-and-how-it-is-solved}{%
 \section{The coupled system and how it is
@@ -750,12 +1008,13 @@ solved}\label{the-coupled-system-and-how-it-is-solved}}
 The fields couple as follows: gravity to everything (the canonical spin
 connection for \(\Psi\) and the fermions, the metric in every kinetic
 term, the stabiliser); \(\Psi\) to gravity, to itself (\(\lambda\)), to
-the fermion currents (I11), to the gauge-field invariants (I12) and, at
-the tip, to \(Z\) (I9); the fermions to the gauge fields, to \(\Sigma\)
-at the tip and to \(\Psi\) (I11); the gauge fields to the fermions, to
-\(\Sigma\) at the tip, to \(\Psi\) through I12 (a field-dependent
-coupling) and, for \(Z\), through I9. UM-2 solves the coupled system in
-the following hierarchy, each step feeding the next:
+the fermion currents (I11) and to the gauge-field invariants (I12); the
+fermions of the three generations to the gauge fields, to \(\Sigma\) at
+the tip (through the tip matrices, which carry the flavour mixing) and
+to \(\Psi\) (I11); the gauge fields to the fermions, to \(\Sigma\) at
+the tip and to \(\Psi\) through I12 (a field-dependent coupling). UM-2
+solves the coupled system in the following hierarchy, each step feeding
+the next:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -766,12 +1025,17 @@ the following hierarchy, each step feeding the next:
   block-averaged source; the primordial approach to it from the full
   nonlinear equations;
 \item
-  the \(x_0\) eigenvalue problems on the static block: all masses (gauge
-  bosons, graviton, fermions, \(\Psi\));
+  the \(x_0\) eigenvalue problems on the static block: all masses and
+  the mixing matrices (gauge bosons, graviton, the twelve fermions with
+  their tip matrices, \(\Psi\));
 \item
   the Kohn-Sham equations of \(\Psi\) with the portal mean fields of the
   other fields and the self-interaction; the Kohn-Sham energy-momentum
   tensor returned to step 1 (the adiabatic block response);
+\item
+  the flavour evolution of the neutrinos (section 9) in vacuum, in
+  matter, in the early Universe (decoupling and \(N_{eff}\), which feed
+  step 5) and in dense neutrino gases;
 \item
   the four-dimensional effective theory and its linear perturbations
   (CMB, CNB, BAO).
@@ -792,11 +1056,28 @@ the following hierarchy, each step feeding the next:
   the dimensional reduction (sympy, exact);
 \item
   the exact Dirac reduction in all eight blocks, the boundary
-  conditions, the zero modes, the tip mixing condition, the gauge
-  \(x_0\) operator and the gauge invariance of the tip terms;
+  conditions, the zero modes, the tip mixing condition of one generation
+  and of three generations for an arbitrary complex tip matrix, the
+  gauge \(x_0\) operator and the gauge invariance of the tip terms with
+  arbitrary generation matrices;
 \item
   the \(x_0\) spectra (mpmath; finite elements to \(5\times10^{-10}\);
-  shooting to \(3.5\times10^{-10}\));
+  shooting to \(6\times10^{-10}\)); the three-generation tip determinant
+  (mpmath, 50 digits: its roots equal the one-generation roots to
+  \(3.0\times10^{-42}\), its null vectors the columns of the tip
+  matrix); the absence of flavour-changing Kaluza-Klein couplings
+  (\(10^{-17}\));
+\item
+  the gauge anomalies of the three generations (exact fractions);
+\item
+  the flavour evolution (exact evolution operators against the vacuum
+  formula to \(3.9\times10^{-15}\), unitarity, CPT, the T-odd
+  difference; the numerical solar evolution against the adiabatic
+  formula to \(1.3\times10^{-3}\); the exact 1-3 resonance against its
+  formula to \(1.6\times10^{-4}\); the massless limits of the QED
+  integrals; the decoupling equations against the published values of
+  the same method; three independent evaluations of the fast-flavour
+  growth rates to \(1.2\times10^{-14}\));
 \item
   the Kohn-Sham solver (record reference states to \(10^{-13}\); energy
   identity; conservation law; Richardson; Hellmann- Feynman for every
