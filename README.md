@@ -18,9 +18,12 @@ generation), the PMNS and CKM matrices from the x0 mechanism, and the flavour co
 the Sun, the early Universe (N_eff), the cosmic neutrino background and supernovae. The model, its provenance, its coupled
 field equations, an approximate solution with Kohn-Sham theory for dirac16complex, and the analysis of the x0 mass mechanism
 and of the dark-matter and dark-energy associations are in [`universe_model_2/`](universe_model_2/README.md) (documents as
-.md, .tex and .pdf; 205 verification checks, all passing, reproduced from a fresh clone). An independent review of version 2
+.md, .tex and .pdf; 233 verification checks, all passing, reproduced from a fresh clone). An independent review of version 2
 found that the relic abundance of its dark matter (the heavy odd quanta of dirac16complex) cannot be produced by the
-gauge-kinetic portal within perturbative unitarity: in version 2 that relic is open.
+gauge-kinetic portal within perturbative unitarity. Version 3 (2026-10-18) adds the s-wave portal I13 (an x0-chiral vector
+coupling of dirac16complex to the baryon-number current), with which each of the two dark-matter species leaves Omega h^2 =
+0.060 within the unitarity limit, the thermal history with the freeze-in of the fold bands (Delta N_eff = 0.001), the coupled
+Kohn-Sham solution in ten environments, and the metric as a power series of terms of decreasing magnitude.
 
 ## The current record: `Revision/`
 

@@ -6,7 +6,53 @@ in this repository; nothing depends on the old session's scratch directory.
 
 ## 0. Exact restart procedure
 
-### 0.11 ORDER 2026-10-17: UM-1, a new model of the Universe; then finish W5-W8 — START HERE
+### 0.12 ORDER 2026-10-17/18: UM-2, the universe model with Kohn-Sham dirac16complex; then all open stages — START HERE
+
+The author's orders (the defining parts, verbatim): 2026-10-17: a new model of the Universe with Einstein-Lovelock gravity, the
+dirac16complex field coupled through the canonical spin connection and to all Standard-Model fields except the Higgs particle,
+new phenomenological interactions consistent with QCD and the electroweak models, CMB, CNB, BAO, the metric as a power series
+of terms of decreasing magnitude, every mass from the x0 dependence of the wave functions with period pi/(6H), "Put each and
+every interaction in equation form ... both markdown and latex file types; compile all latex to pdf. NEVER refer the reader to
+some other file! PUT EVERY EQUATION you create and/or use IN THESE FILES", the analysis of the x0 mass mechanism and of the
+association of dark matter (and dark energy) with dirac16complex. 2026-10-18 08:02: "correct universe model 2 to include
+three neutrino flavors with mixing and flavor conversion. this is your first and only priority!! just kill Stage 4"; 08:24:
+"NOT (B). USE (A)!!!" (three full generations). 09:48: "[4] Compute an accurate approximate solution ... (use Kohn-Sham theory
+...) and push ... [5] Continue and Complete and push all stages that are still open, and do not stop. ... Check and verify
+this repo. DO NOT TAKE SHORTCUTS. DO NOT BECOME LAZY. Finish and notify me that you have finished."
+
+Status (folder `universe_model_2/`, README there; every document as .md, .tex and .pdf, each self-contained):
+- Version 1 (2026-10-17, one generation) and version 2 (2026-10-18, three generations, three neutrino flavours with mixing and
+  flavour conversion; commit ecca926) are superseded by version 3.
+- Version 3 (2026-10-18, commits 15c2aab to 726997f and the verification commit after them): the portal I13 (an x0-chiral
+  vector coupling of dirac16complex to the baryon-number current; with B - L it would thermalise the right-handed neutrinos,
+  Delta N_eff = 0.144) gives the dark-matter relic within perturbative unitarity (Omega h^2 = 0.060 per species, G_A =
+  1.278e-9 GeV^-2, direct detection 0.16 of the LZ limit); the thermal history (g_rho, g_s, freeze-in of the fold bands,
+  Delta N_eff = 0.001), the coupled Kohn-Sham solution in ten environments (back-reaction at most 1.6e-6), the metric as a
+  power series with the Kaluza-Klein graviton tower and the radion, sigma_8; 233 checks, all passing.  Computations:
+  `universe_model_2/code/um2_*.py` (each writes `outputs/` and `reports/`), documents built by `tools/build_docs.py`;
+  `MANUAL_TASKS` gives the verification and the review as hand steps.
+- [5] next: the open stages below, in this order, each verified, committed and pushed.
+- [5] W7: the seven Revision documents are rewritten for the corrected metric and pass their publication tests (all seven,
+  2026-10-18 in the cloud session); `Revision/README.md` folder table and the paragraphs on the spin connection, the good
+  sector and the pairing were brought to the corrected metric (2026-10-18). The verify-mode rebuild of a registered PDF
+  (`REVISION_PDF_REBUILD=1`, the gate's pdf-* steps) reproduces the .tex byte for byte on Linux, but the PDF bytes only with
+  the TeX installation that registered them (on the author's PC): on the cloud container (TeX Live 2023/Debian) only
+  `registeredSha256` and `provenancePdfCopy` fail. Re-register on the PC or accept the Linux build.
+- [5] old Stage 4 (the static-metric Kohn-Sham record, `provenance/DIRAC16COMPLEX_KOHN_SHAM_PRIMORDIAL`): the document's
+  sections 1 to 13.3 are written (commits 2d1aaff, b7b3b85); the student guide draft is in the session scratch. Running in
+  the cloud session since 2026-10-18 12:09 (detached, 2 cores): (a) the reference rerun of m1_L3_N1016_lamm2_T0 (STAGE4_SPEC
+  E4.14 b) by `python3 -B scripts/ks_reference_solver.py --resume --skip-self-tests --output <copy of the reference tree>`;
+  (b) a complete canonical repeat of the five Rust subcommands and (c) the refined runs of spectrum, scf, excited, emt, for
+  the checker's `--repeat` and `--refined` (the trees of 2026-09-30 in `stage4_keep/` on the PC are empty). Then: install
+  (a), the summary pass, the checker with (b) and (c) into `python-check-report.json` (expected 63 checks, 0 failed), the
+  errata line of `provenance/ERRATA_FIRST_EDITION_TEXTBOOK.md` (CURRENT_COUNTS_FORMAT), the notebook refresh (builder,
+  route B, route A, audit), sections 13.4, 13.5 and 14, the abstract and the status text, the student guide, review, gate.
+- [5] W8 (the textbook for the corrected metric) and old Stage 5 (pairs numerics: the reference pairs run needs about 4.5 h
+  on 24 cores and up to 167 GB in two workers without the E5.3 guard; the Rust pairs canonical, repeat and refined runs) are
+  open. The textbook's notebooks are byte-reproducible only in the environment of `Revision/textbook/requirements.txt`
+  (Python 3.14.5 on Windows; the PNG bytes depend on the zlib of Pillow).
+
+### 0.11 ORDER 2026-10-17: UM-1, a new model of the Universe; then finish W5-W8 (superseded as the start by 0.12)
 
 The author's order of 2026-10-17 (the defining parts, verbatim): "Stop all stages, even though the Stop hook says to
 continue. push all you have to the repo, check and verify. I task you to : [1] ... create a new model of the Universe
