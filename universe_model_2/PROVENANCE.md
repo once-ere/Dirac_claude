@@ -1,0 +1,477 @@
+---
+title: "UM-2 provenance"
+subtitle: "Where every ingredient, equation and number of the universe model UM-2 comes from, how it was computed, and how it was verified"
+author:
+  - "Underlying theory: Patrick L. Nash"
+  - "Derived and verified by Claude (Anthropic)"
+  - "Provenance, version 1, 2026-10-17"
+  - "Repository once-ere/Dirac_claude, folder universe_model_2"
+---
+
+# How to read this document
+
+This document records the provenance of UM-2, a model of the Universe built on the author's 4+4-dimensional
+Einstein-Lovelock theory and his dirac16complex field. For every ingredient it states where it comes from, writes the
+ingredient out as an equation, names the computation that produced or used it, and states how it was verified. The
+document is self-contained: every equation it mentions is written here.
+
+Labels used throughout:
+
+* **AUTHOR**: taken from the author's Mathematica notebooks or the author's written orders;
+* **RECORD**: taken from the Revision record of this repository (earlier work carried out under the author's orders,
+  with its own verification);
+* **STANDARD**: textbook physics or a measured value; measured values are marked *verified* (read from the source on
+  2026-10-17) or *from memory* (quoted from memory of the standard tables, to be checked against the current editions);
+* **ASSUMED**: a modelling choice made for UM-2;
+* **INVENTED**: a new phenomenological interaction of UM-2;
+* **DERIVED**: computed and verified in UM-2;
+* **ESTIMATE**: an order-of-magnitude evaluation, not a precision computation;
+* **OPEN**: not resolved in this version.
+
+Units: $\hbar = c = 1$; $H$ is the author's constant (an inverse length); in the numerical work $H = 1$ unless a
+physical unit is stated.
+
+# The order
+
+The model answers the author's order of 2026-10-17. Its key parts, in the author's words: "Create a new model of the
+Universe that includes [a] gravity (Einstein-Lovelock gravity); [b] the dirac16complex quantized spinor field (which is
+hypothesied to represent dark matter); the dirac16complex is coupled to gravity using a non-trivial canonical spin
+connection; ... interactions of gravity and dirac16complex with SOME of the following Standard Model particles: [c]
+photons; [d] neutrinos; [e] electrons; [f] quarks (only up and down, for the protons and neutrons); [g] the 3 weak
+interaction gauge bosons, the W and Z 'particles'. However do NOT include the Higgs particle. You must invent/create
+new phenomenological interactions ... consistent with qcd and electro-weak models. You want to be able to model: CMB,
+CNB, BAO, so your model for the metric tensor ... must be very general, but perhaps expressible as a power series of
+terms of decreasing magnitude. Put each and every interaction in equation form, and explain and analyze it in
+documentation and provenance files; these should be both markdown and latex file types; compile all latex to pdf.
+NEVER refer the reader to some other file! PUT EVERY EQUATION you create and/or use IN THESE FILES. CRITICALLY
+IMPORTANT: Mass will be given to all non-massless particles, (except the massless particles: graviton, photon and
+perhaps the quanta of the dirac16complex field), by appropriate wave function dependence on the space coordinate x0
+... periodic in x0 with period $\pi/(6H)$. Localization with respect to x0 implies, using Heisenberg ...
+$\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$ ... [2] push your new, improved, model ... along with provenance (both .md
+and .pdf files). [3] Compute the coupled field equations and push to repo; create concomitant documention (both .md
+and .pdf files) and push. [4] Compute an accurate approximate solution to the coupled field equations (use Kohn-Sham
+theory for the dirac16complex field, which couples to all other fields) and push ... Check and verify this repo."
+
+Further orders of the same day: "analyze the x0 mass mechanism, and ... analyze the validity of associating dark
+matter (and dark energy) with dirac16complex"; "the $W^+$ and $W^-$ bosons carry positive and negative electric
+charges. Do not forget this"; the coordinates are always the author's $\{x_0, x_1, \dots, x_7\}$ of the notebook
+`Dirac_Einstein-Lovelock_4+4_Nash.nb`, never relabelled; every verified result is pushed to the repository as soon as
+it is obtained; no single calculation runs longer than 7 minutes and 3 seconds (423 s).
+
+# Who did what
+
+* The 4+4 framework, the coordinates, the primordial metric of the notebooks, the Einstein-Lovelock action with its
+  weights and $\Lambda$, the dirac16complex field and its $Cl(4,4)$ gamma matrices, the mass parameter $M$, the idea
+  that masses come from the $x_0$ dependence of wave functions periodic with period $\pi/(6H)$, and the dark-matter
+  hypothesis are the AUTHOR's (Patrick L. Nash).
+* The corrected primordial metric (version 2), the regular tip cutoff, the Dirac-type Lagrangian with the canonical
+  spin connection, the $2\times2$ block reduction of the Kohn-Sham problem and its conventions are RECORD items:
+  produced earlier in this repository under the author's orders and verified there.
+* Everything labelled ASSUMED, INVENTED or DERIVED below, all the code of UM-2 and all its documents are by Claude
+  (Anthropic), working in this repository on 2026-10-17.
+
+# Ingredients from the author (AUTHOR)
+
+## Coordinates and signature
+
+The author's coordinates (notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb`, `X = {x0[], x1[], ..., x7[]}`) are
+$$ X = \{x_0, x_1, x_2, x_3, x_4, x_5, x_6, x_7\}: $$
+$x_0$ a hidden space-like direction, $x_1, x_2, x_3$ ordinary space, $x_4$ the time, $x_5, x_6, x_7$ three extra
+time-like directions. The orthonormal frame metric is
+$$ \eta_{ab} = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1), \qquad a, b = 0, \dots, 7 \text{ aligned with } x_0, \dots, x_7 .$$
+The hidden coordinate enters through $z = 6Hx_0$; one period of $x_0$ is $\ell_0 = \pi/(6H)$.
+
+## The primordial metric of the notebooks
+
+The notebook `WaveFunctionUniverse-4+4-Einstein-Lovelock.nb` (the author's local notebook) gives the primordial
+metric
+$$ \begin{aligned} g^{\text{nb}} = \mathrm{diag}\big(&\cot^2 z,\; e^{2a_4}(\sin^2 z)^{1/6},\; e^{2a_4}(\sin^2 z)^{1/6},\; e^{2a_4}(\sin^2 z)^{1/6},\\
+   &-1,\; -e^{-2a_4}(\sin^2 z)^{1/6},\; -e^{-2a_4}(\sin^2 z)^{1/6},\; -e^{-2a_4}(\sin^2 z)^{1/6}\big), \end{aligned} $$
+with vielbein $\mathrm{diag}(\cot z, e^{a_4}(\sin^2z)^{1/12}\times3, 1, e^{-a_4}(\sin^2z)^{1/12}\times3)$ and $a_4 = a_4(x_4)$.
+By the author's orders of 2026-10-14 a second function $b_4(x_4) > 0$ multiplies the extra-time components ("b4 is a
+function of x4; b4 is NEVER 1"), and $(\sin z)^{1/3}$ means $(\sin^2 z)^{1/6}$, the positive branch, for every real $z$.
+
+## The Einstein-Lovelock action, weights and cosmological term
+
+The notebook writes the Einstein-Lovelock vacuum equations (after Lovelock and Rund) as
+$$ 0 = -\Lambda^{\text{nb}} + H^{-2}w_1\,\text{Lovelock1} + H^{-4}w_2\,\text{Lovelock2} + H^{-6}w_3\,\text{Lovelock3}, $$
+with $(w_1, w_2, w_3, \Lambda^{\text{nb}}) = (1, 1/32, 1/1152, 10)$: in the notebook `Dirac_Einstein-Lovelock_4+4_Nash.nb`
+(In[133] to In[136]) the author sets $w_1 = 1$, $w_2 = 1/2^5$ and solves the vacuum equations on the history
+$a_4 = Hx_4$, $b_4 = 1$ of the notebook metric for $w_3$ and $\Lambda^{\text{nb}}$ (In[134]); In[136] factors
+$1152 = 2^7\,3^2$; the Revision specification records the solution $w_3 = 1/1152$, $\Lambda^{\text{nb}} = 10$.
+Multiplying by $H^2$ and writing the equations as
+$\sum_k\alpha_kE_{(k)}{}^M{}_N + \Lambda\,\delta^M_N = \kappa T^M{}_N$ gives the UM-2 form
+$$ \alpha_k = w_kH^{2-2k}, \qquad w = \Big(1, \frac1{32}, \frac1{1152}\Big), \qquad \Lambda = -\Lambda^{\text{nb}}H^2 = -10H^2 , $$
+where
+$$ E_{(k)}{}^M{}_N = -\frac{1}{2^{k+1}}\,\delta^{MA_1B_1\cdots A_kB_k}_{NC_1D_1\cdots C_kD_k}\,R^{C_1D_1}{}_{A_1B_1}\cdots R^{C_kD_k}{}_{A_kB_k},$$
+$$ \mathcal L_{(k)} = \frac{1}{2^k}\,\delta^{A_1B_1\cdots A_kB_k}_{C_1D_1\cdots C_kD_k}\,R^{C_1D_1}{}_{A_1B_1}\cdots R^{C_kD_k}{}_{A_kB_k} ,$$
+$\delta^{\cdots}_{\cdots}$ being the generalised Kronecker delta (the determinant of ordinary deltas); $E_{(1)}$ is the
+Einstein tensor, $\mathcal L_{(1)} = R$, $\mathcal L_{(2)} = R^2 - 4R_{AB}R^{AB} + R_{ABCD}R^{ABCD}$. That the UM-2
+normalisation reproduces the record's equations (which were checked against the notebook) is verified exactly
+(section 8, script `um2_geometry.py`, checks `record_equation`). UM-2 keeps the author's weights and $\Lambda$
+unchanged; an earlier model of this repository (UM-1) had changed $w_3$ and $\Lambda$.
+
+## The gamma matrices of $Cl(4,4)$
+
+The author's notebooks (*Dirac_Einstein-Lovelock_4+4_Nash.nb* and *WaveFunctionUniverse-4+4-Einstein-Lovelock.nb*)
+build real $16\times16$ matrices from ($h = 1, 2, 3$; $p, q = 1, \dots, 4$; $\epsilon$ the Levi-Civita symbol)
+$$ Q_a(h,p,q) = \epsilon_{hpq4},\qquad Q_b(h,p,q) = \delta_{p4}\delta_{qh} - \delta_{ph}\delta_{q4},\qquad
+   s_h = Q_a - Q_b,\quad t_h = Q_a + Q_b , $$
+$$ \zeta_0 = I_8,\quad \zeta_{7-h} = \begin{pmatrix} 0 & t_h\\ -t_h & 0\end{pmatrix},\quad
+   \zeta_h = \begin{pmatrix} 0 & s_h\\ s_h & 0\end{pmatrix},\quad \zeta_7 = \zeta_1\zeta_2\zeta_3\zeta_4\zeta_5\zeta_6,\quad
+   \sigma = \begin{pmatrix} 0 & I_4\\ I_4 & 0\end{pmatrix}, $$
+$$ \tau_0 = I_8,\quad \tau_A = \zeta_A,\quad \bar\tau_A = \sigma\,\tau_A^T\,\sigma,\qquad
+   \gamma^{x_A} \equiv T16[A] = \begin{pmatrix} 0 & \bar\tau_A\\ \tau_A & 0\end{pmatrix}\quad (A = 0, \dots, 7). $$
+They satisfy $\{\gamma^a, \gamma^b\} = 2\eta^{ab}I_{16}$ and the notebook identities
+$\tfrac12(\tau_A\bar\tau_B + \tau_B\bar\tau_A) = \eta_{AB}I_8$, $\sigma = \tau_1\tau_2\tau_3 = \tau_4\tau_5\tau_6\tau_7$ (notebook
+Out[322] to Out[324]). Derived objects used by UM-2:
+$$ C = \gamma^{x_0}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3} = \begin{pmatrix} -\sigma & 0\\ 0 & \sigma\end{pmatrix},\qquad
+   \Gamma = \gamma^{x_0}\cdots\gamma^{x_7} = \mathrm{diag}(-I_8, I_8),\qquad B = -iC\gamma^{x_4},\qquad S^{ab} = \tfrac14[\gamma^a, \gamma^b] . $$
+
+## The mass parameter, the $x_0$ mass idea and the dark-matter hypothesis
+
+The dirac16complex mass is written $m = 3HM$ in the author's notebooks. The order requires every non-massless
+particle to get its mass from the dependence of its wave function on $x_0$, periodic with period $\pi/(6H)$, with the
+uncertainty relation $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$ as the physical reason, and states the hypothesis that
+the quanta of dirac16complex represent dark matter (and asks for the validity of a dark-energy association to be
+analysed).
+
+# Ingredients from the Revision record (RECORD)
+
+## The corrected primordial metric (version 2)
+
+The author's order of 2026-10-16: "a diagonal form for the metric of the primordial gravitational field is only
+self-consistent if all off-diagonal terms of all source terms in the Einstein field equations ARE ZERO. This is not the
+case here. I task you to: [1] find the simplest modification for the current metric of the primordial gravitational
+field that is probably self-consistent with the Einstein field equations". The metric of 2026-10-14 (the notebook metric
+with $b_4$) has the off-diagonal component $E_{(k)}{}^{x_4}{}_{x_0} \propto \cot z\;\dot b_4/b_4$ at every Lovelock order.
+In the family (with $g_{44} = -1$)
+$$ g_{00} = b_4^{2p}e^{2qa_4}\cot^2z,\qquad g_{ii} = e^{2a_4}(\sin^2z)^{3\alpha},\qquad g_{tt} = -e^{-2a_4}b_4(\sin^2z)^{3\beta} $$
+the mixed curvature is proportional to $\alpha\big((q-1)\dot a_4 + p\,\dot b_4/b_4\big)$ (3-space) and
+$\beta\big((q+1)\dot a_4 + (p - \tfrac12)\dot b_4/b_4\big)$ (extra times). Keeping the warp of the extra times
+($\beta = 1/6$) forces $\alpha = 0$, $q = -1$, $p = 1/2$: the record's current metric, used by UM-2,
+$$ \bar g = \mathrm{diag}\big(e^{-2a_4}b_4\cot^2z,\; e^{2a_4},\; e^{2a_4},\; e^{2a_4},\; -1,\; -e^{-2a_4}b_4(\sin^2z)^{1/6},\;
+   -e^{-2a_4}b_4(\sin^2z)^{1/6},\; -e^{-2a_4}b_4(\sin^2z)^{1/6}\big) .$$
+Every off-diagonal component of $E_{(1)}, E_{(2)}, E_{(3)}$ vanishes identically for all $a_4(x_4)$, $b_4(x_4) > 0$
+and every real $z$ (record: sympy 14/14, Wolfram 13/13; re-derived in UM-2, section 8). The alternative K of the
+record ($g_{00} = e^{2a_4}\cot^2z$, $g_{ii} = e^{2a_4}(\sin^2z)^{1/6}$, $g_{tt} = -e^{-2a_4}b_4$) is also diagonal at every
+order; the record leaves the choice to the author, and UM-2 uses version 2.
+
+## The hidden coordinate, the fold and the regular tip
+
+On every interval with $\sin z \ne 0$,
+$$ y = \frac{\ln\lvert\sin z\rvert}{6H} \in (-\infty, 0],\qquad dy = \cot z\,dx_0,\qquad f = e^{-a_4}b_4^{1/2},$$
+$$ ds^2 = e^{2a_4}d\vec x^{\,2} - dx_4^2 + f^2\big[dy^2 - e^{2Hy}(dx_5^2 + dx_6^2 + dx_7^2)\big] .$$
+The fold is $z = \pi/2$ ($y = 0$); the tips are $z \to 0^+$ and $z \to \pi^-$ ($y \to -\infty$). The record replaces the
+tip by a regular cutoff at $y = -L$ with
+$$ \eta \equiv HL = 3 , $$
+a chosen cutoff (the extended levels depend on it like those of a box of proper length $fL$). UM-2 keeps $\eta = 3$
+(ASSUMED).
+
+## The dirac16complex Lagrangian and the canonical spin connection
+
+The specification of the record (under the author's orders) fixes the Dirac-type Lagrangian
+$$ \mathcal L_\Psi = \sqrt{\lvert g\rvert}\Big[\tfrac12\big(\bar\Psi\gamma^MD_M\Psi - (D_M\bar\Psi)\gamma^M\Psi\big) - m\,\bar\Psi\Psi - U(S)\Big],\qquad
+   S = \bar\Psi\Psi,\quad U(S) = \frac{\lambda}{2}S^2,\quad \bar\Psi = \Psi^\dagger C , $$
+$$ D_M\Psi = \partial_M\Psi + \Omega_M\Psi,\quad \Omega_M = \tfrac12\omega_{Mab}S^{ab},\quad \omega_M{}^a{}_b = e^a{}_N\big(\partial_Me_b{}^N + \Gamma^N{}_{ML}e_b{}^L\big),\quad \gamma^M = e_a{}^M\gamma^a , $$
+the canonical (vielbein-postulate, torsion-free) spin connection. The record chose the Dirac-type form because the
+notebook's real Majorana-type Lagrangian is a total derivative for anticommuting real fields (it has no field
+equations), and it uses the canonical connection rather than the notebook's contraction of the mixed
+$\omega_M{}^a{}_b$, which lacks a metric factor. The field equation is $\gamma^MD_M\Psi = (m + U'(S))\Psi$.
+
+## Canonical quantisation and the Krein metric
+
+With $x_4$ as the evolution time, $\{\Psi_A(x), \Psi_B^\dagger(x')\} = B_{AB}\,\delta^7(x - x')/\sqrt{\lvert g\rvert}$ on a slice
+$x_4 = \text{const}$; $B$ has eigenvalues $+1$ (8 times) and $-1$ (8 times), so the inner product is indefinite (a Krein
+space). The record works in the good sector (no extra-time momentum), counts the positive-energy branch of every block
+as particles, and evaluates expectation values as $\langle\Psi^\dagger M\Psi\rangle = u^\dagger BMu$.
+
+## The Kohn-Sham reduction
+
+For the corrected metric the record reduces the 16-component equation, with
+$\Psi = e^{ik\cdot x}\,e^{-\frac32Hy}\,e^{a_4/2}b_4^{-1}\,V_\beta\,\chi(y, x_4)$, to the $2\times2$ block Hamiltonians
+$$ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\,\sigma_2 + \kappa k\,\sigma_3\Big] + v(y),\qquad \kappa = e^{-a_4}, $$
+in the blocks $(j, s_2, s_3)$ of the commuting set $J = \gamma^{x_0}\gamma^{x_1}\gamma^{x_4}$, $K_1 = \gamma^{x_2}\gamma^{x_3}$,
+$K_2 = \gamma^{x_5}\gamma^{x_6}$ (eigenvalues $j$, $is_2$, $is_3$), with the contact-interaction mean fields of the
+record's Hartree-plus-exchange treatment of the contact interaction
+$$ e_{int} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2,\qquad M_{eff} = m + \frac{15}{16}\lambda S,\qquad v = -\frac{\lambda}{16}n , $$
+the fold conditions $\theta \in \{0, \pi\}$ (both parities filled, weight $w = 1/2$ each), the regular tip, and the
+densities carrying $P = e^{-3Hy}/\mathrm{Vol}_7$. The record's mass is $m = 3HM$ with $M = 1/3$, i.e. $m = H$; UM-2
+keeps it (ASSUMED). Two reference states of the record (at $f = 1$, $a_4 = 0$: $N = 8$ with $\lambda = 157.7$, and
+$N = 592$ with $\lambda = 2.131$) serve as validation targets of the independent UM-2 solver (section 8).
+
+## Earlier work used only for comparison
+
+The first universe model of this repository (UM-1, folder `Revision/universe_model`) is not an input of UM-2. UM-2
+differs from it in keeping the author's weights and $\Lambda$, in the electroweak sector (both halves of $\Psi$, the
+chiral tip $Z$ portal, $N_{eff}$), and in the dark-matter candidate.
+
+# Standard physics and measured values (STANDARD)
+
+Every measured value enters UM-2 only as the target of a fit or as a comparison, never as a derived result.
+
+| input | value used | source | status |
+| --- | --- | --- | --- |
+| $W$ mass | $80.3625 \pm 0.0077$ GeV | PDG 2026, OUR EVALUATION (pdgLive S043M) | verified |
+| $Z$ mass | $91.1879 \pm 0.0020$ GeV | PDG 2026, OUR AVERAGE (pdgLive S044M) | verified |
+| $\sin^2\theta_W$ ($\overline{MS}$, $M_Z$) | $0.23122 \pm 0.00004$ | PDG electroweak review | from memory |
+| electroweak $\rho$ parameter | $\rho_0 - 1 = 0.00038 \pm 0.00020$ | PDG electroweak review (global fit) | from memory |
+| electron mass | $0.51099895$ MeV | PDG, CODATA | from memory |
+| $u$, $d$ masses ($\overline{MS}$, 2 GeV) | $2.16 \pm 0.07$ MeV, $4.70 \pm 0.07$ MeV | PDG | from memory |
+| neutrino mass of the one generation | $0.05$ eV $\approx \sqrt{\lvert\Delta m^2_{31}\rvert}$ | chosen | ASSUMED |
+| Fermi constant, electroweak scale | $G_F = 1.1663788\times10^{-5}$ GeV$^{-2}$, $v = 246.22$ GeV | PDG | from memory |
+| fine-structure constant | $\alpha^{-1}(0) = 137.035999$ | CODATA | from memory |
+| invisible $Z$ width | $N_\nu = 2.9840 \pm 0.0082$ | LEP/SLD, Phys. Rept. 427 (2006) 257 | from memory |
+| $Z$ widths | $\Gamma_Z = 2495.5$ MeV, $\Gamma_{inv} = 499.0$ MeV | PDG | from memory |
+| nucleon masses | $m_p = 938.272$ MeV, $m_n = 939.565$ MeV | PDG | from memory |
+| $\hbar c$, $k_B$ | $1.973269804\times10^{-16}$ GeV m, $8.617333262\times10^{-5}$ eV/K | CODATA | from memory |
+| CMB temperature | $T_0 = 2.7255$ K | Fixsen 2009 | from memory |
+| three-flavour $N_{eff}$ | $3.0440$ | Bennett et al. 2021 | from memory |
+| neutral-current neutrino decoupling | $T \approx 2.6$ MeV | standard estimate | from memory |
+| Planck 2018 base parameters | $\omega_b = 0.02237$, $\omega_c = 0.1200$, $100\,\theta_{MC} = 1.04092$, $\tau = 0.0544$, $\ln(10^{10}A_s) = 3.044$, $n_s = 0.9649$ | Planck 2018 results VI, Table 2 | from memory |
+| $N_{eff}$ with free $N_{eff}$ | $2.99 \pm 0.17$ | Planck 2018 results VI | from memory |
+| BAO | DESI DR2: 13 measurements of $D_V/r_d$, $D_M/r_d$, $D_H/r_d$ (table below) | DESI collaboration, arXiv:2503.14738 | values verified (2026-10-17) against Table 2 of arXiv:2603.26861; correlations from memory |
+| dark-matter density | $\Omega_ch^2 = 0.120$ | Planck 2018 | from memory |
+| Planck mass | $M_{Pl} = 1.22\times10^{19}$ GeV | | from memory |
+| direct-detection limit | LZ: $2.2\times10^{-48}$ cm$^2$ at 40 GeV, scaled linearly with the mass | LZ 2024 | from memory; the extrapolation is an ESTIMATE |
+| nucleon gluon content, strong coupling | $f_{TG} = 0.92$, $\alpha_s = 0.3$ (low scale) | standard | from memory; ESTIMATE |
+| dark-energy density | $\rho_\Lambda \approx 2.5\times10^{-47}$ GeV$^4$ | | from memory |
+| supernova dark-energy fits | constant $w = -0.764$; $(w_0, w_a) = (-0.861, -0.60)$ | the author's private file (not in the repository) | AUTHOR |
+
+The DESI DR2 BAO measurements used ($z$; $D_V/r_d$; $D_M/r_d$; $D_H/r_d$; correlation $r_{MH}$ of $D_M$ and $D_H$):
+
+| tracer | $z$ | $D_V/r_d$ | $D_M/r_d$ | $D_H/r_d$ | $r_{MH}$ |
+| --- | --- | --- | --- | --- | --- |
+| BGS | 0.295 | $7.942 \pm 0.075$ | | | |
+| LRG1 | 0.510 | | $13.588 \pm 0.167$ | $21.863 \pm 0.425$ | $-0.459$ |
+| LRG2 | 0.706 | | $17.351 \pm 0.177$ | $19.455 \pm 0.330$ | $-0.404$ |
+| LRG3+ELG1 | 0.934 | | $21.576 \pm 0.152$ | $17.641 \pm 0.193$ | $-0.416$ |
+| ELG2 | 1.321 | | $27.601 \pm 0.318$ | $14.176 \pm 0.221$ | $-0.434$ |
+| QSO | 1.484 | | $30.512 \pm 0.760$ | $12.817 \pm 0.516$ | $-0.500$ |
+| Ly$\alpha$ | 2.330 | | $38.988 \pm 0.531$ | $8.632 \pm 0.101$ | $-0.431$ |
+
+with $\chi^2 = \sum_i (d_i - t_i)^TC_i^{-1}(d_i - t_i)$, $C_i = \begin{pmatrix}\sigma_M^2 & r_{MH}\sigma_M\sigma_H\\ r_{MH}\sigma_M\sigma_H & \sigma_H^2\end{pmatrix}$
+for the anisotropic tracers and $(d - t)^2/\sigma_V^2$ for BGS, where $D_M(z) = \int_0^z c\,dz'/H(z')$ (flat),
+$D_H = c/H(z)$, $D_V = (zD_M^2D_H)^{1/3}$.
+
+Standard theory used: the Standard-Model gauge theory $SU(3)_c\times SU(2)_L\times U(1)_Y$ with one generation; QCD
+confinement of $u$, $d$ into protons and neutrons; the tree-level $Z$ partial width
+$\Gamma(Z\to f\bar f) = N_c\,G_Fm_Z^3(g_V^2 + g_A^2)/(6\sqrt2\pi)$, $g_V = T_3 - 2Q\sin^2\theta_W$, $g_A = T_3$; the
+freeze-out of a relic (Kolb and Turner); the trace-anomaly nucleon matrix element; the Einstein-Boltzmann equations
+of linear cosmological perturbations (solved by CAMB); Higgsless electroweak symmetry breaking by a non-linear sigma
+field and fermion localisation in an extra dimension (concepts only, no numbers).
+
+# Ingredients new in UM-2 (ASSUMED and INVENTED)
+
+## The metric as a power series (ASSUMED)
+
+$$ g_{MN} = \bar g_{MN} + \epsilon\,h^{(1)}_{MN} + \epsilon^2h^{(2)}_{MN} + \dots,\qquad \epsilon \sim 10^{-5}\ \text{(the CMB anisotropy)},$$
+$$ h^{(1)}_{MN}(x^\mu, x_0) = \sum_{n\ge0}h^{(1,n)}_{MN}(x^\mu)\,u_n(x_0), $$
+with $u_n$ the eigenfunctions of the $x_0$ operator; the flat $n = 0$ term in the Newtonian gauge,
+$$ ds^2 = e^{2a_4}\big[(1 - 2\epsilon\Psi_N)\delta_{ij} + \epsilon h^{TT}_{ij}\big]dx_idx_j - (1 + 2\epsilon\Phi)dx_4^2
+   + f^2(1 + 2\epsilon\sigma)\big[dy^2 - e^{2Hy}d\vec x_t^{\,2}\big] , $$
+carries the CMB, CNB and BAO physics; the radion $\sigma$ and the $n \ge 1$ Kaluza-Klein modes are massive.
+
+## The block stabiliser (ASSUMED; its origin is OPEN)
+
+$$ S_{stab} = -\int d^8x\sqrt{\lvert g\rvert}\;\rho_b(f),\qquad \kappa\rho_b(f) = \kappa\rho_b^*\Big(\frac{f_*}{f}\Big)^8,$$
+$$ T^M{}_N[\text{stab}] = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho_b, p_t, p_t, p_t),\qquad p_3 = -\rho_b,\qquad p_0 = p_t = \rho_b . $$
+It is conserved ($\dot\rho_b = -3A(\rho_b + p_3) - 4h(\rho_b + p_0) = -8h\rho_b$, so $\rho_b \propto f^{-8}$), four-dimensionally
+Lorentz invariant ($p_3 = -\rho_b$) and isotropic in the block ($p_0 = p_t$). It was introduced because the author's
+weights and $\Lambda$ admit no static block with attractive four-dimensional gravity without a source: the only
+sourceless static block with $A = 0$ is $k_0 = 1/(4w_2) = 8$, where the coefficient of the four-dimensional
+Einstein-Hilbert term is $G(k_0) = 1 - 24w_2k_0 + 72w_3k_0^2 = -1$ (repulsive), with $\Lambda_0 = -24H^2 \ne -10H^2$
+(`um2_background.py`).
+The family $p_0 = p_t = \nu\rho_b$, $\rho_b \propto f^{-4(1+\nu)}$, $\nu \in [1/4, 3]$, was also computed.
+
+## The Standard-Model fields in eight dimensions (ASSUMED structure; boundary conditions INVENTED)
+
+$$ S_{gauge} = -\frac14\int d^8x\sqrt{\lvert g\rvert}\,g^{MP}g^{NQ}\Big(\frac{1}{\hat g_s^2}G^\alpha_{MN}G^\alpha_{PQ} + \frac{1}{\hat g^2}W^a_{MN}W^a_{PQ} + \frac{1}{\hat g'^2}B_{MN}B_{PQ}\Big),$$
+$$ S_f = \sum_\psi\int d^8x\sqrt{\lvert g\rvert}\Big[\tfrac12\big(\bar\psi\gamma^MD_M\psi - (D_M\bar\psi)\gamma^M\psi\big) - \mu_\psi\bar\psi\psi\Big],\qquad
+   D_M = \partial_M + \Omega_M - iG^\alpha_MT^\alpha - iW^a_M\frac{\tau^a}{2} - iYB_M ,$$
+for one generation $Q = (u, d)_L$, $u_R$, $d_R$, $L = (\nu, e)_L$, $e_R$, $\nu_R$ (hypercharges $1/6, 2/3, -1/3, -1/2, -1, 0$),
+each a 16-component spinor of the same Clifford algebra times its gauge indices. With the selection projector
+$$ P_{sel} = \frac{1 + \Gamma_4\gamma^{x_0}}{2}\,\frac{1 - i\gamma^{x_5}\gamma^{x_6}}{2},\qquad \Gamma_4 = i\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}\gamma^{x_4}, $$
+the conditions at the fold and the tip are, for doublets ($\mu_\psi > 0$),
+$P_{sel}(1 - \gamma^{x_0})\psi = 0$, $(1 - P_{sel})(1 + \gamma^{x_0})\psi = 0$ at the fold and $(1 - \gamma^{x_0})\psi = 0$ at the tip,
+and for singlets ($\mu_\psi < 0$) the same with $\gamma^{x_0} \to -\gamma^{x_0}$. The weak bosons are
+$W^\pm = (W^1 \mp iW^2)/\sqrt2$, with electric charges $+e$ ($W^+$) and $-e$ ($W^-$).
+
+## The tip sigma field (INVENTED for this geometry; no Higgs particle)
+
+$$ S_{tip} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\Big[\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
+   - \big(\bar L\,\Sigma\,\Lambda_\ell\,\ell_R + \bar Q\,\Sigma\,\Lambda_q\,q_R + \text{h.c.}\big)\Big],\qquad \Sigma \in SU(2),$$
+$$ D_\mu\Sigma = \partial_\mu\Sigma - iW^a_\mu\frac{\tau^a}{2}\Sigma + iB_\mu\Sigma\frac{\tau^3}{2},\qquad \Sigma \to U_L\Sigma U_Y^\dagger,\quad U_Y = e^{i\theta\tau^3/2} .$$
+
+## The portal interactions (INVENTED)
+
+$$ S_{I9} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\big[c_Z + c'_Z\varsigma\big](\bar\Psi\gamma^\mu P_+\Psi)\,\frac{iv_\Sigma^2}{2}\mathrm{tr}\big(\Sigma^\dagger D_\mu\Sigma\,\tau^3\big),\qquad P_+ = \frac{1 + \Gamma_4}{2},\quad \varsigma = \pm1,$$
+$$ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}(\bar\Psi\gamma^M\Psi)\sum_\psi q_\psi(\bar\psi\gamma_M\psi),$$
+$$ S_{I12} = -\int d^8x\sqrt{\lvert g\rvert}\;\frac{\bar\Psi\Psi}{\Lambda_\star^3}\big[c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN}\big].$$
+Operators considered and rejected: a dipole portal $\bar\Psi S^{MN}\Psi B_{MN}$ (it would thermalise the sterile $\Psi_B$ fold
+band through the photon: too much dark radiation) and any operator coupling the neutral $\Psi$ to a single $W^+$ or
+$W^-$ (none is gauge invariant).
+
+## Parameter choices (ASSUMED)
+
+$\eta = 3$ and $m = H$ (from the record); the tip mixing $\kappa_f = 1$ for every fermion with $c_L = -c_R$; the neutrino
+mass $0.05$ eV; $c_V = 0$ (benchmark); the Kohn-Sham benchmark self-coupling $\lambda_B = 7\times10^{-5}H^{-6}$ (mean fields
+below 5 % of $m$ in the densest benchmark state); the extra-time coordinate volume $v_t$ (it enters only $V_\perp$).
+
+# The computations and their verification (DERIVED)
+
+All computations are Python scripts in the folder `universe_model_2/code`; each writes its numbers to
+`universe_model_2/outputs` and a report of named checks (name, verdict, detail) to `universe_model_2/reports`; no
+single run exceeds 423 s. In total 175 checks, none failed.
+
+| script | what it computes | method | checks |
+| --- | --- | --- | --- |
+| `um2_algebra.py` | the author's gamma matrices rebuilt from the notebook formulas; $C$, $\Gamma$, $B$; Pin(4,4) irreducibility; the two inequivalent Spin(4,4) halves; the $2\times2$ block basis and the block forms of every matrix the reductions use | sympy, exact | 31/31 |
+| `um2_geometry.py` | Riemann tensor of $\bar g$ in two charts; Lovelock tensors by four routes (pairing formula, Ricci, explicit Gauss-Bonnet tensor, minisuperspace variation with a lapse); Bianchi identities; the record's equations; the static block; the canonical spin connection | sympy, exact | 25/25 |
+| `um2_background.py` | the class-form background equations; the static block; the stabiliser and its family; the radion; the dimensional reduction | sympy, exact; eigenvalues numerically | 20/20 |
+| `um2_fields.py` | the exact $x_0$ reduction of the eight-dimensional Dirac equation (all blocks, general $a_4$, $b_4$, $M(y)$, $v(y)$); boundary conditions; zero modes; tip mixing; the gauge $x_0$ operator; gauge invariance of the tip terms | sympy and numpy | 15/15 |
+| `um2_spectra.py` | the $x_0$ spectra of gauge bosons and graviton; the $W$, $Z$ fit to $\rho_0$; the fermion masses as exact $x_0$ eigenvalues | mpmath root finding; quadratic finite elements with Richardson; ODE shooting | 13/13 |
+| `um2_ks_jobs.py` | Kohn-Sham: validation against the record (2/2), free spectrum (3/3), interacting ground states $N = 8$ (3/3) and $N = 592$ (4/4), dark-matter quanta (3/3), portal responses (5/5), block feedback (2/2) | Galerkin in the free basis, safeguarded Anderson self-consistency, Richardson in the basis size | 22/22 |
+| `um2_electroweak.py` | charges ($W^+$: $+e$, $W^-$: $-e$), anomalies, couplings, $P_+$, $\Gamma_4 = -B\gamma^{x_0}$, $Z$ charges of $\Psi_A$, $\Psi_B$, $N_\nu$, $N_{eff}$, CNB, $Z$ widths | sympy and numerics | 19/19 |
+| `um2_primordial.py` | the nonlinear primordial evolution, the basin, the separatrix, the radion oscillation | DOP853 integration, bisection | 5/5 |
+| `um2_cosmology.py` | TT and EE spectra, BAO $\chi^2$, $N_{eff}$, helium, the variant with a thermalised $\Psi_B$ fold band | CAMB 2.0.5 | 5/5 |
+| `um2_analysis.py` | the $x_0$ decompositions and the uncertainty relation; the gap theorem; sum rules; relic abundance; direct detection; the condensate; the vacuum energy; the sensitivities to the block size | mpmath, numpy | 20/20 |
+
+## The principal numbers and where they come from
+
+| quantity | value | computed by |
+| --- | --- | --- |
+| static block $k_*$, $f_*$, $G(k_*)$, $\kappa\rho_b^*$ | $12 + \tfrac43\sqrt{51} = 21.5219$, $0.215556$, $\tfrac{20}{3} + \sqrt{51} = 13.8081$, $(26 + 4\sqrt{51})H^2$ | `um2_background.py` |
+| radion | $\omega_r^2/H^2 = 31552/2249 - 2416\sqrt{51}/6747 = 11.4721$, $m_r = 3.387H = 48.38$ TeV | `um2_background.py`, `um2_spectra.py` |
+| unbroken $x_0$ spectrum ($\eta = 3$) | $\Lambda = 0$; $\Lambda_1 = 30.1196$; odd $27.0890$; gap $20.25$ | `um2_spectra.py` |
+| $W^\pm$, $Z$ | $\beta_W = 0.011932$, $\beta_Z = 0.015364$, $\Lambda_W = 1.32374\times10^{-5}$, $\Lambda_Z = 1.70374\times10^{-5}$; Dirichlet bound $\Lambda_D = 0.010016$ | `um2_spectra.py` |
+| scales | $m_{KK} = 121.22$ TeV, $H = 14.283$ TeV, proper half cell $fL = 8.934\times10^{-21}$ m, $x_0$ period $7.234\times10^{-21}$ m, gap $99.40$ TeV | `um2_spectra.py` |
+| fermion localisations ($\kappa_f = 1$) | $c_\nu = 18.6709$, $c_e = 10.3038$, $c_u = 9.5448$, $c_d = 9.1341$ | `um2_spectra.py` |
+| dirac16complex at $f_*$ | $c_\psi = 0.646667$; $\varepsilon_{DM} = 3.102204\,m$ ($p = 2.93661\,m$); even bulk $4.959981\,m$; $x_0$-momentum fraction $0.896$ | `um2_ks_jobs.py spectrum` |
+| dark matter | $M_{DM} = 44.31$ TeV; $w = 0$; $p_0/\rho = 0.772034343$ $= -d\ln\varepsilon_{DM}/d\ln f$ | `um2_ks_jobs.py darkmatter` |
+| $Z$ portal | $r^2 = 0.9920 \pm 0.0041$; $\Psi_A$ decoupling at $2.61$ MeV; $N_{eff} = 3.044$; CNB $1.9454$ K, $112.0$ per cm$^3$ per species, $336$ in all | `um2_electroweak.py` |
+| one-generation $Z$ width | $1232$ MeV (measured $2495.5$ MeV) | `um2_electroweak.py` |
+| primordial era | separatrix $k_c = 2.6983, 2.5991, 2.5301$; deflation factor up to $2.9166$; radion $3.3868H$ measured | `um2_primordial.py` |
+| cosmology | $H_0 = 67.43$ km/s/Mpc, $r_{drag} = 147.105$ Mpc, BAO $\chi^2 = 30.31$ (13 points; $\Lambda$CDM $32.55$), TT/EE within $2.2\times10^{-4}$/$3.7\times10^{-4}$ of $\Lambda$CDM | `um2_cosmology.py` |
+| relic | $x_f = 30.31$, $g_* = 56.75$, $\langle\sigma v\rangle = 1.37\times10^{-25}$ cm$^3$/s, $(8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (16.6\ \text{TeV})^{-3}$ | `um2_analysis.py` |
+| direct detection | $\sigma_{SI} = 4.3\times10^{-53}$ cm$^2$ (gluon-only) against $2.4\times10^{-45}$ cm$^2$ | `um2_analysis.py` |
+| dark energy | condensate tuned to $w_0 = -1$: $w_a = -6$, energy zero at $z = 0.260$; vacuum-energy ratio $5.5\times10^{64}$; $(H_0/H)^2 = 1.0\times10^{-92}$ | `um2_analysis.py` |
+| uncertainty relation | $m/m_H$: first KK $7.49$, first odd $6.47$, dark matter $2.29$, $W$ $1.14\times10^{-3}$, $Z$ $1.29\times10^{-3}$, $e$ $3.2\times10^{-9}$, $\nu$ $1.7\times10^{-16}$ | `um2_analysis.py` |
+| sensitivities $d\ln X/d\ln f$ | KK $-1$, $m_W$ $-0.501$, $m_e$ $-20.6$, $m_u$ $-19.1$, $m_d$ $-18.3$, $m_\nu$ $-37.3$, $M_{DM}$ $-0.772$, $G_N$ and $\alpha$ $-4$ | `um2_analysis.py` |
+
+## Methods, with the equations they use
+
+* **Exact checks.** Symbolic identities are verified with sympy by simplifying the difference to zero; matrix identities
+  entry by entry.
+* **Boson eigenvalues.** With $t = y/L$, $u = e^{-3\eta t/2}w$, $q^2 = \Lambda - 9\eta^2/4$, the operator
+  $-e^{-3\eta t}(e^{3\eta t}u')' = \Lambda u$ with $u'(0) = 0$ (even) or $u(0) = 0$ (odd) and $u'(-1) = \beta u(-1)$ has the
+  eigenvalue conditions
+  $\big[q^2 + \tfrac{3\eta}{2}(\beta + \tfrac{3\eta}{2})\big]\sin q - \beta q\cos q = 0$ (even) and
+  $q\cos q + (\beta + \tfrac{3\eta}{2})\sin q = 0$ (odd), solved with mpmath at 30 digits. Cross-check: quadratic finite
+  elements for $\int e^{3\eta t}u'^2dt + \beta e^{-3\eta}u(-1)^2 = \Lambda\int e^{3\eta t}u^2dt$ on 100, 200, 400 elements, the
+  eigenvalue taken from the Rayleigh quotient of the gradient form and extrapolated by Richardson.
+* **Richardson extrapolation.** For a quantity with error $C\,n^{-p}$: $x \approx x_{2n} + (x_{2n} - x_n)/(2^p - 1)$; the
+  observed order is $\log_2[(x_n - x_{2n})/(x_{2n} - x_{4n})]$.
+* **Fermion eigenvalues.** The exact condition
+  $D(e) = e^2s_Ls_R - \kappa_f^2(C_L - c_Ls_L)(C_R + c_Rs_R)$, $s = \sinh w/w$, $C = \cosh w$, $w = \sqrt{c^2 - e^2}$, solved
+  with mpmath; the first-order solution $e = \kappa_f\zeta(c_L)\zeta(c_R)$, $\zeta(c)^2 = c\,e^{-c}/\sinh c$; cross-check by
+  direct integration of the coupled $(L, R)$ Dirac system (DOP853, relative tolerance $10^{-13}$).
+* **Kohn-Sham.** Orbitals of $h_j$ are expanded in the exact eigenfunctions of the free problem of each sector
+  (60, 120 or 240 functions, quadrature with ten points per function), the mean fields
+  $M_{eff} = m + \tfrac{15}{16}\lambda S$, $v = -\tfrac{1}{16}\lambda n$ are iterated to self-consistency (tolerance $10^{-13}$)
+  with a safeguarded Anderson mixing and a fixed labelling of the occupied set; checks: the energy identity
+  $E_{KS} = 2\,\mathrm{Vol}_7\int_{-L}^0e^{3Hy}\rho\,dy$, the $y$-conservation law
+  $\big[e^{3Hy}p_0\big]_{-L}^{0} = 3H\int_{-L}^0e^{3Hy}p_t\,dy$, Richardson in the basis size, the Hellmann-Feynman theorem
+  $d\varepsilon/de = \langle\chi\vert\partial h/\partial e\vert\chi\rangle$ for every portal mean field, and the reproduction of the
+  record's two reference states to $10^{-13}$ (energies, HOMO, LUMO) and $10^{-9}$ (integrated hidden pressure).
+* **Primordial era.** The 3-space and block components of the field equations are solved for $\dot A$, $\dot h$, with
+  $\dot k = -2kh$ and the stabiliser $\kappa\rho_b \propto k^4$; the $x_4$ constraint fixes the initial $A$ and is monitored
+  (residual below $6\times10^{-10}$); the separatrix is found by bisection in the initial $k$.
+* **Cosmology.** CAMB 2.0.5 with the Planck 2018 parameters above, $\theta_{MC}$ fixed (so $H_0$ is an output), one
+  massive species ($\nu_e$, $0.05$ eV) and $N_{eff} = 3.044$ in total, $\ell_{max} = 2600$, lensing included; the
+  comparison model has three neutrinos with $\sum m_\nu = 0.06$ eV.
+* **Relic abundance.** For $\mathcal L = G\,\bar\chi\chi F_{\mu\nu}F^{\mu\nu}$ per abelian channel,
+  $\sigma v = G^2s(s - 4M^2)/(4\pi) \to G^2M^4v^2/\pi$ (p-wave); in total
+  $\sigma v = (M^4v^2/\pi)(8G_g^2 + 3G_W^2 + G_B^2)$, $\langle\sigma v\rangle(x) = 6b/x$ with $b = (M^4/\pi)(8G_g^2 + 3G_W^2 + G_B^2)$;
+  freeze-out (Kolb and Turner, Dirac fermion, $g = 2$, $c = 1/2$):
+  $x_f = \ln\big[0.038\,c(c + 2)\,g\,M_{Pl}M\langle\sigma v\rangle(x_f)/\sqrt{g_*x_f}\big]$,
+  $\Omega h^2 = 2\times1.07\times10^9\,\text{GeV}^{-1}\,x_f/\big(\sqrt{g_*}\,M_{Pl}\,3b/x_f\big) = 0.120$, with $g_* = 56.75$ (one
+  generation without $\nu_R$, the two $\Psi_A$ species, the gauge bosons; no Higgs).
+* **Direct detection** (ESTIMATE). Trace anomaly: $\langle N\vert G^\alpha G^\alpha\vert N\rangle = -\frac{8\pi}{9\alpha_s}m_Nf_{TG}$,
+  $f_N = G_g\frac{8\pi}{9\alpha_s}m_Nf_{TG}$, $\sigma_{SI} = \mu^2f_N^2/\pi$.
+* **Uncertainty relation.** For bosons, with $u = e^{-3\eta t/2}v$:
+  $e^{3\eta t}u'^2 = v'^2 + \tfrac94\eta^2v^2 - \tfrac32\eta(v^2)'$, hence
+  $(m\,fL)^2 = \langle p^2\rangle + \tfrac{9\eta^2}{4} - \tfrac{3\eta}{2}\rho(\text{fold}) + (\tfrac{3\eta}{2} + \beta)\rho(\text{tip})$; the
+  Heisenberg estimate is $m_H = \hbar c/(2\Delta s)$ with $\Delta s$ the proper spread of the profile in the hidden
+  direction.
+
+## Corrections made during the work
+
+1. The gauge-invariance test of the tip terms first used the wrong sign of the hypercharge phase; with
+   $\psi \to e^{iY\theta}\psi$ every term is invariant to $4\times10^{-15}$.
+2. The finite-element cross-check of $\Lambda_W$ was first limited by round-off; the gradient-form Rayleigh quotient with
+   Richardson extrapolation (observed order 4.01) agrees with the exact value to $3\times10^{-14}$.
+3. The Kohn-Sham basis convergence and the conservation law were first checked without extrapolation; Richardson in
+   the basis size (observed orders 4.95 for the energy, 2.97 for the hidden pressure) was added.
+4. The self-consistency loop did not converge for $N = 592$ at the record's coupling; a fixed labelling of the occupied
+   set and a safeguarded Anderson mixing were introduced, the benchmark coupling $\lambda_B$ was adopted, and the
+   record's coupling is kept as a stress test, which now converges.
+5. A first statement that every primordial start above the unstable static block reaches the stable one was false in
+   detail; the separatrix $k_c(h_0)$ was computed by bisection instead.
+6. The primordial figure was first sampled too coarsely (aliasing of the radion oscillation) and is now densely sampled.
+7. The sum rules of the uncertainty analysis were first imprecise for the sharp fermion zero modes; exact mpmath
+   normalisation and the tip term fixed them ($10^{-8}$).
+8. The radion quantity was stored under a wrong sign label; it is now stored as $\omega_r^2 = \det$ of the block Jacobian.
+9. Portal names of the first universe model (P1 to P6) in two check texts were replaced by I9, I11, I12.
+10. The gauge-kinetic portal was first written with the scale to the power 5, which is dimensionally wrong in the
+    geometric normalisation of the gauge fields; it is $\bar\Psi\Psi\,F_{MN}F^{MN}/\Lambda_\star^3$, and the symbol of the
+    portal scale was changed so that it no longer clashes with the Dirichlet bound $\Lambda_D$.
+11. Before publication every number of the documents was compared with the computed outputs; four statements were
+    corrected (the dark-matter momentum $p\,fL = 1.89901$, the finite-element agreement $5\times10^{-10}$, the TT and EE
+    agreements $2.2\times10^{-4}$ and $3.7\times10^{-4}$, and the restriction $A = 0$ of the sourceless static block).
+
+## What is not in the repository, and why
+
+By the author's instruction the following private inputs are never committed (they are git-ignored): the prompt files,
+the author's private PDF with the supernova dark-energy fits, the folders `dirac-main/` and `vendor/`, the archive
+`dirac-main_2.zip`, the files `Generalized_Kronecker_Delta.*`, and the notebook `WaveFunctionUniverse-4+4-Einstein-Lovelock.nb`
+with its `.mx` files. UM-2 uses from them only what is written out in this document (the notebook formulas of the
+metric and of the gamma matrices, and the two supernova fits).
+
+## Reproduction
+
+From the repository root, with Python 3 and the packages sympy, numpy, scipy, mpmath, matplotlib and camb installed
+(`pip install sympy numpy scipy mpmath matplotlib camb`), the commands
+```text
+python universe_model_2/code/um2_algebra.py
+python universe_model_2/code/um2_geometry.py
+python universe_model_2/code/um2_background.py
+python universe_model_2/code/um2_fields.py
+python universe_model_2/code/um2_spectra.py
+python universe_model_2/code/um2_ks_jobs.py validate
+python universe_model_2/code/um2_ks_jobs.py spectrum
+python universe_model_2/code/um2_ks_jobs.py ground8
+python universe_model_2/code/um2_ks_jobs.py ground592
+python universe_model_2/code/um2_ks_jobs.py darkmatter
+python universe_model_2/code/um2_ks_jobs.py portals
+python universe_model_2/code/um2_ks_jobs.py feedback
+python universe_model_2/code/um2_electroweak.py
+python universe_model_2/code/um2_primordial.py
+python universe_model_2/code/um2_cosmology.py
+python universe_model_2/code/um2_analysis.py
+python universe_model_2/tools/build_docs.py
+```
+rerun every computation in dependency order (each exits with code 0 if and only if all its checks pass) and rebuild
+the PDF documents from the Markdown sources (pandoc and a TeX Live installation with the `lmodern` package are needed
+for the last command). The document build is deterministic: no dates in the LaTeX sources, PDF dates and trailer
+identifiers suppressed, a fixed `SOURCE_DATE_EPOCH`.
+
+Software used: Python 3.13.16, sympy 1.14.0, numpy 2.5.3, scipy 1.18.1, mpmath 1.3.0, matplotlib 3.11.2, camb 2.0.5,
+pandoc 3.1.3, pdfTeX 1.40.25 (TeX Live 2023).
+
+## History in the repository
+
+UM-2 was started on top of commit `0cb4916`. Its computations were committed in the order algebra and geometry
+(`ca523d9`), background gravity (`0b3e10d`), field reductions (`6fc35a0`), mass spectra (`dcfd528`), Kohn-Sham
+(`2f3018e`), electroweak sector (`2e4c48d`), primordial era (`a502e62`), cosmology (`717b46e`), analysis (`a06b55e`),
+followed by the corrections listed above and the documents.
