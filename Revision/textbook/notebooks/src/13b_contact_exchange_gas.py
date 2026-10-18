@@ -46,6 +46,7 @@ FACTS = {
         "ratio -1/8), checks the entries of the Revision record that state the status "
         "of the dirac16complex Kohn-Sham model (the independent Wolfram verification, "
         "the exact-exchange diagnostic, the temperatures, the filling convention, the "
+        "two fold conditions at the fold where the two halves of a cell meet, the "
         "prescribed background and theorem T3), and draws nine teaching plots."
     ),
     "records": [
@@ -56,7 +57,8 @@ FACTS = {
          "the exchange of the uniform 8-fold good-sector gas: e_x = -(lambda/32) "
          "(n^2 + S^2), the potentials 15/16 and -1/16 and the filled-shell ratio -1/8, "
          "which the notebook reproduces; the exact-exchange diagnostic exactFockSlab, "
-         "the correlation entry and the filling convention, which it checks"],
+         "the correlation entry, the filling convention and the status of the fold "
+         "conditions, which it checks"],
         ["Revision/kohn_sham/reports/ks-theory-python.json",
          "the checks exchange_uniform_gas, ks_potentials and filled_shell_ratio of the "
          "independent sympy verification, which the notebook reproduces"],
@@ -74,14 +76,14 @@ FACTS = {
          "the table in which the Revision solver reports the exact-exchange difference "
          "(column deltaE_x_exact_fock_diag), whose header the notebook checks"],
         ["Revision/field_equations_a4/reports/ks-source-conditions.json",
-         "the checks that the Kohn-Sham states violate the source conditions of the a4 "
-         "equations (the history is a prescribed background), whose verdicts the "
-         "notebook checks"],
+         "the five checks, computed for the corrected metric, that no Kohn-Sham state "
+         "is an admissible source of the a4 and b4 field equations (the history is a "
+         "prescribed background), whose verdicts the notebook checks"],
         ["Revision/pairing/kohn_sham/reports/python-t3.json",
-         "the Python verification of theorem T3, all of whose verdicts the notebook "
-         "checks"],
+         "the Python verification of theorem T3, whose nine checks of the theorem "
+         "shared with the Wolfram verification the notebook checks"],
         ["Revision/pairing/kohn_sham/reports/wolfram-t3.json",
-         "the Wolfram verification of theorem T3, all of whose verdicts the notebook "
+         "the Wolfram verification of theorem T3, whose nine checks the notebook "
          "checks"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
@@ -94,7 +96,7 @@ FACTS = {
     ],
     "final_lines": [
         "PASS the figure file 13b_9_dirac_exchange.png exists",
-        "ALL 44 CHECKS PASSED (notebook 13b)",
+        "ALL 45 CHECKS PASSED (notebook 13b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for `gammas.json` or `ks-theory.json`",
@@ -176,7 +178,8 @@ CELLS = [
     the position $\mathbf r$ and the label $\sigma$ together (this $x$, and the $x$ of
     the line in section 10, is not one of the author's spacetime coordinates
     $x_0, \dots, x_7$; those appear only in section 12, as the labels of the gamma
-    matrices $\gamma^{(x0)}, \dots, \gamma^{(x7)}$), the interaction energy is
+    matrices $\gamma^{(x0)}, \dots, \gamma^{(x7)}$, and in section 13, where $x_0$ is
+    the hidden direction and $x_4$ the time), the interaction energy is
     $E_H + E_x$ with
 
     $$E_H = \tfrac12\iint n(x)\,w(x,x')\,n(x')\,dx\,dx', \qquad
@@ -945,22 +948,38 @@ CELLS = [
       (one particle moved from the highest occupied group of equal levels to the
       lowest empty group, spread evenly over each group);
     - which levels the particles fill is a CONVENTION of the theory file whose
-      justification is OPEN, and the history $a_4 = AHx_4$ along which the states are
-      computed is a PRESCRIBED BACKGROUND (the parameter file says so);
-    - the report on the source conditions of the $a_4$ field equations: the checks
-      ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition
-      (the Kohn-Sham states violate the condition $p_3 + p_t = 2p_0$ that the $a_4$
-      equations put on their source) and ks_profiles_depend_on_x0 (their profiles
-      depend on the hidden coordinate $x_0$) are PASS;
+      justification is OPEN, and the history $a_4 = AHx_4$,
+      $b_4 = b_4(0)e^{(4/3)AHx_4}$ along which the states are computed is a
+      PRESCRIBED BACKGROUND (the parameter file says so);
+    - the end of the hidden direction: in the corrected metric of 2026-10-16 the
+      hidden direction ends at the **fold** $\cos z = 0$ ($z = 6Hx_0 = \pi/2$), where
+      the two halves $z < \pi/2$ and $z > \pi/2$ of a cell meet; in the record's
+      hidden coordinate $y = \ln|\sin z|/(6H)$ the fold is $y = 0$. Both halves carry
+      the same orbital, so there is no mirror copy. Each orbital of the record is a
+      pair $\chi = (\chi_1, \chi_2)$ of functions of $y$ (the 16-component field
+      reduces to $2 \times 2$ blocks), and a self-adjoint problem (real levels) needs
+      a condition on it at the fold that is fixed only up to one parameter; the
+      record solves and fills both **fold conditions** $\chi_2(0) = 0$ and
+      $\chi_1(0) = 0$, and the theory file labels this ASSUMED;
+    - the report on the source conditions of the $a_4$ and $b_4$ field equations of
+      the corrected metric: its five checks are PASS. They record that every nonzero
+      Kohn-Sham profile depends on the hidden coordinate $x_0$, which the components
+      of an admissible source may not (ks_profiles_depend_on_x0); that the condition
+      $p_0 = p_t$ (hidden pressure equal to extra-time pressure) holds only for the
+      states without interaction (ks_hidden_pressure_condition); that the states
+      have no off-diagonal component, as required (ks_offdiagonal_condition); that
+      the history is therefore a prescribed background
+      (ks_history_is_a_prescribed_background); and which states have no source at
+      all, which is not admissible either (ks_zero_source_states_listed);
     - the pairing theorem T3 (the Kohn-Sham universes of mass $+M$ and $-M$ have equal
       energies and energy-momentum tensors) is checked by two independent programs, a
-      Python one and a Wolfram one; ten checks of the theorem that are present in
-      both reports (the maps of the block Hamiltonian, of its equation, of the tip condition
-      and of the brane parities, the orbital densities, the mean field, the equality
-      of the energies and energy-momentum profiles, the exact spectra at zero
-      momentum, the matrix $\Gamma$ as the block map, and the mirror copy) are PASS in
-      both. T3 is an exact map between two sets of solutions; it does not show that
-      any universe is created.
+      Python one and a Wolfram one; the nine checks of the theorem that are present
+      in both reports (the maps of the block Hamiltonian, of its equation and of the
+      tip condition, the exchange of the two fold conditions, the orbital densities,
+      the mean field, the equality of the energies and energy-momentum profiles, the
+      exact spectra at zero momentum, and the matrix $\Gamma$ as the block map) are
+      PASS in both. T3 is an exact map between two sets of solutions; it does not
+      show that any universe is created.
     """),
     code(r'''
     temperatures = solver_file["physics"]["temperatures"]
@@ -973,23 +992,34 @@ CELLS = [
           and conventions["history"].startswith("PRESCRIBED BACKGROUND"),
           "the filling is a CONVENTION whose justification is OPEN (ks-theory.json); "
           "the history is a PRESCRIBED BACKGROUND (parameters.json)")
+    fold = theory["boundaryConditions"]["fold"]  # the end of the hidden direction
+    fold_rule = fold["status"].split("; ")[1]  # the text after the semicolon
+    say(f"at the fold: {fold_rule}")
+    check("the fold cos z = 0 joins the two halves of a cell" in fold["statement"]
+          and "chi2(0) = 0" in fold["statement"] and "chi1(0) = 0" in fold["statement"]
+          and fold_rule.startswith("filling both theta = 0 and theta = pi is ASSUMED"),
+          "the fold joins the two halves of a cell, and filling both fold conditions "
+          "is ASSUMED (ks-theory.json)")
     SOURCE = "Revision/field_equations_a4/reports/ks-source-conditions.json"
+    SOURCE_CHECKS = ("ks_profiles_depend_on_x0", "ks_hidden_pressure_condition",
+                     "ks_offdiagonal_condition", "ks_history_is_a_prescribed_background",
+                     "ks_zero_source_states_listed")
     source = verdicts(SOURCE)
-    check(all(source[name] == "PASS" for name in
-              ("ks_history_is_a_prescribed_background",
-               "ks_profiles_violate_algebraic_condition", "ks_profiles_depend_on_x0")),
-          f"{SOURCE}: ks_history_is_a_prescribed_background, "
-          "ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x0 are PASS")
+    check(all(source[name] == "PASS" for name in SOURCE_CHECKS),
+          f"{SOURCE}: its five checks ks_profiles_depend_on_x0, "
+          "ks_hidden_pressure_condition, ks_offdiagonal_condition, "
+          "ks_history_is_a_prescribed_background and ks_zero_source_states_listed "
+          "are PASS")
     T3_CHECKS = ("block_hamiltonian_map", "ode_map", "tip_condition_map",
-                 "brane_parities_exchanged", "orbital_densities", "mean_field_map",
+                 "fold_conditions_exchanged", "orbital_densities", "mean_field_map",
                  "energies_and_emt_profiles_equal", "exact_k0_spectra",
-                 "Gamma_is_the_block_map", "z2_mirror_copy_carries_minus_m_plus_lambda")
+                 "Gamma_is_the_block_map")
     t3_python = verdicts("Revision/pairing/kohn_sham/reports/python-t3.json")
     t3_wolfram = verdicts("Revision/pairing/kohn_sham/reports/wolfram-t3.json")
     check(all(t3_python["T3." + name] == "PASS" for name in T3_CHECKS),
-          "theorem T3: ten checks of python-t3.json (T3.<name>) are PASS")
+          "theorem T3: nine checks of python-t3.json (T3.<name>) are PASS")
     check(all(t3_wolfram["T3_" + name] == "PASS" for name in T3_CHECKS),
-          "theorem T3: the same ten checks of wolfram-t3.json (T3_<name>) are PASS")
+          "theorem T3: the same nine checks of wolfram-t3.json (T3_<name>) are PASS")
     '''),
     md(r"""
     ## 14. The last check
@@ -1032,9 +1062,11 @@ CELLS = [
     - The Revision record verifies these formulas with two independent programs and
       states their limits: the exact Fock exchange of the non-uniform Kohn-Sham states
       differs by $+\frac{\lambda}{32}Q^2$ (a DIAGNOSTIC of the record), there is no
-      correlation term, the filling of the levels is a CONVENTION, and the history
-      $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND; ten checks of theorem T3 are PASS
-      in both of its reports (CHECKED here by reading the record).
+      correlation term, the filling of the levels is a CONVENTION, filling both fold
+      conditions at the fold where the two halves of a cell meet is ASSUMED, and the
+      history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND (the five checks of the report
+      on the source conditions are PASS); nine checks of theorem T3 are PASS in both
+      of its reports (CHECKED here by reading the record).
     """),
 ]
 

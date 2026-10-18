@@ -14,11 +14,13 @@ Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
 Chapter 07 ("The two fields and their Lagrangians; Grassmann numbers; Euler-Lagrange
 equations"), example c: the Majorana-type negative control of the Revision record and,
 following TEXTBOOK_SPEC rule R5, charge conjugation for REAL fields (a matrix, never plain
-complex conjugation).  Revision sources: Revision/algebra/gammas.json, the reports
-Revision/theory/reports/python-field-theory.json and wolfram-field-theory.json (the
-negative control), Revision/lead_checks/reports/charge-conjugation-and-u1.json with
-its producer Revision/lead_checks/charge_conjugation_and_u1.py, and
-Revision/kohn_sham/results/parameters.json (the history of the metric with b4(x4)).
+complex conjugation).  The metric is the corrected metric of 2026-10-16 (version 2,
+Revision/SPEC.md section 1), for every real z = 6 H x0.  Revision sources:
+Revision/algebra/gammas.json, the reports Revision/theory/reports/python-field-theory.json
+and wolfram-field-theory.json (the negative control, the spin-connection term and the
+exact solutions), Revision/lead_checks/reports/charge-conjugation-and-u1.json with its
+producer Revision/lead_checks/charge_conjugation_and_u1.py, and
+Revision/kohn_sham/results/parameters.json (the history).
 """
 
 import sys
@@ -54,15 +56,16 @@ FACTS = {
         ["Revision/algebra/gammas.json",
          "the author's real 16 x 16 gamma matrices, C and Gamma, read as data"],
         ["Revision/theory/reports/python-field-theory.json",
-         "the negative-control checks of the Majorana-type Lagrangian and the "
-         "spin-connection term, reproduced"],
+         "the negative-control checks of the Majorana-type Lagrangian, the reality and "
+         "the value of the spin-connection term of the corrected metric, reproduced"],
         ["Revision/theory/reports/wolfram-field-theory.json",
-         "the Wolfram negative-control checks, reproduced"],
+         "the Wolfram negative-control checks and the exact solution of the record "
+         "used for the mass reversal, reproduced"],
         ["Revision/lead_checks/reports/charge-conjugation-and-u1.json",
          "the checks of the charge-conjugation matrices and of real fields, reproduced"],
         ["Revision/kohn_sham/results/parameters.json",
-         "the history of the Revision record: the slope A and the exponent beta of b4 "
-         "(physics.historyA, physics.historyBeta)"],
+         "the history of the Revision record: the slope A, the exponent beta of b4 and "
+         "b4(0) (physics.historyA, physics.historyBeta, physics.historyB4AtZero)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -90,7 +93,9 @@ CELLS = [
     This notebook is about REAL fields: columns of 16 components that are their own
     complex conjugates. They matter for two reasons. The author's own notebook wrote its
     Lagrangian for a real column; and the question "what is charge conjugation?" has a
-    surprising answer for real fields. The notebook
+    surprising answer for real fields. The metric is the corrected metric of the
+    Revision record (version 2 of 2026-10-16), for every real value of the hidden
+    coordinate. The notebook
 
     - computes, in the author's metric, the Majorana-type Lagrangian $L_g = \sqrt{|g|}\,
       \Theta^T C\gamma^\mu D_\mu\Theta$ of the author's notebook for a real column
@@ -145,9 +150,13 @@ CELLS = [
     - **Commute, anticommute**: $XY = YX$ or $XY = -YX$ for two matrices.
     - **Jet**, **total derivative on jets**, **coefficient ring**: as in Notebook 07b:
       the field components and their derivatives at one point are symbols, and every
-      coefficient is written with $E = e^{a_4}$, $s = \sin^{1/6}z$, $c = \cos z$,
-      $A_1 = a_4'$, $A_2$, $A_3$ (higher derivatives of $a_4$), $b_4$ and its first three
-      derivatives, $H$, $m$, $\lambda$.
+      coefficient is written with $E = e^{a_4}$, $s_v = \sin z$, $c = \cos z$, $w =
+      (\sin^2 z)^{1/12}$, $\sigma = \mathrm{sign}(\cot z)$, $A_1 = a_4'$, $A_2$, $A_3$
+      (higher derivatives of $a_4$), $b_4$ and its first three derivatives, $H$, $m$,
+      $\lambda$, with the rules $c^2 = 1 - s_v^2$, $w^{12} = s_v^2$, $\sigma^2 = 1$.
+    - **Degenerate points**: the values $z = 6Hx_0 = n\pi/2$, where $\sin z\cos z = 0$
+      and the metric has a zero entry; every statement holds between two of them, for
+      every real $z$.
     """),
     md(r"""
     ## 4. The physical and mathematical situation
@@ -201,8 +210,8 @@ CELLS = [
     1$, and that the charge matrix $B = -iC\gamma^{(x_4)}$ is purely imaginary and
     Hermitian with $B^2 = 1$. It takes a column of 16 real symbols and checks that
     complex conjugation leaves it unchanged. Finally it reads the history of the
-    Revision record, $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$ and
-    $\beta = 4/3$ (the slope $A$ and the exponent $\beta$ as exact fractions).
+    Revision record, $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$,
+    $\beta = 4/3$ and $b_4(0) = 1$ (as exact fractions).
     """),
     code(r'''
     import contextlib  # redirect printed text into a buffer
@@ -269,33 +278,42 @@ CELLS = [
     physics = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))["physics"]
     A_EXACT = sp.nsimplify(physics["historyA"])  # the slope A of the history, 1
     BETA_B4 = sp.nsimplify(physics["historyBeta"])  # the exponent of b4, 4/3
-    check(A_EXACT == 1 and BETA_B4 == sp.Rational(4, 3),
-          "the history of the record: a4 = A H x4, b4 = b4(0) e^(4 A H x4/3) with A = 1",
-          record=f"{PARAMETERS}, physics.historyA and physics.historyBeta")
+    B4_ZERO = sp.nsimplify(physics["historyB4AtZero"])  # b4(0), 1
+    check(A_EXACT == 1 and BETA_B4 == sp.Rational(4, 3) and B4_ZERO == 1,
+          "the history of the record: a4 = A H x4, b4 = b4(0) e^(4 A H x4/3) with A = 1 "
+          "and b4(0) = 1", record=f"{PARAMETERS}, physics.historyA, historyBeta and "
+          "historyB4AtZero")
     '''),
     md(r"""
     ## 6. The author's metric and its spin connection, in brief
 
     The next cell rebuilds, exactly as Notebook 07b does step by step, the coefficient
-    ring, the diagonal frame $f = (c/s^6, Es, Es, Es, 1, s\sqrt{b_4}/E, s\sqrt{b_4}/E,
-    s\sqrt{b_4}/E)$ of the metric with $b_4$ (in the order $x_0, \dots, x_7$; the
-    symbol `b4` stands for $b_4(x_4)$ and `b4p`, `b4pp`, `b4ppp` for its first three
-    derivatives), the Christoffel symbols of
-    the diagonal metric, the canonical spin connection $\omega_{\mu ab}$, the spinor
-    connection $\Omega_\mu = \sum_{a<b}\omega_{\mu ab}S^{ab}$ and the coordinate gammas
-    $\gamma^\mu = \gamma^{(\mu)}/f_\mu$. It then checks two things, for arbitrary
-    functions $a_4$ and $b_4 > 0$. First, every entry of every $\Omega_\mu$ and
-    $\gamma^\mu$ is real (real gammas times the real functions $e^{\pm a_4}$,
-    $\sin^{1/6}z$, $\cot z$, $b_4^{1/2}$, $a_4'$, $b_4'$ and $H$; no imaginary unit $i$
+    ring of the corrected metric ($E = e^{a_4}$, $s_v = \sin z$ and $c = \cos z$ of
+    either sign, $w = (\sin^2 z)^{1/12} > 0$, $\sigma = \mathrm{sign}(\cot z)$, with the
+    rules $c^2 = 1 - s_v^2$, $w^{12} = s_v^2$, $\sigma^2 = 1$; the symbol `b4` stands for
+    $b_4(x_4)$ and `b4p`, `b4pp`, `b4ppp` for its first three derivatives), the
+    diagonal frame $f = (\sqrt{b_4}\,c/(Es_v), E, E, E, 1, \sqrt{b_4}\,w/E,
+    \sqrt{b_4}\,w/E, \sqrt{b_4}\,w/E)$ in the order $x_0, \dots, x_7$, the volume factor
+    $\sqrt{|g|} = \sigma f_0\cdots f_7 = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$, the
+    Christoffel symbols of the diagonal metric, the canonical spin connection
+    $\omega_{\mu ab}$, the spinor connection $\Omega_\mu = \sum_{a<b}\omega_{\mu
+    ab}S^{ab}$ and the coordinate gammas $\gamma^\mu = \gamma^{(\mu)}/f_\mu$. It then
+    checks two things, for arbitrary functions $a_4$ and $b_4 > 0$ and every real $z$
+    between degenerate points. First, every entry of every $\Omega_\mu$ and $\gamma^\mu$
+    is real (real gammas times the real functions $e^{\pm a_4}$, $b_4^{1/2}$, $\sin z$,
+    $\cos z$, $(\sin^2 z)^{1/12}$, $a_4'$, $b_4'$ and $H$; no imaginary unit $i$
     anywhere): the operator $\gamma^\mu D_\mu$ is REAL, so the complex conjugate of a
-    solution is again a solution, and real fields are a consistent restriction. Second,
-    as a consistency check, $\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} +
-    \frac34(b_4'/b_4)\gamma^{(x_4)}$, the value of the Revision record, which is
-    $3H\gamma^{(x_0)} + H\gamma^{(x_4)}$ on the history of the record, where
-    $b_4'/b_4 = \frac43H$.
+    solution is again a solution, and real fields are a consistent restriction.
+    Second, as a consistency check, $\gamma^\mu\Omega_\mu = c_g\gamma^{(x_0)} +
+    v_g\gamma^{(x_4)}$ with $c_g = \frac32He^{a_4}b_4^{-1/2}$ and $v_g = b_4'/b_4 -
+    \frac12a_4'$, the value of the Revision record; on the history of the record,
+    where $a_4' = H$ and $b_4'/b_4 = \frac43H$, $v_g = \frac56H$.
     """),
     code(r'''
-    E, s, c = sp.symbols("E s c", positive=True)  # e^a4, sin(z)^(1/6), cos z
+    E = sp.Symbol("E", positive=True)  # e^a4
+    sv, c = sp.symbols("sv c", real=True)  # sin z and cos z, of either sign
+    w = sp.Symbol("w", positive=True)  # (sin^2 z)^(1/12), the positive root
+    sgn = sp.Symbol("sgn", real=True)  # sign(cot z): +1 or -1 between degenerate points
     A1, A2, A3 = sp.symbols("A1 A2 A3", real=True)  # derivatives of a4 (1st to 3rd)
     b4 = sp.Symbol("b4", positive=True)  # b4(x4) > 0
     b4p, b4pp, b4ppp = sp.symbols("b4p b4pp b4ppp", real=True)  # its 1st to 3rd derivative
@@ -312,24 +330,31 @@ CELLS = [
                     + sp.diff(expression, A2) * A3 + sp.diff(expression, b4) * b4p
                     + sp.diff(expression, b4p) * b4pp + sp.diff(expression, b4pp) * b4ppp)
         if mu == X0:
-            return (sp.diff(expression, s) * H * c / s**5
-                    + sp.diff(expression, c) * (-6 * H * s**6))
+            return (sp.diff(expression, sv) * 6 * H * c
+                    + sp.diff(expression, c) * (-6 * H * sv)
+                    + sp.diff(expression, w) * H * c * w / sv)
         return sp.Integer(0)
 
 
+    RULES = [(c, c**2 - 1 + sv**2), (w, w**12 - sv**2), (sgn, sgn**2 - 1)]
+
+
     def is_zero(expression):
-        """Exact test: the numerator vanishes after c^2 -> 1 - s^12."""
+        """Exact test: the numerator vanishes after c^2 -> 1 - sv^2, w^12 -> sv^2 and
+        sgn^2 -> 1."""
         numerator, _ = sp.fraction(sp.together(sp.sympify(expression)))
         numerator = sp.expand(numerator)
-        if numerator == 0:
-            return True
-        remainder = sp.rem(sp.Poly(numerator, c), sp.Poly(c**2 - 1 + s**12, c))
-        return sp.expand(remainder.as_expr()) == 0
+        for symbol, rule in RULES:
+            if numerator != 0 and numerator.has(symbol):
+                remainder = sp.rem(sp.Poly(numerator, symbol), sp.Poly(rule, symbol))
+                numerator = sp.expand(remainder.as_expr())
+        return numerator == 0
 
 
-    f = [c / s**6] + [E * s] * 3 + [sp.Integer(1)] + [s * sp.sqrt(b4) / E] * 3  # frame
+    f = ([sp.sqrt(b4) * c / (E * sv)] + [E] * 3 + [sp.Integer(1)]
+         + [sp.sqrt(b4) * w / E] * 3)  # the frame factors f0 .. f7 (f0 signed)
     g = [ETA[a] * f[a] ** 2 for a in range(8)]  # the diagonal metric
-    sqrt_g = sp.prod(f)  # = b4^(3/2) c = b4^(3/2) cos z
+    sqrt_g = sgn * sp.prod(f)  # = e^(-a4) b4^2 |cot z| (sin^2 z)^(1/4)
     Gam = [[[sp.Integer(0)] * 8 for _ in range(8)] for _ in range(8)]
     for l in range(8):
         for mu in range(8):
@@ -353,17 +378,18 @@ CELLS = [
     real_entries = all(not v.has(sp.I) and v.is_real is not False
                        for M in Om + gam for v in M)
     check(real_entries, "every entry of every Omega_mu and gamma^mu is real, for every "
-          "b4: gamma^mu D_mu is a real operator",
+          "b4 and every real z: gamma^mu D_mu is a real operator",
           record=reproduces(PYREP, "spinor_connection_real") + "; "
           + reproduces(LEAD, "spinor_connection_real"))
+    CG = sp.Rational(3, 2) * H * E / sp.sqrt(b4)  # c_g = (3/2) H e^a4 b4^(-1/2)
+    VG = b4p / b4 - A1 / 2  # v_g = b4'/b4 - a4'/2
     total = sum((gam[mu] * Om[mu] for mu in range(8)), Z16)
-    on_history = {b4p: BETA_B4 * A_EXACT * H * b4}  # b4'/b4 = (4/3) H on the history
-    check(all(is_zero(v) for v in (total - 3 * H * G[X0] - 3 * b4p / (4 * b4) * G[X4]))
-          and all(is_zero(v) for v in (total.subs(on_history) - 3 * H * G[X0]
-                                       - H * G[X4])),
-          "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4), and "
-          "3 H gamma^(x0) + H gamma^(x4) on the history: the values of the record",
-          record=reproduces(PYREP, "gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term"))
+    on_history = {A1: A_EXACT * H, b4p: BETA_B4 * A_EXACT * H * b4}  # the history
+    check(all(is_zero(v) for v in (total - CG * G[X0] - VG * G[X4]))
+          and is_zero(VG.subs(on_history) - 5 * H / 6),
+          "gamma^mu Omega_mu = (3/2) H e^a4 b4^(-1/2) gamma^(x0) + (b4'/b4 - a4'/2) "
+          "gamma^(x4), with b4'/b4 - a4'/2 = (5/6) H on the history: the record",
+          record=reproduces(PYREP, "gamma_mu_Omega_mu_equals_hidden_block_terms"))
     '''),
     md(r"""
     In the cell above only the off-diagonal entries $a \ne b$ of the spin connection
@@ -866,53 +892,68 @@ CELLS = [
           "D_mu Phi - (m + lambda S) Phi))_A")
     '''),
     md(r"""
-    **A real solution and its image.** Notebook 07b verified the exact family $\Psi =
-    b_4^{-3/4}\sin^\alpha z\,(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi_0$ with $M =
-    -m\gamma^{(x_4)} + 3H(2\alpha + 1)\gamma^{(x_4)}\gamma^{(x_0)}$, for all functions
-    $a_4$ and $b_4$ (the factor $b_4^{-3/4}$ takes care of the term
-    $\frac34(b_4'/b_4)\gamma^{(x_4)}$ of the field equation). For a real $\chi_0$ and
-    real $k$ it is a real solution. Because $\Gamma$ anticommutes with $\gamma^{(x_4)}$
-    and commutes with $\gamma^{(x_4)}\gamma^{(x_0)}$, $\Gamma M_m\Gamma = M_{-m}$: the
-    image $\Gamma
-    \Psi$ is the member of the family with mass $-m$ and the column $\Gamma\chi_0$. The
-    next cell checks $\Gamma M_m\Gamma = M_{-m}$ exactly, then evaluates, for the
-    illustration values $H = 1$, $m = 2$, $\alpha = 0$ ($k = \sqrt5$), $\chi_0 = e_1 +
-    2e_{13}$, $z = \pi/4$ and $x_4$ from 0 to 2 on the history of the record
-    ($b_4^{-3/4} = e^{-x_4}$ in the unit $b_4(0)$, and $\frac34b_4'/b_4 = H$), the
-    residuals $\gamma^{(x_4)}\partial_4\Psi + 3H\gamma^{(x_0)}\Psi + H\gamma^{(x_4)}\Psi -
-    \mu\Psi$ of $\Phi$ and of $\Gamma\Phi$ in the equations with $\mu = +m$ and
-    $\mu = -m$ (Figure 4).
+    **A real solution and its image.** Notebook 07b verified the exact solutions of the
+    Revision record that depend only on $x_4$ and $x_0$: $\Psi = e^{a_4/2}b_4^{-1}
+    (\sin^2 z)^{\alpha/2}P(x_4)\chi$ with $P' = M_mP$, $M_m = -m\gamma^{(x_4)} +
+    \mu_AK$, $K = \gamma^{(x_4)}\gamma^{(x_0)}$ and $\mu_A = \frac32H(4\alpha + 1)
+    e^{a_4}b_4^{-1/2}$, for all functions $a_4$ and $b_4$ (the factor $e^{a_4/2}b_4^{-1}$
+    takes care of the term $v_g\gamma^{(x_4)}$ of the field equation). For $\alpha =
+    -\frac14$ the coefficient $\mu_A$ vanishes and $P = \cos(mx_4) -
+    \sin(mx_4)\gamma^{(x_4)}$ for every $m$. For a real $\chi$ this is a real solution.
+    Because $\Gamma$ anticommutes with $\gamma^{(x_4)}$ and commutes with $K$,
+    $\Gamma M_m\Gamma = M_{-m}$ for every $\mu_A$: the image $\Gamma\Psi$ solves the
+    same system with the mass $-m$, with the column $\Gamma\chi$ (for $\alpha =
+    -\frac14$: $\Gamma P_m = P_{-m}\Gamma$). The next cell checks $\Gamma M_m\Gamma =
+    M_{-m}$ exactly, then evaluates, for the illustration values $H = 1$, $m = 2$,
+    $\alpha = -\frac14$, $\chi = e_1 + 2e_{13}$, $z = \pi/4$ and $x_4$ from 0 to 2 on
+    the history of the record (with $b_4(0) = 1$: $e^{a_4/2}b_4^{-1} = e^{-5x_4/6}$,
+    $e^{a_4}b_4^{-1/2} = e^{x_4/3}$, $c_g = \frac32e^{x_4/3}$ and $v_g = \frac56$), the
+    residuals of the field equation of a field of $x_4$ and $x_0$,
+    $\gamma^{(x_4)}\partial_4\Psi + e^{a_4}b_4^{-1/2}\tan z\,\gamma^{(x_0)}
+    \partial_0\Psi + c_g\gamma^{(x_0)}\Psi + v_g\gamma^{(x_4)}\Psi - \mu\Psi$, of $\Phi$
+    and of $\Gamma\Phi$ in the equations with $\mu = +m$ and $\mu = -m$ (Figure 4). The
+    derivative along $x_0$ is exact: $\partial_0(\sin^2 z)^{-1/8} = -\frac32H\cot z\,
+    (\sin^2 z)^{-1/8}$, so the hidden-direction term is $-\frac32e^{x_4/3}\gamma^{(x_0)}
+    \Psi$, which the term $c_g\gamma^{(x_0)}\Psi$ cancels.
     """),
     code(r'''
-    mass_symbol = sp.Symbol("mu", real=True)
+    mass_symbol = sp.Symbol("mu", real=True)  # a mass of either sign
+    mu_A = sp.Symbol("mu_A", real=True)  # the coefficient of K, any function of x4
+    K = G[X4] * G[X0]  # K = gamma^(x4) gamma^(x0)
 
 
     def M_of(mass):
-        return -mass * G[X4] + 3 * H * G[X4] * G[X0]  # alpha = 0; M contains no b4
+        return -mass * G[X4] + mu_A * K  # the reduced system P' = M P
 
 
     check((GAMMA * M_of(mass_symbol) * GAMMA - M_of(-mass_symbol)).applyfunc(sp.expand)
-          == Z16, "Gamma M_m Gamma = M_(-m): Gamma maps the family of mass m to mass -m")
+          == Z16, "Gamma M_m Gamma = M_(-m): Gamma maps the solutions of mass m to mass -m")
 
     Gf = [np.array(gm.tolist(), dtype=float) for gm in G]
     GAMMAf = np.array(GAMMA.tolist(), dtype=float)
     chi0 = np.zeros(16)
     chi0[0], chi0[12] = 1.0, 2.0  # e_1 + 2 e_13: one component in each chiral half
     times = np.linspace(0.0, 2.0, 201)
-    Mf = -2.0 * Gf[X4] + 3.0 * Gf[X4] @ Gf[X0]  # m = 2, H = 1
-    kk = np.sqrt(5.0)
-    P_t = [np.cosh(kk * t) * np.eye(16) + np.sinh(kk * t) / kk * Mf for t in times]
-    dP_t = [kk * np.sinh(kk * t) * np.eye(16) + np.cosh(kk * t) * Mf for t in times]
-    # b4^(-3/4) = e^(-x4) on the history with H = 1; the product rule for d4 Phi
-    Phi = np.array([np.exp(-t) * P @ chi0 for t, P in zip(times, P_t)])
-    dPhi = np.array([np.exp(-t) * (dP - P) @ chi0 for t, P, dP in zip(times, P_t, dP_t)])
-    grav = 3.0 * Gf[X0] + Gf[X4]  # 3 H gamma^(x0) + H gamma^(x4) on the history
+    zeta = np.pi / 4  # the point z = pi/4 of the hidden direction
+    warp = (np.sin(zeta) ** 2) ** (-1 / 8)  # (sin^2 z)^(-1/8)
+    F_t = np.exp(-5.0 * times / 6.0)  # e^(a4/2) b4^(-1) on the history (H = 1)
+    scale_t = np.exp(times / 3.0)  # e^(a4) b4^(-1/2) on the history
+    vg = 5.0 / 6.0  # v_g on the history
+    P_t = [np.cos(2 * t) * np.eye(16) - np.sin(2 * t) * Gf[X4] for t in times]
+    dP_t = [-2 * np.sin(2 * t) * np.eye(16) - 2 * np.cos(2 * t) * Gf[X4] for t in times]
+    Phi = np.array([F * warp * P @ chi0 for F, P in zip(F_t, P_t)])
+    dPhi = np.array([F * warp * (dP - vg * P) @ chi0  # the product rule, F' = -v_g F
+                     for F, P, dP in zip(F_t, P_t, dP_t)])
+    hidden = -1.5 * scale_t  # e^(a4) b4^(-1/2) tan z (d0 Phi)/Phi = -(3/2) e^(x4/3)
+    cg = 1.5 * scale_t  # c_g = (3/2) e^(x4/3)
 
 
     def residual_size(values, derivatives, mass):
-        """The largest component of gamma4 d4 Psi + (3 gamma0 + gamma4) Psi - mass Psi."""
-        return np.array([np.abs(Gf[X4] @ d + grav @ v - mass * v).max()
-                         for v, d in zip(values, derivatives)])
+        """The largest component of the residual of the field equation for a field
+        of x4 and x0, at every time."""
+        return np.array([np.abs(Gf[X4] @ d + (h + c_) * (Gf[X0] @ v) + vg * (Gf[X4] @ v)
+                                - mass * v).max()
+                         for v, d, h, c_ in zip(values, derivatives, hidden, cg)])
 
 
     image_values, image_derivatives = Phi @ GAMMAf.T, dPhi @ GAMMAf.T  # Gamma Phi
@@ -923,13 +964,14 @@ CELLS = [
     check(phi_plus.max() < 1e-12 and image_minus.max() < 1e-12
           and np.allclose(image_plus, 4.0 * size),
           "numerically: Phi solves the mass +2 equation, Gamma Phi the mass -2 equation "
-          "(relative residuals below 1e-12); Gamma Phi fails the +2 equation by 2 m |Phi|")
+          "(relative residuals below 1e-12); Gamma Phi fails the +2 equation by 2 m |Phi|",
+          record=reproduces(WLREP, "exact_solution_x4_x0_quarter_C"))
     '''),
     md(r"""
     Figure 4: left, two components of $\Phi$ and of $\Gamma\Phi$ ($\Gamma =
     \mathrm{diag}(-1, \dots, -1, 1, \dots, 1)$ flips the sign of components 1 to 8 and
-    keeps 9 to 16); right, the residuals of the image in the wrong and in the right
-    equation.
+    keeps 9 to 16); right, the residual of the image in the wrong equation and the size
+    of $\Phi$.
     """),
     code(r'''
     fig, (left, right) = plt.subplots(1, 2, figsize=(9.8, 3.9))
@@ -950,17 +992,18 @@ CELLS = [
     fig.tight_layout()
     save_figure(fig, "mass_reversal",
                 "The real matrix $\\Gamma$ reverses the mass. Left: components 1 and 13 "
-                "of the real exact solution $\\Phi$ (illustration values $H = 1$, "
-                "$m = 2$, $\\alpha = 0$, $\\chi_0 = e_1 + 2e_{13}$, at $z = \\pi/4$, on "
-                "the history of the Revision record, $b_4^{-3/4} = e^{-x_4}$) and "
-                "of its image $\\Gamma\\Phi$ against the time $x_4$: $\\Gamma$ reverses "
-                "the sign of the components 1 to 8 and keeps 9 to 16. Right "
-                "(logarithmic axis): the largest component of the residual of "
-                "$\\Gamma\\Phi$ in the equation with mass $+m$ (solid), which is $2m$ "
-                "times the size of $\\Phi$ (dotted); in the equation with mass $-m$ the "
-                "residual is zero up to rounding (below $10^{-12}$ of the size, not "
-                "drawn). A real field has no charge; $\\Gamma$ relates solutions of "
-                "masses $m$ and $-m$.")
+                "of the real exact solution $\\Phi = e^{a_4/2}b_4^{-1}(\\sin^2 z)^{-1/8}"
+                "(\\cos mx_4 - \\sin(mx_4)\\gamma^{(x_4)})\\chi$ of the Revision record "
+                "(illustration values $H = 1$, $m = 2$, $\\chi = e_1 + 2e_{13}$, at "
+                "$z = \\pi/4$, on the history of the record with $b_4(0) = 1$, where "
+                "$e^{a_4/2}b_4^{-1} = e^{-5x_4/6}$) and of its image $\\Gamma\\Phi$ "
+                "against the time $x_4$: $\\Gamma$ reverses the sign of the components "
+                "1 to 8 and keeps 9 to 16. Right (logarithmic axis): the largest "
+                "component of the residual of $\\Gamma\\Phi$ in the equation with mass "
+                "$+m$ (solid), which is $2m$ times the size of $\\Phi$ (dotted); in the "
+                "equation with mass $-m$ the residual is zero up to rounding (below "
+                "$10^{-12}$ of the size, not drawn). A real field has no charge; "
+                "$\\Gamma$ relates solutions of masses $m$ and $-m$.")
     '''),
     md(r"""
     ## 13. The last check

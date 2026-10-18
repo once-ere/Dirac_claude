@@ -14,7 +14,7 @@ This chapter builds, from zero, the tool with which Chapters 14 to 16 compute th
 
 **Units.** In this chapter Planck's constant divided by $2\pi$ and the particle mass are set to 1 ($\hbar = m = 1$), so the kinetic-energy operator of one particle on a line is $-\tfrac12\,d^2/dx^2$. Each notebook states its other units (the hopping $t$ of the two-site model, the trap frequency of Notebook 13a). A temperature is measured as an energy (Boltzmann's constant is 1).
 
-**Symbols with a local meaning.** Several letters mean something else in this chapter than in the rest of the book. (i) $x$ is the position of a particle, or a point of a grid, or (in Section 13.21) the excess of charge on one site; it is never one of the author's spacetime coordinates $x_0, \dots, x_7$, which appear only in Sections 13.16 and 13.37 and are named there. (ii) $\Psi$ is the wave function of $N$ particles, except in Sections 13.16 and 13.37, where it is the dirac16complex field, as those sections say. (iii) $\rho$ is a density matrix (Section 13.4) or a density operator (Section 13.26), not an energy density. (iv) $t$ is the hopping between two sites, $T$ the temperature and $T_s$ a kinetic energy. (v) $S$ is a one-body quantity $\sum V_{pq}a_p^\dagger a_q$ in Section 13.4, the symmetric two-site state in Section 13.7, the scalar density of dirac16complex in Sections 13.16 to 13.20 and 13.37, and the entropy in Sections 13.26 to 13.31. (vi) $U$ is the repulsion of two electrons on one site in the two-site model, $U_{kp}$ the entries of a unitary matrix, and $U(S)$ the interaction potential of dirac16complex in Section 13.16. (vii) $g$ counts the internal labels of a particle and $g_c$ is the strength of a contact interaction; neither is the metric. (viii) $H$ and $\hat H$ are Hamiltonians (energy operators); the author's constant $H$ of the metric appears only in Section 13.37.
+**Symbols with a local meaning.** Several letters mean something else in this chapter than in the rest of the book. (i) $x$ is the position of a particle, or a point of a grid, or (in Section 13.21) the excess of charge on one site; it is never one of the author's spacetime coordinates $x_0, \dots, x_7$, which appear only in Sections 13.16 and 13.37, where they are named, in the last part of Notebook 13b, which reads the Revision record of the dirac16complex model (Sections 13.19 and 13.20), and in the summary of Section 13.38. (ii) $\Psi$ is the wave function of $N$ particles, except in Sections 13.16 and 13.37, where it is the dirac16complex field, as those sections say. (iii) $\rho$ is a density matrix (Section 13.4) or a density operator (Section 13.26), not an energy density. (iv) $t$ is the hopping between two sites, $T$ the temperature and $T_s$ a kinetic energy. (v) $S$ is a one-body quantity $\sum V_{pq}a_p^\dagger a_q$ in Section 13.4, the symmetric two-site state in Section 13.7, the scalar density of dirac16complex in Sections 13.16 to 13.20 and 13.37, and the entropy in Sections 13.26 to 13.31. (vi) $U$ is the repulsion of two electrons on one site in the two-site model, $U_{kp}$ the entries of a unitary matrix, and $U(S)$ the interaction potential of dirac16complex in Section 13.16. (vii) $g$ counts the internal labels of a particle and $g_c$ is the strength of a contact interaction; neither is the metric. (viii) $H$ and $\hat H$ are Hamiltonians (energy operators); the author's constant $H$ of the metric appears only where the author's coordinates appear, as listed in (i).
 
 ### 13.2 One quantum particle: states, operators and the variational principle
 
@@ -1544,13 +1544,13 @@ Notebook 13b reproduces all of them exactly from the gamma matrices. **What is a
 
 ### 13.17 Example: exchange of a contact interaction
 
-Notebook 13b computes everything of Sections 13.15 and 13.16: the density matrix of one label of the uniform gas from its closed form and from box sums, the exchange hole for 1, 2 and 8 labels, the contact energies and the rule $E_x = -E_H/g$, the approach of a Gaussian interaction to the contact limit, Dirac's Coulomb exchange for comparison, the exactness of the local formula for any determinant (also with label-mixing orbitals), the polarisation instability, and, exactly with fractions, the exchange of the 16-component field from the Revision gamma matrices, reproducing three checks of the Revision record; finally it reads and checks the further record entries that Sections 13.16, 13.37 and 13.38 quote (the independent Wolfram verification, the exact-exchange diagnostic, the temperatures, the filling convention, the prescribed background and theorem T3). It ends with ALL 44 CHECKS PASSED (notebook 13b) and draws nine figures.
+Notebook 13b computes everything of Sections 13.15 and 13.16: the density matrix of one label of the uniform gas from its closed form and from box sums, the exchange hole for 1, 2 and 8 labels, the contact energies and the rule $E_x = -E_H/g$, the approach of a Gaussian interaction to the contact limit, Dirac's Coulomb exchange for comparison, the exactness of the local formula for any determinant (also with label-mixing orbitals), the polarisation instability, and, exactly with fractions, the exchange of the 16-component field from the Revision gamma matrices, reproducing three checks of the Revision record; finally it reads and checks the further record entries that Sections 13.16, 13.37 and 13.38 quote (the independent Wolfram verification, the exact-exchange diagnostic, the temperatures, the filling convention, the two fold conditions at the fold where the two halves of a cell meet, the prescribed background and theorem T3). It ends with ALL 45 CHECKS PASSED (notebook 13b) and draws nine figures.
 
 <!-- NOTEBOOK 13b -->
 
 ### 13.20 Line-by-line walk-through of Notebook 13b
 
-The notebook has 21 code cells. **In [1]** is the set-up cell, identical to In [1] of Notebook 13c (explained line by line in Section 13.14) except that its name is `"13b"` and its comment lines hold the instructions of Section 13.18.
+The notebook has 23 code cells, In [1] to In [23]. **In [1]** is the set-up cell, identical to In [1] of Notebook 13c (explained line by line in Section 13.14) except that its name is `"13b"` and its comment lines hold the instructions of Section 13.18.
 
 **In [2], the function $F$.**
 
@@ -2317,34 +2317,57 @@ check(filling.startswith("CONVENTION") and "its justification is OPEN" in fillin
       "the history is a PRESCRIBED BACKGROUND (parameters.json)")
 ```
 
-The theory file's fillingConvention must call the filling of the levels a CONVENTION whose justification is OPEN, and the solver's convention history must begin with PRESCRIBED BACKGROUND: the two status words of Section 13.37.
+The theory file's fillingConvention must call the filling of the levels a CONVENTION whose justification is OPEN, and the solver's convention history must begin with PRESCRIBED BACKGROUND: two of the status words of Section 13.37.
+
+```python
+fold = theory["boundaryConditions"]["fold"]  # the end of the hidden direction
+fold_rule = fold["status"].split("; ")[1]  # the text after the semicolon
+say(f"at the fold: {fold_rule}")
+```
+
+`fold` is the entry of the theory file that describes the end of the hidden direction in the corrected metric, the fold $\cos z = 0$ where the two halves of a cell meet (Section 13.37); it is a dictionary with the two texts `"statement"` and `"status"`. The status reads "derived up to the parameter theta; filling both theta = 0 and theta = pi is ASSUMED (the record's convention)": `.split("; ")` cuts it at the semicolon followed by a space into two pieces, and `[1]` keeps the second piece (Python counts from 0). The cell prints it: at the fold: filling both theta = 0 and theta = pi is ASSUMED (the record's convention). Here theta is the one parameter that self-adjointness leaves free at the fold; $\theta = 0$ is the fold condition $\chi_2(0) = 0$ and $\theta = \pi$ the fold condition $\chi_1(0) = 0$ (Section 13.37).
+
+```python
+check("the fold cos z = 0 joins the two halves of a cell" in fold["statement"]
+      and "chi2(0) = 0" in fold["statement"] and "chi1(0) = 0" in fold["statement"]
+      and fold_rule.startswith("filling both theta = 0 and theta = pi is ASSUMED"),
+      "the fold joins the two halves of a cell, and filling both fold conditions "
+      "is ASSUMED (ks-theory.json)")
+```
+
+The check requires four pieces of the record's text: the statement says that the fold joins the two halves of a cell and names both fold conditions, written $\chi_2(0) = 0$ and $\chi_1(0) = 0$ in the record's plain-text notation, and the status labels the filling of both as ASSUMED. These are the words with which Sections 13.37 and 13.38 describe the end of the hidden direction; if the record changed them, the notebook would stop here.
 
 ```python
 SOURCE = "Revision/field_equations_a4/reports/ks-source-conditions.json"
+SOURCE_CHECKS = ("ks_profiles_depend_on_x0", "ks_hidden_pressure_condition",
+                 "ks_offdiagonal_condition", "ks_history_is_a_prescribed_background",
+                 "ks_zero_source_states_listed")
 source = verdicts(SOURCE)
-check(all(source[name] == "PASS" for name in
-          ("ks_history_is_a_prescribed_background",
-           "ks_profiles_violate_algebraic_condition", "ks_profiles_depend_on_x0")),
-      f"{SOURCE}: ks_history_is_a_prescribed_background, "
-      "ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x0 are PASS")
+check(all(source[name] == "PASS" for name in SOURCE_CHECKS),
+      f"{SOURCE}: its five checks ks_profiles_depend_on_x0, "
+      "ks_hidden_pressure_condition, ks_offdiagonal_condition, "
+      "ks_history_is_a_prescribed_background and ks_zero_source_states_listed "
+      "are PASS")
 ```
 
-The report on the source conditions of the $a_4$ field equations must have the three checks named in Section 13.38 as PASS: the history is a prescribed background, the Kohn-Sham profiles violate the algebraic condition $p_3 + p_t = 2p_0$, and they depend on the hidden coordinate $x_0$.
+`SOURCE` is the path of the report on the source conditions of the $a_4$ and $b_4$ field equations, computed for the corrected metric, and `SOURCE_CHECKS` the names of its five checks (a tuple, written over three lines inside its parentheses). `verdicts` reads the report, and the check requires each of the five to be PASS: every nonzero Kohn-Sham profile depends on the hidden coordinate $x_0$, which the components of an admissible source may not; the condition $p_0 = p_t$ holds only for the states without interaction; the states have no off-diagonal component, as required; the history is therefore a prescribed background; and the states without any source are listed (a zero source is not admissible either). Section 13.38 explains each of them. The name of the check is an f-string followed by three plain strings; strings written next to each other are joined into one, so the PASS line names the report and all five checks (it is printed on three lines).
 
 ```python
 T3_CHECKS = ("block_hamiltonian_map", "ode_map", "tip_condition_map",
-             "brane_parities_exchanged", "orbital_densities", "mean_field_map",
+             "fold_conditions_exchanged", "orbital_densities", "mean_field_map",
              "energies_and_emt_profiles_equal", "exact_k0_spectra",
-             "Gamma_is_the_block_map", "z2_mirror_copy_carries_minus_m_plus_lambda")
+             "Gamma_is_the_block_map")
 t3_python = verdicts("Revision/pairing/kohn_sham/reports/python-t3.json")
 t3_wolfram = verdicts("Revision/pairing/kohn_sham/reports/wolfram-t3.json")
 check(all(t3_python["T3." + name] == "PASS" for name in T3_CHECKS),
-      "theorem T3: ten checks of python-t3.json (T3.<name>) are PASS")
+      "theorem T3: nine checks of python-t3.json (T3.<name>) are PASS")
 check(all(t3_wolfram["T3_" + name] == "PASS" for name in T3_CHECKS),
-      "theorem T3: the same ten checks of wolfram-t3.json (T3_<name>) are PASS")
+      "theorem T3: the same nine checks of wolfram-t3.json (T3_<name>) are PASS")
 ```
 
-`T3_CHECKS` lists ten checks of theorem T3 that are present in both of its reports: the maps of the block Hamiltonian, of its equation (ode_map), of the tip condition and of the brane parities, the orbital densities, the mean field, the equality of the energies and energy-momentum profiles, the exact spectra at zero momentum, the matrix $\Gamma$ as the block map, and the mirror copy. The Python report names them with the prefix `T3.` and the Wolfram report with `T3_`; `+` joins two strings. Both checks require all ten to be PASS. The cell names these ten checks instead of requiring every check of the two reports, because further checks may be added to the reports of T3; a renamed or failed check of the theorem itself stops the notebook.
+`T3_CHECKS` lists the nine checks of theorem T3 that are present in both of its reports: the maps of the block Hamiltonian, of its equation (ode_map) and of the tip condition, the exchange of the two fold conditions by the map, the orbital densities, the mean field, the equality of the energies and energy-momentum profiles, the exact spectra at zero momentum, and the matrix $\Gamma$ as the block map. The Python report names them with the prefix `T3.` and the Wolfram report with `T3_`; `+` joins two strings. Both checks require all nine to be PASS. The cell names these nine checks instead of requiring every check of the two reports, because the reports hold further checks (the Python report also a numerical confirmation by the Rust solver and two comparisons with the Wolfram record) and more may be added; a renamed or failed check of the theorem itself stops the notebook.
+
+The cell prints the two lines quoted above and six PASS lines; three of the PASS lines are longer than a line of the notebook and continue, indented, on the next lines.
 
 **In [23], the last check.**
 
@@ -2360,7 +2383,7 @@ check(output_file(f"{FIGURE_FOLDER}/13b_9_dirac_exchange.png").is_file(),
 all_checks_passed()
 ```
 
-The same lines as In [19] of Notebook 13c (Section 13.14), with the nine figure names of this notebook. The last line prints ALL 44 CHECKS PASSED (notebook 13b): one check in In [2] and In [3] each, three in In [5], four in In [6], two in In [8], In [10], In [12] and In [13] each, one in In [11], In [14] and In [15] each, two in In [16], three in In [17], four in In [18], two in In [19], one in In [20], five in In [21], five in In [22] and two in In [23].
+The same lines as In [19] of Notebook 13c (Section 13.14), with the nine figure names of this notebook. The last line prints ALL 45 CHECKS PASSED (notebook 13b): one check in In [2] and In [3] each, three in In [5], four in In [6], two in In [8], In [10], In [12] and In [13] each, one in In [11], In [14] and In [15] each, two in In [16], three in In [17], four in In [18], two in In [19], one in In [20], five in In [21], six in In [22] and two in In [23].
 
 ### 13.21 Solving the Kohn-Sham equations: iteration and mixing
 
@@ -3724,7 +3747,7 @@ Notebook 13a carries out the calculation of Section 13.32 from the first line to
 
 ### 13.36 Line-by-line walk-through of Notebook 13a
 
-The notebook has 25 code cells. **In [1]** is the set-up cell, identical to In [1] of Notebook 13c (Section 13.14) except for the name `"13a"` and its comment lines, which hold the instructions of Section 13.34.
+The notebook has 27 code cells, In [1] to In [27]. **In [1]** is the set-up cell, identical to In [1] of Notebook 13c (Section 13.14) except for the name `"13a"` and its comment lines, which hold the instructions of Section 13.34.
 
 **In [2], the grid and the kinetic-energy matrix.**
 
@@ -3938,7 +3961,7 @@ check(len(anderson_residuals) < len(runs[1.0][1]),
       "Anderson mixing needs fewer passes than plain iteration")
 ```
 
-Anderson mixing from $w = 0$ needs 19 passes (last residual $1.8\cdot10^{-12}$). The checks: the three linear-mixing results agree with the Anderson result to $10^{-9}$ (`for beta in runs` goes through the keys of the dictionary), and Anderson needed fewer passes than plain iteration.
+Anderson mixing from $w = 0$ needs 19 passes (last residual $1.8\cdot10^{-12}$ in the stored notebook; at this size the residual depends on how the computer rounds inside the diagonalisation, so another computer may print slightly different digits, for example $2.0\cdot10^{-12}$, with the same number of passes and the same checks). The checks: the three linear-mixing results agree with the Anderson result to $10^{-9}$ (`for beta in runs` goes through the keys of the dictionary), and Anderson needed fewer passes than plain iteration.
 
 **In [9], the residuals as a picture.**
 
@@ -4194,7 +4217,7 @@ check(abs(labels_energy(w_pair, FILLED, FILLED) - E_total) < 1e-9,
       "the two-label run has the same energy as the equal-label solution")
 ```
 
-The run needs 36 passes, and the largest difference between the label densities is $4.9\cdot10^{-12}$; the checks require it to be below $10^{-8}$ and the energy to equal the equal-label energy $21.851498$ to $10^{-9}$: from a strongly separated start the loop returns to equal labels. This does NOT yet show that the equal-label solution is stable: a converged loop can sit on a saddle. The next two cells show such a case and then make the test that decides, the energy test.
+The run needs 36 passes, and the largest difference between the label densities is $4.9\cdot10^{-12}$ in the stored notebook (a rounding-level number: another computer may print, for example, $3.2\cdot10^{-12}$); the checks require it to be below $10^{-8}$ and the energy to equal the equal-label energy $21.851498$ to $10^{-9}$: from a strongly separated start the loop returns to equal labels. This does NOT yet show that the equal-label solution is stable: a converged loop can sit on a saddle. The next two cells show such a case and then make the test that decides, the energy test.
 
 **In [17], a loop that converges to a saddle: two sites.**
 
@@ -4669,11 +4692,17 @@ The same lines as In [19] of Notebook 13c (Section 13.14), with the ten figure n
 
 ### 13.37 From the toy models to dirac16complex
 
-This section says which ideas of the chapter the Kohn-Sham model of dirac16complex (Chapters 14 to 16) uses, and what is different there. As in Section 13.16, $x_1, x_2, x_3$ are the directions of ordinary space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times, which deflate exponentially (scale factor $e^{-a_4}\sin^{1/6}z$ while ordinary space inflates with $e^{a_4}\sin^{1/6}z$), and $x_0$ the hidden direction, $z = 6Hx_0$, with the author's constant $H > 0$.
+This section says which ideas of the chapter the Kohn-Sham model of dirac16complex (Chapters 14 to 16) uses, and what is different there. As in Section 13.16, $x_1, x_2, x_3$ are the directions of ordinary space, $x_4$ the time, $x_5, x_6, x_7$ the three extra times and $x_0$ the hidden direction, with $z = 6Hx_0$ (it takes every real value) and the author's constant $H > 0$. In the corrected metric of 2026-10-16 (Chapter 3) two functions of the time, $a_4(x_4)$ and $b_4(x_4) > 0$, set the scale factors: ordinary space inflates with $e^{a_4}$ (it has no warp), the extra times deflate exponentially with $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$, and the hidden direction, with the scale factor $e^{-a_4}b_4^{1/2}|\cot z|$, shrinks together with them.
 
 **What carries over.**
 
-- **The Kohn-Sham scheme and self-consistency.** The model is a Kohn-Sham fermion gas of dirac16complex quanta in the good sector (no momentum along the extra times), in which the 16-component equation reduces to $2 \times 2$ blocks in the hidden coordinate (Chapter 14). Its levels and orbitals are found self-consistently, with Anderson mixing of the potentials at every grid point of the hidden direction (depth 6, $\beta = 0.4$, stopping rule $10^{-11}$ on the largest residual; Section 13.21 and `Revision/kohn_sham/results/parameters.json`, numerics).
+- **The Kohn-Sham scheme and self-consistency.** The model is a Kohn-Sham fermion gas of dirac16complex quanta in the good sector (no momentum along the extra times). In the hidden coordinate $y = \ln|\sin z|/(6H)$, which is 0 where $\cos z = 0$ and tends to $-\infty$ where $\sin z$ tends to 0, the 16-component equation reduces exactly to eight $2 \times 2$ blocks (Chapter 14): an orbital is a pair $\chi = (\chi_1, \chi_2)$ of functions of $y$, and for the 3-momentum $k$ the Hamiltonian of a block of type $j = \pm1$ is
+
+$$
+h_j = j\Big[-\frac{i}{f}\,\sigma_1\,\frac{d}{dy} + M_{eff}(y)\,\sigma_2 + \kappa k\,\sigma_3\Big] + v_v(y) ,
+$$
+
+with the Pauli matrices $\sigma_1, \sigma_2, \sigma_3$ of Chapter 4, the effective mass $M_{eff}$ and the potential $v_v$ of the next item, the hidden scale $f = e^{-a_4}b_4^{1/2}$ and the momentum weight $\kappa = e^{-a_4}$, which does not depend on $y$. Equivalently, an orbital with the level $\varepsilon$ solves $\chi' = fN\chi$ with $N = M_{eff}\,\sigma_3 - \kappa k\,\sigma_2 + ij(\varepsilon - v_v)\,\sigma_1$, where the prime is $d/dy$ (PROVED in the Revision record: `Revision/kohn_sham/ks-theory.json`, blockEquation; checks block_hamiltonian and block_ode_equivalent of `Revision/kohn_sham/reports/ks-theory-python.json` and of `ks-theory-wolfram.json` in the same folder, all PASS). Its levels and orbitals are found self-consistently, with Anderson mixing of the potentials at every grid point of the hidden direction (depth 6, $\beta = 0.4$, stopping rule $10^{-11}$ on the largest residual; Section 13.21 and `Revision/kohn_sham/results/parameters.json`, numerics).
 - **The interaction and its exchange.** The contact interaction $\tfrac{\lambda}{2}S^2$ with the vertex $C$, treated as Hartree plus the exact local exchange of the uniform 8-fold gas: $e_x = -\tfrac{\lambda}{32}(n^2 + S^2)$, $M_{eff} = m + \tfrac{15}{16}\lambda S$, $v_v = -\tfrac{1}{16}\lambda n$ (Section 13.16; PROVED in `Revision/kohn_sham/reports/ks-theory-python.json`, checks exchange_uniform_gas, ks_potentials, filled_shell_ratio).
 - **Mermin's occupations.** At the temperatures $T = 0.01$, $0.02$ and $0.05$ (in units of the mass $m$; parameters.json, physics temperatures, checked by Notebook 13b, In [22]) the occupations are Fermi-Dirac numbers with $\mu$ fixed by $\sum g f = N$, solved in the LogBalance form (Section 13.26; parameters.json, conventions merminRoot).
 - **Excited states.** The Kohn-Sham gap and the particle-hole excitations of Section 13.27, and Delta-SCF in its ensemble form over groups of equal levels (parameters.json, conventions deltaScf; Notebook 13b, In [22]).
@@ -4683,10 +4712,11 @@ This section says which ideas of the chapter the Kohn-Sham model of dirac16compl
 
 - **No correlation.** The dirac16complex functional has no correlation term ("correlation: none (Hartree plus exchange only)" in `Revision/kohn_sham/ks-theory.json`), and for the non-uniform Kohn-Sham determinants its uniform-gas exchange differs from the exact local Fock exchange by $+\tfrac{\lambda}{32}Q^2$ (Section 13.16). These are the approximations of the model.
 - **No density-functional theorem is claimed for the field.** The Hohenberg-Kohn and Mermin theorems of Sections 13.8 and 13.26 were proved for particles with a positive inner product and a Hamiltonian bounded from below. For the quantised dirac16complex field with its indefinite Krein form (Chapter 10) the book does not prove such a theorem; the model of Chapter 14 is used as a self-consistent mean-field (exchange-only) model, and whether an exact density functional exists for this field is OPEN.
-- **Which levels are filled.** Particles occupy the positive branch of the levels and the brane zero modes; this filling is a CONVENTION of the record, and its justification is OPEN (`Revision/kohn_sham/ks-theory.json`, thermodynamics, fillingConvention; Notebook 13b, In [22]).
-- **The background.** The history $a_4 = AHx_4$ along which the instantaneous (adiabatic) Kohn-Sham states are computed is a PRESCRIBED BACKGROUND: the Kohn-Sham states violate the conditions that the $a_4$ field equations put on their source (`Revision/field_equations_a4/reports/ks-source-conditions.json`; the checks are named in Section 13.38 and checked by Notebook 13b, In [22]). The time-dependent (non-adiabatic) problem is OPEN, and the mirror at the end of the hidden direction (the Z2 brane) is ASSUMED.
+- **Which levels are filled.** Particles occupy the positive branch (the levels with $\varepsilon > 0$ of the problem without interaction) and the zero modes at $k = 0$ (levels $\varepsilon = 0$ whose orbitals are largest at the fold; Exercise 11 finds one), each followed continuously as the interaction is switched on; the negative branch is the normal-ordered sea and contributes nothing. This filling is a CONVENTION of the record, and its justification is OPEN (`Revision/kohn_sham/ks-theory.json`, thermodynamics, fillingConvention; Notebook 13b, In [22]).
+- **The ends of the hidden direction: the fold (ASSUMED) and the tip (chosen).** The hidden direction ends at the **fold** $\cos z = 0$ ($z = \pi/2$, $y = 0$), where the metric component of the hidden direction, $e^{-2a_4}b_4\cot^2 z$, and the volume factor of the metric vanish and the two halves $z < \pi/2$ and $z > \pi/2$ of a cell meet. The reduced equation is the same on both halves, so an orbital that is continuous across the fold has the same $\chi(y)$ on both of them: there is no mirror copy of the field on the other half. For the levels to be real, $h_j$ must be self-adjoint (Hermitian, including the boundary terms that an integration by parts produces), and this fixes a condition on $\chi(0)$ only up to one free parameter; the record solves and fills both of the two **fold conditions** $\chi_2(0) = 0$ and $\chi_1(0) = 0$, each orbital normalised on one half of the cell. That both are filled is ASSUMED (`Revision/kohn_sham/ks-theory.json`, boundaryConditions.fold, checked by Notebook 13b, In [22]); the metric is degenerate at the fold, and no junction condition across it is derived. At the other end the record cuts the hidden direction at $y = -L$, $L = 3$, with the regular tip condition $\chi_2(-L) = 0$: a chosen cutoff (boundaryConditions.tip of the same file; parameters.json, physics).
+- **The background.** The history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$ ($A = 1$, $b_4(0) = 1$), along which the instantaneous (adiabatic) Kohn-Sham states are computed, is a PRESCRIBED BACKGROUND. The field equations of the corrected metric require of their source that its components do not depend on $x_0$, that its hidden pressure equals its extra-time pressure ($p_0 = p_t$) and that it has no off-diagonal component; every recorded Kohn-Sham state with a nonzero energy-momentum tensor depends on $x_0$, and the states with interaction also have $p_0 \neq p_t$, so none of them is an admissible source: the Kohn-Sham gas is a test field on a background that it does not produce (`Revision/field_equations_a4/reports/ks-source-conditions.json`; its five checks are named in Section 13.38 and checked by Notebook 13b, In [22]). The time-dependent (non-adiabatic) problem is OPEN.
 
-**The pairs.** Chapter 19 uses these Kohn-Sham states for theorem T3: the Kohn-Sham universes of mass $+M$ and $-M$, with the transformed boundary conditions, have equal energies and energy-momentum tensors (PROVED: `Revision/pairing/kohn_sham/reports/python-t3.json` and, independently, `wolfram-t3.json` in the same folder; ten checks of the theorem that are present in both reports, among them the equality of the energies and of the energy-momentum profiles, are PASS in both, as Notebook 13b checks in In [22]). T3 is an exact map between two sets of solutions. It does not prove that any universe is created, in pairs or otherwise: no creation process, rate or amplitude follows from these equations, and nothing in this chapter changes that.
+**The pairs.** Chapter 19 uses these Kohn-Sham states for theorem T3. The map $(\chi, j) \to (\sigma_2\chi, -j)$, which is the chirality matrix $\Gamma$ acting on the blocks, together with the exchange of the two fold conditions and the replacement of the tip condition $\chi_2(-L) = 0$ by $\chi_1(-L) = 0$, carries every self-consistent Kohn-Sham state with the mass $m$ and the coupling $\lambda$ onto one with the mass $-m$ and the same coupling (its scalar density is $-S$, so its effective mass $M_{eff} = m + \tfrac{15}{16}\lambda S$ has the opposite sign): the Kohn-Sham universes of mass $+M$ and $-M$ (the problems with the bare mass $m = +M$ and $m = -M$, as Chapter 19 names them), with the transformed boundary conditions, have equal levels, energies and energy-momentum tensors (PROVED under its stated hypotheses, among them the ASSUMED filling of both fold conditions: `Revision/pairing/kohn_sham/reports/python-t3.json` and, independently, `wolfram-t3.json` in the same folder; the nine checks of the theorem that are present in both reports, among them the exchange of the fold conditions and the equality of the energies and of the energy-momentum profiles, are PASS in both, as Notebook 13b checks in In [22]). The partner universe of mass $-M$ is a different Kohn-Sham problem, not a mirror copy carried by the other half of the cell. T3 is an exact map between two sets of solutions. It does not prove that any universe is created, in pairs or otherwise: no creation process, rate or amplitude follows from these equations, and nothing in this chapter changes that.
 
 ### 13.38 What we proved, what we computed, what we assumed
 
@@ -4721,11 +4751,11 @@ This section says which ideas of the chapter the Kohn-Sham model of dirac16compl
 - for the Lagrange rule: the implicit function theorem (used without proof); for the Gibbs principle: a finite number of states;
 - that a Delta-SCF state approximates a true excited state;
 - the approximations: no correlation in the toy models (they are Hartree-Fock models); in the dirac16complex functional, the uniform-gas exchange and no correlation (Sections 13.16 and 13.37);
-- for the dirac16complex model (Section 13.37): the Z2 mirror, and the history of $a_4$ as a prescribed background.
+- for the dirac16complex model (Section 13.37): the filling of both fold conditions at the fold $\cos z = 0$, where the two halves of a cell meet (`Revision/kohn_sham/ks-theory.json`, boundaryConditions.fold, checked by Notebook 13b, In [22]); the regular tip at $y = -3$, a chosen cutoff; and the history of $a_4$ and $b_4$ as a prescribed background.
 
-**HYPOTHESIS:** none is used in this chapter. **OPEN:** an exact density functional for the quantised dirac16complex field, the justification of its filling convention, and its time-dependent (non-adiabatic) problem (Section 13.37).
+**HYPOTHESIS:** none is used in this chapter. **OPEN:** an exact density functional for the quantised dirac16complex field, the justification of its filling convention, its time-dependent (non-adiabatic) problem, and what, if anything, joins the field across the fold (Section 13.37).
 
-**Where the background status is recorded.** That the history $a_4 = AHx_4$ is a prescribed background, not a solution of the $a_4$ field equations with the Kohn-Sham source, is recorded in the Revision report `Revision/field_equations_a4/reports/ks-source-conditions.json` by its checks ks_history_is_a_prescribed_background, ks_profiles_violate_algebraic_condition and ks_profiles_depend_on_x0, each with the verdict PASS (Notebook 13b, In [22], reads the report and checks the three verdicts).
+**Where the background status is recorded.** That the history $a_4 = AHx_4$, $b_4 = b_4(0)e^{(4/3)AHx_4}$ is a prescribed background, not a solution of the $a_4$ and $b_4$ field equations with the Kohn-Sham source, is recorded in the Revision report `Revision/field_equations_a4/reports/ks-source-conditions.json`, computed for the corrected metric, by its five checks, each with the verdict PASS: ks_profiles_depend_on_x0 (every nonzero Kohn-Sham profile depends on $x_0$, while every component of an admissible source must be independent of $x_0$); ks_hidden_pressure_condition (an admissible source needs $p_0 = p_t$; this holds for the states without interaction and fails for every state with interaction, whose interaction bends the orbitals); ks_offdiagonal_condition (an admissible source has no off-diagonal component, and the Kohn-Sham states have none: this condition holds); ks_history_is_a_prescribed_background (the history needs a source that no recorded state supplies); and ks_zero_source_states_listed (the five free states with $N = 8$ particles, one at each of the five instants of the history that the record computes, have no source at all, which is not admissible either: the history needs a nonzero source, because with the author's Lovelock weights no exponential history solves the field equations without a source). Notebook 13b, In [22], reads the report and checks the five verdicts.
 
 ### 13.39 Exercises
 
@@ -4768,3 +4798,7 @@ This section says which ideas of the chapter the Kohn-Sham model of dirac16compl
 **Exercise 10.** Notebook 13b (In [12]) finds the exchange energy $-19$ for five up and three down fermions in the box $0 < x < 1$ with $g_c = 1$. Derive this number: show that the density $n_N = \sum_{m=1}^{N}2\sin^2(m\pi x)$ of $N$ fermions with one label has $\int_0^1 n_N^2\,dx = N^2 + N/2$.
 
 *Answer.* $\int_0^1 n_N^2\,dx = 4\sum_{m,m'}\int_0^1\sin^2(m\pi x)\sin^2(m'\pi x)\,dx$. With $\sin^2 A = \tfrac12(1 - \cos2A)$, the product is $\tfrac14[1 - \cos2A - \cos2B + \cos2A\cos2B]$. Over $0 < x < 1$, $\int\cos(2m\pi x)\,dx = 0$ for $m \ge 1$, and $\int\cos(2m\pi x)\cos(2m'\pi x)\,dx = \tfrac12$ if $m = m'$ and 0 otherwise. So each integral is $\tfrac14 + \tfrac18[m = m']$, and $\int n_N^2 = 4\big[N^2\cdot\tfrac14 + N\cdot\tfrac18\big] = N^2 + \tfrac{N}{2}$. Then $E_x = -\tfrac{g_c}{2}\big(\int n_\uparrow^2 + \int n_\downarrow^2\big) = -\tfrac12\big[(25 + 2.5) + (9 + 1.5)\big] = -\tfrac12\cdot 38 = -19$.
+
+**Exercise 11.** In the dirac16complex model of Section 13.37 take zero 3-momentum ($k = 0$), no interaction ($v_v = 0$ and $M_{eff} = m$, a positive constant) and the level $\varepsilon = 0$. Solve the block equation $\chi' = fN\chi$ on $-L \le y \le 0$ with the tip condition $\chi_2(-L) = 0$, and show that it has a nonzero solution with the fold condition $\chi_2(0) = 0$ but none with the fold condition $\chi_1(0) = 0$.
+
+*Answer.* With $k = 0$, $v_v = 0$ and $\varepsilon = 0$ the matrix $N = M_{eff}\,\sigma_3 - \kappa k\,\sigma_2 + ij(\varepsilon - v_v)\,\sigma_1$ of Section 13.37 keeps only its first term, $N = m\,\sigma_3$, for both block types $j$, and $\sigma_3 = \mathrm{diag}(1, -1)$. So $\chi' = fN\chi$ is the pair of separate equations $\chi_1' = fm\,\chi_1$ and $\chi_2' = -fm\,\chi_2$. An equation $u' = cu$ with a constant $c$ is solved by $u(y) = u(0)\,e^{cy}$ (differentiating gives $u' = c\,u(0)\,e^{cy} = cu$), and this is its only solution with the value $u(0)$ at $y = 0$ (if $u$ is any solution, then $(u\,e^{-cy})' = (u' - cu)\,e^{-cy} = 0$, so $u\,e^{-cy}$ is constant). Hence $\chi = (A\,e^{fmy},\ B\,e^{-fmy})$ with the constants $A = \chi_1(0)$ and $B = \chi_2(0)$. The tip condition gives $\chi_2(-L) = B\,e^{fmL} = 0$, and because an exponential is never zero, $B = 0$. With the fold condition $\chi_2(0) = 0$, which says $B = 0$ again, every $A \ne 0$ gives the nonzero solution $\chi = A\,(e^{fmy}, 0)$: $\varepsilon = 0$ is a level of this problem, and its orbital is largest at the fold $y = 0$ and falls off toward the tip (because $fm > 0$ and $y \le 0$). This is the zero mode of the record (`Revision/kohn_sham/ks-theory.json`, boundaryConditions.exactK0Spectra, where the constant mass is written $M$: the level $\varepsilon = 0$ with $\chi = (e^{fMy}, 0)$ for the fold condition $\chi_2(0) = 0$). With the fold condition $\chi_1(0) = 0$, which says $A = 0$, the only solution is $\chi = 0$, so $\varepsilon = 0$ is not a level there (the record's levels for this condition are $\pm\sqrt{M^2 + p^2}$ with $\tan(pfL) = -p/M$, never 0). The two fold conditions therefore give different spectra, which is why it matters that the record solves and fills both of them, an ASSUMED convention (Section 13.37).
