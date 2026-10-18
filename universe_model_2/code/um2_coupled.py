@@ -20,24 +20,36 @@ C2  I11 with the B - L charges (quarks 1/3, leptons -1): the freeze-in of the fo
     sigma = G^2 s/(12 pi) per Dirac pair, from the Standard-Model plasma below T_max: Delta N_eff(G_V, T_max); the benchmark
     G_V for Delta N_eff = 1e-3 at T_max = 10 TeV (ASSUMED); the fold bands are never in equilibrium (Gamma/H << 1).
 C3  Direct detection through I11: coherent vector coupling to the quarks of the nucleus, against the LZ limit.
-C8  The x0-chiral vector portal I13, (c_A/Lambda*^6)(i Psibar gamma^M P_b Psi) J^B_M with P_b = (1 - gamma^(x0))/2 and the
-    baryon-number current J^B_M = (1/3) sum_i sum_{Q_i, u_Ri, d_Ri} i psibar gamma_M psi: the bilinear is Hermitian and a 4D vector
-    (P_a gamma^mu = gamma^mu P_b, C P_b C^-1 = P_a) and vanishes identically on the fold band (b = 0); its overlaps
+C8  The x0-chiral vector portal I13, (c_A/Lambda*^6) sum_{M != x0} (i Psibar gamma^M P_b Psi) J^B_M with P_b = (1 - gamma^(x0))/2
+    and the baryon-number current J^B_M = (1/3) sum_i sum_{Q_i, u_Ri, d_Ri} i psibar gamma_M psi (the sum runs over the seven
+    directions M = x1, ..., x7: for M = x0 the bilinear would not be Hermitian, (i C gamma^(x0) P_b)^dagger = i C gamma^(x0) P_a): the
+    bilinear is Hermitian and a 4D vector (P_a gamma^M = gamma^M P_b for M != x0, C P_b C^-1 = P_a; checked with the author's
+    matrices, together with the B structure of its components) and vanishes identically on the fold band (b = 0); its overlaps
     Itilde^(b)_of = int b_o^2 rho_f e^{-3Hy} dy (checked by self-consistent Kohn-Sham solutions with a b-component potential); the
     s-wave annihilation chi chibar -> q qbar (3S1), the relic of the two species together with the unitarity-safe I12 benchmark
     (numerical Boltzmann equation, exact thermal averages), the J = 1 unitarity bound sigma <= 3 pi/(4 p^2), and direct detection.
 C9  Why I13 couples to J^B and not to J^(B-L): with the B - L current the annihilation chi chibar <-> nu_R nubar_R would bring the
     three right-handed neutrinos into equilibrium above the dark-matter freeze-out (number-changing and elastic rates against the
     Hubble rate, Boltzmann equation for nu_R from zero abundance), and they would decouple as three thermal Weyl species with
-    Delta N_eff = 3 (10.75/g_s)^(4/3) F_h, about 0.14, in tension with ACT DR6; with J^B they are never thermalised.
+    Delta N_eff = 3 (10.75/g_s)^(4/3) F_h, about 0.14, in tension with ACT DR6; with J^B they are never thermalised (their
+    production through I11 is computed and compared with the I13 annihilation rate).
+C10 The self-interaction channel: -(lambda/2)(Psibar Psi)^2 couples the dark matter to the fold bands through the transition
+    scalar density s_DF = a_D b_F + b_D a_F (even under the fold reflection when squared), with the 4D strength
+    G_lambda = lambda H Itilde_lambda/(2 f^4 v_t), Itilde_lambda = int s_DF^2 e^{-3Hy} dy; the annihilation chi chibar -> fold pairs
+    (ESTIMATE of the s-wave cross-section) would thermalise the fold bands for large G_lambda; the bound on G_lambda for
+    Delta N_eff <= 1e-3 from this channel, and what it means for lambda/v_t (the Kohn-Sham benchmark lambda_B is a numerical value).
 C4  The Standard-Model fields acting on Psi (mean fields of the Kohn-Sham equations) in environments: I11 from the B - L
     densities of quarks and electrons (each chirality with its own x0 profile), I12 from the gauge condensates (the QCD
-    vacuum condensate, the thermal QCD interaction measure, the thermal W and Z condensates <F^2> = -2(rho - 3p)).
+    vacuum condensate, the thermal QCD interaction measure, the thermal W and Z condensates: the free massive-vector part
+    <F^2> = -2(rho - 3p) and the O(alpha) interaction part <g^2 F^2> = 4 g^2 p_2 by the Feynman-Hellmann theorem).
 C5  Psi acting on the Standard-Model fields: the I12 shift of the gauge kinetic functions by the scalar density of the
     dark matter (delta alpha_i/alpha_i = -4 G_i n_DM), the W and Z masses from the x0 eigenvalue problem with the
     y-dependent kinetic function (perturbative and direct finite elements); the photon stays massless.
-C6  Gravity: hidden pressures of every species (p0 = -rho d ln m/d ln f, the proton through the QCD scale), the block
-    response, the induced mass shifts, the gain of the loop mass -> hidden pressure -> block -> mass, and the iteration.
+C6  Gravity: the full adiabatic block response dk = (c_rho kappa drho + c_3 kappa dp3 + c_p kappa dpbar)/H^2 (background.json) to every
+    species: the plasma (ideal gases with the x0 masses, the QCD interaction measure, the O(alpha) electroweak pressure), the net
+    nucleons and electrons (degenerate Fermi gases at T = 0) and the dark matter, with the hidden pressure pbar = (1/4) dp/d ln f
+    (masses: -(rho - 3p) d ln m/d ln f; QCD: -(rho - 3p)_QCD d ln Lambda/d ln f; electroweak: p_2 d ln alpha/d ln f); the induced
+    mass shifts, the gain of the loop mass -> source -> block -> mass, and the iteration.
 C7  The domain of validity of the coupled effective description.
 Writes outputs/coupled.json, figures/fig_coupled.png and reports/coupled-checks.json.
 """
@@ -53,7 +65,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from um2_common import FIG, OUT, Report, read_json, write_json  # noqa: E402
 from um2_constants import ETA, M_PSI_OVER_H, val  # noqa: E402
 from um2_kohnsham import Cell, KSState  # noqa: E402
-from um2_thermal import Cosmo, gas, omega_h2, relic, sigma_I12, sigma_unitarity, sigmav_thermal, species  # noqa: E402
+from um2_thermal import Cosmo, gas, omega_h2, rate_fraction_above, relic, sigma_I12, sigma_unitarity, sigmav_thermal, species  # noqa: E402
 
 H = 1.0
 L = ETA / H
@@ -321,6 +333,41 @@ def main():
               'f_n = %.3e GeV^-2): sigma_n = mu^2 f^2/pi = %.1e cm^2 for xenon, against the LZ limit %.1e cm^2' % (fp, fn, sig_n, lz))
 
     # ---------------- C8 the x0-chiral vector portal I13 ----------------
+    # (0) the bilinear i Psibar gamma^M P_b Psi = Psi^dagger (i C gamma^M P_b) Psi with the author's 16 x 16 matrices (exact sympy):
+    # Hermitian for M = x1..x7, not for M = x0 ((i C g0 P_b)^dagger = i C g0 P_a); C P_b C^-1 = P_a; P_b commutes with the 4D Lorentz
+    # generators; C gamma^M P_b commutes with B for M = x1..x4 and anticommutes for M = x5, x6, x7; the extra-time components
+    # Psi^dagger C gamma^M Psi (M = x5, x6, x7) vanish for every spinor in one half B = -1 or B = +1 (Q C gamma^M Q = 0 with the
+    # projectors Q = (1 -+ B)/2), so the extra-time currents J^B_(x5,6,7) vanish on the Standard-Model zero modes (all in B = -1).
+    import sympy as sp
+    from um2_algebra import author_gammas
+    T16 = [sp.Matrix(g_) for g_ in author_gammas()[0]]
+    I16 = sp.eye(16)
+    Cm = T16[0] * T16[1] * T16[2] * T16[3]
+    Bm = -sp.I * Cm * T16[4]
+    Pa_ = (I16 + T16[0]) / 2
+    Pb_ = (I16 - T16[0]) / 2
+    zero = lambda X: X.applyfunc(sp.expand).is_zero_matrix
+    herm = [zero((sp.I * Cm * T16[M] * Pb_).H - sp.I * Cm * T16[M] * Pb_) for M in range(8)]
+    x0_conj = zero((sp.I * Cm * T16[0] * Pb_).H - sp.I * Cm * T16[0] * Pa_)
+    b_comm = [zero(Bm * Cm * T16[M] * Pb_ - Cm * T16[M] * Pb_ * Bm) for M in range(8)]
+    b_acomm = [zero(Bm * Cm * T16[M] * Pb_ + Cm * T16[M] * Pb_ * Bm) for M in range(8)]
+    lorentz_ok = all(zero(T16[a_] * T16[b_] * Pb_ - Pb_ * T16[a_] * T16[b_]) for a_ in range(1, 5) for b_ in range(1, 5))
+    cpc = zero(Cm * Pb_ * Cm.inv() - Pa_)
+    QA, QB = (I16 - Bm) / 2, (I16 + Bm) / 2
+    extra_time_zero = all(zero(Q_ * Cm * T16[M] * Q_) for Q_ in (QA, QB) for M in (5, 6, 7))
+    alg_ok = (herm == [False] + [True] * 7 and x0_conj and all(b_comm[1:5]) and all(b_acomm[5:8]) and lorentz_ok and cpc
+              and extra_time_zero)
+    out['I13_algebra'] = {'hermitian_x0_to_x7': herm, 'x0_component_conjugate_is_P_a': x0_conj, 'B_commutes_x0_to_x7': b_comm,
+                          'B_anticommutes_x0_to_x7': b_acomm, 'P_b_commutes_with_4D_Lorentz': lorentz_ok, 'C_Pb_Cinv_equals_Pa': cpc,
+                          'extra_time_currents_vanish_in_each_half': extra_time_zero}
+    rep.check('C8_I13_algebra', alg_ok,
+              'with the author\'s matrices (exact): i C gamma^M P_b is Hermitian for M = x1, ..., x7 and not for M = x0, where '
+              '(i C gamma^(x0) P_b)^dagger = i C gamma^(x0) P_a (so the action sums over M != x0); C P_b C^-1 = P_a; P_b commutes with the 4D '
+              'Lorentz generators gamma^mu gamma^nu (the components mu = x1..x4 form a 4D vector); C gamma^M P_b commutes with B for '
+              'M = x1..x4 and anticommutes for M = x5, x6, x7; Q C gamma^M Q = 0 for M = x5, x6, x7 and Q = (1 - B)/2, (1 + B)/2: the '
+              'extra-time currents vanish for spinors in one half, in particular J^B_(x5,6,7) on the Standard-Model zero modes (B = -1), '
+              'so I13 does not mix Psi_A and Psi_B on the zero modes')
+
     # (a) algebra in block form: gamma^(x0) = sigma3 in every block (um2_algebra.py), so P_b = (1 - sigma3)/2 projects on the
     # b-component; the fold zero modes are (e^{f m y}, 0): P_b Psi_fold = 0 identically.  The Kohn-Sham check: a potential acting
     # on the b-component only shifts the dark-matter level by Itilde^(b) and leaves every fold-band level unchanged.
@@ -392,10 +439,7 @@ def main():
     sc13 = _brentq(lambda s_: sig13(s_, GA) - 3 * math.pi / (4 * (s_ / 4 - MDM * MDM)), 4 * MDM * MDM * (1 + 1e-9), 400 * MDM * MDM)
     from scipy.special import k1e
     zc = sc13 / (4 * MDM * MDM) - 1.0
-    wf = lambda z: sig13(4 * MDM * MDM * (1 + z), GA) * z * math.sqrt(1 + z) * k1e(2 * xfA * math.sqrt(1 + z)) * math.exp(
-        -2 * xfA * (math.sqrt(1 + z) - 1))
-    from scipy.integrate import quad as _quad
-    frac13 = _quad(wf, zc, 50.0, limit=200)[0] / _quad(wf, 0.0, 50.0, points=[1 / xfA, 5 / xfA], limit=200)[0]
+    frac13 = rate_fraction_above(lambda s_: sig13(s_, GA), MDM, xfA, zc)
     vc13 = 2 * math.sqrt(zc / (1 + zc))      # CM relative velocity 2 beta at the crossing
     # the same with the I13 cross-section capped at the J = 1 bound (a unitarity-respecting completion that saturates the bound)
     def omega_A_cap(GA_):
@@ -411,9 +455,7 @@ def main():
     omAc, xfAc = omega_A_cap(GAc)
     sc13c = _brentq(lambda s_: sig13(s_, GAc) - 3 * math.pi / (4 * (s_ / 4 - MDM * MDM)), 4 * MDM * MDM * (1 + 1e-9), 400 * MDM * MDM)
     zcc = sc13c / (4 * MDM * MDM) - 1.0
-    wfc = lambda z: min(sig13(4 * MDM * MDM * (1 + z), GAc), 3 * math.pi / (4 * MDM * MDM * z)) * z * math.sqrt(1 + z) * k1e(
-        2 * xfAc * math.sqrt(1 + z)) * math.exp(-2 * xfAc * (math.sqrt(1 + z) - 1))
-    frac13c = _quad(wfc, zcc, 50.0, limit=200)[0] / _quad(wfc, 0.0, 50.0, points=[1 / xfAc, 5 / xfAc, zcc], limit=200)[0]
+    frac13c = rate_fraction_above(lambda s_: min(sig13(s_, GAc), 3 * math.pi / (4 * (s_ / 4 - MDM * MDM))), MDM, xfAc, zcc)
     GA_eff = GA
     GA = GAc            # the benchmark: the unitarity-respecting value
     # direct detection through I13 (+ I11): vector couplings to the quark currents (each chirality half of the nucleon's current)
@@ -466,8 +508,8 @@ def main():
     def rates_nuR(x):
         """For one nu_R flavour: the pair-production rate density gamma = sum_{A,B} n_chi n_chibar <sigma v> (chi chibar <-> nu_R nubar_R,
         s-wave <sigma v> = G^2 M^2/(2 pi) per Weyl component, G = G_A Itilde^(b)), the equilibrium density of nu_R particles
-        n_eq = (3/4) zeta(3) T^3/pi^2, and the elastic rate per nu_R, Gamma_el = sum_{A,B} (n_chi + n_chibar) G^2 E^2/pi with E ~ 3T
-        (ESTIMATE), with the Hubble rate"""
+        n_eq = (3/4) zeta(3) T^3/pi^2, and the elastic rate per nu_R, Gamma_el = sum_{A,B} (n_chi + n_chibar) G^2 E^2/(2 pi) with E ~ 3T
+        (a Weyl nu_R scattering on a heavy Dirac fermion; ESTIMATE), with the Hubble rate"""
         T = MDM / x
         gr_, gs_ = g_at(T)
         Hh = math.sqrt(8 * math.pi ** 3 * gr_ / 90) * T * T / MPl
@@ -475,7 +517,7 @@ def main():
         n_nu = 0.75 * zeta3 / math.pi ** 2 * T ** 3
         G2 = (GA_BL * Ibar) ** 2
         gam = 2 * nchi * nchi * G2 * MDM ** 2 / (2 * math.pi)
-        Gel = 2 * 2 * nchi * G2 * (3 * T) ** 2 / math.pi
+        Gel = 2 * 2 * nchi * G2 * (3 * T) ** 2 / (2 * math.pi)
         return gam, n_nu, Hh, Gel
     # chemical (number-changing) decoupling and kinetic decoupling
     xs = np.linspace(1.0, 60.0, 5901)
@@ -505,7 +547,12 @@ def main():
     Fh = 1.0095
     gs_dec = g_at(MDM / xkin)[1]
     dNeff_BL = 3 * (10.75 / gs_dec) ** (4.0 / 3.0) * Fh
+    # with J^B: nu_R are produced only through I11 (B - L charge -1): chi chibar -> nu_R nubar_R with G = G_V Itilde (I11 overlap of the
+    # dark-matter orbital with the nu_R profile), against the I13 annihilation into quarks (s-wave, the same Dirac structure)
+    S_nuR_I11 = sum(Idm[n_ + '_R'] ** 2 for n_ in ('nu1', 'nu2', 'nu3'))
+    ratio_nuR_I11 = (GVb ** 2 * S_nuR_I11) / (GA_eff ** 2 * S13)
     out['I13_B_minus_L_alternative'] = {'S13_BL': S13_BL, 'G_A_BL_GeV-2': GA_BL, 'x_chemical_decoupling': xchem, 'x_kinetic_decoupling': xkin,
+                                        'nuR_production_I11_over_I13_annihilation_JB': ratio_nuR_I11,
                                         'T_kinetic_decoupling_GeV': MDM / xkin, 'Y_nuR_over_Yeq_at_x40': Yend / Yeq_end, 'g_s_at_decoupling': gs_dec,
                                         'Delta_Neff': dNeff_BL, 'nuR_share_of_annihilation': sum((I_ ** 2) for I_ in Inu) / S13_BL}
     Neff_act, sNeff = 2.86, 0.13
@@ -515,9 +562,98 @@ def main():
               'M/T = 2 they reach %.4f of the equilibrium number by M/T = 40; the number-changing rate falls below the Hubble rate at M/T = %.1f '
               'and elastic scattering on the dark matter at M/T = %.1f (T = %.0f GeV, g_s = %.2f); the three nu_R would then add Delta N_eff = '
               '3 (10.75/g_s)^(4/3) F_h = %.3f, N_eff = %.3f, %.1f standard deviations above ACT DR6 (2.86 +- 0.13): hence I13 couples to the '
-              'baryon-number current, which leaves the nu_R untouched' % (
+              'baryon-number current, which leaves the nu_R untouched (with J^B the annihilation into nu_R pairs goes only through I11, at '
+              '%.1e of the I13 rate into quarks)' % (
                   GA_BL, S13_BL, 100 * out['I13_B_minus_L_alternative']['nuR_share_of_annihilation'], Yend / Yeq_end, xchem, xkin, MDM / xkin,
-                  gs_dec, dNeff_BL, 3.0432 + dNeff_BL, (3.0432 + dNeff_BL - Neff_act) / sNeff))
+                  gs_dec, dNeff_BL, 3.0432 + dNeff_BL, (3.0432 + dNeff_BL - Neff_act) / sNeff, ratio_nuR_I11))
+
+
+    # ---------------- C10 the self-interaction channel chi chibar -> fold pairs ----------------
+    # -(lambda/2)(Psibar Psi)^2 contains -lambda (chibar_D chi_F)(chibar_F chi_D) s_DF(y)^2 with the transition scalar density
+    # s_DF = a_D b_F + b_D a_F of the dark-matter orbital (a_D, b_D) and the fold zero mode (a_F, b_F = 0); its square is even under the
+    # fold reflection, so the channel is allowed.  With the normalisation of C1 the 4D strength is G_lambda = lambda H Itilde_lambda/(2 f^4 v_t),
+    # Itilde_lambda = int s_DF^2 e^{-3Hy} dy (units of H).  The s-wave annihilation is estimated as sigma v = G_lambda^2 M^2/(2 pi) per
+    # final fold species (the value of one vector channel; the Fierz coefficients are not computed: ESTIMATE), N_F = 2 final species.
+    aD, bD, _ = orb['dark matter (lowest odd level)']
+    aF, bF, _ = orb['fold band (zero mode)']
+    sDF = aD * bF + bD * aF
+    Ilam = float(np.sum(w * sDF * sDF * np.exp(-3 * H * y)))
+    NF = 2
+
+    def Glam_of(lam_H6, vt_H3):
+        """G_lambda in GeV^-2 for lambda in units H^-6 and v_t in units H^-3."""
+        return lam_H6 * Ilam / (2 * f ** 4 * vt_H3) / HG ** 2
+
+    def lam_rates(Gl, T):
+        x_ = MDM / T
+        gr_, gs_ = g_of(T)
+        Hh = math.sqrt(8 * math.pi ** 3 * gr_ / 90) * T * T / MPl
+        nchi = 2 * (MDM * T / (2 * math.pi)) ** 1.5 * math.exp(-x_)      # particles of one dark-matter species
+        sv = Gl ** 2 * MDM ** 2 / (2 * math.pi)
+        gam = 2 * nchi * nchi * sv * NF                                    # annihilations into fold pairs per volume and time
+        nF = NF * 4 * 0.75 * zeta3 / math.pi ** 2 * T ** 3                 # fold quanta in equilibrium (two Dirac species)
+        return gam, nF, Hh
+
+    def dNeff_lam(Gl, xf_):
+        """Delta N_eff of the fold quanta made by chi chibar -> fold pairs while the dark matter is in equilibrium (T_max .. M/x_f),
+        each annihilation carrying 2M into the fold bands (not thermalised: the produced fold quanta never annihilate back)."""
+        Ts = np.logspace(math.log10(MDM / xf_), math.log10(Tmax_b), 800)
+        acc = 0.0
+        prev = None
+        for T in Ts[::-1]:
+            gam, nF, Hh = lam_rates(Gl, T)
+            gr_, gs_ = g_of(T)
+            a4 = (gs_ ** (-1 / 3.) / T) ** 4
+            val_ = 2 * MDM * gam * a4 / (Hh * T)
+            if prev is not None:
+                acc += 0.5 * (val_ + prev[1]) * (prev[0] - T)
+            prev = (T, val_)
+        gs0 = th['today']['g_s']
+        return (acc / (gs0 ** (-1 / 3.)) ** 4) / (7 / 8 * math.pi ** 2 / 15 * ((4 / 11) ** (1 / 3.)) ** 4)
+
+    def lam_equilibrium(Gl, xf_):
+        """Largest production rate per fold quantum in equilibrium over the Hubble rate, and the lowest temperature at which it is >= 1."""
+        best, Tlow = 0.0, None
+        for T in np.logspace(math.log10(MDM / xf_), math.log10(Tmax_b), 600):
+            gam, nF, Hh = lam_rates(Gl, T)
+            r = 2 * gam / nF / Hh
+            best = max(best, r)
+            if r >= 1.0 and (Tlow is None or T < Tlow):
+                Tlow = float(T)
+        return best, Tlow
+
+    # C10 evaluation: the bound on G_lambda (Delta N_eff <= 1e-3 from this channel) and the Kohn-Sham benchmark lambda_B with v_t = H^-3
+    dN_lam_unit = dNeff_lam(1.0, xfAc)                    # Delta N_eff per G_lambda^2 (GeV^-4) in the non-thermal regime
+    G_lam_max = math.sqrt(1e-3 / dN_lam_unit)
+    eq_max, _ = lam_equilibrium(G_lam_max, xfAc)
+    G_lam_B = Glam_of(LAM_B, 1.0)
+    eq_B, Tlow_B = lam_equilibrium(G_lam_B, xfAc)
+    Fh_ = 1.0095
+    if eq_B >= 1.0:
+        dN_B = 4 * (10.75 / g_of(Tlow_B)[1]) ** (4.0 / 3.0) * Fh_     # four Weyl species decoupling at T_low (thermalised)
+    else:
+        dN_B = dN_lam_unit * G_lam_B ** 2
+    vt_min = G_lam_B / G_lam_max                         # v_t in units H^-3 for which lambda_B satisfies the bound
+    lam_max_vt1 = LAM_B * G_lam_max / G_lam_B            # lambda in units H^-6 allowed for v_t = H^-3
+    out['self_interaction_channel'] = {'Itilde_lambda': Ilam, 'N_F': NF, 'Delta_Neff_per_Glam2': dN_lam_unit,
+                                       'G_lambda_max_GeV-2': G_lam_max, 'equilibrium_ratio_at_max': eq_max,
+                                       'G_lambda_benchmark_vt1_GeV-2': G_lam_B, 'equilibrium_ratio_benchmark': eq_B,
+                                       'T_low_benchmark_GeV': Tlow_B, 'Delta_Neff_benchmark_vt1': dN_B,
+                                       'v_t_min_for_lambda_B_H-3': vt_min, 'lambda_max_for_vt1_H-6': lam_max_vt1,
+                                       'G_lambda_over_G_A_at_max': G_lam_max / GA}
+    rep.check('C10_self_interaction_channel', eq_max < 0.05 and dN_lam_unit > 0 and Ilam > 0,
+              'the self-interaction -(lambda/2)(Psibar Psi)^2 lets the dark matter annihilate into the fold bands through the transition '
+              'scalar density s_DF = a_D b_F + b_D a_F (Itilde_lambda = int s_DF^2 e^{-3Hy} dy = %.4f): G_lambda = lambda H Itilde_lambda/(2 f^4 v_t); '
+              'with sigma v = G_lambda^2 M^2/(2 pi) per fold species (ESTIMATE) the channel adds Delta N_eff = %.3e G_lambda^2 GeV^4 while the '
+              'dark matter is in equilibrium (T_max = 10 TeV to x_f = %.2f), so Delta N_eff <= 1e-3 requires G_lambda <= %.2e GeV^-2 (%.1e G_A; '
+              'the fold bands then stay out of equilibrium, production rate at most %.1e of the Hubble rate); the Kohn-Sham benchmark '
+              'lambda_B = 7e-5 H^-6 with v_t = H^-3 would give G_lambda = %.2e GeV^-2, %s; UM-2 therefore ASSUMES G_lambda <= %.1e GeV^-2, '
+              'i.e. lambda <= %.1e H^-6 for v_t = H^-3 or v_t >= %.1e H^-3 for lambda = lambda_B (lambda_B is a numerical value of the '
+              'Kohn-Sham tests)' % (
+                  Ilam, dN_lam_unit, xfAc, G_lam_max, G_lam_max / GA, eq_max, G_lam_B,
+                  ('thermalise the fold bands (production rate up to %.1e of the Hubble rate, coupled down to T = %.0f GeV) and add '
+                   'Delta N_eff = %.3f' % (eq_B, Tlow_B, dN_B)) if eq_B >= 1.0 else ('Delta N_eff = %.2e' % dN_B),
+                  G_lam_max, lam_max_vt1, vt_min))
 
     # ---------------- C4/C5/C6 environments ----------------
     # densities in cm^-3 (net particle numbers: antiparticles of a symmetric plasma do not contribute to I11), T in GeV
@@ -526,6 +662,8 @@ def main():
     ob, oc = 0.02237, 0.1200
     nb0 = ob * rho_c_h2 / 0.93827
     Yp = 0.24566
+    T_fo = MDM / xfAc
+    fo_name = 'dark-matter freeze-out (T = %.2f TeV)' % (T_fo / 1e3)
     env = {
         'cosmic mean today': {'n_p': nb0 * (1 - Yp / 2), 'n_n': nb0 * Yp / 2, 'n_e': nb0 * (1 - Yp / 2), 'rho_DM': oc * rho_c_h2, 'T': 0.0},
         'Milky Way at the Sun': {'n_p': 1.0, 'n_n': 0.0, 'n_e': 1.0, 'rho_DM': 0.4, 'T': 0.0},
@@ -536,7 +674,7 @@ def main():
         'nucleosynthesis (T = 1 MeV)': {'n_p': None, 'n_n': None, 'n_e': None, 'rho_DM': None, 'T': 1e-3},
         'QCD crossover (T = 200 MeV)': {'n_p': None, 'n_n': None, 'n_e': None, 'rho_DM': None, 'T': 0.2},
         'electroweak era (T = 100 GeV)': {'n_p': None, 'n_n': None, 'n_e': None, 'rho_DM': None, 'T': 100.0},
-        'dark-matter freeze-out (T = 1.46 TeV)': {'n_p': None, 'n_n': None, 'n_e': None, 'rho_DM': None, 'T': MDM / 30.38},
+        fo_name: {'n_p': None, 'n_n': None, 'n_e': None, 'rho_DM': None, 'T': T_fo},
     }
     # early-Universe net densities from the baryon asymmetry: n_b = eta n_gamma, eta = 6.1e-10 (STANDARD); the net baryon number is
     # shared between protons and neutrons in weak equilibrium, n_n/n_p = exp(-Q/T), Q = 1.293 MeV (above the QCD crossover this is the
@@ -563,58 +701,168 @@ def main():
             e_['rho_DM'] = e_['n_DM'] * MDM
         else:
             e_['n_DM'] = e_['rho_DM'] / MDM
-    # I12 condensates (geometric normalisation F_geo = g F_can):  <F_i^2>_geo = g_i^2 <F_i^2>_can
+    # running couplings (one loop, MS-bar inputs at m_Z, no Higgs particle: b_3 = 11 - 2 n_f/3, b_2 = 10/3, b_Y = -20/3 with
+    # d(1/alpha)/d ln mu = b/(2 pi)); the thermal couplings at mu = 2 pi T; the block dependence alpha(m_KK) proportional to f^-4
+    # (bulk gauge fields: 1/g_4^2 = V_perp/g_8^2) and m_KK proportional to 1/f
     a_s = val('alpha_s_mZ')
+    mZ0 = val('m_Z_GeV')
+    a_em = 1 / 127.95
+    s2ms = val('sin2_theta_W_MSbar')
+    mKK = masses['scales']['m_KK_GeV']
+    B2, BY = 10.0 / 3.0, -20.0 / 3.0
+
+    def alpha_ew(mu_s):
+        Lm = math.log(mu_s / mZ0) / (2 * math.pi)
+        return 1 / (s2ms / a_em + B2 * Lm), 1 / ((1 - s2ms) / a_em + BY * Lm)
+
+    a2KK, aYKK = alpha_ew(mKK)
+
+    def dlnalpha_dlnf(al, alKK, b):
+        return -al * (4.0 / alKK + b / (2 * math.pi))
+
     GG_vac = 0.012 * math.pi / a_s * 4 * math.pi * a_s        # g_s^2 <G G>_can = 4 pi alpha_s (pi/alpha_s) 0.012 = 0.048 pi^2 GeV^4
     mW = val('m_W_GeV')
     mZ = masses['WZ']['m_Z_pred_GeV']
     s2 = masses['WZ']['sin2_theta_couplings']
-    a_em = 1 / 127.95
-    g2W = 4 * math.pi * a_em / s2
-    g2B = 4 * math.pi * a_em / (1 - s2)
     bench = th['I12_universal_benchmark']
     cL3 = bench['c_over_Lambda_star3_GeV-3']          # c/Lambda*^3 (universal c_G = c_W = c_B)
-    GiW = O * cL3 * g2W
-    GiB = O * cL3 * g2B
+    a2Z, aYZ = alpha_ew(mZ0)
+    GiW = O * cL3 * 4 * math.pi * a2Z
+    GiB = O * cL3 * 4 * math.pi * aYZ
     Gig = O * cL3 * bench['couplings_squared']['g_s^2']
 
     def interaction_measure_vector(m, T):
         r, p, s_ = gas(m, T, 3, False)
         return r - 3 * p
 
-    def qcd_measure(T):
+    def n_flavours(T):
+        return 3 if T < 1.27 else (4 if T < 4.18 else (5 if T < 172.56 else 6))
+
+    def qcd_measure(T, dlnL=0.0):
         """(rho - 3p) of QCD: lattice-like value near the crossover (ESTIMATE, FROM MEMORY: I/T^4 = 4.0 at 200 MeV), leading-order
-        perturbation theory above (I/T^4 = (b/3)(1 + 5 n_f/12) alpha_s^2), zero far below."""
+        perturbation theory above, I/T^4 = (b/3)(1 + 5 n_f/12) alpha_s^2 with alpha_s at mu = 2 pi T (one loop), zero far below;
+        dlnL shifts Lambda_QCD by e^dlnL (for the loop gain)."""
         if T < 0.05:
             return 0.0
         if T < 1.0:
-            return 4.0 * T ** 4 * math.exp(-((math.log(T / 0.2)) ** 2) / 0.5)
-        nf = 3 if T < 1.27 else (4 if T < 4.18 else (5 if T < 172.56 else 6))
+            return 4.0 * T ** 4 * math.exp(-((math.log(T * math.exp(-dlnL) / 0.2)) ** 2) / 0.5)
+        nf = n_flavours(T)
         b = 11 - 2 * nf / 3
-        inv = 1 / a_s + b / (2 * math.pi) * math.log(2 * math.pi * T / val('m_Z_GeV'))
+        inv = 1 / a_s + b / (2 * math.pi) * (math.log(2 * math.pi * T / mZ0) - dlnL)
         al = 1 / inv
         return (b / 3) * (1 + 5 * nf / 12) * al ** 2 * T ** 4
+
+    def ew_pressure2(T):
+        """The O(alpha) pressure of the electroweak plasma in the massless limit (no scalars; ESTIMATE), p_2 = -(g^2 T^4/144) d_A
+        [C_A + (5/2) T_F N_f]: SU(2): d_A = 3, C_A = 2, twelve Weyl doublets (T_F N_f = 3); U(1)_Y: (5/2) sum_Dirac Y^2 = (5/2) 5;
+        below m_W multiplied by the thermal suppression of a massive vector, rho(m_W, T)/rho(0, T)."""
+        if T <= 0:
+            return 0.0, 0.0, 0.0, 0.0
+        a2, aY = alpha_ew(2 * math.pi * T)
+        supp = gas(mW, T, 3, False)[0] / gas(0.0, T, 3, False)[0]
+        p2W = -(4 * math.pi * a2 * T ** 4 / 144.0) * 3 * (2 + 2.5 * 3) * supp
+        p2Y = -(4 * math.pi * aY * T ** 4 / 144.0) * 2.5 * 5 * supp
+        return p2W, p2Y, a2, aY
 
     stiff = 3.0 - 4.0 * krho / kst                  # units H^2
     sens = ana['sensitivities_dlnX_dlnf']
     # the proton: m_p = C Lambda_QCD^(3) + sigma terms; one-loop running with thresholds (ESTIMATE)
-    mKK = masses['scales']['m_KK_GeV']
     b6 = 7.0
-    inv_mKK = 1 / a_s + b6 / (2 * math.pi) * math.log(mKK / val('m_Z_GeV'))      # alpha_s(m_KK), six flavours above m_t (one loop)
+    inv_mKK = 1 / a_s + b6 / (2 * math.pi) * math.log(mKK / mZ0)      # alpha_s(m_KK), six flavours above m_t (one loop)
     as_KK = 1 / inv_mKK
     dlnL6 = -1.0 + (2 * math.pi / (b6 * as_KK)) * (-4.0)
     dlnL3 = (21 / 27.) * dlnL6 + (2 / 27.) * (sens['m_t'] + sens['m_b'] + sens['m_c'])
+    dlnLnf = {6: dlnL6, 5: (21 / 23.) * dlnL6 + (2 / 23.) * sens['m_t'],
+              4: (21 / 25.) * dlnL6 + (2 / 25.) * (sens['m_t'] + sens['m_b']), 3: dlnL3}
     sig_ud, sig_s, mp = 0.045, 0.040, 0.93827       # sigma terms (FROM MEMORY)
     dlnmp = (1 - (sig_ud + sig_s) / mp) * dlnL3 + sig_ud / mp * 0.5 * (sens['m_u'] + sens['m_d']) + sig_s / mp * sens['m_s']
-    out['proton_sensitivity'] = {'alpha_s_mKK': as_KK, 'dlnLambda6_dlnf': dlnL6, 'dlnLambda3_dlnf': dlnL3, 'dln_mp_dlnf': dlnmp}
+    out['proton_sensitivity'] = {'alpha_s_mKK': as_KK, 'dlnLambda6_dlnf': dlnL6, 'dlnLambda5_dlnf': dlnLnf[5],
+                                 'dlnLambda4_dlnf': dlnLnf[4], 'dlnLambda3_dlnf': dlnL3, 'dln_mp_dlnf': dlnmp,
+                                 'quark_inputs_dlnm_dlnf': {q: sens['m_' + q] for q in ('u', 'd', 's', 'c', 'b', 't')}}
     rep.check('C6_proton_sensitivity', dlnmp < -30,
               'the QCD scale tracks the block exponentially: with alpha_s(m_KK) = %.4f proportional to f^-4 and m_KK ~ 1/f, '
-              'd ln Lambda^(6)/d ln f = -1 - (2 pi/(7 alpha_s)) 4 = %.1f; through the c, b, t thresholds d ln Lambda^(3)/d ln f = %.1f; '
-              'with the sigma terms d ln m_p/d ln f = %.1f (ESTIMATE, one loop): the nucleon mass is the most block-sensitive mass of UM-2' % (
-                  as_KK, dlnL6, dlnL3, dlnmp))
-    kappa_over_Vperp = None   # 8 pi G_N G(k*) in GeV^-2
+              'd ln Lambda^(6)/d ln f = -1 - (2 pi/(7 alpha_s)) 4 = %.1f; through the c, b, t thresholds (d ln m_q/d ln f = %.2f, %.2f, %.2f) '
+              'd ln Lambda^(3)/d ln f = %.1f; with the sigma terms (d ln m_q/d ln f = %.2f, %.2f, %.2f for u, d, s) d ln m_p/d ln f = %.1f '
+              '(ESTIMATE, one loop): the nucleon mass is the most block-sensitive mass of UM-2' % (
+                  as_KK, dlnL6, sens['m_c'], sens['m_b'], sens['m_t'], dlnL3, sens['m_u'], sens['m_d'], sens['m_s'], dlnmp))
     GN = 1.0 / MPl ** 2
-    kV = 8 * math.pi * GN * Gk
+    kV = 8 * math.pi * GN * Gk                      # kappa/V_perp = 8 pi G_N G(k*) in GeV^-2
+    lr = bg['linear_response_static_dk']
+    c_rho, c_3, c_p = lr['per_kappa_drho_H2'], lr['per_kappa_dp3_H2'], lr['per_kappa_dpbar_H2']
+    # the plasma species of um2_thermal.py with their block sensitivities (the dark matter is treated separately)
+    sp_all = [s_ for s_ in species(masses, MDM) if s_[4] != 'dm']
+    sens_sp = {'u': sens['m_u'], 'd': sens['m_d'], 's': sens['m_s'], 'c': sens['m_c'], 'b': sens['m_b'], 't': sens['m_t'],
+               'e': sens['m_e'], 'mu': sens['m_mu'], 'tau': sens['m_tau'], 'W+ W-': sens['m_W'], 'Z': sens['m_W']}
+    baryons = ('N', 'Lambda', 'Sigma', 'Delta')
+    for (n_, m_, g_, fe_, grp_) in sp_all:
+        if grp_ == 'hrg':
+            sens_sp[n_] = dlnmp if n_ in baryons else (0.5 * (0.5 * (sens['m_u'] + sens['m_d']) + dlnL3) if n_ == 'pi' else dlnL3)
+    from um2_thermal import w_qgp
+
+    def fermi_gas_T0(n, m):
+        """rho, p of a free degenerate Fermi gas (2 spin states) of number density n (GeV^3) and mass m at T = 0."""
+        if n <= 0:
+            return 0.0, 0.0
+        kf = (3 * math.pi ** 2 * n) ** (1 / 3.)
+        x_ = kf / m
+        if x_ < 1e-3:                                   # non-relativistic: rho = n m + (3/5) n kf^2/(2m), p = (2/5) n kf^2/(2m)
+            return n * m + 0.3 * n * kf * kf / m, 0.2 * n * kf * kf / m
+        sq = math.sqrt(1 + x_ * x_)
+        rho_ = m ** 4 / (8 * math.pi ** 2) * (x_ * (2 * x_ * x_ + 1) * sq - math.asinh(x_))
+        p_ = m ** 4 / (24 * math.pi ** 2) * (x_ * (2 * x_ * x_ - 3) * sq + 3 * math.asinh(x_))
+        return rho_, p_
+
+    def sources(env_, nn, dl):
+        """Block-averaged 4D sources (rho, p3, pbar) in GeV^4 of an environment, every mass scaled by e^(s dl) (s = d ln m/d ln f)
+        and Lambda_QCD and the gauge couplings with their block dependence (dl = delta ln f, for the loop gain); pbar = (1/4) dp/d ln f."""
+        T = env_['T']
+        rho_t = p3_t = 0.0
+        dpdlnf = 0.0
+        if T > 0:
+            for (n_, m_, g_, fe_, grp_) in sp_all:
+                s_ = sens_sp.get(n_, 0.0)
+                mm = m_ * math.exp(s_ * dl) if m_ > 0 else 0.0
+                r_, pp_, _ = gas(mm, T, g_, fe_)
+                wgt = w_qgp(T) if grp_ == 'qgp' else ((1 - w_qgp(T)) if grp_ == 'hrg' else 1.0)
+                rho_t += wgt * r_
+                p3_t += wgt * pp_
+                dpdlnf += -wgt * (r_ - 3 * pp_) * s_
+            nf = n_flavours(T)
+            dlnL = dlnLnf[nf]
+            Iq = qcd_measure(T, dlnL * dl)
+            rho_t += Iq                                 # the interaction measure enters rho - 3 p3 (radiation drops out)
+            dpdlnf += -Iq * dlnL
+            p2W, p2Y, a2, aY = ew_pressure2(T)
+            dW, dY = dlnalpha_dlnf(a2, a2KK, B2), dlnalpha_dlnf(aY, aYKK, BY)
+            fW, fY = math.exp(dW * dl), math.exp(dY * dl)
+            rho_t += -(B2 * a2 / (2 * math.pi)) * p2W * fW * fW - (BY * aY / (2 * math.pi)) * p2Y * fY * fY   # LO trace anomaly
+            dpdlnf += p2W * fW * dW + p2Y * fY * dY
+        # net nucleons and electrons (degenerate at T = 0, non-relativistic thermal gases otherwise), dark matter
+        mN_ = mp * math.exp(dlnmp * dl)
+        me_ = F['e']['m_GeV'] * math.exp(sens['m_e'] * dl)
+        MD_ = MDM * math.exp(sens['M_DM'] * dl)
+        for (nk, mm, s_) in (('n_p', mN_, dlnmp), ('n_n', mN_, dlnmp), ('n_e', me_, sens['m_e'])):
+            if T == 0:
+                r_, pp_ = fermi_gas_T0(nn[nk], mm)
+            else:
+                r_, pp_ = nn[nk] * mm, nn[nk] * T
+            rho_t += r_
+            p3_t += pp_
+            dpdlnf += -(r_ - 3 * pp_) * s_
+        if T > 0 and MDM / T < 40:
+            r_, pp_, _ = gas(MD_, T, 8, True)
+        else:
+            r_, pp_ = nn['n_DM'] * MD_, 0.0
+        rho_t += r_
+        p3_t += pp_
+        dpdlnf += -(r_ - 3 * pp_) * sens['M_DM']
+        return rho_t, p3_t, 0.25 * dpdlnf
+
+    def block_response(env_, nn, dl=0.0):
+        rr, pp3, ppb = sources(env_, nn, dl)
+        dk_ = (c_rho * kV * rr + c_3 * kV * pp3 + c_p * kV * ppb) / HG ** 2
+        return -0.5 * dk_ / kst, dk_, rr, pp3, ppb
+
     res_env = {}
     for k_, e_ in env.items():
         T = e_['T']
@@ -630,17 +878,22 @@ def main():
         # I12 mean field: c (<GG> + <WW> + <BB>)/Lambda*^3 in geometric normalisation
         GG = GG_vac                 # <G G>_T = <G G>_0 - (8/b)(rho - 3p)_T (trace anomaly, vacuum subtracted)
         Iq = qcd_measure(T)
-        nf_ = 3 if T < 1.27 else (4 if T < 4.18 else (5 if T < 172 else 6))
-        bq = 11 - 2 * nf_ / 3
+        bq = 11 - 2 * n_flavours(T) / 3 if T > 0 else 9.0
         GG += -(8 / bq) * Iq * (4 * math.pi ** 2)     # g_s^2 <G G>_can = 4 pi^2 <(alpha_s/pi) G G>
         WW = 0.0
         BB = 0.0
+        WWint = BBint = 0.0
         if T > 0:
             IW = interaction_measure_vector(mW, T)
             IZ = interaction_measure_vector(mZ, T)
             c2 = 1 - s2
-            WW = g2W * (2 * (-2 * IW) + c2 * (-2 * IZ))
-            BB = g2B * (s2 * (-2 * IZ))
+            a2T, aYT = alpha_ew(2 * math.pi * T)
+            g2W, g2B = 4 * math.pi * a2T, 4 * math.pi * aYT
+            p2W, p2Y, _, _ = ew_pressure2(T)
+            WWint = 4 * g2W * p2W                         # Feynman-Hellmann: <F_geo^2> = -4 dp/d(1/g^2) = 4 g^2 p_2
+            BBint = 4 * g2B * p2Y
+            WW = g2W * (2 * (-2 * IW) + c2 * (-2 * IZ)) + WWint
+            BB = g2B * (s2 * (-2 * IZ)) + BBint
         dM = cL3 * (GG + WW + BB)
         dI12 = O * dM
         # Psi on the Standard Model: gauge couplings from the dark-matter scalar density
@@ -648,51 +901,70 @@ def main():
         dag = -4 * Gig * nDM
         daW = -4 * GiW * nDM
         daB = -4 * GiB * nDM
-        # gravity: hidden pressure (block average p0/4), kappa pbar = -(8 pi G_N G(k*)) sum rho_s dlnm_s/4
-        rho_b = (nn['n_p'] + nn['n_n']) * mp
-        rho_e = nn['n_e'] * F['e']['m_GeV']
-        rho_dm = nDM * MDM
-        src = rho_b * dlnmp + rho_e * sens['m_e'] + rho_dm * sens['M_DM']
-        kpbar = -kV * src / 4.0                         # GeV^2
-        dk = kpbar / (stiff * HG ** 2)
-        dlnf = -0.5 * dk / kst
-        gain = (kV / 4.0) * (rho_b * dlnmp ** 2 + rho_e * sens['m_e'] ** 2 + rho_dm * sens['M_DM'] ** 2) * 0.5 / (kst * abs(stiff) * HG ** 2)
+        # gravity: the full adiabatic block response to every species
+        dlnf, dk, rr, pp3, ppb = block_response(e_, nn)
+        eps_g = 1e-3
+        gain = abs(block_response(e_, nn, eps_g)[0] - block_response(e_, nn, -eps_g)[0]) / (2 * eps_g)
         # iterate the loop mass -> source -> block -> mass
         dl = 0.0
         hist = []
         for it in range(60):
-            fac = 1 + dlnmp * dl
-            src_i = rho_b * dlnmp * (1 + dlnmp * dl) + rho_e * sens['m_e'] * (1 + sens['m_e'] * dl) + rho_dm * sens['M_DM'] * (1 + sens['M_DM'] * dl)
-            dl_new = -0.5 * (-kV * src_i / 4.0) / (stiff * HG ** 2) / kst
+            dl_new = block_response(e_, nn, dl)[0]
             hist.append(dl_new)
-            if abs(dl_new - dl) <= 1e-15 * max(abs(dl_new), 1e-300):
+            if abs(dl_new - dl) <= 1e-12 * max(abs(dl_new), 1e-300):
                 dl = dl_new
                 break
             dl = dl_new
         res_env[k_] = {'T_GeV': T, 'densities_cm3': {kk: e_[kk] for kk in ('n_p', 'n_n', 'n_e', 'n_DM')},
                        'd_eps_DM_I11_GeV': dI11, 'd_eps_DM_I13_GeV': dI13, 'd_eps_DM_I12_GeV': dI12,
                        'd_eps_DM_over_M': (dI11 + dI13 + dI12) / MDM,
-                       'dM_I12_GeV': dM, 'condensates_GeV4': {'GG': GG, 'WW': WW, 'BB': BB},
+                       'dM_I12_GeV': dM, 'condensates_GeV4': {'GG': GG, 'WW': WW, 'BB': BB, 'WW_interaction': WWint, 'BB_interaction': BBint},
                        'dalpha_over_alpha': {'strong': dag, 'SU2': daW, 'U1': daB},
-                       'kappa_pbar_GeV2': kpbar, 'delta_k': dk, 'delta_ln_f': dlnf, 'delta_ln_m_p': dlnmp * dlnf,
+                       'sources_GeV4': {'rho': rr, 'p3': pp3, 'pbar': ppb, 'rho_minus_3p3': rr - 3 * pp3},
+                       'kappa_pbar_GeV2': kV * ppb, 'delta_k': dk, 'delta_ln_f': dlnf, 'delta_ln_m_p': dlnmp * dlnf,
                        'delta_ln_m_e': sens['m_e'] * dlnf, 'loop_gain': gain, 'iterations': len(hist), 'delta_ln_f_self_consistent': dl}
     out['environments'] = res_env
+    out['block_response_coefficients'] = {'c_rho': c_rho, 'c_3': c_3, 'c_p': c_p, 'kappa_over_Vperp_GeV-2': kV,
+                                          'radiation_cancels': abs(c_3 + 3 * c_rho) < 1e-12}
     worst = max(abs(v['d_eps_DM_over_M']) for v in res_env.values())
     worst_env = max(res_env, key=lambda k_: abs(res_env[k_]['d_eps_DM_over_M']))
     late = max(abs(v['d_eps_DM_over_M']) for k_, v in res_env.items() if v['T_GeV'] < 1e-3 * 1.0001)
     worst_gain = max(v['loop_gain'] for v in res_env.values())
     worst_dm = max(abs(v['delta_ln_m_p']) for v in res_env.values())
-    rep.check('C4_mean_fields_in_environments', worst < 1e-4,
+    worst_f = max(abs(v['delta_ln_f']) for v in res_env.values())
+    worst_f_env = max(res_env, key=lambda k_: abs(res_env[k_]['delta_ln_f']))
+    late_f = max(abs(v['delta_ln_f']) for k_, v in res_env.items() if v['T_GeV'] < 1e-3 * 1.0001)
+    fo = res_env[fo_name]
+    # the Feynman-Hellmann form <F_geo^2> = 4 g^2 p_2 of the O(alpha) pressure against the trace anomaly for QCD (d_A = 8, C_A = 3,
+    # T_F = 1/2): an identity at leading order, which checks the normalisation of p_2 used for SU(2) and U(1)_Y
+    fh_dev = 0.0
+    for T_ in (10.0, 100.0, T_fo):
+        nf_ = n_flavours(T_)
+        b_ = 11 - 2 * nf_ / 3
+        als = 1 / (1 / a_s + b_ / (2 * math.pi) * math.log(2 * math.pi * T_ / mZ0))
+        p2s = -(4 * math.pi * als * T_ ** 4 / 144.0) * 8 * (3 + 2.5 * 0.5 * nf_)
+        fh_dev = max(fh_dev, abs((4 * (4 * math.pi * als) * p2s) / (-(8 / b_) * qcd_measure(T_) * 4 * math.pi ** 2) - 1))
+    out['feynman_hellmann_qcd_rel_dev'] = fh_dev
+    rep.check('C4_mean_fields_in_environments', worst < 1e-4 and fh_dev < 1e-12,
               'the Standard-Model mean fields shift the dark-matter level by at most %.1e of its mass over the ten environments (largest: '
-              '%s, where the thermal gauge condensates are of order T^4; at most %.1e from nucleosynthesis to today) '
+              '%s, where the thermal gauge condensates are of order T^4: g_s^2 <GG> = %.2e, g^2 <WW> = %.2e (O(alpha) part %.2e), '
+              'g\'^2 <BB> = %.2e GeV^4; at most %.1e from nucleosynthesis to today) '
               '(I11 from the quark and electron B - L densities, I13 from the quark baryon-number densities, each with its x0 profiles; I12 '
-              'from the QCD vacuum condensate, the thermal '
-              'QCD interaction measure and the thermal W, Z condensates); the fold band stays massless' % (worst, worst_env, late))
-    rep.check('C6_gravity_loop', worst_gain < 1e-6 and all(v['iterations'] < 10 for v in res_env.values()),
-              'hidden pressures of nucleons (d ln m_p/d ln f = %.1f), electrons and dark matter shift the block by at most delta ln f = %.1e '
-              '(nucleon mass %.1e) in the ten environments; the gain of the loop mass -> hidden pressure -> block -> mass is at most %.1e, '
-              'so the self-consistent iteration converges at once' % (
-                  dlnmp, max(abs(v['delta_ln_f']) for v in res_env.values()), worst_dm, worst_gain))
+              'from the QCD vacuum condensate, the thermal QCD interaction measure and the thermal W, Z condensates, free massive-vector '
+              'and O(alpha) parts; for QCD the Feynman-Hellmann form 4 g^2 p_2 reproduces the trace-anomaly condensate to %.0e); the fold '
+              'band stays massless' % (
+                  worst, worst_env, fo['condensates_GeV4']['GG'], fo['condensates_GeV4']['WW'], fo['condensates_GeV4']['WW_interaction'],
+                  fo['condensates_GeV4']['BB'], late, max(fh_dev, 1e-16)))
+    rep.check('C6_gravity_loop', worst_gain < 1e-6 and all(v['iterations'] < 10 for v in res_env.values())
+              and out['block_response_coefficients']['radiation_cancels'],
+              'the full adiabatic block response dk = (%.6f kappa drho %+.6f kappa dp3 %+.6f kappa dpbar)/H^2 (radiation drops out exactly: '
+              'c_3 = -3 c_rho) to the plasma (ideal gases with the x0 masses, the QCD interaction measure with d ln Lambda/d ln f, the O(alpha) '
+              'electroweak pressure with d ln alpha/d ln f), the net nucleons (d ln m_p/d ln f = %.1f) and electrons and the dark matter '
+              'shifts the block by at most delta ln f = %.1e (%s: pbar = %.2e GeV^4, rho - 3p3 = %.2e GeV^4), at most %.1e from '
+              'nucleosynthesis to today (nucleon mass at most %.1e); the gain of the loop mass -> source -> block -> mass is at most %.1e, so '
+              'the self-consistent iteration converges at once' % (
+                  c_rho, c_3, c_p, dlnmp, worst_f, worst_f_env, res_env[worst_f_env]['sources_GeV4']['pbar'],
+                  res_env[worst_f_env]['sources_GeV4']['rho_minus_3p3'], late_f, worst_dm, worst_gain))
 
     # ---------------- C5 W and Z masses with the y-dependent kinetic function ----------------
     a, b, eo = orb['dark matter (lowest odd level)']
@@ -711,12 +983,18 @@ def main():
     rich = (4 * out_wz[1e-3] - out_wz[2e-3]) / 3
     # first-order perturbation: d ln Lambda_W/d amp = [int s (u'^2 - Lambda u^2) e^{3 eta t} dt]/[int (u'^2 + ...)...] evaluated on FEM
     Lph, _, _ = boson_fem_K(ETA, 0.0, Kfun_factory(1e-2))
-    out['WZ_kinetic_shift'] = {'dlnLambdaW_damp': rich, 'Lambda_W_fem': LW0, 'photon_Lambda_with_K': Lph, 'O_integral': Oint}
+    e_amp = {k_: max(abs(v_) for v_ in res_env[k_]['dalpha_over_alpha'].values()) for k_ in res_env}
+    e_fo = e_amp[fo_name]
+    e_today = e_amp['cosmic mean today']
+    e_late = max(v_ for k_, v_ in e_amp.items() if res_env[k_]['T_GeV'] < 1e-3 * 1.0001)
+    out['WZ_kinetic_shift'] = {'dlnLambdaW_damp': rich, 'Lambda_W_fem': LW0, 'photon_Lambda_with_K': Lph, 'O_integral': Oint,
+                               'amplitude_e_by_environment': e_amp}
     rep.check('C5_WZ_and_photon', abs(Lph) < 1e-10 and rich < 0,
               'with the kinetic function 1 + e s_DM(y) (s_DM = 2ab of the dark-matter orbital) the W eigenvalue changes by d ln Lambda_W/de = '
               '%.4f (finite elements, Richardson in e), i.e. m_W follows the 4D coupling, while the photon (and gluon) zero mode stays exactly '
-              'massless (Lambda = %.1e with e = 0.01); the relevant amplitude in the environments is e ~ 4 c g^2 n_DM/Lambda*^3 < 1e-50' % (
-                  rich, Lph))
+              'massless (Lambda = %.1e with e = 0.01); the amplitude in the environments, e ~ 4 c g^2 n_DM/Lambda*^3 = |delta alpha/alpha|, is '
+              '%.1e at the dark-matter freeze-out, at most %.1e from nucleosynthesis on and %.1e for the cosmic mean today' % (
+                  rich, Lph, e_fo, e_late, e_today))
 
     # ---------------- C7 validity domain ----------------
     Tv = None
@@ -727,15 +1005,15 @@ def main():
             Tv = float(T)
             break
     out['validity'] = {'T_at_which_dalpha_s_over_alpha_s_reaches_0.1_GeV': Tv, 'M_over_T': MDM / Tv if Tv else None,
-                       'unitarity_velocity_relic_strength_I12': th['unitarity']['v_crossing'],
+                       'unitarity_velocity_relic_strength_I12': th['unitarity']['v_crossing_exact'],
                        'I12_benchmark_unitarity_crossing_sqrt_s_over_M': th['I12_universal_benchmark']['sqrt_s_unitarity_crossing_GeV'] / MDM,
                        'I13_capped_crossing_velocity': out['I13']['v_crossing_capped']}
-    rep.check('C7_validity_domain', Tv is not None and MDM / Tv < 30.38,
+    rep.check('C7_validity_domain', Tv is not None and MDM / Tv < xfAc,
               'the gauge-kinetic portal of the benchmark changes the strong coupling by 10 %% through the thermal dark-matter density at '
               'T = %.0f GeV (M/T = %.2f): the coupled effective description holds below this temperature, i.e. through dark-matter freeze-out '
-              '(M/T = 31) and everything later; the benchmark I12 respects the 3P0 unitarity bound up to sqrt(s) = %.2f M (an I12 of the '
+              '(M/T = %.2f) and everything later; the benchmark I12 respects the 3P0 unitarity bound up to sqrt(s) = %.2f M (an I12 of the '
               'relic strength of version 2 would violate it above v = %.3f), and I13 reaches its J = 1 bound only above v = %.2f' % (
-                  Tv, MDM / Tv, th['I12_universal_benchmark']['sqrt_s_unitarity_crossing_GeV'] / MDM, th['unitarity']['v_crossing'],
+                  Tv, MDM / Tv, xfAc, th['I12_universal_benchmark']['sqrt_s_unitarity_crossing_GeV'] / MDM, th['unitarity']['v_crossing_exact'],
                   out['I13']['v_crossing_capped']))
 
     # ---------------- figure ----------------

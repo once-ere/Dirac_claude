@@ -29,7 +29,10 @@ action, the energy-momentum tensor and the field equations (sections 2 to 4); th
 the mean fields of the Standard-Model fields in an environment, which couple the Kohn-Sham equations to every field (section 7.1);
 the equations of the terms of the metric series beyond $n = 0$ (section 8.1); and the equations of the thermal history: the
 degrees of freedom, the Boltzmann equations of the dark matter and of the right-handed neutrinos, the freeze-in of the fold bands
-and the unitarity bounds (section 10).
+and the unitarity bounds (section 10). After the independent review of version 3 the I13 sum leaves out the direction $x_0$, for which
+the bilinear is not Hermitian (sections 2 to 4); the block response of the coupled solution is the full adiabatic response to every species,
+the hot plasma included, and the electroweak condensates contain the order-$\alpha$ interaction part (section 7.1); and section 10 adds the
+self-interaction channel of the dark matter into the fold bands, with the elastic $\nu_R$ rate corrected.
 
 ## Coordinates, signature, units
 
@@ -85,11 +88,30 @@ $[\Psi] = [\psi] = 7/2$, $[\kappa] = -6$ ($\kappa = 8\pi G_8$).
   $s_{ij} = \sin\theta_{ij}$, $c_{ij} = \cos\theta_{ij}$ (while $c$ with the subscripts $L$, $Q$, $R$, $\psi$ is a localisation $f\mu L$);
   $J$ is the Jarlskog invariant (and the block operator $\gamma^{x_0}\gamma^{x_1}\gamma^{x_4}$); in section 9 $u = \cos\vartheta$ is the
   direction cosine of a neutrino ($u$ is also the up quark and $u(y)$ a boson profile).
-* Portals: $G_V$, $G_g$, $G_W$, $G_B$, $G_A$ are four-dimensional coupling strengths ($G_N$, $G_F$ Newton's and Fermi's constants);
-  $\tilde I_{of}$, $\tilde I^{(b)}_{of}$ overlap integrals; $q_\psi$ the $B - L$ charge of a multiplet; $P_a = (1 + \gamma^{x_0})/2$, $P_b = (1 - \gamma^{x_0})/2$
-  the $x_0$-chiral projectors ($P_\pm = (1 \pm \Gamma_4)/2$ the four-dimensional ones); $J^B_M$ the baryon-number current. In section 10,
-  $x = M/T$, $Y = n/s$ ($s$ the entropy density), $g_\rho$, $g_s$ effective numbers of degrees of freedom, $\gamma$ a rate density (not a
-  gamma matrix) and $K_1$, $K_2$ modified Bessel functions.
+* Portals: $G_V$, $G_g$, $G_W$, $G_B$, $G_A$ are four-dimensional coupling strengths ($G_N$, $G_F$ Newton's and Fermi's constants;
+  $G_i$ the I12 strength of the gauge group $i$; in section 10 $G$ is the total I12 strength and $G_f$ the coupling of one fermion multiplet;
+  $G_A^{B-L}$ is the strength a $B - L$ variant of I13 would need and $G_\lambda$ the strength of the self-interaction channel);
+  $\tilde I_{of}$, $\tilde I^{(b)}_{of}$, $\tilde I_\lambda$ overlap integrals; $q_\psi$ the $B - L$ charge of a multiplet and $q^B_f$ its baryon number;
+  $P_a = (1 + \gamma^{x_0})/2$, $P_b = (1 - \gamma^{x_0})/2$ the $x_0$-chiral projectors ($P_\pm = (1 \pm \Gamma_4)/2$ the four-dimensional ones); $J^B_M$
+  the baryon-number current. In section 10, $x = M/T$ ($M$ the dark-matter mass, $T$ the temperature), $Y = n/s$ ($s$ the entropy density),
+  $g_\rho$, $g_s$ effective numbers of degrees of freedom ($g_{s,e\gamma}$ that of the photons and the $e^\pm$ pairs alone), $\gamma$ a rate
+  density (not a gamma matrix), $K_1$, $K_2$ modified Bessel functions of the second kind, $N_c$ the number of Weyl components of a multiplet,
+  which share its overlap (3 for a quark singlet, 6 for a quark doublet, 2 for a lepton doublet, 1 for a charged-lepton singlet), $N_\chi = N_F = 2$
+  the number of fold bands (the massless fold zero modes of $\Psi_A$ and of $\Psi_B$, two Dirac fermions) and $\sum_{A,B}$ the sum over the two
+  dark-matter species (the lowest odd states of $\Psi_A$ and of $\Psi_B$).
+* Further symbols. $s$ is the entropy density (section 10), the Mandelstam variable (the squared centre-of-mass energy of a pair, in
+  $\sigma(s)$, $\sqrt s$ and the thermal averages), $\sinh w/w$ (section 6.2) and, with indices, $\sin\theta_{ij}$; $s_o$, $s_{DM}$ and $s_{DF}$ are
+  scalar densities of orbitals. $\beta$ is the tip parameter of the boson $x_0$ problems (section 6.1) and, in section 10, the velocity
+  $\sqrt{1 - 4M^2/s}$ of a dark-matter particle in the centre-of-mass frame ($V_\beta$ is the block basis). $p$ is a pressure ($p_0$, $p_3$, $p_t$,
+  the hidden pressure $\bar p = (p_0 + 3p_t)/4$, the order-$\alpha$ pressure $p_2$ of a gauge plasma), a momentum (of a neutrino in section 9; the
+  centre-of-mass momentum and the integration variable of the ideal-gas integrals in section 10) and the Lovelock order in section 5.6. $J$ is
+  also the total angular momentum of a partial wave (section 10). $a$ is the scale factor $e^{a_4}$ (sections 8 and 10; $a_4$ is a metric
+  function), $a = 3\eta/2$ in section 8.1, and $a$, $b$ (with or without a subscript) are the upper and lower components of an orbital. $M$ is a
+  coordinate index, the author's mass parameter in $m = 3HM$, the mass function $M(y)$ of the Kohn-Sham equations ($M_{eff}$ with the mean
+  fields), a static source mass in section 8.1 and the dark-matter mass in section 10 ($M_{Pl} = G_N^{-1/2}$ is the Planck mass). $\delta$ marks
+  a variation or perturbation ($\delta k$, $\delta\ln f$, $\delta\rho$, $\delta\varepsilon$), the tip delta function $\delta_{tip}$ and Kronecker deltas
+  ($\delta_{\alpha e}$, $\delta_{l0}$), and in section 10 $\delta = \frac13\,d\ln g_s/d\ln T$. $c_\rho$, $c_3$, $c_p$ are the coefficients of the adiabatic
+  block response (section 7.1), $b$ (without a subscript) the one-loop coefficient of the strong coupling and $b_i$ those of $SU(2)$ and $U(1)_Y$.
 * $H$ is the author's constant, except in the neutrino-decoupling equations of section 9 and in section 10, where $H$ is the Hubble rate; the time
   is always $x_4$ (dots and $d/dx_4$), and the symmetry axis of the fast-flavour analysis is $x_3$. $\Lambda^0$, $\Lambda^3$ (upper
   indices) are the fast-flavour potentials. $G(k)$ is the Einstein-Hilbert coefficient and $G(u)$ the electron-lepton-number
@@ -141,10 +163,17 @@ $$ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}\,(i\bar
 with the $B - L$ charges $q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_L = q_{e_R} = q_{\nu_R} = -1$;
 $$ S_{I12} = -\int d^8x\sqrt{\lvert g\rvert}\;\frac{\bar\Psi\Psi}{\Lambda_\star^3}\,\mathcal F,\qquad
    \mathcal F = c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN} ;$$
-$$ S_{I13} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_A}{\Lambda_\star^6}\,(i\bar\Psi\gamma^MP_b\Psi)\,J^B_M,\qquad P_b = \frac{1 - \gamma^{x_0}}{2},\qquad
+$$ S_{I13} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_A}{\Lambda_\star^6}\sum_{M \ne x_0}(i\bar\Psi\gamma^MP_b\Psi)\,J^B_M,\qquad P_b = \frac{1 - \gamma^{x_0}}{2},\qquad
    J^B_M = \frac13\sum_{i=1}^{3}\sum_{\psi\in\{Q_i,\,u_{Ri},\,d_{Ri}\}}i\bar\psi\gamma_M\psi $$
-(version 3; $\gamma^{x_0}$ the frame matrix). Since $\gamma^{x_0}$ anticommutes with $\gamma^\mu$ and with $C$, $P_a\gamma^\mu = \gamma^\mu P_b$ and $CP_bC^{-1} = P_a$
-($P_a = (1 + \gamma^{x_0})/2$), so $i\bar\Psi\gamma^\mu P_b\Psi$ is Hermitian; it is a four-dimensional vector and commutes with $B$ (DERIVED).
+(version 3; $\gamma^{x_0}$ the frame matrix; the sum runs over the seven directions $M = x_1, \dots, x_7$; written in the frame it is
+$\sum_{a=1}^{7}(i\bar\Psi\gamma^aP_b\Psi)\,J^B_a$ with $J^B_a = e_a{}^MJ^B_M$, the same for the diagonal order-0 metric). Since $\gamma^{x_0}$ anticommutes with
+every $\gamma^M$, $M \ne x_0$, and with $C$, $P_a\gamma^M = \gamma^MP_b$ and $CP_bC^{-1} = P_a$ ($P_a = (1 + \gamma^{x_0})/2$), so $i\bar\Psi\gamma^MP_b\Psi$
+is Hermitian for $M \ne x_0$; for $M = x_0$ it is not, $(iC\gamma^{x_0}P_b)^\dagger = iC\gamma^{x_0}P_a$ (it would couple $P_a\Psi$ to $P_b\Psi$ and make the
+action complex), which is why the sum leaves out $x_0$ ($J^B_{x_0}$ vanishes on the quark zero modes in any case). The components $M = \mu$
+form a four-dimensional vector ($P_b$ commutes with the Lorentz generators $\gamma^\mu\gamma^\nu$); $C\gamma^MP_b$ commutes with $B$ for
+$M = x_1, \dots, x_4$ and anticommutes for $M = x_5, x_6, x_7$, whose currents vanish for spinors in one half (in particular $J^B_{x_5}$, $J^B_{x_6}$,
+$J^B_{x_7}$ on the Standard-Model zero modes, which lie in the half $B = -1$), so on the zero modes I13 does not mix $\Psi_A$ and $\Psi_B$
+(DERIVED with the author's matrices, exact).
 In the unitary gauge $\Sigma = 1$ the sigma-field kinetic term becomes
 $-\frac{v_\Sigma^2}{8}\big[2\hat g^2W^+_\mu W^{-\mu} + (\hat g^2 + \hat g'^2)Z_\mu Z^\mu\big]$ (canonical fields).
 
@@ -195,7 +224,7 @@ $$ T_{\mu\nu}[\text{tip}] = \delta_{tip}\Big[\frac{v_\Sigma^2}{2}\,\mathrm{tr}\b
 
 **Portals.** The frame currents $i\bar\Psi\gamma^a\Psi$, $i\bar\psi\gamma^a\psi$ and the scalars $\bar\Psi\Psi$ do not depend on the vielbein,
 so only $\sqrt{\lvert g\rvert}$ and the explicit metric factors vary:
-$$ T_{MN}[I11] = g_{MN}\,\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^P\Psi)\mathcal J_P,\qquad T_{MN}[I13] = g_{MN}\,\frac{c_A}{\Lambda_\star^6}(i\bar\Psi\gamma^PP_b\Psi)J^B_P,$$
+$$ T_{MN}[I11] = g_{MN}\,\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^P\Psi)\mathcal J_P,\qquad T_{MN}[I13] = g_{MN}\,\frac{c_A}{\Lambda_\star^6}\sum_{P \ne x_0}(i\bar\Psi\gamma^PP_b\Psi)J^B_P,$$
 $$ T_{MN}[I12] = \frac{4\bar\Psi\Psi}{\Lambda_\star^3}\Big[c_G\Big(G^\alpha_{MP}G^\alpha{}_N{}^P - \frac14g_{MN}G^\alpha_{PQ}G^{\alpha PQ}\Big) + (W, c_W) + (B, c_B)\Big], $$
 so I12 acts as a field-dependent gauge coupling, $1/\hat g_i^2 \to 1/\hat g_i^2 + 4c_i\bar\Psi\Psi/\Lambda_\star^3$.
 
@@ -203,7 +232,7 @@ so I12 acts as a field-dependent gauge coupling, $1/\hat g_i^2 \to 1/\hat g_i^2 
 
 ## dirac16complex
 
-$$ \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\,\frac{c_V}{\Lambda_\star^6}\,\mathcal J_M\gamma^M\Psi - i\,\frac{c_A}{\Lambda_\star^6}\,J^B_M\gamma^MP_b\Psi, $$
+$$ \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\,\frac{c_V}{\Lambda_\star^6}\,\mathcal J_M\gamma^M\Psi - i\,\frac{c_A}{\Lambda_\star^6}\sum_{M \ne x_0}J^B_M\gamma^MP_b\Psi, $$
 and its conjugate. The gravitational term is $\gamma^M\Omega_M$; for the order-0 metric (DERIVED, exact for every $a_4$, $b_4$
 and on both halves of a period)
 $$ \gamma^M\Omega_M = \frac32\,\frac{H}{f}\,\gamma^{x_0} + \Big(\frac{\dot b_4}{b_4} - \frac{\dot a_4}{2}\Big)\gamma^{x_4}, $$
@@ -213,7 +242,7 @@ $\Psi$ is a singlet of the Standard-Model group: it couples to the Standard Mode
 ## The Standard-Model fermions
 
 For a multiplet $\psi_i$ of generation $i$ and charge $q_\psi$ (I11; the I13 term only for the quark multiplets $Q_i$, $u_{Ri}$, $d_{Ri}$),
-$$ \gamma^MD_M\psi_i = \mu_{\psi i}\,\psi_i - i\,\frac{c_V}{\Lambda_\star^6}\,q_\psi\,(i\bar\Psi\gamma_M\Psi)\,\gamma^M\psi_i - i\,\frac{c_A}{\Lambda_\star^6}\,\frac13\,(i\bar\Psi\gamma_MP_b\Psi)\,\gamma^M\psi_i + \delta_{tip}\,(\text{Yukawa})_i,$$
+$$ \gamma^MD_M\psi_i = \mu_{\psi i}\,\psi_i - i\,\frac{c_V}{\Lambda_\star^6}\,q_\psi\,(i\bar\Psi\gamma_M\Psi)\,\gamma^M\psi_i - i\,\frac{c_A}{\Lambda_\star^6}\,\frac13\sum_{M \ne x_0}(i\bar\Psi\gamma_MP_b\Psi)\,\gamma^M\psi_i + \delta_{tip}\,(\text{Yukawa})_i,$$
 $$ (\text{Yukawa})_{L_i} = \sum_j\Sigma(\Lambda_\ell)_{ij}\,\ell_{Rj},\qquad (\text{Yukawa})_{\ell_{Rj}} = \sum_i(\Lambda_\ell)^*_{ij}\Sigma^\dagger L_i, $$
 $$ (\text{Yukawa})_{Q_i} = \sum_j\Sigma(\Lambda_q)_{ij}\,q_{Rj},\qquad (\text{Yukawa})_{q_{Rj}} = \sum_i(\Lambda_q)^*_{ij}\Sigma^\dagger Q_i .$$
 For one generation the tip terms are equivalent to the self-adjoint mixing conditions at $y = -L$ (DERIVED; block form
@@ -478,29 +507,79 @@ $G_i = \mathcal O\,c_ig_i^2/\Lambda_\star^3$, $\mathcal O = \partial\varepsilon_
 In an environment with the net densities $n_p$, $n_n$, $n_e$ of protons, neutrons and electrons (unpolarised: each chirality carries half;
 $n_u = 2n_p + n_n$, $n_d = n_p + 2n_n$) and the temperature $T$, the level $\varepsilon_o$ moves by
 $$ \delta\varepsilon_o = \sum_f\big(G_Vq_f\tilde I_{of} + G_Aq^B_f\tilde I^{(b)}_{of}\big)\,n_f + \mathcal O\,\frac{c}{\Lambda_\star^3}\Big[\langle g_s^2G^\alpha G^\alpha\rangle + \langle g^2W^aW^a\rangle + \langle g'^2BB\rangle\Big] $$
-(universal $c_G = c_W = c_B = c$; canonical field strengths), with the gluon condensate from the trace anomaly
-$\theta^\mu{}_\mu = -\frac{b\alpha_s}{8\pi}G^\alpha_{\mu\nu}G^{\alpha\mu\nu} + \dots$,
+(universal $c_G = c_W = c_B = c$; canonical field strengths), with the gluon condensate from the trace anomaly of QCD,
+$\langle\theta^\mu{}_\mu\rangle = \rho - 3p = -\frac{b\alpha_s}{8\pi}\langle G^\alpha_{\mu\nu}G^{\alpha\mu\nu}\rangle$ for the thermal parts (written in the signature $(+,-,-,-)$, in
+which the trace of the energy-momentum tensor of a fluid is $\rho - 3p$; in the signature $(+,+,+,-)$ of this document the trace is
+$3p - \rho = +\frac{b\alpha_s}{8\pi}G^\alpha_{\mu\nu}G^{\alpha\mu\nu}$, while $G^\alpha_{\mu\nu}G^{\alpha\mu\nu}$ is the same in both, so the relation below does not depend on the
+convention),
 $$ \Big\langle\frac{\alpha_s}{\pi}G^\alpha G^\alpha\Big\rangle_T = \Big\langle\frac{\alpha_s}{\pi}G^\alpha G^\alpha\Big\rangle_0 - \frac{8}{b}(\rho - 3p)_{QCD},\qquad b = 11 - \frac23n_f,\qquad
    \langle g_s^2G^2\rangle = 4\pi^2\Big\langle\frac{\alpha_s}{\pi}G^2\Big\rangle, $$
 $\langle\frac{\alpha_s}{\pi}G^2\rangle_0 = 0.012$ GeV$^4$ (STANDARD), the QCD interaction measure $(\rho - 3p)/T^4 = 4\exp[-\ln^2(T/0.2\ \text{GeV})/0.5]$ below 1 GeV
-(ESTIMATE) and $\frac{b}{3}(1 + \frac{5n_f}{12})\alpha_s^2$ above, which follows from the pressure $p = \frac{8\pi^2}{45}T^4[1 + \frac{21n_f}{32} - \frac{15}{4}(1 + \frac{5n_f}{12})\frac{\alpha_s}{\pi}]$ and
+(ESTIMATE) and $\frac{b}{3}(1 + \frac{5n_f}{12})\alpha_s^2$ above ($\alpha_s$ at the scale $2\pi T$, one loop from $\alpha_s(m_Z)$), which follows from the pressure $p = \frac{8\pi^2}{45}T^4[1 + \frac{21n_f}{32} - \frac{15}{4}(1 + \frac{5n_f}{12})\frac{\alpha_s}{\pi}]$ and
 $d\alpha_s/d\ln T = -\frac{b}{2\pi}\alpha_s^2$ through $\rho - 3p = T^5\,d(p/T^4)/dT$; and for each massive vector boson $V$ of mass $m_V$ the thermal condensate
-$$ \langle F_{\mu\nu}F^{\mu\nu}\rangle_T = -2(\rho - 3p)_V,\qquad (\rho - 3p)_V = \rho_V - 3p_V\ \text{of its ideal gas,} $$
-because on shell the Proca Lagrangian $-\frac14F^2 + \frac12m_V^2A^2$ is a total derivative (so $\langle -\frac14F^2\rangle = -\langle\frac12m_V^2A^2\rangle$) while
-$T^\mu{}_\mu = -m_V^2A_\mu A^\mu$; thus $\langle g^2W^aW^a\rangle = g^2[2(-2I_W) + \cos^2\theta_W(-2I_Z)]$, $\langle g'^2BB\rangle = g'^2\sin^2\theta_W(-2I_Z)$, $I_V = (\rho - 3p)_V$.
+$$ \langle F_{\mu\nu}F^{\mu\nu}\rangle_T = -2(\rho - 3p)_V,\qquad (\rho - 3p)_V = \rho_V - 3p_V\ \text{of its ideal gas (3 states),} $$
+because on shell the Proca Lagrangian, written in the signature $(+,-,-,-)$ as $-\frac14F^2 + \frac12m_V^2A_\mu A^\mu$, is a total derivative (so
+$\langle -\frac14F^2\rangle = -\langle\frac12m_V^2A_\mu A^\mu\rangle$), while $T^\mu{}_\mu = -m_V^2A_\mu A^\mu = \rho - 3p$ (in the signature $(+,+,+,-)$ the mass term is
+$-\frac12m_V^2A_\mu A^\mu$, $\langle -\frac14F^2\rangle = +\langle\frac12m_V^2A_\mu A^\mu\rangle$ and $T^\mu{}_\mu = -m_V^2A_\mu A^\mu = 3p - \rho$: the relation is the same). This is the
+free part. Above $m_W$ the interaction pressure of the electroweak plasma dominates: for a gauge field with the Lagrangian
+$-F_{geo}^2/(4g^2)$ ($F_{geo} = gF$) the Feynman-Hellmann theorem gives
+$$ \langle F_{geo}^2\rangle = -4\,\frac{\partial p}{\partial(1/g^2)} = 4g^2p_2,\qquad p_2 = -\frac{g^2T^4}{144}\,d_A\Big[C_A + \frac52T_FN_f\Big] $$
+for the leading-order pressure $p_2 \propto g^2$ of a gauge plasma with $N_f$ Dirac fermions in the representation of index $T_F$, massless
+(STANDARD; for QCD, $d_A = 8$, $C_A = 3$, $T_F = \frac12$, $N_f = n_f$, it reproduces the trace-anomaly condensate above exactly, DERIVED to $10^{-16}$):
+for $SU(2)$ $d_A = 3$, $C_A = 2$ and twelve Weyl doublets ($T_FN_f = 3$); for $U(1)_Y$ $d_A = 1$, $C_A = 0$ and $\frac52T_FN_f \to \frac52\sum_{Dirac}Y^2 = \frac52\cdot5$
+($\sum_{Weyl}Y^2 = 10$ for three generations); no scalar term (ESTIMATE), and below $m_W$ multiplied by the thermal suppression
+$\rho(m_W, T)/\rho(0, T)$ of a massive vector (ESTIMATE). The couplings are taken at $\mu = 2\pi T$, one loop from the $\overline{MS}$ values at $m_Z$
+without a Higgs particle,
+$$ \frac{1}{\alpha_i(\mu)} = \frac{1}{\alpha_i(m_Z)} + \frac{b_i}{2\pi}\ln\frac{\mu}{m_Z},\qquad b_2 = \frac{10}{3},\quad b_Y = -\frac{20}{3},\qquad
+   \frac{1}{\alpha_2(m_Z)} = \frac{\hat s_Z^2}{\alpha},\quad \frac{1}{\alpha_Y(m_Z)} = \frac{1 - \hat s_Z^2}{\alpha} $$
+($\alpha = 1/127.95$ at $m_Z$ and the $\overline{MS}$ value $\hat s_Z^2 = \sin^2\hat\theta_W(m_Z) = 0.23122$; for QCD $b = 11 - \frac23n_f$). Hence
+$$ \langle g^2W^aW^a\rangle = g^2\big[2(-2I_W) + \cos^2\theta_W(-2I_Z)\big] + 4g^2p_2^{SU(2)}, $$
+$$ \langle g'^2BB\rangle = g'^2\sin^2\theta_W(-2I_Z) + 4g'^2p_2^{U(1)},\qquad I_V = (\rho - 3p)_V $$
+($g^2 = 4\pi\alpha_2(2\pi T)$, $g'^2 = 4\pi\alpha_Y(2\pi T)$; here $\theta_W$ is the angle of the couplings of section 6.1).
 Conversely $\Psi$ acts on the Standard Model through the field-dependent couplings of section 3.1, $\delta\alpha_i/\alpha_i = -4G_in_{DM}$, and on
 the $x_0$ problem of the $W$ and $Z$ through the kinetic function $1 + e\,s_{DM}(y)$,
 $$ -\frac{1}{K e^{3\eta\xi}}\big(Ke^{3\eta\xi}u'\big)' = \Lambda u,\qquad K(\xi) = 1 + e\,s_{DM}(y),\qquad u'(0) = 0,\qquad K(-1)u'(-1) = \beta u(-1), $$
-$s_{DM} = 2ab$ the scalar density of the dark-matter orbital (primes $d/d\xi$). Gravity closes the loop: every species pushes on the block
-with its hidden pressure $p_0 = -\rho\,d\ln m/d\ln f$, so that
-$$ \kappa\bar p = -\frac{8\pi G_NG(k_*)}{4}\sum_s\rho_s\frac{d\ln m_s}{d\ln f},\qquad \delta k = \frac{\kappa\bar p}{3H^2 - 4\kappa\rho_b^*/k_*},\qquad \delta\ln f = -\frac{\delta k}{2k_*},\qquad
-   \delta\ln m_s = \frac{d\ln m_s}{d\ln f}\,\delta\ln f , $$
-iterated with the masses until self-consistency. The nucleon follows the QCD scale: with $1/\alpha_s(m_{KK}) = 1/\alpha_s(m_Z) + \frac{7}{2\pi}\ln(m_{KK}/m_Z)$
+$s_{DM} = 2ab$ the scalar density of the dark-matter orbital (primes $d/d\xi$).
+
+Gravity closes the loop. The block responds to the block-averaged sources $\rho$, $p_3$, $\bar p$ of all species with the adiabatic response of
+section 5.5 ($\delta\ddot k = 0$),
+$$ \delta k = \frac{c_\rho\,\kappa\delta\rho + c_3\,\kappa\delta p_3 + c_p\,\kappa\delta\bar p}{H^2},\qquad c_\rho = 0.035852,\quad c_3 = -0.107556,\quad c_p = -0.140028,$$
+$$ \delta\ln f = -\frac{\delta k}{2k_*},\qquad \delta\ln m_s = \frac{d\ln m_s}{d\ln f}\,\delta\ln f , $$
+iterated with the masses until self-consistency. Radiation ($p_3 = \rho/3$) drops out exactly ($c_3 = -3c_\rho$), so only the trace $\rho - 3p_3$ and
+the hidden pressure act; the block averages of four-dimensional densities are $\kappa\delta\rho = 8\pi G_NG(k_*)\rho_4$ (likewise for $p_3$ and $\bar p$;
+section 5.6). The hidden pressure is the response of the pressure to the block scale at fixed temperature, $\bar p = \frac14\,\partial p/\partial\ln f$:
+$$ \bar p = -\frac14\sum_s(\rho_s - 3p_s)\frac{d\ln m_s}{d\ln f} - \frac14(\rho - 3p)_{QCD}\frac{d\ln\Lambda^{(n_f)}}{d\ln f} + \frac14\sum_{i = 2, Y}p_2^{(i)}\,\frac{d\ln\alpha_i}{d\ln f} .$$
+The first sum runs over the species of mass $m_s(f)$ (for an ideal gas $m\,\partial p/\partial m = -(\rho - 3p)$; non-relativistic matter gives $-\frac14\rho\,d\ln m/d\ln f$):
+the plasma species as ideal gases with their $x_0$ masses, the net nucleons and electrons (degenerate Fermi gases in the cold environments,
+$\rho = nm$ and $p = nT$ in the hot ones) and the dark matter (in equilibrium with eight states while $M/T < 40$, its relic density afterwards). The
+second term follows from $p = T^4\varphi(T/\Lambda)$, for which $\partial p/\partial\ln\Lambda = -(\rho - 3p)$; the third from the order-$\alpha$ pressure $p_2^{(i)} \propto \alpha_i$ of
+the electroweak plasma, with
+$$ \frac{d\ln\alpha_i(\mu)}{d\ln f} = -\alpha_i(\mu)\Big[\frac{4}{\alpha_i(m_{KK})} + \frac{b_i}{2\pi}\Big] $$
+(the bulk gauge couplings scale as $\alpha_i(m_{KK}) \propto f^{-4}$, since $g_i^2 = \hat g_i^2/V_\perp$ and $V_\perp \propto f^4$, and $m_{KK} \propto 1/f$). In the trace
+$\rho - 3p_3$ the QCD and the electroweak plasmas contribute $(\rho - 3p)_{QCD}$ and $(\rho - 3p)_i = -\frac{b_i\alpha_i}{2\pi}\,p_2^{(i)}$ (the leading-order trace
+anomaly, from $\rho - 3p = T^5\,d(p/T^4)/dT$ with $d\ln\alpha_i/d\ln\mu = -b_i\alpha_i/(2\pi)$).
+
+The environments of the coupled solution: the cosmic mean today (the Planck baryon density with the helium fraction $Y_p = 0.2457$ and
+$\Omega_ch^2 = 0.120$), the Galaxy at the Sun ($n_p = n_e = 1$ cm$^{-3}$), the Earth (mean density $5.51$ g/cm$^3$, 48 % protons), the centre of the Sun
+(150 g/cm$^3$, 66 % protons, 32 % neutrons), a white dwarf ($10^6$ g/cm$^3$ of carbon and oxygen, equal numbers of protons and neutrons), a
+neutron-star core ($0.3$ fm$^{-3}$, 10 % protons, $n_e = n_p$), all bound objects with the local dark-matter density $0.4$ GeV/cm$^3$; and the hot
+Universe at nucleosynthesis ($T = 1$ MeV), the QCD crossover ($200$ MeV), the electroweak era ($100$ GeV) and the dark-matter freeze-out
+($T = M/x_f$), with the net baryon density $\eta_bn_\gamma$, $\eta_b = 6.1\times10^{-10}$, $n_\gamma = 2\zeta(3)T^3/\pi^2$, shared as $n_n/n_p = e^{-Q/T}$ ($Q = 1.293$ MeV),
+$n_e = n_p$, and the dark matter in equilibrium, $n = 2\cdot4(MT/2\pi)^{3/2}e^{-M/T}$ for the two species together, while $M/T < 40$.
+
+The nucleon follows the QCD scale: with $1/\alpha_s(m_{KK}) = 1/\alpha_s(m_Z) + \frac{7}{2\pi}\ln(m_{KK}/m_Z)$
 (six flavours, one loop), $\alpha_s \propto f^{-4}$, $m_{KK} \propto 1/f$, $\Lambda^{(6)} = m_{KK}e^{-2\pi/(7\alpha_s(m_{KK}))}$, the one-loop matching
 $\Lambda^{(3)} = \Lambda^{(6)\,21/27}(m_cm_bm_t)^{2/27}$ and $m_p = (1 - \frac{\sigma_{\pi N} + \sigma_s}{m_p})\,C\Lambda^{(3)} + \sigma$ terms,
 $$ \frac{d\ln m_p}{d\ln f} = \Big(1 - \frac{\sigma_{\pi N} + \sigma_s}{m_p}\Big)\Big[\frac{21}{27}\Big(-1 - \frac{8\pi}{7\alpha_s(m_{KK})}\Big) + \frac{2}{27}\sum_{q=c,b,t}\frac{d\ln m_q}{d\ln f}\Big]
    + \frac{\sigma_{\pi N}}{2m_p}\Big(\frac{d\ln m_u}{d\ln f} + \frac{d\ln m_d}{d\ln f}\Big) + \frac{\sigma_s}{m_p}\frac{d\ln m_s}{d\ln f} $$
-($\sigma_{\pi N} = 45$ MeV, $\sigma_s = 40$ MeV; ESTIMATE).
+($\sigma_{\pi N} = 45$ MeV, $\sigma_s = 40$ MeV; ESTIMATE). Through the thresholds,
+$$ \frac{d\ln\Lambda^{(6)}}{d\ln f} = -1 - \frac{8\pi}{7\alpha_s(m_{KK})},\qquad \frac{d\ln\Lambda^{(5)}}{d\ln f} = \frac{21}{23}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{23}\frac{d\ln m_t}{d\ln f},$$
+$$ \frac{d\ln\Lambda^{(4)}}{d\ln f} = \frac{21}{25}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{25}\Big(\frac{d\ln m_t}{d\ln f} + \frac{d\ln m_b}{d\ln f}\Big),\qquad
+   \frac{d\ln\Lambda^{(3)}}{d\ln f} = \frac{21}{27}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{27}\sum_{q = c,b,t}\frac{d\ln m_q}{d\ln f},$$
+$$ \frac{d\ln m}{d\ln f} = -1 + \frac12\Big[\frac{d\ln\zeta(c_L)^2}{d\ln c_L} + \frac{d\ln\zeta(-c_R)^2}{d\ln(-c_R)}\Big] $$
+for a fermion of mass $m = e/(fL)$ with the first-order root $e \simeq \kappa_f\zeta(c_L)\zeta(-c_R)$ of section 6.2 and localisations $c = f\mu L$ proportional to $f$
+(DERIVED): $d\ln m_q/d\ln f = -18.82$, $-18.01$, $-14.90$, $-12.15$, $-10.89$, $-6.77$ for $u$, $d$, $s$, $c$, $b$, $t$, so that $\alpha_s(m_{KK}) = 0.0606$,
+$d\ln\Lambda^{(6)}/d\ln f = -60.2$, $d\ln\Lambda^{(3)}/d\ln f = -49.0$ and $d\ln m_p/d\ln f = -46.1$.
 
 # The linear perturbations (order $\epsilon$): CMB, CNB, BAO
 
@@ -525,7 +604,8 @@ summed over the species of UM-2:
   $E_i = \sqrt{q^2 + a^2m_i^2}$, Fermi-Dirac distribution $\bar f_\nu(q)$, multipoles $\mathcal N^{(i)}_l$ of the perturbed distribution):
   $\mathcal N^{(i)\prime}_0 = -\frac{qk}{E_i}\mathcal N^{(i)}_1 - \phi'\frac{d\ln\bar f_\nu}{d\ln q}$, $\mathcal N^{(i)\prime}_1 = \frac{qk}{3E_i}(\mathcal N^{(i)}_0 - 2\mathcal N^{(i)}_2) - \frac{E_ik}{3q}\psi\frac{d\ln\bar f_\nu}{d\ln q}$,
   $\mathcal N^{(i)\prime}_l = \frac{qk}{(2l+1)E_i}[l\mathcal N^{(i)}_{l-1} - (l+1)\mathcal N^{(i)}_{l+1}]$ ($l \ge 2$);
-* the fold bands of $\Psi$ are never thermalised and do not contribute: there is no dark radiation.
+* the fold bands of $\Psi$ are never thermalised; produced by freeze-in through I11 (section 10), they are massless free-streaming
+  radiation with $\Delta N_{eff} = 0.001$ (below), the only dark radiation of UM-2.
 
 The background is $\mathcal H^2 = \frac{8\pi G_N}{3}a^2\bar\rho_{tot} + \frac{\Lambda_4}{3}a^2$, adiabatic initial conditions with the power
 spectrum $\mathcal P(k) = A_s(k/k_0)^{n_s - 1}$. The relativistic content is $N_{eff} = 3.0432$, carried by the three mass eigenstates
@@ -543,11 +623,12 @@ $\sigma_8^2 = \int_0^\infty\frac{dk}{k}\frac{k^3P_m(k)}{2\pi^2}W^2(kR)$ with the
 The $n \ge 1$ terms of $h^{(1)}_{MN} = \sum_nh^{(1,n)}_{MN}u_n(x_0)$ are massive. For the graviton ($\beta = 0$) the even profiles and masses are
 $$ u_n(\xi) = e^{-a\xi}\Big(\cos q_n\xi + \frac{a}{q_n}\sin q_n\xi\Big),\qquad q_n = n\pi,\qquad a = \frac{3\eta}{2},\qquad m_n = \frac{\sqrt{\Lambda_n}}{fL},\quad \Lambda_n = \frac{9\eta^2}{4} + n^2\pi^2, $$
 normalised by $N_n = \int_{-1}^0e^{3\eta\xi}u_n^2d\xi = \frac12(1 + a^2/q_n^2)$ ($N_0 = (1 - e^{-3\eta})/(3\eta)$ for $u_0 = 1$). Each mode couples to a source with the
-normalised $x_0$ profile $\varrho$ through $\int\varrho\,u_n\,d\xi$, so a static source $M$ attracts a mass $m$ with
-$$ V(r) = -\frac{G_NMm}{r}\Big[1 + \sum_{n\ge1}\alpha_ne^{-m_nr}\Big],\qquad \alpha_n = \frac{N_0}{N_n}\Big(\int_{-1}^0\varrho\,u_n\,d\xi\Big)^2 ; $$
-a source with the flat profile $\varrho \propto e^{3\eta\xi}$ of a gauge zero mode has $\alpha_n = 0$ (orthogonality of $u_n$ to $u_0$). The radion
-$\sigma = \delta\ln f$ obeys the linearised block equations of section 5.5 with the hidden pressure of matter as its source; its static
-response is $\delta\ln f$ of section 7.1, its mass $m_r = \omega_r$.
+normalised $x_0$ profile $\varrho$ ($\int_{-1}^0\varrho\,d\xi = 1$) through $\int\varrho\,u_n\,d\xi$, so a static source $M$ with the profile $\varrho_M$ attracts a mass $m$
+with the profile $\varrho_m$ with
+$$ V(r) = -\frac{G_NMm}{r}\Big[1 + \sum_{n\ge1}\alpha_ne^{-m_nr}\Big],\qquad \alpha_n = \frac{N_0}{N_n}\Big(\int_{-1}^0\varrho_M\,u_n\,d\xi\Big)\Big(\int_{-1}^0\varrho_m\,u_n\,d\xi\Big) $$
+($(N_0/N_n)(\int\varrho\,u_n\,d\xi)^2$ for two masses with the same profile); a source with the flat profile $\varrho \propto e^{3\eta\xi}$ of a gauge zero mode has
+$\alpha_n = 0$ (orthogonality of $u_n$ to $u_0$). The radion $\sigma = \delta\ln f$ obeys the linearised block equations of section 5.5 with the sources
+of matter (its trace $\rho - 3p_3$ and its hidden pressure); its static response is $\delta\ln f$ of section 7.1, its mass $m_r = \omega_r$.
 
 # The flavour evolution of the three neutrinos
 
@@ -663,12 +744,16 @@ The flavour content of the mass state $\nu_i$ is $\lvert U_{\alpha i}\rvert^2$.
 # The thermal history and the Boltzmann equations (version 3)
 
 **Degrees of freedom.** In the hot Universe every species $i$ of UM-2 in equilibrium (photon, gluons, $W^+$, $W^-$, $Z$, the six quarks,
-three charged leptons, three neutrinos, the dark matter; masses from the $x_0$ eigenvalues; no Higgs particle; the right-handed
-neutrinos and the fold bands not thermalised) contributes the ideal-gas densities ($g_i$ internal states, upper sign for fermions)
+three charged leptons, three neutrinos, with $g_i = 2$, $16$, $6$ for $W^+$ and $W^-$ together, $3$, $12$ per quark, $4$ per charged lepton and $2$ per
+neutrino; masses from the $x_0$ eigenvalues, the neutrinos massless; no Higgs particle; the right-handed neutrinos and the fold bands are
+not thermalised, and the dark matter is not counted, since it would add less than 0.1 to $g_\rho$ at 5 TeV and nothing at its freeze-out)
+contributes the ideal-gas densities ($g_i$ internal states, upper sign for fermions)
 $$ \rho_i = \frac{g_i}{2\pi^2}\int_0^\infty\frac{p^2E\,dp}{e^{E/T}\pm1},\qquad p_i = \frac{g_i}{6\pi^2}\int_0^\infty\frac{p^4\,dp}{E\,(e^{E/T}\pm1)},\qquad s_i = \frac{\rho_i + p_i}{T},$$
 $$ g_\rho(T) = \frac{30}{\pi^2T^4}\sum_i\rho_i,\qquad g_s(T) = \frac{45}{2\pi^2T^3}\sum_is_i,\qquad H = \Big(\frac{8\pi^3g_\rho}{90}\Big)^{1/2}\frac{T^2}{M_{Pl}}, $$
-with the quark-gluon plasma weighted by $w(T) = \frac12[1 + \tanh((T - T_c)/\Delta T)]$ and a hadron gas by $1 - w(T)$ ($T_c = 155$ MeV, $\Delta T = 15$
-MeV; ASSUMED model of the crossover), and the neutrinos decoupled instantaneously at 2 MeV, after which their temperature follows from the
+with the quark-gluon plasma weighted by $w(T) = \frac12[1 + \tanh((T - T_c)/\Delta T)]$ and a gas of the lightest hadrons by $1 - w(T)$ ($T_c = 155$ MeV,
+$\Delta T = 15$ MeV; ASSUMED model of the crossover; masses in GeV and internal states: $\pi$ 0.1380, 3; $K$ 0.4956, 4; $\eta$ 0.5479, 1; $\rho$ 0.7753, 9;
+$\omega$ 0.7827, 3; $K^*$ 0.8917, 12; $N$ 0.9389, 8; $\eta'$ 0.9578, 1; $\phi$ 1.0195, 3; $\Lambda$ 1.1157, 4; $\Sigma$ 1.1932, 12; $\Delta$ 1.232, 32; from memory),
+and the neutrinos decoupled instantaneously at 2 MeV, after which their temperature follows from the
 separately conserved photon-electron entropy, $T_\nu/T = (g_{s,e\gamma}(T)/(11/2))^{1/3}$. The temperature falls as
 $d\ln T/dx_4 = -H/(1 + \delta)$, $\delta = \frac13\,d\ln g_s/d\ln T$.
 
@@ -687,7 +772,8 @@ quark Weyl components (s-wave, from $^3S_1$), and partial-wave unitarity bounds 
 $$ \sigma_{I12} \le \frac{\pi}{4p^2}\quad (J = 0),\qquad \sigma_{I13} \le \frac{3\pi}{4p^2}\quad (J = 1) ; $$
 where the effective cross-section exceeds its bound it is replaced by the bound (a unitarity-respecting completion that saturates it).
 
-**The fold bands (freeze-in through I11).** With $G_f = G_Vq_f\tilde I_f$ and the fold-band overlaps $\tilde I_f$, the pair-production rate density and
+**The fold bands (freeze-in through I11).** With $G_f = G_Vq_f\tilde I_f$ and the fold-band overlaps $\tilde I_f$ (the sum below runs over the fifteen
+Standard-Model multiplets of three generations in the plasma, each with its $N_c$ Weyl components; the $\nu_R$ are not in the plasma), the pair-production rate density and
 the energy density of the fold bands obey (Maxwell-Boltzmann, massless)
 $$ \gamma = \frac{T}{32\pi^4}\int_0^\infty ds\,\Big(\sum_{\text{spins}}\sigma\Big)\,s^{3/2}K_1(\sqrt s/T) = \frac{4}{\pi^5}N_\chi G_V^2T^8\sum_fN_c(q_f\tilde I_f)^2,\qquad
    \frac{d(\rho_{fold}a^4)}{dx_4} = 8T\,\gamma\,a^4 ,$$
@@ -695,13 +781,29 @@ $$ \gamma = \frac{T}{32\pi^4}\int_0^\infty ds\,\Big(\sum_{\text{spins}}\sigma\Bi
 today $\Delta N_{eff} = \rho_{fold}/\rho_\nu$ with $\rho_\nu = \frac78\frac{\pi^2}{15}T_\nu^4$ per flavour. They stay out of equilibrium if
 $2\gamma/(n_{fold,eq}H) \ll 1$, $n_{fold,eq} = N_\chi\cdot4\cdot\frac34\frac{\zeta(3)}{\pi^2}T^3$.
 
-**The right-handed neutrinos.** For one flavour $\nu_R$ coupled to the dark matter with $G = G_A'\tilde I^{(b)}_{\nu_R}$ (the $B - L$ alternative of I13, with
-charge $-1$), the number density of $\nu_R$ particles obeys
+**The right-handed neutrinos.** If I13 coupled to the $B - L$ current instead of $J^B$ (charge $-1$ for the leptons and the $\nu_R$), the relic would
+need the strength $G_A^{B-L} = G_A\,[S_B/S_{B-L}]^{1/2}$, since the effective cross-section scales with $S = \sum_fN_c(q_f\tilde I^{(b)}_f)^2$ ($S_B$ over the quarks,
+$S_{B-L}$ over the quarks, the leptons and the $\nu_R$; $G_A$ here the value without the unitarity cap), and one flavour $\nu_R$ would couple to the dark
+matter with $G = G_A^{B-L}\tilde I^{(b)}_{\nu_R}$. The number density of $\nu_R$ particles would then obey
 $$ \frac{dn_{\nu_R}}{dx_4} + 3Hn_{\nu_R} = \gamma_\nu\Big(1 - \frac{n_{\nu_R}^2}{n_{\nu_R,eq}^2}\Big),\qquad \gamma_\nu = \sum_{A,B}n_{\chi,eq}n_{\bar\chi,eq}\frac{G^2M^2}{2\pi},\qquad
    n_{\nu_R,eq} = \frac34\frac{\zeta(3)}{\pi^2}T^3 , $$
-($n_{\chi,eq} = 2(MT/2\pi)^{3/2}e^{-x}$ per Dirac species), while elastic scattering on the dark matter keeps the $\nu_R$ at the plasma temperature as long
-as $\Gamma_{el} = \sum_{A,B}(n_\chi + n_{\bar\chi})G^2E^2/\pi > H$ ($E \simeq 3T$; ESTIMATE); a species of $n_W$ Weyl fermions in equilibrium until the
-plasma has $g_s$ entropy degrees of freedom adds $\Delta N_{eff} = n_W(10.75/g_s)^{4/3}F_h$.
+($n_{\chi,eq} = n_{\bar\chi,eq} = 2(MT/2\pi)^{3/2}e^{-x}$ per Dirac species; $G^2M^2/(2\pi)$ is the s-wave $\sigma v$ into one Weyl $\nu_R$ pair), while elastic scattering on the
+dark matter keeps the $\nu_R$ at the plasma temperature as long as
+$$ \Gamma_{el} = \sum_{A,B}(n_\chi + n_{\bar\chi})\,\sigma_{el} > H,\qquad \sigma_{el} = \frac{G^2E^2}{2\pi} $$
+for a Weyl $\nu_R$ of energy $E \simeq 3T$ on a heavy Dirac fermion (ESTIMATE); a species of $n_W$ Weyl fermions in equilibrium until the plasma has
+$g_s$ entropy degrees of freedom adds $\Delta N_{eff} = n_W(10.75/g_s)^{4/3}F_h$. With $J^B$ the $\nu_R$ are produced only through I11, with $G = G_V\tilde I_{\nu_R}$
+(the overlap of the dark-matter orbital with the $\nu_R$ profile), at the fraction $G_V^2\sum_i\tilde I_{\nu_{Ri}}^2\big/\big(G_A^2\sum_fN_c(q_f\tilde I^{(b)}_f)^2\big)$ of the
+I13 annihilation rate into quarks.
+
+**The self-interaction channel.** The contact term $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ contains, for the dark-matter orbital $(a_D, b_D)$ and the fold zero
+mode $(a_F, 0)$ ($b_F = 0$), the four-dimensional term $-\lambda(\bar\chi_D\chi_F)(\bar\chi_F\chi_D)\,s_{DF}(y)^2$ with the transition scalar density
+$s_{DF} = a_Db_F + b_Da_F$, which is odd under the fold reflection while its square is even; so the dark matter annihilates into fold pairs with
+$$ G_\lambda = \frac{\lambda H\tilde I_\lambda}{2f^4v_t},\qquad \tilde I_\lambda = \int_{-L}^{0}s_{DF}^2\,e^{-3Hy}\,dy\ \ (\text{units of }H),\qquad
+   \sigma v = \frac{G_\lambda^2M^2}{2\pi}\ \text{per final fold species (ESTIMATE)}, $$
+and while the dark matter is in equilibrium each annihilation puts $2M$ into the fold bands:
+$$ \frac{d(\rho_{fold}a^4)}{dx_4} = 2M\,\gamma_\lambda\,a^4,\qquad \gamma_\lambda = \sum_{A,B}n_{\chi,eq}n_{\bar\chi,eq}\,\sigma v\,N_F , $$
+integrated from $T_{max}$ to the freeze-out. The fold bands stay out of equilibrium if $2\gamma_\lambda/(n_{fold,eq}H) \ll 1$; otherwise they decouple as
+four Weyl species, $\Delta N_{eff} = 4(10.75/g_s)^{4/3}F_h$, at the lowest temperature at which $2\gamma_\lambda/(n_{fold,eq}H) \ge 1$.
 
 # The coupled system and how it is solved
 
@@ -723,10 +825,11 @@ coupling). UM-2 solves the coupled system in the following hierarchy, each step 
 5. the four-dimensional effective theory and its linear perturbations (CMB, CNB, BAO);
 6. (version 3) the coupled iteration in environments: the Kohn-Sham levels with the mean fields of section 7.1 from the densities
    and condensates of the environment, the field-dependent couplings and the $W$, $Z$ eigenvalues with the dark-matter density,
-   and the block response to the hidden pressures of all species, repeated until the masses are self-consistent;
+   and the full adiabatic block response to the trace $\rho - 3p_3$ and the hidden pressure $\bar p$ of all species (the plasma included), repeated
+   until the masses are self-consistent;
 7. (version 3) the thermal history: the degrees of freedom from the $x_0$ masses, the Boltzmann equations of section 10 for the
-   dark matter (relic), the fold bands (freeze-in) and the right-handed neutrinos, and the terms of the metric series beyond
-   $n = 0$ (section 8.1).
+   dark matter (relic), the fold bands (freeze-in and the self-interaction channel) and the right-handed neutrinos, and the terms of
+   the metric series beyond $n = 0$ (section 8.1).
 
 # What was verified
 
@@ -752,4 +855,8 @@ coupling). UM-2 solves the coupled system in the following hierarchy, each step 
   under I11; the Bessel moments of the freeze-in rate; the Boltzmann solver against the late-time integral ($1.3\times10^{-8}$) and the
   freeze-out formula; the thermal average against its non-relativistic limit; the degrees of freedom against their exact limits
   ($105.75$, $86.25$, $10.75$, $43/11$); the graviton tower against finite elements ($4\times10^{-9}$) and the orthogonality of the flat
-  profile ($2\times10^{-10}$); the potential from the Weyl variable against the Poisson equation ($1.4\times10^{-6}$).
+  profile ($2\times10^{-10}$); the potential from the Weyl variable against the Poisson equation ($1.5\times10^{-6}$);
+* (version 3, after the independent review) the algebra of the I13 bilinear with the author's matrices (Hermitian for $M \ne x_0$, not for
+  $M = x_0$; its $B$ structure; exact); the cancellation of radiation in the block response ($c_3 = -3c_\rho$); the Feynman-Hellmann pressure
+  against the trace-anomaly gluon condensate ($10^{-16}$); the relativistic rate fractions above the unitarity crossings by adaptive
+  quadrature with the breakpoints of the thermal weight.

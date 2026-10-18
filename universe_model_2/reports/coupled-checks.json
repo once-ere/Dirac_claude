@@ -1,5 +1,5 @@
 {
- "check_count": 14,
+ "check_count": 16,
  "checks": [
   {
    "detail": "the overlap Itilde = int (a^2 + b^2) rho_f e^{-3Hy} dy of the dark-matter level with the Standard-Model zero modes equals the derivative of the self-consistent Kohn-Sham level with respect to the I11 amplitude (finite differences at 1e-4 and 2e-4, Richardson) to 3.1e-10: Q 8.272211, e_R 0.397153, L 1.252406; fold band: Q 6.685235, L 1.659210, e_R 8.0805e-01",
@@ -27,12 +27,17 @@
    "passed": true
   },
   {
+   "detail": "with the author's matrices (exact): i C gamma^M P_b is Hermitian for M = x1, ..., x7 and not for M = x0, where (i C gamma^(x0) P_b)^dagger = i C gamma^(x0) P_a (so the action sums over M != x0); C P_b C^-1 = P_a; P_b commutes with the 4D Lorentz generators gamma^mu gamma^nu (the components mu = x1..x4 form a 4D vector); C gamma^M P_b commutes with B for M = x1..x4 and anticommutes for M = x5, x6, x7; Q C gamma^M Q = 0 for M = x5, x6, x7 and Q = (1 - B)/2, (1 + B)/2: the extra-time currents vanish for spinors in one half, in particular J^B_(x5,6,7) on the Standard-Model zero modes (B = -1), so I13 does not mix Psi_A and Psi_B on the zero modes",
+   "name": "C8_I13_algebra",
+   "passed": true
+  },
+  {
    "detail": "a mean field on the b-component, (1 - gamma^(x0))/2 v_b(y) = (1 - sigma3)/2 v_b(y), shifts the dark-matter level by Itilde^(b) = int b^2 rho_f e^{-3Hy} dy (self-consistent Kohn-Sham solutions, Richardson in the amplitude, agreement 2.3e-10: Q 2.613454, L 0.913410, u_R 0.379455) and leaves the fold zero mode and the first fold shell unchanged to 6.8e-14: I13 does not act on the fold bands",
    "name": "C8_I13_overlaps_and_fold_band",
    "passed": true
   },
   {
-   "detail": "with the unitarity-safe I12 benchmark and the s-wave portal I13 (baryon-number current, sum N_c (q Itilde^(b))^2 = 16.351 over the quark Weyl components) each species leaves Omega h^2 = 0.060 for G_A = 1.269e-09 GeV^-2 if the effective cross-section held at every energy (x_f = 31.23; <sigma v>(x_f): I13 9.500e-26, I12 9.906e-28 cm^3/s); that cross-section reaches the J = 1 bound sigma <= 3 pi/(4 p^2) (one channel, 3S1) above v = 0.52, which carries 24.5 % of the rate at freeze-out; with the cross-section capped at the bound the relic needs G_A = 1.278e-09 GeV^-2 (1.1e-04 G_F; x_f = 31.23), and 19.0 % of the freeze-out rate then comes from collisions at the bound (v > 0.51): the relic is reached with most annihilations in the perturbative regime",
+   "detail": "with the unitarity-safe I12 benchmark and the s-wave portal I13 (baryon-number current, sum N_c (q Itilde^(b))^2 = 16.351 over the quark Weyl components) each species leaves Omega h^2 = 0.060 for G_A = 1.269e-09 GeV^-2 if the effective cross-section held at every energy (x_f = 31.23; <sigma v>(x_f): I13 9.500e-26, I12 9.906e-28 cm^3/s); that cross-section reaches the J = 1 bound sigma <= 3 pi/(4 p^2) (one channel, 3S1) above v = 0.52, which carries 24.8 % of the rate at freeze-out; with the cross-section capped at the bound the relic needs G_A = 1.278e-09 GeV^-2 (1.1e-04 G_F; x_f = 31.23), and 21.7 % of the freeze-out rate then comes from collisions at the bound (v > 0.51): the relic is reached with most annihilations in the perturbative regime",
    "name": "C8_I13_relic",
    "passed": true
   },
@@ -42,32 +47,37 @@
    "passed": true
   },
   {
-   "detail": "with the B - L current instead of J^B, I13 would need G_A = 1.072e-09 GeV^-2 (sum N_c (q Itilde^(b))^2 = 22.92; the three nu_R carry 1.2 % of the annihilation) and chi chibar <-> nu_R nubar_R would bring the right-handed neutrinos into equilibrium: from zero abundance at M/T = 2 they reach 0.9997 of the equilibrium number by M/T = 40; the number-changing rate falls below the Hubble rate at M/T = 16.1 and elastic scattering on the dark matter at M/T = 25.1 (T = 1769 GeV, g_s = 105.74); the three nu_R would then add Delta N_eff = 3 (10.75/g_s)^(4/3) F_h = 0.144, N_eff = 3.187, 2.5 standard deviations above ACT DR6 (2.86 +- 0.13): hence I13 couples to the baryon-number current, which leaves the nu_R untouched",
+   "detail": "with the B - L current instead of J^B, I13 would need G_A = 1.072e-09 GeV^-2 (sum N_c (q Itilde^(b))^2 = 22.92; the three nu_R carry 1.2 % of the annihilation) and chi chibar <-> nu_R nubar_R would bring the right-handed neutrinos into equilibrium: from zero abundance at M/T = 2 they reach 0.9997 of the equilibrium number by M/T = 40; the number-changing rate falls below the Hubble rate at M/T = 16.1 and elastic scattering on the dark matter at M/T = 24.4 (T = 1816 GeV, g_s = 105.74); the three nu_R would then add Delta N_eff = 3 (10.75/g_s)^(4/3) F_h = 0.144, N_eff = 3.187, 2.5 standard deviations above ACT DR6 (2.86 +- 0.13): hence I13 couples to the baryon-number current, which leaves the nu_R untouched (with J^B the annihilation into nu_R pairs goes only through I11, at 2.0e-17 of the I13 rate into quarks)",
    "name": "C9_B_minus_L_alternative_thermalises_nuR",
    "passed": true
   },
   {
-   "detail": "the QCD scale tracks the block exponentially: with alpha_s(m_KK) = 0.0606 proportional to f^-4 and m_KK ~ 1/f, d ln Lambda^(6)/d ln f = -1 - (2 pi/(7 alpha_s)) 4 = -60.2; through the c, b, t thresholds d ln Lambda^(3)/d ln f = -49.0; with the sigma terms d ln m_p/d ln f = -46.1 (ESTIMATE, one loop): the nucleon mass is the most block-sensitive mass of UM-2",
+   "detail": "the self-interaction -(lambda/2)(Psibar Psi)^2 lets the dark matter annihilate into the fold bands through the transition scalar density s_DF = a_D b_F + b_D a_F (Itilde_lambda = int s_DF^2 e^{-3Hy} dy = 14.3805): G_lambda = lambda H Itilde_lambda/(2 f^4 v_t); with sigma v = G_lambda^2 M^2/(2 pi) per fold species (ESTIMATE) the channel adds Delta N_eff = 1.825e+26 G_lambda^2 GeV^4 while the dark matter is in equilibrium (T_max = 10 TeV to x_f = 31.23), so Delta N_eff <= 1e-3 requires G_lambda <= 2.34e-15 GeV^-2 (1.8e-06 G_A; the fold bands then stay out of equilibrium, production rate at most 2.7e-02 of the Hubble rate); the Kohn-Sham benchmark lambda_B = 7e-5 H^-6 with v_t = H^-3 would give G_lambda = 1.14e-09 GeV^-2, thermalise the fold bands (production rate up to 6.3e+09 of the Hubble rate, coupled down to T = 2603 GeV) and add Delta N_eff = 0.192; UM-2 therefore ASSUMES G_lambda <= 2.3e-15 GeV^-2, i.e. lambda <= 1.4e-10 H^-6 for v_t = H^-3 or v_t >= 4.9e+05 H^-3 for lambda = lambda_B (lambda_B is a numerical value of the Kohn-Sham tests)",
+   "name": "C10_self_interaction_channel",
+   "passed": true
+  },
+  {
+   "detail": "the QCD scale tracks the block exponentially: with alpha_s(m_KK) = 0.0606 proportional to f^-4 and m_KK ~ 1/f, d ln Lambda^(6)/d ln f = -1 - (2 pi/(7 alpha_s)) 4 = -60.2; through the c, b, t thresholds (d ln m_q/d ln f = -12.15, -10.89, -6.77) d ln Lambda^(3)/d ln f = -49.0; with the sigma terms (d ln m_q/d ln f = -18.82, -18.01, -14.90 for u, d, s) d ln m_p/d ln f = -46.1 (ESTIMATE, one loop): the nucleon mass is the most block-sensitive mass of UM-2",
    "name": "C6_proton_sensitivity",
    "passed": true
   },
   {
-   "detail": "the Standard-Model mean fields shift the dark-matter level by at most 1.6e-06 of its mass over the ten environments (largest: dark-matter freeze-out (T = 1.46 TeV), where the thermal gauge condensates are of order T^4; at most 1.0e-16 from nucleosynthesis to today) (I11 from the quark and electron B - L densities, I13 from the quark baryon-number densities, each with its x0 profiles; I12 from the QCD vacuum condensate, the thermal QCD interaction measure and the thermal W, Z condensates); the fold band stays massless",
+   "detail": "the Standard-Model mean fields shift the dark-matter level by at most 1.5e-06 of its mass over the ten environments (largest: dark-matter freeze-out (T = 1.42 TeV), where the thermal gauge condensates are of order T^4: g_s^2 <GG> = -8.12e+12, g^2 <WW> = -5.03e+11 (O(alpha) part -4.96e+11), g'^2 <BB> = -2.57e+10 GeV^4; at most 1.0e-16 from nucleosynthesis to today) (I11 from the quark and electron B - L densities, I13 from the quark baryon-number densities, each with its x0 profiles; I12 from the QCD vacuum condensate, the thermal QCD interaction measure and the thermal W, Z condensates, free massive-vector and O(alpha) parts; for QCD the Feynman-Hellmann form 4 g^2 p_2 reproduces the trace-anomaly condensate to 1e-16); the fold band stays massless",
    "name": "C4_mean_fields_in_environments",
    "passed": true
   },
   {
-   "detail": "hidden pressures of nucleons (d ln m_p/d ln f = -46.1), electrons and dark matter shift the block by at most delta ln f = 5.6e-45 (nucleon mass 2.6e-43) in the ten environments; the gain of the loop mass -> hidden pressure -> block -> mass is at most 1.3e-44, so the self-consistent iteration converges at once",
+   "detail": "the full adiabatic block response dk = (0.035852 kappa drho -0.107556 kappa dp3 -0.140028 kappa dpbar)/H^2 (radiation drops out exactly: c_3 = -3 c_rho) to the plasma (ideal gases with the x0 masses, the QCD interaction measure with d ln Lambda/d ln f, the O(alpha) electroweak pressure with d ln alpha/d ln f), the net nucleons (d ln m_p/d ln f = -46.1) and electrons and the dark matter shifts the block by at most delta ln f = 1.1e-34 (dark-matter freeze-out (T = 1.42 TeV): pbar = 3.14e+12 GeV^4, rho - 3p3 = 2.24e+11 GeV^4), at most 8.6e-49 from nucleosynthesis to today (nucleon mass at most 5.3e-33); the gain of the loop mass -> source -> block -> mass is at most 1.1e-33, so the self-consistent iteration converges at once",
    "name": "C6_gravity_loop",
    "passed": true
   },
   {
-   "detail": "with the kinetic function 1 + e s_DM(y) (s_DM = 2ab of the dark-matter orbital) the W eigenvalue changes by d ln Lambda_W/de = -0.1126 (finite elements, Richardson in e), i.e. m_W follows the 4D coupling, while the photon (and gluon) zero mode stays exactly massless (Lambda = -2.5e-11 with e = 0.01); the relevant amplitude in the environments is e ~ 4 c g^2 n_DM/Lambda*^3 < 1e-50",
+   "detail": "with the kinetic function 1 + e s_DM(y) (s_DM = 2ab of the dark-matter orbital) the W eigenvalue changes by d ln Lambda_W/de = -0.1126 (finite elements, Richardson in e), i.e. m_W follows the 4D coupling, while the photon (and gluon) zero mode stays exactly massless (Lambda = -2.5e-11 with e = 0.01); the amplitude in the environments, e ~ 4 c g^2 n_DM/Lambda*^3 = |delta alpha/alpha|, is 1.7e-16 at the dark-matter freeze-out, at most 1.1e-36 from nucleosynthesis on and 5.3e-66 for the cosmic mean today",
    "name": "C5_WZ_and_photon",
    "passed": true
   },
   {
-   "detail": "the gauge-kinetic portal of the benchmark changes the strong coupling by 10 % through the thermal dark-matter density at T = 27359 GeV (M/T = 1.62): the coupled effective description holds below this temperature, i.e. through dark-matter freeze-out (M/T = 31) and everything later; the benchmark I12 respects the 3P0 unitarity bound up to sqrt(s) = 2.40 M (an I12 of the relic strength of version 2 would violate it above v = 0.274), and I13 reaches its J = 1 bound only above v = 0.51",
+   "detail": "the gauge-kinetic portal of the benchmark changes the strong coupling by 10 % through the thermal dark-matter density at T = 27359 GeV (M/T = 1.62): the coupled effective description holds below this temperature, i.e. through dark-matter freeze-out (M/T = 31.23) and everything later; the benchmark I12 respects the 3P0 unitarity bound up to sqrt(s) = 2.40 M (an I12 of the relic strength of version 2 would violate it above v = 0.269), and I13 reaches its J = 1 bound only above v = 0.51",
    "name": "C7_validity_domain",
    "passed": true
   }

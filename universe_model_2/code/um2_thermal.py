@@ -162,6 +162,20 @@ def sigmav_thermal(x, M, sig, zbreaks=()):
     return val_ / (8 * M ** 4 * T * K2s ** 2)
 
 
+def rate_fraction_above(sig, M, x, zc):
+    """Fraction of the annihilation rate <sigma v> at x = M/T that comes from collisions with s > 4 M^2 (1 + zc): the ratio of the
+    Gondolo-Gelmini integrals of sigma (s - 4M^2) sqrt(s) K1(sqrt(s)/T) above and over the whole range (z = s/(4M^2) - 1), with the
+    integration range and break points of sigmav_thermal (the integrand is concentrated at z ~ 1/x)."""
+    def w(z):
+        return sig(4 * M * M * (1.0 + z)) * z * math.sqrt(1.0 + z) * k1e(2 * x * math.sqrt(1.0 + z)) * math.exp(
+            -2 * x * (math.sqrt(1.0 + z) - 1.0))
+    zmax = 200.0 / x
+    pts = sorted(set([1.0 / x, 5.0 / x, 20.0 / x] + ([zc] if 0 < zc < zmax else [])))
+    den = quad(w, 0.0, zmax, points=pts, limit=400, epsabs=0.0, epsrel=1e-11)[0]
+    num = quad(w, zc, zmax, points=[q for q in pts if q > zc] or None, limit=400, epsabs=0.0, epsrel=1e-11)[0] if zc < zmax else 0.0
+    return num / den
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 # Boltzmann equation of one Dirac species (Y = Y_chi + Y_chibar), x = M/T
 class Cosmo:
@@ -237,7 +251,7 @@ def main():
 
     # ---------------- T1 thermal history ----------------
     probe = {}
-    for T in (5000.0, 1460.0, 200.0, 10.0, 1.0, 0.3, 0.155, 0.1, 0.01, 0.003, 0.001, 1e-4, 1e-5):
+    for T in (5000.0, 1420.0, 200.0, 10.0, 1.0, 0.3, 0.155, 0.1, 0.01, 0.003, 0.001, 1e-4, 1e-5):
         gr, gs, tr = thermo(T, sp, include_dm=False)
         probe['%.6g GeV' % T] = {'g_rho': gr, 'g_s': gs, 'Tnu_over_T': tr}
     out['g_star_table'] = probe
@@ -355,13 +369,18 @@ def main():
     xfr = xf_req
     frac_above = quad(lambda v: v * v * math.exp(-xfr * v * v / 4), vc, 50 / math.sqrt(xfr))[0] / quad(
         lambda v: v * v * math.exp(-xfr * v * v / 4), 0, 50 / math.sqrt(xfr))[0]
-    # exact crossing in s
+    # exact crossing in s, its relative velocity v = 2 beta (beta = sqrt(1 - 4 M^2/s), the CM velocity of each particle), and the
+    # fraction of the annihilation RATE at x_f from collisions with s > s_c (Gondolo-Gelmini integrand sigma (s - 4M^2) sqrt(s) K1(sqrt(s)/T),
+    # z = s/(4M^2) - 1), as for I13 in um2_coupled.py
     sc = brentq(lambda s: sigma_I12(s, M, G2req) - sigma_unitarity(s, M), 4 * M * M * (1 + 1e-12), 40 * M * M)
+    zc5 = sc / (4 * M * M) - 1.0
+    vc_exact = 2 * math.sqrt(zc5 / (1 + zc5))
+    frac_pairs = rate_fraction_above(lambda s: sigma_I12(s, M, G2req), M, xfr, zc5)
     # unitarity-limited thermal average and relic: sigma = pi/(4 p^2) at every s (the largest annihilation from 3P0)
     sv_u = sv_table(lambda s: sigma_unitarity(s, M))
-    nr_u = math.sqrt(math.pi * xfr) / M ** 2
     Yu, hu, xfu = relic(M, sv_u, cosmo, MPl=MPl)
     om_unit = omega_h2(M, Yu, s0)
+    nr_u = math.sqrt(math.pi * xfu) / M ** 2          # non-relativistic thermal average of the bound at the same x = x_f
     # capped effective operator: Omega(G) for increasing G
     capped = []
     for fac in (1.0, 3.0, 10.0, 100.0, 1e4):
@@ -369,20 +388,22 @@ def main():
         capped.append({'G2_over_G2req': fac, 'Omega_h2_per_species': omc, 'x_f': xfc})
     omin = om_unit
     out['unitarity'] = {'bound': 'sigma <= pi/(4 p^2) (J = 0, P = +, unpolarised Dirac fermions)', 'v_crossing': vc,
+                        'v_crossing_exact': vc_exact, 'fraction_of_rate_above_crossing_at_xf': frac_pairs,
                         'sqrt_s_crossing_GeV': math.sqrt(sc), 'fraction_of_pairs_above_vc_at_xf': frac_above,
-                        'sigma_v_bound_at_xf_cm3_s': sv_u(xfr) * GEV2_TO_CM3S, 'sigma_v_bound_nonrel_at_xf_cm3_s': nr_u * GEV2_TO_CM3S,
+                        'sigma_v_bound_at_xf_cm3_s': sv_u(xfu) * GEV2_TO_CM3S, 'sigma_v_bound_nonrel_at_xf_cm3_s': nr_u * GEV2_TO_CM3S,
                         'Omega_h2_per_species_unitarity_limited': om_unit, 'x_f_unitarity_limited': xfu, 'capped': capped,
                         'swave_estimate_v2_cm3_s': ana['unitarity_scale_swave_estimate_cm3_s']}
-    rep.check('T5_unitarity_violated_by_effective_operator', vc < 1.0 and frac_above > 0.5,
-              'the effective cross-section of the relic strength exceeds the J = 0 (3P0) unitarity bound sigma <= pi/(4 p^2) above the '
-              'relative velocity v_c = %.3f (sqrt(s) = %.1f GeV, %.1f GeV above threshold); at freeze-out (x = %.1f) %.0f %% of the annihilating '
-              'pairs have v > v_c: the effective operator I12 cannot be used for the relic' % (vc, math.sqrt(sc), math.sqrt(sc) - 2 * M, xfr,
-                                                                                               100 * frac_above))
+    rep.check('T5_unitarity_violated_by_effective_operator', vc_exact < 1.0 and frac_pairs > 0.5,
+              'the effective cross-section of the relic strength exceeds the J = 0 (3P0) unitarity bound sigma <= pi/(4 p^2) at '
+              'sqrt(s) = %.1f GeV (%.1f GeV above threshold), i.e. above the relative velocity v_c = 2 beta = %.3f (non-relativistic formula '
+              '(pi/(G M^3))^(2/3): %.3f); at freeze-out (x = %.1f) %.0f %% of the annihilation rate comes from collisions above the crossing, '
+              'and %.0f %% of the pairs have a relative velocity above it (non-relativistic Maxwell distribution): the effective operator I12 '
+              'cannot be used for the relic' % (math.sqrt(sc), math.sqrt(sc) - 2 * M, vc_exact, vc, xfr, 100 * frac_pairs, 100 * frac_above))
     rep.check('T5_unitarity_limited_relic', om_unit > 0 and all(c_['Omega_h2_per_species'] >= om_unit * 0.999 for c_ in capped),
               'with sigma = pi/(4 p^2) at every energy (the largest annihilation any interaction can give from the 3P0 channel) each species '
-              'leaves Omega h^2 = %.4f (x_f = %.2f; <sigma v>(x_f) = %.3e cm^3/s, non-relativistic sqrt(pi x)/M^2 = %.3e; version 2 compared '
-              'with the s-wave estimate %.3e); the capped effective operator gives %s for G^2/G^2_relic = 1, 3, 10, 100, 1e4: %s' % (
-                  om_unit, xfu, sv_u(xfr) * GEV2_TO_CM3S, nr_u * GEV2_TO_CM3S, ana['unitarity_scale_swave_estimate_cm3_s'],
+              'leaves Omega h^2 = %.4f (x_f = %.2f; at that x <sigma v> = %.3e cm^3/s, non-relativistic sqrt(pi x)/M^2 = %.3e; version 2 '
+              'compared with the s-wave estimate %.3e); the capped effective operator gives %s for G^2/G^2_relic = 1, 3, 10, 100, 1e4: %s' % (
+                  om_unit, xfu, sv_u(xfu) * GEV2_TO_CM3S, nr_u * GEV2_TO_CM3S, ana['unitarity_scale_swave_estimate_cm3_s'],
                   ', '.join('%.4f' % c_['Omega_h2_per_species'] for c_ in capped),
                   'a relic of 0.060 per species is reachable only near the unitarity limit' if om_unit < target else
                   'NO portal strength reaches 0.060 per species: thermal freeze-out through the 3P0 channel overproduces the dark matter'))
@@ -396,9 +417,7 @@ def main():
     om12, xf12, _ = omega_of(G12 ** 2)
     # fraction of the annihilation rate at freeze-out (x = 30) coming from collisions above the crossing
     zc = sc12 / (4 * M * M) - 1.0
-    wfun = lambda z: sigma_I12(4 * M * M * (1 + z), M, G12 ** 2) * z * math.sqrt(1 + z) * k1e(2 * 30.0 * math.sqrt(1 + z)) * math.exp(
-        -2 * 30.0 * (math.sqrt(1 + z) - 1))
-    frac12 = quad(wfun, zc, 50.0, limit=200)[0] / quad(wfun, 0.0, 50.0, points=[1 / 30., 5 / 30.], limit=200)[0]
+    frac12 = rate_fraction_above(lambda s: sigma_I12(s, M, G12 ** 2), M, 30.0, zc)
     mZ = val('m_Z_GeV')
     a_s = val('alpha_s_mZ')
     a_em = 1.0 / 127.95            # alpha(m_Z), MS-bar (FROM MEMORY)

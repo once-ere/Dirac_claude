@@ -15,7 +15,7 @@
    "g^2": 0.378111349514,
    "g_s^2": 0.778608248738
   },
-  "fraction_of_rate_above_crossing_at_x30": 0.000531847642821,
+  "fraction_of_rate_above_crossing_at_x30": 0.000515458936846,
   "gamma_cm_at_crossing": 1.1991922746,
   "mu_GeV": 88695.8099823,
   "sqrt_s_unitarity_crossing_GeV": 106363.33012
@@ -1155,10 +1155,10 @@
    "g_rho": 86.2188282063,
    "g_s": 86.1271475863
   },
-  "1460 GeV": {
+  "1420 GeV": {
    "Tnu_over_T": 1.0,
-   "g_rho": 105.735542021,
-   "g_s": 105.728510262
+   "g_rho": 105.734713607,
+   "g_s": 105.727286613
   },
   "1e-05 GeV": {
    "Tnu_over_T": 0.713765855504,
@@ -3665,11 +3665,13 @@
    }
   ],
   "fraction_of_pairs_above_vc_at_xf": 0.754995543167,
-  "sigma_v_bound_at_xf_cm3_s": 5.42936124934e-26,
-  "sigma_v_bound_nonrel_at_xf_cm3_s": 5.92347209873e-26,
+  "fraction_of_rate_above_crossing_at_xf": 0.956606574991,
+  "sigma_v_bound_at_xf_cm3_s": 5.33452401413e-26,
+  "sigma_v_bound_nonrel_at_xf_cm3_s": 5.83518854662e-26,
   "sqrt_s_crossing_GeV": 89510.4584091,
   "swave_estimate_v2_cm3_s": 2.31744914638e-25,
   "v_crossing": 0.274185300853,
+  "v_crossing_exact": 0.269217206843,
   "x_f_unitarity_limited": 30.7656355748
  },
  "validation_s_wave": {

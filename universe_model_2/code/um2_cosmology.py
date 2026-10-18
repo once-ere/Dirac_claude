@@ -13,15 +13,17 @@ version of 2026-10-18) enters through:
   non-instantaneous decoupling, QED corrections and oscillations; um2_neutrino.py reproduces it to 0.005), shared equally
   by the three eigenstates (CAMB degeneracy 3.0432/3 each; CAMB's mass of eigenstate i is m_i (3.0432/3)^{-1/4} so that the
   late-time density is m_i n_nu (3.0432/3)^{3/4});
-  no dark radiation: the fold bands of dirac16complex are never thermalised (no tip Z portal, zero scalar density for I12,
-  c_V = 0 for I11; um2_electroweak.py);
+  the fold bands of dirac16complex are never thermalised (no tip Z portal, zero scalar density for I12, the self-interaction
+  channel bounded, um2_coupled.py C10); since version 3 they are produced by freeze-in through I11 with Delta N_eff = 0.001
+  (um2_coupled.py fixes the benchmark I11 strength so), so UM-2 has N_eff = 3.0432 + 0.0010 = 3.0442; the model without this
+  radiation (N_eff = 3.0432, the neutrino content of version 2) is computed as a variant;
   variants with dark radiation: two Weyl species (a fold band) thermalised and decoupled with g_s = 105.75 (above the
   electroweak scale, Delta N_eff = 0.0958) or g_s = 61.75 (just above the QCD crossover, Delta N_eff = 0.1963);
   baryons (omega_b), dark matter (the odd quanta of Psi_A and Psi_B; omega_c), Lambda4 (flatness).
 The comparison model is LCDM with the Planck 2018 parameters (CAMB defaults: one massive neutrino of 0.06 eV, N_eff = 3.044).
 theta_* is held at the Planck value (H0 fitted), so the CMB peaks match and the BAO are a test.
-Version 3 (2026-10-18) adds: the model of version 3, whose vector portal I11 (B - L) produces the fold bands by freeze-in with
-the benchmark Delta N_eff = 0.001 (um2_coupled.py fixes the I11 strength so); the matter power spectrum of every model (a
+Version 3 (2026-10-18) adds: the freeze-in radiation above (UM-2 is the model with it; the review of version 3 found that the
+labels of the two models had been swapped in some statements, so the labels are now explicit); the matter power spectrum of every model (a
 separate CAMB run without the CMB, so the CMB numbers are unchanged): sigma_8, f sigma_8(z), and the rms Newtonian potential per
 logarithmic interval of k today, Delta_Phi(k), from the Weyl potential and, as a check, from the matter density through the
 Poisson equation (the first-order term of the metric power series; um2_series.py).
@@ -166,16 +168,17 @@ def main():
     dN_ew = dr['above the electroweak scale (Standard Model without a Higgs particle)']
     dN_qcd = dr['just above the QCD crossover (+ gluons, u, d, s, mu)']
     lcdm, cl0 = run('LCDM, Planck 2018 parameters (CAMB defaults: one massive neutrino 0.06 eV, N_eff = 3.044)')
-    um2, cl1 = run('UM-2: nu_1, nu_2, nu_3 (1.000, 8.712, 50.140 meV), N_eff = 3.0432, no dark radiation', masses, Neff_nu, 0.0)
-    um2e, cl2 = run('UM-2 + a fold band thermalised above the electroweak scale (Delta N_eff = %.4f)' % dN_ew, masses, Neff_nu, dN_ew)
-    um2q, cl3 = run('UM-2 + a fold band thermalised above the QCD crossover (Delta N_eff = %.4f)' % dN_qcd, masses, Neff_nu, dN_qcd)
-    um2v3, cl4 = run('UM-2 version 3: + the fold bands produced by freeze-in through I11 (Delta N_eff = %.4f)' % DN_FREEZE_IN, masses,
-                     Neff_nu, DN_FREEZE_IN)
+    um2, cl1 = run('UM-2 (version 3): nu_1, nu_2, nu_3 (1.000, 8.712, 50.140 meV, N_eff = 3.0432) and the fold bands produced by '
+                   'freeze-in through I11 (Delta N_eff = %.4f), N_eff = %.4f' % (DN_FREEZE_IN, Neff_nu + DN_FREEZE_IN), masses, Neff_nu,
+                   DN_FREEZE_IN)
+    um2e, cl2 = run('UM-2 with a fold band thermalised above the electroweak scale instead (Delta N_eff = %.4f)' % dN_ew, masses, Neff_nu, dN_ew)
+    um2q, cl3 = run('UM-2 with a fold band thermalised above the QCD crossover instead (Delta N_eff = %.4f)' % dN_qcd, masses, Neff_nu, dN_qcd)
+    um2v3, cl4 = run('UM-2 without the freeze-in fold bands (the neutrino content of version 2), N_eff = 3.0432', masses, Neff_nu, 0.0)
     # attribution of the small UM-2 - LCDM difference: each change separately
     _, cla = run('LCDM with N_eff = 3.0432', None, Neff_nu)
     _, clb = run('UM-2 neutrino masses with N_eff = 3.044', masses, 3.044, 0.0)
     out = {'models': [lcdm, um2, um2e, um2q], 'Delta_Neff_dark_radiation_EW': dN_ew, 'Delta_Neff_dark_radiation_QCD': dN_qcd,
-           'model_version_3': um2v3, 'Delta_Neff_freeze_in_benchmark': DN_FREEZE_IN}
+           'model_without_freeze_in': um2v3, 'Delta_Neff_freeze_in_benchmark': DN_FREEZE_IN}
     # comparisons
     l = np.arange(cl0.shape[0])
     sel = (l >= 30) & (l <= 2500)
@@ -193,12 +196,13 @@ def main():
             err = np.sqrt(2.0 / np.sum(2 * l[sel][mm] + 1))
             c2 += (dev / err) ** 2
         return c2
-    for key, cl in (('UM2', cl1), ('dark_radiation_EW', cl2), ('dark_radiation_QCD', cl3), ('UM2_v3', cl4)):
+    for key, cl in (('UM2', cl1), ('dark_radiation_EW', cl2), ('dark_radiation_QCD', cl3), ('without_freeze_in', cl4)):
         out[key + '_max_rel_dev_TT'] = float(np.max(np.abs(cl[sel, 0] / cl0[sel, 0] - 1)))
         out[key + '_max_dev_in_cosmic_variance_units'] = float(np.max(np.abs(cl[sel, 0] / cl0[sel, 0] - 1) / cv))
         out[key + '_TT_chi2_cosmic_variance_full_sky'] = binned_chi2_cv(cl, cl0)
     out['max_rel_dev_TT'] = float(dTT)
     out['max_rel_dev_EE'] = float(dEE)
+    out['without_freeze_in_max_rel_dev_EE'] = float(np.max(np.abs(cl4[sel, 1] / cl0[sel, 1] - 1)))
     out['attribution_max_rel_dev'] = {
         'N_eff 3.0432 instead of 3.044 (one massive neutrino 0.06 eV)': [float(np.max(np.abs(cla[sel, k] / cl0[sel, k] - 1))) for k in (0, 1)],
         'three eigenstates 1.000, 8.712, 50.140 meV instead of one of 60 meV (N_eff 3.044)': [
@@ -231,13 +235,16 @@ def main():
               '(instantaneous decoupling) times deg^{3/4} (ratio %.5f)' % (deg, len(um2['camb_mass_iteration']), 1e3 * masses[0], 1e3 * masses[1], 1e3 * masses[2], merr, msum,
                              msum_min, bound, 1e3 * m1max, um2['omnuh2_camb_today'], nu['CNB']['Omega_nu_h2'] * deg ** 0.75, om_ratio))
     rep.check('cmb_spectra_close_to_lcdm', dTT < 0.01 and dEE < 0.01,
-              'UM-2 TT and EE spectra agree with Planck LCDM to %.2e and %.2e (relative, 30 <= l <= 2500), at most %.2f of the cosmic variance '
-              'of a single multipole; binned full-sky cosmic-variance chi^2 of TT = %.3f; by themselves the three mass eigenstates (59.9 meV in '
-              'three states instead of 60 meV in one) move TT, EE by %.1e, %.1e and N_eff = 3.0432 instead of 3.044 by %.1e, %.1e' % (
-                  dTT, dEE, np.max(ratio), out['UM2_TT_chi2_cosmic_variance_full_sky'], att[1][0], att[1][1], att[0][0], att[0][1]))
+              'UM-2 (version 3, N_eff = %.4f) TT and EE spectra agree with Planck LCDM to %.2e and %.2e (relative, 30 <= l <= 2500), at most '
+              '%.3f of the cosmic variance of a single multipole; binned full-sky cosmic-variance chi^2 of TT = %.3f (without the freeze-in fold '
+              'bands: %.2e and %.2e); by themselves the three mass eigenstates (59.9 meV in three states instead of 60 meV in one) move TT, EE '
+              'by %.1e, %.1e and N_eff = 3.0432 instead of 3.044 by %.1e, %.1e' % (
+                  um2['Neff'], dTT, dEE, np.max(ratio), out['UM2_TT_chi2_cosmic_variance_full_sky'], out['without_freeze_in_max_rel_dev_TT'],
+                  out['without_freeze_in_max_rel_dev_EE'], att[1][0], att[1][1], att[0][0], att[0][1]))
     rep.check('bao_desi', um2['bao_chi2'] < 40,
-              'DESI DR2 BAO chi^2 = %.2f for 13 measurements (LCDM with Planck parameters: %.2f; with dark radiation Delta N_eff = %.4f: '
-              '%.2f; %.4f: %.2f)' % (um2['bao_chi2'], lcdm['bao_chi2'], dN_ew, um2e['bao_chi2'], dN_qcd, um2q['bao_chi2']))
+              'DESI DR2 BAO chi^2 = %.2f for 13 measurements for UM-2 (version 3; without the freeze-in fold bands %.2f; LCDM with Planck '
+              'parameters: %.2f; with a thermalised fold band, Delta N_eff = %.4f: %.2f; %.4f: %.2f)' % (
+                  um2['bao_chi2'], um2v3['bao_chi2'], lcdm['bao_chi2'], dN_ew, um2e['bao_chi2'], dN_qcd, um2q['bao_chi2']))
     Neff_act, dNeff_act = val('N_eff_ACT_DR6'), INPUTS['N_eff_ACT_DR6'][1]
     rep.check('dark_radiation_variants', abs(um2e['Neff'] - (Neff_nu + dN_ew)) < 1e-9 and abs(um2q['Neff'] - (Neff_nu + dN_qcd)) < 1e-9
               and dN_ew < dN_qcd,
@@ -245,22 +252,27 @@ def main():
               'N_eff = %.4f (g_s = 105.75) and %.4f (g_s = 61.75), %.1f and %.1f standard deviations above ACT DR6 (%.2f +- %.2f; '
               'UM-2: %.1f); at fixed Planck omega_b, omega_c, theta_* the TT spectrum moves by up to %.2e and %.2e (%.1f and %.1f '
               'cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 %.0f and %.0f): neither is a fit to the '
-              'CMB; UM-2 contains no such thermalisation (um2_electroweak.py)' % (
+              'CMB; UM-2 contains no such thermalisation (um2_electroweak.py, um2_coupled.py C2 and C10)' % (
                   um2e['Neff'], um2q['Neff'], (um2e['Neff'] - Neff_act) / dNeff_act, (um2q['Neff'] - Neff_act) / dNeff_act, Neff_act,
                   dNeff_act, (um2['Neff'] - Neff_act) / dNeff_act, out['dark_radiation_EW_max_rel_dev_TT'],
                   out['dark_radiation_QCD_max_rel_dev_TT'], out['dark_radiation_EW_max_dev_in_cosmic_variance_units'],
                   out['dark_radiation_QCD_max_dev_in_cosmic_variance_units'], out['dark_radiation_EW_TT_chi2_cosmic_variance_full_sky'],
                   out['dark_radiation_QCD_TT_chi2_cosmic_variance_full_sky']))
-    rep.check('neff_and_helium', abs(um2['Neff'] - Neff_nu) < 1e-12 and abs(um2['Neff_massive'] - Neff_nu) < 1e-12 and um2['Neff_massless'] == 0,
-              'N_eff = %.4f, all of it in the three massive eigenstates (BBN helium fraction Y_He = %.5f from the CAMB/BBN interpolation, '
-              'LCDM %.5f)' % (um2['Neff'], um2['YHe'], lcdm['YHe']))
-    # version 3: the model with the freeze-in fold bands, sigma_8 and the first-order potential
-    dv3_TT = float(np.max(np.abs(cl4[sel, 0] / cl1[sel, 0] - 1)))
-    out['UM2_v3_vs_v2_max_rel_dev_TT'] = dv3_TT
-    rep.check('version3_freeze_in_radiation', abs(um2v3['Neff'] - (Neff_nu + DN_FREEZE_IN)) < 1e-9 and dv3_TT < 1e-3,
-              'version 3 (fold bands produced by freeze-in through I11, Delta N_eff = %.3f): N_eff = %.4f; its TT spectrum differs from that '
-              'of version 2 by at most %.1e (30 <= l <= 2500) and from LCDM by %.2e; BAO chi^2 = %.2f; 100 theta_* = %.5f, H0 = %.2f km/s/Mpc' % (
-                  DN_FREEZE_IN, um2v3['Neff'], dv3_TT, out['UM2_v3_max_rel_dev_TT'], um2v3['bao_chi2'], um2v3['theta_star_100'], um2v3['H0']))
+    rep.check('neff_and_helium', abs(um2['Neff'] - (Neff_nu + DN_FREEZE_IN)) < 1e-12 and abs(um2['Neff_massive'] - Neff_nu) < 1e-12
+              and abs(um2['Neff_massless'] - DN_FREEZE_IN) < 1e-12,
+              'N_eff = %.4f: %.4f in the three massive eigenstates and %.4f in the massless fold bands made by freeze-in (BBN helium fraction '
+              'Y_He = %.5f from the CAMB/BBN interpolation, LCDM %.5f)' % (um2['Neff'], um2['Neff_massive'], um2['Neff_massless'], um2['YHe'],
+                                                                           lcdm['YHe']))
+    # the freeze-in radiation of version 3 against the model without it, sigma_8 and the first-order potential
+    dv3_TT = float(np.max(np.abs(cl1[sel, 0] / cl4[sel, 0] - 1)))
+    out['UM2_vs_without_freeze_in_max_rel_dev_TT'] = dv3_TT
+    rep.check('freeze_in_radiation', abs(um2v3['Neff'] - Neff_nu) < 1e-9 and dv3_TT < 1e-3,
+              'the fold bands produced by freeze-in through I11 (Delta N_eff = %.3f) change the TT spectrum of UM-2 by at most %.1e '
+              '(30 <= l <= 2500) against the model without them (N_eff = %.4f, the neutrino content of version 2: TT %.2e from LCDM, BAO '
+              'chi^2 = %.2f, 100 theta_* = %.5f, H0 = %.2f km/s/Mpc); UM-2 itself: TT %.2e from LCDM, BAO chi^2 = %.2f, 100 theta_* = %.5f, '
+              'H0 = %.2f km/s/Mpc' % (
+                  DN_FREEZE_IN, dv3_TT, um2v3['Neff'], out['without_freeze_in_max_rel_dev_TT'], um2v3['bao_chi2'], um2v3['theta_star_100'],
+                  um2v3['H0'], out['UM2_max_rel_dev_TT'], um2['bao_chi2'], um2['theta_star_100'], um2['H0']))
     # growth suppression by Lambda4 today, g(0) = D(1)/a normalised to D = a deep in matter domination (no radiation, Omega_m total)
     from scipy.integrate import quad as _q
     Om = um2['Omega_m_total']
@@ -273,7 +285,7 @@ def main():
     pois = max(abs(r['Delta_Phi_Weyl'] / r['Delta_Phi_Poisson'] - 1) for r in um2['Delta_Phi_z0'] if r['k_Mpc-1'] >= 1e-2)
     out['growth_suppression_g0'] = g0
     rep.check('sigma8_and_first_order_potential', abs(lcdm['sigma8'] - 0.811) < 0.006 and pois < 1e-4 and abs(big['Delta_Phi_Weyl'] / pred - 1) < 0.02,
-              'sigma_8 = %.4f (UM-2), %.4f (version 3), %.4f (LCDM; Planck 2018 0.811, FROM MEMORY); f sigma_8 at z = 0.5: %.4f (UM-2), %.4f (LCDM); '
+              'sigma_8 = %.4f (UM-2, version 3), %.4f (without the freeze-in fold bands), %.4f (LCDM; Planck 2018 0.811, FROM MEMORY); f sigma_8 at z = 0.5: %.4f (UM-2), %.4f (LCDM); '
               'the rms Newtonian potential today per logarithmic k, Delta_Phi = %s at k = %s Mpc^-1 (UM-2): the first-order term of the metric '
               'is 2e-5 and smaller; from the Weyl potential and from the matter density through the Poisson equation it agrees to %.1e for '
               'k >= 0.01 Mpc^-1; on the largest scales it equals (3/5) A_s^(1/2) (k/k_0)^((n_s - 1)/2) g(0) to %.1e (g(0) = %.4f, the '
@@ -290,7 +302,7 @@ def main():
     ll = l[2:2501]
     for j, (lab, col) in enumerate([('TT', 0), ('EE', 1)]):
         axs[0, j].plot(ll, cl0[2:2501, col], 'k-', lw=1.2, label='Planck 2018 LCDM')
-        axs[0, j].plot(ll, cl1[2:2501, col], 'C1--', lw=1.0, label='UM-2 (three massive neutrinos)')
+        axs[0, j].plot(ll, cl1[2:2501, col], 'C1--', lw=1.0, label='UM-2 (version 3)')
         axs[0, j].plot(ll, cl3[2:2501, col], 'C2:', lw=1.0, label='UM-2 + fold band thermalised above QCD')
         axs[0, j].set_ylabel(r'$\ell(\ell+1)C_\ell/2\pi$ [$\mu$K$^2$] (%s)' % lab)
         axs[0, j].set_xscale('log')

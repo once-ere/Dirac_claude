@@ -93,42 +93,42 @@
  "order1_n0": {
   "Delta_Phi_today": [
    {
-    "Delta_Phi_Poisson": 2.413673432e-05,
-    "Delta_Phi_Weyl": 2.41524866364e-05,
+    "Delta_Phi_Poisson": 2.41348125121e-05,
+    "Delta_Phi_Weyl": 2.41505669346e-05,
     "k_Mpc-1": 0.0001
    },
    {
-    "Delta_Phi_Poisson": 2.27545753974e-05,
-    "Delta_Phi_Weyl": 2.27555704693e-05,
+    "Delta_Phi_Poisson": 2.27527201566e-05,
+    "Delta_Phi_Weyl": 2.27537135887e-05,
     "k_Mpc-1": 0.001
    },
    {
-    "Delta_Phi_Poisson": 1.51184563072e-05,
-    "Delta_Phi_Weyl": 1.51184778101e-05,
+    "Delta_Phi_Poisson": 1.51168201235e-05,
+    "Delta_Phi_Weyl": 1.51168435337e-05,
     "k_Mpc-1": 0.01
    },
    {
-    "Delta_Phi_Poisson": 4.11934866618e-06,
-    "Delta_Phi_Weyl": 4.11934939951e-06,
+    "Delta_Phi_Poisson": 4.11875261259e-06,
+    "Delta_Phi_Weyl": 4.11875294597e-06,
     "k_Mpc-1": 0.05
    },
    {
-    "Delta_Phi_Poisson": 1.73813989746e-06,
-    "Delta_Phi_Weyl": 1.73813989703e-06,
+    "Delta_Phi_Poisson": 1.73788562624e-06,
+    "Delta_Phi_Weyl": 1.73788568757e-06,
     "k_Mpc-1": 0.1
    },
    {
-    "Delta_Phi_Poisson": 3.55086701435e-07,
-    "Delta_Phi_Weyl": 3.55086673461e-07,
+    "Delta_Phi_Poisson": 3.55026919698e-07,
+    "Delta_Phi_Weyl": 3.55026896058e-07,
     "k_Mpc-1": 0.3
    },
    {
-    "Delta_Phi_Poisson": 5.03564248199e-08,
-    "Delta_Phi_Weyl": 5.03564228601e-08,
+    "Delta_Phi_Poisson": 5.03477458148e-08,
+    "Delta_Phi_Weyl": 5.03477450465e-08,
     "k_Mpc-1": 1.0
    }
   ],
-  "growth_suppression_g0": 0.787891567914,
+  "growth_suppression_g0": 0.787828964553,
   "potentials_of_bound_objects": {
    "Earth (surface)": 6.96131131051e-10,
    "Milky Way (v = 220 km/s)": 5.3852262713e-07,
@@ -138,12 +138,12 @@
    "white dwarf (0.6 Msun, 8700 km)": 0.000101862335741
   },
   "sigma8_LCDM": 0.810889872562,
-  "sigma8_UM2": 0.811866885802,
-  "sigma8_version3": 0.811837064292
+  "sigma8_UM2": 0.811837064292,
+  "sigma8_without_freeze_in": 0.811866885802
  },
  "order2": {
   "Sun (surface)": 4.50732899355e-12,
-  "cosmological (Delta_Phi^2 at k = 1e-3 Mpc^-1)": 5.17815987383e-10,
+  "cosmological (Delta_Phi^2 at k = 1e-4 Mpc^-1)": 5.83249883263e-10,
   "neutron star": 0.0296931891427
  },
  "ordering": [
@@ -158,7 +158,7 @@
    "where": "astrophysics; nonlinear near neutron stars"
   },
   {
-   "magnitude": 2.41524866364e-05,
+   "magnitude": 2.41505669346e-05,
    "term": "order 1, n = 0: cosmological potential Delta_Phi (largest scales)",
    "where": "CMB, CNB, BAO, structure"
   },
@@ -168,12 +168,12 @@
    "where": "CMB B modes"
   },
   {
-   "magnitude": 5.17815987383e-10,
-   "term": "order 2: cosmological Delta_Phi^2",
+   "magnitude": 5.83249883263e-10,
+   "term": "order 2: cosmological Delta_Phi^2 (largest scales)",
    "where": "CMB second-order effects"
   },
   {
-   "magnitude": 5.55617451728e-45,
+   "magnitude": 1.14141324638e-34,
    "term": "radion sigma (static response, largest environment)",
    "where": "none"
   },
@@ -212,44 +212,44 @@
   "range_m": 4.07532389483e-21,
   "static_response": {
    "Earth (mean density 5.51 g/cm^3)": {
-    "delta_ln_f": 1.02201326992e-62,
-    "delta_ln_m_p": -4.71224387162e-61
+    "delta_ln_f": 9.99308977407e-63,
+    "delta_ln_m_p": -4.60756013961e-61
    },
    "Milky Way at the Sun": {
-    "delta_ln_f": 3.10239515117e-87,
-    "delta_ln_m_p": -1.43043568696e-85
+    "delta_ln_f": 3.0047898201e-87,
+    "delta_ln_m_p": -1.38543234535e-85
    },
    "QCD crossover (T = 200 MeV)": {
-    "delta_ln_f": 1.1562081078e-57,
-    "delta_ln_m_p": -5.33098221973e-56
+    "delta_ln_f": 2.90314857735e-48,
+    "delta_ln_m_p": -1.33856814727e-46
    },
    "centre of the Sun (150 g/cm^3)": {
-    "delta_ln_f": 2.72673303801e-61,
-    "delta_ln_m_p": -1.25722741828e-59
+    "delta_ln_f": 2.66615414833e-61,
+    "delta_ln_m_p": -1.22929602932e-59
    },
    "cosmic mean today": {
-    "delta_ln_f": 8.43316302277e-94,
-    "delta_ln_m_p": -3.88831749469e-92
+    "delta_ln_f": 7.33939853448e-94,
+    "delta_ln_m_p": -3.38401044129e-92
    },
-   "dark-matter freeze-out (T = 1.46 TeV)": {
-    "delta_ln_f": 5.55617451728e-45,
-    "delta_ln_m_p": -2.5618110928e-43
+   "dark-matter freeze-out (T = 1.42 TeV)": {
+    "delta_ln_f": 1.14141324638e-34,
+    "delta_ln_m_p": -5.26276686764e-33
    },
    "electroweak era (T = 100 GeV)": {
-    "delta_ln_f": 1.99616602517e-49,
-    "delta_ln_m_p": -9.20381505377e-48
+    "delta_ln_f": 6.80463481516e-39,
+    "delta_ln_m_p": -3.1374444589e-37
    },
    "neutron star core (0.3 fm^-3)": {
-    "delta_ln_f": 9.23922017944e-49,
-    "delta_ln_m_p": -4.2599699975e-47
+    "delta_ln_f": 8.62831368224e-49,
+    "delta_ln_m_p": -3.9782965122e-47
    },
    "nucleosynthesis (T = 1 MeV)": {
-    "delta_ln_f": 7.40571871686e-65,
-    "delta_ln_m_p": -3.41458899464e-63
+    "delta_ln_f": 6.76292281927e-60,
+    "delta_ln_m_p": -3.11821211596e-58
    },
    "white dwarf (1e6 g/cm^3, C/O)": {
-    "delta_ln_f": 1.85484250544e-57,
-    "delta_ln_m_p": -8.55220816237e-56
+    "delta_ln_f": 1.81360536181e-57,
+    "delta_ln_m_p": -8.36207415621e-56
    }
   }
  },

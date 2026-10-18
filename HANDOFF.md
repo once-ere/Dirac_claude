@@ -23,12 +23,15 @@ this repo. DO NOT TAKE SHORTCUTS. DO NOT BECOME LAZY. Finish and notify me that 
 Status (folder `universe_model_2/`, README there; every document as .md, .tex and .pdf, each self-contained):
 - Version 1 (2026-10-17, one generation) and version 2 (2026-10-18, three generations, three neutrino flavours with mixing and
   flavour conversion; commit ecca926) are superseded by version 3.
-- Version 3 (2026-10-18, commits 15c2aab to 726997f and the verification commit after them): the portal I13 (an x0-chiral
-  vector coupling of dirac16complex to the baryon-number current; with B - L it would thermalise the right-handed neutrinos,
-  Delta N_eff = 0.144) gives the dark-matter relic within perturbative unitarity (Omega h^2 = 0.060 per species, G_A =
-  1.278e-9 GeV^-2, direct detection 0.16 of the LZ limit); the thermal history (g_rho, g_s, freeze-in of the fold bands,
-  Delta N_eff = 0.001), the coupled Kohn-Sham solution in ten environments (back-reaction at most 1.6e-6), the metric as a
-  power series with the Kaluza-Klein graviton tower and the radion, sigma_8; 233 checks, all passing.  Computations:
+- Version 3 (2026-10-18, commits 15c2aab to 726997f; the fixes of its independent review in the commit after 17e5f5d,
+  PROVENANCE item 24): the portal I13 (an x0-chiral vector coupling of dirac16complex to the baryon-number current, summed
+  over the seven directions M != x0, where its bilinear is Hermitian; with B - L it would thermalise the right-handed
+  neutrinos, Delta N_eff = 0.144) gives the dark-matter relic within the unitarity limit (Omega h^2 = 0.060 per species,
+  G_A = 1.278e-9 GeV^-2, direct detection 0.16 of the LZ limit); the thermal history (g_rho, g_s, freeze-in of the fold
+  bands, Delta N_eff = 0.001; the self-interaction bounded, G_lambda <= 2.3e-15 GeV^-2, ASSUMED), the coupled Kohn-Sham
+  solution in ten environments (mean-field shifts at most 1.5e-6; the full block response with the hot plasma, delta ln f
+  <= 1.1e-34), the metric as a power series with the Kaluza-Klein graviton tower and the radion, sigma_8; 235 checks, all
+  passing.  Computations:
   `universe_model_2/code/um2_*.py` (each writes `outputs/` and `reports/`), documents built by `tools/build_docs.py`;
   `MANUAL_TASKS` gives the verification and the review as hand steps.
 - [5] next: the open stages below, in this order, each verified, committed and pushed.
@@ -50,7 +53,9 @@ Status (folder `universe_model_2/`, README there; every document as .md, .tex an
 - [5] W8 (the textbook for the corrected metric) and old Stage 5 (pairs numerics: the reference pairs run needs about 4.5 h
   on 24 cores and up to 167 GB in two workers without the E5.3 guard; the Rust pairs canonical, repeat and refined runs) are
   open. The textbook's notebooks are byte-reproducible only in the environment of `Revision/textbook/requirements.txt`
-  (Python 3.14.5 on Windows; the PNG bytes depend on the zlib of Pillow).
+  (Python 3.14.5 on Windows; the PNG bytes depend on the zlib of Pillow). On Linux the PNG bytes equal the Windows ones when
+  the pinned environment runs with a zlib-ng build in compat mode on LD_LIBRARY_PATH (2.2.5 or 2.3.3; the cloud session of
+  2026-10-18 built one in its scratch and the notebook kit's byte-for-byte check passed).
 
 ### 0.11 ORDER 2026-10-17: UM-1, a new model of the Universe; then finish W5-W8 (superseded as the start by 0.12)
 

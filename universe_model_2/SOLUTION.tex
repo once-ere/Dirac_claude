@@ -151,7 +151,13 @@ thermal history with the \(x_0\) masses and the dark-matter relic from
 the Boltzmann equation, with the new portal I13 that gives the relic
 within the unitarity limit; step 10 gives the magnitudes of the terms of
 the metric power series; step 5 adds the Majorana alternative and step 6
-the matter power spectrum (\(\sigma_8\)).
+the matter power spectrum (\(\sigma_8\)). After the independent review
+of version 3 the I13 sum leaves out the direction \(x_0\), for which the
+bilinear is not Hermitian; the coupled solution of step 8 uses the full
+adiabatic block response with the hot plasma and the order-\(\alpha\)
+electroweak condensates; step 9 adds the self-interaction channel of the
+dark matter and corrects the elastic \(\nu_R\) rate and the fractions of
+the annihilation rate above the unitarity crossings.
 
 Symbols with more than one use: \(k\) is the block variable \(1/f^2\)
 (\(k_*\), \(\delta k\), \(G(k)\)), the Lovelock order as the index of
@@ -170,8 +176,10 @@ except as a level number (\(n\pi\)) and in the lattice vector
 number. The subscript \(t\) (\(p_t\), \(v_t\)) refers to the extra times
 \(x_5, x_6, x_7\); \(\xi = y/L\) is the scaled hidden coordinate; primes
 denote \(d/d\xi\) in step 2 and \(d/d\tau\) (conformal time) in step 6.
-\(f\) is the block scale and \(f_o\) an occupation number. \(\rho\) is
-an energy density, except for the electroweak parameter
+\(f\) is the block scale, \(f_o\) an occupation number, \(f\) in
+\(f\sigma_8\) the growth rate \(d\ln D/d\ln a\) (step 6) and, as a
+subscript, a fermion multiplet (\(G_f\), \(q_f\), \(\tilde I_{of}\)).
+\(\rho\) is an energy density, except for the electroweak parameter
 \(\rho = \Lambda_W/(\Lambda_Z\cos^2\theta_W)\) (measured value
 \(\rho_0\)), and \(\theta_W\) is the angle of the gauge couplings. \(w\)
 denotes the Lovelock weights (\(w_2\), \(w_3\)), the weight \(1/2\) of a
@@ -205,24 +213,49 @@ couplings; \(F(T_1, T_2)\) is the energy-transfer function of the
 decoupling equations, \(F_h\) the decoupling factor of
 \(\Delta N_{eff}\) and \(F\) in \(\bar\chi\chi FF\) a field strength;
 \(H = 14.296\) TeV is the eight-dimensional scale, except in the
-decoupling estimate of the fold band (step 4) and in the temperature
-equations of step 5, where \(H\) is the Hubble rate; \(\eta = HL = 3\)
-is the depth of the cell, \(\eta^{\mu\nu}\) a flat metric;
-\(\Lambda^\mu\) are the first moments of \(G(u)\);
-\(s_{ij} = \sin\theta_{ij}\), \(c_{ij} = \cos\theta_{ij}\) (\(c\) with
-the subscripts \(L\), \(Q\), \(R\), \(\psi\) a localisation);
-\(u = \cos\vartheta\) the direction cosine of a neutrino in step 5
-(\(u\) also the up quark). Version 3: \(G_V\), \(G_A\) and
+decoupling estimate of the fold band (step 4), in the temperature
+equations of step 5 and in the Boltzmann equations of step 9, where
+\(H\) is the Hubble rate; \(\eta = HL = 3\) is the depth of the cell,
+\(\eta^{\mu\nu}\) a flat metric; \(\Lambda^\mu\) are the first moments
+of \(G(u)\); \(s_{ij} = \sin\theta_{ij}\), \(c_{ij} = \cos\theta_{ij}\)
+(\(c\) with the subscripts \(L\), \(Q\), \(R\), \(\psi\) a
+localisation); \(u = \cos\vartheta\) the direction cosine of a neutrino
+in step 5 (\(u\) also the up quark). Version 3: \(G_V\), \(G_A\) and
 \(G = (8G_g^2 + 3G_W^2 + G_B^2)^{1/2}\) are the strengths of I11, I13
-and I12; \(\tilde I_{of}\), \(\tilde I^{(b)}_{of}\) overlap integrals;
-\(q_f\) a charge (\(B - L\) for I11, baryon number for I13);
-\(P_b = (1 - \gamma^{x_0})/2\); \(J^B\) the baryon-number current; in
-step 9 \(x = M/T\), \(Y = n/s\) with \(s\) the entropy density,
-\(g_\rho\), \(g_s\) the effective numbers of degrees of freedom and
+and I12 (\(G_A^{B-L}\) the strength a \(B - L\) variant of I13 would
+need, \(G_\lambda\) that of the self-interaction channel, \(G_f\) the
+coupling of one fermion multiplet and
+\(G_i = \mathcal O\,c_ig_i^2/\Lambda_\star^3\) the I12 strength of the
+gauge group \(i\)); \(\tilde I_{of}\), \(\tilde I^{(b)}_{of}\),
+\(\tilde I_\lambda\) overlap integrals (\(s_{DF}\) a transition scalar
+density); \(q_f\) a charge (\(B - L\) for I11, baryon number \(q^B_f\)
+for I13); \(P_b = (1 - \gamma^{x_0})/2\),
+\(P_a = (1 + \gamma^{x_0})/2\); \(J^B\) the baryon-number current;
+\(c_\rho\), \(c_3\), \(c_p\) the coefficients of the adiabatic block
+response, \(\bar p = (p_0 + 3p_t)/4\) the hidden pressure and \(p_2\)
+the order-\(\alpha\) pressure of a gauge plasma (step 8); in step 9
+\(x = M/T\) (\(M\) the dark-matter mass, \(T\) the temperature),
+\(Y = n/s\) with \(s\) the entropy density (in \(\sigma(s)\),
+\(\sqrt s\) and the thermal averages \(s\) is the Mandelstam variable,
+the squared centre-of-mass energy of a pair), \(g_\rho\), \(g_s\) the
+effective numbers of degrees of freedom (\(g_{s,e\gamma}\) that of the
+photons and \(e^\pm\) alone), \(\delta = \frac13\,d\ln g_s/d\ln T\),
 \(\gamma\) a rate density (in step 5 \(\gamma\) is the adiabaticity of a
-resonance); in step 10 \(\Delta_\Phi\) is the rms Newtonian potential
+resonance), \(K_1\), \(K_2\) modified Bessel functions of the second
+kind, \(\beta = \sqrt{1 - 4M^2/s}\) the velocity of a dark-matter
+particle in the centre-of-mass frame (\(\beta_W\) is the tip parameter
+of the \(W\)), \(v = 2\beta\) the relative velocity, \(p\) the
+centre-of-mass momentum, \(J\) the total angular momentum of a partial
+wave, \(N_c\) the number of Weyl components of a multiplet, which share
+its overlap (3 for a quark singlet, 6 for a quark doublet, 2 for a
+lepton doublet, 1 for a charged-lepton singlet), \(N_\chi = N_F = 2\)
+the number of fold bands (the fold zero modes of \(\Psi_A\) and
+\(\Psi_B\), two Dirac fermions) and \(\sum_{A,B}\) the sum over the two
+dark-matter species (the lowest odd states of \(\Psi_A\) and
+\(\Psi_B\)); in step 10 \(\Delta_\Phi\) is the rms Newtonian potential
 per logarithmic wavenumber, \(\alpha_n\) the Yukawa strength of a
-Kaluza-Klein graviton and \(a = 3\eta/2\) in its profile.
+Kaluza-Klein graviton and \(a = 3\eta/2\) in its profile (\(a\) is
+otherwise the scale factor and, with \(b\), a component of an orbital).
 
 \hypertarget{the-equations-being-solved}{%
 \section{The equations being solved}\label{the-equations-being-solved}}
@@ -246,12 +279,16 @@ couplings
 of complex \(3\times3\) generation matrices; and the portals
 \[ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\,\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^M\Psi)\,\mathcal J_M,\qquad \mathcal J_M = \sum_{i=1}^3\sum_\psi q_\psi(i\bar\psi_i\gamma_M\psi_i),\]
 \[ S_{I12} = -\int d^8x\sqrt{\lvert g\rvert}\,\frac{\bar\Psi\Psi}{\Lambda_\star^3}\,\mathcal F,\qquad \mathcal F = c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN},\]
-\[ S_{I13} = \int d^8x\sqrt{\lvert g\rvert}\,\frac{c_A}{\Lambda_\star^6}(i\bar\Psi\gamma^MP_b\Psi)\,J^B_M,\qquad P_b = \frac{1 - \gamma^{x_0}}{2},\qquad J^B_M = \frac13\sum_{i=1}^3\sum_{\psi\in\{Q_i, u_{Ri}, d_{Ri}\}}i\bar\psi\gamma_M\psi\]
+\[ S_{I13} = \int d^8x\sqrt{\lvert g\rvert}\,\frac{c_A}{\Lambda_\star^6}\sum_{M \ne x_0}(i\bar\Psi\gamma^MP_b\Psi)\,J^B_M,\qquad P_b = \frac{1 - \gamma^{x_0}}{2},\qquad J^B_M = \frac13\sum_{i=1}^3\sum_{\psi\in\{Q_i, u_{Ri}, d_{Ri}\}}i\bar\psi\gamma_M\psi\]
 (I11 with the \(B - L\) charges \(q_Q = q_{u_R} = q_{d_R} = \frac13\),
-\(q_L = q_{e_R} = q_{\nu_R} = -1\); I13 new in version 3). The field
-equations are
+\(q_L = q_{e_R} = q_{\nu_R} = -1\); I13 new in version 3, its sum over
+the seven directions \(M = x_1, \dots, x_7\), for which
+\(i\bar\Psi\gamma^MP_b\Psi\) is Hermitian, while for \(M = x_0\) it is
+not, \((iC\gamma^{x_0}P_b)^\dagger = iC\gamma^{x_0}P_a\) with
+\(P_a = (1 + \gamma^{x_0})/2\); DERIVED with the author's matrices). The
+field equations are
 \[ \sum_k\alpha_kE_{(k)}{}^M{}_N + \Lambda\delta^M_N = \kappa T^M{}_N,\qquad
-   \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\frac{c_V}{\Lambda_\star^6}\mathcal J_M\gamma^M\Psi - i\frac{c_A}{\Lambda_\star^6}J^B_M\gamma^MP_b\Psi ,\]
+   \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\frac{c_V}{\Lambda_\star^6}\mathcal J_M\gamma^M\Psi - i\frac{c_A}{\Lambda_\star^6}\sum_{M \ne x_0}J^B_M\gamma^MP_b\Psi ,\]
 together with the Yang-Mills equations with fermion, tip and portal
 currents, the Dirac equations of the fermions with the tip Yukawa terms,
 and the boundary conditions at the fold and the tip.
@@ -416,8 +453,9 @@ To first order about the static block with block-averaged matter sources
 \[ \delta\ddot k + \omega_r^2\,\delta k = -2k_*\big(s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p + q_h\,\kappa\delta\rho\big),\qquad
    s_{h3} = 0.028666,\quad s_{hp} = 0.037320,\quad q_h = -0.009555;\]
 the adiabatic shift is
-\(\delta k = (-0.107556\,\kappa\delta p_3 - 0.140028\,\kappa\delta\bar p + 0.035852\,\kappa\delta\rho)/H^2\),
-and 3-space obeys
+\(\delta k = (-0.107556\,\kappa\delta p_3 - 0.140028\,\kappa\delta\bar p + 0.035852\,\kappa\delta\rho)/H^2\)
+(radiation, \(\delta p_3 = \delta\rho/3\), drops out exactly:
+\(0.107556 = 3\times0.035852\)), and 3-space obeys
 \(\delta\dot A = -\kappa(\delta\rho + \delta p_3)/(2G(k_*))\). Together
 with the constraint \(3G(k_*)A^2 = \kappa\rho\) and the dimensional
 reduction
@@ -909,18 +947,25 @@ defines the four-dimensional coefficient of the dark-matter operator:
 \subsection{Back-reaction on the
 block}\label{back-reaction-on-the-block}}
 
-The block-averaged hidden pressure \(\bar p = (p_0 + 3p_t)/4\) of a
-Kohn-Sham state displaces the block by
-\(\delta k = \kappa\bar p/(3H^2 - 4\kappa\rho_b^*/k_*) = -0.140028\,\kappa\bar p/H^2\)
-(stiffness \(-7.1414H^2\)), without changing the four-dimensional
-cosmological term at linear order
+A Kohn-Sham state with the block-averaged sources \(\rho\), \(p_3\) and
+the hidden pressure \(\bar p = (p_0 + 3p_t)/4\) displaces the block by
+the adiabatic response of step 1,
+\[ \delta k = \big(0.035852\,\kappa\rho - 0.107556\,\kappa p_3 - 0.140028\,\kappa\bar p\big)/H^2 = \big(0.035852\,\kappa(\rho - 3p_3) - 0.140028\,\kappa\bar p\big)/H^2 \]
+(the hidden-pressure part is
+\(\delta k = \kappa\bar p/(3H^2 - 4\kappa\rho_b^*/k_*)\), stiffness
+\(-7.1414H^2\)), without changing the four-dimensional cosmological term
+at linear order
 (\(\frac{d}{dk}[6H^2k(1 - 2w_2k) + \kappa\rho_b] = -6\times10^{-12}\) at
 \(k_*\)). Cell averages (units of the Kohn-Sham calculation, \(H = 1\)):
-\(\bar p = -1.16\times10^{-5}\) (\(N = 8\), \(+\lambda_B\)), \(-0.0636\)
-(\(N = 592\), \(+\lambda_B\)), \(\approx 0\) (free gas); the shift is
-negligible for any realistic density (relative size \((A/H)^2\)). The
-difference \(p_0 - p_t\) (\(-0.0574\) for \(N = 592\), \(+\lambda_B\))
-drives a block-shape mode outside the order-0 metric (OPEN).
+\(\rho - 3p_3 = 1.80\times10^{-5}\) and \(\bar p = -1.16\times10^{-5}\)
+(\(N = 8\), \(+\lambda_B\); \(\delta k = 2.27\times10^{-6}\kappa\)),
+\(0.0987\) and \(-0.0636\) (\(N = 592\), \(+\lambda_B\);
+\(\delta k = 0.0125\kappa\)), \(0\) and \(0\) (free gas, \(w = 1/3\);
+\(\delta k = -5\times10^{-13}\kappa\), the numerical zero) (DERIVED);
+the shift is negligible for any realistic density (relative size
+\((A/H)^2\)). The difference \(p_0 - p_t\) (\(-0.0574\) for \(N = 592\),
+\(+\lambda_B\)) drives a block-shape mode outside the order-0 metric
+(OPEN).
 
 \hypertarget{step-4-the-electroweak-sector}{%
 \section{Step 4: the electroweak
@@ -1076,7 +1121,7 @@ best fit; the inverted ordering has \(\Delta\chi^2 = 6.1\)):
 \(\Delta m^2_{21} = 7.49\times10^{-5}\) eV\(^2\),
 \(\Delta m^2_{31} = 2.513\times10^{-3}\) eV\(^2\);
 \(\sum m_\nu = 0.0599\) eV, below the DESI DR2 bound \(0.064\) eV
-(DERIVED, \texttt{um2\_neutrino.py}, 15 checks). The PMNS matrix is the
+(DERIVED, \texttt{um2\_neutrino.py}, 16 checks). The PMNS matrix is the
 neutrino tip matrix of step 2. The flavour amplitudes \(\psi_\alpha\) of
 a neutrino of energy \(E\) evolve with
 \[ i\frac{d\psi}{dx_4} = \mathcal H\psi,\qquad \mathcal H = \frac{1}{2E}\,U\,\mathrm{diag}(m_1^2, m_2^2, m_3^2)\,U^\dagger + \mathrm{diag}(V_{CC}, 0, 0),\qquad V_{CC} = \sqrt2\,G_Fn_e \]
@@ -1297,9 +1342,11 @@ With separate temperatures \(T_{\nu_e}/T_\gamma = 0.71732\) and
 comoving neutrino temperatures by \(0.265\) \% (\(\nu_e\), which also
 has charged-current interactions with the electrons) and \(0.109\) \%
 (\(\nu_{\mu,\tau}\)). The plasma of UM-2 at MeV temperatures is that of
-the three-flavour Standard Model and contains no extra radiation, so the
-precision Standard-Model value with oscillations and the electron mass
-in the rates is adopted:
+the three-flavour Standard Model (the fold bands made by freeze-in,
+\(\Delta N_{eff} = 0.001\) in version 3, step 9, are decoupled
+free-streaming radiation, which takes no part in the neutrino decoupling
+and is added to \(N_{eff}\) separately), so the precision Standard-Model
+value with oscillations and the electron mass in the rates is adopted:
 \[ N_{eff} = 3.0432 \pm 0.0002\qquad \text{(Cielo, Escudero, Mangano and Pisanti 2023)}, \]
 from which the computed range \(3.0476\) to \(3.0485\) differs by
 \(0.0044\) to \(0.0053\) (the remaining difference is the electron mass
@@ -1608,8 +1655,11 @@ BAO}\label{step-6-the-cmb-the-cnb-and-the-bao}}
 
 The four-dimensional effective theory is general relativity (step 1)
 with photons, baryons, the three neutrino mass eigenstates, the dark
-matter (the odd quanta of \(\Psi_A\) and \(\Psi_B\)) and \(\Lambda_4\);
-there is no dark radiation. Its linear perturbations obey the standard
+matter (the odd quanta of \(\Psi_A\) and \(\Psi_B\)), in version 3 the
+fold bands of dirac16complex made by freeze-in (massless free-streaming
+radiation with \(\Delta N_{eff} = 0.001\), step 9, which obeys the
+massless limit \(E_i = q\) of the neutrino hierarchy below) and
+\(\Lambda_4\). Its linear perturbations obey the standard
 Einstein-Boltzmann equations (Newtonian gauge, conformal time,
 \(ds^2 = a^2[-(1 + 2\psi)d\tau^2 + (1 - 2\phi)d\vec x^{\,2}]\)):
 \[ k^2\phi + 3\mathcal H(\phi' + \mathcal H\psi) = -4\pi G_Na^2\delta\rho,\qquad k^2(\phi' + \mathcal H\psi) = 4\pi G_Na^2(\bar\rho + \bar P)\theta,\]
@@ -1647,12 +1697,16 @@ inverting the full (relativistic) density from \(\omega_\nu\) and the
 mass fractions, which were therefore iterated (13 iterations) until the
 masses agree to \(7.8\times10^{-12}\) (DERIVED). The models are
 \(\Lambda\)CDM with the Planck 2018 parameters (one neutrino of \(0.06\)
-eV, \(N_{eff} = 3.044\): the CAMB defaults), UM-2, and two variants with
-a thermalised fold band of dirac16complex (two Weyl species, which UM-2
-does not contain; step 4), decoupled above the electroweak scale
-(\(\Delta N_{eff} = 0.0958\)) or just above the QCD crossover
+eV, \(N_{eff} = 3.044\): the CAMB defaults), UM-2 (version 3: the three
+mass states and the freeze-in fold bands,
+\(N_{eff} = 3.0432 + 0.0010 = 3.0442\)), UM-2 without the freeze-in fold
+bands (the neutrino content of version 2, \(N_{eff} = 3.0432\)), and two
+variants with a thermalised fold band of dirac16complex instead (two
+Weyl species, which UM-2 does not contain; steps 4 and 9), decoupled
+above the electroweak scale (\(\Delta N_{eff} = 0.0958\)) or just above
+the QCD crossover
 (\(\Delta N_{eff} = 2(10.75/61.75)^{4/3}\times1.0095 = 0.1963\))
-(DERIVED, \texttt{um2\_cosmology.py}, 6 checks). The BAO distances
+(DERIVED, \texttt{um2\_cosmology.py}, 8 checks). The BAO distances
 \(D_M(z) = \int_0^z c\,dz'/H(z')\) (flat), \(D_H = c/H(z)\),
 \(D_V = (zD_M^2D_H)^{1/3}\), in units of the drag-epoch sound horizon
 \(r_d\), are compared with the DESI DR2 measurements (STANDARD,
@@ -1740,35 +1794,42 @@ BAO \(\chi^2\) (13 points)
 \endlastfoot
 \(\Lambda\)CDM & \(67.34\) & \(0.3154\) & \(3.044\) & \(0.24566\) &
 \(13.799\) & \(1089.91\) & \(147.103\) & \(32.55\) \\
-UM-2 & \(67.37\) & \(0.3151\) & \(3.0432\) & \(0.24566\) & \(13.797\) &
-\(1089.91\) & \(147.109\) & \(31.72\) \\
-UM-2 + fold band (electroweak) & \(68.48\) & \(0.3050\) & \(3.1390\) &
-\(0.24693\) & \(13.698\) & \(1090.00\) & \(146.630\) & \(15.43\) \\
-UM-2 + fold band (QCD) & \(69.65\) & \(0.2948\) & \(3.2395\) &
-\(0.24824\) & \(13.596\) & \(1090.10\) & \(146.133\) & \(10.65\) \\
+UM-2 (version 3) & \(67.38\) & \(0.3150\) & \(3.0442\) & \(0.24567\) &
+\(13.796\) & \(1089.91\) & \(147.104\) & \(31.49\) \\
+UM-2 without the freeze-in fold bands (version 2) & \(67.37\) &
+\(0.3151\) & \(3.0432\) & \(0.24566\) & \(13.797\) & \(1089.91\) &
+\(147.109\) & \(31.72\) \\
+UM-2 with a thermalised fold band (electroweak) & \(68.48\) & \(0.3050\)
+& \(3.1390\) & \(0.24693\) & \(13.698\) & \(1090.00\) & \(146.630\) &
+\(15.43\) \\
+UM-2 with a thermalised fold band (QCD) & \(69.65\) & \(0.2948\) &
+\(3.2395\) & \(0.24824\) & \(13.596\) & \(1090.10\) & \(146.133\) &
+\(10.65\) \\
 \end{longtable}
 
 \(\Omega_\nu h^2 = 6.4511\times10^{-4}\) in CAMB, equal to
 \(6.4510\times10^{-4}\) from the CNB of step 5 times
 \((N_{eff}/3)^{3/4}\); the mass sum \(0.0599\) eV lies below the DESI
 DR2 bound \(0.064\) eV, which would allow \(m_1 < 4.1\) meV. The UM-2 TT
-and EE spectra agree with Planck \(\Lambda\)CDM to \(2.8\times10^{-4}\)
-(\(30 \le \ell \le 2500\); for TT at most \(0.007\) of the cosmic
-variance \(\sqrt{2/(2\ell + 1)}\) of a single multipole; the binned
-full-sky cosmic-variance \(\chi^2 = \sum_b(\bar\delta_b/\sigma_b)^2\)
-over bins \(b\) of \(\Delta\ell = 50\), with \(\bar\delta_b\) the mean
-relative deviation and
-\(\sigma_b = \sqrt{2/\sum_{\ell\in b}(2\ell + 1)}\), is \(0.023\)): UM-2
-reproduces the CMB of \(\Lambda\)CDM. By themselves the three mass
-states instead of one state of 60 meV move TT and EE by
-\(2.6\times10^{-4}\) and \(2.3\times10^{-4}\), and \(N_{eff} = 3.0432\)
-instead of \(3.044\) by \(1.3\times10^{-4}\). The fold-band variants, at
-fixed Planck \(\omega_b\), \(\omega_c\), \(\theta_*\), move TT by up to
-\(1.5\) \% and \(3.1\) \% (\(0.8\) and \(1.5\) cosmic-variance units of
-a single multipole; binned \(\chi^2 = 293\) and \(1208\)): they are not
-fits to the CMB, and they lie \(2.1\) and \(2.9\) standard deviations
-above the ACT DR6 value \(N_{eff} = 2.86 \pm 0.13\) (UM-2: \(1.4\)). The
-CNB enters through \(N_{eff} = 3.0432\) and the three neutrino masses.
+and EE spectra agree with Planck \(\Lambda\)CDM to \(2.5\times10^{-4}\)
+and \(2.7\times10^{-4}\) (\(30 \le \ell \le 2500\); for TT at most
+\(0.007\) of the cosmic variance \(\sqrt{2/(2\ell + 1)}\) of a single
+multipole; the binned full-sky cosmic-variance
+\(\chi^2 = \sum_b(\bar\delta_b/\sigma_b)^2\) over bins \(b\) of
+\(\Delta\ell = 50\), with \(\bar\delta_b\) the mean relative deviation
+and \(\sigma_b = \sqrt{2/\sum_{\ell\in b}(2\ell + 1)}\), is \(0.020\);
+without the freeze-in fold bands \(2.8\times10^{-4}\),
+\(2.8\times10^{-4}\) and \(0.023\)): UM-2 reproduces the CMB of
+\(\Lambda\)CDM. By themselves the three mass states instead of one state
+of 60 meV move TT and EE by \(2.6\times10^{-4}\) and
+\(2.3\times10^{-4}\), and \(N_{eff} = 3.0432\) instead of \(3.044\) by
+\(1.3\times10^{-4}\). The fold-band variants, at fixed Planck
+\(\omega_b\), \(\omega_c\), \(\theta_*\), move TT by up to \(1.5\) \%
+and \(3.1\) \% (\(0.8\) and \(1.5\) cosmic-variance units of a single
+multipole; binned \(\chi^2 = 293\) and \(1208\)): they are not fits to
+the CMB, and they lie \(2.1\) and \(2.9\) standard deviations above the
+ACT DR6 value \(N_{eff} = 2.86 \pm 0.13\) (UM-2: \(1.4\)). The CNB
+enters through \(N_{eff} = 3.0432\) and the three neutrino masses.
 
 \begin{figure}
 \centering
@@ -1793,15 +1854,14 @@ anisotropic tracers are shown for illustration).}
 each model without the CMB gives the linear matter power spectrum
 \(P_m(k)\) and
 \[ \sigma_8^2 = \int_0^\infty\frac{dk}{k}\,\frac{k^3P_m(k)}{2\pi^2}\,W^2(kR),\qquad W(x) = \frac{3(\sin x - x\cos x)}{x^3},\qquad R = 8\,h^{-1}\ \text{Mpc}: \]
-\(\sigma_8 = 0.8119\) (UM-2) and \(0.8109\) (\(\Lambda\)CDM; Planck
-2018: \(0.811\), STANDARD); \(f\sigma_8 = 0.4762\) and \(0.4756\) at
-\(z = 0.5\) (\(f = d\ln D/d\ln a\) the growth rate) (DERIVED). In
-version 3 the fold bands produced by freeze-in through I11 (step 9) are
-massless free-streaming radiation with \(\Delta N_{eff} = 0.001\):
-\(N_{eff} = 3.0442\), the TT spectrum moves by at most
-\(1.6\times10^{-4}\) from version 2 (\(2.5\times10^{-4}\) from
-\(\Lambda\)CDM), BAO \(\chi^2 = 31.49\), \(\sigma_8 = 0.8118\),
-\(H_0 = 67.38\) km/s/Mpc (DERIVED, 8 checks in all).
+\(\sigma_8 = 0.8118\) (UM-2, version 3), \(0.8119\) (UM-2 without the
+freeze-in fold bands) and \(0.8109\) (\(\Lambda\)CDM; Planck 2018:
+\(0.811\), STANDARD); \(f\sigma_8 = 0.4761\), \(0.4762\) and \(0.4756\)
+at \(z = 0.5\) (\(f = d\ln D/d\ln a\) the growth rate) (DERIVED). The
+fold bands produced by freeze-in through I11 (step 9) are massless
+free-streaming radiation with \(\Delta N_{eff} = 0.001\): they move the
+TT spectrum by at most \(1.6\times10^{-4}\) against the model without
+them (DERIVED, 8 checks in all).
 
 \hypertarget{step-7-the-dark-matter-relic-and-its-detection}{%
 \section{Step 7: the dark-matter relic and its
@@ -1835,7 +1895,10 @@ radiation-dominated freeze-out) requires
 species, i.e.
 \[ (8G_g^2 + 3G_W^2 + G_B^2)^{1/2} = (15.5\ \text{TeV})^{-3},\qquad G_i = \mathcal O\,c_ig_i^2/\Lambda_\star^3,\quad \mathcal O = 0.7072 \]
 (a single species carrying all the dark matter would need
-\((17.6\ \text{TeV})^{-3}\) with the same \(g_*\)).
+\((17.6\ \text{TeV})^{-3}\) with the same \(g_*\)). These are the
+numbers of the freeze-out formula (version 2); the numerical Boltzmann
+solution of step 9 needs \((15.86\ \text{TeV})^{-3}\) at
+\(x_f = 31.70\).
 
 \textbf{Unitarity} (DERIVED, \texttt{um2\_analysis.py}). The operator
 \(\bar\chi\chi FF\) annihilates a fermion pair only from the \(J = 0\),
@@ -1849,7 +1912,10 @@ relative velocities, \(f(v) \propto v^2e^{-xv^2/4}\), is
 3.47 times; the effective cross-section \(G^2M^4v^2/\pi\) with
 \(G = (8G_g^2 + 3G_W^2 + G_B^2)^{1/2}\) at the relic strength exceeds
 the bound for \(v > v_c = (\pi/(GM^3))^{2/3} = 0.263\), i.e.~for 79 \%
-of the pairs at freeze-out. (Version 1 compared the requirement with
+of the pairs at freeze-out (with the strength and \(x_f\) of the
+freeze-out formula; with the relic strength of step 9 the formula gives
+\(0.274\) and 75 \% of the pairs, and the exact crossing lies at
+\(v = 2\beta = 0.269\)). (Version 1 compared the requirement with
 \((4\pi/M^2)\sqrt{x_f/\pi} = 2.32\times10^{-25}\) cm\(^3\)/s, the bound
 of a single helicity channel without the spin average and the
 restriction to \(^3P_0\), a factor 4 too large.) The gauge-kinetic
@@ -1953,7 +2019,7 @@ zero mode \(f\)
 0.3961 & 0.4620 & 0.7622 & 0.3972 & 0.5879 & 1.2524 & 0.302-0.308 \\
 \(\tilde I^{(b)}\), dark matter & 2.6135 & 0.9134 & 0.3795 & 0.5569 &
 2.6135 & 0.3891 & 0.4459 & 0.6607 & 0.3900 & 0.5442 & 0.9134 &
-0.301-0.307 \\
+0.301-0.308 \\
 \(\tilde I\), fold band & 6.685 & 1.659 & 0.792 & 1.060 & 6.685 & 0.807
 & 0.893 & 1.221 & 0.808 & 1.041 & 1.659 & 0.668-0.678 \\
 \(\tilde I\), first even bulk level & 8.92 & 1.185 & 0.428 & 0.602 &
@@ -1998,22 +2064,57 @@ with the benchmark strengths \(G_V = 4.38\times10^{-17}\) GeV\(^{-2}\),
 (STANDARD),
 \((\rho - 3p)_{QCD}/T^4 = 4\exp[-\ln^2(T/0.2\ \text{GeV})/0.5]\) below 1
 GeV (lattice-like, ESTIMATE),
-\(\frac{b}{3}(1 + \frac{5n_f}{12})\alpha_s^2\) above (leading order:
-from
+\(\frac{b}{3}(1 + \frac{5n_f}{12})\alpha_s^2\) above (\(\alpha_s\) at
+the scale \(2\pi T\), one loop; leading order: from
 \(p = \frac{8\pi^2}{45}T^4[1 + \frac{21n_f}{32} - \frac{15}{4}(1 + \frac{5n_f}{12})\frac{\alpha_s}{\pi}]\)
 and \(d\alpha_s/d\ln T = -\frac{b}{2\pi}\alpha_s^2\) through
-\(\rho - 3p = T^5\,d(p/T^4)/dT\)); for the massive vector bosons
+\(\rho - 3p = T^5\,d(p/T^4)/dT\); the trace anomaly
+\(\rho - 3p = -\frac{b\alpha_s}{8\pi}\langle G^2\rangle\) is written in
+the signature \((+,-,-,-)\), in which the trace of the energy-momentum
+tensor is \(\rho - 3p\); in the signature \((+,+,+,-)\) of UM-2 both
+sides change sign and the relation above is the same). For the massive
+vector bosons the free part is
 \(\langle F^2\rangle_T = -2(\rho - 3p)_V\) of their ideal gas (on shell
-\(-\frac14F^2 + \frac12m_V^2A^2\) is a total derivative and
-\(T^\mu{}_\mu = -m_V^2A^2\)), so that
-\(\langle g^2W^aW^a\rangle = g^2[2(-2I_W) + \cos^2\theta_W(-2I_Z)]\),
-\(\langle g'^2B^2\rangle = g'^2\sin^2\theta_W(-2I_Z)\),
-\(I_V = (\rho - 3p)_V\). In the early-Universe environments the net
-baryon density is \(\eta_bn_\gamma\) with
-\(\eta_b = 6.1\times10^{-10}\), shared as \(n_n/n_p = e^{-Q/T}\)
-(\(Q = 1.293\) MeV), \(n_e = n_p\); the dark matter is in equilibrium
-for \(M/T < 40\) (\(n = 8(MT/2\pi)^{3/2}e^{-M/T}\) for both species) and
-has its relic density scaled with the entropy afterwards. Results
+the Proca Lagrangian, in the signature \((+,-,-,-)\)
+\(-\frac14F^2 + \frac12m_V^2A_\mu A^\mu\), is a total derivative and
+\(T^\mu{}_\mu = -m_V^2A_\mu A^\mu = \rho - 3p\); the result does not
+depend on the signature), and above \(m_W\) the order-\(\alpha\)
+interaction pressure of the electroweak plasma dominates: by the
+Feynman-Hellmann theorem, for the Lagrangian \(-F_{geo}^2/(4g^2)\)
+(\(F_{geo} = gF\)),
+\[ \langle F_{geo}^2\rangle = -4\,\frac{\partial p}{\partial(1/g^2)} = 4g^2p_2,\qquad p_2 = -\frac{g^2T^4}{144}\,d_A\Big[C_A + \frac52T_FN_f\Big] \]
+(STANDARD; \(SU(2)\): \(d_A = 3\), \(C_A = 2\), \(T_FN_f = 3\) for
+twelve Weyl doublets; \(U(1)_Y\): \(d_A = 1\), \(C_A = 0\),
+\(\frac52T_FN_f \to \frac52\sum_{Dirac}Y^2 = \frac{25}{2}\); no scalar
+term, and below \(m_W\) times the thermal suppression
+\(\rho(m_W, T)/\rho(0, T)\) of a massive vector, ESTIMATE; for QCD,
+\(d_A = 8\), \(C_A = 3\), \(T_F = \frac12\), it reproduces the
+trace-anomaly condensate to \(10^{-16}\), DERIVED), with the couplings
+at \(\mu = 2\pi T\) (one loop from the \(\overline{MS}\) values at
+\(m_Z\) without a Higgs particle:
+\(1/\alpha_i(\mu) = 1/\alpha_i(m_Z) + \frac{b_i}{2\pi}\ln(\mu/m_Z)\),
+\(b_2 = \frac{10}{3}\), \(b_Y = -\frac{20}{3}\),
+\(1/\alpha_2(m_Z) = \hat s_Z^2/\alpha\),
+\(1/\alpha_Y(m_Z) = (1 - \hat s_Z^2)/\alpha\), \(\hat s_Z^2 = 0.23122\),
+\(\alpha = 1/127.95\)), so that
+\[ \langle g^2W^aW^a\rangle = g^2\big[2(-2I_W) + \cos^2\theta_W(-2I_Z)\big] + 4g^2p_2^{SU(2)}, \]
+\[ \langle g'^2B^2\rangle = g'^2\sin^2\theta_W(-2I_Z) + 4g'^2p_2^{U(1)},\qquad I_V = (\rho - 3p)_V \]
+(\(\theta_W\) the angle of the couplings). The cold environments: the
+cosmic mean today (the Planck baryon density with the helium fraction
+\(Y_p = 0.2457\), \(\Omega_ch^2 = 0.120\)), the Galaxy at the Sun
+(\(n_p = n_e = 1\) cm\(^{-3}\)), the Earth (mean density \(5.51\)
+g/cm\(^3\), 48 \% protons), the centre of the Sun (150 g/cm\(^3\), 66 \%
+protons, 32 \% neutrons), a white dwarf (\(10^6\) g/cm\(^3\) of carbon
+and oxygen, equal numbers of protons and neutrons) and a neutron-star
+core (\(0.3\) fm\(^{-3}\), 10 \% protons, \(n_e = n_p\)), with the local
+dark-matter density \(0.4\) GeV/cm\(^3\) in the bound objects. In the
+early-Universe environments the net baryon density is \(\eta_bn_\gamma\)
+with \(\eta_b = 6.1\times10^{-10}\), \(n_\gamma = 2\zeta(3)T^3/\pi^2\),
+shared as \(n_n/n_p = e^{-Q/T}\) (\(Q = 1.293\) MeV), \(n_e = n_p\); the
+dark matter is in equilibrium for \(M/T < 40\)
+(\(n = 8(MT/2\pi)^{3/2}e^{-M/T}\) for both species) and has its relic
+density scaled with the entropy afterwards; the freeze-out environment
+is at \(T = M/x_f\) with the \(x_f = 31.23\) of step 9. Results
 (DERIVED):
 
 \begin{longtable}[]{@{}
@@ -2046,7 +2147,7 @@ environment
 \endlastfoot
 cosmic mean today & \(2.2\times10^{-7}\) & \(3\times10^{-64}\) &
 \(4\times10^{-57}\) & \(3.7\times10^{-15}\) & \(8.4\times10^{-20}\) &
-\(8\times10^{-94}\) \\
+\(7\times10^{-94}\) \\
 the Galaxy at the Sun & \(1\) & \(1\times10^{-57}\) &
 \(1.5\times10^{-50}\) & \(3.7\times10^{-15}\) & \(8.4\times10^{-20}\) &
 \(3\times10^{-87}\) \\
@@ -2064,23 +2165,26 @@ neutron-star core (\(0.3\) fm\(^{-3}\)) & \(3.0\times10^{37}\) &
 \(1.0\times10^{-16}\) & \(9\times10^{-49}\) \\
 nucleosynthesis (\(T = 1\) MeV) & \(1.5\times10^{22}\) &
 \(2.4\times10^{-35}\) & \(2.8\times10^{-28}\) & \(3.7\times10^{-15}\) &
-\(8.4\times10^{-20}\) & \(7\times10^{-65}\) \\
+\(8.4\times10^{-20}\) & \(7\times10^{-60}\) \\
 QCD crossover (\(T = 200\) MeV) & \(7.8\times10^{28}\) &
 \(2.0\times10^{-28}\) & \(2.3\times10^{-21}\) & \(1.9\times10^{-15}\) &
-\(4.4\times10^{-20}\) & \(1\times10^{-57}\) \\
+\(4.4\times10^{-20}\) & \(3\times10^{-48}\) \\
 electroweak era (\(T = 100\) GeV) & \(9.7\times10^{36}\) &
-\(2.6\times10^{-20}\) & \(2.8\times10^{-13}\) & \(-2.3\times10^{-6}\) &
-\(-5.3\times10^{-11}\) & \(2\times10^{-49}\) \\
-dark-matter freeze-out (\(T = 1.46\) TeV) & \(3.0\times10^{40}\) &
-\(7.9\times10^{-17}\) & \(8.9\times10^{-10}\) & \(-7.1\times10^{-2}\) &
-\(-1.6\times10^{-6}\) & \(6\times10^{-45}\) \\
+\(2.6\times10^{-20}\) & \(2.8\times10^{-13}\) & \(-2.4\times10^{-6}\) &
+\(-5.5\times10^{-11}\) & \(7\times10^{-39}\) \\
+dark-matter freeze-out (\(T = 1.42\) TeV) & \(2.8\times10^{40}\) &
+\(7.3\times10^{-17}\) & \(8.2\times10^{-10}\) & \(-6.8\times10^{-2}\) &
+\(-1.5\times10^{-6}\) & \(1.1\times10^{-34}\) \\
 \end{longtable}
 
 The QCD vacuum condensate dominates at low temperature
 (\(\langle g_s^2G^2\rangle = 0.474\) GeV\(^4\), half of it left at 200
-MeV); the thermal \(W\), \(Z\) and gluon interaction measures dominate
-in the electroweak era and at the freeze-out, where the shift reaches
-\(1.6\times10^{-6}\) of the mass.
+MeV); the thermal condensates dominate in the electroweak era and at the
+freeze-out, where the shift reaches \(1.5\times10^{-6}\) of the mass
+(\(\langle g_s^2G^2\rangle = -8.1\times10^{12}\),
+\(\langle g^2W^aW^a\rangle = -5.0\times10^{11}\), almost all from the
+order-\(\alpha\) interaction,
+\(\langle g'^2B^2\rangle = -2.6\times10^{10}\) GeV\(^4\)).
 
 \hypertarget{dirac16complex-acting-on-the-standard-model-and-gravity}{%
 \subsection{dirac16complex acting on the Standard Model, and
@@ -2088,42 +2192,80 @@ gravity}\label{dirac16complex-acting-on-the-standard-model-and-gravity}}
 
 Through I12 the scalar density of the dark matter changes the gauge
 couplings, \(\delta\alpha_i/\alpha_i = -4G_in_{DM}\):
-\(-4.1\times10^{-16}\) for \(\alpha_s\) at the freeze-out,
-\(-1.1\times10^{-20}\) in the electroweak era, \(-1.7\times10^{-60}\) in
-the Galaxy today. In the \(x_0\) problem of the \(W\) with the kinetic
-function \(K = 1 + e\,s_{DM}(y)\) (\(s_{DM} = 2ab\) of the dark-matter
-orbital),
+\(-1.7\times10^{-16}\) for \(\alpha_s\) at the freeze-out,
+\(-1.1\times10^{-20}\) in the electroweak era, at most
+\(-1.1\times10^{-36}\) from nucleosynthesis on, \(-1.7\times10^{-60}\)
+in the Galaxy today. In the \(x_0\) problem of the \(W\) with the
+kinetic function \(K = 1 + e\,s_{DM}(y)\) (\(s_{DM} = 2ab\) of the
+dark-matter orbital),
 \[ -\frac{1}{Ke^{3\eta\xi}}\big(Ke^{3\eta\xi}u'\big)' = \Lambda u,\qquad u'(0) = 0,\qquad K(-1)\,u'(-1) = \beta_Wu(-1), \]
 quadratic finite elements (300 elements, Richardson in \(e\)) give
 \(d\ln\Lambda_W/de = -0.1126\), while the photon and gluon zero mode
 keeps \(\Lambda = 0\) (\(-2.5\times10^{-11}\) at \(e = 0.01\), the
 discretisation level); the physical amplitude,
-\(e \sim 4c\,g^2n_{DM}/\Lambda_\star^3\), is below \(10^{-50}\).
-Gravity: every species pushes on the block with
-\(p_0 = -\rho\,d\ln m/d\ln f\), i.e.
-\[ \kappa\bar p = -\frac{8\pi G_NG(k_*)}{4}\sum_s\rho_s\frac{d\ln m_s}{d\ln f},\qquad \delta k = \frac{\kappa\bar p}{3H^2 - 4\kappa\rho_b^*/k_*},\qquad \delta\ln f = -\frac{\delta k}{2k_*}, \]
-with \(d\ln m_e/d\ln f = -20.5\), \(d\ln M_{DM}/d\ln f = -0.772\) and,
-for the nucleon, through the QCD scale (\(\alpha_s(m_{KK}) = 0.0606\)
-from
+\(e \sim 4c\,g^2n_{DM}/\Lambda_\star^3 = \lvert\delta\alpha/\alpha\rvert\),
+is \(1.7\times10^{-16}\) at the freeze-out, \(1.1\times10^{-20}\) in the
+electroweak era, at most \(1.1\times10^{-36}\) from nucleosynthesis on
+and \(5\times10^{-66}\) for the cosmic mean today.
+
+Gravity: the block responds to the block-averaged sources of every
+species with the adiabatic response of step 1,
+\[ \delta k = \big(0.035852\,\kappa\delta\rho - 0.107556\,\kappa\delta p_3 - 0.140028\,\kappa\delta\bar p\big)/H^2,\qquad \delta\ln f = -\frac{\delta k}{2k_*},\qquad
+   \delta\ln m_s = \frac{d\ln m_s}{d\ln f}\,\delta\ln f , \] in which
+radiation drops out, with \(\kappa\delta\rho = 8\pi G_NG(k_*)\rho_4\)
+for a four-dimensional density \(\rho_4\) (likewise \(p_3\) and
+\(\bar p\)). The hidden pressure is the response of the pressure to the
+block scale at fixed temperature,
+\(\bar p = \frac14\,\partial p/\partial\ln f\):
+\[ \bar p = -\frac14\sum_s(\rho_s - 3p_s)\frac{d\ln m_s}{d\ln f} - \frac14(\rho - 3p)_{QCD}\frac{d\ln\Lambda^{(n_f)}}{d\ln f} + \frac14\sum_{i = 2, Y}p_2^{(i)}\,\frac{d\ln\alpha_i}{d\ln f} ,\]
+the species of mass \(m_s(f)\) as ideal gases with their \(x_0\) masses
+(for an ideal gas \(m\,\partial p/\partial m = -(\rho - 3p)\);
+non-relativistic matter gives \(-\frac14\rho\,d\ln m/d\ln f\)), the net
+nucleons and electrons as degenerate Fermi gases in the cold
+environments, the QCD plasma through
+\(\partial p/\partial\ln\Lambda = -(\rho - 3p)\) (for
+\(p = T^4\varphi(T/\Lambda)\)) and the electroweak plasma through its
+order-\(\alpha\) pressure with
+\(d\ln\alpha_i(\mu)/d\ln f = -\alpha_i(\mu)[4/\alpha_i(m_{KK}) + b_i/(2\pi)]\)
+(the bulk couplings scale as \(\alpha_i(m_{KK}) \propto f^{-4}\) and
+\(m_{KK} \propto 1/f\)); in the trace the QCD and electroweak plasmas
+add \((\rho - 3p)_{QCD}\) and \(-\frac{b_i\alpha_i}{2\pi}p_2^{(i)}\).
+The sensitivities: \(d\ln m_e/d\ln f = -20.5\),
+\(d\ln M_{DM}/d\ln f = -0.772\), for a fermion of mass \(m = e/(fL)\)
+with the first-order root \(e \simeq \kappa_f\zeta(c_L)\zeta(-c_R)\) of
+step 2 and localisations \(c = f\mu L \propto f\)
+\[ \frac{d\ln m}{d\ln f} = -1 + \frac12\Big[\frac{d\ln\zeta(c_L)^2}{d\ln c_L} + \frac{d\ln\zeta(-c_R)^2}{d\ln(-c_R)}\Big] = -18.82,\ -18.01,\ -14.90,\ -12.15,\ -10.89,\ -6.77 \]
+for \(u\), \(d\), \(s\), \(c\), \(b\), \(t\), and for the nucleon,
+through the QCD scale (\(\alpha_s(m_{KK}) = 0.0606\) from
 \(1/\alpha_s(m_{KK}) = 1/\alpha_s(m_Z) + \frac{7}{2\pi}\ln(m_{KK}/m_Z)\),
 \(\alpha_s \propto f^{-4}\), \(m_{KK} \propto 1/f\),
 \(\Lambda^{(6)} = m_{KK}e^{-2\pi/(7\alpha_s(m_{KK}))}\),
 \(\Lambda^{(3)} = \Lambda^{(6)\,21/27}(m_cm_bm_t)^{2/27}\),
 \(\sigma_{\pi N} = 45\) MeV, \(\sigma_s = 40\) MeV)
 \[ \frac{d\ln\Lambda^{(6)}}{d\ln f} = -1 - \frac{8\pi}{7\alpha_s(m_{KK})} = -60.2,\qquad \frac{d\ln\Lambda^{(3)}}{d\ln f} = \frac{21}{27}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{27}\sum_{q=c,b,t}\frac{d\ln m_q}{d\ln f} = -49.0,\]
+\[ \frac{d\ln\Lambda^{(5)}}{d\ln f} = \frac{21}{23}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{23}\frac{d\ln m_t}{d\ln f} = -55.6,\qquad
+   \frac{d\ln\Lambda^{(4)}}{d\ln f} = \frac{21}{25}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{25}\Big(\frac{d\ln m_t}{d\ln f} + \frac{d\ln m_b}{d\ln f}\Big) = -52.0,\]
 \[ \frac{d\ln m_p}{d\ln f} = \Big(1 - \frac{\sigma_{\pi N} + \sigma_s}{m_p}\Big)\frac{d\ln\Lambda^{(3)}}{d\ln f} + \frac{\sigma_{\pi N}}{2m_p}\Big(\frac{d\ln m_u}{d\ln f} + \frac{d\ln m_d}{d\ln f}\Big) + \frac{\sigma_s}{m_p}\frac{d\ln m_s}{d\ln f} = -46.1 \]
 (ESTIMATE, one loop). The block moves by at most
-\(\delta\ln f = 5.6\times10^{-45}\) (at the freeze-out; the nucleon mass
-by \(2.6\times10^{-43}\)), and the gain of the loop mass \(\to\) hidden
-pressure \(\to\) block \(\to\) mass is at most \(1.3\times10^{-44}\), so
-the iteration converges after one step in every environment. \textbf{The
-coupled solution is therefore the stabilised background with the \(x_0\)
-spectra and the Kohn-Sham states of steps 1 to 3, corrected by the mean
-fields of this step; the corrections are computed and below
-\(1.6\times10^{-6}\).} The I12 benchmark changes the strong coupling by
-10 \% through the thermal dark-matter density only at \(T = 27.4\) TeV
-(\(M/T = 1.62\)), so the coupled effective description holds through the
-freeze-out and everything later (DERIVED, 14 checks with step 9).
+\(\delta\ln f = 1.1\times10^{-34}\), at the freeze-out, where the hot
+plasma has \(\bar p = 3.1\times10^{12}\) GeV\(^4\) (mostly the QCD
+interaction measure with \(d\ln\Lambda/d\ln f = -60\)) and
+\(\rho - 3p_3 = 2.2\times10^{11}\) GeV\(^4\) (the nucleon mass moves by
+\(5.3\times10^{-33}\)); \(7\times10^{-39}\) in the electroweak era; at
+most \(9\times10^{-49}\) from nucleosynthesis to today. The gain of the
+loop mass \(\to\) source \(\to\) block \(\to\) mass is at most
+\(1.1\times10^{-33}\), so the iteration converges after one step in
+every environment. (Version 3 as first written kept only the hidden
+pressure of non-relativistic matter and only the \(\delta\bar p\) term
+of the response and found \(5.6\times10^{-45}\); the conclusion is
+unchanged.) \textbf{The coupled solution is therefore the stabilised
+background with the \(x_0\) spectra and the Kohn-Sham states of steps 1
+to 3, corrected by the mean fields of this step; the corrections are
+computed and below \(1.5\times10^{-6}\).} The I12 benchmark changes the
+strong coupling by 10 \% through the thermal dark-matter density only at
+\(T = 27.4\) TeV (\(M/T = 1.62\)), so the coupled effective description
+holds through the freeze-out and everything later (DERIVED, 16 checks
+with step 9).
 
 \begin{figure}
 \centering
@@ -2141,15 +2283,21 @@ Standard-Model mean fields in the ten environments (right).}
 \subsection{The thermal history}\label{the-thermal-history}}
 
 The species in equilibrium (photon, gluons, \(W^+\), \(W^-\), \(Z\), six
-quarks, three charged leptons, three neutrinos, the dark matter; no
-Higgs particle; not the right-handed neutrinos, the fold bands, the
-radion or the Kaluza-Klein modes) with their \(x_0\) masses give
+quarks, three charged leptons, three neutrinos; no Higgs particle; not
+the right-handed neutrinos, the fold bands, the radion or the
+Kaluza-Klein modes; the dark matter is not counted, since it would add
+less than 0.1 at 5 TeV and nothing at its freeze-out) with their \(x_0\)
+masses give
 \[ \rho_i = \frac{g_i}{2\pi^2}\int_0^\infty\frac{p^2E\,dp}{e^{E/T}\pm1},\qquad p_i = \frac{g_i}{6\pi^2}\int_0^\infty\frac{p^4\,dp}{E(e^{E/T}\pm1)},\qquad s_i = \frac{\rho_i + p_i}{T},\qquad
    g_\rho = \frac{30\sum_i\rho_i}{\pi^2T^4},\quad g_s = \frac{45\sum_is_i}{2\pi^2T^3}, \]
 with the QCD crossover modelled by the weight
 \(w = \frac12[1 + \tanh((T - 155\ \text{MeV})/15\ \text{MeV})]\) of the
 quark-gluon plasma against a gas of the twelve lightest hadron
-multiplets (ASSUMED) and neutrinos decoupled at 2 MeV
+multiplets (ASSUMED; masses in GeV and internal states: \(\pi\) 0.1380,
+3; \(K\) 0.4956, 4; \(\eta\) 0.5479, 1; \(\rho\) 0.7753, 9; \(\omega\)
+0.7827, 3; \(K^*\) 0.8917, 12; \(N\) 0.9389, 8; \(\eta'\) 0.9578, 1;
+\(\phi\) 1.0195, 3; \(\Lambda\) 1.1157, 4; \(\Sigma\) 1.1932, 12;
+\(\Delta\) 1.232, 32; from memory) and neutrinos decoupled at 2 MeV
 (\(T_\nu/T = (g_{s,e\gamma}/(11/2))^{1/3}\) afterwards) (DERIVED):
 
 \begin{longtable}[]{@{}
@@ -2172,7 +2320,7 @@ multiplets (ASSUMED) and neutrinos decoupled at 2 MeV
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 5 TeV
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-1.46 TeV
+1.42 TeV
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 200 GeV
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -2198,7 +2346,7 @@ today
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-\(g_\rho\) & 105.75 & 105.74 & 104.96 & 86.22 & 76.34 & 64.57 & 42.35 &
+\(g_\rho\) & 105.75 & 105.73 & 104.95 & 86.22 & 76.34 & 64.57 & 42.35 &
 17.54 & 10.74 & 10.56 & 4.30 & 3.363 \\
 \(g_s\) & 105.75 & 105.73 & 104.68 & 86.13 & 75.50 & 64.14 & 41.76 &
 17.16 & 10.74 & 10.56 & 4.78 & 3.909 \\
@@ -2217,14 +2365,15 @@ For one Dirac species (\(Y = (n_\chi + n_{\bar\chi})/s\), \(x = M/T\),
 \[ \frac{dY}{dx} = -\frac{(1 + \delta)\,s\,\langle\sigma v\rangle}{2xH}(Y^2 - Y_{eq}^2),\qquad \delta = \frac13\frac{d\ln g_s}{d\ln T},\qquad H = \Big(\frac{8\pi^3g_\rho}{90}\Big)^{1/2}\frac{T^2}{M_{Pl}},\qquad
    Y_{eq} = \frac{4M^2TK_2(x)}{2\pi^2s}, \]
 \[ \langle\sigma v\rangle = \frac{1}{8M^4TK_2(x)^2}\int_{4M^2}^\infty\sigma(s)\,(s - 4M^2)\sqrt s\,K_1(\sqrt s/T)\,ds,\qquad \Omega h^2 = \frac{MY_\infty s_0}{\rho_c/h^2} \]
-(\(\rho_c/h^2 = 1.05368\times10^{-5}\) GeV/cm\(^3\); implicit Radau
+(\(K_1\), \(K_2\) the modified Bessel functions of the second kind;
+\(\rho_c/h^2 = 1.05368\times10^{-5}\) GeV/cm\(^3\); implicit Radau
 integration of \(\ln Y\) from \(x = 5\) to \(2000\), relative tolerance
-\(10^{-10}\); the thermal average by adaptive quadrature in
-\(z = s/(4M^2) - 1\) with exponentially scaled Bessel functions,
-tabulated on 260 points in \(x\)). Validation (DERIVED): an s-wave
-cross-section of \(4.4\times10^{-26}\) cm\(^3\)/s gives
-\(\Omega h^2 = 0.1275\) (the freeze-out formula \(0.1306\)), and the
-late-time integral
+\(10^{-10}\); the thermal average by adaptive quadrature in the kinetic
+energy of the pair in units of its rest energy, \(s/(4M^2) - 1\), with
+exponentially scaled Bessel functions, tabulated on 260 points in
+\(x\)). Validation (DERIVED): an s-wave cross-section of
+\(4.4\times10^{-26}\) cm\(^3\)/s gives \(\Omega h^2 = 0.1275\) (the
+freeze-out formula \(0.1306\)), and the late-time integral
 \(1/Y_\infty - 1/Y(x_*) = \int_{x_*}(1 + \delta)s\langle\sigma v\rangle/(2xH)\,dx\)
 holds to \(1.3\times10^{-8}\); for I12,
 \(\sigma = G^2s^{3/2}(s - 4M^2)^{1/2}/(8\pi)\), the exact average
@@ -2243,26 +2392,33 @@ per species (\(x_f = 31.70\),
 \(\langle\sigma v\rangle(x_f) = 1.89\times10^{-25}\) cm\(^3\)/s; step 7:
 \((15.5\ \text{TeV})^{-3}\) from the freeze-out formula). Its
 cross-section exceeds the \(^3P_0\) bound \(\sigma \le \pi/(4p^2)\)
-above \(v_c = 0.274\) (\(\sqrt s = 89510\) GeV, 815 GeV above
-threshold), and 75 \% of the pairs at freeze-out are faster. With
-\(\sigma = \pi/(4p^2)\) at every energy, the largest annihilation from
-\(^3P_0\), each species leaves \(\Omega h^2 = 0.0582\)
-(\(\langle\sigma v\rangle(x_f) = 5.43\times10^{-26}\) cm\(^3\)/s, the
-non-relativistic \(\sqrt{\pi x}/M^2 = 5.92\times10^{-26}\) cm\(^3\)/s);
-the effective operator capped at the bound leaves \(0.1544\),
-\(0.1081\), \(0.0836\), \(0.0649\), \(0.0585\) for
+above \(\sqrt s = 89510\) GeV (815 GeV above threshold), i.e.~above the
+relative velocity \(v = 2\beta = 0.269\) (\(0.274\) from the
+non-relativistic formula \(v_c = (\pi/(GM^3))^{2/3}\)); at freeze-out 96
+\% of the annihilation rate comes from collisions above the crossing
+(the fraction of the Gondolo-Gelmini integral above it), and 75 \% of
+the pairs of the non-relativistic Maxwell distribution are faster than
+\(0.274\). With \(\sigma = \pi/(4p^2)\) at every energy, the largest
+annihilation from \(^3P_0\), each species leaves \(\Omega h^2 = 0.0582\)
+(at its freeze-out, \(x_f = 30.77\),
+\(\langle\sigma v\rangle = 5.33\times10^{-26}\) cm\(^3\)/s against the
+non-relativistic \(\sqrt{\pi x}/M^2 = 5.84\times10^{-26}\) cm\(^3\)/s at
+the same \(x\)); the effective operator capped at the bound leaves
+\(0.1544\), \(0.1081\), \(0.0836\), \(0.0649\), \(0.0585\) for
 \(G^2/G^2_{relic} = 1\), \(3\), \(10\), \(100\), \(10^4\). Within
 perturbative couplings I12 therefore overproduces the dark matter; only
 a strongly coupled \(^3P_0\) channel at the unitarity limit could give
 the relic. Version 3 sets I12 to the unitarity-safe benchmark
 \[ G = \frac{\pi}{2M^3} = 1.801\times10^{-14}\ \text{GeV}^{-3} = (38.2\ \text{TeV})^{-3}, \]
 below the bound up to \(\sqrt s = 106363\) GeV \(= 2.40M\) (a fraction
-\(5.3\times10^{-4}\) of the annihilation rate at \(x = 30\) comes from
+\(5.2\times10^{-4}\) of the annihilation rate at \(x = 30\) comes from
 above); with universal coefficients and the one-loop couplings at
 \(2M = 88.7\) TeV
 (\(1/\alpha_s = 1/\alpha_s(m_Z) + \frac{7}{2\pi}\ln(2M/m_Z)\),
-\(1/\alpha_2 = \sin^2\theta_W/\alpha + \frac{10}{3}\frac{1}{2\pi}\ln(2M/m_Z)\),
-\(1/\alpha_1 = \cos^2\theta_W/\alpha - \frac{20}{3}\frac{1}{2\pi}\ln(2M/m_Z)\),
+\(1/\alpha_2 = \hat s_Z^2/\alpha + \frac{10}{3}\frac{1}{2\pi}\ln(2M/m_Z)\),
+\(1/\alpha_1 = (1 - \hat s_Z^2)/\alpha - \frac{20}{3}\frac{1}{2\pi}\ln(2M/m_Z)\)
+with the \(\overline{MS}\) value
+\(\hat s_Z^2 = \sin^2\hat\theta_W(m_Z) = 0.23122\),
 \(\alpha(m_Z) = 1/127.95\); \(g_s^2 = 0.7786\), \(g^2 = 0.3781\),
 \(g'^2 = 0.1380\)),
 \(c/\Lambda_\star^3 = G/(\mathcal O\sqrt{8g_s^4 + 3g^4 + g'^4})\)
@@ -2282,28 +2438,43 @@ each species \(\Omega h^2 = 0.060\) for (DERIVED)
 with \(\langle\sigma v\rangle(x_f) = 9.50\times10^{-26}\) cm\(^3\)/s
 from I13 and \(9.9\times10^{-28}\) cm\(^3\)/s from I12, the I13
 cross-section capped at its bound, which it reaches only above
-\(v = 0.51\) (19 \% of the freeze-out rate; without the cap
-\(G_A = 1.269\times10^{-9}\) GeV\(^{-2}\) and the bound is crossed above
-\(v = 0.52\) by 24.5 \% of the rate). The relic of UM-2 version 3 is a
-thermal freeze-out with most annihilations in the perturbative regime.
+\(v = 0.51\) (22 \% of the freeze-out rate then comes from collisions at
+the bound; without the cap \(G_A = 1.269\times10^{-9}\) GeV\(^{-2}\),
+and the uncapped cross-section exceeds the bound above \(v = 0.52\), for
+25 \% of the rate). The relic of UM-2 version 3 is a thermal freeze-out
+with most annihilations (78 \% of the rate) below the unitarity bound;
+the contact form of I13 is an effective description (for the quark
+doublet \(G_f^{-1/2} = (G_Aq_f\tilde I^{(b)}_Q)^{-1/2} = 30\) TeV, below
+the energies \(\sqrt s \approx 89\) TeV of the annihilations), whose
+completion by a mediator is OPEN.
 
 \textbf{Why the baryon current.} With the \(B - L\) current instead
-(\(\sum_fN_c(q_f\tilde I^{(b)}_f)^2 = 22.92\),
-\(G_A = 1.072\times10^{-9}\) GeV\(^{-2}\); the three \(\nu_R\) carry 1.2
-\% of the annihilation) the right-handed neutrinos would be thermalised:
+(\(\sum_fN_c(q_f\tilde I^{(b)}_f)^2 = 22.92\) over the quarks, the
+leptons and the \(\nu_R\), so the relic needs
+\(G_A^{B-L} = G_A(16.351/22.92)^{1/2} = 1.072\times10^{-9}\)
+GeV\(^{-2}\) with the uncapped \(G_A\); the three \(\nu_R\) carry 1.2 \%
+of the annihilation) the right-handed neutrinos would be thermalised:
 per flavour
 \[ \frac{dn_{\nu_R}}{dx_4} + 3Hn_{\nu_R} = \gamma_\nu\Big(1 - \frac{n_{\nu_R}^2}{n_{\nu_R,eq}^2}\Big),\qquad \gamma_\nu = \sum_{A,B}n_{\chi,eq}^2\frac{G_\nu^2M^2}{2\pi},\qquad
    n_{\nu_R,eq} = \frac34\frac{\zeta(3)}{\pi^2}T^3,\qquad n_{\chi,eq} = 2\Big(\frac{MT}{2\pi}\Big)^{3/2}e^{-x}, \]
-\(G_\nu = G_A\tilde I^{(b)}_{\nu_R}\); from zero abundance at
-\(M/T = 2\) they reach 0.9997 of the equilibrium number by \(M/T = 40\);
-the number-changing rate falls below the Hubble rate at \(M/T = 16.1\),
-and elastic scattering on the dark matter,
-\(\Gamma_{el} = \sum_{A,B}2n_{\chi,eq}G_\nu^2(3T)^2/\pi\) (ESTIMATE), at
-\(M/T = 25.1\) (\(T = 1769\) GeV, \(g_s = 105.7\)); the three \(\nu_R\)
-would add \(\Delta N_{eff} = 3(10.75/g_s)^{4/3}F_h = 0.144\)
-(\(F_h = 1.0095\)), \(N_{eff} = 3.187\), 2.5 standard deviations above
-ACT DR6 (\(2.86 \pm 0.13\)). With \(J^B\) they keep only their tip
-coupling and are never thermalised.
+\(G_\nu = G_A^{B-L}\tilde I^{(b)}_{\nu_R}\) (one representative flavour,
+the rms of the three overlaps, which differ by 2 \%;
+\(G_\nu^2M^2/(2\pi)\) the s-wave \(\sigma v\) into one Weyl \(\nu_R\)
+pair); from zero abundance at \(M/T = 2\) they reach 0.9997 of the
+equilibrium number by \(M/T = 40\); the number-changing rate falls below
+the Hubble rate at \(M/T = 16.1\), and elastic scattering on the dark
+matter, \(\Gamma_{el} = \sum_{A,B}2n_{\chi,eq}\,\sigma_{el}\) with
+\(\sigma_{el} = G_\nu^2E^2/(2\pi)\) for a Weyl \(\nu_R\) of energy
+\(E \simeq 3T\) on a heavy Dirac fermion (ESTIMATE), at \(M/T = 24.4\)
+(\(T = 1816\) GeV, \(g_s = 105.7\)); the three \(\nu_R\) would add
+\(\Delta N_{eff} = 3(10.75/g_s)^{4/3}F_h = 0.144\) (\(F_h = 1.0095\)),
+\(N_{eff} = 3.187\), 2.5 standard deviations above ACT DR6
+(\(2.86 \pm 0.13\)). With \(J^B\) the \(\nu_R\) keep their tip coupling
+and the I11 coupling of charge \(-1\), through which the dark matter
+annihilates into \(\nu_R\) pairs at only \(2.0\times10^{-17}\) of the
+I13 rate into quarks (the ratio
+\(G_V^2\sum_i\tilde I_{\nu_{Ri}}^2/(G_A^2\sum_fN_c(q_f\tilde I^{(b)}_f)^2)\),
+DERIVED): they are never thermalised.
 
 \hypertarget{the-fold-bands-freeze-in-through-i11}{%
 \subsection{The fold bands: freeze-in through
@@ -2328,6 +2499,46 @@ from \(T_{max}\) (DERIVED):
 \(10\), \(20\) TeV, and at \(T_{max}\) the production rate per fold
 quantum is \(0.012\) of the Hubble rate: never in equilibrium.
 
+\hypertarget{the-self-interaction-channel-version-3-after-the-review}{%
+\subsection{The self-interaction channel (version 3, after the
+review)}\label{the-self-interaction-channel-version-3-after-the-review}}
+
+The contact self-interaction \(-\frac{\lambda}{2}(\bar\Psi\Psi)^2\)
+contains \(-\lambda(\bar\chi_D\chi_F)(\bar\chi_F\chi_D)\,s_{DF}(y)^2\),
+with the transition scalar density \(s_{DF} = a_Db_F + b_Da_F\) of the
+dark-matter orbital \((a_D, b_D)\) and the fold zero mode \((a_F, 0)\);
+\(s_{DF}\) is odd under the fold reflection and its square even, so the
+dark matter can annihilate into the fold bands, with the
+four-dimensional strength (normalised as I11)
+\[ G_\lambda = \frac{\lambda H\tilde I_\lambda}{2f^4v_t},\qquad \tilde I_\lambda = \int_{-L}^{0}s_{DF}^2\,e^{-3Hy}\,dy = 14.38\ (\text{units of }H), \]
+and the s-wave cross-section estimated as
+\(\sigma v = G_\lambda^2M^2/(2\pi)\) per final fold species, \(N_F = 2\)
+(the value of one vector channel; the Fierz coefficients are not
+computed: ESTIMATE). While the dark matter is in equilibrium
+(\(T_{max} = 10\) TeV to \(x_f = 31.23\)) each annihilation puts \(2M\)
+into the fold bands,
+\[ \frac{d(\rho_{fold}a^4)}{dx_4} = 2M\,\gamma_\lambda\,a^4,\qquad \gamma_\lambda = \sum_{A,B}n_{\chi,eq}n_{\bar\chi,eq}\,\sigma v\,N_F,\qquad n_{\chi,eq} = 2\Big(\frac{MT}{2\pi}\Big)^{3/2}e^{-M/T}, \]
+which gives (DERIVED)
+\(\Delta N_{eff} = 1.83\times10^{26}\,G_\lambda^2\) GeV\(^4\) as long as
+the fold bands stay out of equilibrium. \(\Delta N_{eff} \le 0.001\)
+therefore requires \(G_\lambda \le 2.3\times10^{-15}\) GeV\(^{-2}\)
+(\(1.8\times10^{-6}\,G_A\); the production rate per fold quantum,
+\(2\gamma_\lambda/n_{fold,eq}\) with
+\(n_{fold,eq} = N_F\cdot4\cdot\frac34\frac{\zeta(3)}{\pi^2}T^3\), is
+then at most 0.027 of the Hubble rate). The self-coupling
+\(\lambda_B = 7\times10^{-5}H^{-6}\) of the Kohn-Sham tests of step 3
+would, with \(v_t = H^{-3}\), give \(G_\lambda = 1.14\times10^{-9}\)
+GeV\(^{-2}\), keep the fold bands in equilibrium down to \(T = 2.6\) TeV
+(production rate up to \(6.3\times10^9\) times the Hubble rate) and add
+\(\Delta N_{eff} = 4(10.75/g_s)^{4/3}F_h = 0.19\) (four Weyl species,
+\(N_{eff} = 3.23\)). UM-2 therefore ASSUMES
+\(G_\lambda \le 2.3\times10^{-15}\) GeV\(^{-2}\), i.e.
+\(\lambda \le 1.4\times10^{-10}H^{-6}\) for \(v_t = H^{-3}\), or
+\(v_t \ge 4.9\times10^5H^{-3}\) for \(\lambda = \lambda_B\); with such a
+\(\lambda\) the self-interaction mean fields of every Kohn-Sham state of
+the cosmology are negligible, and \(\lambda_B\) is only the value with
+which the Kohn-Sham machinery was tested.
+
 \hypertarget{detection}{%
 \subsection{Detection}\label{detection}}
 
@@ -2342,7 +2553,7 @@ cm\(^2\); ESTIMATE): allowed and within reach of the next generation of
 xenon detectors (I11 alone: \(3.9\times10^{-60}\) cm\(^2\)). The s-wave
 annihilation into quark pairs continues today with
 \(\sigma v = \sum_fN_cG_f^2M^2/(2\pi) = 9.76\times10^{-26}\) cm\(^3\)/s
-(DERIVED, 7 + 14 checks).
+(DERIVED, 7 + 16 checks).
 
 \begin{figure}
 \centering
@@ -2369,16 +2580,17 @@ checks):
 \item
   order 1, \(n = 0\): the rms Newtonian potential per logarithmic
   wavenumber today, \(\Delta_\Phi = [k^3P_\Phi/(2\pi^2)]^{1/2}\) from
-  the Weyl potential \(\frac12(\phi + \psi)\) of step 6:
-  \(2.42\times10^{-5}\), \(2.28\times10^{-5}\), \(1.51\times10^{-5}\),
-  \(4.12\times10^{-6}\), \(1.74\times10^{-6}\), \(3.55\times10^{-7}\),
-  \(5.04\times10^{-8}\) at \(k = 10^{-4}\), \(10^{-3}\), \(10^{-2}\),
-  \(0.05\), \(0.1\), \(0.3\), \(1\) Mpc\(^{-1}\); the Poisson equation
+  the Weyl potential \(\frac12(\phi + \psi)\) of step 6 (UM-2, version
+  3): \(2.42\times10^{-5}\), \(2.28\times10^{-5}\),
+  \(1.51\times10^{-5}\), \(4.12\times10^{-6}\), \(1.74\times10^{-6}\),
+  \(3.55\times10^{-7}\), \(5.03\times10^{-8}\) at \(k = 10^{-4}\),
+  \(10^{-3}\), \(10^{-2}\), \(0.05\), \(0.1\), \(0.3\), \(1\)
+  Mpc\(^{-1}\); the Poisson equation
   \(\Phi = \frac32\Omega_mH_0^2\delta_m/(ak^2)\) applied to the matter
-  density agrees to \(1.4\times10^{-6}\) for \(k \ge 0.01\)
+  density agrees to \(1.5\times10^{-6}\) for \(k \ge 0.01\)
   Mpc\(^{-1}\), and on the largest scales
   \(\frac35A_s^{1/2}(k/k_0)^{(n_s - 1)/2}g(0)\) (\(k_0 = 0.05\)
-  Mpc\(^{-1}\), \(g(0) = D(1) = 0.7879\) with
+  Mpc\(^{-1}\), \(g(0) = D(1) = 0.7878\) with
   \(D(a) = \frac52\Omega_mE(a)\int_0^a db/[bE(b)]^3\),
   \(E(a) = (\Omega_ma^{-3} + 1 - \Omega_m)^{1/2}\)) to
   \(4.4\times10^{-5}\); bound objects \(\Phi = G_NM/(Rc^2)\): Earth
@@ -2395,19 +2607,24 @@ checks):
   (to \(1.8\times10^{-10}\)), \(N_0 = (1 - e^{-3\eta})/(3\eta)\); the
   potential of a static source
   \(V = -\frac{G_NMm}{r}[1 + \sum_n\alpha_ne^{-m_nr}]\) with
-  \(\alpha_n = \frac{N_0}{N_n}(\int\varrho u_n\,d\xi)^2\): \(0.0728\),
-  \(0.1469\), \(0.1809\) at the fold, \(0.0904\), \(0.0136\), \(0.0057\)
-  for the quark-doublet profile, \(0.0208\), \(0.0197\), \(0.0105\) for
-  the lepton doublet, \(0\) for the flat gauge profile (to
+  \(\alpha_n = \frac{N_0}{N_n}(\int\varrho_Mu_n\,d\xi)(\int\varrho_mu_n\,d\xi)\)
+  for the profiles \(\varrho_M\), \(\varrho_m\) of the two masses,
+  i.e.~for two masses with the same profile
+  \(\frac{N_0}{N_n}(\int\varrho u_n\,d\xi)^2\): \(0.0728\), \(0.1469\),
+  \(0.1809\) at the fold, \(0.0904\), \(0.0136\), \(0.0057\) for the
+  quark-doublet profile, \(0.0208\), \(0.0197\), \(0.0105\) for the
+  lepton doublet, \(0\) for the flat gauge profile (to
   \(1.7\times10^{-10}\)); \(m_1 = m_{KK} = 121.32\) TeV, range
   \(1.63\times10^{-21}\) m, \(e^{-m_1r} = e^{-3.1\times10^{16}}\) at
   \(50\) micrometres;
 \item
-  the radion: \(\delta\ln f \le 5.6\times10^{-45}\) (step 8), range
+  the radion: \(\delta\ln f \le 1.1\times10^{-34}\) (step 8), range
   \(4.08\times10^{-21}\) m, the primordial oscillation decayed (lifetime
   \(0.43\,\text{s}/C_r\));
 \item
-  order 2: \(\Delta_\Phi^2 = 5.2\times10^{-10}\) on cosmological scales,
+  order 2 (ESTIMATE, the square of order 1):
+  \(\Delta_\Phi^2 = (2.42\times10^{-5})^2 = 5.8\times10^{-10}\) on
+  cosmological scales (\(k = 10^{-4}\) Mpc\(^{-1}\)),
   \(4.5\times10^{-12}\) at the Sun, \(0.03\) at a neutron star;
 \item
   tensor modes: not predicted; \(r < 0.036\) (from memory) bounds
@@ -2415,7 +2632,7 @@ checks):
 \end{itemize}
 
 On cosmological scales the terms decrease as \(1\),
-\(2.4\times10^{-5}\), \(5.2\times10^{-10}\), \(10^{-44}\) (radion),
+\(2.4\times10^{-5}\), \(5.8\times10^{-10}\), \(10^{-34}\) (radion),
 \(0\) (Kaluza-Klein): the metric is a power series of terms of
 decreasing magnitude whose \(n = 0\) first-order term carries the CMB,
 the CNB and the BAO.
@@ -2452,7 +2669,11 @@ the CNB and the BAO.
   the relic strengths to \(10^{-6}\) in \(\ln G\) (root finding); the
   graviton tower against finite elements (\(4\times10^{-9}\)); the
   potentials from the Weyl variable against the Poisson equation
-  (\(1.4\times10^{-6}\)); \(\sigma_8\) at the CAMB default accuracy.
+  (\(1.5\times10^{-6}\)); \(\sigma_8\) at the CAMB default accuracy;
+  after the review, the algebra of the I13 bilinear (exact), the
+  Feynman-Hellmann pressure against the trace anomaly (\(10^{-16}\)) and
+  the rate fractions above the unitarity crossings by adaptive
+  quadrature with the breakpoints of the thermal weight.
 \item
   Approximations: the static block with an assumed stabiliser; the good
   sector (no extra-time momenta); the Kohn-Sham mean-field treatment
@@ -2469,9 +2690,10 @@ the CNB and the BAO.
   Maxwell-Boltzmann statistics for the freeze-in; the effective
   cross-sections capped at the partial-wave bounds (a completion that
   saturates them); the QCD interaction measure below 1 GeV from a
-  lattice-like shape and leading-order perturbation theory above;
-  one-loop running for the couplings and the proton sensitivity; the
-  elastic \(\nu_R\) rate as an estimate.
+  lattice-like shape and leading-order perturbation theory above; the
+  order-\(\alpha\) electroweak pressure without scalars; one-loop
+  running for the couplings and the proton sensitivity; the elastic
+  \(\nu_R\) rate and the self-interaction cross-section as estimates.
 \end{itemize}
 
 \hypertarget{what-the-solution-does-not-reproduce-and-what-is-open}{%
@@ -2509,8 +2731,10 @@ open}\label{what-the-solution-does-not-reproduce-and-what-is-open}}
   supernova neutrinos beyond the linear analysis; the joint CMB and BAO
   fit of the fold-band variants; the microscopic origin of the portals
   (I12 alone could give the relic only as a strongly coupled \(^3P_0\)
-  channel; version 3 obtains it through I13); the highest temperature of
-  the hot Universe (\(T_{max} = 10\) TeV assumed for the freeze-in); the
+  channel; version 3 obtains it through I13, whose contact form needs a
+  mediator above about 30 TeV); the self-coupling \(\lambda\) (bounded
+  by \(\Delta N_{eff}\), ASSUMED); the highest temperature of the hot
+  Universe (\(T_{max} = 10\) TeV assumed for the freeze-in); the
   order-two terms of the metric in detail; the primordial spectrum, an
   input.
 \end{itemize}

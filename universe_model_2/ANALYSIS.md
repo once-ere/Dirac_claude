@@ -27,29 +27,42 @@ Version 3 (2026-10-18) analyses the completed solution: the dark matter with the
 abundance within the unitarity limit (and couples to the baryon-number current, because a $B - L$ current would thermalise the
 right-handed neutrinos); the fold bands produced by freeze-in through I11 (radiation, $\Delta N_{eff} = 0.001$); the nucleon mass as the most
 block-sensitive mass, through the QCD scale; the Kaluza-Klein gravitons, which do not couple to the gluon energy; the Majorana
-alternative, which the $x_0$ mechanism disfavours; and the back-reactions of the coupled solution, which are all small.
+alternative, which the $x_0$ mechanism disfavours; and the back-reactions of the coupled solution, which are all small. After the
+independent review of version 3 the I13 sum leaves out the direction $x_0$ (for which the bilinear is not Hermitian), the back-reaction on the
+block includes the hot plasma and the full adiabatic response, and the self-interaction of dirac16complex is bounded by $\Delta N_{eff}$.
 
 Symbols with more than one use: $\xi = y/L$ is the scaled hidden coordinate (primes denote $d/d\xi$, except $G'(k) = dG/dk$);
 dots denote $d/dx_4$, and $h = \dot f/f$ is the rate of change of the block scale ($h_\nu$, with a subscript, the comoving heating of
-the neutrinos); $H = 14.296$ TeV is the eight-dimensional scale and $H_0$ the Hubble constant; $\Lambda = (m\,fL)^2$ is a dimensionless eigenvalue of an $x_0$ operator, while in the formula
+the neutrinos); $H = 14.296$ TeV is the eight-dimensional scale, except in the Boltzmann equation of the relic section, where $H$ is the Hubble rate, and
+$H_0$ is the Hubble constant; $\Lambda = (m\,fL)^2$ is a dimensionless eigenvalue of an $x_0$ operator, while in the formula
 for the four-dimensional cosmological term $\Lambda_4$ the symbol $\Lambda = -10H^2$ is the eight-dimensional cosmological constant;
 $\Lambda_\star$ is the scale of the effective interactions; $k$ is the momentum of a mode along $x_1, x_2, x_3$ in $h_j$ and in
 $\varepsilon = e^{-a_4}\lvert k\rvert$, and the block variable $1/f^2$ in $k_*$, $G(k)$ and $\Lambda_4$; $\rho$ is an energy density ($\rho_0$ the
 electroweak parameter) and $\varrho$ a probability density in $\xi$; $w$ is an equation-of-state parameter ($w_0$, $w_a$ of the
 form $w = w_0 + w_a(1 - a)$, $a$ the scale factor), except in the fermion mass condition ($w = \sqrt{c^2 - e^2}$) and the
 Lovelock weights $w_2$, $w_3$; $z = 6Hx_0$, except where it is a redshift. $s = fy$ is the proper hidden length ($\Delta s$ its spread),
-except in $s = \sinh w/w$ and $s_L$, $s_R$ of the fermion mass condition and $s_{ij} = \sin\theta_{ij}$ of the mixing matrices; $p$ is the
-momentum conjugate to $\xi$ ($\langle p^2\rangle$), the hidden wave number of the dark matter ($p\,fL = 1.899$) and a pressure ($p_0$, $p_3$,
-$p_t$, and $p$ of the condensate); $a$ is the scale factor ($a = e^{a_4}$), while $a_L$, $a_R$, $b_L$, $b_R$ are spinor components at the
+except in $s = \sinh w/w$ and $s_L$, $s_R$ of the fermion mass condition, $s_{ij} = \sin\theta_{ij}$ of the mixing matrices, the transition scalar density
+$s_{DF}$ and, in the relic section, the entropy density $s = \frac{2\pi^2}{45}g_sT^3$ and the Mandelstam variable (the squared centre-of-mass energy of a pair,
+in $\sigma(s)$, $\sqrt s$ and the thermal average); $p$ is the momentum conjugate to $\xi$ ($\langle p^2\rangle$), the hidden wave number of the dark matter
+($p\,fL = 1.899$), the centre-of-mass momentum in the relic section and a pressure ($p_0$, $p_3$, $p_t$, the hidden pressure $\bar p = (p_0 + 3p_t)/4$, and
+$p$ of the condensate); $a$ is the scale factor ($a = e^{a_4}$), while $a_L$, $a_R$, $b_L$, $b_R$ are spinor components at the
 tip; $e$ is the eigenvalue $\varepsilon fL$ of a fermion, the electron and the elementary charge; $\mu$ is a bulk mass ($\mu_L$, $\mu_Q$, $\mu_R$),
 $\mu_N$ the dark-matter-nucleon reduced mass and $\mu$ the muon; $i, j = 1, 2, 3$ label generations and neutrino mass states, $\alpha \in \{e, \mu, \tau\}$ flavours ($\alpha$ is also
 the fine-structure constant, $\alpha_s$ the strong coupling); $U$ is the PMNS and $V$ the CKM matrix; $\kappa$ ($\kappa_\nu$, $\kappa_e$, $\kappa_u$, $\kappa_d$, $\kappa_f$) a
-tip matrix ($\kappa_M$ the Majorana tip coupling); $G_V$, $G_A$ the
+tip matrix in the mass conditions ($\kappa_M$ the Majorana tip coupling), while $\kappa = 8\pi G_8$ is the eight-dimensional gravitational coupling in
+$8\pi G_N = \kappa/(G(k)V_\perp)$, in the block response and in $\Lambda_4$ ($V_\perp = 2f^4v_t(1 - e^{-3\eta})/(3H)$ the proper transverse volume of the
+hidden coordinate and the extra times, $v_t$ the coordinate volume of the extra times, $\hat g$ a gauge coupling of the eight-dimensional theory); $G_V$, $G_A$ the
 strengths of I11 and I13, $\tilde I$, $\tilde I^{(b)}$ overlap integrals, $P_b = (1 - \gamma^{x_0})/2$, $J^B$ the baryon-number current, $\Lambda^{(n_f)}$ the QCD scale
 with $n_f$ flavours, $\sigma_{\pi N}$, $\sigma_s$ the nucleon sigma terms; $G(k)$ is the gravity factor of the block, $G_N$ Newton's constant and $G_g$, $G_W$, $G_B$ the four-dimensional couplings of the dark
 matter to gluons, $W$ and $B$ fields ($G$ without a subscript their combination, $G^\alpha$ the gluon field); $F$ is a field strength, $F_h$ the
 decoupling factor of $\Delta N_{eff}$; $g$ is the degeneracy of a momentum shell in the Kohn-Sham sums or the number of internal states
-of a particle, $g_*$ and $g_s$ the effective numbers of relativistic degrees of freedom (energy, entropy), $g_i$ the gauge couplings.
+of a particle, $g_*$ (written $g_\rho$ in the Boltzmann equation) and $g_s$ the effective numbers of relativistic degrees of freedom (energy,
+entropy), $g_i$ the gauge couplings. In the relic section $x = M/T$ ($M = M_{DM}$, $T$ the temperature), $Y = n/s$, $\delta = \frac13\,d\ln g_s/d\ln T$,
+$K_1$, $K_2$ are modified Bessel functions of the second kind, $\beta = \sqrt{1 - 4M^2/s}$ the velocity of a dark-matter particle in the
+centre-of-mass frame, $v = 2\beta$ the relative velocity, $J$ the total angular momentum of a partial wave, $G_f$ the coupling of one fermion
+multiplet, $N_c$ the number of Weyl components of a multiplet, which share its overlap (3 for a quark singlet, 6 for a quark doublet, 2 for a
+lepton doublet, 1 for a charged-lepton singlet), $N_\chi = 2$ the number of fold bands (the fold zero modes of $\Psi_A$ and $\Psi_B$, two Dirac
+fermions), and $G_\lambda$, $\tilde I_\lambda$ the strength and the overlap of the self-interaction channel.
 
 **Summary of the verdicts.**
 
@@ -249,8 +262,9 @@ probability per unit $z$ is largest near the tips. Only the proper hidden length
 The three neutrino masses are $x_0$ eigenvalues of the same kind as the charged-fermion masses: Dirac masses produced at the
 tip by the overlap of the lepton doublet zero mode ($c_L = 5.9529$) with three right-handed singlet zero modes localised very
 sharply at the fold ($c_R = -35.05$, $-32.85$, $-31.07$). The right-handed neutrinos are gauge singlets; they are never in
-thermal equilibrium (their only interaction is the tip mixing, whose rate is suppressed by $(m_\nu/T)^2$; STANDARD), so they add no
-radiation. With the doublet shared, the charged current between the mass states $\nu_j$ and $\ell_i$ carries $\sum_\alpha(\kappa_\nu)^*_{\alpha j}(\kappa_e)_{\alpha i}$, so the PMNS matrix is
+thermal equilibrium (their interactions are the tip mixing, whose rate is suppressed by $(m_\nu/T)^2$, STANDARD, and the weak portal I11 with
+the $B - L$ charge $-1$, through which the dark matter annihilates into $\nu_R$ pairs at only $2.0\times10^{-17}$ of its I13 rate into quarks, DERIVED),
+so they add no radiation. With the doublet shared, the charged current between the mass states $\nu_j$ and $\ell_i$ carries $\sum_\alpha(\kappa_\nu)^*_{\alpha j}(\kappa_e)_{\alpha i}$, so the PMNS matrix is
 $U = \kappa_e^\dagger\kappa_\nu = \kappa_\nu$ ($\kappa_e = 1$); its angles and phase are inputs of UM-2 (NuFIT 6.0), not predictions.
 
 Given the masses and $U$, flavour conversion follows from the four-dimensional effective theory: a neutrino produced with flavour
@@ -314,15 +328,23 @@ $\Lambda^{(6)} = m_{KK}e^{-2\pi/(7\alpha_s(m_{KK}))}$, the matching $\Lambda^{(3
 $$ \frac{d\ln\Lambda^{(6)}}{d\ln f} = -1 - \frac{8\pi}{7\alpha_s(m_{KK})} = -60.2,\qquad \frac{d\ln\Lambda^{(3)}}{d\ln f} = \frac{21}{27}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{27}\sum_{q=c,b,t}\frac{d\ln m_q}{d\ln f} = -49.0, $$
 $$ \frac{d\ln m_p}{d\ln f} = \Big(1 - \frac{\sigma_{\pi N} + \sigma_s}{m_p}\Big)\frac{d\ln\Lambda^{(3)}}{d\ln f} + \frac{\sigma_{\pi N}}{2m_p}\Big(\frac{d\ln m_u}{d\ln f} + \frac{d\ln m_d}{d\ln f}\Big) + \frac{\sigma_s}{m_p}\frac{d\ln m_s}{d\ln f} = -46.1 :$$
 the nucleon mass is the most block-sensitive mass of UM-2, more than the lightest neutrino ($-41.0$); a block that drifted today would
-change the proton-to-electron mass ratio by $(46.1 - 20.5)\lvert h\rvert$ per unit time. In the coupled solution the hidden pressures of all
-species shift the block by at most $\delta\ln f = 5.6\times10^{-45}$ (at the dark-matter freeze-out; $10^{-62}$ in the Earth), so the masses are
-fixed to that accuracy.
+change the proton-to-electron mass ratio by $(46.1 - 20.5)\lvert h\rvert$ per unit time. In the coupled solution the block responds to all
+species with the adiabatic response of the linearised block equations,
+$$ \delta k = \big(0.035852\,\kappa\delta\rho - 0.107556\,\kappa\delta p_3 - 0.140028\,\kappa\delta\bar p\big)/H^2,\qquad \delta\ln f = -\frac{\delta k}{2k_*} $$
+($\kappa\delta\rho = 8\pi G_NG(k_*)\rho_4$ for a four-dimensional density $\rho_4$, likewise $p_3$ and $\bar p$; radiation drops out; the hidden pressure is
+$\bar p = \frac14\,\partial p/\partial\ln f$, i.e. $-\frac14(\rho - 3p)\,d\ln m/d\ln f$ for a species of mass $m$ and $-\frac14(\rho - 3p)_{QCD}\,d\ln\Lambda/d\ln f$ for the QCD plasma),
+which shifts the block by at most $\delta\ln f = 1.1\times10^{-34}$ (at the dark-matter freeze-out, pushed by the hot plasma; $10^{-62}$ in the Earth),
+so the masses are fixed to that accuracy.
 
 The Kaluza-Klein gravitons couple to a source through the overlap of its $x_0$ profile with theirs; their profiles
 $u_n = e^{-a\xi}(\cos n\pi\xi + \frac{a}{n\pi}\sin n\pi\xi)$ ($a = 3\eta/2$) are orthogonal to the flat profile of the gauge zero modes in the measure
 $e^{3\eta\xi}$, so the gluon field energy that makes up most of the nucleon mass excites none of them (DERIVED to $2\times10^{-10}$): gravity
-at short distances feels the localised quark and lepton zero modes only, with Yukawa strengths $0.09$ and $0.02$ for the first mode and a
-range of $1.6\times10^{-21}$ m.
+at short distances feels the localised quark and lepton zero modes only. A static mass $M$ with the normalised $x_0$ profile $\varrho_M$ attracts a
+mass $m$ with the profile $\varrho_m$ with
+$$ V(r) = -\frac{G_NMm}{r}\Big[1 + \sum_{n\ge1}\alpha_ne^{-m_nr}\Big],\qquad \alpha_n = \frac{N_0}{N_n}\Big(\int_{-1}^0\varrho_Mu_n\,d\xi\Big)\Big(\int_{-1}^0\varrho_mu_n\,d\xi\Big),\qquad
+   m_n = \frac{\sqrt{9\eta^2/4 + n^2\pi^2}}{fL}, $$
+$N_n = \int_{-1}^0e^{3\eta\xi}u_n^2\,d\xi = \frac12(1 + a^2/(n\pi)^2)$, $N_0 = (1 - e^{-3\eta})/(3\eta)$: the first mode has $\alpha_1 = 0.09$ between two masses with the
+quark-doublet profile and $0.02$ with the lepton-doublet profile (DERIVED), and the range $1.6\times10^{-21}$ m.
 
 ## Assessment of the mechanism
 
@@ -337,7 +359,7 @@ Kaluza-Klein scale is fitted ($m_{KK} = 121$ TeV from $\rho_0$), the dark-matter
 adds three observations: the nucleon mass, the bulk of the visible mass, depends on the block through the QCD scale more strongly than
 any $x_0$ eigenvalue ($-46$); the mechanism favours Dirac over Majorana neutrinos; and in the coupled solution every back-reaction on
 the masses (Standard-Model mean fields on dirac16complex, dirac16complex on the gauge couplings, all species on the block) stays below
-$1.6\times10^{-6}$, so the $x_0$ spectra of the static block are the masses of the solution.
+$1.5\times10^{-6}$, so the $x_0$ spectra of the static block are the masses of the solution.
 
 # dirac16complex as dark matter
 
@@ -383,7 +405,8 @@ $$ \sigma \le \frac{\pi}{4p^2},\qquad p = \frac{M_{DM}v}{2}\ (v \ll 1),\qquad \s
 $$ \Big\langle\frac{\pi}{M_{DM}^2v}\Big\rangle = \frac{\sqrt{\pi x}}{M_{DM}^2} = 5.79\times10^{-26}\ \text{cm}^3/\text{s at } x_f = 30.38 ,$$
 the thermal average over the relative velocity with $f(v) \propto v^2e^{-xv^2/4}$ (checked by numerical averaging). The freeze-out requirement
 exceeds the bound 3.47 times, and the effective cross-section $G^2M_{DM}^4v^2/\pi$ at the relic strength exceeds it for
-$v > v_c = (\pi/(GM_{DM}^3))^{2/3} = 0.263$, i.e. for 79 % of the pairs at freeze-out. Version 1 compared the requirement with
+$v > v_c = (\pi/(GM_{DM}^3))^{2/3} = 0.263$, i.e. for 79 % of the pairs at freeze-out (with the strength and $x_f$ of the freeze-out formula).
+Version 1 compared the requirement with
 $(4\pi/M_{DM}^2)\sqrt{x_f/\pi} = 2.32\times10^{-25}$ cm$^3$/s, the bound of a single helicity channel without the spin average and the restriction
 to $^3P_0$, four times too large. The gauge-kinetic portal I12 therefore cannot produce the relic abundance within perturbative
 unitarity (version 2).
@@ -391,20 +414,25 @@ unitarity (version 2).
 **The relic in version 3** (DERIVED). The Boltzmann equation of one Dirac species ($Y = (n_\chi + n_{\bar\chi})/s$, $x = M/T$),
 $$ \frac{dY}{dx} = -\frac{(1 + \delta)s\langle\sigma v\rangle}{2xH}(Y^2 - Y_{eq}^2),\qquad \delta = \frac13\frac{d\ln g_s}{d\ln T},\qquad
    \langle\sigma v\rangle = \frac{\int_{4M^2}^\infty\sigma(s)(s - 4M^2)\sqrt s\,K_1(\sqrt s/T)\,ds}{8M^4TK_2(x)^2}, $$
-with $Y_{eq} = 4M^2TK_2(x)/(2\pi^2s)$, $H = (8\pi^3g_\rho/90)^{1/2}T^2/M_{Pl}$, $s = \frac{2\pi^2}{45}g_sT^3$, and the degrees of freedom $g_\rho(T)$, $g_s(T)$ of the
-particle content of UM-2 with its $x_0$ masses, confirms the conclusion and quantifies it: the effective I12 would need $(15.86\ \text{TeV})^{-3}$,
-crossing the $^3P_0$ bound at $v = 0.274$; a cross-section at that bound at every energy, the largest annihilation from $^3P_0$, leaves
+with $Y_{eq} = 4M^2TK_2(x)/(2\pi^2s)$ ($K_1$, $K_2$ modified Bessel functions of the second kind), $H = (8\pi^3g_\rho/90)^{1/2}T^2/M_{Pl}$ the Hubble rate,
+$s = \frac{2\pi^2}{45}g_sT^3$ the entropy density, and the degrees of freedom $g_\rho(T)$, $g_s(T)$ of the particle content of UM-2 with its $x_0$ masses,
+confirms the conclusion and quantifies it: the effective I12 would need $(15.86\ \text{TeV})^{-3}$, crossing the $^3P_0$ bound at $\sqrt s = 89510$ GeV,
+i.e. at the relative velocity $v = 2\beta = 0.269$ ($0.274$ from the non-relativistic formula), with 96 % of the freeze-out rate from collisions
+above the crossing; a cross-section at that bound at every energy, the largest annihilation from $^3P_0$, leaves
 $\Omega h^2 = 0.058$ per species, so I12 could produce the relic only as a strongly coupled channel at the unitarity limit, outside the
 validity of the effective description. Version 3 therefore keeps I12 at the unitarity-safe benchmark $G = \pi/(2M^3) = (38.2\ \text{TeV})^{-3}$ (alone:
 $\Omega h^2 = 8.0$ per species) and adds the INVENTED portal
-$$ S_{I13} = \int d^8x\sqrt{\lvert g\rvert}\,\frac{c_A}{\Lambda_\star^6}(i\bar\Psi\gamma^MP_b\Psi)J^B_M,\qquad P_b = \frac{1 - \gamma^{x_0}}{2},\qquad J^B_M = \frac13\sum_{i=1}^3\sum_{\psi\in\{Q_i, u_{Ri}, d_{Ri}\}}i\bar\psi\gamma_M\psi, $$
-whose $x_0$-chiral current is Hermitian, a four-dimensional vector, diagonal in the halves, and zero on the fold bands ($\gamma^{x_0} = \sigma_3$ in
-the block form and the fold bands have no lower component). On the zero modes it couples the dark matter to each quark Weyl component
+$$ S_{I13} = \int d^8x\sqrt{\lvert g\rvert}\,\frac{c_A}{\Lambda_\star^6}\sum_{M \ne x_0}(i\bar\Psi\gamma^MP_b\Psi)J^B_M,\qquad P_b = \frac{1 - \gamma^{x_0}}{2},\qquad J^B_M = \frac13\sum_{i=1}^3\sum_{\psi\in\{Q_i, u_{Ri}, d_{Ri}\}}i\bar\psi\gamma_M\psi, $$
+whose $x_0$-chiral current is Hermitian for the seven directions $M \ne x_0$ (for $M = x_0$, $(iC\gamma^{x_0}P_b)^\dagger = iC\gamma^{x_0}P_a$ with $P_a = (1 + \gamma^{x_0})/2$, so
+that component is left out), a four-dimensional vector, diagonal in the halves on the zero modes (DERIVED with the author's matrices), and zero on
+the fold bands ($\gamma^{x_0} = \sigma_3$ in the block form and the fold bands have no lower component). On the zero modes it couples the dark matter to each quark Weyl component
 $f$ with $G_f = G_A\frac13\tilde I^{(b)}_f$, $\tilde I^{(b)}_f = \int_{-L}^0b^2\varrho_fe^{-3Hy}dy$ ($b$ the lower component of the dark-matter orbital, $\varrho_f$ the zero-mode
 profile), and the dark matter annihilates in the s-wave,
 $$ \sigma = \sum_f\frac{N_cG_f^2\,s\,(1 + 2M^2/s)}{24\pi\beta} \;\le\; \frac{3\pi}{4p^2}\qquad (\beta = \sqrt{1 - 4M^2/s},\ J = 1). $$
-Each species then freezes out with $\Omega h^2 = 0.060$ for $G_A = 1.278\times10^{-9}$ GeV$^{-2}$ ($1.1\times10^{-4}G_F$; $x_f = 31.2$), the cross-section reaching its
-bound only above $v = 0.51$ (19 % of the freeze-out rate): a perturbative thermal relic. The current must be the baryon-number current: a
+Each species then freezes out with $\Omega h^2 = 0.060$ for $G_A = 1.278\times10^{-9}$ GeV$^{-2}$ ($1.1\times10^{-4}G_F$; $x_f = 31.2$), the cross-section capped at its
+bound, which it reaches only above $v = 0.51$ (22 % of the freeze-out rate comes from collisions at the bound, 78 % from below it): a thermal relic with
+most annihilations perturbative. The contact form of I13 is an effective description (for the quark doublet $G_f^{-1/2} = 30$ TeV, below the
+$\sqrt s \approx 89$ TeV of the annihilations), whose completion by a mediator is OPEN. The current must be the baryon-number current: a
 $B - L$ current would bring the three right-handed neutrinos into equilibrium through $\chi\bar\chi \leftrightarrow \nu_R\bar\nu_R$ until $T = 1.8$ TeV and add
 $\Delta N_{eff} = 3(10.75/g_s)^{4/3}F_h = 0.144$, 2.5 standard deviations above ACT DR6. The relic value assumes that the radion oscillation left over
 from the deflation, which redshifts like dust, does not dominate and dilute the Universe after the freeze-out (the moduli problem).
@@ -432,9 +460,15 @@ from the deflation, which redshifts like dust, does not dominate and dilute the 
 
 The fold bands of both halves are massless four-dimensional fermions ($\varepsilon = e^{-a_4}\lvert k\rvert$); a gas of them has
 $w = 1/3$ exactly (Kohn-Sham, DERIVED). In UM-2 they are never thermalised: there is no tip operator, the scalar density of a chiral
-zero mode vanishes identically (so I12 does not touch them), I13 vanishes on them, and the vector portal I11 is weak. In version 3
+zero mode vanishes identically (so I12 does not touch them), I13 vanishes on them, the vector portal I11 is weak, and the self-interaction
+$-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ is bounded: it lets the dark matter annihilate into fold pairs through the transition scalar density $s_{DF} = a_Db_F + b_Da_F$
+of the dark-matter orbital $(a_D, b_D)$ and the fold zero mode $(a_F, 0)$, with $G_\lambda = \lambda H\tilde I_\lambda/(2f^4v_t)$, $\tilde I_\lambda = \int_{-L}^0s_{DF}^2e^{-3Hy}dy = 14.38$ and
+$\sigma v = G_\lambda^2M^2/(2\pi)$ per fold species (ESTIMATE), which adds $\Delta N_{eff} = 1.83\times10^{26}\,G_\lambda^2$ GeV$^4$ (DERIVED), so $\Delta N_{eff} \le 0.001$ needs
+$G_\lambda \le 2.3\times10^{-15}$ GeV$^{-2}$ (ASSUMED; the Kohn-Sham test value $\lambda_B = 7\times10^{-5}H^{-6}$ with $v_t = H^{-3}$ would thermalise the fold bands
+and add $0.19$). In version 3
 I11 has its benchmark strength (with the $B - L$ charges $q_f$ and the fold-band overlaps $\tilde I_f$): the plasma produces fold-band pairs
-by freeze-in at the rate $\gamma = \frac{4}{\pi^5}N_\chi G_V^2T^8\sum_fN_c(q_f\tilde I_f)^2$ ($N_\chi = 2$; each pair carries $8T$), which from $T_{max} = 10$ TeV adds
+by freeze-in at the rate $\gamma = \frac{4}{\pi^5}N_\chi G_V^2T^8\sum_fN_c(q_f\tilde I_f)^2$ ($N_\chi = 2$ fold bands; the sum over the Standard-Model multiplets
+in the plasma; each pair carries $8T$), which from $T_{max} = 10$ TeV adds
 $\Delta N_{eff} = 0.001$ for $G_V = 4.38\times10^{-17}$ GeV$^{-2}$ without ever reaching equilibrium: a trace of dark radiation, not dark matter, and
 $N_{eff} = 3.0442$ instead of $3.0432$. Had one half's fold band (two Weyl species) been thermalised, it would add (DERIVED)
 $$ \Delta N_{eff} = n_W\Big(\frac{10.75}{g_s}\Big)^{4/3}F_h,\qquad n_W = 2,\qquad F_h = \Big[\frac{T_\nu}{T_\gamma}\Big(\frac{11}{4}\Big)^{1/3}\Big/(1 + h_\nu)\Big]^4 = 1.0095 ,$$
@@ -450,7 +484,8 @@ Whether the fold bands are produced gravitationally during the primordial deflat
 The association of dirac16complex with dark matter is valid in UM-2 version 3 under stated conditions: (i) the good sector (no
 extra-time momenta; outside it the halves mix and modes are tachyonic, OPEN); (ii) the exact fold parity of both halves, which UM-2
 secures by containing no oriented tip operator ($P_+\Psi_B = 0$ at the tip even protects $\Psi_B$ against any chiral tip current); (iii)
-fold bands that never thermalise (I11 weak, I12 and I13 blind to them, no dipole portal, no significant gravitational production);
+fold bands that never thermalise (I11 weak, I12 and I13 blind to them, a weak self-interaction, $G_\lambda \le 2.3\times10^{-15}$ GeV$^{-2}$, no dipole portal,
+no significant gravitational production);
 (iv) an annihilation channel that produces the relic within unitarity: in version 2 the gauge-kinetic portal I12 alone could not
 (its freeze-out requirement exceeds the $^3P_0$ bound 3.5 times); in version 3 the INVENTED s-wave portal I13 to the baryon-number
 current does, with $G_A = 1.28\times10^{-9}$ GeV$^{-2}$, and predicts a direct-detection signal at 0.16 of the present LZ limit; (v) no late
@@ -512,11 +547,12 @@ $\Lambda_4$.
 * **Conditions on which the conclusions rest** (ASSUMED): the stabiliser and its $f^{-8}$ law; the good sector; the regular
   tip at $\eta = 3$; $m = H$; the tip sigma field, the tip matrices and the boundary assignments of the Standard-Model fields of three
   generations; the lightest neutrino mass $m_1 = 1$ meV and the normal ordering; the portals I11, I12 and I13 (INVENTED) with the
-  benchmark strengths of I11 and I12 and the highest temperature $T_{max} = 10$ TeV (ASSUMED; the strength of I13 follows from the
-  relic abundance).
+  benchmark strengths of I11 and I12, the bound on the self-interaction $G_\lambda \le 2.3\times10^{-15}$ GeV$^{-2}$ and the highest temperature
+  $T_{max} = 10$ TeV (ASSUMED; the strength of I13 follows from the relic abundance).
 * **Open**: the origin of the stabiliser; the extra-time modes; the closed time-like curves implied by compact extra times;
   the radion moduli problem; the block-shape mode driven by $p_0 - p_t$; the microscopic origin of the portals (I12 alone could give
-  the relic only as a strongly coupled $^3P_0$ channel; version 3 obtains it through I13); the gravitational production of the fold bands;
+  the relic only as a strongly coupled $^3P_0$ channel; version 3 obtains it through I13, whose contact form needs a mediator above about
+  30 TeV); the gravitational production of the fold bands;
   the origin of the tip matrices (the mixing angles); Dirac or Majorana neutrinos (the mechanism favours Dirac); the
   cosmological-constant problem.
 * **Conflicts with data inherent in the order**: no Higgs boson (one is observed), and perturbative unitarity of $W^+W^-$

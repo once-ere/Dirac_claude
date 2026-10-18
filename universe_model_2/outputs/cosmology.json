@@ -46,13 +46,10 @@
  "Delta_Neff_dark_radiation_EW": 0.0957871730997,
  "Delta_Neff_dark_radiation_QCD": 0.196260051545,
  "Delta_Neff_freeze_in_benchmark": 0.001,
- "UM2_TT_chi2_cosmic_variance_full_sky": 0.0233763756895,
- "UM2_max_dev_in_cosmic_variance_units": 0.00694093428269,
- "UM2_max_rel_dev_TT": 0.00028033491996,
- "UM2_v3_TT_chi2_cosmic_variance_full_sky": 0.0204178625027,
- "UM2_v3_max_dev_in_cosmic_variance_units": 0.00700433881834,
- "UM2_v3_max_rel_dev_TT": 0.000250955762823,
- "UM2_v3_vs_v2_max_rel_dev_TT": 0.000161862503772,
+ "UM2_TT_chi2_cosmic_variance_full_sky": 0.0204178625027,
+ "UM2_max_dev_in_cosmic_variance_units": 0.00700433881834,
+ "UM2_max_rel_dev_TT": 0.000250955762823,
+ "UM2_vs_without_freeze_in_max_rel_dev_TT": 0.000161862503772,
  "attribution_max_rel_dev": {
   "N_eff 3.0432 instead of 3.044 (one massive neutrino 0.06 eV)": [
    0.000129450051132,
@@ -69,107 +66,107 @@
  "dark_radiation_QCD_TT_chi2_cosmic_variance_full_sky": 1207.74481972,
  "dark_radiation_QCD_max_dev_in_cosmic_variance_units": 1.53675766415,
  "dark_radiation_QCD_max_rel_dev_TT": 0.0307320802286,
- "growth_suppression_g0": 0.787891567914,
- "max_dev_in_cosmic_variance_units": 0.00694093428269,
- "max_rel_dev_EE": 0.000280037449731,
- "max_rel_dev_TT": 0.00028033491996,
- "model_version_3": {
+ "growth_suppression_g0": 0.787828964553,
+ "max_dev_in_cosmic_variance_units": 0.00700433881834,
+ "max_rel_dev_EE": 0.000271371088911,
+ "max_rel_dev_TT": 0.000250955762823,
+ "model_without_freeze_in": {
   "Delta_Phi_z0": [
    {
-    "Delta_Phi_Poisson": 2.41348125121e-05,
-    "Delta_Phi_Weyl": 2.41505669346e-05,
+    "Delta_Phi_Poisson": 2.413673432e-05,
+    "Delta_Phi_Weyl": 2.41524866364e-05,
     "k_Mpc-1": 0.0001
    },
    {
-    "Delta_Phi_Poisson": 2.27527201566e-05,
-    "Delta_Phi_Weyl": 2.27537135887e-05,
+    "Delta_Phi_Poisson": 2.27545753974e-05,
+    "Delta_Phi_Weyl": 2.27555704693e-05,
     "k_Mpc-1": 0.001
    },
    {
-    "Delta_Phi_Poisson": 1.51168201235e-05,
-    "Delta_Phi_Weyl": 1.51168435337e-05,
+    "Delta_Phi_Poisson": 1.51184563072e-05,
+    "Delta_Phi_Weyl": 1.51184778101e-05,
     "k_Mpc-1": 0.01
    },
    {
-    "Delta_Phi_Poisson": 4.11875261259e-06,
-    "Delta_Phi_Weyl": 4.11875294597e-06,
+    "Delta_Phi_Poisson": 4.11934866618e-06,
+    "Delta_Phi_Weyl": 4.11934939951e-06,
     "k_Mpc-1": 0.05
    },
    {
-    "Delta_Phi_Poisson": 1.73788562624e-06,
-    "Delta_Phi_Weyl": 1.73788568757e-06,
+    "Delta_Phi_Poisson": 1.73813989746e-06,
+    "Delta_Phi_Weyl": 1.73813989703e-06,
     "k_Mpc-1": 0.1
    },
    {
-    "Delta_Phi_Poisson": 3.55026919698e-07,
-    "Delta_Phi_Weyl": 3.55026896058e-07,
+    "Delta_Phi_Poisson": 3.55086701435e-07,
+    "Delta_Phi_Weyl": 3.55086673461e-07,
     "k_Mpc-1": 0.3
    },
    {
-    "Delta_Phi_Poisson": 5.03477458148e-08,
-    "Delta_Phi_Weyl": 5.03477450465e-08,
+    "Delta_Phi_Poisson": 5.03564248199e-08,
+    "Delta_Phi_Weyl": 5.03564228601e-08,
     "k_Mpc-1": 1.0
    }
   ],
-  "H0": 67.3776852753,
-  "Neff": 3.0442,
+  "H0": 67.3660530789,
+  "Neff": 3.0432,
   "Neff_massive": 3.0432,
-  "Neff_massless": 0.001,
-  "Omega_m_total": 0.315028431362,
-  "YHe": 0.24566939683,
-  "age_Gyr": 13.7959884569,
+  "Neff_massless": 0.0,
+  "Omega_m_total": 0.315137233608,
+  "YHe": 0.245656039361,
+  "age_Gyr": 13.7970289346,
   "bao": [
    {
-    "DH_rd": 25.8488818967,
-    "DM_rd": 8.27878233963,
-    "DV_rd": 8.05500045184,
+    "DH_rd": 25.8512580388,
+    "DM_rd": 8.27973753437,
+    "DV_rd": 8.05586685167,
     "tracer": "BGS",
     "z": 0.295
    },
    {
-    "DH_rd": 22.7359851476,
-    "DM_rd": 13.4972982008,
-    "DV_rd": 12.8309618295,
+    "DH_rd": 22.7374262692,
+    "DM_rd": 13.4986576728,
+    "DV_rd": 12.8320944961,
     "tracer": "LRG1",
     "z": 0.51
    },
    {
-    "DH_rd": 20.1664449681,
-    "DM_rd": 17.6968760431,
-    "DV_rd": 16.4592138578,
+    "DH_rd": 20.1673037612,
+    "DM_rd": 17.6984571887,
+    "DV_rd": 16.4604278706,
     "tracer": "LRG2",
     "z": 0.706
    },
    {
-    "DH_rd": 17.5669821074,
-    "DM_rd": 21.9904281162,
-    "DV_rd": 19.9451420939,
+    "DH_rd": 17.5674051355,
+    "DM_rd": 21.9921513001,
+    "DV_rd": 19.9463441288,
     "tracer": "LRG3+ELG1",
     "z": 0.934
    },
    {
-    "DH_rd": 14.0636621759,
-    "DM_rd": 28.0767879976,
-    "DV_rd": 24.4661347262,
+    "DH_rd": 14.0637068974,
+    "DM_rd": 28.078590945,
+    "DV_rd": 24.4672080428,
     "tracer": "ELG2",
     "z": 1.321
    },
    {
-    "DH_rd": 12.8790214926,
-    "DM_rd": 30.2705540239,
-    "DV_rd": 25.9688371383,
+    "DH_rd": 12.8789849313,
+    "DM_rd": 30.2723572044,
+    "DV_rd": 25.9698438417,
     "tracer": "QSO",
     "z": 1.484
    },
    {
-    "DH_rd": 8.615508289,
-    "DM_rd": 39.1769186502,
-    "DV_rd": 31.3496328092,
+    "DH_rd": 8.61533501718,
+    "DM_rd": 39.1786117613,
+    "DV_rd": 31.3503258572,
     "tracer": "Lya",
     "z": 2.33
    }
   ],
-  "bao_chi2": 31.485436828,
+  "bao_chi2": 31.7161781237,
   "bao_npts": 13,
   "camb_mass_iteration": [
    0.184131857495,
@@ -194,77 +191,77 @@
   "cl_TT_l": [
    [
     2,
-    1021.50819984
+    1021.33548223
    ],
    [
     10,
-    818.638465705
+    818.599809673
    ],
    [
     30,
-    1056.08117393
+    1056.05024386
    ],
    [
     100,
-    2700.99498998
+    2700.81103202
    ],
    [
     220,
-    5729.14908856
+    5728.87880708
    ],
    [
     300,
-    4075.32011304
+    4075.21960925
    ],
    [
     540,
-    2589.75810904
+    2589.68934078
    ],
    [
     800,
-    2522.65581056
+    2522.71679039
    ],
    [
     1000,
-    1061.12414024
+    1061.16801913
    ],
    [
     1500,
-    687.742939969
+    687.794585733
    ],
    [
     2000,
-    230.871040605
+    230.898442963
    ],
    [
     2500,
-    78.5127425779
+    78.5254529044
    ]
   ],
   "fsigma8_z": {
-   "0.0": 0.428641398211,
-   "0.5": 0.476139957229,
-   "1.0": 0.433090051649,
-   "2.0": 0.325857994444
+   "0.0": 0.428740581151,
+   "0.5": 0.47619078058,
+   "1.0": 0.433106196303,
+   "2.0": 0.325853097488
   },
   "mnu_sum_eV": 0.0598518651527,
-  "name": "UM-2 version 3: + the fold bands produced by freeze-in through I11 (Delta N_eff = 0.0010)",
+  "name": "UM-2 without the freeze-in fold bands (the neutrino content of version 2), N_eff = 3.0432",
   "num_massive": 3,
-  "omegam": 0.315028431362,
+  "omegam": 0.315137233608,
   "omnuh2": 0.000645110035946,
   "omnuh2_camb_today": 0.000645110036086,
-  "r_drag": 147.103629014,
-  "r_star": 144.443969949,
-  "sigma8": 0.811837064292,
+  "r_drag": 147.108656957,
+  "r_star": 144.448967428,
+  "sigma8": 0.811866885802,
   "sigma8_z": {
-   "0.0": 0.811837064292,
-   "0.5": 0.624648374799,
-   "1.0": 0.493212596911,
-   "2.0": 0.339430182693
+   "0.0": 0.811866885802,
+   "0.5": 0.624646820513,
+   "1.0": 0.493201803744,
+   "2.0": 0.339418091364
   },
-  "theta_star_100": 1.04113824766,
-  "z_drag": 1059.93157317,
-  "z_star": 1089.905995
+  "theta_star_100": 1.04113886057,
+  "z_drag": 1059.93077417,
+  "z_star": 1089.9050209
  },
  "models": [
   {
@@ -447,100 +444,100 @@
   {
    "Delta_Phi_z0": [
     {
-     "Delta_Phi_Poisson": 2.413673432e-05,
-     "Delta_Phi_Weyl": 2.41524866364e-05,
+     "Delta_Phi_Poisson": 2.41348125121e-05,
+     "Delta_Phi_Weyl": 2.41505669346e-05,
      "k_Mpc-1": 0.0001
     },
     {
-     "Delta_Phi_Poisson": 2.27545753974e-05,
-     "Delta_Phi_Weyl": 2.27555704693e-05,
+     "Delta_Phi_Poisson": 2.27527201566e-05,
+     "Delta_Phi_Weyl": 2.27537135887e-05,
      "k_Mpc-1": 0.001
     },
     {
-     "Delta_Phi_Poisson": 1.51184563072e-05,
-     "Delta_Phi_Weyl": 1.51184778101e-05,
+     "Delta_Phi_Poisson": 1.51168201235e-05,
+     "Delta_Phi_Weyl": 1.51168435337e-05,
      "k_Mpc-1": 0.01
     },
     {
-     "Delta_Phi_Poisson": 4.11934866618e-06,
-     "Delta_Phi_Weyl": 4.11934939951e-06,
+     "Delta_Phi_Poisson": 4.11875261259e-06,
+     "Delta_Phi_Weyl": 4.11875294597e-06,
      "k_Mpc-1": 0.05
     },
     {
-     "Delta_Phi_Poisson": 1.73813989746e-06,
-     "Delta_Phi_Weyl": 1.73813989703e-06,
+     "Delta_Phi_Poisson": 1.73788562624e-06,
+     "Delta_Phi_Weyl": 1.73788568757e-06,
      "k_Mpc-1": 0.1
     },
     {
-     "Delta_Phi_Poisson": 3.55086701435e-07,
-     "Delta_Phi_Weyl": 3.55086673461e-07,
+     "Delta_Phi_Poisson": 3.55026919698e-07,
+     "Delta_Phi_Weyl": 3.55026896058e-07,
      "k_Mpc-1": 0.3
     },
     {
-     "Delta_Phi_Poisson": 5.03564248199e-08,
-     "Delta_Phi_Weyl": 5.03564228601e-08,
+     "Delta_Phi_Poisson": 5.03477458148e-08,
+     "Delta_Phi_Weyl": 5.03477450465e-08,
      "k_Mpc-1": 1.0
     }
    ],
-   "H0": 67.3660530789,
-   "Neff": 3.0432,
+   "H0": 67.3776852753,
+   "Neff": 3.0442,
    "Neff_massive": 3.0432,
-   "Neff_massless": 0.0,
-   "Omega_m_total": 0.315137233608,
-   "YHe": 0.245656039361,
-   "age_Gyr": 13.7970289346,
+   "Neff_massless": 0.001,
+   "Omega_m_total": 0.315028431362,
+   "YHe": 0.24566939683,
+   "age_Gyr": 13.7959884569,
    "bao": [
     {
-     "DH_rd": 25.8512580388,
-     "DM_rd": 8.27973753437,
-     "DV_rd": 8.05586685167,
+     "DH_rd": 25.8488818967,
+     "DM_rd": 8.27878233963,
+     "DV_rd": 8.05500045184,
      "tracer": "BGS",
      "z": 0.295
     },
     {
-     "DH_rd": 22.7374262692,
-     "DM_rd": 13.4986576728,
-     "DV_rd": 12.8320944961,
+     "DH_rd": 22.7359851476,
+     "DM_rd": 13.4972982008,
+     "DV_rd": 12.8309618295,
      "tracer": "LRG1",
      "z": 0.51
     },
     {
-     "DH_rd": 20.1673037612,
-     "DM_rd": 17.6984571887,
-     "DV_rd": 16.4604278706,
+     "DH_rd": 20.1664449681,
+     "DM_rd": 17.6968760431,
+     "DV_rd": 16.4592138578,
      "tracer": "LRG2",
      "z": 0.706
     },
     {
-     "DH_rd": 17.5674051355,
-     "DM_rd": 21.9921513001,
-     "DV_rd": 19.9463441288,
+     "DH_rd": 17.5669821074,
+     "DM_rd": 21.9904281162,
+     "DV_rd": 19.9451420939,
      "tracer": "LRG3+ELG1",
      "z": 0.934
     },
     {
-     "DH_rd": 14.0637068974,
-     "DM_rd": 28.078590945,
-     "DV_rd": 24.4672080428,
+     "DH_rd": 14.0636621759,
+     "DM_rd": 28.0767879976,
+     "DV_rd": 24.4661347262,
      "tracer": "ELG2",
      "z": 1.321
     },
     {
-     "DH_rd": 12.8789849313,
-     "DM_rd": 30.2723572044,
-     "DV_rd": 25.9698438417,
+     "DH_rd": 12.8790214926,
+     "DM_rd": 30.2705540239,
+     "DV_rd": 25.9688371383,
      "tracer": "QSO",
      "z": 1.484
     },
     {
-     "DH_rd": 8.61533501718,
-     "DM_rd": 39.1786117613,
-     "DV_rd": 31.3503258572,
+     "DH_rd": 8.615508289,
+     "DM_rd": 39.1769186502,
+     "DV_rd": 31.3496328092,
      "tracer": "Lya",
      "z": 2.33
     }
    ],
-   "bao_chi2": 31.7161781237,
+   "bao_chi2": 31.485436828,
    "bao_npts": 13,
    "camb_mass_iteration": [
     0.184131857495,
@@ -565,77 +562,77 @@
    "cl_TT_l": [
     [
      2,
-     1021.33548223
+     1021.50819984
     ],
     [
      10,
-     818.599809673
+     818.638465705
     ],
     [
      30,
-     1056.05024386
+     1056.08117393
     ],
     [
      100,
-     2700.81103202
+     2700.99498998
     ],
     [
      220,
-     5728.87880708
+     5729.14908856
     ],
     [
      300,
-     4075.21960925
+     4075.32011304
     ],
     [
      540,
-     2589.68934078
+     2589.75810904
     ],
     [
      800,
-     2522.71679039
+     2522.65581056
     ],
     [
      1000,
-     1061.16801913
+     1061.12414024
     ],
     [
      1500,
-     687.794585733
+     687.742939969
     ],
     [
      2000,
-     230.898442963
+     230.871040605
     ],
     [
      2500,
-     78.5254529044
+     78.5127425779
     ]
    ],
    "fsigma8_z": {
-    "0.0": 0.428740581151,
-    "0.5": 0.47619078058,
-    "1.0": 0.433106196303,
-    "2.0": 0.325853097488
+    "0.0": 0.428641398211,
+    "0.5": 0.476139957229,
+    "1.0": 0.433090051649,
+    "2.0": 0.325857994444
    },
    "mnu_sum_eV": 0.0598518651527,
-   "name": "UM-2: nu_1, nu_2, nu_3 (1.000, 8.712, 50.140 meV), N_eff = 3.0432, no dark radiation",
+   "name": "UM-2 (version 3): nu_1, nu_2, nu_3 (1.000, 8.712, 50.140 meV, N_eff = 3.0432) and the fold bands produced by freeze-in through I11 (Delta N_eff = 0.0010), N_eff = 3.0442",
    "num_massive": 3,
-   "omegam": 0.315137233608,
+   "omegam": 0.315028431362,
    "omnuh2": 0.000645110035946,
    "omnuh2_camb_today": 0.000645110036086,
-   "r_drag": 147.108656957,
-   "r_star": 144.448967428,
-   "sigma8": 0.811866885802,
+   "r_drag": 147.103629014,
+   "r_star": 144.443969949,
+   "sigma8": 0.811837064292,
    "sigma8_z": {
-    "0.0": 0.811866885802,
-    "0.5": 0.624646820513,
-    "1.0": 0.493201803744,
-    "2.0": 0.339418091364
+    "0.0": 0.811837064292,
+    "0.5": 0.624648374799,
+    "1.0": 0.493212596911,
+    "2.0": 0.339430182693
    },
-   "theta_star_100": 1.04113886057,
-   "z_drag": 1059.93077417,
-   "z_star": 1089.9050209
+   "theta_star_100": 1.04113824766,
+   "z_drag": 1059.93157317,
+   "z_star": 1089.905995
   },
   {
    "Delta_Phi_z0": [
@@ -812,7 +809,7 @@
     "2.0": 0.326287904745
    },
    "mnu_sum_eV": 0.0598518651527,
-   "name": "UM-2 + a fold band thermalised above the electroweak scale (Delta N_eff = 0.0958)",
+   "name": "UM-2 with a fold band thermalised above the electroweak scale instead (Delta N_eff = 0.0958)",
    "num_massive": 3,
    "omegam": 0.304958219328,
    "omnuh2": 0.000645110035946,
@@ -1005,7 +1002,7 @@
     "2.0": 0.326677009694
    },
    "mnu_sum_eV": 0.0598518651527,
-   "name": "UM-2 + a fold band thermalised above the QCD crossover (Delta N_eff = 0.1963)",
+   "name": "UM-2 with a fold band thermalised above the QCD crossover instead (Delta N_eff = 0.1963)",
    "num_massive": 3,
    "omegam": 0.294786753239,
    "omnuh2": 0.000645110035946,
@@ -1047,5 +1044,9 @@
   "sum_bound_eV": 0.064,
   "sum_eV": 0.0598518651527,
   "sum_min_normal_ordering_eV": 0.0587843100473
- }
+ },
+ "without_freeze_in_TT_chi2_cosmic_variance_full_sky": 0.0233763756895,
+ "without_freeze_in_max_dev_in_cosmic_variance_units": 0.00694093428269,
+ "without_freeze_in_max_rel_dev_EE": 0.000280037449731,
+ "without_freeze_in_max_rel_dev_TT": 0.00028033491996
 }

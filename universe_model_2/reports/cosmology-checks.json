@@ -2,7 +2,7 @@
  "check_count": 8,
  "checks": [
   {
-   "detail": "100 theta_* = 1.04114 (UM-2) and 1.04114 (LCDM); H0 = 67.37 and 67.34 km/s/Mpc",
+   "detail": "100 theta_* = 1.04114 (UM-2) and 1.04114 (LCDM); H0 = 67.38 and 67.34 km/s/Mpc",
    "name": "theta_star_matched",
    "passed": true
   },
@@ -12,32 +12,32 @@
    "passed": true
   },
   {
-   "detail": "UM-2 TT and EE spectra agree with Planck LCDM to 2.80e-04 and 2.80e-04 (relative, 30 <= l <= 2500), at most 0.01 of the cosmic variance of a single multipole; binned full-sky cosmic-variance chi^2 of TT = 0.023; by themselves the three mass eigenstates (59.9 meV in three states instead of 60 meV in one) move TT, EE by 2.6e-04, 2.3e-04 and N_eff = 3.0432 instead of 3.044 by 1.3e-04, 1.3e-04",
+   "detail": "UM-2 (version 3, N_eff = 3.0442) TT and EE spectra agree with Planck LCDM to 2.51e-04 and 2.71e-04 (relative, 30 <= l <= 2500), at most 0.007 of the cosmic variance of a single multipole; binned full-sky cosmic-variance chi^2 of TT = 0.020 (without the freeze-in fold bands: 2.80e-04 and 2.80e-04); by themselves the three mass eigenstates (59.9 meV in three states instead of 60 meV in one) move TT, EE by 2.6e-04, 2.3e-04 and N_eff = 3.0432 instead of 3.044 by 1.3e-04, 1.3e-04",
    "name": "cmb_spectra_close_to_lcdm",
    "passed": true
   },
   {
-   "detail": "DESI DR2 BAO chi^2 = 31.72 for 13 measurements (LCDM with Planck parameters: 32.55; with dark radiation Delta N_eff = 0.0958: 15.43; 0.1963: 10.65)",
+   "detail": "DESI DR2 BAO chi^2 = 31.49 for 13 measurements for UM-2 (version 3; without the freeze-in fold bands 31.72; LCDM with Planck parameters: 32.55; with a thermalised fold band, Delta N_eff = 0.0958: 15.43; 0.1963: 10.65)",
    "name": "bao_desi",
    "passed": true
   },
   {
-   "detail": "variants with a thermalised fold band of dirac16complex (two Weyl species, Delta N_eff = 2 (10.75/g_s)^{4/3} x 1.0095): N_eff = 3.1390 (g_s = 105.75) and 3.2395 (g_s = 61.75), 2.1 and 2.9 standard deviations above ACT DR6 (2.86 +- 0.13; UM-2: 1.4); at fixed Planck omega_b, omega_c, theta_* the TT spectrum moves by up to 1.52e-02 and 3.07e-02 (0.8 and 1.5 cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 293 and 1208): neither is a fit to the CMB; UM-2 contains no such thermalisation (um2_electroweak.py)",
+   "detail": "variants with a thermalised fold band of dirac16complex (two Weyl species, Delta N_eff = 2 (10.75/g_s)^{4/3} x 1.0095): N_eff = 3.1390 (g_s = 105.75) and 3.2395 (g_s = 61.75), 2.1 and 2.9 standard deviations above ACT DR6 (2.86 +- 0.13; UM-2: 1.4); at fixed Planck omega_b, omega_c, theta_* the TT spectrum moves by up to 1.52e-02 and 3.07e-02 (0.8 and 1.5 cosmic-variance units per multipole; binned full-sky cosmic-variance chi^2 293 and 1208): neither is a fit to the CMB; UM-2 contains no such thermalisation (um2_electroweak.py, um2_coupled.py C2 and C10)",
    "name": "dark_radiation_variants",
    "passed": true
   },
   {
-   "detail": "N_eff = 3.0432, all of it in the three massive eigenstates (BBN helium fraction Y_He = 0.24566 from the CAMB/BBN interpolation, LCDM 0.24566)",
+   "detail": "N_eff = 3.0442: 3.0432 in the three massive eigenstates and 0.0010 in the massless fold bands made by freeze-in (BBN helium fraction Y_He = 0.24567 from the CAMB/BBN interpolation, LCDM 0.24566)",
    "name": "neff_and_helium",
    "passed": true
   },
   {
-   "detail": "version 3 (fold bands produced by freeze-in through I11, Delta N_eff = 0.001): N_eff = 3.0442; its TT spectrum differs from that of version 2 by at most 1.6e-04 (30 <= l <= 2500) and from LCDM by 2.51e-04; BAO chi^2 = 31.49; 100 theta_* = 1.04114, H0 = 67.38 km/s/Mpc",
-   "name": "version3_freeze_in_radiation",
+   "detail": "the fold bands produced by freeze-in through I11 (Delta N_eff = 0.001) change the TT spectrum of UM-2 by at most 1.6e-04 (30 <= l <= 2500) against the model without them (N_eff = 3.0432, the neutrino content of version 2: TT 2.80e-04 from LCDM, BAO chi^2 = 31.72, 100 theta_* = 1.04114, H0 = 67.37 km/s/Mpc); UM-2 itself: TT 2.51e-04 from LCDM, BAO chi^2 = 31.49, 100 theta_* = 1.04114, H0 = 67.38 km/s/Mpc",
+   "name": "freeze_in_radiation",
    "passed": true
   },
   {
-   "detail": "sigma_8 = 0.8119 (UM-2), 0.8118 (version 3), 0.8109 (LCDM; Planck 2018 0.811, FROM MEMORY); f sigma_8 at z = 0.5: 0.4762 (UM-2), 0.4756 (LCDM); the rms Newtonian potential today per logarithmic k, Delta_Phi = 2.42e-05, 2.28e-05, 1.51e-05, 4.12e-06, 1.74e-06, 3.55e-07, 5.04e-08 at k = 0.0001, 0.001, 0.01, 0.05, 0.1, 0.3, 1 Mpc^-1 (UM-2): the first-order term of the metric is 2e-5 and smaller; from the Weyl potential and from the matter density through the Poisson equation it agrees to 1.4e-06 for k >= 0.01 Mpc^-1; on the largest scales it equals (3/5) A_s^(1/2) (k/k_0)^((n_s - 1)/2) g(0) to 4.4e-05 (g(0) = 0.7879, the growth suppression by the cosmological term)",
+   "detail": "sigma_8 = 0.8118 (UM-2, version 3), 0.8119 (without the freeze-in fold bands), 0.8109 (LCDM; Planck 2018 0.811, FROM MEMORY); f sigma_8 at z = 0.5: 0.4761 (UM-2), 0.4756 (LCDM); the rms Newtonian potential today per logarithmic k, Delta_Phi = 2.42e-05, 2.28e-05, 1.51e-05, 4.12e-06, 1.74e-06, 3.55e-07, 5.03e-08 at k = 0.0001, 0.001, 0.01, 0.05, 0.1, 0.3, 1 Mpc^-1 (UM-2): the first-order term of the metric is 2e-5 and smaller; from the Weyl potential and from the matter density through the Poisson equation it agrees to 1.5e-06 for k >= 0.01 Mpc^-1; on the largest scales it equals (3/5) A_s^(1/2) (k/k_0)^((n_s - 1)/2) g(0) to 4.4e-05 (g(0) = 0.7878, the growth suppression by the cosmological term)",
    "name": "sigma8_and_first_order_potential",
    "passed": true
   }

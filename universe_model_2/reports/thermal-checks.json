@@ -22,17 +22,17 @@
    "passed": true
   },
   {
-   "detail": "the effective cross-section of the relic strength exceeds the J = 0 (3P0) unitarity bound sigma <= pi/(4 p^2) above the relative velocity v_c = 0.274 (sqrt(s) = 89510.5 GeV, 814.6 GeV above threshold); at freeze-out (x = 31.7) 75 % of the annihilating pairs have v > v_c: the effective operator I12 cannot be used for the relic",
+   "detail": "the effective cross-section of the relic strength exceeds the J = 0 (3P0) unitarity bound sigma <= pi/(4 p^2) at sqrt(s) = 89510.5 GeV (814.6 GeV above threshold), i.e. above the relative velocity v_c = 2 beta = 0.269 (non-relativistic formula (pi/(G M^3))^(2/3): 0.274); at freeze-out (x = 31.7) 96 % of the annihilation rate comes from collisions above the crossing, and 75 % of the pairs have a relative velocity above it (non-relativistic Maxwell distribution): the effective operator I12 cannot be used for the relic",
    "name": "T5_unitarity_violated_by_effective_operator",
    "passed": true
   },
   {
-   "detail": "with sigma = pi/(4 p^2) at every energy (the largest annihilation any interaction can give from the 3P0 channel) each species leaves Omega h^2 = 0.0582 (x_f = 30.77; <sigma v>(x_f) = 5.429e-26 cm^3/s, non-relativistic sqrt(pi x)/M^2 = 5.923e-26; version 2 compared with the s-wave estimate 2.317e-25); the capped effective operator gives 0.1544, 0.1081, 0.0836, 0.0649, 0.0585 for G^2/G^2_relic = 1, 3, 10, 100, 1e4: a relic of 0.060 per species is reachable only near the unitarity limit",
+   "detail": "with sigma = pi/(4 p^2) at every energy (the largest annihilation any interaction can give from the 3P0 channel) each species leaves Omega h^2 = 0.0582 (x_f = 30.77; at that x <sigma v> = 5.335e-26 cm^3/s, non-relativistic sqrt(pi x)/M^2 = 5.835e-26; version 2 compared with the s-wave estimate 2.317e-25); the capped effective operator gives 0.1544, 0.1081, 0.0836, 0.0649, 0.0585 for G^2/G^2_relic = 1, 3, 10, 100, 1e4: a relic of 0.060 per species is reachable only near the unitarity limit",
    "name": "T5_unitarity_limited_relic",
    "passed": true
   },
   {
-   "detail": "benchmark (8 G_g^2 + 3 G_W^2 + G_B^2)^(1/2) = pi/(2 M^3) = 1.801e-14 GeV^-3 = (38.2 TeV)^-3: the effective cross-section stays below the 3P0 bound up to sqrt(s) = 106363 GeV (2.40 M; a fraction 5.3e-04 of the annihilation rate at x = 30 comes from collisions above it); alone it would leave Omega h^2 = 8.0 per species (the relic needs the s-wave portal I13); with c_G = c_W = c_B = c and one-loop couplings at 2 M = 88696 GeV (g_s^2 = 0.779, g^2 = 0.378, g'^2 = 0.138; sqrt(8 g_s^4 + 3 g^4 + g'^4) = 2.302): c/Lambda*^3 = 1.106e-14 GeV^-3, Lambda*/c^(1/3) = 44.9 TeV",
+   "detail": "benchmark (8 G_g^2 + 3 G_W^2 + G_B^2)^(1/2) = pi/(2 M^3) = 1.801e-14 GeV^-3 = (38.2 TeV)^-3: the effective cross-section stays below the 3P0 bound up to sqrt(s) = 106363 GeV (2.40 M; a fraction 5.2e-04 of the annihilation rate at x = 30 comes from collisions above it); alone it would leave Omega h^2 = 8.0 per species (the relic needs the s-wave portal I13); with c_G = c_W = c_B = c and one-loop couplings at 2 M = 88696 GeV (g_s^2 = 0.779, g^2 = 0.378, g'^2 = 0.138; sqrt(8 g_s^4 + 3 g^4 + g'^4) = 2.302): c/Lambda*^3 = 1.106e-14 GeV^-3, Lambda*/c^(1/3) = 44.9 TeV",
    "name": "T6_I12_benchmark",
    "passed": true
   }

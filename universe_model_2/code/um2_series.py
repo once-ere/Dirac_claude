@@ -93,7 +93,7 @@ def main():
 
     # ---------------- S2 order 1, n = 0 ----------------
     um2 = cos['models'][1]
-    v3 = cos['model_version_3']
+    v3 = cos['model_without_freeze_in']
     dphi = um2['Delta_Phi_z0']
     GN_SI = 6.67430e-11
     c_SI = 299792458.0
@@ -104,14 +104,14 @@ def main():
     # galaxies and clusters: Phi ~ (v/c)^2 with circular / dispersion velocities 220 and 1000 km/s
     pots['Milky Way (v = 220 km/s)'] = (220e3 / c_SI) ** 2
     pots['galaxy cluster (sigma_v = 1000 km/s)'] = (1000e3 / c_SI) ** 2
-    out['order1_n0'] = {'Delta_Phi_today': dphi, 'sigma8_UM2': um2['sigma8'], 'sigma8_version3': v3['sigma8'],
+    out['order1_n0'] = {'Delta_Phi_today': dphi, 'sigma8_UM2': um2['sigma8'], 'sigma8_without_freeze_in': v3['sigma8'],
                         'sigma8_LCDM': cos['models'][0]['sigma8'], 'potentials_of_bound_objects': pots,
                         'growth_suppression_g0': cos['growth_suppression_g0']}
     dmax = max(r['Delta_Phi_Weyl'] for r in dphi)
     mono = all(dphi[i]['Delta_Phi_Weyl'] > dphi[i + 1]['Delta_Phi_Weyl'] for i in range(len(dphi) - 1))
     rep.check('S2_first_order_n0', dmax < 3e-5 and mono and pots['neutron star (1.4 Msun, 12 km)'] > 0.1,
               'the first-order four-dimensional term: rms Newtonian potential per logarithmic k today Delta_Phi = %s at k = %s Mpc^-1 '
-              '(decreasing with k; sigma_8 = %.4f for UM-2, %.4f for version 3); bound objects: Phi = %s (%s): the series in eps converges '
+              '(decreasing with k; sigma_8 = %.4f for UM-2 (version 3), %.4f without the freeze-in fold bands); bound objects: Phi = %s (%s): the series in eps converges '
               'quickly everywhere except near neutron stars (Phi = %.2f) and black holes, where the full nonlinear equations apply' % (
                   ', '.join('%.2e' % r['Delta_Phi_Weyl'] for r in dphi), ', '.join('%g' % r['k_Mpc-1'] for r in dphi), um2['sigma8'],
                   v3['sigma8'], ', '.join('%.1e' % v for v in pots.values()), ', '.join(pots.keys()), pots['neutron star (1.4 Msun, 12 km)']))
@@ -175,7 +175,7 @@ def main():
                   worst, worst_env, hbarc / mr, mr / 1e3, rdec['cases'][1]['tau_s']))
 
     # ---------------- S5, S6 ----------------
-    o2 = {'cosmological (Delta_Phi^2 at k = 1e-3 Mpc^-1)': dphi[1]['Delta_Phi_Weyl'] ** 2,
+    o2 = {'cosmological (Delta_Phi^2 at k = 1e-4 Mpc^-1)': dphi[0]['Delta_Phi_Weyl'] ** 2,
           'Sun (surface)': pots['Sun (surface)'] ** 2, 'neutron star': pots['neutron star (1.4 Msun, 12 km)'] ** 2}
     As = math.exp(3.044) * 1e-10
     r_bound = 0.036
@@ -188,16 +188,16 @@ def main():
               'astrophysics; nonlinear near neutron stars'),
              ('order 1, n = 0: cosmological potential Delta_Phi (largest scales)', dphi[0]['Delta_Phi_Weyl'], 'CMB, CNB, BAO, structure'),
              ('order 1, tensor modes (bound)', math.sqrt(r_bound * As), 'CMB B modes'),
-             ('order 2: cosmological Delta_Phi^2', o2['cosmological (Delta_Phi^2 at k = 1e-3 Mpc^-1)'], 'CMB second-order effects'),
+             ('order 2: cosmological Delta_Phi^2 (largest scales)', o2['cosmological (Delta_Phi^2 at k = 1e-4 Mpc^-1)'], 'CMB second-order effects'),
              ('radion sigma (static response, largest environment)', worst, 'none'),
              ('order 1, n >= 1: Kaluza-Klein gravitons at r = 50 micrometres, alpha_1 e^{-m_1 r}', 0.0, 'none below 1e-21 m')]
     out['ordering'] = [{'term': a, 'magnitude': b, 'where': c_} for a, b, c_ in terms]
-    cosmo_seq = [1.0, dphi[0]['Delta_Phi_Weyl'], o2['cosmological (Delta_Phi^2 at k = 1e-3 Mpc^-1)'], worst, 0.0]
+    cosmo_seq = [1.0, dphi[0]['Delta_Phi_Weyl'], o2['cosmological (Delta_Phi^2 at k = 1e-4 Mpc^-1)'], worst, 0.0]
     rep.check('S7_decreasing_magnitudes', all(cosmo_seq[i] > cosmo_seq[i + 1] for i in range(len(cosmo_seq) - 1)),
               'on cosmological scales the terms decrease: order 0 (1), order 1 (Delta_Phi = %.1e), order 2 (%.1e), radion (%.1e), '
               'Kaluza-Klein (0 at any measurable distance); tensor modes below %.1e (r < 0.036, FROM MEMORY): the metric of UM-2 is a power series '
               'of terms of decreasing magnitude, with the n = 0 term carrying the CMB, CNB and BAO' % (
-                  dphi[0]['Delta_Phi_Weyl'], o2['cosmological (Delta_Phi^2 at k = 1e-3 Mpc^-1)'], worst, math.sqrt(r_bound * As)))
+                  dphi[0]['Delta_Phi_Weyl'], o2['cosmological (Delta_Phi^2 at k = 1e-4 Mpc^-1)'], worst, math.sqrt(r_bound * As)))
     write_json(os.path.join(OUT, 'series.json'), out)
     ok = rep.write()
     sys.exit(0 if ok else 1)

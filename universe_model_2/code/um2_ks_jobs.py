@@ -328,7 +328,8 @@ def job_portals(rep):
 
 def job_feedback(rep):
     """Static response of the stabilised block to the block-averaged hidden pressure pbar = (p0 + 3 p_t)/4 of a Kohn-Sham
-    state: (3 H^2 - kappa d p0_b/dk) dk = kappa dpbar at k* (um2_background.py, linear_response: no 3-space acceleration).
+    state: (3 H^2 - kappa d p0_b/dk) dk = kappa dpbar at k* (um2_background.py, linear_response: no 3-space acceleration),
+    and the full adiabatic response to rho, p3 and pbar together (radiation drops out).
     The order-0 metric admits p0 = p_t only; p0 - p_t sources a block-shape mode outside the order-0 family (OPEN)."""
     bg = read_json(os.path.join(OUT, 'background.json'))
     ks = bg['casimir_type']['k_star_value']
@@ -340,18 +341,28 @@ def job_feedback(rep):
     # pressures averaged over the 7-volume of the cell: p_avg = int p / (2 Vol7 int e^{3Hy} dy); pbar = (p0 + 3 p_t)/4
     f = fstar()
     w = 2 * vol7(f) * (1 - math.exp(-3 * H * L)) / (3 * H)
+    # the full adiabatic response (um2_background.py): dk = (c_rho kappa drho + c_3 kappa dp3 + c_p kappa dpbar)/H^2
+    lr = bg['linear_response_static_dk']
+    c_rho, c_3, c_p = lr['per_kappa_drho_H2'], lr['per_kappa_dp3_H2'], lr['per_kappa_dpbar_H2']
     for key in ('N8_lamp', 'N592_lamp', 'N592_lam0'):
         p0avg = gs[key]['int_p0_richardson'] / w
         ptavg = gs[key]['int_pt'] / w
+        rhoavg = gs[key]['int_rho'] / w
+        p3avg = gs[key]['int_p3'] / w
         pbar = (p0avg + 3 * ptavg) / 4
         out[key] = {'p0_avg': p0avg, 'pt_avg': ptavg, 'pbar_avg': pbar, 'shape_source_p0_minus_pt': p0avg - ptavg,
-                    'dk_per_unit_kappa': pbar / stiff}
+                    'rho_avg': rhoavg, 'p3_avg': p3avg, 'rho_minus_3p3_avg': rhoavg - 3 * p3avg,
+                    'dk_per_unit_kappa': pbar / stiff,
+                    'dk_full_per_unit_kappa': c_rho * rhoavg + c_3 * p3avg + c_p * pbar}
     bgl = bg.get('linear_response_static_dk_per_kappa_dpbar_H2')
-    rep.check('block_response', stiff < 0 and bgl is not None and abs(bgl - 1 / stiff) < 1e-9,
+    rep.check('block_response', stiff < 0 and bgl is not None and abs(bgl - 1 / stiff) < 1e-9 and abs(c_3 + 3 * c_rho) < 1e-12,
               'block stiffness d/dk[3H^2 k - kappa p0_b(k)] = %.6f H^2 < 0 at k*: a positive block-averaged hidden pressure '
               'dpbar = (dp0 + 3 dp_t)/4 shifts the block by dk = kappa dpbar/(%.4f H^2) < 0 (k decreases: the block scale f = k^{-1/2} '
               'grows slightly), as the linearised field equations give (um2_background.py: %.6f kappa dpbar/H^2, no 3-space '
-              'acceleration)' % (stiff, stiff, bgl))
+              'acceleration); the full adiabatic response dk = (%.6f kappa drho %+.6f kappa dp3 %+.6f kappa dpbar)/H^2 (radiation drops out, '
+              'c_3 = -3 c_rho) gives for the Kohn-Sham states dk = %.3e (N = 8, +lambda_B), %.3e (N = 592, +lambda_B) and %.1e (free gas) '
+              'per unit kappa' % (stiff, stiff, bgl, c_rho, c_3, c_p, out['N8_lamp']['dk_full_per_unit_kappa'],
+                                  out['N592_lamp']['dk_full_per_unit_kappa'], out['N592_lam0']['dk_full_per_unit_kappa']))
     # x4 component: its k-derivative vanishes at k* (so the 4D Friedmann equation is unaffected at linear order)
     d4 = 6.0 * (1 - 4 * (1 / 32.0) * ks) + 4.0 * krho_b / ks
     rep.check('friedmann_decoupled_from_block_shift', abs(d4) < 1e-9,

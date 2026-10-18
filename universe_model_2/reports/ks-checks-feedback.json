@@ -2,7 +2,7 @@
  "check_count": 2,
  "checks": [
   {
-   "detail": "block stiffness d/dk[3H^2 k - kappa p0_b(k)] = -7.141428 H^2 < 0 at k*: a positive block-averaged hidden pressure dpbar = (dp0 + 3 dp_t)/4 shifts the block by dk = kappa dpbar/(-7.1414 H^2) < 0 (k decreases: the block scale f = k^{-1/2} grows slightly), as the linearised field equations give (um2_background.py: -0.140028 kappa dpbar/H^2, no 3-space acceleration)",
+   "detail": "block stiffness d/dk[3H^2 k - kappa p0_b(k)] = -7.141428 H^2 < 0 at k*: a positive block-averaged hidden pressure dpbar = (dp0 + 3 dp_t)/4 shifts the block by dk = kappa dpbar/(-7.1414 H^2) < 0 (k decreases: the block scale f = k^{-1/2} grows slightly), as the linearised field equations give (um2_background.py: -0.140028 kappa dpbar/H^2, no 3-space acceleration); the full adiabatic response dk = (0.035852 kappa drho -0.107556 kappa dp3 -0.140028 kappa dpbar)/H^2 (radiation drops out, c_3 = -3 c_rho) gives for the Kohn-Sham states dk = 2.270e-06 (N = 8, +lambda_B), 1.245e-02 (N = 592, +lambda_B) and -5.3e-13 (free gas) per unit kappa",
    "name": "block_response",
    "passed": true
   },
