@@ -388,7 +388,7 @@ below).
 * Approximations: the static block with an assumed stabiliser; the good sector (no extra-time momenta); the Kohn-Sham
   mean-field treatment (local exchange of the contact interaction); portal couplings as external mean fields; tree level
   for the electroweak widths; the freeze-out formula; order $\epsilon$ for the cosmology. A fresh-clone rerun (2026-10-18)
-  passed all 180 checks and reproduced every stored number to $10^{-9}$ relative or better.
+  passed all 182 checks and reproduced every stored number to $10^{-9}$ relative or better.
 
 # What the solution does not reproduce, and what is open
 

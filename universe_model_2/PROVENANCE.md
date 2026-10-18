@@ -554,9 +554,9 @@ python universe_model_2/tools/build_docs.py
 rerun every computation in dependency order (each exits with code 0 if and only if all its checks pass) and rebuild
 the PDF documents from the Markdown sources (pandoc and a TeX Live installation with the `lmodern` package are needed
 for the last command). Reruns from fresh clones of the repository (2026-10-17 at commit `b3c3c1a`; 2026-10-18 at commits
-`fa7305f` and `9285bb6`) passed every check and reproduced every stored number to a relative $10^{-9}$ or better; in the
-last run (180 checks) every stored number was identical except the run times and one Kohn-Sham integral, which differs
-by $1\times10^{-12}$ relative, and quantities at the round-off level ($10^{-14}$, e.g. HOMO deviations) differ in their last
+`fa7305f`, `9285bb6` and `5b73d16`, the last with every computation run as a separate step) passed every check and
+reproduced every stored number to a relative $10^{-9}$ or better; in the last run (182 checks) every stored number was
+identical except the run times and one Kohn-Sham integral, which differs by $1.1\times10^{-12}$ relative, and quantities at the round-off level ($10^{-14}$, e.g. HOMO deviations) differ in their last
 digits because the threaded linear algebra does not sum in a fixed order; the LaTeX sources, the PDF documents and the
 figures were rebuilt byte-identical. The document build is deterministic: no dates in the LaTeX sources, PDF dates and trailer
 identifiers suppressed, a fixed `SOURCE_DATE_EPOCH`.
@@ -572,4 +572,6 @@ UM-2 was started on top of commit `0cb4916`. Its computations were committed in 
 followed by the corrections listed above, the sourced block equations, the radion and block-rate estimates, and the
 documents MODEL, PROVENANCE, FIELD_EQUATIONS, SOLUTION and ANALYSIS (Markdown, LaTeX and PDF each). The fixes of the
 first independent review are in `b386446` (computations) and `fa7305f` (documents), those of the second review and the
-uncertainty relation on the cell in `b0e686e` (computations) and `9285bb6` (documents).
+uncertainty relation on the cell in `b0e686e` (computations) and `9285bb6` (documents), those of the third review in
+`d92a61b` (the $W^\pm$, $Z$ fit), `c98de95` (the $Z$-width scheme check), `1561566` (portals), `df358db` (analysis) and
+`5b73d16` (documents); the document MANUAL_TASKS and the comparison tool are in `7b86239`.

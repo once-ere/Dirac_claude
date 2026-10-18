@@ -93,21 +93,22 @@ before it; the expected durations are those of the run of 2026-10-18).
 
 | block | commands | expected time | checks |
 | ---- | -------------------------------------------------- | ------------ | -------- |
-| 1 | `run code/um2_algebra.py` | 53 s | 31 |
+| 1 | `run code/um2_algebra.py` | 48 s | 31 |
 | 2 | `run code/um2_geometry.py` | 71 s | 25 |
-| 3 | `run code/um2_background.py` | 126 s | 22 |
-| 4 | `run code/um2_fields.py` | 50 s | 15 |
-| 5 | `run code/um2_spectra.py` | 27 s | 14 |
-| 6 | `run code/um2_ks_jobs.py validate` and `run code/um2_ks_jobs.py spectrum` | 77 s, 1 s | 2, 3 |
-| 7 | `run code/um2_ks_jobs.py ground8` | 125 s | 3 |
-| 8 | `run code/um2_ks_jobs.py ground592` | 129 s | 4 |
-| 9 | `run code/um2_ks_jobs.py darkmatter`, `run code/um2_ks_jobs.py portals`, `run code/um2_ks_jobs.py feedback` | 15 s, 5 s, 0.4 s | 3, 5, 2 |
+| 3 | `run code/um2_background.py` | 136 s | 22 |
+| 4 | `run code/um2_fields.py` | 52 s | 15 |
+| 5 | `run code/um2_spectra.py` | 26 s | 14 |
+| 6 | `run code/um2_ks_jobs.py validate` and `run code/um2_ks_jobs.py spectrum` | 36 s, 1 s | 2, 3 |
+| 7 | `run code/um2_ks_jobs.py ground8` | 127 s | 3 |
+| 8 | `run code/um2_ks_jobs.py ground592` | 126 s | 4 |
+| 9 | `run code/um2_ks_jobs.py darkmatter`, `run code/um2_ks_jobs.py portals`, `run code/um2_ks_jobs.py feedback` | 15 s, 4 s, 0.4 s | 3, 5, 2 |
 | 10 | `run code/um2_electroweak.py` | 1 s | 20 |
-| 11 | `run code/um2_primordial.py` | 248 s | 5 |
-| 12 | `run code/um2_cosmology.py` and `run code/um2_analysis.py` | 11 s, 4 s | 5, 23 |
-| 13 | `run tools/build_docs.py` | 12 s | |
+| 11 | `run code/um2_primordial.py` | 247 s | 5 |
+| 12 | `run code/um2_cosmology.py` and `run code/um2_analysis.py` | 8 s, 4 s | 5, 23 |
+| 13 | `run tools/build_docs.py` | 13 s | |
 
-The check counts are those of the run of 2026-10-18; the counts in force are printed by step 1.4. For example, block 1:
+The check counts are those of the run of 2026-10-18 at commit `5b73d16` (182 in all); the counts in force are printed by
+step 1.4. For example, block 1:
 
 ```text
 run code/um2_algebra.py

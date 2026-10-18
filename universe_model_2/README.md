@@ -35,21 +35,23 @@ $\{x_0, x_1, \dots, x_7\}$: $x_0$ the hidden space direction, $x_1, x_2, x_3$ sp
 
 | script | checks | time (s) |
 | --- | --- | --- |
-| `code/um2_algebra.py` | 31/31 | 53 |
+| `code/um2_algebra.py` | 31/31 | 48 |
 | `code/um2_geometry.py` | 25/25 | 71 |
-| `code/um2_background.py` | 22/22 | 126 |
-| `code/um2_fields.py` | 15/15 | 50 |
-| `code/um2_spectra.py` | 14/14 | 27 |
-| `code/um2_ks_jobs.py validate, spectrum, ground8, ground592, darkmatter, portals, feedback` | 2/2, 3/3, 3/3, 4/4, 3/3, 5/5, 2/2 | 77, 1, 125, 129, 15, 5, 0.4 |
+| `code/um2_background.py` | 22/22 | 136 |
+| `code/um2_fields.py` | 15/15 | 52 |
+| `code/um2_spectra.py` | 14/14 | 26 |
+| `code/um2_ks_jobs.py validate, spectrum, ground8, ground592, darkmatter, portals, feedback` | 2/2, 3/3, 3/3, 4/4, 3/3, 5/5, 2/2 | 36, 1, 127, 126, 15, 4, 0.4 |
 | `code/um2_electroweak.py` | 20/20 | 1 |
-| `code/um2_primordial.py` | 5/5 | 248 |
-| `code/um2_cosmology.py` | 5/5 | 11 |
+| `code/um2_primordial.py` | 5/5 | 247 |
+| `code/um2_cosmology.py` | 5/5 | 8 |
 | `code/um2_analysis.py` | 23/23 | 4 |
-| `tools/build_docs.py` (all five PDFs) | | 12 |
+| `tools/build_docs.py` (all six PDFs) | | 13 |
 
-Times are those of the verification run from a fresh clone of the repository (2026-10-18, commit `9285bb6`): all 180
-checks passed, every stored number was reproduced (identical except the run times and one Kohn-Sham integral, which
-differs by $1\times10^{-12}$ relative), and the five PDFs, their LaTeX sources and the figures were rebuilt byte-identical. Every script writes its numbers to `outputs/` and its named checks to `reports/`, exits with code 0 only if every check
+Times are those of the verification run from a fresh clone of the repository (2026-10-18, commit `5b73d16`, every
+computation run as a separate step): all 182 checks passed, every stored number was reproduced (identical except the run
+times and one Kohn-Sham integral, which differs by $1.1\times10^{-12}$ relative), and the six PDFs, their LaTeX sources and the
+figures were rebuilt byte-identical. `tools/compare_outputs.py` performs this comparison; `MANUAL_TASKS` describes the
+whole verification step by step. Every script writes its numbers to `outputs/` and its named checks to `reports/`, exits with code 0 only if every check
 passes, and finishes within 423 s.
 
 ## Reproduce
