@@ -15,12 +15,13 @@ Physics source (the Revision record): Revision/SPEC.md section 3 (the canonical 
 connection with the first frame index lowered by eta; the author's notebook contracts the
 mixed components omega_mu^a_b, which lacks a metric factor, and that contraction is not
 used), Revision/theory/field-theory.json (omega_nonzero, gammaOmega_total,
-hidden_direction_hermiticity; the metric with b4(x4)), the field-theory reports and
-Revision/kohn_sham/results/parameters.json (the history).  The consequences of the mixed
-contraction are computed by this notebook itself (exact sympy); they are not Revision
-results and are used nowhere else.  The author's coordinates x0..x7: x0 the hidden
-direction (z = 6 H x0), x1, x2, x3 3-space (inflating), x4 the time, x5, x6, x7 the
-three extra times (deflating exponentially).
+hidden_direction_hermiticity; the corrected metric of 2026-10-16, version 2), the
+field-theory reports and Revision/kohn_sham/results/parameters.json (the history).  The
+consequences of the mixed contraction are computed by this notebook itself (exact
+sympy); they are not Revision results and are used nowhere else.  The author's
+coordinates x0..x7: x0 the hidden, space-like direction (z = 6 H x0 takes every real
+value), x1, x2, x3 3-space (inflating), x4 the time, x5, x6, x7 the three extra times
+(deflating exponentially).
 """
 
 import sys
@@ -51,13 +52,14 @@ FACTS = {
         "connection and reverses the sign of the 6 time-time components; it changes "
         "nothing in a space with a positive metric (the polar plane) and deletes the "
         "whole connection of a flat plane with one time (the Milne wedge); in the "
-        "author's metric it would give gamma^mu Omega_mu = (3 H/2) gamma^(x0) + "
-        "(3/2)(a4' - b4'/(2 b4)) gamma^(x4) instead of 3 H gamma^(x0) + (3/4)(b4'/b4) "
-        "gamma^(x4), break the covariant constancy "
-        "of the gammas in 15 of the 64 pairs, and spoil the antisymmetry of the "
-        "hidden-direction operator that the Revision record proves for the correct "
-        "value 3 H. It checks the correct results against the Revision records and "
-        "draws six teaching plots."
+        "corrected metric of the author's primordial field it would keep none of the 10 "
+        "components, reverse 3 and delete 7, give gamma^mu Omega_mu = (3/2)(a4' - "
+        "b4'/(2 b4)) gamma^(x4) with no gamma^(x0) term instead of (3/2) H e^(a4) "
+        "b4^(-1/2) gamma^(x0) + (b4'/b4 - a4'/2) gamma^(x4), break the covariant "
+        "constancy of the gammas in 17 of the 64 pairs, and spoil the antisymmetry of "
+        "the hidden-direction operator that the Revision record proves for the correct "
+        "value. It checks the correct results against the Revision records and draws "
+        "six teaching plots."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
@@ -68,17 +70,17 @@ FACTS = {
          "and that contraction is not used (statement checked)"],
         ["Revision/theory/field-theory.json",
          "the exact formulas omega_nonzero, gammaOmega_total and "
-         "hidden_direction_hermiticity for the metric with b4 (reproduced)"],
+         "hidden_direction_hermiticity for the corrected metric (reproduced)"],
         ["Revision/kohn_sham/results/parameters.json",
-         "the history of the Revision record: the slope A and the exponent beta of b4 "
-         "(physics.historyA, physics.historyBeta)"],
+         "the history of the Revision record: the slope A, the exponent beta of b4 and "
+         "b4(0) (physics.historyA, physics.historyBeta, physics.historyB4AtZero)"],
         ["Revision/theory/reports/python-field-theory.json",
          "the sympy checks of the covariant constancy of the gammas and of "
-         "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) (reproduced)"],
+         "gamma^mu Omega_mu (reproduced)"],
         ["Revision/theory/reports/wolfram-field-theory.json",
          "the WolframScript checks of the spin connection, of the defining property of "
-         "the spinor connection, of the covariant constancy and of the divergence form "
-         "(reproduced)"],
+         "the spinor connection, of the covariant constancy, of the divergence form and "
+         "of the hidden-direction operator (reproduced)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -132,18 +134,20 @@ CELLS = [
     - shows that the two contractions agree in a space whose metric is positive (the
       flat plane in polar coordinates), and that in a flat plane with one time (the
       **Milne wedge**) the notebook's contraction deletes the whole connection;
-    - computes, for the author's metric with $a_4(x_4)$ and $b_4(x_4)$, what the
-      notebook's contraction would give: $\gamma^\mu\Omega^{nb}_\mu =
-      \frac{3H}{2}\gamma^{(x0)} + \frac32(a_4' - \frac{b_4'}{2b_4})\gamma^{(x4)}$
-      instead of the correct $3H\gamma^{(x0)} + \frac34\frac{b_4'}{b_4}\gamma^{(x4)}$
-      (on the history of the Revision record, $a_4' = H$ and $b_4'/b_4 = \frac43 H$:
-      $\frac{3H}{2}\gamma^{(x0)} + \frac{H}{2}\gamma^{(x4)}$ instead of
-      $3H\gamma^{(x0)} + H\gamma^{(x4)}$);
+    - computes, for the corrected metric of the author's primordial field with
+      $a_4(x_4)$ and $b_4(x_4)$, what the notebook's contraction would give: of the 10
+      components of the spin connection it keeps none, reverses 3 and deletes 7, and
+      $\gamma^\mu\Omega^{nb}_\mu = \frac32(a_4' - \frac{b_4'}{2b_4})\gamma^{(x4)}$,
+      with no term $\gamma^{(x0)}$ at all, instead of the correct
+      $c_g\gamma^{(x0)} + v_g\gamma^{(x4)}$, $c_g = \frac32He^{a_4}b_4^{-1/2}$,
+      $v_g = b_4'/b_4 - a_4'/2$ (on the history of the Revision record:
+      $\frac{H}{2}\gamma^{(x4)}$ instead of $\frac32He^{Hx_4/3}\gamma^{(x0)} +
+      \frac56H\gamma^{(x4)}$);
     - counts where it breaks the covariant constancy $D_\mu\gamma^\nu = 0$ of the
-      gammas (15 of the 64 pairs $(\mu, \nu)$);
-    - shows the physical reason why only the value $3H$ is right: it makes the
-      hidden-direction operator antisymmetric for the volume weight
-      $\sqrt{|g|} = b_4^{3/2}\cos z$, as the Revision record proves;
+      gammas (17 of the 64 pairs $(\mu, \nu)$);
+    - shows the physical reason why only the correct value is right: it makes the
+      hidden-direction operator antisymmetric for the volume weight, as the Revision
+      record proves;
     - draws six teaching plots.
 
     Every correct result is compared with the Revision record. The results about
@@ -154,9 +158,13 @@ CELLS = [
     ## 3. The words used in this notebook
 
     - **Coordinates** $x0, \dots, x7$ with the author's names: $x0$ the **hidden
-      direction**; $x1, x2, x3$ 3-space; $x4$ the time; $x5, x6, x7$ the three
-      **extra times**; $z = 6Hx_0$. In Python lists they have the positions 0 to 7 in
-      the same order.
+      direction** (space-like); $x1, x2, x3$ 3-space; $x4$ the time; $x5, x6, x7$ the
+      three **extra times**; $z = 6Hx_0$, every real value. In Python lists they have
+      the positions 0 to 7 in the same order.
+    - **Warp factor** $W = (\sin^2 z)^{1/12}$; **hidden scale** $s_b =
+      e^{-a_4}b_4^{1/2}$ with the rate $h_4 = b_4'/(2b_4) - a_4'$; **fold** $\cos z =
+      0$, where the two halves of a cell $0 < z < \pi$ meet; **tips** $\sin z = 0$, the
+      ends of a cell.
     - **Frame metric** $\eta = \mathrm{diag}(+1,+1,+1,+1,-1,-1,-1,-1)$ in the order
       $x0, \dots, x7$: $\eta_{aa} = +1$ for a **space-like** frame direction, $-1$ for a
       **time-like** one. Because $\eta$ is diagonal with entries $\pm1$,
@@ -228,12 +236,20 @@ CELLS = [
     $+1$ and the two contractions are the same: the mistake cannot be seen in the usual
     textbook examples. In signature (4,4) it deletes 16 of the 28 parts.
 
+    **The corrected metric.** It is $g = \mathrm{diag}\big(e^{-2a_4}b_4\cot^2 z,\
+    e^{2a_4}\ (\times 3),\ -1,\ -e^{-2a_4}b_4W^2\ (\times 3)\big)$ with $z = 6Hx_0$
+    (every real value) and $W = (\sin^2 z)^{1/12}$; its diagonal vielbein has the
+    factors $f = (s_b\cot z,\ e^{a_4}\ (\times 3),\ 1,\ s_bW\ (\times 3))$. As in
+    Notebook 06a, $W$ is a sympy function with the one rule $\partial_{x0}W = H\cot z
+    \,W$, so that every result holds for every real $z$ away from the points where
+    $\sin z\cos z = 0$.
+
     **Status.** The identity above is PROVED here (exact algebra). The values of
-    $\Omega^{nb}$ below are COMPUTED exactly by this notebook for the author's metric
+    $\Omega^{nb}$ below are COMPUTED exactly by this notebook for the corrected metric
     and describe the contraction that the Revision record does NOT use. The correct
-    values ($\Omega_\mu$, $\gamma^\mu\Omega_\mu = 3H\gamma^{(x0)} +
-    \frac34(b_4'/b_4)\gamma^{(x4)}$, $D_\mu\gamma^\nu = 0$, the antisymmetry of the
-    hidden-direction operator) reproduce the Revision records.
+    values ($\Omega_\mu$, $\gamma^\mu\Omega_\mu = c_g\gamma^{(x0)} + v_g\gamma^{(x4)}$,
+    $D_\mu\gamma^\nu = 0$, the antisymmetry of the hidden-direction operator) reproduce
+    the Revision records.
     """),
     md(r"""
     ## 5. The tools: sympy, the author's gammas and the record
@@ -245,8 +261,9 @@ CELLS = [
     through exponential functions, then sympy's `simplify`; it never calls a nonzero
     expression zero), `matrix_is_zero` and `record_passed` (does a Revision report
     record a check as passed?). It reads the formulas of
-    `Revision/theory/field-theory.json` and checks that `Revision/SPEC.md` (section 3)
-    contains the statement about the notebook's contraction.
+    `Revision/theory/field-theory.json` and the history of the record, and checks that
+    `Revision/SPEC.md` (section 3) contains the statement about the notebook's
+    contraction.
 
     The first lines of the next cell change one setting of Jupyter: printed text is
     sent to the screen when a cell has finished (or just before a figure is shown),
@@ -309,7 +326,7 @@ CELLS = [
         raise KeyError(f"{path} has no check {name}")
 
 
-    THEORY_FILE = "Revision/theory/field-theory.json"  # the record, with b4(x4)
+    THEORY_FILE = "Revision/theory/field-theory.json"  # the record, corrected metric
     FORMULAS = {item["key"]: item["wl"] for item in json.loads(
         repository_file(THEORY_FILE).read_text(encoding="utf-8"))["formulas"]}
     REPORT_PY = "Revision/theory/reports/python-field-theory.json"
@@ -318,6 +335,7 @@ CELLS = [
     physics = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))["physics"]
     A_EXACT = sp.nsimplify(physics["historyA"])  # the slope A of the history, 1
     BETA_B4 = sp.nsimplify(physics["historyBeta"])  # the exponent of b4, 4/3
+    B4_ZERO = sp.nsimplify(physics["historyB4AtZero"])  # b4(0) = 1
     # " ".join(text.split()) replaces every run of blanks and line breaks by one blank,
     # so a sentence that the file breaks across two lines is found as one line.
     spec_text = " ".join(repository_file("Revision/SPEC.md").read_text(
@@ -643,20 +661,20 @@ CELLS = [
                 "$\\theta$: real and unbounded, unlike a spinor rotation.")
     '''),
     md(r"""
-    ## 8. The author's metric: the correct and the notebook's spinor connection
+    ## 8. The corrected metric: the correct and the notebook's spinor connection
 
-    The next cell builds the author's metric with its diagonal vielbein $f =
-    (\cot z,\ e^{a_4}s\ (\times 3),\ 1,\ e^{-a_4}b_4^{1/2}s\ (\times 3))$,
-    $s = \sin^{1/6}z$, for arbitrary functions $a_4(x_4)$ and $b_4(x_4) > 0$, computes
-    the Christoffel symbols, the MIXED spin connection and its lowered form, and
-    compares the 12 nonzero lowered components with the record (`omega_nonzero`; the
-    record numbers the directions from 1 in the order $x0, \dots, x7$). Then it
-    builds the correct
-    $\Omega_\mu$, the notebook's $\Omega^{nb}_\mu$ and the three parts
-    $\Omega^{ss}_\mu$, $\Omega^{tt}_\mu$, $\Omega^{st}_\mu$, and checks the identity
-    of Section 4, $\Omega^{nb}_\mu = \Omega^{ss}_\mu - \Omega^{tt}_\mu$, for all eight
-    $\mu$. It prints, for each of the 12 lowered components, the kind of its pair and
-    what the notebook's contraction does to it.
+    The next cell builds the corrected metric with its diagonal vielbein $f =
+    (s_b\cot z,\ e^{a_4}\ (\times 3),\ 1,\ s_bW\ (\times 3))$ for arbitrary functions
+    $a_4(x_4)$ and $b_4(x_4) > 0$, computes the Christoffel symbols, the MIXED spin
+    connection and its lowered form, and compares the 10 nonzero lowered components
+    with the record (`omega_nonzero`; the record numbers the directions from 1 in the
+    order $x0, \dots, x7$ and writes the root $(\sin^2 z)^{1/12}$, which the reader
+    turns into $W$). Then it builds the correct $\Omega_\mu$, the notebook's
+    $\Omega^{nb}_\mu$ and the three parts $\Omega^{ss}_\mu$, $\Omega^{tt}_\mu$,
+    $\Omega^{st}_\mu$, and checks the identity of Section 4, $\Omega^{nb}_\mu =
+    \Omega^{ss}_\mu - \Omega^{tt}_\mu$, for all eight $\mu$. It prints, for each of the
+    10 lowered components, the kind of its pair and what the notebook's contraction does
+    to it.
     """),
     code(r'''
     from sympy.parsing.mathematica import parse_mathematica  # reads Wolfram notation
@@ -667,14 +685,28 @@ CELLS = [
     a4 = sp.Function("a4")(x4)  # any function of the time
     b4 = sp.Function("b4", positive=True)(x4)  # any positive function of the time
     a4p, b4p = sp.Derivative(a4, x4), sp.Derivative(b4, x4)  # a4' and b4'
-    rate_t = a4p - b4p / (2 * b4)  # the rate of the extra times, a4' - b4'/(2 b4)
-    z = 6 * H * x0  # the hidden angle
-    s = sp.sin(z) ** sp.Rational(1, 6)
-    f = ([sp.cot(z)] + [sp.exp(a4) * s] * 3 + [sp.Integer(1)]
-         + [sp.exp(-a4) * sp.sqrt(b4) * s] * 3)  # f_0, ..., f_7
-    g = sp.diag(*[ETA[a] * f[a] ** 2 for a in range(8)])  # the author's metric
+    h4 = b4p / (2 * b4) - a4p  # the rate of the hidden scale
+    z = 6 * H * x0  # the hidden coordinate
+
+
+    class W(sp.Function):
+        """The warp factor W(x0) = (sin(6 H x0)^2)^(1/12) > 0 of the extra times."""
+
+        def fdiff(self, argindex=1):
+            """dW/dx0 = H cot(6 H x0) W, for every real z = 6 H x0 with sin z != 0."""
+            return H * sp.cot(6 * H * self.args[0]) * self
+
+        def _eval_is_positive(self):
+            return True  # the positive root
+
+
+    s_b = sp.exp(-a4) * sp.sqrt(b4)  # the hidden scale
+    f = ([s_b * sp.cot(z)] + [sp.exp(a4)] * 3 + [sp.Integer(1)]
+         + [s_b * W(x0)] * 3)  # f_0, ..., f_7
+    g = sp.diag(*[ETA[a] * f[a] ** 2 for a in range(8)])  # the corrected metric
     e = sp.diag(*f)  # the diagonal vielbein
-    on_history = {b4p: BETA_B4 * A_EXACT * H * b4, a4p: A_EXACT * H}  # the record's history
+    on_history = {b4p: BETA_B4 * A_EXACT * H * b4, a4p: A_EXACT * H}  # the derivatives
+    history_values = {a4: A_EXACT * H * x4, b4: B4_ZERO * sp.exp(BETA_B4 * A_EXACT * H * x4)}
 
 
     Gam = christoffel(g, x)
@@ -682,28 +714,29 @@ CELLS = [
     omega = lower_first_index(mixed, ETA)  # omega_mu ab
     names = {sp.Symbol("H"): H, sp.Symbol("x0"): x0, sp.Symbol("x4"): x4,
              sp.Symbol("a4"): a4, sp.Symbol("b4"): b4, sp.Symbol("a4p"): a4p,
-             sp.Symbol("b4p"): b4p}
+             sp.Symbol("b4p"): b4p, sp.Symbol("warp"): W(x0)}
 
 
-    def record_omega(formulas):
-        """The record's list {mu, a, b, value} (a < b, numbered from 1, Wolfram
-        notation) as a dictionary with Python's numbers 0 to 7."""
-        text = formulas["omega_nonzero"]
-        for long_form, short_form in (("Derivative[1][a4][x4]", "a4p"),
+    def from_record(text):
+        """A formula of the record (Wolfram notation) as a sympy expression."""
+        for long_form, short_form in (("(Sin[6*H*x0]^2)^(1/12)", "warp"),
+                                      ("Derivative[1][a4][x4]", "a4p"),
                                       ("Derivative[1][b4][x4]", "b4p"),
                                       ("a4[x4]", "a4"), ("b4[x4]", "b4")):
             text = text.replace(long_form, short_form)
-        return {(int(m) - 1, int(a) - 1, int(b) - 1): v.subs(names, simultaneous=True)
-                for m, a, b, v in parse_mathematica(text)}
+        if "Sin[6*H*x0]^2" in text:  # a root that was not translated
+            raise ValueError(f"cannot translate {text}")
+        return parse_mathematica(text).subs(names, simultaneous=True)
 
 
-    omega_record = record_omega(FORMULAS)
+    omega_record = {(int(m) - 1, int(a) - 1, int(b) - 1): value
+                    for m, a, b, value in from_record(FORMULAS["omega_nonzero"])}
     nonzero = {(mu, a, b): omega[mu][a][b] for mu in range(8) for a, b in pairs
                if omega[mu][a][b] != 0}
     check(set(nonzero) == set(omega_record)
           and all(is_zero(nonzero[k] - omega_record[k]) for k in nonzero)
           and record_passed(REPORT_WL, "omega_components"),
-          "the 12 nonzero lowered components omega_mu ab equal the record",
+          "the 10 nonzero lowered components omega_mu ab equal the record",
           record=f"{THEORY_FILE}, formula omega_nonzero")
     ACTION = {1: "kept", -1: "sign reversed", 0: "deleted"}
     for (mu, a, b) in sorted(nonzero):
@@ -726,37 +759,35 @@ CELLS = [
           "Omega^nb_mu = Omega^ss_mu - Omega^tt_mu for all eight mu (boosts deleted)")
     '''),
     md(r"""
-    The previous cell showed that for $\mu = x1$ the boost part (the pair $x1, x4$, with
-    the rate $a_4'$) is deleted and the rotation part (the pair $x0, x1$, with $H$) is
-    kept, and that for $\mu = x5$ the boost part (the pair $x0, x5$, with $H$) is
-    deleted and the time-time part (the pair $x4, x5$, with the rate $a_4' -
-    b_4'/(2b_4)$) has its sign reversed. The next cell checks the resulting closed
-    forms
+    The previous cell showed that in the corrected metric no component of the spin
+    connection belongs to a space-space pair (3-space does not depend on $x_0$, so the
+    pairs of $x0$ with $x1, x2, x3$ are empty): the notebook's contraction keeps
+    nothing. For $\mu = x0$ the boost part (the pair $x0, x4$, with the rate $h_4$) and
+    for $\mu = x1$ the boost part (the pair $x1, x4$, with the rate $a_4'$) are
+    deleted; for $\mu = x5$ the boost part (the pair $x0, x5$, with $H$) is deleted and
+    the time-time part (the pair $x4, x5$, with the rate $h_4$) has its sign reversed.
+    The next cell checks the resulting closed forms
 
-    $$\Omega^{nb}_{x1} = e^{a_4}s\,H\,S^{x1\,x0}, \qquad
-    \Omega^{nb}_{x5} = +e^{-a_4}b_4^{1/2}s\,\big(a_4' - \tfrac{b_4'}{2b_4}\big)\,
-    S^{x4\,x5},$$
+    $$\Omega^{nb}_{x0} = 0, \qquad \Omega^{nb}_{x1} = 0, \qquad
+    \Omega^{nb}_{x5} = -h_4\,s_bW\,S^{x4\,x5},$$
 
-    compared with the correct $\Omega_{x1} = e^{a_4}s\,(a_4'S^{x1\,x4} +
-    HS^{x1\,x0})$ and $\Omega_{x5} = -e^{-a_4}b_4^{1/2}s\,\big((a_4' -
-    \frac{b_4'}{2b_4})S^{x4\,x5} + HS^{x5\,x0}\big)$ (Notebook 06a), and the same
-    forms for $x2, x3$ and $x6, x7$.
+    compared with the correct $\Omega_{x0} = h_4\,s_b\cot z\,S^{x0\,x4}$,
+    $\Omega_{x1} = a_4'e^{a_4}S^{x1\,x4}$ and $\Omega_{x5} = h_4\,s_bW\,S^{x4\,x5} +
+    HW\,S^{x0\,x5}$ (Notebook 06a), and the same forms for $x2, x3$ and $x6, x7$.
     """),
     code(r'''
-    closed_ok = True
+    closed_ok = (matrix_is_zero(Omega_nb[0]) and matrix_is_zero(Omega_nb[4])
+                 and matrix_is_zero(Omega[0] - h4 * s_b * sp.cot(z) * S[0][4]))
     for i in (1, 2, 3):  # the 3-space directions x1, x2, x3
-        closed_ok = closed_ok and matrix_is_zero(
-            Omega_nb[i] - sp.exp(a4) * s * H * S[i][0])  # pair (x0, xi) kept
-        closed_ok = closed_ok and matrix_is_zero(
-            Omega[i] - sp.exp(a4) * s * (a4p * S[i][4] + H * S[i][0]))
-    f_t = sp.exp(-a4) * sp.sqrt(b4) * s  # the factor of the extra times
+        closed_ok = closed_ok and matrix_is_zero(Omega_nb[i])  # pair (xi, x4) deleted
+        closed_ok = closed_ok and matrix_is_zero(Omega[i] - a4p * sp.exp(a4) * S[i][4])
+    f_t = s_b * W(x0)  # the factor of the extra times
     for t in (5, 6, 7):  # the extra times x5, x6, x7
         closed_ok = closed_ok and matrix_is_zero(
-            Omega_nb[t] - f_t * rate_t * S[4][t])  # pair (x4, xt) reversed
+            Omega_nb[t] + h4 * f_t * S[4][t])  # pair (x4, xt) reversed
         closed_ok = closed_ok and matrix_is_zero(
-            Omega[t] + f_t * (rate_t * S[4][t] + H * S[t][0]))
-    check(closed_ok, "the closed forms of Omega_mu and Omega^nb_mu for x1 ... x3, "
-          "x5 ... x7")
+            Omega[t] - h4 * f_t * S[4][t] - H * W(x0) * S[0][t])
+    check(closed_ok, "the closed forms of Omega_mu and Omega^nb_mu for all eight mu")
     '''),
     md(r"""
     ## 9. What the notebook's contraction would put into the field equation
@@ -767,22 +798,20 @@ CELLS = [
     (the coefficients are found with traces, as in Notebook 06a:
     $\alpha_\mu = -\mathrm{tr}(M\gamma^{(x4)})/16$ and $\beta_\mu =
     \mathrm{tr}(M\gamma^{(x0)})/16$, and the cell checks that nothing else is left).
-    By hand: $\gamma^{x1}\Omega^{nb}_{x1} = \frac{1}{f_1}\gamma^{(x1)}\cdot f_1 H\cdot
-    \frac12\gamma^{(x1)}\gamma^{(x0)} = \frac H2\gamma^{(x0)}$ (because
-    $(\gamma^{(x1)})^2 = 1$), and $\gamma^{x5}\Omega^{nb}_{x5} =
-    \frac{1}{f_5}\gamma^{(x5)}\cdot f_5 r_t\cdot\frac12\gamma^{(x4)}\gamma^{(x5)} =
-    -\frac{r_t}{2}\gamma^{(x4)}(\gamma^{(x5)})^2 = \frac{r_t}{2}\gamma^{(x4)}$ with
-    $r_t = a_4' - b_4'/(2b_4)$ (because $\gamma^{(x5)}$ anticommutes with
+    By hand: $\gamma^{x0}\Omega^{nb}_{x0} = 0$ and $\gamma^{x1}\Omega^{nb}_{x1} = 0$,
+    and $\gamma^{x5}\Omega^{nb}_{x5} = \frac{1}{f_5}\gamma^{(x5)}\cdot(-f_5h_4)\cdot
+    \frac12\gamma^{(x4)}\gamma^{(x5)} = \frac{h_4}{2}\gamma^{(x4)}(\gamma^{(x5)})^2 =
+    -\frac{h_4}{2}\gamma^{(x4)}$ (because $\gamma^{(x5)}$ anticommutes with
     $\gamma^{(x4)}$ and $(\gamma^{(x5)})^2 = -1$). Summed:
 
-    $$\gamma^\mu\Omega^{nb}_\mu = \tfrac{3H}{2}\gamma^{(x0)} + \tfrac32\big(a_4' -
+    $$\gamma^\mu\Omega^{nb}_\mu = -\tfrac32h_4\,\gamma^{(x4)} = \tfrac32\big(a_4' -
     \tfrac{b_4'}{2b_4}\big)\gamma^{(x4)} \quad\text{instead of}\quad
-    \gamma^\mu\Omega_\mu = 3H\gamma^{(x0)} + \tfrac34\tfrac{b_4'}{b_4}\gamma^{(x4)} .$$
+    \gamma^\mu\Omega_\mu = c_g\gamma^{(x0)} + v_g\gamma^{(x4)} .$$
 
-    Half of the hidden term is lost, and the $a_4'$ terms along the time no longer
-    cancel: with the wrong contraction the deflation would appear in this term. The
-    cell compares the correct total with the record (`gammaOmega_total`) and evaluates
-    both totals on the history of the record.
+    The whole hidden term $c_g\gamma^{(x0)}$ is lost (it came from the deleted boost
+    pairs of $x0$ with the extra times), and the term along the time is wrong as well.
+    The cell compares the correct total with the record (`gammaOmega_total`) and
+    evaluates both totals on the history of the record.
     """),
     code(r'''
     gup = curved_gammas(e, gamma)  # gamma^mu = gamma^a / f_a for mu = a
@@ -800,117 +829,115 @@ CELLS = [
     for mu in range(8):
         say(f"{NAMES[mu]}: correct ({correct_terms[mu][0]}, {correct_terms[mu][1]}), "
             f"notebook ({notebook_terms[mu][0]}, {notebook_terms[mu][1]})")
-    want_nb = [(0, 0)] + [(0, H / 2)] * 3 + [(0, 0)] + [(rate_t / 2, 0)] * 3
+    want_nb = [(0, 0)] * 5 + [(-h4 / 2, 0)] * 3  # x0, ..., x4, then x5, x6, x7
     check(all(term[2] for term in correct_terms + notebook_terms)
           and all(is_zero(notebook_terms[mu][0] - want_nb[mu][0])
                   and is_zero(notebook_terms[mu][1] - want_nb[mu][1]) for mu in range(8)),
-          "notebook's terms: (H/2) gamma^(x0) for x1, x2, x3; ((a4' - b4'/(2 b4))/2) "
-          "gamma^(x4) for x5, x6, x7")
+          "notebook's terms: zero for x0 ... x4; -(h4/2) gamma^(x4) for x5, x6, x7")
     slash = sum((gup[mu] * Omega[mu] for mu in range(8)), Z16)
     slash_nb = sum((gup[mu] * Omega_nb[mu] for mu in range(8)), Z16)
+    c_g = sp.Rational(3, 2) * H * sp.exp(a4) / sp.sqrt(b4)  # correct gamma^(x0) term
+    v_g = b4p / b4 - a4p / 2  # correct gamma^(x4) term
 
 
     def record_total(formulas):
         """The record's gammaOmega_total as a 16 x 16 matrix."""
         text = formulas["gammaOmega_total"].replace(chr(34), "")  # gamma[x0], gamma[x4]
-        for long_form, short_form in (("Derivative[1][b4][x4]", "b4p"),
-                                      ("b4[x4]", "b4"), ("gamma[x0]", "G0"),
-                                      ("gamma[x4]", "G4")):
-            text = text.replace(long_form, short_form)
-        total = parse_mathematica(text).subs(names, simultaneous=True)
+        total = from_record(text.replace("gamma[x0]", "G0").replace("gamma[x4]", "G4"))
         G0, G4 = sp.Symbol("G0"), sp.Symbol("G4")
         return total.coeff(G0) * gamma[0] + total.coeff(G4) * gamma[4]
 
 
     check(matrix_is_zero(slash - record_total(FORMULAS))
-          and record_passed(REPORT_PY, "gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term"),
-          "correct: gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4)",
+          and matrix_is_zero(slash - c_g * gamma[0] - v_g * gamma[4])
+          and record_passed(REPORT_PY, "gamma_mu_Omega_mu_equals_hidden_block_terms"),
+          "correct: gamma^mu Omega_mu = c_g gamma^(x0) + v_g gamma^(x4)",
           record=f"{THEORY_FILE}, formula gammaOmega_total")
     report("notebook: coefficient of gamma^(x0)", sum(t[1] for t in notebook_terms))
     report("notebook: coefficient of gamma^(x4)",
            sp.simplify(sum(t[0] for t in notebook_terms)))
-    check(matrix_is_zero(slash_nb - 3 * H / 2 * gamma[0] - 3 * rate_t / 2 * gamma[4]),
-          "notebook: gamma^mu Omega^nb_mu = (3H/2) gamma^(x0) + (3/2)(a4' - b4'/(2 b4)) "
-          "gamma^(x4)")
-    check(matrix_is_zero(slash.subs(on_history) - 3 * H * gamma[0] - H * gamma[4])
-          and matrix_is_zero(slash_nb.subs(on_history) - 3 * H / 2 * gamma[0]
-                             - H / 2 * gamma[4]),
-          "on the history of the record: correct 3 H gamma^(x0) + H gamma^(x4), "
-          "notebook (3H/2) gamma^(x0) + (H/2) gamma^(x4)")
+    check(matrix_is_zero(slash_nb + 3 * h4 / 2 * gamma[4]),
+          "notebook: gamma^mu Omega^nb_mu = (3/2)(a4' - b4'/(2 b4)) gamma^(x4), no "
+          "gamma^(x0) term")
+    history_nb = slash_nb.subs(on_history).subs(history_values)
+    history_correct = slash.subs(on_history).subs(history_values)
+    check(matrix_is_zero(history_correct - sp.Rational(3, 2) * H * sp.exp(H * x4 / 3)
+                         * gamma[0] - sp.Rational(5, 6) * H * gamma[4])
+          and matrix_is_zero(history_nb - H / 2 * gamma[4]),
+          "on the history of the record: correct (3/2) H e^(H x4/3) gamma^(x0) + "
+          "(5/6) H gamma^(x4), notebook (H/2) gamma^(x4)")
     '''),
     md(r"""
-    The next cell draws the per-direction table of the previous cell as bar charts:
-    for each direction $\mu$ the part of the coefficient of $\gamma^{(x4)}$ that is
-    proportional to $a_4'$, in units of $a_4'$ (left; the parts with $b_4'/b_4$ are
-    left out), and the coefficient of $\gamma^{(x0)}$ in units of $H$ (right), for the
-    correct contraction
-    (dark bars) and the notebook's (light bars). On the left the correct bars cancel
-    in pairs ($+\frac12$ three times, $-\frac12$ three times), while the notebook's
-    three bars $+\frac12$ do not cancel; on the right the notebook keeps only the
-    three 3-space bars.
+    The next cell draws the per-direction table of the previous cell as bar charts,
+    for the correct contraction (dark bars) and the notebook's (light bars): for each
+    direction $\mu$ the part of the coefficient of $\gamma^{(x4)}$ that is proportional
+    to $a_4'$, in units of $a_4'$ (left), the part proportional to $b_4'/b_4$, in units
+    of $b_4'/b_4$ (middle), and the coefficient of $\gamma^{(x0)}$ in units of
+    $He^{a_4}b_4^{-1/2}$ (right). The notebook's bars are zero for $x0, \dots, x4$; for
+    the extra times they have the opposite sign of the correct ones on the left and in
+    the middle, and they vanish on the right.
     """),
     code(r'''
     positions = np.arange(8)
     width = 0.38  # the width of one bar; two bars side by side per direction
-    # the parts proportional to a4' (b4' set to 0), in units of a4'
-    alpha_c = [float(sp.simplify(t[0].subs(b4p, 0) / a4p)) for t in correct_terms]
-    alpha_n = [float(sp.simplify(t[0].subs(b4p, 0) / a4p)) for t in notebook_terms]
-    beta_c = [float(sp.simplify(t[1] / H)) for t in correct_terms]  # units of H
-    beta_n = [float(sp.simplify(t[1] / H)) for t in notebook_terms]
-    fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10.0, 4.2), sharey=True)
-    ax_left.bar(positions - width / 2, alpha_c, width, color="tab:blue",
-                label=f"correct (total {sum(alpha_c):g})")
-    ax_left.bar(positions + width / 2, alpha_n, width, color="lightskyblue",
-                label=f"notebook (total {sum(alpha_n):g})")
-    ax_right.bar(positions - width / 2, beta_c, width, color="tab:red",
-                 label=f"correct (total {sum(beta_c):g})")
-    ax_right.bar(positions + width / 2, beta_n, width, color="lightsalmon",
-                 label=f"notebook (total {sum(beta_n):g})")
-    ax_left.set_title("$a_4'$ part of the coefficient of $\\gamma^{(x4)}$, units of $a_4'$")
-    ax_right.set_title("coefficient of $\\gamma^{(x0)}$, units of $H$")
-    for ax in (ax_left, ax_right):
+    unit_x0 = H * sp.exp(a4) / sp.sqrt(b4)  # the unit of the gamma^(x0) coefficient
+    panels = [  # (title, function of a term (alpha, beta, ok) giving the bar height)
+        ("$a_4'$ part of the $\\gamma^{(x4)}$ coefficient / $a_4'$",
+         lambda t: float(sp.simplify(t[0].subs(b4p, 0) / a4p))),
+        ("$b_4'$ part of the $\\gamma^{(x4)}$ coefficient / $(b_4'/b_4)$",
+         lambda t: float(sp.simplify(t[0].subs(a4p, 0) / (b4p / b4)))),
+        ("$\\gamma^{(x0)}$ coefficient / $(He^{a_4}b_4^{-1/2})$",
+         lambda t: float(sp.simplify(t[1] / unit_x0)))]
+    fig, axes = plt.subplots(1, 3, figsize=(12.6, 4.2), sharey=True)
+    for ax, (title, height) in zip(axes, panels):
+        correct_bars = [height(t) for t in correct_terms]
+        notebook_bars = [height(t) for t in notebook_terms]
+        ax.bar(positions - width / 2, correct_bars, width, color="tab:blue",
+               label=f"correct (total {sum(correct_bars):g})")
+        ax.bar(positions + width / 2, notebook_bars, width, color="lightskyblue",
+               label=f"notebook (total {sum(notebook_bars):g})")
+        ax.set_title(title, fontsize=9)
         ax.axhline(0.0, color="black", linewidth=0.8)
         ax.set_xticks(positions, NAMES)
         ax.set_xlabel("direction $\\mu$ of the term $\\gamma^\\mu\\Omega_\\mu$")
         ax.set_ylim(-0.8, 0.8)
         ax.legend(fontsize=8, loc="lower left")
-    ax_left.set_ylabel("coefficient")
+    axes[0].set_ylabel("coefficient")
     save_figure(fig, "per_direction_comparison",
-                "The eight terms $\\gamma^\\mu\\Omega_\\mu$ (no sum) of the author's "
+                "The eight terms $\\gamma^\\mu\\Omega_\\mu$ (no sum) of the corrected "
                 "metric, each of the form $\\alpha_\\mu\\gamma^{(x4)} + "
                 "\\beta_\\mu\\gamma^{(x0)}$, for the correct contraction (dark bars) "
                 "and for the notebook's contraction of the mixed components (light "
                 "bars), versus the direction $\\mu$. Left: the part of $\\alpha_\\mu$ "
-                "proportional to $a_4'$, in units of $a_4'$ (the parts with "
-                "$b_4'/b_4$ are left out); the correct values $+1/2$ for $x1, x2, x3$ "
-                "and $-1/2$ for $x5, x6, x7$ cancel, the notebook's $+1/2$ for $x5, x6, "
-                "x7$ add to $3/2$. "
-                "Right: $\\beta_\\mu$ in units of $H$; the correct six values $1/2$ add "
-                "to $3$, the notebook keeps only three of them, total $3/2$.")
+                "proportional to $a_4'$, in units of $a_4'$; middle: the part "
+                "proportional to $b_4'/b_4$, in units of $b_4'/b_4$; right: "
+                "$\\beta_\\mu$ in units of $He^{a_4}b_4^{-1/2}$. The correct totals are "
+                "$-1/2$, $1$ and $3/2$; the notebook keeps only the reversed time-time "
+                "parts of the three extra times, with the totals $3/2$, $-3/4$ and $0$: "
+                "it loses the whole term $\\gamma^{(x0)}$.")
     '''),
     md(r"""
     The next cell shows the two totals as pictures of 16 x 16 matrices at the sample
     point $H = 1$, $z = \pi/4$ with the values of the history of the record at
     $a_4 = 1/2$: $a_4' = 1$, $b_4 = e^{2/3}$, $b_4'/b_4 = 4/3$ (red positive, blue
     negative, white zero, one colour scale for both). Left: the correct
-    $\gamma^\mu\Omega_\mu = 3H\gamma^{(x0)} + H\gamma^{(x4)}$, the value 3 on two
-    diagonal lines (the identity blocks of $\gamma^{(x0)}$) and the pattern of
-    $\gamma^{(x4)}$ with entries $\pm1$. Right: the notebook's
-    $\frac{3H}{2}\gamma^{(x0)} + \frac{H}{2}\gamma^{(x4)}$: the same lines with the
-    value 1.5, plus the pattern of $\gamma^{(x4)}$ with entries $\pm0.5$.
+    $c_g\gamma^{(x0)} + v_g\gamma^{(x4)}$ with $c_g = \frac32e^{1/6} = 1.77$ on two
+    diagonal lines (the identity blocks of $\gamma^{(x0)}$) and $v_g = \frac56$ in the
+    pattern of $\gamma^{(x4)}$. Right: the notebook's $\frac12\gamma^{(x4)}$: the
+    pattern of $\gamma^{(x4)}$ with entries $\pm0.5$ and nothing on the diagonal lines.
     """),
     code(r'''
     SAMPLE = {H: 1, x0: sp.pi / 24}  # H = 1 and z = 6 H x0 = pi/4
-
-
-    B4_SAMPLE = sp.exp(sp.Rational(2, 3))  # b4 at a4 = 1/2 on the history, unit b4(0)
+    B4_SAMPLE = sp.exp(sp.Rational(2, 3))  # b4 at a4 = 1/2 on the history, b4(0) = 1
 
 
     def at_sample(expr):
         """The decimal value of expr at H = 1, z = pi/4 with the values of the history at
-        a4 = 1/2: a4' = 1, b4 = e^(2/3), b4' = (4/3) b4 (derivatives first)."""
+        a4 = 1/2: a4' = 1, b4 = e^(2/3), b4' = (4/3) b4 (derivatives first), with the
+        explicit warp factor |sin z|^(1/6)."""
         expr = sp.sympify(expr).subs({a4p: 1, b4p: sp.Rational(4, 3) * B4_SAMPLE})
         expr = expr.subs({a4: sp.Rational(1, 2), b4: B4_SAMPLE})
+        expr = expr.subs(W(x0), sp.Abs(sp.sin(z)) ** sp.Rational(1, 6))
         return float(sp.N(expr.subs(SAMPLE)))
 
 
@@ -923,7 +950,7 @@ CELLS = [
     for ax, (title, matrix) in zip(axes, (
             ("correct: $\\gamma^\\mu\\Omega_\\mu$", slash),
             ("notebook: $\\gamma^\\mu\\Omega^{nb}_\\mu$", slash_nb))):
-        image = ax.imshow(sample_table(matrix), cmap="RdBu_r", vmin=-3.2, vmax=3.2)
+        image = ax.imshow(sample_table(matrix), cmap="RdBu_r", vmin=-2.0, vmax=2.0)
         ax.set_title(title)
         ax.set_xticks([])
         ax.set_yticks([])
@@ -934,13 +961,13 @@ CELLS = [
                 "point $H = 1$, $z = \\pi/4$, $a_4 = 1/2$, $a_4' = 1$, $b_4 = e^{2/3}$, "
                 "$b_4'/b_4 = 4/3$ (the history of the Revision record; rows "
                 "and columns are the spinor components; red positive, blue negative, "
-                "white zero; colour scale from $-3.2$ to $3.2$). Left: the correct value "
-                "$3H\\gamma^{(x0)} + H\\gamma^{(x4)}$, the number 3 on two diagonal "
-                "lines and the pattern of $\\gamma^{(x4)}$ with entries $\\pm 1$. "
-                "Right: what the notebook's contraction of the mixed components would "
-                "give, $\\frac{3H}{2}\\gamma^{(x0)} + \\frac{H}{2}\\gamma^{(x4)}$: the "
-                "same lines with half the value, and the pattern of $\\gamma^{(x4)}$ "
-                "with entries $\\pm 0.5$.")
+                "white zero; colour scale from $-2$ to $2$). Left: the correct value "
+                "$c_g\\gamma^{(x0)} + v_g\\gamma^{(x4)}$, the number $c_g = 1.77$ on "
+                "two diagonal lines and the pattern of $\\gamma^{(x4)}$ with entries "
+                "$\\pm 5/6$. Right: what the notebook's contraction of the mixed "
+                "components would give, $\\frac12\\gamma^{(x4)}$: the pattern of "
+                "$\\gamma^{(x4)}$ with entries $\\pm 0.5$, and nothing on the two "
+                "diagonal lines.")
     '''),
     md(r"""
     ## 10. The gammas are no longer covariantly constant
@@ -987,8 +1014,8 @@ CELLS = [
     report("nonzero entries of these 16 x 16 matrices", entries)
     say("violated pairs: " + ", ".join(f"({NAMES[m]},{NAMES[n]})"
                                        for m, n in sorted(violation)))
-    check(len(violation) == 15 and entries == 288,
-          "notebook: D^nb_mu gamma^nu is not zero in 15 of 64 pairs (288 entries)")
+    check(len(violation) == 17 and entries == 320,
+          "notebook: D^nb_mu gamma^nu is not zero in 17 of 64 pairs (320 entries)")
     failures = [(mu, a) for mu in range(8) for a in range(8) if not matrix_is_zero(
         Omega_nb[mu] * gamma[a] - gamma[a] * Omega_nb[mu]
         + sum((mixed[mu][a][b] * gamma[b] for b in range(8)), Z16))]
@@ -1029,12 +1056,14 @@ CELLS = [
                 "(rows) and the upper index $\\nu$ (columns), the largest absolute "
                 "entry of the 16 x 16 matrix $D^{nb}_\\mu\\gamma^\\nu$ at the sample "
                 "point $H = 1$, $z = \\pi/4$, $a_4 = 1/2$, $a_4' = 1$, $b_4 = e^{2/3}$, "
-                "$b_4'/b_4 = 4/3$ (pure numbers; white is zero). Exactly 15 of the 64 "
-                "pairs are nonzero, all in the rows of the six warped directions; with "
-                "the correct spinor connection all 64 matrices vanish exactly.")
+                "$b_4'/b_4 = 4/3$ (pure numbers; white is zero). Exactly 17 of the 64 "
+                "pairs are nonzero: in each row $\\mu \\neq x4$ the diagonal square and "
+                "the column of the time, and in the rows of the extra times also the "
+                "column of the hidden direction; with the correct spinor connection "
+                "all 64 matrices vanish exactly.")
     '''),
     md(r"""
-    ## 11. Why only the value $3H$ is right: the half-density term
+    ## 11. Why only the correct value is right: the half-density term
 
     Two facts of the Revision record single out the correct value.
 
@@ -1044,88 +1073,106 @@ CELLS = [
     a quantity built from the metric and the vielbein alone. The cell checks that it
     equals the correct value and not the notebook's.
 
-    **The hidden-direction operator.** For fields that depend on $x_0$ only, the
-    derivative part of the field equation along $x0$ is the operator $A_c q =
-    \tan z\,\partial_{x0}q + c\,q$, where $c$ is the coefficient of $\gamma^{(x0)}$ in
-    $\gamma^\mu\Omega_\mu$. The volume weight is $\sqrt{|g|} = b_4^{3/2}\cos z$; along
-    the hidden direction the factor $b_4^{3/2}$ is a constant, which multiplies both
-    sides below and is left out, so the weight is $\cos z$ (the record's formula is
-    written with this weight). Compute, with the product rule and
-    $\partial_{x0}\sin z = 6H\cos z$:
+    **The hidden-direction operator.** For fields that depend on $x_0$ only, the part
+    of the Dirac operator along $x0$ is $\gamma^{(x0)}\big(\frac{1}{f_0}\partial_{x0} +
+    \beta\big)$, where $\beta$ is the coefficient of $\gamma^{(x0)}$ in
+    $\gamma^\mu\Omega_\mu$. Taking out the factor $1/f_0 = e^{a_4}b_4^{-1/2}\tan z$
+    leaves the operator $A_cq = \partial_{x0}q + c\cot z\,q$ with $c = s_b\beta$:
+    $c = \frac32H$ for the correct $\beta = c_g$, and $c = 0$ for the notebook's
+    $\beta = 0$. The volume weight is $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|W^3$; with the
+    factor $1/f_0$ taken into it, it becomes $\sqrt{|g|}/|f_0| = b_4^{3/2}W^3$, and
+    along the hidden direction $b_4^{3/2}$ is a constant, which is left out, so the
+    weight is $W^3 = (\sin^2 z)^{1/4}$ (the record's formula is written with this
+    weight). Compute, with the product rule and $\partial_{x0}W^3 = 3H\cot z\,W^3$:
 
-    $$\partial_{x0}(\sin z\,p\,q) = 6H\cos z\,p\,q + \sin z\,(p'q + p\,q') ,$$
+    $$\partial_{x0}(W^3p\,q) = 3H\cot z\,W^3p\,q + W^3(p'q + p\,q') ,$$
 
-    $$\cos z\,\big(p\,A_cq + (A_cp)\,q\big) = \sin z\,(p\,q' + p'q) + 2c\cos z\,p\,q$$
+    $$W^3\big(p\,A_cq + (A_cp)\,q\big) = W^3(p\,q' + p'q) + 2c\cot z\,W^3p\,q .$$
 
-    (using $\cos z\tan z = \sin z$). Subtracting,
+    Subtracting,
 
-    $$\cos z\,\big(p\,A_cq + (A_cp)\,q\big) - \partial_{x0}(\sin z\,p\,q) =
-    (2c - 6H)\cos z\,p\,q .$$
+    $$W^3\big(p\,A_cq + (A_cp)\,q\big) - \partial_{x0}(W^3p\,q) =
+    (2c - 3H)\cot z\,W^3p\,q .$$
 
-    For $c = 3H$ the right side vanishes: integrated over $x_0$, $\int\cos z\,p\,A_cq
-    = -\int\cos z\,(A_cp)\,q$ plus a boundary term, so $A_{3H}$ is antisymmetric for
-    the weight $\cos z$; this is the record's formula `hidden_direction_hermiticity`,
-    and it is what makes the operator of the quantum theory Hermitian (up to boundary
-    conditions). For the notebook's $c = \frac{3H}{2}$ the term $-3H\cos z\,p\,q$
-    remains: no boundary term can absorb it. The next cell checks all of this exactly
-    for two arbitrary functions $p(x_0)$, $q(x_0)$.
+    For $c = \frac32H$ the right side vanishes: integrated over $x_0$, $\int W^3p\,A_cq
+    = -\int W^3(A_cp)\,q$ plus the boundary term $[W^3p\,q]$, so $A_{3H/2}$ is
+    antisymmetric for the weight $W^3$; this is the record's formula
+    `hidden_direction_hermiticity`. The record adds that the boundary term vanishes at
+    the tips ($\sin z = 0$, where $W = 0$) and not at the fold ($\cos z = 0$, where
+    $W = 1$), so the antisymmetry needs a boundary condition at the fold. For the
+    notebook's $c = 0$ the term $-3H\cot z\,W^3p\,q$ remains inside the integral: no
+    boundary term can absorb it. The next cell checks all of this exactly for two
+    arbitrary functions $p(x_0)$, $q(x_0)$.
     """),
     code(r'''
-    sqrt_g = b4 ** sp.Rational(3, 2) * sp.cos(z)  # sqrt|det g| of the author's metric
+    sqrt_g = sp.prod(f)  # f_0 ... f_7; the constant sign of cot z cancels below
     divergence = sum(((sqrt_g * gup[mu]).diff(x[mu]) for mu in range(8)), Z16) / (2 * sqrt_g)
     check(matrix_is_zero(divergence - slash) and not matrix_is_zero(divergence - slash_nb),
           "the divergence form equals the correct contraction, not the notebook's",
           record=f"{REPORT_WL}, check gammaOmega_divergence_form")
+    c_correct = sp.simplify(s_b * sum(t[1] for t in correct_terms))  # c = s_b beta
+    c_notebook = sp.simplify(s_b * sum(t[1] for t in notebook_terms))
+    report("c of the correct contraction", c_correct)
+    report("c of the notebook's contraction", c_notebook)
     p = sp.Function("p")(x0)  # two arbitrary functions of x0
     q = sp.Function("q")(x0)
-    c = sp.Symbol("c", real=True)  # the coefficient of gamma^(x0)
+    c = sp.Symbol("c", real=True)  # the coefficient in the operator A_c
 
 
     def A(u):
-        """The hidden-direction operator A_c u = tan z du/dx0 + c u."""
-        return sp.tan(z) * u.diff(x0) + c * u
+        """The hidden-direction operator A_c u = du/dx0 + c cot z u."""
+        return u.diff(x0) + c * sp.cot(z) * u
 
 
-    leftover = sp.cos(z) * (p * A(q) + A(p) * q) - sp.diff(sp.sin(z) * p * q, x0)
-    check(is_zero(leftover - (2 * c - 6 * H) * sp.cos(z) * p * q),
-          "cos z (p A_c q + (A_c p) q) - d0(sin z p q) = (2c - 6H) cos z p q")
+    weight = W(x0) ** 3  # (sin^2 z)^(1/4)
+    leftover = weight * (p * A(q) + A(p) * q) - sp.diff(weight * p * q, x0)
+    check(is_zero(leftover - (2 * c - 3 * H) * sp.cot(z) * weight * p * q),
+          "W^3 (p A_c q + (A_c p) q) - d0(W^3 p q) = (2c - 3H) cot z W^3 p q")
     record_text = FORMULAS["hidden_direction_hermiticity"]
-    check(is_zero(leftover.subs(c, 3 * H)) and "Tan[z] d0 + 3 H" in record_text
-          and "= d0 (Sin[z] p q)" in record_text,
-          "c = 3H: A_c is antisymmetric for the weight cos z up to d0(sin z p q)",
+    check(is_zero(c_correct - 3 * H / 2) and is_zero(leftover.subs(c, c_correct))
+          and "(d0 + (3/2) H Cot[z])" in record_text
+          and "= d0 ((Sin[z]^2)^(1/4) p q)" in record_text
+          and record_passed(REPORT_WL, "good_sector_hermiticity_curved"),
+          "c = 3H/2: A_c is antisymmetric for the weight (sin^2 z)^(1/4) up to "
+          "d0(W^3 p q)",
           record=f"{THEORY_FILE}, formula hidden_direction_hermiticity")
-    check(is_zero(leftover.subs(c, 3 * H / 2) + 3 * H * sp.cos(z) * p * q),
-          "c = 3H/2 (notebook): the leftover -3 H cos z p q remains")
+    check(c_notebook == 0
+          and is_zero(leftover.subs(c, c_notebook) + 3 * H * sp.cot(z) * weight * p * q),
+          "c = 0 (notebook): the leftover -3 H cot z (sin^2 z)^(1/4) p q remains")
     '''),
     md(r"""
-    The next cell draws the leftover coefficient $(2c/H - 6)\cos z$ (the factor in
-    front of $H\,p\,q$) versus the hidden angle $z$ for three values of $c$: the
-    correct $c = 3H$ (zero for every $z$), the notebook's $c = \frac32 H$, and $c = 0$
-    (no spin-connection term at all).
+    The next cell draws the leftover coefficient $(2c/H - 3)\cot z\,(\sin^2 z)^{1/4}$
+    (the factor in front of $H\,p\,q$) versus the hidden angle $z$ across one cell for
+    three values of $c$: the correct $c = \frac32H$ (zero for every $z$), half of it,
+    and the notebook's $c = 0$ (which is the same as no spin-connection term at all).
     """),
     code(r'''
-    zz = np.linspace(0.0, np.pi / 2, 300)  # the hidden angle z from 0 to pi/2
+    zz = np.linspace(0.05, np.pi - 0.05, 400)  # one cell, without its ends
     fig, ax = plt.subplots(figsize=(7.0, 4.2))
     ax.axhline(0.0, color="gray", linewidth=0.6, zorder=1)  # the zero line, underneath
-    for value, style, width, label in ((3.0, "-", 2.5, "correct $c = 3H$"),
-                                       (1.5, "--", 1.5, "notebook $c = 3H/2$"),
-                                       (0.0, ":", 1.5, "no connection term, $c = 0$")):
-        ax.plot(zz, (2 * value - 6) * np.cos(zz), style, linewidth=width, label=label,
-                zorder=3)  # drawn above the zero line
-    ax.set_xlabel("hidden angle $z = 6Hx_0$ (radians)")
-    ax.set_ylabel("leftover coefficient $(2c/H - 6)\\cos z$")
-    ax.set_title("Only $c = 3H$ makes the hidden operator antisymmetric")
+    ax.axvline(np.pi / 2, color="gray", linewidth=0.6, zorder=1)  # the fold
+    for value, style, width, label in ((1.5, "-", 2.5, "correct $c = 3H/2$"),
+                                       (0.75, "--", 1.5, "half of it, $c = 3H/4$"),
+                                       (0.0, ":", 1.5, "notebook $c = 0$")):
+        ax.plot(zz, (2 * value - 3) * np.abs(np.sin(zz)) ** 0.5 / np.tan(zz), style,
+                linewidth=width, label=label, zorder=3)  # drawn above the zero line
+    ax.set_ylim(-8.0, 8.0)
+    ax.set_xlabel("hidden angle $z = 6Hx_0$ (radians), fold at $\\pi/2$")
+    ax.set_ylabel("leftover coefficient $(2c/H - 3)\\cot z\\,(\\sin^2 z)^{1/4}$")
+    ax.set_title("Only $c = 3H/2$ makes the hidden operator antisymmetric")
     ax.legend(fontsize=8)
     save_figure(fig, "hermiticity_defect",
                 "The term that spoils the antisymmetry of the hidden-direction operator "
-                "$A_c = \\tan z\\,\\partial_{x0} + c$ for the volume weight $\\cos z$: "
-                "the coefficient $(2c/H - 6)\\cos z$ of $H\\,p\\,q$ in $\\cos "
-                "z\\,(p\\,A_c q + (A_c p)\\,q) - \\partial_{x0}(\\sin z\\,p\\,q)$, a pure "
-                "number, versus the hidden angle $z$ in radians, for the correct value "
-                "$c = 3H$ of the spin-connection term (solid, zero everywhere), for the "
-                "notebook's value $c = 3H/2$ (dashed) and for no spin-connection term, "
-                "$c = 0$ (dotted). Only the correct value leaves nothing but a boundary "
-                "term; the solid line lies on the zero line.")
+                "$A_c = \\partial_{x0} + c\\cot z$ for the volume weight "
+                "$(\\sin^2 z)^{1/4}$: the coefficient $(2c/H - 3)\\cot z\\,"
+                "(\\sin^2 z)^{1/4}$ of $H\\,p\\,q$ in $(\\sin^2 z)^{1/4}(p\\,A_c q + "
+                "(A_c p)\\,q) - \\partial_{x0}((\\sin^2 z)^{1/4}p\\,q)$, a pure number, "
+                "versus the hidden angle $z$ in radians across one cell (vertical line: "
+                "the fold), for the correct value $c = 3H/2$ of the spin-connection "
+                "term (solid, zero everywhere), for half of it (dashed) and for the "
+                "notebook's value $c = 0$, which is the same as no spin-connection term "
+                "(dotted). Only the correct value leaves nothing but a boundary term; "
+                "the solid line lies on the zero line.")
     '''),
     md(r"""
     ## 12. The last checks
@@ -1139,7 +1186,7 @@ CELLS = [
     cited = {
         REPORT_PY: ["clifford_relations", "gammas_real", "vielbein_postulate",
                     "spin_connection_antisymmetric", "covariant_constancy_D_mu_gamma_nu",
-                    "gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term",
+                    "gamma_mu_Omega_mu_equals_hidden_block_terms",
                     "divergence_of_sqrtg_gamma"],
         REPORT_WL: ["omega_components", "S_rotates_gamma_with_omega",
                     "gamma_covariantly_constant", "gammaOmega_total",
@@ -1168,22 +1215,23 @@ CELLS = [
       mistake cannot show up there; in the Milne wedge, a flat plane with one time, the
       frame is boosted along $\theta$ and the notebook's contraction deletes the whole
       connection $\Omega_\theta = -\frac12\gamma^0\gamma^1$ (PROVED).
-    - For the author's metric the correct spin connection reproduces the records
-      (`omega_nonzero`, $\gamma^\mu\Omega_\mu = 3H\gamma^{(x0)} +
-      \frac34(b_4'/b_4)\gamma^{(x4)}$, $D_\mu\gamma^\nu = 0$), while the notebook's
-      contraction would give $\gamma^\mu\Omega^{nb}_\mu = \frac{3H}{2}\gamma^{(x0)} +
-      \frac32(a_4' - \frac{b_4'}{2b_4})\gamma^{(x4)}$ (on the history of the record:
-      $\frac{3H}{2}\gamma^{(x0)} + \frac{H}{2}\gamma^{(x4)}$ instead of
-      $3H\gamma^{(x0)} + H\gamma^{(x4)}$) and would break the
-      covariant constancy of the gammas in 15 of the 64 pairs $(\mu, \nu)$, with 288
-      nonzero entries (COMPUTED exactly here; not a Revision result).
-    - Only the correct value $3H$ equals the divergence form
+    - For the corrected metric the correct spin connection reproduces the records
+      (`omega_nonzero`, $\gamma^\mu\Omega_\mu = c_g\gamma^{(x0)} + v_g\gamma^{(x4)}$,
+      $D_\mu\gamma^\nu = 0$). Its 10 components contain no space-space pair, so the
+      notebook's contraction keeps none of them, reverses 3 and deletes 7: it would
+      give $\gamma^\mu\Omega^{nb}_\mu = \frac32(a_4' - \frac{b_4'}{2b_4})\gamma^{(x4)}$
+      with no $\gamma^{(x0)}$ term (on the history of the record:
+      $\frac{H}{2}\gamma^{(x4)}$ instead of $\frac32He^{Hx_4/3}\gamma^{(x0)} +
+      \frac56H\gamma^{(x4)}$), and it would break the covariant constancy of the gammas
+      in 17 of the 64 pairs $(\mu, \nu)$, with 320 nonzero entries (COMPUTED exactly
+      here; not a Revision result).
+    - Only the correct value equals the divergence form
       $\frac{1}{2\sqrt{|g|}}\partial_\mu(\sqrt{|g|}\gamma^\mu)$ and makes the
-      hidden-direction operator $\tan z\,\partial_{x0} + 3H$ antisymmetric for the
-      volume weight $\cos z$ (times the constant $b_4^{3/2}$ along $x0$) up to the
-      boundary term $\partial_{x0}(\sin z\,p\,q)$
-      (reproduces the record's formula `hidden_direction_hermiticity`); the
-      notebook's value leaves the term $-3H\cos z\,p\,q$.
+      hidden-direction operator $\partial_{x0} + \frac32H\cot z$ antisymmetric for the
+      weight $(\sin^2 z)^{1/4}$ (times the constant $b_4^{3/2}$ along $x0$) up to the
+      boundary term $\partial_{x0}((\sin^2 z)^{1/4}p\,q)$ (reproduces the record's
+      formula `hidden_direction_hermiticity`); the notebook's value leaves the term
+      $-3H\cot z\,(\sin^2 z)^{1/4}p\,q$.
     - This is why the Revision record, and this book, use the lowered components
       $\omega_{\mu ab} = \eta_{aa}\,\omega_\mu{}^a{}_b$ in the spinor connection.
     """),

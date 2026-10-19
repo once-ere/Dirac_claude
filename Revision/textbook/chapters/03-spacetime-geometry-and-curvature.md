@@ -2634,7 +2634,7 @@ $$
 R^a{}_{bab} = \partial_a\Gamma^a{}_{bb} - \partial_b\Gamma^a{}_{ba} + \sum_e\bigl(\Gamma^a{}_{ae}\Gamma^e{}_{bb} - \Gamma^a{}_{be}\Gamma^e{}_{ba}\bigr)
 $$
 
-(the formula of Section 3.17 with $c = a$ and $d = b$). The 28 coordinate planes fall into six kinds. We compute each kind once, with general labels, so that the computation holds for every plane of that kind; $c$ stands for any of the four block directions $x_0, x_5, x_6, x_7$. Two facts from the list of Section 3.23 are used again and again: a derivative $\partial_i$ or $\partial_j$ of anything is zero (nothing depends on $x_1, x_2, x_3, x_5, x_6, x_7$), and in the list $\Gamma^{x_4}{}_{cc} = \eta_{cc}\,\alpha_t\,h_c^2$ for every block direction.
+(the formula of Section 3.17 with $c = a$ and $d = b$). The 28 coordinate planes fall into five kinds. We compute each kind once, with general labels, so that the computation holds for every plane of that kind; $c$ stands for any of the four block directions $x_0, x_5, x_6, x_7$. Two facts from the list of Section 3.23 are used again and again: a derivative $\partial_i$ or $\partial_j$ of anything is zero (nothing depends on $x_1, x_2, x_3, x_5, x_6, x_7$), and in the list $\Gamma^{x_4}{}_{cc} = \eta_{cc}\,\alpha_t\,h_c^2$ for every block direction.
 
 (1) Two different 3-space directions $i$ and $i'$ (3 planes):
 

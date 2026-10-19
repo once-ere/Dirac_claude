@@ -11,12 +11,12 @@ file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/06a_spin_connection.py
 
-Physics source (the Revision record): Revision/theory (field-theory.json, the record
-of the author's metric with b4(x4), and its reports), Revision/kohn_sham
-(parameters.json, the history) and Revision/lead_checks
-(emt-divergence-and-spin-connection.json).  The author's coordinates x0..x7:
-x0 the hidden direction (z = 6 H x0), x1, x2, x3 3-space (inflating), x4 the time,
-x5, x6, x7 the three extra times (deflating exponentially).
+Physics source (the Revision record): the corrected metric of 2026-10-16 (version 2,
+Revision/SPEC.md section 1); Revision/theory (field-theory.json and its reports),
+Revision/kohn_sham/results/parameters.json (the history) and Revision/lead_checks
+(emt-divergence-and-spin-connection.json).  The author's coordinates x0..x7: x0 the
+hidden, space-like direction (z = 6 H x0 takes every real value), x1, x2, x3 3-space
+(inflating), x4 the time, x5, x6, x7 the three extra times (deflating exponentially).
 """
 
 import sys
@@ -32,7 +32,7 @@ FIGURES = [
     "omega_heat_maps",
     "spinor_connection_heat_maps",
     "gamma_omega_per_direction",
-    "gamma_omega_cancellation",
+    "gamma_omega_sum",
     "divergence_form",
     "derivative_coefficients",
     "negative_control",
@@ -43,38 +43,41 @@ FACTS = {
     "name": "06a_spin_connection",
     "title": "Vielbein, spin connection and the term gamma^mu Omega_mu of the field equation",
     "purpose": (
-        "Starting from the author's metric with the functions a4(x4) and b4(x4) and the "
-        "author's real 16 x 16 gamma matrices, it computes exactly, with sympy, the "
-        "diagonal vielbein, the Christoffel symbols, the canonical spin connection, the "
-        "spinor connection Omega_mu, the covariant derivative of a spinor and the term "
-        "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) of the field "
-        "equation; it shows that the a4' terms of the three inflating and the three "
-        "deflating directions cancel while a b4' term remains (on the history of the "
-        "Revision record H gamma^(x4)), checks the results against the Revision records, "
-        "repeats the computation for a negative control with inflating extra times, "
-        "works a two-dimensional warm-up (the polar plane), and draws ten teaching plots."
+        "Starting from the corrected metric of the author's primordial field (version 2 "
+        "of 2026-10-16) with the functions a4(x4) and b4(x4), for every real z = 6 H x0, "
+        "and from the author's real 16 x 16 gamma matrices, it computes exactly, with "
+        "sympy, the diagonal vielbein, the Christoffel symbols, the canonical spin "
+        "connection, the spinor connection Omega_mu, the covariant derivative of a "
+        "spinor and the term gamma^mu Omega_mu = (3/2) H e^(a4) b4^(-1/2) gamma^(x0) + "
+        "(b4'/b4 - a4'/2) gamma^(x4) of the field equation; it shows which directions "
+        "make each part (the hidden direction and the three extra times share one rate, "
+        "3-space has another, and only the three extra times feel the hidden "
+        "coordinate), checks the results against the Revision records, repeats the "
+        "computation for a negative control whose hidden block grows instead of "
+        "deflating, works a two-dimensional warm-up (the polar plane), and draws ten "
+        "teaching plots."
     ),
     "records": [
         ["Revision/algebra/gammas.json",
          "the author's eight real 16 x 16 gamma matrices in the order x0 to x7 (input)"],
         ["Revision/theory/field-theory.json",
-         "the exact formulas of the field theory for the author's metric with b4(x4): "
-         "metric, vielbein, volume factor, Christoffel symbols, spin connection, "
-         "gamma^mu Omega_mu per direction and in total, the 16 component field equations "
+         "the exact formulas of the field theory for the corrected metric: metric, "
+         "vielbein, volume factor, Christoffel symbols, spin connection, gamma^mu "
+         "Omega_mu per direction and in total, the 16 component field equations "
          "(reproduced)"],
         ["Revision/kohn_sham/results/parameters.json",
-         "the history of the Revision record: the slope A and the exponent beta of b4 "
-         "(physics.historyA, physics.historyBeta)"],
+         "the history of the Revision record: the slope A, the exponent beta of b4 and "
+         "b4(0) (physics.historyA, physics.historyBeta, physics.historyB4AtZero)"],
         ["Revision/theory/reports/python-field-theory.json",
          "the sympy checks of the geometry, of the spin connection, of gamma^mu Omega_mu "
-         "and of the square of the gravity term with b4"],
+         "and of the square of the gravity term in the corrected metric"],
         ["Revision/theory/reports/wolfram-field-theory.json",
          "the WolframScript checks of the geometry, the spin connection and the Dirac "
-         "operator with b4"],
+         "operator in the corrected metric"],
         ["Revision/lead_checks/reports/emt-divergence-and-spin-connection.json",
-         "the lead's independent checks of gamma^mu Omega_mu = 3 H gamma^(x0) + "
-         "(3/4)(b4'/b4) gamma^(x4), of its divergence form and of the negative control "
-         "with inflating extra times (reproduced)"],
+         "the lead's independent checks of the vielbein, of gamma^mu Omega_mu, of its "
+         "divergence form and of the negative control with a growing hidden block "
+         "(reproduced)"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
@@ -87,7 +90,7 @@ FACTS = {
     ),
     "final_lines": [
         "PASS all ten figure files exist",
-        "ALL 37 CHECKS PASSED (notebook 06a)",
+        "ALL 40 CHECKS PASSED (notebook 06a)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" for Revision/algebra/gammas.json or for a report",
@@ -109,38 +112,40 @@ CELLS = [
     dirac16complex and dirac16complex00) does not see the metric directly. It sees it
     through a **vielbein** (a set of eight perpendicular unit directions at every point)
     and through the **spin connection** (the rate at which these directions turn from
-    point to point). This notebook computes both, exactly, for the author's primordial
-    metric with its two functions $a_4(x_4)$ and $b_4(x_4)$, and the one combination
-    that enters the field equation,
+    point to point). This notebook computes both, exactly, for the corrected metric of
+    the author's primordial field (version 2 of 2026-10-16) with its two functions
+    $a_4(x_4)$ and $b_4(x_4)$, and the one combination that enters the field equation,
 
-    $$\gamma^\mu \Omega_\mu = 3 H \gamma^{(x0)} + \tfrac34\,\frac{b_4'}{b_4}\,
-    \gamma^{(x4)} ,$$
+    $$\gamma^\mu \Omega_\mu = c_g\,\gamma^{(x0)} + v_g\,\gamma^{(x4)}, \qquad
+    c_g = \tfrac32 H e^{a_4} b_4^{-1/2}, \qquad v_g = \frac{b_4'}{b_4} -
+    \frac{a_4'}{2},$$
 
-    which is $3H\gamma^{(x0)} + H\gamma^{(x4)}$ on the history of the Revision record
-    ($a_4 = Hx_4$, $b_4 = b_4(0)\,e^{4Hx_4/3}$, so $b_4'/b_4 = \frac43 H$). It
+    which is $\frac32 H e^{Hx_4/3}\gamma^{(x0)} + \frac56 H\gamma^{(x4)}$ on the history
+    of the Revision record ($a_4 = Hx_4$, $b_4 = e^{4Hx_4/3}$). It
 
     - starts with a warm-up in two dimensions (the flat plane in polar coordinates),
       where every step can be followed by hand;
-    - builds the diagonal vielbein of the author's metric and checks that it gives the
-      metric back;
-    - computes the 25 independent nonzero Christoffel symbols, the canonical spin
-      connection $\omega_{\mu ab}$ (12 independent nonzero components) and the spinor
+    - builds the diagonal vielbein of the corrected metric, for every real value of
+      the hidden coordinate $z = 6Hx_0$, and checks that it gives the metric back;
+    - computes the 21 independent nonzero Christoffel symbols, the canonical spin
+      connection $\omega_{\mu ab}$ (10 independent nonzero components) and the spinor
       connection $\Omega_\mu$ (16 x 16 matrices built from the author's gammas);
     - checks the vielbein postulate (512 equations), the antisymmetry of $\omega$ and
       the covariant constancy of the gammas (64 matrix equations);
-    - computes $\gamma^\mu\Omega_\mu$ direction by direction and shows that the
-      $a_4'$ terms along the time $x4$ cancel between the three inflating directions
-      $x1, x2, x3$ and the three deflating extra times $x5, x6, x7$, that the extra
-      times leave the term $\frac34(b_4'/b_4)\gamma^{(x4)}$, and that the six terms
-      along the hidden direction $x0$ add up to $3H\gamma^{(x0)}$;
-    - explains why the function $a_4(x_4)$ drops out and $b_4(x_4)$ does not (the
-      divergence form);
+    - computes $\gamma^\mu\Omega_\mu$ direction by direction: the hidden direction
+      $x0$ and the three extra times $x5, x6, x7$ share one rate $h_4 = b_4'/(2b_4)
+      - a_4'$, 3-space has the rate $a_4'$, and these do NOT cancel: four shrinking
+      directions against three growing ones leave $v_g$; the three extra times, whose
+      lengths depend on $x_0$, add up to the term $c_g\gamma^{(x0)}$;
+    - explains both terms with the divergence form: $v_g$ is half the rate at which
+      the 7-volume of a slice changes, $c_g$ comes from the warp of the extra times;
     - writes the covariant derivative and the Dirac operator out in full and compares
       all 16 component equations with the Revision record;
-    - shows when the term vanishes for a nonzero field: only where
-      $|b_4'/b_4| = 4H$, never on the history of the record;
-    - repeats the computation for a NEGATIVE CONTROL, a metric whose extra times
-      inflate instead of deflating: there a term $3 a_4' \gamma^{(x4)}$ survives;
+    - shows when the term vanishes for a nonzero field: only where $c_g = \pm v_g$
+      (on the history at one single time);
+    - repeats the computation for a NEGATIVE CONTROL, a metric whose hidden block
+      grows like 3-space instead of shrinking: the coefficient of $a_4'$ changes from
+      $-\frac12$ to $+\frac72$;
     - draws ten teaching plots.
 
     Every result that the Revision record also contains is compared with the record,
@@ -150,10 +155,17 @@ CELLS = [
     ## 3. The words used in this notebook
 
     - **Coordinates** $x0, \dots, x7$: the eight numbers that name a point, with the
-      author's names: $x0$ the **hidden direction**; $x1, x2, x3$ ordinary 3-space;
-      $x4$ the time; $x5, x6, x7$ the three **extra times**. In Python lists they
-      have the positions 0 to 7 (Python counts from 0) in the same order, so `x[0]`
-      is $x0$ and `x[4]` is $x4$.
+      author's names: $x0$ the **hidden direction** (space-like); $x1, x2, x3$
+      ordinary 3-space; $x4$ the time; $x5, x6, x7$ the three **extra times**. In
+      Python lists they have the positions 0 to 7 (Python counts from 0) in the same
+      order, so `x[0]` is $x0$ and `x[4]` is $x4$.
+    - $z = 6Hx_0$: the hidden coordinate in angle form; it takes every real value.
+      **Degenerate points**: the values with $\sin z \cos z = 0$, where an entry of
+      the metric vanishes or grows without bound; nothing is computed there. **Fold**:
+      the points $\cos z = 0$ ($z = \pi/2$ and its copies), where the two **halves**
+      $0 < z < \pi/2$ and $\pi/2 < z < \pi$ of a **cell** $0 < z < \pi$ meet.
+    - **Warp factor** $W = (\sin^2 z)^{1/12}$: the positive twelfth root of
+      $\sin^2 z$; the extra-time lengths carry it.
     - **Metric** $g_{\mu\nu}$: the rule that turns small coordinate steps into squared
       lengths, $ds^2 = \sum_\mu g_{\mu\mu} (dx^\mu)^2$ for the author's (diagonal)
       metric. A positive $g_{\mu\mu}$ makes direction $\mu$ **space-like**, a negative
@@ -168,6 +180,9 @@ CELLS = [
       **frame index**) numbers the eight directions; $\mu$ (a **coordinate index**)
       numbers the coordinates. Its **inverse** $e_a{}^\mu$ satisfies
       $\sum_\mu e^a{}_\mu e_b{}^\mu = \delta^a_b$ (1 if $a = b$, else 0).
+    - **Hidden scale** $s_b = e^{-a_4} b_4^{1/2}$: the factor that the hidden
+      direction and the three extra times share; its rate is $h_4 = \partial_{x4}
+      \ln s_b = b_4'/(2b_4) - a_4'$.
     - **Christoffel symbols** $\Gamma^\lambda{}_{\mu\nu}$: the numbers that say how the
       coordinate directions change from point to point; computed from the first
       derivatives of the metric.
@@ -201,27 +216,37 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    **The author's metric.** With $z = 6 H x_0$ in the interval $(0, \pi/2)$, a positive
+    **The corrected metric.** With $z = 6 H x_0$ (every real value), a positive
     constant $H$ and two functions of the time, $a_4(x_4)$ and $b_4(x_4) > 0$,
 
-    $$g = \mathrm{diag}\big(\cot^2 z,\ e^{2a_4}\sin^{1/3}z,\ e^{2a_4}\sin^{1/3}z,\
-    e^{2a_4}\sin^{1/3}z,\ -1,\ -e^{-2a_4}b_4\sin^{1/3}z,\ -e^{-2a_4}b_4\sin^{1/3}z,\
-    -e^{-2a_4}b_4\sin^{1/3}z\big)$$
+    $$g = \mathrm{diag}\big(e^{-2a_4}b_4\cot^2 z,\ e^{2a_4},\ e^{2a_4},\ e^{2a_4},\ -1,\
+    -e^{-2a_4}b_4 W^2,\ -e^{-2a_4}b_4 W^2,\ -e^{-2a_4}b_4 W^2\big)$$
 
-    in the order $x0, \dots, x7$. When $a_4$ grows, lengths along $x1, x2, x3$ grow
-    like $e^{a_4}$ (3-space **inflates**) and lengths along the extra times
-    $x5, x6, x7$ shrink like $e^{-a_4}b_4^{1/2}$ (the extra times **deflate
-    exponentially** while $a_4$ grows faster than $\ln b_4^{1/2}$); $b_4$ multiplies the
-    squared lengths of the extra times. On the history of the Revision record, $a_4 =
-    AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$ and $\beta = 4/3$, the
-    extra times shrink like $e^{-a_4/3}$ (Chapter 3; $b_4(0)$ is the unit of $b_4$);
-    every result below holds for every $a_4$ and $b_4$.
+    in the order $x0, \dots, x7$, with the warp factor $W = (\sin^2 z)^{1/12}$, so that
+    $W^2 = (\sin^2 z)^{1/6}$. When $a_4$ grows, lengths along $x1, x2, x3$ grow like
+    $e^{a_4}$ (3-space **inflates**, with no dependence on $x_0$); lengths along the
+    extra times $x5, x6, x7$ and along the hidden direction $x0$ change together with
+    the hidden scale $s_b = e^{-a_4}b_4^{1/2}$ (they **deflate exponentially** while
+    $a_4$ grows faster than $\ln b_4^{1/2}$). On the history of the Revision record,
+    $a_4 = AHx_4$ and $b_4 = b_4(0)\,e^{\beta AHx_4}$ with $A = 1$, $\beta = 4/3$ and
+    $b_4(0) = 1$, the hidden scale is $s_b = e^{-a_4/3}$ (a prescribed background, not a
+    solution of field equations); every result below holds for every $a_4$ and $b_4$.
 
     **The diagonal vielbein.** Because $g$ is diagonal, the vielbein can be chosen
-    diagonal: $e^a{}_\mu = f_a\,\delta^a_\mu$ with $f_a = \sqrt{|g_{aa}|}$:
+    diagonal: $e^a{}_\mu = f_a\,\delta^a_\mu$ with $\eta_{aa} f_a^2 = g_{aa}$:
 
-    $$f = \big(\cot z,\ e^{a_4}s,\ e^{a_4}s,\ e^{a_4}s,\ 1,\ e^{-a_4}b_4^{1/2}s,\
-    e^{-a_4}b_4^{1/2}s,\ e^{-a_4}b_4^{1/2}s\big), \qquad s = \sin^{1/6} z .$$
+    $$f = \big(s_b\cot z,\ e^{a_4},\ e^{a_4},\ e^{a_4},\ 1,\ s_b W,\ s_b W,\ s_b W\big),
+    \qquad s_b = e^{-a_4} b_4^{1/2} .$$
+
+    The hidden factor keeps the sign of $\cot z$ (it is negative on the second half of
+    a cell), as in the Revision record; $f_0^2$ is all the metric needs.
+
+    **Every real $z$ at once.** The only property of $W$ that the computation needs is
+    its derivative, $\partial_{x0} W = H\cot z\,W$ wherever $\sin z \neq 0$ (the
+    logarithm $\ln W = \frac{1}{12}\ln\sin^2 z$ has the derivative $\frac{1}{12}
+    \cdot\frac{2\sin z\cos z}{\sin^2 z}\cdot 6H = H\cot z$). The notebook teaches sympy
+    this one rule, so that every result holds for every real $z$ with
+    $\sin z\cos z \neq 0$, with no case for the sign of $\sin z$.
 
     **The formulas used** (the standard ones of general relativity with spinors):
 
@@ -241,14 +266,16 @@ CELLS = [
     covariant derivative. The notebook checks this equation in all 512 components.
 
     **What is PROVED here (exact, sympy) and what it means.** In the diagonal vielbein,
-    $\gamma^\mu\Omega_\mu = 3H\gamma^{(x0)} + \frac34(b_4'/b_4)\gamma^{(x4)}$ for every
-    $H > 0$ and all functions $a_4(x_4)$ and $b_4(x_4) > 0$; on the history of the
-    record it is $3H\gamma^{(x0)} + H\gamma^{(x4)}$. This term appears in the field
-    equation $\gamma^\mu D_\mu\Psi = (m + U'(S))\Psi$ of both fields. Its value
-    belongs to the diagonal vielbein: the next notebook of this chapter (06b) shows that
-    in another vielbein of the same metric the contraction changes, and even vanishes,
-    and that a rescaling of the field removes it. What no choice can remove is the
-    curvature of the metric.
+    $\gamma^\mu\Omega_\mu = c_g\gamma^{(x0)} + v_g\gamma^{(x4)}$ for every $H > 0$,
+    all functions $a_4(x_4)$ and $b_4(x_4) > 0$ and every real $z$ away from the
+    degenerate points. This term appears in the field equation $\gamma^\mu D_\mu\Psi =
+    (m + U'(S))\Psi$ of both fields. Its value belongs to the diagonal vielbein and to
+    the field variable: the next notebook of this chapter (06b) shows that in a boosted
+    vielbein its $c_g$ part vanishes while its $v_g$ part stays, and that a rescaling
+    of the field removes all of it. What no choice can remove is the curvature of the
+    metric, wherever the metric is curved (the corrected metric is curved on the
+    history of the record and flat for the special member $a_4 = 0$,
+    $b_4 = H^2x_4^2$).
     """),
     md(r"""
     ## 5. The tools: sympy and the author's gamma matrices
@@ -316,11 +343,13 @@ CELLS = [
     - `matrix_is_zero(M)` applies `is_zero` to every entry of a matrix.
     - `record_passed(path, name)` opens a Revision report (a JSON file) and returns
       True when the report records the check `name` as passed.
-    - `record_formula(key, names, formulas)` reads a formula of a record, written in
-      the notation of the Wolfram Language, and turns it into a sympy expression with
-      sympy's reader `parse_mathematica`. The record read is
-      `Revision/theory/field-theory.json`, written for the author's metric with
-      $b_4(x_4)$.
+    - `record_formula(key, names)` reads a formula of a record, written in the notation
+      of the Wolfram Language, and turns it into a sympy expression with sympy's reader
+      `parse_mathematica`. The record read is `Revision/theory/field-theory.json`,
+      written for the corrected metric. The record writes the roots of $\sin^2 z$ as
+      `(Sin[6*H*x0]^2)^(1/12)` and in two other ways; the reader turns each of them
+      into a power of one name, `warp`, which stands for $W$, and stops with an error
+      if any other root is left, so that nothing is read wrongly in silence.
     """),
     code(r'''
     from sympy.parsing.mathematica import parse_mathematica  # reads Wolfram notation
@@ -357,21 +386,27 @@ CELLS = [
         return {item["key"]: item["wl"] for item in data["formulas"]}
 
 
-    THEORY_FILE = "Revision/theory/field-theory.json"  # the record, with b4(x4)
+    THEORY_FILE = "Revision/theory/field-theory.json"  # the record, corrected metric
     FORMULAS = read_formulas(THEORY_FILE)
+    # The roots of sin^2 z as the record writes them, and the same root as a power of
+    # warp = W = (sin^2 z)^(1/12):  |sin z|^(1/3) = (sin^2 z)^(1/6) = W^2.
+    ROOTS = (("(Sin[6*H*x0]^2)^(1/12)", "warp"), ("(Sin[6*H*x0]^2)^(1/6)", "warp^2"),
+             ("(Sin[6*H*x0]^2)^(1/4)", "warp^3"), ("Abs[Sin[6*H*x0]]^(1/3)", "warp^2"))
 
 
     def wolfram_to_sympy(text, names):
         """A text in Wolfram notation as a sympy expression.  names maps the record's
         symbol names (texts) to the symbols and functions of this notebook."""
-        # The record writes a4', a4'', a4(x4) and the same for b4 as Derivative[1][a4][x4],
-        # Derivative[2][a4][x4], a4[x4], ...; give them short names before reading.
-        for long_form, short_form in (("Derivative[1][a4][x4]", "a4p"),
-                                      ("Derivative[2][a4][x4]", "a4pp"),
-                                      ("Derivative[1][b4][x4]", "b4p"),
-                                      ("Derivative[2][b4][x4]", "b4pp"),
-                                      ("a4[x4]", "a4"), ("b4[x4]", "b4")):
+        # The roots first, then a4', a4'', a4(x4) and the same for b4, which the record
+        # writes as Derivative[1][a4][x4], Derivative[2][a4][x4], a4[x4], ...
+        for long_form, short_form in ROOTS + (("Derivative[1][a4][x4]", "a4p"),
+                                              ("Derivative[2][a4][x4]", "a4pp"),
+                                              ("Derivative[1][b4][x4]", "b4p"),
+                                              ("Derivative[2][b4][x4]", "b4pp"),
+                                              ("a4[x4]", "a4"), ("b4[x4]", "b4")):
             text = text.replace(long_form, short_form)
+        if "Sin[6*H*x0]^2" in text or "Abs[" in text:  # a root that was not translated
+            raise ValueError(f"cannot translate {text}")
         expr = parse_mathematica(text)
         return expr.subs({sp.Symbol(name): value for name, value in names.items()},
                          simultaneous=True)
@@ -388,13 +423,15 @@ CELLS = [
     PARAMETERS = "Revision/kohn_sham/results/parameters.json"
     physics = json.loads(repository_file(PARAMETERS).read_text(encoding="utf-8"))["physics"]
     A_value, beta = physics["historyA"], physics["historyBeta"]  # the record's history
+    b4_zero = physics["historyB4AtZero"]  # the value b4(0)
     A_EXACT, BETA = sp.nsimplify(A_value), sp.nsimplify(beta)  # 1 and 4/3 as fractions
+    B4_ZERO = sp.nsimplify(b4_zero)  # b4(0) = 1 as an exact number
     say(f"{len(FORMULAS)} formulas read from {THEORY_FILE}")
-    say(f"history of the record: slope A = {A_value}, beta = {beta:.6f} "
-        "(a4 = A H x4, b4 = b4(0) e^(beta A H x4))")
-    check(A_EXACT == 1 and BETA == sp.Rational(4, 3),
-          "the history of the record has the slope A = 1 and the exponent beta = 4/3",
-          record=f"{PARAMETERS}, physics.historyA and physics.historyBeta")
+    say(f"history of the record: slope A = {A_value}, beta = {beta:.6f}, b4(0) = "
+        f"{b4_zero} (a4 = A H x4, b4 = b4(0) e^(beta A H x4))")
+    check(A_EXACT == 1 and BETA == sp.Rational(4, 3) and B4_ZERO == 1,
+          "the history of the record has A = 1, beta = 4/3 and b4(0) = 1",
+          record=f"{PARAMETERS}, physics.historyA, historyBeta and historyB4AtZero")
     '''),
     md(r"""
     ## 6. Four general formulas as Python functions
@@ -612,19 +649,26 @@ CELLS = [
                 "rotation is $-1$, and only at $4\\pi$ is it $+1$ again.")
     '''),
     md(r"""
-    ## 8. The author's metric and its diagonal vielbein
+    ## 8. The corrected metric and its diagonal vielbein
 
-    The next cell makes the symbols of the author's metric: the coordinates $x0, \dots,
-    x7$ (real), the constant $H > 0$, the two functions $a_4(x_4)$ and $b_4(x_4) > 0$
+    The next cell makes the symbols of the metric: the coordinates $x0, \dots, x7$
+    (real), the constant $H > 0$, the two functions $a_4(x_4)$ and $b_4(x_4) > 0$
     (unknown functions: every result below holds for EVERY $a_4$ and $b_4$), and
-    $z = 6Hx_0$. It writes the eight factors $f_a$ of the diagonal vielbein and checks
-    three things: that $\eta_{aa} f_a^2 = g_{aa}$ reproduces the author's metric with
-    $b_4$ as recorded in `Revision/theory/field-theory.json` (formula `metric`); that the
-    factors are the record's `vielbein_diagonal`; and that $\sqrt{|\det g|} = f_0 f_1
-    \cdots f_7 = b_4^{3/2}\cos z$ (formula `sqrt_det_g`). The last fact has a meaning:
-    the factors $e^{3a_4}$ of the inflating 3-space and $e^{-3a_4}$ of the deflating
-    extra times cancel in the volume, so the 7-volume of a slice changes with the time
-    $x4$ only through $b_4^{3/2}$ (on the history of the record like $e^{2a_4}$).
+    $z = 6Hx_0$. The warp factor is a sympy **function class** `W` with one rule of its
+    own: the method `fdiff` tells sympy that the derivative of `W(x0)` is
+    `H*cot(6*H*x0)*W(x0)`, and the method `_eval_is_positive` that $W > 0$. The symbol
+    `G` is the sign of $\cot z$ ($+1$ on the first half of a cell, $-1$ on the second);
+    it appears only in $\sqrt{|\det g|} = G f_0 f_1\cdots f_7$. The cell first checks
+    the rule of `W` against the explicit function $(\sin^2 z)^{1/12}$, whose derivative
+    sympy computes itself. Then it writes the eight factors $f_a$ of the diagonal
+    vielbein and checks three things: that $\eta_{aa} f_a^2 = g_{aa}$ reproduces the
+    corrected metric as recorded in `Revision/theory/field-theory.json` (formula
+    `metric`); that the factors are the record's `vielbein_diagonal`; and that
+    $\sqrt{|\det g|} = G f_0 f_1\cdots f_7 = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$
+    (formula `sqrt_det_g`). The last fact has a meaning: 3-space gives $e^{3a_4}$, the
+    four directions of the hidden block give $e^{-4a_4}b_4^2$, so the 7-volume of a
+    slice changes with the time like $e^{-a_4}b_4^2$ (on the history of the record like
+    $e^{5a_4/3}$).
     """),
     code(r'''
     x = sp.symbols("x0:8", real=True)  # x[0] = x0, ..., x[4] = x4, ..., x[7] = x7
@@ -632,107 +676,137 @@ CELLS = [
     H = sp.Symbol("H", positive=True)  # the author's constant H > 0
     a4 = sp.Function("a4")(x4)  # the metric function a4(x4): any function of the time
     b4 = sp.Function("b4", positive=True)(x4)  # the metric function b4(x4) > 0
-    z = 6 * H * x0  # the hidden angle z = 6 H x0, between 0 and pi/2
-    s = sp.sin(z) ** sp.Rational(1, 6)  # sin^(1/6) z
-    f = ([sp.cot(z)] + [sp.exp(a4) * s] * 3 + [sp.Integer(1)]
-         + [sp.exp(-a4) * sp.sqrt(b4) * s] * 3)  # f_0, ..., f_7
+    z = 6 * H * x0  # the hidden coordinate z = 6 H x0, every real value
+
+
+    class W(sp.Function):
+        """The warp factor W(x0) = (sin(6 H x0)^2)^(1/12) > 0 of the extra times."""
+
+        def fdiff(self, argindex=1):
+            """dW/dx0 = H cot(6 H x0) W, for every real z = 6 H x0 with sin z != 0."""
+            return H * sp.cot(6 * H * self.args[0]) * self
+
+        def _eval_is_positive(self):
+            return True  # the positive root
+
+
+    G = sp.Symbol("G", real=True)  # the sign of cot z (+1 or -1): |cot z| = G cot z
+    explicit = (sp.sin(z) ** 2) ** sp.Rational(1, 12)  # the twelfth root, written out
+    check(is_zero(sp.diff(explicit, x0) - H * sp.cot(z) * explicit),
+          "the derivative of (sin^2 z)^(1/12) is H cot z (sin^2 z)^(1/12): the rule of W")
+    s_b = sp.exp(-a4) * sp.sqrt(b4)  # the hidden scale e^(-a4) b4^(1/2)
+    f = ([s_b * sp.cot(z)] + [sp.exp(a4)] * 3 + [sp.Integer(1)]
+         + [s_b * W(x0)] * 3)  # f_0, ..., f_7
     g = sp.diag(*[ETA[a] * f[a] ** 2 for a in range(8)])  # g_aa = eta_aa f_a^2
     e = sp.diag(*f)  # the diagonal vielbein e^a_mu = f_a delta^a_mu
     # The names under which the records write symbols, and our symbols for them:
-    RECORD_NAMES = {"H": H, "x4": x4, "x0": x0, "a4": a4, "b4": b4,
-                    "a4p": sp.Derivative(a4, x4), "a4pp": sp.Derivative(a4, (x4, 2)),
-                    "b4p": sp.Derivative(b4, x4), "b4pp": sp.Derivative(b4, (x4, 2))}
+    RECORD_NAMES = {"H": H, "x4": x4, "x0": x0, "a4": a4, "b4": b4, "warp": W(x0),
+                    "rftSig": G, "a4p": sp.Derivative(a4, x4),
+                    "a4pp": sp.Derivative(a4, (x4, 2)), "b4p": sp.Derivative(b4, x4),
+                    "b4pp": sp.Derivative(b4, (x4, 2))}
     metric_record = sp.Matrix([list(row) for row in record_formula("metric", RECORD_NAMES)])
     check(matrix_is_zero(g - metric_record)
-          and record_passed(REPORT_WL, "metric_is_the_authors")
+          and record_passed(REPORT_WL, "metric_is_the_corrected_metric")
           and record_passed(REPORT_PY, "metric_from_vielbein_equals_SPEC"),
-          "eta_aa f_a^2 is the author's metric with b4 (all 64 entries)",
+          "eta_aa f_a^2 is the corrected metric (all 64 entries)",
           record=f"{THEORY_FILE}, formula metric")
     f_record = record_formula("vielbein_diagonal", RECORD_NAMES)
     check(all(is_zero(f[a] - f_record[a]) for a in range(8))
           and record_passed(REPORT_LEAD, "vielbein_reproduces_metric"),
           "the eight vielbein factors of the record",
           record=f"{THEORY_FILE}, formula vielbein_diagonal")
-    volume = sp.simplify(sp.prod(f))  # f_0 f_1 ... f_7
+    volume = sp.simplify(sp.prod(f))  # f_0 f_1 ... f_7, with the sign of cot z
     say(f"f_0 f_1 ... f_7 = {volume}")
     volume_record = record_formula("sqrt_det_g", RECORD_NAMES)
-    check(is_zero(volume - b4 ** sp.Rational(3, 2) * sp.cos(z))
-          and is_zero(volume - volume_record) and is_zero(volume**2 - g.det())
+    check(is_zero(G * volume - volume_record) and is_zero(volume**2 - g.det())
           and record_passed(REPORT_WL, "sqrt_det_g")
-          and record_passed(REPORT_PY, "sqrt_det_g_equals_b4_cos_z"),
-          "sqrt|det g| = f_0 f_1 ... f_7 = b4^(3/2) cos z",
+          and record_passed(REPORT_PY, "sqrt_det_g"),
+          "sqrt|det g| = G f_0 f_1 ... f_7 = e^(-a4) b4^2 |cot z| (sin^2 z)^(1/4)",
           record=f"{THEORY_FILE}, formula sqrt_det_g")
     '''),
     md(r"""
-    The next cell draws the eight vielbein factors. The left panel shows how they
-    depend on the time $x4$ at the fixed hidden angle $z = \pi/4$, on the history of
-    the record, $a_4 = x_4$ and $b_4 = e^{\beta x_4}$ with $\beta = 4/3$ in units in
-    which $H = 1$ and $b_4(0) = 1$ (an illustration only: the results of this notebook
-    hold for every $a_4$ and $b_4$). On a logarithmic vertical axis the exponential
-    factors are straight lines: the 3-space factor $e^{a_4}s$ rises, the extra-time
-    factor $e^{-a_4}b_4^{1/2}s = e^{-x_4/3}s$ falls at one third of that rate, and their
-    product $b_4^{1/2}s^2$ rises like $e^{2x_4/3}$. The right panel shows the
-    dependence on $z$: the factor $s = \sin^{1/6} z$ of the six warped directions, the
-    hidden-direction factor $\cot z$ and the volume factor $\sqrt{|\det g|}/b_4^{3/2} =
-    \cos z$.
+    The next cell draws the vielbein factors. The left panel shows how they depend on
+    the time $x4$ at the fixed hidden angle $z = \pi/4$, on the history of the record,
+    $a_4 = x_4$ and $b_4 = e^{\beta x_4}$ with $\beta = 4/3$ in units in which $H = 1$
+    (an illustration only: the results of this notebook hold for every $a_4$ and
+    $b_4$). On a logarithmic vertical axis the exponential factors are straight lines:
+    the 3-space factor $e^{a_4}$ rises; the hidden factor $s_b\cot z = e^{-x_4/3}$ and
+    the extra-time factor $s_b W = e^{-x_4/3}W$ fall at one third of that rate, side by
+    side; and the volume factor $\sqrt{|\det g|} = e^{-a_4}b_4^2|\cot z|W^3$ rises like
+    $e^{5x_4/3}$. To draw a function numerically the cell replaces `W(x0)` by the
+    explicit $|\sin z|^{1/6}$ (the same number). The right panel shows the dependence
+    on $z$ across one cell $0 < z < \pi$: the warp factor $W$, the hidden factor
+    $|\cot z|$ (divided by $s_b$) and the volume factor divided by $e^{-a_4}b_4^2$, both
+    of which vanish at the fold $z = \pi/2$.
     """),
     code(r'''
     X4_SYMBOL = sp.Symbol("t", real=True)  # the time x4 as a plain symbol for numbers
     history = {a4: A_EXACT * X4_SYMBOL,  # the record's history with H = 1, b4(0) = 1
-               b4: sp.exp(BETA * A_EXACT * X4_SYMBOL)}
-    f_of_time = sp.lambdify(X4_SYMBOL, [fa.subs(history).subs({H: 1, x0: sp.pi / 24})
-                                        for fa in f])  # z = 6 x0 = pi/4
+               b4: B4_ZERO * sp.exp(BETA * A_EXACT * X4_SYMBOL)}
+
+
+    def explicit_warp(expr):
+        """expr with W(x0) replaced by the explicit |sin z|^(1/6) (for numbers)."""
+        return sp.sympify(expr).subs(W(x0), sp.Abs(sp.sin(z)) ** sp.Rational(1, 6))
+
+
+    # the eight factors and the volume factor (positive at z = pi/4) at z = 6 x0 = pi/4
+    f_of_time = sp.lambdify(X4_SYMBOL, [explicit_warp(fa.subs(history)).subs(
+        {H: 1, x0: sp.pi / 24}) for fa in f + [volume]])
     times = np.linspace(-2.0, 2.0, 201)
     values = [np.broadcast_to(v, times.shape) for v in f_of_time(times)]
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10.0, 4.4))
-    ax_left.semilogy(times, values[1], label="$f_1 = f_2 = f_3 = e^{a_4}s$ (3-space)")
-    ax_left.semilogy(times, values[5], "--",
-                     label="$f_5 = f_6 = f_7 = e^{-a_4}b_4^{1/2}s$ (extra times)")
+    ax_left.semilogy(times, values[1], label="$f_1 = f_2 = f_3 = e^{a_4}$ (3-space)")
+    ax_left.semilogy(times, values[0], "--", label="$f_0 = s_b\\cot z$ (hidden)")
+    ax_left.semilogy(times, values[5], "-.",
+                     label="$f_5 = f_6 = f_7 = s_bW$ (extra times)")
     ax_left.semilogy(times, values[4], ":", color="black", label="$f_4 = 1$ (time)")
-    ax_left.semilogy(times, values[1] * values[5], "-.", color="gray",
-                     label="product $f_1 f_5 = b_4^{1/2}s^2$")
+    ax_left.semilogy(times, values[8], color="gray", linewidth=2.5, alpha=0.6,
+                     label="$\\sqrt{|\\det g|}$ (7-volume factor)")
     ax_left.set_xlabel("time $x_4$ (units $1/H$), history $a_4 = x_4$, "
                        "$b_4 = e^{4x_4/3}$")
-    ax_left.set_ylabel("vielbein factor (logarithmic axis)")
-    ax_left.set_title("Inflating 3-space, deflating extra times")
-    ax_left.legend(fontsize=8)
-    zz = np.linspace(0.02, np.pi / 2 - 0.02, 300)  # z inside (0, pi/2)
-    ax_right.plot(zz, np.sin(zz) ** (1 / 6), label="$s = \\sin^{1/6} z$")
-    ax_right.plot(zz, 1 / np.tan(zz), "--", label="$f_0 = \\cot z$ (hidden)")
-    ax_right.plot(zz, np.cos(zz), ":", color="black",
-                  label="$\\sqrt{|\\det g|}/b_4^{3/2} = \\cos z$")
+    ax_left.set_ylabel("factor at $z = \\pi/4$ (logarithmic axis)")
+    ax_left.set_title("Inflating 3-space, deflating hidden block")
+    ax_left.legend(fontsize=7)
+    zz = np.linspace(0.02, np.pi - 0.02, 400)  # z inside one cell (0, pi)
+    ax_right.plot(zz, np.abs(np.sin(zz)) ** (1 / 6), label="$W = (\\sin^2 z)^{1/12}$")
+    ax_right.plot(zz, np.abs(1 / np.tan(zz)), "--", label="$|f_0|/s_b = |\\cot z|$")
+    ax_right.plot(zz, np.abs(1 / np.tan(zz)) * np.abs(np.sin(zz)) ** 0.5, ":",
+                  color="black", label="$\\sqrt{|\\det g|}/(e^{-a_4}b_4^2)$")
+    ax_right.axvline(np.pi / 2, color="gray", linewidth=0.8)  # the fold
     ax_right.set_ylim(0.0, 3.0)
-    ax_right.set_xlabel("hidden angle $z = 6 H x_0$ (radians)")
+    ax_right.set_xlabel("hidden angle $z = 6 H x_0$ (radians), fold at $\\pi/2$")
     ax_right.set_ylabel("factor (pure number)")
     ax_right.set_title("Dependence on the hidden direction")
-    ax_right.legend(fontsize=8)
+    ax_right.legend(fontsize=8, loc="upper center")
     save_figure(fig, "vielbein_factors",
-                "The eight factors $f_a$ of the diagonal vielbein. Left: versus the time "
-                "$x_4$ in units $1/H$ at $z = \\pi/4$, on the history of the Revision "
-                "record $a_4 = x_4$, $b_4 = b_4(0)\\,e^{4x_4/3}$ (unit $b_4(0)$), on a "
-                "logarithmic axis; the 3-space factor $e^{a_4}s$ grows, the extra-time "
-                "factor $e^{-a_4}b_4^{1/2}s = e^{-x_4/3}s$ shrinks at one third of that "
-                "exponential rate, their product $b_4^{1/2}s^2$ grows like $e^{2x_4/3}$, "
-                "and the time factor is $1$. Right: versus the hidden angle $z = 6Hx_0$ "
-                "in radians; $s = \\sin^{1/6}z$, the hidden factor $\\cot z$, which falls "
-                "from very large values to $0$, and the volume factor divided by "
-                "$b_4^{3/2}$, $\\cos z$: $\\sqrt{|\\det g|} = b_4^{3/2}\\cos z$ depends on "
-                "the time only through $b_4$.")
+                "The factors $f_a$ of the diagonal vielbein of the corrected metric. "
+                "Left: versus the time $x_4$ in units $1/H$ at $z = \\pi/4$, on the "
+                "history of the Revision record $a_4 = x_4$, $b_4 = e^{4x_4/3}$, on a "
+                "logarithmic axis; the 3-space factor $e^{a_4}$ grows, the hidden factor "
+                "$s_b\\cot z = e^{-x_4/3}$ and the extra-time factor $s_bW$ shrink side "
+                "by side at one third of that exponential rate, the time factor is "
+                "$1$, and the 7-volume factor $e^{-a_4}b_4^2|\\cot z|W^3$ grows like "
+                "$e^{5x_4/3}$. Right: versus the hidden angle $z = 6Hx_0$ in radians "
+                "across one cell; the warp factor $W = (\\sin^2 z)^{1/12}$, the hidden "
+                "factor $|\\cot z|$ and the volume factor divided by $e^{-a_4}b_4^2$, "
+                "which both vanish at the fold $z = \\pi/2$ (vertical line).")
     '''),
     md(r"""
-    ## 9. The Christoffel symbols of the author's metric
+    ## 9. The Christoffel symbols of the corrected metric
 
     The next cell computes all Christoffel symbols with the general function, counts
-    the independent nonzero ones (those with $m \le n$; the record counts 25) and
+    the independent nonzero ones (those with $m \le n$; the record counts 21) and
     compares each of them with the list `christoffel_nonzero` of the record. In this
     list an entry $\{l, m, n, \text{value}\}$ means $\Gamma^{l}{}_{mn} = $ value, with
     the directions numbered from 1 in the order $x0, \dots, x7$ (the number 1 is $x0$,
-    5 is $x4$); Python counts from 0, so 1 is subtracted. The cell prints five symbols.
-    One of them is $\Gamma^{x1}{}_{x1\,x4} = a_4'$: moving forward in time, a 3-space
-    direction grows at the rate $a_4'$; its partner $\Gamma^{x5}{}_{x4\,x5} = -a_4' +
-    b_4'/(2b_4)$ says that an extra-time direction shrinks at the rate $a_4'$ and is
-    stretched by a growing $b_4$ (on the history of the record the net rate is
-    $-a_4'/3$).
+    5 is $x4$); Python counts from 0, so 1 is subtracted. The cell prints seven
+    symbols. Three of them show the rates: $\Gamma^{x1}{}_{x1\,x4} = a_4'$ (moving
+    forward in time a 3-space direction grows at the rate $a_4'$), and
+    $\Gamma^{x5}{}_{x4\,x5} = \Gamma^{x0}{}_{x0\,x4} = -a_4' + b_4'/(2b_4) = h_4$ (an
+    extra time and the hidden direction change at the same rate $h_4$; on the history
+    of the record $h_4 = -a_4'/3$). One shows the warp: $\Gamma^{x5}{}_{x0\,x5} =
+    H\cot z$.
     """),
     code(r'''
     Gam = christoffel(g, x)
@@ -750,11 +824,12 @@ CELLS = [
     record_gamma = as_dictionary(record_formula("christoffel_nonzero", RECORD_NAMES))
     same = set(record_gamma) == set(independent) and all(
         is_zero(independent[key] - record_gamma[key]) for key in independent)
-    for key in [(1, 1, 4), (5, 4, 5), (1, 0, 1), (4, 5, 5), (0, 0, 0)]:
+    for key in [(1, 1, 4), (5, 4, 5), (0, 0, 4), (5, 0, 5), (4, 5, 5), (0, 5, 5),
+                (0, 0, 0)]:
         l, m, n = key
         say(f"Gamma^{NAMES[l]}_{NAMES[m]}{NAMES[n]} = {independent[key]}")
-    check(len(independent) == 25 and same and record_passed(REPORT_WL, "christoffel_count"),
-          "the 25 independent nonzero Christoffel symbols equal the record",
+    check(len(independent) == 21 and same and record_passed(REPORT_WL, "christoffel_count"),
+          "the 21 independent nonzero Christoffel symbols equal the record",
           record=f"{THEORY_FILE}, formula christoffel_nonzero")
     '''),
     md(r"""
@@ -762,14 +837,15 @@ CELLS = [
     8 x 8 grid for each upper index $l = x0, \dots, x7$; the square in row $m$ and
     column $n$ is coloured by the sign of $\Gamma^l{}_{mn}$ at the sample point
     $H = 1$, $z = \pi/4$, $a_4 = 1/2$, $a_4' = 1$, $b_4 = e^{2/3}$, $b_4'/b_4 = 4/3$
-    (the point $a_4 = 1/2$ of the history of the record, in the unit $b_4(0)$; red
-    positive, blue negative, white zero). The pattern shows the structure of the
-    metric: only the hidden direction $x0$ and the time $x4$ appear as the
-    "derivative" index, because the metric depends on $x_0$ and $x_4$ only.
+    (the point $a_4 = 1/2$ of the history of the record; red positive, blue negative,
+    white zero). The pattern shows the structure of the metric: only the hidden
+    direction $x0$ and the time $x4$ appear as the "derivative" index, because the
+    metric depends on $x_0$ and $x_4$ only; and the 3-space directions never pair with
+    $x0$, because 3-space has no warp.
     """),
     code(r'''
     SAMPLE = {H: 1, x0: sp.pi / 24}  # H = 1 and z = 6 H x0 = pi/4
-    B4_SAMPLE = sp.exp(sp.Rational(2, 3))  # b4 at a4 = 1/2 on the history, unit b4(0)
+    B4_SAMPLE = sp.exp(sp.Rational(2, 3))  # b4 at a4 = 1/2 on the history, b4(0) = 1
 
 
     def at_sample(expr):
@@ -782,7 +858,7 @@ CELLS = [
                                          (b4, rate**2 * B4_SAMPLE, rate * B4_SAMPLE)):
             expr = expr.subs(sp.Derivative(function, (x4, 2)), second)
             expr = expr.subs(sp.Derivative(function, x4), first)
-        expr = expr.subs({a4: sp.Rational(1, 2), b4: B4_SAMPLE})
+        expr = explicit_warp(expr.subs({a4: sp.Rational(1, 2), b4: B4_SAMPLE}))
         return complex(sp.N(expr.subs(SAMPLE)))
 
 
@@ -801,7 +877,7 @@ CELLS = [
                  "(red +, blue -, white 0)", fontsize=10)
     fig.tight_layout()
     save_figure(fig, "christoffel_pattern",
-                "Where the Christoffel symbols $\\Gamma^l{}_{mn}$ of the author's metric "
+                "Where the Christoffel symbols $\\Gamma^l{}_{mn}$ of the corrected metric "
                 "are nonzero: one 8 x 8 grid per upper index $l = x0, \\dots, x7$, rows "
                 "$m$ and columns $n$ numbered 0 to 7 for $x0$ to $x7$, each square "
                 "coloured by the sign of the symbol at the sample point $H = 1$, $z = "
@@ -809,7 +885,8 @@ CELLS = [
                 "(on the history of the Revision record; red "
                 "positive, blue negative, white zero). Every nonzero symbol has an index "
                 "equal to 0 or 4: the metric depends only on the hidden coordinate $x_0$ "
-                "and on the time $x_4$. The grids are symmetric because "
+                "and on the time $x_4$; the 3-space directions 1, 2, 3 meet only the "
+                "time. The grids are symmetric because "
                 "$\\Gamma^l{}_{mn} = \\Gamma^l{}_{nm}$.")
     '''),
     md(r"""
@@ -822,15 +899,16 @@ CELLS = [
        in all $8 \cdot 8 \cdot 8 = 512$ components (here $\omega_\mu{}^a{}_b =
        \eta_{aa}\omega_{\mu ab}$, because $\eta_{aa}^2 = 1$);
     2. the antisymmetry $\omega_{\mu ab} = -\omega_{\mu ba}$ (all 512 triples);
-    3. that exactly 12 components with $a < b$ are nonzero and equal the list
+    3. that exactly 10 components with $a < b$ are nonzero and equal the list
        `omega_nonzero` (entries $\{\mu, a, b, \text{value}\}$, numbered from 1 as for
        the Christoffel symbols) of the record;
-    4. that every nonzero component is a rate times a factor that never vanishes for
-       $0 < z < \pi/2$: the rate is $a_4'$ (3-space), $a_4' - b_4'/(2b_4)$ (the extra
-       times) or $H$ (the hidden direction), and the factor is $\pm e^{a_4}s$ or
-       $\pm e^{-a_4}b_4^{1/2}s$. So the part of the spin connection made by the time
-       dependence vanishes only if $a_4$ and $b_4$ are constant, and the part made by
-       the hidden direction never vanishes for $H > 0$.
+    4. that every nonzero component is a rate times a factor that never vanishes
+       between the degenerate points: the rate is $a_4'$ (3-space), $h_4 =
+       b_4'/(2b_4) - a_4'$ (the hidden direction and the extra times) or $H$ (the warp
+       of the extra times), and the factor is $e^{a_4}$, $s_b\cot z$, $s_bW$ or $W$.
+       So the part of the spin connection made by the time dependence vanishes only if
+       $a_4$ and $b_4$ are constant, and the part made by the hidden coordinate never
+       vanishes for $H > 0$.
     """),
     code(r'''
     omega = spin_connection(e, Gam, x, ETA)
@@ -850,64 +928,69 @@ CELLS = [
     for (mu, a, b), value in omega_nonzero.items():
         say(f"omega_{NAMES[mu]},{NAMES[a]}{NAMES[b]} = {value}")
     omega_record = as_dictionary(record_formula("omega_nonzero", RECORD_NAMES))
-    check(len(omega_nonzero) == 12 and set(omega_record) == set(omega_nonzero)
+    check(len(omega_nonzero) == 10 and set(omega_record) == set(omega_nonzero)
           and all(is_zero(omega_nonzero[k] - omega_record[k]) for k in omega_nonzero),
-          "the 12 independent nonzero omega_mu ab equal the record",
+          "the 10 independent nonzero omega_mu ab equal the record",
           record=f"{THEORY_FILE}, formula omega_nonzero")
     a4p, b4p = sp.Derivative(a4, x4), sp.Derivative(b4, x4)
-    rates = (a4p, a4p - b4p / (2 * b4), H)  # 3-space, the extra times, hidden direction
+    h4 = b4p / (2 * b4) - a4p  # the rate of the hidden scale s_b
+    rates = (a4p, h4, H)  # 3-space, the hidden block, the warp
     factors = [sign * phys for sign in (1, -1)
-               for phys in (sp.exp(a4) * s, sp.exp(-a4) * sp.sqrt(b4) * s)]
+               for phys in (sp.exp(a4), s_b * sp.cot(z), s_b * W(x0), W(x0))]
     # value / (rate * factor) must simplify to exactly 1 for one choice of each.
     shape_ok = all(any(sp.simplify(value / (rate * phys)) == 1 for rate in rates
                        for phys in factors) for value in omega_nonzero.values())
-    check(shape_ok and record_passed(REPORT_WL, "omega_components"),
-          "every nonzero omega is a4', a4' - b4'/(2 b4) or H times +-exp(a4) s or "
-          "+-exp(-a4) b4^(1/2) s",
+    check(shape_ok and record_passed(REPORT_WL, "omega_components")
+          and record_passed(REPORT_WL, "Omega_vanishes_iff_a4prime_b4prime_and_H_vanish"),
+          "every nonzero omega is a4', h4 or H times +-e^(a4), s_b cot z, s_b W or W",
           record=f"{REPORT_WL}, checks omega_components and "
                  "Omega_vanishes_iff_a4prime_b4prime_and_H_vanish")
     '''),
     md(r"""
-    The next cell draws two of the eight 8 x 8 arrays $\omega_{\mu ab}$ at the sample
-    point: for $\mu = x1$ (an inflating 3-space direction) and for $\mu = x5$ (a
-    deflating extra time). Each array is antisymmetric: the square $(a, b)$ has the
-    opposite colour of the square $(b, a)$, and the diagonal is white. For $\mu = x1$
-    the frame direction $x1$ turns towards the time $x4$ (rate $a_4' e^{a_4}s$) and
-    towards the hidden direction $x0$ (rate $H e^{a_4}s$); for $\mu = x5$ the signs are
-    reversed, because the extra times shrink while 3-space grows (at the sample point
-    $a_4' - b_4'/(2b_4) = 1 - 2/3 = 1/3$ is still positive).
+    The next cell draws three of the eight 8 x 8 arrays $\omega_{\mu ab}$ at the sample
+    point: for $\mu = x0$ (the hidden direction), $\mu = x1$ (an inflating 3-space
+    direction) and $\mu = x5$ (a deflating extra time). Each array is antisymmetric: the
+    square $(a, b)$ has the opposite colour of the square $(b, a)$, and the diagonal is
+    white. For $\mu = x0$ the hidden frame direction turns towards the time (rate
+    $h_4 s_b\cot z$, negative at the sample point, where $h_4 = 2/3 - 1 = -1/3$); for
+    $\mu = x1$ the frame direction $x1$ turns towards the time $x4$ (rate
+    $a_4'e^{a_4}$) and towards nothing else; for $\mu = x5$ the extra time turns towards
+    the time (rate $h_4 s_bW$) and towards the hidden direction (rate $HW$).
     """),
     code(r'''
-    fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.6))
-    for ax, mu in zip(axes, (1, 5)):  # the directions x1 and x5
+    fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.0))
+    for ax, mu in zip(axes, (0, 1, 5)):  # the directions x0, x1 and x5
         table = np.array([[at_sample(omega[mu][a][b]).real for b in range(8)]
                           for a in range(8)])
         limit = np.abs(table).max()
         image = ax.imshow(table, cmap="RdBu_r", vmin=-limit, vmax=limit)
         for a in range(8):
             for b in range(8):
-                if table[a, b] != 0:
+                if table[a, b] != 0:  # white digits on the dark squares
+                    dark = abs(table[a, b]) > 0.6 * limit
                     ax.text(b, a, f"{table[a, b]:.2f}", ha="center", va="center",
-                            fontsize=7)
-        ax.set_xticks(range(8), NAMES, fontsize=8)
-        ax.set_yticks(range(8), NAMES, fontsize=8)
+                            fontsize=6, color="white" if dark else "black")
+        ax.set_xticks(range(8), NAMES, fontsize=7)
+        ax.set_yticks(range(8), NAMES, fontsize=7)
         ax.set_xlabel("frame index $b$")
         ax.set_ylabel("frame index $a$")
         ax.set_title(f"$\\omega_{{x{mu}\\,ab}}$ at the sample point")
         ax.grid(False)
-        fig.colorbar(image, ax=ax, shrink=0.8)
+        fig.colorbar(image, ax=ax, shrink=0.75)
     fig.tight_layout()
     save_figure(fig, "omega_heat_maps",
                 "The canonical spin connection $\\omega_{\\mu ab}$ of the diagonal "
-                "vielbein as two heat maps, for $\\mu = x1$ (left, an inflating 3-space "
-                "direction) and $\\mu = x5$ (right, a deflating extra time), at the "
-                "sample point $H = 1$, $z = \\pi/4$, $a_4 = 1/2$, $a_4' = 1$, "
-                "$b_4 = e^{2/3}$, $b_4'/b_4 = 4/3$ (on the history); rows $a$ "
-                "and columns $b$ are the frame directions $x0$ to $x7$, the colour and "
-                "the printed number give the value (red positive, blue negative, white "
-                "zero). Each array is antisymmetric, and only the pairs with $x4$ or "
-                "$x0$ are nonzero; the extra time $x5$ has the opposite signs of the "
-                "3-space direction $x1$.")
+                "vielbein as three heat maps, for $\\mu = x0$ (left, the hidden "
+                "direction), $\\mu = x1$ (middle, an inflating 3-space direction) and "
+                "$\\mu = x5$ (right, a deflating extra time), at the sample point "
+                "$H = 1$, $z = \\pi/4$, $a_4 = 1/2$, $a_4' = 1$, $b_4 = e^{2/3}$, "
+                "$b_4'/b_4 = 4/3$ (on the history); rows $a$ and columns $b$ are the "
+                "frame directions $x0$ to $x7$, the colour and the printed number give "
+                "the value (red positive, blue negative, white zero). Each array is "
+                "antisymmetric, and only the pairs with $x4$ or $x0$ are nonzero; the "
+                "hidden direction and the extra time turn towards the time with the "
+                "same negative rate $h_4 = -1/3$, the 3-space direction with the "
+                "positive rate $a_4' = 1$.")
     '''),
     md(r"""
     ## 11. The spinor connection $\Omega_\mu$ and the covariant constancy of the gammas
@@ -915,12 +998,19 @@ CELLS = [
     The next cell builds the eight 16 x 16 matrices $\Omega_\mu$ and the curved gammas
     $\gamma^\mu = \gamma^a/f_a$ (no sum) and checks:
 
-    1. $\Omega_{x4} = \Omega_{x0} = 0$: no frame direction turns when one moves along
-       the time or along the hidden direction;
-    2. the defining property of the spinor connection, $[\Omega_\mu, \gamma^a] =
+    1. $\Omega_{x4} = 0$ (no frame direction turns when one moves along the time) and
+       $\Omega_{x0} \neq 0$ (moving along the hidden direction, the hidden frame
+       direction turns towards the time, because its length $s_b\cot z$ changes with
+       the time);
+    2. the closed forms of the record's formula `Omega_components`:
+       $\Omega_{x0} = \frac12 h_4 s_b\cot z\,\gamma^{(x0)}\gamma^{(x4)}$,
+       $\Omega_{xi} = \frac12 a_4' e^{a_4}\gamma^{(xi)}\gamma^{(x4)}$ ($i = 1, 2, 3$)
+       and $\Omega_{xt} = \frac12 W\big(h_4 s_b\gamma^{(x4)}\gamma^{(xt)} +
+       H\gamma^{(x0)}\gamma^{(xt)}\big)$ ($t = 5, 6, 7$);
+    3. the defining property of the spinor connection, $[\Omega_\mu, \gamma^a] =
        -\sum_b \omega_\mu{}^a{}_b \gamma^b$ for all 64 pairs $(\mu, a)$: commuting
        with $\Omega_\mu$ turns the gammas exactly as $\omega_\mu$ turns the frame;
-    3. the covariant constancy of the curved gammas, $D_\mu\gamma^\nu = \partial_\mu
+    4. the covariant constancy of the curved gammas, $D_\mu\gamma^\nu = \partial_\mu
        \gamma^\nu + \sum_\lambda\Gamma^\nu{}_{\mu\lambda}\gamma^\lambda + [\Omega_\mu,
        \gamma^\nu] = 0$ for all 64 pairs $(\mu, \nu)$, which is the vielbein postulate
        written with gammas.
@@ -928,8 +1018,17 @@ CELLS = [
     code(r'''
     Omega = spinor_connection(omega, S)  # eight 16 x 16 matrices
     gup = curved_gammas(e, gamma)  # gamma^mu = gamma^a / f_a for mu = a
-    check(Omega[0] == Z16 and Omega[4] == Z16, "Omega_x0 = Omega_x4 = 0 for every b4",
-          record=f"{REPORT_PY}, check Omega_x0_and_Omega_x4_vanish")
+    check(Omega[4] == Z16 and not matrix_is_zero(Omega[0]),
+          "Omega_x4 = 0 and Omega_x0 is not zero",
+          record=f"{REPORT_PY}, check Omega_x4_vanishes_Omega_x0_does_not")
+    closed = ([h4 * s_b * sp.cot(z) * gamma[0] * gamma[4] / 2]
+              + [a4p * sp.exp(a4) * gamma[i] * gamma[4] / 2 for i in (1, 2, 3)] + [Z16]
+              + [W(x0) * (h4 * s_b * gamma[4] * gamma[t] + H * gamma[0] * gamma[t]) / 2
+                 for t in (5, 6, 7)])  # the record's Omega_components, typed in
+    check(all(matrix_is_zero(Omega[mu] - closed[mu]) for mu in range(8))
+          and record_passed(REPORT_WL, "Omega_components"),
+          "the eight Omega_mu are the closed forms of the record",
+          record=f"{THEORY_FILE}, formula Omega_components")
     rotation_ok = all(matrix_is_zero(
         Omega[mu] * gamma[a] - gamma[a] * Omega[mu]
         + sum((ETA[a] * omega[mu][a][b] * gamma[b] for b in range(8)), Z16))
@@ -940,26 +1039,23 @@ CELLS = [
         gup[nu].diff(x[mu]) + sum((Gam[nu][mu][lam] * gup[lam] for lam in range(8)), Z16)
         + Omega[mu] * gup[nu] - gup[nu] * Omega[mu])
         for mu in range(8) for nu in range(8))
-    check(constancy_ok and record_passed(REPORT_WL, "gamma_covariantly_constant"),
+    check(constancy_ok and record_passed(REPORT_WL, "gamma_covariantly_constant")
+          and record_passed(REPORT_PY, "covariant_constancy_D_mu_gamma_nu"),
           "D_mu gamma^nu = 0 for all 64 pairs (mu, nu)",
           record=f"{REPORT_WL}, check gamma_covariantly_constant")
-    say(f"Omega_x1 has {sum(1 for v in Omega[1] if v != 0)} nonzero entries of 256")
+    say(f"Omega_x5 has {sum(1 for v in Omega[5] if v != 0)} nonzero entries of 256")
     '''),
     md(r"""
-    Each $\Omega_\mu$ is a combination of two of the matrices $S^{ab}$:
-    $\Omega_{x1} = e^{a_4}s\,(a_4' S^{x1\,x4} + H S^{x1\,x0})$ and $\Omega_{x5} =
-    -e^{-a_4}b_4^{1/2}s\,\big((a_4' - \frac{b_4'}{2b_4}) S^{x4\,x5} + H S^{x5\,x0}\big)$.
-    The author's gammas are real, the
-    four space-like ones are symmetric matrices and the four time-like ones are
-    antisymmetric. Because of this, $S^{ab} = \frac12\gamma^a\gamma^b$ ($a \ne b$)
-    is a SYMMETRIC matrix when one of $a, b$ is space-like and the other time-like
-    (a **boost**, 16 pairs), and an ANTISYMMETRIC matrix when both are of the same
-    kind (a **rotation**, 12 pairs). The next cell checks this for all 28 pairs and
-    then draws $\Omega_{x1}$ and $\Omega_{x5}$ as 16 x 16 heat maps at the sample
-    point. In $\Omega_{x1}$ the $a_4'$ part is a boost ($x1$ with the time $x4$,
-    symmetric) and the $H$ part a rotation ($x1$ with $x0$, antisymmetric); in
-    $\Omega_{x5}$ it is the other way round ($x4$ with $x5$ is a rotation of two
-    time-like directions, $x5$ with $x0$ a boost).
+    The author's gammas are real, the four space-like ones are symmetric matrices and
+    the four time-like ones are antisymmetric. Because of this, $S^{ab} =
+    \frac12\gamma^a\gamma^b$ ($a \ne b$) is a SYMMETRIC matrix when one of $a, b$ is
+    space-like and the other time-like (a **boost**, 16 pairs), and an ANTISYMMETRIC
+    matrix when both are of the same kind (a **rotation**, 12 pairs). The next cell
+    checks this for all 28 pairs and then draws $\Omega_{x0}$, $\Omega_{x1}$ and
+    $\Omega_{x5}$ as 16 x 16 heat maps at the sample point. $\Omega_{x0}$ is a pure
+    boost ($x0$ with the time $x4$) and so is $\Omega_{x1}$ ($x1$ with $x4$): both are
+    symmetric. $\Omega_{x5}$ is a rotation ($x4$ with $x5$, two time-like directions)
+    plus a boost ($x0$ with $x5$).
     """),
     code(r'''
     pattern_ok = True
@@ -970,8 +1066,8 @@ CELLS = [
             pattern_ok = pattern_ok and S[a][b].T == want
     check(pattern_ok, "S^ab is symmetric for the 16 boosts, antisymmetric for the 12 "
           "rotations")
-    fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.6))
-    for ax, mu in zip(axes, (1, 5)):  # the directions x1 and x5
+    fig, axes = plt.subplots(1, 3, figsize=(12.0, 3.9))
+    for ax, mu in zip(axes, (0, 1, 5)):  # the directions x0, x1 and x5
         table = np.array([[at_sample(v).real for v in row] for row in Omega[mu].tolist()])
         limit = np.abs(table).max()
         image = ax.imshow(table, cmap="RdBu_r", vmin=-limit, vmax=limit)
@@ -981,18 +1077,20 @@ CELLS = [
         ax.set_ylabel("row (spinor component)")
         ax.set_title(f"$\\Omega_{{x{mu}}}$ at the sample point")
         ax.grid(False)
-        fig.colorbar(image, ax=ax, shrink=0.8)
+        fig.colorbar(image, ax=ax, shrink=0.75)
     fig.tight_layout()
     save_figure(fig, "spinor_connection_heat_maps",
-                "The spinor connection $\\Omega_{x1}$ (left) and $\\Omega_{x5}$ (right) as "
-                "16 x 16 heat maps at the sample point $H = 1$, $z = \\pi/4$, $a_4 = 1/2$, "
-                "$a_4' = 1$, $b_4 = e^{2/3}$, $b_4'/b_4 = 4/3$; rows and columns are the 16 "
-                "spinor components, red is "
-                "positive, blue negative, white zero. Each matrix is a sum of two of the "
-                "generators $S^{ab}$: a boost, which is a symmetric matrix (entries "
-                "$(i, j)$ and $(j, i)$ of the same colour), and a rotation, which is "
-                "antisymmetric (opposite colours). Both matrices map the first eight "
-                "components to the first eight and the last eight to the last eight.")
+                "The spinor connection $\\Omega_{x0}$ (left), $\\Omega_{x1}$ (middle) "
+                "and $\\Omega_{x5}$ (right) as 16 x 16 heat maps at the sample point "
+                "$H = 1$, $z = \\pi/4$, $a_4 = 1/2$, $a_4' = 1$, $b_4 = e^{2/3}$, "
+                "$b_4'/b_4 = 4/3$; rows and columns are the 16 spinor components, red "
+                "is positive, blue negative, white zero, each panel with its own colour "
+                "scale. $\\Omega_{x0}$ and $\\Omega_{x1}$ are boosts (a space-like "
+                "direction with the time), symmetric matrices (entries $(i, j)$ and "
+                "$(j, i)$ of the same colour); $\\Omega_{x5}$ is a rotation of two "
+                "time-like directions, antisymmetric, plus a boost. All three map the "
+                "first eight components to the first eight and the last eight to the "
+                "last eight.")
     '''),
     md(r"""
     ## 12. The contraction $\gamma^\mu\Omega_\mu$, direction by direction
@@ -1008,10 +1106,12 @@ CELLS = [
     $\alpha_\mu = -\mathrm{tr}(M\gamma^{(x4)})/16$ and $\beta_\mu =
     \mathrm{tr}(M\gamma^{(x0)})/16$ for $M = \gamma^\mu\Omega_\mu$; the cell then
     checks that $M - \alpha_\mu\gamma^{(x4)} - \beta_\mu\gamma^{(x0)}$ is the zero
-    matrix. It compares the table with the predicted values ($\alpha = a_4'/2$ for
-    $x1, x2, x3$, $\alpha = -a_4'/2 + b_4'/(4b_4)$ for $x5, x6, x7$, $\beta = H/2$ for
-    these six directions, and zero for $x0$ and $x4$), with the record's table
-    `gammaOmega_per_direction`, and the sum with the record's `gammaOmega_total`.
+    matrix. It compares the table with the predicted values ($\alpha = h_4/2$ for $x0$
+    and for $x5, x6, x7$, $\alpha = a_4'/2$ for $x1, x2, x3$, $\beta =
+    \frac12He^{a_4}b_4^{-1/2}$ for $x5, x6, x7$, and zero otherwise), with the record's
+    table `gammaOmega_per_direction`, and the sum with the record's
+    `gammaOmega_total`. Finally it evaluates the sum on the history of the record,
+    where $e^{a_4}b_4^{-1/2} = e^{Hx_4/3}$, $h_4 = -H/3$ and $v_g = \frac56H$.
     """),
     code(r'''
     per_direction = []  # (alpha_mu, beta_mu) for mu = x0 ... x7
@@ -1024,52 +1124,56 @@ CELLS = [
         per_direction.append((alpha, beta))
         say(f"gamma^{NAMES[mu]} Omega_{NAMES[mu]} = ({alpha}) gamma^(x4) "
             f"+ ({beta}) gamma^(x0)")
-    rate_t = -a4p / 2 + b4p / (4 * b4)  # alpha of an extra time
-    predicted = ([(0, 0)] + [(a4p / 2, H / 2)] * 3 + [(0, 0)]
-                 + [(rate_t, H / 2)] * 3)  # x0, x1..x3, x4, x5..x7
+    c_g = sp.Rational(3, 2) * H * sp.exp(a4) / sp.sqrt(b4)  # coefficient of gamma^(x0)
+    v_g = b4p / b4 - a4p / 2  # coefficient of gamma^(x4)
+    warp_term = H * sp.exp(a4) / (2 * sp.sqrt(b4))  # beta of an extra time
+    predicted = ([(h4 / 2, 0)] + [(a4p / 2, 0)] * 3 + [(0, 0)]
+                 + [(h4 / 2, warp_term)] * 3)  # x0, x1..x3, x4, x5..x7
     check(decomposed and all(is_zero(per_direction[k][0] - predicted[k][0])
                              and is_zero(per_direction[k][1] - predicted[k][1])
                              for k in range(8))
-          and record_passed(REPORT_PY, "a4_time_terms_cancel_b4_terms_add")
+          and record_passed(REPORT_PY, "per_direction_terms")
           and record_passed(REPORT_WL, "gammaOmega_per_direction"),
-          "the eight terms gamma^mu Omega_mu (no sum) with b4",
+          "the eight terms gamma^mu Omega_mu (no sum)",
           record=f"{REPORT_WL}, check gammaOmega_per_direction")
     table_record = record_formula("gammaOmega_per_direction", RECORD_NAMES)
     check(all(is_zero(per_direction[k][0] - table_record[k][1])
               and is_zero(per_direction[k][1] - table_record[k][2]) for k in range(8)),
           "the eight terms equal the record's table",
           record=f"{THEORY_FILE}, formula gammaOmega_per_direction")
-    inflating = sp.simplify(sum(per_direction[k][0] for k in (1, 2, 3)))
-    deflating = sp.simplify(sum(per_direction[k][0] for k in (5, 6, 7)))
+    space_part = sp.simplify(sum(per_direction[k][0] for k in (1, 2, 3)))
+    block_part = sp.simplify(sum(per_direction[k][0] for k in (0, 5, 6, 7)))
     hidden = sp.simplify(sum(beta for _, beta in per_direction))
-    report("x4 part from the inflating x1, x2, x3", inflating)
-    report("x4 part from the deflating x5, x6, x7", deflating)
+    report("x4 part from the inflating x1, x2, x3", space_part)
+    report("x4 part from the hidden block x0, x5, x6, x7", block_part)
     report("x0 part from all directions", hidden)
-    check(is_zero(inflating + deflating - sp.Rational(3, 4) * b4p / b4)
-          and is_zero(hidden - 3 * H),
-          "the a4' parts of the x4 terms cancel, (3/4) b4'/b4 remains; the x0 terms "
-          "add to 3H",
-          record=f"{REPORT_PY}, check a4_time_terms_cancel_b4_terms_add")
+    check(is_zero(space_part - 3 * a4p / 2) and is_zero(block_part - 2 * h4)
+          and is_zero(space_part + block_part - v_g) and is_zero(hidden - c_g),
+          "x4 parts: 3-space (3/2) a4', hidden block 2 h4, together v_g; x0 part c_g",
+          record=f"{REPORT_PY}, check per_direction_terms")
     slash = sum((gup[mu] * Omega[mu] for mu in range(8)), Z16)
-    gravity_term = 3 * H * gamma[0] + sp.Rational(3, 4) * b4p / b4 * gamma[4]
-    total_record = wolfram_to_sympy(
-        FORMULAS["gammaOmega_total"].replace('gamma["x0"]', "G0")
-        .replace('gamma["x4"]', "G4"), RECORD_NAMES)
-    G0, G4 = sp.Symbol("G0"), sp.Symbol("G4")  # the record's gamma["x0"], gamma["x4"]
+    gravity_term = c_g * gamma[0] + v_g * gamma[4]
+    total_text = FORMULAS["gammaOmega_total"].replace(chr(34), "")  # gamma[x0], gamma[x4]
+    total_record = wolfram_to_sympy(total_text.replace("gamma[x0]", "G0")
+                                    .replace("gamma[x4]", "G4"), RECORD_NAMES)
+    G0, G4 = sp.Symbol("G0"), sp.Symbol("G4")  # the record's gamma[x0], gamma[x4]
     record_matrix = (total_record.coeff(G0) * gamma[0]
                      + total_record.coeff(G4) * gamma[4])
     check(matrix_is_zero(slash - gravity_term) and matrix_is_zero(slash - record_matrix)
           and record_passed(REPORT_WL, "gammaOmega_total")
-          and record_passed(REPORT_PY, "gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term")
-          and record_passed(REPORT_LEAD, "gamma_Omega_equals_3H_gamma0_plus_b4_term"),
-          "gamma^mu Omega_mu = 3 H gamma^(x0) + (3/4)(b4'/b4) gamma^(x4) exactly",
+          and record_passed(REPORT_PY, "gamma_mu_Omega_mu_equals_hidden_block_terms")
+          and record_passed(REPORT_LEAD, "gamma_Omega_equals_hidden_block_terms"),
+          "gamma^mu Omega_mu = (3/2) H e^(a4) b4^(-1/2) gamma^(x0) + (b4'/b4 - a4'/2) "
+          "gamma^(x4) exactly",
           record=f"{THEORY_FILE}, formula gammaOmega_total; {REPORT_LEAD}, check "
-                 "gamma_Omega_equals_3H_gamma0_plus_b4_term")
-    on_history = {sp.Derivative(b4, x4): BETA * A_EXACT * H * b4,
-                  sp.Derivative(a4, x4): A_EXACT * H}  # the record's history
-    check(matrix_is_zero(slash.subs(on_history) - 3 * H * gamma[0] - H * gamma[4]),
-          "on the history of the record (b4'/b4 = 4 H/3): gamma^mu Omega_mu = "
-          "3 H gamma^(x0) + H gamma^(x4)")
+                 "gamma_Omega_equals_hidden_block_terms")
+    on_history = {b4p: BETA * A_EXACT * H * b4, a4p: A_EXACT * H}  # the derivatives
+    history_values = {a4: A_EXACT * H * x4, b4: B4_ZERO * sp.exp(BETA * A_EXACT * H * x4)}
+    slash_history = slash.subs(on_history).subs(history_values)
+    check(matrix_is_zero(slash_history - sp.Rational(3, 2) * H * sp.exp(H * x4 / 3)
+                         * gamma[0] - sp.Rational(5, 6) * H * gamma[4]),
+          "on the history of the record: gamma^mu Omega_mu = (3/2) H e^(H x4/3) "
+          "gamma^(x0) + (5/6) H gamma^(x4)")
     '''),
     md(r"""
     The next cell draws the table of the previous cell as three bar charts, one bar for
@@ -1077,22 +1181,24 @@ CELLS = [
     a part proportional to $a_4'$ and a part proportional to $b_4'/b_4$; the left chart
     shows the first in units of $a_4'$, the middle chart the second in units of
     $b_4'/b_4$, and the right chart the coefficient $\beta_\mu$ of $\gamma^{(x0)}$ in
-    units of $H$. The left bars cancel in pairs (three up, three down: total $0$); the
-    middle bars come only from the extra times (three times $\frac14$: total
-    $\frac34$); the right bars all point the same way (six times $\frac12$: total $3$).
+    units of $He^{a_4}b_4^{-1/2}$. On the left, three bars $+\frac12$ (3-space) and four
+    bars $-\frac12$ (the hidden block): total $-\frac12$; in the middle, four bars
+    $\frac14$ (the hidden block): total $1$; on the right, three bars $\frac12$ (the
+    extra times): total $\frac32$.
     """),
     code(r'''
     a4_part = [float(sp.simplify(alpha.subs(b4p, 0) / a4p))  # the part with a4'
                for alpha, _ in per_direction]
     b4_part = [float(sp.simplify(alpha.subs(a4p, 0) / (b4p / b4)))
                for alpha, _ in per_direction]  # the part with b4'/b4
-    beta_units = [float(sp.simplify(beta / H)) for _, beta in per_direction]  # beta / H
+    beta_units = [float(sp.simplify(beta / (H * sp.exp(a4) / sp.sqrt(b4))))
+                  for _, beta in per_direction]  # beta / (H e^a4 b4^(-1/2))
     positions = np.arange(8)
     fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.2), sharey=True)
-    colors = ["gray"] + ["tab:red"] * 3 + ["gray"] + ["tab:blue"] * 3
+    colors = ["tab:blue"] + ["tab:red"] * 3 + ["gray"] + ["tab:blue"] * 3
     panels = [(a4_part, "$\\gamma^{(x4)}$, part / $a_4'$"),
               (b4_part, "$\\gamma^{(x4)}$, part / $(b_4'/b_4)$"),
-              (beta_units, "$\\gamma^{(x0)}$ / $H$")]
+              (beta_units, "$\\gamma^{(x0)}$ / $(He^{a_4}b_4^{-1/2})$")]
     for ax, (heights, title) in zip(axes, panels):
         ax.bar(positions, heights, color=colors, width=0.6)
         ax.set_title(f"{title}: total {sum(heights):g}", fontsize=10)
@@ -1104,34 +1210,33 @@ CELLS = [
                 "The eight terms $\\gamma^\\mu\\Omega_\\mu$ (no sum) of the diagonal "
                 "vielbein, each equal to $\\alpha_\\mu\\gamma^{(x4)} + "
                 "\\beta_\\mu\\gamma^{(x0)}$; horizontal axis the direction $\\mu$ (red: "
-                "inflating 3-space, blue: deflating extra times, gray: hidden direction "
-                "and time). Left: the part of $\\alpha_\\mu$ proportional to $a_4'$, in "
-                "units of $a_4'$: $+1/2$ for $x1, x2, x3$ and $-1/2$ for $x5, x6, x7$, "
-                "total $0$. Middle: the part proportional to $b_4'/b_4$, in units of "
-                "$b_4'/b_4$: $1/4$ for each extra time, total $3/4$. Right: $\\beta_\\mu$ "
-                "in units of $H$: six times $1/2$, total $3$. So $\\gamma^\\mu\\Omega_\\mu "
-                "= 3H\\gamma^{(x0)} + \\frac34(b_4'/b_4)\\gamma^{(x4)}$.")
+                "inflating 3-space, blue: the hidden block of $x0$ and the three extra "
+                "times, gray: time). Left: the part of $\\alpha_\\mu$ proportional to "
+                "$a_4'$, in units of $a_4'$: $+1/2$ for $x1, x2, x3$ and $-1/2$ for "
+                "$x0, x5, x6, x7$, total $-1/2$. Middle: the part proportional to "
+                "$b_4'/b_4$, in units of $b_4'/b_4$: $1/4$ for each direction of the "
+                "hidden block, total $1$. Right: $\\beta_\\mu$ in units of "
+                "$He^{a_4}b_4^{-1/2}$: three times $1/2$, total $3/2$. So "
+                "$\\gamma^\\mu\\Omega_\\mu = \\frac32He^{a_4}b_4^{-1/2}\\gamma^{(x0)} + "
+                "(b_4'/b_4 - a_4'/2)\\gamma^{(x4)}$.")
     '''),
     md(r"""
     The next cell shows the same sum as pictures of the 16 x 16 matrices at the sample
-    point on the history ($H = 1$, $a_4' = 1$, $b_4'/b_4 = 4/3$): the sum of the three
-    inflating terms, the sum of the three deflating terms, the total
-    $\gamma^\mu\Omega_\mu$, and $3H\gamma^{(x0)} + \frac34(b_4'/b_4)\gamma^{(x4)}$.
-    The first two pictures contain the $\gamma^{(x4)}$ pattern with opposite colours
-    (entries of size $\frac32 a_4' = 1.5$ in the first, $\frac32 a_4' - \frac34 b_4'/b_4
-    = 0.5$ in the second), on top of the same $\gamma^{(x0)}$ pattern (entries
-    $\frac32 H = 1.5$); in the total only the $\gamma^{(x4)}$ entries
-    $\frac34 b_4'/b_4 = 1$ remain next to $3H\gamma^{(x0)}$, and the total is the
-    picture of the predicted matrix. The author's $\gamma^{(x0)}$ has the 8 x 8
-    identity matrix in its upper-right and lower-left blocks and zeros elsewhere: it
-    maps the first eight spinor components onto the last eight and back, so
-    $3H\gamma^{(x0)}$ shows the value 3 on two diagonal lines. The cell first checks
-    the block form of all eight gammas against
-    the record's list `field_equation_blocks`: each entry $\{xa, \bar t, t\}$ says that
-    $\gamma^{(xa)}$ has the 8 x 8 block $\bar t$ in its upper-right corner, the block
-    $t$ in its lower-left corner and zeros in the two diagonal blocks. The record is
-    written with curly brackets; replacing them by square brackets turns each entry
-    into JSON, which `json.loads` reads.
+    point on the history ($H = 1$, $a_4 = 1/2$, $a_4' = 1$, $b_4 = e^{2/3}$, $b_4'/b_4 =
+    4/3$): the sum of the three 3-space terms, $\frac32a_4'\gamma^{(x4)}$ (entries
+    $\pm1.5$); the sum of the four terms of the hidden block, $2h_4\gamma^{(x4)} +
+    c_g\gamma^{(x0)}$ (entries $\mp0.67$ in the pattern of $\gamma^{(x4)}$ and $c_g =
+    \frac32e^{1/6} = 1.77$ in the pattern of $\gamma^{(x0)}$); the total; and the
+    predicted $c_g\gamma^{(x0)} + v_g\gamma^{(x4)}$ with $v_g = \frac56$. The author's
+    $\gamma^{(x0)}$ has the 8 x 8 identity matrix in its upper-right and lower-left
+    blocks and zeros elsewhere: it maps the first eight spinor components onto the last
+    eight and back, so $c_g\gamma^{(x0)}$ shows the value $c_g$ on two diagonal lines.
+    The cell first checks the block form of all eight gammas against the record's list
+    `field_equation_blocks`: each entry $\{xa, \bar t, t\}$ says that $\gamma^{(xa)}$
+    has the 8 x 8 block $\bar t$ in its upper-right corner, the block $t$ in its
+    lower-left corner and zeros in the two diagonal blocks. The record is written with
+    curly brackets; replacing them by square brackets turns each entry into JSON, which
+    `json.loads` reads.
     """),
     code(r'''
     I8, Z8 = sp.eye(8), sp.zeros(8, 8)  # 8 x 8 identity and zero matrices
@@ -1142,42 +1247,43 @@ CELLS = [
         # gamma^(xa) must be the block matrix with the zero blocks on the diagonal
         blocks_ok = blocks_ok and gamma[a] == sp.BlockMatrix(
             [[Z8, sp.Matrix(tb)], [sp.Matrix(t), Z8]]).as_explicit()
-    check(blocks_ok and len(FORMULAS["field_equation_blocks"]) == 8,
+    check(blocks_ok and len(FORMULAS["field_equation_blocks"]) == 8
+          and record_passed(REPORT_WL, "block_form"),
           "the eight gammas have the block form of the record",
           record=f"{THEORY_FILE}, formula field_equation_blocks")
     check(gamma[0] == sp.BlockMatrix([[Z8, I8], [I8, Z8]]).as_explicit(),
           "gamma^(x0) has the 8 x 8 identity in its two off-diagonal blocks")
     panels = [
         ("sum over $x1, x2, x3$", sum((gup[k] * Omega[k] for k in (1, 2, 3)), Z16)),
-        ("sum over $x5, x6, x7$", sum((gup[k] * Omega[k] for k in (5, 6, 7)), Z16)),
+        ("sum over $x0, x5, x6, x7$", sum((gup[k] * Omega[k] for k in (0, 5, 6, 7)), Z16)),
         ("total $\\gamma^\\mu\\Omega_\\mu$", slash),
-        ("$3H\\gamma^{(x0)} + \\frac{3}{4}\\frac{b_4'}{b_4}\\gamma^{(x4)}$", gravity_term),
+        ("$c_g\\gamma^{(x0)} + v_g\\gamma^{(x4)}$", gravity_term),
     ]
     fig, axes = plt.subplots(2, 2, figsize=(8.0, 7.6))
     for ax, (title, matrix) in zip(axes.flat, panels):
         table = np.array([[at_sample(v).real for v in row] for row in matrix.tolist()])
-        image = ax.imshow(table, cmap="RdBu_r", vmin=-3.5, vmax=3.5)
+        image = ax.imshow(table, cmap="RdBu_r", vmin=-2.0, vmax=2.0)
         ax.set_title(title, fontsize=10)
         ax.set_xticks([])
         ax.set_yticks([])
         ax.grid(False)
     fig.colorbar(image, ax=axes, shrink=0.7, label="entry value")
-    save_figure(fig, "gamma_omega_cancellation",
+    save_figure(fig, "gamma_omega_sum",
                 "The sum as pictures of 16 x 16 matrices at the sample point "
                 "$H = 1$, $z = \\pi/4$, $a_4 = 1/2$, $a_4' = 1$, $b_4 = e^{2/3}$, "
                 "$b_4'/b_4 = 4/3$ (on the history of the Revision record) "
-                "(red positive, blue negative, white zero; colour scale from $-3.5$ to "
-                "$3.5$). Top left: the sum of the three inflating terms "
-                "$\\gamma^\\mu\\Omega_\\mu$, $\\mu = x1, x2, x3$; top right: the sum of the "
-                "three deflating terms, $\\mu = x5, x6, x7$; their $\\gamma^{(x4)}$ parts "
-                "have opposite signs and sizes $1.5$ and $0.5$. Bottom left: the total "
-                "over all eight directions; bottom right: $3H\\gamma^{(x0)} + "
-                "\\frac34(b_4'/b_4)\\gamma^{(x4)}$. The two bottom pictures are identical; "
-                "the $\\gamma^{(x4)}$ entries $\\frac34 b_4'/b_4 = 1$ come from the growth "
-                "of $b_4$ alone.")
+                "(red positive, blue negative, white zero; colour scale from $-2$ to "
+                "$2$). Top left: the sum of the three 3-space terms, "
+                "$\\frac32 a_4'\\gamma^{(x4)}$ with entries $\\pm 1.5$; top right: the "
+                "sum of the four terms of the hidden block $x0, x5, x6, x7$, "
+                "$2h_4\\gamma^{(x4)} + c_g\\gamma^{(x0)}$ with $2h_4 = -2/3$ and $c_g = "
+                "1.77$ on two diagonal lines; their $\\gamma^{(x4)}$ parts have opposite "
+                "signs and do not cancel. Bottom left: the total over all eight "
+                "directions; bottom right: $c_g\\gamma^{(x0)} + v_g\\gamma^{(x4)}$ with "
+                "$v_g = 5/6$. The two bottom pictures are identical.")
     '''),
     md(r"""
-    ## 13. Why $a_4$ drops out and $b_4$ does not: the divergence form
+    ## 13. Where the two terms come from: the divergence form
 
     Two facts explain the result without computing all of $\Omega_\mu$.
 
@@ -1194,16 +1300,20 @@ CELLS = [
     $$\gamma^\mu\Omega_\mu = \frac{1}{2\sqrt{|g|}}\sum_\mu \partial_\mu\big(\sqrt{|g|}\,
     \gamma^\mu\big) .$$
 
-    **Fact 2.** For the diagonal vielbein, $\sqrt{|g|}\gamma^\mu = \big(\prod_{c \ne
-    \mu} f_c\big)\gamma^{(\mu)}$, because $\sqrt{|g|} = \prod_c f_c$ and $\gamma^\mu =
-    \gamma^{(\mu)}/f_\mu$. Now $\prod_{c \ne x4} f_c = b_4^{3/2}\cos z$ (the factors
-    $e^{3a_4}$ and $e^{-3a_4}$ cancel, the three factors $b_4^{1/2}$ of the extra times
-    remain), so the time direction contributes $\frac{1}{2b_4^{3/2}\cos z}\,
-    \partial_{x4}(b_4^{3/2}\cos z) = \frac34\,\frac{b_4'}{b_4}$: only the growth of
-    $b_4$, not $a_4$, contributes. And $\prod_{c \ne x0} f_c = b_4^{3/2}\sin z$ gives
-    $\frac{1}{2b_4^{3/2}\cos z}\,\partial_{x0}(b_4^{3/2}\sin z) =
-    \frac{6H\cos z}{2\cos z} = 3H$. The other six products do not depend on their own
-    coordinate.
+    The constant sign $G$ of $\cot z$ in $\sqrt{|g|} = G f_0\cdots f_7$ cancels between
+    the numerator and the denominator, so the signed product $f_0\cdots f_7$ can be
+    used.
+
+    **Fact 2.** For the diagonal vielbein, $\sqrt{|g|}\gamma^\mu = \pm\big(\prod_{c \ne
+    \mu} f_c\big)\gamma^{(\mu)}$, because $\gamma^\mu = \gamma^{(\mu)}/f_\mu$. Now
+    $\prod_{c \ne x4} f_c = e^{-a_4}b_4^2\cot z\,W^3$, the whole volume factor, so the
+    time direction contributes $\frac12\partial_{x4}\ln(e^{-a_4}b_4^2) = b_4'/b_4 -
+    a_4'/2 = v_g$: half the rate at which the 7-volume changes. And $\prod_{c \ne x0}
+    f_c = b_4^{3/2}W^3$ (3-space and the extra times; $e^{3a_4}$ and $e^{-3a_4}$
+    cancel) gives $\frac{1}{2e^{-a_4}b_4^2\cot z\,W^3}\,\partial_{x0}(b_4^{3/2}W^3) =
+    \frac{3H\cot z\,b_4^{3/2}W^3}{2e^{-a_4}b_4^2\cot z\,W^3} = \frac32He^{a_4}b_4^{-1/2}
+    = c_g$: the warp of the three extra times along $x0$. The other six products do not
+    depend on their own coordinate.
 
     The next cell checks Fact 1 for every $\mu$, the divergence form, and the eight
     products of Fact 2.
@@ -1213,14 +1323,13 @@ CELLS = [
                        for mu in range(8))
     check(anticommutes, "{gamma^mu, Omega_mu} = 0 for each mu separately",
           record=f"{REPORT_PY}, check anticommutator_gamma_Omega_vanishes")
-    sqrt_g = b4 ** sp.Rational(3, 2) * sp.cos(z)  # sqrt|det g|
+    sqrt_g = volume  # f_0 ... f_7; the sign G of cot z cancels in the formula
     divergence = sum(((sqrt_g * gup[mu]).diff(x[mu]) for mu in range(8)), Z16) / (2 * sqrt_g)
     check(matrix_is_zero(divergence - gravity_term)
           and record_passed(REPORT_WL, "gammaOmega_divergence_form")
           and record_passed(REPORT_PY, "divergence_of_sqrtg_gamma")
           and record_passed(REPORT_LEAD, "gamma_Omega_divergence_formula"),
-          "(1/(2 sqrt|g|)) d_mu (sqrt|g| gamma^mu) = 3 H gamma^(x0) + (3/4)(b4'/b4) "
-          "gamma^(x4)",
+          "(1/(2 sqrt|g|)) d_mu (sqrt|g| gamma^mu) = c_g gamma^(x0) + v_g gamma^(x4)",
           record=f"{REPORT_WL}, check gammaOmega_divergence_form")
     products = [sp.simplify(sp.prod([f[c] for c in range(8) if c != b])) for b in range(8)]
     for b in (0, 4):
@@ -1229,40 +1338,45 @@ CELLS = [
                       for b in range(8)]
     say("(1/(2 sqrt|g|)) d_b (product without b), b = x0 ... x7: "
         f"{own_coordinate}")
-    expected_own = [3 * H, 0, 0, 0, sp.Rational(3, 4) * b4p / b4, 0, 0, 0]
+    expected_own = [c_g, 0, 0, 0, v_g, 0, 0, 0]
     check(all(is_zero(own_coordinate[b] - expected_own[b]) for b in range(8)),
-          "only the hidden direction (3 H) and the time ((3/4) b4'/b4) contribute")
+          "only the hidden direction (c_g) and the time (v_g) contribute")
     '''),
     md(r"""
     The next cell checks Fact 2 with numbers instead of symbols, as a student would with
     a calculator. For the hidden direction it computes the derivative of
-    $b_4^{3/2}\sin z$ with respect to $x_0$ by a **central difference**,
+    $(\sin^2 z)^{1/4} = W^3$ with respect to $x_0$ by a **central difference**,
     $\big(F(x_0 + h) - F(x_0 - h)\big)/(2h)$ with the small step $h = 10^{-5}$, divides
-    by $2b_4^{3/2}\cos z$ and plots the result over the whole range of $z$ (with
-    $H = 1$; $b_4$ does not depend on $x_0$ and cancels). For the time direction it
-    takes one illustrative function, $b_4(x_4) = e^{4x_4/3}(1 + \frac12\sin x_4)$
-    (positive; the exponential of the history of the record with an added wobble, an
-    illustration only), computes the derivative of $b_4^{3/2}\cos z$ with respect to
-    $x_4$ in the same way, divides by $2b_4^{3/2}\cos z$ ($\cos z$ cancels) and
-    compares with the exact $\frac34 b_4'/b_4$; on the history of the record itself,
-    $b_4 = b_4(0)\,e^{4x_4/3}$, the coefficient is exactly $1$, drawn as a line for
-    comparison. The differences from the exact values
-    are of the size $h^2$ times third derivatives (about $10^{-9}$), far below the
-    check limit $10^{-6}$.
+    by $2\cot z\,(\sin^2 z)^{1/4}$ and plots the result across one whole cell with
+    $H = 1$ (the factors $b_4^{3/2}$ and $e^{-a_4}b_4^2$ do not depend on $x_0$ and
+    leave the factor $e^{a_4}b_4^{-1/2}$, by which the coefficient is divided; the
+    points within $0.06$ of the fold and of the ends of the cell are left out, where
+    numerator and denominator both approach zero or infinity). For the time direction
+    it takes the history $a_4 = x_4$ with one illustrative function, $b_4(x_4) =
+    e^{4x_4/3}(1 + \frac12\sin x_4)$ (positive; the exponential of the history of the
+    record with an added wobble, an illustration only), computes the derivative of
+    $e^{-a_4}b_4^2$ with respect to $x_4$ in the same way, divides by
+    $2e^{-a_4}b_4^2$ and compares with the exact $v_g = b_4'/b_4 - a_4'/2$; on the
+    history of the record itself, $b_4 = e^{4x_4/3}$, the coefficient is exactly
+    $\frac56$, drawn as a line for comparison. The differences from the exact values
+    are of the size $h^2$ times third derivatives, far below the check limit
+    $10^{-6}$.
     """),
     code(r'''
     H_value = 1.0
-    x0_values = np.linspace(0.002, np.pi / 12 - 0.002, 300)  # z = 6 x0 inside (0, pi/2)
+    z_values = np.concatenate([np.linspace(0.06, np.pi / 2 - 0.06, 200),
+                               np.linspace(np.pi / 2 + 0.06, np.pi - 0.06, 200)])
+    x0_values = z_values / (6 * H_value)  # both halves of the cell 0 < z < pi
     step = 1e-5  # the step h of the central difference
 
 
     def hidden_density(x0_value):
-        return np.sin(6 * H_value * x0_value)  # sqrt|g| e_(x0)^x0 / b4^(3/2) = sin z
+        return np.abs(np.sin(6 * H_value * x0_value)) ** 0.5  # (sin^2 z)^(1/4) = W^3
 
 
     derivative = (hidden_density(x0_values + step)
                   - hidden_density(x0_values - step)) / (2 * step)
-    ratio = derivative / (2 * np.cos(6 * H_value * x0_values))  # should be 3 H = 3
+    ratio = derivative / (2 * hidden_density(x0_values) / np.tan(z_values))  # 3H/2
     x4_values = np.linspace(-6.0, 6.0, 300)
 
 
@@ -1271,54 +1385,57 @@ CELLS = [
 
 
     def time_density(x4_value):
-        return b4_history(x4_value) ** 1.5  # sqrt|g| e_(x4)^x4 / cos z = b4^(3/2)
+        return np.exp(-x4_value) * b4_history(x4_value) ** 2  # e^(-a4) b4^2, a4 = x4
 
 
     time_derivative = (time_density(x4_values + step)
                        - time_density(x4_values - step)) / (2 * step)
-    time_ratio = time_derivative / (2 * time_density(x4_values))  # (1/(2 b4^1.5)) d b4^1.5
-    # (3/4) b4'/b4 = (3/4) (4/3 + (1/2) cos x4 / (1 + (1/2) sin x4))
-    exact_time = 0.75 * (4.0 / 3.0 + 0.5 * np.cos(x4_values)
-                         / (1.0 + 0.5 * np.sin(x4_values)))
-    report("largest |central difference - 3 H| over the grid",
-           f"{np.max(np.abs(ratio - 3.0)):.1e}")
-    report("largest |central difference - (3/4) b4'/b4| over the grid",
-           f"{np.max(np.abs(time_ratio - exact_time)):.1e}")
-    check(np.max(np.abs(ratio - 3.0)) < 1e-6
+    time_ratio = time_derivative / (2 * time_density(x4_values))  # d ln(e^-a4 b4^2) / 2
+    # v_g = b4'/b4 - a4'/2 = 4/3 + (1/2) cos x4 / (1 + (1/2) sin x4) - 1/2
+    exact_time = (4.0 / 3.0 + 0.5 * np.cos(x4_values) / (1.0 + 0.5 * np.sin(x4_values))
+                  - 0.5)
+    report("largest |central difference - 3H/2| over the cell",
+           f"{np.max(np.abs(ratio - 1.5)):.0e}")
+    report("largest |central difference - v_g| over the grid",
+           f"{np.max(np.abs(time_ratio - exact_time)):.0e}")
+    check(np.max(np.abs(ratio - 1.5)) < 1e-6
           and np.max(np.abs(time_ratio - exact_time)) < 1e-6,
-          "the numerical derivatives give 3 H and (3/4) b4'/b4")
+          "the numerical derivatives give c_g / (e^a4 b4^(-1/2)) = 3H/2 and v_g")
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
-    zz = 6 * H_value * x0_values
-    ax_left.plot(zz, ratio, label="$\\partial_{x0}(b_4^{3/2}\\sin z)/"
-                                  "(2b_4^{3/2}\\cos z)$")
-    ax_left.set_ylim(0.0, 3.8)
-    ax_left.set_xlabel("hidden angle $z = 6Hx_0$ (radians)")
-    ax_left.set_ylabel("coefficient of $\\gamma^{(x0)}$ (units of $H$)")
-    ax_left.set_title("Hidden direction: the constant $3H$")
+    for half in (slice(0, 200), slice(200, 400)):  # the two halves, drawn separately
+        ax_left.plot(z_values[half], ratio[half], color="tab:blue")
+    ax_left.plot([], [], color="tab:blue",
+                 label="$\\partial_{x0}(\\sin^2 z)^{1/4}/(2\\cot z\\,(\\sin^2 z)^{1/4})$")
+    ax_left.axvline(np.pi / 2, color="gray", linewidth=0.8)  # the fold
+    ax_left.set_ylim(0.0, 2.4)
+    ax_left.set_xlabel("hidden angle $z = 6Hx_0$ (radians), fold at $\\pi/2$")
+    ax_left.set_ylabel("$c_g/(e^{a_4}b_4^{-1/2})$ (units of $H$)")
+    ax_left.set_title("Hidden direction: the constant $3H/2$")
     ax_left.legend(fontsize=8, loc="lower center")
     ax_right.plot(x4_values, time_ratio, label="central difference, "
                   "$b_4 = e^{4x_4/3}(1 + \\frac{1}{2}\\sin x_4)$")
     ax_right.plot(x4_values, exact_time, ":", color="black", linewidth=2.5,
-                  label="exact $\\frac{3}{4} b_4'/b_4$")
-    ax_right.plot(x4_values, np.ones_like(x4_values), "--", color="gray",
-                  label="history $b_4 \\propto e^{4x_4/3}$: exactly $1$")
-    ax_right.set_ylim(-0.2, 1.9)  # room for the legend below the curves
-    ax_right.set_xlabel("time $x_4$ (units $1/H$)")
-    ax_right.set_ylabel("coefficient of $\\gamma^{(x4)}$")
-    ax_right.set_title("Time direction: $\\frac{3}{4} b_4'/b_4$")
+                  label="exact $b_4'/b_4 - a_4'/2$")
+    ax_right.plot(x4_values, np.full_like(x4_values, 5.0 / 6.0), "--", color="gray",
+                  label="history $b_4 = e^{4x_4/3}$: exactly $5/6$")
+    ax_right.set_ylim(-0.6, 1.9)  # room for the legend below the curves
+    ax_right.set_xlabel("time $x_4$ (units $1/H$), $a_4 = x_4$")
+    ax_right.set_ylabel("coefficient $v_g$ of $\\gamma^{(x4)}$")
+    ax_right.set_title("Time direction: $v_g = b_4'/b_4 - a_4'/2$")
     ax_right.legend(fontsize=8, loc="lower center")
     save_figure(fig, "divergence_form",
                 "The divergence form of $\\gamma^\\mu\\Omega_\\mu$, with $H = 1$, checked "
-                "by central differences with step $10^{-5}$. Left: the coefficient of "
-                "$\\gamma^{(x0)}$, $\\partial_{x0}(b_4^{3/2}\\sin z)/(2b_4^{3/2}\\cos z)$, "
-                "versus the hidden angle $z$ in radians: the constant $3$ for every $z$. "
-                "Right: the coefficient of $\\gamma^{(x4)}$, "
-                "$\\partial_{x4}(b_4^{3/2}\\cos z)/(2b_4^{3/2}\\cos z)$, versus the time "
-                "$x_4$ for the illustrative function $b_4 = e^{4x_4/3}(1 + "
-                "\\frac12\\sin x_4)$ (solid), on the exact $\\frac34 b_4'/b_4$ "
-                "(dotted), and $1$ for the history $b_4 = b_4(0)\\,e^{4x_4/3}$ of the "
-                "Revision record (dashed): the time direction contributes only through "
-                "the change of $b_4$.")
+                "by central differences with step $10^{-5}$. Left: the coefficient "
+                "$c_g$ of $\\gamma^{(x0)}$ divided by $e^{a_4}b_4^{-1/2}$, "
+                "$\\partial_{x0}(\\sin^2 z)^{1/4}/(2\\cot z\\,(\\sin^2 z)^{1/4})$, versus "
+                "the hidden angle $z$ in radians across both halves of a cell (the "
+                "vertical line is the fold): the constant $3/2$ for every $z$. Right: "
+                "the coefficient of $\\gamma^{(x4)}$, $\\partial_{x4}(e^{-a_4}b_4^2)/"
+                "(2e^{-a_4}b_4^2)$, versus the time $x_4$ for $a_4 = x_4$ and the "
+                "illustrative function $b_4 = e^{4x_4/3}(1 + \\frac12\\sin x_4)$ "
+                "(solid), on the exact $b_4'/b_4 - a_4'/2$ (dotted), and $5/6$ for the "
+                "history $b_4 = e^{4x_4/3}$ of the Revision record (dashed): the time "
+                "term is half the rate of the 7-volume $e^{-a_4}b_4^2$.")
     '''),
     md(r"""
     ## 14. The covariant derivative of a spinor and the Dirac operator written out
@@ -1329,29 +1446,30 @@ CELLS = [
     $\gamma^\mu D_\mu\Psi$, and checks that
 
     $$\gamma^\mu D_\mu\Psi = \sum_a \frac{1}{f_a}\gamma^{(a)}\partial_a\Psi +
-    3H\gamma^{(x0)}\Psi + \tfrac34\,\frac{b_4'}{b_4}\,\gamma^{(x4)}\Psi ,$$
+    c_g\gamma^{(x0)}\Psi + v_g\gamma^{(x4)}\Psi ,$$
 
-    that is, with the factors written out, $\tan z\,\gamma^{(x0)}\partial_0\Psi +
-    e^{-a_4}s^{-1}(\gamma^{(x1)}\partial_1 + \gamma^{(x2)}\partial_2 +
-    \gamma^{(x3)}\partial_3)\Psi + \gamma^{(x4)}\partial_4\Psi +
-    e^{a_4}b_4^{-1/2}s^{-1}(\gamma^{(x5)}\partial_5 + \gamma^{(x6)}\partial_6 +
-    \gamma^{(x7)}\partial_7)\Psi + 3H\gamma^{(x0)}\Psi +
-    \frac34(b_4'/b_4)\gamma^{(x4)}\Psi$. It then compares all 16 components with the
-    16 component equations of the record (`field_equation_components`; their
-    right-hand side $V\Psi_A$, $V = m + U'(S)$, is not needed here).
+    that is, with the factors written out, $e^{a_4}b_4^{-1/2}\tan z\,
+    \gamma^{(x0)}\partial_0\Psi + e^{-a_4}(\gamma^{(x1)}\partial_1 +
+    \gamma^{(x2)}\partial_2 + \gamma^{(x3)}\partial_3)\Psi + \gamma^{(x4)}\partial_4\Psi
+    + e^{a_4}b_4^{-1/2}W^{-1}(\gamma^{(x5)}\partial_5 + \gamma^{(x6)}\partial_6 +
+    \gamma^{(x7)}\partial_7)\Psi + c_g\gamma^{(x0)}\Psi + v_g\gamma^{(x4)}\Psi$. It
+    then compares all 16 components with the 16 component equations of the record
+    (`field_equation_components`; their right-hand side $V\Psi_A$, $V = m + U'(S)$, is
+    not needed here).
 
-    Finally it checks when the term $M\Psi$, $M = 3H\gamma^{(x0)} +
-    \frac34(b_4'/b_4)\gamma^{(x4)}$, can vanish for a field that is not zero. Since
+    Finally it checks when the term $M\Psi$, $M = c_g\gamma^{(x0)} +
+    v_g\gamma^{(x4)}$, can vanish for a field that is not zero. Since
     $(\gamma^{(x0)})^2 = 1$, $(\gamma^{(x4)})^2 = -1$ and the two anticommute,
-    $MM = \big(9H^2 - \frac{9}{16}(b_4'/b_4)^2\big)\,1$. When the number in front of
-    $1$ is not zero, $M\Psi = 0$ gives $\Psi = 0$ (multiply by $M$ and divide by that
-    number): on the history of the record, $b_4'/b_4 = \frac43 H$ and $MM = (9H^2 -
-    H^2)\,1 = 8H^2\,1$, so there $M\Psi = 0$ only for $\Psi = 0$; the WolframScript
+    $MM = (c_g^2 - v_g^2)\,1$. When the number in front of $1$ is not zero, $M\Psi = 0$
+    gives $\Psi = 0$ (multiply by $M$ and divide by that number); the WolframScript
     report `wolfram-field-theory.json` records the statement for both fields (checks
     `nontriviality_1_dirac16complex` and `nontriviality_2_dirac16complex00`). Where
-    $|b_4'/b_4| = 4H$, however, $MM = 0$: the cell computes that $\gamma^{(x0)} \pm
+    $c_g = \pm v_g$, however, $MM = 0$: the cell computes that $\gamma^{(x0)} \pm
     \gamma^{(x4)}$ has rank 8, so there $M$ sends an 8-dimensional set of nonzero fields
-    to zero (the sympy report checks the same, check `gravity_term_square`).
+    to zero (the sympy report checks the same, check `gravity_term_square`). On the
+    history of the record $MM = H^2\big(\frac94e^{2Hx_4/3} - \frac{25}{36}\big)\,1$,
+    which vanishes at exactly one time, $x_4 = 3\ln(5/9)/H$; the cell computes this
+    time.
     """),
     code(r'''
     import re  # text patterns, to rename the record's symbols
@@ -1362,10 +1480,11 @@ CELLS = [
     written_out = sum((gamma[a] * psi.diff(x[a]) / f[a] for a in range(8)),
                       sp.zeros(16, 1)) + gravity_term * psi
     check(all(is_zero(v) for v in dirac - written_out)
-          and record_passed(REPORT_WL, "Dirac_operator_explicit_C"),
-          "gamma^mu D_mu Psi = sum_a (1/f_a) gamma^a d_a Psi + 3 H gamma^(x0) Psi + "
-          "(3/4)(b4'/b4) gamma^(x4) Psi",
-          record=f"{REPORT_WL}, check Dirac_operator_explicit_C")
+          and record_passed(REPORT_WL, "Dirac_operator_explicit_C")
+          and record_passed(REPORT_WL, "Dirac_operator_explicit_G"),
+          "gamma^mu D_mu Psi = sum_a (1/f_a) gamma^a d_a Psi + c_g gamma^(x0) Psi + "
+          "v_g gamma^(x4) Psi",
+          record=f"{REPORT_WL}, checks Dirac_operator_explicit_C and _G")
     # Rename the derivatives d psi_B / d x_k and then the functions psi_B as plain
     # symbols dPsi<B>x<k> and Psi<B> (derivatives first: renaming psi_B first would
     # turn its derivatives into derivatives of a constant symbol, which are zero).
@@ -1392,82 +1511,102 @@ CELLS = [
     check(same_components(FORMULAS["field_equation_components"]),
           "all 16 components of the Dirac operator equal the record",
           record=f"{THEORY_FILE}, formula field_equation_components")
-    c_b4 = sp.Rational(3, 4) * b4p / b4  # the coefficient of gamma^(x4)
-    square = (gravity_term * gravity_term - (9 * H**2 - c_b4**2) * I16)
+    square = (gravity_term * gravity_term - (c_g**2 - v_g**2) * I16)
     ranks = [(gamma[0] + sign * gamma[4]).rank() for sign in (1, -1)]
     report("ranks of gamma^(x0) + gamma^(x4) and gamma^(x0) - gamma^(x4)", ranks)
     both_fields = all(record_passed(REPORT_WL, name) for name in [
         "nontriviality_1_dirac16complex", "nontriviality_2_dirac16complex00"])
     check(matrix_is_zero(square) and gamma[0] * gamma[0] == I16 and ranks == [8, 8]
           and both_fields and record_passed(REPORT_PY, "gravity_term_square"),
-          "M M = (9 H^2 - (9/16)(b4'/b4)^2) 1: M Psi = 0 only for Psi = 0 unless "
-          "|b4'/b4| = 4 H (on the history M M = 8 H^2), and there M has rank 8",
+          "M M = (c_g^2 - v_g^2) 1: M Psi = 0 only for Psi = 0 unless c_g = +-v_g, "
+          "and there M has rank 8",
           record=f"{REPORT_PY}, check gravity_term_square; {REPORT_WL}, checks "
                  "nontriviality_1_dirac16complex and nontriviality_2_dirac16complex00")
+    square_history = sp.simplify((c_g**2 - v_g**2).subs(on_history).subs(history_values))
+    zero_time = sp.solve(sp.Eq(sp.Rational(3, 2) * sp.exp(H * x4 / 3),
+                               sp.Rational(5, 6)), x4)  # c_g = v_g on the history
+    say(f"on the history c_g^2 - v_g^2 = {sp.expand(square_history)}")
+    report("the one time of the history with c_g = v_g, x4 H",
+           f"{float(zero_time[0].subs(H, 1)):.4f}")
+    check(is_zero(square_history - H**2 * (sp.Rational(9, 4) * sp.exp(2 * H * x4 / 3)
+                                          - sp.Rational(25, 36)))
+          and len(zero_time) == 1 and is_zero(zero_time[0] - 3 * sp.log(
+              sp.Rational(5, 9)) / H),
+          "on the history c_g^2 - v_g^2 = H^2 ((9/4) e^(2 H x4/3) - 25/36), zero only "
+          "at x4 = 3 ln(5/9)/H")
     '''),
     md(r"""
-    The deflation does not appear in $\gamma^\mu\Omega_\mu$, but it does appear in the
-    Dirac operator: through the factors $1/f_a$ in front of the derivatives. The next
-    cell draws these factors. On the left, versus the time on the history of the record,
-    $a_4 = x_4$, $b_4 = e^{4x_4/3}$ (with $H = 1$, $z = \pi/4$, unit $b_4(0)$): as
-    3-space inflates, the 3-space derivatives are weighted less and less
-    ($e^{-a_4}/s$), and as the extra times deflate, the extra-time derivatives are
-    weighted more and more ($e^{a_4}b_4^{-1/2}/s = e^{x_4/3}/s$). On the right, versus
-    $z$ at $x_4 = 0$: the hidden-direction factor $\tan z$ and the common factor $1/s$
-    of the six warped directions.
+    The term $\gamma^\mu\Omega_\mu$ is not the only place where the metric enters the
+    Dirac operator: the factors $1/f_a$ in front of the derivatives carry it too. The
+    next cell draws these factors. On the left, versus the time on the history of the
+    record, $a_4 = x_4$, $b_4 = e^{4x_4/3}$ (with $H = 1$, $z = \pi/4$): as 3-space
+    inflates, the 3-space derivatives are weighted less and less ($e^{-a_4}$), and as
+    the hidden block deflates, the hidden and the extra-time derivatives are weighted
+    more and more ($e^{a_4}b_4^{-1/2} = e^{x_4/3}$ times $\tan z$ or $1/W$). On the
+    right, versus $z$ across one cell at $x_4 = 0$: the hidden factor $|\tan z|$, which
+    grows without bound at the fold, and the factor $1/W = (\sin^2 z)^{-1/12}$ of the
+    extra times, which grows slowly towards the ends of the cell.
     """),
     code(r'''
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
-    coefficient = [sp.lambdify(X4_SYMBOL, (1 / fa).subs(history).subs(
+    coefficient = [sp.lambdify(X4_SYMBOL, explicit_warp((1 / fa).subs(history)).subs(
         {H: 1, x0: sp.pi / 24})) for fa in f]
     ax_left.semilogy(times, coefficient[1](times),
-                     label="$1/f_1 = e^{-a_4}/s$ (3-space derivatives)")
-    ax_left.semilogy(times, coefficient[5](times), "--",
-                     label="$1/f_5 = e^{a_4}b_4^{-1/2}/s$ (extra-time derivatives)")
+                     label="$1/f_1 = e^{-a_4}$ (3-space derivatives)")
+    ax_left.semilogy(times, coefficient[0](times), "--",
+                     label="$1/f_0 = e^{a_4}b_4^{-1/2}\\tan z$ (hidden derivative)")
+    ax_left.semilogy(times, coefficient[5](times), "-.",
+                     label="$1/f_5 = e^{a_4}b_4^{-1/2}/W$ (extra-time derivatives)")
     ax_left.semilogy(times, np.ones_like(times), ":", color="black",
                      label="$1/f_4 = 1$ (time derivative)")
     ax_left.set_xlabel("time $x_4$ (units $1/H$), history $a_4 = x_4$, "
                        "$b_4 = e^{4x_4/3}$")
     ax_left.set_ylabel("factor in front of the derivative (log axis)")
     ax_left.set_title("Where the deflation enters the field equation")
-    ax_left.legend(fontsize=8)
-    zz = np.linspace(0.05, np.pi / 2 - 0.15, 300)
-    ax_right.plot(zz, np.tan(zz), label="$1/f_0 = \\tan z$ (hidden derivative)")
-    ax_right.plot(zz, np.sin(zz) ** (-1 / 6), "--",
-                  label="$1/s = \\sin^{-1/6} z$ (warped directions, $a_4 = 0$)")
-    ax_right.set_xlabel("hidden angle $z = 6Hx_0$ (radians)")
-    ax_right.set_ylabel("factor (pure number)")
+    ax_left.legend(fontsize=7)
+    zz = np.linspace(0.03, np.pi - 0.03, 600)  # one cell
+    ax_right.semilogy(zz, np.abs(np.tan(zz)), label="$|1/f_0| = |\\tan z|$ (hidden)")
+    ax_right.semilogy(zz, np.abs(np.sin(zz)) ** (-1 / 6), "--",
+                      label="$1/W = (\\sin^2 z)^{-1/12}$ (extra times)")
+    ax_right.axvline(np.pi / 2, color="gray", linewidth=0.8)  # the fold
+    ax_right.set_xlabel("hidden angle $z = 6Hx_0$ (radians), fold at $\\pi/2$")
+    ax_right.set_ylabel("factor at $x_4 = 0$ (log axis)")
     ax_right.set_title("Dependence on the hidden direction")
-    ax_right.legend(fontsize=8)
+    ax_right.legend(fontsize=8, loc="upper left")
     save_figure(fig, "derivative_coefficients",
                 "The factors $1/f_a$ in front of the derivatives in the Dirac operator "
                 "$\\gamma^\\mu D_\\mu = \\sum_a f_a^{-1}\\gamma^{(a)}\\partial_a + "
-                "3H\\gamma^{(x0)} + \\frac34(b_4'/b_4)\\gamma^{(x4)}$. Left: versus the "
-                "time $x_4$ in units $1/H$ at $z = \\pi/4$ on the history of the Revision "
-                "record $a_4 = x_4$, $b_4 = b_4(0)\\,e^{4x_4/3}$ (unit $b_4(0)$), on a "
-                "logarithmic axis: the 3-space factor $e^{-a_4}/s$ falls and the "
-                "extra-time factor $e^{a_4}b_4^{-1/2}/s = e^{x_4/3}/s$ rises; this is "
-                "how the deflation of the extra times enters the field equation. Right: "
-                "versus the hidden angle $z$ in radians at $x_4 = 0$: the hidden factor "
-                "$\\tan z$ and the factor $\\sin^{-1/6}z$ of the six warped directions.")
+                "c_g\\gamma^{(x0)} + v_g\\gamma^{(x4)}$. Left: versus the time $x_4$ in "
+                "units $1/H$ at $z = \\pi/4$ on the history of the Revision record "
+                "$a_4 = x_4$, $b_4 = e^{4x_4/3}$, on a logarithmic axis: the 3-space "
+                "factor $e^{-a_4}$ falls, while the hidden factor $e^{a_4}b_4^{-1/2}"
+                "\\tan z$ and the extra-time factor $e^{a_4}b_4^{-1/2}/W$ rise like "
+                "$e^{x_4/3}$; this is how the deflation of the hidden block enters the "
+                "field equation. Right: versus the hidden angle $z$ in radians at "
+                "$x_4 = 0$ across one cell: the hidden factor $|\\tan z|$, unbounded at "
+                "the fold (vertical line), and the factor $(\\sin^2 z)^{-1/12}$ of the "
+                "extra times.")
     '''),
     md(r"""
-    ## 15. The negative control: extra times that INFLATE
+    ## 15. The negative control: a hidden block that GROWS
 
-    Is the cancellation of the $a_4'$ terms an accident of the algebra, or does it come
-    from the deflation? The control answers this. The next cell repeats the whole
-    computation (Christoffel symbols, spin connection, spinor connection, curved
-    gammas) for a changed metric in which the extra times inflate like 3-space,
-    $g_{tt} = -e^{+2a_4}b_4\sin^{1/3}z$ for $t = x5, x6, x7$, with vielbein factors
-    $e^{+a_4}b_4^{1/2}s$ (as in the lead's record: only the sign of $a_4$ in the
-    extra times is changed). If the deflation is the reason, a term with $a_4'$ must
-    survive. The record of the lead's independent check finds $3a_4'\gamma^{(x4)}$ in
-    addition to the term $\frac34(b_4'/b_4)\gamma^{(x4)}$; the cell checks that it gets
-    the same, and that the hidden term $3H\gamma^{(x0)}$ is unchanged.
+    Does the result really see the direction in which the hidden block changes? The
+    control answers this. The next cell repeats the whole computation (Christoffel
+    symbols, spin connection, spinor connection, curved gammas) for a changed metric in
+    which the hidden direction and the extra times grow with $e^{+a_4}$, like 3-space:
+    $g_{00} = e^{+2a_4}b_4\cot^2 z$ and $g_{tt} = -e^{+2a_4}b_4W^2$ for $t = x5, x6, x7$,
+    with vielbein factors $e^{+a_4}b_4^{1/2}\cot z$ and $e^{+a_4}b_4^{1/2}W$ (as in the
+    lead's record: only the sign of $a_4$ in the hidden block is changed). Then the four
+    directions of the hidden block have the rate $b_4'/(2b_4) + a_4'$, and the
+    coefficient of $\gamma^{(x4)}$ should be $4\cdot\frac12\big(\frac{b_4'}{2b_4} +
+    a_4'\big) + 3\cdot\frac12a_4' = \frac{b_4'}{b_4} + \frac72a_4'$, while the
+    coefficient of $\gamma^{(x0)}$ should follow the new scale factor,
+    $\frac32He^{-a_4}b_4^{-1/2}$. The record of the lead's independent check finds
+    exactly these; the cell checks that it gets the same.
     """),
     code(r'''
-    f_control = ([sp.cot(z)] + [sp.exp(a4) * s] * 3 + [sp.Integer(1)]
-                 + [sp.exp(a4) * sp.sqrt(b4) * s] * 3)  # extra times INFLATING
+    f_control = ([sp.exp(a4) * sp.sqrt(b4) * sp.cot(z)] + [sp.exp(a4)] * 3
+                 + [sp.Integer(1)] + [sp.exp(a4) * sp.sqrt(b4) * W(x0)] * 3)  # GROWING
     g_control = sp.diag(*[ETA[a] * f_control[a] ** 2 for a in range(8)])
     e_control = sp.diag(*f_control)
     Gam_control = christoffel(g_control, x)
@@ -1481,61 +1620,68 @@ CELLS = [
     report("control: coefficient of gamma^(x0)", beta_control)
     lead = json.loads(repository_file(REPORT_LEAD).read_text(encoding="utf-8"))
     detail = [c["detail"] for c in lead["checks"]
-              if c["name"] == "negative_control_inflating_extra_times"][0]
+              if c["name"] == "negative_control_growing_block"][0]
     check(matrix_is_zero(slash_control - alpha_control * gamma[4] - beta_control * gamma[0])
-          and is_zero(alpha_control - 3 * a4p - sp.Rational(3, 4) * b4p / b4)
-          and is_zero(beta_control - 3 * H)
-          and "(3*Derivative(a4(x4), x4)) gamma^(x4)" in detail
-          and record_passed(REPORT_LEAD, "negative_control_inflating_extra_times"),
-          "control with inflating extra times: (3 a4' + (3/4) b4'/b4) gamma^(x4) + "
-          "3 H gamma^(x0)",
-          record=f"{REPORT_LEAD}, check negative_control_inflating_extra_times")
+          and is_zero(alpha_control - b4p / b4 - sp.Rational(7, 2) * a4p)
+          and is_zero(beta_control - sp.Rational(3, 2) * H * sp.exp(-a4) / sp.sqrt(b4))
+          and "+7/2 instead of -1/2" in detail
+          and record_passed(REPORT_LEAD, "negative_control_growing_block"),
+          "control with a growing hidden block: (b4'/b4 + (7/2) a4') gamma^(x4) + "
+          "(3/2) H e^(-a4) b4^(-1/2) gamma^(x0)",
+          record=f"{REPORT_LEAD}, check negative_control_growing_block")
     '''),
     md(r"""
-    The next cell draws the result of the control next to the author's case: the part
-    of the coefficient of $\gamma^{(x4)}$ in $\gamma^\mu\Omega_\mu$ that is proportional
-    to $a_4'$ (left; the part $\frac34 b_4'/b_4$ is the same in both cases) and the
-    coefficient of $\gamma^{(x0)}$ (right) as functions of the rate $a_4'$ (with
-    $H = 1$). With deflating extra times (the author's metric) the left coefficient is
-    zero for every $a_4'$; with inflating extra times it is $3a_4'$, a straight line
-    through the origin. The hidden-direction coefficient $3H$ is the same in both
-    cases: it comes from $x0$, not from the time dependence.
+    The next cell draws the result of the control next to the author's case. On the
+    left, the part of the coefficient of $\gamma^{(x4)}$ that is proportional to $a_4'$
+    as a function of the rate $a_4'$ (the part $b_4'/b_4$ is the same in both cases):
+    $-\frac12a_4'$ for the author's deflating block, $+\frac72a_4'$ for the growing
+    control, two straight lines through the origin. On the right, the coefficient of
+    $\gamma^{(x0)}$ versus the time on the history of the record ($H = 1$): it follows
+    the inverse scale factor of the hidden block, $\frac32e^{x_4/3}$ for the author's
+    metric (the block shrinks like $e^{-x_4/3}$) and $\frac32e^{-5x_4/3}$ for the
+    control (the block grows like $e^{5x_4/3}$).
     """),
     code(r'''
     rates = np.linspace(-2.0, 2.0, 81)  # values of a4'
     rate_symbol = sp.Symbol("rate")
-    author_alpha = sp.lambdify(rate_symbol, sp.simplify(sum(  # the part with a4'
-        a for a, _ in per_direction).subs(b4p, 0)).subs(a4p, rate_symbol))
+    author_alpha = sp.lambdify(rate_symbol, sp.simplify(v_g.subs(b4p, 0)).subs(
+        a4p, rate_symbol))  # the part with a4'
     control_alpha = sp.lambdify(rate_symbol, sp.simplify(alpha_control.subs(
         b4p, 0)).subs(a4p, rate_symbol))
     fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(10.0, 4.2))
     ax_left.plot(rates, np.broadcast_to(author_alpha(rates), rates.shape),
-                 label="author: deflating extra times")
+                 label="author: deflating hidden block ($-a_4'/2$)")
     ax_left.plot(rates, np.broadcast_to(control_alpha(rates), rates.shape), "--",
-                 label="control: inflating extra times")
+                 label="control: growing hidden block ($+7a_4'/2$)")
     ax_left.set_xlabel("rate $a_4'$ (units of $H$)")
     ax_left.set_ylabel("$a_4'$ part of the $\\gamma^{(x4)}$ coefficient (units of $H$)")
     ax_left.set_title("The time-direction term")
     ax_left.legend(fontsize=8)
-    ax_right.plot(rates, np.full_like(rates, float(hidden.subs(H, 1))),
-                  label="author: deflating extra times")
-    ax_right.plot(rates, np.full_like(rates, float(beta_control.subs(H, 1))), "--",
-                  label="control: inflating extra times")
-    ax_right.set_ylim(0.0, 4.0)
-    ax_right.set_xlabel("rate $a_4'$ (units of $H$)")
-    ax_right.set_ylabel("coefficient of $\\gamma^{(x0)}$ (units of $H$)")
-    ax_right.set_title("The hidden-direction term (identical lines)")
+    history_numbers = {H: 1, x4: X4_SYMBOL}
+    author_beta = sp.lambdify(X4_SYMBOL, c_g.subs(history_values).subs(history_numbers))
+    control_beta = sp.lambdify(X4_SYMBOL, beta_control.subs(history_values).subs(
+        history_numbers))
+    ax_right.semilogy(times, author_beta(times), label="author: $\\frac{3}{2} e^{x_4/3}$")
+    ax_right.semilogy(times, control_beta(times), "--",
+                      label="control: $\\frac{3}{2} e^{-5x_4/3}$")
+    ax_right.set_xlabel("time $x_4$ (units $1/H$), history $a_4 = x_4$, "
+                        "$b_4 = e^{4x_4/3}$")
+    ax_right.set_ylabel("coefficient of $\\gamma^{(x0)}$ (units of $H$, log axis)")
+    ax_right.set_title("The hidden-direction term")
     ax_right.legend(fontsize=8)
     save_figure(fig, "negative_control",
                 "The negative control. Left: the part proportional to $a_4'$ of the "
                 "coefficient of $\\gamma^{(x4)}$ in $\\gamma^\\mu\\Omega_\\mu$ versus the "
-                "rate $a_4'$, both in units of $H = 1$, for the author's metric with "
-                "deflating extra times (solid, zero for every rate) and for a control "
-                "metric with inflating extra times (dashed, the line $3a_4'$); the part "
-                "$\\frac34 b_4'/b_4$ is the same in both. Right: the coefficient of "
-                "$\\gamma^{(x0)}$, $3H$ in both cases (the two lines lie on top of each "
-                "other). The cancellation of the time-direction terms is caused by the "
-                "deflation.")
+                "rate $a_4'$, both in units of $H = 1$, for the corrected metric, whose "
+                "hidden block deflates (solid, the line $-a_4'/2$), and for a control "
+                "metric whose hidden block grows like 3-space (dashed, the line "
+                "$+7a_4'/2$); the part $b_4'/b_4$ is the same in both. Right: the "
+                "coefficient of $\\gamma^{(x0)}$ versus the time $x_4$ on the history "
+                "$a_4 = x_4$, $b_4 = e^{4x_4/3}$ on a logarithmic axis: "
+                "$\\frac32e^{x_4/3}$ for the author's metric and "
+                "$\\frac32e^{-5x_4/3}$ for the control, in both cases $\\frac32H$ "
+                "divided by the scale factor of the hidden block. The term sees in "
+                "which direction the hidden block changes.")
     '''),
     md(r"""
     ## 16. The last checks
@@ -1543,25 +1689,25 @@ CELLS = [
     Most results of this notebook are recorded several times in the Revision record, by
     verifiers that share no code: the sympy checker (report `python-field-theory.json`),
     the WolframScript checker (`wolfram-field-theory.json`) and the lead's independent
-    check (`emt-divergence-and-spin-connection.json`), all three for the metric with
-    $b_4$. Each PASS line above names one of them. The last cell lists every check of
+    check (`emt-divergence-and-spin-connection.json`), all three for the corrected
+    metric. Each PASS line above names one of them. The last cell lists every check of
     these three reports that states a result reproduced here and checks that each is
     recorded as passed (so the record this notebook reproduces is itself a passing
-    record). Then it
-    checks that all ten figure files exist in the folder Revision/textbook/figures, and
-    prints the number of checks that passed.
+    record). Then it checks that all ten figure files exist in the folder
+    Revision/textbook/figures, and prints the number of checks that passed.
     """),
     code(r'''
     cited = {
         REPORT_PY: ["clifford_relations", "gammas_real", "metric_from_vielbein_equals_SPEC",
-                    "sqrt_det_g_equals_b4_cos_z", "vielbein_postulate",
-                    "spin_connection_antisymmetric", "spinor_connection_real",
-                    "nontriviality_Omega_zero_iff_flat", "Omega_x0_and_Omega_x4_vanish",
+                    "sqrt_det_g", "christoffel_symmetric_metric_compatible",
+                    "vielbein_postulate", "spin_connection_antisymmetric",
+                    "spinor_connection_real", "nontriviality_Omega_zero_iff_flat",
+                    "Omega_x4_vanishes_Omega_x0_does_not",
                     "covariant_constancy_D_mu_gamma_nu",
-                    "gamma_mu_Omega_mu_equals_3H_gamma_x0_plus_b4_term",
-                    "a4_time_terms_cancel_b4_terms_add", "gravity_term_square",
-                    "anticommutator_gamma_Omega_vanishes", "divergence_of_sqrtg_gamma"],
-        REPORT_WL: ["metric_is_the_authors", "vielbein_inverse", "sqrt_det_g",
+                    "gamma_mu_Omega_mu_equals_hidden_block_terms", "per_direction_terms",
+                    "gravity_term_square", "anticommutator_gamma_Omega_vanishes",
+                    "divergence_of_sqrtg_gamma"],
+        REPORT_WL: ["metric_is_the_corrected_metric", "vielbein_inverse", "sqrt_det_g",
                     "christoffel_count", "vielbein_postulate", "omega_antisymmetric",
                     "omega_components", "Omega_components", "S_rotates_gamma_with_omega",
                     "gamma_covariantly_constant", "gammaOmega_total",
@@ -1569,10 +1715,9 @@ CELLS = [
                     "Dirac_operator_explicit_C", "Dirac_operator_explicit_G",
                     "nontriviality_1_dirac16complex", "nontriviality_2_dirac16complex00",
                     "Omega_vanishes_iff_a4prime_b4prime_and_H_vanish", "block_form"],
-        REPORT_LEAD: ["vielbein_reproduces_metric",
-                      "gamma_Omega_equals_3H_gamma0_plus_b4_term",
-                      "gamma_Omega_divergence_formula",
-                      "negative_control_inflating_extra_times"],
+        REPORT_LEAD: ["fixture_clifford", "vielbein_reproduces_metric",
+                      "gamma_Omega_equals_hidden_block_terms",
+                      "gamma_Omega_divergence_formula", "negative_control_growing_block"],
     }
     count = sum(len(names) for names in cited.values())
     check(all(record_passed(path, name) for path, names in cited.items()
@@ -1581,7 +1726,7 @@ CELLS = [
     expected = [f"06a_{k}_{name}.png" for k, name in enumerate([
         "polar_frame_and_spin_rotation", "vielbein_factors", "christoffel_pattern",
         "omega_heat_maps", "spinor_connection_heat_maps", "gamma_omega_per_direction",
-        "gamma_omega_cancellation", "divergence_form", "derivative_coefficients",
+        "gamma_omega_sum", "divergence_form", "derivative_coefficients",
         "negative_control"], 1)]
     check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in expected),
           "all ten figure files exist")
@@ -1594,40 +1739,42 @@ CELLS = [
       ($\omega_{\varphi 01} = -1$, $\gamma^\mu\Omega_\mu = \sigma_1/(2r)$), but its
       curvature is zero and a spinor rotation removes it: in flat space the spin
       connection only records how the chosen frame turns.
-    - For the author's metric the diagonal vielbein $f = (\cot z,\ e^{a_4}s\
-      (\times 3),\ 1,\ e^{-a_4}b_4^{1/2}s\ (\times 3))$ gives the metric back, and
-      $\sqrt{|\det g|} = b_4^{3/2}\cos z$ depends on the time only through $b_4$
+    - For the corrected metric the diagonal vielbein $f = (s_b\cot z,\ e^{a_4}\
+      (\times 3),\ 1,\ s_bW\ (\times 3))$, $s_b = e^{-a_4}b_4^{1/2}$, $W =
+      (\sin^2 z)^{1/12}$, gives the metric back for every real $z$ away from the
+      degenerate points, and $\sqrt{|\det g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$
       (PROVED, exact; reproduces the record).
-    - The metric has 25 independent nonzero Christoffel symbols, and the canonical spin
-      connection has 12 independent nonzero components $\omega_{\mu ab}$, each equal to
-      a rate ($a_4'$, $a_4' - b_4'/(2b_4)$ or $H$) times a factor that never vanishes;
-      the vielbein postulate (512 equations), the antisymmetry and the covariant
-      constancy of the gammas (64 matrix equations) hold exactly (PROVED; reproduces the
-      records).
-    - $\gamma^\mu\Omega_\mu = 3H\gamma^{(x0)} + \frac34(b_4'/b_4)\gamma^{(x4)}$ exactly,
-      for every $H > 0$ and all functions $a_4(x_4)$, $b_4(x_4) > 0$ (PROVED; reproduces
-      the Python, Wolfram and lead records):
-      the time-direction terms $+\frac32 a_4'$ of the three inflating directions and
-      $-\frac32 a_4'$ of the three deflating extra times cancel, the extra times leave
-      $\frac34 b_4'/b_4$, and the six hidden terms $\frac12 H$ add up to $3H$. The
-      reason is the divergence form: the density $\sqrt{|g|}\,e_{(x4)}{}^{x4} =
-      b_4^{3/2}\cos z$ changes with the time only through $b_4$. On the history of the
-      record ($b_4'/b_4 = \frac43 H$), $\gamma^\mu\Omega_\mu = 3H\gamma^{(x0)} +
-      H\gamma^{(x4)}$.
-    - The Dirac operator is $\sum_a f_a^{-1}\gamma^{(a)}\partial_a + 3H\gamma^{(x0)} +
-      \frac34(b_4'/b_4)\gamma^{(x4)}$; all 16 component equations equal the records.
-      The deflation enters the field equation through the factors $e^{\mp a_4}$ in
-      front of the derivatives, not through $\gamma^\mu\Omega_\mu$.
-    - The term vanishes for a nonzero field only where $|b_4'/b_4| = 4H$ (never on the
-      history of the record, where its square is $8H^2$), because its square is
-      $(9H^2 - \frac{9}{16}(b_4'/b_4)^2)\,1$.
-    - NEGATIVE CONTROL: with inflating extra times the term $3a_4'\gamma^{(x4)}$
-      survives next to $\frac34(b_4'/b_4)\gamma^{(x4)}$ (reproduces the lead's record):
-      the cancellation of the $a_4'$ terms is caused by the deflation.
+    - The metric has 21 independent nonzero Christoffel symbols, and the canonical spin
+      connection has 10 independent nonzero components $\omega_{\mu ab}$, each equal to
+      a rate ($a_4'$, $h_4 = b_4'/(2b_4) - a_4'$ or $H$) times a factor that never
+      vanishes between the degenerate points; the vielbein postulate (512 equations),
+      the antisymmetry and the covariant constancy of the gammas (64 matrix equations)
+      hold exactly (PROVED; reproduces the records).
+    - $\gamma^\mu\Omega_\mu = \frac32He^{a_4}b_4^{-1/2}\gamma^{(x0)} + (b_4'/b_4 -
+      a_4'/2)\gamma^{(x4)}$ exactly, for every $H > 0$, all functions $a_4(x_4)$,
+      $b_4(x_4) > 0$ and every real $z$ (PROVED; reproduces the Python, Wolfram and
+      lead records): the time-direction terms $+\frac12a_4'$ of the three 3-space
+      directions and $\frac12h_4$ of the four directions of the hidden block add to
+      $v_g$, half the rate of the 7-volume $e^{-a_4}b_4^2$; the three extra times,
+      warped along $x0$, add $\frac12He^{a_4}b_4^{-1/2}$ each. On the history of the
+      record it is $\frac32He^{Hx_4/3}\gamma^{(x0)} + \frac56H\gamma^{(x4)}$: its hidden
+      part grows as the hidden block deflates.
+    - The Dirac operator is $\sum_a f_a^{-1}\gamma^{(a)}\partial_a + c_g\gamma^{(x0)} +
+      v_g\gamma^{(x4)}$; all 16 component equations equal the records. The deflation
+      also enters through the factors $e^{\mp a_4}$ and $e^{a_4}b_4^{-1/2}$ in front of
+      the derivatives.
+    - The term vanishes for a nonzero field only where $c_g = \pm v_g$, because its
+      square is $(c_g^2 - v_g^2)\,1$; on the history this happens at the single time
+      $x_4 = 3\ln(5/9)/H$, where $M$ has rank 8.
+    - NEGATIVE CONTROL: with a growing hidden block the coefficient of $a_4'$ in the
+      time term is $+\frac72$ instead of $-\frac12$ and the hidden term is
+      $\frac32He^{-a_4}b_4^{-1/2}$ (reproduces the lead's record): the term sees the
+      direction in which the hidden block changes.
     - Scope (stated by the record and shown in Notebook 06b): the value of
-      $\gamma^\mu\Omega_\mu$ belongs to the diagonal vielbein; it changes in a boosted
-      vielbein and is removed by a rescaling of the field, while the curvature of the
-      metric can be removed by nothing.
+      $\gamma^\mu\Omega_\mu$ belongs to the diagonal vielbein and the variable $\Psi$;
+      a boosted vielbein removes its $c_g$ part, a rescaling of the field removes all
+      of it, while the curvature of the metric, where it is not zero, can be removed by
+      nothing.
     """),
 ]
 
