@@ -85,8 +85,8 @@ FACTS = {
          "lists of length 1, 2 and 3) and its counts of the values +1, -1 and 0 for "
          "these lengths are reproduced"],
         ["Revision/gkd_lovelock/results/lovelock-report.json",
-         "its counter `gkdCalls` of the order-3 Lovelock sum (495,360 calls of GKD), "
-         "quoted and checked"],
+         "its counter `gkdCalls` of the order-3 Lovelock sum for the corrected metric "
+         "(322,560 calls of GKD), quoted and checked"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [
@@ -152,10 +152,10 @@ CELLS = [
     ## 3. The words used in this notebook
 
     - **Coordinate label**: the name of one of the eight coordinates $x_0, \dots, x_7$ of
-      the author's metric ($x_1, x_2, x_3$ ordinary space, $x_4$ the time, $x_5, x_6,
-      x_7$ the three extra times, which deflate exponentially, $x_0$ the hidden
-      direction). Programs number them
-      $0, 1, \dots, 7$: the number 0 stands for $x_1$, the number 7 for $x_0$.
+      the author's metric ($x_0$ the hidden direction, which is space-like and listed
+      first; $x_1, x_2, x_3$ ordinary space; $x_4$ the time; $x_5, x_6, x_7$ the three
+      extra times, which deflate exponentially). Programs number them $0, 1, \dots, 7$
+      in the same order: the number $k$ stands for $x_k$.
     - **Index list**: a list of labels such as $(x_2, x_1, x_4)$; its **length** $p$ is
       the number of entries. Two lists of the same length are a **pair**: the
       **lower** list $(l_1, \dots, l_p)$ and the **upper** list $(u_1, \dots, u_p)$.
@@ -204,10 +204,11 @@ CELLS = [
     products of two and of three curvature tensors. Written out, the tensor of order $k$
     is a sum over $2k$ upper and $2k$ lower coordinate labels plus one free pair, and
     every term is weighted by a generalized Kronecker delta with $p = 2k + 1$ upper and
-    $2k + 1$ lower labels. For the 64 components of the tensor of order $k = 3$ the
-    program `lovelock_gkd` evaluates the delta 495,360 times (record
-    `Revision/gkd_lovelock/results/lovelock-report.json`, counter `gkdCalls`). So the
-    delta must be right and fast.
+    $2k + 1$ lower labels. For the 64 components of the tensor of order $k = 3$ of the
+    corrected metric of the Revision record the program `lovelock_gkd` evaluates the
+    delta 322,560 times (record `Revision/gkd_lovelock/results/lovelock-report.json`,
+    counter `gkdCalls`). So the delta must be right and fast. The delta itself does not
+    depend on the metric: it only compares labels.
 
     **The author's definition.** The Revision record
     `Revision/gkd_lovelock/results/PROVENANCE_OF_THE_COMPUTATION.md` quotes it from the
@@ -375,10 +376,10 @@ CELLS = [
     and `ax.text(column, row, ...)` writes a number at the centre of a square.
     """),
     code(r'''
-    SHOWN = [  # (lower list, upper list) with labels 0..7 standing for x0..x7
-        ((0, 1, 2, 3), (1, 0, 3, 2)),  # x2 x1 x4 x3: two exchanges, even
-        ((0, 1, 2, 3), (1, 2, 3, 0)),  # x2 x3 x4 x1: a cycle of four, odd
-        ((0, 1, 2, 2), (0, 1, 2, 3)),  # x3 twice in the lower list
+    SHOWN = [  # (lower list, upper list); the label k stands for xk
+        ((1, 2, 3, 4), (2, 1, 4, 3)),  # x2 x1 x4 x3: two exchanges, even
+        ((1, 2, 3, 4), (2, 3, 4, 1)),  # x2 x3 x4 x1: a cycle of four, odd
+        ((1, 2, 3, 3), (1, 2, 3, 4)),  # x3 twice in the lower list
     ]
     fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.9))
     for ax, (lower, upper) in zip(axes, SHOWN):
@@ -470,7 +471,7 @@ CELLS = [
     determinant for all six.
     """),
     code(r'''
-    lower = (0, 1, 2)  # x1, x2, x3
+    lower = (1, 2, 3)  # x1, x2, x3
     fig, axes = plt.subplots(2, 3, figsize=(9.0, 6.4))
     signs = []
     for ax, upper in zip(axes.flat, itertools.permutations(lower)):
@@ -602,8 +603,8 @@ CELLS = [
     fig, ax = plt.subplots(figsize=(6.6, 6.0))
     picture = ax.imshow(grid, cmap="bwr", vmin=-1, vmax=1)  # blue -1, red +1
     ticks = range(0, 64, 8)  # one tick at the start of each block of 8
-    ax.set_xticks(ticks, [f"({NAMES[t // 8]},x1)" for t in ticks], rotation=90)
-    ax.set_yticks(ticks, [f"({NAMES[t // 8]},x1)" for t in ticks])
+    ax.set_xticks(ticks, [f"({NAMES[t // 8]},x0)" for t in ticks], rotation=90)
+    ax.set_yticks(ticks, [f"({NAMES[t // 8]},x0)" for t in ticks])
     ax.set_xlabel("upper list $(u_1, u_2)$, numbered $8 u_1 + u_2$")
     ax.set_ylabel("lower list $(l_1, l_2)$, numbered $8 l_1 + l_2$")
     ax.set_title("GKD for all 4096 pairs of index lists of length 2")
@@ -957,8 +958,8 @@ CELLS = [
     ## 11. The Revision records quoted in this notebook
 
     This notebook quotes check names and numbers from five Revision records. Two of them
-    were already compared in full: the self-test record `gkd-selftest.json` (byte for
-    byte, section 10) and the value counts of `wolfram-gkd-report.json` (section 7). The
+    were already checked in full: the self-test record `gkd-selftest.json` (row by row,
+    section 10) and the value counts of `wolfram-gkd-report.json` (section 7). The
     next cell reads the records once more and checks the rest of what the text quotes,
     so that a later change of a record cannot pass unnoticed:
 
@@ -968,7 +969,7 @@ CELLS = [
     - the record `PROVENANCE_OF_THE_COMPUTATION.md` contains the author's definition as
       quoted in section 4 (the part after the name k$\delta$, which is written with a
       Greek letter there);
-    - the counter `gkdCalls` of the order-3 sum in `lovelock-report.json` is 495,360, the
+    - the counter `gkdCalls` of the order-3 sum in `lovelock-report.json` is 322,560, the
       number quoted in section 4.
 
     The function `verdicts(path)` returns, for one report, a dictionary from the name of
@@ -1016,8 +1017,8 @@ CELLS = [
         f"{RECORDS}/lovelock-report.json").read_text(encoding="utf-8"))["counters"]
         if row["k"] == 3][0]
     report("GKD calls of the order-3 Lovelock sum (record)", order_three["gkdCalls"])
-    check(order_three["gkdCalls"] == 495360,
-          "the order-3 Lovelock sum calls GKD 495360 times, as section 4 of this "
+    check(order_three["gkdCalls"] == 322560,
+          "the order-3 Lovelock sum calls GKD 322560 times, as section 4 of this "
           "notebook says",
           record=f"{RECORDS}/lovelock-report.json, counters, k = 3, gkdCalls")
     '''),
@@ -1050,10 +1051,11 @@ CELLS = [
       tensor of order 4 is zero and Lovelock's sum stops at order 3.
     - The rule costs $p(p-1)/2$ comparisons instead of $p!$ products and is measured to
       be more than ten times faster already for $p = 7$.
-    - The Revision Rust program `lovelock_gkd`, built here with cargo, compared GKD with
-      the literal determinant on 16,777,216 pairs of length 4 and 1,000,000 random
-      pairs of lengths 5 to 9 without a single disagreement, and wrote the Revision
-      record `gkd-selftest.json` again, byte for byte.
+    - The Revision Rust program `lovelock_gkd` was built here with cargo. Its self-test,
+      whose record `gkd-selftest.json` the notebook read and checked row by row (the
+      run itself takes 7 to 13 minutes and is not repeated here), compared GKD with the
+      literal determinant on 16,777,216 pairs of length 4 and 1,000,000 random pairs of
+      lengths 5 to 9 without a single disagreement.
     - Every check and number that the notebook quotes from the Revision records (the
       sympy and Wolfram verifications, the record of the author's definition and the
       counter of the order-3 Lovelock sum) is present in them, and every quoted check
