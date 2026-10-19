@@ -1,0 +1,204 @@
+closed shells (free, both parities, L = 3, m = 1 and m = 3)
+  N_mid = 112, N_big = 1016, N_mid(m = 3) = 112
+coupling (m = 1, L = 2, N = 8): strength 0.191277728704 (S_ref 0 at y = -2.000, n_ref 3.0604437 at y = -2.000; coarse nodes 0.191277728704) -> lambda_hat_1 = 0.522800017951, lambda_hat_2 = 5.22800017951
+resume: keeping coupling-m1_L2_N8
+coupling (m = 1, L = 2, N = 112): strength 2.37545967941 (S_ref 2.5338237 at y = -1.787, n_ref 12.508875 at y = -2.000; coarse nodes 2.36944459839) -> lambda_hat_1 = 0.0420971152938, lambda_hat_2 = 0.420971152938
+resume: keeping coupling-m1_L2_N112
+coupling (m = 1, L = 3, N = 8): strength 10.277607984 (S_ref 0 at y = -3.000, n_ref 164.44173 at y = -3.000; coarse nodes 10.277607984) -> lambda_hat_1 = 0.00972989047212, lambda_hat_2 = 0.0972989047212
+resume: keeping coupling-m1_L3_N8
+coupling (m = 1, L = 3, N = 112): strength 10.4517618099 (S_ref 6.1664411 at y = -2.280, n_ref 167.22819 at y = -3.000; coarse nodes 10.4517618099) -> lambda_hat_1 = 0.00956776492033, lambda_hat_2 = 0.0956776492033
+resume: keeping coupling-m1_L3_N112
+coupling (m = 1, L = 3, N = 1016): strength 634.138813621 (S_ref 676.41473 at y = -2.810, n_ref 3855.9895 at y = -3.000; coarse nodes 632.838275279) -> lambda_hat_1 = 0.000157694179653, lambda_hat_2 = 0.00157694179653
+resume: keeping coupling-m1_L3_N1016
+coupling (m = 1, L = 4, N = 8): strength 559.935269295 (S_ref 0 at y = -4.000, n_ref 8958.9643 at y = -4.000; coarse nodes 559.935269295) -> lambda_hat_1 = 0.000178592072126, lambda_hat_2 = 0.00178592072126
+resume: keeping coupling-m1_L4_N8
+coupling (m = 1, L = 4, N = 112): strength 559.93527132 (S_ref 6.1789923 at y = -2.280, n_ref 8958.9643 at y = -4.000; coarse nodes 559.93527132) -> lambda_hat_1 = 0.00017859207148, lambda_hat_2 = 0.0017859207148
+resume: keeping coupling-m1_L4_N112
+coupling (m = 3, L = 3, N = 8): strength 2.33301035706e-06 (S_ref 0 at y = -3.000, n_ref 0.081636698 at y = -0.010; coarse nodes 2.33301035647e-06) -> lambda_hat_1 = 42863.0758957, lambda_hat_2 = 428630.758957
+resume: keeping coupling-m3_L3_N8
+coupling (m = 3, L = 3, N = 112): strength 0.000117282833171 (S_ref 0.27359739 at y = -0.790, n_ref 1.1747078 at y = 0.000; coarse nodes 0.000117268298488) -> lambda_hat_1 = 852.639702643, lambda_hat_2 = 8526.39702643
+resume: keeping coupling-m3_L3_N112
+resume: keeping L2-free-N8-p+1
+resume: keeping L2-free-N8-p-1
+resume: keeping L3-free-N8-p+1
+resume: keeping L3-free-N8-p-1
+resume: keeping L4-free-N8-p+1
+resume: keeping L4-free-N8-p-1
+resume: keeping m1_L3_N8_lam0_T0
+resume: keeping m1_L3_N112_lam0_T0
+resume: keeping m1_L3_N1016_lam0_T0
+resume: keeping m1_L2_N8_lam0_T0
+resume: keeping m1_L2_N112_lam0_T0
+resume: keeping m1_L4_N8_lam0_T0
+resume: keeping m1_L4_N112_lam0_T0
+resume: keeping m3_L3_N8_lam0_T0
+resume: keeping m3_L3_N112_lam0_T0
+resume: keeping m1_L3_N8_lam0_T0p1
+resume: keeping m1_L3_N8_lam0_T0p3
+resume: keeping m1_L3_N8_lam0_T1
+resume: keeping m1_L3_N112_lam0_T0p1
+resume: keeping m1_L3_N112_lam0_T0p3
+resume: keeping m1_L3_N112_lam0_T1
+resume: keeping m1_L3_N8_lamp1_T0
+resume: keeping m1_L3_N8_lamm1_T0
+resume: keeping m1_L3_N8_lamp2_T0
+resume: keeping m1_L3_N8_lamm2_T0
+resume: keeping m1_L3_N112_lamp1_T0
+resume: keeping m1_L3_N112_lamm1_T0
+resume: keeping m1_L3_N112_lamp2_T0
+resume: keeping m1_L3_N112_lamm2_T0
+resume: keeping m1_L3_N1016_lamp1_T0
+resume: keeping m1_L3_N1016_lamm1_T0
+resume: keeping m1_L3_N1016_lamp2_T0
+resume: keeping m1_L2_N8_lamp1_T0
+resume: keeping m1_L2_N112_lamp1_T0
+resume: keeping m1_L4_N8_lamp1_T0
+resume: keeping m1_L4_N112_lamp1_T0
+resume: keeping m3_L3_N8_lamp1_T0
+resume: keeping m3_L3_N8_lamm1_T0
+resume: keeping m3_L3_N112_lamp1_T0
+resume: keeping m3_L3_N112_lamm1_T0
+resume: keeping m1_L3_N112_lamp1_T0_a40p5
+resume: keeping m1_L3_N112_lamp1rescaled_T0_dk0p15163266492815836
+resume: keeping m1_L3_N896_lamp1_T0_dk0p125
+resume: keeping m1_L3_N8_lamp1_T0p1
+resume: keeping m1_L3_N8_lamp1_T0p3
+resume: keeping m1_L3_N8_lamh_T0
+resume: keeping m1_L3_N8_lamh_T0p1
+resume: keeping m1_L3_N8_lamh_T0p3
+resume: keeping m1_L3_N8_lamh_T1
+resume: keeping m1_L3_N112_lamp1_T0p1
+resume: keeping m1_L3_N112_lamp1_T0p3
+resume: keeping m1_L3_N112_lamh_T0
+resume: keeping m1_L3_N112_lamh_T0p1
+resume: keeping m1_L3_N112_lamh_T0p3
+resume: keeping m1_L3_N112_lamh_T1
+58 runs and 9 coupling tasks (55 runs kept from a previous run), 1 workers
+skipped m1_L3_N8_lamp1_T1: not run: first-order pseudo-potential |lambda_hat| strength_free(T) = 40.9658 m exceeds the STAGE4_SPEC section 4 window edge 1 m (free state m1_L3_N8_lam0_T1); the hot-calibrated series lamh covers this temperature (the Rust rule)
+skipped m1_L3_N112_lamp1_T1: not run: first-order pseudo-potential |lambda_hat| strength_free(T) = 40.2849 m exceeds the STAGE4_SPEC section 4 window edge 1 m (free state m1_L3_N112_lam0_T1); the hot-calibrated series lamh covers this temperature (the Rust rule)
+[m1_L3_N1016_lamm2_T0] run m1_L3_N1016_lamm2_T0: {"label": "m1_L3_N1016_lamm2_T0", "m": 1.0, "a4_0": 0.0, "L": 3.0, "lambda_hat": -0.0015769417965291643, "lambda": -0.0015769417965291643, "T": 0.0, "N": 1016.0, "parity": 0, "tip": "g0", "xc": "quadratic", "sea": "free", "delta_k": 0.25, "ell": 25.132741228718345, "volume": 15875.213660313506, "N0": 120, "levels": 3, "mix_beta": 0.4, "mix_history": 6, "tol": 1e-10, "max_iter": 200, "H": 1.0, "delta_k_over_m": 0.25, "occupationSmearing": 0.001, "exactShells": null, "solverVersion": 2}
+[m1_L3_N1016_lamm2_T0]   level 0 (N = 120), occupation smearing 0.001
+[m1_L3_N1016_lamm2_T0]     it   1  resN 8.014e-03 resS 1.548e-02 resD 8.014e-03 resV 3.434e+00  mu 1.3889854918  E 1126.732484347598  states 535
+[m1_L3_N1016_lamm2_T0]     it   2  resN 5.026e-03 resS 9.366e-03 resD 5.026e-03 resV 4.501e+00  mu 1.3889877847  E 1126.308522186967  states 530
+[m1_L3_N1016_lamm2_T0]     it   3  resN 6.046e-03 resS 2.048e-02 resD 6.046e-03 resV 5.558e+00  mu 1.4230292740  E 1128.536070991525  states 541
+[m1_L3_N1016_lamm2_T0]     it   4  resN 3.823e-03 resS 6.539e-03 resD 3.823e-03 resV 3.240e+00  mu 1.3927596116  E 1127.142746705407  states 541
+[m1_L3_N1016_lamm2_T0]     it   5  resN 5.090e-03 resS 9.315e-03 resD 5.090e-03 resV 1.150e+00  mu 1.3890044651  E 1126.948824022903  states 531
+[m1_L3_N1016_lamm2_T0]     it   6  resN 5.835e-03 resS 1.061e-02 resD 5.835e-03 resV 1.855e+00  mu 1.3889862146  E 1126.827394283916  states 528
+[m1_L3_N1016_lamm2_T0]     it   7  resN 7.161e-03 resS 1.266e-02 resD 7.161e-03 resV 3.371e+00  mu 1.3889847568  E 1126.727116501060  states 530
+[m1_L3_N1016_lamm2_T0]     it   8  resN 7.321e-03 resS 1.307e-02 resD 7.321e-03 resV 3.264e+00  mu 1.3889846616  E 1126.717709152290  states 530
+[m1_L3_N1016_lamm2_T0]     it   9  resN 4.578e-03 resS 7.975e-03 resD 4.578e-03 resV 2.532e+00  mu 1.3889871427  E 1126.767356058490  states 528
+[m1_L3_N1016_lamm2_T0]     it  10  resN 3.023e-03 resS 4.949e-03 resD 3.023e-03 resV 1.800e+00  mu 1.3889886077  E 1126.980331680808  states 528
+[m1_L3_N1016_lamm2_T0]     it  11  resN 1.153e-03 resS 1.783e-03 resD 1.153e-03 resV 1.041e+00  mu 1.3889913094  E 1126.927718323538  states 528
+[m1_L3_N1016_lamm2_T0]     it  12  resN 7.218e-03 resS 1.246e-02 resD 7.218e-03 resV 9.093e-01  mu 1.3933133811  E 1126.875233892432  states 532
+[m1_L3_N1016_lamm2_T0]     it  13  resN 4.283e-03 resS 7.325e-03 resD 4.283e-03 resV 5.360e-01  mu 1.3904106099  E 1126.921884316967  states 532
+[m1_L3_N1016_lamm2_T0]     it  14  resN 5.337e-04 resS 4.902e-04 resD 5.337e-04 resV 5.389e-01  mu 1.3891965067  E 1126.942244536032  states 528
+[m1_L3_N1016_lamm2_T0]     it  15  resN 1.197e-03 resS 1.995e-03 resD 1.197e-03 resV 4.433e-01  mu 1.3892087858  E 1126.938871636710  states 528
+[m1_L3_N1016_lamm2_T0]     it  16  resN 9.797e-04 resS 1.666e-03 resD 9.797e-04 resV 2.013e-01  mu 1.3893956598  E 1126.936831534240  states 528
+[m1_L3_N1016_lamm2_T0]     it  17  resN 1.651e-03 resS 2.796e-03 resD 1.651e-03 resV 2.706e-01  mu 1.3900818039  E 1126.925948650517  states 528
+[m1_L3_N1016_lamm2_T0]     it  18  resN 1.330e-03 resS 2.256e-03 resD 1.330e-03 resV 2.059e-01  mu 1.3899689710  E 1126.927930495315  states 528
+[m1_L3_N1016_lamm2_T0]     it  19  resN 2.649e-04 resS 4.628e-04 resD 2.649e-04 resV 5.654e-02  mu 1.3896069781  E 1126.933855851128  states 528
+[m1_L3_N1016_lamm2_T0]     it  20  resN 2.663e-04 resS 4.495e-04 resD 2.663e-04 resV 6.551e-02  mu 1.3897278399  E 1126.932010529995  states 528
+[m1_L3_N1016_lamm2_T0]     it  21  resN 1.948e-05 resS 2.705e-05 resD 1.948e-05 resV 6.513e-03  mu 1.3896650567  E 1126.932985609726  states 528
+[m1_L3_N1016_lamm2_T0]     it  22  resN 1.998e-05 resS 3.726e-05 resD 1.998e-05 resV 4.305e-03  mu 1.3896542732  E 1126.933149135094  states 528
+[m1_L3_N1016_lamm2_T0]     it  23  resN 2.361e-05 resS 4.271e-05 resD 2.361e-05 resV 4.434e-03  mu 1.3896526937  E 1126.933172846275  states 528
+[m1_L3_N1016_lamm2_T0]     it  24  resN 1.667e-05 resS 2.989e-05 resD 1.667e-05 resV 3.150e-03  mu 1.3896523123  E 1126.933178250933  states 528
+[m1_L3_N1016_lamm2_T0]     it  25  resN 2.438e-06 resS 4.328e-06 resD 2.438e-06 resV 8.839e-04  mu 1.3896525641  E 1126.933174499950  states 528
+[m1_L3_N1016_lamm2_T0]     it  26  resN 6.828e-06 resS 1.144e-05 resD 6.828e-06 resV 1.221e-03  mu 1.3896551905  E 1126.933134534466  states 528
+[m1_L3_N1016_lamm2_T0]     it  27  resN 4.094e-07 resS 7.618e-07 resD 4.094e-07 resV 9.965e-05  mu 1.3896538853  E 1126.933154355327  states 528
+[m1_L3_N1016_lamm2_T0]     it  28  resN 1.006e-06 resS 1.722e-06 resD 1.006e-06 resV 1.991e-04  mu 1.3896538145  E 1126.933155426291  states 528
+[m1_L3_N1016_lamm2_T0]     it  29  resN 4.730e-08 resS 8.438e-08 resD 4.730e-08 resV 4.460e-05  mu 1.3896540236  E 1126.933152249632  states 528
+[m1_L3_N1016_lamm2_T0]     it  30  resN 1.391e-08 resS 2.811e-08 resD 1.391e-08 resV 1.330e-05  mu 1.3896540182  E 1126.933152332239  states 528
+[m1_L3_N1016_lamm2_T0]     it  31  resN 3.376e-08 resS 5.623e-08 resD 3.376e-08 resV 6.456e-06  mu 1.3896540055  E 1126.933152525226  states 528
+[m1_L3_N1016_lamm2_T0]     it  32  resN 1.950e-09 resS 3.638e-09 resD 1.950e-09 resV 5.979e-07  mu 1.3896540155  E 1126.933152373188  states 528
+[m1_L3_N1016_lamm2_T0]     it  33  resN 1.080e-09 resS 1.607e-09 resD 1.080e-09 resV 3.005e-07  mu 1.3896540152  E 1126.933152378014  states 528
+[m1_L3_N1016_lamm2_T0]     it  34  resN 1.210e-09 resS 2.058e-09 resD 1.210e-09 resV 2.435e-07  mu 1.3896540157  E 1126.933152370922  states 528
+[m1_L3_N1016_lamm2_T0]     it  35  resN 6.436e-11 resS 1.116e-10 resD 6.436e-11 resV 8.610e-08  mu 1.3896540154  E 1126.933152375228  states 528
+[m1_L3_N1016_lamm2_T0]   level 1 (N = 240), occupation smearing 0.001
+[m1_L3_N1016_lamm2_T0]     it   1  resN 1.203e-02 resS 2.415e-03 resD 1.203e-02 resV 2.156e-02  mu 1.3895781142  E 1126.877241651032  states 528
+[m1_L3_N1016_lamm2_T0]     it   2  resN 7.023e-03 resS 1.405e-03 resD 7.023e-03 resV 3.566e-02  mu 1.3895321676  E 1126.877930556571  states 528
+[m1_L3_N1016_lamm2_T0]     it   3  resN 7.224e-04 resS 1.174e-03 resD 7.224e-04 resV 1.387e-01  mu 1.3893777315  E 1126.880569826913  states 528
+[m1_L3_N1016_lamm2_T0]     it   4  resN 2.698e-03 resS 4.635e-03 resD 2.698e-03 resV 4.922e-01  mu 1.3891279762  E 1126.880915993717  states 528
+[m1_L3_N1016_lamm2_T0]     it   5  resN 1.164e-04 resS 1.976e-04 resD 1.164e-04 resV 2.064e-02  mu 1.3896153283  E 1126.876680202020  states 528
+[m1_L3_N1016_lamm2_T0]     it   6  resN 3.729e-05 resS 6.285e-05 resD 3.729e-05 resV 6.141e-03  mu 1.3895795328  E 1126.877228121913  states 528
+[m1_L3_N1016_lamm2_T0]     it   7  resN 2.136e-06 resS 3.518e-06 resD 2.136e-06 resV 2.456e-03  mu 1.3895888506  E 1126.877086681998  states 528
+[m1_L3_N1016_lamm2_T0]     it   8  resN 1.158e-05 resS 2.064e-05 resD 1.158e-05 resV 2.439e-03  mu 1.3895905842  E 1126.877060401635  states 528
+[m1_L3_N1016_lamm2_T0]     it   9  resN 2.176e-06 resS 3.838e-06 resD 2.176e-06 resV 7.677e-04  mu 1.3895893235  E 1126.877079447216  states 528
+[m1_L3_N1016_lamm2_T0]     it  10  resN 6.625e-07 resS 1.101e-06 resD 6.625e-07 resV 5.131e-04  mu 1.3895892133  E 1126.877081106656  states 528
+[m1_L3_N1016_lamm2_T0]     it  11  resN 1.011e-07 resS 1.818e-07 resD 1.011e-07 resV 3.622e-05  mu 1.3895891226  E 1126.877082478365  states 528
+[m1_L3_N1016_lamm2_T0]     it  12  resN 4.170e-08 resS 6.713e-08 resD 4.170e-08 resV 2.764e-05  mu 1.3895891259  E 1126.877082428903  states 528
+[m1_L3_N1016_lamm2_T0]     it  13  resN 3.523e-08 resS 5.739e-08 resD 3.523e-08 resV 1.721e-05  mu 1.3895891251  E 1126.877082441343  states 528
+[m1_L3_N1016_lamm2_T0]     it  14  resN 6.009e-09 resS 9.857e-09 resD 6.009e-09 resV 3.635e-06  mu 1.3895891301  E 1126.877082364995  states 528
+[m1_L3_N1016_lamm2_T0]     it  15  resN 3.666e-09 resS 6.073e-09 resD 3.666e-09 resV 2.153e-06  mu 1.3895891312  E 1126.877082349574  states 528
+[m1_L3_N1016_lamm2_T0]     it  16  resN 2.294e-10 resS 3.891e-10 resD 2.294e-10 resV 3.762e-07  mu 1.3895891326  E 1126.877082328374  states 528
+[m1_L3_N1016_lamm2_T0]     it  17  resN 1.323e-09 resS 2.270e-09 resD 1.323e-09 resV 2.452e-07  mu 1.3895891330  E 1126.877082321733  states 528
+[m1_L3_N1016_lamm2_T0]     it  18  resN 5.670e-10 resS 9.462e-10 resD 5.670e-10 resV 1.841e-07  mu 1.3895891326  E 1126.877082328386  states 528
+[m1_L3_N1016_lamm2_T0]     it  19  resN 8.083e-11 resS 1.373e-10 resD 8.083e-11 resV 3.938e-08  mu 1.3895891327  E 1126.877082325728  states 528
+[m1_L3_N1016_lamm2_T0]   level 2 (N = 480), occupation smearing 0.001
+[m1_L3_N1016_lamm2_T0]     it   1  resN 6.131e-03 resS 6.380e-04 resD 6.131e-03 resV 7.044e-03  mu 1.3895702166  E 1126.862902588585  states 528
+[m1_L3_N1016_lamm2_T0]     it   2  resN 3.633e-03 resS 3.775e-04 resD 3.633e-03 resV 8.555e-03  mu 1.3895593709  E 1126.863067474844  states 528
+[m1_L3_N1016_lamm2_T0]     it   3  resN 1.851e-04 resS 3.005e-04 resD 1.851e-04 resV 3.395e-02  mu 1.3895159289  E 1126.863744433914  states 528
+[m1_L3_N1016_lamm2_T0]     it   4  resN 4.685e-04 resS 8.043e-04 resD 4.685e-04 resV 8.274e-02  mu 1.3894772461  E 1126.864249844290  states 528
+[m1_L3_N1016_lamm2_T0]     it   5  resN 6.635e-07 resS 1.555e-06 resD 6.635e-07 resV 2.710e-03  mu 1.3895729522  E 1126.862862138629  states 528
+[m1_L3_N1016_lamm2_T0]     it   6  resN 1.821e-06 resS 3.170e-06 resD 1.821e-06 resV 8.198e-04  mu 1.3895722071  E 1126.862873443049  states 528
+[m1_L3_N1016_lamm2_T0]     it   7  resN 2.939e-06 resS 5.075e-06 resD 2.939e-06 resV 5.536e-04  mu 1.3895731949  E 1126.862858426689  states 528
+[m1_L3_N1016_lamm2_T0]     it   8  resN 1.867e-07 resS 3.398e-07 resD 1.867e-07 resV 3.417e-04  mu 1.3895727090  E 1126.862865807980  states 528
+[m1_L3_N1016_lamm2_T0]     it   9  resN 7.072e-08 resS 1.126e-07 resD 7.072e-08 resV 1.451e-04  mu 1.3895727276  E 1126.862865522470  states 528
+[m1_L3_N1016_lamm2_T0]     it  10  resN 3.285e-08 resS 5.514e-08 resD 3.285e-08 resV 5.080e-05  mu 1.3895727018  E 1126.862865915110  states 528
+[m1_L3_N1016_lamm2_T0]     it  11  resN 2.974e-08 resS 4.815e-08 resD 2.974e-08 resV 2.290e-05  mu 1.3895727184  E 1126.862865662084  states 528
+[m1_L3_N1016_lamm2_T0]     it  12  resN 4.540e-09 resS 7.200e-09 resD 4.540e-09 resV 6.370e-06  mu 1.3895727070  E 1126.862865835662  states 528
+[m1_L3_N1016_lamm2_T0]     it  13  resN 2.980e-09 resS 4.906e-09 resD 2.980e-09 resV 2.150e-06  mu 1.3895727053  E 1126.862865862337  states 528
+[m1_L3_N1016_lamm2_T0]     it  14  resN 1.738e-09 resS 2.799e-09 resD 1.738e-09 resV 5.030e-07  mu 1.3895727042  E 1126.862865878497  states 528
+[m1_L3_N1016_lamm2_T0]     it  15  resN 6.722e-10 resS 1.062e-09 resD 6.722e-10 resV 3.732e-07  mu 1.3895727037  E 1126.862865887124  states 528
+[m1_L3_N1016_lamm2_T0]     it  16  resN 1.131e-09 resS 1.956e-09 resD 1.131e-09 resV 2.044e-07  mu 1.3895727039  E 1126.862865884072  states 528
+[m1_L3_N1016_lamm2_T0]     it  17  resN 8.475e-10 resS 1.468e-09 resD 8.475e-10 resV 1.543e-07  mu 1.3895727038  E 1126.862865884816  states 528
+[m1_L3_N1016_lamm2_T0]     it  18  resN 5.918e-10 resS 1.021e-09 resD 5.918e-10 resV 3.058e-07  mu 1.3895727038  E 1126.862865885537  states 528
+[m1_L3_N1016_lamm2_T0]     it  19  resN 1.540e-10 resS 2.632e-10 resD 1.540e-10 resV 3.325e-07  mu 1.3895727037  E 1126.862865887253  states 528
+[m1_L3_N1016_lamm2_T0]     it  20  resN 3.441e-11 resS 6.164e-11 resD 3.441e-11 resV 2.695e-08  mu 1.3895727036  E 1126.862865887924  states 528
+[m1_L3_N1016_lamm2_T0]   Delta-SCF: HOMO 0:+1:+1:1 -> LUMO 1:-1:+1:0
+[m1_L3_N1016_lamm2_T0]   level 0 (N = 120), occupation smearing 0.001
+[m1_L3_N1016_lamm2_T0]     it   1  resN 1.988e-03 resS 5.139e-03 resD 1.988e-03 resV 1.994e+00  mu 2.1259583889  E 1126.643722834471  states 816
+[m1_L3_N1016_lamm2_T0]     it   2  resN 2.365e-03 resS 3.423e-03 resD 2.365e-03 resV 2.389e+00  mu 2.1262665410  E 1126.980510223911  states 818
+[m1_L3_N1016_lamm2_T0]     it   3  resN 2.830e-04 resS 5.805e-03 resD 7.173e-04 resV 4.483e+00  mu 2.1262453655  E 1127.249115923945  states 818
+[m1_L3_N1016_lamm2_T0]     it   4  resN 4.036e-04 resS 6.029e-04 resD 4.036e-04 resV 4.085e-01  mu 2.1258716856  E 1126.966519647382  states 816
+[m1_L3_N1016_lamm2_T0]     it   5  resN 5.005e-04 resS 8.992e-04 resD 5.005e-04 resV 5.066e-01  mu 2.1259484432  E 1126.957954058276  states 816
+[m1_L3_N1016_lamm2_T0]     it   6  resN 1.904e-04 resS 5.984e-04 resD 1.904e-04 resV 2.733e-01  mu 2.1260120468  E 1126.973930733712  states 816
+[m1_L3_N1016_lamm2_T0]     it   7  resN 4.295e-05 resS 4.747e-05 resD 4.295e-05 resV 4.347e-02  mu 2.1260169756  E 1126.976598696381  states 816
+[m1_L3_N1016_lamm2_T0]     it   8  resN 3.714e-05 resS 6.882e-05 resD 3.714e-05 resV 4.422e-02  mu 2.1260040401  E 1126.976529051034  states 816
+[m1_L3_N1016_lamm2_T0]     it   9  resN 8.780e-06 resS 3.944e-05 resD 8.780e-06 resV 2.351e-02  mu 2.1260030522  E 1126.976619623529  states 816
+[m1_L3_N1016_lamm2_T0]     it  10  resN 2.160e-06 resS 7.921e-06 resD 2.160e-06 resV 7.357e-03  mu 2.1260018655  E 1126.976621819651  states 816
+[m1_L3_N1016_lamm2_T0]     it  11  resN 9.809e-07 resS 3.849e-06 resD 9.809e-07 resV 3.772e-03  mu 2.1260018520  E 1126.976621815501  states 816
+[m1_L3_N1016_lamm2_T0]     it  12  resN 6.173e-07 resS 3.274e-06 resD 6.173e-07 resV 2.648e-03  mu 2.1260019233  E 1126.976621823949  states 816
+[m1_L3_N1016_lamm2_T0]     it  13  resN 1.909e-08 resS 1.015e-07 resD 1.909e-08 resV 1.248e-04  mu 2.1260018063  E 1126.976621776630  states 816
+[m1_L3_N1016_lamm2_T0]     it  14  resN 4.883e-09 resS 4.268e-08 resD 5.273e-09 resV 5.442e-05  mu 2.1260017978  E 1126.976621776552  states 816
+[m1_L3_N1016_lamm2_T0]     it  15  resN 2.115e-09 resS 1.172e-08 resD 2.115e-09 resV 1.620e-05  mu 2.1260017944  E 1126.976621776527  states 816
+[m1_L3_N1016_lamm2_T0]     it  16  resN 6.942e-10 resS 2.517e-09 resD 6.942e-10 resV 2.820e-06  mu 2.1260017935  E 1126.976621776528  states 816
+[m1_L3_N1016_lamm2_T0]     it  17  resN 1.611e-10 resS 8.787e-10 resD 1.611e-10 resV 6.852e-07  mu 2.1260017936  E 1126.976621776528  states 816
+[m1_L3_N1016_lamm2_T0]     it  18  resN 4.389e-11 resS 3.814e-10 resD 4.713e-11 resV 5.300e-07  mu 2.1260017937  E 1126.976621776526  states 816
+[m1_L3_N1016_lamm2_T0]   level 1 (N = 240), occupation smearing 0.001
+[m1_L3_N1016_lamm2_T0]     it   1  resN 1.207e-02 resS 2.428e-03 resD 1.207e-02 resV 1.969e-02  mu 2.1261036723  E 1126.920658291157  states 816
+[m1_L3_N1016_lamm2_T0]     it   2  resN 7.243e-03 resS 1.457e-03 resD 7.243e-03 resV 9.294e-03  mu 2.1261063181  E 1126.920660718144  states 816
+[m1_L3_N1016_lamm2_T0]     it   3  resN 1.810e-06 resS 9.925e-06 resD 1.810e-06 resV 5.750e-03  mu 2.1261100591  E 1126.920665627929  states 816
+[m1_L3_N1016_lamm2_T0]     it   4  resN 2.061e-06 resS 9.688e-06 resD 2.061e-06 resV 4.468e-03  mu 2.1261092898  E 1126.920663855450  states 816
+[m1_L3_N1016_lamm2_T0]     it   5  resN 1.073e-06 resS 2.147e-06 resD 1.073e-06 resV 3.467e-03  mu 2.1261088424  E 1126.920664007596  states 816
+[m1_L3_N1016_lamm2_T0]     it   6  resN 4.095e-07 resS 7.851e-07 resD 4.095e-07 resV 1.014e-03  mu 2.1261089390  E 1126.920663989498  states 816
+[m1_L3_N1016_lamm2_T0]     it   7  resN 6.379e-08 resS 2.709e-07 resD 6.379e-08 resV 2.436e-04  mu 2.1261088610  E 1126.920663989813  states 816
+[m1_L3_N1016_lamm2_T0]     it   8  resN 3.736e-08 resS 1.128e-07 resD 3.736e-08 resV 1.262e-04  mu 2.1261088426  E 1126.920663989598  states 816
+[m1_L3_N1016_lamm2_T0]     it   9  resN 1.147e-08 resS 3.316e-08 resD 1.147e-08 resV 3.954e-05  mu 2.1261088559  E 1126.920663989592  states 816
+[m1_L3_N1016_lamm2_T0]     it  10  resN 1.594e-09 resS 5.396e-09 resD 1.594e-09 resV 8.084e-06  mu 2.1261088596  E 1126.920663989577  states 816
+[m1_L3_N1016_lamm2_T0]     it  11  resN 9.477e-10 resS 2.847e-09 resD 9.477e-10 resV 4.265e-06  mu 2.1261088596  E 1126.920663989574  states 816
+[m1_L3_N1016_lamm2_T0]     it  12  resN 1.587e-10 resS 3.218e-10 resD 1.587e-10 resV 3.765e-07  mu 2.1261088595  E 1126.920663989577  states 816
+[m1_L3_N1016_lamm2_T0]     it  13  resN 1.800e-11 resS 9.604e-11 resD 1.800e-11 resV 9.414e-08  mu 2.1261088595  E 1126.920663989576  states 816
+[m1_L3_N1016_lamm2_T0]   level 2 (N = 480), occupation smearing 0.001
+[m1_L3_N1016_lamm2_T0]     it   1  resN 6.139e-03 resS 6.399e-04 resD 6.139e-03 resV 7.789e-03  mu 2.1261343293  E 1126.906475071642  states 816
+[m1_L3_N1016_lamm2_T0]     it   2  resN 3.684e-03 resS 3.840e-04 resD 3.684e-03 resV 4.467e-03  mu 2.1261349631  E 1126.906475528871  states 816
+[m1_L3_N1016_lamm2_T0]     it   3  resN 4.355e-07 resS 2.358e-06 resD 4.355e-07 resV 1.540e-03  mu 2.1261358607  E 1126.906475988048  states 816
+[m1_L3_N1016_lamm2_T0]     it   4  resN 4.897e-07 resS 2.302e-06 resD 4.897e-07 resV 1.057e-03  mu 2.1261356781  E 1126.906475886983  states 816
+[m1_L3_N1016_lamm2_T0]     it   5  resN 2.505e-07 resS 5.654e-07 resD 2.505e-07 resV 9.841e-04  mu 2.1261355698  E 1126.906475895376  states 816
+[m1_L3_N1016_lamm2_T0]     it   6  resN 1.163e-07 resS 1.914e-07 resD 1.163e-07 resV 2.508e-04  mu 2.1261355953  E 1126.906475893523  states 816
+[m1_L3_N1016_lamm2_T0]     it   7  resN 1.788e-08 resS 7.122e-08 resD 1.788e-08 resV 1.239e-04  mu 2.1261355752  E 1126.906475893560  states 816
+[m1_L3_N1016_lamm2_T0]     it   8  resN 9.794e-09 resS 3.257e-08 resD 9.794e-09 resV 5.092e-05  mu 2.1261355708  E 1126.906475893556  states 816
+[m1_L3_N1016_lamm2_T0]     it   9  resN 3.214e-09 resS 9.607e-09 resD 3.214e-09 resV 1.141e-05  mu 2.1261355737  E 1126.906475893564  states 816
+[m1_L3_N1016_lamm2_T0]     it  10  resN 1.698e-10 resS 1.431e-09 resD 1.736e-10 resV 2.225e-06  mu 2.1261355748  E 1126.906475893553  states 816
+[m1_L3_N1016_lamm2_T0]     it  11  resN 7.648e-11 resS 7.801e-10 resD 9.464e-11 resV 1.213e-06  mu 2.1261355748  E 1126.906475893556  states 816
+[m1_L3_N1016_lamm2_T0]   -> m1_L3_N1016_lamm2_T0: E0 = 1126.858089184764  mu = 1.3895671875  converged = True  gap = 0.04125509949243433  (11018 s)
+wrote /tmp/claude-0/-home-claude/b01d490e-90a5-59ef-9e41-d6c1af230b6f/scratchpad/stage4/reference/reference-summary.json in 11023.4 s (56 runs, failed: [])
