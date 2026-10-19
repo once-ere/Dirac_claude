@@ -1,0 +1,54 @@
+{
+ "prov_family": {
+  "tex": "\\mathfrak{p},\\ \\mathfrak{q},\\ \\mathfrak{a},\\ \\mathfrak{b}",
+  "atoms": [
+   "\\mathfrak{p}",
+   "\\mathfrak{q}",
+   "\\mathfrak{a}",
+   "\\mathfrak{b}"
+  ],
+  "meaning": "The four exponents of the family of diagonal primordial metrics examined in the Revision record on 2026-10-16: $\\mathfrak{p}$ and $\\mathfrak{q}$ are the powers of $b_4$ and of $\\mathrm{e}^{a_4}$ in the hidden component $g_{x_0x_0} = b_4^{2\\mathfrak{p}}\\mathrm{e}^{2\\mathfrak{q}a_4}\\cot^2z$, $\\mathfrak{a}$ and $\\mathfrak{b}$ the warp powers of ordinary 3-space and of the extra times, $(\\sin^2z)^{3\\mathfrak{a}}$ and $(\\sin^2z)^{3\\mathfrak{b}}$. The record's corrected metric has $\\mathfrak{p} = \\frac12$, $\\mathfrak{q} = -1$, $\\mathfrak{a} = 0$, $\\mathfrak{b} = \\frac16$.",
+  "units": "dimensionless",
+  "value": "$\\mathfrak{p} = \\frac12$, $\\mathfrak{q} = -1$, $\\mathfrak{a} = 0$, $\\mathfrak{b} = \\frac16$ for the metric used by UM-2",
+  "status": "RECORD"
+ },
+ "prov_RichX": {
+  "tex": "\\mathsf{X}_{\\mathsf{n}},\\ \\mathsf{X}_\\infty",
+  "atoms": [
+   "\\mathsf{X}",
+   "\\mathsf{X}_{\\infty}"
+  ],
+  "meaning": "A computed number (an eigenvalue, an energy, an integral of the Kohn-Sham stress, a derivative) obtained with the discretisation size $\\mathsf{n}$, whose discretisation error is a constant times $\\mathsf{n}^{-p_{\\mathrm{obs}}}$; $\\mathsf{X}_{\\mathsf{n}}$, $\\mathsf{X}_{2\\mathsf{n}}$, $\\mathsf{X}_{4\\mathsf{n}}$ are its values for the sizes $\\mathsf{n}$, $2\\mathsf{n}$, $4\\mathsf{n}$, and $\\mathsf{X}_\\infty$ is the value extrapolated to an infinite size (Richardson extrapolation).",
+  "units": "the unit of the computed quantity",
+  "status": "STANDARD"
+ },
+ "prov_Richn": {
+  "tex": "\\mathsf{n}",
+  "atoms": [
+   "\\mathsf{n}"
+  ],
+  "meaning": "The size of a discretisation that is doubled from one computation to the next: the number of free eigenfunctions per sector of the Kohn-Sham basis (60, 120, 240), the number of finite elements (100, 200, 400), or the inverse of the step of a finite difference.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "prov_pobs": {
+  "tex": "p_{\\mathrm{obs}}",
+  "atoms": [
+   "p_{\\mathrm{obs}}"
+  ],
+  "meaning": "The observed order of convergence of a sequence of computations with the sizes $\\mathsf{n}$, $2\\mathsf{n}$, $4\\mathsf{n}$: the exponent of the discretisation error, which behaves as a constant times $\\mathsf{n}^{-p_{\\mathrm{obs}}}$ (not a pressure).",
+  "units": "dimensionless",
+  "value": "4.96 for the Kohn-Sham energy of the stress state, 2.97 for its integrated hidden pressure, 4.01 for the finite-element eigenvalue of the $W$",
+  "status": "DERIVED"
+ },
+ "prov_varkappaW": {
+  "tex": "\\varkappa_{\\mathrm{W}}",
+  "atoms": [
+   "\\varkappa_{\\mathrm{W}}"
+  ],
+  "meaning": "The decay constant of the exact $x_0$ profile of $W^+$ and $W^-$, whose eigenvalue lies below the gap $9H^2L^2/4$: $\\varkappa_{\\mathrm{W}} = (9H^2L^2/4 - \\tilde m_{\\mathrm{W}}^2)^{1/2}$ (for such a profile the wave number $\\varpi$ of the oscillating profiles is imaginary, $\\varpi = \\mathrm{i}\\varkappa_{\\mathrm{W}}$).",
+  "units": "dimensionless",
+  "value": "4.4999985 ($HL = 3$)",
+  "status": "DERIVED"
+ }
+}

@@ -1,0 +1,218 @@
+{
+  "mod_gnb": {
+    "tex": "g_{\\mathrm{nb}}",
+    "atoms": [
+      "g_{\\mathrm{nb}}"
+    ],
+    "meaning": "The metric of the author's notebook (before the author's order of 2026-10-14 added the factor $b_4$ to the extra-time components), written as the diagonal matrix of its components in the order $x_0, x_1, \\dots, x_7$; it is quoted for comparison only, the model uses the corrected metric $\\bar g_{MN}$.",
+    "units": "dimensionless",
+    "status": "AUTHOR"
+  },
+  "mod_hTTrms": {
+    "tex": "h^{\\mathrm{TT}}_{\\mathrm{rms}}",
+    "atoms": [
+      "h^{\\mathrm{TT}}_{\\mathrm{rms}}"
+    ],
+    "meaning": "The root-mean-square amplitude of the primordial transverse-traceless (tensor) metric perturbation per logarithmic interval of the wavenumber, the size of the gravitational-wave term of the first-order metric.",
+    "units": "dimensionless",
+    "value": "below $8.7\\times10^{-6}$",
+    "status": "STANDARD"
+  },
+  "mod_rts": {
+    "tex": "r_{\\mathrm{ts}}",
+    "atoms": [
+      "r_{\\mathrm{ts}}"
+    ],
+    "meaning": "The tensor-to-scalar ratio: the power of the primordial tensor perturbations divided by the power $A_{\\mathrm{s}}$ of the primordial curvature perturbations at the pivot scale.",
+    "units": "dimensionless",
+    "value": "$r_{\\mathrm{ts}} < 0.036$ (95 %)",
+    "status": "STANDARD"
+  },
+  "mod_ih": {
+    "tex": "h",
+    "atoms": [
+      "index:h"
+    ],
+    "meaning": "The label $h = 1, 2, 3$ of the author's real $4\\times4$ matrices $\\mathsf{s}_h$, $\\mathsf{t}_h$ and of the $8\\times8$ matrices $\\mathsf{Z}_h$ and $\\mathsf{Z}_{7-h}$ built from them.",
+    "units": "",
+    "status": "AUTHOR"
+  },
+  "mod_ikq": {
+    "tex": "k,\\ q",
+    "atoms": [
+      "index:k",
+      "index:q"
+    ],
+    "meaning": "The row and column indices $k, q = 1, 2, 3, 4$ of the author's $4\\times4$ matrices $\\mathsf{s}_h$ and $\\mathsf{t}_h$.",
+    "units": "",
+    "status": "AUTHOR"
+  },
+  "mod_epsLC": {
+    "tex": "\\epsilon_{\\mathrm{LC}}^{hkq4}",
+    "atoms": [
+      "\\epsilon_{\\mathrm{LC}}"
+    ],
+    "meaning": "The Levi-Civita symbol of four indices: $+1$ if $(h, k, q, 4)$ is an even permutation of $(1, 2, 3, 4)$, $-1$ if it is an odd permutation, and 0 if two indices are equal.",
+    "units": "dimensionless",
+    "status": "STANDARD"
+  },
+  "mod_sh": {
+    "tex": "\\mathsf{s}_h",
+    "atoms": [
+      "\\mathsf{s}"
+    ],
+    "meaning": "The author's real antisymmetric $4\\times4$ matrices $\\mathsf{s}_h$ ($h = 1, 2, 3$; in the notebook $s_h = Q_a - Q_b$), the building blocks of the matrices $\\mathsf{Z}_1$, $\\mathsf{Z}_2$, $\\mathsf{Z}_3$.",
+    "units": "dimensionless",
+    "status": "AUTHOR"
+  },
+  "mod_th": {
+    "tex": "\\mathsf{t}_h",
+    "atoms": [
+      "\\mathsf{t}"
+    ],
+    "meaning": "The author's real antisymmetric $4\\times4$ matrices $\\mathsf{t}_h$ ($h = 1, 2, 3$; in the notebook $t_h = Q_a + Q_b$), the building blocks of the matrices $\\mathsf{Z}_6$, $\\mathsf{Z}_5$, $\\mathsf{Z}_4$.",
+    "units": "dimensionless",
+    "status": "AUTHOR"
+  },
+  "mod_Za": {
+    "tex": "\\mathsf{Z}_a",
+    "atoms": [
+      "\\mathsf{Z}",
+      "\\mathsf{Z}_{0}",
+      "\\mathsf{Z}_{1}",
+      "\\mathsf{Z}_{2}",
+      "\\mathsf{Z}_{3}",
+      "\\mathsf{Z}_{4}",
+      "\\mathsf{Z}_{5}",
+      "\\mathsf{Z}_{6}",
+      "\\mathsf{Z}_{7}"
+    ],
+    "meaning": "The author's real $8\\times8$ matrices $\\mathsf{Z}_a$ ($a = 0, \\dots, 7$; the notebook's $\\zeta_A = \\tau_A$): $\\mathsf{Z}_0$ is the identity, $\\mathsf{Z}_1, \\mathsf{Z}_2, \\mathsf{Z}_3$ and $\\mathsf{Z}_6, \\mathsf{Z}_5, \\mathsf{Z}_4$ are built from $\\mathsf{s}_h$ and $\\mathsf{t}_h$, and $\\mathsf{Z}_7 = \\mathsf{Z}_1\\cdots\\mathsf{Z}_6$; they are the lower-left $8\\times8$ blocks of the gamma matrices $\\gamma^a$.",
+    "units": "dimensionless",
+    "status": "AUTHOR"
+  },
+  "mod_Zbar": {
+    "tex": "\\bar{\\mathsf{Z}}_a",
+    "atoms": [
+      "\\bar{\\mathsf{Z}}"
+    ],
+    "meaning": "The partner matrices $\\bar{\\mathsf{Z}}_a = \\mathsf{S}\\,\\mathsf{Z}_a^T\\,\\mathsf{S}$ of the author ($a = 0, \\dots, 7$; the notebook's $\\bar\\tau_A$), the upper-right $8\\times8$ blocks of the gamma matrices $\\gamma^a$.",
+    "units": "dimensionless",
+    "status": "AUTHOR"
+  },
+  "mod_Ssf": {
+    "tex": "\\mathsf{S}",
+    "atoms": [
+      "\\mathsf{S}"
+    ],
+    "meaning": "The author's real $8\\times8$ matrix with the $4\\times4$ identity in its two off-diagonal blocks and zeros elsewhere (the notebook's $\\sigma$); $\\mathsf{S} = \\mathsf{Z}_1\\mathsf{Z}_2\\mathsf{Z}_3 = \\mathsf{Z}_4\\mathsf{Z}_5\\mathsf{Z}_6\\mathsf{Z}_7$.",
+    "units": "dimensionless",
+    "status": "AUTHOR"
+  },
+  "mod_Gamma8": {
+    "tex": "\\Gamma_8",
+    "atoms": [
+      "\\Gamma_{8}"
+    ],
+    "meaning": "The chirality of eight dimensions, $\\Gamma_8 = \\gamma^{x_0}\\gamma^{x_1}\\cdots\\gamma^{x_7}$, equal to $\\mathrm{diag}(-\\mathbf{1}, \\mathbf{1})$ for the author's matrices; its eigenspaces (eigenvalues $-1$ and $+1$) are the two inequivalent 8-dimensional irreducible representations of Spin(4,4).",
+    "units": "dimensionless",
+    "status": "DERIVED"
+  },
+  "mod_anomaly2": {
+    "tex": "\\mathcal{A}_{\\mathrm{grav^2U(1)}},\\ \\mathcal{A}_{\\mathrm{SU(3)^3}}",
+    "atoms": [
+      "\\mathcal{A}_{\\mathrm{grav^2U(1)}}",
+      "\\mathcal{A}_{\\mathrm{SU(3)^3}}"
+    ],
+    "meaning": "Two further anomaly coefficients of one generation (every zero mode written as a left-handed Weyl field, a right-handed one with the hypercharge $-Y$): the mixed gravitational-hypercharge anomaly $\\mathcal{A}_{\\mathrm{grav^2U(1)}} = \\sum N_{\\mathrm{col}}N_{\\mathrm{dbl}}Y$ over all components, and the cubic colour anomaly $\\mathcal{A}_{\\mathrm{SU(3)^3}}$ (the number of left-handed minus right-handed colour triplets, weighted with their isospin multiplicity); the theory is consistent only if they vanish.",
+    "units": "dimensionless",
+    "value": "0 (each generation)",
+    "status": "DERIVED"
+  },
+  "mod_SI9": {
+    "tex": "S_{\\mathrm{I9}}",
+    "atoms": [
+      "S_{\\mathrm{I9}}"
+    ],
+    "meaning": "The action of the chiral tip $Z$ portal I9 of version 1, which coupled the four-dimensional left-handed current of dirac16complex to the $Z$ part of the current of the tip sigma field; removed from UM-2 in version 2 (its coefficients are set to zero).",
+    "units": "dimensionless (an action, $\\hbar = 1$)",
+    "status": "INVENTED (removed)"
+  },
+  "mod_cZ": {
+    "tex": "c_{\\mathrm{Z}},\\ \\tilde c_{\\mathrm{Z}}",
+    "atoms": [
+      "c_{\\mathrm{Z}}",
+      "\\tilde{c}_{\\mathrm{Z}}"
+    ],
+    "meaning": "The coefficients of the removed portal I9: $c_{\\mathrm{Z}}$ of its part that is even under the fold reflection, $\\tilde c_{\\mathrm{Z}}$ of its oriented (odd) part; UM-2 sets both to zero.",
+    "units": "$\\mathrm{GeV}^{-6}$",
+    "value": "0",
+    "status": "ASSUMED"
+  },
+  "mod_varsigmat": {
+    "tex": "\\varsigma_{\\mathrm{t}}",
+    "atoms": [
+      "\\varsigma_{\\mathrm{t}}"
+    ],
+    "meaning": "The sign ($+1$ or $-1$) that distinguishes the two sides of a tip (the tips at $z \\to 0^+$ and $z \\to \\pi^-$ of neighbouring periods), used only in the oriented part of the removed portal I9.",
+    "units": "dimensionless",
+    "status": "INVENTED (removed)"
+  },
+  "mod_kt": {
+    "tex": "k_{\\mathrm{t}}",
+    "atoms": [
+      "k_{\\mathrm{t}}"
+    ],
+    "meaning": "The wave number (momentum) of a mode along the compact extra times $x_5, x_6, x_7$; UM-2 keeps the good sector $k_{\\mathrm{t}} = 0$, because a mode with $k_{\\mathrm{t}} > fM$ would be tachyonic.",
+    "units": "GeV (1/length)",
+    "value": "0 in the good sector",
+    "status": "ASSUMED"
+  },
+  "mod_Ndot": {
+    "tex": "\\dot N_{\\mathrm{e}},\\ \\dot N_{\\bar{\\mathrm{e}}},\\ \\dot N_{\\mathrm{x}},\\ \\dot N_{\\mathrm{pair}}",
+    "atoms": [
+      "\\dot{N}_{\\mathrm{e}}",
+      "\\dot{N}_{\\bar{\\mathrm{e}}}",
+      "\\dot{N}_{\\mathrm{x}}",
+      "\\dot{N}_{\\mathrm{pair}}"
+    ],
+    "meaning": "The number emission rates of a supernova neutrinosphere (neutrinos per unit time, proportional to the luminosity divided by the mean energy): $\\dot N_{\\mathrm{e}}$ of the electron neutrinos, $\\dot N_{\\bar{\\mathrm{e}}}$ of the electron antineutrinos, $\\dot N_{\\mathrm{x}}$ of each heavy-lepton flavour; $\\dot N_{\\mathrm{pair}} = \\frac23(\\dot N_{\\bar{\\mathrm{e}}} - \\dot N_{\\mathrm{x}})$ is the rate of electron neutrino-antineutrino pairs turned into heavy-lepton pairs by lepton-number-conserving pair conversion.",
+    "units": "1/time (relative values are used)",
+    "status": "ASSUMED"
+  },
+  "mod_Ebar": {
+    "tex": "\\bar E_{\\mathrm{e}},\\ \\bar E_{\\bar{\\mathrm{e}}},\\ \\bar E_{\\mathrm{x}}",
+    "atoms": [
+      "\\bar{E}_{\\mathrm{e}}",
+      "\\bar{E}_{\\bar{\\mathrm{e}}}",
+      "\\bar{E}_{\\mathrm{x}}"
+    ],
+    "meaning": "The mean energies of the neutrinos emitted by a supernova neutrinosphere: of the electron neutrinos, of the electron antineutrinos and of each heavy-lepton flavour.",
+    "units": "GeV (quoted in MeV)",
+    "value": "11, 14, 15.5 MeV",
+    "status": "ASSUMED"
+  },
+  "mod_EbarEarth": {
+    "tex": "\\bar E_{\\mathrm{e}}^{\\mathrm{Earth}},\\ \\bar E_{\\bar{\\mathrm{e}}}^{\\mathrm{Earth}}",
+    "atoms": [
+      "\\bar{E}_{\\mathrm{e}}^{\\mathrm{Earth}}",
+      "\\bar{E}_{\\bar{\\mathrm{e}}}^{\\mathrm{Earth}}"
+    ],
+    "meaning": "The mean energies of the electron neutrinos and of the electron antineutrinos of a supernova at the Earth, after the MSW conversion in the envelope (the emitted spectra weighted with the survival probability and the number emission rates).",
+    "units": "GeV (quoted in MeV)",
+    "value": "15.29 MeV and 14.34 MeV",
+    "status": "DERIVED"
+  },
+  "mod_Eh": {
+    "tex": "\\dot E_{\\mathrm{h}},\\ \\dot E_{\\mathrm{h}}^{\\mathrm{eq}},\\ \\dot E_{\\mathrm{h}}^{\\mathrm{pair}}",
+    "atoms": [
+      "\\dot{E}_{\\mathrm{h}}",
+      "\\dot{E}_{\\mathrm{h}}^{\\mathrm{eq}}",
+      "\\dot{E}_{\\mathrm{h}}^{\\mathrm{pair}}"
+    ],
+    "meaning": "The rate at which the neutrinos heat the matter behind a supernova shock by charged-current absorption (up to a common factor): $\\dot E_{\\mathrm{h}}$ without flavour conversion, $\\dot E_{\\mathrm{h}}^{\\mathrm{eq}}$ with full flavour equipartition, $\\dot E_{\\mathrm{h}}^{\\mathrm{pair}}$ with lepton-number-conserving pair conversion (schematic estimate).",
+    "units": "energy per time (relative values are used)",
+    "value": "ratios 0.884 and 0.760 to the unconverted rate",
+    "status": "DERIVED"
+  }
+}

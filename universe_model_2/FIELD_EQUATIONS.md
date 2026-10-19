@@ -1,862 +1,6769 @@
 ---
 title: "UM-2 field equations"
-subtitle: 'The coupled field equations of Einstein-Lovelock gravity, the dirac16complex field, the gauge fields $G$, $W^+$, $W^-$, $W^3$ ($Z$, $\gamma$), $B$, three generations of quarks and leptons and the tip sigma field, with every interaction, and the flavour evolution of the three neutrinos'
+subtitle: 'The coupled field equations of Einstein-Lovelock gravity, the dirac16complex field, three generations of quarks and leptons, the gluons, the photon and the $W^+$, $W^-$ and $Z$ bosons (no Higgs particle), the tip sigma field and the block stabiliser, with every interaction'
 author:
   - "Underlying theory: Patrick L. Nash"
   - "Derived and verified by Claude (Anthropic)"
-  - "Field equations, version 3, 2026-10-18 (version 2: 2026-10-18; version 1: 2026-10-17)"
+  - "Field equations, version 4, 2026-10-18 (versions 1 to 3: 2026-10-17 and 2026-10-18)"
   - "Repository once-ere/Dirac_claude, folder universe_model_2"
 ---
 
 # How to read this document
 
-This document derives and states the complete set of coupled field equations of the universe model UM-2: the
-gravitational equations with every source, the equations of every matter field with every interaction, their boundary
-conditions, the exact background (order-0) equations, the exact reductions to the hidden coordinate $x_0$ that give the
-particle masses, the Kohn-Sham equations of dirac16complex coupled to all the other fields, and the linear (order
-$\epsilon$) equations that describe the CMB, the CNB and the BAO, and the equations of the flavour evolution of the three
-neutrinos in vacuum, in matter, in the early Universe and in dense neutrino gases. It is self-contained: every equation it
-uses is written here. Labels: AUTHOR (the author's notebooks), RECORD (the Revision record of this repository), STANDARD
-(textbook), ASSUMED, INVENTED (new in UM-2), DERIVED (computed and verified in UM-2; the verification is stated), ESTIMATE
-(an order-of-magnitude evaluation), OPEN.
+## What this document contains
 
-Version 2 (2026-10-18) has three generations of quarks and leptons, anomaly free generation by generation, with $3\times3$
-tip coupling matrices, from which the mixing matrices follow as $U = \kappa_e^\dagger\kappa_\nu$ and $V = \kappa_u^\dagger\kappa_d$ (section 6.2); the flavour
-evolution of the neutrinos is section 9. The chiral tip $Z$ portal of version 1 is removed (section 2).
+This document states the complete set of coupled field equations of the universe model UM-2, derives them from one action,
+and explains every term. It is self-contained: every equation that it uses is written in it, and every symbol of every
+equation is defined right after the equation. The sections are:
 
-Version 3 (2026-10-18) adds the portal I13, an $x_0$-chiral vector coupling of dirac16complex to the baryon-number current, to the
-action, the energy-momentum tensor and the field equations (sections 2 to 4); the four-dimensional reduction of the portals and
-the mean fields of the Standard-Model fields in an environment, which couple the Kohn-Sham equations to every field (section 7.1);
-the equations of the terms of the metric series beyond $n = 0$ (section 8.1); and the equations of the thermal history: the
-degrees of freedom, the Boltzmann equations of the dark matter and of the right-handed neutrinos, the freeze-in of the fold bands
-and the unitarity bounds (section 10). After the independent review of version 3 the I13 sum leaves out the direction $x_0$, for which
-the bilinear is not Hermitian (sections 2 to 4); the block response of the coupled solution is the full adiabatic response to every species,
-the hot plasma included, and the electroweak condensates contain the order-$\alpha$ interaction part (section 7.1); and section 10 adds the
-self-interaction channel of the dark matter into the fold bands, with the elastic $\nu_R$ rate corrected.
+* **The action** (IN-1 to IN-18): every term of the action, written out and explained: what it couples, and why it is
+  consistent with QCD and with the electroweak theory.
+* **Gravity** (FE-1 to FE-11): the Einstein-Lovelock equations, the energy-momentum tensor of every field and its
+  conservation.
+* **The matter fields** (FE-12 to FE-30): the field equations of dirac16complex, of the three generations of quarks and
+  leptons, of the gauge fields (gluons, $W^\pm$, $Z$, photon), of the tip sigma field, and their boundary conditions.
+* **The background** (FE-31 to FE-49): the exact order-0 equations of the metric, the static block and its stabiliser, the
+  radion, the response of the block to matter and four-dimensional gravity.
+* **The masses from the hidden coordinate** (FE-50 to FE-62): the $x_0$ eigenvalue problems that give every particle its
+  mass (the gauge bosons, the graviton tower, the twelve fermions with their mixing, dirac16complex).
+* **dirac16complex coupled to all fields** (FE-63 to FE-86): the Kohn-Sham equations of dirac16complex with the mean fields
+  of every other field, the portals on the zero modes, the condensates of the Standard-Model plasma, and the block response
+  that closes the loop.
+* **The linear perturbations** (FE-87 to FE-99): the metric as a power series, the Einstein-Boltzmann equations of the CMB,
+  the CNB and the BAO.
+* **The three neutrino flavours** (FE-100 to FE-120): the neutrino masses, the four-fermion interactions, the flavour
+  evolution in vacuum, in matter, in the early Universe and in dense neutrino gases.
+* **The thermal history** (FE-121 to FE-136): the degrees of freedom, the Boltzmann equations of the dark matter, of the
+  fold bands of dirac16complex and of the right-handed neutrinos.
+* **The coupled system**: which fields appear in which equations, and how the system is solved, step by step.
+* **What was verified**: the 287 checks of the computations and the residuals of the solution in 26 of the equations.
 
-## Coordinates, signature, units
+## The status labels
 
-The author's coordinates are $X = \{x_0, x_1, \dots, x_7\}$: $x_0$ the hidden space-like direction, $x_1, x_2, x_3$ ordinary
-space, $x_4$ the time, $x_5, x_6, x_7$ three extra time-like directions. Frame metric
-$\eta_{ab} = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ ($a = 0, \dots, 7$ aligned with $x_0, \dots, x_7$); capital indices
-$M, N, \dots$ run over $x_0, \dots, x_7$, Greek $\mu, \nu$ over the four observable coordinates $x_1, \dots, x_4$ (signature
-$(+,+,+,-)$). $z = 6Hx_0$; one period of $x_0$ is $\pi/(6H)$. Units $\hbar = c = 1$; mass dimensions in eight dimensions:
-$[\Psi] = [\psi] = 7/2$, $[\kappa] = -6$ ($\kappa = 8\pi G_8$).
+Every equation and every result carries one of the labels
 
-## Conventions
+* **AUTHOR**: from the author's notebooks (the metric, the coordinates, the Lovelock weights, the field dirac16complex);
+* **RECORD**: from the Revision record of this repository (the dirac16complex Lagrangian and its Kohn-Sham treatment);
+* **STANDARD**: textbook physics;
+* **ASSUMED**: a choice made in UM-2 without derivation;
+* **INVENTED**: a new interaction or construction of UM-2 (the tip sigma field, the portals I11, I12, I13);
+* **DERIVED**: computed and verified in UM-2 (the verification is stated);
+* **ESTIMATE**: an order-of-magnitude evaluation;
+* **OPEN**: not settled.
 
-* The energy-momentum tensor is $T_{MN} = -\frac{2}{\sqrt{\lvert g\rvert}}\frac{\delta S_{matter}}{\delta g^{MN}}$ (vielbein
-  variation for spinors), so that the energy density is $\rho = -T^{x_4}{}_{x_4}$ and the pressures are $p_M = T^M{}_M$ (no sum)
-  for $M \ne x_4$; for a diagonal source $T^M{}_N = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)$.
-* Gauge fields are in the geometric normalisation: the couplings stand in front of the kinetic terms,
-  $D_M = \partial_M + \Omega_M$ $- iG^\alpha_MT^\alpha - iW^a_M\frac{\tau^a}{2} - iYB_M$, with $[G_M] = [W_M] = [B_M] = 1$ and $[\hat g^2] = -4$.
-  Formulas that show $\hat g$, $\hat g'$, $g$, $g'$ explicitly refer to the canonically normalised fields $W^a/\hat g$,
-  $B/\hat g'$, $G^\alpha/\hat g_s$, written with the same letters. The weak bosons are
-  $W^\pm = (W^1 \mp iW^2)/\sqrt2$: **$W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$**;
-  $Z = \cos\theta_W W^3 - \sin\theta_W B$, $A = \sin\theta_W W^3 + \cos\theta_W B$.
-* The gamma matrices are the author's real $16\times16$ matrices of $Cl(4,4)$, $\{\gamma^a, \gamma^b\} = 2\eta^{ab}$;
-  $\bar\Psi = \Psi^\dagger C$ with $C = \gamma^{x_0}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}$ (real, symmetric, $C^2 = 1$),
-  $B = -iC\gamma^{x_4}$ (Hermitian, eigenvalues $\pm1$, eight each), $\Gamma_4 = i\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}\gamma^{x_4}$,
-  $S^{ab} = \frac14[\gamma^a, \gamma^b]$. Since every $C\gamma^a$ is real and antisymmetric, $\bar\Psi\gamma^a\Psi$ is anti-Hermitian and
-  the Hermitian vector currents are $i\bar\Psi\gamma^a\Psi$; $\bar\Psi\Psi$ is Hermitian.
-* A delta function on the tip $y = -L$ in proper length is $\delta_{tip} = \delta(y + L)/f$.
-* Notation: $\kappa = 8\pi G_8$ throughout ($\kappa_f$, with its subscript, is the tip mixing of a fermion). $k$ denotes the block variable $1/f^2$ ($k_*$, $k_\pm$, $\delta k$, $G(k)$); as the
-  index of $\alpha_k$, $E_{(k)}$ and $\mathcal L_{(k)}$ it is the Lovelock order (written $p$ in the reduction formula of
-  section 5.6, where the block variable appears as well); in $e^{ikx_1}$, in $h_j$, in $\vec k$ and $\Delta k$ and in the
-  dispersion $\varepsilon = e^{-a_4}\lvert k\rvert$ it is the momentum of a mode along $x_1, x_2, x_3$; in the perturbation equations of
-  section 8 it is the comoving Fourier wavenumber.
-* $\Lambda = -10H^2$ is the eight-dimensional cosmological constant and $\Lambda_4$ the four-dimensional one; in the $x_0$
-  eigenvalue problems of section 6, $\Lambda = (m\,fL)^2$ is a dimensionless eigenvalue; $\Lambda_\star$ is the scale of the
-  effective interactions; $\Lambda_\ell$ and $\Lambda_q$ are the tip coupling matrices.
-* $n$ is a number density ($n_o$ of a Kohn-Sham orbital, $n_\psi$ of a Standard-Model fermion), except as a level number
-  ($n^2\pi^2$, the $n \ge 1$ modes) and in the lattice vector $\vec n \in \mathbb Z^3$ of a momentum shell. The subscript $t$
-  ($x_t$, $p_t$, $v_t$) refers to the extra times $x_5, x_6, x_7$; $\xi = y/L$ is the scaled hidden coordinate; primes
-  denote $d/d\xi$ in section 6 and $d/d\tau$ (conformal time) in section 8 ($\hat g'$ and $c'_Z$ are names of couplings).
-  $f$ is the block scale, $f_o$ an occupation number, and the label $f$ in $S_f$ and $T^M{}_N[f]$ stands for the
-  Standard-Model fermions.
-* $w_k$ are the Lovelock weights; $w = 1/2$ is the weight of a fold parity in the Kohn-Sham sums, and $w = \sqrt{c^2 - e^2}$ in
-  the fermion mass condition. $\psi$ is a Standard-Model fermion field, except in section 8, where $\psi$ and $\phi$ are the
-  Newtonian-gauge potentials, and in section 9, where $\psi_\alpha$ are flavour amplitudes. $\varepsilon$ is the energy of a mode or
-  orbital.
-* Flavour: $i = 1, 2, 3$ is the generation index of the fermion fields and labels the neutrino mass states ($i, j$ are
-  3-space indices in the background curvatures); $\alpha \in \{e, \mu, \tau\}$ is a flavour index (a colour index on $G^\alpha$, $T^\alpha$,
-  $f^{\alpha\beta\gamma}$); $U$ is the PMNS and $V$ the CKM matrix (the gauge transformations are $U_L$, $U_Y$, the block basis $V_\beta$,
-  the transverse volume $V_\perp$, and the matter potentials carry subscripts, $V_{CC}$, $V_{NC}$, $V_{\nu\nu}$); $\kappa_\nu$, $\kappa_e$,
-  $\kappa_u$, $\kappa_d$ are the $3\times3$ tip matrices; $\rho_{\vec p}$ (with a momentum subscript) is a neutrino density matrix;
-  $\mu = \sqrt2G_Fn_{\nu_e}$ (without subscript) is the unit of the neutrino self-interaction, $\mu_\psi$ a bulk mass and $\mu$ also
-  the muon; $e$ is the elementary charge, the electron and the fermion eigenvalue $\varepsilon fL$; $s$ is also $\sinh w/w$, and
-  $s_{ij} = \sin\theta_{ij}$, $c_{ij} = \cos\theta_{ij}$ (while $c$ with the subscripts $L$, $Q$, $R$, $\psi$ is a localisation $f\mu L$);
-  $J$ is the Jarlskog invariant (and the block operator $\gamma^{x_0}\gamma^{x_1}\gamma^{x_4}$); in section 9 $u = \cos\vartheta$ is the
-  direction cosine of a neutrino ($u$ is also the up quark and $u(y)$ a boson profile).
-* Portals: $G_V$, $G_g$, $G_W$, $G_B$, $G_A$ are four-dimensional coupling strengths ($G_N$, $G_F$ Newton's and Fermi's constants;
-  $G_i$ the I12 strength of the gauge group $i$; in section 10 $G$ is the total I12 strength and $G_f$ the coupling of one fermion multiplet;
-  $G_A^{B-L}$ is the strength a $B - L$ variant of I13 would need and $G_\lambda$ the strength of the self-interaction channel);
-  $\tilde I_{of}$, $\tilde I^{(b)}_{of}$, $\tilde I_\lambda$ overlap integrals; $q_\psi$ the $B - L$ charge of a multiplet and $q^B_f$ its baryon number;
-  $P_a = (1 + \gamma^{x_0})/2$, $P_b = (1 - \gamma^{x_0})/2$ the $x_0$-chiral projectors ($P_\pm = (1 \pm \Gamma_4)/2$ the four-dimensional ones); $J^B_M$
-  the baryon-number current. In section 10, $x = M/T$ ($M$ the dark-matter mass, $T$ the temperature), $Y = n/s$ ($s$ the entropy density),
-  $g_\rho$, $g_s$ effective numbers of degrees of freedom ($g_{s,e\gamma}$ that of the photons and the $e^\pm$ pairs alone), $\gamma$ a rate
-  density (not a gamma matrix), $K_1$, $K_2$ modified Bessel functions of the second kind, $N_c$ the number of Weyl components of a multiplet,
-  which share its overlap (3 for a quark singlet, 6 for a quark doublet, 2 for a lepton doublet, 1 for a charged-lepton singlet), $N_\chi = N_F = 2$
-  the number of fold bands (the massless fold zero modes of $\Psi_A$ and of $\Psi_B$, two Dirac fermions) and $\sum_{A,B}$ the sum over the two
-  dark-matter species (the lowest odd states of $\Psi_A$ and of $\Psi_B$).
-* Further symbols. $s$ is the entropy density (section 10), the Mandelstam variable (the squared centre-of-mass energy of a pair, in
-  $\sigma(s)$, $\sqrt s$ and the thermal averages), $\sinh w/w$ (section 6.2) and, with indices, $\sin\theta_{ij}$; $s_o$, $s_{DM}$ and $s_{DF}$ are
-  scalar densities of orbitals. $\beta$ is the tip parameter of the boson $x_0$ problems (section 6.1) and, in section 10, the velocity
-  $\sqrt{1 - 4M^2/s}$ of a dark-matter particle in the centre-of-mass frame ($V_\beta$ is the block basis). $p$ is a pressure ($p_0$, $p_3$, $p_t$,
-  the hidden pressure $\bar p = (p_0 + 3p_t)/4$, the order-$\alpha$ pressure $p_2$ of a gauge plasma), a momentum (of a neutrino in section 9; the
-  centre-of-mass momentum and the integration variable of the ideal-gas integrals in section 10) and the Lovelock order in section 5.6. $J$ is
-  also the total angular momentum of a partial wave (section 10). $a$ is the scale factor $e^{a_4}$ (sections 8 and 10; $a_4$ is a metric
-  function), $a = 3\eta/2$ in section 8.1, and $a$, $b$ (with or without a subscript) are the upper and lower components of an orbital. $M$ is a
-  coordinate index, the author's mass parameter in $m = 3HM$, the mass function $M(y)$ of the Kohn-Sham equations ($M_{eff}$ with the mean
-  fields), a static source mass in section 8.1 and the dark-matter mass in section 10 ($M_{Pl} = G_N^{-1/2}$ is the Planck mass). $\delta$ marks
-  a variation or perturbation ($\delta k$, $\delta\ln f$, $\delta\rho$, $\delta\varepsilon$), the tip delta function $\delta_{tip}$ and Kronecker deltas
-  ($\delta_{\alpha e}$, $\delta_{l0}$), and in section 10 $\delta = \frac13\,d\ln g_s/d\ln T$. $c_\rho$, $c_3$, $c_p$ are the coefficients of the adiabatic
-  block response (section 7.1), $b$ (without a subscript) the one-loop coefficient of the strong coupling and $b_i$ those of $SU(2)$ and $U(1)_Y$.
-* $H$ is the author's constant, except in the neutrino-decoupling equations of section 9 and in section 10, where $H$ is the Hubble rate; the time
-  is always $x_4$ (dots and $d/dx_4$), and the symmetry axis of the fast-flavour analysis is $x_3$. $\Lambda^0$, $\Lambda^3$ (upper
-  indices) are the fast-flavour potentials. $G(k)$ is the Einstein-Hilbert coefficient and $G(u)$ the electron-lepton-number
-  distribution; $F_h = 1.0095$ is the heating factor of $\Delta N_{eff}$ and $F(T_1, T_2)$ the energy-transfer kernel.
+## Every equation is followed by its symbols
+
+Every display equation is followed by the list "Symbols in (FE-n)" (or "Symbols in this equation" for a display without a
+tag) of EVERY symbol that appears in it: every quantity, field, coupling, constant and operator, every index letter with the
+values it takes, every mark (prime, dagger, transpose, star), the imaginary unit, Euler's number and the differential. Each
+item gives the meaning, the unit (natural units $\hbar = c = 1$), the value where one exists, and the status. A field
+equation carries the tag FE-1 to FE-136 and an interaction term of the action the tag IN-1 to IN-18; the numbering is that of
+the inventory of UM-2 and is the same in every UM-2 document. Displays without a tag are steps of a derivation.
+
+## Coordinates, signature and units
+
+The author's coordinates are $X = \{x_0, x_1, \dots, x_7\}$, always with the hidden direction first: $x_0$ is the hidden
+space-like coordinate, on which the metric depends periodically with the period $\pi/(6H)$ through the angle $z = 6Hx_0$;
+$x_1, x_2, x_3$ are ordinary space, $x_4$ is the time, and $x_5, x_6, x_7$ are three extra time-like coordinates. The
+signature is $(+,+,+,+,-,-,-,-)$ in this order; the four observable coordinates $x_1, \dots, x_4$ have the signature
+$(+,+,+,-)$. $H = 14.296$ TeV is the author's constant (an inverse length). Units are natural, $\hbar = c = 1$; in eight
+dimensions a fermion field has the dimension GeV$^{7/2}$ and the gravitational coupling $\kappa = 8\pi G_8$ the dimension
+GeV$^{-6}$. A dot is the derivative with respect to the time $x_4$; a prime is used only in the cosmological perturbation
+equations, for the derivative with respect to the conformal time.
+
+## The fields of UM-2
+
+The author orders a model universe with the following coupled fields; UM-2 adds the tip sigma field (which replaces the
+Higgs field) and the stabiliser of the block.
+
+| field | symbol | what it is | it couples to | field equations |
+| ----------------- | ---------- | ---------------------- | ------------------------ | ------------------------ |
+| Einstein-Lovelock gravity | $g_{MN}$ | the metric of eight dimensions | every field | FE-1 to FE-11, FE-31 to FE-49, FE-87 to FE-99 |
+| dirac16complex | $\Psi$ | the author's 16-component spinor field; its odd level is the dark matter | gravity, itself, every fermion (I11, I13), every gauge field (I12) | FE-5, FE-12, FE-13, FE-28, FE-62 to FE-73 |
+| left-handed neutrinos (three flavours) | $\nu_e$, $\nu_\mu$, $\nu_\tau$ in $\ell_i$ | the upper members of the lepton doublets | gravity, $W^\pm$, $Z$, $\Sigma$ (masses with $\nu_R$), $\Psi$ (I11) | FE-17, FE-19, FE-100 to FE-120 |
+| left-handed electrons and the right-handed electron singlet, with the muon and tau generations | $\ell_i$, $e_{Ri}$ | the lower members of the lepton doublets and the charged-lepton singlets | gravity, $W^\pm$, $Z$, photon, $\Sigma$, $\Psi$ (I11) | FE-17, FE-18 |
+| three quark generations | $Q_i$, $u_{Ri}$, $d_{Ri}$ | the quark doublets and singlets | gravity, gluons, $W^\pm$, $Z$, photon, $\Sigma$, $\Psi$ (I11, I13) | FE-14 to FE-16 |
+| gluons | $G^A_M$ | the gauge field of SU(3) | quarks, $\Psi$ (I12), gravity | FE-7, FE-22, FE-74, FE-75 |
+| photon | $A_M$ | the massless combination of $W^3$ and $B$ | charged fermions, gravity | FE-24, FE-25, FE-50 to FE-52 |
+| $W^+$, $W^-$, $Z$ | $W^\pm_M$, $Z_M$ | the massive weak bosons | fermions, $\Sigma$, $\Psi$ (I12), gravity | FE-23 to FE-25, FE-51, FE-55 |
+| no Higgs particle | | | | |
+| tip sigma field | $\Sigma$ | a unitary $2 \times 2$ matrix field on the tip: the longitudinal $W^\pm$, $Z$ | $W$, $B$, every fermion at the tip | FE-8, FE-26, FE-30 |
+| block stabiliser | $\rho_{\mathrm{stab}}$ | a vacuum energy of the block | gravity | FE-4, FE-43 |
+
+The gauge fields of the action are the SU(3) field $G$, the SU(2) field $W$ (components $W^1$, $W^2$, $W^3$) and the hypercharge
+field $B$; $W^+$, $W^-$, $Z$ and the photon $A$ are their physical combinations (IN-10). The right-handed neutrinos $\nu_R$ are
+gauge singlets: they give the neutrinos Dirac masses at the tip and are never thermalised.
+
+## Conventions of version 4
+
+Version 4 changes the presentation of version 3, not its physics. Every symbol has one meaning in the whole document (the
+symbols of version 3 that had several meanings are replaced); Euler's number is $\mathrm{e}$, the imaginary unit $\mathrm{i}$, the
+differential $\mathrm{d}$; a word or a particle name in a subscript is upright ($M_{\mathrm{Pl}}$, $m_{\mathrm{W}}$, $n_{\mathrm{e}}$), an italic letter in
+a subscript is an index. $\Delta$ denotes a change (a variation, a first-order perturbation, a level shift), $\delta$ the Kronecker
+delta and $\delta_{\mathrm{D}}$ the Dirac delta function. The gauge fields $G$, $W$, $B$ are in the geometric normalisation (the couplings
+stand in front of their kinetic terms), in eight and in four dimensions; $W^\pm$, $Z$, $A$ and $F^V_{\mu\nu}$ are canonically normalised.
+$W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$. Two equations of version 3 are written more explicitly: the
+block components of the background equations (FE-40, FE-42, FE-43) show the pressure $p_0$ of the hidden direction and the
+pressure $p_5$ of the extra times separately (version 3 wrote only their average $\bar p$, and in one place $p_0$; section
+"The background", subsection "The block pressures"), and the overlap integrals of the portals carry their factor $1/H$
+explicitly (FE-70, FE-135). No number of version 3 changes.
+
 
 # The action
 
-$$ S = S_{EL} + S_{stab} + S_\Psi + S_{gauge} + S_f + S_{tip} + S_{I11} + S_{I12} + S_{I13} .$$
+All field equations of UM-2 follow from one action by varying it with respect to every field. This section writes out every
+term of the action (IN-1 to IN-18) and says in plain words what it couples. The Standard-Model part has exactly the gauge
+group, the fermion content (three generations, each with a right-handed neutrino) and the gauge couplings of the Standard Model,
+but no Higgs field: the electroweak symmetry is broken at the tip of the hidden direction by a non-linear sigma field, and every
+mass comes from the dependence of the wave functions on $x_0$. dirac16complex is a singlet of the Standard-Model gauge group and
+couples to the Standard Model only through three gauge-invariant portals.
 
-**Gravity** (AUTHOR weights):
-$$ S_{EL} = \frac{1}{2\kappa}\int d^8x\sqrt{\lvert g\rvert}\Big(\sum_{k=1}^{3}\alpha_k\mathcal L_{(k)} - 2\Lambda\Big),\qquad
-   \alpha_k = w_kH^{2-2k},\quad w = \Big(1, \frac1{32}, \frac1{1152}\Big),\quad \Lambda = -10H^2, $$
-$$ \mathcal L_{(k)} = \frac{1}{2^k}\,\delta^{A_1B_1\cdots A_kB_k}_{C_1D_1\cdots C_kD_k}\,R^{C_1D_1}{}_{A_1B_1}\cdots R^{C_kD_k}{}_{A_kB_k}:\qquad
-   \mathcal L_{(1)} = R,\quad \mathcal L_{(2)} = R^2 - 4R_{AB}R^{AB} + R_{ABCD}R^{ABCD} .$$
+## The sum of all terms
 
-**Block stabiliser** (ASSUMED; origin OPEN):
-$$ S_{stab} = -\int d^8x\sqrt{\lvert g\rvert}\,\rho_b(f),\qquad \kappa\rho_b(f) = \kappa\rho_b^*\Big(\frac{f_*}{f}\Big)^8,\qquad f = e^{-a_4}b_4^{1/2},$$
-whose energy-momentum tensor is $T^M{}_N[\text{stab}] = \mathrm{diag}(\rho_b, -\rho_b, -\rho_b, -\rho_b, -\rho_b, \rho_b, \rho_b, \rho_b)$.
+$$
+\begin{aligned}
+S ={}& S_{\mathrm{EL}} + S_{\mathrm{stab}} + S_\Psi + S_{\mathrm{gauge}} + S_{\mathrm{f}} + S_{\mathrm{tip}}
+ + S_{\mathrm{I11}} + S_{\mathrm{I12}} + S_{\mathrm{I13}}
+\end{aligned} \tag{IN-1}
+$$
 
-**dirac16complex** (RECORD Lagrangian, canonical spin connection):
-$$ S_\Psi = \int d^8x\sqrt{\lvert g\rvert}\Big[\tfrac12\big(\bar\Psi\gamma^MD_M\Psi - (D_M\bar\Psi)\gamma^M\Psi\big) - m\bar\Psi\Psi - \frac{\lambda}{2}(\bar\Psi\Psi)^2\Big],\qquad m = 3HM = H, $$
-$$ D_M\Psi = \partial_M\Psi + \Omega_M\Psi,\quad D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M,\quad \Omega_M = \tfrac12\omega_{Mab}S^{ab},$$
-$$ \omega_M{}^a{}_b = e^a{}_N\big(\partial_Me_b{}^N + \Gamma^N{}_{ML}e_b{}^L\big),\qquad \gamma^M = e_a{}^M\gamma^a .$$
+<!-- symbols: Saction, SEL, Sstab, SPsi, Sgauge, Sf, Stip, SI11, SI12, SI13 -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-1).**
 
-**Gauge fields** (ASSUMED structure; $SU(3)_c\times SU(2)_L\times U(1)_Y$ in eight dimensions):
-$$ S_{gauge} = -\frac14\int d^8x\sqrt{\lvert g\rvert}\Big(\frac{1}{\hat g_s^2}G^\alpha_{MN}G^{\alpha MN} + \frac{1}{\hat g^2}W^a_{MN}W^{aMN} + \frac{1}{\hat g'^2}B_{MN}B^{MN}\Big), $$
-$$ G^\alpha_{MN} = \partial_MG^\alpha_N - \partial_NG^\alpha_M + f^{\alpha\beta\gamma}G^\beta_MG^\gamma_N,\quad
-   W^a_{MN} = \partial_MW^a_N - \partial_NW^a_M + \epsilon^{abc}W^b_MW^c_N,\quad B_{MN} = \partial_MB_N - \partial_NB_M .$$
+- $S$: The action of UM-2 (the integral of the Lagrangian density over spacetime); its variation with respect to every field gives the field equations. Unit: dimensionless ($\hbar = 1$). Status: ASSUMED.
+- $S_{\mathrm{EL}}$: The Einstein-Lovelock action of gravity. Unit: dimensionless. Status: AUTHOR.
+- $S_{\mathrm{stab}}$: The action of the block stabiliser (a vacuum energy of the block). Unit: dimensionless. Status: ASSUMED.
+- $S_\Psi$: The action of the dirac16complex field (kinetic term with the canonical spin connection, mass term and contact self-interaction). Unit: dimensionless. Status: RECORD.
+- $S_{\mathrm{gauge}}$: The action of the gauge fields of SU(3), SU(2) and U(1)$_Y$ in eight dimensions. Unit: dimensionless. Status: ASSUMED.
+- $S_{\mathrm{f}}$: The action of the Standard-Model fermions of three generations (kinetic and bulk-mass terms). Unit: dimensionless. Status: ASSUMED.
+- $S_{\mathrm{tip}}$: The action on the tip $y = -L$: the sigma field and the tip Yukawa couplings. Unit: dimensionless. Status: INVENTED.
+- $S_{\mathrm{I11}}$: The action of the portal I11 (dirac16complex vector current times the $B - L$ current of the fermions). Unit: dimensionless. Status: INVENTED.
+- $S_{\mathrm{I12}}$: The action of the portal I12 (scalar density of dirac16complex times the gauge kinetic invariants). Unit: dimensionless. Status: INVENTED.
+- $S_{\mathrm{I13}}$: The action of the portal I13 (the $x_0$-chiral vector current of dirac16complex times the baryon-number current). Unit: dimensionless. Status: INVENTED.
 
-**Fermions** (three generations; ASSUMED structure, boundary conditions INVENTED):
-$$ S_f = \sum_{i=1}^{3}\sum_{\psi}\int d^8x\sqrt{\lvert g\rvert}\Big[\tfrac12\big(\bar\psi_i\gamma^MD_M\psi_i - (D_M\bar\psi_i)\gamma^M\psi_i\big) - \mu_{\psi i}\bar\psi_i\psi_i\Big],\qquad
-   \psi \in \{Q, u_R, d_R, L, e_R, \nu_R\},$$
-with, in every generation $i$, $Q_i$ ($\mathbf 3, \mathbf 2, 1/6$) $= (u, d)_L, (c, s)_L, (t, b)_L$, $u_{Ri}$ ($\mathbf 3, \mathbf 1, 2/3$) $= u_R, c_R, t_R$,
-$d_{Ri}$ ($\mathbf 3, \mathbf 1, -1/3$) $= d_R, s_R, b_R$, $L_i$ ($\mathbf 1, \mathbf 2, -1/2$) $= (\nu_e, e)_L, (\nu_\mu, \mu)_L, (\nu_\tau, \tau)_L$, $e_{Ri}$
-($\mathbf 1, \mathbf 1, -1$) $= e_R, \mu_R, \tau_R$ and $\nu_{Ri}$ ($\mathbf 1, \mathbf 1, 0$); $Q = T_3 + Y$. The bulk masses are diagonal in the
-generation index, and the doublets of a sector share one bulk mass (ASSUMED): $\mu_{Li} = \mu_L$, $\mu_{Qi} = \mu_Q$.
+<!-- end generated symbol list -->
 
-**The tip sigma field** (INVENTED; no Higgs particle), on the seven-dimensional tip $y = -L$:
-$$ S_{tip} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\Big[-\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)
-   - \sum_{i,j}\big(\bar L_i\,\Sigma\,(\Lambda_\ell)_{ij}\,\ell_{Rj} + \bar Q_i\,\Sigma\,(\Lambda_q)_{ij}\,q_{Rj} + \text{h.c.}\big)\Big],\qquad \Sigma \in SU(2), $$
-$$ D_\mu\Sigma = \partial_\mu\Sigma - iW^a_\mu\frac{\tau^a}{2}\Sigma + iB_\mu\Sigma\frac{\tau^3}{2},\qquad \ell_{Rj} = (\nu_{Rj}, e_{Rj})^T,\quad q_{Rj} = (u_{Rj}, d_{Rj})^T,$$
-$$ (\Lambda_\ell)_{ij} = \mathrm{diag}\big((\lambda_\nu)_{ij}, (\lambda_e)_{ij}\big),\qquad (\Lambda_q)_{ij} = \mathrm{diag}\big((\lambda_u)_{ij}, (\lambda_d)_{ij}\big),$$
-with complex $3\times3$ tip coupling matrices $\lambda_\nu$, $\lambda_e$, $\lambda_u$, $\lambda_d$; invariant under $\Sigma \to U_L\Sigma U_Y^\dagger$,
-$U_Y = e^{i\theta\tau^3/2}$, for every choice of the matrices (DERIVED with random group elements and random complex matrices,
-deviation $1.1\times10^{-14}$).
+The action is the sum of nine terms: Einstein-Lovelock gravity ($S_{\mathrm{EL}}$), the block stabiliser ($S_{\mathrm{stab}}$), the
+field dirac16complex ($S_\Psi$), the gauge fields of SU(3), SU(2) and U(1)$_Y$ ($S_{\mathrm{gauge}}$), the Standard-Model fermions of
+three generations ($S_{\mathrm{f}}$), the tip terms (the sigma field and the tip Yukawa couplings, $S_{\mathrm{tip}}$) and the three
+portals of dirac16complex ($S_{\mathrm{I11}}$, $S_{\mathrm{I12}}$, $S_{\mathrm{I13}}$). Varying $S$ with respect to the metric gives the
+gravitational equations FE-1; with respect to $\bar\Psi$ the dirac16complex equation FE-12; with respect to every fermion its Dirac
+equation FE-14 to FE-19; with respect to the gauge fields the Yang-Mills equations FE-22 to FE-25; the boundary terms of the
+variation give the boundary conditions FE-27 to FE-30. There is no Higgs field. Status: ASSUMED (the choice of the terms).
 
-**Portals** (INVENTED):
-$$ S_{I11} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_V}{\Lambda_\star^6}\,(i\bar\Psi\gamma^M\Psi)\,\mathcal J_M,\qquad \mathcal J_M = \sum_{i=1}^{3}\sum_\psi q_\psi\,(i\bar\psi_i\gamma_M\psi_i),$$
-with the $B - L$ charges $q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_L = q_{e_R} = q_{\nu_R} = -1$;
-$$ S_{I12} = -\int d^8x\sqrt{\lvert g\rvert}\;\frac{\bar\Psi\Psi}{\Lambda_\star^3}\,\mathcal F,\qquad
-   \mathcal F = c_GG^\alpha_{MN}G^{\alpha MN} + c_WW^a_{MN}W^{aMN} + c_BB_{MN}B^{MN} ;$$
-$$ S_{I13} = \int d^8x\sqrt{\lvert g\rvert}\;\frac{c_A}{\Lambda_\star^6}\sum_{M \ne x_0}(i\bar\Psi\gamma^MP_b\Psi)\,J^B_M,\qquad P_b = \frac{1 - \gamma^{x_0}}{2},\qquad
-   J^B_M = \frac13\sum_{i=1}^{3}\sum_{\psi\in\{Q_i,\,u_{Ri},\,d_{Ri}\}}i\bar\psi\gamma_M\psi $$
-(version 3; $\gamma^{x_0}$ the frame matrix; the sum runs over the seven directions $M = x_1, \dots, x_7$; written in the frame it is
-$\sum_{a=1}^{7}(i\bar\Psi\gamma^aP_b\Psi)\,J^B_a$ with $J^B_a = e_a{}^MJ^B_M$, the same for the diagonal order-0 metric). Since $\gamma^{x_0}$ anticommutes with
-every $\gamma^M$, $M \ne x_0$, and with $C$, $P_a\gamma^M = \gamma^MP_b$ and $CP_bC^{-1} = P_a$ ($P_a = (1 + \gamma^{x_0})/2$), so $i\bar\Psi\gamma^MP_b\Psi$
-is Hermitian for $M \ne x_0$; for $M = x_0$ it is not, $(iC\gamma^{x_0}P_b)^\dagger = iC\gamma^{x_0}P_a$ (it would couple $P_a\Psi$ to $P_b\Psi$ and make the
-action complex), which is why the sum leaves out $x_0$ ($J^B_{x_0}$ vanishes on the quark zero modes in any case). The components $M = \mu$
-form a four-dimensional vector ($P_b$ commutes with the Lorentz generators $\gamma^\mu\gamma^\nu$); $C\gamma^MP_b$ commutes with $B$ for
-$M = x_1, \dots, x_4$ and anticommutes for $M = x_5, x_6, x_7$, whose currents vanish for spinors in one half (in particular $J^B_{x_5}$, $J^B_{x_6}$,
-$J^B_{x_7}$ on the Standard-Model zero modes, which lie in the half $B = -1$), so on the zero modes I13 does not mix $\Psi_A$ and $\Psi_B$
-(DERIVED with the author's matrices, exact).
-In the unitary gauge $\Sigma = 1$ the sigma-field kinetic term becomes
-$-\frac{v_\Sigma^2}{8}\big[2\hat g^2W^+_\mu W^{-\mu} + (\hat g^2 + \hat g'^2)Z_\mu Z^\mu\big]$ (canonical fields).
+## Gravity
 
-**Removed in version 2.** Version 1 also contained the chiral tip $Z$ portal
-$S_{I9} = \int_{y=-L}d^7x\sqrt{\lvert g_{tip}\rvert}\,(c_Z + c'_Z\varsigma)(i\bar\Psi\gamma^\mu P_+\Psi)\,\frac{iv_\Sigma^2}{2}\mathrm{tr}(\Sigma^\dagger D_\mu\Sigma\tau^3)$
-($P_+ = (1 + \Gamma_4)/2$, $\varsigma = \pm1$ the side of the tip), which let a band of dirac16complex stand in for the neutrinos
-missing from one generation. With three generations its even part $c_Z$ is bounded by the $Z$ invisible width
-($N_\nu = 3 + 2r^2 = 2.9963 \pm 0.0074$ gives $r^2 < 0.0056$; DERIVED) and would still keep two neutrino-like species in equilibrium
-down to $14.7$ MeV, adding
-$$ \Delta N_{eff} = n_W\Big(\frac{10.75}{g_s}\Big)^{4/3}F_h,\qquad F_h = \Big[\frac{T_\nu}{T_\gamma}\Big(\frac{11}{4}\Big)^{1/3}\Big/(1 + h_\nu)\Big]^4 = 1.0095 $$
-($n_W = 2$ Weyl species decoupling when the plasma has $g_s$ entropy degrees of freedom; $F_h$ corrects for the heating of the
-neutrinos by $e^+e^-$ annihilation, which an earlier-decoupled species does not receive, with $T_\nu/T_\gamma = 0.71664$ and the comoving
-heating $h_\nu = 0.00165$ of the common-temperature decoupling of section 9.4), i.e. $\Delta N_{eff} = 2.02$ at $g_s = 10.75$; its oriented
-part $c'_Z$ would thermalise the $\Psi_A$ fold band through $\Psi_A^{odd} \leftrightarrow \Psi_A^{fold} + Z$ and add $\Delta N_{eff} = 0.096$ to
-$0.126$ ($g_s = 105.75$ to $86.25$; ESTIMATE), $2.1$ to $2.4$ standard deviations above the ACT DR6 value $N_{eff} = 2.86 \pm 0.13$
-(disfavoured): UM-2 sets $c_Z = c'_Z = 0$ (ASSUMED), so neither fold band of $\Psi$ is ever thermalised and the fold parity is exact
-in both halves.
+$$
+\begin{aligned}
+S_{\mathrm{EL}} &= \frac{1}{2\kappa}\int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\,
+ \Big(\sum_{p=1}^{3}\alpha_{(p)}\,\mathcal{L}_{(p)} - 2\Lambda\Big),\qquad \kappa = 8\pi G_8,\\
+\alpha_{(p)} &= w_{(p)}\,H^{2-2p},\qquad w_{(1)} = 1,\quad w_{(2)} = \frac{1}{32},\quad w_{(3)} =
+ \frac{1}{1152},
+ \qquad \Lambda = -10H^2
+\end{aligned} \tag{IN-2}
+$$
 
-# The gravitational field equations
+<!-- symbols: SEL, kappa, diff, Xcoord, metric, ip, alphaL, Lov, Lambda, pi, G8, wL, Hconst -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-2).**
 
-Varying $S$ with respect to the metric gives
-$$ \sum_{k=1}^{3}\alpha_k\,E_{(k)}{}^M{}_N + \Lambda\,\delta^M_N = \kappa\,T^M{}_N,\qquad
-   E_{(k)}{}^M{}_N = -\frac{1}{2^{k+1}}\,\delta^{MA_1B_1\cdots A_kB_k}_{NC_1D_1\cdots C_kD_k}\,R^{C_1D_1}{}_{A_1B_1}\cdots R^{C_kD_k}{}_{A_kB_k}, $$
-$E_{(1)}$ being the Einstein tensor. Every $E_{(k)}$ is divergence-free identically (DERIVED for the order-0 metric for
-$k = 1, 2, 3$), so the field equations imply $\nabla_MT^M{}_N = 0$, which holds on the matter field equations. The total
-source is
-$$ T^M{}_N = T^M{}_N[\text{stab}] + T^M{}_N[\Psi] + T^M{}_N[\text{gauge}] + T^M{}_N[f] + T^M{}_N[\text{tip}] + T^M{}_N[I11] + T^M{}_N[I12] + T^M{}_N[I13] .$$
+- $S_{\mathrm{EL}}$: The Einstein-Lovelock action of gravity. Unit: dimensionless. Status: AUTHOR.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $p$: The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic). Status: STANDARD.
+- $\alpha_{(p)}$: The Lovelock coupling of order $p$, $\alpha_{(p)} = w_{(p)}H^{2-2p}$ ($\alpha_{(1)} = 1$). Unit: $\mathrm{GeV}^{2-2p}$. Status: AUTHOR.
+- $\mathcal{L}_{(p)}$: The Lovelock density of order $p$ of the metric (a scalar built from $p$ Riemann tensors): $\mathcal{L}_{(1)} = R$ (Einstein-Hilbert), $\mathcal{L}_{(2)}$ the Gauss-Bonnet density, $\mathcal{L}_{(3)}$ the cubic Lovelock density. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $\Lambda$: The eight-dimensional cosmological constant, $\Lambda = -10H^2$. Unit: $\mathrm{GeV}^{2}$. Value: $-10H^2$. Status: AUTHOR.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $G_8$: The eight-dimensional Newton constant ($\kappa = 8\pi G_8$). Unit: $\mathrm{GeV}^{-6}$. Status: AUTHOR.
+- $w_{(p)}$: The author's Lovelock weights, $w_{(1)} = 1$, $w_{(2)} = 1/32$, $w_{(3)} = 1/1152$. Unit: dimensionless. Value: $(1, 1/32, 1/1152)$. Status: AUTHOR.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
 
-## The energy-momentum tensors
+<!-- end generated symbol list -->
 
-**Stabiliser.** $\rho_b$ depends on the metric through the proper block volume $V_b \propto f^4$, $\rho_b \propto V_b^{-2}$;
-the variation gives $T_{\mu\nu} = -g_{\mu\nu}\rho_b$ for $\mu, \nu \in \{x_1, \dots, x_4\}$ and $T_{AB} = +g_{AB}\rho_b$ for
-$A, B \in \{x_0, x_5, x_6, x_7\}$, i.e. $\rho = \rho_b$, $p_3 = -\rho_b$, $p_0 = p_t = \rho_b$.
+Gravity is the Einstein-Lovelock theory in eight dimensions with the author's weights. $\mathcal{L}_{(1)}$ is the Einstein-Hilbert
+density (the Ricci scalar), $\mathcal{L}_{(2)}$ the Gauss-Bonnet density and $\mathcal{L}_{(3)}$ the cubic Lovelock density; in eight
+dimensions the series ends with $p = 3$ (the density of order 4 is a total derivative in eight dimensions). The couplings
+$\alpha_{(p)} = w_{(p)}H^{2-2p}$ carry the author's dimensionless weights $w_{(1)} = 1$, $w_{(2)} = 1/32$, $w_{(3)} = 1/1152$, and the
+cosmological constant is $\Lambda = -10H^2$. Gravity couples to every field through the metric that appears in every other term of
+the action (in $\sqrt{\lvert g\rvert}$, in the contractions of indices and in the spin connection). Status: AUTHOR.
 
-**dirac16complex** (and every Standard-Model fermion with $m \to \mu_\psi$, $\lambda \to 0$, $D_M$ with gauge fields):
-$$ T_{MN}[\Psi] = -\frac12\Big[\bar\Psi\gamma_{(M}D_{N)}\Psi - \big(D_{(M}\bar\Psi\big)\gamma_{N)}\Psi\Big] + g_{MN}\,\hat{\mathcal L}_\Psi,\qquad
-   \hat{\mathcal L}_\Psi = \tfrac12\big(\bar\Psi\gamma^PD_P\Psi - (D_P\bar\Psi)\gamma^P\Psi\big) - mS - \frac{\lambda}{2}S^2, $$
-with $X_{(MN)} = \frac12(X_{MN} + X_{NM})$ and $S = \bar\Psi\Psi$. On shell for a homogeneous state this gives $\rho = mS + U$,
-$p = SU' - U$ with $U = \frac{\lambda}{2}S^2$ (the record's convention, $\rho = -T^{x_4}{}_{x_4}$).
+$$
+\begin{aligned}
+\mathcal{L}_{(p)} &= \frac{1}{2^{p}}\,\delta^{M_1N_1\cdots M_pN_p}_{P_1Q_1\cdots P_pQ_p}\,
+ R^{P_1Q_1}{}_{M_1N_1}\cdots R^{P_pQ_p}{}_{M_pN_p},\\
+\mathcal{L}_{(1)} &= R,\qquad \mathcal{L}_{(2)} = R^2 - 4R_{MN}R^{MN} + R_{MNPQ}R^{MNPQ}
+\end{aligned} \tag{IN-3}
+$$
 
-**Gauge fields:**
-$$ \begin{aligned} T_{MN}[\text{gauge}] = &\frac{1}{\hat g_s^2}\Big(G^\alpha_{MP}G^\alpha{}_N{}^P - \frac14g_{MN}G^\alpha_{PQ}G^{\alpha PQ}\Big) + \frac{1}{\hat g^2}\Big(W^a_{MP}W^a{}_N{}^P - \frac14g_{MN}W^a_{PQ}W^{aPQ}\Big)\\
-   &+ \frac{1}{\hat g'^2}\Big(B_{MP}B_N{}^P - \frac14g_{MN}B_{PQ}B^{PQ}\Big). \end{aligned} $$
+<!-- symbols: Lov, ip, delta, iM, iN, iP, iQ, Riemann -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-3).**
 
-**Tip** (for $\mu, \nu$ tangent to the tip; zero for the $y$ components):
-$$ T_{\mu\nu}[\text{tip}] = \delta_{tip}\Big[\frac{v_\Sigma^2}{2}\,\mathrm{tr}\big((D_{(\mu}\Sigma)^\dagger D_{\nu)}\Sigma\big) + g_{\mu\nu}\,\hat{\mathcal L}_{tip}\Big],\qquad
-   \hat{\mathcal L}_{tip} = -\frac{v_\Sigma^2}{4}\mathrm{tr}\big((D\Sigma)^\dagger D\Sigma\big) - \big(\bar L\Sigma\Lambda_\ell\ell_R + \bar Q\Sigma\Lambda_qq_R + \text{h.c.}\big).$$
+- $\mathcal{L}_{(p)}$: The Lovelock density of order $p$ of the metric (a scalar built from $p$ Riemann tensors): $\mathcal{L}_{(1)} = R$ (Einstein-Hilbert), $\mathcal{L}_{(2)}$ the Gauss-Bonnet density, $\mathcal{L}_{(3)}$ the cubic Lovelock density. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $p$: The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic). Status: STANDARD.
+- $\delta$: The Kronecker delta: with two indices $\delta^M_N = 1$ if $M = N$ and 0 otherwise (likewise $\delta_{\alpha e}$, $\delta_{l0}$, $\delta^{I3}$); with upper and lower index strings the generalised Kronecker delta $\delta^{M_1\cdots M_n}_{N_1\cdots N_n}$, the determinant of the $n \times n$ matrix of Kronecker deltas $\delta^{M_a}_{N_b}$ (+1 or -1 if the upper indices are an even or odd permutation of the lower ones, 0 otherwise). Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $P$: A coordinate index of eight dimensions (also $P_1, P_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $Q$: A coordinate index of eight dimensions (also $Q_1, Q_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $R^{MN}{}_{PQ},\ R_{MN},\ R$: The curvature of the metric $g_{MN}$: with four indices the Riemann tensor, with two indices the Ricci tensor $R_{MN} = R^P{}_{MPN}$, without indices the Ricci (scalar) curvature $R = g^{MN}R_{MN}$; $R^{ab}{}_{ab}$ (no sum) is the sectional curvature of the coordinate plane $(a, b)$. Unit: 1/$\mathrm{length}^{2}$. Status: STANDARD.
 
-**Portals.** The frame currents $i\bar\Psi\gamma^a\Psi$, $i\bar\psi\gamma^a\psi$ and the scalars $\bar\Psi\Psi$ do not depend on the vielbein,
-so only $\sqrt{\lvert g\rvert}$ and the explicit metric factors vary:
-$$ T_{MN}[I11] = g_{MN}\,\frac{c_V}{\Lambda_\star^6}(i\bar\Psi\gamma^P\Psi)\mathcal J_P,\qquad T_{MN}[I13] = g_{MN}\,\frac{c_A}{\Lambda_\star^6}\sum_{P \ne x_0}(i\bar\Psi\gamma^PP_b\Psi)J^B_P,$$
-$$ T_{MN}[I12] = \frac{4\bar\Psi\Psi}{\Lambda_\star^3}\Big[c_G\Big(G^\alpha_{MP}G^\alpha{}_N{}^P - \frac14g_{MN}G^\alpha_{PQ}G^{\alpha PQ}\Big) + (W, c_W) + (B, c_B)\Big], $$
-so I12 acts as a field-dependent gauge coupling, $1/\hat g_i^2 \to 1/\hat g_i^2 + 4c_i\bar\Psi\Psi/\Lambda_\star^3$.
+<!-- end generated symbol list -->
 
-# The matter field equations
+The Lovelock densities are built with the generalised Kronecker delta from $p$ Riemann tensors. Their key property
+(Lovelock's theorem, STANDARD) is that their metric variation contains no derivatives of the metric higher than the second,
+so that the field equations FE-1 remain second-order differential equations, as in general relativity. For $p = 1$ the formula
+gives the Ricci scalar, for $p = 2$ the Gauss-Bonnet combination written in the second line. Status: STANDARD.
 
-## dirac16complex
+## The block stabiliser
 
-$$ \gamma^MD_M\Psi = \Big[m + \lambda\bar\Psi\Psi + \frac{\mathcal F}{\Lambda_\star^3}\Big]\Psi - i\,\frac{c_V}{\Lambda_\star^6}\,\mathcal J_M\gamma^M\Psi - i\,\frac{c_A}{\Lambda_\star^6}\sum_{M \ne x_0}J^B_M\gamma^MP_b\Psi, $$
-and its conjugate. The gravitational term is $\gamma^M\Omega_M$; for the order-0 metric (DERIVED, exact for every $a_4$, $b_4$
-and on both halves of a period)
-$$ \gamma^M\Omega_M = \frac32\,\frac{H}{f}\,\gamma^{x_0} + \Big(\frac{\dot b_4}{b_4} - \frac{\dot a_4}{2}\Big)\gamma^{x_4}, $$
-which vanishes only in flat 4+4 space ($H = 0$, constant $a_4$, $b_4$): the coupling of $\Psi$ to gravity is non-trivial.
-$\Psi$ is a singlet of the Standard-Model group: it couples to the Standard Model only through I11, I12 and I13.
+$$
+S_{\mathrm{stab}} = -\int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\;\rho_{\mathrm{stab}}(f),\qquad
+\kappa\rho_{\mathrm{stab}}(f) = \kappa\rho_{\mathrm{stab}}(f_*)\Big(\frac{f_*}{f}\Big)^{8},\qquad
+f = \mathrm{e}^{-a_4}\,b_4^{1/2} \tag{IN-4}
+$$
 
-## The Standard-Model fermions
+<!-- symbols: Sstab, diff, Xcoord, metric, rhostab, fblock, kappa, fstar, euler, a4, b4 -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-4).**
 
-For a multiplet $\psi_i$ of generation $i$ and charge $q_\psi$ (I11; the I13 term only for the quark multiplets $Q_i$, $u_{Ri}$, $d_{Ri}$),
-$$ \gamma^MD_M\psi_i = \mu_{\psi i}\,\psi_i - i\,\frac{c_V}{\Lambda_\star^6}\,q_\psi\,(i\bar\Psi\gamma_M\Psi)\,\gamma^M\psi_i - i\,\frac{c_A}{\Lambda_\star^6}\,\frac13\sum_{M \ne x_0}(i\bar\Psi\gamma_MP_b\Psi)\,\gamma^M\psi_i + \delta_{tip}\,(\text{Yukawa})_i,$$
-$$ (\text{Yukawa})_{L_i} = \sum_j\Sigma(\Lambda_\ell)_{ij}\,\ell_{Rj},\qquad (\text{Yukawa})_{\ell_{Rj}} = \sum_i(\Lambda_\ell)^*_{ij}\Sigma^\dagger L_i, $$
-$$ (\text{Yukawa})_{Q_i} = \sum_j\Sigma(\Lambda_q)_{ij}\,q_{Rj},\qquad (\text{Yukawa})_{q_{Rj}} = \sum_i(\Lambda_q)^*_{ij}\Sigma^\dagger Q_i .$$
-For one generation the tip terms are equivalent to the self-adjoint mixing conditions at $y = -L$ (DERIVED; block form
-$\chi = (a, ib)$)
-$$ b_L(-L) = \kappa_f\,b_R(-L),\qquad a_R(-L) = -\kappa_f\,a_L(-L),$$
-with $\kappa_f$ the dimensionless tip mixing. For three generations they hold in each sector (neutrinos, charged leptons,
-up-type quarks, down-type quarks) for the vectors of boundary values over the generations,
-$$ b_L(-L) = \kappa\,b_R(-L),\qquad a_R(-L) = -\kappa^\dagger a_L(-L), $$
-with a $3\times3$ tip matrix $\kappa$ ($\kappa_\nu$, $\kappa_e$, $\kappa_u$, $\kappa_d$), and are self-adjoint for every complex $\kappa$: the boundary
-form $\sum[\phi^\dagger\sigma_1\chi - \chi^\dagger\sigma_1\phi]$ of the coupled $(L, R)$ problem over the three generations vanishes
-identically (DERIVED, sympy, 42 real variables). UM-2 takes (ASSUMED) $\kappa_e = \kappa_u = 1$, $\kappa_\nu = U_{PMNS}$, $\kappa_d = V_{CKM}$.
+- $S_{\mathrm{stab}}$: The action of the block stabiliser (a vacuum energy of the block). Unit: dimensionless. Status: ASSUMED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\rho_{\mathrm{stab}}$: The energy density of the block stabiliser, a function of the block scale, $\rho_{\mathrm{stab}} \propto f^{-8}$; its value at the static block is $\rho_{\mathrm{stab}}(f_*)$. Unit: $\mathrm{GeV}^{8}$. Value: $\kappa\rho_{\mathrm{stab}}(f_*) = (26 + 4\sqrt{51})H^2 = 54.566\,H^2$. Status: ASSUMED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $f_*$: The block scale of the stabilised (static) block, $f_* = K_*^{-1/2}$. Unit: dimensionless. Value: 0.215556. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $b_4$: The author's metric function of the time $x_4$ in the hidden and extra-time components, $b_4 > 0$. Unit: dimensionless. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+The four directions $x_0, x_5, x_6, x_7$ form the "block". The order-0 metric (FE-31) scales all four of them with one block
+scale $f = \mathrm{e}^{-a_4}b_4^{1/2}$. With the author's weights and $\Lambda$ alone there is no static block with attractive
+four-dimensional gravity (FE-42); UM-2 therefore assumes a vacuum energy of the block, $\rho_{\mathrm{stab}}$, that falls with the
+block scale as $f^{-8}$ (the law of a Casimir-type energy of a block of size $f$). Its normalisation $\kappa\rho_{\mathrm{stab}}(f_*)$ is
+fixed by the requirement that the block be static (FE-43). It couples only to gravity: its energy-momentum tensor is FE-4.
+Status: ASSUMED; its microscopic origin is OPEN.
+
+## The field dirac16complex
+
+$$
+\begin{aligned}
+S_\Psi &= \int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\,\Big[\tfrac12\big(\bar\Psi\gamma^MD_M\Psi
+ - (D_M\bar\Psi)\gamma^M\Psi\big) - m_\Psi\,\bar\Psi\Psi - \frac{\lambda}{2}\big(\bar\Psi\Psi\big)^2\Big],\\
+m_\Psi &= 3H\mathcal{M} = H\qquad (\mathcal{M} = 1/3)
+\end{aligned} \tag{IN-5}
+$$
+
+<!-- symbols: SPsi, diff, Xcoord, metric, Psi, gamma, iM, Dcov, mPsi, lambda, Hconst, calM -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-5).**
+
+- $S_\Psi$: The action of the dirac16complex field (kinetic term with the canonical spin connection, mass term and contact self-interaction). Unit: dimensionless. Status: RECORD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $m_\Psi$: The mass parameter of dirac16complex, $m_\Psi = 3H\mathcal{M} = H$. Unit: GeV. Value: 14.296 TeV. Status: RECORD.
+- $\lambda$: The contact self-coupling of dirac16complex (the term $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ of the record). Unit: $\mathrm{GeV}^{-6}$. Value: not fixed; Kohn-Sham states computed for $\lambda = 0$ and $\pm7\times10^{-5}H^{-6}$; the fold-band radiation requires $\lvert\lambda\rvert \lesssim 1.4\times10^{-10}H^{-6}$ (for $\Delta N_{\mathrm{eff}} \le 0.001$). Status: RECORD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $\mathcal{M}$: The record's dimensionless mass parameter of dirac16complex, $\mathcal{M} = 1/3$ ($m_\Psi = 3H\mathcal{M}$). Unit: dimensionless. Value: 1/3. Status: RECORD.
+
+<!-- end generated symbol list -->
+
+dirac16complex $\Psi$ is the author's 16-component complex spinor field of eight dimensions. Its Lagrangian is the record's:
+the symmetrised Dirac kinetic term (both $\Psi$ and $\bar\Psi$ are differentiated, so the action is real), the mass term with the
+mass parameter $m_\Psi = 3H\mathcal{M} = H$, and the contact self-interaction $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$. The covariant
+derivative $D_M$ contains the canonical spin connection (IN-7), through which $\Psi$ couples to gravity. $\Psi$ carries no colour,
+weak isospin or hypercharge. Status: RECORD.
+
+$$
+\begin{aligned}
+&\gamma^a\gamma^b + \gamma^b\gamma^a = 2\eta^{ab}\,\mathbf{1},\qquad
+ \eta_{ab} = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1),\qquad \gamma^M = \mathbf{e}_a{}^M\gamma^a,\\
+&\bar\Psi = \Psi^\dagger C,\qquad C = \gamma^{x_0}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3},\qquad
+ \Gamma_4 = \mathrm{i}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}\gamma^{x_4},\qquad \mathcal{B} =
+ -\mathrm{i}C\gamma^{x_4},\\
+&\Psi = \Psi_A + \Psi_B,\qquad \mathcal{B}\Psi_A = -\Psi_A,\qquad \mathcal{B}\Psi_B = +\Psi_B
+\end{aligned} \tag{IN-6}
+$$
+
+<!-- symbols: gamma, ia, ib, eta, identity, diag, iM, vielbein, Psi, dagger, Cmat, x0, x1, x2, x3, Gamma4, imag, x4, calB, PsiAB -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-6).**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $a$: A frame (orthonormal) index running over $0, 1, \dots, 7$, aligned with $x_0, \dots, x_7$; raised and lowered with $\eta_{ab}$; a repeated index is summed (except in a sectional curvature $R^{ab}{}_{ab}$). Status: STANDARD.
+- $b$: A frame index running over $0, \dots, 7$ (as $a$). Status: STANDARD.
+- $\eta_{ab}$: The flat metric of the frame, $\eta_{ab} = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ ($\eta^{ab}$ the same matrix). Unit: dimensionless. Status: AUTHOR.
+- $\mathbf{1}$: The identity matrix (of the size fixed by the context: 16 x 16 on spinors, 3 x 3 on the generations or flavours, 2 x 2 for the sigma field). Unit: dimensionless. Status: STANDARD.
+- $\mathrm{diag}$: A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \dots, x_7$ when it is a tensor in eight dimensions). Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\mathbf{e}^a{}_M,\ \mathbf{e}_a{}^M$: The vielbein (frame field) of the metric: $g_{MN} = \eta_{ab}\,\mathbf{e}^a{}_M\mathbf{e}^b{}_N$; $\mathbf{e}_a{}^M$ is the inverse matrix. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $C$: The matrix of the Dirac adjoint, $C = \gamma^{x_0}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}$ ($\bar\Psi = \Psi^\dagger C$); in each block of the reduction $C = \varsigma_2\sigma_2$. Unit: dimensionless. Status: AUTHOR.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_2$: The second coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_3$: The third coordinate of ordinary 3-space (also the symmetry axis of the fast-flavour analysis). Unit: length. Status: AUTHOR.
+- $\Gamma_4$: The four-dimensional chirality matrix, $\Gamma_4 = \mathrm{i}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}\gamma^{x_4}$; a doublet zero mode has $\Gamma_4 = +1$ (left-handed), a singlet zero mode $\Gamma_4 = -1$ (right-handed). Unit: dimensionless. Status: DERIVED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{B}$: The author's operator $\mathcal{B} = -\mathrm{i}C\gamma^{x_4}$; its eigenvalues $\mp1$ define the halves $\Psi_A$ and $\Psi_B$, and it commutes with every interaction of the good sector. Unit: dimensionless. Status: AUTHOR.
+- $\Psi_A,\ \Psi_B$: The two halves of dirac16complex, $\Psi = \Psi_A + \Psi_B$, the eigenspaces of $\mathcal{B}$ with the eigenvalues $-1$ and $+1$; each half carries one dark-matter species. Unit: $\mathrm{GeV}^{7/2}$. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+The Dirac matrices satisfy the Clifford algebra of the signature $(4, 4)$; the author's matrices are real $16 \times 16$
+matrices, and the algebra holds exactly (31 checks of `code/um2_algebra.py`). The Dirac adjoint uses the matrix
+$C = \gamma^{x_0}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}$ (in four-four signature the usual $\gamma^0$ is replaced by the product of the four
+space-like matrices). $\Gamma_4$ is the four-dimensional chirality. The author's operator $\mathcal{B} = -\mathrm{i}C\gamma^{x_4}$ has the
+eigenvalues $\pm1$ and splits $\Psi$ into two halves, $\Psi_A$ and $\Psi_B$; it commutes with every interaction of the good sector, so
+the two halves never mix (each carries one dark-matter species). The same algebra and adjoint serve every Standard-Model fermion.
+Status: AUTHOR.
+
+$$
+\begin{aligned}
+&D_M\Psi = \partial_M\Psi + \Omega_M\Psi,\qquad D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M,\qquad
+ \Omega_M = \tfrac12\,\omega_{Mab}\,\mathcal{S}^{ab},\qquad \mathcal{S}^{ab} = \tfrac14\big[\gamma^a,
+ \gamma^b\big],\\
+&\omega_M{}^a{}_b = \mathbf{e}^a{}_N\big(\partial_M\mathbf{e}_b{}^N +
+ \Gamma^N{}_{MP}\,\mathbf{e}_b{}^P\big),\qquad
+ \omega_{Mab} = \eta_{ac}\,\omega_M{}^c{}_b,\qquad g_{MN} = \eta_{ab}\,\mathbf{e}^a{}_M\,\mathbf{e}^b{}_N,\\
+&\Gamma^N{}_{MP} = \tfrac12\,g^{NQ}\big(\partial_Mg_{QP} + \partial_Pg_{QM} - \partial_Qg_{MP}\big)
+\end{aligned} \tag{IN-7}
+$$
+
+<!-- symbols: Dcov, iM, Psi, partial, Omega, omega, ia, ib, calS, gamma, vielbein, iN, Christoffel, iP, eta, ic, metric, iQ -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-7).**
+
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $\Omega_M$: The spin connection acting on spinors, the matrix $\Omega_M = \frac12\omega_{Mab}\mathcal{S}^{ab}$. Unit: 1/length. Status: STANDARD.
+- $\omega_M{}^a{}_b$: The coefficients of the spin connection of the vielbein (the Levi-Civita connection in the frame basis); $\omega_{Mab} = \eta_{ac}\,\omega_M{}^c{}_b$. Unit: 1/length. Status: STANDARD.
+- $a$: A frame (orthonormal) index running over $0, 1, \dots, 7$, aligned with $x_0, \dots, x_7$; raised and lowered with $\eta_{ab}$; a repeated index is summed (except in a sectional curvature $R^{ab}{}_{ab}$). Status: STANDARD.
+- $b$: A frame index running over $0, \dots, 7$ (as $a$). Status: STANDARD.
+- $\mathcal{S}^{ab}$: The generators of frame rotations on spinors, $\mathcal{S}^{ab} = \frac14[\gamma^a, \gamma^b]$ (the commutator). Unit: dimensionless. Status: STANDARD.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $\mathbf{e}^a{}_M,\ \mathbf{e}_a{}^M$: The vielbein (frame field) of the metric: $g_{MN} = \eta_{ab}\,\mathbf{e}^a{}_M\mathbf{e}^b{}_N$; $\mathbf{e}_a{}^M$ is the inverse matrix. Unit: dimensionless. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\Gamma^N{}_{MP}$: The Christoffel symbols (the Levi-Civita connection) of the metric, $\Gamma^N{}_{MP} = \frac12 g^{NQ}(\partial_Mg_{QP} + \partial_Pg_{QM} - \partial_Qg_{MP})$. Unit: 1/length. Status: STANDARD.
+- $P$: A coordinate index of eight dimensions (also $P_1, P_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\eta_{ab}$: The flat metric of the frame, $\eta_{ab} = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ ($\eta^{ab}$ the same matrix). Unit: dimensionless. Status: AUTHOR.
+- $c$: A frame index running over $0, \dots, 7$ (as $a$). Status: STANDARD.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $Q$: A coordinate index of eight dimensions (also $Q_1, Q_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+The spin connection couples every spinor to gravity: $\Omega_M$ is built from the vielbein $\mathbf{e}^a{}_M$ of the metric and the
+Christoffel symbols, and it makes the Dirac matrices covariantly constant (verified symbolically). On the order-0 metric it is
+the non-zero term FE-13. Status: STANDARD.
 
 ## The gauge fields
 
-With the fermion currents $j^{\alpha N}_s = \sum_q i\bar q\gamma^NT^\alpha q$, $j^{aN} = \sum_{\text{doublets}} i\bar\psi\gamma^N\frac{\tau^a}{2}\psi$,
-$j^N_Y = \sum_\psi Y_\psi\,i\bar\psi\gamma^N\psi$, the effective inverse couplings
-$\frac{1}{\hat g_{i,eff}^2} = \frac{1}{\hat g_i^2} + \frac{4c_i\bar\Psi\Psi}{\Lambda_\star^3}$ (I12), and in the unitary gauge $\Sigma = 1$ (geometric fields),
-$$ D_M\Big(\frac{1}{\hat g_{s,eff}^2}G^{\alpha MN}\Big) = j^{\alpha N}_s,$$
-$$ D_M\Big(\frac{1}{\hat g_{eff}^2}W^{1,2\,MN}\Big) = j^{1,2\,N} + \delta_{tip}\frac{v_\Sigma^2}{4}W^{1,2\,N},$$
-$$ D_M\Big(\frac{1}{\hat g_{eff}^2}W^{3\,MN}\Big) = j^{3N} + \delta_{tip}\frac{v_\Sigma^2}{4}(W^3 - B)^N,$$
-$$ \nabla_M\Big(\frac{1}{\hat g'^2_{eff}}B^{MN}\Big) = j^N_Y - \delta_{tip}\frac{v_\Sigma^2}{4}(W^3 - B)^N,$$
-where $N$ runs over the tip directions in the $\delta_{tip}$ terms and the fermion currents are summed over the three
-generations. The tip terms are mass terms for $W^\pm$ and $Z$ only: the combination $A = \sin\theta_WW^3 + \cos\theta_WB$
-(canonical fields) receives none, and the photon stays massless. For an $x_0$ profile these tip terms become the Robin
-conditions of section 6.1.
+$$
+S_{\mathrm{gauge}} = -\frac14\int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\,\Big(\frac{1}{\hat
+ g_3^2}\,G^A_{MN}G^{AMN}
+ + \frac{1}{\hat g_2^2}\,W^I_{MN}W^{IMN} + \frac{1}{\hat g_1^2}\,B_{MN}B^{MN}\Big) \tag{IN-8}
+$$
+
+<!-- symbols: Sgauge, diff, Xcoord, metric, ghat3, Ggluon, iA, iM, iN, ghat2, Wsu2, iI, ghat1, Bhyp -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-8).**
+
+- $S_{\mathrm{gauge}}$: The action of the gauge fields of SU(3), SU(2) and U(1)$_Y$ in eight dimensions. Unit: dimensionless. Status: ASSUMED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\hat g_3$: The eight-dimensional SU(3) coupling (it multiplies the gluon kinetic term as $1/\hat g_3^2$); $g_3^2 = \hat g_3^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\hat g_2$: The eight-dimensional SU(2) coupling; $g_2^2 = \hat g_2^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $\hat g_1$: The eight-dimensional U(1)$_Y$ coupling; $g_1^2 = \hat g_1^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+The gauge group is that of the Standard Model, SU(3) $\times$ SU(2) $\times$ U(1)$_Y$, in eight dimensions. The fields are in the
+geometric normalisation: the eight-dimensional couplings $\hat g_3$, $\hat g_2$, $\hat g_1$ stand in front of the kinetic terms, and
+the four-dimensional couplings are $g_i^2 = \hat g_i^2/V_\perp$ (FE-49). The gauge zero modes are flat in $x_0$ (FE-52), so the
+four-dimensional theory has exactly the gauge interactions of QCD and of the electroweak theory. Status: ASSUMED (the
+eight-dimensional form).
+
+$$
+\begin{aligned}
+&G_M = G^A_M\,t^A,\qquad G_{MN} = \partial_MG_N - \partial_NG_M - \mathrm{i}\big[G_M, G_N\big],\qquad
+ G^A_{MN} = 2\,\mathrm{tr}\big(t^AG_{MN}\big),\\
+&W_M = W^I_M\,\frac{\tau^I}{2},\qquad W_{MN} = \partial_MW_N - \partial_NW_M - \mathrm{i}\big[W_M,
+ W_N\big],\qquad
+ W^I_{MN} = \mathrm{tr}\big(\tau^IW_{MN}\big),\\
+&B_{MN} = \partial_MB_N - \partial_NB_M
+\end{aligned} \tag{IN-9}
+$$
+
+<!-- symbols: Ggluon, iM, iA, tgen, iN, partial, imag, trace, Wsu2, iI, tau, Bhyp -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-9).**
+
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $t^A$: The generators of SU(3) in the fundamental representation (the Gell-Mann matrices divided by 2), $\mathrm{tr}(t^At^B) = \frac12\delta^{AB}$. Unit: dimensionless. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{tr}$: The trace of a matrix: the sum of its diagonal entries. Status: STANDARD.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $\tau^I$: The Pauli matrices acting on weak-isospin doublets ($\tau^I/2$ the generators of SU(2); $\tau^3 = \mathrm{diag}(1, -1)$). Unit: dimensionless. Status: STANDARD.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+The field strengths are the standard non-abelian ones (STANDARD): $t^A$ are the generators of SU(3) and $\tau^I/2$ those of SU(2); the
+commutator terms make the gluons and the $W$ bosons self-interacting, as in QCD and in the electroweak theory.
+
+$$
+\begin{aligned}
+&W^\pm_M = \frac{W^1_M \mp \mathrm{i}W^2_M}{\sqrt2\,\hat g_2},\qquad
+ Z_M = \frac{W^3_M - B_M}{\hat g_Z},\qquad A_M = \frac{\hat g_1^2\,W^3_M + \hat g_2^2\,B_M}{\hat g_1\hat
+ g_2\hat g_Z},\\
+&\hat g_Z = \sqrt{\hat g_2^2 + \hat g_1^2},\qquad \cos\theta_{\mathrm{W}} = \frac{\hat g_2}{\hat g_Z},\qquad
+ \sin\theta_{\mathrm{W}} = \frac{\hat g_1}{\hat g_Z}
+\end{aligned} \tag{IN-10}
+$$
+
+<!-- symbols: Wpm, iM, Wsu2, imag, ghat2, Zboson, Bhyp, ghatZ, Aphoton, ghat1, thetaW -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-10).**
+
+- $W^\pm_M,\ W^+,\ W^-$: The charged weak bosons, canonically normalised: $W^\pm_M = (W^1_M \mp \mathrm{i}W^2_M)/(\sqrt2\,\hat g_2)$; $W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$ (they are each other's antiparticles and have one mass). Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\hat g_2$: The eight-dimensional SU(2) coupling; $g_2^2 = \hat g_2^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $Z_M$: The $Z$ boson field, canonically normalised, $Z_M = (W^3_M - B_M)/\hat g_Z$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $\hat g_Z$: The eight-dimensional coupling of the $Z$, $\hat g_Z = (\hat g_2^2 + \hat g_1^2)^{1/2}$. Unit: $\mathrm{GeV}^{-2}$. Status: STANDARD.
+- $A_M$: The photon field, canonically normalised, $A_M = (\hat g_1^2W^3_M + \hat g_2^2B_M)/(\hat g_1\hat g_2\hat g_Z)$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\hat g_1$: The eight-dimensional U(1)$_Y$ coupling; $g_1^2 = \hat g_1^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $\theta_{\mathrm{W}}$: The weak mixing angle of the couplings, $\cos\theta_{\mathrm{W}} = \hat g_2/\hat g_Z$, $\sin\theta_{\mathrm{W}} = \hat g_1/\hat g_Z$; fixed by the measured $W$ and $Z$ masses with $\rho_{\mathrm{EW},0}$. Unit: dimensionless. Value: $\cos^2\theta_{\mathrm{W}} = 0.776368$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+The physical electroweak fields are the canonically normalised combinations of the SU(2) and hypercharge fields: $W^+$ and $W^-$
+from $W^1$ and $W^2$, the $Z$ and the photon $A$ from $W^3$ and $B$, rotated by the weak mixing angle $\theta_{\mathrm{W}}$ of the couplings.
+$W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$ (DERIVED from the charge operator of IN-12); they are each other's
+antiparticles. Status: STANDARD.
+
+## The Standard-Model fermions
+
+$$
+\begin{aligned}
+S_{\mathrm{f}} &= \sum_{i=1}^{3}\sum_{\psi}\int\mathrm{d}^8X\,\sqrt{\lvert
+ g\rvert}\,\Big[\tfrac12\big(\bar\psi_i\gamma^MD_M\psi_i
+ - (D_M\bar\psi_i)\gamma^M\psi_i\big) - \mu_{\psi i}\,\bar\psi_i\psi_i\Big],\\
+\psi &\in \{Q,\ u_R,\ d_R,\ \ell,\ e_R,\ \nu_R\},\qquad \mu_{\psi i} = \mu_Q\ (\psi = Q),\qquad
+ \mu_{\psi i} = \mu_\ell\ (\psi = \ell)
+\end{aligned} \tag{IN-11}
+$$
+
+<!-- symbols: Sf, ii, ipsi, diff, Xcoord, metric, psi, gamma, iM, Dcov, mubulk, Qdoublet, uR, dR, ldoublet, eR, nuR, muQ, muell -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-11).**
+
+- $S_{\mathrm{f}}$: The action of the Standard-Model fermions of three generations (kinetic and bulk-mass terms). Unit: dimensionless. Status: ASSUMED.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\psi$: The label of a Standard-Model multiplet: $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\psi$ runs over the six. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $\mu_{\psi i}$: The bulk mass of a Standard-Model fermion: $\mu_{\psi i}$ of the multiplet $\psi$ of the generation $i$; with the hidden direction it fixes the localisation $c = f\mu L$ of the zero mode. Unit: GeV. Value: $\mu_{\psi i} = c/(fL)$ with the localisation $c$ of the zero mode (doublets: $\mu_Q = 5.2304\,H$, $\mu_\ell = 9.2055\,H$). Status: ASSUMED.
+- $Q_i,\ \bar Q_i$: The quark doublet of the generation $i$ (left-handed up and down quark of one generation, three colours) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $u_R,\ u_{Ri},\ \bar u_{Ri}$: The up-type quark singlet: $u_R$ the multiplet, $u_{Ri}$ that of the generation $i$ ($u_R$, $c_R$, $t_R$), $\bar u_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $d_R,\ d_{Ri},\ \bar d_{Ri}$: The down-type quark singlet: $d_R$ the multiplet, $d_{Ri}$ that of the generation $i$ ($d_R$, $s_R$, $b_R$), $\bar d_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\ell_i,\ \bar\ell_i$: The lepton doublet of the generation $i$ (left-handed neutrino and charged lepton) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $e_R,\ e_{Ri}$: The right-handed charged-lepton singlet: $e_R$ the multiplet, $e_{Ri}$ that of the generation $i$ ($e_R$, $\mu_R$, $\tau_R$). Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\nu_R,\ \nu_{Ri}$: The right-handed neutrino (a gauge singlet): $\nu_R$ the multiplet, $\nu_{Ri}$ that of the generation $i$; its zero modes give Dirac neutrino masses. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\mu_Q$: The common bulk mass of the three quark doublets. Unit: GeV. Value: $5.2304\,H$ ($c_Q = 3.38230$). Status: DERIVED.
+- $\mu_\ell$: The common bulk mass of the three lepton doublets. Unit: GeV. Value: $9.2055\,H$ ($c_\ell = 5.95288$). Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+Each generation $i = 1, 2, 3$ contains the quark doublet $Q_i$ (left-handed up and down quarks, three colours, hypercharge
+$\frac16$), the up-type singlet $u_{Ri}$ ($\frac23$), the down-type singlet $d_{Ri}$ ($-\frac13$), the lepton doublet $\ell_i$
+(left-handed neutrino and charged lepton, $-\frac12$), the charged-lepton singlet $e_{Ri}$ ($-1$) and the right-handed neutrino
+$\nu_{Ri}$ (a gauge singlet). These are eight-dimensional spinor fields with bulk masses $\mu_{\psi i}$; the doublets of a sector share
+one bulk mass ($\mu_Q$, $\mu_\ell$). The bulk mass fixes the localisation of the four-dimensional zero mode along $x_0$, and with the
+tip mixing it fixes the four-dimensional mass (FE-56 to FE-60). With this content the gauge anomalies cancel generation by
+generation, exactly as in the Standard Model (DERIVED, exact fractions; a lepton generation without its quark generation would
+leave the anomalies $\mathcal{A}_{SU(2)^2U(1)} = -1$ and $\mathcal{A}_{U(1)^3} = 3/2$): the three quark generations are required together
+with the three lepton generations. Status: ASSUMED (the eight-dimensional form; the boundary conditions FE-29 are INVENTED).
+
+$$
+D_M = \partial_M + \Omega_M - \mathrm{i}G^A_M\,t^A - \mathrm{i}W^I_M\,\frac{\tau^I}{2} - \mathrm{i}\,Y
+ B_M,\qquad
+Q_{\mathrm{em}} = T_3 + Y \tag{IN-12}
+$$
+
+<!-- symbols: Dcov, iM, partial, Omega, imag, Ggluon, iA, tgen, Wsu2, iI, tau, Yhyp, Bhyp, Qem, T3 -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-12).**
+
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $\Omega_M$: The spin connection acting on spinors, the matrix $\Omega_M = \frac12\omega_{Mab}\mathcal{S}^{ab}$. Unit: 1/length. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $t^A$: The generators of SU(3) in the fundamental representation (the Gell-Mann matrices divided by 2), $\mathrm{tr}(t^At^B) = \frac12\delta^{AB}$. Unit: dimensionless. Status: STANDARD.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $\tau^I$: The Pauli matrices acting on weak-isospin doublets ($\tau^I/2$ the generators of SU(2); $\tau^3 = \mathrm{diag}(1, -1)$). Unit: dimensionless. Status: STANDARD.
+- $Y$: The hypercharge (the generator of U(1)$_Y$); $Y_\psi$ the hypercharge of the multiplet $\psi$ ($Q$: $\frac16$, $u_R$: $\frac23$, $d_R$: $-\frac13$, $\ell$: $-\frac12$, $e_R$: $-1$, $\nu_R$: 0). Unit: dimensionless. Status: STANDARD.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $Q_{\mathrm{em}}$: The electric charge in units of the elementary charge, $Q_{\mathrm{em}} = T_3 + Y$; $Q^f_{\mathrm{em}}$ that of the fermion $f$. Unit: dimensionless. Status: STANDARD.
+- $T_3$: The third component of the weak isospin ($+\frac12$ for the upper and $-\frac12$ for the lower member of a doublet, 0 for a singlet); $T_3^f$ that of the fermion $f$. Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+Every fermion couples to gravity through the spin connection and to the gauge fields through its covariant derivative, with
+the generators of its representation ($t^A$ for quarks, $\tau^I/2$ for doublets, the hypercharge $Y$). The electric charge is
+$Q_{\mathrm{em}} = T_3 + Y$: $+\frac23$ and $-\frac13$ for the quarks, 0 and $-1$ for the leptons. Status: STANDARD.
+
+## The tip: the sigma field and the Yukawa couplings (no Higgs particle)
+
+$$
+\begin{aligned}
+S_{\mathrm{tip}} &= \int_{y=-L}\mathrm{d}^7X_{\mathrm{tip}}\sqrt{\lvert g_{\mathrm{tip}}\rvert}\,\Big[
+ -\frac{v_\Sigma^2}{4}\,\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big) -
+ \mathcal{L}_{\mathrm{Y}}\Big],\\
+\mathcal{L}_{\mathrm{Y}} &=
+ \sum_{i,j=1}^{3}\Big[\bar\ell_i\,\Sigma\begin{pmatrix}(\mathcal{Y}_\nu)_{ij}\,\nu_{Rj}\\
+ (\mathcal{Y}_e)_{ij}\,e_{Rj}\end{pmatrix}
+ + \bar Q_i\,\Sigma\begin{pmatrix}(\mathcal{Y}_u)_{ij}\,u_{Rj}\\ (\mathcal{Y}_d)_{ij}\,d_{Rj}
+ \end{pmatrix}\Big]
+ + \text{h.c.}
+\end{aligned} \tag{IN-13}
+$$
+
+<!-- symbols: Stip, ycoord, Lcut, diff, Xtip, gtip, vSigma, trace, Dcov, imu, Sigma, dagger, LYuk, ii, ij, ldoublet, Yuk, nuR, eR, Qdoublet, uR, dR -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-13).**
+
+- $S_{\mathrm{tip}}$: The action on the tip $y = -L$: the sigma field and the tip Yukawa couplings. Unit: dimensionless. Status: INVENTED.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X_{\mathrm{tip}}$: The seven coordinates $x_1, \dots, x_7$ of the tip $y = -L$ of the hidden direction; $\mathrm{d}^7X_{\mathrm{tip}}$ is their coordinate volume element. Unit: length (each coordinate). Status: DERIVED.
+- $g_{\mathrm{tip}}$: The metric induced on the seven-dimensional tip $y = -L$ (the metric $g_{MN}$ restricted to the tip directions $x_1, \dots, x_7$); $\lvert g_{\mathrm{tip}}\rvert$ is the absolute value of its determinant. Unit: dimensionless. Status: DERIVED.
+- $v_\Sigma$: The scale of the tip sigma field (its kinetic term is $-\frac{v_\Sigma^2}{4}\mathrm{tr}((D_\mu\Sigma)^\dagger D^\mu\Sigma)$); on the static block it fixes the Robin parameter $\beta_{\mathrm{W}}$. Unit: $\mathrm{GeV}^{5/2}$. Value: fixed through $\beta_{\mathrm{W}} = 0.011912$. Status: INVENTED.
+- $\mathrm{tr}$: The trace of a matrix: the sum of its diagonal entries. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $\mathcal{L}_{\mathrm{Y}}$: The tip Yukawa Lagrangian: the couplings of the doublets to the singlets through the sigma field and the tip matrices $\mathcal{Y}$ (plus the Hermitian conjugate, h.c.). Unit: $\mathrm{GeV}^{7}$. Status: INVENTED.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
+- $\ell_i,\ \bar\ell_i$: The lepton doublet of the generation $i$ (left-handed neutrino and charged lepton) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\mathcal{Y}_\nu,\ \mathcal{Y}_e,\ \mathcal{Y}_u,\ \mathcal{Y}_d$: The complex $3 \times 3$ tip Yukawa matrices of the neutrino, charged-lepton, up-quark and down-quark sectors (generation indices $i, j$); on the static block they become the tip mixing matrices $\mathcal{K}$ (the normalisation of that relation is not fixed: OPEN). Unit: dimensionless. Status: INVENTED.
+- $\nu_R,\ \nu_{Ri}$: The right-handed neutrino (a gauge singlet): $\nu_R$ the multiplet, $\nu_{Ri}$ that of the generation $i$; its zero modes give Dirac neutrino masses. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $e_R,\ e_{Ri}$: The right-handed charged-lepton singlet: $e_R$ the multiplet, $e_{Ri}$ that of the generation $i$ ($e_R$, $\mu_R$, $\tau_R$). Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $Q_i,\ \bar Q_i$: The quark doublet of the generation $i$ (left-handed up and down quark of one generation, three colours) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $u_R,\ u_{Ri},\ \bar u_{Ri}$: The up-type quark singlet: $u_R$ the multiplet, $u_{Ri}$ that of the generation $i$ ($u_R$, $c_R$, $t_R$), $\bar u_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $d_R,\ d_{Ri},\ \bar d_{Ri}$: The down-type quark singlet: $d_R$ the multiplet, $d_{Ri}$ that of the generation $i$ ($d_R$, $s_R$, $b_R$), $\bar d_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+At the regular tip $y = -L$ of the hidden direction, a non-linear sigma field $\Sigma$ (a unitary $2 \times 2$ matrix) breaks the
+electroweak symmetry. Its kinetic term is the gauged non-linear sigma model of the electroweak chiral Lagrangian, located on the
+seven-dimensional tip: it gives masses to $W^+$, $W^-$ and $Z$ and none to the photon (IN-15). $\Sigma$ has no radial mode, so there is
+no Higgs particle; its three modes become the longitudinal $W^+$, $W^-$ and $Z$. The Yukawa terms $\mathcal{L}_{\mathrm{Y}}$ couple the
+doublets to the singlets through $\Sigma$ with complex $3 \times 3$ matrices $\mathcal{Y}_\nu$, $\mathcal{Y}_e$, $\mathcal{Y}_u$, $\mathcal{Y}_d$ (generation indices $i$,
+$j$); they mix the doublet and singlet zero modes at the tip and give the fermions their masses and their mixing (FE-30, FE-59,
+FE-60). Every term is invariant under SU(2) $\times$ U(1)$_Y$ (IN-14), so the construction is consistent with the electroweak theory at
+tree level; it is the Higgsless limit of the Standard Model, which conflicts with the observed Higgs boson at 125 GeV and lets the
+longitudinal $W^+W^-$ scattering violate perturbative unitarity near 1.2 TeV (a conflict with data inherent in the order to omit
+the Higgs particle). Status: INVENTED.
+
+$$
+D_\mu\Sigma = \partial_\mu\Sigma - \mathrm{i}W^I_\mu\,\frac{\tau^I}{2}\,\Sigma +
+ \mathrm{i}B_\mu\,\Sigma\,\frac{\tau^3}{2},\qquad
+\Sigma^\dagger\Sigma = \mathbf{1},\qquad \Sigma \to U_L\,\Sigma\,U_Y^\dagger,\qquad
+U_Y = \mathrm{e}^{\mathrm{i}\vartheta\tau^3/2} \tag{IN-14}
+$$
+
+<!-- symbols: Dcov, imu, Sigma, partial, imag, Wsu2, iI, tau, Bhyp, dagger, identity, UL, UY, euler, vartheta -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-14).**
+
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $\tau^I$: The Pauli matrices acting on weak-isospin doublets ($\tau^I/2$ the generators of SU(2); $\tau^3 = \mathrm{diag}(1, -1)$). Unit: dimensionless. Status: STANDARD.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $\mathbf{1}$: The identity matrix (of the size fixed by the context: 16 x 16 on spinors, 3 x 3 on the generations or flavours, 2 x 2 for the sigma field). Unit: dimensionless. Status: STANDARD.
+- $U_L$: An SU(2) gauge transformation (a unitary $2 \times 2$ matrix acting on doublets from the left). Unit: dimensionless. Status: STANDARD.
+- $U_Y$: A U(1)$_Y$ gauge transformation of the sigma field, $U_Y = \mathrm{e}^{\mathrm{i}\vartheta\tau^3/2}$. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $\vartheta$: The angle (gauge parameter) of a U(1)$_Y$ transformation. Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+The covariant derivative of $\Sigma$ contains the SU(2) field from the left and the hypercharge field from the right, so that
+$\Sigma$ transforms as $\Sigma \to U_L\,\Sigma\,U_Y^\dagger$. The tip terms are invariant under this transformation for arbitrary complex
+tip matrices (DERIVED with random group elements, deviation $1.1\times10^{-14}$). Status: INVENTED.
+
+$$
+-\frac{v_\Sigma^2}{4}\,\mathrm{tr}\big((D_\mu\Sigma)^\dagger D^\mu\Sigma\big)\Big\vert_{\Sigma = \mathbf{1}}
+= -\frac{v_\Sigma^2}{8}\Big[2\hat g_2^2\,W^+_\mu W^-{}^\mu + \hat g_Z^2\,Z_\mu Z^\mu\Big] \tag{IN-15}
+$$
+
+<!-- symbols: vSigma, trace, Dcov, imu, Sigma, dagger, identity, ghat2, Wpm, ghatZ, Zboson -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-15).**
+
+- $v_\Sigma$: The scale of the tip sigma field (its kinetic term is $-\frac{v_\Sigma^2}{4}\mathrm{tr}((D_\mu\Sigma)^\dagger D^\mu\Sigma)$); on the static block it fixes the Robin parameter $\beta_{\mathrm{W}}$. Unit: $\mathrm{GeV}^{5/2}$. Value: fixed through $\beta_{\mathrm{W}} = 0.011912$. Status: INVENTED.
+- $\mathrm{tr}$: The trace of a matrix: the sum of its diagonal entries. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $\mathbf{1}$: The identity matrix (of the size fixed by the context: 16 x 16 on spinors, 3 x 3 on the generations or flavours, 2 x 2 for the sigma field). Unit: dimensionless. Status: STANDARD.
+- $\hat g_2$: The eight-dimensional SU(2) coupling; $g_2^2 = \hat g_2^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $W^\pm_M,\ W^+,\ W^-$: The charged weak bosons, canonically normalised: $W^\pm_M = (W^1_M \mp \mathrm{i}W^2_M)/(\sqrt2\,\hat g_2)$; $W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$ (they are each other's antiparticles and have one mass). Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\hat g_Z$: The eight-dimensional coupling of the $Z$, $\hat g_Z = (\hat g_2^2 + \hat g_1^2)^{1/2}$. Unit: $\mathrm{GeV}^{-2}$. Status: STANDARD.
+- $Z_M$: The $Z$ boson field, canonically normalised, $Z_M = (W^3_M - B_M)/\hat g_Z$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+In the unitary gauge $\Sigma = \mathbf{1}$ the sigma-field kinetic term becomes a mass term of $W^+$, $W^-$ and $Z$ on the tip. $W^+$ and $W^-$
+share one mass (particle and antiparticle); the $Z$ term has the coefficient $\hat g_Z^2 = \hat g_2^2 + \hat g_1^2$ instead of $\hat g_2^2$
+(at leading order the $Z$ is heavier by $1/\cos\theta_{\mathrm{W}}$, the custodial relation); the photon receives no term and stays massless.
+On the static block this term becomes the Robin condition of the $W^\pm$ and $Z$ profiles (FE-51). Status: DERIVED.
+
+## The portals of dirac16complex
+
+$\Psi$ is a singlet of the Standard-Model gauge group, so it can couple to the Standard Model only through gauge-invariant
+composite operators of the Standard-Model fields. UM-2 contains three of them; they respect every symmetry of QCD and of the
+electroweak theory, and none of them breaks a gauge symmetry or gives a gauge boson a mass. Their strengths are fixed by the
+cosmology (the relic density of the dark matter, the freeze-in of the fold bands, partial-wave unitarity).
+
+$$
+\begin{aligned}
+S_{\mathrm{I11}} &= \int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\;\frac{c_{\mathrm{V}}}{\Lambda_\star^6}\,
+ \big(\mathrm{i}\bar\Psi\gamma^M\Psi\big)\,J^{B-L}_M,\qquad
+ J^{B-L}_M = \sum_{i=1}^{3}\sum_{\psi} q_\psi\,\big(\mathrm{i}\bar\psi_i\gamma_M\psi_i\big),\\
+q_Q &= q_{u_R} = q_{d_R} = \frac13,\qquad q_\ell = q_{e_R} = q_{\nu_R} = -1
+\end{aligned} \tag{IN-16}
+$$
+
+<!-- symbols: SI11, diff, Xcoord, metric, cV, LambdaStar, imag, Psi, gamma, iM, JBL, ii, ipsi, qBL, psi -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-16).**
+
+- $S_{\mathrm{I11}}$: The action of the portal I11 (dirac16complex vector current times the $B - L$ current of the fermions). Unit: dimensionless. Status: INVENTED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $J^{B-L}_M$: The $B - L$ current of the Standard-Model fermions (baryon minus lepton number), summed over the generations. Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\psi$: The label of a Standard-Model multiplet: $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\psi$ runs over the six. Status: STANDARD.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+I11 couples the vector current of $\Psi$ (both halves, including the massless fold bands) to the $B - L$ current of the
+Standard-Model fermions of three generations: baryon number minus lepton number, with the charges $q_\psi$. $B - L$ is conserved in
+the Standard Model and, with the right-handed neutrinos, free of gauge anomalies, so I11 is consistent with QCD and the electroweak
+theory; every term is separately gauge invariant and generation blind. $c_{\mathrm{V}}$ is dimensionless and $\Lambda_\star$ is the common
+scale of the portals. On the zero modes it becomes the contact interaction FE-70; its benchmark strength keeps the fold bands out of
+equilibrium (FE-129). Status: INVENTED.
+
+$$
+S_{\mathrm{I12}} = -\int\mathrm{d}^8X\,\sqrt{\lvert
+ g\rvert}\;\frac{\bar\Psi\Psi}{\Lambda_\star^3}\,\mathcal{F},\qquad
+\mathcal{F} = c_{\mathrm{G}}\,G^A_{MN}G^{AMN} + c_{\mathrm{W}}\,W^I_{MN}W^{IMN} +
+ c_{\mathrm{B}}\,B_{MN}B^{MN} \tag{IN-17}
+$$
+
+<!-- symbols: SI12, diff, Xcoord, metric, Psi, LambdaStar, calF, cG, Ggluon, iA, iM, iN, cW, Wsu2, iI, cB, Bhyp -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-17).**
+
+- $S_{\mathrm{I12}}$: The action of the portal I12 (scalar density of dirac16complex times the gauge kinetic invariants). Unit: dimensionless. Status: INVENTED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $\mathcal{F}$: The gauge-kinetic operator of the portal I12, $\mathcal{F} = c_{\mathrm{G}}G^A_{MN}G^{AMN} + c_{\mathrm{W}}W^I_{MN}W^{IMN} + c_{\mathrm{B}}B_{MN}B^{MN}$; $\langle\mathcal{F}\rangle$ its mean value in an environment. Unit: $\mathrm{GeV}^{4}$. Status: INVENTED.
+- $c_{\mathrm{G}}$: The coefficient of the gluon term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{G}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $c_{\mathrm{W}}$: The coefficient of the SU(2) term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{W}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $c_{\mathrm{B}}$: The coefficient of the hypercharge term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{B}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+I12 couples the scalar density $\bar\Psi\Psi$ of dirac16complex to the gauge-kinetic invariants of the three gauge groups. Each
+invariant is gauge invariant and a Lorentz scalar; the coupling acts as a field-dependent gauge coupling (FE-21) and does not
+break any symmetry of QCD or of the electroweak theory. On the dark matter it is FE-71; it is set to the unitarity-safe
+benchmark. Status: INVENTED.
+
+$$
+\begin{aligned}
+S_{\mathrm{I13}} &= \int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\;\frac{c_{\mathrm{A}}}{\Lambda_\star^6}
+ \sum_{M\ne x_0}\big(\mathrm{i}\bar\Psi\gamma^MP_b\Psi\big)\,J^{B}_M,\qquad P_b = \frac{1 - \gamma^{x_0}}{2},
+ \qquad P_a = \frac{1 + \gamma^{x_0}}{2},\\
+J^{B}_M &= \frac13\sum_{i=1}^{3}\big(\mathrm{i}\bar Q_i\gamma_MQ_i + \mathrm{i}\bar u_{Ri}\gamma_Mu_{Ri}
+ + \mathrm{i}\bar d_{Ri}\gamma_Md_{Ri}\big)
+\end{aligned} \tag{IN-18}
+$$
+
+<!-- symbols: SI13, diff, Xcoord, metric, cA, LambdaStar, iM, x0, imag, Psi, gamma, Pab, JB, ii, Qdoublet, uR, dR -->
+<!-- begin generated symbol list -->
+**Symbols in (IN-18).**
+
+- $S_{\mathrm{I13}}$: The action of the portal I13 (the $x_0$-chiral vector current of dirac16complex times the baryon-number current). Unit: dimensionless. Status: INVENTED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $c_{\mathrm{A}}$: The coefficient of the $x_0$-chiral vector portal I13. Unit: dimensionless. Value: fixed through $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic). Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $P_a,\ P_b$: The projectors on the two $x_0$-chiralities, $P_a = (1 + \gamma^{x_0})/2$ and $P_b = (1 - \gamma^{x_0})/2$ (in a block: the upper and the lower component). Unit: dimensionless. Status: INVENTED.
+- $J^{B}_M$: The baryon-number current of the quarks (one third per quark), summed over the generations. Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $Q_i,\ \bar Q_i$: The quark doublet of the generation $i$ (left-handed up and down quark of one generation, three colours) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $u_R,\ u_{Ri},\ \bar u_{Ri}$: The up-type quark singlet: $u_R$ the multiplet, $u_{Ri}$ that of the generation $i$ ($u_R$, $c_R$, $t_R$), $\bar u_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $d_R,\ d_{Ri},\ \bar d_{Ri}$: The down-type quark singlet: $d_R$ the multiplet, $d_{Ri}$ that of the generation $i$ ($d_R$, $s_R$, $b_R$), $\bar d_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+I13 couples the $x_0$-chiral vector current of $\Psi$ (the projector $P_b$ selects one $x_0$-chirality) to the baryon-number current
+of the quarks (one third per quark, three generations). The sum leaves out the direction $x_0$, for which the bilinear is not
+Hermitian (DERIVED with the author's matrices: $\mathrm{i}\bar\Psi\gamma^MP_b\Psi$ is Hermitian for $M \ne x_0$ only). Baryon number is
+conserved in QCD and in the perturbative electroweak theory, and $J^B_M$ is gauge invariant, so I13 is consistent with both. On the
+zero modes it is the contact interaction FE-70, whose strength is fixed by the relic density of the dark matter (FE-126); it
+vanishes on the fold bands (to $7\times10^{-14}$), which have no lower component. Status: INVENTED.
+
+
+# Gravity
+
+## The Einstein-Lovelock equations
+
+Varying the gravitational action IN-2 with respect to the inverse metric gives, up to a total derivative,
+
+$$
+\Delta S_{\mathrm{EL}} = \frac{1}{2\kappa}\int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\,\Big(\sum_{p=1}^{3}\alpha_{(p)}\,\mathcal{E}_{(p)MN}
+ + \Lambda\,g_{MN}\Big)\Delta g^{MN},
+$$
+
+<!-- symbols: Delta, SEL, kappa, diff, Xcoord, metric, ip, alphaL, LovE, iM, iN, Lambda -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $S_{\mathrm{EL}}$: The Einstein-Lovelock action of gravity. Unit: dimensionless. Status: AUTHOR.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $p$: The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic). Status: STANDARD.
+- $\alpha_{(p)}$: The Lovelock coupling of order $p$, $\alpha_{(p)} = w_{(p)}H^{2-2p}$ ($\alpha_{(1)} = 1$). Unit: $\mathrm{GeV}^{2-2p}$. Status: AUTHOR.
+- $\mathcal{E}_{(p)}{}^M{}_N$: The Lovelock tensor of order $p$, the metric variation of $\sqrt{\lvert g\rvert}\mathcal{L}_{(p)}$: $\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \frac12\delta^M_NR$; every $\mathcal{E}_{(p)}$ is divergence free. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\Lambda$: The eight-dimensional cosmological constant, $\Lambda = -10H^2$. Unit: $\mathrm{GeV}^{2}$. Value: $-10H^2$. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+because the variation of $\sqrt{\lvert g\rvert}\,\mathcal{L}_{(p)}$ is $\sqrt{\lvert g\rvert}\,\mathcal{E}_{(p)MN}\Delta g^{MN}$ (the defining property of the
+Lovelock tensor $\mathcal{E}_{(p)}$, STANDARD) and the variation of $\sqrt{\lvert g\rvert}$ is $-\frac12\sqrt{\lvert g\rvert}\,g_{MN}\Delta g^{MN}$. The
+variation of the rest of the action defines the energy-momentum tensor (FE-2), $\Delta S_{\mathrm{m}} = -\frac12\int\mathrm{d}^8X\sqrt{\lvert g\rvert}\,
+\mathcal{T}_{MN}\Delta g^{MN}$; the sum of the two vanishes for every $\Delta g^{MN}$:
+
+$$
+\begin{aligned}
+&\sum_{p=1}^{3}\alpha_{(p)}\,\mathcal{E}_{(p)}{}^M{}_N + \Lambda\,\delta^M_N = \kappa\,\mathcal{T}^M{}_N,\\
+&\mathcal{E}_{(p)}{}^M{}_N = -\frac{1}{2^{p+1}}\,\delta^{MM_1N_1\cdots M_pN_p}_{NP_1Q_1\cdots P_pQ_p}\,
+ R^{P_1Q_1}{}_{M_1N_1}\cdots R^{P_pQ_p}{}_{M_pN_p}
+\end{aligned} \tag{FE-1}
+$$
+
+<!-- symbols: ip, alphaL, LovE, iM, iN, Lambda, delta, kappa, EMT, iP, iQ, Riemann -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-1).**
+
+- $p$: The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic). Status: STANDARD.
+- $\alpha_{(p)}$: The Lovelock coupling of order $p$, $\alpha_{(p)} = w_{(p)}H^{2-2p}$ ($\alpha_{(1)} = 1$). Unit: $\mathrm{GeV}^{2-2p}$. Status: AUTHOR.
+- $\mathcal{E}_{(p)}{}^M{}_N$: The Lovelock tensor of order $p$, the metric variation of $\sqrt{\lvert g\rvert}\mathcal{L}_{(p)}$: $\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \frac12\delta^M_NR$; every $\mathcal{E}_{(p)}$ is divergence free. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\Lambda$: The eight-dimensional cosmological constant, $\Lambda = -10H^2$. Unit: $\mathrm{GeV}^{2}$. Value: $-10H^2$. Status: AUTHOR.
+- $\delta$: The Kronecker delta: with two indices $\delta^M_N = 1$ if $M = N$ and 0 otherwise (likewise $\delta_{\alpha e}$, $\delta_{l0}$, $\delta^{I3}$); with upper and lower index strings the generalised Kronecker delta $\delta^{M_1\cdots M_n}_{N_1\cdots N_n}$, the determinant of the $n \times n$ matrix of Kronecker deltas $\delta^{M_a}_{N_b}$ (+1 or -1 if the upper indices are an even or odd permutation of the lower ones, 0 otherwise). Status: STANDARD.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\mathcal{T}^M{}_N$: The energy-momentum tensor of all matter (every field except gravity, the stabiliser included), the source of gravity; defined by the change of the matter action under a change of the metric. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $P$: A coordinate index of eight dimensions (also $P_1, P_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $Q$: A coordinate index of eight dimensions (also $Q_1, Q_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $R^{MN}{}_{PQ},\ R_{MN},\ R$: The curvature of the metric $g_{MN}$: with four indices the Riemann tensor, with two indices the Ricci tensor $R_{MN} = R^P{}_{MPN}$, without indices the Ricci (scalar) curvature $R = g^{MN}R_{MN}$; $R^{ab}{}_{ab}$ (no sum) is the sectional curvature of the coordinate plane $(a, b)$. Unit: 1/$\mathrm{length}^{2}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** $\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \frac12\delta^M_NR$ of general relativity; $\mathcal{E}_{(2)}$ (Gauss-Bonnet) and
+$\mathcal{E}_{(3)}$ (cubic Lovelock) are the higher-order Lovelock tensors, products of two and three curvature tensors contracted with the
+generalised Kronecker delta, weighted by $\alpha_{(2)} = H^{-2}/32$ and $\alpha_{(3)} = H^{-4}/1152$. $\Lambda\delta^M_N$ is the
+eight-dimensional cosmological constant. The right side is the energy-momentum tensor of every field (FE-3), multiplied by the
+gravitational coupling $\kappa = 8\pi G_8$. These equations couple the metric to every field of UM-2. Each $\mathcal{E}_{(p)}$ contains at
+most second derivatives of the metric, so the system is of second order. Status: AUTHOR (the weights and $\Lambda$), the equations
+DERIVED from the action. They are solved exactly at order 0 (FE-38 to FE-43: the residual of the stored static block in the printed
+equations is $3.9\times10^{-13}$ of the largest term) and at the first order through the four-dimensional reduction (FE-48, FE-49).
+
+## The energy-momentum tensors
+
+$$
+\begin{aligned}
+&\Delta S_{\mathrm{m}} = -\frac12\int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\;\mathcal{T}_{MN}\,\Delta
+ g^{MN},\qquad
+ \rho = -\mathcal{T}^{x_4}{}_{x_4},\qquad p_M = \mathcal{T}^M{}_M\quad \text{($M \ne x_4$, no sum)},\\
+&\mathcal{T}^M{}_N = \mathrm{diag}\big(p_0,\ p_3,\ p_3,\ p_3,\ -\rho,\ p_5,\ p_5,\ p_5\big)\quad
+ \text{(a diagonal source)},\qquad \bar p = \frac{p_0 + 3p_5}{4}
+\end{aligned} \tag{FE-2}
+$$
+
+<!-- symbols: Delta, Sm, diff, Xcoord, metric, EMT, iM, iN, rho, x4, pressure, diag, p0, p3, p5, pbar -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-2).**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $S_{\mathrm{m}}$: The matter action: all terms of the action except $S_{\mathrm{EL}}$ (the stabiliser included). Unit: dimensionless. Status: DERIVED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\mathcal{T}^M{}_N$: The energy-momentum tensor of all matter (every field except gravity, the stabiliser included), the source of gravity; defined by the change of the matter action under a change of the metric. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $p$: A pressure: $p_M = \mathcal{T}^M{}_M$ (no sum) for the direction $M \ne x_4$, $p_s$ the pressure of the species $s$; $\Delta p$ the pressure perturbation in the cosmological perturbation equations; in the Feynman-Hellmann relation the pressure of a gauge plasma. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $\mathrm{diag}$: A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \dots, x_7$ when it is a tensor in eight dimensions). Status: STANDARD.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $\mathcal{T}_{MN}$ is the response of the matter action $S_{\mathrm{m}}$ (every term of IN-1 except $S_{\mathrm{EL}}$) to a
+change $\Delta g^{MN}$ of the metric (for spinors the change is made in the vielbein, which carries the metric). Its time-time
+component gives the energy density $\rho$ and its diagonal space-like components the pressures $p_M$ along each direction: $p_0$
+along the hidden direction $x_0$, $p_3$ along ordinary space, $p_5$ along the extra times. Every source of UM-2 is diagonal on the
+order-0 metric, with one pressure for $x_1, x_2, x_3$ and one for $x_5, x_6, x_7$; $\bar p$ is the pressure averaged over the four block
+directions, the hidden pressure. Status: STANDARD.
+
+$$
+\mathcal{T}^M{}_N = \mathcal{T}_{\mathrm{stab}}{}^M{}_N + \mathcal{T}_\Psi{}^M{}_N +
+ \mathcal{T}_{\mathrm{gauge}}{}^M{}_N
+ + \mathcal{T}_{\mathrm{f}}{}^M{}_N + \mathcal{T}_{\mathrm{tip}}{}^M{}_N + \mathcal{T}_{\mathrm{I11}}{}^M{}_N
+ + \mathcal{T}_{\mathrm{I12}}{}^M{}_N + \mathcal{T}_{\mathrm{I13}}{}^M{}_N \tag{FE-3}
+$$
+
+<!-- symbols: EMT, iM, iN, Tstab, TPsi, Tgauge, Tf, Ttip, TI11, TI12, TI13 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-3).**
+
+- $\mathcal{T}^M{}_N$: The energy-momentum tensor of all matter (every field except gravity, the stabiliser included), the source of gravity; defined by the change of the matter action under a change of the metric. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\mathcal{T}_{\mathrm{stab}}$: The energy-momentum tensor of the stabiliser. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $\mathcal{T}_\Psi$: The energy-momentum tensor of the dirac16complex field. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $\mathcal{T}_{\mathrm{gauge}}$: The energy-momentum tensor of the gauge fields. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\mathcal{T}_{\mathrm{f}}$: The energy-momentum tensor of the Standard-Model fermions. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $\mathcal{T}_{\mathrm{tip}}$: The energy-momentum tensor of the tip terms (non-zero only for the tip directions). Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $\mathcal{T}_{\mathrm{I11}}$: The energy-momentum tensor of the portal I11. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $\mathcal{T}_{\mathrm{I12}}$: The energy-momentum tensor of the portal I12. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $\mathcal{T}_{\mathrm{I13}}$: The energy-momentum tensor of the portal I13. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The total source is the sum of the energy-momentum tensors of the stabiliser (FE-4), of dirac16complex (FE-5), of the
+Standard-Model fermions (FE-6), of the gauge fields (FE-7), of the tip terms (FE-8) and of the three portals (FE-9, FE-10). At order 0
+the stabiliser dominates; the matter terms enter the block through their block averages (FE-45 to FE-47): today their size relative
+to the stabiliser is $2.4\times10^{-93}$, at the dark-matter freeze-out $3.0\times10^{-32}$ (DERIVED from the stored sources). Status: DERIVED.
+
+The stabiliser density depends on the metric only through the block scale $f$, the fourth root of the proper volume of the block
+directions. A change of the metric changes $f$ by
+
+$$
+\Delta\ln f = -\frac18\sum_{M\in\{x_0,\,x_5,\,x_6,\,x_7\}}g_{MM}\,\Delta g^{MM},\qquad
+\Delta\big(\sqrt{\lvert g\rvert}\,\rho_{\mathrm{stab}}\big) = \sqrt{\lvert g\rvert}\,\Big(-\frac12\,\rho_{\mathrm{stab}}\,g_{MN}\Delta g^{MN}
+ + f\,\frac{\mathrm{d}\rho_{\mathrm{stab}}}{\mathrm{d}f}\,\Delta\ln f\Big),
+$$
+
+<!-- symbols: Delta, fblock, iM, x0, x5, x6, x7, metric, rhostab, iN, diff -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\rho_{\mathrm{stab}}$: The energy density of the block stabiliser, a function of the block scale, $\rho_{\mathrm{stab}} \propto f^{-8}$; its value at the static block is $\rho_{\mathrm{stab}}(f_*)$. Unit: $\mathrm{GeV}^{8}$. Value: $\kappa\rho_{\mathrm{stab}}(f_*) = (26 + 4\sqrt{51})H^2 = 54.566\,H^2$. Status: ASSUMED.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+and for $\rho_{\mathrm{stab}} \propto f^{-8}$ (IN-4), $f\,\mathrm{d}\rho_{\mathrm{stab}}/\mathrm{d}f = -8\rho_{\mathrm{stab}}$: the second term turns the coefficient of the
+block components from $-\frac12$ into $+\frac12$, so that $\mathcal{T}_{MN} = -g_{MN}\rho_{\mathrm{stab}}$ for the observable directions
+$x_1, \dots, x_4$ and $\mathcal{T}_{MN} = +g_{MN}\rho_{\mathrm{stab}}$ for the block directions:
+
+$$
+\mathcal{T}_{\mathrm{stab}}{}^M{}_N =
+ \rho_{\mathrm{stab}}\;\mathrm{diag}(1,\ -1,\ -1,\ -1,\ -1,\ 1,\ 1,\ 1):\qquad
+\rho = \rho_{\mathrm{stab}},\qquad p_3 = -\rho_{\mathrm{stab}},\qquad p_0 = p_5 = \rho_{\mathrm{stab}}
+ \tag{FE-4}
+$$
+
+<!-- symbols: Tstab, iM, iN, rhostab, diag, rho, p3, p0, p5 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-4).**
+
+- $\mathcal{T}_{\mathrm{stab}}$: The energy-momentum tensor of the stabiliser. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\rho_{\mathrm{stab}}$: The energy density of the block stabiliser, a function of the block scale, $\rho_{\mathrm{stab}} \propto f^{-8}$; its value at the static block is $\rho_{\mathrm{stab}}(f_*)$. Unit: $\mathrm{GeV}^{8}$. Value: $\kappa\rho_{\mathrm{stab}}(f_*) = (26 + 4\sqrt{51})H^2 = 54.566\,H^2$. Status: ASSUMED.
+- $\mathrm{diag}$: A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \dots, x_7$ when it is a tensor in eight dimensions). Status: STANDARD.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The stabiliser is a vacuum energy of the block: in ordinary space it acts like a cosmological constant (energy density
+$\rho_{\mathrm{stab}}$, pressure $p_3 = -\rho_{\mathrm{stab}}$), along the block directions it pushes outwards with the pressures
+$p_0 = p_5 = \rho_{\mathrm{stab}}$. It is block-isotropic ($p_0 = p_5$). It is conserved (FE-41 with $\mathcal{H}_f$: $\dot\rho = -4\mathcal{H}_f(\rho + \bar p)
+= -8\mathcal{H}_f\rho$ gives $\rho \propto f^{-8}$, consistent with IN-4). Its value at the static block is fixed in FE-43. Status: DERIVED (from
+the ASSUMED IN-4).
+
+$$
+\begin{aligned}
+(\mathcal{T}_\Psi)_{MN} &= -\frac14\Big[\bar\Psi\gamma_MD_N\Psi + \bar\Psi\gamma_ND_M\Psi -
+ (D_M\bar\Psi)\gamma_N\Psi
+ - (D_N\bar\Psi)\gamma_M\Psi\Big] + g_{MN}\,\mathcal{L}_\Psi,\\
+\mathcal{L}_\Psi &= \tfrac12\big(\bar\Psi\gamma^PD_P\Psi - (D_P\bar\Psi)\gamma^P\Psi\big) -
+ m_\Psi\,\bar\Psi\Psi
+ - \frac{\lambda}{2}\big(\bar\Psi\Psi\big)^2
+\end{aligned} \tag{FE-5}
+$$
+
+<!-- symbols: TPsi, iM, iN, Psi, gamma, Dcov, metric, LPsi, iP, mPsi, lambda -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-5).**
+
+- $\mathcal{T}_\Psi$: The energy-momentum tensor of the dirac16complex field. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\mathcal{L}_\Psi$: The Lagrangian density of dirac16complex (the bracket of $S_\Psi$). Unit: $\mathrm{GeV}^{8}$. Status: RECORD.
+- $P$: A coordinate index of eight dimensions (also $P_1, P_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $m_\Psi$: The mass parameter of dirac16complex, $m_\Psi = 3H\mathcal{M} = H$. Unit: GeV. Value: 14.296 TeV. Status: RECORD.
+- $\lambda$: The contact self-coupling of dirac16complex (the term $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ of the record). Unit: $\mathrm{GeV}^{-6}$. Value: not fixed; Kohn-Sham states computed for $\lambda = 0$ and $\pm7\times10^{-5}H^{-6}$; the fold-band radiation requires $\lvert\lambda\rvert \lesssim 1.4\times10^{-10}H^{-6}$ (for $\Delta N_{\mathrm{eff}} \le 0.001$). Status: RECORD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The first bracket is the symmetrised kinetic stress of the spinor (each of $\gamma_M D_N$ and $\gamma_N D_M$, acting on $\Psi$ and
+on $\bar\Psi$, with the spin connection inside $D$); $g_{MN}\mathcal{L}_\Psi$ comes from the variation of $\sqrt{\lvert g\rvert}$. $\mathcal{L}_\Psi$ contains the
+mass $m_\Psi$ and the contact self-interaction $\lambda$. It couples dirac16complex to gravity. For the Kohn-Sham states of dirac16complex
+it takes the form FE-67 (verified by the energy identity and the $y$-conservation law FE-68). Status: DERIVED.
+
+$$
+\begin{aligned}
+(\mathcal{T}_{\mathrm{f}})_{MN} &= \sum_{i=1}^{3}\sum_\psi\Big\{-\frac14\Big[\bar\psi_i\gamma_MD_N\psi_i
+ + \bar\psi_i\gamma_ND_M\psi_i - (D_M\bar\psi_i)\gamma_N\psi_i - (D_N\bar\psi_i)\gamma_M\psi_i\Big]
+ + g_{MN}\,\mathcal{L}_{\psi i}\Big\},\\
+\mathcal{L}_{\psi i} &= \tfrac12\big(\bar\psi_i\gamma^PD_P\psi_i - (D_P\bar\psi_i)\gamma^P\psi_i\big)
+ - \mu_{\psi i}\,\bar\psi_i\psi_i
+\end{aligned} \tag{FE-6}
+$$
+
+<!-- symbols: Tf, iM, iN, ii, ipsi, psi, gamma, Dcov, metric, Lpsi, iP, mubulk -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-6).**
+
+- $\mathcal{T}_{\mathrm{f}}$: The energy-momentum tensor of the Standard-Model fermions. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\psi$: The label of a Standard-Model multiplet: $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\psi$ runs over the six. Status: STANDARD.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\mathcal{L}_{\psi i}$: The Lagrangian density of the fermion multiplet $\psi$ of the generation $i$ (the bracket of $S_{\mathrm{f}}$). Unit: $\mathrm{GeV}^{8}$. Status: ASSUMED.
+- $P$: A coordinate index of eight dimensions (also $P_1, P_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\mu_{\psi i}$: The bulk mass of a Standard-Model fermion: $\mu_{\psi i}$ of the multiplet $\psi$ of the generation $i$; with the hidden direction it fixes the localisation $c = f\mu L$ of the zero mode. Unit: GeV. Value: $\mu_{\psi i} = c/(fL)$ with the localisation $c$ of the zero mode (doublets: $\mu_Q = 5.2304\,H$, $\mu_\ell = 9.2055\,H$). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The same form for every Standard-Model fermion multiplet $\psi$ of every generation $i$, with the bulk mass $\mu_{\psi i}$ in place
+of $m_\Psi$, no self-interaction, and the gauge fields in $D$. It enters the block through the block averages of the plasma and of cold
+matter (ideal and degenerate gases of particles with their $x_0$ masses) in the block response FE-45 and in the hidden pressure FE-81.
+Status: DERIVED.
+
+$$
+\begin{aligned}
+(\mathcal{T}_{\mathrm{gauge}})_{MN} ={}& \frac{1}{\hat g_3^2}\Big(G^A_{MP}G^A{}_N{}^P -
+ \frac14g_{MN}G^A_{PQ}G^{APQ}\Big)
+ + \frac{1}{\hat g_2^2}\Big(W^I_{MP}W^I{}_N{}^P - \frac14g_{MN}W^I_{PQ}W^{IPQ}\Big)\\
+&+ \frac{1}{\hat g_1^2}\Big(B_{MP}B_N{}^P - \frac14g_{MN}B_{PQ}B^{PQ}\Big)
+\end{aligned} \tag{FE-7}
+$$
+
+<!-- symbols: Tgauge, iM, iN, ghat3, Ggluon, iA, iP, metric, iQ, ghat2, Wsu2, iI, ghat1, Bhyp -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-7).**
+
+- $\mathcal{T}_{\mathrm{gauge}}$: The energy-momentum tensor of the gauge fields. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\hat g_3$: The eight-dimensional SU(3) coupling (it multiplies the gluon kinetic term as $1/\hat g_3^2$); $g_3^2 = \hat g_3^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $P$: A coordinate index of eight dimensions (also $P_1, P_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $Q$: A coordinate index of eight dimensions (also $Q_1, Q_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\hat g_2$: The eight-dimensional SU(2) coupling; $g_2^2 = \hat g_2^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $\hat g_1$: The eight-dimensional U(1)$_Y$ coupling; $g_1^2 = \hat g_1^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The standard energy-momentum tensor of the gauge fields (geometric normalisation, so each group carries its inverse
+squared coupling): the stress $F_{MP}F_N{}^P$ minus the trace part. It is traceless in four dimensions, so radiation drops out of the
+block response (FE-47: $c_3 = -3c_\rho$); what remains is the trace anomaly of the interacting plasma (FE-75, FE-82). Status: STANDARD.
+
+$$
+\begin{aligned}
+(\mathcal{T}_{\mathrm{tip}})_{\mu\nu} &=
+ \delta_{\mathrm{tip}}\Big[\frac{v_\Sigma^2}{4}\,\mathrm{tr}\big((D_\mu\Sigma)^\dagger D_\nu\Sigma
+ + (D_\nu\Sigma)^\dagger D_\mu\Sigma\big) + g_{\mu\nu}\,\mathcal{L}_{\mathrm{tip}}\Big],\qquad
+ \delta_{\mathrm{tip}} = \frac{\delta_{\mathrm{D}}(y + L)}{f},\\
+\mathcal{L}_{\mathrm{tip}} &= -\frac{v_\Sigma^2}{4}\,\mathrm{tr}\big((D_\mu\Sigma)^\dagger
+ D^\mu\Sigma\big) - \mathcal{L}_{\mathrm{Y}}
+\end{aligned} \tag{FE-8}
+$$
+
+<!-- symbols: Ttip, imu, inu, deltatip, vSigma, trace, Dcov, Sigma, dagger, metric, Ltip, deltaD, ycoord, Lcut, fblock, LYuk -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-8).**
+
+- $\mathcal{T}_{\mathrm{tip}}$: The energy-momentum tensor of the tip terms (non-zero only for the tip directions). Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\nu$: A four-dimensional coordinate index running over $x_1, \dots, x_4$ (as $\mu$). Status: STANDARD.
+- $\delta_{\mathrm{tip}}$: The density that places a tip term in the field equations of eight dimensions, $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction). Unit: 1/length. Status: DERIVED.
+- $v_\Sigma$: The scale of the tip sigma field (its kinetic term is $-\frac{v_\Sigma^2}{4}\mathrm{tr}((D_\mu\Sigma)^\dagger D^\mu\Sigma)$); on the static block it fixes the Robin parameter $\beta_{\mathrm{W}}$. Unit: $\mathrm{GeV}^{5/2}$. Value: fixed through $\beta_{\mathrm{W}} = 0.011912$. Status: INVENTED.
+- $\mathrm{tr}$: The trace of a matrix: the sum of its diagonal entries. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\mathcal{L}_{\mathrm{tip}}$: The Lagrangian density of the tip action (the bracket of $S_{\mathrm{tip}}$). Unit: $\mathrm{GeV}^{7}$. Status: INVENTED.
+- $\delta_{\mathrm{D}}$: The Dirac delta function: $\delta_{\mathrm{D}}(y + L)$ is zero except at $y = -L$ and has the unit integral over $y$. Unit: 1/length. Status: STANDARD.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\mathcal{L}_{\mathrm{Y}}$: The tip Yukawa Lagrangian: the couplings of the doublets to the singlets through the sigma field and the tip matrices $\mathcal{Y}$ (plus the Hermitian conjugate, h.c.). Unit: $\mathrm{GeV}^{7}$. Status: INVENTED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The tip terms act only on the tip $y = -L$: $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ is the Dirac delta function in
+proper length. The first part is the stress of the sigma field, the second the tip Lagrangian (sigma field and Yukawa terms) times
+the metric; the indices $\mu, \nu$ run over the tip directions, and the components along $y$ vanish. Its gravitational effect is
+part of the rest energies of $W^\pm$, $Z$ and the fermions, which are counted in the plasma. Status: DERIVED.
+
+$$
+(\mathcal{T}_{\mathrm{I11}})_{MN} =
+ g_{MN}\,\frac{c_{\mathrm{V}}}{\Lambda_\star^6}\big(\mathrm{i}\bar\Psi\gamma^P\Psi\big)J^{B-L}_P,
+\qquad (\mathcal{T}_{\mathrm{I13}})_{MN} = g_{MN}\,\frac{c_{\mathrm{A}}}{\Lambda_\star^6}
+ \sum_{P\ne x_0}\big(\mathrm{i}\bar\Psi\gamma^PP_b\Psi\big)J^{B}_P \tag{FE-9}
+$$
+
+<!-- symbols: TI11, iM, iN, metric, cV, LambdaStar, imag, Psi, gamma, iP, JBL, TI13, cA, x0, Pab, JB -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-9).**
+
+- $\mathcal{T}_{\mathrm{I11}}$: The energy-momentum tensor of the portal I11. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $P$: A coordinate index of eight dimensions (also $P_1, P_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $J^{B-L}_M$: The $B - L$ current of the Standard-Model fermions (baryon minus lepton number), summed over the generations. Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $\mathcal{T}_{\mathrm{I13}}$: The energy-momentum tensor of the portal I13. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $c_{\mathrm{A}}$: The coefficient of the $x_0$-chiral vector portal I13. Unit: dimensionless. Value: fixed through $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic). Status: INVENTED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $P_a,\ P_b$: The projectors on the two $x_0$-chiralities, $P_a = (1 + \gamma^{x_0})/2$ and $P_b = (1 - \gamma^{x_0})/2$ (in a block: the upper and the lower component). Unit: dimensionless. Status: INVENTED.
+- $J^{B}_M$: The baryon-number current of the quarks (one third per quark), summed over the generations. Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The portal currents are frame currents, $\mathrm{i}\bar\Psi\gamma^a\Psi$ and $\mathrm{i}\bar\psi\gamma^a\psi$, which do not depend on the
+vielbein; only $\sqrt{\lvert g\rvert}$ and the explicit metric in the contraction vary, so the energy-momentum tensor is the metric times the
+interaction density. They couple dirac16complex and the fermions to gravity; their effect on the block is negligible in every
+environment (the level shifts FE-72 are below $10^{-9}$ GeV). Status: DERIVED.
+
+$$
+\begin{aligned}
+(\mathcal{T}_{\mathrm{I12}})_{MN} =
+ \frac{4\bar\Psi\Psi}{\Lambda_\star^3}\Big[&c_{\mathrm{G}}\Big(G^A_{MP}G^A{}_N{}^P
+ - \frac14g_{MN}G^A_{PQ}G^{APQ}\Big) + c_{\mathrm{W}}\Big(W^I_{MP}W^I{}_N{}^P -
+ \frac14g_{MN}W^I_{PQ}W^{IPQ}\Big)\\
+ &+ c_{\mathrm{B}}\Big(B_{MP}B_N{}^P - \frac14g_{MN}B_{PQ}B^{PQ}\Big)\Big]
+\end{aligned} \tag{FE-10}
+$$
+
+<!-- symbols: TI12, iM, iN, Psi, LambdaStar, cG, Ggluon, iA, iP, metric, iQ, cW, Wsu2, iI, cB, Bhyp -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-10).**
+
+- $\mathcal{T}_{\mathrm{I12}}$: The energy-momentum tensor of the portal I12. Unit: $\mathrm{GeV}^{8}$. Status: DERIVED.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $c_{\mathrm{G}}$: The coefficient of the gluon term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{G}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $P$: A coordinate index of eight dimensions (also $P_1, P_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $Q$: A coordinate index of eight dimensions (also $Q_1, Q_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $c_{\mathrm{W}}$: The coefficient of the SU(2) term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{W}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $c_{\mathrm{B}}$: The coefficient of the hypercharge term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{B}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** I12 multiplies the gauge kinetic invariants by $\bar\Psi\Psi$, so its energy-momentum tensor is that of the gauge fields
+(FE-7) with $1/\hat g_i^2$ replaced by $4c\,\bar\Psi\Psi/\Lambda_\star^3$: I12 acts as a field-dependent gauge coupling (FE-21). Its effect in
+the coupled solution is at most $1.7\times10^{-16}$. Status: DERIVED.
+
+$$
+\nabla_M\,\mathcal{T}^M{}_N = 0,\qquad \text{because}\qquad \nabla_M\,\mathcal{E}_{(p)}{}^M{}_N = 0\quad
+ \text{($p = 1, 2, 3$)} \tag{FE-11}
+$$
+
+<!-- symbols: nabla, iM, EMT, iN, LovE, ip -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-11).**
+
+- $\nabla$: The covariant derivative of a tensor with the Levi-Civita connection of the metric $g_{MN}$ (Christoffel symbols $\Gamma^N{}_{MP}$); $\nabla_M$ acts on the index $M$, $\nabla^M = g^{MN}\nabla_N$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\mathcal{T}^M{}_N$: The energy-momentum tensor of all matter (every field except gravity, the stabiliser included), the source of gravity; defined by the change of the matter action under a change of the metric. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\mathcal{E}_{(p)}{}^M{}_N$: The Lovelock tensor of order $p$, the metric variation of $\sqrt{\lvert g\rvert}\mathcal{L}_{(p)}$: $\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \frac12\delta^M_NR$; every $\mathcal{E}_{(p)}$ is divergence free. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $p$: The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** Every Lovelock tensor is divergence-free identically (the Bianchi identities of the Lovelock tensors, STANDARD), so the
+field equations FE-1 imply that the total source is conserved; the conservation holds when the matter fields obey their own field
+equations. Status: DERIVED (the Bianchi identities verified for the order-0 metric for $p = 1, 2, 3$, sympy, exact). At order 0
+the conservation is FE-41.
+
+
+# The matter fields
+
+## dirac16complex
+
+The terms of the action that contain $\bar\Psi$ are $S_\Psi$ (IN-5) and the three portals (IN-16 to IN-18). Varying them with respect to
+$\bar\Psi$ (the kinetic term after an integration by parts, which turns $-(D_M\bar\Psi)\gamma^M\Psi$ into $\bar\Psi\gamma^MD_M\Psi$) gives
+
+$$
+\frac{\Delta S}{\Delta\bar\Psi} = \sqrt{\lvert g\rvert}\,\Big[\gamma^MD_M\Psi - \Big(m_\Psi + \lambda\,\bar\Psi\Psi
+ + \frac{\mathcal{F}}{\Lambda_\star^3}\Big)\Psi + \mathrm{i}\,\frac{c_{\mathrm{V}}}{\Lambda_\star^6}\,J^{B-L}_M\gamma^M\Psi
+ + \mathrm{i}\,\frac{c_{\mathrm{A}}}{\Lambda_\star^6}\sum_{M\ne x_0}J^{B}_M\gamma^MP_b\Psi\Big] = 0,
+$$
+
+<!-- symbols: Delta, Saction, Psi, metric, gamma, iM, Dcov, mPsi, lambda, calF, LambdaStar, imag, cV, JBL, cA, x0, JB, Pab -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $S$: The action of UM-2 (the integral of the Lagrangian density over spacetime); its variation with respect to every field gives the field equations. Unit: dimensionless ($\hbar = 1$). Status: ASSUMED.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $m_\Psi$: The mass parameter of dirac16complex, $m_\Psi = 3H\mathcal{M} = H$. Unit: GeV. Value: 14.296 TeV. Status: RECORD.
+- $\lambda$: The contact self-coupling of dirac16complex (the term $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ of the record). Unit: $\mathrm{GeV}^{-6}$. Value: not fixed; Kohn-Sham states computed for $\lambda = 0$ and $\pm7\times10^{-5}H^{-6}$; the fold-band radiation requires $\lvert\lambda\rvert \lesssim 1.4\times10^{-10}H^{-6}$ (for $\Delta N_{\mathrm{eff}} \le 0.001$). Status: RECORD.
+- $\mathcal{F}$: The gauge-kinetic operator of the portal I12, $\mathcal{F} = c_{\mathrm{G}}G^A_{MN}G^{AMN} + c_{\mathrm{W}}W^I_{MN}W^{IMN} + c_{\mathrm{B}}B_{MN}B^{MN}$; $\langle\mathcal{F}\rangle$ its mean value in an environment. Unit: $\mathrm{GeV}^{4}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $J^{B-L}_M$: The $B - L$ current of the Standard-Model fermions (baryon minus lepton number), summed over the generations. Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $c_{\mathrm{A}}$: The coefficient of the $x_0$-chiral vector portal I13. Unit: dimensionless. Value: fixed through $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic). Status: INVENTED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $J^{B}_M$: The baryon-number current of the quarks (one third per quark), summed over the generations. Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $P_a,\ P_b$: The projectors on the two $x_0$-chiralities, $P_a = (1 + \gamma^{x_0})/2$ and $P_b = (1 - \gamma^{x_0})/2$ (in a block: the upper and the lower component). Unit: dimensionless. Status: INVENTED.
+
+<!-- end generated symbol list -->
+
+which is the field equation of dirac16complex:
+
+$$
+\gamma^MD_M\Psi = \Big[m_\Psi + \lambda\,\bar\Psi\Psi + \frac{\mathcal{F}}{\Lambda_\star^3}\Big]\Psi
+ - \mathrm{i}\,\frac{c_{\mathrm{V}}}{\Lambda_\star^6}\,J^{B-L}_M\gamma^M\Psi
+ - \mathrm{i}\,\frac{c_{\mathrm{A}}}{\Lambda_\star^6}\sum_{M\ne x_0}J^{B}_M\gamma^MP_b\Psi \tag{FE-12}
+$$
+
+<!-- symbols: gamma, iM, Dcov, Psi, mPsi, lambda, calF, LambdaStar, imag, cV, JBL, cA, x0, JB, Pab -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-12).**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $m_\Psi$: The mass parameter of dirac16complex, $m_\Psi = 3H\mathcal{M} = H$. Unit: GeV. Value: 14.296 TeV. Status: RECORD.
+- $\lambda$: The contact self-coupling of dirac16complex (the term $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ of the record). Unit: $\mathrm{GeV}^{-6}$. Value: not fixed; Kohn-Sham states computed for $\lambda = 0$ and $\pm7\times10^{-5}H^{-6}$; the fold-band radiation requires $\lvert\lambda\rvert \lesssim 1.4\times10^{-10}H^{-6}$ (for $\Delta N_{\mathrm{eff}} \le 0.001$). Status: RECORD.
+- $\mathcal{F}$: The gauge-kinetic operator of the portal I12, $\mathcal{F} = c_{\mathrm{G}}G^A_{MN}G^{AMN} + c_{\mathrm{W}}W^I_{MN}W^{IMN} + c_{\mathrm{B}}B_{MN}B^{MN}$; $\langle\mathcal{F}\rangle$ its mean value in an environment. Unit: $\mathrm{GeV}^{4}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $J^{B-L}_M$: The $B - L$ current of the Standard-Model fermions (baryon minus lepton number), summed over the generations. Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $c_{\mathrm{A}}$: The coefficient of the $x_0$-chiral vector portal I13. Unit: dimensionless. Value: fixed through $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic). Status: INVENTED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $J^{B}_M$: The baryon-number current of the quarks (one third per quark), summed over the generations. Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $P_a,\ P_b$: The projectors on the two $x_0$-chiralities, $P_a = (1 + \gamma^{x_0})/2$ and $P_b = (1 - \gamma^{x_0})/2$ (in a block: the upper and the lower component). Unit: dimensionless. Status: INVENTED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $\gamma^MD_M\Psi$ is the eight-dimensional Dirac operator with the canonical spin connection (gravity). On the right,
+$m_\Psi$ is the mass parameter, $\lambda\bar\Psi\Psi$ the mean field of the contact self-interaction, and $\mathcal{F}/\Lambda_\star^3$ the I12 term:
+the gauge-field invariants act on $\Psi$ as an extra, field-dependent mass. The $c_{\mathrm{V}}$ term is I11: the $B - L$ current of the
+Standard-Model fermions acts on $\Psi$ as a vector potential. The $c_{\mathrm{A}}$ term is I13: the baryon-number current acts on the
+$x_0$-chirality selected by $P_b$ only. So dirac16complex couples to gravity, to itself, to every fermion (through $J^{B-L}$ and $J^B$) and
+to every gauge field (through $\mathcal{F}$). Status: DERIVED. It is reduced exactly to a two-component problem in every block (FE-56), solved
+exactly for the free spectrum (FE-62) and by Kohn-Sham theory with the mean fields of every other field (FE-63 to FE-73).
+
+$$
+\gamma^M\Omega_M = \frac32\,\frac{H}{f}\,\gamma^{x_0} + \Big(\frac{\dot b_4}{b_4} - \frac{\dot
+ a_4}{2}\Big)\gamma^{x_4} \tag{FE-13}
+$$
+
+<!-- symbols: gamma, iM, Omega, Hconst, fblock, x0, b4dot, b4, a4dot, x4 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-13).**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\Omega_M$: The spin connection acting on spinors, the matrix $\Omega_M = \frac12\omega_{Mab}\mathcal{S}^{ab}$. Unit: 1/length. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $\dot b_4$: The time derivative $\mathrm{d}b_4/\mathrm{d}x_4$. Unit: GeV. Status: DERIVED.
+- $b_4$: The author's metric function of the time $x_4$ in the hidden and extra-time components, $b_4 > 0$. Unit: dimensionless. Status: AUTHOR.
+- $\dot a_4$: The time derivative $\mathrm{d}a_4/\mathrm{d}x_4$. Unit: GeV. Status: DERIVED.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+**The terms.** On the order-0 metric (FE-31) the spin connection contracted with the Dirac matrices has two parts: a term along $\gamma^{x_0}$
+of strength $\frac32H/f$, from the warping of the extra times along the hidden direction ($\mathrm{e}^{2Hy}$ in FE-32), and a term along
+$\gamma^{x_4}$ from the time dependence of the metric functions $a_4$ and $b_4$. It vanishes only in flat four-plus-four space ($H = 0$,
+constant $a_4$, $b_4$), so the coupling of every spinor to gravity is non-trivial. The prefactors of the reduction ansatz of FE-56 remove
+it exactly. Status: DERIVED (exact for every $a_4$, $b_4$ and on both halves of a period).
+
+## The Standard-Model fermions
+
+Varying $S_{\mathrm{f}}$ (IN-11), the tip action (IN-13) and the portals I11, I13 with respect to the adjoint of every multiplet gives
+its Dirac equation. The quark doublets:
+
+$$
+\begin{aligned}
+\gamma^MD_MQ_i ={}& \mu_Q\,Q_i -
+ \mathrm{i}\,\frac{c_{\mathrm{V}}}{\Lambda_\star^6}\,q_Q\,\big(\mathrm{i}\bar\Psi\gamma_M\Psi\big)\gamma^MQ_i
+ - \frac{\mathrm{i}}{3}\,\frac{c_{\mathrm{A}}}{\Lambda_\star^6}\sum_{M\ne
+ x_0}\big(\mathrm{i}\bar\Psi\gamma_MP_b\Psi\big)\gamma^MQ_i\\
+ &+ \delta_{\mathrm{tip}}\sum_{j=1}^{3}\Sigma\begin{pmatrix}(\mathcal{Y}_u)_{ij}\,u_{Rj}\\ (
+ \mathcal{Y}_d)_{ij}\,d_{Rj}\end{pmatrix}
+\end{aligned} \tag{FE-14}
+$$
+
+<!-- symbols: gamma, iM, Dcov, Qdoublet, ii, muQ, imag, cV, LambdaStar, qBL, Psi, cA, x0, Pab, deltatip, ij, Sigma, Yuk, uR, dR -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-14).**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $Q_i,\ \bar Q_i$: The quark doublet of the generation $i$ (left-handed up and down quark of one generation, three colours) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\mu_Q$: The common bulk mass of the three quark doublets. Unit: GeV. Value: $5.2304\,H$ ($c_Q = 3.38230$). Status: DERIVED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $c_{\mathrm{A}}$: The coefficient of the $x_0$-chiral vector portal I13. Unit: dimensionless. Value: fixed through $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic). Status: INVENTED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $P_a,\ P_b$: The projectors on the two $x_0$-chiralities, $P_a = (1 + \gamma^{x_0})/2$ and $P_b = (1 - \gamma^{x_0})/2$ (in a block: the upper and the lower component). Unit: dimensionless. Status: INVENTED.
+- $\delta_{\mathrm{tip}}$: The density that places a tip term in the field equations of eight dimensions, $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction). Unit: 1/length. Status: DERIVED.
+- $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- $\mathcal{Y}_\nu,\ \mathcal{Y}_e,\ \mathcal{Y}_u,\ \mathcal{Y}_d$: The complex $3 \times 3$ tip Yukawa matrices of the neutrino, charged-lepton, up-quark and down-quark sectors (generation indices $i, j$); on the static block they become the tip mixing matrices $\mathcal{K}$ (the normalisation of that relation is not fixed: OPEN). Unit: dimensionless. Status: INVENTED.
+- $u_R,\ u_{Ri},\ \bar u_{Ri}$: The up-type quark singlet: $u_R$ the multiplet, $u_{Ri}$ that of the generation $i$ ($u_R$, $c_R$, $t_R$), $\bar u_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $d_R,\ d_{Ri},\ \bar d_{Ri}$: The down-type quark singlet: $d_R$ the multiplet, $d_{Ri}$ that of the generation $i$ ($d_R$, $s_R$, $b_R$), $\bar d_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $\gamma^MD_MQ_i$ contains gravity (the spin connection) and the gauge fields: gluons, $W$ and $B$ (IN-12). $\mu_Q$ is the common bulk
+mass of the three quark doublets, which localises their zero modes at the fold. The $c_{\mathrm{V}}$ term is I11 (the vector current of
+dirac16complex acting with the $B - L$ charge $q_Q = \frac13$), the $c_{\mathrm{A}}$ term I13 (the $x_0$-chiral current of dirac16complex acting
+with the baryon number $\frac13$). The last term is the tip Yukawa coupling: at $y = -L$ the doublet couples, through $\Sigma$ and the tip
+matrices $\mathcal{Y}_u$, $\mathcal{Y}_d$, to the singlets $u_{Rj}$, $d_{Rj}$ of every generation $j$. Status: DERIVED. Solved on the static block by the zero
+modes and the tip mixing (FE-56 to FE-60; exact roots). The portal terms act on the quarks as mean fields of the vector densities of
+dirac16complex; they are neglected, because in every environment the density of the dark matter is far below that of the
+Standard-Model fermions, so they are far smaller than the shifts of dirac16complex by the quarks (FE-72) (ESTIMATE; not computed).
+
+$$
+\begin{aligned}
+\gamma^MD_Mu_{Ri} ={}& \mu_{\psi i}\,u_{Ri} - \mathrm{i}\,\frac{c_{\mathrm{V}}}{\Lambda_\star^6}\,q_{u_R}\,
+ \big(\mathrm{i}\bar\Psi\gamma_M\Psi\big)\gamma^Mu_{Ri}
+ - \frac{\mathrm{i}}{3}\,\frac{c_{\mathrm{A}}}{\Lambda_\star^6}\sum_{M\ne
+ x_0}\big(\mathrm{i}\bar\Psi\gamma_MP_b\Psi\big)\gamma^Mu_{Ri}\\
+ &+ \delta_{\mathrm{tip}}\sum_{j=1}^{3}(\mathcal{Y}_u)^*_{ji}\,\big(\Sigma^\dagger Q_j\big)_1\qquad
+ (\psi = u_R)
+\end{aligned} \tag{FE-15}
+$$
+
+<!-- symbols: gamma, iM, Dcov, uR, mubulk, ipsi, ii, imag, cV, LambdaStar, qBL, Psi, cA, x0, Pab, deltatip, ij, Yuk, star, Sigma, dagger, Qdoublet, psi -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-15).**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $u_R,\ u_{Ri},\ \bar u_{Ri}$: The up-type quark singlet: $u_R$ the multiplet, $u_{Ri}$ that of the generation $i$ ($u_R$, $c_R$, $t_R$), $\bar u_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\mu_{\psi i}$: The bulk mass of a Standard-Model fermion: $\mu_{\psi i}$ of the multiplet $\psi$ of the generation $i$; with the hidden direction it fixes the localisation $c = f\mu L$ of the zero mode. Unit: GeV. Value: $\mu_{\psi i} = c/(fL)$ with the localisation $c$ of the zero mode (doublets: $\mu_Q = 5.2304\,H$, $\mu_\ell = 9.2055\,H$). Status: ASSUMED.
+- $\psi$: The label of a Standard-Model multiplet: $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\psi$ runs over the six. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $c_{\mathrm{A}}$: The coefficient of the $x_0$-chiral vector portal I13. Unit: dimensionless. Value: fixed through $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic). Status: INVENTED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $P_a,\ P_b$: The projectors on the two $x_0$-chiralities, $P_a = (1 + \gamma^{x_0})/2$ and $P_b = (1 - \gamma^{x_0})/2$ (in a block: the upper and the lower component). Unit: dimensionless. Status: INVENTED.
+- $\delta_{\mathrm{tip}}$: The density that places a tip term in the field equations of eight dimensions, $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction). Unit: 1/length. Status: DERIVED.
+- $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
+- $\mathcal{Y}_\nu,\ \mathcal{Y}_e,\ \mathcal{Y}_u,\ \mathcal{Y}_d$: The complex $3 \times 3$ tip Yukawa matrices of the neutrino, charged-lepton, up-quark and down-quark sectors (generation indices $i, j$); on the static block they become the tip mixing matrices $\mathcal{K}$ (the normalisation of that relation is not fixed: OPEN). Unit: dimensionless. Status: INVENTED.
+- ${}^*$: Complex conjugation of a number or of each entry of a matrix. Status: STANDARD.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $Q_i,\ \bar Q_i$: The quark doublet of the generation $i$ (left-handed up and down quark of one generation, three colours) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The up-type singlets of the three generations (the right-handed up, charm and top quarks) couple to gravity, gluons and
+$B$ (they carry no weak isospin), have the bulk mass $\mu_{\psi i}$ of their generation, feel I11 with $q_{u_R} = \frac13$ and I13 with the
+baryon number $\frac13$, and couple at the tip to the upper component of $\Sigma^\dagger Q_j$ through the conjugate tip matrix. Status:
+DERIVED; exact roots for the up, charm and top quarks.
+
+$$
+\begin{aligned}
+\gamma^MD_Md_{Ri} ={}& \mu_{\psi i}\,d_{Ri} - \mathrm{i}\,\frac{c_{\mathrm{V}}}{\Lambda_\star^6}\,q_{d_R}\,
+ \big(\mathrm{i}\bar\Psi\gamma_M\Psi\big)\gamma^Md_{Ri}
+ - \frac{\mathrm{i}}{3}\,\frac{c_{\mathrm{A}}}{\Lambda_\star^6}\sum_{M\ne
+ x_0}\big(\mathrm{i}\bar\Psi\gamma_MP_b\Psi\big)\gamma^Md_{Ri}\\
+ &+ \delta_{\mathrm{tip}}\sum_{j=1}^{3}(\mathcal{Y}_d)^*_{ji}\,\big(\Sigma^\dagger Q_j\big)_2\qquad
+ (\psi = d_R)
+\end{aligned} \tag{FE-16}
+$$
+
+<!-- symbols: gamma, iM, Dcov, dR, mubulk, ipsi, ii, imag, cV, LambdaStar, qBL, Psi, cA, x0, Pab, deltatip, ij, Yuk, star, Sigma, dagger, Qdoublet, psi -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-16).**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $d_R,\ d_{Ri},\ \bar d_{Ri}$: The down-type quark singlet: $d_R$ the multiplet, $d_{Ri}$ that of the generation $i$ ($d_R$, $s_R$, $b_R$), $\bar d_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\mu_{\psi i}$: The bulk mass of a Standard-Model fermion: $\mu_{\psi i}$ of the multiplet $\psi$ of the generation $i$; with the hidden direction it fixes the localisation $c = f\mu L$ of the zero mode. Unit: GeV. Value: $\mu_{\psi i} = c/(fL)$ with the localisation $c$ of the zero mode (doublets: $\mu_Q = 5.2304\,H$, $\mu_\ell = 9.2055\,H$). Status: ASSUMED.
+- $\psi$: The label of a Standard-Model multiplet: $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\psi$ runs over the six. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $c_{\mathrm{A}}$: The coefficient of the $x_0$-chiral vector portal I13. Unit: dimensionless. Value: fixed through $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic). Status: INVENTED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $P_a,\ P_b$: The projectors on the two $x_0$-chiralities, $P_a = (1 + \gamma^{x_0})/2$ and $P_b = (1 - \gamma^{x_0})/2$ (in a block: the upper and the lower component). Unit: dimensionless. Status: INVENTED.
+- $\delta_{\mathrm{tip}}$: The density that places a tip term in the field equations of eight dimensions, $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction). Unit: 1/length. Status: DERIVED.
+- $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
+- $\mathcal{Y}_\nu,\ \mathcal{Y}_e,\ \mathcal{Y}_u,\ \mathcal{Y}_d$: The complex $3 \times 3$ tip Yukawa matrices of the neutrino, charged-lepton, up-quark and down-quark sectors (generation indices $i, j$); on the static block they become the tip mixing matrices $\mathcal{K}$ (the normalisation of that relation is not fixed: OPEN). Unit: dimensionless. Status: INVENTED.
+- ${}^*$: Complex conjugation of a number or of each entry of a matrix. Status: STANDARD.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $Q_i,\ \bar Q_i$: The quark doublet of the generation $i$ (left-handed up and down quark of one generation, three colours) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** As FE-15 for the down-type singlets (the right-handed down, strange and bottom quarks) with the lower component of
+$\Sigma^\dagger Q_j$ and the tip matrix $\mathcal{Y}_d$; in UM-2 the tip mixing matrix of this sector is the CKM matrix (FE-30). Status: DERIVED.
+
+$$
+\begin{aligned}
+\gamma^MD_M\ell_i ={}& \mu_\ell\,\ell_i - \mathrm{i}\,\frac{c_{\mathrm{V}}}{\Lambda_\star^6}\,q_\ell\,
+ \big(\mathrm{i}\bar\Psi\gamma_M\Psi\big)\gamma^M\ell_i
+ + \delta_{\mathrm{tip}}\sum_{j=1}^{3}\Sigma\begin{pmatrix}(\mathcal{Y}_\nu)_{ij}\,\nu_{Rj}\\ (
+ \mathcal{Y}_e)_{ij}\,e_{Rj}\end{pmatrix}
+\end{aligned} \tag{FE-17}
+$$
+
+<!-- symbols: gamma, iM, Dcov, ldoublet, ii, muell, imag, cV, LambdaStar, qBL, Psi, deltatip, ij, Sigma, Yuk, nuR, eR -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-17).**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $\ell_i,\ \bar\ell_i$: The lepton doublet of the generation $i$ (left-handed neutrino and charged lepton) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\mu_\ell$: The common bulk mass of the three lepton doublets. Unit: GeV. Value: $9.2055\,H$ ($c_\ell = 5.95288$). Status: DERIVED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\delta_{\mathrm{tip}}$: The density that places a tip term in the field equations of eight dimensions, $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction). Unit: 1/length. Status: DERIVED.
+- $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- $\mathcal{Y}_\nu,\ \mathcal{Y}_e,\ \mathcal{Y}_u,\ \mathcal{Y}_d$: The complex $3 \times 3$ tip Yukawa matrices of the neutrino, charged-lepton, up-quark and down-quark sectors (generation indices $i, j$); on the static block they become the tip mixing matrices $\mathcal{K}$ (the normalisation of that relation is not fixed: OPEN). Unit: dimensionless. Status: INVENTED.
+- $\nu_R,\ \nu_{Ri}$: The right-handed neutrino (a gauge singlet): $\nu_R$ the multiplet, $\nu_{Ri}$ that of the generation $i$; its zero modes give Dirac neutrino masses. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $e_R,\ e_{Ri}$: The right-handed charged-lepton singlet: $e_R$ the multiplet, $e_{Ri}$ that of the generation $i$ ($e_R$, $\mu_R$, $\tau_R$). Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The lepton doublets contain the three flavours of left-handed neutrinos and the left-handed charged leptons (electron,
+muon, tau). They couple to gravity, $W$ and $B$ (no colour), have the common bulk mass $\mu_\ell$, feel I11 with $q_\ell = -1$ and no I13 term
+(leptons carry no baryon number), and couple at the tip to the right-handed neutrinos (through $\mathcal{Y}_\nu$) and to the right-handed
+charged leptons (through $\mathcal{Y}_e$). One doublet zero mode serves the three generations. Status: DERIVED; exact roots for the three
+neutrinos and the three charged leptons.
+
+$$
+\gamma^MD_Me_{Ri} = \mu_{\psi i}\,e_{Ri} - \mathrm{i}\,\frac{c_{\mathrm{V}}}{\Lambda_\star^6}\,q_{e_R}\,
+ \big(\mathrm{i}\bar\Psi\gamma_M\Psi\big)\gamma^Me_{Ri}
+ + \delta_{\mathrm{tip}}\sum_{j=1}^{3}(\mathcal{Y}_e)^*_{ji}\,\big(\Sigma^\dagger\ell_j\big)_2\qquad
+ (\psi = e_R) \tag{FE-18}
+$$
+
+<!-- symbols: gamma, iM, Dcov, eR, mubulk, ipsi, ii, imag, cV, LambdaStar, qBL, Psi, deltatip, ij, Yuk, star, Sigma, dagger, ldoublet, psi -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-18).**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $e_R,\ e_{Ri}$: The right-handed charged-lepton singlet: $e_R$ the multiplet, $e_{Ri}$ that of the generation $i$ ($e_R$, $\mu_R$, $\tau_R$). Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\mu_{\psi i}$: The bulk mass of a Standard-Model fermion: $\mu_{\psi i}$ of the multiplet $\psi$ of the generation $i$; with the hidden direction it fixes the localisation $c = f\mu L$ of the zero mode. Unit: GeV. Value: $\mu_{\psi i} = c/(fL)$ with the localisation $c$ of the zero mode (doublets: $\mu_Q = 5.2304\,H$, $\mu_\ell = 9.2055\,H$). Status: ASSUMED.
+- $\psi$: The label of a Standard-Model multiplet: $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\psi$ runs over the six. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\delta_{\mathrm{tip}}$: The density that places a tip term in the field equations of eight dimensions, $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction). Unit: 1/length. Status: DERIVED.
+- $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
+- $\mathcal{Y}_\nu,\ \mathcal{Y}_e,\ \mathcal{Y}_u,\ \mathcal{Y}_d$: The complex $3 \times 3$ tip Yukawa matrices of the neutrino, charged-lepton, up-quark and down-quark sectors (generation indices $i, j$); on the static block they become the tip mixing matrices $\mathcal{K}$ (the normalisation of that relation is not fixed: OPEN). Unit: dimensionless. Status: INVENTED.
+- ${}^*$: Complex conjugation of a number or of each entry of a matrix. Status: STANDARD.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $\ell_i,\ \bar\ell_i$: The lepton doublet of the generation $i$ (left-handed neutrino and charged lepton) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The right-handed charged leptons of the three generations (electron, muon and tau singlets) couple to gravity and to $B$,
+have their bulk masses, feel I11 with $q_{e_R} = -1$, and couple at the tip to the lower component of $\Sigma^\dagger\ell_j$. Status: DERIVED;
+exact roots for the electron, muon and tau with the tip matrix $\mathbf{1}$.
+
+$$
+\gamma^MD_M\nu_{Ri} = \mu_{\psi i}\,\nu_{Ri} - \mathrm{i}\,\frac{c_{\mathrm{V}}}{\Lambda_\star^6}\,q_{\nu_R}\,
+ \big(\mathrm{i}\bar\Psi\gamma_M\Psi\big)\gamma^M\nu_{Ri}
+ + \delta_{\mathrm{tip}}\sum_{j=1}^{3}(\mathcal{Y}_\nu)^*_{ji}\,\big(\Sigma^\dagger\ell_j\big)_1\qquad
+ (\psi = \nu_R) \tag{FE-19}
+$$
+
+<!-- symbols: gamma, iM, Dcov, nuR, mubulk, ipsi, ii, imag, cV, LambdaStar, qBL, Psi, deltatip, ij, Yuk, star, Sigma, dagger, ldoublet, psi -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-19).**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $\nu_R,\ \nu_{Ri}$: The right-handed neutrino (a gauge singlet): $\nu_R$ the multiplet, $\nu_{Ri}$ that of the generation $i$; its zero modes give Dirac neutrino masses. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\mu_{\psi i}$: The bulk mass of a Standard-Model fermion: $\mu_{\psi i}$ of the multiplet $\psi$ of the generation $i$; with the hidden direction it fixes the localisation $c = f\mu L$ of the zero mode. Unit: GeV. Value: $\mu_{\psi i} = c/(fL)$ with the localisation $c$ of the zero mode (doublets: $\mu_Q = 5.2304\,H$, $\mu_\ell = 9.2055\,H$). Status: ASSUMED.
+- $\psi$: The label of a Standard-Model multiplet: $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\psi$ runs over the six. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\delta_{\mathrm{tip}}$: The density that places a tip term in the field equations of eight dimensions, $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction). Unit: 1/length. Status: DERIVED.
+- $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
+- $\mathcal{Y}_\nu,\ \mathcal{Y}_e,\ \mathcal{Y}_u,\ \mathcal{Y}_d$: The complex $3 \times 3$ tip Yukawa matrices of the neutrino, charged-lepton, up-quark and down-quark sectors (generation indices $i, j$); on the static block they become the tip mixing matrices $\mathcal{K}$ (the normalisation of that relation is not fixed: OPEN). Unit: dimensionless. Status: INVENTED.
+- ${}^*$: Complex conjugation of a number or of each entry of a matrix. Status: STANDARD.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $\ell_i,\ \bar\ell_i$: The lepton doublet of the generation $i$ (left-handed neutrino and charged lepton) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The right-handed neutrinos are gauge singlets: no gauge field acts on them; they couple to gravity, to dirac16complex
+through I11 ($q_{\nu_R} = -1$), and at the tip to the upper component of $\Sigma^\dagger\ell_j$. Their zero modes are sharply localised at the
+fold ($c_R = -31$ to $-35$), so their values at the tip are tiny; mixed there with the doublet zero mode they give the small Dirac
+masses of the three neutrinos (FE-100). They are never thermalised (FE-134). Status: DERIVED.
+
+## The gauge fields
+
+$$
+\begin{aligned}
+J_3^{AN} &= \sum_{i=1}^{3}\big(\mathrm{i}\bar Q_i\gamma^Nt^AQ_i + \mathrm{i}\bar u_{Ri}\gamma^Nt^Au_{Ri}
+ + \mathrm{i}\bar d_{Ri}\gamma^Nt^Ad_{Ri}\big),\qquad
+ J_2^{IN} = \sum_{i=1}^{3}\Big(\mathrm{i}\bar Q_i\gamma^N\frac{\tau^I}{2}Q_i +
+ \mathrm{i}\bar\ell_i\gamma^N\frac{\tau^I}{2}\ell_i\Big),\\
+J_1^N &= \sum_{i=1}^{3}\sum_\psi Y_\psi\,\mathrm{i}\bar\psi_i\gamma^N\psi_i,\qquad
+ J_{\mathrm{em}}^N = J_2^{3N} + J_1^N,\qquad J_2^{\pm}{}^N = \frac{J_2^{1N} \mp \mathrm{i}J_2^{2N}}{\sqrt2}
+\end{aligned} \tag{FE-20}
+$$
+
+<!-- symbols: J3, iA, iN, ii, imag, Qdoublet, gamma, tgen, uR, dR, J2, iI, tau, ldoublet, J1, ipsi, Yhyp, psi, Jem, J2pm -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-20).**
+
+- $J_3^{AN}$: The colour current of the quarks (the source of the gluons), summed over the generations. Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $Q_i,\ \bar Q_i$: The quark doublet of the generation $i$ (left-handed up and down quark of one generation, three colours) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $t^A$: The generators of SU(3) in the fundamental representation (the Gell-Mann matrices divided by 2), $\mathrm{tr}(t^At^B) = \frac12\delta^{AB}$. Unit: dimensionless. Status: STANDARD.
+- $u_R,\ u_{Ri},\ \bar u_{Ri}$: The up-type quark singlet: $u_R$ the multiplet, $u_{Ri}$ that of the generation $i$ ($u_R$, $c_R$, $t_R$), $\bar u_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $d_R,\ d_{Ri},\ \bar d_{Ri}$: The down-type quark singlet: $d_R$ the multiplet, $d_{Ri}$ that of the generation $i$ ($d_R$, $s_R$, $b_R$), $\bar d_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $J_2^{IN}$: The weak-isospin current of the doublets $Q_i$, $\ell_i$ (the source of $W^I$). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $\tau^I$: The Pauli matrices acting on weak-isospin doublets ($\tau^I/2$ the generators of SU(2); $\tau^3 = \mathrm{diag}(1, -1)$). Unit: dimensionless. Status: STANDARD.
+- $\ell_i,\ \bar\ell_i$: The lepton doublet of the generation $i$ (left-handed neutrino and charged lepton) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $J_1^N$: The hypercharge current of all fermions (the source of $B$). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $\psi$: The label of a Standard-Model multiplet: $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\psi$ runs over the six. Status: STANDARD.
+- $Y$: The hypercharge (the generator of U(1)$_Y$); $Y_\psi$ the hypercharge of the multiplet $\psi$ ($Q$: $\frac16$, $u_R$: $\frac23$, $d_R$: $-\frac13$, $\ell$: $-\frac12$, $e_R$: $-1$, $\nu_R$: 0). Unit: dimensionless. Status: STANDARD.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+- $J_{\mathrm{em}}^N$: The electromagnetic current, $J_{\mathrm{em}} = J_2^3 + J_1$ (in units of the elementary charge). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $J_2^{\pm}{}^N$: The charged combinations of the isospin current, $J_2^\pm = (J_2^1 \mp \mathrm{i}J_2^2)/\sqrt2$ (the sources of $W^\pm$). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The currents are the sources of the gauge fields, summed over the three generations: $J_3^{AN}$ (colour) from the quarks,
+$J_2^{IN}$ (weak isospin) from the doublets, $J_1^N$ (hypercharge) from every multiplet with its hypercharge $Y_\psi$; the electromagnetic
+current $J_{\mathrm{em}}$ and the charged currents $J_2^\pm$, the sources of the photon and of $W^\pm$, are combinations of them. Status: STANDARD.
+
+The gauge kinetic term IN-8 and the portal I12 (IN-17) contain the same invariants; for the gluons together
+
+$$
+-\frac14\Big(\frac{1}{\hat g_3^2} + \frac{4c_{\mathrm{G}}\,\bar\Psi\Psi}{\Lambda_\star^3}\Big)G^A_{MN}G^{AMN},
+$$
+
+<!-- symbols: ghat3, cG, Psi, LambdaStar, Ggluon, iA, iM, iN -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\hat g_3$: The eight-dimensional SU(3) coupling (it multiplies the gluon kinetic term as $1/\hat g_3^2$); $g_3^2 = \hat g_3^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $c_{\mathrm{G}}$: The coefficient of the gluon term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{G}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+and likewise for $W$ and $B$. The scalar density of dirac16complex therefore changes the effective couplings:
+
+$$
+\frac{1}{\hat g_{3,\mathrm{eff}}^2} = \frac{1}{\hat g_3^2} +
+ \frac{4c_{\mathrm{G}}\bar\Psi\Psi}{\Lambda_\star^3},\qquad
+\frac{1}{\hat g_{2,\mathrm{eff}}^2} = \frac{1}{\hat g_2^2} +
+ \frac{4c_{\mathrm{W}}\bar\Psi\Psi}{\Lambda_\star^3},\qquad
+\frac{1}{\hat g_{1,\mathrm{eff}}^2} = \frac{1}{\hat g_1^2} +
+ \frac{4c_{\mathrm{B}}\bar\Psi\Psi}{\Lambda_\star^3} \tag{FE-21}
+$$
+
+<!-- symbols: geff, ghat3, cG, Psi, LambdaStar, ghat2, cW, ghat1, cB -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-21).**
+
+- $\hat g_{3,\mathrm{eff}},\ \hat g_{2,\mathrm{eff}},\ \hat g_{1,\mathrm{eff}}$: The field-dependent eight-dimensional couplings produced by I12: $1/\hat g_{i,\mathrm{eff}}^2 = 1/\hat g_i^2 + 4c\,\bar\Psi\Psi/\Lambda_\star^3$ with $c = c_{\mathrm{G}}, c_{\mathrm{W}}, c_{\mathrm{B}}$. Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
+- $\hat g_3$: The eight-dimensional SU(3) coupling (it multiplies the gluon kinetic term as $1/\hat g_3^2$); $g_3^2 = \hat g_3^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $c_{\mathrm{G}}$: The coefficient of the gluon term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{G}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $\hat g_2$: The eight-dimensional SU(2) coupling; $g_2^2 = \hat g_2^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $c_{\mathrm{W}}$: The coefficient of the SU(2) term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{W}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $\hat g_1$: The eight-dimensional U(1)$_Y$ coupling; $g_1^2 = \hat g_1^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $c_{\mathrm{B}}$: The coefficient of the hypercharge term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{B}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+
+<!-- end generated symbol list -->
+
+**The terms.** Where dirac16complex has a scalar density $\bar\Psi\Psi$, every gauge coupling is shifted by the I12 coefficient of its group.
+In four dimensions this is the coupling shift of FE-79 (at most $1.7\times10^{-16}$ at the dark-matter freeze-out). Status: DERIVED.
+
+Varying the gauge action with these couplings, the fermion action (through the covariant derivatives) and the tip action with respect
+to the gauge fields gives the Yang-Mills equations:
+
+$$
+\nabla_M\Big(\frac{G^{MN}}{\hat g_{3,\mathrm{eff}}^2}\Big) - \mathrm{i}\Big[G_M,\ \frac{G^{MN}}{\hat
+ g_{3,\mathrm{eff}}^2}\Big]
+ = J_3^{AN}\,t^A \tag{FE-22}
+$$
+
+<!-- symbols: nabla, iM, Ggluon, iN, geff, imag, J3, iA, tgen -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-22).**
+
+- $\nabla$: The covariant derivative of a tensor with the Levi-Civita connection of the metric $g_{MN}$ (Christoffel symbols $\Gamma^N{}_{MP}$); $\nabla_M$ acts on the index $M$, $\nabla^M = g^{MN}\nabla_N$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\hat g_{3,\mathrm{eff}},\ \hat g_{2,\mathrm{eff}},\ \hat g_{1,\mathrm{eff}}$: The field-dependent eight-dimensional couplings produced by I12: $1/\hat g_{i,\mathrm{eff}}^2 = 1/\hat g_i^2 + 4c\,\bar\Psi\Psi/\Lambda_\star^3$ with $c = c_{\mathrm{G}}, c_{\mathrm{W}}, c_{\mathrm{B}}$. Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $J_3^{AN}$: The colour current of the quarks (the source of the gluons), summed over the generations. Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $t^A$: The generators of SU(3) in the fundamental representation (the Gell-Mann matrices divided by 2), $\mathrm{tr}(t^At^B) = \frac12\delta^{AB}$. Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The covariant divergence of the gluon field strength (with the field-dependent coupling of FE-21) plus the commutator term
+(the self-interaction of the gluons) equals the colour current of the quarks. There is no tip term: the gluons do not couple to $\Sigma$.
+Status: DERIVED. On the static block the gluon zero mode is exactly massless (flat $x_0$ profile, FE-50 to FE-52); below the confinement
+scale QCD enters through the nucleon masses and the condensates (FE-74, FE-75).
+
+$$
+\nabla_M\Big(\frac{W^{MN}}{\hat g_{2,\mathrm{eff}}^2}\Big) - \mathrm{i}\Big[W_M,\ \frac{W^{MN}}{\hat
+ g_{2,\mathrm{eff}}^2}\Big]
+ = J_2^{IN}\,\frac{\tau^I}{2} + \delta_{\mathrm{tip}}\,\frac{v_\Sigma^2}{4}\Big(W^N -
+ B^N\,\frac{\tau^3}{2}\Big)\qquad
+ (\Sigma = \mathbf{1}) \tag{FE-23}
+$$
+
+<!-- symbols: nabla, iM, Wsu2, iN, geff, imag, J2, iI, tau, deltatip, vSigma, Bhyp, Sigma, identity -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-23).**
+
+- $\nabla$: The covariant derivative of a tensor with the Levi-Civita connection of the metric $g_{MN}$ (Christoffel symbols $\Gamma^N{}_{MP}$); $\nabla_M$ acts on the index $M$, $\nabla^M = g^{MN}\nabla_N$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\hat g_{3,\mathrm{eff}},\ \hat g_{2,\mathrm{eff}},\ \hat g_{1,\mathrm{eff}}$: The field-dependent eight-dimensional couplings produced by I12: $1/\hat g_{i,\mathrm{eff}}^2 = 1/\hat g_i^2 + 4c\,\bar\Psi\Psi/\Lambda_\star^3$ with $c = c_{\mathrm{G}}, c_{\mathrm{W}}, c_{\mathrm{B}}$. Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $J_2^{IN}$: The weak-isospin current of the doublets $Q_i$, $\ell_i$ (the source of $W^I$). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $\tau^I$: The Pauli matrices acting on weak-isospin doublets ($\tau^I/2$ the generators of SU(2); $\tau^3 = \mathrm{diag}(1, -1)$). Unit: dimensionless. Status: STANDARD.
+- $\delta_{\mathrm{tip}}$: The density that places a tip term in the field equations of eight dimensions, $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction). Unit: 1/length. Status: DERIVED.
+- $v_\Sigma$: The scale of the tip sigma field (its kinetic term is $-\frac{v_\Sigma^2}{4}\mathrm{tr}((D_\mu\Sigma)^\dagger D^\mu\Sigma)$); on the static block it fixes the Robin parameter $\beta_{\mathrm{W}}$. Unit: $\mathrm{GeV}^{5/2}$. Value: fixed through $\beta_{\mathrm{W}} = 0.011912$. Status: INVENTED.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- $\mathbf{1}$: The identity matrix (of the size fixed by the context: 16 x 16 on spinors, 3 x 3 on the generations or flavours, 2 x 2 for the sigma field). Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The SU(2) equation (matrix form) has, besides the isospin current, the tip current of the sigma field in the unitary gauge
+$\Sigma = \mathbf{1}$ ($N$ runs over the tip directions): a mass term for the charged components $W^1$, $W^2$ and for the combination
+$W^3 - B$ only. Status: DERIVED. On the static block it is solved by the $x_0$ reduction (FE-50) with the Robin tip condition (FE-51).
+
+$$
+\nabla_M\Big(\frac{B^{MN}}{\hat g_{1,\mathrm{eff}}^2}\Big) = J_1^N -
+ \delta_{\mathrm{tip}}\,\frac{v_\Sigma^2}{4}\,
+ \big(W^{3N} - B^N\big)\qquad (\Sigma = \mathbf{1}) \tag{FE-24}
+$$
+
+<!-- symbols: nabla, iM, Bhyp, iN, geff, J1, deltatip, vSigma, Wsu2, Sigma, identity -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-24).**
+
+- $\nabla$: The covariant derivative of a tensor with the Levi-Civita connection of the metric $g_{MN}$ (Christoffel symbols $\Gamma^N{}_{MP}$); $\nabla_M$ acts on the index $M$, $\nabla^M = g^{MN}\nabla_N$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\hat g_{3,\mathrm{eff}},\ \hat g_{2,\mathrm{eff}},\ \hat g_{1,\mathrm{eff}}$: The field-dependent eight-dimensional couplings produced by I12: $1/\hat g_{i,\mathrm{eff}}^2 = 1/\hat g_i^2 + 4c\,\bar\Psi\Psi/\Lambda_\star^3$ with $c = c_{\mathrm{G}}, c_{\mathrm{W}}, c_{\mathrm{B}}$. Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
+- $J_1^N$: The hypercharge current of all fermions (the source of $B$). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $\delta_{\mathrm{tip}}$: The density that places a tip term in the field equations of eight dimensions, $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction). Unit: 1/length. Status: DERIVED.
+- $v_\Sigma$: The scale of the tip sigma field (its kinetic term is $-\frac{v_\Sigma^2}{4}\mathrm{tr}((D_\mu\Sigma)^\dagger D^\mu\Sigma)$); on the static block it fixes the Robin parameter $\beta_{\mathrm{W}}$. Unit: $\mathrm{GeV}^{5/2}$. Value: fixed through $\beta_{\mathrm{W}} = 0.011912$. Status: INVENTED.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- $\mathbf{1}$: The identity matrix (of the size fixed by the context: 16 x 16 on spinors, 3 x 3 on the generations or flavours, 2 x 2 for the sigma field). Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The hypercharge equation is abelian (no commutator); its source is the hypercharge current, and the tip term (with the
+opposite sign of FE-23) acts on $W^3 - B$ only. Status: DERIVED.
+
+To linear order in the fields the commutators drop out, and the combinations of IN-10 decouple. For the photon, for example,
+
+$$
+\nabla_MA^{MN} = \frac{\hat g_1^2\,\nabla_MW^{3MN} + \hat g_2^2\,\nabla_MB^{MN}}{\hat g_1\hat g_2\hat g_Z}
+ = \frac{\hat g_1\hat g_2}{\hat g_Z}\,\big(J_2^{3N} + J_1^N\big),
+$$
+
+<!-- symbols: nabla, iM, Aphoton, iN, ghat1, Wsu2, ghat2, Bhyp, ghatZ, J2, J1 -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\nabla$: The covariant derivative of a tensor with the Levi-Civita connection of the metric $g_{MN}$ (Christoffel symbols $\Gamma^N{}_{MP}$); $\nabla_M$ acts on the index $M$, $\nabla^M = g^{MN}\nabla_N$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $A_M$: The photon field, canonically normalised, $A_M = (\hat g_1^2W^3_M + \hat g_2^2B_M)/(\hat g_1\hat g_2\hat g_Z)$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\hat g_1$: The eight-dimensional U(1)$_Y$ coupling; $g_1^2 = \hat g_1^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $\hat g_2$: The eight-dimensional SU(2) coupling; $g_2^2 = \hat g_2^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $\hat g_Z$: The eight-dimensional coupling of the $Z$, $\hat g_Z = (\hat g_2^2 + \hat g_1^2)^{1/2}$. Unit: $\mathrm{GeV}^{-2}$. Status: STANDARD.
+- $J_2^{IN}$: The weak-isospin current of the doublets $Q_i$, $\ell_i$ (the source of $W^I$). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $J_1^N$: The hypercharge current of all fermions (the source of $B$). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+because the tip terms of the third component of FE-23 and of FE-24, multiplied by $\hat g_2^2$ and $\hat g_1^2$, cancel. The same steps for
+$W^\pm$ and $Z$ give
+
+$$
+\begin{aligned}
+&\nabla_MW^{\pm}{}^{MN} = \hat g_2\,J_2^{\pm}{}^N + \delta_{\mathrm{tip}}\,\frac{v_\Sigma^2}{4}\,\hat
+ g_2^2\,W^{\pm}{}^N,\qquad
+ \nabla_MA^{MN} = \hat e\,J_{\mathrm{em}}^N,\qquad \hat e = \frac{\hat g_2\hat g_1}{\hat g_Z},\\
+&\nabla_MZ^{MN} = \hat g_Z\big(J_2^{3N} - \sin^2\theta_{\mathrm{W}}\,J_{\mathrm{em}}^N\big)
+ + \delta_{\mathrm{tip}}\,\frac{v_\Sigma^2}{4}\,\hat g_Z^2\,Z^N,\\
+&W^{\pm}{}^{MN} = \nabla^MW^{\pm}{}^N - \nabla^NW^{\pm}{}^M,\qquad Z^{MN} = \nabla^MZ^N - \nabla^NZ^M,\qquad
+ A^{MN} = \nabla^MA^N - \nabla^NA^M
+\end{aligned} \tag{FE-25}
+$$
+
+<!-- symbols: nabla, iM, Wpm, iN, ghat2, J2pm, deltatip, vSigma, Aphoton, ehat, Jem, ghat1, ghatZ, Zboson, J2, thetaW -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-25).**
+
+- $\nabla$: The covariant derivative of a tensor with the Levi-Civita connection of the metric $g_{MN}$ (Christoffel symbols $\Gamma^N{}_{MP}$); $\nabla_M$ acts on the index $M$, $\nabla^M = g^{MN}\nabla_N$. Status: STANDARD.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $W^\pm_M,\ W^+,\ W^-$: The charged weak bosons, canonically normalised: $W^\pm_M = (W^1_M \mp \mathrm{i}W^2_M)/(\sqrt2\,\hat g_2)$; $W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$ (they are each other's antiparticles and have one mass). Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\hat g_2$: The eight-dimensional SU(2) coupling; $g_2^2 = \hat g_2^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $J_2^{\pm}{}^N$: The charged combinations of the isospin current, $J_2^\pm = (J_2^1 \mp \mathrm{i}J_2^2)/\sqrt2$ (the sources of $W^\pm$). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $\delta_{\mathrm{tip}}$: The density that places a tip term in the field equations of eight dimensions, $\delta_{\mathrm{tip}} = \delta_{\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction). Unit: 1/length. Status: DERIVED.
+- $v_\Sigma$: The scale of the tip sigma field (its kinetic term is $-\frac{v_\Sigma^2}{4}\mathrm{tr}((D_\mu\Sigma)^\dagger D^\mu\Sigma)$); on the static block it fixes the Robin parameter $\beta_{\mathrm{W}}$. Unit: $\mathrm{GeV}^{5/2}$. Value: fixed through $\beta_{\mathrm{W}} = 0.011912$. Status: INVENTED.
+- $A_M$: The photon field, canonically normalised, $A_M = (\hat g_1^2W^3_M + \hat g_2^2B_M)/(\hat g_1\hat g_2\hat g_Z)$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\hat e$: The eight-dimensional electric coupling, $\hat e = \hat g_2\hat g_1/\hat g_Z$ ($e^2 = \hat e^2/V_\perp$). Unit: $\mathrm{GeV}^{-2}$. Status: STANDARD.
+- $J_{\mathrm{em}}^N$: The electromagnetic current, $J_{\mathrm{em}} = J_2^3 + J_1$ (in units of the elementary charge). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $\hat g_1$: The eight-dimensional U(1)$_Y$ coupling; $g_1^2 = \hat g_1^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $\hat g_Z$: The eight-dimensional coupling of the $Z$, $\hat g_Z = (\hat g_2^2 + \hat g_1^2)^{1/2}$. Unit: $\mathrm{GeV}^{-2}$. Status: STANDARD.
+- $Z_M$: The $Z$ boson field, canonically normalised, $Z_M = (W^3_M - B_M)/\hat g_Z$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $J_2^{IN}$: The weak-isospin current of the doublets $Q_i$, $\ell_i$ (the source of $W^I$). Unit: $\mathrm{GeV}^{7}$. Status: STANDARD.
+- $\theta_{\mathrm{W}}$: The weak mixing angle of the couplings, $\cos\theta_{\mathrm{W}} = \hat g_2/\hat g_Z$, $\sin\theta_{\mathrm{W}} = \hat g_1/\hat g_Z$; fixed by the measured $W$ and $Z$ masses with $\rho_{\mathrm{EW},0}$. Unit: dimensionless. Value: $\cos^2\theta_{\mathrm{W}} = 0.776368$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $W^+$ and $W^-$ are sourced by the charged currents and have the tip mass term with $\hat g_2^2$; the $Z$ is sourced by the neutral
+current $J_2^3 - \sin^2\theta_{\mathrm{W}}J_{\mathrm{em}}$ and has the tip mass term with $\hat g_Z^2$; the photon is sourced by the electromagnetic
+current with the coupling $\hat e$ and has no tip term, so it stays massless. Status: DERIVED (exact at linear order). The tip terms become
+the Robin conditions FE-51; the $W^\pm$ and $Z$ masses and the tree-level $Z$ widths of three generations reproduce the measured values
+(residual $2.7\times10^{-12}$ in the recomputed widths; the neglected electroweak loop corrections are $4\times10^{-3}$ of the total width).
 
 ## The tip sigma field
 
-$\Sigma$ has no radial mode. Its equations of motion are the Noether identities of the gauge symmetry: they follow from
-the divergence of the tip parts of the gauge-field equations (STANDARD for a gauged non-linear sigma model), so in the
-unitary gauge $\Sigma = 1$ they are not independent; its three modes are the longitudinal $W^+$, $W^-$ and $Z$.
+$$
+\begin{aligned}
+&\nabla^\mu j_\mu - \mathrm{i}\big[W^\mu,\ j_\mu\big] = -\mathrm{i}\,\frac{\tau^I}{2}\sum_{i,j=1}^{3}\Big[
+ \bar\ell_i\,\frac{\tau^I}{2}\,\Sigma\begin{pmatrix}(\mathcal{Y}_\nu)_{ij}\,\nu_{Rj}\\ (
+ \mathcal{Y}_e)_{ij}\,e_{Rj}\end{pmatrix}
+ + \bar Q_i\,\frac{\tau^I}{2}\,\Sigma\begin{pmatrix}(\mathcal{Y}_u)_{ij}\,u_{Rj}\\ (
+ \mathcal{Y}_d)_{ij}\,d_{Rj}\end{pmatrix}
+ - \text{h.c.}\Big],\\
+&j_\mu = j^I_\mu\,\frac{\tau^I}{2},\qquad j^I_\mu =
+ \frac{\mathrm{i}v_\Sigma^2}{4}\,\mathrm{tr}\big(\tau^I(D_\mu\Sigma)\Sigma^\dagger\big),
+ \qquad j^I_\mu\big\vert_{\Sigma = \mathbf{1}} = \frac{v_\Sigma^2}{4}\big(W^I_\mu - \delta^{I3}B_\mu\big)
+\end{aligned} \tag{FE-26}
+$$
 
-## Boundary conditions
+<!-- symbols: nabla, imu, jsigma, imag, Wsu2, tau, iI, ii, ij, ldoublet, Sigma, Yuk, nuR, eR, Qdoublet, uR, dR, vSigma, trace, Dcov, dagger, identity, delta, Bhyp -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-26).**
 
-The variational principle with the fold reflection $R: z \to \pi - z$ and the regular tip at $y = -L$ gives:
+- $\nabla$: The covariant derivative of a tensor with the Levi-Civita connection of the metric $g_{MN}$ (Christoffel symbols $\Gamma^N{}_{MP}$); $\nabla_M$ acts on the index $M$, $\nabla^M = g^{MN}\nabla_N$. Status: STANDARD.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $j_\mu,\ j^I_\mu$: The current of the sigma field on the tip, $j^I_\mu = \frac{\mathrm{i}v_\Sigma^2}{4}\mathrm{tr}(\tau^I(D_\mu\Sigma)\Sigma^\dagger)$, and the matrix $j_\mu = j^I_\mu\tau^I/2$. Unit: $\mathrm{GeV}^{6}$. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $\tau^I$: The Pauli matrices acting on weak-isospin doublets ($\tau^I/2$ the generators of SU(2); $\tau^3 = \mathrm{diag}(1, -1)$). Unit: dimensionless. Status: STANDARD.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
+- $\ell_i,\ \bar\ell_i$: The lepton doublet of the generation $i$ (left-handed neutrino and charged lepton) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
+- $\mathcal{Y}_\nu,\ \mathcal{Y}_e,\ \mathcal{Y}_u,\ \mathcal{Y}_d$: The complex $3 \times 3$ tip Yukawa matrices of the neutrino, charged-lepton, up-quark and down-quark sectors (generation indices $i, j$); on the static block they become the tip mixing matrices $\mathcal{K}$ (the normalisation of that relation is not fixed: OPEN). Unit: dimensionless. Status: INVENTED.
+- $\nu_R,\ \nu_{Ri}$: The right-handed neutrino (a gauge singlet): $\nu_R$ the multiplet, $\nu_{Ri}$ that of the generation $i$; its zero modes give Dirac neutrino masses. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $e_R,\ e_{Ri}$: The right-handed charged-lepton singlet: $e_R$ the multiplet, $e_{Ri}$ that of the generation $i$ ($e_R$, $\mu_R$, $\tau_R$). Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $Q_i,\ \bar Q_i$: The quark doublet of the generation $i$ (left-handed up and down quark of one generation, three colours) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $u_R,\ u_{Ri},\ \bar u_{Ri}$: The up-type quark singlet: $u_R$ the multiplet, $u_{Ri}$ that of the generation $i$ ($u_R$, $c_R$, $t_R$), $\bar u_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $d_R,\ d_{Ri},\ \bar d_{Ri}$: The down-type quark singlet: $d_R$ the multiplet, $d_{Ri}$ that of the generation $i$ ($d_R$, $s_R$, $b_R$), $\bar d_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $v_\Sigma$: The scale of the tip sigma field (its kinetic term is $-\frac{v_\Sigma^2}{4}\mathrm{tr}((D_\mu\Sigma)^\dagger D^\mu\Sigma)$); on the static block it fixes the Robin parameter $\beta_{\mathrm{W}}$. Unit: $\mathrm{GeV}^{5/2}$. Value: fixed through $\beta_{\mathrm{W}} = 0.011912$. Status: INVENTED.
+- $\mathrm{tr}$: The trace of a matrix: the sum of its diagonal entries. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $\mathbf{1}$: The identity matrix (of the size fixed by the context: 16 x 16 on spinors, 3 x 3 on the generations or flavours, 2 x 2 for the sigma field). Unit: dimensionless. Status: STANDARD.
+- $\delta$: The Kronecker delta: with two indices $\delta^M_N = 1$ if $M = N$ and 0 otherwise (likewise $\delta_{\alpha e}$, $\delta_{l0}$, $\delta^{I3}$); with upper and lower index strings the generalised Kronecker delta $\delta^{M_1\cdots M_n}_{N_1\cdots N_n}$, the determinant of the $n \times n$ matrix of Kronecker deltas $\delta^{M_a}_{N_b}$ (+1 or -1 if the upper indices are an even or odd permutation of the lower ones, 0 otherwise). Status: STANDARD.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
 
-* **gravity and gauge fields**: even (Neumann) or odd (Dirichlet) at the fold, $\partial_yu = 0$ or $u = 0$; at the tip the
-  natural (Robin) condition from the tip terms;
-* **dirac16complex**: fold $(1 - \gamma^{x_0})\Psi = 0$ (even) or $(1 + \gamma^{x_0})\Psi = 0$ (odd), both parities being modes of the
-  full period; tip $(1 - \gamma^{x_0})\Psi = 0$;
-* **Standard-Model fermions**, with $P_{sel} = \frac{1 + \Gamma_4\gamma^{x_0}}{2}\,\frac{1 - i\gamma^{x_5}\gamma^{x_6}}{2}$: doublets ($\mu_\psi > 0$)
-  $P_{sel}(1 - \gamma^{x_0})\psi = 0$ and $(1 - P_{sel})(1 + \gamma^{x_0})\psi = 0$ at the fold, $(1 - \gamma^{x_0})\psi = 0$ at the tip; singlets
-  ($\mu_\psi < 0$) the same with $\gamma^{x_0} \to -\gamma^{x_0}$; at the tip modified by the mixing conditions above.
+<!-- end generated symbol list -->
 
-Each condition is Lagrangian for the boundary form of the Dirac operator, so every operator is self-adjoint (DERIVED).
+**The terms.** The sigma field carries the current $j_\mu$ (in the unitary gauge the mass current of $W^I$ and $B$). Its field equation states
+that this current is covariantly conserved up to the tip Yukawa terms, which transfer isospin between the doublets and the singlets.
+It is not an independent equation: the covariant divergence of the left side of FE-23 vanishes identically, so the covariant
+divergence of its right side, evaluated with the fermion equations FE-14 to FE-19, gives exactly this equation (the Noether identity
+of the gauge symmetry). In the unitary gauge it therefore holds automatically, and the three modes of $\Sigma$ are the longitudinal
+$W^+$, $W^-$ and $Z$. Status: STANDARD (for a gauged non-linear sigma model).
 
-# The background (order 0)
+## The boundary conditions
 
-## The metric, the variables and the curvature
+The hidden direction is periodic with the period $\pi/(6H)$; each half of a period is the interval $-L \le y \le 0$, joined to the other
+half at the fold $y = 0$ by the reflection $z \to \pi - z$ and closed at the regular tip $y = -L$. The variational principle with these
+boundaries gives:
 
-The order-0 metric is the corrected primordial metric of the Revision record (version 2) in the author's coordinates,
-$$ \begin{aligned} \bar g = \mathrm{diag}\big(&e^{-2a_4}b_4\cot^2z,\; e^{2a_4},\; e^{2a_4},\; e^{2a_4},\; -1,\\
-   &-e^{-2a_4}b_4(\sin^2z)^{1/6},\; -e^{-2a_4}b_4(\sin^2z)^{1/6},\; -e^{-2a_4}b_4(\sin^2z)^{1/6}\big),\qquad z = 6Hx_0, \end{aligned} $$
-with $a_4(x_4)$, $b_4(x_4) > 0$. With $y = \ln\lvert\sin z\rvert/(6H)$ ($dy = \cot z\,dx_0$) it reads
-$$ ds^2 = e^{2a_4}d\vec x^{\,2} - dx_4^2 + f^2\big[dy^2 - e^{2Hy}d\vec x_t^{\,2}\big],\qquad
-   f = e^{-a_4}b_4^{1/2},\quad k = \frac{1}{f^2},\quad A = \dot a_4,\quad h = \frac{\dot f}{f} = \frac{\dot b_4}{2b_4} - \dot a_4 ,$$
-dots denoting $d/dx_4$; $\dot k = -2kh$. $\sqrt{\lvert\bar g\rvert} = e^{3a_4}f^4\lvert\cot z\rvert(\sin^2z)^{1/4} = e^{3a_4}f^4e^{3Hy}\lvert dy/dx_0\rvert$.
-The Riemann tensor is pair-diagonal ($R^{ab}{}_{cd} = 0$ unless $\{a,b\} = \{c,d\}$) and every sectional curvature
-$K_{ab} = R^{ab}{}_{ab}$ is one of (DERIVED, identical in both charts, independent of $x_0$)
-$$ K_{ij} = A^2,\quad K_{i4} = A^2 + \dot A,\quad K_{iB} = Ah,\quad K_{4B} = h^2 + \dot h,\quad K_{BB'} = h^2 - H^2k ,$$
-$i, j \in \{1,2,3\}$, $B, B' \in \{0, 5, 6, 7\}$. For a pair-diagonal Riemann tensor the Lovelock densities and tensors are
-(DERIVED; checked against the Ricci route, the explicit Gauss-Bonnet tensor, the Bianchi identities and the
-minisuperspace variation with a lapse)
-$$ \mathcal L_{(k)} = 2^kk!\sum_{k\text{ disjoint pairs}}\prod_{\text{pairs}}K_{ab},\qquad
-   E_{(k)}{}^h{}_h = -2^{k-1}k!\sum_{k\text{ disjoint pairs avoiding }h}\;\prod_{\text{pairs}}K_{ab} .$$
+$$
+\begin{aligned}
+&z \to \pi - z:\qquad \partial_yF\big\vert_{y=0} = 0\ \ \text{(even)}\quad\text{or}\quad
+ F\big\vert_{y=0} = 0\ \ \text{(odd)};\\
+&\text{at } y = -L\text{: the natural (Robin) condition of the tip term}
+\end{aligned} \tag{FE-27}
+$$
 
-## The Lovelock tensors of the background
+<!-- symbols: zvar, pi, partial, iy, Fprof, ycoord, Lcut -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-27).**
 
-Every off-diagonal component vanishes; the $x_0$ and the extra-time components coincide,
-$E_{(k)}{}^{x_0}{}_{x_0} = E_{(k)}{}^{x_5}{}_{x_5}$, and nothing depends on $x_0$ (DERIVED). The independent components are
-$$ E_{(1)}{}^{x_4}{}_{x_4} = 6 k H^{2} - 12 A h - 6 h^{2} - 3 A^{2} $$
-$$ E_{(1)}{}^{x_1}{}_{x_1} = 6 k H^{2} - 8 A h - 4 \dot h - 10 h^{2} - 2 \dot A - 3 A^{2} $$
-$$ E_{(1)}{}^{x_0}{}_{x_0} = 3 k H^{2} - 9 A h - 3 \dot h - 6 h^{2} - 3 \dot A - 6 A^{2} $$
-$$ \begin{aligned} E_{(2)}{}^{x_4}{}_{x_4} = &144 A h k H^{2} + 24 k H^{2} h^{2} + 72 k A^{2} H^{2} - 12 H^{4} k^{2} - 48 h A^{3} - 216 A^{2} h^{2} \\
-   &- 144 A h^{3} - 12 h^{4} \end{aligned} $$
-$$ \begin{aligned} E_{(2)}{}^{x_1}{}_{x_1} = &96 A h k H^{2} + 48 \dot h k H^{2} + 72 k H^{2} h^{2} + 48 \dot A k H^{2} + 72 k A^{2} H^{2} - 96 A h \dot h \\
-   &- 32 A \dot A h - 48 \dot h h^{2} - 12 H^{4} k^{2} - 48 \dot A h^{2} - 32 h A^{3} - 16 \dot h A^{2} \\
-   &- 136 A^{2} h^{2} - 192 A h^{3} - 60 h^{4} \end{aligned} $$
-$$ \begin{aligned} E_{(2)}{}^{x_0}{}_{x_0} = &36 A h k H^{2} + 12 \dot h k H^{2} + 12 k H^{2} h^{2} + 36 \dot A k H^{2} + 72 k A^{2} H^{2} - 72 A h \dot h \\
-   &- 72 A \dot A h - 12 \dot h h^{2} - 36 \dot A h^{2} - 108 h A^{3} - 36 \dot h A^{2} - 180 A^{2} h^{2} \\
-   &- 12 \dot A A^{2} - 108 A h^{3} - 12 h^{4} - 12 A^{4} \end{aligned} $$
-$$ E_{(3)}{}^{x_4}{}_{x_4} = 864 h k A^{3} H^{2} + 1296 k A^{2} H^{2} h^{2} - 216 A^{2} H^{4} k^{2} - 1440 A^{3} h^{3} - 1080 A^{2} h^{4} $$
-$$ \begin{aligned} E_{(3)}{}^{x_1}{}_{x_1} = &576 A h \dot h k H^{2} + 576 A \dot A h k H^{2} + 288 \dot A k H^{2} h^{2} + 576 h k A^{3} H^{2} + 288 \dot h k A^{2} H^{2} + 1008 k A^{2} H^{2} h^{2} \\
-   &+ 576 A k H^{2} h^{3} - 144 \dot A H^{4} k^{2} - 864 \dot h A^{2} h^{2} - 216 A^{2} H^{4} k^{2} - 576 A \dot h h^{3} - 576 A \dot A h^{3} \\
-   &- 144 \dot A h^{4} - 576 A^{3} h^{3} - 1368 A^{2} h^{4} - 576 A h^{5} \end{aligned} $$
-$$ \begin{aligned} E_{(3)}{}^{x_0}{}_{x_0} = &432 A \dot A h k H^{2} + 648 h k A^{3} H^{2} + 216 \dot h k A^{2} H^{2} + 216 k A^{2} H^{2} h^{2} + 216 \dot A k A^{2} H^{2} + 216 k A^{4} H^{2} \\
-   &- 432 h \dot h A^{3} - 648 \dot h A^{2} h^{2} - 648 \dot A A^{2} h^{2} - 432 A \dot A h^{3} - 648 A^{4} h^{2} - 1224 A^{3} h^{3} \\
-   &- 648 A^{2} h^{4} \end{aligned} $$
+- $z$: The angle variable of the hidden direction, $z = 6Hx_0$; one period of $x_0$ is $0 < z < \pi$. Unit: dimensionless. Status: AUTHOR.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $y$: The label $y$ in $\partial_y$: the derivative with respect to the hidden coordinate $y$. Status: STANDARD.
+- $F(\xi),\ F_n$: The $x_0$ profile of a boson mode on one half of the period (a function of $y$ or of $\xi = y/L$): of a gauge field (gauge $A_y = 0$) or of the transverse-traceless graviton; $F_n$ is the profile of the $n$-th Kaluza-Klein level of the graviton tower ($F_0 = 1$ the flat zero mode). Unit: dimensionless. Status: DERIVED.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
 
-## The background field equations
+<!-- end generated symbol list -->
 
-With the author's weights and $\Lambda = -10H^2$ the three independent components are (DERIVED; the $x_4$ component is a
-constraint, the other two are linear in $\dot A$ and $\dot h$)
-$$ \begin{aligned} x_4:\quad &- \frac{15 A^{2} h^{4}}{16 H^{4}} - \frac{5 A^{3} h^{3}}{4 H^{4}} - \frac{3 h^{4}}{8 H^{2}} - \frac{9 A h^{3}}{2 H^{2}} - \frac{27 A^{2} h^{2}}{4 H^{2}} + \frac{9 k A^{2} h^{2}}{8 H^{2}} \\
-   &- \frac{3 h A^{3}}{2 H^{2}} + \frac{3 h k A^{3}}{4 H^{2}} - 6 h^{2} + \frac{3 k h^{2}}{4} - 12 A h + \frac{9 A h k}{2} \\
-   &- 3 A^{2} + \frac{9 k A^{2}}{4} - \frac{3 A^{2} k^{2}}{16} - 10 H^{2} + 6 k H^{2} - \frac{3 H^{2} k^{2}}{8} \\
-   &= -\kappa\rho \end{aligned} $$
-$$ \begin{aligned} x_1:\quad &\Big[- \frac{h^{4}}{8 H^{4}} - \frac{A h^{3}}{2 H^{4}} - \frac{3 h^{2}}{2 H^{2}} + \frac{k h^{2}}{4 H^{2}} - \frac{A h}{H^{2}} + \frac{A h k}{2 H^{2}} \\
-   &\quad -2 + \frac{3 k}{2} - \frac{k^{2}}{8}\Big]\,\dot A \\
-   &+ \Big[- \frac{A h^{3}}{2 H^{4}} - \frac{3 A^{2} h^{2}}{4 H^{4}} - \frac{3 h^{2}}{2 H^{2}} - \frac{3 A h}{H^{2}} + \frac{A h k}{2 H^{2}} - \frac{A^{2}}{2 H^{2}} \\
-   &\quad + \frac{k A^{2}}{4 H^{2}} - 4 + \frac{3 k}{2}\Big]\,\dot h \\
-   &- \frac{A h^{5}}{2 H^{4}} - \frac{19 A^{2} h^{4}}{16 H^{4}} - \frac{A^{3} h^{3}}{2 H^{4}} - \frac{15 h^{4}}{8 H^{2}} - \frac{6 A h^{3}}{H^{2}} + \frac{A k h^{3}}{2 H^{2}} \\
-   &- \frac{17 A^{2} h^{2}}{4 H^{2}} + \frac{7 k A^{2} h^{2}}{8 H^{2}} - \frac{h A^{3}}{H^{2}} + \frac{h k A^{3}}{2 H^{2}} - 10 h^{2} + \frac{9 k h^{2}}{4} \\
-   &- 8 A h + 3 A h k - 3 A^{2} + \frac{9 k A^{2}}{4} - \frac{3 A^{2} k^{2}}{16} - 10 H^{2} \\
-   &+ 6 k H^{2} - \frac{3 H^{2} k^{2}}{8} \\
-   &= \kappa p_3 \end{aligned} $$
-$$ \begin{aligned} x_0:\quad &\Big[- \frac{3 A h^{3}}{8 H^{4}} - \frac{9 A^{2} h^{2}}{16 H^{4}} - \frac{9 h^{2}}{8 H^{2}} - \frac{9 A h}{4 H^{2}} + \frac{3 A h k}{8 H^{2}} - \frac{3 A^{2}}{8 H^{2}} \\
-   &\quad + \frac{3 k A^{2}}{16 H^{2}} - 3 + \frac{9 k}{8}\Big]\,\dot A \\
-   &+ \Big[- \frac{9 A^{2} h^{2}}{16 H^{4}} - \frac{3 h A^{3}}{8 H^{4}} - \frac{3 h^{2}}{8 H^{2}} - \frac{9 A h}{4 H^{2}} - \frac{9 A^{2}}{8 H^{2}} + \frac{3 k A^{2}}{16 H^{2}} \\
-   &\quad -3 + \frac{3 k}{8}\Big]\,\dot h \\
-   &- \frac{9 A^{2} h^{4}}{16 H^{4}} - \frac{17 A^{3} h^{3}}{16 H^{4}} - \frac{9 A^{4} h^{2}}{16 H^{4}} - \frac{3 h^{4}}{8 H^{2}} - \frac{27 A h^{3}}{8 H^{2}} - \frac{45 A^{2} h^{2}}{8 H^{2}} \\
-   &+ \frac{3 k A^{2} h^{2}}{16 H^{2}} - \frac{27 h A^{3}}{8 H^{2}} + \frac{9 h k A^{3}}{16 H^{2}} - \frac{3 A^{4}}{8 H^{2}} + \frac{3 k A^{4}}{16 H^{2}} - 6 h^{2} \\
-   &+ \frac{3 k h^{2}}{8} - 9 A h + \frac{9 A h k}{8} - 6 A^{2} + \frac{9 k A^{2}}{4} - 10 H^{2} \\
-   &+ 3 k H^{2} \\
-   &= \kappa\bar p \end{aligned} $$
+**The terms.** At the fold an $x_0$ profile $F$ is even (zero derivative) or odd (zero value) under the reflection; at the tip the boundary
+term of the variation gives the natural (Robin) condition of the tip term (zero derivative where there is no tip term). Status:
+DERIVED. For an $x_0$ profile they are FE-51.
 
-Here $\bar p = (p_0 + 3p_t)/4$. Because $E^{x_0}{}_{x_0} = E^{x_5}{}_{x_5}$ identically, the order-0 metric admits only sources
-with $p_0 = p_t$ (and no off-diagonal components); for a source with $p_0 \ne p_t$ the variation of the action with
-respect to the common block scale $f$ gives the equation above with $\bar p$, and $p_0 - p_t$ drives a block-shape mode
-outside the order-0 metric (OPEN). The source is conserved,
-$$ \dot\rho = -3A(\rho + p_3) - h(\rho + p_0) - 3h(\rho + p_t) = -3A(\rho + p_3) - 4h(\rho + \bar p) .$$
-The total source is the stabiliser ($\kappa\rho_b = \kappa\rho_b^*(k/k_*)^4$, $p_3 = -\rho_b$, $\bar p = \rho_b$) plus matter.
+$$
+\big(1 - \gamma^{x_0}\big)\Psi\big\vert_{y=0} = 0\ \ \text{(even)}\quad\text{or}\quad
+\big(1 + \gamma^{x_0}\big)\Psi\big\vert_{y=0} = 0\ \ \text{(odd)},\qquad
+\big(1 - \gamma^{x_0}\big)\Psi\big\vert_{y=-L} = 0 \tag{FE-28}
+$$
+
+<!-- symbols: gamma, x0, Psi, ycoord, Lcut -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-28).**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** At the fold the even modes of dirac16complex satisfy $(1 - \gamma^{x_0})\Psi = 0$ and the odd ones $(1 + \gamma^{x_0})\Psi = 0$
+(both parities are modes of the full period); at the tip $(1 - \gamma^{x_0})\Psi = 0$. The conditions are Lagrangian for the boundary form of
+the Dirac operator, so the operator is self-adjoint. Status: DERIVED. In the block form they are FE-69.
+
+$$
+\begin{aligned}
+&P_{\mathrm{sel}} = \frac{1 + \Gamma_4\gamma^{x_0}}{2}\,\frac{1 - \mathrm{i}\gamma^{x_5}\gamma^{x_6}}{2};\\
+&\text{doublets } (Q, \ell):\quad P_{\mathrm{sel}}\big(1 - \gamma^{x_0}\big)\psi\big\vert_{y=0}
+ = \big(1 - P_{\mathrm{sel}}\big)\big(1 + \gamma^{x_0}\big)\psi\big\vert_{y=0} = 0,\qquad
+ \big(1 - \gamma^{x_0}\big)\psi\big\vert_{y=-L} = 0;\\
+&\text{singlets } (u_R, d_R, e_R, \nu_R):\quad P_{\mathrm{sel}}\big(1 + \gamma^{x_0}\big)\psi\big\vert_{y=0}
+ = \big(1 - P_{\mathrm{sel}}\big)\big(1 - \gamma^{x_0}\big)\psi\big\vert_{y=0} = 0,\qquad
+ \big(1 + \gamma^{x_0}\big)\psi\big\vert_{y=-L} = 0
+\end{aligned} \tag{FE-29}
+$$
+
+<!-- symbols: Psel, Gamma4, gamma, x0, imag, x5, x6, Qdoublet, ldoublet, psi, ycoord, Lcut, uR, dR, eR, nuR -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-29).**
+
+- $P_{\mathrm{sel}}$: The projector that selects the two blocks of the half $\mathcal{B} = -1$ in which the Standard-Model zero modes live, $P_{\mathrm{sel}} = \frac{1 + \Gamma_4\gamma^{x_0}}{2}\,\frac{1 - \mathrm{i}\gamma^{x_5}\gamma^{x_6}}{2}$. Unit: dimensionless. Status: INVENTED.
+- $\Gamma_4$: The four-dimensional chirality matrix, $\Gamma_4 = \mathrm{i}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}\gamma^{x_4}$; a doublet zero mode has $\Gamma_4 = +1$ (left-handed), a singlet zero mode $\Gamma_4 = -1$ (right-handed). Unit: dimensionless. Status: DERIVED.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $Q_i,\ \bar Q_i$: The quark doublet of the generation $i$ (left-handed up and down quark of one generation, three colours) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\ell_i,\ \bar\ell_i$: The lepton doublet of the generation $i$ (left-handed neutrino and charged lepton) and its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $u_R,\ u_{Ri},\ \bar u_{Ri}$: The up-type quark singlet: $u_R$ the multiplet, $u_{Ri}$ that of the generation $i$ ($u_R$, $c_R$, $t_R$), $\bar u_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $d_R,\ d_{Ri},\ \bar d_{Ri}$: The down-type quark singlet: $d_R$ the multiplet, $d_{Ri}$ that of the generation $i$ ($d_R$, $s_R$, $b_R$), $\bar d_{Ri}$ its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $e_R,\ e_{Ri}$: The right-handed charged-lepton singlet: $e_R$ the multiplet, $e_{Ri}$ that of the generation $i$ ($e_R$, $\mu_R$, $\tau_R$). Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+- $\nu_R,\ \nu_{Ri}$: The right-handed neutrino (a gauge singlet): $\nu_R$ the multiplet, $\nu_{Ri}$ that of the generation $i$; its zero modes give Dirac neutrino masses. Unit: $\mathrm{GeV}^{7/2}$. Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $P_{\mathrm{sel}}$ selects the two blocks (of the half $\mathcal{B} = -1$) in which the Standard-Model zero modes live. The conditions
+give every doublet exactly one Weyl zero mode with $\Gamma_4 = +1$ (left-handed) and every singlet exactly one with $\Gamma_4 = -1$
+(right-handed), all localised at the fold: the four-dimensional fermion content is exactly that of three Standard-Model generations,
+each with its right-handed neutrino. Status: INVENTED (the conditions), self-adjoint DERIVED.
+
+$$
+\begin{aligned}
+&\text{one generation:}\quad b_L(-L) = \mathcal{K}\,b_R(-L),\qquad a_R(-L) =
+ -\mathcal{K}\,a_L(-L),\qquad \chi = (a,\ \mathrm{i}b);\\
+&\text{three generations:}\quad b_L(-L) = \mathcal{K}\,b_R(-L),\qquad a_R(-L) = -\mathcal{K}^\dagger
+ a_L(-L),\qquad
+ \mathcal{K} \in \{\mathcal{K}_\nu, \mathcal{K}_e, \mathcal{K}_u, \mathcal{K}_d\};\\
+&\text{UM-2:}\quad \mathcal{K}_e = \mathcal{K}_u = \mathbf{1},\qquad \mathcal{K}_\nu = U,\qquad
+ \mathcal{K}_d = V_{\mathrm{CKM}}
+\end{aligned} \tag{FE-30}
+$$
+
+<!-- symbols: ab, iL, Lcut, Ktip, iR, chi, imag, dagger, identity, Upmns, VCKM -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-30).**
+
+- $a,\ b$: The upper and lower components of a block spinor, $\chi = (a, \mathrm{i}b)$, real at $k = 0$: $a_L, b_L$ of a doublet and $a_R, b_R$ of a singlet solution ($a_{Ri}$, $b_{Ri}$ of the generation $i$, $b_{L\alpha}$, $a_{L\alpha}$ of the doublet in the flavour basis), $a_o, b_o$ of the orbital $o$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\mathcal{K}$: The tip mixing matrix of a sector in the boundary conditions of the fermion zero modes (a number $\mathcal{K}$ for one generation, a $3 \times 3$ matrix for three): $\mathcal{K}_\nu$, $\mathcal{K}_e$, $\mathcal{K}_u$, $\mathcal{K}_d$ of the neutrino, charged-lepton, up-quark and down-quark sectors; UM-2 takes $\mathcal{K}_e = \mathcal{K}_u = \mathbf{1}$, $\mathcal{K}_\nu = U$, $\mathcal{K}_d = V_{\mathrm{CKM}}$. Unit: dimensionless. Status: ASSUMED.
+- $R$: The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \Gamma_4)/2$. Status: STANDARD.
+- $\chi,\ \chi_o,\ \chi_1,\ \chi_2$: The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\chi = (\chi_1, \chi_2)^T = (a, \mathrm{i}b)^T$; $\chi_o$ the Kohn-Sham orbital $o$, normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $\mathbf{1}$: The identity matrix (of the size fixed by the context: 16 x 16 on spinors, 3 x 3 on the generations or flavours, 2 x 2 for the sigma field). Unit: dimensionless. Status: STANDARD.
+- $U$: The PMNS matrix, the unitary $3 \times 3$ mixing matrix of the leptons, $\nu_\alpha = \sum_iU_{\alpha i}\nu_i$ (rows $\alpha = e, \mu, \tau$, columns the mass states $i$); in UM-2 $U = \mathcal{K}_e^\dagger\mathcal{K}_\nu$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$, $\delta_{\mathrm{CP}} = 212^\circ$ (NuFIT 6.0). Status: STANDARD.
+- $V_{\mathrm{CKM}}$: The CKM matrix, the unitary $3 \times 3$ mixing matrix of the quarks (the same parametrisation as $U$); in UM-2 $V_{\mathrm{CKM}} = \mathcal{K}_u^\dagger\mathcal{K}_d$. Unit: dimensionless. Value: $s_{12} = 0.22501$, $s_{13} = 0.003732$, $s_{23} = 0.04183$, $\delta = 1.147$ (PDG). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The tip Yukawa terms are equivalent to these mixing conditions between the lower components $b$ and upper components $a$ of
+the doublet ($L$) and singlet ($R$) solutions at the tip, with the tip mixing number $\mathcal{K}$ for one generation and the $3 \times 3$ tip
+matrices of each sector for three generations. UM-2 takes $\mathcal{K}_e = \mathcal{K}_u = \mathbf{1}$, $\mathcal{K}_\nu = U$ (PMNS) and $\mathcal{K}_d = V_{\mathrm{CKM}}$, so
+the mixing matrices of the leptons and quarks are those measured. Status: DERIVED (self-adjoint for every complex matrix, sympy, 42
+real variables), the choice of the tip matrices ASSUMED; the normalisation that relates $\mathcal{K}$ to the Yukawa matrices $\mathcal{Y}$ of the
+action is not fixed (OPEN). Solved exactly by the mass conditions FE-59 and FE-60.
+
+
+# The background
+
+The background is order 0 of the metric power series (FE-87): the homogeneous metric of the author with the block of the
+hidden direction and the three extra times, sourced by the block-averaged energy-momentum tensor of every field. Its equations
+are exact; they are solved in closed form for the static block and numerically for the primordial approach to it.
+
+## The order-0 metric and its curvature
+
+$$
+\begin{aligned}
+\bar g = \mathrm{diag}\Big(&\mathrm{e}^{-2a_4}b_4\cot^2z,\ \mathrm{e}^{2a_4},\ \mathrm{e}^{2a_4},\ 
+ \mathrm{e}^{2a_4},\ -1,\\
+&-\mathrm{e}^{-2a_4}b_4(\sin^2z)^{1/6},\ -\mathrm{e}^{-2a_4}b_4(\sin^2z)^{1/6},\ -\mathrm{e}^{-2a_4}b_4(
+ \sin^2z)^{1/6}\Big),
+ \qquad z = 6Hx_0
+\end{aligned} \tag{FE-31}
+$$
+
+<!-- symbols: gbar, diag, euler, a4, b4, zvar, Hconst, x0 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-31).**
+
+- $\bar g_{MN}$: The order-0 (background) metric of the power series: the corrected primordial metric in the author's coordinates, determined by the two functions $a_4(x_4)$ and $b_4(x_4)$; $\lvert\bar g\rvert$ is the absolute value of its determinant. Unit: dimensionless. Status: AUTHOR.
+- $\mathrm{diag}$: A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \dots, x_7$ when it is a tensor in eight dimensions). Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $b_4$: The author's metric function of the time $x_4$ in the hidden and extra-time components, $b_4 > 0$. Unit: dimensionless. Status: AUTHOR.
+- $z$: The angle variable of the hidden direction, $z = 6Hx_0$; one period of $x_0$ is $0 < z < \pi$. Unit: dimensionless. Status: AUTHOR.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+**The terms.** The diagonal entries are, in the order $x_0, x_1, \dots, x_7$: the hidden direction, whose metric coefficient
+$\mathrm{e}^{-2a_4}b_4\cot^2z$ depends on $x_0$ through the angle $z = 6Hx_0$ and on the time through $a_4(x_4)$ and $b_4(x_4)$; ordinary
+space with the scale factor $\mathrm{e}^{a_4}$; the time $x_4$; and the three extra times, whose coefficient depends on $x_0$ through
+$(\sin^2z)^{1/6}$. The metric is periodic in $x_0$ with the period $\pi/(6H)$. It is the metric of the gravitational field only: every
+other field enters through the right side of FE-1. Status: AUTHOR (the corrected primordial metric of the record, in the author's
+coordinates).
+
+$$
+\begin{aligned}
+&y = \frac{\ln\lvert\sin z\rvert}{6H},\qquad \mathrm{d}y = \cot z\,\mathrm{d}x_0,\qquad \xi =
+ \frac{y}{L}\in[-1, 0],\\
+&\bar g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N = \mathrm{e}^{2a_4}\big(\mathrm{d}x_1^2 + \mathrm{d}x_2^2 +
+ \mathrm{d}x_3^2\big)
+ - \mathrm{d}x_4^2 + f^2\Big[\mathrm{d}y^2 - \mathrm{e}^{2Hy}\big(\mathrm{d}x_5^2 + \mathrm{d}x_6^2 +
+ \mathrm{d}x_7^2\big)\Big],\\
+&f = \mathrm{e}^{-a_4}b_4^{1/2},\qquad K = \frac{1}{f^2},\qquad \mathcal{H} = \dot a_4,\qquad
+ \mathcal{H}_f = \frac{\dot f}{f} = \frac{\dot b_4}{2b_4} - \dot a_4,\qquad \dot K = -2K\mathcal{H}_f,\\
+&\sqrt{\lvert\bar g\rvert} = \mathrm{e}^{3a_4}f^4\lvert\cot z\rvert(\sin^2z)^{1/4}
+ = \mathrm{e}^{3a_4}f^4\,\mathrm{e}^{3Hy}\Big\lvert\frac{\mathrm{d}y}{\mathrm{d}x_0}\Big\rvert
+\end{aligned} \tag{FE-32}
+$$
+
+<!-- symbols: ycoord, zvar, Hconst, diff, x0, xi, Lcut, gbar, iM, iN, Xcoord, euler, a4, x1, x2, x3, x4, fblock, x5, x6, x7, b4, Kblock, Hubble, a4dot, Hf, fdot, b4dot, Kdot -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-32).**
+
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $z$: The angle variable of the hidden direction, $z = 6Hx_0$; one period of $x_0$ is $0 < z < \pi$. Unit: dimensionless. Status: AUTHOR.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\bar g_{MN}$: The order-0 (background) metric of the power series: the corrected primordial metric in the author's coordinates, determined by the two functions $a_4(x_4)$ and $b_4(x_4)$; $\lvert\bar g\rvert$ is the absolute value of its determinant. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_2$: The second coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_3$: The third coordinate of ordinary 3-space (also the symmetry axis of the fast-flavour analysis). Unit: length. Status: AUTHOR.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $b_4$: The author's metric function of the time $x_4$ in the hidden and extra-time components, $b_4 > 0$. Unit: dimensionless. Status: AUTHOR.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\dot a_4$: The time derivative $\mathrm{d}a_4/\mathrm{d}x_4$. Unit: GeV. Status: DERIVED.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $\dot f$: The time derivative $\mathrm{d}f/\mathrm{d}x_4$ of the block scale. Unit: GeV. Status: DERIVED.
+- $\dot b_4$: The time derivative $\mathrm{d}b_4/\mathrm{d}x_4$. Unit: GeV. Status: DERIVED.
+- $\dot K$: The time derivative $\mathrm{d}K/\mathrm{d}x_4$. Unit: GeV. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $y$ is the proper hidden coordinate in units of the block scale: in it the hidden direction and the extra times
+form the block $f^2[\mathrm{d}y^2 - \mathrm{e}^{2Hy}(\dots)]$, a four-dimensional space of constant curvature $-H^2/f^2$ scaled by one
+function $f$, the block scale. The variable $K = 1/f^2$ measures the curvature of the block, $\mathcal{H}$ is the expansion rate of
+ordinary space (the Hubble rate) and $\mathcal{H}_f$ the rate of change of the block. One period of $x_0$ is two halves joined at
+the fold $y = 0$ (where $\sin^2z = 1$); each half is closed by the regular tip $y = -L$, with $HL = 3$ (ASSUMED). The last line is
+the volume element in both charts. Status: DERIVED (exact change of chart).
+
+$$
+\begin{aligned}
+&R^{x_1x_2}{}_{x_1x_2} = \mathcal{H}^2,\qquad R^{x_1x_4}{}_{x_1x_4} = \mathcal{H}^2 + \dot{\mathcal{H}},\qquad
+ R^{x_1x_0}{}_{x_1x_0} = \mathcal{H}\mathcal{H}_f,\qquad R^{x_4x_0}{}_{x_4x_0} = \mathcal{H}_f^2 +
+ \dot{\mathcal{H}}_f,\\
+&R^{x_0x_5}{}_{x_0x_5} = \mathcal{H}_f^2 - H^2K;\\
+&\text{the same for every pair of the same kind; all other $R^{ab}{}_{cd}$ with $\{a, b\} \ne \{c, d\}$
+ vanish}
+\end{aligned} \tag{FE-33}
+$$
+
+<!-- symbols: Riemann, x1, x2, Hubble, x4, Hdot, x0, Hf, Hfdot, x5, Hconst, Kblock -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-33).**
+
+- $R^{MN}{}_{PQ},\ R_{MN},\ R$: The curvature of the metric $g_{MN}$: with four indices the Riemann tensor, with two indices the Ricci tensor $R_{MN} = R^P{}_{MPN}$, without indices the Ricci (scalar) curvature $R = g^{MN}R_{MN}$; $R^{ab}{}_{ab}$ (no sum) is the sectional curvature of the coordinate plane $(a, b)$. Unit: 1/$\mathrm{length}^{2}$. Status: STANDARD.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_2$: The second coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $\dot{\mathcal{H}}_f$: The time derivative $\mathrm{d}\mathcal{H}_f/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The curvature of the order-0 metric is pair-diagonal: the only non-zero components of the Riemann tensor are the
+sectional curvatures of the coordinate planes, five kinds in all. $\mathcal{H}^2$ is the curvature of a plane of ordinary space,
+$\mathcal{H}^2 + \dot{\mathcal{H}}$ that of a space-time plane, $\mathcal{H}\mathcal{H}_f$ that of a plane spanned by ordinary space and a block
+direction, $\mathcal{H}_f^2 + \dot{\mathcal{H}}_f$ that of the plane of the time and a block direction, and $\mathcal{H}_f^2 - H^2K$ that of a
+plane of two block directions, which contains the constant curvature of the block. None of them depends on $x_0$: the metric
+depends on $x_0$, its curvature does not. Status: DERIVED (sympy, identical in both charts; 25 checks of the geometry).
+
+$$
+\begin{aligned}
+&\mathcal{L}_{(1)} = 2\sum_{\text{pairs}}R^{ab}{}_{ab},\qquad
+ \mathcal{L}_{(2)} = 8\sum_{\text{2 disjoint pairs}}\ \prod_{\text{pairs}}R^{ab}{}_{ab},\qquad
+ \mathcal{L}_{(3)} = 48\sum_{\text{3 disjoint pairs}}\ \prod_{\text{pairs}}R^{ab}{}_{ab},\\
+&\mathcal{E}_{(1)}{}^c{}_c = -\sum_{\text{pairs avoiding $c$}}R^{ab}{}_{ab},\qquad
+ \mathcal{E}_{(2)}{}^c{}_c = -4\sum_{\text{2 disjoint pairs avoiding
+ $c$}}\ \prod_{\text{pairs}}R^{ab}{}_{ab},\\
+&\mathcal{E}_{(3)}{}^c{}_c = -24\sum_{\text{3 disjoint pairs avoiding $c$}}\ \prod_{\text{pairs}}R^{ab}{}_{ab}
+\end{aligned} \tag{FE-34}
+$$
+
+<!-- symbols: Lov, Riemann, ia, ib, LovE, ic -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-34).**
+
+- $\mathcal{L}_{(p)}$: The Lovelock density of order $p$ of the metric (a scalar built from $p$ Riemann tensors): $\mathcal{L}_{(1)} = R$ (Einstein-Hilbert), $\mathcal{L}_{(2)}$ the Gauss-Bonnet density, $\mathcal{L}_{(3)}$ the cubic Lovelock density. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $R^{MN}{}_{PQ},\ R_{MN},\ R$: The curvature of the metric $g_{MN}$: with four indices the Riemann tensor, with two indices the Ricci tensor $R_{MN} = R^P{}_{MPN}$, without indices the Ricci (scalar) curvature $R = g^{MN}R_{MN}$; $R^{ab}{}_{ab}$ (no sum) is the sectional curvature of the coordinate plane $(a, b)$. Unit: 1/$\mathrm{length}^{2}$. Status: STANDARD.
+- $a$: A frame (orthonormal) index running over $0, 1, \dots, 7$, aligned with $x_0, \dots, x_7$; raised and lowered with $\eta_{ab}$; a repeated index is summed (except in a sectional curvature $R^{ab}{}_{ab}$). Status: STANDARD.
+- $b$: A frame index running over $0, \dots, 7$ (as $a$). Status: STANDARD.
+- $\mathcal{E}_{(p)}{}^M{}_N$: The Lovelock tensor of order $p$, the metric variation of $\sqrt{\lvert g\rvert}\mathcal{L}_{(p)}$: $\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \frac12\delta^M_NR$; every $\mathcal{E}_{(p)}$ is divergence free. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $c$: A frame index running over $0, \dots, 7$ (as $a$). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** For a pair-diagonal curvature the Lovelock density of order $p$ is $2^pp!$ times the sum over all sets of $p$
+disjoint coordinate pairs of the product of their sectional curvatures, and the diagonal component $\mathcal{E}_{(p)}{}^c{}_c$ is
+$-2^{p-1}p!$ times the same sum restricted to the pairs that avoid the direction $c$. This turns the Lovelock tensors of the
+order-0 metric into polynomials of the five curvatures of FE-33. Status: DERIVED (checked against the Ricci route for $p = 1$, the
+explicit Gauss-Bonnet tensor for $p = 2$, the Bianchi identities and the minisuperspace variation with a lapse for $p = 1, 2, 3$).
+
+## The Lovelock tensors of the order-0 metric
+
+$$
+\begin{aligned}
+\mathcal{E}_{(1)}{}^{x_4}{}_{x_4} ={}& -3\,\mathcal{H}^{2} - 12\,\mathcal{H}\mathcal{H}_f -
+ 6\,\mathcal{H}_f^{2} + 6\,KH^{2} \\
+\mathcal{E}_{(1)}{}^{x_1}{}_{x_1} ={}& -3\,\mathcal{H}^{2} - 8\,\mathcal{H}\mathcal{H}_f -
+ 10\,\mathcal{H}_f^{2} - 2\,\dot{\mathcal{H}} - 4\,\dot{\mathcal{H}}_f + 6\,KH^{2} \\
+\mathcal{E}_{(1)}{}^{x_0}{}_{x_0} ={}& -6\,\mathcal{H}^{2} - 9\,\mathcal{H}\mathcal{H}_f -
+ 6\,\mathcal{H}_f^{2} - 3\,\dot{\mathcal{H}} - 3\,\dot{\mathcal{H}}_f + 3\,KH^{2}
+\end{aligned} \tag{FE-35}
+$$
+
+<!-- symbols: LovE, x4, Hubble, Hf, Kblock, Hconst, x1, Hdot, Hfdot, x0 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-35).**
+
+- $\mathcal{E}_{(p)}{}^M{}_N$: The Lovelock tensor of order $p$, the metric variation of $\sqrt{\lvert g\rvert}\mathcal{L}_{(p)}$: $\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \frac12\delta^M_NR$; every $\mathcal{E}_{(p)}$ is divergence free. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\dot{\mathcal{H}}_f$: The time derivative $\mathrm{d}\mathcal{H}_f/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+**The terms.** The Einstein tensor of the order-0 metric. The $x_4$ component contains no time derivative of the rates (it is a
+constraint); the $x_1$ and $x_0$ components contain $\dot{\mathcal{H}}$ and $\dot{\mathcal{H}}_f$. The term $6KH^2$ (and $3KH^2$) is the
+curvature of the block. Every off-diagonal component vanishes, and the $x_0$ component equals the $x_5$, $x_6$, $x_7$ components:
+all four block directions have the same left side. Status: DERIVED (exact).
+
+$$
+\begin{aligned}
+\mathcal{E}_{(2)}{}^{x_4}{}_{x_4} ={}& -48\,\mathcal{H}^{3}\mathcal{H}_f -
+ 216\,\mathcal{H}^{2}\mathcal{H}_f^{2} - 144\,\mathcal{H}\mathcal{H}_f^{3} - 12\,\mathcal{H}_f^{4} +
+ 72\,K\mathcal{H}^{2}H^{2} \\
+ &+ 144\,K\mathcal{H}\mathcal{H}_fH^{2} + 24\,K\mathcal{H}_f^{2}H^{2} - 12\,K^{2}H^{4} \\
+\mathcal{E}_{(2)}{}^{x_1}{}_{x_1} ={}& -32\,\mathcal{H}^{3}\mathcal{H}_f -
+ 136\,\mathcal{H}^{2}\mathcal{H}_f^{2} - 192\,\mathcal{H}\mathcal{H}_f^{3} - 60\,\mathcal{H}_f^{4} \\
+ &- 32\,\dot{\mathcal{H}}\mathcal{H}\mathcal{H}_f - 48\,\dot{\mathcal{H}}\mathcal{H}_f^{2} -
+ 16\,\dot{\mathcal{H}}_f\mathcal{H}^{2} - 96\,\dot{\mathcal{H}}_f\mathcal{H}\mathcal{H}_f \\
+ &- 48\,\dot{\mathcal{H}}_f\mathcal{H}_f^{2} + 72\,K\mathcal{H}^{2}H^{2} +
+ 96\,K\mathcal{H}\mathcal{H}_fH^{2} + 72\,K\mathcal{H}_f^{2}H^{2} + 48\,\dot{\mathcal{H}}KH^{2} \\
+ &+ 48\,\dot{\mathcal{H}}_fKH^{2} - 12\,K^{2}H^{4} \\
+\mathcal{E}_{(2)}{}^{x_0}{}_{x_0} ={}& -12\,\mathcal{H}^{4} - 108\,\mathcal{H}^{3}\mathcal{H}_f -
+ 180\,\mathcal{H}^{2}\mathcal{H}_f^{2} - 108\,\mathcal{H}\mathcal{H}_f^{3} - 12\,\mathcal{H}_f^{4} \\
+ &- 12\,\dot{\mathcal{H}}\mathcal{H}^{2} - 72\,\dot{\mathcal{H}}\mathcal{H}\mathcal{H}_f -
+ 36\,\dot{\mathcal{H}}\mathcal{H}_f^{2} - 36\,\dot{\mathcal{H}}_f\mathcal{H}^{2} \\
+ &- 72\,\dot{\mathcal{H}}_f\mathcal{H}\mathcal{H}_f - 12\,\dot{\mathcal{H}}_f\mathcal{H}_f^{2} +
+ 72\,K\mathcal{H}^{2}H^{2} + 36\,K\mathcal{H}\mathcal{H}_fH^{2} + 12\,K\mathcal{H}_f^{2}H^{2} \\
+ &+ 36\,\dot{\mathcal{H}}KH^{2} + 12\,\dot{\mathcal{H}}_fKH^{2}
+\end{aligned} \tag{FE-36}
+$$
+
+<!-- symbols: LovE, x4, Hubble, Hf, Kblock, Hconst, x1, Hdot, Hfdot, x0 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-36).**
+
+- $\mathcal{E}_{(p)}{}^M{}_N$: The Lovelock tensor of order $p$, the metric variation of $\sqrt{\lvert g\rvert}\mathcal{L}_{(p)}$: $\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \frac12\delta^M_NR$; every $\mathcal{E}_{(p)}$ is divergence free. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\dot{\mathcal{H}}_f$: The time derivative $\mathrm{d}\mathcal{H}_f/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+**The terms.** The Gauss-Bonnet tensor: products of two sectional curvatures, so every term is of fourth order in the rates and
+$H$ (with at most one time derivative of a rate). It is weighted by $\alpha_{(2)} = H^{-2}/32$ in FE-1. Status: DERIVED (sympy, four
+routes).
+
+$$
+\begin{aligned}
+\mathcal{E}_{(3)}{}^{x_4}{}_{x_4} ={}& -1440\,\mathcal{H}^{3}\mathcal{H}_f^{3} -
+ 1080\,\mathcal{H}^{2}\mathcal{H}_f^{4} + 864\,K\mathcal{H}^{3}\mathcal{H}_fH^{2} +
+ 1296\,K\mathcal{H}^{2}\mathcal{H}_f^{2}H^{2} \\
+ &- 216\,K^{2}\mathcal{H}^{2}H^{4} \\
+\mathcal{E}_{(3)}{}^{x_1}{}_{x_1} ={}& -576\,\mathcal{H}^{3}\mathcal{H}_f^{3} -
+ 1368\,\mathcal{H}^{2}\mathcal{H}_f^{4} - 576\,\mathcal{H}\mathcal{H}_f^{5} -
+ 576\,\dot{\mathcal{H}}\mathcal{H}\mathcal{H}_f^{3} \\
+ &- 144\,\dot{\mathcal{H}}\mathcal{H}_f^{4} - 864\,\dot{\mathcal{H}}_f\mathcal{H}^{2}\mathcal{H}_f^{2} -
+ 576\,\dot{\mathcal{H}}_f\mathcal{H}\mathcal{H}_f^{3} + 576\,K\mathcal{H}^{3}\mathcal{H}_fH^{2} \\
+ &+ 1008\,K\mathcal{H}^{2}\mathcal{H}_f^{2}H^{2} + 576\,K\mathcal{H}\mathcal{H}_f^{3}H^{2} +
+ 576\,\dot{\mathcal{H}}K\mathcal{H}\mathcal{H}_fH^{2} \\
+ &+ 288\,\dot{\mathcal{H}}K\mathcal{H}_f^{2}H^{2} + 288\,\dot{\mathcal{H}}_fK\mathcal{H}^{2}H^{2} +
+ 576\,\dot{\mathcal{H}}_fK\mathcal{H}\mathcal{H}_fH^{2} - 216\,K^{2}\mathcal{H}^{2}H^{4} \\
+ &- 144\,\dot{\mathcal{H}}K^{2}H^{4} \\
+\mathcal{E}_{(3)}{}^{x_0}{}_{x_0} ={}& -648\,\mathcal{H}^{4}\mathcal{H}_f^{2} -
+ 1224\,\mathcal{H}^{3}\mathcal{H}_f^{3} - 648\,\mathcal{H}^{2}\mathcal{H}_f^{4} -
+ 648\,\dot{\mathcal{H}}\mathcal{H}^{2}\mathcal{H}_f^{2} \\
+ &- 432\,\dot{\mathcal{H}}\mathcal{H}\mathcal{H}_f^{3} -
+ 432\,\dot{\mathcal{H}}_f\mathcal{H}^{3}\mathcal{H}_f -
+ 648\,\dot{\mathcal{H}}_f\mathcal{H}^{2}\mathcal{H}_f^{2} + 216\,K\mathcal{H}^{4}H^{2} \\
+ &+ 648\,K\mathcal{H}^{3}\mathcal{H}_fH^{2} + 216\,K\mathcal{H}^{2}\mathcal{H}_f^{2}H^{2} +
+ 216\,\dot{\mathcal{H}}K\mathcal{H}^{2}H^{2} + 432\,\dot{\mathcal{H}}K\mathcal{H}\mathcal{H}_fH^{2} \\
+ &+ 216\,\dot{\mathcal{H}}_fK\mathcal{H}^{2}H^{2}
+\end{aligned} \tag{FE-37}
+$$
+
+<!-- symbols: LovE, x4, Hubble, Hf, Kblock, Hconst, x1, Hdot, Hfdot, x0 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-37).**
+
+- $\mathcal{E}_{(p)}{}^M{}_N$: The Lovelock tensor of order $p$, the metric variation of $\sqrt{\lvert g\rvert}\mathcal{L}_{(p)}$: $\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \frac12\delta^M_NR$; every $\mathcal{E}_{(p)}$ is divergence free. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\dot{\mathcal{H}}_f$: The time derivative $\mathrm{d}\mathcal{H}_f/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+**The terms.** The cubic Lovelock tensor: products of three sectional curvatures (sixth order), weighted by
+$\alpha_{(3)} = H^{-4}/1152$. In eight dimensions it is the highest Lovelock order that contributes to the field equations. Status:
+DERIVED (sympy, four routes).
+
+## The background equations
+
+On the order-0 metric every source is diagonal, $\mathcal{T}^{x_4}{}_{x_4} = -\rho$, $\mathcal{T}^{x_1}{}_{x_1} = p_3$,
+$\mathcal{T}^{x_0}{}_{x_0} = p_0$, $\mathcal{T}^{x_5}{}_{x_5} = p_5$ (FE-2), and the field equations FE-1 reduce to one equation for each
+kind of direction:
+
+$$
+\begin{aligned}
+&\sum_{p=1}^{3}\alpha_{(p)}\,\mathcal{E}_{(p)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\rho,\qquad
+ \sum_{p=1}^{3}\alpha_{(p)}\,\mathcal{E}_{(p)}{}^{x_1}{}_{x_1} + \Lambda = \kappa p_3,\\
+&\sum_{p=1}^{3}\alpha_{(p)}\,\mathcal{E}_{(p)}{}^{x_0}{}_{x_0} + \Lambda = \kappa p_0,\qquad
+ \sum_{p=1}^{3}\alpha_{(p)}\,\mathcal{E}_{(p)}{}^{x_5}{}_{x_5} + \Lambda = \kappa p_5.
+\end{aligned}
+$$
+
+<!-- symbols: ip, alphaL, LovE, x4, Lambda, kappa, rho, x1, p3, x0, p0, x5, p5 -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $p$: The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic). Status: STANDARD.
+- $\alpha_{(p)}$: The Lovelock coupling of order $p$, $\alpha_{(p)} = w_{(p)}H^{2-2p}$ ($\alpha_{(1)} = 1$). Unit: $\mathrm{GeV}^{2-2p}$. Status: AUTHOR.
+- $\mathcal{E}_{(p)}{}^M{}_N$: The Lovelock tensor of order $p$, the metric variation of $\sqrt{\lvert g\rvert}\mathcal{L}_{(p)}$: $\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \frac12\delta^M_NR$; every $\mathcal{E}_{(p)}$ is divergence free. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\Lambda$: The eight-dimensional cosmological constant, $\Lambda = -10H^2$. Unit: $\mathrm{GeV}^{2}$. Value: $-10H^2$. Status: AUTHOR.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+With the tensors of FE-35 to FE-37, the author's weights and $\Lambda = -10H^2$ they are:
+
+$$
+\begin{aligned}
+x_4:\quad &-\frac{5\,\mathcal{H}^{3}\mathcal{H}_f^{3}}{4H^{4}} -
+ \frac{15\,\mathcal{H}^{2}\mathcal{H}_f^{4}}{16H^{4}} + \frac{3\,K\mathcal{H}^{3}\mathcal{H}_f}{4H^{2}} \\
+ &+ \frac{9\,K\mathcal{H}^{2}\mathcal{H}_f^{2}}{8H^{2}} - \frac{3\,\mathcal{H}^{3}\mathcal{H}_f}{2H^{2}}
+ - \frac{27\,\mathcal{H}^{2}\mathcal{H}_f^{2}}{4H^{2}} \\
+ &- \frac{9\,\mathcal{H}\mathcal{H}_f^{3}}{2H^{2}} - \frac{3\,\mathcal{H}_f^{4}}{8H^{2}} -
+ \frac{3\,K^{2}\mathcal{H}^{2}}{16} + \frac{9\,K\mathcal{H}^{2}}{4} \\
+ &+ \frac{9\,K\mathcal{H}\mathcal{H}_f}{2} + \frac{3\,K\mathcal{H}_f^{2}}{4} - 3\,\mathcal{H}^{2} -
+ 12\,\mathcal{H}\mathcal{H}_f - 6\,\mathcal{H}_f^{2} - \frac{3\,K^{2}H^{2}}{8} + 6\,KH^{2} - 10\,H^{2} \\
+ &= -\kappa\rho
+\end{aligned} \tag{FE-38}
+$$
+
+<!-- symbols: x4, Hubble, Hf, Hconst, Kblock, kappa, rho -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-38).**
+
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The constraint: the terms divided by $H^4$ come from the cubic Lovelock tensor, those divided by $H^2$ from the
+Gauss-Bonnet tensor, the others from the Einstein tensor; the terms with $K$ and $K^2$ are the curvature of the block entering
+through the plane curvatures $\mathcal{H}_f^2 - H^2K$; $-10H^2$ is the cosmological constant. The right side is the total energy
+density of every field (FE-3). Status: DERIVED. The residual of the stored static block in this equation is $3.9\times10^{-13}$ of
+its largest term (from the twelve stored digits of $K_*$; with the closed form $1.2\times10^{-16}$), and the printed polynomial equals
+the one in the code symbolically.
+
+$$
+\begin{aligned}
+x_1:\quad &\Big[-\frac{\mathcal{H}\mathcal{H}_f^{3}}{2H^{4}} - \frac{\mathcal{H}_f^{4}}{8H^{4}} +
+ \frac{K\mathcal{H}\mathcal{H}_f}{2H^{2}} + \frac{K\mathcal{H}_f^{2}}{4H^{2}} \\
+ &- \frac{\mathcal{H}\mathcal{H}_f}{H^{2}} - \frac{3\,\mathcal{H}_f^{2}}{2H^{2}} - \frac{K^{2}}{8} +
+ \frac{3\,K}{2} - 2\Big]\,\dot{\mathcal{H}} \\
+ &+ \Big[-\frac{3\,\mathcal{H}^{2}\mathcal{H}_f^{2}}{4H^{4}} -
+ \frac{\mathcal{H}\mathcal{H}_f^{3}}{2H^{4}} + \frac{K\mathcal{H}^{2}}{4H^{2}} \\
+ &+ \frac{K\mathcal{H}\mathcal{H}_f}{2H^{2}} - \frac{\mathcal{H}^{2}}{2H^{2}} -
+ \frac{3\,\mathcal{H}\mathcal{H}_f}{H^{2}} - \frac{3\,\mathcal{H}_f^{2}}{2H^{2}} + \frac{3\,K}{2} -
+ 4\Big]\,\dot{\mathcal{H}}_f \\
+ &-\frac{\mathcal{H}^{3}\mathcal{H}_f^{3}}{2H^{4}} -
+ \frac{19\,\mathcal{H}^{2}\mathcal{H}_f^{4}}{16H^{4}} - \frac{\mathcal{H}\mathcal{H}_f^{5}}{2H^{4}} +
+ \frac{K\mathcal{H}^{3}\mathcal{H}_f}{2H^{2}} \\
+ &+ \frac{7\,K\mathcal{H}^{2}\mathcal{H}_f^{2}}{8H^{2}} + \frac{K\mathcal{H}\mathcal{H}_f^{3}}{2H^{2}} -
+ \frac{\mathcal{H}^{3}\mathcal{H}_f}{H^{2}} - \frac{17\,\mathcal{H}^{2}\mathcal{H}_f^{2}}{4H^{2}} \\
+ &- \frac{6\,\mathcal{H}\mathcal{H}_f^{3}}{H^{2}} - \frac{15\,\mathcal{H}_f^{4}}{8H^{2}} -
+ \frac{3\,K^{2}\mathcal{H}^{2}}{16} + \frac{9\,K\mathcal{H}^{2}}{4} \\
+ &+ 3\,K\mathcal{H}\mathcal{H}_f + \frac{9\,K\mathcal{H}_f^{2}}{4} - 3\,\mathcal{H}^{2} -
+ 8\,\mathcal{H}\mathcal{H}_f - 10\,\mathcal{H}_f^{2} - \frac{3\,K^{2}H^{2}}{8} + 6\,KH^{2} - 10\,H^{2} \\
+ &= \kappa p_3
+\end{aligned} \tag{FE-39}
+$$
+
+<!-- symbols: x1, Hubble, Hf, Hconst, Kblock, Hdot, Hfdot, kappa, p3 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-39).**
+
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\dot{\mathcal{H}}_f$: The time derivative $\mathrm{d}\mathcal{H}_f/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The 3-space equation is linear in $\dot{\mathcal{H}}$ and $\dot{\mathcal{H}}_f$ with coefficients that depend on the rates and on
+$K$; it is the equation of motion of the scale factor of ordinary space, with the pressure $p_3$ of all matter along ordinary
+space as its source. Status: DERIVED. With FE-40 it is solved for the two rates; the integration from the primordial block to the
+static block preserves the constraint FE-38 to $6\times10^{-10}$.
+
+$$
+\begin{aligned}
+x_0:\quad &\Big[-\frac{9\,\mathcal{H}^{2}\mathcal{H}_f^{2}}{16H^{4}} -
+ \frac{3\,\mathcal{H}\mathcal{H}_f^{3}}{8H^{4}} + \frac{3\,K\mathcal{H}^{2}}{16H^{2}} +
+ \frac{3\,K\mathcal{H}\mathcal{H}_f}{8H^{2}} \\
+ &- \frac{3\,\mathcal{H}^{2}}{8H^{2}} - \frac{9\,\mathcal{H}\mathcal{H}_f}{4H^{2}} -
+ \frac{9\,\mathcal{H}_f^{2}}{8H^{2}} + \frac{9\,K}{8} - 3\Big]\,\dot{\mathcal{H}} \\
+ &+ \Big[-\frac{3\,\mathcal{H}^{3}\mathcal{H}_f}{8H^{4}} -
+ \frac{9\,\mathcal{H}^{2}\mathcal{H}_f^{2}}{16H^{4}} + \frac{3\,K\mathcal{H}^{2}}{16H^{2}} -
+ \frac{9\,\mathcal{H}^{2}}{8H^{2}} \\
+ &- \frac{9\,\mathcal{H}\mathcal{H}_f}{4H^{2}} - \frac{3\,\mathcal{H}_f^{2}}{8H^{2}} + \frac{3\,K}{8} -
+ 3\Big]\,\dot{\mathcal{H}}_f \\
+ &-\frac{9\,\mathcal{H}^{4}\mathcal{H}_f^{2}}{16H^{4}} -
+ \frac{17\,\mathcal{H}^{3}\mathcal{H}_f^{3}}{16H^{4}} -
+ \frac{9\,\mathcal{H}^{2}\mathcal{H}_f^{4}}{16H^{4}} + \frac{3\,K\mathcal{H}^{4}}{16H^{2}} \\
+ &+ \frac{9\,K\mathcal{H}^{3}\mathcal{H}_f}{16H^{2}} +
+ \frac{3\,K\mathcal{H}^{2}\mathcal{H}_f^{2}}{16H^{2}} - \frac{3\,\mathcal{H}^{4}}{8H^{2}} -
+ \frac{27\,\mathcal{H}^{3}\mathcal{H}_f}{8H^{2}} \\
+ &- \frac{45\,\mathcal{H}^{2}\mathcal{H}_f^{2}}{8H^{2}} -
+ \frac{27\,\mathcal{H}\mathcal{H}_f^{3}}{8H^{2}} - \frac{3\,\mathcal{H}_f^{4}}{8H^{2}} \\
+ &+ \frac{9\,K\mathcal{H}^{2}}{4} + \frac{9\,K\mathcal{H}\mathcal{H}_f}{8} +
+ \frac{3\,K\mathcal{H}_f^{2}}{8} - 6\,\mathcal{H}^{2} - 9\,\mathcal{H}\mathcal{H}_f \\
+ &- 6\,\mathcal{H}_f^{2} + 3\,KH^{2} - 10\,H^{2} \\
+ &= \kappa p_0;\qquad x_5, x_6, x_7:\ \text{the same left side} = \kappa p_5; \\
+ &\text{block-isotropic order-0 metric: the same left side} = \kappa\bar p,\qquad \bar p =
+ \tfrac14\big(p_0 + 3p_5\big)
+\end{aligned} \tag{FE-40}
+$$
+
+<!-- symbols: x0, Hubble, Hf, Hconst, Kblock, Hdot, Hfdot, kappa, p0, x5, x6, x7, p5, pbar -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-40).**
+
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\dot{\mathcal{H}}_f$: The time derivative $\mathrm{d}\mathcal{H}_f/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The block equation is linear in $\dot{\mathcal{H}}$ and $\dot{\mathcal{H}}_f$ as well; it is the equation of motion of the
+block scale. Its source is the pressure along the block: $p_0$ for the $x_0$ component and $p_5$ for the $x_5$, $x_6$, $x_7$
+components. The left sides of the four block components are identical, so the order-0 metric (one scale $f$ for all four) solves
+them all only for a block-isotropic source, $p_0 = p_5$; in general $f$ obeys the average with $\bar p$ (subsection "The block
+pressures" below). Status: DERIVED. The primordial solutions of FE-38 to FE-40 (with the stabiliser and radiation) have a one-step
+defect of $1.3\times10^{-11}$ and a constraint residual of $3.6\times10^{-12}$ when they are re-integrated from the stored samples.
+
+$$
+\dot\rho = -3\mathcal{H}(\rho + p_3) - \mathcal{H}_f(\rho + p_0) - 3\mathcal{H}_f(\rho + p_5)
+ = -3\mathcal{H}(\rho + p_3) - 4\mathcal{H}_f(\rho + \bar p) \tag{FE-41}
+$$
+
+<!-- symbols: rhodot, Hubble, rho, p3, Hf, p0, p5, pbar -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-41).**
+
+- $\dot\rho$: The time derivative $\mathrm{d}\rho/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{9}$. Status: STANDARD.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The conservation law FE-11 on the order-0 metric: the energy density decreases by the work done by the pressure
+along each direction, $p_3$ along the three directions of ordinary space (rate $\mathcal{H}$), $p_0$ along the hidden direction and $p_5$
+along the three extra times (rate $\mathcal{H}_f$); the four block terms combine to $4\mathcal{H}_f(\rho + \bar p)$. For the stabiliser
+($p_0 = p_5 = \rho_{\mathrm{stab}}$, $p_3 = -\rho_{\mathrm{stab}}$) it gives $\dot\rho_{\mathrm{stab}} = -8\mathcal{H}_f\rho_{\mathrm{stab}}$, so
+$\rho_{\mathrm{stab}} \propto f^{-8}$ as assumed in IN-4. Status: DERIVED.
+
+## The block pressures
+
+The block scale $f$ multiplies the four block directions together, so the action depends on it through the sum of the four
+block components. For a change $\Delta\ln f$ of the block scale ($\Delta g^{MM} = -2g^{MM}\Delta\ln f$ for the four block directions),
+the change of the action is the sum of the four block equations, and because their left sides are equal,
+
+$$
+\begin{aligned}
+\frac{\Delta S}{\Delta\ln f} &= -\frac{1}{\kappa}\sqrt{\lvert g\rvert}\sum_{M\in\{x_0,\,x_5,\,x_6,\,x_7\}}
+ \Big(\sum_{p=1}^{3}\alpha_{(p)}\,\mathcal{E}_{(p)}{}^M{}_M + \Lambda - \kappa\,\mathcal{T}^M{}_M\Big)\\
+ &= -\frac{4}{\kappa}\sqrt{\lvert g\rvert}\,\Big(\sum_{p=1}^{3}\alpha_{(p)}\,\mathcal{E}_{(p)}{}^{x_0}{}_{x_0} + \Lambda -
+ \kappa\bar p\Big),\qquad \bar p = \tfrac14\big(p_0 + 3p_5\big).
+\end{aligned}
+$$
+
+<!-- symbols: Delta, Saction, fblock, kappa, metric, iM, x0, x5, x6, x7, ip, alphaL, LovE, Lambda, EMT, pbar, p0, p5 -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $S$: The action of UM-2 (the integral of the Lagrangian density over spacetime); its variation with respect to every field gives the field equations. Unit: dimensionless ($\hbar = 1$). Status: ASSUMED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $p$: The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic). Status: STANDARD.
+- $\alpha_{(p)}$: The Lovelock coupling of order $p$, $\alpha_{(p)} = w_{(p)}H^{2-2p}$ ($\alpha_{(1)} = 1$). Unit: $\mathrm{GeV}^{2-2p}$. Status: AUTHOR.
+- $\mathcal{E}_{(p)}{}^M{}_N$: The Lovelock tensor of order $p$, the metric variation of $\sqrt{\lvert g\rvert}\mathcal{L}_{(p)}$: $\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \frac12\delta^M_NR$; every $\mathcal{E}_{(p)}$ is divergence free. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $\Lambda$: The eight-dimensional cosmological constant, $\Lambda = -10H^2$. Unit: $\mathrm{GeV}^{2}$. Value: $-10H^2$. Status: AUTHOR.
+- $\mathcal{T}^M{}_N$: The energy-momentum tensor of all matter (every field except gravity, the stabiliser included), the source of gravity; defined by the change of the matter action under a change of the metric. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+So the equation of motion of $f$ is the block equation FE-40 with the hidden pressure $\bar p$, the average of the block pressures.
+The difference of the block pressures,
+
+$$
+p_0 = \bar p + \tfrac34\big(p_0 - p_5\big),\qquad p_5 = \bar p - \tfrac14\big(p_0 - p_5\big),
+$$
+
+<!-- symbols: p0, pbar, p5 -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+cannot be absorbed by $f$: it would change the shape of the block (the proper length of the hidden direction against that of the
+extra times), a mode outside the order-0 metric. This block-shape mode and its response to $p_0 - p_5$ are not computed in UM-2
+(OPEN). The physically correct block equations are therefore: the $x_0$ component with $p_0$, the extra-time components with $p_5$,
+and, for the order-0 metric, their average with $\bar p$.
+
+The sources of UM-2 are:
+
+* the stabiliser: block-isotropic, $p_0 = p_5 = \rho_{\mathrm{stab}}$, so $\bar p = p_0 = p_5$ and its static block (FE-42, FE-43) is an
+  exact solution of all eight components;
+* the Standard-Model plasma and matter, and the dark matter: the masses of the zero modes and of the dark matter depend on the
+  proper length of the hidden direction only (they are $x_0$ eigenvalues), so their mass terms contribute to $p_0$ only, $p_0 =
+  -(\rho - 3p_3)\,\mathrm{d}\ln m/\mathrm{d}\ln f$ for an ideal gas, and nothing to $p_5$ for quanta without momentum along the extra times;
+  the parts of the plasma pressure that depend on the gauge couplings (the four-dimensional couplings scale with the volume
+  $V_\perp$ of all four block directions, FE-82, and with them the QCD scale, FE-84) contribute to $p_0$ and $p_5$ alike; for the dark
+  matter at rest $p_0/\rho = -\mathrm{d}\ln\varepsilon_{\mathrm{DM}}/\mathrm{d}\ln f = 0.772034$ and $p_5 = 0$, so $\bar p = p_0/4$ and
+  $\lvert p_0 - p_5\rvert/\bar p = 4$;
+* the Kohn-Sham states of dirac16complex: $p_0$ and $p_5$ from FE-67; for the self-interacting test states
+  $\lvert p_0 - p_5\rvert/\bar p = 0.90$.
+
+The block-shape source is therefore not small compared with the hidden pressure that is kept; its absolute size is suppressed like
+that of $\bar p$, at most $3\times10^{-32}$ of the stabiliser (at the dark-matter freeze-out), if the shape mode is stable (OPEN).
+
+**What the code does.** The background code `um2_background.py` writes the block equation once, for "$x_0 = x_5 = x_6 = x_7$", with
+one symbol for the block pressure; it is used only for block-isotropic sources: the stabiliser ($p_0 = p_5 = \rho_{\mathrm{stab}}$; and
+the stability family $p_0 = p_5 = \nu\rho_{\mathrm{stab}}$, $\nu = \frac14$ to 3), for which that symbol equals $p_0$, $p_5$ and $\bar p$ alike.
+Its first-order response to matter (FE-45 to FE-47) is written for $\Delta\bar p = \frac14(\Delta p_0 + 3\Delta p_5)$. The Kohn-Sham job
+`um2_ks_jobs.py` (feedback) forms $\bar p = \frac14(p_0 + 3p_5)$ from the cell averages of FE-67 and stores $p_0 - p_5$ separately; the
+coupled solution `um2_coupled.py` uses $\bar p = \frac14\,\mathrm{d}p/\mathrm{d}\ln f$ at fixed temperature (FE-81), which is
+$\frac14(p_0 + 3p_5)$ for every source, because a change of $\ln f$ scales the four block directions together (for the mass terms
+$p_5 = 0$ and it is $p_0/4$); and the residual analysis `um2_residuals.py` recomputes the response with
+$\bar p = \frac14(p_0 + 3p_5)$ and reports the block-shape source. No stored number rests on an inconsistent choice of the block
+pressure. Version 3 of the UM-2 documents wrote $\kappa\bar p$ in the block equation of the static block and the stabiliser, and in one
+place $\kappa p_0$: both are correct there, because the stabiliser is block-isotropic, and $K_\pm$, $\mathcal{G}(K_*)$, $\kappa\rho_{\mathrm{stab}}(f_*)$ and $\omega_{\mathrm{r}}$
+do not depend on the choice.
 
 ## The static block and the stabiliser
 
-For $h = 0$, $\dot A = 0$:
-$$ x_4:\; -3G(k)A^2 + 6H^2k(1 - 2w_2k) + \Lambda + \kappa\rho = 0,\qquad x_1:\; \text{the same with } -\kappa p_3 \text{ for } \kappa\rho,$$
-$$ x_0:\; 6(12w_2k - 1)A^2 - \frac{12(w_2 - 18w_3k)}{H^2}A^4 + 3H^2k + \Lambda - \kappa\bar p = 0,\qquad G(k) = 1 - 24w_2k + 72w_3k^2 = \frac{k^2 - 12k + 16}{16}.$$
-Without sources and with $A = 0$ the only static block is $k_0 = 1/(4w_2) = 8$, $\Lambda_0 = -3H^2/(4w_2) = -24H^2$, with
-$G(k_0) = -1$ (repulsive four-dimensional gravity). With the stabiliser and $A = 0$:
-$$ \kappa\rho_b = 10H^2 - 6H^2k + \tfrac38H^2k^2 = \kappa\bar p = 3H^2k - 10H^2 \;\Longrightarrow\; k_\pm = 12 \pm \tfrac43\sqrt{51},$$
-$$ k_* = 12 + \tfrac43\sqrt{51} = 21.5219,\quad f_* = 0.215556,\quad G(k_*) = \tfrac{20}{3} + \sqrt{51} = 13.8081,\quad \kappa\rho_b^* = (26 + 4\sqrt{51})H^2 .$$
+A static block has $\mathcal{H}_f = 0$ and $\dot{\mathcal{H}}_f = 0$. With $\dot{\mathcal{H}} = 0$ the background equations become:
 
-## The dynamical system, the radion and the response to matter
+$$
+\begin{aligned}
+&x_4:\ -3\mathcal{G}(K)\,\mathcal{H}^2 + 6H^2K\big(1 - 2w_{(2)}K\big) + \Lambda + \kappa\rho = 0,\qquad
+ x_1:\ \text{the same with } -\kappa p_3 \text{ in place of } \kappa\rho,\\
+&x_0:\ 6\big(12w_{(2)}K - 1\big)\mathcal{H}^2 - \frac{12\big(w_{(2)} -
+ 18w_{(3)}K\big)}{H^2}\,\mathcal{H}^4 + 3H^2K + \Lambda
+ - \kappa p_0 = 0,\\
+&x_5, x_6, x_7:\ \text{the same with } \kappa p_5 \text{ in place of } \kappa p_0;\qquad
+ \text{block-isotropic order-0 metric: the same with } \kappa\bar p,\\
+&\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = \frac{K^2 - 12K + 16}{16}
+\end{aligned} \tag{FE-42}
+$$
 
-The $x_1$ and $x_0$ components are solved for $\dot A$ and $\dot h$; with $\dot k = -2kh$ and the constraint they form a closed
-system for $(A, h, k)$. Linearised about $(0, 0, k_*)$ (DERIVED):
-$$ \delta\dot A = J_{Ak}\delta k,\quad \delta\dot h = J_{hk}\delta k,\quad \delta\dot k = -2k_*\delta h,\qquad
-   \omega_r^2 = 2k_*J_{hk} = \Big(\frac{31552}{2249} - \frac{2416\sqrt{51}}{6747}\Big)H^2 = (3.38705H)^2 ,$$
-eigenvalues $0, \pm i\omega_r$: the block is stable and oscillates (the radion), the zero mode being the direction $\delta A$
-(a small four-dimensional cosmological term). For the stabiliser family $\bar p_b = \nu\rho_b$, $\rho_b \propto k^{2(1+\nu)}$, the
-static block is stable for every $\nu \in \{1/4, 1/2, 3/4, 1, 5/4, 3/2, 2, 3\}$ ($\omega_r = 3.33H$ to $4.10H$). With matter
-sources to first order ($A^2$ counts as first order: the constraint gives $3G(k_*)A^2 = \kappa\delta\rho$ because
-$\frac{d}{dk}[6H^2k(1 - 2w_2k) + \kappa\rho_b]$ vanishes at $k_*$):
-$$ \delta\dot A = J_{Ak}\,\delta k + s_{A3}\,\kappa\delta p_3 + s_{Ap}\,\kappa\delta\bar p + q_A\,\kappa\delta\rho,$$
-$$ \delta\dot h = J_{hk}\,\delta k + s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p + q_h\,\kappa\delta\rho,$$
-$$ \delta\ddot k + \omega_r^2\,\delta k = -2k_*\big(s_{h3}\,\kappa\delta p_3 + s_{hp}\,\kappa\delta\bar p + q_h\,\kappa\delta\rho\big),$$
-$$ J_{Ak} = \tfrac{6(238 - 19\sqrt{51})}{2249}H^2,\quad J_{hk} = \tfrac{4063 - 485\sqrt{51}}{2249}H^2,\quad
-   s_{A3} = \tfrac{2283}{4498} - \tfrac{162\sqrt{51}}{2249},\quad s_{Ap} = \tfrac{28\sqrt{51} - 114}{2249},$$
-$$ q_A = \tfrac{135021}{265382} - \tfrac{10308\sqrt{51}}{132691},\quad s_{h3} = \tfrac{21\sqrt{51}}{2249} - \tfrac{171}{4498},\quad
-   s_{hp} = \tfrac{239\sqrt{51}}{6747} - \tfrac{485}{2249},\quad q_h = \tfrac{57}{4498} - \tfrac{7\sqrt{51}}{2249}$$
-(numerically $0.272956H^2$, $0.266522H^2$, $-0.006853$, $0.038221$, $-0.045997$, $0.028666$, $0.037320$, $-0.009555$). In
-the adiabatic response ($\delta\ddot k = 0$),
-$\delta k = (-0.107556\,\kappa\delta p_3 - 0.140028\,\kappa\delta\bar p + 0.035852\,\kappa\delta\rho)/H^2$, and 3-space obeys exactly
-$$ \delta\dot A = -\frac{\kappa(\delta\rho + \delta p_3)}{2G(k_*)},$$
-the four-dimensional Friedmann acceleration equation (DERIVED).
+<!-- symbols: x4, GK, Kblock, Hubble, Hconst, wL, Lambda, kappa, rho, x1, p3, x0, p0, x5, x6, x7, p5, pbar -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-42).**
 
-## The four-dimensional effective gravity
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{G}(K)$: The coefficient of the four-dimensional Einstein-Hilbert term on a static block, $\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = (K^2 - 12K + 16)/16$; four-dimensional gravity is attractive for $\mathcal{G} > 0$. Unit: dimensionless. Value: $\mathcal{G}(K_*) = 20/3 + \sqrt{51} = 13.8081$. Status: DERIVED.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $w_{(p)}$: The author's Lovelock weights, $w_{(1)} = 1$, $w_{(2)} = 1/32$, $w_{(3)} = 1/1152$. Unit: dimensionless. Value: $(1, 1/32, 1/1152)$. Status: AUTHOR.
+- $\Lambda$: The eight-dimensional cosmological constant, $\Lambda = -10H^2$. Unit: $\mathrm{GeV}^{2}$. Value: $-10H^2$. Status: AUTHOR.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
 
-On a product of a four-dimensional metric with the static block (constant curvature $K = -H^2k$) the Lovelock densities
-factorise, $\mathcal L_{(p)} = \sum_{r+s=p}\frac{p!}{r!\,s!}\mathcal L^{(4)}_{(r)}\mathcal L^{(int)}_{(s)}$ ($p = 1, 2, 3$ the Lovelock order), with $\mathcal L^{(int)}_{(s)} = (1, 12K, 24K^2, 0)$ for $s = 0, 1, 2, 3$,
-$\mathcal L^{(4)}_{(3)} \equiv 0$ and $\mathcal L^{(4)}_{(2)}$ topological in four dimensions, so
-$$ \sum_p\alpha_p\mathcal L_{(p)} - 2\Lambda - 2\kappa\rho_b = G(k)\,R^{(4)} + (\text{topological}) - 2G(k)\Lambda_4,\qquad
-   \Lambda_4 = \frac{6H^2k(1 - 2w_2k) + \Lambda + \kappa\rho_b}{G(k)}, $$
-and the four-dimensional field equations are those of general relativity,
-$$ G^{(4)}_{\mu\nu} + \Lambda_4\,g^{(4)}_{\mu\nu} = 8\pi G_N\,T^{(4)}_{\mu\nu},\qquad 8\pi G_N = \frac{\kappa}{G(k_*)V_\perp},$$
-$$ V_\perp = \frac{2f^4v_t(1 - e^{-3\eta})}{3H},\qquad T^{(4)}_{\mu\nu} = \int dx_0\,dx_5\,dx_6\,dx_7\sqrt{\lvert g_\perp\rvert}\,T_{\mu\nu} ,$$
-with $\Lambda_4 = 0$ at the static point (the observed dark energy is a tuned residual, $\Lambda_4/H^2 \sim 10^{-92}$, OPEN).
-The gauge couplings are $g_i^2 = \hat g_i^2/V_\perp$.
+<!-- end generated symbol list -->
 
-# The field equations in the hidden coordinate: the masses
+**The terms.** $\mathcal{G}(K)$ multiplies $\mathcal{H}^2$ in the constraint; it is the coefficient of the four-dimensional Einstein-Hilbert term
+(FE-48), so four-dimensional gravity is attractive where $\mathcal{G} > 0$, i.e. for $K < 6 - 2\sqrt5$ or $K > 6 + 2\sqrt5 = 10.47$. The
+term $6H^2K(1 - 2w_{(2)}K)$ is the curvature energy of the block (Einstein and Gauss-Bonnet); in the block equation $3H^2K$. The
+sources are $\kappa\rho$ (constraint), $\kappa p_3$ (3-space), $\kappa p_0$ (hidden direction) and $\kappa p_5$ (extra times). Without
+sources and with $\mathcal{H} = 0$ the only static block is $K = 8$, which would need $\Lambda = -24H^2$ (not the author's $-10H^2$) and has
+$\mathcal{G} = -1$, repulsive gravity: with the author's weights the block must be held by a source. Status: DERIVED (exact).
 
-On the static block every four-dimensional mass is an eigenvalue of the $x_0$ operator of its field (the author's
-requirement: the wave functions depend on $x_0$ periodically with period $\pi/(6H)$, through $y(z)$). With $\xi = y/L \in [-1, 0]$
-on each half of a period, bosonic eigenvalues are $\Lambda = (m\,fL)^2$ and fermionic ones $e = \varepsilon\,fL$.
+At $\mathcal{H} = 0$ the constraint and the block equation read
 
-## Gauge fields and the graviton
+$$
+x_4:\ 6H^2K - \tfrac38H^2K^2 - 10H^2 = -\kappa\rho,\qquad x_0:\ 3H^2K - 10H^2 = \kappa p_0,
+$$
 
-A four-dimensional component $A_\mu(x)u(y)$ (gauge $A_y = 0$) has the reduced action $\int_{-L}^0dy\,f^4e^{3Hy}\big[(\partial_yu)^2/f^2 - m^2u^2\big]$
-per half (times $1/\hat g^2$), hence (DERIVED)
-$$ -\frac{1}{f^2}e^{-3Hy}\partial_y\big(e^{3Hy}\partial_yu\big) = m^2u \;\Longleftrightarrow\; -e^{-3\eta\xi}\big(e^{3\eta\xi}u'\big)' = \Lambda u ,$$
-$$ \text{fold: } u'(0) = 0 \text{ (even) or } u(0) = 0 \text{ (odd)};\qquad \text{tip: } u'(-1) = \beta\,u(-1) ,$$
-the tip condition being the natural boundary condition of the tip mass term: $\beta = 0$ for the photon and the gluons,
-$\beta_W$ for $W^+$ and $W^-$ (one value for both: they are particle and antiparticle), $\beta_Z = \beta_W/\cos^2\theta_W$
-for the $Z$ (the ratio of the coefficients $\hat g^2$ and $\hat g^2 + \hat g'^2$ of the tip mass terms; $\theta_W$ is the angle of the
-couplings, $\cos^2\theta_W = \hat g^2/(\hat g^2 + \hat g'^2)$, fixed in UM-2 by the measured masses and the measured electroweak
-parameter $\rho_0$ as $\cos^2\theta_W = (m_W^2/m_Z^2)/\rho_0$). The transverse-traceless
-graviton obeys the same operator with $\beta = 0$ in Einstein gravity. With $u = e^{-3\eta\xi/2}\tilde u$, $q^2 = \Lambda - 9\eta^2/4$:
-$$ \text{even: } \Big[q^2 + \frac{3\eta}{2}\Big(\beta + \frac{3\eta}{2}\Big)\Big]\sin q - \beta q\cos q = 0,\qquad
-   \text{odd: } q\cos q + \Big(\beta + \frac{3\eta}{2}\Big)\sin q = 0 .$$
-For $\beta = 0$: $\Lambda = 0$ (the flat profile; graviton, photon and gluons are exactly massless), $9\eta^2/4 + n^2\pi^2$
-(even), $q\cot q = -3\eta/2$ (odd).
+<!-- symbols: x4, Hconst, Kblock, kappa, rho, x0, p0 -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
 
-## Fermions
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
 
-With $\Psi = e^{ik x_1}e^{-\frac32Hy}e^{a_4/2}b_4^{-1}V_\beta\,\chi(y, x_4)$ the eight-dimensional Dirac equation (canonical spin connection
-included) is EXACTLY (DERIVED, all blocks, general $a_4$, $b_4$, $M(y)$, $v(y)$)
-$$ \gamma^MD_M\Psi - \big(M(y) - iv(y)\gamma^{x_4}\big)\Psi = e^{ikx_1}e^{-\frac32Hy}e^{a_4/2}b_4^{-1}\,\gamma^{x_4}V_\beta\big[\partial_4\chi + ih_j\chi\big],$$
-$$ h_j = j\Big[-\frac{i}{f}\sigma_1\partial_y + M(y)\sigma_2 + e^{-a_4}k\,\sigma_3\Big] + v(y),$$
-so $i\partial_4\chi = h_j\chi$. In every block $(j, s_2, s_3)$: $\gamma^{x_0} = \sigma_3$, $B = js_2$, $C = s_2\sigma_2$, $\Gamma_4 = -js_2\sigma_3$,
-$P_+ = (1 - B\sigma_3)/2$. For a Standard-Model multiplet $M = \mu_\psi$, $v = 0$; with $c = f\mu_\psi L$ the zero modes are
-$\chi = (e^{c\xi}, 0)$ (doublet, $\Gamma_4 = +1$) and $\chi = (0, e^{-c\xi})$ (singlet, $\Gamma_4 = -1$), with $h_j(e^{c\xi}, 0) = je^{-a_4}k\,(e^{c\xi}, 0)$
-exactly (massless four-dimensional particles). At $k = 0$ in the block $j = +1$ the components of $\chi = (a, ib)$ obey
-$a' = c\,a - e\,b$, $b' = e\,a - c\,b$ ($e = \varepsilon fL$); the doublet ($c_L > 0$) and singlet ($c_R < 0$) solutions that satisfy the
-fold conditions reach the tip with
-$$ (a_L, b_L) = (C_L - c_Ls_L,\; -s_Le),\qquad (a_R, b_R) = (s_Re,\; C_R + c_Rs_R),\qquad s = \frac{\sinh w}{w},\quad C = \cosh w,\quad w = \sqrt{c^2 - e^2}, $$
-and the tip mixing conditions of one generation give the exact mass condition
-$$ D(e) = e^2s_Ls_R - \kappa_f^2\,(C_L - c_Ls_L)(C_R + c_Rs_R) = 0, $$
-$$ e \simeq \kappa_f\,\zeta(c_L)\,\zeta(-c_R),\qquad \zeta(c)^2 = \frac{c\,e^{-c}}{\sinh c}\qquad (c_L > 0,\ c_R < 0).$$
-For three generations, with doublet amplitudes $\mathcal A_\alpha$ and singlet amplitudes $\mathcal B_i$, the matrix conditions
-$\mathrm{diag}(b_{L\alpha})\mathcal A = \kappa\,\mathrm{diag}(b_{Ri})\mathcal B$, $\mathrm{diag}(a_{Ri})\mathcal B = -\kappa^\dagger\mathrm{diag}(a_{L\alpha})\mathcal A$ give
-$$ \Big[\mathrm{diag}(b_{L\alpha}) + \kappa\,\mathrm{diag}\Big(\frac{b_{Ri}}{a_{Ri}}\Big)\kappa^\dagger\,\mathrm{diag}(a_{L\alpha})\Big]\mathcal A = 0, $$
-the masses being the roots of its determinant and $\mathcal A$ the left-handed flavour content. For a common doublet bulk mass
-and a unitary $\kappa$ (DERIVED)
-$$ \det\Big[\dots\Big] = \prod_{i=1}^{3}\frac{b_La_{Ri} + a_Lb_{Ri}}{a_{Ri}},\qquad b_La_R + a_Lb_R = -D(e)\big\vert_{\kappa_f = 1},\qquad
-   \mathcal A^{(i)} = \kappa\,\hat e_i,\quad \mathcal B^{(i)} \propto \hat e_i : $$
-the masses are the one-generation roots with $\kappa_f = 1$, the left-handed rotation of each sector is its tip matrix (so that
-$U = \kappa_e^\dagger\kappa_\nu$ and $V = \kappa_u^\dagger\kappa_d$), and the
-right-handed rotations are trivial (verified with mpmath at 50 digits to $3.0\times10^{-42}$, the two sets of roots refined in the
-same computation; the masses stored by the mass computation agree with them to $4.5\times10^{-11}$).
+<!-- end generated symbol list -->
 
-# dirac16complex: the Kohn-Sham equations coupled to all fields
+and with the stabiliser as the only source ($\rho = p_0 = p_5 = \rho_{\mathrm{stab}}$, $p_3 = -\rho_{\mathrm{stab}}$, FE-4) they require
 
-The interacting many-body state of $\Psi$ on the block is described by Kohn-Sham orbitals of
-$$ h_j\chi = \varepsilon\chi,\qquad M_{eff}(y) = m + \frac{15}{16}\lambda S(y) + \frac{\langle\mathcal F\rangle}{\Lambda_\star^3},\qquad
-   v(y) = -\frac{\lambda}{16}n(y) + \frac{c_V}{\Lambda_\star^6}\sum_{i=1}^{3}\sum_\psi q_\psi n_{\psi i}(y),$$
-where $\langle\mathcal F\rangle = c_G\langle G^\alpha_{MN}G^{\alpha MN}\rangle + \dots$ is the gauge-field condensate (in the QCD vacuum the gluon
-condensate, a uniform mass shift), $n_{\psi i}$ the number densities of the Standard-Model fermions
-of the three generations ($\langle\bar\psi_i\gamma^{x_4}\psi_i\rangle = i\,n_{\psi i}$; I11). The densities are
-$$ n = \sum_o w\,g\,f_o\,n_o,\quad S = \sum_o w\,g\,f_o\,s_o,\qquad n_o = P\chi_o^\dagger\chi_o,\quad s_o = P\chi_o^\dagger j\sigma_2\chi_o,\quad t_o = P\chi_o^\dagger j\sigma_3\chi_o,
-   \quad P = \frac{e^{-3Hy}}{\mathrm{Vol}_7},$$
-with $w = 1/2$ for each fold parity, $g = 4r_3(\lvert\vec n\rvert^2)$ the degeneracy of the momentum shell $\vec k = \Delta k\,\vec n$ ($\vec n \in \mathbb Z^3$,
-$r_3(\lvert\vec n\rvert^2)$ the number of representations of $\lvert\vec n\rvert^2$ as a sum of three squares), $\mathrm{Vol}_7 = (2\pi/\Delta k)^3v_tf^4$ (at $a_4 = 0$;
-$v_t$ the coordinate volume of the extra times) the normalisation volume of a cell, of dimension length$^6$ (the proper
-seven-volume of a cell, with its hidden extent, is $2\,\mathrm{Vol}_7(1 - e^{-3\eta})/(3H)$), and occupations $f_o$ (aufbau, or
-Mermin $f_o = 1/(e^{(\varepsilon_o - \mu)/T} + 1)$). The energy and the energy-momentum tensor are
-$$ E_{KS} = \sum_o g\,f_o\,\varepsilon_o - 2\,\mathrm{Vol}_7\int_{-L}^0e^{3Hy}e_{int}\,dy,\qquad e_{int} = \frac{15}{32}\lambda S^2 - \frac{1}{32}\lambda n^2,$$
-$$ \rho = \sum_o wgf_o\varepsilon_o\,n_o - e_{int},\qquad p_3 = \sum_o wgf_o\,\frac{e^{-a_4}\lvert k\rvert}{3}t_o + e_{int},\qquad p_t = e_{int},$$
-$$ p_0 = \sum_o wgf_o\big[(\varepsilon_o - v)n_o - M_{eff}s_o - e^{-a_4}\lvert k\rvert t_o\big] + e_{int} ,$$
-which satisfy $E_{KS} = 2\mathrm{Vol}_7\int e^{3Hy}\rho\,dy$ and the $y$-conservation law
-$\big[e^{3Hy}p_0\big]_{-L}^0 = 3H\int_{-L}^0e^{3Hy}p_t\,dy$ (DERIVED for every self-consistent state). Boundary conditions: fold
-$\chi_2(0) = 0$ (even) or $\chi_1(0) = 0$ (odd), tip $\chi_2(-L) = 0$ (from $(1 \mp \gamma^{x_0})\Psi = 0$). The Kohn-Sham source enters the
-background equations through its block averages $\rho$, $p_3$ and $\bar p = (p_0 + 3p_t)/4$.
+$$
+10H^2 - 6H^2K + \tfrac38H^2K^2 = 3H^2K - 10H^2\quad\Leftrightarrow\quad 3K^2 - 72K + 160 = 0\quad\Leftrightarrow\quad
+K = 12 \pm \tfrac43\sqrt{51}:
+$$
 
-## The portals on the zero modes and the mean fields of an environment (version 3)
+<!-- symbols: Hconst, Kblock -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
 
-In the block form $\gamma^{x_0} = \sigma_3$, so I13 adds to the Kohn-Sham Hamiltonian a potential on the lower component only:
-$$ h_j \;\to\; h_j + P_b\,v_b(y),\qquad P_b = \tfrac12(1 - \sigma_3),\qquad v_b(y) = \frac{c_A}{\Lambda_\star^6}\,\frac13\sum_qn_q(y), $$
-with $n_q(y)$ the proper eight-dimensional density of the quarks. On the zero modes the portals become four-dimensional contact
-interactions. A four-dimensional particle of density $n$ (per 3-volume) in an orbital or zero mode with the normalised profile
-$\varrho(y)$ ($\int_{-L}^0\varrho\,dy = 1$) has the proper eight-dimensional density $n\,\varrho(y)\,e^{-3Hy}/(2f^4v_t)$ on each half of the period
-(proper transverse volume element $f^4e^{3Hy}dy\,d^3x_t$, two halves; $v_t$ the coordinate volume of the extra times), so a state $o$ of $\Psi$
-(orbital $(a_o, b_o)$, $\int_{-L}^0(a_o^2 + b_o^2)\,dy = 1$) and a chirality component $f$ of a Standard-Model fermion (zero-mode profile $\varrho_f$;
-$\varrho_c(y) = (2c/L)e^{2cy/L}/(1 - e^{-2c})$ for the localisation $c$) interact with
-$$ \mathcal L_4 = \big(G_Vq_f\tilde I_{of} + G_Aq^B_f\tilde I^{(b)}_{of}\big)\,(i\bar\chi_o\gamma^\mu\chi_o)(i\bar f\gamma_\mu f),\qquad
-   \tilde I_{of} = \int_{-L}^{0}(a_o^2 + b_o^2)\varrho_fe^{-3Hy}dy,\qquad \tilde I^{(b)}_{of} = \int_{-L}^{0}b_o^2\varrho_fe^{-3Hy}dy, $$
-$$ G_V = \frac{c_VH}{2f^4v_t\Lambda_\star^6},\qquad G_A = \frac{c_AH}{2f^4v_t\Lambda_\star^6},\qquad q^B_f = \tfrac13\ \text{(quarks)},\ 0\ \text{(leptons)} $$
-($\tilde I$ in units of $H$). $\tilde I_{of}$ and $\tilde I^{(b)}_{of}$ are exactly the responses $d\varepsilon_o/de$ of the Kohn-Sham level to the mean fields
-$v = e\,\varrho_f(y)e^{-3Hy}$ and $v_b = e\,\varrho_f(y)e^{-3Hy}$ (Hellmann-Feynman). I12 becomes $G_i\bar\chi\chi F^i_{\mu\nu}F^{i\mu\nu}$ (canonical fields) with
-$G_i = \mathcal O\,c_ig_i^2/\Lambda_\star^3$, $\mathcal O = \partial\varepsilon_{DM}/\partial m$.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
 
-In an environment with the net densities $n_p$, $n_n$, $n_e$ of protons, neutrons and electrons (unpolarised: each chirality carries half;
-$n_u = 2n_p + n_n$, $n_d = n_p + 2n_n$) and the temperature $T$, the level $\varepsilon_o$ moves by
-$$ \delta\varepsilon_o = \sum_f\big(G_Vq_f\tilde I_{of} + G_Aq^B_f\tilde I^{(b)}_{of}\big)\,n_f + \mathcal O\,\frac{c}{\Lambda_\star^3}\Big[\langle g_s^2G^\alpha G^\alpha\rangle + \langle g^2W^aW^a\rangle + \langle g'^2BB\rangle\Big] $$
-(universal $c_G = c_W = c_B = c$; canonical field strengths), with the gluon condensate from the trace anomaly of QCD,
-$\langle\theta^\mu{}_\mu\rangle = \rho - 3p = -\frac{b\alpha_s}{8\pi}\langle G^\alpha_{\mu\nu}G^{\alpha\mu\nu}\rangle$ for the thermal parts (written in the signature $(+,-,-,-)$, in
-which the trace of the energy-momentum tensor of a fluid is $\rho - 3p$; in the signature $(+,+,+,-)$ of this document the trace is
-$3p - \rho = +\frac{b\alpha_s}{8\pi}G^\alpha_{\mu\nu}G^{\alpha\mu\nu}$, while $G^\alpha_{\mu\nu}G^{\alpha\mu\nu}$ is the same in both, so the relation below does not depend on the
-convention),
-$$ \Big\langle\frac{\alpha_s}{\pi}G^\alpha G^\alpha\Big\rangle_T = \Big\langle\frac{\alpha_s}{\pi}G^\alpha G^\alpha\Big\rangle_0 - \frac{8}{b}(\rho - 3p)_{QCD},\qquad b = 11 - \frac23n_f,\qquad
-   \langle g_s^2G^2\rangle = 4\pi^2\Big\langle\frac{\alpha_s}{\pi}G^2\Big\rangle, $$
-$\langle\frac{\alpha_s}{\pi}G^2\rangle_0 = 0.012$ GeV$^4$ (STANDARD), the QCD interaction measure $(\rho - 3p)/T^4 = 4\exp[-\ln^2(T/0.2\ \text{GeV})/0.5]$ below 1 GeV
-(ESTIMATE) and $\frac{b}{3}(1 + \frac{5n_f}{12})\alpha_s^2$ above ($\alpha_s$ at the scale $2\pi T$, one loop from $\alpha_s(m_Z)$), which follows from the pressure $p = \frac{8\pi^2}{45}T^4[1 + \frac{21n_f}{32} - \frac{15}{4}(1 + \frac{5n_f}{12})\frac{\alpha_s}{\pi}]$ and
-$d\alpha_s/d\ln T = -\frac{b}{2\pi}\alpha_s^2$ through $\rho - 3p = T^5\,d(p/T^4)/dT$; and for each massive vector boson $V$ of mass $m_V$ the thermal condensate
-$$ \langle F_{\mu\nu}F^{\mu\nu}\rangle_T = -2(\rho - 3p)_V,\qquad (\rho - 3p)_V = \rho_V - 3p_V\ \text{of its ideal gas (3 states),} $$
-because on shell the Proca Lagrangian, written in the signature $(+,-,-,-)$ as $-\frac14F^2 + \frac12m_V^2A_\mu A^\mu$, is a total derivative (so
-$\langle -\frac14F^2\rangle = -\langle\frac12m_V^2A_\mu A^\mu\rangle$), while $T^\mu{}_\mu = -m_V^2A_\mu A^\mu = \rho - 3p$ (in the signature $(+,+,+,-)$ the mass term is
-$-\frac12m_V^2A_\mu A^\mu$, $\langle -\frac14F^2\rangle = +\langle\frac12m_V^2A_\mu A^\mu\rangle$ and $T^\mu{}_\mu = -m_V^2A_\mu A^\mu = 3p - \rho$: the relation is the same). This is the
-free part. Above $m_W$ the interaction pressure of the electroweak plasma dominates: for a gauge field with the Lagrangian
-$-F_{geo}^2/(4g^2)$ ($F_{geo} = gF$) the Feynman-Hellmann theorem gives
-$$ \langle F_{geo}^2\rangle = -4\,\frac{\partial p}{\partial(1/g^2)} = 4g^2p_2,\qquad p_2 = -\frac{g^2T^4}{144}\,d_A\Big[C_A + \frac52T_FN_f\Big] $$
-for the leading-order pressure $p_2 \propto g^2$ of a gauge plasma with $N_f$ Dirac fermions in the representation of index $T_F$, massless
-(STANDARD; for QCD, $d_A = 8$, $C_A = 3$, $T_F = \frac12$, $N_f = n_f$, it reproduces the trace-anomaly condensate above exactly, DERIVED to $10^{-16}$):
-for $SU(2)$ $d_A = 3$, $C_A = 2$ and twelve Weyl doublets ($T_FN_f = 3$); for $U(1)_Y$ $d_A = 1$, $C_A = 0$ and $\frac52T_FN_f \to \frac52\sum_{Dirac}Y^2 = \frac52\cdot5$
-($\sum_{Weyl}Y^2 = 10$ for three generations); no scalar term (ESTIMATE), and below $m_W$ multiplied by the thermal suppression
-$\rho(m_W, T)/\rho(0, T)$ of a massive vector (ESTIMATE). The couplings are taken at $\mu = 2\pi T$, one loop from the $\overline{MS}$ values at $m_Z$
-without a Higgs particle,
-$$ \frac{1}{\alpha_i(\mu)} = \frac{1}{\alpha_i(m_Z)} + \frac{b_i}{2\pi}\ln\frac{\mu}{m_Z},\qquad b_2 = \frac{10}{3},\quad b_Y = -\frac{20}{3},\qquad
-   \frac{1}{\alpha_2(m_Z)} = \frac{\hat s_Z^2}{\alpha},\quad \frac{1}{\alpha_Y(m_Z)} = \frac{1 - \hat s_Z^2}{\alpha} $$
-($\alpha = 1/127.95$ at $m_Z$ and the $\overline{MS}$ value $\hat s_Z^2 = \sin^2\hat\theta_W(m_Z) = 0.23122$; for QCD $b = 11 - \frac23n_f$). Hence
-$$ \langle g^2W^aW^a\rangle = g^2\big[2(-2I_W) + \cos^2\theta_W(-2I_Z)\big] + 4g^2p_2^{SU(2)}, $$
-$$ \langle g'^2BB\rangle = g'^2\sin^2\theta_W(-2I_Z) + 4g'^2p_2^{U(1)},\qquad I_V = (\rho - 3p)_V $$
-($g^2 = 4\pi\alpha_2(2\pi T)$, $g'^2 = 4\pi\alpha_Y(2\pi T)$; here $\theta_W$ is the angle of the couplings of section 6.1).
-Conversely $\Psi$ acts on the Standard Model through the field-dependent couplings of section 3.1, $\delta\alpha_i/\alpha_i = -4G_in_{DM}$, and on
-the $x_0$ problem of the $W$ and $Z$ through the kinetic function $1 + e\,s_{DM}(y)$,
-$$ -\frac{1}{K e^{3\eta\xi}}\big(Ke^{3\eta\xi}u'\big)' = \Lambda u,\qquad K(\xi) = 1 + e\,s_{DM}(y),\qquad u'(0) = 0,\qquad K(-1)u'(-1) = \beta u(-1), $$
-$s_{DM} = 2ab$ the scalar density of the dark-matter orbital (primes $d/d\xi$).
+<!-- end generated symbol list -->
 
-Gravity closes the loop. The block responds to the block-averaged sources $\rho$, $p_3$, $\bar p$ of all species with the adiabatic response of
-section 5.5 ($\delta\ddot k = 0$),
-$$ \delta k = \frac{c_\rho\,\kappa\delta\rho + c_3\,\kappa\delta p_3 + c_p\,\kappa\delta\bar p}{H^2},\qquad c_\rho = 0.035852,\quad c_3 = -0.107556,\quad c_p = -0.140028,$$
-$$ \delta\ln f = -\frac{\delta k}{2k_*},\qquad \delta\ln m_s = \frac{d\ln m_s}{d\ln f}\,\delta\ln f , $$
-iterated with the masses until self-consistency. Radiation ($p_3 = \rho/3$) drops out exactly ($c_3 = -3c_\rho$), so only the trace $\rho - 3p_3$ and
-the hidden pressure act; the block averages of four-dimensional densities are $\kappa\delta\rho = 8\pi G_NG(k_*)\rho_4$ (likewise for $p_3$ and $\bar p$;
-section 5.6). The hidden pressure is the response of the pressure to the block scale at fixed temperature, $\bar p = \frac14\,\partial p/\partial\ln f$:
-$$ \bar p = -\frac14\sum_s(\rho_s - 3p_s)\frac{d\ln m_s}{d\ln f} - \frac14(\rho - 3p)_{QCD}\frac{d\ln\Lambda^{(n_f)}}{d\ln f} + \frac14\sum_{i = 2, Y}p_2^{(i)}\,\frac{d\ln\alpha_i}{d\ln f} .$$
-The first sum runs over the species of mass $m_s(f)$ (for an ideal gas $m\,\partial p/\partial m = -(\rho - 3p)$; non-relativistic matter gives $-\frac14\rho\,d\ln m/d\ln f$):
-the plasma species as ideal gases with their $x_0$ masses, the net nucleons and electrons (degenerate Fermi gases in the cold environments,
-$\rho = nm$ and $p = nT$ in the hot ones) and the dark matter (in equilibrium with eight states while $M/T < 40$, its relic density afterwards). The
-second term follows from $p = T^4\varphi(T/\Lambda)$, for which $\partial p/\partial\ln\Lambda = -(\rho - 3p)$; the third from the order-$\alpha$ pressure $p_2^{(i)} \propto \alpha_i$ of
-the electroweak plasma, with
-$$ \frac{d\ln\alpha_i(\mu)}{d\ln f} = -\alpha_i(\mu)\Big[\frac{4}{\alpha_i(m_{KK})} + \frac{b_i}{2\pi}\Big] $$
-(the bulk gauge couplings scale as $\alpha_i(m_{KK}) \propto f^{-4}$, since $g_i^2 = \hat g_i^2/V_\perp$ and $V_\perp \propto f^4$, and $m_{KK} \propto 1/f$). In the trace
-$\rho - 3p_3$ the QCD and the electroweak plasmas contribute $(\rho - 3p)_{QCD}$ and $(\rho - 3p)_i = -\frac{b_i\alpha_i}{2\pi}\,p_2^{(i)}$ (the leading-order trace
-anomaly, from $\rho - 3p = T^5\,d(p/T^4)/dT$ with $d\ln\alpha_i/d\ln\mu = -b_i\alpha_i/(2\pi)$).
+$$
+\begin{aligned}
+&\kappa\rho_{\mathrm{stab}} = 10H^2 - 6H^2K + \tfrac38H^2K^2\ \ (x_4),\qquad
+ \kappa p_0 = \kappa p_5 = \kappa\rho_{\mathrm{stab}} = 3H^2K - 10H^2\ \ (x_0;\ x_5, x_6, x_7),\\
+&\Rightarrow\ K_{\pm} = 12 \pm \tfrac43\sqrt{51},\qquad
+K_* = 12 + \tfrac43\sqrt{51} = 21.5219,\qquad f_* = K_*^{-1/2} = 0.215556,\\
+&\mathcal{G}(K_*) = \tfrac{20}{3} + \sqrt{51} = 13.8081,\qquad \kappa\rho_{\mathrm{stab}}(f_*) = \big(26
+ + 4\sqrt{51}\big)H^2
+\end{aligned} \tag{FE-43}
+$$
 
-The environments of the coupled solution: the cosmic mean today (the Planck baryon density with the helium fraction $Y_p = 0.2457$ and
-$\Omega_ch^2 = 0.120$), the Galaxy at the Sun ($n_p = n_e = 1$ cm$^{-3}$), the Earth (mean density $5.51$ g/cm$^3$, 48 % protons), the centre of the Sun
-(150 g/cm$^3$, 66 % protons, 32 % neutrons), a white dwarf ($10^6$ g/cm$^3$ of carbon and oxygen, equal numbers of protons and neutrons), a
-neutron-star core ($0.3$ fm$^{-3}$, 10 % protons, $n_e = n_p$), all bound objects with the local dark-matter density $0.4$ GeV/cm$^3$; and the hot
-Universe at nucleosynthesis ($T = 1$ MeV), the QCD crossover ($200$ MeV), the electroweak era ($100$ GeV) and the dark-matter freeze-out
-($T = M/x_f$), with the net baryon density $\eta_bn_\gamma$, $\eta_b = 6.1\times10^{-10}$, $n_\gamma = 2\zeta(3)T^3/\pi^2$, shared as $n_n/n_p = e^{-Q/T}$ ($Q = 1.293$ MeV),
-$n_e = n_p$, and the dark matter in equilibrium, $n = 2\cdot4(MT/2\pi)^{3/2}e^{-M/T}$ for the two species together, while $M/T < 40$.
+<!-- symbols: kappa, rhostab, Hconst, Kblock, x4, p0, p5, x0, x5, x6, x7, Kpm, Kstar, fstar, GK -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-43).**
 
-The nucleon follows the QCD scale: with $1/\alpha_s(m_{KK}) = 1/\alpha_s(m_Z) + \frac{7}{2\pi}\ln(m_{KK}/m_Z)$
-(six flavours, one loop), $\alpha_s \propto f^{-4}$, $m_{KK} \propto 1/f$, $\Lambda^{(6)} = m_{KK}e^{-2\pi/(7\alpha_s(m_{KK}))}$, the one-loop matching
-$\Lambda^{(3)} = \Lambda^{(6)\,21/27}(m_cm_bm_t)^{2/27}$ and $m_p = (1 - \frac{\sigma_{\pi N} + \sigma_s}{m_p})\,C\Lambda^{(3)} + \sigma$ terms,
-$$ \frac{d\ln m_p}{d\ln f} = \Big(1 - \frac{\sigma_{\pi N} + \sigma_s}{m_p}\Big)\Big[\frac{21}{27}\Big(-1 - \frac{8\pi}{7\alpha_s(m_{KK})}\Big) + \frac{2}{27}\sum_{q=c,b,t}\frac{d\ln m_q}{d\ln f}\Big]
-   + \frac{\sigma_{\pi N}}{2m_p}\Big(\frac{d\ln m_u}{d\ln f} + \frac{d\ln m_d}{d\ln f}\Big) + \frac{\sigma_s}{m_p}\frac{d\ln m_s}{d\ln f} $$
-($\sigma_{\pi N} = 45$ MeV, $\sigma_s = 40$ MeV; ESTIMATE). Through the thresholds,
-$$ \frac{d\ln\Lambda^{(6)}}{d\ln f} = -1 - \frac{8\pi}{7\alpha_s(m_{KK})},\qquad \frac{d\ln\Lambda^{(5)}}{d\ln f} = \frac{21}{23}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{23}\frac{d\ln m_t}{d\ln f},$$
-$$ \frac{d\ln\Lambda^{(4)}}{d\ln f} = \frac{21}{25}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{25}\Big(\frac{d\ln m_t}{d\ln f} + \frac{d\ln m_b}{d\ln f}\Big),\qquad
-   \frac{d\ln\Lambda^{(3)}}{d\ln f} = \frac{21}{27}\frac{d\ln\Lambda^{(6)}}{d\ln f} + \frac{2}{27}\sum_{q = c,b,t}\frac{d\ln m_q}{d\ln f},$$
-$$ \frac{d\ln m}{d\ln f} = -1 + \frac12\Big[\frac{d\ln\zeta(c_L)^2}{d\ln c_L} + \frac{d\ln\zeta(-c_R)^2}{d\ln(-c_R)}\Big] $$
-for a fermion of mass $m = e/(fL)$ with the first-order root $e \simeq \kappa_f\zeta(c_L)\zeta(-c_R)$ of section 6.2 and localisations $c = f\mu L$ proportional to $f$
-(DERIVED): $d\ln m_q/d\ln f = -18.82$, $-18.01$, $-14.90$, $-12.15$, $-10.89$, $-6.77$ for $u$, $d$, $s$, $c$, $b$, $t$, so that $\alpha_s(m_{KK}) = 0.0606$,
-$d\ln\Lambda^{(6)}/d\ln f = -60.2$, $d\ln\Lambda^{(3)}/d\ln f = -49.0$ and $d\ln m_p/d\ln f = -46.1$.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\rho_{\mathrm{stab}}$: The energy density of the block stabiliser, a function of the block scale, $\rho_{\mathrm{stab}} \propto f^{-8}$; its value at the static block is $\rho_{\mathrm{stab}}(f_*)$. Unit: $\mathrm{GeV}^{8}$. Value: $\kappa\rho_{\mathrm{stab}}(f_*) = (26 + 4\sqrt{51})H^2 = 54.566\,H^2$. Status: ASSUMED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $K_\pm$: The two static blocks with the stabiliser, $K_\pm = 12 \pm \frac43\sqrt{51}$. Unit: dimensionless. Value: 21.5219 and 2.4781. Status: DERIVED.
+- $K_*$: The block variable of the stabilised block, $K_* = 12 + \frac43\sqrt{51}$ (the upper root $K_+$). Unit: dimensionless. Value: 21.5219. Status: DERIVED.
+- $f_*$: The block scale of the stabilised (static) block, $f_* = K_*^{-1/2}$. Unit: dimensionless. Value: 0.215556. Status: DERIVED.
+- $\mathcal{G}(K)$: The coefficient of the four-dimensional Einstein-Hilbert term on a static block, $\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = (K^2 - 12K + 16)/16$; four-dimensional gravity is attractive for $\mathcal{G} > 0$. Unit: dimensionless. Value: $\mathcal{G}(K_*) = 20/3 + \sqrt{51} = 13.8081$. Status: DERIVED.
 
-# The linear perturbations (order $\epsilon$): CMB, CNB, BAO
+<!-- end generated symbol list -->
 
-The $x_0$-independent ($n = 0$) perturbations obey the four-dimensional Einstein equations of section 5.6 linearised about
-a flat Friedmann background; the $n \ge 1$ modes (Kaluza-Klein gravitons and gauge bosons, mass $\ge 99$ TeV) and the
-radion ($48$ TeV) are absent at cosmological scales. In conformal time $\tau$ ($dx_4 = a\,d\tau$, $a = e^{a_4}$, $\mathcal H = a'/a$)
-and the Newtonian gauge $ds^2 = a^2\big[-(1 + 2\psi)d\tau^2 + (1 - 2\phi)d\vec x^{\,2}\big]$ (UM-2: $\psi = \epsilon\Phi$, $\phi = \epsilon\Psi_N$), for
-a Fourier mode $k$ (STANDARD, Ma and Bertschinger):
-$$ k^2\phi + 3\mathcal H(\phi' + \mathcal H\psi) = -4\pi G_Na^2\delta\rho,\qquad k^2(\phi' + \mathcal H\psi) = 4\pi G_Na^2(\bar\rho + \bar P)\theta,$$
-$$ \phi'' + \mathcal H(\psi' + 2\phi') + (2\mathcal H' + \mathcal H^2)\psi + \frac{k^2}{3}(\phi - \psi) = 4\pi G_Na^2\delta P,\qquad k^2(\phi - \psi) = 12\pi G_Na^2(\bar\rho + \bar P)\sigma ,$$
-summed over the species of UM-2:
+**The terms.** The first line gives the stabiliser density required by the constraint and by the block equations; the
+stabiliser is block-isotropic, so the $x_0$ and the extra-time equations coincide and the static block is an exact solution of
+all components (the 3-space equation is the constraint with $-\kappa p_3 = \kappa\rho_{\mathrm{stab}}$). Of the two roots, $K_*$ (upper)
+is the vacuum of UM-2: four-dimensional gravity is attractive there ($\mathcal{G}(K_*) = 13.8081$) and the stabiliser energy is
+positive, $\kappa\rho_{\mathrm{stab}} = 54.566\,H^2$; the lower root $K_- = 2.4781$ has $\mathcal{G} = -0.4748$. The block scale $f_* = 0.215556$
+fixes the proper size of the hidden direction, $f_*L = 3f_*/H = 8.926\times10^{-21}$ m on each half. Status: DERIVED (closed form;
+the stabiliser itself ASSUMED).
 
-* **dark matter** (the odd quanta of $\Psi_A$ and $\Psi_B$, cold): $\delta_c' = -\theta_c + 3\phi'$, $\theta_c' = -\mathcal H\theta_c + k^2\psi$;
-* **baryons** ($u$, $d$ confined in protons and neutrons; electrons): $\delta_b' = -\theta_b + 3\phi'$,
-  $\theta_b' = -\mathcal H\theta_b + c_s^2k^2\delta_b + \frac{4\bar\rho_\gamma}{3\bar\rho_b}an_e\sigma_T(\theta_\gamma - \theta_b) + k^2\psi$;
-* **photons**: $\delta_\gamma' = -\frac43\theta_\gamma + 4\phi'$, $\theta_\gamma' = k^2(\frac14\delta_\gamma - \sigma_\gamma) + k^2\psi + an_e\sigma_T(\theta_b - \theta_\gamma)$,
-  $F_{\gamma2}' = 2\sigma_\gamma' = \frac{8}{15}\theta_\gamma - \frac35kF_{\gamma3} - \frac95an_e\sigma_T\sigma_\gamma + \frac{1}{10}an_e\sigma_T(G_{\gamma0} + G_{\gamma2})$,
-  $F_{\gamma l}' = \frac{k}{2l+1}[lF_{\gamma(l-1)} - (l+1)F_{\gamma(l+1)}] - an_e\sigma_TF_{\gamma l}$ ($l \ge 3$),
-  $G_{\gamma l}' = \frac{k}{2l+1}[lG_{\gamma(l-1)} - (l+1)G_{\gamma(l+1)}] + an_e\sigma_T[-G_{\gamma l} + \frac12(F_{\gamma2} + G_{\gamma0} + G_{\gamma2})(\delta_{l0} + \frac{\delta_{l2}}{5})]$;
-* **the three neutrino mass eigenstates** $\nu_i$, $i = 1, 2, 3$ (masses $m_i = 1.000$, $8.712$, $50.140$ meV; after decoupling the
-  flavour coherence is lost and each mass state propagates on its own; comoving momentum $q$, comoving energy
-  $E_i = \sqrt{q^2 + a^2m_i^2}$, Fermi-Dirac distribution $\bar f_\nu(q)$, multipoles $\mathcal N^{(i)}_l$ of the perturbed distribution):
-  $\mathcal N^{(i)\prime}_0 = -\frac{qk}{E_i}\mathcal N^{(i)}_1 - \phi'\frac{d\ln\bar f_\nu}{d\ln q}$, $\mathcal N^{(i)\prime}_1 = \frac{qk}{3E_i}(\mathcal N^{(i)}_0 - 2\mathcal N^{(i)}_2) - \frac{E_ik}{3q}\psi\frac{d\ln\bar f_\nu}{d\ln q}$,
-  $\mathcal N^{(i)\prime}_l = \frac{qk}{(2l+1)E_i}[l\mathcal N^{(i)}_{l-1} - (l+1)\mathcal N^{(i)}_{l+1}]$ ($l \ge 2$);
-* the fold bands of $\Psi$ are never thermalised; produced by freeze-in through I11 (section 10), they are massless free-streaming
-  radiation with $\Delta N_{eff} = 0.001$ (below), the only dark radiation of UM-2.
+## The radion and the response of the block to matter
 
-The background is $\mathcal H^2 = \frac{8\pi G_N}{3}a^2\bar\rho_{tot} + \frac{\Lambda_4}{3}a^2$, adiabatic initial conditions with the power
-spectrum $\mathcal P(k) = A_s(k/k_0)^{n_s - 1}$. The relativistic content is $N_{eff} = 3.0432$, carried by the three mass eigenstates
-(each with the degeneracy $N_{eff}/3 = 1.0144$ at the temperature $T_\nu = (4/11)^{1/3}T_\gamma$ of instantaneous decoupling, which represents
-the spectrum heated by $e^+e^-$ annihilation; the adopted $N_{eff} = 3.0432$ is the precision value, close to the $3.0476$ to $3.0485$
-computed in section 9.4); in version 3 the fold bands produced by freeze-in (section 10) add massless free-streaming radiation with
-$\Delta N_{eff} = 0.001$, obeying the massless limit of the neutrino hierarchy. The rms potential per logarithmic wavenumber is
-$\Delta_\Phi(k) = [k^3P_\Phi(k)/(2\pi^2)]^{1/2}$; inside the horizon the Poisson equation $\Phi = \frac32\Omega_mH_0^2\delta_m/(ak^2)$ holds, and on the largest scales
-in the matter era $\Phi = \frac35\zeta$ ($\zeta$ the primordial curvature perturbation), suppressed by $\Lambda_4$ with the growth factor
-$g(a) = D(a)/a$, $D(a) = \frac52\Omega_mE(a)\int_0^a db/[bE(b)]^3$, $E(a) = (\Omega_ma^{-3} + 1 - \Omega_m)^{1/2}$. The amplitude of the matter fluctuations is
-$\sigma_8^2 = \int_0^\infty\frac{dk}{k}\frac{k^3P_m(k)}{2\pi^2}W^2(kR)$ with the top hat $W(x) = 3(\sin x - x\cos x)/x^3$, $R = 8h^{-1}$ Mpc.
+$$
+\begin{aligned}
+&\Delta\dot{\mathcal{H}} = \Xi_{\mathcal{H}K}\,\Delta K,\qquad \Delta\dot{\mathcal{H}}_f =
+ \Xi_{fK}\,\Delta K,\qquad
+ \Delta\dot K = -2K_*\,\Delta\mathcal{H}_f,\\
+&\omega_{\mathrm{r}}^2 = 2K_*\,\Xi_{fK} = \Big(\frac{31552}{2249} - \frac{2416\sqrt{51}}{6747}\Big)H^2 =
+ (3.38705\,H)^2
+\end{aligned} \tag{FE-44}
+$$
 
-## Beyond $n = 0$: the Kaluza-Klein gravitons and the radion (version 3)
+<!-- symbols: Delta, Hdot, XiHK, Kblock, Hfdot, XifK, Kdot, Kstar, Hf, omegar, Hconst -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-44).**
 
-The $n \ge 1$ terms of $h^{(1)}_{MN} = \sum_nh^{(1,n)}_{MN}u_n(x_0)$ are massive. For the graviton ($\beta = 0$) the even profiles and masses are
-$$ u_n(\xi) = e^{-a\xi}\Big(\cos q_n\xi + \frac{a}{q_n}\sin q_n\xi\Big),\qquad q_n = n\pi,\qquad a = \frac{3\eta}{2},\qquad m_n = \frac{\sqrt{\Lambda_n}}{fL},\quad \Lambda_n = \frac{9\eta^2}{4} + n^2\pi^2, $$
-normalised by $N_n = \int_{-1}^0e^{3\eta\xi}u_n^2d\xi = \frac12(1 + a^2/q_n^2)$ ($N_0 = (1 - e^{-3\eta})/(3\eta)$ for $u_0 = 1$). Each mode couples to a source with the
-normalised $x_0$ profile $\varrho$ ($\int_{-1}^0\varrho\,d\xi = 1$) through $\int\varrho\,u_n\,d\xi$, so a static source $M$ with the profile $\varrho_M$ attracts a mass $m$
-with the profile $\varrho_m$ with
-$$ V(r) = -\frac{G_NMm}{r}\Big[1 + \sum_{n\ge1}\alpha_ne^{-m_nr}\Big],\qquad \alpha_n = \frac{N_0}{N_n}\Big(\int_{-1}^0\varrho_M\,u_n\,d\xi\Big)\Big(\int_{-1}^0\varrho_m\,u_n\,d\xi\Big) $$
-($(N_0/N_n)(\int\varrho\,u_n\,d\xi)^2$ for two masses with the same profile); a source with the flat profile $\varrho \propto e^{3\eta\xi}$ of a gauge zero mode has
-$\alpha_n = 0$ (orthogonality of $u_n$ to $u_0$). The radion $\sigma = \delta\ln f$ obeys the linearised block equations of section 5.5 with the sources
-of matter (its trace $\rho - 3p_3$ and its hidden pressure); its static response is $\delta\ln f$ of section 7.1, its mass $m_r = \omega_r$.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\Xi_{\mathcal{H}K}$: The coefficient of $\Delta K$ in the first-order equation for $\Delta\dot{\mathcal{H}}$ (linearised block about $K_*$). Unit: $\mathrm{GeV}^{2}$. Value: $6(238 - 19\sqrt{51})H^2/2249 = 0.272956\,H^2$. Status: DERIVED.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $\dot{\mathcal{H}}_f$: The time derivative $\mathrm{d}\mathcal{H}_f/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\Xi_{fK}$: The coefficient of $\Delta K$ in the first-order equation for $\Delta\dot{\mathcal{H}}_f$. Unit: $\mathrm{GeV}^{2}$. Value: $(4063 - 485\sqrt{51})H^2/2249 = 0.266522\,H^2$. Status: DERIVED.
+- $\dot K$: The time derivative $\mathrm{d}K/\mathrm{d}x_4$. Unit: GeV. Status: DERIVED.
+- $K_*$: The block variable of the stabilised block, $K_* = 12 + \frac43\sqrt{51}$ (the upper root $K_+$). Unit: dimensionless. Value: 21.5219. Status: DERIVED.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $\omega_{\mathrm{r}}$: The angular frequency of the oscillation of the block about the static point (the radion), equal to the radion mass. Unit: GeV. Value: $3.38705\,H = 48.42$ TeV. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
 
-# The flavour evolution of the three neutrinos
+<!-- end generated symbol list -->
 
-## The four-fermion interactions at low energy
+**The terms.** Linearising FE-38 to FE-40 about the stabilised block (with $\rho_{\mathrm{stab}} \propto K^4$, from FE-41) gives a closed
+linear system for the changes of the two rates and of $K$: $\Xi_{\mathcal{H}K}$ and $\Xi_{fK}$ are the restoring coefficients, and
+$\Delta\dot K = -2K_*\Delta\mathcal{H}_f$ is the definition of $\mathcal{H}_f$. The block oscillates with the frequency $\omega_{\mathrm{r}}$: the radion,
+the quantum of the block scale, with the mass $m_{\mathrm{r}} = \omega_{\mathrm{r}} = 3.38705\,H = 48.42$ TeV. The eigenvalues are 0 and
+$\pm\mathrm{i}\omega_{\mathrm{r}}$: the block is stable, and it is stable for every block-isotropic stabiliser law $p_0 = p_5 = \nu\rho_{\mathrm{stab}}$
+with $\nu = \frac14$ to 3 ($\omega_{\mathrm{r}} = 3.33$ to $4.10\,H$). The full nonlinear evolution gives $3.3868\,H$ (linear and nonlinear
+frequencies agree to $7.9\times10^{-5}$). Status: DERIVED.
 
-At momentum transfers far below $m_W$ and $m_Z$ the exchange of $W^\pm$ and $Z$ between the zero-mode fermions (sections
-2 and 4) reduces to current-current interactions. Written for the four-dimensional zero-mode fields in four-component
-notation, with $P_L \equiv P_+ = (1 + \Gamma_4)/2$ the projector on the chirality of the doublet zero modes and
-$P_R = (1 - \Gamma_4)/2$, they are (STANDARD)
-$$ \mathcal L_{CC} = -2\sqrt2\,G_F\,\big(\bar\nu_\alpha\gamma^\mu P_L\ell_\alpha\big)\big(\bar\ell_\beta\gamma_\mu P_L\nu_\beta\big),\qquad
-   \mathcal L_{NC} = -2\sqrt2\,G_F\,\big(\bar\nu_\alpha\gamma^\mu P_L\nu_\alpha\big)\sum_f\bar f\gamma_\mu\big(g_L^fP_L + g_R^fP_R\big)f, $$
-$$ \frac{G_F}{\sqrt2} = \frac{g^2}{8m_W^2},\qquad g_L^f = T_3^f - Q^f\sin^2\theta_W,\qquad g_R^f = -Q^f\sin^2\theta_W, $$
-summed over the flavours $\alpha, \beta \in \{e, \mu, \tau\}$ and the fermions $f$ of the medium (the neutrino background is the
-term $V_{\nu\nu}$ of section 9.4), with $\nu_\alpha = \sum_iU_{\alpha i}\nu_i$ the flavour fields
-(UM-2 uses the measured $G_F = 1.1663788\times10^{-5}$ GeV$^{-2}$). A neutrino crossing a medium scatters forward coherently on
-it; averaged over an unpolarised medium at rest, the interactions add to its Hamiltonian the flavour-diagonal potentials
-$$ V_\alpha = \sqrt2\,G_F\Big[\delta_{\alpha e}\,(n_{e^-} - n_{e^+}) + \sum_f g_V^f\,(n_f - n_{\bar f})\Big],\qquad g_V^f = g_L^f + g_R^f = T_3^f - 2Q^f\sin^2\theta_W , $$
-and in electrically neutral matter of electrons, protons and neutrons ($g_V^p = -g_V^e$, $g_V^n = -\frac12$)
-$$ V = \mathrm{diag}(V_{CC}, 0, 0) + V_{NC}\,1,\qquad V_{CC} = \sqrt2\,G_Fn_e,\qquad V_{NC} = -\frac{G_Fn_n}{\sqrt2} . $$
-Antineutrinos have $-V$.
+$$
+\begin{aligned}
+\Delta\dot{\mathcal{H}} &= \Xi_{\mathcal{H}K}\,\Delta K + \Xi_{\mathcal{H}3}\,\kappa\Delta p_3
+ + \Xi_{\mathcal{H}p}\,\kappa\Delta\bar p + \Xi_{\mathcal{H}\rho}\,\kappa\Delta\rho,\qquad
+ 3\mathcal{G}(K_*)\,\mathcal{H}^2 = \kappa\Delta\rho,\\
+\Delta\dot{\mathcal{H}}_f &= \Xi_{fK}\,\Delta K + \Xi_{f3}\,\kappa\Delta p_3 + \Xi_{fp}\,\kappa\Delta\bar p
+ + \Xi_{f\rho}\,\kappa\Delta\rho,\\
+\Delta\ddot K + \omega_{\mathrm{r}}^2\,\Delta K &= -2K_*\big(\Xi_{f3}\,\kappa\Delta p_3 +
+ \Xi_{fp}\,\kappa\Delta\bar p
+ + \Xi_{f\rho}\,\kappa\Delta\rho\big)
+\end{aligned} \tag{FE-45}
+$$
+
+<!-- symbols: Delta, Hdot, XiHK, Kblock, XiH3, kappa, p3, XiHp, pbar, XiHrho, rho, GK, Kstar, Hubble, Hfdot, XifK, Xif3, Xifp, Xifrho, Kddot, omegar -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-45).**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\Xi_{\mathcal{H}K}$: The coefficient of $\Delta K$ in the first-order equation for $\Delta\dot{\mathcal{H}}$ (linearised block about $K_*$). Unit: $\mathrm{GeV}^{2}$. Value: $6(238 - 19\sqrt{51})H^2/2249 = 0.272956\,H^2$. Status: DERIVED.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $\Xi_{\mathcal{H}3}$: The coefficient of $\kappa\Delta p_3$ in the equation for $\Delta\dot{\mathcal{H}}$. Unit: dimensionless. Value: $2283/4498 - 162\sqrt{51}/2249 = -0.006853$. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\Xi_{\mathcal{H}p}$: The coefficient of $\kappa\Delta\bar p$ in the equation for $\Delta\dot{\mathcal{H}}$. Unit: dimensionless. Value: $(28\sqrt{51} - 114)/2249 = 0.038221$. Status: DERIVED.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+- $\Xi_{\mathcal{H}\rho}$: The coefficient of $\kappa\Delta\rho$ in the equation for $\Delta\dot{\mathcal{H}}$. Unit: dimensionless. Value: $135021/265382 - 10308\sqrt{51}/132691 = -0.045997$. Status: DERIVED.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $\mathcal{G}(K)$: The coefficient of the four-dimensional Einstein-Hilbert term on a static block, $\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = (K^2 - 12K + 16)/16$; four-dimensional gravity is attractive for $\mathcal{G} > 0$. Unit: dimensionless. Value: $\mathcal{G}(K_*) = 20/3 + \sqrt{51} = 13.8081$. Status: DERIVED.
+- $K_*$: The block variable of the stabilised block, $K_* = 12 + \frac43\sqrt{51}$ (the upper root $K_+$). Unit: dimensionless. Value: 21.5219. Status: DERIVED.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\dot{\mathcal{H}}_f$: The time derivative $\mathrm{d}\mathcal{H}_f/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\Xi_{fK}$: The coefficient of $\Delta K$ in the first-order equation for $\Delta\dot{\mathcal{H}}_f$. Unit: $\mathrm{GeV}^{2}$. Value: $(4063 - 485\sqrt{51})H^2/2249 = 0.266522\,H^2$. Status: DERIVED.
+- $\Xi_{f3}$: The coefficient of $\kappa\Delta p_3$ in the equation for $\Delta\dot{\mathcal{H}}_f$. Unit: dimensionless. Value: $21\sqrt{51}/2249 - 171/4498 = 0.028666$. Status: DERIVED.
+- $\Xi_{fp}$: The coefficient of $\kappa\Delta\bar p$ in the equation for $\Delta\dot{\mathcal{H}}_f$. Unit: dimensionless. Value: $239\sqrt{51}/6747 - 485/2249 = 0.037320$. Status: DERIVED.
+- $\Xi_{f\rho}$: The coefficient of $\kappa\Delta\rho$ in the equation for $\Delta\dot{\mathcal{H}}_f$. Unit: dimensionless. Value: $57/4498 - 7\sqrt{51}/2249 = -0.009555$. Status: DERIVED.
+- $\ddot K$: The second time derivative $\mathrm{d}^2K/\mathrm{d}x_4^2$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\omega_{\mathrm{r}}$: The angular frequency of the oscillation of the block about the static point (the radion), equal to the radion mass. Unit: GeV. Value: $3.38705\,H = 48.42$ TeV. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** Matter on top of the stabiliser changes the sources by $\kappa\Delta\rho$, $\kappa\Delta p_3$ and $\kappa\Delta\bar p$ (the
+block-averaged changes; the shape source $\Delta p_0 - \Delta p_5$ is outside the order-0 metric). Each enters both rates with the
+coefficients of FE-46; $\mathcal{H}^2$ is of first order and is fixed by the constraint, $3\mathcal{G}(K_*)\mathcal{H}^2 = \kappa\Delta\rho$. The last
+line is the radion equation with matter as its source. Status: DERIVED (exact to first order). The residual of the adiabatic
+solution in the full nonlinear equations is $1.4\times10^{-7}$ for sources of $10^{-5}\,H^2$ and falls by the factor 10 with the sources
+(it is of second order).
+
+$$
+\begin{aligned}
+&\Xi_{\mathcal{H}K} = \frac{6\big(238 - 19\sqrt{51}\big)}{2249}H^2,\qquad \Xi_{fK} = \frac{4063 -
+ 485\sqrt{51}}{2249}H^2,\qquad
+ \Xi_{\mathcal{H}3} = \frac{2283}{4498} - \frac{162\sqrt{51}}{2249},\\
+&\Xi_{\mathcal{H}p} = \frac{28\sqrt{51} - 114}{2249},\qquad
+ \Xi_{\mathcal{H}\rho} = \frac{135021}{265382} - \frac{10308\sqrt{51}}{132691},\qquad
+ \Xi_{f3} = \frac{21\sqrt{51}}{2249} - \frac{171}{4498},\\
+&\Xi_{fp} = \frac{239\sqrt{51}}{6747} - \frac{485}{2249},\qquad \Xi_{f\rho} = \frac{57}{4498} -
+ \frac{7\sqrt{51}}{2249}
+\end{aligned} \tag{FE-46}
+$$
+
+<!-- symbols: XiHK, Hconst, XifK, XiH3, XiHp, XiHrho, Xif3, Xifp, Xifrho -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-46).**
+
+- $\Xi_{\mathcal{H}K}$: The coefficient of $\Delta K$ in the first-order equation for $\Delta\dot{\mathcal{H}}$ (linearised block about $K_*$). Unit: $\mathrm{GeV}^{2}$. Value: $6(238 - 19\sqrt{51})H^2/2249 = 0.272956\,H^2$. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $\Xi_{fK}$: The coefficient of $\Delta K$ in the first-order equation for $\Delta\dot{\mathcal{H}}_f$. Unit: $\mathrm{GeV}^{2}$. Value: $(4063 - 485\sqrt{51})H^2/2249 = 0.266522\,H^2$. Status: DERIVED.
+- $\Xi_{\mathcal{H}3}$: The coefficient of $\kappa\Delta p_3$ in the equation for $\Delta\dot{\mathcal{H}}$. Unit: dimensionless. Value: $2283/4498 - 162\sqrt{51}/2249 = -0.006853$. Status: DERIVED.
+- $\Xi_{\mathcal{H}p}$: The coefficient of $\kappa\Delta\bar p$ in the equation for $\Delta\dot{\mathcal{H}}$. Unit: dimensionless. Value: $(28\sqrt{51} - 114)/2249 = 0.038221$. Status: DERIVED.
+- $\Xi_{\mathcal{H}\rho}$: The coefficient of $\kappa\Delta\rho$ in the equation for $\Delta\dot{\mathcal{H}}$. Unit: dimensionless. Value: $135021/265382 - 10308\sqrt{51}/132691 = -0.045997$. Status: DERIVED.
+- $\Xi_{f3}$: The coefficient of $\kappa\Delta p_3$ in the equation for $\Delta\dot{\mathcal{H}}_f$. Unit: dimensionless. Value: $21\sqrt{51}/2249 - 171/4498 = 0.028666$. Status: DERIVED.
+- $\Xi_{fp}$: The coefficient of $\kappa\Delta\bar p$ in the equation for $\Delta\dot{\mathcal{H}}_f$. Unit: dimensionless. Value: $239\sqrt{51}/6747 - 485/2249 = 0.037320$. Status: DERIVED.
+- $\Xi_{f\rho}$: The coefficient of $\kappa\Delta\rho$ in the equation for $\Delta\dot{\mathcal{H}}_f$. Unit: dimensionless. Value: $57/4498 - 7\sqrt{51}/2249 = -0.009555$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The exact coefficients (rational numbers and $\sqrt{51}$, from $K_* = 12 + \frac43\sqrt{51}$): numerically $\Xi_{\mathcal{H}K} =
+0.272956\,H^2$, $\Xi_{fK} = 0.266522\,H^2$, $\Xi_{\mathcal{H}3} = -0.006853$, $\Xi_{\mathcal{H}p} = 0.038221$, $\Xi_{\mathcal{H}\rho} = -0.045997$,
+$\Xi_{f3} = 0.028666$, $\Xi_{fp} = 0.037320$, $\Xi_{f\rho} = -0.009555$. Status: DERIVED (sympy).
+
+For a source that changes slowly compared with $1/\omega_{\mathrm{r}}$ the radion follows it adiabatically, $\Delta\ddot K = 0$:
+
+$$
+\begin{aligned}
+&\Delta K = -\frac{2K_*}{\omega_{\mathrm{r}}^2}\big(\Xi_{f3}\,\kappa\Delta p_3 + \Xi_{fp}\,\kappa\Delta\bar p +
+ \Xi_{f\rho}\,\kappa\Delta\rho\big):\\
+&c_3 = -\frac{2K_*\Xi_{f3}H^2}{\omega_{\mathrm{r}}^2},\qquad c_p = -\frac{2K_*\Xi_{fp}H^2}{\omega_{\mathrm{r}}^2},\qquad
+ c_\rho = -\frac{2K_*\Xi_{f\rho}H^2}{\omega_{\mathrm{r}}^2}.
+\end{aligned}
+$$
+
+<!-- symbols: Delta, Kblock, Kstar, omegar, Xif3, kappa, p3, Xifp, pbar, Xifrho, rho, c3, Hconst, cp, crho -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $K_*$: The block variable of the stabilised block, $K_* = 12 + \frac43\sqrt{51}$ (the upper root $K_+$). Unit: dimensionless. Value: 21.5219. Status: DERIVED.
+- $\omega_{\mathrm{r}}$: The angular frequency of the oscillation of the block about the static point (the radion), equal to the radion mass. Unit: GeV. Value: $3.38705\,H = 48.42$ TeV. Status: DERIVED.
+- $\Xi_{f3}$: The coefficient of $\kappa\Delta p_3$ in the equation for $\Delta\dot{\mathcal{H}}_f$. Unit: dimensionless. Value: $21\sqrt{51}/2249 - 171/4498 = 0.028666$. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\Xi_{fp}$: The coefficient of $\kappa\Delta\bar p$ in the equation for $\Delta\dot{\mathcal{H}}_f$. Unit: dimensionless. Value: $239\sqrt{51}/6747 - 485/2249 = 0.037320$. Status: DERIVED.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+- $\Xi_{f\rho}$: The coefficient of $\kappa\Delta\rho$ in the equation for $\Delta\dot{\mathcal{H}}_f$. Unit: dimensionless. Value: $57/4498 - 7\sqrt{51}/2249 = -0.009555$. Status: DERIVED.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $c_3$: The coefficient of $\kappa\Delta p_3$ in the adiabatic block response, $c_3 = -3c_\rho$ (so radiation drops out). Unit: dimensionless. Value: -0.107556. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $c_p$: The coefficient of $\kappa\Delta\bar p$ in the adiabatic block response. Unit: dimensionless. Value: -0.140028. Status: DERIVED.
+- $c_\rho$: The coefficient of $\kappa\Delta\rho$ in the adiabatic block response $\Delta K$. Unit: dimensionless. Value: 0.0358521. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+The hidden-pressure coefficient can be read off the block equation directly: with $\Delta\rho = \Delta p_3 = 0$ (so $\mathcal{H} = 0$)
+the block equation at $K_* + \Delta K$ with the stabiliser $\rho_{\mathrm{stab}} \propto K^4$ and the extra hidden pressure gives
+
+$$
+3H^2\Delta K - \kappa\,\frac{\mathrm{d}\rho_{\mathrm{stab}}}{\mathrm{d}K}\,\Delta K = \kappa\Delta\bar p,\qquad
+\frac{\mathrm{d}\rho_{\mathrm{stab}}}{\mathrm{d}K} = \frac{4\rho_{\mathrm{stab}}}{K}\quad\Rightarrow\quad
+c_p = \frac{H^2}{3H^2 - 4\kappa\rho_{\mathrm{stab}}/K_*} = -0.140028,
+$$
+
+<!-- symbols: Hconst, Delta, Kblock, kappa, diff, rhostab, pbar, cp, Kstar -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\rho_{\mathrm{stab}}$: The energy density of the block stabiliser, a function of the block scale, $\rho_{\mathrm{stab}} \propto f^{-8}$; its value at the static block is $\rho_{\mathrm{stab}}(f_*)$. Unit: $\mathrm{GeV}^{8}$. Value: $\kappa\rho_{\mathrm{stab}}(f_*) = (26 + 4\sqrt{51})H^2 = 54.566\,H^2$. Status: ASSUMED.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+- $c_p$: The coefficient of $\kappa\Delta\bar p$ in the adiabatic block response. Unit: dimensionless. Value: -0.140028. Status: DERIVED.
+- $K_*$: The block variable of the stabilised block, $K_* = 12 + \frac43\sqrt{51}$ (the upper root $K_+$). Unit: dimensionless. Value: 21.5219. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+with the stiffness $3H^2 - 4\kappa\rho_{\mathrm{stab}}/K_* = -7.1414\,H^2$.
+
+$$
+\Delta K = \frac{c_\rho\,\kappa\Delta\rho + c_3\,\kappa\Delta p_3 + c_p\,\kappa\Delta\bar p}{H^2},\qquad
+\Delta\ln f = -\frac{\Delta K}{2K_*},\qquad c_3 = -3c_\rho,\qquad
+\Delta\dot{\mathcal{H}} = -\frac{\kappa(\Delta\rho + \Delta p_3)}{2\mathcal{G}(K_*)} \tag{FE-47}
+$$
+
+<!-- symbols: Delta, Kblock, crho, kappa, rho, c3, p3, cp, pbar, Hconst, fblock, Kstar, Hdot, GK -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-47).**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $c_\rho$: The coefficient of $\kappa\Delta\rho$ in the adiabatic block response $\Delta K$. Unit: dimensionless. Value: 0.0358521. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $c_3$: The coefficient of $\kappa\Delta p_3$ in the adiabatic block response, $c_3 = -3c_\rho$ (so radiation drops out). Unit: dimensionless. Value: -0.107556. Status: DERIVED.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $c_p$: The coefficient of $\kappa\Delta\bar p$ in the adiabatic block response. Unit: dimensionless. Value: -0.140028. Status: DERIVED.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $K_*$: The block variable of the stabilised block, $K_* = 12 + \frac43\sqrt{51}$ (the upper root $K_+$). Unit: dimensionless. Value: 21.5219. Status: DERIVED.
+- $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
+- $\mathcal{G}(K)$: The coefficient of the four-dimensional Einstein-Hilbert term on a static block, $\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = (K^2 - 12K + 16)/16$; four-dimensional gravity is attractive for $\mathcal{G} > 0$. Unit: dimensionless. Value: $\mathcal{G}(K_*) = 20/3 + \sqrt{51} = 13.8081$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The adiabatic response of the block: $c_\rho = 0.0358521$, $c_3 = -0.107556$, $c_p = -0.140028$. Because $c_3 = -3c_\rho$
+exactly, the block responds only to the trace $\rho - 3p_3$ and to the hidden pressure $\bar p$: radiation (traceless, $\bar p = 0$)
+drops out. A positive hidden pressure lowers $K$, i.e. enlarges the block. The last relation is the four-dimensional Friedmann
+acceleration equation: with $\kappa\Delta\rho = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*)\rho_4$ (FE-80) it is $\dot{\mathcal{H}} = -4\pi G_{\mathrm{N}}(\rho_4 +
+p_4)$ of general relativity, and the constraint is $\mathcal{H}^2 = \frac{8\pi G_{\mathrm{N}}}{3}\rho_4$. Status: DERIVED (exact for a slowly
+varying source; the neglected inertia is $(\mathcal{H}/m_{\mathrm{r}})^2 \approx 3\times10^{-33}$ at the freeze-out). The Kohn-Sham sources enter
+through it with residual $1.4\times10^{-12}$ (the response recomputed from the stored cell averages); the block-shape source
+$\lvert p_0 - p_5\rvert$ is up to 4 times $\bar p$ (OPEN, see "The block pressures").
+
+## Four-dimensional gravity
+
+On the static block the Lovelock densities split into a four-dimensional part and a part of the block. For a block of constant
+curvature the internal densities are numbers:
+
+$$
+\begin{aligned}
+&\mathcal{L}_{(1)} = \mathcal{L}^{(4)}_{(1)} + \mathcal{L}^{(\mathrm{int})}_{(1)},\qquad
+ \mathcal{L}_{(2)} = \mathcal{L}^{(4)}_{(2)} + 2\mathcal{L}^{(4)}_{(1)}\mathcal{L}^{(\mathrm{int})}_{(1)}
+ + \mathcal{L}^{(\mathrm{int})}_{(2)},\qquad
+ \mathcal{L}_{(3)} = 3\mathcal{L}^{(4)}_{(2)}\mathcal{L}^{(\mathrm{int})}_{(1)} +
+ 3\mathcal{L}^{(4)}_{(1)}\mathcal{L}^{(\mathrm{int})}_{(2)},\\
+&\mathcal{L}^{(4)}_{(1)} = R^{(4)},\qquad \mathcal{L}^{(4)}_{(3)} = 0,\qquad
+ \mathcal{L}^{(\mathrm{int})}_{(1)} = -12H^2K,\qquad
+ \mathcal{L}^{(\mathrm{int})}_{(2)} = 24H^4K^2,\qquad \mathcal{L}^{(\mathrm{int})}_{(3)} = 0,\\
+&\sum_{p=1}^{3}\alpha_{(p)}\,\mathcal{L}_{(p)} - 2\Lambda - 2\kappa\rho_{\mathrm{stab}}
+ = \mathcal{G}(K)\,R^{(4)} + \text{(topological)} - 2\mathcal{G}(K)\,\Lambda_4,\\
+&\Lambda_4 = \frac{6H^2K\big(1 - 2w_{(2)}K\big) + \Lambda + \kappa\rho_{\mathrm{stab}}}{\mathcal{G}(K)}
+\end{aligned} \tag{FE-48}
+$$
+
+<!-- symbols: Lov, Lov4, Lovint, R4, Hconst, Kblock, ip, alphaL, Lambda, kappa, rhostab, GK, Lambda4, wL -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-48).**
+
+- $\mathcal{L}_{(p)}$: The Lovelock density of order $p$ of the metric (a scalar built from $p$ Riemann tensors): $\mathcal{L}_{(1)} = R$ (Einstein-Hilbert), $\mathcal{L}_{(2)}$ the Gauss-Bonnet density, $\mathcal{L}_{(3)}$ the cubic Lovelock density. Unit: 1/$\mathrm{length}^{2p}$. Status: STANDARD.
+- $\mathcal{L}^{(4)}_{(r)}$: The Lovelock density of order $r$ of the four-dimensional metric $g^{(4)}_{\mu\nu}$ ($\mathcal{L}^{(4)}_{(1)} = R^{(4)}$; the order 2 is topological and the order 3 vanishes in four dimensions). Unit: 1/$\mathrm{length}^{2r}$. Status: STANDARD.
+- $\mathcal{L}^{(\mathrm{int})}_{(r)}$: The Lovelock density of order $r$ of the static block (a four-dimensional space of constant curvature $-H^2K$): 1, $-12H^2K$, $24H^4K^2$, 0 for $r = 0, 1, 2, 3$. Unit: 1/$\mathrm{length}^{2r}$. Status: DERIVED.
+- $R^{(4)}$: The Ricci scalar of the four-dimensional metric $g^{(4)}_{\mu\nu}$. Unit: 1/$\mathrm{length}^{2}$. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $p$: The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic). Status: STANDARD.
+- $\alpha_{(p)}$: The Lovelock coupling of order $p$, $\alpha_{(p)} = w_{(p)}H^{2-2p}$ ($\alpha_{(1)} = 1$). Unit: $\mathrm{GeV}^{2-2p}$. Status: AUTHOR.
+- $\Lambda$: The eight-dimensional cosmological constant, $\Lambda = -10H^2$. Unit: $\mathrm{GeV}^{2}$. Value: $-10H^2$. Status: AUTHOR.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\rho_{\mathrm{stab}}$: The energy density of the block stabiliser, a function of the block scale, $\rho_{\mathrm{stab}} \propto f^{-8}$; its value at the static block is $\rho_{\mathrm{stab}}(f_*)$. Unit: $\mathrm{GeV}^{8}$. Value: $\kappa\rho_{\mathrm{stab}}(f_*) = (26 + 4\sqrt{51})H^2 = 54.566\,H^2$. Status: ASSUMED.
+- $\mathcal{G}(K)$: The coefficient of the four-dimensional Einstein-Hilbert term on a static block, $\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = (K^2 - 12K + 16)/16$; four-dimensional gravity is attractive for $\mathcal{G} > 0$. Unit: dimensionless. Value: $\mathcal{G}(K_*) = 20/3 + \sqrt{51} = 13.8081$. Status: DERIVED.
+- $\Lambda_4$: The four-dimensional cosmological constant of the effective theory on the block, $\Lambda_4 = [6H^2K(1 - 2w_{(2)}K) + \Lambda + \kappa\rho_{\mathrm{stab}}]/\mathcal{G}(K)$; zero at the static point, the observed dark energy a tuned residual. Unit: $\mathrm{GeV}^{2}$. Value: 0 at the static point; observed $\Lambda_4/H^2 \sim 10^{-92}$. Status: DERIVED.
+- $w_{(p)}$: The author's Lovelock weights, $w_{(1)} = 1$, $w_{(2)} = 1/32$, $w_{(3)} = 1/1152$. Unit: dimensionless. Value: $(1, 1/32, 1/1152)$. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+**The terms.** $\mathcal{L}^{(4)}_{(p)}$ are the Lovelock densities of the four observable dimensions ($R^{(4)}$ the scalar curvature; the
+four-dimensional Gauss-Bonnet density is topological, the cubic one vanishes), $\mathcal{L}^{(\mathrm{int})}_{(p)}$ those of the block.
+The coefficient of $R^{(4)}$ is $1 + \alpha_{(2)}(-24H^2K) + \alpha_{(3)}72H^4K^2 = \mathcal{G}(K)$, and the constant terms combine into the
+four-dimensional cosmological constant $\Lambda_4$, whose numerator is the constraint at $\mathcal{H} = 0$: $\Lambda_4 = 0$ exactly on the
+stabilised block. The observed dark energy needs $\Lambda_4/H^2 \sim 10^{-92}$, a tuned residual (OPEN). Status: DERIVED. Residual
+$6.9\times10^{-13}$ (the stored block in $\Lambda_4$ and in the stationarity of the constraint).
+
+$$
+\begin{aligned}
+&G^{(4)}_{\mu\nu} + \Lambda_4\,g^{(4)}_{\mu\nu} = 8\pi G_{\mathrm{N}}\,\mathcal{T}^{(4)}_{\mu\nu},\qquad
+ 8\pi G_{\mathrm{N}} = \frac{\kappa}{\mathcal{G}(K_*)\,V_\perp},\qquad V_\perp =
+ \frac{2f^4v_{\mathrm{t}}\big(1 - \mathrm{e}^{-3HL}\big)}{3H},\\
+&\mathcal{T}^{(4)}_{\mu\nu} =
+ \int\mathrm{d}x_0\,\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\,\sqrt{\lvert
+ g_\perp\rvert}\;\mathcal{T}_{\mu\nu},
+ \qquad g_3^2 = \frac{\hat g_3^2}{V_\perp},\qquad g_2^2 = \frac{\hat g_2^2}{V_\perp},\qquad g_1^2 =
+ \frac{\hat g_1^2}{V_\perp}
+\end{aligned} \tag{FE-49}
+$$
+
+<!-- symbols: G4tensor, imu, inu, Lambda4, g4, pi, GN, T4, kappa, GK, Kstar, Vperp, fblock, vt, euler, Hconst, Lcut, diff, x0, x5, x6, x7, gperp, EMT, g3, ghat3, g2, ghat2, g1, ghat1 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-49).**
+
+- $G^{(4)}_{\mu\nu}$: The Einstein tensor of the four-dimensional metric, $R^{(4)}_{\mu\nu} - \frac12 g^{(4)}_{\mu\nu}R^{(4)}$. Unit: 1/$\mathrm{length}^{2}$. Status: STANDARD.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\nu$: A four-dimensional coordinate index running over $x_1, \dots, x_4$ (as $\mu$). Status: STANDARD.
+- $\Lambda_4$: The four-dimensional cosmological constant of the effective theory on the block, $\Lambda_4 = [6H^2K(1 - 2w_{(2)}K) + \Lambda + \kappa\rho_{\mathrm{stab}}]/\mathcal{G}(K)$; zero at the static point, the observed dark energy a tuned residual. Unit: $\mathrm{GeV}^{2}$. Value: 0 at the static point; observed $\Lambda_4/H^2 \sim 10^{-92}$. Status: DERIVED.
+- $g^{(4)}_{\mu\nu}$: The four-dimensional metric of the observable coordinates $x_1, \dots, x_4$ (the metric of the effective four-dimensional general relativity on the stabilised block). Unit: dimensionless. Status: DERIVED.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $G_{\mathrm{N}}$: Newton's constant of four-dimensional gravity, $8\pi G_{\mathrm{N}} = \kappa/(\mathcal{G}(K_*)V_\perp)$. Unit: $\mathrm{GeV}^{-2}$. Value: $6.709\times10^{-39}$ GeV$^{-2}$ ($M_{\mathrm{Pl}} = G_{\mathrm{N}}^{-1/2} = 1.22091\times10^{19}$ GeV). Status: STANDARD.
+- $\mathcal{T}^{(4)}_{\mu\nu}$: The four-dimensional energy-momentum tensor: $\mathcal{T}_{\mu\nu}$ integrated over the block (both halves of a period of $x_0$ and the extra times). Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\mathcal{G}(K)$: The coefficient of the four-dimensional Einstein-Hilbert term on a static block, $\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = (K^2 - 12K + 16)/16$; four-dimensional gravity is attractive for $\mathcal{G} > 0$. Unit: dimensionless. Value: $\mathcal{G}(K_*) = 20/3 + \sqrt{51} = 13.8081$. Status: DERIVED.
+- $K_*$: The block variable of the stabilised block, $K_* = 12 + \frac43\sqrt{51}$ (the upper root $K_+$). Unit: dimensionless. Value: 21.5219. Status: DERIVED.
+- $V_\perp$: The proper volume of the block per unit four-volume (both halves of a period of $x_0$ and the extra times), $V_\perp = 2f^4v_{\mathrm{t}}(1 - \mathrm{e}^{-3HL})/(3H)$. Unit: $\mathrm{GeV}^{-4}$. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $v_{\mathrm{t}}$: The coordinate volume of the compact extra times $x_5, x_6, x_7$. Unit: $\mathrm{GeV}^{-3}$. Value: not fixed; $v_{\mathrm{t}} = H^{-3}$ in the quoted conversions. Status: ASSUMED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $g_\perp$: The metric of the four transverse directions $x_0, x_5, x_6, x_7$ (the block); $\lvert g_\perp\rvert$ is the absolute value of its determinant. Unit: dimensionless. Status: DERIVED.
+- $\mathcal{T}^M{}_N$: The energy-momentum tensor of all matter (every field except gravity, the stabiliser included), the source of gravity; defined by the change of the matter action under a change of the metric. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $g_3$: The four-dimensional strong coupling ($g_3^2 = 4\pi\alpha_3$). Unit: dimensionless. Value: $g_3^2 = 0.7786$ at $2M_{\mathrm{DM}}$. Status: DERIVED.
+- $\hat g_3$: The eight-dimensional SU(3) coupling (it multiplies the gluon kinetic term as $1/\hat g_3^2$); $g_3^2 = \hat g_3^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $g_2$: The four-dimensional SU(2) coupling ($g_2^2 = 4\pi\alpha_2$). Unit: dimensionless. Value: $g_2^2 = 0.3781$ at $2M_{\mathrm{DM}}$. Status: DERIVED.
+- $\hat g_2$: The eight-dimensional SU(2) coupling; $g_2^2 = \hat g_2^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+- $g_1$: The four-dimensional hypercharge coupling ($g_1^2 = 4\pi\alpha_1$, Standard-Model normalisation without the GUT factor). Unit: dimensionless. Value: $g_1^2 = 0.1380$ at $2M_{\mathrm{DM}}$. Status: DERIVED.
+- $\hat g_1$: The eight-dimensional U(1)$_Y$ coupling; $g_1^2 = \hat g_1^2/V_\perp$. Unit: $\mathrm{GeV}^{-2}$. Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** Four-dimensional gravity on the stabilised block is general relativity with Newton's constant
+$8\pi G_{\mathrm{N}} = \kappa/(\mathcal{G}(K_*)V_\perp)$, where $V_\perp$ is the proper volume of the block (both halves of the period, the four
+block scale factors $f^4$, the coordinate volume $v_{\mathrm{t}}$ of the extra times); $\kappa/V_\perp = 2.328\times10^{-36}$ GeV$^{-2}$ reproduces
+$M_{\mathrm{Pl}} = 1.22091\times10^{19}$ GeV. The four-dimensional energy-momentum tensor is the eight-dimensional one integrated over the
+block, and the four-dimensional gauge couplings are the eight-dimensional ones divided by the same volume (they run below
+$m_{\mathrm{KK}}$ as in the Standard Model without a Higgs particle, FE-77, FE-83; at the scale $2M_{\mathrm{DM}} = 88.7$ TeV of the portal
+I12, $g_3^2 = 0.7786$, $g_2^2 = 0.3781$, $g_1^2 = 0.1380$). Status: DERIVED. Its linear perturbations are FE-90.
+
+
+# The masses from the hidden coordinate
+
+On the static block every field is a sum of modes, each a four-dimensional field times a profile in the hidden coordinate. The
+four-dimensional mass of a mode is an eigenvalue of the $x_0$ problem of its field: the profile depends on $x_0$ periodically, with
+the period $\pi/(6H)$, through $y(z)$. With $\xi = y/L$ on each half of a period, the eigenvalue of a boson is $\tilde m = m\,fL$ and that
+of a fermion $\tilde\varepsilon = \varepsilon fL$. There is no Higgs field: the gauge bosons get their masses from the tip, the fermions from
+their localisation in $x_0$ and from the tip mixing.
+
+## The gauge bosons and the graviton
+
+A four-dimensional component of a gauge field (of the gluons, of $W$ or of $B$) is a four-dimensional field times a profile $F(y)$, in
+the gauge where the $y$ component vanishes. Inserted in the gauge
+action IN-8 on the static block, the field strengths along the four observable directions carry $F^2$ and those along $y$ carry
+$(\partial_yF)^2/f^2$; integrated over the block they give, for each half of the period, the reduced action and its eigenvalue
+equation:
+
+$$
+\begin{aligned}
+&\int_{-L}^{0}\mathrm{d}y\,f^4\mathrm{e}^{3Hy}\Big[\frac{(\partial_yF)^2}{f^2} -
+ m^2F^2\Big]\ \text{stationary}:\qquad
+ -\frac{1}{f^2}\,\mathrm{e}^{-3Hy}\,\partial_y\big(\mathrm{e}^{3Hy}\,\partial_yF\big) = m^2F,\\
+&\Leftrightarrow\qquad
+ -\mathrm{e}^{-3HL\xi}\,\frac{\mathrm{d}}{\mathrm{d}\xi}\Big(\mathrm{e}^{3HL\xi}\,\frac{\mathrm{d}F}{
+ \mathrm{d}\xi}\Big)
+ = \tilde m^2F,\qquad \tilde m = m\,fL
+\end{aligned} \tag{FE-50}
+$$
+
+<!-- symbols: Lcut, diff, ycoord, fblock, euler, Hconst, partial, iy, Fprof, mmass, xi, mtilde -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-50).**
+
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $y$: The label $y$ in $\partial_y$: the derivative with respect to the hidden coordinate $y$. Status: STANDARD.
+- $F(\xi),\ F_n$: The $x_0$ profile of a boson mode on one half of the period (a function of $y$ or of $\xi = y/L$): of a gauge field (gauge $A_y = 0$) or of the transverse-traceless graviton; $F_n$ is the profile of the $n$-th Kaluza-Klein level of the graviton tower ($F_0 = 1$ the flat zero mode). Unit: dimensionless. Status: DERIVED.
+- $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- $\tilde m,\ \tilde m_n$: The dimensionless $x_0$ eigenvalue of a boson mode, $\tilde m = m\,fL$; $\tilde m_n$ the $n$-th even Kaluza-Klein level of the tower with $\beta = 0$ ($\tilde m_1$ the first). Unit: dimensionless. Value: $\tilde m_1^2 = 30.1196$, $\tilde m_2^2 = 59.7284$, $\tilde m_3^2 = 109.0764$ ($HL = 3$), i.e. $\tilde m_1 = 5.48813$, $\tilde m_2 = 7.72842$, $\tilde m_3 = 10.44397$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $f^4\mathrm{e}^{3Hy}$ is the proper volume of the block per unit $y$, $(\partial_yF)^2/f^2$ the energy of the variation of the
+profile along the proper hidden length, and $m^2F^2$ the four-dimensional mass term. Stationarity gives a Sturm-Liouville problem whose
+eigenvalue is the squared four-dimensional mass; in the variable $\xi$ the block scale and the length $L$ combine into the
+dimensionless eigenvalue $\tilde m$. The same operator holds for every four-dimensional component of the gluons, the $W$ and the $B$
+field and, in Einstein gravity, for the transverse-traceless graviton; with the Gauss-Bonnet and cubic terms the four-dimensional and
+the hidden parts of the graviton operator acquire curvature-dependent coefficients, which are not computed: the graviton tower
+(FE-53) is that of Einstein gravity (OPEN). Status: DERIVED. Residual of the stored eigenvalues $5.9\times10^{-12}$.
+
+$$
+\begin{aligned}
+&\frac{\mathrm{d}F}{\mathrm{d}\xi}\Big\vert_{\xi=0} = 0\ \ \text{(even)}\quad\text{or}\quad F(0) =
+ 0\ \ \text{(odd)},\qquad
+ \frac{\mathrm{d}F}{\mathrm{d}\xi}\Big\vert_{\xi=-1} = \beta\,F(-1),\\
+&\beta = 0\ \ (\text{photon, gluons, graviton}),\qquad \beta = \beta_{\mathrm{W}}\ \ (W^\pm),\qquad
+ \beta = \beta_{\mathrm{Z}} = \frac{\beta_{\mathrm{W}}}{\cos^2\theta_{\mathrm{W}}}\ \ (Z)
+\end{aligned} \tag{FE-51}
+$$
+
+<!-- symbols: diff, Fprof, xi, betaRobin, betaW, Wpm, betaZ, thetaW, Zboson -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-51).**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $F(\xi),\ F_n$: The $x_0$ profile of a boson mode on one half of the period (a function of $y$ or of $\xi = y/L$): of a gauge field (gauge $A_y = 0$) or of the transverse-traceless graviton; $F_n$ is the profile of the $n$-th Kaluza-Klein level of the graviton tower ($F_0 = 1$ the flat zero mode). Unit: dimensionless. Status: DERIVED.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- $\beta$: The Robin parameter of the tip condition of a boson profile, $\mathrm{d}F/\mathrm{d}\xi = \beta F$ at $\xi = -1$ (zero for the massless gauge fields and the graviton). Unit: dimensionless. Status: DERIVED.
+- $\beta_{\mathrm{W}}$: The Robin parameter of $W^+$ and $W^-$ (set by the tip mass term of the sigma field). Unit: dimensionless. Value: 0.011912 (fitted). Status: DERIVED.
+- $W^\pm_M,\ W^+,\ W^-$: The charged weak bosons, canonically normalised: $W^\pm_M = (W^1_M \mp \mathrm{i}W^2_M)/(\sqrt2\,\hat g_2)$; $W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$ (they are each other's antiparticles and have one mass). Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\beta_{\mathrm{Z}}$: The Robin parameter of the $Z$, $\beta_{\mathrm{Z}} = \beta_{\mathrm{W}}/\cos^2\theta_{\mathrm{W}}$. Unit: dimensionless. Value: 0.015343. Status: DERIVED.
+- $\theta_{\mathrm{W}}$: The weak mixing angle of the couplings, $\cos\theta_{\mathrm{W}} = \hat g_2/\hat g_Z$, $\sin\theta_{\mathrm{W}} = \hat g_1/\hat g_Z$; fixed by the measured $W$ and $Z$ masses with $\rho_{\mathrm{EW},0}$. Unit: dimensionless. Value: $\cos^2\theta_{\mathrm{W}} = 0.776368$. Status: DERIVED.
+- $Z_M$: The $Z$ boson field, canonically normalised, $Z_M = (W^3_M - B_M)/\hat g_Z$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** At the fold the profile is even or odd under the reflection $z \to \pi - z$ (FE-27). At the tip the boundary term of the
+variation, $2f^2\mathrm{e}^{3Hy}\partial_yF\,\Delta F$, is balanced by the variation of the tip mass term IN-15, which gives the Robin
+condition with the parameter $\beta$: zero for the photon, the gluons and the graviton (no tip mass term), $\beta_{\mathrm{W}}$ for $W^+$ and
+$W^-$ (one value for both, which are particle and antiparticle), and $\beta_{\mathrm{Z}}$ for the $Z$. The ratio $\beta_{\mathrm{Z}}/\beta_{\mathrm{W}} =
+\hat g_Z^2/\hat g_2^2 = 1/\cos^2\theta_{\mathrm{W}}$ is the ratio of the coefficients of the tip mass terms in IN-15; $\beta_{\mathrm{W}} = 0.011912$
+(proportional to $v_\Sigma^2$) is fitted to the measured masses (FE-55). Status: DERIVED.
+
+With $F = \mathrm{e}^{-3HL\xi/2}\tilde F$ the operator loses its first-derivative term and the conditions become
+
+$$
+\begin{aligned}
+&-\frac{\mathrm{d}^2\tilde F}{\mathrm{d}\xi^2} + \frac{9H^2L^2}{4}\,\tilde F = \tilde m^2\tilde F,\qquad
+ \frac{\mathrm{d}\tilde F}{\mathrm{d}\xi} - \frac{3HL}{2}\,\tilde F = 0\ \ (\xi = 0,\ \text{even}),\qquad
+ \tilde F = 0\ \ (\xi = 0,\ \text{odd}),\\
+&\frac{\mathrm{d}\tilde F}{\mathrm{d}\xi} - \Big(\beta + \frac{3HL}{2}\Big)\tilde F = 0\ \ (\xi = -1),
+\end{aligned}
+$$
+
+<!-- symbols: diff, Ftilde, xi, Hconst, Lcut, mtilde, betaRobin -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\tilde F$: The rescaled boson profile, $F = \mathrm{e}^{-3HL\xi/2}\tilde F$. Unit: dimensionless. Status: DERIVED.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\tilde m,\ \tilde m_n$: The dimensionless $x_0$ eigenvalue of a boson mode, $\tilde m = m\,fL$; $\tilde m_n$ the $n$-th even Kaluza-Klein level of the tower with $\beta = 0$ ($\tilde m_1$ the first). Unit: dimensionless. Value: $\tilde m_1^2 = 30.1196$, $\tilde m_2^2 = 59.7284$, $\tilde m_3^2 = 109.0764$ ($HL = 3$), i.e. $\tilde m_1 = 5.48813$, $\tilde m_2 = 7.72842$, $\tilde m_3 = 10.44397$. Status: DERIVED.
+- $\beta$: The Robin parameter of the tip condition of a boson profile, $\mathrm{d}F/\mathrm{d}\xi = \beta F$ at $\xi = -1$ (zero for the massless gauge fields and the graviton). Unit: dimensionless. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+whose even solution is $\tilde F = \cos\varpi\xi + \frac{3HL}{2\varpi}\sin\varpi\xi$ and whose odd solution is $\tilde F = \sin\varpi\xi$; the tip
+condition then gives:
+
+$$
+\begin{aligned}
+&F = \mathrm{e}^{-3HL\xi/2}\,\tilde F,\qquad \varpi^2 = \tilde m^2 - \frac{9H^2L^2}{4}:\\
+&\text{even: }\Big[\varpi^2 + \frac{3HL}{2}\Big(\beta + \frac{3HL}{2}\Big)\Big]\sin\varpi -
+ \beta\,\varpi\cos\varpi = 0,\qquad
+ \text{odd: }\varpi\cos\varpi + \Big(\beta + \frac{3HL}{2}\Big)\sin\varpi = 0;\\
+&\beta = 0:\quad \tilde m = 0\ \text{(flat profile)},\qquad \tilde m_n^2 = \frac{9H^2L^2}{4} +
+ \varpi_n^2\ \text{(even)},\qquad
+ \varpi\cot\varpi = -\frac{3HL}{2}\ \text{(odd)}
+\end{aligned} \tag{FE-52}
+$$
+
+<!-- symbols: Fprof, euler, Hconst, Lcut, xi, Ftilde, varpi, mtilde, betaRobin, in -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-52).**
+
+- $F(\xi),\ F_n$: The $x_0$ profile of a boson mode on one half of the period (a function of $y$ or of $\xi = y/L$): of a gauge field (gauge $A_y = 0$) or of the transverse-traceless graviton; $F_n$ is the profile of the $n$-th Kaluza-Klein level of the graviton tower ($F_0 = 1$ the flat zero mode). Unit: dimensionless. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- $\tilde F$: The rescaled boson profile, $F = \mathrm{e}^{-3HL\xi/2}\tilde F$. Unit: dimensionless. Status: DERIVED.
+- $\varpi,\ \varpi_n$: The wave number of an oscillating $x_0$ profile on $-1 \le \xi \le 0$ (of a boson after the rescaling, or of a bulk level of dirac16complex); $\varpi_n$ that of the $n$-th even level ($\varpi_n = n\pi$ for $\beta = 0$). Unit: dimensionless. Value: 1.89901 for the lowest odd level of dirac16complex. Status: DERIVED.
+- $\tilde m,\ \tilde m_n$: The dimensionless $x_0$ eigenvalue of a boson mode, $\tilde m = m\,fL$; $\tilde m_n$ the $n$-th even Kaluza-Klein level of the tower with $\beta = 0$ ($\tilde m_1$ the first). Unit: dimensionless. Value: $\tilde m_1^2 = 30.1196$, $\tilde m_2^2 = 59.7284$, $\tilde m_3^2 = 109.0764$ ($HL = 3$), i.e. $\tilde m_1 = 5.48813$, $\tilde m_2 = 7.72842$, $\tilde m_3 = 10.44397$. Status: DERIVED.
+- $\beta$: The Robin parameter of the tip condition of a boson profile, $\mathrm{d}F/\mathrm{d}\xi = \beta F$ at $\xi = -1$ (zero for the massless gauge fields and the graviton). Unit: dimensionless. Status: DERIVED.
+- $n$: The level number of the Kaluza-Klein tower ($n = 1, 2, 3, \dots$; $n = 0$ the flat zero mode). Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $\varpi$ is the wave number of the rescaled profile; $9H^2L^2/4 = 20.25$ is a gap: every excited level lies above it.
+For $\beta = 0$ the even condition has the root $\tilde m = 0$ with the flat profile $F = 1$: the graviton, the photon and the gluons
+are exactly massless, and their profile is the same at every point of the hidden direction. The excited even levels are
+$\tilde m_n^2 = 20.25 + n^2\pi^2$ ($\tilde m_1^2 = 30.1196$) and the first odd level is $\tilde m^2 = 27.0890$. For the small $\beta$ of $W^\pm$ and
+$Z$ the lowest even root is far below the gap: $\tilde m_{\mathrm{W}}^2 = 1.32149\times10^{-5}$ and $\tilde m_{\mathrm{Z}}^2 = 1.70150\times10^{-5}$,
+approximately $\tilde m^2 \simeq \beta\,\mathrm{e}^{-3HL}/N_0$ with $N_0 = (1 - \mathrm{e}^{-3HL})/(3HL)$ (integrate the equation over $\xi$ with $F \simeq 1$). Status: DERIVED (mpmath; finite elements to
+$3\times10^{-14}$).
+
+$$
+\begin{aligned}
+&F_n(\xi) = \mathrm{e}^{-3HL\xi/2}\Big(\cos\varpi_n\xi + \frac{3HL}{2\varpi_n}\sin\varpi_n\xi\Big),\qquad
+ \varpi_n = \pi,\ 2\pi,\ 3\pi,\ \dots,\\
+&\tilde m_n^2 = \frac{9H^2L^2}{4} + \varpi_n^2,\qquad m^{\mathrm{KK}}_n = \frac{\tilde m_n}{fL},\qquad
+ N_n = \int_{-1}^{0}\mathrm{e}^{3HL\xi}F_n^2\,\mathrm{d}\xi = \frac12\Big(1 +
+ \frac{9H^2L^2}{4\varpi_n^2}\Big),\qquad
+ N_0 = \frac{1 - \mathrm{e}^{-3HL}}{3HL}
+\end{aligned} \tag{FE-53}
+$$
+
+<!-- symbols: Fprof, in, xi, euler, Hconst, Lcut, varpi, pi, mtilde, mKK, fblock, Nnorm, diff -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-53).**
+
+- $F(\xi),\ F_n$: The $x_0$ profile of a boson mode on one half of the period (a function of $y$ or of $\xi = y/L$): of a gauge field (gauge $A_y = 0$) or of the transverse-traceless graviton; $F_n$ is the profile of the $n$-th Kaluza-Klein level of the graviton tower ($F_0 = 1$ the flat zero mode). Unit: dimensionless. Status: DERIVED.
+- $n$: The level number of the Kaluza-Klein tower ($n = 1, 2, 3, \dots$; $n = 0$ the flat zero mode). Status: DERIVED.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\varpi,\ \varpi_n$: The wave number of an oscillating $x_0$ profile on $-1 \le \xi \le 0$ (of a boson after the rescaling, or of a bulk level of dirac16complex); $\varpi_n$ that of the $n$-th even level ($\varpi_n = n\pi$ for $\beta = 0$). Unit: dimensionless. Value: 1.89901 for the lowest odd level of dirac16complex. Status: DERIVED.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\tilde m,\ \tilde m_n$: The dimensionless $x_0$ eigenvalue of a boson mode, $\tilde m = m\,fL$; $\tilde m_n$ the $n$-th even Kaluza-Klein level of the tower with $\beta = 0$ ($\tilde m_1$ the first). Unit: dimensionless. Value: $\tilde m_1^2 = 30.1196$, $\tilde m_2^2 = 59.7284$, $\tilde m_3^2 = 109.0764$ ($HL = 3$), i.e. $\tilde m_1 = 5.48813$, $\tilde m_2 = 7.72842$, $\tilde m_3 = 10.44397$. Status: DERIVED.
+- $m^{\mathrm{KK}}_n,\ m_{\mathrm{KK}}$: The mass of the $n$-th Kaluza-Klein graviton (and gauge) level, $m^{\mathrm{KK}}_n = \tilde m_n/(fL)$; $m_{\mathrm{KK}} = m^{\mathrm{KK}}_1$ is the Kaluza-Klein scale. Unit: GeV. Value: $m_{\mathrm{KK}} = 121.32$ TeV. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $N_n,\ N_0$: The normalisation integral of the profile $F_n$ of the $n$-th Kaluza-Klein level, $N_n = \int_{-1}^{0}\mathrm{e}^{3HL\xi}F_n^2\,\mathrm{d}\xi$; $N_0$ that of the flat zero mode. Unit: dimensionless. Value: $N_0 = (1 - \mathrm{e}^{-3HL})/(3HL) = 0.1111$. Status: DERIVED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The tower of Kaluza-Klein gravitons, the terms $n \ge 1$ of the expansion of the metric perturbation in $x_0$ profiles
+(FE-87): $F_n$ is the even profile with $\varpi_n = n\pi$, $m^{\mathrm{KK}}_n$ the four-dimensional mass and $N_n$ the norm of the profile in
+the measure $\mathrm{e}^{3HL\xi}\,\mathrm{d}\xi$ ($N_0$ that of the flat zero mode, the massless four-dimensional graviton). The first level sets
+the Kaluza-Klein scale $m_{\mathrm{KK}} = m^{\mathrm{KK}}_1 = 121.32$ TeV; $\tilde m_n^2 = 30.1196$, 59.7284 and 109.0764 for $n = 1, 2, 3$. The same
+levels are the Kaluza-Klein modes of the gauge fields. Status: DERIVED (finite elements agree to $3.9\times10^{-9}$; Einstein gravity,
+see FE-50). Residual of the stored tower $1.2\times10^{-12}$.
+
+$$
+V_{\mathrm{N}}(r) = -\frac{G_{\mathrm{N}}M_1M_2}{r}\Big[1 +
+ \sum_{n\ge1}\mathcal{A}_n\,\mathrm{e}^{-m^{\mathrm{KK}}_nr}\Big],\qquad
+\mathcal{A}_n = \frac{N_0}{N_n}\Big(\int_{-1}^{0}\varrho_1F_n\,\mathrm{d}\xi\Big)\Big(\int_{-1}^{0}
+ \varrho_2F_n\,\mathrm{d}\xi\Big) \tag{FE-54}
+$$
+
+<!-- symbols: VN, rdist, GN, M12, in, calA, euler, mKK, Nnorm, varrho12, Fprof, diff, xi -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-54).**
+
+- $V_{\mathrm{N}}(r)$: The potential energy of two static masses at the distance $r$ (Newton potential with the Kaluza-Klein corrections). Unit: GeV. Status: DERIVED.
+- $r$: A distance: between the two masses in $V_{\mathrm{N}}(r)$, from the centre of the star in the adiabaticity condition. Unit: length. Status: STANDARD.
+- $G_{\mathrm{N}}$: Newton's constant of four-dimensional gravity, $8\pi G_{\mathrm{N}} = \kappa/(\mathcal{G}(K_*)V_\perp)$. Unit: $\mathrm{GeV}^{-2}$. Value: $6.709\times10^{-39}$ GeV$^{-2}$ ($M_{\mathrm{Pl}} = G_{\mathrm{N}}^{-1/2} = 1.22091\times10^{19}$ GeV). Status: STANDARD.
+- $M_1,\ M_2$: The masses of the two static sources in the potential $V_{\mathrm{N}}$. Unit: GeV. Status: STANDARD.
+- $n$: The level number of the Kaluza-Klein tower ($n = 1, 2, 3, \dots$; $n = 0$ the flat zero mode). Status: DERIVED.
+- $\mathcal{A}_n$: The relative strength of the Yukawa force of the $n$-th Kaluza-Klein graviton between two sources with the profiles $\varrho_1$, $\varrho_2$. Unit: dimensionless. Value: 0.0904, 0.0136, 0.0057 ($n = 1, 2, 3$, two quark-doublet profiles). Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $m^{\mathrm{KK}}_n,\ m_{\mathrm{KK}}$: The mass of the $n$-th Kaluza-Klein graviton (and gauge) level, $m^{\mathrm{KK}}_n = \tilde m_n/(fL)$; $m_{\mathrm{KK}} = m^{\mathrm{KK}}_1$ is the Kaluza-Klein scale. Unit: GeV. Value: $m_{\mathrm{KK}} = 121.32$ TeV. Status: DERIVED.
+- $N_n,\ N_0$: The normalisation integral of the profile $F_n$ of the $n$-th Kaluza-Klein level, $N_n = \int_{-1}^{0}\mathrm{e}^{3HL\xi}F_n^2\,\mathrm{d}\xi$; $N_0$ that of the flat zero mode. Unit: dimensionless. Value: $N_0 = (1 - \mathrm{e}^{-3HL})/(3HL) = 0.1111$. Status: DERIVED.
+- $\varrho_1,\ \varrho_2$: The $x_0$ profiles of the two sources of $V_{\mathrm{N}}$ as probability densities in $\xi$ ($\int_{-1}^{0}\varrho_1\,\mathrm{d}\xi = 1$): $L$ times the profile $\varrho_f$ of the zero mode of each source. Unit: dimensionless. Status: DERIVED.
+- $F(\xi),\ F_n$: The $x_0$ profile of a boson mode on one half of the period (a function of $y$ or of $\xi = y/L$): of a gauge field (gauge $A_y = 0$) or of the transverse-traceless graviton; $F_n$ is the profile of the $n$-th Kaluza-Klein level of the graviton tower ($F_0 = 1$ the flat zero mode). Unit: dimensionless. Status: DERIVED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** Two static masses $M_1$, $M_2$ whose matter is distributed in $x_0$ with the normalised densities $\varrho_1$, $\varrho_2$
+exchange the massless graviton (Newton's potential) and the tower: each level adds a Yukawa potential with the range $1/m^{\mathrm{KK}}_n$
+and the strength $\mathcal{A}_n$, the product of the overlaps of the two densities with the profile of the level. For the
+zero-mode profiles of quark doublets $\mathcal{A}_n = 0.0904$, 0.0136, 0.0057; for the flat profile of the gauge zero modes all
+$\mathcal{A}_n$ vanish (the profiles are orthogonal). The range $1/m_{\mathrm{KK}} = 1.6\times10^{-21}$ m is far below every measured distance, so
+Newton's law is exact wherever it is tested. Status: DERIVED.
+
+$$
+\rho_{\mathrm{EW}} = \frac{\tilde m_{\mathrm{W}}^2}{\tilde m_{\mathrm{Z}}^2\cos^2\theta_{\mathrm{W}}} =
+ \rho_{\mathrm{EW},0},\qquad
+\cos^2\theta_{\mathrm{W}} = \frac{m_{\mathrm{W}}^2/m_{\mathrm{Z}}^2}{\rho_{\mathrm{EW},0}},\qquad
+m_{\mathrm{KK}} = m_{\mathrm{W}}\,\frac{\tilde m_1}{\tilde m_{\mathrm{W}}},\qquad
+m_{\mathrm{Z}} = m_{\mathrm{W}}\,\frac{\tilde m_{\mathrm{Z}}}{\tilde m_{\mathrm{W}}} \tag{FE-55}
+$$
+
+<!-- symbols: rhoEW, mtildeW, mtildeZ, thetaW, rhoEW0, mW, mZ, mKK, mtilde -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-55).**
+
+- $\rho_{\mathrm{EW}}$: The electroweak parameter, $\rho_{\mathrm{EW}} = \tilde m_{\mathrm{W}}^2/(\tilde m_{\mathrm{Z}}^2\cos^2\theta_{\mathrm{W}})$. Unit: dimensionless. Status: DERIVED.
+- $\tilde m_{\mathrm{W}}$: The dimensionless $x_0$ eigenvalue of the lowest $W^\pm$ mode ($\beta = \beta_{\mathrm{W}}$). Unit: dimensionless. Value: $\tilde m_{\mathrm{W}}^2 = 1.32149\times10^{-5}$. Status: DERIVED.
+- $\tilde m_{\mathrm{Z}}$: The dimensionless $x_0$ eigenvalue of the lowest $Z$ mode ($\beta = \beta_{\mathrm{Z}}$). Unit: dimensionless. Value: $\tilde m_{\mathrm{Z}}^2 = 1.70150\times10^{-5}$. Status: DERIVED.
+- $\theta_{\mathrm{W}}$: The weak mixing angle of the couplings, $\cos\theta_{\mathrm{W}} = \hat g_2/\hat g_Z$, $\sin\theta_{\mathrm{W}} = \hat g_1/\hat g_Z$; fixed by the measured $W$ and $Z$ masses with $\rho_{\mathrm{EW},0}$. Unit: dimensionless. Value: $\cos^2\theta_{\mathrm{W}} = 0.776368$. Status: DERIVED.
+- $\rho_{\mathrm{EW},0}$: The measured value of the electroweak parameter (PDG fit). Unit: dimensionless. Value: $1.00038$. Status: STANDARD.
+- $m_{\mathrm{W}}$: The mass of $W^+$ and $W^-$. Unit: GeV. Value: 80.3625 GeV (measured, input). Status: STANDARD.
+- $m_{\mathrm{Z}}$: The mass of the $Z$. Unit: GeV. Value: 91.1879 GeV (reproduced). Status: STANDARD.
+- $m^{\mathrm{KK}}_n,\ m_{\mathrm{KK}}$: The mass of the $n$-th Kaluza-Klein graviton (and gauge) level, $m^{\mathrm{KK}}_n = \tilde m_n/(fL)$; $m_{\mathrm{KK}} = m^{\mathrm{KK}}_1$ is the Kaluza-Klein scale. Unit: GeV. Value: $m_{\mathrm{KK}} = 121.32$ TeV. Status: DERIVED.
+- $\tilde m,\ \tilde m_n$: The dimensionless $x_0$ eigenvalue of a boson mode, $\tilde m = m\,fL$; $\tilde m_n$ the $n$-th even Kaluza-Klein level of the tower with $\beta = 0$ ($\tilde m_1$ the first). Unit: dimensionless. Value: $\tilde m_1^2 = 30.1196$, $\tilde m_2^2 = 59.7284$, $\tilde m_3^2 = 109.0764$ ($HL = 3$), i.e. $\tilde m_1 = 5.48813$, $\tilde m_2 = 7.72842$, $\tilde m_3 = 10.44397$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $\rho_{\mathrm{EW}}$ is the electroweak parameter of the tree-level masses; at leading order in $\beta$ it is exactly 1
+(because $\beta_{\mathrm{Z}}/\beta_{\mathrm{W}} = 1/\cos^2\theta_{\mathrm{W}}$, the custodial relation), and the next order makes it larger than 1.
+$\beta_{\mathrm{W}}$ is fitted so that $\rho_{\mathrm{EW}}$ equals the measured value, $\rho_{\mathrm{EW},0} - 1 = 0.00038$; with the measured $m_{\mathrm{W}}$
+and $m_{\mathrm{Z}}$ this fixes the weak angle of the couplings, $\cos^2\theta_{\mathrm{W}} = 0.776368$. Then $m_{\mathrm{Z}}$ follows from the ratio of
+the eigenvalues: the measured $m_{\mathrm{W}} = 80.3625$ GeV gives the measured $m_{\mathrm{Z}} = 91.1879$ GeV (to $10^{-8}$, a consequence of the
+fit), and the first even level gives the
+Kaluza-Klein scale $m_{\mathrm{KK}} = 121.32$ TeV and with it the author's constant $H = 14.296$ TeV. The tree-level $Z$ widths of three
+generations agree with the measured total width to 0.4 % (the size of the neglected electroweak loop corrections). Status: DERIVED
+(fit).
+
+## The fermions
+
+Every fermion of UM-2 obeys an eight-dimensional Dirac equation of the form $\gamma^MD_M\Psi = (M(y) - \mathrm{i}v(y)\gamma^{x_4})\Psi$, with a
+mass function $M(y)$ and a vector potential $v(y)$ along the time: $M = m_\Psi$ for free dirac16complex, $M = \mu_{\psi i}$, $v = 0$ for a
+Standard-Model multiplet, and the Kohn-Sham mean fields for the interacting dirac16complex (FE-63). It reduces exactly:
+
+$$
+\begin{aligned}
+&\Psi = \mathrm{e}^{\mathrm{i}kx_1}\,\mathrm{e}^{-\frac32Hy}\,\mathrm{e}^{a_4/2}\,b_4^{-1}\,\mathcal{V}
+ \chi(y, x_4):\\
+&\gamma^MD_M\Psi - \big(M(y) - \mathrm{i}v(y)\gamma^{x_4}\big)\Psi
+ = \mathrm{e}^{\mathrm{i}kx_1}\,\mathrm{e}^{-\frac32Hy}\,\mathrm{e}^{a_4/2}\,b_4^{-1}\,\gamma^{x_4}\mathcal{V}
+ \big[\partial_{x_4}\chi + \mathrm{i}h\chi\big],\\
+&h = \varsigma\Big[-\frac{\mathrm{i}}{f}\sigma_1\partial_y + M(y)\,\sigma_2 +
+ \mathrm{e}^{-a_4}k\,\sigma_3\Big] + v(y),\qquad
+ \mathrm{i}\,\partial_{x_4}\chi = h\chi;\\
+&\text{in each block: }\gamma^{x_0} = \sigma_3,\qquad \mathcal{B} = \varsigma\varsigma_2,\qquad
+ C = \varsigma_2\sigma_2,\qquad \Gamma_4 = -\varsigma\varsigma_2\sigma_3
+\end{aligned} \tag{FE-56}
+$$
+
+<!-- symbols: Psi, euler, imag, kwave, x1, Hconst, ycoord, a4, b4, calV, chi, x4, gamma, iM, Dcov, Mfun, vpot, partial, hblock, varsigma, fblock, sigmaPauli, iy, x0, calB, varsigma2, Cmat, Gamma4 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-56).**
+
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $b_4$: The author's metric function of the time $x_4$ in the hidden and extra-time components, $b_4 > 0$. Unit: dimensionless. Status: AUTHOR.
+- $\mathcal{V}$: The constant $16 \times 2$ matrix of the reduction ansatz that places the two-component spinor $\chi$ of one block into the 16 components of the eight-dimensional spinor. Unit: dimensionless. Status: DERIVED.
+- $\chi,\ \chi_o,\ \chi_1,\ \chi_2$: The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\chi = (\chi_1, \chi_2)^T = (a, \mathrm{i}b)^T$; $\chi_o$ the Kohn-Sham orbital $o$, normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $M(y)$: The mass function of the block Hamiltonian (the scalar potential): $M = \mu_{\psi i}$ for a Standard-Model fermion, $M = M_{\mathrm{eff}}$ for dirac16complex. Unit: GeV. Status: DERIVED.
+- $v(y)$: The vector potential of the block Hamiltonian (the mean field along $\gamma^{x_4}$): for dirac16complex the contact term and the mean field of I11; zero for a Standard-Model fermion. Unit: GeV. Status: DERIVED.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $h$: The block Hamiltonian: the $2 \times 2$ differential operator of one block that generates the time evolution of $\chi$, $\mathrm{i}\,\partial_{x_4}\chi = h\chi$; its eigenvalues are the energies $\varepsilon$. Unit: GeV. Status: DERIVED.
+- $\varsigma$: The first of the three signs $(\varsigma, \varsigma_2, \varsigma_3)$, each $\pm1$, that label the eight blocks of the reduction. Unit: dimensionless. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\sigma_1,\ \sigma_2,\ \sigma_3$: The Pauli matrices acting on the two components of a block spinor $\chi$ ($\sigma_3 = \mathrm{diag}(1, -1)$). Unit: dimensionless. Status: STANDARD.
+- $y$: The label $y$ in $\partial_y$: the derivative with respect to the hidden coordinate $y$. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $\mathcal{B}$: The author's operator $\mathcal{B} = -\mathrm{i}C\gamma^{x_4}$; its eigenvalues $\mp1$ define the halves $\Psi_A$ and $\Psi_B$, and it commutes with every interaction of the good sector. Unit: dimensionless. Status: AUTHOR.
+- $\varsigma_2$: The second sign that labels the blocks ($\pm1$). Unit: dimensionless. Status: DERIVED.
+- $C$: The matrix of the Dirac adjoint, $C = \gamma^{x_0}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}$ ($\bar\Psi = \Psi^\dagger C$); in each block of the reduction $C = \varsigma_2\sigma_2$. Unit: dimensionless. Status: AUTHOR.
+- $\Gamma_4$: The four-dimensional chirality matrix, $\Gamma_4 = \mathrm{i}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}\gamma^{x_4}$; a doublet zero mode has $\Gamma_4 = +1$ (left-handed), a singlet zero mode $\Gamma_4 = -1$ (right-handed). Unit: dimensionless. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The ansatz has a plane wave $\mathrm{e}^{\mathrm{i}kx_1}$ along ordinary space, the warp factor $\mathrm{e}^{-\frac32Hy}$ (which removes the
+spin-connection term $\frac32(H/f)\gamma^{x_0}$ of FE-13), the time-dependent factor $\mathrm{e}^{a_4/2}b_4^{-1}$ (which removes the term along
+$\gamma^{x_4}$), the constant $16 \times 2$ matrix $\mathcal{V}$ (two columns of the record's unitary block basis, which splits the sixteen components into
+eight blocks of two) and the two-component block spinor $\chi$. The eight-dimensional equation becomes the Schrödinger form
+$\mathrm{i}\,\partial_{x_4}\chi = h\chi$ with the block Hamiltonian $h$: $-\frac{\mathrm{i}}{f}\sigma_1\partial_y$ is the momentum along the proper
+hidden length, $M(y)\sigma_2$ the mass, $\mathrm{e}^{-a_4}k\sigma_3$ the physical momentum along ordinary space, and $v(y)$ the potential;
+$\varsigma = \pm1$ is the first of the three signs that label the block. In each block $\gamma^{x_0}$, $\mathcal{B}$, $C$ and $\Gamma_4$ are the matrices or numbers in the
+last line. Status: DERIVED (exact in all eight blocks, for general $a_4$, $b_4$, $M$, $v$; checked with the author's matrices).
+
+$$
+\begin{aligned}
+&\chi = \big(\mathrm{e}^{c\xi},\ 0\big)^T\ \ (\text{doublet},\ \Gamma_4 = +1),\qquad
+ \chi = \big(0,\ \mathrm{e}^{-c\xi}\big)^T\ \ (\text{singlet},\ \Gamma_4 = -1),\qquad c = f\mu L,\\
+&h\big(\mathrm{e}^{c\xi},\ 0\big)^T = \varsigma\,\mathrm{e}^{-a_4}k\big(\mathrm{e}^{c\xi},\ 0\big)^T
+\end{aligned} \tag{FE-57}
+$$
+
+<!-- symbols: chi, euler, cloc, xi, transpose, Gamma4, fblock, mubulk, Lcut, hblock, varsigma, a4, kwave -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-57).**
+
+- $\chi,\ \chi_o,\ \chi_1,\ \chi_2$: The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\chi = (\chi_1, \chi_2)^T = (a, \mathrm{i}b)^T$; $\chi_o$ the Kohn-Sham orbital $o$, normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $c,\ c_L,\ c_R$: The localisation of a zero mode, $c = f\mu L$ (bulk mass times the proper depth); $c_L$ of a doublet (localised at the fold for $c_L > 0$), $c_R$ of a singlet (localised at the fold for $c_R < 0$). Unit: dimensionless. Value: doublets $c_L = 3.38230$ (quarks) and 5.95288 (leptons); singlets $c_R$: up $-15.4300$, down $-14.6258$, strange $-11.5158$, charm $-8.7683$, bottom $-7.5005$, top $-3.3823$, electron $-14.5539$, muon $-8.9809$, tau $-5.9529$, neutrinos $-35.0452$, $-32.8481$, $-31.0702$ (fixed by the measured masses). Status: DERIVED.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- ${}^T$: The transpose: a row written with $^T$ is a column. Status: STANDARD.
+- $\Gamma_4$: The four-dimensional chirality matrix, $\Gamma_4 = \mathrm{i}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}\gamma^{x_4}$; a doublet zero mode has $\Gamma_4 = +1$ (left-handed), a singlet zero mode $\Gamma_4 = -1$ (right-handed). Unit: dimensionless. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\mu_{\psi i}$: The bulk mass of a Standard-Model fermion: $\mu_{\psi i}$ of the multiplet $\psi$ of the generation $i$; with the hidden direction it fixes the localisation $c = f\mu L$ of the zero mode. Unit: GeV. Value: $\mu_{\psi i} = c/(fL)$ with the localisation $c$ of the zero mode (doublets: $\mu_Q = 5.2304\,H$, $\mu_\ell = 9.2055\,H$). Status: ASSUMED.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $h$: The block Hamiltonian: the $2 \times 2$ differential operator of one block that generates the time evolution of $\chi$, $\mathrm{i}\,\partial_{x_4}\chi = h\chi$; its eigenvalues are the energies $\varepsilon$. Unit: GeV. Status: DERIVED.
+- $\varsigma$: The first of the three signs $(\varsigma, \varsigma_2, \varsigma_3)$, each $\pm1$, that label the eight blocks of the reduction. Unit: dimensionless. Status: DERIVED.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** For a constant bulk mass $\mu$ the block Hamiltonian has, at every momentum, the exact solutions $\chi = (\mathrm{e}^{c\xi}, 0)$ and
+$(0, \mathrm{e}^{-c\xi})$ with the localisation parameter $c = f\mu L$; the $y$ derivative and the mass term cancel, and only the momentum term
+remains: the energy is $\mathrm{e}^{-a_4}\lvert k\rvert$, a massless four-dimensional particle. The fold conditions FE-29 keep the first for the
+doublets ($\Gamma_4 = +1$, left-handed) and the second for the singlets ($\Gamma_4 = -1$, right-handed); they are localised at the fold
+for $c_L > 0$ and $c_R < 0$. The doublets have $c_L = 3.38230$ (quarks) and $5.95288$ (leptons). Status: DERIVED (exact).
+
+At $k = 0$ in a block with $\varsigma = 1$ the eigenvalue equation $h\chi = \varepsilon\chi$ is a pair of first-order equations:
+
+$$
+\varsigma = 1,\ \ k = 0,\ \ \chi = (a,\ \mathrm{i}b):\qquad h\chi = \varepsilon\chi\quad\Leftrightarrow\quad
+\frac{1}{f}\,\partial_yb + M\,b = \varepsilon\,a,\qquad -\frac{1}{f}\,\partial_ya + M\,a = \varepsilon\,b,
+$$
+
+<!-- symbols: varsigma, kwave, chi, ab, imag, hblock, varepsilon, fblock, partial, iy, Mfun -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\varsigma$: The first of the three signs $(\varsigma, \varsigma_2, \varsigma_3)$, each $\pm1$, that label the eight blocks of the reduction. Unit: dimensionless. Status: DERIVED.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $\chi,\ \chi_o,\ \chi_1,\ \chi_2$: The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\chi = (\chi_1, \chi_2)^T = (a, \mathrm{i}b)^T$; $\chi_o$ the Kohn-Sham orbital $o$, normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $a,\ b$: The upper and lower components of a block spinor, $\chi = (a, \mathrm{i}b)$, real at $k = 0$: $a_L, b_L$ of a doublet and $a_R, b_R$ of a singlet solution ($a_{Ri}$, $b_{Ri}$ of the generation $i$, $b_{L\alpha}$, $a_{L\alpha}$ of the doublet in the flavour basis), $a_o, b_o$ of the orbital $o$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $h$: The block Hamiltonian: the $2 \times 2$ differential operator of one block that generates the time evolution of $\chi$, $\mathrm{i}\,\partial_{x_4}\chi = h\chi$; its eigenvalues are the energies $\varepsilon$. Unit: GeV. Status: DERIVED.
+- $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $y$: The label $y$ in $\partial_y$: the derivative with respect to the hidden coordinate $y$. Status: STANDARD.
+- $M(y)$: The mass function of the block Hamiltonian (the scalar potential): $M = \mu_{\psi i}$ for a Standard-Model fermion, $M = M_{\mathrm{eff}}$ for dirac16complex. Unit: GeV. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+which in $\xi$, with $c = fML$ and $\tilde\varepsilon = \varepsilon fL$, are the first line of FE-58. Their solutions that satisfy the fold
+conditions of the doublet and of the singlet reach the tip with:
+
+$$
+\begin{aligned}
+&\frac{\mathrm{d}a}{\mathrm{d}\xi} = c\,a - \tilde\varepsilon\,b,\qquad
+ \frac{\mathrm{d}b}{\mathrm{d}\xi} = \tilde\varepsilon\,a - c\,b,
+ \qquad \chi = (a,\ \mathrm{i}b),\qquad \tilde\varepsilon = \varepsilon fL,\qquad
+ \upsilon_L = \sqrt{c_L^2 - \tilde\varepsilon^2},\qquad \upsilon_R = \sqrt{c_R^2 - \tilde\varepsilon^2},\\
+&(a_L,\ b_L)\big\vert_{\xi=-1} = \Big(\cosh\upsilon_L - c_L\frac{\sinh\upsilon_L}{\upsilon_L},
+ -\tilde\varepsilon\,\frac{\sinh\upsilon_L}{\upsilon_L}\Big),\qquad
+ (a_R,\ b_R)\big\vert_{\xi=-1} = \Big(\tilde\varepsilon\,\frac{\sinh\upsilon_R}{\upsilon_R},
+ \cosh\upsilon_R + c_R\frac{\sinh\upsilon_R}{\upsilon_R}\Big)
+\end{aligned} \tag{FE-58}
+$$
+
+<!-- symbols: diff, ab, xi, cloc, epstilde, chi, imag, varepsilon, fblock, Lcut, upsilon, iL, iR -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-58).**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $a,\ b$: The upper and lower components of a block spinor, $\chi = (a, \mathrm{i}b)$, real at $k = 0$: $a_L, b_L$ of a doublet and $a_R, b_R$ of a singlet solution ($a_{Ri}$, $b_{Ri}$ of the generation $i$, $b_{L\alpha}$, $a_{L\alpha}$ of the doublet in the flavour basis), $a_o, b_o$ of the orbital $o$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- $c,\ c_L,\ c_R$: The localisation of a zero mode, $c = f\mu L$ (bulk mass times the proper depth); $c_L$ of a doublet (localised at the fold for $c_L > 0$), $c_R$ of a singlet (localised at the fold for $c_R < 0$). Unit: dimensionless. Value: doublets $c_L = 3.38230$ (quarks) and 5.95288 (leptons); singlets $c_R$: up $-15.4300$, down $-14.6258$, strange $-11.5158$, charm $-8.7683$, bottom $-7.5005$, top $-3.3823$, electron $-14.5539$, muon $-8.9809$, tau $-5.9529$, neutrinos $-35.0452$, $-32.8481$, $-31.0702$ (fixed by the measured masses). Status: DERIVED.
+- $\tilde\varepsilon$: The dimensionless energy (mass) of a fermion mode, $\tilde\varepsilon = \varepsilon fL$. Unit: dimensionless. Status: DERIVED.
+- $\chi,\ \chi_o,\ \chi_1,\ \chi_2$: The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\chi = (\chi_1, \chi_2)^T = (a, \mathrm{i}b)^T$; $\chi_o$ the Kohn-Sham orbital $o$, normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\upsilon_L,\ \upsilon_R$: The auxiliary roots $\upsilon = (c^2 - \tilde\varepsilon^2)^{1/2}$ of the doublet ($\upsilon_L$) and singlet ($\upsilon_R$) solutions at $k = 0$. Unit: dimensionless. Status: DERIVED.
+- $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
+- $R$: The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \Gamma_4)/2$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** $a$ and $b$ are the upper and lower components of the block spinor. The doublet solution starts at the fold with $b = 0$,
+the singlet solution with $a = 0$; $\upsilon_L$ and $\upsilon_R$ are the decay rates in $\xi$ (real for $\tilde\varepsilon < \lvert c\rvert$, the case of
+every Standard-Model fermion). The tip values of the four components enter the tip conditions FE-30. Status: DERIVED (exact).
+
+For one generation the two tip conditions of FE-30, applied to the doublet solution and the singlet solution each multiplied by an
+amplitude, are two linear equations for the two amplitudes; a non-zero solution needs
+
+$$
+\det\begin{pmatrix} b_L & -\mathcal{K}\,b_R\\ \mathcal{K}\,a_L & a_R\end{pmatrix} = b_La_R + \mathcal{K}^2a_Lb_R
+ = -\mathcal{D}(\tilde\varepsilon) = 0:
+$$
+
+<!-- symbols: ab, iL, Ktip, iR, calD, epstilde -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $a,\ b$: The upper and lower components of a block spinor, $\chi = (a, \mathrm{i}b)$, real at $k = 0$: $a_L, b_L$ of a doublet and $a_R, b_R$ of a singlet solution ($a_{Ri}$, $b_{Ri}$ of the generation $i$, $b_{L\alpha}$, $a_{L\alpha}$ of the doublet in the flavour basis), $a_o, b_o$ of the orbital $o$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
+- $\mathcal{K}$: The tip mixing matrix of a sector in the boundary conditions of the fermion zero modes (a number $\mathcal{K}$ for one generation, a $3 \times 3$ matrix for three): $\mathcal{K}_\nu$, $\mathcal{K}_e$, $\mathcal{K}_u$, $\mathcal{K}_d$ of the neutrino, charged-lepton, up-quark and down-quark sectors; UM-2 takes $\mathcal{K}_e = \mathcal{K}_u = \mathbf{1}$, $\mathcal{K}_\nu = U$, $\mathcal{K}_d = V_{\mathrm{CKM}}$. Unit: dimensionless. Status: ASSUMED.
+- $R$: The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \Gamma_4)/2$. Status: STANDARD.
+- $\mathcal{D}(\tilde\varepsilon)$: The mass function of one generation: its zeros are the dimensionless masses $\tilde\varepsilon$. Unit: dimensionless. Status: DERIVED.
+- $\tilde\varepsilon$: The dimensionless energy (mass) of a fermion mode, $\tilde\varepsilon = \varepsilon fL$. Unit: dimensionless. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+$$
+\begin{aligned}
+&\mathcal{D}(\tilde\varepsilon) =
+ \tilde\varepsilon^2\,\frac{\sinh\upsilon_L}{\upsilon_L}\frac{\sinh\upsilon_R}{\upsilon_R}
+ - \mathcal{K}^2\Big(\cosh\upsilon_L - c_L\frac{\sinh\upsilon_L}{\upsilon_L}\Big)
+ \Big(\cosh\upsilon_R + c_R\frac{\sinh\upsilon_R}{\upsilon_R}\Big) = 0,\\
+&\tilde\varepsilon \simeq \mathcal{K}\,\mathcal{Z}(c_L)\,\mathcal{Z}(-c_R),\qquad \mathcal{Z}(c)^2 =
+ \frac{c\,\mathrm{e}^{-c}}{\sinh c}
+\end{aligned} \tag{FE-59}
+$$
+
+<!-- symbols: calD, epstilde, upsilon, iL, iR, Ktip, cloc, calZ, euler -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-59).**
+
+- $\mathcal{D}(\tilde\varepsilon)$: The mass function of one generation: its zeros are the dimensionless masses $\tilde\varepsilon$. Unit: dimensionless. Status: DERIVED.
+- $\tilde\varepsilon$: The dimensionless energy (mass) of a fermion mode, $\tilde\varepsilon = \varepsilon fL$. Unit: dimensionless. Status: DERIVED.
+- $\upsilon_L,\ \upsilon_R$: The auxiliary roots $\upsilon = (c^2 - \tilde\varepsilon^2)^{1/2}$ of the doublet ($\upsilon_L$) and singlet ($\upsilon_R$) solutions at $k = 0$. Unit: dimensionless. Status: DERIVED.
+- $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
+- $R$: The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \Gamma_4)/2$. Status: STANDARD.
+- $\mathcal{K}$: The tip mixing matrix of a sector in the boundary conditions of the fermion zero modes (a number $\mathcal{K}$ for one generation, a $3 \times 3$ matrix for three): $\mathcal{K}_\nu$, $\mathcal{K}_e$, $\mathcal{K}_u$, $\mathcal{K}_d$ of the neutrino, charged-lepton, up-quark and down-quark sectors; UM-2 takes $\mathcal{K}_e = \mathcal{K}_u = \mathbf{1}$, $\mathcal{K}_\nu = U$, $\mathcal{K}_d = V_{\mathrm{CKM}}$. Unit: dimensionless. Status: ASSUMED.
+- $c,\ c_L,\ c_R$: The localisation of a zero mode, $c = f\mu L$ (bulk mass times the proper depth); $c_L$ of a doublet (localised at the fold for $c_L > 0$), $c_R$ of a singlet (localised at the fold for $c_R < 0$). Unit: dimensionless. Value: doublets $c_L = 3.38230$ (quarks) and 5.95288 (leptons); singlets $c_R$: up $-15.4300$, down $-14.6258$, strange $-11.5158$, charm $-8.7683$, bottom $-7.5005$, top $-3.3823$, electron $-14.5539$, muon $-8.9809$, tau $-5.9529$, neutrinos $-35.0452$, $-32.8481$, $-31.0702$ (fixed by the measured masses). Status: DERIVED.
+- $\mathcal{Z}(c)$: The tip amplitude of a normalised zero mode with the localisation $c$, $\mathcal{Z}(c)^2 = c\,\mathrm{e}^{-c}/\sinh c$. Unit: dimensionless. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The exact mass condition of one generation: $\mathcal{D}$ vanishes at the dimensionless mass $\tilde\varepsilon$. For strongly
+localised modes the root is the product of the tip mixing number and the two tip amplitudes $\mathcal{Z}(c_L)$ and $\mathcal{Z}(-c_R)$, the
+values of the normalised zero-mode profiles at the tip: a fermion is light when its right-handed mode is sharply localised at the
+fold. The localisations reproduce the measured masses of the twelve fermions (for example the quarks $2.16$ MeV, $4.70$ MeV,
+$93.5$ MeV, $1.273$ GeV, $4.183$ GeV, $172.56$ GeV with $c_R = -15.4300$, $-14.6258$, $-11.5158$, $-8.7683$, $-7.5005$, $-3.3823$; the
+neutrinos with $c_R = -35.0452$, $-32.8481$, $-31.0702$). Status: DERIVED (exact roots; shooting agrees to $6\times10^{-10}$; the
+first-order formula agrees to $1.1\times10^{-3}$ for the top quark and better than $3\times10^{-4}$ otherwise). Residual of the stored
+roots $5.4\times10^{-11}$; the masses are far below the Kaluza-Klein scale, $(m/m_{\mathrm{KK}})^2 \le 2.0\times10^{-6}$.
+
+For three generations the amplitudes are generation vectors, $\boldsymbol{\alpha}$ of the doublets and $\boldsymbol{\beta}$ of the singlets, and
+the tip conditions are
+
+$$
+\mathrm{diag}\big(b_{L\alpha}\big)\,\boldsymbol{\alpha} = \mathcal{K}\,\mathrm{diag}\big(b_{Ri}\big)\,\boldsymbol{\beta},\qquad
+\mathrm{diag}\big(a_{Ri}\big)\,\boldsymbol{\beta} = -\mathcal{K}^\dagger\,\mathrm{diag}\big(a_{L\alpha}\big)\,\boldsymbol{\alpha};
+$$
+
+<!-- symbols: diag, ab, iL, ialpha, bsalpha, Ktip, iR, ii, bsbeta, dagger -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\mathrm{diag}$: A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \dots, x_7$ when it is a tensor in eight dimensions). Status: STANDARD.
+- $a,\ b$: The upper and lower components of a block spinor, $\chi = (a, \mathrm{i}b)$, real at $k = 0$: $a_L, b_L$ of a doublet and $a_R, b_R$ of a singlet solution ($a_{Ri}$, $b_{Ri}$ of the generation $i$, $b_{L\alpha}$, $a_{L\alpha}$ of the doublet in the flavour basis), $a_o, b_o$ of the orbital $o$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
+- $\alpha$: A flavour index running over $e, \mu, \tau$ (the flavour states of the leptons and neutrinos). Status: STANDARD.
+- $\boldsymbol{\alpha},\ \boldsymbol{\alpha}^{(i)}$: The vector of the three doublet amplitudes at the tip in the mass condition of three generations; $\boldsymbol{\alpha}^{(i)}$ its null vector for the mass state $i$ (the left-handed flavour content). Unit: dimensionless. Status: DERIVED.
+- $\mathcal{K}$: The tip mixing matrix of a sector in the boundary conditions of the fermion zero modes (a number $\mathcal{K}$ for one generation, a $3 \times 3$ matrix for three): $\mathcal{K}_\nu$, $\mathcal{K}_e$, $\mathcal{K}_u$, $\mathcal{K}_d$ of the neutrino, charged-lepton, up-quark and down-quark sectors; UM-2 takes $\mathcal{K}_e = \mathcal{K}_u = \mathbf{1}$, $\mathcal{K}_\nu = U$, $\mathcal{K}_d = V_{\mathrm{CKM}}$. Unit: dimensionless. Status: ASSUMED.
+- $R$: The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \Gamma_4)/2$. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\boldsymbol{\beta}^{(i)}$: The vector of the three singlet amplitudes of the mass state $i$. Unit: dimensionless. Status: DERIVED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+eliminating $\boldsymbol{\beta}$ gives:
+
+$$
+\begin{aligned}
+&\Big[\mathrm{diag}\big(b_{L\alpha}\big) +
+ \mathcal{K}\,\mathrm{diag}\Big(\frac{b_{Ri}}{a_{Ri}}\Big)\mathcal{K}^\dagger\,
+ \mathrm{diag}\big(a_{L\alpha}\big)\Big]\boldsymbol{\alpha} = 0;\qquad
+ \det\big[\cdots\big] = \prod_{i=1}^{3}\frac{b_La_{Ri} + a_Lb_{Ri}}{a_{Ri}},\\
+&b_La_R + a_Lb_R = -\mathcal{D}(\tilde\varepsilon)\big\vert_{\mathcal{K} = 1},\qquad
+ \boldsymbol{\alpha}^{(i)} = \mathcal{K}\,\mathbf{u}_i,\qquad \boldsymbol{\beta}^{(i)} \propto
+ \mathbf{u}_i,\qquad
+ U = \mathcal{K}_e^\dagger\mathcal{K}_\nu,\qquad V_{\mathrm{CKM}} = \mathcal{K}_u^\dagger\mathcal{K}_d
+\end{aligned} \tag{FE-60}
+$$
+
+<!-- symbols: diag, ab, iL, ialpha, Ktip, iR, ii, dagger, bsalpha, calD, epstilde, bfu, bsbeta, Upmns, VCKM -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-60).**
+
+- $\mathrm{diag}$: A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \dots, x_7$ when it is a tensor in eight dimensions). Status: STANDARD.
+- $a,\ b$: The upper and lower components of a block spinor, $\chi = (a, \mathrm{i}b)$, real at $k = 0$: $a_L, b_L$ of a doublet and $a_R, b_R$ of a singlet solution ($a_{Ri}$, $b_{Ri}$ of the generation $i$, $b_{L\alpha}$, $a_{L\alpha}$ of the doublet in the flavour basis), $a_o, b_o$ of the orbital $o$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
+- $\alpha$: A flavour index running over $e, \mu, \tau$ (the flavour states of the leptons and neutrinos). Status: STANDARD.
+- $\mathcal{K}$: The tip mixing matrix of a sector in the boundary conditions of the fermion zero modes (a number $\mathcal{K}$ for one generation, a $3 \times 3$ matrix for three): $\mathcal{K}_\nu$, $\mathcal{K}_e$, $\mathcal{K}_u$, $\mathcal{K}_d$ of the neutrino, charged-lepton, up-quark and down-quark sectors; UM-2 takes $\mathcal{K}_e = \mathcal{K}_u = \mathbf{1}$, $\mathcal{K}_\nu = U$, $\mathcal{K}_d = V_{\mathrm{CKM}}$. Unit: dimensionless. Status: ASSUMED.
+- $R$: The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \Gamma_4)/2$. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $\boldsymbol{\alpha},\ \boldsymbol{\alpha}^{(i)}$: The vector of the three doublet amplitudes at the tip in the mass condition of three generations; $\boldsymbol{\alpha}^{(i)}$ its null vector for the mass state $i$ (the left-handed flavour content). Unit: dimensionless. Status: DERIVED.
+- $\mathcal{D}(\tilde\varepsilon)$: The mass function of one generation: its zeros are the dimensionless masses $\tilde\varepsilon$. Unit: dimensionless. Status: DERIVED.
+- $\tilde\varepsilon$: The dimensionless energy (mass) of a fermion mode, $\tilde\varepsilon = \varepsilon fL$. Unit: dimensionless. Status: DERIVED.
+- $\mathbf{u}_i$: The unit vector of the generation $i$ (the $i$-th column of the $3 \times 3$ identity). Unit: dimensionless. Status: STANDARD.
+- $\boldsymbol{\beta}^{(i)}$: The vector of the three singlet amplitudes of the mass state $i$. Unit: dimensionless. Status: DERIVED.
+- $U$: The PMNS matrix, the unitary $3 \times 3$ mixing matrix of the leptons, $\nu_\alpha = \sum_iU_{\alpha i}\nu_i$ (rows $\alpha = e, \mu, \tau$, columns the mass states $i$); in UM-2 $U = \mathcal{K}_e^\dagger\mathcal{K}_\nu$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$, $\delta_{\mathrm{CP}} = 212^\circ$ (NuFIT 6.0). Status: STANDARD.
+- $V_{\mathrm{CKM}}$: The CKM matrix, the unitary $3 \times 3$ mixing matrix of the quarks (the same parametrisation as $U$); in UM-2 $V_{\mathrm{CKM}} = \mathcal{K}_u^\dagger\mathcal{K}_d$. Unit: dimensionless. Value: $s_{12} = 0.22501$, $s_{13} = 0.003732$, $s_{23} = 0.04183$, $\delta = 1.147$ (PDG). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The bracket is the $3 \times 3$ mass matrix condition of one sector (neutrinos, charged leptons, up-type or down-type
+quarks): the masses are the roots of its determinant, $\boldsymbol{\alpha}$ is the left-handed flavour content of each mass state. For one
+doublet bulk mass per sector and a unitary tip matrix the determinant factorises into the one-generation conditions with $\mathcal{K} =
+1$: the masses are the one-generation roots, the left-handed rotation of the sector is its tip matrix ($\boldsymbol{\alpha}^{(i)} =
+\mathcal{K}\mathbf{u}_i$, $\mathbf{u}_i$ the unit vectors) and the right-handed rotations are trivial. The lepton mixing matrix is therefore
+$U = \mathcal{K}_e^\dagger\mathcal{K}_\nu$ and the quark mixing matrix $V_{\mathrm{CKM}} = \mathcal{K}_u^\dagger\mathcal{K}_d$. Status: DERIVED (mpmath at 50
+digits: the roots equal the one-generation roots to $3.0\times10^{-42}$, the null vectors the columns of the tip matrix to $1.1\times10^{-16}$);
+residual of the stored three-generation roots $1.2\times10^{-11}$.
+
+$$
+\begin{aligned}
+U = \begin{pmatrix} c_{12}c_{13} & s_{12}c_{13} & s_{13}\mathrm{e}^{-\mathrm{i}\delta_{\mathrm{CP}}}\\
+ -s_{12}c_{23} - c_{12}s_{23}s_{13}\mathrm{e}^{\mathrm{i}\delta_{\mathrm{CP}}} &
+ c_{12}c_{23} - s_{12}s_{23}s_{13}\mathrm{e}^{\mathrm{i}\delta_{\mathrm{CP}}} & s_{23}c_{13}\\
+ s_{12}s_{23} - c_{12}c_{23}s_{13}\mathrm{e}^{\mathrm{i}\delta_{\mathrm{CP}}} &
+ -c_{12}s_{23} - s_{12}c_{23}s_{13}\mathrm{e}^{\mathrm{i}\delta_{\mathrm{CP}}} &
+ c_{23}c_{13}\end{pmatrix},\qquad
+J_{\mathrm{CP}} = c_{12}s_{12}c_{23}s_{23}c_{13}^2s_{13}\sin\delta_{\mathrm{CP}}
+\end{aligned} \tag{FE-61}
+$$
+
+<!-- symbols: Upmns, cij, sij, euler, imag, deltaCP, JCP -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-61).**
+
+- $U$: The PMNS matrix, the unitary $3 \times 3$ mixing matrix of the leptons, $\nu_\alpha = \sum_iU_{\alpha i}\nu_i$ (rows $\alpha = e, \mu, \tau$, columns the mass states $i$); in UM-2 $U = \mathcal{K}_e^\dagger\mathcal{K}_\nu$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$, $\delta_{\mathrm{CP}} = 212^\circ$ (NuFIT 6.0). Status: STANDARD.
+- $c_{12},\ c_{13},\ c_{23}$: The cosines of the mixing angles, $c_{ij} = \cos\theta_{ij}$. Unit: dimensionless. Status: STANDARD.
+- $s_{12},\ s_{13},\ s_{23}$: The sines of the mixing angles, $s_{ij} = \sin\theta_{ij}$. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\delta_{\mathrm{CP}}$: The CP-violating phase of a mixing matrix. Unit: dimensionless. Value: $212^\circ$ (PMNS), 1.147 rad (CKM). Status: STANDARD.
+- $J_{\mathrm{CP}}$: The Jarlskog invariant of a mixing matrix (the measure of CP violation). Unit: dimensionless. Value: $-0.01777$ (PMNS), $3.117\times10^{-5}$ (CKM). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The standard parametrisation of a unitary $3 \times 3$ mixing matrix by three angles ($c_{ij} = \cos\theta_{ij}$, $s_{ij} =
+\sin\theta_{ij}$) and the CP-violating phase $\delta_{\mathrm{CP}}$; $J_{\mathrm{CP}}$ is the Jarlskog invariant, the measure of CP violation in
+flavour oscillations (FE-105). UM-2 uses it for both tip matrices: $\mathcal{K}_\nu = U$ with the NuFIT 6.0 values (normal ordering) and
+$\mathcal{K}_d = V_{\mathrm{CKM}}$ with the PDG values. Status: STANDARD (inputs; unitary to $1.1\times10^{-16}$).
+
+## dirac16complex on the static block
+
+Without its self-interaction and the portals dirac16complex has the constant mass function $M = m_\Psi$ in every block, with
+$c_\Psi = fm_\Psi L$. Its levels follow from the same pair of equations with the fold condition of each parity (FE-69) and the tip
+condition $b = 0$; for $\tilde\varepsilon^2 = c_\Psi^2 + \varpi^2$ the solutions that satisfy the fold conditions are
+
+$$
+\text{odd: } a = \sin\varpi\xi,\quad b = \frac{c_\Psi\sin\varpi\xi - \varpi\cos\varpi\xi}{\tilde\varepsilon};\qquad
+\text{even: } a = \cos\varpi\xi + \frac{c_\Psi}{\varpi}\sin\varpi\xi,\quad b = \frac{\tilde\varepsilon}{\varpi}\sin\varpi\xi,
+$$
+
+<!-- symbols: ab, varpi, xi, cPsi, epstilde -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $a,\ b$: The upper and lower components of a block spinor, $\chi = (a, \mathrm{i}b)$, real at $k = 0$: $a_L, b_L$ of a doublet and $a_R, b_R$ of a singlet solution ($a_{Ri}$, $b_{Ri}$ of the generation $i$, $b_{L\alpha}$, $a_{L\alpha}$ of the doublet in the flavour basis), $a_o, b_o$ of the orbital $o$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $\varpi,\ \varpi_n$: The wave number of an oscillating $x_0$ profile on $-1 \le \xi \le 0$ (of a boson after the rescaling, or of a bulk level of dirac16complex); $\varpi_n$ that of the $n$-th even level ($\varpi_n = n\pi$ for $\beta = 0$). Unit: dimensionless. Value: 1.89901 for the lowest odd level of dirac16complex. Status: DERIVED.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- $c_\Psi$: The localisation parameter of dirac16complex, $c_\Psi = f\,m_\Psi L$. Unit: dimensionless. Value: 0.646667 at the stabilised block. Status: DERIVED.
+- $\tilde\varepsilon$: The dimensionless energy (mass) of a fermion mode, $\tilde\varepsilon = \varepsilon fL$. Unit: dimensionless. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+and $b = 0$ at $\xi = -1$ gives $\tan\varpi = -\varpi/c_\Psi$ (odd) and $\sin\varpi = 0$ (even):
+
+$$
+\begin{aligned}
+&\text{even: }\chi = \big(\mathrm{e}^{c_\Psi\xi},\ 0\big)^T,\ \varepsilon = 0\ \text{(all eight
+ blocks)},\qquad
+ \varepsilon = \pm\sqrt{m_\Psi^2 + \Big(\frac{\varpi_n}{fL}\Big)^2},\ \varpi_n = \pi,\ 2\pi,\ \dots;\\
+&\text{odd: }\varepsilon = \pm\sqrt{m_\Psi^2 + \Big(\frac{\varpi}{fL}\Big)^2},\quad \tan\varpi =
+ -\frac{\varpi}{c_\Psi};\qquad
+ c_\Psi = f\,m_\Psi L;\qquad \text{fold band: }\varepsilon = \mathrm{e}^{-a_4}\lvert k\rvert
+\end{aligned} \tag{FE-62}
+$$
+
+<!-- symbols: chi, euler, cPsi, xi, transpose, varepsilon, mPsi, varpi, in, fblock, Lcut, pi, a4, kwave -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-62).**
+
+- $\chi,\ \chi_o,\ \chi_1,\ \chi_2$: The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\chi = (\chi_1, \chi_2)^T = (a, \mathrm{i}b)^T$; $\chi_o$ the Kohn-Sham orbital $o$, normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $c_\Psi$: The localisation parameter of dirac16complex, $c_\Psi = f\,m_\Psi L$. Unit: dimensionless. Value: 0.646667 at the stabilised block. Status: DERIVED.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- ${}^T$: The transpose: a row written with $^T$ is a column. Status: STANDARD.
+- $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
+- $m_\Psi$: The mass parameter of dirac16complex, $m_\Psi = 3H\mathcal{M} = H$. Unit: GeV. Value: 14.296 TeV. Status: RECORD.
+- $\varpi,\ \varpi_n$: The wave number of an oscillating $x_0$ profile on $-1 \le \xi \le 0$ (of a boson after the rescaling, or of a bulk level of dirac16complex); $\varpi_n$ that of the $n$-th even level ($\varpi_n = n\pi$ for $\beta = 0$). Unit: dimensionless. Value: 1.89901 for the lowest odd level of dirac16complex. Status: DERIVED.
+- $n$: The level number of the Kaluza-Klein tower ($n = 1, 2, 3, \dots$; $n = 0$ the flat zero mode). Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The even zero mode $(\mathrm{e}^{c_\Psi\xi}, 0)$ exists in all eight blocks and at every momentum has the energy
+$\mathrm{e}^{-a_4}\lvert k\rvert$: the fold band, massless four-dimensional quanta (eight states per momentum, two massless Dirac fermions). The
+odd levels and the even bulk levels are massive: the lowest odd level, $\varepsilon = 3.102204\,m_\Psi = 44.35$ TeV ($\varpi = 1.89901$),
+is the dark matter, the lowest odd Dirac fermion of the two halves $\Psi_A$ and $\Psi_B$; the lowest even bulk level is $4.959981\,m_\Psi$.
+The negative levels are the antiparticles. At the stabilised block $c_\Psi = 3f_* = 0.646667$. Status: DERIVED (exact; the Kohn-Sham
+solver reproduces the levels to $10^{-12}$). Residual of the stored levels $8.5\times10^{-13}$.
+
+
+# dirac16complex coupled to all fields
+
+This section closes the coupled system. dirac16complex is treated by Kohn-Sham theory: its many-body state on the block is
+described by orbitals of the block Hamiltonian of FE-56 with mean fields, which contain its own self-interaction and the
+densities and condensates of every Standard-Model field. The Kohn-Sham energy-momentum tensor is the source of gravity; the
+dark matter acts back on the Standard Model through the field-dependent couplings; and the block responds to every species.
+
+## The Kohn-Sham equations
+
+$$
+h\,\chi_o = \varepsilon_o\,\chi_o,\qquad
+h = \varsigma\Big[-\frac{\mathrm{i}}{f}\sigma_1\partial_y + M_{\mathrm{eff}}(y)\,\sigma_2 +
+ \mathrm{e}^{-a_4}k\,\sigma_3\Big] + v(y)
+ + \frac{1 - \sigma_3}{2}\,v_{\mathrm{b}}(y) \tag{FE-63}
+$$
+
+<!-- symbols: hblock, chi, io, varepsilon, varsigma, imag, fblock, sigmaPauli, partial, iy, Meff, ycoord, euler, a4, kwave, vpot, vb -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-63).**
+
+- $h$: The block Hamiltonian: the $2 \times 2$ differential operator of one block that generates the time evolution of $\chi$, $\mathrm{i}\,\partial_{x_4}\chi = h\chi$; its eigenvalues are the energies $\varepsilon$. Unit: GeV. Status: DERIVED.
+- $\chi,\ \chi_o,\ \chi_1,\ \chi_2$: The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\chi = (\chi_1, \chi_2)^T = (a, \mathrm{i}b)^T$; $\chi_o$ the Kohn-Sham orbital $o$, normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
+- $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
+- $\varsigma$: The first of the three signs $(\varsigma, \varsigma_2, \varsigma_3)$, each $\pm1$, that label the eight blocks of the reduction. Unit: dimensionless. Status: DERIVED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\sigma_1,\ \sigma_2,\ \sigma_3$: The Pauli matrices acting on the two components of a block spinor $\chi$ ($\sigma_3 = \mathrm{diag}(1, -1)$). Unit: dimensionless. Status: STANDARD.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $y$: The label $y$ in $\partial_y$: the derivative with respect to the hidden coordinate $y$. Status: STANDARD.
+- $M_{\mathrm{eff}}(y)$: The effective (scalar) mass field of the Kohn-Sham Hamiltonian: $m_\Psi$ plus the mean fields of the contact term and of I12. Unit: GeV. Status: DERIVED.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $v(y)$: The vector potential of the block Hamiltonian (the mean field along $\gamma^{x_4}$): for dirac16complex the contact term and the mean field of I11; zero for a Standard-Model fermion. Unit: GeV. Status: DERIVED.
+- $v_{\mathrm{b}}(y)$: The mean field of I13 (baryon densities), acting on the lower component of $\chi$ only. Unit: GeV. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $\chi_o$ is the Kohn-Sham orbital $o$ (a two-component block spinor, FE-56) with the level $\varepsilon_o$. The block
+Hamiltonian has the effective mass function $M_{\mathrm{eff}}(y)$ in place of $m_\Psi$, the vector potential $v(y)$ along the time, and,
+on the lower component only ($\frac12(1 - \sigma_3) = P_b$ in the block form, since $\gamma^{x_0} = \sigma_3$), the I13 potential
+$v_{\mathrm{b}}(y)$. These mean fields couple dirac16complex to itself, to every fermion of the three generations and to every gauge
+field (FE-64); gravity enters through $f$, $\mathrm{e}^{-a_4}$ and the warp factor. Status: DERIVED (from FE-12 with the mean fields of
+the record's Kohn-Sham treatment, RECORD). Solved to self-consistency (60 to 240 exact free eigenfunctions per sector, tolerance
+$10^{-13}$, Anderson mixing, Richardson extrapolation in the basis size); an independent solver reproduces the record's reference
+states (energies to $10^{-13}$, integrated hidden pressures to $4\times10^{-10}$). Residual of the stored self-consistent states $7.4\times10^{-14}\,H$ (one further Kohn-Sham map of the stored
+densities moves them by $1.8\times10^{-14}$).
+
+$$
+\begin{aligned}
+&M_{\mathrm{eff}}(y) = m_\Psi + \frac{15}{16}\,\lambda\,n^{\mathrm{sc}}(y) +
+ \frac{\langle\mathcal{F}\rangle}{\Lambda_\star^3},\qquad
+ v(y) = -\frac{\lambda}{16}\,n(y) + \frac{c_{\mathrm{V}}}{\Lambda_\star^6}\sum_{i=1}^{3}\sum_\psi
+ q_\psi\,n_{\psi i}(y),\\
+&v_{\mathrm{b}}(y) = \frac{c_{\mathrm{A}}}{\Lambda_\star^6}\sum_{i=1}^{3}\sum_\psi q^{B}_\psi\,n_{\psi i}(y)
+\end{aligned} \tag{FE-64}
+$$
+
+<!-- symbols: Meff, ycoord, mPsi, lambda, nsc, calF, LambdaStar, vpot, ndens, cV, ii, ipsi, qBL, vb, cA, qB -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-64).**
+
+- $M_{\mathrm{eff}}(y)$: The effective (scalar) mass field of the Kohn-Sham Hamiltonian: $m_\Psi$ plus the mean fields of the contact term and of I12. Unit: GeV. Status: DERIVED.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $m_\Psi$: The mass parameter of dirac16complex, $m_\Psi = 3H\mathcal{M} = H$. Unit: GeV. Value: 14.296 TeV. Status: RECORD.
+- $\lambda$: The contact self-coupling of dirac16complex (the term $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ of the record). Unit: $\mathrm{GeV}^{-6}$. Value: not fixed; Kohn-Sham states computed for $\lambda = 0$ and $\pm7\times10^{-5}H^{-6}$; the fold-band radiation requires $\lvert\lambda\rvert \lesssim 1.4\times10^{-10}H^{-6}$ (for $\Delta N_{\mathrm{eff}} \le 0.001$). Status: RECORD.
+- $n^{\mathrm{sc}},\ n^{\mathrm{sc}}_o$: The scalar density of dirac16complex (the Kohn-Sham expectation of $\bar\Psi\Psi$, per proper 7-volume) and $n^{\mathrm{sc}}_o$ the contribution of the orbital $o$. Unit: $\mathrm{GeV}^{7}$. Status: RECORD.
+- $\mathcal{F}$: The gauge-kinetic operator of the portal I12, $\mathcal{F} = c_{\mathrm{G}}G^A_{MN}G^{AMN} + c_{\mathrm{W}}W^I_{MN}W^{IMN} + c_{\mathrm{B}}B_{MN}B^{MN}$; $\langle\mathcal{F}\rangle$ its mean value in an environment. Unit: $\mathrm{GeV}^{4}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $v(y)$: The vector potential of the block Hamiltonian (the mean field along $\gamma^{x_4}$): for dirac16complex the contact term and the mean field of I11; zero for a Standard-Model fermion. Unit: GeV. Status: DERIVED.
+- $n,\ n_o,\ n_{\psi i},\ n_f,\ n_i$: A number density: $n(y)$ the particle density of dirac16complex in the Kohn-Sham equations and $n_o$ the contribution of the orbital $o$, $n_{\psi i}(y)$ the density of the Standard-Model fermion $\psi_i$ (per proper 7-volume of eight dimensions); $n_f$ the density of the fermion component $f$ and $n_i$ that of the neutrino mass state $i$ (per 3-volume of four dimensions). Unit: $\mathrm{GeV}^{7}$ (eight dimensions), $\mathrm{GeV}^{3}$ (four dimensions). Status: STANDARD.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\psi$: The label of a Standard-Model multiplet: $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\psi$ runs over the six. Status: STANDARD.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $v_{\mathrm{b}}(y)$: The mean field of I13 (baryon densities), acting on the lower component of $\chi$ only. Unit: GeV. Status: DERIVED.
+- $c_{\mathrm{A}}$: The coefficient of the $x_0$-chiral vector portal I13. Unit: dimensionless. Value: fixed through $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic). Status: INVENTED.
+- $q^B_\psi,\ q^B_f$: The baryon number of the multiplet $\psi$ or of the fermion component $f$ ($\frac13$ for quarks, 0 for leptons). Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** $M_{\mathrm{eff}}$: the bare mass $m_\Psi$, the local exchange mean field of the contact self-interaction proportional to the
+scalar density $n^{\mathrm{sc}}$ (coefficient $\frac{15}{16}\lambda$, from the record), and the I12 term: the condensate $\langle\mathcal{F}\rangle$
+of the gauge-field invariants of the environment acts as a uniform mass shift. $v$: the exchange mean field of the number
+density $n$ (coefficient $-\frac{1}{16}\lambda$) and the I11 term, the $B - L$ weighted number densities $n_{\psi i}$ of the
+Standard-Model fermions of every generation. $v_{\mathrm{b}}$: the I13 term, the baryon-number weighted densities ($q^B_\psi = \frac13$
+for quarks, 0 for leptons). Status: RECORD (self-interaction), DERIVED (portals); the portal fields are applied with the densities
+and condensates of each environment (FE-72).
+
+$$
+\begin{aligned}
+&n = \sum_o\tfrac12\,d_o\,\phi_o\,n_o,\qquad n^{\mathrm{sc}} =
+ \sum_o\tfrac12\,d_o\,\phi_o\,n^{\mathrm{sc}}_o,\qquad
+ n_o = \frac{\mathrm{e}^{-3Hy}}{\mathrm{Vol}_7}\,\chi_o^\dagger\chi_o,\\
+&n^{\mathrm{sc}}_o = \frac{\mathrm{e}^{-3Hy}}{\mathrm{Vol}_7}\,\chi_o^\dagger\varsigma\sigma_2\chi_o,\qquad
+ n^{\mathrm{t}}_o = \frac{\mathrm{e}^{-3Hy}}{\mathrm{Vol}_7}\,\chi_o^\dagger\varsigma\sigma_3\chi_o,\qquad
+ d_o = 4\,r_3\big(\lvert\vec n_o\rvert^2\big),\qquad \vec k_o = k_{\mathrm{lat}}\,\vec n_o,\\
+&\mathrm{Vol}_7 = \Big(\frac{2\pi}{k_{\mathrm{lat}}}\Big)^3v_{\mathrm{t}}\,f^4,\qquad
+ \phi_o = \frac{1}{\mathrm{e}^{(\varepsilon_o - \mu_{\mathrm{chem}})/T} + 1}\ \ \text{(Mermin; or 0 and
+ 1 for the aufbau)}
+\end{aligned} \tag{FE-65}
+$$
+
+<!-- symbols: ndens, io, ddeg, phiocc, nsc, euler, Hconst, ycoord, Vol7, chi, dagger, varsigma, sigmaPauli, nt, r3, nvec, kvec, klat, pi, vt, fblock, varepsilon, muchem, Temp -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-65).**
+
+- $n,\ n_o,\ n_{\psi i},\ n_f,\ n_i$: A number density: $n(y)$ the particle density of dirac16complex in the Kohn-Sham equations and $n_o$ the contribution of the orbital $o$, $n_{\psi i}(y)$ the density of the Standard-Model fermion $\psi_i$ (per proper 7-volume of eight dimensions); $n_f$ the density of the fermion component $f$ and $n_i$ that of the neutrino mass state $i$ (per 3-volume of four dimensions). Unit: $\mathrm{GeV}^{7}$ (eight dimensions), $\mathrm{GeV}^{3}$ (four dimensions). Status: STANDARD.
+- $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
+- $d_o,\ d_s$: A degeneracy: $d_o = 4r_3(\lvert\vec n_o\rvert^2)$ the number of states of the momentum shell of the orbital $o$; $d_s$ the number of internal states (spin, colour, particle and antiparticle) of the species $s$. Unit: dimensionless. Status: STANDARD.
+- $\phi_o$: The occupation of the Kohn-Sham orbital $o$ (Fermi-Dirac for the Mermin functional, 0 or 1 for the aufbau). Unit: dimensionless. Status: RECORD.
+- $n^{\mathrm{sc}},\ n^{\mathrm{sc}}_o$: The scalar density of dirac16complex (the Kohn-Sham expectation of $\bar\Psi\Psi$, per proper 7-volume) and $n^{\mathrm{sc}}_o$ the contribution of the orbital $o$. Unit: $\mathrm{GeV}^{7}$. Status: RECORD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $\mathrm{Vol}_7$: The normalisation volume of a Kohn-Sham cell, $\mathrm{Vol}_7 = (2\pi/k_{\mathrm{lat}})^3v_{\mathrm{t}}f^4$ (the proper seven-volume of a cell is $2\,\mathrm{Vol}_7(1 - \mathrm{e}^{-3HL})/(3H)$). Unit: $\mathrm{GeV}^{-6}$. Value: 34.27 in units $H = 1$, $v_{\mathrm{t}} = 1$, $f = f_*$. Status: RECORD.
+- $\chi,\ \chi_o,\ \chi_1,\ \chi_2$: The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\chi = (\chi_1, \chi_2)^T = (a, \mathrm{i}b)^T$; $\chi_o$ the Kohn-Sham orbital $o$, normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $\varsigma$: The first of the three signs $(\varsigma, \varsigma_2, \varsigma_3)$, each $\pm1$, that label the eight blocks of the reduction. Unit: dimensionless. Status: DERIVED.
+- $\sigma_1,\ \sigma_2,\ \sigma_3$: The Pauli matrices acting on the two components of a block spinor $\chi$ ($\sigma_3 = \mathrm{diag}(1, -1)$). Unit: dimensionless. Status: STANDARD.
+- $n^{\mathrm{t}}_o$: The density of the orbital $o$ along the momentum term ($\chi_o^\dagger\varsigma\sigma_3\chi_o$ times the weight $\mathrm{e}^{-3Hy}/\mathrm{Vol}_7$); it carries the 3-space pressure. Unit: $\mathrm{GeV}^{7}$. Status: RECORD.
+- $r_3$: The number of representations of an integer as an ordered sum of three squares of integers (signs counted). Unit: dimensionless. Status: STANDARD.
+- $\vec n_o$: The integer lattice vector of the momentum shell of the orbital $o$ ($\vec n \in \mathbb{Z}^3$). Unit: dimensionless. Status: RECORD.
+- $\vec k,\ \vec k_o$: The wave vector (momentum) in ordinary 3-space; $\vec k_o$ that of the orbital $o$, a point of the lattice $k_{\mathrm{lat}}\vec n_o$. Unit: GeV. Status: STANDARD.
+- $k_{\mathrm{lat}}$: The spacing of the momentum lattice of the Kohn-Sham cell. Unit: GeV. Value: $0.25\,H$. Status: RECORD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $v_{\mathrm{t}}$: The coordinate volume of the compact extra times $x_5, x_6, x_7$. Unit: $\mathrm{GeV}^{-3}$. Value: not fixed; $v_{\mathrm{t}} = H^{-3}$ in the quoted conversions. Status: ASSUMED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
+- $\mu_{\mathrm{chem}}$: The chemical potential of the Mermin occupations. Unit: GeV. Status: RECORD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** $n$, $n^{\mathrm{sc}}$ are the number and scalar densities, sums over the occupied orbitals with the weight $\frac12$ of each
+fold parity, the shell degeneracy $d_o$ and the occupation $\phi_o$; $n_o$, $n^{\mathrm{sc}}_o$, $n^{\mathrm{t}}_o$ are the orbital densities
+(number, scalar, and the one weighted with $\varsigma\sigma_3$ that gives the momentum flux), with the factor $\mathrm{e}^{-3Hy}/\mathrm{Vol}_7$ that
+turns $\chi^\dagger\chi$ into a proper density. The momenta form a cubic lattice $\vec k_o = k_{\mathrm{lat}}\vec n_o$ ($k_{\mathrm{lat}} = 0.25\,H$); $r_3$
+counts the representations of $\lvert\vec n\rvert^2$ as a sum of three squares, and the factor 4 the remaining degeneracy. $\mathrm{Vol}_7$ is the
+normalisation volume of a cell (the coordinate volume $v_{\mathrm{t}}$ of the extra times times $f^4$ times the cube of the lattice
+period). The occupations are Fermi-Dirac at the temperature $T$ and the chemical potential $\mu_{\mathrm{chem}}$ (Mermin) or 0 and 1
+(aufbau). Status: RECORD (exact definitions).
+
+$$
+E_{\mathrm{KS}} = \sum_o d_o\,\phi_o\,\varepsilon_o -
+ 2\,\mathrm{Vol}_7\int_{-L}^{0}\mathrm{e}^{3Hy}\,e_{\mathrm{int}}\,\mathrm{d}y,
+\qquad e_{\mathrm{int}} = \frac{15}{32}\,\lambda\,\big(n^{\mathrm{sc}}\big)^2 -
+ \frac{1}{32}\,\lambda\,n^2 \tag{FE-66}
+$$
+
+<!-- symbols: EKS, io, ddeg, phiocc, varepsilon, Vol7, Lcut, euler, Hconst, ycoord, eint, diff, lambda, nsc, ndens -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-66).**
+
+- $E_{\mathrm{KS}}$: The Kohn-Sham energy of a cell. Unit: GeV. Status: RECORD.
+- $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
+- $d_o,\ d_s$: A degeneracy: $d_o = 4r_3(\lvert\vec n_o\rvert^2)$ the number of states of the momentum shell of the orbital $o$; $d_s$ the number of internal states (spin, colour, particle and antiparticle) of the species $s$. Unit: dimensionless. Status: STANDARD.
+- $\phi_o$: The occupation of the Kohn-Sham orbital $o$ (Fermi-Dirac for the Mermin functional, 0 or 1 for the aufbau). Unit: dimensionless. Status: RECORD.
+- $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
+- $\mathrm{Vol}_7$: The normalisation volume of a Kohn-Sham cell, $\mathrm{Vol}_7 = (2\pi/k_{\mathrm{lat}})^3v_{\mathrm{t}}f^4$ (the proper seven-volume of a cell is $2\,\mathrm{Vol}_7(1 - \mathrm{e}^{-3HL})/(3H)$). Unit: $\mathrm{GeV}^{-6}$. Value: 34.27 in units $H = 1$, $v_{\mathrm{t}} = 1$, $f = f_*$. Status: RECORD.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $e_{\mathrm{int}}$: The interaction energy density of the contact term in the Kohn-Sham energy and energy-momentum tensor. Unit: $\mathrm{GeV}^{8}$. Status: RECORD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\lambda$: The contact self-coupling of dirac16complex (the term $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ of the record). Unit: $\mathrm{GeV}^{-6}$. Value: not fixed; Kohn-Sham states computed for $\lambda = 0$ and $\pm7\times10^{-5}H^{-6}$; the fold-band radiation requires $\lvert\lambda\rvert \lesssim 1.4\times10^{-10}H^{-6}$ (for $\Delta N_{\mathrm{eff}} \le 0.001$). Status: RECORD.
+- $n^{\mathrm{sc}},\ n^{\mathrm{sc}}_o$: The scalar density of dirac16complex (the Kohn-Sham expectation of $\bar\Psi\Psi$, per proper 7-volume) and $n^{\mathrm{sc}}_o$ the contribution of the orbital $o$. Unit: $\mathrm{GeV}^{7}$. Status: RECORD.
+- $n,\ n_o,\ n_{\psi i},\ n_f,\ n_i$: A number density: $n(y)$ the particle density of dirac16complex in the Kohn-Sham equations and $n_o$ the contribution of the orbital $o$, $n_{\psi i}(y)$ the density of the Standard-Model fermion $\psi_i$ (per proper 7-volume of eight dimensions); $n_f$ the density of the fermion component $f$ and $n_i$ that of the neutrino mass state $i$ (per 3-volume of four dimensions). Unit: $\mathrm{GeV}^{7}$ (eight dimensions), $\mathrm{GeV}^{3}$ (four dimensions). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The Kohn-Sham energy is the sum of the occupied levels minus the double-counted interaction energy $e_{\mathrm{int}}$,
+integrated over the proper hidden length of both halves. Status: RECORD (computed for every state; Richardson errors below
+$2.2\times10^{-9}$ relative).
+
+$$
+\begin{aligned}
+&\rho = \sum_o\tfrac12\,d_o\phi_o\,\varepsilon_o\,n_o - e_{\mathrm{int}},\qquad
+ p_3 = \sum_o\tfrac12\,d_o\phi_o\,\frac{\mathrm{e}^{-a_4}\lvert\vec k_o\rvert}{3}\,n^{\mathrm{t}}_o +
+ e_{\mathrm{int}},
+ \qquad p_5 = e_{\mathrm{int}},\\
+&p_0 = \sum_o\tfrac12\,d_o\phi_o\Big[(\varepsilon_o - v)\,n_o - M_{\mathrm{eff}}\,n^{\mathrm{sc}}_o
+ - \mathrm{e}^{-a_4}\lvert\vec k_o\rvert\,n^{\mathrm{t}}_o\Big] + e_{\mathrm{int}}
+\end{aligned} \tag{FE-67}
+$$
+
+<!-- symbols: rho, io, ddeg, phiocc, varepsilon, ndens, eint, p3, euler, a4, kvec, nt, p5, p0, vpot, Meff, nsc -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-67).**
+
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
+- $d_o,\ d_s$: A degeneracy: $d_o = 4r_3(\lvert\vec n_o\rvert^2)$ the number of states of the momentum shell of the orbital $o$; $d_s$ the number of internal states (spin, colour, particle and antiparticle) of the species $s$. Unit: dimensionless. Status: STANDARD.
+- $\phi_o$: The occupation of the Kohn-Sham orbital $o$ (Fermi-Dirac for the Mermin functional, 0 or 1 for the aufbau). Unit: dimensionless. Status: RECORD.
+- $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
+- $n,\ n_o,\ n_{\psi i},\ n_f,\ n_i$: A number density: $n(y)$ the particle density of dirac16complex in the Kohn-Sham equations and $n_o$ the contribution of the orbital $o$, $n_{\psi i}(y)$ the density of the Standard-Model fermion $\psi_i$ (per proper 7-volume of eight dimensions); $n_f$ the density of the fermion component $f$ and $n_i$ that of the neutrino mass state $i$ (per 3-volume of four dimensions). Unit: $\mathrm{GeV}^{7}$ (eight dimensions), $\mathrm{GeV}^{3}$ (four dimensions). Status: STANDARD.
+- $e_{\mathrm{int}}$: The interaction energy density of the contact term in the Kohn-Sham energy and energy-momentum tensor. Unit: $\mathrm{GeV}^{8}$. Status: RECORD.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $\vec k,\ \vec k_o$: The wave vector (momentum) in ordinary 3-space; $\vec k_o$ that of the orbital $o$, a point of the lattice $k_{\mathrm{lat}}\vec n_o$. Unit: GeV. Status: STANDARD.
+- $n^{\mathrm{t}}_o$: The density of the orbital $o$ along the momentum term ($\chi_o^\dagger\varsigma\sigma_3\chi_o$ times the weight $\mathrm{e}^{-3Hy}/\mathrm{Vol}_7$); it carries the 3-space pressure. Unit: $\mathrm{GeV}^{7}$. Status: RECORD.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $v(y)$: The vector potential of the block Hamiltonian (the mean field along $\gamma^{x_4}$): for dirac16complex the contact term and the mean field of I11; zero for a Standard-Model fermion. Unit: GeV. Status: DERIVED.
+- $M_{\mathrm{eff}}(y)$: The effective (scalar) mass field of the Kohn-Sham Hamiltonian: $m_\Psi$ plus the mean fields of the contact term and of I12. Unit: GeV. Status: DERIVED.
+- $n^{\mathrm{sc}},\ n^{\mathrm{sc}}_o$: The scalar density of dirac16complex (the Kohn-Sham expectation of $\bar\Psi\Psi$, per proper 7-volume) and $n^{\mathrm{sc}}_o$ the contribution of the orbital $o$. Unit: $\mathrm{GeV}^{7}$. Status: RECORD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The energy-momentum tensor of a Kohn-Sham state, the source of the background equations: $\rho$ the energy density,
+$p_3$ the pressure along ordinary space (the momentum flux of the occupied momenta), $p_5$ the pressure along the extra times (only
+the interaction energy: the orbitals have no momentum along them), and $p_0$ the pressure along the hidden direction, which contains
+the kinetic energy of the hidden motion, $(\varepsilon_o - v)n_o - M_{\mathrm{eff}}n^{\mathrm{sc}}_o - \mathrm{e}^{-a_4}\lvert\vec k_o\rvert n^{\mathrm{t}}_o$. So
+$p_0 \ne p_5$: the Kohn-Sham source is not block-isotropic. Its block averages enter the block response FE-47 with the hidden
+pressure $\bar p = \frac14(p_0 + 3p_5)$; the difference $p_0 - p_5$ (up to $0.90\,\bar p$ for the self-interacting test states and
+$4\,\bar p$ for dark matter at rest, whose $p_3 = 0$ and $p_0/\rho = 0.772034 = -\mathrm{d}\ln\varepsilon_{\mathrm{DM}}/\mathrm{d}\ln f$) drives the
+block-shape mode (OPEN; section "The background", subsection "The block pressures"). Status: DERIVED. The response of the block
+recomputed from the stored cell averages agrees with the stored one to $1.4\times10^{-12}$, and for the free fold-band gas
+(radiation) the response cancels to $9\times10^{-13}$.
+
+$$
+E_{\mathrm{KS}} = 2\,\mathrm{Vol}_7\int_{-L}^{0}\mathrm{e}^{3Hy}\rho\,\mathrm{d}y,\qquad
+p_0\big\vert_{y=0} - \mathrm{e}^{-3HL}\,p_0\big\vert_{y=-L} =
+ 3H\int_{-L}^{0}\mathrm{e}^{3Hy}p_5\,\mathrm{d}y \tag{FE-68}
+$$
+
+<!-- symbols: EKS, Vol7, Lcut, euler, Hconst, ycoord, rho, diff, p0, p5 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-68).**
+
+- $E_{\mathrm{KS}}$: The Kohn-Sham energy of a cell. Unit: GeV. Status: RECORD.
+- $\mathrm{Vol}_7$: The normalisation volume of a Kohn-Sham cell, $\mathrm{Vol}_7 = (2\pi/k_{\mathrm{lat}})^3v_{\mathrm{t}}f^4$ (the proper seven-volume of a cell is $2\,\mathrm{Vol}_7(1 - \mathrm{e}^{-3HL})/(3H)$). Unit: $\mathrm{GeV}^{-6}$. Value: 34.27 in units $H = 1$, $v_{\mathrm{t}} = 1$, $f = f_*$. Status: RECORD.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $p_0$: The pressure along the hidden direction $x_0$, $p_0 = \mathcal{T}^{x_0}{}_{x_0}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $p_5$: The pressure along the extra times, $p_5 = \mathcal{T}^{x_5}{}_{x_5} = \mathcal{T}^{x_6}{}_{x_6} = \mathcal{T}^{x_7}{}_{x_7}$. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** Two identities of every self-consistent state: the Kohn-Sham energy equals the integrated energy density, and the
+$y$ component of the conservation law FE-11, integrated over one half of the period, relates the hidden pressure at the fold and at
+the tip to the extra-time pressure in between. Status: DERIVED (verified for every stored state to $4\times10^{-15}$ and
+$9\times10^{-8}$).
+
+$$
+\chi = (\chi_1,\ \chi_2)^T:\qquad \chi_2(0) = 0\ \ \text{(even)}\quad\text{or}\quad \chi_1(0) =
+ 0\ \ \text{(odd)},\qquad
+\chi_2(-L) = 0 \tag{FE-69}
+$$
+
+<!-- symbols: chi, transpose, Lcut -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-69).**
+
+- $\chi,\ \chi_o,\ \chi_1,\ \chi_2$: The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\chi = (\chi_1, \chi_2)^T = (a, \mathrm{i}b)^T$; $\chi_o$ the Kohn-Sham orbital $o$, normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- ${}^T$: The transpose: a row written with $^T$ is a column. Status: STANDARD.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The block form of the boundary conditions FE-28 ($\gamma^{x_0} = \sigma_3$ in every block): at the fold the lower component
+vanishes for the even orbitals and the upper one for the odd orbitals; at the tip the lower component vanishes. With them the block
+Hamiltonian is self-adjoint. Status: DERIVED.
+
+## The portals on the zero modes
+
+A four-dimensional particle of number density $n_f$ (per unit 3-volume) in a zero mode with the normalised profile $\varrho_f$ has, on
+each half of the period, the proper eight-dimensional density of the last line of FE-70 (the proper block volume element is
+$f^4\mathrm{e}^{3Hy}\,\mathrm{d}y$ times the extra-time volume, and there are two halves). Inserted into the mean fields $v$ and $v_{\mathrm{b}}$ of
+FE-64, and integrated with the density of an orbital of dirac16complex, the portals I11 and I13 become four-dimensional contact
+interactions:
+
+$$
+\begin{aligned}
+&\mathcal{L}_4 = \big(G_{\mathrm{V}}\,q_f\,\tilde I_{of} + G_{\mathrm{A}}\,q^{B}_f\,\tilde I^{(b)}_{of}\big)
+ \big(\mathrm{i}\bar\Psi_o\gamma^\mu\Psi_o\big)\big(\mathrm{i}\bar\psi_f\gamma_\mu\psi_f\big),\\
+&\tilde I_{of} = \frac{1}{H}\int_{-L}^{0}\big(a_o^2 +
+ b_o^2\big)\varrho_f\,\mathrm{e}^{-3Hy}\,\mathrm{d}y,\qquad
+ \tilde I^{(b)}_{of} = \frac{1}{H}\int_{-L}^{0}b_o^2\,\varrho_f\,\mathrm{e}^{-3Hy}\,\mathrm{d}y,\qquad
+ G_{\mathrm{V}} = \frac{c_{\mathrm{V}}H}{2f^4v_{\mathrm{t}}\Lambda_\star^6},\qquad
+ G_{\mathrm{A}} = \frac{c_{\mathrm{A}}H}{2f^4v_{\mathrm{t}}\Lambda_\star^6},\\
+&n_{\psi i}(y) = \frac{n_f\,\varrho_f(y)\,\mathrm{e}^{-3Hy}}{2f^4v_{\mathrm{t}}},\qquad
+ \varrho(y; c) = \frac{2c}{L}\,\frac{\mathrm{e}^{2cy/L}}{1 - \mathrm{e}^{-2c}}
+\end{aligned} \tag{FE-70}
+$$
+
+<!-- symbols: L4, GV, qBL, if, tildeI, io, GA, qB, tildeIb, imag, Psi, gamma, imu, psi, Hconst, Lcut, ab, varrho, euler, ycoord, diff, cV, fblock, vt, LambdaStar, cA, ndens, ipsi, ii, cloc -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-70).**
+
+- $\mathcal{L}_4$: The four-dimensional contact Lagrangian of I11 and I13 between a state $o$ of dirac16complex and a Standard-Model fermion component $f$. Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
+- $G_{\mathrm{V}}$: The four-dimensional strength of the vector portal I11 on the zero modes, $G_{\mathrm{V}} = c_{\mathrm{V}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: benchmark $4.38\times10^{-17}$ GeV$^{-2}$ ($\Delta N_{\mathrm{eff}} = 0.001$). Status: DERIVED.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $f$: The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species. Status: STANDARD.
+- $\tilde I_{of}$: The overlap of the state $o$ of dirac16complex with the zero mode of the fermion component $f$, $\tilde I_{of} = H^{-1}\int_{-L}^{0}(a_o^2 + b_o^2)\varrho_f\mathrm{e}^{-3Hy}\mathrm{d}y$ (the integral in units of $H$); $\tilde I_Q$, $\tilde I_{u_R}$, $\tilde I_{d_R}$, $\tilde I_\ell$, $\tilde I_{e_R}$ those of the dark matter with $Q$, $u_R$, $d_R$, $\ell$, $e_R$, $\tilde I_{\nu_R,i}$ with the right-handed neutrino of the generation $i$. Unit: dimensionless. Value: dark matter: $\tilde I_Q = 8.2722$, $\tilde I_\ell = 1.2524$, $\tilde I_{u_R} = 0.3854$, $\tilde I_{d_R} = 0.3961$, $\tilde I_{e_R} = 0.3972$. Status: DERIVED.
+- $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
+- $G_{\mathrm{A}}$: The four-dimensional strength of the portal I13 on the zero modes, $G_{\mathrm{A}} = c_{\mathrm{A}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: $1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic density). Status: DERIVED.
+- $q^B_\psi,\ q^B_f$: The baryon number of the multiplet $\psi$ or of the fermion component $f$ ($\frac13$ for quarks, 0 for leptons). Unit: dimensionless. Status: STANDARD.
+- $\tilde I^{(b)}_{of}$: The overlap of the lower component of the state $o$ with the zero mode of $f$, $\tilde I^{(b)}_{of} = H^{-1}\int_{-L}^{0}b_o^2\varrho_f\mathrm{e}^{-3Hy}\mathrm{d}y$ (the overlap of I13); $\tilde I^{(b)}_Q$, $\tilde I^{(b)}_{u_R}$, $\tilde I^{(b)}_{d_R}$, $\tilde I^{(b)}_{\nu_R}$ those of the dark matter. Unit: dimensionless. Value: dark matter: $\tilde I^{(b)}_Q = 2.6135$. Status: DERIVED.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $a,\ b$: The upper and lower components of a block spinor, $\chi = (a, \mathrm{i}b)$, real at $k = 0$: $a_L, b_L$ of a doublet and $a_R, b_R$ of a singlet solution ($a_{Ri}$, $b_{Ri}$ of the generation $i$, $b_{L\alpha}$, $a_{L\alpha}$ of the doublet in the flavour basis), $a_o, b_o$ of the orbital $o$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- $\varrho_f(y),\ \varrho(y; c)$: The $x_0$ profile of a zero mode as a probability density on one half, $\int_{-L}^{0}\varrho\,\mathrm{d}y = 1$: $\varrho_f$ that of the fermion component $f$, $\varrho(y; c)$ its form for the localisation $c$. Unit: 1/length (GeV). Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $c_{\mathrm{V}}$: The coefficient of the vector portal I11. Unit: dimensionless. Value: benchmark through $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$. Status: INVENTED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $v_{\mathrm{t}}$: The coordinate volume of the compact extra times $x_5, x_6, x_7$. Unit: $\mathrm{GeV}^{-3}$. Value: not fixed; $v_{\mathrm{t}} = H^{-3}$ in the quoted conversions. Status: ASSUMED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $c_{\mathrm{A}}$: The coefficient of the $x_0$-chiral vector portal I13. Unit: dimensionless. Value: fixed through $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic). Status: INVENTED.
+- $n,\ n_o,\ n_{\psi i},\ n_f,\ n_i$: A number density: $n(y)$ the particle density of dirac16complex in the Kohn-Sham equations and $n_o$ the contribution of the orbital $o$, $n_{\psi i}(y)$ the density of the Standard-Model fermion $\psi_i$ (per proper 7-volume of eight dimensions); $n_f$ the density of the fermion component $f$ and $n_i$ that of the neutrino mass state $i$ (per 3-volume of four dimensions). Unit: $\mathrm{GeV}^{7}$ (eight dimensions), $\mathrm{GeV}^{3}$ (four dimensions). Status: STANDARD.
+- $\psi$: The label of a Standard-Model multiplet: $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\psi$ runs over the six. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $c,\ c_L,\ c_R$: The localisation of a zero mode, $c = f\mu L$ (bulk mass times the proper depth); $c_L$ of a doublet (localised at the fold for $c_L > 0$), $c_R$ of a singlet (localised at the fold for $c_R < 0$). Unit: dimensionless. Value: doublets $c_L = 3.38230$ (quarks) and 5.95288 (leptons); singlets $c_R$: up $-15.4300$, down $-14.6258$, strange $-11.5158$, charm $-8.7683$, bottom $-7.5005$, top $-3.3823$, electron $-14.5539$, muon $-8.9809$, tau $-5.9529$, neutrinos $-35.0452$, $-32.8481$, $-31.0702$ (fixed by the measured masses). Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** $\Psi_o$ is the four-dimensional field of the orbital $o$ (the dark matter, or a fold band) and $\psi_f$ that of the
+chirality component $f$ of a Standard-Model fermion. $G_{\mathrm{V}}$ and $G_{\mathrm{A}}$ are the four-dimensional Fermi-type couplings of I11 and
+I13 (the eight-dimensional coefficients divided by the block volume); $q_f$ is the $B - L$ charge and $q^B_f$ the baryon number. The
+dimensionless overlaps $\tilde I_{of}$ (of the whole orbital density $a_o^2 + b_o^2$) and $\tilde I^{(b)}_{of}$ (of its lower component only)
+with the zero-mode density $\varrho_f$ measure how much the two particles share the hidden direction; $\varrho(y; c)$ is the normalised
+zero-mode density of the localisation $c$. For the dark matter $\tilde I_Q = 8.2722$, $\tilde I_\ell = 1.2524$, $\tilde I_{u_R} = 0.3854$,
+$\tilde I_{d_R} = 0.3961$, $\tilde I_{e_R} = 0.3972$, $\tilde I^{(b)}_Q = 2.6135$; I13 vanishes on the fold bands (to $7\times10^{-14}$), whose lower
+component is zero. Both interactions are vector-vector contact terms: they couple the dark matter coherently to the baryon and lepton
+numbers of matter. Status: DERIVED. The overlaps equal the derivatives of the self-consistent Kohn-Sham levels with respect to the
+mean-field amplitudes (Hellmann-Feynman) to $3.8\times10^{-12}$.
+
+$$
+\begin{aligned}
+&\mathcal{L}_4^{\mathrm{I12}} =
+ -\mathcal{O}_{\mathrm{DM}}\,\frac{\bar\Psi_{\mathrm{DM}}\Psi_{\mathrm{DM}}}{\Lambda_\star^3}
+ \big(c_{\mathrm{G}}\,G^A_{\mu\nu}G^{A\mu\nu} + c_{\mathrm{W}}\,W^I_{\mu\nu}W^{I\mu\nu} +
+ c_{\mathrm{B}}\,B_{\mu\nu}B^{\mu\nu}\big),\qquad
+ \mathcal{O}_{\mathrm{DM}} = \frac{\partial\varepsilon_{\mathrm{DM}}}{\partial m_\Psi},\\
+&G_{\mathrm{g}} = \mathcal{O}_{\mathrm{DM}}\,\frac{c_{\mathrm{G}}\,g_3^2}{\Lambda_\star^3},\qquad
+ G_{\mathrm{W}} = \mathcal{O}_{\mathrm{DM}}\,\frac{c_{\mathrm{W}}\,g_2^2}{\Lambda_\star^3},\qquad
+ G_{\mathrm{B}} = \mathcal{O}_{\mathrm{DM}}\,\frac{c_{\mathrm{B}}\,g_1^2}{\Lambda_\star^3}
+\end{aligned} \tag{FE-71}
+$$
+
+<!-- symbols: L4I12, calO, PsiDM, LambdaStar, cG, Ggluon, iA, imu, inu, cW, Wsu2, iI, cB, Bhyp, partial, epsDM, mPsi, Gg, g3, GW, g2, GB, g1 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-71).**
+
+- $\mathcal{L}_4^{\mathrm{I12}}$: The four-dimensional Lagrangian of I12 on the dark matter. Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
+- $\mathcal{O}_o,\ \mathcal{O}_{\mathrm{DM}}$: The scalar overlap of a state of dirac16complex, $\mathcal{O}_o = \partial\varepsilon_o/\partial m_\Psi$ (Hellmann-Feynman: the integrated scalar density of the orbital); $\mathcal{O}_{\mathrm{DM}}$ that of the dark matter. Unit: dimensionless. Value: $\mathcal{O}_{\mathrm{DM}} = 0.7072$. Status: DERIVED.
+- $\Psi_{\mathrm{DM}},\ \bar\Psi_{\mathrm{DM}}$: The four-dimensional field of a dark-matter quantum (the lowest odd level of dirac16complex on the static block, in either half) and its Dirac adjoint. Unit: $\mathrm{GeV}^{3/2}$. Status: DERIVED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $c_{\mathrm{G}}$: The coefficient of the gluon term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{G}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\nu$: A four-dimensional coordinate index running over $x_1, \dots, x_4$ (as $\mu$). Status: STANDARD.
+- $c_{\mathrm{W}}$: The coefficient of the SU(2) term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{W}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $c_{\mathrm{B}}$: The coefficient of the hypercharge term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{B}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $\varepsilon_{\mathrm{DM}}$: The energy of the dark-matter level at rest (its mass $M_{\mathrm{DM}}$ on the static block). Unit: GeV. Value: $3.102204\,m_\Psi = 44.35$ TeV. Status: DERIVED.
+- $m_\Psi$: The mass parameter of dirac16complex, $m_\Psi = 3H\mathcal{M} = H$. Unit: GeV. Value: 14.296 TeV. Status: RECORD.
+- $G_{\mathrm{g}}$: The coupling of a dark-matter pair to canonically normalised gluon pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $6.09\times10^{-15}$ GeV$^{-3}$ (benchmark). Status: DERIVED.
+- $g_3$: The four-dimensional strong coupling ($g_3^2 = 4\pi\alpha_3$). Unit: dimensionless. Value: $g_3^2 = 0.7786$ at $2M_{\mathrm{DM}}$. Status: DERIVED.
+- $G_{\mathrm{W}}$: The coupling of a dark-matter pair to canonically normalised SU(2) gauge pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $2.96\times10^{-15}$ GeV$^{-3}$. Status: DERIVED.
+- $g_2$: The four-dimensional SU(2) coupling ($g_2^2 = 4\pi\alpha_2$). Unit: dimensionless. Value: $g_2^2 = 0.3781$ at $2M_{\mathrm{DM}}$. Status: DERIVED.
+- $G_{\mathrm{B}}$: The coupling of a dark-matter pair to canonically normalised hypercharge pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $1.08\times10^{-15}$ GeV$^{-3}$. Status: DERIVED.
+- $g_1$: The four-dimensional hypercharge coupling ($g_1^2 = 4\pi\alpha_1$, Standard-Model normalisation without the GUT factor). Unit: dimensionless. Value: $g_1^2 = 0.1380$ at $2M_{\mathrm{DM}}$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** On the dark matter I12 becomes a scalar coupling of $\bar\Psi_{\mathrm{DM}}\Psi_{\mathrm{DM}}$ to the squared field strengths of the
+gluons, of $W$ and of $B$; the zero modes of the gauge fields are flat, so the overlap is the response $\mathcal{O}_{\mathrm{DM}} = 0.7072$ of the
+dark-matter level to a uniform change of the mass. $G_{\mathrm{g}}$, $G_{\mathrm{W}}$, $G_{\mathrm{B}}$ are the couplings to the canonically normalised
+fields (field divided by its four-dimensional coupling), used in the annihilation cross-section FE-127; at the unitarity-safe benchmark
+$c/\Lambda_\star^3 = 1.106\times10^{-14}$ GeV$^{-3}$ they are $6.09$, $2.96$ and $1.08\times10^{-15}$ GeV$^{-3}$. Status: DERIVED (the response
+checked to $10^{-8}$).
+
+For an orbital normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$, first-order perturbation theory (the Hellmann-Feynman theorem)
+gives the shift of its level by small mean fields as their expectation value; with $\chi_o = (a_o, \mathrm{i}b_o)$,
+$\chi_o^\dagger\chi_o = a_o^2 + b_o^2$, $\chi_o^\dagger\frac12(1 - \sigma_3)\chi_o = b_o^2$ and $\chi_o^\dagger\varsigma\sigma_2\chi_o = 2\varsigma a_ob_o$:
+
+$$
+\Delta\varepsilon_o = \int_{-L}^{0}\chi_o^\dagger\Big[v + \frac{1 - \sigma_3}{2}\,v_{\mathrm{b}} +
+ \varsigma\sigma_2\,\frac{\langle\mathcal{F}\rangle}{\Lambda_\star^3}\Big]\chi_o\,\mathrm{d}y,\qquad
+\mathcal{O}_o = \frac{\partial\varepsilon_o}{\partial m_\Psi} = \int_{-L}^{0}2\varsigma\,a_ob_o\,\mathrm{d}y.
+$$
+
+<!-- symbols: Delta, varepsilon, io, Lcut, chi, dagger, vpot, sigmaPauli, vb, varsigma, calF, LambdaStar, diff, ycoord, calO, partial, mPsi, ab -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
+- $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\chi,\ \chi_o,\ \chi_1,\ \chi_2$: The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\chi = (\chi_1, \chi_2)^T = (a, \mathrm{i}b)^T$; $\chi_o$ the Kohn-Sham orbital $o$, normalised as $\int_{-L}^{0}\chi_o^\dagger\chi_o\,\mathrm{d}y = 1$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $v(y)$: The vector potential of the block Hamiltonian (the mean field along $\gamma^{x_4}$): for dirac16complex the contact term and the mean field of I11; zero for a Standard-Model fermion. Unit: GeV. Status: DERIVED.
+- $\sigma_1,\ \sigma_2,\ \sigma_3$: The Pauli matrices acting on the two components of a block spinor $\chi$ ($\sigma_3 = \mathrm{diag}(1, -1)$). Unit: dimensionless. Status: STANDARD.
+- $v_{\mathrm{b}}(y)$: The mean field of I13 (baryon densities), acting on the lower component of $\chi$ only. Unit: GeV. Status: DERIVED.
+- $\varsigma$: The first of the three signs $(\varsigma, \varsigma_2, \varsigma_3)$, each $\pm1$, that label the eight blocks of the reduction. Unit: dimensionless. Status: DERIVED.
+- $\mathcal{F}$: The gauge-kinetic operator of the portal I12, $\mathcal{F} = c_{\mathrm{G}}G^A_{MN}G^{AMN} + c_{\mathrm{W}}W^I_{MN}W^{IMN} + c_{\mathrm{B}}B_{MN}B^{MN}$; $\langle\mathcal{F}\rangle$ its mean value in an environment. Unit: $\mathrm{GeV}^{4}$. Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $\mathcal{O}_o,\ \mathcal{O}_{\mathrm{DM}}$: The scalar overlap of a state of dirac16complex, $\mathcal{O}_o = \partial\varepsilon_o/\partial m_\Psi$ (Hellmann-Feynman: the integrated scalar density of the orbital); $\mathcal{O}_{\mathrm{DM}}$ that of the dark matter. Unit: dimensionless. Value: $\mathcal{O}_{\mathrm{DM}} = 0.7072$. Status: DERIVED.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $m_\Psi$: The mass parameter of dirac16complex, $m_\Psi = 3H\mathcal{M} = H$. Unit: GeV. Value: 14.296 TeV. Status: RECORD.
+- $a,\ b$: The upper and lower components of a block spinor, $\chi = (a, \mathrm{i}b)$, real at $k = 0$: $a_L, b_L$ of a doublet and $a_R, b_R$ of a singlet solution ($a_{Ri}$, $b_{Ri}$ of the generation $i$, $b_{L\alpha}$, $a_{L\alpha}$ of the doublet in the flavour basis), $a_o, b_o$ of the orbital $o$. Unit: $\mathrm{GeV}^{1/2}$ (normalised orbital). Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+With the portal parts of $v$ and $v_{\mathrm{b}}$ (FE-64) and the densities of FE-70 this is:
+
+$$
+\Delta\varepsilon_o = \sum_f\big(G_{\mathrm{V}}\,q_f\,\tilde I_{of} + G_{\mathrm{A}}\,q^{B}_f\,\tilde
+ I^{(b)}_{of}\big)\,n_f
+ + \mathcal{O}_o\,\frac{c_{\mathrm{I12}}}{\Lambda_\star^3}\Big[\big\langle G^A_{\mu\nu}G^{A\mu\nu}\big\rangle
+ + \big\langle W^I_{\mu\nu}W^{I\mu\nu}\big\rangle + \big\langle B_{\mu\nu}B^{\mu\nu}\big\rangle\Big],
+ \qquad \mathcal{O}_o = \frac{\partial\varepsilon_o}{\partial m_\Psi} \tag{FE-72}
+$$
+
+<!-- symbols: Delta, varepsilon, io, if, GV, qBL, tildeI, GA, qB, tildeIb, ndens, calO, cI12, LambdaStar, Ggluon, iA, imu, inu, Wsu2, iI, Bhyp, partial, mPsi -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-72).**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
+- $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
+- $f$: The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species. Status: STANDARD.
+- $G_{\mathrm{V}}$: The four-dimensional strength of the vector portal I11 on the zero modes, $G_{\mathrm{V}} = c_{\mathrm{V}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: benchmark $4.38\times10^{-17}$ GeV$^{-2}$ ($\Delta N_{\mathrm{eff}} = 0.001$). Status: DERIVED.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $\tilde I_{of}$: The overlap of the state $o$ of dirac16complex with the zero mode of the fermion component $f$, $\tilde I_{of} = H^{-1}\int_{-L}^{0}(a_o^2 + b_o^2)\varrho_f\mathrm{e}^{-3Hy}\mathrm{d}y$ (the integral in units of $H$); $\tilde I_Q$, $\tilde I_{u_R}$, $\tilde I_{d_R}$, $\tilde I_\ell$, $\tilde I_{e_R}$ those of the dark matter with $Q$, $u_R$, $d_R$, $\ell$, $e_R$, $\tilde I_{\nu_R,i}$ with the right-handed neutrino of the generation $i$. Unit: dimensionless. Value: dark matter: $\tilde I_Q = 8.2722$, $\tilde I_\ell = 1.2524$, $\tilde I_{u_R} = 0.3854$, $\tilde I_{d_R} = 0.3961$, $\tilde I_{e_R} = 0.3972$. Status: DERIVED.
+- $G_{\mathrm{A}}$: The four-dimensional strength of the portal I13 on the zero modes, $G_{\mathrm{A}} = c_{\mathrm{A}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: $1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic density). Status: DERIVED.
+- $q^B_\psi,\ q^B_f$: The baryon number of the multiplet $\psi$ or of the fermion component $f$ ($\frac13$ for quarks, 0 for leptons). Unit: dimensionless. Status: STANDARD.
+- $\tilde I^{(b)}_{of}$: The overlap of the lower component of the state $o$ with the zero mode of $f$, $\tilde I^{(b)}_{of} = H^{-1}\int_{-L}^{0}b_o^2\varrho_f\mathrm{e}^{-3Hy}\mathrm{d}y$ (the overlap of I13); $\tilde I^{(b)}_Q$, $\tilde I^{(b)}_{u_R}$, $\tilde I^{(b)}_{d_R}$, $\tilde I^{(b)}_{\nu_R}$ those of the dark matter. Unit: dimensionless. Value: dark matter: $\tilde I^{(b)}_Q = 2.6135$. Status: DERIVED.
+- $n,\ n_o,\ n_{\psi i},\ n_f,\ n_i$: A number density: $n(y)$ the particle density of dirac16complex in the Kohn-Sham equations and $n_o$ the contribution of the orbital $o$, $n_{\psi i}(y)$ the density of the Standard-Model fermion $\psi_i$ (per proper 7-volume of eight dimensions); $n_f$ the density of the fermion component $f$ and $n_i$ that of the neutrino mass state $i$ (per 3-volume of four dimensions). Unit: $\mathrm{GeV}^{7}$ (eight dimensions), $\mathrm{GeV}^{3}$ (four dimensions). Status: STANDARD.
+- $\mathcal{O}_o,\ \mathcal{O}_{\mathrm{DM}}$: The scalar overlap of a state of dirac16complex, $\mathcal{O}_o = \partial\varepsilon_o/\partial m_\Psi$ (Hellmann-Feynman: the integrated scalar density of the orbital); $\mathcal{O}_{\mathrm{DM}}$ that of the dark matter. Unit: dimensionless. Value: $\mathcal{O}_{\mathrm{DM}} = 0.7072$. Status: DERIVED.
+- $c_{\mathrm{I12}}$: The common coefficient of the three terms of I12 when they are universal ($c_{\mathrm{G}} = c_{\mathrm{W}} = c_{\mathrm{B}} = c_{\mathrm{I12}}$). Unit: dimensionless. Value: $c_{\mathrm{I12}}/\Lambda_\star^3 = 1.106\times10^{-14}$ GeV$^{-3}$ (unitarity-safe benchmark). Status: INVENTED.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\nu$: A four-dimensional coordinate index running over $x_1, \dots, x_4$ (as $\mu$). Status: STANDARD.
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $m_\Psi$: The mass parameter of dirac16complex, $m_\Psi = 3H\mathcal{M} = H$. Unit: GeV. Value: 14.296 TeV. Status: RECORD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The first sum is the shift by the I11 and I13 mean fields of the fermion densities $n_f$ of the environment (each with
+its charge and overlap); the second term is the I12 shift by the condensates of the three gauge groups, with the response
+$\mathcal{O}_o$ and the universal I12 coefficient $c_{\mathrm{I12}}$. The level of dirac16complex thus depends on every Standard-Model field
+present. Status: DERIVED (first order; in the interacting Kohn-Sham state the response is screened by only $3.5\times10^{-4}$). The
+largest shift over the ten environments of the coupled solution is $1.5\times10^{-6}$ of the dark-matter mass, at the dark-matter
+freeze-out, from the condensates through I12.
+
+$$
+\begin{aligned}
+&\Delta\varepsilon_{\mathrm{I11}} = G_{\mathrm{V}}\Big[\frac13\,n_{\mathrm{u}}\,\frac{\tilde I_Q +
+ \tilde I_{u_R}}{2}
+ + \frac13\,n_{\mathrm{d}}\,\frac{\tilde I_Q + \tilde I_{d_R}}{2} - n_{\mathrm{e}}\,\frac{\tilde I_\ell
+ + \tilde I_{e_R}}{2}\Big],\\
+&\Delta\varepsilon_{\mathrm{I13}} = G_{\mathrm{A}}\Big[\frac13\,n_{\mathrm{u}}\,\frac{\tilde I^{(b)}_Q +
+ \tilde I^{(b)}_{u_R}}{2}
+ + \frac13\,n_{\mathrm{d}}\,\frac{\tilde I^{(b)}_Q + \tilde I^{(b)}_{d_R}}{2}\Big],\qquad
+ n_{\mathrm{u}} = 2n_{\mathrm{p}} + n_{\mathrm{n}},\qquad n_{\mathrm{d}} = n_{\mathrm{p}} + 2n_{\mathrm{n}}
+\end{aligned} \tag{FE-73}
+$$
+
+<!-- symbols: Delta, epsI1113, GV, nquark, tildeI, ne, GA, tildeIb, np, nn -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-73).**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta\varepsilon_{\mathrm{I11}},\ \Delta\varepsilon_{\mathrm{I13}}$: The shifts of the dark-matter level by the mean fields of I11 and of I13 in matter. Unit: GeV. Value: at most $8.2\times10^{-10}$ GeV (I13, at the freeze-out). Status: DERIVED.
+- $G_{\mathrm{V}}$: The four-dimensional strength of the vector portal I11 on the zero modes, $G_{\mathrm{V}} = c_{\mathrm{V}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: benchmark $4.38\times10^{-17}$ GeV$^{-2}$ ($\Delta N_{\mathrm{eff}} = 0.001$). Status: DERIVED.
+- $n_{\mathrm{u}},\ n_{\mathrm{d}}$: The number densities of up and down quarks bound in nucleons, $n_{\mathrm{u}} = 2n_{\mathrm{p}} + n_{\mathrm{n}}$, $n_{\mathrm{d}} = n_{\mathrm{p}} + 2n_{\mathrm{n}}$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\tilde I_{of}$: The overlap of the state $o$ of dirac16complex with the zero mode of the fermion component $f$, $\tilde I_{of} = H^{-1}\int_{-L}^{0}(a_o^2 + b_o^2)\varrho_f\mathrm{e}^{-3Hy}\mathrm{d}y$ (the integral in units of $H$); $\tilde I_Q$, $\tilde I_{u_R}$, $\tilde I_{d_R}$, $\tilde I_\ell$, $\tilde I_{e_R}$ those of the dark matter with $Q$, $u_R$, $d_R$, $\ell$, $e_R$, $\tilde I_{\nu_R,i}$ with the right-handed neutrino of the generation $i$. Unit: dimensionless. Value: dark matter: $\tilde I_Q = 8.2722$, $\tilde I_\ell = 1.2524$, $\tilde I_{u_R} = 0.3854$, $\tilde I_{d_R} = 0.3961$, $\tilde I_{e_R} = 0.3972$. Status: DERIVED.
+- $n_{\mathrm{e}}$: The number density of electrons (net of positrons); in the Thomson terms of the photon and baryon equations only free (ionised) electrons count. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $G_{\mathrm{A}}$: The four-dimensional strength of the portal I13 on the zero modes, $G_{\mathrm{A}} = c_{\mathrm{A}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: $1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic density). Status: DERIVED.
+- $\tilde I^{(b)}_{of}$: The overlap of the lower component of the state $o$ with the zero mode of $f$, $\tilde I^{(b)}_{of} = H^{-1}\int_{-L}^{0}b_o^2\varrho_f\mathrm{e}^{-3Hy}\mathrm{d}y$ (the overlap of I13); $\tilde I^{(b)}_Q$, $\tilde I^{(b)}_{u_R}$, $\tilde I^{(b)}_{d_R}$, $\tilde I^{(b)}_{\nu_R}$ those of the dark matter. Unit: dimensionless. Value: dark matter: $\tilde I^{(b)}_Q = 2.6135$. Status: DERIVED.
+- $n_{\mathrm{p}}$: The number density of protons (free and bound). Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $n_{\mathrm{n}}$: The number density of neutrons (free and bound). Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** In neutral matter of protons, neutrons and electrons the quark densities are $n_{\mathrm{u}} = 2n_{\mathrm{p}} + n_{\mathrm{n}}$ and
+$n_{\mathrm{d}} = n_{\mathrm{p}} + 2n_{\mathrm{n}}$; each chirality carries half of the density of an unpolarised fermion, hence the averages of the
+doublet and singlet overlaps. I11 acts with $B - L$ ($\frac13$ per quark, $-1$ per electron), I13 with the baryon number on the lower
+component. Status: DERIVED (evaluated in ten environments; at most $8.2\times10^{-10}$ GeV, from I13 at the freeze-out).
+
+## The condensates of the Standard-Model plasma
+
+The I12 shift needs the expectation values of the squared field strengths in each environment. They follow from the trace of the
+energy-momentum tensor and from the dependence of the pressure on the couplings.
+
+$$
+\big\langle G^A_{\mu\nu}G^{A\mu\nu}\big\rangle(T) = \big\langle G^A_{\mu\nu}G^{A\mu\nu}\big\rangle(0)
+ - \frac{32\pi^2}{b_3}\,\Theta_{\mathrm{QCD}},\qquad
+\big\langle G^A_{\mu\nu}G^{A\mu\nu}\big\rangle(0) = 4\pi^2\times0.012\ \text{GeV}^4,\qquad
+b_3 = 11 - \frac23\,N_{\mathrm{f}} \tag{FE-74}
+$$
+
+<!-- symbols: Ggluon, iA, imu, inu, Temp, pi, bcoef, Theta, Nf -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-74).**
+
+- $G^A_M,\ G_M,\ G_{MN},\ G^A_{MN}$: The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\mu\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$). Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $A$: A colour (adjoint SU(3)) index running over $1, \dots, 8$; a repeated index is summed. Status: STANDARD.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\nu$: A four-dimensional coordinate index running over $x_1, \dots, x_4$ (as $\mu$). Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $b_3,\ b_2,\ b_1,\ b_{\mathrm{G}}$: The one-loop coefficients of the running couplings, $\mathrm{d}\alpha/\mathrm{d}\ln\mu_{\mathrm{ren}} = -b\,\alpha^2/(2\pi)$: $b_3 = 11 - \frac23N_{\mathrm{f}}$ (SU(3)), $b_2 = \frac{10}{3}$ (SU(2) without a Higgs particle), $b_1 = -\frac{20}{3}$ (U(1)$_Y$), $b_{\mathrm{G}}$ that of the group G (not related to the metric function $b_4$). Unit: dimensionless. Status: STANDARD.
+- $\Theta_{\mathrm{QCD}},\ \Theta_{\mathrm{G}},\ \Theta_V$: The trace $\rho - 3p$ of the energy-momentum tensor (interaction measure) of a plasma component: $\Theta_{\mathrm{QCD}}$ of the quark-gluon plasma or hadron gas, $\Theta_{\mathrm{G}}$ of the gauge plasma of the group G, $\Theta_V$ of the thermal gas of the massive vector $V$ ($\Theta_{\mathrm{W}}$ of $W^\pm$, $\Theta_{\mathrm{Z}}$ of $Z$). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $N_{\mathrm{f}}$: The number of active quark flavours (quarks lighter than the scale). Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The gluon condensate at the temperature $T$ is the vacuum value minus the thermal part, which the trace anomaly of
+QCD relates to the interaction measure $\Theta_{\mathrm{QCD}} = \rho - 3p$ of the quark-gluon plasma; $b_3$ is the first coefficient of the
+QCD beta function with $N_{\mathrm{f}}$ active flavours. The field strength is in the geometric normalisation of the action (the canonical
+field times $g_3$), so the vacuum value is $4\pi^2$ times the standard condensate $0.012$ GeV$^4$. Status: STANDARD (the relation does not
+depend on the signature convention).
+
+$$
+\begin{aligned}
+&\frac{\Theta_{\mathrm{QCD}}}{T^4} = 4\exp\Big[-\frac{\ln^2(T/0.2\,\text{GeV})}{0.5}\Big]\ \ (T <
+ 1\,\text{GeV}),\qquad
+ \frac{\Theta_{\mathrm{QCD}}}{T^4} = \frac{b_3}{3}\Big(1 +
+ \frac{5N_{\mathrm{f}}}{12}\Big)\alpha_3^2\ \ (T > 1\,\text{GeV}),\\
+&p_{\mathrm{QCD}} = \frac{8\pi^2}{45}T^4\Big[1 + \frac{21N_{\mathrm{f}}}{32}
+ - \frac{15}{4}\Big(1 + \frac{5N_{\mathrm{f}}}{12}\Big)\frac{\alpha_3}{\pi}\Big],\qquad
+ \frac{\mathrm{d}\alpha_3}{\mathrm{d}\ln T} = -\frac{b_3}{2\pi}\,\alpha_3^2,\qquad
+ \Theta_{\mathrm{QCD}} = T^5\,\frac{\mathrm{d}}{\mathrm{d}T}\Big(\frac{p_{\mathrm{QCD}}}{T^4}\Big)
+\end{aligned} \tag{FE-75}
+$$
+
+<!-- symbols: Theta, Temp, bcoef, Nf, alpha3, pQCD, pi, diff -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-75).**
+
+- $\Theta_{\mathrm{QCD}},\ \Theta_{\mathrm{G}},\ \Theta_V$: The trace $\rho - 3p$ of the energy-momentum tensor (interaction measure) of a plasma component: $\Theta_{\mathrm{QCD}}$ of the quark-gluon plasma or hadron gas, $\Theta_{\mathrm{G}}$ of the gauge plasma of the group G, $\Theta_V$ of the thermal gas of the massive vector $V$ ($\Theta_{\mathrm{W}}$ of $W^\pm$, $\Theta_{\mathrm{Z}}$ of $Z$). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $b_3,\ b_2,\ b_1,\ b_{\mathrm{G}}$: The one-loop coefficients of the running couplings, $\mathrm{d}\alpha/\mathrm{d}\ln\mu_{\mathrm{ren}} = -b\,\alpha^2/(2\pi)$: $b_3 = 11 - \frac23N_{\mathrm{f}}$ (SU(3)), $b_2 = \frac{10}{3}$ (SU(2) without a Higgs particle), $b_1 = -\frac{20}{3}$ (U(1)$_Y$), $b_{\mathrm{G}}$ that of the group G (not related to the metric function $b_4$). Unit: dimensionless. Status: STANDARD.
+- $N_{\mathrm{f}}$: The number of active quark flavours (quarks lighter than the scale). Unit: dimensionless. Status: STANDARD.
+- $\alpha_3$: The strong fine-structure constant, $\alpha_3 = g_3^2/(4\pi)$, at the scale given in brackets. Unit: dimensionless. Value: $\alpha_3(m_{\mathrm{Z}}) = 0.1180$; $\alpha_3(m_{\mathrm{KK}}) = 0.0606$. Status: STANDARD.
+- $p_{\mathrm{QCD}}$: The pressure of the quark-gluon plasma (leading orders). Unit: $\mathrm{GeV}^{4}$. Status: ESTIMATE.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The interaction measure of QCD: below 1 GeV a smooth lattice-like shape peaked near 200 MeV (ESTIMATE), above 1 GeV the
+leading-order perturbative result; $p_{\mathrm{QCD}}$ is the pressure of the quark-gluon plasma to first order in $\alpha_3$, the running
+of $\alpha_3$ is one loop (at the scale $2\pi T$), and $\Theta_{\mathrm{QCD}} = T^5\,\mathrm{d}(p_{\mathrm{QCD}}/T^4)/\mathrm{d}T$ is the definition of the
+interaction measure through the pressure. Status: ESTIMATE (below 1 GeV), STANDARD (above).
+
+$$
+\begin{aligned}
+&\big\langle F^V_{\mu\nu}F^{V}{}^{\mu\nu}\big\rangle(T) = -2\,\Theta_V\ \ \text{(for $V = W^\pm, Z$)},\qquad
+ \big\langle F_{\mathrm{geo}}^2\big\rangle = -4\,\frac{\partial p}{\partial\big(1/g_{\mathrm{G}}^2\big)}
+ = 4g_{\mathrm{G}}^2\,p_{\alpha,\mathrm{G}},\\
+&p_{\alpha,\mathrm{G}} = -\frac{g_{\mathrm{G}}^2T^4}{144}\,d_{\mathrm{adj}}\Big[C_{\mathrm{adj}} +
+ \frac52\,T_{\mathrm{F}}N_{\mathrm{f}}\Big]
+\end{aligned} \tag{FE-76}
+$$
+
+<!-- symbols: FV, imu, inu, Temp, Theta, Fgeo, partial, pressure, gG, palpha, dadj, Cadj, TF, Nf -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-76).**
+
+- $F^V_{\mu\nu}$: The field strength of the canonically normalised massive vector $V = W^\pm$ or $Z$, $F^V_{\mu\nu} = \partial_\mu V_\nu - \partial_\nu V_\mu$. Unit: $\mathrm{GeV}^{2}$. Status: STANDARD.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\nu$: A four-dimensional coordinate index running over $x_1, \dots, x_4$ (as $\mu$). Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $\Theta_{\mathrm{QCD}},\ \Theta_{\mathrm{G}},\ \Theta_V$: The trace $\rho - 3p$ of the energy-momentum tensor (interaction measure) of a plasma component: $\Theta_{\mathrm{QCD}}$ of the quark-gluon plasma or hadron gas, $\Theta_{\mathrm{G}}$ of the gauge plasma of the group G, $\Theta_V$ of the thermal gas of the massive vector $V$ ($\Theta_{\mathrm{W}}$ of $W^\pm$, $\Theta_{\mathrm{Z}}$ of $Z$). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $F_{\mathrm{geo}}$: The field strength of the gauge group G in geometric normalisation; $\langle F_{\mathrm{geo}}^2\rangle$ is its condensate ($G^A_{\mu\nu}G^{A\mu\nu}$, $W^I_{\mu\nu}W^{I\mu\nu}$ or $B_{\mu\nu}B^{\mu\nu}$). Unit: $\mathrm{GeV}^{2}$. Status: STANDARD.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $p$: A pressure: $p_M = \mathcal{T}^M{}_M$ (no sum) for the direction $M \ne x_4$, $p_s$ the pressure of the species $s$; $\Delta p$ the pressure perturbation in the cosmological perturbation equations; in the Feynman-Hellmann relation the pressure of a gauge plasma. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $g_{\mathrm{G}}$: The four-dimensional coupling of the gauge group G (one of $g_3$, $g_2$, $g_1$). Unit: dimensionless. Status: STANDARD.
+- $p_{\alpha,\mathrm{G}},\ p_{\alpha,2},\ p_{\alpha,1}$: The order-$\alpha$ (interaction) part of the pressure of the gauge plasma of the group G; $p_{\alpha,2}$ of SU(2), $p_{\alpha,1}$ of U(1)$_Y$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $d_{\mathrm{adj}}$: The dimension of the adjoint representation of the gauge group (8, 3, 1). Unit: dimensionless. Status: STANDARD.
+- $C_{\mathrm{adj}}$: The quadratic Casimir of the adjoint representation (3, 2, 0). Unit: dimensionless. Status: STANDARD.
+- $T_{\mathrm{F}}$: The Dynkin index of the fermion representation ($\frac12$ per Dirac fundamental; for U(1)$_Y$ the sum of the squared hypercharges). Unit: dimensionless. Status: STANDARD.
+- $N_{\mathrm{f}}$: The number of active quark flavours (quarks lighter than the scale). Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** For a massive vector boson $V$ ($W^\pm$, $Z$) the thermal condensate of its canonical field strength is $-2$ times the trace
+$\Theta_V = \rho_V - 3p_V$ of its ideal gas: on shell the Proca Lagrangian is a total derivative, so the kinetic and mass terms have
+opposite expectation values. For a gauge plasma the Feynman-Hellmann theorem gives the condensate of the geometric field strength
+as the derivative of the pressure with respect to $1/g_{\mathrm{G}}^2$, i.e. $4g_{\mathrm{G}}^2$ times the order-$\alpha_{\mathrm{G}}$ pressure $p_{\alpha,\mathrm{G}}$
+of a plasma with the adjoint dimension $d_{\mathrm{adj}}$, the Casimir $C_{\mathrm{adj}}$ and $N_{\mathrm{f}}$ fermions of index $T_{\mathrm{F}}$. Status:
+STANDARD (for QCD it reproduces the trace-anomaly condensate FE-74 to $10^{-16}$); no scalar term, since there is no Higgs particle
+(ESTIMATE for the electroweak plasma).
+
+$$
+\frac{1}{\alpha_2(\mu_{\mathrm{ren}})} = \frac{\sin^2\theta_{\overline{\mathrm{MS}}}}{\alpha_{\mathrm{em}}}
+ + \frac{b_2}{2\pi}\ln\frac{\mu_{\mathrm{ren}}}{m_{\mathrm{Z}}},\qquad
+\frac{1}{\alpha_1(\mu_{\mathrm{ren}})} = \frac{1 -
+ \sin^2\theta_{\overline{\mathrm{MS}}}}{\alpha_{\mathrm{em}}}
+ + \frac{b_1}{2\pi}\ln\frac{\mu_{\mathrm{ren}}}{m_{\mathrm{Z}}},\qquad b_2 = \frac{10}{3},\quad b_1 =
+ -\frac{20}{3} \tag{FE-77}
+$$
+
+<!-- symbols: alpha2, mu_ren, thetaMS, alphaem, bcoef, pi, mZ, alpha1 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-77).**
+
+- $\alpha_2$: The SU(2) fine-structure constant, $\alpha_2 = g_2^2/(4\pi)$. Unit: dimensionless. Status: STANDARD.
+- $\mu_{\mathrm{ren}}$: The renormalisation scale of a running coupling (taken as $2\pi T$ for the condensates of a plasma). Unit: GeV. Status: STANDARD.
+- $\theta_{\overline{\mathrm{MS}}}$: The weak mixing angle in the $\overline{\mathrm{MS}}$ scheme at $m_{\mathrm{Z}}$. Unit: dimensionless. Value: $\sin^2\theta_{\overline{\mathrm{MS}}} = 0.23122$. Status: STANDARD.
+- $\alpha_{\mathrm{em}}$: The electromagnetic fine-structure constant ($\overline{\mathrm{MS}}$, at $m_{\mathrm{Z}}$). Unit: dimensionless. Value: $1/127.95$. Status: STANDARD.
+- $b_3,\ b_2,\ b_1,\ b_{\mathrm{G}}$: The one-loop coefficients of the running couplings, $\mathrm{d}\alpha/\mathrm{d}\ln\mu_{\mathrm{ren}} = -b\,\alpha^2/(2\pi)$: $b_3 = 11 - \frac23N_{\mathrm{f}}$ (SU(3)), $b_2 = \frac{10}{3}$ (SU(2) without a Higgs particle), $b_1 = -\frac{20}{3}$ (U(1)$_Y$), $b_{\mathrm{G}}$ that of the group G (not related to the metric function $b_4$). Unit: dimensionless. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $m_{\mathrm{Z}}$: The mass of the $Z$. Unit: GeV. Value: 91.1879 GeV (reproduced). Status: STANDARD.
+- $\alpha_1$: The hypercharge fine-structure constant, $\alpha_1 = g_1^2/(4\pi)$. Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The one-loop running of the SU(2) and hypercharge couplings from their $\overline{\mathrm{MS}}$ values at $m_{\mathrm{Z}}$, with the
+coefficients of three generations of fermions and the gauge bosons and without the contribution of a Higgs doublet ($b_2 = \frac{10}{3}$,
+$b_1 = -\frac{20}{3}$). Status: STANDARD.
+
+$$
+\big\langle W^I_{\mu\nu}W^{I\mu\nu}\big\rangle = g_2^2\Big[2\big(-2\Theta_{\mathrm{W}}\big)
+ + \cos^2\theta_{\mathrm{W}}\big(-2\Theta_{\mathrm{Z}}\big)\Big] + 4g_2^2\,p_{\alpha,2},\qquad
+\big\langle B_{\mu\nu}B^{\mu\nu}\big\rangle =
+ g_1^2\sin^2\theta_{\mathrm{W}}\big(-2\Theta_{\mathrm{Z}}\big) + 4g_1^2\,p_{\alpha,1} \tag{FE-78}
+$$
+
+<!-- symbols: Wsu2, iI, imu, inu, g2, Theta, thetaW, palpha, Bhyp, g1 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-78).**
+
+- $W^I_M,\ W_M,\ W_{MN},\ W^I_{MN}$: The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $I$: A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed. Status: STANDARD.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\nu$: A four-dimensional coordinate index running over $x_1, \dots, x_4$ (as $\mu$). Status: STANDARD.
+- $g_2$: The four-dimensional SU(2) coupling ($g_2^2 = 4\pi\alpha_2$). Unit: dimensionless. Value: $g_2^2 = 0.3781$ at $2M_{\mathrm{DM}}$. Status: DERIVED.
+- $\Theta_{\mathrm{QCD}},\ \Theta_{\mathrm{G}},\ \Theta_V$: The trace $\rho - 3p$ of the energy-momentum tensor (interaction measure) of a plasma component: $\Theta_{\mathrm{QCD}}$ of the quark-gluon plasma or hadron gas, $\Theta_{\mathrm{G}}$ of the gauge plasma of the group G, $\Theta_V$ of the thermal gas of the massive vector $V$ ($\Theta_{\mathrm{W}}$ of $W^\pm$, $\Theta_{\mathrm{Z}}$ of $Z$). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\theta_{\mathrm{W}}$: The weak mixing angle of the couplings, $\cos\theta_{\mathrm{W}} = \hat g_2/\hat g_Z$, $\sin\theta_{\mathrm{W}} = \hat g_1/\hat g_Z$; fixed by the measured $W$ and $Z$ masses with $\rho_{\mathrm{EW},0}$. Unit: dimensionless. Value: $\cos^2\theta_{\mathrm{W}} = 0.776368$. Status: DERIVED.
+- $p_{\alpha,\mathrm{G}},\ p_{\alpha,2},\ p_{\alpha,1}$: The order-$\alpha$ (interaction) part of the pressure of the gauge plasma of the group G; $p_{\alpha,2}$ of SU(2), $p_{\alpha,1}$ of U(1)$_Y$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $B_M,\ B_{MN}$: The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength. Unit: GeV (field), $\mathrm{GeV}^{2}$ (field strength). Status: ASSUMED.
+- $g_1$: The four-dimensional hypercharge coupling ($g_1^2 = 4\pi\alpha_1$, Standard-Model normalisation without the GUT factor). Unit: dimensionless. Value: $g_1^2 = 0.1380$ at $2M_{\mathrm{DM}}$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The electroweak condensates of a hot plasma: the free parts of $W^\pm$ (two charge states) and of the $Z$ (with the
+projections $\cos^2\theta_{\mathrm{W}}$ onto $W^3$ and $\sin^2\theta_{\mathrm{W}}$ onto $B$; the photon is massless and contributes no free part) and the
+interaction parts $4g^2p_\alpha$ of FE-76. Status: ESTIMATE (below $m_{\mathrm{W}}$ the interaction part is multiplied by the thermal
+suppression of a massive vector); at the freeze-out the $W$ condensate is $-5.0\times10^{11}$ GeV$^4$, almost all from the interaction part.
+
+## dirac16complex acting on the Standard Model
+
+In four dimensions the I12 term of FE-21 shifts the inverse squared couplings by the I12 coefficient times the scalar density of the
+dark matter, whose block integral is $\mathcal{O}_{\mathrm{DM}}$ times its number density (both species and antiparticles):
+
+$$
+\frac{1}{g_3^2}\ \to\ \frac{1}{g_3^2} + \frac{4c_{\mathrm{G}}\,\mathcal{O}_{\mathrm{DM}}\,n_{\mathrm{DM,tot}}}{\Lambda_\star^3}\qquad\Rightarrow\qquad
+\frac{\Delta\alpha_3}{\alpha_3} = -g_3^2\,\Delta\Big(\frac{1}{g_3^2}\Big) = -4G_{\mathrm{g}}\,n_{\mathrm{DM,tot}},
+$$
+
+<!-- symbols: g3, cG, calO, nDMtot, LambdaStar, Delta, alpha3, Gg -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $g_3$: The four-dimensional strong coupling ($g_3^2 = 4\pi\alpha_3$). Unit: dimensionless. Value: $g_3^2 = 0.7786$ at $2M_{\mathrm{DM}}$. Status: DERIVED.
+- $c_{\mathrm{G}}$: The coefficient of the gluon term of the portal I12. Unit: dimensionless. Value: $c_{\mathrm{G}}/\Lambda_\star^3 = c_{\mathrm{I12}}/\Lambda_\star^3$. Status: INVENTED.
+- $\mathcal{O}_o,\ \mathcal{O}_{\mathrm{DM}}$: The scalar overlap of a state of dirac16complex, $\mathcal{O}_o = \partial\varepsilon_o/\partial m_\Psi$ (Hellmann-Feynman: the integrated scalar density of the orbital); $\mathcal{O}_{\mathrm{DM}}$ that of the dark matter. Unit: dimensionless. Value: $\mathcal{O}_{\mathrm{DM}} = 0.7072$. Status: DERIVED.
+- $n_{\mathrm{DM,tot}}$: The total number density of dark-matter quanta: both species (the lowest odd levels of $\Psi_A$ and $\Psi_B$), particles and antiparticles, $n_{\mathrm{DM,tot}} = 2(n_{\mathrm{DM}} + \bar n_{\mathrm{DM}})$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\Lambda_\star$: The scale of the portal operators I11, I12, I13. Unit: GeV. Value: only the combinations $c/\Lambda_\star^n$ enter. Status: INVENTED.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\alpha_3$: The strong fine-structure constant, $\alpha_3 = g_3^2/(4\pi)$, at the scale given in brackets. Unit: dimensionless. Value: $\alpha_3(m_{\mathrm{Z}}) = 0.1180$; $\alpha_3(m_{\mathrm{KK}}) = 0.0606$. Status: STANDARD.
+- $G_{\mathrm{g}}$: The coupling of a dark-matter pair to canonically normalised gluon pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $6.09\times10^{-15}$ GeV$^{-3}$ (benchmark). Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+and likewise for $\alpha_2$ and $\alpha_1$. Within the block the same term multiplies the kinetic term of the gauge fields by a function
+of $y$, which changes their $x_0$ problem:
+
+$$
+\begin{aligned}
+&\frac{\Delta\alpha_3}{\alpha_3} = -4G_{\mathrm{g}}\,n_{\mathrm{DM,tot}},\qquad
+ \frac{\Delta\alpha_2}{\alpha_2} = -4G_{\mathrm{W}}\,n_{\mathrm{DM,tot}},\qquad
+ \frac{\Delta\alpha_1}{\alpha_1} = -4G_{\mathrm{B}}\,n_{\mathrm{DM,tot}},\\
+&-\frac{1}{\Upsilon\,\mathrm{e}^{3HL\xi}}\,\frac{\mathrm{d}}{\mathrm{d}\xi}\Big(\Upsilon\,
+ \mathrm{e}^{3HL\xi}\,\frac{\mathrm{d}F}{\mathrm{d}\xi}\Big)
+ = \tilde m^2F,\qquad \Upsilon(\xi) = 1 + A_{\mathrm{mf}}\,n^{\mathrm{sc}}_{\mathrm{DM}},\qquad
+ n^{\mathrm{sc}}_{\mathrm{DM}} = 2a_{\mathrm{DM}}b_{\mathrm{DM}},\\
+&\frac{\mathrm{d}F}{\mathrm{d}\xi}(0) = 0,\qquad \Upsilon(-1)\,\frac{\mathrm{d}F}{\mathrm{d}\xi}(-1) =
+ \beta_{\mathrm{W}}F(-1)
+\end{aligned} \tag{FE-79}
+$$
+
+<!-- symbols: Delta, alpha3, Gg, nDMtot, alpha2, GW, alpha1, GB, Upsilon, euler, Hconst, Lcut, xi, diff, Fprof, mtilde, Amf, nscDM, abDM, betaW -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-79).**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\alpha_3$: The strong fine-structure constant, $\alpha_3 = g_3^2/(4\pi)$, at the scale given in brackets. Unit: dimensionless. Value: $\alpha_3(m_{\mathrm{Z}}) = 0.1180$; $\alpha_3(m_{\mathrm{KK}}) = 0.0606$. Status: STANDARD.
+- $G_{\mathrm{g}}$: The coupling of a dark-matter pair to canonically normalised gluon pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $6.09\times10^{-15}$ GeV$^{-3}$ (benchmark). Status: DERIVED.
+- $n_{\mathrm{DM,tot}}$: The total number density of dark-matter quanta: both species (the lowest odd levels of $\Psi_A$ and $\Psi_B$), particles and antiparticles, $n_{\mathrm{DM,tot}} = 2(n_{\mathrm{DM}} + \bar n_{\mathrm{DM}})$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\alpha_2$: The SU(2) fine-structure constant, $\alpha_2 = g_2^2/(4\pi)$. Unit: dimensionless. Status: STANDARD.
+- $G_{\mathrm{W}}$: The coupling of a dark-matter pair to canonically normalised SU(2) gauge pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $2.96\times10^{-15}$ GeV$^{-3}$. Status: DERIVED.
+- $\alpha_1$: The hypercharge fine-structure constant, $\alpha_1 = g_1^2/(4\pi)$. Unit: dimensionless. Status: STANDARD.
+- $G_{\mathrm{B}}$: The coupling of a dark-matter pair to canonically normalised hypercharge pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $1.08\times10^{-15}$ GeV$^{-3}$. Status: DERIVED.
+- $\Upsilon(\xi)$: The factor by which the scalar density of the dark matter changes the gauge kinetic term along $x_0$ (I12), $\Upsilon = 1 + A_{\mathrm{mf}}n^{\mathrm{sc}}_{\mathrm{DM}}$. Unit: dimensionless. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\xi$: The scaled hidden coordinate, $\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period. Unit: dimensionless. Status: DERIVED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $F(\xi),\ F_n$: The $x_0$ profile of a boson mode on one half of the period (a function of $y$ or of $\xi = y/L$): of a gauge field (gauge $A_y = 0$) or of the transverse-traceless graviton; $F_n$ is the profile of the $n$-th Kaluza-Klein level of the graviton tower ($F_0 = 1$ the flat zero mode). Unit: dimensionless. Status: DERIVED.
+- $\tilde m,\ \tilde m_n$: The dimensionless $x_0$ eigenvalue of a boson mode, $\tilde m = m\,fL$; $\tilde m_n$ the $n$-th even Kaluza-Klein level of the tower with $\beta = 0$ ($\tilde m_1$ the first). Unit: dimensionless. Value: $\tilde m_1^2 = 30.1196$, $\tilde m_2^2 = 59.7284$, $\tilde m_3^2 = 109.0764$ ($HL = 3$), i.e. $\tilde m_1 = 5.48813$, $\tilde m_2 = 7.72842$, $\tilde m_3 = 10.44397$. Status: DERIVED.
+- $A_{\mathrm{mf}}$: The amplitude of the I12 mean field in the $x_0$ problem of the gauge fields (a bookkeeping parameter: the result is linear in it). Unit: $\mathrm{GeV}^{-1}$ (with the orbital normalisation). Status: DERIVED.
+- $n^{\mathrm{sc}}_{\mathrm{DM}}$: The scalar density of the dark-matter orbital, $n^{\mathrm{sc}}_{\mathrm{DM}} = 2a_{\mathrm{DM}}b_{\mathrm{DM}}$. Unit: GeV (normalised orbital). Status: DERIVED.
+- $a_{\mathrm{DM}},\ b_{\mathrm{DM}}$: The upper and lower components of the dark-matter orbital (block spinor $(a, \mathrm{i}b)$, normalised on one half). Unit: $\mathrm{GeV}^{1/2}$. Status: DERIVED.
+- $\beta_{\mathrm{W}}$: The Robin parameter of $W^+$ and $W^-$ (set by the tip mass term of the sigma field). Unit: dimensionless. Value: 0.011912 (fitted). Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The first line: the dark matter weakens every gauge coupling in proportion to its density. The second line: the $x_0$
+problem of FE-50 with the kinetic function $\Upsilon = 1 + A_{\mathrm{mf}}n^{\mathrm{sc}}_{\mathrm{DM}}$, where $n^{\mathrm{sc}}_{\mathrm{DM}} = 2a_{\mathrm{DM}}b_{\mathrm{DM}}$ is the
+scalar density of the dark-matter orbital and $A_{\mathrm{mf}}$ the amplitude of the mean field; the tip condition carries $\Upsilon(-1)$.
+The flat profile still solves the problem for every $\Upsilon$ (the photon and the gluons stay exactly massless), while the $W$
+eigenvalue changes by $\mathrm{d}\ln\tilde m_{\mathrm{W}}^2/\mathrm{d}A_{\mathrm{mf}} = -0.111253$: the $W$ mass follows the four-dimensional coupling. Status:
+DERIVED (first-order perturbation theory with the exact $W$ eigenfunction; shooting agrees). The physical amplitude is
+$\lvert\Delta\alpha/\alpha\rvert \le 1.7\times10^{-16}$ (at the freeze-out). Residual $3.3\times10^{-12}$.
+
+## Gravity closes the loop
+
+$$
+\begin{aligned}
+&\Delta K = \frac{c_\rho\,\kappa\Delta\rho + c_3\,\kappa\Delta p_3 + c_p\,\kappa\Delta\bar p}{H^2},\qquad
+ \Delta\ln f = -\frac{\Delta K}{2K_*},\\
+&\Delta\ln m_s = \frac{\mathrm{d}\ln m_s}{\mathrm{d}\ln f}\,\Delta\ln f,\qquad
+ \kappa\Delta\rho = 8\pi G_{\mathrm{N}}\,\mathcal{G}(K_*)\,\rho_4
+\end{aligned} \tag{FE-80}
+$$
+
+<!-- symbols: Delta, Kblock, crho, kappa, rho, c3, p3, cp, pbar, Hconst, fblock, Kstar, mmass, is, diff, pi, GN, GK, rho4 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-80).**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
+- $c_\rho$: The coefficient of $\kappa\Delta\rho$ in the adiabatic block response $\Delta K$. Unit: dimensionless. Value: 0.0358521. Status: DERIVED.
+- $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $c_3$: The coefficient of $\kappa\Delta p_3$ in the adiabatic block response, $c_3 = -3c_\rho$ (so radiation drops out). Unit: dimensionless. Value: -0.107556. Status: DERIVED.
+- $p_3$: The pressure of ordinary 3-space, $p_3 = \mathcal{T}^{x_1}{}_{x_1} = \mathcal{T}^{x_2}{}_{x_2} = \mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source. Unit: $\mathrm{GeV}^{8}$. Status: STANDARD.
+- $c_p$: The coefficient of $\kappa\Delta\bar p$ in the adiabatic block response. Unit: dimensionless. Value: -0.140028. Status: DERIVED.
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $K_*$: The block variable of the stabilised block, $K_* = 12 + \frac43\sqrt{51}$ (the upper root $K_+$). Unit: dimensionless. Value: 21.5219. Status: DERIVED.
+- $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
+- $s$: The label of a particle species of the plasma or of matter (photon, gluons, $W^\pm$, $Z$, quarks, leptons, nucleons, dark matter); a sum over $s$ runs over the species present. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $G_{\mathrm{N}}$: Newton's constant of four-dimensional gravity, $8\pi G_{\mathrm{N}} = \kappa/(\mathcal{G}(K_*)V_\perp)$. Unit: $\mathrm{GeV}^{-2}$. Value: $6.709\times10^{-39}$ GeV$^{-2}$ ($M_{\mathrm{Pl}} = G_{\mathrm{N}}^{-1/2} = 1.22091\times10^{19}$ GeV). Status: STANDARD.
+- $\mathcal{G}(K)$: The coefficient of the four-dimensional Einstein-Hilbert term on a static block, $\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = (K^2 - 12K + 16)/16$; four-dimensional gravity is attractive for $\mathcal{G} > 0$. Unit: dimensionless. Value: $\mathcal{G}(K_*) = 20/3 + \sqrt{51} = 13.8081$. Status: DERIVED.
+- $\rho_4$: A four-dimensional energy density (per 3-volume); its block average is $\kappa\Delta\rho = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*)\rho_4$. Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The adiabatic block response FE-47, applied to the block-averaged sources of every species of an environment: the
+four-dimensional densities $\rho_4$ (and likewise the pressures) enter as $\kappa\Delta\rho = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*)\rho_4$; the change of the
+block scale changes every mass $m_s$ in proportion to its block sensitivity $\mathrm{d}\ln m_s/\mathrm{d}\ln f$ (FE-83 to FE-85). The masses
+change the sources, so the loop mass, source, block, mass is iterated to self-consistency. Status: DERIVED. The loop gain is at most
+$1.05\times10^{-33}$ (at the freeze-out), so one step suffices; the block moves by at most $\Delta\ln f = 1.1\times10^{-34}$ (at the
+freeze-out) and by $7.3\times10^{-94}$ for the cosmic mean today. Residual of the stored environments $2.0\times10^{-11}$.
+
+The hidden pressure is the response of the pressure to the block scale at fixed temperature (a change of $\ln f$ changes the
+proper lengths of the four block directions together): for an ideal gas of species of mass $m_s$, for the QCD plasma whose pressure
+depends on $\Lambda_{\mathrm{QCD}}$, and for the order-$\alpha$ pressure of the electroweak plasma,
+
+$$
+\bar p = \frac14\,\frac{\mathrm{d}p}{\mathrm{d}\ln f},\qquad \frac{\partial p_s}{\partial\ln m_s} = -\big(\rho_s - 3p_s\big),\qquad
+\frac{\partial p_{\mathrm{QCD}}}{\partial\ln\Lambda_{\mathrm{QCD}}} = -\Theta_{\mathrm{QCD}},\qquad
+\frac{\partial p_{\alpha,\mathrm{G}}}{\partial\ln\alpha_{\mathrm{G}}} = p_{\alpha,\mathrm{G}}:
+$$
+
+<!-- symbols: pbar, diff, pressure, fblock, partial, is, mmass, rho, pQCD, rhoQCDscale, Theta, palpha, alphaG -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $p$: A pressure: $p_M = \mathcal{T}^M{}_M$ (no sum) for the direction $M \ne x_4$, $p_s$ the pressure of the species $s$; $\Delta p$ the pressure perturbation in the cosmological perturbation equations; in the Feynman-Hellmann relation the pressure of a gauge plasma. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $s$: The label of a particle species of the plasma or of matter (photon, gluons, $W^\pm$, $Z$, quarks, leptons, nucleons, dark matter); a sum over $s$ runs over the species present. Status: STANDARD.
+- $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $p_{\mathrm{QCD}}$: The pressure of the quark-gluon plasma (leading orders). Unit: $\mathrm{GeV}^{4}$. Status: ESTIMATE.
+- $\Lambda_{\mathrm{QCD}}^{(N_{\mathrm{f}})}$: The QCD scale with $N_{\mathrm{f}}$ active flavours ($\Lambda_{\mathrm{QCD}}^{(6)}$, $^{(5)}$, $^{(4)}$, $^{(3)}$), defined by the one-loop running. Unit: GeV. Status: STANDARD.
+- $\Theta_{\mathrm{QCD}},\ \Theta_{\mathrm{G}},\ \Theta_V$: The trace $\rho - 3p$ of the energy-momentum tensor (interaction measure) of a plasma component: $\Theta_{\mathrm{QCD}}$ of the quark-gluon plasma or hadron gas, $\Theta_{\mathrm{G}}$ of the gauge plasma of the group G, $\Theta_V$ of the thermal gas of the massive vector $V$ ($\Theta_{\mathrm{W}}$ of $W^\pm$, $\Theta_{\mathrm{Z}}$ of $Z$). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $p_{\alpha,\mathrm{G}},\ p_{\alpha,2},\ p_{\alpha,1}$: The order-$\alpha$ (interaction) part of the pressure of the gauge plasma of the group G; $p_{\alpha,2}$ of SU(2), $p_{\alpha,1}$ of U(1)$_Y$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\alpha_{\mathrm{G}}$: The fine-structure constant of the gauge group G (one of $\alpha_3$, $\alpha_2$, $\alpha_1$). Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+$$
+\bar p = -\frac14\sum_s\big(\rho_s - 3p_s\big)\frac{\mathrm{d}\ln m_s}{\mathrm{d}\ln f}
+ - \frac14\,\Theta_{\mathrm{QCD}}\,\frac{\mathrm{d}\ln\Lambda_{\mathrm{QCD}}^{(N_{\mathrm{f}})}}{
+ \mathrm{d}\ln f}
+ + \frac14\,p_{\alpha,2}\,\frac{\mathrm{d}\ln\alpha_2}{\mathrm{d}\ln f} +
+ \frac14\,p_{\alpha,1}\,\frac{\mathrm{d}\ln\alpha_1}{\mathrm{d}\ln f} \tag{FE-81}
+$$
+
+<!-- symbols: pbar, is, rho, pressure, diff, mmass, fblock, Theta, rhoQCDscale, palpha, alpha2, alpha1 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-81).**
+
+- $\bar p$: The hidden pressure, the pressure averaged over the block, $\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\bar p = \frac14\,\partial p/\partial\ln f$. Unit: $\mathrm{GeV}^{8}$ (or $\mathrm{GeV}^{4}$ for a four-dimensional density). Status: DERIVED.
+- $s$: The label of a particle species of the plasma or of matter (photon, gluons, $W^\pm$, $Z$, quarks, leptons, nucleons, dark matter); a sum over $s$ runs over the species present. Status: STANDARD.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $p$: A pressure: $p_M = \mathcal{T}^M{}_M$ (no sum) for the direction $M \ne x_4$, $p_s$ the pressure of the species $s$; $\Delta p$ the pressure perturbation in the cosmological perturbation equations; in the Feynman-Hellmann relation the pressure of a gauge plasma. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\Theta_{\mathrm{QCD}},\ \Theta_{\mathrm{G}},\ \Theta_V$: The trace $\rho - 3p$ of the energy-momentum tensor (interaction measure) of a plasma component: $\Theta_{\mathrm{QCD}}$ of the quark-gluon plasma or hadron gas, $\Theta_{\mathrm{G}}$ of the gauge plasma of the group G, $\Theta_V$ of the thermal gas of the massive vector $V$ ($\Theta_{\mathrm{W}}$ of $W^\pm$, $\Theta_{\mathrm{Z}}$ of $Z$). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\Lambda_{\mathrm{QCD}}^{(N_{\mathrm{f}})}$: The QCD scale with $N_{\mathrm{f}}$ active flavours ($\Lambda_{\mathrm{QCD}}^{(6)}$, $^{(5)}$, $^{(4)}$, $^{(3)}$), defined by the one-loop running. Unit: GeV. Status: STANDARD.
+- $p_{\alpha,\mathrm{G}},\ p_{\alpha,2},\ p_{\alpha,1}$: The order-$\alpha$ (interaction) part of the pressure of the gauge plasma of the group G; $p_{\alpha,2}$ of SU(2), $p_{\alpha,1}$ of U(1)$_Y$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\alpha_2$: The SU(2) fine-structure constant, $\alpha_2 = g_2^2/(4\pi)$. Unit: dimensionless. Status: STANDARD.
+- $\alpha_1$: The hypercharge fine-structure constant, $\alpha_1 = g_1^2/(4\pi)$. Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The first sum runs over the species $s$ with block-dependent masses (the plasma species as ideal gases with their $x_0$
+masses; nucleons and electrons as degenerate Fermi gases in the cold environments; the dark matter): non-relativistic matter gives
+$-\frac14\rho\,\mathrm{d}\ln m/\mathrm{d}\ln f$, radiation nothing. The second term is the QCD plasma through the block dependence of its
+scale, the last two the electroweak plasma through the block dependence of its couplings. A change of $\ln f$ scales the four block
+directions together, so FE-81 is the average $\bar p = \frac14(p_0 + 3p_5)$: the mass terms depend on the hidden length only (they
+contribute to $p_0$, not to $p_5$), the coupling terms on the volume of all four block directions (equal parts in $p_0$ and $p_5$); the
+difference $p_0 - p_5$ is the block-shape source (OPEN). Status: DERIVED.
+
+$$
+\frac{\mathrm{d}\ln\alpha_{\mathrm{G}}(\mu_{\mathrm{ren}})}{\mathrm{d}\ln f}
+ = -\alpha_{\mathrm{G}}(\mu_{\mathrm{ren}})\Big[\frac{4}{\alpha_{\mathrm{G}}(m_{\mathrm{KK}})} +
+ \frac{b_{\mathrm{G}}}{2\pi}\Big],\qquad
+\Theta_{\mathrm{G}} = -\frac{b_{\mathrm{G}}\,\alpha_{\mathrm{G}}}{2\pi}\,p_{\alpha,\mathrm{G}} \tag{FE-82}
+$$
+
+<!-- symbols: diff, alphaG, mu_ren, fblock, mKK, bcoef, pi, Theta, palpha -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-82).**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\alpha_{\mathrm{G}}$: The fine-structure constant of the gauge group G (one of $\alpha_3$, $\alpha_2$, $\alpha_1$). Unit: dimensionless. Status: STANDARD.
+- $\mu_{\mathrm{ren}}$: The renormalisation scale of a running coupling (taken as $2\pi T$ for the condensates of a plasma). Unit: GeV. Status: STANDARD.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $m^{\mathrm{KK}}_n,\ m_{\mathrm{KK}}$: The mass of the $n$-th Kaluza-Klein graviton (and gauge) level, $m^{\mathrm{KK}}_n = \tilde m_n/(fL)$; $m_{\mathrm{KK}} = m^{\mathrm{KK}}_1$ is the Kaluza-Klein scale. Unit: GeV. Value: $m_{\mathrm{KK}} = 121.32$ TeV. Status: DERIVED.
+- $b_3,\ b_2,\ b_1,\ b_{\mathrm{G}}$: The one-loop coefficients of the running couplings, $\mathrm{d}\alpha/\mathrm{d}\ln\mu_{\mathrm{ren}} = -b\,\alpha^2/(2\pi)$: $b_3 = 11 - \frac23N_{\mathrm{f}}$ (SU(3)), $b_2 = \frac{10}{3}$ (SU(2) without a Higgs particle), $b_1 = -\frac{20}{3}$ (U(1)$_Y$), $b_{\mathrm{G}}$ that of the group G (not related to the metric function $b_4$). Unit: dimensionless. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\Theta_{\mathrm{QCD}},\ \Theta_{\mathrm{G}},\ \Theta_V$: The trace $\rho - 3p$ of the energy-momentum tensor (interaction measure) of a plasma component: $\Theta_{\mathrm{QCD}}$ of the quark-gluon plasma or hadron gas, $\Theta_{\mathrm{G}}$ of the gauge plasma of the group G, $\Theta_V$ of the thermal gas of the massive vector $V$ ($\Theta_{\mathrm{W}}$ of $W^\pm$, $\Theta_{\mathrm{Z}}$ of $Z$). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $p_{\alpha,\mathrm{G}},\ p_{\alpha,2},\ p_{\alpha,1}$: The order-$\alpha$ (interaction) part of the pressure of the gauge plasma of the group G; $p_{\alpha,2}$ of SU(2), $p_{\alpha,1}$ of U(1)$_Y$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The eight-dimensional couplings are constants, so the four-dimensional couplings at the Kaluza-Klein scale scale as
+$f^{-4}$ ($g_{\mathrm{G}}^2 = \hat g^2/V_\perp$), and $m_{\mathrm{KK}} \propto 1/f$; running down to $\mu_{\mathrm{ren}}$ with the coefficient $b_{\mathrm{G}}$ gives
+the first relation. The second is the leading-order trace anomaly of a gauge plasma, the electroweak analogue of
+$\Theta_{\mathrm{QCD}}$. Status: DERIVED.
+
+$$
+\begin{aligned}
+&\frac{1}{\alpha_3(m_{\mathrm{KK}})} = \frac{1}{\alpha_3(m_{\mathrm{Z}})} +
+ \frac{7}{2\pi}\ln\frac{m_{\mathrm{KK}}}{m_{\mathrm{Z}}},\qquad
+ \Lambda_{\mathrm{QCD}}^{(6)} = m_{\mathrm{KK}}\,\mathrm{e}^{-2\pi/(7\alpha_3(m_{\mathrm{KK}}))},\qquad
+ \Lambda_{\mathrm{QCD}}^{(3)} =
+ \big(\Lambda_{\mathrm{QCD}}^{(6)}\big)^{21/27}\big(m_{\mathrm{c}}m_{\mathrm{b}}m_{\mathrm{t}}\big)^{2/27},\\
+&\frac{\mathrm{d}\ln m_{\mathrm{p}}}{\mathrm{d}\ln f} = \Big(1 - \frac{\sigma_{\pi N} +
+ \sigma_{\mathrm{s}}}{m_{\mathrm{p}}}\Big)
+ \frac{\mathrm{d}\ln\Lambda_{\mathrm{QCD}}^{(3)}}{\mathrm{d}\ln f}
+ + \frac{\sigma_{\pi N}}{2m_{\mathrm{p}}}\Big(\frac{\mathrm{d}\ln m_{\mathrm{u}}}{\mathrm{d}\ln f} +
+ \frac{\mathrm{d}\ln m_{\mathrm{d}}}{\mathrm{d}\ln f}\Big)
+ + \frac{\sigma_{\mathrm{s}}}{m_{\mathrm{p}}}\,\frac{\mathrm{d}\ln m_{\mathrm{s}}}{\mathrm{d}\ln f}
+\end{aligned} \tag{FE-83}
+$$
+
+<!-- symbols: alpha3, mKK, mZ, pi, rhoQCDscale, euler, mquarks, diff, mnucleon, fblock, sigmapiN, sigmas -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-83).**
+
+- $\alpha_3$: The strong fine-structure constant, $\alpha_3 = g_3^2/(4\pi)$, at the scale given in brackets. Unit: dimensionless. Value: $\alpha_3(m_{\mathrm{Z}}) = 0.1180$; $\alpha_3(m_{\mathrm{KK}}) = 0.0606$. Status: STANDARD.
+- $m^{\mathrm{KK}}_n,\ m_{\mathrm{KK}}$: The mass of the $n$-th Kaluza-Klein graviton (and gauge) level, $m^{\mathrm{KK}}_n = \tilde m_n/(fL)$; $m_{\mathrm{KK}} = m^{\mathrm{KK}}_1$ is the Kaluza-Klein scale. Unit: GeV. Value: $m_{\mathrm{KK}} = 121.32$ TeV. Status: DERIVED.
+- $m_{\mathrm{Z}}$: The mass of the $Z$. Unit: GeV. Value: 91.1879 GeV (reproduced). Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\Lambda_{\mathrm{QCD}}^{(N_{\mathrm{f}})}$: The QCD scale with $N_{\mathrm{f}}$ active flavours ($\Lambda_{\mathrm{QCD}}^{(6)}$, $^{(5)}$, $^{(4)}$, $^{(3)}$), defined by the one-loop running. Unit: GeV. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $m_{\mathrm{u}},\ m_{\mathrm{d}},\ m_{\mathrm{s}},\ m_{\mathrm{c}},\ m_{\mathrm{b}},\ m_{\mathrm{t}}$: The masses of the up, down, strange, charm, bottom and top quarks (the upright subscript names the quark). Unit: GeV. Value: 2.16 MeV, 4.70 MeV, 93.5 MeV, 1.273 GeV, 4.183 GeV, 172.56 GeV (the $x_0$ masses, fitted to the PDG values). Status: DERIVED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $m_{\mathrm{p}},\ m_{\mathrm{n}}$: The masses of the proton and the neutron. Unit: GeV. Value: 0.938272 GeV, 0.939565 GeV. Status: STANDARD.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\sigma_{\pi N}$: The pion-nucleon sigma term (the contribution of the up and down quark masses to the nucleon mass). Unit: GeV. Value: 45 MeV. Status: STANDARD.
+- $\sigma_{\mathrm{s}}$: The strange sigma term of the nucleon. Unit: GeV. Value: 40 MeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The strong coupling at the Kaluza-Klein scale (one loop, six flavours, $\alpha_3(m_{\mathrm{KK}}) = 0.0606$), the QCD scale of six
+flavours and its one-loop matching to three flavours at the heavy-quark masses, and the block dependence of the proton mass: the
+part of $m_{\mathrm{p}}$ that is not the pion-nucleon and strange sigma terms ($\sigma_{\pi N} = 45$ MeV, $\sigma_{\mathrm{s}} = 40$ MeV) scales with
+$\Lambda^{(3)}_{\mathrm{QCD}}$, the sigma terms with the light-quark masses. Result: $\mathrm{d}\ln m_{\mathrm{p}}/\mathrm{d}\ln f = -46.1$, the most
+block-sensitive mass of UM-2. Status: ESTIMATE (one loop).
+
+$$
+\begin{aligned}
+&\frac{\mathrm{d}\ln\Lambda_{\mathrm{QCD}}^{(6)}}{\mathrm{d}\ln f} = -1 -
+ \frac{8\pi}{7\alpha_3(m_{\mathrm{KK}})},\qquad
+ \frac{\mathrm{d}\ln\Lambda_{\mathrm{QCD}}^{(5)}}{\mathrm{d}\ln f} =
+ \frac{21}{23}\frac{\mathrm{d}\ln\Lambda_{\mathrm{QCD}}^{(6)}}{\mathrm{d}\ln f}
+ + \frac{2}{23}\frac{\mathrm{d}\ln m_{\mathrm{t}}}{\mathrm{d}\ln f},\\
+&\frac{\mathrm{d}\ln\Lambda_{\mathrm{QCD}}^{(4)}}{\mathrm{d}\ln f} =
+ \frac{21}{25}\frac{\mathrm{d}\ln\Lambda_{\mathrm{QCD}}^{(6)}}{\mathrm{d}\ln f}
+ + \frac{2}{25}\Big(\frac{\mathrm{d}\ln m_{\mathrm{t}}}{\mathrm{d}\ln f} + \frac{\mathrm{d}\ln
+ m_{\mathrm{b}}}{\mathrm{d}\ln f}\Big),\\
+&\frac{\mathrm{d}\ln\Lambda_{\mathrm{QCD}}^{(3)}}{\mathrm{d}\ln f} =
+ \frac{21}{27}\frac{\mathrm{d}\ln\Lambda_{\mathrm{QCD}}^{(6)}}{\mathrm{d}\ln f}
+ + \frac{2}{27}\Big(\frac{\mathrm{d}\ln m_{\mathrm{c}}}{\mathrm{d}\ln f} + \frac{\mathrm{d}\ln
+ m_{\mathrm{b}}}{\mathrm{d}\ln f}
+ + \frac{\mathrm{d}\ln m_{\mathrm{t}}}{\mathrm{d}\ln f}\Big)
+\end{aligned} \tag{FE-84}
+$$
+
+<!-- symbols: diff, rhoQCDscale, fblock, pi, alpha3, mKK, mquarks -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-84).**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\Lambda_{\mathrm{QCD}}^{(N_{\mathrm{f}})}$: The QCD scale with $N_{\mathrm{f}}$ active flavours ($\Lambda_{\mathrm{QCD}}^{(6)}$, $^{(5)}$, $^{(4)}$, $^{(3)}$), defined by the one-loop running. Unit: GeV. Status: STANDARD.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\alpha_3$: The strong fine-structure constant, $\alpha_3 = g_3^2/(4\pi)$, at the scale given in brackets. Unit: dimensionless. Value: $\alpha_3(m_{\mathrm{Z}}) = 0.1180$; $\alpha_3(m_{\mathrm{KK}}) = 0.0606$. Status: STANDARD.
+- $m^{\mathrm{KK}}_n,\ m_{\mathrm{KK}}$: The mass of the $n$-th Kaluza-Klein graviton (and gauge) level, $m^{\mathrm{KK}}_n = \tilde m_n/(fL)$; $m_{\mathrm{KK}} = m^{\mathrm{KK}}_1$ is the Kaluza-Klein scale. Unit: GeV. Value: $m_{\mathrm{KK}} = 121.32$ TeV. Status: DERIVED.
+- $m_{\mathrm{u}},\ m_{\mathrm{d}},\ m_{\mathrm{s}},\ m_{\mathrm{c}},\ m_{\mathrm{b}},\ m_{\mathrm{t}}$: The masses of the up, down, strange, charm, bottom and top quarks (the upright subscript names the quark). Unit: GeV. Value: 2.16 MeV, 4.70 MeV, 93.5 MeV, 1.273 GeV, 4.183 GeV, 172.56 GeV (the $x_0$ masses, fitted to the PDG values). Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The block dependence of the QCD scale with six flavours, from $\Lambda^{(6)}_{\mathrm{QCD}} = m_{\mathrm{KK}}\mathrm{e}^{-2\pi/(7\alpha_3)}$
+with $\alpha_3 \propto f^{-4}$ and $m_{\mathrm{KK}} \propto 1/f$, and the matching through the top, bottom and charm thresholds: $-60.2$
+(six flavours), $-55.6$, $-52.0$ and $-49.0$ (three flavours). Status: ESTIMATE (one loop).
+
+$$
+\frac{\mathrm{d}\ln m}{\mathrm{d}\ln f} = -1 +
+ \frac12\Big[\frac{\mathrm{d}\ln\mathcal{Z}(c_L)^2}{\mathrm{d}\ln c_L}
+ + \frac{\mathrm{d}\ln\mathcal{Z}(-c_R)^2}{\mathrm{d}\ln(-c_R)}\Big] \tag{FE-85}
+$$
+
+<!-- symbols: diff, mmass, fblock, calZ, cloc, iL, iR -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-85).**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\mathcal{Z}(c)$: The tip amplitude of a normalised zero mode with the localisation $c$, $\mathcal{Z}(c)^2 = c\,\mathrm{e}^{-c}/\sinh c$. Unit: dimensionless. Status: DERIVED.
+- $c,\ c_L,\ c_R$: The localisation of a zero mode, $c = f\mu L$ (bulk mass times the proper depth); $c_L$ of a doublet (localised at the fold for $c_L > 0$), $c_R$ of a singlet (localised at the fold for $c_R < 0$). Unit: dimensionless. Value: doublets $c_L = 3.38230$ (quarks) and 5.95288 (leptons); singlets $c_R$: up $-15.4300$, down $-14.6258$, strange $-11.5158$, charm $-8.7683$, bottom $-7.5005$, top $-3.3823$, electron $-14.5539$, muon $-8.9809$, tau $-5.9529$, neutrinos $-35.0452$, $-32.8481$, $-31.0702$ (fixed by the measured masses). Status: DERIVED.
+- $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
+- $R$: The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \Gamma_4)/2$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** A fermion mass is $m = \tilde\varepsilon/(fL)$ with the first-order root of FE-59, and every localisation $c = f\mu L$ is
+proportional to $f$: the $-1$ is the scaling of the hidden length, the bracket the change of the tip amplitudes. For the quarks
+$-18.82$, $-18.01$, $-14.90$, $-12.15$, $-10.89$, $-6.77$ (up, down, strange, charm, bottom, top): the lighter the quark, the sharper its
+localisation and the stronger its block dependence. Status: DERIVED.
+
+$$
+\begin{aligned}
+&n_{\mathrm{p}} + n_{\mathrm{n}} = \eta_{\mathrm{b}}\,n_\gamma,\qquad n_\gamma =
+ \frac{2\zeta(3)}{\pi^2}\,T^3,\qquad
+ \frac{n_{\mathrm{n}}}{n_{\mathrm{p}}} = \mathrm{e}^{-(m_{\mathrm{n}} - m_{\mathrm{p}})/T},\qquad
+ n_{\mathrm{e}} = n_{\mathrm{p}},\\
+&n_{\mathrm{DM,tot}} = 2\big(n_{\mathrm{DM}} + \bar n_{\mathrm{DM}}\big) =
+ 2\cdot4\,\Big(\frac{M_{\mathrm{DM}}T}{2\pi}\Big)^{3/2}\mathrm{e}^{-M_{\mathrm{DM}}/T}
+ \ \ \Big(\frac{M_{\mathrm{DM}}}{T} < 40\Big)
+\end{aligned} \tag{FE-86}
+$$
+
+<!-- symbols: np, nn, etab, ngamma, zeta3, pi, Temp, euler, mnucleon, ne, nDMtot, nDM, MDM -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-86).**
+
+- $n_{\mathrm{p}}$: The number density of protons (free and bound). Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $n_{\mathrm{n}}$: The number density of neutrons (free and bound). Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\eta_{\mathrm{b}}$: The ratio of the baryon density to the photon density. Unit: dimensionless. Value: $6.1\times10^{-10}$. Status: STANDARD.
+- $n_\gamma$: The number density of photons. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\zeta$: The Riemann zeta function; only its value $\zeta(3)$ occurs, the sum of $1/n^3$ over the positive integers $n$. Unit: dimensionless. Value: $\zeta(3) = 1.2020569$. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $m_{\mathrm{p}},\ m_{\mathrm{n}}$: The masses of the proton and the neutron. Unit: GeV. Value: 0.938272 GeV, 0.939565 GeV. Status: STANDARD.
+- $n_{\mathrm{e}}$: The number density of electrons (net of positrons); in the Thomson terms of the photon and baryon equations only free (ionised) electrons count. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $n_{\mathrm{DM,tot}}$: The total number density of dark-matter quanta: both species (the lowest odd levels of $\Psi_A$ and $\Psi_B$), particles and antiparticles, $n_{\mathrm{DM,tot}} = 2(n_{\mathrm{DM}} + \bar n_{\mathrm{DM}})$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $n_{\mathrm{DM}},\ \bar n_{\mathrm{DM}}$: The number densities of dark-matter particles and antiparticles of one species. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $M_{\mathrm{DM}}$: The mass of a dark-matter particle (the lowest odd level of dirac16complex). Unit: GeV. Value: 44.35 TeV. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The densities of the hot environments: the net baryon density from the baryon-to-photon ratio $\eta_{\mathrm{b}} =
+6.1\times10^{-10}$ shared between protons and neutrons in equilibrium, as many electrons as protons, and the dark matter in equilibrium
+(two species and their antiparticles, four states each, hence $2\cdot4$) while $M_{\mathrm{DM}}/T < 40$, its relic density afterwards. The cold
+environments (the cosmic mean today, the Galaxy at the Sun, the Earth, the centre of the Sun, a white dwarf, a neutron-star core) use
+measured densities. Status: ASSUMED.
+
+
+# The linear perturbations
+
+## The metric as a power series
+
+$$
+g_{MN} = \bar g_{MN} + \epsilon\,h^{(1)}_{MN} + \epsilon^2\,h^{(2)}_{MN} + \dots,\qquad
+h^{(1)}_{MN}(X^\mu, x_0) = \sum_{n\ge0}h^{(1,n)}_{MN}(X^\mu)\,F_n(x_0),\qquad \epsilon \sim 10^{-5}
+ \tag{FE-87}
+$$
+
+<!-- symbols: metric, iM, iN, gbar, epsser, h1, Xcoord, imu, x0, in, h1n, Fprof -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-87).**
+
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\bar g_{MN}$: The order-0 (background) metric of the power series: the corrected primordial metric in the author's coordinates, determined by the two functions $a_4(x_4)$ and $b_4(x_4)$; $\lvert\bar g\rvert$ is the absolute value of its determinant. Unit: dimensionless. Status: AUTHOR.
+- $\epsilon$: The bookkeeping parameter of the power series of the metric: the term of order $q$ is multiplied by $\epsilon^q$ (the size of the first-order potentials). Unit: dimensionless. Value: $\epsilon \sim 10^{-5}$. Status: DERIVED.
+- $h^{(1)}_{MN},\ h^{(2)}_{MN}$: The first- and second-order terms of the power series of the metric. Unit: dimensionless. Status: DERIVED.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $n$: The level number of the Kaluza-Klein tower ($n = 1, 2, 3, \dots$; $n = 0$ the flat zero mode). Status: DERIVED.
+- $h^{(1,n)}_{MN}$: The four-dimensional coefficient of the $n$-th $x_0$ profile $F_n$ in the first-order term ($n = 0$: the flat zero mode, the perturbations of four-dimensional gravity; $n \ge 1$: the Kaluza-Klein gravitons). Unit: dimensionless. Status: DERIVED.
+- $F(\xi),\ F_n$: The $x_0$ profile of a boson mode on one half of the period (a function of $y$ or of $\xi = y/L$): of a gauge field (gauge $A_y = 0$) or of the transverse-traceless graviton; $F_n$ is the profile of the $n$-th Kaluza-Klein level of the graviton tower ($F_0 = 1$ the flat zero mode). Unit: dimensionless. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The metric of UM-2 is the order-0 metric (FE-31) plus terms of decreasing magnitude, counted by the bookkeeping
+parameter $\epsilon \sim 10^{-5}$ (the size of the cosmological potentials). Each term is expanded in the $x_0$ profiles $F_n$ of FE-50:
+$n = 0$ is the flat profile (four-dimensional gravity, the cosmological perturbations below), $n \ge 1$ are the Kaluza-Klein gravitons of
+FE-53. Status: DERIVED. The terms decrease strictly: order 0 is 1, order 1 is at most $2.4\times10^{-5}$ on cosmological scales (the rms
+potential, FE-98), the Kaluza-Klein terms have ranges below $1.6\times10^{-21}$ m, the radion term is at most $1.1\times10^{-34}$, and order 2 is
+estimated as the square of order 1, $5.8\times10^{-10}$ (ESTIMATE). Residual (the first omitted order relative to the kept one)
+$2.4\times10^{-5}$; at a neutron star order 2 is 0.03 of order 0, and there full nonlinear general relativity applies.
+
+$$
+\begin{aligned}
+g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N ={}& \mathrm{e}^{2a_4}\Big[\big(1 -
+ 2\Psi_{\mathrm{N}}\big)\big(\mathrm{d}x_1^2 + \mathrm{d}x_2^2
+ + \mathrm{d}x_3^2\big) + \mathrm{d}\vec x\cdot h^{\mathrm{TT}}\cdot\mathrm{d}\vec x\Big] - \big(1 +
+ 2\Phi\big)\,\mathrm{d}x_4^2\\
+ &+ f^2\big(1 + 2\sigma_{\mathrm{r}}\big)\Big[\mathrm{d}y^2 - \mathrm{e}^{2Hy}\big(\mathrm{d}x_5^2 +
+ \mathrm{d}x_6^2 + \mathrm{d}x_7^2\big)\Big]
+\end{aligned} \tag{FE-88}
+$$
+
+<!-- symbols: metric, iM, iN, diff, Xcoord, euler, a4, PsiN, x1, x2, x3, vecx, hTT, Phi, x4, fblock, sigmar, ycoord, Hconst, x5, x6, x7 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-88).**
+
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \delta^M_N$, and $\lvert g\rvert$ the absolute value of its determinant, so that $\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $\Psi_{\mathrm{N}}$: The curvature potential of the Newtonian gauge (the perturbation of the 3-space metric, $1 - 2\Psi_{\mathrm{N}}$); not related to the field $\Psi$. Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_2$: The second coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_3$: The third coordinate of ordinary 3-space (also the symmetry axis of the fast-flavour analysis). Unit: length. Status: AUTHOR.
+- $\vec x$: The position in ordinary 3-space, $\vec x = (x_1, x_2, x_3)$; $\mathrm{d}\vec x^{\,2} = \mathrm{d}x_1^2 + \mathrm{d}x_2^2 + \mathrm{d}x_3^2$. Unit: length. Status: STANDARD.
+- $h^{\mathrm{TT}}$: The transverse-traceless (tensor) part of the first-order metric of 3-space (gravitational waves). Unit: dimensionless. Value: an input (tensor-to-scalar ratio below 0.036). Status: STANDARD.
+- $\Phi$: The lapse potential of the Newtonian gauge (the perturbation of the time component, $1 + 2\Phi$). Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $\sigma_{\mathrm{r}}$: The radion perturbation: the first-order change of the block scale, $f^2 \to f^2(1 + 2\sigma_{\mathrm{r}})$. Unit: dimensionless. Value: at most $1.1\times10^{-34}$ (static response). Status: DERIVED.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+**The terms.** The order-1, $n = 0$ term in eight dimensions, in the Newtonian gauge: $\Phi$ is the Newtonian potential (in the time
+component), $\Psi_{\mathrm{N}}$ the curvature potential of ordinary space, $h^{\mathrm{TT}}$ the transverse-traceless tensor of gravitational
+waves, and $\sigma_{\mathrm{r}}$ the radion, a common change of the block scale. The radion is massive (48.42 TeV, FE-44): its static
+response to matter is at most $1.1\times10^{-34}$, so it is absent on every observable scale; the tensor amplitude is an input,
+bounded by the tensor-to-scalar ratio below 0.036. Status: DERIVED.
+
+$$
+g^{(4)}_{\mu\nu}\,\mathrm{d}X^\mu\mathrm{d}X^\nu = \mathrm{e}^{2a_4}\Big[-\big(1 +
+ 2\Phi\big)\,\mathrm{d}\tau_{\mathrm{c}}^2
+ + \big(1 - 2\Psi_{\mathrm{N}}\big)\,\mathrm{d}\vec x^{\,2}\Big],\qquad \mathrm{d}x_4 =
+ \mathrm{e}^{a_4}\,\mathrm{d}\tau_{\mathrm{c}} \tag{FE-89}
+$$
+
+<!-- symbols: g4, imu, inu, diff, Xcoord, euler, a4, Phi, tauc, PsiN, vecx, x4 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-89).**
+
+- $g^{(4)}_{\mu\nu}$: The four-dimensional metric of the observable coordinates $x_1, \dots, x_4$ (the metric of the effective four-dimensional general relativity on the stabilised block). Unit: dimensionless. Status: DERIVED.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $\nu$: A four-dimensional coordinate index running over $x_1, \dots, x_4$ (as $\mu$). Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $\Phi$: The lapse potential of the Newtonian gauge (the perturbation of the time component, $1 + 2\Phi$). Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $\tau_{\mathrm{c}}$: The conformal time, $\mathrm{d}x_4 = \mathrm{e}^{a_4}\mathrm{d}\tau_{\mathrm{c}}$; primes denote $\mathrm{d}/\mathrm{d}\tau_{\mathrm{c}}$. Unit: length. Status: STANDARD.
+- $\Psi_{\mathrm{N}}$: The curvature potential of the Newtonian gauge (the perturbation of the 3-space metric, $1 - 2\Psi_{\mathrm{N}}$); not related to the field $\Psi$. Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $\vec x$: The position in ordinary 3-space, $\vec x = (x_1, x_2, x_3)$; $\mathrm{d}\vec x^{\,2} = \mathrm{d}x_1^2 + \mathrm{d}x_2^2 + \mathrm{d}x_3^2$. Unit: length. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+**The terms.** The four-dimensional part of FE-88 in the conformal time $\tau_{\mathrm{c}}$ of the expanding Universe ($\mathrm{d}x_4 =
+\mathrm{e}^{a_4}\mathrm{d}\tau_{\mathrm{c}}$), the form used by the Einstein-Boltzmann codes. A prime denotes the derivative with respect to
+$\tau_{\mathrm{c}}$; $a_4'$ is the conformal expansion rate. Status: STANDARD (Newtonian gauge, Ma and Bertschinger).
+
+## The Einstein-Boltzmann equations
+
+The order-1, $n = 0$ part of FE-1, reduced on the stabilised block (FE-49), is general relativity with the four-dimensional
+energy-momentum tensor of all species; for one Fourier mode $k$:
+
+$$
+\begin{aligned}
+&k^2\Psi_{\mathrm{N}} + 3a_4'\big(\Psi_{\mathrm{N}}' + a_4'\Phi\big) = -4\pi
+ G_{\mathrm{N}}\,\mathrm{e}^{2a_4}\,\Delta\rho,\qquad
+ k^2\big(\Psi_{\mathrm{N}}' + a_4'\Phi\big) = 4\pi
+ G_{\mathrm{N}}\,\mathrm{e}^{2a_4}\big(\rho_{\mathrm{tot}} + p_{\mathrm{tot}}\big)\theta_{\mathrm{tot}},\\
+&\Psi_{\mathrm{N}}'' + a_4'\big(\Phi' + 2\Psi_{\mathrm{N}}'\big) + \big(2a_4'' + a_4'^2\big)\Phi +
+ \frac{k^2}{3}\big(\Psi_{\mathrm{N}} - \Phi\big)
+ = 4\pi G_{\mathrm{N}}\,\mathrm{e}^{2a_4}\,\Delta p,\\
+&k^2\big(\Psi_{\mathrm{N}} - \Phi\big) = 12\pi G_{\mathrm{N}}\,\mathrm{e}^{2a_4}\big(\rho_{\mathrm{tot}}
+ + p_{\mathrm{tot}}\big)\sigma_{\mathrm{an}}
+\end{aligned} \tag{FE-90}
+$$
+
+<!-- symbols: kwave, PsiN, a4, prime, Phi, pi, GN, euler, Delta, rho, rhotot, thetatot, pressure, sigmaan -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-90).**
+
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $\Psi_{\mathrm{N}}$: The curvature potential of the Newtonian gauge (the perturbation of the 3-space metric, $1 - 2\Psi_{\mathrm{N}}$); not related to the field $\Psi$. Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- ${}'$: The prime on a function of the conformal time $\tau_{\mathrm{c}}$ is its derivative $\mathrm{d}/\mathrm{d}\tau_{\mathrm{c}}$ (it is used only in the cosmological perturbation equations; two primes are the second derivative). Status: STANDARD.
+- $\Phi$: The lapse potential of the Newtonian gauge (the perturbation of the time component, $1 + 2\Phi$). Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $G_{\mathrm{N}}$: Newton's constant of four-dimensional gravity, $8\pi G_{\mathrm{N}} = \kappa/(\mathcal{G}(K_*)V_\perp)$. Unit: $\mathrm{GeV}^{-2}$. Value: $6.709\times10^{-39}$ GeV$^{-2}$ ($M_{\mathrm{Pl}} = G_{\mathrm{N}}^{-1/2} = 1.22091\times10^{19}$ GeV). Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $\rho_{\mathrm{tot}},\ p_{\mathrm{tot}}$: The total background energy density and pressure of four-dimensional cosmology (all species). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\theta_{\mathrm{tot}}$: The velocity divergence of the total matter, weighted with $\rho + p$ of each species. Unit: 1/length. Status: STANDARD.
+- $p$: A pressure: $p_M = \mathcal{T}^M{}_M$ (no sum) for the direction $M \ne x_4$, $p_s$ the pressure of the species $s$; $\Delta p$ the pressure perturbation in the cosmological perturbation equations; in the Feynman-Hellmann relation the pressure of a gauge plasma. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $\sigma_{\mathrm{an}}$: The anisotropic stress (shear) of the total matter (the quantity $\sigma$ of Ma and Bertschinger), weighted with $\rho + p$. Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The four linearised Einstein equations: the energy constraint (the change $\Delta\rho$ of the total energy density sources
+$\Psi_{\mathrm{N}}$, the Poisson equation inside the horizon), the momentum constraint (the velocity divergence $\theta_{\mathrm{tot}}$ of the total
+fluid), the pressure equation (the change $\Delta p$ of the total pressure) and the anisotropic-stress equation ($\sigma_{\mathrm{an}}$ makes $\Phi$
+and $\Psi_{\mathrm{N}}$ differ; it comes from the free-streaming neutrinos and photons). All species of UM-2 contribute to the sources:
+the dark matter, the baryons, the photons, the three neutrino mass states and the fold bands produced by freeze-in. Status: STANDARD
+(solved with CAMB 2.0.5 at the Planck 2018 parameters; the TT and EE spectra agree with Planck $\Lambda$CDM to $2.5\times10^{-4}$ and
+$2.7\times10^{-4}$).
+
+$$
+\delta_{\mathrm{DM}}' = -\theta_{\mathrm{DM}} + 3\Psi_{\mathrm{N}}',\qquad \theta_{\mathrm{DM}}' =
+ -a_4'\,\theta_{\mathrm{DM}} + k^2\Phi \tag{FE-91}
+$$
+
+<!-- symbols: deltaDM, prime, PsiN, a4, kwave, Phi -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-91).**
+
+- $\delta_{\mathrm{DM}},\ \theta_{\mathrm{DM}}$: The density contrast and the velocity divergence of the dark matter. Unit: dimensionless; 1/length. Status: STANDARD.
+- ${}'$: The prime on a function of the conformal time $\tau_{\mathrm{c}}$ is its derivative $\mathrm{d}/\mathrm{d}\tau_{\mathrm{c}}$ (it is used only in the cosmological perturbation equations; two primes are the second derivative). Status: STANDARD.
+- $\Psi_{\mathrm{N}}$: The curvature potential of the Newtonian gauge (the perturbation of the 3-space metric, $1 - 2\Psi_{\mathrm{N}}$); not related to the field $\Psi$. Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $\Phi$: The lapse potential of the Newtonian gauge (the perturbation of the time component, $1 + 2\Phi$). Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The dark matter (the lowest odd quanta of $\Psi_A$ and $\Psi_B$) is cold: its density contrast $\delta_{\mathrm{DM}}$ changes with
+its velocity divergence $\theta_{\mathrm{DM}}$ and the change of the curvature potential, and its velocity responds only to the expansion and
+to the gradient of $\Phi$; it has no pressure (Kohn-Sham: $p_3 = 0$ for quanta at rest) and no interaction at these energies (its portal
+couplings are of order $10^{-9}$ GeV$^{-2}$ and below). Status: STANDARD.
+
+$$
+\delta_{\mathrm{b}}' = -\theta_{\mathrm{b}} + 3\Psi_{\mathrm{N}}',\qquad
+\theta_{\mathrm{b}}' = -a_4'\,\theta_{\mathrm{b}} + c_{\mathrm{s}}^2k^2\delta_{\mathrm{b}}
+ + R_{\mathrm{b}}\,\mathrm{e}^{a_4}n_{\mathrm{e}}\sigma_{\mathrm{T}}\big(\theta_\gamma -
+ \theta_{\mathrm{b}}\big) + k^2\Phi,\qquad
+R_{\mathrm{b}} = \frac{4\rho_\gamma}{3\rho_{\mathrm{b}}} \tag{FE-92}
+$$
+
+<!-- symbols: deltab, prime, PsiN, a4, cs, kwave, Rb, euler, ne, sigmaT, deltagamma, Phi, rhogamma, rhob -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-92).**
+
+- $\delta_{\mathrm{b}},\ \theta_{\mathrm{b}}$: The density contrast and the velocity divergence of the baryons (nucleons and electrons). Unit: dimensionless; 1/length. Status: STANDARD.
+- ${}'$: The prime on a function of the conformal time $\tau_{\mathrm{c}}$ is its derivative $\mathrm{d}/\mathrm{d}\tau_{\mathrm{c}}$ (it is used only in the cosmological perturbation equations; two primes are the second derivative). Status: STANDARD.
+- $\Psi_{\mathrm{N}}$: The curvature potential of the Newtonian gauge (the perturbation of the 3-space metric, $1 - 2\Psi_{\mathrm{N}}$); not related to the field $\Psi$. Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $c_{\mathrm{s}}$: The sound speed of the baryon fluid. Unit: dimensionless (c = 1). Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $R_{\mathrm{b}}$: The photon-to-baryon momentum ratio of the Thomson drag, $R_{\mathrm{b}} = 4\rho_\gamma/(3\rho_{\mathrm{b}})$. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $n_{\mathrm{e}}$: The number density of electrons (net of positrons); in the Thomson terms of the photon and baryon equations only free (ionised) electrons count. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\sigma_{\mathrm{T}}$: The Thomson cross-section. Unit: $\mathrm{GeV}^{-2}$. Value: $6.6524587\times10^{-29}$ m$^2$. Status: STANDARD.
+- $\delta_\gamma,\ \theta_\gamma$: The density contrast and the velocity divergence of the photons. Unit: dimensionless; 1/length. Status: STANDARD.
+- $\Phi$: The lapse potential of the Newtonian gauge (the perturbation of the time component, $1 + 2\Phi$). Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $\rho_\gamma$: The energy density of the photons, $\rho_\gamma = \pi^2T_\gamma^4/15$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\rho_{\mathrm{b}}$: The energy density of the baryons. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The baryons (the up and down quarks confined in protons and neutrons, and the electrons): the same continuity equation,
+with the sound speed $c_{\mathrm{s}}$ of the baryon fluid and the Thomson drag of the photons ($n_{\mathrm{e}}$ the free-electron density,
+$\sigma_{\mathrm{T}}$ the Thomson cross-section, $R_{\mathrm{b}}$ the ratio of the photon and baryon inertia). Status: STANDARD.
+
+$$
+\delta_\gamma' = -\frac43\,\theta_\gamma + 4\Psi_{\mathrm{N}}',\qquad
+\theta_\gamma' = k^2\Big(\frac14\,\delta_\gamma - \sigma_{\mathrm{an},\gamma}\Big) + k^2\Phi
+ + \mathrm{e}^{a_4}n_{\mathrm{e}}\sigma_{\mathrm{T}}\big(\theta_{\mathrm{b}} - \theta_\gamma\big) \tag{FE-93}
+$$
+
+<!-- symbols: deltagamma, prime, PsiN, kwave, sigmaangamma, Phi, euler, a4, ne, sigmaT, deltab -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-93).**
+
+- $\delta_\gamma,\ \theta_\gamma$: The density contrast and the velocity divergence of the photons. Unit: dimensionless; 1/length. Status: STANDARD.
+- ${}'$: The prime on a function of the conformal time $\tau_{\mathrm{c}}$ is its derivative $\mathrm{d}/\mathrm{d}\tau_{\mathrm{c}}$ (it is used only in the cosmological perturbation equations; two primes are the second derivative). Status: STANDARD.
+- $\Psi_{\mathrm{N}}$: The curvature potential of the Newtonian gauge (the perturbation of the 3-space metric, $1 - 2\Psi_{\mathrm{N}}$); not related to the field $\Psi$. Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $\sigma_{\mathrm{an},\gamma}$: The anisotropic stress (shear) of the photons, $F^\gamma_2/2$. Unit: dimensionless. Status: STANDARD.
+- $\Phi$: The lapse potential of the Newtonian gauge (the perturbation of the time component, $1 + 2\Phi$). Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $n_{\mathrm{e}}$: The number density of electrons (net of positrons); in the Thomson terms of the photon and baryon equations only free (ionised) electrons count. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\sigma_{\mathrm{T}}$: The Thomson cross-section. Unit: $\mathrm{GeV}^{-2}$. Value: $6.6524587\times10^{-29}$ m$^2$. Status: STANDARD.
+- $\delta_{\mathrm{b}},\ \theta_{\mathrm{b}}$: The density contrast and the velocity divergence of the baryons (nucleons and electrons). Unit: dimensionless; 1/length. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The photon density contrast and velocity divergence: radiation ($\frac43$), the pressure gradient $\frac14\delta_\gamma$, the
+anisotropic stress $\sigma_{\mathrm{an},\gamma}$, gravity, and the Thomson scattering on the free electrons. Status: STANDARD.
+
+$$
+\begin{aligned}
+&F^\gamma_l{}' = \frac{k}{2l + 1}\big[l\,F^\gamma_{l-1} - (l + 1)F^\gamma_{l+1}\big]
+ - \mathrm{e}^{a_4}n_{\mathrm{e}}\sigma_{\mathrm{T}}\Big[F^\gamma_l -
+ \frac{\delta_{l2}}{10}\big(F^\gamma_2 + G^\gamma_0 + G^\gamma_2\big)\Big]
+ \quad (l \ge 2),\\
+&F^\gamma_0 = \delta_\gamma,\qquad F^\gamma_1 = \frac{4\theta_\gamma}{3k},\qquad F^\gamma_2 =
+ 2\sigma_{\mathrm{an},\gamma}
+\end{aligned} \tag{FE-94}
+$$
+
+<!-- symbols: Fgamma, il, prime, kwave, euler, a4, ne, sigmaT, delta, Ggamma, deltagamma, sigmaangamma -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-94).**
+
+- $F^\gamma_l$: The multipole $l$ of the photon temperature perturbation (the brightness function of Ma and Bertschinger). Unit: dimensionless. Status: STANDARD.
+- $l$: The multipole (angular moment) number $l = 0, 1, 2, \dots$ of a Boltzmann hierarchy or of an angular moment $\int u^l\cdots$; as a coefficient it is the same number. Status: STANDARD.
+- ${}'$: The prime on a function of the conformal time $\tau_{\mathrm{c}}$ is its derivative $\mathrm{d}/\mathrm{d}\tau_{\mathrm{c}}$ (it is used only in the cosmological perturbation equations; two primes are the second derivative). Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $n_{\mathrm{e}}$: The number density of electrons (net of positrons); in the Thomson terms of the photon and baryon equations only free (ionised) electrons count. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\sigma_{\mathrm{T}}$: The Thomson cross-section. Unit: $\mathrm{GeV}^{-2}$. Value: $6.6524587\times10^{-29}$ m$^2$. Status: STANDARD.
+- $\delta$: The Kronecker delta: with two indices $\delta^M_N = 1$ if $M = N$ and 0 otherwise (likewise $\delta_{\alpha e}$, $\delta_{l0}$, $\delta^{I3}$); with upper and lower index strings the generalised Kronecker delta $\delta^{M_1\cdots M_n}_{N_1\cdots N_n}$, the determinant of the $n \times n$ matrix of Kronecker deltas $\delta^{M_a}_{N_b}$ (+1 or -1 if the upper indices are an even or odd permutation of the lower ones, 0 otherwise). Status: STANDARD.
+- $G^\gamma_l$: The multipole $l$ of the photon polarisation perturbation. Unit: dimensionless. Status: STANDARD.
+- $\delta_\gamma,\ \theta_\gamma$: The density contrast and the velocity divergence of the photons. Unit: dimensionless; 1/length. Status: STANDARD.
+- $\sigma_{\mathrm{an},\gamma}$: The anisotropic stress (shear) of the photons, $F^\gamma_2/2$. Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The Legendre multipoles $F^\gamma_l$ of the photon temperature perturbation: free streaming couples each multipole to
+its neighbours, Thomson scattering damps them, and the quadrupole is fed by the polarisation ($G^\gamma_0$, $G^\gamma_2$). Status:
+STANDARD.
+
+$$
+G^\gamma_l{}' = \frac{k}{2l + 1}\big[l\,G^\gamma_{l-1} - (l + 1)G^\gamma_{l+1}\big]
+ + \mathrm{e}^{a_4}n_{\mathrm{e}}\sigma_{\mathrm{T}}\Big[-G^\gamma_l + \frac12\big(F^\gamma_2 +
+ G^\gamma_0 + G^\gamma_2\big)
+ \Big(\delta_{l0} + \frac{\delta_{l2}}{5}\Big)\Big] \tag{FE-95}
+$$
+
+<!-- symbols: Ggamma, il, prime, kwave, euler, a4, ne, sigmaT, Fgamma, delta -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-95).**
+
+- $G^\gamma_l$: The multipole $l$ of the photon polarisation perturbation. Unit: dimensionless. Status: STANDARD.
+- $l$: The multipole (angular moment) number $l = 0, 1, 2, \dots$ of a Boltzmann hierarchy or of an angular moment $\int u^l\cdots$; as a coefficient it is the same number. Status: STANDARD.
+- ${}'$: The prime on a function of the conformal time $\tau_{\mathrm{c}}$ is its derivative $\mathrm{d}/\mathrm{d}\tau_{\mathrm{c}}$ (it is used only in the cosmological perturbation equations; two primes are the second derivative). Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $n_{\mathrm{e}}$: The number density of electrons (net of positrons); in the Thomson terms of the photon and baryon equations only free (ionised) electrons count. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\sigma_{\mathrm{T}}$: The Thomson cross-section. Unit: $\mathrm{GeV}^{-2}$. Value: $6.6524587\times10^{-29}$ m$^2$. Status: STANDARD.
+- $F^\gamma_l$: The multipole $l$ of the photon temperature perturbation (the brightness function of Ma and Bertschinger). Unit: dimensionless. Status: STANDARD.
+- $\delta$: The Kronecker delta: with two indices $\delta^M_N = 1$ if $M = N$ and 0 otherwise (likewise $\delta_{\alpha e}$, $\delta_{l0}$, $\delta^{I3}$); with upper and lower index strings the generalised Kronecker delta $\delta^{M_1\cdots M_n}_{N_1\cdots N_n}$, the determinant of the $n \times n$ matrix of Kronecker deltas $\delta^{M_a}_{N_b}$ (+1 or -1 if the upper indices are an even or odd permutation of the lower ones, 0 otherwise). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The multipoles $G^\gamma_l$ of the photon polarisation: free streaming and Thomson scattering, which generates
+polarisation from the temperature quadrupole. Status: STANDARD.
+
+$$
+\begin{aligned}
+&\mathcal{N}^{(i)\prime}_0 = -\frac{k_\nu k}{E^{\mathrm{c}}_i}\,\mathcal{N}^{(i)}_1
+ - \Psi_{\mathrm{N}}'\,\frac{\mathrm{d}\ln f_{\mathrm{FD}}}{\mathrm{d}\ln k_\nu},\qquad
+ \mathcal{N}^{(i)\prime}_1 = \frac{k_\nu k}{3E^{\mathrm{c}}_i}\big(\mathcal{N}^{(i)}_0 -
+ 2\mathcal{N}^{(i)}_2\big)
+ - \frac{E^{\mathrm{c}}_ik}{3k_\nu}\,\Phi\,\frac{\mathrm{d}\ln f_{\mathrm{FD}}}{\mathrm{d}\ln k_\nu},\\
+&\mathcal{N}^{(i)\prime}_l = \frac{k_\nu k}{(2l + 1)E^{\mathrm{c}}_i}\big[l\,\mathcal{N}^{(i)}_{l-1} -
+ (l + 1)\mathcal{N}^{(i)}_{l+1}\big]
+ \quad (l \ge 2),\qquad E^{\mathrm{c}}_i = \sqrt{k_\nu^2 + \mathrm{e}^{2a_4}m_i^2}
+\end{aligned} \tag{FE-96}
+$$
+
+<!-- symbols: calN, ii, prime, knu, kwave, Ec, PsiN, diff, fFD, Phi, il, euler, a4, mmass -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-96).**
+
+- $\mathcal{N}^{(i)}_l$: The multipole $l$ of the perturbation of the distribution of the neutrino mass state $i$ (a function of $k$, $k_\nu$ and $\tau_{\mathrm{c}}$; the quantity $\Psi_l$ of Ma and Bertschinger). Unit: dimensionless. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- ${}'$: The prime on a function of the conformal time $\tau_{\mathrm{c}}$ is its derivative $\mathrm{d}/\mathrm{d}\tau_{\mathrm{c}}$ (it is used only in the cosmological perturbation equations; two primes are the second derivative). Status: STANDARD.
+- $k_\nu$: The comoving momentum of a neutrino (the physical momentum times $\mathrm{e}^{a_4}$). Unit: GeV. Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $E^{\mathrm{c}}_i$: The comoving energy of a neutrino of the mass state $i$, $E^{\mathrm{c}}_i = (k_\nu^2 + \mathrm{e}^{2a_4}m_i^2)^{1/2}$. Unit: GeV. Status: STANDARD.
+- $\Psi_{\mathrm{N}}$: The curvature potential of the Newtonian gauge (the perturbation of the 3-space metric, $1 - 2\Psi_{\mathrm{N}}$); not related to the field $\Psi$. Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $f_{\mathrm{FD}}$: The Fermi-Dirac distribution of the relic neutrinos, $f_{\mathrm{FD}} = 1/(\mathrm{e}^{k/T_\nu} + 1)$. Unit: dimensionless. Status: STANDARD.
+- $\Phi$: The lapse potential of the Newtonian gauge (the perturbation of the time component, $1 + 2\Phi$). Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $l$: The multipole (angular moment) number $l = 0, 1, 2, \dots$ of a Boltzmann hierarchy or of an angular moment $\int u^l\cdots$; as a coefficient it is the same number. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** Each neutrino mass state $\nu_i$ (after decoupling the flavour coherence is lost and each mass state propagates on its own)
+has the multipoles $\mathcal{N}^{(i)}_l$ of its perturbed distribution at the comoving momentum $k_\nu$; $E^{\mathrm{c}}_i$ is its comoving
+energy with the mass $m_i$ (FE-100), $f_{\mathrm{FD}}$ the Fermi-Dirac distribution. The masses make the neutrinos slow at late times
+(they then cluster like matter). The fold bands of dirac16complex obey the massless limit. Status: STANDARD (each mass state with the
+degeneracy $N_{\mathrm{eff}}/3 = 1.0144$; the masses in CAMB agree with the $x_0$ masses to $7.8\times10^{-12}$).
+
+$$
+a_4'^2 = \frac{8\pi G_{\mathrm{N}}}{3}\,\mathrm{e}^{2a_4}\rho_{\mathrm{tot}} +
+ \frac{\Lambda_4}{3}\,\mathrm{e}^{2a_4},\qquad
+T_\nu = \Big(\frac{4}{11}\Big)^{1/3}T_\gamma,\qquad
+P_{\mathcal{R}}(k) = A_{\mathrm{s}}\Big(\frac{k}{k_0}\Big)^{n_{\mathrm{s}} - 1} \tag{FE-97}
+$$
+
+<!-- symbols: a4, prime, pi, GN, euler, rhotot, Lambda4, Tnu, Tgamma, PR, kwave, As, k0, ns -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-97).**
+
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- ${}'$: The prime on a function of the conformal time $\tau_{\mathrm{c}}$ is its derivative $\mathrm{d}/\mathrm{d}\tau_{\mathrm{c}}$ (it is used only in the cosmological perturbation equations; two primes are the second derivative). Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $G_{\mathrm{N}}$: Newton's constant of four-dimensional gravity, $8\pi G_{\mathrm{N}} = \kappa/(\mathcal{G}(K_*)V_\perp)$. Unit: $\mathrm{GeV}^{-2}$. Value: $6.709\times10^{-39}$ GeV$^{-2}$ ($M_{\mathrm{Pl}} = G_{\mathrm{N}}^{-1/2} = 1.22091\times10^{19}$ GeV). Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $\rho_{\mathrm{tot}},\ p_{\mathrm{tot}}$: The total background energy density and pressure of four-dimensional cosmology (all species). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\Lambda_4$: The four-dimensional cosmological constant of the effective theory on the block, $\Lambda_4 = [6H^2K(1 - 2w_{(2)}K) + \Lambda + \kappa\rho_{\mathrm{stab}}]/\mathcal{G}(K)$; zero at the static point, the observed dark energy a tuned residual. Unit: $\mathrm{GeV}^{2}$. Value: 0 at the static point; observed $\Lambda_4/H^2 \sim 10^{-92}$. Status: DERIVED.
+- $T_\nu$: The temperature of the relic neutrinos (one common temperature). Unit: GeV. Value: 1.9454 K today. Status: STANDARD.
+- $T_\gamma$: The temperature of the photons (equal to the plasma temperature $T$; the subscript is written where the neutrinos have their own temperature). Unit: GeV. Value: 2.7255 K today. Status: STANDARD.
+- $P_{\mathcal{R}}(k)$: The dimensionless power spectrum of the primordial curvature perturbation $\mathcal{R}$. Unit: dimensionless. Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $A_{\mathrm{s}}$: The amplitude of the primordial spectrum at $k_0$. Unit: dimensionless. Value: $2.099\times10^{-9}$ ($\ln(10^{10}A_{\mathrm{s}}) = 3.044$, Planck 2018). Status: STANDARD.
+- $k_0$: The pivot wavenumber of the primordial spectrum. Unit: 1/length. Value: 0.05 Mpc$^{-1}$. Status: STANDARD.
+- $n_{\mathrm{s}}$: The spectral index of the primordial spectrum. Unit: dimensionless. Value: 0.9649 (Planck 2018). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The four-dimensional Friedmann equation in conformal time (from FE-38 at first order with FE-80; $\Lambda_4$ the tuned
+dark energy, FE-48), the temperature of the neutrinos after the electron-positron annihilation, and the primordial curvature spectrum
+with the amplitude $A_{\mathrm{s}} = 2.099\times10^{-9}$ and the index $n_{\mathrm{s}} = 0.9649$ at the pivot $k_0$. Status: STANDARD (inputs: the
+Planck 2018 primordial parameters; $N_{\mathrm{eff}} = 3.0432$ in the neutrinos and 0.0010 in the fold bands; results: $\mathcal{H}_0 = 67.38$
+km/s/Mpc, the sound horizon at the drag epoch 147.10 Mpc, BAO $\chi^2 = 31.5$ for 13 DESI DR2 points).
+
+$$
+\begin{aligned}
+&\Phi_{\mathrm{rms}}(k) = \Big[\frac{k^3P_{\Phi_{\mathrm{W}}}(k)}{2\pi^2}\Big]^{1/2},\qquad
+ \Phi_{\mathrm{W}} = \frac{\Phi + \Psi_{\mathrm{N}}}{2},\qquad
+ \Phi_{\mathrm{W}} = \frac32\,\Omega_{\mathrm{m}}\mathcal{H}_0^2\,\frac{\delta_{\mathrm{m}}}{
+ \mathrm{e}^{a_4}k^2}\ \ \text{(inside the horizon)},\\
+&\Phi_{\mathrm{W}} = \frac35\,\mathcal{R}\,\mathrm{e}^{-a_4}D_+\ \ \text{(largest scales)},\qquad
+ D_+ = \frac52\,\Omega_{\mathrm{m}}\,\frac{\mathcal{H}}{\mathcal{H}_0}\int_{-\infty}^{a_4}\Big(\frac{
+ \mathcal{H}_0}{\mathcal{H}}\Big)^3
+ \mathrm{e}^{-2\tilde a_4}\,\mathrm{d}\tilde a_4,\\
+&\frac{\mathcal{H}}{\mathcal{H}_0} = \big(\Omega_{\mathrm{m}}\mathrm{e}^{-3a_4} + 1 -
+ \Omega_{\mathrm{m}}\big)^{1/2}
+\end{aligned} \tag{FE-98}
+$$
+
+<!-- symbols: Phirms, kwave, PPhiW, pi, PhiW, Phi, PsiN, Omegam, H0, deltam, euler, a4, calR, Dplus, Hubble, infty, a4tilde, diff -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-98).**
+
+- $\Phi_{\mathrm{rms}}(k)$: The root-mean-square amplitude of the Weyl potential per logarithmic interval of $k$. Unit: dimensionless. Value: $2.42\times10^{-5}$ at $k = 10^{-4}$ Mpc$^{-1}$. Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $P_{\Phi_{\mathrm{W}}}(k)$: The power spectrum of the Weyl potential. Unit: $\mathrm{length}^{3}$. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\Phi_{\mathrm{W}}$: The Weyl potential, $\Phi_{\mathrm{W}} = (\Phi + \Psi_{\mathrm{N}})/2$ (it deflects light). Unit: dimensionless. Status: STANDARD.
+- $\Phi$: The lapse potential of the Newtonian gauge (the perturbation of the time component, $1 + 2\Phi$). Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $\Psi_{\mathrm{N}}$: The curvature potential of the Newtonian gauge (the perturbation of the 3-space metric, $1 - 2\Psi_{\mathrm{N}}$); not related to the field $\Psi$. Unit: dimensionless. Value: at most $2.4\times10^{-5}$. Status: STANDARD.
+- $\Omega_{\mathrm{m}}$: The matter density today in units of the critical density. Unit: dimensionless. Value: 0.3150. Status: STANDARD.
+- $\mathcal{H}_0$: The Hubble rate today (the Hubble constant). Unit: GeV (km/s/Mpc). Value: 67.38 km/s/Mpc. Status: DERIVED.
+- $\delta_{\mathrm{m}}$: The density contrast of the total matter (dark matter and baryons). Unit: dimensionless. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $\mathcal{R}$: The primordial comoving curvature perturbation. Unit: dimensionless. Status: STANDARD.
+- $D_+$: The linear growth factor of the matter perturbations, normalised as $D_+ = \mathrm{e}^{a_4}$ in the matter era. Unit: dimensionless. Value: $D_+\mathrm{e}^{-a_4} = 0.7878$ today. Status: STANDARD.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\infty$: Infinity: as a limit of an integral or a sum it means that the range has no upper bound. Status: STANDARD.
+- $\tilde a_4$: An earlier value of $a_4$ (the integration variable of the growth integral). Unit: dimensionless. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The size of the first-order potentials: $\Phi_{\mathrm{rms}}$ is the rms Weyl potential $\Phi_{\mathrm{W}}$ per logarithmic
+wavenumber, from its power spectrum $P_{\Phi_{\mathrm{W}}}$. Inside the horizon it follows from the matter density contrast $\delta_{\mathrm{m}}$
+(the Poisson equation, from FE-90), on the largest scales from the primordial curvature perturbation $\mathcal{R}$ with the growth factor
+$D_+$, which the dark energy suppresses at late times. The relations are written for the magnitudes: in the sign conventions of FE-89
+and FE-90 the potential of an overdensity is negative; only the rms value is used. Status: STANDARD. $\Phi_{\mathrm{rms}} = 2.42\times10^{-5}$ at
+$k = 10^{-4}$ Mpc$^{-1}$ down to $5.03\times10^{-8}$ at 1 Mpc$^{-1}$; the Poisson form agrees with the CAMB solution to $1.5\times10^{-6}$ for
+$k \ge 0.01$ Mpc$^{-1}$ (the residual of the stored first-order solution in this equation) and the large-scale form to $4.4\times10^{-5}$ ($D_+\mathrm{e}^{-a_4}
+= 0.7878$ today, with $\Omega_{\mathrm{m}} = 0.3150$).
+
+$$
+\sigma_8^2 = \int_0^\infty\frac{\mathrm{d}k}{k}\,\frac{k^3P_{\mathrm{m}}(k)}{2\pi^2}\,W_{
+ \mathrm{th}}(kR_8)^2,\qquad
+W_{\mathrm{th}}(kR_8) = \frac{3\big[\sin(kR_8) - kR_8\cos(kR_8)\big]}{(kR_8)^3},\qquad R_8 =
+ 8\,h_{100}^{-1}\,\text{Mpc} \tag{FE-99}
+$$
+
+<!-- symbols: sigma8, infty, diff, kwave, Pm, pi, Wth, R8, h100 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-99).**
+
+- $\sigma_8$: The root-mean-square linear matter fluctuation in spheres of radius $R_8$ today. Unit: dimensionless. Value: 0.8118. Status: DERIVED.
+- $\infty$: Infinity: as a limit of an integral or a sum it means that the range has no upper bound. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $P_{\mathrm{m}}(k)$: The linear matter power spectrum today. Unit: $\mathrm{length}^{3}$. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $W_{\mathrm{th}}$: The Fourier transform of a spherical top-hat window. Unit: dimensionless. Status: STANDARD.
+- $R_8$: The radius of the spheres of $\sigma_8$, $R_8 = 8\,h_{100}^{-1}$ Mpc. Unit: length. Status: STANDARD.
+- $h_{100}$: The reduced Hubble constant, $\mathcal{H}_0/(100$ km s$^{-1}$ Mpc$^{-1})$. Unit: dimensionless. Value: 0.6738. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The rms density fluctuation in spheres of radius $8\,h_{100}^{-1}$ Mpc, from the linear matter power spectrum $P_{\mathrm{m}}$ and the
+top-hat window $W_{\mathrm{th}}$. Status: STANDARD. $\sigma_8 = 0.8118$ for UM-2 (0.8119 without the fold bands) against 0.8109 for
+$\Lambda$CDM.
+
+
+# The three neutrino flavours
+
+The three flavours of left-handed neutrinos are the upper members of the lepton doublets $\ell_i$. Their masses come from the tip
+mixing with the right-handed neutrinos (FE-59, FE-60), their mixing from the tip matrix $\mathcal{K}_\nu = U$, and their interactions from
+the exchange of $W^+$, $W^-$ and $Z$. This section collects the equations of their masses, of their interactions at low energy and of
+their flavour evolution in vacuum, in matter, in the early Universe and in dense neutrino gases, and the cosmic neutrino
+background.
+
+## The masses and the interactions at low energy
+
+$$
+m_1 = 1.000\ \text{meV},\qquad m_2 = \sqrt{m_1^2 + \Delta m_{21}^2} = 8.712\ \text{meV},\qquad
+m_3 = \sqrt{m_1^2 + \Delta m_{31}^2} = 50.140\ \text{meV} \tag{FE-100}
+$$
+
+<!-- symbols: mnu123, Delta, dm2 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-100).**
+
+- $m_1,\ m_2,\ m_3$: The masses of the neutrino mass states $\nu_1$, $\nu_2$, $\nu_3$ (normal ordering). Unit: GeV (quoted in meV). Value: 1.000, 8.712, 50.140 meV ($m_1$ ASSUMED). Status: DERIVED.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta m_{21}^2,\ \Delta m_{31}^2,\ \Delta m_{32}^2$: The differences of the squared neutrino masses, $\Delta m_{ij}^2 = m_i^2 - m_j^2$. Unit: $\mathrm{GeV}^{2}$ (quoted in $\mathrm{eV}^{2}$). Value: $\Delta m_{21}^2 = 7.49\times10^{-5}$ eV$^2$, $\Delta m_{31}^2 = 2.513\times10^{-3}$ eV$^2$ (NuFIT 6.0). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The masses of the three mass states $\nu_1$, $\nu_2$, $\nu_3$: the lightest mass $m_1$ is chosen and the ordering is normal
+(ASSUMED), the two splittings $\Delta m_{21}^2 = 7.49\times10^{-5}$ eV$^2$ and $\Delta m_{31}^2 = 2.513\times10^{-3}$ eV$^2$ are the measured ones
+(NuFIT 6.0). In UM-2 they are Dirac masses and $x_0$ eigenvalues of FE-59: the doublet localisation $c_L = 5.95288$ of the leptons and the
+right-handed localisations $c_R = -35.0452$, $-32.8481$, $-31.0702$, with tip mixing of order one; the smallness of the masses comes from
+the sharp localisation of the right-handed neutrinos at the fold. Status: ASSUMED ($m_1$, ordering), STANDARD (splittings), DERIVED (as
+$x_0$ eigenvalues). The same masses enter the flavour evolution, the cosmic neutrino background and the CMB computation (they agree
+across the three to $5.7\times10^{-12}$).
+
+$$
+\begin{aligned}
+&\mathcal{L}_{\mathrm{CC}} = -2\sqrt2\,G_{\mathrm{F}}\big(\bar\nu_\alpha\gamma^\mu P_L\,\ell^-_\alpha\big)
+ \big(\bar\ell^-_\beta\gamma_\mu P_L\,\nu_\beta\big),\qquad
+ \mathcal{L}_{\mathrm{NC}} = -2\sqrt2\,G_{\mathrm{F}}\big(\bar\nu_\alpha\gamma^\mu P_L\,\nu_\alpha\big)
+ \sum_f\bar\psi_f\gamma_\mu\big(\tilde g^f_LP_L + \tilde g^f_RP_R\big)\psi_f,\\
+&\nu_\alpha = \sum_{i=1}^{3}U_{\alpha i}\,\nu_i,\qquad P_L = \frac{1 + \Gamma_4}{2},\qquad P_R = \frac{1
+ - \Gamma_4}{2}
+\end{aligned} \tag{FE-101}
+$$
+
+<!-- symbols: LCC, GF, nubar, ialpha, gamma, imu, PLR, iL, ellminus, ibeta, nuflav, if, psi, gtilde, iR, ii, Upmns, Gamma4 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-101).**
+
+- $\mathcal{L}_{\mathrm{CC}},\ \mathcal{L}_{\mathrm{NC}}$: The charged-current and neutral-current four-fermion Lagrangians (exchange of $W^\pm$ and of $Z$ far below their masses). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $G_{\mathrm{F}}$: The Fermi constant. Unit: $\mathrm{GeV}^{-2}$. Value: $1.1663788\times10^{-5}$ GeV$^{-2}$ (measured). Status: STANDARD.
+- $\bar\nu_\alpha$: The antineutrino of the flavour $\alpha$; in a Lagrangian the Dirac adjoint of the neutrino field (it annihilates antineutrinos). Unit: $\mathrm{GeV}^{3/2}$. Status: STANDARD.
+- $\alpha$: A flavour index running over $e, \mu, \tau$ (the flavour states of the leptons and neutrinos). Status: STANDARD.
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $\mu$: A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed. Status: STANDARD.
+- $P_L,\ P_R$: The projectors on the four-dimensional chiralities, $P_L = (1 + \Gamma_4)/2$ (left-handed) and $P_R = (1 - \Gamma_4)/2$ (right-handed). Unit: dimensionless. Status: STANDARD.
+- $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
+- $\ell^-_\alpha,\ \bar\ell^-_\alpha$: The charged lepton of the flavour $\alpha$ ($e^-$, $\mu^-$, $\tau^-$; the lower member of the lepton doublet) at low energy, and its Dirac adjoint. Unit: $\mathrm{GeV}^{3/2}$. Status: STANDARD.
+- $\beta$: A second flavour index running over $e, \mu, \tau$. Status: STANDARD.
+- $\nu_\alpha,\ \nu_i$: A left-handed neutrino: $\nu_\alpha$ of the flavour $\alpha = e, \mu, \tau$ ($\nu_e$, $\nu_\mu$, $\nu_\tau$), $\nu_i$ of the mass state $i$ (mass $m_i$). Unit: $\mathrm{GeV}^{3/2}$. Status: STANDARD.
+- $f$: The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species. Status: STANDARD.
+- $\psi_i,\ \bar\psi_i$: A Standard-Model fermion field of eight dimensions: $\psi_i$ is the multiplet $\psi \in \{Q, u_R, d_R, \ell, e_R, \nu_R\}$ of the generation $i$, $\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\bar\psi = \psi^\dagger C$ the Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$ (eight dimensions), $\mathrm{GeV}^{3/2}$ (four dimensions). Status: ASSUMED.
+- $\tilde g^f_L,\ \tilde g^f_R,\ \tilde g^f_V$: The neutral-current couplings of the fermion $f$ to the $Z$ (left-handed, right-handed and vector), $\tilde g^f_L = T_3^f - Q^f_{\mathrm{em}}\sin^2\theta_{\mathrm{W}}$. Unit: dimensionless. Status: STANDARD.
+- $R$: The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \Gamma_4)/2$. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $U$: The PMNS matrix, the unitary $3 \times 3$ mixing matrix of the leptons, $\nu_\alpha = \sum_iU_{\alpha i}\nu_i$ (rows $\alpha = e, \mu, \tau$, columns the mass states $i$); in UM-2 $U = \mathcal{K}_e^\dagger\mathcal{K}_\nu$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$, $\delta_{\mathrm{CP}} = 212^\circ$ (NuFIT 6.0). Status: STANDARD.
+- $\Gamma_4$: The four-dimensional chirality matrix, $\Gamma_4 = \mathrm{i}\gamma^{x_1}\gamma^{x_2}\gamma^{x_3}\gamma^{x_4}$; a doublet zero mode has $\Gamma_4 = +1$ (left-handed), a singlet zero mode $\Gamma_4 = -1$ (right-handed). Unit: dimensionless. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** At momentum transfers far below $m_{\mathrm{W}}$ and $m_{\mathrm{Z}}$ the exchange of $W^\pm$ (FE-25) between the zero modes of the
+lepton doublets gives the charged-current contact interaction $\mathcal{L}_{\mathrm{CC}}$ between the neutrino and the charged lepton of the
+same flavour, and the exchange of the $Z$ the neutral-current interaction $\mathcal{L}_{\mathrm{NC}}$ of the neutrinos with every fermion $f$ of
+the medium, with the chiral couplings $\tilde g^f_L$ and $\tilde g^f_R$. $P_L$ and $P_R$ project on the left-handed and right-handed zero
+modes. The flavour states $\nu_\alpha$ ($\alpha = e, \mu, \tau$) are the combinations of the mass states with the mixing matrix $U$, the tip
+matrix of the neutrino sector. Status: STANDARD.
+
+$$
+\frac{G_{\mathrm{F}}}{\sqrt2} = \frac{g_2^2}{8m_{\mathrm{W}}^2},\qquad
+\tilde g^f_L = T_3^f - Q_{\mathrm{em}}^f\sin^2\theta_{\mathrm{W}},\qquad \tilde g^f_R =
+ -Q_{\mathrm{em}}^f\sin^2\theta_{\mathrm{W}},\qquad
+\tilde g^f_V = \tilde g^f_L + \tilde g^f_R = T_3^f - 2Q_{\mathrm{em}}^f\sin^2\theta_{\mathrm{W}} \tag{FE-102}
+$$
+
+<!-- symbols: GF, g2, mW, gtilde, if, iL, T3, Qem, thetaW, iR, iV -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-102).**
+
+- $G_{\mathrm{F}}$: The Fermi constant. Unit: $\mathrm{GeV}^{-2}$. Value: $1.1663788\times10^{-5}$ GeV$^{-2}$ (measured). Status: STANDARD.
+- $g_2$: The four-dimensional SU(2) coupling ($g_2^2 = 4\pi\alpha_2$). Unit: dimensionless. Value: $g_2^2 = 0.3781$ at $2M_{\mathrm{DM}}$. Status: DERIVED.
+- $m_{\mathrm{W}}$: The mass of $W^+$ and $W^-$. Unit: GeV. Value: 80.3625 GeV (measured, input). Status: STANDARD.
+- $\tilde g^f_L,\ \tilde g^f_R,\ \tilde g^f_V$: The neutral-current couplings of the fermion $f$ to the $Z$ (left-handed, right-handed and vector), $\tilde g^f_L = T_3^f - Q^f_{\mathrm{em}}\sin^2\theta_{\mathrm{W}}$. Unit: dimensionless. Status: STANDARD.
+- $f$: The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species. Status: STANDARD.
+- $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
+- $T_3$: The third component of the weak isospin ($+\frac12$ for the upper and $-\frac12$ for the lower member of a doublet, 0 for a singlet); $T_3^f$ that of the fermion $f$. Unit: dimensionless. Status: STANDARD.
+- $Q_{\mathrm{em}}$: The electric charge in units of the elementary charge, $Q_{\mathrm{em}} = T_3 + Y$; $Q^f_{\mathrm{em}}$ that of the fermion $f$. Unit: dimensionless. Status: STANDARD.
+- $\theta_{\mathrm{W}}$: The weak mixing angle of the couplings, $\cos\theta_{\mathrm{W}} = \hat g_2/\hat g_Z$, $\sin\theta_{\mathrm{W}} = \hat g_1/\hat g_Z$; fixed by the measured $W$ and $Z$ masses with $\rho_{\mathrm{EW},0}$. Unit: dimensionless. Value: $\cos^2\theta_{\mathrm{W}} = 0.776368$. Status: DERIVED.
+- $R$: The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \Gamma_4)/2$. Status: STANDARD.
+- $V$: The label V of the vector coupling of a fermion to the $Z$, $\tilde g^f_V = \tilde g^f_L + \tilde g^f_R$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The Fermi constant is fixed by the four-dimensional SU(2) coupling and the $W$ mass; the neutral-current couplings of a
+fermion with the weak isospin $T_3^f$ and the charge $Q_{\mathrm{em}}^f$ contain the weak angle; $\tilde g^f_V$ is the vector coupling that acts
+in an unpolarised medium. Status: STANDARD; UM-2 uses the measured $G_{\mathrm{F}} = 1.1663788\times10^{-5}$ GeV$^{-2}$. The weak angle has two
+values in UM-2: the tree-level angle of the $x_0$ masses ($\sin^2\theta_{\mathrm{W}} = 1 - 0.776368 = 0.22363$, FE-55) and the
+$\overline{\mathrm{MS}}$ angle $\sin^2\theta_{\overline{\mathrm{MS}}} = 0.23122$ used in the couplings of the $Z$ widths; the difference changes the total
+$Z$ width by $8.3\times10^{-3}$, the size of the electroweak loop corrections that UM-2 does not compute.
 
 ## Vacuum and matter
 
-The flavour amplitudes $\psi_\alpha$ of a neutrino of energy $E \gg m_i$ evolve along its path as
-$$ i\frac{d\psi}{dx_4} = \mathcal H\psi,\qquad \mathcal H = \frac{1}{2E}\,U\,\mathrm{diag}(m_1^2, m_2^2, m_3^2)\,U^\dagger + V , $$
-with $U \to U^*$ and $V \to -V$ for antineutrinos ($V_{NC}$ is a multiple of the identity and drops out). For a constant
-potential the evolution operator is $S(L) = e^{-i\mathcal HL}$ and $P(\nu_\alpha\to\nu_\beta) = \lvert S_{\beta\alpha}\rvert^2$; for a varying one it is the
-ordered product of the operators of thin layers. In vacuum
-$$ P(\nu_\alpha\to\nu_\beta) = \Big\lvert\sum_iU_{\beta i}U^*_{\alpha i}\,e^{-im_i^2L/(2E)}\Big\rvert^2, $$
-$$ P(\nu_\mu\to\nu_e) - P(\nu_e\to\nu_\mu) = -16J\sin\Delta_{21}\sin\Delta_{31}\sin\Delta_{32},\qquad \Delta_{ij} = \frac{\Delta m^2_{ij}L}{4E}, $$
-with the Jarlskog invariant $J = \mathrm{Im}(U_{e2}U_{\mu3}U^*_{e3}U^*_{\mu2}) = c_{12}s_{12}c_{23}s_{23}c_{13}^2s_{13}\sin\delta$ and CPT,
-$P(\nu_\alpha\to\nu_\beta) = \bar P(\bar\nu_\beta\to\bar\nu_\alpha)$. In matter the mixing is resonant (the MSW effect) where the potential
-cancels the vacuum splitting of a sector: for the 1-3 sector, after the rotation $R_{23}$ (which commutes with $V$),
-$$ 2EV_{CC} = \Delta m^2_{ee}\cos2\theta_{13},\qquad \Delta m^2_{ee} = c_{12}^2\Delta m^2_{31} + s_{12}^2\Delta m^2_{32}, $$
-and for the 1-2 sector, after the rotation by $\theta_{13}$, which leaves the potential $V_{CC}c_{13}^2$,
-$$ 2EV_{CC}c_{13}^2 = \Delta m^2_{21}\cos2\theta_{12} . $$
-A neutrino produced at a density where the effective 1-2 mixing angle is $\theta^m_{12}$ and propagating adiabatically to
-the vacuum arrives, averaged over the incoherent mass states, with
-$$ P_{ee} = c_{13}^4\Big(\frac12 + \frac12\cos2\theta_{12}\cos2\theta^m_{12}\Big) + s_{13}^4,\qquad
-   \cos2\theta^m_{12} = \frac{\cos2\theta_{12} - A}{\sqrt{(\cos2\theta_{12} - A)^2 + \sin^22\theta_{12}}},\qquad A = \frac{2EV_{CC}c_{13}^2}{\Delta m^2_{21}} . $$
-A resonance at the density $n_e = \Delta m^2\cos2\theta/(2\sqrt2\,G_FE)$ is crossed adiabatically if the adiabaticity
-$$ \gamma = \frac{\Delta m^2\sin^22\theta}{2E\cos2\theta\,\lvert d\ln n_e/dr\rvert} \gg 1 ; $$
-the probability of a jump between the matter eigenstates is the Landau-Zener expression $P_{LZ} = e^{-\pi\gamma/2}$.
+$$
+\begin{aligned}
+&V_\alpha = \sqrt2\,G_{\mathrm{F}}\Big[\delta_{\alpha e}\big(n_{e^-} - n_{e^+}\big) + \sum_f\tilde
+ g^f_V\big(n_f - n_{\bar f}\big)\Big],\\
+&V = \mathrm{diag}\big(V_{\mathrm{CC}},\ 0,\ 0\big) + V_{\mathrm{NC}}\,\mathbf{1},\qquad V_{\mathrm{CC}}
+ = \sqrt2\,G_{\mathrm{F}}\,n_{\mathrm{e}},
+ \qquad V_{\mathrm{NC}} = -\frac{G_{\mathrm{F}}\,n_{\mathrm{n}}}{\sqrt2}
+\end{aligned} \tag{FE-103}
+$$
 
-## The thermal potential
+<!-- symbols: Vmat, ialpha, GF, delta, ie, nepm, if, gtilde, iV, ndens, nfbar, diag, VCC, identity, ne, nn -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-103).**
 
-In the early Universe the electrons and positrons are relativistic and the potential is dominated by the thermal term of
-the $W$ exchange (STANDARD; to leading order in $T/m_W$),
-$$ V_e - V_\mu = -\frac{8\sqrt2\,G_Fp}{3m_W^2}\,\rho_{e^\pm},\qquad \rho_{e^\pm} = \frac{7\pi^2}{60}T^4 , $$
-for a neutrino of momentum $p$; it suppresses the mixing as long as it exceeds $\Delta m^2\cos2\theta/(2p)$.
+- $V_\alpha,\ V$: The matter potential of forward scattering: $V_\alpha$ of the flavour $\alpha$ ($V_e$, $V_\mu$), $V$ the $3 \times 3$ matrix of the potentials in the flavour basis; antineutrinos have $-V$. Unit: GeV. Status: STANDARD.
+- $\alpha$: A flavour index running over $e, \mu, \tau$ (the flavour states of the leptons and neutrinos). Status: STANDARD.
+- $G_{\mathrm{F}}$: The Fermi constant. Unit: $\mathrm{GeV}^{-2}$. Value: $1.1663788\times10^{-5}$ GeV$^{-2}$ (measured). Status: STANDARD.
+- $\delta$: The Kronecker delta: with two indices $\delta^M_N = 1$ if $M = N$ and 0 otherwise (likewise $\delta_{\alpha e}$, $\delta_{l0}$, $\delta^{I3}$); with upper and lower index strings the generalised Kronecker delta $\delta^{M_1\cdots M_n}_{N_1\cdots N_n}$, the determinant of the $n \times n$ matrix of Kronecker deltas $\delta^{M_a}_{N_b}$ (+1 or -1 if the upper indices are an even or odd permutation of the lower ones, 0 otherwise). Status: STANDARD.
+- $e$: The electron flavour as a value of a flavour index ($\delta_{\alpha e}$, $U_{e2}$, $V_e$, $\mathcal{P}_{ee}$). Status: STANDARD.
+- $n_{e^-},\ n_{e^+}$: The number densities of electrons and of positrons. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $f$: The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species. Status: STANDARD.
+- $\tilde g^f_L,\ \tilde g^f_R,\ \tilde g^f_V$: The neutral-current couplings of the fermion $f$ to the $Z$ (left-handed, right-handed and vector), $\tilde g^f_L = T_3^f - Q^f_{\mathrm{em}}\sin^2\theta_{\mathrm{W}}$. Unit: dimensionless. Status: STANDARD.
+- $V$: The label V of the vector coupling of a fermion to the $Z$, $\tilde g^f_V = \tilde g^f_L + \tilde g^f_R$. Status: STANDARD.
+- $n,\ n_o,\ n_{\psi i},\ n_f,\ n_i$: A number density: $n(y)$ the particle density of dirac16complex in the Kohn-Sham equations and $n_o$ the contribution of the orbital $o$, $n_{\psi i}(y)$ the density of the Standard-Model fermion $\psi_i$ (per proper 7-volume of eight dimensions); $n_f$ the density of the fermion component $f$ and $n_i$ that of the neutrino mass state $i$ (per 3-volume of four dimensions). Unit: $\mathrm{GeV}^{7}$ (eight dimensions), $\mathrm{GeV}^{3}$ (four dimensions). Status: STANDARD.
+- $n_{\bar f}$: The number density of the antiparticles of the fermion $f$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\mathrm{diag}$: A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \dots, x_7$ when it is a tensor in eight dimensions). Status: STANDARD.
+- $V_{\mathrm{CC}},\ V_{\mathrm{NC}}$: The charged-current potential of electron neutrinos and the neutral-current potential common to all flavours. Unit: GeV. Status: STANDARD.
+- $\mathbf{1}$: The identity matrix (of the size fixed by the context: 16 x 16 on spinors, 3 x 3 on the generations or flavours, 2 x 2 for the sigma field). Unit: dimensionless. Status: STANDARD.
+- $n_{\mathrm{e}}$: The number density of electrons (net of positrons); in the Thomson terms of the photon and baryon equations only free (ionised) electrons count. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $n_{\mathrm{n}}$: The number density of neutrons (free and bound). Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
 
-## The quantum kinetic equations and neutrino decoupling
+<!-- end generated symbol list -->
 
-In a gas of neutrinos the state of the neutrinos of momentum $\vec p$ is a $3\times3$ density matrix $\rho_{\vec p}$ (diagonal elements
-the occupation numbers of the flavours, off-diagonal ones the flavour coherence), and $\bar\rho_{\vec p}$ for antineutrinos. They
-obey (STANDARD)
-$$ i(\partial_{x_4} + \vec v_p\cdot\nabla)\rho_{\vec p} = \big[\Omega_{\vec p} + V + V_{\nu\nu}, \rho_{\vec p}\big] + i\,\mathcal C[\rho],\qquad \Omega_{\vec p} = \frac{U\,\mathrm{diag}(m_i^2)\,U^\dagger}{2p}, $$
-$$ V_{\nu\nu} = \sqrt2\,G_F\int\frac{d^3q}{(2\pi)^3}\,(1 - \vec v_p\cdot\vec v_q)\big(\rho_{\vec q} - \bar\rho_{\vec q}\big),\qquad \vec v_p = \frac{\vec p}{p}, $$
-with $\mathcal C$ the collision term of $\mathcal L_{CC}$ and $\mathcal L_{NC}$ (in an expanding Universe $\partial_{x_4} \to \partial_{x_4} - Hp\,\partial_p$). During
-neutrino decoupling the energy exchanged between the plasma and the neutrinos is followed with one temperature per
-species (STANDARD; Escudero 2020): with the photon temperature $T_\gamma$, the neutrino temperatures $T_{\nu_e}$ and
-$T_{\nu_\mu} = T_{\nu_\tau}$, the Hubble rate $H = \sqrt{8\pi\rho/3}/M_{Pl}$ of the total density (here $H$ is not the author's constant; $M_{Pl} = G_N^{-1/2} = 1.22091\times10^{19}$ GeV), the energy densities
-$\rho_\gamma = \pi^2T_\gamma^4/15$ and $\rho_{\nu_\alpha} = 7\pi^2T_{\nu_\alpha}^4/120$ per flavour and the $e^\pm$ energy density $\rho_e$ and
-pressure $p_e$ (with the electron mass, $g = 4$, no chemical potential),
-$$ \frac{dT_\gamma}{dx_4} = -\frac{4H\rho_\gamma + 3H(\rho_e + p_e) + 3HT_\gamma\frac{dP_{int}}{dT_\gamma} + \frac{\delta\rho_{\nu_e}}{\delta x_4} + 2\frac{\delta\rho_{\nu_\mu}}{\delta x_4}}
-   {\frac{d\rho_\gamma}{dT_\gamma} + \frac{d\rho_e}{dT_\gamma} + T_\gamma\frac{d^2P_{int}}{dT_\gamma^2}},\qquad
-   \frac{dT_{\nu_\alpha}}{dx_4} = -HT_{\nu_\alpha} + \frac{\delta\rho_{\nu_\alpha}/\delta x_4}{d\rho_{\nu_\alpha}/dT_{\nu_\alpha}}, $$
-$$ \frac{\delta\rho_{\nu_e}}{\delta x_4} = \frac{G_F^2}{\pi^5}\Big[4(g_{eL}^2 + g_{eR}^2)F(T_\gamma, T_{\nu_e}) + 2F(T_{\nu_\mu}, T_{\nu_e})\Big],\qquad
-   \frac{\delta\rho_{\nu_\mu}}{\delta x_4} = \frac{G_F^2}{\pi^5}\Big[4(g_{\mu L}^2 + g_{\mu R}^2)F(T_\gamma, T_{\nu_\mu}) - F(T_{\nu_\mu}, T_{\nu_e})\Big], $$
-$$ F(T_1, T_2) = 32f_a(T_1^9 - T_2^9) + 56f_sT_1^4T_2^4(T_1 - T_2),\qquad f_a = 0.884,\quad f_s = 0.829 $$
-($f_a$, $f_s$ the Fermi-Dirac factors of the annihilation and scattering rates; $g_{eL} = \frac12 + s^2$, $g_{eR} = s^2$ for $\nu_e$, which
-interacts with electrons through both currents, and $g_{\mu L} = -\frac12 + s^2$, $g_{\mu R} = s^2$ for $\nu_{\mu,\tau}$, with $s^2 = \sin^2\theta_W$,
-or the radiatively corrected values $0.727$, $0.233$, $-0.273$, $0.233$). When oscillations equalise the flavours, one
-temperature $T_\nu$ obeys $dT_\nu/dx_4 = -HT_\nu + (\delta\rho_{\nu_e}/\delta x_4 + 2\delta\rho_{\nu_\mu}/\delta x_4)/(3\,d\rho_\nu/dT_\nu)$. The finite-temperature QED
-corrections enter through the interaction pressure of the $e^\pm\gamma$ plasma, $P_{int} = P_2 + P_3$, and its energy density
-$\rho_{int} = -P_{int} + T\,dP_{int}/dT$ (STANDARD; Bennett et al. 2020),
-$$ P_2 = -\frac{e^2T^2}{12\pi^2}J_1 - \frac{e^2}{8\pi^4}J_1^2 + \frac{e^2m_e^2}{16\pi^4}J_2,\qquad P_3 = \frac{e^3T}{12\pi^4}I^{3/2}, $$
-$$ J_1 = \int_0^\infty dp\,\frac{p^2}{E}n_D,\qquad J_2 = \int_0^\infty\!\!\int_0^\infty dp\,dq\,\frac{pq}{E_pE_q}\ln\Big\lvert\frac{p + q}{p - q}\Big\rvert n_D(p)n_D(q), $$
-$$ I = \int_0^\infty dp\,\frac{p^2 + E^2}{E}n_D,\qquad n_D = \frac{2}{e^{E/T} + 1},\qquad E = \sqrt{p^2 + m_e^2} , $$
-whose massless limits are $P_2 = -5e^2T^4/288$ and $P_3 = e^3T^4/(36\sqrt3\,\pi)$. The effective number of neutrino species is
-$$ N_{eff} = \Big(\frac{11}{4}\Big)^{4/3}\Big[\Big(\frac{T_{\nu_e}}{T_\gamma}\Big)^4 + 2\Big(\frac{T_{\nu_\mu}}{T_\gamma}\Big)^4\Big] $$
-after $e^+e^-$ annihilation. For instantaneous decoupling at $T_d$ the plasma conserves its entropy $a^3s$,
-$s = (\rho_\gamma + \frac13\rho_\gamma + \rho_e + p_e + \rho_{int} + P_{int})/T$, while $T_\nu \propto 1/a$.
+**The terms.** Coherent forward scattering on the medium gives each flavour the potential $V_\alpha$: the charged current acts on
+$\nu_e$ only, with the net electron density; the neutral current acts on every flavour with the net densities $n_f - n_{\bar f}$ of the
+fermions of the medium weighted by $\tilde g^f_V$. In neutral matter of electrons, protons and neutrons the neutral-current terms of
+the electrons and the protons cancel ($\tilde g_V$ of the proton, two up quarks and one down quark, is minus that of the electron) and
+the neutrons leave $V_{\mathrm{NC}} = -G_{\mathrm{F}}n_{\mathrm{n}}/\sqrt2$, common to all flavours. Status: STANDARD (an unpolarised medium at rest;
+antineutrinos have $-V$).
 
-## The dense neutrino gas: the fast flavour instability
+$$
+\mathrm{i}\,\frac{\mathrm{d}\boldsymbol{\psi}}{\mathrm{d}x_4} = H_{\mathrm{fl}}\,\boldsymbol{\psi},\qquad
+H_{\mathrm{fl}} = \frac{1}{2E}\,U\,\mathrm{diag}\big(m_1^2,\ m_2^2,\ m_3^2\big)\,U^\dagger + V,\qquad
+\mathcal{U}(L_{\mathrm{b}}) = \mathrm{e}^{-\mathrm{i}H_{\mathrm{fl}}L_{\mathrm{b}}},\qquad
+\mathcal{P}(\nu_\alpha\to\nu_\beta) = \lvert\mathcal{U}_{\beta\alpha}\rvert^2 \tag{FE-104}
+$$
 
-Near a supernova core $V_{\nu\nu}$ dominates $\Omega_{\vec p}$. For a homogeneous, axially symmetric gas of $\nu_e$ and $\bar\nu_e$ with the
-angular distributions $g_{\nu_e}(u)$, $g_{\bar\nu_e}(u)$ ($u = \cos\vartheta$ along the symmetry axis, $\int_{-1}^{1}g\,du/2 = 1$), the
-electron-lepton-number (ELN) distribution
-$$ G(u) = \sqrt2\,G_F\big[n_{\nu_e}g_{\nu_e}(u) - n_{\bar\nu_e}g_{\bar\nu_e}(u)\big] $$
-governs the linearised evolution of the small flavour coherence $S_u$ (the $e x$ element of $\rho$, $x$ a heavy-lepton
-flavour). With $v = (1, u)$, $\Lambda^\mu = \int du/2\,G(u)\,v^\mu$ and modes $S_u \propto e^{-i(\Omega x_4 - Kx_3)}$ ($x_3$ the symmetry axis) in the shifted variables
-$\omega = \Omega - \Lambda^0$, $k = K - \Lambda^3$, the linear equations have non-trivial solutions if (STANDARD)
-$$ \det\Pi(\omega, k) = 0,\qquad \Pi^{\mu\nu} = \eta^{\mu\nu} + \int_{-1}^{1}\frac{du}{2}\,G(u)\,\frac{v^\mu v^\nu}{\omega - ku}\qquad (\eta = \mathrm{diag}(1, -1)\ \text{on}\ (x_4, x_3)), $$
-which splits into the axisymmetric branch and the azimuthal branch
-$$ (1 + J_0)(-1 + J_2) - J_1^2 = 0,\quad J_n = \int_{-1}^{1}\frac{du}{2}\,\frac{G(u)\,u^n}{\omega - ku};\qquad -1 + \int_{-1}^{1}\frac{du}{2}\,\frac{G(u)\,(1 - u^2)}{2(\omega - ku)} = 0 . $$
-A root with $\mathrm{Im}\,\omega > 0$ for real $k$ is an instability with the growth rate $\mathrm{Im}\,\omega$. The homogeneous mode ($K = 0$, i.e.
-$k = -\Lambda^3$) obeys
-$$ i\frac{dS_u}{dx_4} = (\Lambda^0 - u\Lambda^3)\,S_u - \int_{-1}^{1}\frac{du'}{2}\,G(u')\,(1 - uu')\,S_{u'} , $$
-and for the mode $K = \Lambda^3$ ($k = 0$) the dispersion relation is the quadratic
-$\omega^2 - (I_2 - I_0)\omega - (I_0I_2 - I_1^2) = 0$, $I_n = \int du/2\,G\,u^n$, unstable with the growth rate $\frac12\sqrt{4I_1^2 - (I_0 + I_2)^2}$ when
-this is real. An instability exists only if $G(u)$ changes sign (an ELN crossing; Morinaga 2022).
+<!-- symbols: imag, diff, bspsi, x4, Hfl, Eenergy, Upmns, diag, mnu123, dagger, Vmat, calU, Lb, euler, calP, nuflav, ialpha, ibeta -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-104).**
+
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\boldsymbol{\psi}$: The vector of the three flavour amplitudes of a neutrino. Unit: dimensionless. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $H_{\mathrm{fl}}$: The flavour Hamiltonian of a neutrino of energy $E$ (vacuum mass term plus matter potential). Unit: GeV. Status: STANDARD.
+- $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
+- $U$: The PMNS matrix, the unitary $3 \times 3$ mixing matrix of the leptons, $\nu_\alpha = \sum_iU_{\alpha i}\nu_i$ (rows $\alpha = e, \mu, \tau$, columns the mass states $i$); in UM-2 $U = \mathcal{K}_e^\dagger\mathcal{K}_\nu$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$, $\delta_{\mathrm{CP}} = 212^\circ$ (NuFIT 6.0). Status: STANDARD.
+- $\mathrm{diag}$: A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \dots, x_7$ when it is a tensor in eight dimensions). Status: STANDARD.
+- $m_1,\ m_2,\ m_3$: The masses of the neutrino mass states $\nu_1$, $\nu_2$, $\nu_3$ (normal ordering). Unit: GeV (quoted in meV). Value: 1.000, 8.712, 50.140 meV ($m_1$ ASSUMED). Status: DERIVED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $V_\alpha,\ V$: The matter potential of forward scattering: $V_\alpha$ of the flavour $\alpha$ ($V_e$, $V_\mu$), $V$ the $3 \times 3$ matrix of the potentials in the flavour basis; antineutrinos have $-V$. Unit: GeV. Status: STANDARD.
+- $\mathcal{U}$: The flavour evolution operator over the baseline $L_{\mathrm{b}}$; $\mathcal{U}_{\beta\alpha}$ the amplitude of $\nu_\alpha \to \nu_\beta$. Unit: dimensionless. Status: STANDARD.
+- $L_{\mathrm{b}}$: The baseline: the distance travelled by the neutrino. Unit: length. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $\mathcal{P}$: The probability of a flavour transition, $\mathcal{P}(\nu_\alpha \to \nu_\beta)$; $\mathcal{P}_{ee}$ the survival probability of electron neutrinos. Unit: dimensionless. Status: STANDARD.
+- $\nu_\alpha,\ \nu_i$: A left-handed neutrino: $\nu_\alpha$ of the flavour $\alpha = e, \mu, \tau$ ($\nu_e$, $\nu_\mu$, $\nu_\tau$), $\nu_i$ of the mass state $i$ (mass $m_i$). Unit: $\mathrm{GeV}^{3/2}$. Status: STANDARD.
+- $\alpha$: A flavour index running over $e, \mu, \tau$ (the flavour states of the leptons and neutrinos). Status: STANDARD.
+- $\beta$: A second flavour index running over $e, \mu, \tau$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** $\boldsymbol{\psi}$ is the vector of the three flavour amplitudes of a neutrino of energy $E$; the flavour Hamiltonian
+$H_{\mathrm{fl}}$ contains the vacuum part (the squared masses rotated with $U$) and the matter potential $V$. For a constant density the
+evolution over the baseline $L_{\mathrm{b}}$ is the matrix exponential $\mathcal{U}$, and $\mathcal{P}$ is the probability of the flavour change.
+The common part $V_{\mathrm{NC}}\mathbf{1}$ is a phase and drops out. Status: STANDARD (solved exactly: matrix exponential for constant density,
+ordered products of layers otherwise; the vacuum formula FE-105 is reproduced to $3.9\times10^{-15}$, unitarity to $1.8\times10^{-15}$).
+Residual of the stored probabilities (unitarity, vacuum formula, CPT, the T2K, NOvA and DUNE probabilities, the solar survival
+probability) $7.1\times10^{-12}$.
+
+$$
+\begin{aligned}
+&\mathcal{P}(\nu_\alpha\to\nu_\beta) = \Big\lvert\sum_{i=1}^{3}U_{\beta i}U^*_{\alpha i}\,
+ \mathrm{e}^{-\mathrm{i}m_i^2L_{\mathrm{b}}/(2E)}\Big\rvert^2,\qquad
+ \mathcal{P}(\nu_\alpha\to\nu_\beta) = \mathcal{P}(\bar\nu_\beta\to\bar\nu_\alpha),\\
+&\mathcal{P}(\nu_\mu\to\nu_e) - \mathcal{P}(\nu_e\to\nu_\mu) =
+ -16J_{\mathrm{CP}}\sin\Delta_{21}\sin\Delta_{31}\sin\Delta_{32},\qquad
+ \Delta_{ij} = \frac{\Delta m_{ij}^2L_{\mathrm{b}}}{4E},\qquad
+ J_{\mathrm{CP}} = \mathrm{Im}\big(U_{e2}U_{\mu3}U_{e3}^*U_{\mu2}^*\big)
+\end{aligned} \tag{FE-105}
+$$
+
+<!-- symbols: calP, nuflav, ialpha, ibeta, ii, Upmns, star, euler, imag, mmass, Lb, Eenergy, nubar, ie, JCP, Deltaij, Delta, ij, imagpart -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-105).**
+
+- $\mathcal{P}$: The probability of a flavour transition, $\mathcal{P}(\nu_\alpha \to \nu_\beta)$; $\mathcal{P}_{ee}$ the survival probability of electron neutrinos. Unit: dimensionless. Status: STANDARD.
+- $\nu_\alpha,\ \nu_i$: A left-handed neutrino: $\nu_\alpha$ of the flavour $\alpha = e, \mu, \tau$ ($\nu_e$, $\nu_\mu$, $\nu_\tau$), $\nu_i$ of the mass state $i$ (mass $m_i$). Unit: $\mathrm{GeV}^{3/2}$. Status: STANDARD.
+- $\alpha$: A flavour index running over $e, \mu, \tau$ (the flavour states of the leptons and neutrinos). Status: STANDARD.
+- $\beta$: A second flavour index running over $e, \mu, \tau$. Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $U$: The PMNS matrix, the unitary $3 \times 3$ mixing matrix of the leptons, $\nu_\alpha = \sum_iU_{\alpha i}\nu_i$ (rows $\alpha = e, \mu, \tau$, columns the mass states $i$); in UM-2 $U = \mathcal{K}_e^\dagger\mathcal{K}_\nu$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$, $\delta_{\mathrm{CP}} = 212^\circ$ (NuFIT 6.0). Status: STANDARD.
+- ${}^*$: Complex conjugation of a number or of each entry of a matrix. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
+- $L_{\mathrm{b}}$: The baseline: the distance travelled by the neutrino. Unit: length. Status: STANDARD.
+- $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
+- $\bar\nu_\alpha$: The antineutrino of the flavour $\alpha$; in a Lagrangian the Dirac adjoint of the neutrino field (it annihilates antineutrinos). Unit: $\mathrm{GeV}^{3/2}$. Status: STANDARD.
+- $e$: The electron flavour as a value of a flavour index ($\delta_{\alpha e}$, $U_{e2}$, $V_e$, $\mathcal{P}_{ee}$). Status: STANDARD.
+- $J_{\mathrm{CP}}$: The Jarlskog invariant of a mixing matrix (the measure of CP violation). Unit: dimensionless. Value: $-0.01777$ (PMNS), $3.117\times10^{-5}$ (CKM). Status: STANDARD.
+- $\Delta_{ij}$: The oscillation phase of the pair of mass states $(i, j)$, $\Delta_{ij} = \Delta m_{ij}^2L_{\mathrm{b}}/(4E)$. Unit: dimensionless. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
+- $\mathrm{Im}$: The imaginary part of a complex number. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** In vacuum the probability is the squared sum of three amplitudes with the phases $m_i^2L_{\mathrm{b}}/(2E)$; CPT symmetry
+relates neutrinos and antineutrinos; the difference of the probabilities of a process and its time reverse is proportional to the
+Jarlskog invariant $J_{\mathrm{CP}}$ (CP violation of the tip matrix) and to the three oscillation phases $\Delta_{ij}$. Status: STANDARD (CPT
+checked to $2.8\times10^{-16}$, the T-odd difference to $5.9\times10^{-14}$).
+
+In the two-flavour approximation of one sector (for example the 1-2 sector with $\theta_{13} = 0$) the flavour Hamiltonian of FE-104
+is, up to a multiple of $\mathbf{1}$,
+
+$$
+H_{\mathrm{fl}} = \frac{\Delta m_{21}^2}{4E}\begin{pmatrix}-\cos2\theta_{12} & \sin2\theta_{12}\\ \sin2\theta_{12} &
+ \cos2\theta_{12}\end{pmatrix} + \begin{pmatrix}V_{\mathrm{CC}} & 0\\ 0 & 0\end{pmatrix},
+$$
+
+<!-- symbols: Hfl, Delta, dm2, Eenergy, thetamix, VCC -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $H_{\mathrm{fl}}$: The flavour Hamiltonian of a neutrino of energy $E$ (vacuum mass term plus matter potential). Unit: GeV. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta m_{21}^2,\ \Delta m_{31}^2,\ \Delta m_{32}^2$: The differences of the squared neutrino masses, $\Delta m_{ij}^2 = m_i^2 - m_j^2$. Unit: $\mathrm{GeV}^{2}$ (quoted in $\mathrm{eV}^{2}$). Value: $\Delta m_{21}^2 = 7.49\times10^{-5}$ eV$^2$, $\Delta m_{31}^2 = 2.513\times10^{-3}$ eV$^2$ (NuFIT 6.0). Status: STANDARD.
+- $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
+- $\theta_{ij}$: The mixing angles of the standard parametrisation of $U$ (or of $V_{\mathrm{CKM}}$): $\theta_{12}$, $\theta_{13}$, $\theta_{23}$; in two-flavour formulas $\theta_{ij}$ is the angle of the sector $(i, j)$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$ (PMNS). Status: STANDARD.
+- $V_{\mathrm{CC}},\ V_{\mathrm{NC}}$: The charged-current potential of electron neutrinos and the neutral-current potential common to all flavours. Unit: GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+whose two diagonal entries are equal, and the mixing in matter maximal, at $2EV_{\mathrm{CC}} = \Delta m_{21}^2\cos2\theta_{12}$; with the third
+flavour the conditions become:
+
+$$
+2E\,V_{\mathrm{CC}} = \Delta m_{ee}^2\cos2\theta_{13},\qquad \Delta m_{ee}^2 = c_{12}^2\,\Delta m_{31}^2
+ + s_{12}^2\,\Delta m_{32}^2,
+\qquad 2E\,V_{\mathrm{CC}}\,c_{13}^2 = \Delta m_{21}^2\cos2\theta_{12} \tag{FE-106}
+$$
+
+<!-- symbols: Eenergy, VCC, Delta, dmee, thetamix, cij, dm2, sij -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-106).**
+
+- $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
+- $V_{\mathrm{CC}},\ V_{\mathrm{NC}}$: The charged-current potential of electron neutrinos and the neutral-current potential common to all flavours. Unit: GeV. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta m_{ee}^2$: The effective squared-mass difference of electron-neutrino disappearance, $\Delta m_{ee}^2 = c_{12}^2\Delta m_{31}^2 + s_{12}^2\Delta m_{32}^2$. Unit: $\mathrm{GeV}^{2}$. Status: STANDARD.
+- $\theta_{ij}$: The mixing angles of the standard parametrisation of $U$ (or of $V_{\mathrm{CKM}}$): $\theta_{12}$, $\theta_{13}$, $\theta_{23}$; in two-flavour formulas $\theta_{ij}$ is the angle of the sector $(i, j)$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$ (PMNS). Status: STANDARD.
+- $c_{12},\ c_{13},\ c_{23}$: The cosines of the mixing angles, $c_{ij} = \cos\theta_{ij}$. Unit: dimensionless. Status: STANDARD.
+- $\Delta m_{21}^2,\ \Delta m_{31}^2,\ \Delta m_{32}^2$: The differences of the squared neutrino masses, $\Delta m_{ij}^2 = m_i^2 - m_j^2$. Unit: $\mathrm{GeV}^{2}$ (quoted in $\mathrm{eV}^{2}$). Value: $\Delta m_{21}^2 = 7.49\times10^{-5}$ eV$^2$, $\Delta m_{31}^2 = 2.513\times10^{-3}$ eV$^2$ (NuFIT 6.0). Status: STANDARD.
+- $s_{12},\ s_{13},\ s_{23}$: The sines of the mixing angles, $s_{ij} = \sin\theta_{ij}$. Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The resonance conditions of the 1-3 sector (with the effective splitting $\Delta m_{ee}^2$, the $\nu_e$-weighted average of
+$\Delta m_{31}^2$ and $\Delta m_{32}^2$) and of the 1-2 sector (with the factor $c_{13}^2$, the $\nu_e$ content of the 1-2 subspace). Status:
+STANDARD. The 1-3 resonance lies at 11.135 GeV in rock of 2.8 g/cm$^3$ (the exact three-flavour evolution gives 11.133 GeV); the 1-2
+resonance at the centre of the Sun at 1.93 MeV.
+
+$$
+\begin{aligned}
+&\mathcal{P}_{ee} = c_{13}^4\Big(\frac12 + \frac12\cos2\theta_{12}\cos2\theta^{\mathrm{m}}_{12}\Big) +
+ s_{13}^4,\qquad
+ A_{\mathrm{MSW}} = \frac{2E\,V_{\mathrm{CC}}\,c_{13}^2}{\Delta m_{21}^2},\\
+&\cos2\theta^{\mathrm{m}}_{12} = \frac{\cos2\theta_{12} - A_{\mathrm{MSW}}}{\sqrt{\big(\cos2\theta_{12}
+ - A_{\mathrm{MSW}}\big)^2
+ + \sin^22\theta_{12}}}
+\end{aligned} \tag{FE-107}
+$$
+
+<!-- symbols: calP, ie, cij, thetamix, thetam, sij, AMSW, Eenergy, VCC, Delta, dm2 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-107).**
+
+- $\mathcal{P}$: The probability of a flavour transition, $\mathcal{P}(\nu_\alpha \to \nu_\beta)$; $\mathcal{P}_{ee}$ the survival probability of electron neutrinos. Unit: dimensionless. Status: STANDARD.
+- $e$: The electron flavour as a value of a flavour index ($\delta_{\alpha e}$, $U_{e2}$, $V_e$, $\mathcal{P}_{ee}$). Status: STANDARD.
+- $c_{12},\ c_{13},\ c_{23}$: The cosines of the mixing angles, $c_{ij} = \cos\theta_{ij}$. Unit: dimensionless. Status: STANDARD.
+- $\theta_{ij}$: The mixing angles of the standard parametrisation of $U$ (or of $V_{\mathrm{CKM}}$): $\theta_{12}$, $\theta_{13}$, $\theta_{23}$; in two-flavour formulas $\theta_{ij}$ is the angle of the sector $(i, j)$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$ (PMNS). Status: STANDARD.
+- $\theta^{\mathrm{m}}_{12}$: The effective 1-2 mixing angle in matter at the production point of a solar neutrino. Unit: dimensionless. Status: STANDARD.
+- $s_{12},\ s_{13},\ s_{23}$: The sines of the mixing angles, $s_{ij} = \sin\theta_{ij}$. Unit: dimensionless. Status: STANDARD.
+- $A_{\mathrm{MSW}}$: The ratio of the matter term to the vacuum term in the 1-2 sector. Unit: dimensionless. Status: STANDARD.
+- $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
+- $V_{\mathrm{CC}},\ V_{\mathrm{NC}}$: The charged-current potential of electron neutrinos and the neutral-current potential common to all flavours. Unit: GeV. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta m_{21}^2,\ \Delta m_{31}^2,\ \Delta m_{32}^2$: The differences of the squared neutrino masses, $\Delta m_{ij}^2 = m_i^2 - m_j^2$. Unit: $\mathrm{GeV}^{2}$ (quoted in $\mathrm{eV}^{2}$). Value: $\Delta m_{21}^2 = 7.49\times10^{-5}$ eV$^2$, $\Delta m_{31}^2 = 2.513\times10^{-3}$ eV$^2$ (NuFIT 6.0). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The survival probability of solar electron neutrinos produced at a density where $A_{\mathrm{MSW}}$ is the ratio of the
+matter term to the vacuum term: the mixing angle in matter $\theta^{\mathrm{m}}_{12}$ at the production point, adiabatic evolution to the
+surface, and decoherence on the way to the Earth; the 1-3 sector enters through $c_{13}^4$ and $s_{13}^4$. Status: STANDARD (the numerical
+three-flavour evolution through the solar density agrees to $1.3\times10^{-3}$, the size of the non-adiabatic and production-region
+effects that the formula drops).
+
+$$
+n_{\mathrm{e}}^{\mathrm{res}} = \frac{\Delta m_{ij}^2\cos2\theta_{ij}}{2\sqrt2\,G_{\mathrm{F}}E},\qquad
+\gamma_{\mathrm{ad}} = \frac{\Delta m_{ij}^2\sin^22\theta_{ij}}{2E\cos2\theta_{ij}\,\lvert\mathrm{d}\ln
+ n_{\mathrm{e}}/\mathrm{d}r\rvert} \gg 1,
+\qquad \mathcal{P}_{\mathrm{LZ}} = \mathrm{e}^{-\pi\gamma_{\mathrm{ad}}/2} \tag{FE-108}
+$$
+
+<!-- symbols: neres, Delta, mmass, ii, ij, thetamix, GF, Eenergy, gammaad, diff, ne, rdist, PLZ, euler, pi -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-108).**
+
+- $n_{\mathrm{e}}^{\mathrm{res}}$: The electron density of an MSW resonance. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
+- $\theta_{ij}$: The mixing angles of the standard parametrisation of $U$ (or of $V_{\mathrm{CKM}}$): $\theta_{12}$, $\theta_{13}$, $\theta_{23}$; in two-flavour formulas $\theta_{ij}$ is the angle of the sector $(i, j)$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$ (PMNS). Status: STANDARD.
+- $G_{\mathrm{F}}$: The Fermi constant. Unit: $\mathrm{GeV}^{-2}$. Value: $1.1663788\times10^{-5}$ GeV$^{-2}$ (measured). Status: STANDARD.
+- $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
+- $\gamma_{\mathrm{ad}}$: The adiabaticity parameter of a resonance (adiabatic for $\gamma_{\mathrm{ad}} \gg 1$). Unit: dimensionless. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $n_{\mathrm{e}}$: The number density of electrons (net of positrons); in the Thomson terms of the photon and baryon equations only free (ionised) electrons count. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $r$: A distance: between the two masses in $V_{\mathrm{N}}(r)$, from the centre of the star in the adiabaticity condition. Unit: length. Status: STANDARD.
+- $\mathcal{P}_{\mathrm{LZ}}$: The Landau-Zener probability of a jump between the matter eigenstates at a resonance. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The electron density at the resonance, the adiabaticity parameter $\gamma_{\mathrm{ad}}$ (the ratio of the oscillation length at
+the resonance to the width of the resonance region; the evolution is adiabatic for $\gamma_{\mathrm{ad}} \gg 1$), and the Landau-Zener
+probability $\mathcal{P}_{\mathrm{LZ}}$ of a jump between the matter eigenstates. Status: STANDARD (two-flavour conditions; in a supernova
+envelope both resonances are adiabatic, $\mathcal{P}_{\mathrm{LZ}} \le 2.6\times10^{-77}$).
+
+## The early Universe
+
+$$
+V_e - V_\mu = -\frac{8\sqrt2\,G_{\mathrm{F}}\lvert\vec k\rvert}{3m_{\mathrm{W}}^2}\,\rho_{\mathrm{e}},\qquad
+\rho_{\mathrm{e}} \simeq \frac{7\pi^2}{60}\,T^4\ \ (T \gg m_{\mathrm{e}}) \tag{FE-109}
+$$
+
+<!-- symbols: Vmat, ie, GF, kvec, mW, rhoe, pi, Temp, me -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-109).**
+
+- $V_\alpha,\ V$: The matter potential of forward scattering: $V_\alpha$ of the flavour $\alpha$ ($V_e$, $V_\mu$), $V$ the $3 \times 3$ matrix of the potentials in the flavour basis; antineutrinos have $-V$. Unit: GeV. Status: STANDARD.
+- $e$: The electron flavour as a value of a flavour index ($\delta_{\alpha e}$, $U_{e2}$, $V_e$, $\mathcal{P}_{ee}$). Status: STANDARD.
+- $G_{\mathrm{F}}$: The Fermi constant. Unit: $\mathrm{GeV}^{-2}$. Value: $1.1663788\times10^{-5}$ GeV$^{-2}$ (measured). Status: STANDARD.
+- $\vec k,\ \vec k_o$: The wave vector (momentum) in ordinary 3-space; $\vec k_o$ that of the orbital $o$, a point of the lattice $k_{\mathrm{lat}}\vec n_o$. Unit: GeV. Status: STANDARD.
+- $m_{\mathrm{W}}$: The mass of $W^+$ and $W^-$. Unit: GeV. Value: 80.3625 GeV (measured, input). Status: STANDARD.
+- $\rho_{\mathrm{e}},\ p_{\mathrm{e}}$: The energy density and the pressure of the electrons and positrons together (ideal gas). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $m_{\mathrm{e}}$: The electron mass. Unit: GeV. Value: 0.51099895 MeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** In the hot plasma the net electron density is tiny (of the order of $\eta_{\mathrm{b}} = 6.1\times10^{-10}$ times the photon
+density), and the leading potential is the thermal one: the
+$W$ propagator expanded to the next order in $\lvert\vec k\rvert T/m_{\mathrm{W}}^2$, proportional to the energy density $\rho_{\mathrm{e}}$ of the
+electrons and positrons. It suppresses the flavour mixing at high temperature. Status: STANDARD (leading order in $T/m_{\mathrm{W}}$; it falls
+below the vacuum term at $T = 4.99$ MeV for the atmospheric splitting and 2.39 MeV for the solar one, at $\lvert\vec k\rvert = 3.15\,T$).
+Residual $8.7\times10^{-12}$; the neglected CP-asymmetric potential of the net electron density is $1.1\times10^{-2}$ of the thermal one at the
+onset (ESTIMATE).
+
+$$
+\begin{aligned}
+&\mathrm{i}\Big(\partial_{x_4} + \frac{\vec k}{\lvert\vec
+ k\rvert}\cdot\vec\nabla\Big)\boldsymbol{\rho}_{\vec k}
+ = \big[H^{\mathrm{vac}}_{\vec k} + V + V_{\nu\nu},\ \boldsymbol{\rho}_{\vec k}\big] +
+ \mathrm{i}\,C_{\mathrm{coll}}[\boldsymbol{\rho}],
+ \qquad H^{\mathrm{vac}}_{\vec k} =
+ \frac{U\,\mathrm{diag}\big(m_1^2,\ m_2^2,\ m_3^2\big)\,U^\dagger}{2\lvert\vec k\rvert},\\
+&V_{\nu\nu} = \sqrt2\,G_{\mathrm{F}}\int\frac{\mathrm{d}^3\vec k_2}{(2\pi)^3}\Big(1 - \frac{\vec
+ k\cdot\vec k_2}{\lvert\vec k\rvert\lvert\vec k_2\rvert}\Big)
+ \big(\boldsymbol{\rho}_{\vec k_2} - \bar{\boldsymbol{\rho}}_{\vec k_2}\big),\qquad
+ \partial_{x_4} \to \partial_{x_4} - \mathcal{H}\lvert\vec k\rvert\,\partial_{\lvert\vec
+ k\rvert}\ \ \text{(expanding Universe)}
+\end{aligned} \tag{FE-110}
+$$
+
+<!-- symbols: imag, partial, x4, kvec, grad3, boldrho, Hvac, Vmat, Vnunu, Ccoll, Upmns, diag, mnu123, dagger, GF, diff, k2, pi, Hubble -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-110).**
+
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\partial$: A partial derivative: $\partial_M$ is the derivative with respect to the coordinate $X^M$, $\partial_y$ with respect to $y$, $\partial_{x_4}$ with respect to the time $x_4$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\vec k,\ \vec k_o$: The wave vector (momentum) in ordinary 3-space; $\vec k_o$ that of the orbital $o$, a point of the lattice $k_{\mathrm{lat}}\vec n_o$. Unit: GeV. Status: STANDARD.
+- $\vec\nabla$: The gradient in ordinary 3-space, $(\partial/\partial x_1, \partial/\partial x_2, \partial/\partial x_3)$. Unit: 1/length. Status: STANDARD.
+- $\boldsymbol{\rho}_{\vec k},\ \bar{\boldsymbol{\rho}}_{\vec k}$: The $3 \times 3$ flavour density matrices of the neutrinos and of the antineutrinos of momentum $\vec k$. Unit: dimensionless. Status: STANDARD.
+- $H^{\mathrm{vac}}_{\vec k}$: The vacuum flavour Hamiltonian of a neutrino of momentum $\vec k$. Unit: GeV. Status: STANDARD.
+- $V_\alpha,\ V$: The matter potential of forward scattering: $V_\alpha$ of the flavour $\alpha$ ($V_e$, $V_\mu$), $V$ the $3 \times 3$ matrix of the potentials in the flavour basis; antineutrinos have $-V$. Unit: GeV. Status: STANDARD.
+- $V_{\nu\nu}$: The potential of neutrino-neutrino forward scattering (a matrix in flavour space). Unit: GeV. Status: STANDARD.
+- $C_{\mathrm{coll}}$: The collision term of the quantum kinetic equations. Unit: GeV. Status: STANDARD.
+- $U$: The PMNS matrix, the unitary $3 \times 3$ mixing matrix of the leptons, $\nu_\alpha = \sum_iU_{\alpha i}\nu_i$ (rows $\alpha = e, \mu, \tau$, columns the mass states $i$); in UM-2 $U = \mathcal{K}_e^\dagger\mathcal{K}_\nu$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$, $\delta_{\mathrm{CP}} = 212^\circ$ (NuFIT 6.0). Status: STANDARD.
+- $\mathrm{diag}$: A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \dots, x_7$ when it is a tensor in eight dimensions). Status: STANDARD.
+- $m_1,\ m_2,\ m_3$: The masses of the neutrino mass states $\nu_1$, $\nu_2$, $\nu_3$ (normal ordering). Unit: GeV (quoted in meV). Value: 1.000, 8.712, 50.140 meV ($m_1$ ASSUMED). Status: DERIVED.
+- ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
+- $G_{\mathrm{F}}$: The Fermi constant. Unit: $\mathrm{GeV}^{-2}$. Value: $1.1663788\times10^{-5}$ GeV$^{-2}$ (measured). Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $k_2,\ \vec k_2$: A second momentum (variable of integration). Unit: GeV. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The density matrix $\boldsymbol{\rho}_{\vec k}$ of the neutrinos of momentum $\vec k$ (its diagonal the occupation numbers of the
+flavours, its off-diagonal entries the flavour coherence; $\bar{\boldsymbol{\rho}}$ that of the antineutrinos) evolves by the commutator with
+the vacuum Hamiltonian $H^{\mathrm{vac}}$, the matter potential and the neutrino-neutrino potential $V_{\nu\nu}$ (forward scattering on the
+other neutrinos, with the angular factor of the current-current interaction), and by the collision term $C_{\mathrm{coll}}$; in the
+expanding Universe the momenta redshift. Status: STANDARD. It is used linearised for the fast flavour instability (FE-117) and
+momentum-averaged for the decoupling (FE-111).
+
+$$
+\begin{aligned}
+\frac{\mathrm{d}T_\gamma}{\mathrm{d}x_4} &= -\frac{4\mathcal{H}\rho_\gamma +
+ 3\mathcal{H}\big(\rho_{\mathrm{e}} + p_{\mathrm{e}}\big)
+ + 3\mathcal{H}T_\gamma\,\frac{\mathrm{d}p_{\mathrm{QED}}}{\mathrm{d}T_\gamma} + C_{\nu_e} + 2C_{\nu_\mu}}
+ {\frac{\mathrm{d}\rho_\gamma}{\mathrm{d}T_\gamma} + \frac{\mathrm{d}\rho_{\mathrm{e}}}{\mathrm{d}T_\gamma}
+ + T_\gamma\,\frac{\mathrm{d}^2p_{\mathrm{QED}}}{\mathrm{d}T_\gamma^2}},\qquad
+ \frac{\mathrm{d}T_{\nu_\alpha}}{\mathrm{d}x_4} = -\mathcal{H}T_{\nu_\alpha} +
+ \frac{C_{\nu_\alpha}}{\mathrm{d}\rho_{\nu_\alpha}/\mathrm{d}T_{\nu_\alpha}},\\
+\mathcal{H} &= \frac{\sqrt{8\pi\rho_{\mathrm{tot}}/3}}{M_{\mathrm{Pl}}},\qquad \rho_\gamma =
+ \frac{\pi^2}{15}\,T_\gamma^4,\qquad
+ \rho_{\nu_\alpha} = \frac{7\pi^2}{120}\,T_{\nu_\alpha}^4
+\end{aligned} \tag{FE-111}
+$$
+
+<!-- symbols: diff, Tgamma, x4, Hubble, rhogamma, rhoe, pQED, Cnua, Tnua, rhonu, pi, rhotot, MPl -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-111).**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $T_\gamma$: The temperature of the photons (equal to the plasma temperature $T$; the subscript is written where the neutrinos have their own temperature). Unit: GeV. Value: 2.7255 K today. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\rho_\gamma$: The energy density of the photons, $\rho_\gamma = \pi^2T_\gamma^4/15$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\rho_{\mathrm{e}},\ p_{\mathrm{e}}$: The energy density and the pressure of the electrons and positrons together (ideal gas). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $p_{\mathrm{QED}},\ p_{\mathrm{QED}}^{(2)},\ p_{\mathrm{QED}}^{(3)}$: The finite-temperature QED correction to the pressure of the electron-photon plasma, and its parts of order $e^2$ and $e^3$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $C_{\nu_\alpha},\ C_{\nu_e},\ C_{\nu_\mu}$: The energy transfer rate per volume into the neutrinos of the flavour $\alpha$ by collisions. Unit: $\mathrm{GeV}^{5}$. Status: STANDARD.
+- $T_{\nu_\alpha},\ T_{\nu_e},\ T_{\nu_\mu}$: The temperature of the neutrinos of the flavour $\alpha$ (of $\nu_e$, of $\nu_\mu$ and $\nu_\tau$) during decoupling. Unit: GeV. Status: STANDARD.
+- $\rho_\nu,\ \rho_{\nu_\alpha}$: The energy density of one neutrino flavour (neutrinos and antineutrinos) at the common temperature $T_\nu$, $\frac78\frac{\pi^2}{15}T_\nu^4$ when massless; $\rho_{\nu_\alpha}$ that of the flavour $\alpha$ at its temperature $T_{\nu_\alpha}$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\rho_{\mathrm{tot}},\ p_{\mathrm{tot}}$: The total background energy density and pressure of four-dimensional cosmology (all species). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $M_{\mathrm{Pl}}$: The Planck mass, $M_{\mathrm{Pl}} = G_{\mathrm{N}}^{-1/2}$. Unit: GeV. Value: $1.22091\times10^{19}$ GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The momentum-averaged form of FE-110 for the temperatures of the photons and of the neutrino flavours: the photon
+temperature falls by the expansion (the dilution of the photons, of the electron-positron plasma and of the QED interaction pressure
+$p_{\mathrm{QED}}$) and rises by the energy that the collisions $C_{\nu_\alpha}$ take from the neutrinos; each neutrino temperature falls with the
+expansion and changes by its collisions. The Hubble rate follows from the total energy density. Status: STANDARD (integrated from 20 MeV
+to 5 keV with LSODA, relative tolerance $10^{-11}$; the method reproduces the published values of Escudero (2020) to $5\times10^{-4}$; $\nu_\tau$
+follows $\nu_\mu$). Residual $2.7\times10^{-12}$.
+
+$$
+\begin{aligned}
+&C_{\nu_e} = \frac{G_{\mathrm{F}}^2}{\pi^5}\Big[4\Big(\big(\tilde g^{\nu_e e}_L\big)^2 + \big(\tilde
+ g^{\nu_e e}_R\big)^2\Big)
+ \mathcal{F}_{\mathrm{tr}}(T_\gamma, T_{\nu_e}) + 2\mathcal{F}_{\mathrm{tr}}(T_{\nu_\mu}, T_{\nu_e})\Big],\\
+&C_{\nu_\mu} = \frac{G_{\mathrm{F}}^2}{\pi^5}\Big[4\Big(\big(\tilde g^{\nu_\mu e}_L\big)^2 + \big(\tilde
+ g^{\nu_\mu e}_R\big)^2\Big)
+ \mathcal{F}_{\mathrm{tr}}(T_\gamma, T_{\nu_\mu}) - \mathcal{F}_{\mathrm{tr}}(T_{\nu_\mu}, T_{\nu_e})\Big],\\
+&\mathcal{F}_{\mathrm{tr}}(T_{\mathrm{A}}, T_{\mathrm{B}}) = 32f_{\mathrm{a}}\big(T_{\mathrm{A}}^9 -
+ T_{\mathrm{B}}^9\big)
+ + 56f_{\mathrm{s}}T_{\mathrm{A}}^4T_{\mathrm{B}}^4\big(T_{\mathrm{A}} - T_{\mathrm{B}}\big),\\
+&\tilde g^{\nu_e e}_L = \frac12 + \sin^2\theta_{\mathrm{W}},\qquad \tilde g^{\nu_e e}_R = \tilde
+ g^{\nu_\mu e}_R = \sin^2\theta_{\mathrm{W}},
+ \qquad \tilde g^{\nu_\mu e}_L = -\frac12 + \sin^2\theta_{\mathrm{W}}
+\end{aligned} \tag{FE-112}
+$$
+
+<!-- symbols: Cnua, GF, pi, gnue, iL, iR, Ftr, Tgamma, Tnua, gnumu, TAB, fas, thetaW -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-112).**
+
+- $C_{\nu_\alpha},\ C_{\nu_e},\ C_{\nu_\mu}$: The energy transfer rate per volume into the neutrinos of the flavour $\alpha$ by collisions. Unit: $\mathrm{GeV}^{5}$. Status: STANDARD.
+- $G_{\mathrm{F}}$: The Fermi constant. Unit: $\mathrm{GeV}^{-2}$. Value: $1.1663788\times10^{-5}$ GeV$^{-2}$ (measured). Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\tilde g^{\nu_e e}_L,\ \tilde g^{\nu_e e}_R$: The effective left- and right-handed couplings of electron neutrinos to electrons (charged and neutral current), $\tilde g^{\nu_e e}_L = \frac12 + \sin^2\theta_{\mathrm{W}}$, $\tilde g^{\nu_e e}_R = \sin^2\theta_{\mathrm{W}}$. Unit: dimensionless. Value: 0.727 and 0.233 (radiatively corrected). Status: STANDARD.
+- $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
+- $R$: The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \Gamma_4)/2$. Status: STANDARD.
+- $\mathcal{F}_{\mathrm{tr}}$: The energy-transfer function of two species with the temperatures $T_{\mathrm{A}}$ and $T_{\mathrm{B}}$ (Maxwell-Boltzmann with the corrections $f_{\mathrm{a}}$, $f_{\mathrm{s}}$). Unit: $\mathrm{GeV}^{9}$. Status: STANDARD.
+- $T_\gamma$: The temperature of the photons (equal to the plasma temperature $T$; the subscript is written where the neutrinos have their own temperature). Unit: GeV. Value: 2.7255 K today. Status: STANDARD.
+- $T_{\nu_\alpha},\ T_{\nu_e},\ T_{\nu_\mu}$: The temperature of the neutrinos of the flavour $\alpha$ (of $\nu_e$, of $\nu_\mu$ and $\nu_\tau$) during decoupling. Unit: GeV. Status: STANDARD.
+- $\tilde g^{\nu_\mu e}_L,\ \tilde g^{\nu_\mu e}_R$: The effective couplings of muon (and tau) neutrinos to electrons (neutral current only), $\tilde g^{\nu_\mu e}_L = -\frac12 + \sin^2\theta_{\mathrm{W}}$, $\tilde g^{\nu_\mu e}_R = \sin^2\theta_{\mathrm{W}}$. Unit: dimensionless. Value: $-0.273$ and 0.233 (radiatively corrected). Status: STANDARD.
+- $T_{\mathrm{A}},\ T_{\mathrm{B}}$: The temperatures of the two species that exchange energy in $\mathcal{F}_{\mathrm{tr}}$. Unit: GeV. Status: STANDARD.
+- $f_{\mathrm{a}},\ f_{\mathrm{s}}$: The Fermi-Dirac corrections of the annihilation and scattering parts of the energy transfer. Unit: dimensionless. Value: 0.884 and 0.829. Status: STANDARD.
+- $\theta_{\mathrm{W}}$: The weak mixing angle of the couplings, $\cos\theta_{\mathrm{W}} = \hat g_2/\hat g_Z$, $\sin\theta_{\mathrm{W}} = \hat g_1/\hat g_Z$; fixed by the measured $W$ and $Z$ masses with $\rho_{\mathrm{EW},0}$. Unit: dimensionless. Value: $\cos^2\theta_{\mathrm{W}} = 0.776368$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The rates of energy transfer between the electron-positron plasma and the neutrinos (annihilation and scattering, with
+the couplings $\tilde g^{\nu_e e}$ and $\tilde g^{\nu_\mu e}$; the electron neutrinos also have the charged current) and between the neutrino
+flavours; $\mathcal{F}_{\mathrm{tr}}$ is the transfer function between two thermal baths of temperatures $T_{\mathrm{A}}$ and $T_{\mathrm{B}}$, with the
+factors $f_{\mathrm{a}} = 0.884$ and $f_{\mathrm{s}} = 0.829$ of the Fermi-Dirac statistics. Status: STANDARD (the radiatively corrected couplings
+0.727, 0.233, $-0.273$, 0.233 are used; the tree-level ones change $N_{\mathrm{eff}}$ by $4\times10^{-4}$).
+
+$$
+\begin{aligned}
+&p_{\mathrm{QED}} = p_{\mathrm{QED}}^{(2)} + p_{\mathrm{QED}}^{(3)},\qquad
+ p_{\mathrm{QED}}^{(2)} = -\frac{e^2T^2}{12\pi^2}\,\mathcal{Q}_1 - \frac{e^2}{8\pi^4}\,\mathcal{Q}_1^2
+ + \frac{e^2m_{\mathrm{e}}^2}{16\pi^4}\,\mathcal{Q}_2,\\
+&p_{\mathrm{QED}}^{(3)} = \frac{e^3T}{12\pi^4}\,\mathcal{Q}_3^{3/2},\qquad
+ \rho_{\mathrm{QED}} = -p_{\mathrm{QED}} + T\,\frac{\mathrm{d}p_{\mathrm{QED}}}{\mathrm{d}T}
+\end{aligned} \tag{FE-113}
+$$
+
+<!-- symbols: pQED, eel, Temp, pi, calQ, me, rhoQED, diff -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-113).**
+
+- $p_{\mathrm{QED}},\ p_{\mathrm{QED}}^{(2)},\ p_{\mathrm{QED}}^{(3)}$: The finite-temperature QED correction to the pressure of the electron-photon plasma, and its parts of order $e^2$ and $e^3$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $e$: The elementary charge (the charge of the positron), $e^2 = 4\pi\alpha_{\mathrm{em}}$; $W^+$ has the charge $+e$ and $W^-$ the charge $-e$. Unit: dimensionless. Value: $e^2 = 4\pi/137.036$ at low energy. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\mathcal{Q}_1,\ \mathcal{Q}_2,\ \mathcal{Q}_3$: The momentum integrals of the QED pressure. Unit: $\mathrm{GeV}^{2}$. Status: STANDARD.
+- $m_{\mathrm{e}}$: The electron mass. Unit: GeV. Value: 0.51099895 MeV. Status: STANDARD.
+- $\rho_{\mathrm{QED}}$: The QED correction to the energy density of the plasma. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The finite-temperature QED correction to the pressure of the electron-photon plasma at order $e^2$ and $e^3$, from the
+integrals of FE-114; $\rho_{\mathrm{QED}}$ follows by the thermodynamic relation. It raises $N_{\mathrm{eff}}$ by 0.009 (the decoupling computed
+with and without it). Status: STANDARD (the massless limits $-5e^2T^4/288$ and $e^3T^4/(36\sqrt3\,\pi)$ reproduced to $10^{-16}$).
+
+$$
+\begin{aligned}
+&\mathcal{Q}_1 = \int_0^\infty\mathrm{d}k\,\frac{k^2}{E}\,n_{\mathrm{D}}(k),\qquad
+ \mathcal{Q}_2 = \int_0^\infty\!\!\int_0^\infty\mathrm{d}k\,\mathrm{d}k_2\,\frac{kk_2}{E(k)E(k_2)}
+ \ln\Big\lvert\frac{k + k_2}{k - k_2}\Big\rvert\,n_{\mathrm{D}}(k)\,n_{\mathrm{D}}(k_2),\\
+&\mathcal{Q}_3 = \int_0^\infty\mathrm{d}k\,\frac{k^2 + E^2}{E}\,n_{\mathrm{D}}(k),\qquad
+ n_{\mathrm{D}}(k) = \frac{2}{\mathrm{e}^{E/T} + 1},\qquad E = \sqrt{k^2 + m_{\mathrm{e}}^2}
+\end{aligned} \tag{FE-114}
+$$
+
+<!-- symbols: calQ, infty, diff, kwave, Eenergy, nD, k2, euler, Temp, me -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-114).**
+
+- $\mathcal{Q}_1,\ \mathcal{Q}_2,\ \mathcal{Q}_3$: The momentum integrals of the QED pressure. Unit: $\mathrm{GeV}^{2}$. Status: STANDARD.
+- $\infty$: Infinity: as a limit of an integral or a sum it means that the range has no upper bound. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
+- $n_{\mathrm{D}}(k)$: The Fermi-Dirac occupation of the electrons and positrons summed over the two spin states. Unit: dimensionless. Status: STANDARD.
+- $k_2,\ \vec k_2$: A second momentum (variable of integration). Unit: GeV. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $m_{\mathrm{e}}$: The electron mass. Unit: GeV. Value: 0.51099895 MeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The momentum integrals over the electron and positron distribution $n_{\mathrm{D}}$ (two spin states, energy $E$ with the electron
+mass $m_{\mathrm{e}}$). Status: STANDARD (Gauss-Legendre panels; the logarithmic singularity at $k_2 = k$ removed by a substitution).
+
+For instantaneous decoupling the entropy of the electron-positron plasma goes to the photons alone, and
+
+$$
+T_{\nu_e} = T_{\nu_\mu} = \Big(\frac{4}{11}\Big)^{1/3}T_\gamma\quad\Rightarrow\quad
+N_{\mathrm{eff}} = \Big(\frac{11}{4}\Big)^{4/3}\cdot3\Big(\frac{4}{11}\Big)^{4/3} = 3.
+$$
+
+<!-- symbols: Tnua, Tgamma, Neff -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $T_{\nu_\alpha},\ T_{\nu_e},\ T_{\nu_\mu}$: The temperature of the neutrinos of the flavour $\alpha$ (of $\nu_e$, of $\nu_\mu$ and $\nu_\tau$) during decoupling. Unit: GeV. Status: STANDARD.
+- $T_\gamma$: The temperature of the photons (equal to the plasma temperature $T$; the subscript is written where the neutrinos have their own temperature). Unit: GeV. Value: 2.7255 K today. Status: STANDARD.
+- $N_{\mathrm{eff}}$: The effective number of neutrino species (the radiation beyond the photons in units of one neutrino species with $T_\nu/T_\gamma = (4/11)^{1/3}$); $\Delta N_{\mathrm{eff}}$ an addition to it. Unit: dimensionless. Value: 3.0432 (neutrinos) + 0.0010 (fold bands). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+$$
+N_{\mathrm{eff}} = \Big(\frac{11}{4}\Big)^{4/3}\Big[\Big(\frac{T_{\nu_e}}{T_\gamma}\Big)^4 +
+ 2\Big(\frac{T_{\nu_\mu}}{T_\gamma}\Big)^4\Big],
+\qquad \frac{\mathrm{d}T_\nu}{\mathrm{d}x_4} = -\mathcal{H}T_\nu + \frac{C_{\nu_e} +
+ 2C_{\nu_\mu}}{3\,\mathrm{d}\rho_\nu/\mathrm{d}T_\nu} \tag{FE-115}
+$$
+
+<!-- symbols: Neff, Tnua, Tgamma, diff, Tnu, x4, Hubble, Cnua, rhonu -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-115).**
+
+- $N_{\mathrm{eff}}$: The effective number of neutrino species (the radiation beyond the photons in units of one neutrino species with $T_\nu/T_\gamma = (4/11)^{1/3}$); $\Delta N_{\mathrm{eff}}$ an addition to it. Unit: dimensionless. Value: 3.0432 (neutrinos) + 0.0010 (fold bands). Status: STANDARD.
+- $T_{\nu_\alpha},\ T_{\nu_e},\ T_{\nu_\mu}$: The temperature of the neutrinos of the flavour $\alpha$ (of $\nu_e$, of $\nu_\mu$ and $\nu_\tau$) during decoupling. Unit: GeV. Status: STANDARD.
+- $T_\gamma$: The temperature of the photons (equal to the plasma temperature $T$; the subscript is written where the neutrinos have their own temperature). Unit: GeV. Value: 2.7255 K today. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $T_\nu$: The temperature of the relic neutrinos (one common temperature). Unit: GeV. Value: 1.9454 K today. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $C_{\nu_\alpha},\ C_{\nu_e},\ C_{\nu_\mu}$: The energy transfer rate per volume into the neutrinos of the flavour $\alpha$ by collisions. Unit: $\mathrm{GeV}^{5}$. Status: STANDARD.
+- $\rho_\nu,\ \rho_{\nu_\alpha}$: The energy density of one neutrino flavour (neutrinos and antineutrinos) at the common temperature $T_\nu$, $\frac78\frac{\pi^2}{15}T_\nu^4$ when massless; $\rho_{\nu_\alpha}$ that of the flavour $\alpha$ at its temperature $T_{\nu_\alpha}$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The effective number of neutrino species measures the energy density of the neutrinos relative to that of three
+species decoupled instantaneously; the second relation is the common-temperature form (efficient oscillations). Status: STANDARD.
+UM-2 computes 3.0476 (separate temperatures) and 3.0485 (common temperature) and adopts the precision value 3.0432 (Cielo et al. 2023);
+the difference, $4\times10^{-3}$, is the electron-mass and momentum dependence that the temperature method omits. The fold bands add 0.0010
+(FE-129, FE-130); the sum agrees with the value in the CMB computation to $5\times10^{-16}$.
+
+## Dense neutrino gases
+
+$$
+G_{\mathrm{ELN}}(u) = \sqrt2\,G_{\mathrm{F}}\big[n_{\nu_e}\,g_{\nu_e}(u) -
+ n_{\bar\nu_e}\,g_{\bar\nu_e}(u)\big],\qquad
+\int_{-1}^{1}g_{\nu_e}\,\frac{\mathrm{d}u}{2} = \int_{-1}^{1}g_{\bar\nu_e}\,\frac{\mathrm{d}u}{2} = 1,\qquad
+\mathcal{I}_l = \int_{-1}^{1}\frac{\mathrm{d}u}{2}\,G_{\mathrm{ELN}}(u)\,u^l \tag{FE-116}
+$$
+
+<!-- symbols: GELN, ucos, GF, nnue, gnu_ang, diff, calI, il -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-116).**
+
+- $G_{\mathrm{ELN}}(u)$: The angular distribution of the electron lepton number of a dense neutrino gas (in units of a potential). Unit: GeV. Status: STANDARD.
+- $u$: The cosine of the angle between a momentum and the symmetry axis $x_3$ of the neutrino gas. Unit: dimensionless. Status: STANDARD.
+- $G_{\mathrm{F}}$: The Fermi constant. Unit: $\mathrm{GeV}^{-2}$. Value: $1.1663788\times10^{-5}$ GeV$^{-2}$ (measured). Status: STANDARD.
+- $n_{\nu_e},\ n_{\bar\nu_e}$: The number densities of electron neutrinos and electron antineutrinos. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $g_{\nu_e}(u),\ g_{\bar\nu_e}(u)$: The normalised angular distributions of electron neutrinos and antineutrinos. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\mathcal{I}_l$: The $l$-th angular moment of the electron-lepton-number distribution. Unit: GeV. Status: STANDARD.
+- $l$: The multipole (angular moment) number $l = 0, 1, 2, \dots$ of a Boltzmann hierarchy or of an angular moment $\int u^l\cdots$; as a coefficient it is the same number. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** In a dense, homogeneous and axially symmetric gas of electron neutrinos and antineutrinos (near the neutrinosphere of
+a supernova), $G_{\mathrm{ELN}}$ is the electron-lepton-number distribution over the cosine $u$ of the angle to the symmetry axis $x_3$, with
+the normalised angular distributions $g_{\nu_e}$, $g_{\bar\nu_e}$ and the densities $n_{\nu_e}$, $n_{\bar\nu_e}$; $\mathcal{I}_l$ are its moments.
+Status: STANDARD.
+
+$$
+\begin{aligned}
+&\mathcal{C}(u) \propto \mathrm{e}^{-\mathrm{i}(\omega_{\mathrm{f}}x_4 - k_{\mathrm{f}}x_3)},\qquad
+ \bar\omega = \omega_{\mathrm{f}} - \mathcal{I}_0,
+ \qquad \bar k = k_{\mathrm{f}} - \mathcal{I}_1:\qquad \det\Pi(\bar\omega, \bar k) = 0,\\
+&\Pi = \mathrm{diag}(1,\ -1) + \int_{-1}^{1}\frac{\mathrm{d}u}{2}\,\frac{G_{\mathrm{ELN}}(u)}{\bar\omega
+ - \bar ku}
+ \begin{pmatrix}1 & u\\ u & u^2\end{pmatrix}
+\end{aligned} \tag{FE-117}
+$$
+
+<!-- symbols: calC, ucos, euler, imag, omegaf, x4, x3, omegabar, calI, Pidisp, diag, diff, GELN -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-117).**
+
+- $\mathcal{C}(u)$: The flavour coherence (off-diagonal element of the density matrix) of the neutrinos moving in the direction $u$. Unit: dimensionless. Status: STANDARD.
+- $u$: The cosine of the angle between a momentum and the symmetry axis $x_3$ of the neutrino gas. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\omega_{\mathrm{f}},\ k_{\mathrm{f}}$: The frequency and the wavenumber (along $x_3$) of a flavour wave. Unit: GeV. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $x_3$: The third coordinate of ordinary 3-space (also the symmetry axis of the fast-flavour analysis). Unit: length. Status: AUTHOR.
+- $\bar\omega,\ \bar k$: The frequency and wavenumber of a flavour wave shifted by the moments, $\bar\omega = \omega_{\mathrm{f}} - \mathcal{I}_0$, $\bar k = k_{\mathrm{f}} - \mathcal{I}_1$; a mode with $\mathrm{Im}\,\bar\omega > 0$ grows. Unit: GeV. Status: STANDARD.
+- $\mathcal{I}_l$: The $l$-th angular moment of the electron-lepton-number distribution. Unit: GeV. Status: STANDARD.
+- $\Pi$: The $2 \times 2$ dispersion matrix of the fast flavour instability. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{diag}$: A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \dots, x_7$ when it is a tensor in eight dimensions). Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $G_{\mathrm{ELN}}(u)$: The angular distribution of the electron lepton number of a dense neutrino gas (in units of a potential). Unit: GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The linearised FE-110 for a small flavour coherence $\mathcal{C}(u)$ with the frequency $\omega_{\mathrm{f}}$ and the wave number
+$k_{\mathrm{f}}$ along the axis (shifted by the moments, $\bar\omega$, $\bar k$): non-trivial solutions need $\det\Pi = 0$, the dispersion relation
+of fast flavour waves. Status: STANDARD (roots for real $k_{\mathrm{f}}$ by vectorised Newton iterations; three independent evaluations agree
+to $1.2\times10^{-14}$).
+
+$$
+\big(1 + \mathcal{J}_0\big)\big(-1 + \mathcal{J}_2\big) - \mathcal{J}_1^2 = 0,\qquad
+\mathcal{J}_l = \int_{-1}^{1}\frac{\mathrm{d}u}{2}\,\frac{G_{\mathrm{ELN}}(u)\,u^l}{\bar\omega - \bar
+ ku};\qquad
+-1 + \int_{-1}^{1}\frac{\mathrm{d}u}{2}\,\frac{G_{\mathrm{ELN}}(u)\,(1 - u^2)}{2(\bar\omega - \bar ku)}
+ = 0 \tag{FE-118}
+$$
+
+<!-- symbols: calJ, il, diff, ucos, GELN, omegabar -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-118).**
+
+- $\mathcal{J}_l$: The $l$-th moment of the dispersion integral of the fast flavour instability. Unit: dimensionless. Status: STANDARD.
+- $l$: The multipole (angular moment) number $l = 0, 1, 2, \dots$ of a Boltzmann hierarchy or of an angular moment $\int u^l\cdots$; as a coefficient it is the same number. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $u$: The cosine of the angle between a momentum and the symmetry axis $x_3$ of the neutrino gas. Unit: dimensionless. Status: STANDARD.
+- $G_{\mathrm{ELN}}(u)$: The angular distribution of the electron lepton number of a dense neutrino gas (in units of a potential). Unit: GeV. Status: STANDARD.
+- $\bar\omega,\ \bar k$: The frequency and wavenumber of a flavour wave shifted by the moments, $\bar\omega = \omega_{\mathrm{f}} - \mathcal{I}_0$, $\bar k = k_{\mathrm{f}} - \mathcal{I}_1$; a mode with $\mathrm{Im}\,\bar\omega > 0$ grows. Unit: GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The dispersion relation splits into the axisymmetric branch (the first equation, with the moments $\mathcal{J}_l$) and the
+azimuthal branch (the second). A root with $\mathrm{Im}\,\bar\omega > 0$ for real $\bar k$ grows exponentially: the fast flavour instability.
+Status: STANDARD (with a crossing of the electron-lepton-number distribution the largest growth rate is $0.088\sqrt2\,G_{\mathrm{F}}n_{\nu_e}$; without
+one no mode grows).
+
+$$
+\begin{aligned}
+&\mathrm{i}\,\frac{\mathrm{d}\mathcal{C}(u)}{\mathrm{d}x_4} = \big(\mathcal{I}_0 -
+ u\,\mathcal{I}_1\big)\mathcal{C}(u)
+ - \int_{-1}^{1}\frac{\mathrm{d}\tilde u}{2}\,G_{\mathrm{ELN}}(\tilde u)\,(1 - u\tilde
+ u)\,\mathcal{C}(\tilde u);\\
+&\bar\omega^2 - \big(\mathcal{I}_2 - \mathcal{I}_0\big)\bar\omega - \big(\mathcal{I}_0\mathcal{I}_2 -
+ \mathcal{I}_1^2\big) = 0,\qquad
+ \mathrm{Im}\,\bar\omega = \frac12\sqrt{4\mathcal{I}_1^2 - \big(\mathcal{I}_0 + \mathcal{I}_2\big)^2}
+\end{aligned} \tag{FE-119}
+$$
+
+<!-- symbols: imag, diff, calC, ucos, x4, calI, utilde, GELN, omegabar, imagpart -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-119).**
+
+- $\mathrm{i}$: The imaginary unit, $\mathrm{i}^2 = -1$. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\mathcal{C}(u)$: The flavour coherence (off-diagonal element of the density matrix) of the neutrinos moving in the direction $u$. Unit: dimensionless. Status: STANDARD.
+- $u$: The cosine of the angle between a momentum and the symmetry axis $x_3$ of the neutrino gas. Unit: dimensionless. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{I}_l$: The $l$-th angular moment of the electron-lepton-number distribution. Unit: GeV. Status: STANDARD.
+- $\tilde u$: A second direction cosine (variable of integration). Unit: dimensionless. Status: STANDARD.
+- $G_{\mathrm{ELN}}(u)$: The angular distribution of the electron lepton number of a dense neutrino gas (in units of a potential). Unit: GeV. Status: STANDARD.
+- $\bar\omega,\ \bar k$: The frequency and wavenumber of a flavour wave shifted by the moments, $\bar\omega = \omega_{\mathrm{f}} - \mathcal{I}_0$, $\bar k = k_{\mathrm{f}} - \mathcal{I}_1$; a mode with $\mathrm{Im}\,\bar\omega > 0$ grows. Unit: GeV. Status: STANDARD.
+- $\mathrm{Im}$: The imaginary part of a complex number. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The homogeneous equation for $\mathcal{C}(u)$ and the quadratic equation of the mode $k_{\mathrm{f}} = \mathcal{I}_1$, whose imaginary
+part gives the growth rate in closed form. Status: STANDARD (the eigenvalues of the discretised equation, 300 nodes, agree with the
+dispersion relation; near the neutrinosphere the coherence grows by a factor $\mathrm{e}$ in $6\times10^{-10}$ to $6\times10^{-11}$ s). Residual
+of the stored moments, growth rates and eigenvalues $3.3\times10^{-13}$.
 
 ## The cosmic neutrino background
 
-After decoupling the neutrinos keep the Fermi-Dirac distribution $f(p) = 1/(e^{p/T_\nu} + 1)$ of their momentum, redshifted
-with $T_\nu \propto 1/a$, and lose their flavour coherence: the background is an incoherent mixture of the mass states, each
-with the number density and the energy density
-$$ n_i = 2\int\frac{d^3p}{(2\pi)^3}f(p) = \frac{3\zeta(3)}{2\pi^2}T_\nu^3,\qquad \rho_i = 2\int\frac{d^3p}{(2\pi)^3}\sqrt{p^2 + m_i^2}\,f(p) $$
-(the factor 2 counts $\nu_i$ and $\bar\nu_i$, one helicity each), and the mean velocity $\langle v\rangle_i = \int p^2\,(p/\sqrt{p^2 + m_i^2})f\,dp/\int p^2f\,dp$.
-The flavour content of the mass state $\nu_i$ is $\lvert U_{\alpha i}\rvert^2$.
+$$
+\begin{aligned}
+&f_{\mathrm{FD}}(k) = \frac{1}{\mathrm{e}^{k/T_\nu} + 1},\qquad
+ n_i = 2\int\frac{\mathrm{d}^3\vec k}{(2\pi)^3}\,f_{\mathrm{FD}} = \frac{3\zeta(3)}{2\pi^2}\,T_\nu^3,\qquad
+ \rho_i = 2\int\frac{\mathrm{d}^3\vec k}{(2\pi)^3}\,\sqrt{k^2 + m_i^2}\,f_{\mathrm{FD}},\\
+&\bar v_i = \frac{\int_0^\infty k^2\,\frac{k}{\sqrt{k^2 +
+ m_i^2}}\,f_{\mathrm{FD}}\,\mathrm{d}k}{\int_0^\infty k^2\,f_{\mathrm{FD}}\,\mathrm{d}k},
+ \qquad \text{flavour content of }\nu_i:\ \lvert U_{\alpha i}\rvert^2
+\end{aligned} \tag{FE-120}
+$$
 
-# The thermal history and the Boltzmann equations (version 3)
+<!-- symbols: fFD, kwave, euler, Tnu, ndens, ii, diff, kvec, pi, zeta3, rho, mmass, vbar, infty, nuflav, Upmns, ialpha -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-120).**
 
-**Degrees of freedom.** In the hot Universe every species $i$ of UM-2 in equilibrium (photon, gluons, $W^+$, $W^-$, $Z$, the six quarks,
-three charged leptons, three neutrinos, with $g_i = 2$, $16$, $6$ for $W^+$ and $W^-$ together, $3$, $12$ per quark, $4$ per charged lepton and $2$ per
-neutrino; masses from the $x_0$ eigenvalues, the neutrinos massless; no Higgs particle; the right-handed neutrinos and the fold bands are
-not thermalised, and the dark matter is not counted, since it would add less than 0.1 to $g_\rho$ at 5 TeV and nothing at its freeze-out)
-contributes the ideal-gas densities ($g_i$ internal states, upper sign for fermions)
-$$ \rho_i = \frac{g_i}{2\pi^2}\int_0^\infty\frac{p^2E\,dp}{e^{E/T}\pm1},\qquad p_i = \frac{g_i}{6\pi^2}\int_0^\infty\frac{p^4\,dp}{E\,(e^{E/T}\pm1)},\qquad s_i = \frac{\rho_i + p_i}{T},$$
-$$ g_\rho(T) = \frac{30}{\pi^2T^4}\sum_i\rho_i,\qquad g_s(T) = \frac{45}{2\pi^2T^3}\sum_is_i,\qquad H = \Big(\frac{8\pi^3g_\rho}{90}\Big)^{1/2}\frac{T^2}{M_{Pl}}, $$
-with the quark-gluon plasma weighted by $w(T) = \frac12[1 + \tanh((T - T_c)/\Delta T)]$ and a gas of the lightest hadrons by $1 - w(T)$ ($T_c = 155$ MeV,
-$\Delta T = 15$ MeV; ASSUMED model of the crossover; masses in GeV and internal states: $\pi$ 0.1380, 3; $K$ 0.4956, 4; $\eta$ 0.5479, 1; $\rho$ 0.7753, 9;
-$\omega$ 0.7827, 3; $K^*$ 0.8917, 12; $N$ 0.9389, 8; $\eta'$ 0.9578, 1; $\phi$ 1.0195, 3; $\Lambda$ 1.1157, 4; $\Sigma$ 1.1932, 12; $\Delta$ 1.232, 32; from memory),
-and the neutrinos decoupled instantaneously at 2 MeV, after which their temperature follows from the
-separately conserved photon-electron entropy, $T_\nu/T = (g_{s,e\gamma}(T)/(11/2))^{1/3}$. The temperature falls as
-$d\ln T/dx_4 = -H/(1 + \delta)$, $\delta = \frac13\,d\ln g_s/d\ln T$.
+- $f_{\mathrm{FD}}$: The Fermi-Dirac distribution of the relic neutrinos, $f_{\mathrm{FD}} = 1/(\mathrm{e}^{k/T_\nu} + 1)$. Unit: dimensionless. Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $T_\nu$: The temperature of the relic neutrinos (one common temperature). Unit: GeV. Value: 1.9454 K today. Status: STANDARD.
+- $n,\ n_o,\ n_{\psi i},\ n_f,\ n_i$: A number density: $n(y)$ the particle density of dirac16complex in the Kohn-Sham equations and $n_o$ the contribution of the orbital $o$, $n_{\psi i}(y)$ the density of the Standard-Model fermion $\psi_i$ (per proper 7-volume of eight dimensions); $n_f$ the density of the fermion component $f$ and $n_i$ that of the neutrino mass state $i$ (per 3-volume of four dimensions). Unit: $\mathrm{GeV}^{7}$ (eight dimensions), $\mathrm{GeV}^{3}$ (four dimensions). Status: STANDARD.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\vec k,\ \vec k_o$: The wave vector (momentum) in ordinary 3-space; $\vec k_o$ that of the orbital $o$, a point of the lattice $k_{\mathrm{lat}}\vec n_o$. Unit: GeV. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\zeta$: The Riemann zeta function; only its value $\zeta(3)$ occurs, the sum of $1/n^3$ over the positive integers $n$. Unit: dimensionless. Value: $\zeta(3) = 1.2020569$. Status: STANDARD.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
+- $\bar v_i$: The mean velocity of the relic neutrinos of the mass state $i$. Unit: dimensionless (c = 1). Value: 0.435, 0.0604, 0.0105 today. Status: STANDARD.
+- $\infty$: Infinity: as a limit of an integral or a sum it means that the range has no upper bound. Status: STANDARD.
+- $\nu_\alpha,\ \nu_i$: A left-handed neutrino: $\nu_\alpha$ of the flavour $\alpha = e, \mu, \tau$ ($\nu_e$, $\nu_\mu$, $\nu_\tau$), $\nu_i$ of the mass state $i$ (mass $m_i$). Unit: $\mathrm{GeV}^{3/2}$. Status: STANDARD.
+- $U$: The PMNS matrix, the unitary $3 \times 3$ mixing matrix of the leptons, $\nu_\alpha = \sum_iU_{\alpha i}\nu_i$ (rows $\alpha = e, \mu, \tau$, columns the mass states $i$); in UM-2 $U = \mathcal{K}_e^\dagger\mathcal{K}_\nu$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$, $\delta_{\mathrm{CP}} = 212^\circ$ (NuFIT 6.0). Status: STANDARD.
+- $\alpha$: A flavour index running over $e, \mu, \tau$ (the flavour states of the leptons and neutrinos). Status: STANDARD.
 
-**The dark matter.** For one Dirac species of mass $M$ ($Y = (n_\chi + n_{\bar\chi})/s$, $x = M/T$, $s = \frac{2\pi^2}{45}g_sT^3$)
-$$ \frac{dn_\chi}{dx_4} + 3Hn_\chi = -\langle\sigma v\rangle\big(n_\chi n_{\bar\chi} - n_{\chi,eq}^2\big)\quad\Longrightarrow\quad
-   \frac{dY}{dx} = -\frac{(1 + \delta)\,s\,\langle\sigma v\rangle}{2xH}\big(Y^2 - Y_{eq}^2\big),\qquad Y_{eq} = \frac{4M^2TK_2(x)}{2\pi^2s}, $$
-with the relativistic thermal average of the total annihilation cross-section (Gondolo and Gelmini)
-$$ \langle\sigma v\rangle = \frac{1}{8M^4TK_2(x)^2}\int_{4M^2}^{\infty}\sigma(s)\,(s - 4M^2)\,\sqrt s\,K_1(\sqrt s/T)\,ds , $$
-and the relic $\Omega h^2 = MY_\infty s_0/(\rho_c/h^2)$, $\rho_c/h^2 = 1.05368\times10^{-5}$ GeV/cm$^3$, $s_0$ today. The cross-sections are (spin averaged;
-$\beta = \sqrt{1 - 4M^2/s}$, $p = \sqrt{s/4 - M^2}$ the centre-of-mass momentum)
-$$ \sigma_{I12} = \frac{G^2s^{3/2}(s - 4M^2)^{1/2}}{8\pi},\quad G^2 = 8G_g^2 + 3G_W^2 + G_B^2;\qquad
-   \sigma_{I13} = \sum_f\frac{N_cG_f^2\,s\,(1 + 2M^2/s)}{24\pi\beta},\quad G_f = G_A\,\tfrac13\,\tilde I^{(b)}_f , $$
-the first from $\sigma v_{rel} = G^2s(s - 4M^2)/(4\pi)$ per abelian channel with the relative velocity $v_{rel} = 2\beta$ in the centre-of-mass frame
-(p-wave, from $^3P_0$ only), the second summed over the
-quark Weyl components (s-wave, from $^3S_1$), and partial-wave unitarity bounds them by
-$$ \sigma_{I12} \le \frac{\pi}{4p^2}\quad (J = 0),\qquad \sigma_{I13} \le \frac{3\pi}{4p^2}\quad (J = 1) ; $$
-where the effective cross-section exceeds its bound it is replaced by the bound (a unitarity-respecting completion that saturates it).
+<!-- end generated symbol list -->
 
-**The fold bands (freeze-in through I11).** With $G_f = G_Vq_f\tilde I_f$ and the fold-band overlaps $\tilde I_f$ (the sum below runs over the fifteen
-Standard-Model multiplets of three generations in the plasma, each with its $N_c$ Weyl components; the $\nu_R$ are not in the plasma), the pair-production rate density and
-the energy density of the fold bands obey (Maxwell-Boltzmann, massless)
-$$ \gamma = \frac{T}{32\pi^4}\int_0^\infty ds\,\Big(\sum_{\text{spins}}\sigma\Big)\,s^{3/2}K_1(\sqrt s/T) = \frac{4}{\pi^5}N_\chi G_V^2T^8\sum_fN_c(q_f\tilde I_f)^2,\qquad
-   \frac{d(\rho_{fold}a^4)}{dx_4} = 8T\,\gamma\,a^4 ,$$
-($\int_0^\infty x^6K_1(x)dx = 384$, $\int_0^\infty x^7K_2(x)dx = 3072$; $a \propto g_s^{-1/3}/T$), integrated from the highest temperature $T_{max}$ of the hot Universe;
-today $\Delta N_{eff} = \rho_{fold}/\rho_\nu$ with $\rho_\nu = \frac78\frac{\pi^2}{15}T_\nu^4$ per flavour. They stay out of equilibrium if
-$2\gamma/(n_{fold,eq}H) \ll 1$, $n_{fold,eq} = N_\chi\cdot4\cdot\frac34\frac{\zeta(3)}{\pi^2}T^3$.
+**The terms.** Today the relic neutrinos are three mass states (decoherent), each with the Fermi-Dirac distribution of the
+temperature $T_\nu$ (the momenta redshift, so the massless form is kept), the number density $n_i$, the energy density $\rho_i$ with the
+mass $m_i$, and the mean velocity $\bar v_i$; the flavour content of $\nu_i$ is $\lvert U_{\alpha i}\rvert^2$. Status: STANDARD (exact integrals):
+$T_\nu = 1.9454$ K, 112.0 per cm$^3$ per mass state, mean velocities 0.435, 0.0604 and 0.0105 (in units of the speed of light), and
+$\Omega_\nu h_{100}^2 = 6.382\times10^{-4}$ (the value in the CMB computation agrees to $1.9\times10^{-5}$). Residual $2.9\times10^{-12}$.
 
-**The right-handed neutrinos.** If I13 coupled to the $B - L$ current instead of $J^B$ (charge $-1$ for the leptons and the $\nu_R$), the relic would
-need the strength $G_A^{B-L} = G_A\,[S_B/S_{B-L}]^{1/2}$, since the effective cross-section scales with $S = \sum_fN_c(q_f\tilde I^{(b)}_f)^2$ ($S_B$ over the quarks,
-$S_{B-L}$ over the quarks, the leptons and the $\nu_R$; $G_A$ here the value without the unitarity cap), and one flavour $\nu_R$ would couple to the dark
-matter with $G = G_A^{B-L}\tilde I^{(b)}_{\nu_R}$. The number density of $\nu_R$ particles would then obey
-$$ \frac{dn_{\nu_R}}{dx_4} + 3Hn_{\nu_R} = \gamma_\nu\Big(1 - \frac{n_{\nu_R}^2}{n_{\nu_R,eq}^2}\Big),\qquad \gamma_\nu = \sum_{A,B}n_{\chi,eq}n_{\bar\chi,eq}\frac{G^2M^2}{2\pi},\qquad
-   n_{\nu_R,eq} = \frac34\frac{\zeta(3)}{\pi^2}T^3 , $$
-($n_{\chi,eq} = n_{\bar\chi,eq} = 2(MT/2\pi)^{3/2}e^{-x}$ per Dirac species; $G^2M^2/(2\pi)$ is the s-wave $\sigma v$ into one Weyl $\nu_R$ pair), while elastic scattering on the
-dark matter keeps the $\nu_R$ at the plasma temperature as long as
-$$ \Gamma_{el} = \sum_{A,B}(n_\chi + n_{\bar\chi})\,\sigma_{el} > H,\qquad \sigma_{el} = \frac{G^2E^2}{2\pi} $$
-for a Weyl $\nu_R$ of energy $E \simeq 3T$ on a heavy Dirac fermion (ESTIMATE); a species of $n_W$ Weyl fermions in equilibrium until the plasma has
-$g_s$ entropy degrees of freedom adds $\Delta N_{eff} = n_W(10.75/g_s)^{4/3}F_h$. With $J^B$ the $\nu_R$ are produced only through I11, with $G = G_V\tilde I_{\nu_R}$
-(the overlap of the dark-matter orbital with the $\nu_R$ profile), at the fraction $G_V^2\sum_i\tilde I_{\nu_{Ri}}^2\big/\big(G_A^2\sum_fN_c(q_f\tilde I^{(b)}_f)^2\big)$ of the
-I13 annihilation rate into quarks.
 
-**The self-interaction channel.** The contact term $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ contains, for the dark-matter orbital $(a_D, b_D)$ and the fold zero
-mode $(a_F, 0)$ ($b_F = 0$), the four-dimensional term $-\lambda(\bar\chi_D\chi_F)(\bar\chi_F\chi_D)\,s_{DF}(y)^2$ with the transition scalar density
-$s_{DF} = a_Db_F + b_Da_F$, which is odd under the fold reflection while its square is even; so the dark matter annihilates into fold pairs with
-$$ G_\lambda = \frac{\lambda H\tilde I_\lambda}{2f^4v_t},\qquad \tilde I_\lambda = \int_{-L}^{0}s_{DF}^2\,e^{-3Hy}\,dy\ \ (\text{units of }H),\qquad
-   \sigma v = \frac{G_\lambda^2M^2}{2\pi}\ \text{per final fold species (ESTIMATE)}, $$
-and while the dark matter is in equilibrium each annihilation puts $2M$ into the fold bands:
-$$ \frac{d(\rho_{fold}a^4)}{dx_4} = 2M\,\gamma_\lambda\,a^4,\qquad \gamma_\lambda = \sum_{A,B}n_{\chi,eq}n_{\bar\chi,eq}\,\sigma v\,N_F , $$
-integrated from $T_{max}$ to the freeze-out. The fold bands stay out of equilibrium if $2\gamma_\lambda/(n_{fold,eq}H) \ll 1$; otherwise they decouple as
-four Weyl species, $\Delta N_{eff} = 4(10.75/g_s)^{4/3}F_h$, at the lowest temperature at which $2\gamma_\lambda/(n_{fold,eq}H) \ge 1$.
+# The thermal history
 
-# The coupled system and how it is solved
+The hot Universe of UM-2 is the plasma of the Standard-Model zero modes with their $x_0$ masses (no Higgs particle), in which the dark
+matter freezes out through the portals I12 and I13, the fold bands of dirac16complex are produced out of equilibrium through I11,
+and the right-handed neutrinos are never produced. The Hubble rate is that of four-dimensional gravity on the stabilised block
+(FE-47, FE-49).
 
-The fields couple as follows: gravity to everything (the canonical spin connection for $\Psi$ and the fermions, the
-metric in every kinetic term, the stabiliser); $\Psi$ to gravity, to itself ($\lambda$), to the fermion currents (I11), to
-the gauge-field invariants (I12) and, with its $x_0$-chiral current, to the baryon-number current (I13); the fermions of the three
-generations to the gauge fields, to $\Sigma$ at the tip (through the tip matrices, which carry the flavour mixing) and to $\Psi$ (I11,
-and I13 for the quarks); the gauge fields to the fermions, to $\Sigma$ at the tip and to $\Psi$ through I12 (a field-dependent
-coupling). UM-2 solves the coupled system in the following hierarchy, each step feeding the next:
+## The degrees of freedom
 
-1. the background: the static block $(A, h, k) = (0, 0, k_*)$ with the stabiliser, its stability and its first-order
-   response to every block-averaged source; the primordial approach to it from the full nonlinear equations;
-2. the $x_0$ eigenvalue problems on the static block: all masses and the mixing matrices (gauge bosons, graviton, the
-   twelve fermions with their tip matrices, $\Psi$);
-3. the Kohn-Sham equations of $\Psi$ with the portal mean fields of the other fields and the self-interaction; the
-   Kohn-Sham energy-momentum tensor returned to step 1 (the adiabatic block response);
-4. the flavour evolution of the neutrinos (section 9) in vacuum, in matter, in the early Universe (decoupling and
-   $N_{eff}$, which feed step 5) and in dense neutrino gases;
-5. the four-dimensional effective theory and its linear perturbations (CMB, CNB, BAO);
-6. (version 3) the coupled iteration in environments: the Kohn-Sham levels with the mean fields of section 7.1 from the densities
-   and condensates of the environment, the field-dependent couplings and the $W$, $Z$ eigenvalues with the dark-matter density,
-   and the full adiabatic block response to the trace $\rho - 3p_3$ and the hidden pressure $\bar p$ of all species (the plasma included), repeated
-   until the masses are self-consistent;
-7. (version 3) the thermal history: the degrees of freedom from the $x_0$ masses, the Boltzmann equations of section 10 for the
-   dark matter (relic), the fold bands (freeze-in and the self-interaction channel) and the right-handed neutrinos, and the terms of
-   the metric series beyond $n = 0$ (section 8.1).
+$$
+\rho_s = \frac{d_s}{2\pi^2}\int_0^\infty\frac{k^2E\,\mathrm{d}k}{\mathrm{e}^{E/T} \pm 1},\qquad
+p_s = \frac{d_s}{6\pi^2}\int_0^\infty\frac{k^4\,\mathrm{d}k}{E\,(\mathrm{e}^{E/T} \pm 1)},\qquad
+s_s = \frac{\rho_s + p_s}{T},\qquad E = \sqrt{k^2 + m_s^2} \tag{FE-121}
+$$
+
+<!-- symbols: rho, is, ddeg, pi, infty, kwave, Eenergy, diff, euler, Temp, pressure, sentropy, mmass -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-121).**
+
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $s$: The label of a particle species of the plasma or of matter (photon, gluons, $W^\pm$, $Z$, quarks, leptons, nucleons, dark matter); a sum over $s$ runs over the species present. Status: STANDARD.
+- $d_o,\ d_s$: A degeneracy: $d_o = 4r_3(\lvert\vec n_o\rvert^2)$ the number of states of the momentum shell of the orbital $o$; $d_s$ the number of internal states (spin, colour, particle and antiparticle) of the species $s$. Unit: dimensionless. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\infty$: Infinity: as a limit of an integral or a sum it means that the range has no upper bound. Status: STANDARD.
+- $k$: The magnitude of the wave vector (the momentum, $\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration). Unit: GeV (1/length). Status: STANDARD.
+- $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $p$: A pressure: $p_M = \mathcal{T}^M{}_M$ (no sum) for the direction $M \ne x_4$, $p_s$ the pressure of the species $s$; $\Delta p$ the pressure perturbation in the cosmological perturbation equations; in the Feynman-Hellmann relation the pressure of a gauge plasma. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $s,\ s_s$: The entropy density of the plasma, $s = 2\pi^2g_sT^3/45$; $s_s$ that of the species $s$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The energy density, pressure and entropy density of a species $s$ in equilibrium at the temperature $T$: $d_s$ internal
+states, the energy $E$ with the $x_0$ mass $m_s$, Fermi-Dirac (upper sign) or Bose-Einstein statistics. The species are the photon,
+the gluons, $W^+$, $W^-$ and $Z$ (three polarisations each), the six quarks, the three charged leptons and the three neutrinos; there is
+no Higgs particle, and the right-handed neutrinos, the fold bands, the radion and the Kaluza-Klein modes are not in equilibrium.
+Status: STANDARD (exact integrals).
+
+$$
+g_\rho = \frac{30}{\pi^2T^4}\sum_s\rho_s,\qquad g_s = \frac{45}{2\pi^2T^3}\sum_s s_s,\qquad
+\mathcal{H} = \Big(\frac{8\pi^3g_\rho}{90}\Big)^{1/2}\frac{T^2}{M_{\mathrm{Pl}}} \tag{FE-122}
+$$
+
+<!-- symbols: grho, pi, Temp, is, rho, sentropy, Hubble, MPl -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-122).**
+
+- $g_\rho,\ g_s$: The effective numbers of relativistic degrees of freedom of the energy density and of the entropy density of the plasma. Unit: dimensionless. Value: 105.75 when every species of UM-2 in equilibrium is relativistic (no Higgs particle), 10.75 near 1 MeV, $g_s = 43/11$ today. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $s$: The label of a particle species of the plasma or of matter (photon, gluons, $W^\pm$, $Z$, quarks, leptons, nucleons, dark matter); a sum over $s$ runs over the species present. Status: STANDARD.
+- $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
+- $s,\ s_s$: The entropy density of the plasma, $s = 2\pi^2g_sT^3/45$; $s_s$ that of the species $s$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $M_{\mathrm{Pl}}$: The Planck mass, $M_{\mathrm{Pl}} = G_{\mathrm{N}}^{-1/2}$. Unit: GeV. Value: $1.22091\times10^{19}$ GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The effective numbers of relativistic degrees of freedom for the energy ($g_\rho$) and the entropy ($g_s$), and the Hubble
+rate of the radiation era (the four-dimensional Friedmann equation with $\rho = \frac{\pi^2}{30}g_\rho T^4$). Status: STANDARD (checked
+against the exact limits 105.75 above the electroweak scale, which is the Standard-Model value 106.75 without the Higgs particle,
+86.25, 10.75 and $43/11$). Residual (adaptive quadrature against the tabulated values) $5.0\times10^{-9}$; the neglected order-$\alpha$
+interaction pressure of the plasma is $-5.4$ % of the ideal-gas pressure at the dark-matter freeze-out (QCD $-4.7$ %, SU(2) $-0.7$ %,
+U(1) $-0.1$ %).
+
+$$
+w_{\mathrm{QGP}}(T) = \frac12\Big[1 + \tanh\frac{T - T_{\mathrm{c}}}{T_{\mathrm{w}}}\Big],\qquad
+\frac{T_\nu}{T} = \Big(\frac{g_{s,e\gamma}(T)}{11/2}\Big)^{1/3},\qquad
+\frac{\mathrm{d}\ln T}{\mathrm{d}x_4} = -\frac{\mathcal{H}}{1 + \frac13\,\mathrm{d}\ln g_s/\mathrm{d}\ln
+ T} \tag{FE-123}
+$$
+
+<!-- symbols: wQGP, Temp, Tcw, Tnu, gseg, diff, x4, Hubble, grho -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-123).**
+
+- $w_{\mathrm{QGP}}(T)$: The weight of the quark-gluon plasma in the model of the QCD crossover (1 above, 0 below). Unit: dimensionless. Status: ASSUMED.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $T_{\mathrm{c}},\ T_{\mathrm{w}}$: The temperature and the width of the QCD crossover. Unit: GeV. Value: 155 MeV and 15 MeV. Status: ASSUMED.
+- $T_\nu$: The temperature of the relic neutrinos (one common temperature). Unit: GeV. Value: 1.9454 K today. Status: STANDARD.
+- $g_{s,e\gamma}$: The entropy degrees of freedom of the electrons, positrons and photons only (after neutrino decoupling). Unit: dimensionless. Value: $11/2$ before and 2 after the annihilation of $e^\pm$. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $g_\rho,\ g_s$: The effective numbers of relativistic degrees of freedom of the energy density and of the entropy density of the plasma. Unit: dimensionless. Value: 105.75 when every species of UM-2 in equilibrium is relativistic (no Higgs particle), 10.75 near 1 MeV, $g_s = 43/11$ today. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The QCD crossover as a smooth switch $w_{\mathrm{QGP}}$ between the quark-gluon plasma and a gas of the twelve lightest hadron
+multiplets at $T_{\mathrm{c}} = 155$ MeV with the width $T_{\mathrm{w}} = 15$ MeV; the neutrino temperature after an instantaneous decoupling at
+2 MeV from the entropy $g_{s,e\gamma}$ of the electron-photon plasma; and the cooling law of the plasma from the conservation of
+entropy. Status: ASSUMED (the model of the crossover and the instantaneous decoupling; the radiation density after decoupling
+differs from that of the CMB computation by $5.9\times10^{-3}$, which enters only the entropy today).
+
+## The dark-matter relic
+
+The dark matter is two Dirac species (the lowest odd levels of $\Psi_A$ and $\Psi_B$), each with its antiparticle. For one species
+with $n_{\mathrm{DM}} = \bar n_{\mathrm{DM}}$, the abundance per entropy and the variable $x = M_{\mathrm{DM}}/T$ obey (entropy conservation, FE-123)
+
+$$
+\frac{\mathrm{d}Y_{\mathrm{DM}}}{\mathrm{d}x_4} = -\frac{s\,\langle\sigma v_{\mathrm{rel}}\rangle}{2}\big(Y_{\mathrm{DM}}^2 - Y_{\mathrm{eq}}^2\big),\qquad
+\frac{\mathrm{d}x}{\mathrm{d}x_4} = \frac{x\,\mathcal{H}}{1 + \frac13\,\mathrm{d}\ln g_s/\mathrm{d}\ln T},
+$$
+
+<!-- symbols: diff, Yabund, x4, sentropy, sigmaxs, vrel, xMT, Hubble, grho, Temp -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $Y_{\mathrm{DM}},\ Y_{\mathrm{eq}},\ Y_\infty$: The abundance (number density per entropy density) of one dark-matter species (particles and antiparticles), its equilibrium value and its final value. Unit: dimensionless. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $s,\ s_s$: The entropy density of the plasma, $s = 2\pi^2g_sT^3/45$; $s_s$ that of the species $s$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\sigma$: A cross-section (of the dark-matter annihilation or production process named in the equation; summed over the spins where marked). Unit: $\mathrm{GeV}^{-2}$. Status: STANDARD.
+- $v_{\mathrm{rel}}$: The relative velocity of the two annihilating particles; $\langle\sigma v_{\mathrm{rel}}\rangle$ the thermal average. Unit: dimensionless (c = 1). Status: STANDARD.
+- $x$: The ratio $x = M_{\mathrm{DM}}/T$ of the dark-matter mass to the temperature. Unit: dimensionless. Value: $x_{\mathrm{f}} = 31.23$ at the freeze-out. Status: STANDARD.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $g_\rho,\ g_s$: The effective numbers of relativistic degrees of freedom of the energy density and of the entropy density of the plasma. Unit: dimensionless. Value: 105.75 when every species of UM-2 in equilibrium is relativistic (no Higgs particle), 10.75 near 1 MeV, $g_s = 43/11$ today. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+which combine to the second form of:
+
+$$
+\begin{aligned}
+&\frac{\mathrm{d}n_{\mathrm{DM}}}{\mathrm{d}x_4} + 3\mathcal{H}n_{\mathrm{DM}}
+ = -\langle\sigma v_{\mathrm{rel}}\rangle\big(n_{\mathrm{DM}}\bar n_{\mathrm{DM}} -
+ n_{\mathrm{DM,eq}}^2\big)\ \Rightarrow
+ \frac{\mathrm{d}Y_{\mathrm{DM}}}{\mathrm{d}x} = -\Big(1 + \frac13\frac{\mathrm{d}\ln g_s}{\mathrm{d}\ln
+ T}\Big)
+ \frac{s\,\langle\sigma v_{\mathrm{rel}}\rangle}{2x\mathcal{H}}\big(Y_{\mathrm{DM}}^2 -
+ Y_{\mathrm{eq}}^2\big),\\
+&Y_{\mathrm{DM}} = \frac{n_{\mathrm{DM}} + \bar n_{\mathrm{DM}}}{s},\qquad x =
+ \frac{M_{\mathrm{DM}}}{T},\qquad
+ s = \frac{2\pi^2}{45}\,g_sT^3,\qquad Y_{\mathrm{eq}} = \frac{4M_{\mathrm{DM}}^2TK_2(x)}{2\pi^2s}
+\end{aligned} \tag{FE-124}
+$$
+
+<!-- symbols: diff, nDM, x4, Hubble, sigmaxs, vrel, nDMeq, Yabund, xMT, grho, Temp, sentropy, MDM, pi, Kbessel -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-124).**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $n_{\mathrm{DM}},\ \bar n_{\mathrm{DM}}$: The number densities of dark-matter particles and antiparticles of one species. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\sigma$: A cross-section (of the dark-matter annihilation or production process named in the equation; summed over the spins where marked). Unit: $\mathrm{GeV}^{-2}$. Status: STANDARD.
+- $v_{\mathrm{rel}}$: The relative velocity of the two annihilating particles; $\langle\sigma v_{\mathrm{rel}}\rangle$ the thermal average. Unit: dimensionless (c = 1). Status: STANDARD.
+- $n_{\mathrm{DM,eq}},\ \bar n_{\mathrm{DM,eq}}$: The equilibrium number densities of dark-matter particles and antiparticles of one species. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $Y_{\mathrm{DM}},\ Y_{\mathrm{eq}},\ Y_\infty$: The abundance (number density per entropy density) of one dark-matter species (particles and antiparticles), its equilibrium value and its final value. Unit: dimensionless. Status: STANDARD.
+- $x$: The ratio $x = M_{\mathrm{DM}}/T$ of the dark-matter mass to the temperature. Unit: dimensionless. Value: $x_{\mathrm{f}} = 31.23$ at the freeze-out. Status: STANDARD.
+- $g_\rho,\ g_s$: The effective numbers of relativistic degrees of freedom of the energy density and of the entropy density of the plasma. Unit: dimensionless. Value: 105.75 when every species of UM-2 in equilibrium is relativistic (no Higgs particle), 10.75 near 1 MeV, $g_s = 43/11$ today. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $s,\ s_s$: The entropy density of the plasma, $s = 2\pi^2g_sT^3/45$; $s_s$ that of the species $s$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $M_{\mathrm{DM}}$: The mass of a dark-matter particle (the lowest odd level of dirac16complex). Unit: GeV. Value: 44.35 TeV. Status: DERIVED.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $K_1,\ K_2$: The modified Bessel functions of the second kind of orders 1 and 2 (not related to the block variable $K$). Unit: dimensionless. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The number density of the dark matter changes by the expansion ($3\mathcal{H}n_{\mathrm{DM}}$) and by annihilation and inverse
+annihilation with the thermally averaged cross-section times relative velocity $\langle\sigma v_{\mathrm{rel}}\rangle$; $Y_{\mathrm{DM}}$ is the
+abundance per entropy density $s$ (particles and antiparticles), $Y_{\mathrm{eq}}$ its equilibrium value (Bessel function $K_2$). Status:
+STANDARD (integrated implicitly, Radau, $\ln Y_{\mathrm{DM}}$ from $x = 5$ to 2000 with relative tolerance $10^{-10}$, with the degrees of
+freedom of UM-2; each of the two species freezes out separately). Residual $6.1\times10^{-9}$ (the relic condition re-solved and the
+late-time integral identity); the leading neglected effect is the missing order-$\alpha$ pressure of the plasma, which would shift
+$\Omega h^2$ by about $+2.7$ % (ESTIMATE).
+
+$$
+\langle\sigma v_{\mathrm{rel}}\rangle =
+ \frac{1}{8M_{\mathrm{DM}}^4TK_2(x)^2}\int_{4M_{\mathrm{DM}}^2}^{\infty}\sigma\,
+ \big(E_{\mathrm{cm}}^2 - 4M_{\mathrm{DM}}^2\big)\,E_{\mathrm{cm}}\,K_1\Big(\frac{E_{\mathrm{cm}}}{T}\Big)\,
+ \mathrm{d}\big(E_{\mathrm{cm}}^2\big) \tag{FE-125}
+$$
+
+<!-- symbols: sigmaxs, vrel, MDM, Temp, Kbessel, xMT, infty, Ecm, diff -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-125).**
+
+- $\sigma$: A cross-section (of the dark-matter annihilation or production process named in the equation; summed over the spins where marked). Unit: $\mathrm{GeV}^{-2}$. Status: STANDARD.
+- $v_{\mathrm{rel}}$: The relative velocity of the two annihilating particles; $\langle\sigma v_{\mathrm{rel}}\rangle$ the thermal average. Unit: dimensionless (c = 1). Status: STANDARD.
+- $M_{\mathrm{DM}}$: The mass of a dark-matter particle (the lowest odd level of dirac16complex). Unit: GeV. Value: 44.35 TeV. Status: DERIVED.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $K_1,\ K_2$: The modified Bessel functions of the second kind of orders 1 and 2 (not related to the block variable $K$). Unit: dimensionless. Status: STANDARD.
+- $x$: The ratio $x = M_{\mathrm{DM}}/T$ of the dark-matter mass to the temperature. Unit: dimensionless. Value: $x_{\mathrm{f}} = 31.23$ at the freeze-out. Status: STANDARD.
+- $\infty$: Infinity: as a limit of an integral or a sum it means that the range has no upper bound. Status: STANDARD.
+- $E_{\mathrm{cm}}$: The total energy of the colliding pair in its centre-of-mass frame. Unit: GeV. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The relativistic thermal average over the centre-of-mass energy $E_{\mathrm{cm}}$ of the pair, with the Bessel functions $K_1$,
+$K_2$ of the Maxwell-Boltzmann distributions. Status: STANDARD (Gondolo and Gelmini; adaptive quadrature in the kinetic energy of the
+pair with exponentially scaled Bessel functions).
+
+$$
+\Omega_{\mathrm{DM}}h_{100}^2 = \frac{M_{\mathrm{DM}}\,Y_\infty\,s_0}{\rho_{\mathrm{crit}}/h_{100}^2},\qquad
+\frac{\rho_{\mathrm{crit}}}{h_{100}^2} = 1.05368\times10^{-5}\ \text{GeV}/\text{cm}^3 \tag{FE-126}
+$$
+
+<!-- symbols: OmegaDM, h100, MDM, Yabund, s0, rhocrit -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-126).**
+
+- $\Omega_{\mathrm{DM}}$: The dark-matter density today in units of the critical density. Unit: dimensionless. Value: $\Omega_{\mathrm{DM}}h_{100}^2 = 0.120$ (both species). Status: DERIVED.
+- $h_{100}$: The reduced Hubble constant, $\mathcal{H}_0/(100$ km s$^{-1}$ Mpc$^{-1})$. Unit: dimensionless. Value: 0.6738. Status: STANDARD.
+- $M_{\mathrm{DM}}$: The mass of a dark-matter particle (the lowest odd level of dirac16complex). Unit: GeV. Value: 44.35 TeV. Status: DERIVED.
+- $Y_{\mathrm{DM}},\ Y_{\mathrm{eq}},\ Y_\infty$: The abundance (number density per entropy density) of one dark-matter species (particles and antiparticles), its equilibrium value and its final value. Unit: dimensionless. Status: STANDARD.
+- $s_0$: The entropy density today. Unit: $\mathrm{GeV}^{3}$ (quoted per $\mathrm{cm}^{3}$). Value: 2891.3 cm$^{-3}$. Status: STANDARD.
+- $\rho_{\mathrm{crit}}$: The critical density, $3\mathcal{H}_0^2M_{\mathrm{Pl}}^2/(8\pi)$. Unit: $\mathrm{GeV}^{4}$ (quoted in GeV/$\mathrm{cm}^{3}$). Value: $\rho_{\mathrm{crit}}/h_{100}^2 = 1.05368\times10^{-5}$ GeV/cm$^3$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The relic density from the final abundance $Y_\infty$, the entropy density today $s_0$ and the critical density. Status:
+STANDARD. Each species gives 0.060 (0.120 together, the measured cold dark matter, which is the input of the CMB computation; the two
+agree to $3.1\times10^{-9}$) for $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$, with the freeze-out at $x = 31.23$ ($T = 1.42$ TeV).
+
+$$
+\begin{aligned}
+&\sigma_{\mathrm{I12}} = \frac{G_{\mathrm{I12}}^2\,E_{\mathrm{cm}}^3\big(E_{\mathrm{cm}}^2 -
+ 4M_{\mathrm{DM}}^2\big)^{1/2}}{8\pi},\qquad
+ G_{\mathrm{I12}}^2 = 8G_{\mathrm{g}}^2 + 3G_{\mathrm{W}}^2 + G_{\mathrm{B}}^2,\\
+&\sigma_{\mathrm{I13}} = \sum_f\frac{N_{\mathrm{c}}\,G_f^2\,E_{\mathrm{cm}}^2\big(1 +
+ 2M_{\mathrm{DM}}^2/E_{\mathrm{cm}}^2\big)}{24\pi\beta_{\mathrm{cm}}},
+ \qquad G_f = G_{\mathrm{A}}\,q^{B}_f\,\tilde I^{(b)}_{of},\\
+&\beta_{\mathrm{cm}} = \sqrt{1 - \frac{4M_{\mathrm{DM}}^2}{E_{\mathrm{cm}}^2}},\qquad
+ k_{\mathrm{cm}} = \sqrt{\frac{E_{\mathrm{cm}}^2}{4} - M_{\mathrm{DM}}^2}
+\end{aligned} \tag{FE-127}
+$$
+
+<!-- symbols: sigmaI1213, GI12, Ecm, MDM, pi, Gg, GW, GB, if, Nc, Gf, betacm, GA, qB, tildeIb, io, kcm -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-127).**
+
+- $\sigma_{\mathrm{I12}},\ \sigma_{\mathrm{I13}}$: The spin-averaged annihilation cross-sections of a dark-matter pair through I12 (into gauge-boson pairs) and through I13 (into quark pairs). Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
+- $G_{\mathrm{I12}}$: The combined coupling of I12 to all gauge-boson pairs, $G_{\mathrm{I12}}^2 = 8G_{\mathrm{g}}^2 + 3G_{\mathrm{W}}^2 + G_{\mathrm{B}}^2$. Unit: $\mathrm{GeV}^{-3}$. Value: benchmark $\pi/(2M_{\mathrm{DM}}^3) = 1.801\times10^{-14}$ GeV$^{-3}$. Status: DERIVED.
+- $E_{\mathrm{cm}}$: The total energy of the colliding pair in its centre-of-mass frame. Unit: GeV. Status: STANDARD.
+- $M_{\mathrm{DM}}$: The mass of a dark-matter particle (the lowest odd level of dirac16complex). Unit: GeV. Value: 44.35 TeV. Status: DERIVED.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $G_{\mathrm{g}}$: The coupling of a dark-matter pair to canonically normalised gluon pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $6.09\times10^{-15}$ GeV$^{-3}$ (benchmark). Status: DERIVED.
+- $G_{\mathrm{W}}$: The coupling of a dark-matter pair to canonically normalised SU(2) gauge pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $2.96\times10^{-15}$ GeV$^{-3}$. Status: DERIVED.
+- $G_{\mathrm{B}}$: The coupling of a dark-matter pair to canonically normalised hypercharge pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $1.08\times10^{-15}$ GeV$^{-3}$. Status: DERIVED.
+- $f$: The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species. Status: STANDARD.
+- $N_{\mathrm{c}}$: The number of Weyl components of a fermion multiplet that share its zero-mode profile and overlap (colour times isospin): 6 for a quark doublet, 3 for a quark singlet, 2 for a lepton doublet, 1 for a charged-lepton singlet. Unit: dimensionless. Status: STANDARD.
+- $G_f$: The I13 coupling of the dark matter to the quark component $f$, $G_f = G_{\mathrm{A}}q^B_f\tilde I^{(b)}_{of}$. Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
+- $\beta_{\mathrm{cm}}$: The velocity of each particle of the pair in the centre-of-mass frame. Unit: dimensionless. Status: STANDARD.
+- $G_{\mathrm{A}}$: The four-dimensional strength of the portal I13 on the zero modes, $G_{\mathrm{A}} = c_{\mathrm{A}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: $1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic density). Status: DERIVED.
+- $q^B_\psi,\ q^B_f$: The baryon number of the multiplet $\psi$ or of the fermion component $f$ ($\frac13$ for quarks, 0 for leptons). Unit: dimensionless. Status: STANDARD.
+- $\tilde I^{(b)}_{of}$: The overlap of the lower component of the state $o$ with the zero mode of $f$, $\tilde I^{(b)}_{of} = H^{-1}\int_{-L}^{0}b_o^2\varrho_f\mathrm{e}^{-3Hy}\mathrm{d}y$ (the overlap of I13); $\tilde I^{(b)}_Q$, $\tilde I^{(b)}_{u_R}$, $\tilde I^{(b)}_{d_R}$, $\tilde I^{(b)}_{\nu_R}$ those of the dark matter. Unit: dimensionless. Value: dark matter: $\tilde I^{(b)}_Q = 2.6135$. Status: DERIVED.
+- $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
+- $k_{\mathrm{cm}}$: The momentum of each particle of the pair in the centre-of-mass frame. Unit: GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The two annihilation channels: through I12 into pairs of gauge bosons (eight gluons, three $W$, one $B$; a p-wave from the
+state $^3P_0$, so $\sigma v_{\mathrm{rel}} \propto v_{\mathrm{rel}}^2$ at low velocity), and through I13 into quark-antiquark pairs of the multiplets
+$f$, each with $N_{\mathrm{c}}$ Weyl components (colour times isospin; an s-wave from $^3S_1$), with the couplings $G_f$ of FE-70 ($o$ the dark-matter orbital; the sum of
+$N_{\mathrm{c}}(q^B_f\tilde I^{(b)}_{of})^2$ over the multiplets is $\mathcal{S}_B = 16.351$); $\beta_{\mathrm{cm}}$ and $k_{\mathrm{cm}}$ are the velocity and the
+momentum of the dark matter in the centre-of-mass frame. Status: DERIVED (spin averaged; the polarisation sum and the spin trace checked
+numerically); I12 at the unitarity-safe benchmark $G_{\mathrm{I12}} = \pi/(2M_{\mathrm{DM}}^3) = 1.801\times10^{-14}$ GeV$^{-3}$, which alone would leave
+far too much dark matter, so I13 sets the relic.
+
+$$
+\sigma_{\mathrm{I12}} \le \frac{\pi}{4k_{\mathrm{cm}}^2}\ \ \text{(total angular momentum 0)},\qquad
+\sigma_{\mathrm{I13}} \le \frac{3\pi}{4k_{\mathrm{cm}}^2}\ \ \text{(total angular momentum 1)} \tag{FE-128}
+$$
+
+<!-- symbols: sigmaI1213, pi, kcm -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-128).**
+
+- $\sigma_{\mathrm{I12}},\ \sigma_{\mathrm{I13}}$: The spin-averaged annihilation cross-sections of a dark-matter pair through I12 (into gauge-boson pairs) and through I13 (into quark pairs). Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $k_{\mathrm{cm}}$: The momentum of each particle of the pair in the centre-of-mass frame. Unit: GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The partial-wave unitarity bounds of the two channels (total angular momentum 0 for I12, 1 for I13). Where an effective
+cross-section exceeds its bound it is replaced by the bound. Status: DERIVED (I13 reaches its bound only above $v_{\mathrm{rel}} = 0.51$, which
+gives 22 % of the freeze-out rate; I12 alone would need a strongly coupled $^3P_0$ channel).
+
+## The fold bands
+
+$$
+\Gamma_{\mathrm{fi}} =
+ \frac{T}{32\pi^4}\int_0^\infty\mathrm{d}\big(E_{\mathrm{cm}}^2\big)\Big(\sum_{\text{spins}}\sigma
+ \Big)E_{\mathrm{cm}}^3
+ K_1\Big(\frac{E_{\mathrm{cm}}}{T}\Big) =
+ \frac{4}{\pi^5}\,N_{\mathrm{fold}}\,G_{\mathrm{V}}^2\,T^8\sum_fN_{\mathrm{c}}\big(q_f\tilde I_{of}\big)^2,
+\qquad \frac{\mathrm{d}\big(\rho_{\mathrm{fold}}\,\mathrm{e}^{4a_4}\big)}{\mathrm{d}x_4} =
+ 8T\,\Gamma_{\mathrm{fi}}\,\mathrm{e}^{4a_4} \tag{FE-129}
+$$
+
+<!-- symbols: Gammafi, Temp, pi, infty, diff, Ecm, sigmaxs, Kbessel, Nfold, GV, if, Nc, qBL, tildeI, io, rhofold, euler, a4, x4 -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-129).**
+
+- $\Gamma_{\mathrm{fi}}$: The rate per volume of the production of fold-band pairs from the plasma through I11 (freeze-in). Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\infty$: Infinity: as a limit of an integral or a sum it means that the range has no upper bound. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $E_{\mathrm{cm}}$: The total energy of the colliding pair in its centre-of-mass frame. Unit: GeV. Status: STANDARD.
+- $\sigma$: A cross-section (of the dark-matter annihilation or production process named in the equation; summed over the spins where marked). Unit: $\mathrm{GeV}^{-2}$. Status: STANDARD.
+- $K_1,\ K_2$: The modified Bessel functions of the second kind of orders 1 and 2 (not related to the block variable $K$). Unit: dimensionless. Status: STANDARD.
+- $N_{\mathrm{fold}}$: The number of fold bands: the massless fold zero modes of $\Psi_A$ and of $\Psi_B$ (two Dirac fermions). Unit: dimensionless. Value: 2. Status: DERIVED.
+- $G_{\mathrm{V}}$: The four-dimensional strength of the vector portal I11 on the zero modes, $G_{\mathrm{V}} = c_{\mathrm{V}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: benchmark $4.38\times10^{-17}$ GeV$^{-2}$ ($\Delta N_{\mathrm{eff}} = 0.001$). Status: DERIVED.
+- $f$: The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species. Status: STANDARD.
+- $N_{\mathrm{c}}$: The number of Weyl components of a fermion multiplet that share its zero-mode profile and overlap (colour times isospin): 6 for a quark doublet, 3 for a quark singlet, 2 for a lepton doublet, 1 for a charged-lepton singlet. Unit: dimensionless. Status: STANDARD.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $\tilde I_{of}$: The overlap of the state $o$ of dirac16complex with the zero mode of the fermion component $f$, $\tilde I_{of} = H^{-1}\int_{-L}^{0}(a_o^2 + b_o^2)\varrho_f\mathrm{e}^{-3Hy}\mathrm{d}y$ (the integral in units of $H$); $\tilde I_Q$, $\tilde I_{u_R}$, $\tilde I_{d_R}$, $\tilde I_\ell$, $\tilde I_{e_R}$ those of the dark matter with $Q$, $u_R$, $d_R$, $\ell$, $e_R$, $\tilde I_{\nu_R,i}$ with the right-handed neutrino of the generation $i$. Unit: dimensionless. Value: dark matter: $\tilde I_Q = 8.2722$, $\tilde I_\ell = 1.2524$, $\tilde I_{u_R} = 0.3854$, $\tilde I_{d_R} = 0.3961$, $\tilde I_{e_R} = 0.3972$. Status: DERIVED.
+- $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
+- $\rho_{\mathrm{fold}}$: The energy density of the fold bands. Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+**The terms.** The massless fold bands of dirac16complex ($N_{\mathrm{fold}}$ species, two Dirac fermions) are produced from pairs of
+Standard-Model fermions through I11: $\Gamma_{\mathrm{fi}}$ is the production rate per volume (Maxwell-Boltzmann statistics, massless
+particles; $\sigma$ the cross-section summed over spins, $K_1$ the Bessel function), proportional to $G_{\mathrm{V}}^2T^8$ and to the sum over
+the fifteen multiplets of three generations of $N_{\mathrm{c}}(q_f\tilde I_{of})^2$ ($o$ the fold band; 126.85); each production puts the energy
+$8T$ on average into the fold bands, whose comoving energy density $\rho_{\mathrm{fold}}\mathrm{e}^{4a_4}$ grows accordingly. Status: DERIVED (integrated
+from the highest temperature 10 TeV, ASSUMED): $\Delta N_{\mathrm{eff}} = 5.21\times10^{29}\,G_{\mathrm{V}}^2$ GeV$^4$, so the benchmark $G_{\mathrm{V}} =
+4.38\times10^{-17}$ GeV$^{-2}$ gives 0.001. Residual (re-integration with Gauss-Legendre panels) $3.9\times10^{-5}$.
+
+$$
+\Delta N_{\mathrm{eff}} = \frac{\rho_{\mathrm{fold}}}{\rho_\nu},\qquad \rho_\nu =
+ \frac78\,\frac{\pi^2}{15}\,T_\nu^4,\qquad
+\frac{2\Gamma_{\mathrm{fi}}}{n_{\mathrm{fold,eq}}\,\mathcal{H}} \ll 1,\qquad
+n_{\mathrm{fold,eq}} = N_{\mathrm{fold}}\cdot4\cdot\frac34\,\frac{\zeta(3)}{\pi^2}\,T^3 \tag{FE-130}
+$$
+
+<!-- symbols: Delta, Neff, rhofold, rhonu, pi, Tnu, Gammafi, nfoldeq, Hubble, Nfold, zeta3, Temp -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-130).**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $N_{\mathrm{eff}}$: The effective number of neutrino species (the radiation beyond the photons in units of one neutrino species with $T_\nu/T_\gamma = (4/11)^{1/3}$); $\Delta N_{\mathrm{eff}}$ an addition to it. Unit: dimensionless. Value: 3.0432 (neutrinos) + 0.0010 (fold bands). Status: STANDARD.
+- $\rho_{\mathrm{fold}}$: The energy density of the fold bands. Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
+- $\rho_\nu,\ \rho_{\nu_\alpha}$: The energy density of one neutrino flavour (neutrinos and antineutrinos) at the common temperature $T_\nu$, $\frac78\frac{\pi^2}{15}T_\nu^4$ when massless; $\rho_{\nu_\alpha}$ that of the flavour $\alpha$ at its temperature $T_{\nu_\alpha}$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $T_\nu$: The temperature of the relic neutrinos (one common temperature). Unit: GeV. Value: 1.9454 K today. Status: STANDARD.
+- $\Gamma_{\mathrm{fi}}$: The rate per volume of the production of fold-band pairs from the plasma through I11 (freeze-in). Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
+- $n_{\mathrm{fold,eq}}$: The number density the fold bands would have in thermal equilibrium. Unit: $\mathrm{GeV}^{3}$. Status: DERIVED.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $N_{\mathrm{fold}}$: The number of fold bands: the massless fold zero modes of $\Psi_A$ and of $\Psi_B$ (two Dirac fermions). Unit: dimensionless. Value: 2. Status: DERIVED.
+- $\zeta$: The Riemann zeta function; only its value $\zeta(3)$ occurs, the sum of $1/n^3$ over the positive integers $n$. Unit: dimensionless. Value: $\zeta(3) = 1.2020569$. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The extra radiation $\Delta N_{\mathrm{eff}}$ is the energy density of the fold bands in units of one neutrino species, and the
+condition for the production to stay far from equilibrium: the production rate per fold quantum, $2\Gamma_{\mathrm{fi}}/n_{\mathrm{fold,eq}}$, compared
+with the Hubble rate ($n_{\mathrm{fold,eq}}$ the equilibrium density of the fold bands). Status: DERIVED (the ratio is 0.012 at the highest
+temperature 10 TeV and falls afterwards: the fold bands are never in equilibrium).
+
+## The right-handed neutrinos
+
+The right-handed neutrinos are gauge singlets and carry $B - L$ charge $-1$; the portals could produce them from the dark matter. The
+baryon-number current of I13 is the choice that prevents it; the following equations show the counterfactual and the actual rates.
+
+$$
+\begin{aligned}
+&G_{\mathrm{A}}^{B-L} = G_{\mathrm{A}}\Big[\frac{\mathcal{S}_B}{\mathcal{S}_{B-L}}\Big]^{1/2},\qquad
+ \mathcal{S}_B = \sum_fN_{\mathrm{c}}\big(q^{B}_f\tilde I^{(b)}_{of}\big)^2,\qquad
+ \mathcal{S}_{B-L} = \sum_fN_{\mathrm{c}}\big(q_f\tilde I^{(b)}_{of}\big)^2,\\
+&\frac{\mathrm{d}n_{\nu_R}}{\mathrm{d}x_4} + 3\mathcal{H}n_{\nu_R} = \Gamma_\nu\Big(1 -
+ \frac{n_{\nu_R}^2}{(n_{\nu_R}^{\mathrm{eq}})^2}\Big),\qquad
+ \Gamma_\nu = 2\,n_{\mathrm{DM,eq}}\,\bar n_{\mathrm{DM,eq}}\,\frac{G_\nu^2M_{\mathrm{DM}}^2}{2\pi},\qquad
+ G_\nu = G_{\mathrm{A}}^{B-L}\,\tilde I^{(b)}_{\nu_R},\\
+&n_{\nu_R}^{\mathrm{eq}} = \frac34\,\frac{\zeta(3)}{\pi^2}\,T^3,\qquad
+ n_{\mathrm{DM,eq}} = \bar n_{\mathrm{DM,eq}} = 2\Big(\frac{M_{\mathrm{DM}}T}{2\pi}\Big)^{3/2}\mathrm{e}^{-x}
+\end{aligned} \tag{FE-131}
+$$
+
+<!-- symbols: GABL, GA, SB, if, Nc, qB, tildeIb, io, qBL, diff, nnuR, x4, Hubble, Gammanu, nDMeq, Gnu, MDM, pi, zeta3, Temp, euler, xMT -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-131).**
+
+- $G_{\mathrm{A}}^{B-L}$: The strength I13 would need if it coupled to the $B - L$ current (the same relic density). Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
+- $G_{\mathrm{A}}$: The four-dimensional strength of the portal I13 on the zero modes, $G_{\mathrm{A}} = c_{\mathrm{A}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: $1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic density). Status: DERIVED.
+- $\mathcal{S}_B,\ \mathcal{S}_{B-L}$: The colour-weighted sums of the squared I13 overlaps of the dark matter with the baryon-number and with the $B - L$ charges. Unit: dimensionless. Value: $\mathcal{S}_B = 16.351$, $\mathcal{S}_{B-L} = 22.92$. Status: DERIVED.
+- $f$: The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species. Status: STANDARD.
+- $N_{\mathrm{c}}$: The number of Weyl components of a fermion multiplet that share its zero-mode profile and overlap (colour times isospin): 6 for a quark doublet, 3 for a quark singlet, 2 for a lepton doublet, 1 for a charged-lepton singlet. Unit: dimensionless. Status: STANDARD.
+- $q^B_\psi,\ q^B_f$: The baryon number of the multiplet $\psi$ or of the fermion component $f$ ($\frac13$ for quarks, 0 for leptons). Unit: dimensionless. Status: STANDARD.
+- $\tilde I^{(b)}_{of}$: The overlap of the lower component of the state $o$ with the zero mode of $f$, $\tilde I^{(b)}_{of} = H^{-1}\int_{-L}^{0}b_o^2\varrho_f\mathrm{e}^{-3Hy}\mathrm{d}y$ (the overlap of I13); $\tilde I^{(b)}_Q$, $\tilde I^{(b)}_{u_R}$, $\tilde I^{(b)}_{d_R}$, $\tilde I^{(b)}_{\nu_R}$ those of the dark matter. Unit: dimensionless. Value: dark matter: $\tilde I^{(b)}_Q = 2.6135$. Status: DERIVED.
+- $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
+- $q_\psi,\ q_f$: The $B - L$ charge: $q_\psi$ of the multiplet $\psi$ ($q_Q = q_{u_R} = q_{d_R} = \frac13$, $q_\ell = q_{e_R} = q_{\nu_R} = -1$), $q_f$ of the fermion component $f$. Unit: dimensionless. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $n_{\nu_R},\ n_{\nu_R}^{\mathrm{eq}}$: The number density of the right-handed neutrinos (three generations) and its equilibrium value. Unit: $\mathrm{GeV}^{3}$. Status: DERIVED.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $\Gamma_\nu$: The production rate per volume of right-handed neutrinos in the counterfactual $B - L$ variant of I13. Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
+- $n_{\mathrm{DM,eq}},\ \bar n_{\mathrm{DM,eq}}$: The equilibrium number densities of dark-matter particles and antiparticles of one species. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $G_\nu$: The four-dimensional coupling of the dark matter to a right-handed neutrino in the $B - L$ variant of I13. Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
+- $M_{\mathrm{DM}}$: The mass of a dark-matter particle (the lowest odd level of dirac16complex). Unit: GeV. Value: 44.35 TeV. Status: DERIVED.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $\zeta$: The Riemann zeta function; only its value $\zeta(3)$ occurs, the sum of $1/n^3$ over the positive integers $n$. Unit: dimensionless. Value: $\zeta(3) = 1.2020569$. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $x$: The ratio $x = M_{\mathrm{DM}}/T$ of the dark-matter mass to the temperature. Unit: dimensionless. Value: $x_{\mathrm{f}} = 31.23$ at the freeze-out. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** If I13 coupled to the $B - L$ current, its coupling $G_{\mathrm{A}}^{B-L}$ would be fixed by the same relic density through the
+sums $\mathcal{S}_B$ and $\mathcal{S}_{B-L} = 22.92$ (the latter including the leptons), and the dark matter in equilibrium would produce right-handed
+neutrinos at the rate $\Gamma_\nu$ (both species, $G_\nu$ the coupling with the overlap of the right-handed neutrino) towards their
+equilibrium density $n_{\nu_R}^{\mathrm{eq}}$. Status: DERIVED (the three $\nu_R$ would reach 0.9997 of equilibrium by $x = 40$ and add
+$\Delta N_{\mathrm{eff}} = 0.144$, excluded by the CMB: this is why I13 couples to the baryon number). Residual $2.5\times10^{-12}$.
+
+$$
+\Gamma_{\mathrm{el}} = 2\big(n_{\mathrm{DM}} + \bar n_{\mathrm{DM}}\big)\,\sigma_{\mathrm{el}} >
+ \mathcal{H},\qquad
+\sigma_{\mathrm{el}} = \frac{G_\nu^2E^2}{2\pi},\qquad E \simeq 3T \tag{FE-132}
+$$
+
+<!-- symbols: Gammael, nDM, Hubble, Gnu, Eenergy, pi, Temp -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-132).**
+
+- $\Gamma_{\mathrm{el}},\ \sigma_{\mathrm{el}}$: The rate of elastic scattering of a right-handed neutrino on the dark matter, and its cross-section. Unit: GeV; $\mathrm{GeV}^{-2}$. Status: ESTIMATE.
+- $n_{\mathrm{DM}},\ \bar n_{\mathrm{DM}}$: The number densities of dark-matter particles and antiparticles of one species. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+- $G_\nu$: The four-dimensional coupling of the dark matter to a right-handed neutrino in the $B - L$ variant of I13. Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
+- $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $T$: The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state. Unit: GeV. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The elastic scattering of the right-handed neutrinos on the dark matter, which keeps them in kinetic equilibrium while its
+rate exceeds the Hubble rate ($E \simeq 3T$ the neutrino energy). Status: ESTIMATE (for a Weyl $\nu_R$ on a heavy Dirac fermion; kinetic
+decoupling at $x = 24.4$; a factor 2 in the rate moves it to 23.8 or 25.1).
+
+$$
+\Delta N_{\mathrm{eff}} = N_{\mathrm{W}}\Big(\frac{10.75}{g_s}\Big)^{4/3}F_{\mathrm{h}},\qquad
+F_{\mathrm{h}} = \Big[\frac{T_\nu}{T_\gamma}\Big(\frac{11}{4}\Big)^{1/3}\Big/\big(1 + h_\nu\big)\Big]^4
+ = 1.0095 \tag{FE-133}
+$$
+
+<!-- symbols: Delta, Neff, NW, grho, Fh, Tnu, Tgamma, hnu -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-133).**
+
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $N_{\mathrm{eff}}$: The effective number of neutrino species (the radiation beyond the photons in units of one neutrino species with $T_\nu/T_\gamma = (4/11)^{1/3}$); $\Delta N_{\mathrm{eff}}$ an addition to it. Unit: dimensionless. Value: 3.0432 (neutrinos) + 0.0010 (fold bands). Status: STANDARD.
+- $N_{\mathrm{W}}$: The number of Weyl species that decouple early. Unit: dimensionless. Status: DERIVED.
+- $g_\rho,\ g_s$: The effective numbers of relativistic degrees of freedom of the energy density and of the entropy density of the plasma. Unit: dimensionless. Value: 105.75 when every species of UM-2 in equilibrium is relativistic (no Higgs particle), 10.75 near 1 MeV, $g_s = 43/11$ today. Status: STANDARD.
+- $F_{\mathrm{h}}$: The correction factor of the early-decoupled radiation for the heating of the neutrinos. Unit: dimensionless. Value: 1.0095. Status: DERIVED.
+- $T_\nu$: The temperature of the relic neutrinos (one common temperature). Unit: GeV. Value: 1.9454 K today. Status: STANDARD.
+- $T_\gamma$: The temperature of the photons (equal to the plasma temperature $T$; the subscript is written where the neutrinos have their own temperature). Unit: GeV. Value: 2.7255 K today. Status: STANDARD.
+- $h_\nu$: The relative heating of the neutrinos by the electron-positron annihilation (beyond instantaneous decoupling). Unit: dimensionless. Value: 0.00165. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** The extra radiation of $N_{\mathrm{W}}$ Weyl species that decouple when the entropy degrees of freedom are $g_s$, diluted by the
+later annihilations; $F_{\mathrm{h}}$ corrects for the non-instantaneous neutrino decoupling ($T_\nu/T_\gamma = 0.71664$ and the heating $h_\nu =
+0.00165$ of the common-temperature decoupling, FE-115). Status: DERIVED ($F_{\mathrm{h}} = 1.0095$; used for the $B - L$ variant, 0.144, and for
+the self-interaction channel).
+
+$$
+r_{\nu_R} = \frac{G_{\mathrm{V}}^2\sum_{i=1}^{3}\tilde I_{\nu_R,i}^2}{G_{\mathrm{A}}^2\,\mathcal{S}_B}
+ \tag{FE-134}
+$$
+
+<!-- symbols: rnuR, GV, ii, tildeI, GA, SB -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-134).**
+
+- $r_{\nu_R}$: The ratio of the I11 production of right-handed neutrinos to the I13 annihilation rate of the dark matter. Unit: dimensionless. Value: $2.0\times10^{-17}$. Status: DERIVED.
+- $G_{\mathrm{V}}$: The four-dimensional strength of the vector portal I11 on the zero modes, $G_{\mathrm{V}} = c_{\mathrm{V}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: benchmark $4.38\times10^{-17}$ GeV$^{-2}$ ($\Delta N_{\mathrm{eff}} = 0.001$). Status: DERIVED.
+- $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
+- $\tilde I_{of}$: The overlap of the state $o$ of dirac16complex with the zero mode of the fermion component $f$, $\tilde I_{of} = H^{-1}\int_{-L}^{0}(a_o^2 + b_o^2)\varrho_f\mathrm{e}^{-3Hy}\mathrm{d}y$ (the integral in units of $H$); $\tilde I_Q$, $\tilde I_{u_R}$, $\tilde I_{d_R}$, $\tilde I_\ell$, $\tilde I_{e_R}$ those of the dark matter with $Q$, $u_R$, $d_R$, $\ell$, $e_R$, $\tilde I_{\nu_R,i}$ with the right-handed neutrino of the generation $i$. Unit: dimensionless. Value: dark matter: $\tilde I_Q = 8.2722$, $\tilde I_\ell = 1.2524$, $\tilde I_{u_R} = 0.3854$, $\tilde I_{d_R} = 0.3961$, $\tilde I_{e_R} = 0.3972$. Status: DERIVED.
+- $G_{\mathrm{A}}$: The four-dimensional strength of the portal I13 on the zero modes, $G_{\mathrm{A}} = c_{\mathrm{A}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: $1.278\times10^{-9}$ GeV$^{-2}$ (dark-matter relic density). Status: DERIVED.
+- $\mathcal{S}_B,\ \mathcal{S}_{B-L}$: The colour-weighted sums of the squared I13 overlaps of the dark matter with the baryon-number and with the $B - L$ charges. Unit: dimensionless. Value: $\mathcal{S}_B = 16.351$, $\mathcal{S}_{B-L} = 22.92$. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** With the baryon current in I13 only I11 can produce right-handed neutrinos; $r_{\nu_R}$ is the ratio of that production to the
+annihilation rate that sets the relic, with the overlaps $\tilde I_{\nu_R,i}$ of the three right-handed neutrinos. Status: DERIVED
+($r_{\nu_R} = 2.0\times10^{-17}$: the right-handed neutrinos are never thermalised).
+
+## The self-interaction channel
+
+$$
+\begin{aligned}
+&\mathcal{L}_4^{\lambda} =
+ -\lambda\,\big(\bar\Psi_{\mathrm{DM}}\Psi_{\mathrm{fold}}\big)\big(\bar\Psi_{\mathrm{fold}}\Psi_{
+ \mathrm{DM}}\big)
+ \big(n^{\mathrm{sc}}_{\mathrm{DF}}\big)^2,\qquad n^{\mathrm{sc}}_{\mathrm{DF}} =
+ a_{\mathrm{DM}}b_{\mathrm{fold}} + b_{\mathrm{DM}}a_{\mathrm{fold}},
+ \qquad b_{\mathrm{fold}} = 0,\\
+&G_\lambda = \frac{\lambda H\tilde I_\lambda}{2f^4v_{\mathrm{t}}},\qquad
+ \tilde I_\lambda = \frac{1}{H}\int_{-L}^{0}\big(n^{\mathrm{sc}}_{\mathrm{DF}}\big)^2\,
+ \mathrm{e}^{-3Hy}\,\mathrm{d}y,\qquad
+ \sigma_\lambda v_{\mathrm{rel}} = \frac{G_\lambda^2M_{\mathrm{DM}}^2}{2\pi}\ \ \text{(per final fold
+ species)}
+\end{aligned} \tag{FE-135}
+$$
+
+<!-- symbols: L4lam, lambda, PsiDM, Psifold, nscDF, abDM, abfold, Glam, Hconst, Ilam, fblock, vt, Lcut, euler, ycoord, diff, sigmalam, vrel, MDM, pi -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-135).**
+
+- $\mathcal{L}_4^{\lambda}$: The four-dimensional term of the contact self-interaction that couples a dark-matter pair to a fold-band pair. Unit: $\mathrm{GeV}^{4}$. Status: ESTIMATE.
+- $\lambda$: The contact self-coupling of dirac16complex (the term $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ of the record). Unit: $\mathrm{GeV}^{-6}$. Value: not fixed; Kohn-Sham states computed for $\lambda = 0$ and $\pm7\times10^{-5}H^{-6}$; the fold-band radiation requires $\lvert\lambda\rvert \lesssim 1.4\times10^{-10}H^{-6}$ (for $\Delta N_{\mathrm{eff}} \le 0.001$). Status: RECORD.
+- $\Psi_{\mathrm{DM}},\ \bar\Psi_{\mathrm{DM}}$: The four-dimensional field of a dark-matter quantum (the lowest odd level of dirac16complex on the static block, in either half) and its Dirac adjoint. Unit: $\mathrm{GeV}^{3/2}$. Status: DERIVED.
+- $\Psi_{\mathrm{fold}},\ \bar\Psi_{\mathrm{fold}}$: The four-dimensional field of a fold-band quantum (an even zero mode of dirac16complex, massless) and its Dirac adjoint. Unit: $\mathrm{GeV}^{3/2}$. Status: DERIVED.
+- $n^{\mathrm{sc}}_{\mathrm{DF}}$: The transition scalar density between the dark-matter orbital and a fold-band orbital. Unit: GeV (normalised orbitals). Status: DERIVED.
+- $a_{\mathrm{DM}},\ b_{\mathrm{DM}}$: The upper and lower components of the dark-matter orbital (block spinor $(a, \mathrm{i}b)$, normalised on one half). Unit: $\mathrm{GeV}^{1/2}$. Status: DERIVED.
+- $a_{\mathrm{fold}},\ b_{\mathrm{fold}}$: The upper and lower components of a fold-band orbital ($b_{\mathrm{fold}} = 0$ for the even zero mode). Unit: $\mathrm{GeV}^{1/2}$. Status: DERIVED.
+- $G_\lambda$: The four-dimensional strength of the self-interaction channel of the dark matter into fold-band pairs. Unit: $\mathrm{GeV}^{-2}$. Value: $\le 2.3\times10^{-15}$ GeV$^{-2}$ (for $\Delta N_{\mathrm{eff}} \le 0.001$). Status: ESTIMATE.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\Lambda = -10H^2$ and the mass parameter $m_\Psi = H$. Unit: GeV (1/length). Value: 14.296 TeV (from the fit of $m_{\mathrm{W}}$ and $\rho_{\mathrm{EW},0}$). Status: AUTHOR.
+- $\tilde I_\lambda$: The overlap of the squared transition scalar density, $\tilde I_\lambda = H^{-1}\int_{-L}^{0}(n^{\mathrm{sc}}_{\mathrm{DF}})^2\mathrm{e}^{-3Hy}\mathrm{d}y$. Unit: dimensionless. Value: 14.38. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+- $v_{\mathrm{t}}$: The coordinate volume of the compact extra times $x_5, x_6, x_7$. Unit: $\mathrm{GeV}^{-3}$. Value: not fixed; $v_{\mathrm{t}} = H^{-3}$ in the quoted conversions. Status: ASSUMED.
+- $L$: The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$. Unit: length. Value: $L = 3/H$ ($fL = 8.926\times10^{-21}$ m at the stabilised block). Status: ASSUMED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $y$: The hidden coordinate of the $y$ chart, $y = \ln\lvert\sin z\rvert/(6H)$, with $y = 0$ at the fold ($z = \pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \le y \le 0$. Unit: length. Status: DERIVED.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\sigma_\lambda$: The cross-section of the self-interaction channel (per final fold species). Unit: $\mathrm{GeV}^{-2}$. Status: ESTIMATE.
+- $v_{\mathrm{rel}}$: The relative velocity of the two annihilating particles; $\langle\sigma v_{\mathrm{rel}}\rangle$ the thermal average. Unit: dimensionless (c = 1). Status: STANDARD.
+- $M_{\mathrm{DM}}$: The mass of a dark-matter particle (the lowest odd level of dirac16complex). Unit: GeV. Value: 44.35 TeV. Status: DERIVED.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+**The terms.** The contact self-interaction $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ of IN-5, projected on the dark matter and the fold bands, contains
+the transition $(\bar\Psi_{\mathrm{DM}}\Psi_{\mathrm{fold}})(\bar\Psi_{\mathrm{fold}}\Psi_{\mathrm{DM}})$ with the scalar transition density $n^{\mathrm{sc}}_{\mathrm{DF}}$ of the two
+orbitals ($b_{\mathrm{fold}} = 0$, so only $b_{\mathrm{DM}}a_{\mathrm{fold}}$ remains; it is odd under the fold reflection, its square even): the dark matter
+annihilates into pairs of fold quanta with the four-dimensional coupling $G_\lambda$ and the overlap $\tilde I_\lambda = 14.38$ (with its factor
+$1/H$). Status: ESTIMATE (the cross-section; the Fierz coefficients are not computed), $\tilde I_\lambda$ DERIVED.
+
+$$
+\frac{\mathrm{d}\big(\rho_{\mathrm{fold}}\,\mathrm{e}^{4a_4}\big)}{\mathrm{d}x_4} =
+ 2M_{\mathrm{DM}}\,\Gamma_\lambda\,\mathrm{e}^{4a_4},\qquad
+\Gamma_\lambda = 2\,n_{\mathrm{DM,eq}}\,\bar n_{\mathrm{DM,eq}}\,\sigma_\lambda
+ v_{\mathrm{rel}}\,N_{\mathrm{fold}},\qquad
+\frac{2\Gamma_\lambda}{n_{\mathrm{fold,eq}}\,\mathcal{H}} \ll 1 \tag{FE-136}
+$$
+
+<!-- symbols: diff, rhofold, euler, a4, x4, MDM, Gammalam, nDMeq, sigmalam, vrel, Nfold, nfoldeq, Hubble -->
+<!-- begin generated symbol list -->
+**Symbols in (FE-136).**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\rho_{\mathrm{fold}}$: The energy density of the fold bands. Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $M_{\mathrm{DM}}$: The mass of a dark-matter particle (the lowest odd level of dirac16complex). Unit: GeV. Value: 44.35 TeV. Status: DERIVED.
+- $\Gamma_\lambda$: The rate per volume of the self-interaction channel. Unit: $\mathrm{GeV}^{4}$. Status: ESTIMATE.
+- $n_{\mathrm{DM,eq}},\ \bar n_{\mathrm{DM,eq}}$: The equilibrium number densities of dark-matter particles and antiparticles of one species. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
+- $\sigma_\lambda$: The cross-section of the self-interaction channel (per final fold species). Unit: $\mathrm{GeV}^{-2}$. Status: ESTIMATE.
+- $v_{\mathrm{rel}}$: The relative velocity of the two annihilating particles; $\langle\sigma v_{\mathrm{rel}}\rangle$ the thermal average. Unit: dimensionless (c = 1). Status: STANDARD.
+- $N_{\mathrm{fold}}$: The number of fold bands: the massless fold zero modes of $\Psi_A$ and of $\Psi_B$ (two Dirac fermions). Unit: dimensionless. Value: 2. Status: DERIVED.
+- $n_{\mathrm{fold,eq}}$: The number density the fold bands would have in thermal equilibrium. Unit: $\mathrm{GeV}^{3}$. Status: DERIVED.
+- $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+**The terms.** While the dark matter is in equilibrium each annihilation puts the energy $2M_{\mathrm{DM}}$ into the fold bands ($\Gamma_\lambda$ the
+annihilation rate per volume into all fold species); the condition on the right keeps the fold bands out of equilibrium. Status:
+DERIVED (integrated from the highest temperature to the freeze-out): $\Delta N_{\mathrm{eff}} = 1.83\times10^{26}\,G_\lambda^2$ GeV$^4$, so
+$\Delta N_{\mathrm{eff}} \le 0.001$ requires $G_\lambda \le 2.3\times10^{-15}$ GeV$^{-2}$, i.e. $\lambda \le 1.4\times10^{-10}\,H^{-6}$ (ASSUMED bound; otherwise
+the fold bands thermalise and decouple as four Weyl species, FE-133). Residual $1.1\times10^{-5}$.
+
+
+# The coupled system
+
+## Which fields appear in which equations
+
+Every field of UM-2 obeys its own field equation and enters the equations of the other fields as a source, a mean field, a current
+or a parameter. The table lists, for each field, its own equations and the other equations in which it appears.
+
+| field | its own equations | it appears in |
+| -------------------- | -------------------------------------- | ------------------------------------------ |
+| Einstein-Lovelock gravity $g_{MN}$ (with the block scale $f$) | FE-1, FE-11; the background FE-31 to FE-49; the graviton tower FE-53, FE-54; the block response FE-80; the perturbations FE-87 to FE-90, FE-97 | every equation: the metric in every kinetic term, the spin connection FE-13, the block scale in every $x_0$ problem (FE-50 to FE-79), the expansion rate in FE-110 to FE-136 |
+| dirac16complex $\Psi$ | FE-12, FE-13, FE-28; the reduction FE-56; the spectrum and the Kohn-Sham equations FE-62 to FE-69; its levels in matter FE-70 to FE-73; as dark matter FE-91, FE-124 to FE-128; the fold bands FE-129, FE-130, FE-135, FE-136 | the sources of gravity FE-2, FE-3, FE-5, FE-9, FE-10, FE-45 to FE-47, FE-67, FE-80, FE-81, FE-86; the fermion equations FE-14 to FE-19 (I11, I13); the gauge couplings FE-21 to FE-24 and FE-79 (I12); the neutrino hierarchy FE-96 (fold bands); FE-131, FE-132 |
+| neutrinos: $\nu_e$, $\nu_\mu$, $\nu_\tau$ in $\ell_i$, and $\nu_{Ri}$ | FE-17, FE-19, FE-29, FE-30; the masses FE-57 to FE-60, FE-100; FE-96; the flavour evolution FE-101 to FE-120; FE-131 to FE-134 | FE-6; the I11 current in FE-12; the currents FE-20, FE-23 to FE-25; FE-26; the mean fields FE-64, FE-70; the plasma FE-121 to FE-123; $N_{\mathrm{eff}}$ in FE-97 |
+| charged leptons: $\ell_i$ (lower members) and $e_{Ri}$ | FE-17, FE-18, FE-29, FE-30, FE-57 to FE-60 | FE-6; FE-12 (I11); FE-20, FE-23 to FE-25; FE-26; FE-64, FE-70, FE-73; the baryon fluid FE-92; the neutrino interactions FE-101 to FE-103, FE-109, FE-111 to FE-114; FE-121 |
+| quarks: $Q_i$, $u_{Ri}$, $d_{Ri}$ | FE-14 to FE-16, FE-29, FE-30, FE-57 to FE-61 | FE-6; FE-12 (I11, I13); FE-20, FE-22 to FE-25; FE-26; FE-54; FE-64, FE-70, FE-73; the QCD plasma and the nucleon FE-75, FE-83 to FE-85; FE-92; FE-103; FE-121; FE-127 |
+| gluons $G^A_M$ | FE-22, FE-27; the massless zero mode FE-50 to FE-52; the condensate FE-74, FE-75 | FE-7, FE-10; FE-12 (I12); FE-14 to FE-16; FE-21; FE-64, FE-71, FE-72, FE-79; the QCD scale FE-81 to FE-84; FE-121; FE-127 |
+| photon $A_M$ | FE-25; the massless zero mode FE-50 to FE-52, FE-79; the CMB photons FE-93 to FE-95 | FE-7; FE-12 (I12, through $W^3$ and $B$); FE-20; FE-92; the photon temperature FE-111 to FE-115; FE-121, FE-122 |
+| $W^+$, $W^-$, $Z$ | FE-23 to FE-25, FE-51, FE-52, FE-55; the condensates FE-76 to FE-78; FE-79 | FE-7, FE-8; FE-12 (I12); FE-14 to FE-19; FE-26; FE-71, FE-72; the Fermi interactions FE-101, FE-102, FE-109; FE-121; FE-127 |
+| tip sigma field $\Sigma$ | FE-26 | the tip energy-momentum tensor FE-8; the tip Yukawa terms of FE-14 to FE-19; the tip currents of FE-23, FE-24; the tip mixing FE-30, FE-60; the Robin parameter of FE-51 |
+| block stabiliser $\rho_{\mathrm{stab}}$ | FE-4, FE-41, FE-43 | FE-3; the static block FE-42; the radion and the block response FE-44 to FE-47; the reduction FE-48 |
+
+No Higgs field and no Higgs particle appear in any equation: the masses of $W^\pm$ and $Z$ come from the tip sigma field (FE-51), those of
+the fermions from their localisation in $x_0$ and the tip mixing (FE-59, FE-60).
+
+## How the system is solved
+
+The coupled system is solved in eight steps. Each step solves a group of equations exactly or with a controlled approximation, uses
+the results of the earlier steps, and is checked by the residual of its solution in the equations it uses (section "What was
+verified").
+
+**Step 1: the background.** The background equations FE-38 to FE-40 (with the tensors FE-35 to FE-37 and the conservation law FE-41)
+are solved in closed form for a static block with the stabiliser FE-4: FE-42 and FE-43 give $K_* = 12 + \frac43\sqrt{51}$, $f_* = 0.215556$
+and $\mathcal{G}(K_*) = 13.8081$. Linearised (FE-44 to FE-46) they give the stable radion ($\omega_{\mathrm{r}} = 3.38705\,H$) and the adiabatic
+response of the block to matter (FE-47), and integrated numerically from a deflating primordial block they show how the block reaches
+the static point within $x_4 < 1/H$ (deflation rates up to $\lvert\mathcal{H}_f\rvert = 2.63\,H$, the largest deflation of the block scale
+$f/f_* = 2.917$, then radion oscillations at $3.3868\,H$ and a dust-like expansion). The reduction FE-48, FE-49 gives four-dimensional
+general relativity with $8\pi G_{\mathrm{N}} = \kappa/(\mathcal{G}(K_*)V_\perp)$ and $\Lambda_4 = 0$ at the static point. The block-averaged sources
+of matter are included at first order only, with the hidden pressure $\bar p$; the block-shape source $p_0 - p_5$ is not (OPEN).
+
+**Step 2: the masses.** On the static block every mass is an $x_0$ eigenvalue. For the bosons FE-50 to FE-52 give the massless
+graviton, photon and gluons, the tower FE-53 (with the potential FE-54) and the $W^\pm$, $Z$ eigenvalues from the tip condition FE-51;
+FE-55 fixes $\beta_{\mathrm{W}}$ by the measured electroweak parameter, reproduces $m_{\mathrm{Z}}$ from $m_{\mathrm{W}}$, and fixes the Kaluza-Klein scale
+$m_{\mathrm{KK}} = 121.32$ TeV and with it $H = 14.296$ TeV. For the fermions the exact reduction FE-56 gives the zero modes FE-57 and the tip
+values FE-58; the mass conditions FE-59 (one generation) and FE-60 (three generations, with the tip matrices of FE-61) reproduce the
+twelve measured masses with the right-handed localisations and the measured mixing matrices $U$ and $V_{\mathrm{CKM}}$; the neutrino masses
+FE-100 are among them. FE-62 gives the spectrum of dirac16complex: the massless fold bands and the dark matter at $44.35$ TeV.
+
+**Step 3: dirac16complex in Kohn-Sham theory and its back-reaction on the block.** The Kohn-Sham equations FE-63 with the mean
+fields FE-64 (densities FE-65, energy FE-66, boundary conditions FE-69) are solved to self-consistency for many-body states of
+dirac16complex on the block. Their energy-momentum tensor FE-67 (checked by the identities FE-68) is the source of the background
+equations: its block averages $\rho$, $p_3$ and $\bar p = \frac14(p_0 + 3p_5)$ enter the block response FE-45 to FE-47, which changes $f$ and
+with it every mass of step 2. The block-shape source $p_0 - p_5$ of these states is up to 4 times $\bar p$ (OPEN).
+
+**Step 4: the portals and the condensates.** On the zero modes the portals become the contact interactions FE-70 (I11, I13) and
+FE-71 (I12), with overlaps computed from the Kohn-Sham orbitals. In an environment the levels of dirac16complex shift by the
+mean fields of the Standard-Model densities and condensates (FE-72, FE-73), with the condensates of the plasma from FE-74 to FE-78
+(QCD trace anomaly, massive vectors, order-$\alpha$ pressure, running couplings without a Higgs particle). Conversely the dark matter
+weakens the gauge couplings and changes the $x_0$ problem of $W^\pm$ and $Z$ (FE-79), while the photon and the gluons stay massless.
+
+**Step 5: gravity closes the loop.** In ten environments, from the cosmic mean today to a neutron-star core and the dark-matter
+freeze-out (densities FE-86), the block responds to every species through FE-80, with the hidden pressure FE-81 of matter and of the
+hot plasma, the block dependence of the gauge couplings FE-82, of the QCD scale and the nucleon mass FE-83, FE-84, and of the fermion
+masses FE-85. The loop mass, source, block, mass is iterated to self-consistency; its gain is at most $1.05\times10^{-33}$, so the block
+moves by at most $\Delta\ln f = 1.1\times10^{-34}$ (at the freeze-out) and by $7\times10^{-94}$ today.
+
+**Step 6: the neutrino flavours.** With the masses and the tip matrix of step 2, the four-fermion interactions FE-101, FE-102 and the
+matter potentials FE-103, the flavour evolution FE-104 is solved exactly in vacuum and in matter (FE-105 to FE-108: accelerator
+baselines, the Sun, the Earth, supernova envelopes). In the early Universe the thermal potential FE-109 delays the onset of
+oscillations, and the decoupling equations FE-110 to FE-114 give $N_{\mathrm{eff}}$ (FE-115). In dense neutrino gases the linearised kinetic
+equations give the fast flavour instability (FE-116 to FE-119). Today the neutrinos form the cosmic neutrino background FE-120.
+
+**Step 7: the thermal history.** With the $x_0$ masses of step 2 the degrees of freedom FE-121 to FE-123 give the expansion of the hot
+Universe. The Boltzmann equation FE-124 with the thermal average FE-125, the cross-sections FE-127 and the unitarity bounds FE-128 fixes
+the I13 coupling $G_{\mathrm{A}} = 1.278\times10^{-9}$ GeV$^{-2}$ by the measured relic density FE-126. The freeze-in FE-129, FE-130 bounds the
+I11 coupling by the extra radiation (benchmark $G_{\mathrm{V}} = 4.38\times10^{-17}$ GeV$^{-2}$ for $\Delta N_{\mathrm{eff}} = 0.001$), the self-interaction
+channel FE-135, FE-136 bounds $\lambda$, and FE-131 to FE-134 show that the right-handed neutrinos are never thermalised with the baryon
+current in I13 (with a $B - L$ current they would add $\Delta N_{\mathrm{eff}} = 0.144$).
+
+**Step 8: the linear perturbations.** The metric series FE-87 is evaluated term by term: order 1 with $n = 0$ is the four-dimensional
+cosmological perturbation theory FE-88 to FE-90, with the species of UM-2 (the dark matter of step 7, FE-91; baryons FE-92; photons
+FE-93 to FE-95; the three neutrino mass states of step 2 and the fold bands of step 7, FE-96), the background and primordial spectrum
+FE-97; it gives the CMB, CNB and BAO, the potentials FE-98 and $\sigma_8$ (FE-99). The terms $n \ge 1$ are the graviton tower of step 2, the
+radion term is the block response of step 5, and order 2 is estimated.
+
+## The solution in concert
+
+The steps share quantities: the same mass, coupling or density enters equations of different steps. UM-2 checks 26 such links, each
+the difference between the values of one quantity in two or more equations. 21 of them agree to between $5\times10^{-16}$ and
+$1.9\times10^{-5}$, the precision of the stored numbers and of the numerical methods. Five differ by design, each by an amount that the results tolerate: the weak angle of the $x_0$ masses and
+of the $Z$ widths (relative change of the total width $8.3\times10^{-3}$, the size of the electroweak loop corrections); the Hubble rate of
+the thermal history and of four-dimensional gravity at the freeze-out ($1.7\times10^{-4}$: the thermal history leaves out the fold bands);
+the radiation density after neutrino decoupling in the thermal history and in the CMB computation ($5.9\times10^{-3}$: instantaneous
+decoupling in the thermal history); the plasma energy density at the freeze-out in the thermal history and in the block sources
+($1.3\times10^{-3}$: the trace anomaly of the interacting plasma is in the block sources only); and the radion frequency of the linear and
+of the nonlinear evolution ($7.9\times10^{-5}$: measured from the zero crossings of a finite oscillation).
+
 
 # What was verified
 
-* the Lovelock tensors of the order-0 metric by four routes, the Bianchi identities ($k = 1, 2, 3$), the record's equations
-  and the minisuperspace variation (sympy, exact);
-* the static block, the stabiliser, the radion, the stabiliser family, the first-order response and the 4D Friedmann
-  acceleration equation, the dimensional reduction (sympy, exact);
-* the exact Dirac reduction in all eight blocks, the boundary conditions, the zero modes, the tip mixing condition of one
-  generation and of three generations for an arbitrary complex tip matrix, the gauge $x_0$ operator and the gauge
-  invariance of the tip terms with arbitrary generation matrices;
-* the $x_0$ spectra (mpmath; finite elements to $5\times10^{-10}$; shooting to $6\times10^{-10}$); the three-generation tip
-  determinant (mpmath, 50 digits: its roots equal the one-generation roots to $3.0\times10^{-42}$, its null vectors the columns of
-  the tip matrix); the absence of flavour-changing Kaluza-Klein couplings ($10^{-17}$);
-* the gauge anomalies of the three generations (exact fractions);
-* the flavour evolution (exact evolution operators against the vacuum formula to $3.9\times10^{-15}$, unitarity, CPT, the T-odd
-  difference; the numerical solar evolution against the adiabatic formula to $1.3\times10^{-3}$; the exact 1-3 resonance against
-  its formula to $1.6\times10^{-4}$; the massless limits of the QED integrals; the decoupling equations against the published
-  values of the same method; three independent evaluations of the fast-flavour growth rates to $1.2\times10^{-14}$);
-* the Kohn-Sham solver (record reference states to $10^{-13}$; energy identity; conservation law; Richardson; Hellmann-
-  Feynman for every portal mean field);
-* (version 3) the overlaps $\tilde I$ and $\tilde I^{(b)}$ against the derivatives of self-consistent Kohn-Sham levels (to $3\times10^{-10}$), the
-  vanishing of I13 on the fold bands (to $7\times10^{-14}$), the screening of the response in the interacting state, the fold band massless
-  under I11; the Bessel moments of the freeze-in rate; the Boltzmann solver against the late-time integral ($1.3\times10^{-8}$) and the
-  freeze-out formula; the thermal average against its non-relativistic limit; the degrees of freedom against their exact limits
-  ($105.75$, $86.25$, $10.75$, $43/11$); the graviton tower against finite elements ($4\times10^{-9}$) and the orthogonality of the flat
-  profile ($2\times10^{-10}$); the potential from the Weyl variable against the Poisson equation ($1.5\times10^{-6}$);
-* (version 3, after the independent review) the algebra of the I13 bilinear with the author's matrices (Hermitian for $M \ne x_0$, not for
-  $M = x_0$; its $B$ structure; exact); the cancellation of radiation in the block response ($c_3 = -3c_\rho$); the Feynman-Hellmann pressure
-  against the trace-anomaly gluon condensate ($10^{-16}$); the relativistic rate fractions above the unitarity crossings by adaptive
-  quadrature with the breakpoints of the thermal weight.
+## The checks
+
+The computations of UM-2 are done by sixteen Python scripts (folder `universe_model_2/code`), each of which tests its own results
+against independent computations, closed forms or limits, with a stated tolerance. There are 287 checks in all, and all pass: 235 of
+the computations of version 3 and 52 of the residual analysis of the solution (`um2_residuals.py`). The scripts are deterministic
+(the Kohn-Sham computations run with one numerical thread), so every number of this document can be reproduced by running them.
+
+| script | checks | what is verified |
+| ---------------------- | ------ | ------------------------------------------------------------------------ |
+| `um2_algebra.py` | 31 | the author's $16 \times 16$ Dirac matrices rebuilt from his formulas: the Clifford relations of signature $(4, 4)$, $C$, the chirality, $\mathcal{B}$, the irreducibility of the representations of Pin(4,4) and Spin(4,4), the block basis and the block forms of FE-56 |
+| `um2_geometry.py` | 25 | the curvature of the order-0 metric in both charts (FE-33), the Lovelock tensors by four routes (FE-34 to FE-37), the Bianchi identities ($p = 1, 2, 3$), the minisuperspace variation, the equations of the record, the static block, the vielbein and the spin connection (FE-13) |
+| `um2_background.py` | 22 | the equal block components ($x_0$ and $x_5$), the static block (FE-42), the sourceless vacuum (repulsive), the stabiliser and its roots (FE-43), $\mathcal{G}(K_*) > 0$, the stability of the block for the stabiliser family (FE-44), the first-order response (FE-45 to FE-47), the dimensional reduction (FE-48) |
+| `um2_primordial.py` | 5 | the nonlinear primordial evolution: the constraint preserved to $6\times10^{-10}$, the radion oscillation, the dust-like expansion, the basin of the stable block, the largest deflation |
+| `um2_fields.py` | 16 | the exact Dirac reduction in all eight blocks (FE-56), the selection operator and the boundary conditions (FE-28, FE-29, self-adjoint), the zero modes of dirac16complex, of the doublets and of the singlets (FE-57), their helicity and dispersion, the tip mixing for one and for three generations (FE-30), the gauge $x_0$ operator and its boundary conditions (FE-50, FE-51), the gauge invariance of the tip terms |
+| `um2_spectra.py` | 14 | the $x_0$ spectra of the bosons and the fermions (FE-52, FE-59): exact roots, finite elements and shooting, the massless zero modes, the gap, the Dirichlet bound, the custodial relation, the fit of $\beta_{\mathrm{W}}$, $m_{\mathrm{Z}}$, the twelve fermion masses, the first-order formula |
+| `um2_electroweak.py` | 19 | the charges of three generations, the charges of $W^+$ and $W^-$, the photon and $Z$ couplings, the cancellation of the gauge anomalies, the chiral projector, the halves $\Psi_A$ and $\Psi_B$, the $Z$ charges, the invisible width, the $Z$ widths of three generations |
+| `um2_flavour.py` | 7 | the PMNS and CKM matrices (unitarity, Jarlskog invariant, FE-61), the exact three-generation tip condition and a general tip matrix (FE-60), no tree-level flavour-changing couplings of the Kaluza-Klein modes, $\mu \to e\gamma$, lepton universality |
+| `um2_ks_jobs.py` | 22 | seven Kohn-Sham jobs: the exact spectrum and the massless fold band (FE-62), basis convergence, the $y$-conservation law and the energy identity of the interacting states (FE-68), radiation of the fold-band gas, the record's reference states reproduced, the dark matter (energy bookkeeping, cold, hidden pressure), the block response (FE-47), the Hellmann-Feynman responses to the portal mean fields (FE-72) |
+| `um2_coupled.py` | 16 | the overlaps and their screening (FE-70), the fold band massless, the freeze-in benchmark, direct detection, the I13 algebra, overlaps and relic, the $B - L$ alternative, the self-interaction channel, the proton sensitivity (FE-83), the mean fields in ten environments, the gravity loop (FE-80), $W$, $Z$ and photon with the dark matter (FE-79), the domain of validity |
+| `um2_neutrino.py` | 16 | the masses and the cosmological bound, vacuum oscillations, the MSW resonances, long baselines with CP violation, the solar survival probability, the onset of oscillations in the early Universe, the QED integrals, the decoupling method against published values and $N_{\mathrm{eff}}$, the CNB, supernova resonances, the fast flavour instability (three checks), Dirac or Majorana neutrinos |
+| `um2_cosmology.py` | 8 | the CMB with the angular scale matched, three massive neutrino states, the TT and EE spectra against Planck $\Lambda$CDM, BAO against DESI DR2, dark-radiation variants, $N_{\mathrm{eff}}$ and helium, the freeze-in radiation, $\sigma_8$ and the first-order potential |
+| `um2_thermal.py` | 7 | the degrees of freedom, the thermal average, the Boltzmann solver, the relic, the unitarity of the effective operator and the unitarity-limited relic, the I12 benchmark |
+| `um2_series.py` | 4 | the terms of the metric series: order 1 with $n = 0$, the Kaluza-Klein gravitons, the radion, the decreasing magnitudes |
+| `um2_analysis.py` | 23 | the $x_0$ mass mechanism and the uncertainty relation, dirac16complex as dark matter (mass, stability, neutrality, cross-sections, direct detection) and as dark energy (it cannot be) |
+| `um2_residuals.py` | 52 | the residuals of the solution in 26 field equations and 26 links between the equations (below) |
+
+## The residuals of the solution
+
+For 26 of the field equations the stored solution is substituted afresh into the equation as printed in this document (or into
+its closed form). The residual is the relative amount by which the equation fails; the neglected terms are those that the approximation
+of the solution leaves out. Every residual is below its tolerance.
+
+| field equations | residual | the largest neglected term |
+| ---------------------------------- | ---------------------- | -------------------------------------------- |
+| background, FE-38 to FE-43 | $3.9\times10^{-13}$ | matter against the stabiliser: $3.0\times10^{-32}$ at the freeze-out, $2.4\times10^{-93}$ today |
+| block response, FE-44 to FE-47 | $1.4\times10^{-7}$ (second order, for sources of $10^{-5}H^2$) | second order at the freeze-out $2.3\times10^{-32}$; inertia $3.4\times10^{-33}$ |
+| primordial era, FE-38 to FE-40 | $1.3\times10^{-11}$ | radiation $1.0\times10^{-6}$ of the final block; the block-shape mode (OPEN) |
+| four-dimensional gravity, FE-48, FE-49 | $6.9\times10^{-13}$ | $\Lambda_4/H^2 \sim 10^{-92}$ (tuned, OPEN) |
+| boson $x_0$ eigenvalues, FE-50 to FE-52 | $5.9\times10^{-12}$ | the dark-matter kinetic function $1.9\times10^{-17}$; the Lovelock corrections to the graviton operator (OPEN) |
+| fermion tip conditions, FE-58 to FE-60 | $5.4\times10^{-11}$ | mixing with the Kaluza-Klein modes, $(m/m_{\mathrm{KK}})^2 \le 2.0\times10^{-6}$ |
+| spectrum of dirac16complex, FE-62 | $8.5\times10^{-13}$ | the Standard-Model mean fields, $1.5\times10^{-6}$ of the dark-matter mass |
+| Kohn-Sham equations, FE-63 to FE-69 | $7.4\times10^{-14}\,H$ | the self-interaction mean field at the bound on $\lambda$, $2.7\times10^{-9}\,m_\Psi$; correlation beyond the local exchange (OPEN) |
+| Kohn-Sham source of gravity, FE-67 with FE-47 | $1.4\times10^{-12}$ | the block-shape source, $\lvert p_0 - p_5\rvert/\bar p$ up to 4 (OPEN) |
+| portal overlaps, FE-70, FE-71 | $3.8\times10^{-12}$ | screening by the dirac16complex gas, $7.2\times10^{-10}$ at the bound on $\lambda$ |
+| coupled environments, FE-72 to FE-86 | $2.0\times10^{-11}$ | the loop gain, $1.05\times10^{-33}$ |
+| $W$, $Z$ with the dark matter, FE-79 | $3.3\times10^{-12}$ | the physical shift, $1.9\times10^{-17}$ |
+| $W^\pm$, $Z$ masses and $Z$ widths, FE-25, FE-55 | $2.7\times10^{-12}$ | electroweak loop corrections, $4.1\times10^{-3}$ of the total width |
+| CMB and BAO perturbations, FE-90 to FE-98 | $1.5\times10^{-6}$ | order $\epsilon^2$, $2.4\times10^{-5}$ |
+| graviton tower, FE-53, FE-54 | $1.2\times10^{-12}$ | the Kaluza-Klein correction to Newton's law at 50 $\mu$m: zero in double precision |
+| metric series, FE-87 | $2.4\times10^{-5}$ | order 2 at a neutron star, 0.03 |
+| neutrino flavour evolution, FE-103 to FE-108 | $7.1\times10^{-12}$ | non-adiabatic solar effects, $1.3\times10^{-3}$ |
+| thermal potential, FE-109 | $8.7\times10^{-12}$ | the CP-asymmetric potential, $1.1\times10^{-2}$ (ESTIMATE) |
+| neutrino decoupling, FE-111 to FE-115 | $2.7\times10^{-12}$ | the electron mass and the momentum dependence, $4.4\times10^{-3}$ in $N_{\mathrm{eff}}$ |
+| fast flavour instability, FE-116 to FE-119 | $3.3\times10^{-13}$ | the vacuum term, $9.0\times10^{-6}$ of the self-interaction |
+| cosmic neutrino background, FE-120 | $2.9\times10^{-12}$ | non-instantaneous heating, $1.1\times10^{-2}$ in $\Omega_\nu h_{100}^2$ (included in the CMB computation) |
+| degrees of freedom, FE-121 to FE-123 | $5.0\times10^{-9}$ | the order-$\alpha$ pressure, $-5.4$ % at the freeze-out |
+| dark-matter relic, FE-124 to FE-128 | $6.1\times10^{-9}$ | the order-$\alpha$ pressure, about $+2.7$ % in $\Omega h^2$ (ESTIMATE) |
+| freeze-in, FE-129, FE-130 | $3.9\times10^{-5}$ | inverse processes, $1.2\times10^{-2}$ at 10 TeV |
+| right-handed neutrinos, FE-131 to FE-134 | $2.5\times10^{-12}$ | the elastic rate (ESTIMATE), $9.5\times10^{-6}$ in $\Delta N_{\mathrm{eff}}$ |
+| self-interaction channel, FE-135, FE-136 | $1.1\times10^{-5}$ | inverse annihilation at the bound, $2.7\times10^{-2}$; the Fierz coefficients (not computed) |
+
+## The links between the equations
+
+| quantity | field equations | difference |
+| ------------------------------------------------------- | ---------------------------- | ----------------- |
+| the Kohn-Sham energy density and pressures in the block response | FE-63 to FE-69, FE-45 to FE-47 | $3.4\times10^{-12}$ |
+| the hidden pressure of the dark matter, $p_0/\rho = -\mathrm{d}\ln\varepsilon_{\mathrm{DM}}/\mathrm{d}\ln f$ | FE-62, FE-67, FE-81 | $6.1\times10^{-12}$ |
+| $m_{\mathrm{Z}}$ from the $x_0$ eigenvalues and in the $Z$ widths | FE-55, FE-25 | $2.0\times10^{-12}$ |
+| the weak angle of the $x_0$ problem and of the $Z$ widths (change of the total width) | FE-51, FE-55, FE-102 | $8.3\times10^{-3}$ (by design) |
+| the fermion masses in the thermal history | FE-59, FE-121 | $3.1\times10^{-12}$ |
+| the neutrino masses in the flavour evolution, the CNB and the CMB | FE-100, FE-104, FE-120, FE-96 | $5.7\times10^{-12}$ |
+| the PMNS matrix in the flavour evolution and the CNB | FE-61, FE-104, FE-120 | $8.2\times10^{-13}$ |
+| the neutrino density today in the CNB and the CMB computation | FE-120, FE-96 | $1.9\times10^{-5}$ |
+| $N_{\mathrm{eff}}$ of the decoupling and the freeze-in in the CMB computation | FE-115, FE-130, FE-97 | $5.4\times10^{-16}$ |
+| the relic density as the cold dark matter of the CMB computation | FE-126, FE-91 | $3.1\times10^{-9}$ |
+| the Hubble rate at the freeze-out: thermal history and four-dimensional gravity | FE-122, FE-49 | $1.7\times10^{-4}$ (by design) |
+| the radiation after neutrino decoupling: thermal history and CMB computation | FE-123, FE-97 | $5.9\times10^{-3}$ (by design) |
+| the plasma energy density at the freeze-out: thermal history and block sources | FE-121, FE-80, FE-81 | $1.3\times10^{-3}$ (by design) |
+| the portal responses of the Kohn-Sham jobs and the overlaps of the coupled solution | FE-70, FE-72 | $3.0\times10^{-12}$ |
+| the I12 response $\mathcal{O}_{\mathrm{DM}}$ across the computations | FE-71, FE-72, FE-79 | $5.7\times10^{-6}$ |
+| the I12 benchmark in the relic and in the mean fields | FE-127, FE-72 | $1.6\times10^{-12}$ |
+| the dark-matter mass of the spectrum in the Boltzmann equation | FE-62, FE-124 | $8.1\times10^{-13}$ |
+| the relic and freeze-in couplings in the mean fields | FE-126, FE-129, FE-72 | $6.7\times10^{-13}$ |
+| the $W$ eigenvalue in the problem with the dark-matter kinetic function | FE-52, FE-79 | $2.3\times10^{-6}$ |
+| the block-response coefficients across the computations | FE-46, FE-47, FE-80 | $2.0\times10^{-13}$ |
+| the radion frequency of the linear and of the nonlinear evolution | FE-44, FE-38 to FE-40 | $7.9\times10^{-5}$ (by design) |
+| the block scale $f_*$ across the computations | FE-43, FE-52, FE-59, FE-62, FE-63 | $2.2\times10^{-12}$ |
+| the heating factor $F_{\mathrm{h}}$ of the neutrino decoupling | FE-115, FE-133 | $5.8\times10^{-7}$ |
+| the terms of the metric series in the cosmology, the coupled solution and the masses | FE-87, FE-53, FE-98, FE-80 | $4.7\times10^{-12}$ |
+| the freeze-out temperature of the relic and of the freeze-out environment | FE-124, FE-86 | $2.1\times10^{-12}$ |
+| the block sensitivities of the masses in the hidden pressure | FE-85, FE-81 | $4.5\times10^{-11}$ |
+
+## What is not verified
+
+The following are not settled and are labelled OPEN where they occur: the block-shape mode driven by $p_0 - p_5$ (the order-0 metric
+has one block scale; its response to a block-anisotropic source is not computed, and the source is not small compared with the hidden
+pressure that is kept); the Gauss-Bonnet and cubic corrections to the graviton operator of the Kaluza-Klein tower; the tuned value of
+$\Lambda_4$ that the observed dark energy needs; the normalisation that relates the tip mixing matrices $\mathcal{K}$ to the Yukawa
+matrices $\mathcal{Y}$ of the action; correlation beyond the local exchange in the Kohn-Sham treatment of dirac16complex; and the
+nonlinear evolution of the fast flavour instability. The cross-section of the self-interaction channel (FE-135), the electroweak
+condensates below $m_{\mathrm{W}}$ (FE-78), the QCD interaction measure below 1 GeV (FE-75) and the block dependence of the QCD scale and the
+nucleon mass (FE-83, FE-84) are estimates.
