@@ -27,7 +27,12 @@ Kohn-Sham solution in ten environments, and the metric as a power series of term
 review of version 3 led to the I13 sum over the seven directions other than x0 (where its bilinear is Hermitian), the full
 block response to the hot plasma, the order-alpha electroweak condensates and a bound on the self-interaction of dirac16complex.
 Version 3 with these fixes was reproduced from a fresh clone of the repository on 2026-10-18 (commit 815db9e, all 235
-checks passed, every stored number reproduced, the documents rebuilt byte-identical).
+checks passed, every stored number reproduced, the documents rebuilt byte-identical). Version 4 (2026-10-18) reorganises and
+re-presents the model at the author's order: every one of the 841 display equations of the five documents is followed by the
+complete list of its symbols (one meaning per symbol, generated from one registry and checked by a script), the 136 field
+equations and 18 interaction terms are numbered and written out wherever they are used, and a new computation measures the
+residual of the approximate solution in 26 field equations and its consistency across 26 links between them; reproduced from
+a fresh clone (commit cec385b, 287 of 287 checks, every number identical, the documents byte-identical).
 
 ## The current record: `Revision/`
 

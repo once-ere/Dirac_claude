@@ -12,9 +12,9 @@ author:
 
 Two tasks of the UM-2 work are long when they are run as single jobs:
 
-* **Task 1, the fresh-clone verification**: all 21 computations of version 3 and the document build took 1116 s
-  (about 19 minutes) on 2026-10-18 at commit `815db9e`, although every individual computation takes at most about
-  4.5 minutes (the primordial integration, 269 s).
+* **Task 1, the fresh-clone verification**: all 22 computations of version 4 and the document build took 1136 s
+  (about 19 minutes) on 2026-10-18 at commit `cec385b`, although every individual computation takes at most about
+  4.5 minutes (the primordial integration, 257 s).
 * **Task 2, the independent review**: a review agent that read the five model documents of version 3, compared their
   statements with the computed outputs and recomputed key numbers independently ran for 2055 s (about 34 minutes, 74 tool
   calls) on 2026-10-18 at commit `726997f`.
@@ -98,27 +98,35 @@ run() {
 ```
 
 **Step 1.3: the computations, one block at a time, in this order** (each block depends on the outputs of the blocks
-before it; the expected durations are those of the run of 2026-10-18 at commit `815db9e`).
+before it; the expected durations are those of the run of 2026-10-18 at commit `cec385b`).
 
 | block | commands | expected time | checks |
 | ---- | -------------------------------------------------- | ------------ | -------- |
-| 1 | `run code/um2_algebra.py` | 53 s | 31 |
-| 2 | `run code/um2_geometry.py` | 76 s | 25 |
-| 3 | `run code/um2_background.py` | 137 s | 22 |
-| 4 | `run code/um2_fields.py` | 54 s | 16 |
-| 5 | `run code/um2_spectra.py` | 28 s | 14 |
-| 6 | `run code/um2_flavour.py` and `run code/um2_neutrino.py` | 5 s, 33 s | 7, 16 |
-| 7 | `run code/um2_ks_jobs.py validate` and `run code/um2_ks_jobs.py spectrum` | 42 s, 0.9 s | 2, 3 |
-| 8 | `run code/um2_ks_jobs.py ground8` | 142 s | 3 |
-| 9 | `run code/um2_ks_jobs.py ground592` | 140 s | 4 |
-| 10 | `run code/um2_ks_jobs.py darkmatter`, `run code/um2_ks_jobs.py portals`, `run code/um2_ks_jobs.py feedback` | 16 s, 4 s, 0.5 s | 3, 5, 2 |
+| 1 | `run code/um2_algebra.py` | 54 s | 31 |
+| 2 | `run code/um2_geometry.py` | 72 s | 25 |
+| 3 | `run code/um2_background.py` | 133 s | 22 |
+| 4 | `run code/um2_fields.py` | 53 s | 16 |
+| 5 | `run code/um2_spectra.py` | 27 s | 14 |
+| 6 | `run code/um2_flavour.py` and `run code/um2_neutrino.py` | 5 s, 30 s | 7, 16 |
+| 7 | `run code/um2_ks_jobs.py validate` and `run code/um2_ks_jobs.py spectrum` | 39 s, 0.8 s | 2, 3 |
+| 8 | `run code/um2_ks_jobs.py ground8` | 165 s | 3 |
+| 9 | `run code/um2_ks_jobs.py ground592` | 142 s | 4 |
+| 10 | `run code/um2_ks_jobs.py darkmatter`, `run code/um2_ks_jobs.py portals`, `run code/um2_ks_jobs.py feedback` | 17 s, 4 s, 0.4 s | 3, 5, 2 |
 | 11 | `run code/um2_electroweak.py` | 1.1 s | 19 |
-| 12 | `run code/um2_primordial.py` | 269 s | 5 |
-| 13 | `run code/um2_cosmology.py` and `run code/um2_analysis.py` | 52 s, 4 s | 8, 23 |
-| 14 | `run code/um2_thermal.py`, `run code/um2_coupled.py` and `run code/um2_series.py` | 14 s, 24 s, 0.5 s | 7, 16, 4 |
-| 15 | `run tools/build_docs.py` | 20 s | |
+| 12 | `run code/um2_primordial.py` | 257 s | 5 |
+| 13 | `run code/um2_cosmology.py` and `run code/um2_analysis.py` | 44 s, 3.5 s | 8, 23 |
+| 14 | `run code/um2_thermal.py`, `run code/um2_coupled.py` and `run code/um2_series.py` | 13 s, 23 s, 0.4 s | 7, 16, 4 |
+| 15 | `run code/um2_residuals.py` (the residuals of the solution and the links between the equations) | 9 s | 52 |
+| 16 | `run tools/build_docs.py` | 43 s | |
 
-The check counts add up to 235; the counts in force are printed by step 1.4. For example, block 1:
+The check counts add up to 287; the counts in force are printed by step 1.4. Afterwards check the symbol lists of the documents
+(every display equation followed by the complete list of its symbols; about 10 seconds):
+
+```text
+python3 universe_model_2/tools/symbols_tool.py check
+```
+
+Expected last line: `symbols_check=OK (841 display equations, ...)`. For example, block 1:
 
 ```text
 run code/um2_algebra.py
@@ -140,10 +148,11 @@ cd ~/um2_check
 python3 universe_model_2/tools/compare_outputs.py
 ```
 
-Expected result: `result: REPRODUCED`. In the runs of 2026-10-18 at commits `726997f` and `815db9e` (as in the run of version 2 at `4a6421d`)
-only the run times, the texts of two check details and one Kohn-Sham integral (a relative difference of $1.1\times10^{-12}$,
-caused by threaded linear algebra that does not sum in a fixed order) differed; the LaTeX sources, the PDF documents and the
-figures were byte-identical. With other software versions, files
+Expected result: `result: REPRODUCED`. In the run of version 4 at commit `cec385b` only the run times differed (every stored
+number identical); in the runs of version 3 at `726997f` and `815db9e` (as in the run of version 2 at `4a6421d`) also the texts of
+two check details and one Kohn-Sham integral (a relative difference of $1.1\times10^{-12}$, caused by threaded linear algebra that
+did not sum in a fixed order; version 4 fixes the thread count) differed; the LaTeX sources, the PDF documents and the figures
+were byte-identical. With other software versions, files
 reported as `CHANGED (not JSON)` (PDF, LaTeX, PNG) are expected and are not errors; open them to confirm that their content
 is the same.
 

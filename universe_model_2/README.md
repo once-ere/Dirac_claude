@@ -19,12 +19,20 @@ abundance within the unitarity limit, the thermal history of the plasma with the
 Kohn-Sham solution in ten environments from the early Universe to neutron stars, the metric as a power series of terms of
 decreasing magnitude (with the Kaluza-Klein graviton tower and the radion), and $\sigma_8$.
 
-## Documents (each as `.md`, `.tex` and `.pdf`, each self-contained)
+Version 4 (2026-10-18), in answer to the author's order to organise and present the solution better and to state every field
+equation with every one of its symbols defined, "EVEN if you have done this before": the five documents are rewritten in a
+notation in which every symbol has one meaning; every display equation (841 in all) is followed by the complete list of its
+symbols (meaning, unit, value, status), generated from one registry and checked by `tools/symbols_tool.py`; the 136 field
+equations FE-1 to FE-136 and the 18 interaction terms IN-1 to IN-18 are numbered and written out again wherever they are
+used; and the new computation `code/um2_residuals.py` measures the residual of the approximate solution in 26 of the field
+equations and its consistency across 26 links between them (52 checks; it also led to precision fixes in five scripts).
+
+## Documents (each as `.md`, `.tex` and `.pdf`, each self-contained; every equation followed by the list of its symbols)
 
 | document | content |
 | --- | --- |
 | `MODEL` | the model: fields of three generations, metric power series, action, every interaction in equation form (the portals I11, I12 and I13 included), the $x_0$ mass mechanism with the tip matrices, neutrino flavour conversion, gravity, the coupled solution, the dark sector with the thermal relic, parameters, assumptions and conflicts |
-| `PROVENANCE` | where every ingredient, equation and number comes from; the orders; the computations and their 235 checks; corrections; reproduction |
+| `PROVENANCE` | where every ingredient, equation and number comes from; the orders; the computations and their 287 checks; the residual analysis; corrections; reproduction |
 | `FIELD_EQUATIONS` | the coupled field equations: energy-momentum tensors, matter equations with every interaction, boundary conditions, the exact background equations, the $x_0$ reductions, the Kohn-Sham equations with the portal mean fields and the environment condensates, the flavour evolution of the neutrinos, the thermal (Boltzmann and freeze-in) equations, the linear perturbations |
 | `SOLUTION` | the approximate solution: static block and primordial deflation, all masses and the mixing matrices, Kohn-Sham states of dirac16complex coupled to gravity and to the Standard Model, the coupled solution in ten environments, electroweak sector, the flavour conversion of the three neutrinos (vacuum, matter, accelerators, the Sun, $N_{eff}$, the CNB, supernovae), the thermal history and the dark-matter relic, CMB, BAO and $\sigma_8$, the metric series |
 | `ANALYSIS` | the $x_0$ mass mechanism and the uncertainty relation for twelve fermions, the neutrinos as $x_0$ observables (Dirac or Majorana), the nucleon mass and the block, the deflating extra times, dirac16complex as dark matter (with I13) and as dark energy |
@@ -61,28 +69,29 @@ decreasing magnitude (with the Kaluza-Klein graviton tower and the radion), and 
 
 | script | checks | time (s) |
 | --- | --- | --- |
-| `code/um2_algebra.py` | 31/31 | 53 |
-| `code/um2_geometry.py` | 25/25 | 76 |
-| `code/um2_background.py` | 22/22 | 137 |
-| `code/um2_fields.py` | 16/16 | 54 |
-| `code/um2_spectra.py` | 14/14 | 28 |
+| `code/um2_algebra.py` | 31/31 | 54 |
+| `code/um2_geometry.py` | 25/25 | 72 |
+| `code/um2_background.py` | 22/22 | 133 |
+| `code/um2_fields.py` | 16/16 | 53 |
+| `code/um2_spectra.py` | 14/14 | 27 |
 | `code/um2_flavour.py` | 7/7 | 5 |
-| `code/um2_neutrino.py` | 16/16 | 33 |
-| `code/um2_ks_jobs.py validate, spectrum, ground8, ground592, darkmatter, portals, feedback` | 2/2, 3/3, 3/3, 4/4, 3/3, 5/5, 2/2 | 42, 0.9, 142, 140, 16, 4, 0.5 |
+| `code/um2_neutrino.py` | 16/16 | 30 |
+| `code/um2_ks_jobs.py validate, spectrum, ground8, ground592, darkmatter, portals, feedback` | 2/2, 3/3, 3/3, 4/4, 3/3, 5/5, 2/2 | 39, 0.8, 165, 142, 17, 4, 0.4 |
 | `code/um2_electroweak.py` | 19/19 | 1.1 |
-| `code/um2_primordial.py` | 5/5 | 269 |
-| `code/um2_cosmology.py` | 8/8 | 52 |
-| `code/um2_analysis.py` | 23/23 | 4 |
-| `code/um2_thermal.py` | 7/7 | 14 |
-| `code/um2_coupled.py` | 16/16 | 24 |
-| `code/um2_series.py` | 4/4 | 0.5 |
-| `tools/build_docs.py` (all six PDFs) | | 20 |
+| `code/um2_primordial.py` | 5/5 | 257 |
+| `code/um2_cosmology.py` | 8/8 | 44 |
+| `code/um2_analysis.py` | 23/23 | 3.5 |
+| `code/um2_thermal.py` | 7/7 | 13 |
+| `code/um2_coupled.py` | 16/16 | 23 |
+| `code/um2_series.py` | 4/4 | 0.4 |
+| `code/um2_residuals.py` (residuals of the solution in 26 equations, 26 links) | 52/52 | 9 |
+| `tools/build_docs.py` (all six PDFs) | | 43 |
 
-Times are those of the verification run of version 3 from a fresh clone of the repository (2026-10-18, commit `815db9e`,
-after the fixes of the independent review; every computation run as a separate step, 1116 s in all): all 235 checks passed, every stored number was reproduced (identical
-except the run times, the texts of two check details and one Kohn-Sham integral, which differs by $1.1\times10^{-12}$ relative),
-and the six PDFs, their LaTeX sources and the figures were rebuilt byte-identical. `tools/compare_outputs.py` performs this comparison; `MANUAL_TASKS`
-describes the whole verification step by step. Every script writes its numbers to `outputs/` and its named checks to
+Times are those of the verification run of version 4 from a fresh clone of the repository (2026-10-18, commit `cec385b`;
+every computation run as a separate step, 1136 s in all): all 287 checks passed, the symbol lists of the five documents passed
+`tools/symbols_tool.py check` (841 display equations, 0 problems), every stored number was reproduced identically (only the run
+times differ), and the six PDFs, their LaTeX sources and the figures were rebuilt byte-identical. `tools/compare_outputs.py`
+performs this comparison; `MANUAL_TASKS` describes the whole verification step by step. Every script writes its numbers to `outputs/` and its named checks to
 `reports/`, and exits with code 0 only if every check passes.
 
 ## Reproduce
@@ -112,7 +121,9 @@ python universe_model_2/code/um2_analysis.py
 python universe_model_2/code/um2_thermal.py
 python universe_model_2/code/um2_coupled.py
 python universe_model_2/code/um2_series.py
+python universe_model_2/code/um2_residuals.py
 python universe_model_2/tools/build_docs.py
+python universe_model_2/tools/symbols_tool.py check
 ```
 
 The private inputs of the author (prompt files, the private PDF, `dirac-main/`, `vendor/`, `Generalized_Kronecker_Delta.*`,

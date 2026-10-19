@@ -2872,8 +2872,13 @@ its independent review (item 24) changed `um2_thermal.py`, `um2_coupled.py`, `um
 Version 4: the precision fixes of commit `cc2d514` changed `um2_coupled.py`, `um2_electroweak.py`, `um2_kohnsham.py`,
 `um2_ks_jobs.py` and `um2_neutrino.py`; the affected computations (the seven Kohn-Sham jobs, `um2_neutrino.py`,
 `um2_electroweak.py`, `um2_cosmology.py`, `um2_coupled.py`) and the new `um2_residuals.py` were rerun, and every script exits
-with code 0 with all its checks: 287 of 287 (the reports in `universe_model_2/reports`). A rerun of version 4 from a fresh
-clone is not part of this record.
+with code 0 with all its checks: 287 of 287 (the reports in `universe_model_2/reports`). Version 4 was then rerun from a fresh
+clone of the repository on 2026-10-18 at commit `cec385b` (every computation as a separate step, the document build included,
+1136 s in all, the longest the primordial integration with 257 s): 287 of 287 checks passed, the symbol lists of the five
+documents passed the check of `tools/symbols_tool.py` (841 display equations, 0 problems), and every stored number was
+reproduced identically (largest relative difference 0, only the run times differ: with the fixed thread count the one
+Kohn-Sham integral that differed by $1.1\times10^{-12}$ in the earlier runs is now identical), with the LaTeX sources, the PDF
+documents and the figures rebuilt byte-identical.
 
 # Corrections made during the work
 
