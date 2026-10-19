@@ -17,7 +17,7 @@
    "passed": true
   },
   {
-   "detail": "on cosmological scales the terms decrease: order 0 (1), order 1 (Delta_Phi = 2.4e-05), order 2 (5.8e-10), radion (1.1e-34), Kaluza-Klein (0 at any measurable distance); tensor modes below 8.7e-06 (r < 0.036, FROM MEMORY): the metric of UM-2 is a power series of terms of decreasing magnitude, with the n = 0 term carrying the CMB, CNB and BAO",
+   "detail": "on cosmological scales the terms decrease: order 0 (1), order 1 (Delta_Phi = 2.4e-05), order 2 (5.8e-10), radion (1.1e-34), Kaluza-Klein (0 at any measurable distance); tensor modes below 8.7e-06 (r < 0.036, BICEP/Keck 2021): the metric of UM-2 is a power series of terms of decreasing magnitude, with the n = 0 term carrying the CMB, CNB and BAO",
    "name": "S7_decreasing_magnitudes",
    "passed": true
   }

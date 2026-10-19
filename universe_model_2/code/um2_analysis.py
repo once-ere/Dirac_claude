@@ -415,14 +415,14 @@ def main():
     # sigma_SI = (4 mu^2/pi) f_N^2, f_N = G_g (16 pi/9)(m_N f_TG)/alpha_s... ESTIMATE with f_TG = 0.92 and alpha_s(2 GeV) = 0.3
     mN = 0.939
     mu = mN * MDM / (mN + MDM)
-    fTG = 0.92
-    alphas = 0.3
+    fTG = 0.92          # 1 - f_Tu - f_Td - f_Ts = 0.918 (proton; Hisano, Ishiwata, Nagata, PLB 690 (2010) 311, arXiv:1004.4090, Table 1)
+    alphas = 0.3        # alpha_3 at a low scale (ESTIMATE)
     def sigSI(Gg):
         # trace anomaly: <N| G^a G^a |N> = -(8 pi/(9 alpha_s)) m_N f_TG (three light flavours); L_eff = f_N chibar chi Nbar N,
         # sigma_SI = mu^2 f_N^2/pi (Dirac) (ESTIMATE: alpha_s and f_TG at a low scale, no running of G_g)
         fN = Gg * (8 * math.pi / (9 * alphas)) * mN * fTG
         return mu * mu / math.pi * fN * fN * 0.3894e-27
-    lz = 2.2e-48 * MDM / 40.0
+    lz = 2.2e-48 * MDM / 40.0      # LZ: 2.2e-48 cm^2 at 40 GeV, 90 % CL (Aalbers et al., PRL 135, 011802 (2025), arXiv:2410.17036), linear in M
     Gg_max = math.sqrt(lz / sigSI(1.0))
     out['direct_detection'] = {'LZ_limit_cm2_linear_extrapolation': lz, 'sigma_SI_if_gluon_dominated_cm2': sigSI(G_eff / math.sqrt(8)),
                                'G_g_max_GeV-3': Gg_max, 'fraction_of_relic_coupling_allowed_in_gluons': (Gg_max * math.sqrt(8) / G_eff) ** 2}
@@ -515,20 +515,28 @@ def main():
               'problem of UM-2 (OPEN)' % (mr, rad[1]['tau_s'], rad[1]['T_RH_MeV'], Cmin))
 
     # A6: how static must the block be today?  Every mass and coupling depends on f (A5); a block rate h = f'/f today changes
-    # alpha by d ln alpha/dx4 = -4 h, G_N by (d ln G_N/d ln f) h and m_e by (d ln m_e/d ln f) h.  Atomic-clock bound |d ln alpha/dx4| < 1e-17
-    # per year and lunar-laser-ranging bound |d ln G_N/dx4| < 1e-13 per year (FROM MEMORY) -> bounds on |h| (ESTIMATE).
+    # alpha by d ln alpha/dx4 = -4 h, G_N by (d ln G_N/d ln f) h and m_e by (d ln m_e/d ln f) h.  Measured drifts today (verified
+    # 2026-10-18): optical clocks (1/alpha) d alpha/dx4 = (1.8 +- 2.5)e-19 per year (Filzinger et al., Phys. Rev. Lett. 130, 253001 (2023),
+    # arXiv:2301.03433); lunar laser ranging (1/G_N) dG_N/dx4 = (-5.0 +- 9.6)e-15 per year (Biskupek, Mueller, Torre, Universe 7, 34 (2021),
+    # arXiv:2012.12032).  The bounds are the two-standard-deviation ranges, |d ln alpha/dx4| < 6.8e-19 and |d ln G_N/dx4| < 2.42e-14 per
+    # year (version 3 used 1e-17 and 1e-13 per year, quoted from memory) -> bounds on |h| (ESTIMATE).
+    alpha_drift_bound = abs(1.8e-19) + 2 * 2.5e-19
+    G_drift_bound = abs(-5.0e-15) + 2 * 9.6e-15
     H0_per_yr = 67.43 * 1e3 / 3.0857e22 * 3.15576e7
-    h_alpha = 1e-17 / abs(sens['alpha and the gauge couplings (1/V_perp)'])
-    h_G = 1e-13 / abs(sens['G_N'])
+    h_alpha = alpha_drift_bound / abs(sens['alpha and the gauge couplings (1/V_perp)'])
+    h_G = G_drift_bound / abs(sens['G_N'])
     out['block_rate_today_bound'] = {'H0_per_yr': H0_per_yr, 'h_max_from_alpha_per_yr': h_alpha, 'h_max_from_G_per_yr': h_G,
                                      'h_max_over_H0_alpha': h_alpha / H0_per_yr, 'h_max_over_H0_G': h_G / H0_per_yr,
-                                     'm_e_drift_if_h_equals_H0_per_yr': abs(sens['m_e']) * H0_per_yr}
+                                     'm_e_drift_if_h_equals_H0_per_yr': abs(sens['m_e']) * H0_per_yr,
+                                     'alpha_drift_bound_per_yr': alpha_drift_bound, 'G_drift_bound_per_yr': G_drift_bound}
     rep.check('A6_block_frozen_today', h_alpha / H0_per_yr < 1e-6,
-              'ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = %+.2f, the atomic-clock bound |d ln alpha/dx4| < 1e-17/yr (x4 the time) and the '
-              'lunar-ranging bound |d ln G_N/dx4| < 1e-13/yr (FROM MEMORY) require |h| < %.1e/yr = %.1e H0 and |h| < %.1e/yr = %.1e H0 today; '
+              'ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = %+.2f, the atomic-clock bound |d ln alpha/dx4| < %.1e/yr (x4 the time; '
+              'Filzinger et al. 2023, two standard deviations) and the lunar-ranging bound |d ln G_N/dx4| < %.1e/yr (Biskupek, Mueller and Torre '
+              '2021, two standard deviations) require |h| < %.1e/yr = %.1e H0 and |h| < %.1e/yr = %.1e H0 today; '
               'a block deflating at the Hubble rate would change m_e by %.1e per year: the extra times (and x0) must be frozen today, '
               'their exponential deflation confined to the primordial era' % (
-                  sens['G_N'], h_alpha, h_alpha / H0_per_yr, h_G, h_G / H0_per_yr, abs(sens['m_e']) * H0_per_yr))
+                  sens['G_N'], alpha_drift_bound, G_drift_bound, h_alpha, h_alpha / H0_per_yr, h_G, h_G / H0_per_yr,
+                  abs(sens['m_e']) * H0_per_yr))
 
     # figures
     import matplotlib
@@ -543,25 +551,27 @@ def main():
             names.append(k.split(' (')[0])
             m_.append(v['mfL'] / fL_GeV)
             mh_.append(v['mH_GeV'])
-    ax.loglog(mh_, m_, 'o', color='C0', label='gauge bosons, x0 excitations, dark matter')
+    ax.loglog(mh_, m_, 'o', color='C0', label=r'gauge bosons, $x_0$ excitations, dark matter')
     fn = list(ferm.keys())
     ax.loglog([ferm[n]['mH_GeV'] for n in fn], [ferm[n]['m_GeV'] for n in fn], 's', color='C3', ms=4,
-              label='fermions (m_H of the broader zero mode)')
+              label=r'fermions ($m_{\mathrm{Heis}}$ of the broader zero mode)')
     # label placement chosen to avoid overlaps (the KK pair and the W, Z pair sit almost on top of each other)
     lab = {'first even KK mode': ('first even KK', (-62, 7)), 'first odd mode': ('first odd', (6, 7)),
-           'Psi lowest odd level': ('Psi_A, Psi_B dark matter', (6, -11)), 'W': ('W+, W-', (7, -9)), 'Z': ('Z', (7, 4))}
+           'Psi lowest odd level': (r'$\Psi_A$, $\Psi_B$ dark matter', (6, -11)), 'W': (r'$W^+$, $W^-$', (7, -9)), 'Z': (r'$Z$', (7, 4))}
     foff = {'u': (6, -6), 'd': (6, 3), 'c': (6, -6), 'b': (6, 2)}
+    flab = {'mu': r'$\mu$', 'tau': r'$\tau$', 'nu1': r'$\nu_1$', 'nu2': r'$\nu_2$', 'nu3': r'$\nu_3$'}   # version-4 names
     for n_, x_, y_ in zip(names, mh_, m_):
         t_, off = lab.get(n_, (n_, (4, 2)))
         ax.annotate(t_, (x_, y_), fontsize=7, xytext=off, textcoords='offset points')
     for n_ in fn:
-        ax.annotate(n_, (ferm[n_]['mH_GeV'], ferm[n_]['m_GeV']), fontsize=7, xytext=foff.get(n_, (6, -2)), textcoords='offset points')
+        ax.annotate(flab.get(n_, n_), (ferm[n_]['mH_GeV'], ferm[n_]['m_GeV']), fontsize=7, xytext=foff.get(n_, (6, -2)),
+                    textcoords='offset points')
     xx = np.logspace(3.5, 6, 10)
-    ax.loglog(xx, xx, 'k--', lw=0.8, label='m = hbar c/(2 Delta s)')
-    ax.set_xlabel('uncertainty estimate hbar c/(2 Delta s) [GeV]')
-    ax.set_ylabel('actual mass [GeV]')
+    ax.loglog(xx, xx, 'k--', lw=0.8, label=r'$m = m_{\mathrm{Heis}}$')
+    ax.set_xlabel(r'uncertainty estimate $m_{\mathrm{Heis}} = \hbar/(2\Delta(fy))$ [GeV]')
+    ax.set_ylabel(r'actual mass $m$ [GeV]')
     ax.legend(fontsize=8)
-    ax.set_title('x0 mass mechanism: excitations above the line, light masses far below')
+    ax.set_title(r'$x_0$ mass mechanism: excitations above the line, light masses far below')
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, 'fig_analysis_heisenberg.png'), dpi=130)
     plt.close(fig)
@@ -571,12 +581,12 @@ def main():
         x0 = c_['x0']
         w = x0 * a ** -3 / (1 + x0 * a ** -3)
         w = np.where(np.abs(w) > 50, np.nan, w)          # w diverges where the energy density crosses zero
-        ax.plot(1 / a - 1, w, label='w0 = %g' % c_['w0'])
+        ax.plot(1 / a - 1, w, label=r'$w_{\mathrm{de},0} = %g$' % c_['w0'])
     ax.set_ylim(-6, 1)
-    ax.set_xlabel('z')
-    ax.set_ylabel('w of the lambda < 0 condensate')
+    ax.set_xlabel(r'redshift $z_{\mathrm{red}}$')
+    ax.set_ylabel(r'$w_{\mathrm{de}}$ of the $\lambda < 0$ condensate')
     ax.legend(fontsize=7)
-    ax.set_title('the condensate is not dark energy: w runs away (energy density crosses zero)')
+    ax.set_title(r'the condensate is not dark energy: $w_{\mathrm{de}}$ runs away (energy density crosses zero)')
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, 'fig_analysis_condensate.png'), dpi=130)
     plt.close(fig)

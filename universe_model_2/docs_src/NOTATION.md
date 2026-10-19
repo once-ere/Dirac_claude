@@ -273,3 +273,4 @@ These quantities appear in the documents but not in the field equations; the wri
 | Hubble parameter today | $h$, $H_0$ | $h_{100}$, $\mathcal{H}_0$ |
 | sum of neutrino masses, neutrino density | $\sum m_\nu$, $\Omega_\nu h^2$ | $\sum_im_i$, $\Omega_\nu h_{100}^2$ (register $\Omega_\nu$ as a name) |
 | hadronic ratio of the $Z$ | $R_\ell$ | $R_\ell$ (a registered name, not the Ricci scalar) |
+| gauge and gravitational anomaly coefficients of one generation | $\mathcal{A}_{SU(3)^2U(1)}$, ... | $\mathfrak{A}_{\mathrm{SU(3)^2U(1)}}$, $\mathfrak{A}_{\mathrm{SU(2)^2U(1)}}$, $\mathfrak{A}_{\mathrm{U(1)^3}}$, $\mathfrak{A}_{\mathrm{grav^2U(1)}}$, $\mathfrak{A}_{\mathrm{SU(3)^3}}$ (Fraktur; the calligraphic $\mathcal{A}_n$ is the Yukawa strength of the $n$-th Kaluza-Klein graviton, `calA`) |

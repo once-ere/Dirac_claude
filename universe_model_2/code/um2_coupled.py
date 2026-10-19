@@ -52,6 +52,9 @@ C6  Gravity: the full adiabatic block response dk = (c_rho kappa drho + c_3 kapp
     (masses: -(rho - 3p) d ln m/d ln f; QCD: -(rho - 3p)_QCD d ln Lambda/d ln f; electroweak: p_2 d ln alpha/d ln f); the induced
     mass shifts, the gain of the loop mass -> source -> block -> mass, and the iteration.
 C7  The domain of validity of the coupled effective description.
+C11 (version 4) Direct detection through the unitarity-safe I12 benchmark: the trace-anomaly estimate of um2_analysis.py
+    (f_TG = 0.92, alpha_3 = 0.3, LZ limit extrapolated linearly) at the benchmark gluon coupling G_g, replacing the version-2
+    number at the relic strength (which the same function reproduces).
 Writes outputs/coupled.json, figures/fig_coupled.png and reports/coupled-checks.json.
 """
 import math
@@ -784,7 +787,7 @@ def main():
     dlnL3 = (21 / 27.) * dlnL6 + (2 / 27.) * (sens['m_t'] + sens['m_b'] + sens['m_c'])
     dlnLnf = {6: dlnL6, 5: (21 / 23.) * dlnL6 + (2 / 23.) * sens['m_t'],
               4: (21 / 25.) * dlnL6 + (2 / 25.) * (sens['m_t'] + sens['m_b']), 3: dlnL3}
-    sig_ud, sig_s, mp = 0.045, 0.040, 0.93827       # sigma terms (FROM MEMORY)
+    sig_ud, sig_s, mp = 0.045, 0.040, 0.93827       # sigma terms: 45 MeV (Gasser, Leutwyler, Sainio 1991), 40 MeV (FLAG 2024: 41.0 +- 8.8)
     dlnmp = (1 - (sig_ud + sig_s) / mp) * dlnL3 + sig_ud / mp * 0.5 * (sens['m_u'] + sens['m_d']) + sig_s / mp * sens['m_s']
     out['proton_sensitivity'] = {'alpha_s_mKK': as_KK, 'dlnLambda6_dlnf': dlnL6, 'dlnLambda5_dlnf': dlnLnf[5],
                                  'dlnLambda4_dlnf': dlnLnf[4], 'dlnLambda3_dlnf': dlnL3, 'dln_mp_dlnf': dlnmp,
@@ -1038,6 +1041,33 @@ def main():
                   Tv, MDM / Tv, xfAc, th['I12_universal_benchmark']['sqrt_s_unitarity_crossing_GeV'] / MDM, th['unitarity']['v_crossing_exact'],
                   out['I13']['v_crossing_capped']))
 
+    # ---------------- C11 direct detection through the I12 benchmark (version 4) ----------------
+    # The trace-anomaly estimate of um2_analysis.py (its function sigSI: <N|G^A G^A|N> = -(8 pi/(9 alpha_3)) m_N f_TG for three light
+    # flavours, f_N = G_g (8 pi/(9 alpha_3)) m_N f_TG, sigma_SI = mu^2 f_N^2/pi, with f_TG = 0.92, alpha_3 = 0.3 at a low scale and
+    # m_N = 0.939 GeV; ESTIMATE), evaluated at the gluon coupling G_g of the unitarity-safe I12 benchmark of version 3 (um2_thermal.py)
+    # instead of the relic strength of version 2 (G_g = G_I12/sqrt(8) with all of the relic coupling in gluons).  The electroweak couplings
+    # G_W, G_B have no tree-level coupling to nucleons.  The limit is the LZ limit extrapolated linearly in the mass (analysis.json).
+    bench12 = th['I12_universal_benchmark']
+    mN_ta, fTG_ta, alpha3_low = 0.939, 0.92, 0.3
+
+    def sigma_SI_trace_anomaly(Gg_):
+        mu_ta = mN_ta * MDM / (mN_ta + MDM)
+        fN_ = Gg_ * (8 * math.pi / (9 * alpha3_low)) * mN_ta * fTG_ta
+        return mu_ta * mu_ta / math.pi * fN_ * fN_ * 0.3894e-27
+    sig12_bench = sigma_SI_trace_anomaly(bench12['G_g'])
+    sig12_v2 = sigma_SI_trace_anomaly(ana['relic']['G_eff_required_GeV-3'] / math.sqrt(8))
+    dev12_v2 = abs(sig12_v2 / ana['direct_detection']['sigma_SI_if_gluon_dominated_cm2'] - 1)
+    out['direct_detection_I12_benchmark'] = {
+        'G_g_GeV-3': bench12['G_g'], 'f_TG': fTG_ta, 'alpha_3_low_scale': alpha3_low, 'm_N_GeV': mN_ta, 'sigma_SI_cm2': sig12_bench,
+        'LZ_cm2': lz, 'sigma_SI_over_LZ': sig12_bench / lz, 'sigma_SI_version2_relic_strength_cm2': sig12_v2,
+        'version2_value_reproduced_to': dev12_v2}
+    rep.check('C11_I12_benchmark_direct_detection', dev12_v2 < 1e-9 and sig12_bench < 1e-6 * lz,
+              'ESTIMATE: the trace-anomaly coupling of the unitarity-safe I12 benchmark (G_g = %.3e GeV^-3; f_TG = 0.92, alpha_3 = 0.3 at a '
+              'low scale, m_N = 0.939 GeV) gives sigma_SI = %.2e cm^2 per nucleon for each half, %.1e of the LZ limit %.2e cm^2 at %.2f TeV '
+              '(linear extrapolation): the benchmark I12 is far below the reach of direct detection; the same function reproduces the '
+              'version-2 value of analysis.json (all of the relic coupling of version 2 in gluons, %.3e cm^2) to %.1e' % (
+                  bench12['G_g'], sig12_bench, sig12_bench / lz, lz, MDM / 1e3, sig12_v2, dev12_v2))
+
     # ---------------- figure ----------------
     try:
         import matplotlib
@@ -1046,20 +1076,23 @@ def main():
         fig, ax = plt.subplots(1, 2, figsize=(11, 4.2))
         a_, b_, _ = orb['dark matter (lowest odd level)']
         af, bf_, _ = orb['fold band (zero mode)']
-        ax[0].plot(y, a_ * a_ + b_ * b_, label='dark-matter orbital $a^2+b^2$')
-        ax[0].plot(y, af * af + bf_ * bf_, label='fold band')
+        ax[0].plot(y, a_ * a_ + b_ * b_, label=r'dark-matter orbital $a_{\mathrm{DM}}^2 + b_{\mathrm{DM}}^2$')
+        ax[0].plot(y, af * af + bf_ * bf_, label=r'fold band $a_{\mathrm{fold}}^2 + b_{\mathrm{fold}}^2$')
+        zlab = {'Q (quark doublets)': r'quark doublets $Q_i$', 'L (lepton doublets)': r'lepton doublets $\ell_i$',
+                'e_R': r'electron singlet $e_R$', 'u_R': r'up-quark singlet $u_R$'}      # version-4 names (the keys stay as stored)
         for zn in ('Q (quark doublets)', 'L (lepton doublets)', 'e_R', 'u_R'):
             pr = sm_profile(zero_modes[zn], y)
-            ax[0].plot(y, pr / pr.max() * 1.5, '--', lw=1, label=zn + ' (scaled)')
-        ax[0].set_xlabel('y (units 1/H; fold at 0, tip at -3)')
-        ax[0].set_title('x0 profiles entering the I11 overlaps')
+            ax[0].plot(y, pr / pr.max() * 1.5, '--', lw=1, label=zlab[zn] + ' (scaled)')
+        ax[0].set_xlabel(r'$Hy$ (fold at $Hy = 0$, tip at $Hy = -HL = -3$)')
+        ax[0].set_title(r'$x_0$ profiles entering the I11 overlaps')
         ax[0].legend(fontsize=7)
         names = list(res_env.keys())
         vals = [abs(res_env[n]['d_eps_DM_over_M']) + 1e-300 for n in names]
         ax[1].barh(range(len(names)), np.log10(vals))
         ax[1].set_yticks(range(len(names)))
-        ax[1].set_yticklabels(names, fontsize=7)
-        ax[1].set_xlabel('log10 |shift of the dark-matter level / M|')
+        ax[1].set_yticklabels([n.replace('T = ', '$T$ = ').replace('fm^-3', 'fm$^{-3}$').replace('g/cm^3', 'g/cm$^3$')
+                               .replace('1e6 ', '$10^6$ ') for n in names], fontsize=7)
+        ax[1].set_xlabel(r'$\log_{10}|\Delta\varepsilon_{\mathrm{DM}}/M_{\mathrm{DM}}|$ (shift of the dark-matter level)')
         ax[1].set_title('Standard-Model mean fields on dirac16complex')
         fig.tight_layout()
         fig.savefig(os.path.join(FIG, 'fig_coupled.png'), dpi=130)

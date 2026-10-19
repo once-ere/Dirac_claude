@@ -3216,7 +3216,7 @@
   ],
   "meaning": "The pion-nucleon sigma term (the contribution of the up and down quark masses to the nucleon mass).",
   "units": "GeV",
-  "value": "45 MeV",
+  "value": "45 MeV (Gasser, Leutwyler and Sainio 1991; the modern determinations lie between 42 and 61 MeV)",
   "status": "STANDARD"
  },
  "sigmas": {
@@ -3226,7 +3226,7 @@
   ],
   "meaning": "The strange sigma term of the nucleon.",
   "units": "GeV",
-  "value": "40 MeV",
+  "value": "40 MeV (within the uncertainty of the FLAG 2024 lattice average $41.0 \\pm 8.8$ MeV)",
   "status": "STANDARD"
  },
  "etab": {

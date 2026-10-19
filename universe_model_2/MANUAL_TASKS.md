@@ -115,11 +115,12 @@ before it; the expected durations are those of the run of 2026-10-18 at commit `
 | 11 | `run code/um2_electroweak.py` | 1.1 s | 19 |
 | 12 | `run code/um2_primordial.py` | 257 s | 5 |
 | 13 | `run code/um2_cosmology.py` and `run code/um2_analysis.py` | 44 s, 3.5 s | 8, 23 |
-| 14 | `run code/um2_thermal.py`, `run code/um2_coupled.py` and `run code/um2_series.py` | 13 s, 23 s, 0.4 s | 7, 16, 4 |
+| 14 | `run code/um2_thermal.py`, `run code/um2_coupled.py` and `run code/um2_series.py` | 13 s, 23 s, 0.4 s | 7, 17, 4 |
 | 15 | `run code/um2_residuals.py` (the residuals of the solution and the links between the equations) | 9 s | 52 |
 | 16 | `run tools/build_docs.py` | 43 s | |
 
-The check counts add up to 287; the counts in force are printed by step 1.4. Afterwards check the symbol lists of the documents
+The check counts add up to 288 (287 at the verification of commit `cec385b`; the consistency pass of version 4 added the check
+`C11_I12_benchmark_direct_detection` of `um2_coupled.py`); the counts in force are printed by step 1.4. Afterwards check the symbol lists of the documents
 (every display equation followed by the complete list of its symbols; about 10 seconds):
 
 ```text

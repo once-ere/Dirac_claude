@@ -178,6 +178,17 @@
   "f_p": 1.89695202616e-16,
   "sigma_n_cm2": 3.93338184116e-60
  },
+ "direct_detection_I12_benchmark": {
+  "G_g_GeV-3": 6.09217063458e-15,
+  "LZ_cm2": 2.43913477451e-45,
+  "alpha_3_low_scale": 0.3,
+  "f_TG": 0.92,
+  "m_N_GeV": 0.939,
+  "sigma_SI_cm2": 2.6227809238e-55,
+  "sigma_SI_over_LZ": 1.0752915137e-10,
+  "sigma_SI_version2_relic_strength_cm2": 6.27115717152e-53,
+  "version2_value_reproduced_to": 2.40918396344e-13
+ },
  "environments": {
   "Earth (mean density 5.51 g/cm^3)": {
    "T_GeV": 0.0,

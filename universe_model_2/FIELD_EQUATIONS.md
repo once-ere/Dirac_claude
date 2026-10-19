@@ -36,7 +36,7 @@ equation is defined right after the equation. The sections are:
 * **The thermal history** (FE-121 to FE-136): the degrees of freedom, the Boltzmann equations of the dark matter, of the
   fold bands of dirac16complex and of the right-handed neutrinos.
 * **The coupled system**: which fields appear in which equations, and how the system is solved, step by step.
-* **What was verified**: the 287 checks of the computations and the residuals of the solution in 26 of the equations.
+* **What was verified**: the 288 checks of the computations and the residuals of the solution in 26 of the equations.
 
 ## The status labels
 
@@ -520,7 +520,7 @@ $\nu_{Ri}$ (a gauge singlet). These are eight-dimensional spinor fields with bul
 one bulk mass ($\mu_Q$, $\mu_\ell$). The bulk mass fixes the localisation of the four-dimensional zero mode along $x_0$, and with the
 tip mixing it fixes the four-dimensional mass (FE-56 to FE-60). With this content the gauge anomalies cancel generation by
 generation, exactly as in the Standard Model (DERIVED, exact fractions; a lepton generation without its quark generation would
-leave the anomalies $\mathcal{A}_{SU(2)^2U(1)} = -1$ and $\mathcal{A}_{U(1)^3} = 3/2$): the three quark generations are required together
+leave the anomalies $\mathfrak{A}_{\mathrm{SU(2)^2U(1)}} = -1$ and $\mathfrak{A}_{\mathrm{U(1)^3}} = 3/2$): the three quark generations are required together
 with the three lepton generations. Status: ASSUMED (the eight-dimensional form; the boundary conditions FE-29 are INVENTED).
 
 $$
@@ -2528,8 +2528,24 @@ $$
 **The terms.** The conservation law FE-11 on the order-0 metric: the energy density decreases by the work done by the pressure
 along each direction, $p_3$ along the three directions of ordinary space (rate $\mathcal{H}$), $p_0$ along the hidden direction and $p_5$
 along the three extra times (rate $\mathcal{H}_f$); the four block terms combine to $4\mathcal{H}_f(\rho + \bar p)$. For the stabiliser
-($p_0 = p_5 = \rho_{\mathrm{stab}}$, $p_3 = -\rho_{\mathrm{stab}}$) it gives $\dot\rho_{\mathrm{stab}} = -8\mathcal{H}_f\rho_{\mathrm{stab}}$, so
-$\rho_{\mathrm{stab}} \propto f^{-8}$ as assumed in IN-4. Status: DERIVED.
+($p_0 = p_5 = \rho_{\mathrm{stab}}$, $p_3 = -\rho_{\mathrm{stab}}$) it gives the equation of motion of the stabiliser density
+
+$$
+\frac{\mathrm{d}\rho_{\mathrm{stab}}}{\mathrm{d}x_4} = -8\,\mathcal{H}_f\,\rho_{\mathrm{stab}},\qquad\text{so that}\qquad \rho_{\mathrm{stab}} \propto f^{-8}
+$$
+<!-- symbols: diff, rhostab, x4, Hf, fblock -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\rho_{\mathrm{stab}}$: The energy density of the block stabiliser, a function of the block scale, $\rho_{\mathrm{stab}} \propto f^{-8}$; its value at the static block is $\rho_{\mathrm{stab}}(f_*)$. Unit: $\mathrm{GeV}^{8}$. Value: $\kappa\rho_{\mathrm{stab}}(f_*) = (26 + 4\sqrt{51})H^2 = 54.566\,H^2$. Status: ASSUMED.
+- $x_4$: The time; dots denote $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, c = 1). Status: AUTHOR.
+- $\mathcal{H}_f$: The expansion rate of the block, $\mathcal{H}_f = \dot f/f = \dot b_4/(2b_4) - \dot a_4$ (negative when the extra times and $x_0$ deflate). Unit: GeV. Status: DERIVED.
+- $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
+
+<!-- end generated symbol list -->
+
+as assumed in IN-4. Status: DERIVED.
 
 ## The block pressures
 
@@ -4635,8 +4651,8 @@ $$
 - $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
 - $m_{\mathrm{p}},\ m_{\mathrm{n}}$: The masses of the proton and the neutron. Unit: GeV. Value: 0.938272 GeV, 0.939565 GeV. Status: STANDARD.
 - $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
-- $\sigma_{\pi N}$: The pion-nucleon sigma term (the contribution of the up and down quark masses to the nucleon mass). Unit: GeV. Value: 45 MeV. Status: STANDARD.
-- $\sigma_{\mathrm{s}}$: The strange sigma term of the nucleon. Unit: GeV. Value: 40 MeV. Status: STANDARD.
+- $\sigma_{\pi N}$: The pion-nucleon sigma term (the contribution of the up and down quark masses to the nucleon mass). Unit: GeV. Value: 45 MeV (Gasser, Leutwyler and Sainio 1991; the modern determinations lie between 42 and 61 MeV). Status: STANDARD.
+- $\sigma_{\mathrm{s}}$: The strange sigma term of the nucleon. Unit: GeV. Value: 40 MeV (within the uncertainty of the FLAG 2024 lattice average $41.0 \pm 8.8$ MeV). Status: STANDARD.
 
 <!-- end generated symbol list -->
 
@@ -6668,8 +6684,9 @@ of the nonlinear evolution ($7.9\times10^{-5}$: measured from the zero crossings
 ## The checks
 
 The computations of UM-2 are done by sixteen Python scripts (folder `universe_model_2/code`), each of which tests its own results
-against independent computations, closed forms or limits, with a stated tolerance. There are 287 checks in all, and all pass: 235 of
-the computations of version 3 and 52 of the residual analysis of the solution (`um2_residuals.py`). The scripts are deterministic
+against independent computations, closed forms or limits, with a stated tolerance. There are 288 checks in all, and all pass: 235 of
+the computations of version 3, 52 of the residual analysis of the solution (`um2_residuals.py`) and one added in version 4 for
+the direct detection of the I12 benchmark (`um2_coupled.py`). The scripts are deterministic
 (the Kohn-Sham computations run with one numerical thread), so every number of this document can be reproduced by running them.
 
 | script | checks | what is verified |

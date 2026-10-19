@@ -29,11 +29,11 @@
   "status": "DERIVED"
  },
  "sol_anomaly": {
-  "tex": "\\mathcal{A}_{\\mathrm{SU(3)^2U(1)}},\\ \\mathcal{A}_{\\mathrm{SU(2)^2U(1)}},\\ \\mathcal{A}_{\\mathrm{U(1)^3}}",
+  "tex": "\\mathfrak{A}_{\\mathrm{SU(3)^2U(1)}},\\ \\mathfrak{A}_{\\mathrm{SU(2)^2U(1)}},\\ \\mathfrak{A}_{\\mathrm{U(1)^3}}",
   "atoms": [
-   "\\mathcal{A}_{\\mathrm{SU(3)^2U(1)}}",
-   "\\mathcal{A}_{\\mathrm{SU(2)^2U(1)}}",
-   "\\mathcal{A}_{\\mathrm{U(1)^3}}"
+   "\\mathfrak{A}_{\\mathrm{SU(3)^2U(1)}}",
+   "\\mathfrak{A}_{\\mathrm{SU(2)^2U(1)}}",
+   "\\mathfrak{A}_{\\mathrm{U(1)^3}}"
   ],
   "meaning": "The gauge anomaly coefficients of one generation, with every zero mode written as a left-handed Weyl field (a right-handed one with the hypercharge $-Y$): the sum over the colour triplets of $N_{\\mathrm{dbl}}Y$ (mixed $SU(3)^2U(1)_Y$ anomaly), the sum over the weak doublets of $N_{\\mathrm{col}}Y$ (mixed $SU(2)^2U(1)_Y$ anomaly) and the sum over all components of $N_{\\mathrm{col}}N_{\\mathrm{dbl}}Y^3$ (the $U(1)_Y^3$ anomaly); the theory is consistent only if they vanish.",
   "units": "dimensionless",
@@ -254,7 +254,7 @@
   ],
   "meaning": "The fraction of the nucleon mass carried by the gluons through the trace anomaly of QCD.",
   "units": "dimensionless",
-  "value": "0.92 (the value used in the computation; approximate)",
+  "value": "0.92 (from the quark mass fractions of the proton of Hisano, Ishiwata and Nagata 2010)",
   "status": "STANDARD"
  },
  "sol_sigmaSI": {
@@ -264,7 +264,7 @@
   ],
   "meaning": "The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon.",
   "units": "$\\mathrm{cm}^2$",
-  "value": "$4.01\\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $6.3\\times10^{-53}$ cm$^2$ through I12 alone",
+  "value": "$4.01\\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $2.6\\times10^{-55}$ cm$^2$ through the I12 benchmark alone ($6.3\\times10^{-53}$ cm$^2$ in version 2, with the whole relic coupling of version 2 in gluons)",
   "status": "ESTIMATE"
  },
  "sol_mured": {

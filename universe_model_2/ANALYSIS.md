@@ -23,7 +23,7 @@ conditions, the open problems, the conflicts with data and the closing assessmen
 
 **Version 4.** Version 4 (2026-10-18) re-presents version 3. The physics and the numbers are those of version 3, taken
 from the current outputs of the computations of the repository (after the precision fixes of the commit of 2026-10-18 that
-added the residual analysis of the solution: 287 checks in all), with the results of that residual analysis where they
+added the residual analysis of the solution, and the consistency pass of version 4: 288 checks in all), with the results of that residual analysis where they
 concern this document. What is new is the presentation, ordered by the author: every equation that is used is written out
 here, every field equation and interaction term with the tag of the inventory of the field equations of UM-2, (FE-$n$) or
 (IN-$n$), and every display equation is followed by the list of all of its symbols with their meanings, units, values and
@@ -1085,7 +1085,7 @@ and the decomposition of the two states of dirac16complex (both halves; the bulk
   intuition. The lightest particles of all, the neutrinos, have the most sharply localised singlet partners
   ($\Delta(fy) \approx 2\times10^{-22}$ m, $m_{\mathrm{Heis}} \approx 0.5$ PeV).
 
-![The $x_0$ mass mechanism: the actual masses against the uncertainty estimate $m_{\mathrm{Heis}} = \hbar/(2\Delta(fy))$ (circles: bosons and dirac16complex; squares: the twelve fermions, with the $m_{\mathrm{Heis}}$ of their broader zero mode); the excitations and the dark matter lie above the line $m = m_{\mathrm{Heis}}$, the light particles far below. The axis labels are in the plain-text notation of the plotting script: "hbar c/(2 Delta s)" is $m_{\mathrm{Heis}}$ and "m\_H" is $m_{\mathrm{Heis}}$.](figures/fig_analysis_heisenberg.png)
+![The $x_0$ mass mechanism: the actual mass $m$ of each state against the uncertainty estimate $m_{\mathrm{Heis}} = \hbar/(2\Delta(fy))$, $\Delta(fy)$ the spread of the proper hidden length $fy$ in the state (circles: $W^\pm$, $Z$, the first even Kaluza-Klein level, the first odd level and the dark matter of $\Psi_A$ and $\Psi_B$; squares: the twelve fermions, with the $m_{\mathrm{Heis}}$ of their broader zero mode); the excitations and the dark matter lie above the dashed line $m = m_{\mathrm{Heis}}$, the light particles far below.](figures/fig_analysis_heisenberg.png)
 
 ### Why the light fermions must be zero modes whose masses come from the tip (DERIVED) {-}
 
@@ -1559,8 +1559,7 @@ The author's metric lets the extra times $x_5, x_6, x_7$ (and, in the corrected 
 exponentially. In UM-2 they do so in the primordial era: the full nonlinear equations take a large block into the stabilised
 one at rates up to $\lvert\mathcal{H}_f\rvert = 2.63H$ (in the stored runs), deflating by up to the factor 2.917 in $f$ (the
 largest block that still reaches the stabilised one), after which the block oscillates about $f_*$ (the
-radion, $\omega_{\mathrm{r}} = 3.387H = 48.42$ TeV) and stays frozen. A continuing deflation today is excluded (ESTIMATE, bounds
-FROM MEMORY): since
+radion, $\omega_{\mathrm{r}} = 3.387H = 48.42$ TeV) and stays frozen. A continuing deflation today is excluded (ESTIMATE): since
 
 $$ \frac{\mathrm{d}\ln m}{\mathrm{d}x_4} = \frac{\mathrm{d}\ln m}{\mathrm{d}\ln f}\,\mathcal{H}_f,\qquad \frac{\mathrm{d}\ln\alpha_{\mathrm{em}}}{\mathrm{d}x_4} = -4\,\mathcal{H}_f,\qquad \frac{\mathrm{d}\ln G_{\mathrm{N}}}{\mathrm{d}x_4} = 2.05\,\mathcal{H}_f, $$
 <!-- symbols: diff, mmass, x4, fblock, Hf, alphaem, GN -->
@@ -1577,10 +1576,11 @@ $$ \frac{\mathrm{d}\ln m}{\mathrm{d}x_4} = \frac{\mathrm{d}\ln m}{\mathrm{d}\ln 
 
 <!-- end generated symbol list -->
 
-the atomic-clock bound $\lvert\mathrm{d}\ln\alpha_{\mathrm{em}}/\mathrm{d}x_4\rvert < 10^{-17}$/yr requires
-$\lvert\mathcal{H}_f\rvert < 2.5\times10^{-18}$/yr $= 3.6\times10^{-8}\,\mathcal{H}_0$ ($\mathcal{H}_0 = 6.90\times10^{-11}$/yr), lunar ranging
-($\lvert\mathrm{d}\ln G_{\mathrm{N}}/\mathrm{d}x_4\rvert < 10^{-13}$/yr) requires $\lvert\mathcal{H}_f\rvert < 4.9\times10^{-14}$/yr
-$= 7.1\times10^{-4}\,\mathcal{H}_0$, and a block deflating at the Hubble rate ($\lvert\mathcal{H}_f\rvert = \mathcal{H}_0$) would change the
+the atomic-clock bound $\lvert\mathrm{d}\ln\alpha_{\mathrm{em}}/\mathrm{d}x_4\rvert < 6.8\times10^{-19}$/yr (two standard deviations of
+the measured drift $(1.8 \pm 2.5)\times10^{-19}$/yr of Filzinger et al. 2023, arXiv:2301.03433) requires
+$\lvert\mathcal{H}_f\rvert < 1.7\times10^{-19}$/yr $= 2.5\times10^{-9}\,\mathcal{H}_0$ ($\mathcal{H}_0 = 6.90\times10^{-11}$/yr), lunar laser ranging
+($\lvert\mathrm{d}\ln G_{\mathrm{N}}/\mathrm{d}x_4\rvert < 2.4\times10^{-14}$/yr, two standard deviations of $(-5.0 \pm 9.6)\times10^{-15}$/yr of Biskupek,
+Müller and Torre 2021, arXiv:2012.12032) requires $\lvert\mathcal{H}_f\rvert < 1.2\times10^{-14}$/yr $= 1.7\times10^{-4}\,\mathcal{H}_0$, and a block deflating at the Hubble rate ($\lvert\mathcal{H}_f\rvert = \mathcal{H}_0$) would change the
 electron mass by $20.5\,\mathcal{H}_0 = 1.4\times10^{-9}$ per year. The extra times are irrelevant at low energies not because they
 keep deflating but because they are small (the proper half cell $f_*L = 3f_*/H = 8.9\times10^{-21}$ m, Kaluza-Klein masses above
 100 TeV) and frozen. The price is the stabiliser (ASSUMED, origin OPEN) and the radion left over from the deflation, whose
@@ -1640,8 +1640,8 @@ $$
 - $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
 - $m_{\mathrm{p}},\ m_{\mathrm{n}}$: The masses of the proton and the neutron. Unit: GeV. Value: 0.938272 GeV, 0.939565 GeV. Status: STANDARD.
 - $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
-- $\sigma_{\pi N}$: The pion-nucleon sigma term (the contribution of the up and down quark masses to the nucleon mass). Unit: GeV. Value: 45 MeV. Status: STANDARD.
-- $\sigma_{\mathrm{s}}$: The strange sigma term of the nucleon. Unit: GeV. Value: 40 MeV. Status: STANDARD.
+- $\sigma_{\pi N}$: The pion-nucleon sigma term (the contribution of the up and down quark masses to the nucleon mass). Unit: GeV. Value: 45 MeV (Gasser, Leutwyler and Sainio 1991; the modern determinations lie between 42 and 61 MeV). Status: STANDARD.
+- $\sigma_{\mathrm{s}}$: The strange sigma term of the nucleon. Unit: GeV. Value: 40 MeV (within the uncertainty of the FLAG 2024 lattice average $41.0 \pm 8.8$ MeV). Status: STANDARD.
 
 <!-- end generated symbol list -->
 
@@ -1680,7 +1680,8 @@ $$
 <!-- end generated symbol list -->
 
 With $\alpha_3(m_{\mathrm{Z}}) = 0.1180$, i.e. $\alpha_3(m_{\mathrm{KK}}) = 0.0606$, the sigma terms $\sigma_{\pi N} = 45$ MeV and
-$\sigma_{\mathrm{s}} = 40$ MeV (FROM MEMORY) and the quark sensitivities of (FE-85) ($-18.82$, $-18.01$, $-14.90$, $-12.15$, $-10.89$,
+$\sigma_{\mathrm{s}} = 40$ MeV (the first as determined by Gasser, Leutwyler and Sainio 1991, inside the spread from 42 to 61 MeV of
+the modern determinations; the second within the uncertainty of the FLAG 2024 lattice average $41.0 \pm 8.8$ MeV) and the quark sensitivities of (FE-85) ($-18.82$, $-18.01$, $-14.90$, $-12.15$, $-10.89$,
 $-6.77$ for the up, down, strange, charm, bottom and top quarks), the QCD scale has the sensitivities $-60.2$ (six flavours),
 $-55.6$, $-52.0$ and $-49.0$ (three flavours), and $\mathrm{d}\ln m_{\mathrm{p}}/\mathrm{d}\ln f = -46.1$: the nucleon mass is the most
 block-sensitive mass of UM-2, more than the lightest neutrino ($-41.0$), and a block that drifted today would change the
@@ -2782,20 +2783,23 @@ $$ \langle\mathrm{N}\rvert G^A_{\mu\nu}G^{A\mu\nu}\lvert\mathrm{N}\rangle = -g_3
 - $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
 - $\alpha_3$: The strong fine-structure constant, $\alpha_3 = g_3^2/(4\pi)$, at the scale given in brackets. Unit: dimensionless. Value: $\alpha_3(m_{\mathrm{Z}}) = 0.1180$; $\alpha_3(m_{\mathrm{KK}}) = 0.0606$. Status: STANDARD.
 - $m_{\mathrm{N}}$: The mass of a nucleon. Unit: GeV. Value: 0.939 GeV. Status: STANDARD.
-- $f_{\mathrm{TG}}$: The fraction of the nucleon mass carried by the gluons through the trace anomaly of QCD. Unit: dimensionless. Value: 0.92 (the value used in the computation; approximate). Status: STANDARD.
+- $f_{\mathrm{TG}}$: The fraction of the nucleon mass carried by the gluons through the trace anomaly of QCD. Unit: dimensionless. Value: 0.92 (from the quark mass fractions of the proton of Hisano, Ishiwata and Nagata 2010). Status: STANDARD.
 - $f_{\mathrm{N}},\ f_{\mathrm{p}},\ f_{\mathrm{n}}$: The spin-independent effective couplings of the dark matter to a nucleon: $f_{\mathrm{p}}$ to the proton, $f_{\mathrm{n}}$ to the neutron, and $f_{\mathrm{N}}$ the average per nucleon of the target (for the portal I12, the coupling through the gluon content of a nucleon). Unit: $\mathrm{GeV}^{-2}$. Value: $f_{\mathrm{p}} = 1.915\times10^{-9}$, $f_{\mathrm{n}} = 1.917\times10^{-9}$ GeV$^{-2}$ (I13 and I11). Status: ESTIMATE.
 - $G_{\mathrm{g}}$: The coupling of a dark-matter pair to canonically normalised gluon pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $6.09\times10^{-15}$ GeV$^{-3}$ (benchmark). Status: DERIVED.
-- $\sigma_{\mathrm{SI}}$: The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon. Unit: $\mathrm{cm}^2$. Value: $4.01\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $6.3\times10^{-53}$ cm$^2$ through I12 alone. Status: ESTIMATE.
+- $\sigma_{\mathrm{SI}}$: The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon. Unit: $\mathrm{cm}^2$. Value: $4.01\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $2.6\times10^{-55}$ cm$^2$ through the I12 benchmark alone ($6.3\times10^{-53}$ cm$^2$ in version 2, with the whole relic coupling of version 2 in gluons). Status: ESTIMATE.
 - $\mu_{\mathrm{red}}$: The reduced mass of the dark-matter particle and a nucleon, $M_{\mathrm{DM}}m_{\mathrm{N}}/(M_{\mathrm{DM}} + m_{\mathrm{N}})$. Unit: GeV. Status: STANDARD.
 
 <!-- end generated symbol list -->
 
-($f_{\mathrm{TG}} = 0.92$, $\alpha_3 = 0.3$ at a low scale, $m_{\mathrm{N}} = 0.939$ GeV, FROM MEMORY). Even if the whole coupling of version 2 (the
-relic strength $(15.5\ \text{TeV})^{-3}$) were in gluons, $G_{\mathrm{g}} = G_{\mathrm{I12}}/\sqrt8$, the cross-section per dark-matter species
-would be $\sigma_{\mathrm{SI}} = 6.3\times10^{-53}$ cm$^2$ (the two halves have the same cross-section and together the full local density,
-so the limit applies as for one species), eight orders below the LZ limit extrapolated linearly in the mass from
-$2.2\times10^{-48}$ cm$^2$ at 40 GeV to 44.35 TeV ($2.44\times10^{-45}$ cm$^2$; STANDARD FROM MEMORY, the extrapolation an ESTIMATE): the
-limit would allow a gluon coupling whose square is $3.9\times10^7$ times the relic requirement. The electroweak channels have no
+($f_{\mathrm{TG}} = 0.92$ from the quark mass fractions of the proton of Hisano, Ishiwata and Nagata 2010, $\alpha_3 = 0.3$ at a low
+scale, $m_{\mathrm{N}} = 0.939$ GeV). At the unitarity-safe benchmark of I12 (version 3), $G_{\mathrm{g}} = 6.09\times10^{-15}$ GeV$^{-3}$, the
+cross-section per dark-matter species is $\sigma_{\mathrm{SI}} = 2.62\times10^{-55}$ cm$^2$ (ESTIMATE; `um2_coupled.py`, check
+`C11_I12_benchmark_direct_detection`; the two halves have the same cross-section and together the full local density, so the
+limit applies as for one species), $1.1\times10^{-10}$ of the LZ limit extrapolated linearly in the mass from
+$2.2\times10^{-48}$ cm$^2$ at 40 GeV (Aalbers et al. 2025, arXiv:2410.17036; STANDARD) to 44.35 TeV ($2.44\times10^{-45}$ cm$^2$; the
+extrapolation an ESTIMATE). Version 2 quoted $6.3\times10^{-53}$ cm$^2$, the same estimate with the whole relic coupling of version 2,
+$(15.5\ \text{TeV})^{-3}$, in gluons ($G_{\mathrm{g}} = G_{\mathrm{I12}}/\sqrt8$); even that is eight orders below the limit, which would
+allow a gluon coupling whose square is $3.9\times10^7$ times that relic requirement. The electroweak channels have no
 tree-level nucleon coupling.
 
 **Through I13 and I11 (DERIVED; ESTIMATE for the limit).** These portals couple the dark matter coherently to the vector currents of
@@ -2824,7 +2828,7 @@ $$ f_{\mathrm{p}} = 2G_{\mathrm{u}} + G_{\mathrm{d}},\qquad f_{\mathrm{n}} = G_{
 - $f_{\mathrm{N}},\ f_{\mathrm{p}},\ f_{\mathrm{n}}$: The spin-independent effective couplings of the dark matter to a nucleon: $f_{\mathrm{p}}$ to the proton, $f_{\mathrm{n}}$ to the neutron, and $f_{\mathrm{N}}$ the average per nucleon of the target (for the portal I12, the coupling through the gluon content of a nucleon). Unit: $\mathrm{GeV}^{-2}$. Value: $f_{\mathrm{p}} = 1.915\times10^{-9}$, $f_{\mathrm{n}} = 1.917\times10^{-9}$ GeV$^{-2}$ (I13 and I11). Status: ESTIMATE.
 - $G_{\mathrm{u}},\ G_{\mathrm{d}}$: The four-dimensional vector couplings of the dark matter to the up and to the down quark (I13 and I11, unpolarised quarks with each chirality carrying half of the density). Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
 - $Z_{\mathrm{Xe}},\ A_{\mathrm{Xe}}$: The atomic number and the mass number of the xenon target. Unit: dimensionless. Value: 54 and 131. Status: STANDARD.
-- $\sigma_{\mathrm{SI}}$: The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon. Unit: $\mathrm{cm}^2$. Value: $4.01\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $6.3\times10^{-53}$ cm$^2$ through I12 alone. Status: ESTIMATE.
+- $\sigma_{\mathrm{SI}}$: The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon. Unit: $\mathrm{cm}^2$. Value: $4.01\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $2.6\times10^{-55}$ cm$^2$ through the I12 benchmark alone ($6.3\times10^{-53}$ cm$^2$ in version 2, with the whole relic coupling of version 2 in gluons). Status: ESTIMATE.
 - $\mu_{\mathrm{red}}$: The reduced mass of the dark-matter particle and a nucleon, $M_{\mathrm{DM}}m_{\mathrm{N}}/(M_{\mathrm{DM}} + m_{\mathrm{N}})$. Unit: GeV. Status: STANDARD.
 - $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
 
@@ -3381,7 +3385,7 @@ The supernova fits of the author's private file, a constant $w_{\mathrm{de}} = -
 are not reproduced: a condensate tuned to $w_{\mathrm{de},0} = -0.861$ has $w_{\mathrm{de},a} = -4.81$ and a negative energy density beyond
 $z_{\mathrm{red}} = 0.29$.
 
-![The equation of state of the $\lambda < 0$ condensate for several present values $w_{\mathrm{de},0}$: $w_{\mathrm{de}}$ runs away to $-\infty$ where the energy density crosses zero. The labels are in the plain-text notation of the plotting script: "z" is the redshift $z_{\mathrm{red}}$, "w" is $w_{\mathrm{de}}$ and "w0" is $w_{\mathrm{de},0}$.](figures/fig_analysis_condensate.png)
+![The equation of state $w_{\mathrm{de}}$ of the $\lambda < 0$ condensate against the redshift $z_{\mathrm{red}}$ for several present values $w_{\mathrm{de},0}$: $w_{\mathrm{de}}$ runs away to $-\infty$ where the energy density of the condensate crosses zero.](figures/fig_analysis_condensate.png)
 
 ### The vacuum energy and the tuning (OPEN) {-}
 

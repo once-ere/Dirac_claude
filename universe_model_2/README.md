@@ -32,7 +32,7 @@ equations and its consistency across 26 links between them (52 checks; it also l
 | document | content |
 | --- | --- |
 | `MODEL` | the model: fields of three generations, metric power series, action, every interaction in equation form (the portals I11, I12 and I13 included), the $x_0$ mass mechanism with the tip matrices, neutrino flavour conversion, gravity, the coupled solution, the dark sector with the thermal relic, parameters, assumptions and conflicts |
-| `PROVENANCE` | where every ingredient, equation and number comes from; the orders; the computations and their 287 checks; the residual analysis; corrections; reproduction |
+| `PROVENANCE` | where every ingredient, equation and number comes from; the orders; the computations and their 288 checks; the residual analysis; corrections; reproduction |
 | `FIELD_EQUATIONS` | the coupled field equations: energy-momentum tensors, matter equations with every interaction, boundary conditions, the exact background equations, the $x_0$ reductions, the Kohn-Sham equations with the portal mean fields and the environment condensates, the flavour evolution of the neutrinos, the thermal (Boltzmann and freeze-in) equations, the linear perturbations |
 | `SOLUTION` | the approximate solution: static block and primordial deflation, all masses and the mixing matrices, Kohn-Sham states of dirac16complex coupled to gravity and to the Standard Model, the coupled solution in ten environments, electroweak sector, the flavour conversion of the three neutrinos (vacuum, matter, accelerators, the Sun, $N_{eff}$, the CNB, supernovae), the thermal history and the dark-matter relic, CMB, BAO and $\sigma_8$, the metric series |
 | `ANALYSIS` | the $x_0$ mass mechanism and the uncertainty relation for twelve fermions, the neutrinos as $x_0$ observables (Dirac or Majorana), the nucleon mass and the block, the deflating extra times, dirac16complex as dark matter (with I13) and as dark energy |
@@ -82,7 +82,7 @@ equations and its consistency across 26 links between them (52 checks; it also l
 | `code/um2_cosmology.py` | 8/8 | 44 |
 | `code/um2_analysis.py` | 23/23 | 3.5 |
 | `code/um2_thermal.py` | 7/7 | 13 |
-| `code/um2_coupled.py` | 16/16 | 23 |
+| `code/um2_coupled.py` | 17/17 | 23 |
 | `code/um2_series.py` | 4/4 | 0.4 |
 | `code/um2_residuals.py` (residuals of the solution in 26 equations, 26 links) | 52/52 | 9 |
 | `tools/build_docs.py` (all six PDFs) | | 43 |
@@ -93,6 +93,9 @@ every computation run as a separate step, 1136 s in all): all 287 checks passed,
 times differ), and the six PDFs, their LaTeX sources and the figures were rebuilt byte-identical. `tools/compare_outputs.py`
 performs this comparison; `MANUAL_TASKS` describes the whole verification step by step. Every script writes its numbers to `outputs/` and its named checks to
 `reports/`, and exits with code 0 only if every check passes.
+The consistency pass of version 4 (PROVENANCE item 26) relabelled the nine figures in the version-4 notation (every stored
+number unchanged), corrected two measured bounds in `um2_analysis.py` and added the check `C11_I12_benchmark_direct_detection` to
+`um2_coupled.py`: 288 checks in all, every one passing.
 
 ## Reproduce
 

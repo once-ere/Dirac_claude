@@ -37,7 +37,7 @@
    "passed": true
   },
   {
-   "detail": "sigma_8 = 0.8118 (UM-2, version 3), 0.8119 (without the freeze-in fold bands), 0.8109 (LCDM; Planck 2018 0.811, FROM MEMORY); f sigma_8 at z = 0.5: 0.4761 (UM-2), 0.4756 (LCDM); the rms Newtonian potential today per logarithmic k, Delta_Phi = 2.42e-05, 2.28e-05, 1.51e-05, 4.12e-06, 1.74e-06, 3.55e-07, 5.03e-08 at k = 0.0001, 0.001, 0.01, 0.05, 0.1, 0.3, 1 Mpc^-1 (UM-2): the first-order term of the metric is 2e-5 and smaller; from the Weyl potential and from the matter density through the Poisson equation it agrees to 1.5e-06 for k >= 0.01 Mpc^-1; on the largest scales it equals (3/5) A_s^(1/2) (k/k_0)^((n_s - 1)/2) g(0) to 4.4e-05 (g(0) = 0.7878, the growth suppression by the cosmological term)",
+   "detail": "sigma_8 = 0.8118 (UM-2, version 3), 0.8119 (without the freeze-in fold bands), 0.8109 (LCDM; Planck 2018 0.811 +- 0.006, arXiv:1807.06209); f sigma_8 at z = 0.5: 0.4761 (UM-2), 0.4756 (LCDM); the rms Newtonian potential today per logarithmic k, Delta_Phi = 2.42e-05, 2.28e-05, 1.51e-05, 4.12e-06, 1.74e-06, 3.55e-07, 5.03e-08 at k = 0.0001, 0.001, 0.01, 0.05, 0.1, 0.3, 1 Mpc^-1 (UM-2): the first-order term of the metric is 2e-5 and smaller; from the Weyl potential and from the matter density through the Poisson equation it agrees to 1.5e-06 for k >= 0.01 Mpc^-1; on the largest scales it equals (3/5) A_s^(1/2) (k/k_0)^((n_s - 1)/2) g(0) to 4.4e-05 (g(0) = 0.7878, the growth suppression by the cosmological term)",
    "name": "sigma8_and_first_order_potential",
    "passed": true
   }

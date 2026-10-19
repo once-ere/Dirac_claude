@@ -112,7 +112,7 @@
    "passed": true
   },
   {
-   "detail": "ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = +2.05, the atomic-clock bound |d ln alpha/dx4| < 1e-17/yr (x4 the time) and the lunar-ranging bound |d ln G_N/dx4| < 1e-13/yr (FROM MEMORY) require |h| < 2.5e-18/yr = 3.6e-08 H0 and |h| < 4.9e-14/yr = 7.1e-04 H0 today; a block deflating at the Hubble rate would change m_e by 1.4e-09 per year: the extra times (and x0) must be frozen today, their exponential deflation confined to the primordial era",
+   "detail": "ESTIMATE: with d ln alpha/d ln f = -4 and d ln G_N/d ln f = +2.05, the atomic-clock bound |d ln alpha/dx4| < 6.8e-19/yr (x4 the time; Filzinger et al. 2023, two standard deviations) and the lunar-ranging bound |d ln G_N/dx4| < 2.4e-14/yr (Biskupek, Mueller and Torre 2021, two standard deviations) require |h| < 1.7e-19/yr = 2.5e-09 H0 and |h| < 1.2e-14/yr = 1.7e-04 H0 today; a block deflating at the Hubble rate would change m_e by 1.4e-09 per year: the extra times (and x0) must be frozen today, their exponential deflation confined to the primordial era",
    "name": "A6_block_frozen_today",
    "passed": true
   }

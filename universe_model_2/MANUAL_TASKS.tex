@@ -320,14 +320,17 @@ checks
 \texttt{run\ code/um2\_analysis.py} & 44 s, 3.5 s & 8, 23 \\
 14 & \texttt{run\ code/um2\_thermal.py},
 \texttt{run\ code/um2\_coupled.py} and \texttt{run\ code/um2\_series.py}
-& 13 s, 23 s, 0.4 s & 7, 16, 4 \\
+& 13 s, 23 s, 0.4 s & 7, 17, 4 \\
 15 & \texttt{run\ code/um2\_residuals.py} (the residuals of the solution
 and the links between the equations) & 9 s & 52 \\
 16 & \texttt{run\ tools/build\_docs.py} & 43 s & \\
 \end{longtable}
 
-The check counts add up to 287; the counts in force are printed by step
-1.4. Afterwards check the symbol lists of the documents (every display
+The check counts add up to 288 (287 at the verification of commit
+\texttt{cec385b}; the consistency pass of version 4 added the check
+\texttt{C11\_I12\_benchmark\_direct\_detection} of
+\texttt{um2\_coupled.py}); the counts in force are printed by step 1.4.
+Afterwards check the symbol lists of the documents (every display
 equation followed by the complete list of its symbols; about 10
 seconds):
 

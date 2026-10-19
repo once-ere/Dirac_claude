@@ -25,7 +25,7 @@
     ],
     "meaning": "The tensor-to-scalar ratio: the power of the primordial tensor perturbations divided by the power $A_{\\mathrm{s}}$ of the primordial curvature perturbations at the pivot scale.",
     "units": "dimensionless",
-    "value": "$r_{\\mathrm{ts}} < 0.036$ (95 %)",
+    "value": "$r_{\\mathrm{ts}} < 0.036$ (95 %; BICEP/Keck Collaboration 2021, arXiv:2110.00483)",
     "status": "STANDARD"
   },
   "mod_ih": {
@@ -119,12 +119,12 @@
     "status": "DERIVED"
   },
   "mod_anomaly2": {
-    "tex": "\\mathcal{A}_{\\mathrm{grav^2U(1)}},\\ \\mathcal{A}_{\\mathrm{SU(3)^3}}",
+    "tex": "\\mathfrak{A}_{\\mathrm{grav^2U(1)}},\\ \\mathfrak{A}_{\\mathrm{SU(3)^3}}",
     "atoms": [
-      "\\mathcal{A}_{\\mathrm{grav^2U(1)}}",
-      "\\mathcal{A}_{\\mathrm{SU(3)^3}}"
+      "\\mathfrak{A}_{\\mathrm{grav^2U(1)}}",
+      "\\mathfrak{A}_{\\mathrm{SU(3)^3}}"
     ],
-    "meaning": "Two further anomaly coefficients of one generation (every zero mode written as a left-handed Weyl field, a right-handed one with the hypercharge $-Y$): the mixed gravitational-hypercharge anomaly $\\mathcal{A}_{\\mathrm{grav^2U(1)}} = \\sum N_{\\mathrm{col}}N_{\\mathrm{dbl}}Y$ over all components, and the cubic colour anomaly $\\mathcal{A}_{\\mathrm{SU(3)^3}}$ (the number of left-handed minus right-handed colour triplets, weighted with their isospin multiplicity); the theory is consistent only if they vanish.",
+    "meaning": "Two further anomaly coefficients of one generation (every zero mode written as a left-handed Weyl field, a right-handed one with the hypercharge $-Y$): the mixed gravitational-hypercharge anomaly $\\mathfrak{A}_{\\mathrm{grav^2U(1)}} = \\sum N_{\\mathrm{col}}N_{\\mathrm{dbl}}Y$ over all components, and the cubic colour anomaly $\\mathfrak{A}_{\\mathrm{SU(3)^3}}$ (the number of left-handed minus right-handed colour triplets, weighted with their isospin multiplicity); the theory is consistent only if they vanish.",
     "units": "dimensionless",
     "value": "0 (each generation)",
     "status": "DERIVED"

@@ -20,7 +20,7 @@ are: the author's orders, quoted (section 2); who did what (section 3); the ingr
 and from the Revision record (section 5); the action of UM-2 term by term, each of the 18 interaction terms IN-1 to IN-18
 written out with its origin, and for every invented term the reason and its consistency with QCD and the electroweak
 model (section 6); the measured values and standard physics used, with their sources (section 7); the origin of every one
-of the 136 field equations FE-1 to FE-136 in one table (section 8); the computations, their outputs and their 287 checks
+of the 136 field equations FE-1 to FE-136 in one table (section 8); the computations, their outputs and their 288 checks
 (section 9); the residuals of the approximate solution in its field equations and in concert, and the precision fixes of
 version 4 (section 10); the verification record (section 11); the history of the corrections (section 12); what is not in
 the repository (section 13); the reproduction (section 14); and the history of UM-2 in the repository (section 15).
@@ -72,7 +72,7 @@ terms of the metric series, $\sigma_8$ and the Majorana alternative (item 23; it
 4** (2026-10-18) answers the author's order of 2026-10-18, 15:42, to organise and present the solution better: one
 notation in which every symbol has one meaning, a registry of every symbol with its meaning and unit, an inventory of the
 136 field equations and 18 interaction terms, every equation followed by its symbols, the residuals of the approximate
-solution in each of its field equations and in concert (52 new checks, 287 in all), and five precision fixes of the
+solution in each of its field equations and in concert (52 new checks, 287 in all; the consistency pass of item 26 added one, 288), and five precision fixes of the
 computations (item 25). The physics and the claims of version 3 are unchanged; every changed number is stated in item 25
 and in section 10.
 
@@ -661,8 +661,25 @@ contact self-interaction and the canonical (vielbein-postulate, torsion-free) sp
 connection IN-7, written out in section 6. The record chose the Dirac-type form because the notebook's real Majorana-type
 Lagrangian is a total derivative for anticommuting real fields (it has no field equations), and it uses the canonical
 connection rather than the notebook's contraction of the mixed connection coefficients, which lacks a metric factor. The
-field equation of the record is $\gamma^MD_M\Psi = (m_\Psi + \lambda\bar\Psi\Psi)\Psi$, the part of the dirac16complex field
-equation FE-12 without the portals.
+field equation of the record is
+
+$$
+\gamma^MD_M\Psi = \big(m_\Psi + \lambda\,\bar\Psi\Psi\big)\Psi
+$$
+<!-- symbols: gamma, iM, Dcov, Psi, mPsi, lambda -->
+<!-- begin generated symbol list -->
+**Symbols in this equation.**
+
+- $\gamma^a,\ \gamma^M,\ \gamma^\mu$: The Dirac matrices: $\gamma^a$ with a frame index are the author's real $16 \times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\gamma^M = \mathbf{e}_a{}^M\gamma^a$ along a coordinate ($\gamma^{x_0}$, $\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\gamma_M = g_{MN}\gamma^N$; $\gamma^\mu$ the matrices of the four observable directions in four-dimensional formulas. Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $D_M,\ D_\mu$: The covariant derivative: on a spinor $D_M = \partial_M + \Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\mu\Sigma$ with the $W$ and $B$ fields. Unit: 1/length. Status: STANDARD.
+- $\Psi,\ \bar\Psi$: dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\bar\Psi = \Psi^\dagger C$ is its Dirac adjoint. Unit: $\mathrm{GeV}^{7/2}$. Status: RECORD.
+- $m_\Psi$: The mass parameter of dirac16complex, $m_\Psi = 3H\mathcal{M} = H$. Unit: GeV. Value: 14.296 TeV. Status: RECORD.
+- $\lambda$: The contact self-coupling of dirac16complex (the term $-\frac{\lambda}{2}(\bar\Psi\Psi)^2$ of the record). Unit: $\mathrm{GeV}^{-6}$. Value: not fixed; Kohn-Sham states computed for $\lambda = 0$ and $\pm7\times10^{-5}H^{-6}$; the fold-band radiation requires $\lvert\lambda\rvert \lesssim 1.4\times10^{-10}H^{-6}$ (for $\Delta N_{\mathrm{eff}} \le 0.001$). Status: RECORD.
+
+<!-- end generated symbol list -->
+
+the part of the dirac16complex field equation FE-12 without the portals.
 
 ## Canonical quantisation and the Krein metric
 
@@ -1663,7 +1680,7 @@ light neutrinos, $N_{\mathrm{eff}}$, the BAO, the explosion statistics, the supe
 | heavy-quark masses | $m_{\mathrm{c}}(m_{\mathrm{c}}) = 1.2730 \pm 0.0046$ GeV, $m_{\mathrm{b}}(m_{\mathrm{b}}) = 4.183 \pm 0.007$ GeV, $m_{\mathrm{t}} = 172.56 \pm 0.31$ GeV (direct) | PDG 2025 summary tables | verified |
 | neutrino oscillation parameters (normal ordering) | $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{23} = 0.470$, $\sin^2\theta_{13} = 0.02215$, $\delta_{\mathrm{CP}} = 212^\circ$, $\Delta m_{21}^2 = 7.49\times10^{-5}$ eV$^2$, $\Delta m_{31}^2 = 2.513\times10^{-3}$ eV$^2$; the inverted ordering is disfavoured by $\Delta\chi_{\mathrm{fit}}^2 = 6.1$; largest possible $J_{\mathrm{CP}}$: $0.0333 \pm 0.0007$ | NuFIT 6.0, arXiv:2410.05380 (JHEP 12 (2024) 216), Table 1, IC24 with SK atmospheric data | verified |
 | lightest neutrino mass | $m_1 = 1.000$ meV | chosen | ASSUMED |
-| sum of the neutrino masses | $\sum_im_i < 0.064$ eV (95 %, $\Lambda$CDM) | DESI DR2 Results II, arXiv:2503.14738 | verified |
+| sum of the neutrino masses | $\sum_im_i < 0.064$ eV (95 %, $\Lambda$CDM, DESI BAO with the CMB) | DESI Collaboration (M. Abdul-Karim et al.) 2025, DESI DR2 Results II, arXiv:2503.14738 (abstract) | verified (2026-10-18) |
 | CKM parameters | $s_{12} = 0.22501$, $s_{13} = 0.003732$, $s_{23} = 0.04183$, $\delta_{\mathrm{CP}} = 1.147$ rad; $J_{\mathrm{CP}} = 3.12\times10^{-5}$ | PDG 2024 review "CKM quark-mixing matrix", global fit | verified |
 | strong coupling | $\alpha_3(m_{\mathrm{Z}}) = 0.1180$ | PDG world average | from memory |
 | Fermi constant, electroweak scale | $G_{\mathrm{F}} = 1.1663788\times10^{-5}$ GeV$^{-2}$; 246.22 GeV | PDG | from memory |
@@ -1677,7 +1694,7 @@ light neutrinos, $N_{\mathrm{eff}}$, the BAO, the explosion statistics, the supe
 | $N_{\mathrm{eff}}$ in the Standard Model | $3.0432 \pm 0.0002$ (three flavours, oscillations, NLO) | Cielo, Escudero, Mangano, Pisanti, arXiv:2306.05460 | verified |
 | $N_{\mathrm{eff}}$ by the method of temperatures | 3.000, 3.011, 3.010, 3.039, 3.049, 3.048 (Table 1); couplings $\tilde g^{\nu_e e}_L = 0.727$, $\tilde g^{\nu_e e}_R = 0.233$, $\tilde g^{\nu_\mu e}_L = -0.273$, $\tilde g^{\nu_\mu e}_R = 0.233$; $f_{\mathrm{a}} = 0.884$, $f_{\mathrm{s}} = 0.829$ | Escudero, arXiv:2001.04466 | verified (2026-10-18) |
 | finite-temperature QED pressure | the second- and third-order pressures of the electron-photon plasma (FE-113, FE-114) | Bennett et al., arXiv:1911.04504 | from memory; massless limits reproduced to $10^{-16}$ |
-| $N_{\mathrm{eff}}$ measured | $2.99 \pm 0.17$ (Planck 2018 + BAO); $2.86 \pm 0.13$ (ACT DR6) | Planck 2018 VI, A&A 641 (2020) A6; Calabrese et al., arXiv:2503.14454 | verified |
+| $N_{\mathrm{eff}}$ measured | $2.99 \pm 0.17$ (Planck 2018 + BAO); $2.86 \pm 0.13$ (ACT DR6; $2.89 \pm 0.11$ with BBN) | Planck Collaboration (N. Aghanim et al.) 2020, A&A 641, A6, arXiv:1807.06209; E. Calabrese et al. (ACT) 2025, arXiv:2503.14454 (both abstracts) | verified (2026-10-18) |
 | Planck 2018 base parameters | $\Omega_{\mathrm{b}}h_{100}^2 = 0.02237$, $\Omega_{\mathrm{DM}}h_{100}^2 = 0.1200$, $100\,\theta_{\mathrm{MC}} = 1.04092$ (the angular acoustic scale of CosmoMC), optical depth $\tau_{\mathrm{reio}} = 0.0544$, $\ln(10^{10}A_{\mathrm{s}}) = 3.044$, $n_{\mathrm{s}} = 0.9649$ | Planck 2018 results VI, Table 2 | from memory |
 | BAO | DESI DR2: 13 measurements of $d_{\mathrm{V}}/r_{\mathrm{d}}$, $d_{\mathrm{M}}/r_{\mathrm{d}}$, $d_{\mathrm{H}}/r_{\mathrm{d}}$ (table below) | DESI collaboration, arXiv:2503.14738; the values checked against Table 2 of arXiv:2603.26861 | values verified (2026-10-17); correlations from memory |
 | dark-matter density | $\Omega_{\mathrm{DM}}h_{100}^2 = 0.120$ | Planck 2018 | from memory |
@@ -1689,19 +1706,21 @@ light neutrinos, $N_{\mathrm{eff}}$, the BAO, the explosion statistics, the supe
 | supernova envelope and neutrinospheres | density $10^4$ times the cube of ($10^9$ cm over the radius) g/cm$^3$, electron fraction 0.5; luminosities 6, 6 and $4\times10^{52}$ erg/s and mean energies 11, 14 and 15.5 MeV ($\nu_e$, $\bar\nu_e$, the other flavours); $n_{\nu_e} = 10^{32}$ to $10^{33}$ cm$^{-3}$ | representative values | ASSUMED |
 | supernova explosion statistics with flavour conversion | failed fractions 25.6 % (no conversion), 50.8, 77.4, 93.3, 96.4 % (conversion above the densities $10^9$ to $10^{13}$ g/cm$^3$); Salpeter-weighted 27.0, 47.6, 61.9, 73.9, 88.3 % | Gogilashvili and Tamborra, arXiv:2605.16504 (the author's file) | verified (read 2026-10-18) |
 | fast flavour instability criterion | instability if and only if the electron-lepton-number distribution has a crossing | Morinaga, Phys. Rev. D 105 (2022) L101301 | from memory |
-| direct-detection limit | LZ: $2.2\times10^{-48}$ cm$^2$ at 40 GeV, scaled linearly with the mass | LZ 2024 | from memory; the extrapolation is an ESTIMATE |
-| nucleon gluon content, low-scale strong coupling | $f_{\mathrm{TG}} = 0.92$, $\alpha_3 = 0.3$ | standard | from memory; ESTIMATE |
+| direct-detection limit | LZ: $2.2\times10^{-48}$ cm$^2$ at 40 GeV (90 % confidence, 4.2 tonne-years), scaled linearly with the mass | LZ Collaboration (J. Aalbers et al.) 2025, Phys. Rev. Lett. 135, 011802, arXiv:2410.17036 (abstract) | verified (2026-10-18); the extrapolation is an ESTIMATE |
+| nucleon gluon content, low-scale strong coupling | $f_{\mathrm{TG}} = 0.92$, $\alpha_3 = 0.3$ | $f_{\mathrm{TG}} = 1 - f_{\mathrm{Tu}} - f_{\mathrm{Td}} - f_{\mathrm{Ts}} = 0.918$ from the proton mass fractions 0.023, 0.034, 0.025 of J. Hisano, K. Ishiwata, N. Nagata 2010, Phys. Lett. B 690, 311, arXiv:1004.4090 (Table 1); the sigma terms of FLAG 2024 and of Hoferichter et al. 2015 (row below) give $1 - (\sigma_{\pi N} + \sigma_{\mathrm{s}})/m_{\mathrm{N}} = 0.89$ to $0.91$, which would lower $\sigma_{\mathrm{SI}}$ by at most 7 % | $f_{\mathrm{TG}}$ verified (2026-10-18); $\alpha_3 = 0.3$ ESTIMATE |
 | dark-energy density | $\rho_{\mathrm{de}} \approx 2.5\times10^{-47}$ GeV$^4$ | | from memory |
 | gluon condensate (version 3) | $0.012$ GeV$^4$ for $\alpha_3/\pi$ times the squared field strength of the canonically normalised gluon field | Shifman, Vainshtein, Zakharov | from memory |
 | QCD interaction measure (version 3) | $\Theta_{\mathrm{QCD}}/T^4$ peaks at about 4 near 200 MeV (lattice) | lattice QCD (HotQCD and Wuppertal-Budapest) | from memory; the shape used is an ESTIMATE |
-| nucleon sigma terms (version 3) | $\sigma_{\pi N} = 45$ MeV, $\sigma_{\mathrm{s}} = 40$ MeV | standard | from memory; ESTIMATE |
+| nucleon sigma terms (version 3) | $\sigma_{\pi N} = 45$ MeV, $\sigma_{\mathrm{s}} = 40$ MeV | $\sigma_{\pi N} \approx 45$ MeV: J. Gasser, H. Leutwyler, M. E. Sainio 1991, Phys. Lett. B 253, 252 (abstract; before arXiv); modern values: $59.1 \pm 3.5$ MeV (M. Hoferichter, J. Ruiz de Elvira, B. Kubis, U.-G. Meißner 2015, Phys. Rev. Lett. 115, 092301, arXiv:1506.04142), FLAG 2024 (Y. Aoki et al., arXiv:2411.04268, Table 3): $\sigma_{\pi N} = 42.2 \pm 2.4$ MeV ($N_{\mathrm{f}} = 2+1$) and $60.9 \pm 6.5$ MeV ($2+1+1$), $\sigma_{\mathrm{s}} = 44.9 \pm 6.4$ MeV ($2+1$) and $41.0 \pm 8.8$ MeV ($2+1+1$) | verified (2026-10-18): both values lie inside the published spread and are kept; ESTIMATE |
 | electromagnetic coupling at $m_{\mathrm{Z}}$ (version 3) | $\alpha_{\mathrm{em}} = 1/127.95$ | PDG | from memory |
 | baryon-to-photon ratio (version 3) | $\eta_{\mathrm{b}} = 6.1\times10^{-10}$ | Planck 2018, BBN | from memory |
 | neutron-proton mass difference (version 3) | $m_{\mathrm{n}} - m_{\mathrm{p}} = 1.293$ MeV | PDG | from memory |
 | hadron resonance gas (version 3) | pion (0.138, 3), kaon (0.4956, 4), eta (0.5479, 1), rho (0.7753, 9), omega (0.7827, 3), K-star (0.8917, 12), nucleon (0.9389, 8), eta-prime (0.9578, 1), phi (1.0195, 3), Lambda (1.1157, 4), Sigma (1.1932, 12), Delta (1.232, 32) (mass in GeV, number of states) | PDG | from memory |
 | QCD crossover (version 3) | $T_{\mathrm{c}} = 155$ MeV, $T_{\mathrm{w}} = 15$ MeV (smooth switch) | lattice QCD | from memory; the switch is ASSUMED |
-| $\sigma_8$ (version 3) | 0.811 | Planck 2018 | from memory |
-| tensor-to-scalar ratio (version 3) | $r_{\mathrm{ts}} < 0.036$ (95 %) | BICEP/Keck 2021 | from memory |
+| $\sigma_8$ (version 3) | $0.811 \pm 0.006$ (base $\Lambda$CDM) | Planck Collaboration (N. Aghanim et al.) 2020, A&A 641, A6, arXiv:1807.06209 (abstract) | verified (2026-10-18) |
+| tensor-to-scalar ratio (version 3) | $r_{\mathrm{ts}} < 0.036$ (95 %, pivot scale 0.05 Mpc$^{-1}$) | BICEP/Keck Collaboration (P. A. R. Ade et al.) 2021, Phys. Rev. Lett. 127, 151301, arXiv:2110.00483 (abstract) | verified (2026-10-18) |
+| change of the fine-structure constant today (version 4) | $\alpha_{\mathrm{em}}^{-1}\,\mathrm{d}\alpha_{\mathrm{em}}/\mathrm{d}x_4 = (1.8 \pm 2.5)\times10^{-19}$ per year; used: $\lvert\mathrm{d}\ln\alpha_{\mathrm{em}}/\mathrm{d}x_4\rvert < 6.8\times10^{-19}$ per year (two standard deviations) | optical clocks (Yb$^+$ and Sr): M. Filzinger et al. 2023, Phys. Rev. Lett. 130, 253001, arXiv:2301.03433; earlier R. Lange et al. 2021, Phys. Rev. Lett. 126, 011102, arXiv:2010.06620: $(1.0 \pm 1.1)\times10^{-18}$ per year | verified (2026-10-18); replaces the bound $10^{-17}$ per year of version 3 (from memory) |
+| change of Newton's constant today (version 4) | $G_{\mathrm{N}}^{-1}\,\mathrm{d}G_{\mathrm{N}}/\mathrm{d}x_4 = (-5.0 \pm 9.6)\times10^{-15}$ per year; used: $\lvert\mathrm{d}\ln G_{\mathrm{N}}/\mathrm{d}x_4\rvert < 2.4\times10^{-14}$ per year (two standard deviations) | lunar laser ranging: L. Biskupek, J. Müller, J.-M. Torre 2021, Universe 7, 34, arXiv:2012.12032 (abstract) | verified (2026-10-18); replaces the bound $10^{-13}$ per year of version 3 (from memory) |
 | astrophysical bodies (version 3) | $G_{\mathrm{N}} = 6.67430\times10^{-11}$ m$^3$kg$^{-1}$s$^{-2}$; Sun $1.98892\times10^{30}$ kg, $6.957\times10^8$ m; Earth $5.9722\times10^{24}$ kg, $6.371\times10^6$ m; white dwarf 0.6 solar masses, 8700 km; neutron star 1.4 solar masses, 12 km, core density 0.3 fm$^{-3}$ with 10 % protons; Earth mean density 5.51 g/cm$^3$; solar core 150 g/cm$^3$; white dwarf $10^6$ g/cm$^3$ | standard | from memory; representative |
 | supernova dark-energy fits | constant $w_{\mathrm{de}} = -0.764$; $(w_{\mathrm{de},0}, w_{\mathrm{de},a}) = (-0.861, -0.60)$ | the author's private file (not in the repository) | AUTHOR |
 
@@ -1922,9 +1941,9 @@ The 136 field equations of UM-2 are the variations of the action of section 6 (F
 All computations are Python scripts in the folder `universe_model_2/code`; each writes its numbers to
 `universe_model_2/outputs` and a report of named checks (name, verdict, detail) to `universe_model_2/reports`, and exits with
 code 0 only if every check passes. Two modules are shared: `um2_common.py` (the output folders, the report class, reading and
-writing the JSON files) and `um2_constants.py` (the measured inputs of section 7). In total 287 checks in version 4: the
-235 of version 3 (233 before the fixes of its independent review, item 24; 205 in version 2; 179 to 182 in version 1) and the
-52 of the new residual analysis; none failed. In the table the prefix `um2_` of every script name is omitted.
+writing the JSON files) and `um2_constants.py` (the measured inputs of section 7). In total 288 checks in version 4: the
+235 of version 3 (233 before the fixes of its independent review, item 24; 205 in version 2; 179 to 182 in version 1), the
+52 of the new residual analysis and one of the consistency pass (`C11_I12_benchmark_direct_detection`, item 26); none failed. In the table the prefix `um2_` of every script name is omitted.
 
 | script | what it computes | method | output | checks |
 |:----------------|:-----------------------------------------|:-------------------------|:--------------------|:------|
@@ -1941,11 +1960,11 @@ writing the JSON files) and `um2_constants.py` (the measured inputs of section 7
 | cosmology.py | TT and EE spectra with three massive neutrinos, the BAO $\chi_{\mathrm{BAO}}^2$, $N_{\mathrm{eff}}$, helium, the variants with a thermalised fold band; (version 3) the model with the freeze-in fold bands, $\sigma_8$, the growth rate, the potential spectrum | CAMB 2.0.5 | cosmology.json | 8 |
 | analysis.py | the $x_0$ decompositions and the uncertainty relation on the cell; the gap theorem; sum rules; the twelve fermions against the uncertainty estimate; the conservation of the halves; the relic of two species with I12 alone; direct detection; the condensate; the vacuum energy; the sensitivities to the block size; the block rate today; the radion decay | mpmath, numpy, sympy | analysis.json | 23 |
 | thermal.py | (version 3) the degrees of freedom with the $x_0$ masses; the relativistic thermal average; the Boltzmann solver and its validation; the relic of I12 alone; partial-wave unitarity; the unitarity-safe I12 benchmark | Gauss-Legendre ideal-gas integrals; adaptive quadrature with scaled Bessel functions; implicit Radau; Brent root finding | thermal.json | 7 |
-| coupled.py | (version 3) the portal overlaps with every zero mode and their Kohn-Sham checks; the screened response; the fold band under the portals; the freeze-in of the fold bands; direct detection; I13 (the algebra of its bilinear, fold-band blindness, relic with the unitarity cap, detection, annihilation today); the $B - L$ alternative; the self-interaction channel; the mean fields in ten environments; the full adiabatic block response to every species; the proton sensitivity; the $W$ eigenvalue with the kinetic function; the domain of validity | exact sympy matrices; self-consistent Kohn-Sham solutions with Richardson in the amplitude; Boltzmann equations; first-order perturbation theory (version 4) | coupled.json | 16 |
+| coupled.py | (version 3) the portal overlaps with every zero mode and their Kohn-Sham checks; the screened response; the fold band under the portals; the freeze-in of the fold bands; direct detection; I13 (the algebra of its bilinear, fold-band blindness, relic with the unitarity cap, detection, annihilation today); the $B - L$ alternative; the self-interaction channel; the mean fields in ten environments; the full adiabatic block response to every species; the proton sensitivity; the $W$ eigenvalue with the kinetic function; the domain of validity; (version 4) the direct detection of the I12 benchmark through the trace anomaly | exact sympy matrices; self-consistent Kohn-Sham solutions with Richardson in the amplitude; Boltzmann equations; first-order perturbation theory (version 4) | coupled.json | 17 |
 | series.py | (version 3) the magnitudes of the terms of the metric series: potentials, Kaluza-Klein gravitons (levels, norms, Yukawa strengths, orthogonality), the radion, order 2, the tensor bound | analytic eigenfunctions, finite elements, quadrature | series.json | 4 |
 | residuals.py | (version 4) the residuals of the stored solution in 26 field equations (afresh by substitution where cheap), the sizes of the neglected terms, and 26 links in concert (section 10) | substitution (sympy, mpmath at 40 digits), independent quadratures and re-integrations | residuals.json | 52 |
 
-## The catalogue of the 287 checks
+## The catalogue of the 288 checks
 
 The checks are listed by report, numbered in the order of the report; the names are those of the reports, spelled as in
 the code. The field-equation table of section 8 refers to them by the abbreviation of the report and the number.
@@ -1992,7 +2011,7 @@ the code. The field-equation table of section 8 refers to them by the abbreviati
 
 **th** (`um2_thermal.py`, 7 checks, all passed): 1 `T1_degrees_of_freedom`; 2 `T2_thermal_average`; 3 `T3_boltzmann_solver`; 4 `T4_relic_numerical`; 5 `T5_unitarity_violated_by_effective_operator`; 6 `T5_unitarity_limited_relic`; 7 `T6_I12_benchmark`.
 
-**cpl** (`um2_coupled.py`, 16 checks, all passed): 1 `C1_overlaps`; 2 `C1_screened_response`; 3 `C1_fold_band_massless`; 4 `C2_freeze_in_benchmark`; 5 `C3_direct_detection_I11`; 6 `C8_I13_algebra`; 7 `C8_I13_overlaps_and_fold_band`; 8 `C8_I13_relic`; 9 `C8_I13_direct_detection`; 10 `C9_B_minus_L_alternative_thermalises_nuR`; 11 `C10_self_interaction_channel`; 12 `C6_proton_sensitivity`; 13 `C4_mean_fields_in_environments`; 14 `C6_gravity_loop`; 15 `C5_WZ_and_photon`; 16 `C7_validity_domain`.
+**cpl** (`um2_coupled.py`, 17 checks, all passed): 1 `C1_overlaps`; 2 `C1_screened_response`; 3 `C1_fold_band_massless`; 4 `C2_freeze_in_benchmark`; 5 `C3_direct_detection_I11`; 6 `C8_I13_algebra`; 7 `C8_I13_overlaps_and_fold_band`; 8 `C8_I13_relic`; 9 `C8_I13_direct_detection`; 10 `C9_B_minus_L_alternative_thermalises_nuR`; 11 `C10_self_interaction_channel`; 12 `C6_proton_sensitivity`; 13 `C4_mean_fields_in_environments`; 14 `C6_gravity_loop`; 15 `C5_WZ_and_photon`; 16 `C7_validity_domain`; 17 `C11_I12_benchmark_direct_detection` (version 4, item 26).
 
 **ser** (`um2_series.py`, 4 checks, all passed): 1 `S2_first_order_n0`; 2 `S3_kaluza_klein_gravitons`; 3 `S4_radion`; 4 `S7_decreasing_magnitudes`.
 
@@ -2027,11 +2046,11 @@ the code. The field-equation table of section 8 refers to them by the abbreviati
 | primordial era | separatrix at $K = 2.6983$, 2.5991, 2.5301 (for the initial $\mathcal{H}_f = -H/2$, $-H/3$, $-H/10$); deflation factor up to 2.9166; radion frequency $3.3868H$ measured | primordial (primordial.json) |
 | cosmology | UM-2 (version 3, $N_{\mathrm{eff}} = 3.0442$): $\mathcal{H}_0 = 67.38$ km/s/Mpc, $\Omega_{\mathrm{m}} = 0.3150$, $r_{\mathrm{d}} = 147.104$ Mpc, $\chi_{\mathrm{BAO}}^2 = 31.49$ (13 points; $\Lambda$CDM 32.55), TT and EE within $2.5\times10^{-4}$ and $2.7\times10^{-4}$ of $\Lambda$CDM; without the freeze-in fold bands ($N_{\mathrm{eff}} = 3.0432$): 67.37, 0.3151, 147.109 Mpc, 31.72, $2.8\times10^{-4}$ | cosmology (cosmology.json) |
 | relic with I12 alone (version 2) | two species, $x_{\mathrm{f}} = 30.38$, $g_\rho = 105.75$, required $\langle\sigma v_{\mathrm{rel}}\rangle = 2.01\times10^{-25}$ cm$^3$/s per species, $G_{\mathrm{I12}} = (15.5\ \text{TeV})^{-3}$; the $^3P_0$ bound $\sqrt{\pi x_{\mathrm{f}}}/M_{\mathrm{DM}}^2 = 5.79\times10^{-26}$ cm$^3$/s exceeded 3.47 times ($v_{\mathrm{c}} = 0.263$, 79 % of the pairs above it): OPEN in version 2, resolved in version 3 by I13 | analysis (analysis.json) |
-| direct detection (gluons only) | $\sigma_{\mathrm{SI}} = 6.3\times10^{-53}$ cm$^2$ against $2.4\times10^{-45}$ cm$^2$ | analysis (analysis.json) |
+| direct detection through I12 (version 4) | ESTIMATE: at the unitarity-safe benchmark $G_{\mathrm{g}} = 6.09\times10^{-15}$ GeV$^{-3}$, $\sigma_{\mathrm{SI}} = 2.62\times10^{-55}$ cm$^2$ per nucleon, $1.08\times10^{-10}$ of the LZ limit extrapolated to $M_{\mathrm{DM}}$, $2.44\times10^{-45}$ cm$^2$ (version 2: $6.27\times10^{-53}$ cm$^2$ with the whole relic coupling of version 2 in gluons, analysis.json, reproduced by the same function) | coupled (coupled.json, the entry of the I12 benchmark's direct detection; check cpl 17) |
 | dark energy | condensate tuned to $w_{\mathrm{de},0} = -1$: $w_{\mathrm{de},a} = -6$, energy zero at $z_{\mathrm{red}} = 0.260$; natural vacuum energy $5.5\times10^{64}$ times the observed one; $(\mathcal{H}_0/H)^2 = 1.0\times10^{-92}$ | analysis (analysis.json) |
 | uncertainty relation | $m/m_{\mathrm{Heis}}$: first Kaluza-Klein level 7.49, first odd level 6.47, dark matter 2.29, $W^\pm$ $1.14\times10^{-3}$, $Z$ $1.29\times10^{-3}$, top quark $3.2\times10^{-3}$, electron $5.5\times10^{-9}$, $\nu_1$ $1.1\times10^{-17}$; $\langle k_\xi^2\rangle\Delta\xi^2$: photon zero mode 0.497, fold zero mode of $\Psi$ 0.097 ($\varrho_\xi(-1) = 0.489$); $\langle k_\xi^2\rangle^{1/2}\Delta\xi \ge (1 - \varrho_\xi(-1))/2$ for every tabulated state | analysis (analysis.json) |
 | block sensitivities | logarithmic derivatives with respect to $\ln f$: Kaluza-Klein masses $-1$, $m_{\mathrm{W}}$ $-0.501$, fermions from $-6.8$ (top) to $-41.0$ ($\nu_1$), $m_{\mathrm{e}}$ $-20.5$, $M_{\mathrm{DM}}$ $-0.772$, $\alpha_{\mathrm{em}}$ and the gauge couplings $-4$, $G_{\mathrm{N}}$ $+2.05$; splittings $\Delta m_{21}^2$ $-77.5$, $\Delta m_{31}^2$ $-74.0$ | analysis (analysis.json) |
-| block rate today (ESTIMATE) | $\lvert\mathcal{H}_f\rvert < 3.6\times10^{-8}\mathcal{H}_0$ (atomic clocks, change of $\alpha_{\mathrm{em}}$ below $10^{-17}$ per year), $< 7.1\times10^{-4}\mathcal{H}_0$ (lunar ranging, change of $G_{\mathrm{N}}$ below $10^{-13}$ per year) | analysis (analysis.json) |
+| block rate today (ESTIMATE) | $\lvert\mathcal{H}_f\rvert < 2.5\times10^{-9}\mathcal{H}_0$ (atomic clocks, change of $\alpha_{\mathrm{em}}$ below $6.8\times10^{-19}$ per year), $< 1.7\times10^{-4}\mathcal{H}_0$ (lunar laser ranging, change of $G_{\mathrm{N}}$ below $2.4\times10^{-14}$ per year); version 3: $3.6\times10^{-8}$ and $7.1\times10^{-4}\mathcal{H}_0$ from the bounds $10^{-17}$ and $10^{-13}$ per year quoted from memory | analysis (analysis.json) |
 | radion decay (ESTIMATE) | $\Gamma_{\mathrm{r}} = C_{\mathrm{r}}\,\omega_{\mathrm{r}}^3/(4\pi\bar M_{\mathrm{Pl}}^2)$, $T_{\mathrm{RH}} = (90/(\pi^2g_\rho))^{1/4}(\Gamma_{\mathrm{r}}\bar M_{\mathrm{Pl}})^{1/2}$ ($g_\rho = 10.75$): lifetime $0.43\,\text{s}/C_{\mathrm{r}}$, $T_{\mathrm{RH}} = 1.85\,C_{\mathrm{r}}^{1/2}$ MeV (below 4.7 MeV unless $C_{\mathrm{r}} > 6.5$) | analysis (analysis.json) |
 | first-order block response | $\Xi_{f3} = 0.028666$, $\Xi_{fp} = 0.037320$, $\Xi_{f\rho} = -0.009555$; adiabatic $\Delta K = (0.035852\,\kappa\Delta\rho - 0.107556\,\kappa\Delta p_3 - 0.140028\,\kappa\Delta\bar p)/H^2$ (radiation drops out: $0.107556 = 3\times0.035852$); for the Kohn-Sham states $\Delta K/\kappa = 2.27\times10^{-6}$ (8 particles, $+\lambda_{\mathrm{test}}$), 0.0125 (592 particles, $+\lambda_{\mathrm{test}}$), 0 (free gas), in units $H = 1$ | background, ks_jobs feedback (background.json, ks/feedback.json) |
 | thermal history (version 3) | $g_\rho = 105.75$ (5 TeV), 105.73 (1.42 TeV), 104.95 (200 GeV), 86.22 (10 GeV), 10.74 (3 MeV); today $g_s = 3.9091$, $g_\rho = 3.3626$, $s_0 = 2891.3$ cm$^{-3}$; the relativistic thermal average exceeds the non-relativistic one by about $3/x$ | thermal (thermal.json) |
@@ -2853,6 +2872,12 @@ $Z$ width; the physics accuracy of about 1 % of $G_{\mathrm{A}}$; the block-shap
 bands missing from the Hubble rate of the thermal history ($1.7\times10^{-4}$); the instantaneous neutrino decoupling of the
 thermal history (0.59 % in $g_\rho$ today, without effect on a result).
 
+The consistency pass (item 26) changes two numbers, not a status label: the direct-detection estimate of I12 is now that of the
+unitarity-safe benchmark, $\sigma_{\mathrm{SI}} = 2.62\times10^{-55}$ cm$^2$ (version 2 and the documents of version 3: $6.3\times10^{-53}$ cm$^2$
+for the whole relic coupling of version 2 in gluons; an ESTIMATE either way, far below the limit), and the bounds on the block
+rate today, now from the measured drifts of $\alpha_{\mathrm{em}}$ and $G_{\mathrm{N}}$, are $\lvert\mathcal{H}_f\rvert < 2.5\times10^{-9}\,\mathcal{H}_0$
+and $1.7\times10^{-4}\,\mathcal{H}_0$ (were $3.6\times10^{-8}$ and $7.1\times10^{-4}\,\mathcal{H}_0$ from bounds quoted from memory).
+
 # The verification record
 
 Version 1 was rerun from fresh clones of the repository on 2026-10-17 at commit `b3c3c1a` (179 of 179 checks) and on
@@ -2879,6 +2904,15 @@ documents passed the check of `tools/symbols_tool.py` (841 display equations, 0 
 reproduced identically (largest relative difference 0, only the run times differ: with the fixed thread count the one
 Kohn-Sham integral that differed by $1.1\times10^{-12}$ in the earlier runs is now identical), with the LaTeX sources, the PDF
 documents and the figures rebuilt byte-identical.
+
+The consistency pass of version 4 (item 26) changed only the plotting code of `um2_primordial.py`, `um2_neutrino.py`,
+`um2_cosmology.py`, `um2_coupled.py`, `um2_thermal.py` and `um2_analysis.py` first; rerun one at a time, they reproduced every
+output and every report byte-identical, and only the nine figures changed. Then `um2_analysis.py` (the measured drift bounds),
+`um2_cosmology.py` and `um2_series.py` (check texts), `um2_coupled.py` (the new check `C11_I12_benchmark_direct_detection`) and
+`um2_residuals.py` were rerun in this order: every script exits with code 0, 288 of 288 checks pass, and against the committed
+outputs only the block-rate bounds of `analysis.json`, the new entry `direct_detection_I12_benchmark` of `coupled.json`, the new
+check and the texts of three checks differ (`residuals.json` is unchanged); the symbol lists pass the check (844 display
+equations, 0 problems).
 
 # Corrections made during the work
 
@@ -3130,6 +3164,43 @@ documents and the figures rebuilt byte-identical.
     10; commit `cc2d514`). (g) *Claims.* No claim of version 3 changes; the changed numbers and the statements made precise are
     listed at the end of section 10. (h) The documents of version 4: SOLUTION and ANALYSIS (commit `1e264d0`), MODEL,
     FIELD_EQUATIONS and PROVENANCE (this version).
+26. **Consistency pass of version 4 (2026-10-18, after commit `3f2d49c`).** (a) *Figures.* The nine figures are labelled in the
+    version-4 notation (matplotlib mathtext) by the scripts that draw them: `um2_primordial.py` (the primordial history),
+    `um2_neutrino.py` (flavour conversion, decoupling), `um2_cosmology.py` (CMB spectra, BAO), `um2_coupled.py` (the coupled
+    solution), `um2_thermal.py` (thermal history and relic) and `um2_analysis.py` (the uncertainty estimate, the condensate):
+    $K$, $\mathcal{H} = \dot a_4$ and $\mathcal{H}_f = \dot f/f$ (were $k$, $A$ and $h$), $m_{\mathrm{Heis}} = \hbar/(2\Delta(fy))$ (was
+    "hbar c/(2 Delta s)" and "m\_H"), $z_{\mathrm{red}}$, $w_{\mathrm{de}}$ and $w_{\mathrm{de},0}$ (were z, w and w0), $d_{\mathrm{V}}$,
+    $d_{\mathrm{M}}$, $d_{\mathrm{H}}$ and $r_{\mathrm{d}}$ (were $D_V$, $D_M$, $D_H$, $r_d$), $\bar k$ and $\mathrm{Im}\,\bar\omega$ in units
+    of $\sqrt2\,G_{\mathrm{F}}n_{\nu_e}$ (were k and Im omega in units "mu"), $\mathcal{P}$, $T_{\nu_\alpha}$, $T_\gamma$, $a_{\mathrm{DM}}$,
+    $b_{\mathrm{DM}}$, $\ell_i$, $\Delta\varepsilon_{\mathrm{DM}}/M_{\mathrm{DM}}$, $Y_{\mathrm{DM}}$, $x = M_{\mathrm{DM}}/T$, $k_{\mathrm{cm}}$ and the
+    multipole $l$; the legend "UM-2 (version 3)" now reads "UM-2". Only the plotting code changed; the six scripts were rerun one
+    at a time and every output and report is byte-identical (`tools/compare_outputs.py`), only the nine PNG files differ. The
+    captions describe the figures in the version-4 notation; the translations of the old labels are removed. (b) *Direct
+    detection through I12.* The documents quoted $\sigma_{\mathrm{SI}} = 6.3\times10^{-53}$ cm$^2$, computed in version 2 with the whole
+    relic coupling of version 2 in gluons, although version 3 set I12 to the unitarity-safe benchmark. The new check
+    `C11_I12_benchmark_direct_detection` of `um2_coupled.py` evaluates the same trace-anomaly estimate (the function of
+    `um2_analysis.py`: $f_{\mathrm{TG}} = 0.92$, $\alpha_3 = 0.3$, the LZ limit extrapolated linearly in the mass) at the benchmark
+    gluon coupling $G_{\mathrm{g}} = 6.09\times10^{-15}$ GeV$^{-3}$: $\sigma_{\mathrm{SI}} = 2.62\times10^{-55}$ cm$^2$ per nucleon (ESTIMATE),
+    $1.08\times10^{-10}$ of the limit $2.44\times10^{-45}$ cm$^2$; the same function reproduces the stored version-2 value. The
+    four documents quote the new value (the old one only as history); `um2_coupled.py` and then `um2_residuals.py` were rerun; 288
+    checks in all. (c) *Measured values.* The values the documents quoted without a checked source were read in the primary
+    publications (section 7): the ACT DR6 value of $N_{\mathrm{eff}}$, the DESI DR2 bound on $\sum_im_i$, the bound on $r_{\mathrm{ts}}$,
+    the Planck value of $\sigma_8$, the LZ limit, $f_{\mathrm{TG}}$ and the sigma terms are confirmed (the sigma terms lie inside the
+    published spread and are kept). The atomic-clock bound ($10^{-17}$ per year) and the lunar-ranging bound ($10^{-13}$ per year)
+    of version 3 were out of date: `um2_analysis.py` now uses the two-standard-deviation bounds of the measured drifts
+    ($6.8\times10^{-19}$ and $2.4\times10^{-14}$ per year), and the bounds on the block rate today become
+    $\lvert\mathcal{H}_f\rvert < 2.5\times10^{-9}\,\mathcal{H}_0$ and $1.7\times10^{-4}\,\mathcal{H}_0$ (were $3.6\times10^{-8}$ and
+    $7.1\times10^{-4}\,\mathcal{H}_0$). The check texts that still said "FROM MEMORY" for verified values (`um2_cosmology.py`,
+    `um2_series.py`) were updated (texts only). (d) *Rule S5.* The five documents and the registry were searched for every
+    reference to another document (the document names, "see", "section ... of", "step ... of", "document", "elsewhere"): none
+    sends the reader elsewhere for an equation, a definition or an argument. (e) *Inline field equations.* The equation of motion
+    of the stabiliser density, $\mathrm{d}\rho_{\mathrm{stab}}/\mathrm{d}x_4 = -8\mathcal{H}_f\rho_{\mathrm{stab}}$ (written inline in the
+    model and the field-equation documents), and the field equation of dirac16complex of the record (section 5 of this document)
+    are now displays with their symbol lists; the other inline equations found are parts of displayed inventory equations (FE-28,
+    FE-32, FE-44, FE-45, FE-52, FE-56, FE-62, FE-117) or identities. (f) *The letter $\mathcal{A}$.* The anomaly coefficients of one
+    generation are now written with the Fraktur letter, $\mathfrak{A}_{\mathrm{SU(3)^2U(1)}}$, $\mathfrak{A}_{\mathrm{SU(2)^2U(1)}}$,
+    $\mathfrak{A}_{\mathrm{U(1)^3}}$, $\mathfrak{A}_{\mathrm{grav^2U(1)}}$ and $\mathfrak{A}_{\mathrm{SU(3)^3}}$, so that the calligraphic
+    $\mathcal{A}_n$ is only the Yukawa strength of the $n$-th Kaluza-Klein graviton (registry and every occurrence).
 
 # What is not in the repository, and why
 

@@ -1,11 +1,13 @@
 {
  "M_DM_GeV": 44347.9049911,
  "block_rate_today_bound": {
+  "G_drift_bound_per_yr": 2.42e-14,
   "H0_per_yr": 6.89609802638e-11,
-  "h_max_from_G_per_yr": 4.88214297619e-14,
-  "h_max_from_alpha_per_yr": 2.5e-18,
-  "h_max_over_H0_G": 0.000707957305351,
-  "h_max_over_H0_alpha": 3.62523849057e-08,
+  "alpha_drift_bound_per_yr": 6.8e-19,
+  "h_max_from_G_per_yr": 1.18147860024e-14,
+  "h_max_from_alpha_per_yr": 1.7e-19,
+  "h_max_over_H0_G": 0.000171325667895,
+  "h_max_over_H0_alpha": 2.46516217359e-09,
   "m_e_drift_if_h_equals_H0_per_yr": 1.41417118262e-09
  },
  "condensate": [

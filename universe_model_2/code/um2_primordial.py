@@ -174,15 +174,19 @@ def main():
     tf = np.linspace(0, 40, 4001)
     for key, sol in dense.items():
         yv = sol.sol(tf)
-        lab = key.replace('h0=-0.3333', 'h0=-H/3').replace(',rr0=0', '').replace(',rr0=10', ', with radiation')
+        # legend in the version-4 notation: the start K(0) = 1/f^2 and the initial block rate H_f(0) (the keys stay as stored)
+        k0s, h0s, rr0s = [p_.split('=')[1] for p_ in key.split(',')]
+        lab = (r'$K(0) = %s$, $\mathcal{H}_f(0) = %s$' % (k0s, '-H/3' if h0s == '-0.3333' else h0s + r'\,H')
+               + (', with radiation' if rr0s != '0' else ''))
         ls = '--' if 'rr0=10' in key else '-'
         axs[0].plot(tf, np.exp(-0.5 * yv[3]), ls, lw=1.0, label=lab)
         axs[1].plot(tf, yv[1], ls, lw=1.0, label=lab)
         axs[2].plot(tf, yv[2], ls, lw=1.0, label=lab)
     axs[0].axhline(1 / math.sqrt(ks), color='k', lw=0.6, ls='--')
-    axs[0].set_xlabel('$x_4$ [1/H]'); axs[0].set_ylabel('block scale $f = k^{-1/2}$'); axs[0].set_title('deflation of $x_0, x_5, x_6, x_7$')
-    axs[1].set_xlabel('$x_4$ [1/H]'); axs[1].set_ylabel('$A = a_4\'$ [H]'); axs[1].set_title('3-space expansion rate')
-    axs[2].set_xlabel('$x_4$ [1/H]'); axs[2].set_ylabel('$h = f\'/f$ [H]'); axs[2].set_title('block rate')
+    axs[0].set_xlabel(r'$x_4$ [$1/H$]'); axs[0].set_ylabel(r'block scale $f = K^{-1/2}$'); axs[0].set_title(r'deflation of $x_0, x_5, x_6, x_7$')
+    axs[1].set_xlabel(r'$x_4$ [$1/H$]'); axs[1].set_ylabel(r'$\mathcal{H} = \dot a_4$ [$H$]')
+    axs[1].set_title(r'expansion rate $\mathcal{H}$ of 3-space')
+    axs[2].set_xlabel(r'$x_4$ [$1/H$]'); axs[2].set_ylabel(r'$\mathcal{H}_f = \dot f/f$ [$H$]'); axs[2].set_title(r'block rate $\mathcal{H}_f$')
     axs[0].legend(fontsize=7)
     for ax in axs:
         ax.set_xlim(0, 40)

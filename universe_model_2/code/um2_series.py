@@ -178,7 +178,7 @@ def main():
     o2 = {'cosmological (Delta_Phi^2 at k = 1e-4 Mpc^-1)': dphi[0]['Delta_Phi_Weyl'] ** 2,
           'Sun (surface)': pots['Sun (surface)'] ** 2, 'neutron star': pots['neutron star (1.4 Msun, 12 km)'] ** 2}
     As = math.exp(3.044) * 1e-10
-    r_bound = 0.036
+    r_bound = 0.036     # r_0.05 < 0.036, 95 % (BICEP/Keck, Ade et al., PRL 127, 151301 (2021), arXiv:2110.00483; verified 2026-10-18)
     out['order2'] = o2
     out['tensor'] = {'r_bound_95': r_bound, 'Delta_h_bound': math.sqrt(r_bound * As), 'statement': 'not predicted by UM-2 (input)'}
 
@@ -195,7 +195,7 @@ def main():
     cosmo_seq = [1.0, dphi[0]['Delta_Phi_Weyl'], o2['cosmological (Delta_Phi^2 at k = 1e-4 Mpc^-1)'], worst, 0.0]
     rep.check('S7_decreasing_magnitudes', all(cosmo_seq[i] > cosmo_seq[i + 1] for i in range(len(cosmo_seq) - 1)),
               'on cosmological scales the terms decrease: order 0 (1), order 1 (Delta_Phi = %.1e), order 2 (%.1e), radion (%.1e), '
-              'Kaluza-Klein (0 at any measurable distance); tensor modes below %.1e (r < 0.036, FROM MEMORY): the metric of UM-2 is a power series '
+              'Kaluza-Klein (0 at any measurable distance); tensor modes below %.1e (r < 0.036, BICEP/Keck 2021): the metric of UM-2 is a power series '
               'of terms of decreasing magnitude, with the n = 0 term carrying the CMB, CNB and BAO' % (
                   dphi[0]['Delta_Phi_Weyl'], o2['cosmological (Delta_Phi^2 at k = 1e-4 Mpc^-1)'], worst, math.sqrt(r_bound * As)))
     write_json(os.path.join(OUT, 'series.json'), out)

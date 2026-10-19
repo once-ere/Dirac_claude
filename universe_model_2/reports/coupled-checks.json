@@ -1,5 +1,5 @@
 {
- "check_count": 16,
+ "check_count": 17,
  "checks": [
   {
    "detail": "the overlap Itilde = int (a^2 + b^2) rho_f e^{-3Hy} dy of the dark-matter level with the Standard-Model zero modes equals the derivative of the self-consistent Kohn-Sham level with respect to the I11 amplitude (finite differences at 1e-4 and 2e-4, Richardson) to 3.1e-10: Q 8.272211, e_R 0.397153, L 1.252406; fold band: Q 6.685235, L 1.659210, e_R 8.0805e-01",
@@ -79,6 +79,11 @@
   {
    "detail": "the gauge-kinetic portal of the benchmark changes the strong coupling by 10 % through the thermal dark-matter density at T = 27359 GeV (M/T = 1.62): the coupled effective description holds below this temperature, i.e. through dark-matter freeze-out (M/T = 31.23) and everything later; the benchmark I12 respects the 3P0 unitarity bound up to sqrt(s) = 2.40 M (an I12 of the relic strength of version 2 would violate it above v = 0.269), and I13 reaches its J = 1 bound only above v = 0.51",
    "name": "C7_validity_domain",
+   "passed": true
+  },
+  {
+   "detail": "ESTIMATE: the trace-anomaly coupling of the unitarity-safe I12 benchmark (G_g = 6.092e-15 GeV^-3; f_TG = 0.92, alpha_3 = 0.3 at a low scale, m_N = 0.939 GeV) gives sigma_SI = 2.62e-55 cm^2 per nucleon for each half, 1.1e-10 of the LZ limit 2.44e-45 cm^2 at 44.35 TeV (linear extrapolation): the benchmark I12 is far below the reach of direct detection; the same function reproduces the version-2 value of analysis.json (all of the relic coupling of version 2 in gluons, 6.271e-53 cm^2) to 2.4e-13",
+   "name": "C11_I12_benchmark_direct_detection",
    "passed": true
   }
  ],

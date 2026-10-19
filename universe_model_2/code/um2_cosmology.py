@@ -285,7 +285,7 @@ def main():
     pois = max(abs(r['Delta_Phi_Weyl'] / r['Delta_Phi_Poisson'] - 1) for r in um2['Delta_Phi_z0'] if r['k_Mpc-1'] >= 1e-2)
     out['growth_suppression_g0'] = g0
     rep.check('sigma8_and_first_order_potential', abs(lcdm['sigma8'] - 0.811) < 0.006 and pois < 1e-4 and abs(big['Delta_Phi_Weyl'] / pred - 1) < 0.02,
-              'sigma_8 = %.4f (UM-2, version 3), %.4f (without the freeze-in fold bands), %.4f (LCDM; Planck 2018 0.811, FROM MEMORY); f sigma_8 at z = 0.5: %.4f (UM-2), %.4f (LCDM); '
+              'sigma_8 = %.4f (UM-2, version 3), %.4f (without the freeze-in fold bands), %.4f (LCDM; Planck 2018 0.811 +- 0.006, arXiv:1807.06209); f sigma_8 at z = 0.5: %.4f (UM-2), %.4f (LCDM); '
               'the rms Newtonian potential today per logarithmic k, Delta_Phi = %s at k = %s Mpc^-1 (UM-2): the first-order term of the metric '
               'is 2e-5 and smaller; from the Weyl potential and from the matter density through the Poisson equation it agrees to %.1e for '
               'k >= 0.01 Mpc^-1; on the largest scales it equals (3/5) A_s^(1/2) (k/k_0)^((n_s - 1)/2) g(0) to %.1e (g(0) = %.4f, the '
@@ -301,10 +301,10 @@ def main():
     fig, axs = plt.subplots(2, 2, figsize=(12, 7), gridspec_kw={'height_ratios': [3, 1]})
     ll = l[2:2501]
     for j, (lab, col) in enumerate([('TT', 0), ('EE', 1)]):
-        axs[0, j].plot(ll, cl0[2:2501, col], 'k-', lw=1.2, label='Planck 2018 LCDM')
-        axs[0, j].plot(ll, cl1[2:2501, col], 'C1--', lw=1.0, label='UM-2 (version 3)')
+        axs[0, j].plot(ll, cl0[2:2501, col], 'k-', lw=1.2, label=r'Planck 2018 $\Lambda$CDM')
+        axs[0, j].plot(ll, cl1[2:2501, col], 'C1--', lw=1.0, label='UM-2')
         axs[0, j].plot(ll, cl3[2:2501, col], 'C2:', lw=1.0, label='UM-2 + fold band thermalised above QCD')
-        axs[0, j].set_ylabel(r'$\ell(\ell+1)C_\ell/2\pi$ [$\mu$K$^2$] (%s)' % lab)
+        axs[0, j].set_ylabel(r'$l(l+1)\,C^{\mathrm{%s}}_l/(2\pi)$ [$\mu$K$^2$]' % lab)
         axs[0, j].set_xscale('log')
         axs[0, j].legend(fontsize=8)
         axs[1, j].plot(ll, cl1[2:2501, col] / cl0[2:2501, col] - 1, 'C1-', lw=0.8)
@@ -313,14 +313,14 @@ def main():
         axs[1, j].plot(ll, -np.sqrt(2.0 / (2 * ll + 1)), 'k:', lw=0.6)
         axs[1, j].set_xscale('log')
         axs[1, j].set_ylim(-0.05, 0.05)
-        axs[1, j].set_xlabel(r'$\ell$')
-        axs[1, j].set_ylabel('relative to LCDM')
+        axs[1, j].set_xlabel(r'multipole $l$')
+        axs[1, j].set_ylabel(r'relative to $\Lambda$CDM')
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, 'fig_cmb_spectra.png'), dpi=130)
     plt.close(fig)
     fig, axs = plt.subplots(1, 3, figsize=(13, 3.6))
-    for qi, (q, lab) in enumerate([('DV_rd', r'$D_V/r_d$'), ('DM_rd', r'$D_M/r_d$'), ('DH_rd', r'$D_H/r_d$')]):
-        for mdl, st, lab_m in [(lcdm, 'k-', 'Planck 2018 LCDM'), (um2, 'C1--', 'UM-2'),
+    for qi, (q, lab) in enumerate([('DV_rd', r'd_{\mathrm{V}}'), ('DM_rd', r'd_{\mathrm{M}}'), ('DH_rd', r'd_{\mathrm{H}}')]):
+        for mdl, st, lab_m in [(lcdm, 'k-', r'Planck 2018 $\Lambda$CDM'), (um2, 'C1--', 'UM-2'),
                                (um2q, 'C2:', 'UM-2 + fold band thermalised above QCD')]:
             zz = [b['z'] for b in mdl['bao']]
             axs[qi].plot(zz, [b[q] / math.sqrt(b['z']) for b in mdl['bao']], st, lw=1, label=lab_m)
@@ -331,8 +331,8 @@ def main():
                 axs[qi].errorbar([z], [dat[0] / math.sqrt(z)], yerr=[dat[1] / math.sqrt(z)], fmt='o', ms=4, color='C0',
                                  label=None if labelled else 'DESI DR2')
                 labelled = True
-        axs[qi].set_xlabel('z')
-        axs[qi].set_ylabel(lab + r'$/\sqrt{z}$')
+        axs[qi].set_xlabel(r'redshift $z_{\mathrm{red}}$')
+        axs[qi].set_ylabel(r'$%s/(r_{\mathrm{d}}\sqrt{z_{\mathrm{red}}})$' % lab)
     axs[0].legend(fontsize=7)
     fig.tight_layout()
     fig.savefig(os.path.join(FIG, 'fig_bao.png'), dpi=130)

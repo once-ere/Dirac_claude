@@ -79,7 +79,8 @@ its check in concert with the other field equations, every symbol has one meanin
 than one), and the residuals of the solution in its equations are computed anew (the check of every step and the table
 "Accuracy of the solution"). The physics and the claims of version 3 are unchanged; every number is taken from the
 computations as refined for version 4 (precision fixes changed a few values in their last digits, and each change is stated
-where the value appears), and the residual computation adds 52 checks to the 235 of version 3 (287 in all).
+where the value appears), and the residual computation adds 52 checks to the 235 of version 3 (287; with the check of the direct detection of the I12
+benchmark added in version 4, 288 in all).
 
 # The coupled system
 
@@ -1212,7 +1213,7 @@ about it with the radion frequency ($3.3868\,H$ measured, $3.3870\,H$ linear), w
 oscillation energy redshifts like dust ($\mathcal{H}\,x_4 \to 0.667$ to $0.670$; $2/3$ for dust). The extra times therefore
 deflate only in a short primordial era and are then frozen: the masses, all of which depend on $f$ (step 2), become constant.
 
-![The primordial era: the block scale $f$, the expansion rate $\mathcal{H}$ of 3-space and the block rate $\mathcal{H}_f$ for the starts $K = 3, 5, 10$ with the initial rate $\mathcal{H}_f = -H/3$ (one with radiation), from the full nonlinear Einstein-Lovelock equations with the author's weights. The panels label $K$, $\mathcal{H}$ and $\mathcal{H}_f$ with the letters $k$, $A$ and $h$ of version 3.](figures/fig_primordial_history.png)
+![The primordial era: the block scale $f = K^{-1/2}$ (left; dashed line: the stabilised block $f_*$), the expansion rate $\mathcal{H} = \dot a_4$ of 3-space (middle) and the block rate $\mathcal{H}_f = \dot f/f$ (right), in units of $H$, against the time $x_4$ in units of $1/H$, for the starts $K(0) = 3$, 5, 10 with the initial rate $\mathcal{H}_f(0) = -H/3$ (and $K(0) = 5$ with radiation, dashed), from the full nonlinear Einstein-Lovelock equations with the author's weights.](figures/fig_primordial_history.png)
 
 ### The response of the block to matter
 
@@ -4167,9 +4168,9 @@ $N_{\mathrm{dbl}}$ weak components, one generation gives (DERIVED, exact fractio
 
 $$
 \begin{aligned}
-&\mathcal{A}_{\mathrm{SU(3)^2U(1)}} = \sum_{\text{triplets}}N_{\mathrm{dbl}}\,Y = 0,\qquad
-\mathcal{A}_{\mathrm{SU(2)^2U(1)}} = \sum_{\text{doublets}}N_{\mathrm{col}}\,Y = \tfrac12 - \tfrac12 = 0,\\
-&\mathcal{A}_{\mathrm{U(1)^3}} = \sum N_{\mathrm{col}}N_{\mathrm{dbl}}\,Y^3 = \tfrac1{36} - \tfrac89 + \tfrac19 - \tfrac14 + 1 = 0
+&\mathfrak{A}_{\mathrm{SU(3)^2U(1)}} = \sum_{\text{triplets}}N_{\mathrm{dbl}}\,Y = 0,\qquad
+\mathfrak{A}_{\mathrm{SU(2)^2U(1)}} = \sum_{\text{doublets}}N_{\mathrm{col}}\,Y = \tfrac12 - \tfrac12 = 0,\\
+&\mathfrak{A}_{\mathrm{U(1)^3}} = \sum N_{\mathrm{col}}N_{\mathrm{dbl}}\,Y^3 = \tfrac1{36} - \tfrac89 + \tfrac19 - \tfrac14 + 1 = 0
 \end{aligned}
 $$
 
@@ -4177,7 +4178,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in this equation.**
 
-- $\mathcal{A}_{\mathrm{SU(3)^2U(1)}},\ \mathcal{A}_{\mathrm{SU(2)^2U(1)}},\ \mathcal{A}_{\mathrm{U(1)^3}}$: The gauge anomaly coefficients of one generation, with every zero mode written as a left-handed Weyl field (a right-handed one with the hypercharge $-Y$): the sum over the colour triplets of $N_{\mathrm{dbl}}Y$ (mixed $SU(3)^2U(1)_Y$ anomaly), the sum over the weak doublets of $N_{\mathrm{col}}Y$ (mixed $SU(2)^2U(1)_Y$ anomaly) and the sum over all components of $N_{\mathrm{col}}N_{\mathrm{dbl}}Y^3$ (the $U(1)_Y^3$ anomaly); the theory is consistent only if they vanish. Unit: dimensionless. Value: 0 for each generation of UM-2. Status: DERIVED.
+- $\mathfrak{A}_{\mathrm{SU(3)^2U(1)}},\ \mathfrak{A}_{\mathrm{SU(2)^2U(1)}},\ \mathfrak{A}_{\mathrm{U(1)^3}}$: The gauge anomaly coefficients of one generation, with every zero mode written as a left-handed Weyl field (a right-handed one with the hypercharge $-Y$): the sum over the colour triplets of $N_{\mathrm{dbl}}Y$ (mixed $SU(3)^2U(1)_Y$ anomaly), the sum over the weak doublets of $N_{\mathrm{col}}Y$ (mixed $SU(2)^2U(1)_Y$ anomaly) and the sum over all components of $N_{\mathrm{col}}N_{\mathrm{dbl}}Y^3$ (the $U(1)_Y^3$ anomaly); the theory is consistent only if they vanish. Unit: dimensionless. Value: 0 for each generation of UM-2. Status: DERIVED.
 - $N_{\mathrm{dbl}}$: The number of weak-isospin components of a fermion multiplet: 2 for an $SU(2)$ doublet, 1 for a singlet. Unit: dimensionless. Status: STANDARD.
 - $Y$: The hypercharge (the generator of U(1)$_Y$); $Y_\psi$ the hypercharge of the multiplet $\psi$ ($Q$: $\frac16$, $u_R$: $\frac23$, $d_R$: $-\frac13$, $\ell$: $-\frac12$, $e_R$: $-1$, $\nu_R$: 0). Unit: dimensionless. Status: STANDARD.
 - $N_{\mathrm{col}}$: The number of colour components of a fermion multiplet: 3 for a quark, 1 for a lepton. Unit: dimensionless. Status: STANDARD.
@@ -4186,7 +4187,7 @@ $$
 
 and the mixed gravitational anomaly $\sum N_{\mathrm{col}}N_{\mathrm{dbl}}\,Y = 1 - 2 + 1 - 1 + 1 = 0$ and the $SU(3)^3$
 anomaly $2 - 1 - 1 = 0$ vanish too; three generations have twelve $SU(2)$ doublets (no Witten anomaly). Three lepton
-generations with a single quark generation would leave $\mathcal{A}_{\mathrm{SU(2)^2U(1)}} = -1$ and $\mathcal{A}_{\mathrm{U(1)^3}} = 3/2$.
+generations with a single quark generation would leave $\mathfrak{A}_{\mathrm{SU(2)^2U(1)}} = -1$ and $\mathfrak{A}_{\mathrm{U(1)^3}} = 3/2$.
 
 ### The two halves of dirac16complex
 
@@ -5067,7 +5068,7 @@ The two agree to $1.3\times10^{-3}$: the conversion is adiabatic, vacuum dominat
 ($\mathcal{P}_{ee} \to c_{13}^4(1 - \frac12\sin^22\theta_{12}) + s_{13}^4$) and matter dominated for $^8$B
 ($\mathcal{P}_{ee} \to c_{13}^4\sin^2\theta_{12} + s_{13}^4$).
 
-![Flavour conversion in UM-2. Left: the solar $\nu_e$ survival probability (adiabatic formula for two production radii, numerical evolution as points). Middle: $\nu_\mu\to\nu_e$ and $\bar\nu_\mu\to\bar\nu_e$ appearance over 1300 km of rock (normal ordering, $\delta_{\mathrm{CP}} = 212^\circ$). Right: the growth rate of the fast flavour instability against the wave number for the three angular distributions of the text.](figures/fig_neutrino_conversion.png){width=88%}
+![Flavour conversion in UM-2. Left: the survival probability $\mathcal{P}_{ee}$ of solar $\nu_e$ against the energy $E$ (adiabatic formula for production at $0.05\,R_\odot$ and $0.1\,R_\odot$, numerical evolution as points). Middle: $\mathcal{P}(\nu_\mu\to\nu_e)$ and $\mathcal{P}(\bar\nu_\mu\to\bar\nu_e)$ over $L_{\mathrm{b}} = 1300$ km of rock (normal ordering, $\delta_{\mathrm{CP}} = 212^\circ$). Right: the growth rate $\mathrm{Im}\,\bar\omega$ of the fast flavour instability against the shifted wave number $\bar k$, in units of $\sqrt2\,G_{\mathrm{F}}n_{\nu_e}$, for the three angular distributions of the text.](figures/fig_neutrino_conversion.png){width=88%}
 
 ### The early Universe and $N_{\mathrm{eff}}$
 
@@ -5119,7 +5120,7 @@ momentum dependence, which the method of temperatures does not resolve).
 
 \clearpage
 
-![Neutrino decoupling in UM-2 (three flavours, separate $\nu_e$ and $\nu_{\mu,\tau}$ temperatures, QED to $O(e^3)$). Left: the neutrino temperatures relative to the photon temperature; right: the comoving heating of the neutrinos by $e^+e^-$ annihilation.](figures/fig_neutrino_decoupling.png){width=88%}
+![Neutrino decoupling in UM-2 (three flavours, separate $\nu_e$ and $\nu_{\mu,\tau}$ temperatures, QED to $O(e^3)$), against the photon temperature $T_\gamma$. Left: the neutrino temperatures $T_{\nu_e}/T_\gamma$ and $T_{\nu_\mu}/T_\gamma$ (the same for $\nu_\tau$), with $(4/11)^{1/3}$ dotted; right: the comoving heating $T_{\nu_\alpha}\mathrm{e}^{a_4}/(T_{\nu_\alpha}\mathrm{e}^{a_4})_{\mathrm{start}} - 1$ of the neutrinos by $e^+e^-$ annihilation, in per cent.](figures/fig_neutrino_decoupling.png){width=88%}
 
 ### The cosmic neutrino background
 
@@ -5865,13 +5866,13 @@ Planck $\Omega_{\mathrm{b}}h_{100}^2$, $\Omega_{\mathrm{DM}}h_{100}^2$ and $\the
 and they lie $2.1$ and $2.9$ standard deviations above the ACT DR6 value $N_{\mathrm{eff}} = 2.86 \pm 0.13$ (UM-2: 1.4). The CNB
 enters through $N_{\mathrm{eff}} = 3.0432$ and the three neutrino masses.
 
-![CMB temperature (left) and E-mode (right) spectra of UM-2 (three massive neutrinos), of Planck 2018 $\Lambda$CDM and of the variant with a fold band thermalised above the QCD crossover; lower panels: relative difference to $\Lambda$CDM with the cosmic variance of one multipole (dotted).](figures/fig_cmb_spectra.png)
+![CMB temperature (left) and E-mode polarisation (right) spectra $l(l+1)C^{\mathrm{TT}}_l/(2\pi)$ and $l(l+1)C^{\mathrm{EE}}_l/(2\pi)$ against the multipole $l$ ($C^{\mathrm{TT}}_l$, $C^{\mathrm{EE}}_l$ the angular power spectra) of UM-2 (three massive neutrinos), of Planck 2018 $\Lambda$CDM and of the variant with a fold band thermalised above the QCD crossover; lower panels: relative difference to $\Lambda$CDM with the cosmic variance $\pm(2/(2l + 1))^{1/2}$ of one multipole (dotted).](figures/fig_cmb_spectra.png)
 
-![BAO distances divided by the square root of the redshift against the DESI DR2 measurements; the $\chi_{\mathrm{BAO}}^2$ uses $d_{\mathrm{V}}$ for BGS and $d_{\mathrm{M}}$, $d_{\mathrm{H}}$ with their correlation for the other tracers (the $d_{\mathrm{V}}$ points of the anisotropic tracers are shown for illustration).](figures/fig_bao.png)
+![The BAO distances $d_{\mathrm{V}}$, $d_{\mathrm{M}}$, $d_{\mathrm{H}}$ divided by the sound horizon $r_{\mathrm{d}}$ and by the square root of the redshift $z_{\mathrm{red}}$, against the DESI DR2 measurements; the $\chi_{\mathrm{BAO}}^2$ uses $d_{\mathrm{V}}$ for BGS and $d_{\mathrm{M}}$, $d_{\mathrm{H}}$ with their correlation for the other tracers (the $d_{\mathrm{V}}$ points of the anisotropic tracers are shown for illustration).](figures/fig_bao.png)
 
 **The matter power spectrum.** A separate CAMB run of each model without the CMB gives the linear matter power spectrum and
-$\sigma_8 = 0.8118$ (UM-2), $0.8119$ (UM-2 without the freeze-in fold bands) and $0.8109$ ($\Lambda$CDM; Planck 2018: $0.811$,
-STANDARD); the product of the growth rate $\mathrm{d}\ln D_+/\mathrm{d}a_4$ and $\sigma_8$ at the redshift $0.5$ is $0.4761$,
+$\sigma_8 = 0.8118$ (UM-2), $0.8119$ (UM-2 without the freeze-in fold bands) and $0.8109$ ($\Lambda$CDM; Planck 2018: $0.811 \pm 0.006$,
+Planck Collaboration 2020, arXiv:1807.06209; STANDARD); the product of the growth rate $\mathrm{d}\ln D_+/\mathrm{d}a_4$ and $\sigma_8$ at the redshift $0.5$ is $0.4761$,
 $0.4762$ and $0.4756$ (DERIVED). The fold bands produced by freeze-in through I11 (step 9) are massless free-streaming radiation
 with $\Delta N_{\mathrm{eff}} = 0.001$: they move the TT spectrum by at most $1.6\times10^{-4}$ against the model without them
 (DERIVED, 8 checks in all).
@@ -6174,8 +6175,8 @@ $$
   (\pi x)$; the exact relativistic average exceeds it by $0.111$ at $x = 30$ (by about $3/x$).
 * *The effective operator* is used up to the energies of the annihilations ($\sqrt{4M_{\mathrm{DM}}^2}$ and above); where its
   cross-section exceeds the unitarity bound the operator is not a valid description (below).
-* *The direct-detection estimate* uses the trace anomaly with a nucleon gluon fraction and a low-scale coupling quoted without a checked reference
-  (ESTIMATE).
+* *The direct-detection estimate* uses the trace anomaly with the gluon fraction $f_{\mathrm{TG}} = 0.92$ of the nucleon mass (from the quark mass
+  fractions of Hisano, Ishiwata and Nagata 2010) and the low-scale coupling $\alpha_3 = 0.3$ (ESTIMATE).
 
 ## The solution of step 7
 
@@ -6309,7 +6310,7 @@ Boltzmann equation (a cross-section at the $^3P_0$ limit at every energy would l
 species: only a strongly coupled $^3P_0$ channel at the unitarity limit could give the relic) and resolves it with the s-wave
 portal I13.
 
-**Direct detection** (ESTIMATE). Even if the whole coupling were in gluons, the trace anomaly of QCD gives the coupling of the
+**Direct detection** (ESTIMATE). The trace anomaly of QCD gives the coupling of the
 dark matter to a nucleon of the mass $m_{\mathrm{N}}$, through the gluon fraction $f_{\mathrm{TG}}$ of the nucleon mass (the
 nucleon matrix element of the gluon invariant is $-\frac{8\pi}{9\alpha_3}m_{\mathrm{N}}f_{\mathrm{TG}}$), and the spin-independent
 cross-section per nucleon,
@@ -6328,17 +6329,20 @@ $$
 - $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
 - $\alpha_3$: The strong fine-structure constant, $\alpha_3 = g_3^2/(4\pi)$, at the scale given in brackets. Unit: dimensionless. Value: $\alpha_3(m_{\mathrm{Z}}) = 0.1180$; $\alpha_3(m_{\mathrm{KK}}) = 0.0606$. Status: STANDARD.
 - $m_{\mathrm{N}}$: The mass of a nucleon. Unit: GeV. Value: 0.939 GeV. Status: STANDARD.
-- $f_{\mathrm{TG}}$: The fraction of the nucleon mass carried by the gluons through the trace anomaly of QCD. Unit: dimensionless. Value: 0.92 (the value used in the computation; approximate). Status: STANDARD.
-- $\sigma_{\mathrm{SI}}$: The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon. Unit: $\mathrm{cm}^2$. Value: $4.01\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $6.3\times10^{-53}$ cm$^2$ through I12 alone. Status: ESTIMATE.
+- $f_{\mathrm{TG}}$: The fraction of the nucleon mass carried by the gluons through the trace anomaly of QCD. Unit: dimensionless. Value: 0.92 (from the quark mass fractions of the proton of Hisano, Ishiwata and Nagata 2010). Status: STANDARD.
+- $\sigma_{\mathrm{SI}}$: The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon. Unit: $\mathrm{cm}^2$. Value: $4.01\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $2.6\times10^{-55}$ cm$^2$ through the I12 benchmark alone ($6.3\times10^{-53}$ cm$^2$ in version 2, with the whole relic coupling of version 2 in gluons). Status: ESTIMATE.
 - $\mu_{\mathrm{red}}$: The reduced mass of the dark-matter particle and a nucleon, $M_{\mathrm{DM}}m_{\mathrm{N}}/(M_{\mathrm{DM}} + m_{\mathrm{N}})$. Unit: GeV. Status: STANDARD.
 
 <!-- end generated symbol list -->
 
-($f_{\mathrm{TG}} = 0.92$, $\alpha_3 = 0.3$ at a low scale, $m_{\mathrm{N}} = 0.939$ GeV, $\mu_{\mathrm{red}}$ the dark-matter-nucleon
-reduced mass; approximate values quoted without a checked reference), i.e. $\sigma_{\mathrm{SI}} = 6.3\times10^{-53}$ cm$^2$ for each half (the two halves have the same
-cross-section and together the full local density, so the limit applies as for one species), eight orders below the LZ limit
-extrapolated linearly in the mass from $2.2\times10^{-48}$ cm$^2$ at 40 GeV to $44$ TeV ($2.4\times10^{-45}$ cm$^2$); the
-electroweak channels have no tree-level nucleon coupling. Any relic value would also depend on the radion oscillation left over
+($f_{\mathrm{TG}} = 0.92$ from the quark mass fractions of the proton of Hisano, Ishiwata and Nagata 2010, $\alpha_3 = 0.3$ at a low
+scale, $m_{\mathrm{N}} = 0.939$ GeV, $\mu_{\mathrm{red}}$ the dark-matter-nucleon reduced mass). At the unitarity-safe benchmark of I12,
+$G_{\mathrm{g}} = 6.09\times10^{-15}$ GeV$^{-3}$, this gives $\sigma_{\mathrm{SI}} = 2.62\times10^{-55}$ cm$^2$ for each half (ESTIMATE; `um2_coupled.py`,
+check `C11_I12_benchmark_direct_detection`; the two halves have the same cross-section and together the full local density, so
+the limit applies as for one species), $1.1\times10^{-10}$ of the LZ limit extrapolated linearly in the mass from
+$2.2\times10^{-48}$ cm$^2$ at 40 GeV (Aalbers et al. 2025, arXiv:2410.17036) to $44$ TeV ($2.4\times10^{-45}$ cm$^2$). Version 2 quoted
+$6.3\times10^{-53}$ cm$^2$, the same estimate with the whole relic coupling of the effective I12 in gluons ($G_{\mathrm{g}} = G_{\mathrm{I12}}/\sqrt8$),
+still eight orders below the limit. The electroweak channels have no tree-level nucleon coupling. Any relic value would also depend on the radion oscillation left over
 from the deflation (which redshifts like dust): if it dominated the Universe until it decayed, it would dilute the dark matter
 after freeze-out (the moduli problem, last section).
 
@@ -6362,7 +6366,8 @@ $30.38$ (DERIVED).
 ## The status of step 7
 
 DERIVED: the I12 cross-section, the freeze-out numbers and the violation of partial-wave unitarity by I12 at the relic strength.
-ESTIMATE: the direct detection through the trace anomaly (inputs quoted without a checked reference). INVENTED: the portal I12. OPEN: the microscopic
+ESTIMATE: the direct detection through the trace anomaly (the gluon fraction of the nucleon, the low-scale coupling and the linear
+extrapolation of the LZ limit). INVENTED: the portal I12. OPEN: the microscopic
 origin of the portals (I12 alone could give the relic only as a strongly coupled $^3P_0$ channel).
 
 # Step 8: the coupled solution in environments
@@ -7231,8 +7236,8 @@ $$
 - $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
 - $m_{\mathrm{p}},\ m_{\mathrm{n}}$: The masses of the proton and the neutron. Unit: GeV. Value: 0.938272 GeV, 0.939565 GeV. Status: STANDARD.
 - $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
-- $\sigma_{\pi N}$: The pion-nucleon sigma term (the contribution of the up and down quark masses to the nucleon mass). Unit: GeV. Value: 45 MeV. Status: STANDARD.
-- $\sigma_{\mathrm{s}}$: The strange sigma term of the nucleon. Unit: GeV. Value: 40 MeV. Status: STANDARD.
+- $\sigma_{\pi N}$: The pion-nucleon sigma term (the contribution of the up and down quark masses to the nucleon mass). Unit: GeV. Value: 45 MeV (Gasser, Leutwyler and Sainio 1991; the modern determinations lie between 42 and 61 MeV). Status: STANDARD.
+- $\sigma_{\mathrm{s}}$: The strange sigma term of the nucleon. Unit: GeV. Value: 40 MeV (within the uncertainty of the FLAG 2024 lattice average $41.0 \pm 8.8$ MeV). Status: STANDARD.
 
 <!-- end generated symbol list -->
 
@@ -7427,9 +7432,9 @@ non-relativistic matter and only the $\Delta\bar p$ term of the response and fou
 **The coupled solution is therefore the stabilised background with the $x_0$ spectra and the Kohn-Sham states of steps 1 to 3,
 corrected by the mean fields of this step; the corrections are computed and below $1.5\times10^{-6}$.** The I12 benchmark changes the
 strong coupling by 10 % through the thermal dark-matter density only at $T = 27.4$ TeV ($M_{\mathrm{DM}}/T = 1.62$), so the coupled
-effective description holds through the freeze-out and everything later (DERIVED, 16 checks with step 9).
+effective description holds through the freeze-out and everything later (DERIVED, 17 checks with step 9).
 
-![The coupled solution: the $x_0$ profiles that enter the overlaps (left) and the shift of the dark-matter level by the Standard-Model mean fields in the ten environments (right).](figures/fig_coupled.png)
+![The coupled solution: the $x_0$ profiles that enter the overlaps against $Hy$ (left: $a_{\mathrm{DM}}^2 + b_{\mathrm{DM}}^2$, $a_{\mathrm{fold}}^2 + b_{\mathrm{fold}}^2$ and the scaled zero modes of $Q_i$, $\ell_i$, $e_R$ and $u_R$; fold at $Hy = 0$, tip at $Hy = -3$) and the shift of the dark-matter level by the Standard-Model mean fields in the ten environments (right: $\log_{10}\lvert\Delta\varepsilon_{\mathrm{DM}}/M_{\mathrm{DM}}\rvert$).](figures/fig_coupled.png)
 
 ## The check of step 8
 
@@ -8337,7 +8342,7 @@ $$
 - $f_{\mathrm{N}},\ f_{\mathrm{p}},\ f_{\mathrm{n}}$: The spin-independent effective couplings of the dark matter to a nucleon: $f_{\mathrm{p}}$ to the proton, $f_{\mathrm{n}}$ to the neutron, and $f_{\mathrm{N}}$ the average per nucleon of the target (for the portal I12, the coupling through the gluon content of a nucleon). Unit: $\mathrm{GeV}^{-2}$. Value: $f_{\mathrm{p}} = 1.915\times10^{-9}$, $f_{\mathrm{n}} = 1.917\times10^{-9}$ GeV$^{-2}$ (I13 and I11). Status: ESTIMATE.
 - $G_{\mathrm{u}},\ G_{\mathrm{d}}$: The four-dimensional vector couplings of the dark matter to the up and to the down quark (I13 and I11, unpolarised quarks with each chirality carrying half of the density). Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
 - $Z_{\mathrm{Xe}},\ A_{\mathrm{Xe}}$: The atomic number and the mass number of the xenon target. Unit: dimensionless. Value: 54 and 131. Status: STANDARD.
-- $\sigma_{\mathrm{SI}}$: The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon. Unit: $\mathrm{cm}^2$. Value: $4.01\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $6.3\times10^{-53}$ cm$^2$ through I12 alone. Status: ESTIMATE.
+- $\sigma_{\mathrm{SI}}$: The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon. Unit: $\mathrm{cm}^2$. Value: $4.01\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $2.6\times10^{-55}$ cm$^2$ through the I12 benchmark alone ($6.3\times10^{-53}$ cm$^2$ in version 2, with the whole relic coupling of version 2 in gluons). Status: ESTIMATE.
 - $\mu_{\mathrm{red}}$: The reduced mass of the dark-matter particle and a nucleon, $M_{\mathrm{DM}}m_{\mathrm{N}}/(M_{\mathrm{DM}} + m_{\mathrm{N}})$. Unit: GeV. Status: STANDARD.
 - $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
 
@@ -8367,9 +8372,9 @@ $$
 
 <!-- end generated symbol list -->
 
-(DERIVED, 7 + 16 checks).
+(DERIVED, 7 + 17 checks).
 
-![The thermal history of UM-2 (degrees of freedom with the $x_0$ masses, left) and the freeze-out of one dark-matter species through the effective I12 at the relic strength and at the $^3P_0$ unitarity limit (right).](figures/fig_thermal_relic.png)
+![The thermal history of UM-2 (left: the degrees of freedom $g_\rho$ and $g_s$ with the $x_0$ masses against the temperature $T$) and the freeze-out of one dark-matter species (right: $Y_{\mathrm{DM}}$ against $x = M_{\mathrm{DM}}/T$) through the effective I12 at the relic strength and at the $^3P_0$ unitarity limit $\sigma_{\mathrm{I12}} = \pi/(4k_{\mathrm{cm}}^2)$, with $Y_{\mathrm{eq}}$ dotted.](figures/fig_thermal_relic.png)
 
 ## The check of step 9
 
@@ -8794,7 +8799,7 @@ neutron star $0.17$, galaxies (the squared orbital velocity) $5.4\times10^{-7}$,
   $0.43\,\text{s}/C_{\mathrm{r}}$, last section);
 * *order 2* (ESTIMATE, the square of order 1): $\Phi_{\mathrm{rms}}^2 = (2.42\times10^{-5})^2 = 5.8\times10^{-10}$ on cosmological scales
   ($k = 10^{-4}$ Mpc$^{-1}$), $4.5\times10^{-12}$ at the Sun, $0.03$ at a neutron star;
-* *tensor modes*: not predicted; the bound $0.036$ on the tensor-to-scalar ratio (quoted without a checked reference) bounds their amplitude by $8.7\times10^{-6}$.
+* *tensor modes*: not predicted; the 95 % bound 0.036 on the tensor-to-scalar ratio (BICEP/Keck Collaboration, Ade et al. 2021, arXiv:2110.00483) bounds their amplitude by $8.7\times10^{-6}$.
 
 On cosmological scales the terms decrease as $1$, $2.4\times10^{-5}$, $5.8\times10^{-10}$, $10^{-34}$ (radion), $0$ (Kaluza-Klein): the
 metric is a power series of terms of decreasing magnitude whose $n = 0$ first-order term carries the CMB, the CNB and the BAO.
@@ -8818,7 +8823,7 @@ to $1.5\times10^{-6}$ (step 6) (DERIVED).
 ## The status of step 10
 
 DERIVED: the magnitudes of order 0, of order 1 ($n = 0$ and $n \ge 1$) and of the radion. ESTIMATE: order 2. STANDARD: the bound on
-tensor modes (quoted without a checked reference). OPEN: the Lovelock corrections to the graviton tower; the order-2 terms in detail; the primordial spectrum
+tensor modes (BICEP/Keck 2021). OPEN: the Lovelock corrections to the graviton tower; the order-2 terms in detail; the primordial spectrum
 (an input).
 
 # Accuracy of the solution
@@ -8828,7 +8833,8 @@ the solution in its own equation (a precisely defined, measured quantity: the re
 equation, the implied relative error of a root, or the agreement of independent evaluations), the size of the terms that the
 approximation neglects, and the checks in concert with the other field equations that contain the same fields (the same quantity
 compared where two or more equations use it). All residuals and links were computed anew in version 4 (`um2_residuals.py`, 52 named
-checks, all passed; with the 235 checks of the computations of version 3, UM-2 has 287 named checks); "NOT small" marks a neglected term or a difference that is not small and is reported as it is.
+checks, all passed; with the 235 checks of the computations of version 3 and the check of the direct detection of the I12 benchmark added in
+version 4, UM-2 has 288 named checks); "NOT small" marks a neglected term or a difference that is not small and is reported as it is.
 
 | equations | solution method | residual in its own equation | neglected terms | in concert |
 |:-----------------|:-----------------|:------------------|:------------------|:------------------|
