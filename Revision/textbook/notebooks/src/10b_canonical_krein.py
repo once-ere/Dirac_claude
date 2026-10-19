@@ -97,8 +97,9 @@ CELLS = [
     \Psi^\dagger_C\Psi_A$. This notebook
 
     - derives that rule from the Lagrangian of the field (canonical quantisation with
-      the time $x_4$): $\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\delta^7(x - y)/\cos z$
-      with the matrix $B = -iC\gamma^{(x_4)}$;
+      the time $x_4$): $\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\delta^7(x -
+      y)/\sqrt{|g|}$ with the matrix $B = -iC\gamma^{(x_4)}$ and the volume factor
+      $\sqrt{|g|}$ of the author's metric;
     - builds a *fermionic Fock space* (the quantum states of 16 fermion modes) in a few
       lines of Python, and checks on it the anticommutator and that the quantum
       equation of motion (the Heisenberg equation) gives back the classical wave
@@ -155,27 +156,32 @@ CELLS = [
 
     **The time-derivative term of the Lagrangian, line by line.** The Lagrangian of
     dirac16complex in the author's metric (the Revision theory record) is
-    $\mathcal{L} = \cos z\,\big[\frac12\sum_a f_a^{-1}(\bar\Psi\gamma^{(x_a)}\partial_a
-    \Psi - \partial_a\bar\Psi\gamma^{(x_a)}\Psi) - mS - U(S)\big]$ with $z = 6Hx_0$,
-    $\bar\Psi = \Psi^\dagger C$ and $f_4 = 1$. Its only terms with a derivative in the
-    time $x_4$ are
+    $\mathcal{L} = \sqrt{|g|}\,\big[\frac12\sum_a f_a^{-1}(\bar\Psi\gamma^{(x_a)}
+    \partial_a\Psi - \partial_a\bar\Psi\gamma^{(x_a)}\Psi) - mS - U(S)\big]$ with the
+    volume factor $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$ of the corrected
+    metric of 2026-10-16 ($z = 6Hx_0$; $a_4$ and $b_4 > 0$ are functions of the time
+    $x_4$), $\bar\Psi = \Psi^\dagger C$ and $f_4 = 1$. Its only terms with a derivative
+    of the field in the time $x_4$ are
 
-    $$\tfrac12\cos z\,\big(\Psi^\dagger C\gamma^{(x_4)}\partial_4\Psi -
+    $$\tfrac12\sqrt{|g|}\,\big(\Psi^\dagger C\gamma^{(x_4)}\partial_4\Psi -
     \partial_4\Psi^\dagger C\gamma^{(x_4)}\Psi\big).$$
 
     The notebook checks that $C\gamma^{(x_4)} = iB$ (this is the definition
     $B = -iC\gamma^{(x_4)}$ multiplied by $i$). Insert it:
 
-    $$\tfrac{i}{2}\cos z\,\big(\Psi^\dagger B\,\partial_4\Psi - \partial_4\Psi^\dagger
-    B\,\Psi\big).$$
+    $$\tfrac{i}{2}\sqrt{|g|}\,\big(\Psi^\dagger B\,\partial_4\Psi -
+    \partial_4\Psi^\dagger B\,\Psi\big).$$
 
-    Add the total derivative $\frac{i}{2}\partial_4(\cos z\,\Psi^\dagger B\Psi)$, which
-    does not change the field equations; since $\cos z$ does not depend on $x_4$, the
-    product rule gives $\frac{i}{2}\cos z(\partial_4\Psi^\dagger B\Psi +
-    \Psi^\dagger B\partial_4\Psi)$, and the sum is
+    Add the total derivative $\frac{i}{2}\partial_4(\sqrt{|g|}\,\Psi^\dagger B\Psi)$,
+    which does not change the field equations. By the product rule it is
+    $\frac{i}{2}(\partial_4\sqrt{|g|})\,\Psi^\dagger B\Psi + \frac{i}{2}\sqrt{|g|}\,
+    (\partial_4\Psi^\dagger B\Psi + \Psi^\dagger B\partial_4\Psi)$. Its first part
+    contains no time derivative of the field ($\sqrt{|g|}$ depends on $x_4$ through
+    $a_4$ and $b_4$) and joins the other terms without $\partial_4\Psi$; with the second
+    part the derivative terms add up to
 
-    $$i\cos z\,\Psi^\dagger B\,\partial_4\Psi = \Psi^\dagger K\,\partial_4\Psi,\qquad
-    K = i\cos z\,B .$$
+    $$i\sqrt{|g|}\,\Psi^\dagger B\,\partial_4\Psi = \Psi^\dagger K\,\partial_4\Psi,
+    \qquad K = i\sqrt{|g|}\,B .$$
 
     **The rule.** For a Lagrangian of the first-order form $\Psi^\dagger K\partial_4\Psi
     - \Psi^\dagger h'\Psi$ the classical equation is $K\partial_4\Psi = h'\Psi$. If the
@@ -184,16 +190,16 @@ CELLS = [
     $[H, \Psi_c] = -(Ah'\Psi)_c$, so the Heisenberg equation $\partial_4\Psi =
     i[H, \Psi]$ reads $\partial_4\Psi = -iAh'\Psi$. Agreement with the classical
     equation $\partial_4\Psi = K^{-1}h'\Psi$ for every $h'$ requires $-iA = K^{-1}$,
-    that is $A = iK^{-1}$. With $K = i\cos z\,B$ and $B^{-1} = B$:
+    that is $A = iK^{-1}$. With $K = i\sqrt{|g|}\,B$ and $B^{-1} = B$:
 
-    $$iK^{-1} = i\cdot\frac{1}{i\cos z}B^{-1} = \frac{B}{\cos z},\qquad
-    \{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\frac{\delta^7(x - y)}{\cos z}.$$
+    $$iK^{-1} = i\cdot\frac{1}{i\sqrt{|g|}}B^{-1} = \frac{B}{\sqrt{|g|}},\qquad
+    \{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\frac{\delta^7(x - y)}{\sqrt{|g|}}.$$
 
     (On a slice $x_4 = $ const the components at different points anticommute; the
     seven-dimensional delta $\delta^7(x - y)$ expresses this. In the Fock-space
     computations of this notebook one point is kept, so the anticommutator is the
-    matrix $B$ itself, up to the positive factor $1/\cos z$ that does not change any
-    sign.)
+    matrix $B$ itself, up to the positive factor $1/\sqrt{|g|}$ that does not change
+    any sign.)
 
     **The obstruction.** $B$ has the eigenvalue $-1$. For a column $u$ with $Bu = -u$
     and $u^\dagger u = 1$, the operator $X = \sum_A u_A^*\Psi_A$ would have
@@ -209,8 +215,8 @@ CELLS = [
     The next cell reads the gammas, builds $C$, $B$ and the chirality $\Gamma =
     \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)}$ with numpy (whole numbers and the
     imaginary unit `1j`), and checks $C\gamma^{(x_4)} = iB$ and $B^{-1} = B$. Then it
-    repeats the rule $iK^{-1} = B/\cos z$ with sympy, keeping $\cos z$ as a positive
-    symbol `c`.
+    repeats the rule $iK^{-1} = B/\sqrt{|g|}$ with sympy, keeping $\sqrt{|g|}$ as a
+    positive symbol `c`.
 
     It also defines `check_record(condition, name, record)`, which does what
     `check(condition, name, record=record)` of the set-up cell does but prints the PASS
@@ -267,12 +273,12 @@ CELLS = [
     check(np.array_equal(C @ gamma[4], 1j * B), "C gamma^(x4) = i B")
     check(np.array_equal(B @ B, np.eye(16)), "B B = I, so the inverse of B is B")
 
-    c = sp.Symbol("c", positive=True)  # c stands for cos z, positive on the patch
+    c = sp.Symbol("c", positive=True)  # c is sqrt|g|, positive where sin z cos z != 0
     B_exact = sp.Matrix(16, 16, lambda i, j: sp.I * int(round(B[i, j].imag)))
     K = sp.I * c * B_exact  # the kernel of the time-derivative term
     rule = (sp.I * K.inv()).applyfunc(sp.simplify)  # the anticommutator matrix i K^-1
     check_record(rule == B_exact / c,
-                 "exact: i K^(-1) = B / cos z with K = i cos z B",
+                 "exact: i K^(-1) = B / sqrt|g| with K = i sqrt|g| B",
                  record="Revision/theory/reports/wolfram-field-theory.json, check "
                         "first_order_form_and_anticommutator")
     '''),
@@ -771,8 +777,9 @@ CELLS = [
     $\gamma^{(x_a)}$ and the eight reflections $P_a = \Gamma\gamma^{(x_a)}$. A map with
     $\sigma = -1$ turns the canonical rule into its negative: the chirality image
     $\Gamma\Psi$ of the pairing theorem T1 carries the Krein metric $-B$ (statement Q1
-    of the quantum reading), while the mirror map $\gamma^{(x_0)}$ of theorem T2 keeps
-    $+B$.
+    of the quantum reading), while the map $\gamma^{(x_0)}$ of theorem T2 keeps $+B$
+    (statement Q5; in the author's universe T2 combines $\gamma^{(x_0)}$ with the
+    reflection $z \to \pi - z$ across the fold between the two halves of a cell).
 
     **Conjugation of the quantised field.** Charge conjugation is a MATRIX map. For the
     quantised field it has the form $\Psi^c = M\Psi^{\dagger T}$, that is
@@ -821,7 +828,7 @@ CELLS = [
                  record="Revision/pairing/reports/python-pairing.json, check "
                         "Q.image_krein_metric")
     check_record(np.array_equal(gamma[0] @ B @ gamma[0].T, B),
-                 "the mirror image gamma^(x0) Psi keeps +B",
+                 "the T2 image gamma^(x0) Psi keeps +B",
                  record="Revision/pairing/reports/python-pairing.json, check "
                         "Q.T2_image_keeps_B")
 
@@ -875,8 +882,8 @@ CELLS = [
     save_figure(fig, "krein_signs",
                 "Left: the sign $\\sigma$ (vertical axis) with $MBM^\\dagger = \\sigma B$ "
                 "for the 17 matrix maps of the Revision pairing record (horizontal "
-                "axis: Gam is the chirality $\\Gamma$, g1 to g8 the gammas "
-                "$\\gamma^{(x_0)}$ to $\\gamma^{(x_7)}$, P1 to P0 the reflections "
+                "axis: Gam is the chirality $\\Gamma$, g0 to g7 the gammas "
+                "$\\gamma^{(x_0)}$ to $\\gamma^{(x_7)}$, P0 to P7 the reflections "
                 "$\\Gamma\\gamma^{(x_a)}$); blue bars keep the canonical rule "
                 "$\\{\\Psi, \\Psi^\\dagger\\} = B\\delta$, orange bars reverse it to "
                 "$-B$. Right: the two candidate conjugations $\\Psi \\to "
@@ -902,8 +909,10 @@ CELLS = [
     ## 12. What this notebook showed
 
     - PROVED (exactly): the time-derivative term of the Lagrangian is
-      $\Psi^\dagger K\partial_4\Psi$ with $K = i\cos z\,B$, and the canonical rule
-      $\{\Psi, \Psi^\dagger\} = iK^{-1}\delta^7 = B\delta^7/\cos z$.
+      $\Psi^\dagger K\partial_4\Psi$ with $K = i\sqrt{|g|}\,B$, and the canonical rule
+      $\{\Psi, \Psi^\dagger\} = iK^{-1}\delta^7 = B\delta^7/\sqrt{|g|}$, with the
+      volume factor $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$ of the
+      corrected metric.
     - CHECKED on an explicit fermionic Fock space (16 modes, 65536 patterns, of which
       only the needed ones are stored): the anticommutation relations, the canonical
       rule with $\Psi^\dagger = \chi B$, and the Heisenberg equation $i\partial_4\Psi =
@@ -917,7 +926,7 @@ CELLS = [
       Krein-boosted pair) gives the same rule, and the expectation value in a mode is
       $\epsilon_n u_n^\dagger M u_n$, which equals $u_n^\dagger BMu_n$ only when the mode
       is an eigenvector of $B$.
-    - PROVED: the chirality image $\Gamma\Psi$ carries $-B$, the mirror image
+    - PROVED: the chirality image $\Gamma\Psi$ carries $-B$, the T2 image
       $\gamma^{(x_0)}\Psi$ keeps $+B$ (all 17 recorded signs reproduced); the
       conjugation of the quantised field that preserves the canonical rule is the
       MATRIX map $\Psi \to \Gamma\Psi^{\dagger T}$, which reverses the mass; the map

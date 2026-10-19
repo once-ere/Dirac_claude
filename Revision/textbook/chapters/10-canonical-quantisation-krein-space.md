@@ -11,9 +11,9 @@ Chapters 7 to 9 treated the field dirac16complex as a classical field: 16 comple
 - one-particle waves: the evolution of a plane wave conserves the Krein form $u^\dagger Bu$, its frequencies are real or imaginary according to the sign of $w^2 = m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2 - k_5^2 - k_6^2 - k_7^2$, and at every real frequency the waves of one frequency carry four directions of positive and four of negative Krein form (Sections 10.2 to 10.6, Notebook 10a);
 - quantum states, fermion modes and the Fock space from zero, the canonical rule, the theorem that forces the Krein space, and the conjugation of the quantised field (Sections 10.11 to 10.15, Notebook 10b);
 - the good sector and its positive Fock space (one momentum with frozen coefficients), the Dirac sea and normal ordering, the energy-momentum tensor operator, and the contrast with the classical commuting field (Sections 10.20 to 10.22, Notebook 10c);
-- the curved good sector of the author's metric, where Hermiticity needs a boundary condition at the patch end $z = \pi/2$ (Sections 10.27 and 10.28, Notebook 10d);
+- the curved good sector of the author's metric, where Hermiticity needs a boundary condition at the folds $z = \pi/2 + n\pi$, where the two halves of a cell meet (Sections 10.27 and 10.28, Notebook 10d);
 - the proof that no invariant choice of the charge density is positive, and the symmetries that keep the canonical rule (Sections 10.33 and 10.34, Notebook 10e);
-- the same structure along the deflating history of the extra times, where every wave with extra-time momentum eventually grows (Section 10.39, Notebook 10f);
+- the same structure along the deflating history of the extra times and the hidden direction, where a wave turns from oscillation to growth exactly when its growth number $D$ is positive, which every wave with extra-time momentum and no hidden momentum has (Section 10.39, Notebook 10f);
 - the quantum reading of the pairing of universes of masses $+m$ and $-m$, with an exact list of what it does not establish (Sections 10.44 and 10.45, Notebook 10g).
 
 The chapter closes with "What we proved, what we computed, what we assumed" (Section 10.50), with exercises (Section 10.51) and with their complete answers (Section 10.52).
@@ -25,12 +25,12 @@ The chapter closes with "What we proved, what we computed, what we assumed" (Sec
 | 10a | one-particle spectra and Krein inertia | 28 | 6 |
 | 10b | the canonical rule on a Fock space; the Krein space | 25 | 5 |
 | 10c | the positive Fock space of one good-sector momentum | 14 | 5 |
-| 10d | the curved good sector along the hidden direction | 16 | 5 |
+| 10d | the curved good sector along the hidden direction | 19 | 5 |
 | 10e | invariant forms and Krein-unitary generators | 15 | 5 |
-| 10f | the Krein structure along the deflating history | 19 | 5 |
+| 10f | the Krein structure along the deflating history | 21 | 5 |
 | 10g | the quantum reading of the pairing | 30 | 5 |
 
-**Notation.** The author's coordinates are written $x_0, \dots, x_7$: $x_1, x_2, x_3$ are ordinary 3-space, which inflates (scale factor $e^{a_4}\sin^{1/6}z$); $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which are time-like and DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}\sin^{1/6}z$ with $a_4$ increasing); $x_0$ is the hidden space direction, with $z = 6Hx_0$ between 0 and $\pi/2$ and $H > 0$ the author's constant. The flat frame metric is $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$. The gamma matrices are the author's eight real $16 \times 16$ matrices; the one of the direction $x_a$ is written $\gamma^{(x_a)}$, and they obey the Clifford relation $\gamma^{(x_a)}\gamma^{(x_b)} + \gamma^{(x_b)}\gamma^{(x_a)} = 2\eta_{ab}I_{16}$ (Chapter 4), where $I_{16}$ is the $16 \times 16$ identity matrix and $\eta_{ab}$ is $\eta_{aa}$ for $a = b$ and 0 otherwise. So a space-like gamma ($x_0, x_1, x_2, x_3$) squares to $+I_{16}$, a time-like one ($x_4, \dots, x_7$) to $-I_{16}$, and two different gammas anticommute. Chapter 5 built from them the charge matrix $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ (the author's sigma16), the chirality $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$ and the matrix $B = -iC\gamma^{(x_4)}$. For a matrix $M$, $M^T$ is its transpose, $M^*$ the matrix of the complex conjugate entries and $M^\dagger = (M^T)^*$ its conjugate transpose; for a column $u$, $u^\dagger$ is the row of the conjugated entries. The letter $m$ is the mass. The words used for the status of a statement are those of the whole book: PROVED (exact, with the verifying record and check), COMPUTED (a numerical result with its accuracy), ASSUMED, HYPOTHESIS and OPEN.
+**Notation.** The author's coordinates are written $x_0, \dots, x_7$: $x_0$ is the hidden space direction, listed first, with $z = 6Hx_0$ taking every real value and $H > 0$ the author's constant; $x_1, x_2, x_3$ are ordinary 3-space; $x_4$ is the time; $x_5, x_6, x_7$ are the three extra times, which are time-like. The author's metric is the corrected metric of 2026-10-16 (Chapter 3), with two functions $a_4(x_4)$ and $b_4(x_4) > 0$ of the time: 3-space inflates (scale factor $e^{a_4}$, no warp); the extra times DEFLATE EXPONENTIALLY (scale factor $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$); the hidden direction shrinks with them (scale factor $e^{-a_4}b_4^{1/2}|\cot z|$, so that $g_{00} = e^{-2a_4}b_4\cot^2 z$); the time has $g_{44} = -1$. The volume factor is $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$, and the fold $z = \pi/2$ (where $\cos z = 0$) joins the two halves $z < \pi/2$ and $z > \pi/2$ of a cell. The flat frame metric is $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$. The gamma matrices are the author's eight real $16 \times 16$ matrices; the one of the direction $x_a$ is written $\gamma^{(x_a)}$, and they obey the Clifford relation $\gamma^{(x_a)}\gamma^{(x_b)} + \gamma^{(x_b)}\gamma^{(x_a)} = 2\eta_{ab}I_{16}$ (Chapter 4), where $I_{16}$ is the $16 \times 16$ identity matrix and $\eta_{ab}$ is $\eta_{aa}$ for $a = b$ and 0 otherwise. So a space-like gamma ($x_0, x_1, x_2, x_3$) squares to $+I_{16}$, a time-like one ($x_4, \dots, x_7$) to $-I_{16}$, and two different gammas anticommute. Chapter 5 built from them the charge matrix $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$ (the author's sigma16), the chirality $\Gamma = \gamma^{(x_0)}\gamma^{(x_1)}\cdots\gamma^{(x_7)} = \mathrm{diag}(-I_8, I_8)$ and the matrix $B = -iC\gamma^{(x_4)}$. For a matrix $M$, $M^T$ is its transpose, $M^*$ the matrix of the complex conjugate entries and $M^\dagger = (M^T)^*$ its conjugate transpose; for a column $u$, $u^\dagger$ is the row of the conjugated entries. The letter $m$ is the mass. The words used for the status of a statement are those of the whole book: PROVED (exact, with the verifying record and check), COMPUTED (a numerical result with its accuracy), ASSUMED, HYPOTHESIS and OPEN.
 
 **The records this chapter uses.** Every formula and number comes from these Revision records or from the chapter's own notebooks, which reproduce the records where they overlap:
 
@@ -58,7 +58,7 @@ $$
 J^{(x_4)} = -i\Psi^\dagger C\gamma^{(x_4)}\Psi = \Psi^\dagger B\Psi,\qquad B = -iC\gamma^{(x_4)} .
 $$
 
-The Revision record proves the **local conservation law** $\partial_\mu(\cos z\,J^\mu) = 0$ (for the author's metric with a changing $b_4$ the weight is $\sqrt{|g|} = b_4^{3/2}\cos z$: `python-field-theory-b4.json`, check `u1_noether_matrix_identity_b4`) (summed over the eight directions $\mu$, as in Chapter 1) for every solution of the field equation (`charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`), and that $J^{(x_4)}$ is the density of the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$, the integral over a slice $x_4 = $ const (`wolfram-field-theory.json`, check `charge_density_is_Krein_form_G`). A local law does not by itself make $Q$ constant. Write it as $\partial_4(\cos z\,J^{(x_4)}) = -\sum_{a \neq 4}\partial_a(\cos z\,J^{(x_a)})$ and integrate over the slice: the left side gives $dQ/dx_4$, and each term on the right is the integral of a derivative along one direction, which by the fundamental theorem of calculus equals the difference of the values at the two ends of that direction. So $Q$ changes by exactly the charge that flows out through the boundary of the slice, and it is constant only when this **flux** vanishes. In flat space it vanishes for fields that die away at large distances. In the author's patch the boundary includes the patch end $z = \pi/2$, and there the flux vanishes only under a boundary condition, an ASSUMED no-flux condition that the quantisation of the Revision record does not impose; without it the constancy of $Q$ is OPEN (Revision theory document, section 11). Sections 10.27 and 10.28 show an exact solution whose charge $Q$ grows from $1/6$ to 454.007. For two columns $u$ and $v$ of 16 complex numbers the number $u^\dagger Bv$ is called their **Krein form**, and $u^\dagger Bu$ the **Krein norm** of $u$ (a name, not a length: it can be negative).
+The Revision record proves the **local conservation law** $\partial_\mu(\sqrt{|g|}\,J^\mu) = 0$, with the volume factor $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$ of the author's metric (summed over the eight directions $\mu$, as in Chapter 1), for every solution of the field equation (`charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`), and that $J^{(x_4)}$ is the density of the total charge $Q = \int\sqrt{|g|}\,\Psi^\dagger B\Psi\,d^7x$, the integral over a slice $x_4 = $ const (`wolfram-field-theory.json`, check `charge_density_is_Krein_form_G`). A local law does not by itself make $Q$ constant. Write it as $\partial_4(\sqrt{|g|}\,J^{(x_4)}) = -\sum_{a \neq 4}\partial_a(\sqrt{|g|}\,J^{(x_a)})$ and integrate over the slice: the left side gives $dQ/dx_4$, and each term on the right is the integral of a derivative along one direction, which by the fundamental theorem of calculus equals the difference of the values at the two ends of that direction. So $Q$ changes by exactly the charge that flows out through the boundary of the slice, and it is constant only when this **flux** vanishes. In flat space it vanishes for fields that die away at large distances. In the author's metric the slice is taken over an interval of $z$ between degenerate points (where $\sin z\cos z = 0$), and its ends include the folds $z = \pi/2 + n\pi$, where the two halves of a cell meet; there the flux vanishes only under a boundary condition, an ASSUMED no-flux condition that the quantisation of the Revision record does not impose; without it the constancy of $Q$ is OPEN (Revision theory document, section 11). Sections 10.27 and 10.28 show an exact solution whose charge $Q$ over one half of a cell grows from $1/3$ to 843.742. For two columns $u$ and $v$ of 16 complex numbers the number $u^\dagger Bv$ is called their **Krein form**, and $u^\dagger Bu$ the **Krein norm** of $u$ (a name, not a length: it can be negative).
 
 **Five properties of B, derived line by line.** We use only the Clifford relation, the reality of the gammas, $C^T = C$, $CC = I_{16}$ and $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$ (Chapter 5).
 
@@ -111,14 +111,14 @@ So the Krein norm $u^\dagger Bu$ is a real number for every column (because $B$ 
 | 7 | 16 | $+i$ | 15 | 8 | $+i$ |
 | 8 | 15 | $-i$ | 16 | 7 | $-i$ |
 
-**Which gammas commute with B.** $B$ is $-i$ times the product of the five gammas of $x_0, x_1, x_2, x_3, x_4$. A gamma among these five passes four different gammas and itself when it is moved through the product, sign $(-1)^4 = +1$: it commutes with $B$. A gamma of $x_5, x_6, x_7$ passes five different gammas, sign $(-1)^5 = -1$: it anticommutes with $B$. Hence $B$ commutes with $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}, \gamma^{(x_0)}$ and anticommutes with $\gamma^{(x_5)}, \gamma^{(x_6)}, \gamma^{(x_7)}$, and by the same counting $\Gamma B\Gamma = -B$.
+**Which gammas commute with B.** $B$ is $-i$ times the product of the five gammas of $x_0, x_1, x_2, x_3, x_4$. A gamma among these five passes four different gammas and itself when it is moved through the product, sign $(-1)^4 = +1$: it commutes with $B$. A gamma of $x_5, x_6, x_7$ passes five different gammas, sign $(-1)^5 = -1$: it anticommutes with $B$. Hence $B$ commutes with $\gamma^{(x_0)}, \gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}$ and anticommutes with $\gamma^{(x_5)}, \gamma^{(x_6)}, \gamma^{(x_7)}$, and by the same counting $\Gamma B\Gamma = -B$.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
 | $B$ purely imaginary, Hermitian, $BB = I_{16}$, $\mathrm{tr}\,B = 0$, signature (8,8) | PROVED | `python-field-theory.json`, check `B_properties`; `wolfram-algebra.json`, check `B_signature_8_8` |
-| $B$ commutes with the gammas of $x_1, x_2, x_3, x_4, x_0$, anticommutes with those of $x_5, x_6, x_7$ | PROVED | `python-algebra.json`, check `B_gamma_relations` |
-| the local conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ on shell; $J^{(x_4)} = \Psi^\dagger B\Psi$ | PROVED | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; `wolfram-field-theory.json`, check `charge_density_is_Krein_form_G` |
-| the total charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ is constant in time | OPEN (true only when no charge flows through the boundary; at $z = \pi/2$ this is an ASSUMED no-flux condition that the quantisation record does not impose, Sections 10.27 and 10.28) | Revision theory document, section 11 |
+| $B$ commutes with the gammas of $x_0, x_1, x_2, x_3, x_4$, anticommutes with those of $x_5, x_6, x_7$ | PROVED | `python-algebra.json`, check `B_gamma_relations` |
+| the local conservation law $\partial_\mu(\sqrt{\lvert g\rvert}\,J^\mu) = 0$ on shell; $J^{(x_4)} = \Psi^\dagger B\Psi$ | PROVED | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; `wolfram-field-theory.json`, check `charge_density_is_Krein_form_G` |
+| the total charge $Q = \int\sqrt{\lvert g\rvert}\,\Psi^\dagger B\Psi\,d^7x$ is constant in time | OPEN (true only when no charge flows through the ends of the interval of $z$; at the folds $z = \pi/2 + n\pi$ this is an ASSUMED no-flux condition that the quantisation record does not impose, Sections 10.27 and 10.28) | Revision theory document, section 11 |
 
 ### 10.3 One plane wave: the mode Hamiltonian
 
@@ -128,7 +128,7 @@ $$
 \gamma^{(x_4)}\partial_4\Psi + \sum_{a \neq 4}\gamma^{(x_a)}\partial_a\Psi = m\Psi ,
 $$
 
-where $\partial_a$ is the derivative with respect to $x_a$ and the sum runs over the seven directions $a = 1, 2, 3, 5, 6, 7, 8$ of a slice $x_4 = $ const.
+where $\partial_a$ is the derivative with respect to $x_a$ and the sum runs over the seven directions $a = 0, 1, 2, 3, 5, 6, 7$ of a slice $x_4 = $ const.
 
 **Step 1.** Multiply from the left by $\gamma^{(x_4)}$ and use $\gamma^{(x_4)}\gamma^{(x_4)} = -I_{16}$:
 
@@ -156,15 +156,15 @@ $$
 
 The $16 \times 16$ matrix $h$ is the **mode Hamiltonian** of the wave. The equation $i\,du/dx_4 = hu$ has the form of the Schrödinger equation of quantum mechanics; its solutions with $u(x_4) = u_0e^{-iwx_4}$ are the eigenvectors $hu_0 = wu_0$, and the eigenvalue $w$ is the **frequency** of the wave. A real $w$ means oscillation; an imaginary $w = i\kappa$ means $e^{-iwx_4} = e^{\kappa x_4}$, growth.
 
-**Frame momenta and the deflating extra times.** In the author's metric each derivative of the field equation is divided by the scale factor $f_a$ of its direction (Chapter 6): $f_a = e^{a_4}\sin^{1/6}z$ for $x_1, x_2, x_3$, $f_4 = 1$, $f_a = e^{-a_4}\sin^{1/6}z$ for $x_5, x_6, x_7$ and $f_0 = \cot z$ (record `Revision/theory/field-theory.json`, formula `vielbein_diagonal`). A wave $e^{iq_ax_a}$ with the **coordinate momentum** $q_a$ therefore enters the equation with the **frame momentum** $k_a = q_a/f_a$. Along 3-space $k_a = q_ae^{-a_4}\sin^{-1/6}z$ shrinks as 3-space inflates; along an extra time $k_a = q_ae^{a_4}\sin^{-1/6}z$ GROWS as the extra times deflate.
+**Frame momenta and the deflating extra times.** In the author's metric each derivative of the field equation is divided by the scale factor $f_a$ of its direction (Chapter 6): $f_0 = e^{-a_4}b_4^{1/2}\cot z$ for the hidden direction, $f_a = e^{a_4}$ for $x_1, x_2, x_3$, $f_4 = 1$, and $f_a = e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$ for $x_5, x_6, x_7$ (record `Revision/theory/field-theory.json`, formula `vielbein_diagonal`). A wave $e^{iq_ax_a}$ with the **coordinate momentum** $q_a$ therefore enters the equation with the **frame momentum** $k_a = q_a/f_a$. Along 3-space $k_a = q_ae^{-a_4}$ shrinks as 3-space inflates; along an extra time $k_a = q_ae^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}$ GROWS as the extra times deflate, and so does the hidden frame momentum $k_0 = q_0e^{a_4}b_4^{-1/2}\tan z$, because the hidden direction shrinks with them (on the history of the Revision record $e^{-a_4}b_4^{1/2}$ is proportional to $e^{-a_4/3}$; Section 10.39).
 
-**The frozen-coefficient model, and what it leaves out.** The model evaluates the scale factors at one instant and one hidden position, so that the equation of that instant has constant coefficients and the plane waves above solve it with the frame momenta $k_a$; the extra times are never treated as static (Section 10.39 and Notebook 10f follow the frame momenta along the deflating history). But the author's field equation also contains two terms of the hidden direction (Section 10.27; record `Revision/theory/field-theory.json`, formula `field_equation`): the derivative $\tan z\,\gamma^{(x_0)}\partial_0\Psi$, whose coefficient changes along $x_0$, and the spin-connection term $3H\gamma^{(x_0)}\Psi$ (Chapter 6). The model leaves both out, so it is an ASSUMPTION, an approximation whose error this chapter does not estimate. The connection term matters. Kept in the equation, it adds to $h$ the matrix $h_c = 3iH\gamma^{(x_4)}\gamma^{(x_0)}$ (multiply $3H\gamma^{(x_0)}\Psi$ by $\gamma^{(x_4)}$ and by $i$, as in Steps 1 to 4). The real matrix $\gamma^{(x_4)}\gamma^{(x_0)}$ is symmetric (Chapter 5: $(\gamma^{(x_0)})^T = \gamma^{(x_0)}$ and $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$), $(\gamma^{(x_4)}\gamma^{(x_0)})^T = (\gamma^{(x_0)})^T(\gamma^{(x_4)})^T = \gamma^{(x_0)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_0)}$, so $h_c^\dagger = -h_c$; and $h_c$ commutes with $B$, because $\gamma^{(x_4)}$ and $\gamma^{(x_0)}$ do (Section 10.2). Section 10.4 proves $Bh = h^\dagger B$ for the flat $h$; for $h + h_c$ this becomes
+**The frozen-coefficient model, and what it leaves out.** The model evaluates the scale factors at one instant and one hidden position, so that the equation of that instant has constant coefficients and the plane waves above solve it with the frame momenta $k_a$; the extra times are never treated as static (Section 10.39 and Notebook 10f follow the frame momenta along the deflating history). But the author's field equation also contains the spin-connection term $c_g\gamma^{(x_0)}\Psi + v_g\gamma^{(x_4)}\Psi$ with $c_g = \frac32He^{a_4}b_4^{-1/2}$ and $v_g = b_4'/b_4 - a_4'/2$ (Chapter 6; record `Revision/theory/field-theory.json`, formulas `gammaOmega_total` and `field_equation`), and its derivative of the hidden direction, $e^{a_4}b_4^{-1/2}\tan z\,\gamma^{(x_0)}\partial_0\Psi$, has a coefficient that changes along $x_0$ (Section 10.27). The term $v_g\gamma^{(x_4)}\Psi$ is removed exactly by writing $\Psi = e^{a_4/2}b_4^{-1}u$: the factor $e^{a_4/2}b_4^{-1}$ changes at the rate $-v_g$, so $\gamma^{(x_4)}\partial_4\Psi + v_g\gamma^{(x_4)}\Psi = e^{a_4/2}b_4^{-1}\gamma^{(x_4)}\partial_4u$ (Section 10.28). The model leaves out the other two, the term $c_g\gamma^{(x_0)}\Psi$ and the change of $\tan z$ along $x_0$, so it is an ASSUMPTION, an approximation whose error this chapter does not estimate. The connection term matters. Kept in the equation, it adds to $h$ the matrix $h_c = ic_g\gamma^{(x_4)}\gamma^{(x_0)}$ (multiply $c_g\gamma^{(x_0)}\Psi$ by $\gamma^{(x_4)}$ and by $i$, as in Steps 1 to 4). The real matrix $\gamma^{(x_4)}\gamma^{(x_0)}$ is symmetric (Chapter 5: $(\gamma^{(x_0)})^T = \gamma^{(x_0)}$ and $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$), $(\gamma^{(x_4)}\gamma^{(x_0)})^T = (\gamma^{(x_0)})^T(\gamma^{(x_4)})^T = \gamma^{(x_0)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_0)}$, so $h_c^\dagger = -h_c$ ($c_g$ is real); and $h_c$ commutes with $B$, because $\gamma^{(x_4)}$ and $\gamma^{(x_0)}$ do (Section 10.2). Section 10.4 proves $Bh = h^\dagger B$ for the flat $h$; for $h + h_c$ this becomes
 
 $$
-B(h + h_c) - (h + h_c)^\dagger B = (Bh - h^\dagger B) + Bh_c + h_cB = 2Bh_c = 6iH\,B\gamma^{(x_4)}\gamma^{(x_0)} \neq 0 ,
+B(h + h_c) - (h + h_c)^\dagger B = (Bh - h^\dagger B) + Bh_c + h_cB = 2Bh_c = 2ic_g\,B\gamma^{(x_4)}\gamma^{(x_0)} \neq 0 ,
 $$
 
-by $h_c^\dagger = -h_c$ and $h_cB = Bh_c$; the right side is not zero because $B$, $\gamma^{(x_4)}$ and $\gamma^{(x_0)}$ are invertible. So with the connection term the Krein form of a single wave is no longer conserved, Theorem 10.1 below does not apply, and the frequencies can be complex: Section 10.28 finds $\pm2\sqrt2\,i$ for the waves that do not depend on $x_0$ at $m = H = 1$. Everything in Sections 10.4 to 10.6 and 10.20 holds exactly in flat 4+4 space and in the frozen-coefficient model; Sections 10.27 and 10.28 show what the terms of the hidden direction change.
+by $h_c^\dagger = -h_c$ and $h_cB = Bh_c$; the right side is not zero because $c_g > 0$ and $B$, $\gamma^{(x_4)}$ and $\gamma^{(x_0)}$ are invertible. So with the connection term the Krein form of a single wave is no longer conserved, Theorem 10.1 below does not apply, and the frequencies can be complex: Section 10.28 finds $\pm i\sqrt5/2$ for the waves that do not depend on $x_0$ at $m = H = 1$ and the start $x_4 = 0$ of the history ($c_g = 3/2$). Everything in Sections 10.4 to 10.6 and 10.20 holds exactly in flat 4+4 space and in the frozen-coefficient model; Sections 10.27 and 10.28 show what the terms of the hidden direction change.
 
 ### 10.4 The square of h, the Krein form, and three kinds of waves
 
@@ -202,10 +202,10 @@ $$
 (\gamma^{(x_4)}\gamma^{(x_a)})^\dagger = (\gamma^{(x_a)})^T(\gamma^{(x_4)})^T = -\eta_{aa}\gamma^{(x_a)}\gamma^{(x_4)} = \eta_{aa}\gamma^{(x_4)}\gamma^{(x_a)} .
 $$
 
-So $-i\gamma^{(x_4)}$ and $\gamma^{(x_4)}\gamma^{(x_a)}$ for the space-like $a = 1, 2, 3, 8$ are Hermitian, while $\gamma^{(x_4)}\gamma^{(x_a)}$ for the extra times $a = 5, 6, 7$ is anti-Hermitian. Write $h = h_H + h_A$ with
+So $-i\gamma^{(x_4)}$ and $\gamma^{(x_4)}\gamma^{(x_a)}$ for the space-like $a = 0, 1, 2, 3$ are Hermitian, while $\gamma^{(x_4)}\gamma^{(x_a)}$ for the extra times $a = 5, 6, 7$ is anti-Hermitian. Write $h = h_H + h_A$ with
 
 $$
-h_H = -im\gamma^{(x_4)} - \gamma^{(x_4)}\big(k_1\gamma^{(x_1)} + k_2\gamma^{(x_2)} + k_3\gamma^{(x_3)} + k_0\gamma^{(x_0)}\big),
+h_H = -im\gamma^{(x_4)} - \gamma^{(x_4)}\big(k_0\gamma^{(x_0)} + k_1\gamma^{(x_1)} + k_2\gamma^{(x_2)} + k_3\gamma^{(x_3)}\big),
 $$
 
 $$
@@ -235,7 +235,7 @@ by the power series of the cosine and the sine. Three cases follow:
 
 - $w^2 > 0$: real frequencies $\pm w$, the wave oscillates;
 - $w^2 = 0$ with $h \neq 0$: $h^2 = 0$ and $e^{-ihx_4} = I_{16} - ihx_4$, the wave grows linearly;
-- $w^2 < 0$, that is $k_5^2 + k_6^2 + k_7^2 > m^2 + k_1^2 + k_2^2 + k_3^2 + k_0^2$: $w = i\kappa$ with $\kappa = \sqrt{-w^2}$, and since $\cos(i\kappa x_4) = \cosh(\kappa x_4)$ and $\sin(i\kappa x_4)/(i\kappa) = \sinh(\kappa x_4)/\kappa$, half of the waves grow like $e^{\kappa x_4}$.
+- $w^2 < 0$, that is $k_5^2 + k_6^2 + k_7^2 > m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2$: $w = i\kappa$ with $\kappa = \sqrt{-w^2}$, and since $\cos(i\kappa x_4) = \cosh(\kappa x_4)$ and $\sin(i\kappa x_4)/(i\kappa) = \sinh(\kappa x_4)/\kappa$, half of the waves grow like $e^{\kappa x_4}$.
 
 A large enough extra-time momentum always produces growth, and the growth rate $\kappa$ has no upper bound as that momentum grows: the initial-value problem with data that depend on the extra times is not well posed (Chapter 8).
 
@@ -281,7 +281,7 @@ $$
 
 because $\mathrm{tr}\,B = 0$ (Section 10.2) and $Bh = mC - i\sum_ak_aC\gamma^{(x_a)}$ is a combination of $C$ (a product of four different gammas) and of products of three or five different gammas, all of trace 0: a product of an odd number of different gammas has trace 0 by the argument of (B5), and a product of an even number $k$ of different gammas has trace 0 because moving its first factor to the end does not change the trace but costs the sign $(-1)^{k-1} = -1$. Eight numbers $\pm1$ with the sum 0 are four $+1$ and four $-1$: inertia (4,4).
 
-*Step (iii): every real frequency.* Start in the good sector and turn on the extra-time momenta slowly, keeping $m, k_1, k_2, k_3, k_0$ fixed. As long as $w^2 > 0$ the projectors $P_\pm$ change continuously, and by step (i) the Gram matrix of each eigenspace never has a zero eigenvalue. An eigenvalue of a continuously changing Gram matrix can change its sign only by passing through 0, which is forbidden, so the inertia stays (4,4). Every real-frequency point can be reached in this way (lowering $k_5, k_6, k_7$ to 0 only increases $w^2$).
+*Step (iii): every real frequency.* Start in the good sector and turn on the extra-time momenta slowly, keeping $m, k_0, k_1, k_2, k_3$ fixed. As long as $w^2 > 0$ the projectors $P_\pm$ change continuously, and by step (i) the Gram matrix of each eigenspace never has a zero eigenvalue. An eigenvalue of a continuously changing Gram matrix can change its sign only by passing through 0, which is forbidden, so the inertia stays (4,4). Every real-frequency point can be reached in this way (lowering $k_5, k_6, k_7$ to 0 only increases $w^2$).
 
 *Imaginary frequencies.* Let $w$ be an eigenvalue that is not real, and $hu = wu$, $hv = wv$. Compute $u^\dagger Bhv$ in two ways: it is $w\,u^\dagger Bv$; and with $Bh = h^\dagger B$ it is $u^\dagger h^\dagger Bv = (hu)^\dagger Bv = w^*\,u^\dagger Bv$. Subtracting, $(w - w^*)\,u^\dagger Bv = 0$, and $w - w^* \neq 0$, so $u^\dagger Bv = 0$ on the whole eigenspace. *Zero frequency:* $h^2 = 0$ and $(hx)^\dagger B(hy) = x^\dagger h^\dagger Bhy = x^\dagger Bhhy = 0$. QED.
 
@@ -307,7 +307,7 @@ $$
 \Gamma h_m(k)\Gamma = +im\gamma^{(x_4)} - \gamma^{(x_4)}\sum_{a \neq 4}k_a\gamma^{(x_a)} = h_{-m}(k) .
 $$
 
-**The mirror map.** In the same way, with $\gamma^{(x_0)}\gamma^{(x_0)} = I_{16}$: $\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_0)} = -\gamma^{(x_4)}$; $\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_a)}\gamma^{(x_0)} = \gamma^{(x_4)}\gamma^{(x_a)}$ for $a \neq 4, 8$ (two sign changes); and $\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_0)} = -\gamma^{(x_4)}\gamma^{(x_0)}$ (one sign change). So $\gamma^{(x_0)}h_m(k)\gamma^{(x_0)} = h_{-m}(R_0k)$, where $R_0k$ is $k$ with $k_0$ replaced by $-k_0$.
+**The mirror map.** In the same way, with $\gamma^{(x_0)}\gamma^{(x_0)} = I_{16}$: $\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_0)} = -\gamma^{(x_4)}$; $\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_a)}\gamma^{(x_0)} = \gamma^{(x_4)}\gamma^{(x_a)}$ for $a \neq 0, 4$ (two sign changes); and $\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_0)} = -\gamma^{(x_4)}\gamma^{(x_0)}$ (one sign change). So $\gamma^{(x_0)}h_m(k)\gamma^{(x_0)} = h_{-m}(R_0k)$, where $R_0k$ is $k$ with $k_0$ replaced by $-k_0$.
 
 **Equal spectra.** If $h_mu = w'u$, then $h_{-m}(\Gamma u) = \Gamma h_m\Gamma\Gamma u = \Gamma h_mu = w'\,\Gamma u$: the matrix $\Gamma$ carries every eigenvector of $h_m$ to an eigenvector of $h_{-m}$ with the same eigenvalue. Matrices related in this way ($N = SMS^{-1}$) are called **similar**, and similar matrices have the same eigenvalues. So the one-particle spectra of the universes of masses $+m$ and $-m$ are IDENTICAL, not opposite; the same follows from $w^2$, which contains the mass only as $m^2$. (PROVED: `wolfram-pairing.json`, checks `Q_one_particle_maps` and `Q_one_particle_Krein_signatures`; `python-pairing.json`, check `Q.one_particle_maps`.) This is statement Q4 of the quantum reading of the Revision record; Sections 10.44 and 10.45 discuss the whole quantum reading and what it does not establish.
 
@@ -507,7 +507,7 @@ def check_record(condition, name, record):
 ```python
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
     encoding="utf-8"))
-# gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 1, ..., 8.
+# gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 0, ..., 7.
 gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
 eta = {a: fixture["eta"][a] for a in range(8)}  # +1 space-like, -1 time-like
 identity = np.eye(16, dtype=int)
@@ -657,7 +657,7 @@ m = sp.Symbol("m", real=True)  # the mass: any real number
 k_sym = {a: sp.Symbol(f"k{a}", real=True) for a in (0, 1, 2, 3, 5, 6, 7)}
 ```
 
-The same gammas are stored as sympy matrices, which hold exact whole numbers; for sympy matrices `*` is the matrix product and `sp.I` is the imaginary unit. `sp.Symbol("m", real=True)` is a letter $m$ that stands for any real number, and `k_sym` holds the seven letters $k_1, k_2, k_3, k_5, k_6, k_7, k_0$. A computation with these letters holds for all their values at once: it is a proof.
+The same gammas are stored as sympy matrices, which hold exact whole numbers; for sympy matrices `*` is the matrix product and `sp.I` is the imaginary unit. `sp.Symbol("m", real=True)` is a letter $m$ that stands for any real number, and `k_sym` holds the seven letters $k_0, k_1, k_2, k_3, k_5, k_6, k_7$. A computation with these letters holds for all their values at once: it is a proof.
 
 ```python
 def mode_hamiltonian_exact(mass, k):
@@ -1247,33 +1247,39 @@ Why the sign: take two modes and write a pattern as $|o_0o_1\rangle$. Then $f_0|
 
 ### 10.12 The canonical rule from the Lagrangian
 
-To **quantise** dirac16complex means to replace its 16 components $\Psi_A$ by operators and to fix their anticommutators. *Canonical quantisation* reads the rule off the Lagrangian, with the time $x_4$ as the evolution time. The slices $x_4 = $ const are seven-dimensional, with the coordinates $x_1, x_2, x_3, x_5, x_6, x_7, x_0$.
+To **quantise** dirac16complex means to replace its 16 components $\Psi_A$ by operators and to fix their anticommutators. *Canonical quantisation* reads the rule off the Lagrangian, with the time $x_4$ as the evolution time. The slices $x_4 = $ const are seven-dimensional, with the coordinates $x_0, x_1, x_2, x_3, x_5, x_6, x_7$.
 
-**The time-derivative term, line by line.** In the author's metric the Lagrangian density of dirac16complex is (Chapter 7, record `Revision/theory/field-theory.json`)
-
-$$
-\mathcal{L} = \cos z\,\Big[\tfrac12\sum_{a}f_a^{-1}\big(\bar\Psi\gamma^{(x_a)}\partial_a\Psi - \partial_a\bar\Psi\gamma^{(x_a)}\Psi\big) - mS - U(S)\Big],
-$$
-
-with $\sqrt{|g|} = \cos z$ (on the backgrounds $b_4 = 1$ of the record, on which this chapter works; $b_4^{3/2}\cos z$ for the general metric of Chapter 3), the scale factors $f_a$ of Section 10.3 ($f_4 = 1$), $\bar\Psi = \Psi^\dagger C$ and $S = \bar\Psi\Psi$; in this metric the spin connection drops out of the Lagrangian (`wolfram-field-theory.json`, check `L_spin_connection_drops_out_G`). The only terms with a derivative in $x_4$ are those with $a = 4$:
+**The time-derivative term, line by line.** In the author's metric the Lagrangian density of dirac16complex is (Chapter 7, record `Revision/theory/field-theory.json`, formula `Lagrangian`)
 
 $$
-\tfrac12\cos z\,\big(\Psi^\dagger C\gamma^{(x_4)}\partial_4\Psi - \partial_4\Psi^\dagger C\gamma^{(x_4)}\Psi\big).
+\mathcal{L} = \sqrt{|g|}\,\Big[\tfrac12\sum_{a}f_a^{-1}\big(\bar\Psi\gamma^{(x_a)}\partial_a\Psi - \partial_a\bar\Psi\gamma^{(x_a)}\Psi\big) - mS - U(S)\Big],
+$$
+
+with the volume factor $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$ of the corrected metric (Chapter 3), the scale factors $f_a$ of Section 10.3 ($f_4 = 1$), $\bar\Psi = \Psi^\dagger C$ and $S = \bar\Psi\Psi$; in this form the spin connection drops out of the Lagrangian (`wolfram-field-theory.json`, check `L_spin_connection_drops_out_G`). Note that $\sqrt{|g|}$ depends on the time through $a_4$ and $b_4$: $\partial_4\sqrt{|g|} = 2v_g\sqrt{|g|}$ with $v_g = b_4'/b_4 - a_4'/2$ (Section 10.27, fact (D5)). The only terms with a derivative of the field in $x_4$ are those with $a = 4$:
+
+$$
+\tfrac12\sqrt{|g|}\,\big(\Psi^\dagger C\gamma^{(x_4)}\partial_4\Psi - \partial_4\Psi^\dagger C\gamma^{(x_4)}\Psi\big).
 $$
 
 This line writes out $\bar\Psi = \Psi^\dagger C$. Now $C\gamma^{(x_4)} = iB$, because the definition $B = -iC\gamma^{(x_4)}$ multiplied by $i$ gives $iB = C\gamma^{(x_4)}$. Insert it:
 
 $$
-\tfrac{i}{2}\cos z\,\big(\Psi^\dagger B\,\partial_4\Psi - \partial_4\Psi^\dagger B\,\Psi\big).
+\tfrac{i}{2}\sqrt{|g|}\,\big(\Psi^\dagger B\,\partial_4\Psi - \partial_4\Psi^\dagger B\,\Psi\big).
 $$
 
-Add the total derivative $\frac{i}{2}\partial_4(\cos z\,\Psi^\dagger B\Psi)$. A total derivative does not change the field equations (its integral over the time depends only on the end values, which the variation keeps fixed; Chapter 7). Since $\cos z$ does not depend on $x_4$, the product rule gives $\frac{i}{2}\partial_4(\cos z\,\Psi^\dagger B\Psi) = \frac{i}{2}\cos z\,(\partial_4\Psi^\dagger B\Psi + \Psi^\dagger B\partial_4\Psi)$. Added to the line above, the two terms with $\partial_4\Psi^\dagger$ cancel and the two with $\partial_4\Psi$ add:
+Add the total derivative $\frac{i}{2}\partial_4(\sqrt{|g|}\,\Psi^\dagger B\Psi)$. A total derivative does not change the field equations (its integral over the time depends only on the end values, which the variation keeps fixed; Chapter 7). By the product rule
 
 $$
-i\cos z\,\Psi^\dagger B\,\partial_4\Psi = \Psi^\dagger K\,\partial_4\Psi,\qquad K = i\cos z\,B .
+\tfrac{i}{2}\partial_4\big(\sqrt{|g|}\,\Psi^\dagger B\Psi\big) = \tfrac{i}{2}(\partial_4\sqrt{|g|})\,\Psi^\dagger B\Psi + \tfrac{i}{2}\sqrt{|g|}\,\big(\partial_4\Psi^\dagger B\Psi + \Psi^\dagger B\partial_4\Psi\big) .
 $$
 
-The rest of the Lagrangian has no $x_4$-derivative; the Revision record writes it as $-\mathcal{H}$ with the **Hamiltonian density** $\mathcal{H} = \cos z\,[\Psi^\dagger(mC - \sum_{\mu \neq x_4}C\gamma^\mu D_\mu)\Psi + U(S)]$, so that $\mathcal{L} = \Psi^\dagger K\partial_4\Psi - \mathcal{H}$ exactly, up to the total derivative (`python-field-theory.json`, check `hamiltonian_form_and_heisenberg_equation`). In words: the time-derivative term contains the matrix $B$, and the momentum conjugate to $\Psi_A$ is $\pi_A = i\cos z\,(\Psi^\dagger B)_A$, which depends on $\Psi^\dagger$ only, as for Dirac's electron (`python-field-theory.json`, check `canonical_momentum`).
+Added to the line above, the two terms with $\partial_4\Psi^\dagger$ cancel and the two with $\partial_4\Psi$ add; the first term on the right contains no time derivative of the field, it is $\frac{i}{2}\cdot2v_g\sqrt{|g|}\,\Psi^\dagger B\Psi = iv_g\sqrt{|g|}\,\Psi^\dagger B\Psi$, and it joins the other terms without $\partial_4\Psi$. The time-derivative term is therefore
+
+$$
+i\sqrt{|g|}\,\Psi^\dagger B\,\partial_4\Psi = \Psi^\dagger K\,\partial_4\Psi,\qquad K = i\sqrt{|g|}\,B .
+$$
+
+The rest of the Lagrangian has no $x_4$-derivative of the field; the Revision record writes it as $-\mathcal{H}$ with the **Hamiltonian density** $\mathcal{H} = \sqrt{|g|}\,[\Psi^\dagger(mC - \sum_{\mu \neq x_4}C\gamma^\mu D_\mu)\Psi + U(S)]$, so that $\mathcal{L} = \Psi^\dagger K\partial_4\Psi - \mathcal{H}$, exactly for the unsymmetrised form of the Lagrangian and up to total derivatives for the form above (`python-field-theory.json`, check `hamiltonian_form_and_heisenberg_equation`). The derivatives $D_\mu$ of $\mathcal{H}$ contain the spin connection of the seven slice directions, and with it the term $-iv_g\sqrt{|g|}\,\Psi^\dagger B\Psi$ found above (`wolfram-field-theory.json`, check `Heisenberg_equation_reproduces_field_equation`). In words: the time-derivative term contains the matrix $B$, and the momentum conjugate to $\Psi_A$ is $\pi_A = i\sqrt{|g|}\,(\Psi^\dagger B)_A$, which depends on $\Psi^\dagger$ only, as for Dirac's electron (`python-field-theory.json`, check `canonical_momentum`).
 
 **The rule, line by line.** Take a Lagrangian of the form $\Psi^\dagger K\partial_4\Psi - \Psi^\dagger h'\Psi$ with constant matrices $K$ and $h'$ (one point of the slice; the derivatives along the slice are inside $h'$). Varying $\Psi^\dagger$ gives the classical equation
 
@@ -1299,19 +1305,21 @@ $$
 \partial_4\Psi = i[H, \Psi] = -iAh'\Psi .
 $$
 
-It agrees with the classical equation $\partial_4\Psi = K^{-1}h'\Psi$ for every $h'$ exactly when $-iA = K^{-1}$, that is $A = iK^{-1}$. With $K = i\cos z\,B$, $B^{-1} = B$ (Section 10.2) and $1/i = -i$:
+It agrees with the classical equation $\partial_4\Psi = K^{-1}h'\Psi$ for every $h'$ exactly when $-iA = K^{-1}$, that is $A = iK^{-1}$. With $K = i\sqrt{|g|}\,B$, $B^{-1} = B$ (Section 10.2) and $1/i = -i$:
 
 $$
-iK^{-1} = i\cdot\frac{1}{i\cos z}\,B^{-1} = \frac{B}{\cos z} .
+iK^{-1} = i\cdot\frac{1}{i\sqrt{|g|}}\,B^{-1} = \frac{B}{\sqrt{|g|}} .
 $$
 
-**From one point to the whole slice.** So far the slice was a single point. To pass to the whole slice, divide it into many small cells, each with the coordinate volume $\Delta V$ (the product of its seven coordinate widths), and keep one value $\Psi(x)$ of the field per cell $x$. The Lagrangian of the slice is then the sum over the cells of $\Delta V$ times the density, so the time-derivative term of the cell $x$ is $\Psi(x)^\dagger(K\Delta V)\,\partial_4\Psi(x)$, with $K = i\cos z\,B$ at the position of that cell; this term couples no two different cells (the derivatives along the slice, which do couple neighbouring cells, sit in $h'$). The rule just derived holds for any number of components: take as the components all 16 components of all cells. Their time-derivative kernel is block diagonal, with one block $K\Delta V$ per cell, so its inverse is block diagonal with the blocks $(K\Delta V)^{-1}$, and the rule $A = iK^{-1}$ gives
+(The derivation holds at every instant; when $K$ depends on $x_4$, as here, the rule is the anticommutator at equal times. It stays consistent with the motion: $\frac{d}{dx_4}\frac{B}{\sqrt{|g|}} = -2v_g\frac{B}{\sqrt{|g|}}$ by (D5), and the anti-Hermitian part $-iv_g$ of the mode operator, which the term $iv_g\sqrt{|g|}\,\Psi^\dagger B\Psi$ above produces, changes the anticommutator of the evolving field at exactly this rate; Exercise 10.10.)
+
+**From one point to the whole slice.** So far the slice was a single point. To pass to the whole slice, divide it into many small cells, each with the coordinate volume $\Delta V$ (the product of its seven coordinate widths), and keep one value $\Psi(x)$ of the field per cell $x$. The Lagrangian of the slice is then the sum over the cells of $\Delta V$ times the density, so the time-derivative term of the cell $x$ is $\Psi(x)^\dagger(K\Delta V)\,\partial_4\Psi(x)$, with $K = i\sqrt{|g|}\,B$ at the position of that cell; this term couples no two different cells (the derivatives along the slice, which do couple neighbouring cells, sit in $h'$). The rule just derived holds for any number of components: take as the components all 16 components of all cells. Their time-derivative kernel is block diagonal, with one block $K\Delta V$ per cell, so its inverse is block diagonal with the blocks $(K\Delta V)^{-1}$, and the rule $A = iK^{-1}$ gives
 
 $$
-\{\Psi_A(x), \Psi^\dagger_C(y)\} = i\,(K\Delta V)^{-1}_{AC}\,\delta_{xy} = B_{AC}\,\frac{\delta_{xy}}{\cos z\,\Delta V} ,
+\{\Psi_A(x), \Psi^\dagger_C(y)\} = i\,(K\Delta V)^{-1}_{AC}\,\delta_{xy} = B_{AC}\,\frac{\delta_{xy}}{\sqrt{|g|}\,\Delta V} ,
 $$
 
-where $\delta_{xy}$ is 1 for the same cell and 0 for two different cells: components of different cells anticommute. The second step is $iK^{-1} = B/\cos z$ from above, divided by $\Delta V$. As the cells shrink, $\delta_{xy}/\Delta V$ becomes the seven-dimensional **delta function** $\delta^7(x - y)$. It is defined by what it does in an integral: it is zero for $x \neq y$, and for every smooth function $f$ on the slice
+where $\delta_{xy}$ is 1 for the same cell and 0 for two different cells: components of different cells anticommute. The second step is $iK^{-1} = B/\sqrt{|g|}$ from above, divided by $\Delta V$. As the cells shrink, $\delta_{xy}/\Delta V$ becomes the seven-dimensional **delta function** $\delta^7(x - y)$. It is defined by what it does in an integral: it is zero for $x \neq y$, and for every smooth function $f$ on the slice
 
 $$
 \int f(y)\,\delta^7(x - y)\,d^7y = f(x) ,
@@ -1320,12 +1328,12 @@ $$
 just as the sum over the cells $\sum_y\Delta V\,f(y)\,\delta_{xy}/\Delta V = f(x)$ picks out the cell $x$. It is not an ordinary function (no ordinary function is zero everywhere but at one point and still has the integral 1) but a rule for integrals, and in the theory it only appears inside such integrals. So the **canonical anticommutator** of dirac16complex on a slice $x_4 = $ const is
 
 $$
-\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\frac{\delta^7(x - y)}{\cos z} .
+\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\frac{\delta^7(x - y)}{\sqrt{|g|}} .
 $$
 
-At one point the factor $1/\cos z$ is a positive number, which changes no sign; the notebooks therefore work with $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$.
+At one point the factor $1/\sqrt{|g|}$ is a positive number (wherever $\sin z\cos z \neq 0$), which changes no sign; it also cancels against the factor $\sqrt{|g|}$ of $\mathcal{H}$ in the Heisenberg equation. The notebooks therefore work with $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$.
 
-**The Heisenberg equation is the wave equation.** For a plane wave with frame momenta $k_a$ along the slice, at one point with frozen coefficients, the derivatives $D_a$ in $\mathcal{H}$ become $ik_a$ and
+**The Heisenberg equation is the wave equation.** For a plane wave with frame momenta $k_a$ along the slice, at one point with frozen coefficients (the frozen-coefficient model of Section 10.3, without the spin-connection terms), the derivatives $D_a$ in $\mathcal{H}/\sqrt{|g|}$ become $ik_a$ and
 
 $$
 h' = mC - i\sum_{a \neq 4}k_a\,C\gamma^{(x_a)} .
@@ -1343,8 +1351,8 @@ The first step multiplies out ($(-i)(-i) = -1$); the second moves $C$ through $\
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| the time-derivative term is $\Psi^\dagger K\partial_4\Psi$ with $K = i\cos z\,B$; $\pi_A = i\cos z\,(\Psi^\dagger B)_A$ | PROVED | `wolfram-field-theory.json`, checks `canonical_momentum` and `first_order_form_and_anticommutator`; `python-field-theory.json`, check `canonical_momentum` |
-| $\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\delta^7(x - y)/\cos z$ | PROVED | `python-field-theory.json`, check `canonical_anticommutator_B`; `python-pairing.json`, check `Q.canonical_anticommutator` |
+| the time-derivative term is $\Psi^\dagger K\partial_4\Psi$ with $K = i\sqrt{\lvert g\rvert}\,B$; $\pi_A = i\sqrt{\lvert g\rvert}\,(\Psi^\dagger B)_A$ | PROVED | `wolfram-field-theory.json`, checks `canonical_momentum` and `first_order_form_and_anticommutator`; `python-field-theory.json`, check `canonical_momentum` |
+| $\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\delta^7(x - y)/\sqrt{\lvert g\rvert}$, $\sqrt{\lvert g\rvert} = e^{-a_4}b_4^2\lvert\cot z\rvert(\sin^2 z)^{1/4}$ | PROVED | `python-field-theory.json`, check `canonical_anticommutator_B`; `python-pairing.json`, check `Q.canonical_anticommutator` |
 | the Heisenberg equation reproduces the field equation (general $U$) | PROVED | `wolfram-field-theory.json`, check `Heisenberg_equation_reproduces_field_equation`; `python-field-theory.json`, check `hamiltonian_form_and_heisenberg_equation` |
 | anticommutators (not commutators) for dirac16complex | ASSUMED | part of the definition of the field as a fermion field; no spin-statistics theorem for signature (4,4) is proved |
 
@@ -1424,7 +1432,7 @@ $$
 \{\Psi'_A, \Psi'^\dagger_C\} = \sum_{D,F}M_{AD}M^*_{CF}\{\Psi_D, \Psi^\dagger_F\} = \sum_{D,F}M_{AD}B_{DF}M^*_{CF} = (MBM^\dagger)_{AC} .
 $$
 
-The map keeps the canonical rule exactly when $MBM^\dagger = B$. The Revision pairing record lists $MBM^\dagger = \sigma B$ with a sign $\sigma$ for 17 maps (`Revision/pairing/pairing-theory.json`, data `Krein_signs_M_B_Mdagger`; `wolfram-pairing.json`, check `Q_Krein_metric_of_images`). The signs follow from Section 10.2 in three lines. For a gamma, $(\gamma^{(x_a)})^\dagger = (\gamma^{(x_a)})^T = \eta_{aa}\gamma^{(x_a)}$ (the gammas are real; the space-like ones are symmetric, the time-like ones antisymmetric) and $\gamma^{(x_a)}B = s_aB\gamma^{(x_a)}$ with $s_a = +1$ for $a = 1, 2, 3, 4, 8$ and $s_a = -1$ for $a = 5, 6, 7$; so
+The map keeps the canonical rule exactly when $MBM^\dagger = B$. The Revision pairing record lists $MBM^\dagger = \sigma B$ with a sign $\sigma$ for 17 maps (`Revision/pairing/pairing-theory.json`, data `Krein_signs_M_B_Mdagger`; `wolfram-pairing.json`, check `Q_Krein_metric_of_images`). The signs follow from Section 10.2 in three lines. For a gamma, $(\gamma^{(x_a)})^\dagger = (\gamma^{(x_a)})^T = \eta_{aa}\gamma^{(x_a)}$ (the gammas are real; the space-like ones are symmetric, the time-like ones antisymmetric) and $\gamma^{(x_a)}B = s_aB\gamma^{(x_a)}$ with $s_a = +1$ for $a = 0, 1, 2, 3, 4$ and $s_a = -1$ for $a = 5, 6, 7$; so
 
 $$
 \gamma^{(x_a)}B(\gamma^{(x_a)})^\dagger = \eta_{aa}\,\gamma^{(x_a)}B\gamma^{(x_a)} = \eta_{aa}s_a\,B\gamma^{(x_a)}\gamma^{(x_a)} = \eta_{aa}s_a\eta_{aa}\,B = s_aB .
@@ -1435,12 +1443,12 @@ For the chirality, $\Gamma$ is real and symmetric and $\Gamma B\Gamma = -B$ (Sec
 | map $M$ | sign $\sigma$ in $MBM^\dagger = \sigma B$ |
 | --- | --- |
 | $\Gamma$ | $-1$ |
-| $\gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}, \gamma^{(x_0)}$ | $+1$ |
+| $\gamma^{(x_0)}, \gamma^{(x_1)}, \gamma^{(x_2)}, \gamma^{(x_3)}, \gamma^{(x_4)}$ | $+1$ |
 | $\gamma^{(x_5)}, \gamma^{(x_6)}, \gamma^{(x_7)}$ | $-1$ |
-| $P_1, P_2, P_3, P_4, P_0$ | $-1$ |
+| $P_0, P_1, P_2, P_3, P_4$ | $-1$ |
 | $P_5, P_6, P_7$ | $+1$ |
 
-The chirality image $\Gamma\Psi$ of the pairing theorem T1 therefore carries the Krein metric $-B$ (statement Q1 of the quantum reading of the pairing record, Section 10.44), while the mirror image $\gamma^{(x_0)}\Psi$ of theorem T2 keeps $+B$ (statement Q5).
+The chirality image $\Gamma\Psi$ of the pairing theorem T1 therefore carries the Krein metric $-B$ (statement Q1 of the quantum reading of the pairing record, Section 10.44), while the image $\gamma^{(x_0)}\Psi$ of theorem T2 keeps $+B$ (statement Q5; in the author's universe T2 combines $\gamma^{(x_0)}$ with the reflection $z \to \pi - z$ across the fold between the two halves of a cell, Chapter 18).
 
 **The conjugation of the quantised field.** Charge conjugation is a MATRIX map (Chapter 5): the two charge-conjugation matrices are $\mathcal{C}_+ = C$ and $\mathcal{C}_- = \Gamma C$, and for a classical field they give $\Psi^c = \mathcal{C}_+\bar\Psi^T = CC\Psi^* = \Psi^*$ (same mass) and $\Psi^c = \mathcal{C}_-\bar\Psi^T = \Gamma\Psi^*$ (mass reversed), since $\bar\Psi^T = (\Psi^\dagger C)^T = C^T\Psi^* = C\Psi^*$. (For a REAL field $\Psi^* = \Psi$, so the first map is the identity: a real field is its own conjugate, and plain complex conjugation does nothing to it; the nontrivial real map is $\Gamma$, Chapter 5.) For the QUANTISED field the role of $\Psi^*$ is played by the column of conjugate operators $\Psi^{\dagger T}$, and the candidate conjugations are $\Psi^c = M\Psi^{\dagger T}$, that is $\Psi^c_A = \sum_DM_{AD}\Psi^\dagger_D$. Its conjugate is $\Psi^{c\dagger}_C = \sum_FM^*_{CF}\Psi_F$ (the conjugate of $\Psi^\dagger$ is $\Psi$). Line by line,
 
@@ -1465,7 +1473,7 @@ So the conjugation of the quantised field that preserves $\{\Psi, \Psi^\dagger\}
 
 ### 10.16 Example: Notebook 10b builds the canonical rule on a Fock space
 
-Notebook 10b repeats the derivation of $iK^{-1} = B/\cos z$ exactly with sympy, builds the fermionic Fock space of Section 10.11 in a few lines of Python, realises on it the canonical rule $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$ with $\Psi^\dagger = \chi B$ (Section 10.14), checks that the Heisenberg equation gives the classical wave equation (Section 10.12), checks Theorem 10.2 on the recorded column and makes the positivity visible for 300 random states, builds the Krein-Fock realisation with a Krein-boosted pair and checks the expectation-value rule for 60 random matrices, and reproduces the 17 signs of Section 10.15 and the conjugation $\Psi \to \Gamma\Psi^{\dagger T}$. It draws five figures and ends with the line ALL 25 CHECKS PASSED (notebook 10b).
+Notebook 10b repeats the derivation of $iK^{-1} = B/\sqrt{|g|}$ exactly with sympy, builds the fermionic Fock space of Section 10.11 in a few lines of Python, realises on it the canonical rule $\{\Psi_A, \Psi^\dagger_C\} = B_{AC}$ with $\Psi^\dagger = \chi B$ (Section 10.14), checks that the Heisenberg equation gives the classical wave equation (Section 10.12), checks Theorem 10.2 on the recorded column and makes the positivity visible for 300 random states, builds the Krein-Fock realisation with a Krein-boosted pair and checks the expectation-value rule for 60 random matrices, and reproduces the 17 signs of Section 10.15 and the conjugation $\Psi \to \Gamma\Psi^{\dagger T}$. It draws five figures and ends with the line ALL 25 CHECKS PASSED (notebook 10b).
 
 <!-- NOTEBOOK 10b -->
 
@@ -1536,22 +1544,22 @@ check(np.array_equal(B @ B, np.eye(16)), "B B = I, so the inverse of B is B")
 The two facts used in Section 10.12: $C\gamma^{(x_4)} = iB$ and $BB = I_{16}$. Both comparisons are exact (whole numbers times $\pm i$), and two PASS lines are printed.
 
 ```python
-c = sp.Symbol("c", positive=True)  # c stands for cos z, positive on the patch
+c = sp.Symbol("c", positive=True)  # c is sqrt|g|, positive where sin z cos z != 0
 B_exact = sp.Matrix(16, 16, lambda i, j: sp.I * int(round(B[i, j].imag)))
 K = sp.I * c * B_exact  # the kernel of the time-derivative term
 rule = (sp.I * K.inv()).applyfunc(sp.simplify)  # the anticommutator matrix i K^-1
 ```
 
-`c` is a sympy letter for $\cos z$, declared positive (on the patch $0 < z < \pi/2$, $\cos z > 0$). `sp.Matrix(16, 16, lambda i, j: ...)` builds a $16 \times 16$ exact matrix entry by entry: entry $(i, j)$ is $i$ times the whole number nearest to the imaginary part of the numpy entry $B_{ij}$ (`round` and `int` turn $\pm1.0$ into $\pm1$), so `B_exact` is $B$ with exact entries. `K` is the kernel $K = i\cos z\,B$ of Section 10.12, `K.inv()` its exact inverse, and `rule` is $iK^{-1}$, every entry simplified.
+`c` is a sympy letter for the volume factor $\sqrt{|g|}$, declared positive (it is positive wherever $\sin z\cos z \neq 0$). `sp.Matrix(16, 16, lambda i, j: ...)` builds a $16 \times 16$ exact matrix entry by entry: entry $(i, j)$ is $i$ times the whole number nearest to the imaginary part of the numpy entry $B_{ij}$ (`round` and `int` turn $\pm1.0$ into $\pm1$), so `B_exact` is $B$ with exact entries. `K` is the kernel $K = i\sqrt{|g|}\,B$ of Section 10.12, `K.inv()` its exact inverse, and `rule` is $iK^{-1}$, every entry simplified.
 
 ```python
 check_record(rule == B_exact / c,
-             "exact: i K^(-1) = B / cos z with K = i cos z B",
+             "exact: i K^(-1) = B / sqrt|g| with K = i sqrt|g| B",
              record="Revision/theory/reports/wolfram-field-theory.json, check "
                     "first_order_form_and_anticommutator")
 ```
 
-The check confirms $iK^{-1} = B/\cos z$ exactly, the canonical rule of Section 10.12, and reproduces the Wolfram record check `first_order_form_and_anticommutator`. The cell prints three PASS lines.
+The check confirms $iK^{-1} = B/\sqrt{|g|}$ exactly, the canonical rule of Section 10.12, and reproduces the Wolfram record check `first_order_form_and_anticommutator`. The cell prints three PASS lines.
 
 **In [3], a fermionic Fock space.**
 
@@ -2075,7 +2083,7 @@ check_record(agree and len(rows) == 17,
                     "Krein_signs_M_B_Mdagger")
 ```
 
-The format code `+d` prints a whole number with its sign. The printed list is the table of Section 10.15: `Gamma: -1`, the gammas of $x_0$ to $x_3$ and $x_7$ with $+1$, those of $x_5$ to $x_7$ with $-1$, the reflections $P_1$ to $P_4$ and $P_0$ with $-1$ and $P_5$ to $P_7$ with $+1$. The check reproduces the record's data.
+The format code `+d` prints a whole number with its sign. The printed list is the table of Section 10.15: `Gamma: -1`, the gammas of $x_0$ to $x_4$ with $+1$, those of $x_5$ to $x_7$ with $-1$, the reflections $P_0$ to $P_4$ with $-1$ and $P_5$ to $P_7$ with $+1$. The check reproduces the record's data.
 
 ```python
 check_record(np.array_equal(Gamma @ B @ Gamma.T, -B),
@@ -2083,7 +2091,7 @@ check_record(np.array_equal(Gamma @ B @ Gamma.T, -B),
              record="Revision/pairing/reports/python-pairing.json, check "
                     "Q.image_krein_metric")
 check_record(np.array_equal(gamma[0] @ B @ gamma[0].T, B),
-             "the mirror image gamma^(x0) Psi keeps +B",
+             "the T2 image gamma^(x0) Psi keeps +B",
              record="Revision/pairing/reports/python-pairing.json, check "
                     "Q.T2_image_keeps_B")
 ```
@@ -2162,7 +2170,7 @@ save_figure(fig, "krein_signs",
 ...)
 ```
 
-The right panel draws the two conjugations, with the signs just checked in In [10]. Figure 5 of Notebook 10b shows five orange bars among the gammas and reflections ($\Gamma$, $\gamma^{(x_5)}$ to $\gamma^{(x_7)}$ and five reflections) and, on the right, the orange bar of $M = I$ next to the blue bar of $M = \Gamma$: only the conjugation $\Psi \to \Gamma\Psi^{\dagger T}$, which reverses the mass, keeps the canonical rule.
+The right panel draws the two conjugations, with the signs just checked in In [10]. Figure 5 of Notebook 10b shows nine orange bars among the 17 maps ($\Gamma$, $\gamma^{(x_5)}$ to $\gamma^{(x_7)}$ and the five reflections $P_0$ to $P_4$) and, on the right, the orange bar of $M = I$ next to the blue bar of $M = \Gamma$: only the conjugation $\Psi \to \Gamma\Psi^{\dagger T}$, which reverses the mass, keeps the canonical rule.
 
 **In [12], the last check.**
 
@@ -2184,10 +2192,10 @@ Theorem 10.2 forbids a positive inner product with $\Psi^\dagger$ read as the Hi
 **The waves of one good-sector momentum.** In the good sector the mode Hamiltonian is
 
 $$
-h = m\beta + \sum_{a = 1, 2, 3, 8}k_a\alpha^a,\qquad \beta = -i\gamma^{(x_4)},\qquad \alpha^a = -\gamma^{(x_4)}\gamma^{(x_a)} .
+h = m\beta + \sum_{a = 0, 1, 2, 3}k_a\alpha^a,\qquad \beta = -i\gamma^{(x_4)},\qquad \alpha^a = -\gamma^{(x_4)}\gamma^{(x_a)} .
 $$
 
-All five matrices are Hermitian (Section 10.4), so $h$ is Hermitian. By Section 10.4, $hh = E^2I_{16}$ with $E = \sqrt{m^2 + k_1^2 + k_2^2 + k_3^2 + k_0^2} > 0$ and $\mathrm{tr}\,h = 0$, so $h$ has the eigenvalue $+E$ eight times and $-E$ eight times. Choose orthonormal eigenvectors $u_1, \dots, u_8$ with $hu_s = Eu_s$ and $v_1, \dots, v_8$ with $hv_s = -Ev_s$ (for example by the Gram-Schmidt method applied to the columns of the projectors $\frac12(I_{16} \pm h/E)$ of Section 10.5). A $u$ and a $v$ are orthogonal:
+All five matrices are Hermitian (Section 10.4), so $h$ is Hermitian. By Section 10.4, $hh = E^2I_{16}$ with $E = \sqrt{m^2 + k_0^2 + k_1^2 + k_2^2 + k_3^2} > 0$ and $\mathrm{tr}\,h = 0$, so $h$ has the eigenvalue $+E$ eight times and $-E$ eight times. Choose orthonormal eigenvectors $u_1, \dots, u_8$ with $hu_s = Eu_s$ and $v_1, \dots, v_8$ with $hv_s = -Ev_s$ (for example by the Gram-Schmidt method applied to the columns of the projectors $\frac12(I_{16} \pm h/E)$ of Section 10.5). A $u$ and a $v$ are orthogonal:
 
 $$
 E\,v^\dagger u = v^\dagger hu = (h^\dagger v)^\dagger u = (hv)^\dagger u = -E\,v^\dagger u ,
@@ -2247,7 +2255,7 @@ After normal ordering a particle has the charge $+1$ and an antiparticle $-1$.
 | --- | --- | --- |
 | good sector, one momentum with frozen coefficients: positive Fock space, $\Psi^\dagger = \chi B$, $\{\Psi, \Psi^\dagger\} = B$; vacuum $-8E$; every quantum $+E$; charges $\pm1$ | PROVED (derivation above) and checked for $m = 2$, $k = (k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$ (vacuum $-40$) and for $m = 3$, $k_1 = 4$, $E = 5$ | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` |
 | normal ordering (dropping the vacuum value) | ASSUMED | a prescription, as in Dirac's theory |
-| scope: single good-sector momenta, in flat 4+4 space or in the frozen-coefficient model of Section 10.3 (ASSUMED: it leaves out the hidden-direction terms, including the connection term $3H\gamma^{(x_0)}$) | OPEN beyond it | a positive-norm Hilbert space for the whole field in the deflating background, the extra-time sector and the operator theory for $\lambda \neq 0$ beyond the finite model of Section 10.21 are not constructed; in the author's metric the curved good-sector mode operator is Hermitian only up to a boundary term at $z = \pi/2$ (Section 10.27; Revision theory document, section 11) |
+| scope: single good-sector momenta, in flat 4+4 space or in the frozen-coefficient model of Section 10.3 (ASSUMED: it leaves out the hidden-direction terms, including the spin-connection term $c_g\gamma^{(x_0)}$) | OPEN beyond it | a positive-norm Hilbert space for the whole field in the deflating background, the extra-time sector and the operator theory for $\lambda \neq 0$ beyond the finite model of Section 10.21 are not constructed; in the author's metric the curved good-sector mode operator is Hermitian only up to a boundary term at the folds $z = \pi/2 + n\pi$ (Section 10.27; Revision theory document, section 11) |
 
 ### 10.21 The expectation-value rule and the energy-momentum tensor operator
 
@@ -2279,7 +2287,7 @@ $$
 
 with the kinetic part ${:}(-\sum_{\mu \neq x_4}\hat K_\mu){:}$ and the potential part ${:}(m\hat S + U(\hat S)){:}$ of the energy density. For $\lambda = 0$ every component is a normal-ordered bilinear, and its one-particle expectation values follow the rule just derived. For $\lambda \neq 0$ the potential term is quartic in the field, and the expectation value of ${:}U(S){:}$ is not $U$ of the expectation value of ${:}S{:}$ in general.
 
-**The case $\lambda \neq 0$ in a finite model.** The operator form of the on-shell identity $\sum_\mu\langle{:}K_\mu{:}\rangle = \langle{:}(m + U')S{:}\rangle$, and with it $\rho = mS + U$ and $p = SU' - U$, is verified by the Revision record in one finite model only (`Revision/theory/fock_quartic/`, one Python checker with sympy and an exact engine for the anticommutation rules, no Wolfram counterpart; 21 of 21 checks pass). The model is the positive Fock space of Section 10.20 ($\Psi^\dagger = \chi B$) for one good-sector plane-wave mode set with frozen coefficients: flat frame, volume 1, 16 modes and $2^{16}$ states, at rest ($k = 0$, symbolic $m$) and for $m = 3$, $k = (4, 0, 0, 0)$. There, for solutions of the interacting operator field equation, ${:}\sum_\mu K_\mu{:} = {:}(m + U'(S))S{:}$ holds as an exact operator identity on every state if and only if the potential $U = \frac{\lambda}{2}{:}SS{:}$ and the energy-momentum tensor are both Wick (normal) ordered, and at rest $\hat\rho = {:}mS + U{:}$ and $\hat p = {:}SU' - U{:}$ hold in the same sense (checks `trace_identity_operator_identity_wick` and `homogeneous_rho_p_operator_identities_wick`). Every other tested combination (four orderings of the potential, two definitions of the left-hand side, two right-hand sides; 30 combinations on the two mode sets) violates the identity by a nonzero one-body operator, sometimes plus a constant, that is linear in $\lambda$ (check `trace_identity_fails_for_every_other_combination`), and it fails already in expectation values: at rest on every state except the vacuum of the mode set (check `expectation_classes_M0`), and for $k = (4, 0, 0, 0)$ in a state with a single particle or a single antiparticle (check `expectation_values_M1`). An occupation state with $n$ quanta at rest has $\rho = mn + \frac{\lambda}{2}n(n - 1)$ and $p = \frac{\lambda}{2}n(n - 1)$, so $\langle{:}U(S){:}\rangle = \frac{\lambda}{2}n(n - 1)$ differs from $U(\langle{:}S{:}\rangle) = \frac{\lambda}{2}n^2$ (check `homogeneous_expectation_values_are_not_U_of_expectation`). For the field on a whole slice (many momenta), for the curved $x_0$ dependence with its boundary term at $z = \pi/2$ and for the extra-time sector the operator form stays OPEN, and symmetry and conservation of the quartic operator are not verified. Numerical expectation values of $\hat T$ for many-fermion states of the field on a whole slice are computed only in the Kohn-Sham approximation (Chapters 14 and 15); the finite model gives none for a physical many-fermion state.
+**The case $\lambda \neq 0$ in a finite model.** The operator form of the on-shell identity $\sum_\mu\langle{:}K_\mu{:}\rangle = \langle{:}(m + U')S{:}\rangle$, and with it $\rho = mS + U$ and $p = SU' - U$, is verified by the Revision record in one finite model only (`Revision/theory/fock_quartic/`, one Python checker with sympy and an exact engine for the anticommutation rules, no Wolfram counterpart; 21 of 21 checks pass). The model is the positive Fock space of Section 10.20 ($\Psi^\dagger = \chi B$) for one good-sector plane-wave mode set with frozen coefficients: flat frame, volume 1, 16 modes and $2^{16}$ states, at rest ($k = 0$, symbolic $m$) and for $m = 3$, $k_1 = 4$ (the other momenta zero). There, for solutions of the interacting operator field equation, ${:}\sum_\mu K_\mu{:} = {:}(m + U'(S))S{:}$ holds as an exact operator identity on every state if and only if the potential $U = \frac{\lambda}{2}{:}SS{:}$ and the energy-momentum tensor are both Wick (normal) ordered, and at rest $\hat\rho = {:}mS + U{:}$ and $\hat p = {:}SU' - U{:}$ hold in the same sense (checks `trace_identity_operator_identity_wick` and `homogeneous_rho_p_operator_identities_wick`). Every other tested combination (four orderings of the potential, two definitions of the left-hand side, two right-hand sides; 30 combinations on the two mode sets) violates the identity by a nonzero one-body operator, sometimes plus a constant, that is linear in $\lambda$ (check `trace_identity_fails_for_every_other_combination`), and it fails already in expectation values: at rest on every state except the vacuum of the mode set (check `expectation_classes_M0`), and for $m = 3$, $k_1 = 4$ in a state with a single particle or a single antiparticle (check `expectation_values_M1`). An occupation state with $n$ quanta at rest has $\rho = mn + \frac{\lambda}{2}n(n - 1)$ and $p = \frac{\lambda}{2}n(n - 1)$, so $\langle{:}U(S){:}\rangle = \frac{\lambda}{2}n(n - 1)$ differs from $U(\langle{:}S{:}\rangle) = \frac{\lambda}{2}n^2$ (check `homogeneous_expectation_values_are_not_U_of_expectation`). For the field on a whole slice (many momenta), for the curved $x_0$ dependence with its boundary term at the folds $z = \pi/2 + n\pi$ and for the extra-time sector the operator form stays OPEN, and symmetry and conservation of the quartic operator are not verified. Numerical expectation values of $\hat T$ for many-fermion states of the field on a whole slice are computed only in the Kohn-Sham approximation (Chapters 14 and 15); the finite model gives none for a physical many-fermion state.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
@@ -2302,7 +2310,7 @@ $$
 \rho = E\,|c|^2\,u^\dagger Bu .
 $$
 
-The charge density is $\Phi^\dagger B\Phi = |c|^2u^\dagger Bu$. In the good sector $B$ commutes with $h$, and by Theorem 10.1 the eigenspace of $+E$ contains four orthonormal columns with $Bu = u$ and four with $Bu = -u$. The first four have $\rho = +E|c|^2$, the other four $\rho = -E|c|^2$, although all eight have the positive frequency $E$. Multiplying the wave by a large number $c$ makes its energy density as negative as one likes: **the classical energy of dirac16complex00 is unbounded below**, already for $U = 0$ in the good sector, and its charge density $\Phi^\dagger B\Phi$ is an indefinite form. For its charge, as for that of dirac16complex (Section 10.2), only the local conservation law is proved; the total over a slice is constant only if no charge flows through the boundary, which at $z = \pi/2$ is an ASSUMED no-flux condition that the record does not impose (`wolfram-field-theory.json`, check `charge_density_is_Krein_form_C`). Dirac's wave function of 1928 has the positive density $\psi^\dagger\psi$; dirac16complex00 does not. For the recorded momentum $m = 2$, $k = (k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$ and $|c| = 1$ the energy densities are $+5$ and $-5$ and the charge densities $+1$ and $-1$ (`python-scope.json`, check `commuting_field_energy_unbounded_below`). Quantising the fermion field with anticommutators and normal ordering makes the good-sector energy positive; for the classical commuting field there is no such mechanism, and no quantum statement is made for dirac16complex00 in this book.
+The charge density is $\Phi^\dagger B\Phi = |c|^2u^\dagger Bu$. In the good sector $B$ commutes with $h$, and by Theorem 10.1 the eigenspace of $+E$ contains four orthonormal columns with $Bu = u$ and four with $Bu = -u$. The first four have $\rho = +E|c|^2$, the other four $\rho = -E|c|^2$, although all eight have the positive frequency $E$. Multiplying the wave by a large number $c$ makes its energy density as negative as one likes: **the classical energy of dirac16complex00 is unbounded below**, already for $U = 0$ in the good sector, and its charge density $\Phi^\dagger B\Phi$ is an indefinite form. For its charge, as for that of dirac16complex (Section 10.2), only the local conservation law is proved; the total over a slice is constant only if no charge flows through the ends of the interval of $z$, which at the degenerate points (among them the folds $z = \pi/2 + n\pi$) is an ASSUMED no-flux condition that the record does not impose (`wolfram-field-theory.json`, check `charge_density_is_Krein_form_C`). Dirac's wave function of 1928 has the positive density $\psi^\dagger\psi$; dirac16complex00 does not. For the recorded momentum $m = 2$, $k = (k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$, $E = 5$ and $|c| = 1$ the energy densities are $+5$ and $-5$ and the charge densities $+1$ and $-1$ (`python-scope.json`, check `commuting_field_energy_unbounded_below`). Quantising the fermion field with anticommutators and normal ordering makes the good-sector energy positive; for the classical commuting field there is no such mechanism, and no quantum statement is made for dirac16complex00 in this book.
 
 ### 10.23 Example: Notebook 10c builds the positive Fock space of one momentum
 
@@ -2908,147 +2916,225 @@ The five figure files exist, and the last line prints ALL 14 CHECKS PASSED (note
 
 ### 10.27 The curved good sector: symmetric only up to a boundary term
 
-The positive Fock space of Section 10.20 was built for one plane wave with frozen coefficients. In the author's curved metric the waves of the good sector depend on the hidden coordinate $x_0$, with $z = 6Hx_0$ between the **tip** $z = 0$ and the **patch end** $z = \pi/2$, where $g_{00} = \cot^2z$ and the volume factor $\sqrt{|g|} = \cos z$ vanish. Is the evolution there still Hermitian, and is the Krein charge still conserved?
+The positive Fock space of Section 10.20 was built for one plane wave with frozen coefficients. In the author's curved metric the waves of the good sector depend on the hidden coordinate $x_0$. The coordinate $z = 6Hx_0$ takes every real value, and the metric repeats itself in $z$ with the period $\pi$ (its entries contain $z$ only through $\cot^2 z$ and $(\sin^2 z)^{1/6}$). A **cell** $0 < z < \pi$ has two **halves**, $0 < z < \pi/2$ and $\pi/2 < z < \pi$, which meet at the **fold** $z = \pi/2$ (Chapter 3). At the fold $g_{00} = e^{-2a_4}b_4\cot^2 z$ and the volume factor $\sqrt{|g|} = e^{-a_4}b_4^2|\cot z|(\sin^2 z)^{1/4}$ vanish; at $z = 0$ and $z = \pi$ ($\sin z = 0$) the extra-time components vanish. Both kinds of points, where $\sin z\cos z = 0$, are the **degenerate points** of the metric. This section works on the half $0 < z < \pi/2$, that is $0 < x_0 < \pi/(12H)$; the other half is its image under the reflection $z \to \pi - z$, the isometry of theorem T2 (Chapter 18). On this half $|\cot z| = \cot z$ and $(\sin^2 z)^{1/4} = \sin^{1/2}z$, so $\sqrt{|g|} = e^{-a_4}b_4^2\cot z\,\sin^{1/2}z$. Is the evolution there still Hermitian, and is the Krein charge still conserved?
 
-**The field equation for waves in $x_4$ and $x_0$.** In the author's metric the field equation of dirac16complex with $U = 0$ is (Chapter 7, record `Revision/theory/field-theory.json`)
-
-$$
-e^{-a_4}\sin^{-1/6}z\sum_{i=1}^{3}\gamma^{(x_i)}\partial_i\Psi + \gamma^{(x_4)}\partial_4\Psi + e^{a_4}\sin^{-1/6}z\sum_{t=5}^{7}\gamma^{(x_t)}\partial_t\Psi + \tan z\,\gamma^{(x_0)}\partial_0\Psi + 3H\gamma^{(x_0)}\Psi = m\Psi .
-$$
-
-Each derivative is divided by the scale factor of its direction ($1/f_0 = 1/\cot z = \tan z$), and $3H\gamma^{(x_0)}$ is the term $\gamma^\mu\Omega_\mu$ of the canonical spin connection (Chapter 6). For a wave of the good sector that depends only on $x_4$ and $x_0$ the first and the third sums vanish:
+**The field equation for waves in $x_4$ and $x_0$.** In the author's metric the field equation of dirac16complex with $U = 0$ is (Chapter 7, record `Revision/theory/field-theory.json`, formula `field_equation`)
 
 $$
-\gamma^{(x_4)}\partial_4\Psi + \tan z\,\gamma^{(x_0)}\partial_0\Psi + 3H\gamma^{(x_0)}\Psi = m\Psi .
+e^{a_4}b_4^{-1/2}\tan z\,\gamma^{(x_0)}\partial_0\Psi + e^{-a_4}\sum_{i=1}^{3}\gamma^{(x_i)}\partial_i\Psi + \gamma^{(x_4)}\partial_4\Psi
 $$
 
-Multiply from the left by $\gamma^{(x_4)}$, use $\gamma^{(x_4)}\gamma^{(x_4)} = -I_{16}$, solve for $\partial_4\Psi$ (as in Section 10.3) and multiply by $i$:
+$$
++ \frac{e^{a_4}}{b_4^{1/2}(\sin^2 z)^{1/12}}\sum_{t=5}^{7}\gamma^{(x_t)}\partial_t\Psi + c_g\gamma^{(x_0)}\Psi + v_g\gamma^{(x_4)}\Psi = m\Psi ,
+$$
+
+with
 
 $$
-i\,\partial_4\Psi = h\Psi,\qquad h = A + D\,\partial_0,
+c_g = \tfrac32He^{a_4}b_4^{-1/2},\qquad v_g = \frac{b_4'}{b_4} - \frac{a_4'}{2},
+$$
+
+where a prime is the derivative with respect to $x_4$. Each derivative is divided by the scale factor of its direction ($1/f_0 = e^{a_4}b_4^{-1/2}\tan z$), and $c_g\gamma^{(x_0)} + v_g\gamma^{(x_4)}$ is the term $\gamma^\mu\Omega_\mu$ of the canonical spin connection (Chapter 6). For a wave of the good sector that depends only on $x_4$ and $x_0$ the two sums vanish:
+
+$$
+\gamma^{(x_4)}\partial_4\Psi + e^{a_4}b_4^{-1/2}\tan z\,\gamma^{(x_0)}\partial_0\Psi + c_g\gamma^{(x_0)}\Psi + v_g\gamma^{(x_4)}\Psi = m\Psi .
+$$
+
+Multiply from the left by $\gamma^{(x_4)}$ and use $\gamma^{(x_4)}\gamma^{(x_4)} = -I_{16}$:
+
+$$
+-\partial_4\Psi + e^{a_4}b_4^{-1/2}\tan z\,\gamma^{(x_4)}\gamma^{(x_0)}\partial_0\Psi + c_g\gamma^{(x_4)}\gamma^{(x_0)}\Psi - v_g\Psi = m\gamma^{(x_4)}\Psi .
+$$
+
+Bring $\partial_4\Psi$ to one side and the rest to the other, and multiply by $i$ (as in Section 10.3):
+
+$$
+i\,\partial_4\Psi = h\Psi,\qquad h = A + D\,\partial_0 - iv_g,
 $$
 
 with the matrices
 
 $$
-A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_0)},\qquad D = \tan z\,M_0,\qquad M_0 = i\gamma^{(x_4)}\gamma^{(x_0)} .
+A = -im\gamma^{(x_4)} + ic_g\gamma^{(x_4)}\gamma^{(x_0)},\qquad D = e^{a_4}b_4^{-1/2}\tan z\,M_0,\qquad M_0 = i\gamma^{(x_4)}\gamma^{(x_0)} .
 $$
 
-**Four matrix facts.** With $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$, $(\gamma^{(x_0)})^T = \gamma^{(x_0)}$ and $\gamma^{(x_0)}\gamma^{(x_4)} = -\gamma^{(x_4)}\gamma^{(x_0)}$:
+The last term of $h$, $-iv_g$, is a number times $I_{16}$; its conjugate transpose is $+iv_g$, so it is anti-Hermitian. This is the curved mode operator of the Revision record (`wolfram-field-theory.json`, check `good_sector_hermiticity_curved`).
 
-(D1) $M_0^\dagger = -i(\gamma^{(x_0)})^T(\gamma^{(x_4)})^T = -i\gamma^{(x_0)}(-\gamma^{(x_4)}) = i\gamma^{(x_0)}\gamma^{(x_4)} = -i\gamma^{(x_4)}\gamma^{(x_0)} = -M_0$: $M_0$ is anti-Hermitian, and so is $D$ ($\tan z$ is real).
+**Five facts.** With $(\gamma^{(x_4)})^T = -\gamma^{(x_4)}$, $(\gamma^{(x_0)})^T = \gamma^{(x_0)}$, $\gamma^{(x_0)}\gamma^{(x_4)} = -\gamma^{(x_4)}\gamma^{(x_0)}$ and the **bracket factor** $w = b_4^{3/2}\sin^{1/2}z$:
 
-(D2) $\cos z\,D = \cos z\tan z\,M_0 = \sin z\,M_0$.
+(D1) $M_0^\dagger = -i(\gamma^{(x_0)})^T(\gamma^{(x_4)})^T = -i\gamma^{(x_0)}(-\gamma^{(x_4)}) = i\gamma^{(x_0)}\gamma^{(x_4)} = -i\gamma^{(x_4)}\gamma^{(x_0)} = -M_0$: $M_0$ is anti-Hermitian, and so is $D$ (its factor is real).
 
-(D3) $A^\dagger = im(\gamma^{(x_4)})^T - 3iH(\gamma^{(x_0)})^T(\gamma^{(x_4)})^T = -im\gamma^{(x_4)} + 3iH\gamma^{(x_0)}\gamma^{(x_4)} = -im\gamma^{(x_4)} - 3iH\gamma^{(x_4)}\gamma^{(x_0)}$, so $A - A^\dagger = 6iH\gamma^{(x_4)}\gamma^{(x_0)} = 6HM_0$. Since $\partial_0\sin z = 6H\cos z$ (chain rule, $z = 6Hx_0$), this is $\cos z\,(A - A^\dagger) = (\partial_0\sin z)\,M_0$.
+(D2) $\sqrt{|g|}\,D = e^{-a_4}b_4^2\cot z\,\sin^{1/2}z\cdot e^{a_4}b_4^{-1/2}\tan z\,M_0 = b_4^{3/2}\sin^{1/2}z\,M_0 = wM_0$, because $e^{-a_4}e^{a_4} = 1$, $b_4^2b_4^{-1/2} = b_4^{3/2}$ and $\cot z\tan z = 1$.
+
+(D3) $A^\dagger = im(\gamma^{(x_4)})^T - ic_g(\gamma^{(x_0)})^T(\gamma^{(x_4)})^T = -im\gamma^{(x_4)} + ic_g\gamma^{(x_0)}\gamma^{(x_4)} = -im\gamma^{(x_4)} - ic_g\gamma^{(x_4)}\gamma^{(x_0)}$, so $A - A^\dagger = 2ic_g\gamma^{(x_4)}\gamma^{(x_0)} = 2c_gM_0$. The derivative of the bracket factor is $\partial_0w = b_4^{3/2}\cdot\frac12\sin^{-1/2}z\cdot6H\cos z = 3Hb_4^{3/2}\cos z\,\sin^{-1/2}z$ (chain rule, $z = 6Hx_0$), and $2c_g\sqrt{|g|} = 3He^{a_4}b_4^{-1/2}\cdot e^{-a_4}b_4^2\cot z\,\sin^{1/2}z = 3Hb_4^{3/2}\cos z\,\sin^{-1/2}z$ (because $\cot z\,\sin^{1/2}z = \cos z\,\sin^{-1/2}z$): the same. So $\sqrt{|g|}\,(A - A^\dagger) = (\partial_0w)\,M_0$.
 
 (D4) $B$ commutes with $\gamma^{(x_4)}$ and $\gamma^{(x_0)}$ (Section 10.2), hence with $A$, $A^\dagger$, $D$ and $M_0$.
 
-**Symmetric up to a boundary term, line by line.** Write $u'$ for $\partial_0u$, for two wave functions $u(x_0)$ and $v(x_0)$. Then
+(D5) The volume factor depends on the time: $\partial_4\sqrt{|g|} = \partial_4(e^{-a_4}b_4^2)\cot z\,\sin^{1/2}z = (-a_4' + 2b_4'/b_4)\sqrt{|g|} = 2v_g\sqrt{|g|}$, by the product rule and the chain rule ($\partial_4e^{-a_4} = -a_4'e^{-a_4}$, $\partial_4b_4^2 = 2b_4b_4'$) (`python-field-theory.json`, check `sqrt_det_g`).
+
+**Symmetric up to a boundary term, line by line.** Write $u'$ for $\partial_0u$, for two wave functions $u(x_0)$ and $v(x_0)$. Since $hu = Au + Du' - iv_gu$ and, by the rule $(Xw)^\dagger = w^\dagger X^\dagger$, $(hu)^\dagger = u^\dagger A^\dagger + u'^\dagger D^\dagger + iv_gu^\dagger$:
 
 $$
-u^\dagger(hv) - (hu)^\dagger v = u^\dagger Av + u^\dagger Dv' - u^\dagger A^\dagger v - u'^\dagger D^\dagger v = u^\dagger(A - A^\dagger)v + u^\dagger Dv' + u'^\dagger Dv .
+u^\dagger(hv) - (hu)^\dagger v = u^\dagger Av + u^\dagger Dv' - iv_gu^\dagger v - u^\dagger A^\dagger v - u'^\dagger D^\dagger v - iv_gu^\dagger v
 $$
 
-The first step inserts $h = A + D\partial_0$ and uses $(Xw)^\dagger = w^\dagger X^\dagger$; the second collects the $A$ terms and uses $D^\dagger = -D$ (D1). Multiply by $\cos z$ and write $G = \cos z\,D = \sin z\,M_0$ (D2):
-
 $$
-\cos z\,\big[u^\dagger(hv) - (hu)^\dagger v\big] = \cos z\,u^\dagger(A - A^\dagger)v + u^\dagger Gv' + u'^\dagger Gv = (\partial_0\sin z)\,u^\dagger M_0v + \partial_0\big(u^\dagger Gv\big) - u^\dagger(\partial_0G)v .
+= u^\dagger(A - A^\dagger)v + u^\dagger Dv' + u'^\dagger Dv - 2iv_g\,u^\dagger v .
 $$
 
-The second step uses (D3) for the first term and the product rule $\partial_0(u^\dagger Gv) = u'^\dagger Gv + u^\dagger G'v + u^\dagger Gv'$ for the other two. Since $\partial_0G = (\partial_0\sin z)M_0$, the first and the last terms cancel:
+The second step collects the $A$ terms and the two $v_g$ terms and uses $D^\dagger = -D$ (D1). Multiply by $\sqrt{|g|}$ and use (D2) and (D3):
 
 $$
-\cos z\,\big[u^\dagger(hv) - (hu)^\dagger v\big] = \partial_0\big(\sin z\;u^\dagger M_0v\big) .
+\sqrt{|g|}\,\big[u^\dagger(hv) - (hu)^\dagger v\big] = (\partial_0w)\,u^\dagger M_0v + w\,u^\dagger M_0v' + w\,u'^\dagger M_0v - 2iv_g\sqrt{|g|}\,u^\dagger v
 $$
 
-The left side, integrated over the hidden direction with the volume $\cos z\,dx_0$, is the difference between $\int\cos z\,u^\dagger(hv)\,dx_0$ and $\int\cos z\,(hu)^\dagger v\,dx_0$; the right side is a **boundary term**: its integral over $0 < z < \pi/2$ is the bracket $\sin z\,u^\dagger M_0v$ at $z = \pi/2$ minus its value at $z = 0$. At the tip $\sin z = 0$, so for wave functions that stay finite there the bracket vanishes. At the patch end $\sin z = 1$, and the bracket $u^\dagger M_0v$, the **flux** through $z = \pi/2$, does not vanish in general. Example: $\gamma^{(x_4)}\gamma^{(x_0)}$ is real and symmetric ($(\gamma^{(x_4)}\gamma^{(x_0)})^T = \gamma^{(x_0)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_0)}$) and squares to $-\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_0)} = I_{16}$, so it has the eigenvalue $+1$; for a column with $\gamma^{(x_4)}\gamma^{(x_0)}u = u$ and $u^\dagger u = 2$ the flux is $u^\dagger M_0u = i\,u^\dagger u = 2i$. The patch end is not infinitely far away: its proper distance from a point $z_0$ is $\int\sqrt{g_{00}}\,dx_0 = \frac{1}{6H}\int_{z_0}^{\pi/2}\cot z\,dz = -\frac{1}{6H}\ln\sin z_0$, a finite number.
-
-**The Krein version.** Because $B$ commutes with every matrix in $h$ (D4) and is constant, $B(hu) = h(Bu)$, so $(hu)^\dagger Bv = (Bhu)^\dagger v = (h(Bu))^\dagger v$, while $u^\dagger B(hv) = (Bu)^\dagger(hv)$. The derivation above with $u$ replaced by $Bu$ gives
-
 $$
-\cos z\,\big[u^\dagger B(hv) - (hu)^\dagger Bv\big] = \partial_0\big(\sin z\;u^\dagger BM_0v\big) .
+= \partial_0\big(w\,u^\dagger M_0v\big) - 2iv_g\sqrt{|g|}\,u^\dagger v .
 $$
 
-**The role of the spin-connection term.** Without the term $3H\gamma^{(x_0)}$ the matrix $A$ would be $A_0 = -im\gamma^{(x_4)}$ with $A_0 - A_0^\dagger = 0$, and the same steps would leave
+The second step is the product rule $\partial_0(w\,u^\dagger M_0v) = (\partial_0w)\,u^\dagger M_0v + w\,u'^\dagger M_0v + w\,u^\dagger M_0v'$ ($M_0$ is constant). The first term on the right is a **boundary term**: its integral over the half is the bracket $w\,u^\dagger M_0v$ at the fold minus its value at $z = 0$.
+
+**The time-dependent volume.** For two solutions $u$ and $v$ ($\partial_4u = -ihu$, and so $\partial_4u^\dagger = i(hu)^\dagger$), the product rule gives
 
 $$
-\cos z\,\big[u^\dagger(h_0v) - (h_0u)^\dagger v\big] = \partial_0\big(\sin z\,u^\dagger M_0v\big) - 6H\cos z\,u^\dagger M_0v :
+\frac{d}{dx_4}\int\sqrt{|g|}\,u^\dagger v\,dx_0 = \int\Big[(\partial_4\sqrt{|g|})\,u^\dagger v + i\sqrt{|g|}\,(hu)^\dagger v - i\sqrt{|g|}\,u^\dagger(hv)\Big]dx_0
 $$
 
-a remainder that is not a boundary term. In these variables and with this volume, the spin-connection term is exactly what makes the hidden-direction operator symmetric up to the boundary term. (This role depends on the variables: with $\Psi = \sin^{-1/2}z\,\chi$ the connection term disappears from the equation altogether; `python-scope.json`, check `rescaling_removes_the_connection_term`.)
+$$
+= \int\Big[2v_g\sqrt{|g|}\,u^\dagger v - i\,\partial_0\big(w\,u^\dagger M_0v\big) - 2v_g\sqrt{|g|}\,u^\dagger v\Big]dx_0 .
+$$
 
-**What follows.** The good-sector evolution in the author's metric is Hermitian, and the Krein charge $\int\cos z\,\Psi^\dagger B\Psi\,d^7x$ conserved, only if a **boundary condition** at $z = \pi/2$ removes the flux. The Kohn-Sham record imposes such a condition, the Z2 brane condition, which is ASSUMED (Chapter 14); the quantisation of the Revision record imposes none.
+The second step uses (D5) for the first term and the identity above, multiplied by $-i$, for the other two ($-i \cdot (-2iv_g) = -2v_g$). The two volume terms cancel, and the integral of a derivative is the difference of its values at the ends:
+
+$$
+\frac{d}{dx_4}\int\sqrt{|g|}\,u^\dagger v\,dx_0 = -i\,\big[w\,u^\dagger M_0v\big]_{\rm ends} .
+$$
+
+So the anti-Hermitian part $-iv_g$ of $h$ is exactly what the time dependence of the volume needs: the inner product of two solutions changes only through the bracket at the ends. At $z = 0$ the bracket factor is $w = b_4^{3/2}\sin^{1/2}0 = 0$, so for wave functions that stay finite there the bracket vanishes. At the fold $\sin z = 1$, $w = b_4^{3/2}$, and the bracket $b_4^{3/2}u^\dagger M_0v$, the **flux** through the fold, does not vanish in general. Example (the record's): $\gamma^{(x_4)}\gamma^{(x_0)}$ is real and symmetric ($(\gamma^{(x_4)}\gamma^{(x_0)})^T = \gamma^{(x_0)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_0)}$) and squares to $-\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_0)} = I_{16}$, so it has the eigenvalue $+1$; for a column with $\gamma^{(x_4)}\gamma^{(x_0)}u = u$ and $u^\dagger u = 2$ the flux factor is $u^\dagger M_0u = i\,u^\dagger u = 2i$. The fold is not infinitely far away: its proper distance from a point $z_0$ of the half is $\int\sqrt{g_{00}}\,dx_0 = \frac{e^{-a_4}b_4^{1/2}}{6H}\int_{z_0}^{\pi/2}\cot z\,dz = -\frac{e^{-a_4}b_4^{1/2}}{6H}\ln\sin z_0$, a finite number (in the coordinate $y = \ln(\sin z)/(6H)$ of Chapter 14 it is $e^{-a_4}b_4^{1/2}|y_0|$).
+
+**The Krein version.** Because $B$ commutes with every matrix in $h$ (D4), with the number $-iv_g$ and is constant, $B(hu) = h(Bu)$; so $(hu)^\dagger Bv = (Bhu)^\dagger v = (h(Bu))^\dagger v$ ($B$ is Hermitian), while $u^\dagger B(hv) = (Bu)^\dagger(hv)$. The derivation above with $u$ replaced by $Bu$ gives
+
+$$
+\sqrt{|g|}\,\big[u^\dagger B(hv) - (hu)^\dagger Bv\big] = \partial_0\big(w\,u^\dagger BM_0v\big) - 2iv_g\sqrt{|g|}\,u^\dagger Bv,
+$$
+
+$$
+\frac{d}{dx_4}\int\sqrt{|g|}\,u^\dagger Bv\,dx_0 = -i\,\big[w\,u^\dagger BM_0v\big]_{\rm ends} .
+$$
+
+**The role of the spin-connection term.** Without the term $c_g\gamma^{(x_0)}$ the matrix $A$ would be $A_0 = -im\gamma^{(x_4)}$ with $A_0 - A_0^\dagger = 0$, and the same steps would leave
+
+$$
+\sqrt{|g|}\,\big[u^\dagger(h_0v) - (h_0u)^\dagger v\big] = \partial_0\big(w\,u^\dagger M_0v\big) - (\partial_0w)\,u^\dagger M_0v - 2iv_g\sqrt{|g|}\,u^\dagger v
+$$
+
+$$
+= \partial_0\big(w\,u^\dagger M_0v\big) - 2c_g\sqrt{|g|}\,u^\dagger M_0v - 2iv_g\sqrt{|g|}\,u^\dagger v ,
+$$
+
+by (D3) in the form $\partial_0w = 2c_g\sqrt{|g|}$: a remainder $-2c_g\sqrt{|g|}\,u^\dagger M_0v$ that is neither a boundary term nor compensated by the volume. In these variables and with this volume, the spin-connection term $c_g\gamma^{(x_0)}$ is exactly what makes the hidden-direction operator symmetric up to the boundary term (`wolfram-field-theory.json`, check `good_sector_hermiticity_curved`). This role depends on the variables: with $\Psi = e^{a_4/2}b_4^{-1}(\sin^2 z)^{-1/8}\chi$ the whole term $\gamma^\mu\Omega_\mu$ disappears from the equation (`python-scope.json`, check `rescaling_removes_the_connection_term`).
+
+**What follows.** The good-sector evolution in the author's metric is Hermitian, and the Krein charge $\int\sqrt{|g|}\,\Psi^\dagger B\Psi\,d^7x$ conserved, only if a **boundary condition** at the folds $z = \pi/2 + n\pi$ removes the flux. The Kohn-Sham record imposes, for its own states, the two fold conditions of Chapter 14 (solved and filled; ASSUMED); the quantisation of the Revision record imposes none.
 
 ### 10.28 Waves that do not depend on $x_0$, and where their Krein charge goes
 
-**Finite norm.** A wave of the good sector that depends on $x_4$ only has $\partial_0\Psi = 0$, so $h$ acts on it as the constant matrix $A$. Its norm is finite: on the patch $0 < z < \pi/2$, that is $0 < x_0 < \pi/(12H)$,
+**The rescaled wave.** A wave of the good sector that depends on $x_4$ only has $\partial_0\Psi = 0$, so $h$ acts on it as $A - iv_g$. Write $\Psi = F\chi$ with $F = e^{a_4/2}b_4^{-1}$. The factor changes at the rate $\partial_4F = (a_4'/2 - b_4'/b_4)F = -v_gF$ (chain rule), so
 
 $$
-\int_0^{\pi/(12H)}\cos(6Hx_0)\,dx_0 = \Big[\frac{\sin(6Hx_0)}{6H}\Big]_0^{\pi/(12H)} = \frac{\sin(\pi/2) - \sin 0}{6H} = \frac{1}{6H},
+i\,\partial_4\Psi = iF\,\partial_4\chi + i(\partial_4F)\chi = F\,i\,\partial_4\chi - iv_g\Psi ,
 $$
 
-by the antiderivative of the cosine and the chain rule. So these waves are honest members of the good sector.
-
-**Growth for $m^2 < 9H^2$.** Square $A$:
+while the equation says $i\,\partial_4\Psi = (A - iv_g)\Psi = F\,A\chi - iv_g\Psi$. The two right sides are equal; cancel $-iv_g\Psi$ and divide by $F > 0$:
 
 $$
-(-im\gamma^{(x_4)})^2 = -m^2\gamma^{(x_4)}\gamma^{(x_4)} = m^2I_{16},\qquad (3iH\gamma^{(x_4)}\gamma^{(x_0)})^2 = -9H^2(\gamma^{(x_4)}\gamma^{(x_0)})^2 = -9H^2I_{16},
+i\,\partial_4\chi = A\chi .
+$$
+
+**Finite norm.** On the half, the factor $e^{-a_4}b_4^2$ of the volume and the factor $e^{a_4}b_4^{-2}$ of $\Psi^\dagger\Psi = e^{a_4}b_4^{-2}\chi^\dagger\chi$ cancel:
+
+$$
+\int\sqrt{|g|}\,\Psi^\dagger\Psi\,dx_0 = \int e^{-a_4}b_4^2\cot z\,\sin^{1/2}z\cdot e^{a_4}b_4^{-2}\chi^\dagger\chi\,dx_0 = \chi^\dagger\chi\int_0^{\pi/(12H)}\cot z\,\sin^{1/2}z\,dx_0 .
+$$
+
+Substitute $q = \sin z$: $dq/dx_0 = 6H\cos z$, so $\cot z\,\sin^{1/2}z\,dx_0 = \cos z\,\sin^{-1/2}z\,dx_0 = \frac{dq}{6H\sqrt q}$, and $q$ runs from 0 to 1:
+
+$$
+\int_0^{\pi/(12H)}\cot z\,\sin^{1/2}z\,dx_0 = \int_0^1\frac{dq}{6H\sqrt q} = \Big[\frac{2\sqrt q}{6H}\Big]_0^1 = \frac{1}{3H},
+$$
+
+by the antiderivative $2\sqrt q$ of $1/\sqrt q$. So these waves have a finite norm: they are honest members of the good sector.
+
+**Growth wherever $m^2 < c_g^2$.** Square $A$:
+
+$$
+(-im\gamma^{(x_4)})^2 = -m^2\gamma^{(x_4)}\gamma^{(x_4)} = m^2I_{16},\qquad (ic_g\gamma^{(x_4)}\gamma^{(x_0)})^2 = -c_g^2(\gamma^{(x_4)}\gamma^{(x_0)})^2 = -c_g^2I_{16},
 $$
 
 and the mixed terms cancel:
 
 $$
-(-im\gamma^{(x_4)})(3iH\gamma^{(x_4)}\gamma^{(x_0)}) + (3iH\gamma^{(x_4)}\gamma^{(x_0)})(-im\gamma^{(x_4)}) = 3mH\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)} + \gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_4)}\big)
+(-im\gamma^{(x_4)})(ic_g\gamma^{(x_4)}\gamma^{(x_0)}) + (ic_g\gamma^{(x_4)}\gamma^{(x_0)})(-im\gamma^{(x_4)}) = mc_g\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)} + \gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_4)}\big)
 $$
 
 $$
-= 3mH\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)} - \gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)}\big) = 0 ,
+= mc_g\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)} - \gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)}\big) = 0 ,
 $$
 
-by multiplying out ($(-i)(3i) = 3$) and by exchanging $\gamma^{(x_0)}\gamma^{(x_4)}$ in the second product. Hence
+by multiplying out ($(-i)(i) = 1$) and by exchanging $\gamma^{(x_0)}\gamma^{(x_4)}$ in the second product. Hence
 
 $$
-AA = (m^2 - 9H^2)\,I_{16} .
+AA = (m^2 - c_g^2)\,I_{16} .
 $$
 
-For $m^2 < 9H^2$, that is $-3H < m < 3H$, the eigenvalues of $A$ are $\pm i\sqrt{9H^2 - m^2}$ (eight of each, because $\mathrm{tr}\,A = 0$), and half of these finite-norm waves grow like $e^{\kappa x_4}$ with $\kappa = \sqrt{9H^2 - m^2}$. At $m = H = 1$ the eigenvalues are $\pm\sqrt{-8} = \pm2\sqrt2\,i$ (`python-scope.json`, check `good_sector_x0_independent_modes_without_boundary_condition`). For $m^2 > 9H^2$ they are real. So without a boundary condition the curved good sector of the author's metric contains growing waves whenever $|m| < 3H$.
-
-**An exact growing solution.** The equation $i\,\partial_4\Psi = A\Psi$ is $\partial_4\Psi = M\Psi$ with $M = -iA = -m\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_0)}$, and $MM = -AA = (9H^2 - m^2)I_{16} = k^2I_{16}$ with $k = \sqrt{9H^2 - m^2}$. As in Section 10.4 the exponential series collapses (even powers $M^{2j} = k^{2j}I_{16}$, odd powers $M^{2j+1} = k^{2j}M$), and
+Where $m^2 < c_g^2$ the eigenvalues of $A$ are $\pm i\sqrt{c_g^2 - m^2}$ (eight of each, because $\mathrm{tr}\,A = 0$), and half of the columns $\chi$ grow at the rate $\kappa = \sqrt{c_g^2 - m^2}$ of the instant ($c_g$ depends on $x_4$, so these are instantaneous frequencies). On the prescribed history $a_4 = AHx_4$, $b_4 = b_4(0)e^{\beta a_4}$ of the Revision record ($A = 1$, $\beta = 4/3$, $b_4(0) = 1$, $H = 1$; Section 10.39)
 
 $$
-\Psi(x_4) = e^{Mx_4}\chi = \Big(\cosh(kx_4)\,I_{16} + \frac{\sinh(kx_4)}{k}\,M\Big)\chi
+c_g = \tfrac32He^{a_4}b_4^{-1/2} = \tfrac32Hb_4(0)^{-1/2}e^{(1 - \beta/2)AHx_4} = \tfrac32e^{x_4/3} ,
 $$
 
-for any constant column $\chi$, by the power series of $\cosh$ and $\sinh$. Check: $\partial_4\Psi = (k\sinh(kx_4)\,I_{16} + \cosh(kx_4)\,M)\chi$, while $M\Psi = (\cosh(kx_4)\,M + \frac{\sinh(kx_4)}{k}MM)\chi = (\cosh(kx_4)\,M + k\sinh(kx_4)\,I_{16})\chi$: equal. This is the member $\alpha = 0$ of the exact family of the Revision theory record (`python-field-theory.json`, check `exact_solution_family_x4_x0`). For large $x_4$ both $\cosh$ and $\sinh$ grow like $\frac12e^{kx_4}$, so the ordinary squared length $\Psi^\dagger\Psi$ grows like $e^{2kx_4}$.
+which grows without bound: every mass falls below it, at the time where $\frac32e^{x_4/3} = m$, that is $x_4 = 3\ln(2m/3)$. At the start $x_4 = 0$ of the history ($c_g = 3/2$) and $m = H = 1$ the eigenvalues are $\pm i\sqrt{9/4 - 1} = \pm i\sqrt5/2 = \pm1.118034\,i$ (`python-scope.json`, check `good_sector_x0_independent_modes_without_boundary_condition`); at all five slices $a_{4,0} = 0, 0.5, 1, 1.5, 2$ of the Kohn-Sham record $c_g \geq 3/2 > 1$. So without a boundary condition the curved good sector of the author's metric contains growing finite-norm waves, and along the history every mass eventually lies below $c_g$.
 
-**Where the Krein charge goes, line by line.** The Krein charge of this wave is $Q(x_4) = \int\cos z\,\Psi^\dagger B\Psi\,dx_0 = \Psi^\dagger B\Psi/(6H)$, because $\Psi$ does not depend on $x_0$. Its rate of change: from $\partial_4\Psi = -ih\Psi$ and $\partial_4\Psi^\dagger = i(h\Psi)^\dagger$,
-
-$$
-\partial_4(\Psi^\dagger B\Psi) = i(h\Psi)^\dagger B\Psi - i\Psi^\dagger B(h\Psi) = -i\big[\Psi^\dagger B(h\Psi) - (h\Psi)^\dagger B\Psi\big] .
-$$
-
-Multiply by $\cos z$, integrate over the patch, and use the Krein version of Section 10.27 with $u = v = \Psi$:
+**An exact growing solution of mass 0.** For $m = 0$ the equation $i\,\partial_4\chi = A\chi$ reads $\partial_4\chi = -iA\chi = c_gK\chi$ with $K = \gamma^{(x_4)}\gamma^{(x_0)}$ ($-i \cdot i = 1$). Since $KK = I_{16}$, the solution with $\chi(0) = \chi_0$ is
 
 $$
-\frac{dQ}{dx_4} = -i\int\partial_0\big(\sin z\,\Psi^\dagger BM_0\Psi\big)\,dx_0 = -i\,\Psi^\dagger BM_0\Psi\Big|_{z = \pi/2} = \Psi^\dagger B\gamma^{(x_4)}\gamma^{(x_0)}\Psi .
+\chi = e^{\theta K}\chi_0 = \big(\cosh\theta\,I_{16} + \sinh\theta\,K\big)\chi_0,\qquad \theta' = c_g,\quad \theta(0) = 0 ,
 $$
 
-The second step integrates the derivative (the bracket vanishes at the tip and is $\Psi^\dagger BM_0\Psi$ at $z = \pi/2$); the third inserts $M_0 = i\gamma^{(x_4)}\gamma^{(x_0)}$ and $-i \cdot i = 1$. The charge is not conserved: it changes by exactly the flux through the patch end. Notebook 10d follows it for $m = H = 1$ ($k = 2\sqrt2$) and a column $\chi$ with $B\chi = \chi$ and $\chi^\dagger\chi = 1$: $Q(0) = \chi^\dagger B\chi/6 = 1/6$, printed as 0.166667, and $Q(1.5) = 454.007$; the change agrees with the flux added up over time to a relative accuracy of $6.7 \times 10^{-7}$.
+because the exponential series collapses (even powers $K^{2j} = I_{16}$, odd powers $K^{2j+1} = K$) into the series of $\cosh$ and $\sinh$. Check: $\partial_4\chi = \theta'(\sinh\theta\,I_{16} + \cosh\theta\,K)\chi_0 = c_gK(\cosh\theta\,I_{16} + \sinh\theta\,K)\chi_0 = c_gK\chi$, using $KK = I_{16}$ in the middle step. Hence $\Psi = e^{a_4/2}b_4^{-1}(\cosh\theta\,I_{16} + \sinh\theta\,K)\chi_0$: the member $\alpha = 0$, $m = 0$ of the exact family of the Revision theory record, valid for arbitrary functions $a_4(x_4)$ and $b_4(x_4)$ (`python-field-theory.json`, check `exact_solution_family_x4_x0`). On the history $\theta(x_4) = \int_0^{x_4}\frac32e^{s/3}\,ds = \frac92(e^{x_4/3} - 1)$. Take a column with $B\chi_0 = \chi_0$, $\chi_0^\dagger\chi_0 = 1$ and $\chi_0^\dagger K\chi_0 = 0$. $K$ is real and symmetric, so $(\cosh\theta + \sinh\theta\,K)^\dagger = \cosh\theta + \sinh\theta\,K$, and $(\cosh\theta + \sinh\theta\,K)^2 = \cosh^2\theta + \sinh^2\theta + 2\sinh\theta\cosh\theta\,K = \cosh 2\theta\,I_{16} + \sinh 2\theta\,K$. The ordinary squared length is therefore
+
+$$
+\Psi^\dagger\Psi = e^{a_4}b_4^{-2}\,\chi_0^\dagger\big(\cosh 2\theta + \sinh 2\theta\,K\big)\chi_0 = e^{a_4}b_4^{-2}\cosh 2\theta ,
+$$
+
+and its logarithm grows at the rate $a_4' - 2b_4'/b_4 + 2\theta'\tanh 2\theta = 2c_g\tanh 2\theta - (2\beta - 1)AH$, which itself grows with $c_g$: faster than any exponential.
+
+**Where the Krein charge goes, line by line.** The Krein charge of this wave over the half is $Q(x_4) = \int\sqrt{|g|}\,\Psi^\dagger B\Psi\,dx_0 = e^{-a_4}b_4^2\,\Psi^\dagger B\Psi/(3H) = \chi^\dagger B\chi/(3H)$, because $\Psi$ does not depend on $x_0$ (the norm integral above). By the Krein version of Section 10.27 with $u = v = \Psi$,
+
+$$
+\frac{dQ}{dx_4} = -i\,\big[w\,\Psi^\dagger BM_0\Psi\big]_{\rm ends} = -i\,b_4^{3/2}\,\Psi^\dagger BM_0\Psi\Big|_{z = \pi/2} = b_4^{3/2}\,\Psi^\dagger BK\Psi .
+$$
+
+The second step uses that the bracket vanishes at $z = 0$ and that $w = b_4^{3/2}$ at the fold; the third inserts $M_0 = iK$ and $-i \cdot i = 1$. Both sides can be evaluated. $B$ commutes with $K$ (D4), $\chi_0^\dagger B = \chi_0^\dagger$ and $\chi_0^\dagger K\chi_0 = 0$, so $\chi^\dagger B\chi = \chi_0^\dagger B(\cosh 2\theta + \sinh 2\theta\,K)\chi_0 = \cosh 2\theta$ and
+
+$$
+Q = \frac{\cosh 2\theta}{3H},\qquad b_4^{3/2}\,\Psi^\dagger BK\Psi = e^{a_4}b_4^{-1/2}\,\chi_0^\dagger BK\big(\cosh 2\theta + \sinh 2\theta\,K\big)\chi_0 = e^{a_4}b_4^{-1/2}\sinh 2\theta ,
+$$
+
+using $KK = I_{16}$. And indeed $dQ/dx_4 = 2\theta'\sinh 2\theta/(3H) = 2c_g\sinh 2\theta/(3H) = e^{a_4}b_4^{-1/2}\sinh 2\theta$. The charge is not conserved: it changes by exactly the flux through the fold. Notebook 10d follows it numerically along the history: $Q(0) = 1/3$, printed as 0.333333, and $Q(2) = 843.742$; the change agrees with the flux added up over time to a relative accuracy of $3.0 \times 10^{-6}$, the error of the trapezoidal sums.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| $\cos z\,[u^\dagger(hv) - (hu)^\dagger v] = \partial_0(\sin z\,u^\dagger M_0v)$; flux $2i$ at $z = \pi/2$ for the recorded column | PROVED | `python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux`; `wolfram-field-theory.json`, check `good_sector_hermiticity_curved` |
-| without $3H\gamma^{(x_0)}$ the remainder $-6H\cos z\,u^\dagger M_0v$ survives | PROVED | `wolfram-field-theory.json`, check `good_sector_hermiticity_curved` |
+| $\sqrt{\lvert g\rvert}\,[u^\dagger(hv) - (hu)^\dagger v] = \partial_0(w\,u^\dagger M_0v) - 2iv_g\sqrt{\lvert g\rvert}\,u^\dagger v$, $w = b_4^{3/2}\sin^{1/2}z$; $\partial_4\sqrt{\lvert g\rvert} = 2v_g\sqrt{\lvert g\rvert}$; flux factor $2i$ at the fold for the recorded column | PROVED | `python-scope.json`, check `good_sector_hermiticity_up_to_the_brane_flux` (the name is that of the withdrawn metric of 2026-10-14; its detail concerns the folds); `wolfram-field-theory.json`, check `good_sector_hermiticity_curved`; `python-field-theory.json`, check `sqrt_det_g` |
+| without $c_g\gamma^{(x_0)}$ the remainder $-2c_g\sqrt{\lvert g\rvert}\,u^\dagger M_0v$ survives | PROVED | `wolfram-field-theory.json`, check `good_sector_hermiticity_curved` |
 | the Krein form is conserved only up to boundary terms | PROVED | `wolfram-field-theory.json`, check `Krein_form_conserved_curved` |
-| $x_0$-independent waves: norm $1/(6H)$, $AA = (m^2 - 9H^2)I_{16}$, $\pm2\sqrt2\,i$ at $m = H = 1$ | PROVED | `python-scope.json`, check `good_sector_x0_independent_modes_without_boundary_condition` |
-| the exact solution $(\cosh kx_4 + \sinh(kx_4)/k\,M)\chi$ | PROVED | `python-field-theory.json`, check `exact_solution_family_x4_x0` |
-| its Krein charge changes by the flux through $z = \pi/2$ | COMPUTED (relative accuracy $6.7 \times 10^{-7}$) | Notebook 10d, In [8] |
-| a boundary condition at $z = \pi/2$ for the quantised field | OPEN (the Kohn-Sham record ASSUMES the Z2 brane condition) | Revision theory document, section 11 |
+| $x_0$-independent waves: norm $1/(3H)$, $AA = (m^2 - c_g^2)I_{16}$, $\pm i\sqrt5/2$ at $x_4 = 0$ for $m = H = 1$; on the history $c_g = \frac32e^{x_4/3}$ passes every mass | PROVED | `python-scope.json`, check `good_sector_x0_independent_modes_without_boundary_condition` |
+| the exact solution $e^{a_4/2}b_4^{-1}(\cosh\theta + \sinh\theta\,K)\chi_0$, $\theta' = c_g$ | PROVED | `python-field-theory.json`, check `exact_solution_family_x4_x0` |
+| its Krein charge $\cosh(2\theta)/(3H)$ changes by the flux through the fold | PROVED (above) and COMPUTED (relative accuracy $3.0 \times 10^{-6}$) | Notebook 10d, In [8] |
+| a boundary condition at the folds for the quantised field | OPEN (the Kohn-Sham record ASSUMES its two fold conditions for its own states) | Revision theory document, section 11 |
 
 ### 10.29 Example: Notebook 10d studies the curved good sector
 
-Notebook 10d proves the four matrix facts (D1) to (D4) and the boundary-term identities of Section 10.27 exactly with sympy, checks them on two concrete wave functions, computes the flux $2i$ of the recorded column, shows the role of the spin-connection term in a figure, proves $AA = (m^2 - 9H^2)I_{16}$ and the norm $1/(6H)$, follows the eigenvalues of $A$ as the mass grows, and verifies the exact growing solution and the change of its Krein charge by the flux through $z = \pi/2$ (Section 10.28). It draws five figures and ends with the line ALL 16 CHECKS PASSED (notebook 10d).
+Notebook 10d reads the volume factor and the spin-connection term of the corrected metric from the theory record, proves $\partial_4\sqrt{|g|} = 2v_g\sqrt{|g|}$, the matrix facts (D1) to (D4) and the boundary-term identities of Section 10.27 exactly with sympy, checks them on two concrete wave functions, computes the flux factor $2i$ of the recorded column, shows the role of the spin-connection term in a figure, proves $AA = (m^2 - c_g^2)I_{16}$ and the norm $1/(3H)$, follows the eigenvalues of $A$ as the mass grows and the growth rate along the prescribed history, and verifies the exact growing solution of mass 0 and the change of its Krein charge by the flux through the fold (Section 10.28). It draws five figures and ends with the line ALL 19 CHECKS PASSED (notebook 10d).
 
 <!-- NOTEBOOK 10d -->
 
@@ -3056,7 +3142,7 @@ Notebook 10d proves the four matrix facts (D1) to (D4) and the boundary-term ide
 
 The notebook has 10 code cells, In [1] to In [10]; docstrings are left out of the quotations (they are printed in Section 10.31).
 
-**In [1], the set-up cell.** Its first 248 lines are comments that repeat the run instructions of Section 10.30. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10d"  # this notebook: chapter 10, example d`. It prints `Set-up of notebook 10d complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 250 lines are comments that repeat the run instructions of Section 10.30. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10d"  # this notebook: chapter 10, example d`. It prints `Set-up of notebook 10d complete: repository folder found, helpers defined.`
 
 **In [2], the matrices of the hidden direction.**
 
@@ -3107,40 +3193,115 @@ B_exact = -sp.I * g[0] * g[1] * g[2] * g[3] * g[4]
 The colours; the gammas as numpy arrays of decimal numbers (`dtype=float`, because they will be combined with decimal numbers such as the mass 1.0), $C$ and $B$; and the same gammas and $B$ as exact sympy matrices.
 
 ```python
+parameters = json.loads(repository_file(
+    "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
+physics = parameters["physics"]
+A_history, beta = physics["historyA"], physics["historyBeta"]  # a4 = A H x4
+b4_start, H_value, m_value = physics["historyB4AtZero"], physics["H"], physics["m"]
+slices = physics["slicesA4"]  # the five slices a4,0 of the Kohn-Sham record
+say(f"history: A = {A_history}, beta = {beta:.6f}, b4(0) = {b4_start}, "
+    f"H = {H_value}, m = {m_value}; slices a4,0 = {slices}")
+```
+
+The parameters of the prescribed history from the Kohn-Sham record: $A$ and $\beta$ (in $a_4 = AHx_4$, $b_4 = b_4(0)e^{\beta a_4}$), $b_4(0)$, the decimal values of $H$ and $m$ (named `H_value` and `m_value`, because the names `H` and `m` are used for sympy letters below), and the five slices. A tuple on the left of `=` receives the entries of the tuple on the right in order. Out [2] begins with `history: A = 1.0, beta = 1.333333, b4(0) = 1.0, H = 1.0, m = 1.0; slices a4,0 = [0.0, 0.5, 1.0, 1.5, 2.0]`.
+
+```python
 m = sp.Symbol("m", real=True)  # the mass
 H = sp.Symbol("H", positive=True)  # the author's constant H > 0
-x0 = sp.Symbol("x0", real=True)  # the hidden coordinate
-z = 6 * H * x0  # z = 6 H x0
+a, b = sp.symbols("a b", positive=True)  # the values of a4 and b4 at the instant
+v_g = sp.Symbol("v_g", real=True)  # the value of b4'/b4 - a4'/2 at the instant
+s, c = sp.symbols("s c", positive=True)  # s = sin(z)^(1/2), c = cos z, z < pi/2
+
+
+def d0(expression):
+    return (sp.diff(expression, s) * 3 * H * c / s
+            + sp.diff(expression, c) * (-6 * H * s ** 2))
+```
+
+The sympy letters: the mass $m$; the constant $H > 0$; $a$ and $b$, the values of $a_4$ and $b_4 > 0$ at the instant considered; $v_g$, the value of $b_4'/b_4 - a_4'/2$ at that instant; and $s = \sin^{1/2}z$, $c = \cos z$, both positive on the half $0 < z < \pi/2$. With these two letters $\sin z = s^2$, $\tan z = s^2/c$ and $\cot z = c/s^2$, so every expression of the hidden direction is a fraction of polynomials, and sympy decides exactly and quickly whether it is zero. The function `d0` is the derivative along $x_0$ by the chain rule: for a function of $s$ and $c$, $d/dx_0 = (\partial/\partial s)\,ds/dx_0 + (\partial/\partial c)\,dc/dx_0$, with $ds/dx_0 = 3Hc/s$ (from $d(s^2)/dx_0 = d(\sin z)/dx_0 = 6H\cos z$, so $2s\,ds/dx_0 = 6Hc$) and $dc/dx_0 = -6H\sin z = -6Hs^2$; `sp.diff(expression, s)` is the partial derivative with respect to $s$.
+
+```python
+sqrt_g = sp.exp(-a) * b ** 2 * (c / s ** 2) * s  # e^-a4 b4^2 cot z sin(z)^(1/2)
+c_g = sp.Rational(3, 2) * H * sp.exp(a) / sp.sqrt(b)  # (3/2) H e^a4 b4^(-1/2)
+w = b ** sp.Rational(3, 2) * s  # the bracket factor b4^(3/2) sin(z)^(1/2)
 M0 = sp.I * g[4] * g[0]  # M_0 = i gamma^(x4) gamma^(x0)
-A = -sp.I * m * g[4] + 3 * sp.I * H * g[4] * g[0]  # the part without derivative
-A_no_connection = -sp.I * m * g[4]  # the same without the term 3 H
-D = sp.tan(z) * M0  # the coefficient of the derivative d/dx0
+A = -sp.I * m * g[4] + sp.I * c_g * g[4] * g[0]  # the part without derivative
+A_no_connection = -sp.I * m * g[4]  # the same without the term c_g
+D = sp.exp(a) / sp.sqrt(b) * (s ** 2 / c) * M0  # e^a4 b4^(-1/2) tan z M_0
+```
+
+The objects of Section 10.27 on the half: `sqrt_g` is $\sqrt{|g|} = e^{-a_4}b_4^2\cot z\,\sin^{1/2}z = e^{-a}b^2(c/s^2)s$; `c_g` is $c_g = \frac32He^{a_4}b_4^{-1/2}$; `w` is the bracket factor $w = b_4^{3/2}\sin^{1/2}z$; `M0` is $M_0 = i\gamma^{(x_4)}\gamma^{(x_0)}$; `A` is $A = -im\gamma^{(x_4)} + ic_g\gamma^{(x_4)}\gamma^{(x_0)}$; `A_no_connection` is the same without the spin-connection term; and `D` is $e^{a_4}b_4^{-1/2}\tan z\,M_0$, the coefficient of $\partial_0$.
+
+```python
+formulas = {f["key"]: f["wl"] for f in json.loads(repository_file(
+    "Revision/theory/field-theory.json").read_text(encoding="utf-8"))["formulas"]}
+z_letter = sp.Symbol("z", positive=True)  # z = 6 H x0
+volume_text = (formulas["sqrt_det_g"].replace("rftSig*", "")  # sign of cot z: +1
+               .replace("b4[x4]", "b").replace("Cot[6*H*x0]", "cot(z)")
+               .replace("Sin[6*H*x0]", "sin(z)").replace("E^a4[x4]", "exp(a)")
+               .replace("^", "**"))
+volume_record = sp.sympify(volume_text, locals={"a": a, "b": b, "z": z_letter})
+volume_record = volume_record.subs({sp.sin(z_letter): s ** 2,
+                                    sp.cot(z_letter): c / s ** 2})
+```
+
+`formulas` is a dictionary from the formula keys of the theory record to their Wolfram texts. The volume factor `sqrt_det_g` reads `(rftSig*b4[x4]^2*Cot[6*H*x0]*(Sin[6*H*x0]^2)^(1/4))/E^a4[x4]`, where `rftSig` is the sign of $\cot z$, $+1$ on the half. The chain of `.replace` calls drops `rftSig*`, writes `b` for $b_4$, `cot(z)` and `sin(z)` for the trigonometric functions and `exp(a)` for $e^{a_4}$ (in the text `/E^a4[x4]` becomes `/exp(a)`), and turns `^` into `**`. `sp.sympify` reads the result with the letter $z$ (positive); `.subs` then writes $\sin z = s^2$ and $\cot z = c/s^2$.
+
+```python
+term_text = (formulas["gammaOmega_total"].replace('gamma["x0"]', "G0")
+             .replace('gamma["x4"]', "G4").replace("Derivative[1][a4][x4]", "da")
+             .replace("Derivative[1][b4][x4]", "db").replace("Sqrt[b4[x4]]", "sqrt(b)")
+             .replace("b4[x4]", "b").replace("E^a4[x4]", "exp(a)").replace("^", "**"))
+G0, G4, da, db = sp.symbols("G0 G4 da db")  # stand-ins: the two gammas, a4', b4'
+term_record = sp.expand(sp.sympify(term_text, locals={
+    "a": a, "b": b, "H": H, "G0": G0, "G4": G4, "da": da, "db": db}))
+say("record sqrt_det_g: " + formulas["sqrt_det_g"])
+say("record gammaOmega_total: " + formulas["gammaOmega_total"])
+```
+
+The same for the formula `gammaOmega_total`, the term $\gamma^\mu\Omega_\mu$ of the record; the stand-in letters `G0` and `G4` take the places of the two gammas, and `da`, `db` those of $a_4'$ and $b_4'$. `sp.expand` multiplies out, so that the coefficients of `G0` and `G4` can be read off. Out [2] prints both record texts (the second wrapped over two lines).
+
+```python
+check_record(sp.simplify(volume_record - sqrt_g) == 0
+             and sp.simplify(term_record.coeff(G0) - c_g) == 0
+             and sp.simplify(term_record.coeff(G4) - (db / b - da / 2)) == 0,
+             "the volume factor, c_g and v_g of the theory record",
+             record="Revision/theory/field-theory.json, formulas sqrt_det_g and "
+                    "gammaOmega_total")
+```
+
+The check: the record's volume factor minus `sqrt_g` simplifies to 0, the coefficient of $\gamma^{(x_0)}$ is $c_g$, and the coefficient of $\gamma^{(x_4)}$ is $v_g = b_4'/b_4 - a_4'/2$. It prints its PASS line and the line naming the two record formulas.
+
+```python
+x4 = sp.Symbol("x4", real=True)  # the time
+a4, b4 = sp.Function("a4")(x4), sp.Function("b4")(x4)  # any functions of x4
+volume_in_time = sp.exp(-a4) * b4 ** 2  # the x4-dependent factor of sqrt|g|
+v_g_function = sp.diff(b4, x4) / b4 - sp.diff(a4, x4) / 2
+measure = sp.simplify(sp.diff(volume_in_time, x4) - 2 * v_g_function * volume_in_time)
+check_record(measure == 0,
+             "exact: d/dx4 (e^-a4 b4^2) = 2 v_g e^-a4 b4^2 for all a4(x4), b4(x4)",
+             record="Revision/theory/reports/python-field-theory.json, check "
+                    "sqrt_det_g")
+```
+
+The time dependence of the volume, exactly and for ARBITRARY functions: `sp.Function("a4")(x4)` is an unknown function $a_4(x_4)$, and the same for $b_4$. `volume_in_time` is the part $e^{-a_4}b_4^2$ of $\sqrt{|g|}$ that depends on $x_4$, `v_g_function` is $b_4'/b_4 - a_4'/2$, and `measure` is $\partial_4(e^{-a_4}b_4^2) - 2v_g\,e^{-a_4}b_4^2$, which simplifies to 0. The check reproduces the record check `sqrt_det_g`, which states $\partial_4\sqrt{|g|} = (2b_4'/b_4 - a_4')\sqrt{|g|}$.
+
+```python
 zero = sp.zeros(16, 16)
-```
-
-The letters $m$ (any real number), $H$ (positive) and $x_0$, and the expression $z = 6Hx_0$. Then the matrices of Section 10.27: $M_0 = i\gamma^{(x_4)}\gamma^{(x_0)}$, $A = -im\gamma^{(x_4)} + 3iH\gamma^{(x_4)}\gamma^{(x_0)}$, the matrix $A_0 = -im\gamma^{(x_4)}$ without the spin-connection term, and $D = \tan z\,M_0$; `zero` is the $16 \times 16$ zero matrix.
-
-```python
 anti_hermitian = M0.H == -M0
-identity_D = (sp.cos(z) * D - sp.sin(z) * M0).applyfunc(sp.simplify) == zero
-identity_A = (sp.cos(z) * (A - A.H) - sp.diff(sp.sin(z), x0) * M0).applyfunc(
-    sp.simplify) == zero
+identity_D = (sqrt_g * D - w * M0).applyfunc(sp.simplify) == zero
+identity_A = (sqrt_g * (A - A.H) - d0(w) * M0).applyfunc(sp.simplify) == zero
 B_commutes = (B_exact * g[4] == g[4] * B_exact) and (B_exact * g[0] == g[0] * B_exact)
-```
-
-The four matrix facts: (D1) $M_0^\dagger = -M_0$ (`.H` is the conjugate transpose); (D2) $\cos z\,D - \sin z\,M_0 = 0$, every entry simplified; (D3) $\cos z\,(A - A^\dagger) - (\partial_0\sin z)M_0 = 0$, where `sp.diff(sp.sin(z), x0)` is the derivative $6H\cos z$; (D4) $B$ commutes with $\gamma^{(x_4)}$ and with $\gamma^{(x_0)}$.
-
-```python
-say(f"M0 anti-Hermitian: {anti_hermitian}; cos z D = sin z M0: {identity_D}; "
-    f"cos z (A - A^dagger) = d0(sin z) M0: {identity_A}; B commutes with "
+say(f"M0 anti-Hermitian: {anti_hermitian}; sqrt|g| D = w M0: {identity_D}; "
+    f"sqrt|g| (A - A^dagger) = d0(w) M0: {identity_A}; B commutes with "
     f"gamma^(x4) and gamma^(x0): {B_commutes}")
 check(anti_hermitian and identity_D and identity_A and B_commutes,
       "exact: the four matrix identities of the hidden direction")
 ```
 
-The printed line shows `True` four times, and the check prints its PASS line.
+The four matrix facts of Section 10.27: (D1) $M_0^\dagger = -M_0$ (`.H` is the conjugate transpose); (D2) $\sqrt{|g|}\,D - wM_0 = 0$, every entry simplified; (D3) $\sqrt{|g|}\,(A - A^\dagger) - (\partial_0w)M_0 = 0$, where `d0(w)` is the derivative of the bracket factor; (D4) $B$ commutes with $\gamma^{(x_4)}$ and with $\gamma^{(x_0)}$. Out [2] ends with the four facts, each followed by `True`, and the PASS line.
 
-**In [3], symmetric up to a boundary term, on wave functions.**
+**In [3], symmetric up to a boundary term, checked on wave functions.**
 
 ```python
 rng = np.random.default_rng(12345)
@@ -3149,360 +3310,470 @@ rng = np.random.default_rng(12345)
 def test_function():
     def number():
         return int(rng.integers(-3, 4)) + sp.I * int(rng.integers(-3, 4))
-    return sp.Matrix([number() + number() * sp.sin(z) + number() * sp.cos(z)
+    return sp.Matrix([number() + number() * s ** 2 + number() * c
                       for _ in range(16)])
-```
 
-A random generator with the fixed seed 12345. `test_function` builds a column of 16 exact functions of $x_0$, each of the form $a + b\sin z + c\cos z$. The inner function `number` returns a complex whole number whose real and imaginary parts are drawn from $-3$ to 3 (`rng.integers(-3, 4)` excludes the upper end 4).
 
-```python
-def apply_h(matrix_A, w):
-    return matrix_A * w + D * w.diff(x0)
+def apply_h(matrix_A, f):
+    return matrix_A * f + D * f.applyfunc(d0) - sp.I * v_g * f
 
 
 def is_zero(expression):
-    zz = sp.Symbol("zz")
-    rewritten = sp.expand_trig(sp.expand(expression.subs(x0, zz / (6 * H))))
-    return sp.simplify(rewritten) == 0
+    return sp.expand(sp.numer(sp.together(sp.expand(expression)))) == 0
 ```
 
-`apply_h(matrix_A, w)` applies the operator $h = A + D\partial_0$ (or $h_0$ when the matrix $A_0$ is given) to a column $w$ of functions; `w.diff(x0)` differentiates every entry. `is_zero` decides exactly whether an expression vanishes: it writes $x_0 = zz/(6H)$ with a new letter $zz$, so that $z$ becomes $zz$ and $H$ drops out of the trigonometric functions, multiplies out, expands the trigonometric functions of sums (`sp.expand_trig`), and simplifies.
+A random generator with the fixed seed 12345. `test_function` builds a column of 16 exact functions of $x_0$, each of the form $\alpha + \beta\sin z + \delta\cos z = \alpha + \beta s^2 + \delta c$; the inner function `number` returns a complex whole number whose real and imaginary parts are drawn from $-3$ to 3 (`rng.integers(-3, 4)` stops before 4). `apply_h` applies the operator $h = A + D\partial_0 - iv_g$ to a column $f$ (`f.applyfunc(d0)` differentiates every entry); its first argument chooses the matrix $A$, so that the same function serves for the operator without the connection term. `is_zero` multiplies out, brings everything onto one fraction (`sp.together`), takes its numerator (`sp.numer`) and multiplies it out again: an expression is zero exactly when this numerator is the zero polynomial.
 
 ```python
 u, v = test_function(), test_function()
 hv, hu = apply_h(A, v), apply_h(A, u)
-defect = (sp.cos(z) * ((u.H * hv)[0] - (hu.H * v)[0])
-          - sp.diff(sp.sin(z) * (u.H * M0 * v)[0], x0))
-```
-
-Two test functions $u$ and $v$, and $hv$, $hu$. `u.H * hv` is the row $u^\dagger$ times the column $hv$, a $1 \times 1$ matrix, and `[0]` takes its single entry. `defect` is $\cos z\,[u^\dagger(hv) - (hu)^\dagger v] - \partial_0(\sin z\,u^\dagger M_0v)$, which must vanish (Section 10.27).
-
-```python
+volume_term = 2 * sp.I * v_g * sqrt_g  # the term of the time-dependent volume
+defect = (sqrt_g * ((u.H * hv)[0] - (hu.H * v)[0]) - d0(w * (u.H * M0 * v)[0])
+          + volume_term * (u.H * v)[0])
 hv0, hu0 = apply_h(A_no_connection, v), apply_h(A_no_connection, u)
-defect_without = (sp.cos(z) * ((u.H * hv0)[0] - (hu0.H * v)[0])
-                  - sp.diff(sp.sin(z) * (u.H * M0 * v)[0], x0))
-remainder_ok = is_zero(defect_without + 6 * H * sp.cos(z) * (u.H * M0 * v)[0])
-krein_defect = (sp.cos(z) * ((u.H * B_exact * hv)[0] - (hu.H * B_exact * v)[0])
-                - sp.diff(sp.sin(z) * (u.H * B_exact * M0 * v)[0], x0))
+defect_without = (sqrt_g * ((u.H * hv0)[0] - (hu0.H * v)[0])
+                  - d0(w * (u.H * M0 * v)[0]) + volume_term * (u.H * v)[0])
+remainder_ok = is_zero(defect_without + 2 * c_g * sqrt_g * (u.H * M0 * v)[0])
+krein_defect = (sqrt_g * ((u.H * B_exact * hv)[0] - (hu.H * B_exact * v)[0])
+                - d0(w * (u.H * B_exact * M0 * v)[0])
+                + volume_term * (u.H * B_exact * v)[0])
 ```
 
-The variable `defect_without` is the same defect for the operator without the spin-connection term. By Section 10.27 it must equal $-6H\cos z\,u^\dagger M_0v$, so `remainder_ok` tests that it plus $6H\cos z\,u^\dagger M_0v$ vanishes. The variable `krein_defect` is the Krein version, with $u^\dagger B$ in place of $u^\dagger$.
+Two test functions $u$ and $v$, and $hv$, $hu$. `u.H * hv` is the row $u^\dagger$ times the column $hv$, a $1 \times 1$ matrix, and `[0]` takes its single entry. `volume_term` is $2iv_g\sqrt{|g|}$. `defect` is $\sqrt{|g|}\,[u^\dagger(hv) - (hu)^\dagger v] - \partial_0(w\,u^\dagger M_0v) + 2iv_g\sqrt{|g|}\,u^\dagger v$, which must be 0 by Section 10.27. `defect_without` is the same for the operator without the connection term; by Section 10.27 it must equal $-2c_g\sqrt{|g|}\,u^\dagger M_0v$, so `remainder_ok` tests that it plus $2c_g\sqrt{|g|}\,u^\dagger M_0v$ vanishes. `krein_defect` is the Krein version, with $B$ between the rows and the columns.
 
 ```python
 check_record(is_zero(defect),
-             "exact: cos z (u^dagger h v - (h u)^dagger v) = d0(sin z u^dagger M0 v)",
+             "exact: h is symmetric up to d0(w u^dagger M0 v) and the volume term",
              record="Revision/theory/reports/python-scope.json, check "
                     "good_sector_hermiticity_up_to_the_brane_flux")
-check_record(remainder_ok,
-             "exact: without the term 3 H the remainder -6 H cos z u^dagger M0 v stays",
+check_record(remainder_ok and not is_zero(defect_without),
+             "exact: without c_g the remainder -2 c_g sqrt|g| u^dagger M0 v stays",
              record="Revision/theory/reports/wolfram-field-theory.json, check "
                     "good_sector_hermiticity_curved")
 check_record(is_zero(krein_defect),
-             "exact: the Krein form is conserved up to d0(sin z u^dagger B M0 v)",
+             "exact: the Krein form is conserved up to d0(w u^dagger B M0 v)",
              record="Revision/theory/reports/wolfram-field-theory.json, check "
                     "Krein_form_conserved_curved")
 ```
 
-Three exact checks, reproducing the record checks `good_sector_hermiticity_up_to_the_brane_flux`, `good_sector_hermiticity_curved` and `Krein_form_conserved_curved`.
+Three exact checks, reproducing the record checks `good_sector_hermiticity_up_to_the_brane_flux` (the name comes from the withdrawn metric of 2026-10-14; its detail concerns the folds of the corrected metric), `good_sector_hermiticity_curved` and `Krein_form_conserved_curved`. The second also demands that `defect_without` is NOT zero: the remainder is really there.
 
-**In [4], the flux at the two ends.**
+**In [4], the flux at the fold.**
 
 ```python
-G40 = gamma[4] @ gamma[0]  # gamma^(x4) gamma^(x0), real
-symmetric_square = np.array_equal(G40, G40.T) and np.array_equal(G40 @ G40,
-                                                                  np.eye(16))
+K_numbers = gamma[4] @ gamma[0]  # K = gamma^(x4) gamma^(x0), real
+symmetric_square = (np.array_equal(K_numbers, K_numbers.T)
+                    and np.array_equal(K_numbers @ K_numbers, np.eye(16)))
 e_first = np.eye(16)[:, 0]
-u_flux = e_first + G40 @ e_first  # an eigenvector of G40 with eigenvalue +1
-M0_numbers = 1j * G40
+u_flux = e_first + K_numbers @ e_first  # an eigenvector of K with eigenvalue +1
+M0_numbers = 1j * K_numbers
 flux_value = u_flux.conj() @ M0_numbers @ u_flux
-```
-
-`G48` is $\gamma^{(x_4)}\gamma^{(x_0)}$; `symmetric_square` tests that it is symmetric and squares to $I_{16}$ (Section 10.27). `e_first` is the first unit column $e_1$ (the first column of the identity matrix), and `u_flux` $= e_1 + \gamma^{(x_4)}\gamma^{(x_0)}e_1$ is an eigenvector with eigenvalue $+1$: applying $\gamma^{(x_4)}\gamma^{(x_0)}$ gives $\gamma^{(x_4)}\gamma^{(x_0)}e_1 + e_1$, the same column, because the matrix squares to $I_{16}$. `flux_value` is $u^\dagger M_0u$.
-
-```python
-report("u^dagger u for the column u = e_1 + gamma4 gamma0 e_1", f"{u_flux @ u_flux:.1f}")
-report("flux u^dagger M0 u at z = pi/2",
+report("u^dagger u for the column u = e_1 + K e_1", f"{u_flux @ u_flux:.1f}")
+report("flux factor u^dagger M0 u at the fold z = pi/2",
        f"{flux_value.imag:.1f} i (real part {abs(flux_value.real):.1f})")
-check_record(symmetric_square and np.allclose(G40 @ u_flux, u_flux)
+check_record(symmetric_square and np.allclose(K_numbers @ u_flux, u_flux)
              and abs(flux_value - 2j) < 1e-14,
-             "the flux at z = pi/2 is u^dagger M0 u = 2 i for gamma4 gamma0 u = u",
+             "the bracket at the fold is b4^(3/2) u^dagger M0 u = 2 i b4^(3/2)",
              record="Revision/theory/reports/python-scope.json, check "
                     "good_sector_hermiticity_up_to_the_brane_flux")
 ```
 
-The printed lines show $u^\dagger u = 2.0$ and the flux $2.0\,i$ with real part 0.0 (the size of the real part is printed, so that no minus sign of a rounding zero appears). The check reproduces the record's example.
+`K_numbers` is the real matrix $K = \gamma^{(x_4)}\gamma^{(x_0)}$; `symmetric_square` confirms $K^T = K$ and $KK = I_{16}$. `e_first` is the first unit column $e_1$ (the first column of the identity, `[:, 0]`), and `u_flux` is $u = e_1 + Ke_1$, which satisfies $Ku = Ke_1 + KKe_1 = Ke_1 + e_1 = u$. `flux_value` is $u^\dagger M_0u$ with $M_0 = iK$. Out [4] prints `RESULT u^dagger u for the column u = e_1 + K e_1 = 2.0` and `RESULT flux factor u^dagger M0 u at the fold z = pi/2 = 2.0 i (real part 0.0)` (`abs` prints a real part $-0.0$ as 0.0), and the check reproduces the example of the record check.
 
 ```python
-z_values = np.linspace(0.0, np.pi / 2, 400)
+z_values = np.linspace(0.005, np.pi - 0.005, 600)  # one cell, without its two ends
+root = np.sqrt(np.abs(np.sin(z_values)))  # (sin^2 z)^(1/4)
+volume_factor = np.abs(np.cos(z_values) / np.sin(z_values)) * root
 fig, ax = plt.subplots()
-ax.plot(z_values, np.cos(z_values), color=BLUE, linewidth=2,
-        label="volume factor $\\sqrt{|g|} = \\cos z$")
-ax.plot(z_values, np.sin(z_values), color=ORANGE, linewidth=2,
-        label="flux factor $\\sin z$ of the bracket")
-ax.plot([0.0], [0.0], "o", color=ORANGE, markersize=8)
+ax.plot(z_values, volume_factor, color=BLUE, linewidth=2,
+        label="volume factor: $|\\cot z|(\\sin^2 z)^{1/4}$")
+ax.plot(z_values, root, color=ORANGE, linewidth=2,
+        label="bracket factor: $(\\sin^2 z)^{1/4}$")
+ax.plot([0.0, np.pi], [0.0, 0.0], "o", color=ORANGE, markersize=8)
 ax.plot([np.pi / 2], [1.0], "o", color=ORANGE, markersize=8)
+ax.axvline(np.pi / 2, color=GREY, linestyle=":", linewidth=1)
+ax.annotate("fold: the volume\nvanishes, the\nbracket does not", (np.pi / 2, 1.0),
+            xytext=(0.8, 1.35), arrowprops={"arrowstyle": "->", "color": GREY})
+ax.annotate("$\\sin z = 0$: the\nbracket vanishes", (0.0, 0.0), xytext=(0.12, 0.35),
+            arrowprops={"arrowstyle": "->", "color": GREY})
+ax.set_xlabel("$z = 6 H x_0$ (one cell: two halves joined at the fold $z = \\pi/2$)")
+ax.set_ylabel("value")
+ax.set_ylim(-0.05, 2.0)
+ax.set_title("The hidden direction: volume and boundary bracket")
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.17), ncol=2, fontsize=8)
 ```
 
-400 values of $z$ from 0 to $\pi/2$; the blue curve is the volume factor $\cos z$, the orange curve the factor $\sin z$ of the boundary bracket, with dots at its two ends.
+600 values of $z$ across one whole cell, from 0.005 to $\pi - 0.005$ (the ends are left out, where $\cot z$ is infinite). `root` is $(\sin^2 z)^{1/4} = |\sin z|^{1/2}$ and `volume_factor` is $|\cot z|(\sin^2 z)^{1/4}$, the parts of the bracket and of the volume factor that depend on $z$. The two curves are drawn, with orange dots where the bracket factor is 0 ($z = 0$ and $\pi$) and 1 (the fold), a dotted vertical line at the fold, two arrows with explanations (`annotate` draws an arrow from the text to the point), the axis labels, the vertical range from $-0.05$ to 2, and the legend below the picture (`bbox_to_anchor` places it outside the axes, in two columns).
 
 ```python
-ax.annotate("tip: the flux vanishes", (0.0, 0.0), xytext=(0.15, 0.25),
-            arrowprops={"arrowstyle": "->", "color": GREY})
-ax.annotate("patch end: the flux remains", (np.pi / 2, 1.0), xytext=(0.55, 1.08),
-            arrowprops={"arrowstyle": "->", "color": GREY})
-ax.set_xlabel("$z = 6 H x_0$ (from the tip $z = 0$ to the patch end $z = \\pi/2$)")
-ax.set_ylabel("value")
-ax.set_ylim(-0.05, 1.25)
-ax.set_title("The hidden direction: volume and boundary flux")
-ax.legend(loc="center left")
 save_figure(fig, "volume_and_flux",
-...)
+            "Along one cell of the hidden direction, $z = 6Hx_0$ from 0 to $\\pi$ "
+            "(horizontal axis): the $z$-dependent part $|\\cot z|(\\sin^2 z)^{1/4}$ "
+            "of the volume factor $\\sqrt{|g|} = e^{-a_4}b_4^2|\\cot z|(\\sin^2 "
+            "z)^{1/4}$ of the corrected metric (blue) and the $z$-dependent part "
+            "$(\\sin^2 z)^{1/4}$ of the boundary bracket $b_4^{3/2}(\\sin^2 "
+            "z)^{1/4}u^\\dagger M_0v$ (orange); vertical axis: pure numbers. The "
+            "volume vanishes at the fold $z = \\pi/2$ (dotted line), where the two "
+            "halves of the cell meet, and grows (integrably) towards $z = 0$ and "
+            "$z = \\pi$; the bracket vanishes at $z = 0$ and $z = \\pi$ but is 1 "
+            "at the fold, where it carries $b_4^{3/2}u^\\dagger M_0v$, for example "
+            "$2ib_4^{3/2}$ for the recorded column. The mode operator is symmetric, "
+            "and the Krein charge conserved, only if a boundary condition removes "
+            "this flux at the fold.")
 ```
 
-Two arrows explain the two dots. Figure 1 of Notebook 10d shows the volume falling from 1 to 0 and the bracket factor rising from 0 to 1: the volume vanishes at the patch end, but the boundary bracket does not, so a flux can pass through $z = \pi/2$.
+The figure is saved as `10d_1_volume_and_flux.png`. What it shows: the blue volume factor falls from large values near $z = 0$ to 0 at the fold and rises again towards $z = \pi$ (the two halves are mirror images); the orange bracket factor is 0 at both ends of the cell and 1 at the fold, exactly where the volume vanishes.
 
 **In [5], the role of the spin-connection term in a picture.**
 
 ```python
-numbers = {m: 1, H: 1}  # m = H = 1, so z = 6 x0
-hu_full, hu_bare = apply_h(A, u), apply_h(A_no_connection, u)
-left = sp.cos(z) * ((u.H * hu_full)[0] - (hu_full.H * u)[0])
-right = sp.diff(sp.sin(z) * (u.H * M0 * u)[0], x0)
-left_bare = sp.cos(z) * ((u.H * hu_bare)[0] - (hu_bare.H * u)[0])
+instant = {m: m_value, H: H_value, a: 0, b: b4_start}  # x4 = 0: a4 = 0, b4 = b4(0)
+h0u = A * u + D * u.applyfunc(d0)  # the hidden-direction part of h u
+h0u_bare = A_no_connection * u + D * u.applyfunc(d0)  # the same without c_g
+left = sqrt_g * ((u.H * h0u)[0] - (h0u.H * u)[0])
+right = d0(w * (u.H * M0 * u)[0])
+left_bare = sqrt_g * ((u.H * h0u_bare)[0] - (h0u_bare.H * u)[0])
 ```
 
-For $u = v$ and $m = H = 1$ the cell forms the three exact expressions: the defect with the term $3H$ (`left`), the derivative $\partial_0(\sin z\,u^\dagger M_0u)$ (`right`) and the defect without the term (`left_bare`).
+`instant` is a dictionary that puts numbers for the letters: $m = H = 1$, $a = 0$ and $b = b_4(0) = 1$, the instant $x_4 = 0$ of the history, where $c_g = 3/2$. `h0u` is the hidden-direction part $h_0u = Au + Du'$ (without $-iv_g$, whose only effect is the volume term), `h0u_bare` the same without the connection term; `left`, `right` and `left_bare` are the three expressions of Section 10.27 for $u = v$.
 
 ```python
-x0_values = np.linspace(0.002, np.pi / 12 - 0.002, 300)  # inside 0 < z < pi/2
-curves = [np.imag(sp.lambdify(x0, e.subs(numbers), "numpy")(x0_values))
+z_grid = np.linspace(0.02, np.pi / 2 - 0.02, 300)  # inside 0 < z < pi/2
+s_grid, c_grid = np.sqrt(np.sin(z_grid)), np.cos(z_grid)
+curves = [np.imag(sp.lambdify((s, c), e.subs(instant), "numpy")(s_grid, c_grid))
           for e in (left, right, left_bare)]
 difference = np.max(np.abs(curves[0] - curves[1]))
 report("largest |left - right| on the grid", f"{difference:.1e}")
 check(difference < 1e-9, "numerical: the two sides agree along the hidden direction")
 ```
 
-For $H = 1$ the patch is $0 < x_0 < \pi/12$; the 300 points stay a little inside it. `e.subs(numbers)` puts $m = H = 1$ into an expression, and `sp.lambdify(x0, ..., "numpy")` turns it into a fast numpy function of $x_0$, which is evaluated at all points at once. For $u = v$ each expression is a number minus its complex conjugate, purely imaginary, so `np.imag` keeps the imaginary parts. The largest difference between the left and the right side is printed as `5.7e-13`, rounding only.
+300 values of $z$ inside the half, and the corresponding $s = \sin^{1/2}z$ and $c = \cos z$. `e.subs(instant)` puts the numbers into an expression, and `sp.lambdify((s, c), ..., "numpy")` turns it into a fast numerical function of $s$ and $c$; `np.imag` takes the imaginary part (for $u = v$ each expression is a number minus its complex conjugate, purely imaginary). `difference` is the largest distance between the left and the right side; Out [5] prints `4.5e-13`, rounding only, and the check passes.
 
 ```python
 fig, ax = plt.subplots()
-ax.plot(6 * x0_values, curves[0], color=BLUE, linewidth=3,
-        label="left side, with the term $3H$")
-ax.plot(6 * x0_values, curves[1], "--", color=GREEN, linewidth=2,
-        label="right side $\\partial_0(\\sin z\\,u^\\dagger M_0 u)$")
-ax.plot(6 * x0_values, curves[2], color=ORANGE, linewidth=2,
-        label="left side WITHOUT the term $3H$")
-ax.set_xlabel("$z = 6 H x_0$ ($m = H = 1$)")
+ax.plot(z_grid, curves[0], color=BLUE, linewidth=3,
+        label="left side, with the term $c_g$")
+ax.plot(z_grid, curves[1], "--", color=GREEN, linewidth=2,
+        label="right side $\\partial_0(w\\,u^\\dagger M_0 u)$")
+ax.plot(z_grid, curves[2], color=ORANGE, linewidth=2,
+        label="left side WITHOUT the term $c_g$")
+ax.set_xlabel("$z = 6 H x_0$ ($x_4 = 0$: $a_4 = 0$, $b_4 = 1$; $m = H = 1$)")
 ax.set_ylabel("imaginary part")
 ax.set_title("The spin-connection term makes the defect a pure boundary term")
 ax.legend(fontsize=8)
-save_figure(fig, "symmetry_defect",
-...)
 ```
 
-The three curves against $z = 6x_0$. Figure 2 of Notebook 10d shows the green dashed curve exactly on the thick blue one, and the orange curve away from both: with the spin-connection term the defect is a derivative, whose integral is the flux at the ends; without it the remainder $-6H\cos z\,u^\dagger M_0u$ of Section 10.27 separates the curves.
-
-**In [6], the waves that do not depend on $x_0$.**
+The three curves against $z$: the left side thick and blue, the right side as a green dashed line on top of it, and the left side without the connection term in orange.
 
 ```python
-norm_integral = sp.integrate(sp.cos(6 * H * x0), (x0, 0, sp.pi / (12 * H)))
-say(f"integral of cos(6 H x0) over the patch: {norm_integral}")
-A_square_ok = (A * A - (m ** 2 - 9 * H ** 2) * sp.eye(16)).applyfunc(
+save_figure(fig, "symmetry_defect",
+            "For one concrete wave function $u(x_0)$ (16 entries of the form "
+            "$\\alpha + \\beta\\sin z + \\delta\\cos z$) at the instant $x_4 = 0$ of "
+            "the history ($a_4 = 0$, $b_4 = 1$, so $c_g = 3/2$) and $m = H = 1$: the "
+            "imaginary parts of the symmetry defect $\\sqrt{|g|}\\,(u^\\dagger(h_0u) "
+            "- (h_0u)^\\dagger u)$ of the hidden-direction part $h_0 = A + "
+            "D\\partial_0$ of the curved good-sector mode operator (blue), of the "
+            "derivative $\\partial_0(w\\,u^\\dagger M_0u)$ (green dashed, on top of "
+            "the blue curve), and of the defect of the operator without the "
+            "spin-connection term $c_g$ (orange), against $z$ from 0 to the fold "
+            "$\\pi/2$ (horizontal axis). With the term the defect is exactly a "
+            "derivative, whose integral is the flux at the ends; without it a "
+            "remainder $-2c_g\\sqrt{|g|}\\,u^\\dagger M_0u$ survives.")
+```
+
+Saved as `10d_2_symmetry_defect.png`. The green dashed curve lies exactly on the thick blue one, and the orange curve runs away from both: with the spin-connection term the defect is a derivative, whose integral is the flux at the ends; without it a remainder survives.
+
+**In [6], waves that do not depend on $x_0$.**
+
+```python
+q = sp.Symbol("q", positive=True)  # q = sin z, from 0 (z = 0) to 1 (the fold)
+integrand = sqrt_g / (sp.exp(-a) * b ** 2)  # cot z sin(z)^(1/2) = c / s
+substitution_ok = sp.simplify(integrand - d0(s ** 2) / (6 * H * s)) == 0
+norm_integral = sp.integrate(1 / (6 * H * sp.sqrt(q)), (q, 0, 1))
+say(f"integral of cot z sin(z)^(1/2) over the half 0 < x0 < pi/(12 H): "
+    f"{norm_integral}")
+A_square_ok = (A * A - (m ** 2 - c_g ** 2) * sp.eye(16)).applyfunc(
     sp.expand) == zero
 A_not_hermitian = (A - A.H).applyfunc(sp.expand) != zero
-G40_numbers = gamma[4] @ gamma[0]  # gamma^(x4) gamma^(x0) as numbers
 ```
 
-`sp.integrate(f, (x0, a, b))` computes the definite integral exactly; the printed value is `1/(6*H)`, the norm of Section 10.28. The two truth values test $AA = (m^2 - 9H^2)I_{16}$ and that $A$ is not Hermitian ($A - A^\dagger$ is not the zero matrix). `G48_numbers` is $\gamma^{(x_4)}\gamma^{(x_0)}$ again, for the numerical part.
+The norm integral by the substitution $q = \sin z$ (Section 10.28): `integrand` is $\cot z\,\sin^{1/2}z = c/s$ (the volume factor without $e^{-a}b^2$); `substitution_ok` confirms that it equals $\frac{1}{6H\sqrt q}\,dq/dx_0$ with $q = s^2$, that is $d_0(s^2)/(6Hs)$; `sp.integrate(..., (q, 0, 1))` computes $\int_0^1\frac{dq}{6H\sqrt q} = \frac{1}{3H}$, and Out [6] prints `integral of cot z sin(z)^(1/2) over the half 0 < x0 < pi/(12 H): 1/(3*H)`. `A_square_ok` confirms $AA = (m^2 - c_g^2)I_{16}$ exactly, and `A_not_hermitian` confirms $A \neq A^\dagger$ (`!=` is "not equal").
 
 ```python
-def A_numbers_of(mass, H_value=1.0):
-    return -1j * mass * gamma[4] + 3j * H_value * G40_numbers
+def A_numbers_of(mass, cg):
+    return -1j * mass * gamma[4] + 1j * cg * K_numbers
 
 
-A_numbers = A_numbers_of(1.0)
-eigenvalues = np.linalg.eigvals(A_numbers)
-upper = int(np.sum(np.abs(eigenvalues - 2j * np.sqrt(2)) < 1e-9))
-lower = int(np.sum(np.abs(eigenvalues + 2j * np.sqrt(2)) < 1e-9))
-report("eigenvalues 2 sqrt(2) i and -2 sqrt(2) i at m = H = 1, how many",
+c_g_now = 1.5 * H_value / np.sqrt(b4_start)  # c_g at x4 = 0, where a4 = 0
+rate_now = np.sqrt(c_g_now ** 2 - m_value ** 2)  # sqrt(9/4 - 1) = sqrt(5)/2
+eigenvalues = np.linalg.eigvals(A_numbers_of(m_value, c_g_now))
+upper = int(np.sum(np.abs(eigenvalues - 1j * rate_now) < 1e-9))
+lower = int(np.sum(np.abs(eigenvalues + 1j * rate_now) < 1e-9))
+report("c_g at x4 = 0 and the growth rate sqrt(c_g^2 - m^2)",
+       f"{c_g_now:.4f} and {rate_now:.6f}")
+report("eigenvalues +i sqrt(5)/2 and -i sqrt(5)/2 (m = H = 1, x4 = 0), how many",
        f"{upper} and {lower}")
 ```
 
-`A_numbers_of(mass)` is the matrix $A$ as numbers for a given mass ($H = 1$ unless another value is given). At $m = H = 1$ the 16 eigenvalues are counted: how many lie within $10^{-9}$ of $2\sqrt2\,i$ and how many of $-2\sqrt2\,i$. The printed counts are 8 and 8.
+`A_numbers_of` builds $A$ as a numpy matrix for a given mass and $c_g$. At the instant $x_4 = 0$ of the history ($a_4 = 0$, $b_4 = 1$, $H = 1$) $c_g = 1.5$, and for $m = 1$ the predicted growth rate is $\sqrt{c_g^2 - m^2} = \sqrt{9/4 - 1} = \sqrt5/2$. The eigenvalues of $A$ are computed, and `upper` and `lower` count those within $10^{-9}$ of $+i\sqrt5/2$ and $-i\sqrt5/2$. Out [6] prints `1.5000 and 1.118034` and `8 and 8`.
 
 ```python
-check_record(norm_integral == 1 / (6 * H) and A_square_ok and A_not_hermitian
-             and (upper, lower) == (8, 8),
-             "x0-independent waves: A^2 = (m^2 - 9 H^2) I, at m = H = 1: +-2 sqrt(2) i",
+check_record(substitution_ok and norm_integral == 1 / (3 * H) and A_square_ok
+             and A_not_hermitian and (upper, lower) == (8, 8)
+             and abs(rate_now - np.sqrt(5) / 2) < 1e-15,
+             "x0-independent waves: norm 1/(3 H), A^2 = (m^2 - c_g^2) I, "
+             "+-i sqrt(5)/2 at x4 = 0",
              record="Revision/theory/reports/python-scope.json, check "
                     "good_sector_x0_independent_modes_without_boundary_condition")
 ```
 
-The check reproduces the record check `good_sector_x0_independent_modes_without_boundary_condition`.
+The check collects the substitution, the value $1/(3H)$ of the norm integral (an exact comparison of sympy expressions), the square of $A$, $A \neq A^\dagger$, the eight and eight eigenvalues, and the rate; it reproduces the record check `good_sector_x0_independent_modes_without_boundary_condition`.
 
-**In [7], the frequencies against the mass.**
+**In [7], the frequencies and the growth along the history.**
 
 ```python
 mass_values = np.linspace(0.0, 5.0, 101)
-paths = []
-for mass in mass_values:
-    paths.append(np.linalg.eigvals(A_numbers_of(mass)))
-paths = np.array(paths)
+paths = np.array([np.linalg.eigvals(A_numbers_of(mass, c_g_now))
+                  for mass in mass_values])
 worst = np.max(np.abs(np.sort(np.abs(paths), axis=1)
-                      - np.sqrt(np.abs(mass_values ** 2 - 9))[:, None]))
-report("largest deviation of |eigenvalue| from sqrt|m^2 - 9|", f"{worst:.1e}")
-check(worst < 1e-6, "the eigenvalues of A follow +-sqrt(m^2 - 9 H^2)")
+                      - np.sqrt(np.abs(mass_values ** 2 - c_g_now ** 2))[:, None]))
+report("largest deviation of |eigenvalue| from sqrt|m^2 - c_g^2|", f"{worst:.1e}")
+check(worst < 1e-6, "the eigenvalues of A follow +-sqrt(m^2 - c_g^2)")
 ```
 
-For 101 masses from 0 to 5 (step 0.05) the 16 eigenvalues of $A$ are stored as one row of the table `paths`. Every eigenvalue must have the size $\sqrt{|m^2 - 9|}$ ($H = 1$): `np.abs(paths)` are the sizes, sorted in each row, and `[:, None]` turns the 101 predicted values into a column, so that each is subtracted from its own row. The largest deviation is printed as `4.6e-08`: at $m = 3$ exactly the matrix $A$ has $AA = 0$ and cannot be diagonalised, and there the numerical eigenvalues are accurate only to about $10^{-8}$; the tolerance $10^{-6}$ allows for it.
+101 masses from 0 to 5. `paths` is a table with one row of 16 eigenvalues of $A$ (at $c_g = 3/2$) per mass. `np.sort(np.abs(paths), axis=1)` sorts the sizes of the eigenvalues in each row, and the predicted size is $\sqrt{|m^2 - c_g^2|}$ for all 16 (`[:, None]` turns the 101 predictions into a column, so that numpy compares each with a whole row). Out [7] prints `2.3e-08`: near $m = c_g$ the matrix $A$ cannot be diagonalised, and there numerical eigenvalues are accurate only to about the square root of the rounding error; the check allows $10^{-6}$.
 
 ```python
 fig, ax = plt.subplots(figsize=(6.0, 5.0))
-growing = mass_values < 3.0
+growing = mass_values < c_g_now
 for column in range(16):
     ax.plot(paths[growing, column].real, paths[growing, column].imag, ".",
             color=ORANGE, markersize=4)
     ax.plot(paths[~growing, column].real, paths[~growing, column].imag, ".",
             color=BLUE, markersize=4)
-ax.plot([], [], ".", color=ORANGE, label="$m < 3H$: imaginary, the waves grow")
-ax.plot([], [], ".", color=BLUE, label="$m > 3H$: real, the waves oscillate")
-ax.plot([0, 0], [2 * np.sqrt(2), -2 * np.sqrt(2)], "o", color=GREEN, markersize=9,
-        fillstyle="none", label="recorded: $m = H = 1$, $\\pm 2\\sqrt{2}\\,i$")
-```
-
-`growing` is a list of truth values, true for the masses below 3; `paths[growing, column]` picks the eigenvalue number `column` at those masses, and `~growing` is the opposite list. Each eigenvalue is drawn as a dot in the complex plane (real part horizontal, imaginary part vertical), orange for $m < 3$ and blue for $m \geq 3$; the empty plots only create legend entries; green circles mark the recorded values $\pm2\sqrt2\,i$.
-
-```python
+ax.plot([], [], ".", color=ORANGE, label="$m < c_g$: imaginary, the waves grow")
+ax.plot([], [], ".", color=BLUE, label="$m > c_g$: real, the waves oscillate")
+ax.plot([0, 0], [rate_now, -rate_now], "o", color=GREEN, markersize=9,
+        fillstyle="none", label="$m = 1$: $\\pm i\\sqrt{5}/2$")
 ax.set_xlabel("real part of the eigenvalue of $A$ (units of $H$)")
 ax.set_ylabel("imaginary part (units of $H$)")
-ax.set_aspect("equal")
-ax.set_title("Frequencies of the $x_0$-independent waves, $m$ from 0 to 5")
+ax.set_title("Frequencies of the $x_0$-independent waves at $x_4 = 0$")
 ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1.0), fontsize=8)  # outside
+```
+
+The complex plane: `growing` marks the masses below $c_g$. For each of the 16 columns the points of the growing masses are drawn in orange and the others in blue (`~growing` is the opposite mask). Two empty plots add the legend entries, the green circles mark $\pm i\sqrt5/2$ at $m = 1$, and the legend is placed to the right of the axes.
+
+```python
 save_figure(fig, "frequency_paths",
-...)
+            "The 16 eigenvalues of the matrix $A = -im\\gamma^{(x_4)} + "
+            "ic_g\\gamma^{(x_4)}\\gamma^{(x_0)}$, which governs the good-sector "
+            "waves that do not depend on $x_0$, in the complex plane (horizontal "
+            "axis: real part, vertical axis: imaginary part, units of $H$) at the "
+            "instant $x_4 = 0$ of the history ($a_4 = 0$, $b_4 = 1$, so $c_g = "
+            "3/2$; $H = 1$) for the mass $m$ from 0 to 5. For $m < c_g$ (orange) "
+            "they are $\\pm i\\sqrt{c_g^2 - m^2}$ on the imaginary axis: these "
+            "finite-norm waves grow. For $m > c_g$ (blue) they are real. Green "
+            "circles: $\\pm i\\sqrt{5}/2$ at $m = H = 1$.")
 ```
 
-Equal scales on both axes; `bbox_to_anchor` places the legend outside the drawing, to its right. Figure 3 of Notebook 10d shows the eigenvalues coming down the imaginary axis from $\pm3i$ (at $m = 0$) to 0 (at $m = 3$) and then moving out along the real axis: growth for $m < 3H$, oscillation for $m > 3H$.
+Saved as `10d_3_frequency_paths.png`: an orange segment on the imaginary axis between $\pm1.5i$ (the masses below $c_g$, the eigenvalues $\pm i\sqrt{c_g^2 - m^2}$ shrinking towards 0 as $m$ grows) and blue segments on the real axis (the masses above $c_g$).
 
 ```python
-rate = np.sqrt(np.maximum(9.0 - mass_values ** 2, 0.0))
+rate_exponent = A_history * H_value * (1 - beta / 2)  # c_g ~ e^(x4/3) on the history
+
+
+def c_g_history(x4_value):
+    return 1.5 * H_value * np.exp(rate_exponent * x4_value) / np.sqrt(b4_start)
+
+
+masses_shown = (0.5, 1.0, 2.0, 4.0)
+onsets = [np.log(2 * mass * np.sqrt(b4_start) / (3 * H_value)) / rate_exponent
+          for mass in masses_shown]  # the times at which c_g(x4) = m
+report("the times x4 at which c_g reaches m = 0.5, 1, 2, 4",
+       ", ".join(f"{t:.4f}" for t in onsets))
+onset_ok = all(abs(c_g_history(t) - mass) < 1e-12
+               and abs(t - 3 * np.log(2 * mass / 3)) < 1e-12
+               for mass, t in zip(masses_shown, onsets))
+```
+
+`rate_exponent` is $AH(1 - \beta/2) = 1/3$: on the history $c_g = \frac32He^{a_4}b_4^{-1/2} = \frac32Hb_4(0)^{-1/2}e^{AH(1 - \beta/2)x_4}$, which the function `c_g_history` evaluates. For the masses 0.5, 1, 2 and 4 the times at which $c_g$ reaches them, $x_4 = \ln(2mb_4(0)^{1/2}/(3H))/(1/3) = 3\ln(2m/3)$, are computed and printed: `-3.2958, -1.2164, 0.8630, 2.9425`. `onset_ok` confirms for each that $c_g$ equals the mass there and that the time is $3\ln(2m/3)$.
+
+```python
+slice_times = np.array(slices) / (A_history * H_value)  # the times of the slices
+check_record(abs(rate_exponent - 1 / 3) < 1e-12 and onset_ok
+             and c_g_history(slice_times).min() > m_value,
+             "history: c_g = (3/2) e^(x4/3) reaches every m at x4 = 3 ln(2 m/3)",
+             record="Revision/theory/reports/python-scope.json, check "
+                    "good_sector_x0_independent_modes_without_boundary_condition")
+```
+
+`slice_times` are the times of the five slices ($a_{4,0}/(AH)$). The check confirms the rate $1/3$, the onset times, and that $c_g$ exceeds the mass $m = 1$ at every slice; it reproduces the record check `good_sector_x0_independent_modes_without_boundary_condition`, whose detail states that every mass falls below $c_g$ at late $x_4$.
+
+```python
+times = np.linspace(-4.0, 4.0, 401)
 fig, ax = plt.subplots()
-ax.plot(mass_values, rate, color=ORANGE, linewidth=2,
-        label="growth rate $\\kappa = \\sqrt{9H^2 - m^2}$")
-ax.plot([1.0], [2 * np.sqrt(2)], "o", color=GREEN, markersize=9,
-        label="recorded: $m = H = 1$, $\\kappa = 2\\sqrt{2}$")
-ax.axvline(3.0, color=GREY, linestyle=":", linewidth=1)
-ax.set_xlabel("mass $m$ in units of $H$")
+for mass, onset, colour in zip(masses_shown, onsets, (GREEN, ORANGE, BLUE, GREY)):
+    kappa = np.sqrt(np.maximum(c_g_history(times) ** 2 - mass ** 2, 0.0))
+    ax.plot(times, kappa, color=colour, linewidth=2, label=f"$m = {mass}$")
+    ax.plot([onset], [0.0], "o", color=colour, markersize=7)
+for a4_slice in slices:
+    ax.axvline(a4_slice / (A_history * H_value), color=GREEN, linestyle="--",
+               linewidth=1)
+ax.plot([], [], "--", color=GREEN, label="slices $a_{4,0}$ of the Kohn-Sham record")
+ax.set_xlabel("time $x_4$ (units of $1/H$; history $a_4 = x_4$, $b_4 = e^{4x_4/3}$)")
 ax.set_ylabel("growth rate $\\kappa$ (units of $H$)")
-ax.set_title("Without a boundary condition: growth for $m < 3H$")
-ax.legend()
+ax.set_title("Without a boundary condition: every mass falls below $c_g$")
+ax.legend(loc="upper left", fontsize=8)
+```
+
+401 times from $-4$ to 4. For each mass the growth rate $\kappa = \sqrt{\max(c_g^2 - m^2, 0)}$ is drawn (`np.maximum` replaces negative values by 0), with a dot at its onset time; the green dashed lines mark the slices.
+
+```python
 save_figure(fig, "growth_rate",
-...)
+            "The growth rate $\\kappa = \\sqrt{c_g^2 - m^2}$ of the instant "
+            "(vertical axis, units of $H$; zero while $m \\geq c_g$) of the "
+            "good-sector waves that do not depend on $x_0$, along the prescribed "
+            "history $a_4 = x_4$, $b_4 = e^{4x_4/3}$ of the Revision record ($H = "
+            "1$), against the time $x_4$ (horizontal axis, units of $1/H$), for "
+            "$m = 0.5$, 1, 2, 4. On this history $c_g = \\frac{3}{2}e^{x_4/3}$ "
+            "grows, so each curve leaves zero at the time $3\\ln(2m/3)$ (dots) and "
+            "then rises like $e^{x_4/3}$: every mass falls below $c_g$. The green "
+            "dashed lines mark the five slices $a_{4,0} = 0$, 0.5, 1, 1.5, 2 of the "
+            "Kohn-Sham record, where $c_g \\geq 3/2 > 1$: without a boundary "
+            "condition at the folds these waves grow at every slice for $m = 1$.")
 ```
 
-The growth rate $\kappa = \sqrt{9 - m^2}$ for $m < 3$ and 0 beyond (`np.maximum(..., 0.0)` replaces the negative values under the root by 0), with the recorded point $\kappa = 2\sqrt2 \approx 2.83$ at $m = 1$. Figure 4 of Notebook 10d shows the curve falling from 3 at $m = 0$ to 0 at $m = 3$ (a quarter of the circle $\kappa^2 + m^2 = 9$, drawn with unequal scales on the two axes): without a boundary condition at $z = \pi/2$, every mass below $3H$ gives growing waves of finite norm.
+Saved as `10d_4_growth_rate.png`. The four curves are zero until their dots and then rise like $e^{x_4/3}$; at all five slices ($x_4 = 0$ to 2) the curves of $m = 0.5$ and $m = 1$ are already positive.
 
-**In [8], the exact growing solution and its Krein charge.**
-
-```python
-x4, k = sp.symbols("x4 k", positive=True)
-M_exact = -m * g[4] + 3 * H * g[4] * g[0]
-chi = sp.Matrix(sp.symbols("q1:17"))  # any constant column
-Psi = (sp.cosh(k * x4) * sp.eye(16) + sp.sinh(k * x4) / k * M_exact) * chi
-field_equation = g[4] * Psi.diff(x4) + 3 * H * g[0] * Psi - m * Psi  # d0 Psi = 0
-```
-
-`sp.symbols("x4 k", positive=True)` makes two positive letters at once, and `sp.symbols("q1:17")` the 16 letters $q_1, \dots, q_{16}$, the entries of an arbitrary constant column $\chi$. `M_exact` is $M = -m\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_0)}$ and `Psi` the solution of Section 10.28. `field_equation` is the left side minus the right side of the field equation of Section 10.27 for a wave with $\partial_0\Psi = 0$, which must vanish.
+**In [8], an exact growing solution of mass 0.**
 
 ```python
-# multiply by k, then replace k^2 by 9 H^2 - m^2 (the definition of k)
-residual = field_equation.applyfunc(
-    lambda e: sp.expand(sp.expand(k * e).subs(k ** 2, 9 * H ** 2 - m ** 2)))
-square_ok = (M_exact * M_exact - (9 * H ** 2 - m ** 2) * sp.eye(16)).applyfunc(
-    sp.expand) == zero
-check_record(square_ok and residual == sp.zeros(16, 1),
-             "exact: Psi = (cosh kx4 + sinh(kx4)/k M) chi solves the field equation",
+theta = sp.Function("theta")(x4)  # theta(x4), with theta' = c_g
+c_g_function = sp.Rational(3, 2) * H * sp.exp(a4) / sp.sqrt(b4)
+F_scale = sp.exp(a4 / 2) / b4  # e^(a4/2) b4^(-1), changing at the rate -v_g
+K_exact = g[4] * g[0]
+chi = sp.Matrix(sp.symbols("chi1:17"))  # any constant column
+Psi = F_scale * (sp.cosh(theta) * sp.eye(16) + sp.sinh(theta) * K_exact) * chi
+field_equation = (g[4] * Psi.diff(x4) + c_g_function * g[0] * Psi
+                  + v_g_function * g[4] * Psi)  # m = 0 and d0 Psi = 0
+residual = field_equation.subs(sp.Derivative(theta, x4), c_g_function)
+check_record(K_exact * K_exact == sp.eye(16)
+             and residual.applyfunc(sp.simplify) == sp.zeros(16, 1),
+             "exact: e^(a4/2) b4^(-1) (cosh theta + sinh theta K) chi solves the "
+             "field equation for m = 0",
              record="Revision/theory/reports/python-field-theory.json, check "
                     "exact_solution_family_x4_x0")
 ```
 
-The expression contains $1/k$ (from $\sinh(kx_4)/k$); as the comment says, every entry is multiplied by $k$ to clear it, multiplied out, and every $k^2$ is replaced by $9H^2 - m^2$, the definition of $k$; then every entry must be 0. `square_ok` checks $MM = (9H^2 - m^2)I_{16}$. The check reproduces the record check `exact_solution_family_x4_x0`.
+The exact check for arbitrary $a_4(x_4)$ and $b_4(x_4)$: $\theta(x_4)$ is an unknown function, `c_g_function` is $c_g$ written with $a_4(x_4)$ and $b_4(x_4)$, `F_scale` is $e^{a_4/2}b_4^{-1}$, `K_exact` is $K$, and `chi` is a column of 16 letters $\chi_1, \dots, \chi_{16}$ (any constant column). `Psi` is $e^{a_4/2}b_4^{-1}(\cosh\theta\,I_{16} + \sinh\theta\,K)\chi$. `field_equation` is the left side minus the right side of the field equation of Section 10.27 for $m = 0$ and $\partial_0\Psi = 0$: $\gamma^{(x_4)}\partial_4\Psi + c_g\gamma^{(x_0)}\Psi + v_g\gamma^{(x_4)}\Psi$. `.subs(sp.Derivative(theta, x4), c_g_function)` replaces $\theta'$ by $c_g$, and the check demands $KK = I_{16}$ and a residual that simplifies to the zero column; it reproduces the record check `exact_solution_family_x4_x0` (its case $\alpha = 0$, $m = 0$).
 
 ```python
-M_numbers = -1.0 * gamma[4] + 3.0 * G40  # m = H = 1
-k_number = np.sqrt(8.0)  # k = sqrt(9 - 1) = 2 sqrt(2)
+def theta_history(x4_value):
+    return (1.5 * H_value / np.sqrt(b4_start)
+            * (np.exp(rate_exponent * x4_value) - 1) / rate_exponent)
+
+
 plus_columns = (np.eye(16) + B) / 2  # columns with B chi = chi (after scaling)
 chi_number = plus_columns[:, 0] / np.linalg.norm(plus_columns[:, 0])
-x4_values = np.linspace(0.0, 1.5, 3001)
+overlap = (chi_number.conj() @ K_numbers @ chi_number).real  # chi0^dagger K chi0
+x4_values = np.linspace(0.0, 2.0, 2001)
+```
+
+`theta_history` is $\theta(x_4) = \int_0^{x_4}c_g = \frac{3H}{2b_4(0)^{1/2}}\,\frac{e^{rx_4} - 1}{r}$ with $r = 1/3$, that is $\frac92(e^{x_4/3} - 1)$. `plus_columns` is the projector $\frac12(I_{16} + B)$ onto the eigenvectors of $B$ with eigenvalue $+1$; its first column, divided by its length (`np.linalg.norm`), is a column $\chi_0$ with $B\chi_0 = \chi_0$ and $\chi_0^\dagger\chi_0 = 1$, and `overlap` is $\chi_0^\dagger K\chi_0$. 2001 times from 0 to 2.
+
+```python
 lengths, charges, fluxes = [], [], []
-```
-
-For $m = H = 1$: $M$ as numbers and $k = \sqrt{9 - 1} = 2\sqrt2$. The columns of the projector $\frac12(I_{16} + B)$ lie in the eigenspace $B\chi = \chi$; its first column, divided by its length, is the starting column $\chi$ with $\chi^\dagger\chi = 1$. 3001 times from 0 to 1.5 (step 0.0005).
-
-```python
 for t in x4_values:
-    Psi_t = (np.cosh(k_number * t) * np.eye(16)
-             + np.sinh(k_number * t) / k_number * M_numbers) @ chi_number
+    a4_t = A_history * H_value * t  # a4 and b4 of the history at the time t
+    b4_t = b4_start * np.exp(beta * a4_t)
+    th = theta_history(t)
+    Psi_t = (np.exp(a4_t / 2) / b4_t
+             * (np.cosh(th) * np.eye(16) + np.sinh(th) * K_numbers) @ chi_number)
     lengths.append((Psi_t.conj() @ Psi_t).real)
-    charges.append((Psi_t.conj() @ B @ Psi_t).real / 6.0)  # 6 H = 6
-    fluxes.append((Psi_t.conj() @ B @ G40 @ Psi_t).real)
+    charges.append(np.exp(-a4_t) * b4_t ** 2 * (Psi_t.conj() @ B @ Psi_t).real
+                   / (3 * H_value))  # Q = integral of sqrt|g| Psi^dag B Psi
+    fluxes.append(b4_t ** 1.5 * (Psi_t.conj() @ B @ K_numbers @ Psi_t).real)
 lengths, charges, fluxes = map(np.array, (lengths, charges, fluxes))
-```
-
-At each time the loop computes $\Psi(x_4)$, its ordinary squared length $\Psi^\dagger\Psi$, its Krein charge $Q = \Psi^\dagger B\Psi/(6H)$ and the flux $\Psi^\dagger B\gamma^{(x_4)}\gamma^{(x_0)}\Psi$, the rate $dQ/dx_4$ of Section 10.28. `map(np.array, ...)` turns each of the three lists into an array.
-
-```python
 step = x4_values[1] - x4_values[0]
 added_flux = np.concatenate([[0.0], np.cumsum((fluxes[1:] + fluxes[:-1]) / 2) * step])
 relative = np.max(np.abs(charges - charges[0] - added_flux)) / np.max(np.abs(charges))
-report("Krein charge Q at x4 = 0 and at x4 = 1.5", f"{charges[0]:.6f} and "
+```
+
+At each time: $a_4$ and $b_4$ of the history, $\theta$, the column $\Psi$, its squared length $\Psi^\dagger\Psi$, its Krein charge $Q = e^{-a_4}b_4^2\,\Psi^\dagger B\Psi/(3H)$ over the half, and the flux through the fold $b_4^{3/2}\Psi^\dagger BK\Psi$ (Section 10.28; `.real` drops the zero imaginary parts). `map(np.array, ...)` turns the three lists into arrays. `added_flux` adds the flux up over time by the trapezoidal rule (each step contributes the mean of the flux at its two ends times the step; `np.cumsum` forms the running sums, and the leading 0 belongs to $x_4 = 0$). `relative` is the largest mismatch between $Q(x_4) - Q(0)$ and the added flux, relative to the largest charge.
+
+```python
+report("chi0^dagger K chi0", f"{abs(overlap):.1f}")
+report("Krein charge Q at x4 = 0 and at x4 = 2", f"{charges[0]:.6f} and "
        f"{charges[-1]:.3f}")
 report("largest relative mismatch of Q(x4) - Q(0) and the added flux",
        f"{relative:.1e}")
-check(relative < 1e-5, "the Krein charge changes by the flux through z = pi/2")
+check(abs(overlap) < 1e-15 and relative < 1e-5,
+      "the Krein charge changes by exactly the flux through the fold z = pi/2")
 ```
 
-The flux is added up over time by the **trapezoidal rule**: on each step the area under the curve is the step times the mean of the two end values, `(fluxes[1:] + fluxes[:-1]) / 2` (`fluxes[1:]` drops the first value and `fluxes[:-1]` the last); `np.cumsum` forms the running sums, and a 0 is put in front for the time 0. The mismatch between $Q(x_4) - Q(0)$ and the added flux, divided by the largest charge, is printed as `6.7e-07`; the RESULT lines show $Q(0) = 0.166667 = 1/6$ and $Q(1.5) = 454.007$. The check confirms that the charge changes by the flux through the patch end.
+Out [8] prints `chi0^dagger K chi0 = 0.0`, the charges `0.333333 and 843.742` at $x_4 = 0$ and 2 ($\cosh(2\theta)/3$, Section 10.28), and the mismatch `3.0e-06`, the error of the trapezoidal sums; the check passes.
 
 ```python
-growth = np.polyfit(x4_values[1500:], np.log(lengths[1500:]), 1)[0]
-report("late slope of ln(Psi^dagger Psi)", f"{growth:.4f} (2 k = {2 * k_number:.4f})")
-check(abs(growth - 2 * k_number) < 0.05, "the squared length grows like exp(2 k x4)")
+slope = np.gradient(np.log(lengths), x4_values)  # d ln(Psi^dagger Psi) / dx4
+predicted = (2 * c_g_history(x4_values) * np.tanh(2 * theta_history(x4_values))
+             - (2 * beta - 1) * A_history * H_value)
+worst_slope = np.max(np.abs(slope[5:-5] - predicted[5:-5]))  # inner points
+report("growth rate of ln(Psi^dagger Psi) at x4 = 0.5 and at x4 = 2",
+       f"{predicted[500]:.4f} and {predicted[-1]:.4f}")
+report("largest difference between the measured and the predicted rate",
+       f"{worst_slope:.1e}")
+check(worst_slope < 1e-4,
+      "the rate of ln(Psi^dag Psi) is 2 c_g tanh(2 theta) - 5/3, and it grows")
 ```
 
-`np.polyfit(x, y, 1)` fits the straight line $y = ax + b$ through the points by least squares and returns $(a, b)$; `[0]` takes the slope. The fit uses the second half of the times (from index 1500, $x_4 = 0.75$, on) and the logarithm of the squared length $\Psi^\dagger\Psi$ (the list `lengths` holds these squared lengths). The printed slope is 5.6600, close to $2k = 5.6569$ (the squared length contains $\cosh$ and $\sinh$, not a pure exponential, so the slope only approaches $2k$), and the check allows a difference of 0.05. The cell prints three PASS lines.
+`np.gradient` differentiates the logarithm of the squared length numerically; `predicted` is the rate $2c_g\tanh 2\theta - (2\beta - 1)AH$ of Section 10.28. The comparison leaves out five points at each end, where `np.gradient` is less accurate. Out [8] prints the rates `1.6165 and 4.1765` at $x_4 = 0.5$ and 2 (index 500 is $x_4 = 0.5$; `[-1]` is the last entry) and the difference `3.3e-06`; the check passes.
 
-**In [9], the growing wave and its charge in a picture.**
+**In [9], where the Krein charge goes, in a picture.**
 
 ```python
+a4_values = A_history * H_value * x4_values
+b4_values = b4_start * np.exp(beta * a4_values)
+formula = np.log(np.exp(a4_values) / b4_values ** 2
+                 * np.cosh(2 * theta_history(x4_values)))
 fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.2))
-axes[0].plot(x4_values, np.log(lengths), color=BLUE, linewidth=2,
-             label="$\\ln(\\Psi^\\dagger\\Psi)$")
-axes[0].plot(x4_values, 2 * k_number * x4_values + np.log(lengths[-1])
-             - 2 * k_number * x4_values[-1], "--", color=GREY, linewidth=1,
-             label="slope $2k = 4\\sqrt{2}$")
+axes[0].plot(x4_values, np.log(lengths), color=BLUE, linewidth=3,
+             label="$\\ln(\\Psi^\\dagger\\Psi)$ computed")
+axes[0].plot(x4_values, formula, "--", color=GREY, linewidth=1.5,
+             label="$\\ln(e^{a_4}b_4^{-2}\\cosh 2\\theta)$")
 axes[0].set_xlabel("time $x_4$ (units of $1/H$)")
 axes[0].set_ylabel("$\\ln$ of the squared length $\\Psi^\\dagger\\Psi$")
-axes[0].set_title("the wave grows")
+axes[0].set_title("the wave grows faster and faster")
 axes[0].legend()
-```
-
-The left panel draws $\ln(\Psi^\dagger\Psi)$ against $x_4$ and a grey dashed straight line of slope $2k = 4\sqrt2$ through the last point.
-
-```python
 axes[1].plot(x4_values, charges, color=ORANGE, linewidth=3,
              label="Krein charge $Q(x_4)$")
 axes[1].plot(x4_values, charges[0] + added_flux, "--", color=GREEN, linewidth=2,
-             label="$Q(0)$ + flux through $z = \\pi/2$")
+             label="$Q(0)$ + flux through the fold")
 axes[1].set_xlabel("time $x_4$ (units of $1/H$)")
 axes[1].set_ylabel("Krein charge (units of $1/H$)")
 axes[1].set_title("not conserved: it changes by the flux")
 axes[1].legend()
-save_figure(fig, "krein_leak",
-...)
 ```
 
-The right panel draws the Krein charge and its starting value plus the added flux. Figure 5 of Notebook 10d shows the logarithm of the squared length rising along a straight line, and the charge rising from $1/6$ to several hundred, with the green dashed curve exactly on the orange one: without a boundary condition at $z = \pi/2$ the Krein charge of the curved good sector is not conserved; it changes by exactly what passes through the patch end.
+The formula $\ln(e^{a_4}b_4^{-2}\cosh 2\theta)$ along the history, and two panels: on the left the computed logarithm of the squared length with the formula as a grey dashed line; on the right the Krein charge and its starting value plus the added flux, green dashed.
+
+```python
+save_figure(fig, "krein_leak",
+            "The exact good-sector solution $\\Psi = e^{a_4/2}b_4^{-1}(\\cosh\\theta "
+            "+ \\sinh\\theta\\,K)\\chi_0$ of mass 0, independent of $x_0$, with "
+            "$\\theta' = c_g$, along the history $a_4 = x_4$, $b_4 = e^{4x_4/3}$ "
+            "($H = 1$) from $x_4 = 0$ to 2, for a column $\\chi_0$ with $B\\chi_0 = "
+            "\\chi_0$; horizontal axes: the time $x_4$ in units of $1/H$. Left: the "
+            "logarithm of its squared length (blue) lies on the formula "
+            "$\\ln(e^{a_4}b_4^{-2}\\cosh 2\\theta)$ (grey dashed); its slope keeps "
+            "increasing because $c_g$ grows. Right: its Krein charge $Q = "
+            "\\int\\sqrt{|g|}\\,\\Psi^\\dagger B\\Psi\\,dx_0$ over the half $0 < z < "
+            "\\pi/2$ (orange) grows from $1/3$ to about 844; it equals its starting "
+            "value plus the flux through the fold $z = \\pi/2$ added up over time "
+            "(green dashed). Without a boundary condition at the fold the Krein "
+            "charge is not conserved.")
+```
+
+Saved as `10d_5_krein_leak.png`. On the left the computed curve lies on the formula, and its slope keeps increasing; on the right the green dashed curve lies on the orange charge, which grows from 1/3 to about 844: the Krein charge changes by exactly the flux through the fold.
 
 **In [10], the last check.**
 
@@ -3515,7 +3786,7 @@ for name in ("10d_1_volume_and_flux.png", "10d_2_symmetry_defect.png",
 all_checks_passed()
 ```
 
-The five figure files exist, and the last line prints ALL 16 CHECKS PASSED (notebook 10d): the five figure checks and the 11 checks of the cells before (1 in In [2], 3 in In [3], 1 each in In [4] to In [7], and 3 in In [8]).
+Five checks that the figure files exist, and the final line `ALL 19 CHECKS PASSED (notebook 10d)`.
 
 ### 10.33 No invariant charge density is positive
 
@@ -3589,12 +3860,12 @@ $$
 
 So $S^{ab}$ is anti-Hermitian when $\eta_{aa}\eta_{bb} = +1$ (both directions space-like or both time-like: a **rotation**), and Hermitian when $\eta_{aa}\eta_{bb} = -1$ (one space-like and one time-like: a **boost**). The space-like directions are $x_0, x_1, x_2, x_3$ and the time-like ones $x_4, x_5, x_6, x_7$, so there are $6 + 6 = 12$ rotations (pairs within each group of four, $\binom42 = 6$) and $4 \times 4 = 16$ boosts.
 
-**Which generators commute with B.** $\gamma^{(x_a)}B = s_aB\gamma^{(x_a)}$ with $s_a = +1$ for $a = 1, 2, 3, 4, 8$ and $-1$ for $a = 5, 6, 7$ (Section 10.2), so $\gamma^{(x_a)}\gamma^{(x_b)}B = s_as_b\,B\gamma^{(x_a)}\gamma^{(x_b)}$: $S^{ab}$ commutes with $B$ when $s_as_b = +1$, that is both in $\{1, 2, 3, 4, 8\}$ ($\binom52 = 10$ pairs) or both in $\{5, 6, 7\}$ (3 pairs), 13 in all, and anticommutes otherwise ($5 \times 3 = 15$ pairs).
+**Which generators commute with B.** $\gamma^{(x_a)}B = s_aB\gamma^{(x_a)}$ with $s_a = +1$ for $a = 0, 1, 2, 3, 4$ and $-1$ for $a = 5, 6, 7$ (Section 10.2), so $\gamma^{(x_a)}\gamma^{(x_b)}B = s_as_b\,B\gamma^{(x_a)}\gamma^{(x_b)}$: $S^{ab}$ commutes with $B$ when $s_as_b = +1$, that is both in $\{0, 1, 2, 3, 4\}$ ($\binom52 = 10$ pairs) or both in $\{5, 6, 7\}$ (3 pairs), 13 in all, and anticommutes otherwise ($5 \times 3 = 15$ pairs).
 
 **The Krein condition.** For an anti-Hermitian $S$ the condition $S^\dagger B + BS = 0$ reads $BS - SB = 0$: $S$ must commute with $B$. For a Hermitian $S$ it reads $SB + BS = 0$: $S$ must anticommute with $B$. Counting:
 
 - rotations that commute with $B$: the 6 among $x_0, x_1, x_2, x_3$ and the 3 among $x_5, x_6, x_7$; the 3 rotations $S^{(x_4x_t)}$, $t = 5, 6, 7$, anticommute and fail;
-- boosts that anticommute with $B$: one direction among $x_0, x_1, x_2, x_3$ and one among $x_5, x_6, x_7$, $4 \times 3 = 12$; the 4 boosts $S^{(x_ax_4)}$, $a = 1, 2, 3, 8$, commute and fail.
+- boosts that anticommute with $B$: one direction among $x_0, x_1, x_2, x_3$ and one among $x_5, x_6, x_7$, $4 \times 3 = 12$; the 4 boosts $S^{(x_ax_4)}$, $a = 0, 1, 2, 3$, commute and fail.
 
 So exactly $9 + 12 = 21$ generators are Krein-unitary: precisely the $\binom72 = 21$ pairs that do not contain $x_4$. They generate **Spin(4,3)**, the spin group of the seven slice directions (four space-like, three time-like). For the 7 generators with $x_4$ written first, $S^{(x_4x_b)} = \frac12\gamma^{(x_4)}\gamma^{(x_b)}$, the condition fails by $S^\dagger B + BS = 2BS = -iC\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_b)} = iC\gamma^{(x_b)}$ (in both cases the left side equals $2BS$, because either $S^\dagger = S$ and $SB = BS$, or $S^\dagger = -S$ and $SB = -BS$; then $\gamma^{(x_4)}\gamma^{(x_4)} = -I_{16}$). Of the 21, the 9 rotations are also unitary; the 12 boosts mixing a space direction with an extra time keep the canonical rule but change the ordinary squared length (and so the length). The canonical structure singles out the time $x_4$, as $\psi^\dagger\psi$ does in ordinary Dirac theory: a transformation that turns $x_4$ into another direction also changes the slices $x_4 = $ const on which the field is quantised.
 
@@ -3899,7 +4170,7 @@ The first check reproduces the record check `S_preserves_B_only_off_x4`: the Kre
 ```python
 grid = np.full((8, 8), np.nan)  # NaN: no generator (diagonal and below)
 for (a, b), (anti_hermitian, _, krein) in kinds.items():
-    grid[a - 1, b - 1] = 0 if (anti_hermitian and krein) else (1 if krein else 2)
+    grid[a, b] = 0 if (anti_hermitian and krein) else (1 if krein else 2)  # row a
 colours = ListedColormap([BLUE, GREEN, ORANGE])
 fig, ax = plt.subplots(figsize=(6.0, 5.4))
 ax.imshow(grid, cmap=colours, vmin=-0.5, vmax=2.5)
@@ -3914,7 +4185,7 @@ ax.set_yticks(range(8), names)
 ax.grid(False)
 for (a, b), (anti_hermitian, _, krein) in kinds.items():
     mark = "rot" if anti_hermitian else "boost"  # a rotation or a boost
-    ax.text(b - 1, a - 1, mark, ha="center", va="center", color="white", fontsize=7)
+    ax.text(b, a, mark, ha="center", va="center", color="white", fontsize=7)
 ```
 
 The rows and columns are labelled $x_0$ to $x_7$, and each square gets the word `rot` (an anti-Hermitian generator, a rotation) or `boost` (a Hermitian one), written in white at its centre.
@@ -3931,7 +4202,7 @@ save_figure(fig, "generator_types",
 ...)
 ```
 
-Empty plots with square markers create the three legend entries, placed in the empty lower left corner. Figure 4 of Notebook 10e shows the column and the row of $x_4$ orange (the 7 generators that break the canonical rule), blue rotations among $x_1, x_2, x_3$ and $x_0$ and among $x_5, x_6, x_7$, and green boosts between those two groups.
+Empty plots with square markers create the three legend entries, placed in the empty lower left corner. Figure 4 of Notebook 10e shows the column and the row of $x_4$ orange (the 7 generators that break the canonical rule), blue rotations among $x_0, x_1, x_2, x_3$ and among $x_5, x_6, x_7$, and green boosts between those two groups.
 
 **In [8], finite rotations and boosts.**
 
@@ -4034,71 +4305,98 @@ The five figure files exist, and the last line prints ALL 15 CHECKS PASSED (note
 
 ### 10.39 The Krein structure along the deflating history
 
-Sections 10.3 to 10.6 studied waves with momenta that do not change. In the author's metric they DO change: the three extra times $x_5, x_6, x_7$ deflate exponentially (scale factor $e^{-a_4}\sin^{1/6}z$, with $a_4$ increasing), and 3-space inflates (scale factor $e^{a_4}\sin^{1/6}z$). This section follows the one-particle structure of the chapter along the deflating history that the Kohn-Sham record uses.
+Sections 10.3 to 10.6 studied waves with momenta that do not change. In the author's metric they DO change: the three extra times $x_5, x_6, x_7$ deflate exponentially (scale factor $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$), the hidden direction $x_0$ shrinks together with them (scale factor $e^{-a_4}b_4^{1/2}|\cot z|$), and 3-space inflates (scale factor $e^{a_4}$, no warp). This section follows the one-particle structure of the chapter along the history that the Kohn-Sham record uses.
 
-**The history and its status.** The Kohn-Sham record takes the linear history
-
-$$
-a_4 = AHx_4,\qquad A = H = m = 1
-$$
-
-(record `Revision/kohn_sham/results/parameters.json`, entries `physics.historyA`, `physics.H`, `physics.m`; its slices are $a_{4,0} = 0, 0.5, 1, 1.5, 2$). This history is a PRESCRIBED BACKGROUND: it is not solved from the field equations for $a_4$ with this field as the source, and the Kohn-Sham states violate the source conditions that the linear member requires (`Revision/field_equations_a4/reports/ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`; Chapter 17). Every statement of this section is made under this ASSUMPTION.
-
-**The local-frame model.** At each instant $x_4$ and at one hidden position, the coefficients of the wave equation are evaluated there and the two hidden-direction terms of Section 10.27 are left out; this is the *local-frame* (WKB-type) statement of the Revision record that "every extra-time mode eventually enters the growing regime" (`python-field-theory.json`, check `extra_time_modes_grow`). The model is an ASSUMPTION; the extra times are never treated as static: their scale factor changes at every instant. The Kohn-Sham record measures the hidden direction by $y = \ln(\sin z)/(6H)$, so that
+**The history and its status.** The Kohn-Sham record takes the history
 
 $$
-\sin^{1/6}z = e^{\ln(\sin z)/6} = e^{Hy},
+a_4 = AHx_4,\qquad b_4 = b_4(0)\,e^{\beta a_4},\qquad A = 1,\quad \beta = \tfrac43,\quad b_4(0) = 1,\quad H = m = 1
 $$
 
-the patch end $z = \pi/2$ is $y = 0$, and $y < 0$ lies towards the tip.
-
-**The wave equation of one instant, line by line.** Take a wave $\Psi = u(x_4)\,e^{i(q_1x_1 + q_5x_5)}$ with the **coordinate momenta** $q_1$ (along 3-space) and $q_5$ (along an extra time). In the field equation of Section 10.27 the derivative $\partial_1$ becomes $iq_1$ and $\partial_5$ becomes $iq_5$, each divided by its scale factor:
+(record `Revision/kohn_sham/results/parameters.json`, its section `physics`; the slices of the record are $a_{4,0} = 0, 0.5, 1, 1.5, 2$). On it the factor of the shrinking directions is
 
 $$
-ik_1\gamma^{(x_1)}u + \gamma^{(x_4)}\frac{du}{dx_4} + ik_5\gamma^{(x_5)}u = mu,
+e^{-a_4}b_4^{1/2} = e^{-a_4}\,b_4(0)^{1/2}e^{\beta a_4/2} = b_4(0)^{1/2}e^{-ra_4},\qquad r = 1 - \frac{\beta}{2} = \frac13 ,
+$$
+
+by $(e^{\beta a_4})^{1/2} = e^{\beta a_4/2}$ and the addition of the exponents. This history is a PRESCRIBED BACKGROUND: it is not solved from the field equations for $a_4$ and $b_4$ with this field as the source, and the Kohn-Sham states violate the source conditions that it requires (`Revision/field_equations_a4/reports/ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`; Chapter 17). Every statement of this section is made under this ASSUMPTION.
+
+**The local-frame model.** At each instant $x_4$ and at one hidden position $z$, the coefficients of the wave equation are evaluated there, the change of the coefficient $\tan z$ along $x_0$ is left out, and so is the spin-connection term $c_g\gamma^{(x_0)}$ of Section 10.27 (the term $v_g\gamma^{(x_4)}$ is removed exactly, by the factor $e^{a_4/2}b_4^{-1}$ of Section 10.28). This is the *local-frame* (WKB-type) statement of the Revision record that "every extra-time mode eventually enters the growing regime" (`python-field-theory.json`, check `extra_time_modes_grow`). The model is an ASSUMPTION; the extra times are never treated as static: their scale factor changes at every instant. The Kohn-Sham record measures the hidden direction by $y = \ln(\sin z)/(6H)$ on the half $0 < z < \pi/2$, so that
+
+$$
+(\sin^2 z)^{1/12} = \sin^{1/6}z = e^{\ln(\sin z)/6} = e^{Hy},
+$$
+
+the fold $z = \pi/2$ is $y = 0$, and $y < 0$ lies towards $z = 0$.
+
+**The wave equation of one instant, line by line.** Take a wave $\Psi = e^{a_4/2}b_4^{-1}u(x_4)\,e^{i(q_0x_0 + q_1x_1 + q_5x_5)}$ with the **coordinate momenta** $q_0$ (along the hidden direction), $q_1$ (along 3-space) and $q_5$ (along an extra time). In the field equation of Section 10.27 the derivatives $\partial_0$, $\partial_1$ and $\partial_5$ become $iq_0$, $iq_1$ and $iq_5$, each divided by its scale factor:
+
+$$
+ik_0\gamma^{(x_0)}u + ik_1\gamma^{(x_1)}u + \gamma^{(x_4)}\frac{du}{dx_4} + ik_5\gamma^{(x_5)}u = mu,
 $$
 
 with the frame momenta
 
 $$
-k_1 = \frac{q_1}{e^{a_4}\sin^{1/6}z} = q_1e^{-AHx_4 - Hy},\qquad k_5 = \frac{q_5}{e^{-a_4}\sin^{1/6}z} = q_5e^{AHx_4 - Hy} .
+k_0 = \frac{q_0}{e^{-a_4}b_4^{1/2}\cot z} = q_0e^{a_4}b_4^{-1/2}\tan z,\qquad k_1 = \frac{q_1}{e^{a_4}} = q_1e^{-a_4},
 $$
 
-The **frame momentum** $k_1$ SHRINKS as 3-space inflates; $k_5$ GROWS as the extra times deflate. The steps of Section 10.3 (multiply by $\gamma^{(x_4)}$, solve for $du/dx_4$, multiply by $i$) give
+$$
+k_5 = \frac{q_5}{e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}} = q_5e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12} .
+$$
+
+On the history $k_1 = q_1e^{-AHx_4}$ SHRINKS as 3-space inflates, while $k_5$ and $k_0$ GROW like $e^{rAHx_4} = e^{x_4/3}$: the extra times deflate, and the hidden direction shrinks with them. The steps of Section 10.3 (multiply by $\gamma^{(x_4)}$, solve for $du/dx_4$, multiply by $i$) give
 
 $$
-i\frac{du}{dx_4} = h(x_4)\,u,\qquad h(x_4) = -im\gamma^{(x_4)} - k_1(x_4)\,\gamma^{(x_4)}\gamma^{(x_1)} - k_5(x_4)\,\gamma^{(x_4)}\gamma^{(x_5)} .
+i\frac{du}{dx_4} = h(x_4)\,u,\qquad h(x_4) = -im\gamma^{(x_4)} - k_0\gamma^{(x_4)}\gamma^{(x_0)} - k_1\gamma^{(x_4)}\gamma^{(x_1)} - k_5\gamma^{(x_4)}\gamma^{(x_5)} .
 $$
 
 At every instant this is a mode Hamiltonian of Section 10.3 with real frame momenta, so by Section 10.4
 
 $$
-h(x_4)^2 = w(x_4)^2I_{16},\qquad w(x_4)^2 = m^2 + k_1^2 - k_5^2 = m^2 + q_1^2e^{-2AHx_4 - 2Hy} - q_5^2e^{2AHx_4 - 2Hy} .
+h(x_4)^2 = w(x_4)^2I_{16},\qquad w^2 = m^2 + k_0^2 + k_1^2 - k_5^2 .
 $$
 
-For $A > 0$ the second term falls and the third grows, so $w^2$ falls all the time, and if $q_5 \neq 0$ it becomes negative after a finite time: every wave with an extra-time momentum eventually grows.
-
-**The onset time, line by line.** Write $X = e^{2AHx_4} > 0$ and $c = e^{-2Hy} > 0$. Then $e^{-2AHx_4 - 2Hy} = c/X$ and $e^{2AHx_4 - 2Hy} = cX$, and the condition $w^2 = 0$ reads
+**The growth number, line by line.** The two growing frame momenta carry the same factor:
 
 $$
-m^2 + q_1^2\,\frac{c}{X} - q_5^2\,cX = 0 .
+k_5^2 - k_0^2 = \frac{e^{2a_4}}{b_4}\Big((\sin^2 z)^{-1/6}q_5^2 - \tan^2 z\,q_0^2\Big) = \frac{e^{2a_4}}{b_4}\,D,\qquad D = (\sin^2 z)^{-1/6}q_5^2 - \tan^2 z\,q_0^2 ,
 $$
 
-Multiply by $-X$ (which is not 0):
+by squaring the two frame momenta and taking out the common factor $(e^{a_4}b_4^{-1/2})^2 = e^{2a_4}/b_4$. Inserted into $w^2$:
 
 $$
-q_5^2c\,X^2 - m^2X - q_1^2c = 0 .
+w^2 = m^2 + q_1^2e^{-2a_4} - \frac{e^{2a_4}}{b_4}\,D .
 $$
 
-This is a quadratic equation $aX^2 + bX + d = 0$ with $a = q_5^2c$, $b = -m^2$, $d = -q_1^2c$; its roots are $X = (-b \pm \sqrt{b^2 - 4ad})/(2a)$, here $(m^2 \pm \sqrt{m^4 + 4q_1^2q_5^2c^2})/(2q_5^2c)$. The square root is at least $m^2$, so the root with the minus sign is negative (or 0 when $q_1 = 0$), while $X = e^{2AHx_4}$ is positive. The only possible root is
+We call $D$ the **growth number** of the wave. On the history $e^{2a_4}/b_4 = e^{2ra_4}/b_4(0)$ grows without bound and $e^{-2a_4}$ falls to 0. Two cases:
+
+- $D \leq 0$: the last term $-(e^{2a_4}/b_4)D$ is never negative, so $w^2 \geq m^2 > 0$ at every time: the wave oscillates for ever.
+- $D > 0$: the derivative is $dw^2/dx_4 = -2AHq_1^2e^{-2a_4} - 2rAH\,(e^{2a_4}/b_4)\,D < 0$ (differentiate $e^{-2AHx_4}$ and $e^{2rAHx_4}$), so $w^2$ falls all the time; since the last term grows without bound, $w^2$ becomes negative after a finite time, and exactly once. After that time the wave grows.
+
+So **a wave eventually grows exactly when $D > 0$**. Without hidden momentum ($q_0 = 0$) every wave with $q_5 \neq 0$ has $D = (\sin^2 z)^{-1/6}q_5^2 > 0$: every extra-time wave grows, as the Revision record states. A hidden momentum with $\tan^2 z\,q_0^2 \geq (\sin^2 z)^{-1/6}q_5^2$ keeps the wave oscillating for ever: the hidden direction is space-like, and its frame momentum grows at the same rate as the extra-time one but enters $w^2$ with the opposite sign. (This criterion is derived here, in the local-frame model, and proved exactly by Notebook 10f; the record's statement is its case $q_0 = 0$.)
+
+**The onset time, line by line.** Write $X = e^{2ra_4} > 0$. With $r = 1/3$, $e^{-2a_4} = (e^{2ra_4})^{-1/r} = X^{-3}$, and the condition $w^2 = 0$ reads
 
 $$
-X^\ast = \frac{m^2 + \sqrt{m^4 + 4q_1^2q_5^2c^2}}{2q_5^2c},\qquad x_4^\ast = \frac{\ln X^\ast}{2AH},
+m^2 + q_1^2X^{-3} - \frac{D}{b_4(0)}X = 0 .
 $$
 
-the **onset time**, by taking the logarithm of $X^\ast = e^{2AHx_4^\ast}$. Before $x_4^\ast$ the frequency is real (the wave oscillates); after it, it is imaginary (the wave grows). For $q_1 = 0$ and $y = 0$ ($c = 1$): $X^\ast = 2m^2/(2q_5^2) = m^2/q_5^2$ and $x_4^\ast = \ln(m/q_5)/(AH)$: the onset comes when the growing frame momentum $k_5 = q_5e^{AHx_4}$ reaches the mass. With $A = H = m = 1$ and $q_5 = 0.05$ this is $\ln 20 \approx 2.996$; Notebook 10f computes the onset of the wave $q_1 = 0.5$, $q_5 = 0.05$, $y = 0$ as 2.996044. The record's exact sample "$m = 1$, $k_5 = 2$: eigenvalues $\pm i\sqrt3$" is an instant of this history: the wave $q_1 = 0$, $q_5 = 0.05$ has $k_5 = 0.05\,e^{x_4} = 2$ at $x_4 = \ln 40$.
+Multiply by $X^3$ (which is not 0):
 
-**How far from Hermitian, line by line.** By Section 10.4, $-i\gamma^{(x_4)}$ and $\gamma^{(x_4)}\gamma^{(x_1)}$ are Hermitian and commute with $B$, while $\gamma^{(x_4)}\gamma^{(x_5)}$ is anti-Hermitian and anticommutes with $B$. So $h = h_H + h_A$ with the anti-Hermitian part
+$$
+\frac{D}{b_4(0)}X^4 - m^2X^3 - q_1^2 = 0 .
+$$
+
+For $D > 0$ the left side of the equation before the multiplication falls strictly as $X$ grows (each of its $X$-dependent terms falls), from $+\infty$ near $X = 0$ (or from $m^2 > 0$ when $q_1 = 0$) to $-\infty$; so it is 0 at exactly one positive $X$, and this quartic equation has exactly one positive root $X^\ast$. The **onset time** follows by taking the logarithm of $X^\ast = e^{2rAHx_4^\ast}$:
+
+$$
+x_4^\ast = \frac{\ln X^\ast}{2rAH} .
+$$
+
+Before $x_4^\ast$ the frequency is real (the wave oscillates); after it, it is imaginary (the wave grows). For $q_1 = 0$ the quartic is $X^3\big((D/b_4(0))X - m^2\big) = 0$, whose positive root is $X^\ast = m^2b_4(0)/D$. At the fold, without hidden momentum, $D = q_5^2$, and with the record's values $x_4^\ast = \frac32\ln(m^2/q_5^2) = 3\ln(m/q_5)$: the onset comes when the growing frame momentum $k_5 = q_5e^{x_4/3}$ reaches the mass. For $q_5 = 0.05$ this is $3\ln 20 = 8.987197$; Notebook 10f computes the onset of the wave $q_1 = 0.5$, $q_5 = 0.05$ at the fold as 8.987197 as well (the difference is $6 \times 10^{-9}$: at that time 3-space has inflated by $e^{8.99} \approx 8000$, and $k_1$ has shrunk to almost nothing). The record's exact sample "$m = 1$, $k_5 = 2$: eigenvalues $\pm i\sqrt3$" is an instant of this history: the wave $q_1 = 0$, $q_5 = 0.05$ at the fold has $k_5 = 0.05\,e^{x_4/3} = 2$ at $x_4 = 3\ln 40 = 11.066638$.
+
+**How far from Hermitian, line by line.** By Section 10.4, $-i\gamma^{(x_4)}$, $\gamma^{(x_4)}\gamma^{(x_0)}$ and $\gamma^{(x_4)}\gamma^{(x_1)}$ are Hermitian and commute with $B$, while $\gamma^{(x_4)}\gamma^{(x_5)}$ is anti-Hermitian and anticommutes with $B$. So $h = h_H + h_A$ with the anti-Hermitian part
 
 $$
 h_A = -k_5\,\gamma^{(x_4)}\gamma^{(x_5)},
@@ -4108,34 +4406,34 @@ $$
 h_A^\dagger h_A = -h_Ah_A = -k_5^2(\gamma^{(x_4)}\gamma^{(x_5)})^2 = -k_5^2\big(-\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_5)}\gamma^{(x_5)}\big) = k_5^2I_{16} .
 $$
 
-The steps: $h_A^\dagger = -h_A$; the square of the product; exchanging the middle factors costs a sign; $\gamma^{(x_4)}\gamma^{(x_4)} = \gamma^{(x_5)}\gamma^{(x_5)} = -I_{16}$. The **size** of a matrix (the largest factor by which it stretches the length of a column) is therefore exactly $k_5$ for $h_A$: $\lVert h_Au\rVert^2 = u^\dagger h_A^\dagger h_Au = k_5^2\,u^\dagger u$. In the same way $Bh - hB = Bh_A - h_AB = 2Bh_A$ ($h_H$ commutes with $B$, $h_A$ anticommutes) has the size $2k_5$, because $B$ keeps lengths ($B^\dagger B = BB = I_{16}$). Both sizes grow like $e^{a_4}$: the deflation drives every wave with extra-time momentum ever further from a Hermitian evolution that keeps the two eigenspaces of $B$ apart. Both vanish at every time in the good sector, $q_5 = 0$.
+The steps: $h_A^\dagger = -h_A$; the square of the product; exchanging the middle factors costs a sign; $\gamma^{(x_4)}\gamma^{(x_4)} = \gamma^{(x_5)}\gamma^{(x_5)} = -I_{16}$. The **size** of a matrix (the largest factor by which it stretches the length of a column) is therefore exactly $k_5$ for $h_A$: $\lVert h_Au\rVert^2 = u^\dagger h_A^\dagger h_Au = k_5^2\,u^\dagger u$. In the same way $Bh - hB = Bh_A - h_AB = 2Bh_A$ ($h_H$ commutes with $B$, $h_A$ anticommutes) has the size $2k_5$, because $B$ keeps lengths ($B^\dagger B = BB = I_{16}$). Both sizes grow like $e^{x_4/3}$: the deflation drives every wave with extra-time momentum ever further from a Hermitian evolution that keeps the two eigenspaces of $B$ apart. The hidden momentum does not enter them, and both vanish at every time in the good sector, $q_5 = 0$.
 
-**Krein inertia at every instant.** At each instant Theorem 10.1 applies: while $w^2 > 0$ each eigenspace of $h(x_4)$ has the Krein inertia $(4, 4)$; once $w^2 < 0$ each is Krein-neutral. The wave crosses from the first kind to the second at the onset time. For the band of waves with $q_1 = 0.5$ and $10^{-3} \leq q_5 \leq 1$ the onset times run from $6.9078$ (for $q_5 = 10^{-3}$) down to $0.0941$ (for $q_5 = 1$): as time goes on, smaller and smaller extra-time momenta cross into the growing, Krein-neutral regime, and only the good sector keeps real frequencies for ever.
+**Krein inertia at every instant.** At each instant Theorem 10.1 applies: while $w^2 > 0$ each eigenspace of $h(x_4)$ has the Krein inertia $(4, 4)$; once $w^2 < 0$ each is Krein-neutral. A wave with $D > 0$ crosses from the first kind to the second at its onset time. For the band of waves with $q_0 = 0$, $q_1 = 0.5$ and $10^{-3} \leq q_5 \leq 1$ at the fold the onset times run from 20.7233 (for $q_5 = 10^{-3}$) down to 0.2228 (for $q_5 = 1$): as time goes on, smaller and smaller extra-time momenta cross into the growing, Krein-neutral regime. Only the waves with $D \leq 0$, the good sector among them, keep real frequencies for ever; at $z = \pi/4$ and $q_1 = 0.5$ these are 4816 of the 10201 waves of a grid of $q_0$ and $q_5$ from 0 to 1 (Notebook 10f).
 
 **The good sector along the history.** For $q_5 = 0$ the mode Hamiltonian is Hermitian and commutes with $B$ at every time, with the energies
 
 $$
-\pm E(x_4),\qquad E(x_4) = \sqrt{m^2 + k_1^2} = \sqrt{m^2 + q_1^2e^{-2AHx_4 - 2Hy}},
+\pm E(x_4),\qquad E(x_4) = \sqrt{m^2 + k_0^2 + k_1^2} = \sqrt{m^2 + q_1^2e^{-2a_4} + q_0^2\tan^2 z\,e^{2a_4}/b_4} .
 $$
 
-which fall towards $m$ as 3-space inflates. At each instant the positive Fock space of Section 10.20 can be built with the coefficients of that instant (an **instantaneous** Fock space): the filled sea has the value $-8E(x_4)$, and every particle and antiparticle the energy $+E(x_4) > 0$. For example, for $q_1 = 1$ and $y = 0$, $E = \sqrt2 = 1.414214$ at $a_{4,0} = 0$ and $E = \sqrt{1 + e^{-4}} = 1.009116$ at $a_{4,0} = 2$. Whether the instantaneous vacuum of one time contains quanta of a later time (the evolution of the quantum state through the changing background) is not computed: OPEN.
+Without hidden momentum $E$ falls towards $m$ as 3-space inflates; with a hidden momentum it eventually grows like $e^{x_4/3}$, because the hidden direction shrinks. In both cases it is real and positive. At each instant the positive Fock space of Section 10.20 can be built with the coefficients of that instant (an **instantaneous** Fock space): the filled sea has the value $-8E(x_4)$, and every particle and antiparticle the energy $+E(x_4) > 0$. For example, for $q_1 = 4$ at the fold $E = \sqrt{17} = 4.123106$ at $a_{4,0} = 0$ and $E = \sqrt{1 + 16e^{-4}} = 1.137124$ at $a_{4,0} = 2$; for $q_0 = 0.5$, $q_1 = 1$ at $z = \pi/4$, $E = 1.5$ at $a_{4,0} = 0$, 1.273683 at $a_{4,0} = 1$ and 1.402402 at $a_{4,0} = 2$. (This is a statement of the local-frame model; the curved good sector of Sections 10.27 and 10.28, with the term $c_g\gamma^{(x_0)}$ and without a boundary condition at the folds, has growing waves.) Whether the instantaneous vacuum of one time contains quanta of a later time (the evolution of the quantum state through the changing background) is not computed: OPEN.
 
-**The universes of masses $+m$ and $-m$ along the history.** At every instant $\Gamma h_m(x_4)\Gamma = h_{-m}(x_4)$ (Section 10.6; $\Gamma$ anticommutes with $\gamma^{(x_4)}$ and commutes with $\gamma^{(x_4)}\gamma^{(x_1)}$ and $\gamma^{(x_4)}\gamma^{(x_5)}$), and $w^2$ contains the mass only as $m^2$: the two universes have the same frequencies, the same onset times and the same Krein inertia at every instant.
+**The universes of masses $+m$ and $-m$ along the history.** At every instant $\Gamma h_m(x_4)\Gamma = h_{-m}(x_4)$ (Section 10.6; $\Gamma$ anticommutes with $\gamma^{(x_4)}$ and commutes with $\gamma^{(x_4)}\gamma^{(x_0)}$, $\gamma^{(x_4)}\gamma^{(x_1)}$ and $\gamma^{(x_4)}\gamma^{(x_5)}$), and $w^2$ contains the mass only as $m^2$: the two universes have the same frequencies, the same onset times and the same Krein inertia at every instant.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
-| the history $a_4 = AHx_4$, $A = H = m = 1$ | ASSUMED (PRESCRIBED BACKGROUND) | `parameters.json`; `ks-source-conditions.json`, check `ks_history_is_a_prescribed_background` |
-| the scale factors $e^{\pm a_4}\sin^{1/6}z$, 1, $\cot z$ | from the record | `Revision/theory/field-theory.json`, formula `vielbein_diagonal` |
-| local-frame model (coefficients of one instant and position, no hidden-direction terms) | ASSUMED | `python-field-theory.json`, check `extra_time_modes_grow` (a local-frame statement) |
-| $h(x_4)^2 = w(x_4)^2I_{16}$; $\lVert h_A\rVert = k_5$, $\lVert Bh - hB\rVert = 2k_5$; good sector Hermitian at all times | PROVED (exact, every instant) | Notebook 10f, In [4]; `python-field-theory.json`, check `good_sector_spectrum_and_B_sectors` |
-| every wave with $q_5 \neq 0$ reaches the onset $x_4^\ast = \ln X^\ast/(2AH)$ | PROVED (above) | Notebook 10f, In [6], check `the exact onset time agrees with bisection; q1 = 0, y = 0: ln(m / q5)` (agreement with bisection $8.9 \times 10^{-16}$) |
-| onset 2.996044 for $q_1 = 0.5$, $q_5 = 0.05$; inertia $(4, 4)$ before, neutral after; onset map | COMPUTED | Notebook 10f, In [6], In [9], In [10]; `python-pairing.json`, checks `Q.one_particle_Krein_inertia_proof` and `Q.one_particle_complex_frequency_Krein_neutral` |
+| the history $a_4 = AHx_4$, $b_4 = b_4(0)e^{\beta a_4}$, $A = 1$, $\beta = 4/3$, $b_4(0) = 1$, $H = m = 1$ | ASSUMED (PRESCRIBED BACKGROUND) | `parameters.json`; `ks-source-conditions.json`, check `ks_history_is_a_prescribed_background` |
+| the scale factors $e^{-a_4}b_4^{1/2}\cot z$, $e^{a_4}$, 1, $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$ | from the record | `Revision/theory/field-theory.json`, formula `vielbein_diagonal` |
+| local-frame model (coefficients of one instant and position, without the change of $\tan z$ along $x_0$ and without $c_g\gamma^{(x_0)}$) | ASSUMED | `python-field-theory.json`, check `extra_time_modes_grow` (a local-frame statement) |
+| $h(x_4)^2 = w(x_4)^2I_{16}$; $w^2 = m^2 + q_1^2e^{-2a_4} - (e^{2a_4}/b_4)D$; $\lVert h_A\rVert = k_5$, $\lVert Bh - hB\rVert = 2k_5$; good sector Hermitian at all times | PROVED (exact, every instant) | Notebook 10f, In [4]; `python-field-theory.json`, checks `mode_hamiltonian_B_selfadjoint_dispersion` and `good_sector_spectrum_and_B_sectors` |
+| a wave grows eventually exactly when $D > 0$ (always for $q_0 = 0$, $q_5 \neq 0$), once, at the onset $x_4^\ast = \ln X^\ast/(2rAH)$ | PROVED (above, in the local-frame model; the case $q_0 = 0$ is the record's statement) | Notebook 10f, In [4], In [6] and In [10]; `python-field-theory.json`, check `extra_time_modes_grow` |
+| onset 8.987197 for $q_1 = 0.5$, $q_5 = 0.05$ at the fold; inertia $(4, 4)$ before, neutral after; onset map; criterion on 10201 waves | COMPUTED | Notebook 10f, In [6], In [9], In [10]; `python-pairing.json`, checks `Q.one_particle_Krein_inertia_proof` and `Q.one_particle_complex_frequency_Krein_neutral` |
 | instantaneous good-sector Fock space: sea $-8E(x_4)$, quanta $+E(x_4)$ | COMPUTED at the five slices | Notebook 10f, In [11] |
 | evolution of the quantum state through the background; a positive state space for the extra-time sector | OPEN | not computed in the Revision record |
 
 ### 10.40 Example: Notebook 10f follows the Krein structure along the deflating history
 
-Notebook 10f reads the history and the scale factors from the Revision records, proves the identities of Section 10.39 exactly for every instant, compares the sizes of $h_A$ and $Bh - hB$ with $k_5$ and $2k_5$, computes the onset time and checks it against a numerical root search for 48 waves, places the record's sample $k_5 = 2$ at $x_4 = \ln 40$, follows the eigenvalues and the Krein inertia of one wave through its onset, maps which waves still oscillate at which time, builds the instantaneous good-sector Fock space at the five slices of the Kohn-Sham record, and checks the masses $+m$ and $-m$ at every time. It draws five figures and ends with the line ALL 19 CHECKS PASSED (notebook 10f).
+Notebook 10f reads the history and the scale factors of the corrected metric from the Revision records, proves the identities of Section 10.39 exactly for every instant (among them the form of $w^2$ with the growth number $D$ and its falling slope), compares the sizes of $h_A$ and $Bh - hB$ with $k_5$ and $2k_5$, computes the onset time from the quartic and checks it against a numerical root search for 48 waves, places the record's sample $k_5 = 2$ at $x_4 = 3\ln 40$, follows the eigenvalues and the Krein inertia of one wave through its onset, maps which waves still oscillate at which time and which waves ever grow, builds the instantaneous good-sector Fock space at the five slices of the Kohn-Sham record, and checks the masses $+m$ and $-m$ at every time. It draws five figures and ends with the line ALL 21 CHECKS PASSED (notebook 10f).
 
 <!-- NOTEBOOK 10f -->
 
@@ -4143,9 +4441,9 @@ Notebook 10f reads the history and the scale factors from the Revision records, 
 
 The notebook has 13 code cells, In [1] to In [13]; docstrings are left out of the quotations (they are printed in Section 10.42).
 
-**In [1], the set-up cell.** Its first 252 lines are comments that repeat the run instructions of Section 10.41. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10f"  # this notebook: chapter 10, example f`. It prints `Set-up of notebook 10f complete: repository folder found, helpers defined.`
+**In [1], the set-up cell.** Its first 257 lines are comments that repeat the run instructions of Section 10.41. The code is that of In [1] of Notebook 10a (Section 10.10), with the line `NOTEBOOK_ID = "10f"  # this notebook: chapter 10, example f`. It prints `Set-up of notebook 10f complete: repository folder found, helpers defined.`
 
-**In [2], the deflating history of the Revision record.**
+**In [2], the prescribed history of the Revision record.**
 
 ```python
 import contextlib  # lets a block of code print into a text buffer
@@ -4176,42 +4474,59 @@ def check_record(condition, name, record):
     with contextlib.redirect_stdout(buffer):  # what check prints goes to buffer
         check(condition, name, record=record)
     sys.stdout.write(buffer.getvalue())  # one single piece of output
-
-
-BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
 ```
 
-The imports, the helpers `REPORT_CHECKS`, `record_says_pass` and `check_record` of Section 10.10 (a cited report check must still exist with the verdict PASS; the two printed lines come in one piece), and the four colours.
+The imports and the helpers `REPORT_CHECKS`, `record_says_pass` and `check_record` of In [2] of Notebook 10a (Section 10.10): a cited report check must still exist with the verdict PASS, and the PASS line and the line naming the record are printed in one piece.
 
 ```python
+BLUE, ORANGE, GREEN, GREY = "#2a78d6", "#eb6834", "#1baf7a", "#52514e"
 parameters = json.loads(repository_file(
     "Revision/kohn_sham/results/parameters.json").read_text(encoding="utf-8"))
-H = parameters["physics"]["H"]  # the author's constant H
-mass = parameters["physics"]["m"]  # the mass m
-A = parameters["physics"]["historyA"]  # the history a4 = A H x4
-slices = parameters["physics"]["slicesA4"]  # the values a4,0 of the record
+physics = parameters["physics"]
+H = physics["H"]  # the author's constant H
+mass = physics["m"]  # the mass m
+A = physics["historyA"]  # a4 = A H x4
+beta = physics["historyBeta"]  # b4 = b4(0) e^(beta a4)
+b4_start = physics["historyB4AtZero"]  # b4(0)
+slices = physics["slicesA4"]  # the values a4,0 of the record
 ```
 
-The parameters of the Kohn-Sham record are read: the constant $H$, the mass $m$ (called `mass` here, because the letter `m` is kept free), the history constant $A$ and the list of the five slices $a_{4,0}$.
+The four colours of the figures. `json.loads(...)` reads the parameter file of the Kohn-Sham record into a dictionary, and `physics` is its part with the physical constants. The six names receive the constant $H$, the mass $m$, the history constants $A$ (in $a_4 = AHx_4$), $\beta$ (in $b_4 = b_4(0)e^{\beta a_4}$) and $b_4(0)$, and the list of the five slices $a_{4,0}$.
 
 ```python
 say("status of the history: "
     + parameters["conventions"]["history"].split(": ")[0] + ".")
+say(f"history: A = {A}, beta = {beta:.6f}, b4(0) = {b4_start}, H = {H}, m = {mass}")
 say(f"slices a4,0 of the Kohn-Sham record: {slices}")
-check_record(A == 1.0 and H == 1.0 and mass == 1.0,
-             "the deflating history a4 = A H x4 with A = 1, H = 1, m = 1",
-             record="Revision/kohn_sham/results/parameters.json, physics.historyA, "
-                    "physics.H, physics.m")
 ```
 
-The record states the status of the history in a sentence that begins with `PRESCRIBED BACKGROUND:`; `.split(": ")` cuts the text at the first colon and blank (and at any later one), and `[0]` keeps the first piece. The printed lines are `status of the history: PRESCRIBED BACKGROUND.` and the slices `[0.0, 0.5, 1.0, 1.5, 2.0]`; the check confirms $A = H = m = 1$ and reproduces the three entries of the record.
+Three printed lines. The first takes the record's own text about the history, `parameters["conventions"]["history"]`, cuts it at the first `": "` with `.split(": ")[0]` and prints the part before it: `status of the history: PRESCRIBED BACKGROUND.` The second prints the constants, `history: A = 1.0, beta = 1.333333, b4(0) = 1.0, H = 1.0, m = 1.0` (the format `:.6f` shows $\beta$ with six decimals; the record stores 1.333333333333333). The third prints the slices `[0.0, 0.5, 1.0, 1.5, 2.0]`.
 
 ```python
-def a4_of(x4):
-    return A * H * x4
+check_record(A == 1.0 and abs(beta - 4 / 3) < 1e-12 and b4_start == 1.0
+             and H == 1.0 and mass == 1.0,
+             "the history a4 = A H x4, b4 = b4(0) e^(beta a4): A = 1, beta = 4/3, "
+             "b4(0) = 1, H = m = 1",
+             record="Revision/kohn_sham/results/parameters.json, physics.historyA, "
+                    "physics.historyBeta, physics.historyB4AtZero, physics.H, "
+                    "physics.m")
 ```
 
-`a4_of(x4)` is the prescribed history $a_4 = AHx_4$.
+The check: $A = 1$, $\beta = 4/3$ up to $10^{-12}$ (a decimal number cannot hold $4/3$ exactly), $b_4(0) = 1$, $H = m = 1$. The record name has no `, check `, so `record_says_pass` accepts it as a data entry that the cell has just read and compared. It prints `PASS the history a4 = A H x4, b4 = b4(0) e^(beta a4): A = 1, beta = 4/3, b4(0) = 1, H = m = 1` and the line naming the record entries (both lines are wrapped by `say` at 89 characters).
+
+```python
+rate = 1 - beta / 2  # r = 1 - beta/2 = 1/3: e^a4 b4^(-1/2) = b4(0)^(-1/2) e^(r a4)
+
+
+def a4_of(x4):
+    return A * H * x4
+
+
+def b4_of(x4):
+    return b4_start * np.exp(beta * a4_of(x4))
+```
+
+`rate` is $r = 1 - \beta/2 = 1/3$ (printed nowhere; with the record's decimal $\beta$ it is $1/3$ up to $2 \times 10^{-16}$). The reason for the name: $e^{a_4}b_4^{-1/2} = e^{a_4}b_4(0)^{-1/2}e^{-\beta a_4/2} = b_4(0)^{-1/2}e^{ra_4}$, the rate at which the frame momenta of the hidden direction and of the extra times grow. The two functions return $a_4$ and $b_4$ of the history at the time `x4`; `np.exp` works on single numbers and on whole arrays of times alike.
 
 **In [3], frame momenta from the scale factors of the record.**
 
@@ -4219,43 +4534,52 @@ def a4_of(x4):
 theory = json.loads(repository_file("Revision/theory/field-theory.json").read_text(
     encoding="utf-8"))
 text = next(f["wl"] for f in theory["formulas"] if f["key"] == "vielbein_diagonal")
-a4_symbol, z_symbol = sp.symbols("a4 z", real=True)
+a4_symbol, b4_symbol = sp.symbols("a4 b4", positive=True)
+z_symbol = sp.Symbol("z", real=True)
+translated = (text.replace("Sqrt[b4[x4]]", "sqrt(b4)").replace("E^a4[x4]", "exp(a4)")
+              .replace("Sin[6*H*x0]", "sin(z)").replace("Cot[6*H*x0]", "cot(z)")
+              .replace("^", "**").replace("{", "[").replace("}", "]"))
+f_record = sp.sympify(translated, locals={"a4": a4_symbol, "b4": b4_symbol,
+                                          "z": z_symbol})
 ```
 
-The theory record holds a list of formulas, each a dictionary with a key and the formula as text in the Wolfram Language (entry `wl`). `next(...)` returns the first item of the generator expression in the parentheses: the text of the formula whose key is `vielbein_diagonal`, the eight scale factors. `a4_symbol` and `z_symbol` are two real sympy letters.
+`theory` is the formula file of the theory record; `next(...)` returns the first formula whose key is `vielbein_diagonal`, and `text` is its Wolfram text, a list of eight entries in curly brackets. Three sympy letters: $a_4$ and $b_4$ (positive) and $z$ (real). The chain of `.replace` calls turns the Wolfram text into Python text: `Sqrt[b4[x4]]` becomes `sqrt(b4)` (this replacement comes first, because the inner `b4[x4]` would otherwise be destroyed), `E^a4[x4]` becomes `exp(a4)`, `Sin[6*H*x0]` becomes `sin(z)` and `Cot[6*H*x0]` becomes `cot(z)`, the power sign `^` becomes `**`, and the curly brackets become square brackets, the brackets of a Python list. `sp.sympify` reads that text as sympy expressions; `locals` says which letters the names stand for.
 
 ```python
-translated = (text.replace("E^a4[x4]", "exp(a4)").replace("Sin[6*H*x0]", "sin(z)")
-              .replace("Cot[6*H*x0]", "cot(z)").replace("^", "**")
-              .replace("{", "[").replace("}", "]"))
-f_record = sp.sympify(translated, locals={"a4": a4_symbol, "z": z_symbol})
-```
-
-The Wolfram text, for example `E^a4[x4]*Sin[6*H*x0]^(1/6)`, is translated step by step into sympy notation: $e^{a_4}$, $\sin z$ and $\cot z$ are written with the letters $a_4$ and $z$, `^` becomes `**` and the curly brackets of a Wolfram list become square brackets. `sp.sympify` reads the text as a list of eight exact expressions; `locals` tells it which letters to use.
-
-```python
-sixth_root = sp.sin(z_symbol) ** sp.Rational(1, 6)  # sin(z)^(1/6)
-f_expected = ([sp.cot(z_symbol)] + [sp.exp(a4_symbol) * sixth_root] * 3
-              + [sp.Integer(1)] + [sp.exp(-a4_symbol) * sixth_root] * 3)  # x0, ..., x7
+shrink_symbol = sp.exp(-a4_symbol) * sp.sqrt(b4_symbol)  # e^-a4 b4^(1/2)
+twelfth_root = (sp.sin(z_symbol) ** 2) ** sp.Rational(1, 12)  # (sin^2 z)^(1/12)
+f_expected = ([shrink_symbol * sp.cot(z_symbol)] + [sp.exp(a4_symbol)] * 3
+              + [sp.Integer(1)] + [shrink_symbol * twelfth_root] * 3)  # x0, ..., x7
 same = all(sp.simplify(r - e) == 0 for r, e in zip(f_record, f_expected))
+```
+
+The expected scale factors: `shrink_symbol` is $e^{-a_4}b_4^{1/2}$ and `twelfth_root` is $(\sin^2 z)^{1/12}$; `[x] * 3` repeats a list entry three times, and `+` joins lists, so `f_expected` lists $e^{-a_4}b_4^{1/2}\cot z$, three times $e^{a_4}$, then 1, then three times $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$, in the order $x_0, \dots, x_7$. `zip` pairs the record's entries with the expected ones, and `same` is True when every difference simplifies to 0.
+
+```python
+say(f"scale factor of x0: {f_record[0]}")
 say(f"scale factor of x1: {f_record[1]}")
 say(f"scale factor of x5: {f_record[5]}")
 check_record(len(f_record) == 8 and same,
-             "the record's scale factors: e^a4 sin^(1/6) z (3-space), e^-a4 ... (x5-x7)",
+             "the record's scale factors: e^-a4 b4^(1/2) cot z, e^a4 (x3), 1, "
+             "e^-a4 b4^(1/2) (sin^2 z)^(1/12) (x3)",
              record="Revision/theory/field-theory.json, formula vielbein_diagonal")
 ```
 
-`sp.Rational(1, 6)` is the exact fraction $\frac16$. The expected list is built by repeating and joining lists: three times $e^{a_4}\sin^{1/6}z$, then 1, three times $e^{-a_4}\sin^{1/6}z$, then $\cot z$. The comparison simplifies each difference to 0. The printed lines show the scale factors of $x_1$, `exp(a4)*sin(z)**(1/6)`, and of $x_5$, `exp(-a4)*sin(z)**(1/6)`: the extra times deflate exponentially as $a_4$ grows. The check reproduces the record's formula.
+Out [3] shows three of the translated scale factors as sympy writes them: `sqrt(b4)*exp(-a4)*cot(z)` for $x_0$, `exp(a4)` for $x_1$ (3-space has no warp) and `sqrt(b4)*exp(-a4)*Abs(sin(z))**(1/6)` for $x_5$; sympy writes $(\sin^2 z)^{1/12}$ as $|\sin z|^{1/6}$, the same positive number. The check prints its PASS line and the line naming the record formula.
 
 ```python
-def frame_momenta(x4, q1, q5, y):
-    root = np.exp(H * y)  # sin(z)^(1/6) = e^(H y)
-    k1 = q1 / (np.exp(a4_of(x4)) * root)  # q1 / f_1: shrinks, 3-space inflates
-    k5 = q5 / (np.exp(-a4_of(x4)) * root)  # q5 / f_5: grows, extra times deflate
-    return k1, k5
+FOLD = np.pi / 2  # the fold z = pi/2 (y = 0), where (sin^2 z)^(1/12) = 1
+
+
+def frame_momenta(x4, q0, q1, q5, z=FOLD):
+    shrink = np.exp(-a4_of(x4)) * np.sqrt(b4_of(x4))  # e^-a4 b4^(1/2) = e^(-a4/3)
+    k0 = q0 * np.tan(z) / shrink  # q0 / f_0: grows, the hidden direction shrinks
+    k1 = q1 / np.exp(a4_of(x4))  # q1 / f_1: shrinks, 3-space inflates
+    k5 = q5 / (shrink * (np.sin(z) ** 2) ** (1 / 12))  # q5 / f_5: grows
+    return k0, k1, k5
 ```
 
-The frame momenta of Section 10.39: $k_1 = q_1/(e^{a_4}e^{Hy})$ and $k_5 = q_5/(e^{-a_4}e^{Hy})$, with $\sin^{1/6}z = e^{Hy}$.
+`FOLD` is the hidden position $z = \pi/2$, the fold where the two halves of a cell meet ($y = 0$); there $(\sin^2 z)^{1/12} = 1$. The function `frame_momenta` returns the three frame momenta of the wave $e^{i(q_0x_0 + q_1x_1 + q_5x_5)}$ at the time `x4` and the position `z` (by default the fold): `shrink` is $e^{-a_4}b_4^{1/2}$, which on the history is $e^{-a_4/3}$; `k0` is $q_0/f_0 = q_0\tan z/(e^{-a_4}b_4^{1/2})$, `k1` is $q_1/f_1 = q_1e^{-a_4}$ and `k5` is $q_5/f_5 = q_5/(e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12})$ (Section 10.39). At the fold $\tan z$ is infinite (numerically about $1.6 \times 10^{16}$); the notebook uses the fold only for waves with $q_0 = 0$, for which `k0` is exactly 0.
 
 **In [4], the mode Hamiltonian of each instant, exactly.**
 
@@ -4269,53 +4593,74 @@ Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
          @ gamma[6] @ gamma[7])  # the chirality matrix
 ```
 
-The gammas of the record as decimal numbers, $C$, $B$ and the chirality $\Gamma$.
+The gammas as decimal numpy arrays, $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, $B = -iC\gamma^{(x_4)}$ and the chirality $\Gamma$, the product of all eight gammas.
 
 ```python
-def mode_hamiltonian(x4, q1, q5, y, m=mass):
-    k1, k5 = frame_momenta(x4, q1, q5, y)
-    return (-1j * m * gamma[4] - k1 * (gamma[4] @ gamma[1])
-            - k5 * (gamma[4] @ gamma[5]))
+def mode_hamiltonian(x4, q0, q1, q5, z=FOLD, m=mass):
+    k0, k1, k5 = frame_momenta(x4, q0, q1, q5, z)
+    return (-1j * m * gamma[4] - k0 * (gamma[4] @ gamma[0])
+            - k1 * (gamma[4] @ gamma[1]) - k5 * (gamma[4] @ gamma[5]))
 
 
-def w_squared(x4, q1, q5, y, m=mass):
-    k1, k5 = frame_momenta(x4, q1, q5, y)
-    return m ** 2 + k1 ** 2 - k5 ** 2
+def w_squared(x4, q0, q1, q5, z=FOLD, m=mass):
+    k0, k1, k5 = frame_momenta(x4, q0, q1, q5, z)
+    return m ** 2 + k0 ** 2 + k1 ** 2 - k5 ** 2
 ```
 
-The mode Hamiltonian $h(x_4)$ of Section 10.39 and its squared frequency $w^2 = m^2 + k_1^2 - k_5^2$. The argument `m=mass` has a **default value**: when the call does not name `m`, the mass of the record is used.
+`mode_hamiltonian` builds the numpy matrix $h(x_4) = -im\gamma^{(x_4)} - k_0\gamma^{(x_4)}\gamma^{(x_0)} - k_1\gamma^{(x_4)}\gamma^{(x_1)} - k_5\gamma^{(x_4)}\gamma^{(x_5)}$ of Section 10.39 from the frame momenta of the time `x4`; the mass is `mass` unless another value is given (Section 10.39 uses $-m$ for the pairing). `w_squared` returns $w^2 = m^2 + k_0^2 + k_1^2 - k_5^2$: the space-like momenta with $+$, the extra-time momentum with $-$.
 
 ```python
 g = {a: sp.Matrix(fixture["gamma"][a]) for a in range(8)}  # exact gammas
 B_exact = -sp.I * g[0] * g[1] * g[2] * g[3] * g[4]
-m_s, q1_s, q5_s, y_s = sp.symbols("m q1 q5 y", real=True)
-x4_s, H_s = sp.symbols("x4 H", positive=True)
-a4_s = A * H_s * x4_s  # the history, with the record's A = 1
-k1_s = q1_s * sp.exp(-a4_s - H_s * y_s)  # frame momentum along x1
-k5_s = q5_s * sp.exp(a4_s - H_s * y_s)  # frame momentum along x5
-h_s = -sp.I * m_s * g[4] - k1_s * g[4] * g[1] - k5_s * g[4] * g[5]
-zero = sp.zeros(16, 16)
+m_s, q0_s, q1_s, q5_s = sp.symbols("m q0 q1 q5", real=True)
+x4_s, H_s, b0_s, t_s, sigma_s = sp.symbols("x4 H b0 t sigma", positive=True)
+a4_s = H_s * x4_s  # the history a4 = A H x4 with the record's A = 1
+b4_s = b0_s * sp.exp(sp.Rational(4, 3) * a4_s)  # b4 = b4(0) e^(4 a4/3)
+shrink_s = b0_s ** sp.Rational(1, 2) * sp.exp(-a4_s / 3)  # = e^-a4 b4^(1/2)
+k0_s = q0_s * t_s / shrink_s  # t = tan z
+k1_s = q1_s * sp.exp(-a4_s)
+k5_s = q5_s * sigma_s / shrink_s  # sigma = (sin^2 z)^(-1/12)
+h_s = (-sp.I * m_s * g[4] - k0_s * g[4] * g[0] - k1_s * g[4] * g[1]
+       - k5_s * g[4] * g[5])
 ```
 
-The same objects exactly: letters for $m$, $q_1$, $q_5$, $y$ (real) and $x_4$, $H$ (positive), the history, the frame momenta $k_1 = q_1e^{-a_4 - Hy}$ and $k_5 = q_5e^{a_4 - Hy}$, and the exact $h(x_4)$. A statement about these letters holds at every instant and every position.
+The exact version. `g` holds the gammas as sympy matrices and `B_exact` is $B$. The letters: $m, q_0, q_1, q_5$ (real), and the positive $x_4$, $H$, $b_0 = b_4(0)$, $t = \tan z$ and $\sigma = (\sin^2 z)^{-1/12}$ (both positive on the half $0 < z < \pi/2$). The history with the record's $A = 1$ and $\beta = 4/3$ (checked in In [2]): `a4_s` is $Hx_4$, `b4_s` is $b_0e^{4a_4/3}$, and `shrink_s` is $b_0^{1/2}e^{-a_4/3}$, the factor $e^{-a_4}b_4^{1/2}$ written in its simplified form (a line below checks that its square is $e^{-2a_4}b_4$). The three frame momenta and the exact $h(x_4)$ follow Section 10.39.
 
 ```python
-w2_s = m_s ** 2 + k1_s ** 2 - k5_s ** 2
+zero = sp.zeros(16, 16)
+w2_s = m_s ** 2 + k0_s ** 2 + k1_s ** 2 - k5_s ** 2
+shrink_ok = sp.simplify(shrink_s ** 2 - sp.exp(-2 * a4_s) * b4_s) == 0
 square_ok = (h_s * h_s - w2_s * sp.eye(16)).applyfunc(sp.expand) == zero
+D_s = sigma_s ** 2 * q5_s ** 2 - t_s ** 2 * q0_s ** 2  # the growth number D
+w2_form = m_s ** 2 + q1_s ** 2 * sp.exp(-2 * a4_s) - sp.exp(2 * a4_s) / b4_s * D_s
+form_ok = sp.simplify(w2_s - w2_form) == 0
+slope_ok = sp.simplify(sp.diff(w2_form, x4_s) - (
+    -2 * H_s * q1_s ** 2 * sp.exp(-2 * a4_s)
+    - sp.Rational(2, 3) * H_s * sp.exp(2 * a4_s) / b4_s * D_s)) == 0
+```
+
+`zero` is the $16 \times 16$ zero matrix and `w2_s` is $w^2 = m^2 + k_0^2 + k_1^2 - k_5^2$. `shrink_ok` confirms $(b_0^{1/2}e^{-a_4/3})^2 = e^{-2a_4}b_4$. `square_ok` confirms $hh = w^2I_{16}$ at every instant: `.applyfunc(sp.expand)` multiplies out every entry of the difference. `D_s` is the growth number $D = \sigma^2q_5^2 - t^2q_0^2 = (\sin^2 z)^{-1/6}q_5^2 - \tan^2 z\,q_0^2$, `w2_form` is $m^2 + q_1^2e^{-2a_4} - (e^{2a_4}/b_4)D$, and `form_ok` confirms that it equals $w^2$. `slope_ok` confirms the derivative $dw^2/dx_4 = -2Hq_1^2e^{-2a_4} - \frac23H(e^{2a_4}/b_4)D$, the second fact of the growth criterion of Section 10.39 (`sp.diff(..., x4_s)` differentiates with respect to $x_4$).
+
+```python
 h_A = ((h_s - h_s.H) / 2).applyfunc(sp.expand)  # the anti-Hermitian part
 part_ok = (h_A + k5_s * g[4] * g[5]).applyfunc(sp.expand) == zero
 size_ok = (h_A.H * h_A - k5_s ** 2 * sp.eye(16)).applyfunc(sp.expand) == zero
 mixing_ok = (B_exact * h_s - h_s * B_exact - 2 * B_exact * h_A).applyfunc(
     sp.expand) == zero
-```
-
-The identities of Section 10.39: $h^2 = w^2I_{16}$; the anti-Hermitian part $h_A = \frac12(h - h^\dagger)$ equals $-k_5\gamma^{(x_4)}\gamma^{(x_5)}$; $h_A^\dagger h_A = k_5^2I_{16}$; and $Bh - hB = 2Bh_A$.
-
-```python
 good = h_s.subs(q5_s, 0)  # the good sector
 good_ok = ((good - good.H).applyfunc(sp.expand) == zero
            and (B_exact * good - good * B_exact).applyfunc(sp.expand) == zero)
-check(square_ok, "exact: h(x4)^2 = (m^2 + k1^2 - k5^2) I at every instant")
+```
+
+`h_A` is the anti-Hermitian part $\frac12(h - h^\dagger)$ (`.H` is the conjugate transpose; sympy treats the real letters correctly). `part_ok` confirms $h_A = -k_5\gamma^{(x_4)}\gamma^{(x_5)}$, `size_ok` confirms $h_A^\dagger h_A = k_5^2I_{16}$, and `mixing_ok` confirms $Bh - hB = 2Bh_A$. `good` is $h$ with $q_5 = 0$ (`.subs` replaces the letter by 0), and `good_ok` confirms that it is Hermitian and commutes with $B$.
+
+```python
+check_record(shrink_ok and square_ok,
+             "exact: h(x4)^2 = (m^2 + k0^2 + k1^2 - k5^2) I at every instant",
+             record="Revision/theory/reports/python-field-theory.json, check "
+                    "mode_hamiltonian_B_selfadjoint_dispersion")
+check(form_ok and slope_ok,
+      "exact: w^2 = m^2 + q1^2 e^(-2 a4) - (e^(2 a4)/b4) D and its falling slope")
 check(part_ok and size_ok and mixing_ok,
       "exact: h_A = -k5 g4 g5, h_A^dagger h_A = k5^2 I, B h - h B = 2 B h_A")
 check_record(good_ok,
@@ -4324,144 +4669,185 @@ check_record(good_ok,
                     "good_sector_spectrum_and_B_sectors")
 ```
 
-With $q_5 = 0$ the matrix must be Hermitian and commute with $B$ at all times. Three PASS lines; the third reproduces the record check `good_sector_spectrum_and_B_sectors`.
+Four checks, four PASS lines; the first and the last also name the reproduced record checks, `mode_hamiltonian_B_selfadjoint_dispersion` (the identity $h^2 = w^2I_{16}$ for every real momentum) and `good_sector_spectrum_and_B_sectors`.
 
-**In [5], the departure from Hermiticity and the mixing of the two sectors of $B$.**
+**In [5], departure from Hermiticity and mixing of the two sectors of $B$.**
 
 ```python
-times = np.linspace(0.0, 6.0, 13)  # 0, 0.5, ..., 6
-curve_times = np.linspace(0.0, 6.0, 241)
+times = np.linspace(0.0, 18.0, 13)  # 0, 1.5, ..., 18
+curve_times = np.linspace(0.0, 18.0, 241)
 measured, worst = {}, 0.0
 for q5 in (0.01, 0.05, 0.2):
     sizes = []
     for x4 in times:
-        h = mode_hamiltonian(x4, 0.5, q5, 0.0)
+        h = mode_hamiltonian(x4, 0.0, 0.5, q5)
         h_anti = (h - h.conj().T) / 2
         sizes.append((np.linalg.norm(h_anti, 2), np.linalg.norm(B @ h - h @ B, 2)))
-```
-
-For three extra-time momenta $q_5 = 0.01, 0.05, 0.2$ (with $q_1 = 0.5$ and $y = 0$) and 13 times from 0 to 6, the cell measures the size of the anti-Hermitian part and of the commutator $Bh - hB$; `np.linalg.norm(M, 2)` is the size of a matrix (its largest stretching factor).
-
-```python
-        k5 = frame_momenta(x4, 0.5, q5, 0.0)[1]
+        k5 = frame_momenta(x4, 0.0, 0.5, q5)[2]
         worst = max(worst, abs(sizes[-1][0] - k5) / k5,
                     abs(sizes[-1][1] - 2 * k5) / (2 * k5))
     measured[q5] = np.array(sizes)
-good_sizes = [np.linalg.norm(mode_hamiltonian(x4, 0.5, 0.0, 0.0)
-                             - mode_hamiltonian(x4, 0.5, 0.0, 0.0).conj().T, 2)
-              for x4 in times]
-report("largest relative difference from k5 and 2 k5", f"{worst:.1e}")
-check(worst < 1e-12 and max(good_sizes) == 0.0,
-      "sizes of h_A and of B h - h B are k5 = q5 e^a4 and 2 k5; zero if q5 = 0")
 ```
 
-The measured sizes are compared with $k_5$ and $2k_5$ (`sizes[-1]` is the pair just appended; `[1]` of the frame momenta is $k_5$), and in the good sector the size of $h - h^\dagger$ must be exactly 0 at every time. The largest relative difference is printed as `0.0e+00`.
+Thirteen times $0, 1.5, \dots, 18$ for the measurements and 241 times for the smooth curves. For each of the three extra-time momenta and each time, the matrix $h$ of the wave $q_0 = 0$, $q_1 = 0.5$, $q_5$ (at the fold) is built; `h_anti` is its anti-Hermitian part ($.conj().T$ is the conjugate transpose of a numpy matrix), and `np.linalg.norm(M, 2)` is the size of a matrix, the largest factor by which it stretches a column. The sizes of $h_A$ and of $Bh - hB$ are stored, and `worst` keeps the largest relative difference from the formulas $k_5$ and $2k_5$ (`[2]` takes the third of the three frame momenta).
+
+```python
+good_sizes = [np.linalg.norm(mode_hamiltonian(x4, 0.0, 0.5, 0.0)
+                             - mode_hamiltonian(x4, 0.0, 0.5, 0.0).conj().T, 2)
+              for x4 in times]
+hidden = mode_hamiltonian(6.0, 0.3, 0.5, 0.05, z=np.pi / 4)  # with q0 = 0.3
+hidden_size = np.linalg.norm((hidden - hidden.conj().T) / 2, 2)
+k5_hidden = frame_momenta(6.0, 0.3, 0.5, 0.05, z=np.pi / 4)[2]
+```
+
+The good sector: the size of $h - h^\dagger$ for $q_5 = 0$ at the same times. Then one wave with a hidden momentum, $q_0 = 0.3$ at $z = \pi/4$ and the time $x_4 = 6$: the size of its anti-Hermitian part and its $k_5$.
+
+```python
+report("largest relative difference from k5 and 2 k5", f"{worst:.1e}")
+check(worst < 1e-12 and max(good_sizes) == 0.0
+      and abs(hidden_size - k5_hidden) < 1e-12 * k5_hidden,
+      "sizes of h_A and of B h - h B are k5 = q5 e^(x4/3) and 2 k5; 0 if q5 = 0")
+```
+
+The cell prints `RESULT largest relative difference from k5 and 2 k5 = 0.0e+00` (the agreement is exact in decimal arithmetic) and checks three things: the formulas, the zero sizes of the good sector, and that the hidden momentum leaves the size of $h_A$ equal to $k_5$ (the matrix $\gamma^{(x_4)}\gamma^{(x_0)}$ is Hermitian, so it enters only the Hermitian part).
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.2), sharey=True)
 for q5, colour in ((0.01, BLUE), (0.05, ORANGE), (0.2, GREEN)):
-    k5_curve = frame_momenta(curve_times, 0.5, q5, 0.0)[1]
+    k5_curve = frame_momenta(curve_times, 0.0, 0.5, q5)[2]
     axes[0].plot(curve_times, k5_curve, color=colour, linewidth=2,
                  label=f"$q_5 = {q5}$")
     axes[0].plot(times, measured[q5][:, 0], "o", color=colour, markersize=5)
     axes[1].plot(curve_times, 2 * k5_curve, color=colour, linewidth=2,
                  label=f"$q_5 = {q5}$")
     axes[1].plot(times, measured[q5][:, 1], "o", color=colour, markersize=5)
-```
-
-For each $q_5$ the formulas $k_5$ and $2k_5$ are drawn as lines (`frame_momenta` works on the whole array of 241 times at once) and the measured sizes as dots.
-
-```python
 for ax in axes:
     ax.set_yscale("log")
     ax.axhline(mass, color=GREY, linestyle=":", linewidth=1)
     ax.set_xlabel("time $x_4$ (units of $1/m$)")
     ax.legend(loc="lower right", fontsize=8)
 axes[0].set_ylabel("size (units of $m$)")
-axes[0].set_title("anti-Hermitian part $h_A$: size $k_5 = q_5e^{a_4}$")
+axes[0].set_title("anti-Hermitian part $h_A$: size $k_5 = q_5e^{x_4/3}$")
 axes[1].set_title("mixing of the $B$ sectors: size of $Bh - hB$")
+```
+
+Two panels side by side with a common vertical axis (`sharey=True`). For each $q_5$ a line through the formula ($k_5$ on the left, $2k_5$ on the right) and dots for the measured sizes (`measured[q5][:, 0]` is the column of the sizes of $h_A$, `[:, 1]` that of $Bh - hB$). Both vertical axes are logarithmic (`set_yscale("log")`), where $q_5e^{x_4/3}$ is a straight line of slope $1/3$ per unit time; the dotted grey line marks the mass $m = 1$.
+
+```python
 save_figure(fig, "hermiticity_defect",
-...)
+            "Along the prescribed history $a_4 = x_4$, $b_4 = e^{4x_4/3}$ ($H = m = "
+            "1$), at the fold $z = \\pi/2$, for a wave with the coordinate momenta "
+            "$q_1 = 0.5$ and $q_5 = 0.01$, $0.05$, $0.2$ (blue, orange, green): "
+            "left, the size of the anti-Hermitian part of the mode Hamiltonian; "
+            "right, the size of the commutator $Bh - hB$, which mixes the two "
+            "eigenspaces of $B$. Horizontal axes: the time $x_4$ in units of $1/m$; "
+            "vertical axes: the size in units of $m$, logarithmic. Dots: measured "
+            "matrices; lines: the formulas $k_5 = q_5e^{a_4}b_4^{-1/2} = "
+            "q_5e^{x_4/3}$ and $2k_5$; dotted grey line: the mass. The straight "
+            "lines show exponential growth: the deflation of the extra times drives "
+            "every wave with extra-time momentum ever further from a Hermitian, "
+            "sector-preserving evolution. In the good sector, $q_5 = 0$, both sizes "
+            "are 0 at every time.")
 ```
 
-Logarithmic vertical axes (`set_yscale("log")`), on which an exponential is a straight line, and a dotted line at the mass. Figure 1 of Notebook 10f shows three parallel straight lines in each panel with the dots on them: the departure from Hermiticity and the mixing of the two sectors of $B$ grow like $e^{a_4}$, crossing the level of the mass sooner for larger $q_5$.
+`save_figure` stores the figure as `10f_1_hermiticity_defect.png` with the caption printed under Figure 1 of Notebook 10f, shows it, and prints the line `Figure 10f.1 saved as ...`. What the figure shows: three straight lines rising by the factor $e^{6} \approx 403$ over the 18 units of time, the dots on them; the size of $h_A$ crosses the mass at $x_4 = 3\ln(1/q_5)$, for example at about 9.0 for $q_5 = 0.05$.
 
-**In [6], the exact onset time.**
+**In [6], the onset time.**
 
 ```python
-def onset_time(q1, q5, y):
-    c = np.exp(-2 * H * y)
-    X = (mass ** 2 + np.sqrt(mass ** 4 + 4 * q1 ** 2 * q5 ** 2 * c ** 2)) / (
-        2 * q5 ** 2 * c)
-    return np.log(X) / (2 * A * H)
+def growth_number(q0, q5, z=FOLD):
+    hidden_term = np.tan(z) ** 2 * q0 ** 2 if q0 != 0 else 0.0
+    return (np.sin(z) ** 2) ** (-1 / 6) * q5 ** 2 - hidden_term
 ```
 
-The formula $x_4^\ast = \ln X^\ast/(2AH)$ of Section 10.39, with $c = e^{-2Hy}$.
+`growth_number` returns $D = (\sin^2 z)^{-1/6}q_5^2 - \tan^2 z\,q_0^2$. The hidden term is computed only for $q_0 \neq 0$: at the fold $\tan z$ is about $1.6 \times 10^{16}$, and $0 \times \tan^2 z$ would still be 0, but the conditional expression `... if q0 != 0 else 0.0` makes the intention plain.
 
 ```python
-def bisection(q1, q5, y, low=-40.0, high=40.0):
+def onset_time(q0, q1, q5, z=FOLD):
+    D = growth_number(q0, q5, z)
+    roots = np.roots([D / b4_start, -mass ** 2, 0.0, 0.0, -q1 ** 2])
+    positive = [x.real for x in roots if abs(x.imag) <= 1e-9 * abs(x) and x.real > 0]
+    if len(positive) != 1:
+        raise ValueError("the quartic must have exactly one positive root")
+    return np.log(positive[0]) / (2 * rate * A * H)
+```
+
+`onset_time` implements the quartic of Section 10.39. `np.roots` takes the coefficients of a polynomial, highest power first, here $(D/b_4(0))X^4 - m^2X^3 + 0X^2 + 0X - q_1^2$, and returns its four roots as complex numbers. The list `positive` keeps the real parts of the roots that are real (imaginary part at most $10^{-9}$ times their size) and positive; for $D > 0$ there is exactly one (Section 10.39), and the function stops with an error otherwise. The return value is $x_4^\ast = \ln X^\ast/(2rAH)$, from $X = e^{2ra_4}$ and $a_4 = AHx_4$. (For $q_1 = 0$ the polynomial ends with zeros; `np.roots` removes them and reports the roots 0, which the condition `x.real > 0` drops.)
+
+```python
+def bisection(q0, q1, q5, z=FOLD, low=-40.0, high=80.0):
     for _ in range(200):
         middle = (low + high) / 2
-        if w_squared(middle, q1, q5, y) > 0:  # still oscillating: the onset is later
+        if w_squared(middle, q0, q1, q5, z) > 0:  # still oscillating: onset later
             low = middle
         else:
             high = middle
     return (low + high) / 2
 ```
 
-An independent numerical root search, **bisection**: the interval from $-40$ to 40 contains the onset; at its midpoint, if $w^2 > 0$ the wave still oscillates and the onset lies in the right half, otherwise in the left half; halving 200 times shrinks the interval far below the rounding level, and its midpoint is returned.
+`bisection` searches the time at which $w^2$ changes sign, by halving the interval from $-40$ to 80 two hundred times: at the middle, if $w^2 > 0$ the wave still oscillates, so the onset lies in the right half and `low` moves to the middle; otherwise `high` moves. After about 60 halvings the interval is as small as decimal numbers allow, and the middle is returned.
 
 ```python
-worst = max(abs(onset_time(q1, q5, y) - bisection(q1, q5, y))
-            for q1 in (0.0, 0.5, 1.0, 3.0) for q5 in (0.01, 0.05, 0.1, 0.4)
-            for y in (0.0, -1.0, -3.0))
-report("largest difference, exact onset time minus bisection (48 waves)",
+waves = [(q0, q1, q5, z)
+         for z, q0 in ((FOLD, 0.0), (np.pi / 4, 0.005), (np.pi / 6, 0.005))
+         for q1 in (0.0, 0.5, 1.0, 3.0) for q5 in (0.01, 0.05, 0.1, 0.4)]
+positive_D = all(growth_number(q0, q5, z) > 0 for q0, q1, q5, z in waves)
+worst = max(abs(onset_time(*wave) - bisection(*wave)) for wave in waves)
+report("largest difference, onset time from the quartic minus bisection (48 waves)",
        f"{worst:.1e}")
-check(worst < 1e-12 and abs(onset_time(0.0, 0.05, 0.0) - np.log(1 / 0.05)) < 1e-14,
-      "the exact onset time agrees with bisection; q1 = 0, y = 0: ln(m / q5)")
-onset = onset_time(0.5, 0.05, 0.0)  # the wave followed below
-report("onset time of the wave q1 = 0.5, q5 = 0.05, y = 0", f"{onset:.6f}")
 ```
 
-For $4 \times 4 \times 3 = 48$ waves the formula and the bisection agree to `8.9e-16`; the check also confirms the short form $\ln(m/q_5) = \ln 20$ for $q_1 = 0$, $y = 0$. The onset time of the wave followed below is printed as `2.996044`.
+The 48 test waves: three hidden positions (the fold with $q_0 = 0$, and $z = \pi/4$ and $z = \pi/6$ with $q_0 = 0.005$), four values of $q_1$ and four of $q_5$, all with $D > 0$ (`positive_D` confirms it). `onset_time(*wave)` passes the four entries of the tuple `wave` as the four arguments. The largest difference between the quartic and the bisection is printed: `3.6e-15`, rounding only.
+
+```python
+check(positive_D and worst < 1e-9
+      and abs(onset_time(0.0, 0.0, 0.05) - 3 * np.log(1 / 0.05)) < 1e-12,
+      "the onset time from the quartic agrees with bisection; q1 = q0 = 0: "
+      "3 ln(m / q5)")
+onset = onset_time(0.0, 0.5, 0.05)  # the wave followed below
+report("onset time of the wave q1 = 0.5, q5 = 0.05 at the fold", f"{onset:.6f}")
+```
+
+The check also confirms the short form $x_4^\ast = 3\ln(m/q_5)$ for $q_0 = q_1 = 0$ at the fold, here $3\ln 20$. Then the onset of the wave followed in the next cells, $q_1 = 0.5$, $q_5 = 0.05$ at the fold, is stored and printed: `8.987197`. It agrees with $3\ln 20 = 8.987197$ to all six decimals: at that time 3-space has inflated by $e^{8.99} \approx 8000$, so $k_1 = 0.5\,e^{-8.99} \approx 6 \times 10^{-5}$ adds almost nothing to $w^2$ (the difference is $6 \times 10^{-9}$; Exercise 10.8).
 
 **In [7], the recorded sample as an instant of the history.**
 
 ```python
-instant = np.log(40.0)  # the time at which k5 = 0.05 e^x4 = 2
-k5_instant = frame_momenta(instant, 0.0, 0.05, 0.0)[1]
-eigenvalues = np.linalg.eigvals(mode_hamiltonian(instant, 0.0, 0.05, 0.0))
+instant = np.log(2 / 0.05 * np.sqrt(b4_start)) / (rate * A * H)  # k5 = 2: 3 ln 40
+k5_instant = frame_momenta(instant, 0.0, 0.0, 0.05)[2]
+eigenvalues = np.linalg.eigvals(mode_hamiltonian(instant, 0.0, 0.0, 0.05))
 plus = int(np.sum(np.abs(eigenvalues - 1j * np.sqrt(3)) < 1e-9))
 minus = int(np.sum(np.abs(eigenvalues + 1j * np.sqrt(3)) < 1e-9))
-early = np.linalg.eigvals(mode_hamiltonian(0.0, 0.0, 0.05, 0.0))
+early = np.linalg.eigvals(mode_hamiltonian(0.0, 0.0, 0.0, 0.05))
 ```
 
-At $x_4 = \ln 40$ the wave $q_1 = 0$, $q_5 = 0.05$, $y = 0$ has $k_5 = 0.05 \cdot 40 = 2$. The 16 eigenvalues of that instant are counted near $+i\sqrt3$ and near $-i\sqrt3$; `early` are the eigenvalues of the same wave at $x_4 = 0$, where $k_5 = 0.05$.
+`instant` is the time at which $k_5 = q_5b_4(0)^{-1/2}e^{ra_4}$ reaches 2 for $q_5 = 0.05$: $e^{rAHx_4} = 40\,b_4(0)^{1/2}$, so $x_4 = \ln(40\,b_4(0)^{1/2})/(rAH) = 3\ln 40$. At that instant the 16 eigenvalues of $h$ (no other momentum) are computed with `np.linalg.eigvals`, and `plus` and `minus` count those within $10^{-9}$ of $+i\sqrt3$ and $-i\sqrt3$. `early` holds the eigenvalues of the same wave at $x_4 = 0$.
 
 ```python
-report("frame momentum k5 at x4 = ln 40", f"{k5_instant:.12f}")
+report("the time 3 ln 40 and the frame momentum k5 there",
+       f"{instant:.6f} and {k5_instant:.12f}")
 report("eigenvalues +i sqrt(3) and -i sqrt(3), how many", f"{plus} and {minus}")
 largest_imaginary = np.max(np.abs(early.imag))  # 0 up to rounding: oscillation
 report("largest imaginary part of an eigenvalue at x4 = 0", f"{largest_imaginary:.1e}")
 check_record(abs(k5_instant - 2) < 1e-12 and (plus, minus) == (8, 8)
              and largest_imaginary < 1e-12,
-             "the recorded sample m = 1, k5 = 2 (+-i sqrt 3) is reached at x4 = ln 40",
+             "the recorded sample m = 1, k5 = 2 (+-i sqrt 3) is reached at x4 = 3 ln 40",
              record="Revision/theory/reports/python-field-theory.json, check "
                     "extra_time_modes_grow")
 ```
 
-The printed lines show $k_5 = 2.000000000000$, eight eigenvalues near each of $\pm i\sqrt3$, and at $x_4 = 0$ a largest imaginary part of `1.8e-16` (zero up to rounding: the wave still oscillates). The check reproduces the record check `extra_time_modes_grow` and places its sample on the deflating history.
+Out [7] prints `11.066638 and 2.000000000000` ($3\ln 40$ and the frame momentum there), `8 and 8`, and `1.8e-16` for the largest imaginary part at $x_4 = 0$, rounding only: at $x_4 = 0$ the wave oscillates ($w^2 = 1 - 0.0025 > 0$). The check reproduces the record's sample `extra_time_modes_grow`.
 
-**In [8], the eigenvalues of one wave through the onset.**
+**In [8], one wave through the onset: the eigenvalues.**
 
 ```python
-scan_times = np.linspace(0.0, 5.0, 251)
+scan_times = np.linspace(0.0, 15.0, 251)
 real_parts, imaginary_parts, worst = [], [], 0.0
 for x4 in scan_times:
-    eigenvalues = np.linalg.eigvals(mode_hamiltonian(x4, 0.5, 0.05, 0.0))
+    eigenvalues = np.linalg.eigvals(mode_hamiltonian(x4, 0.0, 0.5, 0.05))
     real_parts.append(np.sort(eigenvalues.real))
     imaginary_parts.append(np.sort(eigenvalues.imag))
-    w2 = w_squared(x4, 0.5, 0.05, 0.0)
+    w2 = w_squared(x4, 0.0, 0.5, 0.05)
     if abs(w2) > 0.05:  # away from the onset
         w = np.sqrt(complex(w2))  # real, or i kappa after the onset
         predicted = np.array([w] * 8 + [-w] * 8)
@@ -4472,7 +4858,7 @@ report("largest difference from +-w(x4) away from the onset", f"{worst:.1e}")
 check(worst < 1e-10, "at every instant the eigenvalues of h(x4) are +-w(x4), 8 each")
 ```
 
-The loop of In [9] of Notebook 10a (Section 10.10), now along the history: for the wave $q_1 = 0.5$, $q_5 = 0.05$ at 251 times from 0 to 5 it computes the 16 eigenvalues of $h(x_4)$, stores their sorted real and imaginary parts, and, away from the onset (where the matrix cannot be diagonalised), compares them with $\pm w(x_4)$, eight each. The largest difference is printed as `8.0e-15`.
+251 times from 0 to 15. At each time the 16 eigenvalues of $h$ of the wave $q_1 = 0.5$, $q_5 = 0.05$ are computed, and their real and imaginary parts are stored, each sorted (`np.sort`). Away from the onset ($|w^2| > 0.05$; near it the matrix cannot be diagonalised and numerical eigenvalues lose accuracy) the predicted eigenvalues are $+w$ eight times and $-w$ eight times; `complex(w2)` makes `np.sqrt` return $i\kappa$ for a negative $w^2$. `worst` is the largest difference of the sorted real parts and of the sorted imaginary parts. Out [8] prints `8.9e-15`, rounding only, and the check passes.
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(10.0, 4.0), sharex=True)
@@ -4484,13 +4870,28 @@ for ax, what in ((axes[0], "real part"), (axes[1], "imaginary part")):
     ax.set_ylabel(f"{what} of the eigenvalues (units of $m$)")
 axes[0].set_title("oscillation before the onset")
 axes[1].set_title("growth after the onset")
-save_figure(fig, "eigenvalues_along_history",
-...)
 ```
 
-The real parts (left) and imaginary parts (right) against the time, with a dotted line at the onset. Figure 2 of Notebook 10f shows the real frequencies $\pm w(x_4)$ closing in to 0 at $x_4^\ast = 2.996$ and the imaginary parts opening up after it, growing further as the extra-time frame momentum keeps growing: the picture of Figure 3 of Notebook 10a, now produced by the deflation itself.
+Two panels with a common time axis. `np.array(real_parts)` is a table with one row per time and 16 columns, and `plot` draws each column as a curve: since the eigenvalues come in two groups of eight equal values, the curves lie on top of each other in two groups. The dotted line marks the onset.
 
-**In [9], the Krein inertia of one wave along the history.**
+```python
+save_figure(fig, "eigenvalues_along_history",
+            "The 16 eigenvalues of the mode Hamiltonian $h(x_4)$ of a wave with the "
+            "coordinate momenta $q_1 = 0.5$, $q_5 = 0.05$ (no hidden momentum, at "
+            "the fold $z = \\pi/2$) along the prescribed history $a_4 = x_4$, $b_4 "
+            "= e^{4x_4/3}$ ($H = m = 1$): real parts (left, blue) and imaginary "
+            "parts (right, orange), each curve carrying eight eigenvalues; "
+            "horizontal axes: the time $x_4$ in units of $1/m$, vertical axes in "
+            "units of $m$. Before the onset time $x_4^\\ast = 8.987$ (dotted line) "
+            "the eigenvalues are the real frequencies $\\pm w(x_4)$, which shrink "
+            "as the extra-time frame momentum grows; at the onset they meet at 0 "
+            "and then move onto the imaginary axis as $\\pm i\\kappa(x_4)$, and the "
+            "growth rate $\\kappa$ keeps increasing.")
+```
+
+The figure is saved as `10f_2_eigenvalues_along_history.png`. What it shows: the real parts start at $\pm\sqrt{1 + 0.25 - 0.0025} = \pm1.117$, stay near $\pm1$ for a long time while $k_1$ shrinks and $k_5$ is still small, then close in and meet at 0 at the onset 8.987; there the imaginary parts open up as $\pm\kappa$, reaching about 7.4 at $x_4 = 15$.
+
+**In [9], the Krein inertia along the history.**
 
 ```python
 def orthonormal_basis(P):
@@ -4504,11 +4905,8 @@ def orthonormal_basis(P):
         if length > 1e-8:
             basis.append(v / length)
     return np.array(basis).T
-```
 
-The Gram-Schmidt function of In [10] of Notebook 10a (Section 10.10).
 
-```python
 def eigenspace(h, w2, sign):
     w = np.sqrt(complex(w2))
     return orthonormal_basis((np.eye(16) + sign * h / w) / 2)
@@ -4520,19 +4918,19 @@ def krein_inertia(V):
             int(np.sum(np.abs(values) <= 1e-8)))
 ```
 
-`eigenspace(h, w2, sign)` returns an orthonormal basis of the eigenspace of $\pm w$ (or $\pm i\kappa$) of a given matrix $h$, as the range of the projector $\frac12(I_{16} \pm h/w)$; `krein_inertia(V)` counts the positive, negative and zero eigenvalues of the Gram matrix $V^\dagger BV$ (Section 10.5), as in Notebook 10a.
+The three helpers of In [10] of Notebook 10a (Section 10.10): `orthonormal_basis` makes orthonormal columns from the columns of a projector by the Gram-Schmidt method (each column loses its components along the columns already kept; twice, to remove rounding errors; columns shorter than $10^{-8}$ are dropped); `eigenspace` returns an orthonormal basis of the range of $P = \frac12(I_{16} \pm h/w)$, the eigenspace of $\pm w$ (Section 10.5); `krein_inertia` counts the positive, negative and zero eigenvalues of the Gram matrix $V^\dagger BV$ (`np.linalg.eigvalsh` gives the eigenvalues of a Hermitian matrix), with $10^{-8}$ as the border of zero.
 
 ```python
-kept = [x4 for x4 in scan_times if abs(x4 - onset) > 0.03]
-inertias = [krein_inertia(eigenspace(mode_hamiltonian(x4, 0.5, 0.05, 0.0),
-                                     w_squared(x4, 0.5, 0.05, 0.0), +1))
+kept = [x4 for x4 in scan_times if abs(x4 - onset) > 0.1]
+inertias = [krein_inertia(eigenspace(mode_hamiltonian(x4, 0.0, 0.5, 0.05),
+                                     w_squared(x4, 0.0, 0.5, 0.05), +1))
             for x4 in kept]
 before = {c for x4, c in zip(kept, inertias) if x4 < onset}
 after = {c for x4, c in zip(kept, inertias) if x4 > onset}
 say(f"inertia before the onset: {sorted(before)}; after the onset: {sorted(after)}")
 ```
 
-The inertia of the $+w$ eigenspace at every time farther than 0.03 from the onset. `before` and `after` are the **sets** of the different inertias found before and after the onset (a set, written with braces, keeps each value once). The printed line shows `[(4, 4, 0)]` before and `[(0, 0, 8)]` after.
+`kept` are the times farther than 0.1 from the onset. For each the Krein inertia of the eigenspace of $+w$ is computed (for $w^2 < 0$, $w = i\kappa$). `before` and `after` are the sets of the inertias found before and after the onset (a set keeps each different value once). Out [9] prints `inertia before the onset: [(4, 4, 0)]; after the onset: [(0, 0, 8)]`.
 
 ```python
 check_record(before == {(4, 4, 0)},
@@ -4545,23 +4943,18 @@ check_record(after == {(0, 0, 8)},
                     "Q.one_particle_complex_frequency_Krein_neutral")
 ```
 
-Two PASS lines, reproducing the record checks of Theorem 10.1 instant by instant.
+The two checks of Theorem 10.1 instant by instant, reproducing the pairing record's proof checks.
 
 ```python
 counts = np.array(inertias)
 fig, ax = plt.subplots()
-width = 0.0205  # a little wider than the step 0.02 between the times (no gaps)
+width = 0.0615  # a little wider than the step 0.06 between the times (no gaps)
 ax.bar(kept, counts[:, 0], width=width, color=BLUE,
        label="positive charge $u^\\dagger B u > 0$")
 ax.bar(kept, counts[:, 1], width=width, bottom=counts[:, 0], color=ORANGE,
        label="negative charge $u^\\dagger B u < 0$")
 ax.bar(kept, counts[:, 2], width=width, bottom=counts[:, 0] + counts[:, 1],
        color=GREEN, label="neutral")
-```
-
-Stacked bars, as in In [14] of Notebook 10a: at each time a bar of height 8, split into its positive (blue), negative (orange) and neutral (green) directions.
-
-```python
 ax.axvline(onset, color=GREY, linestyle=":", linewidth=1)
 ax.set_xlabel("time $x_4$ (units of $1/m$)")
 ax.set_ylabel("directions in the $+w$ eigenspace")
@@ -4569,55 +4962,90 @@ ax.set_yticks(range(0, 9))
 ax.set_ylim(0.0, 10.5)  # room for the legend above the bars
 ax.set_title("Krein inertia of one wave along the deflating history")
 ax.legend(loc="upper center", ncol=3, fontsize=8)
-save_figure(fig, "inertia_along_history",
-...)
 ```
 
-Figure 3 of Notebook 10f shows half-blue, half-orange bars up to the onset time 2.996 and green bars after it: the deflation of the extra times moves the wave from the kind with inertia $(4, 4)$ to the Krein-neutral kind at a definite time.
-
-**In [10], the onset map.**
+A bar chart: one thin bar per kept time (`width` is a little more than the step 0.06 between the times, so the bars touch), the blue part of height $p$, the orange part stacked on it (`bottom=counts[:, 0]`) of height $n$, the green part of height $z$ on top. The vertical ticks run from 0 to 8, and the upper limit 10.5 leaves room for the legend.
 
 ```python
-map_times = np.linspace(0.0, 6.0, 241)
+save_figure(fig, "inertia_along_history",
+            "The Krein inertia of the eigenspace of $+w$ of the mode Hamiltonian "
+            "of the wave $q_1 = 0.5$, $q_5 = 0.05$ (no hidden momentum, at the fold) "
+            "at each time $x_4$ of the prescribed history $a_4 = x_4$, $b_4 = "
+            "e^{4x_4/3}$ (horizontal axis, units of $1/m$). Each thin bar splits the "
+            "eight directions of the eigenspace (vertical axis) into positive "
+            "charge (blue), negative charge (orange) and neutral (green). Before "
+            "the onset time $x_4^\\ast = 8.987$ (dotted line) the split is 4 and 4 "
+            "at every instant; after it the whole eigenspace is neutral. The "
+            "deflation of the extra times moves the wave from the first kind to the "
+            "second at a definite time.")
+```
+
+Saved as `10f_3_inertia_along_history.png`: blue and orange halves of four each up to 8.987, a gap of width 0.2 around the onset (the skipped times), and solid green after it.
+
+**In [10], the onset map and the growth criterion.**
+
+```python
+map_times = np.linspace(0.0, 24.0, 241)
 exponents = np.linspace(-3.0, 0.0, 121)  # log10 of q5
 q5_values = 10.0 ** exponents
-real_frequency = np.array([[w_squared(x4, 0.5, q5, 0.0) > 0 for x4 in map_times]
+real_frequency = np.array([w_squared(map_times, 0.0, 0.5, q5) > 0
                            for q5 in q5_values])  # rows: q5, columns: x4
-onsets = np.array([onset_time(0.5, q5, 0.0) for q5 in q5_values])
+onsets = np.array([onset_time(0.0, 0.5, q5) for q5 in q5_values])
 agree = np.array_equal(real_frequency, map_times[None, :] < onsets[:, None])
 ```
 
-A grid of 241 times from 0 to 6 and 121 momenta $q_5$ from $10^{-3}$ to 1, equally spaced in $\log_{10}q_5$ (`10.0 ** exponents`). `real_frequency` is a table of truth values, true where $w^2 > 0$. `onsets` holds the exact onset of each momentum, and `agree` compares the table with "the time lies before the onset": `map_times[None, :]` is a row and `onsets[:, None]` a column, and comparing them gives the whole table at once.
+The left map: 241 times from 0 to 24 and 121 values of $q_5$, equally spaced in the exponent from $10^{-3}$ to $10^0 = 1$. `w_squared(map_times, ...)` is evaluated on the whole array of times at once (the numpy functions act entry by entry), and `> 0` gives an array of True and False; `real_frequency` stacks one such row per $q_5$. `onsets` holds the onset time of each $q_5$, and `agree` is True when every entry equals the comparison `time < onset`: `map_times[None, :]` is a row and `onsets[:, None]` a column, and numpy compares every row entry with every column entry.
 
 ```python
 sampled, sample_ok = 0, True
 for i in range(0, 121, 4):
     for j in range(0, 241, 60):
         x4, q5 = map_times[j], q5_values[i]
-        if abs(x4 - onsets[i]) < 0.05:
+        if abs(x4 - onsets[i]) < 0.15:
             continue  # too close to the onset
-        w2 = w_squared(x4, 0.5, q5, 0.0)
-        found = krein_inertia(eigenspace(mode_hamiltonian(x4, 0.5, q5, 0.0), w2, +1))
+        w2 = w_squared(x4, 0.0, 0.5, q5)
+        found = krein_inertia(eigenspace(mode_hamiltonian(x4, 0.0, 0.5, q5), w2, +1))
         sample_ok = sample_ok and found == ((4, 4, 0) if w2 > 0 else (0, 0, 8))
         sampled += 1
-```
-
-At every fourth momentum and every 60th time (`range(0, 121, 4)` counts in steps of 4) the Krein inertia is computed directly and compared with the prediction: $(4, 4, 0)$ for a real frequency, $(0, 0, 8)$ for an imaginary one; points closer than 0.05 to the onset are skipped (`continue` jumps to the next pass of the loop).
-
-```python
 report("grid points sampled for the inertia", sampled)
 report("onset time for q5 = 0.001 and for q5 = 1",
        f"{onsets[0]:.4f} and {onsets[-1]:.4f}")
 check(agree and sample_ok and np.all(np.isfinite(onsets)),
-      "the map agrees with the exact onset; (4, 4) before it, neutral after it")
+      "the map agrees with the onset; (4, 4) before it, neutral after it")
 ```
 
-153 grid points are sampled; the onset times run from `6.9078` ($q_5 = 0.001$) to `0.0941` ($q_5 = 1$). The check requires the agreement, the sampled inertias, and a finite onset for every momentum (`np.isfinite`): no wave with extra-time momentum keeps a real frequency for ever.
+At every fourth $q_5$ and every 60th time (0, 6, 12, 18, 24), skipping points closer than 0.15 to the onset, the Krein inertia is computed directly and compared with what Theorem 10.1 predicts from the sign of $w^2$. Out [10] prints `154` sampled points and the onset times `20.7233 and 0.2228` for $q_5 = 10^{-3}$ and $q_5 = 1$; the check passes.
 
 ```python
-from matplotlib.colors import ListedColormap  # a colour scale with two colours
+plane = np.linspace(0.0, 1.0, 101)  # q0 (columns) and q5 (rows) from 0 to 1
+quarter = np.pi / 4  # the hidden position of the right map: tan z = 1
+onset_plane = np.full((101, 101), np.nan)  # NaN: the wave never grows
+criterion_ok = True
+for i, q5 in enumerate(plane):
+    for j, q0 in enumerate(plane):
+        if growth_number(q0, q5, quarter) > 0:  # D > 0: an onset must exist
+            t = onset_time(q0, 0.5, q5, quarter)
+            onset_plane[i, j] = t
+            criterion_ok = criterion_ok and (
+                w_squared(t - 0.01, q0, 0.5, q5, quarter) > 0
+                > w_squared(t + 0.01, q0, 0.5, q5, quarter))
+        else:  # D <= 0: the wave must oscillate at every time
+            criterion_ok = criterion_ok and bool(np.all(
+                w_squared(map_times, q0, 0.5, q5, quarter) >= mass ** 2))
+growing = int(np.sum(np.isfinite(onset_plane)))
+report("waves of the right map with D > 0 (they grow) and D <= 0 (they never grow)",
+       f"{growing} and {101 * 101 - growing}")
+check(criterion_ok,
+      "a wave grows exactly when D = (sin^2 z)^(-1/6) q5^2 - tan^2 z q0^2 > 0")
+```
 
-fig, ax = plt.subplots(figsize=(7.0, 4.8))
+The right map: the wave with $q_1 = 0.5$ at $z = \pi/4$, on a grid of 101 by 101 coordinate momenta $q_0$ and $q_5$ from 0 to 1. `np.full(..., np.nan)` fills a table with NaN ("not a number"), which marks the waves that never grow. For each grid point: if $D > 0$, the onset time is computed and stored, and the condition demands that $w^2$ is positive 0.01 before it and negative 0.01 after it (Python reads `a > 0 > b` as `a > 0 and 0 > b`); if $D \leq 0$, it demands $w^2 \geq m^2$ at all 241 times (`np.all`). `np.isfinite` is False for NaN, so `growing` counts the waves with an onset. Out [10] prints `5385 and 4816` (together $101^2 = 10201$) and the PASS line of the criterion.
+
+```python
+from matplotlib.colors import ListedColormap  # a colour scale with chosen colours
+
+fig, axes = plt.subplots(1, 2, figsize=(12.0, 4.8))
+ax = axes[0]
 ax.pcolormesh(map_times, exponents, real_frequency.astype(float),
               cmap=ListedColormap(["#f6c9b5", "#bcd6f5"]), vmin=0, vmax=1,
               shading="nearest")
@@ -4625,90 +5053,113 @@ inside = onsets <= map_times[-1]  # the part of the onset curve inside the map
 ax.plot(onsets[inside], exponents[inside], color=GREY, linewidth=2,
         label="onset time $x_4^\\ast$")
 ax.set_xlim(map_times[0], map_times[-1])
-```
-
-`ax.pcolormesh` colours every grid cell by the table (`astype(float)` turns the truth values into 0 and 1): light orange for 0 (imaginary frequency) and light blue for 1 (real frequency); `shading="nearest"` centres each cell on its grid point. The grey curve is the exact onset time, drawn where it lies inside the map.
-
-```python
 for a4_slice in slices:
     ax.axvline(a4_slice / (A * H), color=GREEN, linestyle="--", linewidth=1)
 ax.plot([], [], "--", color=GREEN, label="slices $a_{4,0}$ of the Kohn-Sham record")
-ax.text(0.3, -1.9, "real frequency:\ninertia (4, 4)", color=BLUE, fontsize=9)
-ax.text(4.4, -0.6, "imaginary frequency:\nKrein-neutral", color=ORANGE, fontsize=9)
+ax.text(3.0, -2.6, "real frequency:\ninertia (4, 4)", color=BLUE, fontsize=9)
+ax.text(15.0, -0.6, "imaginary frequency:\nKrein-neutral", color=ORANGE, fontsize=9)
 ax.set_xlabel("time $x_4$ (units of $1/m$)")
 ax.set_ylabel("$\\log_{10}$ of the extra-time momentum $q_5$")
-ax.set_title("Which waves still oscillate? ($q_1 = 0.5$, $y = 0$)")
-ax.legend(loc="lower left", fontsize=8)  # the lower left corner is all blue
+ax.set_title("Which waves still oscillate? ($q_0 = 0$, $q_1 = 0.5$)")
+ax.legend(loc="lower right", fontsize=8)
 ax.grid(False)
-save_figure(fig, "onset_map",
-...)
 ```
 
-Green dashed lines mark the times $x_4 = a_{4,0}/(AH)$ of the five slices of the Kohn-Sham record; the two texts (with a line break written as a backslash and n) name the two regions. Figure 4 of Notebook 10f shows the blue region shrinking towards small $q_5$ as time goes on, bounded by the grey onset curve, which is nearly a straight line on this logarithmic scale (for small $q_5$, $x_4^\ast \approx \ln(1/q_5)$): the band of oscillating extra-time waves shrinks exponentially, and only the good sector $q_5 = 0$ stays blue for ever.
+`ListedColormap` makes a colour scale of the listed colours. The left panel: `pcolormesh` paints each grid square in light orange (False, imaginary frequency) or light blue (True, real frequency); `shading="nearest"` centres the squares on the grid points. The grey curve is the onset time, drawn where it lies inside the map; the five green dashed lines mark the slices of the Kohn-Sham record at the times $a_{4,0}/(AH)$; `ax.plot([], [], ...)` adds the dashed line to the legend without drawing anything; two texts label the regions.
+
+```python
+ax = axes[1]
+ax.pcolormesh(plane, plane, np.isnan(onset_plane).astype(float),
+              cmap=ListedColormap(["#ffffff", "#bcd6f5"]), vmin=0, vmax=1,
+              shading="nearest")  # light blue: never grows
+image = ax.pcolormesh(plane, plane, np.minimum(onset_plane, 24.0), cmap="Oranges_r",
+                      vmin=0.0, vmax=24.0, shading="nearest")
+ax.plot(plane, plane * 2 ** (-1 / 12), color=GREY, linewidth=2,
+        label="$D = 0$: $q_5 = 2^{-1/12}q_0$")
+ax.set_xlim(0.0, 1.0)
+ax.set_ylim(0.0, 1.0)
+ax.text(0.55, 0.12, "D < 0: never grows", color=BLUE, fontsize=9)
+ax.set_xlabel("hidden coordinate momentum $q_0$ (units of $m$)")
+ax.set_ylabel("extra-time coordinate momentum $q_5$ (units of $m$)")
+ax.set_title("Which waves ever grow? ($z = \\pi/4$, $q_1 = 0.5$)")
+ax.legend(loc="upper left", fontsize=8)
+ax.grid(False)
+fig.colorbar(image, ax=ax, label="onset time $x_4^\\ast$ (24 or later: palest)")
+```
+
+The right panel: first a layer that is light blue where the wave never grows (`np.isnan` is True there) and white elsewhere; then the onset times, capped at 24 by `np.minimum` and painted with the colour scale `Oranges_r` (dark orange for early onsets, pale for late ones; NaN squares are left out and the blue layer shows through). The grey line is $D = 0$, that is $q_5 = 2^{-1/12}q_0$, because $D = 2^{1/6}q_5^2 - q_0^2$ at $z = \pi/4$. The colour bar explains the scale.
+
+```python
+save_figure(fig, "onset_map",
+            "Left: waves without hidden momentum, $q_1 = 0.5$, $q_5$ from $10^{-3}$ "
+            "to 1 (vertical axis: $\\log_{10}q_5$), at the fold, along the history "
+            "$a_4 = x_4$, $b_4 = e^{4x_4/3}$ (horizontal axis: the time $x_4$, units "
+            "of $1/m$): light blue where the frequency is real (inertia (4, 4)), "
+            "light orange where it is imaginary (Krein-neutral, growth); grey "
+            "curve: the onset time; green dashed lines: the five slices $a_{4,0}$ "
+            "of the Kohn-Sham record. Right: waves with the coordinate momenta $q_0$ "
+            "(horizontal axis) and $q_5$ (vertical axis), $q_1 = 0.5$, at $z = "
+            "\\pi/4$: where $D = 2^{1/6}q_5^2 - q_0^2 > 0$ (above the grey line) "
+            "the colour is the onset time, darker for earlier; where $D \\leq 0$ "
+            "(light blue) the wave never grows. Without hidden momentum every "
+            "extra-time wave grows; a large enough hidden momentum prevents it.")
+```
+
+Saved as `10f_4_onset_map.png`. What it shows. Left: the blue region of oscillating waves is bounded by the onset curve, a nearly straight line from $(0.22, 0)$ to $(20.7, -3)$, because $x_4^\ast \approx 3\ln(1/q_5) = 6.9\,|\log_{10}q_5|$; at the slices of the Kohn-Sham record ($x_4 \leq 2$) only the waves with $q_5$ above about 0.5 grow. Right: the line $D = 0$ cuts the square in two; above it every wave grows, the earlier the farther from the line, below it no wave ever grows.
 
 **In [11], the good sector along the history.**
 
 ```python
+good_waves = [(0.0, q1, FOLD) for q1 in (0.5, 1.0, 2.0, 4.0)] + [(0.5, 1.0, np.pi / 4)]
 slice_ok, table = True, []
-for q1 in (0.5, 1.0, 2.0, 4.0):
+for q0, q1, z in good_waves:
     for a4_slice in slices:
         x4 = a4_slice / (A * H)  # the time of the slice
-        h = mode_hamiltonian(x4, q1, 0.0, 0.0)
-        E = np.sqrt(w_squared(x4, q1, 0.0, 0.0))
+        h = mode_hamiltonian(x4, q0, q1, 0.0, z)
+        E = np.sqrt(w_squared(x4, q0, q1, 0.0, z))
         U_plus = eigenspace(h, E ** 2, +1)  # the 8 particle columns u_s
         V_minus = eigenspace(h, E ** 2, -1)  # the 8 antiparticle columns v_s
-```
-
-For four momenta $q_1 = 0.5, 1, 2, 4$ ($q_5 = 0$, $y = 0$) and the five slices, the cell builds the instantaneous good-sector waves: the energy $E(x_4) = \sqrt{w^2}$ and orthonormal bases of the eigenspaces of $+E$ (the particle columns) and $-E$ (the antiparticle columns).
-
-```python
         sea = sum((v.conj() @ h @ v).real for v in V_minus.T)
         particle = [(u.conj() @ h @ u).real for u in U_plus.T]
         antiparticle = [-(v.conj() @ h @ v).real for v in V_minus.T]
-```
-
-The value of the filled sea, $\sum_sv_s^\dagger hv_s$ (each term is $-E$), and the normal-ordered energies of a particle, $u_s^\dagger hu_s$, and of an antiparticle, $-v_s^\dagger hv_s$ (Section 10.20).
-
-```python
         slice_ok = (slice_ok and np.allclose(h, h.conj().T) and np.allclose(B @ h, h @ B)
                     and U_plus.shape[1] == 8 and V_minus.shape[1] == 8
                     and krein_inertia(U_plus) == (4, 4, 0)
                     and krein_inertia(V_minus) == (4, 4, 0)
                     and abs(sea + 8 * E) < 1e-12
                     and np.allclose(particle, E) and np.allclose(antiparticle, E))
-        table.append((q1, a4_slice, E, sea))
+        table.append((q0, q1, a4_slice, E, sea))
 ```
 
-At each slice: $h$ Hermitian, $Bh = hB$, eight columns in each eigenspace, Krein inertia $(4, 4)$ on both, the sea value $-8E$, and every quantum $+E$. A row of the table is kept for the printout and the figure.
+The five good-sector waves: $q_1 = 0.5, 1, 2, 4$ without hidden momentum at the fold, and $q_0 = 0.5$, $q_1 = 1$ at $z = \pi/4$. For each wave and each slice: the time $x_4 = a_{4,0}/(AH)$, the matrix $h$ (with $q_5 = 0$), the energy $E = \sqrt{w^2}$, orthonormal bases of the eigenspaces of $+E$ (the eight particle columns $u_s$) and of $-E$ (the eight antiparticle columns $v_s$), the sea value $\sum_sv_s^\dagger hv_s$, and the energies $u_s^\dagger hu_s$ and $-v_s^\dagger hv_s$ of the quanta. The condition collects: $h$ Hermitian, $Bh = hB$, eight columns each, inertia $(4, 4)$ on both eigenspaces, the sea value $-8E$ to $10^{-12}$, and every quantum of energy $E$ (`np.allclose` compares within a small tolerance).
 
 ```python
-say("q1    a4,0    E(x4)      sea value -8E")
-for q1, a4_slice, E, sea in table:
-    if q1 in (1.0, 4.0):  # print two of the four momenta
-        say(f"{q1:3.1f}   {a4_slice:3.1f}   {E:9.6f}   {sea:11.6f}")
+say("q0    q1    a4,0    E(x4)      sea value -8E")
+for q0, q1, a4_slice, E, sea in table:
+    if q1 == 4.0 or q0 == 0.5:  # print two of the five waves
+        say(f"{q0:3.1f}   {q1:3.1f}   {a4_slice:3.1f}   {E:9.6f}   {sea:11.6f}")
 check_record(slice_ok,
              "good sector at all 5 slices: Hermitian, [B, h] = 0, +-E, (4, 4), sea -8E",
              record="Revision/theory/reports/python-field-theory.json, check "
                     "good_sector_spectrum_and_B_sectors")
 ```
 
-The printed table shows, for $q_1 = 1$, the energies $1.414214$, $1.169564$, $1.065521$, $1.024591$, $1.009116$ at $a_{4,0} = 0, 0.5, 1, 1.5, 2$ (that is $\sqrt{1 + e^{-2a_{4,0}}}$), with the sea values $-8$ times these, from $-11.313708$ to $-8.072930$; and for $q_1 = 4$ the energies from $4.123106$ down to $1.137124$. The check reproduces the record check `good_sector_spectrum_and_B_sectors` at every slice.
+A small table for two of the five waves. Out [11] shows, for $q_1 = 4$: $E = 4.123106$ ($= \sqrt{17}$) at $a_{4,0} = 0$, falling to 1.137124 at $a_{4,0} = 2$, the sea from $-32.984845$ to $-9.096989$; and for $q_0 = 0.5$, $q_1 = 1$: $E = 1.5$ at $a_{4,0} = 0$ ($\sqrt{1 + 1 + 0.25}$), falling to 1.273683 at $a_{4,0} = 1$ and rising again to 1.402402 at $a_{4,0} = 2$, because the hidden frame momentum $0.5\,e^{x_4/3}$ grows. The check reproduces `good_sector_spectrum_and_B_sectors` at all slices.
 
 ```python
+energy_times = np.linspace(0.0, 6.0, 241)
 fig, axes = plt.subplots(1, 2, figsize=(11.0, 4.2))
-for q1, colour in ((0.5, BLUE), (1.0, ORANGE), (2.0, GREEN), (4.0, GREY)):
-    E_curve = np.sqrt(w_squared(curve_times, q1, 0.0, 0.0))
-    axes[0].plot(curve_times, E_curve, color=colour, linewidth=2, label=f"$q_1 = {q1}$")
-    axes[1].plot(curve_times, -8 * E_curve, color=colour, linewidth=2,
-                 label=f"$q_1 = {q1}$")
-    dots = [(a4_slice, E, sea) for q, a4_slice, E, sea in table if q == q1]
+styles = [(BLUE, "-"), (ORANGE, "-"), (GREEN, "-"), (GREY, "-"), (ORANGE, "--")]
+for (q0, q1, z), (colour, line) in zip(good_waves, styles):
+    E_curve = np.sqrt(w_squared(energy_times, q0, q1, 0.0, z))
+    label = f"$q_1 = {q1}$" if q0 == 0 else f"$q_0 = {q0}$, $q_1 = {q1}$, $z = \\pi/4$"
+    axes[0].plot(energy_times, E_curve, line, color=colour, linewidth=2, label=label)
+    axes[1].plot(energy_times, -8 * E_curve, line, color=colour, linewidth=2,
+                 label=label)
+    dots = [(a4_slice, E, sea) for p0, p1, a4_slice, E, sea in table
+            if (p0, p1) == (q0, q1)]
     axes[0].plot([d[0] for d in dots], [d[1] for d in dots], "o", color=colour)
     axes[1].plot([d[0] for d in dots], [d[2] for d in dots], "o", color=colour)
-```
-
-For each momentum the curves $E(x_4)$ (left) and $-8E(x_4)$ (right) are drawn from the formula, and the values computed from the eigenvectors at the slices as dots (the time of a slice equals $a_{4,0}$, because $AH = 1$).
-
-```python
 axes[0].axhline(mass, color=GREY, linestyle=":", linewidth=1)
 axes[1].axhline(-8 * mass, color=GREY, linestyle=":", linewidth=1)
 axes[0].set_ylabel("energy $E(x_4)$ of one quantum (units of $m$)")
@@ -4718,31 +5169,50 @@ axes[1].set_title("the instantaneous vacuum")
 for ax in axes:
     ax.set_xlabel("time $x_4$ (units of $1/m$)")
     ax.legend(fontsize=8)
-save_figure(fig, "good_sector_energies",
-...)
 ```
 
-Dotted lines at the limits $m$ and $-8m$. Figure 5 of Notebook 10f shows the four energy curves falling towards the mass as 3-space inflates (larger $q_1$ fall from higher), with the dots on them, and the sea values rising towards $-8m$: in the good sector every quantum has a positive energy at every time, and the inertia stays $(4, 4)$.
+Two panels for 241 times from 0 to 6: the energy $E(x_4)$ and the sea value $-8E(x_4)$ of each wave, with the line style of the list `styles` (the wave with hidden momentum dashed); the label of a curve is chosen by a conditional expression; the dots are the values of the table at the slices, picked by a list comprehension that compares the pair $(q_0, q_1)$; the dotted lines mark $m$ and $-8m$.
+
+```python
+save_figure(fig, "good_sector_energies",
+            "The good sector along the prescribed history $a_4 = x_4$, $b_4 = "
+            "e^{4x_4/3}$ ($H = m = 1$) for the coordinate momenta $q_1 = 0.5$, 1, "
+            "2, 4 without hidden momentum (blue, orange, green, grey, at the fold) "
+            "and for $q_0 = 0.5$, $q_1 = 1$ at $z = \\pi/4$ (orange dashed); "
+            "horizontal axes: the time $x_4$ in units of $1/m$. Left: the "
+            "normal-ordered energy $E(x_4) = \\sqrt{m^2 + k_0^2 + k_1^2}$ of one "
+            "particle or one antiparticle of the instantaneous Fock space; without "
+            "hidden momentum it falls towards the mass $m$ (dotted line) as 3-space "
+            "inflates, with hidden momentum it rises again because the hidden "
+            "direction shrinks; right: the value $-8E(x_4)$ of the filled sea. "
+            "Vertical axes in units of $m$. Dots: computed from the eigenvectors at "
+            "the five slices of the Kohn-Sham record. In the good sector every "
+            "quantum has a positive energy at every time, and the Krein inertia "
+            "stays (4, 4).")
+```
+
+Saved as `10f_5_good_sector_energies.png`: the four solid curves fall onto the mass line, the dashed one dips to about 1.27 near $x_4 = 1$ and climbs to 3.8 at $x_4 = 6$; the sea values mirror them below $-8$.
 
 **In [12], the universes of masses $+m$ and $-m$ along the history.**
 
 ```python
 pair_ok, worst = True, 0.0
-for x4 in np.linspace(0.0, 6.0, 25):
-    h_plus = mode_hamiltonian(x4, 0.5, 0.05, 0.0, m=mass)
-    h_minus = mode_hamiltonian(x4, 0.5, 0.05, 0.0, m=-mass)
+for x4 in np.linspace(0.0, 18.0, 25):
+    h_plus = mode_hamiltonian(x4, 0.02, 0.5, 0.05, z=np.pi / 4, m=mass)
+    h_minus = mode_hamiltonian(x4, 0.02, 0.5, 0.05, z=np.pi / 4, m=-mass)
     pair_ok = pair_ok and np.allclose(Gamma @ h_plus @ Gamma, h_minus, atol=1e-14)
     values_plus = np.linalg.eigvals(h_plus)
     values_minus = np.linalg.eigvals(h_minus)
-```
-
-At 25 times from 0 to 6, for the wave $q_1 = 0.5$, $q_5 = 0.05$, the cell builds $h_m(x_4)$ and $h_{-m}(x_4)$ (the default mass is overridden with `m=-mass`), checks $\Gamma h_m\Gamma = h_{-m}$ to within $10^{-14}$ (`atol` is the allowed absolute difference), and computes both spectra.
-
-```python
     # compare the sorted real parts and the sorted imaginary parts separately
     worst = max(worst,
                 np.max(np.abs(np.sort(values_plus.real) - np.sort(values_minus.real))),
                 np.max(np.abs(np.sort(values_plus.imag) - np.sort(values_minus.imag))))
+```
+
+At 25 times from 0 to 18 the matrices $h_m$ and $h_{-m}$ of the wave $q_0 = 0.02$, $q_1 = 0.5$, $q_5 = 0.05$ at $z = \pi/4$ are built. `np.allclose(..., atol=1e-14)` compares $\Gamma h_m\Gamma$ with $h_{-m}$ entry by entry within $10^{-14}$, and `worst` keeps the largest difference between the sorted real parts and between the sorted imaginary parts of the two spectra (the comment line in the loop says so).
+
+```python
+report("onset time of this wave", f"{onset_time(0.02, 0.5, 0.05, np.pi / 4):.4f}")
 report("largest difference of the eigenvalues for +m and -m", f"{worst:.1e}")
 check_record(pair_ok and worst < 1e-9,
              "Gamma h_m(x4) Gamma = h_-m(x4) at every time: same spectra and onset",
@@ -4750,7 +5220,7 @@ check_record(pair_ok and worst < 1e-9,
                     "Q.one_particle_maps")
 ```
 
-The sorted real parts and imaginary parts are compared separately, as the comment says (the times include the onset region, where the eigenvalues are complex). The largest difference is printed as `7.1e-15`, and the check reproduces the record check `Q.one_particle_maps` along the whole history.
+Out [12] prints the onset time of this wave, `9.0446` (later than 8.987 because the hidden momentum lowers $D$ from $2^{1/6}\cdot0.0025 = 0.002806$ to $0.002406$), and `1.1e-14` for the spectra, rounding only. The check reproduces `Q.one_particle_maps` at every time.
 
 **In [13], the last check.**
 
@@ -4763,11 +5233,11 @@ for name in ("10f_1_hermiticity_defect.png", "10f_2_eigenvalues_along_history.pn
 all_checks_passed()
 ```
 
-The five figure files exist, and the last line prints ALL 19 CHECKS PASSED (notebook 10f): the five figure checks and the 14 checks of the cells before (1 each in In [2], In [3], In [5] to In [8], In [10], In [11] and In [12], 3 in In [4] and 2 in In [9]).
+Five checks that the figure files exist (`output_file` gives the path of a repository file, `.is_file()` asks whether it exists), and the final line `ALL 21 CHECKS PASSED (notebook 10f)`.
 
 ### 10.44 The quantum reading of the pairing
 
-The pairing theorem T1 of the Revision record (proved in Chapter 18) says that the chirality matrix maps every solution $\Psi$ of the field with mass $m$ and coupling $\lambda$ to a solution $\Gamma\Psi$ of the field with $-m$ and $-\lambda$, with the energy-momentum tensor and the current reversed: $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$, $T \to -T$, $J \to -J$. Theorem T2 combines $\Gamma$ with a reflection; in the author's field it is the mirror $\gamma^{(x_0)}$ across the ASSUMED Z2 brane, and it pairs $(m, \lambda)$ with $(-m, \lambda)$ at equal energy. What do these maps mean once dirac16complex is QUANTISED? The Revision pairing record answers with five statements, the **quantum reading Q** (record `Revision/pairing/pairing-theory.json`, theorem entry `Q`; Revision proof document, section 6). This section derives them, in flat 4+4 space at one point with $U = 0$ (so $\lambda = 0$; the record states them for general $\lambda$).
+The pairing theorem T1 of the Revision record (proved in Chapter 18) says that the chirality matrix maps every solution $\Psi$ of the field with mass $m$ and coupling $\lambda$ to a solution $\Gamma\Psi$ of the field with $-m$ and $-\lambda$, with the energy-momentum tensor and the current reversed: $\mathcal{L}_{m,\lambda}[\Gamma\Psi] = -\mathcal{L}_{-m,-\lambda}[\Psi]$, $T \to -T$, $J \to -J$. Theorem T2 combines $\Gamma$ with a Pin(4,4) reflection of character $-1$; in the author's field it is realised by the isometry $z \to \pi - z$ across the fold $z = \pi/2$ between the two halves of a cell, which acts on the field with the matrix $\gamma^{(x_0)}$ (the corrected metric has no Z2 orbifold and no matching of the field across the fold is derived), and it pairs $(m, \lambda)$ with $(-m, \lambda)$ at equal energy. What do these maps mean once dirac16complex is QUANTISED? The Revision pairing record answers with five statements, the **quantum reading Q** (record `Revision/pairing/pairing-theory.json`, theorem entry `Q`; Revision proof document, section 6). This section derives them, in flat 4+4 space at one point with $U = 0$ (so $\lambda = 0$; the record states them for general $\lambda$).
 
 **The hypotheses.** (HQ1) dirac16complex is canonically quantised with $x_4$ as the evolution time; the $x_4$-derivative kernel of its Lagrangian is $N = B$ and the canonical anticommutator is $\{\Psi, \Psi^\dagger\} = N^{-1} = B$ at one point (Section 10.12). (HQ2) dirac16complex00 is a classical field and has no quantum reading.
 
@@ -4827,7 +5297,7 @@ by (B1) of Section 10.2 and $CC = I_{16}$; so $BC$ has the eigenvalues $+1$ and 
 
 **(Q4) Identical one-particle spectra.** $\Gamma h_m\Gamma = h_{-m}$ and $\gamma^{(x_0)}h_m(k)\gamma^{(x_0)} = h_{-m}(R_0k)$, so the one-particle spectra of the universes of masses $+m$ and $-m$ are identical, not opposite (Section 10.6), and along the deflating history at every instant (Section 10.39).
 
-**(Q5) The mirror image keeps $+B$.** $\gamma^{(x_0)}B(\gamma^{(x_0)})^\dagger = +B$ (Section 10.15): the mirror universe of T2, with $(-m, \lambda)$, can be quantised as an ordinary independent copy with equal energies.
+**(Q5) The mirror image keeps $+B$.** $\gamma^{(x_0)}B(\gamma^{(x_0)})^\dagger = +B$ (Section 10.15): the mirror universe of T2, with $(-m, \lambda)$, on the other half of the cell, can be quantised as an ordinary independent copy with equal energies.
 
 | statement | status | where it is verified |
 | --- | --- | --- |
@@ -4853,8 +5323,8 @@ The author asked to prove that universes of masses $+m$ and $-m$ are created in 
 2. No rate, probability or amplitude. No transition amplitude, probability, rate or Bogoliubov coefficient for creating universes of masses $+m$ and $-m$ is computed or implied (when the background changes in time, a **Bogoliubov coefficient** measures how much of a wave of negative frequency at a later time is contained in a wave of positive frequency at an earlier time; its square counts the quanta that the change creates). No wave function of the universe (in quantum cosmology, a quantum state of the geometry of the whole universe, from which probabilities for universes are computed) is part of these statements.
 3. No dynamical necessity. No equation and no conservation law forces the partner to exist: a single universe of mass $+m$ is an equally valid solution without its partner.
 4. No cancellation between two universes. The vanishing of the total energy-momentum and charge of a T1 pair holds for classical bilinears and, as Q2 shows, as an operator identity within ONE quantum system. For two independently quantised universes the generators ADD; a pair of total charge 0 has the positive energy $2E$ (Section 10.44).
-5. No positive quantum theory of the whole field. The canonical rule forces a Krein space (Theorem 10.2); in flat 4+4 space every real-frequency eigenspace has Krein inertia $(4, 4)$; a positive Fock space is constructed and checked only for single good-sector momenta with frozen coefficients; the extra-time sector grows and becomes Krein-neutral along the deflating history (Section 10.39); the curved good sector needs a boundary condition at $z = \pi/2$ that the quantisation record does not impose (Section 10.27).
-6. The gravitational field is a fixed background, the same for both members; the back-reaction through the field equations for $a_4$ is not part of these statements, and the history $a_4 = AHx_4$ used in Section 10.39 is a PRESCRIBED BACKGROUND.
+5. No positive quantum theory of the whole field. The canonical rule forces a Krein space (Theorem 10.2); in flat 4+4 space every real-frequency eigenspace has Krein inertia $(4, 4)$; a positive Fock space is constructed and checked only for single good-sector momenta with frozen coefficients; along the deflating history every extra-time wave with a positive growth number $D$ (every one without hidden momentum) grows and becomes Krein-neutral (Section 10.39); the curved good sector needs a boundary condition at the folds $z = \pi/2 + n\pi$ that the quantisation record does not impose (Section 10.27).
+6. The gravitational field is a fixed background, the same for both members; the back-reaction through the field equations for $a_4$ and $b_4$ is not part of these statements, and the history $a_4 = AHx_4$, $b_4 = b_4(0)e^{4a_4/3}$ used in Sections 10.28 and 10.39 is a PRESCRIBED BACKGROUND.
 7. dirac16complex00 is a classical field; no quantum statement is made for it.
 
 **The hypothesis.** That the big bang creates universes in pairs of masses $+m$ and $-m$ is the author's HYPOTHESIS. This chapter neither supports nor refutes it: it contains no creation process. Chapter 20 states the hypothesis, what the equations prove, and what they do not, for both fields; Chapter 21 treats matter and antimatter, where the conjugation of the quantised field $\Psi \to \Gamma\Psi^{\dagger T}$ of Section 10.15 (which reverses the mass) appears again, and states precisely that the theory as built does not solve the matter-antimatter problem.
@@ -4919,7 +5389,7 @@ The colours and the blue-grey-red colour scale of Notebook 10a.
 ```python
 fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
     encoding="utf-8"))
-# gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 1, ..., 8.
+# gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 0, ..., 7.
 gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
 C = gamma[0] @ gamma[1] @ gamma[2] @ gamma[3]  # the author's sigma16
 Gamma = (gamma[0] @ gamma[1] @ gamma[2] @ gamma[3] @ gamma[4] @ gamma[5]
@@ -5742,48 +6212,48 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 
 | statement | where it is verified | notebook |
 | --- | --- | --- |
-| $B = -iC\gamma^{(x_4)}$ is purely imaginary and Hermitian, $BB = I_{16}$, $\mathrm{tr}\,B = 0$, signature (8,8); it commutes with the gammas of $x_1, x_2, x_3, x_4, x_0$ and anticommutes with those of $x_5, x_6, x_7$ | `python-field-theory.json`, check `B_properties`; `wolfram-algebra.json`, check `B_signature_8_8`; `python-algebra.json`, check `B_gamma_relations` | 10a, 10e |
-| the local conservation law $\partial_\mu(\cos z\,J^\mu) = 0$ on shell; the charge $Q = \int\cos z\,\Psi^\dagger B\Psi\,d^7x$ is an indefinite (Krein) form (it is constant in time only when no charge flows through the boundary of the slice, which at $z = \pi/2$ is an ASSUMED no-flux condition that the record does not impose) | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; `wolfram-field-theory.json`, check `charge_density_is_Krein_form_G` | none |
+| $B = -iC\gamma^{(x_4)}$ is purely imaginary and Hermitian, $BB = I_{16}$, $\mathrm{tr}\,B = 0$, signature (8,8); it commutes with the gammas of $x_0, x_1, x_2, x_3, x_4$ and anticommutes with those of $x_5, x_6, x_7$ | `python-field-theory.json`, check `B_properties`; `wolfram-algebra.json`, check `B_signature_8_8`; `python-algebra.json`, check `B_gamma_relations` | 10a, 10e |
+| the local conservation law $\partial_\mu(\sqrt{\lvert g\rvert}\,J^\mu) = 0$ on shell, $\sqrt{\lvert g\rvert} = e^{-a_4}b_4^2\lvert\cot z\rvert(\sin^2 z)^{1/4}$; the charge $Q = \int\sqrt{\lvert g\rvert}\,\Psi^\dagger B\Psi\,d^7x$ is an indefinite (Krein) form (it is constant in time only when no charge flows through the ends of the interval of $z$, which at the folds $z = \pi/2 + n\pi$ is an ASSUMED no-flux condition that the record does not impose) | `charge-conjugation-and-u1.json`, check `u1_noether_matrix_identity`; `wolfram-field-theory.json`, check `charge_density_is_Krein_form_G` | none |
 | one plane wave: $hh = w^2I_{16}$, $Bh = h^\dagger B$ (the Krein form is conserved, also by growing waves); $h$ Hermitian and $[B, h] = 0$ exactly in the good sector | `wolfram-pairing.json`, check `Q_one_particle_flat_dispersion`; `python-field-theory.json`, checks `mode_hamiltonian_B_selfadjoint_dispersion` and `good_sector_spectrum_and_B_sectors`; `wolfram-field-theory.json`, checks `mode_hamiltonian_good_sector` and `mode_hamiltonian_Krein_selfadjoint` | 10a |
 | waves with $w^2 < 0$ grow, with rates that have no upper bound | `python-field-theory.json`, check `extra_time_modes_grow`; `python-scope.json`, check `extra_time_growth_rates_unbounded` | 10a, 10f |
 | Theorem 10.1: Krein inertia (4,4) of every real-frequency eigenspace; Krein-neutral eigenspaces at imaginary and zero frequency | `wolfram-pairing.json`, checks `Q_one_particle_Krein_inertia_real_frequencies` and `Q_one_particle_complex_and_zero_frequencies_Krein_neutral`; `python-pairing.json`, checks `Q.one_particle_Krein_inertia_proof` and `Q.one_particle_complex_frequency_Krein_neutral` | 10a, 10f |
 | $\Gamma h_m\Gamma = h_{-m}$ and $\gamma^{(x_0)}h_m(k)\gamma^{(x_0)} = h_{-m}(R_0k)$: identical one-particle spectra for $+m$ and $-m$ | `python-pairing.json` and `wolfram-pairing.json`, check `Q.one_particle_maps` / `Q_one_particle_maps` | 10a, 10f |
-| the canonical rule $\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\delta^7(x - y)/\cos z$; the Heisenberg equation is the field equation | `python-field-theory.json`, check `canonical_anticommutator_B`; `wolfram-field-theory.json`, checks `first_order_form_and_anticommutator` and `Heisenberg_equation_reproduces_field_equation` | 10b |
+| the canonical rule $\{\Psi_A(x), \Psi^\dagger_C(y)\} = B_{AC}\,\delta^7(x - y)/\sqrt{\lvert g\rvert}$; the Heisenberg equation is the field equation | `python-field-theory.json`, check `canonical_anticommutator_B`; `wolfram-field-theory.json`, checks `first_order_form_and_anticommutator` and `Heisenberg_equation_reproduces_field_equation` | 10b |
 | Theorem 10.2: no positive inner product with $\Psi^\dagger$ the Hilbert adjoint; the state space is a Krein space with fundamental symmetry $B$ | `python-field-theory.json` and `wolfram-field-theory.json`, check `no_positive_inner_product` | 10b |
 | the expectation-value rule $\epsilon_nu_n^\dagger Mu_n$ (Krein-Fock), $u^\dagger BMu$ and $-v^\dagger BMv$ (positive realisation) | `python-field-theory.json`, checks `expectation_value_rule` and `good_sector_positive_fock_realisation` | 10b, 10c |
 | the 17 signs of $MBM^\dagger = \sigma B$; the conjugation $\Psi \to \Gamma\Psi^{\dagger T}$ keeps $B$ and reverses the mass, $M = I_{16}$ gives $-B$ | `pairing-theory.json`, data `Krein_signs_M_B_Mdagger`; `charge-conjugation-and-u1.json`, check `quantum_charge_conjugation_unitary_type` | 10b, 10g |
 | good sector, one momentum with frozen coefficients: positive Fock space with $\Psi^\dagger = \chi B$, vacuum $-8E$, quanta $+E$, charges $\pm1$ | `python-field-theory.json`, check `good_sector_positive_fock_realisation`; `wolfram-field-theory.json`, check `Fock_space_good_sector_example` | 10c, 10f, 10g |
 | the classical commuting field dirac16complex00 has an energy unbounded below and an indefinite charge | `python-scope.json`, check `commuting_field_energy_unbounded_below` | 10c |
-| $\lambda \neq 0$, in the finite Fock model of one good-sector mode set with frozen coefficients (16 modes; symbolic $\lambda$; at rest with symbolic $m$, and $m = 3$, $k = (4, 0, 0, 0)$): ${:}\sum_\mu K_\mu{:} = {:}(m + U'(S))S{:}$ and, at rest, $\hat\rho = {:}mS + U{:}$, $\hat p = {:}SU' - U{:}$ are exact operator identities for solutions of the interacting operator field equation if and only if $U$ and $\hat T$ are Wick ordered | `fock-quartic.json`, checks `trace_identity_operator_identity_wick`, `trace_identity_fails_for_every_other_combination` and `homogeneous_rho_p_operator_identities_wick` | none |
-| curved good sector: symmetric, and the Krein form conserved, only up to the boundary term $\partial_0(\sin z\,u^\dagger M_0v)$; flux $2i$; role of $3H\gamma^{(x_0)}$; $x_0$-independent waves grow for $m^2 < 9H^2$; the exact solution | `python-scope.json`, checks `good_sector_hermiticity_up_to_the_brane_flux` and `good_sector_x0_independent_modes_without_boundary_condition`; `wolfram-field-theory.json`, checks `good_sector_hermiticity_curved` and `Krein_form_conserved_curved`; `python-field-theory.json`, check `exact_solution_family_x4_x0` | 10d |
+| $\lambda \neq 0$, in the finite Fock model of one good-sector mode set with frozen coefficients (16 modes; symbolic $\lambda$; at rest with symbolic $m$, and $m = 3$, $k_1 = 4$): ${:}\sum_\mu K_\mu{:} = {:}(m + U'(S))S{:}$ and, at rest, $\hat\rho = {:}mS + U{:}$, $\hat p = {:}SU' - U{:}$ are exact operator identities for solutions of the interacting operator field equation if and only if $U$ and $\hat T$ are Wick ordered | `fock-quartic.json`, checks `trace_identity_operator_identity_wick`, `trace_identity_fails_for_every_other_combination` and `homogeneous_rho_p_operator_identities_wick` | none |
+| curved good sector: symmetric, and the Krein form conserved, only up to the boundary term $\partial_0(w\,u^\dagger M_0v)$, $w = b_4^{3/2}\sin^{1/2}z$, with the anti-Hermitian part $-iv_g$ of the mode operator compensating $\partial_4\sqrt{\lvert g\rvert} = 2v_g\sqrt{\lvert g\rvert}$; flux factor $2i$ at the fold; role of $c_g\gamma^{(x_0)}$; $x_0$-independent waves grow wherever $m^2 < c_g^2$ ($c_g = \frac32e^{x_4/3}$ on the history); the exact solution of mass 0 | `python-scope.json`, checks `good_sector_hermiticity_up_to_the_brane_flux` and `good_sector_x0_independent_modes_without_boundary_condition`; `wolfram-field-theory.json`, checks `good_sector_hermiticity_curved` and `Krein_form_conserved_curved`; `python-field-theory.json`, checks `sqrt_det_g` and `exact_solution_family_x4_x0` | 10d |
 | the invariant forms are $r_-CP_- + r_+CP_+$; every invariant charge density is indefinite; exactly the 21 generators without $x_4$ keep $B$ (Spin(4,3)) | `python-algebra.json`, checks `spin_commutant_dimension_2` and `S_preserves_C_and_commutes_with_Gamma`; `wolfram-algebra.json`, checks `S_preserves_C` and `S_preserves_B_only_off_x4` | 10e |
-| along the deflating history (local-frame model): $h(x_4)^2 = w(x_4)^2I_{16}$, $\lVert h_A\rVert = k_5$, $\lVert Bh - hB\rVert = 2k_5$; every wave with extra-time momentum reaches the onset time $\ln X^\ast/(2AH)$; the good sector stays Hermitian | this chapter, Section 10.39 (the book's own derivation, exact in sympy) | 10f |
+| along the deflating history (local-frame model): $h(x_4)^2 = w(x_4)^2I_{16}$ with $w^2 = m^2 + q_1^2e^{-2a_4} - (e^{2a_4}/b_4)D$; $\lVert h_A\rVert = k_5$, $\lVert Bh - hB\rVert = 2k_5$; a wave grows eventually exactly when $D = (\sin^2 z)^{-1/6}q_5^2 - \tan^2 z\,q_0^2 > 0$ (always without hidden momentum), once, at the onset time $\ln X^\ast/(2rAH)$; the good sector stays Hermitian | this chapter, Section 10.39 (the book's own derivation, exact in sympy; its case $q_0 = 0$ is the record's statement, `python-field-theory.json`, check `extra_time_modes_grow`) | 10f |
 | the quantum reading Q1 to Q5 of the pairing | `wolfram-pairing.json`, checks `Q_Krein_metric_of_images`, `Q_symplectic_kernel_grassmann`, `Q_generators_of_the_image_grassmann`, `Q_no_identification_of_independent_universes`; `python-pairing.json`, checks `Q.image_krein_metric`, `Q.image_own_quantisation`, `Q.image_generators_same_dynamics`, `Q.no_cancellation_independent_universes`, `Q.T2_image_keeps_B`, `compare.theory.theorem_Q` | 10g |
 
 **Computed.** Numerical results of the notebooks, with their accuracy:
 
-- Notebook 10a: the 16 eigenvalues of $h$ agree with $\pm w$ to $3.6 \times 10^{-15}$; in the scan across the threshold the inertia is $(4, 4, 0)$ at all 110 real-frequency points and $(0, 0, 8)$ at all 137 imaginary-frequency points, with the smallest nonzero Gram eigenvalue 0.2225 below the threshold.
+- Notebook 10a: the 16 eigenvalues of $h$ agree with $\pm w$ to $3.1 \times 10^{-15}$; in the scan across the threshold the inertia is $(4, 4, 0)$ at all 110 real-frequency points and $(0, 0, 8)$ at all 137 imaginary-frequency points, with the smallest nonzero Gram eigenvalue 0.2225 below the threshold.
 - Notebook 10b: the canonical rule holds on the Fock space exactly ($0.0$) and the Heisenberg equation to $1.6 \times 10^{-17}$; the Krein norms of 5000 random unit columns lie between $-0.777$ and $0.704$; for the boosted mode the rule $\epsilon u^\dagger Mu$ holds to $1.3 \times 10^{-15}$, while $u^\dagger BMu$ misses by up to 5.82.
 - Notebook 10c: vacuum $-40$, every quantum $+5$, charges $\pm1$ (to $10^{-12}$), for $m = 2$, $k = (k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$ and for $m = 3$, $k_1 = 4$; the 65536 states of one momentum, one of them of energy 0; the commuting field: densities $\pm5$, and from $-4.364$ to $4.333$ for 4000 random waves.
-- Notebook 10d: the Krein charge of the exact growing solution rises from $1/6$ to 454.007 between $x_4 = 0$ and 1.5 and equals the flux added up over time to a relative $6.7 \times 10^{-7}$; the late growth slope 5.6600 approaches $2k = 5.6569$.
-- Notebook 10e: exactly two zero eigenvalues of $M^TM$ (at most $1.3 \times 10^{-15}$) below the smallest nonzero one, 7.0.
-- Notebook 10f: the onset time 2.996044 of the wave $q_1 = 0.5$, $q_5 = 0.05$ (agreement with bisection $8.9 \times 10^{-16}$ for 48 waves); onset times from 6.9078 to 0.0941 for $10^{-3} \leq q_5 \leq 1$; the good-sector energies at the five slices (for $q_1 = 1$ from 1.414214 down to 1.009116).
+- Notebook 10d: the Krein charge of the exact growing solution of mass 0 rises from $1/3$ to 843.742 between $x_4 = 0$ and 2 along the prescribed history and equals the flux through the fold added up over time to a relative $3.0 \times 10^{-6}$; the growth rate of $\ln(\Psi^\dagger\Psi)$ rises from 1.6165 at $x_4 = 0.5$ to 4.1765 at $x_4 = 2$, as the formula $2c_g\tanh 2\theta - 5/3$ says (to $3.3 \times 10^{-6}$); $c_g = \frac32e^{x_4/3}$ reaches the masses 0.5, 1, 2, 4 at $x_4 = -3.2958$, $-1.2164$, 0.8630, 2.9425.
+- Notebook 10e: exactly two zero eigenvalues of $M^TM$ (at most $1.2 \times 10^{-14}$) below the smallest nonzero one, 7.0.
+- Notebook 10f: the onset time 8.987197 of the wave $q_1 = 0.5$, $q_5 = 0.05$ at the fold (agreement of the quartic with bisection $3.6 \times 10^{-15}$ for 48 waves); onset times from 20.7233 to 0.2228 for $10^{-3} \leq q_5 \leq 1$; the growth criterion $D > 0$ on all 10201 waves of a grid at $z = \pi/4$ (5385 grow, 4816 never do); the good-sector energies at the five slices (for $q_1 = 4$ from 4.123106 down to 1.137124; with the hidden momentum $q_0 = 0.5$ at $z = \pi/4$ and $q_1 = 1$ from 1.5 down to 1.273683 and up again to 1.402402).
 - Notebook 10g: the pair of total charge 0 in two independent universes has the normal-ordered energy $10 = 2E$; of the $2^{32} = 4294967296$ states of one momentum in both universes exactly one (the vacuum) has energy 0.
 
 **Assumed.**
 
 - Anticommutators (not commutators) for dirac16complex: part of its definition as a fermion field; no spin-statistics theorem for signature (4,4) is proved.
 - Normal ordering: a prescription that drops the energy $-8E$ of the filled sea per momentum.
-- Flat 4+4 space, or the frozen-coefficient model of Section 10.3 (the coefficients of one point and one instant, without the two hidden-direction terms of the author's field equation, among them the spin-connection term $3H\gamma^{(x_0)}$; keeping that term breaks $Bh = h^\dagger B$), for the one-particle statements and the Fock spaces; the good sector itself is a restriction imposed by hand (no mechanism that removes the extra-time waves is derived).
-- The deflating history $a_4 = AHx_4$ ($A = H = m = 1$) is a PRESCRIBED BACKGROUND, and the local-frame model of Section 10.39 evaluates the coefficients at one instant and one hidden position (`parameters.json`; `ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`).
-- The Z2 brane condition at $z = \pi/2$ is ASSUMED by the Kohn-Sham record (Chapter 14); the quantisation of this chapter imposes no boundary condition there. The total charge $Q$ is constant in time only under such an ASSUMED no-flux condition at $z = \pi/2$; what is proved is its local conservation law (Section 10.2).
+- Flat 4+4 space, or the frozen-coefficient model of Section 10.3 (the coefficients of one point and one instant, without the change of $\tan z$ along $x_0$ and without the spin-connection term $c_g\gamma^{(x_0)}$ of the author's field equation; keeping that term breaks $Bh = h^\dagger B$), for the one-particle statements and the Fock spaces; the good sector itself is a restriction imposed by hand (no mechanism that removes the extra-time waves is derived).
+- The history $a_4 = AHx_4$, $b_4 = b_4(0)e^{\beta a_4}$ ($A = H = m = 1$, $\beta = 4/3$, $b_4(0) = 1$) is a PRESCRIBED BACKGROUND, and the local-frame model of Section 10.39 evaluates the coefficients at one instant and one hidden position (`parameters.json`; `ks-source-conditions.json`, check `ks_history_is_a_prescribed_background`).
+- The Kohn-Sham record ASSUMES, for its own states, its two fold conditions at the fold $z = \pi/2$ (Chapter 14); the quantisation of this chapter imposes no boundary condition at the folds. The total charge $Q$ over an interval of $z$ between degenerate points is constant in time only under an ASSUMED no-flux condition at its ends; what is proved is its local conservation law (Section 10.2).
 
 **Hypothesis.** That the big bang creates universes in pairs of masses $+m$ and $-m$ is the author's HYPOTHESIS; no equation of this chapter describes a creation, in pairs or otherwise (Section 10.45).
 
 **Open.**
 
-- A positive Hilbert space for the whole quantised field (all momenta, the curved metric), and the quantisation of the extra-time sector, whose waves grow and become Krein-neutral along the deflating history.
-- A boundary condition at the patch end $z = \pi/2$ that makes the curved good-sector evolution Hermitian and conserves the Krein charge.
+- A positive Hilbert space for the whole quantised field (all momenta, the curved metric), and the quantisation of the extra-time sector, whose waves with a positive growth number $D$ (all of them without hidden momentum) grow and become Krein-neutral along the deflating history.
+- A boundary condition at the folds $z = \pi/2 + n\pi$ that makes the curved good-sector evolution Hermitian and conserves the Krein charge.
 - The interacting theory $\lambda \neq 0$, in particular the operator form of the on-shell identity of the energy-momentum tensor beyond the finite model of one good-sector mode set with frozen coefficients (where it holds with Wick ordering only, Section 10.21): for the field on a whole slice, with the curved $x_0$ dependence and in the extra-time sector; symmetry and conservation of the quartic operator are not verified.
 - The evolution of the quantum state through the changing background (whether the instantaneous vacuum of one time contains quanta of a later time).
 - Any creation process, rate or amplitude for universes, which these equations do not contain.
@@ -5804,9 +6274,11 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 
 **Exercise 10.7.** (a) Show that $S^{(x_1x_5)} = \frac12\gamma^{(x_1)}\gamma^{(x_5)}$ is Hermitian and anticommutes with $B$, so that it is Krein-unitary but not unitary. (b) Show that $S^{(x_4x_1)} = \frac12\gamma^{(x_4)}\gamma^{(x_1)}$ is Hermitian and commutes with $B$, and compute its Krein defect $S^\dagger B + BS$.
 
-**Exercise 10.8.** On the deflating history with $A = H = m = 1$ and $y = 0$: (a) find the onset time of the waves with $q_1 = 0$ and $q_5 = 0.05$, and $q_5 = 0.001$; (b) at what time does the wave $q_1 = 0$, $q_5 = 0.05$ reach the frame momentum $k_5 = 2$? (c) Compute $X^\ast$ and the onset time for $q_1 = 0.5$, $q_5 = 0.05$, and explain why it is later than in (a).
+**Exercise 10.8.** On the prescribed history $a_4 = x_4$, $b_4 = e^{4x_4/3}$ ($A = H = m = 1$, $b_4(0) = 1$), for waves without hidden momentum at the fold: (a) find the onset time of the waves with $q_1 = 0$ and $q_5 = 0.05$, and $q_5 = 0.001$; (b) at what time does the wave $q_1 = 0$, $q_5 = 0.05$ reach the frame momentum $k_5 = 2$? (c) For $q_1 = 0.5$, $q_5 = 0.05$ write the quartic for $X^\ast$, show that $X^\ast$ is slightly larger than 400, and explain why the onset is only very slightly later than in (a). (d) At $z = \pi/4$ and $q_1 = 0$: which of the waves $(q_0, q_5) = (0.3, 0.3)$ and $(0.3, 0.2)$ ever grows, and when?
 
-**Exercise 10.9.** For the good-sector waves that do not depend on $x_0$ (Section 10.28), with $H = 1$: find the eigenvalues of $A$ and the growth rate for $m = 2$ and for $m = 4$.
+**Exercise 10.9.** For the good-sector waves that do not depend on $x_0$ (Section 10.28), at the instant $x_4 = 0$ of the prescribed history ($c_g = 3/2$, $H = 1$): find the eigenvalues of $A$ and the growth rate for $m = 1$ and for $m = 2$. At what time of the history does the wave of mass 2 start to grow, and what is its growth rate at $x_4 = 3$?
+
+**Exercise 10.10.** In the author's metric the canonical rule at one point is $\{\Psi_A, \Psi^\dagger_C\} = X_{AC}$ with $X = B/\sqrt{|g|}$, and $\sqrt{|g|}$ changes with the time. Let the field evolve by $\partial_4\Psi = -ih\Psi$ with $h = h_s - iv_g$, where $h_s$ is Krein self-adjoint ($Bh_s = h_s^\dagger B$, for example the mode Hamiltonian of Section 10.3) and $v_g$ is a real number, so that $\partial_4\Psi^\dagger = i\Psi^\dagger h^\dagger$ (a row times a matrix). (a) Show that $h_sB = Bh_s^\dagger$. (b) Compute the rate of change of $X$ that the motion gives. (c) Compare it with $\partial_4(B/\sqrt{|g|})$, using $\partial_4\sqrt{|g|} = 2v_g\sqrt{|g|}$, and say what the term $-iv_g$ does.
 
 ### 10.52 Answers to the exercises
 
@@ -5824,6 +6296,8 @@ The five figure files exist, and the last line prints ALL 30 CHECKS PASSED (note
 
 **Answer 10.7.** (a) $(\gamma^{(x_1)}\gamma^{(x_5)})^\dagger = (\gamma^{(x_5)})^\dagger(\gamma^{(x_1)})^\dagger = (-\gamma^{(x_5)})\gamma^{(x_1)} = \gamma^{(x_1)}\gamma^{(x_5)}$, so $S = S^{(x_1x_5)}$ is Hermitian, $S^\dagger = S$ (and not anti-Hermitian, so $\exp(\theta S)$ is not unitary). $\gamma^{(x_1)}$ commutes and $\gamma^{(x_5)}$ anticommutes with $B$, so $SB = -BS$. The Krein condition: $S^\dagger B + BS = SB + BS = -BS + BS = 0$. (b) $(\gamma^{(x_4)}\gamma^{(x_1)})^\dagger = \gamma^{(x_1)}(-\gamma^{(x_4)}) = \gamma^{(x_4)}\gamma^{(x_1)}$: Hermitian; both gammas commute with $B$, so $SB = BS$. Then $S^\dagger B + BS = 2BS = -iC\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_1)} = iC\gamma^{(x_1)} \neq 0$, the defect of the record check `S_preserves_B_only_off_x4`.
 
-**Answer 10.8.** (a) For $q_1 = 0$, $y = 0$: $x_4^\ast = \ln(m/q_5)/(AH) = \ln(1/q_5)$; $\ln 20 = 2.995732$ for $q_5 = 0.05$, and $\ln 1000 = 6.907755$ for $q_5 = 0.001$. (b) $k_5 = 0.05\,e^{x_4} = 2$ gives $e^{x_4} = 40$, $x_4 = \ln 40 = 3.688879$, where the eigenvalues are $\pm i\sqrt3$ (Notebook 10f, In [7]). (c) With $c = 1$: $X^\ast = (1 + \sqrt{1 + 4 \cdot 0.25 \cdot 0.0025})/(2 \cdot 0.0025) = (1 + \sqrt{1.0025})/0.005 = 400.249844$, and $x_4^\ast = \frac12\ln 400.249844 = 2.996044$, the value of Notebook 10f, In [6]. It is later than $\ln 20$ because the 3-space momentum adds $k_1^2 > 0$ to $w^2$, so the growing $k_5^2$ needs a little longer to overcome $m^2 + k_1^2$.
+**Answer 10.8.** (a) For $q_1 = q_0 = 0$ at the fold $D = q_5^2$ and $X^\ast = m^2b_4(0)/D = 1/q_5^2$, so $x_4^\ast = \ln X^\ast/(2rAH) = \frac32\ln(1/q_5^2) = 3\ln(1/q_5)$ (Section 10.39): $3\ln 20 = 8.987197$ for $q_5 = 0.05$, and $3\ln 1000 = 20.723266$ for $q_5 = 0.001$. (b) $k_5 = 0.05\,e^{x_4/3} = 2$ gives $e^{x_4/3} = 40$, $x_4 = 3\ln 40 = 11.066638$, where the eigenvalues are $\pm i\sqrt3$ (Notebook 10f, In [7]). (c) With $D = 0.0025$, $b_4(0) = 1$, $m = 1$ and $q_1^2 = 0.25$ the quartic is $0.0025X^4 - X^3 - 0.25 = 0$. Divide by $0.0025X^3$: $X = 400 + 100/X^3$. The last term is tiny for $X$ near 400, so insert $X = 400$ on the right: $X^\ast = 400 + 100/(6.4 \times 10^7) = 400.0000016$ (a second round changes nothing at this accuracy). Then $x_4^\ast = \frac32\ln X^\ast = \frac32\ln 400 + \frac32\ln(1 + 3.9 \times 10^{-9}) = 8.987197 + 5.9 \times 10^{-9}$; Notebook 10f, In [6], prints 8.987197. The onset is later because the 3-space momentum adds $k_1^2 = q_1^2e^{-2x_4} > 0$ to $w^2$, but only very slightly: by that time 3-space has inflated by $e^{8.99} \approx 8000$, so $k_1^2 = 0.25\,e^{-17.97} \approx 4 \times 10^{-9}$. (d) At $z = \pi/4$, $\tan z = 1$ and $(\sin^2 z)^{-1/6} = 2^{1/6} = 1.122462$, so $D = 1.122462\,q_5^2 - q_0^2$. For $(0.3, 0.3)$: $D = 1.122462 \cdot 0.09 - 0.09 = 0.011022 > 0$: the wave grows, from $x_4^\ast = \frac32\ln(1/D) = \frac32\ln 90.73 = 6.762$ on ($q_1 = 0$, so $X^\ast = 1/D$). For $(0.3, 0.2)$: $D = 1.122462 \cdot 0.04 - 0.09 = -0.045102 < 0$: it never grows; $w^2 = 1 + 0.045102\,e^{2x_4/3} \geq 1$ at every time (Figure 4 of Notebook 10f, right: the point lies below the grey line).
 
-**Answer 10.9.** $AA = (m^2 - 9H^2)I_{16}$ and $\mathrm{tr}\,A = 0$ (Section 10.28). For $m = 2$: $AA = (4 - 9)I_{16} = -5I_{16}$, eigenvalues $\pm i\sqrt5$ (eight each), growth rate $\sqrt5 \approx 2.236$: these finite-norm waves grow. For $m = 4$: $AA = 7I_{16}$, eigenvalues $\pm\sqrt7 \approx \pm2.646$, real: the waves oscillate (Figure 4 of Notebook 10d: zero growth rate for $m \geq 3H$).
+**Answer 10.9.** $AA = (m^2 - c_g^2)I_{16}$ and $\mathrm{tr}\,A = 0$ (Section 10.28). For $m = 1$: $AA = (1 - \frac94)I_{16} = -\frac54I_{16}$, eigenvalues $\pm i\sqrt5/2 = \pm1.118034\,i$ (eight each), growth rate 1.118034 (Notebook 10d, In [6]): these finite-norm waves grow already at $x_4 = 0$. For $m = 2$: $AA = (4 - \frac94)I_{16} = \frac74I_{16}$, eigenvalues $\pm\sqrt7/2 = \pm1.322876$, real: at $x_4 = 0$ the waves oscillate. On the history $c_g = \frac32e^{x_4/3}$ reaches 2 when $e^{x_4/3} = 4/3$, at $x_4 = 3\ln(4/3) = 0.863046$ (Notebook 10d, In [7], prints 0.8630); from then on the frequencies are imaginary. At $x_4 = 3$, $c_g = \frac32e = 4.077423$, and the growth rate is $\sqrt{c_g^2 - 4} = \sqrt{16.625376 - 4} = \sqrt{12.625376} = 3.553221$ (Figure 4 of Notebook 10d).
+
+**Answer 10.10.** (a) Multiply $Bh_s = h_s^\dagger B$ by $B$ from the left and from the right: $BBh_sB = Bh_s^\dagger BB$, and $BB = I_{16}$ gives $h_sB = Bh_s^\dagger$. (b) By the product rule for anticommutators, $\partial_4\{\Psi_A, \Psi^\dagger_C\} = \{\partial_4\Psi_A, \Psi^\dagger_C\} + \{\Psi_A, \partial_4\Psi^\dagger_C\}$. The first term is $-i\sum_Dh_{AD}\{\Psi_D, \Psi^\dagger_C\} = -i(hX)_{AC}$, the second $i\sum_D\{\Psi_A, \Psi^\dagger_D\}(h^\dagger)_{DC} = i(Xh^\dagger)_{AC}$ (the numbers stand in front of the operators). So the motion gives $\partial_4X = -ihX + iXh^\dagger = -\frac{i}{\sqrt{|g|}}(hB - Bh^\dagger)$. With $h = h_s - iv_g$ and $h^\dagger = h_s^\dagger + iv_g$: $hB - Bh^\dagger = (h_sB - Bh_s^\dagger) - iv_gB - iv_gB = -2iv_gB$, by (a). Hence $\partial_4X = -\frac{i}{\sqrt{|g|}}(-2iv_gB) = -2v_g\frac{B}{\sqrt{|g|}}$. (c) $\partial_4(B/\sqrt{|g|}) = -B\,\partial_4\sqrt{|g|}/|g| = -2v_gB/\sqrt{|g|}$, by the chain rule: the same. The anti-Hermitian term $-iv_g$ makes the anticommutator of the evolving field follow the changing volume, so the canonical rule holds at every time; without it ($v_g$ dropped from $h$) the motion would keep $X$ constant, and the rule would fail at later times. This is the same compensation as in Section 10.27, where $-iv_g$ cancels the time dependence of the volume in the inner product.

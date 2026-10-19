@@ -157,9 +157,9 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The author's coordinates are $x_1, x_2, x_3$ (ordinary 3-space), $x_4$ (the time),
-    $x_5, x_6, x_7$ (the three EXTRA TIMES, which deflate exponentially in the author's
-    metric) and $x_0$ (the hidden space direction). The frame metric is
+    The author's coordinates are $x_0$ (the hidden space direction, listed first),
+    $x_1, x_2, x_3$ (ordinary 3-space), $x_4$ (the time) and $x_5, x_6, x_7$ (the three
+    EXTRA TIMES, which deflate exponentially in the author's metric). The frame metric is
     $\eta = \mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ in the order $x_0, \dots, x_7$:
     the gammas obey $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} =
     2\eta^{ab} I_{16}$, so $(\gamma^{(a)})^2 = +1$ for $x_0, x_1, x_2, x_3$ and $-1$
@@ -195,26 +195,37 @@ CELLS = [
     \sum_{a \neq 4} k_a\gamma^{(x_a)} .$$
 
     **Frame momenta and the deflating extra times.** The numbers $k_a$ are momenta in
-    the local frame. In the author's metric the field equation contains the derivative
-    along $x_a$ divided by the scale factor $f_a$ of that direction (Revision theory
-    record): $f_a = e^{a_4}\sin^{1/6}z$ for $x_1, x_2, x_3$ and $f_a =
-    e^{-a_4}\sin^{1/6}z$ for the extra times $x_5, x_6, x_7$. A wave $e^{iq_ax_a}$
-    with the coordinate momentum $q_a$ therefore has the frame momentum $k_a = q_a/f_a$:
-    along 3-space $k_a = q_ae^{-a_4}\sin^{-1/6}z$ shrinks as 3-space inflates, and along
-    an extra time $k_a = q_ae^{a_4}\sin^{-1/6}z$ GROWS as the extra times deflate
-    ($a_4$ increasing). The *frozen-coefficient model* evaluates these factors at one
-    time $x_4$ and one hidden position, so that the wave equation of that instant has
-    constant coefficients, AND it leaves out the two terms of the hidden direction that
-    the author's field equation also contains: the derivative $\tan z\,
-    \gamma^{(x_0)}\partial_0\Psi$ with its coefficient that changes along $x_0$, and the
-    spin-connection term $3H\gamma^{(x_0)}\Psi$ (Revision theory record, formula
-    `field_equation`). The model is therefore an ASSUMPTION. Kept in the equation, the
-    connection term would add $3iH\gamma^{(x_4)}\gamma^{(x_0)}$ to the matrix $h$ above;
-    that matrix commutes with $B$ and is anti-Hermitian, so it would spoil the identity
-    $Bh = h^\dagger B$ that this notebook proves, and the frequencies could become
-    complex. The extra times are not static: the notebook "The Krein structure along the
-    deflating history" of this chapter follows the frame momenta, and everything this
-    notebook computes, along the deflating history.
+    the local frame. In the author's metric (the corrected metric of 2026-10-16, with
+    the two functions $a_4(x_4)$ and $b_4(x_4) > 0$ of the time and $z = 6Hx_0$) the
+    field equation contains the derivative along $x_a$ divided by the scale factor
+    $f_a$ of that direction (Revision theory record, formula `vielbein_diagonal`):
+    $f_a = e^{a_4}$ for $x_1, x_2, x_3$ (3-space has no warp) and $f_a =
+    e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$ for the extra times $x_5, x_6, x_7$. A wave
+    $e^{iq_ax_a}$ with the coordinate momentum $q_a$ therefore has the frame momentum
+    $k_a = q_a/f_a$: along 3-space $k_a = q_ae^{-a_4}$ shrinks as 3-space inflates, and
+    along an extra time $k_a = q_ae^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}$ GROWS as the
+    extra times deflate (on the prescribed history of the Revision record
+    $e^{-a_4}b_4^{1/2}$ is proportional to $e^{-a_4/3}$, with $a_4$ increasing).
+
+    The *frozen-coefficient model* evaluates these factors at one time $x_4$ and one
+    hidden position, so that the wave equation of that instant has constant
+    coefficients. The field equation also contains the spin-connection term
+    $c_g\gamma^{(x_0)}\Psi + v_g\gamma^{(x_4)}\Psi$ with $c_g =
+    \frac32He^{a_4}b_4^{-1/2}$ and $v_g = b_4'/b_4 - a_4'/2$ (Revision theory record,
+    formulas `gammaOmega_total` and `field_equation`). The model removes the $v_g$ term
+    exactly by writing $\Psi = e^{a_4/2}b_4^{-1}u$ (the factor $e^{a_4/2}b_4^{-1}$
+    changes at the rate $-v_g$, so $\gamma^{(x_4)}\partial_4\Psi +
+    v_g\gamma^{(x_4)}\Psi = e^{a_4/2}b_4^{-1}\gamma^{(x_4)}\partial_4u$), AND it leaves
+    out the two terms of the hidden direction: the derivative
+    $e^{a_4}b_4^{-1/2}\tan z\,\gamma^{(x_0)}\partial_0\Psi$ with its coefficient that
+    changes along $x_0$, and the term $c_g\gamma^{(x_0)}\Psi$. The model is therefore an
+    ASSUMPTION. Kept in the equation, the term $c_g\gamma^{(x_0)}\Psi$ would add
+    $ic_g\gamma^{(x_4)}\gamma^{(x_0)}$ to the matrix $h$ above; that matrix commutes with
+    $B$ and is anti-Hermitian, so it would spoil the identity $Bh = h^\dagger B$ that
+    this notebook proves, and the frequencies could become complex. The extra times are
+    not static: the notebook "The Krein structure along the deflating history" of this
+    chapter follows the frame momenta, and everything this notebook computes, along the
+    deflating history.
 
     **The Krein form is conserved.** The charge density of the field is
     $\Psi^\dagger B\Psi$ with $B = -iC\gamma^{(x_4)}$, $C = \gamma^{(x_0)}\gamma^{(x_1)}
@@ -242,7 +253,7 @@ CELLS = [
 
     The next cell reads the author's gamma matrices from the Revision record
     `Revision/algebra/gammas.json` (16 x 16 matrices of whole numbers), stores them as
-    `gamma[1]`, ..., `gamma[0]` so that `gamma[a]` is $\gamma^{(x_a)}$, and checks the
+    `gamma[0]`, ..., `gamma[7]` so that `gamma[a]` is $\gamma^{(x_a)}$, and checks the
     64 Clifford relations exactly (whole numbers, no rounding).
 
     It also defines `check_record(condition, name, record)`. It does what
@@ -296,7 +307,7 @@ CELLS = [
 
     fixture = json.loads(repository_file("Revision/algebra/gammas.json").read_text(
         encoding="utf-8"))
-    # gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 1, ..., 8.
+    # gamma[a] is the matrix gamma^(x_a) of the coordinate x_a, a = 0, ..., 7.
     gamma = {a: np.array(fixture["gamma"][a], dtype=int) for a in range(8)}
     eta = {a: fixture["eta"][a] for a in range(8)}  # +1 space-like, -1 time-like
     identity = np.eye(16, dtype=int)
@@ -411,14 +422,14 @@ CELLS = [
     The next cell defines two functions. `mode_hamiltonian(m, k)` returns the numpy
     matrix $h = -im\gamma^{(x_4)} - \gamma^{(x_4)}\sum_a k_a\gamma^{(x_a)}$, where `k` is a
     dictionary that gives the momentum $k_a$ for some of the slice directions
-    $a = 1, 2, 3, 5, 6, 7, 8$ (missing directions have momentum 0).
+    $a = 0, 1, 2, 3, 5, 6, 7$ (missing directions have momentum 0).
     `frequency_squared(m, k)` returns $w^2 = m^2 + \sum_a \eta_{aa}k_a^2$: the
     space-like momenta enter with $+$, the extra-time momenta with $-$.
     """),
     code(r'''
     def mode_hamiltonian(m, k):
         """h = -i m gamma^(x4) - gamma^(x4) sum_a k_a gamma^(x_a), a numpy matrix;
-        k is a dictionary {a: k_a} for some of the directions a = 1, 2, 3, 5, 6, 7, 8."""
+        k is a dictionary {a: k_a} for some of the directions a = 0, 1, 2, 3, 5, 6, 7."""
         h = -1j * m * gamma[4]
         for a, k_a in k.items():
             h = h - k_a * (gamma[4] @ gamma[a])
@@ -440,7 +451,7 @@ CELLS = [
     '''),
     md(r"""
     A numerical example is not a proof. The next cell repeats the computation EXACTLY
-    with sympy, for symbols $m, k_1, k_2, k_3, k_5, k_6, k_7, k_0$ that stand for any
+    with sympy, for symbols $m, k_0, k_1, k_2, k_3, k_5, k_6, k_7$ that stand for any
     real numbers. It checks two identities for all values at once:
 
     - $h^2 = w^2 I_{16}$ (so every eigenvalue of $h$ is $+w$ or $-w$);
@@ -489,7 +500,7 @@ CELLS = [
     in them. Only $k_5, k_6, k_7$ appear: both matrices vanish exactly when there is no
     momentum along the extra times, the *good sector*. (The reason: $\gamma^{(x_4)}
     \gamma^{(x_a)}$ is Hermitian for the space-like directions and anti-Hermitian for
-    the extra times, and it commutes with $B$ for $a = 1, 2, 3, 8$ and anticommutes
+    the extra times, and it commutes with $B$ for $a = 0, 1, 2, 3$ and anticommutes
     with $B$ for $a = 5, 6, 7$.)
     """),
     code(r'''
@@ -760,8 +771,8 @@ CELLS = [
     sector $B$ maps this eigenspace into itself), each $+1$ or $-1$; a sum of eight
     such numbers is 0 only with four of each: inertia $(4, 4)$.
 
-    **Step (iii).** Turning on the extra-time momenta slowly at fixed $m, k_1, k_2, k_3,
-    k_0$ keeps $w^2$ positive as long as $k_t^2 < m^2 + k_s^2$, the projectors change
+    **Step (iii).** Turning on the extra-time momenta slowly at fixed $m, k_0, k_1, k_2,
+    k_3$ keeps $w^2$ positive as long as $k_t^2 < m^2 + k_s^2$, the projectors change
     continuously, and the Krein form stays nondegenerate on their ranges by step (i).
     An eigenvalue of the Gram matrix could change sign only by passing through 0, which
     nondegeneracy forbids: the inertia stays $(4, 4)$ at every real frequency.
@@ -856,9 +867,8 @@ CELLS = [
     eigenspace side by side as the 16 columns of a matrix $W$, and draws the sizes of the
     entries of the Gram matrix $W^\dagger B W$ for three waves:
 
-    - the good-sector sample $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$ along $(x_0,
-    x_1, x_2, x_3)$,
-      $w = 5$;
+    - the good-sector sample $m = 2$, $(k_0, k_1, k_2, k_3) = (4, 1, 2, 0)$ along
+      $(x_0, x_1, x_2, x_3)$, $w = 5$;
     - $m = 2$ with the extra-time momentum $k_5 = 1$: still a real frequency,
       $w = \sqrt3$;
     - $m = 1$, $k_5 = 2$: an imaginary frequency, $w = i\sqrt3$.
@@ -1013,8 +1023,8 @@ CELLS = [
     ## 14. What this notebook showed
 
     - PROVED (exactly, with sympy, for all real $m$ and momenta): the mode Hamiltonian
-      of a plane wave obeys $h^2 = w^2 I_{16}$ with $w^2 = m^2 + k_1^2 + k_2^2 + k_3^2 +
-      k_0^2 - k_5^2 - k_6^2 - k_7^2$, and $Bh = h^\dagger B$, so the Krein form
+      of a plane wave obeys $h^2 = w^2 I_{16}$ with $w^2 = m^2 + k_0^2 + k_1^2 + k_2^2 +
+      k_3^2 - k_5^2 - k_6^2 - k_7^2$, and $Bh = h^\dagger B$, so the Krein form
       $u^\dagger B u$ (the charge) of every wave is conserved, also of a growing one;
       $h$ is Hermitian and commutes with $B$ exactly in the good sector.
     - PROVED (steps (i) and (ii) exactly, step (iii) by continuity; flat 4+4 space or
@@ -1025,7 +1035,7 @@ CELLS = [
       positive and negative charges are mixed half and half at every real frequency;
       the good sector does not remove this indefiniteness of the one-particle waves.
     - PROVED (exactly): $\Gamma h_m\Gamma = h_{-m}$ and $\gamma^{(x_0)}h_m(k)\gamma^{(x_0)}
-      = h_{-m}(R_8k)$: the universes of masses $+m$ and $-m$ have identical
+      = h_{-m}(R_0k)$: the universes of masses $+m$ and $-m$ have identical
       one-particle spectra.
     - REPRODUCED: the properties of $B$ (signature $(8, 8)$), the eight recorded
       samples of the pairing record, the recorded Krein inertia and neutrality samples,
