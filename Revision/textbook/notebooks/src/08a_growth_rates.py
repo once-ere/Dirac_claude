@@ -122,11 +122,14 @@ CELLS = [
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Coordinates** $x_0, \dots, x_7$ (the author's names): $x_1, x_2, x_3$ ordinary
-      space (it inflates); $x_4$ the time; $x_5, x_6, x_7$ the three *extra times*,
-      time-like directions that DEFLATE exponentially (their lengths carry the factor
-      $e^{-a_4}\sin^{1/6} z$ with $a_4$ increasing); $x_0$ the hidden space direction,
-      $z = 6 H x_0$ between $0$ and $\pi/2$.
+    - **Coordinates** $x_0, \dots, x_7$ (the author's names, the hidden direction
+      first): $x_0$ the hidden space direction, $z = 6 H x_0$ taking every real value;
+      $x_1, x_2, x_3$ ordinary space (it inflates, scale factor $e^{a_4}$); $x_4$ the
+      time; $x_5, x_6, x_7$ the three *extra times*, time-like directions that DEFLATE
+      exponentially (their lengths carry the factor
+      $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$, which shrinks along the history of the
+      record; the hidden direction, with the factor $e^{-a_4}b_4^{1/2}|\cot z|$,
+      shrinks with them).
     - **Gamma matrices** $\gamma^{(0)}, \dots, \gamma^{(7)}$: sixteen-by-sixteen matrices
       of the numbers $0, 1, -1$ with $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)}
       = 2\eta^{ab} I_{16}$ (the *Clifford relation*), $\eta = \mathrm{diag}(+1, +1, +1,
@@ -173,25 +176,28 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The field equation (with $U = 0$) in the author's metric, in the diagonal frame, is
+    The field equation (with $U = 0$) in the author's corrected metric, in the diagonal
+    frame, is
 
-    $$\tan z\,\gamma^{(0)}\partial_0\Psi + e^{-a_4}\sin^{-1/6}z\,\gamma^{(i)}\partial_i\Psi
-    + \gamma^{(4)}\partial_4\Psi + e^{a_4}b_4^{-1/2}\sin^{-1/6}z\,\gamma^{(t)}\partial_t\Psi
-    + M\Psi = m\Psi$$
+    $$e^{a_4}b_4^{-1/2}\tan z\,\gamma^{(0)}\partial_0\Psi + e^{-a_4}\gamma^{(i)}
+    \partial_i\Psi + \gamma^{(4)}\partial_4\Psi + e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}
+    \gamma^{(t)}\partial_t\Psi + G\Psi = m\Psi$$
 
-    (sums over $i = 1, 2, 3$ and $t = 5, 6, 7$; $b_4(x_4) > 0$ is the second function
-    of the author's metric). $M = 3H\gamma^{(0)} + \frac34(b_4'/b_4)\gamma^{(4)}$ is
-    the gravitational term (Chapter 6); it has no derivative, so it does not change
-    the growth of short waves. It disappears exactly in the variables $\chi =
-    \sin^{1/2}z\,b_4^{3/4}\Psi$ (Revision check `rescaling_removes_the_connection_term`,
-    for all functions $a_4$ and $b_4$). With frozen coefficients the factors
-    $e^{-a_4}\sin^{-1/6}z$, $e^{a_4}b_4^{-1/2}\sin^{-1/6}z$ and $\tan z$ become
-    constants and are absorbed into the frame momenta $k_a$; in flat 4 + 4 space they
-    are exactly 1. (Freezing them is a local MODEL: along the history of the record,
-    $a_4 = AHx_4$ and $b_4 = b_4(0)e^{(4/3)AHx_4}$, the extra-time factor
-    $e^{a_4}b_4^{-1/2}$ keeps growing like $e^{AHx_4/3}$, so the frame momentum of a
-    given wave along an extra time keeps growing too; Notebook 08b computes that.) So
-    for a plane wave the equation reads, line by line:
+    (sums over $i = 1, 2, 3$ and $t = 5, 6, 7$; $a_4(x_4)$ and $b_4(x_4) > 0$ are the
+    two functions of the author's metric). $G = c_g\gamma^{(0)} + v_g\gamma^{(4)}$ with
+    $c_g = \frac32He^{a_4}b_4^{-1/2}$ and $v_g = b_4'/b_4 - a_4'/2$ is the
+    gravitational term (Chapter 6); it has no derivative, so it does not change the
+    growth of short waves. It disappears exactly in the variables $\chi =
+    e^{-a_4/2}b_4(\sin^2 z)^{1/8}\Psi$ (Revision check
+    `rescaling_removes_the_connection_term`, for all functions $a_4$ and $b_4$). With
+    frozen coefficients the factors $e^{a_4}b_4^{-1/2}\tan z$, $e^{-a_4}$ and
+    $e^{a_4}b_4^{-1/2}(\sin^2 z)^{-1/12}$ become constants and are absorbed into the
+    frame momenta $k_a$; in flat 4 + 4 space they are exactly 1. (Freezing them is a
+    local MODEL: along the history of the record, $a_4 = AHx_4$ and $b_4 =
+    b_4(0)e^{(4/3)AHx_4}$, the factor $e^{a_4}b_4^{-1/2}$ of the extra times and of
+    the hidden direction keeps growing like $e^{AHx_4/3}$, so the frame momenta of a
+    given wave along an extra time or along the hidden direction keep growing too;
+    Notebook 08b computes that.) So for a plane wave the equation reads, line by line:
 
     1. $\gamma^{(4)}(-iE)u + \sum_{a \neq 4} i k_a \gamma^{(a)} u = m u$, because
        $\partial_4$ gives the factor $-iE$ and $\partial_a$ the factor $i k_a$.
@@ -785,9 +791,9 @@ CELLS = [
       ones; the growing eigenspaces are Krein-neutral and the real-frequency ones have
       inertia (4, 4) (PROVED in the pairing record; reproduced here on its samples).
     - Scope: these are statements with frozen coefficients (or in flat 4 + 4 space). In
-      the author's metric the extra times deflate, so the frame momentum of a wave
-      along an extra time grows with time; that is the subject of the next example of
-      this chapter (Notebook 08b).
+      the author's corrected metric the extra times and the hidden direction deflate
+      together, so the frame momenta of a wave along them grow with time; that is the
+      subject of the next example of this chapter (Notebook 08b).
     """),
 ]
 
