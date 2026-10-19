@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Builder of Notebook 12b, "The source the linear member requires".
+"""Builder of Notebook 12b, "The source that the exponential histories require".
 
-Textbook "Universes in Pairs", chapter 12 (the field equations for a4: Einstein and
+Textbook "Universes in Pairs", chapter 12 (the field equations for a4 and b4: Einstein and
 Einstein-Lovelock).  The notebook Revision/textbook/notebooks/12b_required_source.ipynb is
 BUILT from this file by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
 
@@ -11,9 +11,10 @@ BUILT from this file by Revision/textbook/tools/nbkit.py (never edit the .ipynb 
     python Revision/textbook/tools/nbkit.py check \
         Revision/textbook/notebooks/src/12b_required_source.py
 
-It reads the Lovelock components and the linear-member formulas of the Revision record
-Revision/field_equations_a4/a4-equations.json, re-derives the linear-member source from
-the components, and explores it with plots versus A, alpha_2, alpha_3 and Lambda.
+It reads the Lovelock components of the Revision record
+Revision/field_equations_a4/a4-equations.json (the corrected metric of 2026-10-16), derives
+the source that every exponential history a4 = A H x4 + a0, b4 = b4(0) e^(beta A H x4)
+requires, and explores it with plots versus the time, A, beta, alpha_2 and Lambda.
 """
 
 import sys
@@ -25,47 +26,60 @@ from nbkit import code, md, run_builder  # noqa: E402
 FACTS = {
     "id": "12b",
     "name": "12b_required_source",
-    "title": "The source that the linear member a4 = A H x4 requires",
+    "title": "The source that the exponential histories a4 = A H x4, b4 = e^(beta A H x4) "
+             "require",
     "purpose": (
-        "It reads the Lovelock components of the a4 field equations from the Revision "
-        "record, derives the energy density and the pressure that the exponentially "
-        "deflating linear member a4 = A H x4 + a0 requires for every slope A, every "
-        "cosmological constant and every Lovelock coupling, checks the symmetry A to "
-        "minus A, the null energy condition, the Einstein-Gauss-Bonnet and third-order "
+        "It reads the Lovelock components of the field equations for a4 and b4 of the "
+        "corrected metric from the Revision record, derives the energy density and the "
+        "pressures that every exponential history requires for every slope A, every "
+        "ratio beta, every cosmological constant and every Lovelock coupling, follows "
+        "the source of the record history a4 = H x4, b4 = e^(4 H x4/3) in Einstein "
+        "gravity and with the author's weights, checks the symmetry A to minus A, the "
+        "two null energy conditions, the Einstein-Gauss-Bonnet and the author's-weights "
         "vacua and the conditions on a homogeneous condensate of dirac16complex00, "
         "compares every result with the Revision records, and draws eight teaching "
         "plots."
     ),
     "records": [
         ["Revision/field_equations_a4/a4-equations.json",
-         "the Lovelock components, the linear-member formulas and the condensate "
-         "statements of the a4 record"],
+         "the Lovelock components, the exponential-history formulas and the condensate "
+         "statements of the a4 and b4 record"],
         ["Revision/field_equations_a4/reports/python-a4-report.json",
-         "the sympy checks of the a4 record that the notebook reproduces"],
+         "the sympy checks of the a4 and b4 record that the notebook reproduces"],
         ["Revision/field_equations_a4/reports/wolfram-a4-report.json",
-         "the Wolfram checks of the a4 record that the notebook reproduces"],
+         "the Wolfram checks of the a4 and b4 record that the notebook reproduces"],
         ["Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json",
-         "the independent Einstein and Gauss-Bonnet checks that the notebook "
-         "reproduces"],
+         "the independent Einstein checks that the notebook reproduces"],
+        ["Revision/metric_warped/results/warped-metric.json",
+         "the source of the record history written by the record of the corrected "
+         "metric"],
+        ["Revision/metric_warped/reports/wolfram-warped-metric-report.json",
+         "the Wolfram check of that source that the notebook reproduces"],
+        ["Revision/field_equations_a4/reports/ks-source-conditions.json",
+         "the energy densities that the record history needs at five slices, reproduced"],
+        ["Revision/field_equations_a4/ks_source/reports/ks-source-a4.json",
+         "the record of where that energy density changes sign, reproduced"],
+        ["Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json",
+         "the record that no condensate is the source of the record history"],
     ],
     "packages": ["numpy", "sympy", "matplotlib"],
     "needs_rust": [],
     "expected_seconds": 15,
-    "timeout_seconds": 300,
+    "timeout_seconds": 600,
     "files_written": [
         "Revision/textbook/figures/12b.captions.json",
         "Revision/textbook/figures/12b_1_einstein_source.png",
-        "Revision/textbook/figures/12b_2_source_regions.png",
-        "Revision/textbook/figures/12b_3_phantom_w.png",
-        "Revision/textbook/figures/12b_4_gauss_bonnet_source.png",
+        "Revision/textbook/figures/12b_2_sign_symmetry.png",
+        "Revision/textbook/figures/12b_3_beta_scan.png",
+        "Revision/textbook/figures/12b_4_author_weights_source.png",
         "Revision/textbook/figures/12b_5_null_energy_map.png",
         "Revision/textbook/figures/12b_6_gauss_bonnet_vacuum.png",
-        "Revision/textbook/figures/12b_7_third_order_vacua.png",
-        "Revision/textbook/figures/12b_8_condensate_slope.png",
+        "Revision/textbook/figures/12b_7_author_weights_no_vacuum.png",
+        "Revision/textbook/figures/12b_8_condensate_conditions.png",
     ],
     "final_lines": [
         "PASS all eight figure files exist",
-        "ALL 24 CHECKS PASSED (notebook 12b)",
+        "ALL 23 CHECKS PASSED (notebook 12b)",
     ],
     "troubleshooting": [
         ["\"FileNotFoundError\" naming a4-equations.json",
@@ -79,72 +93,81 @@ CELLS = [
     md(r"""
     ## 1. What this notebook computes
 
-    The author's metric contains one unknown function, $a_4(x_4)$. Its simplest
-    choice is the **linear member** $a_4 = AHx_4 + a_0$: 3-space grows like
-    $e^{AHx_4}$ and the three extra times shrink like $e^{-AHx_4}$ (exponential
-    deflation for $A > 0$). The field equations then say exactly what source (energy
-    density $\rho$ and pressure $p$) must be present. This notebook
+    The author's corrected metric contains two unknown functions of the time,
+    $a_4(x_4)$ and $b_4(x_4)$. The simplest choices are the **exponential histories**
+    $a_4 = AHx_4 + a_0$, $b_4 = b_4(0)e^{\beta AHx_4}$: 3-space grows like
+    $e^{AHx_4}$, and the hidden direction and the three extra times share the scale
+    factor $e^{-a_4}b_4^{1/2} \propto e^{-(1 - \beta/2)AHx_4}$, which shrinks
+    (deflates) when $A > 0$ and $\beta < 2$. The **record history** of the Revision
+    record is $A = 1$, $\beta = 4/3$, $b_4(0) = 1$. The field equations then say exactly
+    what source (energy density $\rho$ and pressures $p_3$, $p_0 = p_t$) must be
+    present. This notebook
 
-    - reads the Lovelock tensors of the field equations from the Revision record and
-      derives from them the required $\kappa\rho$ and $\kappa p$ for every slope $A$,
-      cosmological constant $\Lambda$ and Lovelock couplings $\alpha_1, \alpha_2,
-      \alpha_3$, and compares them with the record;
-    - shows that the result does not change when $A$ is replaced by $-A$ (deflation is
-      a choice of sign);
-    - maps, in Einstein gravity, where $\rho$ and $p$ are positive or negative, and
-      shows that a positive energy density always comes with $w = p/\rho < -1$;
-    - shows what the Gauss-Bonnet coupling $\alpha_2$ and the third-order coupling
-      $\alpha_3$ change, where the null energy condition holds, and where a vacuum
-      (no source at all) exists;
-    - writes the conditions that a homogeneous condensate of the commuting field
-      dirac16complex00 must meet to be the source;
+    - reads the Lovelock tensors from the Revision record and derives from them the
+      required $\kappa\rho$, $\kappa p_3$ and $\kappa p_0 = \kappa p_t$ for every $A$,
+      $\beta$, cosmological constant $\Lambda$ and Lovelock couplings, and compares
+      them with the record;
+    - shows that, as functions of $k = e^{2a_4}/b_4$, they contain $A$ only through
+      $A^2$ (the sign of $A$ is a choice);
+    - follows the source of the record history in Einstein gravity and with the
+      author's weights, where the energy density changes sign;
+    - shows that in Einstein gravity no exponential history has a source that
+      satisfies both null energy conditions;
+    - finds the Einstein-Gauss-Bonnet vacua and shows that the author's weights allow
+      none;
+    - states what a homogeneous condensate of dirac16complex00 would need to be the
+      source;
     - draws eight teaching plots.
     """),
     md(r"""
     ## 3. The words used in this notebook
 
-    - **Linear member**: the choice $a_4 = AHx_4 + a_0$ with constant **slope** $A$, so
-      that $a_4' = AH$ and $a_4'' = 0$. $A > 0$: 3-space inflates and the extra times
-      $x_5, x_6, x_7$ deflate exponentially; $A < 0$: the opposite; $A = 0$: static.
+    - **Exponential history**: $a_4 = AHx_4 + a_0$, $b_4 = b_4(0)e^{\beta AHx_4}$ with
+      constants $A$ (the **slope**), $\beta$ and $a_0$; then $a_4' = AH$,
+      $u = b_4'/b_4 = \beta AH$, $a_4'' = v = 0$, and
+      $k = e^{2a_4}/b_4 = k_0e^{(2 - \beta)AHx_4}$ changes in time unless $\beta = 2$
+      or $A = 0$.
+    - **Record history**: $A = 1$, $\beta = 4/3$, $a_0 = 0$, $b_4(0) = 1$, so
+      $k = e^{(2/3)Hx_4}$; the scale factor of the hidden direction and of the extra
+      times is $e^{-a_4}b_4^{1/2} = e^{-Hx_4/3}$.
     - **Source**: the matter whose energy-momentum tensor stands on the right-hand side
-      of the field equations: energy density $\rho$, pressures $p_3$ (3-space), $p_t$
-      (extra times), $p_0$ (hidden direction $x_0$).
-    - **Required source**: the $\rho$ and $p$ that the field equations demand for a
-      given $a_4$; we read them off the equations instead of assuming a kind of matter.
+      of the field equations: energy density $\rho$, pressures $p_0$ (hidden direction),
+      $p_3$ (3-space), $p_t$ (extra times). The corrected metric needs $p_0 = p_t$.
+    - **Required source**: the $\rho$, $p_3$, $p_0$ that the field equations demand for
+      a given history; we read them off the equations instead of assuming a kind of
+      matter.
     - **Couplings**: $\alpha_1$ (Einstein), $\alpha_2$ (Gauss-Bonnet), $\alpha_3$ (third
-      order); **Einstein gravity** is $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$;
-      $\Lambda$ is the cosmological constant, $\kappa > 0$ the strength of gravity.
+      order); **Einstein gravity** is $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$; the
+      **author's weights** are $\alpha_k = w_k/H^{2k}$, $w = (1, \tfrac1{32},
+      \tfrac1{1152})$, with $\Lambda = -10$ in the record's convention; $\Lambda$ is the
+      cosmological constant, $\kappa > 0$ the strength of gravity.
     - **Units**: the plots use $H = 1$ and $\kappa = 1$, so $\kappa\rho$, $\kappa p$
-      and $\Lambda$ are in units of $H^2$; $\alpha_2 H^2$ and $\alpha_3 H^4$ are pure
-      numbers.
-    - **Equation of state** $w = p/\rho$.
-    - **Null energy condition** (NEC) along $x_0$: $\rho + p_0 \ge 0$. Ordinary matter
-      satisfies it; a source with $w < -1$ and $\rho > 0$ (called *phantom*) violates
-      it.
-    - **Vacuum**: $\rho = p = 0$, no source at all.
+      and $\Lambda$ are in units of $H^2$.
+    - **Null energy condition** (NEC) along a null direction: along $x_4 + x_0$ it is
+      $\rho + p_0 \ge 0$, along $x_4 + x_1$ it is $\rho + p_3 \ge 0$. Ordinary matter
+      satisfies both.
+    - **Vacuum**: $\rho = p_3 = p_0 = 0$, no source at all.
     - **Condensate**: a configuration of the field dirac16complex00 that depends only on
-      the time $x_4$; $S = \bar\Phi\Phi$ is its scalar density, $m$ the mass, and
-      $U = \tfrac{\lambda}{2}S^2$ the self-interaction with strength $\lambda$.
+      the time $x_4$; its source has equal pressures, $p_3 = p_t = p_0$.
     - **Status labels**: PROVED (an exact identity, checked here and in the record),
       ASSUMED (a choice made, not derived), OPEN (not established).
     """),
     md(r"""
     ## 4. The physical and mathematical situation
 
-    For a source that does not depend on $x_0$ and has no mixed components, the
-    Einstein-Lovelock field equations of the author's metric reduce to (the Revision
-    record `a4-equations.json`):
+    For a source that does not depend on $x_0$ and has no mixed component, the
+    Einstein-Lovelock field equations of the corrected metric reduce to three
+    equations (the Revision record `a4-equations.json`):
 
     $$\sum_k \alpha_k E_{(k)}{}^{x_4}{}_{x_4} + \Lambda = -\kappa\rho,\qquad
-    \sum_k \alpha_k E_{(k)}{}^{x_0}{}_{x_0} + \Lambda = \kappa p_0,$$
-    $$\sum_k \alpha_k E_{(k)}{}^{x_1}{}_{x_1} + \Lambda = \kappa p_3,\qquad
-    \sum_k \alpha_k E_{(k)}{}^{x_5}{}_{x_5} + \Lambda = \kappa p_t.$$
+    \sum_k \alpha_k E_{(k)}{}^{x_1}{}_{x_1} + \Lambda = \kappa p_3,\qquad
+    \sum_k \alpha_k E_{(k)}{}^{x_0}{}_{x_0} + \Lambda = \kappa p_0 = \kappa p_t .$$
 
-    For the linear member every component depends only on $A$, $H$ and the couplings,
-    so the required $\rho$ and $p$ are constants. The equations allow ANY $a_4$; what
-    they fix is the source that this $a_4$ needs. Whether a real field supplies that
-    source is a separate question (section 9 of this notebook states what is known for
-    one case).
+    Every component is a polynomial in $H$, $a_4'$, $a_4''$, $u$, $v$ and $k$. On an
+    exponential history only $A$, $\beta$, $H$, $k$ and the couplings remain. The
+    equations allow ANY history; what they fix is the source that this history needs.
+    Whether a field supplies that source is a separate question (section 11 states
+    what is known for one case).
     """),
     md(r"""
     ## 5. The Revision records this notebook reproduces
@@ -164,6 +187,11 @@ CELLS = [
     WL = "Revision/field_equations_a4/reports/wolfram-a4-report.json"  # Wolfram record
     LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"  # lead check
     EQUATIONS = "Revision/field_equations_a4/a4-equations.json"  # the equations
+    METRIC_RESULTS = "Revision/metric_warped/results/warped-metric.json"
+    METRIC_WL = "Revision/metric_warped/reports/wolfram-warped-metric-report.json"
+    KS = "Revision/field_equations_a4/reports/ks-source-conditions.json"
+    KS_A4 = "Revision/field_equations_a4/ks_source/reports/ks-source-a4.json"
+    EOS = "Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json"
 
 
     def read_json(relative):
@@ -177,6 +205,14 @@ CELLS = [
             if entry["name"] == name:
                 return entry["verdict"]
         return None
+
+
+    def record_detail(report_file, name):
+        """The detail text of the check name in a report."""
+        for entry in read_json(report_file)["checks"]:
+            if entry["name"] == name:
+                return entry["detail"]
+        return ""
 
 
     def reproduces(condition, name, report_file, record_name):
@@ -195,30 +231,32 @@ CELLS = [
     say(f"read {EQUATIONS}: {title}")
     '''),
     md(r"""
-    ## 6. The required source of the linear member
+    ## 6. The required source of the exponential histories
 
     The record stores each Lovelock component as a text in the Wolfram Language
-    (`ad1` stands for $a_4'$, `ad2` for $a_4''$, `^` for a power). The next cell turns
-    the four distinct components of $E_{(1)}, E_{(2)}, E_{(3)}$ into sympy expressions,
-    forms the four left-hand sides, and substitutes the linear member
-    $a_4' = AH$, $a_4'' = 0$. Then it reads off
+    (`ad1` stands for $a_4'$, `ad2` for $a_4''$, `uu` for $u$, `vv` for $v$, `kk` for
+    $k$, `^` for a power). The next cell turns the stored components of $E_{(1)}$,
+    $E_{(2)}$, $E_{(3)}$ into sympy expressions, forms the left-hand sides
+    $\sum_k\alpha_kE_{(k)}$, and substitutes the exponential history
+    $a_4' = AH$, $u = \beta AH$, $a_4'' = v = 0$. Then it reads off
 
     $$\kappa\rho = -\Big(\sum_k \alpha_k E_{(k)}{}^{x_4}{}_{x_4} + \Lambda\Big),\qquad
-    \kappa p_0 = \sum_k \alpha_k E_{(k)}{}^{x_0}{}_{x_0} + \Lambda,$$
+    \kappa p_3 = \sum_k \alpha_k E_{(k)}{}^{x_1}{}_{x_1} + \Lambda,$$
 
-    and the same for $p_3$ and $p_t$.
+    and the same for $p_0$ (component $x_0$) and $p_t$ (component $x_5$).
     """),
     code(r'''
     import numpy as np  # arrays of numbers for the plots
     import sympy as sp  # exact algebra with symbols
 
     H = sp.symbols("H", positive=True)  # the constant H of the metric
-    A = sp.symbols("A", real=True)  # the slope of the linear member
-    ad1, ad2 = sp.symbols("ad1 ad2", real=True)  # a4' and a4''
+    A, beta = sp.symbols("A beta", real=True)  # the exponential history
+    ad1, ad2, uu, vv, kk = sp.symbols("ad1 ad2 uu vv kk", real=True)
     alpha1, alpha2, alpha3 = sp.symbols("alpha1 alpha2 alpha3", real=True)
     Lam, kappa = sp.symbols("Lam kappa", real=True)  # Lambda and kappa
-    NAMES = {"ad1": ad1, "ad2": ad2, "H": H, "AA": A, "alpha1": alpha1,
-             "alpha2": alpha2, "alpha3": alpha3, "Lam": Lam, "kappa": kappa}
+    NAMES = {"ad1": ad1, "ad2": ad2, "uu": uu, "vv": vv, "kk": kk, "H": H, "AA": A,
+             "be": beta, "alpha1": alpha1, "alpha2": alpha2, "alpha3": alpha3,
+             "Lam": Lam, "kappa": kappa}
 
 
     def parse(text):
@@ -229,518 +267,692 @@ CELLS = [
     ALPHA = {1: alpha1, 2: alpha2, 3: alpha3}
     lovelock = record["lovelockTensors"]
     side = {key: sum(ALPHA[k] * parse(lovelock[f"E{k}"][key]["input"]) for k in (1, 2, 3))
-            for key in ("x1x1", "x4x4", "x5x5", "x0x0")}  # sum_k alpha_k E_(k)
-    LINEAR = {ad1: A * H, ad2: 0}  # a4' = A H, a4'' = 0
-    kappa_rho = sp.expand(-(side["x4x4"] + Lam).subs(LINEAR))
-    kappa_p3 = sp.expand((side["x1x1"] + Lam).subs(LINEAR))
-    kappa_pt = sp.expand((side["x5x5"] + Lam).subs(LINEAR))
-    kappa_p0 = sp.expand((side["x0x0"] + Lam).subs(LINEAR))
-    say(f"kappa rho = {kappa_rho}")
-    say(f"kappa p0 = {kappa_p0}")
+            for key in ("x0x0", "x1x1", "x4x4", "x5x5")}  # sum_k alpha_k E_(k)
+    EXPONENTIAL = {ad1: A * H, ad2: 0, uu: beta * A * H, vv: 0}
+    kappa_rho = sp.expand(-(side["x4x4"] + Lam).subs(EXPONENTIAL))
+    kappa_p3 = sp.expand((side["x1x1"] + Lam).subs(EXPONENTIAL))
+    kappa_p0 = sp.expand((side["x0x0"] + Lam).subs(EXPONENTIAL))
+    kappa_pt = sp.expand((side["x5x5"] + Lam).subs(EXPONENTIAL))
+    say(f"Einstein part of kappa rho: {sp.factor(kappa_rho.coeff(alpha1))}")
+    say(f"Einstein part of kappa p3: {sp.factor(kappa_p3.coeff(alpha1))}")
+    say(f"Einstein part of kappa p0: {sp.factor(kappa_p0.coeff(alpha1))}")
     '''),
     md(r"""
-    The next cell checks four things. (1) The three pressures are equal,
-    $p_3 = p_t = p_0 =: p$ (for $a_4'' = 0$ the components $E^{x_1}{}_{x_1}$,
-    $E^{x_5}{}_{x_5}$, $E^{x_0}{}_{x_0}$ coincide). (2) $\kappa\rho$ and $\kappa p$ equal
-    the linear-member formulas stored in the record. (3) Both contain $A$ only through
-    $A^2$: replacing $A$ by $-A$ changes nothing, so the equations accept deflating
-    extra times ($A > 0$) and inflating ones ($A < 0$) on the same footing. (4) The
-    Einstein part ($\alpha_1$) of $\kappa\rho$ is $-3H^2(A^2 + 7)$, as the lead's
-    independent check found.
+    The next cell checks five things. (1) $p_0 = p_t$: the hidden component and the
+    extra-time component of every left-hand side are one expression. (2) The source is
+    a polynomial of degree at most 2 in $k$; the time enters only through
+    $k = k_0e^{(2 - \beta)AHx_4}$, whose rate $dk/dx_4 = (2 - \beta)AH\,k$ vanishes only
+    for $\beta = 2$ or $A = 0$: only then is the source constant. (3) It equals the
+    record's formulas. (4) Written as functions of $k$, it contains $A$ only through
+    $A^2$: every term has an even power of $A$. (5) Its Einstein parts (the
+    coefficients of $\alpha_1$) equal the Einstein source that the record of the
+    corrected metric writes for the exponential histories (with $e^{2AHx_4}
+    e^{-\beta AHx_4}$ for $k$, at $b_4(0) = 1$, $a_0 = 0$).
     """),
     code(r'''
-    reproduces(sp.expand(kappa_p3 - kappa_p0) == 0 and sp.expand(kappa_pt - kappa_p0) == 0,
-               "linear member: p3 = pt = p0 = p", PY, "linear_member_equal_pressures")
-    kappa_p = kappa_p0  # the common pressure, times kappa
-    linear_record = record["linearMember"]
-    same = (sp.expand(kappa * parse(linear_record["rho"]["input"]) - kappa_rho) == 0
-            and sp.expand(kappa * parse(linear_record["p"]["input"]) - kappa_p) == 0)
-    reproduces(same, "kappa rho and kappa p equal the record", PY, "json_linear_member")
-    check(sp.expand(kappa_rho.subs(A, -A) - kappa_rho) == 0
-          and sp.expand(kappa_p.subs(A, -A) - kappa_p) == 0,
-          "A -> -A leaves rho and p unchanged: deflation is a choice of sign")
-    reproduces(sp.expand(sp.diff(kappa_rho, alpha1) + 3 * H ** 2 * (A ** 2 + 7)) == 0,
-               "the alpha1 part of kappa rho is -3 H^2 (A^2 + 7)",
-               LEAD, "einstein_linear_rho_alpha1")
+    reproduces(sp.expand(kappa_pt - kappa_p0) == 0,
+               "the hidden and the extra-time pressures are equal: p0 = p_t",
+               WL, "independent_components")
+    degrees = [sp.Poly(value, kk).degree() for value in (kappa_rho, kappa_p3, kappa_p0)]
+    x4 = sp.symbols("x4", real=True)
+    k_rate = sp.diff(sp.exp((2 - beta) * A * H * x4), x4) / sp.exp((2 - beta) * A * H * x4)
+    say(f"degrees in k: {degrees}; dk/dx4 = ({sp.factor(sp.simplify(k_rate))}) k")
+    reproduces(max(degrees) <= 2 and sp.factor(sp.simplify(k_rate)) == -A * H * (beta - 2),
+               "the source is a polynomial of degree <= 2 in k; constant iff beta = 2 or "
+               "A = 0", PY, "exponential_history_required_source")
+    required = record["exponentialHistory"]["requiredSource"]
+    same = all(sp.expand(kappa * parse(required[key]["input"]) - value) == 0
+               for key, value in (("rho", kappa_rho), ("p3", kappa_p3), ("p0", kappa_p0),
+                                  ("pt", kappa_pt)))
+    reproduces(same, "kappa rho, kappa p3, kappa p0, kappa p_t equal the record",
+               PY, "json_exponential_history")
+    check(all(sp.expand(value.subs(A, -A) - value) == 0
+              for value in (kappa_rho, kappa_p3, kappa_p0)),
+          "as functions of k the source contains A only through A^2")
+    stored = read_json(METRIC_RESULTS)["history_source"]["einstein_kappaT_minus_Lambda"]
+    names_e = {"A": A, "beta": beta, "H": H, "x4": x4, "exp": sp.exp}
+    k_of_x4 = sp.exp((2 - beta) * A * H * x4)  # k at b4(0) = 1, a0 = 0
+    mine = {"-rho": -kappa_rho.coeff(alpha1), "p3": kappa_p3.coeff(alpha1),
+            "p0": kappa_p0.coeff(alpha1), "p_t": kappa_pt.coeff(alpha1)}
+    same = all(sp.simplify(sp.sympify(stored[key], locals=names_e)
+                           - (value.subs(Lam, 0)).subs(kk, k_of_x4)) == 0
+               for key, value in mine.items())
+    reproduces(same, "the alpha1 parts equal the Einstein source of the metric record",
+               LEAD, "einstein_exponential_source_alpha1")
     '''),
     md(r"""
     ## 7. Einstein gravity
 
-    With $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$:
+    With $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$ the required source is
 
-    $$\kappa\rho = -(21 + 3A^2)H^2 - \Lambda,\qquad \kappa p = (15 - 3A^2)H^2 + \Lambda,
-    \qquad \kappa(\rho + p) = -6(1 + A^2)H^2.$$
+    $$\kappa\rho = \tfrac32A^2H^2(\beta^2 - 2) - 6H^2k - \Lambda,\qquad
+    \kappa p_3 = -\tfrac12A^2H^2(5\beta^2 - 12\beta + 10) + 6H^2k + \Lambda,$$
+    $$\kappa p_0 = \kappa p_t = -\tfrac32A^2H^2(\beta^2 - \beta + 2) + 3H^2k + \Lambda .$$
 
-    The last line is the sum of the first two; it does not contain $\Lambda$ and is
-    negative for every $A$. The next cell checks these formulas against the record and
-    prints the numbers for $\Lambda = 0$ and $A = 1$ (units $H = \kappa = 1$):
-    $\kappa\rho = -24$, $\kappa p = 12$, $w = p/\rho = -1/2$.
+    On the record history ($A = 1$, $\beta = \tfrac43$, $H = \kappa = 1$, $\Lambda = 0$)
+    this is $\kappa\rho = -6k - \tfrac13$, $\kappa p_3 = 6k - \tfrac{13}9$,
+    $\kappa p_0 = 3k - \tfrac{11}3$, with $k = e^{2x_4/3}$; at $x_4 = 0$ ($k = 1$):
+    $\kappa\rho = -\tfrac{19}3$, $\kappa p_3 = \tfrac{41}9$, $\kappa p_0 =
+    -\tfrac23$. The next cell checks these formulas against the record and against the
+    Wolfram record of the corrected metric, which writes the source of the record
+    history with `Exp[(2/3)*H*x4]` for $k$.
     """),
     code(r'''
     EINSTEIN = {alpha1: 1, alpha2: 0, alpha3: 0}
-    rho_e = sp.expand(kappa_rho.subs(EINSTEIN))  # kappa rho in Einstein gravity
-    p_e = sp.expand(kappa_p.subs(EINSTEIN))  # kappa p in Einstein gravity
-    report("Einstein: kappa rho", rho_e)
-    report("Einstein: kappa p", p_e)
-    same = (sp.expand(kappa * parse(linear_record["rhoEinstein"]["input"]) - rho_e) == 0
-            and sp.expand(kappa * parse(linear_record["pEinstein"]["input"]) - p_e) == 0
-            and sp.expand(kappa * parse(linear_record["rhoPlusPEinstein"]["input"])
-                          - (rho_e + p_e)) == 0)
-    reproduces(same and sp.expand(rho_e + p_e + 6 * (1 + A ** 2) * H ** 2) == 0,
-               "Einstein: kappa (rho + p) = -6 (1 + A^2) H^2 < 0", PY,
-               "json_linear_member")
-    UNITS = {H: 1, Lam: 0, A: 1}
-    rho_1, p_1 = rho_e.subs(UNITS), p_e.subs(UNITS)
-    report("Einstein, Lambda = 0, A = 1: kappa rho", rho_1, "H^2")
-    report("Einstein, Lambda = 0, A = 1: kappa p", p_1, "H^2")
-    report("Einstein, Lambda = 0, A = 1: w = p/rho", sp.Rational(p_1, rho_1))
-    check(rho_1 == -24 and p_1 == 12, "A = 1, Lambda = 0: kappa rho = -24, kappa p = 12")
+    rho_e, p3_e, p0_e = (sp.expand(value.subs(EINSTEIN))
+                         for value in (kappa_rho, kappa_p3, kappa_p0))
+    report("Einstein: kappa rho", sp.factor(rho_e))
+    einstein_record = record["exponentialHistory"]["einstein"]
+    same = all(sp.expand(kappa * parse(einstein_record[key]["input"]) - value) == 0
+               for key, value in (("rho", rho_e), ("p3", p3_e), ("p0", p0_e)))
+    reproduces(same, "Einstein: the required source equals the record",
+               WL, "exponential_history_required_source")
+    HISTORY = {A: 1, beta: sp.Rational(4, 3), H: 1, Lam: 0}  # record history, Lambda = 0
+    history = {name: sp.expand(value.subs(HISTORY))
+               for name, value in (("rho", rho_e), ("p3", p3_e), ("p0", p0_e))}
+    for name, value in history.items():
+        report(f"record history, Einstein, Lambda = 0: kappa {name}", value)
+    at_start = {name: value.subs(kk, 1) for name, value in history.items()}
+    report("at x4 = 0: kappa rho, kappa p3, kappa p0",
+           f"{at_start['rho']}, {at_start['p3']}, {at_start['p0']}")
+    check(at_start == {"rho": sp.Rational(-19, 3), "p3": sp.Rational(41, 9),
+                       "p0": sp.Rational(-2, 3)},
+          "record history at x4 = 0: kappa rho = -19/3, kappa p3 = 41/9, kappa p0 = -2/3")
+    stored = read_json(METRIC_RESULTS)["history_source"]["einstein_A1_beta43_mathematica"]
+    k_of_t = sp.exp(sp.Rational(2, 3) * x4)
+    names_m = {"H": sp.Integer(1), "x4": x4}
+
+
+    def from_wolfram(text):
+        """A Wolfram text such as (1/3)*H^2*(18*Exp[(2/3)*H*x4] + 1) in sympy."""
+        text = text.replace("Exp[", "exp(").replace("]", ")").replace("^", "**")
+        return sp.sympify(text, locals=names_m)
+
+
+    same = all(sp.simplify(from_wolfram(stored[key]) - value.subs(kk, k_of_t)) == 0
+               for key, value in (("-rho", -history["rho"]), ("p3", history["p3"]),
+                                  ("p0", history["p0"]), ("p_t", history["p0"])))
+    reproduces(same, "the source of the record history equals the Wolfram record",
+               METRIC_WL, "history_source_equals_sympy")
     '''),
     md(r"""
-    The next cell draws $\kappa\rho$ and $\kappa p$ of Einstein gravity with
-    $\Lambda = 0$ as functions of the slope $A$ from $-3$ to $3$. The right half
-    ($A > 0$, deflating extra times) is the mirror image of the left half ($A < 0$,
-    inflating extra times). With $\Lambda = 0$ the energy density is negative for every
-    $A$: it is never above $-21H^2/\kappa$.
+    The next cell draws the three components of the Einstein source along the record
+    history for $0 \le x_4 \le 3$ ($\Lambda = 0$, $H = \kappa = 1$). All three grow like
+    $k = e^{2x_4/3}$, because the curvature $-H^2k$ of the shrinking block grows. With
+    $\Lambda = 0$ the energy density $\kappa\rho = -6k - \tfrac13$ is negative at every
+    time; the cell checks this.
     """),
     code(r'''
-    rho_f = sp.lambdify((A, Lam), rho_e.subs(H, 1), "numpy")  # numbers from formulas
-    p_f = sp.lambdify((A, Lam), p_e.subs(H, 1), "numpy")
-    a_values = np.linspace(-3.0, 3.0, 301)
+    x_axis = np.linspace(0.0, 3.0, 301)  # the time x4 in units 1/H
+    k_axis = np.exp(2.0 * x_axis / 3.0)  # k on the record history
+    curves = {name: sp.lambdify(kk, value, "numpy")(k_axis) * np.ones_like(k_axis)
+              for name, value in history.items()}
+    check(bool(np.all(curves["rho"] < 0)),
+          "Einstein, Lambda = 0: the energy density of the record history is negative")
     fig, ax = plt.subplots()
-    ax.axvspan(0, 3, color="tab:green", alpha=0.08)  # the deflating half, A > 0
-    ax.plot(a_values, rho_f(a_values, 0.0), label="$\\kappa\\rho/H^2$")
-    ax.plot(a_values, p_f(a_values, 0.0), label="$\\kappa p/H^2$")
-    ax.plot(a_values, rho_f(a_values, 0.0) + p_f(a_values, 0.0), ":", color="black",
-            label="$\\kappa(\\rho+p)/H^2=-6(1+A^2)$")
+    ax.plot(x_axis, curves["rho"], label="$\\kappa\\rho = -6k - 1/3$")
+    ax.plot(x_axis, curves["p3"], "--", label="$\\kappa p_3 = 6k - 13/9$")
+    ax.plot(x_axis, curves["p0"], ":", label="$\\kappa p_0 = \\kappa p_t = 3k - 11/3$")
     ax.axhline(0.0, color="black", linewidth=0.8)
-    ax.text(1.5, 15, "$A>0$: extra times deflate", ha="center", fontsize=9)
-    ax.text(-1.5, 15, "$A<0$: extra times inflate", ha="center", fontsize=9)
-    ax.set_xlabel("slope $A$ of $a_4 = AHx_4 + a_0$")
+    ax.set_xlabel("time $x_4$ (units $1/H$)")
     ax.set_ylabel("required source (units of $H^2/\\kappa$)")
-    ax.set_title("Einstein gravity, $\\Lambda = 0$: the source of the linear member")
-    ax.legend(fontsize=8, loc="lower center")
-    save_figure(fig, "einstein_source",
-                "The source that the linear member $a_4 = AHx_4 + a_0$ requires in "
-                "Einstein gravity with $\\Lambda = 0$, as a function of the slope $A$: "
-                "$\\kappa\\rho = -(21 + 3A^2)H^2$, $\\kappa p = (15 - 3A^2)H^2$ and their "
-                "sum $-6(1 + A^2)H^2$ (dotted), in units of $H^2$. The shaded right half "
-                "is the deflating branch $A > 0$; every curve is symmetric under "
-                "$A \\to -A$, so the equations do not prefer deflation. The energy "
-                "density is negative for every $A$.")
-    '''),
-    md(r"""
-    **Where can the energy density be positive?** A cosmological constant shifts
-    $\kappa\rho$ by $-\Lambda$ and $\kappa p$ by $+\Lambda$. The energy density is
-    positive when $\Lambda < -(21 + 3A^2)H^2$, and the pressure is positive when
-    $\Lambda > (3A^2 - 15)H^2$. The two boundary curves never meet (the lower one is
-    never above $-21H^2$, the upper one never below $-15H^2$), so $\rho$ and $p$ are
-    never both positive and never both zero. The next cell colours the plane of $A$
-    and $\Lambda/H^2$ by the signs of $\rho$ and $p$.
-    """),
-    code(r'''
-    a_grid, lam_grid = np.meshgrid(np.linspace(-3, 3, 241), np.linspace(-60, 30, 241))
-    rho_grid = rho_f(a_grid, lam_grid)
-    p_grid = p_f(a_grid, lam_grid)
-    region = np.where(rho_grid > 0, 0, np.where(p_grid < 0, 1, 2))  # three regions
-    fig, ax = plt.subplots()
-    colours = matplotlib.colors.ListedColormap(["#f4a582", "#d1e5f0", "#92c5de"])
-    ax.pcolormesh(a_grid, lam_grid, region, cmap=colours, shading="auto")
-    ax.plot(a_values, -(21 + 3 * a_values ** 2), color="black",
-            label="$\\rho = 0$: $\\Lambda = -(21+3A^2)H^2$")
-    ax.plot(a_values, 3 * a_values ** 2 - 15, "--", color="black",
-            label="$p = 0$: $\\Lambda = (3A^2-15)H^2$")
-    ax.text(0, -50, "$\\rho > 0$, $p < 0$: $w < -1$", ha="center")
-    ax.text(0, -18, "$\\rho < 0$, $p < 0$", ha="center")
-    ax.text(0, 5, "$\\rho < 0$, $p > 0$", ha="center")
-    ax.set_xlim(-3, 3)
-    ax.set_ylim(-60, 30)
-    ax.set_xlabel("slope $A$")
-    ax.set_ylabel("$\\Lambda/H^2$")
-    ax.set_title("Einstein gravity: the signs of the required $\\rho$ and $p$")
-    ax.legend(fontsize=8, loc="upper center")
-    save_figure(fig, "source_regions",
-                "Einstein gravity: the plane of the slope $A$ (horizontal) and the "
-                "cosmological constant $\\Lambda/H^2$ (vertical), coloured by the signs "
-                "of the energy density $\\rho$ and the pressure $p$ that the linear "
-                "member requires. Below the solid curve $\\Lambda = -(21+3A^2)H^2$ the "
-                "energy density is positive and the pressure negative, with $w < -1$; "
-                "above the dashed curve $\\Lambda = (3A^2-15)H^2$ the pressure is "
-                "positive and the energy density negative; in between both are "
-                "negative. No point has both positive, and no point is a vacuum.")
-    '''),
-    md(r"""
-    **A positive energy density forces $w < -1$.** Because
-    $\kappa(\rho + p) = -6(1 + A^2)H^2 < 0$, we have $p < -\rho$; dividing by
-    $\rho > 0$ gives $w = p/\rho < -1$. A source with $\rho > 0$ and $w < -1$ violates
-    the null energy condition (it is *phantom*). The next cell checks the algebra and
-    draws $w$ for three values of $\Lambda$, only where $\rho > 0$.
-    """),
-    code(r'''
-    w_e = sp.simplify(p_e / rho_e)  # w = p/rho in Einstein gravity
-    say(f"Einstein: w = p/rho = {w_e}")
-    check(sp.simplify(w_e + 1 - (rho_e + p_e) / rho_e) == 0,
-          "w + 1 = (rho + p)/rho, so rho > 0 and rho + p < 0 give w < -1")
-    fig, ax = plt.subplots()
-    for lam in (-30.0, -40.0, -60.0):
-        rho_values = rho_f(a_values, lam)
-        keep = rho_values > 1.0  # where the energy density is clearly positive
-        w_values = np.where(keep, p_f(a_values, lam) / np.where(keep, rho_values, 1.0),
-                            np.nan)  # nan: not drawn
-        ax.plot(a_values, w_values, label=f"$\\Lambda = {lam:.0f}\\,H^2$")
-        check(np.nanmax(w_values) < -1.0, f"Lambda = {lam:.0f} H^2: w < -1 where rho > 0")
-    ax.axhline(-1.0, color="black", linewidth=0.8)
-    ax.set_ylim(-6, 0)
-    ax.set_xlabel("slope $A$")
-    ax.set_ylabel("$w = p/\\rho$")
-    ax.set_title("Einstein gravity: where $\\rho > 0$ the source has $w < -1$")
+    ax.set_title("Einstein gravity, $\\Lambda = 0$: the source of the record history")
     ax.legend(fontsize=8)
-    save_figure(fig, "phantom_w",
-                "Einstein gravity: the equation of state $w = p/\\rho$ that the linear "
-                "member requires, drawn only where the energy density is positive "
-                "($\\kappa\\rho > H^2$), for $\\Lambda = -30H^2$, $-40H^2$ and $-60H^2$, "
-                "as a function of the slope $A$. Every curve lies below the line "
-                "$w = -1$: a positive energy density comes with $w < -1$, because "
-                "$\\kappa(\\rho + p) = -6(1 + A^2)H^2$ is negative for every $A$.")
+    save_figure(fig, "einstein_source",
+                "The source that the record history $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$ "
+                "requires in Einstein gravity with $\\Lambda = 0$, as a function of the "
+                "time $x_4$ (units $1/H$), in units of $H^2/\\kappa$: the energy density "
+                "$\\kappa\\rho = -6k - 1/3$ (solid), the 3-space pressure "
+                "$\\kappa p_3 = 6k - 13/9$ (dashed) and the common pressure of the hidden "
+                "direction and the extra times $\\kappa p_0 = \\kappa p_t = 3k - 11/3$ "
+                "(dotted), with $k = e^{2x_4/3}$. All three grow with $k$; the energy "
+                "density is negative at every time, and $p_3 \\neq p_0$: the source is "
+                "anisotropic.")
     '''),
     md(r"""
-    ## 8. The Gauss-Bonnet and the third-order couplings
-
-    The coupling $\alpha_2$ multiplies the Gauss-Bonnet tensor $E_{(2)}$. The next
-    cell extracts the $\alpha_2$ parts of $\kappa\rho$ and $\kappa p$ (the derivatives
-    with respect to $\alpha_2$) and compares them with the lead's independent
-    computation from the classical Gauss-Bonnet formula:
-    $H^4(36A^4 + 120A^2 + 420)$ and $12H^4(A^4 + 14A^2 - 15)$. Then it draws
-    $\kappa\rho$ and $\kappa p$ for Einstein-Gauss-Bonnet gravity
-    ($\alpha_1 = 1$, $\alpha_3 = 0$, $\Lambda = 0$) for four values of $\alpha_2H^2$,
-    and checks two facts that the plot shows: at $A = 0$ the energy density is
-    $\kappa\rho = -21H^2 + 420\alpha_2H^4$ (positive only for $\alpha_2H^2 > 1/20$),
-    and at $A = \pm 1$ the $\alpha_2$ part of the pressure,
-    $12H^4(1 + 14 - 15) = 0$, vanishes, so $\kappa p = (15 - 3)H^2 = 12H^2$ for every
-    $\alpha_2$.
+    **The sign of $A$ is a choice.** As functions of $k$ the source contains only
+    $A^2$, so the histories with $A$ and $-A$ (and the same $\beta$) need the same
+    source at the same value of $k$. As functions of the time they are mirror images:
+    $k = k_0e^{(2 - \beta)AHx_4}$ depends on $A$ and $x_4$ only through their product,
+    so the source of $-A$ at the time $x_4$ is the source of $A$ at the time $-x_4$.
+    The next cell checks both statements in Einstein gravity on $\beta = 4/3$
+    ($\Lambda = 0$) and draws the energy density of $A = 1$ and $A = -1$ against $k$
+    (left; the curves coincide) and against the time (right; mirror images).
     """),
     code(r'''
-    reproduces(sp.expand(sp.diff(kappa_rho, alpha2)
-                         - H ** 4 * (36 * A ** 4 + 120 * A ** 2 + 420)) == 0,
-               "the alpha2 part of kappa rho is H^4 (36 A^4 + 120 A^2 + 420)",
-               LEAD, "gauss_bonnet_rho_alpha2")
-    reproduces(sp.expand(sp.diff(kappa_p, alpha2)
-                         - 12 * H ** 4 * (A ** 4 + 14 * A ** 2 - 15)) == 0,
-               "the alpha2 part of kappa p is 12 H^4 (A^4 + 14 A^2 - 15)",
-               LEAD, "gauss_bonnet_p_alpha2")
-    symbols_numeric = (A, Lam, alpha1, alpha2, alpha3)
-    rho_l = sp.lambdify(symbols_numeric, kappa_rho.subs(H, 1), "numpy")  # any coupling
-    p_l = sp.lambdify(symbols_numeric, kappa_p.subs(H, 1), "numpy")
+    rho_43 = sp.expand(rho_e.subs({beta: sp.Rational(4, 3), H: 1, Lam: 0}))
+    k_time = {slope: sp.exp(sp.Rational(2, 3) * slope * x4) for slope in (1, -1)}
+    rho_time = {slope: rho_43.subs(A, slope).subs(kk, k_time[slope]) for slope in (1, -1)}
+    check(sp.expand(rho_43.subs(A, 1) - rho_43.subs(A, -1)) == 0
+          and sp.simplify(rho_time[-1] - rho_time[1].subs(x4, -x4)) == 0,
+          "A and -A: the same source at the same k, mirror images in time")
     fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-    for a2 in (0.0, 0.01, 0.025, 0.04):
-        label = f"$\\alpha_2H^2 = {a2}$"
-        left.plot(a_values, rho_l(a_values, 0, 1, a2, 0), label=label)
-        right.plot(a_values, p_l(a_values, 0, 1, a2, 0), label=label)
-    for ax, name in ((left, "\\kappa\\rho/H^2"), (right, "\\kappa p/H^2")):
-        ax.axhline(0.0, color="black", linewidth=0.8)
-        ax.set_xlabel("slope $A$")
-        ax.set_ylabel(f"${name}$")
-        ax.legend(fontsize=8)
-    left.set_title("energy density, $\\Lambda = 0$")
-    right.set_title("pressure, $\\Lambda = 0$")
-    save_figure(fig, "gauss_bonnet_source",
-                "Einstein-Gauss-Bonnet gravity ($\\alpha_1 = 1$, $\\alpha_3 = 0$, "
-                "$\\Lambda = 0$): the energy density $\\kappa\\rho$ (left) and the pressure "
-                "$\\kappa p$ (right) that the linear member requires, in units of $H^2$, "
-                "as functions of the slope $A$, for $\\alpha_2 H^2 = 0$ (Einstein), "
-                "$0.01$, $0.025$ and $0.04$. The Gauss-Bonnet term adds "
-                "$\\alpha_2 H^4(36A^4 + 120A^2 + 420)$ to $\\kappa\\rho$: for "
-                "$\\alpha_2 H^2 = 0.025$ and $0.04$ the energy density is positive at "
-                "large $|A|$ without any cosmological constant, while at $A = 0$ it is "
-                "$(420\\alpha_2H^2 - 21)H^2$, positive only for $\\alpha_2 H^2 > 1/20$. "
-                "All pressure curves meet at $A = \\pm 1$, where $\\kappa p = 12H^2$ for "
-                "every $\\alpha_2$; every curve is symmetric under $A \\to -A$.")
-    rho_gb_0 = sp.expand(kappa_rho.subs({alpha1: 1, alpha3: 0, Lam: 0, A: 0}))
-    check(sp.expand(rho_gb_0 - (420 * alpha2 * H ** 4 - 21 * H ** 2)) == 0,
-          "Gauss-Bonnet, Lambda = 0, A = 0: kappa rho = (420 alpha2 H^2 - 21) H^2")
-    p_gb_1 = [sp.expand(kappa_p.subs({alpha1: 1, alpha3: 0, Lam: 0, A: s}))
-              for s in (1, -1)]
-    check(p_gb_1 == [12 * H ** 2, 12 * H ** 2],
-          "Gauss-Bonnet, Lambda = 0, A = +1 or -1: kappa p = 12 H^2 for every alpha2")
-    '''),
-    md(r"""
-    **The null energy condition and the vacuum.** For every coupling the record
-    factorises
-
-    $$\kappa(\rho + p) = -6(A^2 + 1)H^2\,V,\qquad
-    V = \alpha_1 - 8\alpha_2H^2(A^2 + 5) + \alpha_3H^4(72A^4 + 144A^2 + 360).$$
-
-    So the null energy condition $\rho + p \ge 0$ holds exactly where $V \le 0$, and a
-    vacuum ($\rho = p = 0$) needs $V = 0$ (and then $\Lambda$ chosen so that
-    $\rho = 0$). The next cell checks the factorisation against the record and draws
-    the sign of $V$ in the plane of $A$ and $\alpha_2H^2$ (with $\alpha_1 = 1$,
-    $\alpha_3 = 0$). The boundary $V = 0$ is the curve
-    $A^2 = (1 - 40\alpha_2H^2)/(8\alpha_2H^2)$, which has real points only for
-    $0 < \alpha_2H^2 \le 1/40$.
-    """),
-    code(r'''
-    V = parse(linear_record["vacuumFactor"]["input"])  # the record vacuum factor
-    reproduces(sp.expand(kappa_rho + kappa_p + 6 * (A ** 2 + 1) * H ** 2 * V) == 0,
-               "kappa (rho + p) = -6 (A^2 + 1) H^2 V for every coupling",
-               PY, "linear_member_vacuum_factor")
-    V_gb = sp.expand(V.subs({alpha1: 1, alpha3: 0}))
-    reproduces(sp.expand(V_gb - (1 - 8 * alpha2 * H ** 2 * (A ** 2 + 5))) == 0,
-               "Gauss-Bonnet: V = 1 - 8 alpha2 H^2 (A^2 + 5)",
-               PY, "einstein_gauss_bonnet_vacuum_linear")
-    a_grid, g_grid = np.meshgrid(np.linspace(-3, 3, 241), np.linspace(0.0, 0.06, 241))
-    V_grid = 1 - 8 * g_grid * (a_grid ** 2 + 5)  # V with H = 1
-    fig, ax = plt.subplots()
-    ax.pcolormesh(a_grid, g_grid, np.sign(V_grid), cmap="coolwarm", shading="auto",
-                  vmin=-2, vmax=2)
-    g_curve = np.linspace(0.0025, 1 / 40, 200)  # alpha2 H^2 on the vacuum curve
-    a_curve = np.sqrt((1 - 40 * g_curve) / (8 * g_curve))
-    ax.plot(a_curve, g_curve, color="black", label="vacuum $V = 0$, $A > 0$ (deflating)")
-    ax.plot(-a_curve, g_curve, "--", color="black", label="vacuum $V = 0$, $A < 0$")
-    ax.text(0, 0.006, "$V > 0$: NEC violated", ha="center")
-    ax.text(0, 0.045, "$V < 0$: NEC holds", ha="center")
-    ax.set_xlim(-3, 3)
-    ax.set_xlabel("slope $A$")
-    ax.set_ylabel("$\\alpha_2 H^2$")
-    ax.set_title("Einstein-Gauss-Bonnet: the sign of $V$ and the vacuum curve")
-    ax.legend(fontsize=8, loc="upper right")
-    save_figure(fig, "null_energy_map",
-                "Einstein-Gauss-Bonnet gravity ($\\alpha_1 = 1$, $\\alpha_3 = 0$): the "
-                "sign of the factor $V = 1 - 8\\alpha_2H^2(A^2 + 5)$ in the plane of the "
-                "slope $A$ (horizontal) and $\\alpha_2 H^2$ (vertical). Where $V > 0$ "
-                "(lower region) the required source violates the null energy condition, "
-                "$\\rho + p < 0$; where $V < 0$ it satisfies it. On the black curves "
-                "$V = 0$, $A^2 = (1 - 40\\alpha_2H^2)/(8\\alpha_2H^2)$, a vacuum is "
-                "possible; the solid branch has $A > 0$ (deflating extra times), the "
-                "dashed one is its mirror image $A < 0$. Above $\\alpha_2H^2 = 1/40$ "
-                "there is no vacuum.")
-    '''),
-    md(r"""
-    **The Einstein-Gauss-Bonnet vacuum.** On the curve $V = 0$ we still need $\rho = 0$,
-    which fixes $\Lambda = -\sum_k \alpha_k E_{(k)}{}^{x_4}{}_{x_4}$ at $a_4' = AH$;
-    then $p = 0$ follows from $\rho + p \propto V = 0$. The next cell substitutes
-    $A^2 = (1 - 40\alpha_2H^2)/(8\alpha_2H^2)$ and this $\Lambda$ and checks that
-    $\rho = p = 0$ for every $\alpha_2$; then it draws the slope $A$ and $\Lambda/H^2$
-    of the vacuum as functions of $\alpha_2H^2$. At $\alpha_2H^2 = 1/40$ the vacuum
-    is static ($A = 0$) with $\Lambda = -21H^2 + 420H^2/40 = -10.5H^2$.
-    """),
-    code(r'''
-    A2_vacuum = (1 - 40 * alpha2 * H ** 2) / (8 * alpha2 * H ** 2)  # A^2 on V = 0
-    GB = {alpha1: 1, alpha3: 0}
-    rho_gb = sp.expand(kappa_rho.subs(GB))
-    Lam_vacuum = sp.solve(rho_gb, Lam)[0]  # the Lambda that makes rho = 0
-    Lam_on_curve = sp.simplify(Lam_vacuum.subs(A ** 2, A2_vacuum))
-    say(f"Lambda of the vacuum: {Lam_on_curve}")
-    p_on_curve = sp.simplify((kappa_p.subs(GB).subs(Lam, Lam_vacuum)).subs(A ** 2,
-                                                                       A2_vacuum))
-    check(p_on_curve == 0,
-          "Gauss-Bonnet vacuum: with V = 0 and Lambda from rho = 0, also p = 0")
-    at_edge = Lam_on_curve.subs({alpha2: sp.Rational(1, 40), H: 1})
-    report("vacuum at alpha2 H^2 = 1/40: Lambda/H^2", at_edge)
-    check(at_edge == sp.Rational(-21, 2), "at alpha2 H^2 = 1/40: A = 0, Lambda = -10.5 H^2")
-    lam_vac_f = sp.lambdify(alpha2, Lam_on_curve.subs(H, 1), "numpy")
-    g_curve = np.linspace(0.004, 1 / 40, 200)
-    fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-    left.plot(g_curve, np.sqrt((1 - 40 * g_curve) / (8 * g_curve)), label="$A > 0$")
-    left.plot(g_curve, -np.sqrt((1 - 40 * g_curve) / (8 * g_curve)), "--",
-              label="$A < 0$")
-    left.set_xlabel("$\\alpha_2 H^2$")
-    left.set_ylabel("slope $A$ of the vacuum")
+    k_values = np.linspace(0.2, 5.0, 200)
+    times = np.linspace(-3.0, 3.0, 301)
+    for slope, style in ((1, "-"), (-1, "--")):
+        rho_k = sp.lambdify(kk, rho_43.subs(A, slope), "numpy")
+        left.plot(k_values, rho_k(k_values), style, label=f"$A = {slope}$")
+        rho_t = sp.lambdify(x4, rho_time[slope], "numpy")
+        right.plot(times, rho_t(times), style, label=f"$A = {slope}$")
+    left.set_xlabel("$k = e^{2a_4}/b_4$")
+    left.set_ylabel("$\\kappa\\rho$ (units $H^2$)")
+    left.set_title("against $k$: the same curve")
     left.legend(fontsize=8)
-    right.plot(g_curve, lam_vac_f(g_curve))
-    right.set_xlabel("$\\alpha_2 H^2$")
+    right.set_xlabel("time $x_4$ (units $1/H$)")
+    right.set_ylabel("$\\kappa\\rho$ (units $H^2$)")
+    right.set_title("against the time: mirror images")
+    right.legend(fontsize=8)
+    save_figure(fig, "sign_symmetry",
+                "Einstein gravity, $\\beta = 4/3$, $\\Lambda = 0$: the energy density "
+                "$\\kappa\\rho$ that the exponential histories with slope $A = 1$ "
+                "(solid) and $A = -1$ (dashed) require, in units of $H^2$. Left, as a "
+                "function of $k = e^{2a_4}/b_4$: the two curves coincide, because the "
+                "source contains $A$ only through $A^2$. Right, as a function of the "
+                "time $x_4$ (units $1/H$): the curves are mirror images under "
+                "$x_4 \\to -x_4$, because $k = e^{(2/3)Ax_4}$ depends only on the "
+                "product $Ax_4$. Whether 3-space inflates or deflates is an initial "
+                "condition, not selected by the equations.")
+    '''),
+    md(r"""
+    **The role of $\beta$.** At a moment where $k = 1$ (on the record history: at
+    $x_4 = 0$) the Einstein source with $A = 1$, $\Lambda = 0$ depends on $\beta$ alone:
+    $\kappa\rho = \tfrac32(\beta^2 - 2) - 6$, $\kappa p_3 = 6 - \tfrac12(5\beta^2 -
+    12\beta + 10)$, $\kappa p_0 = 3 - \tfrac32(\beta^2 - \beta + 2)$ (units
+    $H = \kappa = 1$). The next cell draws them for $0 \le \beta \le 4$, marks the record
+    value $\beta = 4/3$ and the value $\beta = 2$ at which the block does not shrink
+    (its scale factor $e^{-(1 - \beta/2)AHx_4}$ is constant) and the source is constant
+    in time, and checks that the energy density is positive at $k = 1$ exactly for
+    $\beta > \sqrt6$.
+    """),
+    code(r'''
+    scan = {name: sp.expand(value.subs({A: 1, H: 1, Lam: 0, kk: 1}))
+            for name, value in (("rho", rho_e), ("p3", p3_e), ("p0", p0_e))}
+    positive = sp.solve_univariate_inequality(scan["rho"] > 0, beta, relational=False)
+    say(f"k = 1, A = 1, Lambda = 0: kappa rho = {scan['rho']} > 0 for beta in {positive}")
+    check(positive == sp.Union(sp.Interval.open(-sp.oo, -sp.sqrt(6)),
+                               sp.Interval.open(sp.sqrt(6), sp.oo)),
+          "k = 1: the Einstein energy density is positive exactly for |beta| > sqrt(6)")
+    beta_axis = np.linspace(0.0, 4.0, 401)
+    fig, ax = plt.subplots()
+    for (name, value), style, label in zip(scan.items(), ("-", "--", ":"),
+                                           ("$\\kappa\\rho$", "$\\kappa p_3$",
+                                            "$\\kappa p_0 = \\kappa p_t$")):
+        ax.plot(beta_axis, sp.lambdify(beta, value, "numpy")(beta_axis), style,
+                label=label)
+    ax.axvline(4.0 / 3.0, color="black", linestyle=":", linewidth=0.8)
+    ax.axvline(2.0, color="grey", linestyle="--", linewidth=0.8)
+    ax.text(4.0 / 3.0 + 0.03, 4.5, "record $\\beta = 4/3$", fontsize=8)
+    ax.text(2.03, -9.5, "$\\beta = 2$: block constant", fontsize=8)
+    ax.axhline(0.0, color="black", linewidth=0.8)
+    ax.set_xlabel("$\\beta = u/a_4'$")
+    ax.set_ylabel("required source at $k = 1$ (units $H^2$)")
+    ax.set_title("Einstein gravity, $A = 1$, $\\Lambda = 0$: the source against $\\beta$")
+    ax.legend(fontsize=8, loc="lower left")
+    save_figure(fig, "beta_scan",
+                "Einstein gravity with $A = 1$ and $\\Lambda = 0$: the source that an "
+                "exponential history requires at a moment where $k = 1$, as a function "
+                "of $\\beta = u/a_4'$ from 0 to 4, in units of $H^2/\\kappa$: the energy "
+                "density $\\kappa\\rho = 3(\\beta^2 - 2)/2 - 6$ (solid), the 3-space "
+                "pressure (dashed) and the common pressure of the hidden direction and "
+                "the extra times (dotted). The dotted vertical line is the record value "
+                "$\\beta = 4/3$, the dashed one $\\beta = 2$, where the block of the "
+                "hidden direction and the extra times does not shrink and the source is "
+                "constant in time. The energy density is positive only for "
+                "$\\beta > \\sqrt{6}$.")
+    '''),
+    md(r"""
+    ## 8. The author's weights
+
+    With $\alpha_k = w_k/H^{2k}$, $w = (1, \tfrac1{32}, \tfrac1{1152})$, on the record
+    history ($H = 1$) the source $\kappa T - \Lambda\delta$ is a polynomial in
+    $k = e^{2x_4/3}$. With the record's $\Lambda = -10$ the next cell computes
+    $\kappa\rho$, $\kappa p_3$ and $\kappa p_0$, compares the source with the record,
+    computes the anisotropy $\kappa(p_3 - p_0)$ (a nonzero polynomial in $k$: no source
+    with equal pressures can drive this history), finds the time at which $\kappa\rho$
+    changes sign, and evaluates $\kappa\rho$ at the five slices $a_4 = 0, 0.5, 1, 1.5,
+    2$ of the Kohn-Sham record, which the record of the source conditions prints with
+    six significant digits.
+    """),
+    code(r'''
+    import re  # regular expressions: find numbers in a text
+
+    AUTHOR = {alpha1: 1, alpha2: sp.Rational(1, 32) / H ** 2,
+              alpha3: sp.Rational(1, 1152) / H ** 4}
+    RECORD_HISTORY = {A: 1, beta: sp.Rational(4, 3), H: 1}
+    shifted = {name: sp.expand(value.subs(AUTHOR).subs(RECORD_HISTORY))
+               for name, value in (("minus_rho", -kappa_rho - Lam), ("p3", kappa_p3 - Lam),
+                                   ("p0", kappa_p0 - Lam))}  # kappa T - Lambda
+    stored = record["exponentialHistory"]["authorWeights"]["historySource_kappaT_minus_Lam"]
+    same = all(sp.expand(parse(stored[key]["input"]) - shifted[name]) == 0
+               for key, name in (("minus_rho", "minus_rho"), ("p3", "p3"), ("p0", "p0"),
+                                 ("pt", "p0")))
+    reproduces(same, "the author's weights: kappa T - Lambda of the record history",
+               PY, "author_weights_history_source")
+    LAMBDA = -10  # the record's Lambda for the author's weights
+    author = {"rho": sp.expand(-shifted["minus_rho"] - LAMBDA),
+              "p3": sp.expand(shifted["p3"] + LAMBDA),
+              "p0": sp.expand(shifted["p0"] + LAMBDA)}
+    for name, value in author.items():
+        report(f"author's weights, Lambda = -10: kappa {name}", value)
+    anisotropy = sp.expand(author["p3"] - author["p0"])
+    report("kappa (p3 - p0)", anisotropy)
+    eos_text = record_detail(EOS, "condensate_cannot_source_history")
+    reproduces(sp.expand(anisotropy - (-sp.Rational(9, 16) * kk ** 2
+                                       + sp.Rational(1069, 432) * kk
+                                       + sp.Rational(2015, 972))) == 0
+               and "-9*kk**2/16 + 1069*kk/432 + 2015/972" in eos_text,
+               "the history needs kappa (p3 - p0) = -9 k^2/16 + 1069 k/432 + 2015/972",
+               EOS, "condensate_cannot_source_history")
+    roots = [r for r in sp.Poly(author["rho"], kk).nroots() if r.is_real and r > 0]
+    k_zero = min(roots)  # the value of k where kappa rho changes sign
+    x_zero = 1.5 * float(sp.log(k_zero))  # k = e^(2 x4/3)
+    report("kappa rho changes sign at k, x4", f"{float(k_zero):.6f}, {x_zero:.6f}")
+    gas_text = record_detail(KS_A4, "C3_record_history_not_sourced_by_the_gas")
+    reproduces(0.75 < x_zero < 0.8
+               and "changes sign between the dense slices a4 = 0.75 and 0.8" in gas_text,
+               "kappa rho changes sign between a4 = 0.75 and a4 = 0.8",
+               KS_A4, "C3_record_history_not_sourced_by_the_gas")
+    slices = [0.0, 0.5, 1.0, 1.5, 2.0]
+    values = [float(author["rho"].subs(kk, np.exp(2.0 * a / 3.0))) for a in slices]
+    printed = [f"{value:.6g}" for value in values]
+    say("kappa rho at a4 = 0, 0.5, 1, 1.5, 2: " + ", ".join(printed))
+    ks_text = record_detail(KS, "ks_history_is_a_prescribed_background")
+    stated = re.findall(r"kappa rho = (\S+?),", ks_text)
+    reproduces(stated == printed,
+               "the five energy densities equal the record of the source conditions",
+               KS, "ks_history_is_a_prescribed_background")
+    '''),
+    md(r"""
+    The next cell draws the source of the record history with the author's weights
+    ($\Lambda = -10$, $H = \kappa = 1$) for $0 \le x_4 \le 3$: the energy density starts
+    positive, $\kappa\rho = 3.57407$, and changes sign near $x_4 = 0.78$; the five
+    slices of the Kohn-Sham record are marked.
+    """),
+    code(r'''
+    fig, ax = plt.subplots()
+    for name, style, label in (("rho", "-", "$\\kappa\\rho$"), ("p3", "--", "$\\kappa p_3$"),
+                               ("p0", ":", "$\\kappa p_0 = \\kappa p_t$")):
+        function = sp.lambdify(kk, author[name], "numpy")
+        ax.plot(x_axis, function(k_axis) * np.ones_like(k_axis), style, label=label)
+    ax.plot(slices, values, "o", color="black", markersize=4,
+            label="the five slices of the record")
+    ax.axvline(x_zero, color="grey", linewidth=0.8)
+    ax.axhline(0.0, color="black", linewidth=0.8)
+    ax.set_xlabel("time $x_4$ (units $1/H$)")
+    ax.set_ylabel("required source (units $H^2/\\kappa$)")
+    ax.set_title("The author's weights, $\\Lambda = -10$: the source of the record history")
+    ax.legend(fontsize=8)
+    save_figure(fig, "author_weights_source",
+                "The source that the record history $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$ "
+                "requires with the author's weights $\\alpha_k = w_k/H^{2k}$, "
+                "$w = (1, 1/32, 1/1152)$, and $\\Lambda = -10$, as a function of the time "
+                "$x_4$ (units $1/H$, $H = \\kappa = 1$): the energy density $\\kappa\\rho$ "
+                "(solid), the 3-space pressure $\\kappa p_3$ (dashed) and the common "
+                "pressure $\\kappa p_0 = \\kappa p_t$ (dotted). The energy density starts "
+                "at "
+                "$3.57407$ and changes sign at $x_4 = 0.78$ (grey line); the black dots "
+                "are its values at the slices $a_4 = 0, 0.5, 1, 1.5, 2$ printed by the "
+                "record of the source conditions. A source whose energy density changes "
+                "sign is not ordinary matter.")
+    '''),
+    md(r"""
+    ## 9. The two null energy conditions in Einstein gravity
+
+    The record gives the null combinations (key `nullCombinations`). In Einstein
+    gravity on an exponential history they are
+
+    $$\kappa(\rho + p_0) = -\tfrac32H^2\big(2k + A^2(4 - \beta)\big),\qquad
+    \kappa(\rho + p_3) = -A^2H^2(\beta - 2)(\beta - 4) .$$
+
+    The NEC along $x_4 + x_1$ holds where $(\beta - 2)(\beta - 4) \le 0$, that is for
+    $2 \le \beta \le 4$. The NEC along $x_4 + x_0$ needs $2k \le A^2(\beta - 4)$; since
+    $k > 0$ this needs $\beta \ge 4 + 2k/A^2 > 4$. The two ranges do not meet: in
+    Einstein gravity no exponential history has a source that satisfies both null
+    energy conditions. The next cell checks the combinations against the record,
+    derives the two ranges with sympy, and prints the two combinations on the record
+    history with the author's weights.
+    """),
+    code(r'''
+    null_record = record["generalSource"]["nullCombinations"]
+    null_x0 = sp.expand((kappa_rho + kappa_p0).subs(EINSTEIN))
+    null_x1 = sp.expand((kappa_rho + kappa_p3).subs(EINSTEIN))
+    same = all(sp.expand(parse(null_record[key]["input"]).subs(EINSTEIN)
+                         .subs(EXPONENTIAL) - value) == 0
+               for key, value in (("kappa(rho+p0)", null_x0), ("kappa(rho+p3)", null_x1)))
+    reproduces(same and sp.expand(null_x0 + sp.Rational(3, 2) * H ** 2
+                                  * (2 * kk + A ** 2 * (4 - beta))) == 0
+               and sp.expand(null_x1 + A ** 2 * H ** 2 * (beta - 2) * (beta - 4)) == 0,
+               "Einstein, exponential: the two null combinations of the record",
+               PY, "json_required_source_and_null_combinations")
+    range_x1 = sp.solve_univariate_inequality(-(beta - 2) * (beta - 4) >= 0, beta,
+                                              relational=False)
+    kp, Ap = sp.symbols("kp Ap", positive=True)  # k > 0 and A^2 > 0
+    beta_edge = sp.solve(2 * kp + Ap ** 2 * (4 - beta), beta)[0]  # rho + p0 = 0
+    say(f"rho + p3 >= 0 for beta in {range_x1}; rho + p0 >= 0 needs beta >= {beta_edge}")
+    check(range_x1 == sp.Interval(2, 4) and sp.simplify(beta_edge - 4) == 2 * kp / Ap ** 2,
+          "Einstein: no exponential history satisfies both null energy conditions")
+    author_null = {name: sp.expand(author["rho"] + author[name]) for name in ("p0", "p3")}
+    report("author's weights: kappa (rho + p0)", author_null["p0"])
+    report("author's weights: kappa (rho + p3)", author_null["p3"])
+    '''),
+    md(r"""
+    The next cell draws the two conditions in the plane of $\beta$ (horizontal) and
+    $k/A^2$ (vertical) for Einstein gravity: the NEC along $x_4 + x_1$ holds in the
+    vertical band $2 \le \beta \le 4$, the NEC along $x_4 + x_0$ below the line
+    $k/A^2 = (\beta - 4)/2$. Above $k = 0$ (where every history lies) the band and the
+    region below the line do not overlap.
+    """),
+    code(r'''
+    b_grid, k_grid = np.meshgrid(np.linspace(0.0, 7.0, 351), np.linspace(-2.0, 3.0, 251))
+    nec_x0 = (2 * k_grid + (4 - b_grid)) <= 0  # A = 1
+    nec_x1 = (b_grid - 2) * (b_grid - 4) <= 0
+    region = np.where(nec_x0 & nec_x1, 3, np.where(nec_x0, 2, np.where(nec_x1, 1, 0)))
+    fig, ax = plt.subplots()
+    colours = matplotlib.colors.ListedColormap(["#f7f7f7", "#d1e5f0", "#fddbc7",
+                                                "#b2182b"])
+    ax.pcolormesh(b_grid, k_grid, region, cmap=colours, vmin=-0.5, vmax=3.5,
+                  shading="auto")
+    ax.plot(b_grid[0], (b_grid[0] - 4.0) / 2.0, color="black",
+            label="$\\rho + p_0 = 0$: $k/A^2 = (\\beta - 4)/2$")
+    ax.axhline(0.0, color="black", linewidth=1.2)
+    ax.axvline(4.0 / 3.0, color="black", linestyle=":", label="record history")
+    ax.text(3.0, 2.3, "$\\rho + p_3 \\geq 0$", ha="center", fontsize=9)
+    ax.text(5.8, -1.2, "$\\rho + p_0 \\geq 0$", ha="center", fontsize=9)
+    ax.text(1.0, 2.3, "both violated", ha="center", fontsize=9)
+    ax.set_xlabel("$\\beta$")
+    ax.set_ylabel("$k/A^2$")
+    ax.set_title("Einstein gravity: the two null energy conditions")
+    ax.legend(fontsize=8, loc="lower right")
+    save_figure(fig, "null_energy_map",
+                "Einstein gravity on the exponential histories: the plane of $\\beta$ "
+                "(horizontal) and $k/A^2$ (vertical, $k = e^{2a_4}/b_4$). Blue: the null "
+                "energy condition along $x_4 + x_1$, $\\rho + p_3 \\geq 0$, holds "
+                "($2 \\leq \\beta \\leq 4$). Pink: the null energy condition along "
+                "$x_4 + x_0$, $\\rho + p_0 \\geq 0$, holds (below the black line "
+                "$k/A^2 = (\\beta - 4)/2$). Dark red: both hold, only where $k < 0$. "
+                "Every history lies above the horizontal line "
+                "$k = 0$, where the two regions do not overlap: no exponential history "
+                "has a source that satisfies both conditions. The dotted line is the "
+                "record history $\\beta = 4/3$, where both are violated.")
+    '''),
+    md(r"""
+    ## 10. Vacua: Einstein-Gauss-Bonnet gravity and the author's weights
+
+    A vacuum needs $\rho = p_3 = p_0 = 0$. Where $k$ changes in time ($\beta \ne 2$,
+    $A \ne 0$) the three required components are polynomials in $k$ that must vanish
+    for a whole interval of values of $k$, so every coefficient of $k^0$, $k^1$, $k^2$
+    must vanish. The next cell writes these coefficients for Einstein-Gauss-Bonnet
+    gravity ($\alpha_1 = 1$, $\alpha_3 = 0$; $\alpha_2$ and $\Lambda$ free) and computes
+    a Groebner basis (a systematic elimination; a basis $[1]$ means that the equations
+    have no common solution, not even a complex one). For constant $k = k_0$
+    ($\beta = 2$) it solves the time and the hidden equations for $\alpha_2$ and
+    $\Lambda$ and checks that the 3-space equation then holds:
+
+    $$\alpha_2 = -\frac{1}{4H^2(A^2 - k_0)},\qquad
+    \Lambda = \frac{3H^2(A^4 + 3A^2k_0 + k_0^2)}{A^2 - k_0}\qquad(k_0 \ne A^2).$$
+
+    On these histories the block does not shrink: they are vacua, but not deflating
+    ones.
+    """),
+    code(r'''
+    GAUSS_BONNET = {alpha1: 1, alpha3: 0, H: 1}
+    coefficients = []
+    for value in (kappa_rho, kappa_p3, kappa_p0):
+        polynomial = sp.Poly(sp.expand(value.subs(GAUSS_BONNET)), kk)
+        coefficients += [c for c in polynomial.all_coeffs() if c != 0]
+    basis = sp.groebner(coefficients, A, beta, alpha2, Lam, order="lex")
+    say(f"Gauss-Bonnet, k varies: {len(coefficients)} coefficient equations, "
+        f"Groebner basis {list(basis.exprs)}")
+    reproduces(list(basis.exprs) == [1],
+               "Einstein-Gauss-Bonnet: no vacuum exponential history where k varies",
+               PY, "egb_no_vacuum_where_k_varies")
+    k0 = sp.symbols("k0", positive=True)  # the constant k on beta = 2
+    CONSTANT = {beta: 2, kk: k0}
+    time_eq, space_eq, hidden_eq = (sp.expand(value.subs(GAUSS_BONNET).subs(CONSTANT))
+                                    for value in (kappa_rho, kappa_p3, kappa_p0))
+    branch = sp.solve([time_eq, hidden_eq], [alpha2, Lam], dict=True)[0]
+    say(f"beta = 2: alpha2 = {sp.factor(branch[alpha2])}, Lambda = {sp.factor(branch[Lam])}")
+    reproduces(sp.simplify(branch[alpha2] + 1 / (4 * (A ** 2 - k0))) == 0
+               and sp.simplify(branch[Lam] - 3 * (A ** 4 + 3 * A ** 2 * k0 + k0 ** 2)
+                               / (A ** 2 - k0)) == 0
+               and sp.simplify(space_eq.subs(branch)) == 0,
+               "Einstein-Gauss-Bonnet vacua on constant k: alpha2 and Lambda as recorded",
+               PY, "egb_exponential_vacuum_branches")
+    '''),
+    md(r"""
+    The next cell draws the Einstein-Gauss-Bonnet vacua for $A = 1$ as functions of
+    $k_0$: the coupling $\alpha_2H^2 = -1/(4(1 - k_0))$ (negative for $k_0 < 1$,
+    positive for $k_0 > 1$) and the cosmological constant $\Lambda/H^2$; at $k_0 = A^2$
+    both diverge.
+    """),
+    code(r'''
+    alpha2_f = sp.lambdify(k0, branch[alpha2].subs(A, 1), "numpy")
+    lambda_f = sp.lambdify(k0, branch[Lam].subs(A, 1), "numpy")
+    fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
+    for low, high in ((0.05, 0.9), (1.1, 4.0)):
+        k_part = np.linspace(low, high, 200)
+        left.plot(k_part, alpha2_f(k_part), color="tab:blue")
+        right.plot(k_part, lambda_f(k_part), color="tab:orange")
+    for ax in (left, right):
+        ax.axvline(1.0, color="grey", linestyle="--", linewidth=0.8)
+        ax.axhline(0.0, color="black", linewidth=0.8)
+        ax.set_xlabel("$k_0/A^2$")
+    left.set_ylim(-3.0, 3.0)
+    right.set_ylim(-80.0, 80.0)
+    left.set_ylabel("$\\alpha_2 H^2$ of the vacuum")
     right.set_ylabel("$\\Lambda/H^2$ of the vacuum")
-    fig.suptitle("Einstein-Gauss-Bonnet gravity: the vacuum linear members")
+    fig.suptitle("Einstein-Gauss-Bonnet gravity: the vacua on constant $k$ ($A = 1$)")
     save_figure(fig, "gauss_bonnet_vacuum",
                 "The vacuum solutions of Einstein-Gauss-Bonnet gravity ($\\alpha_1 = 1$, "
-                "$\\alpha_3 = 0$) among the linear members, as functions of "
-                "$\\alpha_2 H^2$ from $0.004$ to $1/40$: left, the slope $A$ (two "
-                "branches $\\pm A$ with $A^2 = (1 - 40\\alpha_2H^2)/(8\\alpha_2H^2)$); "
-                "right, the cosmological constant $\\Lambda/H^2$ that makes the energy "
-                "density zero. The slope shrinks to $0$ at $\\alpha_2H^2 = 1/40$, where "
-                "$\\Lambda = -10.5H^2$; for smaller $\\alpha_2$ the vacuum deflates (or "
-                "inflates) the extra times faster.")
+                "$\\alpha_3 = 0$) among the exponential histories: they exist only for "
+                "constant $k = k_0$ ($\\beta = 2$), here with $A = 1$. Left: the coupling "
+                "$\\alpha_2 H^2 = -1/(4(A^2 - k_0))$; right: the cosmological constant "
+                "$\\Lambda/H^2 = 3(A^4 + 3A^2k_0 + k_0^2)/(A^2 - k_0)$, both against "
+                "$k_0/A^2$. Both diverge at $k_0 = A^2$ (dashed line). On these histories "
+                "the scale factor $e^{-a_4}b_4^{1/2}$ of the hidden direction and the "
+                "extra times is constant: they are vacua, but the extra times do not "
+                "deflate.")
     '''),
     md(r"""
-    **Third order.** With $\alpha_3 \ne 0$ the vacuum condition $V = 0$ is, for a fixed
-    slope $A$, one straight line in the plane of $\alpha_2H^2$ and $\alpha_3H^4$:
-
-    $$\alpha_3H^4 = \frac{8\alpha_2H^2(A^2 + 5) - 1}{72A^4 + 144A^2 + 360}
-    \qquad(\alpha_1 = 1).$$
-
-    The next cell draws these lines for $A = 0, 1, 2, 3$ and checks one point:
-    for $A = 1$ and $\alpha_2H^2 = 1/48$ the line gives $\alpha_3 = 0$ and indeed
-    $V = 1 - 8 \cdot \tfrac{1}{48} \cdot 6 = 0$.
+    **The author's weights allow no exponential vacuum.** With the author's weights and
+    $\Lambda = -10$ the next cell repeats the elimination where $k$ varies (with the
+    extra equation $1 - sA(\beta - 2) = 0$, which can hold only when $A \ne 0$ and
+    $\beta \ne 2$). For constant $k$ on $\beta = 2$ the time and the 3-space equations
+    coincide (the derivative of the constraint vanishes there), so a vacuum needs the
+    time equation and the hidden equation, two polynomial equations in $A^2$ and $k_0$.
+    The cell eliminates $A$ with a resultant: the values of $k_0$ at which the two
+    equations share a root $A^2$ are the zeros of the resultant, and at each of them
+    the shared root is negative, so $A$ is not real. On the static history $A = 0$
+    there is no solution either.
     """),
     code(r'''
-    V_one = sp.expand(V.subs({alpha1: 1, H: 1}))  # V with alpha1 = 1, H = 1
-    alpha3_line = sp.solve(V_one, alpha3)[0]  # alpha3 H^4 on the vacuum line
-    say(f"vacuum line: alpha3 H^4 = {sp.factor(alpha3_line)}")
-    check(alpha3_line.subs({A: 1, alpha2: sp.Rational(1, 48)}) == 0,
-          "A = 1, alpha2 H^2 = 1/48: the vacuum line passes through alpha3 = 0")
-    line_f = sp.lambdify((A, alpha2), alpha3_line, "numpy")
-    g_values = np.linspace(0.0, 0.08, 201)
+    AUTHOR_VACUUM = {alpha1: 1, alpha2: sp.Rational(1, 32), alpha3: sp.Rational(1, 1152),
+                     Lam: LAMBDA, H: 1}
+    s = sp.symbols("s")  # 1 - s A (beta - 2) = 0 makes A != 0 and beta != 2
+    coefficients = []
+    for value in (kappa_rho, kappa_p3, kappa_p0):
+        polynomial = sp.Poly(sp.expand(value.subs(AUTHOR_VACUUM)), kk)
+        coefficients += [c for c in polynomial.all_coeffs() if c != 0]
+    basis = sp.groebner(coefficients + [1 - s * A * (beta - 2)], s, A, beta, order="lex")
+    A2 = sp.symbols("A2", real=True)  # A^2
+    time_k0 = sp.expand(16 * kappa_rho.subs(AUTHOR_VACUUM).subs(CONSTANT)).subs(A ** 2, A2)
+    space_k0 = sp.expand(16 * kappa_p3.subs(AUTHOR_VACUUM).subs(CONSTANT)).subs(A ** 2, A2)
+    hidden_k0 = sp.expand(16 * kappa_p0.subs(AUTHOR_VACUUM).subs(CONSTANT))
+    hidden_k0 = hidden_k0.subs(A ** 4, A2 ** 2).subs(A ** 2, A2)
+    resultant = sp.factor(sp.resultant(time_k0, hidden_k0, A2))
+    shared = []  # (k0, the common root A^2) at every real zero k0 > 0 of the resultant
+    for root in sp.Poly(resultant, k0).nroots():
+        if root.is_real and root > 0:
+            common = sp.solve(time_k0.subs(k0, root), A2)
+            shared.append((float(root), float(common[0])))
+    static = sp.solve([sp.expand(kappa_rho.subs(AUTHOR_VACUUM).subs(A, 0)),
+                       sp.expand(kappa_p0.subs(AUTHOR_VACUUM).subs(A, 0))], kk)
+    say(f"k varies: Groebner basis {list(basis.exprs)}")
+    say("beta = 2, resultant in k0: " + str(resultant))
+    say("its positive zeros k0 and the shared root A^2: "
+        + ", ".join(f"({k_value:.4f}, {a_value:.4f})" for k_value, a_value in
+                    sorted(set((round(a, 6), round(b, 6)) for a, b in shared))))
+    reproduces(list(basis.exprs) == [1] and sp.expand(time_k0 + space_k0) == 0
+               and all(a_value < 0 for _, a_value in shared) and static == [],
+               "the author's weights: no exponential history is a vacuum",
+               PY, "author_weights_no_exponential_vacuum")
+    '''),
+    md(r"""
+    The next cell draws the two vacuum conditions of the author's weights on
+    $\beta = 2$ in the plane of $k_0$ (horizontal) and $A^2$ (vertical): the curve on
+    which the time equation holds and the curve on which the hidden equation holds.
+    Real histories need $A^2 \ge 0$ (unshaded); the two curves meet only in the shaded
+    region $A^2 < 0$.
+    """),
+    code(r'''
+    k_grid, a_grid = np.meshgrid(np.linspace(0.05, 30.0, 600), np.linspace(-40.0, 40.0, 600))
+    time_f = sp.lambdify((k0, A2), time_k0, "numpy")
+    hidden_f = sp.lambdify((k0, A2), hidden_k0, "numpy")
     fig, ax = plt.subplots()
-    for slope in (0, 1, 2, 3):
-        label = "$A = 0$" if slope == 0 else f"$A = \\pm{slope}$"
-        ax.plot(g_values, line_f(slope, g_values), label=label)
-    ax.axhline(0.0, color="black", linewidth=0.8)
-    ax.set_xlabel("$\\alpha_2 H^2$")
-    ax.set_ylabel("$\\alpha_3 H^4$")
-    ax.set_title("Third-order Lovelock gravity: the vacuum lines $V = 0$")
-    ax.legend(fontsize=8)
-    save_figure(fig, "third_order_vacua",
-                "Lovelock gravity of third order ($\\alpha_1 = 1$): for each slope $A$ "
-                "of the linear member the couplings $(\\alpha_2 H^2, \\alpha_3 H^4)$ that "
-                "allow a vacuum lie on one straight line, $\\alpha_3 H^4 = "
-                "(8\\alpha_2H^2(A^2 + 5) - 1)/(72A^4 + 144A^2 + 360)$, drawn for "
-                "$A = 0, 1, 2, 3$ (each line serves $+A$ and $-A$). Where a line crosses "
-                "$\\alpha_3 = 0$ it meets the Gauss-Bonnet vacuum; a positive $\\alpha_3$ "
-                "allows vacua at larger $\\alpha_2$.")
+    ax.axhspan(-40.0, 0.0, color="grey", alpha=0.25)
+    ax.contour(k_grid, a_grid, time_f(k_grid, a_grid), levels=[0.0], colors="tab:blue")
+    ax.contour(k_grid, a_grid, hidden_f(k_grid, a_grid), levels=[0.0],
+               colors="tab:red", linestyles="--")
+    ax.plot([], [], color="tab:blue", label="time (and 3-space) equation: $\\rho = 0$")
+    ax.plot([], [], color="tab:red", linestyle="--", label="hidden equation: $p_0 = 0$")
+    ax.plot([k for k, _ in shared], [a for _, a in shared], "o", color="black",
+            markersize=4, label="where both hold ($A^2 < 0$)")
+    ax.set_xlabel("$k_0 = e^{2a_4}/b_4$ (constant)")
+    ax.set_ylabel("$A^2$")
+    ax.set_title("The author's weights, $\\beta = 2$: no real vacuum")
+    ax.legend(fontsize=8, loc="upper right")
+    save_figure(fig, "author_weights_no_vacuum",
+                "The author's weights ($\\alpha_k = w_k/H^{2k}$, $w = (1, 1/32, 1/1152)$, "
+                "$\\Lambda = -10$, $H = 1$) on the exponential histories with constant "
+                "$k = k_0$ ($\\beta = 2$): in the plane of $k_0$ (horizontal) and $A^2$ "
+                "(vertical) the solid curve is where the time equation (which equals the "
+                "3-space equation there) holds with $\\rho = 0$, the dashed curve where "
+                "the hidden equation holds with $p_0 = 0$. A vacuum needs both. They "
+                "meet only at the black points, all in the grey region $A^2 < 0$, where "
+                "the slope $A$ is not real: the author's weights allow no exponential "
+                "vacuum.")
     '''),
     md(r"""
-    ## 9. A homogeneous condensate of dirac16complex00 as the source
+    ## 11. A homogeneous condensate of dirac16complex00 as the source
 
-    The record proves (checks `condensate_S_constant`,
-    `condensate_kinetic_tensor_diagonal`) that a condensate $\Phi(x_4)$ of the commuting
-    field has constant $S = \bar\Phi\Phi$, energy density $\rho = mS + U(S)$ and equal
-    pressures $p = SU'(S) - U(S)$ (sign convention $\sigma_T = +1$ of the record), and
-    that, when its off-diagonal conditions hold (see below), it allows only the
-    linear member. With $U = \tfrac{\lambda}{2}S^2$ we have
-    $U' = \lambda S$, so $\rho = mS + \tfrac{\lambda}{2}S^2$ and $p = \tfrac{\lambda}{2}S^2$.
-    Setting them equal to the Einstein values and taking the difference and the sum:
-
-    $$\kappa mS = -(36H^2 + 2\Lambda),\qquad 6(A^2 + 1)H^2 = -\kappa S(m + \lambda S).$$
-
-    The next cell checks this equivalence with sympy, then solves for $A^2$ in units
-    $H = \kappa = 1$: $S = -(36 + 2\Lambda)/m$ and
-    $A^2 = 5 + \Lambda/3 - \lambda S^2/6$. For the two worked examples it also prints
-    the density $S$ and the effective mass $M = m + \lambda S$ that the condensate
-    must have.
+    The record proves that a homogeneous condensate $\Phi(x_4)$ of the commuting field
+    has equal pressures, $p_3 = p_t = p_0 = SU'(S) - U(S)$, energy density
+    $\rho = mS + U(S)$ and density $S = e^{a_4}b_4^{-2}S_0$, and that its off-diagonal
+    components vanish when 24 three-gamma bilinears vanish. A source with equal
+    pressures needs $\sum_k\alpha_k(E^{x_1}{}_{x_1} - E^{x_0}{}_{x_0}) = 0$. The next
+    cell writes this condition on the exponential histories. In Einstein gravity it
+    reads $3k = A^2(\beta - 4)(\beta - \tfrac12)$; the left side changes in time unless
+    $\beta = 2$ or $A = 0$, and there the right side gives $k = -A^2$ or $k = 0$: no
+    solution with $k > 0$. With the author's weights it holds where $k$ varies nowhere,
+    and on constant $k$ exactly for $k_0 = (16 + 2A^2)/(2 + A^2)$ ($\beta = 2$) and
+    $k_0 = 8$ ($A = 0$), where the block does not shrink.
     """),
     code(r'''
-    m, lam, S = sp.symbols("m lam S", real=True)  # mass, coupling lambda, density S
-    rho_condensate = m * S + lam * S ** 2 / 2  # rho = m S + U, U = (lambda/2) S^2
-    p_condensate = lam * S ** 2 / 2  # p = S U' - U
-    condition_rho = sp.expand(kappa * rho_condensate - rho_e)  # = 0
-    condition_p = sp.expand(kappa * p_condensate - p_e)  # = 0
-    first = sp.expand(kappa * m * S + 36 * H ** 2 + 2 * Lam)  # kappa m S = -(36 H^2 + 2 L)
-    second = sp.expand(6 * (A ** 2 + 1) * H ** 2 + kappa * S * (m + lam * S))
-    reproduces(sp.expand(condition_rho - condition_p - first) == 0
-               and sp.expand(condition_rho + condition_p - second) == 0,
-               "condensate, Einstein: kappa m S = -(36 H^2 + 2 Lambda) and "
-               "6 (A^2 + 1) H^2 = -kappa S (m + lambda S)",
-               PY, "condensate_einstein_quadratic_U")
-    UNIT = {H: 1, kappa: 1}
-    S_solution = sp.solve(first.subs(UNIT), S)[0]
-    A2_solution = sp.expand(sp.solve(second.subs(UNIT), A ** 2)[0].subs(S, S_solution))
-    say(f"S = {S_solution},  A^2 = {A2_solution}")
-    example_1 = A2_solution.subs({m: 5, lam: 0, Lam: 0})
-    example_2 = A2_solution.subs({m: -15, lam: sp.Rational(25, 6), Lam: 0})
-    report("m = 5, lambda = 0, Lambda = 0: A^2", example_1)
-    report("m = -15, lambda = 25/6, Lambda = 0: A^2", example_2)
-    check(example_1 == 5 and example_2 == 1, "the two worked examples: A^2 = 5 and A^2 = 1")
-    effective = []  # the effective mass M = m + lambda S of each example
-    for mass, coupling in ((5, 0), (-15, sp.Rational(25, 6))):
-        S_value = S_solution.subs({m: mass, Lam: 0})  # the density the example needs
-        effective.append(mass + coupling * S_value)
-        report(f"m = {mass}, lambda = {coupling}: S and M = m + lambda S",
-               f"{S_value}, {effective[-1]}")
-    check(effective == [5, -5], "the examples need M = 5 (S < 0) and M = -5 (S > 0)")
+    equal = sp.expand((kappa_p3 - kappa_p0) / (H ** 2))  # must vanish
+    einstein_equal = sp.factor(sp.expand(equal.subs(EINSTEIN)))
+    k_needed = sp.solve(einstein_equal, kk)[0]
+    say(f"Einstein: p3 = p0 needs k = {sp.factor(k_needed)}")
+    reproduces(sp.expand(3 * k_needed - A ** 2 * (beta - 4) * (beta - sp.Rational(1, 2)))
+               == 0 and sp.expand(k_needed.subs(beta, 2) + A ** 2) == 0,
+               "Einstein: equal pressures on an exponential history need k = -A^2 or 0",
+               PY, "condensate_source_equal_pressures")
+    author_equal = sp.expand(equal.subs(AUTHOR).subs(H, 1))
+    k_coefficients = [c for c in sp.Poly(author_equal, kk).all_coeffs() if c != 0]
+    varying = sp.groebner(k_coefficients + [1 - s * A * (beta - 2)], s, A, beta,
+                          order="lex")
+    on_beta2 = sp.solve(sp.factor(author_equal.subs({beta: 2, kk: k0})), k0)
+    static_k = sp.solve(author_equal.subs({A: 0}), kk)
+    say(f"author's weights, beta = 2: k0 = {on_beta2}; A = 0: k = {static_k}")
+    reproduces(list(varying.exprs) == [1]
+               and any(sp.simplify(r - (16 + 2 * A ** 2) / (2 + A ** 2)) == 0
+                       for r in on_beta2) and 8 in static_k,
+               "the author's weights: equal pressures only for constant k",
+               WL, "condensate_source_equal_pressures")
     '''),
     md(r"""
-    The record also lists every off-diagonal kinetic component of the condensate: each
-    is a multiple of one of 15 three-gamma bilinears
-    $\bar\Phi\gamma^a\gamma^b\gamma^c\Phi$, and the off-diagonal field equations
-    $0 = \kappa T^\mu{}_\nu$ require those bilinears to vanish. The next cell counts
-    the entries (42 ordered pairs $(\mu, \nu)$) and the distinct bilinears (15).
-
-    Then it draws $A^2$ as a function of $\lambda$ for $m = 5$ and $m = -15$
-    ($\Lambda = 0$, $H = \kappa = 1$): $A^2 = 5 - 216\lambda/m^2$. A real slope needs
-    $A^2 \ge 0$, that is $\lambda \le 5m^2/216$. The two worked examples are marked.
+    The next cell draws the two results. Left (Einstein gravity): in the plane of
+    $\beta$ and $k/A^2$ the curve $k/A^2 = (\beta - 4)(\beta - \tfrac12)/3$ on which the
+    pressures would be equal at one moment; a history keeps a fixed point of this
+    plane only where $k$ is constant, $\beta = 2$, and there the curve has
+    $k/A^2 = -1 < 0$. Right (the author's weights): the constant values
+    $k_0 = (16 + 2A^2)/(2 + A^2)$ against $A$; on these histories the scale factor of
+    the hidden direction and the extra times, $k_0^{-1/2}$, is constant.
     """),
     code(r'''
-    condensate = record["fields"]["dirac16complex00"]
-    entries = condensate["offDiagonalKinetic"]
-    bilinears = sorted({term["bilinear"] for entry in entries for term in entry["terms"]})
-    report("off-diagonal kinetic components of the condensate", len(entries))
-    report("distinct three-gamma bilinears", len(bilinears))
-    reproduces(len(entries) == 42 and len(bilinears) == 15,
-               "42 off-diagonal components, multiples of 15 three-gamma bilinears",
-               WL, "condensate_offdiagonal_are_three_gamma_bilinears")
-    a2_f = sp.lambdify((m, lam), A2_solution.subs(Lam, 0), "numpy")
-    fig, ax = plt.subplots()
-    for mass, upper in ((5, 1.0), (-15, 6.0)):
-        lam_values = np.linspace(0.0, upper, 200)
-        ax.plot(lam_values, a2_f(mass, lam_values), label=f"$m = {mass}$")
-    ax.plot([0], [5], "o", color="black")
-    ax.plot([25 / 6], [1], "s", color="black")
-    arrow = {"arrowstyle": "->"}  # a thin arrow from the text to the point
-    ax.annotate("$m=5$, $\\lambda=0$: $A^2=5$", (0, 5), (0.5, 5.8), fontsize=8,
-                arrowprops=arrow)
-    ax.annotate("$m=-15$, $\\lambda=25/6$: $A^2=1$", (25 / 6, 1), (3.6, 2.6),
-                fontsize=8, arrowprops=arrow)
-    ax.set_ylim(-4.2, 6.6)
-    ax.axhline(0.0, color="black", linewidth=0.8)
-    ax.set_xlabel("self-coupling $\\lambda$ (units $H = \\kappa = 1$)")
-    ax.set_ylabel("$A^2$ required by the condensate")
-    ax.set_title("A dirac16complex00 condensate as the source, Einstein, $\\Lambda=0$")
-    ax.legend(fontsize=8)
-    save_figure(fig, "condensate_slope",
-                "Einstein gravity with $\\Lambda = 0$ and a homogeneous dirac16complex00 "
-                "condensate with $U = \\lambda S^2/2$ as the source: the square $A^2$ of "
-                "the slope of the linear member that the field equations then require, "
-                "$A^2 = 5 - 216\\lambda/m^2$, as a function of the self-coupling "
-                "$\\lambda$ for the masses $m = 5$ and $m = -15$ (units "
-                "$H = \\kappa = 1$). A real slope needs $A^2 \\ge 0$. The circle and the "
-                "square mark the worked examples $A^2 = 5$ and $A^2 = 1$; both signs "
-                "$\\pm A$ are allowed.")
+    fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
+    beta_axis = np.linspace(-1.0, 6.0, 351)
+    left.axhspan(-6.0, 0.0, color="grey", alpha=0.25, label="$k \\leq 0$")
+    left.plot(beta_axis, (beta_axis - 4.0) * (beta_axis - 0.5) / 3.0,
+              label="$k/A^2 = (\\beta - 4)(\\beta - 1/2)/3$")
+    left.axvline(2.0, color="black", linestyle="--", linewidth=0.8,
+                 label="$\\beta = 2$: $k$ constant")
+    left.plot([2.0], [-1.0], "o", color="black")
+    left.set_ylim(-6.0, 8.0)
+    left.set_xlabel("$\\beta$")
+    left.set_ylabel("$k/A^2$")
+    left.set_title("Einstein gravity")
+    left.legend(fontsize=8)
+    slopes = np.linspace(0.0, 4.0, 200)
+    right.plot(slopes, (16 + 2 * slopes ** 2) / (2 + slopes ** 2))
+    right.set_xlabel("slope $A$")
+    right.set_ylabel("$k_0$ with equal pressures")
+    right.set_title("the author's weights, $\\beta = 2$")
+    save_figure(fig, "condensate_conditions",
+                "When can a source with equal pressures, such as a homogeneous condensate "
+                "of dirac16complex00, drive an exponential history? Left, Einstein "
+                "gravity: in the plane of $\\beta$ and $k/A^2$ the pressures would be equal "
+                "on the curve $k/A^2 = (\\beta - 4)(\\beta - 1/2)/3$; only on $\\beta = 2$ "
+                "(dashed) is $k$ constant in time, and there the curve has $k/A^2 = -1$, "
+                "in the grey region $k \\leq 0$ where no history lies. Right, the author's "
+                "weights: on $\\beta = 2$ the pressures are equal for "
+                "$k_0 = (16 + 2A^2)/(2 + A^2)$, shown against the slope $A$; on these "
+                "histories the hidden direction and the extra times do not deflate.")
     '''),
     md(r"""
-    **What is established here, and where it is completed.** The two conditions above
-    are PROVED consequences of the field equations for a condensate source. The
-    Revision record has exact condensates with all 15 bilinears zero, but it contains
-    no check that combines one of them with these Einstein conditions. Notebook 12d of
-    this chapter does that combination: it builds condensates with all 15 bilinears
-    zero and exactly the values $(M, S) = (5, -36/5)$ and $(-5, 12/5)$ of the two worked
-    examples, and checks every field equation exactly (a computation of the textbook,
-    not a Revision record). With $\Lambda = 0$ the required energy density is
-    $\kappa\rho = -(21 + 3A^2)H^2 < 0$: such a source has negative energy.
+    **What is established here.** The two statements above are PROVED consequences of
+    the field equations for a source with equal pressures (Revision record, checks
+    `condensate_source_equal_pressures`). The record history itself needs
+    $\kappa(p_3 - p_0) \ne 0$ (section 8), so no condensate is its source (record check
+    `condensate_cannot_source_history` of the dark-sector record). Whether a condensate
+    can drive a history that is not exponential is not decided by the record; Notebook
+    12d of this chapter examines the record's exact condensates on their own histories.
     """),
     md(r"""
-    ## 10. The last check
+    ## 12. The last check
 
     The last cell checks that the eight figure files exist in the folder
     Revision/textbook/figures and prints the number of checks that passed.
     """),
     code(r'''
-    figure_names = ["einstein_source", "source_regions", "phantom_w",
-                    "gauss_bonnet_source", "null_energy_map", "gauss_bonnet_vacuum",
-                    "third_order_vacua", "condensate_slope"]
+    figure_names = ["einstein_source", "sign_symmetry", "beta_scan",
+                    "author_weights_source", "null_energy_map", "gauss_bonnet_vacuum",
+                    "author_weights_no_vacuum", "condensate_conditions"]
     paths = [output_file(f"{FIGURE_FOLDER}/12b_{k}_{name}.png")
              for k, name in enumerate(figure_names, 1)]
     check(all(path.is_file() for path in paths), "all eight figure files exist")
     all_checks_passed()
     '''),
     md(r"""
-    ## 11. What this notebook showed
+    ## 13. What this notebook showed
 
-    - The linear member $a_4 = AHx_4 + a_0$ needs a source with equal pressures
-      $p_3 = p_t = p_0 = p$ and constant $\rho$ and $p$, given by the record formulas
-      (PROVED).
-    - $\rho$ and $p$ contain $A$ only as $A^2$: the field equations accept deflating
-      extra times ($A > 0$) and inflating ones ($A < 0$) equally; deflation is a choice
-      of sign, an initial condition (PROVED).
-    - Einstein gravity: $\kappa\rho = -(21 + 3A^2)H^2 - \Lambda$,
-      $\kappa p = (15 - 3A^2)H^2 + \Lambda$, $\kappa(\rho + p) = -6(1 + A^2)H^2 < 0$;
-      $\rho > 0$ is possible only with $\Lambda < -(21 + 3A^2)H^2$ and then $w < -1$
-      (PROVED).
-    - Gauss-Bonnet and third-order couplings: $\kappa(\rho + p) = -6(A^2 + 1)H^2V$; the
-      null energy condition holds where $V \le 0$; vacua exist on $V = 0$, for
-      Einstein-Gauss-Bonnet gravity only when $0 < \alpha_2 H^2 \le 1/40$ (PROVED).
-    - A homogeneous dirac16complex00 condensate as the source needs
-      $\kappa mS = -(36H^2 + 2\Lambda)$ and $6(A^2 + 1)H^2 = -\kappa S(m + \lambda S)$
-      (PROVED); the two worked examples need $(M, S) = (5, -36/5)$ and $(-5, 12/5)$,
-      and Notebook 12d builds condensates that meet them exactly.
+    - Every exponential history $a_4 = AHx_4 + a_0$, $b_4 = b_4(0)e^{\beta AHx_4}$
+      needs a diagonal source with $p_0 = p_t$ whose entries are polynomials of degree
+      at most 2 in $k = e^{2a_4}/b_4$; it is constant only for $\beta = 2$ or $A = 0$
+      (PROVED, equal to the record).
+    - As functions of $k$ the source contains $A$ only as $A^2$: the sign of $A$ is a
+      choice, an initial condition (PROVED).
+    - Einstein gravity, record history, $\Lambda = 0$: $\kappa\rho = -6k - \tfrac13 < 0$,
+      $\kappa p_3 = 6k - \tfrac{13}9$, $\kappa p_0 = 3k - \tfrac{11}3$ (PROVED). With the
+      author's weights and $\Lambda = -10$ the energy density starts at $3.57407$ and
+      changes sign at $x_4 = 0.78/H$ (PROVED formula, COMPUTED zero; equal to the
+      records).
+    - Einstein gravity: no exponential history has a source that satisfies both null
+      energy conditions (PROVED here from the record's null combinations).
+    - Einstein-Gauss-Bonnet gravity has exponential vacua only on constant $k$, with
+      $\alpha_2 = -1/(4H^2(A^2 - k_0))$; the author's weights allow none (PROVED).
+    - A source with equal pressures (a homogeneous condensate) cannot drive an
+      exponential history in Einstein gravity; with the author's weights only on
+      constant $k$, where the block does not shrink (PROVED, as in the record).
     """),
 ]
 

@@ -1,107 +1,143 @@
-## 12. The field equations for a4: Einstein and Einstein-Lovelock
+## 12. The field equations for a4 and b4: Einstein and Einstein-Lovelock
 
-The author's metric contains exactly one unknown function, $a_4(x_4)$. This chapter derives, step by step, the equations that gravity imposes on that function: first by hand, as far as the algebra stays short, and then completely with four notebooks. We will find that the equations split into a constraint, an evolution equation, a hidden-direction equation and conditions on the matter; that no empty universe of this form exists; that the exponentially deflating history needs a source of a very unusual kind; that the equations do not care whether the extra times deflate or inflate; and that a condensate of the commuting field dirac16complex00 can be such a source exactly.
+The corrected metric of the author contains two unknown functions of the time, $a_4(x_4)$ and $b_4(x_4)$. This chapter derives, step by step, the equations that gravity imposes on them: first by hand, as far as the algebra stays short, and then completely with four notebooks. We will find that the equations reduce to one constraint and two equations of second order; that flat space is an empty universe of this form, while in Einstein gravity and with the author's weights no exponential history is empty; that the exponential history of the Revision record needs a source of an unusual kind, which grows in time; that the equations do not care whether 3-space inflates or deflates; and that the exact condensates of the commuting field dirac16complex00 that the record has found are the source of none of the histories on which they live.
 
 ### 12.1 What this chapter does, and why
 
-In Chapter 3 we met the author's metric: a rule that turns small steps $dx_0, \dots, dx_7$ into squared lengths. Three of its directions, $x_1, x_2, x_3$, are ordinary 3-space; $x_4$ is the time; $x_5, x_6, x_7$ are the three **extra times**, which behave like time; $x_0$ is the **hidden** space direction. Lengths along 3-space are multiplied by $e^{a_4}$ and lengths along the extra times by $e^{-a_4}$. When $a_4$ grows with the time $x_4$, 3-space inflates and the extra times **deflate exponentially**. That is the author's picture of the primordial universe.
+In Chapter 3 we met the corrected metric: a rule that turns small steps $dx_0, \dots, dx_7$ into squared lengths. Three of its directions, $x_1, x_2, x_3$, are ordinary 3-space; $x_4$ is the time; $x_5, x_6, x_7$ are the three **extra times**, which behave like time; $x_0$ is the **hidden** space direction. Lengths along 3-space are multiplied by $e^{a_4}$, and lengths along the hidden direction and the extra times by $e^{-a_4}b_4^{1/2}$ (times a fixed function of $x_0$). When this second factor shrinks, the hidden direction and the extra times **deflate**. That is the author's picture of the primordial universe.
 
-A metric is not free. Einstein's great idea is that matter tells space how to curve: the curvature of the metric, collected into a tensor, equals a constant times the energy and momentum of the matter. The equations that say this are called the **field equations of gravity**. For the author's metric they become equations for the single function $a_4(x_4)$, and they answer questions such as:
+A metric is not free. Einstein's great idea is that matter tells space how to curve: the curvature of the metric, collected into a tensor, equals a constant times the energy and momentum of the matter. The equations that say this are the **field equations of gravity**. For the corrected metric they become equations for the two functions $a_4(x_4)$ and $b_4(x_4)$, and they answer questions such as:
 
-- Can the author's metric exist with no matter at all? (No: Section 12.11.)
-- If $a_4$ is given, what matter must be present? (The **required source**: Sections 12.8 to 12.12.)
-- If the matter is given, how does $a_4$ evolve? (The evolution equation: Sections 12.9 and 12.21.)
-- Do the equations prefer extra times that deflate? (No; deflation is a choice of sign: Section 12.12.)
-- Can a field of this theory be the required source exactly, with the extra times deflating? (Yes, in three exact examples of the commuting field dirac16complex00, computed by this book: Section 12.26.)
+- Can the corrected metric exist with no matter at all? (Yes, as flat space; but in Einstein gravity and with the author's weights no exponential history is empty: Section 12.11 and Notebook 12b.)
+- If $a_4$ and $b_4$ are given, what matter must be present? (The **required source**: Sections 12.8, 12.11 and 12.12.)
+- If the matter is given, how do $a_4$ and $b_4$ evolve? (Two equations of second order and a constraint: Sections 12.9 and 12.21.)
+- Do the equations prefer one direction of time? (No; the sign of the rate is a choice: Section 12.12.)
+- Can a field of this theory be the required source exactly? (The record: no condensate can be the source of the record history; this book: the record's exact condensates are the source of none of their own histories; the general question is OPEN: Section 12.26.)
 
-We use the most general gravity theory that keeps the field equations of second order in eight dimensions, **Einstein-Lovelock gravity**, and its special case, Einstein gravity. Every formula comes from the Revision record (the folders `Revision/field_equations_a4`, `Revision/gkd_lovelock` and `Revision/lead_checks` of the repository) or from the book's own notebooks, which reproduce the record wherever the two overlap and say so in a PASS line. The four notebooks of the chapter are: Notebook 12a, which derives all the equations from the metric with exact computer algebra; Notebook 12b, which computes the source that the linear history $a_4 = AHx_4 + a_0$ requires; Notebook 12c, which integrates the evolution equation for prescribed sources; and Notebook 12d, which builds exact solutions of the coupled equations of gravity and of the field dirac16complex00, using the author's eight real 16 by 16 gamma matrices.
+We use the most general gravity theory that keeps the field equations of second order in eight dimensions, **Einstein-Lovelock gravity**, and its special case, Einstein gravity. Every formula comes from the Revision record (the folders `Revision/field_equations_a4`, `Revision/metric_warped`, `Revision/theory`, `Revision/gkd_lovelock` and `Revision/lead_checks` of the repository) or from the book's own notebooks, which reproduce the record wherever the two overlap and say so in a PASS line. The four notebooks of the chapter are: Notebook 12a, which derives all the equations from the metric with exact computer algebra; Notebook 12b, which computes the source that the exponential histories require; Notebook 12c, which integrates the equations for prescribed sources; and Notebook 12d, which builds the record's exact condensates of the field dirac16complex00 with the author's eight real 16 by 16 gamma matrices and puts them into the field equations.
+
+An earlier version of this chapter was written for the metric of 2026-10-14, withdrawn on 2026-10-16; none of its formulas is used here.
 
 ### 12.2 The words and symbols of this chapter
 
 Each word below is defined in plain terms; the later sections make every definition precise with formulas.
 
-- **Coordinates** $x_0, \dots, x_7$: the eight numbers that name a point, in the author's order. $x_1, x_2, x_3$: ordinary 3-space. $x_4$: the time. $x_5, x_6, x_7$: the three extra times (time-like, they deflate exponentially). $x_0$: the hidden direction. In the Python code the positions 0 to 7 of a list stand for $x_0$ to $x_7$; so position 3 is the time $x_4$ and position 7 the hidden $x_0$.
-- **Hidden angle** $z = 6Hx_0$: the metric depends on $x_0$ only through $z$, which runs from $0$ to $\pi/2$ (the **patch**). $H > 0$ is a constant of the author's metric with the unit of an inverse length.
-- **Prime**: $a_4' = da_4/dx_4$ and $a_4'' = d^2a_4/dx_4^2$. The code writes them as the symbols `ad1` and `ad2`.
-- **Metric** $g_{\mu\nu}$: the table of numbers that turns coordinate steps into squared lengths, $ds^2 = \sum_{\mu,\nu} g_{\mu\nu}\,dx_\mu dx_\nu$. The author's metric is **diagonal**: only $g_{11}, g_{22}, \dots, g_{00}$ are not zero. Its inverse $g^{\mu\nu}$ is then diagonal too, with $g^{\mu\mu} = 1/g_{\mu\mu}$.
-- **Signature**: the signs of the diagonal entries, here $(+,+,+,+,-,-,-,-)$: four space-like and four time-like directions, written (4,4).
+- **Coordinates** $x_0, \dots, x_7$: the eight numbers that name a point, in the author's order. $x_0$: the hidden direction, space-like, listed first. $x_1, x_2, x_3$: ordinary 3-space. $x_4$: the time. $x_5, x_6, x_7$: the three extra times (time-like). In the Python code the positions 0 to 7 of a list stand for $x_0$ to $x_7$: position $k$ is $x_k$.
+- **Hidden angle** $z = 6Hx_0$: the metric depends on $x_0$ only through $z$, which may take every real value (the metric contains $\cot^2 z$ and $(\sin^2 z)^{1/6}$, both defined wherever $\sin z \ne 0$). $H > 0$ is a constant of the metric with the unit of an inverse length.
+- **Prime**: $a_4' = da_4/dx_4$, $a_4'' = d^2a_4/dx_4^2$, and so on. The code writes them as `ad1`, `ad2`, `ad3`.
+- **The record's variables**: $u = b_4'/b_4$ (the rate of $\ln b_4$, code `uu`), $v = u'$ (code `vv`), $k = e^{2a_4}/b_4$ (code `kk`), and the **block rate** $h_4 = \tfrac12u - a_4'$ (the record's `hh`). In this chapter we write $h$ for $h_4$.
+- **Metric** $g_{\mu\nu}$: the table of numbers that turns coordinate steps into squared lengths, $ds^2 = \sum_{\mu,\nu} g_{\mu\nu}\,dx_\mu dx_\nu$. The corrected metric is **diagonal**: only $g_{00}, g_{11}, \dots, g_{77}$ are not zero. Its inverse $g^{\mu\nu}$ is then diagonal too, with $g^{\mu\mu} = 1/g_{\mu\mu}$.
+- **Signature**: the signs of the diagonal entries, here $(+,+,+,+,-,-,-,-)$ in the order $x_0, \dots, x_7$: four space-like and four time-like directions, written (4,4).
 - **Scale factor**: the number by which lengths along a direction are multiplied; for a diagonal metric it is $\sqrt{|g_{\mu\mu}|}$.
+- **Block**: the four directions $x_0, x_5, x_6, x_7$, which share the scale factor $e^{-a_4}b_4^{1/2} = k^{-1/2}$; its logarithm changes at the rate $h$.
 - **Index up, index down**: a tensor is a table of numbers labelled by indices; an upper index and a lower index transform in opposite ways. $T^\mu{}_\nu$ has one of each and is called **mixed**. The diagonal metric moves an index up or down by multiplying by $g^{\mu\mu}$ or $g_{\mu\mu}$.
 - **Sum convention**: in this chapter a sum is always written out with $\sum$ or said in words, except in the definitions of Section 12.7 and in the formulas quoted from the record, where an index that appears once up and once down is summed over its eight values; "no sum" marks the exceptions.
 - **Christoffel symbol** $\Gamma^a{}_{bc}$: a combination of first derivatives of the metric that says how the coordinate directions turn from point to point.
-- **Riemann tensor** $R^{ab}{}_{mn}$: the curvature, built from the Christoffel symbols and their derivatives. **Pair curvature** $K_{ab} = R^{ab}{}_{ab}$ (no sum): the curvature of the plane spanned by the directions $a$ and $b$ (a name used in this chapter).
+- **Riemann tensor** $R^{ab}{}_{mn}$: the curvature, built from the Christoffel symbols and their derivatives. **Sectional curvature** $K_{ab} = R^{ab}{}_{ab}$ (no sum): the curvature of the plane spanned by the directions $x_a$ and $x_b$.
 - **Ricci tensor** $R^h{}_j$, **Ricci scalar** $R$, **Einstein tensor** $G^h{}_j$: sums of Riemann components defined in Section 12.6.
 - **Generalized Kronecker delta** (GKD): a sign, $+1$, $-1$ or $0$, attached to two lists of indices (Section 12.7). **Lovelock tensors** $E_{(1)}, E_{(2)}, E_{(3)}$: the three curvature tensors built with the GKD; $E_{(1)}$ is the Einstein tensor and $E_{(2)}$ the **Gauss-Bonnet** tensor.
-- **Couplings**: $\alpha_1, \alpha_2, \alpha_3$ weigh the three Lovelock tensors; $\Lambda$ is the **cosmological constant**; $\kappa > 0$ measures the strength of gravity. **Einstein gravity**: $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$. **Einstein-Gauss-Bonnet gravity**: $\alpha_1 = 1$, $\alpha_3 = 0$.
-- **Energy-momentum tensor** $T^\mu{}_\nu$, also called the **source**: the energy and momentum of the matter. Its parts are the **energy density** $\rho = -T^{x_4}{}_{x_4}$, the **pressures** $p_3$ (3-space), $p_t$ (extra times), $p_0$ (hidden direction), and the **mixed components** $q_{40} = T^{x_4}{}_{x_0}$ and $q_{04} = T^{x_0}{}_{x_4}$.
-- **Anisotropic stress**: the difference $p_3 - p_t$ between the 3-space pressure and the extra-time pressure.
-- **Equation of state** $w = p/\rho$: pressure divided by energy density.
-- **Field equations**: the equations of gravity, $\sum_k \alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda\delta^\mu_\nu = \kappa T^\mu{}_\nu$ (Section 12.8). Their four independent parts are the **constraint** (time, $x_4$), the 3-space equation, the extra-time equation and the **hidden equation** ($x_0$). The **evolution equation** is the 3-space equation minus the extra-time equation; the **algebraic condition** is $p_3 + p_t = 2p_0$.
+- **Couplings**: $\alpha_1, \alpha_2, \alpha_3$ weigh the three Lovelock tensors; $\Lambda$ is the **cosmological constant**; $\kappa > 0$ measures the strength of gravity. **Einstein gravity**: $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$. **Einstein-Gauss-Bonnet gravity**: $\alpha_1 = 1$, $\alpha_3 = 0$. **The author's weights**: $\alpha_k = w_k/H^{2k}$ with $w = (1, 1/32, 1/1152)$ and $\Lambda = -10$ in units $H = 1$ (record `Revision/field_equations_a4/a4-equations.json`, key `exponentialHistory/authorWeights`, which names the author's notebook as their origin).
+- **Energy-momentum tensor** $T^\mu{}_\nu$, also called the **source**: the energy and momentum of the matter. Its parts are the **energy density** $\rho = -T^{x_4}{}_{x_4}$, the **pressures** $p_3$ (3-space), $p_0$ (hidden direction), $p_t$ (extra times), and the **mixed components** such as $q_{40} = T^{x_4}{}_{x_0}$ and $q_{04} = T^{x_0}{}_{x_4}$.
+- **Anisotropic**: with different pressures in different directions.
+- **Field equations**: the equations of gravity, $\sum_k \alpha_k E_{(k)}{}^\mu{}_\nu + \Lambda\delta^\mu_\nu = \kappa T^\mu{}_\nu$ (Section 12.8). Their three independent parts are the **constraint** (time, $x_4$), the **3-space equation** and the **block equation** (one equation for the hidden direction and the extra times together).
+- **Jacobian** $J$: the 2 by 2 table of the coefficients of $a_4''$ and $v$ in the 3-space and block equations; where $\det J \ne 0$ the two equations can be solved for $a_4''$ and $v$.
 - **Divergence** $\nabla_\mu T^\mu{}_\nu$: the curved-space form of "the change of a quantity in time plus its outflow"; zero divergence means **conservation**. The **Bianchi identity** says that the left-hand side of the field equations has zero divergence for every metric.
 - **Vacuum**: no matter, $T^\mu{}_\nu = 0$.
-- **Null vector**: a direction of zero length, such as the frame direction $x_4 + x_0$ (time-like plus space-like). The **null energy condition** along it is $\rho + p_0 \ge 0$; ordinary matter satisfies it. Matter with $\rho > 0$ and $w < -1$ violates it and is called **phantom**.
-- **Linear member**: the history $a_4 = AHx_4 + a_0$ with a constant **slope** $A$. For $A > 0$ the extra times deflate as $e^{-AHx_4}$. The author's metric leaves $a_4(x_4)$ free, and the author requires only that the extra times deflate ($A > 0$); the **canonical history** $A = 1$ is the choice of the Revision record (ASSUMED, a prescribed background; Section 12.12).
+- **Null vector**: a direction of zero length, such as the frame direction $x_4 + x_1$ or $x_4 + x_0$ (time-like plus space-like). The **null energy conditions** along them are $\rho + p_3 \ge 0$ and $\rho + p_0 \ge 0$; ordinary matter satisfies both.
+- **Exponential history**: $a_4 = AHx_4 + a_0$, $b_4 = b_4(0)\,e^{\beta AHx_4}$ with constants $A$ (the **slope**), $\beta$, $a_0$ and $b_4(0) > 0$. Then $a_4' = AH$, $u = \beta AH$, $h = (\tfrac12\beta - 1)AH$, and $k = k(0)\,e^{(2 - \beta)AHx_4}$.
+- **Record history**: the exponential history with $A = 1$, $\beta = 4/3$, $a_0 = 0$, $b_4(0) = 1$, so $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$ and $k = e^{(2/3)Hx_4}$. The record uses it as a PRESCRIBED background (key `exponentialHistory/authorWeights/statement` of `a4-equations.json`): it is ASSUMED, not derived from a source.
 - **Prescribed source**: a source chosen by hand to see what the equations do. It is ASSUMED, not derived from a field.
-- **Condensate**: a solution of a field equation that depends on the time $x_4$ only.
-- **Status labels**: PROVED (exact, with the verifier file and check name), COMPUTED (numerical, with its measured accuracy), ASSUMED, HYPOTHESIS, OPEN.
+- **Condensate**: a solution of a field equation that depends on the time $x_4$ only. **Witness**: an explicit example that proves that something exists.
+- **Status labels**: PROVED (exact, with the verifier file and check name), COMPUTED (numerical, with the output it comes from and its measured accuracy), ASSUMED, HYPOTHESIS, OPEN.
+- **Report**, **check**: every verifier of the Revision record writes a report file, a list of checks, each with a name and a verdict (PASS or FAIL). The reports that this chapter cites most often get short names:
 
-### 12.3 The author's metric, its determinant and the volume of seven directions
+| short name | report file | what it verifies |
+| --- | --- | --- |
+| sympy report | `Revision/field_equations_a4/reports/python-a4-report.json` | the field equations, derived with sympy |
+| Wolfram report | `Revision/field_equations_a4/reports/wolfram-a4-report.json` | the field equations, derived in the Wolfram Language |
+| metric report | `Revision/metric_warped/reports/python-warped-metric-report.json` | the corrected metric and the source of the record history |
+| field-theory report | `Revision/theory/reports/wolfram-field-theory.json` | the geometry and the field theory in the corrected metric |
+| lead's Einstein report | `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json` | independent checks of the Einstein and Gauss-Bonnet tensors |
+| lead's divergence report | `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json` | independent checks of the conservation law and the spin connection |
 
-The author's metric is diagonal. With the abbreviation $s = \sin^{1/3} z$ and $z = 6Hx_0$ its eight diagonal entries are
+### 12.3 The corrected metric, its determinant and the volume
+
+The corrected metric (version 2 of 2026-10-16) is diagonal. In the order $x_0, \dots, x_7$ its eight diagonal entries are
 
 $$
-g = \mathrm{diag}\big(\cot^2 z,\ e^{2a_4}s,\ e^{2a_4}s,\ e^{2a_4}s,\ -1,\ -e^{-2a_4}s,\ -e^{-2a_4}s,\ -e^{-2a_4}s\big),
+g = \mathrm{diag}\Big(e^{-2a_4}b_4\cot^2 z,\ e^{2a_4},\ e^{2a_4},\ e^{2a_4},\ -1,\ -e^{-2a_4}b_4\,w_z^2,\ -e^{-2a_4}b_4\,w_z^2,\ -e^{-2a_4}b_4\,w_z^2\Big),
 $$
 
-in the order $x_0, \dots, x_7$, on the background $b_4 = 1$ of the author's metric of 2026-10-14 (record check `metric_is_SPEC_section_1` of `Revision/field_equations_a4/reports/wolfram-a4-report.json`, which states the metric with $b_4$; Section 12.12 says what a changing $b_4$ changes). The scale factors are $\sqrt{|g_{11}|} = e^{a_4}\sin^{1/6}z$ for 3-space, $\sqrt{|g_{44}|} = 1$ for the time, $\sqrt{|g_{55}|} = e^{-a_4}\sin^{1/6}z$ for the extra times and $\sqrt{g_{00}} = \cot z$ for the hidden direction. When $a_4$ grows, the first grows and the third shrinks.
+with $z = 6Hx_0$ and the abbreviation $w_z = (\sin^2 z)^{1/12} > 0$, so that $w_z^2 = (\sin^2 z)^{1/6}$ (record `Revision/field_equations_a4/a4-equations.json`, key `conventions/metric`; checked in Notebook 12a, In [4], against the check `corrected_metric_entries` of the metric report). The scale factors are
+
+- $e^{a_4}$ for each 3-space direction: 3-space has no factor that depends on $x_0$;
+- $1$ for the time;
+- $e^{-a_4}b_4^{1/2}\,|\cot z|$ for the hidden direction;
+- $e^{-a_4}b_4^{1/2}\,w_z$ for each extra time.
+
+The hidden direction and the extra times share the factor $e^{-a_4}b_4^{1/2}$; the record says that the block $(x_0, x_5, x_6, x_7)$ is $e^{-2a_4}b_4$ times a space of constant curvature $-H^2$ (key `conventions/coordinates`). Since $e^{-a_4}b_4^{1/2} = (e^{2a_4}/b_4)^{-1/2} = k^{-1/2}$, the block shrinks exactly when $k$ grows. Its logarithm, $-a_4 + \tfrac12\ln b_4$, changes at the rate
+
+$$
+\frac{d}{dx_4}\Big(-a_4 + \tfrac12\ln b_4\Big) = -a_4' + \tfrac12\,\frac{b_4'}{b_4} = \tfrac12u - a_4' = h
+$$
+
+(the derivative of a sum is the sum of the derivatives; the chain rule gives $(\ln b_4)' = b_4'/b_4 = u$). On the record history $h = \tfrac12\cdot\tfrac43H - H = -\tfrac13H$: 3-space inflates as $e^{Hx_4}$ and the block deflates as $e^{-Hx_4/3}$.
 
 The **determinant** of the metric measures volume. We compute it line by line; after each line we name the rule that produced it.
 
 $$
-\det g = g_{11}\,g_{22}\,g_{33}\,g_{44}\,g_{55}\,g_{66}\,g_{77}\,g_{00}
+\det g = g_{00}\,g_{11}\,g_{22}\,g_{33}\,g_{44}\,g_{55}\,g_{66}\,g_{77}
 $$
 
 (the determinant of a diagonal matrix is the product of its diagonal entries)
 
 $$
-= \big(e^{2a_4}s\big)^3\cdot(-1)\cdot\big(-e^{-2a_4}s\big)^3\cdot\cot^2 z
+= e^{-2a_4}b_4\cot^2 z\cdot\big(e^{2a_4}\big)^3\cdot(-1)\cdot\big(-e^{-2a_4}b_4w_z^2\big)^3
 $$
 
 (the entries inserted; three equal factors written as a cube)
 
 $$
-= (-1)\,(-1)^3\; e^{6a_4}\,e^{-6a_4}\; s^6\,\cot^2 z
+= (-1)(-1)^3\; e^{-2a_4}e^{6a_4}e^{-6a_4}\; b_4\,b_4^3\; \cot^2 z\; w_z^6
 $$
 
-(the power of a product is the product of the powers, $(xy)^3 = x^3y^3$, and $(e^{u})^3 = e^{3u}$)
+(the power of a product is the product of the powers, $(xy)^3 = x^3y^3$, and $(e^{y})^3 = e^{3y}$)
 
 $$
-= s^6\cot^2 z
+= e^{-2a_4}\,b_4^4\,\cot^2 z\,(\sin^2 z)^{1/2}
 $$
 
-($(-1)(-1)^3 = (-1)^4 = 1$ and $e^{6a_4}e^{-6a_4} = e^{0} = 1$)
+($(-1)(-1)^3 = (-1)^4 = 1$; the exponents add, $-2 + 6 - 6 = -2$; $w_z^6 = (\sin^2 z)^{6/12}$). Notebook 12a prints it as `bb**4*w**6/(ea**2*t**2)` with `ea` $= e^{a_4}$, `bb` $= b_4$, `t` $= \tan z$ and `w` $= w_z$ (In [4]). The determinant is positive, so $|\det g| = \det g$ and
 
 $$
-= \sin^2 z\,\cot^2 z = \cos^2 z
+\sqrt{|\det g|} = e^{-a_4}\,b_4^2\,|\cot z|\,(\sin^2 z)^{1/4}
 $$
 
-($s^6 = (\sin^{1/3}z)^6 = \sin^2 z$, and $\cot z = \cos z/\sin z$). On the patch $0 < z < \pi/2$ the cosine is positive, so
+(the square root of a product is the product of the square roots, $\sqrt{\cot^2 z} = |\cot z|$ and $\sqrt{(\sin^2 z)^{1/2}} = (\sin^2 z)^{1/4}$). This is PROVED (Wolfram report, check `sqrt_abs_det_g`; Notebook 12a, In [4]).
+
+**The volume changes.** At a fixed $x_0$ the logarithm of the volume factor changes at the rate
 
 $$
-\sqrt{|\det g|} = \cos z .
+\frac{d}{dx_4}\ln\sqrt{|\det g|} = \frac{d}{dx_4}\big(-a_4 + 2\ln b_4\big) = 2u - a_4'
 $$
 
-This is PROVED (record `Revision/field_equations_a4/reports/wolfram-a4-report.json`, check `sqrt_abs_det_g_is_cos_z`; reproduced in Notebook 12a, In [4]). The function $a_4$ has dropped out. The reason is visible in the fourth line: the volume factor $e^{3a_4}$ of the three inflating 3-space directions and the factor $e^{-3a_4}$ of the three deflating extra times multiply to 1. The volume of the seven directions other than the time stays constant: what 3-space gains, the extra times lose.
+($\ln$ turns the product into a sum, and the factors with $z$ do not depend on $x_4$; then the chain rule). The same rate is the sum of the rates of the seven directions other than the time: $3a_4'$ from 3-space and $4h$ from the block, and indeed
 
-### 12.4 The Christoffel symbols of the author's metric
+$$
+3a_4' + 4h = 3a_4' + 4\big(\tfrac12u - a_4'\big) = 2u - a_4'
+$$
+
+(the definition of $h$ inserted and the terms collected). This is PROVED (field-theory report, check `sqrt_det_g`; Notebook 12a, In [4]). On the record history the rate is $2\cdot\tfrac43H - H = \tfrac53H > 0$: what the block loses, 3-space more than gains. In the corrected metric the volume factor is constant only on histories with $2u = a_4'$, that is $b_4 \propto e^{a_4/2}$. (As dated history: in the metric of 2026-10-14, withdrawn on 2026-10-16, the volume factor was $b_4^{3/2}\cos z$, which did not contain $a_4$; `Revision/SPEC.md`, section 1.)
+
+### 12.4 The Christoffel symbols of the corrected metric
 
 **Definition.** For any metric the Christoffel symbols are
 
 $$
-\Gamma^a{}_{bc} = \frac12\sum_{d=1}^{8} g^{ad}\big(\partial_b g_{dc} + \partial_c g_{db} - \partial_d g_{bc}\big),
+\Gamma^a{}_{bc} = \frac12\sum_{d} g^{ad}\big(\partial_b g_{dc} + \partial_c g_{db} - \partial_d g_{bc}\big),
 $$
 
-where $\partial_b$ is the partial derivative with respect to the coordinate $x_b$. They are symmetric in the two lower indices, $\Gamma^a{}_{bc} = \Gamma^a{}_{cb}$, because exchanging $b$ and $c$ exchanges the first two terms in the bracket.
+where $\partial_b$ is the partial derivative with respect to the coordinate $x_b$ and $d$ runs over the eight directions. They are symmetric in the two lower indices, $\Gamma^a{}_{bc} = \Gamma^a{}_{cb}$, because exchanging $b$ and $c$ exchanges the first two terms in the bracket.
 
 **The formula for a diagonal metric.** We simplify the definition for our metric, line by line.
 
@@ -117,26 +153,29 @@ $$
 
 (an entry $g_{ac}$ of a diagonal matrix is $g_{aa}$ when $c = a$ and 0 otherwise; the Kronecker delta $\delta_{ac}$ is 1 when $a = c$ and 0 otherwise). This is the formula that Notebook 12a programs in In [5].
 
-**The derivatives of the metric.** The metric depends on $x_4$ (through $a_4$) and on $x_0$ (through $z$) only; every other partial derivative is zero. By the chain rule $\partial_0 = (dz/dx_0)\,\partial_z = 6H\,\partial_z$. Then:
+**The derivatives of the metric.** The metric depends on $x_4$ (through $a_4$ and $b_4$) and on $x_0$ (through $z$) only; every other partial derivative is zero. By the chain rule $\partial_0 = (dz/dx_0)\,\partial_z = 6H\,\partial_z$. It is easiest to differentiate logarithms, $\partial\,g_{aa} = g_{aa}\,\partial\ln|g_{aa}|$:
 
-- $\partial_4 g_{11} = 2a_4'\,e^{2a_4}s = 2a_4'\,g_{11}$ (chain rule: the derivative of $e^{2a_4(x_4)}$ is $2a_4'e^{2a_4}$); the same for $g_{22}, g_{33}$.
-- $\partial_4 g_{55} = -2a_4'\,g_{55}$ (the exponent is $-2a_4$); the same for $g_{66}, g_{77}$.
-- $\partial_0 g_{11} = 6H\,e^{2a_4}\,\tfrac13\sin^{-2/3}z\,\cos z = 2H\cot z\; g_{11}$ (power rule for $\sin^{1/3}z$, then $\sin^{-2/3}z\cos z = \sin^{1/3}z\cdot\cos z/\sin z$); likewise $\partial_0 g_{55} = 2H\cot z\; g_{55}$.
-- $\partial_0 g_{00} = 6H\cdot 2\cot z\cdot\big(-1/\sin^2 z\big) = -12H\cot z/\sin^2 z$ (chain rule, with $d\cot z/dz = -1/\sin^2 z$).
-- $g_{44} = -1$ is constant.
+- $\partial_4\ln g_{11} = \partial_4(2a_4) = 2a_4'$; the same for $g_{22}, g_{33}$.
+- $\partial_4\ln g_{00} = \partial_4\big(-2a_4 + \ln b_4\big) = -2a_4' + u = 2h$, and in the same way $\partial_4\ln|g_{55}| = 2h$; the same for $g_{66}, g_{77}$.
+- $\partial_0\ln g_{00} = 6H\,\partial_z\ln\cot^2 z = 6H\cdot\dfrac{2\cdot(-1/\sin^2 z)}{\cot z} = -\dfrac{12H}{\sin z\cos z}$ (chain rule, with $d\cot z/dz = -1/\sin^2 z$ and $\sin^2 z\cot z = \sin z\cos z$).
+- $\partial_0\ln|g_{55}| = 6H\,\partial_z\tfrac16\ln\sin^2 z = 6H\cdot\tfrac16\cdot 2\cot z = 2H\cot z$; the same for $g_{66}, g_{77}$.
+- $g_{11}$ does not depend on $x_0$, and $g_{44} = -1$ is constant.
 
-**The symbols.** Inserting these into the diagonal formula:
+**The symbols.** Inserting these into the diagonal formula, with $t$ for an extra time ($x_5$, $x_6$ or $x_7$) and $i$ for a 3-space direction:
 
-- $\Gamma^{x_1}{}_{x_1x_4} = \partial_4 g_{11}/(2g_{11}) = a_4'$ (the term with $\delta_{ac}$, $a = c = x_1$, $b = x_4$).
-- $\Gamma^{x_5}{}_{x_5x_4} = \partial_4 g_{55}/(2g_{55}) = -a_4'$: the same symbol with the opposite sign, because the extra times deflate where 3-space inflates.
-- $\Gamma^{x_1}{}_{x_1x_0} = \Gamma^{x_5}{}_{x_5x_0} = 2H\cot z\,g_{11}/(2g_{11}) = H\cot z$ (sympy prints it as `H/tan(z)`).
-- $\Gamma^{x_4}{}_{x_1x_1} = -\partial_4 g_{11}/(2g_{44}) = -2a_4'g_{11}/(-2) = a_4'\,e^{2a_4}\sin^{1/3}z$ (the term with $\delta_{bc}$, $b = c = x_1$, $a = x_4$).
-- $\Gamma^{x_4}{}_{x_5x_5} = -\partial_4 g_{55}/(2g_{44}) = -a_4'\,g_{55} = a_4'\,e^{-2a_4}\sin^{1/3}z$.
-- $\Gamma^{x_0}{}_{x_1x_1} = -\partial_0 g_{11}/(2g_{00}) = -H\tan z\;g_{11} = -H e^{2a_4}\sin^{4/3}z/\cos z$ (using $\cot z/\cot^2 z = \tan z = \sin z/\cos z$).
-- $\Gamma^{x_0}{}_{x_5x_5} = -H\tan z\;g_{55} = H e^{-2a_4}\sin^{4/3}z/\cos z$.
-- $\Gamma^{x_0}{}_{x_0x_0} = \partial_0 g_{00}/(2g_{00}) = -6H/(\sin z\cos z) = -12H/\sin 2z$ (using $\sin 2z = 2\sin z\cos z$).
+- $\Gamma^{x_0}{}_{x_0x_0} = \tfrac12\partial_0\ln g_{00} = -\dfrac{6H}{\sin z\cos z}$ (all three terms have $a = b = c = x_0$; sympy prints `-6*H*(t**2 + 1)/t` with $t = \tan z$, because $(1 + \tan^2 z)/\tan z = 1/(\sin z\cos z)$).
+- $\Gamma^{x_0}{}_{x_0x_4} = \Gamma^{x_0}{}_{x_4x_0} = \tfrac12\partial_4\ln g_{00} = h$ (the term with $\delta_{ac}$, $a = c = x_0$, $b = x_4$; printed `-(2*ad1 - uu)/2`).
+- $\Gamma^{x_0}{}_{tt} = -\dfrac{\partial_0 g_{tt}}{2g_{00}} = -\dfrac{2H\cot z\,g_{tt}}{2g_{00}} = H\tan z\,w_z^2$ (the term with $\delta_{bc}$; $g_{tt}/g_{00} = -w_z^2/\cot^2 z$ and $\cot z/\cot^2 z = \tan z$; printed `H*t*w**2`).
+- $\Gamma^{i}{}_{ix_4} = \Gamma^{i}{}_{x_4i} = \tfrac12\partial_4\ln g_{ii} = a_4'$.
+- $\Gamma^{x_4}{}_{x_0x_0} = -\dfrac{\partial_4 g_{00}}{2g_{44}} = \tfrac12\partial_4 g_{00} = h\,g_{00} = h\,e^{-2a_4}b_4\cot^2 z$ (the term with $\delta_{bc}$ and $g_{44} = -1$).
+- $\Gamma^{x_4}{}_{ii} = \tfrac12\partial_4 g_{ii} = a_4'\,e^{2a_4}$.
+- $\Gamma^{x_4}{}_{tt} = \tfrac12\partial_4 g_{tt} = h\,g_{tt} = -h\,e^{-2a_4}b_4w_z^2$.
+- $\Gamma^{t}{}_{x_0t} = \Gamma^{t}{}_{tx_0} = \tfrac12\partial_0\ln|g_{tt}| = H\cot z$ (printed `H/t`).
+- $\Gamma^{t}{}_{x_4t} = \Gamma^{t}{}_{tx_4} = \tfrac12\partial_4\ln|g_{tt}| = h$.
 
-The same holds with $x_1$ replaced by $x_2$ or $x_3$ and $x_5$ by $x_6$ or $x_7$. **Counting**: for each of the six directions $i \in \{x_1, x_2, x_3, x_5, x_6, x_7\}$ there are $\Gamma^i{}_{ix_4}$, $\Gamma^i{}_{x_4i}$, $\Gamma^i{}_{ix_0}$, $\Gamma^i{}_{x_0i}$, $\Gamma^{x_4}{}_{ii}$ and $\Gamma^{x_0}{}_{ii}$: $6 \times 6 = 36$ symbols, plus $\Gamma^{x_0}{}_{x_0x_0}$: 37 nonzero symbols of the 512, of which 25 are different. Every other symbol is zero; for example $\Gamma^{e}{}_{x_4x_4} = 0$ for every $e$, because $g_{44}$ is constant and no other entry has an index pair $(x_4, x_4)$. This is PROVED by Notebook 12a (In [5], checks "37 nonzero Christoffel symbols (25 distinct, 12 of them twice)" and the symmetry check; In [6] prints the 25 distinct symbols; the record computes the same symbols in `Revision/field_equations_a4/wolfram/FieldEquationsA4.wl`).
+**Counting.** With $b \le c$ there are $1 + 1 + 3 + 3 + 1 + 3 + 3 + 3 + 3 = 21$ different symbols (the nine lines above, the last eight counted for each 3-space direction or each extra time where they carry an $i$ or a $t$). Ten of them have $b \ne c$ ($\Gamma^{x_0}{}_{x_0x_4}$, the three $\Gamma^i{}_{ix_4}$, the three $\Gamma^t{}_{x_0t}$ and the three $\Gamma^t{}_{x_4t}$) and appear twice among the 512 symbols, so 31 of the 512 are not zero. Every other symbol is zero; for example $\Gamma^{e}{}_{x_4x_4} = 0$ for every $e$, because $g_{44}$ is constant, and $\Gamma^{x_0}{}_{ii} = \Gamma^i{}_{ix_0} = 0$, because 3-space has no factor that depends on $x_0$. This is PROVED (field-theory report, check `christoffel_count`; Notebook 12a, In [5], which also checks the symmetry, and In [6], which prints the 21 symbols).
+
+The symbols already show the structure of the metric: the hidden direction and the extra times carry the same rate $h$ in every symbol with an index $x_4$, exactly as the three 3-space directions carry the rate $a_4'$.
 
 ### 12.5 The curvature computed by hand
 
@@ -147,9 +186,9 @@ R^a{}_{bmn} = \partial_m\Gamma^a{}_{bn} - \partial_n\Gamma^a{}_{bm} + \sum_{e}\G
 \qquad R^{ab}{}_{mn} = g^{bb}\,R^a{}_{bmn}\ \ (\text{no sum}).
 $$
 
-The tensor $R^{ab}{}_{mn}$ changes sign when $a$ and $b$ are exchanged, and when $m$ and $n$ are exchanged (record check `riemann_pair_antisymmetry`). So it is zero when $a = b$ or $m = n$, and the **pair curvature** $K_{ab} = R^{ab}{}_{ab}$ (no sum) is symmetric, $K_{ba} = R^{ba}{}_{ba} = (-1)(-1)R^{ab}{}_{ab} = K_{ab}$. The eight directions form $8 \cdot 7/2 = 28$ pairs. We compute four pair curvatures by hand.
+The tensor $R^{ab}{}_{mn}$ changes sign when $a$ and $b$ are exchanged, and when $m$ and $n$ are exchanged (sympy report, check `riemann_pair_antisymmetry`). So it is zero when $a = b$ or $m = n$, and the **sectional curvature** $K_{ab} = R^{ab}{}_{ab}$ (no sum) is symmetric, $K_{ba} = R^{ba}{}_{ba} = (-1)(-1)R^{ab}{}_{ab} = K_{ab}$. The eight directions form $8\cdot 7/2 = 28$ planes. We compute six sectional curvatures by hand.
 
-**The pair (3-space direction, time).** Take $a = x_1$, $b = x_4$, $m = x_1$, $n = x_4$:
+**A 3-space direction and the time.** Take $a = m = x_1$ and $b = n = x_4$:
 
 $$
 R^{x_1}{}_{x_4x_1x_4} = \partial_1\Gamma^{x_1}{}_{x_4x_4} - \partial_4\Gamma^{x_1}{}_{x_4x_1} + \sum_e\Gamma^{x_1}{}_{x_1e}\Gamma^e{}_{x_4x_4} - \sum_e\Gamma^{x_1}{}_{x_4e}\Gamma^e{}_{x_4x_1}
@@ -164,78 +203,86 @@ $$
 (nothing depends on $x_1$; $\Gamma^{x_1}{}_{x_4x_1} = a_4'$ has the derivative $a_4''$; every $\Gamma^e{}_{x_4x_4}$ is zero; in the last sum only $e = x_1$ survives, with $\Gamma^{x_1}{}_{x_4x_1} = a_4'$ twice)
 
 $$
-R^{x_1x_4}{}_{x_1x_4} = g^{44}\,R^{x_1}{}_{x_4x_1x_4} = (-1)\big(-a_4'' - (a_4')^2\big) = (a_4')^2 + a_4''
+K_{x_1x_4} = g^{44}\,R^{x_1}{}_{x_4x_1x_4} = (-1)\big(-a_4'' - (a_4')^2\big) = a_4'' + (a_4')^2
 $$
 
-(raise the index $x_4$ with $g^{44} = 1/g_{44} = -1$). The same steps with $\Gamma^{x_5}{}_{x_4x_5} = -a_4'$ give for an extra time and the time $K_{x_5x_4} = (a_4')^2 - a_4''$: the second derivative enters with the opposite sign.
+(raise the index $x_4$ with $g^{44} = 1/g_{44} = -1$).
 
-**The pair (3-space direction, hidden direction).** With $a = m = x_1$ and $b = n = x_0$:
+**Two 3-space directions.** With $a = m = x_1$ and $b = n = x_2$ the two derivative terms vanish ($\Gamma^{x_1}{}_{x_2x_2} = \Gamma^{x_1}{}_{x_2x_1} = 0$), and so does the last sum (every $\Gamma^{x_1}{}_{x_2e}$ is zero):
 
 $$
-R^{x_1}{}_{x_0x_1x_0} = \partial_1\Gamma^{x_1}{}_{x_0x_0} - \partial_0\Gamma^{x_1}{}_{x_0x_1} + \sum_e\Gamma^{x_1}{}_{x_1e}\Gamma^e{}_{x_0x_0} - \sum_e\Gamma^{x_1}{}_{x_0e}\Gamma^e{}_{x_0x_1}
+R^{x_1}{}_{x_2x_1x_2} = \Gamma^{x_1}{}_{x_1x_4}\,\Gamma^{x_4}{}_{x_2x_2} = a_4'\cdot a_4'\,g_{22}
+$$
+
+(the only $e$ for which $\Gamma^{x_1}{}_{x_1e}$ is not zero is $e = x_4$; then the symbols of Section 12.4), so $K_{x_1x_2} = g^{22}R^{x_1}{}_{x_2x_1x_2} = (a_4')^2$.
+
+**A 3-space direction and a block direction.** With $b = n = x_5$ the same single term remains:
+
+$$
+R^{x_1}{}_{x_5x_1x_5} = \Gamma^{x_1}{}_{x_1x_4}\,\Gamma^{x_4}{}_{x_5x_5} = a_4'\cdot h\,g_{55}
+$$
+
+(Section 12.4: $\Gamma^{x_4}{}_{x_5x_5} = h\,g_{55}$), so $K_{x_1x_5} = g^{55}R^{x_1}{}_{x_5x_1x_5} = a_4'h$. With $b = n = x_0$ instead, $\Gamma^{x_4}{}_{x_0x_0} = h\,g_{00}$ gives in the same way $K_{x_1x_0} = a_4'h$: towards 3-space the hidden direction behaves exactly like an extra time.
+
+**The time and an extra time.** Take $a = m = x_4$ and $b = n = x_5$:
+
+$$
+R^{x_4}{}_{x_5x_4x_5} = \partial_4\Gamma^{x_4}{}_{x_5x_5} - \partial_5\Gamma^{x_4}{}_{x_5x_4} + \sum_e\Gamma^{x_4}{}_{x_4e}\Gamma^e{}_{x_5x_5} - \sum_e\Gamma^{x_4}{}_{x_5e}\Gamma^e{}_{x_5x_4}
 $$
 
 (the definition)
 
 $$
-= 0 - 6H\frac{d}{dz}\big(H\cot z\big) + \Gamma^{x_1}{}_{x_1x_0}\Gamma^{x_0}{}_{x_0x_0} - \Gamma^{x_1}{}_{x_0x_1}\Gamma^{x_1}{}_{x_0x_1}
+= \partial_4\big(h\,g_{55}\big) - 0 + 0 - \Gamma^{x_4}{}_{x_5x_5}\,\Gamma^{x_5}{}_{x_5x_4}
 $$
 
-($\Gamma^{x_1}{}_{x_0x_0} = 0$; $\partial_0 = 6H\,d/dz$; of the $\Gamma^e{}_{x_0x_0}$ only $e = x_0$ is nonzero, and $\Gamma^{x_1}{}_{x_0e}$ is nonzero only for $e = x_1$)
+(nothing depends on $x_5$; every $\Gamma^{x_4}{}_{x_4e}$ is zero because $g_{44}$ is constant; in the last sum only $e = x_5$ survives)
 
 $$
-= \frac{6H^2}{\sin^2 z} + H\cot z\cdot\Big(-\frac{6H}{\sin z\cos z}\Big) - H^2\cot^2 z
+= h'\,g_{55} + h\cdot 2h\,g_{55} - h\,g_{55}\cdot h = \big(h' + h^2\big)\,g_{55}
 $$
 
-($d\cot z/dz = -1/\sin^2 z$, and the symbols of Section 12.4 inserted)
+(product rule, with $\partial_4 g_{55} = 2h\,g_{55}$ from Section 12.4; then $\Gamma^{x_4}{}_{x_5x_5} = h\,g_{55}$ and $\Gamma^{x_5}{}_{x_5x_4} = h$), so $K_{x_4x_5} = g^{55}R^{x_4}{}_{x_5x_4x_5} = h' + h^2$. The same steps with $x_0$ in place of $x_5$ give $K_{x_4x_0} = h' + h^2$. This is the formula of the 3-space plane, $a_4'' + (a_4')^2$, with the rate $a_4'$ replaced by the block rate $h$.
+
+**Two extra times.** With $a = m = x_5$ and $b = n = x_6$ the derivative terms and the last sum vanish, and two values of $e$ remain:
 
 $$
-= \frac{6H^2}{\sin^2 z} - \frac{6H^2}{\sin^2 z} - H^2\cot^2 z = -H^2\cot^2 z
+R^{x_5}{}_{x_6x_5x_6} = \Gamma^{x_5}{}_{x_5x_0}\Gamma^{x_0}{}_{x_6x_6} + \Gamma^{x_5}{}_{x_5x_4}\Gamma^{x_4}{}_{x_6x_6}
 $$
 
-($\cot z/(\sin z\cos z) = 1/\sin^2 z$, because $\cot z = \cos z/\sin z$)
+(the two values $e = x_0$ and $e = x_4$ for which $\Gamma^{x_5}{}_{x_5e}$ is not zero)
 
 $$
-K_{x_1x_0} = g^{00}\,R^{x_1}{}_{x_0x_1x_0} = \frac{1}{\cot^2 z}\big(-H^2\cot^2 z\big) = -H^2
+= H\cot z\cdot H\tan z\,w_z^2 + h\cdot h\,g_{66} = H^2w_z^2 + h^2g_{66}
 $$
 
-(raise $x_0$ with $g^{00} = 1/\cot^2 z$). The angle $z$ has disappeared: the curvature of this plane is the same constant $-H^2$ everywhere.
-
-**Two 3-space directions.** With $a = m = x_1$, $b = n = x_2$ the two derivative terms vanish ($\Gamma^{x_1}{}_{x_2x_2} = \Gamma^{x_1}{}_{x_2x_1} = 0$), and so does the last sum (every $\Gamma^{x_1}{}_{x_2e}$ is zero):
+(the symbols of Section 12.4, and $\cot z\tan z = 1$)
 
 $$
-R^{x_1}{}_{x_2x_1x_2} = \Gamma^{x_1}{}_{x_1x_4}\Gamma^{x_4}{}_{x_2x_2} + \Gamma^{x_1}{}_{x_1x_0}\Gamma^{x_0}{}_{x_2x_2}
+K_{x_5x_6} = g^{66}R^{x_5}{}_{x_6x_5x_6} = \frac{H^2w_z^2}{-e^{-2a_4}b_4w_z^2} + h^2 = h^2 - H^2\,\frac{e^{2a_4}}{b_4} = h^2 - H^2k
 $$
 
-(the two values of $e$ for which $\Gamma^{x_1}{}_{x_1e}$ is not zero)
+(raise with $g^{66} = 1/g_{66}$; $w_z^2$ cancels; the definition of $k$). The angle $z$ has disappeared. The term $-H^2k$ is the curvature of the block itself: a space of curvature $-H^2$, multiplied by the squared scale factor $e^{-2a_4}b_4 = 1/k$, has curvature $-H^2k$. The term $h^2$ comes from the change of the block in time, like $(a_4')^2$ for 3-space. A longer computation of the same kind gives $K_{x_0x_5} = h^2 - H^2k$ too (Exercise 2).
+
+**All 28 planes.** The computation of Notebook 12a (In [9]) confirms these values and gives the rest. The 28 sectional curvatures fall into five groups:
+
+| the plane | number of planes | sectional curvature $K$ | as printed by Notebook 12a |
+| --- | --- | --- | --- |
+| two 3-space directions | 3 | $(a_4')^2$ | `ad1**2` |
+| a 3-space direction and the time | 3 | $a_4'' + (a_4')^2$ | `ad1**2 + ad2` |
+| a 3-space direction and a block direction | 12 | $a_4'h$ | `-ad1*(2*ad1 - uu)/2` |
+| the time and a block direction | 4 | $h' + h^2$ | `(4*ad1**2 - 4*ad1*uu - 4*ad2 + uu**2 + 2*vv)/4` |
+| two block directions | 6 | $h^2 - H^2k$ | `-(4*H**2*kk - 4*ad1**2 + 4*ad1*uu - uu**2)/4` |
+
+The last column is the same value in the record's variables: with $h = \tfrac12u - a_4'$ and $h' = \tfrac12v - a_4''$, for example $h' + h^2 = \tfrac12v - a_4'' + (a_4')^2 - a_4'u + \tfrac14u^2$, which is the printed fraction.
+
+**No mixed component.** Besides these $4\times 28 = 112$ components (each sectional curvature appears with its four orderings $R^{ab}{}_{ab}$, $R^{ba}{}_{ab}$, $R^{ab}{}_{ba}$, $R^{ba}{}_{ba}$) the Riemann tensor has no nonzero component: every $R^{ab}{}_{mn}$ with $\{a, b\} \ne \{m, n\}$ vanishes. Two examples show why. In $R^{x_1}{}_{x_4x_1x_0}$ every term contains $\Gamma^{x_1}{}_{x_4x_0}$, $\partial_0\Gamma^{x_1}{}_{x_4x_1} = \partial_0a_4'$, $\Gamma^{x_4}{}_{x_4x_0}$ or $\Gamma^{x_1}{}_{x_0e}$, and all of them are zero, because 3-space has no factor that depends on $x_0$. In $R^{x_5}{}_{x_4x_5x_0}$ two terms survive and cancel:
 
 $$
-= a_4'\cdot a_4'\,g_{22} + H\cot z\cdot\big(-H\tan z\,g_{22}\big) = \big((a_4')^2 - H^2\big)\,g_{22}
+R^{x_5}{}_{x_4x_5x_0} = \Gamma^{x_5}{}_{x_5x_0}\Gamma^{x_0}{}_{x_4x_0} - \Gamma^{x_5}{}_{x_0x_5}\Gamma^{x_5}{}_{x_4x_5} = H\cot z\cdot h - H\cot z\cdot h = 0
 $$
 
-(the symbols of Section 12.4, and $\cot z\tan z = 1$), so $K_{x_1x_2} = g^{22}R^{x_1}{}_{x_2x_1x_2} = (a_4')^2 - H^2$.
-
-**A 3-space direction and an extra time.** With $b = n = x_5$ the same two terms give $\Gamma^{x_1}{}_{x_1x_4}\Gamma^{x_4}{}_{x_5x_5} + \Gamma^{x_1}{}_{x_1x_0}\Gamma^{x_0}{}_{x_5x_5} = (a_4')^2e^{-2a_4}s + H^2e^{-2a_4}s$, and raising with $g^{55} = -e^{2a_4}/s$ gives $K_{x_1x_5} = -\big((a_4')^2 + H^2\big)$.
-
-**All 28 pairs.** The computation of Notebook 12a (In [9]) confirms these values and gives the rest; the 28 pair curvatures fall into seven groups:
-
-| the pair | number of pairs | pair curvature $K$ |
-| --- | --- | --- |
-| two 3-space directions | 3 | $(a_4')^2 - H^2$ |
-| two extra times | 3 | $(a_4')^2 - H^2$ |
-| a 3-space direction and an extra time | 9 | $-(a_4')^2 - H^2$ |
-| a 3-space direction and the time | 3 | $(a_4')^2 + a_4''$ |
-| an extra time and the time | 3 | $(a_4')^2 - a_4''$ |
-| any of the six above directions and $x_0$ | 6 | $-H^2$ |
-| the time and $x_0$ | 1 | $0$ |
-
-Besides these 27 nonzero diagonal components there are 12 nonzero **off-diagonal** ones. They connect a pair that contains the time with the pair in which the time is replaced by $x_0$; for example
-
-$$
-R^{x_1x_4}{}_{x_1x_0} = R^{x_4x_5}{}_{x_5x_0} = Ha_4'\cot z,\qquad R^{x_1x_0}{}_{x_1x_4} = R^{x_5x_0}{}_{x_4x_5} = -\frac{Ha_4'}{\cot z} .
-$$
-
-Together: 39 nonzero components with $a < b$ and $m < n$, and $4 \times 39 = 156$ of the 4096 components $R^{ab}{}_{mn}$ (each one appears with its four orderings). Three facts follow: no component contains the warp factor $\sin^{1/3}z$ or $e^{a_4}$; every component is a polynomial in $H$, $a_4'$, $a_4''$ and $\cot z$, divided at most by $\cot z$; and the antisymmetries hold. All three are PROVED. The sympy report of the record, `Revision/field_equations_a4/reports/python-a4-report.json`, has the checks `mixed_riemann_free_of_warp_and_a4`, `riemann_entries_laurent` and `riemann_pair_antisymmetry`; the Wolfram report has `mixed_riemann_free_of_warp_and_a4` (whose detail includes the Laurent form in $\cot z$) and `riemann_pair_antisymmetry`; and Notebook 12a reproduces them in In [8].
+(the definition, keeping only the nonzero symbols; $\Gamma^{x_5}{}_{x_4x_5} = h$ does not depend on $x_0$, so $\partial_0\Gamma^{x_5}{}_{x_4x_5} = 0$). The cancellation happens because the hidden direction changes in time at the same rate $h$ as the extra times. So the curvature consists of the 28 sectional curvatures alone, none of which depends on $x_0$, and each is a polynomial in $H$, $a_4'$, $a_4''$, $u$, $v$ and $k$. All of this is PROVED: sympy report, checks `mixed_riemann_free_of_x0`, `mixed_riemann_only_sectional`, `riemann_entries_polynomial` and `riemann_pair_antisymmetry`; Wolfram report, check `mixed_riemann_free_of_x0`; metric report, check `corrected_mixed_riemann_vanish`; Notebook 12a reproduces them in In [7] and In [8].
 
 ### 12.6 The Ricci tensor, the Ricci scalar and the Einstein tensor by hand
 
@@ -245,69 +292,103 @@ $$
 R^h{}_j = \sum_{a} R^{ah}{}_{aj},\qquad R = \sum_h R^h{}_h,\qquad G^h{}_j = R^h{}_j - \tfrac12\,\delta^h_j\,R .
 $$
 
-**A rule for the diagonal.** For $h = j$ the definition gives $R^h{}_h = \sum_a R^{ah}{}_{ah} = \sum_{a \ne h} K_{ah}$: the sum of the pair curvatures of the seven pairs that contain $h$. Summing over $h$ counts every pair twice (once from each of its two directions), so $R = 2\sum_{\text{pairs}} K$. Therefore
+**Diagonal.** A component $R^{ah}{}_{aj}$ with $h \ne j$ would be a mixed Riemann component (its two pairs $\{a, h\}$ and $\{a, j\}$ differ), and Section 12.5 showed that all of these vanish. So $R^h{}_j = 0$ and $G^h{}_j = 0$ for $h \ne j$: the Einstein tensor is diagonal.
+
+**A rule for the diagonal.** For $h = j$ the definition gives $R^h{}_h = \sum_a R^{ah}{}_{ah} = \sum_{a \ne h} K_{ah}$: the sum of the sectional curvatures of the seven planes that contain $x_h$. Summing over $h$ counts every plane twice (once from each of its two directions), so $R = 2\sum_{\text{planes}} K$. Therefore
 
 $$
-G^h{}_h = \sum_{\text{pairs containing } h} K - \sum_{\text{all 28 pairs}} K = -\sum_{\text{pairs not containing } h} K ,
+G^h{}_h = \sum_{\text{planes containing } x_h} K - \sum_{\text{all 28 planes}} K = -\sum_{\text{planes not containing } x_h} K
 $$
 
-(the definition of $G$ with the two sums inserted; the pairs that contain $h$ cancel). With the table of Section 12.5 everything follows by counting.
+(the definition of $G$ with the two sums inserted; the planes that contain $x_h$ cancel). With the table of Section 12.5 everything follows by counting.
 
-**The Ricci scalar.** Adding the seven groups, with their numbers of pairs:
+**The Ricci scalar.** Adding the five groups, each with its number of planes:
 
 $$
-\sum_{\text{pairs}} K = 3\big((a_4')^2 - H^2\big) + 3\big((a_4')^2 - H^2\big) - 9\big((a_4')^2 + H^2\big) + 3\big((a_4')^2 + a_4''\big) + 3\big((a_4')^2 - a_4''\big) - 6H^2 + 0
+\sum_{\text{planes}} K = 3(a_4')^2 + 3\big(a_4'' + (a_4')^2\big) + 12\,a_4'h + 4\big(h' + h^2\big) + 6\big(h^2 - H^2k\big)
 $$
 
 (the table, row by row)
 
 $$
-= (3 + 3 - 9 + 3 + 3)(a_4')^2 + (-3 - 3 - 9 - 6)H^2 + (3 - 3)a_4'' = 3(a_4')^2 - 21H^2
+= 6(a_4')^2 + 3a_4'' + 12a_4'h + 4h' + 10h^2 - 6H^2k
 $$
 
-(collect the terms with $(a_4')^2$, with $H^2$ and with $a_4''$), so $R = 6(a_4')^2 - 42H^2$, the RESULT line of Notebook 12a, In [11].
+(collect the terms with $(a_4')^2$, with $h^2$ and with $H^2k$), so $R = 12(a_4')^2 + 6a_4'' + 24a_4'h + 8h' + 20h^2 - 12H^2k$.
 
-**The time component.** The pairs that do not contain $x_4$ are all rows of the table except the three rows with the time:
+**The time component.** The planes that do not contain $x_4$ are the 3-space planes, the 3-space and block planes and the block planes:
 
 $$
-G^{x_4}{}_{x_4} = -\Big[3\big((a_4')^2 - H^2\big) + 3\big((a_4')^2 - H^2\big) - 9\big((a_4')^2 + H^2\big) - 6H^2\Big]
+G^{x_4}{}_{x_4} = -\Big[3(a_4')^2 + 12\,a_4'h + 6\big(h^2 - H^2k\big)\Big] = -3(a_4')^2 - 12a_4'h - 6h^2 + 6H^2k
+$$
+
+(the rule; then the bracket multiplied out).
+
+**The 3-space component.** The planes without $x_1$: one plane of two 3-space directions ($x_2x_3$), two of a 3-space direction and the time ($x_2x_4$, $x_3x_4$), $2\times 4 = 8$ of a 3-space direction ($x_2$ or $x_3$) and a block direction, the four planes of the time and a block direction, and the six block planes:
+
+$$
+G^{x_1}{}_{x_1} = -\Big[(a_4')^2 + 2\big(a_4'' + (a_4')^2\big) + 8a_4'h + 4\big(h' + h^2\big) + 6\big(h^2 - H^2k\big)\Big]
 $$
 
 (the rule)
 
 $$
-= -\big[-3(a_4')^2 - 21H^2\big] = 3(a_4')^2 + 21H^2
+= -3(a_4')^2 - 2a_4'' - 8a_4'h - 4h' - 10h^2 + 6H^2k
 $$
 
-($3 + 3 - 9 = -3$ and $-3 - 3 - 9 - 6 = -21$).
+(the bracket multiplied out: $1 + 2 = 3$ times $(a_4')^2$ and $4 + 6 = 10$ times $h^2$).
 
-**The hidden component.** The pairs without $x_0$ are the first five rows: $(3 + 3 - 9 + 3 + 3)(a_4')^2 + (-3 - 3 - 9)H^2 + (3 - 3)a_4'' = 3(a_4')^2 - 15H^2$, so $G^{x_0}{}_{x_0} = 15H^2 - 3(a_4')^2$.
-
-**The 3-space component.** The pairs without $x_1$: one pair of two 3-space directions ($x_2x_3$), three of two extra times, six of a 3-space direction ($x_2$ or $x_3$) and an extra time, two of a 3-space direction and the time, three of an extra time and the time, five with $x_0$ (the six minus $x_1x_0$), and the time with $x_0$:
+**The block component.** The planes without $x_0$: the three 3-space planes, the three planes of 3-space and the time, $3\times 3 = 9$ planes of a 3-space direction and an extra time, the three planes of the time and an extra time, and the three planes of two extra times:
 
 $$
-\sum = (1 + 3 - 6 + 2 + 3)(a_4')^2 + (-1 - 3 - 6 - 5)H^2 + (2 - 3)a_4'' = 3(a_4')^2 - 15H^2 - a_4'',
+G^{x_0}{}_{x_0} = -\Big[3(a_4')^2 + 3\big(a_4'' + (a_4')^2\big) + 9a_4'h + 3\big(h' + h^2\big) + 3\big(h^2 - H^2k\big)\Big]
 $$
 
-so $G^{x_1}{}_{x_1} = a_4'' - 3(a_4')^2 + 15H^2$.
-
-**The extra-time component.** It uses the pairs without $x_5$: three pairs of two 3-space directions, one of two extra times ($x_6x_7$), six of a 3-space direction and an extra time ($x_6$ or $x_7$), three of a 3-space direction and the time, two of an extra time ($x_6$ or $x_7$) and the time, five with $x_0$ (the six minus $x_5x_0$), and the time with $x_0$:
+(the rule)
 
 $$
-\sum = (3 + 1 - 6 + 3 + 2)(a_4')^2 + (-3 - 1 - 6 - 5)H^2 + (3 - 2)a_4'' = 3(a_4')^2 - 15H^2 + a_4''
+= -6(a_4')^2 - 3a_4'' - 9a_4'h - 3h' - 6h^2 + 3H^2k
 $$
 
-(the table, row by row, with the pair $x_4x_0$ contributing $0$; collect the terms with $(a_4')^2$, with $H^2$ and with $a_4''$), so $G^{x_5}{}_{x_5} = -a_4'' - 3(a_4')^2 + 15H^2$.
+(the bracket multiplied out). For $x_5$ the count is the same: the planes without $x_5$ are again 3 + 3 + 9 + 3 + 3 planes of the same five kinds, because $x_5$, like $x_0$, forms 3 planes with 3-space, one with the time and three with the other block directions. So $G^{x_5}{}_{x_5} = G^{x_0}{}_{x_0}$, and likewise for $x_6, x_7$; and $G^{x_2}{}_{x_2} = G^{x_3}{}_{x_3} = G^{x_1}{}_{x_1}$.
 
-These four components are PROVED (record `Revision/field_equations_a4/reports/python-a4-report.json` and the Wolfram report, check `einstein_components`; reproduced in Notebook 12a, In [12]).
-
-**Why the mixed component $G^{x_4}{}_{x_0}$ vanishes.** For $h = x_4$, $j = x_0$ the sum $R^{x_4}{}_{x_0} = \sum_a R^{ax_4}{}_{ax_0}$ picks up the off-diagonal Riemann components. For a 3-space direction, $R^{x_1x_4}{}_{x_1x_0} = Ha_4'\cot z$. For an extra time, $R^{x_5x_4}{}_{x_5x_0} = -R^{x_4x_5}{}_{x_5x_0} = -Ha_4'\cot z$ (exchange of the upper pair). So
+**In the record's variables.** The record writes these components with $u$ and $v$. We convert the time component, line by line:
 
 $$
-G^{x_4}{}_{x_0} = R^{x_4}{}_{x_0} = 3Ha_4'\cot z - 3Ha_4'\cot z = 0 .
+h = \tfrac12u - a_4',\qquad h^2 = \tfrac14u^2 - a_4'u + (a_4')^2,\qquad a_4'h = \tfrac12a_4'u - (a_4')^2
 $$
 
-The three inflating 3-space directions and the three deflating extra times contribute equal and opposite amounts. The same happens for $G^{x_0}{}_{x_4}$, and every other off-diagonal component has no nonzero term at all. So the Einstein tensor is diagonal and does not depend on $x_0$ (PROVED: record `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, checks `einstein_off_diagonal_zero`, `einstein_isotropy`, `einstein_x0_independent`; reproduced in Notebook 12a, In [12]).
+(the definition of $h$; the square of a difference; the product with $a_4'$)
+
+$$
+G^{x_4}{}_{x_4} = -3(a_4')^2 - 12\big(\tfrac12a_4'u - (a_4')^2\big) - 6\big(\tfrac14u^2 - a_4'u + (a_4')^2\big) + 6H^2k
+$$
+
+(the three lines inserted)
+
+$$
+= (-3 + 12 - 6)(a_4')^2 + (-6 + 6)\,a_4'u - \tfrac32u^2 + 6H^2k = 3(a_4')^2 - \tfrac32u^2 + 6H^2k
+$$
+
+(collect the terms with $(a_4')^2$, with $a_4'u$ and with $u^2$). The same substitution, with $h' = \tfrac12v - a_4''$ in addition, turns the other two into the record's form:
+
+$$
+\begin{aligned}
+G^{x_4}{}_{x_4} &= 3(a_4')^2 + 6H^2k - \tfrac32u^2, \\
+G^{x_1}{}_{x_1} &= -5(a_4')^2 + 6a_4'u + 2a_4'' - \tfrac52u^2 - 2v + 6H^2k, \\
+G^{x_0}{}_{x_0} &= -3(a_4')^2 + \tfrac32a_4'u - \tfrac32u^2 - \tfrac32v + 3H^2k,
+\end{aligned}
+$$
+
+and $R = -12H^2k + 8(a_4')^2 - 2a_4'' - 8a_4'u + 5u^2 + 4v$. These are PROVED: sympy report, check `einstein_components`; lead's Einstein report, checks `einstein_off_diagonal_vanish`, `einstein_isotropy` and `einstein_diagonal_x0_independent`; field-theory report, check `ricci_scalar`; Notebook 12a reproduces all of them in In [11] and In [12].
+
+**The record history.** With $a_4' = H$, $a_4'' = 0$, $u = \tfrac43H$, $v = 0$:
+
+$$
+G^{x_4}{}_{x_4} = 3H^2 + 6H^2k - \tfrac32\cdot\tfrac{16}{9}H^2 = \big(3 - \tfrac83\big)H^2 + 6H^2k = \tfrac13H^2 + 6H^2k
+$$
+
+(the values inserted; $\tfrac32\cdot\tfrac{16}{9} = \tfrac83$), and in the same way $G^{x_1}{}_{x_1} = -5H^2 + 8H^2 - \tfrac{40}{9}H^2 + 6H^2k = -\tfrac{13}{9}H^2 + 6H^2k$ and $G^{x_0}{}_{x_0} = -3H^2 + 2H^2 - \tfrac83H^2 + 3H^2k = -\tfrac{11}{3}H^2 + 3H^2k$. With $H = 1$ these are the three lines `(18*kk + 1)/3`, `(54*kk - 13)/9` and `(9*kk - 11)/3` of Notebook 12a, In [13]. They grow with $k = e^{(2/3)Hx_4}$, that is, as the block shrinks.
 
 ### 12.7 The Lovelock tensors: the Einstein tensor and its two companions
 
@@ -320,47 +401,110 @@ P_{(k)}{}^h{}_j = \delta^{h\,h_1\dots h_{2k}}_{j\,j_1\dots j_{2k}}\;R^{j_1j_2}{}
 E_{(k)}{}^h{}_j = -\frac{P_{(k)}{}^h{}_j}{2^{k+1}} .
 $$
 
-**Only $k = 1, 2, 3$.** For $k = 4$ the delta has $2k + 1 = 9$ upper indices taking only 8 values; two must be equal, so $P_{(4)} = 0$ (PROVED: Wolfram record, check `P4_vanishes_pigeonhole`; Notebook 12a, In [14]). In eight dimensions there are exactly three Lovelock tensors.
+**Only $k = 1, 2, 3$.** For $k = 4$ the delta has $2k + 1 = 9$ upper indices taking only 8 values; two must be equal, so $P_{(4)} = 0$ (PROVED: Wolfram report, check `P4_vanishes_pigeonhole`; Notebook 12a, In [14]). In eight dimensions there are exactly three Lovelock tensors.
 
-**$E_{(1)}$ is the Einstein tensor.** For $h = j$ the delta $\delta^{h\,h_1h_2}_{h\,j_1j_2}$ is not zero only when $h_1 \ne h_2$, both differ from $h$, and $\{j_1, j_2\} = \{h_1, h_2\}$. So only diagonal Riemann components enter:
-
-$$
-P_{(1)}{}^h{}_h = \sum_{h_1 \ne h_2;\ h_1, h_2 \ne h}\Big(\delta^{h\,h_1h_2}_{h\,h_1h_2}R^{h_1h_2}{}_{h_1h_2} + \delta^{h\,h_1h_2}_{h\,h_2h_1}R^{h_2h_1}{}_{h_1h_2}\Big)
-$$
-
-(the two possible orders of the lower indices)
+**The sum collapses for the corrected metric.** Section 12.5 showed that every nonzero Riemann component is sectional: $R^{j_1j_2}{}_{h_1h_2}$ vanishes unless $\{j_1, j_2\} = \{h_1, h_2\}$. We use this to evaluate $P_{(k)}$ in general, line by line.
 
 $$
-= \sum_{h_1 \ne h_2;\ h_1, h_2 \ne h}\big(K_{h_1h_2} + (-1)(-K_{h_1h_2})\big) = 4\sum_{\text{pairs not containing } h} K
+P_{(k)}{}^h{}_j = \sum \delta^{h\,h_1\dots h_{2k}}_{j\,j_1\dots j_{2k}}\;R^{j_1j_2}{}_{h_1h_2}\cdots R^{j_{2k-1}j_{2k}}{}_{h_{2k-1}h_{2k}}
 $$
 
-(one exchange gives the delta $-1$ and the Riemann component $-K$; each unordered pair appears twice as an ordered one). Hence $E_{(1)}{}^h{}_h = -P_{(1)}{}^h{}_h/4 = -\sum_{\text{pairs not containing } h}K = G^h{}_h$, the rule of Section 12.6. The record checks it in all 64 components (PROVED: Wolfram check `P1_direct_equals_minus_4_Einstein`, sympy check `P1_equals_minus_4_Einstein`; Notebook 12a, In [16]).
+(the definition, with the sum over all $h_1, \dots, h_{2k}$ and $j_1, \dots, j_{2k}$ written out). A term is nonzero only when every factor is sectional, so $\{j_{2r-1}, j_{2r}\} = \{h_{2r-1}, h_{2r}\}$ for $r = 1, \dots, k$, and only when the upper list $h, h_1, \dots, h_{2k}$ has no repeated index (otherwise the delta is 0).
 
-**$E_{(2)}$ and $E_{(3)}$.** For $k = 2, 3$ products of two or three Riemann components appear. Now the off-diagonal components also contribute: in a product such as $R^{x_1x_4}{}_{x_1x_0}\,R^{x_5x_0}{}_{x_4x_5}$ the factors $\cot z$ and $1/\cot z$ cancel. There are 690 contributing index lists for $k = 2$ and 4410 for $k = 3$ (Notebook 12a, In [15]); this bookkeeping is a job for the computer. The record's result, computed with the GKD in Rust (`Revision/gkd_lovelock/results/lovelock-tensors.json`), recomputed in Wolfram and in sympy, and reproduced by Notebook 12a in all 64 components of each tensor, is (record `Revision/field_equations_a4/a4-equations.json`, key `lovelockTensors`):
+$$
+\{j_1, \dots, j_{2k}\} = \{h_1, \dots, h_{2k}\}\quad\Longrightarrow\quad j = h
+$$
+
+(the lower list must be a rearrangement of the upper list; its last $2k$ entries already use up $h_1, \dots, h_{2k}$, so the first must be $h$). So $P_{(k)}{}^h{}_j = 0$ for $h \ne j$: **every Lovelock tensor of the corrected metric is diagonal.** For $h = j$ each factor has two orders of its lower pair: $(j_{2r-1}, j_{2r}) = (h_{2r-1}, h_{2r})$, with the value $K_{h_{2r-1}h_{2r}}$, or the exchanged pair, with the value $-K$ and one more exchange in the delta (sign $-1$); both orders give the same contribution $+K$.
+
+$$
+P_{(k)}{}^h{}_h = \sum_{h_1, \dots, h_{2k}} 2^k\,K_{h_1h_2}K_{h_3h_4}\cdots K_{h_{2k-1}h_{2k}}
+$$
+
+(the factor $2^k$ counts the two orders of each of the $k$ lower pairs; with the lower list equal to the upper list the delta is $+1$; the sum runs over the ordered lists of $2k$ different indices, all different from $h$). The same set of $k$ planes appears in $k!$ orders of the planes, and each plane in 2 orders of its two indices:
+
+$$
+P_{(k)}{}^h{}_h = k!\,2^k\cdot 2^k\sum_{\text{sets of } k \text{ disjoint planes without } x_h}\ \prod K = k!\,4^k\sum\prod K
+$$
+
+(every unordered set of $k$ disjoint planes, none containing $x_h$, counted $k!\,2^k$ times; "disjoint" means that no two planes share a direction). Dividing by $-2^{k+1}$:
+
+$$
+E_{(k)}{}^h{}_h = -\frac{k!\,4^k}{2^{k+1}}\sum\prod K = -k!\,2^{k-1}\sum_{\text{sets of } k \text{ disjoint planes without } x_h}\ \prod K
+$$
+
+(the definition of $E_{(k)}$; $4^k/2^{k+1} = 2^{2k - k - 1} = 2^{k-1}$). For $k = 1$ this is $E_{(1)}{}^h{}_h = -\sum K$ over the planes without $x_h$: the rule of Section 12.6 for $G^h{}_h$. So $E_{(1)} = G$, the Einstein tensor (PROVED: sympy report, check `P1_equals_minus_4_Einstein`; Wolfram report, check `P1_direct_equals_minus_4_Einstein`; Notebook 12a, In [16], which also checks the formula for $k = 1, 2, 3$ in all eight diagonal components). For $k = 2$ the prefactor is $-2!\,2 = -4$, for $k = 3$ it is $-3!\,4 = -24$.
+
+**An example by hand: $E_{(2)}{}^{x_4}{}_{x_4}$.** The planes without $x_4$ are built from the seven directions $x_1, x_2, x_3$ (call this set $S$) and $x_0, x_5, x_6, x_7$ (the block, set $T$). With the table of Section 12.5 they are of three kinds: $SS$ (3 planes, $K = (a_4')^2$), $ST$ (12 planes, $K = a_4'h$) and $TT$ (6 planes, $K = D$ with the abbreviation $D = h^2 - H^2k$). We count the unordered pairs of disjoint planes of each combination.
+
+| the two planes | how many pairs | product of the two $K$ |
+| --- | --- | --- |
+| $SS$ and $ST$ | $3\cdot 1\cdot 4 = 12$ | $(a_4')^2\cdot a_4'h$ |
+| $SS$ and $TT$ | $3\cdot 6 = 18$ | $(a_4')^2 D$ |
+| $ST$ and $ST$ | $3\cdot 4\cdot 3 = 36$ | $(a_4'h)^2$ |
+| $ST$ and $TT$ | $3\cdot 4\cdot 3 = 36$ | $a_4'h\,D$ |
+| $TT$ and $TT$ | $3$ | $D^2$ |
+
+(For $SS$ and $ST$: the $SS$ plane uses two of the three 3-space directions, the $ST$ plane must use the third one and any of the 4 block directions. Two disjoint $SS$ planes would need four 3-space directions, so that row is absent. For two $ST$ planes: choose the two 3-space directions, 3 ways, and give them two different block directions, $4\cdot 3$ ways. For $ST$ and $TT$: the $ST$ plane, $3\cdot 4$ ways, and a $TT$ plane from the 3 remaining block directions, 3 ways. Two disjoint $TT$ planes split the four block directions into two pairs, 3 ways.) The counts add up to $12 + 18 + 36 + 36 + 3 = 105$, the number of unordered pairs of disjoint planes among seven directions, $\binom72\binom52/2 = 21\cdot 10/2 = 105$. With the prefactor $-4$:
+
+$$
+E_{(2)}{}^{x_4}{}_{x_4} = -4\Big[12(a_4')^3h + 18(a_4')^2D + 36(a_4')^2h^2 + 36\,a_4'h\,D + 3D^2\Big]
+$$
+
+(the collapsed formula with the table). On the record history $a_4' = H$, $u = \tfrac43H$, so $h = \tfrac23H - H = -\tfrac13H$ and $D = \tfrac19H^2 - H^2k$. With $H = 1$ the five terms are
 
 $$
 \begin{aligned}
-E_{(1)}{}^{x_1}{}_{x_1} &= -3 (a_4')^2+a_4''+15 H^2, \qquad E_{(1)}{}^{x_4}{}_{x_4} = 3 (a_4')^2+21 H^2, \\
-E_{(1)}{}^{x_5}{}_{x_5} &= -3 (a_4')^2-a_4''+15 H^2, \qquad E_{(1)}{}^{x_0}{}_{x_0} = 15 H^2-3 (a_4')^2, \\
-E_{(2)}{}^{x_1}{}_{x_1} &= 12 (a_4')^4-24 (a_4')^2 a_4''+168 (a_4')^2 H^2-40 a_4'' H^2-180 H^4, \\
-E_{(2)}{}^{x_4}{}_{x_4} &= -36 (a_4')^4-120 (a_4')^2 H^2-420 H^4, \\
-E_{(2)}{}^{x_5}{}_{x_5} &= 12 (a_4')^4+24 (a_4')^2 a_4''+168 (a_4')^2 H^2+40 a_4'' H^2-180 H^4, \\
-E_{(2)}{}^{x_0}{}_{x_0} &= 12 (a_4')^4+168 (a_4')^2 H^2-180 H^4,
+&12\cdot\big(-\tfrac13\big) = -4,\qquad 18\big(\tfrac19 - k\big) = 2 - 18k,\qquad 36\cdot\tfrac19 = 4,\\
+&36\cdot\big(-\tfrac13\big)\big(\tfrac19 - k\big) = -\tfrac43 + 12k,\qquad 3\big(\tfrac19 - k\big)^2 = \tfrac1{27} - \tfrac23k + 3k^2
+\end{aligned}
+$$
+
+(each value inserted and multiplied out; $(\tfrac19 - k)^2 = \tfrac1{81} - \tfrac29k + k^2$). Their sum is
+
+$$
+\Big(-4 + 2 + 4 - \tfrac43 + \tfrac1{27}\Big) + \Big(-18 + 12 - \tfrac23\Big)k + 3k^2 = \tfrac{19}{27} - \tfrac{20}{3}k + 3k^2
+$$
+
+(the constants and the multiples of $k$ collected; $2 - \tfrac43 + \tfrac1{27} = \tfrac{54 - 36 + 1}{27}$), so
+
+$$
+E_{(2)}{}^{x_4}{}_{x_4} = -4\Big(\tfrac{19}{27} - \tfrac{20}{3}k + 3k^2\Big) = -12k^2 + \tfrac{80}{3}k - \tfrac{76}{27}
+$$
+
+(multiplied by $-4$). This equals the record's general component (below) on the record history. The same counting for $k = 3$ uses the 105 sets of three disjoint planes without $x_4$ (Exercise 4): it gives $E_{(3)}{}^{x_4}{}_{x_4} = -216k^2 - 144k + 40$ on the record history.
+
+**The record's components.** Written out in the record's variables (record `Revision/field_equations_a4/a4-equations.json`, key `lovelockTensors`; $x_2, x_3$ equal to $x_1$; $x_5, x_6, x_7$ equal to $x_0$; every off-diagonal component zero), $E_{(1)}$ is the Einstein tensor of Section 12.6, and
+
+$$
+\begin{aligned}
+E_{(2)}{}^{x_4}{}_{x_4} &= -36 (a_4')^4-48 (a_4')^2 H^2 k+36 (a_4')^2 u^2+48 a_4' H^2 k u-12 a_4' u^3-12 H^4 k^2+6 H^2 k u^2-\tfrac{3}{4}u^4, \\
+E_{(2)}{}^{x_1}{}_{x_1} &= 28 (a_4')^4-48 (a_4')^3 u-48 (a_4')^2 a_4''+48 (a_4')^2 H^2 k+20 (a_4')^2 u^2+16 (a_4')^2 v+32 a_4' a_4'' u \\
+&\quad -24 a_4' H^2 k u+6 a_4' u^3-12 H^4 k^2+18 H^2 k u^2+24 H^2 k v-\tfrac{15}{4}u^4-6 u^2 v, \\
+E_{(2)}{}^{x_0}{}_{x_0} &= 12 (a_4')^4-12 (a_4')^3 u+48 (a_4')^2 H^2 k+18 (a_4')^2 u^2+12 (a_4')^2 v+24 a_4' a_4'' u+6 a_4' H^2 k u \\
+&\quad -\tfrac{15}{2}a_4' u^3-12 a_4' u v+24 a_4'' H^2 k-6 a_4'' u^2+3 H^2 k u^2+6 H^2 k v-\tfrac{3}{4}u^4-\tfrac{3}{2}u^2 v,
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-E_{(3)}{}^{x_1}{}_{x_1} &= -72 (a_4')^6+360 (a_4')^4 a_4''-648 (a_4')^4 H^2+432 (a_4')^2 a_4'' H^2 \\
-&\quad -1944 (a_4')^2 H^4+360 a_4'' H^4+360 H^6, \\
-E_{(3)}{}^{x_4}{}_{x_4} &= 360 (a_4')^6+648 (a_4')^4 H^2+1080 (a_4')^2 H^4+2520 H^6, \\
-E_{(3)}{}^{x_5}{}_{x_5} &= -72 (a_4')^6-360 (a_4')^4 a_4''-648 (a_4')^4 H^2-432 (a_4')^2 a_4'' H^2 \\
-&\quad -1944 (a_4')^2 H^4-360 a_4'' H^4+360 H^6, \\
-E_{(3)}{}^{x_0}{}_{x_0} &= -72 (a_4')^6-648 (a_4')^4 H^2-1944 (a_4')^2 H^4+360 H^6 ,
+E_{(3)}{}^{x_4}{}_{x_4} &= 360 (a_4')^6+432 (a_4')^4 H^2 k-540 (a_4')^4 u^2-864 (a_4')^3 H^2 k u+360 (a_4')^3 u^3 \\
+&\quad -216 (a_4')^2 H^4 k^2+324 (a_4')^2 H^2 k u^2-\tfrac{135}{2}(a_4')^2 u^4, \\
+E_{(3)}{}^{x_1}{}_{x_1} &= -216 (a_4')^6+432 (a_4')^5 u+720 (a_4')^4 a_4''-144 (a_4')^4 H^2 k-180 (a_4')^4 u^2 \\
+&\quad -144 (a_4')^4 v-576 (a_4')^3 a_4'' u+144 (a_4')^3 H^2 k u-108 (a_4')^3 u^3-216 (a_4')^2 H^4 k^2 \\
+&\quad -180 (a_4')^2 H^2 k u^2-144 (a_4')^2 H^2 k v+\tfrac{189}{2}(a_4')^2 u^4+108 (a_4')^2 u^2 v \\
+&\quad -288 a_4' a_4'' H^2 k u+72 a_4' a_4'' u^3+72 a_4' H^2 k u^3+144 a_4' H^2 k u v-18 a_4' u^5 \\
+&\quad -36 a_4' u^3 v-144 a_4'' H^4 k^2+72 a_4'' H^2 k u^2-9 a_4'' u^4, \\
+E_{(3)}{}^{x_0}{}_{x_0} &= -72 (a_4')^6+108 (a_4')^5 u-216 (a_4')^4 H^2 k-216 (a_4')^4 u^2-108 (a_4')^4 v \\
+&\quad -432 (a_4')^3 a_4'' u+108 (a_4')^3 H^2 k u+171 (a_4')^3 u^3+216 (a_4')^3 u v \\
+&\quad -432 (a_4')^2 a_4'' H^2 k+324 (a_4')^2 a_4'' u^2+54 (a_4')^2 H^2 k u^2+108 (a_4')^2 H^2 k v \\
+&\quad -\tfrac{81}{2}(a_4')^2 u^4-81 (a_4')^2 u^2 v+216 a_4' a_4'' H^2 k u-54 a_4' a_4'' u^3 .
 \end{aligned}
 $$
 
-with $x_2, x_3$ equal to $x_1$, $x_6, x_7$ equal to $x_5$, and every off-diagonal component zero. All of this is PROVED: the components computed from the curvature equal the Rust GKD record monomial by monomial (checks `P1_equals_gkd_branch_monomials` to `P3_equals_gkd_branch_monomials` of the sympy report and `P1_direct_equals_gkd_branch_monomials` to `P3_direct_equals_gkd_branch_monomials` of the Wolfram report); each $E_{(k)}$ is diagonal, free of $x_0$ and has zero divergence (checks `P1_structure` to `P3_structure` and `E1_divergence_free` to `E3_divergence_free` in both reports); and $E_{(2)}$ equals the classical Gauss-Bonnet tensor of Lanczos, which uses no GKD (Notebook 12a, In [18], for every $a_4$; for the linear member also record `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, checks `gauss_bonnet_rho_alpha2` and `gauss_bonnet_p_alpha2`). That every divergence-free tensor built from the metric and its first and second derivatives is a combination of these tensors is Lovelock's theorem (D. Lovelock, J. Math. Phys. 12, 498 (1971)), which this book quotes and does not prove.
+Inserting $a_4' = 1$, $u = \tfrac43$, $a_4'' = v = 0$ ($H = 1$) into the first line gives $-36 - 48k + 64 + 64k - \tfrac{256}{9} - 12k^2 + \tfrac{32}{3}k - \tfrac{64}{27}$, which collects to $-12k^2 + \tfrac{80}{3}k - \tfrac{76}{27}$, the hand result above. All of this is PROVED: the components computed from the curvature equal the Rust GKD record monomial by monomial (sympy report, checks `P1_equals_gkd_branch_monomials` to `P3_equals_gkd_branch_monomials`; Wolfram report, checks `P1_direct_equals_gkd_branch_monomials` to `P3_direct_equals_gkd_branch_monomials`); each $E_{(k)}$ is diagonal, free of $x_0$, equal in $x_1, x_2, x_3$ and equal in $x_0, x_5, x_6, x_7$ (checks `P1_structure` to `P3_structure` in both reports); each has zero divergence (checks `E1_divergence_free` to `E3_divergence_free` in both reports); and $E_{(2)}$ equals the classical Gauss-Bonnet tensor of Lanczos, which uses no GKD (Notebook 12a, In [18], for every $a_4$ and $b_4$; on the exponential histories also the lead's Einstein report, check `gauss_bonnet_diagonal`). Notebook 12a reproduces every one of these checks in In [16] to In [19]. That every divergence-free tensor built from the metric and its first and second derivatives is a combination of these tensors and $\delta^\mu_\nu$ is Lovelock's theorem (D. Lovelock, J. Math. Phys. 12, 498 (1971)), which this book quotes and does not prove.
+
+Two structural facts can be read off at once. First, no component contains $a_4$, $b_4$ or $z$ themselves: only the rates $a_4'$, $u$, their derivatives $a_4''$, $v$, and $k = e^{2a_4}/b_4$, which enters with $H^2$ through the block curvature $-H^2k$. Second, $E^{x_0}{}_{x_0} = E^{x_5}{}_{x_5}$ for every order: towards every other direction the hidden direction behaves exactly like an extra time (the table of Section 12.5, where $x_0$ sits in the same rows as $x_5$, $x_6$, $x_7$).
 
 ### 12.8 The source and the independent field equations
 
@@ -370,324 +514,320 @@ $$
 \sum_{k=1}^{3}\alpha_k\,E_{(k)}{}^\mu{}_\nu + \Lambda\,\delta^\mu_\nu = \kappa\,T^\mu{}_\nu ,
 $$
 
-64 equations, one for each pair $(\mu, \nu)$. The left-hand side is built from the metric; the right-hand side is the source. We allow the most general source that the symmetry of the problem suggests:
+64 equations, one for each pair $(\mu, \nu)$. The left-hand side is built from the metric; the right-hand side is the source. We allow a general source with a diagonal part and the two mixed components of the time and the hidden direction:
 
 $$
-T^\mu{}_\nu = \mathrm{diag}\big(p_3, p_3, p_3, -\rho, p_t, p_t, p_t, p_0\big) + q_{40}\ (\mu = x_4, \nu = x_0) + q_{04}\ (\mu = x_0, \nu = x_4) .
+T^\mu{}_\nu = \mathrm{diag}\big(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t\big) + q_{40}\ (\mu = x_4, \nu = x_0) + q_{04}\ (\mu = x_0, \nu = x_4)
 $$
 
-The minus sign in $T^{x_4}{}_{x_4} = -\rho$ comes from $g^{44} = -1$: the energy density is the component $T_{44}$ with both indices down, and raising the first index multiplies it by $g^{44}$ (the convention of the record; the pressures are $p_\mu = T^\mu{}_\mu$, no sum).
+(in the order $x_0, \dots, x_7$). The minus sign in $T^{x_4}{}_{x_4} = -\rho$ comes from $g^{44} = -1$: the energy density is the component $T_{44}$ with both indices down, and raising the first index multiplies it by $g^{44}$ (the convention of the record, key `conventions/source`; the pressures are $p_\mu = T^\mu{}_\mu$, no sum).
 
 **Reduction.** Three facts of Section 12.7 reduce the 64 equations.
 
 1. Every off-diagonal left-hand side is zero. So the off-diagonal equations read $0 = \kappa T^\mu{}_\nu$: the source must have $q_{40} = q_{04} = 0$ and no other mixed component.
-2. The left-hand sides of $x_1, x_2, x_3$ are equal, and so are those of $x_5, x_6, x_7$. So the source must have one pressure for 3-space and one for the extra times, as assumed.
+2. The left-hand sides of $x_1, x_2, x_3$ are equal, and those of $x_0, x_5, x_6, x_7$ are equal. So the source must have one pressure for 3-space and ONE pressure for the hidden direction and the extra times together: $p_0 = p_t$.
 3. No left-hand side depends on $x_0$. So no part of the source may depend on $x_0$.
 
-What remains are four equations. With the abbreviations $e_{hh} = \sum_k \alpha_k E_{(k)}{}^h{}_h$ (no $\Lambda$; Notebook 12a calls them `e11`, `e44`, `e55`, `e00`):
+What remains are three equations. With the abbreviations $e_{hh} = \sum_k \alpha_k E_{(k)}{}^h{}_h$ (no $\Lambda$; Notebook 12a calls them `e44`, `e11`, `e00`):
 
 $$
 \begin{aligned}
 &\text{constraint } (x_4): & e_{44} + \Lambda &= -\kappa\rho, \\
 &\text{3-space } (x_1 = x_2 = x_3): & e_{11} + \Lambda &= \kappa p_3, \\
-&\text{extra times } (x_5 = x_6 = x_7): & e_{55} + \Lambda &= \kappa p_t, \\
-&\text{hidden } (x_0): & e_{00} + \Lambda &= \kappa p_0 .
+&\text{block } (x_0 = x_5 = x_6 = x_7): & e_{00} + \Lambda &= \kappa p_0 = \kappa p_t .
 \end{aligned}
 $$
 
-This is PROVED (Wolfram record, check `independent_components`; sympy record, check `other_components_vanish`; reproduced in Notebook 12a, In [21]).
+This is PROVED (Wolfram report, check `independent_components`; sympy report, check `independent_components`; record `a4-equations.json`, keys `generalSource/hiddenEqualsExtraTimes`, `generalSource/offDiagonal` and `generalSource/x0_dependence`; reproduced in Notebook 12a, In [21]). As dated history: the metric of 2026-10-14, withdrawn on 2026-10-16, had an off-diagonal component $E_{(k)}{}^{x_4}{}_{x_0}$ proportional to $\cot z\,b_4'/b_4$ at every order, which forced a mixed source component unless $b_4$ was constant (`Revision/SPEC.md`, section 1); removing it was the reason for the corrected metric.
 
-### 12.9 The constraint, the evolution equation and the algebraic condition
+### 12.9 The constraint and the two equations of second order
 
-**Einstein gravity first.** With $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$ the four abbreviations are the Einstein components of Section 12.6:
-
-$$
-e_{44} = 3(a_4')^2 + 21H^2,\quad e_{11} = a_4'' - 3(a_4')^2 + 15H^2,\quad e_{55} = -a_4'' - 3(a_4')^2 + 15H^2,\quad e_{00} = 15H^2 - 3(a_4')^2 .
-$$
-
-The time and hidden components contain $a_4'$ but no $a_4''$: they are first-order equations. Subtracting the extra-time equation from the 3-space equation removes $\Lambda$:
+**Einstein gravity first.** With $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$ the three abbreviations are the Einstein components of Section 12.6:
 
 $$
-e_{11} - e_{55} = \kappa(p_3 - p_t)
+\begin{aligned}
+e_{44} &= 3(a_4')^2 + 6H^2k - \tfrac32u^2,\\
+e_{11} &= -5(a_4')^2 + 6a_4'u + 2a_4'' - \tfrac52u^2 - 2v + 6H^2k,\\
+e_{00} &= -3(a_4')^2 + \tfrac32a_4'u - \tfrac32u^2 - \tfrac32v + 3H^2k .
+\end{aligned}
 $$
 
-(3-space equation minus extra-time equation)
+The time component contains the rates $a_4'$ and $u$ but no $a_4''$ and no $v$: it is a **constraint**, a condition on the first derivatives at each moment. The other two contain $a_4''$ and $v$, each to the first power. We write them as
 
 $$
-\big(a_4'' - 3(a_4')^2 + 15H^2\big) - \big(-a_4'' - 3(a_4')^2 + 15H^2\big) = \kappa(p_3 - p_t)
+e_{11} = 2a_4'' - 2v + R_1,\qquad e_{00} = -\tfrac32v + R_0,
 $$
 
-(the components inserted)
+with the parts without second derivatives $R_1 = -5(a_4')^2 + 6a_4'u - \tfrac52u^2 + 6H^2k$ and $R_0 = -3(a_4')^2 + \tfrac32a_4'u - \tfrac32u^2 + 3H^2k$ (the terms sorted). The block equation $e_{00} + \Lambda = \kappa p_0$ then gives $v$, line by line:
 
 $$
-2a_4'' = \kappa(p_3 - p_t)
+-\tfrac32v + R_0 + \Lambda = \kappa p_0
 $$
 
-(the terms $-3(a_4')^2$ and $15H^2$ cancel). This is the **evolution equation**: the second derivative of $a_4$ is driven by the anisotropic stress, nothing else. Adding the two equations instead:
+(the block equation with $e_{00}$ inserted)
 
 $$
-e_{11} + e_{55} = 30H^2 - 6(a_4')^2 = 2\,e_{00}
+v = -\tfrac23\big(\kappa p_0 - \Lambda - R_0\big)
 $$
 
-(the $a_4''$ cancel; $30H^2 - 6(a_4')^2 = 2(15H^2 - 3(a_4')^2)$), so the 3-space equation plus the extra-time equation minus twice the hidden equation reads $0 = \kappa(p_3 + p_t - 2p_0)$: the **algebraic condition** $p_3 + p_t = 2p_0$. It is not an equation for $a_4$ at all; it is a condition that every source must meet.
-
-**Einstein-Lovelock gravity.** The same two combinations work for every coupling. From the components of Section 12.7, the Gauss-Bonnet part of $e_{11} - e_{55}$ is
+($R_0 + \Lambda$ moved to the right, then both sides multiplied by $-\tfrac23$). The 3-space equation gives $a_4''$:
 
 $$
-E_{(2)}{}^{x_1}{}_{x_1} - E_{(2)}{}^{x_5}{}_{x_5} = -48(a_4')^2a_4'' - 80H^2a_4'' = a_4''\big(-48(a_4')^2 - 80H^2\big)
+2a_4'' - 2v + R_1 + \Lambda = \kappa p_3 \quad\Longrightarrow\quad a_4'' = v + \tfrac12\big(\kappa p_3 - \Lambda - R_1\big)
 $$
 
-(the terms without $a_4''$ are equal in both and cancel; the others double), and the third-order part is $a_4''\big(720(a_4')^4 + 864(a_4')^2H^2 + 720H^4\big)$. So the evolution equation is
+($2v - R_1 - \Lambda$ moved to the right, then divided by 2). So, given the pressures and the first derivatives at one moment, the two equations give the second derivatives $a_4''$ and $v = (b_4'/b_4)'$ at that moment: they are **two equations of second order**, and with starting values of $a_4$, $a_4'$, $b_4$ and $u$ they determine the future (Section 12.21). In matrix form,
 
 $$
-a_4''\,F(a_4') = \kappa(p_3 - p_t),\qquad F = 2\alpha_1 - \alpha_2\big(48(a_4')^2 + 80H^2\big) + \alpha_3\big(720(a_4')^4 + 864(a_4')^2H^2 + 720H^4\big),
+J\begin{pmatrix}a_4''\\ v\end{pmatrix} = \begin{pmatrix}\kappa p_3 - \Lambda - R_1\\ \kappa p_0 - \Lambda - R_0\end{pmatrix},\qquad
+J = \begin{pmatrix}2 & -2\\ 0 & -\tfrac32\end{pmatrix},\qquad \det J = 2\cdot\big(-\tfrac32\big) - (-2)\cdot 0 = -3
 $$
 
-and $e_{11} + e_{55} = 2e_{00}$ holds identically for each $k$ (check for $k = 2$: $2\cdot 12(a_4')^4 + 2\cdot 168(a_4')^2H^2 - 2\cdot 180H^4$ on both sides). All of this is PROVED; the checks are listed here:
+(the **Jacobian** $J$ holds the coefficients of $a_4''$ and $v$; the determinant of a 2 by 2 matrix is the product of the diagonal minus the product of the other two entries). Because $v = b_4''/b_4 - u^2$, the coefficients with respect to $b_4''$ instead of $v$ are those of the second column divided by $b_4$: $\begin{pmatrix}2 & -2/b_4\\ 0 & -3/(2b_4)\end{pmatrix}$. All of this is PROVED (sympy report, checks `einstein_components` and `constraint_first_order`; Wolfram report, checks `second_order_system_a4pp_vv` and `einstein_second_order_system`; Notebook 12a, In [12] and In [22]).
 
-| statement | sympy record | Wolfram record |
-| --- | --- | --- |
-| $e_{11} - e_{55} = a_4''F(a_4')$ | `evolution_factorises` | `evolution_factorises_a4pp_times_F` |
-| $F$ is not identically zero | `evolution_F_not_identically_zero` | `evolution_F_not_identically_zero` |
-| $e_{11} + e_{55} = 2e_{00}$ | `algebraic_identity` | `algebraic_identity_x1_plus_x5_minus_2x0` |
-| no $a_4''$ in $e_{44}$ and $e_{00}$ | `constraint_and_x0_first_order` | `x0_component_contains_no_a4pp` |
+**Einstein-Lovelock gravity.** The same structure holds for every coupling (record `a4-equations.json`, key `generalSource/secondOrderSystem`): $e_{44}$ contains no $a_4''$ and no $v$, and $e_{11}$, $e_{00}$ are linear in $(a_4'', v)$, with a Jacobian whose entries depend on $a_4'$, $u$, $k$ and the couplings. For Einstein-Gauss-Bonnet gravity ($\alpha_1 = 1$, $\alpha_3 = 0$) the record's Jacobian (key `generalSource/secondOrderJacobian`) is
 
-Notebook 12a reproduces them in In [22] and In [23]. $F$ vanishes for every $a_4'$ and $H$ only when all three couplings are zero. But for Einstein-Gauss-Bonnet gravity with $\alpha_2 > 0$, $F = 2 - 80\alpha_2H^2 - 48\alpha_2(a_4')^2$ is zero at $(a_4')^2 = (1 - 40\alpha_2H^2)/(24\alpha_2)$; there the evolution equation cannot be solved for $a_4''$ (figure 4 of Notebook 12a; Section 12.21).
+$$
+J = \begin{pmatrix} 2 - 48\alpha_2(a_4')^2 + 32\alpha_2a_4'u & -2\big(1 - 8\alpha_2(a_4')^2 - 12\alpha_2H^2k + 3\alpha_2u^2\big)\\
+6\alpha_2\big(4H^2k + 4a_4'u - u^2\big) & -\tfrac32\big(1 - 8\alpha_2(a_4')^2 - 4\alpha_2H^2k + 8\alpha_2a_4'u + \alpha_2u^2\big)\end{pmatrix}.
+$$
 
-**What each equation does.** Given $a_4'$ at one time, the constraint fixes the energy density $\rho$ at that time, and the hidden equation fixes $p_0$. Given the anisotropic stress, the evolution equation fixes $a_4''$ and so the future of $a_4$. The algebraic condition then fixes $p_3$ and $p_t$ from $p_0$ and the stress: $p_3 = p_0 + \tfrac12(p_3 - p_t)$, $p_t = p_0 - \tfrac12(p_3 - p_t)$.
+On the record history ($a_4' = 1$, $u = \tfrac43$, $H = 1$) the four entries are
+
+$$
+J_{11} = 2 - \tfrac{16}3\alpha_2,\quad J_{12} = -2\big(1 - \tfrac83\alpha_2 - 12\alpha_2k\big),\quad J_{21} = \alpha_2\big(24k + \tfrac{64}3\big),\quad J_{22} = -\tfrac32\big(1 + \tfrac{40}9\alpha_2 - 4\alpha_2k\big)
+$$
+
+(the values inserted: $-48 + \tfrac{128}3 = -\tfrac{16}3$; $-8 + \tfrac{16}3 = -\tfrac83$; $6(\tfrac{16}3 - \tfrac{16}9) = \tfrac{64}3$; $-8 + \tfrac{32}3 + \tfrac{16}9 = \tfrac{40}9$). Multiplying out $J_{11}J_{22} - J_{12}J_{21}$ and collecting the powers of $\alpha_2$ gives
+
+$$
+\begin{aligned}
+\det J &= -3 + \big(60k + \tfrac{112}3\big)\alpha_2 - \big(576k^2 + 672k + \tfrac{704}9\big)\alpha_2^2\\
+&= -\tfrac19\Big[27 - (540k + 336)\alpha_2 + (5184k^2 + 6048k + 704)\alpha_2^2\Big]
+\end{aligned}
+$$
+
+(the product $J_{11}J_{22} = -3 - \tfrac{16}3\alpha_2 + 12k\alpha_2 - \tfrac{576k - 640}{18}\alpha_2^2$, the product $J_{12}J_{21} = -(48k + \tfrac{128}3)\alpha_2 + 2(288k^2 + 320k + \tfrac{512}9)\alpha_2^2$, and their difference; then $-\tfrac19$ taken out). The bracket is a quadratic polynomial in $\alpha_2$; it has a real zero only if its discriminant is not negative:
+
+$$
+(540k + 336)^2 - 4\cdot 27\,(5184k^2 + 6048k + 704) = 144\,\big(256 - 2016k - 1863k^2\big)
+$$
+
+(the discriminant $b^2 - 4ac$ of $a\alpha_2^2 + b\alpha_2 + c$, multiplied out: $291600k^2 + 362880k + 112896 - 559872k^2 - 653184k - 76032$, and 144 taken out). For $k \ge 1$ (the whole record history, where $k = e^{2x_4/3} \ge 1$ for $x_4 \ge 0$) the bracket $256 - 2016k - 1863k^2$ is at most $256 - 2016 - 1863 < 0$. So on the record history $\det J$ never vanishes, for any Gauss-Bonnet coupling, and since it is $-3 < 0$ at $\alpha_2 = 0$ it is always negative. Notebook 12a prints these two polynomials and checks the conclusion (In [24]); it also draws $\det J$ for Einstein gravity, for $\alpha_2H^2 = 0.01$ and $1/32$ and for the author's weights (figure 12a.4): all stay negative along the history. Where $\det J = 0$ on some other history the two equations could not be solved for $a_4''$ and $v$; Notebook 12c meets such a point for a gas of massless particles (Section 12.21).
+
+**What each equation does.** Given $a_4'$, $u$ and $k$ at one moment, the constraint fixes the energy density $\rho$ at that moment. Given the pressures $p_3$ and $p_0 = p_t$, the two equations of second order fix $a_4''$ and $v$, and so the future of $a_4$ and $b_4$. The record names the third combination: the 3-space equation minus the block equation, $e_{11} - e_{00} = \kappa(p_3 - p_0)$, in which $\Lambda$ cancels; in Einstein gravity it reads $2a_4'' - \tfrac12v - 2(a_4')^2 + \tfrac92a_4'u - u^2 + 3H^2k = \kappa(p_3 - p_0)$ (the two components of Section 12.6 subtracted): the anisotropic stress $p_3 - p_0$ drives the difference between the evolution of 3-space and that of the block.
 
 ### 12.10 The Bianchi identity and the conservation law
 
-**The identity.** Each Lovelock tensor has zero divergence for every metric (PROVED for the author's metric with an arbitrary $a_4$: record checks `E1_divergence_free`, `E2_divergence_free`, `E3_divergence_free` in both reports; Notebook 12a, In [19]). Since $\Lambda\delta^\mu_\nu$ has zero divergence too, the field equations can hold only if the source has zero divergence.
+**The identity.** Each Lovelock tensor has zero divergence for every metric (PROVED for the corrected metric with arbitrary $a_4$ and $b_4$: checks `E1_divergence_free` to `E3_divergence_free` in both reports; Notebook 12a, In [19]). Since $\Lambda\delta^\mu_\nu$ has zero divergence too, the field equations can hold only if the source has zero divergence.
 
-**The divergence of the general source.** We compute it for the source of Section 12.8, whose parts $\rho, p_3, p_t, p_0, q_{40}, q_{04}$ may now depend on $x_4$ and $x_0$, from the definition of the covariant divergence (Section 9.9):
-
-$$
-\nabla_\mu T^\mu{}_\nu = \sum_\mu\partial_\mu T^\mu{}_\nu + \sum_{\mu,\lambda}\Gamma^\mu{}_{\mu\lambda}\,T^\lambda{}_\nu - \sum_{\mu,\lambda}\Gamma^\lambda{}_{\mu\nu}\,T^\mu{}_\lambda .
-$$
-
-Two sums of Christoffel symbols are needed first. From the list of Section 12.4:
+**The divergence of a diagonal tensor.** The covariant divergence of a mixed tensor is
 
 $$
-\sum_\mu\Gamma^\mu{}_{\mu x_4} = 3a_4' + 3(-a_4') + 0 + 0 = 0
+\nabla_\mu T^\mu{}_\nu = \sum_\mu \partial_\mu T^\mu{}_\nu + \sum_{\mu,\lambda}\Gamma^\mu{}_{\mu\lambda}T^\lambda{}_\nu - \sum_{\mu,\lambda}\Gamma^\lambda{}_{\mu\nu}T^\mu{}_\lambda .
 $$
 
-(the three 3-space directions give $\Gamma^{x_1}{}_{x_1x_4} = a_4'$ each, the three extra times $\Gamma^{x_5}{}_{x_5x_4} = -a_4'$ each, and $\Gamma^{x_4}{}_{x_4x_4} = \Gamma^{x_0}{}_{x_0x_4} = 0$), and
+For a diagonal $T$ whose entries depend on $x_4$ only, we simplify line by line:
 
 $$
-\sum_\mu\Gamma^\mu{}_{\mu x_0} = 6H\cot z - \frac{6H}{\sin z\cos z} = 6H\,\frac{\cos^2 z - 1}{\sin z\cos z} = -\frac{6H\sin z}{\cos z} = -6H\tan z
+\nabla_\mu T^\mu{}_\nu = \partial_\nu T^\nu{}_\nu + \sum_\mu\Gamma^\mu{}_{\mu\nu}T^\nu{}_\nu - \sum_\mu\Gamma^\mu{}_{\mu\nu}T^\mu{}_\mu
 $$
 
-(the six directions $x_1, x_2, x_3, x_5, x_6, x_7$ give $H\cot z$ each, $\Gamma^{x_0}{}_{x_0x_0} = -6H/(\sin z\cos z)$ and $\Gamma^{x_4}{}_{x_4x_0} = 0$; then the common denominator $\sin z\cos z$, with $\cot z = \cos^2 z/(\sin z\cos z)$, and $\cos^2 z - 1 = -\sin^2 z$). This is $\partial_0\ln\cos z = 6H\cdot(-\sin z/\cos z)$, the logarithmic derivative of $\sqrt{|\det g|} = \cos z$ (Section 12.3), as the lemma of Section 9.9 says.
-
-**The component $\nu = x_4$.** The column $T^\lambda{}_{x_4}$ has only the entries $T^{x_4}{}_{x_4} = -\rho$ and $T^{x_0}{}_{x_4} = q_{04}$, and the entries $T^\mu{}_\lambda$ that are not zero are the eight diagonal ones and the two mixed ones $T^{x_4}{}_{x_0} = q_{40}$, $T^{x_0}{}_{x_4} = q_{04}$. So the three sums of the definition become
+(in the first sum only $\mu = \nu$ survives, because $T$ is diagonal; in the second only $\lambda = \nu$; in the third only $\lambda = \mu$, which turns $\Gamma^\lambda{}_{\mu\nu}$ into $\Gamma^\mu{}_{\mu\nu}$)
 
 $$
-\begin{aligned}
-\nabla_\mu T^\mu{}_{x_4} &= \partial_4 T^{x_4}{}_{x_4} + \partial_0 T^{x_0}{}_{x_4} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_4}\Big)T^{x_4}{}_{x_4} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_0}\Big)T^{x_0}{}_{x_4} \\
-&\quad - \sum_\mu\Gamma^\mu{}_{\mu x_4}T^\mu{}_\mu - \Gamma^{x_0}{}_{x_4x_4}T^{x_4}{}_{x_0} - \Gamma^{x_4}{}_{x_0x_4}T^{x_0}{}_{x_4}
-\end{aligned}
+\nabla_\mu T^\mu{}_\nu = \partial_\nu T^\nu{}_\nu + \sum_\mu \Gamma^\mu{}_{\mu\nu}\big(T^\nu{}_\nu - T^\mu{}_\mu\big)\qquad(\text{no sum over } \nu)
 $$
 
-(the definition with $\nu = x_4$, keeping only the nonzero entries of $T$; in the next-to-last sum the diagonal entry $T^\mu{}_\mu$ has $\lambda = \mu$)
+(the two sums combined). For $\nu = x_4$ the Christoffel symbols of Section 12.4 give $\Gamma^{x_i}{}_{x_ix_4} = a_4'$ for the three 3-space directions, $\Gamma^{\mu}{}_{\mu x_4} = h$ for the four block directions and $0$ for $\mu = x_4$:
 
 $$
-= -\partial_4\rho + \partial_0 q_{04} + 0 - 6H\tan z\,q_{04} - \big(3a_4'\,p_3 - 3a_4'\,p_t\big) - 0 - 0
+\nabla_\mu T^\mu{}_{x_4} = \partial_4T^{x_4}{}_{x_4} + 3a_4'\big(T^{x_4}{}_{x_4} - T^{x_1}{}_{x_1}\big) + 4h\big(T^{x_4}{}_{x_4} - T^{x_0}{}_{x_0}\big)
 $$
 
-(the entries inserted; the two sums of symbols above; on the diagonal $\Gamma^{x_1}{}_{x_1x_4} = a_4'$ multiplies $p_3$ three times and $\Gamma^{x_5}{}_{x_5x_4} = -a_4'$ multiplies $p_t$ three times, while $\Gamma^{x_4}{}_{x_4x_4} = \Gamma^{x_0}{}_{x_0x_4} = 0$; and $\Gamma^{x_0}{}_{x_4x_4} = \Gamma^{x_4}{}_{x_0x_4} = 0$ by Section 12.4)
+(the block directions grouped, using $T^{x_0}{}_{x_0} = T^{x_5}{}_{x_5}$). For $\nu = x_0$ the symbols are $\Gamma^{x_0}{}_{x_0x_0}$ (which multiplies $T^{x_0}{}_{x_0} - T^{x_0}{}_{x_0} = 0$) and $\Gamma^{x_t}{}_{x_tx_0} = H\cot z$ for the three extra times, so $\nabla_\mu T^\mu{}_{x_0} = 3H\cot z\,(T^{x_0}{}_{x_0} - T^{x_5}{}_{x_5})$ when nothing depends on $x_0$; for every other $\nu$ the divergence is identically zero.
+
+**For the left-hand side** ($T^\mu{}_\nu \to e^\mu{}_\nu$, with $e_{00} = e_{55}$) the $x_0$ line vanishes identically, and the $x_4$ line set to zero reads
 
 $$
-= -\partial_4\rho - 3a_4'(p_3 - p_t) + \partial_0 q_{04} - 6H\tan z\,q_{04}
+\frac{d}{dx_4}e_{44} = 3a_4'\,\big(e_{11} - e_{44}\big) + 4h\,\big(e_{00} - e_{44}\big)
 $$
 
-(the terms reordered and $3a_4'$ taken out of the bracket).
+(the divergence of the left-hand side is zero; the terms $3a_4'(e_{44} - e_{11})$ and $4h(e_{44} - e_{00})$ moved to the right). This is an identity for every $a_4$, $b_4$ and every coupling (PROVED: sympy report, check `bianchi_x4`; Wolfram report, check `constraint_propagation_bianchi`; Notebook 12a, In [23]).
 
-**The component $\nu = x_0$.** In the same way, with the column $T^{x_4}{}_{x_0} = q_{40}$, $T^{x_0}{}_{x_0} = p_0$:
-
-$$
-\begin{aligned}
-\nabla_\mu T^\mu{}_{x_0} &= \partial_4 T^{x_4}{}_{x_0} + \partial_0 T^{x_0}{}_{x_0} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_4}\Big)T^{x_4}{}_{x_0} + \Big(\sum_\mu\Gamma^\mu{}_{\mu x_0}\Big)T^{x_0}{}_{x_0} \\
-&\quad - \sum_\mu\Gamma^\mu{}_{\mu x_0}T^\mu{}_\mu - \Gamma^{x_0}{}_{x_4x_0}T^{x_4}{}_{x_0} - \Gamma^{x_4}{}_{x_0x_0}T^{x_0}{}_{x_4}
-\end{aligned}
-$$
-
-(the definition with $\nu = x_0$, keeping only the nonzero entries of $T$)
+**For the source** $T = \mathrm{diag}(p_0, p_3, p_3, p_3, -\rho, p_t, p_t, p_t)$ with $p_0 = p_t$ and no dependence on $x_0$ the $x_4$ line gives
 
 $$
-= \partial_4 q_{40} + \partial_0 p_0 + 0 - 6H\tan z\,p_0 - \Big(3H\cot z\,p_3 + 3H\cot z\,p_t - \frac{6H}{\sin z\cos z}\,p_0\Big) - 0 - 0
+-\partial_4\rho + 3a_4'(-\rho - p_3) + 4h(-\rho - p_0) = 0
+\quad\Longrightarrow\quad
+\partial_4\rho + 3a_4'(\rho + p_3) + 4h(\rho + p_0) = 0
 $$
 
-(the entries inserted; on the diagonal the six directions give $H\cot z$ times their pressure, $\Gamma^{x_4}{}_{x_4x_0} = 0$, and $\Gamma^{x_0}{}_{x_0x_0} = -6H/(\sin z\cos z)$ multiplies $p_0$; $\Gamma^{x_0}{}_{x_4x_0} = 0$ because $g_{00}$ does not depend on $x_4$, and $\Gamma^{x_4}{}_{x_0x_0} = -\partial_4 g_{00}/(2g_{44}) = 0$ for the same reason)
+(the entries inserted; then multiplied by $-1$): the **energy exchange** of the record (key `generalSource/energyExchange`). Energy flows between 3-space (rate $a_4'$) and the block (rate $h$); there is no other loss. The $x_0$ line holds automatically, because $p_0 = p_t$. For a general source, with $x_0$-dependence and mixed components $q_{40}$, $q_{04}$, the record gives (key `generalSource`, entries `conservation_x4` and `conservation_x0`; $\partial_0$ is the derivative with respect to $x_0$)
 
 $$
-= \partial_0 p_0 + \Big(\frac{6H}{\sin z\cos z} - \frac{6H\sin z}{\cos z}\Big)p_0 - 3H\cot z\,(p_3 + p_t) + \partial_4 q_{40}
+\nabla_\mu T^\mu{}_{x_4} = -\partial_4\rho - 3a_4'(\rho + p_3) - 3h(\rho + p_t) - h(\rho + p_0) + \partial_0 q_{04} - 3H(\cot z + 2\tan z)\,q_{04},
+$$
+$$
+\nabla_\mu T^\mu{}_{x_0} = \partial_0 p_0 + 3H\cot z\,(p_0 - p_t) + \partial_4 q_{40} + \tfrac32u\,q_{40} - h\cot^2 z\,q_{04}/k .
 $$
 
-(the two terms with $p_0$ collected, $\tan z = \sin z/\cos z$)
+Notebook 12a computes both for six arbitrary functions of $x_4$ and $z$ and compares them with the record and, without the mixed components, with the lead's formulas (PROVED: sympy report, check `json_conservation`; lead's divergence report, checks `divergence_x4_component`, `divergence_x0_component` and `divergence_other_components_zero`; In [25]).
+
+**The constraint propagates.** Let $C = e_{44} + \Lambda + \kappa\rho$ be the amount by which the constraint fails. Suppose the two equations of second order hold at every time and the source obeys the energy exchange. Then, line by line:
 
 $$
-\begin{aligned}
-&= \partial_0 p_0 + 6H\cot z\,p_0 - 3H\cot z\,(p_3 + p_t) + \partial_4 q_{40} \\
-&= \partial_0 p_0 + 3H\cot z\,(2p_0 - p_3 - p_t) + \partial_4 q_{40}
-\end{aligned}
+\frac{dC}{dx_4} = \frac{de_{44}}{dx_4} + \kappa\,\partial_4\rho = 3a_4'(e_{11} - e_{44}) + 4h(e_{00} - e_{44}) - 3a_4'\kappa(\rho + p_3) - 4h\kappa(\rho + p_0)
 $$
 
-($\frac{6H}{\sin z\cos z} - \frac{6H\sin^2 z}{\sin z\cos z} = 6H\,\frac{1 - \sin^2 z}{\sin z\cos z} = 6H\,\frac{\cos z}{\sin z}$; then $3H\cot z$ taken out).
-
-**The six other components.** For $\nu = x_1$ every term is zero: the column $T^\lambda{}_{x_1}$ has only $T^{x_1}{}_{x_1} = p_3$, which does not depend on $x_1$; $\sum_\mu\Gamma^\mu{}_{\mu x_1} = 0$, because no entry of the metric depends on $x_1$; and every symbol $\Gamma^\lambda{}_{\mu x_1}$ that multiplies a nonzero entry $T^\mu{}_\lambda$ is zero ($\Gamma^{x_1}{}_{x_1x_1} = 0$, and none of the nonzero symbols of Section 12.4 has exactly one index equal to $x_1$). The same holds for $x_2, x_3, x_5, x_6, x_7$.
-
-These are the record's formulas (PROVED: record `Revision/lead_checks/reports/emt-divergence-and-spin-connection.json`, checks `divergence_x4_component`, `divergence_x0_component` and `divergence_other_components_zero`; Notebook 12a, In [25], which reproduces the first two of them and the sympy record's check `conservation_components`):
+($\Lambda$ is constant; the Bianchi identity for the first term, the energy exchange for the second)
 
 $$
-\begin{aligned}
-\nabla_\mu T^\mu{}_{x_4} &= -\partial_4\rho - 3a_4'(p_3 - p_t) + \partial_0 q_{04} - 6H\tan z\,q_{04}, \\
-\nabla_\mu T^\mu{}_{x_0} &= \partial_0 p_0 + 3H\cot z\,(2p_0 - p_3 - p_t) + \partial_4 q_{40},
-\end{aligned}
+e_{11} - e_{44} = (\kappa p_3 - \Lambda) - (C - \Lambda - \kappa\rho) = \kappa(\rho + p_3) - C,\qquad e_{00} - e_{44} = \kappa(\rho + p_0) - C
 $$
 
-and zero for the six other components. With the conditions of Section 12.8 (no $x_0$ dependence, $q_{40} = q_{04} = 0$) the first says $\rho' = -3a_4'(p_3 - p_t)$ and the second repeats the algebraic condition.
-
-**The constraint propagates.** In Einstein gravity we can see directly why the constraint stays true along a solution:
+(the 3-space and block equations give $e_{11}$ and $e_{00}$; the definition of $C$ gives $e_{44} = C - \Lambda - \kappa\rho$)
 
 $$
--\kappa\rho = 3(a_4')^2 + 21H^2 + \Lambda
+\frac{dC}{dx_4} = 3a_4'\big(\kappa(\rho + p_3) - C\big) + 4h\big(\kappa(\rho + p_0) - C\big) - 3a_4'\kappa(\rho + p_3) - 4h\kappa(\rho + p_0) = -(3a_4' + 4h)\,C
 $$
 
-(the constraint)
+(inserted; the terms with $\kappa$ cancel in pairs). This is a linear equation for $C$ without a source term: if $C = 0$ at one time, then $C = 0$ at every time (its solution is $C(x_4) = C(0)\exp(-\int_0^{x_4}(3a_4' + 4h))$, which is zero for $C(0) = 0$). Since $3a_4' + 4h = 2u - a_4'$ is the rate of $\ln\sqrt{|\det g|}$ (Section 12.3), the product $C\sqrt{|\det g|}$ is constant. So the constraint need only be imposed at the start; Notebook 12c checks numerically that it then holds along every solution (Section 12.21).
+
+### 12.11 Einstein gravity: a flat vacuum, no exponential vacuum, and the null energy conditions
+
+**A flat vacuum.** Take $a_4 = 0$ and $b_4 = H^2(x_4 - c)^2$ with a constant $c$ (for $x_4 > c$). Then
 
 $$
--\kappa\rho' = 6a_4'a_4''
+a_4' = a_4'' = 0,\qquad u = \frac{b_4'}{b_4} = \frac{2H^2(x_4 - c)}{H^2(x_4 - c)^2} = \frac{2}{x_4 - c},\qquad v = u' = -\frac{2}{(x_4 - c)^2},\qquad k = \frac{1}{H^2(x_4 - c)^2}
 $$
 
-(differentiate with respect to $x_4$: chain rule for $(a_4')^2$; $H$ and $\Lambda$ are constants)
+(the derivative of $(x_4 - c)^2$ is $2(x_4 - c)$; the derivative of $2(x_4 - c)^{-1}$ is $-2(x_4 - c)^{-2}$; $k = e^0/b_4$). Inserting into the three Einstein components, with $s = 1/(x_4 - c)^2$:
 
 $$
--\kappa\rho' = 3a_4'\cdot 2a_4'' = 3a_4'\,\kappa(p_3 - p_t)
+e_{44} = 0 + 6s - \tfrac32\cdot 4s = 0,\qquad
+e_{11} = 0 - \tfrac52\cdot 4s - 2(-2s) + 6s = 0,\qquad
+e_{00} = -\tfrac32\cdot 4s - \tfrac32(-2s) + 3s = 0
 $$
 
-(the evolution equation $2a_4'' = \kappa(p_3 - p_t)$ inserted)
+($H^2k = s$, $u^2 = 4s$, $v = -2s$; then $6 - 6 = 0$, $-10 + 4 + 6 = 0$, $-6 + 3 + 3 = 0$). So this history solves the vacuum equations with $\Lambda = 0$. In fact every curvature component vanishes (PROVED: Wolfram report, check `flat_member`; sympy report, check `einstein_flat_vacuum`; Notebook 12a, In [26]): this history is flat 8-dimensional space written in unusual coordinates, of the same kind as the coordinates of Milne for ordinary flat space, in which a block of constant curvature is multiplied by the square of the time $x_4 - c$. This vacuum has a still 3-space and a growing block ($e^{-a_4}b_4^{1/2} = H(x_4 - c)$), not a deflating one.
+
+**No exponential vacuum.** On an exponential history $a_4' = AH$, $u = \beta AH$ and $a_4'' = v = 0$. A vacuum needs $e_{44} + \Lambda = e_{11} + \Lambda = e_{00} + \Lambda = 0$, so the two differences must vanish whatever $\Lambda$ is. The first:
 
 $$
-\rho' = -3a_4'(p_3 - p_t)
+e_{44} - e_{11} = \Big(3A^2H^2 + 6H^2k - \tfrac32\beta^2A^2H^2\Big) - \Big(-5A^2H^2 + 6\beta A^2H^2 - \tfrac52\beta^2A^2H^2 + 6H^2k\Big)
 $$
 
-(divided by $-\kappa$). So the constraint, differentiated, is $3a_4'$ times the evolution equation, exactly when the source obeys the conservation law. The record proves the same for every coupling, $\tfrac{d}{dx_4}e_{44} = 3a_4'(e_{11} - e_{55})$ (checks `constraint_propagation_bianchi` and `bianchi_x4`; Notebook 12a, In [23]). For the Gauss-Bonnet part, for example, $\tfrac{d}{dx_4}\big(-36(a_4')^4 - 120(a_4')^2H^2\big) = -144(a_4')^3a_4'' - 240a_4'a_4''H^2 = 3a_4'\cdot a_4''\big(-48(a_4')^2 - 80H^2\big)$.
-
-**What the conservation law means.** The law $\rho' = -3a_4'(p_3 - p_t)$ is the first law of thermodynamics, $dE = -p\,dV$, for the two kinds of directions. The total volume of the seven directions other than the time is constant (Section 12.3), so the energy density can change only through the work of the pressures. The volume of 3-space grows like $e^{3a_4}$, so its logarithm grows at the rate $3a_4'$, and the pressure $p_3$ contributes $-3a_4'p_3$ per unit volume and time. The volume of the extra times shrinks like $e^{-3a_4}$, at the rate $-3a_4'$, and the pressure $p_t$ contributes $+3a_4'p_t$. The total is $-3a_4'(p_3 - p_t)$: energy flows between 3-space and the extra times, and the energy density stays constant when the two pressures are equal. (This reading is an interpretation of the PROVED identity.)
-
-### 12.11 Einstein gravity: no empty universe, and the null energy condition along x0
-
-In Einstein gravity the constraint and the hidden equation read
+(the components with the history inserted)
 
 $$
-3(a_4')^2 + 21H^2 + \Lambda = -\kappa\rho,\qquad -3(a_4')^2 + 15H^2 + \Lambda = \kappa p_0 .
+= \big(8 - 6\beta + \beta^2\big)A^2H^2 = (\beta - 2)(\beta - 4)\,A^2H^2
 $$
 
-**The null energy condition fails.** Subtracting the first from the second:
+(the terms with $k$ cancel; $3 + 5 = 8$, $-\tfrac32 + \tfrac52 = 1$; the quadratic factorised). The second:
 
 $$
-\big(-3(a_4')^2 + 15H^2 + \Lambda\big) - \big(3(a_4')^2 + 21H^2 + \Lambda\big) = \kappa p_0 + \kappa\rho
+e_{44} - e_{00} = \Big(3 - \tfrac32\beta^2\Big)A^2H^2 + 6H^2k - \Big(-3 + \tfrac32\beta - \tfrac32\beta^2\Big)A^2H^2 - 3H^2k = \Big(6 - \tfrac32\beta\Big)A^2H^2 + 3H^2k
 $$
 
-(second equation minus first)
+(inserted and collected). Setting it to zero gives $k = \tfrac12(\beta - 4)A^2$ (divided by $3H^2$). The first difference vanishes only for $\beta = 2$, $\beta = 4$ or $A = 0$, and then the second gives $k = -A^2$, $k = 0$ or $k = 0$. But $k = e^{2a_4}/b_4 > 0$ always. So in Einstein gravity no exponential history is a vacuum, for any $\Lambda$ (PROVED: sympy report, check `einstein_no_exponential_vacuum`; Wolfram report, check `einstein_no_exponential_vacuum`; Notebook 12a, In [26] and figure 12a.5). With the author's weights there is none either (record key `exponentialHistory/authorWeights/vacuum`; Notebook 12b), while Einstein-Gauss-Bonnet gravity has exponential vacua, but only with constant $k$ (record key `exponentialHistory/einsteinGaussBonnetVacuum`; Notebook 12b).
+
+**The null energy conditions.** A **null vector** has zero length. In the frame of Chapter 6 (unit vectors along the eight directions, with $\eta = \mathrm{diag}(+,+,+,+,-,-,-,-)$) the vector $n = e_{(x_4)} + e_{(x_0)}$ has the length $\eta_{44} + \eta_{00} = -1 + 1 = 0$. The **null energy condition** along $n$ asks $\sum_{a,b} T_{(a)(b)}\,n^an^b \ge 0$; for our diagonal source
 
 $$
-\kappa(\rho + p_0) = -6(a_4')^2 - 6H^2 = -6\big((a_4')^2 + H^2\big)
+T_{(a)(b)}n^an^b = T_{(4)(4)} + T_{(0)(0)} = \eta_{44}T^{x_4}{}_{x_4} + \eta_{00}T^{x_0}{}_{x_0} = (-1)(-\rho) + p_0 = \rho + p_0
 $$
 
-($\Lambda$ cancels; $15 - 21 = -6$). For $H > 0$ the right-hand side is negative for every $a_4$ and every $\Lambda$, so $\rho + p_0 < 0$ (with $\kappa > 0$). In the frame of the vielbein (the directions of unit length of Chapter 6) the energy-momentum tensor has $T_{\hat4\hat4} = \rho$ and $T_{\hat8\hat8} = p_0$, and the vector $k$ with frame components $k^{\hat4} = k^{\hat8} = 1$ (all others 0) has zero length, $\eta(k,k) = -1 + 1 = 0$: a **null vector**. Then $T(k, k) = T_{\hat4\hat4} + 2T_{\hat4\hat8} + T_{\hat8\hat8} = \rho + 0 + p_0$. Every source of the author's metric in Einstein gravity violates the null energy condition along this null direction (PROVED: sympy and Wolfram records, check `einstein_null_energy_x0`; Notebook 12a, In [26]).
-
-**No vacuum.** A vacuum needs $\rho = p_0 = 0$, so $6\big((a_4')^2 + H^2\big) = 0$, which no real $a_4'$ satisfies when $H > 0$. If one allows complex numbers, the vacuum equations have exactly the two solutions $a_4' = \pm iH$, $\Lambda = -18H^2$ (from $(a_4')^2 = -H^2$ and $\Lambda = 3(a_4')^2 - 15H^2$), which are not real histories (PROVED: Wolfram record, check `einstein_no_vacuum_solution`; lead's record `Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json`, check `no_vacuum_for_H_positive`; Notebook 12a, In [26] and figure 5). The author's metric is never empty space: it always needs matter, and that matter is of an unusual kind.
-
-**Every coupling.** For Einstein-Lovelock gravity the same combination factorises: $\kappa(\rho + p_0) = -6\big((a_4')^2 + H^2\big)\,V$, with $V = \alpha_1 - 8\alpha_2\big((a_4')^2 + 5H^2\big) + \alpha_3\big(72(a_4')^4 + 144(a_4')^2H^2 + 360H^4\big)$ (PROVED by Notebook 12a, In [29], from the record's components). The null energy condition can hold only where $V \le 0$, and a vacuum needs $V = 0$. With the Einstein term at its usual weight, $\alpha_1 = 1$, this needs Lovelock couplings beyond Einstein's. The bracket $8\big((a_4')^2 + 5H^2\big)$ that multiplies $-\alpha_2$ and the bracket $72(a_4')^4 + 144(a_4')^2H^2 + 360H^4$ that multiplies $\alpha_3$ are both positive, so $V \le 0$ needs a positive Gauss-Bonnet coupling $\alpha_2$ or a negative third-order coupling $\alpha_3$, large enough. For example, with $\alpha_3 = 0$:
+(only the components with $a, b \in \{x_4, x_0\}$ survive and the mixed ones are zero; lowering the first index multiplies by $\eta_{aa}$; for a diagonal metric the frame components of a mixed tensor equal its coordinate components). In the same way the condition along $e_{(x_4)} + e_{(x_1)}$ is $\rho + p_3 \ge 0$. Ordinary matter, such as a gas or radiation, satisfies both. In the field equations, subtracting the constraint from the block and the 3-space equations removes $\Lambda$:
 
 $$
-V \le 0 \iff 1 \le 8\alpha_2\big((a_4')^2 + 5H^2\big) \iff \alpha_2 \ge \frac{1}{8\big((a_4')^2 + 5H^2\big)}
+\kappa(\rho + p_0) = e_{00} - e_{44},\qquad \kappa(\rho + p_3) = e_{11} - e_{44}
 $$
 
-(the definition of $V$ with $\alpha_1 = 1$ and $\alpha_3 = 0$; then division by the positive bracket). With $\alpha_2 = 0$, at a moment where $a_4' = 0$: $V = 1 + 360\alpha_3H^4 \le 0$ exactly when $\alpha_3H^4 \le -1/360$; for instance $\alpha_3H^4 = -1/300$ gives $V = 1 - 360/300 = -0.2$.
-
-### 12.12 The linear member: the extra times deflate by a choice of sign
-
-**The history.** The simplest history is $a_4 = AHx_4 + a_0$ with constants $A$ and $a_0$. Then $a_4' = AH$ and $a_4'' = 0$, the 3-space scale factor grows like $e^{AHx_4}$ and the extra-time scale factor shrinks like $e^{-AHx_4}$: for $A > 0$ the extra times deflate exponentially, at the rate $AH$. The author's metric does not fix the slope: the author requires only that the extra times deflate, $A > 0$. The Revision record takes $A = 1$ as its canonical history (ASSUMED, a prescribed background: the record `Revision/kohn_sham/results/parameters.json` writes "a4 = A H x4 (A = 1 canonical)" and calls it a PRESCRIBED BACKGROUND); this chapter calls $A = 1$ the **canonical history**.
-
-**The source it requires.** Line by line:
-
-- evolution equation with $a_4'' = 0$: $0 = \kappa(p_3 - p_t)$, so $p_3 = p_t$;
-- algebraic condition: $p_3 + p_t = 2p_0$ with $p_3 = p_t$ gives $p_0 = p_3$; so all three pressures are equal, $p_3 = p_t = p_0 =: p$;
-- constraint and hidden equation with $a_4' = AH$ give constant $\rho$ and $p$.
-
-In Einstein gravity:
+(block equation minus constraint, $(e_{00} + \Lambda) - (e_{44} + \Lambda) = \kappa p_0 + \kappa\rho$; the same for 3-space). In Einstein gravity, with the components above,
 
 $$
-\kappa\rho = -(21 + 3A^2)H^2 - \Lambda,\qquad \kappa p = (15 - 3A^2)H^2 + \Lambda,\qquad \kappa(\rho + p) = -6(1 + A^2)H^2 .
+\kappa(\rho + p_0) = -6(a_4')^2 + \tfrac32a_4'u - \tfrac32v - 3H^2k = -\tfrac32\big(2H^2k + 4(a_4')^2 - a_4'u + v\big),
+$$
+$$
+\kappa(\rho + p_3) = -8(a_4')^2 + 6a_4'u + 2a_4'' - u^2 - 2v
 $$
 
-For all three couplings the record's formulas are (PROVED: record checks `linear_member_equal_pressures` and `json_linear_member`; Notebook 12a, In [28], and Notebook 12b, In [3] to In [5]):
+(the differences collected: $-3 - 3 = -6$, $-\tfrac32 + \tfrac32 = 0$ for $u^2$, $3 - 6 = -3$ for $H^2k$; and $-5 - 3 = -8$, $-\tfrac52 + \tfrac32 = -1$, $6 - 6 = 0$). These are the record's null combinations (PROVED: sympy report, check `einstein_null_combinations`; Notebook 12a, In [26]). On the record history ($a_4' = H$, $u = \tfrac43H$, $a_4'' = v = 0$, units $H = 1$):
+
+$$
+\kappa(\rho + p_0) = -\tfrac32\big(2k + 4 - \tfrac43\big) = -3k - 4 < 0,\qquad \kappa(\rho + p_3) = -8 + 8 - \tfrac{16}9 = -\tfrac{16}9 < 0
+$$
+
+(inserted; $4 - \tfrac43 = \tfrac83$). For $\kappa > 0$ the source of the record history violates both null energy conditions in Einstein gravity, along $x_4 + x_0$ ever more strongly as $k$ grows (Notebook 12a, In [26]; Notebook 12b, figure 12b.5, shows that no exponential history satisfies both in Einstein gravity).
+
+### 12.12 The exponential histories: the extra times deflate by a choice of sign
+
+**The histories.** An **exponential history** is $a_4 = AHx_4 + a_0$, $b_4 = b_4(0)\,e^{\beta AHx_4}$ with constants $A$ (the slope), $\beta$, $a_0$ and $b_4(0) > 0$. Then
+
+$$
+a_4' = AH,\quad a_4'' = 0,\quad u = \beta AH,\quad v = 0,\quad h = \big(\tfrac12\beta - 1\big)AH,\quad k = \frac{e^{2a_0}}{b_4(0)}\,e^{(2 - \beta)AHx_4}
+$$
+
+(the derivatives of linear and exponential functions; $k = e^{2a_4}/b_4$ with the exponents subtracted). 3-space grows like $e^{AHx_4}$ and the block like $e^{hx_4}$: for $A > 0$ and $\beta < 2$ 3-space inflates while the hidden direction and the extra times deflate. The record history is $A = 1$, $\beta = \tfrac43$, $a_0 = 0$, $b_4(0) = 1$, with $h = -\tfrac13H$ and $k = e^{(2/3)Hx_4}$ (record `a4-equations.json`, key `exponentialHistory/history`).
+
+**The required source.** On such a history every component of the field equations is a polynomial in $k$ (the components of Section 12.7 contain $k$ and $k^2$, no higher power), so the required source is
+
+$$
+\kappa\rho = -\big(e_{44} + \Lambda\big),\qquad \kappa p_3 = e_{11} + \Lambda,\qquad \kappa p_0 = \kappa p_t = e_{00} + \Lambda,
+$$
+
+a polynomial of degree at most 2 in $k$, which changes in time unless $\beta = 2$ or $A = 0$ (PROVED: sympy report, check `exponential_history_required_source`; Notebook 12a, In [28]). In Einstein gravity, inserting the history into the components of Section 12.9:
 
 $$
 \begin{aligned}
-\kappa\rho &= \alpha_1(-3A^2 - 21)H^2 + \alpha_2(36A^4 + 120A^2 + 420)H^4 \\
-&\quad + \alpha_3(-360A^6 - 648A^4 - 1080A^2 - 2520)H^6 - \Lambda, \\
-\kappa p &= \alpha_1(15 - 3A^2)H^2 + \alpha_2(12A^4 + 168A^2 - 180)H^4 \\
-&\quad + \alpha_3(-72A^6 - 648A^4 - 1944A^2 + 360)H^6 + \Lambda .
+\kappa\rho &= \tfrac32A^2H^2(\beta^2 - 2) - 6H^2k - \Lambda,\\
+\kappa p_3 &= -\tfrac12A^2H^2(5\beta^2 - 12\beta + 10) + 6H^2k + \Lambda,\\
+\kappa p_0 &= -\tfrac32A^2H^2(\beta^2 - \beta + 2) + 3H^2k + \Lambda
 \end{aligned}
 $$
 
-**Deflation is a choice of sign.** The slope enters only as $A^2$, $A^4$ and $A^6$. Replacing $A$ by $-A$ changes nothing: the equations accept extra times that deflate ($A > 0$) and extra times that inflate ($A < 0$) on exactly the same footing, and $A = 0$ (a static metric) as well. That the author's extra times deflate is a choice of sign, an initial condition; it is not a consequence of the field equations (PROVED: Notebook 12a, In [28], and Notebook 12b, In [4]; record key `theoremLinear` of `Revision/field_equations_a4/a4-equations.json`). This symmetry relates two histories of the metric of one universe. It is not the pairing of universes of masses $+m$ and $-m$, which is the subject of Chapters 18 to 20, and it says nothing about how a universe could be created.
+($-e_{44} = -3A^2H^2 + \tfrac32\beta^2A^2H^2 - 6H^2k$; $e_{11} = (-5 + 6\beta - \tfrac52\beta^2)A^2H^2 + 6H^2k$; $e_{00} = (-3 + \tfrac32\beta - \tfrac32\beta^2)A^2H^2 + 3H^2k$; the brackets factorised; record key `exponentialHistory/einstein`). On the record history with $\Lambda = 0$ and $H = 1$ this is $\kappa\rho = -6k - \tfrac13$, $\kappa p_3 = 6k - \tfrac{13}9$ and $\kappa p_0 = 3k - \tfrac{11}3$ (with $\beta^2 = \tfrac{16}9$: $\tfrac32(\tfrac{16}9 - 2) = -\tfrac13$, $-\tfrac12(\tfrac{80}9 - 16 + 10) = -\tfrac{13}9$, $-\tfrac32(\tfrac{16}9 - \tfrac43 + 2) = -\tfrac{11}3$): a negative energy density that grows in size like $k$, and $p_3 \ne p_0$. This is the source that Section 12.6 already met as $G$ along the history.
 
-**The canonical history in numbers.** For $A = 1$ and $\Lambda = 0$ (units $H = \kappa = 1$): $\kappa\rho = -24$, $\kappa p = 12$, $w = p/\rho = -1/2$ (Notebook 12b, In [5]). The energy density is negative. A positive energy density needs $-(21 + 3A^2)H^2 - \Lambda > 0$, that is $\Lambda < -(21 + 3A^2)H^2$, and then:
-
-$$
-\kappa(\rho + p) = -6(1 + A^2)H^2 < 0 \;\Rightarrow\; p < -\rho \;\Rightarrow\; \frac{p}{\rho} < -1
-$$
-
-(the sum of the two formulas; then divide by $\rho > 0$, which keeps the direction of the inequality). A positive energy density comes only with $w < -1$: the source is phantom (PROVED: Notebook 12b, In [8], checks for $\Lambda = -30H^2$, $-40H^2$, $-60H^2$ and the identity $w + 1 = (\rho + p)/\rho$).
-
-**The Gauss-Bonnet vacuum.** With $\alpha_1 = 1$, $\alpha_3 = 0$ the record factorises $\kappa(\rho + p) = -6(A^2 + 1)H^2\,V$ with $V = 1 - 8\alpha_2H^2(A^2 + 5)$ (record checks `linear_member_vacuum_factor`, `einstein_gauss_bonnet_vacuum_linear`). A vacuum needs $V = 0$, that is
+**The record history with the author's weights.** With $\alpha_k = w_k/H^{2k}$, $w = (1, \tfrac1{32}, \tfrac1{1152})$ and $H = 1$ the constraint needs $e_{44} = E_{(1)}{}^{x_4}{}_{x_4} + \tfrac1{32}E_{(2)}{}^{x_4}{}_{x_4} + \tfrac1{1152}E_{(3)}{}^{x_4}{}_{x_4}$ on the history. The three values were found in Sections 12.6 and 12.7: $6k + \tfrac13$, $-12k^2 + \tfrac{80}3k - \tfrac{76}{27}$ and $-216k^2 - 144k + 40$. So
 
 $$
-A^2 = \frac{1 - 40\alpha_2H^2}{8\alpha_2H^2},
+e_{44} = 6k + \tfrac13 + \tfrac1{32}\Big(-12k^2 + \tfrac{80}3k - \tfrac{76}{27}\Big) + \tfrac1{1152}\big(-216k^2 - 144k + 40\big)
 $$
 
-a real slope only for $0 < \alpha_2H^2 \le 1/40$, and then the $\Lambda$ that makes $\rho = 0$ (Notebook 12b, In [10] and In [11], figures 5 and 6). At the edge $\alpha_2H^2 = 1/40$ the vacuum is static, $A = 0$, with $\Lambda = -21H^2 + 420H^2/40 = -10.5H^2$. With the third-order coupling the vacuum condition is, for each $A$, a straight line in the plane of $\alpha_2H^2$ and $\alpha_3H^4$ (Notebook 12b, In [12], figure 7). Whether nature has such couplings is not known; the Revision record makes no claim about their values.
-
-**The metric with $b_4$: what changes in the field equations.** On 2026-10-14 the author gave the extra-time entries of the metric a second function $b_4(x_4) > 0$: $g_{x_5x_5} = g_{x_6x_6} = g_{x_7x_7} = -e^{-2a_4}b_4\sin^{1/3}z$ (Chapter 3). Every derivation of Sections 12.3 to 12.12, and the four notebooks of this chapter, are made on the background $b_4 = 1$; the keys `lovelockTensors` to `fields` of `Revision/field_equations_a4/a4-equations.json` hold this case. The record's key `b4` holds the same equations for a general $b_4$ (the Wolfram verifier `Revision/field_equations_a4/wolfram/verify_field_equations_a4.wls`, whose report `wolfram-a4-report.json` treats the metric with $b_4$, and the sympy twin `Revision/field_equations_a4/python/check_b4_block.py` with the report `python-b4-block.json`, 11 of 11; `Revision/metric_b4/METRIC_CHANGE_PROVENANCE.md`). This section states what changes; it quotes the record, with the symbols $u = b_4'/b_4$.
-
-**The Einstein tensor gets two mixed components.** For example (key `b4/lovelockTensors/E1`)
+(the weighted sum)
 
 $$
-G^{x_4}{}_{x_0} = \frac32\,H\cot z\,\frac{b_4'}{b_4},\qquad G^{x_0}{}_{x_4} = -\frac32\,H\tan z\,\frac{b_4'}{b_4},
+= \Big(-\tfrac38 - \tfrac3{16}\Big)k^2 + \Big(6 + \tfrac56 - \tfrac18\Big)k + \Big(\tfrac13 - \tfrac{19}{216} + \tfrac5{144}\Big)
 $$
 
-and the diagonal components gain terms in $b_4'/b_4$ and $b_4''/b_4$; at $b_4 = 1$ they are those of Section 12.6. So "every off-diagonal left-hand side is zero" (Section 12.8) holds only for a constant $b_4$.
+(each power of $k$ collected: $\tfrac{12}{32} = \tfrac38$, $\tfrac{216}{1152} = \tfrac3{16}$, $\tfrac{80}{96} = \tfrac56$, $\tfrac{144}{1152} = \tfrac18$, $\tfrac{76}{864} = \tfrac{19}{216}$, $\tfrac{40}{1152} = \tfrac5{144}$)
 
-**A changing $b_4$ needs a mixed source.** The mixed equations read $\kappa q_{40} = \cot z\,(b_4'/b_4)\,Q$ and $\kappa q_{04} = -\tan z\,(b_4'/b_4)\,Q$ with a polynomial $Q$ in $H$, $a_4'$ and $u$ (key `b4/generalSource/offDiagonalFactor_Q`); for Einstein gravity $Q = \frac32H$. A source with $q_{40} = q_{04} = 0$, in particular every source that does not depend on $x_0$ and has no $T^{x_4}{}_{x_0}$, therefore forces $b_4'Q = 0$, and for Einstein gravity $b_4' = 0$ (key `b4/generalSource/offDiagonalStatement`).
+$$
+= -\tfrac9{16}k^2 + \tfrac{161}{24}k + \tfrac{121}{432}
+$$
 
-**The algebraic condition gains a $b_4$ term.** For Einstein gravity $\kappa\,(p_3 + p_t - 2p_0) = \frac14(b_4'/b_4)^2 + \frac{b_4''}{2b_4}$ (key `b4/generalSource/identity_einstein`); with $b_4' = b_4'' = 0$ it is the condition $p_3 + p_t = 2p_0$ of Section 12.9.
+(common denominators: $\tfrac{6 + 3}{16}$; $\tfrac{144 + 20 - 3}{24}$; $\tfrac{144 - 38 + 15}{432}$). This is the record's $-\kappa\rho - \Lambda$ (key `exponentialHistory/authorWeights/historySource_kappaT_minus_Lam`, entry `minus_rho`). The other two entries are $\kappa p_3 - \Lambda = -\tfrac9{16}k^2 + \tfrac{1601}{216}k - \tfrac{5359}{3888}$ and $\kappa p_0 - \Lambda = \kappa p_t - \Lambda = \tfrac{79}{16}k - \tfrac{497}{144}$; Notebook 12a computes all three from its own tensors and checks them against the record (PROVED: sympy report, check `author_weights_history_source`; In [29]) and checks that this source obeys the energy exchange (metric report, check `history_source_conserved`). The history needs this diagonal source, which grows like $k^2$; the record does not derive it from any field and uses the history as a PRESCRIBED background (key `exponentialHistory/authorWeights/statement`).
 
-**The conservation law gains the ordinary term of the extra times.** The $x_4$ component becomes $\partial_4\rho = -3a_4'(p_3 - p_t) - \frac32\frac{b_4'}{b_4}(p_t + \rho) + \dots$ (the dots are the terms with $q_{04}$; key `b4/generalSource/conservation_x4`; Section 9.10).
+**The sign of $A$ is a choice.** Under the exchange $(a_4', u) \to (-a_4', -u)$, with $a_4''$, $v$ and $k$ kept, every sectional curvature of the table of Section 12.5 keeps its value: $(a_4')^2$ and $a_4'' + (a_4')^2$ obviously; $a_4'h \to (-a_4')(-h) = a_4'h$, because $h = \tfrac12u - a_4'$ changes sign; $h' + h^2$ and $h^2 - H^2k$, because $h' = \tfrac12v - a_4''$ is kept and $h^2$ is a square. Every Lovelock tensor is a sum of products of sectional curvatures (Section 12.7), so it keeps its value too (Chapter 11 states the same symmetry). Two consequences:
 
-**Two second-order equations and a constraint.** The $x_1 - x_5$ and $x_0$ components are linear in $(a_4'', b_4'')$ with a nonsingular Jacobian, so they determine $a_4''$ and $b_4''$ from the source; the $x_4$ component is the constraint (key `b4/generalSource/secondOrderEinstein`).
+1. On exponential histories $A \to -A$ is exactly this exchange ($a_4' = AH$, $u = \beta AH$). So, written as a function of $k$, the required source contains $A$ only through $A^2$: the histories with slopes $A$ and $-A$ need the same source at the same value of $k$ (PROVED: Notebook 12a, In [28]; Notebook 12b, In [4] and In [7]).
+2. Reversing the time, $x_4 \to -x_4$, turns $a_4(x_4)$ into $a_4(-x_4)$, whose rate is $-a_4'$, and $u$ into $-u$, while $a_4''$, $v$ and $k$ keep their values (two sign changes in a second derivative). So if a history with a source solves the field equations, the time-reversed history with the time-reversed source solves them too.
 
-**The vacuum.** With the author's weights ($w_1 = 1$, $w_2 = 1/32$, $w_3 = 1/1152$, $\Lambda = 10$) every vacuum solution has a constant $b_4$ and $a_4 = \pm Hx_4 + $ const (`Revision/metric_b4/results/vacuum-b4.json`, 6 of 6 checks); the background $b_4 = 1$ of this chapter is of this kind.
-
-**The condensate.** For a changing $b_4$ the gravitational term is $3H\gamma^{(x_0)} + \frac34(b_4'/b_4)\gamma^{(x_4)}$ (Chapter 6); the condensate of Section 12.26 becomes $\Phi = b_4^{-3/4}\Phi_1$ with a solution $\Phi_1$ of the case $b_4 = 1$, and $b_4^{3/2}S$ is constant (key `b4/fields/condensate`).
-
-Status: these statements are PROVED in the record (`python-b4-block.json` and `wolfram-a4-report.json`); this book quotes them and does not derive them.
+On the exponential histories the history with $-A$ is the time reverse of the history with $A$: where one deflates the block, the other inflates it. The field equations therefore do not select deflation; whether the extra times deflate is decided by the source and the starting values (an initial condition), not by the equations of gravity (PROVED, as stated; Notebook 12b draws it in figure 12b.2).
 
 ### 12.13 Example: the field equations derived by computer algebra
 
-The first notebook repeats everything of Sections 12.3 to 12.12 with exact computer algebra, starting from nothing but the metric, and compares every result with the Revision record. It computes the 37 Christoffel symbols, the 156 nonzero Riemann components, the Einstein tensor and the three Lovelock tensors (with its own GKD), checks them against the Rust program of the GKD record in all 64 components and against the classical Gauss-Bonnet formula, writes and reduces the field equations, checks the Bianchi identity and the conservation law, and specialises to Einstein gravity and to the linear member. It runs in about 20 seconds, prints 59 PASS lines and draws five figures. It needs no Rust.
+The first notebook repeats everything of Sections 12.3 to 12.12 with exact computer algebra, starting from nothing but the metric, and compares every result with the Revision record. It computes the 31 nonzero Christoffel symbols (21 distinct), the 112 nonzero Riemann components (28 with $a < b$, $m < n$, all sectional), the Einstein tensor and the three Lovelock tensors with its own GKD (28, 420 and 2520 lists of index pairs contribute for $k = 1, 2, 3$), checks them against the Rust program of the GKD record in all 64 components and against the classical Gauss-Bonnet formula, writes and reduces the field equations, checks the Bianchi identity and the conservation law, and specialises to Einstein gravity and to the exponential histories. It prints 72 PASS lines and draws five figures. It needs no Rust and runs in about half a minute.
 
 <!-- NOTEBOOK 12a -->
 
 ### 12.16 Line-by-line walk-through of Notebook 12a
 
-The notebook has 30 code cells, In [1] to In [30]. This section explains every line of every one of them, in order. A line or a group of lines is quoted, then explained. Where a cell repeats a pattern already explained, we say so and explain only what is new.
+The notebook has 30 code cells, In [1] to In [30]. This section explains every line of every one of them, in order: a line or a small group of lines is quoted, then explained. A line that starts with `#`, and the part of a line after `#`, is a **comment**, which Python skips; it is there for the reader. Inside a function the text in triple quotes below the `def` line is its **docstring**, a description that Python stores but does not run; to keep the quotations short, docstrings are left out of them (each explanation says what the function does), and a long figure caption passed to `save_figure` is shortened to its first line followed by `...)` (the full caption is printed under the figure in Section 12.15). Because Notebook 12a is the first notebook of this chapter, its set-up cell is explained here in full; the walk-throughs of Notebooks 12b, 12c and 12d refer back to this explanation.
 
-**In [1], the set-up cell.** Every line that starts with `#` is a **comment**, which Python skips. The first comment lines of the cell are the complete run instructions of Section 12.14, so that the notebook file carries its own instructions. The code starts after the line that announces THE SET-UP (the same in every notebook of this book; it computes no physics).
+**In [1], the set-up cell.** Its first part, down to the heading THE SET-UP between two lines of `=` signs, consists of comment lines that repeat the complete run instructions of Section 12.14, so that the notebook file carries its own instructions. The code below the heading computes no physics; it is the same in every notebook of the book except for the line that names the notebook (the notebooks that run a Rust program have two more imports and one more helper; the four notebooks of this chapter run none).
+
 
 ```python
 import json  # reads and writes JSON files (text files that hold names and numbers)
@@ -787,7 +927,7 @@ def save_figure(fig, name, caption):
     say(f"Figure {NOTEBOOK_ID}.{number} saved as {relative}")
 ```
 
-(Shown without its docstring and its three comment lines.) `setdefault(name, value)` returns the number already stored for this figure name, or stores and returns one more than the number of figures so far: the figures are numbered 1, 2, 3, and a cell run twice keeps its number. The file name is the notebook id, the number and the name, for example `12a_1_riemann_matrix.png`. `fig.savefig` writes a PNG file with 150 dots per inch, cuts away the empty margin and stores no program name, so that two runs write the same bytes. `plt.close(fig)` removes the figure from memory, because Jupyter would otherwise draw it a second time. The caption is stored, the whole dictionary is written to the captions file (`json.dumps` turns it into JSON text with sorted keys), `display(Image(...))` shows the saved picture, and the last line prints where it was saved.
+(Shown without its docstring and its three comment lines.) `setdefault(name, value)` returns the number already stored for this figure name, or stores and returns one more than the number of figures so far: the figures are numbered 1, 2, 3, and a cell run twice keeps its number. The file name is the notebook id, the number and the name, for example `12a_1_pair_curvatures.png`. `fig.savefig` writes a PNG file with 150 dots per inch, cuts away the empty margin and stores no program name, so that two runs write the same bytes. `plt.close(fig)` removes the figure from memory, because Jupyter would otherwise draw it a second time. The caption is stored, the whole dictionary is written to the captions file (`json.dumps` turns it into JSON text with sorted keys), `display(Image(...))` shows the saved picture, and the last line prints where it was saved.
 
 ```python
 PASSED = []  # the names of the checks that passed, in order
@@ -819,7 +959,7 @@ say(f"Set-up of notebook {NOTEBOOK_ID} complete: repository folder found, helper
 
 `report` prints a key number as a line that starts with RESULT; `(f" {unit}" if unit else "")` adds the unit when one is given. `all_checks_passed` prints the last line of the notebook; `len(PASSED)` is the number of checks that passed. The last statement prints the one output line of In [1].
 
-**In [2], the Revision records.**
+**In [2], the Revision records.** The cell names the record files, defines three helpers and checks that every report it uses has passed all its checks.
 
 ```python
 import contextlib  # redirect_stdout: send printed lines into a buffer
@@ -831,19 +971,25 @@ Two modules of Python: `contextlib` provides `redirect_stdout`, which sends ever
 ```python
 PY = "Revision/field_equations_a4/reports/python-a4-report.json"  # sympy record
 WL = "Revision/field_equations_a4/reports/wolfram-a4-report.json"  # Wolfram record
+WARPED = "Revision/metric_warped/reports/python-warped-metric-report.json"
+FIELD = "Revision/theory/reports/wolfram-field-theory.json"  # field theory
 LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"  # lead check
 EMT = "Revision/lead_checks/reports/emt-divergence-and-spin-connection.json"
 EQUATIONS = "Revision/field_equations_a4/a4-equations.json"  # the equations
 LOVELOCK = "Revision/gkd_lovelock/results/lovelock-tensors.json"  # Rust GKD output
+METRIC_RESULTS = "Revision/metric_warped/results/warped-metric.json"
 ```
 
-Six short names for the six record files the notebook reads: the sympy report and the Wolfram report of the field equations, the lead's two independent reports, the equations themselves (written by the Wolfram verifier) and the Lovelock tensors written by the Rust program `lovelock_gkd`.
+Nine short names for the nine record files the notebook reads: the sympy and Wolfram reports of the field equations, the metric report, the field-theory report, the lead's two reports (`LEAD`, the Einstein and Gauss-Bonnet checks; `EMT`, the divergence and spin-connection checks), the equations themselves (`a4-equations.json`, written by the Wolfram verifier), the Lovelock tensors written by the Rust program `lovelock_gkd` of the GKD record, and the results file of the corrected metric (`warped-metric.json`, which holds the record's Einstein tensor and the source of the record history). Section 12.2 lists the reports.
 
 ```python
 def read_json(relative):
     return json.loads(repository_file(relative).read_text(encoding="utf-8"))
+```
 
+`read_json` reads a file of the repository as text (`repository_file` of In [1] gives its full path) and turns it into Python dictionaries and lists with `json.loads`.
 
+```python
 def record_verdict(report_file, name):
     for entry in read_json(report_file)["checks"]:
         if entry["name"] == name:
@@ -851,7 +997,7 @@ def record_verdict(report_file, name):
     return None
 ```
 
-`read_json` reads a file of the repository as text and turns it into Python dictionaries and lists with `json.loads`. Every report holds a list under the key `"checks"`; each entry is a dictionary with a `"name"` and a `"verdict"`. `record_verdict` walks through that list and returns the verdict of the check with the given name, or `None` if there is no such check.
+Every report holds a list under the key `"checks"`; each entry is a dictionary with a `"name"`, a `"verdict"` and a `"detail"`. `record_verdict` walks through that list and returns the verdict of the check with the given name, or `None` if there is no such check.
 
 ```python
 def reproduces(condition, name, report_file, record_name):
@@ -862,10 +1008,10 @@ def reproduces(condition, name, report_file, record_name):
     print(lines.getvalue(), end="")  # all lines at once
 ```
 
-`reproduces` is a check that passes only when two things are true: the notebook's own result (`condition`) and the record's verdict PASS for the named check (`found`). `with contextlib.redirect_stdout(lines):` makes every `print` inside the indented block write into the buffer `lines` instead of the screen; after the block, `print(lines.getvalue(), end="")` prints the collected PASS and reproduces lines with one call (`end=""` adds no extra line end), so the two lines always stay together.
+`reproduces` is a check that passes only when two things are true: the notebook's own result (`condition`) and the record's verdict PASS for the named check (`found`). `with contextlib.redirect_stdout(lines):` makes every `print` inside the indented block write into the buffer `lines` instead of the screen; after the block, `print(lines.getvalue(), end="")` prints the collected PASS and reproduces lines with one call (`end=""` adds no extra line end), so the two lines always stay together. If the condition fails, `check` stops the notebook with its error before anything is printed.
 
 ```python
-for report_file in (PY, WL, LEAD, EMT):
+for report_file in (PY, WL, WARPED, FIELD, LEAD, EMT):
     verdicts = [entry["verdict"] for entry in read_json(report_file)["checks"]]
     passed = verdicts.count("PASS")  # how many checks of the record passed
     say(f"{report_file}: {passed} of {len(verdicts)} checks PASS")
@@ -873,76 +1019,109 @@ for report_file in (PY, WL, LEAD, EMT):
           f"every check of the record {Path(report_file).name} passed")
 ```
 
-For each of the four reports, a **list comprehension** collects the verdicts of all its checks, `.count("PASS")` counts the PASS verdicts, and `say` prints this count together with the number of checks of the report. `check` then requires that the report has at least one check and that every one of them passed; `Path(report_file).name` is the last part of the path, the file name, which names the report in the PASS line. So Out [2] shows, for each of the four reports by name, how many checks it has and that all of them passed, followed by a PASS line. This text does not repeat the counts: a report may gain checks when its record is extended, and Out [2] always shows the counts of the reports the notebook was run with.
+For each of the six reports, a **list comprehension** (a list built by a `for` inside square brackets) collects the verdicts of all its checks, `.count("PASS")` counts the PASS verdicts, and `say` prints this count together with the number of checks of the report. `check` then requires that the report has at least one check and that every one of them passed; `Path(report_file).name` is the last part of the path, the file name, which names the report in the PASS line. Out [2] shows 69 of 69 (sympy report), 57 of 57 (Wolfram report), 14 of 14 (metric report), 86 of 86 (field-theory report), 12 of 12 (lead's Einstein report) and 10 of 10 (lead's divergence report), each followed by its PASS line. A record may gain checks when it is extended; the cell prints the counts instead of assuming them.
 
 **In [3], the metric.**
 
 ```python
 import itertools  # loops over all combinations of indices
+```
 
+`itertools` (part of Python) produces combinations of indices, for example all triples $(a, b, c)$ with each index from 0 to 7.
+
+```python
 import numpy as np  # arrays of numbers, used for the plots
 import sympy as sp  # exact algebra with symbols
 ```
 
-`itertools` (part of Python) produces combinations of indices; `numpy` (as `np`) computes with arrays of floating-point numbers; `sympy` (as `sp`) computes exactly with symbols.
+`numpy` (as `np`) computes with arrays of floating-point numbers and is used only for the plots; `sympy` (as `sp`) computes exactly with symbols.
 
 ```python
 H = sp.symbols("H", positive=True)  # the constant H of the metric, H > 0
-z = sp.symbols("z", positive=True)  # the hidden angle z = 6 H x0, 0 < z < pi/2
-x4 = sp.symbols("x4", real=True)  # the time x4
-a4 = sp.Function("a4")(x4)  # the unknown function a4(x4)
-NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # positions 0..7
-N = 8  # the number of dimensions
-warp = sp.sin(z) ** sp.Rational(1, 3)  # the warp factor sin(z)^(1/3)
+t = sp.symbols("t", real=True, nonzero=True)  # t = tan z, z = 6 H x0 real
+w = sp.symbols("w", positive=True)  # w = (sin(z)^2)^(1/12) > 0
+ea, bb = sp.symbols("ea bb", positive=True)  # ea = e^(a4), bb = b4 > 0
+ad1, ad2, ad3 = sp.symbols("ad1 ad2 ad3", real=True)  # derivatives 1, 2, 3 of a4
+bd1, bd2, bd3 = sp.symbols("bd1 bd2 bd3", real=True)  # derivatives 1, 2, 3 of b4
 ```
 
-`sp.symbols` makes a symbol, a letter that stands for any number; `positive=True` and `real=True` tell sympy what kind of number, which lets it simplify safely (for example $\sqrt{H^2} = H$ for $H > 0$). `sp.Function("a4")(x4)` is an unknown function of $x_4$: sympy can differentiate it without knowing it. `NAMES` lists the coordinates in the author's order; `N = 8`. `sp.Rational(1, 3)` is the exact fraction $1/3$ (the floating-point number 0.333... would introduce rounding), and `**` means "to the power".
+`sp.symbols` makes symbols, letters that stand for numbers; the options tell sympy what kind of number, which lets it simplify safely (for example $\sqrt{H^2} = H$ because $H > 0$). The hidden angle enters through two symbols: `t` for $\tan z$, real and not zero, and `w` for $(\sin^2 z)^{1/12}$, positive. Together they describe every real $z$ with $\sin z\cos z \ne 0$, with no assumption about the signs of $\sin z$ and $\cos z$. The functions of the time enter as **jet variables**: `ea` for $e^{a_4}$ and `bb` for $b_4$ (both positive), `ad1`, `ad2`, `ad3` for $a_4'$, $a_4''$, $a_4'''$, and `bd1`, `bd2`, `bd3` for $b_4'$, $b_4''$, $b_4'''$. The notebook never needs $a_4$ itself, only $e^{a_4}$ and the derivatives.
 
 ```python
-g = ([sp.cot(z) ** 2]  # g00 = cot(z)^2: the hidden direction
-     + [sp.exp(2 * a4) * warp] * 3  # g11 = g22 = g33: 3-space, factor e^(2 a4)
+NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # positions 0..7
+N = 8  # the number of dimensions
+g = ([bb / (ea ** 2 * t ** 2)]  # g00 = e^(-2 a4) b4 cot(z)^2: the hidden direction
+     + [ea ** 2] * 3  # g11 = g22 = g33 = e^(2 a4): 3-space, no warp
      + [sp.Integer(-1)]  # g44 = -1: the time x4
-     + [-sp.exp(-2 * a4) * warp] * 3)  # g55 = g66 = g77: extra times, e^(-2 a4)
+     + [-bb * w ** 2 / ea ** 2] * 3)  # g55 = g66 = g77: the extra times
+```
+
+`NAMES` lists the coordinates in the author's order; `N = 8`. The metric is a Python list `g` of its eight diagonal entries, built by joining lists with `+`; `[ea ** 2] * 3` is a list holding the same entry three times. Position 0 is $g_{00} = b_4/(e^{2a_4}\tan^2 z) = e^{-2a_4}b_4\cot^2 z$; positions 1 to 3 are $e^{2a_4}$ (3-space has no factor that depends on $x_0$); position 4 is the exact integer $-1$ (`sp.Integer(-1)`); positions 5 to 7 are $-b_4w^2/e^{2a_4} = -e^{-2a_4}b_4(\sin^2 z)^{1/6}$. `**` means "to the power".
+
+```python
 for name, entry in zip(NAMES, g):
     say(f"g[{name},{name}] = {entry}")
 ```
 
-A list times 3 repeats it three times, and `+` joins lists; so `g` is the list of the eight diagonal entries of Section 12.3, in the order $x_0, \dots, x_7$. `zip(NAMES, g)` pairs each name with its entry, and the loop prints the eight lines of Out [3].
+`zip(NAMES, g)` pairs each name with its entry, and the loop prints the eight entries (Out [3]): `bb/(ea**2*t**2)`, three times `ea**2`, `-1` and three times `-bb*w**2/ea**2`.
 
-**In [4], signature and determinant.**
+**In [4], signature, determinant and volume.**
 
 ```python
-point = {a4: 0, z: sp.pi / 4}  # any point of the patch gives the same signs
+point = {t: 1, w: 1, ea: 1, bb: 1}  # any point gives the same signs
 signs = [int(sp.sign(entry.subs(point))) for entry in g]
 say(f"signs of the diagonal entries: {signs}")
 check(signs == [1, 1, 1, 1, -1, -1, -1, -1],
       "the signature is (4,4): eta = diag(+,+,+,+,-,-,-,-) in the order x0..x7")
+det_g = sp.Mul(*g)  # the product of the eight diagonal entries
 ```
 
-`entry.subs(point)` replaces $a_4$ by 0 and $z$ by $\pi/4$ in an entry; `sp.sign` gives $+1$ or $-1$ and `int` makes it a Python integer. The check compares the list of signs with the signature (4,4).
+`point` is a dictionary that gives each symbol the value 1; `entry.subs(point)` inserts these values, `sp.sign` gives the sign $+1$ or $-1$, and `int` turns sympy's integer into a Python integer. The signs cannot depend on the point, because $b_4$, $e^{a_4}$ and $w$ are positive and $t$ appears squared. The cell prints them, `[1, 1, 1, 1, -1, -1, -1, -1]`, and checks the signature (4,4). `sp.Mul(*g)` multiplies the eight entries (the star hands the list over as eight separate factors): the determinant of a diagonal matrix.
 
 ```python
-det_g = sp.Mul(*g)  # the product of the eight diagonal entries
 say(f"det g = {sp.simplify(det_g)}")
-reproduces(sp.simplify(det_g - sp.cos(z) ** 2) == 0,
-           "det g = cos(z)^2, so sqrt|det g| = cos z, independent of a4",
-           WL, "sqrt_abs_det_g_is_cos_z")
+reproduces(sp.simplify(det_g - bb ** 4 * w ** 6 / (ea ** 2 * t ** 2)) == 0,
+           "det g = e^(-2 a4) b4^4 cot(z)^2 (sin(z)^2)^(1/2) for every real z",
+           WL, "sqrt_abs_det_g")
+log_rate = sp.cancel(ad1 * ea * sp.diff(sp.log(bb ** 2 * w ** 3 / ea), ea)
+                     + bd1 * sp.diff(sp.log(bb ** 2 * w ** 3 / ea), bb))
 ```
 
-`sp.Mul(*g)` multiplies all entries of the list (the star passes the eight entries as eight separate arguments). `sp.simplify` reduces the product to `cos(z)**2`, the result of Section 12.3, and `reproduces` checks that $\det g - \cos^2 z$ simplifies to 0 and that the Wolfram record has the same check.
+`sp.simplify` brings the product to its simplest form, printed as `bb**4*w**6/(ea**2*t**2)`: $e^{-2a_4}b_4^4\cot^2 z\,(\sin^2 z)^{1/2}$, as derived in Section 12.3. The first `reproduces` checks that the difference from this form is zero and that the Wolfram report lists `sqrt_abs_det_g` as passed. Then the cell computes the rate of change of $\ln\sqrt{|\det g|}$ in time. $\sqrt{|\det g|} = b_4^2w^3/(e^{a_4}|t|)$, and $|t|$ does not depend on $x_4$, so it is left out of the logarithm. By the chain rule $\partial_4 = a_4'e^{a_4}\,\partial/\partial e^{a_4} + b_4'\,\partial/\partial b_4$ on such an expression, which is what `ad1 * ea * sp.diff(..., ea) + bd1 * sp.diff(..., bb)` computes; `sp.cancel` writes the result as one fraction.
 
-**In [5], the Christoffel symbols.**
+```python
+reproduces(sp.cancel(log_rate - (2 * bd1 / bb - ad1)) == 0,
+           "sqrt|g| = e^(-a4) b4^2 |cot z| (sin^2 z)^(1/4) changes at the rate "
+           "2 u - a4'", FIELD, "sqrt_det_g")
+reproduces(g[0] == bb / (ea ** 2 * t ** 2) and g[1] == ea ** 2
+           and g[5] == -bb * w ** 2 / ea ** 2,
+           "the entries are those of the corrected metric", WARPED,
+           "corrected_metric_entries")
+```
+
+The rate must be $2b_4'/b_4 - a_4' = 2u - a_4'$ (Section 12.3), as the field-theory report says (check `sqrt_det_g`). The last check compares three entries of `g` with the corrected metric and requires the check `corrected_metric_entries` of the metric report. Out [4] shows the signs, the determinant and four PASS lines.
+
+**In [5], derivatives and the Christoffel symbols.**
+
+```python
+X4, Z = sp.symbols("X4 Z", real=True)  # explicit dependence (the source only)
+RATE = {ea: ea * ad1, bb: bd1, ad1: ad2, ad2: ad3, bd1: bd2, bd2: bd3}
+```
+
+`X4` and `Z` are symbols for an explicit dependence on the time and on the hidden angle; only the general source of In [25] uses them. `RATE` is a dictionary that says what the time derivative of each jet variable is: $\partial_4e^{a_4} = a_4'e^{a_4}$, $\partial_4b_4 = b_4'$, $\partial_4a_4' = a_4''$, $\partial_4a_4'' = a_4'''$, $\partial_4b_4' = b_4''$, $\partial_4b_4'' = b_4'''$.
 
 ```python
 def d(expr, mu):
     if mu == 4:
-        return sp.diff(expr, x4)
+        return (sum(sp.diff(expr, symbol) * rate for symbol, rate in RATE.items())
+                + sp.diff(expr, X4))
     if mu == 0:
-        return 6 * H * sp.diff(expr, z)
+        return (6 * H * (1 + t ** 2) * sp.diff(expr, t) + H * w / t * sp.diff(expr, w)
+                + 6 * H * sp.diff(expr, Z))
     return sp.Integer(0)  # nothing depends on x1, x2, x3, x5, x6, x7
 ```
 
-The function `d` is the partial derivative with respect to the coordinate at position `mu` (docstring left out): for position 3 ($x_4$) it is `sp.diff(expr, x4)`; for position 7 ($x_0$) it is $6H\,\partial/\partial z$ (the chain rule of Section 12.4); for every other position it is zero, because nothing depends on those coordinates.
+`d(expr, mu)` is the partial derivative with respect to the coordinate at position `mu`. For $x_4$ it uses the chain rule: the sum over the symbols of (the derivative of `expr` with respect to the symbol) times (the symbol's rate from `RATE`), plus the derivative with respect to an explicit `X4`. For $x_0$ it uses $\partial_0 = 6H\,\partial_z$ with $\partial_z\tan z = 1 + \tan^2 z$ and $\partial_z w = \tfrac16 w\cot z$ (because $\ln w = \tfrac1{12}\ln\sin^2 z$ has the derivative $\tfrac1{12}\cdot 2\cot z$), so $\partial_0 t = 6H(1 + t^2)$ and $\partial_0 w = Hw/t$; an explicit `Z` gets the factor $6H$. Nothing depends on the other six coordinates, so their derivatives are zero.
 
 ```python
 Gamma = [[[sp.Integer(0)] * N for _ in range(N)] for _ in range(N)]  # 512 zeros
@@ -954,66 +1133,60 @@ for a, b, c in itertools.product(range(N), repeat=3):  # every index triple
         value += d(g[a], c)
     if b == c:
         value -= d(g[b], a)
-    Gamma[a][b][c] = value / (2 * g[a])  # Gamma^a_bc of a diagonal metric
+    Gamma[a][b][c] = sp.cancel(value / (2 * g[a]))  # Gamma^a_bc, diagonal metric
 ```
 
-The first line makes a nested list of $8 \times 8 \times 8 = 512$ exact zeros, `Gamma[a][b][c]` (the underscore `_` is a loop variable whose value is not used). `itertools.product(range(N), repeat=3)` produces all 512 triples $(a, b, c)$. The body is the diagonal formula of Section 12.4: the three `if` lines add $\delta_{ac}\partial_b g_{aa}$, add $\delta_{ab}\partial_c g_{aa}$ and subtract $\delta_{bc}\partial_a g_{bb}$ (`+=` adds to a variable, `-=` subtracts), and the last line divides by $2g_{aa}$.
+`Gamma` starts as an 8 by 8 by 8 nested list of zeros: `[...] * N` repeats a list, and the comprehension `for _ in range(N)` builds independent copies (`_` is a name for a loop variable that is not used). The loop visits all 512 index triples and applies the formula of Section 12.4 for a diagonal metric: the term $\partial_b g_{aa}$ when $a = c$, the term $\partial_c g_{aa}$ when $a = b$, minus $\partial_a g_{bb}$ when $b = c$, all divided by $2g_{aa}$. `sp.cancel` writes each symbol as one fraction in lowest terms, so that a zero is recognised as zero.
 
 ```python
 nonzero = [(a, b, c) for a, b, c in itertools.product(range(N), repeat=3)
            if Gamma[a][b][c] != 0]
-say(f"{len(nonzero)} of the 512 Christoffel symbols are not zero")
-check(len(nonzero) == 37,
-      "37 nonzero Christoffel symbols (25 distinct, 12 of them twice)")
+distinct = [(a, b, c) for a, b, c in nonzero if b <= c]
+say(f"{len(nonzero)} of the 512 Christoffel symbols are not zero, "
+    f"{len(distinct)} of them distinct")
+check(len(nonzero) == 31, "31 nonzero Christoffel symbols (10 of them twice)")
+```
+
+`nonzero` lists the triples whose symbol is not zero, `distinct` those with $b \le c$ (each pair $\Gamma^a{}_{bc} = \Gamma^a{}_{cb}$ once). The cell prints 31 of 512 and 21 distinct, and checks the 31.
+
+```python
 check(all(Gamma[a][b][c] == Gamma[a][c][b] for a, b, c in nonzero),
       "Gamma^a_bc = Gamma^a_cb (symmetric in the two lower indices)")
+reproduces(len(distinct) == 21, "21 distinct nonzero Christoffel symbols",
+           FIELD, "christoffel_count")
 ```
 
-The list comprehension keeps the triples whose symbol is not zero (`!=` means "is not equal to"); `len` counts them: 37, as counted in Section 12.4. `all(...)` is true when the condition holds for every triple of the list; the second check is the symmetry in the two lower indices.
+The symmetry in the two lower indices is checked for every nonzero symbol, and the count 21 against the field-theory report (check `christoffel_count`). Out [5] shows the counts and three PASS lines.
 
-**In [6], the symbols printed.**
+**In [6], the 21 Christoffel symbols.**
 
 ```python
-ad1, ad2, ad3 = sp.symbols("ad1 ad2 ad3", real=True)
-
-
-def derivatives_as_symbols(expr):
-    expr = expr.subs(sp.Derivative(a4, (x4, 3)), ad3)  # highest derivative first
-    expr = expr.subs(sp.Derivative(a4, (x4, 2)), ad2)
-    return expr.subs(sp.Derivative(a4, x4), ad1)
-
-
-def readable(expr):
-    return sp.simplify(derivatives_as_symbols(expr))
+uu, vv, vd = sp.symbols("uu vv vd", real=True)  # u = b4'/b4, v = u', vd = v'
+kk = sp.symbols("kk", real=True)  # k = e^(2 a4)/b4
+for a, b, c in distinct:
+    readable = sp.factor(sp.cancel(Gamma[a][b][c].subs(bd1, uu * bb)))
+    say(f"Gamma^{NAMES[a]}_{NAMES[b]}{NAMES[c]} = {readable}")
 ```
 
-Three plain symbols stand for $a_4'$, $a_4''$ and $a_4'''$. `derivatives_as_symbols` replaces the derivatives of the function $a_4$ by them, the highest derivative first (a second derivative contains the first derivative inside it, so replacing the first derivative first could break it). `readable` also simplifies, for printing.
-
-```python
-for a, b, c in nonzero:
-    if b <= c:  # print each symmetric pair once
-        say(f"Gamma^{NAMES[a]}_{NAMES[b]}{NAMES[c]} = {readable(Gamma[a][b][c])}")
-```
-
-The loop prints each of the 25 distinct symbols once (`b <= c` skips the second member of each symmetric pair). Out [6] shows exactly the symbols derived by hand in Section 12.4, for example `Gamma^x5_x4x5 = -ad1` and `Gamma^x0_x0x0 = -12*H/sin(2*z)`.
+Three new symbols for the record's variables: `uu` for $u = b_4'/b_4$, `vv` for $v = u'$, `vd` for $v'$, and `kk` for $k = e^{2a_4}/b_4$. For each distinct symbol, `.subs(bd1, uu * bb)` writes $b_4'$ as $u\,b_4$, `sp.factor` writes the result as a product, and `say` prints it. Out [6] lists the 21 symbols of Section 12.4: for example `Gamma^x0_x0x0 = -6*H*(t**2 + 1)/t` ($= -6H/(\sin z\cos z)$), `Gamma^x0_x0x4 = -(2*ad1 - uu)/2` ($= h$), `Gamma^x5_x0x5 = H/t` ($= H\cot z$) and `Gamma^x4_x5x5 = bb*w**2*(2*ad1 - uu)/(2*ea**2)` ($= h\,g_{55}$, since $g_{55} = -b_4w^2/e^{2a_4}$ and $-(2a_4' - u)/2 = h$).
 
 **In [7], the Riemann tensor.**
 
 ```python
-cz = sp.symbols("cz", positive=True)  # cz = cot z > 0 on the patch
-TRIG = {sp.sin(z): 1 / sp.sqrt(1 + cz ** 2), sp.cos(z): cz / sp.sqrt(1 + cz ** 2),
-        sp.tan(z): 1 / cz, sp.cot(z): cz}  # every function of z through cot z
+kp = sp.symbols("kp", positive=True)  # k as a positive symbol, used for the root
+TO_RECORD = {bd2: (vv + uu ** 2) * bb, bd1: uu * bb}  # b4'' and b4' through u, v
 ```
 
-A positive symbol `cz` stands for $\cot z$, and the dictionary `TRIG` says how to write each function of $z$ through it: from $\cot z = \cos z/\sin z$ and $\sin^2 z + \cos^2 z = 1$ follow $\sin z = 1/\sqrt{1 + \cot^2 z}$ and $\cos z = \cot z/\sqrt{1 + \cot^2 z}$ on the patch.
+`kp` is $k$ as a positive symbol: with it sympy may simplify $\sqrt{k\,b_4}^{\,2} = k\,b_4$. `TO_RECORD` replaces $b_4''$ by $(v + u^2)b_4$ (because $v = u' = b_4''/b_4 - u^2$) and $b_4'$ by $u\,b_4$.
 
 ```python
-def clean(expr):
-    expr = sp.expand_trig(derivatives_as_symbols(expr)).subs(TRIG)
-    return sp.expand(sp.cancel(sp.powsimp(sp.expand(expr), force=True)))
+def record_form(expr):
+    expr = sp.cancel(expr.subs(TO_RECORD))
+    expr = sp.cancel(expr.subs(ea, sp.sqrt(kp * bb)))  # e^(a4) = (k b4)^(1/2)
+    return sp.expand(expr).subs(kp, kk)
 ```
 
-`clean` brings an expression to one canonical form (docstring left out): derivatives become `ad1`, `ad2`, `ad3`; `sp.expand_trig` writes $\sin 2z$ as $2\sin z\cos z$; `.subs(TRIG)` writes every function of $z$ through `cz`; `sp.expand` multiplies out; `sp.powsimp(..., force=True)` combines powers of the same base (so that $e^{2a_4}e^{-2a_4}$ becomes 1 and powers of $1 + \cot^2 z$ combine); `sp.cancel` cancels common factors of numerator and denominator; the last `sp.expand` multiplies out again. Two expressions that are equal then look equal.
+`record_form` writes an expression in the record's variables: first $b_4''$ and $b_4'$ are replaced, then $e^{a_4}$ by $\sqrt{k\,b_4}$ (from $k = e^{2a_4}/b_4$), each step followed by `sp.cancel`; finally the positive `kp` is renamed to the real symbol `kk`. If $b_4$ does not drop out, the result still contains `bb`; the next cell checks that it never does.
 
 ```python
 R = {}  # R[(a, b, m, n)] = R^{ab}_{mn}; only the components that are not zero
@@ -1024,12 +1197,12 @@ for a, b, m, n in itertools.product(range(N), repeat=4):
              + sum(Gamma[a][m][e] * Gamma[e][b][n] - Gamma[a][n][e] * Gamma[e][b][m]
                    for e in range(N)))  # R^a_bmn in the MTW convention
     if value != 0:
-        value = clean(value / g[b])  # raise the index b: multiply by g^bb
+        value = sp.cancel(value / g[b])  # raise the index b: multiply by g^bb
         if value != 0:
-            R[(a, b, m, n)] = value
+            R[(a, b, m, n)] = record_form(value)
 ```
 
-`R` starts as an empty dictionary; its keys will be index lists $(a, b, m, n)$. The loop runs over all $8^4 = 4096$ index lists; `continue` skips those with $a = b$ or $m = n$, which are zero by antisymmetry. The expression for `value` is the definition of Section 12.5 term by term: two derivatives and the sum over $e$ of the two products (`sum(... for e in range(N))` adds the expression for $e = 0, \dots, 7$). If the result is not zero, dividing by $g_{bb}$ raises the index $b$ (multiplication by $g^{bb} = 1/g_{bb}$), `clean` simplifies, and a component that is still not zero is stored.
+`R` is a dictionary that will hold only the components that are not zero, with the key `(a, b, m, n)` for $R^{ab}{}_{mn}$. The loop visits all $8^4 = 4096$ index lists; `continue` skips the lists with $a = b$ or $m = n$, which are zero by antisymmetry. The value is the MTW formula of Section 12.5: two derivatives of Christoffel symbols and the two sums over $e$ of products. If it is not zero, dividing by $g_{bb}$ (that is, multiplying by $g^{bb}$) raises the second index, and the component is stored in the record's variables.
 
 ```python
 ordered = {key: value for key, value in R.items()
@@ -1038,109 +1211,129 @@ report("nonzero components R^ab_mn of the 4096", len(R))
 report("nonzero components with a < b and m < n", len(ordered))
 ```
 
-A **dictionary comprehension** keeps the components with $a < b$ and $m < n$ (`key[0]` is the first index of the key). The two RESULT lines report 156 and 39 (Section 12.5).
+`ordered` keeps the components with $a < b$ and $m < n$, one for each set of four orderings. `report` prints both counts (Out [7]): 112 and 28.
 
-**In [8], four facts about the curvature.**
+**In [8], the curvature checks.**
 
 ```python
-reproduces(len(R) == 156, "156 nonzero components R^ab_mn of the 4096",
-           PY, "mixed_riemann_free_of_warp_and_a4")
-reproduces(len(ordered) == 39, "39 nonzero components with a < b and m < n",
-           WL, "mixed_riemann_free_of_warp_and_a4")
+free = all(not value.has(t) and not value.has(w) and not value.has(bb)
+           for value in R.values())
+reproduces(len(R) == 112 and free,
+           "112 nonzero components R^ab_mn of the 4096, all free of x0",
+           PY, "mixed_riemann_free_of_x0")
+reproduces(len(ordered) == 28 and free,
+           "28 nonzero components with a < b and m < n, all free of x0",
+           WL, "mixed_riemann_free_of_x0")
 ```
 
-The two counts, compared with the sympy and the Wolfram record (both records state the counts in the detail of the named check).
+`value.has(t)` is true when the expression contains the symbol `t`. `free` is true when no component contains $t$, $w$ or $b_4$: the curvature is free of $x_0$ at every real $z$, and $b_4$ enters only through $u$, $v$ and $k$. The two checks compare the counts 112 and 28 with the sympy and Wolfram reports (both name the check `mixed_riemann_free_of_x0`).
 
 ```python
-free = all(not v.has(a4) and not v.has(z) and not v.has(sp.exp) for v in R.values())
-reproduces(free, "R^ab_mn is free of the warp factor and of e^(a4)",
-           PY, "mixed_riemann_free_of_warp_and_a4")
+sectional = all(set(key[:2]) == set(key[2:]) for key in R)
+reproduces(sectional, "every nonzero R^ab_mn is sectional: no mixed component",
+           PY, "mixed_riemann_only_sectional")
+reproduces(sectional and len(ordered) == 28,
+           "the 28 nonzero components are all of the form R^ab_ab",
+           WARPED, "corrected_mixed_riemann_vanish")
 ```
 
-`v.has(x)` is true when the expression `v` contains `x` anywhere. The condition says that no component contains the function $a_4$, the angle $z$ (so no warp factor) or an exponential.
+`key[:2]` is the pair $(a, b)$ and `key[2:]` the pair $(m, n)$; `set` forgets their order. `sectional` is true when every nonzero component has $\{m, n\} = \{a, b\}$: no mixed component. The two checks reproduce the sympy report (`mixed_riemann_only_sectional`) and the metric report (`corrected_mixed_riemann_vanish`).
 
 ```python
-laurent = all(sp.expand(v * cz).is_polynomial(H, ad1, ad2, cz) for v in R.values())
-reproduces(laurent, "every R^ab_mn is a Laurent polynomial in cot z",
-           PY, "riemann_entries_laurent")
-```
-
-Multiplying a component by $\cot z$ must give a polynomial in $H$, $a_4'$, $a_4''$ and $\cot z$; then the component itself is a polynomial divided at most by $\cot z$, a **Laurent polynomial** in $\cot z$.
-
-```python
+polynomial = all(value.is_polynomial(H, ad1, ad2, uu, vv, kk) for value in R.values())
+reproduces(polynomial, "every R^ab_mn is a polynomial in H, a4', a4'', u, v, k",
+           PY, "riemann_entries_polynomial")
 antisymmetric = all(R.get((b, a, m, n)) == -v and R.get((a, b, n, m)) == -v
                     for (a, b, m, n), v in R.items())
 reproduces(antisymmetric, "R^ab_mn = -R^ba_mn = -R^ab_nm",
            PY, "riemann_pair_antisymmetry")
 ```
 
-`R.get(key)` returns the stored value or `None` if the key is absent. For every stored component the exchanged components must be stored with the opposite value.
+`is_polynomial(H, ad1, ad2, uu, vv, kk)` is true when the expression is a polynomial in these six symbols (no division by them, no roots). The antisymmetry check looks up, for each stored component, the components with $a, b$ exchanged and with $m, n$ exchanged (`R.get` returns `None` for a missing key, which would fail the comparison) and requires both to be its negative. Out [8] shows six PASS lines, each with the record it reproduces.
 
-**In [9], the 39 components grouped.**
+**In [9], the five groups of sectional curvatures.**
 
 ```python
-def pair_name(a, b):
-    return NAMES[a] + NAMES[b]
-
-
-groups = {}  # printed value -> the components that have it
+groups = {}  # printed value -> the planes that have it
 for (a, b, m, n), value in ordered.items():
-    label = f"{pair_name(a, b)}|{pair_name(m, n)}"
-    groups.setdefault(str(value), []).append(label)
+    groups.setdefault(str(sp.factor(value)), []).append(NAMES[a] + NAMES[b])
 for value, members in groups.items():
     say(f"{value} ({len(members)}): " + " ".join(members))
 ```
 
-`pair_name` joins two coordinate names, for example `x1x4`. The first loop files each component under its printed value: `groups.setdefault(str(value), [])` returns the list stored for this value, creating an empty one the first time, and `.append(label)` adds the label `x1x4|x1x4`. The second loop prints each value, the number of its members and the members joined by blanks. Out [9] is the table of Section 12.5: seven groups, of which two are the off-diagonal ones with `cz`.
+`groups` is a dictionary from the printed value to the list of planes that have it; `setdefault(key, [])` returns the list stored under the key, creating an empty one the first time, and `.append` adds the plane, written as `x1x2` for the plane of $x_1$ and $x_2$. Out [9] prints five lines, in the order in which the values first appear: `-ad1*(2*ad1 - uu)/2` for 12 planes ($a_4'h$: a 3-space direction with a block direction), `(4*ad1**2 - 4*ad1*uu - 4*ad2 + uu**2 + 2*vv)/4` for 4 planes ($h' + h^2$: the time with a block direction), `-(4*H**2*kk - 4*ad1**2 + 4*ad1*uu - uu**2)/4` for 6 planes ($h^2 - H^2k$: two block directions), `ad1**2` for 3 planes and `ad1**2 + ad2` for 3 planes: the table of Section 12.5.
 
-**In [10], figure 1: the Riemann tensor as a heat map.**
+**In [10], figure 12a.1: the curvature as two tables.**
 
 ```python
-PAIRS28 = [(a, b) for a in range(N) for b in range(a + 1, N)]  # the 28 pairs
-SAMPLE = {H: 1, ad1: sp.Rational(3, 5), ad2: sp.Rational(3, 10),
-          cz: 1 / sp.sqrt(3)}  # H = 1, a4' = 0.6, a4'' = 0.3, z = pi/3
+SAMPLE = {H: 1, ad1: sp.Rational(3, 5), ad2: sp.Rational(3, 10), uu: sp.Rational(4, 5),
+          vv: sp.Rational(1, 10), kk: sp.Rational(3, 2)}  # the sample point
+pairs = np.zeros((N, N))  # the sectional curvatures K_ab
+for (a, b, m, n), value in ordered.items():
+    pairs[a, b] = pairs[b, a] = float(value.subs(SAMPLE))
+PAIRS28 = [(a, b) for a in range(N) for b in range(a + 1, N)]  # the 28 planes
+```
+
+`SAMPLE` is the sample point $H = 1$, $a_4' = 0.6$, $a_4'' = 0.3$, $u = 0.8$, $v = 0.1$, $k = 1.5$, written with exact fractions. `pairs` is an 8 by 8 array of zeros (`np.zeros`); the loop puts each sectional curvature, evaluated at the sample point and turned into a floating-point number with `float`, at the positions $(a, b)$ and $(b, a)$. At this point $h = 0.4 - 0.6 = -0.2$, so the five values are $(a_4')^2 = 0.36$, $a_4'' + (a_4')^2 = 0.66$, $a_4'h = -0.12$, $h' + h^2 = 0.05 - 0.3 + 0.04 = -0.21$ and $h^2 - H^2k = 0.04 - 1.5 = -1.46$. `PAIRS28` lists the 28 planes $(a, b)$ with $a < b$.
+
+```python
 table = np.zeros((28, 28))
 for i, (a, b) in enumerate(PAIRS28):
     for j, (m, n) in enumerate(PAIRS28):
         if (a, b, m, n) in R:
             table[i, j] = float(R[(a, b, m, n)].subs(SAMPLE))
+limit = np.abs(table).max()  # one colour scale for both panels
 ```
 
-`PAIRS28` lists the 28 pairs $a < b$. `SAMPLE` is a sample point at which the exact components are evaluated: $H = 1$, $a_4' = 0.6$, $a_4'' = 0.3$ and $\cot z = 1/\sqrt3$, that is $z = \pi/3$. `np.zeros((28, 28))` is a 28 by 28 table of zeros. `enumerate` gives each pair together with its position `i` (or `j`); for every stored component the table entry becomes its value at the sample point, converted to a floating-point number by `float`.
+`table` is the 28 by 28 array of all components $R^{ab}{}_{mn}$ with $a < b$ (row) and $m < n$ (column); a component missing from `R` stays zero. `limit` is the largest absolute value, 1.46, used as the colour scale of both panels.
 
 ```python
-limit = np.abs(table).max()  # the same scale for both signs
-labels = [pair_name(a, b) for a, b in PAIRS28]
-fig, ax = plt.subplots(figsize=(7.5, 6.6))
-image = ax.imshow(table, cmap="RdBu_r", vmin=-limit, vmax=limit)
+fig, (left, right) = plt.subplots(1, 2, figsize=(12.0, 5.6))
+left.imshow(pairs, cmap="RdBu_r", vmin=-limit, vmax=limit)
+for a in range(N):
+    for b in range(N):
+        if a != b:  # the value in each cell off the diagonal
+            ink = "white" if abs(pairs[a, b]) > 0.6 * limit else "black"
+            left.text(b, a, f"{pairs[a, b]:.2f}", ha="center", va="center",
+                      fontsize=6, color=ink)
 ```
 
-`limit` is the largest absolute value in the table. `plt.subplots` makes a figure and one pair of axes, 7.5 by 6.6 inches. `ax.imshow` draws the table as coloured squares with the colour map `RdBu_r` (blue for negative, white for zero, red for positive); `vmin=-limit, vmax=limit` make the scale symmetric, so that white means exactly zero.
+`plt.subplots(1, 2, figsize=(12.0, 5.6))` makes a figure with two panels side by side, 12 by 5.6 inches. `imshow` draws the array `pairs` as coloured squares, with the colour map `"RdBu_r"` (red for positive, blue for negative, white for zero) on the symmetric scale from `-limit` to `limit`. The double loop writes each value off the diagonal into its square with two decimals (`f"{...:.2f}"`), in white on a dark square and in black otherwise.
 
 ```python
-ax.set_xticks(range(28))
-ax.set_xticklabels(labels, rotation=90, fontsize=6)
-ax.set_yticks(range(28))
-ax.set_yticklabels(labels, fontsize=6)
-ax.set_xlabel("lower index pair $(m, n)$")
-ax.set_ylabel("upper index pair $(a, b)$")
-ax.grid(False)
-ax.set_title("Riemann tensor $R^{ab}{}_{mn}$ at $H=1$, $a_4'=0.6$, "
-             "$a_4''=0.3$, $z=\\pi/3$")
-fig.colorbar(image, ax=ax, shrink=0.8, label="value (units of $H^2$)")
+left.set_xticks(range(N))
+left.set_xticklabels(NAMES, fontsize=7)
+left.set_yticks(range(N))
+left.set_yticklabels(NAMES, fontsize=7)
+left.grid(False)
+left.set_title("sectional curvatures $K_{ab} = R^{ab}{}_{ab}$", fontsize=10)
 ```
 
-These lines put a tick at each of the 28 positions on both axes and label it with the pair name (turned by 90 degrees on the horizontal axis), name the axes, switch off the grid (it would cover the squares), set the title (text between dollar signs is typeset as mathematics; a doubled backslash in a Python string is one backslash) and add a colour bar that translates colours into values.
+Tick marks at the eight positions, labelled with the names of the coordinates, no grid lines over the squares, and the title of the left panel.
 
 ```python
-save_figure(fig, "riemann_matrix",
-            "The Riemann tensor $R^{ab}{}_{mn}$ of the author's metric as a 28 by "
-            ...)
+image = right.imshow(table, cmap="RdBu_r", vmin=-limit, vmax=limit)
+labels = [NAMES[a] + NAMES[b] for a, b in PAIRS28]
+right.set_xticks(range(28))
+right.set_xticklabels(labels, rotation=90, fontsize=5)
+right.set_yticks(range(28))
+right.set_yticklabels(labels, fontsize=5)
 ```
 
-`save_figure` saves the figure as `12a_1_riemann_matrix.png` with its caption (printed in full in the notebook text; Python joins strings written next to each other into one). **What the figure shows.** Almost all the colour sits on the diagonal: the 27 pair curvatures of Section 12.5 (the diagonal square of $x_4x_0$ is white, because that pair curvature is zero). The few coloured squares off the diagonal are the 12 components that couple, for example, $x_1x_4$ with $x_1x_0$; they are proportional to $Ha_4'$ and would vanish for a constant $a_4$.
+The right panel draws `table` on the same scale; `image` keeps the drawing for the colour bar. Its 28 rows and columns are labelled with the planes, the column labels turned by 90 degrees and printed small.
 
-**In [11], Ricci, Ricci scalar and Einstein tensor.**
+```python
+right.grid(False)
+right.set_title("all $R^{ab}{}_{mn}$, $a<b$, $m<n$", fontsize=10)
+fig.colorbar(image, ax=right, shrink=0.8, label="value (units of $H^2$)")
+save_figure(fig, "pair_curvatures",
+            "The curvature of the corrected metric at the sample point $H = 1$, "
+...)
+```
+
+No grid, a title, and `fig.colorbar` adds the colour bar with its label. `save_figure` (In [1]) saves the figure as `12a_1_pair_curvatures.png`, records the caption, shows the picture and prints Figure 12a.1 saved as Revision/textbook/figures/12a_1_pair_curvatures.png (Out [10]). In the figure the left panel shows the five groups as blocks of equal colour, and the right panel is coloured only on its diagonal: there is no mixed curvature component.
+
+**In [11], the Ricci tensor, the Ricci scalar and the Einstein tensor.**
 
 ```python
 Ricci = [[sp.expand(sum(R.get((a, h, a, j), 0) for a in range(N)))
@@ -1148,69 +1341,111 @@ Ricci = [[sp.expand(sum(R.get((a, h, a, j), 0) for a in range(N)))
 ricci_scalar = sp.expand(sum(Ricci[h][h] for h in range(N)))
 G = [[sp.expand(Ricci[h][j] - (ricci_scalar / 2 if h == j else 0))
       for j in range(N)] for h in range(N)]  # G^h_j
-```
-
-The three definitions of Section 12.6. `R.get((a, h, a, j), 0)` returns 0 for a component that is not stored. `Ricci[h][j]` is the sum over $a$; `ricci_scalar` the sum of the diagonal; `G` subtracts half the Ricci scalar on the diagonal only (`x if condition else y` chooses between two values).
-
-```python
 report("Ricci scalar R", ricci_scalar)
 for h in range(N):
     say(f"G^{NAMES[h]}_{NAMES[h]} = {G[h][h]}")
 ```
 
-The RESULT line shows $R = 6(a_4')^2 - 42H^2$ and the loop prints the eight diagonal components: exactly those derived by hand in Section 12.6.
+`Ricci[h][j]` is $R^h{}_j = \sum_a R^{ah}{}_{aj}$; `R.get(key, 0)` returns 0 for a component that is not stored. `ricci_scalar` is the sum of the diagonal, and `G` is $G^h{}_j = R^h{}_j - \tfrac12\delta^h_jR$ (the conditional expression `ricci_scalar / 2 if h == j else 0` is the Kronecker delta at work). `sp.expand` multiplies everything out, so that equal expressions are recognised as equal. Out [11] prints `RESULT Ricci scalar R = -12*H**2*kk + 8*ad1**2 - 8*ad1*uu - 2*ad2 + 5*uu**2 + 4*vv` and the eight diagonal components of $G$: three different expressions, those of Section 12.6.
 
-**In [12], the Einstein tensor compared with the records.**
+**In [12], the Einstein tensor against the records.**
 
 ```python
 reproduces(all(G[h][j] == 0 for h in range(N) for j in range(N) if h != j),
-           "G^h_j is diagonal (in particular G^x4_x0 = G^x0_x4 = 0)",
-           LEAD, "einstein_off_diagonal_zero")
-reproduces(G[1][1] == G[2][2] == G[3][3] and G[5][5] == G[6][6] == G[7][7],
-           "G^x1_x1 = G^x2_x2 = G^x3_x3 and G^x5_x5 = G^x6_x6 = G^x7_x7",
+           "G^h_j is diagonal: every off-diagonal component vanishes",
+           LEAD, "einstein_off_diagonal_vanish")
+reproduces(G[1][1] == G[2][2] == G[3][3] and G[0][0] == G[5][5] == G[6][6] == G[7][7],
+           "G^x1_x1 = G^x2_x2 = G^x3_x3 and G^x0_x0 = G^x5_x5 = G^x6_x6 = G^x7_x7",
            LEAD, "einstein_isotropy")
-reproduces(not any(G[h][j].has(cz) for h in range(N) for j in range(N)),
-           "every component of G is independent of x0",
-           LEAD, "einstein_x0_independent")
 ```
 
-Three structural checks against the lead's record: every off-diagonal component is zero (the cancellation of Section 12.6), the components are equal within 3-space and within the extra times (Python allows the chain `x == y == z`), and no component contains $\cot z$ (`any` is true when at least one element is true; `not any` when none is).
+The first check requires every off-diagonal component to vanish, the second the equalities $G^{x_1}{}_{x_1} = G^{x_2}{}_{x_2} = G^{x_3}{}_{x_3}$ and $G^{x_0}{}_{x_0} = G^{x_5}{}_{x_5} = G^{x_6}{}_{x_6} = G^{x_7}{}_{x_7}$ (Python allows a chain of `==`); both against the lead's Einstein report.
 
 ```python
-expected = {4: 3 * ad1 ** 2 + 21 * H ** 2, 1: ad2 - 3 * ad1 ** 2 + 15 * H ** 2,
-            5: -ad2 - 3 * ad1 ** 2 + 15 * H ** 2, 0: -3 * ad1 ** 2 + 15 * H ** 2}
+reproduces(all(G[h][h].is_polynomial(H, ad1, ad2, uu, vv, kk) for h in range(N)),
+           "every component of G is free of x0, a polynomial in a4', a4'', u, v, k",
+           LEAD, "einstein_diagonal_x0_independent")
+expected = {4: 3 * ad1 ** 2 + 6 * H ** 2 * kk - sp.Rational(3, 2) * uu ** 2,
+            1: (-5 * ad1 ** 2 + 6 * ad1 * uu + 2 * ad2 - sp.Rational(5, 2) * uu ** 2
+                - 2 * vv + 6 * H ** 2 * kk),
+            0: (-3 * ad1 ** 2 + sp.Rational(3, 2) * (ad1 * uu - uu ** 2 - vv)
+                + 3 * H ** 2 * kk)}
+```
+
+Every diagonal component must be a polynomial in the six record variables, hence free of $x_0$ (lead's Einstein report, `einstein_diagonal_x0_independent`). `expected` holds the three components of Section 12.6, keyed by their positions 4, 1 and 0.
+
+```python
 reproduces(all(sp.expand(G[i][i] - v) == 0 for i, v in expected.items()),
-           "the four Einstein components agree with the record",
+           "the three Einstein components agree with the record",
            PY, "einstein_components")
+EA, bd1_r, bd2_r = sp.symbols("EA bd1 bd2", real=True)  # the names of the file
+metric_record = read_json(METRIC_RESULTS)["einstein_diagonal"]
+same = True
 ```
 
-The dictionary `expected` holds the four distinct components, keyed by their positions (3 for $x_4$, 0 for $x_1$, 4 for $x_5$, 7 for $x_0$); the check requires each difference to expand to zero.
-
-**In [13], figure 2: the Einstein components.**
+The three components must equal the expected ones (sympy report, `einstein_components`). The next lines prepare the comparison with the record of the corrected metric, whose file writes $e^{a_4}$ as `EA`, $b_4$ as `bb` and $b_4'$, $b_4''$ as `bd1`, `bd2`: three symbols with these names, the dictionary `einstein_diagonal` of the file, and a truth value `same` that starts as `True`.
 
 ```python
-u = np.linspace(-3.0, 3.0, 301)  # a4'/H
+for key, position in (("x0", 0), ("x1", 1), ("x4", 4), ("x5", 5)):
+    text = metric_record[key]
+    mine = sp.sympify(text, locals={"EA": EA, "H": H, "ad1": ad1, "ad2": ad2,
+                                    "bb": bb, "bd1": bd1_r, "bd2": bd2_r})
+    mine = mine.subs({bd2_r: (vv + uu ** 2) * bb, bd1_r: uu * bb, EA: sp.sqrt(kp * bb)})
+    same = same and sp.expand(sp.cancel(mine).subs(kp, kk) - G[position][position]) == 0
+```
+
+For the four stored components, `sp.sympify` turns the text of the record into a sympy expression (the dictionary `locals` says which symbol each name means); the substitutions express it in $u$, $v$ and $k$; and `same` stays true only if every difference from $G$ is zero (`same and ...` is false as soon as one comparison fails).
+
+```python
+reproduces(same, "G equals the record of the corrected metric (einstein_diagonal)",
+           PY, "einstein_equals_metric_warped_record")
+scalar = (-12 * H ** 2 * kk + 8 * ad1 ** 2 - 2 * ad2 - 8 * ad1 * uu
+          + 4 * (vv + uu ** 2) + uu ** 2)  # the record: 4 b4''/b4 + u^2
+reproduces(sp.expand(ricci_scalar - scalar) == 0 and Ricci[0][0] == Ricci[5][5]
+           and all(Ricci[h][j] == 0 for h in range(N) for j in range(N) if h != j),
+           "R = -12 H^2 k + 8 a4'^2 - 2 a4'' - 8 a4' u + 4 b4''/b4 + u^2; Ricci "
+           "diagonal", FIELD, "ricci_scalar")
+```
+
+The comparison is reported against the sympy report, which made the same comparison (`einstein_equals_metric_warped_record`). Then the Ricci scalar is compared with the field-theory record's form $-12H^2k + 8(a_4')^2 - 2a_4'' - 8a_4'u + 4b_4''/b_4 + u^2$, where $4b_4''/b_4 = 4(v + u^2)$, together with $R^{x_0}{}_{x_0} = R^{x_5}{}_{x_5}$ and a diagonal Ricci tensor. Out [12] shows six PASS lines.
+
+**In [13], figure 12a.2: the Einstein tensor along the record history.**
+
+```python
+HISTORY = {ad1: H, ad2: 0, uu: sp.Rational(4, 3) * H, vv: 0}  # the record history
+g_history = {i: sp.expand(G[i][i].subs(HISTORY).subs(H, 1)) for i in (4, 1, 0)}
+for i, value in g_history.items():
+    say(f"on the record history: G^{NAMES[i]}_{NAMES[i]} = {sp.factor(value)}")
+x_axis = np.linspace(0.0, 3.0, 301)  # the time x4 in units 1/H
+k_axis = np.exp(2.0 * x_axis / 3.0)  # k = e^(2 x4/3)
+```
+
+`HISTORY` inserts the record history: $a_4' = H$, $a_4'' = 0$, $u = \tfrac43H$, $v = 0$. `g_history` is a dictionary comprehension that evaluates the components at positions 4, 1 and 0 there, with $H = 1$; the loop prints them factorised (Out [13]): `(18*kk + 1)/3`, `(54*kk - 13)/9` and `(9*kk - 11)/3`, the values of Section 12.6. `np.linspace(0.0, 3.0, 301)` makes 301 equally spaced times from 0 to 3, and `k_axis` the values $k = e^{2x_4/3}$ there.
+
+```python
 fig, ax = plt.subplots()
-ax.plot(u, 3 * u ** 2 + 21, label="$G^{x_4}{}_{x_4}$ (constraint)")
-ax.plot(u, 15 - 3 * u ** 2, color="black",
-        label="$G^{x_0}{}_{x_0}$ $=$ $G^{x_1}{}_{x_1}$ $=$ $G^{x_5}{}_{x_5}$ "
-              "at $a_4''=0$")
-ax.plot(u, 15 - 3 * u ** 2 + 1, "--", label="$G^{x_1}{}_{x_1}$ at $a_4''=H^2$")
-ax.plot(u, 15 - 3 * u ** 2 - 1, "--", label="$G^{x_5}{}_{x_5}$ at $a_4''=H^2$")
+styles = {4: ("-", "$G^{x_4}{}_{x_4}$ (constraint)"),
+          1: ("--", "$G^{x_1}{}_{x_1}$ (3-space)"),
+          0: (":", "$G^{x_0}{}_{x_0} = G^{x_5}{}_{x_5}$ (block)")}
+for i, (style, label) in styles.items():
+    function = sp.lambdify(kk, g_history[i], "numpy")
+    ax.plot(x_axis, function(k_axis) * np.ones_like(x_axis), style, label=label)
 ```
 
-`np.linspace(-3.0, 3.0, 301)` makes 301 equally spaced values of $a_4'/H$ from $-3$ to 3 (step 0.02). In units $H = 1$ the four formulas of Section 12.6 are evaluated on the whole array at once and drawn with `ax.plot(x, y, ...)`; the string of two hyphens makes a dashed line, and `label=` names the curve in the legend.
+`styles` gives each component a line style and a legend text. `sp.lambdify(kk, expression, "numpy")` turns a sympy expression in `kk` into a fast numpy function; it is evaluated on all 301 values at once. The factor `np.ones_like(x_axis)` (an array of ones) makes the result an array of the right length even when the expression is a constant.
 
 ```python
-ax.set_xlabel("$a_4'/H$")
+ax.axhline(0.0, color="black", linewidth=0.8)
+ax.set_xlabel("time $x_4$ (units $1/H$)")
 ax.set_ylabel("component of $G^\\mu{}_\\nu$ (units of $H^2$)")
-ax.set_title("The Einstein tensor of the author's metric")
+ax.set_title("The Einstein tensor along the record history")
 ax.legend(fontsize=8)
 save_figure(fig, "einstein_components",
-            ...)
+            "The three distinct components of the Einstein tensor of the corrected "
+...)
 ```
 
-Axis labels, title, legend, and `save_figure` with the caption printed in the notebook text. **What the figure shows.** The time component is a parabola that opens upwards and never falls below $21H^2$; the hidden component opens downwards. The two dashed curves lie a distance $H^2$ above and below the black one: only the difference of the 3-space and the extra-time components feels $a_4''$, which is why the evolution equation of Section 12.9 is their difference.
+A black line at zero, the axis labels, the title, the legend and `save_figure` (the caption is printed under figure 12a.2 in Section 12.15). All three curves rise with $k$; the 3-space and block components differ at every time.
 
 **In [14], the generalized Kronecker delta.**
 
@@ -1225,7 +1460,7 @@ def gkd(upper, lower):
     return -1 if inversions % 2 else 1
 ```
 
-`set(upper)` keeps each index once, so `len(set(upper)) != len(upper)` detects a repeated index; `sorted(upper) != sorted(lower)` detects two lists that do not hold the same indices; in both cases the delta is 0. Otherwise `position` lists where each lower index sits in the upper list (`upper.index(x)` is the position of `x`): this is the rearrangement. `inversions` counts the pairs of positions $i < j$ that appear in the wrong order. An even number of inversions means an even rearrangement (sign $+1$), an odd number an odd one ($-1$); `inversions % 2` is the remainder after division by 2.
+`gkd(upper, lower)` returns 0 when an upper index repeats (`set` removes repetitions, so the lengths differ) or when the two lists do not hold the same indices (`sorted` lists differ). Otherwise `position` records, for each lower index, where it sits in the upper list; this is a rearrangement of $0, 1, \dots, n - 1$. Its **inversions** are the pairs of positions $i < j$ with `position[i] > position[j]`; the generator expression inside `sum` counts them. An even number of inversions means an even rearrangement (sign $+1$), an odd number an odd one (sign $-1$); `inversions % 2` is the remainder after division by 2.
 
 ```python
 say(f"gkd([1, 2], [1, 2]) = {gkd([1, 2], [1, 2])}, gkd([1, 2], [2, 1]) = "
@@ -1236,19 +1471,16 @@ reproduces(gkd(nine, nine) == 0 and gkd(list(range(8)), list(range(8))) == 1,
            WL, "P4_vanishes_pigeonhole")
 ```
 
-Three small examples are printed: 1, $-1$ and 0. Then a list of nine indices made of the eight values 0 to 7 and a repeated 0: its delta is 0, while the delta of the eight different indices with themselves is 1. This is the pigeonhole argument of Section 12.7.
+Three small examples are printed (Out [14]): `gkd([1, 2], [1, 2]) = 1`, `gkd([1, 2], [2, 1]) = -1` and `gkd([1, 1], [1, 1]) = 0`. `nine` is the list $0, 1, \dots, 7, 0$: nine indices from eight values, so one repeats and the delta is 0, while eight different indices in the same order give $+1$. The check reproduces the Wolfram report's `P4_vanishes_pigeonhole`: there is no fourth Lovelock tensor.
 
 **In [15], the three Lovelock tensors.**
 
 ```python
-tz = sp.symbols("tz", positive=True)  # tz = tan z = 1/cot z
-GENERATORS = (H, ad1, ad2, cz, tz)
-# xreplace replaces exactly the expression 1/cz by tz and leaves cz itself alone:
-FACTORS = [(key, sp.Poly(value.xreplace({1 / cz: tz}), *GENERATORS))
-           for key, value in ordered.items()]  # the 39 components as polynomials
+GENERATORS = (H, ad1, ad2, uu, vv, kk)
+FACTORS = [(key, sp.Poly(value, *GENERATORS)) for key, value in ordered.items()]
 ```
 
-To multiply thousands of products quickly, each of the 39 components is stored as a sympy **polynomial** (`sp.Poly`) in the five generators $H$, $a_4'$, $a_4''$, $\cot z$ and a new symbol $t = \tan z$, listed in `GENERATORS`. The comment line says what the next line does: `value.xreplace({1 / cz: tz})` replaces exactly the expression $1/\cot z$ by $t$ and leaves every $\cot z$ itself unchanged, so that no division is left and the component is a polynomial. `FACTORS` is the list of pairs (index list, polynomial).
+`GENERATORS` are the six symbols in which every curvature component is a polynomial. `FACTORS` pairs each of the 28 components with $a < b$, $m < n$ with its value as a `sp.Poly`, sympy's fast form of a polynomial.
 
 ```python
 def lovelock(k):
@@ -1256,22 +1488,12 @@ def lovelock(k):
     P = [[zero] * N for _ in range(N)]
     L = zero
     terms = 0
-```
-
-The function `lovelock(k)` (docstring left out) starts with the zero polynomial, an 8 by 8 table `P` of zeros, a zero scalar `L` and a counter `terms`.
-
-```python
     for factors in itertools.product(FACTORS, repeat=k):
         lower = [i for key, _ in factors for i in key[0:2]]  # upper indices of R
         upper = [i for key, _ in factors for i in key[2:4]]  # lower indices of R
         if len(set(lower)) < 2 * k or len(set(upper)) < 2 * k:
             continue  # a repeated index: the GKD is zero
         terms += 1
-```
-
-`itertools.product(FACTORS, repeat=k)` produces every list of $k$ components ($39^k$ lists). For each, `lower` collects the two upper indices of each Riemann factor (`key[0:2]` is the first two entries of the key): in the formula of Section 12.7 these are the lower indices $j_1 \dots j_{2k}$ of the delta. `upper` collects the lower indices of the factors, the upper indices $h_1 \dots h_{2k}$ of the delta. A list with a repeated index is skipped, because its delta is zero; the others are counted.
-
-```python
         product = sp.Poly(4 ** k, *GENERATORS)  # the factor 4^k
         for _, poly in factors:
             product = product * poly
@@ -1280,18 +1502,11 @@ The function `lovelock(k)` (docstring left out) starts with the zero polynomial,
             sign = gkd([h] + upper, [j] + lower)
             if sign:
                 P[h][j] = P[h][j] + sign * product
+    P = [[sp.expand(P[h][j].as_expr()) for j in range(N)] for h in range(N)]
+    return P, sp.expand(L.as_expr()), terms
 ```
 
-The product of the $k$ factors is multiplied by $4^k$: each factor stands for its four orderings ($b < a$ or $n < m$ as well), which give the same contribution (the text cell before the cell explains why). The product, with the sign of the delta, is added to the scalar `L` and, for every pair $(h, j)$ with a nonzero delta `gkd([h] + upper, [j] + lower)`, to `P[h][j]` (`if sign:` is true for $+1$ and $-1$, false for 0).
-
-```python
-    back = {tz: 1 / cz}  # tan z back to 1/cot z
-    P = [[sp.expand(P[h][j].as_expr().subs(back)) for j in range(N)]
-         for h in range(N)]
-    return P, sp.expand(L.as_expr().subs(back)), terms
-```
-
-At the end `.as_expr()` turns each polynomial back into an ordinary expression, $t$ is replaced by $1/\cot z$ again, and the function returns the table, the scalar and the count.
+`lovelock(k)` computes $P_{(k)}$, the Lovelock scalar $L_{(k)}$ and the number of contributing index lists. `zero` is the zero polynomial; `P` starts as an 8 by 8 table of zeros. `itertools.product(FACTORS, repeat=k)` visits every ordered list of $k$ components. In $P_{(k)}{}^h{}_j$ the curvature factor $R^{j_1j_2}{}_{h_1h_2}$ gives its upper indices to the LOWER list of the delta and its lower indices to the UPPER list; hence the names: `lower` collects `key[0:2]` (the pairs $a, b$) of every factor and `upper` collects `key[2:4]` (the pairs $m, n$). A list with a repeated index gives a delta of 0 and is skipped. The sum runs only over components with $a < b$, $m < n$; each also appears in the full sum in four orders (exchanging $a, b$ or $m, n$ changes the sign of $R$ and of the delta together), so every product is multiplied by $4^k$. Each product adds to $L_{(k)}$ with the delta of the two lists, and to each $P_{(k)}{}^h{}_j$ with the delta of the lists extended by $h$ and $j$. At the end the polynomials are turned back into expanded expressions (`as_expr`).
 
 ```python
 P, Lscalar, E = {}, {}, {}
@@ -1299,12 +1514,14 @@ for k in (1, 2, 3):
     P[k], Lscalar[k], terms = lovelock(k)
     E[k] = [[sp.expand(-P[k][h][j] / 2 ** (k + 1)) for j in range(N)]
             for h in range(N)]  # E_(k) = -P_(k)/2^(k+1)
-    say(f"k = {k}: {terms} lists of index pairs contribute; L_({k}) = {Lscalar[k]}")
+    say(f"k = {k}: {terms} lists of index pairs contribute; L_({k}) has "
+        f"{len(Lscalar[k].args)} terms")
+say(f"L_(1) = {Lscalar[1]}")
 ```
 
-For $k = 1, 2, 3$ the cell computes $P_{(k)}$, $L_{(k)}$ and the number of contributing lists, forms $E_{(k)} = -P_{(k)}/2^{k+1}$ and prints a line. Out [15] shows 39, 690 and 4410 contributing lists and the three Lovelock scalars; for example $L_{(1)} = 12(a_4')^2 - 84H^2$, which is twice the Ricci scalar.
+For $k = 1, 2, 3$ the cell computes $P_{(k)}$ and $L_{(k)}$ and forms $E_{(k)} = -P_{(k)}/2^{k+1}$ in all 64 components. It prints the number of contributing lists and the number of terms of $L_{(k)}$ (`.args` of a sum are its terms), and $L_{(1)}$ itself. Out [15]: 28, 420 and 2520 lists contribute. These numbers count ordered lists of disjoint planes: 28 planes; $28\cdot 15 = 420$ (a second plane must avoid the two directions of the first, which leaves $\binom62 = 15$ planes); $420\cdot 6 = 2520$ (a third plane has $\binom42 = 6$ choices). $L_{(1)}$ = `-24*H**2*kk + 16*ad1**2 - 16*ad1*uu - 4*ad2 + 10*uu**2 + 8*vv`, which is $-2R$. This cell takes about ten seconds.
 
-**In [16], the Lovelock tensors compared with the records.**
+**In [16], the Lovelock tensors against the records.**
 
 ```python
 reproduces(all(sp.expand(E[1][h][j] - G[h][j]) == 0
@@ -1314,62 +1531,87 @@ reproduces(all(sp.expand(E[1][h][j] - G[h][j]) == 0
 lovelock_json = read_json(LOVELOCK)
 ```
 
-The first check is the statement $E_{(1)} = G$ of Section 12.7 in all 64 components. The next line reads the Rust record.
+$E_{(1)}$ must equal $G$ in all 64 components (sympy report, `P1_equals_minus_4_Einstein`). `lovelock_json` holds the output of the Rust program of the GKD record.
+
+```python
+def from_mathematica(text):
+    for old, new in (("Derivative[2][b4][x4]", "((vv + uu**2)*bb)"),
+                     ("Derivative[1][b4][x4]", "(uu*bb)"),
+                     ("Derivative[2][a4][x4]", "ad2"),
+                     ("Derivative[1][a4][x4]", "ad1"),
+                     ("E^(4*a4[x4])", "(kk*bb)**2"), ("E^(2*a4[x4])", "(kk*bb)"),
+                     ("b4[x4]", "bb"), ("^", "**")):
+        text = text.replace(old, new)
+    names = {"H": H, "ad1": ad1, "ad2": ad2, "uu": uu, "vv": vv, "kk": kk, "bb": bb}
+    return sp.expand(sp.sympify(text, locals=names))
+```
+
+The Rust record stores the scalars $L_{(k)}$ as texts in the Wolfram Language, with `b4[x4]`, `Derivative[1][b4][x4]` for $b_4'$, `E^(2*a4[x4])` for $e^{2a_4}$ and `^` for a power. `from_mathematica` replaces these pieces, in an order that keeps the longer names from being cut by the shorter ones, by expressions in $u$, $v$, $k$ and $b_4$ ($b_4'' = (v + u^2)b_4$, $b_4' = u\,b_4$, $e^{2a_4} = k\,b_4$), and turns the text into an expanded sympy expression.
 
 ```python
 for k in (1, 2, 3):
     Ek = E[k]
     structure = (all(Ek[h][j] == 0 for h in range(N) for j in range(N) if h != j)
                  and Ek[1][1] == Ek[2][2] == Ek[3][3]
-                 and Ek[5][5] == Ek[6][6] == Ek[7][7]
-                 and not any(Ek[h][h].has(cz) for h in range(N)))
-    reproduces(structure, f"E_({k}) diagonal, free of x0, isotropic in each group",
+                 and Ek[0][0] == Ek[5][5] == Ek[6][6] == Ek[7][7]
+                 and all(Ek[h][h].is_polynomial(*GENERATORS) for h in range(N)))
+    reproduces(structure, f"E_({k}) diagonal, x1 = x2 = x3, x0 = x5 = x6 = x7",
                PY, f"P{k}_structure")
-```
-
-For each $k$: the tensor is diagonal, equal within 3-space and within the extra times, and free of $\cot z$; compared with the record checks `P1_structure`, `P2_structure`, `P3_structure`.
-
-```python
     trace = sp.expand(sum(P[k][h][h] for h in range(N)) - (8 - 2 * k) * Lscalar[k])
     reproduces(trace == 0, f"trace identity sum_h P_({k})^h_h = (8 - {2 * k}) L_({k})",
                PY, f"P{k}_trace_identity")
-```
-
-The trace identity $\sum_h P_{(k)}{}^h{}_h = (8 - 2k)L_{(k)}$: summing the delta with $h = j$ over the $8 - 2k$ values of $h$ that are not among the other $2k$ indices gives $8 - 2k$ times the scalar.
-
-```python
-    text = (lovelock_json[f"L{k}"].replace("Derivative[1][a4][x4]", "ad1")
-            .replace("Derivative[2][a4][x4]", "ad2"))
-    for b4_text, value in (("Derivative[2][b4][x4]", "0"),
-                           ("Derivative[1][b4][x4]", "0"), ("b4[x4]", "1")):
-        text = text.replace(b4_text, value)  # the record at b4 = 1
-    rust = sp.sympify(text.replace("^", "**"), locals={"H": H, "ad1": ad1, "ad2": ad2})
+    rust = from_mathematica(lovelock_json[f"L{k}"])
     reproduces(sp.expand(rust - Lscalar[k]) == 0,
                f"L_({k}) equals the Rust GKD program", PY, f"L{k}_equals_gkd_branch")
 ```
 
-The Rust record stores each scalar as a text in the Wolfram Language; `.replace` turns the Wolfram name of the derivative into `ad1` and the power sign `^` into `**`, and `sp.sympify` turns the text into a sympy expression (`locals` says which names are our symbols). The scalars must agree. Out [16] shows the ten PASS lines.
-
-**In [17], all 192 components compared with the Rust and Wolfram records.**
+For each order the loop checks the structure (all off-diagonal components zero; equal in $x_1, x_2, x_3$; equal in $x_0, x_5, x_6, x_7$; polynomials), the trace identity $\sum_hP_{(k)}{}^h{}_h = (8 - 2k)L_{(k)}$, and that the Rust scalar minus ours is zero. Each check names its sympy-report counterpart, built with an f-string: `P{k}_structure`, `P{k}_trace_identity`, `L{k}_equals_gkd_branch`.
 
 ```python
-symbols_of_monomial = (H, ad1, ad2, ad3, sp.Symbol("ad4"), sp.Symbol("Ee"),
-                       sp.Symbol("Ss"), cz)  # the order of the exponents
+K_plane = {(a, b): value for (a, b, m, n), value in ordered.items()}  # K_ab, a < b
+counting = True
+for k, h in itertools.product((1, 2, 3), range(N)):
+    planes = [plane for plane in K_plane if h not in plane]  # the planes without h
+    total = sum((sp.Mul(*[K_plane[plane] for plane in chosen])
+                 for chosen in itertools.combinations(planes, k)
+                 if len({i for plane in chosen for i in plane}) == 2 * k), 0)
+    counting = counting and sp.expand(-sp.factorial(k) * 2 ** (k - 1) * total
+                                      - E[k][h][h]) == 0
+```
 
+`K_plane` maps each plane $(a, b)$ to its sectional curvature (the entries of `ordered` have $m = a$, $n = b$). For every order $k$ and every direction $h$ the loop lists the planes without $h$, and sums the products of the curvatures over all sets of $k$ of them (`itertools.combinations` gives unordered sets) whose $2k$ indices are all different, that is, sets of disjoint planes. `counting` stays true only if $-k!\,2^{k-1}$ times this sum equals $E_{(k)}{}^h{}_h$, the collapsed formula of Section 12.7.
 
+```python
+check(counting, "E_(k)^h_h = -k! 2^(k-1) x the sum over k disjoint planes without h "
+      "of the products of their K (k = 1, 2, 3)")
+```
+
+The check of that formula. Out [16] shows ten PASS lines: $E_{(1)} = G$, then structure, trace identity and Rust scalar for each of the three orders, and the collapsed formula.
+
+**In [17], all components against the Rust program and the Wolfram record.**
+
+```python
+Q = sp.symbols("Q", positive=True)  # Q = b4^(1/2)
+```
+
+`Q` is $b_4^{1/2}$, positive.
+
+```python
 def from_monomials(monomials):
     total = sp.Integer(0)
     for numerator, denominator, exponents in monomials:
-        if any(exponents[9:13]):  # a derivative of b4: zero at b4 = 1
-            continue
-        term = sp.Rational(numerator, denominator)  # b4^(1/2) = 1 (exponent 8)
-        for symbol, power in zip(symbols_of_monomial, exponents[:8]):
-            term *= symbol ** power
+        if any(exponents[i] for i in (3, 4, 6, 7, 11, 12, 13)):
+            raise ValueError(f"unexpected exponents {exponents}")
+        term = sp.Rational(numerator, denominator)
+        term *= H ** exponents[0] * ad1 ** exponents[1] * ad2 ** exponents[2]
+        term *= (sp.sqrt(kp) * Q) ** exponents[5] * Q ** exponents[8]
+        term *= (uu * Q ** 2) ** exponents[9]  # b4' = u b4
+        term *= ((vv + uu ** 2) * Q ** 2) ** exponents[10]  # b4'' = (v + u^2) b4
         total += term
-    return total
+    return sp.expand(total).subs(kp, kk)
 ```
 
-The Rust program stores each component as a list of **monomials**: a fraction (numerator, denominator) and the eight exponents of $H$, $a_4'$, $a_4''$, $a_4'''$, $a_4''''$, $e^{a_4}$, $\sin^{1/3}z$ and $\cot z$, in this order. `from_monomials` rebuilds the expression: each term is the fraction times every symbol to its power (`*=` multiplies a variable), and the terms are added.
+The Rust record stores every component of $P_{(k)}{}^h{}_j$ as a list of monomials: a numerator, a denominator and 14 exponents, of $H$, $a_4'$, $a_4''$, $a_4'''$, $a_4''''$, $E = e^{a_4}$, $W = (\sin^2 z)^{1/12}$, $C = \cot z$, $Q = b_4^{1/2}$, $b_4'$, $b_4''$, $b_4'''$, $b_4''''$ and the sign of $\cot z$, in this order. `from_monomials` stops with an error if a monomial contains $a_4'''$, $a_4''''$, $W$, $C$, the sign, $b_4'''$ or $b_4''''$ (positions 3, 4, 6, 7, 11, 12, 13), because the components must not. It builds each term from the fraction and the powers, with $E = \sqrt{k}\,Q$, $b_4' = uQ^2$ and $b_4'' = (v + u^2)Q^2$, adds the terms, expands, and renames `kp` to `kk`. If the powers of $Q$ did not cancel, the comparison below would fail.
 
 ```python
 for k in (1, 2, 3):
@@ -1378,34 +1620,31 @@ for k in (1, 2, 3):
                          - P[k][h][j]) == 0 for h in range(N) for j in range(N))
     reproduces(same, f"all 64 components of P_({k}) equal the Rust GKD record",
                PY, f"P{k}_equals_gkd_branch_monomials")
+equations_json = read_json(EQUATIONS)
+LOCALS = {"ad1": ad1, "ad2": ad2, "uu": uu, "vv": vv, "kk": kk, "H": H}
 ```
 
-For each $k$ the record's block is a dictionary keyed by `"x1,x1"` and so on; every one of the 64 rebuilt components must equal the notebook's. A component of the record that contained $e^{a_4}$, the warp or a third derivative would differ, so the check also confirms that none does.
+For each order the stored block `P{k}_mixed_up_h_down_j` holds the 64 components under keys such as `"x0,x4"`; each is rebuilt and compared with the notebook's (sympy report, checks `P1_equals_gkd_branch_monomials` to `P3_equals_gkd_branch_monomials`). Then the equations of the Wolfram record are read, and `LOCALS` says which symbol each name of the record means.
 
 ```python
-equations_json = read_json(EQUATIONS)
-LOCALS = {"ad1": ad1, "ad2": ad2, "H": H}
-
-
 def parse(text, names=None):
     return sp.sympify(text.replace("^", "**"), locals=names or LOCALS)
 ```
 
-The Wolfram record is read; `parse` turns one of its texts into a sympy expression (`names or LOCALS` uses the dictionary `names` when one is given and `LOCALS` otherwise; docstring left out).
+`parse` turns a Wolfram text of the record into a sympy expression: `^` becomes `**`, and the names are those of `LOCALS` unless another dictionary is given (`names or LOCALS` uses `LOCALS` when `names` is `None`).
 
 ```python
-POSITIONS = {"x1x1": (1, 1), "x4x4": (4, 4), "x5x5": (5, 5), "x0x0": (0, 0),
-             "x4x0": (4, 0), "x0x4": (0, 4)}
+POSITIONS = {"x0x0": 0, "x1x1": 1, "x4x4": 4, "x5x5": 5}
 same = all(sp.expand(parse(equations_json["lovelockTensors"][f"E{k}"][key]["input"])
-                     - E[k][h][j]) == 0
-           for k in (1, 2, 3) for key, (h, j) in POSITIONS.items())
+                     - E[k][i][i]) == 0
+           for k in (1, 2, 3) for key, i in POSITIONS.items())
 reproduces(same, "E_(1), E_(2), E_(3) equal the Wolfram record a4-equations.json",
            PY, "json_lovelock_components")
 ```
 
-The record stores six components of each tensor (the four distinct diagonal ones and the two mixed ones $x_4x_0$, $x_0x_4$), each with an `"input"` text. All 18 must equal the notebook's.
+The record stores four components of each $E_{(k)}$, under the keys `x0x0`, `x1x1`, `x4x4` and `x5x5`; `POSITIONS` gives their positions. All twelve must equal the notebook's (sympy report, `json_lovelock_components`). Out [17] shows four PASS lines.
 
-**In [18], an independent route to the Gauss-Bonnet tensor.**
+**In [18], an independent route to $E_{(2)}$: the Gauss-Bonnet tensor of Lanczos.**
 
 ```python
 def contract(mu, nu):
@@ -1418,7 +1657,7 @@ def contract(mu, nu):
     return 2 * (term_a - 2 * term_b - 2 * term_c + term_d)
 ```
 
-The bracket of the Lanczos formula printed in the text cell before the cell, term by term: $R\,R^\mu{}_\nu$, $\sum_a R^\mu{}_aR^a{}_\nu$, $\sum_{a,b}R^{\mu a}{}_{\nu b}R^b{}_a$ and $\sum_{a,b,c}R^{\mu a}{}_{bc}R^{bc}{}_{\nu a}$, combined with the factors 2, $-4$, $-4$ and 2 (docstring left out).
+`contract(mu, nu)` computes the bracket of the Lanczos formula of the notebook's text: $R\,R^\mu{}_\nu$, then $\sum_aR^\mu{}_aR^a{}_\nu$, then $\sum_{a,b}R^{\mu a}{}_{\nu b}R^b{}_a$, then $\sum_{a,b,c}R^{\mu a}{}_{bc}R^{bc}{}_{\nu a}$, and returns twice the combination with the coefficients $1, -2, -2, 1$.
 
 ```python
 gauss_bonnet_scalar = (ricci_scalar ** 2
@@ -1429,53 +1668,94 @@ gauss_bonnet_scalar = (ricci_scalar ** 2
 lanczos = [[sp.expand(contract(mu, nu)
                       - (gauss_bonnet_scalar / 2 if mu == nu else 0))
             for nu in range(N)] for mu in range(N)]
-check(all(sp.expand(lanczos[h][j] - E[2][h][j]) == 0
-          for h in range(N) for j in range(N)),
-      "E_(2) (GKD) equals the classical Gauss-Bonnet tensor for every a4")
 ```
 
-The Gauss-Bonnet scalar $R^2 - 4R^a{}_bR^b{}_a + R^{ab}{}_{cd}R^{cd}{}_{ab}$ (the last sum multiplies each stored component by the one with the two pairs exchanged); the Lanczos tensor subtracts half of it on the diagonal. The check compares all 64 components with $E_{(2)}$ from the GKD: two entirely different routes give the same tensor for every $a_4$.
+The Gauss-Bonnet scalar $R^2 - 4R^a{}_bR^b{}_a + R^{ab}{}_{mn}R^{mn}{}_{ab}$: the last sum runs over the stored components and multiplies each by its partner with the pairs exchanged. `lanczos` is then the Lanczos tensor, the bracket minus half the scalar on the diagonal.
 
 ```python
-A = sp.symbols("A", real=True)  # the slope of the linear member, a4' = A H
-LINEAR = {ad1: A * H, ad2: 0}
-reproduces(sp.expand(lanczos[4][4].subs(LINEAR)
-                     + H ** 4 * (36 * A ** 4 + 120 * A ** 2 + 420)) == 0,
-           "linear member: Gauss-Bonnet H^x4_x4 = -H^4 (36 A^4 + 120 A^2 + 420)",
-           LEAD, "gauss_bonnet_rho_alpha2")
-reproduces(sp.expand(lanczos[1][1].subs(LINEAR)
-                     - 12 * H ** 4 * (A ** 4 + 14 * A ** 2 - 15)) == 0,
-           "linear member: Gauss-Bonnet H^x1_x1 = 12 H^4 (A^4 + 14 A^2 - 15)",
-           LEAD, "gauss_bonnet_p_alpha2")
+check(all(sp.expand(lanczos[h][j] - E[2][h][j]) == 0
+          for h in range(N) for j in range(N)),
+      "E_(2) (GKD) equals the classical Gauss-Bonnet tensor for every a4 and b4")
+A, beta = sp.symbols("A beta", real=True)  # the exponential history
+EXPONENTIAL = {ad1: A * H, ad2: 0, uu: beta * A * H, vv: 0}
+lead_formula = (-3 * H ** 4 * (A ** 4 * beta ** 4 + 16 * A ** 4 * beta ** 3
+                               - 48 * A ** 4 * beta ** 2 + 48 * A ** 4
+                               - 8 * A ** 2 * beta ** 2 * kk - 64 * A ** 2 * beta * kk
+                               + 64 * A ** 2 * kk + 16 * kk ** 2) / 4)
 ```
 
-For the linear member ($a_4' = AH$, $a_4'' = 0$) the time and 3-space components are compared with the numbers of the lead's independent computation.
+The Lanczos tensor must equal $E_{(2)}$ in all 64 components, for every $a_4$ and $b_4$: two completely different computations of the same tensor (no GKD in the second). Then the exponential history is defined as a substitution, $a_4' = AH$, $u = \beta AH$, $a_4'' = v = 0$, and `lead_formula` is the lead's formula for its time component.
+
+```python
+reproduces(sp.expand(lanczos[4][4].subs(EXPONENTIAL) - lead_formula) == 0,
+           "exponential history: H^x4_x4 equals the lead's formula",
+           LEAD, "gauss_bonnet_diagonal")
+alpha2 = sp.symbols("alpha2", real=True)
+required = equations_json["exponentialHistory"]["requiredSource"]
+names_exp = {"AA": A, "be": beta, "H": H, "kk": kk, "alpha2": alpha2}
+```
+
+On the exponential histories the time component of the Lanczos tensor must equal the lead's formula (lead's Einstein report, `gauss_bonnet_diagonal`). `required` is the record's source of the exponential histories, and `names_exp` says which symbol each of its names means (`AA` for $A$, `be` for $\beta$).
+
+```python
+parts = {key: sp.diff(sp.sympify(required[key]["input"].replace("^", "**"),
+                                 locals=dict(names_exp, kappa=sp.Integer(1))), alpha2)
+         for key in ("rho", "p3", "p0", "pt")}
+signs = {"rho": (4, -1), "p3": (1, 1), "p0": (0, 1), "pt": (5, 1)}
+reproduces(all(sp.expand(parts[key] - sign * lanczos[i][i].subs(EXPONENTIAL)) == 0
+               for key, (i, sign) in signs.items()),
+           "the alpha2 parts of the required source are -H^x4_x4, H^x1_x1, H^x0_x0",
+           LEAD, "gauss_bonnet_source_alpha2")
+```
+
+`sp.diff(..., alpha2)` takes the part of each required source that is multiplied by $\alpha_2$ (with $\kappa = 1$). Since $\kappa\rho = -(e_{44} + \Lambda)$ and $\kappa p = e_{hh} + \Lambda$, these parts must be $-H^{x_4}{}_{x_4}$ for $\rho$ and $+H^{x_1}{}_{x_1}$, $+H^{x_0}{}_{x_0}$, $+H^{x_5}{}_{x_5}$ for $p_3$, $p_0$, $p_t$; `signs` holds the position and the sign for each. Out [18] shows three PASS lines.
 
 **In [19], the Bianchi identity.**
 
 ```python
-def divergence(T):
-    return [clean(sum(d(T[m][n], m) for m in range(N))
-                  + sum(Gamma[m][m][l] * T[l][n] for m in range(N) for l in range(N))
-                  - sum(Gamma[l][m][n] * T[m][l] for m in range(N) for l in range(N)))
-            for n in range(N)]
+RATE_RECORD = {ad1: ad2, ad2: ad3, uu: vv, vv: vd, kk: kk * (2 * ad1 - uu)}
 ```
 
-The covariant divergence of a mixed tensor, $\nabla_\mu T^\mu{}_\nu = \sum_\mu\partial_\mu T^\mu{}_\nu + \sum_{\mu,l}\Gamma^\mu{}_{\mu l}T^l{}_\nu - \sum_{\mu,l}\Gamma^l{}_{\mu\nu}T^\mu{}_l$, for each $\nu$; the result is a list of eight cleaned expressions (docstring left out).
+`RATE_RECORD` gives the time derivative of each record variable: $a_4' \to a_4''$, $a_4'' \to a_4'''$, $u \to v$, $v \to v'$ (`vd`) and $k \to k(2a_4' - u)$, because $\ln k = 2a_4 - \ln b_4$ has the derivative $2a_4' - u$.
 
 ```python
-AS_FUNCTIONS = {ad2: sp.Derivative(a4, (x4, 2)), ad1: sp.Derivative(a4, x4)}
+def d4_record(expr):
+    return sp.expand(sum(sp.diff(expr, s) * r for s, r in RATE_RECORD.items()))
+```
+
+`d4_record` is the chain rule with these rates, for an expression in the record's variables.
+
+```python
+trace_gamma = [record_form(sum(Gamma[m][m][nu] for m in range(N))) for nu in range(N)]
+say(f"sum_mu Gamma^mu_mu x4 = {trace_gamma[4]}, sum_mu Gamma^mu_mu x0 = "
+    f"{trace_gamma[0]}")
+```
+
+`trace_gamma` holds $\sum_\mu\Gamma^\mu{}_{\mu\nu}$ for every $\nu$, in the record's variables; the cell prints the two that are not zero (Out [19]): `-ad1 + 2*uu` for $\nu = x_4$ ($3a_4' + 4h = 2u - a_4'$, the rate of the volume of Section 12.3) and `-6*H*t - 3*H/t` for $\nu = x_0$ ($\Gamma^{x_0}{}_{x_0x_0} + 3H\cot z$).
+
+```python
+def divergence_diagonal(T):
+    values = []
+    for nu in range(N):
+        value = d4_record(T[4][4]) if nu == 4 else 0
+        value += sum(record_form(Gamma[m][m][nu]) * (T[nu][nu] - T[m][m])
+                     for m in range(N))
+        values.append(sp.expand(value))
+    return values
+```
+
+`divergence_diagonal(T)` is the formula of Section 12.10 for a diagonal tensor that depends on $x_4$ only: for each $\nu$, the derivative $\partial_4T^{x_4}{}_{x_4}$ when $\nu = x_4$ (zero otherwise), plus the sum over $m$ of $\Gamma^m{}_{m\nu}(T^\nu{}_\nu - T^m{}_m)$.
+
+```python
 for k in (1, 2, 3):
-    Ek_functions = [[E[k][h][j].subs(AS_FUNCTIONS) for j in range(N)]
-                    for h in range(N)]
-    reproduces(all(value == 0 for value in divergence(Ek_functions)),
+    reproduces(all(value == 0 for value in divergence_diagonal(E[k])),
                f"nabla_mu E_({k})^mu_nu = 0 for nu = x0..x7",
                PY, f"E{k}_divergence_free")
 ```
 
-The symbols `ad1`, `ad2` are plain letters, which `sp.diff` would treat as constants; so they are written back as derivatives of the function $a_4(x_4)$ before the divergence is taken. For each $k$ all eight components of the divergence must vanish: the Bianchi identity of Section 12.10.
+All eight divergences of each $E_{(k)}$ must vanish identically (sympy report, `E1_divergence_free` to `E3_divergence_free`). Out [19] shows three PASS lines after the printed sums.
 
-**In [20], figure 3: the three Lovelock tensors as heat maps.**
+**In [20], figure 12a.3: the three Lovelock tensors as heat maps.**
 
 ```python
 fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.4))
@@ -1484,393 +1764,569 @@ for ax, k in zip(axes, (1, 2, 3)):
                        for h in range(N)])
     scale = np.abs(values).max()
     ax.imshow(values, cmap="RdBu_r", vmin=-scale, vmax=scale)
-```
-
-`plt.subplots(1, 3, ...)` makes one row of three axes. For each tensor the 64 components are evaluated at the sample point of In [10] into an 8 by 8 array and drawn with its own symmetric colour scale.
-
-```python
     for h in range(N):  # write each diagonal value into its cell
         value = values[h, h]
-        text = f"{value:.0f}" if abs(value) >= 100 else f"{value:.1f}"
         ink = "white" if abs(value) > 0.6 * scale else "black"  # readable on dark
-        ax.text(h, h, text, ha="center", va="center", fontsize=6.5, color=ink)
-```
-
-Each diagonal value is written into its cell: as a whole number (`:.0f`) when it is at least 100 and with one decimal (`:.1f`) otherwise, in white on dark cells and black on light ones; `ha` and `va` centre the text.
-
-```python
+        ax.text(h, h, f"{value:.2f}", ha="center", va="center", fontsize=6.5,
+                color=ink)
     ax.set_xticks(range(N))
     ax.set_xticklabels(NAMES, fontsize=7)
     ax.set_yticks(range(N))
     ax.set_yticklabels(NAMES, fontsize=7)
     ax.grid(False)
     ax.set_title(f"$E_{{({k})}}{{}}^h{{}}_j$")
-fig.suptitle("The three Lovelock tensors at $H=1$, $a_4'=0.6$, $a_4''=0.3$ "
-             "(row $h$, column $j$)")
+```
+
+Three panels side by side. For each order the 64 components are evaluated at the sample point of In [10] into an 8 by 8 array, drawn with their own symmetric colour scale (`scale` is the largest absolute value of that panel), and the eight diagonal values are written into their squares with two decimals; then the tick labels, no grid, and a title such as $E_{(1)}{}^h{}_j$ (the doubled braces in the f-string produce single braces).
+
+```python
+fig.suptitle("The three Lovelock tensors at the sample point (row $h$, column $j$)")
 save_figure(fig, "lovelock_heat_maps",
-            ...)
+            "The three Lovelock tensors $E_{(1)}$ (the Einstein tensor), $E_{(2)}$ "
+...)
 ```
 
-Ticks labelled $x_0$ to $x_7$, no grid, a title per panel (in an f-string a doubled brace prints one brace, so the title is the mathematics $E_{(k)}{}^h{}_j$), a title for the whole figure, and `save_figure`. **What the figure shows.** All three tensors are diagonal with only four different values, one each for 3-space, the time, the extra times and the hidden direction: the structure that reduces the 64 field equations to four.
+A title over the three panels and `save_figure` (the caption is printed under figure 12a.3 in Section 12.15). Each panel is coloured only on its diagonal, with three different values: 3-space, the time, and the block.
 
-**In [21], the field equations.**
+**In [21], the field equations and their independent components.**
 
 ```python
-alpha1, alpha2, alpha3 = sp.symbols("alpha1 alpha2 alpha3", real=True)
+alpha1, alpha3 = sp.symbols("alpha1 alpha3", real=True)  # alpha2 is defined above
 Lam, kappa = sp.symbols("Lam kappa", real=True)  # Lambda and kappa
-rho, p3, pt, p0, q40, q04 = sp.symbols("rho p3 pt p0 q40 q04", real=True)
+rho, p3, pt, p0 = sp.symbols("rho p3 pt p0", real=True)  # the source
 ALPHA = {1: alpha1, 2: alpha2, 3: alpha3}
-```
-
-Symbols for the couplings, $\Lambda$ (named `Lam`, because `lambda` is a word of Python), $\kappa$ and the six parts of the source; `ALPHA` finds the coupling of each $k$.
-
-```python
 LHS = [[sp.expand(sum(ALPHA[k] * E[k][h][j] for k in (1, 2, 3))
                   + (Lam if h == j else 0)) for j in range(N)] for h in range(N)]
-T = [[sp.Integer(0)] * N for _ in range(N)]
-for i, value in enumerate([p0, p3, p3, p3, -rho, pt, pt, pt]):
-    T[i][i] = value  # the diagonal of the source, in the order x0..x7
-T[4][0], T[0][4] = q40, q04  # the two mixed components x4-x0 and x0-x4
 ```
 
-`LHS` is the left-hand side $\sum_k\alpha_kE_{(k)}{}^h{}_j + \Lambda\delta^h_j$ of Section 12.8. `T` is the source: zeros, then the diagonal from the list, then the two mixed components (two variables can be set in one line).
+Symbols for the couplings $\alpha_1$, $\alpha_3$ (`alpha2` was made in In [18]), for $\Lambda$ (`Lam`) and $\kappa$, and for the source. `LHS` is the left-hand side $\sum_k\alpha_kE_{(k)}{}^h{}_j + \Lambda\delta^h_j$ in all 64 components.
 
 ```python
 off_diagonal_zero = all(LHS[h][j] == 0 for h in range(N) for j in range(N)
                         if h != j)
 groups_equal = (LHS[1][1] == LHS[2][2] == LHS[3][3]
-                and LHS[5][5] == LHS[6][6] == LHS[7][7])
+                and LHS[0][0] == LHS[5][5] == LHS[6][6] == LHS[7][7])
 reproduces(off_diagonal_zero and groups_equal,
-           "every off-diagonal left-hand side is 0; four independent components",
+           "every off-diagonal left-hand side is 0; three independent components",
            WL, "independent_components")
 ```
 
-The two facts of the reduction: every off-diagonal left-hand side is zero, and the left-hand sides are equal within the two groups.
+Every off-diagonal left-hand side must be zero and the two groups must be equal; then three independent components remain (Wolfram report, `independent_components`).
 
 ```python
-e11, e44, e55, e00 = (sp.expand(LHS[i][i] - Lam) for i in (1, 4, 5, 0))
-say(f"constraint (x4): {e44} + Lam = -kappa*rho")
-say(f"hidden (x0): {e00} + Lam = kappa*p0")
+e44, e11, e00 = (sp.expand(LHS[i][i] - Lam) for i in (4, 1, 0))
+reproduces(LHS[0][0] == LHS[5][5],
+           "hidden and extra-time components are one expression: p0 = p_t",
+           PY, "independent_components")
+say(f"Einstein part of the constraint: {e44.coeff(alpha1)}")
 ```
 
-The four abbreviations $e_{11}, e_{44}, e_{55}, e_{00}$ (the diagonal without $\Lambda$; a parenthesised generator expression yields the four values, which are unpacked into four names). The constraint and the hidden equation are printed for all three couplings; set $\alpha_2 = \alpha_3 = 0$, $\alpha_1 = 1$ in Out [21] and you read off $3(a_4')^2 + 21H^2$ and $15H^2 - 3(a_4')^2$.
+`e44`, `e11`, `e00` are the three independent components without $\Lambda$, as in Section 12.8. The hidden and extra-time components are one expression, so the source needs $p_0 = p_t$ (sympy report, `independent_components`). The last line prints the Einstein part of the constraint, the coefficient of $\alpha_1$ (Out [21]): `6*H**2*kk + 3*ad1**2 - 3*uu**2/2`.
 
-**In [22], the evolution equation.**
+**In [22], the constraint and the system of second order.**
 
 ```python
-F = sp.expand(sp.cancel((e11 - e55) / ad2))  # (e11 - e55)/a4''
-report("F(a4')", F)
-reproduces(not F.has(ad2) and sp.expand(ad2 * F - (e11 - e55)) == 0,
-           "evolution: e11 - e55 = a4'' F(a4') = kappa (p3 - pt)",
-           PY, "evolution_factorises")
+reproduces(not e44.has(ad2) and not e44.has(vv),
+           "the x4 component contains a4', u and k but no a4'' and no v",
+           PY, "constraint_first_order")
+J = sp.Matrix([[sp.diff(e11, ad2), sp.diff(e11, vv)],
+               [sp.diff(e00, ad2), sp.diff(e00, vv)]])
+linear = all(sp.diff(e, x, y) == 0 for e in (e11, e00)
+             for x in (ad2, vv) for y in (ad2, vv))
 ```
 
-$(e_{11} - e_{55})/a_4''$ is simplified by `sp.cancel`; the result $F$ contains no $a_4''$, and $a_4''F$ gives back $e_{11} - e_{55}$ exactly. Out [22] prints $F$, the polynomial of Section 12.9.
+The constraint `e44` contains neither $a_4''$ nor $v$ (sympy report, `constraint_first_order`). `J` is the Jacobian, the 2 by 2 matrix (`sp.Matrix`) of the derivatives of `e11` and `e00` with respect to $a_4''$ and $v$. `linear` is true when every second derivative with respect to these two symbols vanishes: the equations are linear in them.
 
 ```python
-coefficients = sp.Poly(F, ad1, H).coeffs()  # every coefficient must vanish
-solutions = sp.solve(coefficients, [alpha1, alpha2, alpha3], dict=True)
-reproduces(solutions == [{alpha1: 0, alpha2: 0, alpha3: 0}],
-           "F vanishes identically only for alpha1 = alpha2 = alpha3 = 0",
-           PY, "evolution_F_not_identically_zero")
+det_J = sp.expand(J.det())
+EINSTEIN = {alpha1: 1, alpha2: 0, alpha3: 0}
+report("det J in Einstein gravity", det_J.subs(EINSTEIN))
+reproduces(linear and det_J.subs(EINSTEIN) == -3,
+           "x1 and x0 components linear in (a4'', v), Einstein det J = -3",
+           WL, "second_order_system_a4pp_vv")
 ```
 
-Read as a polynomial in $a_4'$ and $H$, $F$ has coefficients that depend on the couplings (`.coeffs()` lists them). $F$ is zero for every $a_4'$ and $H$ only if every coefficient is zero; `sp.solve` solves these equations for the couplings and finds only $\alpha_1 = \alpha_2 = \alpha_3 = 0$.
+`J.det()` is the determinant, expanded. `EINSTEIN` is the substitution $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$; the cell prints `RESULT det J in Einstein gravity = -3` and checks it together with the linearity (Wolfram report, `second_order_system_a4pp_vv`).
 
 ```python
-reproduces(sp.expand(e11 + e55 - 2 * e00) == 0,
-           "e11 + e55 = 2 e00 identically: the source needs p3 + pt = 2 p0",
-           PY, "algebraic_identity")
-reproduces(not e44.has(ad2) and not e00.has(ad2),
-           "the x4 (constraint) and x0 components contain a4' but not a4''",
-           PY, "constraint_and_x0_first_order")
-```
-
-The algebraic identity of Section 12.9, and the first-order character of the constraint and of the hidden equation.
-
-**In [23], constraint propagation and the record's equations.**
-
-```python
-reproduces(sp.expand(sp.diff(e44, ad1) * ad2 - 3 * ad1 * (e11 - e55)) == 0,
-           "d/dx4 e44 = 3 a4' (e11 - e55) (constraint propagation)",
-           PY, "bianchi_x4")
-```
-
-$e_{44}$ depends on $x_4$ only through $a_4'$, so by the chain rule its derivative with respect to $x_4$ is $(\partial e_{44}/\partial a_4')\,a_4''$, written `sp.diff(e44, ad1) * ad2`. It must equal $3a_4'(e_{11} - e_{55})$: the identity of Section 12.10.
-
-```python
+J_b = sp.Matrix([[J[0, 0], J[0, 1] / bb], [J[1, 0], J[1, 1] / bb]]).subs(EINSTEIN)
+reproduces(J_b == sp.Matrix([[2, -2 / bb], [0, -sp.Rational(3, 2) / bb]]),
+           "Einstein: Jacobian with respect to (a4'', b4'') is {{2, -2/b4}, "
+           "{0, -3/(2 b4)}}", WL, "einstein_second_order_system")
 general = equations_json["generalSource"]
-NAMES_RECORD = {"ad1": ad1, "ad2": ad2, "H": H, "alpha1": alpha1, "alpha2": alpha2,
-                "alpha3": alpha3, "Lam": Lam, "kappa": kappa, "rho": rho, "p3": p3,
-                "pt": pt, "p0": p0, "AA": A}
+NAMES_RECORD = {"ad1": ad1, "ad2": ad2, "uu": uu, "vv": vv, "kk": kk, "H": H,
+                "alpha1": alpha1, "alpha2": alpha2, "alpha3": alpha3, "Lam": Lam,
+                "kappa": kappa, "rho": rho, "p3": p3, "pt": pt, "p0": p0}
+```
 
+`J_b` is the Jacobian with respect to $(a_4'', b_4'')$: since $v = b_4''/b_4 - u^2$, the coefficient of $b_4''$ is that of $v$ divided by $b_4$. In Einstein gravity it must be $\begin{pmatrix}2 & -2/b_4\\ 0 & -3/(2b_4)\end{pmatrix}$ (Wolfram report, `einstein_second_order_system`). `general` is the record's key `generalSource`, and `NAMES_RECORD` lists the names its equations use.
 
+```python
 def parse_equation(text):
     left, right = text.split(" == ")
     return sp.expand(parse(left, NAMES_RECORD) - parse(right, NAMES_RECORD))
 ```
 
-The record's general equations are read; `NAMES_RECORD` maps every name used in the record to our symbols (the record writes the slope as `AA`). `parse_equation` splits a text `left == right` at the equality sign and returns left minus right (docstring left out).
+The record writes each equation as a text `left == right`; `parse_equation` splits it at ` == ` and returns left minus right as an expanded expression, which is zero exactly when the equation is satisfied identically.
 
 ```python
 mine = {"constraint_x4": e44 + Lam + kappa * rho,
         "space_x1_eq_x2_eq_x3": e11 + Lam - kappa * p3,
-        "extraTime_x5_eq_x6_eq_x7": e55 + Lam - kappa * pt,
-        "hidden_x0": e00 + Lam - kappa * p0,
-        "evolution_x1_minus_x5": ad2 * F - kappa * (p3 - pt),
-        "algebraic_condition": p3 + pt - 2 * p0}
+        "hidden_and_extraTimes_x0_eq_x5_eq_x6_eq_x7": e00 + Lam - kappa * p0}
 same = all(sp.expand(parse_equation(general[key]["input"]) - value) == 0
            for key, value in mine.items())
-same = same and sp.expand(parse(general["evolution_F"]["input"], NAMES_RECORD)
-                          - F) == 0
-reproduces(same, "the six equations and F equal the record a4-equations.json",
+J_text = general["secondOrderJacobian"]["input"].replace("{", "[").replace("}", "]")
+```
+
+`mine` holds the notebook's three equations in the same form (left minus right). They must equal the record's (the differences of the differences vanish). `J_text` turns the record's Jacobian, written with braces in the Wolfram Language, into the bracket form that sympy reads as a nested list.
+
+```python
+same = (same and sp.expand(sp.Matrix(parse(J_text, NAMES_RECORD)) - J)
+        == sp.zeros(2, 2)
+        and sp.expand(parse(general["secondOrderJacobianDet"]["input"], NAMES_RECORD)
+                      - det_J) == 0)
+reproduces(same, "the three equations, J and det J equal the record",
            PY, "json_general_source_equations")
 ```
 
-The notebook's own six equations, each written as left minus right under the record's key, are compared with the record's, and so is $F$.
+The record's Jacobian and its determinant must equal the notebook's too (`sp.zeros(2, 2)` is the zero matrix), and the whole comparison reproduces the sympy report's `json_general_source_equations`. Out [22] shows four PASS lines and the RESULT line.
 
-**In [24], figure 4: the factor F.**
+**In [23], the constraint propagates.**
 
 ```python
-F_numeric = sp.lambdify((ad1, alpha1, alpha2, alpha3), F.subs(H, 1), "numpy")
-u = np.linspace(-3.0, 3.0, 601)  # a4'/H
-cases = [(1, 0.0, 0.0, "Einstein: $\\alpha_1=1$"),
-         (1, 0.005, 0.0, "$\\alpha_2H^2=0.005$"),
-         (1, 0.01, 0.0, "$\\alpha_2H^2=0.01$"),
-         (1, 0.02, 0.0, "$\\alpha_2H^2=0.02$"),
-         (1, 0.01, 0.0005, "$\\alpha_2H^2=0.01$, $\\alpha_3H^4=0.0005$")]
+h4 = uu / 2 - ad1  # the rate of the block (x0, x5, x6, x7)
+reproduces(sp.expand(d4_record(e44) - 3 * ad1 * (e11 - e44) - 4 * h4 * (e00 - e44))
+           == 0, "d/dx4 e44 = 3 a4' (e11 - e44) + 4 h4 (e00 - e44)",
+           PY, "bianchi_x4")
 ```
 
-`sp.lambdify` turns the exact formula (with $H = 1$) into a fast numpy function of $a_4'$ and the three couplings. `u` holds 601 values of $a_4'/H$. `cases` lists five sets of couplings with their legend labels.
+`h4` is the block rate $h = \tfrac12u - a_4'$. The check is the identity of Section 12.10, $\frac{d}{dx_4}e_{44} = 3a_4'(e_{11} - e_{44}) + 4h(e_{00} - e_{44})$, for every coupling (sympy report, `bianchi_x4`; Out [23]).
+
+**In [24], figure 12a.4: $\det J$ along the record history.**
+
+```python
+on_history = {ad1: 1, uu: sp.Rational(4, 3), H: 1}  # the record history, H = 1
+AUTHOR = {alpha1: 1, alpha2: sp.Rational(1, 32), alpha3: sp.Rational(1, 1152)}
+cases = [("Einstein", EINSTEIN, "-"),
+         ("Gauss-Bonnet $\\alpha_2H^2 = 0.01$",
+          {alpha1: 1, alpha2: sp.Rational(1, 100), alpha3: 0}, "--"),
+         ("Gauss-Bonnet $\\alpha_2H^2 = 1/32$",
+          {alpha1: 1, alpha2: sp.Rational(1, 32), alpha3: 0}, "-."),
+         ("author's weights", AUTHOR, ":")]
+```
+
+`on_history` inserts the record history with $H = 1$ ($a_4''$ and $v$ do not occur in $J$). `AUTHOR` holds the author's weights at $H = 1$, and `cases` lists the four couplings with their legend texts and line styles.
 
 ```python
 fig, ax = plt.subplots()
-for a1, a2, a3, label in cases:
-    values = F_numeric(u, a1, a2, a3) * np.ones_like(u) / 2
-    ax.plot(u, values, label=label)
-for a2 in (0.005, 0.01, 0.02):  # the zeros of F for Gauss-Bonnet gravity
-    root = np.sqrt((1 - 40 * a2) / (24 * a2))
-    ax.plot([-root, root], [0, 0], "o", color="black", markersize=4)
-ax.axhline(0.0, color="black", linewidth=0.8)
+negative = True
+for label, couplings, style in cases:
+    value = sp.expand(det_J.subs(couplings).subs(on_history))
+    function = sp.lambdify(kk, value, "numpy")
+    curve = function(k_axis) * np.ones_like(k_axis)
+    negative = negative and bool(np.all(curve < 0))
+    ax.plot(x_axis, curve, style, label=label)
 ```
 
-For each case $F/2$ is computed on the whole array and drawn. In Einstein gravity $F = 2$ does not depend on $a_4'$, but the function still returns an array of 601 values, all equal to 2: the formula that `sp.lambdify` turned into Python contains terms such as `720*ad1**4*alpha3`, and with `alpha3` equal to `0.0` such a term is the array `u**4` times zero. Multiplying by `np.ones_like(u)` (an array of ones of the same length) is therefore only a safeguard: a formula with no $a_4'$ left in it (for example after a simplification) would make the function return the single number 2, and the factor would turn that into an array of the right length as well. The second loop marks the two zeros $\pm\sqrt{(1 - 40\alpha_2)/(24\alpha_2)}$ of each Gauss-Bonnet curve (Section 12.9) with black dots; `ax.axhline` draws the horizontal line $F = 0$.
+For each case the determinant on the history is a polynomial in $k$, evaluated on the 301 values of `k_axis` of In [13] and drawn against the time. `negative` stays true only if every value of every curve is below zero (`np.all` of a comparison; `bool` turns numpy's truth value into Python's).
 
 ```python
-ax.set_xlabel("$a_4'/H$")
-ax.set_ylabel("$F(a_4')/2$")
-ax.set_title("The factor $F$ of the evolution equation $a_4''F = \\kappa(p_3-p_t)$")
-ax.legend(fontsize=8)
-save_figure(fig, "evolution_factor",
-            ...)
+check(negative, "det J < 0 along the record history for the four couplings")
+gauss_bonnet = sp.expand(det_J.subs({alpha1: 1, alpha3: 0}).subs(on_history))
+polynomial_a2 = sp.Poly(sp.expand(-9 * gauss_bonnet), alpha2)
+c2, c1, c0 = polynomial_a2.all_coeffs()  # in alpha2: c2 a2^2 + c1 a2 + c0
+discriminant = sp.Poly(sp.expand((c1 ** 2 - 4 * c2 * c0) / 144), kk)
+leading, middle, constant = discriminant.all_coeffs()  # 256 - 2016 k - 1863 k^2
 ```
 
-Labels, title, legend and `save_figure`. **What the figure shows.** In Einstein gravity $F/2 = 1$ everywhere. With a positive Gauss-Bonnet coupling $F$ falls like a downward parabola and crosses zero at the black dots, sooner for larger $\alpha_2$; beyond the dots the evolution equation changes sign, and at the dots it cannot be solved for $a_4''$ (Notebook 12c, section 12 of the notebook, integrates into such a point). The third-order coupling adds a positive $(a_4')^4$ term that lifts the curve again.
+The check that all four curves stay negative. Then the Gauss-Bonnet case is taken symbolically: `polynomial_a2` is $-9\det J$ as a polynomial in $\alpha_2$, `all_coeffs` gives its three coefficients, and `discriminant` is $(c_1^2 - 4c_2c_0)/144$ as a polynomial in $k$, whose three coefficients are named `leading`, `middle` and `constant`.
+
+```python
+say(f"Gauss-Bonnet on the history: det J = -(1/9) ({polynomial_a2.as_expr()})")
+say(f"its discriminant in alpha2 is 144 ({discriminant.as_expr()})")
+check(discriminant.eval(1) < 0 and leading < 0 and middle < 0,
+      "Gauss-Bonnet: det J has no real zero in alpha2 for k >= 1 (no breakdown)")
+ax.axhline(0.0, color="black", linewidth=0.8)
+ax.set_xlabel("time $x_4$ (units $1/H$)")
+```
+
+The two polynomials are printed (Out [24]): $\det J = -\tfrac19\big(\alpha_2^2(5184k^2 + 6048k + 704) + \alpha_2(-540k - 336) + 27\big)$ and the discriminant $144(-1863k^2 - 2016k + 256)$, the results derived by hand in Section 12.9. The check: the discriminant is negative at $k = 1$, and its two coefficients of $k$ and $k^2$ are negative, so it decreases for $k > 1$; hence it is negative for every $k \ge 1$, and $\det J$ has no real zero in $\alpha_2$ on the history. Then the axis line and labels.
+
+```python
+ax.set_ylabel("$\\det J$")
+ax.set_title("The Jacobian of the second-order system along the record history")
+ax.legend(fontsize=8)
+save_figure(fig, "jacobian_determinant",
+            "The determinant of the Jacobian $J$ with which $a_4^{\\prime\\prime}$ "
+...)
+```
+
+The labels, the title, the legend and `save_figure` (the caption is printed under figure 12a.4 in Section 12.15). Einstein gravity gives the horizontal line $-3$; the other three curves bend down as $k$ grows, all below zero.
 
 **In [25], the conservation law of a general source.**
 
 ```python
-source = {name: sp.Function(name)(x4, z)
+source = {name: sp.Function(name)(X4, Z)
           for name in ("rho", "p3", "pt", "p0", "q40", "q04")}  # f(x4, z)
-Tgeneral = [[sp.Integer(0)] * N for _ in range(N)]
+T = [[sp.Integer(0)] * N for _ in range(N)]
 for i, name in enumerate(["p0", "p3", "p3", "p3", "rho", "pt", "pt", "pt"]):
-    Tgeneral[i][i] = source[name]
-Tgeneral[4][4] = -source["rho"]  # T^x4_x4 = -rho
-Tgeneral[4][0], Tgeneral[0][4] = source["q40"], source["q04"]
-divT = divergence(Tgeneral)
+    T[i][i] = source[name]
+T[4][4] = -source["rho"]  # T^x4_x4 = -rho
+T[4][0], T[0][4] = source["q40"], source["q04"]
 ```
 
-Now the six parts of the source are unknown functions of $x_4$ and $z$ (so of $x_0$), made with `sp.Function(name)(x4, z)`. The tensor is filled as in In [21] (the time entry is first set to $\rho$ by the loop and then corrected to $-\rho$), and its divergence is computed with the function of In [19].
+`sp.Function(name)(X4, Z)` makes an unknown function of the time and of the hidden angle for each of the six parts of the source. `T` is the mixed tensor of Section 12.8: the diagonal in the order $x_0, \dots, x_7$, then $T^{x_4}{}_{x_4} = -\rho$, and the two mixed components $q_{40} = T^{x_4}{}_{x_0}$ and $q_{04} = T^{x_0}{}_{x_4}$.
 
 ```python
-a4p = sp.Derivative(a4, x4)  # a4' as a derivative, for the comparison
-expect_x4 = (-d(source["rho"], 4) - 3 * a4p * (source["p3"] - source["pt"])
-             + d(source["q04"], 0) - 6 * H * sp.tan(z) * source["q04"])
-expect_x0 = (d(source["p0"], 0) + d(source["q40"], 4)
-             + 3 * H * sp.cot(z) * (2 * source["p0"] - source["p3"] - source["pt"]))
+def divergence(T):
+    return [record_form(sp.cancel(
+                sum(d(T[m][n], m) for m in range(N))
+                + sum(Gamma[m][m][l] * T[l][n] for m in range(N) for l in range(N))
+                - sum(Gamma[l][m][n] * T[m][l] for m in range(N) for l in range(N))))
+            for n in range(N)]
 ```
 
-The two expected components of Section 12.10, written with the function `d` (so that $\partial_0 = 6H\,\partial_z$ is used consistently) and with $a_4'$ as a derivative.
+`divergence(T)` computes $\nabla_\mu T^\mu{}_\nu$ for all eight $\nu$ from the general definition of Section 12.10: the derivatives $\sum_m\partial_mT^m{}_n$ (with the function `d` of In [5], which now also differentiates the explicit `X4` and `Z`), plus $\sum\Gamma^m{}_{ml}T^l{}_n$, minus $\sum\Gamma^l{}_{mn}T^m{}_l$, each brought to one fraction and written in the record's variables.
 
 ```python
-reproduces(clean(divT[4] - expect_x4) == 0, "nabla_mu T^mu_x4 as in the record",
+divT = divergence(T)
+MAP = {"d0q04": 6 * H * sp.diff(source["q04"], Z), "d4rho": sp.diff(source["rho"], X4),
+       "d0p0": 6 * H * sp.diff(source["p0"], Z), "d4q40": sp.diff(source["q40"], X4),
+       "cc": 1 / t, "tt": t, "ad1": ad1, "uu": uu, "kk": kk, "H": H}
+MAP.update(source)
+record_x4, record_x0 = (sp.sympify(general[key]["input"].split(" == ")[0]
+                                   .replace("^", "**"), locals=MAP)
+                        for key in ("conservation_x4", "conservation_x0"))
+```
+
+`MAP` tells sympy what the record's names mean: `d0q04` is $\partial_0q_{04} = 6H\,\partial_zq_{04}$, `d4rho` is $\partial_4\rho$, and so on; `cc` is $\cot z = 1/t$ and `tt` is $\tan z = t$; `MAP.update(source)` adds the six functions under their names. The record's two equations are read without their right-hand side `== 0`.
+
+```python
+reproduces(sp.simplify(divT[4] - record_x4) == 0
+           and sp.simplify(divT[0] - record_x0) == 0,
+           "nabla_mu T^mu_x4 and nabla_mu T^mu_x0 as in the record",
+           PY, "json_conservation")
+no_mixed = {source["q40"]: 0, source["q04"]: 0}
+lead_x4 = (-sp.diff(source["rho"], X4) - 3 * ad1 * (source["rho"] + source["p3"])
+           - 3 * h4 * (source["rho"] + source["pt"]) - h4 * (source["rho"]
+                                                           + source["p0"]))
+```
+
+Both divergences must equal the record's (sympy report, `json_conservation`); `sp.simplify` is needed because the functions and their derivatives appear in fractions. `no_mixed` sets the two mixed components to zero, and `lead_x4` is the lead's formula for the time component.
+
+```python
+lead_x0 = 6 * H * sp.diff(source["p0"], Z) + 3 * H / t * (source["p0"] - source["pt"])
+reproduces(sp.simplify(divT[4].subs(no_mixed).doit() - lead_x4) == 0,
+           "diagonal source: nabla_mu T^mu_x4 as in the lead's record",
            EMT, "divergence_x4_component")
-reproduces(clean(divT[0] - expect_x0) == 0, "nabla_mu T^mu_x0 as in the record",
+reproduces(sp.simplify(divT[0].subs(no_mixed).doit() - lead_x0) == 0,
+           "diagonal source: nabla_mu T^mu_x0 = d0 p0 + 3 H cot z (p0 - p_t)",
            EMT, "divergence_x0_component")
+```
+
+`lead_x0` is the lead's formula $\partial_0p_0 + 3H\cot z\,(p_0 - p_t)$. Without mixed components the two divergences must equal the lead's formulas (`.doit()` carries out the derivatives of the substituted zeros); both checks reproduce the lead's divergence report.
+
+```python
 reproduces(all(divT[n] == 0 for n in (1, 2, 3, 5, 6, 7)),
            "nabla_mu T^mu_nu = 0 identically for the six other nu",
-           PY, "conservation_components")
+           EMT, "divergence_other_components_zero")
 ```
 
-The $x_4$ and $x_0$ components equal the expected ones, and the six others vanish.
+The six other components of the divergence vanish identically. Out [25] shows four PASS lines.
 
-**In [26], Einstein gravity: no vacuum and the null energy condition.**
+**In [26], Einstein gravity: a flat vacuum, no exponential vacuum, the null combinations.**
 
 ```python
-EINSTEIN = {alpha1: 1, alpha2: 0, alpha3: 0}
-null_x0 = sp.expand((e00 - e44).subs(EINSTEIN))  # kappa (rho + p0)
+c, x4 = sp.symbols("c x4", real=True)
+FLAT = {ad1: 0, ad2: 0, uu: 2 / (x4 - c), vv: -2 / (x4 - c) ** 2,
+        kk: 1 / (H ** 2 * (x4 - c) ** 2)}
+flat_riemann = all(sp.simplify(value.subs(FLAT)) == 0 for value in R.values())
+reproduces(flat_riemann, "flat member: every R^ab_mn vanishes",
+           WL, "flat_member")
+```
+
+`FLAT` inserts the flat member $a_4 = 0$, $b_4 = H^2(x_4 - c)^2$ with the values of $u$, $v$ and $k$ derived in Section 12.11. Every curvature component must vanish (Wolfram report, `flat_member`).
+
+```python
+reproduces(all(sp.simplify(G[i][i].subs(FLAT)) == 0 for i in range(N)),
+           "Einstein: the flat member is a vacuum with Lambda = 0",
+           PY, "einstein_flat_vacuum")
+difference_x1 = sp.factor(sp.expand((e44 - e11).subs(EINSTEIN).subs(EXPONENTIAL)))
+k_vacuum = sp.solve(sp.expand((e44 - e00).subs(EINSTEIN).subs(EXPONENTIAL)), kk)
+say(f"exponential vacuum: e44 - e11 = {difference_x1}, e44 = e00 needs k = {k_vacuum}")
+```
+
+The Einstein tensor vanishes too: a vacuum with $\Lambda = 0$ (sympy report, `einstein_flat_vacuum`). `difference_x1` is $e_{44} - e_{11}$ on the exponential histories in Einstein gravity, factorised, and `k_vacuum` the value of $k$ at which $e_{44} = e_{00}$ (`sp.solve` returns a list of solutions). The cell prints both (Out [26]): `A**2*H**2*(beta - 4)*(beta - 2)` and `[A**2*(beta - 4)/2]`.
+
+```python
+roots = sp.solve(difference_x1 / (A ** 2 * H ** 2), beta)  # beta = 2 or 4
+k_values = [sp.factor(k_vacuum[0].subs(beta, root)) for root in roots]
+reproduces(sorted(roots) == [2, 4] and k_values == [-A ** 2, 0]
+           and sp.factor(k_vacuum[0].subs(A, 0)) == 0,
+           "Einstein: no exponential history is a vacuum (k would be -A^2 or 0)",
+           PY, "einstein_no_exponential_vacuum")
+```
+
+`roots` are the values of $\beta$ at which the first difference vanishes for $A \ne 0$: 2 and 4. At these the required $k$ is $-A^2$ and $0$, and at $A = 0$ it is 0; the check requires exactly this, so no exponential history (where $k > 0$) is a vacuum (sympy report, `einstein_no_exponential_vacuum`).
+
+```python
+null_x0 = sp.factor((e00 - e44).subs(EINSTEIN))  # kappa (rho + p0)
+null_x1 = sp.expand((e11 - e44).subs(EINSTEIN))  # kappa (rho + p3)
 report("Einstein: kappa (rho + p0)", null_x0)
-reproduces(sp.expand(null_x0 + 6 * ad1 ** 2 + 6 * H ** 2) == 0,
-           "Einstein: kappa (rho + p0) = -6 (a4'^2 + H^2) < 0",
-           PY, "einstein_null_energy_x0")
+report("Einstein: kappa (rho + p3)", null_x1)
+reproduces(sp.expand(null_x0 + sp.Rational(3, 2) * (2 * H ** 2 * kk + 4 * ad1 ** 2
+                                                     - ad1 * uu + vv)) == 0
+           and sp.expand(null_x1 - (2 * ad2 - 8 * ad1 ** 2 + 6 * ad1 * uu - uu ** 2
+                                    - 2 * vv)) == 0,
+           "Einstein: the two null combinations as in the record",
+           PY, "einstein_null_combinations")
 ```
 
-From the constraint $\kappa\rho = -(e_{44} + \Lambda)$ and the hidden equation $\kappa p_0 = e_{00} + \Lambda$ follows $\kappa(\rho + p_0) = e_{00} - e_{44}$; with the Einstein couplings this is $-6H^2 - 6(a_4')^2$, the result of Section 12.11.
+The two null combinations of Section 12.11, $\kappa(\rho + p_0) = e_{00} - e_{44}$ and $\kappa(\rho + p_3) = e_{11} - e_{44}$ in Einstein gravity, printed as RESULT lines and compared with the record's formulas (sympy report, `einstein_null_combinations`).
 
 ```python
-vacuum = [LHS[i][i].subs(EINSTEIN) for i in (1, 4, 5, 0)]  # T = 0
-real_solutions = sp.solve(vacuum, [Lam, ad1, ad2], dict=True)  # ad1, ad2 real
-say(f"real solutions of the vacuum equations: {real_solutions}")
-```
-
-With $T = 0$ the four left-hand sides must vanish. `sp.solve` looks for $\Lambda$, $a_4'$, $a_4''$; because `ad1` and `ad2` were declared real, it returns only real solutions, and there are none (`[]`).
-
-```python
-w1, w2 = sp.symbols("w1 w2")  # a4' and a4'' again, now allowed to be complex
-as_complex = [value.subs({ad1: w1, ad2: w2}) for value in vacuum]
-complex_solutions = sorted(sp.solve(as_complex, [Lam, w1, w2], dict=True), key=str)
-say(f"solutions when a4' = w1 and a4'' = w2 may be complex: {complex_solutions}")
-imaginary = all(not solution[w1].is_real for solution in complex_solutions)
-reproduces(real_solutions == [] and len(complex_solutions) == 2 and imaginary,
-           "Einstein: no real vacuum solution for H > 0 and any Lambda",
-           LEAD, "no_vacuum_for_H_positive")
-```
-
-To see what the equations would want, $a_4'$ and $a_4''$ are replaced by symbols without the property real. Now sympy finds exactly two solutions, $\Lambda = -18H^2$, $a_4' = \pm iH$, $a_4'' = 0$ (sorted by their printed text, so that the order is the same in every run). Both slopes are imaginary (`.is_real` is false), as derived in Section 12.11.
-
-```python
+null_history = sp.expand(null_x0.subs(HISTORY).subs(H, 1))
+report("record history: kappa (rho + p0)", null_history)
+check(null_history == -3 * kk - 4, "record history: kappa (rho + p0) = -3 k - 4 < 0")
 einstein_record = equations_json["einstein"]
-mine_einstein = {"constraint_x4": e44.subs(EINSTEIN) + Lam + kappa * rho,
-                 "hidden_x0": e00.subs(EINSTEIN) + Lam - kappa * p0,
-                 "evolution": 2 * ad2 - kappa * (p3 - pt)}
+mine_einstein = {"constraint_x4": (e44 + Lam).subs(EINSTEIN) + kappa * rho,
+                 "space_x1": (e11 + Lam).subs(EINSTEIN) - kappa * p3,
+                 "hidden_x0": (e00 + Lam).subs(EINSTEIN) - kappa * p0}
+```
+
+On the record history the first combination is `-3*kk - 4` (printed and checked): negative at every time. `einstein_record` is the record's key `einstein`; `mine_einstein` holds the notebook's three Einstein equations as left minus right.
+
+```python
 same = all(sp.expand(parse_equation(einstein_record[key]["input"]) - value) == 0
            for key, value in mine_einstein.items())
 reproduces(same, "the Einstein equations equal the record", PY, "json_einstein")
 ```
 
-The Einstein constraint, hidden equation and evolution equation are compared with the record's.
+They must equal the record's (sympy report, `json_einstein`). Out [26] shows seven PASS lines, two printed lines and three RESULT lines.
 
-**In [27], figure 5: why there is no vacuum.**
+**In [27], figure 12a.5: why no exponential history is an Einstein vacuum.**
 
 ```python
-u = np.linspace(-3.0, 3.0, 301)  # a4'/H
-lam_constraint = -(3 * u ** 2 + 21)  # Lambda/H^2 that the x4 equation needs
-lam_hidden = 3 * u ** 2 - 15  # Lambda/H^2 that the x0 equation needs
+beta_axis = np.linspace(0.0, 6.0, 301)
 fig, ax = plt.subplots()
-ax.plot(u, lam_constraint, label="$\\Lambda$ needed by the constraint ($x_4$)")
-ax.plot(u, lam_hidden, label="$\\Lambda$ needed by the hidden equation ($x_0$)")
-ax.fill_between(u, lam_constraint, lam_hidden, color="grey", alpha=0.25,
-                label="gap $6(a_4')^2+6H^2=-\\kappa(\\rho+p_0)$")
+ax.axhspan(-3.0, 0.0, color="grey", alpha=0.25, label="$k \\leq 0$: no history")
+ax.plot(beta_axis, (beta_axis - 4.0) / 2.0, color="tab:blue",
+        label="hidden equation: $k/A^2 = (\\beta - 4)/2$")
+for position in (2.0, 4.0):
+    ax.axvline(position, color="tab:red", linestyle="--")
 ```
 
-With $\rho = 0$ the constraint needs $\Lambda = -(3(a_4')^2 + 21H^2)$, and with $p_0 = 0$ the hidden equation needs $\Lambda = 3(a_4')^2 - 15H^2$. Both are drawn against $a_4'/H$; `ax.fill_between` shades the region between them in grey (25 per cent opaque).
+`beta_axis` holds 301 values of $\beta$ from 0 to 6. `axhspan` shades the region $k \le 0$ (between $-3$ and 0 on the vertical axis), where no history lies; the blue line is the hidden equation's condition $k/A^2 = (\beta - 4)/2$; the red dashed vertical lines are the 3-space equation's conditions $\beta = 2$ and $\beta = 4$.
 
 ```python
-ax.set_xlabel("$a_4'/H$")
-ax.set_ylabel("$\\Lambda/H^2$")
-ax.set_title("Einstein gravity: the vacuum equations have no common solution")
-ax.legend(fontsize=8, loc="upper center")  # the empty area above the curves
-save_figure(fig, "no_vacuum_gap",
-            ...)
+ax.plot([], [], color="tab:red", linestyle="--",
+        label="3-space equation: $\\beta = 2$ or $\\beta = 4$")
+ax.plot([2.0, 4.0], [-1.0, 0.0], "o", color="black", label="where both hold")
+ax.axvline(4.0 / 3.0, color="black", linestyle=":", label="record history "
+           "$\\beta = 4/3$")
+ax.set_xlim(0.0, 6.0)
 ```
 
-Labels, title, the legend placed in the empty upper middle, and `save_figure`. **What the figure shows.** The two curves never meet: the lower one is never above $-21H^2$, the upper one never below $-15H^2$. Their vertical distance, $6(a_4')^2 + 6H^2$, is at its smallest, $6H^2$, at $a_4' = 0$; it is exactly $-\kappa(\rho + p_0)$, the violation of the null energy condition.
-
-**In [28], the linear member.**
+`ax.plot([], [], ...)` draws nothing but adds one legend entry for the two red lines. The black points mark where both conditions hold, $(2, -1)$ and $(4, 0)$; the dotted line marks the record history $\beta = 4/3$; `set_xlim` fixes the horizontal range.
 
 ```python
-reproduces(sp.expand((e11 - e00).subs(LINEAR)) == 0
-           and sp.expand((e55 - e00).subs(LINEAR)) == 0,
-           "linear member: p3 = pt = p0 = p (any alpha_k)",
-           PY, "linear_member_equal_pressures")
+ax.set_ylim(-3.0, 3.0)
+ax.set_xlabel("$\\beta = (b_4'/b_4)/a_4'$")
+ax.set_ylabel("$k/A^2$")
+ax.set_title("Einstein gravity: the vacuum conditions on exponential histories")
+ax.legend(fontsize=7.5, loc="upper left")
+save_figure(fig, "exponential_vacuum",
+            "Why no exponential history $a_4 = AHx_4 + a_0$, $b_4 = b_4(0)"
+...)
 ```
 
-With $a_4' = AH$, $a_4'' = 0$ (the dictionary `LINEAR` of In [18]) the 3-space, extra-time and hidden left-hand sides are equal, so the three pressures are equal, for every coupling.
+The vertical range, the labels, the title, the legend in the upper left corner and `save_figure` (the caption is printed under figure 12a.5 in Section 12.15).
+
+**In [28], the exponential histories.**
 
 ```python
-rho_linear = sp.expand(-(e44 + Lam).subs(LINEAR) / kappa)  # from the constraint
-p_linear = sp.expand((e00 + Lam).subs(LINEAR) / kappa)  # from the hidden equation
-say(f"kappa rho = {sp.expand(kappa * rho_linear)}")
-say(f"kappa p = {sp.expand(kappa * p_linear)}")
+required_mine = {"rho": sp.expand(-(e44 + Lam).subs(EXPONENTIAL) / kappa),
+                 "p3": sp.expand((e11 + Lam).subs(EXPONENTIAL) / kappa),
+                 "p0": sp.expand((e00 + Lam).subs(EXPONENTIAL) / kappa)}
+degrees = [sp.Poly(kappa * value, kk).degree() for value in required_mine.values()]
+say(f"degrees in k of kappa rho, kappa p3, kappa p0: {degrees}")
+reproduces(max(degrees) <= 2 and required_mine["p0"].has(kk),
+           "exponential history: rho, p3, p0 = p_t polynomials of degree <= 2 in k",
+           PY, "exponential_history_required_source")
 ```
 
-The required $\rho$ and $p$ follow from the constraint and the hidden equation; $\kappa\rho$ and $\kappa p$ are printed: the general formulas of Section 12.12.
+`required_mine` holds the required source of every exponential history, for general couplings: $\kappa\rho = -(e_{44} + \Lambda)$, $\kappa p_3 = e_{11} + \Lambda$ and $\kappa p_0 = e_{00} + \Lambda$, each divided by $\kappa$. `sp.Poly(..., kk).degree()` is the highest power of $k$: the cell prints `[2, 2, 1]` and checks that no degree exceeds 2 and that $p_0$ does depend on $k$ (sympy report, `exponential_history_required_source`).
 
 ```python
-check(not rho_linear.has(x4) and not p_linear.has(x4),
-      "linear member: rho and p are constants")
-check(sp.expand(rho_linear.subs(A, -A) - rho_linear) == 0
-      and sp.expand(p_linear.subs(A, -A) - p_linear) == 0,
-      "rho and p are even in A: A -> -A is a symmetry (deflation is a choice)")
+names_all = dict(names_exp, alpha1=alpha1, alpha2=alpha2, alpha3=alpha3, Lam=Lam,
+                 kappa=kappa)
+same = all(sp.expand(sp.sympify(required[key]["input"].replace("^", "**"),
+                                locals=names_all) - required_mine[name]) == 0
+           for key, name in (("rho", "rho"), ("p3", "p3"), ("p0", "p0"),
+                             ("pt", "p0")))
 ```
 
-Neither contains $x_4$, so both are constants; and replacing $A$ by $-A$ changes neither: deflation is a choice of sign.
-
-**In [29], the vacuum factor.**
+`names_all` adds the couplings, $\Lambda$ and $\kappa$ to the names of In [18]; `same` compares the record's four required components with the notebook's (the record's `pt` with the notebook's $p_0$).
 
 ```python
-V = sp.expand(sp.cancel((e44 - e00).subs(LINEAR) / (6 * (A ** 2 + 1) * H ** 2)))
-report("vacuum factor V", V)
-reproduces(V.is_polynomial(A) and sp.expand(6 * (A ** 2 + 1) * H ** 2 * V
-                                             - (e44 - e00).subs(LINEAR)) == 0,
-           "e44 - e00 = 6 (A^2 + 1) H^2 V with a polynomial V",
-           PY, "linear_member_vacuum_factor")
+reproduces(same, "the required source equals the record (exponentialHistory)",
+           PY, "json_exponential_history")
+check(all(sp.expand(value.subs(A, -A) - value) == 0
+          for value in required_mine.values()),
+      "as functions of k the required source contains A only through A^2")
 ```
 
-$e_{44} - e_{00} = -\kappa(\rho + p)$ is divided by $6(A^2 + 1)H^2$; the quotient $V$ is a polynomial in $A$ (no remainder), printed in the RESULT line.
+The comparison reproduces the sympy report's `json_exponential_history`. The last check replaces $A$ by $-A$ and requires every component to stay the same: as functions of $k$ the required source contains $A$ only through $A^2$ (Section 12.12). Out [28] shows the degrees and three PASS lines.
+
+**In [29], the source of the record history.**
 
 ```python
-V_gauss_bonnet = sp.expand(V.subs({alpha1: 1, alpha3: 0}))
-reproduces(sp.expand(V_gauss_bonnet - (1 - 8 * alpha2 * H ** 2 * (A ** 2 + 5))) == 0,
-           "Gauss-Bonnet: V = 1 - 8 alpha2 H^2 (A^2 + 5)",
-           PY, "einstein_gauss_bonnet_vacuum_linear")
-V_any = V.subs(A, ad1 / H)  # the same polynomial with A H -> a4'
-check(sp.expand((e00 - e44) + 6 * (ad1 ** 2 + H ** 2) * V_any) == 0,
-      "for every a4: kappa (rho + p0) = -6 (a4'^2 + H^2) V(a4')")
+HISTORY_EXP = {A: 1, beta: sp.Rational(4, 3), H: 1}  # A = 1, beta = 4/3, H = 1
+AUTHOR_H = {alpha1: 1, alpha2: sp.Rational(1, 32) / H ** 2,
+            alpha3: sp.Rational(1, 1152) / H ** 4}  # alpha_k = w_k/H^(2k)
+needed = {name: sp.expand(value.subs(AUTHOR_H).subs(EXPONENTIAL).subs(HISTORY_EXP))
+          for name, value in (("minus_rho", e44), ("p3", e11), ("p0", e00))}
+for name, value in needed.items():
+    say(f"author's weights, record history: kappa T - Lambda ({name}) = {value}")
 ```
 
-For Einstein-Gauss-Bonnet gravity $V = 1 - 8\alpha_2H^2(A^2 + 5)$. Because $e_{44}$ and $e_{00}$ contain no $a_4''$, the same factorisation holds for every history once $AH$ is replaced by $a_4'$: the last check (Section 12.11).
+`HISTORY_EXP` is the record history $A = 1$, $\beta = \tfrac43$, $H = 1$; `AUTHOR_H` the author's weights $\alpha_k = w_k/H^{2k}$. `needed` holds $-\kappa\rho - \Lambda = e_{44}$, $\kappa p_3 - \Lambda = e_{11}$ and $\kappa p_0 - \Lambda = e_{00}$ on the history; they are printed (Out [29]): `-9*kk**2/16 + 161*kk/24 + 121/432`, `-9*kk**2/16 + 1601*kk/216 - 5359/3888` and `79*kk/16 - 497/144`, the source of Section 12.12.
 
 ```python
-linear_record = equations_json["linearMember"]
-same = (sp.expand(parse(linear_record["rho"]["input"], NAMES_RECORD) - rho_linear)
-        == 0
-        and sp.expand(parse(linear_record["p"]["input"], NAMES_RECORD) - p_linear)
-        == 0
-        and sp.expand(parse(linear_record["vacuumFactor"]["input"], NAMES_RECORD)
-                      - V) == 0)
-reproduces(same, "rho, p and V of the linear member equal the record",
-           PY, "json_linear_member")
+stored = equations_json["exponentialHistory"]["authorWeights"]
+stored = stored["historySource_kappaT_minus_Lam"]
+same = all(sp.expand(parse(stored[key]["input"]) - needed[name]) == 0
+           for key, name in (("minus_rho", "minus_rho"), ("p3", "p3"),
+                             ("p0", "p0"), ("pt", "p0")))
+reproduces(same, "the author's weights: the source of the record history",
+           PY, "author_weights_history_source")
 ```
 
-$\rho$, $p$ and $V$ are compared with the record's linear-member formulas.
+The record stores the same source under `exponentialHistory/authorWeights/historySource_kappaT_minus_Lam`; the comparison reproduces the sympy report's `author_weights_history_source`.
+
+```python
+x4s = sp.symbols("x4", real=True)
+metric_history = read_json(METRIC_RESULTS)["history_source"]
+exp_names = {"H": sp.Integer(1), "x4": x4s, "exp": sp.exp}
+as_k = sp.Rational(3, 2) * sp.log(kp)  # x4 = (3/2) ln k, so e^(2 x4/3) = k
+einstein_needed = {name: sp.expand(value.subs(EINSTEIN).subs(EXPONENTIAL)
+                                   .subs(HISTORY_EXP))
+                   for name, value in (("-rho", e44), ("p3", e11), ("p0", e00),
+                                       ("p_t", e00))}
+```
+
+The results file of the corrected metric writes this source as functions of the time with `exp(2*H*x4/3)`. `as_k` is the time at which $e^{2x_4/3} = k$, namely $x_4 = \tfrac32\ln k$; inserting it turns the file's formulas into polynomials in $k$. `einstein_needed` holds the Einstein source of the same history, which the file also stores.
+
+```python
+same = True
+for block, values in (("author_weights_A1_beta43",
+                       {"-rho": needed["minus_rho"], "p3": needed["p3"],
+                        "p0": needed["p0"], "p_t": needed["p0"]}),
+                      ("einstein_A1_beta43", einstein_needed)):
+    for key, value in values.items():
+        text = sp.sympify(metric_history[block][key], locals=exp_names)
+        in_k = sp.expand(sp.expand(text.subs(x4s, as_k)).subs(kp, kk))
+        same = same and sp.expand(in_k - value) == 0
+```
+
+For both blocks of the file (the author's weights and Einstein gravity, both at $A = 1$, $\beta = \tfrac43$) every stored component is read, rewritten in $k$, and compared with the notebook's.
+
+```python
+conserved = sp.expand((d4_record(-e44) + 3 * ad1 * (-e44 + e11)
+                       + 4 * h4 * (-e44 + e00)).subs(AUTHOR_H).subs(HISTORY)
+                      .subs(H, 1))
+reproduces(same and conserved == 0,
+           "the history source of the corrected-metric record, conserved",
+           WARPED, "history_source_conserved")
+```
+
+`conserved` is the energy exchange $\kappa\big[\partial_4\rho + 3a_4'(\rho + p_3) + 4h(\rho + p_0)\big]$ of this source, written with the components ($\kappa\rho = -e_{44} - \Lambda$ and so on; $\Lambda$ cancels in every bracket). It must vanish: by the Bianchi identity of In [23] the source that any history requires is automatically conserved. The check reproduces the metric report's `history_source_conserved`. Out [29] shows three printed lines and two PASS lines.
 
 **In [30], the last check.**
 
 ```python
-figure_names = ["12a_1_riemann_matrix.png", "12a_2_einstein_components.png",
-                "12a_3_lovelock_heat_maps.png", "12a_4_evolution_factor.png",
-                "12a_5_no_vacuum_gap.png"]
+figure_names = ["12a_1_pair_curvatures.png", "12a_2_einstein_components.png",
+                "12a_3_lovelock_heat_maps.png", "12a_4_jacobian_determinant.png",
+                "12a_5_exponential_vacuum.png"]
 check(all(output_file(f"{FIGURE_FOLDER}/{name}").is_file() for name in figure_names),
       "all five figure files exist")
 all_checks_passed()
 ```
 
-The five figure files must exist, and the last line prints ALL 59 CHECKS PASSED (notebook 12a): 4 checks in In [2], 2 in In [4], 2 in In [5], 5 in In [8], 4 in In [12], 1 in In [14], 10 in In [16], 4 in In [17], 3 in In [18], 3 in In [19], 1 in In [21], 4 in In [22], 2 in In [23], 3 in In [25], 3 in In [26], 3 in In [28], 4 in In [29] and 1 in In [30].
+`figure_names` lists the five figure files; `output_file(...).is_file()` is true when a file exists where the notebook wrote it. The check requires all five, and `all_checks_passed()` prints the last line (Out [30]): ALL 72 CHECKS PASSED (notebook 12a).
 
-### 12.17 Example: the source that the linear member requires
+### 12.17 Example: the source that the exponential histories require
 
-The second notebook takes the field equations from the record and asks, for the linear member $a_4 = AHx_4 + a_0$, what source they require, as a function of the slope $A$, of the cosmological constant and of the Lovelock couplings. It draws the signs of $\rho$ and $p$, shows that a positive energy density in Einstein gravity comes only with $w < -1$, finds the Gauss-Bonnet and third-order vacua, and writes the two conditions that a homogeneous condensate of dirac16complex00 must meet to be the source. It runs in about 15 seconds, prints 24 PASS lines and draws eight figures.
+The second notebook takes the Lovelock components from the record (Section 12.7) and explores the required source of Section 12.12 for every slope $A$, every ratio $\beta$, every cosmological constant and every coupling. It checks that the source is a polynomial of degree at most 2 in $k$ and contains $A$ only through $A^2$; follows the source of the record history in Einstein gravity ($\kappa\rho = -6k - \tfrac13$, negative at every time, with $\Lambda = 0$) and with the author's weights (where, with $\Lambda = -10$, the energy density starts at $\kappa\rho = 3.57407$ and changes sign at $x_4 = 0.785131$); shows that in Einstein gravity no exponential history satisfies both null energy conditions; finds the Einstein-Gauss-Bonnet vacua (only for constant $k$) and shows that the author's weights allow none; and states what a source with equal pressures, such as a homogeneous condensate of dirac16complex00, would need. It prints 23 PASS lines, draws eight figures and runs in about fifteen seconds.
 
 <!-- NOTEBOOK 12b -->
 
 ### 12.20 Line-by-line walk-through of Notebook 12b
 
-The notebook has 15 code cells, In [1] to In [15].
+The notebook has 19 code cells, In [1] to In [19]. As in Section 12.16, every line or small group of lines is quoted and explained; docstrings are left out, and long captions are shortened to their first line and `...)` (they are printed in full under the figures in Section 12.19).
 
-**In [1], the set-up cell.** It is the set-up cell of Notebook 12a, word for word, except for two things: the comment lines at the top hold the run instructions of Notebook 12b (Section 12.18), and the line `NOTEBOOK_ID = "12b"` names this notebook. Every line is explained in Section 12.16 under In [1]; the cell prints its one line, Set-up of notebook 12b complete.
+**In [1], the set-up cell.** It is the set-up cell of Notebook 12a, explained line by line in Section 12.16 under In [1], with two differences: its comment lines are the run instructions of Notebook 12b (Section 12.18), and its line `NOTEBOOK_ID = "12b"  # this notebook: chapter 12, example b` names this notebook, so the figures are saved as `12b_<k>_<name>.png` and their captions in `12b.captions.json`. It prints Set-up of notebook 12b complete: repository folder found, helpers defined.
 
-**In [2], the Revision records.** The first lines are those of In [2] of Notebook 12a: the imports of `contextlib` and `io`, the short names `PY`, `WL`, `LEAD` and `EQUATIONS` of four record files, and the three helpers `read_json`, `record_verdict` and `reproduces` (Section 12.16, In [2]). New are the last three lines:
+**In [2], the Revision records.** The cell defines the helpers of Notebook 12a and one more, and reads the equations.
+
+```python
+import contextlib  # redirect_stdout: send printed lines into a buffer
+import io  # StringIO: a text buffer in memory
+```
+
+The two modules for the text buffer of `reproduces`, as in Notebook 12a (Section 12.16, In [2]).
+
+```python
+PY = "Revision/field_equations_a4/reports/python-a4-report.json"  # sympy record
+WL = "Revision/field_equations_a4/reports/wolfram-a4-report.json"  # Wolfram record
+LEAD = "Revision/lead_checks/reports/einstein-gauss-bonnet-a4.json"  # lead check
+EQUATIONS = "Revision/field_equations_a4/a4-equations.json"  # the equations
+METRIC_RESULTS = "Revision/metric_warped/results/warped-metric.json"
+METRIC_WL = "Revision/metric_warped/reports/wolfram-warped-metric-report.json"
+KS = "Revision/field_equations_a4/reports/ks-source-conditions.json"
+KS_A4 = "Revision/field_equations_a4/ks_source/reports/ks-source-a4.json"
+EOS = "Revision/dark_sector/dirac16complex00/reports/python-derive-eos.json"
+```
+
+Short names for the files the notebook reads: the sympy and Wolfram reports, the lead's Einstein report, the equations `a4-equations.json`, the results file of the corrected metric and its Wolfram report (`METRIC_WL`), the report of the source conditions on the Kohn-Sham states (`KS`, Section 12.21 explains it), the report of the Kohn-Sham states as a source of the field equations (`KS_A4`), and the report of the dark-sector record on the commuting field (`EOS`), which contains the record's statement about condensates as sources of the record history.
+
+```python
+def read_json(relative):
+    return json.loads(repository_file(relative).read_text(encoding="utf-8"))
+```
+
+`read_json` reads a record, as in Notebook 12a.
+
+```python
+def record_verdict(report_file, name):
+    for entry in read_json(report_file)["checks"]:
+        if entry["name"] == name:
+            return entry["verdict"]
+    return None
+```
+
+`record_verdict` returns the verdict of a named check, as in Notebook 12a.
+
+```python
+def record_detail(report_file, name):
+    for entry in read_json(report_file)["checks"]:
+        if entry["name"] == name:
+            return entry["detail"]
+    return ""
+```
+
+`record_detail` returns the detail text of a named check (the sentence in which the record states its result), or an empty text. The notebook compares some of its numbers with numbers written in these texts.
+
+```python
+def reproduces(condition, name, report_file, record_name):
+    found = record_verdict(report_file, record_name) == "PASS"
+    lines = io.StringIO()  # a text buffer
+    with contextlib.redirect_stdout(lines):  # print() now writes into the buffer
+        check(condition and found, name, record=f"{report_file}, check {record_name}")
+    print(lines.getvalue(), end="")  # all lines at once
+```
+
+`reproduces`, as in Notebook 12a: a check that also requires the named record check to have passed, printing its two lines together.
 
 ```python
 record = read_json(EQUATIONS)
@@ -1878,685 +2334,974 @@ title = record["title"]  # the title stored in the record
 say(f"read {EQUATIONS}: {title}")
 ```
 
-The record of the field equations is read once into the dictionary `record`, which the later cells use; its title is printed to show which file was read.
+The equations are read into `record`, and the title stored in the record is printed (Out [2]): the Einstein-Lovelock field equations for $a_4$ and $b_4$ in the corrected primordial metric of 2026-10-16 (version 2), for general functions and every real $z$. The title shows that the notebook works with the current record.
 
-**In [3], the required source for every coupling.**
+**In [3], the required source of the exponential histories.**
 
 ```python
 import numpy as np  # arrays of numbers for the plots
 import sympy as sp  # exact algebra with symbols
-
-H = sp.symbols("H", positive=True)  # the constant H of the metric
-A = sp.symbols("A", real=True)  # the slope of the linear member
-ad1, ad2 = sp.symbols("ad1 ad2", real=True)  # a4' and a4''
-alpha1, alpha2, alpha3 = sp.symbols("alpha1 alpha2 alpha3", real=True)
-Lam, kappa = sp.symbols("Lam kappa", real=True)  # Lambda and kappa
-NAMES = {"ad1": ad1, "ad2": ad2, "H": H, "AA": A, "alpha1": alpha1,
-         "alpha2": alpha2, "alpha3": alpha3, "Lam": Lam, "kappa": kappa}
 ```
 
-The imports and symbols as in Notebook 12a; `NAMES` tells the parser which names of the record mean which symbols (the record calls the slope `AA`).
+`numpy` for the plots and `sympy` for the exact algebra.
+
+```python
+H = sp.symbols("H", positive=True)  # the constant H of the metric
+A, beta = sp.symbols("A beta", real=True)  # the exponential history
+ad1, ad2, uu, vv, kk = sp.symbols("ad1 ad2 uu vv kk", real=True)
+alpha1, alpha2, alpha3 = sp.symbols("alpha1 alpha2 alpha3", real=True)
+Lam, kappa = sp.symbols("Lam kappa", real=True)  # Lambda and kappa
+NAMES = {"ad1": ad1, "ad2": ad2, "uu": uu, "vv": vv, "kk": kk, "H": H, "AA": A,
+         "be": beta, "alpha1": alpha1, "alpha2": alpha2, "alpha3": alpha3,
+         "Lam": Lam, "kappa": kappa}
+```
+
+The symbols: $H > 0$; the slope `A` and the ratio `beta` of the exponential history; the record's variables `ad1`, `ad2`, `uu`, `vv`, `kk`; the couplings; `Lam` and `kappa`. `NAMES` says which symbol each name of the record means (the record writes `AA` for $A$ and `be` for $\beta$).
 
 ```python
 def parse(text):
     return sp.sympify(text.replace("^", "**"), locals=NAMES)
 ```
 
-`parse` turns a formula of the record, written in the Wolfram Language, into a sympy expression: the power sign `^` becomes `**` and `sp.sympify` reads the text (docstring left out).
+`parse` turns a Wolfram text of the record into a sympy expression (`^` becomes `**`).
 
 ```python
 ALPHA = {1: alpha1, 2: alpha2, 3: alpha3}
 lovelock = record["lovelockTensors"]
 side = {key: sum(ALPHA[k] * parse(lovelock[f"E{k}"][key]["input"]) for k in (1, 2, 3))
-        for key in ("x1x1", "x4x4", "x5x5", "x0x0")}  # sum_k alpha_k E_(k)
+        for key in ("x0x0", "x1x1", "x4x4", "x5x5")}  # sum_k alpha_k E_(k)
+EXPONENTIAL = {ad1: A * H, ad2: 0, uu: beta * A * H, vv: 0}
+kappa_rho = sp.expand(-(side["x4x4"] + Lam).subs(EXPONENTIAL))
 ```
 
-For each of the four distinct diagonal components the dictionary comprehension forms $\sum_k\alpha_kE_{(k)}$ from the record's three tensors: `side["x4x4"]` is $e_{44}$ of Section 12.8, and so on.
+`side` holds the four stored components of $\sum_k\alpha_kE_{(k)}$: for each key the sum over the three orders of the coupling times the parsed component. `EXPONENTIAL` inserts $a_4' = AH$, $a_4'' = 0$, $u = \beta AH$, $v = 0$, and `kappa_rho` is $\kappa\rho = -\big(\sum_k\alpha_kE^{x_4}{}_{x_4} + \Lambda\big)$ on the history, expanded.
 
 ```python
-LINEAR = {ad1: A * H, ad2: 0}  # a4' = A H, a4'' = 0
-kappa_rho = sp.expand(-(side["x4x4"] + Lam).subs(LINEAR))
-kappa_p3 = sp.expand((side["x1x1"] + Lam).subs(LINEAR))
-kappa_pt = sp.expand((side["x5x5"] + Lam).subs(LINEAR))
-kappa_p0 = sp.expand((side["x0x0"] + Lam).subs(LINEAR))
-say(f"kappa rho = {kappa_rho}")
-say(f"kappa p0 = {kappa_p0}")
+kappa_p3 = sp.expand((side["x1x1"] + Lam).subs(EXPONENTIAL))
+kappa_p0 = sp.expand((side["x0x0"] + Lam).subs(EXPONENTIAL))
+kappa_pt = sp.expand((side["x5x5"] + Lam).subs(EXPONENTIAL))
+say(f"Einstein part of kappa rho: {sp.factor(kappa_rho.coeff(alpha1))}")
+say(f"Einstein part of kappa p3: {sp.factor(kappa_p3.coeff(alpha1))}")
+say(f"Einstein part of kappa p0: {sp.factor(kappa_p0.coeff(alpha1))}")
 ```
 
-The linear member is substituted, and the four field equations of Section 12.8 are solved for the source: $\kappa\rho = -(e_{44} + \Lambda)$, $\kappa p_3 = e_{11} + \Lambda$, and so on. Out [3] prints $\kappa\rho$ and $\kappa p_0$: the general formulas of Section 12.12.
+In the same way $\kappa p_3$, $\kappa p_0$ and $\kappa p_t$ (from the components $x_1$, $x_0$ and $x_5$). `.coeff(alpha1)` takes the part multiplied by $\alpha_1$, the Einstein part, which is printed factorised (Out [3]): `3*H**2*(A**2*beta**2 - 2*A**2 - 4*kk)/2` for $\kappa\rho$, and the corresponding forms for $\kappa p_3$ and $\kappa p_0$: the Einstein source of Section 12.12 without $\Lambda$.
 
-**In [4], equal pressures and the symmetry A to minus A.**
+**In [4], five properties of the required source.**
 
 ```python
-reproduces(sp.expand(kappa_p3 - kappa_p0) == 0 and sp.expand(kappa_pt - kappa_p0) == 0,
-           "linear member: p3 = pt = p0 = p", PY, "linear_member_equal_pressures")
-kappa_p = kappa_p0  # the common pressure, times kappa
+reproduces(sp.expand(kappa_pt - kappa_p0) == 0,
+           "the hidden and the extra-time pressures are equal: p0 = p_t",
+           WL, "independent_components")
+degrees = [sp.Poly(value, kk).degree() for value in (kappa_rho, kappa_p3, kappa_p0)]
+x4 = sp.symbols("x4", real=True)
+k_rate = sp.diff(sp.exp((2 - beta) * A * H * x4), x4) / sp.exp((2 - beta) * A * H * x4)
 ```
 
-The three pressures agree for every coupling; the common value is named `kappa_p`.
+(1) The hidden and the extra-time pressures are one expression (Wolfram report, `independent_components`). `degrees` holds the highest power of $k$ in each component. For the rate of $k$ the cell differentiates $e^{(2 - \beta)AHx_4}$ with respect to a symbol `x4` and divides by the function itself.
 
 ```python
-linear_record = record["linearMember"]
-same = (sp.expand(kappa * parse(linear_record["rho"]["input"]) - kappa_rho) == 0
-        and sp.expand(kappa * parse(linear_record["p"]["input"]) - kappa_p) == 0)
-reproduces(same, "kappa rho and kappa p equal the record", PY, "json_linear_member")
+say(f"degrees in k: {degrees}; dk/dx4 = ({sp.factor(sp.simplify(k_rate))}) k")
+reproduces(max(degrees) <= 2 and sp.factor(sp.simplify(k_rate)) == -A * H * (beta - 2),
+           "the source is a polynomial of degree <= 2 in k; constant iff beta = 2 or "
+           "A = 0", PY, "exponential_history_required_source")
+required = record["exponentialHistory"]["requiredSource"]
+same = all(sp.expand(kappa * parse(required[key]["input"]) - value) == 0
+           for key, value in (("rho", kappa_rho), ("p3", kappa_p3), ("p0", kappa_p0),
+                              ("pt", kappa_pt)))
 ```
 
-The record stores $\rho$ and $p$ themselves (divided by $\kappa$); multiplied by `kappa` they must equal the notebook's $\kappa\rho$ and $\kappa p$.
+The cell prints (Out [4]) `degrees in k: [2, 2, 1]; dk/dx4 = (-A*H*(beta - 2)) k`. (2) No degree exceeds 2, and the rate of $k$ is $-(\beta - 2)AH$, zero only for $\beta = 2$ or $A = 0$ (sympy report, `exponential_history_required_source`). Then the record's required source is read; it is stored divided by $\kappa$, so it is multiplied by `kappa` before the comparison.
 
 ```python
-check(sp.expand(kappa_rho.subs(A, -A) - kappa_rho) == 0
-      and sp.expand(kappa_p.subs(A, -A) - kappa_p) == 0,
-      "A -> -A leaves rho and p unchanged: deflation is a choice of sign")
-reproduces(sp.expand(sp.diff(kappa_rho, alpha1) + 3 * H ** 2 * (A ** 2 + 7)) == 0,
-           "the alpha1 part of kappa rho is -3 H^2 (A^2 + 7)",
-           LEAD, "einstein_linear_rho_alpha1")
+reproduces(same, "kappa rho, kappa p3, kappa p0, kappa p_t equal the record",
+           PY, "json_exponential_history")
+check(all(sp.expand(value.subs(A, -A) - value) == 0
+          for value in (kappa_rho, kappa_p3, kappa_p0)),
+      "as functions of k the source contains A only through A^2")
+stored = read_json(METRIC_RESULTS)["history_source"]["einstein_kappaT_minus_Lambda"]
 ```
 
-Replacing $A$ by $-A$ changes nothing (Section 12.12). The part of $\kappa\rho$ that multiplies $\alpha_1$ is its derivative with respect to $\alpha_1$ (the formula is linear in the couplings); it must be $-3H^2(A^2 + 7)$, as the lead's independent computation found.
+(3) The four components equal the record (sympy report, `json_exponential_history`). (4) Replacing $A$ by $-A$ changes no component. Then the Einstein source of the exponential histories is read from the results file of the corrected metric, where it is written as a function of the time.
 
-**In [5], Einstein gravity.**
+```python
+names_e = {"A": A, "beta": beta, "H": H, "x4": x4, "exp": sp.exp}
+k_of_x4 = sp.exp((2 - beta) * A * H * x4)  # k at b4(0) = 1, a0 = 0
+mine = {"-rho": -kappa_rho.coeff(alpha1), "p3": kappa_p3.coeff(alpha1),
+        "p0": kappa_p0.coeff(alpha1), "p_t": kappa_pt.coeff(alpha1)}
+same = all(sp.simplify(sp.sympify(stored[key], locals=names_e)
+                       - (value.subs(Lam, 0)).subs(kk, k_of_x4)) == 0
+           for key, value in mine.items())
+```
+
+`names_e` says which symbol each name of that file means; `k_of_x4` is $k$ at $b_4(0) = 1$, $a_0 = 0$. `mine` holds the Einstein parts (coefficients of $\alpha_1$), with the sign of $-\rho$ as the file stores it. Each stored text minus the notebook's part with $\Lambda = 0$ and $k = e^{(2 - \beta)AHx_4}$ must simplify to zero.
+
+```python
+reproduces(same, "the alpha1 parts equal the Einstein source of the metric record",
+           LEAD, "einstein_exponential_source_alpha1")
+```
+
+(5) The comparison reproduces the lead's Einstein report, `einstein_exponential_source_alpha1`. Out [4] shows five PASS lines.
+
+**In [5], Einstein gravity and the record history.**
 
 ```python
 EINSTEIN = {alpha1: 1, alpha2: 0, alpha3: 0}
-rho_e = sp.expand(kappa_rho.subs(EINSTEIN))  # kappa rho in Einstein gravity
-p_e = sp.expand(kappa_p.subs(EINSTEIN))  # kappa p in Einstein gravity
-report("Einstein: kappa rho", rho_e)
-report("Einstein: kappa p", p_e)
+rho_e, p3_e, p0_e = (sp.expand(value.subs(EINSTEIN))
+                     for value in (kappa_rho, kappa_p3, kappa_p0))
+report("Einstein: kappa rho", sp.factor(rho_e))
+einstein_record = record["exponentialHistory"]["einstein"]
+same = all(sp.expand(kappa * parse(einstein_record[key]["input"]) - value) == 0
+           for key, value in (("rho", rho_e), ("p3", p3_e), ("p0", p0_e)))
 ```
 
-The Einstein couplings are substituted and $\kappa\rho = -3A^2H^2 - 21H^2 - \Lambda$ and $\kappa p = -3A^2H^2 + 15H^2 + \Lambda$ are printed.
+`EINSTEIN` sets $\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$; `rho_e`, `p3_e`, `p0_e` are the Einstein sources, and $\kappa\rho$ is printed (Out [5]): `(3*A**2*H**2*beta**2 - 6*A**2*H**2 - 12*H**2*kk - 2*Lam)/2`, that is $\tfrac32A^2H^2(\beta^2 - 2) - 6H^2k - \Lambda$. `same` compares the three with the record's key `exponentialHistory/einstein`.
 
 ```python
-same = (sp.expand(kappa * parse(linear_record["rhoEinstein"]["input"]) - rho_e) == 0
-        and sp.expand(kappa * parse(linear_record["pEinstein"]["input"]) - p_e) == 0
-        and sp.expand(kappa * parse(linear_record["rhoPlusPEinstein"]["input"])
-                      - (rho_e + p_e)) == 0)
-reproduces(same and sp.expand(rho_e + p_e + 6 * (1 + A ** 2) * H ** 2) == 0,
-           "Einstein: kappa (rho + p) = -6 (1 + A^2) H^2 < 0", PY,
-           "json_linear_member")
+reproduces(same, "Einstein: the required source equals the record",
+           WL, "exponential_history_required_source")
+HISTORY = {A: 1, beta: sp.Rational(4, 3), H: 1, Lam: 0}  # record history, Lambda = 0
+history = {name: sp.expand(value.subs(HISTORY))
+           for name, value in (("rho", rho_e), ("p3", p3_e), ("p0", p0_e))}
+for name, value in history.items():
+    report(f"record history, Einstein, Lambda = 0: kappa {name}", value)
 ```
 
-The three Einstein formulas of the record ($\rho$, $p$, $\rho + p$) are compared, and the sum $\kappa(\rho + p) = -6(1 + A^2)H^2$ is checked.
+The three agree, as the Wolfram report found (its check `exponential_history_required_source`). Then `HISTORY` inserts the record history with $\Lambda = 0$ and $H = 1$, and the three components are printed as RESULT lines: `-6*kk - 1/3`, `6*kk - 13/9` and `3*kk - 11/3`, the values derived in Section 12.12.
 
 ```python
-UNITS = {H: 1, Lam: 0, A: 1}
-rho_1, p_1 = rho_e.subs(UNITS), p_e.subs(UNITS)
-report("Einstein, Lambda = 0, A = 1: kappa rho", rho_1, "H^2")
-report("Einstein, Lambda = 0, A = 1: kappa p", p_1, "H^2")
-report("Einstein, Lambda = 0, A = 1: w = p/rho", sp.Rational(p_1, rho_1))
-check(rho_1 == -24 and p_1 == 12, "A = 1, Lambda = 0: kappa rho = -24, kappa p = 12")
+at_start = {name: value.subs(kk, 1) for name, value in history.items()}
+report("at x4 = 0: kappa rho, kappa p3, kappa p0",
+       f"{at_start['rho']}, {at_start['p3']}, {at_start['p0']}")
+check(at_start == {"rho": sp.Rational(-19, 3), "p3": sp.Rational(41, 9),
+                   "p0": sp.Rational(-2, 3)},
+      "record history at x4 = 0: kappa rho = -19/3, kappa p3 = 41/9, kappa p0 = -2/3")
 ```
 
-The canonical history $A = 1$ without cosmological constant, in units $H = 1$: $\kappa\rho = -24$, $\kappa p = 12$, and the exact fraction `sp.Rational(p_1, rho_1)` $= -1/2$.
-
-**In [6], figure 1: the Einstein source against A.**
+At $x_4 = 0$ we have $k = 1$; the three values are printed, `-19/3, 41/9, -2/3`, and checked: $-6 - \tfrac13 = -\tfrac{19}3$, $6 - \tfrac{13}9 = \tfrac{41}9$, $3 - \tfrac{11}3 = -\tfrac23$.
 
 ```python
-rho_f = sp.lambdify((A, Lam), rho_e.subs(H, 1), "numpy")  # numbers from formulas
-p_f = sp.lambdify((A, Lam), p_e.subs(H, 1), "numpy")
-a_values = np.linspace(-3.0, 3.0, 301)
+stored = read_json(METRIC_RESULTS)["history_source"]["einstein_A1_beta43_mathematica"]
+k_of_t = sp.exp(sp.Rational(2, 3) * x4)
+names_m = {"H": sp.Integer(1), "x4": x4}
 ```
 
-`sp.lambdify` makes numpy functions of $A$ and $\Lambda$ from the exact formulas with $H = 1$; `a_values` holds 301 slopes from $-3$ to 3.
+The results file of the corrected metric also stores this source as written by its Wolfram verifier, with `Exp[(2/3)*H*x4]` for $k$. `k_of_t` is $e^{2x_4/3}$; `names_m` sets $H = 1$.
+
+```python
+def from_wolfram(text):
+    text = text.replace("Exp[", "exp(").replace("]", ")").replace("^", "**")
+    return sp.sympify(text, locals=names_m)
+```
+
+`from_wolfram` turns such a text into sympy: `Exp[` becomes `exp(`, every `]` becomes `)`, and `^` becomes `**`.
+
+```python
+same = all(sp.simplify(from_wolfram(stored[key]) - value.subs(kk, k_of_t)) == 0
+           for key, value in (("-rho", -history["rho"]), ("p3", history["p3"]),
+                              ("p0", history["p0"]), ("p_t", history["p0"])))
+reproduces(same, "the source of the record history equals the Wolfram record",
+           METRIC_WL, "history_source_equals_sympy")
+```
+
+The four stored components (with $p_t$ equal to $p_0$) must equal the notebook's, with $k = e^{2x_4/3}$ (Wolfram report of the corrected metric, `history_source_equals_sympy`). Out [5] shows four RESULT lines and three PASS lines.
+
+**In [6], figure 12b.1: the Einstein source of the record history.**
+
+```python
+x_axis = np.linspace(0.0, 3.0, 301)  # the time x4 in units 1/H
+k_axis = np.exp(2.0 * x_axis / 3.0)  # k on the record history
+curves = {name: sp.lambdify(kk, value, "numpy")(k_axis) * np.ones_like(k_axis)
+          for name, value in history.items()}
+check(bool(np.all(curves["rho"] < 0)),
+      "Einstein, Lambda = 0: the energy density of the record history is negative")
+```
+
+301 times from 0 to 3, the values of $k$ there, and the three components evaluated on them (`sp.lambdify` as in Notebook 12a; the dictionary comprehension builds one array per component). The check: with $\Lambda = 0$ the energy density is negative at every plotted time (it is $-6k - \tfrac13 < 0$ for every $k > 0$).
 
 ```python
 fig, ax = plt.subplots()
-ax.axvspan(0, 3, color="tab:green", alpha=0.08)  # the deflating half, A > 0
-ax.plot(a_values, rho_f(a_values, 0.0), label="$\\kappa\\rho/H^2$")
-ax.plot(a_values, p_f(a_values, 0.0), label="$\\kappa p/H^2$")
-ax.plot(a_values, rho_f(a_values, 0.0) + p_f(a_values, 0.0), ":", color="black",
-        label="$\\kappa(\\rho+p)/H^2=-6(1+A^2)$")
+ax.plot(x_axis, curves["rho"], label="$\\kappa\\rho = -6k - 1/3$")
+ax.plot(x_axis, curves["p3"], "--", label="$\\kappa p_3 = 6k - 13/9$")
+ax.plot(x_axis, curves["p0"], ":", label="$\\kappa p_0 = \\kappa p_t = 3k - 11/3$")
 ax.axhline(0.0, color="black", linewidth=0.8)
+ax.set_xlabel("time $x_4$ (units $1/H$)")
 ```
 
-`ax.axvspan(0, 3, ...)` shades the vertical strip $0 < A < 3$ in a faint green: the deflating half. The three curves are $\kappa\rho$, $\kappa p$ and their sum (dotted, `":"`) at $\Lambda = 0$; `axhline` draws the zero line.
+Three curves with different line styles and legend texts, a black line at zero, and the label of the time axis.
 
 ```python
-ax.text(1.5, 15, "$A>0$: extra times deflate", ha="center", fontsize=9)
-ax.text(-1.5, 15, "$A<0$: extra times inflate", ha="center", fontsize=9)
-ax.set_xlabel("slope $A$ of $a_4 = AHx_4 + a_0$")
 ax.set_ylabel("required source (units of $H^2/\\kappa$)")
-ax.set_title("Einstein gravity, $\\Lambda = 0$: the source of the linear member")
-ax.legend(fontsize=8, loc="lower center")
+ax.set_title("Einstein gravity, $\\Lambda = 0$: the source of the record history")
+ax.legend(fontsize=8)
 save_figure(fig, "einstein_source",
-            ...)
+            "The source that the record history $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$ "
+...)
 ```
 
-`ax.text(x, y, text, ...)` writes a text at the point $(x, y)$ of the plot; the two texts name the halves. Labels, title, legend and `save_figure` as before. **What the figure shows.** Every curve is symmetric about $A = 0$: the deflating half is the mirror image of the inflating half. The energy density is a downward parabola that never rises above $-21H^2/\kappa$; the pressure is positive for $|A| < \sqrt5$; their sum lies below zero everywhere.
+The vertical label, the title, the legend and `save_figure` (the caption is printed under figure 12b.1 in Section 12.19). All three components grow with $k$; $p_3$ and $p_0$ differ, so the source is anisotropic.
 
-**In [7], figure 2: the signs of rho and p.**
+**In [7], figure 12b.2: the sign of $A$ is a choice.**
 
 ```python
-a_grid, lam_grid = np.meshgrid(np.linspace(-3, 3, 241), np.linspace(-60, 30, 241))
-rho_grid = rho_f(a_grid, lam_grid)
-p_grid = p_f(a_grid, lam_grid)
-region = np.where(rho_grid > 0, 0, np.where(p_grid < 0, 1, 2))  # three regions
+rho_43 = sp.expand(rho_e.subs({beta: sp.Rational(4, 3), H: 1, Lam: 0}))
+k_time = {slope: sp.exp(sp.Rational(2, 3) * slope * x4) for slope in (1, -1)}
+rho_time = {slope: rho_43.subs(A, slope).subs(kk, k_time[slope]) for slope in (1, -1)}
+check(sp.expand(rho_43.subs(A, 1) - rho_43.subs(A, -1)) == 0
+      and sp.simplify(rho_time[-1] - rho_time[1].subs(x4, -x4)) == 0,
+      "A and -A: the same source at the same k, mirror images in time")
 ```
 
-`np.meshgrid` makes two 241 by 241 arrays that together hold every point of a grid in the plane of $A$ (from $-3$ to 3) and $\Lambda/H^2$ (from $-60$ to 30); the functions of In [6] evaluate $\kappa\rho$ and $\kappa p$ at all of them at once. `np.where(condition, x, y)` takes `x` where the condition holds and `y` elsewhere; the nested use labels each point 0 ($\rho > 0$), 1 ($\rho \le 0$, $p < 0$) or 2 ($\rho \le 0$, $p \ge 0$).
+`rho_43` is the Einstein energy density at $\beta = \tfrac43$, $H = 1$, $\Lambda = 0$, as a function of $A$ and $k$. `k_time` gives $k = e^{(2/3)Ax_4}$ for the slopes $A = 1$ and $A = -1$, and `rho_time` the energy density of each as a function of the time. The check: at equal $k$ the two energy densities are equal, and the energy density of $-A$ at the time $x_4$ is that of $A$ at $-x_4$ (Section 12.12).
 
 ```python
-fig, ax = plt.subplots()
-colours = matplotlib.colors.ListedColormap(["#f4a582", "#d1e5f0", "#92c5de"])
-ax.pcolormesh(a_grid, lam_grid, region, cmap=colours, shading="auto")
-ax.plot(a_values, -(21 + 3 * a_values ** 2), color="black",
-        label="$\\rho = 0$: $\\Lambda = -(21+3A^2)H^2$")
-ax.plot(a_values, 3 * a_values ** 2 - 15, "--", color="black",
-        label="$p = 0$: $\\Lambda = (3A^2-15)H^2$")
-```
-
-`ListedColormap` makes a colour map of three colours (written as hexadecimal colour codes), one per region, and `ax.pcolormesh` colours the grid with it. The solid curve is the border $\rho = 0$, the dashed one the border $p = 0$ (Section 12.12).
-
-```python
-ax.text(0, -50, "$\\rho > 0$, $p < 0$: $w < -1$", ha="center")
-ax.text(0, -18, "$\\rho < 0$, $p < 0$", ha="center")
-ax.text(0, 5, "$\\rho < 0$, $p > 0$", ha="center")
-ax.set_xlim(-3, 3)
-ax.set_ylim(-60, 30)
-ax.set_xlabel("slope $A$")
-ax.set_ylabel("$\\Lambda/H^2$")
-ax.set_title("Einstein gravity: the signs of the required $\\rho$ and $p$")
-ax.legend(fontsize=8, loc="upper center")
-save_figure(fig, "source_regions",
-            ...)
-```
-
-Three texts name the regions; `set_xlim` and `set_ylim` fix the ranges of the axes. **What the figure shows.** Below the solid curve the energy density is positive, but there the pressure is negative and $w < -1$. Above the dashed curve the pressure is positive and the energy density negative. In the band between both are negative. No colour stands for "both positive", and since the two curves never touch, no point is a vacuum.
-
-**In [8], figure 3: positive energy forces w below minus 1.**
-
-```python
-w_e = sp.simplify(p_e / rho_e)  # w = p/rho in Einstein gravity
-say(f"Einstein: w = p/rho = {w_e}")
-check(sp.simplify(w_e + 1 - (rho_e + p_e) / rho_e) == 0,
-      "w + 1 = (rho + p)/rho, so rho > 0 and rho + p < 0 give w < -1")
-```
-
-The equation of state $w = p/\rho$ is printed, and the identity $w + 1 = (\rho + p)/\rho$ (add $\rho/\rho = 1$ to $p/\rho$) is checked; with $\rho > 0$ and $\rho + p < 0$ it gives $w + 1 < 0$.
-
-```python
-fig, ax = plt.subplots()
-for lam in (-30.0, -40.0, -60.0):
-    rho_values = rho_f(a_values, lam)
-    keep = rho_values > 1.0  # where the energy density is clearly positive
-    w_values = np.where(keep, p_f(a_values, lam) / np.where(keep, rho_values, 1.0),
-                        np.nan)  # nan: not drawn
-    ax.plot(a_values, w_values, label=f"$\\Lambda = {lam:.0f}\\,H^2$")
-    check(np.nanmax(w_values) < -1.0, f"Lambda = {lam:.0f} H^2: w < -1 where rho > 0")
-```
-
-For three cosmological constants the energy density is computed on the 301 slopes; `keep` is an array of true and false values that marks where $\kappa\rho > 1$ (clearly positive). There $w = p/\rho$ is computed; elsewhere `np.nan` (not a number) is stored, which matplotlib does not draw. The inner `np.where(keep, rho_values, 1.0)` avoids a division by a value near zero outside the kept points. `np.nanmax` is the largest value that is not `nan`; it must be below $-1$.
-
-```python
-ax.axhline(-1.0, color="black", linewidth=0.8)
-ax.set_ylim(-6, 0)
-ax.set_xlabel("slope $A$")
-ax.set_ylabel("$w = p/\\rho$")
-ax.set_title("Einstein gravity: where $\\rho > 0$ the source has $w < -1$")
-ax.legend(fontsize=8)
-save_figure(fig, "phantom_w",
-            ...)
-```
-
-The line $w = -1$, the range of the vertical axis, labels, legend and `save_figure`. **What the figure shows.** Each curve is drawn only for slopes small enough that $\kappa\rho > H^2$ (for $\Lambda = -30H^2$ the energy density is positive for $|A| < \sqrt3$, from $21 + 3A^2 < 30$), and each lies entirely below $w = -1$: a positive energy density of the author's metric is always phantom.
-
-**In [9], figure 4: the Gauss-Bonnet coupling.**
-
-```python
-reproduces(sp.expand(sp.diff(kappa_rho, alpha2)
-                     - H ** 4 * (36 * A ** 4 + 120 * A ** 2 + 420)) == 0,
-           "the alpha2 part of kappa rho is H^4 (36 A^4 + 120 A^2 + 420)",
-           LEAD, "gauss_bonnet_rho_alpha2")
-reproduces(sp.expand(sp.diff(kappa_p, alpha2)
-                     - 12 * H ** 4 * (A ** 4 + 14 * A ** 2 - 15)) == 0,
-           "the alpha2 part of kappa p is 12 H^4 (A^4 + 14 A^2 - 15)",
-           LEAD, "gauss_bonnet_p_alpha2")
-```
-
-The parts of $\kappa\rho$ and $\kappa p$ that multiply $\alpha_2$ are compared with the lead's classical Gauss-Bonnet computation.
-
-```python
-symbols_numeric = (A, Lam, alpha1, alpha2, alpha3)
-rho_l = sp.lambdify(symbols_numeric, kappa_rho.subs(H, 1), "numpy")  # any coupling
-p_l = sp.lambdify(symbols_numeric, kappa_p.subs(H, 1), "numpy")
 fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-for a2 in (0.0, 0.01, 0.025, 0.04):
-    label = f"$\\alpha_2H^2 = {a2}$"
-    left.plot(a_values, rho_l(a_values, 0, 1, a2, 0), label=label)
-    right.plot(a_values, p_l(a_values, 0, 1, a2, 0), label=label)
+k_values = np.linspace(0.2, 5.0, 200)
+times = np.linspace(-3.0, 3.0, 301)
+for slope, style in ((1, "-"), (-1, "--")):
+    rho_k = sp.lambdify(kk, rho_43.subs(A, slope), "numpy")
+    left.plot(k_values, rho_k(k_values), style, label=f"$A = {slope}$")
+    rho_t = sp.lambdify(x4, rho_time[slope], "numpy")
+    right.plot(times, rho_t(times), style, label=f"$A = {slope}$")
 ```
 
-Numpy functions of the slope, $\Lambda$ and the three couplings. A figure with two panels side by side (`left` and `right`); for four values of $\alpha_2H^2$, with $\Lambda = 0$, $\alpha_1 = 1$, $\alpha_3 = 0$, the energy density is drawn on the left and the pressure on the right.
+Two panels; 200 values of $k$ from 0.2 to 5, and 301 times from $-3$ to 3. For each slope the left panel draws the energy density against $k$, the right panel against the time.
 
 ```python
-for ax, name in ((left, "\\kappa\\rho/H^2"), (right, "\\kappa p/H^2")):
-    ax.axhline(0.0, color="black", linewidth=0.8)
-    ax.set_xlabel("slope $A$")
-    ax.set_ylabel(f"${name}$")
-    ax.legend(fontsize=8)
-left.set_title("energy density, $\\Lambda = 0$")
-right.set_title("pressure, $\\Lambda = 0$")
-save_figure(fig, "gauss_bonnet_source",
-            ...)
-```
-
-The same zero line, labels and legend for both panels, then titles and `save_figure`.
-
-```python
-rho_gb_0 = sp.expand(kappa_rho.subs({alpha1: 1, alpha3: 0, Lam: 0, A: 0}))
-check(sp.expand(rho_gb_0 - (420 * alpha2 * H ** 4 - 21 * H ** 2)) == 0,
-      "Gauss-Bonnet, Lambda = 0, A = 0: kappa rho = (420 alpha2 H^2 - 21) H^2")
-p_gb_1 = [sp.expand(kappa_p.subs({alpha1: 1, alpha3: 0, Lam: 0, A: s}))
-          for s in (1, -1)]
-check(p_gb_1 == [12 * H ** 2, 12 * H ** 2],
-      "Gauss-Bonnet, Lambda = 0, A = +1 or -1: kappa p = 12 H^2 for every alpha2")
-```
-
-Two facts that the figure shows, checked exactly: at $A = 0$ the energy density is $(420\alpha_2H^2 - 21)H^2$, and at $A = \pm1$ the pressure is $12H^2$ whatever $\alpha_2$ is, because the Gauss-Bonnet part $12H^4(1 + 14 - 15)$ vanishes there. (These two PASS lines appear after the figure in Out [9], because they are printed after `save_figure`.) **What the figure shows.** The Gauss-Bonnet term adds $\alpha_2H^4(36A^4 + 120A^2 + 420) > 0$ to $\kappa\rho$: for $\alpha_2H^2 = 0.025$ and $0.04$ the energy density becomes positive at large $|A|$ without any cosmological constant. All pressure curves cross at $A = \pm1$.
-
-**In [10], figure 5: the null energy condition and the vacuum curve.**
-
-```python
-V = parse(linear_record["vacuumFactor"]["input"])  # the record vacuum factor
-reproduces(sp.expand(kappa_rho + kappa_p + 6 * (A ** 2 + 1) * H ** 2 * V) == 0,
-           "kappa (rho + p) = -6 (A^2 + 1) H^2 V for every coupling",
-           PY, "linear_member_vacuum_factor")
-V_gb = sp.expand(V.subs({alpha1: 1, alpha3: 0}))
-reproduces(sp.expand(V_gb - (1 - 8 * alpha2 * H ** 2 * (A ** 2 + 5))) == 0,
-           "Gauss-Bonnet: V = 1 - 8 alpha2 H^2 (A^2 + 5)",
-           PY, "einstein_gauss_bonnet_vacuum_linear")
-```
-
-The record's vacuum factor $V$ is read and the factorisation $\kappa(\rho + p) = -6(A^2 + 1)H^2V$ is checked, then its Gauss-Bonnet form.
-
-```python
-a_grid, g_grid = np.meshgrid(np.linspace(-3, 3, 241), np.linspace(0.0, 0.06, 241))
-V_grid = 1 - 8 * g_grid * (a_grid ** 2 + 5)  # V with H = 1
-fig, ax = plt.subplots()
-ax.pcolormesh(a_grid, g_grid, np.sign(V_grid), cmap="coolwarm", shading="auto",
-              vmin=-2, vmax=2)
-```
-
-A grid in the plane of $A$ and $\alpha_2H^2$ (from 0 to 0.06); $V$ on the grid; `np.sign` is $+1$, $0$ or $-1$, and the colour map `coolwarm` with the range $-2$ to 2 shows the two signs in muted blue and red.
-
-```python
-g_curve = np.linspace(0.0025, 1 / 40, 200)  # alpha2 H^2 on the vacuum curve
-a_curve = np.sqrt((1 - 40 * g_curve) / (8 * g_curve))
-ax.plot(a_curve, g_curve, color="black", label="vacuum $V = 0$, $A > 0$ (deflating)")
-ax.plot(-a_curve, g_curve, "--", color="black", label="vacuum $V = 0$, $A < 0$")
-```
-
-The vacuum curve $A^2 = (1 - 40\alpha_2H^2)/(8\alpha_2H^2)$, drawn for $\alpha_2H^2$ from $0.0025$ to $1/40$, with its deflating branch $A > 0$ (solid) and the mirror branch (dashed).
-
-```python
-ax.text(0, 0.006, "$V > 0$: NEC violated", ha="center")
-ax.text(0, 0.045, "$V < 0$: NEC holds", ha="center")
-ax.set_xlim(-3, 3)
-ax.set_xlabel("slope $A$")
-ax.set_ylabel("$\\alpha_2 H^2$")
-ax.set_title("Einstein-Gauss-Bonnet: the sign of $V$ and the vacuum curve")
-ax.legend(fontsize=8, loc="upper right")
-save_figure(fig, "null_energy_map",
-            ...)
-```
-
-Texts naming the two regions (NEC is the null energy condition), labels and `save_figure`. **What the figure shows.** Below the curve $V > 0$ and the required source violates the null energy condition, as in Einstein gravity; above it a sufficiently large Gauss-Bonnet coupling allows a source that satisfies it. On the curve itself a vacuum is possible; the curve reaches $A = 0$ at $\alpha_2H^2 = 1/40$.
-
-**In [11], figure 6: the Gauss-Bonnet vacua.**
-
-```python
-A2_vacuum = (1 - 40 * alpha2 * H ** 2) / (8 * alpha2 * H ** 2)  # A^2 on V = 0
-GB = {alpha1: 1, alpha3: 0}
-rho_gb = sp.expand(kappa_rho.subs(GB))
-Lam_vacuum = sp.solve(rho_gb, Lam)[0]  # the Lambda that makes rho = 0
-Lam_on_curve = sp.simplify(Lam_vacuum.subs(A ** 2, A2_vacuum))
-say(f"Lambda of the vacuum: {Lam_on_curve}")
-```
-
-$A^2$ on the vacuum curve; $\kappa\rho$ of Einstein-Gauss-Bonnet gravity; `sp.solve(rho_gb, Lam)` solves $\kappa\rho = 0$ for $\Lambda$ and returns a list with one solution, of which `[0]` takes the first. Then $A^2$ is replaced by its value on the curve (sympy also replaces $A^4 = (A^2)^2$) and the result is simplified: $\Lambda = 720H^4\alpha_2 - 36H^2 + 3/(16\alpha_2)$, printed in Out [11].
-
-```python
-p_on_curve = sp.simplify((kappa_p.subs(GB).subs(Lam, Lam_vacuum)).subs(A ** 2,
-                                                                   A2_vacuum))
-check(p_on_curve == 0,
-      "Gauss-Bonnet vacuum: with V = 0 and Lambda from rho = 0, also p = 0")
-at_edge = Lam_on_curve.subs({alpha2: sp.Rational(1, 40), H: 1})
-report("vacuum at alpha2 H^2 = 1/40: Lambda/H^2", at_edge)
-check(at_edge == sp.Rational(-21, 2), "at alpha2 H^2 = 1/40: A = 0, Lambda = -10.5 H^2")
-```
-
-With this $\Lambda$ and on the curve the pressure vanishes as well: a true vacuum. At the edge $\alpha_2H^2 = 1/40$ the cosmological constant is exactly $-21/2$ (in units $H^2$).
-
-```python
-lam_vac_f = sp.lambdify(alpha2, Lam_on_curve.subs(H, 1), "numpy")
-g_curve = np.linspace(0.004, 1 / 40, 200)
-fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-left.plot(g_curve, np.sqrt((1 - 40 * g_curve) / (8 * g_curve)), label="$A > 0$")
-left.plot(g_curve, -np.sqrt((1 - 40 * g_curve) / (8 * g_curve)), "--",
-          label="$A < 0$")
-left.set_xlabel("$\\alpha_2 H^2$")
-left.set_ylabel("slope $A$ of the vacuum")
+left.set_xlabel("$k = e^{2a_4}/b_4$")
+left.set_ylabel("$\\kappa\\rho$ (units $H^2$)")
+left.set_title("against $k$: the same curve")
 left.legend(fontsize=8)
-right.plot(g_curve, lam_vac_f(g_curve))
-right.set_xlabel("$\\alpha_2 H^2$")
+right.set_xlabel("time $x_4$ (units $1/H$)")
+right.set_ylabel("$\\kappa\\rho$ (units $H^2$)")
+```
+
+The labels of the two axes of the left panel, its title and legend, and the labels of the right panel.
+
+```python
+right.set_title("against the time: mirror images")
+right.legend(fontsize=8)
+save_figure(fig, "sign_symmetry",
+            "Einstein gravity, $\\beta = 4/3$, $\\Lambda = 0$: the energy density "
+...)
+```
+
+The title and legend of the right panel and `save_figure` (caption under figure 12b.2). On the left the two curves lie on top of each other; on the right they are mirror images under $x_4 \to -x_4$.
+
+**In [8], figure 12b.3: the role of $\beta$.**
+
+```python
+scan = {name: sp.expand(value.subs({A: 1, H: 1, Lam: 0, kk: 1}))
+        for name, value in (("rho", rho_e), ("p3", p3_e), ("p0", p0_e))}
+positive = sp.solve_univariate_inequality(scan["rho"] > 0, beta, relational=False)
+say(f"k = 1, A = 1, Lambda = 0: kappa rho = {scan['rho']} > 0 for beta in {positive}")
+check(positive == sp.Union(sp.Interval.open(-sp.oo, -sp.sqrt(6)),
+                           sp.Interval.open(sp.sqrt(6), sp.oo)),
+      "k = 1: the Einstein energy density is positive exactly for |beta| > sqrt(6)")
+```
+
+`scan` evaluates the three Einstein components at $A = 1$, $H = 1$, $\Lambda = 0$ and $k = 1$ (on the record history: at $x_4 = 0$), leaving $\beta$ free. `sp.solve_univariate_inequality(..., relational=False)` finds the set of $\beta$ on which the energy density is positive and returns it as a set of intervals. The cell prints (Out [8]) `kappa rho = 3*beta**2/2 - 9 > 0 for beta in Union(Interval.open(-oo, -sqrt(6)), Interval.open(sqrt(6), oo))`: $\tfrac32\beta^2 - 9 > 0$ exactly when $\beta^2 > 6$. The check compares the set with $(-\infty, -\sqrt6) \cup (\sqrt6, \infty)$.
+
+```python
+beta_axis = np.linspace(0.0, 4.0, 401)
+fig, ax = plt.subplots()
+for (name, value), style, label in zip(scan.items(), ("-", "--", ":"),
+                                       ("$\\kappa\\rho$", "$\\kappa p_3$",
+                                        "$\\kappa p_0 = \\kappa p_t$")):
+    ax.plot(beta_axis, sp.lambdify(beta, value, "numpy")(beta_axis), style,
+            label=label)
+```
+
+401 values of $\beta$ from 0 to 4, one figure, and a loop over the three components with their line styles and legend texts (`zip` walks through the three lists together).
+
+```python
+ax.axvline(4.0 / 3.0, color="black", linestyle=":", linewidth=0.8)
+ax.axvline(2.0, color="grey", linestyle="--", linewidth=0.8)
+ax.text(4.0 / 3.0 + 0.03, 4.5, "record $\\beta = 4/3$", fontsize=8)
+ax.text(2.03, -9.5, "$\\beta = 2$: block constant", fontsize=8)
+ax.axhline(0.0, color="black", linewidth=0.8)
+ax.set_xlabel("$\\beta = u/a_4'$")
+```
+
+Two vertical lines, dotted at the record value $\beta = \tfrac43$ and dashed at $\beta = 2$, each with a short text; a line at zero; the horizontal label.
+
+```python
+ax.set_ylabel("required source at $k = 1$ (units $H^2$)")
+ax.set_title("Einstein gravity, $A = 1$, $\\Lambda = 0$: the source against $\\beta$")
+ax.legend(fontsize=8, loc="lower left")
+save_figure(fig, "beta_scan",
+            "Einstein gravity with $A = 1$ and $\\Lambda = 0$: the source that an "
+...)
+```
+
+The vertical label, the title, the legend in the lower left corner and `save_figure` (caption under figure 12b.3). The energy density is negative for all $\beta$ shown up to 2.45; at $\beta = 2$ the block does not shrink and the source is constant in time.
+
+**In [9], the author's weights on the record history.**
+
+```python
+import re  # regular expressions: find numbers in a text
+```
+
+`re`, the module of **regular expressions**, patterns that find pieces of a text; it is used to read numbers out of a detail text of the record.
+
+```python
+AUTHOR = {alpha1: 1, alpha2: sp.Rational(1, 32) / H ** 2,
+          alpha3: sp.Rational(1, 1152) / H ** 4}
+RECORD_HISTORY = {A: 1, beta: sp.Rational(4, 3), H: 1}
+shifted = {name: sp.expand(value.subs(AUTHOR).subs(RECORD_HISTORY))
+           for name, value in (("minus_rho", -kappa_rho - Lam), ("p3", kappa_p3 - Lam),
+                               ("p0", kappa_p0 - Lam))}  # kappa T - Lambda
+```
+
+`AUTHOR` holds the author's weights $\alpha_k = w_k/H^{2k}$, and `RECORD_HISTORY` the history $A = 1$, $\beta = \tfrac43$ with $H = 1$. `shifted` holds $\kappa T - \Lambda$ on this history: $-\kappa\rho - \Lambda$, $\kappa p_3 - \Lambda$ and $\kappa p_0 - \Lambda$, which do not depend on $\Lambda$.
+
+```python
+stored = record["exponentialHistory"]["authorWeights"]["historySource_kappaT_minus_Lam"]
+same = all(sp.expand(parse(stored[key]["input"]) - shifted[name]) == 0
+           for key, name in (("minus_rho", "minus_rho"), ("p3", "p3"), ("p0", "p0"),
+                             ("pt", "p0")))
+reproduces(same, "the author's weights: kappa T - Lambda of the record history",
+           PY, "author_weights_history_source")
+```
+
+They must equal the record (key `historySource_kappaT_minus_Lam`, with the record's `pt` compared with $p_0$; sympy report, `author_weights_history_source`).
+
+```python
+LAMBDA = -10  # the record's Lambda for the author's weights
+author = {"rho": sp.expand(-shifted["minus_rho"] - LAMBDA),
+          "p3": sp.expand(shifted["p3"] + LAMBDA),
+          "p0": sp.expand(shifted["p0"] + LAMBDA)}
+for name, value in author.items():
+    report(f"author's weights, Lambda = -10: kappa {name}", value)
+```
+
+With the record's $\Lambda = -10$ the cell forms $\kappa\rho = -(-\kappa\rho - \Lambda) - \Lambda$, $\kappa p_3 = (\kappa p_3 - \Lambda) + \Lambda$ and $\kappa p_0$ in the same way, and prints them (Out [9]): $\kappa\rho = \tfrac9{16}k^2 - \tfrac{161}{24}k + \tfrac{4199}{432}$, $\kappa p_3 = -\tfrac9{16}k^2 + \tfrac{1601}{216}k - \tfrac{44239}{3888}$ and $\kappa p_0 = \tfrac{79}{16}k - \tfrac{1937}{144}$.
+
+```python
+anisotropy = sp.expand(author["p3"] - author["p0"])
+report("kappa (p3 - p0)", anisotropy)
+eos_text = record_detail(EOS, "condensate_cannot_source_history")
+reproduces(sp.expand(anisotropy - (-sp.Rational(9, 16) * kk ** 2
+                                   + sp.Rational(1069, 432) * kk
+                                   + sp.Rational(2015, 972))) == 0
+           and "-9*kk**2/16 + 1069*kk/432 + 2015/972" in eos_text,
+           "the history needs kappa (p3 - p0) = -9 k^2/16 + 1069 k/432 + 2015/972",
+           EOS, "condensate_cannot_source_history")
+```
+
+The anisotropy $\kappa(p_3 - p_0)$ is printed, `-9*kk**2/16 + 1069*kk/432 + 2015/972`: a polynomial in $k$ that is not zero, so a source with equal pressures cannot drive this history. The check requires this polynomial and the same text in the detail of the dark-sector record's check `condensate_cannot_source_history`, which states that no condensate is the source of the record history.
+
+```python
+roots = [r for r in sp.Poly(author["rho"], kk).nroots() if r.is_real and r > 0]
+k_zero = min(roots)  # the value of k where kappa rho changes sign
+x_zero = 1.5 * float(sp.log(k_zero))  # k = e^(2 x4/3)
+report("kappa rho changes sign at k, x4", f"{float(k_zero):.6f}, {x_zero:.6f}")
+gas_text = record_detail(KS_A4, "C3_record_history_not_sourced_by_the_gas")
+reproduces(0.75 < x_zero < 0.8
+           and "changes sign between the dense slices a4 = 0.75 and 0.8" in gas_text,
+           "kappa rho changes sign between a4 = 0.75 and a4 = 0.8",
+           KS_A4, "C3_record_history_not_sourced_by_the_gas")
+```
+
+`nroots` computes the roots of the polynomial $\kappa\rho$ in $k$ numerically; the comprehension keeps the real positive ones, and `k_zero` is the smallest. On the history $k = e^{2x_4/3}$, so the time is $x_4 = \tfrac32\ln k$. The cell prints `kappa rho changes sign at k, x4 = 1.687791, 0.785131`. The record of the Kohn-Sham source states that this energy density changes sign between the slices $a_4 = 0.75$ and $0.8$ (on the history $a_4 = x_4$); the check requires both the notebook's time inside that interval and this sentence in the record.
+
+```python
+slices = [0.0, 0.5, 1.0, 1.5, 2.0]
+values = [float(author["rho"].subs(kk, np.exp(2.0 * a / 3.0))) for a in slices]
+printed = [f"{value:.6g}" for value in values]
+say("kappa rho at a4 = 0, 0.5, 1, 1.5, 2: " + ", ".join(printed))
+ks_text = record_detail(KS, "ks_history_is_a_prescribed_background")
+stated = re.findall(r"kappa rho = (\S+?),", ks_text)
+```
+
+The five slices $a_4 = 0, 0.5, 1, 1.5, 2$ of the Kohn-Sham record: `values` holds $\kappa\rho$ at each ($k = e^{2a_4/3}$), and `printed` the values with six significant digits (`.6g`). The cell prints `3.57407, 1.45327, -1.2122, -4.35889, -7.63383`. `re.findall` collects every number that follows `kappa rho = ` and ends before a comma in the detail text of the record of the source conditions (the pattern `\S+?` takes the shortest run of characters that are not blanks).
+
+```python
+reproduces(stated == printed,
+           "the five energy densities equal the record of the source conditions",
+           KS, "ks_history_is_a_prescribed_background")
+```
+
+The record's five numbers must be exactly the printed ones (record of the source conditions, `ks_history_is_a_prescribed_background`). Out [9] shows three PASS lines among the printed lines.
+
+**In [10], figure 12b.4: the source with the author's weights.**
+
+```python
+fig, ax = plt.subplots()
+for name, style, label in (("rho", "-", "$\\kappa\\rho$"), ("p3", "--", "$\\kappa p_3$"),
+                           ("p0", ":", "$\\kappa p_0 = \\kappa p_t$")):
+    function = sp.lambdify(kk, author[name], "numpy")
+    ax.plot(x_axis, function(k_axis) * np.ones_like(k_axis), style, label=label)
+ax.plot(slices, values, "o", color="black", markersize=4,
+        label="the five slices of the record")
+```
+
+The three components with the author's weights, drawn against the time with three line styles, and the energy densities at the five slices as black dots.
+
+```python
+ax.axvline(x_zero, color="grey", linewidth=0.8)
+ax.axhline(0.0, color="black", linewidth=0.8)
+ax.set_xlabel("time $x_4$ (units $1/H$)")
+ax.set_ylabel("required source (units $H^2/\\kappa$)")
+ax.set_title("The author's weights, $\\Lambda = -10$: the source of the record history")
+ax.legend(fontsize=8)
+```
+
+A grey vertical line at the time where $\kappa\rho$ changes sign, a black line at zero, labels, title and legend.
+
+```python
+save_figure(fig, "author_weights_source",
+            "The source that the record history $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$ "
+...)
+```
+
+`save_figure` (caption under figure 12b.4). The energy density falls from 3.57407 through zero at $x_4 = 0.785$; a source whose energy density changes sign is not ordinary matter.
+
+**In [11], the two null energy conditions.**
+
+```python
+null_record = record["generalSource"]["nullCombinations"]
+null_x0 = sp.expand((kappa_rho + kappa_p0).subs(EINSTEIN))
+null_x1 = sp.expand((kappa_rho + kappa_p3).subs(EINSTEIN))
+same = all(sp.expand(parse(null_record[key]["input"]).subs(EINSTEIN)
+                     .subs(EXPONENTIAL) - value) == 0
+           for key, value in (("kappa(rho+p0)", null_x0), ("kappa(rho+p3)", null_x1)))
+```
+
+`null_record` is the record's key `generalSource/nullCombinations`, which stores $\kappa(\rho + p_0)$ and $\kappa(\rho + p_3)$ for general couplings and histories. `null_x0` and `null_x1` are the notebook's Einstein combinations on the exponential histories, and `same` compares them with the record's after inserting Einstein gravity and the exponential history.
+
+```python
+reproduces(same and sp.expand(null_x0 + sp.Rational(3, 2) * H ** 2
+                              * (2 * kk + A ** 2 * (4 - beta))) == 0
+           and sp.expand(null_x1 + A ** 2 * H ** 2 * (beta - 2) * (beta - 4)) == 0,
+           "Einstein, exponential: the two null combinations of the record",
+           PY, "json_required_source_and_null_combinations")
+range_x1 = sp.solve_univariate_inequality(-(beta - 2) * (beta - 4) >= 0, beta,
+                                          relational=False)
+```
+
+The check also requires the forms of Section 12.11: $\kappa(\rho + p_0) = -\tfrac32H^2(2k + A^2(4 - \beta))$ and $\kappa(\rho + p_3) = -A^2H^2(\beta - 2)(\beta - 4)$ (sympy report, `json_required_source_and_null_combinations`). `range_x1` is the set of $\beta$ where $-(\beta - 2)(\beta - 4) \ge 0$.
+
+```python
+kp, Ap = sp.symbols("kp Ap", positive=True)  # k > 0 and A^2 > 0
+beta_edge = sp.solve(2 * kp + Ap ** 2 * (4 - beta), beta)[0]  # rho + p0 = 0
+say(f"rho + p3 >= 0 for beta in {range_x1}; rho + p0 >= 0 needs beta >= {beta_edge}")
+check(range_x1 == sp.Interval(2, 4) and sp.simplify(beta_edge - 4) == 2 * kp / Ap ** 2,
+      "Einstein: no exponential history satisfies both null energy conditions")
+author_null = {name: sp.expand(author["rho"] + author[name]) for name in ("p0", "p3")}
+```
+
+For the second condition, `kp` stands for $k > 0$ and `Ap` for $|A| > 0$; `beta_edge` is the $\beta$ at which $\rho + p_0 = 0$. The cell prints (Out [11]) `rho + p3 >= 0 for beta in Interval(2, 4); rho + p0 >= 0 needs beta >= 4 + 2*kp/Ap**2`. The check: the first range is $[2, 4]$ and the second starts beyond 4, so they do not meet. `author_null` holds the two combinations with the author's weights on the record history.
+
+```python
+report("author's weights: kappa (rho + p0)", author_null["p0"])
+report("author's weights: kappa (rho + p3)", author_null["p3"])
+```
+
+They are printed as RESULT lines: $\kappa(\rho + p_0) = \tfrac9{16}k^2 - \tfrac{85}{48}k - \tfrac{403}{108}$ and $\kappa(\rho + p_3) = \tfrac{19}{27}k - \tfrac{403}{243}$. At $k = 1$ (the start, $x_4 = 0$) both are negative: $\tfrac9{16} - \tfrac{85}{48} - \tfrac{403}{108} = -\tfrac{1067}{216}$ and $\tfrac{19}{27} - \tfrac{403}{243} = -\tfrac{232}{243}$. The second becomes positive for $k > \tfrac{403}{243}\cdot\tfrac{27}{19} = \tfrac{403}{171} = 2.357$ (at $x_4 = 1.29$), the first for $k > \tfrac{124}{27} = 4.593$ (the positive root of the quadratic; at $x_4 = 2.29$): with the author's weights the source of the record history violates both null energy conditions at early times.
+
+**In [12], figure 12b.5: the null energy map of Einstein gravity.**
+
+```python
+b_grid, k_grid = np.meshgrid(np.linspace(0.0, 7.0, 351), np.linspace(-2.0, 3.0, 251))
+nec_x0 = (2 * k_grid + (4 - b_grid)) <= 0  # A = 1
+nec_x1 = (b_grid - 2) * (b_grid - 4) <= 0
+region = np.where(nec_x0 & nec_x1, 3, np.where(nec_x0, 2, np.where(nec_x1, 1, 0)))
+fig, ax = plt.subplots()
+colours = matplotlib.colors.ListedColormap(["#f7f7f7", "#d1e5f0", "#fddbc7",
+                                            "#b2182b"])
+```
+
+`np.meshgrid` makes two 251 by 351 arrays holding the $\beta$ and the $k/A^2$ value of every point of a grid. `nec_x0` and `nec_x1` are arrays of truth values: where each condition holds (with $A = 1$). `np.where(condition, a, b)` takes `a` where the condition is true and `b` elsewhere; the nested calls give 3 where both hold, 2 where only the condition along $x_4 + x_0$ holds, 1 where only the one along $x_4 + x_1$ holds, and 0 where none does. `ListedColormap` makes a colour map of four colours: light grey, light blue, pink and dark red.
+
+```python
+ax.pcolormesh(b_grid, k_grid, region, cmap=colours, vmin=-0.5, vmax=3.5,
+              shading="auto")
+ax.plot(b_grid[0], (b_grid[0] - 4.0) / 2.0, color="black",
+        label="$\\rho + p_0 = 0$: $k/A^2 = (\\beta - 4)/2$")
+ax.axhline(0.0, color="black", linewidth=1.2)
+ax.axvline(4.0 / 3.0, color="black", linestyle=":", label="record history")
+```
+
+`pcolormesh` colours the grid by `region`; the limits from $-0.5$ to $3.5$ put each of the values 0, 1, 2, 3 in the middle of one colour. The black line is $\rho + p_0 = 0$, the thick horizontal line is $k = 0$, and the dotted line marks the record history.
+
+```python
+ax.text(3.0, 2.3, "$\\rho + p_3 \\geq 0$", ha="center", fontsize=9)
+ax.text(5.8, -1.2, "$\\rho + p_0 \\geq 0$", ha="center", fontsize=9)
+ax.text(1.0, 2.3, "both violated", ha="center", fontsize=9)
+ax.set_xlabel("$\\beta$")
+ax.set_ylabel("$k/A^2$")
+ax.set_title("Einstein gravity: the two null energy conditions")
+```
+
+Three texts name the regions; then the labels and the title.
+
+```python
+ax.legend(fontsize=8, loc="lower right")
+save_figure(fig, "null_energy_map",
+            "Einstein gravity on the exponential histories: the plane of $\\beta$ "
+...)
+```
+
+The legend and `save_figure` (caption under figure 12b.5). Above $k = 0$, where every history lies, the blue band and the pink region do not overlap; the dark red region where both hold lies entirely below $k = 0$.
+
+**In [13], Einstein-Gauss-Bonnet vacua.**
+
+```python
+GAUSS_BONNET = {alpha1: 1, alpha3: 0, H: 1}
+coefficients = []
+for value in (kappa_rho, kappa_p3, kappa_p0):
+    polynomial = sp.Poly(sp.expand(value.subs(GAUSS_BONNET)), kk)
+    coefficients += [c for c in polynomial.all_coeffs() if c != 0]
+basis = sp.groebner(coefficients, A, beta, alpha2, Lam, order="lex")
+```
+
+`GAUSS_BONNET` sets $\alpha_1 = 1$, $\alpha_3 = 0$, $H = 1$. For each of the three components the cell writes the source as a polynomial in $k$ and collects its coefficients that are not zero: where $k$ changes in time, a vacuum needs every coefficient to vanish. `sp.groebner` computes a **Groebner basis** of these polynomial equations in $A$, $\beta$, $\alpha_2$ and $\Lambda$: a systematic elimination that produces an equivalent set of equations; the basis `[1]` means the equation $1 = 0$, so the equations have no common solution at all (not even a complex one).
+
+```python
+say(f"Gauss-Bonnet, k varies: {len(coefficients)} coefficient equations, "
+    f"Groebner basis {list(basis.exprs)}")
+reproduces(list(basis.exprs) == [1],
+           "Einstein-Gauss-Bonnet: no vacuum exponential history where k varies",
+           PY, "egb_no_vacuum_where_k_varies")
+k0 = sp.symbols("k0", positive=True)  # the constant k on beta = 2
+```
+
+The cell prints (Out [13]) `Gauss-Bonnet, k varies: 8 coefficient equations, Groebner basis [1]` and checks the basis (sympy report, `egb_no_vacuum_where_k_varies`). `k0` is the constant $k$ on the histories with $\beta = 2$.
+
+```python
+CONSTANT = {beta: 2, kk: k0}
+time_eq, space_eq, hidden_eq = (sp.expand(value.subs(GAUSS_BONNET).subs(CONSTANT))
+                                for value in (kappa_rho, kappa_p3, kappa_p0))
+branch = sp.solve([time_eq, hidden_eq], [alpha2, Lam], dict=True)[0]
+say(f"beta = 2: alpha2 = {sp.factor(branch[alpha2])}, Lambda = {sp.factor(branch[Lam])}")
+reproduces(sp.simplify(branch[alpha2] + 1 / (4 * (A ** 2 - k0))) == 0
+           and sp.simplify(branch[Lam] - 3 * (A ** 4 + 3 * A ** 2 * k0 + k0 ** 2)
+                           / (A ** 2 - k0)) == 0
+           and sp.simplify(space_eq.subs(branch)) == 0,
+           "Einstein-Gauss-Bonnet vacua on constant k: alpha2 and Lambda as recorded",
+           PY, "egb_exponential_vacuum_branches")
+```
+
+`CONSTANT` inserts $\beta = 2$ and $k = k_0$. `sp.solve` solves the time and the hidden equations for $\alpha_2$ and $\Lambda$ (`dict=True` returns the solution as a dictionary); the cell prints `alpha2 = 1/(4*(-A**2 + k0))` and `Lambda = -3*(A**4 + 3*A**2*k0 + k0**2)/(-A**2 + k0)`, which are the forms $-1/(4H^2(A^2 - k_0))$ and $3H^2(A^4 + 3A^2k_0 + k_0^2)/(A^2 - k_0)$ of Notebook 12b's text with $H = 1$. The check also requires that the 3-space equation then holds (sympy report, `egb_exponential_vacuum_branches`).
+
+**In [14], figure 12b.6: the Gauss-Bonnet vacua.**
+
+```python
+alpha2_f = sp.lambdify(k0, branch[alpha2].subs(A, 1), "numpy")
+lambda_f = sp.lambdify(k0, branch[Lam].subs(A, 1), "numpy")
+fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
+for low, high in ((0.05, 0.9), (1.1, 4.0)):
+    k_part = np.linspace(low, high, 200)
+    left.plot(k_part, alpha2_f(k_part), color="tab:blue")
+    right.plot(k_part, lambda_f(k_part), color="tab:orange")
+```
+
+The two solutions at $A = 1$ as numpy functions of $k_0$, and two panels. Each is drawn on two pieces, $0.05 \le k_0 \le 0.9$ and $1.1 \le k_0 \le 4$, leaving out the neighbourhood of $k_0 = 1 = A^2$, where both diverge.
+
+```python
+for ax in (left, right):
+    ax.axvline(1.0, color="grey", linestyle="--", linewidth=0.8)
+    ax.axhline(0.0, color="black", linewidth=0.8)
+    ax.set_xlabel("$k_0/A^2$")
+left.set_ylim(-3.0, 3.0)
+right.set_ylim(-80.0, 80.0)
+```
+
+In both panels a dashed line at $k_0 = 1$, a line at zero and the horizontal label; then the vertical ranges.
+
+```python
+left.set_ylabel("$\\alpha_2 H^2$ of the vacuum")
 right.set_ylabel("$\\Lambda/H^2$ of the vacuum")
-fig.suptitle("Einstein-Gauss-Bonnet gravity: the vacuum linear members")
+fig.suptitle("Einstein-Gauss-Bonnet gravity: the vacua on constant $k$ ($A = 1$)")
 save_figure(fig, "gauss_bonnet_vacuum",
-            ...)
+            "The vacuum solutions of Einstein-Gauss-Bonnet gravity ($\\alpha_1 = 1$, "
+...)
 ```
 
-The two branches $\pm A$ of the vacuum slope on the left and the vacuum's cosmological constant on the right, for $\alpha_2H^2$ from 0.004 to $1/40$. **What the figure shows.** The smaller the Gauss-Bonnet coupling, the faster the vacuum deflates (or inflates) the extra times; at $1/40$ the vacuum is static with $\Lambda = -10.5H^2$.
+The vertical labels, a title over both panels and `save_figure` (caption under figure 12b.6). The coupling $\alpha_2H^2$ is negative for $k_0 < 1$ and positive for $k_0 > 1$; on these histories the block does not shrink.
 
-**In [12], figure 7: the third-order vacuum lines.**
+**In [15], the author's weights allow no exponential vacuum.**
 
 ```python
-V_one = sp.expand(V.subs({alpha1: 1, H: 1}))  # V with alpha1 = 1, H = 1
-alpha3_line = sp.solve(V_one, alpha3)[0]  # alpha3 H^4 on the vacuum line
-say(f"vacuum line: alpha3 H^4 = {sp.factor(alpha3_line)}")
-check(alpha3_line.subs({A: 1, alpha2: sp.Rational(1, 48)}) == 0,
-      "A = 1, alpha2 H^2 = 1/48: the vacuum line passes through alpha3 = 0")
-line_f = sp.lambdify((A, alpha2), alpha3_line, "numpy")
+AUTHOR_VACUUM = {alpha1: 1, alpha2: sp.Rational(1, 32), alpha3: sp.Rational(1, 1152),
+                 Lam: LAMBDA, H: 1}
+s = sp.symbols("s")  # 1 - s A (beta - 2) = 0 makes A != 0 and beta != 2
+coefficients = []
+for value in (kappa_rho, kappa_p3, kappa_p0):
+    polynomial = sp.Poly(sp.expand(value.subs(AUTHOR_VACUUM)), kk)
+    coefficients += [c for c in polynomial.all_coeffs() if c != 0]
 ```
 
-$V = 0$ is solved for $\alpha_3$ (with $\alpha_1 = H = 1$): for fixed $A$ the solution is linear in $\alpha_2$, a straight line, printed in factored form by `sp.factor`. One point is checked: $A = 1$, $\alpha_2H^2 = 1/48$ gives $\alpha_3 = 0$, because $V = 1 - 8\cdot\tfrac1{48}\cdot 6 = 0$.
+`AUTHOR_VACUUM` holds the author's weights, $\Lambda = -10$ and $H = 1$. The coefficients of the powers of $k$ of the three components are collected as in In [13]. `s` is an extra symbol: the equation $1 - sA(\beta - 2) = 0$ can hold only if $A \ne 0$ and $\beta \ne 2$ (otherwise its left side is 1), so adding it restricts the elimination to the histories where $k$ changes.
 
 ```python
-g_values = np.linspace(0.0, 0.08, 201)
+basis = sp.groebner(coefficients + [1 - s * A * (beta - 2)], s, A, beta, order="lex")
+A2 = sp.symbols("A2", real=True)  # A^2
+time_k0 = sp.expand(16 * kappa_rho.subs(AUTHOR_VACUUM).subs(CONSTANT)).subs(A ** 2, A2)
+space_k0 = sp.expand(16 * kappa_p3.subs(AUTHOR_VACUUM).subs(CONSTANT)).subs(A ** 2, A2)
+hidden_k0 = sp.expand(16 * kappa_p0.subs(AUTHOR_VACUUM).subs(CONSTANT))
+hidden_k0 = hidden_k0.subs(A ** 4, A2 ** 2).subs(A ** 2, A2)
+```
+
+The Groebner basis of the coefficients together with that equation. `A2` stands for $A^2$. On $\beta = 2$ with $k = k_0$ the three components, multiplied by 16 to clear fractions, become polynomials in $A^2$ and $k_0$; the hidden one also contains $A^4$, which is replaced first.
+
+```python
+resultant = sp.factor(sp.resultant(time_k0, hidden_k0, A2))
+shared = []  # (k0, the common root A^2) at every real zero k0 > 0 of the resultant
+for root in sp.Poly(resultant, k0).nroots():
+    if root.is_real and root > 0:
+        common = sp.solve(time_k0.subs(k0, root), A2)
+        shared.append((float(root), float(common[0])))
+```
+
+The **resultant** of two polynomials in $A^2$ is a polynomial in $k_0$ that vanishes exactly where the two have a common root; `sp.factor` writes it as a product. For each real positive zero of the resultant (found numerically with `nroots`), the cell solves the time equation for the common root $A^2$ and stores the pair.
+
+```python
+static = sp.solve([sp.expand(kappa_rho.subs(AUTHOR_VACUUM).subs(A, 0)),
+                   sp.expand(kappa_p0.subs(AUTHOR_VACUUM).subs(A, 0))], kk)
+say(f"k varies: Groebner basis {list(basis.exprs)}")
+say("beta = 2, resultant in k0: " + str(resultant))
+say("its positive zeros k0 and the shared root A^2: "
+    + ", ".join(f"({k_value:.4f}, {a_value:.4f})" for k_value, a_value in
+                sorted(set((round(a, 6), round(b, 6)) for a, b in shared))))
+```
+
+`static` solves the time and the hidden equations on the static histories $A = 0$ for $k$; the empty list means no solution. The cell prints (Out [15]) the basis `[1]`, the resultant `-12*(3*k0**2 - 80*k0 + 112)*(3*k0**3 - 42*k0**2 + 144*k0 - 160)`, and the pairs $(k_0, A^2)$: $(1.4824, -25.1843)$, $(9.5644, -9.5644)$, $(25.1843, -1.4824)$ (`round` and `set` remove repeated pairs, `sorted` orders them).
+
+```python
+reproduces(list(basis.exprs) == [1] and sp.expand(time_k0 + space_k0) == 0
+           and all(a_value < 0 for _, a_value in shared) and static == [],
+           "the author's weights: no exponential history is a vacuum",
+           PY, "author_weights_no_exponential_vacuum")
+```
+
+The check: no solution where $k$ varies; on $\beta = 2$ the time and 3-space equations coincide (their sum vanishes identically, because the constraint does not change in time there: $h = 0$ in the Bianchi identity of Section 12.10 gives $e_{11} = e_{44}$); every common root $A^2$ is negative, so $A$ is not real; and the static histories give nothing (sympy report, `author_weights_no_exponential_vacuum`).
+
+**In [16], figure 12b.7: no real vacuum with the author's weights.**
+
+```python
+k_grid, a_grid = np.meshgrid(np.linspace(0.05, 30.0, 600), np.linspace(-40.0, 40.0, 600))
+time_f = sp.lambdify((k0, A2), time_k0, "numpy")
+hidden_f = sp.lambdify((k0, A2), hidden_k0, "numpy")
 fig, ax = plt.subplots()
-for slope in (0, 1, 2, 3):
-    label = "$A = 0$" if slope == 0 else f"$A = \\pm{slope}$"
-    ax.plot(g_values, line_f(slope, g_values), label=label)
-ax.axhline(0.0, color="black", linewidth=0.8)
-ax.set_xlabel("$\\alpha_2 H^2$")
-ax.set_ylabel("$\\alpha_3 H^4$")
-ax.set_title("Third-order Lovelock gravity: the vacuum lines $V = 0$")
-ax.legend(fontsize=8)
-save_figure(fig, "third_order_vacua",
-            ...)
+ax.axhspan(-40.0, 0.0, color="grey", alpha=0.25)
+ax.contour(k_grid, a_grid, time_f(k_grid, a_grid), levels=[0.0], colors="tab:blue")
 ```
 
-The lines for $A = 0, 1, 2, 3$ (each serves $\pm A$). **What the figure shows.** Each line crosses the axis $\alpha_3 = 0$ at the Gauss-Bonnet vacuum of that slope; with a positive $\alpha_3$ a vacuum exists at larger $\alpha_2$.
-
-**In [13], a condensate of dirac16complex00 as the source.**
+A 600 by 600 grid of $k_0$ (0.05 to 30) and $A^2$ ($-40$ to 40), the two polynomials as numpy functions, a grey band for $A^2 < 0$, and `contour(..., levels=[0.0])`, which draws the curve where the time equation vanishes.
 
 ```python
-m, lam, S = sp.symbols("m lam S", real=True)  # mass, coupling lambda, density S
-rho_condensate = m * S + lam * S ** 2 / 2  # rho = m S + U, U = (lambda/2) S^2
-p_condensate = lam * S ** 2 / 2  # p = S U' - U
+ax.contour(k_grid, a_grid, hidden_f(k_grid, a_grid), levels=[0.0],
+           colors="tab:red", linestyles="--")
+ax.plot([], [], color="tab:blue", label="time (and 3-space) equation: $\\rho = 0$")
+ax.plot([], [], color="tab:red", linestyle="--", label="hidden equation: $p_0 = 0$")
+ax.plot([k for k, _ in shared], [a for _, a in shared], "o", color="black",
+        markersize=4, label="where both hold ($A^2 < 0$)")
 ```
 
-The mass $m$, the self-coupling $\lambda$ (named `lam`) and the density $S$ of a condensate; its energy density $mS + U$ and pressure $SU' - U$ with $U = \tfrac\lambda2S^2$, $U' = \lambda S$, so $SU' - U = \lambda S^2 - \tfrac\lambda2S^2 = \tfrac\lambda2S^2$ (the record's formulas, Section 12.26).
+The curve of the hidden equation, dashed; two empty plots for the legend entries; and the shared points of In [15] as black dots.
 
 ```python
-condition_rho = sp.expand(kappa * rho_condensate - rho_e)  # = 0
-condition_p = sp.expand(kappa * p_condensate - p_e)  # = 0
-first = sp.expand(kappa * m * S + 36 * H ** 2 + 2 * Lam)  # kappa m S = -(36 H^2 + 2 L)
-second = sp.expand(6 * (A ** 2 + 1) * H ** 2 + kappa * S * (m + lam * S))
-reproduces(sp.expand(condition_rho - condition_p - first) == 0
-           and sp.expand(condition_rho + condition_p - second) == 0,
-           "condensate, Einstein: kappa m S = -(36 H^2 + 2 Lambda) and "
-           "6 (A^2 + 1) H^2 = -kappa S (m + lambda S)",
-           PY, "condensate_einstein_quadratic_U")
+ax.set_xlabel("$k_0 = e^{2a_4}/b_4$ (constant)")
+ax.set_ylabel("$A^2$")
+ax.set_title("The author's weights, $\\beta = 2$: no real vacuum")
+ax.legend(fontsize=8, loc="upper right")
+save_figure(fig, "author_weights_no_vacuum",
+            "The author's weights ($\\alpha_k = w_k/H^{2k}$, $w = (1, 1/32, 1/1152)$, "
+...)
 ```
 
-The two Einstein equations for this source are `condition_rho = 0` and `condition_p = 0`. Their difference is the first condition and their sum the second; the derivation is written out in Section 12.26.
+Labels, title, legend and `save_figure` (caption under figure 12b.7). The two curves meet only in the grey region.
+
+**In [17], a source with equal pressures.**
 
 ```python
-UNIT = {H: 1, kappa: 1}
-S_solution = sp.solve(first.subs(UNIT), S)[0]
-A2_solution = sp.expand(sp.solve(second.subs(UNIT), A ** 2)[0].subs(S, S_solution))
-say(f"S = {S_solution},  A^2 = {A2_solution}")
+equal = sp.expand((kappa_p3 - kappa_p0) / (H ** 2))  # must vanish
+einstein_equal = sp.factor(sp.expand(equal.subs(EINSTEIN)))
+k_needed = sp.solve(einstein_equal, kk)[0]
+say(f"Einstein: p3 = p0 needs k = {sp.factor(k_needed)}")
+reproduces(sp.expand(3 * k_needed - A ** 2 * (beta - 4) * (beta - sp.Rational(1, 2)))
+           == 0 and sp.expand(k_needed.subs(beta, 2) + A ** 2) == 0,
+           "Einstein: equal pressures on an exponential history need k = -A^2 or 0",
+           PY, "condensate_source_equal_pressures")
 ```
 
-In units $H = \kappa = 1$ the first condition gives $S = -2(\Lambda + 18)/m$, and the second, solved for $A^2$ with this $S$, gives $A^2$ as a function of $m$, $\lambda$ and $\Lambda$ (printed in Out [13]); for $\Lambda = 0$ it is $5 - 216\lambda/m^2$.
+`equal` is $\kappa(p_3 - p_0)/H^2$, which must vanish for a source with equal pressures such as a homogeneous condensate (Section 12.26). In Einstein gravity it vanishes at one $k$, which the cell prints (Out [17]): `A**2*(beta - 4)*(2*beta - 1)/6`, that is $\tfrac13A^2(\beta - 4)(\beta - \tfrac12)$. The check: three times it equals $A^2(\beta - 4)(\beta - \tfrac12)$, and at $\beta = 2$ (the only $\beta$ with constant $k$ when $A \ne 0$) it is $-A^2 < 0$ (sympy report, `condensate_source_equal_pressures`).
 
 ```python
-example_1 = A2_solution.subs({m: 5, lam: 0, Lam: 0})
-example_2 = A2_solution.subs({m: -15, lam: sp.Rational(25, 6), Lam: 0})
-report("m = 5, lambda = 0, Lambda = 0: A^2", example_1)
-report("m = -15, lambda = 25/6, Lambda = 0: A^2", example_2)
-check(example_1 == 5 and example_2 == 1, "the two worked examples: A^2 = 5 and A^2 = 1")
+author_equal = sp.expand(equal.subs(AUTHOR).subs(H, 1))
+k_coefficients = [c for c in sp.Poly(author_equal, kk).all_coeffs() if c != 0]
+varying = sp.groebner(k_coefficients + [1 - s * A * (beta - 2)], s, A, beta,
+                      order="lex")
+on_beta2 = sp.solve(sp.factor(author_equal.subs({beta: 2, kk: k0})), k0)
+static_k = sp.solve(author_equal.subs({A: 0}), kk)
 ```
 
-Two worked examples: $m = 5$, $\lambda = 0$ gives $A^2 = 5$; $m = -15$, $\lambda = 25/6$ gives $A^2 = 5 - 216\cdot\tfrac{25}{6}/225 = 5 - 4 = 1$, the slope of the canonical history.
+With the author's weights ($H = 1$), the coefficients of the powers of $k$ are collected and eliminated together with $1 - sA(\beta - 2) = 0$ (no solution where $k$ varies); on $\beta = 2$ the condition is solved for $k_0$, and on $A = 0$ for $k$.
 
 ```python
-effective = []  # the effective mass M = m + lambda S of each example
-for mass, coupling in ((5, 0), (-15, sp.Rational(25, 6))):
-    S_value = S_solution.subs({m: mass, Lam: 0})  # the density the example needs
-    effective.append(mass + coupling * S_value)
-    report(f"m = {mass}, lambda = {coupling}: S and M = m + lambda S",
-           f"{S_value}, {effective[-1]}")
-check(effective == [5, -5], "the examples need M = 5 (S < 0) and M = -5 (S > 0)")
+say(f"author's weights, beta = 2: k0 = {on_beta2}; A = 0: k = {static_k}")
+reproduces(list(varying.exprs) == [1]
+           and any(sp.simplify(r - (16 + 2 * A ** 2) / (2 + A ** 2)) == 0
+                   for r in on_beta2) and 8 in static_k,
+           "the author's weights: equal pressures only for constant k",
+           WL, "condensate_source_equal_pressures")
 ```
 
-For each example the density it needs ($S = -36/5$ and $12/5$) and the effective mass $M = m + \lambda S$ ($5$ and $-5$) are printed; `effective[-1]` is the last entry of the list.
+The cell prints `k0 = [2*(A**2 + 8)/(A**2 + 2)]` and `k = [0, 8]`, and checks the Groebner basis `[1]`, the solution $k_0 = (16 + 2A^2)/(2 + A^2)$ and the static solution $k = 8$ (Wolfram report, `condensate_source_equal_pressures`). Out [17] shows two printed lines and two PASS lines.
 
-**In [14], figure 8: the off-diagonal conditions and the slope of a condensate.**
+**In [18], figure 12b.8: when a source with equal pressures fits.**
 
 ```python
-condensate = record["fields"]["dirac16complex00"]
-entries = condensate["offDiagonalKinetic"]
-bilinears = sorted({term["bilinear"] for entry in entries for term in entry["terms"]})
-report("off-diagonal kinetic components of the condensate", len(entries))
-report("distinct three-gamma bilinears", len(bilinears))
-reproduces(len(entries) == 42 and len(bilinears) == 15,
-           "42 off-diagonal components, multiples of 15 three-gamma bilinears",
-           WL, "condensate_offdiagonal_are_three_gamma_bilinears")
+fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
+beta_axis = np.linspace(-1.0, 6.0, 351)
+left.axhspan(-6.0, 0.0, color="grey", alpha=0.25, label="$k \\leq 0$")
+left.plot(beta_axis, (beta_axis - 4.0) * (beta_axis - 0.5) / 3.0,
+          label="$k/A^2 = (\\beta - 4)(\\beta - 1/2)/3$")
+left.axvline(2.0, color="black", linestyle="--", linewidth=0.8,
+             label="$\\beta = 2$: $k$ constant")
 ```
 
-The record lists every nonzero off-diagonal kinetic component of a condensate, each with the bilinear it multiplies. A **set comprehension** (braces) keeps each bilinear once, `sorted` puts them in order: 42 components, 15 distinct three-gamma bilinears.
+Two panels. Left: the grey band $k \le 0$, the curve $k/A^2 = (\beta - 4)(\beta - \tfrac12)/3$ on which the Einstein pressures would be equal at one moment, and the dashed line $\beta = 2$, where $k$ is constant.
 
 ```python
-a2_f = sp.lambdify((m, lam), A2_solution.subs(Lam, 0), "numpy")
-fig, ax = plt.subplots()
-for mass, upper in ((5, 1.0), (-15, 6.0)):
-    lam_values = np.linspace(0.0, upper, 200)
-    ax.plot(lam_values, a2_f(mass, lam_values), label=f"$m = {mass}$")
-ax.plot([0], [5], "o", color="black")
-ax.plot([25 / 6], [1], "s", color="black")
+left.plot([2.0], [-1.0], "o", color="black")
+left.set_ylim(-6.0, 8.0)
+left.set_xlabel("$\\beta$")
+left.set_ylabel("$k/A^2$")
+left.set_title("Einstein gravity")
+left.legend(fontsize=8)
 ```
 
-$A^2$ as a numpy function of $m$ and $\lambda$ at $\Lambda = 0$, drawn against $\lambda$ for $m = 5$ (up to $\lambda = 1$) and $m = -15$ (up to 6); a circle and a square mark the two worked examples.
+The black point where the curve crosses $\beta = 2$, at $k/A^2 = -1$; the range, labels, title and legend of the left panel.
 
 ```python
-arrow = {"arrowstyle": "->"}  # a thin arrow from the text to the point
-ax.annotate("$m=5$, $\\lambda=0$: $A^2=5$", (0, 5), (0.5, 5.8), fontsize=8,
-            arrowprops=arrow)
-ax.annotate("$m=-15$, $\\lambda=25/6$: $A^2=1$", (25 / 6, 1), (3.6, 2.6),
-            fontsize=8, arrowprops=arrow)
-ax.set_ylim(-4.2, 6.6)
-ax.axhline(0.0, color="black", linewidth=0.8)
-ax.set_xlabel("self-coupling $\\lambda$ (units $H = \\kappa = 1$)")
-ax.set_ylabel("$A^2$ required by the condensate")
-ax.set_title("A dirac16complex00 condensate as the source, Einstein, $\\Lambda=0$")
-ax.legend(fontsize=8)
-save_figure(fig, "condensate_slope",
-            ...)
+slopes = np.linspace(0.0, 4.0, 200)
+right.plot(slopes, (16 + 2 * slopes ** 2) / (2 + slopes ** 2))
+right.set_xlabel("slope $A$")
+right.set_ylabel("$k_0$ with equal pressures")
+right.set_title("the author's weights, $\\beta = 2$")
+save_figure(fig, "condensate_conditions",
+            "When can a source with equal pressures, such as a homogeneous condensate "
+...)
 ```
 
-`ax.annotate(text, point, text_position, ...)` writes a text with an arrow to a point. **What the figure shows.** Both lines fall linearly, $A^2 = 5 - 216\lambda/m^2$, the line of the light mass $m = 5$ much faster; a real slope exists only while $A^2 \ge 0$, that is $\lambda \le 5m^2/216$.
+Right: the constant values $k_0 = (16 + 2A^2)/(2 + A^2)$ of the author's weights against the slope $A$ from 0 to 4 (they fall from 8 towards 2); labels, title, and `save_figure` (caption under figure 12b.8).
 
-**In [15], the last check.**
+**In [19], the last check.**
 
 ```python
-figure_names = ["einstein_source", "source_regions", "phantom_w",
-                "gauss_bonnet_source", "null_energy_map", "gauss_bonnet_vacuum",
-                "third_order_vacua", "condensate_slope"]
+figure_names = ["einstein_source", "sign_symmetry", "beta_scan",
+                "author_weights_source", "null_energy_map", "gauss_bonnet_vacuum",
+                "author_weights_no_vacuum", "condensate_conditions"]
 paths = [output_file(f"{FIGURE_FOLDER}/12b_{k}_{name}.png")
          for k, name in enumerate(figure_names, 1)]
 check(all(path.is_file() for path in paths), "all eight figure files exist")
 all_checks_passed()
 ```
 
-`enumerate(figure_names, 1)` numbers the names from 1, which gives the eight file names; all must exist. The last line is ALL 24 CHECKS PASSED (notebook 12b): 4 checks in In [4], 2 in In [5], 4 in In [8], 4 in In [9], 2 in In [10], 2 in In [11], 1 in In [12], 3 in In [13], 1 in In [14] and 1 in In [15].
+The eight figure names, the paths of the files `12b_1_einstein_source.png` to `12b_8_condensate_conditions.png` (`enumerate(..., 1)` numbers them from 1), the check that all exist, and the last line, ALL 23 CHECKS PASSED (notebook 12b).
 
-### 12.21 Solving the evolution equation for a prescribed stress
+### 12.21 Solving the two equations of second order for a prescribed source
 
-**The idea.** If the anisotropic stress $\Delta = p_3 - p_t$ is known as a function of time (or of the state), the evolution equation $a_4''F(a_4') = \kappa\Delta$ is an **ordinary differential equation** for $a_4(x_4)$, and with the starting values $a_4(0)$ and $a_4'(0)$ it has one solution, which a computer can follow step by step. We prescribe the stress by hand: it is ASSUMED, chosen to see what the equations do. The Revision record constructs no state of either field that produces these stresses, and Section 12.22 recalls why the Kohn-Sham states of the repository are not admissible sources at all.
-
-**A first-order system.** Write $v = a_4'$. Then
+**The initial value problem.** Section 12.9 showed that, given the pressures, the 3-space and block equations fix $a_4''$ and $v = u'$ wherever $\det J \ne 0$. Together with $a_4' = da_4/dx_4$ and $u = d\ln b_4/dx_4$ they form a system of **ordinary differential equations** (equations for unknown functions of one variable that contain their derivatives) for the four numbers
 
 $$
-\frac{d}{dx_4}a_4 = v,\qquad \frac{d}{dx_4}v = \frac{\kappa\Delta}{F(v)},\qquad \frac{d}{dx_4}(\kappa\rho) = -3v\,\kappa\Delta .
+a_4,\quad a_4',\quad \ln b_4,\quad u .
 $$
 
-The first line is the definition of $v$, the second the evolution equation divided by $F$, the third the conservation law of Section 12.10. The third is not needed for $a_4$; Notebook 12c integrates it alongside, so that the energy density obtained from conservation can be compared with the one the constraint gives: a numerical test of the Bianchi identity.
+We use $\ln b_4$ instead of $b_4$ because $b_4 > 0$ grows or shrinks exponentially; its logarithm changes smoothly, and $b_4 = e^{\ln b_4}$ is positive automatically. Given the four starting values at $x_4 = 0$ and the pressures $\kappa p_3$ and $\kappa p_0 = \kappa p_t$ as functions of the time (or of the state), the system determines the future: an **initial value problem**. Chapter 2 taught the fourth-order Runge-Kutta method (RK4) for such problems; Notebook 12c uses it. Every source in this section is **prescribed** (chosen by hand to see what the equations do): its status is ASSUMED, and nothing here says that a field of the theory produces it.
 
-**The Runge-Kutta method of fourth order (RK4)**, from Chapter 2: for $dy/dx = f(x, y)$ one step of size $h$ computes $k_1 = f(x, y)$, $k_2 = f(x + h/2, y + hk_1/2)$, $k_3 = f(x + h/2, y + hk_2/2)$, $k_4 = f(x + h, y + hk_3)$ and $y_{\text{new}} = y + \tfrac h6(k_1 + 2k_2 + 2k_3 + k_4)$. Its error after a fixed time shrinks like $h^4$: halving the step divides it by about 16.
-
-**No stress.** With $\Delta = 0$: $a_4'' = 0$, so $a_4' = A H$ is constant and $a_4 = AHx_4 + a_0$: the linear member.
-
-**A pulse of stress (Einstein gravity).** We start on the canonical history ($a_4(0) = 0$, $a_4'(0) = H$; units $H = 1$) and prescribe $\kappa\Delta(x_4) = \kappa\Delta_0\,e^{-((x_4 - x_c)/w)^2}$ with centre $x_c = 3$, width $w = 0.5$ and height $\kappa\Delta_0 = 2/(w\sqrt\pi)$. With $F = 2$:
+**The energy density.** The constraint gives $\kappa\rho = -(e_{44} + \Lambda)$ at every moment. Notebook 12c computes it once, at the start, and then carries $\kappa\rho$ along with the energy exchange of Section 12.10,
 
 $$
-a_4'(x_4) = 1 + \int_0^{x_4} a_4''(s)\,ds = 1 + \frac{\kappa\Delta_0}{2}\int_0^{x_4} e^{-((s - x_c)/w)^2}\,ds
+\frac{d}{dx_4}(\kappa\rho) = -3a_4'\,\kappa(\rho + p_3) - 4h\,\kappa(\rho + p_0),\qquad h = \tfrac12u - a_4' .
 $$
 
-(the fundamental theorem of calculus, then $a_4'' = \kappa\Delta/2$)
+So the solver advances five numbers, $y = (a_4, a_4', \ln b_4, u, \kappa\rho)$. Section 12.10 proved that the constraint then stays satisfied ($C = 0$ at every time if $C = 0$ at the start). Along a numerical solution the difference between the carried $\kappa\rho$ and $-(e_{44} + \Lambda)$, the **constraint gap**, therefore measures the numerical error; Notebook 12c checks that it stays at the level of $10^{-8}$ (COMPUTED).
+
+**Tests with exact solutions.** Three prescribed sources have known solutions.
+
+1. No source, Einstein gravity: the flat member of Section 12.11 with $c = -1/H$, which starts at $a_4 = a_4' = 0$, $b_4 = 1$, $u = 2H$ and has $\ln b_4 = 2\ln(1 + Hx_4)$, $u = 2H/(1 + Hx_4)$. Its constraint gives $\kappa\rho(0) = -(0 + 6 - \tfrac32\cdot 4) = 0$ (units $H = 1$), as a vacuum needs.
+2. The source of the record history, as a function of the time (Section 12.12): in Einstein gravity with $\Lambda = 0$, $\kappa p_3 = 6k - \tfrac{13}9$ and $\kappa p_0 = 3k - \tfrac{11}3$ with $k = e^{2x_4/3}$; with the author's weights the record's formulas with $\Lambda = -10$. Started on the history ($a_4 = 0$, $a_4' = 1$, $b_4 = 1$, $u = \tfrac43$), the solver must stay on it.
+3. A history chosen first: its source is computed from the field equations and then integrated; the solver must return the chosen history. Notebook 12c uses a **pulse** in the rate, $a_4' = 1 + \tfrac12\big(\mathrm{erf}((x_4 - 3)/0.5) + \mathrm{erf}(6)\big)$ with $b_4 = e^{(4/3)a_4}$, which rises from $H$ to almost exactly $2H$ around $x_4 = 3$ (the **error function** erf rises smoothly from $-1$ to $1$ and is odd, $\mathrm{erf}(-s) = -\mathrm{erf}(s)$; the added $\mathrm{erf}(6)$ makes $a_4'(0) = 1$ exactly, and long after the pulse the rate is $1 + \tfrac12(1 + \mathrm{erf}\,6)$, which differs from 2 by about $10^{-17}$). Before the pulse it is the record history; after it, the exponential history with $A = 2$, $\beta = \tfrac43$, whose Einstein source has constant terms four times larger: $(\kappa\rho, \kappa p_3, \kappa p_0) = (-6k - \tfrac43, 6k - \tfrac{52}9, 3k - \tfrac{44}3)$, the formulas of Section 12.12 with $A^2 = 4$.
+
+The same source with other starting values gives other histories: the source does not select the history, the starting values do. Notebook 12c shows this by starting the source of the record history with $a_4'(0) = 1.05$ and $0.95$.
+
+**A gas of massless particles.** Now a source that depends on the state: particles without mass that move only in 3-space, with $p_3 = \tfrac13\rho$ and $p_0 = p_t = 0$. Its energy exchange gives, line by line,
 
 $$
-= 1 + \frac{\kappa\Delta_0\,w}{2}\int_{-x_c/w}^{(x_4 - x_c)/w} e^{-t^2}\,dt
+\partial_4\rho = -3a_4'\big(\rho + \tfrac13\rho\big) - 4h\,(\rho + 0) = -4a_4'\rho - 4\big(\tfrac12u - a_4'\big)\rho
 $$
 
-(substitution $t = (s - x_c)/w$, $ds = w\,dt$; the limits $s = 0$ and $s = x_4$ become $t = -x_c/w$ and $t = (x_4 - x_c)/w$)
+(the energy exchange of Section 12.10 with $p_3 = \rho/3$ and $p_0 = 0$; then $h$ inserted)
 
 $$
-= 1 + \frac{\kappa\Delta_0\,w\sqrt\pi}{4}\Big(\operatorname{erf}\frac{x_4 - x_c}{w} + \operatorname{erf}\frac{x_c}{w}\Big)
+\partial_4\rho = -2u\,\rho = -2\frac{b_4'}{b_4}\rho \quad\Longrightarrow\quad \frac{d}{dx_4}\ln\rho = -2\frac{d}{dx_4}\ln b_4 \quad\Longrightarrow\quad \rho = \sigma_0\,b_4^{-2}
 $$
 
-(the **error function** $\operatorname{erf}(u) = \tfrac{2}{\sqrt\pi}\int_0^u e^{-t^2}dt$ gives $\int_{u_0}^{u_1}e^{-t^2}dt = \tfrac{\sqrt\pi}{2}(\operatorname{erf}u_1 - \operatorname{erf}u_0)$, and erf is odd, $\operatorname{erf}(-u) = -\operatorname{erf}u$)
+(the terms with $a_4'$ cancel; divided by $\rho$; integrated, with the constant $\sigma_0$). So this gas conserves its energy on every history automatically. The record identifies it as the Kohn-Sham states without interaction, averaged over the hidden direction (record `Revision/field_equations_a4/ks_source/reports/ks-source-a4.json`, checks `A5_free_fold_band_gas_conserves_energy` and `D0_free_gas_average_exact`; Chapter 17 treats this source). With the author's weights and the starting values of the record history the constraint fixes
 
 $$
-= 1 + \tfrac12\Big(\operatorname{erf}\frac{x_4 - x_c}{w} + \operatorname{erf}\frac{x_c}{w}\Big)
+\kappa\sigma_0 = -\big(e_{44} + \Lambda\big)\Big|_{a_4' = 1,\ u = 4/3,\ k = 1} = -\Big(-\tfrac9{16} + \tfrac{161}{24} + \tfrac{121}{432} - 10\Big) = 10 - \tfrac{2776}{432} = \tfrac{193}{54} = 3.57407
 $$
 
-($\kappa\Delta_0\,w\sqrt\pi/4 = 2/4 = 1/2$). At $x_4 = 0$ the bracket is zero and $a_4' = 1$. Long after the pulse $\operatorname{erf}((x_4 - x_c)/w) \to 1$, and $\operatorname{erf}(x_c/w) = \operatorname{erf}(6)$ differs from 1 by less than $10^{-15}$, so $a_4' \to 2$: the pulse moves the history from the linear member $A = 1$ to $A = 2$, and the extra times deflate at every time, only faster afterwards. Integrating once more with $\int\operatorname{erf}(t)\,dt = t\operatorname{erf}(t) + e^{-t^2}/\sqrt\pi$ gives $a_4$ exactly (Notebook 12c, In [7]).
+(the record's constraint of Section 12.12 at $k = 1$; common denominator 432: $-243 + 2898 + 121 = 2776$). Integrated forward, the rates leave the record history and the determinant of the Jacobian falls to zero: there $a_4''$ and $v$ grow without bound and the system has no smooth continuation. The record finds this point at $x_4 = 0.428813$, with $a_4 = 0.361572$ and $b_4 = 0.862627$ (record `ks-source-a4.json`, check `D2_author_weights_from_the_record_history`); Notebook 12c finds the sign change of $\det J$ just after $x_4 = 0.428800$ with its fixed step $2\times10^{-5}$ (COMPUTED; Figure 12c.7).
 
-**A relaxing stress.** Now the stress depends on the state: $\kappa\Delta = -2\eta\,(a_4' - H)$ with a constant $\eta > 0$, starting on the faster member $a_4'(0) = 2H$ (units $H = 1$). Then
+**Which sources are real? The Kohn-Sham states.** The only many-particle states that the Revision record has computed are the Kohn-Sham states of dirac16complex (Chapters 14 and 15). The record asks whether they can be the source of the corrected metric (`Revision/field_equations_a4/reports/ks-source-conditions.json`, 5 checks, all PASS). A source must satisfy three conditions of Section 12.8: (C1) no component depends on $x_0$; (C2) $p_0 = p_t$; (C3) no off-diagonal component. The record finds: C1 fails for every one of the 70 states (of 75) whose energy-momentum tensor is not zero, because their energy density varies along the hidden direction; C2 holds exactly for the states without interaction ($\lambda = 0$) and fails for every state with $\lambda \ne 0$; C3 holds for every state. In addition (C4), the ratios $p_3/\rho$, $p_0/\rho$, $p_t/\rho$ of every state differ from those that the record history needs with the author's weights by at least 1.3733 (closest: the state `N592_lamp2_a15`). Conclusion of the record: no recorded Kohn-Sham state is an admissible source, and the record history is a PRESCRIBED background without back-reaction. Notebook 12c recomputes the counts and the smallest distance from the record's table of the integrated energy-momentum tensors (`Revision/kohn_sham/results/ground/emt-integrals.csv`, In [18]).
 
-$$
-a_4'' = \frac{\kappa\Delta}{2} = -\eta\,(a_4' - 1)
-$$
+### 12.22 Example: prescribed sources integrated with RK4
 
-(Einstein, $F = 2$). The excess $u = a_4' - 1$ obeys $u' = a_4'' = -\eta u$ with $u(0) = 1$, whose solution is $u = e^{-\eta x_4}$ (the derivative of $e^{-\eta x_4}$ is $-\eta e^{-\eta x_4}$). So
-
-$$
-a_4' = 1 + e^{-\eta x_4},\qquad a_4 = x_4 + \frac{1 - e^{-\eta x_4}}{\eta}
-$$
-
-(integrate from 0, with $a_4(0) = 0$). The rate relaxes from $2H$ to $H$; the extra times keep deflating, first at the rate $2H$, later at the rate $H$. The conservation law gives $\kappa\rho' = -3a_4'\kappa\Delta = 6\eta\,a_4'(a_4' - 1) > 0$: the energy density rises. With $\Lambda = 0$ (the value Notebook 12c uses) the constraint gives $\kappa\rho = -3(a_4')^2 - 21H^2$, so $\kappa\rho$ rises from $-33H^2$ (at the rate $2H$, the value of the linear member $A = 2$) towards $-24H^2$ (the value of $A = 1$).
-
-**A constant stress in Einstein-Gauss-Bonnet gravity: the equation breaks down.** With $\alpha_1 = 1$, $\alpha_3 = 0$ and $H = 1$, $F(v) = 2 - 80\alpha_2 - 48\alpha_2v^2$. Define $G(v) = (2 - 80\alpha_2)v - 16\alpha_2v^3$; its derivative is $G'(v) = 2 - 80\alpha_2 - 48\alpha_2v^2 = F(v)$. Then, along a solution with a constant stress $\kappa\Delta$,
-
-$$
-\frac{d}{dx_4}G\big(a_4'(x_4)\big) = G'(a_4')\,a_4'' = F(a_4')\,a_4'' = \kappa\Delta
-$$
-
-(chain rule, then the evolution equation), and integrating from 0:
-
-$$
-G\big(a_4'(x_4)\big) = G\big(a_4'(0)\big) + \kappa\Delta\,x_4 .
-$$
-
-The right-hand side grows without limit, but $G$ has a largest value at the **critical rate** $v_c = \sqrt{(2 - 80\alpha_2)/(48\alpha_2)}$, where $G' = F = 0$. So the rate reaches $v_c$ at the finite time
-
-$$
-x_4^{\star} = \frac{G(v_c) - G\big(a_4'(0)\big)}{\kappa\Delta},
-$$
-
-and there $a_4'' = \kappa\Delta/F$ becomes infinite: beyond $x_4^{\star}$ no solution with a smooth $a_4'$ exists. For $\kappa\Delta = 0.5$ and $a_4'(0) = 1$: $\alpha_2 = 0.005$ gives $v_c = 2.5820$ and $x_4^{\star} = 2.4682$; $\alpha_2 = 0.01$ gives $v_c = 1.5811$ and $x_4^{\star} = 0.4498$ (Notebook 12c, In [13]; Exercise 8 repeats the second by hand). In Einstein gravity ($F = 2$) the same stress simply makes the rate grow linearly, $a_4' = 1 + 0.25x_4$, for ever.
-
-### 12.22 Example: four prescribed histories integrated with RK4
-
-The third notebook programs RK4, tests it, and integrates the evolution equation for the four prescribed stresses of Section 12.21. It compares every numerical history with its exact solution, measures the order of convergence of RK4, compares the energy density from the conservation law with the one from the constraint, and finds the Gauss-Bonnet breakdown at the predicted time. Along every history with the deflating sign the extra times deflate exponentially at every time. At the end it reads the record's verdict on the Kohn-Sham states and recomputes the record's numbers. The record `Revision/field_equations_a4/reports/ks-source-conditions.json` (every one of its checks PASS; Notebook 12c, In [15]) finds that every recorded Kohn-Sham state with a nonzero energy-momentum tensor depends on $x_0$ and violates $p_3 + p_t = 2p_0$, even after integration over $x_0$ (check `ks_integrals_violate_algebraic_condition`). Notebook 12c, In [16], recomputes the record's numbers from the Kohn-Sham table `Revision/kohn_sham/results/ground/emt-integrals.csv` and asserts that they equal the record: of the 75 recorded states, 70 have a nonzero energy-momentum tensor; for these the ratio $(\int p_3 + \int p_t)/(2\int p_0)$, which equals 1 for every admissible source, is nowhere closer to 1 than 0.414328, and for $N = 136$ particles and $\lambda = 0$ it is 0.339767, 0.25969 and 0.239714 at the slices $a_{4,0} = 0, 1, 2$ (COMPUTED from the record's table, equal to the record). So the Kohn-Sham history $a_4 = AHx_4$ of Chapters 14 and 15 is a PRESCRIBED background, not a solution of these equations with the Kohn-Sham source (Chapter 17). The notebook runs in about 15 seconds, prints 30 PASS lines and draws six figures.
+The third notebook writes the solver of Section 12.21 with the record's Lovelock components, tests RK4 on $y' = -y$, integrates the flat member, the record history with its own source (Einstein gravity and the author's weights), the same source from other starting rates, the pulse history and its source, measures the convergence order of RK4 on the flat member, integrates the gas of massless particles with the author's weights to the point where $\det J$ changes sign, and recomputes the record's numbers on the Kohn-Sham states. It prints 21 PASS lines, draws seven figures and runs in about twenty seconds.
 
 <!-- NOTEBOOK 12c -->
 
 ### 12.25 Line-by-line walk-through of Notebook 12c
 
-The notebook has 17 code cells, In [1] to In [17].
+The notebook has 19 code cells, In [1] to In [19]. As in Section 12.16, every line or small group of lines is quoted and explained; docstrings are left out, and long captions are shortened to their first line and `...)` (they are printed in full under the figures in Section 12.24).
 
-**In [1], the set-up cell.** As in Notebook 12a (Section 12.16, In [1]), except that the comments hold the run instructions of Notebook 12c (Section 12.23) and `NOTEBOOK_ID = "12c"`.
+**In [1], the set-up cell.** It is the set-up cell of Notebook 12a, explained line by line in Section 12.16 under In [1], with two differences: its comment lines are the run instructions of Notebook 12c (Section 12.23), and its line `NOTEBOOK_ID = "12c"  # this notebook: chapter 12, example c` names this notebook. It prints Set-up of notebook 12c complete: repository folder found, helpers defined.
 
-**In [2], the records and the Lovelock components as functions.**
+**In [2], the records and the system.** The cell reads the record's Lovelock components and turns them into seven fast numerical functions that give the whole system.
 
 ```python
 import contextlib  # redirect_stdout: send printed lines into a buffer
 import io  # StringIO: a text buffer in memory
 import math  # the error function erf, for an exact solution
+```
 
+`contextlib` and `io` for the helper `reproduces`; `math`, Python's module of mathematical functions, for $e^x$, $\ln$ and the error function `math.erf` on single numbers.
+
+```python
 import matplotlib.ticker  # control of the tick labels of an axis
 import numpy as np  # arrays of numbers
 import sympy as sp  # exact algebra, used here only to read the record formulas
 ```
 
-Besides the modules met before: `math`, Python's module of mathematical functions (it has the error function `math.erf`), and `matplotlib.ticker`, which controls the labels of axis ticks.
+`matplotlib.ticker` controls the labels of the axis ticks (used in In [15]); `numpy` for arrays; `sympy` only to read the record's formulas and differentiate them once.
 
 ```python
 PY = "Revision/field_equations_a4/reports/python-a4-report.json"  # sympy record
 WL = "Revision/field_equations_a4/reports/wolfram-a4-report.json"  # Wolfram record
 EQUATIONS = "Revision/field_equations_a4/a4-equations.json"  # the equations
+KS_A4 = "Revision/field_equations_a4/ks_source/reports/ks-source-a4.json"
 KS = "Revision/field_equations_a4/reports/ks-source-conditions.json"
 ```
 
-Short names of four record files; `KS` is the record on the Kohn-Sham sources. The three helpers `read_json`, `record_verdict` and `reproduces` that follow are those of Notebook 12a, In [2] (Section 12.16).
+Short names for the sympy and Wolfram reports, the equations, the record of the Kohn-Sham source (`KS_A4`) and the record of the source conditions (`KS`).
+
+```python
+def read_json(relative):
+    return json.loads(repository_file(relative).read_text(encoding="utf-8"))
+```
+
+`read_json`, as in Notebook 12a.
+
+```python
+def record_verdict(report_file, name):
+    for entry in read_json(report_file)["checks"]:
+        if entry["name"] == name:
+            return entry["verdict"]
+    return None
+```
+
+`record_verdict`, as in Notebook 12a.
+
+```python
+def reproduces(condition, name, report_file, record_name):
+    found = record_verdict(report_file, record_name) == "PASS"
+    lines = io.StringIO()  # a text buffer
+    with contextlib.redirect_stdout(lines):  # print() now writes into the buffer
+        check(condition and found, name, record=f"{report_file}, check {record_name}")
+    print(lines.getvalue(), end="")  # all lines at once
+```
+
+`reproduces`, as in Notebook 12a.
 
 ```python
 record = read_json(EQUATIONS)
-H, ad1, ad2 = sp.symbols("H ad1 ad2", real=True)
+H, ad1, ad2, uu, vv, kk = sp.symbols("H ad1 ad2 uu vv kk", real=True)
 a1, a2, a3 = sp.symbols("alpha1 alpha2 alpha3", real=True)
-LOCALS = {"H": H, "ad1": ad1, "ad2": ad2, "alpha1": a1, "alpha2": a2, "alpha3": a3}
+LOCALS = {"H": H, "ad1": ad1, "ad2": ad2, "uu": uu, "vv": vv, "kk": kk}
+```
 
+The equations are read; the symbols are made (`a1`, `a2`, `a3` for the couplings); `LOCALS` says which symbol each name of the record means.
 
+```python
 def from_record(text):
     return sp.sympify(text.replace("^", "**"), locals=LOCALS).subs(H, 1)
 ```
 
-The record is read; the symbols for $H$, $a_4'$, $a_4''$ and the couplings are made (in this notebook the Python names of the couplings are `a1`, `a2`, `a3`, so that the name `alpha2` stays free for a plain number later); `from_record` parses a formula of the record and sets $H = 1$ (docstring left out).
+`from_record` turns a Wolfram text of the record into a sympy expression and sets $H = 1$ (the units of the notebook).
 
 ```python
 lovelock = record["lovelockTensors"]
 weights = {1: a1, 2: a2, 3: a3}
-
-
-def lovelock_sum(component):
-    return sum(weights[k] * from_record(lovelock[f"E{k}"][component]["input"])
-               for k in (1, 2, 3))
-
-
-e44 = lovelock_sum("x4x4")  # the time component (constraint)
-e00 = lovelock_sum("x0x0")  # the hidden component
-F_expr = from_record(record["generalSource"]["evolution_F"]["input"])
+side = {key: sp.expand(sum(weights[k] * from_record(lovelock[f"E{k}"][key]["input"])
+                           for k in (1, 2, 3)))
+        for key in ("x4x4", "x1x1", "x0x0")}  # sum_k alpha_k E_(k), H = 1
+ARGS = (ad1, uu, kk, a1, a2, a3)
 ```
 
-`lovelock_sum` forms $\sum_k\alpha_kE_{(k)}$ for one component of the record. It gives $e_{44}$ and $e_{00}$ of Section 12.8; $F$ is read directly from the record.
+`side` holds the three components $\sum_k\alpha_kE_{(k)}{}^h{}_h$ for $h = x_4, x_1, x_0$, with the couplings as symbols. `ARGS` lists the arguments of the numerical functions below: $a_4'$, $u$, $k$ and the three couplings.
 
 ```python
-rho_side = sp.lambdify((ad1, a1, a2, a3), e44, "numpy")
-p0_side = sp.lambdify((ad1, a1, a2, a3), e00, "numpy")
-F_of = sp.lambdify((ad1, a1, a2, a3), F_expr, "numpy")
-say(f"F(a4') with H = 1: {F_expr}")
+zero_second = {ad2: 0, vv: 0}
+e44 = sp.lambdify(ARGS, side["x4x4"], "numpy")  # the constraint, no a4'' or v
+rest1 = sp.lambdify(ARGS, side["x1x1"].subs(zero_second), "numpy")
+rest0 = sp.lambdify(ARGS, side["x0x0"].subs(zero_second), "numpy")
+J11 = sp.lambdify(ARGS, sp.diff(side["x1x1"], ad2), "numpy")
+J12 = sp.lambdify(ARGS, sp.diff(side["x1x1"], vv), "numpy")
+```
+
+`zero_second` sets $a_4'' = v = 0$. `sp.lambdify(ARGS, ...)` turns a formula into a numpy function of these six arguments. `e44` is the constraint (it contains no $a_4''$ or $v$), `rest1` and `rest0` are the parts $R_1$, $R_0$ of the 3-space and block components without second derivatives (Section 12.9), and `J11`, `J12` are the entries of the first row of the Jacobian, the derivatives of the 3-space component with respect to $a_4''$ and $v$.
+
+```python
+J21 = sp.lambdify(ARGS, sp.diff(side["x0x0"], ad2), "numpy")
+J22 = sp.lambdify(ARGS, sp.diff(side["x0x0"], vv), "numpy")
+linear = all(sp.diff(side[key], x, y) == 0 for key in ("x1x1", "x0x0")
+             for x in (ad2, vv) for y in (ad2, vv))
+say(f"the 3-space and hidden components are linear in (a4'', v): {linear}")
 EINSTEIN = (1.0, 0.0, 0.0)  # alpha1, alpha2, alpha3 of Einstein gravity
 ```
 
-Three fast numpy functions of the rate $v = a_4'$ and the couplings: `rho_side` is $e_{44}$ (so $\kappa\rho = -(e_{44} + \Lambda)$), `p0_side` is $e_{00}$ (so $\kappa p_0 = e_{00} + \Lambda$) and `F_of` is $F$. $F$ is printed. `EINSTEIN` is a **tuple** (a fixed list in round brackets) of the Einstein couplings; `F_of(v, *EINSTEIN)` passes its three numbers as three arguments.
+`J21`, `J22` are the second row. `linear` checks that the two components contain $a_4''$ and $v$ only to the first power (all second derivatives with respect to them vanish); then the seven functions give the system exactly. The cell prints (Out [2]) that the 3-space and hidden components are linear in $(a_4'', v)$: `True`. `EINSTEIN` is the tuple of couplings $(1, 0, 0)$.
+
+```python
+AUTHOR = (1.0, 1.0 / 32.0, 1.0 / 1152.0)  # the author's weights, H = 1
+```
+
+`AUTHOR` holds the author's weights at $H = 1$: $(1, \tfrac1{32}, \tfrac1{1152})$.
 
 **In [3], a test of the functions.**
 
 ```python
-rates = np.array([-2.0, -0.5, 0.0, 1.0, 3.0])  # a few values of a4'
-ok = (np.allclose(F_of(rates, *EINSTEIN), 2.0)
-      and np.allclose(rho_side(rates, *EINSTEIN), 3 * rates ** 2 + 21)
-      and np.allclose(p0_side(rates, *EINSTEIN), 15 - 3 * rates ** 2))
-reproduces(ok, "Einstein: F = 2, E44 = 3 a4'^2 + 21, E88 = 15 - 3 a4'^2 (H = 1)",
+points = np.array([[-2.0, 0.5, 1.0], [-0.5, 1.0, 0.3], [0.0, 2.0, 2.0],
+                   [1.0, 4.0 / 3.0, 1.0], [3.0, -1.0, 5.0]])  # (a4', u, k)
+a_p, u_p, k_p = points.T
+ok = (np.allclose(J11(a_p, u_p, k_p, *EINSTEIN), 2.0)
+      and np.allclose(J12(a_p, u_p, k_p, *EINSTEIN), -2.0)
+      and np.allclose(J21(a_p, u_p, k_p, *EINSTEIN), 0.0)
+      and np.allclose(J22(a_p, u_p, k_p, *EINSTEIN), -1.5)
+      and np.allclose(e44(a_p, u_p, k_p, *EINSTEIN), 3 * a_p ** 2 + 6 * k_p
+                      - 1.5 * u_p ** 2)
+      and np.allclose(rest1(a_p, u_p, k_p, *EINSTEIN), -5 * a_p ** 2 + 6 * a_p * u_p
+                      + 6 * k_p - 2.5 * u_p ** 2)
+      and np.allclose(rest0(a_p, u_p, k_p, *EINSTEIN), -3 * a_p ** 2 + 1.5 * a_p * u_p
+                      + 3 * k_p - 1.5 * u_p ** 2))
+```
+
+Five sample points $(a_4', u, k)$ in an array; `.T` (the transpose) splits its three columns into the arrays `a_p`, `u_p`, `k_p`. `np.allclose(a, b)` is true when the two agree to rounding at every point. For Einstein gravity the Jacobian must be $\begin{pmatrix}2 & -2\\ 0 & -\tfrac32\end{pmatrix}$ and the three functions $e_{44}$, $R_1$, $R_0$ those of Section 12.9 with $H = 1$; the star in `*EINSTEIN` hands the three couplings over as separate arguments.
+
+```python
+reproduces(ok, "Einstein: J = {{2, -2}, {0, -3/2}} and the three components (H = 1)",
            PY, "einstein_components")
 ```
 
-At five rates the three functions must give the Einstein values of Section 12.9 (`np.allclose` compares arrays up to rounding).
+The check reproduces the sympy report's `einstein_components` (Out [3]).
 
-**In [4], the RK4 solver and its test.**
+**In [4], the Runge-Kutta method.**
 
 ```python
 def rk4(rhs, y0, h, steps, stop=None):
@@ -2568,14 +3313,15 @@ def rk4(rhs, y0, h, steps, stop=None):
         k2 = rhs(x + h / 2, y + h / 2 * k1)
         k3 = rhs(x + h / 2, y + h / 2 * k2)
         k4 = rhs(x + h, y + h * k3)
-        xs.append((n + 1) * h)  # (n + 1) h avoids adding up rounding errors
-        ys.append(y + h / 6 * (k1 + 2 * k2 + 2 * k3 + k4))
-        if stop is not None and stop(ys[-1]):
+        new = y + h / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+        if stop is not None and stop(y, new):
             break
+        xs.append((n + 1) * h)  # (n + 1) h avoids adding up rounding errors
+        ys.append(new)
     return np.array(xs), np.array(ys)
 ```
 
-`rk4` solves $dy/dx = $ `rhs(x, y)` from $x = 0$ with the starting value `y0`, by at most `steps` steps of size `h` (docstring left out). The lists `xs` and `ys` hold the points reached; `[-1]` is the last one. The four lines `k1` to `k4` and the update are the RK4 formulas of Section 12.21, applied to the whole array `y` at once. The new $x$ is computed as $(n + 1)h$ rather than by adding $h$ again and again, which would accumulate rounding errors. If a function `stop` is given and returns true for the new point, `break` ends the loop early. The function returns the points as arrays: `ys[n, 0]` is the first component at step $n$.
+`rk4(rhs, y0, h, steps, stop)` solves $dy/dx = $ `rhs(x, y)` from $x = 0$, $y = y_0$ with at most `steps` steps of size `h`. `xs` and `ys` are lists of the times and the states; `np.array(y0, dtype=float)` turns the starting values into an array of floating-point numbers, so that the arithmetic below works on whole arrays. Each step computes the four slopes $k_1$ to $k_4$ and the new state $y + \tfrac h6(k_1 + 2k_2 + 2k_3 + k_4)$ (Section 12.21; Chapter 2). If a function `stop` is given and returns True for the old and the new state, `break` ends the loop before the new state is stored. The time is stored as $(n + 1)h$ rather than by adding $h$ again and again, which would add up rounding errors. The function returns the times and the states as arrays (one row per time).
 
 ```python
 x_test, y_test = rk4(lambda x, y: -y, [1.0], 0.05, 20)
@@ -2585,709 +3331,897 @@ say(f"y' = -y: RK4 with h = 0.05 gives y(1) = {y_test[-1, 0]:.10f}; "
 check(error_test < 1e-7, "RK4 solves y' = -y to better than 1e-7 with 20 steps")
 ```
 
-A test with a known answer: $y' = -y$, $y(0) = 1$, whose solution is $e^{-x}$. `lambda x, y: -y` is a one-line function without a name. Twenty steps of 0.05 reach $x = 1$; the result 0.3678794611 differs from $e^{-1} = 0.3678794412$ by $2 \times 10^{-8}$.
+A test: $y' = -y$ with $y(0) = 1$ and 20 steps of $h = 0.05$ (the `lambda` makes a small nameless function). `y_test[-1, 0]` is the first number of the last row. The cell prints (Out [4]) `y(1) = 0.3678794611; exact 0.3678794412`: the error is $2\times10^{-8}$, and the check requires less than $10^{-7}$.
 
-**In [5], no stress: the linear member.**
+**In [5], the system for $a_4$ and $b_4$.** The cell defines three functions and prints nothing.
 
 ```python
-def history(stress, rate0, h, steps, couplings=EINSTEIN, Lam=0.0, stop=None):
+def history(p3, p0, start, h, steps, couplings=EINSTEIN, Lam=0.0, stop=None):
     def rhs(x, y):
-        push = stress(x, y)  # kappa (p3 - pt) at this time
-        return np.array([y[1], push / F_of(y[1], *couplings), -3.0 * y[1] * push])
-
-    rho0 = -(rho_side(rate0, *couplings) + Lam)  # kappa rho at x4 = 0
-    return rk4(rhs, [0.0, rate0, rho0], h, steps, stop)
+        a4, rate, log_b4, u, kappa_rho = y
+        k = math.exp(2.0 * a4 - log_b4)  # k = e^(2 a4)/b4
+        jacobian = np.array([
+            [J11(rate, u, k, *couplings), J12(rate, u, k, *couplings)],
+            [J21(rate, u, k, *couplings), J22(rate, u, k, *couplings)]])
+        pressure3, pressure0 = p3(x, y), p0(x, y)
+        right = np.array([pressure3 - Lam - rest1(rate, u, k, *couplings),
+                          pressure0 - Lam - rest0(rate, u, k, *couplings)])
+        second, v = np.linalg.solve(jacobian, right)  # a4'' and v = u'
+        h4 = u / 2.0 - rate
+        change = (-3.0 * rate * (kappa_rho + pressure3)
+                  - 4.0 * h4 * (kappa_rho + pressure0))  # the conservation law
+        return np.array([rate, second, u, v, change])
 ```
 
-`history` integrates the first-order system of Section 12.21 for a given stress function (docstring left out). Inside it, `rhs` is the right-hand side for the state $y = (a_4, v, \kappa\rho)$: $dy_0/dx = v$, $dy_1/dx = \kappa\Delta/F(v)$, $dy_2/dx = -3v\,\kappa\Delta$. The starting energy density is taken from the constraint, $\kappa\rho = -(e_{44} + \Lambda)$ at the starting rate. The defaults are Einstein gravity and $\Lambda = 0$.
+`history(p3, p0, start, h, steps, couplings, Lam, stop)` integrates the system for two pressure functions `p3(x, y)` and `p0(x, y)` (which give $\kappa p_3$ and $\kappa p_0$ and may depend on the time and the state). Inside it, `rhs` is the right-hand side: it unpacks the state into $a_4$, $a_4'$ (`rate`), $\ln b_4$, $u$ and $\kappa\rho$; computes $k = e^{2a_4 - \ln b_4}$; fills the 2 by 2 Jacobian; computes the two right-hand sides $\kappa p_3 - \Lambda - R_1$ and $\kappa p_0 - \Lambda - R_0$; solves the linear system with `np.linalg.solve` for $a_4''$ (`second`) and $v$; and computes the change of $\kappa\rho$ from the energy exchange. It returns the five derivatives $(a_4', a_4'', u, v, d(\kappa\rho)/dx_4)$ in the order of the state.
 
 ```python
-def no_stress(x, y):
-    return 0.0  # Delta = 0: an isotropic source
-
-
-linear = {}  # slope A -> (x4, solution)
-for slope in (2.0, 1.0, -1.0):  # deflating A = 2, 1 and the mirror image A = -1
-    linear[slope] = history(no_stress, slope, 0.01, 300)
-    x4, y = linear[slope]
-    error = np.max(np.abs(y[:, 0] - slope * x4))  # compare with a4 = A x4
-    check(error < 1e-12, f"Delta = 0, A = {slope:g}: a4 = A H x4 exactly")
+    a4, rate, log_b4, u = start
+    kappa_rho0 = -(e44(rate, u, math.exp(2.0 * a4 - log_b4), *couplings) + Lam)
+    return rk4(rhs, [a4, rate, log_b4, u, kappa_rho0], h, steps, stop)
 ```
 
-With zero stress, three histories of 300 steps of 0.01 (up to $x_4 = 3$) are integrated, starting at the rates $A = 2$, $1$ and $-1$; `y[:, 0]` is the column of $a_4$ values, which must equal $Ax_4$ (the format `:g` prints 2.0 as 2).
+The rest of `history` (indented under its `def`): it unpacks the four starting values, computes $\kappa\rho(0) = -(e_{44} + \Lambda)$ from the constraint, and calls `rk4` with the five starting numbers.
 
 ```python
-x4, y = linear[1.0]
-report("A = 1, Lambda = 0: kappa rho along the history", f"{y[-1, 2]:.6f}", "H^2")
-product = np.exp(3 * y[:, 0]) * np.exp(-3 * y[:, 0])  # e^(3 a4) e^(-3 a4)
-check(np.max(np.abs(product - 1.0)) < 1e-12,
-      "the 7-volume factor e^(3 a4) e^(-3 a4) stays 1")
+def constraint_gap(ys, couplings=EINSTEIN, Lam=0.0):
+    k = np.exp(2.0 * ys[:, 0] - ys[:, 2])
+    return float(np.max(np.abs(ys[:, 4] + e44(ys[:, 1], ys[:, 3], k, *couplings) + Lam)))
 ```
 
-For $A = 1$ the energy density at the end is $-24$, the value of Section 12.12, and the 7-volume factor stays 1.
+`constraint_gap` evaluates, at every stored time of a solution, the carried $\kappa\rho$ plus $e_{44} + \Lambda$ (which should be zero), and returns the largest absolute value. `ys[:, 0]` is the column of all $a_4$ values, and so on.
 
-**In [6], figure 1: the linear histories and the scale factors.**
+```python
+def no_pressure(x, y):
+    return 0.0  # a vacuum: p3 = p0 = 0
+```
+
+`no_pressure` returns 0 for every time and state: the pressure function of a vacuum.
+
+**In [6], the flat member.**
+
+```python
+x_flat, y_flat = history(no_pressure, no_pressure, (0.0, 0.0, 0.0, 2.0), 0.01, 300)
+error_log_b4 = np.max(np.abs(y_flat[:, 2] - 2.0 * np.log(1.0 + x_flat)))
+error_u = np.max(np.abs(y_flat[:, 3] - 2.0 / (1.0 + x_flat)))
+say(f"largest error: ln b4 {error_log_b4:.0e}, u {error_u:.0e}, a4 "
+    f"{np.max(np.abs(y_flat[:, 0])):.0e}")
+reproduces(error_log_b4 < 1e-8 and error_u < 1e-8
+           and np.max(np.abs(y_flat[:, 0])) < 1e-8 and np.max(np.abs(y_flat[:, 4])) == 0,
+           "the flat member a4 = 0, b4 = (1 + x4)^2 solves the vacuum equations",
+           PY, "einstein_flat_vacuum")
+check(constraint_gap(y_flat) < 1e-8, "flat member: the constraint holds along x4")
+```
+
+The vacuum is integrated in Einstein gravity from $(a_4, a_4', \ln b_4, u) = (0, 0, 0, 2)$ with 300 steps of $h = 0.01$, up to $x_4 = 3$. The errors of $\ln b_4$ and $u$ against the exact $2\ln(1 + x_4)$ and $2/(1 + x_4)$, and the largest $|a_4|$, are printed with one significant digit (`.0e`): Out [6] shows `ln b4 4e-10, u 9e-10, a4 1e-10`. The check requires all three below $10^{-8}$ and the carried energy density to stay exactly zero (with no pressure and $\kappa\rho = 0$ at the start, its rate is exactly zero); it reproduces the sympy report's `einstein_flat_vacuum`. The last check: the constraint gap stays below $10^{-8}$.
+
+**In [7], figure 12c.1: the flat member.**
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-for slope, style, words in ((2.0, "-", "deflating"), (1.0, "-.", "deflating"),
-                            (-1.0, "--", "mirror image")):
-    x4, y = linear[slope]
-    left.plot(x4, y[:, 0], style, label=f"$A = {slope:g}$ ({words})")
-left.set_xlabel("time $x_4$ (units $1/H$)")
-left.set_ylabel("$a_4$")
-left.set_title("$\\Delta = 0$: $a_4 = AHx_4$")
-left.legend(fontsize=8)
+every = slice(0, None, 20)  # every 20th point for the numerical markers
+left.plot(x_flat, 1.0 + x_flat, color="black", label="exact $1 + x_4$")
+left.plot(x_flat[every], np.exp(y_flat[every, 2] / 2.0), "o", markersize=4,
+          label="RK4: $b_4^{1/2}$")
+left.plot(x_flat, np.exp(y_flat[:, 0]), "--", label="3-space $e^{a_4} = 1$")
 ```
 
-Two panels. The left one draws the three histories with three line styles (solid, dash-dotted, dashed).
+Two panels. `slice(0, None, 20)` selects every 20th point, for markers that do not crowd. Left: the exact $1 + x_4$ as a black line, the numerical $b_4^{1/2} = e^{\ln b_4/2}$ as dots, and the 3-space factor $e^{a_4}$ dashed.
 
 ```python
-x4, y = linear[1.0]
-right.semilogy(x4, np.exp(y[:, 0]), label="3-space $e^{a_4}$ (inflates)")
-right.semilogy(x4, np.exp(-y[:, 0]), "--", label="extra times $e^{-a_4}$ (deflate)")
-right.semilogy(x4, np.exp(3 * y[:, 0]) * np.exp(-3 * y[:, 0]), ":", color="black",
-               label="$e^{3a_4}e^{-3a_4} = 1$")
-right.set_xlabel("time $x_4$ (units $1/H$)")
-right.set_ylabel("scale factor")
-right.set_title("$A = 1$: the scale factors")
-right.legend(fontsize=8)
-save_figure(fig, "linear_member",
-            ...)
+left.set_xlabel("time $x_4$ (units $1/H$)")
+left.set_ylabel("scale factor")
+left.set_title("the block grows linearly, 3-space is still")
+left.legend(fontsize=8)
+right.plot(x_flat, 2.0 / (1.0 + x_flat), color="black", label="exact $2/(1 + x_4)$")
+right.plot(x_flat[every], y_flat[every, 3], "o", markersize=4, label="RK4: $u$")
 ```
 
-`semilogy` draws with a logarithmic vertical axis, on which an exponential is a straight line. **What the figure shows.** On the left three straight lines of slopes 2, 1 and $-1$. On the right $e^{a_4}$ rises and $e^{-a_4}$ falls along straight lines of equal and opposite slope, and the product of their cubes is the flat line 1.
+Labels, title and legend of the left panel; on the right the exact rate $2/(1 + x_4)$ and the numerical $u$ as dots.
 
-**In [7], the pulse.**
+```python
+right.set_xlabel("time $x_4$ (units $1/H$)")
+right.set_ylabel("$u = b_4'/b_4$ (units $H$)")
+right.set_title("the rate $u$")
+right.legend(fontsize=8)
+save_figure(fig, "flat_member",
+            "Einstein gravity without a source: the flat member $a_4 = 0$, "
+...)
+```
+
+Labels, title and legend of the right panel, and `save_figure` (the caption is printed under figure 12c.1 in Section 12.24). The dots lie on the lines: the block grows linearly ($e^{-a_4}b_4^{1/2} = 1 + x_4$) while 3-space stays still.
+
+**In [8], the record history with its own source.**
+
+```python
+def einstein_p3(x, y):
+    return 6.0 * math.exp(2.0 * x / 3.0) - 13.0 / 9.0  # kappa p3, Lambda = 0
+```
+
+`einstein_p3` returns the Einstein pressure $\kappa p_3 = 6e^{2x_4/3} - \tfrac{13}9$ of the record history ($\Lambda = 0$), a function of the time only (the argument `y` is not used).
+
+```python
+def einstein_p0(x, y):
+    return 3.0 * math.exp(2.0 * x / 3.0) - 11.0 / 3.0  # kappa p0 = kappa p_t
+```
+
+`einstein_p0` returns $\kappa p_0 = \kappa p_t = 3e^{2x_4/3} - \tfrac{11}3$.
+
+```python
+AUTHOR_LAMBDA = -10.0  # the record's Lambda for the author's weights
+```
+
+The record's $\Lambda$ for the author's weights.
+
+```python
+def author_p3(x, y):
+    k = math.exp(2.0 * x / 3.0)
+    return -9.0 / 16.0 * k ** 2 + 1601.0 / 216.0 * k - 5359.0 / 3888.0 + AUTHOR_LAMBDA
+```
+
+`author_p3` returns the author's-weights pressure: the record's $\kappa p_3 - \Lambda$ plus $\Lambda = -10$.
+
+```python
+def author_p0(x, y):
+    k = math.exp(2.0 * x / 3.0)
+    return 79.0 / 16.0 * k - 497.0 / 144.0 + AUTHOR_LAMBDA
+```
+
+`author_p0` returns $\kappa p_0 - \Lambda = \tfrac{79}{16}k - \tfrac{497}{144}$ plus $\Lambda$.
+
+```python
+START = (0.0, 1.0, 0.0, 4.0 / 3.0)  # a4, a4', ln b4, u of the record history
+record_runs = {"Einstein": history(einstein_p3, einstein_p0, START, 0.01, 300),
+               "author's weights": history(author_p3, author_p0, START, 0.01, 300,
+                                           AUTHOR, AUTHOR_LAMBDA)}
+gaps = []
+for name, (xs, ys) in record_runs.items():
+    couplings, Lam = (EINSTEIN, 0.0) if name == "Einstein" else (AUTHOR, AUTHOR_LAMBDA)
+    error_a4 = np.max(np.abs(ys[:, 0] - xs))  # exact a4 = x4
+    error_log_b4 = np.max(np.abs(ys[:, 2] - 4.0 * xs / 3.0))  # exact ln b4 = 4 x4/3
+    gaps.append(constraint_gap(ys, couplings, Lam))
+    say(f"{name}: largest error a4 {error_a4:.0e}, ln b4 {error_log_b4:.0e}; "
+        f"constraint gap {gaps[-1]:.0e}")
+    check(error_a4 < 1e-9 and error_log_b4 < 1e-9,
+          f"{name}: the solver reproduces the record history")
+```
+
+`START` holds the starting values of the record history. `record_runs` is a dictionary of the two integrations (Einstein gravity, and the author's weights with their $\Lambda$), each 300 steps of $h = 0.01$. For each run the loop picks the matching couplings and $\Lambda$ (a conditional expression), measures the largest deviation of $a_4$ from the exact $x_4$ and of $\ln b_4$ from $\tfrac43x_4$, and the constraint gap, prints them and checks that the solver stays on the history to better than $10^{-9}$. Out [8]: errors of $10^{-14}$, and gaps of $5\times10^{-9}$ (Einstein) and $7\times10^{-9}$ (the author's weights).
+
+```python
+reproduces(max(gaps) < 1e-8,
+           "the energy density from conservation equals the constraint along x4",
+           WL, "constraint_propagation_bianchi")
+```
+
+Both gaps below $10^{-8}$: the energy density carried by the conservation law equals the one the constraint gives, as the Bianchi identity requires (Wolfram report, `constraint_propagation_bianchi`).
+
+**In [9], figure 12c.2: the record history recovered.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
+xs = record_runs["Einstein"][0]
+left.plot(xs, xs, color="black", label="exact $a_4 = x_4$")
+left.plot(xs, 4.0 * xs / 3.0, color="grey", label="exact $\\ln b_4 = 4x_4/3$")
+for (name, (x_run, y_run)), marker in zip(record_runs.items(), ("o", "s")):
+    left.plot(x_run[every], y_run[every, 0], marker, markersize=4, fillstyle="none",
+              label=f"$a_4$, {name}")
+    left.plot(x_run[every], y_run[every, 2], marker, markersize=4,
+              label=f"$\\ln b_4$, {name}")
+```
+
+Two panels. Left: the exact lines $a_4 = x_4$ (black) and $\ln b_4 = \tfrac43x_4$ (grey); for each run every 20th numerical value of $a_4$ (open markers, `fillstyle="none"`) and of $\ln b_4$ (filled markers), circles for Einstein gravity and squares for the author's weights (`zip` pairs each run with its marker).
+
+```python
+left.set_xlabel("time $x_4$ (units $1/H$)")
+left.set_ylabel("$a_4$ and $\\ln b_4$")
+left.set_title("RK4 reproduces the record history")
+left.legend(fontsize=7)
+x_run, y_run = record_runs["author's weights"]
+right.semilogy(x_run, np.exp(y_run[:, 0]), label="3-space $e^{a_4}$ (inflates)")
+```
+
+Labels, title and legend of the left panel. Right, for the author's weights: `semilogy` draws on a logarithmic vertical axis, on which an exponential is a straight line; first the 3-space factor $e^{a_4}$.
+
+```python
+right.semilogy(x_run, np.exp(-y_run[:, 0] + y_run[:, 2] / 2.0), "--",
+               label="block $e^{-a_4}b_4^{1/2}$ (deflates)")
+right.set_xlabel("time $x_4$ (units $1/H$)")
+right.set_ylabel("scale factor")
+right.set_title("the scale factors (author's weights)")
+right.legend(fontsize=8)
+```
+
+Then the block factor $e^{-a_4}b_4^{1/2} = e^{-a_4 + \ln b_4/2}$, dashed; labels, title, legend.
+
+```python
+save_figure(fig, "record_history",
+            "The record history $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$ integrated with "
+...)
+```
+
+`save_figure` (caption under figure 12c.2). The 3-space factor rises as $e^{x_4}$, the block factor falls as $e^{-x_4/3}$.
+
+**In [10], the same source, other starting rates.**
+
+```python
+perturbed = {}  # (theory, starting rate) -> (x4, solution)
+for name, (p3, p0, couplings, Lam) in {
+        "Einstein": (einstein_p3, einstein_p0, EINSTEIN, 0.0),
+        "author's weights": (author_p3, author_p0, AUTHOR, AUTHOR_LAMBDA)}.items():
+    for rate0 in (1.05, 0.95):
+        xs, ys = history(p3, p0, (0.0, rate0, 0.0, 4.0 / 3.0), 0.01, 300, couplings, Lam)
+        perturbed[(name, rate0)] = (xs, ys)
+        check(constraint_gap(ys, couplings, Lam) < 1e-7,
+              f"{name}, a4'(0) = {rate0}: the constraint holds along the solution")
+        say(f"{name}, a4'(0) = {rate0}: at x4 = 3, a4' - 1 = {ys[-1, 1] - 1:+.4f}, "
+            f"u - 4/3 = {ys[-1, 3] - 4 / 3:+.4f}")
+```
+
+The outer loop runs over a dictionary of the two theories, each with its pressure functions, couplings and $\Lambda$ (`.items()` gives the name and the tuple, which is unpacked in the `for` line); the inner loop over the starting rates 1.05 and 0.95, with $u(0) = \tfrac43$ and $b_4(0) = 1$. Each solution is stored under the pair (theory, rate); the constraint gap must stay below $10^{-7}$; and the differences $a_4' - 1$ and $u - \tfrac43$ at $x_4 = 3$ are printed with a sign (`+.4f`). Out [10]: in Einstein gravity $-0.0313$ and $+0.0419$ for 1.05, $+0.0342$ and $-0.0445$ for 0.95; with the author's weights $+0.0357$ and $+0.0727$, $-0.0417$ and $-0.0858$. The differences do not die out.
+
+**In [11], figure 12c.3: the differences from the record history.**
+
+```python
+fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
+for ax, name in ((left, "Einstein"), (right, "author's weights")):
+    for rate0, colour in ((1.05, "tab:blue"), (0.95, "tab:orange")):
+        xs, ys = perturbed[(name, rate0)]
+        ax.plot(xs, ys[:, 1] - 1.0, color=colour,
+                label=f"$a_4' - 1$, $a_4'(0) = {rate0}$")
+        ax.plot(xs, ys[:, 3] - 4.0 / 3.0, "--", color=colour,
+                label=f"$u - 4/3$, $a_4'(0) = {rate0}$")
+    ax.axhline(0.0, color="black", linewidth=0.8)
+    ax.set_xlabel("time $x_4$ (units $1/H$)")
+    ax.set_ylabel("difference from the record history (units $H$)")
+    ax.set_title(name)
+    ax.legend(fontsize=7)
+```
+
+Two panels, Einstein gravity on the left and the author's weights on the right; in each, for the two starting rates (blue and orange), the difference $a_4' - 1$ as a solid line and $u - \tfrac43$ dashed, a line at zero, labels, the title (the theory's name) and the legend.
+
+```python
+save_figure(fig, "starting_rate",
+            "The source of the record history used with other starting rates: the "
+...)
+```
+
+`save_figure` (caption under figure 12c.3): the source does not select the history; the starting values do.
+
+**In [12], a pulse in the rate: from the history to the source and back.**
 
 ```python
 X_C, WIDTH = 3.0, 0.5  # the centre and the width of the pulse
-PUSH = 2.0 / (WIDTH * math.sqrt(math.pi))  # kappa Delta_0
-RATE_START = 1.0  # a4'(0)/H: the canonical deflating history A = 1
-
-
-def pulse(x, y):
-    return PUSH * math.exp(-((x - X_C) / WIDTH) ** 2)  # kappa Delta(x4)
+einstein_side = {key: sp.lambdify((ad1, ad2, uu, vv, kk),
+                                  side[key].subs({a1: 1, a2: 0, a3: 0}), "numpy")
+                 for key in ("x4x4", "x1x1", "x0x0")}
 ```
 
-The constants of the pulse of Section 12.21 and the stress function itself (it ignores the state `y`).
+The centre $x_c = 3$ and the width $0.5$ of the pulse. `einstein_side` holds the three Einstein components ($\alpha_1 = 1$, $\alpha_2 = \alpha_3 = 0$) as numpy functions of $(a_4', a_4'', u, v, k)$, now with the second derivatives, because the source of a chosen history needs them.
 
 ```python
-def exact_pulse(x):
-    scale = PUSH * WIDTH * math.sqrt(math.pi) / 4  # = 1/2
+def pulse_history(x):
     t, t0 = (x - X_C) / WIDTH, -X_C / WIDTH  # the argument now and at x4 = 0
+```
 
+`pulse_history(x)` returns the exact $a_4$, $a_4'$ and $a_4''$ of the pulse history at the time $x$. `t` is the argument $(x - x_c)/w$ of the error function now, and `t0` its value at $x_4 = 0$.
+
+```python
     def antiderivative(s):  # an antiderivative of erf
         return s * math.erf(s) + math.exp(-s * s) / math.sqrt(math.pi)
-
-    rate = RATE_START + scale * (math.erf(t) + math.erf(X_C / WIDTH))
-    a4 = RATE_START * x + scale * (WIDTH * (antiderivative(t) - antiderivative(t0))
-                                   + x * math.erf(X_C / WIDTH))
-    return a4, rate
 ```
 
-The exact solution (docstring left out): `rate` is the formula for $a_4'$ derived in Section 12.21; `a4` is its integral from 0, in which $\int_0^{x}\operatorname{erf}((s - x_c)/w)\,ds = w\,(\text{antiderivative}(t) - \text{antiderivative}(t_0))$ by the same substitution as before.
+Inside `pulse_history`, a small function: an antiderivative of erf, $F(s) = s\,\mathrm{erf}(s) + e^{-s^2}/\sqrt\pi$ (its derivative is $\mathrm{erf}(s) + s\cdot\tfrac2{\sqrt\pi}e^{-s^2} - \tfrac{2s}{\sqrt\pi}e^{-s^2} = \mathrm{erf}(s)$, by the product rule and $\mathrm{erf}'(s) = \tfrac2{\sqrt\pi}e^{-s^2}$).
 
 ```python
-x4_pulse, y_pulse = history(pulse, RATE_START, 0.01, 800)
-exact = np.array([exact_pulse(x) for x in x4_pulse])  # columns: a4, a4'
+    rate = 1.0 + 0.5 * (math.erf(t) + math.erf(X_C / WIDTH))
+    second = math.exp(-t * t) / (WIDTH * math.sqrt(math.pi))  # the derivative
+    a4 = x + 0.5 * (WIDTH * (antiderivative(t) - antiderivative(t0))
+                    + x * math.erf(X_C / WIDTH))
+    return a4, rate, second
+```
+
+The rate $a_4' = 1 + \tfrac12(\mathrm{erf}\,t + \mathrm{erf}(x_c/w))$; its derivative $a_4'' = \tfrac12\cdot\tfrac2{\sqrt\pi}e^{-t^2}\cdot\tfrac1w = e^{-t^2}/(w\sqrt\pi)$ (chain rule); and $a_4$ itself, the integral of the rate from 0: $x + \tfrac12\big(w(F(t) - F(t_0)) + x\,\mathrm{erf}(x_c/w)\big)$, because $\int\mathrm{erf}((x - x_c)/w)\,dx = w\,F((x - x_c)/w)$.
+
+```python
+def pulse_source(x):
+    a4, rate, second = pulse_history(x)
+    values = (rate, second, 4.0 * rate / 3.0, 4.0 * second / 3.0,
+              math.exp(2.0 * a4 / 3.0))
+    return (-einstein_side["x4x4"](*values), einstein_side["x1x1"](*values),
+            einstein_side["x0x0"](*values))
+```
+
+`pulse_source(x)` returns the Einstein source of the pulse history at the time $x$: with $b_4 = e^{(4/3)a_4}$ we have $u = \tfrac43a_4'$, $v = \tfrac43a_4''$ and $k = e^{2a_4}/b_4 = e^{(2/3)a_4}$; then $\kappa\rho = -e_{44}$, $\kappa p_3 = e_{11}$ and $\kappa p_0 = e_{00}$ ($\Lambda = 0$).
+
+```python
+x_pulse, y_pulse = history(lambda x, y: pulse_source(x)[1],
+                           lambda x, y: pulse_source(x)[2],
+                           (0.0, 1.0, 0.0, 4.0 / 3.0), 0.01, 800)
+exact = np.array([pulse_history(x) for x in x_pulse])  # columns: a4, a4', a4''
+needed_rho = np.array([pulse_source(x)[0] for x in x_pulse])
 error_a4 = np.max(np.abs(y_pulse[:, 0] - exact[:, 0]))
+```
+
+The integration: the pressures are the second and third entries of `pulse_source` (two `lambda` functions of the time), the starting values those of the record history, 800 steps of $h = 0.01$ up to $x_4 = 8$. `exact` holds the exact $a_4$, $a_4'$, $a_4''$ at every stored time, and `needed_rho` the energy density the history needs; `error_a4` is the largest deviation of $a_4$.
+
+```python
 error_rate = np.max(np.abs(y_pulse[:, 1] - exact[:, 1]))
-say(f"largest error: a4 {error_a4:.0e}, a4' {error_rate:.0e}")
-check(error_a4 < 1e-8 and error_rate < 1e-8,
-      "pulse: RK4 (h = 0.01) agrees with the exact solution to 1e-8")
+error_rho = np.max(np.abs(y_pulse[:, 4] - needed_rho) / np.abs(needed_rho))
+say(f"largest error: a4 {error_a4:.0e}, a4' {error_rate:.0e}, ln b4 "
+    f"{np.max(np.abs(y_pulse[:, 2] - 4.0 * exact[:, 0] / 3.0)):.0e}; relative error "
+    f"of kappa rho {error_rho:.0e}")
+check(error_a4 < 1e-8 and error_rate < 1e-6 and error_rho < 1e-8,
+      "pulse: RK4 (h = 0.01) gets the history back from its source")
 ```
 
-800 steps of 0.01 up to $x_4 = 8$; the exact values at the same points; the largest differences are $9 \times 10^{-11}$ for $a_4$ and $10^{-10}$ for $a_4'$ (COMPUTED).
+The deviations of $a_4'$ and the relative deviation of the carried $\kappa\rho$ are computed, and all errors printed (Out [12]): `a4 1e-09, a4' 4e-08, ln b4 3e-09; relative error of kappa rho 4e-09`. The check: the solver returns the chosen history.
 
 ```python
-check(np.min(y_pulse[:, 1]) >= 1.0 - 1e-12,
-      "the rate a4' never falls below H: the extra times deflate at every time")
-report("rate a4'/H after the pulse (x4 = 8)", f"{y_pulse[-1, 1]:.10f}")
-check(abs(y_pulse[-1, 1] - 2.0) < 1e-8,
-      "after the pulse a4' = 2 H: the deflating linear member A = 2")
+report("rate a4'/H after the pulse (x4 = 8)", f"{y_pulse[-1, 1]:.8f}")
+check(abs(y_pulse[-1, 1] - 2.0) < 1e-6 and np.min(y_pulse[:, 1]) > 1.0 - 1e-6,
+      "after the pulse a4' = 2 H; the rate never falls below H")
 ```
 
-The rate never falls below 1 (the stress is never negative), and at the end it is 2.0000000000.
+The rate at $x_4 = 8$ is printed, `1.99999999`, and checked to be $2H$ to $10^{-6}$, with the rate never below $H$.
 
-**In [8], figure 2: the pulse history in four panels.**
-
-```python
-fig, axes = plt.subplots(2, 2, figsize=(10.0, 7.0))
-stress_values = np.array([pulse(x, None) for x in x4_pulse])
-axes[0, 0].plot(x4_pulse, stress_values)
-axes[0, 0].set_ylabel("$\\kappa(p_3 - p_t)$ (units $H^2$)")
-axes[0, 0].set_title("the prescribed stress pulse")
-```
-
-A 2 by 2 grid of panels; `axes[0, 0]` is the top left one. The stress is evaluated at every time (`None` stands for the unused state) and drawn.
-
-```python
-every = slice(0, None, 40)  # every 40th point for the exact markers
-axes[0, 1].plot(x4_pulse, y_pulse[:, 1], label="RK4")
-axes[0, 1].plot(x4_pulse[every], exact[every, 1], "o", markersize=3, label="exact")
-axes[0, 1].set_ylabel("$a_4'/H$")
-axes[0, 1].set_title("the rate $a_4'$")
-axes[0, 1].legend(fontsize=8)
-axes[1, 0].plot(x4_pulse, y_pulse[:, 0], label="RK4")
-axes[1, 0].plot(x4_pulse[every], exact[every, 0], "o", markersize=3, label="exact")
-axes[1, 0].set_ylabel("$a_4$")
-axes[1, 0].set_title("$a_4$")
-axes[1, 0].legend(fontsize=8)
-```
-
-`slice(0, None, 40)` selects every 40th entry of an array. The top right panel draws the RK4 rate as a line and the exact rate as dots; the bottom left one does the same for $a_4$.
-
-```python
-axes[1, 1].semilogy(x4_pulse, np.exp(y_pulse[:, 0]), label="3-space $e^{a_4}$")
-axes[1, 1].semilogy(x4_pulse, np.exp(-y_pulse[:, 0]), "--",
-                    label="extra times $e^{-a_4}$")
-axes[1, 1].set_ylabel("scale factor")
-axes[1, 1].set_title("the scale factors")
-axes[1, 1].legend(fontsize=8)
-for ax in axes[1]:
-    ax.set_xlabel("time $x_4$ (units $1/H$)")
-fig.tight_layout()
-save_figure(fig, "stress_pulse",
-            ...)
-```
-
-The bottom right panel draws both scale factors on a logarithmic axis; `axes[1]` is the bottom row, whose panels get the label of the time axis; `fig.tight_layout()` spaces the panels so that labels do not overlap. **What the figure shows.** The rate climbs from 1 to 2 while the pulse acts and stays there; $a_4$ bends from slope 1 to slope 2; on the logarithmic axis $e^{-a_4}$ falls along a straight line that becomes twice as steep after the pulse: the extra times deflate at every time.
-
-**In [9], figure 3: the required source and the test of conservation.**
-
-```python
-def as_power_of_ten(value):
-    mantissa, exponent = f"{value:.0e}".split("e")
-    return f"${mantissa} \\times 10^{{{int(exponent)}}}$"
-```
-
-A small helper for the caption (docstring left out): the format `.0e` writes a number with one digit, for example `2e-11`; splitting at the letter e gives the digit and the exponent, which are put into mathematics as $2 \times 10^{-11}$ (a tripled brace in an f-string prints one brace around the value).
-
-```python
-rate = y_pulse[:, 1]
-rho_constraint = -(rho_side(rate, *EINSTEIN) + 0.0)  # kappa rho, Lambda = 0
-p0_values = p0_side(rate, *EINSTEIN) + 0.0  # kappa p0
-p3_values = p0_values + stress_values / 2  # kappa p3
-pt_values = p0_values - stress_values / 2  # kappa pt
-mismatch = np.abs(y_pulse[:, 2] - rho_constraint)  # conservation versus constraint
-say(f"largest difference of the two energy densities: {mismatch.max():.0e}")
-```
-
-Along the pulse history the four parts of the source follow from the field equations (Section 12.9; the `+ 0.0` is $\Lambda = 0$ written out): $\kappa\rho$ from the constraint, $\kappa p_0$ from the hidden equation, and $p_3$, $p_t$ from $p_0$ and the stress. `mismatch` is the difference between the energy density carried along by the conservation law (the third column of the state) and the constraint's: at most $2 \times 10^{-11}$.
-
-```python
-reproduces(mismatch.max() < 1e-8,
-           "the energy density from conservation equals the constraint along x4",
-           WL, "constraint_propagation_bianchi")
-check(abs(rho_constraint[0] + 24) < 1e-6 and abs(p0_values[0] - 12) < 1e-6,
-      "before the pulse: kappa rho = -24, kappa p = 12 (the linear member A = 1)")
-check(abs(rho_constraint[-1] + 33) < 1e-6 and abs(p0_values[-1] - 3) < 1e-6,
-      "after the pulse: kappa rho = -33, kappa p = 3 (the linear member A = 2)")
-```
-
-The agreement is the numerical form of the record's constraint propagation (Section 12.10). The source starts at the values of $A = 1$ and ends at those of $A = 2$: $-(3\cdot 4 + 21) = -33$ and $15 - 12 = 3$.
+**In [13], figure 12c.4: the pulse history.**
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-left.plot(x4_pulse, rho_constraint, label="$\\kappa\\rho$")
-left.plot(x4_pulse, p3_values, label="$\\kappa p_3$")
-left.plot(x4_pulse, pt_values, "--", label="$\\kappa p_t$")
-left.plot(x4_pulse, p0_values, ":", color="black", label="$\\kappa p_0$")
+marks = slice(0, None, 40)  # every 40th point for the exact markers
+left.plot(x_pulse, y_pulse[:, 1], label="RK4: $a_4'$")
+left.plot(x_pulse, y_pulse[:, 3], label="RK4: $u$")
+left.plot(x_pulse[marks], exact[marks, 1], "o", color="black", markersize=3,
+          label="exact")
+```
+
+Two panels; every 40th point for the exact markers. Left: the numerical $a_4'$ and $u$ as lines and the exact $a_4'$ as black dots.
+
+```python
+left.plot(x_pulse[marks], 4.0 * exact[marks, 1] / 3.0, "o", color="black",
+          markersize=3)
 left.set_xlabel("time $x_4$ (units $1/H$)")
-left.set_ylabel("required source (units $H^2$)")
-left.set_title("the source of the pulse history")
+left.set_ylabel("rate (units $H$)")
+left.set_title("the rates rise in the pulse")
 left.legend(fontsize=8)
-right.semilogy(x4_pulse, np.maximum(mismatch, 1e-16))  # exact zeros at 1e-16
+```
+
+The exact $u = \tfrac43a_4'$ as black dots; labels, title, legend.
+
+```python
+right.semilogy(x_pulse, np.exp(y_pulse[:, 0]), label="3-space $e^{a_4}$")
+right.semilogy(x_pulse, np.exp(-y_pulse[:, 0] + y_pulse[:, 2] / 2.0), "--",
+               label="block $e^{-a_4}b_4^{1/2}$")
 right.set_xlabel("time $x_4$ (units $1/H$)")
-right.set_ylabel("$|\\kappa\\rho$ conserved $-$ $\\kappa\\rho$ constraint$|$")
-right.set_title("conservation agrees with the constraint")
-save_figure(fig, "required_source",
-            ...)
+right.set_ylabel("scale factor")
+right.set_title("the scale factors")
 ```
 
-The four source curves on the left; the mismatch on a logarithmic axis on the right, where a value of exactly zero (whose logarithm does not exist) is drawn at $10^{-16}$ by `np.maximum`. The caption, passed to `save_figure`, contains the measured mismatch written by `as_power_of_ten`. **What the figure shows.** Outside the pulse all three pressures coincide; during it $p_3$ and $p_t$ split symmetrically about $p_0$, and $\rho$ falls from $-24$ to $-33$. The mismatch stays at the level of the RK4 error.
-
-**In [10], the relaxing stress.**
+Right, on a logarithmic axis: the 3-space factor $e^{a_4}$ and the block factor $e^{-a_4}b_4^{1/2} = e^{-a_4/3}$; labels and title.
 
 ```python
-damped = {}  # eta -> (x4, solution)
-for eta in (0.25, 0.5, 1.0):
-    def friction(x, y, eta=eta):
-        return -2.0 * eta * (y[1] - 1.0)  # kappa Delta = -2 eta (a4' - H)
-
-    x4, y = history(friction, 2.0, 0.01, 1000)  # start on A = 2
-    damped[eta] = (x4, y)
-```
-
-For three values of $\eta$ the stress $\kappa\Delta = -2\eta(a_4' - 1)$ depends on the state. The argument `eta=eta` stores the current value of $\eta$ in the function; without it all three functions would use the last value of the loop. Each history has 1000 steps of 0.01, up to $x_4 = 10$.
-
-```python
-    exact_a4 = x4 + (1.0 / eta) * (1.0 - np.exp(-eta * x4))
-    error = np.max(np.abs(y[:, 0] - exact_a4))
-    mismatch = np.max(np.abs(y[:, 2] + rho_side(y[:, 1], *EINSTEIN)))
-    check(error < 1e-9 and mismatch < 1e-8,
-          f"eta = {eta}: a4 = x4 + (1 - e^(-eta x4))/eta, conservation holds")
-    check(np.min(y[:, 1]) > 1.0,
-          f"eta = {eta}: the rate a4' stays above H (the extra times deflate)")
-    report(f"eta = {eta}: rate a4'/H at x4 = 10", f"{y[-1, 1]:.6f}")
-```
-
-The exact $a_4$ of Section 12.21 is compared, and conservation against the constraint as in In [9]. The rate stays above 1 and at $x_4 = 10$ equals $1 + e^{-10\eta}$: 1.082085, 1.006738 and 1.000045.
-
-**In [11], figure 4: the relaxing histories.**
-
-```python
-fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-x4 = damped[0.25][0]
-for slope, style, power in ((2.0, ":", "-2x_4"), (1.0, "-.", "-x_4")):
-    left.plot(x4, slope * np.ones_like(x4), style, color="black",
-              label=f"linear member $A = {slope:g}$")  # the two linear members
-    right.semilogy(x4, np.exp(-slope * x4), style, color="black",
-                   label=f"$A = {slope:g}$: $e^{{{power}}}$")
-for eta, (x4, y) in damped.items():
-    left.plot(x4, y[:, 1], label=f"$\\eta = {eta}$")
-    right.semilogy(x4, np.exp(-y[:, 0]), label=f"$\\eta = {eta}$")
-```
-
-The two linear members $A = 2$ and $A = 1$ in black (constant rates on the left; $e^{-2x_4}$ and $e^{-x_4}$ on the right, the exponent written into the label by the f-string), then the three relaxing histories: their rates on the left and their extra-time scale factors on the right.
-
-```python
-left.set_ylim(0.0, 2.3)
-left.set_xlabel("time $x_4$ (units $1/H$)")
-left.set_ylabel("$a_4'/H$")
-left.set_title("the deflation rate relaxes from $2H$ to $H$")
-left.legend(fontsize=8)
-right.set_xlabel("time $x_4$ (units $1/H$)")
-right.set_ylabel("extra-time scale factor $e^{-a_4}$")
-right.set_title("the extra times keep deflating")
 right.legend(fontsize=8)
-save_figure(fig, "damped_deflation",
-            ...)
+save_figure(fig, "pulse_history",
+            "A history whose rate rises in a pulse, recovered by RK4 (step "
+...)
 ```
 
-Labels and `save_figure`. **What the figure shows.** Each rate falls from 2 towards 1, faster for larger $\eta$. On the logarithmic axis each scale factor starts along the steeper black line and ends parallel to the flatter one: the deflation slows down but never stops.
+The legend and `save_figure` (caption under figure 12c.4). The rates rise from 1 and $\tfrac43$ to 2 and $\tfrac83$ around $x_4 = 3$; the block deflates at every time, twice as fast after the pulse.
 
-**In [12], figure 5: the convergence of RK4.**
+**In [14], figure 12c.5: the source of the pulse history.**
 
 ```python
-def relaxing_unit(x, y):
-    return -2.0 * (y[1] - 1.0)  # kappa Delta = -2 eta (a4' - H) with eta = 1
+sources = np.array([pulse_source(x) for x in x_pulse])  # kappa rho, p3, p0
+k_pulse = np.exp(2.0 * exact[:, 0] / 3.0)
+scaled = sources / k_pulse[:, None]
+say("kappa (rho, p3, p0)/k at x4 = 0: " + ", ".join(f"{v:.4f}" for v in scaled[0])
+    + "; at x4 = 8: " + ", ".join(f"{v:.4f}" for v in scaled[-1]))
+k0, k8 = k_pulse[0], k_pulse[-1]
+```
 
+`sources` holds the three components at every stored time; `k_pulse` the values of $k = e^{(2/3)a_4}$; `scaled` the components divided by $k$ (`k_pulse[:, None]` makes a column, so that each row is divided by its own $k$). The cell prints the scaled values at the two ends (Out [14]): `-6.3333, 4.5556, -0.6667` at $x_4 = 0$ (where $k = 1$: $-6 - \tfrac13$, $6 - \tfrac{13}9$, $3 - \tfrac{11}3$) and `-6.0002, 5.9990, 2.9975` at $x_4 = 8$.
 
-exact_end = 8.0 + (1.0 - math.exp(-8.0))  # the exact a4(8) for eta = 1
-steps_list = [20, 40, 80, 160, 320]  # h = 8/steps = 0.4, 0.2, 0.1, 0.05, 0.025
+```python
+before = np.array([-6 * k0 - 1 / 3, 6 * k0 - 13 / 9, 3 * k0 - 11 / 3])  # A = 1
+after = np.array([-6 * k8 - 4 / 3, 6 * k8 - 52 / 9, 3 * k8 - 44 / 3])  # A = 2
+check(np.allclose(sources[0], before, rtol=1e-12, atol=1e-12)
+      and np.allclose(sources[-1], after, rtol=1e-9, atol=0.0),
+      "before the pulse the source of A = 1, after it the source of A = 2")
+fig, ax = plt.subplots()
+```
+
+`before` is the Einstein source of the exponential history with $A = 1$ at the first $k$, `after` that with $A = 2$ at the last $k$ (Section 12.21); the check compares them with the computed source to $10^{-12}$ and $10^{-9}$. Then a new figure.
+
+```python
+for column, style, label in ((0, "-", "$\\kappa\\rho/k$"), (1, "--", "$\\kappa p_3/k$"),
+                             (2, ":", "$\\kappa p_0/k = \\kappa p_t/k$")):
+    ax.plot(x_pulse, scaled[:, column], style, label=label)
+ax.axhline(0.0, color="black", linewidth=0.8)
+ax.set_xlabel("time $x_4$ (units $1/H$)")
+ax.set_ylabel("required source divided by $k$ (units $H^2$)")
+```
+
+The three scaled components against the time with three line styles, a line at zero, the labels.
+
+```python
+ax.set_title("The Einstein source of the pulse history")
+ax.legend(fontsize=8)
+save_figure(fig, "pulse_source",
+            "The source that the pulse history needs in Einstein gravity with "
+...)
+```
+
+Title, legend and `save_figure` (caption under figure 12c.5). Divided by $k$, the components approach $-6$, $6$ and $3$ as $k$ grows; during the pulse the 3-space and the block pressures move apart.
+
+**In [15], figure 12c.6: the convergence order of RK4.**
+
+```python
+steps_list = [15, 30, 60, 120, 240]  # h = 3/steps = 0.2, 0.1, 0.05, 0.025, 0.0125
 sizes, errors = [], []
 for steps in steps_list:
-    x4, y = history(relaxing_unit, 2.0, 8.0 / steps, steps)
-    sizes.append(8.0 / steps)
-    errors.append(abs(y[-1, 0] - exact_end))
+    xs, ys = history(no_pressure, no_pressure, (0.0, 0.0, 0.0, 2.0), 3.0 / steps, steps)
+    sizes.append(3.0 / steps)
+    errors.append(abs(ys[-1, 2] - 2.0 * math.log(4.0)))
 ```
 
-The relaxing history with $\eta = 1$ is integrated to $x_4 = 8$ five times, with 20, 40, 80, 160 and 320 steps, and the error of $a_4(8)$ is stored for each step size.
+Five integrations of the flat member up to $x_4 = 3$ with 15, 30, 60, 120 and 240 steps ($h = 0.2$ down to $0.0125$); for each the step size and the error of $\ln b_4(3)$ against $2\ln 4$ are stored.
 
 ```python
 orders = [math.log2(errors[i] / errors[i + 1]) for i in range(len(errors) - 1)]
 for i, (size, error) in enumerate(zip(sizes, errors)):
     order = f"{orders[i - 1]:.2f}" if i > 0 else "-"
-    say(f"h = {size:<6} error of a4(8) = {error:.2e}   measured order {order}")
-check(all(3.7 < q < 4.3 for q in orders),
-      "RK4 converges with order 4 (measured orders between 3.7 and 4.3)")
+    say(f"h = {size:<7} error of ln b4(3) = {error:.2e}   measured order {order}")
+check(all(3.7 < q < 4.5 for q in orders),
+      "RK4 converges with order 4 (measured orders between 3.7 and 4.5)")
 ```
 
-If the error is $Ch^q$, then halving $h$ divides it by $2^q$, and $q = \log_2(e_h/e_{h/2})$ (`math.log2` is the logarithm to base 2). The table prints each step (`:<6` pads it to six characters), its error with two decimals in powers of ten, and the measured order: 4.24, 4.12, 4.06, 4.03 (COMPUTED). The check requires every order to lie between 3.7 and 4.3.
+The measured order between two neighbouring step sizes is $\log_2$ of the ratio of their errors (halving $h$ divides an error $Ch^q$ by $2^q$). The table is printed (Out [15]), one line per step size with its error and the order measured from the previous one (`f"{size:<7}"` pads the number to seven characters on the left side): errors $2.24\times10^{-5}$, $1.09\times10^{-6}$, $6.05\times10^{-8}$, $3.57\times10^{-9}$, $2.17\times10^{-10}$ and orders 4.36, 4.17, 4.08, 4.04. The check requires every order between 3.7 and 4.5.
 
 ```python
 fig, ax = plt.subplots()
-ax.loglog(sizes, errors, "o-", label="error of $a_4(8)$")
+ax.loglog(sizes, errors, "o-", label="error of $\\ln b_4(3)$")
 reference = errors[-1] * (np.array(sizes) / sizes[-1]) ** 4
 ax.loglog(sizes, reference, "--", color="black", label="slope 4: $C h^4$")
 ax.set_xticks(sizes)  # one tick at each step size used
 ax.set_xticklabels([f"{size:g}" for size in sizes])
+```
+
+A figure on logarithmic axes (`loglog`): the errors against the step sizes, and the reference line $Ch^4$ through the last point, $C h^4 = e_{\text{last}}(h/h_{\text{last}})^4$. One tick at each step size used, labelled with the shortest form of the number (`:g`).
+
+```python
 ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())  # no extra labels
 ax.set_xlabel("step size $h$ (units $1/H$)")
 ax.set_ylabel("absolute error")
-ax.set_title("RK4 on the relaxing history: fourth-order convergence")
+ax.set_title("RK4 on the flat member: fourth-order convergence")
 ax.legend(fontsize=8)
 save_figure(fig, "rk4_convergence",
-            ...)
+            "The error of the RK4 value of $\\ln b_4$ at $x_4 = 3/H$ for the flat "
+...)
 ```
 
-`loglog` uses logarithmic scales on both axes, where $Ch^4$ is a straight line of slope 4. The reference line passes through the last measured point. The ticks of the horizontal axis are put at the five step sizes; `NullFormatter` removes the labels of the small extra ticks that a logarithmic axis would add. **What the figure shows.** The five points lie on the reference line: the method is of fourth order.
+`NullFormatter` removes the labels of the small ticks between the main ones; labels, title, legend and `save_figure` (caption under figure 12c.6). The points follow the line of slope 4.
 
-**In [13], the Gauss-Bonnet breakdown.**
+**In [16], the gas of massless particles with the author's weights.**
 
 ```python
-STRESS, RATE0 = 0.5, 1.0  # kappa Delta and the starting rate a4'(0) = H (A = 1)
-
-
-def constant_stress(x, y):
-    return STRESS
+import re  # regular expressions: find numbers in a text
 ```
 
-A constant stress $\kappa\Delta = 0.5$, starting on the canonical history.
+`re` for reading numbers out of a detail text of the record.
 
 ```python
-breakdown = {}  # alpha2 -> (x4, solution, predicted breakdown time)
-for alpha2 in (0.005, 0.01):
-    couplings = (1.0, alpha2, 0.0)
-
-    def G(v, alpha2=alpha2):
-        return (2 - 80 * alpha2) * v - 16 * alpha2 * v ** 3  # dG/dv = F
-
-    critical = math.sqrt((2 - 80 * alpha2) / (48 * alpha2))  # F(critical) = 0
-    x_star = (G(critical) - G(RATE0)) / STRESS  # the breakdown time
+def determinant(rate, u, k, couplings):
+    return (J11(rate, u, k, *couplings) * J22(rate, u, k, *couplings)
+            - J12(rate, u, k, *couplings) * J21(rate, u, k, *couplings))
 ```
 
-For two Gauss-Bonnet couplings: the function $G$ of Section 12.21, the critical rate where $F = 0$ and the predicted breakdown time $x_4^{\star}$.
+`determinant` is $\det J = J_{11}J_{22} - J_{12}J_{21}$ for given rates, $k$ and couplings.
 
 ```python
-    def near_zero(y, couplings=couplings):
-        return F_of(y[1], *couplings) < 0.05  # stop before F reaches zero
-
-    x4, y = history(constant_stress, RATE0, 0.001, 20000, couplings,
-                    stop=near_zero)
-    breakdown[alpha2] = (x4, y, x_star)
+sigma0 = -(e44(1.0, 4.0 / 3.0, 1.0, *AUTHOR) + AUTHOR_LAMBDA)  # kappa rho(0)
+report("kappa sigma0 from the constraint", f"{sigma0:.6g}")
 ```
 
-`near_zero` tells `rk4` to stop when $F$ falls below 0.05, before the division by $F$ explodes. The integration uses the small step 0.001, because $a_4''$ grows steeply near the breakdown.
+`sigma0` is $\kappa\sigma_0 = -(e_{44} + \Lambda)$ at the start of the record history with the author's weights, printed with six significant digits: `3.57407` (Section 12.21).
 
 ```python
-    residual = np.max(np.abs(G(y[:, 1]) - G(RATE0) - STRESS * x4))
-    check(residual < 1e-6, f"alpha2 = {alpha2}: G(a4') = G(a4'(0)) + kappa Delta x4")
-    check(abs(x4[-1] - x_star) < 0.01,
-          f"alpha2 = {alpha2}: F reaches 0 near the predicted time x4*")
-    report(f"alpha2 = {alpha2}: critical rate, breakdown time x4*",
-           f"{critical:.4f} H, {x_star:.4f}/H")
+def gas_p3(x, y):
+    return sigma0 * math.exp(-2.0 * y[2]) / 3.0  # kappa p3 = kappa rho/3
 ```
 
-Along the numerical history the integrated relation $G(a_4') = G(a_4'(0)) + \kappa\Delta x_4$ must hold, and the integration must stop within 0.01 of $x_4^{\star}$. The RESULT lines give 2.5820 and 2.4682 for $\alpha_2 = 0.005$, and 1.5811 and 0.4498 for $\alpha_2 = 0.01$.
-
-**In [14], figure 6: the breakdown compared with Einstein gravity.**
+`gas_p3` returns the pressure of the gas, $\kappa p_3 = \tfrac13\kappa\sigma_0b_4^{-2} = \tfrac13\kappa\sigma_0e^{-2\ln b_4}$, computed from the state (`y[2]` is $\ln b_4$); the hidden pressure is `no_pressure`.
 
 ```python
-x_einstein, y_einstein = history(constant_stress, RATE0, 0.01, 500)
-check(np.max(np.abs(y_einstein[:, 1] - (RATE0 + STRESS * x_einstein / 2))) < 1e-12,
-      "Einstein: a4' = 1 + 0.25 x4 for the constant stress")
+def sign_change(old, new):
+    dets = [determinant(s[1], s[3], math.exp(2.0 * s[0] - s[2]), AUTHOR)
+            for s in (old, new)]
+    return dets[0] * dets[1] <= 0.0
 ```
 
-In Einstein gravity ($F = 2$) the same stress gives $a_4' = 1 + 0.25x_4$ up to $x_4 = 5$, exactly.
+`sign_change` evaluates $\det J$ at the old and the new state (`s[1]` is $a_4'$, `s[3]` is $u$, and $k = e^{2a_4 - \ln b_4}$) and returns True when the product is not positive: the determinant has changed sign or reached zero within the step.
+
+```python
+x_gas, y_gas = history(gas_p3, no_pressure, START, 2e-5, 30000, AUTHOR, AUTHOR_LAMBDA,
+                       stop=sign_change)
+end = y_gas[-1]
+say(f"det J changes sign after x4 = {x_gas[-1]:.6f}: a4 = {end[0]:.6f}, "
+    f"b4 = {math.exp(end[2]):.6f}, a4' = {end[1]:.4f}, u = {end[3]:.4f}")
+check(np.max(np.abs(y_gas[:, 4] - sigma0 * np.exp(-2.0 * y_gas[:, 2]))
+             / (sigma0 * np.exp(-2.0 * y_gas[:, 2]))) < 1e-10,
+      "the gas conserves its energy: kappa rho = kappa sigma0 b4^(-2) along x4")
+```
+
+The integration with the author's weights from the record history, with steps of $h = 2\times10^{-5}$ (at most 30000 of them, up to $x_4 = 0.6$), stopped by `sign_change`. `end` is the last stored state; the cell prints (Out [16]) `det J changes sign after x4 = 0.428800: a4 = 0.361560, b4 = 0.862655, a4' = 0.9693, u = -2.6032`. The check: the carried energy density equals $\kappa\sigma_0b_4^{-2}$ to $10^{-10}$ at every step, so the gas conserves its energy as derived in Section 12.21.
+
+```python
+text = [entry["detail"] for entry in read_json(KS_A4)["checks"]
+        if entry["name"] == "D2_author_weights_from_the_record_history"][0]
+numbers = re.search(r"singular_second_order_system at x4 = (\S+) \(a4 = (\S+?), "
+                    r"b4 = (\S+?), a4'/H = (\S+?), u/H = (\S+?)\)", text)
+recorded = [float(value) for value in numbers.groups()]
+say("record: x4 = {}, a4 = {}, b4 = {}, a4' = {}, u = {}".format(*numbers.groups()))
+```
+
+The detail of the record's check `D2_author_weights_from_the_record_history` is found (a list comprehension with a condition, and `[0]` takes its first element). `re.search` looks for the sentence of the record that starts with the outcome `singular_second_order_system` and gives, in parentheses, the time, $a_4$, $b_4$ and the two rates; each pair of parentheses of the pattern captures one of the five numbers, while the escaped parentheses (with a backslash) stand for the parenthesis characters of the sentence itself. They are printed: `x4 = 0.428813, a4 = 0.361572, b4 = 0.862627, a4' = 0.978369, u = -2.60176`.
+
+```python
+reproduces(f"{sigma0:.6g}" in text and abs(x_gas[-1] - recorded[0]) < 1e-3
+           and abs(end[0] - recorded[1]) < 1e-3
+           and abs(math.exp(end[2]) - recorded[2]) < 1e-3
+           and abs(end[1] - recorded[3]) < 0.05 and abs(end[3] - recorded[4]) < 0.05,
+           "the system becomes singular where the record finds it",
+           KS_A4, "D2_author_weights_from_the_record_history")
+```
+
+The check: the record's detail contains the same $\kappa\sigma_0$ with six digits; the time, $a_4$ and $b_4$ agree to $10^{-3}$; the rates, which change fast near the singular point, to 0.05. It reproduces the record's check `D2_author_weights_from_the_record_history`.
+
+**In [17], figure 12c.7: the breakdown.**
 
 ```python
 fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-left.plot(x_einstein, y_einstein[:, 1], color="black", label="Einstein")
-right.plot(x_einstein, F_of(y_einstein[:, 1], *EINSTEIN) * np.ones_like(x_einstein),
-           color="black", label="Einstein")
-for alpha2, (x4, y, x_star) in breakdown.items():
-    line = left.plot(x4, y[:, 1], label=f"$\\alpha_2H^2 = {alpha2}$")[0]
-    left.axvline(x_star, linestyle="--", color=line.get_color(), linewidth=0.8)
-    right.plot(x4, F_of(y[:, 1], 1.0, alpha2, 0.0), color=line.get_color(),
-               label=f"$\\alpha_2H^2 = {alpha2}$")
+left.plot(x_gas, y_gas[:, 1], label="$a_4'$ with the gas")
+left.plot(x_gas, y_gas[:, 3], "--", label="$u$ with the gas")
+left.axhline(1.0, color="black", linestyle=":", linewidth=0.8,
+             label="record history: $a_4' = 1$, $u = 4/3$")
+left.axhline(4.0 / 3.0, color="black", linestyle=":", linewidth=0.8)
 ```
 
-The Einstein rate and $F = 2$ in black. `F_of(y_einstein[:, 1], *EINSTEIN)` is already an array with one value 2 per time, because the formula of $F$ still contains the rate in terms multiplied by the couplings $\alpha_2 = \alpha_3 = 0$; multiplying by `np.ones_like(x_einstein)`, an array of ones of the same length, is only a safeguard, as in Notebook 12a, In [24] (Section 12.16): a formula with no rate left in it would give the single number 2. For each Gauss-Bonnet history the rate is drawn; `plot` returns a list of drawn lines, and `[0]` takes the line, whose colour `get_color()` is reused for a dashed vertical line at $x_4^{\star}$ (`axvline`) and for the curve of $F$ on the right.
+Two panels. Left: the rates $a_4'$ and $u$ with the gas, and dotted lines at the record values 1 and $\tfrac43$ (one legend entry for both).
 
 ```python
 left.set_xlabel("time $x_4$ (units $1/H$)")
-left.set_ylabel("$a_4'/H$")
-left.set_title("the rate under a constant stress")
+left.set_ylabel("rate (units $H$)")
+left.set_title("the rates leave the record history")
 left.legend(fontsize=8)
-right.axhline(0.0, color="black", linewidth=0.8)
-right.set_xlabel("time $x_4$ (units $1/H$)")
-right.set_ylabel("$F(a_4')$")
-right.set_title("$F$ along the history")
-right.legend(fontsize=8)
-save_figure(fig, "gauss_bonnet_breakdown",
-            ...)
+k_gas = np.exp(2.0 * y_gas[:, 0] - y_gas[:, 2])
+right.plot(x_gas, determinant(y_gas[:, 1], y_gas[:, 3], k_gas, AUTHOR))
 ```
 
-**What the figure shows.** In Einstein gravity the rate rises along a straight line for ever. With the Gauss-Bonnet coupling it bends upwards ever more steeply and reaches the dashed line, the predicted $x_4^{\star}$, where $F$ (right) drops to zero: the evolution equation breaks down at a finite time.
-
-**In [15], the record on the Kohn-Sham states.**
+Labels, title and legend of the left panel. Right: $\det J$ along the solution, computed at every stored state at once (the functions of In [2] accept arrays).
 
 ```python
-ks = read_json(KS)
-say("record: " + ks["conclusion"])
-detail = {entry["name"]: entry["detail"] for entry in ks["checks"]}
-verdicts = [entry["verdict"] for entry in ks["checks"]]
-passed = verdicts.count("PASS")  # how many checks of the record passed
-say(f"{KS}: {passed} of {len(verdicts)} checks PASS")
-check(len(verdicts) > 0 and passed == len(verdicts) == ks["summary"]["checks"]
-      and "ks_history_is_a_prescribed_background" in detail,
-      "record: no Kohn-Sham state is an admissible source (every check PASS)")
+right.axhline(0.0, color="black", linewidth=0.8)
+right.axvline(x_gas[-1], color="grey", linestyle="--", linewidth=0.8)
+right.set_xlabel("time $x_4$ (units $1/H$)")
+right.set_ylabel("$\\det J$")
+right.set_title("the Jacobian reaches zero")
+save_figure(fig, "gas_breakdown",
+            "The author's weights ($\\Lambda = -10$) with a gas of massless particles "
+...)
 ```
 
-The record is read and its conclusion printed. `detail` is made by a **dictionary comprehension**: a dictionary that maps the name of each check of the record to its detail text, which the next cell reads. The verdicts are counted as in Notebook 12a, In [2], and the count is printed with the name of the report. The check requires that the report has checks, that all of them passed, that the report's own summary counts the same number (a chained comparison `a == b == c` is true when $a = b$ and $b = c$), and that the check stating the prescribed background is present (`in` tests whether a name is a key of the dictionary).
+A line at zero, a dashed line at the last time, labels, title and `save_figure` (caption under figure 12c.7). The rate $u$ falls and turns negative, and $\det J$ falls to zero at $x_4 = 0.4288$.
 
-**In [16], the record's numbers recomputed from the Kohn-Sham table.**
+**In [18], the record on the Kohn-Sham states.**
 
 ```python
 import csv  # reads tables of comma-separated values
-import re  # regular expressions: find a pattern in a text
+```
 
+`csv`, Python's module for tables of comma-separated values.
+
+```python
+ks = read_json(KS)
+detail = {entry["name"]: entry["detail"] for entry in ks["checks"]}
+verdicts = [entry["verdict"] for entry in ks["checks"]]
+say(f"{KS}: {verdicts.count('PASS')} of {len(verdicts)} checks PASS")
+check(len(verdicts) > 0 and verdicts.count("PASS") == len(verdicts)
+      == ks["summary"]["checks"],
+      "record: no Kohn-Sham state is an admissible source (every check PASS)")
+```
+
+The record of the source conditions is read; `detail` maps each check's name to its detail text. The count of PASS verdicts is printed (Out [18]: 5 of 5), and the check requires every check to have passed and the count to equal the record's summary.
+
+```python
 TABLE = "Revision/kohn_sham/results/ground/emt-integrals.csv"
 with repository_file(TABLE).open(encoding="utf-8", newline="") as handle:
     table = {row["id"]: row for row in csv.DictReader(handle)}
-INTEGRALS = ("int_rho", "int_p3", "int_p_t", "int_p0")  # 2 Vol_7 int e^(6Hy) T dy
-```
-
-`csv` and `re` come with Python. The `with` block opens the table of the Kohn-Sham record and closes it again at the end of the block. `csv.DictReader` reads the table line by line: its first line holds the names of the columns, and every further line becomes a dictionary from column name to text. `table` maps the name of each state (column `id`) to its row. `INTEGRALS` names the four columns of the integrated energy density and pressures.
-
-```python
+INTEGRALS = ("int_rho", "int_p3", "int_p_t", "int_p0")
 zero = sorted(name for name, row in table.items()
               if all(float(row[column]) == 0.0 for column in INTEGRALS))
-nonzero = [name for name in table if name not in zero]
-report("Kohn-Sham states in the table", len(table))
-report("states with a nonzero energy-momentum tensor", len(nonzero))
-say("states with a zero energy-momentum tensor: " + ", ".join(zero))
 ```
 
-`zero` lists, in alphabetical order, the states whose four integrals are all exactly zero (`float` turns a text such as `0.000000000000000e0` into the number 0; `all` is true when every one of its values is true); `nonzero` holds the other states. Out [16] reports 75 states, 70 of them with a nonzero energy-momentum tensor, and names the five others: the five slices of the state with $N = 8$ particles and $\lambda = 0$.
+The table `emt-integrals.csv` of the Kohn-Sham record holds one row per recorded ground state: its name in the column `id` (for example `N592_lam0_a10`: $N = 592$ particles, coupling $\lambda = 0$, slice $a_{4,0} = 1$), the slice in the column `a4`, and the integrals over the hidden direction of the energy density and of the three pressures. `csv.DictReader` reads each row as a dictionary from the column names to the texts; `table` maps each state's name to its row. `zero` is the sorted list of the states whose four integrals are all zero.
 
 ```python
+nonzero = [name for name in table if name not in zero]
+report("Kohn-Sham states in the table, with a nonzero tensor",
+       f"{len(table)}, {len(nonzero)}")
 counted = re.search(r"(\d+) ground-state profiles .*?\((\d+) with a nonzero",
                     detail["ks_profiles_depend_on_x0"])
-reproduces(counted is not None
-           and counted.groups() == (str(len(table)), str(len(nonzero))),
-           f"{len(nonzero)} of the {len(table)} states have a nonzero tensor",
-           KS, "ks_profiles_depend_on_x0")
-listed = detail["ks_zero_source_states_listed"].rsplit(": ", 1)[-1].split(", ")
-reproduces(sorted(listed) == zero,
-           "the states with a zero tensor are the ones the record lists",
-           KS, "ks_zero_source_states_listed")
+listed = re.search(r"\(zero source\): (.*?) \(the",
+                   detail["ks_zero_source_states_listed"]).group(1)
 ```
 
-The record writes its two counts into the detail text of its check `ks_profiles_depend_on_x0`, in the words "75 ground-state profiles ... (70 with a nonzero energy-momentum tensor)". `re.search` looks for a **pattern** in that text: `\d+` matches one or more digits, round brackets around a part of the pattern **capture** what that part matches, `.*?` matches any text up to the next part of the pattern, and `\(` matches a round bracket itself. `counted.groups()` returns the two captured numbers as texts, which must equal our two counts. The detail text of the check `ks_zero_source_states_listed` ends, after its last colon, with the list of the states whose tensor is zero: `rsplit(": ", 1)[-1]` takes the text after the last colon and space, and `split(", ")` cuts it at the commas. Both comparisons are made with `reproduces`, so the record's checks must also have the verdict PASS.
+`nonzero` lists the other states; the counts are printed: `75, 70`. From the detail texts of two checks of the record, `re.search` reads the record's own counts (`\d+` is a run of digits, `.*?` any text, as short as possible) and the list of the states with a zero source.
 
 ```python
-ratio = {}  # r = (int p3 + int p_t)/(2 int p0) of every nonzero state
+reproduces(counted is not None and counted.groups() == (str(len(table)),
+                                                        str(len(nonzero)))
+           and sorted(listed.split(", ")) == zero,
+           f"{len(nonzero)} of the {len(table)} states have a nonzero tensor",
+           KS, "ks_zero_source_states_listed")
+kq = sp.symbols("kq", positive=True)
+```
+
+The check: the record's counts equal the table's, and the record's list of zero states equals the table's (record check `ks_zero_source_states_listed`). `kq` is $k$ as a positive symbol.
+
+```python
+shifted = record["exponentialHistory"]["authorWeights"]["historySource_kappaT_minus_Lam"]
+need = {key: sp.sympify(shifted[key]["input"].replace("^", "**"), locals={"kk": kq})
+        for key in ("minus_rho", "p3", "p0", "pt")}
+kappa_rho = -(need["minus_rho"] + AUTHOR_LAMBDA)
+distance = {}
 for name in nonzero:
     row = table[name]
-    if float(row["int_p0"]) != 0.0:
-        ratio[name] = ((float(row["int_p3"]) + float(row["int_p_t"]))
-                       / (2 * float(row["int_p0"])))
-closest = min(ratio, key=lambda name: abs(ratio[name] - 1.0))
-report(f"closest to 1: r of {closest}", f"{ratio[closest]:.6g}")
-HISTORY = ["N136_lam0_a00", "N136_lam0_a10", "N136_lam0_a20"]  # N = 136, lambda = 0
-for name in HISTORY:
-    slice_a4 = float(table[name]["a4"])  # the slice a4,0 of this state
-    report(f"N = 136, lambda = 0, a4,0 = {slice_a4:g}: r", f"{ratio[name]:.6g}")
+    if float(row["int_rho"]) == 0.0:
+        continue
+    k_value = math.exp(2.0 * float(row["a4"]) / 3.0)
+    needed = [float(((need[key] + AUTHOR_LAMBDA) / kappa_rho).subs(kq, k_value))
+              for key in ("p3", "p0", "pt")]
+    mine = [float(row[column]) / float(row["int_rho"])
+            for column in ("int_p3", "int_p0", "int_p_t")]
+    distance[name] = max(abs(a - b) for a, b in zip(mine, needed))
 ```
 
-For every nonzero state with $\int p_0 \ne 0$ the ratio $r = (\int p_3 + \int p_t)/(2\int p_0)$ is computed. `min(ratio, key=...)` returns the name whose ratio has the smallest distance $|r - 1|$ from 1 (`lambda name: ...` is a small function written in one line). The format `.6g` prints six significant digits, as the record does, and `:g` prints the slice $a_{4,0}$ (column `a4`) without trailing zeros. Out [16] shows the state closest to 1, N688_lamm2_a00, with $r = 0.414328$, and for the history $N = 136$, $\lambda = 0$ the ratios 0.339767, 0.25969 and 0.239714 at $a_{4,0} = 0, 1, 2$: far from the required 1 at every slice.
+`need` holds the record's source of the record history with the author's weights, $\kappa T - \Lambda$, as functions of $k$; `kappa_rho` is $\kappa\rho = -(-\kappa\rho - \Lambda) - \Lambda$. For every state with a nonzero energy density the loop computes $k = e^{2a_{4,0}/3}$ at its slice, the ratios $p_3/\rho$, $p_0/\rho$, $p_t/\rho$ that the history needs there ($\kappa$ cancels in each ratio), the state's own ratios (the ratios of the integrals: averages over the hidden direction per proper volume), and the largest difference between the two sets.
 
 ```python
-text = detail["ks_integrals_violate_algebraic_condition"]
-tolerance = float(ks["tolerance"].split()[-1])  # "relative 1e-06" gives 1e-06
-best = re.search(r"closest to 1: (\S+) at (\w+)", text)
-reproduces(len(ratio) == len(nonzero) and abs(ratio[closest] - 1.0) > tolerance
-           and best is not None
-           and best.groups() == (f"{ratio[closest]:.6g}", closest),
-           "r differs from 1 for every nonzero state; the closest as recorded",
-           KS, "ks_integrals_violate_algebraic_condition")
-found = [re.search(name + r": (\S+?)[,\s]", text) for name in HISTORY]
-reproduces(all(item is not None and item.group(1) == f"{ratio[name]:.6g}"
-               for item, name in zip(found, HISTORY)),
-           "r of N = 136, lambda = 0 at a4,0 = 0, 1, 2 equals the record",
-           KS, "ks_integrals_violate_algebraic_condition")
+closest = min(distance, key=distance.get)
+report("smallest distance of the ratios, and its state",
+       f"{distance[closest]:.6g}, {closest}")
+reproduces(f"by at least {distance[closest]:.6g} (closest: {closest})"
+           in detail["ks_history_is_a_prescribed_background"],
+           "the ratios of every state differ from the needed ones, as recorded",
+           KS, "ks_history_is_a_prescribed_background")
 ```
 
-The record's tolerance is read from its text "relative 1e-06" (`split()` cuts the text at the spaces, `[-1]` takes the last part). The first check requires a ratio for every nonzero state, that even the closest one differs from 1 by more than the tolerance, and that the record names the same closest state with the same six digits (`\S+` matches characters that are not spaces, `\w+` letters, digits and underscores). The second check finds in the record's text, for each state of the history, the number after its name and a colon (`\S+?` takes as few characters as possible, up to the comma or space that `[,\s]` matches) and requires it to be exactly our number printed with six digits; `zip` walks through the two lists side by side. A change of the Kohn-Sham record, or of its checker, that moved any of these numbers would stop the notebook here.
+`min(distance, key=distance.get)` is the state with the smallest such difference; the cell prints `1.3733, N592_lamp2_a15`. The check requires the record's detail to contain exactly the sentence `by at least 1.3733 (closest: N592_lamp2_a15)` (record check `ks_history_is_a_prescribed_background`). Out [18] shows two RESULT lines and three PASS lines.
 
-**In [17], the last check.**
+**In [19], the last check.**
 
 ```python
-figure_names = ["linear_member", "stress_pulse", "required_source",
-                "damped_deflation", "rk4_convergence", "gauss_bonnet_breakdown"]
+figure_names = ["flat_member", "record_history", "starting_rate", "pulse_history",
+                "pulse_source", "rk4_convergence", "gas_breakdown"]
 paths = [output_file(f"{FIGURE_FOLDER}/12c_{k}_{name}.png")
          for k, name in enumerate(figure_names, 1)]
-check(all(path.is_file() for path in paths), "all six figure files exist")
+check(all(path.is_file() for path in paths), "all seven figure files exist")
 all_checks_passed()
 ```
 
-The same pattern as In [15] of Notebook 12b (Section 12.20): `figure_names` lists the short names of the six figures in the order in which they were drawn, `enumerate(figure_names, 1)` numbers them from 1, which gives the six file names `12c_1_linear_member.png` to `12c_6_gauss_bonnet_breakdown.png`, and `output_file` gives the path where each was written. `path.is_file()` is true when the file exists, and `all` requires this of every one of the six. `all_checks_passed()` prints the last line, ALL 30 CHECKS PASSED (notebook 12c): 1 check in In [3], 1 in In [4], 4 in In [5], 3 in In [7], 3 in In [9], 6 in In [10], 1 in In [12], 4 in In [13], 1 in In [14], 1 in In [15], 4 in In [16] and 1 in In [17].
+The seven figure files must exist; the last line is ALL 21 CHECKS PASSED (notebook 12c).
 
-### 12.26 A condensate of dirac16complex00 as an exact source
+### 12.26 A condensate of dirac16complex00 as a source
 
-The previous examples prescribed the source. Can a field of this theory be the source, exactly? The Revision record proves three facts about the commuting field dirac16complex00 (Chapter 7), and leaves one question open. This section derives what the last notebook needs.
+The sources of Section 12.21 were chosen by hand. Can a field of the theory BE the source, exactly? We ask this for the simplest configurations of the commuting field dirac16complex00 (Chapter 7): those that depend on the time only.
 
-**The field and its equation.** dirac16complex00 is a column $\Phi$ of 16 complex numbers at every point, which transform as a Pin(4,4) spinor. The gamma matrices are the author's eight real 16 by 16 matrices $\gamma^{(x_0)}, \dots, \gamma^{(x_7)}$ of the record `Revision/algebra/gammas.json` (built from the author's formulas in Chapter 4), which satisfy the Clifford relation $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}$ with $\eta = \mathrm{diag}(+,+,+,+,-,-,-,-)$ (record checks `authorT16_clifford`; Notebook 12d, In [3]). The adjoint is $\bar\Phi = \Phi^\dagger C$ with the real symmetric matrix $C = \gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$, $C^2 = 1$, and $C\gamma^{(a)}$ antisymmetric for every $a$ (record check `authorT16_C_properties`). The density $S = \bar\Phi\Phi$ is a real number. With the potential $U = \tfrac\lambda2S^2$ the field equation of the record is
-
-$$
-\gamma^\mu D_\mu\Phi = (m + \lambda S)\,\Phi = M\,\Phi,\qquad D_\mu = \partial_\mu + \Omega_\mu,
-$$
-
-where $M = m + \lambda S$ is the **effective mass**, $\gamma^\mu = \gamma^{(\mu)}/\sqrt{|g_{\mu\mu}|}$ are the gammas of the curved metric and $\Omega_\mu$ is the spin connection of Chapter 6. For the author's metric, with the author's gammas, the spin connection enters the equation only through one term (PROVED: sympy record, check `authorT16_gravity_term`; lead's record, check `gamma_Omega_equals_3H_gamma0`; Notebook 12d, In [5]):
+**The field equation.** For a spinor field $\Phi$ (a column of 16 complex numbers at every point) the Euler-Lagrange equation of the record is $\gamma^\mu D_\mu\Phi = (m + U'(S))\Phi$, with $D_\mu = \partial_\mu + \Omega_\mu$, the curved-space gammas $\gamma^\mu = \gamma^{(\mu)}/E_\mu$ (no sum; $E_\mu$ the vielbein of Chapter 6), the density $S = \bar\Phi\Phi$, $\bar\Phi = \Phi^\dagger C$ and the potential $U(S)$; we write $M = m + U'(S)$, the **effective mass**. Chapter 6 derived the gravity term of the corrected metric (record `a4-equations.json`, key `fields/lemmas/gravityTerm`):
 
 $$
-\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)} .
+\gamma^\mu\Omega_\mu = c\,\gamma^{(x_0)} + \big(u - \tfrac12a_4'\big)\gamma^{(x_4)},\qquad c = \tfrac32He^{a_4}b_4^{-1/2} .
 $$
 
-**The condensate equation.** For a condensate, $\Phi = \Phi(x_4)$, only the derivative along $x_4$ survives, and $\gamma^{x_4} = \gamma^{(x_4)}$ because $g_{44} = -1$. Line by line:
+**The condensate equation.** A **homogeneous condensate** is a solution $\Phi(x_4)$ that depends on the time only. Then only the derivative along $x_4$ survives, and $\gamma^{x_4} = \gamma^{(x_4)}$ because $E_4 = 1$:
 
 $$
-\gamma^{(x_4)}\Phi' + 3H\gamma^{(x_0)}\Phi = M\Phi
+\gamma^{(x_4)}\Phi' + c\,\gamma^{(x_0)}\Phi + \big(u - \tfrac12a_4'\big)\gamma^{(x_4)}\Phi = M\Phi
 $$
 
-(the field equation for $\Phi(x_4)$, with the spin-connection term inserted)
+(the field equation with $\partial_\mu\Phi = 0$ for $\mu \ne x_4$, and the gravity term inserted).
 
 $$
-\gamma^{(x_4)}\Phi' = \big(M - 3H\gamma^{(x_0)}\big)\Phi
+\gamma^{(x_4)}\Phi' = M\Phi - c\,\gamma^{(x_0)}\Phi - \big(u - \tfrac12a_4'\big)\gamma^{(x_4)}\Phi
 $$
 
-(subtract $3H\gamma^{(x_0)}\Phi$ from both sides)
+(the two gravity terms moved to the right).
 
 $$
-\Phi' = -\gamma^{(x_4)}\big(M - 3H\gamma^{(x_0)}\big)\Phi =: \mathcal{A}\,\Phi
+\Phi' = -M\gamma^{(x_4)}\Phi + c\,\gamma^{(x_4)}\gamma^{(x_0)}\Phi - \big(u - \tfrac12a_4'\big)\Phi
 $$
 
-(multiply from the left by $-\gamma^{(x_4)}$, since $(-\gamma^{(x_4)})\gamma^{(x_4)} = -\eta^{44} = 1$). The 16 by 16 matrix $\mathcal{A}$ contains neither $a_4$ nor $z$: the condensate does not feel the deflation (record check `condensate_equation_x0_consistent`).
-
-**Its square.** Line by line:
+(both sides multiplied on the left by $-\gamma^{(x_4)}$: on the left $-(\gamma^{(x_4)})^2 = 1$ by the Clifford relation with $\eta_{44} = -1$; on the right $-\gamma^{(x_4)}\cdot(-c\gamma^{(x_0)}) = c\gamma^{(x_4)}\gamma^{(x_0)}$ and $-\gamma^{(x_4)}\cdot\big(-(u - \tfrac12a_4')\gamma^{(x_4)}\big) = (u - \tfrac12a_4')(\gamma^{(x_4)})^2 = -(u - \tfrac12a_4')$). So
 
 $$
-\mathcal{A}^2 = \gamma^{(x_4)}\big(M - 3H\gamma^{(x_0)}\big)\gamma^{(x_4)}\big(M - 3H\gamma^{(x_0)}\big)
+\Phi' = \mathcal{A}\Phi,\qquad \mathcal{A} = \mathcal{B} - \big(u - \tfrac12a_4'\big)1,\qquad \mathcal{B} = -M\gamma^{(x_4)} + c\,\gamma^{(x_4)}\gamma^{(x_0)} .
 $$
 
-(the two minus signs multiply to plus)
+The matrix $\mathcal{A}$ contains no $z$: the equation is consistent for every $x_0$ (PROVED: sympy report, check `authorT16_condensate_equation`; Wolfram report, check `condensate_equation_x0_consistent`).
+
+**The square of $\mathcal{B}$.** Line by line:
 
 $$
-= \gamma^{(x_4)}\gamma^{(x_4)}\big(M + 3H\gamma^{(x_0)}\big)\big(M - 3H\gamma^{(x_0)}\big)
+\mathcal{B}^2 = M^2\big(\gamma^{(x_4)}\big)^2 - Mc\big(\gamma^{(x_4)}\gamma^{(x_4)}\gamma^{(x_0)} + \gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_4)}\big) + c^2\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_0)}
 $$
 
-(move the middle $\gamma^{(x_4)}$ to the left: $\gamma^{(x_0)}\gamma^{(x_4)} = -\gamma^{(x_4)}\gamma^{(x_0)}$ by the Clifford relation, so $(M - 3H\gamma^{(x_0)})\gamma^{(x_4)} = \gamma^{(x_4)}(M + 3H\gamma^{(x_0)})$)
+(the square of a sum of two matrices, keeping their order)
 
 $$
-= (-1)\big(M^2 - 3HM\gamma^{(x_0)} + 3HM\gamma^{(x_0)} - 9H^2(\gamma^{(x_0)})^2\big) = -\big(M^2 - 9H^2\big)
+= -M^2 - Mc\big(-\gamma^{(x_0)} + \gamma^{(x_0)}\big) + c^2
 $$
 
-($(\gamma^{(x_4)})^2 = -1$, $(\gamma^{(x_0)})^2 = +1$; the middle terms cancel). So for $M^2 > 9H^2$, with the frequency $w = \sqrt{M^2 - 9H^2}$, the condensate oscillates. If $\mathcal{A}v = \mu v$ for a nonzero vector $v$, then $\mu^2v = \mathcal{A}^2v = -w^2v$, so every eigenvalue of $\mathcal{A}$ is $+iw$ or $-iw$. Both occur, each 8 times: $\mathcal{A}$ is real, so its characteristic polynomial $\det(\mu - \mathcal{A})$ has real coefficients, and the non-real root $iw$ comes together with its complex conjugate $-iw$, with the same multiplicity; the 16 roots therefore split as $8 + 8$ (Exercise 10 gives a second proof with the trace; Notebook 12d, In [7], counts eight and eight numerically). Every vector $u$ is a sum of eigenvectors of the two kinds, $u = u_- + u_+$ with $u_- = \tfrac12\big(u + \tfrac{i}{w}\mathcal{A}u\big)$ and $u_+ = \tfrac12\big(u - \tfrac{i}{w}\mathcal{A}u\big)$: indeed $\mathcal{A}u_- = \tfrac12\big(\mathcal{A}u + \tfrac{i}{w}\mathcal{A}^2u\big) = \tfrac12(\mathcal{A}u - iwu) = -iw\,u_-$ (with $\mathcal{A}^2 = -w^2$), and in the same way $\mathcal{A}u_+ = +iw\,u_+$. An eigenvector $\Phi_0$ with $\mathcal{A}\Phi_0 = -iw\Phi_0$ gives the solution $\Phi(x_4) = e^{-iwx_4}\Phi_0$ (its derivative is $-iw\Phi = \mathcal{A}\Phi$). For $M = \pm5H$, $w = 4H$. The hidden-direction term moves the threshold of oscillation from $|M| = 0$ to $|M| = 3H$ (Notebook 12d, In [6] and figure 1).
-
-**The density is constant.** Line by line:
+($(\gamma^{(x_4)})^2 = -1$; $\gamma^{(x_0)}\gamma^{(x_4)} = -\gamma^{(x_4)}\gamma^{(x_0)}$, so $\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_4)} = -(\gamma^{(x_4)})^2\gamma^{(x_0)} = \gamma^{(x_0)}$; and $\gamma^{(x_4)}\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_0)} = -(\gamma^{(x_4)})^2(\gamma^{(x_0)})^2 = 1$)
 
 $$
-S' = (\Phi')^\dagger C\Phi + \Phi^\dagger C\Phi' = \Phi^\dagger\big(\mathcal{A}^TC + C\mathcal{A}\big)\Phi
+\mathcal{B}^2 = (c^2 - M^2)\,1
 $$
 
-(product rule; $(\mathcal{A}\Phi)^\dagger = \Phi^\dagger\mathcal{A}^\dagger$, and $\mathcal{A}^\dagger = \mathcal{A}^T$ because $\mathcal{A}$ is real). Now $\mathcal{A} = -M\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_0)}$, and $C\gamma^{(a)}$ antisymmetric means $(\gamma^{(a)})^TC = -C\gamma^{(a)}$ (transpose $(C\gamma^{(a)})^T = (\gamma^{(a)})^TC^T$ and $C^T = C$). Hence $(\gamma^{(x_4)})^TC + C\gamma^{(x_4)} = 0$, and
+(the middle terms cancel). So where $c^2 < M^2$ the eigenvalues of $\mathcal{B}$ are $\pm i\sqrt{M^2 - c^2}$ and the condensate oscillates with the local frequency $w = \sqrt{M^2 - c^2}$; where $c^2 > M^2$ they are real and it grows or decays. On the record history $c = \tfrac32He^{a_4}b_4^{-1/2} = \tfrac32He^{Hx_4/3}$ grows, so every condensate stops oscillating at $x_4 = (3/H)\ln(2|M|/(3H))$ (Notebook 12d, figure 12d.1): the hidden direction shrinks, and its term in the field equation grows.
+
+**The density law.** The part $-(u - \tfrac12a_4')1$ of $\mathcal{A}$ is a multiple of the unit matrix; writing $\Phi = e^{a_4/2}b_4^{-1}\chi$ removes it, because the derivative of the prefactor is $(\tfrac12a_4' - u)$ times the prefactor, so $\chi' = \mathcal{B}\chi$. For the density, with real $M$ and $c$ the matrix $\mathcal{A}$ is real:
 
 $$
-(\gamma^{(x_4)}\gamma^{(x_0)})^TC = (\gamma^{(x_0)})^T(\gamma^{(x_4)})^TC = -(\gamma^{(x_0)})^TC\gamma^{(x_4)} = C\gamma^{(x_0)}\gamma^{(x_4)} = -C\gamma^{(x_4)}\gamma^{(x_0)}
+S' = \big(\Phi^\dagger C\Phi\big)' = \Phi^\dagger\big(\mathcal{A}^TC + C\mathcal{A}\big)\Phi = -2\big(u - \tfrac12a_4'\big)S = \big(a_4' - 2u\big)S
 $$
 
-(transpose of a product reverses the order; the rule above twice; the Clifford relation), so $\mathcal{A}^TC + C\mathcal{A} = 0$ and $S' = 0$ (record check `authorT16_condensate_S_constant`).
-
-**Its energy-momentum tensor.** The record writes the source as $T^\mu{}_\nu = \sigma_T\big(-K^{(\mu}{}_{\nu)} + \delta^\mu_\nu L\big)$ with the kinetic tensor $K^\mu{}_\nu = \tfrac12\big(\bar\Phi\gamma^\mu D_\nu\Phi - (D_\nu\bar\Phi)\gamma^\mu\Phi\big)$, its symmetrised form $K^{(\mu}{}_{\nu)}$, and the on-shell Lagrangian $L = \sum_\mu K^\mu{}_\mu - mS - U$. The overall sign $\sigma_T = +1$ is the record's declared convention and is not fixed by a Revision check: it is ASSUMED. For a condensate the record proves that the diagonal of $K$ is $K^{x_4}{}_{x_4} = MS$ and zero in the seven other directions, and that $K^{x_4}{}_{x_0} = 0$ (check `authorT16_condensate_kinetic_diagonal`). Then, line by line:
+(the product rule, $\Phi'^\dagger = \Phi^\dagger\mathcal{A}^T$ for a real $\mathcal{A}$; then $C\mathcal{B} + \mathcal{B}^TC = 0$, which follows from $C$ symmetric and every $C\gamma^{(a)}$ antisymmetric, so that only the unit part contributes $-2(u - \tfrac12a_4')C$). Integrating, $\ln S = a_4 - 2\ln b_4 + \text{const}$, so
 
 $$
-L = MS - mS - \tfrac\lambda2S^2 = (m + \lambda S)S - mS - \tfrac\lambda2S^2 = \tfrac\lambda2S^2
+S = e^{a_4}b_4^{-2}S_0
 $$
 
-(the definition, $M = m + \lambda S$, and $\lambda S^2 - \tfrac\lambda2S^2 = \tfrac\lambda2S^2$), and
+for every solution and every history (PROVED: sympy report, check `authorT16_condensate_S_law`; Wolfram report, check `condensate_S_law`). On the record history $S \propto e^{a_4 - (8/3)a_4} = e^{-(5/3)a_4}$ decays, while the required source grows like $k^2$.
+
+**Its energy-momentum tensor.** For a configuration that depends on $x_4$ only, the diagonal kinetic components $K^\mu{}_\mu$ with $\mu \ne x_4$ vanish (they contain no spin connection, record lemma `diagonalKinetic`, and no derivative), and $K^{x_4}{}_{x_4} = MS$ (record check `condensate_kinetic_tensor_diagonal`). With the record's convention $T^\mu{}_\nu = \sigma_T(-K^{(\mu}{}_{\nu)} + \delta^\mu_\nu L)$, $\sigma_T = +1$ (ASSUMED, the convention of the record), and the on-shell Lagrangian $L = \sum_\mu K^\mu{}_\mu - mS - U = MS - mS - U = SU'(S) - U(S)$:
 
 $$
-\rho = -T^{x_4}{}_{x_4} = K^{x_4}{}_{x_4} - L = MS - \tfrac\lambda2S^2 = mS + \tfrac\lambda2S^2,\qquad p_3 = p_t = p_0 = L = \tfrac\lambda2S^2 .
+\rho = -T^{x_4}{}_{x_4} = MS - L = mS + U(S),\qquad p_3 = p_t = p_0 = L = SU'(S) - U(S)
 $$
 
-So the condensate supplies exactly what the linear member needs: equal pressures and constant $\rho$ and $p$. But the 42 nonzero off-diagonal components of $K$ are multiples of 15 **three-gamma bilinears** $\bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$: the six with $\{a, b, c\} = \{i, x_4, x_0\}$ ($i$ a 3-space direction or an extra time) and the nine with $\{i, j, x_4\}$ ($i$ in 3-space, $j$ an extra time). The off-diagonal field equations $0 = \kappa T^\mu{}_\nu$ need all 15 to vanish (Wolfram record, check `condensate_offdiagonal_are_three_gamma_bilinears`). The record shows that condensates with all 15 zero exist (checks `condensate_diagonal_witness_exact` and `authorT16_condensate_witness`), and it proves that such a condensate allows only the linear member (key `theoremLinear` of `Revision/field_equations_a4/a4-equations.json`), under exact hypotheses. *Hypotheses*: $\Phi$ is a homogeneous condensate as above (classical, commuting) that solves its field equation and satisfies the off-diagonal conditions (all 15 bilinears zero); $a_4$ is twice continuously differentiable; the couplings are not all zero, $(\alpha_1, \alpha_2, \alpha_3) \ne (0, 0, 0)$. *Conclusion*: $a_4 = AHx_4 + a_0$ with real constants $A$ and $a_0$. *Proof*: the condensate has $p_3 = p_t$, so the evolution equation gives $a_4''F(a_4') = 0$ at every time. Suppose $a_4'' \ne 0$ at some time. Since $a_4''$ is continuous, $a_4'' \ne 0$ on a whole interval around it, so $F(a_4') = 0$ there: $a_4'$ takes only values among the roots of $F$. $F$ is a polynomial in $a_4'$ that is not identically zero when the couplings are not all zero (record check `evolution_F_not_identically_zero`), so it has finitely many roots. A continuous function on an interval that takes only finitely many values is constant there (between two different values it would have to pass through all the values in between). So $a_4'$ is constant on the interval and $a_4'' = 0$ there, a contradiction. Hence $a_4'' = 0$ at every time, $a_4' = AH$ is constant and $a_4 = AHx_4 + a_0$.
+(the definitions with $K^{x_4}{}_{x_4} = MS$ and $K^\mu{}_\mu = 0$ otherwise; $M - U' = m$). So a homogeneous condensate has **equal pressures**. Notebook 12b showed what that costs: in Einstein gravity no exponential history allows equal pressures, and with the author's weights only histories with constant $k$, on which the block does not shrink (record checks `condensate_source_equal_pressures` of both reports); and the record history needs $\kappa(p_3 - p_0) \ne 0$, so no condensate is its source (dark-sector record, check `condensate_cannot_source_history`).
 
-**The two Einstein conditions.** For the linear member the Einstein equations with this source are the time equation and seven equal equations (Section 12.12):
-
-$$
-(21 + 3A^2)H^2 + \Lambda = -\kappa\rho,\qquad (15 - 3A^2)H^2 + \Lambda = \kappa p .
-$$
-
-Subtracting the second from the first:
+**The off-diagonal components: 24 bilinears.** The off-diagonal kinetic components of a condensate do not vanish automatically. The record lists them (key `fields/dirac16complex00/offDiagonalKinetic`: 36 ordered pairs $(\mu, \nu)$) and shows that each is a combination of the **three-gamma bilinears** $B_{abc} = \bar\Phi\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}\Phi$ with
 
 $$
-(21 + 3A^2 - 15 + 3A^2)H^2 = -\kappa(\rho + p) \;\Rightarrow\; \kappa MS = -6(A^2 + 1)H^2
+\{a, b, c\} = \{x_0, i, x_4\}\ (3),\quad \{x_0, i, t\}\ (9),\quad \{i, x_4, t\}\ (9),\quad \{x_0, x_4, t\}\ (3),
 $$
 
-($\Lambda$ cancels; $\rho + p = mS + \lambda S^2 = (m + \lambda S)S = MS$). Adding them:
+with $i$ a 3-space direction and $t$ an extra time: $3 + 9 + 9 + 3 = 24$ bilinears (key `fields/dirac16complex00/offDiagonalConditions`; Wolfram report, check `condensate_offdiagonal_are_three_gamma_bilinears`; sympy report, check `authorT16_condensate_offdiagonal_three_gamma`). Since the off-diagonal field equations read $0 = \kappa T^\mu{}_\nu$ (Section 12.8), all 24 must vanish. The current record says 24 in every place (the equations, both verifier reports, the summary and the document `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md`), and Notebook 12d counts 24 distinct bilinears in the record's list of 36 components (In [11]). One sentence of `Revision/field_equations_a4/README.md` speaks of "the 15 three-gamma bilinears"; it belongs to the README's account of the witnesses of an earlier version of the record (it cites the check `condensate_diagonal_witness_exact`, which the current Wolfram report no longer contains), not to the corrected metric.
+
+**The witnesses.** On the histories with constant $k = e^{2a_4}/b_4 = k_0$, that is $b_4 = e^{2a_4}/k_0$ with any $a_4(x_4)$, the coefficient $c = \tfrac32H\sqrt{k_0}$ is constant and $\mathcal{B}$ is a constant matrix. The record finds exact condensates with all 24 bilinears zero and $S \ne 0$ there (key `fields/dirac16complex00/offDiagonalWitness`; Wolfram report, check `condensate_witness_constant_k_exact`; sympy report, check `authorT16_condensate_witness`): $\Phi = e^{a_4/2}b_4^{-1}e^{-iwx_4}\Phi_0$ with $w = \sqrt{M^2 - c^2}$ and $\Phi_0 = v_1 + c_{12}v_2$, where $v_1$ and $v_2$ are eigenvectors of $\mathcal{B}$ for the eigenvalue $-iw$ on which $\gamma^{(x_1)}\gamma^{(x_5)} = \gamma^{(x_2)}\gamma^{(x_6)} = \gamma^{(x_3)}\gamma^{(x_7)}$ equals $-1$ and $+1$, and $c_{12} = \overline{v_1^\dagger Cv_2}$; checked exactly at $(M, H, k_0) = (5, 1, 4)$, $(5, \tfrac43, 4)$ and $(-5, 1, 4)$. An example that proves that something exists is called a **witness**. For $k$ not constant the record does not decide whether such condensates exist. The record also states, in `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md`, that it "contains no check that combines a witness with the field equations for definite kappa, Lambda, m, lambda and a history".
+
+**What the textbook adds (PROVED here; a computation of this book, not a Revision record).** Notebook 12d makes that combination. On the family $b_4 = e^{2a_4}/k_0$ we have $u = 2a_4'$, $v = 2a_4''$ and $h = \tfrac12u - a_4' = 0$: the hidden direction and the extra times keep the constant size $e^{-a_4}b_4^{1/2} = k_0^{-1/2}$. A witness has a constant $M$; its density $S = e^{a_4}b_4^{-2}S_0 = k_0^2e^{-3a_4}S_0$ changes if $a_4$ changes, so $U' = M - m$ must be constant on the range of $S$, $U = (M - m)S + U_0$, and then $p = SU' - U = -U_0$ and $\rho = mS + U = MS + U_0$. The constant $U_0$ acts exactly like a change of $\Lambda$ by $\kappa U_0$. So, up to a change of $\Lambda$, a witness is a pressureless source (like dust) with $\rho = MS$ and no off-diagonal component, and it is conserved on the family ($\partial_4\rho + 3a_4'\rho = 0$ with $h = 0$). The field equations on the family then read
 
 $$
-(21 + 3A^2 + 15 - 3A^2)H^2 + 2\Lambda = -\kappa(\rho - p) \;\Rightarrow\; \kappa mS = -(36H^2 + 2\Lambda)
+e_{44} + \Lambda = -\kappa MS,\qquad e_{11} + \Lambda = 0,\qquad e_{00} + \Lambda = 0 .
 $$
 
-($\rho - p = mS$). These are the record's two conditions (PROVED: check `condensate_einstein_quadratic_U` in both reports; Notebook 12b, In [13], and Notebook 12d, In [13]). The first says that a real slope needs $\kappa MS \le -6H^2$: the density and the effective mass must have opposite signs. Given $A$, $\Lambda$ and $M$ they fix $S = -6(A^2 + 1)H^2/(\kappa M)$, then $m = -(36H^2 + 2\Lambda)/(\kappa S)$, then $\lambda = (M - m)/S$.
-
-**What the record leaves open.** The record's document `Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md` says: "This record contains no check that combines a witness with the Einstein conditions." Notebook 12d makes that combination. It needs condensates with all 15 bilinears zero AND a density of the required sign and size. It builds them from two eigenvectors $v_1$, $v_2$ of $\mathcal{A}$ with the same frequency (the record's recipe; Section 12.30, In [8], explains how they are found) as the family $\Phi_0(t) = v_1 + t\,c\,v_2$ with a real parameter $t$ and $c = \overline{v_1^\dagger Cv_2}$ (the bar is the complex conjugate). Its density, with $\sigma = v_1^\dagger Cv_2$ and the notebook's finding $v_1^\dagger Cv_1 = v_2^\dagger Cv_2 = 0$:
+*Einstein gravity.* With $u = 2a_4'$, $v = 2a_4''$, $k = k_0$ the components of Section 12.9 become
 
 $$
-S(t) = v_1^\dagger Cv_1 + t\,c\,v_1^\dagger Cv_2 + t\,\bar c\,v_2^\dagger Cv_1 + t^2|c|^2\,v_2^\dagger Cv_2 = t\,\bar\sigma\sigma + t\,\sigma\bar\sigma = 2t\,|\sigma|^2
+e_{11} = -5(a_4')^2 + 12(a_4')^2 + 2a_4'' - 10(a_4')^2 - 4a_4'' + 6H^2k_0 = -3(a_4')^2 - 2a_4'' + 6H^2k_0,
+$$
+$$
+e_{00} = -3(a_4')^2 + 3(a_4')^2 - 6(a_4')^2 - 3a_4'' + 3H^2k_0 = -6(a_4')^2 - 3a_4'' + 3H^2k_0
 $$
 
-(expand the product; $c = \bar\sigma$; $v_2^\dagger Cv_1 = \bar\sigma$ because $C$ is real and symmetric). So every real density, positive or negative, occurs. With the record's $H = \kappa = 1$ and $\sigma = -128/25 - 96i/25$ at $M = -5$: $|\sigma|^2 = (128^2 + 96^2)/625 = 1024/25$ and $S(t) = 2048t/25$ (Notebook 12d, In [9]).
+(inserted term by term: $6a_4'u = 12(a_4')^2$, $\tfrac52u^2 = 10(a_4')^2$, $2v = 4a_4''$; $\tfrac32a_4'u = 3(a_4')^2$, $\tfrac32u^2 = 6(a_4')^2$, $\tfrac32v = 3a_4''$). Three times the 3-space equation minus twice the block equation removes $a_4''$:
 
-**Three exact solutions** (units $H = \kappa = 1$):
+$$
+3\big(-3(a_4')^2 - 2a_4'' + 6H^2k_0 + \Lambda\big) - 2\big(-6(a_4')^2 - 3a_4'' + 3H^2k_0 + \Lambda\big) = 3(a_4')^2 + 12H^2k_0 + \Lambda = 0
+$$
 
-| example | $A$ | $\Lambda$ | $M$ | $S$ | $m$ | $\lambda$ | $(\rho, p)$ |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | $1$ | $0$ | $-5$ | $12/5$ | $-15$ | $25/6$ | $(-24, 12)$ |
-| 2 | $\sqrt5$ | $0$ | $5$ | $-36/5$ | $5$ | $0$ | $(-36, 0)$ |
-| 3 | $1$ | $-30$ | $-5$ | $12/5$ | $10$ | $-25/4$ | $(6, -18)$ |
+($-9 + 12 = 3$; $-6 + 6 = 0$; $18 - 6 = 12$; $3 - 2 = 1$). So $(a_4')^2$ is constant and $a_4'' = 0$. The 3-space equation then gives $\Lambda = 3(a_4')^2 - 6H^2k_0$, and inserting this above, $3(a_4')^2 + 12H^2k_0 + 3(a_4')^2 - 6H^2k_0 = 0$, that is $(a_4')^2 = -H^2k_0 < 0$ (and $\Lambda = -9H^2k_0$). No real history of the family has zero pressures: in Einstein gravity no witness, of any density, is the source of a history of its family.
 
-The equations of state $w = p/\rho$ are $-1/2$, $0$ and $-3$. Example 1 by hand: $S = -6(1 + 1)/(-5) = 12/5$; $m = -36/S = -36\cdot5/12 = -15$; $\lambda = (M - m)/S = (-5 + 15)\cdot5/12 = 25/6$; $\rho = mS + \tfrac\lambda2S^2 = -36 + \tfrac{25}{12}\cdot\tfrac{144}{25} = -36 + 12 = -24$; $p = 12$. Examples 1 and 3 have the canonical history $a_4 = Hx_4$: the extra times deflate as $e^{-Hx_4}$. Notebook 12d checks, exactly and for every time and every value of the hidden coordinate, all 16 components of the field equation and all 64 components of the Einstein equations, for $+A$ and for $-A$ (In [15]).
+*The author's couplings*, with any $\Lambda$. The 3-space and block equations are linear in $a_4''$. Their combination without $a_4''$ (the 3-space equation times the coefficient of $a_4''$ in the block equation, minus the block equation times the coefficient of $a_4''$ in the 3-space equation) is a polynomial $P = c_4(a_4')^4 + c_2(a_4')^2 + c_0$ that must vanish at every time. If $P$ is not the zero polynomial, $a_4'$ can take only its finitely many roots; being continuous, it is constant, so $a_4'' = 0$. There $e_{44} = e_{11}$ (Notebook 12d checks it for both theories; with $h = 0$ and a constant $e_{44}$ the Bianchi identity of Section 12.10 gives $0 = 3a_4'(e_{11} - e_{44})$), and the difference of the first two equations gives $-\kappa MS = e_{44} - e_{11} = 0$. If $P$ is the zero polynomial, $c_4 = c_2 = c_0 = 0$: Notebook 12d finds that this happens only at $k_0 = 6 \pm 2\sqrt5$ with $\Lambda = -\tfrac32H^2(k_0 + 4)$, where $e_{44} + \Lambda = 0$ for every $a_4$, so again $\kappa MS = 0$. In both cases $S = 0$ (the recipe needs $M^2 > c^2 > 0$, so $M \ne 0$): **a witness with nonzero density is the source of no history of its family**, in Einstein gravity and with the author's couplings for every $\Lambda$. A by-product: at $k_0 = 6 \pm 2\sqrt5$ with that $\Lambda$ the time and 3-space equations hold on every history of the family, so the family contains vacua that are not exponential (with the author's $\Lambda = -10$ they do not occur, since $-\tfrac32(10 \pm 2\sqrt5)$ is $-21.7$ or $-8.3$).
 
-**Status.** These three solutions are PROVED for the stated numbers by exact computer algebra, under ASSUMED inputs: Einstein gravity, the sign convention $\sigma_T = +1$, the classical commuting field dirac16complex00 (not the quantised dirac16complex), and the chosen values of $\Lambda$, $m$ and $\lambda$. They are a computation of this book, not a Revision record. The equations do not select the sign of $A$: the same condensate solves them with $-A$. With $\Lambda = 0$ the energy density is negative; a positive one (example 3) needs $\Lambda < -(21 + 3A^2)H^2$ and then has $w < -1$. Not shown: whether such a condensate is stable, how it could arise, anything about the quantised field, and anything about the creation of universes.
+**What stays OPEN.** Condensates on histories whose $k$ is not constant (the record: not decided), and so whether any field of the theory drives the deflation of the extra times exactly. The condensate sources that the record allows with the author's weights on $\beta = 2$ need $M = 0$, where the recipe of the witnesses does not apply; whether their 24 bilinears can vanish is not decided. Nothing here concerns the quantised field dirac16complex, stability, or the creation of universes.
 
-### 12.27 Example: three exact solutions of the coupled equations
+### 12.27 Example: the record's witnesses and the field equations
 
-The last notebook rebuilds, with exact rational and complex-rational arithmetic and the author's eight real gamma matrices, the spin-connection term, the condensate equation and its solution, builds the family of condensates with all 15 three-gamma bilinears zero, computes their complete energy-momentum tensor in the author's metric with an arbitrary $a_4(x_4)$, solves the two Einstein conditions and checks the three exact solutions of Section 12.26 component by component. It runs in about 25 seconds, prints 40 PASS lines and draws six figures.
+The fourth notebook rebuilds, with exact arithmetic and the author's eight real 16 by 16 gamma matrices, the spin connection of the corrected metric for general $a_4$ and $b_4$, the gravity term, the condensate equation and the density law; draws where the condensate stops oscillating on the record history; builds the record's witnesses as a one-parameter family whose 24 bilinears vanish for every value of the parameter; computes their complete energy-momentum tensor for an arbitrary $a_4$ on the family $b_4 = e^{2a_4}/4$; and proves the two statements of Section 12.26 with the record's Lovelock components. It prints 31 PASS lines, draws six figures and runs in about forty seconds.
 
 <!-- NOTEBOOK 12d -->
 
 ### 12.30 Line-by-line walk-through of Notebook 12d
 
-The notebook has 20 code cells, In [1] to In [20].
+The notebook has 18 code cells, In [1] to In [18]. As in Section 12.16, every line or small group of lines is quoted and explained; docstrings are left out, and long captions are shortened to their first line and `...)` (they are printed in full under the figures in Section 12.29).
 
-**In [1], the set-up cell.** As in Notebook 12a (Section 12.16, In [1]), except that the comments hold the run instructions of Notebook 12d (Section 12.28) and `NOTEBOOK_ID = "12d"`.
+**In [1], the set-up cell.** It is the set-up cell of Notebook 12a, explained line by line in Section 12.16 under In [1], with two differences: its comment lines are the run instructions of Notebook 12d (Section 12.28), and its line `NOTEBOOK_ID = "12d"  # this notebook: chapter 12, example d` names this notebook. It prints Set-up of notebook 12d complete: repository folder found, helpers defined.
 
-**In [2], the records and the open question.** After the imports of `contextlib` and `io` the cell names six record files:
+**In [2], the records and the open question.**
+
+```python
+import contextlib  # redirect_stdout: send printed lines into a buffer
+import io  # StringIO: a text buffer in memory
+```
+
+The two modules for the text buffer of `reproduces`.
 
 ```python
 GAMMAS = "Revision/algebra/gammas.json"  # the author's gamma matrices
-EQUATIONS = "Revision/field_equations_a4/a4-equations.json"  # the a4 equations
+EQUATIONS = "Revision/field_equations_a4/a4-equations.json"  # the a4, b4 equations
 PY = "Revision/field_equations_a4/reports/python-a4-report.json"  # sympy record
 WL = "Revision/field_equations_a4/reports/wolfram-a4-report.json"  # Wolfram record
 EMT = "Revision/lead_checks/reports/emt-divergence-and-spin-connection.json"
 DOC = "Revision/docs/DIRAC16COMPLEX00_FIELD_THEORY.md"  # the record's document
 ```
 
-These are the gamma matrices, the equations of gravity, the three reports and the record's document on the field dirac16complex00. Then follow the three helpers of Notebook 12a, In [2], which Section 12.16 explains.
+Short names for the files: the author's gamma matrices (`gammas.json` of the algebra record), the equations, the sympy and Wolfram reports, the lead's divergence report, and the record's document on the commuting field.
 
 ```python
-OPEN_SENTENCE = ("This record contains no check that combines a witness with the "
-                 "Einstein conditions")
+def read_json(relative):
+    return json.loads(repository_file(relative).read_text(encoding="utf-8"))
+```
+
+`read_json`, as in Notebook 12a.
+
+```python
+def record_verdict(report_file, name):
+    for entry in read_json(report_file)["checks"]:
+        if entry["name"] == name:
+            return entry["verdict"]
+    return None
+```
+
+`record_verdict`, as in Notebook 12a.
+
+```python
+def reproduces(condition, name, report_file, record_name):
+    found = record_verdict(report_file, record_name) == "PASS"
+    lines = io.StringIO()  # a text buffer
+    with contextlib.redirect_stdout(lines):  # print() now writes into the buffer
+        check(condition and found, name, record=f"{report_file}, check {record_name}")
+    print(lines.getvalue(), end="")  # all lines at once
+```
+
+`reproduces`, as in Notebook 12a.
+
+```python
+OPEN_SENTENCE = ("this record contains no check that combines a witness with the "
+                 "field equations for definite")
 document = repository_file(DOC).read_text(encoding="utf-8")
-say(f"{DOC} says: \"{OPEN_SENTENCE}.\"")
+say(f"{DOC} says: \"... {OPEN_SENTENCE} kappa, Lambda, m, lambda and a history.\"")
 check(OPEN_SENTENCE in document, "the record leaves this combination open")
 ```
 
-The sentence of the record's document that states the open question is stored (two strings in brackets are joined into one), the document is read as text, the sentence is printed (`\"` is a quotation mark inside a string), and the check requires the document to contain it. If someone changes the document, this check fails and the notebook must be revised.
+`OPEN_SENTENCE` is the beginning of the sentence of the record's document that says what the record does not contain (two strings written next to each other inside parentheses are joined into one). The document is read as text and the sentence is printed with its end (`\"` is a quotation mark inside the f-string); the check requires the sentence to be in the document (Out [2]). If the record were extended with such a check, this line would fail and the notebook would have to be revised.
 
-**In [3], the author's gamma matrices and C.**
+**In [3], the author's gamma matrices and the matrix $C$.**
 
 ```python
 import itertools  # loops over all combinations of indices
+```
 
+`itertools` for loops over index combinations.
+
+```python
 import numpy as np  # floating-point arrays, used only for the plots
 import sympy as sp  # exact algebra
+```
 
+`numpy` only for the plots; `sympy` for the exact algebra.
+
+```python
 NAMES = ["x0", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]  # positions 0..7
 ETA = [1, 1, 1, 1, -1, -1, -1, -1]  # the frame metric eta, x0..x7
 I16, Z16 = sp.eye(16), sp.zeros(16, 16)  # the 16 by 16 unit and zero matrices
-```
-
-The imports; the coordinate names; the diagonal of the frame metric $\eta$; the exact 16 by 16 unit matrix `sp.eye(16)` and zero matrix.
-
-```python
 fixture = read_json(GAMMAS)
 gamma = [sp.Matrix([[sp.Rational(x) for x in row] for row in matrix])
          for matrix in fixture["gamma"]]  # gamma[a] = gamma^(xa)
 ```
 
-The record stores the eight gammas as lists of 16 rows of 16 entries, each written as text; `sp.Rational(x)` turns each text into an exact number and `sp.Matrix` makes a matrix. `gamma[0]` is $\gamma^{(x_0)}$, ..., `gamma[7]` is $\gamma^{(x_7)}$: the author's eight real 16 by 16 matrices.
+`NAMES` and the frame metric `ETA` $= (+,+,+,+,-,-,-,-)$ in the order $x_0, \dots, x_7$; `sp.eye(16)` and `sp.zeros(16, 16)` are the 16 by 16 unit and zero matrices. The record stores each gamma matrix as a list of rows of texts (integers or fractions); `sp.Rational(x)` turns each text into an exact number, and `gamma[a]` is $\gamma^{(x_a)}$.
 
 ```python
 clifford = all(gamma[a] * gamma[b] + gamma[b] * gamma[a]
@@ -3295,12 +4229,12 @@ clifford = all(gamma[a] * gamma[b] + gamma[b] * gamma[a]
                for a in range(8) for b in range(8))
 reproduces(clifford, "the author's gammas satisfy the Clifford relation",
            PY, "authorT16_clifford")
+C = gamma[0] * gamma[1] * gamma[2] * gamma[3]  # C = g^(x0) g^(x1) g^(x2) g^(x3)
 ```
 
-For all 64 pairs: $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)}$ (for sympy matrices `*` is the matrix product) must equal $2\eta^{ab}$ times the unit matrix, that is $2\eta^{aa}$ on the diagonal $a = b$ and 0 otherwise.
+`clifford` checks $\gamma^{(a)}\gamma^{(b)} + \gamma^{(b)}\gamma^{(a)} = 2\eta^{ab}1$ for all 64 pairs (sympy report, `authorT16_clifford`). `C` is the product $\gamma^{(x_0)}\gamma^{(x_1)}\gamma^{(x_2)}\gamma^{(x_3)}$.
 
 ```python
-C = gamma[0] * gamma[1] * gamma[2] * gamma[3]  # C = g^(x0) g^(x1) g^(x2) g^(x3)
 stored_C = sp.Matrix([[sp.Rational(x) for x in row] for row in fixture["C"]])
 properties = (C == stored_C and C == C.T and C * C == I16
               and all((C * g).T == -(C * g) for g in gamma))
@@ -3308,44 +4242,33 @@ reproduces(properties, "C is the record's C, real symmetric, C^2 = 1, C gamma "
            "antisymmetric", PY, "authorT16_C_properties")
 ```
 
-$C$ is the product of the four space-like gammas; it must equal the $C$ stored in the record, be symmetric (`C.T` is the transpose), square to 1 and make every $C\gamma^{(a)}$ antisymmetric (Section 12.26).
+The record also stores $C$; the check compares the two and requires the three properties the adjoint $\bar\Phi = \Phi^\dagger C$ needs: $C$ is symmetric (`C.T` is the transpose), $C^2 = 1$, and every $C\gamma^{(a)}$ is antisymmetric (sympy report, `authorT16_C_properties`). Out [3] shows two PASS lines.
 
-**In [4], the spin connection.**
+**In [4], the spin connection of the corrected metric.**
 
 ```python
 H = sp.symbols("H", positive=True)  # the constant H of the metric
-z = sp.symbols("z", positive=True)  # z = 6 H x0 in (0, pi/2)
-x4 = sp.symbols("x4", real=True)  # the time
-a4 = sp.Function("a4")(x4)  # an arbitrary function a4(x4)
-cz = sp.symbols("cz", positive=True)  # cot z > 0 on the patch
-ad1, ad2 = sp.symbols("ad1 ad2", real=True)  # a4' and a4''
-s6 = sp.sin(z) ** sp.Rational(1, 6)  # the warp sin(z)^(1/6) of a length
-E = [sp.cot(z)] + [sp.exp(a4) * s6] * 3 + [sp.Integer(1)] + [sp.exp(-a4) * s6] * 3
+t = sp.symbols("t", real=True, nonzero=True)  # t = tan z, z = 6 H x0 real
+wz = sp.symbols("wz", positive=True)  # wz = (sin(z)^2)^(1/12)
+ea, q = sp.symbols("ea q", positive=True)  # ea = e^(a4), q = b4^(1/2)
+ad1, ad2, uu, vv = sp.symbols("ad1 ad2 uu vv", real=True)  # a4', a4'', u, v
+E = [q / (ea * t)] + [ea] * 3 + [sp.Integer(1)] + [q * wz / ea] * 3  # the vielbein
 g = [ETA[a] * E[a] ** 2 for a in range(8)]  # g_aa = eta_aa E_a^2
+RATE = {ea: ea * ad1, q: q * uu / 2, ad1: ad2, uu: vv}  # d/dx4 of each symbol
 ```
 
-Symbols as in Notebook 12a. `E` lists the eight scale factors $E_a = \sqrt{|g_{aa}|}$ (the diagonal **vielbein** of Chapter 6), and the metric is rebuilt from them as $g_{aa} = \eta_{aa}E_a^2$; $a_4$ is an arbitrary function, so every result holds for every history.
+The symbols, as in Notebook 12a, except that `q` stands for $b_4^{1/2}$ and `wz` for $(\sin^2 z)^{1/12}$. `E` is the vielbein of Chapter 6, $E_0 = b_4^{1/2}/(e^{a_4}\tan z) = e^{-a_4}b_4^{1/2}\cot z$ (with the sign of $\cot z$), $E_i = e^{a_4}$, $E_4 = 1$, $E_t = b_4^{1/2}w_z/e^{a_4}$; the metric follows as $g_{aa} = \eta_{aa}E_a^2$. `RATE` gives the time derivatives: $\partial_4e^{a_4} = a_4'e^{a_4}$, $\partial_4b_4^{1/2} = \tfrac12u\,b_4^{1/2}$, $\partial_4a_4' = a_4''$, $\partial_4u = v$.
 
 ```python
-TRIG = {sp.sin(z): 1 / sp.sqrt(1 + cz ** 2), sp.cos(z): cz / sp.sqrt(1 + cz ** 2),
-        sp.tan(z): 1 / cz, sp.cot(z): cz}  # every function of z through cot z
-
-
-def clean(expr):
-    expr = expr.subs(sp.Derivative(a4, (x4, 2)), ad2).subs(sp.Derivative(a4, x4), ad1)
-    expr = sp.expand_trig(expr).subs(TRIG)
-    return sp.expand(sp.cancel(sp.powsimp(sp.expand(expr), force=True)))
-
-
 def d(expr, mu):
     if mu == 4:
-        return sp.diff(expr, x4)
+        return sum(sp.diff(expr, symbol) * rate for symbol, rate in RATE.items())
     if mu == 0:
-        return 6 * H * sp.diff(expr, z)  # d/dx0 = (dz/dx0) d/dz = 6 H d/dz
+        return 6 * H * (1 + t ** 2) * sp.diff(expr, t) + H * wz / t * sp.diff(expr, wz)
     return sp.Integer(0)  # nothing depends on x1, x2, x3, x5, x6, x7
 ```
 
-The same tools as in Notebook 12a, In [5] and In [7] (docstrings left out): `clean` writes derivatives as `ad1`, `ad2` (the second derivative first) and every function of $z$ through $\cot z$; `d` is the partial derivative.
+`d(expr, mu)`, the partial derivative, as in Notebook 12a (without the explicit `X4`, `Z`).
 
 ```python
 Gamma = [[[sp.Integer(0)] * 8 for _ in range(8)] for _ in range(8)]
@@ -3357,24 +4280,25 @@ for a, b, c in itertools.product(range(8), repeat=3):  # diagonal-metric formula
         value += d(g[a], c)
     if b == c:
         value -= d(g[b], a)
-    Gamma[a][b][c] = value / (2 * g[a])
+    Gamma[a][b][c] = sp.cancel(value / (2 * g[a]))
+```
+
+The Christoffel symbols of the diagonal metric, with the formula of Section 12.4, exactly as in Notebook 12a, In [5].
+
+```python
 S_ab = [[(gamma[a] * gamma[b] - gamma[b] * gamma[a]) / 4 for b in range(8)]
         for a in range(8)]
-```
-
-The Christoffel symbols exactly as in Notebook 12a, In [5]; then the 64 matrices $S^{ab} = \tfrac14(\gamma^{(a)}\gamma^{(b)} - \gamma^{(b)}\gamma^{(a)})$, the generators of the spinor transformations (Chapter 5).
-
-```python
-omega = [[[clean(ETA[a] * E[a] * Gamma[a][mu][b] / E[b]) if a != b else 0
+omega = [[[sp.cancel(ETA[a] * E[a] * Gamma[a][mu][b] / E[b]) if a != b else 0
            for b in range(8)] for a in range(8)] for mu in range(8)]
-antisymmetric = all(sp.expand(omega[mu][a][b] + omega[mu][b][a]) == 0
+antisymmetric = all(sp.cancel(omega[mu][a][b] + omega[mu][b][a]) == 0
                     for mu in range(8) for a in range(8) for b in range(8))
-check(antisymmetric, "omega_mu ab = -omega_mu ba (canonical spin connection)")
 ```
 
-The canonical spin connection of the diagonal vielbein, $\omega_{\mu\,ab} = \eta_{aa}(E_a/E_b)\,\Gamma^a{}_{\mu b}$ for $a \ne b$ and 0 for $a = b$ (the text cell before the cell derives it from the definition). The check confirms that it is antisymmetric in $a$ and $b$, as a connection of this kind must be.
+`S_ab[a][b]` is $S^{ab} = \tfrac14[\gamma^{(a)}, \gamma^{(b)}]$. `omega[mu][a][b]` is the canonical spin connection $\omega_{\mu\,ab} = \eta_{aa}(E_a/E_b)\Gamma^a{}_{\mu b}$ for $a \ne b$ and 0 for $a = b$ (the formula of the notebook's text, from the vielbein postulate of Chapter 6). `antisymmetric` checks $\omega_{\mu\,ab} = -\omega_{\mu\,ba}$ for all 512 index lists.
 
 ```python
+reproduces(antisymmetric, "omega_mu ab = -omega_mu ba (canonical spin connection)",
+           WL, "spin_connection_antisymmetric")
 Omega = [sum((omega[mu][a][b] * S_ab[a][b] / 2 for a in range(8) for b in range(8)
               if omega[mu][a][b] != 0), Z16) for mu in range(8)]
 for mu in range(8):
@@ -3382,540 +4306,582 @@ for mu in range(8):
     say(f"Omega_{NAMES[mu]}: {terms} nonzero entries omega_mu ab")
 ```
 
-$\Omega_\mu = \tfrac12\sum_{a,b}\omega_{\mu\,ab}S^{ab}$ for each $\mu$; `sum(..., Z16)` starts the sum at the zero matrix (a sum of matrices must start from a matrix). The loop prints how many $\omega_{\mu\,ab}$ are not zero: four for each 3-space direction and extra time (the pairs with $x_4$ and with $x_0$, in both orders), none for $x_4$ and $x_0$.
+The check reproduces the Wolfram report's `spin_connection_antisymmetric`. `Omega[mu]` is $\Omega_\mu = \tfrac12\sum_{a,b}\omega_{\mu\,ab}S^{ab}$, summed only over the entries that are not zero, starting from the zero matrix (the second argument of `sum`). The loop prints how many entries $\omega_{\mu\,ab}$ are not zero for each $\mu$ (Out [4]): 2 for $x_0$ (the pair $x_0x_4$, from $\Gamma^{x_4}{}_{x_0x_0}$ and $\Gamma^{x_0}{}_{x_0x_4}$), 2 for each 3-space direction (the pair $x_ix_4$), 0 for $x_4$, and 4 for each extra time (the pairs $x_0x_t$ and $x_4x_t$).
 
-**In [5], the term 3H gamma^(x0).**
+**In [5], the gravity term.**
 
 ```python
 gamma_curved = [gamma[mu] / E[mu] for mu in range(8)]  # gamma^mu = gamma^(mu)/E_mu
-reproduces(Omega[4] == Z16 and Omega[0] == Z16, "Omega_x4 = Omega_x0 = 0",
-           PY, "authorT16_Omega_x0_x4_zero")
+h4 = uu / 2 - ad1  # the rate of the block (x0, x5, x6, x7)
+expected_x0 = (q / (2 * t * ea)) * h4 * gamma[0] * gamma[4]
+reproduces(Omega[4] == Z16
+           and (Omega[0] - expected_x0).applyfunc(sp.cancel) == Z16,
+           "Omega_x4 = 0, Omega_x0 = (1/2) cot z e^(-a4) b4^(1/2) h4 g^(x0) g^(x4)",
+           PY, "authorT16_Omega_x4_zero_Omega_x0")
 ```
 
-The curved gammas $\gamma^\mu = \gamma^{(\mu)}/E_\mu$; the spin connection along the time and along $x_0$ is zero.
+`gamma_curved[mu]` is $\gamma^\mu = \gamma^{(\mu)}/E_\mu$. The first check: $\Omega_{x_4} = 0$ and $\Omega_{x_0} = \tfrac12\cot z\,e^{-a_4}b_4^{1/2}h\,\gamma^{(x_0)}\gamma^{(x_4)}$ with $h = \tfrac12u - a_4'$ (`applyfunc(sp.cancel)` simplifies every entry of a matrix; sympy report, `authorT16_Omega_x4_zero_Omega_x0`).
 
 ```python
 anticommute = all((gamma_curved[mu] * Omega[mu] + Omega[mu] * gamma_curved[mu])
-                  .applyfunc(clean) == Z16 for mu in range(8))
+                  .applyfunc(sp.cancel) == Z16 for mu in range(8))
 reproduces(anticommute, "{gamma^mu, Omega_mu} = 0 for each mu (no sum)",
            PY, "authorT16_anticommutator_no_sum")
-```
-
-For each $\mu$ separately $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu = 0$; `.applyfunc(clean)` applies `clean` to every entry of the matrix. (A line that starts with a dot continues the expression of the line above, inside the brackets.)
-
-```python
 gravity_term = sum((gamma_curved[mu] * Omega[mu] for mu in range(8)), Z16)
-gravity_term = gravity_term.applyfunc(clean)
-reproduces(gravity_term == 3 * H * gamma[0], "gamma^mu Omega_mu = 3 H gamma^(x0)",
-           PY, "authorT16_gravity_term")
-reproduces(gravity_term == 3 * H * gamma[0], "the same, the lead's independent check",
-           EMT, "gamma_Omega_equals_3H_gamma0")
+gravity_term = gravity_term.applyfunc(sp.cancel)
 ```
 
-The sum $\sum_\mu\gamma^\mu\Omega_\mu$ equals $3H\gamma^{(x_0)}$: no $a_4$ and no $z$ remain, because the time-direction terms of the three inflating and the three deflating directions cancel. Two records confirm it.
-
-**In [6], the condensate equation.**
+For each $\mu$ separately the anticommutator $\gamma^\mu\Omega_\mu + \Omega_\mu\gamma^\mu$ must vanish (sympy report, `authorT16_anticommutator_no_sum`). `gravity_term` is the sum $\sum_\mu\gamma^\mu\Omega_\mu$, simplified entry by entry.
 
 ```python
-MM = sp.symbols("M", real=True)  # the effective mass M = m + lambda S
-
-
-def condensate_matrix(M_value, H_value):
-    return -gamma[4] * (M_value * I16 - 3 * H_value * gamma[0])
-
-
-A_sym = condensate_matrix(MM, H)
+c_gravity = sp.Rational(3, 2) * H * ea / q  # (3/2) H e^(a4) b4^(-1/2)
+expected = c_gravity * gamma[0] + (uu - ad1 / 2) * gamma[4]
+same = (gravity_term - expected).applyfunc(sp.cancel) == Z16
+reproduces(same, "gamma^mu Omega_mu = (3/2) H e^(a4) b4^(-1/2) g^(x0) + (u - a4'/2) "
+           "g^(x4)", PY, "authorT16_gravity_term")
+reproduces(same, "the same, the lead's independent check",
+           EMT, "gamma_Omega_equals_hidden_block_terms")
 ```
 
-`condensate_matrix` builds $\mathcal{A} = -\gamma^{(x_4)}(M - 3H\gamma^{(x_0)})$ of Section 12.26 for given $M$ and $H$ (docstring left out); `A_sym` is the matrix with the symbols $M$ and $H$.
+`c_gravity` is $c = \tfrac32He^{a_4}b_4^{-1/2}$; the gravity term must equal $c\,\gamma^{(x_0)} + (u - \tfrac12a_4')\gamma^{(x_4)}$, which contains no $z$: the $\cot z$ of $\Omega_{x_0}$ and the $1/E_0$ of $\gamma^{x_0}$ combine into a constant. The comparison reproduces the sympy report's `authorT16_gravity_term` and the lead's independent check `gamma_Omega_equals_hidden_block_terms`. Out [5] shows four PASS lines.
+
+**In [6], the condensate equation and the density law.**
 
 ```python
-reduced = (gamma[4] * A_sym + gravity_term - MM * I16).applyfunc(sp.expand)
-reproduces(reduced == Z16 and not A_sym.has(z),
-           "gamma^(x4) A + 3 H gamma^(x0) = M: the equation is Phi' = A Phi",
-           WL, "condensate_equation_x0_consistent")
-check((A_sym * A_sym + (MM ** 2 - 9 * H ** 2) * I16).applyfunc(sp.expand) == Z16,
-      "A^2 = -(M^2 - 9 H^2): every condensate oscillates with w = sqrt(M^2 - 9 H^2)")
-reproduces((C * A_sym + A_sym.T * C).applyfunc(sp.expand) == Z16,
-           "C A + A^T C = 0: S is constant along x4", PY,
-           "authorT16_condensate_S_constant")
+MM = sp.symbols("M", real=True)  # the effective mass M = m + U'(S)
+B_sym = -MM * gamma[4] + c_gravity * gamma[4] * gamma[0]
+A_sym = B_sym - (uu - ad1 / 2) * I16
+reduced = (gamma[4] * A_sym + gravity_term - MM * I16).applyfunc(sp.cancel)
+reproduces(reduced == Z16 and not A_sym.has(t) and not A_sym.has(wz),
+           "gamma^(x4) A + gamma^mu Omega_mu = M: the equation is Phi' = A Phi",
+           PY, "authorT16_condensate_equation")
 ```
 
-Three facts derived in Section 12.26: inserting $\Phi' = \mathcal{A}\Phi$ into the field equation gives $\gamma^{(x_4)}\mathcal{A} + 3H\gamma^{(x_0)} = M$ (and $\mathcal{A}$ is free of $z$); $\mathcal{A}^2 = -(M^2 - 9H^2)$; and $C\mathcal{A} + \mathcal{A}^TC = 0$, so $S$ is constant.
-
-**In [7], figure 1: the frequency of a condensate.**
+`MM` is the effective mass $M$; `B_sym` and `A_sym` are $\mathcal{B}$ and $\mathcal{A}$ of Section 12.26. The check: $\gamma^{(x_4)}\mathcal{A} + \sum_\mu\gamma^\mu\Omega_\mu - M = 0$, which is the field equation for $\Phi' = \mathcal{A}\Phi$ (multiply $\Phi' = \mathcal{A}\Phi$ by $\gamma^{(x_4)}$ and compare), and $\mathcal{A}$ contains no $t$ and no $w_z$ (sympy report, `authorT16_condensate_equation`).
 
 ```python
-m_axis = np.linspace(-8.0, 8.0, 801)  # M/H
-fig, ax = plt.subplots()
-ax.plot(m_axis[m_axis <= -3.0], np.sqrt(m_axis[m_axis <= -3.0] ** 2 - 9.0),
-        color="tab:blue", label="$w = \\sqrt{M^2 - 9H^2}$")
-ax.plot(m_axis[m_axis >= 3.0], np.sqrt(m_axis[m_axis >= 3.0] ** 2 - 9.0),
-        color="tab:blue")
-ax.axvspan(-3.0, 3.0, color="grey", alpha=0.2, label="$|M| < 3H$: no oscillation")
+check((B_sym * B_sym - (c_gravity ** 2 - MM ** 2) * I16).applyfunc(sp.cancel) == Z16,
+      "B^2 = (c^2 - M^2), c = (3/2) H e^(a4) b4^(-1/2)")
+reproduces((C * A_sym + A_sym.T * C + 2 * (uu - ad1 / 2) * C).applyfunc(sp.expand)
+           == Z16, "C A + A^T C = -2 (u - a4'/2) C: S = e^(a4) b4^(-2) S0",
+           PY, "authorT16_condensate_S_law")
 ```
 
-801 masses from $-8$ to 8 (units $H = 1$); `m_axis[m_axis <= -3.0]` keeps the entries not above $-3$ (an array of true and false values used as an index), and the two branches of $w = \sqrt{M^2 - 9}$ are drawn; the grey band marks $|M| < 3$.
+$\mathcal{B}^2 = (c^2 - M^2)1$, derived by hand in Section 12.26; and $C\mathcal{A} + \mathcal{A}^TC = -2(u - \tfrac12a_4')C$, which gives the density law $S = e^{a_4}b_4^{-2}S_0$ (sympy report, `authorT16_condensate_S_law`). Out [6] shows three PASS lines.
+
+**In [7], figure 12d.1: the condensate stops oscillating.**
 
 ```python
-worst = 0.0  # the largest deviation of a numerical eigenvalue from +-i w
-upper = []  # for each mass: how many eigenvalues have a positive imaginary part
-for M_value in (-7.0, -5.0, -4.0, 4.0, 5.0, 7.0):
-    matrix = np.array(condensate_matrix(M_value, 1).tolist(), dtype=float)
+times = np.linspace(0.0, 6.0, 601)  # x4 in units 1/H
+c_history = 1.5 * np.exp(times / 3.0)  # c on the record history, H = 1
+B_numeric = sp.lambdify((MM, ea, q), B_sym.subs(H, 1), "numpy")
+deviations, counts = [], []
+for x_value in (0.0, 1.0, 2.0, 3.0, 4.0, 5.0):
+    matrix = np.array(B_numeric(5.0, np.exp(x_value), np.exp(2.0 * x_value / 3.0)),
+                      dtype=float)  # e^(a4) = e^(x4), b4^(1/2) = e^(2 x4/3)
     eigenvalues = np.linalg.eigvals(matrix)
-    w_value = np.sqrt(M_value ** 2 - 9.0)
-    worst = max(worst, np.max(np.abs(np.abs(eigenvalues.imag) - w_value)),
-                np.max(np.abs(eigenvalues.real)))
-    upper.append(int(np.sum(eigenvalues.imag > 0)))  # the ones near +i w
-    ax.plot([M_value] * 16, np.abs(eigenvalues.imag), "o", color="black",
-            markersize=4, zorder=3)  # zorder 3: drawn on top of the red squares
+    c_value = 1.5 * np.exp(x_value / 3.0)
+    squared = c_value ** 2 - 25.0  # c^2 - M^2: each eigenvalue squared
+    deviations.append(np.max(np.abs(eigenvalues ** 2 - squared)))
+    counts.append(int(np.sum(eigenvalues.imag > 1e-9) + np.sum(eigenvalues.real > 1e-9)))
 ```
 
-For six masses the exact matrix is converted to a floating-point array and its 16 eigenvalues are computed numerically with `np.linalg.eigvals`. `worst` records the largest distance of an imaginary part (in absolute value) from $w$ and the largest real part. `eigenvalues.imag > 0` is an array of true and false values, one for each eigenvalue; `np.sum` counts the true ones (true counts as 1), and `upper.append` stores this count, the number of eigenvalues near $+iw$, for each mass. The absolute imaginary parts are drawn as black dots at the mass (`[M_value] * 16` repeats the mass 16 times; `zorder=3` draws them above the other marks).
+601 times from 0 to 6 and the values of $c = \tfrac32e^{x_4/3}$ on the record history ($H = 1$). `B_numeric` is $\mathcal{B}$ as a numpy function of $M$, $e^{a_4}$ and $b_4^{1/2}$. For $M = 5$ at six times the loop builds the numerical matrix (on the record history $e^{a_4} = e^{x_4}$ and $b_4^{1/2} = e^{2x_4/3}$), computes its 16 eigenvalues with `np.linalg.eigvals`, and stores the largest deviation of an eigenvalue squared from $c^2 - M^2$ and the number of eigenvalues "on the positive side" (positive imaginary part or positive real part).
 
 ```python
-ax.plot([], [], "o", color="black", markersize=4,
-        label="$|\\mathrm{Im}|$ of the eigenvalues of $\\mathcal{A}$")
-ax.plot([-5, 5], [4, 4], "s", color="tab:red", markersize=7,
-        label="$M = \\pm5H$: $w = 4H$")
-ax.set_xlabel("effective mass $M/H$")
-ax.set_ylabel("frequency $w/H$")
-ax.set_title("The frequency of a homogeneous condensate")
-ax.legend(fontsize=8, loc="upper center")
-say(f"largest deviation of a numerical eigenvalue from +-i w: {worst:.0e}")
-say(f"eigenvalues near +i w, for each of the six masses: {upper}")
-check(worst < 1e-9 and upper == [8] * 6,
-      "the 16 eigenvalues of A are +i w and -i w, eight of each (six masses)")
-save_figure(fig, "condensate_frequency",
-            ...)
+say(f"largest deviation of an eigenvalue squared from c^2 - M^2: {max(deviations):.0e}")
+say(f"eigenvalues on the positive side, at x4 = 0, 1, ..., 5: {counts}")
+check(max(deviations) < 1e-9 and counts == [8] * 6,
+      "M = 5: the 16 eigenvalues of B are +-sqrt(c^2 - M^2), eight of each sign")
+fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
+left.plot(times, c_history, color="black", label="$c = \\frac{3}{2}e^{x_4/3}$")
 ```
 
-An empty plot with a label gives the dots one legend entry; red squares mark $M = \pm5$, $w = 4$. The largest deviation, $10^{-14}$, and the six counts, all 8, are printed; the check requires a deviation below $10^{-9}$ and the count 8 at every mass (`[8] * 6` is the list of six eights), so eight eigenvalues are near $+iw$ and the other eight near $-iw$. **What the figure shows.** All dots lie on the curve $w = \sqrt{M^2 - 9H^2}$; each dot stands for all 16 eigenvalues of its mass, because the absolute value of the imaginary part does not distinguish $+iw$ from $-iw$. Inside the grey band there is no oscillation, so the examples use $M = \pm5H$.
-
-**In [8], the family of condensates with the 15 bilinears zero.**
+The cell prints (Out [7]) the largest deviation, `8e-14`, and the counts `[8, 8, 8, 8, 8, 8]`; the check requires deviations below $10^{-9}$ and eight eigenvalues on each side at every time: $\pm i\sqrt{M^2 - c^2}$ before the threshold, $\pm\sqrt{c^2 - M^2}$ after it. Then the figure: two panels, $c$ against the time on the left.
 
 ```python
-t = sp.symbols("t", real=True)  # the free real parameter of the family
+for mass, style in ((3.0, ":"), (5.0, "--"), (7.0, "-.")):
+    left.axhline(mass, linestyle=style, color="tab:blue", label=f"$|M| = {mass:g}$")
+    frequency = np.sqrt(np.maximum(mass ** 2 - c_history ** 2, 0.0))
+    right.plot(times, frequency, style, label=f"$|M| = {mass:g}$")
+left.set_xlabel("time $x_4$ (units $1/H$)")
+left.set_ylabel("$c$ and $|M|$ (units $H$)")
+```
+
+For $|M| = 3$, 5 and 7 a horizontal line on the left and, on the right, the local frequency $\sqrt{M^2 - c^2}$ (`np.maximum(..., 0.0)` replaces negative values by 0 before the root); labels of the left panel.
+
+```python
+left.set_title("the hidden-direction coefficient grows")
+left.legend(fontsize=8)
+right.set_xlabel("time $x_4$ (units $1/H$)")
+right.set_ylabel("local frequency $\\sqrt{M^2 - c^2}$ (units $H$)")
+right.set_title("the condensate stops oscillating")
+right.legend(fontsize=8)
+```
+
+Titles, labels and legends.
+
+```python
+save_figure(fig, "oscillation_threshold",
+            "A homogeneous condensate of dirac16complex00 on the record history "
+...)
+```
+
+`save_figure` (the caption is printed under figure 12d.1 in Section 12.29). The frequency falls to zero where $c$ reaches $|M|$, at $x_4 = 3\ln(2|M|/3)$: 2.08, 3.61 and 4.62 for $|M| = 3$, 5, 7.
+
+**In [8], the witnesses.**
+
+```python
+s = sp.symbols("s", real=True)  # the free real parameter of the family
 TRIPLES = list(itertools.combinations(range(8), 3))  # all 56 sets {a, b, c}
-NEEDED = sorted({tuple(sorted((i, 4, 0))) for i in (1, 2, 3, 5, 6, 7)}
-                | {tuple(sorted((i, j, 4))) for i in (1, 2, 3) for j in (5, 6, 7)})
+NEEDED = sorted({tuple(sorted((0, i, 4))) for i in (1, 2, 3)}
+                | {tuple(sorted((0, i, j))) for i in (1, 2, 3) for j in (5, 6, 7)}
+                | {tuple(sorted((i, 4, j))) for i in (1, 2, 3) for j in (5, 6, 7)}
+                | {tuple(sorted((0, 4, j))) for j in (5, 6, 7)})
 ```
 
-The real parameter $t$. `itertools.combinations(range(8), 3)` lists the 56 sets of three different positions in increasing order. `NEEDED` is the set (braces) of the 15 triples whose bilinears the field equations need to vanish: $\{i, x_4, x_0\}$ for the six directions $i$, joined (`|`) with $\{i, j, x_4\}$ for $i$ in 3-space and $j$ an extra time; each triple is sorted, and the whole is sorted into a list.
+`s` is the real parameter of the family. `TRIPLES` lists all 56 sets of three different directions, as sorted triples. `NEEDED` collects, as a set union (`|`) of four set comprehensions, the 24 triples whose bilinears the off-diagonal field equations need to vanish: $\{x_0, i, x_4\}$, $\{x_0, i, t\}$, $\{i, x_4, t\}$, $\{x_0, x_4, t\}$; each triple is sorted so that it matches the form in `TRIPLES`.
 
 ```python
-def witness_parts(M_value, H_value):
-    w_value = sp.sqrt(M_value ** 2 - 9 * H_value ** 2)
-    A_value = condensate_matrix(M_value, H_value)
+def witness_parts(M_value, c_value=3):
+    w_value = sp.sqrt(M_value ** 2 - c_value ** 2)
+    B_value = -M_value * gamma[4] + c_value * gamma[4] * gamma[0]
     spaces = []
-    for sign in (-1, 1):  # the eigenvalue of g^(x1)g^(x5) = g^(x2)g^(x6) = ...
-        stack = sp.Matrix.vstack(A_value + sp.I * w_value * I16,
+    for sign in (-1, 1):  # the value of g^(x1)g^(x5) = g^(x2)g^(x6) = g^(x3)g^(x7)
+        stack = sp.Matrix.vstack(B_value + sp.I * w_value * I16,
                                  gamma[1] * gamma[5] - sign * I16,
                                  gamma[2] * gamma[6] - sign * I16,
                                  gamma[3] * gamma[7] - sign * I16)
         spaces.append(stack.nullspace())  # all solutions of stack * v = 0
     v1, v2 = spaces[0][0], spaces[1][0]
-    c = sp.conjugate(sp.expand((v1.H * C * v2)[0]))  # c = conj(v1^dagger C v2)
-    return spaces, v1, v2, c, w_value, A_value
+    c12 = sp.conjugate(sp.expand((v1.H * C * v2)[0]))  # conj(v1^dagger C v2)
+    return spaces, v1, v2, c12, w_value, B_value
 ```
 
-The record's recipe (docstring left out). `sp.Matrix.vstack` stacks four 16 by 16 matrices into one 64 by 16 matrix; a column $v$ with `stack * v = 0` satisfies four equations at once: $\mathcal{A}v = -iwv$ (`sp.I` is $i$), and $\gamma^{(x_1)}\gamma^{(x_5)}v = \gamma^{(x_2)}\gamma^{(x_6)}v = \gamma^{(x_3)}\gamma^{(x_7)}v = \pm v$ (each of these products squares to 1, so its eigenvalues are $\pm1$). `.nullspace()` returns a list of columns that span all solutions, computed exactly. $v_1$ is the first solution with the sign $-1$, $v_2$ with $+1$. `v1.H` is the conjugate transpose $v_1^\dagger$, and `[0]` takes the single entry of the 1 by 1 product; $c$ is its complex conjugate.
+`witness_parts(M_value, c_value)` follows the record's recipe for a constant $c$ (the default 3 is $k_0 = 4$ at $H = 1$). `w_value` is $w = \sqrt{M^2 - c^2}$ and `B_value` the matrix $\mathcal{B}$. For each value $\mp1$ of the three products $\gamma^{(x_1)}\gamma^{(x_5)}$, $\gamma^{(x_2)}\gamma^{(x_6)}$, $\gamma^{(x_3)}\gamma^{(x_7)}$ the cell stacks four 16 by 16 matrices on top of each other (`vstack`); a spinor $v$ with `stack * v = 0` satisfies $\mathcal{B}v = -iwv$ and has the required value of each product. `nullspace()` returns a basis of all such spinors. $v_1$ and $v_2$ are the first basis vectors, and `c12` is $\overline{v_1^\dagger Cv_2}$ (`.H` is the conjugate transpose, `sp.conjugate` the complex conjugate). The function returns everything the cells below need.
 
 ```python
 def bilinear(phi, matrix):
     return sp.expand((phi.H * C * matrix * phi)[0])
+```
 
+`bilinear(phi, matrix)` is $\bar\Phi X\Phi = \Phi^\dagger CX\Phi$, a 1 by 1 matrix whose entry `[0]` is taken and expanded.
 
+```python
 def three_gamma(triple):
     a, b, c = triple
     return gamma[a] * gamma[b] * gamma[c]
 ```
 
-`bilinear` computes $\bar\Phi X\Phi = \Phi^\dagger CX\Phi$ for a matrix $X$; `three_gamma` builds $\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}$ for a triple (docstrings left out).
+`three_gamma(triple)` is the product $\gamma^{(a)}\gamma^{(b)}\gamma^{(c)}$.
 
 ```python
-spaces, v1, v2, c, w, A_witness = witness_parts(-5, 1)
-phi_t = (v1 + t * c * v2).applyfunc(sp.expand)  # the family Phi_0(t)
+spaces, v1, v2, c12, w_minus, B_minus = witness_parts(-5)
+phi_s = (v1 + s * c12 * v2).applyfunc(sp.expand)  # the family Phi_0(s)
 check([len(space) for space in spaces] == [1, 1],
       "the two null spaces are one-dimensional (v1 and v2 are unique)")
-report("frequency w at M = -5 H", w, "H")
-check((A_witness * phi_t + sp.I * w * phi_t).applyfunc(sp.expand)
-      == sp.zeros(16, 1), "A Phi_0(t) = -i w Phi_0(t) for every t")
-needed_values = [bilinear(phi_t, three_gamma(triple)) for triple in NEEDED]
-check(len(NEEDED) == 15 and all(value == 0 for value in needed_values),
-      "the 15 three-gamma bilinears vanish for every real t")
+report("frequency w at M = -5 H, k0 = 4", w_minus, "H")
+check((B_minus * phi_s + sp.I * w_minus * phi_s).applyfunc(sp.expand)
+      == sp.zeros(16, 1), "B Phi_0(s) = -i w Phi_0(s) for every s")
+needed_values = [bilinear(phi_s, three_gamma(triple)) for triple in NEEDED]
+check(len(NEEDED) == 24 and all(value == 0 for value in needed_values),
+      "the 24 three-gamma bilinears vanish for every real s")
 ```
 
-The recipe at $M = -5$, $H = 1$, and the family $\Phi_0(t) = v_1 + t\,c\,v_2$ with $t$ kept as a symbol. Each solution space is one-dimensional, so $v_1$ and $v_2$ are unique up to a factor; the frequency is $w = 4$; every member of the family is an eigenvector of $\mathcal{A}$ with the eigenvalue $-iw$; and the 15 needed bilinears are zero as expressions in $t$, so for every real $t$.
+The recipe at $M = -5$ (with $c = 3$). `phi_s` is the family $\Phi_0(s) = v_1 + s\,c_{12}v_2$. The checks: both null spaces are one-dimensional, so $v_1$ and $v_2$ are unique up to a factor; the frequency is printed (`RESULT frequency w at M = -5 H, k0 = 4 = 4 H`); $\Phi_0(s)$ has the eigenvalue $-iw$ for every $s$; and the 24 needed bilinears vanish for every real $s$, with $s$ kept as a symbol. Out [8] shows three PASS lines and one RESULT line.
 
-**In [9], the density of the family.**
+**In [9], the density of the family and the record's case $M = +5$.**
 
 ```python
-S_t = bilinear(phi_t, I16)  # S(t) = Phi_0(t)^dagger C Phi_0(t)
+S0_s = bilinear(phi_s, I16)  # Phi_0(s)^dagger C Phi_0(s)
 cross = sp.expand((v1.H * C * v2)[0])  # v1^dagger C v2
 report("v1^dagger C v2", cross)
-report("S(t)", S_t)
+report("Phi_0(s)^dagger C Phi_0(s)", S0_s)
 check(bilinear(v1, I16) == 0 and bilinear(v2, I16) == 0
-      and sp.expand(S_t - 2 * t * cross * sp.conjugate(cross)) == 0,
-      "S(t) = 2 t |v1^dagger C v2|^2: every real density occurs")
+      and sp.expand(S0_s - 2 * s * cross * sp.conjugate(cross)) == 0,
+      "Phi_0(s)^dagger C Phi_0(s) = 2 s |v1^dagger C v2|^2: every real density")
 ```
 
-The density of the family, the cross term $\sigma = v_1^\dagger Cv_2 = -128/25 - 96i/25$, and $S(t) = 2048t/25$; the check confirms $v_1^\dagger Cv_1 = v_2^\dagger Cv_2 = 0$ and $S(t) = 2t|\sigma|^2$ (derived in Section 12.26).
+`S0_s` is $\Phi_0(s)^\dagger C\Phi_0(s)$ and `cross` is $v_1^\dagger Cv_2$; both are printed (Out [9]): `-128/25 - 96*I/25` and `2048*s/25`. The check: $v_1^\dagger Cv_1 = v_2^\dagger Cv_2 = 0$, so only the two cross terms remain, and $\Phi_0^\dagger C\Phi_0 = 2s|v_1^\dagger Cv_2|^2$ ($|{-\tfrac{128}{25}} - \tfrac{96}{25}i|^2 = \tfrac{128^2 + 96^2}{625} = \tfrac{25600}{625} = \tfrac{1024}{25}$, and $2s\cdot\tfrac{1024}{25} = \tfrac{2048}{25}s$): the family contains condensates of every real density.
 
 ```python
-_, u1, u2, c_plus, w_plus, A_plus = witness_parts(5, 1)  # the record's M = +5
-phi_plus = (u1 + c_plus * u2).applyfunc(sp.expand)  # t = 1
+_, u1, u2, c_plus, w_plus, B_plus = witness_parts(5)  # the record's M = +5
+phi_plus = (u1 + c_plus * u2).applyfunc(sp.expand)  # s = 1
 S_plus = bilinear(phi_plus, I16)
-ok_plus = ((A_plus * phi_plus + sp.I * w_plus * phi_plus).applyfunc(sp.expand)
+ok_plus = ((B_plus * phi_plus + sp.I * w_plus * phi_plus).applyfunc(sp.expand)
            == sp.zeros(16, 1)
            and all(bilinear(phi_plus, three_gamma(tr)) == 0 for tr in NEEDED)
            and S_plus != 0 and sp.im(S_plus) == 0)
-reproduces(ok_plus, "M = +5, H = 1: a witness with S real, not 0, 15 bilinears 0",
-           PY, "authorT16_condensate_witness")
 ```
 
-The recipe repeated at $M = +5$, where the record ran it with the author's gammas, at $t = 1$ (the record's witness; `_` receives the unused first value): it is an eigenvector, its 15 bilinears vanish and its density is a real number different from 0 (`sp.im` is the imaginary part).
-
-**In [10], figure 2: all 56 three-gamma bilinears.**
+The same recipe at $M = +5$, where the record ran it, with $s = 1$ (the underscore `_` receives the null spaces, which are not needed). `ok_plus` requires the eigenvalue $-iw$, the 24 bilinears zero, and $S$ real and not zero (`sp.im` is the imaginary part).
 
 ```python
-phi_one = phi_t.subs(t, 1)  # Phi_0(1)
+report("M = +5: Phi_0^dagger C Phi_0 with this normalisation", S_plus)
+reproduces(ok_plus, "M = +5, k0 = 4: a witness with S real, not 0, 24 bilinears 0",
+           PY, "authorT16_condensate_witness")
+reproduces(ok_plus and sp.im(S0_s) == 0 and S0_s.subs(s, 1) != 0,
+           "M = -5 and M = +5 at k0 = 4, H = 1 (s = 1): exact witnesses",
+           WL, "condensate_witness_constant_k_exact")
+```
+
+The density with this normalisation is printed, `2048/25`; its size depends on the arbitrary normalisation of the null vectors and so on the representation (the record says the same). The two checks reproduce the sympy report's `authorT16_condensate_witness` and the Wolfram report's `condensate_witness_constant_k_exact`.
+
+**In [10], figure 12d.2: the 56 three-gamma bilinears.**
+
+```python
+phi_one = phi_s.subs(s, 1)  # Phi_0(1)
 all_values = [bilinear(phi_one, three_gamma(triple)) for triple in TRIPLES]
 check(all(sp.im(value) == 0 for value in all_values),
       "all 56 three-gamma bilinears of Phi_0(1) are real numbers")
 nonzero = [triple for triple, value in zip(TRIPLES, all_values) if value != 0]
 say("nonzero bilinears: " + ", ".join(
     "".join(NAMES[i][1] for i in triple) for triple in nonzero))
-check(all(4 not in triple and 0 not in triple for triple in nonzero),
-      "every nonzero one avoids x4 and x0")
 ```
 
-All 56 bilinears of the member $t = 1$ are computed and are real. The nonzero ones are printed as digit strings (`NAMES[i][1]` is the second character of `"x1"`, the digit): 123, 127, 136, 167, 235, 257, 356, 567, all built from 3-space directions and extra times (positions 3 and 7, $x_4$ and $x_0$, never occur).
+`phi_one` is $\Phi_0(1)$. All 56 bilinears are computed and must be real numbers. `nonzero` lists the triples with a nonzero bilinear, printed with the digits of their directions (`NAMES[i][1]` is the second character of `"x5"`, the digit): Out [10] shows `123, 127, 136, 167, 235, 257, 356, 567`.
 
 ```python
+check(all(4 not in triple and 0 not in triple for triple in nonzero),
+      "every nonzero one avoids x4 and x0")
 labels = ["".join(NAMES[i][1] for i in triple) for triple in TRIPLES]
 numbers = np.array([float(value) for value in all_values])
 is_needed = np.array([triple in NEEDED for triple in TRIPLES])
 fig, ax = plt.subplots(figsize=(11.0, 4.2))
+```
+
+Every nonzero one avoids $x_4$ and $x_0$: they are built from 3-space directions and extra times only, and no field equation asks them to vanish. For the plot: the labels, the 56 values as floating-point numbers, and a truth array that marks the 24 needed triples; a wide figure.
+
+```python
 positions = np.arange(len(TRIPLES))
 ax.bar(positions[~is_needed], numbers[~is_needed], color="tab:blue",
        label="other bilinears")
 ax.plot(positions[is_needed], numbers[is_needed], "x", color="tab:red",
-        markersize=8, label="the 15 the field equations need to vanish")
+        markersize=8, label="the 24 the field equations need to vanish")
+ax.axhline(0.0, color="black", linewidth=0.8)
 ```
 
-Labels, values and a true/false array marking the needed triples. `np.arange(56)` is 0 to 55; `~is_needed` is the opposite array. The other 41 bilinears are drawn as blue bars (`ax.bar`), the 15 needed ones as red crosses.
+`np.arange(56)` gives the positions 0 to 55. `ax.bar` draws the other 32 bilinears as blue bars (`~is_needed` is the negation of the truth array, used to select array entries), and the 24 needed ones as red crosses; a line at zero.
 
 ```python
-ax.axhline(0.0, color="black", linewidth=0.8)
 ax.set_xticks(positions)
 ax.set_xticklabels(labels, rotation=90, fontsize=6.5)
 ax.set_xlabel("directions $abc$ of $\\bar\\Phi\\gamma^{(a)}\\gamma^{(b)}"
-              "\\gamma^{(c)}\\Phi$ (digits: $x_0$ = 1, ..., $x_7$ = 8)")
+              "\\gamma^{(c)}\\Phi$ (digit $k$ for $x_k$)")
 ax.set_ylabel("value of the bilinear")
-ax.set_title("The 56 three-gamma bilinears of the condensate $\\Phi_0(1)$, "
-             "$M = -5H$")
-ax.legend(fontsize=8)
-save_figure(fig, "three_gamma_bilinears",
-            ...)
+ax.set_title("The 56 three-gamma bilinears of the witness $\\Phi_0(1)$, $M = -5H$")
 ```
 
-Axis, tick labels turned by 90 degrees, titles and `save_figure`. **What the figure shows.** Every red cross sits on zero; only eight blue bars rise, at triples without $x_4$ and $x_0$, which no field equation constrains.
-
-**In [11], the complete kinetic tensor.**
+The 56 labels turned by 90 degrees, the axis labels and the title.
 
 ```python
-UNIT_H = {H: 1}  # the examples use H = 1
-Omega_1 = [matrix.subs(UNIT_H) for matrix in Omega]
-gamma_1 = [matrix.subs(UNIT_H) for matrix in gamma_curved]
-g_1 = [entry.subs(UNIT_H) for entry in g]
+ax.legend(fontsize=8)
+save_figure(fig, "three_gamma_bilinears",
+            "The 56 three-gamma bilinears $\\bar\\Phi\\gamma^{(a)}\\gamma^{(b)}"
+...)
 ```
 
-The spin connection, the curved gammas and the metric with $H = 1$; $a_4$ and $z$ stay arbitrary.
+The legend and `save_figure` (caption under figure 12d.2). All red crosses lie on the zero line.
+
+**In [11], the complete energy-momentum tensor of a witness.**
+
+```python
+ON_FAMILY = {q: ea / 2, uu: 2 * ad1, vv: 2 * ad2, H: 1}  # b4 = e^(2 a4)/4
+Omega_w = [matrix.subs(ON_FAMILY) for matrix in Omega]
+gamma_w = [matrix.subs(ON_FAMILY) for matrix in gamma_curved]
+g_w = [entry.subs(ON_FAMILY) for entry in g]
+A_w = B_minus - sp.Rational(3, 2) * ad1 * I16  # A = B - (u - a4'/2), u = 2 a4'
+factor = 16 / ea ** 3  # f^2 = (e^(a4/2)/b4)^2 = 16 e^(-3 a4)
+```
+
+`ON_FAMILY` inserts the family $b_4 = e^{2a_4}/4$: $b_4^{1/2} = e^{a_4}/2$, $u = 2a_4'$, $v = 2a_4''$, and $H = 1$. The connection, the curved gammas and the metric are evaluated there. `A_w` is $\mathcal{A} = \mathcal{B} - (u - \tfrac12a_4')1 = \mathcal{B} - \tfrac32a_4'1$ with the constant $\mathcal{B}$ at $M = -5$. `factor` is $f^2 = (e^{a_4/2}/b_4)^2 = 16e^{-3a_4}$: every bilinear of $\Phi = f\,e^{-iwx_4}\Phi_0$ carries it (the phase cancels between $\Phi^\dagger$ and $\Phi$).
 
 ```python
 def D_phi(nu):
-    return (A_witness if nu == 4 else Z16) + Omega_1[nu]
+    return (A_w if nu == 4 else Z16) + Omega_w[nu]
+```
 
+`D_phi(nu)` is the matrix that gives $D_\nu\Phi$ from $\Phi$: $\mathcal{A} + \Omega_{x_4}$ for $\nu = x_4$ (because $\Phi' = \mathcal{A}\Phi$) and $\Omega_\nu$ otherwise.
 
+```python
 def D_phibar(nu):
-    return (A_witness.T * C if nu == 4 else Z16) - C * Omega_1[nu]
+    return (A_w.T * C if nu == 4 else Z16) - C * Omega_w[nu]
 ```
 
-The matrices that give the covariant derivatives (docstrings left out): $D_\nu\Phi = \partial_\nu\Phi + \Omega_\nu\Phi$, with $\partial_4\Phi = \mathcal{A}\Phi$ and no other derivative; and $D_\nu\bar\Phi = \partial_\nu\bar\Phi - \bar\Phi\Omega_\nu = \Phi^\dagger(\mathcal{A}^TC\,\delta_{\nu 4} - C\Omega_\nu)$, because $\partial_4\bar\Phi = (\mathcal{A}\Phi)^\dagger C = \Phi^\dagger\mathcal{A}^TC$.
+`D_phibar(nu)` is the matrix that gives the row $D_\nu\bar\Phi$ from the row $\Phi^\dagger$: $\bar\Phi' = \Phi'^\dagger C = \Phi^\dagger\mathcal{A}^TC$ for $\nu = x_4$, and the covariant derivative of the adjoint subtracts $C\Omega_\nu$.
 
 ```python
-K = [[(phi_t.H * ((C * gamma_1[mu] * D_phi(nu) - D_phibar(nu) * gamma_1[mu]) / 2)
-       * phi_t)[0] for nu in range(8)] for mu in range(8)]
-K_sym = [[clean((K[mu][nu] + (g_1[nu] / g_1[mu]) * K[nu][mu]) / 2)
+K = [[factor * (phi_s.H * ((C * gamma_w[mu] * D_phi(nu) - D_phibar(nu) * gamma_w[mu])
+                           / 2) * phi_s)[0] for nu in range(8)] for mu in range(8)]
+K_sym = [[sp.cancel(sp.expand((K[mu][nu] + (g_w[nu] / g_w[mu]) * K[nu][mu]) / 2))
           for nu in range(8)] for mu in range(8)]
-```
-
-All 64 components $K^\mu{}_\nu = \tfrac12\big(\bar\Phi\gamma^\mu D_\nu\Phi - (D_\nu\bar\Phi)\gamma^\mu\Phi\big)$ as bilinears of $\Phi_0(t)$ (the phase $e^{-iwx_4}$ cancels between $\Phi^\dagger$ and $\Phi$). The symmetrised tensor: lower the upper index ($K_{\mu\nu} = g_{\mu\mu}K^\mu{}_\nu$), average with the exchanged component, raise again; this gives $\tfrac12\big(K^\mu{}_\nu + (g_{\nu\nu}/g_{\mu\mu})K^\nu{}_\mu\big)$.
-
-```python
+S_family = sp.expand(factor * S0_s)  # S = 16 e^(-3 a4) Phi_0^dagger C Phi_0
 off_diagonal = all(K_sym[mu][nu] == 0 for mu in range(8) for nu in range(8)
                    if mu != nu)
-reproduces(off_diagonal, "every off-diagonal K^(mu nu) vanishes, for every a4, a4', z",
-           WL, "condensate_diagonal_witness_exact")
+```
+
+`K[mu][nu]` is $K^\mu{}_\nu = \tfrac12(\bar\Phi\gamma^\mu D_\nu\Phi - D_\nu\bar\Phi\,\gamma^\mu\Phi)$ for all 64 pairs, computed as $f^2\,\Phi_0^\dagger N^\mu{}_\nu\Phi_0$ with the 16 by 16 matrix $N^\mu{}_\nu$ of the notebook's text, for the whole family (symbol $s$), every $a_4$, $a_4'$ and every $z$. `K_sym` is the symmetrised tensor $\tfrac12\big(K^\mu{}_\nu + (g_{\nu\nu}/g_{\mu\mu})K^\nu{}_\mu\big)$ (lowering and raising the indices of the transposed component with the diagonal metric). `S_family` is $S = 16e^{-3a_4}\Phi_0^\dagger C\Phi_0$; `off_diagonal` is true when every off-diagonal component vanishes.
+
+```python
 diagonal = [K_sym[mu][mu] for mu in range(8)]
 say(f"diagonal of K: {diagonal}")
-reproduces(all(diagonal[mu] == 0 for mu in range(8) if mu != 4)
-           and sp.expand(diagonal[4] - (-5) * S_t) == 0,
-           "K^x4_x4 = M S and every other diagonal entry is 0",
+reproduces(off_diagonal and all(diagonal[mu] == 0 for mu in range(8) if mu != 4)
+           and sp.expand(diagonal[4] - (-5) * S_family) == 0,
+           "witness: K^x4_x4 = M S, every other component of K is 0 (every a4, z)",
            PY, "authorT16_condensate_kinetic_diagonal")
 ```
 
-Every off-diagonal component is zero for the whole family, every $a_4$ and every $z$; the diagonal is $[0, 0, 0, -2048t/5, 0, 0, 0, 0]$, that is $K^{x_4}{}_{x_4} = MS = -5\cdot 2048t/25$.
-
-**In [12], the energy-momentum tensor of the family.**
+The diagonal is printed (Out [11]): `[0, 0, 0, 0, -32768*s/(5*ea**3), 0, 0, 0]`. The check: every off-diagonal component is zero, every diagonal component except $x_4$ is zero, and $K^{x_4}{}_{x_4} = MS$ with $M = -5$ ($-5\cdot 16e^{-3a_4}\cdot\tfrac{2048}{25}s = -\tfrac{32768}{5}se^{-3a_4}$); sympy report, `authorT16_condensate_kinetic_diagonal`.
 
 ```python
-m, lam = sp.symbols("m lambda", real=True)  # the mass and the self-coupling
-
-
-def source_tensor(K_matrix, S_value, m_value, lam_value):
-    L_value = (sum(K_matrix[mu][mu] for mu in range(8)) - m_value * S_value
-               - lam_value * S_value ** 2 / 2)
-    return [[sp.expand(-K_matrix[mu][nu] + (L_value if mu == nu else 0))
-             for nu in range(8)] for mu in range(8)]
+offdiagonal_record = read_json(EQUATIONS)["fields"]["dirac16complex00"]
+offdiagonal_record = offdiagonal_record["offDiagonalKinetic"]
+bilinear_names = sorted({term["bilinear"] for entry in offdiagonal_record
+                         for term in entry["terms"]})
+report("record: off-diagonal kinetic components, distinct bilinears",
+       f"{len(offdiagonal_record)}, {len(bilinear_names)}")
 ```
 
-`source_tensor` builds $T^\mu{}_\nu = -K^{(\mu}{}_{\nu)} + \delta^\mu_\nu L$ with $L = \sum_\mu K^\mu{}_\mu - mS - \tfrac\lambda2S^2$ ($\sigma_T = +1$; docstring left out).
+The record's list of the off-diagonal kinetic components of a general condensate is read; `bilinear_names` collects, as a set (no repetitions), every bilinear named in its terms, sorted. The two counts are printed: `36, 24`.
 
 ```python
-on_shell = {m: -5 - lam * S_t}  # M = m + lambda S = -5
-T_family = source_tensor(K_sym, S_t, m, lam)
-rho_family = sp.expand(-T_family[4][4].subs(on_shell))
-pressures = [sp.expand(T_family[mu][mu].subs(on_shell)) for mu in (1, 5, 0)]
-check(sp.expand(rho_family - ((-5 - lam * S_t) * S_t + lam * S_t ** 2 / 2)) == 0
-      and all(sp.expand(p - lam * S_t ** 2 / 2) == 0 for p in pressures),
-      "rho = m S + (lambda/2) S^2 and p3 = pt = p0 = (lambda/2) S^2 on shell")
+reproduces(len(offdiagonal_record) == 36 and len(bilinear_names) == 24,
+           "a general condensate: 36 off-diagonal components, 24 bilinears",
+           WL, "condensate_offdiagonal_are_three_gamma_bilinears")
 ```
 
-On shell the mass is fixed by $M = m + \lambda S = -5$. The check confirms $\rho = mS + \tfrac\lambda2S^2$ and $p_3 = p_t = p_0 = \tfrac\lambda2S^2$ (Section 12.26).
+The check: 36 ordered pairs and 24 distinct bilinears, as the Wolfram report's `condensate_offdiagonal_are_three_gamma_bilinears` states. Out [11] shows two PASS lines.
 
-**In [13], the two Einstein conditions.**
+**In [12], the witness is pressureless.**
 
 ```python
-A, Lam, kappa = sp.symbols("A Lambda kappa", real=True)
+m = sp.symbols("m", real=True)  # the mass; with U = 0, m = M = -5 here
+L_witness = sp.expand(sum(diagonal) - m * S_family)  # L = trace K - m S - U, U = 0
+T_witness = [[sp.expand(-K_sym[mu][nu] + (L_witness if mu == nu else 0))
+              for nu in range(8)] for mu in range(8)]
+on_shell = {m: -5}  # M = m for U = 0
+rho_witness = sp.expand(-T_witness[4][4].subs(on_shell))
+```
+
+`m` is the mass. With $U = 0$ the Lagrangian is $L = \sum_\mu K^\mu{}_\mu - mS$; `T_witness` is $T^\mu{}_\nu = -K^{(\mu}{}_{\nu)} + \delta^\mu_\nu L$ ($\sigma_T = +1$). On shell with $U = 0$ the effective mass is the mass, $m = M = -5$; `rho_witness` is $\rho = -T^{x_4}{}_{x_4}$.
+
+```python
+pressures = [sp.expand(T_witness[mu][mu].subs(on_shell)) for mu in range(8) if mu != 4]
+check(sp.expand(sum(diagonal) - (-5) * S_family) == 0
+      and sp.expand(rho_witness - (-5) * S_family) == 0
+      and all(p == 0 for p in pressures),
+      "witness: trace K = M S, rho = M S, all seven pressures 0 (pressureless)")
+check(sp.expand(d(rho_witness, 4) + 3 * ad1 * rho_witness) == 0,
+      "witness: d4 rho + 3 a4' rho = 0, the source is conserved on the family")
+```
+
+`pressures` lists the seven diagonal components other than $x_4$. The check: the trace of $K$ is $MS$, $\rho = MS$, and all seven pressures vanish: a pressureless source. The second check: $\partial_4\rho + 3a_4'\rho = 0$ (the function `d` of In [4] differentiates the symbol `ea` with its rate); this is the energy exchange of Section 12.10 with zero pressures and $h = 0$, so the source is conserved on every history of the family. Out [12] shows two PASS lines.
+
+**In [13], can a witness be the source of a history of its family?**
+
+```python
 record = read_json(EQUATIONS)
-E1 = record["lovelockTensors"]["E1"]  # the Einstein tensor G = E_(1)
-LINEAR = {"ad1": A * H, "ad2": 0, "H": H}  # a4' = A H, a4'' = 0
-
-
-def from_record(key):
-    return sp.sympify(E1[key]["input"].replace("^", "**"), locals=LINEAR)
+kk, k0, Lam, y = sp.symbols("kk k0 Lam y", real=True)  # y stands for a4'^2
+a1, a2, a3 = sp.symbols("alpha1 alpha2 alpha3", real=True)
+LOCALS = {"H": H, "ad1": ad1, "ad2": ad2, "uu": uu, "vv": vv, "kk": kk}
+lovelock = record["lovelockTensors"]
+weights = {1: a1, 2: a2, 3: a3}
 ```
 
-Symbols for the slope, $\Lambda$ and $\kappa$; the Einstein tensor of the record. `LINEAR` is used as the dictionary of names for the parser, so that reading a formula already replaces `ad1` by $AH$ and `ad2` by 0 (docstring left out).
+The equations are read again; new symbols: `kk`, the constant `k0`, `Lam`, and `y`, which stands for $(a_4')^2$; the couplings `a1`, `a2`, `a3`; the names of the record's variables.
 
 ```python
-G_time, G_space = from_record("x4x4"), from_record("x1x1")
-G_extra, G_hidden = from_record("x5x5"), from_record("x0x0")
-check(sp.expand(G_space - G_hidden) == 0 and sp.expand(G_extra - G_hidden) == 0,
-      "linear member: G^x1_x1 = G^x5_x5 = G^x0_x0 (the record's components)")
+side = {key: sum(weights[k] * sp.sympify(lovelock[f"E{k}"][key]["input"]
+                                         .replace("^", "**"), locals=LOCALS)
+                 for k in (1, 2, 3)) for key in ("x4x4", "x1x1", "x0x0")}
+FAMILY = {uu: 2 * ad1, vv: 2 * ad2, kk: k0}  # b4 = e^(2 a4)/k0
+EINSTEIN = {a1: 1, a2: 0, a3: 0}
+AUTHOR = {a1: 1, a2: sp.Rational(1, 32) / H ** 2, a3: sp.Rational(1, 1152) / H ** 4}
 ```
 
-The four Einstein components for the linear member; the seven non-time ones are equal.
+`side` holds the three components $\sum_k\alpha_kE_{(k)}$ from the record. `FAMILY` inserts $u = 2a_4'$, $v = 2a_4''$, $k = k_0$; `EINSTEIN` and `AUTHOR` are the two sets of couplings (the author's with $H$ kept as a symbol).
 
 ```python
-S_sym, rho_sym, p_sym = sp.symbols("S rho p", real=True)
-time_equation = G_time + Lam + kappa * rho_sym  # = 0
-space_equation = G_hidden + Lam - kappa * p_sym  # = 0
-condensate = {rho_sym: m * S_sym + lam * S_sym ** 2 / 2, p_sym: lam * S_sym ** 2 / 2}
-first = sp.expand(kappa * (m + lam * S_sym) * S_sym + 6 * (A ** 2 + 1) * H ** 2)
-second = sp.expand(kappa * m * S_sym + 36 * H ** 2 + 2 * Lam)
-reproduces(sp.expand((time_equation - space_equation).subs(condensate) - first) == 0
-           and sp.expand((time_equation + space_equation).subs(condensate)
-                         - second) == 0,
-           "Einstein: kappa M S = -6 (A^2 + 1) H^2 and kappa m S = -(36 H^2 + 2 Lambda)",
-           PY, "condensate_einstein_quadratic_U")
+def on_family(key, couplings):
+    return sp.expand(side[key].subs(FAMILY).subs(couplings))
 ```
 
-The time equation and the common equation of the other directions, written as expressions that must vanish; with the condensate's $\rho$ and $p$, their difference and sum are the two conditions of Section 12.26.
+`on_family(key, couplings)` is a component on the family for given couplings.
 
 ```python
-M_value = sp.symbols("M_value", real=True)
-S_needed = sp.solve(kappa * M_value * S_sym + 6 * (A ** 2 + 1) * H ** 2, S_sym)[0]
-m_needed = sp.solve(second, m)[0]
-say(f"S = {S_needed},  m = {m_needed},  lambda = (M - m)/S")
+def eliminant(couplings):
+    x1_eq = on_family("x1x1", couplings) + Lam
+    x0_eq = on_family("x0x0", couplings) + Lam
+    return sp.expand(sp.diff(x0_eq, ad2) * x1_eq - sp.diff(x1_eq, ad2) * x0_eq)
 ```
 
-The first condition solved for $S$ and the second for $m$; $\lambda$ then follows as $(M - m)/S$.
-
-**In [14], figure 3: which condensates can drive a linear member.**
+`eliminant(couplings)` is the polynomial $P$ of Section 12.26: the 3-space equation $e_{11} + \Lambda$ times the coefficient of $a_4''$ in the block equation, minus the block equation times the coefficient of $a_4''$ in the 3-space equation; $a_4''$ drops out.
 
 ```python
-m_left = np.linspace(-10.0, -0.01, 1000)  # M/H < 0
-m_right = np.linspace(0.01, 10.0, 1000)  # M/H > 0
-fig, ax = plt.subplots(figsize=(7.0, 5.2))
-# grey: kappa M S > -6, where A^2 = -kappa M S/6 - 1 would be negative
-ax.fill_between(m_left, -12.0, np.minimum(-6.0 / m_left, 12.0), color="grey",
-                alpha=0.25, linewidth=0.0)
-ax.fill_between(m_right, np.maximum(-6.0 / m_right, -12.0), 12.0, color="grey",
-                alpha=0.25, linewidth=0.0, label="no real slope $A$")
+e44, e11, e00 = (on_family(key, EINSTEIN) for key in ("x4x4", "x1x1", "x0x0"))
+say(f"Einstein on the family: e44 = {e44}, e11 = {e11}, e00 = {e00}")
+P_einstein = eliminant(EINSTEIN)
+y_value = sp.solve(P_einstein.subs(ad1 ** 2, y), y)[0]  # a4'^2: a constant
+Lam_value = sp.solve((e11 + Lam).subs({ad2: 0, ad1 ** 2: y_value}), Lam)[0]
+final = sp.expand(y_value.subs(Lam, Lam_value))
 ```
 
-Masses on either side of zero (the hyperbolas are not defined at $M = 0$); `figsize=(7.0, 5.2)` makes the figure 7 inches wide and 5.2 high. The comment line states the rule for the grey region: the first condition of Section 12.26, $\kappa MS = -6(A^2 + 1)$ (units $H = 1$), solved for the slope gives $A^2 = -\kappa MS/6 - 1$, and this is negative, so that no real $A$ exists, exactly when $\kappa MS > -6$. A real slope therefore needs $\kappa MS \le -6$. For $M < 0$ this means $\kappa S \ge -6/M$, so the region below the curve $\kappa S = -6/M$ is shaded grey; for $M > 0$ it means $\kappa S \le -6/M$, so the region above is shaded. `np.minimum` and `np.maximum` keep the curves inside the plotted range $\pm12$.
+The three Einstein components on the family are printed (Out [13]): $e_{44} = 6H^2k_0 - 3(a_4')^2$, $e_{11} = 6H^2k_0 - 3(a_4')^2 - 2a_4''$, $e_{00} = 3H^2k_0 - 6(a_4')^2 - 3a_4''$. `P_einstein` is the eliminant, `y_value` the value of $(a_4')^2$ at which it vanishes (sympy solves for `y` after `ad1**2` is replaced by `y`), `Lam_value` the $\Lambda$ at which the 3-space equation then holds with $a_4'' = 0$, and `final` the value of $(a_4')^2$ with that $\Lambda$.
 
 ```python
-ax.axvspan(-3.0, 3.0, facecolor="none", edgecolor="black", hatch="//",
-           linewidth=0.0, label="$|M| < 3H$: no oscillating condensate")
-for slope_squared, style in ((0, ":"), (1, "-"), (4, "--"), (5, "-.")):
-    level = 6.0 * (slope_squared + 1)
-    label = f"$A^2 = {slope_squared}$"
-    ax.plot(m_left, -level / m_left, style, color="tab:blue", label=label)
-    ax.plot(m_right, -level / m_right, style, color="tab:blue")
+say(f"Einstein: P = {P_einstein}, so a4'^2 = {y_value} is constant and a4'' = 0; "
+    f"the 3-space equation then needs Lambda = {Lam_value}, and a4'^2 = {final}")
+check(not P_einstein.has(ad2) and final == -H ** 2 * k0,
+      "Einstein: no history b4 = e^(2 a4)/k0 has zero pressures (a4'^2 = -H^2 k0)")
+P_author = eliminant(AUTHOR)
+c4, c2, c0 = (P_author.coeff(ad1, n) for n in (4, 2, 0))
 ```
 
-The hatched band $|M| < 3$, where no condensate oscillates. Then the hyperbolas $\kappa MS = -6(A^2 + 1)$ for $A^2 = 0, 1, 4, 5$, on both sides.
+The cell prints the eliminant `P = -12*H**2*k0 - Lam - 3*ad1**2`, the constant value `-4*H**2*k0 - Lam/3` of $(a_4')^2$ (so $a_4'' = 0$), the value `Lambda = -9*H**2*k0` that the 3-space equation then needs, and the resulting $(a_4')^2$ = `-H**2*k0`: the hand computation of Section 12.26. The check requires the last value. Then the author's couplings: `P_author` and its coefficients of $(a_4')^4$, $(a_4')^2$ and $(a_4')^0$.
 
 ```python
-ax.plot([-5], [12 / 5], "o", color="tab:red", markersize=8,
-        label="examples 1 and 3: $M = -5H$, $\\kappa S = 12/5$")
-ax.plot([5], [-36 / 5], "s", color="tab:green", markersize=8,
-        label="example 2: $M = 5H$, $\\kappa S = -36/5$")
-ax.set_xlim(-10, 10)
-ax.set_ylim(-12, 12)
-ax.set_xlabel("effective mass $M/H$")
-ax.set_ylabel("$\\kappa S$ (units $H = 1$)")
-ax.set_title("Which condensates can drive a linear member (Einstein gravity)")
-ax.legend(fontsize=7.5, loc="lower left")
-save_figure(fig, "allowed_sources",
-            ...)
+shape = (not P_author.has(ad2) and sp.Poly(P_author, ad1).degree() == 4
+         and P_author.coeff(ad1, 3) == 0 and P_author.coeff(ad1, 1) == 0)
+say(f"the author's couplings: c4 = {sp.factor(c4)}")
+say(f"c2 = {sp.factor(c2)}")
+say(f"c0 = {sp.factor(c0)}")
+zeros_c4 = sp.solve(c4, k0)
 ```
 
-The three examples are marked. **What the figure shows.** Allowed condensates lie in the upper left and lower right quarters, where $S$ and $M$ have opposite signs and outside the grey; the red circle lies on the hyperbola $A^2 = 1$ and the green square on $A^2 = 5$.
-
-**In [15], the three exact solutions.**
+`shape` checks that $P$ contains no $a_4''$ and is a polynomial of degree 4 in $a_4'$ with no odd powers. The three coefficients are printed factorised: $c_4 = -3(k_0 - 2)(k_0^2 - 12k_0 + 16)/(256H^2)$, and $c_2$, $c_0$, which contain $\Lambda$. `zeros_c4` are the values of $k_0$ at which $c_4 = 0$.
 
 ```python
-EXAMPLES = [  # name, A, Lambda, M (with H = kappa = 1)
-    ("example 1", sp.Integer(1), sp.Integer(0), -5),
-    ("example 2", sp.sqrt(5), sp.Integer(0), 5),
-    ("example 3", sp.Integer(1), sp.Integer(-30), -5),
-]
-UNITS = {H: 1, kappa: 1}
-solutions = {}  # name -> the numbers of the solution
+say(f"c4 = 0 at k0 = {zeros_c4}")
+degenerate = len(zeros_c4) == 3
+for root in zeros_c4:
+    c2_root = sp.simplify(c2.subs(k0, root))
+    if not c2_root.has(Lam):
+        say(f"k0 = {root}: c2 = {c2_root}, so P is not the zero polynomial")
+        degenerate = degenerate and c2_root != 0
+        continue
+    Lam_root = sp.radsimp(sp.solve(c2_root, Lam)[0])  # c2 = 0 fixes Lambda
+    c0_root = sp.simplify(sp.expand(c0.subs({k0: root, Lam: Lam_root})))
+    time_eq = sp.simplify(sp.expand(on_family("x4x4", AUTHOR).subs(k0, root)
+                                    + Lam_root))
+    space_eq = sp.simplify(sp.expand(on_family("x1x1", AUTHOR).subs(k0, root)
+                                     + Lam_root))
+    say(f"k0 = {root}: c2 = 0 needs Lambda = {Lam_root}; there c0 = {c0_root}, "
+        f"e44 + Lambda = {time_eq}, e11 + Lambda = {space_eq}")
+    degenerate = (degenerate and c0_root == 0 and time_eq == 0 and space_eq == 0
+                  and sp.simplify(Lam_root + sp.Rational(3, 2) * H ** 2 * (root + 4))
+                  == 0)
 ```
 
-The three examples of Section 12.26 by their slope, cosmological constant and effective mass; $\sqrt5$ is kept exact as `sp.sqrt(5)`.
+They are printed: `[2, 6 - 2*sqrt(5), 2*sqrt(5) + 6]` (the roots of $k_0^2 - 12k_0 + 16$ are $6 \pm\sqrt{36 - 16} = 6 \pm 2\sqrt5$). For each root: if $c_2$ does not contain $\Lambda$ there, $P$ cannot be the zero polynomial unless $c_2 = 0$ (at $k_0 = 2$ the cell prints $c_2 = 3/16$); otherwise $c_2 = 0$ fixes $\Lambda$ (`sp.radsimp` removes roots from denominators), and the cell computes $c_0$, $e_{44} + \Lambda$ and $e_{11} + \Lambda$ there and prints them: at $k_0 = 6 \mp 2\sqrt5$, $\Lambda = (-15 \pm 3\sqrt5)H^2$, and all three vanish. `degenerate` collects these findings and also requires $\Lambda = -\tfrac32H^2(k_0 + 4)$.
 
 ```python
-for name, slope, cosmological, M_example in EXAMPLES:
-    S_value = sp.nsimplify(S_needed.subs(UNITS).subs({M_value: M_example,
-                                                    A: slope}))
-    m_value = m_needed.subs(UNITS).subs({S_sym: S_value, Lam: cosmological})
-    lam_value = (M_example - m_value) / S_value
+check(shape and degenerate, "the author's couplings: P = 0 identically only at "
+      "k0 = 6 +- 2 sqrt 5, Lambda = -(3/2) H^2 (k0 + 4), where e44 + Lambda = 0")
+equal = all(sp.expand((on_family("x4x4", couplings) - on_family("x1x1", couplings))
+                      .subs(ad2, 0)) == 0 for couplings in (EINSTEIN, AUTHOR))
+check(equal, "Einstein and the author's couplings: e44 = e11 where a4'' = 0 on the "
+      "family (beta = 2 or static), so kappa M S = 0 there")
 ```
 
-For each example: the density from the first condition (`sp.nsimplify` writes the result in its simplest exact form), the mass from the second, the self-coupling from $\lambda = (M - m)/S$.
+The two checks: $P$ vanishes identically only at $k_0 = 6 \pm 2\sqrt5$ with $\Lambda = -\tfrac32H^2(k_0 + 4)$, where $e_{44} + \Lambda = 0$; and in both theories $e_{44} = e_{11}$ where $a_4'' = 0$ on the family, so the difference of the time and the 3-space equations gives $\kappa MS = 0$ there. Together they prove the statement of Section 12.26. Out [13] shows the printed lines and three PASS lines.
+
+**In [14], figure 12d.3: a witness in time.**
 
 ```python
-    spaces_e, v1_e, v2_e, c_e, w_e, A_e = witness_parts(M_example, 1)
-    S_of_t = bilinear((v1_e + t * c_e * v2_e).applyfunc(sp.expand), I16)
-    t_value = sp.solve(S_of_t - S_value, t)[0]
-    phi0 = (v1_e + t_value * c_e * v2_e).applyfunc(sp.expand)
-    phi = phi0 * sp.exp(-sp.I * w_e * x4)  # the condensate Phi(x4)
+phi_numbers = np.array([complex(entry) for entry in phi_one])
+C_numbers = np.array(C.tolist(), dtype=float)
+biggest = int(np.argmax(np.abs(phi_numbers)))  # the largest component (first one)
+times = np.linspace(0.0, 3.0, 601)  # x4 in units 1/H
+S0_one = float(S0_s.subs(s, 1))
+density = []
 ```
 
-The family at this mass; the member whose density is the required one ($S(t)$ is linear in $t$, so `sp.solve` gives one $t$: $15/512$ for examples 1 and 3, $-45/512$ for example 2); the condensate $\Phi(x_4) = e^{-iwx_4}\Phi_0$.
+The 16 entries of $\Phi_0(1)$ as complex floating-point numbers, $C$ as a numpy array, the index of the largest entry (`np.argmax` of the absolute values; it is the first entry), 601 times from 0 to 3, and $\Phi_0^\dagger C\Phi_0$ at $s = 1$ as a number.
 
 ```python
-    # 1. the field equation, with the full spin-connection sum of section 7:
-    residual = (gamma[4] * sp.diff(phi, x4) + gravity_term.subs(UNIT_H) * phi
-                - (m_value + lam_value * S_value) * phi).applyfunc(sp.simplify)
-    field_ok = residual == sp.zeros(16, 1) and bilinear(phi0, I16) == S_value
+for x_value in times:  # S from the numbers, at every time
+    phi_x = 4.0 * np.exp(-1.5 * x_value) * np.exp(-4j * x_value) * phi_numbers
+    density.append((phi_x.conj() @ C_numbers @ phi_x).real)
+density = np.array(density)
+check(np.allclose(density, 16.0 * np.exp(-3.0 * times) * S0_one, rtol=1e-12,
+                  atol=0.0), "witness on a4 = x4: S(x4) = 16 e^(-3 x4) S0 numerically")
 ```
 
-The 16 components of the field equation $\gamma^\mu D_\mu\Phi - (m + \lambda S)\Phi$: the only derivative is along $x_4$, where $\gamma^{x_4} = \gamma^{(x_4)}$, plus the spin-connection term of In [5] at $H = 1$. Every component must simplify to zero, at every time, and the density must be the required one. (The comment refers to section 7 of the notebook.)
+For every time the spinor $\Phi(x_4) = 4e^{-3x_4/2}e^{-4ix_4}\Phi_0(1)$ on the history $a_4 = x_4$, $b_4 = e^{2x_4}/4$ (then $e^{a_4/2}b_4^{-1} = 4e^{-3x_4/2}$; `4j` is the imaginary number $4i$), and its density $\Phi^\dagger C\Phi$ (`@` is the matrix product, `.conj()` the complex conjugate). The check: the density equals $16e^{-3x_4}\Phi_0^\dagger C\Phi_0$ to rounding at all 601 times.
 
 ```python
-    # 2. the Einstein equations, all 64 components, for +A and for -A:
-    K_e = K_sym if M_example == -5 else None
-    if K_e is None:  # example 2 has its own condensate matrix A (M = +5)
-        K_raw = [[(phi0.H * ((C * gamma_1[mu] * ((A_e if nu == 4 else Z16)
-                                                 + Omega_1[nu])
-                              - ((A_e.T * C if nu == 4 else Z16) - C * Omega_1[nu])
-                              * gamma_1[mu]) / 2) * phi0)[0]
-                  for nu in range(8)] for mu in range(8)]
-        K_e = [[clean((K_raw[mu][nu] + (g_1[nu] / g_1[mu]) * K_raw[nu][mu]) / 2)
-                for nu in range(8)] for mu in range(8)]
-    else:
-        K_e = [[entry.subs(t, t_value) for entry in row] for row in K_e]
-    T_e = source_tensor(K_e, S_value, m_value, lam_value)
+fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
+component = 4.0 * np.exp(-1.5 * times) * np.exp(-4j * times) * phi_numbers[biggest]
+left.plot(times, component.real, label=f"Re $\\Phi_{{{biggest + 1}}}$")
+left.plot(times, component.imag, "--", label=f"Im $\\Phi_{{{biggest + 1}}}$")
+left.plot(times, density / abs(S0_one), color="black", linewidth=2.0,
+          label="$S/|\\Phi_0^\\dagger C\\Phi_0|$")
 ```
 
-For $M = -5$ the kinetic tensor of In [11] is reused with the found $t$. For example 2 ($M = +5$) it is computed afresh exactly as in In [11], with the matrix $\mathcal{A}$ of $M = +5$. Then the energy-momentum tensor (with $\kappa = 1$ it is $\kappa T$).
+Two panels. Left: the real and imaginary parts of the largest component (the label `Phi_{1}` is built with doubled braces in the f-string) and the density divided by $|\Phi_0^\dagger C\Phi_0|$, thick and black.
 
 ```python
-    einstein_ok = {}
-    for sign in (1, -1):
-        G_diag = [G_hidden] + [G_space] * 3 + [G_time] + [G_extra] * 3
-        values = {A: sign * slope, H: 1}
-        einstein_ok[sign] = all(
-            sp.simplify((G_diag[mu].subs(values) + cosmological if mu == nu else 0)
-                        - T_e[mu][nu]) == 0
-            for mu in range(8) for nu in range(8))
+left.set_xlabel("time $x_4$ (units $1/H$)")
+left.set_ylabel("value")
+left.set_title("the witness oscillates and decays")
+left.legend(fontsize=8)
+right.semilogy(times, np.exp(times), color="tab:orange", label="3-space $e^{a_4}$")
+right.semilogy(times, 0.5 * np.ones_like(times), "--", color="tab:blue",
+               label="block $e^{-a_4}b_4^{1/2} = 1/2$")
 ```
 
-For the slope $+A$ and for $-A$ all 64 components of $G^\mu{}_\nu + \Lambda\delta^\mu_\nu - \kappa T^\mu{}_\nu$ must simplify to zero (off the diagonal the left-hand side is 0, so $T$ must vanish there). Since $T$ contains no $x_4$ and no $z$, this holds at every time and every value of the hidden coordinate.
+Labels, title and legend of the left panel; on the right, on a logarithmic axis, the 3-space factor $e^{x_4}$ and the constant block factor $\tfrac12$.
 
 ```python
-    rho_e, p_e = -T_e[4][4], T_e[1][1]
-    solutions[name] = {"A": slope, "Lambda": cosmological, "M": M_example,
-                       "S": S_value, "m": m_value, "lambda": lam_value, "t": t_value,
-                       "rho": rho_e, "p": p_e, "phi0": phi0, "w": w_e, "T": T_e}
-    say(f"{name}: A = {slope}, Lambda = {cosmological}, M = {M_example}, "
-        f"S = {S_value}, t = {t_value}, m = {m_value}, lambda = {lam_value}, "
-        f"rho = {rho_e}, p = {p_e}")
-    check(field_ok, f"{name}: the 16 components of the field equation hold exactly")
-    check(einstein_ok[1], f"{name}: all 64 Einstein components hold exactly")
-    check(einstein_ok[-1], f"{name}: they hold as well with -A (A enters as A^2)")
+right.set_xlabel("time $x_4$ (units $1/H$)")
+right.set_ylabel("scale factor")
+right.set_title("on its history the block does not shrink")
+right.legend(fontsize=8)
+save_figure(fig, "witness_in_time",
+            "A witness of the record on the history $a_4 = Hx_4$, "
+...)
 ```
 
-The energy density and pressure are read off, all numbers are stored for the later cells, printed in one line, and the three checks of the example are made. Out [15] shows the table of Section 12.26 and nine PASS lines.
+Labels, title and legend of the right panel, and `save_figure` (caption under figure 12d.3). The components oscillate with the period $2\pi/4$ and decay like $e^{-3x_4/2}$; the block does not shrink.
 
-**In [16], the numbers compared with the table.**
+**In [15], figure 12d.4: the field equations fail.**
 
 ```python
-table = {"example 1": (sp.Rational(12, 5), -15, sp.Rational(25, 6), -24, 12),
-         "example 2": (sp.Rational(-36, 5), 5, 0, -36, 0),
-         "example 3": (sp.Rational(12, 5), 10, sp.Rational(-25, 4), 6, -18)}
-for name, (S_v, m_v, lam_v, rho_v, p_v) in table.items():
-    sol = solutions[name]
-    same = (sol["S"] == S_v and sol["m"] == m_v and sol["lambda"] == lam_v
-            and sol["rho"] == rho_v and sol["p"] == p_v)
-    formula = 5 + sol["Lambda"] / 3 - sol["lambda"] * sol["S"] ** 2 / 6
-    check(same and sp.simplify(formula - sol["A"] ** 2) == 0,
-          f"{name}: the numbers of the table and A^2 = 5 + Lambda/3 - lambda S^2/6")
-    report(f"{name}: w = p/rho", sol["p"] / sol["rho"])
+member = {ad1: 1, ad2: 0, H: 1, k0: 4}  # a4 = x4 on the family with k0 = 4
+G_member = {key: sp.expand(side[key].subs(FAMILY).subs(EINSTEIN).subs(member))
+            for key in ("x4x4", "x1x1", "x0x0")}
+LAMBDA_MEMBER = -21  # makes the 3-space equation hold
+G_diag = [G_member["x0x0"]] + [G_member["x1x1"]] * 3 + [G_member["x4x4"]] \
+    + [G_member["x0x0"]] * 3
 ```
 
-The computed numbers must equal the table of Section 12.26, and $A^2$ must equal Notebook 12b's formula $5 + \Lambda/3 - \lambda S^2/6$ (Exercise 7 derives it). The equations of state are $-1/2$, $0$ and $-3$.
-
-**In [17], figure 4: both sides of the Einstein equations for example 3.**
+`member` is the history $a_4 = x_4$ ($a_4' = 1$, $a_4'' = 0$) on the family with $k_0 = 4$ and $H = 1$. `G_member` holds the three Einstein components there: $e_{44} = 3 + 24 - 6 = 21$, $e_{11} = -3 + 24 = 21$, $e_{00} = -6 + 12 = 6$. $\Lambda = -21$ makes the 3-space equation hold. `G_diag` lists the eight diagonal entries in the order $x_0, \dots, x_7$ (the backslash continues the statement on the next line).
 
 ```python
-sol = solutions["example 3"]
-G_diag = [G_hidden] + [G_space] * 3 + [G_time] + [G_extra] * 3
-left_side = np.array([[float(G_diag[mu].subs({A: 1, H: 1}) + sol["Lambda"])
-                       if mu == nu else 0.0 for nu in range(8)] for mu in range(8)])
-right_side = np.array([[float(sol["T"][mu][nu]) for nu in range(8)]
-                       for mu in range(8)])
-check(np.max(np.abs(left_side - right_side)) == 0.0,
-      "example 3: the two 8 by 8 tables are equal entry by entry")
+left_side = np.array([[float(G_diag[mu] + LAMBDA_MEMBER) if mu == nu else 0.0
+                       for nu in range(8)] for mu in range(8)])
+right_side = np.zeros((8, 8))  # p3 = p0 = p_t = 0 for a witness
+right_side[4, 4] = -1.0  # -kappa rho with kappa M S = 1 at the moment drawn
+difference = left_side - right_side
+say(f"G + Lambda on the diagonal: {[float(v) for v in np.diag(left_side)]}")
 ```
 
-The two sides as 8 by 8 arrays of numbers; they agree exactly (the difference is 0.0, not merely small, because both come from exact numbers).
+`left_side` is the 8 by 8 array of $G^\mu{}_\nu + \Lambda\delta^\mu_\nu$; `right_side` is $\kappa T^\mu{}_\nu$ of a witness, pressureless, with $-\kappa\rho = -\kappa MS$ drawn as $-1$ at the moment shown; `difference` is their difference. The diagonal of the left side is printed (Out [15]): `[-15.0, 0.0, 0.0, 0.0, 0.0, -15.0, -15.0, -15.0]`.
 
 ```python
+check(np.allclose(np.diag(difference)[[0, 5, 6, 7]], -15.0)
+      and np.allclose(np.diag(difference)[[1, 2, 3]], 0.0),
+      "a4 = x4, k0 = 4, Lambda = -21: the block components miss by -15")
 fig, axes = plt.subplots(1, 3, figsize=(12.0, 4.4))
-scale = np.abs(right_side).max()
+scale = 22.0
 panels = ((left_side, "$G^\\mu{}_\\nu + \\Lambda\\delta^\\mu_\\nu$"),
-          (right_side, "$\\kappa T^\\mu{}_\\nu$ of the condensate"),
-          (left_side - right_side, "difference"))
+          (right_side, "$\\kappa T^\\mu{}_\\nu$ of a witness"),
+          (difference, "difference"))
+```
+
+The check: the four block components miss by $-15$, the 3-space components agree. Then a figure of three panels, a common colour scale of $\pm22$, and the three arrays with their titles.
+
+```python
 for ax, (values, title) in zip(axes, panels):
     ax.imshow(values, cmap="RdBu_r", vmin=-scale, vmax=scale)
     for mu in range(8):
@@ -3923,214 +4889,209 @@ for ax, (values, title) in zip(axes, panels):
         ink = "white" if abs(value) > 0.6 * scale else "black"  # readable on dark
         ax.text(mu, mu, f"{value:.0f}", ha="center", va="center", fontsize=7,
                 color=ink)
-```
-
-Three heat maps with one common scale (left side, right side, difference), drawn as in Notebook 12a, In [20], with the diagonal values written in.
-
-```python
     ax.set_xticks(range(8))
     ax.set_xticklabels(NAMES, fontsize=7)
     ax.set_yticks(range(8))
     ax.set_yticklabels(NAMES, fontsize=7)
     ax.grid(False)
     ax.set_title(title, fontsize=9)
-fig.suptitle("Example 3 ($A = 1$, $\\Lambda = -30H^2$): the Einstein equations hold "
-             "component by component")
-save_figure(fig, "tensor_equality",
-            ...)
 ```
 
-**What the figure shows.** The two tables are identical: $-6$ at $x_4$ (minus the energy density 6) and $-18$ at the seven other diagonal places, white everywhere else; the difference is white throughout.
-
-**In [18], figure 5: the solution in time.**
+For each panel the array is drawn as a heat map with the diagonal values written into their squares (no decimals, `:.0f`), and the tick labels, no grid and the title are set, as in figure 12a.3.
 
 ```python
-sol = solutions["example 1"]
-phi_numbers = np.array([complex(entry) for entry in sol["phi0"]])
-biggest = np.argsort(-np.abs(phi_numbers), kind="stable")[:3]  # three components
-times = np.linspace(0.0, 3.0, 601)  # x4 in units 1/H
+fig.suptitle("Einstein gravity, $a_4 = Hx_4$, $b_4 = e^{2Hx_4}/4$: a witness is not "
+             "the source")
+save_figure(fig, "tensor_mismatch",
+            "Einstein gravity on the member $a_4 = Hx_4$, $b_4 = e^{2Hx_4}/4$ of the "
+...)
 ```
 
-$\Phi_0$ of example 1 as 16 complex floating-point numbers. `np.argsort` lists the positions in the order of the sorted values; sorting $-|\Phi_0|$ puts the largest first, `kind="stable"` keeps equal values in their original order (so that every computer chooses the same three), and `[:3]` keeps the first three positions.
+A title over the panels and `save_figure` (caption under figure 12d.4). The time component would need $\kappa MS = 0$, and the block components cannot be matched at all.
+
+**In [16], figure 12d.5: what the history needs and what a witness supplies.**
 
 ```python
-density = []
-for x_value in times:  # S from the numbers, at every time (it must stay 12/5)
-    phi_x = phi_numbers * np.exp(-4j * x_value)
-    density.append((phi_x.conj() @ np.array(C.tolist(), dtype=float) @ phi_x).real)
-density = np.array(density)
-check(np.max(np.abs(density - 12 / 5)) < 1e-12,
-      "example 1: S(x4) = 12/5 at every time (numerically)")
+required_rho = float(-(G_member["x4x4"] + LAMBDA_MEMBER))
+required_p0 = float(G_member["x0x0"] + LAMBDA_MEMBER)
+report("member a4 = x4, k0 = 4, Lambda = -21: required kappa rho, kappa p0",
+       f"{required_rho:g}, {required_p0:g}")
+fig, ax = plt.subplots()
+ax.plot(times, required_rho * np.ones_like(times), color="black",
+        label=f"required $\\kappa\\rho = {required_rho:g}$ (constant)")
 ```
 
-At 601 times the condensate $\Phi = e^{-4ix_4}\Phi_0$ is formed (`4j` is $4i$ in Python), and $S = \Phi^\dagger C\Phi$ is computed with `@`, the matrix product of numpy, and `.conj()`, the complex conjugate. It stays $12/5$ up to rounding.
+The energy density the member requires, $\kappa\rho = -(e_{44} + \Lambda) = 0$, and the block pressure, $\kappa p_0 = e_{00} + \Lambda = -15$, are printed as a RESULT line (Out [16]): `0, -15`. A figure with the required energy density as a black horizontal line.
 
 ```python
-fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-for index in sorted(biggest):
-    left.plot(times, (phi_numbers[index] * np.exp(-4j * times)).real,
-              label=f"Re $\\Phi_{{{index + 1}}}(x_4)$")
-left.plot(times, density, color="black", linewidth=2.0,
-          label="$S = \\bar\\Phi\\Phi = 12/5$")
-left.set_ylim(-1.35, 4.0)  # room for the legend above the curves
-left.set_xlabel("time $x_4$ (units $1/H$)")
-left.set_ylabel("value")
-left.set_title("example 1: the condensate oscillates, $S$ stays constant")
-left.legend(fontsize=8, loc="upper center", ncol=2)
+for scale_value, style in ((1.0, "--"), (5.0, ":")):
+    ax.plot(times, scale_value * np.exp(-3.0 * times), style, color="tab:blue",
+            label=f"witness $\\kappa\\rho = \\kappa MS$, "
+            f"$\\kappa MS(0) = {scale_value:g}$")
+ax.plot(times, required_p0 * np.ones_like(times) / 5.0, "-.", color="tab:red",
+        label="required $\\kappa p_0/5 = -3$ (witness: $0$)")
 ```
 
-The real parts of the three largest components (numbered from 1 in the label) and the constant density; `ncol=2` arranges the legend in two columns.
+A witness supplies $\kappa\rho = \kappa MS \propto e^{-3x_4}$, drawn for two starting values (dashed and dotted); the required block pressure, divided by 5 to fit the scale, as a red dash-dotted line.
 
 ```python
-for name, style in (("example 1", "-"), ("example 2", "--")):
-    slope = float(solutions[name]["A"])
-    right.semilogy(times, np.exp(slope * times), style, color="tab:orange",
-                   label=f"3-space $e^{{a_4}}$, {name}")
-    right.semilogy(times, np.exp(-slope * times), style, color="tab:blue",
-                   label=f"extra times $e^{{-a_4}}$, {name}")
-right.set_xlabel("time $x_4$ (units $1/H$)")
-right.set_ylabel("scale factor")
-right.set_title("3-space inflates, the extra times deflate")
-right.legend(fontsize=8)
-save_figure(fig, "solution_in_time",
-            ...)
+ax.axhline(0.0, color="grey", linewidth=0.8)
+ax.set_xlabel("time $x_4$ (units $1/H$)")
+ax.set_ylabel("units $H^2$")
+ax.set_title("What the history needs and what a witness supplies")
+ax.legend(fontsize=8)
+save_figure(fig, "witness_versus_required",
+            "Einstein gravity on the member $a_4 = Hx_4$, $b_4 = e^{2Hx_4}/4$ of the "
+...)
 ```
 
-The scale factors of examples 1 and 2 on a logarithmic axis. **What the figure shows.** The components oscillate with the period $2\pi/4 \approx 1.57$ while $S$ stays flat; the extra-time scale factor falls along straight lines of slope $-1$ (example 1) and $-\sqrt5$ (example 2): exponential deflation, driven by the condensate.
+A line at zero, labels, title, legend and `save_figure` (caption under figure 12d.5). A constant requirement and a falling supply can agree at most at one moment.
 
-**In [19], figure 6: the family in the cosmological constant.**
+**In [17], figure 12d.6: where witnesses of the record's form exist.**
 
 ```python
-lam_axis = sp.symbols("Lambda_axis", real=True)
-S_one = sp.Rational(12, 5)
-m_family = -(36 + 2 * lam_axis) / S_one
-lam_family = (-5 - m_family) / S_one
-rho_family_line = m_family * S_one + lam_family * S_one ** 2 / 2
-p_family_line = lam_family * S_one ** 2 / 2
-check(sp.expand(rho_family_line - (-24 - lam_axis)) == 0
-      and sp.expand(p_family_line - (12 + lam_axis)) == 0
-      and m_family.subs(lam_axis, 0) == solutions["example 1"]["m"]
-      and m_family.subs(lam_axis, -30) == solutions["example 3"]["m"],
-      "A = 1 family: kappa rho = -24 - Lambda, kappa p = 12 + Lambda")
+more = []  # (M, c, k0, w, the witness works)
+for M_value, c_value in ((5, 4), (13, 5), (13, 12)):
+    spaces_m, p1, p2, c_m, w_m, B_m = witness_parts(M_value, c_value)
+    phi_m = (p1 + c_m * p2).applyfunc(sp.expand)
+    works = ([len(space) for space in spaces_m] == [1, 1]
+             and (B_m * phi_m + sp.I * w_m * phi_m).applyfunc(sp.expand)
+             == sp.zeros(16, 1)
+             and all(bilinear(phi_m, three_gamma(tr)) == 0 for tr in NEEDED)
+             and bilinear(phi_m, I16) != 0)
+    k0_m = sp.Rational(4, 9) * c_value ** 2  # c = (3/2) sqrt(k0) at H = 1
+    more.append((M_value, c_value, k0_m, w_m, works))
+    say(f"M = {M_value}, c = {c_value} (k0 = {k0_m}): w = {w_m}, witness: {works}")
 ```
 
-For $A = 1$, $M = -5$, $S = 12/5$ every $\Lambda$ gives a solution with $m = -(36 + 2\Lambda)/S$ and $\lambda = (M - m)/S$; then $\kappa\rho = -24 - \Lambda$ and $\kappa p = 12 + \Lambda$, and examples 1 and 3 are members.
+The recipe of In [8] at three more pairs $(M, c) = (5, 4)$, $(13, 5)$ and $(13, 12)$, chosen so that $w = \sqrt{M^2 - c^2}$ is an integer (3, 12 and 5) and the arithmetic stays exact. For each, `works` requires one-dimensional null spaces, the eigenvalue $-iw$, the 24 bilinears zero and $S \ne 0$; `k0_m` is $k_0 = \tfrac49c^2$ (from $c = \tfrac32\sqrt{k_0}$ at $H = 1$). The cell prints (Out [17]) `M = 5, c = 4 (k0 = 64/9): w = 3, witness: True` and the two other lines.
 
 ```python
-axis = np.linspace(-45.0, 15.0, 301)
-functions = [sp.lambdify(lam_axis, f, "numpy") for f in
-             (m_family, lam_family, rho_family_line, p_family_line)]
-fig, (left, right) = plt.subplots(1, 2, figsize=(11.0, 4.2))
-left.plot(axis, functions[0](axis), label="mass $m/H$")
-left.plot(axis, functions[1](axis), "--", label="self-coupling $\\lambda$")
-right.plot(axis, functions[2](axis), label="$\\kappa\\rho/H^2$")
-right.plot(axis, functions[3](axis), "--", label="$\\kappa p/H^2$")
+check(all(entry[4] for entry in more),
+      "(M, c) = (5, 4), (13, 5), (13, 12): witnesses, 24 bilinears 0, S not 0")
+k_values = np.linspace(0.0, 80.0, 801)
+fig, ax = plt.subplots()
+for mass, style in ((3.75, ":"), (5.0, "-"), (13.0, "--")):
+    frequency = np.sqrt(np.maximum(mass ** 2 - 2.25 * k_values, 0.0))
+    ax.plot(k_values, frequency, style, label=f"$|M| = {mass:g}H$")
 ```
 
-The four formulas as numpy functions of $\Lambda$, drawn from $-45$ to 15: parameters on the left, the source on the right.
+The check that all three work. Then the figure: for $|M| = 3.75$, 5 and 13 the frequency $w = \sqrt{M^2 - \tfrac94k_0}$ against $k_0$ from 0 to 80 (zero where $M^2 \le \tfrac94k_0$).
 
 ```python
-for ax in (left, right):
-    ax.axvspan(-45.0, -24.0, color="tab:green", alpha=0.1)
-    ax.axhline(0.0, color="black", linewidth=0.8)
-    ax.set_xlabel("cosmological constant $\\Lambda/H^2$")
-for name, marker in (("example 1", "o"), ("example 3", "s")):
-    sol = solutions[name]
-    x_value = float(sol["Lambda"])
-    left.plot([x_value] * 2, [float(sol["m"]), float(sol["lambda"])], marker,
-              color="black")
-    right.plot([x_value] * 2, [float(sol["rho"]), float(sol["p"])], marker,
-               color="black", label=name)
-left.set_title("the condensate's parameters ($A = 1$, $M = -5H$)")
-right.set_title("the source it provides")
-left.legend(fontsize=8)
-right.legend(fontsize=8)
-save_figure(fig, "family_in_lambda",
-            ...)
+ax.plot([4.0, 4.0], [4.0, 2.25], "o", color="black", label="the record's witnesses")
+ax.plot([float(entry[2]) for entry in more], [float(entry[3]) for entry in more],
+        "s", color="tab:red", label="witnesses of this notebook")
+ax.set_xlabel("$k_0 = e^{2a_4}/b_4$ (constant)")
+ax.set_ylabel("frequency $w$ (units $H$)")
+ax.set_title("Where witnesses of the record's form exist")
 ```
 
-The green band $\Lambda < -24$ in both panels, the zero lines, and black markers for the two examples. **What the figure shows.** Along the family $\rho + p = -12$ never changes; the energy density becomes positive only in the green band, and there $p < -\rho$: $w < -1$.
-
-**In [20], the last check.**
+The record's witnesses as black points at $k_0 = 4$ ($w = 4$ for $|M| = 5$; $w = 2.25$ for $M = 3.75$, which is the record's $(M, H) = (5, \tfrac43)$ in units of $H$); the three new witnesses as red squares; labels and title.
 
 ```python
-figure_names = ["condensate_frequency", "three_gamma_bilinears", "allowed_sources",
-                "tensor_equality", "solution_in_time", "family_in_lambda"]
+ax.legend(fontsize=8)
+save_figure(fig, "witness_frequency",
+            "The frequency $w = \\sqrt{M^2 - \\frac{9}{4}H^2k_0}$ of the condensates "
+...)
+```
+
+The legend and `save_figure` (caption under figure 12d.6). Every one of these histories keeps the block at the constant size $k_0^{-1/2}$.
+
+**In [18], the last check.**
+
+```python
+figure_names = ["oscillation_threshold", "three_gamma_bilinears", "witness_in_time",
+                "tensor_mismatch", "witness_versus_required", "witness_frequency"]
 paths = [output_file(f"{FIGURE_FOLDER}/12d_{k}_{name}.png")
          for k, name in enumerate(figure_names, 1)]
 check(all(path.is_file() for path in paths), "all six figure files exist")
 all_checks_passed()
 ```
 
-As in In [15] of Notebook 12b (Section 12.20): `figure_names` lists the short names of the six figures in the order in which they were drawn, `enumerate(figure_names, 1)` numbers them from 1, which gives the six file names `12d_1_condensate_frequency.png` to `12d_6_family_in_lambda.png`, and `output_file` gives the path where each was written. `path.is_file()` is true when the file exists, and `all` requires this of every one of the six. `all_checks_passed()` prints the last line, ALL 40 CHECKS PASSED (notebook 12d): 1 check in In [2], 2 in In [3], 1 in In [4], 4 in In [5], 3 in In [6], 1 in In [7], 3 in In [8], 2 in In [9], 2 in In [10], 2 in In [11], 1 in In [12], 2 in In [13], 9 in In [15], 3 in In [16], 1 in In [17], 1 in In [18], 1 in In [19] and 1 in In [20].
+The six figure files must exist; the last line is ALL 31 CHECKS PASSED (notebook 12d).
 
 ### 12.31 What we proved, what we computed, what we assumed
 
-**PROVED** (exact). The table names, for each statement, the checks of the Revision record that verify it and the notebook cell of this chapter that reproduces them. "Sympy report" and "Wolfram report" are the two reports of the field equations in the folder `Revision/field_equations_a4/reports`; "lead's reports" are `einstein-gauss-bonnet-a4.json` and `emt-divergence-and-spin-connection.json` in `Revision/lead_checks/reports`.
+**PROVED** (exact). The table names, for each statement, the checks of the Revision record that verify it (short names of the reports as in Section 12.2) and the notebook cells of this chapter that reproduce them.
 
 | statement | where it is verified |
 | --- | --- |
-| $\sqrt{\lvert\det g\rvert} = \cos z$, independent of $a_4$: the 7-volume is constant | Wolfram report, `sqrt_abs_det_g_is_cos_z`; Notebook 12a, In [4] |
-| 37 nonzero Christoffel symbols; 156 nonzero Riemann components, free of the warp and of $e^{a_4}$, polynomials in $\cot z$ and $1/\cot z$ | Notebook 12a, In [5]; sympy report, `mixed_riemann_free_of_warp_and_a4`, `riemann_entries_laurent`; In [8] |
-| the Einstein tensor is diagonal, isotropic in 3-space and in the extra times, independent of $x_0$, with the four components of Section 12.6 | lead's report, `einstein_off_diagonal_zero`, `einstein_isotropy`, `einstein_x0_independent`; sympy report, `einstein_components`; In [12] |
-| the three Lovelock tensors from the GKD equal the Rust record in all 64 components; $E_{(1)} = G$; each is divergence-free; $P_{(4)} = 0$ | sympy report, `P1_equals_gkd_branch_monomials` to `P3_equals_gkd_branch_monomials`, `P1_equals_minus_4_Einstein`, `E1_divergence_free` to `E3_divergence_free`; Wolfram report, `P4_vanishes_pigeonhole`; In [14] to In [19] |
-| $E_{(2)}$ equals the classical Gauss-Bonnet tensor | Notebook 12a, In [18] (every $a_4$); lead's report, `gauss_bonnet_rho_alpha2`, `gauss_bonnet_p_alpha2` (linear member) |
-| the field equations reduce to the constraint, the evolution equation $a_4''F(a_4') = \kappa(p_3 - p_t)$, the hidden equation and the conditions $p_3 + p_t = 2p_0$, no $x_0$ dependence, no mixed components | Wolfram report, `independent_components`; sympy report, `evolution_factorises`, `evolution_F_not_identically_zero`, `algebraic_identity`; In [21] and In [22] |
-| the constraint propagates; the source obeys $\rho' = -3a_4'(p_3 - p_t)$ | sympy report, `bianchi_x4`, `conservation_components`; Wolfram report, `constraint_propagation_bianchi`; lead's report, `divergence_x4_component`, `divergence_x0_component`; In [23] and In [25] |
-| Einstein gravity: no vacuum for $H > 0$; every source has $\kappa(\rho + p_0) = -6((a_4')^2 + H^2) < 0$ | sympy report, `einstein_null_energy_x0`; Wolfram report, `einstein_no_vacuum_solution`; lead's report, `no_vacuum_for_H_positive`; In [26] |
-| the linear member needs $p_3 = p_t = p_0$ and constant $\rho$, $p$; $A$ enters only as $A^2$: the deflation of the extra times is a choice of sign | sympy report, `linear_member_equal_pressures`, `json_linear_member`; Notebook 12a, In [28]; Notebook 12b, In [4] |
-| Einstein gravity: a positive energy density of the linear member needs $\Lambda < -(21 + 3A^2)H^2$ and has $w < -1$ | Notebook 12b, In [5] and In [8] |
-| Einstein-Gauss-Bonnet gravity: among the linear members, vacua exist exactly for $0 < \alpha_2H^2 \le 1/40$ | sympy report, `linear_member_vacuum_factor`, `einstein_gauss_bonnet_vacuum_linear`; Notebook 12b, In [10] and In [11] |
-| with the author's eight real 16 by 16 gammas: $\sum_\mu\gamma^\mu\Omega_\mu = 3H\gamma^{(x_0)}$; a condensate obeys $\Phi' = \mathcal{A}\Phi$, $\mathcal{A}^2 = -(M^2 - 9H^2)$, with constant $S$, $\rho = mS + \tfrac\lambda2S^2$, $p_3 = p_t = p_0 = \tfrac\lambda2S^2$ | sympy report, `authorT16_gravity_term`, `authorT16_condensate_S_constant`, `authorT16_condensate_kinetic_diagonal`; lead's report, `gamma_Omega_equals_3H_gamma0`; Notebook 12d, In [5] to In [12] |
-| in Einstein gravity a condensate is a source of the linear member only if $\kappa MS = -6(A^2 + 1)H^2$ and $\kappa mS = -(36H^2 + 2\Lambda)$ | sympy and Wolfram reports, `condensate_einstein_quadratic_U`; Notebook 12b, In [13]; Notebook 12d, In [13] |
-| three exact solutions of the coupled equations of Einstein gravity and dirac16complex00, two with the extra times deflating as $e^{-Hx_4}$: all 16 field-equation components and all 64 Einstein components hold, for $+A$ and $-A$ | Notebook 12d, In [15]: a computation of this book, not a Revision record, under the assumptions listed below |
+| $\det g = e^{-2a_4}b_4^4\cot^2 z\,(\sin^2 z)^{1/2}$; $\sqrt{\lvert\det g\rvert}$ changes at the rate $2u - a_4'$ | Wolfram report, `sqrt_abs_det_g`; field-theory report, `sqrt_det_g`; Notebook 12a, In [4] |
+| 31 nonzero Christoffel symbols, 21 distinct | field-theory report, `christoffel_count`; Notebook 12a, In [5] and In [6] |
+| 112 nonzero Riemann components (28 with $a < b$, $m < n$), all sectional, free of $x_0$, polynomials in $H, a_4', a_4'', u, v, k$ | sympy report, `mixed_riemann_free_of_x0`, `mixed_riemann_only_sectional`, `riemann_entries_polynomial`; metric report, `corrected_mixed_riemann_vanish`; Notebook 12a, In [8] |
+| the Einstein tensor is diagonal, with the three components of Section 12.6 | lead's Einstein report, `einstein_off_diagonal_vanish`, `einstein_isotropy`, `einstein_diagonal_x0_independent`; sympy report, `einstein_components`; Notebook 12a, In [12] |
+| only three Lovelock tensors in 8 dimensions; $E_{(1)} = G$; each $E_{(k)}$ diagonal, free of $x_0$, with $E^{x_0}{}_{x_0} = E^{x_t}{}_{x_t}$, equal to the Rust GKD record; $E_{(k)}{}^h{}_h = -k!\,2^{k-1}\sum\prod K$ | Wolfram report, `P4_vanishes_pigeonhole`; sympy report, `P1_equals_minus_4_Einstein`, `P1_structure` to `P3_structure`, `P1_equals_gkd_branch_monomials` to `P3_equals_gkd_branch_monomials`; Notebook 12a, In [14] to In [17] |
+| $E_{(2)}$ equals the Gauss-Bonnet tensor of Lanczos; every $E_{(k)}$ has zero divergence | Notebook 12a, In [18]; lead's Einstein report, `gauss_bonnet_diagonal`; sympy report, `E1_divergence_free` to `E3_divergence_free`; In [19] |
+| the field equations have three independent components; a source must be diagonal, with $p_0 = p_t$, free of $x_0$ | Wolfram report and sympy report, `independent_components`; Notebook 12a, In [21] |
+| the constraint contains no $a_4''$ and no $v$; the other two equations are linear in $(a_4'', v)$; Einstein $\det J = -3$ | sympy report, `constraint_first_order`; Wolfram report, `second_order_system_a4pp_vv`, `einstein_second_order_system`; Notebook 12a, In [22] |
+| Einstein-Gauss-Bonnet: on the record history $\det J < 0$ for every $\alpha_2$ (a computation of this book) | Notebook 12a, In [24] |
+| the Bianchi identity $\frac{d}{dx_4}e_{44} = 3a_4'(e_{11} - e_{44}) + 4h(e_{00} - e_{44})$; the constraint propagates; the conservation law of a general source | sympy report, `bianchi_x4`, `json_conservation`; lead's divergence report, `divergence_x4_component`, `divergence_x0_component`, `divergence_other_components_zero`; Notebook 12a, In [23] and In [25] |
+| Einstein gravity: the flat member is a vacuum; no exponential history is a vacuum; the null combinations; the source of the record history violates both null energy conditions | Wolfram report, `flat_member`; sympy report, `einstein_flat_vacuum`, `einstein_no_exponential_vacuum`, `einstein_null_combinations`; Notebook 12a, In [26] |
+| on exponential histories the required source is a polynomial of degree at most 2 in $k$ and contains $A$ only through $A^2$; the field equations are invariant under $x_4 \to -x_4$ | sympy report, `exponential_history_required_source`, `json_exponential_history`; Notebook 12a, In [28]; Notebook 12b, In [4] and In [7] |
+| the source of the record history with the author's weights, conserved | sympy report, `author_weights_history_source`; metric report, `history_source_conserved`; Notebook 12a, In [29]; Notebook 12b, In [9] |
+| Einstein gravity: no exponential history satisfies both null energy conditions (derived here from the record's null combinations) | sympy report, `json_required_source_and_null_combinations`; Notebook 12b, In [11] |
+| Einstein-Gauss-Bonnet: exponential vacua only for constant $k$, with $\alpha_2 = -1/(4H^2(A^2 - k_0))$; the author's weights: none | sympy report, `egb_no_vacuum_where_k_varies`, `egb_exponential_vacuum_branches`, `author_weights_no_exponential_vacuum`; Notebook 12b, In [13] and In [15] |
+| a source with equal pressures fits no exponential history in Einstein gravity, and with the author's weights only constant $k$; no condensate is the source of the record history | sympy and Wolfram reports, `condensate_source_equal_pressures`; dark-sector record, `condensate_cannot_source_history`; Notebook 12b, In [9] and In [17] |
+| the gravity term, the condensate equation, $\mathcal{B}^2 = (c^2 - M^2)1$, the density law $S = e^{a_4}b_4^{-2}S_0$, the diagonal kinetic tensor, the 24 bilinears, the witnesses at $k_0 = 4$ | sympy report, `authorT16_gravity_term`, `authorT16_condensate_equation`, `authorT16_condensate_S_law`, `authorT16_condensate_kinetic_diagonal`, `authorT16_condensate_witness`; Wolfram report, `condensate_offdiagonal_are_three_gamma_bilinears`, `condensate_witness_constant_k_exact`; Notebook 12d, In [5], In [6], In [8], In [9], In [11] |
+| a witness is, up to a change of $\Lambda$, a pressureless conserved source; with $S \ne 0$ it is the source of no history of its family, in Einstein gravity and with the author's couplings for every $\Lambda$ (a computation of this book, not a Revision record) | Notebook 12d, In [12] and In [13] |
 
-**COMPUTED** (numerical, with measured accuracy; Notebook 12c): RK4 integrations of the evolution equation for prescribed stresses, agreeing with the exact solutions to $9 \times 10^{-11}$ (pulse, step 0.01) and to better than $10^{-9}$, the bound of the check (relaxing stress); measured convergence orders 4.24, 4.12, 4.06, 4.03; the energy density from conservation agrees with the constraint to $2 \times 10^{-11}$; the Gauss-Bonnet breakdown is reached at the predicted times $x_4^{\star} = 2.4682/H$ ($\alpha_2H^2 = 0.005$) and $0.4498/H$ ($\alpha_2H^2 = 0.01$) within 0.01; the eigenvalues of $\mathcal{A}$ agree with $\pm iw$ to $10^{-14}$, eight of each sign (Notebook 12d, In [7]); the ratio $(\int p_3 + \int p_t)/(2\int p_0)$ of the 70 recorded Kohn-Sham states with a nonzero energy-momentum tensor, recomputed from the record's table `Revision/kohn_sham/results/ground/emt-integrals.csv` and equal to the record, is nowhere closer to the required 1 than 0.414328 (Notebook 12c, In [16]).
+**COMPUTED** (numerical, with the measured accuracy). RK4 integrations of the two equations of second order (Notebook 12c): the flat member and the record history are reproduced to $10^{-9}$ and $10^{-14}$, the constraint gap stays below $7\times10^{-9}$, and the measured convergence orders are 4.36, 4.17, 4.08 and 4.04 (In [6], In [8], In [15]); the pulse history is recovered from its source to $10^{-8}$ (In [12]); the gas of massless particles with the author's weights reaches $\det J = 0$ just after $x_4 = 0.428800$, where the record finds $0.428813$ (In [16]). The time $x_4 = 0.785131$ at which the energy density of the record history with the author's weights changes sign is the numerical root of an exact quadratic (Notebook 12b, In [9]). The smallest distance 1.3733 between the pressure ratios of the Kohn-Sham states and those of the required source is recomputed from the record's table (Notebook 12c, In [18]).
 
-**ASSUMED**: the stresses of Notebook 12c (test inputs; no field of the theory is known to produce them); Einstein gravity and the sign convention $\sigma_T = +1$ of the energy-momentum tensor in Notebook 12d; the classical commuting field dirac16complex00 (not the quantised dirac16complex) as the source there; the chosen values of $\Lambda$, $m$, $\lambda$ and of the Lovelock couplings; Lovelock's theorem is quoted from the literature, not proved.
+**ASSUMED.** The Einstein-Lovelock form of the field equations, with the couplings as parameters; the author's weights $w = (1, \tfrac1{32}, \tfrac1{1152})$ and $\Lambda = -10$ are the author's choice, quoted from the record. The record history $a_4 = Hx_4$, $b_4 = e^{(4/3)Hx_4}$ is a PRESCRIBED background, not a solution with a known source. Every source of Notebook 12c is a prescribed test input. The sign convention $\sigma_T = +1$ of the energy-momentum tensor, the classical commuting field dirac16complex00 in Notebook 12d, and $U = 0$ for the witnesses (which costs only a change of $\Lambda$). Lovelock's theorem is quoted, not proved.
 
-**HYPOTHESIS**: none is used in this chapter.
+**HYPOTHESIS.** None in this chapter.
 
-**OPEN**: whether the condensates of Notebook 12d are stable and how they could arise; whether any state of the quantised field dirac16complex is an admissible source (the recorded Kohn-Sham states are not: `Revision/field_equations_a4/reports/ks-source-conditions.json`, every one of its checks PASS, its numbers recomputed in Notebook 12c, In [15] and In [16]); the values of $\alpha_2$, $\alpha_3$, $\Lambda$ and $\kappa$ in nature. Nothing in this chapter concerns the creation of universes, in pairs or otherwise, or the asymmetry between matter and antimatter: the symmetry $A \to -A$ relates two histories of one metric and is not the pairing of universes of masses $+m$ and $-m$, whose exact statement and limits are the subject of Chapters 18 to 21.
+**OPEN.** Whether any field of the theory supplies, exactly, the source of a history in which the hidden direction and the extra times deflate; condensates on histories whose $k$ is not constant; the condensate sources with $M = 0$ that the author's weights allow on $\beta = 2$; the operator form of the on-shell trace identity for the quantised field dirac16complex on a whole slice (ASSUMED by the record, key `fields/dirac16complex/statement`); which couplings $\alpha_2$, $\alpha_3$ nature has, and which sign of $A$ is realised. The Kohn-Sham states of the record are not admissible sources (record `ks-source-conditions.json`; Section 12.21), so the history on which Chapters 14 to 17 compute them stays a prescribed background.
 
 ### 12.32 Exercises
 
-**Exercise 1.** Compute $\Gamma^{x_5}{}_{x_5x_0}$ and $\Gamma^{x_0}{}_{x_5x_5}$ by hand from the diagonal formula of Section 12.4.
+**Exercise 1.** Compute $\Gamma^{x_5}{}_{x_5x_0}$, $\Gamma^{x_0}{}_{x_5x_5}$ and $\Gamma^{x_4}{}_{x_0x_0}$ by hand from the diagonal formula of Section 12.4.
 
-*Answer.* $g_{55} = -e^{-2a_4}\sin^{1/3}z$, and $\partial_0 g_{55} = 6H\cdot(-e^{-2a_4})\tfrac13\sin^{-2/3}z\cos z = 2H\cot z\;g_{55}$. First symbol ($a = c = x_5$, $b = x_0$, the term with $\delta_{ac}$): $\Gamma^{x_5}{}_{x_5x_0} = \partial_0 g_{55}/(2g_{55}) = H\cot z$. Second ($b = c = x_5$, $a = x_0$, the term with $\delta_{bc}$): $\Gamma^{x_0}{}_{x_5x_5} = -\partial_0 g_{55}/(2g_{00}) = -2H\cot z\,g_{55}/(2\cot^2 z) = -H\tan z\;g_{55} = He^{-2a_4}\sin^{1/3}z\,\tan z = He^{-2a_4}\sin^{4/3}z/\cos z$. Both agree with Out [6] of Notebook 12a.
+*Answer.* $g_{55} = -e^{-2a_4}b_4w_z^2$ with $w_z^2 = (\sin^2 z)^{1/6}$, so $\partial_0\ln|g_{55}| = 6H\cdot\tfrac16\,\partial_z\ln\sin^2 z = 6H\cdot\tfrac16\cdot 2\cot z = 2H\cot z$ and $\partial_0 g_{55} = 2H\cot z\,g_{55}$. First symbol ($a = c = x_5$, $b = x_0$, the term with $\delta_{ac}$): $\Gamma^{x_5}{}_{x_5x_0} = \partial_0 g_{55}/(2g_{55}) = H\cot z$. Second ($b = c = x_5$, $a = x_0$, the term with $\delta_{bc}$): $\Gamma^{x_0}{}_{x_5x_5} = -\partial_0 g_{55}/(2g_{00}) = -H\cot z\,g_{55}/g_{00}$; with $g_{55}/g_{00} = -w_z^2/\cot^2 z$ this is $H\cot z\,w_z^2/\cot^2 z = H\tan z\,w_z^2$. Third ($b = c = x_0$, $a = x_4$): $\Gamma^{x_4}{}_{x_0x_0} = -\partial_4 g_{00}/(2g_{44}) = \tfrac12\partial_4 g_{00}$, and $\partial_4\ln g_{00} = -2a_4' + u = 2h$, so $\Gamma^{x_4}{}_{x_0x_0} = h\,g_{00} = h\,e^{-2a_4}b_4\cot^2 z$. Notebook 12a prints them as `H/t`, `H*t*w**2` and `-bb*(2*ad1 - uu)/(2*ea**2*t**2)` (In [6]).
 
-**Exercise 2.** Compute the pair curvature $K_{x_5x_6}$ of two extra times by hand.
+**Exercise 2.** Show by hand that the sectional curvature of the plane of the hidden direction and an extra time is $K_{x_0x_5} = h^2 - H^2k$, the same as that of two extra times.
 
-*Answer.* With $a = m = x_5$, $b = n = x_6$ the derivative terms vanish ($\Gamma^{x_5}{}_{x_6x_6} = \Gamma^{x_5}{}_{x_6x_5} = 0$, because $g_{55}$ does not depend on $x_6$), and so does the last sum. The remaining sum has $e = x_4$ and $e = x_0$: $R^{x_5}{}_{x_6x_5x_6} = \Gamma^{x_5}{}_{x_5x_4}\Gamma^{x_4}{}_{x_6x_6} + \Gamma^{x_5}{}_{x_5x_0}\Gamma^{x_0}{}_{x_6x_6} = (-a_4')(-a_4'g_{66}) + H\cot z\,(-H\tan z\,g_{66}) = \big((a_4')^2 - H^2\big)g_{66}$ (Section 12.4: $\Gamma^{x_4}{}_{x_6x_6} = -a_4'g_{66}$ and $\Gamma^{x_0}{}_{x_6x_6} = -H\tan z\,g_{66}$). Raising with $g^{66} = 1/g_{66}$: $K_{x_5x_6} = (a_4')^2 - H^2$, the same as for two 3-space directions (the table of Section 12.5).
+*Answer.* The definition of Section 12.5 with $a = m = x_0$, $b = n = x_5$:
 
-**Exercise 3.** Use the rule $G^h{}_h = -\sum_{\text{pairs not containing } h}K$ to compute all diagonal components of the Einstein tensor for the canonical history $a_4 = Hx_4$, and from them the required $\kappa\rho$, $\kappa p$ and $w$ for $\Lambda = 0$.
+$$
+R^{x_0}{}_{x_5x_0x_5} = \partial_0\Gamma^{x_0}{}_{x_5x_5} - \partial_5\Gamma^{x_0}{}_{x_5x_0} + \sum_e\Gamma^{x_0}{}_{x_0e}\Gamma^e{}_{x_5x_5} - \sum_e\Gamma^{x_0}{}_{x_5e}\Gamma^e{}_{x_5x_0} .
+$$
 
-*Answer.* With $a_4' = H$, $a_4'' = 0$ the pair curvatures are: two 3-space directions or two extra times $0$; 3-space with extra time $-2H^2$; 3-space or extra time with the time $H^2$; with $x_0$ $-H^2$; time with $x_0$ $0$. Pairs without $x_4$: $9\cdot(-2H^2) + 6\cdot(-H^2) = -24H^2$, so $G^{x_4}{}_{x_4} = 24H^2$. Pairs without $x_0$: $9\cdot(-2H^2) + 6\cdot H^2 = -12H^2$, so $G^{x_0}{}_{x_0} = 12H^2$. Pairs without $x_1$: six mixed pairs ($-12H^2$), five time pairs ($+5H^2$), five with $x_0$ ($-5H^2$): $-12H^2$, so $G^{x_1}{}_{x_1} = 12H^2$, and the same for an extra time. Then $\kappa\rho = -G^{x_4}{}_{x_4} = -24H^2$, $\kappa p = 12H^2$, $w = 12/(-24) = -1/2$, as in Notebook 12b, In [5]. Check with the formulas: $3H^2 + 21H^2 = 24H^2$ and $15H^2 - 3H^2 = 12H^2$.
+First term: $\Gamma^{x_0}{}_{x_5x_5} = H\tan z\,w_z^2$ (Exercise 1), and with $\partial_z\tan z = 1/\cos^2 z$ and $\partial_z w_z^2 = \tfrac13\cot z\,w_z^2$ the product rule gives $\partial_0\Gamma^{x_0}{}_{x_5x_5} = 6H\cdot H\big(w_z^2/\cos^2 z + \tan z\cdot\tfrac13\cot z\,w_z^2\big) = 6H^2w_z^2/\cos^2 z + 2H^2w_z^2$. Second term: 0 (nothing depends on $x_5$). Third: only $e = x_0$ and $e = x_4$ contribute, $\Gamma^{x_0}{}_{x_0x_0}\Gamma^{x_0}{}_{x_5x_5} = -\tfrac{6H}{\sin z\cos z}\cdot H\tan z\,w_z^2 = -6H^2w_z^2/\cos^2 z$ and $\Gamma^{x_0}{}_{x_0x_4}\Gamma^{x_4}{}_{x_5x_5} = h\cdot h\,g_{55}$. Fourth: only $e = x_5$, $\Gamma^{x_0}{}_{x_5x_5}\Gamma^{x_5}{}_{x_5x_0} = H\tan z\,w_z^2\cdot H\cot z = H^2w_z^2$, with the minus sign. Adding: the terms with $1/\cos^2 z$ cancel, and
 
-**Exercise 4.** In Einstein gravity, for the canonical history ($A = 1$), which cosmological constant makes the required energy density zero? What are then the pressure and $\rho + p$? Is this a vacuum?
+$$
+R^{x_0}{}_{x_5x_0x_5} = 2H^2w_z^2 + h^2g_{55} - H^2w_z^2 = H^2w_z^2 + h^2g_{55} .
+$$
 
-*Answer.* $\kappa\rho = -24H^2 - \Lambda = 0$ gives $\Lambda = -24H^2$. Then $\kappa p = 12H^2 + \Lambda = -12H^2$ and $\kappa(\rho + p) = -12H^2$, as the formula $-6(1 + A^2)H^2$ says. The pressure is not zero, so this is not a vacuum: a source with zero energy density and negative pressure is still needed.
+Raising with $g^{55} = 1/g_{55} = -e^{2a_4}/(b_4w_z^2)$: $K_{x_0x_5} = H^2w_z^2/g_{55} + h^2 = -H^2e^{2a_4}/b_4 + h^2 = h^2 - H^2k$. The angle $z$ has disappeared, as in the plane of two extra times (Section 12.5): the hidden direction belongs to the block of constant curvature $-H^2$.
 
-**Exercise 5.** In Einstein-Gauss-Bonnet gravity, find the coupling $\alpha_2H^2$ for which the canonical history $A = 1$ is a vacuum, and the cosmological constant it needs. Check that the pressure vanishes too.
+**Exercise 3.** (a) Show that the Einstein energy density required by the exponential history with slope $-A$ at the time $x_4$ equals that required by the slope $A$ at the time $-x_4$ (with $a_0 = 0$, $b_4(0) = 1$). (b) Show that the energy exchange keeps its form when the time is reversed.
 
-*Answer.* $V = 1 - 8\alpha_2H^2(A^2 + 5) = 1 - 48\alpha_2H^2 = 0$ gives $\alpha_2H^2 = 1/48$ (the point checked in Notebook 12b, In [12]). With $\alpha_1 = 1$, $\alpha_3 = 0$: $\kappa\rho = -(21 + 3)H^2 + \alpha_2H^4(36 + 120 + 420) - \Lambda = -24H^2 + 576H^2/48 - \Lambda = -12H^2 - \Lambda$, which is zero for $\Lambda = -12H^2$. The pressure: $\kappa p = (15 - 3)H^2 + 12\alpha_2H^4(1 + 14 - 15) + \Lambda = 12H^2 + 0 - 12H^2 = 0$. (The formula of Notebook 12b, $\Lambda = 720H^4\alpha_2 - 36H^2 + 3/(16\alpha_2)$, gives $15H^2 - 36H^2 + 9H^2 = -12H^2$ as well.)
+*Answer.* (a) By Section 12.12, $\kappa\rho = \tfrac32A^2H^2(\beta^2 - 2) - 6H^2k - \Lambda$ with $k = e^{(2 - \beta)AHx_4}$. Replacing $A$ by $-A$ and $x_4$ by $-x_4$ leaves $A^2$ unchanged and $k = e^{(2 - \beta)(-A)H(-x_4)} = e^{(2 - \beta)AHx_4}$ unchanged, so the value is the same; the same holds for $p_3$ and $p_0$. (b) Let $\tilde\rho(x_4) = \rho(-x_4)$ and likewise for the pressures, and let the reversed history have the rates $\tilde a_4'(x_4) = -a_4'(-x_4)$ and $\tilde h(x_4) = -h(-x_4)$ (each rate is a first derivative, which changes sign). Then $\partial_4\tilde\rho(x_4) = -(\partial_4\rho)(-x_4)$, and $\partial_4\tilde\rho + 3\tilde a_4'(\tilde\rho + \tilde p_3) + 4\tilde h(\tilde\rho + \tilde p_0) = -\big[\partial_4\rho + 3a_4'(\rho + p_3) + 4h(\rho + p_0)\big](-x_4) = 0$. The reversed source is conserved on the reversed history.
 
-**Exercise 6.** Show, for Einstein gravity, that if the constraint holds at every time and the source obeys the conservation law $\rho' = -3a_4'(p_3 - p_t)$, then the evolution equation holds wherever $a_4' \ne 0$.
+**Exercise 4.** Compute $E_{(3)}{}^{x_4}{}_{x_4}$ on the record history by counting, as Section 12.7 did for $E_{(2)}$.
 
-*Answer.* Differentiate the constraint $-\kappa\rho = 3(a_4')^2 + 21H^2 + \Lambda$: $-\kappa\rho' = 6a_4'a_4''$. Insert the conservation law on the left: $3a_4'\kappa(p_3 - p_t) = 6a_4'a_4''$. Where $a_4' \ne 0$ divide by $3a_4'$: $\kappa(p_3 - p_t) = 2a_4''$, the evolution equation. (Where $a_4' = 0$ the division is not allowed, and the evolution equation is an independent statement.)
+*Answer.* $E_{(3)}{}^{x_4}{}_{x_4} = -24\sum\prod K$ over the sets of three disjoint planes among the seven directions $S = \{x_1, x_2, x_3\}$ and $T = \{x_0, x_5, x_6, x_7\}$ (six of the seven directions are used). The possible kinds, with $K = (a_4')^2$ for $SS$, $a_4'h$ for $ST$ and $D = h^2 - H^2k$ for $TT$: $SS + ST + TT$: $3\cdot 4\cdot 3 = 36$ sets (the $SS$ plane, the last 3-space direction with one of 4 block directions, and a $TT$ plane from the 3 remaining block directions); $SS + TT + TT$: $3\cdot 3 = 9$ (the $SS$ plane and a split of the four block directions into two pairs); $ST + ST + ST$: $4\cdot 3\cdot 2 = 24$ (each 3-space direction with its own block direction); $ST + ST + TT$: $3\cdot(4\cdot 3)\cdot 1 = 36$ (two 3-space directions with two block directions, and the remaining two block directions as a pair). Every other combination needs more than three 3-space or four block directions. Check: $36 + 9 + 24 + 36 = 105 = 7!/(1!\,(2!)^3\,3!)$. So
 
-**Exercise 7.** A condensate with $U = \tfrac\lambda2S^2$ is the source of the linear member in Einstein gravity. Derive Notebook 12b's formula $A^2 = 5 + \Lambda/3 - \lambda S^2/6$ (units $H = \kappa = 1$) and check it on example 3 of Section 12.26.
+$$
+E_{(3)}{}^{x_4}{}_{x_4} = -24\Big[36(a_4')^2\,a_4'h\,D + 9(a_4')^2D^2 + 24(a_4'h)^3 + 36(a_4'h)^2D\Big].
+$$
 
-*Answer.* The two conditions read $MS = -6(A^2 + 1)$ and $mS = -(36 + 2\Lambda)$. Since $M = m + \lambda S$: $MS = mS + \lambda S^2 = -(36 + 2\Lambda) + \lambda S^2$. So $-6(A^2 + 1) = -36 - 2\Lambda + \lambda S^2$, hence $A^2 + 1 = 6 + \Lambda/3 - \lambda S^2/6$ and $A^2 = 5 + \Lambda/3 - \lambda S^2/6$. Example 3: $\Lambda = -30$, $\lambda = -25/4$, $S = 12/5$: $5 - 10 + \tfrac{25}{4}\cdot\tfrac{144}{25}\cdot\tfrac16 = 5 - 10 + 6 = 1 = A^2$.
+On the record history ($H = 1$): $a_4' = 1$, $a_4'h = -\tfrac13$, $D = \tfrac19 - k$. The four terms are $36\cdot(-\tfrac13)(\tfrac19 - k) = -\tfrac43 + 12k$, $9(\tfrac19 - k)^2 = \tfrac19 - 2k + 9k^2$, $24\cdot(-\tfrac1{27}) = -\tfrac89$ and $36\cdot\tfrac19(\tfrac19 - k) = \tfrac49 - 4k$. Their sum is $(-\tfrac{12}9 + \tfrac19 - \tfrac89 + \tfrac49) + (12 - 2 - 4)k + 9k^2 = -\tfrac53 + 6k + 9k^2$, and times $-24$: $E_{(3)}{}^{x_4}{}_{x_4} = 40 - 144k - 216k^2$, as used in Section 12.12.
 
-**Exercise 8.** In Einstein-Gauss-Bonnet gravity with $\alpha_2H^2 = 0.01$, a constant stress $\kappa\Delta = 0.5H^2$ acts from $a_4'(0) = H$. Compute the critical rate and the breakdown time (units $H = 1$).
+**Exercise 5.** A gas of massless particles in 3-space ($p_3 = \rho/3$, $p_0 = p_t = 0$) is started in Einstein gravity with $\Lambda = 0$ at the rates of the record history ($a_4' = H$, $u = \tfrac43H$, $b_4 = 1$, $a_4 = 0$). What energy density does the constraint require? Can it be ordinary matter?
 
-*Answer.* $F(v) = 2 - 0.8 - 0.48v^2 = 1.2 - 0.48v^2$ vanishes at $v_c = \sqrt{1.2/0.48} = \sqrt{2.5} \approx 1.5811$. $G(v) = 1.2v - 0.16v^3$: $G(v_c) = 1.2\cdot1.58114 - 0.16\cdot3.95285 \approx 1.89737 - 0.63246 = 1.26491$ (using $v_c^3 = 2.5\,v_c$), and $G(1) = 1.2 - 0.16 = 1.04$. So $x_4^{\star} = (1.26491 - 1.04)/0.5 \approx 0.4498$, the value of Notebook 12c, In [13].
+*Answer.* The constraint gives $\kappa\rho = -(e_{44} + \Lambda) = -\big(3(a_4')^2 + 6H^2k - \tfrac32u^2\big) = -\big(3 + 6 - \tfrac32\cdot\tfrac{16}9\big)H^2 = -\big(9 - \tfrac83\big)H^2 = -\tfrac{19}3H^2$ (with $k = e^0/1 = 1$). For $\kappa > 0$ the energy density is negative, so in Einstein gravity with $\Lambda = 0$ a gas of ordinary (positive) energy cannot start with these rates; with the author's weights and $\Lambda = -10$ the same constraint gives the positive $\kappa\sigma_0 = \tfrac{193}{54}$ (Section 12.21). By Section 12.21 the gas then keeps $\rho = \sigma_0b_4^{-2}$ on every history.
 
-**Exercise 9.** For the relaxing stress of Section 12.21, by how much does the extra-time scale factor $e^{-a_4}$ end up smaller than on the history $a_4 = x_4$, for $\eta = 0.5$?
+**Exercise 6.** Show that in Einstein gravity no exponential history allows a source with equal pressures $p_3 = p_0$, such as a homogeneous condensate.
 
-*Answer.* $a_4 - x_4 = (1 - e^{-\eta x_4})/\eta \to 1/\eta = 2$ for large $x_4$. So $e^{-a_4} = e^{-x_4}e^{-(a_4 - x_4)} \to e^{-x_4}e^{-2}$: the extra times end up smaller by the factor $e^{-2} \approx 0.135$ than on the canonical history, because they deflated faster at first.
+*Answer.* $\kappa(p_3 - p_0) = e_{11} - e_{00}$; on the history ($a_4' = AH$, $u = \beta AH$, $a_4'' = v = 0$) the components of Section 12.9 give $\big(-5 + 6\beta - \tfrac52\beta^2\big)A^2H^2 + 6H^2k - \big(-3 + \tfrac32\beta - \tfrac32\beta^2\big)A^2H^2 - 3H^2k = \big(-2 + \tfrac92\beta - \beta^2\big)A^2H^2 + 3H^2k$. It vanishes when $3k = \big(\beta^2 - \tfrac92\beta + 2\big)A^2 = (\beta - 4)(\beta - \tfrac12)A^2$. A source with equal pressures at every time needs this at every time; where $k$ changes ($\beta \ne 2$ and $A \ne 0$) that is impossible, because the left side changes and the right side does not. So $k$ is constant: either $\beta = 2$, and then $3k = (-2)(\tfrac32)A^2 = -3A^2$, $k = -A^2 < 0$; or $A = 0$, and then $k = 0$. Both contradict $k = e^{2a_4}/b_4 > 0$ (record checks `condensate_source_equal_pressures`; Notebook 12b, In [17]).
 
-**Exercise 10.** Show that $\mathcal{A} = -\gamma^{(x_4)}(M - 3H\gamma^{(x_0)})$ has the eigenvalues $\pm i\sqrt{M^2 - 9H^2}$ when $M^2 > 9H^2$ and $\pm\sqrt{9H^2 - M^2}$ when $M^2 < 9H^2$. What is the period of the condensate for $M = -5H$?
+**Exercise 7.** On the family of histories $b_4 = e^{2a_4}/k_0$ with constant $k_0$ and any $a_4(x_4)$: (a) show that the block keeps a constant size; (b) show that a condensate there has $S = k_0^2e^{-3a_4}S_0$; (c) show that a pressureless source $\rho = MS$ obeys the energy exchange.
 
-*Answer.* If $\mathcal{A}v = \mu v$ for a nonzero $v$, then $\mathcal{A}^2v = \mu^2v$; with $\mathcal{A}^2 = -(M^2 - 9H^2)$ (Section 12.26) this gives $\mu^2 = 9H^2 - M^2$. For $M^2 > 9H^2$ the right-hand side is negative and $\mu$ is one of $\pm i\sqrt{M^2 - 9H^2}$; for $M^2 < 9H^2$ it is positive and $\mu$ is one of $\pm\sqrt{9H^2 - M^2}$, real: solutions grow or decay. This shows only that no other value occurs; that both signs occur, each 8 times, follows from the **trace** (the sum of the diagonal entries), which equals the sum of the 16 eigenvalues, each counted as often as it occurs. Write $\mathcal{A} = -M\gamma^{(x_4)} + 3H\gamma^{(x_4)}\gamma^{(x_0)}$. Then $\mathrm{tr}\,\gamma^{(x_4)} = \mathrm{tr}\big(\gamma^{(x_0)}\gamma^{(x_0)}\gamma^{(x_4)}\big) = \mathrm{tr}\big(\gamma^{(x_0)}\gamma^{(x_4)}\gamma^{(x_0)}\big) = -\mathrm{tr}\big(\gamma^{(x_0)}\gamma^{(x_0)}\gamma^{(x_4)}\big) = -\mathrm{tr}\,\gamma^{(x_4)}$, so $\mathrm{tr}\,\gamma^{(x_4)} = 0$ (first $(\gamma^{(x_0)})^2 = 1$; then $\mathrm{tr}(XY) = \mathrm{tr}(YX)$ with $X = \gamma^{(x_0)}$, which moves the first factor to the end; then the Clifford relation $\gamma^{(x_4)}\gamma^{(x_0)} = -\gamma^{(x_0)}\gamma^{(x_4)}$; then $(\gamma^{(x_0)})^2 = 1$ again). In the same way $\mathrm{tr}\big(\gamma^{(x_4)}\gamma^{(x_0)}\big) = \mathrm{tr}\big(\gamma^{(x_0)}\gamma^{(x_4)}\big) = -\mathrm{tr}\big(\gamma^{(x_4)}\gamma^{(x_0)}\big) = 0$. So $\mathrm{tr}\,\mathcal{A} = 0$. If $n_+$ eigenvalues equal $+\mu_0$ and $n_-$ equal $-\mu_0$, with $\mu_0 \ne 0$ (here $M^2 \ne 9H^2$), then $n_+ + n_- = 16$ and $\mathrm{tr}\,\mathcal{A} = (n_+ - n_-)\mu_0 = 0$, hence $n_+ = n_- = 8$. For $M^2 > 9H^2$ this also follows from $\mathcal{A}$ being real (Section 12.26). For $M = -5H$: $w = \sqrt{25 - 9}\,H = 4H$, and $e^{-iwx_4}$ repeats after $x_4 = 2\pi/w = \pi/(2H) \approx 1.57/H$.
+*Answer.* (a) $u = b_4'/b_4 = 2a_4'$, so $h = \tfrac12u - a_4' = 0$, and the block factor $e^{-a_4}b_4^{1/2} = e^{-a_4}e^{a_4}k_0^{-1/2} = k_0^{-1/2}$ is constant. (b) The density law of Section 12.26 gives $S = e^{a_4}b_4^{-2}S_0 = e^{a_4}k_0^2e^{-4a_4}S_0 = k_0^2e^{-3a_4}S_0$. (c) With zero pressures and $h = 0$ the energy exchange reads $\partial_4\rho + 3a_4'\rho = 0$; for $\rho = MS$ with constant $M$, $\partial_4\rho = M\partial_4S = M(-3a_4')S = -3a_4'\rho$, so it holds (Notebook 12d, In [12]).
+
+**Exercise 8.** Evaluate the determinant of the Jacobian of Einstein-Gauss-Bonnet gravity at the start of the record history ($k = 1$) for $\alpha_2H^2 = \tfrac1{32}$, and say what its sign means.
+
+*Answer.* With the formula of Section 12.9 at $k = 1$: $\det J = -\tfrac19\big[27 - 876\alpha_2 + 11936\alpha_2^2\big]$ ($540 + 336 = 876$; $5184 + 6048 + 704 = 11936$). With $\alpha_2 = \tfrac1{32}$: $876/32 = \tfrac{219}8$ and $11936/1024 = \tfrac{373}{32}$, so the bracket is $\tfrac{864 - 876 + 373}{32} = \tfrac{361}{32}$ and $\det J = -\tfrac{361}{288} = -1.2535$. It is negative, as the whole dash-dotted curve of figure 12a.4: the two equations of second order can be solved for $a_4''$ and $v$, and they could not where $\det J = 0$.
