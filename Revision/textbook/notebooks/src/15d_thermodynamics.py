@@ -12,12 +12,13 @@ by Revision/textbook/tools/nbkit.py (never edit the .ipynb by hand):
         Revision/textbook/notebooks/src/15d_thermodynamics.py
 
 The notebook runs the Revision Kohn-Sham solver (subcommand "single" with "--T" and
-"--mermin-levels") for the free thermal states N = 8 and N = 136 at the slices of the
-history, writes its outputs into Revision/kohn_sham/solver/target/textbook_15d (ignored by
-git), and recomputes from the solver's levels the chemical potential (at 40 digits with
-mpmath and in double precision with the well-conditioned balance form), the energy, the
-entropy, the free energy, the grand potential, the heat capacity, dN/dmu and the
-sea-hole diagnostic of Revision/kohn_sham/results/thermo/thermodynamics.csv.
+"--mermin-levels") for the free thermal states N = 8 and N = 592 at the slices of the
+history in the corrected metric of 2026-10-16, writes its outputs into
+Revision/kohn_sham/solver/target/textbook_15d (ignored by git), and recomputes from the
+solver's levels the chemical potential (at 40 digits with mpmath and in double precision
+with the well-conditioned balance form), the energy, the entropy, the free energy, the
+grand potential, the heat capacity, dN/dmu and the sea-hole diagnostic of
+Revision/kohn_sham/results/thermo/thermodynamics.csv.
 """
 
 import sys
@@ -43,14 +44,14 @@ FACTS = {
     "purpose": (
         "It builds the Rust Kohn-Sham solver with cargo (a full build of about a minute "
         "when the program is missing, a second when it is up to date), runs it for the "
-        "free thermal states N = 8 and N = 136 "
-        "of dirac16complex at the slices of the deflating history, recomputes from the "
+        "free thermal states N = 8 and N = 592 of dirac16complex in the corrected metric "
+        "at the slices of the deflating history, recomputes from the "
         "solver's levels the chemical potential (at 40 digits and with the "
         "well-conditioned double-precision balance), the energy, entropy, free energy, "
         "grand potential, heat capacity and the sea-hole diagnostic of the committed "
         "Revision record, and draws the chemical potential, free energy, entropy and "
         "heat capacity as functions of the temperature. The solver writes its output "
-        "files (about 0.6 MB) into the folder "
+        "files (about 1.2 MB) into the folder "
         "`Revision/kohn_sham/solver/target/textbook_15d`, which git ignores."
     ),
     "records": [
@@ -60,7 +61,8 @@ FACTS = {
         ["Revision/kohn_sham/results/ground/summary.csv",
          "the zero-temperature energies and gaps"],
         ["Revision/kohn_sham/results/parameters.json",
-         "the temperatures and the thermal window"],
+         "the temperatures, the thermal window and the particle-number convention "
+         "sum g f = N"],
         ["Revision/kohn_sham/ks-theory.json",
          "the Mermin functional, the filling convention and its status"],
         ["Revision/kohn_sham/reports/ks-rust-solver.json",
@@ -72,18 +74,18 @@ FACTS = {
     "packages": ["numpy", "mpmath", "matplotlib"],
     "needs_rust": [{"manifest": "Revision/kohn_sham/solver/Cargo.toml",
                     "binaries": ["revision_ks_solver"], "build_minutes": 1}],
-    "expected_seconds": 30,
+    "expected_seconds": 60,
     "timeout_seconds": 900,
     "files_written": ["Revision/textbook/figures/15d.captions.json"]
     + [f"Revision/textbook/figures/{name}.png" for name in FIGURES],
     "final_lines": [
         "PASS every figure file of this notebook exists",
-        "ALL 15 CHECKS PASSED (notebook 15d)",
+        "ALL 16 CHECKS PASSED (notebook 15d)",
     ],
     "troubleshooting": [
         ["You want the disk space of the solver output back",
          "the folder `Revision/kohn_sham/solver/target/textbook_15d` holds only "
-         "the raw output of the last run (40 files, about 0.6 MB), which git "
+         "the raw output of the last run (40 files, about 1.2 MB), which git "
          "ignores; delete it at any time, the notebook writes it again."],
     ],
     "work_folders": ["Revision/kohn_sham/solver/target/textbook_15d"],
@@ -100,7 +102,7 @@ CELLS = [
     Kohn-Sham theory. The Revision record holds 135 such states (three particle numbers,
     three couplings, five slices of the history, three temperatures). This notebook
 
-    - runs the Rust solver for the free states ($\lambda = 0$) of $N = 8$ and $N = 136$
+    - runs the Rust solver for the free states ($\lambda = 0$) of $N = 8$ and $N = 592$
       and reads its levels;
     - recomputes from these levels, in plain Python, $\mu$ (at 40 digits with mpmath),
       the energy $E$, the entropy $S$, the free energy $F = E - TS$, the grand
@@ -124,7 +126,8 @@ CELLS = [
       $\mu$, 0 far above, and $1/2$ at $\varepsilon = \mu$. A useful identity:
       $1 - f(x) = f(-x)$.
     - **Chemical potential** $\mu$: the number that makes the occupations add up to the
-      particle number, $\sum g f = N$ ($g$ the degeneracy of a level).
+      particle number, $\sum g f = N$ ($g$ the degeneracy of a level; $N$ counts the
+      particles of the whole cell, both halves of the hidden direction).
     - **Entropy** $S = -\sum g[f\ln f + (1 - f)\ln(1 - f)]$: a measure of how many
       microscopic arrangements the gas can take.
     - **Free energy** $F = E - TS$ and **grand potential** $\Omega = F - \mu N$.
@@ -143,20 +146,38 @@ CELLS = [
     md(r"""
     ## 4. The physical and mathematical situation
 
-    The Kohn-Sham states of dirac16complex live in the author's metric, with 3-space
-    $x_1, x_2, x_3$ inflating like $e^{a_4}$, the three extra times $x_5, x_6, x_7$
-    deflating like $e^{-a_4}$, the time $x_4$ and the hidden direction $x_0$ (coordinate
-    $y$). The history $a_4 = AHx_4$ is a PRESCRIBED BACKGROUND, and each thermal state
-    is an instantaneous state at one slice $a_{4,0}$.
+    The Kohn-Sham states of dirac16complex live in the author's corrected metric
+    (version 2 of 2026-10-16): 3-space $x_1, x_2, x_3$ inflates with the scale factor
+    $e^{a_4}$; the three extra times $x_5, x_6, x_7$ deflate with
+    $e^{-a_4}b_4^{1/2}(\sin^2 z)^{1/12}$; $x_4$ is the time; the hidden space-like
+    direction $x_0$ (coordinate $y$, from the tip $y = -3$ to the fold $y = 0$, where
+    the two halves of a cell meet) shrinks with the hidden scale
+    $f = e^{-a_4}b_4^{1/2}$. The history $a_4 = AHx_4$, $b_4 = e^{(4/3)AHx_4}$ ($A = 1$,
+    so $f = e^{-a_4/3}$) is a PRESCRIBED BACKGROUND, and each thermal state is an
+    instantaneous state at one slice $a_{4,0}$.
 
     **Mermin's functional** (Revision record ks-theory.json, thermodynamics): with the
     levels $\varepsilon_i$ (degeneracy $g_i$) of the Kohn-Sham Hamiltonian,
 
     $$\sum_i g_i f_i = N, \quad E = \sum_i g_i f_i\varepsilon_i -
-    2\,\mathrm{Vol}_7\!\int e^{6Hy}e_{int}\,dy, \quad
+    2\,\mathrm{Vol}_7\!\int e^{3Hy}e_{int}\,dy, \quad
     S = -\sum_i g_i[f_i\ln f_i + (1 - f_i)\ln(1 - f_i)],$$
     $$F = E - TS, \qquad \Omega = -T\sum_i g_i\ln(1 + e^{-(\varepsilon_i - \mu)/T})
-    - 2\,\mathrm{Vol}_7\!\int e^{6Hy}e_{int}\,dy = F - \mu N .$$
+    - 2\,\mathrm{Vol}_7\!\int e^{3Hy}e_{int}\,dy = F - \mu N ,$$
+
+    with $\mathrm{Vol}_7 = \ell^3 v_t\,e^{(5/3)a_{4,0}}$ the proper 7-volume of the cell
+    per unit $e^{3Hy}$ at the slice.
+
+    **Which count fixes $\mu$.** The theory file states the particle number in two
+    places differently: its densities count $N = \sum g f$ over the whole cell (each
+    orbital is normalised on one half, every density carries the weight $w = 1/2$, and
+    each half holds $N/2$), while its line on the occupations says "mu fixed by
+    sum w g f = N". The second is inconsistent with the first and with its own
+    $\Omega$ and $F = \Omega + \mu N$; the Rust solver uses $\sum g f = N$
+    (solver/src/mermin.rs), and Revision/kohn_sham/results/parameters.json records the
+    discrepancy (conventions.particleNumber). This notebook uses $\sum g f = N$ and
+    checks in section 11 that the solver's occupations satisfy it, with
+    $\sum w g f = N/2$.
 
     Without interaction ($\lambda = 0$) the levels do not depend on $T$ and $e_{int} = 0$,
     so everything follows from the levels. Then the heat capacity has a closed form:
@@ -174,10 +195,11 @@ CELLS = [
     **The filling convention** (a CONVENTION whose justification is OPEN): particles fill
     only the positive branch and the zero modes; the negative branch (the sea) is never
     occupied thermally. The record measures how good this is: the **sea holes** that the
-    sea's brane band would carry at the same $\mu$ and $T$.
+    sea's fold band would carry at the same $\mu$ and $T$.
 
     **Parameters**: $H = m = 1$, $L = 3$, $\Delta k = 0.25$, $T = 0.01, 0.02, 0.05$; $N$
-    counts the doubled system (universe and Z2 image, the brane being ASSUMED).
+    counts the particles of the whole cell, whose two halves are joined at the fold,
+    with both fold conditions solved and filled (ASSUMED).
     """),
     md(r"""
     ## 5. Building the solver and computing the free thermal states
@@ -187,10 +209,11 @@ CELLS = [
     label set of the canonical matrix, so that the state is exactly the recorded one),
     and with `--mermin-levels`, which writes the final levels as decimal numbers that
     read back into exactly the solver's numbers. It returns the solver's $\mu$, its
-    levels with degeneracies, and the full level list (shell, block type, parity,
-    label, energy, degeneracy, occupation). The cell then computes the 18 free states
-    $N = 8, 136$, $a_{4,0} = 0, 1, 2$, $T = 0.01, 0.02, 0.05$, and two more for $N = 136$
-    at $a_{4,0} = 0.5$ and $1.5$ ($T = 0.05$), and compares each $\mu$ with the record.
+    levels with degeneracies, and the full level list (shell, block type, fold
+    condition, label, energy, degeneracy, occupation; the solver's key for the fold
+    condition is `parity`). The cell then computes the 18 free states $N = 8, 592$,
+    $a_{4,0} = 0, 1, 2$, $T = 0.01, 0.02, 0.05$, and two more for $N = 592$ at
+    $a_{4,0} = 0.5$ and $1.5$ ($T = 0.05$), and compares each $\mu$ with the record.
     """),
     code(r'''
     import csv  # reads the tables (CSV files)
@@ -235,12 +258,12 @@ CELLS = [
     with open(repository_file(THERMO), newline="", encoding="utf-8") as handle:
         record = {row["id"]: row for row in csv.DictReader(handle)}
     states = {}
-    for n in (8, 136):
+    for n in (8, 592):
         for a4 in (0.0, 1.0, 2.0):
             for t in TEMPS:
                 states[(n, a4, t)] = thermal_state(n, a4, t)
     for a4 in (0.5, 1.5):
-        states[(136, a4, 0.05)] = thermal_state(136, a4, 0.05)
+        states[(592, a4, 0.05)] = thermal_state(592, a4, 0.05)
     worst_mu = max(abs(mu - float(record[state_id(n, a4, t)]["mu"]))
                    for (n, a4, t), (mu, _, _, _) in states.items())
     report("free thermal states computed", len(states))
@@ -329,16 +352,21 @@ CELLS = [
     numbers close to 1 and subtracts $N$: in double precision the result is a multiple
     of the rounding step of $N$ (about $10^{-15}$), while the true value changes with
     $\mu$ only at the rate $dN/d\mu$, which for $N = 8$ at $a_{4,0} = 0$,
-    $T = 0.01$ is about $1.2 \times 10^{-6}$. So the direct count cannot locate $\mu$
-    better than about $10^{-15}/(1.2 \times 10^{-6})$, a few times $10^{-10}$ to
-    $10^{-9}$ (the record found an error of $8.3 \times 10^{-10}$ in the solver's
-    earlier version, which used the direct count). The solver
-    instead balances the thermal **particles** above the filled levels against the
-    thermal **holes** below them, $P = \sum_{above} g f(x)$ and $H_l = \sum_{below} g
-    f(-x)$ (each hole factor computed as $f(-x)$, never as $1 - f$), and solves
+    $T = 0.01$ (the smallest $dN/d\mu$ of the record) is about $1.0 \times 10^{-2}$. So
+    the direct count cannot locate $\mu$ better than about
+    $10^{-15}/(1.0 \times 10^{-2}) = 10^{-13}$ (the record's column
+    `mu_direct_count_minus_mu` gives $-1.7 \times 10^{-13}$ for this state), about a
+    thousand times worse than the rounding bound of the solver's $\mu$, about
+    $2 \times 10^{-16}$. (In an earlier computation of the record, for the metric of
+    2026-10-14, withdrawn on 2026-10-16, the gap of this state was larger,
+    $dN/d\mu$ was about $1.2 \times 10^{-6}$, and the direct count missed $\mu$ by
+    $8.3 \times 10^{-10}$; that is why the solver was changed.) The solver instead
+    balances the thermal **particles** above the filled levels against the thermal
+    **holes** below them, $P = \sum_{above} g f(x)$ and $H_l = \sum_{below} g f(-x)$
+    (each hole factor computed as $f(-x)$, never as $1 - f$), and solves
     $\ln P = \ln H_l$; no large numbers are subtracted. The next cell computes the
     direct count in double precision and the exact count at 40 digits at 61 values of
-    $\mu$ within $\pm 3 \times 10^{-9}$ of the root, and finds the root of the balance
+    $\mu$ within $\pm 3 \times 10^{-13}$ of the root, and finds the root of the balance
     in double precision by bisection down to neighbouring numbers.
     """),
     code(r'''
@@ -369,7 +397,7 @@ CELLS = [
 
     mu8, eps8, deg8, _ = states[(8, 0.0, 0.01)]
     root8 = exact_root(eps8, deg8, 8, 0.01, mu8)
-    offsets = np.linspace(-3e-9, 3e-9, 61)
+    offsets = np.linspace(-3e-13, 3e-13, 61)
     direct, exact = [], []
     for off in offsets:
         x = (np.array(eps8) - (mu8 + off)) / 0.01
@@ -380,28 +408,36 @@ CELLS = [
                                                                     / mpmath.mpf(0.01)))
                                    for e, g in zip(eps8, deg8)) - 8))
     fig, ax = plt.subplots()
-    ax.plot(offsets * 1e9, direct, "s-", color=PALETTE[1], ms=4, lw=1.2,
+    ax.plot(offsets * 1e13, direct, "s-", color=PALETTE[1], ms=4, lw=1.2,
             label="direct count, double precision")
-    ax.plot(offsets * 1e9, exact, color=PALETTE[0], lw=2.0, label="exact count, 40 digits")
-    ax.axvline(float(root8 - mu8) * 1e9, color="0.3", ls=":", lw=1.2, label="exact root")
+    ax.plot(offsets * 1e13, exact, color=PALETTE[0], lw=2.0, label="exact count, 40 digits")
+    ax.axvline(float(root8 - mu8) * 1e13, color="0.3", ls=":", lw=1.2, label="exact root")
     ax.axhline(0.0, color="0.6", lw=0.8)
-    ax.set_xlabel("$\\mu$ minus the solver's $\\mu$ (units of $10^{-9}\\,m$)")
+    ax.set_xlabel("$\\mu$ minus the solver's $\\mu$ (units of $10^{-13}\\,m$)")
     ax.set_ylabel("$\\sum g f - N$")
     ax.set_title("$N = 8$, $a_{4,0} = 0$, $T = 0.01$: the direct count is too coarse")
     ax.legend(fontsize=8)
     zero_at = [off for off, value in zip(offsets, direct) if value == 0.0]  # direct = 0
-    if zero_at:  # where the double-precision count says "exactly N particles"
-        miss = min(abs(off - float(root8 - mu8)) for off in zero_at)  # nearest such point
+    true_root = float(root8 - mu8)  # the 40-digit root, measured from the solver's mu
+    if zero_at and min(zero_at) <= true_root <= max(zero_at):  # the usual case here
+        width = max(zero_at) - min(zero_at)  # where the count says "exactly N"
+        where = ("is exactly zero on a whole interval of width about "
+                 f"${width * 1e13:.1f} \\times 10^{{-13}}\\,m$ around the true root, so "
+                 "it cannot tell the root from any other point of that interval")
+        report("sampled interval where the direct count is 0 (from the solver's mu)",
+               f"{min(zero_at):.1e} to {max(zero_at):.1e} m")
+    elif zero_at:  # (on another computer the rounding steps may fall differently)
+        miss = min(abs(off - true_root) for off in zero_at)  # the nearest such point
         where = ("is zero only on a short interval that misses the true root by at "
-                 f"least ${miss * 1e10:.0f} \\times 10^{{-10}}\\,m$")
-        report("distance of the zeros of the direct count from the true root",
-               f"at least {miss:.1e} m")
-    else:  # (on another computer the rounding steps may fall differently)
+                 f"least ${miss * 1e14:.0f} \\times 10^{{-14}}\\,m$")
+    else:
         where = "is never exactly zero at the sampled points"
+    report("the record's direct-count root minus mu, N8_lam0_a00_T10",
+           f"{float(record[state_id(8, 0.0, 0.01)]['mu_direct_count_minus_mu']):.2e} m")
     save_figure(fig, "root_conditioning",
                 "The particle-number condition $\\sum g f - N$ (vertical axis, of size "
                 "$10^{-15}$) against $\\mu$ near its root (horizontal axis, in units of "
-                "$10^{-9}\\,m$) for the activated state $N = 8$, $a_{4,0} = 0$, "
+                "$10^{-13}\\,m$) for the activated state $N = 8$, $a_{4,0} = 0$, "
                 "$T = 0.01$: computed directly in double precision it moves in steps of "
                 f"the rounding unit of $N$ (orange squares) and {where}, while the exact "
                 "count (blue line, 40 digits) crosses zero at one point, the true root, "
@@ -427,10 +463,14 @@ CELLS = [
     $T = 0.05$ (the largest window; at lower temperatures the extra levels are empty to
     far below the rounding). For $a_{4,0} = 0$ the two-level picture explains $\mu$:
     the eight zero modes ($\varepsilon = 0$) lose as many particles as the 24 orbitals of
-    the first band level ($\varepsilon = \Delta = 0.4307$) gain, $8e^{-\mu/T} =
-    24e^{-(\Delta - \mu)/T}$, so $\mu = \Delta/2 - (T/2)\ln 3$ (the logarithm of the
-    ratio of degeneracies). The check compares this formula with the record at
-    $T = 0.01$.
+    the first fold-band level (the shell $n_2 = 1$, $\varepsilon = \Delta = 0.25$) gain,
+    $8e^{-\mu/T} = 24e^{-(\Delta - \mu)/T}$, so $\mu = \Delta/2 - (T/2)\ln 3$ (the
+    logarithm of the ratio of degeneracies). The next level, the fold band of the shell
+    $n_2 = 2$ (48 orbitals at $\varepsilon_2 = 0.25\sqrt2 = 0.3536$), adds the
+    particles $48e^{-(\varepsilon_2 - \mu)/T}$; with them the balance reads
+    $8e^{-\mu/T} = 24e^{-(\Delta - \mu)/T}(1 + 2e^{-(\varepsilon_2 - \Delta)/T})$, so
+    $\mu = \Delta/2 - (T/2)\ln[3(1 + 2e^{-(\varepsilon_2 - \Delta)/T})]$. The checks
+    compare both formulas with the record at $T = 0.01$.
     """),
     code(r'''
     T_GRID = np.linspace(0.002, 0.05, 49)
@@ -474,77 +514,86 @@ CELLS = [
                 "middle of the gap, $\\Delta/2$, and falls linearly with the slope "
                 "$-(\\ln 3)/2$ (dashed, the two-level formula); the gap and with it "
                 "$\\mu$ shrink along the history.")
+    band2 = next(lv[4] for lv in states[(8, 0.0, 0.05)][3]  # the fold band, n2 = 2
+                 if lv[0] == 2 and lv[1] == 1 and lv[2] == "even" and lv[3] == 0)
     formula = gap8 / 2.0 - 0.005 * math.log(3.0)
+    formula3 = gap8 / 2.0 - 0.005 * math.log(3.0 * (1.0 + 2.0 * math.exp(-(band2 - gap8)
+                                                                          / 0.01)))
     recorded = float(record[state_id(8, 0.0, 0.01)]["mu"])
-    report("mu of N8_lam0_a00_T10: two-level formula / record",
-           f"{formula:.12f} / {recorded:.12f}")
-    check(abs(formula - recorded) < 1e-8, "the two-level formula gives mu to 1e-8",
+    report("fold-band level of the shell n2 = 2 at a4,0 = 0", f"{band2:.12f}")
+    report("mu of N8_lam0_a00_T10 in the record", f"{recorded:.10f}")
+    report("mu from the two-level formula", f"{formula:.10f}")
+    report("mu from the formula with the shell n2 = 2", f"{formula3:.10f}")
+    check(abs(formula - recorded) < 1e-6, "the two-level formula gives mu to 1e-6",
           record=f"{THERMO}, N8_lam0_a00_T10")
+    check(abs(formula3 - recorded) < 1e-7, "with the shell n2 = 2 the formula gives mu "
+          "to 1e-7", record=f"{THERMO}, N8_lam0_a00_T10")
     '''),
     md(r"""
     ## 9. Free energy and entropy along the history
 
-    The next cell computes the curves of $N = 136$ at the five slices and draws the
+    The next cell computes the curves of $N = 592$ at the five slices and draws the
     free energy measured from the ground-state energy, $F(T) - E_0$, and the entropy
     $S(T)$; the record's values are the open circles. It also checks the thermodynamic
     identity $-dF/dT = S$ with central differences $[F(T + h) - F(T - h)]/(2h)$,
     $h = 10^{-3}T$, at every temperature of the grid.
     """),
     code(r'''
-    curve136 = {a4: curves(136, a4) for a4 in (0.0, 0.5, 1.0, 1.5, 2.0)}
+    curve592 = {a4: curves(592, a4) for a4 in (0.0, 0.5, 1.0, 1.5, 2.0)}
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0), layout="constrained")
-    for a4, values in curve136.items():
-        e0 = float(ground[f"N136_lam0_a{round(10 * a4):02d}"]["E_KS"])
+    for a4, values in curve592.items():
+        e0 = float(ground[f"N592_lam0_a{round(10 * a4):02d}"]["E_KS"])
         left.plot(T_GRID, values[:, 3] - e0, color=SHADES[a4], lw=2.0,
                   label=f"$a_{{4,0}} = {a4}$")
         right.plot(T_GRID, values[:, 2], color=SHADES[a4], lw=2.0)
         if a4 in (0.0, 1.0, 2.0):
-            ids = [state_id(136, a4, t) for t in TEMPS]
+            ids = [state_id(592, a4, t) for t in TEMPS]
             left.plot(TEMPS, [float(record[i]["F"]) - e0 for i in ids], "o",
                       color=SHADES[a4], ms=7, markerfacecolor="white")
             right.plot(TEMPS, [float(record[i]["entropy"]) for i in ids], "o",
                        color=SHADES[a4], ms=7, markerfacecolor="white")
     left.set_xlabel("temperature $T$")
     left.set_ylabel("$F - E_0$ (units of $m$)")
-    left.set_title("Free energy, $N = 136$, $\\lambda = 0$")
+    left.set_title("Free energy, $N = 592$, $\\lambda = 0$")
     left.legend(fontsize=8)
     right.set_xlabel("temperature $T$")
     right.set_ylabel("entropy $S$")
     right.set_title("Entropy (circles: record)")
     save_figure(fig, "free_energy_entropy",
                 "Left: the free energy measured from the ground-state energy, "
-                "$F - E_0$ (vertical axis, units of $m$), of the free state $N = 136$ at "
+                "$F - E_0$ (vertical axis, units of $m$), of the free state $N = 592$ at "
                 "the five slices (light to dark blue) against the temperature (horizontal "
                 "axis, units of $m$). Right: the entropy $S$ (pure number). Circles: the "
-                "record. Along the history the levels crowd together, so the same "
-                "temperature excites more particles: the entropy grows and the free "
-                "energy falls faster.")
-    _, eps, deg, _ = states[(136, 1.0, 0.05)]
+                "record. Along the history the fold-band levels crowd together (they "
+                "redshift like $e^{-a_{4,0}}$), so the same temperature excites more "
+                "particles: the entropy grows and the free energy falls faster.")
+    _, eps, deg, _ = states[(592, 1.0, 0.05)]
     worst_fs = 0.0
     for t in T_GRID:
         h = 1e-3 * t
-        f_plus = functions_of_state(eps, deg, balance_root(eps, deg, 136, t + h), t + h)[2]
-        f_minus = functions_of_state(eps, deg, balance_root(eps, deg, 136, t - h), t - h)[2]
-        s = functions_of_state(eps, deg, balance_root(eps, deg, 136, t), t)[1]
+        f_plus = functions_of_state(eps, deg, balance_root(eps, deg, 592, t + h), t + h)[2]
+        f_minus = functions_of_state(eps, deg, balance_root(eps, deg, 592, t - h), t - h)[2]
+        s = functions_of_state(eps, deg, balance_root(eps, deg, 592, t), t)[1]
         worst_fs = max(worst_fs, abs(-(f_plus - f_minus) / (2 * h) - s) / s)
-    report("largest relative |-dF/dT - S|, N = 136, a4,0 = 1", f"{worst_fs:.1e}")
+    report("largest relative |-dF/dT - S|, N = 592, a4,0 = 1", f"{worst_fs:.1e}")
     check(worst_fs < 1e-4, "-dF/dT = S along the whole temperature grid",
           record="Revision/kohn_sham/reports/ks-rust-solver.json, check "
                  "thermo_entropy_identity")
     rising = all(bool(np.all(np.diff(v[:, 2]) > 0)) and bool(np.all(np.diff(v[:, 3]) < 0))
-                 for v in curve136.values())
+                 for v in curve592.values())
     check(rising, "S rises and F falls with T at every slice")
     '''),
     md(r"""
     ## 10. The heat capacity
 
     The next cell draws $C_V(T)$ (closed form) for $N = 8$ at three slices (left) and
-    $N = 136$ at five slices (right), on logarithmic vertical axes, with the record's
-    values. For $N = 8$ at $a_{4,0} = 0$ the gas is **activated**: below $T \approx 0.02$
-    the heat capacity is tiny, because the first excitation costs the gap $0.43\,m$.
-    Along the history the gap closes and the heat capacity rises at lower temperatures.
-    $N = 136$ has a much smaller gap ($0.083\,m$ at $a_{4,0} = 0$, $0.014\,m$ at $2$) and
-    a large heat capacity already at $T = 0.01$.
+    $N = 592$ at five slices (right), on logarithmic vertical axes, with the record's
+    values. For $N = 8$ at $a_{4,0} = 0$ the gas is **activated**: at $T = 0.01$ the
+    heat capacity is small (the record has $0.016$), because the first excitation costs
+    the gap $0.25\,m$, 25 times the temperature. Along the history the gap closes like
+    $0.25\,e^{-a_{4,0}}$ and the heat capacity rises at lower temperatures. $N = 592$
+    has a much smaller gap ($0.0386\,m$ at $a_{4,0} = 0$, $0.0052\,m$ at $2$) and a large
+    heat capacity already at $T = 0.01$.
     """),
     code(r'''
     fig, (left, right) = plt.subplots(1, 2, figsize=(10.0, 4.0), layout="constrained")
@@ -553,13 +602,13 @@ CELLS = [
                   label=f"$a_{{4,0}} = {a4:.0f}$")
         left.plot(TEMPS, [float(record[state_id(8, a4, t)]["C_V"]) for t in TEMPS], "o",
                   color=SHADES[a4], ms=7, markerfacecolor="white")
-    for a4, values in curve136.items():
+    for a4, values in curve592.items():
         right.plot(T_GRID, values[:, 4], color=SHADES[a4], lw=2.0,
                    label=f"$a_{{4,0}} = {a4}$")
         if a4 in (0.0, 1.0, 2.0):
-            right.plot(TEMPS, [float(record[state_id(136, a4, t)]["C_V"]) for t in TEMPS],
+            right.plot(TEMPS, [float(record[state_id(592, a4, t)]["C_V"]) for t in TEMPS],
                        "o", color=SHADES[a4], ms=7, markerfacecolor="white")
-    for ax, n in ((left, 8), (right, 136)):
+    for ax, n in ((left, 8), (right, 592)):
         ax.set_yscale("log")
         ax.set_xlabel("temperature $T$ (units of $m$)")
         ax.set_title(f"Heat capacity, $N = {n}$, $\\lambda = 0$")
@@ -567,65 +616,70 @@ CELLS = [
     left.set_ylabel("$C_V$ (pure number)")
     save_figure(fig, "heat_capacity",
                 "The heat capacity $C_V = dE/dT$ (vertical axis, logarithmic, pure "
-                "number) of the free states $N = 8$ (left, three slices) and $N = 136$ "
+                "number) of the free states $N = 8$ (left, three slices) and $N = 592$ "
                 "(right, five slices) against the temperature (horizontal axis, units "
                 "of $m$); circles: the record. The gas $N = 8$ is activated across its "
-                "gap of $0.43\\,m$ at $a_{4,0} = 0$; as the history closes the gaps, "
+                "gap of $0.25\\,m$ at $a_{4,0} = 0$; as the history closes the gaps, "
                 "the heat capacity rises at ever lower temperatures.")
     positive = all(bool(np.all(v[:, 4] > 0)) for v in list(curve8.values())
-                   + list(curve136.values()))
+                   + list(curve592.values()))
     check(positive, "C_V > 0 at every temperature and slice")
     '''),
     md(r"""
     ## 11. What the occupations look like
 
-    The next cell draws the occupation $f$ of every level of $N = 136$ at
+    The next cell draws the occupation $f$ of every level of $N = 592$ at
     $a_{4,0} = 1$ against its energy, at the three temperatures of the record, with the
     chemical potential marked: the step of the Fermi-Dirac function softens over a width
-    of a few $T$. The check confirms that the occupations add up to $N = 136$.
+    of a few $T$. The check confirms that the occupations add up to $N = 592$ with the
+    count $\sum g f$ (the whole cell), so that with the weight $w = 1/2$ of the
+    densities $\sum w g f = N/2 = 296$ is the number of particles in one half.
     """),
     code(r'''
     fig, ax = plt.subplots()
     sums = []
     for colour, t in zip(PALETTE, TEMPS):
-        mu, eps, deg, levels = states[(136, 1.0, t)]
+        mu, eps, deg, levels = states[(592, 1.0, t)]
         e = np.array(eps)
         f = 1.0 / (1.0 + np.exp(np.minimum((e - mu) / t, 700.0)))
         sums.append(float(np.sum(np.array(deg) * f)))
         order = np.argsort(e)
         ax.plot(e[order], f[order], "o-", color=colour, ms=4, lw=1.0, label=f"$T = {t}$")
         ax.axvline(mu, color=colour, ls=":", lw=1.2)
-    ax.set_xlim(0.2, 0.5)
+    ax.set_xlim(0.1, 0.5)
     ax.set_xlabel("level $\\varepsilon$ (units of $m$)")
     ax.set_ylabel("occupation $f$")
-    ax.set_title("$N = 136$, $a_{4,0} = 1$: Fermi-Dirac occupations (dotted: $\\mu$)")
+    ax.set_title("$N = 592$, $a_{4,0} = 1$: Fermi-Dirac occupations (dotted: $\\mu$)")
     ax.legend()
     save_figure(fig, "occupations",
-                "The occupation $f$ of the levels of the free state $N = 136$ at "
+                "The occupation $f$ of the levels of the free state $N = 592$ at "
                 "$a_{4,0} = 1$ (vertical axis) against their energy (horizontal axis, "
                 "units of $m$, near the Fermi level) at the temperatures $T = 0.01$, "
                 "$0.02$, $0.05$; dotted lines: the chemical potentials. The step from "
                 "full to empty widens with the temperature, over a few $T$.")
     report("sum g f at the three temperatures", ", ".join(f"{s:.12f}" for s in sums))
-    check(max(abs(s - 136.0) for s in sums) < 1e-9, "the occupations add up to N = 136",
+    report("sum w g f (w = 1/2, one half of the cell)",
+           ", ".join(f"{0.5 * s:.9f}" for s in sums))
+    check(max(abs(s - 592.0) for s in sums) < 1e-9,
+          "the occupations add up to N = 592 with sum g f (the whole cell)",
           record="Revision/kohn_sham/reports/ks-rust-solver.json, check "
                  "thermo_N_conservation")
     '''),
     md(r"""
     ## 12. The filling convention and its sea holes
 
-    The convention fills only the positive branch. The sea's brane band (block type
-    $j = -1$, even parity, label 0) has, without interaction, exactly the energies
-    $-\varepsilon_{band}(n_2)$ of the brane band of $j = +1$ (the block Hamiltonians obey
-    $h_{-1} = -h_{+1}$ when $v = 0$). If the sea were treated thermally, its levels would
-    carry holes with the probability $1 - f(-\varepsilon_{band}) =
-    1/(1 + e^{(\mu + \varepsilon_{band})/T})$. The next cell adds up
-    $4 r_3(n_2)$ times this probability over the shells $n_2 \ge 1$ of the level set and
-    compares with the record's column `sea_holes_excluded` for $N = 8$ at $T = 0.05$. The
-    figure shows the record's number of sea holes per particle for $N = 8$ and $136$ at
-    all slices and temperatures: above about 1 percent (dotted line) the particle-only
-    ensemble is outside its range of validity, and a thermal treatment of the sea
-    (particle-antiparticle pairs) would be needed.
+    The convention fills only the positive branch. The sea's fold band (block type
+    $j = -1$, even fold condition, label 0) has, without interaction, exactly the
+    energies $-\varepsilon_{band}(n_2) = -\kappa k$ of the fold band of $j = +1$ (the
+    block Hamiltonians obey $h_{-1} = -h_{+1}$ when $v = 0$). If the sea were treated
+    thermally, its levels would carry holes with the probability
+    $1 - f(-\varepsilon_{band}) = 1/(1 + e^{(\mu + \varepsilon_{band})/T})$. The next
+    cell adds up $4 r_3(n_2)$ times this probability over the shells $n_2 \ge 1$ of the
+    level set and compares with the record's column `sea_holes_excluded` for $N = 8$ at
+    $T = 0.05$. The figure shows the record's number of sea holes per particle for
+    $N = 8$ and $592$ at all slices and temperatures: above about 1 percent (dotted
+    line) the particle-only ensemble is outside its range of validity, and a thermal
+    treatment of the sea (particle-antiparticle pairs) would be needed.
     """),
     code(r'''
     def shell_sizes(largest):
@@ -654,12 +708,12 @@ CELLS = [
         worst_sea = max(worst_sea, abs(holes / recorded - 1.0))
     fig, ax = plt.subplots()
     plotted = []  # every value drawn, to measure their range
-    for marker, n in (("o", 8), ("s", 136)):
+    for marker, n in (("o", 8), ("s", 592)):
         for colour, t in zip(PALETTE, TEMPS):
             values = [float(record[state_id(n, a, t)]["sea_holes_over_N"])
                       for a in (0.0, 0.5, 1.0, 1.5, 2.0)]
             plotted += values
-            ax.plot([0, 0.5, 1, 1.5, 2], np.maximum(values, 1e-60), marker + "-",
+            ax.plot([0, 0.5, 1, 1.5, 2], np.maximum(values, 1e-52), marker + "-",
                     color=colour, ms=6, lw=1.2,
                     markerfacecolor=colour if n == 8 else "white",
                     label=f"$N = {n}$, $T = {t}$")
@@ -667,7 +721,7 @@ CELLS = [
             label="this notebook, $N = 8$, $T = 0.05$")
     ax.axhline(0.01, color="0.3", ls=":", lw=1.2, label="1 percent")
     ax.set_yscale("log")
-    ax.set_ylim(1e-60, 1e4)  # the smallest recorded value is about 2e-56
+    ax.set_ylim(1e-52, 1e4)  # the smallest recorded value is about 4e-48
     ax.set_xlabel("slice $a_{4,0}$")
     ax.set_ylabel("sea holes per particle")
     ax.set_title("Diagnostic of the filling convention ($\\lambda = 0$)")
@@ -675,14 +729,16 @@ CELLS = [
     smallest = min(v for v in plotted if v > 0.0)  # the smallest nonzero value
     powers = int(math.log10(max(plotted) / smallest))  # whole powers of ten spanned
     save_figure(fig, "sea_holes",
-                "The number of thermal holes that the excluded sea brane band would "
+                "The number of thermal holes that the excluded sea fold band would "
                 "carry, per particle (vertical axis, logarithmic), for $N = 8$ (filled) "
-                "and $N = 136$ (open) at $T = 0.01$, $0.02$, $0.05$ against the slice "
+                "and $N = 592$ (open) at $T = 0.01$, $0.02$, $0.05$ against the slice "
                 "(horizontal axis), from the record; crosses: recomputed here. The values "
                 f"span more than {powers} powers of ten: at low temperature and early in "
                 "the history the sea is practically full. Above the dotted 1 percent "
-                "line, reached late in the history at the higher temperatures, the "
-                "particle-only convention is outside its range of validity.")
+                "line the particle-only convention is outside its range of validity; "
+                "$N = 8$ crosses it from the slice $0.5$ on at $T = 0.05$ and at the "
+                "slice 2 already at $T = 0.01$, $N = 592$ only at the slice 2 and "
+                "$T = 0.05$.")
     report("smallest and largest sea holes per particle drawn",
            f"{smallest:.2e}, {max(plotted):.2e}")
     report("sea holes per particle, N = 8, T = 0.05, a4,0 = 0, 1, 2",
@@ -694,54 +750,66 @@ CELLS = [
     ## 13. The interaction at finite temperature
 
     The last figure uses only the record: the change of the free energy caused by the
-    couplings $\pm\lambda_1$, $F(\lambda) - F(0)$, for $N = 8$, $136$ and $688$ at the
-    first slice and the three temperatures. The two checks: the interaction changes $F$
-    by less than $0.005\,m$; and repulsion ($+\lambda_1$) raises it for $N = 136$ and
-    $688$ but lowers it for $N = 8$, attraction the other way round (the zero-mode state
-    $N = 8$ has no scalar density without interaction, so to first order its
-    interaction energy is the exchange term $-\tfrac{1}{32}\lambda n^2$, negative for
-    $\lambda > 0$).
+    couplings $\pm\lambda_1$, $F(\lambda) - F(0)$, for $N = 8$, $592$ and $2352$ at the
+    first slice and the three temperatures. In the ground states the occupied orbitals
+    are fold-band orbitals $(e^{fMy}, 0)$, whose scalar density $S = j\,2ab$ vanishes,
+    so to first order the interaction energy is the exchange term
+    $-\tfrac{1}{32}\lambda n^2$: repulsion ($+\lambda_1$) lowers the energy and
+    attraction raises it. The checks: for $N = 8$ and $592$ this sign rule holds for $F$
+    at all three temperatures, and $F(\lambda) - F(0)$ changes by less than 0.1 percent
+    between $T = 0.01$ and $T = 0.05$ (the thermal particles also sit on the fold band).
+    For $N = 2352$ the cell prints the shifts: its lowest empty levels at the first slice
+    include the bulk edge, the odd level at $k = 0$, only $0.0175\,m$ above the highest
+    occupied level, and the thermal particles that reach the $k = 0$ bulk levels, whose
+    orbitals carry a scalar density, make the shift depend on $T$.
     """),
     code(r'''
     fig, ax = plt.subplots()
-    shifts = []
     by_series = {}  # (N, tag) -> the three values of F(lambda) - F(0)
-    for colour, n in zip(PALETTE, (8, 136, 688)):
+    for colour, n in zip(PALETTE, (8, 592, 2352)):
         for tag, style in (("lamp1", "-"), ("lamm1", "--")):
             values = [float(record[state_id(n, 0.0, t, tag)]["F"])
                       - float(record[state_id(n, 0.0, t)]["F"]) for t in TEMPS]
-            shifts += values
             by_series[(n, tag)] = values
             sign = "+" if tag == "lamp1" else "-"
             ax.plot(TEMPS, values, style, marker="o", color=colour, ms=6, lw=1.5,
                     label=f"$N = {n}$, ${sign}\\lambda_1$")
-    ax.set_yscale("symlog", linthresh=1e-4)
+    ax.set_yscale("symlog", linthresh=1e-2)
     ax.axhline(0.0, color="0.5", lw=0.8)
     ax.set_xlabel("temperature $T$ (units of $m$)")
     ax.set_ylabel("$F(\\lambda) - F(0)$ (units of $m$)")
     ax.set_title("Effect of the interaction on the free energy, $a_{4,0} = 0$")
     ax.legend(fontsize=8, ncol=2)
-    up = by_series[(688, "lamp1")]  # N = 688, +lambda_1, at T = 0.01, 0.02, 0.05
+    up = by_series[(592, "lamp1")]  # N = 592, +lambda_1, at T = 0.01, 0.02, 0.05
+    down = by_series[(2352, "lamm1")]  # N = 2352, -lambda_1
     save_figure(fig, "interaction_free_energy",
                 "The change of the free energy caused by the couplings $+\\lambda_1$ "
                 "(solid) and $-\\lambda_1$ (dashed), $F(\\lambda) - F(0)$ (vertical axis, "
-                "symmetric logarithmic, units of $m$), for $N = 8$, $136$, $688$ at "
+                "symmetric logarithmic, units of $m$), for $N = 8$, $592$, $2352$ at "
                 "$a_{4,0} = 0$ against the temperature (horizontal axis), from the "
-                "record. The effect is small and changes only slowly with $T$ (for "
-                f"$N = 688$ and $+\\lambda_1$ it grows from ${up[0]:.4f}\\,m$ at "
-                f"$T = 0.01$ to ${up[-1]:.4f}\\,m$ at $T = 0.05$); its sign follows the "
-                "sign of the coupling, the other way round for $N = 8$.")
-    report("largest |F(lambda) - F(0)| at a4,0 = 0", f"{max(abs(s) for s in shifts):.4f}")
-    check(max(abs(s) for s in shifts) < 0.005,
-          "the interaction changes F by less than 0.005 at a4,0 = 0",
+                "record. Repulsion lowers the free energy and attraction raises it, "
+                "because the fold-band orbitals carry no scalar density; for $N = 8$ "
+                "and $592$ the shift hardly changes with $T$ (for $N = 592$ and "
+                f"$+\\lambda_1$ it is ${up[0]:.4f}\\,m$ at $T = 0.01$ and "
+                f"${up[-1]:.4f}\\,m$ at $T = 0.05$). For $N = 2352$ it changes with $T$, "
+                f"and at $T = 0.05$ the attraction lowers $F$ too (${down[-1]:.2f}\\,m$).")
+    for (n, tag), values in sorted(by_series.items()):
+        report(f"F(lam) - F(0), N = {n}, {tag}", ", ".join(f"{v:.6f}" for v in values))
+    signs = all(v < 0.0 for n in (8, 592) for v in by_series[(n, "lamp1")]) and all(
+        v > 0.0 for n in (8, 592) for v in by_series[(n, "lamm1")])
+    check(signs, "repulsion lowers F and attraction raises it, N = 8 and 592",
           record=f"{THERMO}, column F")
-    raises = all(v > 0.0 for n in (136, 688) for v in by_series[(n, "lamp1")]) and all(
-        v < 0.0 for n in (136, 688) for v in by_series[(n, "lamm1")])
-    lowers8 = all(v < 0.0 for v in by_series[(8, "lamp1")]) and all(
-        v > 0.0 for v in by_series[(8, "lamm1")])
-    check(raises and lowers8,
-          "repulsion raises F for N = 136 and 688 and lowers it for N = 8",
-          record=f"{THERMO}, column F")
+    steady = max(abs(v[-1] / v[0] - 1.0) for (n, _), v in by_series.items()
+                 if n in (8, 592))
+    report("relative change of the shift, T = 0.01 to 0.05, N = 8, 592", f"{steady:.1e}")
+    check(steady < 1e-3, "for N = 8 and 592 the shift changes by less than 0.1 percent "
+          "with T", record=f"{THERMO}, column F")
+    row_t = record[state_id(2352, 0.0, 0.05, "lamm1")]
+    row_0 = record[state_id(2352, 0.0, 0.05)]
+    report("N2352_a00_T50 entropy, -lambda_1 / lambda = 0",
+           f"{float(row_t['entropy']):.4f} / {float(row_0['entropy']):.4f}")
+    report("N2352_a00_T50 mu, -lambda_1 / lambda = 0",
+           f"{float(row_t['mu']):.6f} / {float(row_0['mu']):.6f}")
     '''),
     md(r"""
     ## 14. The last check
@@ -767,14 +835,22 @@ CELLS = [
       root; the direct count in double precision could not do this, which is why the
       solver balances thermal particles against thermal holes.
     - $\mu$ starts in the middle of the gap and falls with $T$; along the deflating
-      history the gaps close, so the entropy rises, the free energy falls faster and the
-      heat capacity rises at lower temperatures; $-dF/dT = S$ holds.
-    - The particle-only filling is a CONVENTION; late in the history at the higher
-      temperatures the excluded sea would carry many holes (up to 31 per particle for
-      $N = 8$), and there the convention is outside its range of validity (OPEN: a
-      thermal treatment of the sea).
-    - These are instantaneous states on a PRESCRIBED background, with the brane
-      ASSUMED.
+      history the fold-band gaps close like $e^{-a_{4,0}}$, so the entropy rises, the
+      free energy falls faster and the heat capacity rises at lower temperatures;
+      $-dF/dT = S$ holds.
+    - The particle number is $\sum g f = N$ over the whole cell, as the solver and
+      parameters.json state; the line "mu fixed by sum w g f = N" of the theory file is
+      a recorded discrepancy of that file.
+    - Repulsion lowers the free energy and attraction raises it for $N = 8$ and $592$,
+      because the fold-band orbitals carry no scalar density; for $N = 2352$ at the
+      first slice the thermal particles reach the bulk edge and the shift depends on
+      $T$.
+    - The particle-only filling is a CONVENTION; late in the history and at the higher
+      temperatures the excluded sea would carry many holes (up to 594 per particle for
+      $N = 8$ at $a_{4,0} = 2$, $T = 0.05$), and there the convention is outside its
+      range of validity (OPEN: a thermal treatment of the sea).
+    - These are instantaneous states on a PRESCRIBED background, with both fold
+      conditions filled (ASSUMED).
     """),
 ]
 
