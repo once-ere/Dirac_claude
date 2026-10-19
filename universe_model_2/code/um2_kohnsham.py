@@ -25,8 +25,13 @@ import os
 import sys
 import time
 
-import numpy as np
-from scipy.optimize import brentq
+# single-threaded BLAS/LAPACK and OpenMP, so that the Kohn-Sham results do not depend on the number of cores; this takes effect
+# when the solver is imported before numpy (um2_ks_jobs.py and um2_coupled.py fix the same variables before importing numpy)
+for _v in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS', 'VECLIB_MAXIMUM_THREADS'):
+    os.environ[_v] = '1'
+
+import numpy as np  # noqa: E402
+from scipy.optimize import brentq  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 

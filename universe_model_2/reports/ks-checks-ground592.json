@@ -12,12 +12,12 @@
    "passed": true
   },
   {
-   "detail": "E_KS = 2 Vol7 int e^{3Hy} rho dy (max relative deviation 3.7e-15)",
+   "detail": "E_KS = 2 Vol7 int e^{3Hy} rho dy (max relative deviation 3.3e-15)",
    "name": "ground_energy_equals_integrated_rho",
    "passed": true
   },
   {
-   "detail": "free N = 592 state (fold band only): w = int p3/int rho = 0.333333333333333 = 1/3 (massless 4D radiation)",
+   "detail": "free N = 592 state (fold band only): w = int p3/int rho = 0.333333333333341 = 1/3 (massless 4D radiation)",
    "name": "fold_band_gas_radiation",
    "passed": true
   }

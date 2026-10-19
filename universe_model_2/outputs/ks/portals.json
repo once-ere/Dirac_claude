@@ -1,22 +1,22 @@
 {
  "I11 vector contact, electron density (v)": {
   "d_eps_dm_de": 0.824779376841,
-  "d_fold_gap_de": 5.44980727213e-11,
+  "d_fold_gap_de": 7.94503351997e-11,
   "hellmann_feynman": 0.824779373732
  },
  "I11 vector contact, neutrino density (v, left-chiral)": {
   "d_eps_dm_de": 1.25240600121,
-  "d_fold_gap_de": -1.07788777903e-10,
+  "d_fold_gap_de": -9.31338339782e-11,
   "hellmann_feynman": 1.2524059985
  },
  "I11 vector contact, up-quark density (v)": {
   "d_eps_dm_de": 4.32880313608,
-  "d_fold_gap_de": 3.09546832611e-09,
+  "d_fold_gap_de": 3.04574421239e-09,
   "hellmann_feynman": 4.32880309517
  },
  "I12 gluon condensate <G G> (M, uniform)": {
   "d_eps_dm_de": 0.707196000285,
-  "d_fold_gap_de": 2.89768209427e-11,
+  "d_fold_gap_de": -1.36779476634e-10,
   "hellmann_feynman": 0.707196002672
  },
  "_meta": {
@@ -26,5 +26,5 @@
   "c_u_singlet": 15.4300081937,
   "nb": 80
  },
- "runtime_s": 3.9
+ "runtime_s": 3.7
 }

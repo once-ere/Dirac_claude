@@ -1,6 +1,6 @@
 {
  "CNB": {
-  "Omega_nu_h2": 0.000638217179481,
+  "Omega_nu_h2": 0.000638217282098,
   "Omega_nu_h2_from_sum_over_93p14": 0.000642601086029,
   "T_nu_K": 1.94536883918,
   "T_nu_eV": 0.000167638916047,
@@ -15,9 +15,9 @@
      "tau": 0.211047512743
     },
     "mass_eV": 0.001,
-    "mean_velocity_over_c": 0.435132875065,
+    "mean_velocity_over_c": 0.435132624815,
     "n_cm3": 112.016413166,
-    "rho_eV4": 9.95804405627e-16
+    "rho_eV4": 9.95804523965e-16
    },
    {
     "flavour_content": {
@@ -26,9 +26,9 @@
      "tau": 0.270691987257
     },
     "mass_eV": 0.00871206060585,
-    "mean_velocity_over_c": 0.0604083359413,
+    "mean_velocity_over_c": 0.0604083086104,
     "n_cm3": 112.016413166,
-    "rho_eV4": 7.51619567258e-15
+    "rho_eV4": 7.51619688306e-15
    },
    {
     "flavour_content": {
@@ -37,9 +37,9 @@
      "tau": 0.5182605
     },
     "mass_eV": 0.0501398045469,
-    "mean_velocity_over_c": 0.0105351784124,
+    "mean_velocity_over_c": 0.0105351736626,
     "n_cm3": 112.016413166,
-    "rho_eV4": 4.31573772694e-14
+    "rho_eV4": 4.31573842483e-14
    }
   ]
  },
@@ -1023,7 +1023,7 @@
  ],
  "neutrinos": {
   "Omega_nu_h2_camb": 0.000645110036086,
-  "Omega_nu_h2_um2_neutrino_times_deg34": 0.000645097591922,
+  "Omega_nu_h2_um2_neutrino_times_deg34": 0.000645097695645,
   "camb_mass_iterations": 13,
   "camb_masses_eV": [
    0.000996432054125,

@@ -82,7 +82,7 @@
   "G_A_BL_GeV-2": 1.07187018192e-09,
   "S13_BL": 22.9168782662,
   "T_kinetic_decoupling_GeV": 1816.04852544,
-  "Y_nuR_over_Yeq_at_x40": 0.999697682771,
+  "Y_nuR_over_Yeq_at_x40": 0.999697681992,
   "g_s_at_decoupling": 105.736071735,
   "nuR_production_I11_over_I13_annihilation_JB": 2.03451578483e-17,
   "nuR_share_of_annihilation": 0.0121228394231,
@@ -128,25 +128,25 @@
  "I13_checks": [
   {
    "finite_difference": 2.61345394629,
-   "fold_band_shift": 3.77475828373e-14,
+   "fold_band_shift": 7.3441253079e-14,
    "overlap_b": 2.61345394593,
    "zero_mode": "Q (quark doublets)"
   },
   {
    "finite_difference": 0.913409773697,
-   "fold_band_shift": 6.75015598972e-14,
+   "fold_band_shift": 1.2262413307e-13,
    "overlap_b": 0.913409773488,
    "zero_mode": "L (lepton doublets)"
   },
   {
    "finite_difference": 0.379455296188,
-   "fold_band_shift": 6.04238881152e-14,
+   "fold_band_shift": 5.32351940308e-14,
    "overlap_b": 0.379455296151,
    "zero_mode": "u_R"
   }
  ],
  "WZ_kinetic_shift": {
-  "Lambda_W_fem": 1.32148508324e-05,
+  "Lambda_W_fem": 1.32148495491e-05,
   "O_integral": 0.707196002672,
   "amplitude_e_by_environment": {
    "Earth (mean density 5.51 g/cm^3)": 1.68880047922e-60,
@@ -160,8 +160,8 @@
    "nucleosynthesis (T = 1 MeV)": 1.11307990105e-36,
    "white dwarf (1e6 g/cm^3, C/O)": 1.68880047922e-60
   },
-  "dlnLambdaW_damp": -0.112600820548,
-  "photon_Lambda_with_K": -2.49802649064e-11
+  "dlnLambdaW_damp": -0.111252909326,
+  "photon_Lambda_with_K": 0.0
  },
  "block_response_coefficients": {
   "c_3": -0.107556258403,
@@ -582,8 +582,8 @@
  },
  "feynman_hellmann_qcd_rel_dev": 1.11022302463e-16,
  "fold_band_under_I11": {
-  "d2_gap_de2": -0.0406706531786,
-  "d_gap_de_linear": -1.07788777903e-10,
+  "d2_gap_de2": -0.0406706164302,
+  "d_gap_de_linear": -9.31338339782e-11,
   "dispersion_ratio_k2_over_k1": {
    "-0.001": 2.0,
    "0.0": 2.0,
@@ -837,7 +837,7 @@
  },
  "screened_response_Q": {
   "bare": 8.27221102684,
-  "interacting": 8.26932210311
+  "interacting": 8.26932210293
  },
  "self_interaction_channel": {
   "Delta_Neff_benchmark_vt1": 0.19159061401,

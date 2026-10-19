@@ -1,0 +1,272 @@
+{
+ "check_count": 52,
+ "checks": [
+  {
+   "detail": "residual 3.921e-13 (tolerance 1.0e-11); printed = code (sympy): True; closed form 1.2e-16",
+   "name": "R_einstein_lovelock_background",
+   "passed": true
+  },
+  {
+   "detail": "residual 1.425e-07 (tolerance 1.0e-06); residual/eps ratios 0.098, 0.100, 0.101 (second order), c_3 + 3 c_rho = 2.0e-13",
+   "name": "R_block_linear_response",
+   "passed": true
+  },
+  {
+   "detail": "residual 1.345e-11 (tolerance 1.0e-09); constraint 3.6e-12, defect 1.3e-11",
+   "name": "R_primordial_deflation_system",
+   "passed": true
+  },
+  {
+   "detail": "residual 6.891e-13 (tolerance 1.0e-11); d/dk of the x4 balance at the stored k*: 3.9e-13 (ks/feedback.json d_F4_dk -6.3e-12 is this rounding; exact 0, closed form 1.1e-16)",
+   "name": "R_four_dimensional_effective_gravity",
+   "passed": true
+  },
+  {
+   "detail": "residual 5.893e-12 (tolerance 1.0e-10); W 5.9e-12, Z 1.4e-12",
+   "name": "R_boson_x0_eigenvalue",
+   "passed": true
+  },
+  {
+   "detail": "residual 5.447e-11 (tolerance 1.0e-09); largest nu1 5.4e-11; three generations 1.2e-11",
+   "name": "R_fermion_x0_tip_determinant",
+   "passed": true
+  },
+  {
+   "detail": "residual 8.469e-13 (tolerance 1.0e-10); p 1.5e-13, eps 8.5e-13",
+   "name": "R_dirac16complex_x0_spectrum",
+   "passed": true
+  },
+  {
+   "detail": "residual 7.414e-14 (tolerance 1.0e-12); SCF map 1.8e-14, reproduction 7.4e-14 H (8.0e-13 relative), energy identity 0.0e+00, conservation 8.8e-08",
+   "name": "R_kohn_sham_scf",
+   "passed": true
+  },
+  {
+   "detail": "residual 1.446e-12 (tolerance 1.0e-09); dk 1.4e-12, free gas 9.1e-13; shape source / pbar up to 4.00 (OPEN)",
+   "name": "R_kohn_sham_in_gravity_block_response",
+   "passed": true
+  },
+  {
+   "detail": "residual 3.773e-12 (tolerance 1.0e-09); Itilde 3.8e-12, Itilde^(b) 3.5e-12, O 4.4e-13",
+   "name": "R_portal_overlaps_hellmann_feynman",
+   "passed": true
+  },
+  {
+   "detail": "residual 2.003e-11 (tolerance 1.0e-09); largest delta_ln_f 2.0e-11",
+   "name": "R_coupled_environment_mean_fields",
+   "passed": true
+  },
+  {
+   "detail": "residual 3.284e-12 (tolerance 1.0e-09); stored -0.111252909, first order -0.111252909, shooting -0.111252909, photon 0.0",
+   "name": "R_wz_x0_with_dark_matter_kinetic_function",
+   "passed": true
+  },
+  {
+   "detail": "residual 2.667e-12 (tolerance 1.0e-09); widths 2.7e-12, m_Z 2.0e-12; loop corrections 0.41 %",
+   "name": "R_yang_mills_masses_and_widths",
+   "passed": true
+  },
+  {
+   "detail": "residual 1.549e-06 (tolerance 1.0e-04); Poisson 1.5e-06, matter-era limit 4.4e-05, CAMB mass iteration 7.8e-12",
+   "name": "R_linear_perturbations_cmb_bao",
+   "passed": true
+  },
+  {
+   "detail": "residual 1.206e-12 (tolerance 1.0e-11); Yukawa strengths 5.2e-09",
+   "name": "R_graviton_tower",
+   "passed": true
+  },
+  {
+   "detail": "residual 2.415e-05 (tolerance 1.0e-03); order 2/order 1 2.4e-05",
+   "name": "R_metric_series_order2",
+   "passed": true
+  },
+  {
+   "detail": "residual 7.113e-12 (tolerance 1.0e-09); unitarity 1.3e-15, accelerators 4.9e-13",
+   "name": "R_neutrino_flavour_evolution",
+   "passed": true
+  },
+  {
+   "detail": "residual 8.685e-12 (tolerance 1.0e-09); CP-asymmetric term 1.1e-02 of the thermal one (ESTIMATE)",
+   "name": "R_neutrino_thermal_potential",
+   "passed": true
+  },
+  {
+   "detail": "residual 2.739e-12 (tolerance 1.0e-06); recomputed 3.0001803890, stored 3.0001803890; published values within 4.6e-04",
+   "name": "R_neutrino_decoupling",
+   "passed": true
+  },
+  {
+   "detail": "residual 3.333e-13 (tolerance 1.0e-10); moments 3.3e-13, growth 1.7e-14, matrix 5.1e-14",
+   "name": "R_fast_flavour_dispersion",
+   "passed": true
+  },
+  {
+   "detail": "residual 2.864e-12 (tolerance 1.0e-10); largest v 2.9e-12",
+   "name": "R_cosmic_neutrino_background",
+   "passed": true
+  },
+  {
+   "detail": "residual 5.034e-09 (tolerance 1.0e-06); O(alpha) pressure at the freeze-out -5.4 % (neglected)",
+   "name": "R_thermal_degrees_of_freedom",
+   "passed": true
+  },
+  {
+   "detail": "residual 6.088e-09 (tolerance 1.0e-06); Omega h^2 = 0.060000000186, late-time identity 6.1e-09 (I13), 3.3e-09 (stored I12 history)",
+   "name": "R_boltzmann_relic",
+   "passed": true
+  },
+  {
+   "detail": "residual 3.940e-05 (tolerance 1.0e-04); trapezoid vs Gauss 3.9e-05",
+   "name": "R_freeze_in",
+   "passed": true
+  },
+  {
+   "detail": "residual 2.529e-12 (tolerance 1.0e-10); Y/Y_eq 0.999697681992; with G_A(B - L) changed by +-1e-12, +-2e-12 every integration succeeds (Y/Y_eq within 3e-13)",
+   "name": "R_right_handed_neutrino_boltzmann",
+   "passed": true
+  },
+  {
+   "detail": "residual 1.111e-05 (tolerance 1.0e-04); largest Delta_Neff_per_Glam2 1.1e-05",
+   "name": "R_self_interaction_channel",
+   "passed": true
+  },
+  {
+   "detail": "difference 3.381e-12 (tolerance 1.0e-10)",
+   "name": "L_ks_energy_density_in_block_response",
+   "passed": true
+  },
+  {
+   "detail": "difference 6.096e-12 (tolerance 1.0e-09)",
+   "name": "L_dark_matter_hidden_pressure",
+   "passed": true
+  },
+  {
+   "detail": "difference 2.001e-12 (tolerance 1.0e-09)",
+   "name": "L_z_mass_x0_vs_z_widths",
+   "passed": true
+  },
+  {
+   "detail": "difference 8.251e-03 (tolerance 2.0e-02)",
+   "name": "L_weak_angle_x0_vs_z_widths",
+   "passed": true
+  },
+  {
+   "detail": "difference 3.104e-12 (tolerance 1.0e-09)",
+   "name": "L_fermion_masses_x0_vs_thermal_history",
+   "passed": true
+  },
+  {
+   "detail": "difference 5.667e-12 (tolerance 1.0e-10)",
+   "name": "L_neutrino_masses_tip_matrices_vs_flavour_cnb_cmb",
+   "passed": true
+  },
+  {
+   "detail": "difference 8.213e-13 (tolerance 1.0e-11)",
+   "name": "L_pmns_tip_matrix_vs_flavour_evolution_and_cnb",
+   "passed": true
+  },
+  {
+   "detail": "difference 1.913e-05 (tolerance 1.0e-04)",
+   "name": "L_omega_nu_cnb_vs_camb",
+   "passed": true
+  },
+  {
+   "detail": "difference 5.436e-16 (tolerance 1.0e-09)",
+   "name": "L_neff_decoupling_plus_freeze_in_vs_camb",
+   "passed": true
+  },
+  {
+   "detail": "difference 3.108e-09 (tolerance 1.0e-06)",
+   "name": "L_relic_density_vs_cmb_omega_c",
+   "passed": true
+  },
+  {
+   "detail": "difference 1.739e-04 (tolerance 1.0e-03)",
+   "name": "L_hubble_rate_thermal_vs_four_dimensional_friedmann",
+   "passed": true
+  },
+  {
+   "detail": "difference 5.935e-03 (tolerance 1.0e-02)",
+   "name": "L_late_time_radiation_thermal_vs_cmb",
+   "passed": true
+  },
+  {
+   "detail": "difference 1.306e-03 (tolerance 1.0e-02)",
+   "name": "L_plasma_energy_density_thermal_vs_coupled_sources",
+   "passed": true
+  },
+  {
+   "detail": "difference 3.031e-12 (tolerance 1.0e-09)",
+   "name": "L_portal_responses_ks_jobs_vs_coupled_overlaps",
+   "passed": true
+  },
+  {
+   "detail": "difference 5.652e-06 (tolerance 1.0e-04)",
+   "name": "L_i12_response_O_across_scripts",
+   "passed": true
+  },
+  {
+   "detail": "difference 1.618e-12 (tolerance 1.0e-10)",
+   "name": "L_i12_benchmark_thermal_vs_coupled_mean_field",
+   "passed": true
+  },
+  {
+   "detail": "difference 8.059e-13 (tolerance 1.0e-11)",
+   "name": "L_dark_matter_mass_ks_vs_boltzmann",
+   "passed": true
+  },
+  {
+   "detail": "difference 6.712e-13 (tolerance 1.0e-10)",
+   "name": "L_relic_and_freeze_in_couplings_in_mean_fields",
+   "passed": true
+  },
+  {
+   "detail": "difference 2.279e-06 (tolerance 1.0e-05)",
+   "name": "L_w_eigenvalue_x0_vs_kinetic_function_problem",
+   "passed": true
+  },
+  {
+   "detail": "difference 1.990e-13 (tolerance 1.0e-09); printed values within 2.6e-07",
+   "name": "L_block_response_coefficients_across_scripts",
+   "passed": true
+  },
+  {
+   "detail": "difference 7.925e-05 (tolerance 1.0e-03)",
+   "name": "L_radion_frequency_linear_vs_nonlinear",
+   "passed": true
+  },
+  {
+   "detail": "difference 2.213e-12 (tolerance 1.0e-11)",
+   "name": "L_static_block_f_star_across_scripts",
+   "passed": true
+  },
+  {
+   "detail": "difference 5.830e-07 (tolerance 1.0e-04)",
+   "name": "L_decoupling_heating_factor_F_h",
+   "passed": true
+  },
+  {
+   "detail": "difference 4.718e-12 (tolerance 1.0e-10)",
+   "name": "L_metric_series_vs_cosmology_coupled_masses",
+   "passed": true
+  },
+  {
+   "detail": "difference 2.130e-12 (tolerance 1.0e-10)",
+   "name": "L_freeze_out_temperature_relic_vs_environment",
+   "passed": true
+  },
+  {
+   "detail": "difference 4.548e-11 (tolerance 1.0e-09)",
+   "name": "L_block_sensitivities_x0_formula_vs_block_response",
+   "passed": true
+  }
+ ],
+ "description": "UM-2 residuals: how well the approximate solution satisfies every coupled field equation it uses, and the consistency of the solution across the equations (in concert)",
+ "environment": {
+  "python": "3.13.16"
+ },
+ "failed": [],
+ "failed_check_count": 0,
+ "report": "residuals-checks"
+}

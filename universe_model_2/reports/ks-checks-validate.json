@@ -2,12 +2,12 @@
  "check_count": 2,
  "checks": [
   {
-   "detail": "reference state of the record reproduced by the independent free-basis Galerkin solver: E_KS -3.7786682923204e-02 (ref -3.7786682923173e-02), HOMO -9.81e-15, LUMO -6.33e-15 off, integrated p0 -8.8605375448e-02 (ref -8.8605375484e-02)",
+   "detail": "reference state of the record reproduced by the independent free-basis Galerkin solver: E_KS -3.7786682923159e-02 (ref -3.7786682923173e-02), HOMO -4.10e-15, LUMO -1.42e-14 off, integrated p0 -8.8605375448e-02 (ref -8.8605375484e-02)",
    "name": "validate_N8_lamp1_a00",
    "passed": true
   },
   {
-   "detail": "reference state of the record reproduced by the independent free-basis Galerkin solver: E_KS 3.5830104644787e+02 (ref 3.5830104644787e+02), HOMO -2.34e-14, LUMO -6.99e-15 off, integrated p0 -6.7691415097e+00 (ref -6.7691415108e+00)",
+   "detail": "reference state of the record reproduced by the independent free-basis Galerkin solver: E_KS 3.5830104644787e+02 (ref 3.5830104644787e+02), HOMO -1.04e-14, LUMO -6.11e-15 off, integrated p0 -6.7691415097e+00 (ref -6.7691415108e+00)",
    "name": "validate_N592_lamp1_a00",
    "passed": true
   }

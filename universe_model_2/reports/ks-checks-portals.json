@@ -2,22 +2,22 @@
  "check_count": 5,
  "checks": [
   {
-   "detail": "response of the lowest odd level d eps/de = 8.247793768e-01 equals the Hellmann-Feynman expectation 8.247793737e-01; the fold-band gap at the smallest shell changes by 5.4e-11 per unit e (the fold band stays massless)",
+   "detail": "response of the lowest odd level d eps/de = 8.247793768e-01 equals the Hellmann-Feynman expectation 8.247793737e-01; the fold-band gap at the smallest shell changes by 7.9e-11 per unit e (the fold band stays massless)",
    "name": "portal_HF I11 vector contact, electron density (v)",
    "passed": true
   },
   {
-   "detail": "response of the lowest odd level d eps/de = 4.328803136e+00 equals the Hellmann-Feynman expectation 4.328803095e+00; the fold-band gap at the smallest shell changes by 3.1e-09 per unit e (the fold band stays massless)",
+   "detail": "response of the lowest odd level d eps/de = 4.328803136e+00 equals the Hellmann-Feynman expectation 4.328803095e+00; the fold-band gap at the smallest shell changes by 3.0e-09 per unit e (the fold band stays massless)",
    "name": "portal_HF I11 vector contact, up-quark density (v)",
    "passed": true
   },
   {
-   "detail": "response of the lowest odd level d eps/de = 1.252406001e+00 equals the Hellmann-Feynman expectation 1.252405999e+00; the fold-band gap at the smallest shell changes by -1.1e-10 per unit e (the fold band stays massless)",
+   "detail": "response of the lowest odd level d eps/de = 1.252406001e+00 equals the Hellmann-Feynman expectation 1.252405999e+00; the fold-band gap at the smallest shell changes by -9.3e-11 per unit e (the fold band stays massless)",
    "name": "portal_HF I11 vector contact, neutrino density (v, left-chiral)",
    "passed": true
   },
   {
-   "detail": "response of the lowest odd level d eps/de = 7.071960003e-01 equals the Hellmann-Feynman expectation 7.071960027e-01; the fold-band gap at the smallest shell changes by 2.9e-11 per unit e (the fold band stays massless)",
+   "detail": "response of the lowest odd level d eps/de = 7.071960003e-01 equals the Hellmann-Feynman expectation 7.071960027e-01; the fold-band gap at the smallest shell changes by -1.4e-10 per unit e (the fold band stays massless)",
    "name": "portal_HF I12 gluon condensate <G G> (M, uniform)",
    "passed": true
   },

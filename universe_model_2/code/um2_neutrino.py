@@ -586,10 +586,14 @@ def main():
     n_cm3 = n_per_state / HBARC_EV_CM ** 3
     cnb = []
     rho_tot = 0.0
+
+    def qrel(fn):
+        # a relative tolerance only: the integrals are of order T_nu^4 ~ 1e-15 eV^4, far below the default absolute tolerance of quad
+        return quad(fn, 0, 60 * Tnu, epsabs=0.0, epsrel=1e-13, limit=200)[0]
     for i in range(3):
-        rho_i = 2 * quad(lambda p: p * p * math.sqrt(p * p + m[i] ** 2) / (math.exp(p / Tnu) + 1), 0, 60 * Tnu)[0] / (2 * math.pi ** 2)
-        vmean = quad(lambda p: p * p * (p / math.sqrt(p * p + m[i] ** 2)) / (math.exp(p / Tnu) + 1), 0, 60 * Tnu)[0] / \
-            quad(lambda p: p * p / (math.exp(p / Tnu) + 1), 0, 60 * Tnu)[0]
+        rho_i = 2 * qrel(lambda p: p * p * math.sqrt(p * p + m[i] ** 2) / (math.exp(p / Tnu) + 1)) / (2 * math.pi ** 2)
+        vmean = qrel(lambda p: p * p * (p / math.sqrt(p * p + m[i] ** 2)) / (math.exp(p / Tnu) + 1)) / \
+            qrel(lambda p: p * p / (math.exp(p / Tnu) + 1))
         rho_tot += rho_i
         cnb.append({'mass_eV': float(m[i]), 'n_cm3': n_cm3, 'mean_velocity_over_c': vmean, 'rho_eV4': rho_i,
                     'flavour_content': {'e': float(abs(U[0, i]) ** 2), 'mu': float(abs(U[1, i]) ** 2), 'tau': float(abs(U[2, i]) ** 2)}})

@@ -44,7 +44,8 @@ C4  The Standard-Model fields acting on Psi (mean fields of the Kohn-Sham equati
     <F^2> = -2(rho - 3p) and the O(alpha) interaction part <g^2 F^2> = 4 g^2 p_2 by the Feynman-Hellmann theorem).
 C5  Psi acting on the Standard-Model fields: the I12 shift of the gauge kinetic functions by the scalar density of the
     dark matter (delta alpha_i/alpha_i = -4 G_i n_DM), the W and Z masses from the x0 eigenvalue problem with the
-    y-dependent kinetic function (perturbative and direct finite elements); the photon stays massless.
+    y-dependent kinetic function (first-order perturbation theory with the exact W eigenfunction; finite elements at e = 0 as
+    a check of the x0 eigenvalue); the photon stays exactly massless.
 C6  Gravity: the full adiabatic block response dk = (c_rho kappa drho + c_3 kappa dp3 + c_p kappa dpbar)/H^2 (background.json) to every
     species: the plasma (ideal gases with the x0 masses, the QCD interaction measure, the O(alpha) electroweak pressure), the net
     nucleons and electrons (degenerate Fermi gases at T = 0) and the dark matter, with the hidden pressure pbar = (1/4) dp/d ln f
@@ -57,9 +58,14 @@ import math
 import os
 import sys
 
-import numpy as np
-from scipy.linalg import eigh
-from scipy.special import kn
+# single-threaded BLAS/LAPACK and OpenMP, fixed before numpy is imported, so that the self-consistent Kohn-Sham solutions of the checks
+# do not depend on the number of cores of the machine (as in um2_ks_jobs.py)
+for _v in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS', 'VECLIB_MAXIMUM_THREADS'):
+    os.environ[_v] = '1'
+
+import numpy as np  # noqa: E402
+from scipy.linalg import eigh  # noqa: E402
+from scipy.special import kn  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from um2_common import FIG, OUT, Report, read_json, write_json  # noqa: E402
@@ -539,7 +545,11 @@ def main():
         sden = 2 * math.pi ** 2 / 45 * gs_ * T ** 3
         Yeq = n_nu / sden
         return [gam / (sden * Hh * x) * (1 - (Y[0] / Yeq) ** 2)]
-    solY = _ivp(rhs, (2.0, 40.0), [0.0], method='Radau', rtol=1e-8, atol=1e-30, dense_output=True)
+    # integrated in s = x - 2: the equilibration from Y = 0 takes Y_eq/(dY/dx) = 7e-11 in x, and to resolve its start the error control
+    # needs steps of about 7e-11 rtol^(1/2) (7e-15 at rtol 1e-8), at or below the smallest step Radau allows at x = 2 (ten times the
+    # spacing of the floating-point numbers, 4.4e-15), so that an integration in x itself can stop at its first step depending on the
+    # last digits of the inputs; in s the steps are free.  rtol 1e-13 converges Y/Y_eq to about 2e-13
+    solY = _ivp(lambda s_, Y: rhs(2.0 + s_, Y), (0.0, 38.0), [0.0], method='Radau', rtol=1e-13, atol=1e-30, dense_output=True)
     Yend = float(solY.y[0][-1])
     gam, n_nu, Hh, Gel = rates_nuR(40.0)
     gr_, gs_ = g_at(MDM / 40.0)
@@ -970,31 +980,43 @@ def main():
     a, b, eo = orb['dark matter (lowest odd level)']
     sprof = 2 * a * b                                         # scalar density shape of the dark-matter orbital (j = +1)
     Oint = float(np.sum(w * sprof))
-    tq = y / L
-    def Kfun_factory(amp):
-        return lambda t: 1.0 + amp * float(np.interp(t * L, y, sprof))
     bW = masses['WZ']['beta_W']
-    LW0, nodes, uW = boson_fem_K(ETA, bW, lambda t: 1.0)
-    out_wz = {}
-    for amp in (1e-3, 2e-3):
-        LWa, _, _ = boson_fem_K(ETA, bW, Kfun_factory(amp))
-        LWm, _, _ = boson_fem_K(ETA, bW, Kfun_factory(-amp))
-        out_wz[amp] = (LWa - LWm) / (2 * amp) / LW0
-    rich = (4 * out_wz[1e-3] - out_wz[2e-3]) / 3
-    # first-order perturbation: d ln Lambda_W/d amp = [int s (u'^2 - Lambda u^2) e^{3 eta t} dt]/[int (u'^2 + ...)...] evaluated on FEM
-    Lph, _, _ = boson_fem_K(ETA, 0.0, Kfun_factory(1e-2))
+    LW0, nodes, uW = boson_fem_K(ETA, bW, lambda t: 1.0)      # finite elements at e = 0: a check of the x0 eigenvalue
+    # d Lambda/de at e = 0 by first-order perturbation theory of the Sturm-Liouville problem (exact for the derivative; finite
+    # differences of finite-element eigenvalues are dominated by rounding): with the weight w = e^{3 eta t}, K = 1 + e s_DM and the tip
+    # term beta w(-1) u(-1)^2 (not multiplied by K) in the Rayleigh quotient,
+    #     d Lambda/de = [int s_DM w u'^2 dt - Lambda int s_DM w u^2 dt] / int w u^2 dt,
+    # with the exact W eigenfunction u = e^{-a t}(cosh kappa t + (a/kappa) sinh kappa t), u' = -(Lambda/kappa) e^{-a t} sinh kappa t,
+    # a = 3 eta/2, kappa = sqrt(a^2 - Lambda) (u'(0) = 0; the x0 eigenvalue Lambda_W of masses.json gives u'(-1) = beta u(-1)), on the
+    # Gauss nodes of the orbital
+    LWx = masses['WZ']['Lambda_W']
+    aW = 1.5 * ETA
+    kW = math.sqrt(aW * aW - LWx)
+    tq = y / L
+    wq3 = w * np.exp(3 * ETA * tq)
+
+    def dlam_de(u_, du_, lam_):
+        return float((np.sum(wq3 * sprof * du_ * du_) - lam_ * np.sum(wq3 * sprof * u_ * u_)) / np.sum(wq3 * u_ * u_))
+    uq = np.exp(-aW * tq) * (np.cosh(kW * tq) + (aW / kW) * np.sinh(kW * tq))
+    duq = -(LWx / kW) * np.exp(-aW * tq) * np.sinh(kW * tq)
+    tip_dev = abs((LWx / kW) * math.sinh(kW) / (math.cosh(kW) - (aW / kW) * math.sinh(kW)) / bW - 1)
+    rich = dlam_de(uq, duq, LWx) / LWx
+    # the photon (and gluon) zero mode, beta = 0: u = 1, Lambda = 0 solves the problem for every K (its Rayleigh quotient is 0), and the
+    # same formula with u' = 0 gives exactly 0; stored as Lambda at e = 0.01
+    Lph = 1e-2 * dlam_de(np.ones_like(tq), np.zeros_like(tq), 0.0)
     e_amp = {k_: max(abs(v_) for v_ in res_env[k_]['dalpha_over_alpha'].values()) for k_ in res_env}
     e_fo = e_amp[fo_name]
     e_today = e_amp['cosmic mean today']
     e_late = max(v_ for k_, v_ in e_amp.items() if res_env[k_]['T_GeV'] < 1e-3 * 1.0001)
     out['WZ_kinetic_shift'] = {'dlnLambdaW_damp': rich, 'Lambda_W_fem': LW0, 'photon_Lambda_with_K': Lph, 'O_integral': Oint,
                                'amplitude_e_by_environment': e_amp}
-    rep.check('C5_WZ_and_photon', abs(Lph) < 1e-10 and rich < 0,
+    rep.check('C5_WZ_and_photon', abs(Lph) < 1e-10 and rich < 0 and tip_dev < 1e-9,
               'with the kinetic function 1 + e s_DM(y) (s_DM = 2ab of the dark-matter orbital) the W eigenvalue changes by d ln Lambda_W/de = '
-              '%.4f (finite elements, Richardson in e), i.e. m_W follows the 4D coupling, while the photon (and gluon) zero mode stays exactly '
-              'massless (Lambda = %.1e with e = 0.01); the amplitude in the environments, e ~ 4 c g^2 n_DM/Lambda*^3 = |delta alpha/alpha|, is '
+              '%.6f (first-order perturbation theory with the exact W eigenfunction, whose tip condition holds to %.0e), i.e. m_W follows the '
+              '4D coupling, while the photon (and gluon) zero mode stays exactly massless (u = 1 solves the problem for every K: Lambda = %.1f '
+              'with e = 0.01); the amplitude in the environments, e ~ 4 c g^2 n_DM/Lambda*^3 = |delta alpha/alpha|, is '
               '%.1e at the dark-matter freeze-out, at most %.1e from nucleosynthesis on and %.1e for the cosmic mean today' % (
-                  rich, Lph, e_fo, e_late, e_today))
+                  rich, max(tip_dev, 1e-16), Lph, e_fo, e_late, e_today))
 
     # ---------------- C7 validity domain ----------------
     Tv = None

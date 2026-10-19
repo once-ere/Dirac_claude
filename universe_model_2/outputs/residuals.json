@@ -1,0 +1,2239 @@
+{
+ "description": "UM-2 version 3: residuals of the approximate solution in every coupled field equation it uses, and the consistency of the solution across the equations (in concert); written by um2_residuals.py",
+ "equations": [
+  {
+   "check": {
+    "detail": "printed = code (sympy): True; closed form 1.2e-16",
+    "justification": "the stored k* and kappa rho_b* carry 12 significant digits and the equations contain terms up to 3 H^2 k*^2/8 = 174 H^2: rounding alone gives about 1e-12 of the largest term; the printed and the coded equations must agree exactly",
+    "name": "R_einstein_lovelock_background",
+    "passed": true,
+    "tolerance": 1e-11,
+    "value": 3.92052599987e-13
+   },
+   "equation": "einstein_lovelock_background",
+   "in_concert": [
+    {
+     "difference": 2.21334062189e-12,
+     "link": "static_block_f_star_across_scripts",
+     "passed": true,
+     "quantity": "f* = k*^{-1/2}",
+     "tolerance": 1e-11
+    }
+   ],
+   "name": "Einstein-Lovelock background equations (x4 constraint, x1, x0) of the order-0 metric with the block stabiliser",
+   "neglected": {
+    "definition": "block-averaged matter sources against the stabiliser, kappa delta rho/(kappa rho_b*), kappa delta rho = (kappa/V_perp) rho_4 (coupled.json environments sources_GeV4.rho, block_response_coefficients)",
+    "source": "computed from coupled.json",
+    "today_cosmic_mean": 2.40657967585e-93,
+    "value": 2.95656212674e-32,
+    "where": "dark-matter freeze-out (T = 1.42 TeV)"
+   },
+   "residual": {
+    "definition": "max over the three printed components (FIELD_EQUATIONS 5.3) of |LHS - kappa T| / max|term| at the stored k*, kappa rho_b* (afresh); and the printed polynomials minus the code's symbolic field equations (background.json field_equations_class_form with w = (1, 1/32, 1/1152), Lambda = -10 H^2), sympy",
+    "details": {
+     "printed_minus_code_symbolic_x4_x1_x0": [
+      "0",
+      "0",
+      "0"
+     ],
+     "x4_x1_x0_with_closed_form_k_star": [
+      1.2272097245e-16,
+      1.2272097245e-16,
+      4.09069908167e-17
+     ],
+     "x4_x1_x0_with_stored_k_star": [
+      3.92052599987e-13,
+      3.92052599987e-13,
+      0.0
+     ]
+    },
+    "source": "computed afresh by direct substitution",
+    "value": 3.92052599987e-13
+   },
+   "section": "FIELD_EQUATIONS (version 3) section 5.3 (the background field equations) and 5.4 (the static block and the stabiliser); SOLUTION step 1 (the static block)",
+   "solution": {
+    "description": "the static block A = h = 0, k = k* = 12 + (4/3) sqrt(51), f* = k*^(-1/2), with the stabiliser kappa rho_b* = (26 + 4 sqrt(51)) H^2, p3 = -rho_b, p0 = p_t = rho_b",
+    "k_star": 21.5219045714,
+    "kappa_rho_b_over_H2": 54.5657137142,
+    "method": "exact (closed form; sympy in um2_background.py); stored as background.json casimir_type (12 significant digits)",
+    "order": "order 0 of the metric power series (exact solution of the order-0 equations)"
+   }
+  },
+  {
+   "check": {
+    "detail": "residual/eps ratios 0.098, 0.100, 0.101 (second order), c_3 + 3 c_rho = 2.0e-13",
+    "justification": "a first-order solution leaves a residual of second order: it must fall by the factor 10 with the sources (checked: ratios 0.10) and stay at about eps (0.1 eps allowed); eps = 1e-5 gives at most 1e-6",
+    "name": "R_block_linear_response",
+    "passed": true,
+    "tolerance": 1e-06,
+    "value": 1.42501676319e-07
+   },
+   "equation": "block_linear_response",
+   "in_concert": [
+    {
+     "difference": 3.38074013229e-12,
+     "link": "ks_energy_density_in_block_response",
+     "passed": true,
+     "quantity": "block averages rho, p3, pbar of the Kohn-Sham states N8_lamp, N592_lamp, N592_lam0",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 1.9903523274e-13,
+     "link": "block_response_coefficients_across_scripts",
+     "passed": true,
+     "quantity": "c_rho, c_3, c_p",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 7.92540137727e-05,
+     "link": "radion_frequency_linear_vs_nonlinear",
+     "passed": true,
+     "quantity": "omega_r = m_r/H",
+     "tolerance": 0.001
+    }
+   ],
+   "name": "linearised block equations about the static block and their adiabatic (static) response to block-averaged sources",
+   "neglected": {
+    "adiabaticity_at_freeze_out": 3.39032790195e-33,
+    "definition": "second-order terms relative to the first-order response at the largest source of the coupled solution (residual coefficient times kappa drho/H^2 at the dark-matter freeze-out), and the neglected inertia delta k''/(omega_r^2 delta k) ~ (H_Hubble/m_r)^2 at the freeze-out",
+    "source": "computed (coupled.json sources, thermal.json g_rho, masses.json radion mass)",
+    "value": 2.27190656248e-32
+   },
+   "residual": {
+    "definition": "the adiabatic solution (dk from the stored coefficients, A^2 = kappa drho/(3 G(k*)), h = 0) substituted into the full nonlinear printed x1, x0 (solved for dA/dx4, dh/dx4) and x4: |dh/dx4| / sum of the first-order terms, |dA/dx4 / (-kappa (drho + dp3)/(2 G)) - 1|, |x4 residual| / kappa drho, for sources kappa (drho, dp3, dpbar) = eps (1, 0.2, 0.7) H^2; value: the largest of the three at eps = 1e-5",
+    "details": {
+     "eps_1e-4": [
+      4.17672812772e-07,
+      6.24972328778e-07,
+      1.40826250577e-06
+     ],
+     "eps_1e-5": [
+      4.07587499023e-08,
+      6.22068542233e-08,
+      1.42501676319e-07
+     ],
+     "radiation_cancels_c3_plus_3c_rho": 2.00020555674e-13,
+     "ratio_eps_1e-5_over_1e-4": [
+      0.0975853554648,
+      0.099535373582,
+      0.101189711247
+     ],
+     "second_order_coefficient_residual_over_eps": 0.0140826250577
+    },
+    "source": "computed afresh by direct substitution",
+    "value": 1.42501676319e-07
+   },
+   "section": "FIELD_EQUATIONS section 5.5 (the dynamical system, the radion and the response to matter) and 7.1 (gravity closes the loop); SOLUTION step 1 (the response of the block to matter), step 3 (back-reaction) and step 8 (gravity)",
+   "solution": {
+    "description": "delta k'' + omega_r^2 delta k = -2 k* (s_h3 kappa dp3 + s_hp kappa dpbar + q_h kappa drho); adiabatic response dk = (c_rho kappa drho + c_3 kappa dp3 + c_p kappa dpbar)/H^2, c_rho = 0.035852, c_3 = -0.107556, c_p = -0.140028; dA/dx4 = -kappa (drho + dp3)/(2 G(k*))",
+    "method": "exact algebraic numbers (sympy, um2_background.py; background.json linear_response, linear_response_static_dk)",
+    "order": "first order in the sources (A^2 counted as first order)"
+   }
+  },
+  {
+   "check": {
+    "detail": "constraint 3.6e-12, defect 1.3e-11",
+    "justification": "the samples carry 12 digits and come from an integration with rtol 1e-11 at rates up to 8.3 H, so an exact trajectory shows a defect near 1e-11; 1e-9 is where the stored trajectory would no longer solve the equations",
+    "name": "R_primordial_deflation_system",
+    "passed": true,
+    "tolerance": 1e-09,
+    "value": 1.34496858095e-11
+   },
+   "equation": "primordial_deflation_system",
+   "in_concert": [
+    {
+     "difference": 7.92540137727e-05,
+     "link": "radion_frequency_linear_vs_nonlinear",
+     "passed": true,
+     "quantity": "omega_r = m_r/H",
+     "tolerance": 0.001
+    }
+   ],
+   "name": "full nonlinear homogeneous Einstein-Lovelock equations of the primordial era (deflating block with the stabiliser and radiation)",
+   "neglected": {
+    "definition": "radiation of zero modes (kappa rho_r = 10 at the start, k0 = 5): relative change of the final block k(120/H); the metric perturbations (order eps) and the block-shape mode are not part of the order-0 ansatz (OPEN)",
+    "source": "primordial.json runs k_end",
+    "value": 1.04184745919e-06
+   },
+   "residual": {
+    "definition": "largest of (a) the printed x4 constraint with kappa rho_b(k) and the radiation at the 1604 stored samples, |sum| / sum |terms|, and (b) the one-step defect: from every fifth stored sample the printed x1, x0 equations are integrated (DOP853, rtol 1e-12) over 0.1/H to the next stored sample, max |delta (a4, A, h, ln k)| in units of H (A reaches 8.33 H)",
+    "details": {
+     "constraint_relative": 3.61155868188e-12,
+     "one_step_defect": 1.34496858095e-11,
+     "stored_constraint_max_residual_absolute_over_0_120": 5.62408786209e-10
+    },
+    "source": "computed afresh by direct substitution and short re-integration (320 intervals)",
+    "value": 1.34496858095e-11
+   },
+   "section": "FIELD_EQUATIONS section 5.3 (x4 constraint, x1 and x0 linear in dA/dx4 and dh/dx4) and 5.5 (the closed system for (A, h, k)); SOLUTION step 1 (the primordial era: the deflating extra times)",
+   "solution": {
+    "description": "trajectories (a4, A, h, ln k) from deflating starts k0 = 3, 5, 10 at h0 = -H/3 (one with radiation of zero modes) into the stable block (primordial.json runs, samples every 0.1/H up to x4 = 40/H)",
+    "method": "DOP853, rtol 1e-11, atol 1e-13, max step 0.05/H (um2_primordial.py)",
+    "order": "exact equations, numerical solution"
+   }
+  },
+  {
+   "check": {
+    "detail": "d/dk of the x4 balance at the stored k*: 3.9e-13 (ks/feedback.json d_F4_dk -6.3e-12 is this rounding; exact 0, closed form 1.1e-16)",
+    "justification": "the inputs carry 12 significant digits and the terms are of order 100 H^2; the exact values are 0 and 20/3 + sqrt 51",
+    "name": "R_four_dimensional_effective_gravity",
+    "passed": true,
+    "tolerance": 1e-11,
+    "value": 6.89115431385e-13
+   },
+   "equation": "four_dimensional_effective_gravity",
+   "in_concert": [
+    {
+     "difference": 0.000173924096811,
+     "link": "hubble_rate_thermal_vs_four_dimensional_friedmann",
+     "passed": true,
+     "quantity": "H(T_fo)",
+     "tolerance": 0.001
+    }
+   ],
+   "name": "dimensional reduction on M4 x (static block): four-dimensional general relativity with Lambda4 and G_N",
+   "neglected": {
+    "definition": "the observed dark energy needs Lambda4/H^2 ~ (H0/H)^2 (tuned, OPEN), analysis.json vacuum_energy.H0_over_H_squared; Kaluza-Klein modes start at m_KK = 121324 GeV",
+    "source": "analysis.json",
+    "value": 1.01233669704e-92
+   },
+   "residual": {
+    "definition": "largest of |Lambda4(k*)| / max|term| and |d/dk [6 H^2 k (1 - 2 w2 k) + kappa rho_b(k)]| / max|term| at the stored k*, kappa rho_b*, and |G(k*) stored / (20/3 + sqrt 51) - 1|; background.json reduction coefficient_R4 = G(k) symbolic",
+    "details": {
+     "Lambda4_relative_closed_form": 1.2272097245e-16,
+     "Lambda4_relative_stored": 3.92052599987e-13,
+     "coefficient_R4_equals_G": true,
+     "dF4_dk_relative_closed_form": 1.10049544082e-16,
+     "dF4_dk_relative_stored": 3.91996476021e-13,
+     "ks_feedback_d_F4_dk_stored": -6.32738306194e-12
+    },
+    "source": "computed afresh",
+    "value": 6.89115431385e-13
+   },
+   "section": "FIELD_EQUATIONS section 5.6 (the four-dimensional effective gravity); SOLUTION step 1",
+   "solution": {
+    "description": "sum alpha_p L_(p) - 2 Lambda - 2 kappa rho_b = G(k) R4 + topological - 2 G(k) Lambda4, G(k*) = 20/3 + sqrt(51), Lambda4(k*) = 0, 8 pi G_N = kappa/(G(k*) V_perp); the x4 balance stationary at k* (so the 4D cosmological term is unchanged at linear order by a block shift)",
+    "method": "exact (sympy, um2_background.py B5)",
+    "order": "exact on the static block"
+   }
+  },
+  {
+   "check": {
+    "detail": "W 5.9e-12, Z 1.4e-12",
+    "justification": "the stored Lambda and beta carry 12 digits and |d ln Lambda_W/d ln beta_W| = 1: rounding gives about 1e-12",
+    "name": "R_boson_x0_eigenvalue",
+    "passed": true,
+    "tolerance": 1e-10,
+    "value": 5.89329405672e-12
+   },
+   "equation": "boson_x0_eigenvalue",
+   "in_concert": [
+    {
+     "difference": 2.00106597958e-12,
+     "link": "z_mass_x0_vs_z_widths",
+     "passed": true,
+     "quantity": "m_Z",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 0.00825118838902,
+     "link": "weak_angle_x0_vs_z_widths",
+     "passed": true,
+     "quantity": "sin^2(theta_W) and its effect on the total Z width",
+     "tolerance": 0.02
+    },
+    {
+     "difference": 2.27913539574e-06,
+     "link": "w_eigenvalue_x0_vs_kinetic_function_problem",
+     "passed": true,
+     "quantity": "Lambda_W at e = 0",
+     "tolerance": 1e-05
+    },
+    {
+     "difference": 2.21334062189e-12,
+     "link": "static_block_f_star_across_scripts",
+     "passed": true,
+     "quantity": "f* = k*^{-1/2}",
+     "tolerance": 1e-11
+    }
+   ],
+   "name": "x0 eigenvalue problem of the gauge fields and the graviton (Robin tip condition from the tip mass terms)",
+   "neglected": {
+    "definition": "shift of Lambda_W by the dark-matter kinetic function at the freeze-out amplitude, e |d ln Lambda_W/de| (coupled.json WZ_kinetic_shift amplitude, coefficient recomputed in wz_x0_with_dark_matter_kinetic_function); the Lovelock corrections to the graviton operator are OPEN (not estimated); tree level (rho0 - 1 = 3.8e-4 is fitted)",
+    "source": "computed (coupled.json amplitude at the freeze-out times the coefficient of R12)",
+    "value": 1.88020638345e-17
+   },
+   "residual": {
+    "definition": "implied relative eigenvalue error |F(Lambda) / (Lambda dF/dLambda)| of each stored eigenvalue in its exact characteristic equation F = 0 (mpmath, 40 digits): W, Z (below the gap), the even and odd Kaluza-Klein levels, the Dirichlet bound; the flat profile solves the beta = 0 problem with Lambda = 0 exactly",
+    "details": {
+     "W": 5.89329405672e-12,
+     "Z": 1.39060349029e-12,
+     "dirichlet_bound": 2.0102659639e-12,
+     "even_KK_1": 3.53250022702e-13,
+     "even_KK_2": 7.12660922362e-13,
+     "even_KK_3": 1.79476566346e-12,
+     "odd_KK_1": 5.94342098653e-13,
+     "odd_KK_2": 3.91112891306e-13,
+     "odd_KK_3": 2.41658600858e-13
+    },
+    "source": "computed afresh by direct substitution",
+    "value": 5.89329405672e-12
+   },
+   "section": "FIELD_EQUATIONS section 6.1 (gauge fields and the graviton) with 4.3 (the tip terms as Robin conditions); SOLUTION step 2 (gauge bosons and the graviton)",
+   "solution": {
+    "description": "-e^{-3 eta xi}(e^{3 eta xi} u')' = Lambda u, u'(0) = 0 or u(0) = 0, u'(-1) = beta u(-1); exact characteristic equations; photon, gluons, graviton Lambda = 0 (flat profile, exact); W, Z with beta_W = 0.0119122, beta_Z = beta_W/cos^2(theta_W)",
+    "method": "roots of the transcendental conditions with mpmath (60 digits), finite elements as a cross-check (um2_spectra.py; masses.json WZ, unbroken, Lambda_D)",
+    "order": "exact on the static block (tree level)"
+   }
+  },
+  {
+   "check": {
+    "detail": "largest nu1 5.4e-11; three generations 1.2e-11",
+    "justification": "the stored c_R carry 12 digits and |d ln e/d c_R| is about 1 for |c_R| up to 35: rounding alone gives up to 4e-11",
+    "name": "R_fermion_x0_tip_determinant",
+    "passed": true,
+    "tolerance": 1e-09,
+    "value": 5.44706024621e-11
+   },
+   "equation": "fermion_x0_tip_determinant",
+   "in_concert": [
+    {
+     "difference": 3.10440562146e-12,
+     "link": "fermion_masses_x0_vs_thermal_history",
+     "passed": true,
+     "quantity": "the twelve fermion masses",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 5.66657831769e-12,
+     "link": "neutrino_masses_tip_matrices_vs_flavour_cnb_cmb",
+     "passed": true,
+     "quantity": "m_1, m_2, m_3, their sum and the splittings dm2_31, dm2_21",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 8.21287482466e-13,
+     "link": "pmns_tip_matrix_vs_flavour_evolution_and_cnb",
+     "passed": true,
+     "quantity": "U_PMNS",
+     "tolerance": 1e-11
+    },
+    {
+     "difference": 2.21334062189e-12,
+     "link": "static_block_f_star_across_scripts",
+     "passed": true,
+     "quantity": "f* = k*^{-1/2}",
+     "tolerance": 1e-11
+    },
+    {
+     "difference": 4.54791759807e-11,
+     "link": "block_sensitivities_x0_formula_vs_block_response",
+     "passed": true,
+     "quantity": "d ln m_f/d ln f (12 fermions), d ln Lambda^(6,3)/d ln f, d ln m_p/d ln f",
+     "tolerance": 1e-09
+    }
+   ],
+   "name": "x0 eigenvalue problem of the twelve fermions: the tip mixing condition D(e) = 0 and the three-generation tip determinant",
+   "neglected": {
+    "definition": "mixing with the Kaluza-Klein modes, (m_f/m_KK)^2 (analysis.json kk_mixing_estimate), largest for the top quark; the first-order formula is not used (it would differ by up to 1.1e-03); radiative running not included",
+    "source": "analysis.json kk_mixing_estimate",
+    "value": 2.0229601889e-06,
+    "where": "t"
+   },
+   "residual": {
+    "definition": "implied relative root error |D(e) / (e dD/de)| at the stored (c_L, c_R, e_exact) of the twelve fermions, and |det / (e d det/de)| of the 3 x 3 tip determinant at the stored three-generation roots of the four sectors (mpmath, 40 digits)",
+    "details": {
+     "one_generation": {
+      "b": 3.25321164524e-12,
+      "c": 2.96493052467e-13,
+      "d": 1.29967935723e-11,
+      "e": 2.01945143525e-11,
+      "mu": 4.04883113185e-12,
+      "nu1": 5.44706024621e-11,
+      "nu2": 1.23844266873e-11,
+      "nu3": 3.82946811116e-11,
+      "s": 1.16911834752e-11,
+      "t": 4.03682215449e-12,
+      "tau": 1.00303373814e-13,
+      "u": 4.51914755158e-11
+     },
+     "three_generation_determinant": {
+      "charged leptons (kappa = 1)": 1.43614402033e-12,
+      "down quarks (kappa = V_CKM)": 2.03172752603e-12,
+      "neutrinos (kappa = U_PMNS)": 1.24682218945e-11,
+      "up quarks (kappa = 1)": 2.96493052467e-13
+     },
+     "three_generation_roots_vs_one_generation_roots_stored": 4.50319781464e-11
+    },
+    "source": "computed afresh by direct substitution",
+    "value": 5.44706024621e-11
+   },
+   "section": "FIELD_EQUATIONS section 6.2 (fermions) with 4.2 (the tip conditions b_L = kappa b_R, a_R = -kappa^dagger a_L); SOLUTION step 2 (fermions: masses and mixing of three generations)",
+   "solution": {
+    "description": "exact lowest roots of D(e) = e^2 s_L s_R - kappa_f^2 (C_L - c_L s_L)(C_R + c_R s_R) with kappa_f = 1 (one doublet localisation per sector, fitted singlet localisations); for a common doublet bulk mass and a unitary tip matrix the 3 x 3 determinant factorises into these roots (kappa_nu = U_PMNS, kappa_d = V_CKM)",
+    "method": "mpmath root finding (60 digits; masses.json fermions) and the 3 x 3 determinant at 50 digits (flavour.json)",
+    "order": "exact on the static block (tree-level targets)"
+   }
+  },
+  {
+   "check": {
+    "detail": "p 1.5e-13, eps 8.5e-13",
+    "justification": "all stored numbers carry 12 digits; the closed forms are exact",
+    "name": "R_dirac16complex_x0_spectrum",
+    "passed": true,
+    "tolerance": 1e-10,
+    "value": 8.46878123184e-13
+   },
+   "equation": "dirac16complex_x0_spectrum",
+   "in_concert": [
+    {
+     "difference": 6.09623462822e-12,
+     "link": "dark_matter_hidden_pressure",
+     "passed": true,
+     "quantity": "p0/rho = -d ln eps_DM/d ln f of the lowest odd level",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 8.05910893575e-13,
+     "link": "dark_matter_mass_ks_vs_boltzmann",
+     "passed": true,
+     "quantity": "M_DM",
+     "tolerance": 1e-11
+    },
+    {
+     "difference": 2.21334062189e-12,
+     "link": "static_block_f_star_across_scripts",
+     "passed": true,
+     "quantity": "f* = k*^{-1/2}",
+     "tolerance": 1e-11
+    }
+   ],
+   "name": "x0 spectrum of dirac16complex on the static block (fold zero mode, odd dark-matter level, even bulk levels)",
+   "neglected": {
+    "definition": "largest shift of the dark-matter level by the Standard-Model mean fields over the ten environments, delta eps/M (coupled.json; added as a correction in step 8)",
+    "source": "coupled.json environments d_eps_DM_over_M",
+    "value": 1.52633976606e-06
+   },
+   "residual": {
+    "definition": "implied relative error of the stored p_dm in c sin(P) + P cos(P) = 0 (P = p f L, c = m f L), and the stored eps_dm, eps_even_bulk, f L and x0-momentum fraction against the closed forms (afresh)",
+    "details": {
+     "eps_dm": 8.46878123184e-13,
+     "eps_even_bulk": 3.08308933938e-13,
+     "fL_equals_3_f_star": 0.0,
+     "p_dm_implied": 1.49413852817e-13,
+     "x0_momentum_fraction": 7.58282325819e-14
+    },
+    "source": "computed afresh",
+    "value": 8.46878123184e-13
+   },
+   "section": "FIELD_EQUATIONS section 6.2 (the h_j operator with M = m) and 4.5 (fold and tip conditions of dirac16complex); SOLUTION step 2 (dirac16complex)",
+   "solution": {
+    "description": "fold zero mode eps = 0; odd levels sqrt(m^2 + p^2) with tan(p f L) = -p/m (lowest 3.102204133 m: the dark matter); even bulk levels sqrt(m^2 + (n pi/(f L))^2)",
+    "method": "exact formulas, Brent root (ks/spectrum.json); the Kohn-Sham solver reproduces them to 1e-12",
+    "order": "exact"
+   }
+  },
+  {
+   "check": {
+    "detail": "SCF map 1.8e-14, reproduction 7.4e-14 H (8.0e-13 relative), energy identity 0.0e+00, conservation 8.8e-08",
+    "justification": "the solver converges to 1e-13 in the max norm, so one further map moves the densities by about the last step; with one BLAS thread (here and in um2_ks_jobs.py) the re-solved state reproduces the stored one to its 12 digits (the LUMO 0.25 H is stored to 5e-13 H); another BLAS kernel rounds the eigenvalues of matrices with basis energies up to 583 H differently by up to about 5e-13 H (as two threads did)",
+    "name": "R_kohn_sham_scf",
+    "passed": true,
+    "tolerance": 1e-12,
+    "value": 7.41351424693e-14
+   },
+   "equation": "kohn_sham_scf",
+   "in_concert": [
+    {
+     "difference": 3.38074013229e-12,
+     "link": "ks_energy_density_in_block_response",
+     "passed": true,
+     "quantity": "block averages rho, p3, pbar of the Kohn-Sham states N8_lamp, N592_lamp, N592_lam0",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 6.09623462822e-12,
+     "link": "dark_matter_hidden_pressure",
+     "passed": true,
+     "quantity": "p0/rho = -d ln eps_DM/d ln f of the lowest odd level",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 3.03135294644e-12,
+     "link": "portal_responses_ks_jobs_vs_coupled_overlaps",
+     "passed": true,
+     "quantity": "d eps_DM/de for the electron, up-quark and neutrino densities",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 8.05910893575e-13,
+     "link": "dark_matter_mass_ks_vs_boltzmann",
+     "passed": true,
+     "quantity": "M_DM",
+     "tolerance": 1e-11
+    },
+    {
+     "difference": 2.21334062189e-12,
+     "link": "static_block_f_star_across_scripts",
+     "passed": true,
+     "quantity": "f* = k*^{-1/2}",
+     "tolerance": 1e-11
+    }
+   ],
+   "name": "Kohn-Sham equations of dirac16complex on the static block (self-consistent densities, energy and energy-momentum tensor)",
+   "neglected": {
+    "definition": "self-interaction mean field at the assumed bound lambda <= 1.44e-10 H^-6 (coupled.json self_interaction_channel): the largest |delta M| of the N = 592, +lambda_B state scaled by lambda_max/lambda_B (units of m); correlation beyond the local exchange is not estimated (OPEN); y-conservation law 8.8e-08; basis error 1.5e-09",
+    "source": "computed from ks/ground592.json and coupled.json",
+    "value": 2.71663110854e-09
+   },
+   "residual": {
+    "definition": "largest of: the N = 8, +lambda_B state re-solved with the same solver (120 functions per sector; the shells n2 >= 2 are empty and omitted) against the stored E_KS, HOMO, LUMO, int p0, int rho (absolute, units of H); one further Kohn-Sham map of the converged densities, max |x_out - x_in| / max |x_out| over x = (n, S); and the energy identity |E_KS - 2 Vol7 int e^{3Hy} rho dy| / max(1, |E_KS|) over the eight stored states",
+    "details": {
+     "basis_richardson_uncertainty_max_relative": 1.49345598851e-09,
+     "energy_identity_max": 0.0,
+     "iterations": 14,
+     "largest_basis_energy_over_H": 582.976238386,
+     "record_reference_states_ks_validate": 4.10810385709e-10,
+     "reproduction_N8_plus_lambda_B_absolute": {
+      "E_KS": 2.27953506765e-17,
+      "HOMO": 2.43267862451e-17,
+      "LUMO": 7.41351424693e-14,
+      "int_p0": 3.53612538556e-16,
+      "int_rho": 2.31477163826e-17
+     },
+     "reproduction_relative": {
+      "E_KS": 1.11022302463e-13,
+      "HOMO": 4.7384318691e-13,
+      "int_p0": 7.95252752539e-13
+     },
+     "scf_map_residual": 1.82540667102e-14,
+     "y_conservation_law_max_relative_richardson": 8.75225494909e-08
+    },
+    "source": "computed afresh (re-solved state) and from ks/ground8.json, ks/ground592.json",
+    "value": 7.41351424693e-14
+   },
+   "section": "FIELD_EQUATIONS section 7 (the Kohn-Sham equations, densities, E_KS, the energy-momentum tensor and the y-conservation law); SOLUTION step 3 (the Kohn-Sham equations, validation, ground states, dark-matter quanta)",
+   "solution": {
+    "description": "Kohn-Sham orbitals of h_j with M_eff = m + (15/16) lambda S + <F>/Lambda*^3 and v = -(lambda/16) n + portal fields; states N = 8 (k = 0 fold zero modes) and N = 592 (fold-band gas) with lambda = 0, +-lambda_B and the stress coupling; eight dark-matter quanta in the lowest odd level",
+    "method": "Galerkin in the exact free eigenbasis (60/120/240 functions per sector), SCF to 1e-13 with safeguarded Anderson mixing, Richardson in the basis size (ks/ground8.json, ground592.json, darkmatter.json)",
+    "order": "Kohn-Sham mean field (Hartree plus the exact local exchange of the contact interaction)"
+   }
+  },
+  {
+   "check": {
+    "detail": "dk 1.4e-12, free gas 9.1e-13; shape source / pbar up to 4.00 (OPEN)",
+    "justification": "both are products of stored 12-digit numbers; radiation cancels exactly (c_3 = -3 c_rho), so the free gas leaves only rounding of terms of order 0.5",
+    "name": "R_kohn_sham_in_gravity_block_response",
+    "passed": true,
+    "tolerance": 1e-09,
+    "value": 1.44617651188e-12
+   },
+   "equation": "kohn_sham_in_gravity_block_response",
+   "in_concert": [
+    {
+     "difference": 3.38074013229e-12,
+     "link": "ks_energy_density_in_block_response",
+     "passed": true,
+     "quantity": "block averages rho, p3, pbar of the Kohn-Sham states N8_lamp, N592_lamp, N592_lam0",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 1.9903523274e-13,
+     "link": "block_response_coefficients_across_scripts",
+     "passed": true,
+     "quantity": "c_rho, c_3, c_p",
+     "tolerance": 1e-09
+    }
+   ],
+   "name": "the Kohn-Sham energy-momentum tensor as the source of the background equations (adiabatic block response)",
+   "neglected": {
+    "definition": "the block-shape source p0 - p_t, which the order-0 metric cannot absorb (OPEN), against the kept hidden pressure pbar: NOT small (about 0.9 for the self-interacting test states and 4 for non-relativistic dark matter, whose p_t = 0); its absolute size is suppressed like that of pbar (kappa p/kappa rho_b <= 3e-32 at the freeze-out), if the shape mode is stable (OPEN)",
+    "ratios": {
+     "N592_lamp": 0.901210471625,
+     "N8_lamp": 0.902566195779,
+     "dark_matter_lambda_0": 4.0
+    },
+    "source": "ks/feedback.json shape_source_p0_minus_pt, ks/darkmatter.json",
+    "value": 4.0
+   },
+   "residual": {
+    "definition": "largest of |dk recomputed from the stored Kohn-Sham integrals with the background coefficients / dk stored - 1| (N = 8 and N = 592 with +lambda_B) and, for the free fold-band gas (w = 1/3), |dk| / |c_rho kappa rho| (the cancellation of radiation)",
+    "details": {
+     "dk_per_unit_kappa": {
+      "N592_lam0": -5.13852756301e-13,
+      "N592_lamp": 0.0124511694949,
+      "N8_lamp": 2.26974808477e-06
+     },
+     "dk_recomputed_vs_stored": 1.44617651188e-12,
+     "free_gas_cancellation": 9.06756490332e-13
+    },
+    "source": "computed afresh from ks/ground*.json and background.json",
+    "value": 1.44617651188e-12
+   },
+   "section": "FIELD_EQUATIONS section 7 (the Kohn-Sham source enters the background equations through its block averages rho, p3, pbar) with 5.5; SOLUTION step 3 (back-reaction on the block)",
+   "solution": {
+    "description": "dk = (c_rho kappa rho + c_3 kappa p3 + c_p kappa pbar)/H^2 with the cell averages of the Kohn-Sham EMT, pbar = (p0 + 3 p_t)/4; radiation (w = 1/3) drops out (c_3 = -3 c_rho)",
+    "method": "cell averages of the integrated EMT (ks/feedback.json from ks/ground8.json, ks/ground592.json)",
+    "order": "first order"
+   }
+  },
+  {
+   "check": {
+    "detail": "Itilde 3.8e-12, Itilde^(b) 3.5e-12, O 4.4e-13",
+    "justification": "the same integrals of exact functions: the stored ones (800 Gauss nodes, 12 digits) and the afresh ones must agree to the quadrature and storage precision",
+    "name": "R_portal_overlaps_hellmann_feynman",
+    "passed": true,
+    "tolerance": 1e-09,
+    "value": 3.77253783768e-12
+   },
+   "equation": "portal_overlaps_hellmann_feynman",
+   "in_concert": [
+    {
+     "difference": 3.03135294644e-12,
+     "link": "portal_responses_ks_jobs_vs_coupled_overlaps",
+     "passed": true,
+     "quantity": "d eps_DM/de for the electron, up-quark and neutrino densities",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 5.65236270189e-06,
+     "link": "i12_response_O_across_scripts",
+     "passed": true,
+     "quantity": "O = int s_DM dy",
+     "tolerance": 0.0001
+    }
+   ],
+   "name": "the portals I11, I13 on the zero modes and I12 on the dark-matter level: overlaps as Hellmann-Feynman responses",
+   "neglected": {
+    "at_lambda_B": 0.000349232375797,
+    "definition": "screening of the response by the interacting dirac16complex gas, measured at lambda_B (coupled.json screened_response_Q) and scaled to the assumed bound lambda <= 1.44e-10 H^-6; the response is linear at the physical amplitudes",
+    "source": "coupled.json screened_response_Q",
+    "value": 7.16551319207e-10
+   },
+   "residual": {
+    "definition": "the overlaps recomputed from the closed-form orbitals (odd level a = sin P xi, b = (c sin P xi - P cos P xi)/e; fold zero mode (e^{c xi}, 0); first even level) and profiles with 2400 Gauss nodes refined at the fold: max relative deviation of Itilde, Itilde^(b), Itilde_lambda from the stored values, and O from tan(p f L) = -p/m in closed form against the Hellmann-Feynman value of ks/portals.json",
+    "details": {
+     "Itilde": 3.77253783768e-12,
+     "Itilde_b": 3.46522810446e-12,
+     "Itilde_lambda": 1.30151445177e-12,
+     "O_analytic": 0.707196002672,
+     "O_analytic_vs_ks": 4.3598458177e-13,
+     "stored_Kohn_Sham_finite_differences_I11": 3.03415959024e-10,
+     "stored_Kohn_Sham_finite_differences_I13": 2.28812968572e-10
+    },
+    "source": "computed afresh",
+    "value": 3.77253783768e-12
+   },
+   "section": "FIELD_EQUATIONS section 7.1 (Itilde_of, Itilde^(b)_of, G_V, G_A; I12: O = d eps_DM/dm) and section 10 (Itilde_lambda); SOLUTION step 3 (the Standard-Model fields acting on dirac16complex) and step 8 (the portals on the zero modes)",
+   "solution": {
+    "description": "Itilde_of = int (a_o^2 + b_o^2) rho_f e^{-3Hy} dy, Itilde^(b)_of = int b_o^2 rho_f e^{-3Hy} dy for the dark-matter level, the fold band and the first even bulk level against the zero modes of all multiplets; Itilde_lambda = int s_DF^2 e^{-3Hy} dy; O = d eps_DM/dm = 0.707196003",
+    "method": "quadrature of the exact free orbitals (80 basis functions per sector, 800 Gauss nodes; coupled.json overlaps_Itilde, overlaps_Itilde_b, self_interaction_channel), self-consistent Kohn-Sham finite differences as checks (coupled.json, ks/portals.json)",
+    "order": "linear response (exact for the physical amplitudes)"
+   }
+  },
+  {
+   "check": {
+    "detail": "largest delta_ln_f 2.0e-11",
+    "justification": "products and sums of stored 12-digit numbers; the iteration has converged when the iterated and the one-step block shifts agree to the loop gain (1e-33)",
+    "name": "R_coupled_environment_mean_fields",
+    "passed": true,
+    "tolerance": 1e-09,
+    "value": 2.00295335873e-11
+   },
+   "equation": "coupled_environment_mean_fields",
+   "in_concert": [
+    {
+     "difference": 6.09623462822e-12,
+     "link": "dark_matter_hidden_pressure",
+     "passed": true,
+     "quantity": "p0/rho = -d ln eps_DM/d ln f of the lowest odd level",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 0.0013060911601,
+     "link": "plasma_energy_density_thermal_vs_coupled_sources",
+     "passed": true,
+     "quantity": "rho(T_fo)",
+     "tolerance": 0.01
+    },
+    {
+     "difference": 3.03135294644e-12,
+     "link": "portal_responses_ks_jobs_vs_coupled_overlaps",
+     "passed": true,
+     "quantity": "d eps_DM/de for the electron, up-quark and neutrino densities",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 5.65236270189e-06,
+     "link": "i12_response_O_across_scripts",
+     "passed": true,
+     "quantity": "O = int s_DM dy",
+     "tolerance": 0.0001
+    },
+    {
+     "difference": 1.61770596918e-12,
+     "link": "i12_benchmark_thermal_vs_coupled_mean_field",
+     "passed": true,
+     "quantity": "c/Lambda*^3",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 8.05910893575e-13,
+     "link": "dark_matter_mass_ks_vs_boltzmann",
+     "passed": true,
+     "quantity": "M_DM",
+     "tolerance": 1e-11
+    },
+    {
+     "difference": 6.71240840688e-13,
+     "link": "relic_and_freeze_in_couplings_in_mean_fields",
+     "passed": true,
+     "quantity": "G_A, G_V",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 1.9903523274e-13,
+     "link": "block_response_coefficients_across_scripts",
+     "passed": true,
+     "quantity": "c_rho, c_3, c_p",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 4.71755967624e-12,
+     "link": "metric_series_vs_cosmology_coupled_masses",
+     "passed": true,
+     "quantity": "Delta_Phi(k), delta ln f, m_1 = m_KK, sigma_8",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 2.13029593965e-12,
+     "link": "freeze_out_temperature_relic_vs_environment",
+     "passed": true,
+     "quantity": "T_fo = M_DM/x_f",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 4.54791759807e-11,
+     "link": "block_sensitivities_x0_formula_vs_block_response",
+     "passed": true,
+     "quantity": "d ln m_f/d ln f (12 fermions), d ln Lambda^(6,3)/d ln f, d ln m_p/d ln f",
+     "tolerance": 1e-09
+    }
+   ],
+   "name": "the Kohn-Sham levels in the mean fields of the Standard-Model fields of an environment, with the block response to every species",
+   "neglected": {
+    "definition": "the gain of the loop mass -> source -> block -> mass (the relative size of each further iteration), coupled.json loop_gain; second order in the mean fields (delta eps/M)^2 = 2.3e-12; the neglected inertia of the block (H_Hubble/m_r)^2 = 3e-33 at the freeze-out",
+    "source": "coupled.json",
+    "value": 1.05354499088e-33
+   },
+   "residual": {
+    "definition": "every stored mean-field shift and block response recomputed from the stored overlaps, strengths, densities, condensates and sources: max relative deviation over the ten environments of delta eps_I11, delta eps_I13, delta eps_I12 (with O = 0.7072 as coded), dM_I12, delta k, delta ln f, delta eps/M, the vacuum condensate <g_s^2 GG> = 0.012 x 4 pi^2 GeV^4, and |delta ln f (iterated) / delta ln f (one step) - 1|",
+    "details": {
+     "GG_vacuum": 6.10400618939e-13,
+     "I11": 4.72377692518e-12,
+     "I12": 5.74651437546e-13,
+     "I13": 2.85194090566e-12,
+     "dM_I12": 1.61770596918e-12,
+     "delta_k": 1.91243687553e-11,
+     "delta_ln_f": 2.00295335873e-11,
+     "over_M": 2.80153678034e-12,
+     "self_consistent": 0.0
+    },
+    "source": "computed afresh from coupled.json and thermal.json",
+    "value": 2.00295335873e-11
+   },
+   "section": "FIELD_EQUATIONS section 7.1 (the mean fields of an environment, the condensates, gravity closes the loop, the hidden pressure, the nucleon) and section 11 item 6; SOLUTION step 8 (the mean fields of the Standard-Model fields; dirac16complex acting on the Standard Model, and gravity)",
+   "solution": {
+    "description": "delta eps = sum_f (G_V q_f Itilde + G_A q^B_f Itilde^(b)) n_f + O (c/Lambda*^3)(<g_s^2 GG> + <g^2 WW> + <g'^2 BB>) in ten environments; dk = (c_rho kappa drho + c_3 kappa dp3 + c_p kappa dpbar)/H^2 from all species, delta ln f = -dk/(2 k*), iterated with the masses",
+    "method": "closed formulas with the overlaps, the benchmark strengths G_V = 4.380e-17, G_A = 1.278e-09 GeV^-2, c/Lambda*^3 = 1.106e-14 GeV^-3 (coupled.json environments; 2 iterations each)",
+    "order": "first order in the mean fields, iterated"
+   }
+  },
+  {
+   "check": {
+    "detail": "stored -0.111252909, first order -0.111252909, shooting -0.111252909, photon 0.0",
+    "justification": "the same first-order integral of exact functions on two independent 800-node quadratures, stored to 12 digits; shooting, whose finite differences in e carry about 1e-11, must agree to 1e-8",
+    "name": "R_wz_x0_with_dark_matter_kinetic_function",
+    "passed": true,
+    "tolerance": 1e-09,
+    "value": 3.28448379605e-12
+   },
+   "equation": "wz_x0_with_dark_matter_kinetic_function",
+   "in_concert": [
+    {
+     "difference": 5.65236270189e-06,
+     "link": "i12_response_O_across_scripts",
+     "passed": true,
+     "quantity": "O = int s_DM dy",
+     "tolerance": 0.0001
+    },
+    {
+     "difference": 2.27913539574e-06,
+     "link": "w_eigenvalue_x0_vs_kinetic_function_problem",
+     "passed": true,
+     "quantity": "Lambda_W at e = 0",
+     "tolerance": 1e-05
+    }
+   ],
+   "name": "x0 eigenvalue problem of the W (and Z, photon) with the kinetic function K = 1 + e s_DM(y) of the dark-matter scalar density",
+   "neglected": {
+    "definition": "the physical amplitude at the dark-matter freeze-out times the coefficient: delta ln Lambda_W = e |d ln Lambda_W/de|",
+    "source": "coupled.json WZ_kinetic_shift.amplitude_e_by_environment",
+    "value": 1.88020638345e-17
+   },
+   "residual": {
+    "definition": "|stored d ln Lambda_W/de / afresh - 1|, afresh = the same first-order formula [int s w u'^2 - Lambda int s w u^2]/(Lambda int w u^2), w = e^{3 eta xi}, evaluated independently with the closed-form orbital (800 Gauss nodes on the cell) and the exact W eigenfunction (tip condition reproduced to 6e-12); confirmed by shooting the perturbed problem (DOP853, rtol 1e-13, Richardson in e): -0.111252909. The photon zero mode has u' = 0, so its shift vanishes exactly (stored: 0.0)",
+    "details": {
+     "first_order_perturbation": -0.111252909326,
+     "photon_Lambda_stored": 0.0,
+     "shooting_richardson": -0.111252909322,
+     "shooting_unperturbed_Lambda_W_vs_x0": 1.38762334956e-11,
+     "shooting_vs_perturbation": 2.9619640074e-11,
+     "stored": -0.111252909326
+    },
+    "source": "computed afresh",
+    "value": 3.28448379605e-12
+   },
+   "section": "FIELD_EQUATIONS section 7.1 (Psi acting on the x0 problem of the W and Z: -(1/(K e^{3 eta xi}))(K e^{3 eta xi} u')' = Lambda u, K(-1) u'(-1) = beta u(-1)); SOLUTION step 8 (dirac16complex acting on the Standard Model)",
+   "solution": {
+    "description": "d ln Lambda_W/de = -0.111252909 (stored), photon Lambda = 0.0 at e = 0.01 (exact value 0)",
+    "method": "first-order perturbation theory of the Sturm-Liouville problem with the exact W eigenfunction and the dark-matter orbital on the 800 Gauss nodes of the Kohn-Sham cell; the photon zero mode u = 1 solves the problem for every K (coupled.json WZ_kinetic_shift)",
+    "order": "first order in e (the physical e <= 1.7e-16)"
+   }
+  },
+  {
+   "check": {
+    "detail": "widths 2.7e-12, m_Z 2.0e-12; loop corrections 0.41 %",
+    "justification": "the same formulas with the same 12-digit inputs; m_Z is reproduced by construction of the fit (to 1e-8 in um2_spectra.py)",
+    "name": "R_yang_mills_masses_and_widths",
+    "passed": true,
+    "tolerance": 1e-09,
+    "value": 2.66708877206e-12
+   },
+   "equation": "yang_mills_masses_and_widths",
+   "in_concert": [
+    {
+     "difference": 2.00106597958e-12,
+     "link": "z_mass_x0_vs_z_widths",
+     "passed": true,
+     "quantity": "m_Z",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 0.00825118838902,
+     "link": "weak_angle_x0_vs_z_widths",
+     "passed": true,
+     "quantity": "sin^2(theta_W) and its effect on the total Z width",
+     "tolerance": 0.02
+    },
+    {
+     "difference": 3.10440562146e-12,
+     "link": "fermion_masses_x0_vs_thermal_history",
+     "passed": true,
+     "quantity": "the twelve fermion masses",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 5.83010719368e-07,
+     "link": "decoupling_heating_factor_F_h",
+     "passed": true,
+     "quantity": "F_h = [(T_nu/T_gamma)(11/4)^{1/3}/(1 + h_nu)]^4",
+     "tolerance": 0.0001
+    }
+   ],
+   "name": "Yang-Mills equations with the tip mass terms: W and Z masses and the tree-level Z widths of three generations",
+   "neglected": {
+    "alpha_s_squared_relative_to_total": 0.00133931076865,
+    "b_quark_mass_relative_to_total": -0.00126271772588,
+    "definition": "electroweak loop corrections, (measured - computed with the QCD factor)/measured total width; the b-quark mass in Gamma(Z -> b bbar) (m_b(m_b) = 4.183 GeV) relative to the total; the O(alpha_s^2) QCD term 1.409 (alpha_s/pi)^2 of the hadronic width relative to the total",
+    "source": "computed from electroweak.json and the inputs",
+    "value": 0.00411735442196
+   },
+   "residual": {
+    "definition": "max relative deviation of the stored widths (each channel, invisible, hadronic, totals, R_l) from the formula recomputed with the stored inputs, and |m_W sqrt(Lambda_Z/Lambda_W) / m_Z(measured) - 1| with the stored x0 eigenvalues",
+    "details": {
+     "m_Z": 2.00106597958e-12,
+     "widths": 2.66708877206e-12
+    },
+    "source": "computed afresh",
+    "value": 2.66708877206e-12
+   },
+   "section": "FIELD_EQUATIONS section 4.3 (the gauge fields; unitary gauge Sigma = 1, section 2) and 6.1; SOLUTION step 2 (W, Z) and step 4 (the Z widths of three generations)",
+   "solution": {
+    "description": "m_Z = m_W sqrt(Lambda_Z/Lambda_W) = 91.187900 GeV; Gamma(Z -> f fbar) = N_c G_F m_Z^3 (g_V^2 + g_A^2)/(6 sqrt2 pi), g_V = T3 - 2 Q sin^2(theta_W) (MS-bar 0.23122), g_A = T3, massless fermions; hadronic with 1 + alpha_s/pi",
+    "method": "closed formulas (electroweak.json Z_widths_tree_MeV)",
+    "order": "tree level (QCD factor 1 + alpha_s/pi for comparison)"
+   }
+  },
+  {
+   "check": {
+    "detail": "Poisson 1.5e-06, matter-era limit 4.4e-05, CAMB mass iteration 7.8e-12",
+    "justification": "a first-order potential inconsistent with the first-order density beyond 1e-4 would show at a tenth of the CAMB default accuracy (about 1e-3); the matter-era limit neglects 1 - T(k) ~ (k/k_eq)^2 and radiation, about 1e-4 at k = 1e-4 Mpc^-1",
+    "name": "R_linear_perturbations_cmb_bao",
+    "passed": true,
+    "tolerance": 0.0001,
+    "value": 1.54861694168e-06
+   },
+   "equation": "linear_perturbations_cmb_bao",
+   "in_concert": [
+    {
+     "difference": 5.66657831769e-12,
+     "link": "neutrino_masses_tip_matrices_vs_flavour_cnb_cmb",
+     "passed": true,
+     "quantity": "m_1, m_2, m_3, their sum and the splittings dm2_31, dm2_21",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 1.9129203383e-05,
+     "link": "omega_nu_cnb_vs_camb",
+     "passed": true,
+     "quantity": "Omega_nu h^2 of the three mass states",
+     "tolerance": 0.0001
+    },
+    {
+     "difference": 5.43618969284e-16,
+     "link": "neff_decoupling_plus_freeze_in_vs_camb",
+     "passed": true,
+     "quantity": "N_eff = 3.0432 (neutrinos) + Delta N_eff (fold bands)",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 3.10842551698e-09,
+     "link": "relic_density_vs_cmb_omega_c",
+     "passed": true,
+     "quantity": "Omega_c h^2 (two species)",
+     "tolerance": 1e-06
+    },
+    {
+     "difference": 0.00593494844625,
+     "link": "late_time_radiation_thermal_vs_cmb",
+     "passed": true,
+     "quantity": "g_rho today (massless neutrinos)",
+     "tolerance": 0.01
+    },
+    {
+     "difference": 4.71755967624e-12,
+     "link": "metric_series_vs_cosmology_coupled_masses",
+     "passed": true,
+     "quantity": "Delta_Phi(k), delta ln f, m_1 = m_KK, sigma_8",
+     "tolerance": 1e-10
+    }
+   ],
+   "name": "linear (order epsilon) Einstein-Boltzmann equations of the four-dimensional effective theory: CMB, CNB, BAO, sigma_8",
+   "neglected": {
+    "definition": "order epsilon^2 relative to order epsilon: Delta_Phi on the largest scale (series.json order2 = Delta_Phi^2 relative to order 0); the Kaluza-Klein modes and the radion (>= 48 TeV) are absent at cosmological scales",
+    "source": "cosmology.json",
+    "value": 2.41505669346e-05
+   },
+   "residual": {
+    "definition": "the stored first-order solution in the Poisson equation Phi = (3/2) Omega_m H0^2 delta_m/(a k^2): max over k >= 0.01 Mpc^-1 of |Delta_Phi(Poisson) / Delta_Phi(Weyl) - 1| (cosmology.json models[1].Delta_Phi_z0); on the largest scale the matter-era solution (3/5) A_s^{1/2} (k/k0)^{(n_s-1)/2} g(0), g(0) recomputed from Omega_m",
+    "details": {
+     "camb_neutrino_mass_iteration_last": 7.83606513011e-12,
+     "g0_recomputed": 0.787828964555,
+     "g0_stored": 0.787828964553,
+     "matter_era_limit_k_1e-4": 4.37241952966e-05,
+     "poisson_k_ge_0.01": 1.54861694168e-06
+    },
+    "source": "computed afresh from cosmology.json",
+    "value": 1.54861694168e-06
+   },
+   "section": "FIELD_EQUATIONS section 8 (the linear perturbations: Einstein equations in the Newtonian gauge, photons, baryons, cold dark matter, three massive neutrino hierarchies, the freeze-in fold bands); SOLUTION step 6",
+   "solution": {
+    "description": "CAMB 2.0.5 with the three neutrino mass states (each N_eff/3), N_eff = 3.0432 + 0.0010, the Planck 2018 omega_b, omega_c, theta, tau, A_s, n_s; Delta_Phi(k) from the Weyl potential (cosmology.json models[1])",
+    "method": "Einstein-Boltzmann solver CAMB (default accuracy, lensing)",
+    "order": "first order in epsilon"
+   }
+  },
+  {
+   "check": {
+    "detail": "Yukawa strengths 5.2e-09",
+    "justification": "analytic functions in double precision (terms up to (q_5^2 + a^2) e^{a} = 2.4e4 cancel to 1e-16 of themselves) and the 12-digit storage of N_n; the stored Yukawa strengths (200001-point trapezoid, error about 5e-9) are checked separately (tolerance 1e-8)",
+    "name": "R_graviton_tower",
+    "passed": true,
+    "tolerance": 1e-11,
+    "value": 1.20625151057e-12
+   },
+   "equation": "graviton_tower",
+   "in_concert": [
+    {
+     "difference": 7.92540137727e-05,
+     "link": "radion_frequency_linear_vs_nonlinear",
+     "passed": true,
+     "quantity": "omega_r = m_r/H",
+     "tolerance": 0.001
+    },
+    {
+     "difference": 4.71755967624e-12,
+     "link": "metric_series_vs_cosmology_coupled_masses",
+     "passed": true,
+     "quantity": "Delta_Phi(k), delta ln f, m_1 = m_KK, sigma_8",
+     "tolerance": 1e-10
+    }
+   ],
+   "name": "Kaluza-Klein graviton tower (n >= 1 terms of the first-order metric) and the Yukawa strengths of a static source",
+   "neglected": {
+    "definition": "the Kaluza-Klein correction to Newton's law at the smallest measured distance (50 micrometres), alpha_1 e^{-m_1 r} with m_1 r = 3.07e+16 (series.json newton_law): zero in double precision; the Lovelock corrections to the graviton operator are OPEN (not estimated)",
+    "exponent_m1_r": 3.07418499349e+16,
+    "source": "series.json",
+    "value": 0.0
+   },
+   "residual": {
+    "definition": "the stored profiles in -e^{-3 eta xi}(e^{3 eta xi} u')' = Lambda_n u: max |u'' + 3 eta u' + Lambda_n u| / max |Lambda_n u| on 2001 points (analytic derivatives), the fold and tip conditions u'(0) = u'(-1) = 0 relative to max |u'|, the orthogonality to the flat profile and N_n by Gauss-Legendre quadrature, n = 1..5; the stored Yukawa strengths recomputed (details)",
+    "details": {
+     "boundary": 9.22213438922e-16,
+     "flat_profile_orthogonality": 8.78195043757e-14,
+     "norms": 8.71747118936e-13,
+     "ode": 1.20625151057e-12,
+     "stored_flat_source_overlap_max": 1.70646635606e-10,
+     "yukawa_strengths_and_Lambda_n": 5.15345499608e-09
+    },
+    "source": "computed afresh",
+    "value": 1.20625151057e-12
+   },
+   "section": "FIELD_EQUATIONS section 8.1 (beyond n = 0: the Kaluza-Klein gravitons and the radion) with 6.1 (beta = 0); SOLUTION step 10",
+   "solution": {
+    "description": "u_n = e^{-a xi}(cos q_n xi + (a/q_n) sin q_n xi), q_n = n pi, a = 3 eta/2, Lambda_n = 9 eta^2/4 + n^2 pi^2, N_n = (1 + a^2/q_n^2)/2, alpha_n = (N_0/N_n)(int rho_M u_n)(int rho_m u_n) (series.json kaluza_klein_gravitons)",
+    "method": "exact eigenfunctions (finite elements as a check)",
+    "order": "exact (Einstein-gravity operator)"
+   }
+  },
+  {
+   "check": {
+    "detail": "order 2/order 1 2.4e-05",
+    "justification": "the first-order cosmology (CMB, BAO) is used at the level of the CAMB default accuracy (about 1e-3); the omitted second order is 2.4e-5 of the first",
+    "name": "R_metric_series_order2",
+    "passed": true,
+    "tolerance": 0.001,
+    "value": 2.41505669346e-05
+   },
+   "equation": "metric_series_order2",
+   "in_concert": [
+    {
+     "difference": 7.92540137727e-05,
+     "link": "radion_frequency_linear_vs_nonlinear",
+     "passed": true,
+     "quantity": "omega_r = m_r/H",
+     "tolerance": 0.001
+    },
+    {
+     "difference": 4.71755967624e-12,
+     "link": "metric_series_vs_cosmology_coupled_masses",
+     "passed": true,
+     "quantity": "Delta_Phi(k), delta ln f, m_1 = m_KK, sigma_8",
+     "tolerance": 1e-10
+    }
+   ],
+   "name": "the metric power series g = gbar + eps h1 + eps^2 h2 + ... (truncation after the first order)",
+   "neglected": {
+    "definition": "order 2 at a neutron star, Phi^2 (series.json order2): the series converges slowly there, where full nonlinear general relativity applies (outside the cosmological solution)",
+    "source": "series.json",
+    "value": 0.0296931891427
+   },
+   "residual": {
+    "definition": "the first omitted order relative to the kept one on cosmological scales, Delta_Phi^2/Delta_Phi = Delta_Phi at k = 1e-4 Mpc^-1 (recomputed from cosmology.json); the stored order-2 magnitude and the bound-object potentials recomputed (details); the terms decrease strictly: 1, 2.4e-05, 5.8e-10, 1.1e-34, 0",
+    "details": {
+     "bound_object_potentials": 2.2495338925e-12,
+     "order2_stored_vs_recomputed": 6.9477756881e-13,
+     "strictly_decreasing": true
+    },
+    "source": "computed afresh from cosmology.json and series.json",
+    "value": 2.41505669346e-05
+   },
+   "section": "FIELD_EQUATIONS section 8 and 8.1; SOLUTION \"The approximation scheme\" and step 10 (the terms of the metric power series)",
+   "solution": {
+    "description": "order 0: 1; order 1 (n = 0): Delta_Phi(k) <= 2.42e-05 (cosmological), G M/(R c^2) (bound objects); order 1 (n >= 1): Kaluza-Klein gravitons; radion delta ln f <= 1.1e-34; order 2: (order 1)^2 (ESTIMATE) (series.json)",
+    "method": "magnitudes from the computed solution",
+    "order": "first order kept"
+   }
+  },
+  {
+   "check": {
+    "detail": "unitarity 1.3e-15, accelerators 4.9e-13",
+    "justification": "exact unitary operators in double precision (1e-15); the recomputation uses masses that differ from the stored ones by the fit residual (1e-12) and the 12-digit PMNS matrix",
+    "name": "R_neutrino_flavour_evolution",
+    "passed": true,
+    "tolerance": 1e-09,
+    "value": 7.11314340762e-12
+   },
+   "equation": "neutrino_flavour_evolution",
+   "in_concert": [
+    {
+     "difference": 5.66657831769e-12,
+     "link": "neutrino_masses_tip_matrices_vs_flavour_cnb_cmb",
+     "passed": true,
+     "quantity": "m_1, m_2, m_3, their sum and the splittings dm2_31, dm2_21",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 8.21287482466e-13,
+     "link": "pmns_tip_matrix_vs_flavour_evolution_and_cnb",
+     "passed": true,
+     "quantity": "U_PMNS",
+     "tolerance": 1e-11
+    }
+   ],
+   "name": "flavour evolution of the three neutrinos in vacuum and matter (i dpsi/dx4 = H psi), MSW resonances, the Sun, supernova envelopes",
+   "neglected": {
+    "definition": "what the adiabatic formula drops (non-adiabatic and production-region effects): max |numerical - adiabatic| solar P_ee (neutrino.json solar); the layer discretisation 2.2e-06; supernova Landau-Zener jumps <= 2.6e-77; the flavour-universal neutral-current potential drops out exactly; collective effects beyond the linear analysis OPEN",
+    "source": "neutrino.json",
+    "value": 0.001266159195
+   },
+   "residual": {
+    "definition": "with the x0 masses (masses.json e_exact/fL) and the stored PMNS matrix (flavour.json): unitarity max |S S^dagger - 1| (6 baselines, vacuum and matter), the exact vacuum evolution against the analytic sum formula and CPT (max abs), the stored T2K, NOvA, DUNE probabilities recomputed (max abs), the stored adiabatic solar P_ee recomputed (max abs)",
+    "details": {
+     "CPT": 2.22044604925e-16,
+     "long_baseline_recomputed": 4.85819717788e-13,
+     "solar_adiabatic_recomputed": 4.41036096532e-13,
+     "unitarity": 1.33233983106e-15,
+     "vacuum_formula": 7.11314340762e-12
+    },
+    "source": "computed afresh",
+    "value": 7.11314340762e-12
+   },
+   "section": "FIELD_EQUATIONS section 9.1 (the matter potentials) and 9.2 (vacuum and matter: evolution operator, MSW conditions, adiabatic P_ee, Landau-Zener); SOLUTION step 5 (masses, mixing and the equations; vacuum, matter and accelerators; the Sun; supernovae)",
+   "solution": {
+    "description": "S = exp(-i H L) for constant density, ordered products of 20000/40000 layer operators in the Sun; H = U diag(m_i^2) U^dagger/(2E) + diag(V_CC, 0, 0); masses from the x0 eigenvalues, U the neutrino tip matrix (neutrino.json)",
+    "method": "exact matrix exponentials (eigendecomposition)",
+    "order": "coherent (collisionless) evolution, exact for the given potential"
+   }
+  },
+  {
+   "check": {
+    "detail": "CP-asymmetric term 1.1e-02 of the thermal one (ESTIMATE)",
+    "justification": "the stored temperatures carry 12 digits and the condition scales as T^6",
+    "name": "R_neutrino_thermal_potential",
+    "passed": true,
+    "tolerance": 1e-09,
+    "value": 8.68549676625e-12
+   },
+   "equation": "neutrino_thermal_potential",
+   "in_concert": [
+    {
+     "difference": 5.66657831769e-12,
+     "link": "neutrino_masses_tip_matrices_vs_flavour_cnb_cmb",
+     "passed": true,
+     "quantity": "m_1, m_2, m_3, their sum and the splittings dm2_31, dm2_21",
+     "tolerance": 1e-10
+    }
+   ],
+   "name": "thermal potential of the e+- plasma that suppresses mixing in the early Universe",
+   "neglected": {
+    "definition": "the CP-asymmetric potential sqrt2 G_F (n_e- - n_e+), with n_e- - n_e+ = n_p = eta_b n_gamma/(1 + e^{-Q/T}) (charge neutrality, eta_b = 6.1e-10 as in coupled.json; neutrino asymmetries assumed zero), relative to the thermal term at the onset temperatures (ESTIMATE; it would shift the onset temperatures by about a sixth of this); higher orders in (T/m_W)^2 ~ 4e-9",
+    "ratios": {
+     "atmospheric_13": 0.00224931981361,
+     "solar_12": 0.0110126807555
+    },
+    "source": "computed (ESTIMATE)",
+    "value": 0.0110126807555
+   },
+   "residual": {
+    "definition": "the onset condition at the stored temperatures, |V_thermal / (dm2 cos 2theta/(2p)) - 1|",
+    "details": {
+     "atmospheric_13": 5.87974113841e-12,
+     "solar_12": 8.68549676625e-12
+    },
+    "source": "computed afresh",
+    "value": 8.68549676625e-12
+   },
+   "section": "FIELD_EQUATIONS section 9.3 (the thermal potential); SOLUTION step 5 (the early Universe and N_eff)",
+   "solution": {
+    "description": "V_e - V_mu = -(8 sqrt2 G_F p/(3 m_W^2)) (7 pi^2/60) T^4 equals dm2 cos 2theta/(2p) at p = 3.15 T: T = 4.99 MeV (atmospheric), 2.39 MeV (solar) (neutrino.json oscillation_onset_T_MeV)",
+    "method": "Brent root",
+    "order": "leading order in T/m_W, CP-symmetric plasma"
+   }
+  },
+  {
+   "check": {
+    "detail": "recomputed 3.0001803890, stored 3.0001803890; published values within 4.6e-04",
+    "justification": "both evaluate the same exact entropy balance; the stored one through a 400-point spline table of the e+- thermodynamics, whose interpolation error must stay far below the 1e-4 to which N_eff is used",
+    "name": "R_neutrino_decoupling",
+    "passed": true,
+    "tolerance": 1e-06,
+    "value": 2.73914224636e-12
+   },
+   "equation": "neutrino_decoupling",
+   "in_concert": [
+    {
+     "difference": 5.43618969284e-16,
+     "link": "neff_decoupling_plus_freeze_in_vs_camb",
+     "passed": true,
+     "quantity": "N_eff = 3.0432 (neutrinos) + Delta N_eff (fold bands)",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 0.00593494844625,
+     "link": "late_time_radiation_thermal_vs_cmb",
+     "passed": true,
+     "quantity": "g_rho today (massless neutrinos)",
+     "tolerance": 0.01
+    },
+    {
+     "difference": 5.83010719368e-07,
+     "link": "decoupling_heating_factor_F_h",
+     "passed": true,
+     "quantity": "F_h = [(T_nu/T_gamma)(11/4)^{1/3}/(1 + h_nu)]^4",
+     "tolerance": 0.0001
+    }
+   ],
+   "name": "neutrino decoupling: temperature equations with Fermi-Dirac energy transfer, the QED pressure of the plasma, N_eff",
+   "neglected": {
+    "definition": "the electron mass in the rates and the momentum dependence (absent in the method of temperatures): computed - adopted N_eff; the treatment of oscillations (separate - common) 0.0009; neutrino masses (m_3/T_dec)^2 = 6e-16",
+    "source": "neutrino.json",
+    "value": 0.00440154984
+   },
+   "residual": {
+    "definition": "|N_eff(instantaneous decoupling at 20 MeV, no QED) recomputed independently from the separate entropy conservation of the e+- gamma plasma with exact Fermi-Dirac integrals (scipy quad) - stored value| (neutrino.json N_eff_runs.instantaneous_noQED); the method against the six published values of Escudero 2020 (Table 1, 3 decimals): 4.6e-04",
+    "details": {
+     "published_values_max_abs_difference": 0.00045673606,
+     "recomputed": 3.00018038904,
+     "stored": 3.00018038904
+    },
+    "source": "computed afresh; published comparison from neutrino.json",
+    "value": 2.73914224636e-12
+   },
+   "section": "FIELD_EQUATIONS section 9.4 (the quantum kinetic equations and neutrino decoupling); SOLUTION step 5 (the early Universe and N_eff)",
+   "solution": {
+    "description": "dT_gamma/dx4, dT_nu_alpha/dx4 with the Escudero kernels and P_int = P2 + P3, from 20 MeV to 5 keV: N_eff = 3.0476 (separate nu_e, nu_mu,tau temperatures), 3.0485 (common); the precision value 3.0432 (Cielo et al. 2023) is adopted (neutrino.json)",
+    "method": "LSODA, rtol 1e-11; e+- thermodynamics tabulated on 400 points (spline in ln T)",
+    "order": "momentum-averaged (one temperature per flavour); QED to O(e^3)"
+   }
+  },
+  {
+   "check": {
+    "detail": "moments 3.3e-13, growth 1.7e-14, matrix 5.1e-14",
+    "justification": "the same moments and matrices evaluated twice; the stored growth rates agree among three methods to 1e-14",
+    "name": "R_fast_flavour_dispersion",
+    "passed": true,
+    "tolerance": 1e-10,
+    "value": 3.33330585356e-13
+   },
+   "equation": "fast_flavour_dispersion",
+   "in_concert": [],
+   "in_concert_note": "none: its fields (a nu_e and nubar_e gas near a neutrinosphere with assumed angular distributions) enter no other field equation of UM-2; the only shared quantities are G_F (an input) and, through the neglected vacuum term (9e-06 of mu), the x0 masses",
+   "name": "linearised flavour evolution of a dense neutrino gas: the dispersion relation of the fast flavour instability",
+   "neglected": {
+    "definition": "the vacuum term relative to the self-interaction near the neutrinosphere, dm2_31/(2 <E> mu) with <E> = 11 MeV and n_nu_e = 1e32 cm^-3; the nonlinear evolution beyond the linear analysis is OPEN",
+    "source": "computed from neutrino.json fast_flavour_scales",
+    "value": 9.01271799154e-06
+   },
+   "residual": {
+    "definition": "the ELN moments recomputed with adaptive quadrature, the analytic growth from them and the eigenvalues of the discretised homogeneous equations (300 nodes) recomputed: max abs deviation from the stored values (units mu); the stored agreement of the three evaluations: 0.0e+00",
+    "details": {
+     "analytic_growth": 1.68060010353e-14,
+     "homogeneous_matrix": 5.13616926767e-14,
+     "moments": 3.33330585356e-13,
+     "stored_three_evaluations": 0.0
+    },
+    "source": "computed afresh",
+    "value": 3.33330585356e-13
+   },
+   "section": "FIELD_EQUATIONS section 9.5 (the dense neutrino gas: dispersion relation, homogeneous mode, ELN crossing); SOLUTION step 5 (supernovae: the fast flavour instability)",
+   "solution": {
+    "description": "roots with Im omega > 0 of det Pi = 0 (axisymmetric and azimuthal branches) for real k; the homogeneous mode from the discretised equations; the analytic growth (1/2) sqrt(4 I1^2 - (I0 + I2)^2) of the mode K = Lambda^3 (neutrino.json fast_flavour_instability)",
+    "method": "vectorised Newton iterations; eigenvalues of the 300-node discretisation",
+    "order": "linear in the flavour coherence"
+   }
+  },
+  {
+   "check": {
+    "detail": "largest v 2.9e-12",
+    "justification": "two adaptive quadratures of the same integrals with relative tolerances 1e-13 (in eV in um2_neutrino.py, in u = p/T_nu here), stored to 12 digits",
+    "name": "R_cosmic_neutrino_background",
+    "passed": true,
+    "tolerance": 1e-10,
+    "value": 2.86415335893e-12
+   },
+   "equation": "cosmic_neutrino_background",
+   "in_concert": [
+    {
+     "difference": 5.66657831769e-12,
+     "link": "neutrino_masses_tip_matrices_vs_flavour_cnb_cmb",
+     "passed": true,
+     "quantity": "m_1, m_2, m_3, their sum and the splittings dm2_31, dm2_21",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 8.21287482466e-13,
+     "link": "pmns_tip_matrix_vs_flavour_evolution_and_cnb",
+     "passed": true,
+     "quantity": "U_PMNS",
+     "tolerance": 1e-11
+    },
+    {
+     "difference": 1.9129203383e-05,
+     "link": "omega_nu_cnb_vs_camb",
+     "passed": true,
+     "quantity": "Omega_nu h^2 of the three mass states",
+     "tolerance": 0.0001
+    }
+   ],
+   "name": "cosmic neutrino background: an incoherent mixture of the three mass states with the Fermi-Dirac distribution",
+   "neglected": {
+    "definition": "the non-instantaneous heating, (N_eff/3)^{3/4} - 1 in Omega_nu h^2 (included in the CMB computation through the degeneracy N_eff/3, not in the CNB table); gravitational clustering not computed",
+    "source": "computed",
+    "value": 0.010780675704
+   },
+   "residual": {
+    "definition": "n_i, rho_i, <v>_i, |U_alpha i|^2 and Omega_nu h^2 recomputed with the x0 masses and the stored PMNS matrix: max relative (absolute for the flavour content) deviation from the stored values",
+    "details": {
+     "Omega_nu_h2": 8.10462807976e-14,
+     "flavour_content": 8.21287482466e-13,
+     "n": 2.29094521131e-12,
+     "rho": 2.66398014759e-12,
+     "v": 2.86415335893e-12
+    },
+    "source": "computed afresh",
+    "value": 2.86415335893e-12
+   },
+   "section": "FIELD_EQUATIONS section 9.6 (the cosmic neutrino background); SOLUTION step 5 (the cosmic neutrino background)",
+   "solution": {
+    "description": "T_nu = (4/11)^{1/3} T_CMB, n_i = 3 zeta(3) T_nu^3/(2 pi^2), rho_i = 2 int d^3p/(2pi)^3 sqrt(p^2 + m_i^2) f, mean velocities, flavour content |U_alpha i|^2, Omega_nu h^2 (neutrino.json CNB)",
+    "method": "adaptive quadrature",
+    "order": "exact for free streaming after instantaneous decoupling"
+   }
+  },
+  {
+   "check": {
+    "detail": "O(alpha) pressure at the freeze-out -5.4 % (neglected)",
+    "justification": "the stored integrals use 160 Gauss nodes on a finite range, the afresh ones adaptive quadrature to 1e-12; the exact limits hold to the decoupling rule (e+- fully annihilated today)",
+    "name": "R_thermal_degrees_of_freedom",
+    "passed": true,
+    "tolerance": 1e-06,
+    "value": 5.03430230836e-09
+   },
+   "equation": "thermal_degrees_of_freedom",
+   "in_concert": [
+    {
+     "difference": 3.10440562146e-12,
+     "link": "fermion_masses_x0_vs_thermal_history",
+     "passed": true,
+     "quantity": "the twelve fermion masses",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 0.000173924096811,
+     "link": "hubble_rate_thermal_vs_four_dimensional_friedmann",
+     "passed": true,
+     "quantity": "H(T_fo)",
+     "tolerance": 0.001
+    },
+    {
+     "difference": 0.00593494844625,
+     "link": "late_time_radiation_thermal_vs_cmb",
+     "passed": true,
+     "quantity": "g_rho today (massless neutrinos)",
+     "tolerance": 0.01
+    },
+    {
+     "difference": 0.0013060911601,
+     "link": "plasma_energy_density_thermal_vs_coupled_sources",
+     "passed": true,
+     "quantity": "rho(T_fo)",
+     "tolerance": 0.01
+    }
+   ],
+   "name": "thermal history: the ideal-gas energy and entropy densities of the thermalised species with their x0 masses",
+   "neglected": {
+    "definition": "the O(alpha) interaction pressure of the plasma, p_2 = -(g^2 T^4/144) d_A [C_A + (5/2) T_F N_f] (FIELD_EQUATIONS 7.1; couplings at 2 pi T), relative to the ideal-gas pressure at the freeze-out (T = 1420.0 GeV): NOT small, -5.4 % (QCD -4.7 %, SU(2) -0.7 %, U(1) -0.10 %); the ideal-gas thermal history (and so H and s of the Boltzmann equation) leaves it out, while step 8 uses p_2 for the condensates; since Omega h^2 ~ g_rho^{1/2}/g_s at freeze-out, it would raise Omega h^2 by about 2.7 % and G_A by about half of that (ESTIMATE)",
+    "parts": {
+     "QCD": -0.046563714043,
+     "SU2": -0.0066987591438,
+     "U1Y": -0.00100601921749
+    },
+    "source": "computed (ESTIMATE, leading order)",
+    "value": -0.0542684924043
+   },
+   "residual": {
+    "definition": "g_rho, g_s at the 13 tabulated temperatures recomputed with the same species, switch and neutrino rule but adaptive quadrature (scipy quad, 1e-12): max relative deviation; the exact limits today, g_s = 43/11 and g_rho = 2 + (7/8) 6 (4/11)^{4/3}",
+    "details": {
+     "g_rho_today_vs_exact": 5.03430230836e-09,
+     "g_s_today_vs_43_over_11": 4.33069780037e-09,
+     "g_table_independent_quadrature": 4.64221994179e-11
+    },
+    "source": "computed afresh",
+    "value": 5.03430230836e-09
+   },
+   "section": "FIELD_EQUATIONS section 10 (degrees of freedom: rho_i, p_i, s_i, g_rho, g_s, H, the QCD crossover, instantaneous neutrino decoupling); SOLUTION step 9 (the thermal history)",
+   "solution": {
+    "description": "g_rho(T), g_s(T) from photon, gluons, W+, W-, Z, six quarks, three charged leptons, three neutrinos (no Higgs), a hadron gas below the crossover, neutrinos decoupled at 2 MeV (thermal.json g_star_table, g_star_curve, today)",
+    "method": "Gauss-Legendre (160 nodes) on the ideal-gas integrals (um2_thermal.py)",
+    "order": "ideal gases (no interactions)"
+   }
+  },
+  {
+   "check": {
+    "detail": "Omega h^2 = 0.060000000186, late-time identity 6.1e-09 (I13), 3.3e-09 (stored I12 history)",
+    "justification": "the root finding fixes ln G_A to 1e-6 (Omega h^2 to 2e-6); the Radau tolerance 1e-10 accumulated over the history and the tabulated thermal average allow about 1e-8 in the late-time identity",
+    "name": "R_boltzmann_relic",
+    "passed": true,
+    "tolerance": 1e-06,
+    "value": 6.08805150737e-09
+   },
+   "equation": "boltzmann_relic",
+   "in_concert": [
+    {
+     "difference": 3.10842551698e-09,
+     "link": "relic_density_vs_cmb_omega_c",
+     "passed": true,
+     "quantity": "Omega_c h^2 (two species)",
+     "tolerance": 1e-06
+    },
+    {
+     "difference": 0.000173924096811,
+     "link": "hubble_rate_thermal_vs_four_dimensional_friedmann",
+     "passed": true,
+     "quantity": "H(T_fo)",
+     "tolerance": 0.001
+    },
+    {
+     "difference": 5.65236270189e-06,
+     "link": "i12_response_O_across_scripts",
+     "passed": true,
+     "quantity": "O = int s_DM dy",
+     "tolerance": 0.0001
+    },
+    {
+     "difference": 1.61770596918e-12,
+     "link": "i12_benchmark_thermal_vs_coupled_mean_field",
+     "passed": true,
+     "quantity": "c/Lambda*^3",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 8.05910893575e-13,
+     "link": "dark_matter_mass_ks_vs_boltzmann",
+     "passed": true,
+     "quantity": "M_DM",
+     "tolerance": 1e-11
+    },
+    {
+     "difference": 6.71240840688e-13,
+     "link": "relic_and_freeze_in_couplings_in_mean_fields",
+     "passed": true,
+     "quantity": "G_A, G_V",
+     "tolerance": 1e-10
+    },
+    {
+     "difference": 2.13029593965e-12,
+     "link": "freeze_out_temperature_relic_vs_environment",
+     "passed": true,
+     "quantity": "T_fo = M_DM/x_f",
+     "tolerance": 1e-10
+    }
+   ],
+   "name": "Boltzmann equation of the two dark-matter species (thermal average of the I12 + I13 cross-sections, partial-wave unitarity)",
+   "neglected": {
+    "definition": "the leading neglected effects on the relic: the O(alpha) interaction pressure missing from g_rho, g_s (Omega h^2 shift about +2.7 %, ESTIMATE, see thermal_degrees_of_freedom); the fold bands missing from H at the freeze-out (see the link hubble_rate_thermal_vs_four_dimensional_friedmann); the unitarity completion: 21.7 % of the freeze-out rate comes from collisions at the J = 1 bound; the thermal shift of the mass, delta eps/M = 1.5e-06; the dark matter in g_rho: 1.1e-02 at x = 5 (where Y = Y_eq), 7e-12 at x_f",
+    "source": "computed (ESTIMATE) and coupled.json",
+    "value": 0.0271342462022
+   },
+   "residual": {
+    "definition": "largest of: the relic condition at the stored G_A, |Omega h^2 / 0.060 - 1| with the Boltzmann equation re-solved (the same machinery, S13 from the stored overlaps); the late-time integral identity 1/Y(2000) - 1/Y(x*) = int (1 + delta) s <sigma v>/(2 x H) dx (x* = 3 x_f) on the recomputed I13 history and on the STORED I12 history of thermal.json history_effective (relative)",
+    "details": {
+     "Omega_h2_recomputed": 0.0600000001865,
+     "Omega_h2_stored": 0.0599999999878,
+     "late_time_identity_I12_stored_history": 3.27345583973e-09,
+     "late_time_identity_I13_recomputed": 6.08805150737e-09,
+     "late_time_quadrature": "composite Gauss-Legendre (12 nodes) between the temperature nodes of g(T)",
+     "relic_condition_at_stored_G_A": 3.10806358428e-09,
+     "stored_s_wave_validation": 1.30714097324e-08,
+     "x_f_recomputed_vs_stored": 1.27475807687e-12
+    },
+    "source": "computed afresh",
+    "value": 6.08805150737e-09
+   },
+   "section": "FIELD_EQUATIONS section 10 (the dark matter: Boltzmann equation, Gondolo-Gelmini average, sigma_I12, sigma_I13, the unitarity bounds); SOLUTION step 7 and step 9 (the Boltzmann equation; I12 alone and partial-wave unitarity; the relic with I13)",
+   "solution": {
+    "description": "dY/dx = -(1 + delta) s <sigma v>/(2 x H) (Y^2 - Y_eq^2) per Dirac species with sigma_I12 (benchmark G = pi/(2 M^3)) + sigma_I13 capped at 3 pi/(4 p^2); Omega h^2 = 0.060 per species for G_A = 1.2782e-09 GeV^-2 (x_f = 31.23) (coupled.json I13); I12 alone at the relic strength (thermal.json)",
+    "method": "Radau on ln Y (rtol 1e-10) from x = 5 to 2000, thermal average by adaptive quadrature tabulated on 200 points, Brent root for G_A (xtol 1e-6 in ln G_A)",
+    "order": "numerical solution of the kinetic equation (kinetic equilibrium, Maxwell-Boltzmann for the dark matter)"
+   }
+  },
+  {
+   "check": {
+    "detail": "trapezoid vs Gauss 3.9e-05",
+    "justification": "the stored value uses the trapezoid rule on 600 logarithmic points, whose error for an integrand growing like T^2 is (d ln T)^2/6 = 4e-5 (as measured); 1e-4 is far below the sensitivity of the CMB to Delta N_eff (about 0.1)",
+    "name": "R_freeze_in",
+    "passed": true,
+    "tolerance": 0.0001,
+    "value": 3.93998404152e-05
+   },
+   "equation": "freeze_in",
+   "in_concert": [
+    {
+     "difference": 5.43618969284e-16,
+     "link": "neff_decoupling_plus_freeze_in_vs_camb",
+     "passed": true,
+     "quantity": "N_eff = 3.0432 (neutrinos) + Delta N_eff (fold bands)",
+     "tolerance": 1e-09
+    },
+    {
+     "difference": 0.000173924096811,
+     "link": "hubble_rate_thermal_vs_four_dimensional_friedmann",
+     "passed": true,
+     "quantity": "H(T_fo)",
+     "tolerance": 0.001
+    },
+    {
+     "difference": 6.71240840688e-13,
+     "link": "relic_and_freeze_in_couplings_in_mean_fields",
+     "passed": true,
+     "quantity": "G_A, G_V",
+     "tolerance": 1e-10
+    }
+   ],
+   "name": "freeze-in of the fold bands through I11 (pair production f fbar -> Psi_fold Psibar_fold from the Standard-Model plasma)",
+   "neglected": {
+    "definition": "inverse processes: the production rate per fold quantum over the Hubble rate at T_max (coupled.json); Delta N_eff grows like T_max^3 (T_max ASSUMED); quantum statistics not included",
+    "source": "coupled.json freeze_in.Gamma_over_H_at_Tmax",
+    "value": 0.0124538779698
+   },
+   "residual": {
+    "definition": "|Delta N_eff per G_V^2 re-integrated (Gauss-Legendre, 60 panels x 16 nodes in ln T, the same g_rho(T), g_s(T)) / stored - 1|; further: sum N_c (q Itilde)^2 from the stored overlaps, the Bessel moments against 2^{mu-1} Gamma((1+mu+nu)/2) Gamma((1+mu-nu)/2) = 384, 3072, Delta N_eff(G_V benchmark) against 0.001",
+    "details": {
+     "Bessel_x6K1": 0.0,
+     "Bessel_x7K2": 0.0,
+     "Delta_Neff_benchmark_vs_0.001": 5.43565192856e-13,
+     "Delta_Neff_per_GV2": 3.93998404152e-05,
+     "sum_Nc_q2_I2": 1.66577862615e-12
+    },
+    "source": "computed afresh",
+    "value": 3.93998404152e-05
+   },
+   "section": "FIELD_EQUATIONS section 10 (the fold bands: freeze-in through I11); SOLUTION step 9 (the fold bands: freeze-in through I11)",
+   "solution": {
+    "description": "gamma = (4/pi^5) N_chi G_V^2 T^8 sum N_c (q Itilde)^2, d(rho_fold a^4)/dx4 = 8 T gamma a^4 from T_max = 10 TeV; Delta N_eff = 5.2117e+29 G_V^2 GeV^4; G_V = 4.3804e-17 GeV^-2 for Delta N_eff = 0.001 (coupled.json freeze_in)",
+    "method": "trapezoid rule on 600 logarithmic temperatures with the stored g_rho(T), g_s(T)",
+    "order": "Maxwell-Boltzmann, no back-reaction"
+   }
+  },
+  {
+   "check": {
+    "detail": "Y/Y_eq 0.999697681992; with G_A(B - L) changed by +-1e-12, +-2e-12 every integration succeeds (Y/Y_eq within 3e-13)",
+    "justification": "the same equation with the same inputs and the same integration (converged to about 2e-13); the other quantities are products of stored 12-digit numbers or the same 0.01 grid in M/T",
+    "name": "R_right_handed_neutrino_boltzmann",
+    "passed": true,
+    "tolerance": 1e-10,
+    "value": 2.52875498319e-12
+   },
+   "equation": "right_handed_neutrino_boltzmann",
+   "in_concert": [
+    {
+     "difference": 5.83010719368e-07,
+     "link": "decoupling_heating_factor_F_h",
+     "passed": true,
+     "quantity": "F_h = [(T_nu/T_gamma)(11/4)^{1/3}/(1 + h_nu)]^4",
+     "tolerance": 0.0001
+    }
+   ],
+   "name": "Boltzmann equation of the right-handed neutrinos if I13 coupled to the B - L current (the alternative that version 3 rejects)",
+   "neglected": {
+    "definition": "the elastic rate is an ESTIMATE: a factor 1/2 or 2 moves the kinetic decoupling to M/T = 23.77, 25.07 and Delta N_eff by at most the value given (relative)",
+    "source": "computed",
+    "value": 9.45112922512e-06
+   },
+   "residual": {
+    "definition": "the nu_R equation re-solved with the stored couplings and g(T): |Y/Y_eq(x = 40) recomputed / stored - 1|; the kinetic decoupling, Delta N_eff, G_A(B - L) = G_A sqrt(S13/S13_BL) and the I11/I13 production ratio recomputed (relative)",
+    "details": {
+     "Delta_Neff": 2.52875498319e-12,
+     "G_A_BL": 1.85151893817e-12,
+     "I11_over_I13": 7.36743999141e-13,
+     "Y_over_Yeq_x40": 2.58904009343e-13,
+     "robustness_G_A_BL_changed_by": {
+      "+1e-12": {
+       "Y_over_Yeq_x40": 0.999697681992,
+       "status": 0
+      },
+      "+2e-12": {
+       "Y_over_Yeq_x40": 0.999697681992,
+       "status": 0
+      },
+      "-1e-12": {
+       "Y_over_Yeq_x40": 0.999697681993,
+       "status": 0
+      },
+      "-2e-12": {
+       "Y_over_Yeq_x40": 0.999697681992,
+       "status": 0
+      }
+     },
+     "x_kinetic_decoupling": 0.0
+    },
+    "source": "computed afresh (Radau in s = x - 2, rtol 1e-13)",
+    "value": 2.52875498319e-12
+   },
+   "section": "FIELD_EQUATIONS section 10 (the right-handed neutrinos); SOLUTION step 9 (why the baryon current)",
+   "solution": {
+    "description": "dn/dx4 + 3 H n = gamma_nu (1 - n^2/n_eq^2) from zero abundance at M/T = 2; elastic decoupling Gamma_el = H; Delta N_eff = 3 (10.75/g_s)^{4/3} F_h = 0.144 (coupled.json I13_B_minus_L_alternative)",
+    "method": "Radau in s = M/T - 2 (rtol 1e-13); decoupling on a grid of step 0.01 in M/T",
+    "order": "number-density equation, s-wave rates (ESTIMATE for the elastic rate)"
+   }
+  },
+  {
+   "check": {
+    "detail": "largest Delta_Neff_per_Glam2 1.1e-05",
+    "justification": "the stored integral uses the trapezoid rule on 800 logarithmic points (error about 1e-5 for this steep integrand, as measured); 1e-4 is far below the significance of the bound (Delta N_eff = 0.001)",
+    "name": "R_self_interaction_channel",
+    "passed": true,
+    "tolerance": 0.0001,
+    "value": 1.11137719635e-05
+   },
+   "equation": "self_interaction_channel",
+   "in_concert": [
+    {
+     "difference": 5.83010719368e-07,
+     "link": "decoupling_heating_factor_F_h",
+     "passed": true,
+     "quantity": "F_h = [(T_nu/T_gamma)(11/4)^{1/3}/(1 + h_nu)]^4",
+     "tolerance": 0.0001
+    },
+    {
+     "difference": 2.13029593965e-12,
+     "link": "freeze_out_temperature_relic_vs_environment",
+     "passed": true,
+     "quantity": "T_fo = M_DM/x_f",
+     "tolerance": 1e-10
+    }
+   ],
+   "name": "the self-interaction channel chi chibar -> fold pairs of -(lambda/2)(Psibar Psi)^2 and its Delta N_eff",
+   "neglected": {
+    "definition": "inverse annihilation of the fold quanta at the bound: the production rate per fold quantum over H (coupled.json equilibrium_ratio_at_max); the Fierz coefficients of the cross-section are not computed (ESTIMATE)",
+    "source": "coupled.json",
+    "value": 0.0265499622965
+   },
+   "residual": {
+    "definition": "|Delta N_eff per G_lambda^2 re-integrated (Gauss-Legendre in ln T) / stored - 1|, G_lambda(lambda_B, v_t = H^-3) recomputed, Delta N_eff at the bound against 0.001 (relative); Itilde_lambda is checked in portal_overlaps_hellmann_feynman",
+    "details": {
+     "Delta_Neff_at_bound_vs_0.001": 3.850475494e-12,
+     "Delta_Neff_per_Glam2": 1.11137719635e-05,
+     "G_lambda_benchmark": 1.0232925618e-12
+    },
+    "source": "computed afresh",
+    "value": 1.11137719635e-05
+   },
+   "section": "FIELD_EQUATIONS section 10 (the self-interaction channel); SOLUTION step 9 (the self-interaction channel)",
+   "solution": {
+    "description": "G_lambda = lambda H Itilde_lambda/(2 f^4 v_t), sigma v = G_lambda^2 M^2/(2 pi) per fold species (ESTIMATE), d(rho_fold a^4)/dx4 = 2 M gamma_lambda a^4 from T_max to x_f; Delta N_eff = 1.8253e+26 G_lambda^2; bound G_lambda <= 2.341e-15 GeV^-2 (coupled.json self_interaction_channel)",
+    "method": "trapezoid rule on 800 logarithmic temperatures",
+    "order": "non-thermal production (fold bands out of equilibrium)"
+   }
+  }
+ ],
+ "in_concert_links": [
+  {
+   "check": "L_ks_energy_density_in_block_response",
+   "detail": "",
+   "difference": 3.38074013229e-12,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "kohn_sham_scf",
+    "kohn_sham_in_gravity_block_response",
+    "block_linear_response"
+   ],
+   "justification": "the same integrals divided by the same weight; only the 12-digit storage differs",
+   "link": "ks_energy_density_in_block_response",
+   "name": "the Kohn-Sham energy density and pressures inserted in the gravitational equation",
+   "passed": true,
+   "places": {
+    "here": "the Kohn-Sham equations: ks/ground8.json, ks/ground592.json int_rho, int_p3, int_pt, int_p0_richardson divided by the cell weight 2 Vol7 (1 - e^{-3HL})/(3H)",
+    "there": "the gravitational (block) equation: ks/feedback.json rho_avg, p3_avg, pbar_avg"
+   },
+   "quantity": "block averages rho, p3, pbar of the Kohn-Sham states N8_lamp, N592_lamp, N592_lam0",
+   "tolerance": 1e-10
+  },
+  {
+   "check": "L_dark_matter_hidden_pressure",
+   "detail": "",
+   "difference": 6.09623462822e-12,
+   "difference_definition": "max relative difference from the closed form",
+   "equations": [
+    "kohn_sham_scf",
+    "dirac16complex_x0_spectrum",
+    "coupled_environment_mean_fields"
+   ],
+   "justification": "the Kohn-Sham stress is Richardson-extrapolated (basis error about 1e-11 here) and the stored derivative uses a step 1e-5 (error about 1e-11)",
+   "link": "dark_matter_hidden_pressure",
+   "name": "the hidden pressure of the dark-matter quanta in the Kohn-Sham, x0 and block-response equations",
+   "passed": true,
+   "places": {
+    "values": {
+     "Kohn-Sham stress tensor p0/rho (ks/darkmatter.json)": 0.772034343201,
+     "block-response input, -d ln M_DM/d ln f (analysis.json sensitivities, read by um2_coupled.py)": 0.772034343206,
+     "x0 eigenvalue -d ln eps_DM/d ln f, closed form (afresh)": 0.772034343201,
+     "x0 eigenvalue, finite difference (ks/spectrum.json)": 0.772034343206
+    }
+   },
+   "quantity": "p0/rho = -d ln eps_DM/d ln f of the lowest odd level",
+   "tolerance": 1e-09
+  },
+  {
+   "check": "L_z_mass_x0_vs_z_widths",
+   "detail": "",
+   "difference": 2.00106597958e-12,
+   "difference_definition": "relative difference",
+   "equations": [
+    "boson_x0_eigenvalue",
+    "yang_mills_masses_and_widths"
+   ],
+   "justification": "the fit reproduces the measured m_Z by construction (to 1e-8 in um2_spectra.py)",
+   "link": "z_mass_x0_vs_z_widths",
+   "name": "the Z mass from the x0 eigenvalues and in the Z widths",
+   "passed": true,
+   "places": {
+    "here": "x0 eigenvalues: m_W sqrt(Lambda_Z/Lambda_W) from masses.json WZ = 91.187900000 GeV",
+    "there": "Z widths: m_Z = 91.1879 GeV (um2_electroweak.py reads the measured value)"
+   },
+   "quantity": "m_Z",
+   "tolerance": 1e-09
+  },
+  {
+   "check": "L_weak_angle_x0_vs_z_widths",
+   "detail": "",
+   "difference": 0.00825118838902,
+   "difference_definition": "relative change of the total width (with the QCD factor)",
+   "equations": [
+    "boson_x0_eigenvalue",
+    "yang_mills_masses_and_widths"
+   ],
+   "justification": "NOT zero: two values of the same angle (difference 0.0076); the scheme ambiguity of a tree-level angle is of the size of the electroweak loop corrections that UM-2 does not compute (per-cent level), so its effect on the width is allowed up to 2 %",
+   "link": "weak_angle_x0_vs_z_widths",
+   "name": "the weak mixing angle of the x0 W/Z problem and of the Z widths",
+   "passed": true,
+   "places": {
+    "here": "x0 W/Z problem (beta_Z = beta_W/cos^2): the angle of the couplings sin^2 = 0.223632 (masses.json WZ; also the Z condensate split in um2_coupled.py)",
+    "stored_relative_change_tree": 0.00817934817551,
+    "there": "Z widths, I12 benchmark couplings and running couplings: the MS-bar value 0.23122 (um2_constants.py)",
+    "total_width_reported_MeV": 2485.22514204,
+    "total_width_with_x0_angle_and_x0_mZ_MeV": 2505.73120287
+   },
+   "quantity": "sin^2(theta_W) and its effect on the total Z width",
+   "tolerance": 0.02
+  },
+  {
+   "check": "L_fermion_masses_x0_vs_thermal_history",
+   "detail": "",
+   "difference": 3.10440562146e-12,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "fermion_x0_tip_determinant",
+    "thermal_degrees_of_freedom",
+    "yang_mills_masses_and_widths"
+   ],
+   "justification": "the fit makes the exact roots equal the targets to 1e-12",
+   "link": "fermion_masses_x0_vs_thermal_history",
+   "name": "the fermion masses of the x0 tip conditions in the thermal history and the sectors that use them",
+   "passed": true,
+   "places": {
+    "here": "x0 roots e_exact/(f L) (masses.json fermions)",
+    "there": "masses.json fermions m_GeV, read by um2_thermal.py species(), um2_coupled.py (I13 components) and um2_electroweak.py (top threshold)"
+   },
+   "quantity": "the twelve fermion masses",
+   "tolerance": 1e-09
+  },
+  {
+   "check": "L_neutrino_masses_tip_matrices_vs_flavour_cnb_cmb",
+   "detail": "",
+   "difference": 5.66657831769e-12,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "fermion_x0_tip_determinant",
+    "neutrino_flavour_evolution",
+    "cosmic_neutrino_background",
+    "linear_perturbations_cmb_bao",
+    "neutrino_thermal_potential"
+   ],
+   "justification": "the CAMB mass iteration converges to 7.8e-12; everything else is a copy",
+   "link": "neutrino_masses_tip_matrices_vs_flavour_cnb_cmb",
+   "name": "the neutrino masses of the tip matrices in the flavour evolution, the CNB and the CMB (sum of masses)",
+   "passed": true,
+   "places": {
+    "here": "x0 roots (masses.json fermions nu1..nu3 e_exact/(f L))",
+    "splittings_relative": 4.75375294684e-12,
+    "there": "neutrino.json masses_eV and CNB states; CAMB masses m_i deg^{1/4} (cosmology.json neutrinos and models[1]); sum in CAMB (models[1].mnu_sum_eV) and neutrino.json sum_masses_eV; the NuFIT splittings that um2_neutrino.py uses directly (thermal potential, MSW resonances, supernova envelope); N_eff uses the massless limit (m_3/T_dec)^2 = 6e-16"
+   },
+   "quantity": "m_1, m_2, m_3, their sum and the splittings dm2_31, dm2_21",
+   "tolerance": 1e-10
+  },
+  {
+   "check": "L_pmns_tip_matrix_vs_flavour_evolution_and_cnb",
+   "detail": "",
+   "difference": 8.21287482466e-13,
+   "difference_definition": "max absolute difference",
+   "equations": [
+    "fermion_x0_tip_determinant",
+    "neutrino_flavour_evolution",
+    "cosmic_neutrino_background"
+   ],
+   "justification": "the same parametrisation in double precision, stored with 12 digits",
+   "link": "pmns_tip_matrix_vs_flavour_evolution_and_cnb",
+   "name": "the PMNS matrix (neutrino tip matrix) in the flavour evolution and the CNB",
+   "passed": true,
+   "places": {
+    "here": "flavour.json PMNS (the tip matrix kappa_nu of the three-generation condition)",
+    "max_abs_U": 4.83502127224e-13,
+    "max_abs_flavour_content": 8.21287482466e-13,
+    "there": "the matrix rebuilt by um2_neutrino.py from NuFIT 6.0 (mixing_matrix) and the CNB flavour content |U_alpha i|^2 (neutrino.json)"
+   },
+   "quantity": "U_PMNS",
+   "tolerance": 1e-11
+  },
+  {
+   "check": "L_omega_nu_cnb_vs_camb",
+   "detail": "",
+   "difference": 1.9129203383e-05,
+   "difference_definition": "relative difference",
+   "equations": [
+    "cosmic_neutrino_background",
+    "linear_perturbations_cmb_bao"
+   ],
+   "justification": "the degeneracy scaling deg^{3/4} is exact for non-relativistic states only; the semi-relativistic nu_1 (16 % above m n, 2 % of the density) leaves about 1e-5",
+   "link": "omega_nu_cnb_vs_camb",
+   "name": "the neutrino density today in the CNB and in the CMB computation",
+   "passed": true,
+   "places": {
+    "here": "CNB (afresh, x0 masses) times (N_eff/3)^{3/4} = 6.450977e-04",
+    "there": "CAMB omnuh2 today (cosmology.json models[1].omnuh2_camb_today) = 6.451100e-04"
+   },
+   "quantity": "Omega_nu h^2 of the three mass states",
+   "tolerance": 0.0001
+  },
+  {
+   "check": "L_neff_decoupling_plus_freeze_in_vs_camb",
+   "detail": "",
+   "difference": 5.43618969284e-16,
+   "difference_definition": "max absolute difference",
+   "equations": [
+    "neutrino_decoupling",
+    "freeze_in",
+    "linear_perturbations_cmb_bao"
+   ],
+   "justification": "the CMB computation copies the adopted value and the freeze-in benchmark (hard-coded 0.001 in um2_cosmology.py)",
+   "link": "neff_decoupling_plus_freeze_in_vs_camb",
+   "name": "N_eff of the neutrino decoupling and of the freeze-in in the CMB computation",
+   "passed": true,
+   "places": {
+    "differences": {
+     "N_eff total": 4.4408920985e-16,
+     "cosmology.json Delta_Neff_freeze_in_benchmark": 5.43618969284e-16,
+     "massive part": 0.0,
+     "massless part (fold bands)": 5.43618969284e-16
+    },
+    "here": "neutrino.json N_eff_adopted and the freeze-in Delta N_eff(G_V) = (coupled.json Delta_Neff_per_GV2) G_V^2 = 0.001000000000",
+    "there": "cosmology.json models[1] Neff, Neff_massive, Neff_massless"
+   },
+   "quantity": "N_eff = 3.0432 (neutrinos) + Delta N_eff (fold bands)",
+   "tolerance": 1e-09
+  },
+  {
+   "check": "L_relic_density_vs_cmb_omega_c",
+   "detail": "",
+   "difference": 3.10842551698e-09,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "boltzmann_relic",
+    "linear_perturbations_cmb_bao"
+   ],
+   "justification": "the relic coupling is root-found to 1e-6 in ln G_A (2e-6 in Omega h^2)",
+   "link": "relic_density_vs_cmb_omega_c",
+   "name": "the relic density of the Boltzmann equation as the cold dark matter of the CMB computation",
+   "passed": true,
+   "places": {
+    "here": "Boltzmann: 2 x 0.059999999988 (coupled.json I13, stored), 2 x 0.060000000186 (re-solved)",
+    "there": "CAMB omega_c = Omega_m h^2 - omega_b - omega_nu of cosmology.json models[1] = 0.120000000000 (input 0.1200)"
+   },
+   "quantity": "Omega_c h^2 (two species)",
+   "tolerance": 1e-06
+  },
+  {
+   "check": "L_hubble_rate_thermal_vs_four_dimensional_friedmann",
+   "detail": "",
+   "difference": 0.000173924096811,
+   "difference_definition": "relative difference |H_4D/H_thermal - 1|",
+   "equations": [
+    "thermal_degrees_of_freedom",
+    "boltzmann_relic",
+    "four_dimensional_effective_gravity",
+    "freeze_in"
+   ],
+   "justification": "NOT zero: the thermal history leaves out the fold bands (3.5e-04 of rho at T_fo); since Y_inf ~ H(x_f), the relic moves by about the same relative amount, which must stay well below the 1 % precision of the measured Omega_c h^2 (0.1200 +- 0.0012): 1e-3 keeps it a factor 10 below",
+   "link": "hubble_rate_thermal_vs_four_dimensional_friedmann",
+   "name": "the expansion rate of the thermal history against the four-dimensional Friedmann equation with all species, at the dark-matter freeze-out",
+   "passed": true,
+   "places": {
+    "dark_matter_share_at_x_5": 0.0105098853698,
+    "here": "Boltzmann equation: H = (8 pi^3 g_rho/90)^{1/2} T^2/M_Pl with the ideal Standard-Model g_rho (thermal history, M_Pl = 1.22091e+19 GeV) = 2.819325e-12 GeV",
+    "not_included_in_either": "the radion oscillation left by the deflation (redshifts like dust; OPEN, the moduli problem) and the O(alpha) interaction energy (about -5.4 %, thermal_degrees_of_freedom)",
+    "shares_of_rho_at_T_fo": {
+     "dark matter": 6.61305488734e-12,
+     "fold bands": 0.000347745551295,
+     "g_rho interpolation": 1.32887153725e-07
+    },
+    "there": "four-dimensional Friedmann equation H^2 = (8 pi G_N/3) rho_all with 8 pi G_N = (kappa/V_perp)/G(k*) of the reduction (coupled.json, background.json) and rho_all = Standard Model + dark matter (Y(x_f)) + fold bands produced by freeze-in since T_max = 10 TeV: H = 2.819816e-12 GeV"
+   },
+   "quantity": "H(T_fo)",
+   "tolerance": 0.001
+  },
+  {
+   "check": "L_late_time_radiation_thermal_vs_cmb",
+   "detail": "",
+   "difference": 0.00593494844625,
+   "difference_definition": "relative difference",
+   "equations": [
+    "thermal_degrees_of_freedom",
+    "neutrino_decoupling",
+    "linear_perturbations_cmb_bao"
+   ],
+   "justification": "NOT zero: the thermal history decouples the neutrinos instantaneously (documented approximation); below 2 MeV it only enters the entropy today (g_s = 43/11, the standard value for s_0) and the nucleosynthesis environment (effects below 1e-58), so 1 % (the size of N_eff/3 - 1 times the neutrino share) is what the results tolerate",
+   "link": "late_time_radiation_thermal_vs_cmb",
+   "name": "the radiation density after neutrino decoupling in the thermal history and in the CMB computation",
+   "passed": true,
+   "places": {
+    "here": "thermal history (instantaneous decoupling at 2 MeV, N_eff = 3): g_rho = 3.362644 (thermal.json today)",
+    "there": "CMB computation: 2 + (7/4)(4/11)^{4/3} N_eff with N_eff = 3.0442: 3.382720"
+   },
+   "quantity": "g_rho today (massless neutrinos)",
+   "tolerance": 0.01
+  },
+  {
+   "check": "L_plasma_energy_density_thermal_vs_coupled_sources",
+   "detail": "",
+   "difference": 0.0013060911601,
+   "difference_definition": "relative difference",
+   "equations": [
+    "thermal_degrees_of_freedom",
+    "coupled_environment_mean_fields"
+   ],
+   "justification": "NOT zero by design: the block sources add the trace anomaly of the interacting plasma (O(alpha_s^2) T^4), which only enters rho - 3 p3; the O(alpha) energy (5 %) is absent from both; 1 % bounds the trace-anomaly share",
+   "link": "plasma_energy_density_thermal_vs_coupled_sources",
+   "name": "the plasma energy density at the freeze-out in the thermal history and in the block sources of the coupled solution",
+   "passed": true,
+   "places": {
+    "here": "thermal history: ideal gases with the x0 masses plus the equilibrium dark matter = 1.414292e+14 GeV^4",
+    "there": "coupled.json freeze-out sources_GeV4.rho = 1.416139e+14 GeV^4 (adds the QCD interaction measure and the electroweak trace anomaly)"
+   },
+   "quantity": "rho(T_fo)",
+   "tolerance": 0.01
+  },
+  {
+   "check": "L_portal_responses_ks_jobs_vs_coupled_overlaps",
+   "detail": "",
+   "difference": 3.03135294644e-12,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "portal_overlaps_hellmann_feynman",
+    "kohn_sham_scf",
+    "coupled_environment_mean_fields"
+   ],
+   "justification": "two scripts, the same orbitals (80 functions per sector) and profiles",
+   "link": "portal_responses_ks_jobs_vs_coupled_overlaps",
+   "name": "the mean fields of the Standard-Model fermions in the Kohn-Sham equations of the Kohn-Sham jobs and of the coupled solution",
+   "passed": true,
+   "places": {
+    "here": "ks/portals.json Hellmann-Feynman expectation (and the self-consistent finite difference at e = +-1e-3: 9.4e-09, its O(e^2) error)",
+    "there": "coupled.json overlaps: (Itilde_L + Itilde_eR)/2, (Itilde_Q + Itilde_uR)/2, Itilde_L"
+   },
+   "quantity": "d eps_DM/de for the electron, up-quark and neutrino densities",
+   "tolerance": 1e-09
+  },
+  {
+   "check": "L_i12_response_O_across_scripts",
+   "detail": "",
+   "difference": 5.65236270189e-06,
+   "difference_definition": "max relative difference from the closed form",
+   "equations": [
+    "portal_overlaps_hellmann_feynman",
+    "boltzmann_relic",
+    "coupled_environment_mean_fields",
+    "wz_x0_with_dark_matter_kinetic_function"
+   ],
+   "justification": "the hard-coded value carries 4 digits (rounding up to 7e-5); it enters c/Lambda*^3 and the I12 mean field linearly",
+   "link": "i12_response_O_across_scripts",
+   "name": "the I12 response O = d eps_DM/dm in the Kohn-Sham equations and in the relic and mean-field computations and as the integral of the scalar density s_DM = 2ab that enters the W kinetic function",
+   "passed": true,
+   "places": {
+    "values": {
+     "Kohn-Sham response (ks/portals.json, Hellmann-Feynman)": 0.707196002672,
+     "closed form (afresh)": 0.707196002672,
+     "coupled.json WZ_kinetic_shift.O_integral": 0.707196002672,
+     "hard-coded in um2_thermal.py and um2_coupled.py": 0.7072
+    }
+   },
+   "quantity": "O = int s_DM dy",
+   "tolerance": 0.0001
+  },
+  {
+   "check": "L_i12_benchmark_thermal_vs_coupled_mean_field",
+   "detail": "",
+   "difference": 1.61770596918e-12,
+   "difference_definition": "max relative difference over the environments",
+   "equations": [
+    "boltzmann_relic",
+    "coupled_environment_mean_fields"
+   ],
+   "justification": "the same 12-digit number",
+   "link": "i12_benchmark_thermal_vs_coupled_mean_field",
+   "name": "the I12 benchmark strength of the relic computation in the I12 mean field of the environments",
+   "passed": true,
+   "places": {
+    "here": "thermal.json I12_universal_benchmark.c_over_Lambda_star3 = 1.106397e-14 GeV^-3",
+    "there": "coupled.json environments dM_I12 = c/Lambda*^3 (<g_s^2 GG> + <g^2 WW> + <g'^2 BB>)"
+   },
+   "quantity": "c/Lambda*^3",
+   "tolerance": 1e-10
+  },
+  {
+   "check": "L_dark_matter_mass_ks_vs_boltzmann",
+   "detail": "",
+   "difference": 8.05910893575e-13,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "dirac16complex_x0_spectrum",
+    "kohn_sham_scf",
+    "boltzmann_relic",
+    "coupled_environment_mean_fields"
+   ],
+   "justification": "12-digit copies; the Kohn-Sham bookkeeping is exact at lambda = 0",
+   "link": "dark_matter_mass_ks_vs_boltzmann",
+   "name": "the dark-matter mass of the x0/Kohn-Sham spectrum in the Boltzmann equation and the analysis",
+   "passed": true,
+   "places": {
+    "here": "eps_DM H (ks/spectrum.json, masses.json) = 44347.904991 GeV; the Kohn-Sham energy of eight quanta 8 eps_DM",
+    "there": "thermal.json M_DM_GeV, analysis.json M_DM_GeV, ks/darkmatter.json dE (lambda = 0)"
+   },
+   "quantity": "M_DM",
+   "tolerance": 1e-11
+  },
+  {
+   "check": "L_relic_and_freeze_in_couplings_in_mean_fields",
+   "detail": "",
+   "difference": 6.71240840688e-13,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "boltzmann_relic",
+    "freeze_in",
+    "coupled_environment_mean_fields"
+   ],
+   "justification": "the mean fields are computed with these strengths",
+   "link": "relic_and_freeze_in_couplings_in_mean_fields",
+   "name": "the I13 coupling of the relic and the I11 coupling of the freeze-in in the Kohn-Sham mean fields of the environments",
+   "passed": true,
+   "places": {
+    "here": "G_A of the capped relic (coupled.json I13), G_V of the freeze-in benchmark (coupled.json freeze_in)",
+    "there": "the strengths implied by the stored mean-field shifts at the freeze-out, delta eps / (sum_f q_f Itilde_f n_f)"
+   },
+   "quantity": "G_A, G_V",
+   "tolerance": 1e-10
+  },
+  {
+   "check": "L_w_eigenvalue_x0_vs_kinetic_function_problem",
+   "detail": "",
+   "difference": 2.27913539574e-06,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "boson_x0_eigenvalue",
+    "wz_x0_with_dark_matter_kinetic_function"
+   ],
+   "justification": "the finite-element value carries the rounding of the matrix Rayleigh quotient of a nearly constant vector (about 1e-11 absolute, 1e-6 of Lambda_W) besides the discretisation; it enters only as the normalisation of d ln Lambda_W/de",
+   "link": "w_eigenvalue_x0_vs_kinetic_function_problem",
+   "name": "the W eigenvalue of the x0 problem in the W problem with the dark-matter kinetic function",
+   "passed": true,
+   "places": {
+    "here": "masses.json WZ.Lambda_W (exact characteristic equation) = 1.32148796676e-05",
+    "shooting_relative": 1.38762334956e-11,
+    "there": "coupled.json WZ_kinetic_shift.Lambda_W_fem (300 quadratic elements, matrix Rayleigh quotient) = 1.32148495491e-05; the shooting of wz_x0_with_dark_matter_kinetic_function at e = 0: 1.32148796678e-05"
+   },
+   "quantity": "Lambda_W at e = 0",
+   "tolerance": 1e-05
+  },
+  {
+   "check": "L_block_response_coefficients_across_scripts",
+   "detail": "printed values within 2.6e-07",
+   "difference": 1.9903523274e-13,
+   "difference_definition": "max absolute difference of the stored values (printed: separate condition <= 5e-7)",
+   "equations": [
+    "block_linear_response",
+    "kohn_sham_in_gravity_block_response",
+    "coupled_environment_mean_fields"
+   ],
+   "justification": "stored copies of exact algebraic numbers (12 digits); the printed values carry 6 decimals and must lie within half a unit of the last one (5e-7)",
+   "link": "block_response_coefficients_across_scripts",
+   "name": "the block-response coefficients in the background, Kohn-Sham feedback and coupled computations and in the documents",
+   "passed": true,
+   "places": {
+    "c_p_closed_form": 1.9903523274e-13,
+    "here": "background.json linear_response_static_dk (exact algebraic numbers)",
+    "printed_vs_stored": 2.58402999997e-07,
+    "stored_vs_stored": 0.0,
+    "there": "coupled.json block_response_coefficients; ks/feedback.json (reads background.json); FIELD_EQUATIONS 7.1 and SOLUTION step 3 print 0.035852, -0.107556, -0.140028; c_p = 1/(3 H^2 - 4 kappa rho_b*/k*) in closed form"
+   },
+   "quantity": "c_rho, c_3, c_p",
+   "tolerance": 1e-09
+  },
+  {
+   "check": "L_radion_frequency_linear_vs_nonlinear",
+   "detail": "",
+   "difference": 7.92540137727e-05,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "block_linear_response",
+    "primordial_deflation_system",
+    "graviton_tower",
+    "metric_series_order2"
+   ],
+   "justification": "the nonlinear frequency is measured from zero crossings of a finite oscillation (relative amplitude 3e-3 at x4 > 30/H): anharmonic shifts and the crossing estimate allow 1e-3; the copies agree to 1e-12",
+   "link": "radion_frequency_linear_vs_nonlinear",
+   "name": "the radion frequency of the linearised block equations, of the nonlinear primordial evolution and in the masses, the series and the analysis",
+   "passed": true,
+   "places": {
+    "copies_max_relative": 1.27275967543e-12,
+    "here": "closed form sqrt(31552/2249 - 2416 sqrt(51)/6747) = 3.387049962",
+    "nonlinear_relative": 7.92540137727e-05,
+    "there": "background.json, masses.json scales, series.json radion, analysis.json; nonlinear: primordial.json omega_from_zero_crossings = 3.386781524"
+   },
+   "quantity": "omega_r = m_r/H",
+   "tolerance": 0.001
+  },
+  {
+   "check": "L_static_block_f_star_across_scripts",
+   "detail": "",
+   "difference": 2.21334062189e-12,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "einstein_lovelock_background",
+    "boson_x0_eigenvalue",
+    "fermion_x0_tip_determinant",
+    "dirac16complex_x0_spectrum",
+    "kohn_sham_scf"
+   ],
+   "justification": "12-digit copies of one closed-form number",
+   "link": "static_block_f_star_across_scripts",
+   "name": "the block scale f* of the static block in the x0 spectra, the Kohn-Sham states and the series",
+   "passed": true,
+   "places": {
+    "here": "background.json casimir_type.f_star = 0.215555768391 (closed form 0.215555768391)",
+    "there": "masses.json scales, ks/ground8.json, ks/ground592.json, ks/spectrum.json (f, fL/3), series.json order0"
+   },
+   "quantity": "f* = k*^{-1/2}",
+   "tolerance": 1e-11
+  },
+  {
+   "check": "L_decoupling_heating_factor_F_h",
+   "detail": "",
+   "difference": 5.83010719368e-07,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "neutrino_decoupling",
+    "right_handed_neutrino_boltzmann",
+    "self_interaction_channel",
+    "yang_mills_masses_and_widths"
+   ],
+   "justification": "the hard-coded 1.0095 carries 4 decimals (rounding up to 5e-5)",
+   "link": "decoupling_heating_factor_F_h",
+   "name": "the non-instantaneous heating factor F_h of the neutrino decoupling where Delta N_eff of other species is computed",
+   "passed": true,
+   "places": {
+    "here": "neutrino decoupling (neutrino.json N_eff_runs.FD_common_NLO): 1.009500589",
+    "there": {
+     "electroweak.json Psi_A_thermalisation.non_instantaneous_factor_F": 1.00950058855,
+     "um2_coupled.py (hard-coded; from I13_B_minus_L_alternative)": 1.0095
+    }
+   },
+   "quantity": "F_h = [(T_nu/T_gamma)(11/4)^{1/3}/(1 + h_nu)]^4",
+   "tolerance": 0.0001
+  },
+  {
+   "check": "L_metric_series_vs_cosmology_coupled_masses",
+   "detail": "",
+   "difference": 4.71755967624e-12,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "metric_series_order2",
+    "graviton_tower",
+    "linear_perturbations_cmb_bao",
+    "coupled_environment_mean_fields"
+   ],
+   "justification": "copies, and m_KK recomputed from 12-digit eigenvalues",
+   "link": "metric_series_vs_cosmology_coupled_masses",
+   "name": "the terms of the metric series against the cosmology, the coupled solution and the masses",
+   "passed": true,
+   "places": {
+    "here": "series.json",
+    "there": "cosmology.json models[1], coupled.json environments, masses.json scales (m_KK = m_W sqrt(Lambda_1/Lambda_W) recomputed)"
+   },
+   "quantity": "Delta_Phi(k), delta ln f, m_1 = m_KK, sigma_8",
+   "tolerance": 1e-10
+  },
+  {
+   "check": "L_freeze_out_temperature_relic_vs_environment",
+   "detail": "",
+   "difference": 2.13029593965e-12,
+   "difference_definition": "relative difference",
+   "equations": [
+    "boltzmann_relic",
+    "coupled_environment_mean_fields",
+    "self_interaction_channel"
+   ],
+   "justification": "the same numbers",
+   "link": "freeze_out_temperature_relic_vs_environment",
+   "name": "the freeze-out of the relic in the freeze-out environment of the coupled solution and in the self-interaction channel",
+   "passed": true,
+   "places": {
+    "here": "M_DM/x_f with x_f = 31.2311046115 (coupled.json I13.x_f_capped)",
+    "there": "coupled.json environments freeze-out T_GeV = 1419.9915610700; the self-interaction integration ends at the same x_f"
+   },
+   "quantity": "T_fo = M_DM/x_f",
+   "tolerance": 1e-10
+  },
+  {
+   "check": "L_block_sensitivities_x0_formula_vs_block_response",
+   "detail": "",
+   "difference": 4.54791759807e-11,
+   "difference_definition": "max relative difference",
+   "equations": [
+    "fermion_x0_tip_determinant",
+    "coupled_environment_mean_fields"
+   ],
+   "justification": "the stored derivatives use a central difference with step 1e-6 at 60 digits (error about 1e-12)",
+   "link": "block_sensitivities_x0_formula_vs_block_response",
+   "name": "the block sensitivities d ln m/d ln f of the x0 mass formula as used in the hidden pressure of the block response",
+   "passed": true,
+   "places": {
+    "here": "the first-order x0 formula -1 + (1/2)[d ln zeta^2(c_L)/d ln c_L + d ln zeta^2(-c_R)/d ln(-c_R)], d ln zeta^2/d ln c = 1 - c - c coth c (closed form, masses.json c_L, c_R); the one-loop QCD-scale and nucleon formulas of FIELD_EQUATIONS 7.1",
+    "there": "analysis.json sensitivities_dlnX_dlnf (numerical derivative), read by um2_coupled.py; coupled.json proton_sensitivity"
+   },
+   "quantity": "d ln m_f/d ln f (12 fermions), d ln Lambda^(6,3)/d ln f, d ln m_p/d ln f",
+   "tolerance": 1e-09
+  }
+ ],
+ "notes": [
+  {
+   "explanation": "at the freeze-out (T = 1420.0 GeV) the fold quanta produced since T_max = 10 TeV carry 3.48e-04 of the energy density (Delta N_eff = 0.001 today, diluted by (g_s0/g_s)^{4/3}); the four-dimensional Friedmann equation with all species has H larger by 1.7e-04; the relic changes by about the same relative amount",
+   "item": "the fold bands of the freeze-in are not in the Hubble rate of the Boltzmann equation",
+   "value": 0.000173924096811
+  },
+  {
+   "explanation": "the exact value is 0 (k*^2 - 24 k* + 160/3 = 0); the stored number is the rounding of the 12-digit k* and kappa rho_b* (closed form in double precision: about 1e-15 of the terms)",
+   "item": "d/dk [6 H^2 k (1 - 2 w2 k) + kappa rho_b] at k*",
+   "recomputed": 0.0,
+   "stored": -6.32738306194e-12,
+   "where_stored": "ks/feedback.json d_F4_dk; quoted as \"-6 x 10^-12\" in SOLUTION step 3"
+  },
+  {
+   "explanation": "FIELD_EQUATIONS section 10 leaves the dark matter out of g_rho because it adds less than 0.1 at 5 TeV (true: x = 8.9); the Boltzmann integration starts at x = 5 (T = 8.9 TeV), where it carries 1.1e-02 of rho; harmless, since Y = Y_eq there",
+   "item": "the dark matter in g_rho at the start of the Boltzmann integration",
+   "value": 0.0105098853698
+  }
+ ],
+ "summary": {
+  "equation_count": 26,
+  "equations_not_small": [],
+  "link_count": 26,
+  "links_not_zero": [
+   "weak_angle_x0_vs_z_widths",
+   "hubble_rate_thermal_vs_four_dimensional_friedmann",
+   "late_time_radiation_thermal_vs_cmb",
+   "plasma_energy_density_thermal_vs_coupled_sources",
+   "radion_frequency_linear_vs_nonlinear"
+  ]
+ }
+}

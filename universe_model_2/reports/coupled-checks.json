@@ -12,7 +12,7 @@
    "passed": true
   },
   {
-   "detail": "with the lepton-doublet I11 field the spacing between the k = 0 fold zero mode and the first momentum shell changes by -1.1e-10 per unit amplitude at first order (second order -0.041 e^2, a change of the group velocity: the ratio of the energies of the shells |k| = 2 dk and dk above the zero mode stays 2.000000000, 2.000000000, 2.000000000, i.e. the dispersion stays linear); at the physical amplitudes (below 1e-40 in these units) the fold band is massless",
+   "detail": "with the lepton-doublet I11 field the spacing between the k = 0 fold zero mode and the first momentum shell changes by -9.3e-11 per unit amplitude at first order (second order -0.041 e^2, a change of the group velocity: the ratio of the energies of the shells |k| = 2 dk and dk above the zero mode stays 2.000000000, 2.000000000, 2.000000000, i.e. the dispersion stays linear); at the physical amplitudes (below 1e-40 in these units) the fold band is massless",
    "name": "C1_fold_band_massless",
    "passed": true
   },
@@ -32,7 +32,7 @@
    "passed": true
   },
   {
-   "detail": "a mean field on the b-component, (1 - gamma^(x0))/2 v_b(y) = (1 - sigma3)/2 v_b(y), shifts the dark-matter level by Itilde^(b) = int b^2 rho_f e^{-3Hy} dy (self-consistent Kohn-Sham solutions, Richardson in the amplitude, agreement 2.3e-10: Q 2.613454, L 0.913410, u_R 0.379455) and leaves the fold zero mode and the first fold shell unchanged to 6.8e-14: I13 does not act on the fold bands",
+   "detail": "a mean field on the b-component, (1 - gamma^(x0))/2 v_b(y) = (1 - sigma3)/2 v_b(y), shifts the dark-matter level by Itilde^(b) = int b^2 rho_f e^{-3Hy} dy (self-consistent Kohn-Sham solutions, Richardson in the amplitude, agreement 2.3e-10: Q 2.613454, L 0.913410, u_R 0.379455) and leaves the fold zero mode and the first fold shell unchanged to 1.2e-13: I13 does not act on the fold bands",
    "name": "C8_I13_overlaps_and_fold_band",
    "passed": true
   },
@@ -72,7 +72,7 @@
    "passed": true
   },
   {
-   "detail": "with the kinetic function 1 + e s_DM(y) (s_DM = 2ab of the dark-matter orbital) the W eigenvalue changes by d ln Lambda_W/de = -0.1126 (finite elements, Richardson in e), i.e. m_W follows the 4D coupling, while the photon (and gluon) zero mode stays exactly massless (Lambda = -2.5e-11 with e = 0.01); the amplitude in the environments, e ~ 4 c g^2 n_DM/Lambda*^3 = |delta alpha/alpha|, is 1.7e-16 at the dark-matter freeze-out, at most 1.1e-36 from nucleosynthesis on and 5.3e-66 for the cosmic mean today",
+   "detail": "with the kinetic function 1 + e s_DM(y) (s_DM = 2ab of the dark-matter orbital) the W eigenvalue changes by d ln Lambda_W/de = -0.111253 (first-order perturbation theory with the exact W eigenfunction, whose tip condition holds to 6e-12), i.e. m_W follows the 4D coupling, while the photon (and gluon) zero mode stays exactly massless (u = 1 solves the problem for every K: Lambda = 0.0 with e = 0.01); the amplitude in the environments, e ~ 4 c g^2 n_DM/Lambda*^3 = |delta alpha/alpha|, is 1.7e-16 at the dark-matter freeze-out, at most 1.1e-36 from nucleosynthesis on and 5.3e-66 for the cosmic mean today",
    "name": "C5_WZ_and_photon",
    "passed": true
   },

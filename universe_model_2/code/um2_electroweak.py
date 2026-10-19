@@ -255,7 +255,8 @@ def main():
               'until the Z bosons annihilate (ESTIMATE), adding Delta N_eff = %.4f to %.4f (g_s = 105.75 to 86.25, with the factor %.4f of '
               'non-instantaneous neutrino decoupling): N_eff = %.3f to %.3f, %.1f to %.1f standard deviations above ACT DR6 (the Standard '
               'Model value %.4f: %.1f). UM-2 therefore drops I9 (c_Z = c\'_Z = 0): N_nu = 3 exactly; neither fold band is ever thermalised '
-              '(no tip operator, zero scalar density for I12, c_V = 0 for I11); both halves keep an exact fold parity, so the lightest odd '
+              '(no tip operator, zero scalar density for I12; I11 is kept with the freeze-in strength G_V = 4.38e-17 GeV^-2 of um2_coupled.py, '
+              'at which the fold bands are produced only by freeze-in, Delta N_eff = 0.001); both halves keep an exact fold parity, so the lightest odd '
               'states of Psi_A and of Psi_B are both stable (um2_analysis.py, part B)' % (
                   r2_max, T_dec_at_bound * 1e3, dN_a, Neff_cmb, dNeff_cmb, Neff_act, dNeff_act, dN_b[0], dN_b[1], Fnon,
                   Neff_sm + dN_b[0], Neff_sm + dN_b[1], (Neff_sm + dN_b[0] - Neff_act) / dNeff_act,

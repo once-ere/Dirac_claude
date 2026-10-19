@@ -23,7 +23,12 @@ import os
 import sys
 import time
 
-import numpy as np
+# single-threaded BLAS/LAPACK and OpenMP, fixed before numpy is imported, so that the Kohn-Sham results do not depend on the
+# number of cores of the machine (with two threads the energy of the N = 8, +lambda_B state differed by 5e-13 H)
+for _v in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS', 'VECLIB_MAXIMUM_THREADS'):
+    os.environ[_v] = '1'
+
+import numpy as np  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from um2_common import OUT, Report, read_json, write_json  # noqa: E402

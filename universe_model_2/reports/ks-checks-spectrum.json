@@ -7,7 +7,7 @@
    "passed": true
   },
   {
-   "detail": "the fold band eps = |k| exactly (physical momentum): massless 4D quanta (max deviation of eps/|k| from 1: 5.9e-14)",
+   "detail": "the fold band eps = |k| exactly (physical momentum): massless 4D quanta (max deviation of eps/|k| from 1: 1.4e-13)",
    "name": "fold_band_massless",
    "passed": true
   },
