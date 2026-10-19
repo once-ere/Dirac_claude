@@ -1,0 +1,187 @@
+{
+ "ana_hbar": {
+  "tex": "\\hbar",
+  "atoms": [
+   "\\hbar"
+  ],
+  "meaning": "The reduced Planck constant, which sets the scale of the uncertainty relation; it equals 1 in the natural units of this document, and $\\hbar c = 1.973269804\\times10^{-16}$ GeV m converts an inverse mass into a length.",
+  "units": "GeV s (equal to 1 in natural units)",
+  "value": "1 (natural units)",
+  "status": "STANDARD"
+ },
+ "ana_kx0": {
+  "tex": "k_{x_0}",
+  "atoms": [
+   "k_{x_0}"
+  ],
+  "meaning": "The component of the momentum along the hidden coordinate $x_0$, the momentum conjugate to $x_0$ (the author\\'s $(p)_{x_0}$); since $\\hbar = 1$ it is also the wave number of the $x_0$ dependence.",
+  "units": "GeV",
+  "status": "AUTHOR"
+ },
+ "ana_meff": {
+  "tex": "m_{\\mathrm{eff}}",
+  "atoms": [
+   "m_{\\mathrm{eff}}"
+  ],
+  "meaning": "The effective mass of the author\\'s argument: the mass that a particle receives from the $x_0$ dependence of its wave function, estimated by taking the momentum $k_{x_0}$ proportional to the mass and the kinetic energy proportional to the momentum squared over the mass.",
+  "units": "GeV",
+  "status": "AUTHOR"
+ },
+ "ana_Ekin": {
+  "tex": "E_{\\mathrm{kin}}",
+  "atoms": [
+   "E_{\\mathrm{kin}}"
+  ],
+  "meaning": "The kinetic energy of the motion along $x_0$ in the author\\'s argument, proportional to $k_{x_0}^2/m_{\\mathrm{eff}}$.",
+  "units": "GeV",
+  "status": "AUTHOR"
+ },
+ "ana_mHeis": {
+  "tex": "m_{\\mathrm{Heis}}",
+  "atoms": [
+   "m_{\\mathrm{Heis}}"
+  ],
+  "meaning": "The author\\'s uncertainty (Heisenberg) estimate of the mass of a state, $m_{\\mathrm{Heis}} = \\hbar/(2\\Delta(fy))$, where $\\Delta(fy) = fL\\,\\Delta\\xi$ is the root-mean-square proper distance of the state from the fold ($\\Delta\\xi^2 = \\int_{-1}^{0}\\xi^2\\varrho_\\xi\\,\\mathrm{d}\\xi$). It is the lower bound on the mass that the uncertainty relation would give if the hidden kinetic energy were the whole mass and the state were negligible at the tip. (The subscript stands for Heisenberg; UM-2 has no Higgs particle.)",
+  "units": "GeV",
+  "value": "70.56 TeV (photon, gluons, graviton, $W^\\pm$, $Z$); 53.80 TeV (quark-doublet zero mode); 93.08 TeV (lepton-doublet zero mode); 22.90 TeV (fold band of dirac16complex); 19.39 TeV (dark matter); at least $1/(2fL) = 11.05$ TeV for every profile on the cell",
+  "status": "DERIVED"
+ },
+ "ana_kxi": {
+  "tex": "k_\\xi",
+  "atoms": [
+   "k_{\\xi}"
+  ],
+  "meaning": "The wave number conjugate to $\\xi$, i.e. the hidden momentum in units of $1/(fL)$. Its mean square in a state is the hidden kinetic energy in units of $1/(fL)^2$: $\\langle k_\\xi^2\\rangle = \\int_{-1}^{0}(\\mathrm{d}\\tilde F/\\mathrm{d}\\xi)^2\\mathrm{d}\\xi\\big/\\int_{-1}^{0}\\tilde F^2\\mathrm{d}\\xi$ for a boson (flat-measure profile $\\tilde F$) and $\\int_{-1}^{0}(\\mathrm{d}\\chi/\\mathrm{d}\\xi)^\\dagger(\\mathrm{d}\\chi/\\mathrm{d}\\xi)\\,\\mathrm{d}\\xi\\big/\\int_{-1}^{0}\\chi^\\dagger\\chi\\,\\mathrm{d}\\xi$ for a fermion.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "ana_varrhoxi": {
+  "tex": "\\varrho_\\xi",
+  "atoms": [
+   "\\varrho_{\\xi}"
+  ],
+  "meaning": "The probability density in $\\xi$ of the $x_0$ profile of a mode on one half of the period, normalised as $\\int_{-1}^{0}\\varrho_\\xi\\,\\mathrm{d}\\xi = 1$: $\\varrho_\\xi = \\tilde F^2/\\int_{-1}^{0}\\tilde F^2\\mathrm{d}\\xi$ for a boson ($\\tilde F = \\mathrm{e}^{3HL\\xi/2}F$, the flat measure) and $\\varrho_\\xi = \\chi^\\dagger\\chi/\\int_{-1}^{0}\\chi^\\dagger\\chi\\,\\mathrm{d}\\xi$ for a fermion. $\\varrho_\\xi(0)$ is its value at the fold, $\\varrho_\\xi(-1)$ its value at the tip; over the full period the density is symmetric about the fold.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "ana_wKS": {
+  "tex": "w_{\\mathrm{KS}}",
+  "atoms": [
+   "w_{\\mathrm{KS}}"
+  ],
+  "meaning": "The equation of state of a Kohn-Sham state of dirac16complex: the ratio of its integrated 3-space pressure to its integrated energy density, each integrated over the cell as $2\\,\\mathrm{Vol}_7\\int_{-L}^{0}\\mathrm{e}^{3Hy}(\\cdot)\\,\\mathrm{d}y$.",
+  "units": "dimensionless",
+  "value": "0 for dark-matter quanta at rest ($2.8\\times10^{-5}$ with $\\lambda_{\\mathrm{test}}$); 1/3 for the free fold-band gas (0.3312 with $+\\lambda_{\\mathrm{test}}$, 0.3354 with $-\\lambda_{\\mathrm{test}}$)",
+  "status": "DERIVED"
+ },
+ "ana_wde": {
+  "tex": "w_{\\mathrm{de}},\\ w_{\\mathrm{de},0},\\ w_{\\mathrm{de},a}",
+  "atoms": [
+   "w_{\\mathrm{de}}",
+   "w_{\\mathrm{de},0}",
+   "w_{\\mathrm{de},a}"
+  ],
+  "meaning": "The equation of state of a candidate dark energy, the ratio of its pressure to its energy density. In the parametrisation $w_{\\mathrm{de}} = w_{\\mathrm{de},0} + w_{\\mathrm{de},a}(1 - \\mathrm{e}^{a_4})$ used by supernova fits, $w_{\\mathrm{de},0}$ is the value today ($a_4 = 0$) and $w_{\\mathrm{de},a} = -\\mathrm{d}w_{\\mathrm{de}}/\\mathrm{d}\\mathrm{e}^{a_4}$ at $a_4 = 0$ (the tangent at today).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "ana_calX": {
+  "tex": "\\mathcal{X},\\ \\mathcal{X}_0",
+  "atoms": [
+   "\\mathcal{X}",
+   "\\mathcal{X}_{0}"
+  ],
+  "meaning": "The ratio of the self-interaction energy density to the rest-energy density of a homogeneous scalar condensate of dirac16complex, $\\mathcal{X} = \\lambda n^{\\mathrm{sc}}/(2m_\\Psi)$; it scales as $\\mathrm{e}^{-3a_4}$, and $\\mathcal{X}_0$ is its value today ($a_4 = 0$).",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "ana_Ucond": {
+  "tex": "U_{\\mathrm{cond}}",
+  "atoms": [
+   "U_{\\mathrm{cond}}"
+  ],
+  "meaning": "The self-interaction energy density of a homogeneous scalar condensate of dirac16complex, $U_{\\mathrm{cond}} = \\frac{\\lambda}{2}(n^{\\mathrm{sc}})^2$ (the contact term of the action evaluated on the condensate).",
+  "units": "GeV$^8$ (an eight-dimensional energy density)",
+  "status": "DERIVED"
+ },
+ "ana_rhovac": {
+  "tex": "\\rho_{\\mathrm{vac}}",
+  "atoms": [
+   "\\rho_{\\mathrm{vac}}"
+  ],
+  "meaning": "A natural vacuum energy density of the cell, the fourth power of the Kaluza-Klein scale over $16\\pi^2$.",
+  "units": "GeV$^4$",
+  "value": "$1.4\\times10^{18}$ GeV$^4$",
+  "status": "ESTIMATE"
+ },
+ "ana_rhode": {
+  "tex": "\\rho_{\\mathrm{de}}",
+  "atoms": [
+   "\\rho_{\\mathrm{de}}"
+  ],
+  "meaning": "The observed energy density of the dark energy today.",
+  "units": "GeV$^4$",
+  "value": "$2.5\\times10^{-47}$ GeV$^4$",
+  "status": "STANDARD"
+ },
+ "ana_Gammar": {
+  "tex": "\\Gamma_{\\mathrm{r}}",
+  "atoms": [
+   "\\Gamma_{\\mathrm{r}}"
+  ],
+  "meaning": "The decay rate of the radion (the quantum of the block-size oscillation) into lighter particles, a Planck-suppressed estimate.",
+  "units": "GeV",
+  "value": "$1.52\\times10^{-24}\\,C_{\\mathrm{r}}$ GeV (lifetime $0.43\\,\\text{s}/C_{\\mathrm{r}}$)",
+  "status": "ESTIMATE"
+ },
+ "ana_Cr": {
+  "tex": "C_{\\mathrm{r}}",
+  "atoms": [
+   "C_{\\mathrm{r}}"
+  ],
+  "meaning": "The order-one factor of the radion decay rate that collects its unknown couplings to the decay products.",
+  "units": "dimensionless",
+  "value": "not computed (of order one)",
+  "status": "ESTIMATE"
+ },
+ "ana_MPlbar": {
+  "tex": "\\bar M_{\\mathrm{Pl}}",
+  "atoms": [
+   "\\bar{M}_{\\mathrm{Pl}}"
+  ],
+  "meaning": "The reduced Planck mass, $\\bar M_{\\mathrm{Pl}} = (8\\pi G_{\\mathrm{N}})^{-1/2} = M_{\\mathrm{Pl}}/\\sqrt{8\\pi}$.",
+  "units": "GeV",
+  "value": "$2.435\\times10^{18}$ GeV",
+  "status": "STANDARD"
+ },
+ "ana_TRH": {
+  "tex": "T_{\\mathrm{RH}}",
+  "atoms": [
+   "T_{\\mathrm{RH}}"
+  ],
+  "meaning": "The reheating temperature: the temperature of the plasma produced when the radion oscillation left over from the primordial deflation decays.",
+  "units": "GeV",
+  "value": "$1.85\\sqrt{C_{\\mathrm{r}}}$ MeV",
+  "status": "ESTIMATE"
+ },
+ "ana_swpw": {
+  "tex": "a_{\\mathrm{sw}},\\ b_{\\mathrm{pw}}",
+  "atoms": [
+   "a_{\\mathrm{sw}}",
+   "b_{\\mathrm{pw}}"
+  ],
+  "meaning": "The s-wave and p-wave coefficients of the non-relativistic expansion of the thermally averaged annihilation cross-section, $\\langle\\sigma v_{\\mathrm{rel}}\\rangle = a_{\\mathrm{sw}} + 6b_{\\mathrm{pw}}/x$.",
+  "units": "GeV$^{-2}$ (quoted in cm$^3$/s)",
+  "value": "for I12 alone at the relic strength $a_{\\mathrm{sw}} = 0$, $b_{\\mathrm{pw}} = 8.741\\times10^{-8}$ GeV$^{-2}$",
+  "status": "STANDARD"
+ },
+ "ana_Nstate": {
+  "tex": "\\lvert\\mathrm{N}\\rangle",
+  "atoms": [
+   "\\mathrm{N}"
+  ],
+  "meaning": "A nucleon state at rest (proton or neutron); $\\langle\\mathrm{N}\\rvert\\cdots\\lvert\\mathrm{N}\\rangle$ is a matrix element between nucleon states, normalised so that the trace of the energy-momentum tensor of QCD has the matrix element $m_{\\mathrm{N}}$.",
+  "units": "dimensionless (state)",
+  "status": "STANDARD"
+ }
+}

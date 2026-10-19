@@ -1,0 +1,309 @@
+{
+ "sol_BR": {
+  "tex": "\\mathrm{BR}",
+  "atoms": [
+   "\\mathrm{BR}"
+  ],
+  "meaning": "The branching ratio of the lepton-flavour-violating decay of a charged lepton of the flavour $\\alpha$ into one of the flavour $\\beta$ and a photon, the fraction of all its decays that end in this final state; in step 2 it is the decay $\\mu \\to e\\gamma$ ($\\alpha = \\mu$, $\\beta = e$) through the neutrino masses alone.",
+  "units": "dimensionless",
+  "value": "$2.8\\times10^{-55}$ for $\\mu \\to e\\gamma$",
+  "status": "DERIVED"
+ },
+ "sol_alpha0": {
+  "tex": "\\alpha_{\\mathrm{em},0}",
+  "atoms": [
+   "\\alpha_{\\mathrm{em},0}"
+  ],
+  "meaning": "The electromagnetic fine-structure constant at zero momentum transfer, $e^2/(4\\pi)$ measured at low energy (distinct from its value at the $Z$ mass).",
+  "units": "dimensionless",
+  "value": "$1/137.036$",
+  "status": "STANDARD"
+ },
+ "sol_gZ": {
+  "tex": "g_{\\mathrm{Z}}",
+  "atoms": [
+   "g_{\\mathrm{Z}}"
+  ],
+  "meaning": "The four-dimensional coupling of the $Z$ boson to the neutral current, $g_{\\mathrm{Z}} = (g_2^2 + g_1^2)^{1/2}$ (canonically normalised fields); the $Z$ couples to a fermion with $g_{\\mathrm{Z}}(T_3P_L - Q_{\\mathrm{em}}\\sin^2\\theta_{\\mathrm{W}})$.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "sol_anomaly": {
+  "tex": "\\mathcal{A}_{\\mathrm{SU(3)^2U(1)}},\\ \\mathcal{A}_{\\mathrm{SU(2)^2U(1)}},\\ \\mathcal{A}_{\\mathrm{U(1)^3}}",
+  "atoms": [
+   "\\mathcal{A}_{\\mathrm{SU(3)^2U(1)}}",
+   "\\mathcal{A}_{\\mathrm{SU(2)^2U(1)}}",
+   "\\mathcal{A}_{\\mathrm{U(1)^3}}"
+  ],
+  "meaning": "The gauge anomaly coefficients of one generation, with every zero mode written as a left-handed Weyl field (a right-handed one with the hypercharge $-Y$): the sum over the colour triplets of $N_{\\mathrm{dbl}}Y$ (mixed $SU(3)^2U(1)_Y$ anomaly), the sum over the weak doublets of $N_{\\mathrm{col}}Y$ (mixed $SU(2)^2U(1)_Y$ anomaly) and the sum over all components of $N_{\\mathrm{col}}N_{\\mathrm{dbl}}Y^3$ (the $U(1)_Y^3$ anomaly); the theory is consistent only if they vanish.",
+  "units": "dimensionless",
+  "value": "0 for each generation of UM-2",
+  "status": "DERIVED"
+ },
+ "sol_Ncol": {
+  "tex": "N_{\\mathrm{col}}",
+  "atoms": [
+   "N_{\\mathrm{col}}"
+  ],
+  "meaning": "The number of colour components of a fermion multiplet: 3 for a quark, 1 for a lepton.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "sol_Ndbl": {
+  "tex": "N_{\\mathrm{dbl}}",
+  "atoms": [
+   "N_{\\mathrm{dbl}}"
+  ],
+  "meaning": "The number of weak-isospin components of a fermion multiplet: 2 for an $SU(2)$ doublet, 1 for a singlet.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "sol_rZ": {
+  "tex": "r_{\\mathrm{Z}}",
+  "atoms": [
+   "r_{\\mathrm{Z}}"
+  ],
+  "meaning": "The coupling of the fold band of $\\Psi_A$ to the $Z$ in units of the coupling of one neutrino flavour, in the chiral tip $Z$ portal of version 1 (removed in UM-2, where it is zero).",
+  "units": "dimensionless",
+  "value": "bounded by $r_{\\mathrm{Z}}^2 < 0.0056$ (two standard deviations)",
+  "status": "DERIVED"
+ },
+ "sol_Nnu": {
+  "tex": "N_\\nu",
+  "atoms": [
+   "N_{\\nu}"
+  ],
+  "meaning": "The number of light neutrino species seen by the $Z$: its invisible width in units of its width into one neutrino flavour.",
+  "units": "dimensionless",
+  "value": "measured $2.9963 \\pm 0.0074$ (PDG 2025); 3 in UM-2",
+  "status": "STANDARD"
+ },
+ "sol_GammaZ": {
+  "tex": "\\Gamma_{\\mathrm{Z}}^{f}",
+  "atoms": [
+   "\\Gamma_{\\mathrm{Z}}"
+  ],
+  "meaning": "The decay width of the $Z$ boson; with the fermion label $f$ it is the partial width into the pair of $f$ and its antiparticle (tree level, massless fermion).",
+  "units": "GeV (quoted in MeV)",
+  "value": "total $2485.2$ MeV with $1 + \\alpha_3/\\pi$ on the quarks (measured $2495.5$ MeV)",
+  "status": "DERIVED"
+ },
+ "sol_SM": {
+  "tex": "S_{\\mathrm{M}}",
+  "atoms": [
+   "S_{\\mathrm{M}}"
+  ],
+  "meaning": "The action of the gauge-invariant Majorana mass operator on the tip, the alternative to the Dirac neutrinos of UM-2 without right-handed neutrinos (not part of UM-2).",
+  "units": "dimensionless (an action, $\\hbar = 1$)",
+  "status": "INVENTED"
+ },
+ "sol_mM": {
+  "tex": "m^{\\mathrm{M}}_{ij}",
+  "atoms": [
+   "m^{\\mathrm{M}}"
+  ],
+  "meaning": "The complex symmetric $3\\times3$ matrix of the Majorana tip masses of the alternative operator $S_{\\mathrm{M}}$ (generation indices $i$, $j$).",
+  "units": "GeV",
+  "status": "INVENTED"
+ },
+ "sol_nutilde": {
+  "tex": "\\tilde\\nu_i",
+  "atoms": [
+   "\\tilde{\\nu}"
+  ],
+  "meaning": "The neutral upper component $(\\Sigma^\\dagger\\ell_i)_1$ of the lepton doublet of generation $i$ dressed with the tip sigma field: a left-handed field that is neutral under $SU(2)_L\\times U(1)_Y$; $\\tilde\\nu_i\\tilde\\nu_j$ is the Lorentz-invariant (Majorana) product of two such fields.",
+  "units": "$\\mathrm{GeV}^{7/2}$ (an eight-dimensional spinor field at the tip)",
+  "status": "INVENTED"
+ },
+ "sol_KM": {
+  "tex": "\\mathcal{K}_{\\mathrm{M}}^{(i)}",
+  "atoms": [
+   "\\mathcal{K}_{\\mathrm{M}}"
+  ],
+  "meaning": "The dimensionless Majorana tip coefficient that the alternative would need for the mass state $i$ (written with the index $i$ in brackets): $m_i = \\mathcal{K}_{\\mathrm{M}}^{(i)}\\,\\mathcal{Z}(c_L)^2/(fL)$ to first order in the tip value of the doublet zero mode.",
+  "units": "dimensionless",
+  "value": "$5.63\\times10^{-13}$, $4.90\\times10^{-12}$, $2.82\\times10^{-11}$ for $i = 1, 2, 3$",
+  "status": "DERIVED"
+ },
+ "sol_phiM": {
+  "tex": "\\varphi^{\\mathrm{M}}_i",
+  "atoms": [
+   "\\varphi^{\\mathrm{M}}"
+  ],
+  "meaning": "The Majorana phase of the neutrino mass state $i$ in the Majorana alternative (a free parameter; all values are scanned).",
+  "units": "dimensionless (radians)",
+  "status": "ASSUMED"
+ },
+ "sol_mbb": {
+  "tex": "m_{\\beta\\beta}",
+  "atoms": [
+   "m_{\\beta \\beta}"
+  ],
+  "meaning": "The effective Majorana mass of neutrinoless double-beta decay, $\\lvert\\sum_iU_{ei}^2m_i\\mathrm{e}^{\\mathrm{i}\\varphi^{\\mathrm{M}}_i}\\rvert$.",
+  "units": "eV",
+  "value": "$0.84$ to $4.41$ meV over all Majorana phases",
+  "status": "DERIVED"
+ },
+ "sol_Omeganu": {
+  "tex": "\\Omega_\\nu",
+  "atoms": [
+   "\\Omega_{\\nu}"
+  ],
+  "meaning": "The density parameter of the three neutrino mass states today: their energy density divided by the critical density $\\rho_{\\mathrm{crit}}$ (with $h_{100}^2$: $\\Omega_\\nu h_{100}^2$).",
+  "units": "dimensionless",
+  "value": "$\\Omega_\\nu h_{100}^2 = 6.382\\times10^{-4}$ (instantaneous decoupling), $6.4511\\times10^{-4}$ (heated spectrum, CAMB)",
+  "status": "DERIVED"
+ },
+ "sol_Dist": {
+  "tex": "d_{\\mathrm{M}},\\ d_{\\mathrm{H}},\\ d_{\\mathrm{V}}",
+  "atoms": [
+   "d_{\\mathrm{M}}",
+   "d_{\\mathrm{H}}",
+   "d_{\\mathrm{V}}"
+  ],
+  "meaning": "The distances of the BAO analysis at the redshift $z_{\\mathrm{red}}$ (flat space, $c = 1$): the comoving transverse distance $d_{\\mathrm{M}}$, the Hubble distance $d_{\\mathrm{H}} = 1/\\mathcal{H}$ at that redshift, and the volume-averaged distance $d_{\\mathrm{V}} = (z_{\\mathrm{red}}d_{\\mathrm{M}}^2d_{\\mathrm{H}})^{1/3}$ (written with a lower-case $d$ because $D_M$ is the covariant derivative).",
+  "units": "length (Mpc)",
+  "status": "STANDARD"
+ },
+ "sol_rd": {
+  "tex": "r_{\\mathrm{d}}",
+  "atoms": [
+   "r_{\\mathrm{d}}"
+  ],
+  "meaning": "The comoving sound horizon at the drag epoch, the standard ruler of the BAO.",
+  "units": "length (Mpc)",
+  "value": "$147.104$ Mpc (UM-2)",
+  "status": "DERIVED"
+ },
+ "sol_zred": {
+  "tex": "z_{\\mathrm{red}},\\ \\tilde z_{\\mathrm{red}}",
+  "atoms": [
+   "z_{\\mathrm{red}}",
+   "\\tilde{z}_{\\mathrm{red}}"
+  ],
+  "meaning": "The cosmological redshift, $1 + z_{\\mathrm{red}} = \\mathrm{e}^{-a_4}$ with $a_4 = 0$ today (not $z = 6Hx_0$, the angle variable of the hidden direction); $\\tilde z_{\\mathrm{red}}$ is the redshift as the variable of an integral.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "sol_chiBAO": {
+  "tex": "\\chi^2_{\\mathrm{BAO}}",
+  "atoms": [
+   "\\chi_{\\mathrm{BAO}}"
+  ],
+  "meaning": "The chi-squared of the model distances against the 13 DESI DR2 BAO measurements (the pairs of the anisotropic tracers with their correlations, and one point for BGS).",
+  "units": "dimensionless",
+  "value": "$31.49$ for UM-2 ($32.55$ for $\\Lambda$CDM)",
+  "status": "DERIVED"
+ },
+ "sol_dvec": {
+  "tex": "\\mathbf{d},\\ \\mathbf{d}^{\\mathrm{th}}",
+  "atoms": [
+   "\\mathbf{d}",
+   "\\mathbf{d}^{\\mathrm{th}}"
+  ],
+  "meaning": "The measured pair $(d_{\\mathrm{M}}/r_{\\mathrm{d}}, d_{\\mathrm{H}}/r_{\\mathrm{d}})$ of an anisotropic BAO tracer, and the pair $\\mathbf{d}^{\\mathrm{th}}$ computed in the model.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "sol_Cmat": {
+  "tex": "\\mathbf{C}",
+  "atoms": [
+   "\\mathbf{C}"
+  ],
+  "meaning": "The covariance matrix of the measured pair of one BAO tracer, built from the published errors and the published correlation coefficient of the pair.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "sol_xf": {
+  "tex": "x_{\\mathrm{f}}",
+  "atoms": [
+   "x_{\\mathrm{f}}"
+  ],
+  "meaning": "The freeze-out point $x_{\\mathrm{f}} = M_{\\mathrm{DM}}/T$ at which the dark matter leaves chemical equilibrium.",
+  "units": "dimensionless",
+  "value": "$30.38$ (freeze-out formula, I12), $31.23$ (Boltzmann equation, I12 + I13)",
+  "status": "DERIVED"
+ },
+ "sol_vc": {
+  "tex": "v_{\\mathrm{c}}",
+  "atoms": [
+   "v_{\\mathrm{c}}"
+  ],
+  "meaning": "The relative velocity above which the effective I12 cross-section at the relic strength exceeds the $^3P_0$ unitarity bound (non-relativistic formula).",
+  "units": "dimensionless (units of c)",
+  "value": "$0.263$",
+  "status": "DERIVED"
+ },
+ "sol_fN": {
+  "tex": "f_{\\mathrm{N}},\\ f_{\\mathrm{p}},\\ f_{\\mathrm{n}}",
+  "atoms": [
+   "f_{\\mathrm{N}}",
+   "f_{\\mathrm{p}}",
+   "f_{\\mathrm{n}}"
+  ],
+  "meaning": "The spin-independent effective couplings of the dark matter to a nucleon: $f_{\\mathrm{p}}$ to the proton, $f_{\\mathrm{n}}$ to the neutron, and $f_{\\mathrm{N}}$ the average per nucleon of the target (or, in step 7, the coupling through the gluon content of a nucleon).",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "value": "$f_{\\mathrm{p}} = 1.915\\times10^{-9}$, $f_{\\mathrm{n}} = 1.917\\times10^{-9}$ GeV$^{-2}$ (I13 and I11)",
+  "status": "ESTIMATE"
+ },
+ "sol_mN": {
+  "tex": "m_{\\mathrm{N}}",
+  "atoms": [
+   "m_{\\mathrm{N}}"
+  ],
+  "meaning": "The mass of a nucleon.",
+  "units": "GeV",
+  "value": "0.939 GeV",
+  "status": "STANDARD"
+ },
+ "sol_fTG": {
+  "tex": "f_{\\mathrm{TG}}",
+  "atoms": [
+   "f_{\\mathrm{TG}}"
+  ],
+  "meaning": "The fraction of the nucleon mass carried by the gluons through the trace anomaly of QCD.",
+  "units": "dimensionless",
+  "value": "0.92 (the value used in the computation; approximate)",
+  "status": "STANDARD"
+ },
+ "sol_sigmaSI": {
+  "tex": "\\sigma_{\\mathrm{SI}}",
+  "atoms": [
+   "\\sigma_{\\mathrm{SI}}"
+  ],
+  "meaning": "The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon.",
+  "units": "$\\mathrm{cm}^2$",
+  "value": "$4.01\\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $6.3\\times10^{-53}$ cm$^2$ through I12 alone",
+  "status": "ESTIMATE"
+ },
+ "sol_mured": {
+  "tex": "\\mu_{\\mathrm{red}}",
+  "atoms": [
+   "\\mu_{\\mathrm{red}}"
+  ],
+  "meaning": "The reduced mass of the dark-matter particle and a nucleon, $M_{\\mathrm{DM}}m_{\\mathrm{N}}/(M_{\\mathrm{DM}} + m_{\\mathrm{N}})$.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "sol_Gud": {
+  "tex": "G_{\\mathrm{u}},\\ G_{\\mathrm{d}}",
+  "atoms": [
+   "G_{\\mathrm{u}}",
+   "G_{\\mathrm{d}}"
+  ],
+  "meaning": "The four-dimensional vector couplings of the dark matter to the up and to the down quark (I13 and I11, unpolarised quarks with each chirality carrying half of the density).",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "DERIVED"
+ },
+ "sol_ZAXe": {
+  "tex": "Z_{\\mathrm{Xe}},\\ A_{\\mathrm{Xe}}",
+  "atoms": [
+   "Z_{\\mathrm{Xe}}",
+   "A_{\\mathrm{Xe}}"
+  ],
+  "meaning": "The atomic number and the mass number of the xenon target.",
+  "units": "dimensionless",
+  "value": "54 and 131",
+  "status": "STANDARD"
+ }
+}

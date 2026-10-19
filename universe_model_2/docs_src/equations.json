@@ -1579,7 +1579,7 @@
  {
   "id": "FE-40",
   "title": "The background equation: the hidden (block) component",
-  "latex": "\\begin{aligned}\nx_0:\\quad &\\Big[-\\frac{9\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{16H^{4}} -\n \\frac{3\\,\\mathcal{H}\\mathcal{H}_f^{3}}{8H^{4}} + \\frac{3\\,K\\mathcal{H}^{2}}{16H^{2}} +\n \\frac{3\\,K\\mathcal{H}\\mathcal{H}_f}{8H^{2}} \\\\\n &- \\frac{3\\,\\mathcal{H}^{2}}{8H^{2}} - \\frac{9\\,\\mathcal{H}\\mathcal{H}_f}{4H^{2}} -\n \\frac{9\\,\\mathcal{H}_f^{2}}{8H^{2}} + \\frac{9\\,K}{8} - 3\\Big]\\,\\dot{\\mathcal{H}} \\\\\n &+ \\Big[-\\frac{3\\,\\mathcal{H}^{3}\\mathcal{H}_f}{8H^{4}} -\n \\frac{9\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{16H^{4}} + \\frac{3\\,K\\mathcal{H}^{2}}{16H^{2}} -\n \\frac{9\\,\\mathcal{H}^{2}}{8H^{2}} \\\\\n &- \\frac{9\\,\\mathcal{H}\\mathcal{H}_f}{4H^{2}} - \\frac{3\\,\\mathcal{H}_f^{2}}{8H^{2}} + \\frac{3\\,K}{8} -\n 3\\Big]\\,\\dot{\\mathcal{H}}_f \\\\\n &-\\frac{9\\,\\mathcal{H}^{4}\\mathcal{H}_f^{2}}{16H^{4}} -\n \\frac{17\\,\\mathcal{H}^{3}\\mathcal{H}_f^{3}}{16H^{4}} -\n \\frac{9\\,\\mathcal{H}^{2}\\mathcal{H}_f^{4}}{16H^{4}} + \\frac{3\\,K\\mathcal{H}^{4}}{16H^{2}} \\\\\n &+ \\frac{9\\,K\\mathcal{H}^{3}\\mathcal{H}_f}{16H^{2}} +\n \\frac{3\\,K\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{16H^{2}} - \\frac{3\\,\\mathcal{H}^{4}}{8H^{2}} -\n \\frac{27\\,\\mathcal{H}^{3}\\mathcal{H}_f}{8H^{2}} \\\\\n &- \\frac{45\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{8H^{2}} -\n \\frac{27\\,\\mathcal{H}\\mathcal{H}_f^{3}}{8H^{2}} - \\frac{3\\,\\mathcal{H}_f^{4}}{8H^{2}} \\\\\n &+ \\frac{9\\,K\\mathcal{H}^{2}}{4} + \\frac{9\\,K\\mathcal{H}\\mathcal{H}_f}{8} +\n \\frac{3\\,K\\mathcal{H}_f^{2}}{8} - 6\\,\\mathcal{H}^{2} - 9\\,\\mathcal{H}\\mathcal{H}_f \\\\\n &- 6\\,\\mathcal{H}_f^{2} + 3\\,KH^{2} - 10\\,H^{2} \\\\\n &= \\kappa\\bar p\n\\end{aligned} \\tag{FE-40}",
+  "latex": "\\begin{aligned}\nx_0:\\quad &\\Big[-\\frac{9\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{16H^{4}} -\n \\frac{3\\,\\mathcal{H}\\mathcal{H}_f^{3}}{8H^{4}} + \\frac{3\\,K\\mathcal{H}^{2}}{16H^{2}} +\n \\frac{3\\,K\\mathcal{H}\\mathcal{H}_f}{8H^{2}} \\\\\n &- \\frac{3\\,\\mathcal{H}^{2}}{8H^{2}} - \\frac{9\\,\\mathcal{H}\\mathcal{H}_f}{4H^{2}} -\n \\frac{9\\,\\mathcal{H}_f^{2}}{8H^{2}} + \\frac{9\\,K}{8} - 3\\Big]\\,\\dot{\\mathcal{H}} \\\\\n &+ \\Big[-\\frac{3\\,\\mathcal{H}^{3}\\mathcal{H}_f}{8H^{4}} -\n \\frac{9\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{16H^{4}} + \\frac{3\\,K\\mathcal{H}^{2}}{16H^{2}} -\n \\frac{9\\,\\mathcal{H}^{2}}{8H^{2}} \\\\\n &- \\frac{9\\,\\mathcal{H}\\mathcal{H}_f}{4H^{2}} - \\frac{3\\,\\mathcal{H}_f^{2}}{8H^{2}} + \\frac{3\\,K}{8} -\n 3\\Big]\\,\\dot{\\mathcal{H}}_f \\\\\n &-\\frac{9\\,\\mathcal{H}^{4}\\mathcal{H}_f^{2}}{16H^{4}} -\n \\frac{17\\,\\mathcal{H}^{3}\\mathcal{H}_f^{3}}{16H^{4}} -\n \\frac{9\\,\\mathcal{H}^{2}\\mathcal{H}_f^{4}}{16H^{4}} + \\frac{3\\,K\\mathcal{H}^{4}}{16H^{2}} \\\\\n &+ \\frac{9\\,K\\mathcal{H}^{3}\\mathcal{H}_f}{16H^{2}} +\n \\frac{3\\,K\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{16H^{2}} - \\frac{3\\,\\mathcal{H}^{4}}{8H^{2}} -\n \\frac{27\\,\\mathcal{H}^{3}\\mathcal{H}_f}{8H^{2}} \\\\\n &- \\frac{45\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{8H^{2}} -\n \\frac{27\\,\\mathcal{H}\\mathcal{H}_f^{3}}{8H^{2}} - \\frac{3\\,\\mathcal{H}_f^{4}}{8H^{2}} \\\\\n &+ \\frac{9\\,K\\mathcal{H}^{2}}{4} + \\frac{9\\,K\\mathcal{H}\\mathcal{H}_f}{8} +\n \\frac{3\\,K\\mathcal{H}_f^{2}}{8} - 6\\,\\mathcal{H}^{2} - 9\\,\\mathcal{H}\\mathcal{H}_f \\\\\n &- 6\\,\\mathcal{H}_f^{2} + 3\\,KH^{2} - 10\\,H^{2} \\\\\n &= \\kappa p_0;\\qquad x_5, x_6, x_7:\\ \\text{the same left side} = \\kappa p_5; \\\\\n &\\text{block-isotropic order-0 metric: the same left side} = \\kappa\\bar p,\\qquad \\bar p =\n \\tfrac14\\big(p_0 + 3p_5\\big)\n\\end{aligned} \\tag{FE-40}",
   "keys": [
    "x0",
    "Hubble",
@@ -1589,6 +1589,11 @@
    "Hdot",
    "Hfdot",
    "kappa",
+   "p0",
+   "x5",
+   "x6",
+   "x7",
+   "p5",
    "pbar"
   ],
   "status": "DERIVED",
@@ -1596,7 +1601,7 @@
    "metric g",
    "all sources"
   ],
-  "solved_in": "Exact for a block-isotropic source; for $p_0 \\ne p_5$ it is the variation with respect to the common block scale $f$, and $p_0 - p_5$ drives a block-shape mode outside the order-0 metric (OPEN)."
+  "solved_in": "Exact. The $x_0$ component and the extra-time components $x_5$, $x_6$, $x_7$ have the same left side ($\\mathcal{E}_{(p)}{}^{x_0}{}_{x_0} = \\mathcal{E}_{(p)}{}^{x_5}{}_{x_5}$), so the order-0 metric solves both only if $p_0 = p_5$; for $p_0 \\ne p_5$ the common block scale $f$ obeys their average with $\\bar p$ (the variation of the action with respect to $f$), and $p_0 - p_5$ drives a block-shape mode outside the order-0 metric (OPEN)."
  },
  {
   "id": "FE-41",
@@ -1621,7 +1626,7 @@
  {
   "id": "FE-42",
   "title": "The static block",
-  "latex": "\\begin{aligned}\n&x_4:\\ -3\\mathcal{G}(K)\\,\\mathcal{H}^2 + 6H^2K\\big(1 - 2w_{(2)}K\\big) + \\Lambda + \\kappa\\rho = 0,\\qquad\n x_1:\\ \\text{the same with } -\\kappa p_3 \\text{ in place of } \\kappa\\rho,\\\\\n&x_0:\\ 6\\big(12w_{(2)}K - 1\\big)\\mathcal{H}^2 - \\frac{12\\big(w_{(2)} -\n 18w_{(3)}K\\big)}{H^2}\\,\\mathcal{H}^4 + 3H^2K + \\Lambda\n - \\kappa\\bar p = 0,\\\\\n&\\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = \\frac{K^2 - 12K + 16}{16}\n\\end{aligned} \\tag{FE-42}",
+  "latex": "\\begin{aligned}\n&x_4:\\ -3\\mathcal{G}(K)\\,\\mathcal{H}^2 + 6H^2K\\big(1 - 2w_{(2)}K\\big) + \\Lambda + \\kappa\\rho = 0,\\qquad\n x_1:\\ \\text{the same with } -\\kappa p_3 \\text{ in place of } \\kappa\\rho,\\\\\n&x_0:\\ 6\\big(12w_{(2)}K - 1\\big)\\mathcal{H}^2 - \\frac{12\\big(w_{(2)} -\n 18w_{(3)}K\\big)}{H^2}\\,\\mathcal{H}^4 + 3H^2K + \\Lambda\n - \\kappa p_0 = 0,\\\\\n&x_5, x_6, x_7:\\ \\text{the same with } \\kappa p_5 \\text{ in place of } \\kappa p_0;\\qquad\n \\text{block-isotropic order-0 metric: the same with } \\kappa\\bar p,\\\\\n&\\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = \\frac{K^2 - 12K + 16}{16}\n\\end{aligned} \\tag{FE-42}",
   "keys": [
    "x4",
    "GK",
@@ -1635,6 +1640,11 @@
    "x1",
    "p3",
    "x0",
+   "p0",
+   "x5",
+   "x6",
+   "x7",
+   "p5",
    "pbar"
   ],
   "status": "DERIVED",
@@ -1642,18 +1652,24 @@
    "metric g",
    "sources"
   ],
-  "solved_in": "Exact for $\\mathcal{H}_f = 0$ and $\\dot{\\mathcal{H}} = 0$; without sources and with $\\mathcal{H} = 0$ the only static block is $K = 1/(4w_{(2)}) = 8$, which needs $\\Lambda = -24H^2$ and has $\\mathcal{G} = -1$ (repulsive gravity)."
+  "solved_in": "Exact for $\\mathcal{H}_f = 0$ and $\\dot{\\mathcal{H}} = 0$; the $x_0$ and extra-time components agree for a block-isotropic source ($p_0 = p_5 = \\bar p$); without sources and with $\\mathcal{H} = 0$ the only static block is $K = 1/(4w_{(2)}) = 8$, which needs $\\Lambda = -24H^2$ and has $\\mathcal{G} = -1$ (repulsive gravity)."
  },
  {
   "id": "FE-43",
   "title": "The stabilised block",
-  "latex": "\\begin{aligned}\n&\\kappa\\rho_{\\mathrm{stab}} = 10H^2 - 6H^2K + \\tfrac38H^2K^2 = \\kappa\\bar p = 3H^2K - 10H^2\n \\ \\Rightarrow\\ K_{\\pm} = 12 \\pm \\tfrac43\\sqrt{51},\\\\\n&K_* = 12 + \\tfrac43\\sqrt{51} = 21.5219,\\qquad f_* = K_*^{-1/2} = 0.215556,\\\\\n&\\mathcal{G}(K_*) = \\tfrac{20}{3} + \\sqrt{51} = 13.8081,\\qquad \\kappa\\rho_{\\mathrm{stab}}(f_*) = \\big(26\n + 4\\sqrt{51}\\big)H^2\n\\end{aligned} \\tag{FE-43}",
+  "latex": "\\begin{aligned}\n&\\kappa\\rho_{\\mathrm{stab}} = 10H^2 - 6H^2K + \\tfrac38H^2K^2\\ \\ (x_4),\\qquad\n \\kappa p_0 = \\kappa p_5 = \\kappa\\rho_{\\mathrm{stab}} = 3H^2K - 10H^2\\ \\ (x_0;\\ x_5, x_6, x_7),\\\\\n&\\Rightarrow\\ K_{\\pm} = 12 \\pm \\tfrac43\\sqrt{51},\\qquad\nK_* = 12 + \\tfrac43\\sqrt{51} = 21.5219,\\qquad f_* = K_*^{-1/2} = 0.215556,\\\\\n&\\mathcal{G}(K_*) = \\tfrac{20}{3} + \\sqrt{51} = 13.8081,\\qquad \\kappa\\rho_{\\mathrm{stab}}(f_*) = \\big(26\n + 4\\sqrt{51}\\big)H^2\n\\end{aligned} \\tag{FE-43}",
   "keys": [
    "kappa",
    "rhostab",
    "Hconst",
    "Kblock",
-   "pbar",
+   "x4",
+   "p0",
+   "p5",
+   "x0",
+   "x5",
+   "x6",
+   "x7",
    "Kpm",
    "Kstar",
    "fstar",
@@ -1664,7 +1680,7 @@
    "metric g (block scale)",
    "stabiliser"
   ],
-  "solved_in": "Exact (closed form); the upper root is the vacuum of UM-2 with attractive four-dimensional gravity; the lower root $K_- = 2.4781$ has $\\mathcal{G} = -0.4748$."
+  "solved_in": "Exact (closed form); the stabiliser is block-isotropic ($p_0 = p_5 = \\rho_{\\mathrm{stab}}$, so the $x_0$ and the extra-time equations coincide); the upper root is the vacuum of UM-2 with attractive four-dimensional gravity; the lower root $K_- = 2.4781$ has $\\mathcal{G} = -0.4748$."
  },
  {
   "id": "FE-44",
@@ -1916,7 +1932,7 @@
    "gauge fields",
    "graviton"
   ],
-  "solved_in": "Exact; graviton, photon and gluons are exactly massless; the first even Kaluza-Klein level $\\tilde m_1 = 30.1196$, the first odd level 27.0890, the gap 20.25 ($HL = 3$); $\\tilde m_{\\mathrm{W}}^2 = 1.32149\\times10^{-5}$, $\\tilde m_{\\mathrm{Z}}^2 = 1.70150\\times10^{-5}$ (mpmath; finite elements $3\\times10^{-14}$)."
+  "solved_in": "Exact; graviton, photon and gluons are exactly massless; the first even Kaluza-Klein level $\\tilde m_1^2 = 30.1196$ ($\\tilde m_1 = 5.48813$), the first odd level $\\tilde m^2 = 27.0890$, the gap $\\tilde m^2 = 9H^2L^2/4 = 20.25$ ($HL = 3$); $\\tilde m_{\\mathrm{W}}^2 = 1.32149\\times10^{-5}$, $\\tilde m_{\\mathrm{Z}}^2 = 1.70150\\times10^{-5}$ (mpmath; finite elements $3\\times10^{-14}$)."
  },
  {
   "id": "FE-53",
@@ -1941,7 +1957,7 @@
   "fields": [
    "graviton tower"
   ],
-  "solved_in": "Exact; $\\tilde m_n = 30.1196$, 59.7284, 109.0764 for $n = 1, 2, 3$ (finite elements agree to $3.9\\times10^{-9}$); $m^{\\mathrm{KK}}_1 = m_{\\mathrm{KK}} = 121.32$ TeV."
+  "solved_in": "Exact; $\\tilde m_n^2 = 30.1196$, 59.7284, 109.0764 for $n = 1, 2, 3$ (finite elements agree to $3.9\\times10^{-9}$); $m^{\\mathrm{KK}}_1 = m_{\\mathrm{KK}} = 121.32$ TeV."
  },
  {
   "id": "FE-54",
@@ -2659,7 +2675,7 @@
    "gluons",
    "dark matter"
   ],
-  "solved_in": "Finite elements (300 quadratic elements, Richardson in the amplitude): $\\mathrm{d}\\ln\\tilde m_{\\mathrm{W}}^2/\\mathrm{d}A_{\\mathrm{mf}} = -0.1126$ while the photon and gluon zero mode stays massless; the physical shifts are at most $1.7\\times10^{-16}$."
+  "solved_in": "First-order perturbation theory with the exact $W$ eigenfunction (shooting and the stored value agree to $3\\times10^{-12}$): $\\mathrm{d}\\ln\\tilde m_{\\mathrm{W}}^2/\\mathrm{d}A_{\\mathrm{mf}} = -0.111253$ (version 3 quoted $-0.1126$ from finite elements) while the photon and gluon zero mode stays massless; the physical shifts are at most $1.7\\times10^{-16}$."
  },
  {
   "id": "FE-80",

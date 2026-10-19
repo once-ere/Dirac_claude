@@ -16,7 +16,8 @@ and the generated block
     <!-- begin generated symbol list -->  ...  <!-- end generated symbol list -->
 which `expand` (re)writes from the registry.  `check` extracts the atoms of every display equation and requires that
 every atom is defined by one of the listed keys (or is pure typography), that every display has a marker, that every
-listed key exists, and that no atom is defined by two registry entries (one symbol, one meaning).
+listed key exists, that no atom is defined by two registry entries (one symbol, one meaning), and that a display
+tagged FE-n or IN-n is written exactly as in the inventory docs_src/equations.json, with the same keys.
 
 Atoms.  A symbol of an equation is reduced to an atom: a LaTeX command with its decoration (\Psi, \bar\Psi, \partial,
 \mathcal{L}, \hat{g}), a letter (g, R), a letter or command with a NAME subscript (a_4, x_0, G_F, m_\nu, M_{Pl}: the
@@ -388,11 +389,25 @@ def expand(name, reg):
     return problems
 
 
-def check(name, reg, owner):
+INVENTORY = DOCS / 'docs_src' / 'equations.json'
+
+
+def load_inventory():
+    if not INVENTORY.exists():
+        return {}
+    return {e['id']: e for e in json.loads(INVENTORY.read_text(encoding='utf-8'))}
+
+
+def squeeze(s):
+    return re.sub(r'\s+', '', s)
+
+
+def check(name, reg, owner, inventory=None):
     path = doc_path(name)
     lines = path.read_text(encoding='utf-8').split('\n')
     problems = []
     n_disp = 0
+    inventory = inventory if inventory is not None else load_inventory()
     for start, end, latex in displays(lines):
         n_disp += 1
         j, keys = find_marker(lines, end)
@@ -400,6 +415,17 @@ def check(name, reg, owner):
         if keys is None:
             problems.append('%s: display equation without a symbol list: %s' % (where, latex.strip()[:90]))
             continue
+        # a display tagged FE-n or IN-n is the inventory's equation, written out identically with the same keys
+        tag = tag_of(latex)
+        if tag and re.fullmatch(r'(FE|IN)-\d+', tag):
+            inv = inventory.get(tag)
+            if inv is None:
+                problems.append('%s: tag %s is not in the inventory' % (where, tag))
+            else:
+                if squeeze(inv['latex']) != squeeze(latex):
+                    problems.append('%s: (%s) differs from the inventory equation' % (where, tag))
+                if set(inv['keys']) != set(keys):
+                    problems.append('%s: the keys of (%s) differ from the inventory keys' % (where, tag))
         unknown = [k for k in keys if k not in reg]
         if unknown:
             problems.append('%s: unknown registry keys %s' % (where, unknown))

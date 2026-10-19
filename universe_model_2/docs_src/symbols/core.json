@@ -2187,7 +2187,7 @@
   ],
   "meaning": "The dimensionless $x_0$ eigenvalue of a boson mode, $\\tilde m = m\\,fL$; $\\tilde m_n$ the $n$-th even Kaluza-Klein level of the tower with $\\beta = 0$ ($\\tilde m_1$ the first).",
   "units": "dimensionless",
-  "value": "$\\tilde m_1 = 30.1196$, $\\tilde m_2 = 59.7284$, $\\tilde m_3 = 109.0764$ ($HL = 3$)",
+  "value": "$\\tilde m_1^2 = 30.1196$, $\\tilde m_2^2 = 59.7284$, $\\tilde m_3^2 = 109.0764$ ($HL = 3$), i.e. $\\tilde m_1 = 5.48813$, $\\tilde m_2 = 7.72842$, $\\tilde m_3 = 10.44397$",
   "status": "DERIVED"
  },
  "mtildeW": {
