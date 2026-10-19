@@ -1,0 +1,4667 @@
+{
+ "euler": {
+  "tex": "\\mathrm{e}",
+  "atoms": [
+   "\\mathrm{e}"
+  ],
+  "meaning": "Euler's number, the base of the natural logarithm; $\\mathrm{e}^{X}$ is the exponential of $X$.",
+  "units": "dimensionless",
+  "value": "2.718281828",
+  "status": "STANDARD"
+ },
+ "imag": {
+  "tex": "\\mathrm{i}",
+  "atoms": [
+   "\\mathrm{i}"
+  ],
+  "meaning": "The imaginary unit, $\\mathrm{i}^2 = -1$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "diff": {
+  "tex": "\\mathrm{d}",
+  "atoms": [
+   "\\mathrm{d}"
+  ],
+  "meaning": "The differential: $\\mathrm{d}X$ is an infinitesimal change of $X$, $\\mathrm{d}X/\\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\\mathrm{d}^nX$ the volume element of $n$ variables.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "pi": {
+  "tex": "\\pi",
+  "atoms": [
+   "\\pi"
+  ],
+  "meaning": "The number pi, the ratio of the circumference of a circle to its diameter.",
+  "units": "dimensionless",
+  "value": "3.141592654",
+  "status": "STANDARD"
+ },
+ "infty": {
+  "tex": "\\infty",
+  "atoms": [
+   "\\infty"
+  ],
+  "meaning": "Infinity: as a limit of an integral or a sum it means that the range has no upper bound.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "zeta3": {
+  "tex": "\\zeta",
+  "atoms": [
+   "\\zeta"
+  ],
+  "meaning": "The Riemann zeta function; only its value $\\zeta(3)$ occurs, the sum of $1/n^3$ over the positive integers $n$.",
+  "units": "dimensionless",
+  "value": "$\\zeta(3) = 1.2020569$",
+  "status": "STANDARD"
+ },
+ "trace": {
+  "tex": "\\mathrm{tr}",
+  "atoms": [
+   "\\mathrm{tr}"
+  ],
+  "meaning": "The trace of a matrix: the sum of its diagonal entries.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "diag": {
+  "tex": "\\mathrm{diag}",
+  "atoms": [
+   "\\mathrm{diag}"
+  ],
+  "meaning": "A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \\dots, x_7$ when it is a tensor in eight dimensions).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "imagpart": {
+  "tex": "\\mathrm{Im}",
+  "atoms": [
+   "\\mathrm{Im}"
+  ],
+  "meaning": "The imaginary part of a complex number.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "identity": {
+  "tex": "\\mathbf{1}",
+  "atoms": [
+   "\\mathbf{1}"
+  ],
+  "meaning": "The identity matrix (of the size fixed by the context: 16 x 16 on spinors, 3 x 3 on the generations or flavours, 2 x 2 for the sigma field).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "partial": {
+  "tex": "\\partial",
+  "atoms": [
+   "\\partial"
+  ],
+  "meaning": "A partial derivative: $\\partial_M$ is the derivative with respect to the coordinate $X^M$, $\\partial_y$ with respect to $y$, $\\partial_{x_4}$ with respect to the time $x_4$, $\\partial X/\\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "nabla": {
+  "tex": "\\nabla",
+  "atoms": [
+   "\\nabla"
+  ],
+  "meaning": "The covariant derivative of a tensor with the Levi-Civita connection of the metric $g_{MN}$ (Christoffel symbols $\\Gamma^N{}_{MP}$); $\\nabla_M$ acts on the index $M$, $\\nabla^M = g^{MN}\\nabla_N$.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "grad3": {
+  "tex": "\\vec\\nabla",
+  "atoms": [
+   "\\vec{\\nabla}"
+  ],
+  "meaning": "The gradient in ordinary 3-space, $(\\partial/\\partial x_1, \\partial/\\partial x_2, \\partial/\\partial x_3)$.",
+  "units": "1/length",
+  "status": "STANDARD"
+ },
+ "Delta": {
+  "tex": "\\Delta",
+  "atoms": [
+   "\\Delta"
+  ],
+  "meaning": "The change (difference or small perturbation) of the quantity that follows: $\\Delta K$, $\\Delta\\rho$, $\\Delta p_3$ are first-order changes about the static block, $\\Delta\\varepsilon_o$ a level shift, $\\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\\Delta N_{\\mathrm{eff}}$ an addition to $N_{\\mathrm{eff}}$, $\\Delta S_{\\mathrm{m}}$ the change of an action under a change $\\Delta g^{MN}$ of the metric.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "delta": {
+  "tex": "\\delta",
+  "atoms": [
+   "\\delta"
+  ],
+  "meaning": "The Kronecker delta: with two indices $\\delta^M_N = 1$ if $M = N$ and 0 otherwise (likewise $\\delta_{\\alpha e}$, $\\delta_{l0}$, $\\delta^{I3}$); with upper and lower index strings the generalised Kronecker delta $\\delta^{M_1\\cdots M_n}_{N_1\\cdots N_n}$, the determinant of the $n \\times n$ matrix of Kronecker deltas $\\delta^{M_a}_{N_b}$ (+1 or -1 if the upper indices are an even or odd permutation of the lower ones, 0 otherwise).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "deltaD": {
+  "tex": "\\delta_{\\mathrm{D}}",
+  "atoms": [
+   "\\delta_{\\mathrm{D}}"
+  ],
+  "meaning": "The Dirac delta function: $\\delta_{\\mathrm{D}}(y + L)$ is zero except at $y = -L$ and has the unit integral over $y$.",
+  "units": "1/length",
+  "status": "STANDARD"
+ },
+ "prime": {
+  "tex": "{}'",
+  "atoms": [
+   "prime"
+  ],
+  "meaning": "The prime on a function of the conformal time $\\tau_{\\mathrm{c}}$ is its derivative $\\mathrm{d}/\\mathrm{d}\\tau_{\\mathrm{c}}$ (it is used only in the cosmological perturbation equations; two primes are the second derivative).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "dagger": {
+  "tex": "{}^\\dagger",
+  "atoms": [
+   "dagger"
+  ],
+  "meaning": "Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "transpose": {
+  "tex": "{}^T",
+  "atoms": [
+   "transpose"
+  ],
+  "meaning": "The transpose: a row written with $^T$ is a column.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "star": {
+  "tex": "{}^*",
+  "atoms": [
+   "star"
+  ],
+  "meaning": "Complex conjugation of a number or of each entry of a matrix.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "Xcoord": {
+  "tex": "X = \\{x_0, \\dots, x_7\\}",
+  "atoms": [
+   "X"
+  ],
+  "meaning": "The author's coordinates of the eight-dimensional spacetime, $X = \\{x_0, x_1, \\dots, x_7\\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\\mathrm{d}^8X = \\mathrm{d}x_0\\,\\mathrm{d}x_1\\cdots\\mathrm{d}x_7$ the coordinate volume element and $X^\\mu$ (four-dimensional index $\\mu$) the observable coordinates $x_1, \\dots, x_4$.",
+  "units": "length (each coordinate)",
+  "status": "AUTHOR"
+ },
+ "Xtip": {
+  "tex": "X_{\\mathrm{tip}}",
+  "atoms": [
+   "X_{\\mathrm{tip}}"
+  ],
+  "meaning": "The seven coordinates $x_1, \\dots, x_7$ of the tip $y = -L$ of the hidden direction; $\\mathrm{d}^7X_{\\mathrm{tip}}$ is their coordinate volume element.",
+  "units": "length (each coordinate)",
+  "status": "DERIVED"
+ },
+ "x0": {
+  "tex": "x_0",
+  "atoms": [
+   "x_{0}"
+  ],
+  "meaning": "The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\\pi/(6H)$.",
+  "units": "length",
+  "status": "AUTHOR"
+ },
+ "x1": {
+  "tex": "x_1",
+  "atoms": [
+   "x_{1}"
+  ],
+  "meaning": "The first coordinate of ordinary 3-space.",
+  "units": "length",
+  "status": "AUTHOR"
+ },
+ "x2": {
+  "tex": "x_2",
+  "atoms": [
+   "x_{2}"
+  ],
+  "meaning": "The second coordinate of ordinary 3-space.",
+  "units": "length",
+  "status": "AUTHOR"
+ },
+ "x3": {
+  "tex": "x_3",
+  "atoms": [
+   "x_{3}"
+  ],
+  "meaning": "The third coordinate of ordinary 3-space (also the symmetry axis of the fast-flavour analysis).",
+  "units": "length",
+  "status": "AUTHOR"
+ },
+ "x4": {
+  "tex": "x_4",
+  "atoms": [
+   "x_{4}"
+  ],
+  "meaning": "The time; dots denote $\\mathrm{d}/\\mathrm{d}x_4$.",
+  "units": "length (= time, c = 1)",
+  "status": "AUTHOR"
+ },
+ "x5": {
+  "tex": "x_5",
+  "atoms": [
+   "x_{5}"
+  ],
+  "meaning": "The first of the three extra time-like coordinates.",
+  "units": "length",
+  "status": "AUTHOR"
+ },
+ "x6": {
+  "tex": "x_6",
+  "atoms": [
+   "x_{6}"
+  ],
+  "meaning": "The second of the three extra time-like coordinates.",
+  "units": "length",
+  "status": "AUTHOR"
+ },
+ "x7": {
+  "tex": "x_7",
+  "atoms": [
+   "x_{7}"
+  ],
+  "meaning": "The third of the three extra time-like coordinates.",
+  "units": "length",
+  "status": "AUTHOR"
+ },
+ "vecx": {
+  "tex": "\\vec x",
+  "atoms": [
+   "\\vec{x}"
+  ],
+  "meaning": "The position in ordinary 3-space, $\\vec x = (x_1, x_2, x_3)$; $\\mathrm{d}\\vec x^{\\,2} = \\mathrm{d}x_1^2 + \\mathrm{d}x_2^2 + \\mathrm{d}x_3^2$.",
+  "units": "length",
+  "status": "STANDARD"
+ },
+ "zvar": {
+  "tex": "z",
+  "atoms": [
+   "z"
+  ],
+  "meaning": "The angle variable of the hidden direction, $z = 6Hx_0$; one period of $x_0$ is $0 < z < \\pi$.",
+  "units": "dimensionless",
+  "status": "AUTHOR"
+ },
+ "ycoord": {
+  "tex": "y",
+  "atoms": [
+   "y"
+  ],
+  "meaning": "The hidden coordinate of the $y$ chart, $y = \\ln\\lvert\\sin z\\rvert/(6H)$, with $y = 0$ at the fold ($z = \\pi/2$) and $y = -L$ at the regular tip; each half of a period of $x_0$ is the interval $-L \\le y \\le 0$.",
+  "units": "length",
+  "status": "DERIVED"
+ },
+ "xi": {
+  "tex": "\\xi",
+  "atoms": [
+   "\\xi"
+  ],
+  "meaning": "The scaled hidden coordinate, $\\xi = y/L$, running from $-1$ (tip) to $0$ (fold) on each half of a period.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "Lcut": {
+  "tex": "L",
+  "atoms": [
+   "L"
+  ],
+  "meaning": "The depth of the regular tip: each half of a period of $x_0$ ends at $y = -L$; $HL = 3$.",
+  "units": "length",
+  "value": "$L = 3/H$ ($fL = 8.926\\times10^{-21}$ m at the stabilised block)",
+  "status": "ASSUMED"
+ },
+ "Hconst": {
+  "tex": "H",
+  "atoms": [
+   "H"
+  ],
+  "meaning": "The author's constant (an inverse length) that fixes the period $\\pi/(6H)$ of $x_0$, the Lovelock couplings, the cosmological constant $\\Lambda = -10H^2$ and the mass parameter $m_\\Psi = H$.",
+  "units": "GeV (1/length)",
+  "value": "14.296 TeV (from the fit of $m_{\\mathrm{W}}$ and $\\rho_{\\mathrm{EW},0}$)",
+  "status": "AUTHOR"
+ },
+ "iM": {
+  "tex": "M",
+  "atoms": [
+   "index:M"
+  ],
+  "meaning": "A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \\dots$): it runs over $x_0, x_1, \\dots, x_7$; a repeated index is summed.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "iN": {
+  "tex": "N",
+  "atoms": [
+   "index:N"
+  ],
+  "meaning": "A coordinate index of eight dimensions (also $N_1, N_2, \\dots$), running over $x_0, \\dots, x_7$; a repeated index is summed.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "iP": {
+  "tex": "P",
+  "atoms": [
+   "index:P"
+  ],
+  "meaning": "A coordinate index of eight dimensions (also $P_1, P_2, \\dots$), running over $x_0, \\dots, x_7$; a repeated index is summed.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "iQ": {
+  "tex": "Q",
+  "atoms": [
+   "index:Q"
+  ],
+  "meaning": "A coordinate index of eight dimensions (also $Q_1, Q_2, \\dots$), running over $x_0, \\dots, x_7$; a repeated index is summed.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "ia": {
+  "tex": "a",
+  "atoms": [
+   "index:a"
+  ],
+  "meaning": "A frame (orthonormal) index running over $0, 1, \\dots, 7$, aligned with $x_0, \\dots, x_7$; raised and lowered with $\\eta_{ab}$; a repeated index is summed (except in a sectional curvature $R^{ab}{}_{ab}$).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "ib": {
+  "tex": "b",
+  "atoms": [
+   "index:b"
+  ],
+  "meaning": "A frame index running over $0, \\dots, 7$ (as $a$).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "ic": {
+  "tex": "c",
+  "atoms": [
+   "index:c"
+  ],
+  "meaning": "A frame index running over $0, \\dots, 7$ (as $a$).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "id": {
+  "tex": "d",
+  "atoms": [
+   "index:d"
+  ],
+  "meaning": "A frame index running over $0, \\dots, 7$ (as $a$).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "imu": {
+  "tex": "\\mu",
+  "atoms": [
+   "index:\\mu"
+  ],
+  "meaning": "A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ (signature $+,+,+,-$); on the tip it runs over the tip directions; a repeated index is summed.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "inu": {
+  "tex": "\\nu",
+  "atoms": [
+   "index:\\nu"
+  ],
+  "meaning": "A four-dimensional coordinate index running over $x_1, \\dots, x_4$ (as $\\mu$).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "iA": {
+  "tex": "A",
+  "atoms": [
+   "index:A"
+  ],
+  "meaning": "A colour (adjoint SU(3)) index running over $1, \\dots, 8$; a repeated index is summed.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "iB": {
+  "tex": "B",
+  "atoms": [
+   "index:B"
+  ],
+  "meaning": "A colour (adjoint SU(3)) index running over $1, \\dots, 8$ (as $A$).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "iI": {
+  "tex": "I",
+  "atoms": [
+   "index:I"
+  ],
+  "meaning": "A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "ii": {
+  "tex": "i",
+  "atoms": [
+   "index:i"
+  ],
+  "meaning": "The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\\nu_1, \\nu_2, \\nu_3$; a repeated index is not summed unless a sum sign is written.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "ij": {
+  "tex": "j",
+  "atoms": [
+   "index:j"
+  ],
+  "meaning": "A second generation index ($j = 1, 2, 3$).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "ialpha": {
+  "tex": "\\alpha",
+  "atoms": [
+   "index:\\alpha"
+  ],
+  "meaning": "A flavour index running over $e, \\mu, \\tau$ (the flavour states of the leptons and neutrinos).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "ibeta": {
+  "tex": "\\beta",
+  "atoms": [
+   "index:\\beta"
+  ],
+  "meaning": "A second flavour index running over $e, \\mu, \\tau$.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "ie": {
+  "tex": "e",
+  "atoms": [
+   "index:e"
+  ],
+  "meaning": "The electron flavour as a value of a flavour index ($\\delta_{\\alpha e}$, $U_{e2}$, $V_e$, $\\mathcal{P}_{ee}$).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "ipsi": {
+  "tex": "\\psi",
+  "atoms": [
+   "index:\\psi"
+  ],
+  "meaning": "The label of a Standard-Model multiplet: $\\psi \\in \\{Q, u_R, d_R, \\ell, e_R, \\nu_R\\}$ (quark doublet, up and down quark singlets, lepton doublet, charged-lepton singlet, right-handed neutrino); a sum over $\\psi$ runs over the six.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "if": {
+  "tex": "f",
+  "atoms": [
+   "index:f"
+  ],
+  "meaning": "The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "io": {
+  "tex": "o",
+  "atoms": [
+   "index:o"
+  ],
+  "meaning": "The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals.",
+  "units": "",
+  "status": "RECORD"
+ },
+ "in": {
+  "tex": "n",
+  "atoms": [
+   "index:n"
+  ],
+  "meaning": "The level number of the Kaluza-Klein tower ($n = 1, 2, 3, \\dots$; $n = 0$ the flat zero mode).",
+  "units": "",
+  "status": "DERIVED"
+ },
+ "ip": {
+  "tex": "p",
+  "atoms": [
+   "index:p"
+  ],
+  "meaning": "The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic).",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "ir": {
+  "tex": "r",
+  "atoms": [
+   "index:r"
+  ],
+  "meaning": "The Lovelock order of the four-dimensional factor in the reduction on the static block.",
+  "units": "",
+  "status": "DERIVED"
+ },
+ "il": {
+  "tex": "l",
+  "atoms": [
+   "index:l",
+   "l"
+  ],
+  "meaning": "The multipole (angular moment) number $l = 0, 1, 2, \\dots$ of a Boltzmann hierarchy or of an angular moment $\\int u^l\\cdots$; as a coefficient it is the same number.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "is": {
+  "tex": "s",
+  "atoms": [
+   "index:s"
+  ],
+  "meaning": "The label of a particle species of the plasma or of matter (photon, gluons, $W^\\pm$, $Z$, quarks, leptons, nucleons, dark matter); a sum over $s$ runs over the species present.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "iL": {
+  "tex": "L",
+  "atoms": [
+   "index:L"
+  ],
+  "meaning": "The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \\Gamma_4)/2$.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "iR": {
+  "tex": "R",
+  "atoms": [
+   "index:R"
+  ],
+  "meaning": "The chirality label R: the right-handed (singlet) zero mode or field, or the projection $P_R = (1 - \\Gamma_4)/2$.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "iV": {
+  "tex": "V",
+  "atoms": [
+   "index:V"
+  ],
+  "meaning": "The label V of the vector coupling of a fermion to the $Z$, $\\tilde g^f_V = \\tilde g^f_L + \\tilde g^f_R$.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "iy": {
+  "tex": "y",
+  "atoms": [
+   "index:y"
+  ],
+  "meaning": "The label $y$ in $\\partial_y$: the derivative with respect to the hidden coordinate $y$.",
+  "units": "",
+  "status": "STANDARD"
+ },
+ "metric": {
+  "tex": "g_{MN}",
+  "atoms": [
+   "g"
+  ],
+  "meaning": "The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \\dots, x_7$): $g_{MN}\\,\\mathrm{d}X^M\\mathrm{d}X^N$ is the squared interval; $g^{MN}$ is its inverse, $g^M{}_N = \\delta^M_N$, and $\\lvert g\\rvert$ the absolute value of its determinant, so that $\\sqrt{\\lvert g\\rvert}\\,\\mathrm{d}^8X$ is the proper volume element.",
+  "units": "dimensionless",
+  "status": "AUTHOR"
+ },
+ "gbar": {
+  "tex": "\\bar g_{MN}",
+  "atoms": [
+   "\\bar{g}"
+  ],
+  "meaning": "The order-0 (background) metric of the power series: the corrected primordial metric in the author's coordinates, determined by the two functions $a_4(x_4)$ and $b_4(x_4)$; $\\lvert\\bar g\\rvert$ is the absolute value of its determinant.",
+  "units": "dimensionless",
+  "status": "AUTHOR"
+ },
+ "gtip": {
+  "tex": "g_{\\mathrm{tip}}",
+  "atoms": [
+   "g_{\\mathrm{tip}}"
+  ],
+  "meaning": "The metric induced on the seven-dimensional tip $y = -L$ (the metric $g_{MN}$ restricted to the tip directions $x_1, \\dots, x_7$); $\\lvert g_{\\mathrm{tip}}\\rvert$ is the absolute value of its determinant.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "gperp": {
+  "tex": "g_\\perp",
+  "atoms": [
+   "g_{\\perp}"
+  ],
+  "meaning": "The metric of the four transverse directions $x_0, x_5, x_6, x_7$ (the block); $\\lvert g_\\perp\\rvert$ is the absolute value of its determinant.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "g4": {
+  "tex": "g^{(4)}_{\\mu\\nu}",
+  "atoms": [
+   "g^{(4)}"
+  ],
+  "meaning": "The four-dimensional metric of the observable coordinates $x_1, \\dots, x_4$ (the metric of the effective four-dimensional general relativity on the stabilised block).",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "Riemann": {
+  "tex": "R^{MN}{}_{PQ},\\ R_{MN},\\ R",
+  "atoms": [
+   "R"
+  ],
+  "meaning": "The curvature of the metric $g_{MN}$: with four indices the Riemann tensor, with two indices the Ricci tensor $R_{MN} = R^P{}_{MPN}$, without indices the Ricci (scalar) curvature $R = g^{MN}R_{MN}$; $R^{ab}{}_{ab}$ (no sum) is the sectional curvature of the coordinate plane $(a, b)$.",
+  "units": "1/$\\mathrm{length}^{2}$",
+  "status": "STANDARD"
+ },
+ "R4": {
+  "tex": "R^{(4)}",
+  "atoms": [
+   "R^{(4)}"
+  ],
+  "meaning": "The Ricci scalar of the four-dimensional metric $g^{(4)}_{\\mu\\nu}$.",
+  "units": "1/$\\mathrm{length}^{2}$",
+  "status": "STANDARD"
+ },
+ "Christoffel": {
+  "tex": "\\Gamma^N{}_{MP}",
+  "atoms": [
+   "\\Gamma"
+  ],
+  "meaning": "The Christoffel symbols (the Levi-Civita connection) of the metric, $\\Gamma^N{}_{MP} = \\frac12 g^{NQ}(\\partial_Mg_{QP} + \\partial_Pg_{QM} - \\partial_Qg_{MP})$.",
+  "units": "1/length",
+  "status": "STANDARD"
+ },
+ "kappa": {
+  "tex": "\\kappa",
+  "atoms": [
+   "\\kappa"
+  ],
+  "meaning": "The eight-dimensional gravitational coupling, $\\kappa = 8\\pi G_8$.",
+  "units": "$\\mathrm{GeV}^{-6}$",
+  "value": "$\\kappa/V_\\perp = 8\\pi G_{\\mathrm{N}}\\mathcal{G}(K_*) = 2.328\\times10^{-36}$ GeV$^{-2}$",
+  "status": "AUTHOR"
+ },
+ "G8": {
+  "tex": "G_8",
+  "atoms": [
+   "G_{8}"
+  ],
+  "meaning": "The eight-dimensional Newton constant ($\\kappa = 8\\pi G_8$).",
+  "units": "$\\mathrm{GeV}^{-6}$",
+  "status": "AUTHOR"
+ },
+ "Lambda": {
+  "tex": "\\Lambda",
+  "atoms": [
+   "\\Lambda"
+  ],
+  "meaning": "The eight-dimensional cosmological constant, $\\Lambda = -10H^2$.",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "value": "$-10H^2$",
+  "status": "AUTHOR"
+ },
+ "Lambda4": {
+  "tex": "\\Lambda_4",
+  "atoms": [
+   "\\Lambda_{4}"
+  ],
+  "meaning": "The four-dimensional cosmological constant of the effective theory on the block, $\\Lambda_4 = [6H^2K(1 - 2w_{(2)}K) + \\Lambda + \\kappa\\rho_{\\mathrm{stab}}]/\\mathcal{G}(K)$; zero at the static point, the observed dark energy a tuned residual.",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "value": "0 at the static point; observed $\\Lambda_4/H^2 \\sim 10^{-92}$",
+  "status": "DERIVED"
+ },
+ "alphaL": {
+  "tex": "\\alpha_{(p)}",
+  "atoms": [
+   "\\alpha"
+  ],
+  "meaning": "The Lovelock coupling of order $p$, $\\alpha_{(p)} = w_{(p)}H^{2-2p}$ ($\\alpha_{(1)} = 1$).",
+  "units": "$\\mathrm{GeV}^{2-2p}$",
+  "status": "AUTHOR"
+ },
+ "wL": {
+  "tex": "w_{(p)}",
+  "atoms": [
+   "w"
+  ],
+  "meaning": "The author's Lovelock weights, $w_{(1)} = 1$, $w_{(2)} = 1/32$, $w_{(3)} = 1/1152$.",
+  "units": "dimensionless",
+  "value": "$(1, 1/32, 1/1152)$",
+  "status": "AUTHOR"
+ },
+ "Lov": {
+  "tex": "\\mathcal{L}_{(p)}",
+  "atoms": [
+   "\\mathcal{L}"
+  ],
+  "meaning": "The Lovelock density of order $p$ of the metric (a scalar built from $p$ Riemann tensors): $\\mathcal{L}_{(1)} = R$ (Einstein-Hilbert), $\\mathcal{L}_{(2)}$ the Gauss-Bonnet density, $\\mathcal{L}_{(3)}$ the cubic Lovelock density.",
+  "units": "1/$\\mathrm{length}^{2p}$",
+  "status": "STANDARD"
+ },
+ "Lov4": {
+  "tex": "\\mathcal{L}^{(4)}_{(r)}",
+  "atoms": [
+   "\\mathcal{L}^{(4)}"
+  ],
+  "meaning": "The Lovelock density of order $r$ of the four-dimensional metric $g^{(4)}_{\\mu\\nu}$ ($\\mathcal{L}^{(4)}_{(1)} = R^{(4)}$; the order 2 is topological and the order 3 vanishes in four dimensions).",
+  "units": "1/$\\mathrm{length}^{2r}$",
+  "status": "STANDARD"
+ },
+ "Lovint": {
+  "tex": "\\mathcal{L}^{(\\mathrm{int})}_{(r)}",
+  "atoms": [
+   "\\mathcal{L}^{(\\mathrm{int})}"
+  ],
+  "meaning": "The Lovelock density of order $r$ of the static block (a four-dimensional space of constant curvature $-H^2K$): 1, $-12H^2K$, $24H^4K^2$, 0 for $r = 0, 1, 2, 3$.",
+  "units": "1/$\\mathrm{length}^{2r}$",
+  "status": "DERIVED"
+ },
+ "LovE": {
+  "tex": "\\mathcal{E}_{(p)}{}^M{}_N",
+  "atoms": [
+   "\\mathcal{E}"
+  ],
+  "meaning": "The Lovelock tensor of order $p$, the metric variation of $\\sqrt{\\lvert g\\rvert}\\mathcal{L}_{(p)}$: $\\mathcal{E}_{(1)}$ is the Einstein tensor $R^M{}_N - \\frac12\\delta^M_NR$; every $\\mathcal{E}_{(p)}$ is divergence free.",
+  "units": "1/$\\mathrm{length}^{2p}$",
+  "status": "STANDARD"
+ },
+ "Saction": {
+  "tex": "S",
+  "atoms": [
+   "S"
+  ],
+  "meaning": "The action of UM-2 (the integral of the Lagrangian density over spacetime); its variation with respect to every field gives the field equations.",
+  "units": "dimensionless ($\\hbar = 1$)",
+  "status": "ASSUMED"
+ },
+ "SEL": {
+  "tex": "S_{\\mathrm{EL}}",
+  "atoms": [
+   "S_{\\mathrm{EL}}"
+  ],
+  "meaning": "The Einstein-Lovelock action of gravity.",
+  "units": "dimensionless",
+  "status": "AUTHOR"
+ },
+ "Sstab": {
+  "tex": "S_{\\mathrm{stab}}",
+  "atoms": [
+   "S_{\\mathrm{stab}}"
+  ],
+  "meaning": "The action of the block stabiliser (a vacuum energy of the block).",
+  "units": "dimensionless",
+  "status": "ASSUMED"
+ },
+ "SPsi": {
+  "tex": "S_\\Psi",
+  "atoms": [
+   "S_{\\Psi}"
+  ],
+  "meaning": "The action of the dirac16complex field (kinetic term with the canonical spin connection, mass term and contact self-interaction).",
+  "units": "dimensionless",
+  "status": "RECORD"
+ },
+ "Sgauge": {
+  "tex": "S_{\\mathrm{gauge}}",
+  "atoms": [
+   "S_{\\mathrm{gauge}}"
+  ],
+  "meaning": "The action of the gauge fields of SU(3), SU(2) and U(1)$_Y$ in eight dimensions.",
+  "units": "dimensionless",
+  "status": "ASSUMED"
+ },
+ "Sf": {
+  "tex": "S_{\\mathrm{f}}",
+  "atoms": [
+   "S_{\\mathrm{f}}"
+  ],
+  "meaning": "The action of the Standard-Model fermions of three generations (kinetic and bulk-mass terms).",
+  "units": "dimensionless",
+  "status": "ASSUMED"
+ },
+ "Stip": {
+  "tex": "S_{\\mathrm{tip}}",
+  "atoms": [
+   "S_{\\mathrm{tip}}"
+  ],
+  "meaning": "The action on the tip $y = -L$: the sigma field and the tip Yukawa couplings.",
+  "units": "dimensionless",
+  "status": "INVENTED"
+ },
+ "SI11": {
+  "tex": "S_{\\mathrm{I11}}",
+  "atoms": [
+   "S_{\\mathrm{I11}}"
+  ],
+  "meaning": "The action of the portal I11 (dirac16complex vector current times the $B - L$ current of the fermions).",
+  "units": "dimensionless",
+  "status": "INVENTED"
+ },
+ "SI12": {
+  "tex": "S_{\\mathrm{I12}}",
+  "atoms": [
+   "S_{\\mathrm{I12}}"
+  ],
+  "meaning": "The action of the portal I12 (scalar density of dirac16complex times the gauge kinetic invariants).",
+  "units": "dimensionless",
+  "status": "INVENTED"
+ },
+ "SI13": {
+  "tex": "S_{\\mathrm{I13}}",
+  "atoms": [
+   "S_{\\mathrm{I13}}"
+  ],
+  "meaning": "The action of the portal I13 (the $x_0$-chiral vector current of dirac16complex times the baryon-number current).",
+  "units": "dimensionless",
+  "status": "INVENTED"
+ },
+ "Sm": {
+  "tex": "S_{\\mathrm{m}}",
+  "atoms": [
+   "S_{\\mathrm{m}}"
+  ],
+  "meaning": "The matter action: all terms of the action except $S_{\\mathrm{EL}}$ (the stabiliser included).",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "rhostab": {
+  "tex": "\\rho_{\\mathrm{stab}}",
+  "atoms": [
+   "\\rho_{\\mathrm{stab}}"
+  ],
+  "meaning": "The energy density of the block stabiliser, a function of the block scale, $\\rho_{\\mathrm{stab}} \\propto f^{-8}$; its value at the static block is $\\rho_{\\mathrm{stab}}(f_*)$.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "value": "$\\kappa\\rho_{\\mathrm{stab}}(f_*) = (26 + 4\\sqrt{51})H^2 = 54.566\\,H^2$",
+  "status": "ASSUMED"
+ },
+ "fblock": {
+  "tex": "f",
+  "atoms": [
+   "f"
+  ],
+  "meaning": "The block scale: the common scale factor of the hidden direction and the extra times, $f = \\mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$).",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "fstar": {
+  "tex": "f_*",
+  "atoms": [
+   "f_{*}"
+  ],
+  "meaning": "The block scale of the stabilised (static) block, $f_* = K_*^{-1/2}$.",
+  "units": "dimensionless",
+  "value": "0.215556",
+  "status": "DERIVED"
+ },
+ "a4": {
+  "tex": "a_4",
+  "atoms": [
+   "a_{4}"
+  ],
+  "meaning": "The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\\mathrm{e}^{a_4}$.",
+  "units": "dimensionless",
+  "status": "AUTHOR"
+ },
+ "a4tilde": {
+  "tex": "\\tilde a_4",
+  "atoms": [
+   "\\tilde{a}_{4}"
+  ],
+  "meaning": "An earlier value of $a_4$ (the integration variable of the growth integral).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "b4": {
+  "tex": "b_4",
+  "atoms": [
+   "b_{4}"
+  ],
+  "meaning": "The author's metric function of the time $x_4$ in the hidden and extra-time components, $b_4 > 0$.",
+  "units": "dimensionless",
+  "status": "AUTHOR"
+ },
+ "a4dot": {
+  "tex": "\\dot a_4",
+  "atoms": [
+   "\\dot{a}_{4}"
+  ],
+  "meaning": "The time derivative $\\mathrm{d}a_4/\\mathrm{d}x_4$.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "b4dot": {
+  "tex": "\\dot b_4",
+  "atoms": [
+   "\\dot{b}_{4}"
+  ],
+  "meaning": "The time derivative $\\mathrm{d}b_4/\\mathrm{d}x_4$.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "fdot": {
+  "tex": "\\dot f",
+  "atoms": [
+   "\\dot{f}"
+  ],
+  "meaning": "The time derivative $\\mathrm{d}f/\\mathrm{d}x_4$ of the block scale.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "Kblock": {
+  "tex": "K",
+  "atoms": [
+   "K"
+  ],
+  "meaning": "The block variable, $K = 1/f^2$.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "Kstar": {
+  "tex": "K_*",
+  "atoms": [
+   "K_{*}"
+  ],
+  "meaning": "The block variable of the stabilised block, $K_* = 12 + \\frac43\\sqrt{51}$ (the upper root $K_+$).",
+  "units": "dimensionless",
+  "value": "21.5219",
+  "status": "DERIVED"
+ },
+ "Kpm": {
+  "tex": "K_\\pm",
+  "atoms": [
+   "K_{\\pm}"
+  ],
+  "meaning": "The two static blocks with the stabiliser, $K_\\pm = 12 \\pm \\frac43\\sqrt{51}$.",
+  "units": "dimensionless",
+  "value": "21.5219 and 2.4781",
+  "status": "DERIVED"
+ },
+ "Kdot": {
+  "tex": "\\dot K",
+  "atoms": [
+   "\\dot{K}"
+  ],
+  "meaning": "The time derivative $\\mathrm{d}K/\\mathrm{d}x_4$.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "Kddot": {
+  "tex": "\\ddot K",
+  "atoms": [
+   "\\ddot{K}"
+  ],
+  "meaning": "The second time derivative $\\mathrm{d}^2K/\\mathrm{d}x_4^2$.",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "status": "DERIVED"
+ },
+ "Hubble": {
+  "tex": "\\mathcal{H}",
+  "atoms": [
+   "\\mathcal{H}"
+  ],
+  "meaning": "The expansion rate of ordinary 3-space, $\\mathcal{H} = \\dot a_4$ (the Hubble rate of the observer; in the hot Universe $\\mathcal{H} = (8\\pi^3g_\\rho/90)^{1/2}T^2/M_{\\mathrm{Pl}}$).",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "Hf": {
+  "tex": "\\mathcal{H}_f",
+  "atoms": [
+   "\\mathcal{H}_{f}"
+  ],
+  "meaning": "The expansion rate of the block, $\\mathcal{H}_f = \\dot f/f = \\dot b_4/(2b_4) - \\dot a_4$ (negative when the extra times and $x_0$ deflate).",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "Hdot": {
+  "tex": "\\dot{\\mathcal{H}}",
+  "atoms": [
+   "\\dot{\\mathcal{H}}"
+  ],
+  "meaning": "The time derivative $\\mathrm{d}\\mathcal{H}/\\mathrm{d}x_4$.",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "status": "DERIVED"
+ },
+ "Hfdot": {
+  "tex": "\\dot{\\mathcal{H}}_f",
+  "atoms": [
+   "\\dot{\\mathcal{H}}_{f}"
+  ],
+  "meaning": "The time derivative $\\mathrm{d}\\mathcal{H}_f/\\mathrm{d}x_4$.",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "status": "DERIVED"
+ },
+ "H0": {
+  "tex": "\\mathcal{H}_0",
+  "atoms": [
+   "\\mathcal{H}_{0}"
+  ],
+  "meaning": "The Hubble rate today (the Hubble constant).",
+  "units": "GeV (km/s/Mpc)",
+  "value": "67.38 km/s/Mpc",
+  "status": "DERIVED"
+ },
+ "EMT": {
+  "tex": "\\mathcal{T}^M{}_N",
+  "atoms": [
+   "\\mathcal{T}"
+  ],
+  "meaning": "The energy-momentum tensor of all matter (every field except gravity, the stabiliser included), the source of gravity; defined by the change of the matter action under a change of the metric.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "STANDARD"
+ },
+ "Tstab": {
+  "tex": "\\mathcal{T}_{\\mathrm{stab}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{stab}}"
+  ],
+  "meaning": "The energy-momentum tensor of the stabiliser.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "DERIVED"
+ },
+ "TPsi": {
+  "tex": "\\mathcal{T}_\\Psi",
+  "atoms": [
+   "\\mathcal{T}_{\\Psi}"
+  ],
+  "meaning": "The energy-momentum tensor of the dirac16complex field.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "DERIVED"
+ },
+ "Tgauge": {
+  "tex": "\\mathcal{T}_{\\mathrm{gauge}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{gauge}}"
+  ],
+  "meaning": "The energy-momentum tensor of the gauge fields.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "STANDARD"
+ },
+ "Tf": {
+  "tex": "\\mathcal{T}_{\\mathrm{f}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{f}}"
+  ],
+  "meaning": "The energy-momentum tensor of the Standard-Model fermions.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "DERIVED"
+ },
+ "Ttip": {
+  "tex": "\\mathcal{T}_{\\mathrm{tip}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{tip}}"
+  ],
+  "meaning": "The energy-momentum tensor of the tip terms (non-zero only for the tip directions).",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "DERIVED"
+ },
+ "TI11": {
+  "tex": "\\mathcal{T}_{\\mathrm{I11}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{I11}}"
+  ],
+  "meaning": "The energy-momentum tensor of the portal I11.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "DERIVED"
+ },
+ "TI12": {
+  "tex": "\\mathcal{T}_{\\mathrm{I12}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{I12}}"
+  ],
+  "meaning": "The energy-momentum tensor of the portal I12.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "DERIVED"
+ },
+ "TI13": {
+  "tex": "\\mathcal{T}_{\\mathrm{I13}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{I13}}"
+  ],
+  "meaning": "The energy-momentum tensor of the portal I13.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "DERIVED"
+ },
+ "T4": {
+  "tex": "\\mathcal{T}^{(4)}_{\\mu\\nu}",
+  "atoms": [
+   "\\mathcal{T}^{(4)}"
+  ],
+  "meaning": "The four-dimensional energy-momentum tensor: $\\mathcal{T}_{\\mu\\nu}$ integrated over the block (both halves of a period of $x_0$ and the extra times).",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "DERIVED"
+ },
+ "rho": {
+  "tex": "\\rho",
+  "atoms": [
+   "\\rho"
+  ],
+  "meaning": "An energy density: in eight dimensions $\\rho = -\\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\\rho_s$ of the species $s$, $\\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\\Delta\\rho$ is the density perturbation summed over the species.",
+  "units": "$\\mathrm{GeV}^{8}$ (eight dimensions), $\\mathrm{GeV}^{4}$ (four dimensions)",
+  "status": "STANDARD"
+ },
+ "rhodot": {
+  "tex": "\\dot\\rho",
+  "atoms": [
+   "\\dot{\\rho}"
+  ],
+  "meaning": "The time derivative $\\mathrm{d}\\rho/\\mathrm{d}x_4$.",
+  "units": "$\\mathrm{GeV}^{9}$",
+  "status": "STANDARD"
+ },
+ "pressure": {
+  "tex": "p",
+  "atoms": [
+   "p"
+  ],
+  "meaning": "A pressure: $p_M = \\mathcal{T}^M{}_M$ (no sum) for the direction $M \\ne x_4$, $p_s$ the pressure of the species $s$; $\\Delta p$ the pressure perturbation in the cosmological perturbation equations; in the Feynman-Hellmann relation the pressure of a gauge plasma.",
+  "units": "$\\mathrm{GeV}^{8}$ (eight dimensions), $\\mathrm{GeV}^{4}$ (four dimensions)",
+  "status": "STANDARD"
+ },
+ "p0": {
+  "tex": "p_0",
+  "atoms": [
+   "p_{0}"
+  ],
+  "meaning": "The pressure along the hidden direction $x_0$, $p_0 = \\mathcal{T}^{x_0}{}_{x_0}$.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "STANDARD"
+ },
+ "p3": {
+  "tex": "p_3",
+  "atoms": [
+   "p_{3}"
+  ],
+  "meaning": "The pressure of ordinary 3-space, $p_3 = \\mathcal{T}^{x_1}{}_{x_1} = \\mathcal{T}^{x_2}{}_{x_2} = \\mathcal{T}^{x_3}{}_{x_3}$ for an isotropic source.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "STANDARD"
+ },
+ "p5": {
+  "tex": "p_5",
+  "atoms": [
+   "p_{5}"
+  ],
+  "meaning": "The pressure along the extra times, $p_5 = \\mathcal{T}^{x_5}{}_{x_5} = \\mathcal{T}^{x_6}{}_{x_6} = \\mathcal{T}^{x_7}{}_{x_7}$.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "STANDARD"
+ },
+ "pbar": {
+  "tex": "\\bar p",
+  "atoms": [
+   "\\bar{p}"
+  ],
+  "meaning": "The hidden pressure, the pressure averaged over the block, $\\bar p = (p_0 + 3p_5)/4$; for a species at fixed temperature $\\bar p = \\frac14\\,\\partial p/\\partial\\ln f$.",
+  "units": "$\\mathrm{GeV}^{8}$ (or $\\mathrm{GeV}^{4}$ for a four-dimensional density)",
+  "status": "DERIVED"
+ },
+ "GK": {
+  "tex": "\\mathcal{G}(K)",
+  "atoms": [
+   "\\mathcal{G}"
+  ],
+  "meaning": "The coefficient of the four-dimensional Einstein-Hilbert term on a static block, $\\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = (K^2 - 12K + 16)/16$; four-dimensional gravity is attractive for $\\mathcal{G} > 0$.",
+  "units": "dimensionless",
+  "value": "$\\mathcal{G}(K_*) = 20/3 + \\sqrt{51} = 13.8081$",
+  "status": "DERIVED"
+ },
+ "XiHK": {
+  "tex": "\\Xi_{\\mathcal{H}K}",
+  "atoms": [
+   "\\Xi_{\\mathcal{H}K}"
+  ],
+  "meaning": "The coefficient of $\\Delta K$ in the first-order equation for $\\Delta\\dot{\\mathcal{H}}$ (linearised block about $K_*$).",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "value": "$6(238 - 19\\sqrt{51})H^2/2249 = 0.272956\\,H^2$",
+  "status": "DERIVED"
+ },
+ "XifK": {
+  "tex": "\\Xi_{fK}",
+  "atoms": [
+   "\\Xi_{fK}"
+  ],
+  "meaning": "The coefficient of $\\Delta K$ in the first-order equation for $\\Delta\\dot{\\mathcal{H}}_f$.",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "value": "$(4063 - 485\\sqrt{51})H^2/2249 = 0.266522\\,H^2$",
+  "status": "DERIVED"
+ },
+ "XiH3": {
+  "tex": "\\Xi_{\\mathcal{H}3}",
+  "atoms": [
+   "\\Xi_{\\mathcal{H}3}"
+  ],
+  "meaning": "The coefficient of $\\kappa\\Delta p_3$ in the equation for $\\Delta\\dot{\\mathcal{H}}$.",
+  "units": "dimensionless",
+  "value": "$2283/4498 - 162\\sqrt{51}/2249 = -0.006853$",
+  "status": "DERIVED"
+ },
+ "XiHp": {
+  "tex": "\\Xi_{\\mathcal{H}p}",
+  "atoms": [
+   "\\Xi_{\\mathcal{H}p}"
+  ],
+  "meaning": "The coefficient of $\\kappa\\Delta\\bar p$ in the equation for $\\Delta\\dot{\\mathcal{H}}$.",
+  "units": "dimensionless",
+  "value": "$(28\\sqrt{51} - 114)/2249 = 0.038221$",
+  "status": "DERIVED"
+ },
+ "XiHrho": {
+  "tex": "\\Xi_{\\mathcal{H}\\rho}",
+  "atoms": [
+   "\\Xi_{\\mathcal{H}\\rho}"
+  ],
+  "meaning": "The coefficient of $\\kappa\\Delta\\rho$ in the equation for $\\Delta\\dot{\\mathcal{H}}$.",
+  "units": "dimensionless",
+  "value": "$135021/265382 - 10308\\sqrt{51}/132691 = -0.045997$",
+  "status": "DERIVED"
+ },
+ "Xif3": {
+  "tex": "\\Xi_{f3}",
+  "atoms": [
+   "\\Xi_{f3}"
+  ],
+  "meaning": "The coefficient of $\\kappa\\Delta p_3$ in the equation for $\\Delta\\dot{\\mathcal{H}}_f$.",
+  "units": "dimensionless",
+  "value": "$21\\sqrt{51}/2249 - 171/4498 = 0.028666$",
+  "status": "DERIVED"
+ },
+ "Xifp": {
+  "tex": "\\Xi_{fp}",
+  "atoms": [
+   "\\Xi_{fp}"
+  ],
+  "meaning": "The coefficient of $\\kappa\\Delta\\bar p$ in the equation for $\\Delta\\dot{\\mathcal{H}}_f$.",
+  "units": "dimensionless",
+  "value": "$239\\sqrt{51}/6747 - 485/2249 = 0.037320$",
+  "status": "DERIVED"
+ },
+ "Xifrho": {
+  "tex": "\\Xi_{f\\rho}",
+  "atoms": [
+   "\\Xi_{f\\rho}"
+  ],
+  "meaning": "The coefficient of $\\kappa\\Delta\\rho$ in the equation for $\\Delta\\dot{\\mathcal{H}}_f$.",
+  "units": "dimensionless",
+  "value": "$57/4498 - 7\\sqrt{51}/2249 = -0.009555$",
+  "status": "DERIVED"
+ },
+ "crho": {
+  "tex": "c_\\rho",
+  "atoms": [
+   "c_{\\rho}"
+  ],
+  "meaning": "The coefficient of $\\kappa\\Delta\\rho$ in the adiabatic block response $\\Delta K$.",
+  "units": "dimensionless",
+  "value": "0.0358521",
+  "status": "DERIVED"
+ },
+ "c3": {
+  "tex": "c_3",
+  "atoms": [
+   "c_{3}"
+  ],
+  "meaning": "The coefficient of $\\kappa\\Delta p_3$ in the adiabatic block response, $c_3 = -3c_\\rho$ (so radiation drops out).",
+  "units": "dimensionless",
+  "value": "-0.107556",
+  "status": "DERIVED"
+ },
+ "cp": {
+  "tex": "c_p",
+  "atoms": [
+   "c_{p}"
+  ],
+  "meaning": "The coefficient of $\\kappa\\Delta\\bar p$ in the adiabatic block response.",
+  "units": "dimensionless",
+  "value": "-0.140028",
+  "status": "DERIVED"
+ },
+ "omegar": {
+  "tex": "\\omega_{\\mathrm{r}}",
+  "atoms": [
+   "\\omega_{\\mathrm{r}}"
+  ],
+  "meaning": "The angular frequency of the oscillation of the block about the static point (the radion), equal to the radion mass.",
+  "units": "GeV",
+  "value": "$3.38705\\,H = 48.42$ TeV",
+  "status": "DERIVED"
+ },
+ "G4tensor": {
+  "tex": "G^{(4)}_{\\mu\\nu}",
+  "atoms": [
+   "G^{(4)}"
+  ],
+  "meaning": "The Einstein tensor of the four-dimensional metric, $R^{(4)}_{\\mu\\nu} - \\frac12 g^{(4)}_{\\mu\\nu}R^{(4)}$.",
+  "units": "1/$\\mathrm{length}^{2}$",
+  "status": "STANDARD"
+ },
+ "GN": {
+  "tex": "G_{\\mathrm{N}}",
+  "atoms": [
+   "G_{\\mathrm{N}}"
+  ],
+  "meaning": "Newton's constant of four-dimensional gravity, $8\\pi G_{\\mathrm{N}} = \\kappa/(\\mathcal{G}(K_*)V_\\perp)$.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "value": "$6.709\\times10^{-39}$ GeV$^{-2}$ ($M_{\\mathrm{Pl}} = G_{\\mathrm{N}}^{-1/2} = 1.22091\\times10^{19}$ GeV)",
+  "status": "STANDARD"
+ },
+ "Vperp": {
+  "tex": "V_\\perp",
+  "atoms": [
+   "V_{\\perp}"
+  ],
+  "meaning": "The proper volume of the block per unit four-volume (both halves of a period of $x_0$ and the extra times), $V_\\perp = 2f^4v_{\\mathrm{t}}(1 - \\mathrm{e}^{-3HL})/(3H)$.",
+  "units": "$\\mathrm{GeV}^{-4}$",
+  "status": "DERIVED"
+ },
+ "vt": {
+  "tex": "v_{\\mathrm{t}}",
+  "atoms": [
+   "v_{\\mathrm{t}}"
+  ],
+  "meaning": "The coordinate volume of the compact extra times $x_5, x_6, x_7$.",
+  "units": "$\\mathrm{GeV}^{-3}$",
+  "value": "not fixed; $v_{\\mathrm{t}} = H^{-3}$ in the quoted conversions",
+  "status": "ASSUMED"
+ },
+ "rho4": {
+  "tex": "\\rho_4",
+  "atoms": [
+   "\\rho_{4}"
+  ],
+  "meaning": "A four-dimensional energy density (per 3-volume); its block average is $\\kappa\\Delta\\rho = 8\\pi G_{\\mathrm{N}}\\mathcal{G}(K_*)\\rho_4$.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "DERIVED"
+ },
+ "Psi": {
+  "tex": "\\Psi,\\ \\bar\\Psi",
+  "atoms": [
+   "\\Psi",
+   "\\bar{\\Psi}"
+  ],
+  "meaning": "dirac16complex: the 16-component complex spinor field of eight dimensions of the record (the author's field), the source of the dark matter (its lowest odd level) and of the massless fold bands; $\\bar\\Psi = \\Psi^\\dagger C$ is its Dirac adjoint.",
+  "units": "$\\mathrm{GeV}^{7/2}$",
+  "status": "RECORD"
+ },
+ "PsiAB": {
+  "tex": "\\Psi_A,\\ \\Psi_B",
+  "atoms": [
+   "\\Psi_{A}",
+   "\\Psi_{B}"
+  ],
+  "meaning": "The two halves of dirac16complex, $\\Psi = \\Psi_A + \\Psi_B$, the eigenspaces of $\\mathcal{B}$ with the eigenvalues $-1$ and $+1$; each half carries one dark-matter species.",
+  "units": "$\\mathrm{GeV}^{7/2}$",
+  "status": "AUTHOR"
+ },
+ "PsiDM": {
+  "tex": "\\Psi_{\\mathrm{DM}},\\ \\bar\\Psi_{\\mathrm{DM}}",
+  "atoms": [
+   "\\Psi_{\\mathrm{DM}}",
+   "\\bar{\\Psi}_{\\mathrm{DM}}"
+  ],
+  "meaning": "The four-dimensional field of a dark-matter quantum (the lowest odd level of dirac16complex on the static block, in either half) and its Dirac adjoint.",
+  "units": "$\\mathrm{GeV}^{3/2}$",
+  "status": "DERIVED"
+ },
+ "Psifold": {
+  "tex": "\\Psi_{\\mathrm{fold}},\\ \\bar\\Psi_{\\mathrm{fold}}",
+  "atoms": [
+   "\\Psi_{\\mathrm{fold}}",
+   "\\bar{\\Psi}_{\\mathrm{fold}}"
+  ],
+  "meaning": "The four-dimensional field of a fold-band quantum (an even zero mode of dirac16complex, massless) and its Dirac adjoint.",
+  "units": "$\\mathrm{GeV}^{3/2}$",
+  "status": "DERIVED"
+ },
+ "mPsi": {
+  "tex": "m_\\Psi",
+  "atoms": [
+   "m_{\\Psi}"
+  ],
+  "meaning": "The mass parameter of dirac16complex, $m_\\Psi = 3H\\mathcal{M} = H$.",
+  "units": "GeV",
+  "value": "14.296 TeV",
+  "status": "RECORD"
+ },
+ "calM": {
+  "tex": "\\mathcal{M}",
+  "atoms": [
+   "\\mathcal{M}"
+  ],
+  "meaning": "The record's dimensionless mass parameter of dirac16complex, $\\mathcal{M} = 1/3$ ($m_\\Psi = 3H\\mathcal{M}$).",
+  "units": "dimensionless",
+  "value": "1/3",
+  "status": "RECORD"
+ },
+ "lambda": {
+  "tex": "\\lambda",
+  "atoms": [
+   "\\lambda"
+  ],
+  "meaning": "The contact self-coupling of dirac16complex (the term $-\\frac{\\lambda}{2}(\\bar\\Psi\\Psi)^2$ of the record).",
+  "units": "$\\mathrm{GeV}^{-6}$",
+  "value": "not fixed; Kohn-Sham states computed for $\\lambda = 0$ and $\\pm7\\times10^{-5}H^{-6}$; the fold-band radiation requires $\\lvert\\lambda\\rvert \\lesssim 1.4\\times10^{-10}H^{-6}$ (for $\\Delta N_{\\mathrm{eff}} \\le 0.001$)",
+  "status": "RECORD"
+ },
+ "gamma": {
+  "tex": "\\gamma^a,\\ \\gamma^M,\\ \\gamma^\\mu",
+  "atoms": [
+   "\\gamma"
+  ],
+  "meaning": "The Dirac matrices: $\\gamma^a$ with a frame index are the author's real $16 \\times 16$ matrices of the Clifford algebra of signature $(4, 4)$; $\\gamma^M = \\mathbf{e}_a{}^M\\gamma^a$ along a coordinate ($\\gamma^{x_0}$, $\\gamma^{x_4}$, ... the matrices along $x_0$, $x_4$, ...), $\\gamma_M = g_{MN}\\gamma^N$; $\\gamma^\\mu$ the matrices of the four observable directions in four-dimensional formulas.",
+  "units": "dimensionless",
+  "status": "AUTHOR"
+ },
+ "eta": {
+  "tex": "\\eta_{ab}",
+  "atoms": [
+   "\\eta"
+  ],
+  "meaning": "The flat metric of the frame, $\\eta_{ab} = \\mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1)$ ($\\eta^{ab}$ the same matrix).",
+  "units": "dimensionless",
+  "status": "AUTHOR"
+ },
+ "vielbein": {
+  "tex": "\\mathbf{e}^a{}_M,\\ \\mathbf{e}_a{}^M",
+  "atoms": [
+   "\\mathbf{e}"
+  ],
+  "meaning": "The vielbein (frame field) of the metric: $g_{MN} = \\eta_{ab}\\,\\mathbf{e}^a{}_M\\mathbf{e}^b{}_N$; $\\mathbf{e}_a{}^M$ is the inverse matrix.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Cmat": {
+  "tex": "C",
+  "atoms": [
+   "C"
+  ],
+  "meaning": "The matrix of the Dirac adjoint, $C = \\gamma^{x_0}\\gamma^{x_1}\\gamma^{x_2}\\gamma^{x_3}$ ($\\bar\\Psi = \\Psi^\\dagger C$); in each block of the reduction $C = \\varsigma_2\\sigma_2$.",
+  "units": "dimensionless",
+  "status": "AUTHOR"
+ },
+ "Gamma4": {
+  "tex": "\\Gamma_4",
+  "atoms": [
+   "\\Gamma_{4}"
+  ],
+  "meaning": "The four-dimensional chirality matrix, $\\Gamma_4 = \\mathrm{i}\\gamma^{x_1}\\gamma^{x_2}\\gamma^{x_3}\\gamma^{x_4}$; a doublet zero mode has $\\Gamma_4 = +1$ (left-handed), a singlet zero mode $\\Gamma_4 = -1$ (right-handed).",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "calB": {
+  "tex": "\\mathcal{B}",
+  "atoms": [
+   "\\mathcal{B}"
+  ],
+  "meaning": "The author's operator $\\mathcal{B} = -\\mathrm{i}C\\gamma^{x_4}$; its eigenvalues $\\mp1$ define the halves $\\Psi_A$ and $\\Psi_B$, and it commutes with every interaction of the good sector.",
+  "units": "dimensionless",
+  "status": "AUTHOR"
+ },
+ "Dcov": {
+  "tex": "D_M,\\ D_\\mu",
+  "atoms": [
+   "D"
+  ],
+  "meaning": "The covariant derivative: on a spinor $D_M = \\partial_M + \\Omega_M$ (spin connection), on a Standard-Model fermion with the gauge fields added; on the sigma field $D_\\mu\\Sigma$ with the $W$ and $B$ fields.",
+  "units": "1/length",
+  "status": "STANDARD"
+ },
+ "Omega": {
+  "tex": "\\Omega_M",
+  "atoms": [
+   "\\Omega"
+  ],
+  "meaning": "The spin connection acting on spinors, the matrix $\\Omega_M = \\frac12\\omega_{Mab}\\mathcal{S}^{ab}$.",
+  "units": "1/length",
+  "status": "STANDARD"
+ },
+ "omega": {
+  "tex": "\\omega_M{}^a{}_b",
+  "atoms": [
+   "\\omega"
+  ],
+  "meaning": "The coefficients of the spin connection of the vielbein (the Levi-Civita connection in the frame basis); $\\omega_{Mab} = \\eta_{ac}\\,\\omega_M{}^c{}_b$.",
+  "units": "1/length",
+  "status": "STANDARD"
+ },
+ "calS": {
+  "tex": "\\mathcal{S}^{ab}",
+  "atoms": [
+   "\\mathcal{S}"
+  ],
+  "meaning": "The generators of frame rotations on spinors, $\\mathcal{S}^{ab} = \\frac14[\\gamma^a, \\gamma^b]$ (the commutator).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "LPsi": {
+  "tex": "\\mathcal{L}_\\Psi",
+  "atoms": [
+   "\\mathcal{L}_{\\Psi}"
+  ],
+  "meaning": "The Lagrangian density of dirac16complex (the bracket of $S_\\Psi$).",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "RECORD"
+ },
+ "Ggluon": {
+  "tex": "G^A_M,\\ G_M,\\ G_{MN},\\ G^A_{MN}",
+  "atoms": [
+   "G"
+  ],
+  "meaning": "The gluon field (SU(3)), in the geometric normalisation of the action (couplings in front of the kinetic terms): the components $G^A_M$ ($A = 1, \\dots, 8$), the matrix $G_M = G^A_Mt^A$, the field strength $G_{MN}$ (matrix) and its components $G^A_{MN}$; $G^A_{\\mu\\nu}$ are its components along the observable directions (the zero mode, flat in $x_0$).",
+  "units": "GeV (field), $\\mathrm{GeV}^{2}$ (field strength)",
+  "status": "ASSUMED"
+ },
+ "Wsu2": {
+  "tex": "W^I_M,\\ W_M,\\ W_{MN},\\ W^I_{MN}",
+  "atoms": [
+   "W"
+  ],
+  "meaning": "The SU(2) gauge field (geometric normalisation): the components $W^I_M$ ($I = 1, 2, 3$; $W^3$ the third component), the matrix $W_M = W^I_M\\tau^I/2$, the field strength $W_{MN}$ and its components $W^I_{MN}$; with Greek indices the components along the observable directions.",
+  "units": "GeV (field), $\\mathrm{GeV}^{2}$ (field strength)",
+  "status": "ASSUMED"
+ },
+ "Bhyp": {
+  "tex": "B_M,\\ B_{MN}",
+  "atoms": [
+   "B"
+  ],
+  "meaning": "The hypercharge gauge field U(1)$_Y$ (geometric normalisation) and its field strength.",
+  "units": "GeV (field), $\\mathrm{GeV}^{2}$ (field strength)",
+  "status": "ASSUMED"
+ },
+ "tgen": {
+  "tex": "t^A",
+  "atoms": [
+   "t"
+  ],
+  "meaning": "The generators of SU(3) in the fundamental representation (the Gell-Mann matrices divided by 2), $\\mathrm{tr}(t^At^B) = \\frac12\\delta^{AB}$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "tau": {
+  "tex": "\\tau^I",
+  "atoms": [
+   "\\tau"
+  ],
+  "meaning": "The Pauli matrices acting on weak-isospin doublets ($\\tau^I/2$ the generators of SU(2); $\\tau^3 = \\mathrm{diag}(1, -1)$).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "ghat3": {
+  "tex": "\\hat g_3",
+  "atoms": [
+   "\\hat{g}_{3}"
+  ],
+  "meaning": "The eight-dimensional SU(3) coupling (it multiplies the gluon kinetic term as $1/\\hat g_3^2$); $g_3^2 = \\hat g_3^2/V_\\perp$.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "ASSUMED"
+ },
+ "ghat2": {
+  "tex": "\\hat g_2",
+  "atoms": [
+   "\\hat{g}_{2}"
+  ],
+  "meaning": "The eight-dimensional SU(2) coupling; $g_2^2 = \\hat g_2^2/V_\\perp$.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "ASSUMED"
+ },
+ "ghat1": {
+  "tex": "\\hat g_1",
+  "atoms": [
+   "\\hat{g}_{1}"
+  ],
+  "meaning": "The eight-dimensional U(1)$_Y$ coupling; $g_1^2 = \\hat g_1^2/V_\\perp$.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "ASSUMED"
+ },
+ "ghatZ": {
+  "tex": "\\hat g_Z",
+  "atoms": [
+   "\\hat{g}_{Z}"
+  ],
+  "meaning": "The eight-dimensional coupling of the $Z$, $\\hat g_Z = (\\hat g_2^2 + \\hat g_1^2)^{1/2}$.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "STANDARD"
+ },
+ "ehat": {
+  "tex": "\\hat e",
+  "atoms": [
+   "\\hat{e}"
+  ],
+  "meaning": "The eight-dimensional electric coupling, $\\hat e = \\hat g_2\\hat g_1/\\hat g_Z$ ($e^2 = \\hat e^2/V_\\perp$).",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "STANDARD"
+ },
+ "geff": {
+  "tex": "\\hat g_{3,\\mathrm{eff}},\\ \\hat g_{2,\\mathrm{eff}},\\ \\hat g_{1,\\mathrm{eff}}",
+  "atoms": [
+   "\\hat{g}_{3,\\mathrm{eff}}",
+   "\\hat{g}_{2,\\mathrm{eff}}",
+   "\\hat{g}_{1,\\mathrm{eff}}"
+  ],
+  "meaning": "The field-dependent eight-dimensional couplings produced by I12: $1/\\hat g_{i,\\mathrm{eff}}^2 = 1/\\hat g_i^2 + 4c\\,\\bar\\Psi\\Psi/\\Lambda_\\star^3$ with $c = c_{\\mathrm{G}}, c_{\\mathrm{W}}, c_{\\mathrm{B}}$.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "DERIVED"
+ },
+ "g3": {
+  "tex": "g_3",
+  "atoms": [
+   "g_{3}"
+  ],
+  "meaning": "The four-dimensional strong coupling ($g_3^2 = 4\\pi\\alpha_3$).",
+  "units": "dimensionless",
+  "value": "$g_3^2 = 0.7786$ at $2M_{\\mathrm{DM}}$",
+  "status": "DERIVED"
+ },
+ "g2": {
+  "tex": "g_2",
+  "atoms": [
+   "g_{2}"
+  ],
+  "meaning": "The four-dimensional SU(2) coupling ($g_2^2 = 4\\pi\\alpha_2$).",
+  "units": "dimensionless",
+  "value": "$g_2^2 = 0.3781$ at $2M_{\\mathrm{DM}}$",
+  "status": "DERIVED"
+ },
+ "g1": {
+  "tex": "g_1",
+  "atoms": [
+   "g_{1}"
+  ],
+  "meaning": "The four-dimensional hypercharge coupling ($g_1^2 = 4\\pi\\alpha_1$, Standard-Model normalisation without the GUT factor).",
+  "units": "dimensionless",
+  "value": "$g_1^2 = 0.1380$ at $2M_{\\mathrm{DM}}$",
+  "status": "DERIVED"
+ },
+ "Wpm": {
+  "tex": "W^\\pm_M,\\ W^+,\\ W^-",
+  "atoms": [
+   "W^{\\pm}",
+   "W^{+}",
+   "W^{-}"
+  ],
+  "meaning": "The charged weak bosons, canonically normalised: $W^\\pm_M = (W^1_M \\mp \\mathrm{i}W^2_M)/(\\sqrt2\\,\\hat g_2)$; $W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$ (they are each other's antiparticles and have one mass).",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "Zboson": {
+  "tex": "Z_M",
+  "atoms": [
+   "Z"
+  ],
+  "meaning": "The $Z$ boson field, canonically normalised, $Z_M = (W^3_M - B_M)/\\hat g_Z$.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "Aphoton": {
+  "tex": "A_M",
+  "atoms": [
+   "A"
+  ],
+  "meaning": "The photon field, canonically normalised, $A_M = (\\hat g_1^2W^3_M + \\hat g_2^2B_M)/(\\hat g_1\\hat g_2\\hat g_Z)$.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "thetaW": {
+  "tex": "\\theta_{\\mathrm{W}}",
+  "atoms": [
+   "\\theta_{\\mathrm{W}}"
+  ],
+  "meaning": "The weak mixing angle of the couplings, $\\cos\\theta_{\\mathrm{W}} = \\hat g_2/\\hat g_Z$, $\\sin\\theta_{\\mathrm{W}} = \\hat g_1/\\hat g_Z$; fixed by the measured $W$ and $Z$ masses with $\\rho_{\\mathrm{EW},0}$.",
+  "units": "dimensionless",
+  "value": "$\\cos^2\\theta_{\\mathrm{W}} = 0.776368$",
+  "status": "DERIVED"
+ },
+ "J3": {
+  "tex": "J_3^{AN}",
+  "atoms": [
+   "J_{3}"
+  ],
+  "meaning": "The colour current of the quarks (the source of the gluons), summed over the generations.",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "STANDARD"
+ },
+ "J2": {
+  "tex": "J_2^{IN}",
+  "atoms": [
+   "J_{2}"
+  ],
+  "meaning": "The weak-isospin current of the doublets $Q_i$, $\\ell_i$ (the source of $W^I$).",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "STANDARD"
+ },
+ "J2pm": {
+  "tex": "J_2^{\\pm}{}^N",
+  "atoms": [
+   "J_{2}^{\\pm}"
+  ],
+  "meaning": "The charged combinations of the isospin current, $J_2^\\pm = (J_2^1 \\mp \\mathrm{i}J_2^2)/\\sqrt2$ (the sources of $W^\\pm$).",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "STANDARD"
+ },
+ "J1": {
+  "tex": "J_1^N",
+  "atoms": [
+   "J_{1}"
+  ],
+  "meaning": "The hypercharge current of all fermions (the source of $B$).",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "STANDARD"
+ },
+ "Jem": {
+  "tex": "J_{\\mathrm{em}}^N",
+  "atoms": [
+   "J_{\\mathrm{em}}"
+  ],
+  "meaning": "The electromagnetic current, $J_{\\mathrm{em}} = J_2^3 + J_1$ (in units of the elementary charge).",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "STANDARD"
+ },
+ "psi": {
+  "tex": "\\psi_i,\\ \\bar\\psi_i",
+  "atoms": [
+   "\\psi",
+   "\\bar{\\psi}"
+  ],
+  "meaning": "A Standard-Model fermion field of eight dimensions: $\\psi_i$ is the multiplet $\\psi \\in \\{Q, u_R, d_R, \\ell, e_R, \\nu_R\\}$ of the generation $i$, $\\psi_f$ one fermion component $f$ (in four-dimensional formulas its zero mode); $\\bar\\psi = \\psi^\\dagger C$ the Dirac adjoint.",
+  "units": "$\\mathrm{GeV}^{7/2}$ (eight dimensions), $\\mathrm{GeV}^{3/2}$ (four dimensions)",
+  "status": "ASSUMED"
+ },
+ "Qdoublet": {
+  "tex": "Q_i,\\ \\bar Q_i",
+  "atoms": [
+   "Q",
+   "\\bar{Q}"
+  ],
+  "meaning": "The quark doublet of the generation $i$ (left-handed up and down quark of one generation, three colours) and its Dirac adjoint.",
+  "units": "$\\mathrm{GeV}^{7/2}$",
+  "status": "ASSUMED"
+ },
+ "uR": {
+  "tex": "u_R,\\ u_{Ri},\\ \\bar u_{Ri}",
+  "atoms": [
+   "u_{R}",
+   "u_{Ri}",
+   "u_{Rj}",
+   "\\bar{u}_{Ri}"
+  ],
+  "meaning": "The up-type quark singlet: $u_R$ the multiplet, $u_{Ri}$ that of the generation $i$ ($u_R$, $c_R$, $t_R$), $\\bar u_{Ri}$ its Dirac adjoint.",
+  "units": "$\\mathrm{GeV}^{7/2}$",
+  "status": "ASSUMED"
+ },
+ "dR": {
+  "tex": "d_R,\\ d_{Ri},\\ \\bar d_{Ri}",
+  "atoms": [
+   "d_{R}",
+   "d_{Ri}",
+   "d_{Rj}",
+   "\\bar{d}_{Ri}"
+  ],
+  "meaning": "The down-type quark singlet: $d_R$ the multiplet, $d_{Ri}$ that of the generation $i$ ($d_R$, $s_R$, $b_R$), $\\bar d_{Ri}$ its Dirac adjoint.",
+  "units": "$\\mathrm{GeV}^{7/2}$",
+  "status": "ASSUMED"
+ },
+ "ldoublet": {
+  "tex": "\\ell_i,\\ \\bar\\ell_i",
+  "atoms": [
+   "\\ell",
+   "\\bar{\\ell}"
+  ],
+  "meaning": "The lepton doublet of the generation $i$ (left-handed neutrino and charged lepton) and its Dirac adjoint.",
+  "units": "$\\mathrm{GeV}^{7/2}$",
+  "status": "ASSUMED"
+ },
+ "eR": {
+  "tex": "e_R,\\ e_{Ri}",
+  "atoms": [
+   "e_{R}",
+   "e_{Ri}",
+   "e_{Rj}"
+  ],
+  "meaning": "The right-handed charged-lepton singlet: $e_R$ the multiplet, $e_{Ri}$ that of the generation $i$ ($e_R$, $\\mu_R$, $\\tau_R$).",
+  "units": "$\\mathrm{GeV}^{7/2}$",
+  "status": "ASSUMED"
+ },
+ "nuR": {
+  "tex": "\\nu_R,\\ \\nu_{Ri}",
+  "atoms": [
+   "\\nu_{R}",
+   "\\nu_{Ri}",
+   "\\nu_{Rj}"
+  ],
+  "meaning": "The right-handed neutrino (a gauge singlet): $\\nu_R$ the multiplet, $\\nu_{Ri}$ that of the generation $i$; its zero modes give Dirac neutrino masses.",
+  "units": "$\\mathrm{GeV}^{7/2}$",
+  "status": "ASSUMED"
+ },
+ "mubulk": {
+  "tex": "\\mu_{\\psi i}",
+  "atoms": [
+   "\\mu"
+  ],
+  "meaning": "The bulk mass of a Standard-Model fermion: $\\mu_{\\psi i}$ of the multiplet $\\psi$ of the generation $i$; with the hidden direction it fixes the localisation $c = f\\mu L$ of the zero mode.",
+  "units": "GeV",
+  "value": "$\\mu_{\\psi i} = c/(fL)$ with the localisation $c$ of the zero mode (doublets: $\\mu_Q = 5.2304\\,H$, $\\mu_\\ell = 9.2055\\,H$)",
+  "status": "ASSUMED"
+ },
+ "muQ": {
+  "tex": "\\mu_Q",
+  "atoms": [
+   "\\mu_{Q}"
+  ],
+  "meaning": "The common bulk mass of the three quark doublets.",
+  "units": "GeV",
+  "value": "$5.2304\\,H$ ($c_Q = 3.38230$)",
+  "status": "DERIVED"
+ },
+ "muell": {
+  "tex": "\\mu_\\ell",
+  "atoms": [
+   "\\mu_{\\ell}"
+  ],
+  "meaning": "The common bulk mass of the three lepton doublets.",
+  "units": "GeV",
+  "value": "$9.2055\\,H$ ($c_\\ell = 5.95288$)",
+  "status": "DERIVED"
+ },
+ "Lpsi": {
+  "tex": "\\mathcal{L}_{\\psi i}",
+  "atoms": [
+   "\\mathcal{L}_{\\psi i}"
+  ],
+  "meaning": "The Lagrangian density of the fermion multiplet $\\psi$ of the generation $i$ (the bracket of $S_{\\mathrm{f}}$).",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "ASSUMED"
+ },
+ "Qem": {
+  "tex": "Q_{\\mathrm{em}}",
+  "atoms": [
+   "Q_{\\mathrm{em}}"
+  ],
+  "meaning": "The electric charge in units of the elementary charge, $Q_{\\mathrm{em}} = T_3 + Y$; $Q^f_{\\mathrm{em}}$ that of the fermion $f$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "T3": {
+  "tex": "T_3",
+  "atoms": [
+   "T_{3}"
+  ],
+  "meaning": "The third component of the weak isospin ($+\\frac12$ for the upper and $-\\frac12$ for the lower member of a doublet, 0 for a singlet); $T_3^f$ that of the fermion $f$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Yhyp": {
+  "tex": "Y",
+  "atoms": [
+   "Y"
+  ],
+  "meaning": "The hypercharge (the generator of U(1)$_Y$); $Y_\\psi$ the hypercharge of the multiplet $\\psi$ ($Q$: $\\frac16$, $u_R$: $\\frac23$, $d_R$: $-\\frac13$, $\\ell$: $-\\frac12$, $e_R$: $-1$, $\\nu_R$: 0).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Sigma": {
+  "tex": "\\Sigma",
+  "atoms": [
+   "\\Sigma"
+  ],
+  "meaning": "The tip sigma field: a unitary $2 \\times 2$ matrix field on the tip ($\\Sigma^\\dagger\\Sigma = \\mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\\Sigma = \\mathbf{1}$ is the unitary gauge.",
+  "units": "dimensionless",
+  "status": "INVENTED"
+ },
+ "vSigma": {
+  "tex": "v_\\Sigma",
+  "atoms": [
+   "v_{\\Sigma}"
+  ],
+  "meaning": "The scale of the tip sigma field (its kinetic term is $-\\frac{v_\\Sigma^2}{4}\\mathrm{tr}((D_\\mu\\Sigma)^\\dagger D^\\mu\\Sigma)$); on the static block it fixes the Robin parameter $\\beta_{\\mathrm{W}}$.",
+  "units": "$\\mathrm{GeV}^{5/2}$",
+  "value": "fixed through $\\beta_{\\mathrm{W}} = 0.011912$",
+  "status": "INVENTED"
+ },
+ "LYuk": {
+  "tex": "\\mathcal{L}_{\\mathrm{Y}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{Y}}"
+  ],
+  "meaning": "The tip Yukawa Lagrangian: the couplings of the doublets to the singlets through the sigma field and the tip matrices $\\mathcal{Y}$ (plus the Hermitian conjugate, h.c.).",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "INVENTED"
+ },
+ "Ltip": {
+  "tex": "\\mathcal{L}_{\\mathrm{tip}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{tip}}"
+  ],
+  "meaning": "The Lagrangian density of the tip action (the bracket of $S_{\\mathrm{tip}}$).",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "INVENTED"
+ },
+ "Yuk": {
+  "tex": "\\mathcal{Y}_\\nu,\\ \\mathcal{Y}_e,\\ \\mathcal{Y}_u,\\ \\mathcal{Y}_d",
+  "atoms": [
+   "\\mathcal{Y}_{\\nu}",
+   "\\mathcal{Y}_{e}",
+   "\\mathcal{Y}_{u}",
+   "\\mathcal{Y}_{d}"
+  ],
+  "meaning": "The complex $3 \\times 3$ tip Yukawa matrices of the neutrino, charged-lepton, up-quark and down-quark sectors (generation indices $i, j$); on the static block they become the tip mixing matrices $\\mathcal{K}$ (the normalisation of that relation is not fixed: OPEN).",
+  "units": "dimensionless",
+  "status": "INVENTED"
+ },
+ "UL": {
+  "tex": "U_L",
+  "atoms": [
+   "U_{L}"
+  ],
+  "meaning": "An SU(2) gauge transformation (a unitary $2 \\times 2$ matrix acting on doublets from the left).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "UY": {
+  "tex": "U_Y",
+  "atoms": [
+   "U_{Y}"
+  ],
+  "meaning": "A U(1)$_Y$ gauge transformation of the sigma field, $U_Y = \\mathrm{e}^{\\mathrm{i}\\vartheta\\tau^3/2}$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "vartheta": {
+  "tex": "\\vartheta",
+  "atoms": [
+   "\\vartheta"
+  ],
+  "meaning": "The angle (gauge parameter) of a U(1)$_Y$ transformation.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "deltatip": {
+  "tex": "\\delta_{\\mathrm{tip}}",
+  "atoms": [
+   "\\delta_{\\mathrm{tip}}"
+  ],
+  "meaning": "The density that places a tip term in the field equations of eight dimensions, $\\delta_{\\mathrm{tip}} = \\delta_{\\mathrm{D}}(y + L)/f$ (the Dirac delta function at the tip with the proper length of the hidden direction).",
+  "units": "1/length",
+  "status": "DERIVED"
+ },
+ "jsigma": {
+  "tex": "j_\\mu,\\ j^I_\\mu",
+  "atoms": [
+   "j"
+  ],
+  "meaning": "The current of the sigma field on the tip, $j^I_\\mu = \\frac{\\mathrm{i}v_\\Sigma^2}{4}\\mathrm{tr}(\\tau^I(D_\\mu\\Sigma)\\Sigma^\\dagger)$, and the matrix $j_\\mu = j^I_\\mu\\tau^I/2$.",
+  "units": "$\\mathrm{GeV}^{6}$",
+  "status": "STANDARD"
+ },
+ "Ktip": {
+  "tex": "\\mathcal{K}",
+  "atoms": [
+   "\\mathcal{K}",
+   "\\mathcal{K}_{\\nu}",
+   "\\mathcal{K}_{e}",
+   "\\mathcal{K}_{u}",
+   "\\mathcal{K}_{d}"
+  ],
+  "meaning": "The tip mixing matrix of a sector in the boundary conditions of the fermion zero modes (a number $\\mathcal{K}$ for one generation, a $3 \\times 3$ matrix for three): $\\mathcal{K}_\\nu$, $\\mathcal{K}_e$, $\\mathcal{K}_u$, $\\mathcal{K}_d$ of the neutrino, charged-lepton, up-quark and down-quark sectors; UM-2 takes $\\mathcal{K}_e = \\mathcal{K}_u = \\mathbf{1}$, $\\mathcal{K}_\\nu = U$, $\\mathcal{K}_d = V_{\\mathrm{CKM}}$.",
+  "units": "dimensionless",
+  "status": "ASSUMED"
+ },
+ "LambdaStar": {
+  "tex": "\\Lambda_\\star",
+  "atoms": [
+   "\\Lambda_{\\star}"
+  ],
+  "meaning": "The scale of the portal operators I11, I12, I13.",
+  "units": "GeV",
+  "value": "only the combinations $c/\\Lambda_\\star^n$ enter",
+  "status": "INVENTED"
+ },
+ "cV": {
+  "tex": "c_{\\mathrm{V}}",
+  "atoms": [
+   "c_{\\mathrm{V}}"
+  ],
+  "meaning": "The coefficient of the vector portal I11.",
+  "units": "dimensionless",
+  "value": "benchmark through $G_{\\mathrm{V}} = 4.38\\times10^{-17}$ GeV$^{-2}$",
+  "status": "INVENTED"
+ },
+ "cA": {
+  "tex": "c_{\\mathrm{A}}",
+  "atoms": [
+   "c_{\\mathrm{A}}"
+  ],
+  "meaning": "The coefficient of the $x_0$-chiral vector portal I13.",
+  "units": "dimensionless",
+  "value": "fixed through $G_{\\mathrm{A}} = 1.278\\times10^{-9}$ GeV$^{-2}$ (dark-matter relic)",
+  "status": "INVENTED"
+ },
+ "cG": {
+  "tex": "c_{\\mathrm{G}}",
+  "atoms": [
+   "c_{\\mathrm{G}}"
+  ],
+  "meaning": "The coefficient of the gluon term of the portal I12.",
+  "units": "dimensionless",
+  "value": "$c_{\\mathrm{G}}/\\Lambda_\\star^3 = c_{\\mathrm{I12}}/\\Lambda_\\star^3$",
+  "status": "INVENTED"
+ },
+ "cW": {
+  "tex": "c_{\\mathrm{W}}",
+  "atoms": [
+   "c_{\\mathrm{W}}"
+  ],
+  "meaning": "The coefficient of the SU(2) term of the portal I12.",
+  "units": "dimensionless",
+  "value": "$c_{\\mathrm{W}}/\\Lambda_\\star^3 = c_{\\mathrm{I12}}/\\Lambda_\\star^3$",
+  "status": "INVENTED"
+ },
+ "cB": {
+  "tex": "c_{\\mathrm{B}}",
+  "atoms": [
+   "c_{\\mathrm{B}}"
+  ],
+  "meaning": "The coefficient of the hypercharge term of the portal I12.",
+  "units": "dimensionless",
+  "value": "$c_{\\mathrm{B}}/\\Lambda_\\star^3 = c_{\\mathrm{I12}}/\\Lambda_\\star^3$",
+  "status": "INVENTED"
+ },
+ "cI12": {
+  "tex": "c_{\\mathrm{I12}}",
+  "atoms": [
+   "c_{\\mathrm{I12}}"
+  ],
+  "meaning": "The common coefficient of the three terms of I12 when they are universal ($c_{\\mathrm{G}} = c_{\\mathrm{W}} = c_{\\mathrm{B}} = c_{\\mathrm{I12}}$).",
+  "units": "dimensionless",
+  "value": "$c_{\\mathrm{I12}}/\\Lambda_\\star^3 = 1.106\\times10^{-14}$ GeV$^{-3}$ (unitarity-safe benchmark)",
+  "status": "INVENTED"
+ },
+ "JBL": {
+  "tex": "J^{B-L}_M",
+  "atoms": [
+   "J^{B-L}"
+  ],
+  "meaning": "The $B - L$ current of the Standard-Model fermions (baryon minus lepton number), summed over the generations.",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "STANDARD"
+ },
+ "JB": {
+  "tex": "J^{B}_M",
+  "atoms": [
+   "J^{B}"
+  ],
+  "meaning": "The baryon-number current of the quarks (one third per quark), summed over the generations.",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "STANDARD"
+ },
+ "qBL": {
+  "tex": "q_\\psi,\\ q_f",
+  "atoms": [
+   "q",
+   "q_{Q}",
+   "q_{u_R}",
+   "q_{d_R}",
+   "q_{\\ell}",
+   "q_{e_R}",
+   "q_{\\nu _R}"
+  ],
+  "meaning": "The $B - L$ charge: $q_\\psi$ of the multiplet $\\psi$ ($q_Q = q_{u_R} = q_{d_R} = \\frac13$, $q_\\ell = q_{e_R} = q_{\\nu_R} = -1$), $q_f$ of the fermion component $f$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "qB": {
+  "tex": "q^B_\\psi,\\ q^B_f",
+  "atoms": [
+   "q^{B}"
+  ],
+  "meaning": "The baryon number of the multiplet $\\psi$ or of the fermion component $f$ ($\\frac13$ for quarks, 0 for leptons).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "calF": {
+  "tex": "\\mathcal{F}",
+  "atoms": [
+   "\\mathcal{F}"
+  ],
+  "meaning": "The gauge-kinetic operator of the portal I12, $\\mathcal{F} = c_{\\mathrm{G}}G^A_{MN}G^{AMN} + c_{\\mathrm{W}}W^I_{MN}W^{IMN} + c_{\\mathrm{B}}B_{MN}B^{MN}$; $\\langle\\mathcal{F}\\rangle$ its mean value in an environment.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "INVENTED"
+ },
+ "Pab": {
+  "tex": "P_a,\\ P_b",
+  "atoms": [
+   "P_{a}",
+   "P_{b}"
+  ],
+  "meaning": "The projectors on the two $x_0$-chiralities, $P_a = (1 + \\gamma^{x_0})/2$ and $P_b = (1 - \\gamma^{x_0})/2$ (in a block: the upper and the lower component).",
+  "units": "dimensionless",
+  "status": "INVENTED"
+ },
+ "PLR": {
+  "tex": "P_L,\\ P_R",
+  "atoms": [
+   "P"
+  ],
+  "meaning": "The projectors on the four-dimensional chiralities, $P_L = (1 + \\Gamma_4)/2$ (left-handed) and $P_R = (1 - \\Gamma_4)/2$ (right-handed).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Psel": {
+  "tex": "P_{\\mathrm{sel}}",
+  "atoms": [
+   "P_{\\mathrm{sel}}"
+  ],
+  "meaning": "The projector that selects the two blocks of the half $\\mathcal{B} = -1$ in which the Standard-Model zero modes live, $P_{\\mathrm{sel}} = \\frac{1 + \\Gamma_4\\gamma^{x_0}}{2}\\,\\frac{1 - \\mathrm{i}\\gamma^{x_5}\\gamma^{x_6}}{2}$.",
+  "units": "dimensionless",
+  "status": "INVENTED"
+ },
+ "Fprof": {
+  "tex": "F(\\xi),\\ F_n",
+  "atoms": [
+   "F"
+  ],
+  "meaning": "The $x_0$ profile of a boson mode on one half of the period (a function of $y$ or of $\\xi = y/L$): of a gauge field (gauge $A_y = 0$) or of the transverse-traceless graviton; $F_n$ is the profile of the $n$-th Kaluza-Klein level of the graviton tower ($F_0 = 1$ the flat zero mode).",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "Ftilde": {
+  "tex": "\\tilde F",
+  "atoms": [
+   "\\tilde{F}"
+  ],
+  "meaning": "The rescaled boson profile, $F = \\mathrm{e}^{-3HL\\xi/2}\\tilde F$.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "mmass": {
+  "tex": "m,\\ m_s,\\ m_i",
+  "atoms": [
+   "m"
+  ],
+  "meaning": "A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "mtilde": {
+  "tex": "\\tilde m,\\ \\tilde m_n",
+  "atoms": [
+   "\\tilde{m}",
+   "\\tilde{m}_{1}"
+  ],
+  "meaning": "The dimensionless $x_0$ eigenvalue of a boson mode, $\\tilde m = m\\,fL$; $\\tilde m_n$ the $n$-th even Kaluza-Klein level of the tower with $\\beta = 0$ ($\\tilde m_1$ the first).",
+  "units": "dimensionless",
+  "value": "$\\tilde m_1 = 30.1196$, $\\tilde m_2 = 59.7284$, $\\tilde m_3 = 109.0764$ ($HL = 3$)",
+  "status": "DERIVED"
+ },
+ "mtildeW": {
+  "tex": "\\tilde m_{\\mathrm{W}}",
+  "atoms": [
+   "\\tilde{m}_{\\mathrm{W}}"
+  ],
+  "meaning": "The dimensionless $x_0$ eigenvalue of the lowest $W^\\pm$ mode ($\\beta = \\beta_{\\mathrm{W}}$).",
+  "units": "dimensionless",
+  "value": "$\\tilde m_{\\mathrm{W}}^2 = 1.32149\\times10^{-5}$",
+  "status": "DERIVED"
+ },
+ "mtildeZ": {
+  "tex": "\\tilde m_{\\mathrm{Z}}",
+  "atoms": [
+   "\\tilde{m}_{\\mathrm{Z}}"
+  ],
+  "meaning": "The dimensionless $x_0$ eigenvalue of the lowest $Z$ mode ($\\beta = \\beta_{\\mathrm{Z}}$).",
+  "units": "dimensionless",
+  "value": "$\\tilde m_{\\mathrm{Z}}^2 = 1.70150\\times10^{-5}$",
+  "status": "DERIVED"
+ },
+ "betaRobin": {
+  "tex": "\\beta",
+  "atoms": [
+   "\\beta"
+  ],
+  "meaning": "The Robin parameter of the tip condition of a boson profile, $\\mathrm{d}F/\\mathrm{d}\\xi = \\beta F$ at $\\xi = -1$ (zero for the massless gauge fields and the graviton).",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "betaW": {
+  "tex": "\\beta_{\\mathrm{W}}",
+  "atoms": [
+   "\\beta_{\\mathrm{W}}"
+  ],
+  "meaning": "The Robin parameter of $W^+$ and $W^-$ (set by the tip mass term of the sigma field).",
+  "units": "dimensionless",
+  "value": "0.011912 (fitted)",
+  "status": "DERIVED"
+ },
+ "betaZ": {
+  "tex": "\\beta_{\\mathrm{Z}}",
+  "atoms": [
+   "\\beta_{\\mathrm{Z}}"
+  ],
+  "meaning": "The Robin parameter of the $Z$, $\\beta_{\\mathrm{Z}} = \\beta_{\\mathrm{W}}/\\cos^2\\theta_{\\mathrm{W}}$.",
+  "units": "dimensionless",
+  "value": "0.015343",
+  "status": "DERIVED"
+ },
+ "varpi": {
+  "tex": "\\varpi,\\ \\varpi_n",
+  "atoms": [
+   "\\varpi"
+  ],
+  "meaning": "The wave number of an oscillating $x_0$ profile on $-1 \\le \\xi \\le 0$ (of a boson after the rescaling, or of a bulk level of dirac16complex); $\\varpi_n$ that of the $n$-th even level ($\\varpi_n = n\\pi$ for $\\beta = 0$).",
+  "units": "dimensionless",
+  "value": "1.89901 for the lowest odd level of dirac16complex",
+  "status": "DERIVED"
+ },
+ "mKK": {
+  "tex": "m^{\\mathrm{KK}}_n,\\ m_{\\mathrm{KK}}",
+  "atoms": [
+   "m^{\\mathrm{KK}}",
+   "m_{\\mathrm{KK}}"
+  ],
+  "meaning": "The mass of the $n$-th Kaluza-Klein graviton (and gauge) level, $m^{\\mathrm{KK}}_n = \\tilde m_n/(fL)$; $m_{\\mathrm{KK}} = m^{\\mathrm{KK}}_1$ is the Kaluza-Klein scale.",
+  "units": "GeV",
+  "value": "$m_{\\mathrm{KK}} = 121.32$ TeV",
+  "status": "DERIVED"
+ },
+ "Nnorm": {
+  "tex": "N_n,\\ N_0",
+  "atoms": [
+   "N",
+   "N_{0}"
+  ],
+  "meaning": "The normalisation integral of the profile $F_n$ of the $n$-th Kaluza-Klein level, $N_n = \\int_{-1}^{0}\\mathrm{e}^{3HL\\xi}F_n^2\\,\\mathrm{d}\\xi$; $N_0$ that of the flat zero mode.",
+  "units": "dimensionless",
+  "value": "$N_0 = (1 - \\mathrm{e}^{-3HL})/(3HL) = 0.1111$",
+  "status": "DERIVED"
+ },
+ "VN": {
+  "tex": "V_{\\mathrm{N}}(r)",
+  "atoms": [
+   "V_{\\mathrm{N}}"
+  ],
+  "meaning": "The potential energy of two static masses at the distance $r$ (Newton potential with the Kaluza-Klein corrections).",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "M12": {
+  "tex": "M_1,\\ M_2",
+  "atoms": [
+   "M_{1}",
+   "M_{2}"
+  ],
+  "meaning": "The masses of the two static sources in the potential $V_{\\mathrm{N}}$.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "rdist": {
+  "tex": "r",
+  "atoms": [
+   "r"
+  ],
+  "meaning": "A distance: between the two masses in $V_{\\mathrm{N}}(r)$, from the centre of the star in the adiabaticity condition.",
+  "units": "length",
+  "status": "STANDARD"
+ },
+ "calA": {
+  "tex": "\\mathcal{A}_n",
+  "atoms": [
+   "\\mathcal{A}"
+  ],
+  "meaning": "The relative strength of the Yukawa force of the $n$-th Kaluza-Klein graviton between two sources with the profiles $\\varrho_1$, $\\varrho_2$.",
+  "units": "dimensionless",
+  "value": "0.0904, 0.0136, 0.0057 ($n = 1, 2, 3$, two quark-doublet profiles)",
+  "status": "DERIVED"
+ },
+ "varrho12": {
+  "tex": "\\varrho_1,\\ \\varrho_2",
+  "atoms": [
+   "\\varrho_{1}",
+   "\\varrho_{2}"
+  ],
+  "meaning": "The $x_0$ profiles of the two sources of $V_{\\mathrm{N}}$ as probability densities in $\\xi$ ($\\int_{-1}^{0}\\varrho_1\\,\\mathrm{d}\\xi = 1$): $L$ times the profile $\\varrho_f$ of the zero mode of each source.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "rhoEW": {
+  "tex": "\\rho_{\\mathrm{EW}}",
+  "atoms": [
+   "\\rho_{\\mathrm{EW}}"
+  ],
+  "meaning": "The electroweak parameter, $\\rho_{\\mathrm{EW}} = \\tilde m_{\\mathrm{W}}^2/(\\tilde m_{\\mathrm{Z}}^2\\cos^2\\theta_{\\mathrm{W}})$.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "rhoEW0": {
+  "tex": "\\rho_{\\mathrm{EW},0}",
+  "atoms": [
+   "\\rho_{\\mathrm{EW},0}"
+  ],
+  "meaning": "The measured value of the electroweak parameter (PDG fit).",
+  "units": "dimensionless",
+  "value": "$1.00038$",
+  "status": "STANDARD"
+ },
+ "mW": {
+  "tex": "m_{\\mathrm{W}}",
+  "atoms": [
+   "m_{\\mathrm{W}}"
+  ],
+  "meaning": "The mass of $W^+$ and $W^-$.",
+  "units": "GeV",
+  "value": "80.3625 GeV (measured, input)",
+  "status": "STANDARD"
+ },
+ "mZ": {
+  "tex": "m_{\\mathrm{Z}}",
+  "atoms": [
+   "m_{\\mathrm{Z}}"
+  ],
+  "meaning": "The mass of the $Z$.",
+  "units": "GeV",
+  "value": "91.1879 GeV (reproduced)",
+  "status": "STANDARD"
+ },
+ "calV": {
+  "tex": "\\mathcal{V}",
+  "atoms": [
+   "\\mathcal{V}"
+  ],
+  "meaning": "The constant $16 \\times 2$ matrix of the reduction ansatz that places the two-component spinor $\\chi$ of one block into the 16 components of the eight-dimensional spinor.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "chi": {
+  "tex": "\\chi,\\ \\chi_o,\\ \\chi_1,\\ \\chi_2",
+  "atoms": [
+   "\\chi",
+   "\\chi_{1}",
+   "\\chi_{2}"
+  ],
+  "meaning": "The two-component spinor of one block of the reduction (a function of $y$ and $x_4$), $\\chi = (\\chi_1, \\chi_2)^T = (a, \\mathrm{i}b)^T$; $\\chi_o$ the Kohn-Sham orbital $o$, normalised as $\\int_{-L}^{0}\\chi_o^\\dagger\\chi_o\\,\\mathrm{d}y = 1$.",
+  "units": "$\\mathrm{GeV}^{1/2}$ (normalised orbital)",
+  "status": "DERIVED"
+ },
+ "Mfun": {
+  "tex": "M(y)",
+  "atoms": [
+   "M"
+  ],
+  "meaning": "The mass function of the block Hamiltonian (the scalar potential): $M = \\mu_{\\psi i}$ for a Standard-Model fermion, $M = M_{\\mathrm{eff}}$ for dirac16complex.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "vpot": {
+  "tex": "v(y)",
+  "atoms": [
+   "v"
+  ],
+  "meaning": "The vector potential of the block Hamiltonian (the mean field along $\\gamma^{x_4}$): for dirac16complex the contact term and the mean field of I11; zero for a Standard-Model fermion.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "vb": {
+  "tex": "v_{\\mathrm{b}}(y)",
+  "atoms": [
+   "v_{\\mathrm{b}}"
+  ],
+  "meaning": "The mean field of I13 (baryon densities), acting on the lower component of $\\chi$ only.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "hblock": {
+  "tex": "h",
+  "atoms": [
+   "h"
+  ],
+  "meaning": "The block Hamiltonian: the $2 \\times 2$ differential operator of one block that generates the time evolution of $\\chi$, $\\mathrm{i}\\,\\partial_{x_4}\\chi = h\\chi$; its eigenvalues are the energies $\\varepsilon$.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "varsigma": {
+  "tex": "\\varsigma",
+  "atoms": [
+   "\\varsigma"
+  ],
+  "meaning": "The first of the three signs $(\\varsigma, \\varsigma_2, \\varsigma_3)$, each $\\pm1$, that label the eight blocks of the reduction.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "varsigma2": {
+  "tex": "\\varsigma_2",
+  "atoms": [
+   "\\varsigma_{2}"
+  ],
+  "meaning": "The second sign that labels the blocks ($\\pm1$).",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "sigmaPauli": {
+  "tex": "\\sigma_1,\\ \\sigma_2,\\ \\sigma_3",
+  "atoms": [
+   "\\sigma_{1}",
+   "\\sigma_{2}",
+   "\\sigma_{3}"
+  ],
+  "meaning": "The Pauli matrices acting on the two components of a block spinor $\\chi$ ($\\sigma_3 = \\mathrm{diag}(1, -1)$).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "kwave": {
+  "tex": "k",
+  "atoms": [
+   "k"
+  ],
+  "meaning": "The magnitude of the wave vector (the momentum, $\\hbar = 1$) of a mode: in the reduction, the Kohn-Sham and the perturbation equations the comoving wavenumber (physical momentum $\\mathrm{e}^{-a_4}k$); in the thermal integrals the momentum of a particle at the time considered (the variable of integration).",
+  "units": "GeV (1/length)",
+  "status": "STANDARD"
+ },
+ "kvec": {
+  "tex": "\\vec k,\\ \\vec k_o",
+  "atoms": [
+   "\\vec{k}"
+  ],
+  "meaning": "The wave vector (momentum) in ordinary 3-space; $\\vec k_o$ that of the orbital $o$, a point of the lattice $k_{\\mathrm{lat}}\\vec n_o$.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "cloc": {
+  "tex": "c,\\ c_L,\\ c_R",
+  "atoms": [
+   "c"
+  ],
+  "meaning": "The localisation of a zero mode, $c = f\\mu L$ (bulk mass times the proper depth); $c_L$ of a doublet (localised at the fold for $c_L > 0$), $c_R$ of a singlet (localised at the fold for $c_R < 0$).",
+  "units": "dimensionless",
+  "value": "doublets $c_L = 3.38230$ (quarks) and 5.95288 (leptons); singlets $c_R$: up $-15.4300$, down $-14.6258$, strange $-11.5158$, charm $-8.7683$, bottom $-7.5005$, top $-3.3823$, electron $-14.5539$, muon $-8.9809$, tau $-5.9529$, neutrinos $-35.0452$, $-32.8481$, $-31.0702$ (fixed by the measured masses)",
+  "status": "DERIVED"
+ },
+ "cPsi": {
+  "tex": "c_\\Psi",
+  "atoms": [
+   "c_{\\Psi}"
+  ],
+  "meaning": "The localisation parameter of dirac16complex, $c_\\Psi = f\\,m_\\Psi L$.",
+  "units": "dimensionless",
+  "value": "0.646667 at the stabilised block",
+  "status": "DERIVED"
+ },
+ "ab": {
+  "tex": "a,\\ b",
+  "atoms": [
+   "a",
+   "b"
+  ],
+  "meaning": "The upper and lower components of a block spinor, $\\chi = (a, \\mathrm{i}b)$, real at $k = 0$: $a_L, b_L$ of a doublet and $a_R, b_R$ of a singlet solution ($a_{Ri}$, $b_{Ri}$ of the generation $i$, $b_{L\\alpha}$, $a_{L\\alpha}$ of the doublet in the flavour basis), $a_o, b_o$ of the orbital $o$.",
+  "units": "$\\mathrm{GeV}^{1/2}$ (normalised orbital)",
+  "status": "DERIVED"
+ },
+ "varepsilon": {
+  "tex": "\\varepsilon,\\ \\varepsilon_o",
+  "atoms": [
+   "\\varepsilon"
+  ],
+  "meaning": "The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\\varepsilon_o$ the Kohn-Sham level of the orbital $o$.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "epstilde": {
+  "tex": "\\tilde\\varepsilon",
+  "atoms": [
+   "\\tilde{\\varepsilon}"
+  ],
+  "meaning": "The dimensionless energy (mass) of a fermion mode, $\\tilde\\varepsilon = \\varepsilon fL$.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "upsilon": {
+  "tex": "\\upsilon_L,\\ \\upsilon_R",
+  "atoms": [
+   "\\upsilon"
+  ],
+  "meaning": "The auxiliary roots $\\upsilon = (c^2 - \\tilde\\varepsilon^2)^{1/2}$ of the doublet ($\\upsilon_L$) and singlet ($\\upsilon_R$) solutions at $k = 0$.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "calD": {
+  "tex": "\\mathcal{D}(\\tilde\\varepsilon)",
+  "atoms": [
+   "\\mathcal{D}"
+  ],
+  "meaning": "The mass function of one generation: its zeros are the dimensionless masses $\\tilde\\varepsilon$.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "calZ": {
+  "tex": "\\mathcal{Z}(c)",
+  "atoms": [
+   "\\mathcal{Z}"
+  ],
+  "meaning": "The tip amplitude of a normalised zero mode with the localisation $c$, $\\mathcal{Z}(c)^2 = c\\,\\mathrm{e}^{-c}/\\sinh c$.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "bsalpha": {
+  "tex": "\\boldsymbol{\\alpha},\\ \\boldsymbol{\\alpha}^{(i)}",
+  "atoms": [
+   "\\boldsymbol{\\alpha}"
+  ],
+  "meaning": "The vector of the three doublet amplitudes at the tip in the mass condition of three generations; $\\boldsymbol{\\alpha}^{(i)}$ its null vector for the mass state $i$ (the left-handed flavour content).",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "bsbeta": {
+  "tex": "\\boldsymbol{\\beta}^{(i)}",
+  "atoms": [
+   "\\boldsymbol{\\beta}"
+  ],
+  "meaning": "The vector of the three singlet amplitudes of the mass state $i$.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "bfu": {
+  "tex": "\\mathbf{u}_i",
+  "atoms": [
+   "\\mathbf{u}"
+  ],
+  "meaning": "The unit vector of the generation $i$ (the $i$-th column of the $3 \\times 3$ identity).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Upmns": {
+  "tex": "U",
+  "atoms": [
+   "U",
+   "U_{\\mu 3}",
+   "U_{\\mu 2}"
+  ],
+  "meaning": "The PMNS matrix, the unitary $3 \\times 3$ mixing matrix of the leptons, $\\nu_\\alpha = \\sum_iU_{\\alpha i}\\nu_i$ (rows $\\alpha = e, \\mu, \\tau$, columns the mass states $i$); in UM-2 $U = \\mathcal{K}_e^\\dagger\\mathcal{K}_\\nu$.",
+  "units": "dimensionless",
+  "value": "$\\sin^2\\theta_{12} = 0.308$, $\\sin^2\\theta_{13} = 0.02215$, $\\sin^2\\theta_{23} = 0.470$, $\\delta_{\\mathrm{CP}} = 212^\\circ$ (NuFIT 6.0)",
+  "status": "STANDARD"
+ },
+ "VCKM": {
+  "tex": "V_{\\mathrm{CKM}}",
+  "atoms": [
+   "V_{\\mathrm{CKM}}"
+  ],
+  "meaning": "The CKM matrix, the unitary $3 \\times 3$ mixing matrix of the quarks (the same parametrisation as $U$); in UM-2 $V_{\\mathrm{CKM}} = \\mathcal{K}_u^\\dagger\\mathcal{K}_d$.",
+  "units": "dimensionless",
+  "value": "$s_{12} = 0.22501$, $s_{13} = 0.003732$, $s_{23} = 0.04183$, $\\delta = 1.147$ (PDG)",
+  "status": "STANDARD"
+ },
+ "cij": {
+  "tex": "c_{12},\\ c_{13},\\ c_{23}",
+  "atoms": [
+   "c_{12}",
+   "c_{13}",
+   "c_{23}"
+  ],
+  "meaning": "The cosines of the mixing angles, $c_{ij} = \\cos\\theta_{ij}$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "sij": {
+  "tex": "s_{12},\\ s_{13},\\ s_{23}",
+  "atoms": [
+   "s_{12}",
+   "s_{13}",
+   "s_{23}"
+  ],
+  "meaning": "The sines of the mixing angles, $s_{ij} = \\sin\\theta_{ij}$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "deltaCP": {
+  "tex": "\\delta_{\\mathrm{CP}}",
+  "atoms": [
+   "\\delta_{\\mathrm{CP}}"
+  ],
+  "meaning": "The CP-violating phase of a mixing matrix.",
+  "units": "dimensionless",
+  "value": "$212^\\circ$ (PMNS), 1.147 rad (CKM)",
+  "status": "STANDARD"
+ },
+ "JCP": {
+  "tex": "J_{\\mathrm{CP}}",
+  "atoms": [
+   "J_{\\mathrm{CP}}"
+  ],
+  "meaning": "The Jarlskog invariant of a mixing matrix (the measure of CP violation).",
+  "units": "dimensionless",
+  "value": "$-0.01777$ (PMNS), $3.117\\times10^{-5}$ (CKM)",
+  "status": "STANDARD"
+ },
+ "Meff": {
+  "tex": "M_{\\mathrm{eff}}(y)",
+  "atoms": [
+   "M_{\\mathrm{eff}}"
+  ],
+  "meaning": "The effective (scalar) mass field of the Kohn-Sham Hamiltonian: $m_\\Psi$ plus the mean fields of the contact term and of I12.",
+  "units": "GeV",
+  "status": "DERIVED"
+ },
+ "nsc": {
+  "tex": "n^{\\mathrm{sc}},\\ n^{\\mathrm{sc}}_o",
+  "atoms": [
+   "n^{\\mathrm{sc}}"
+  ],
+  "meaning": "The scalar density of dirac16complex (the Kohn-Sham expectation of $\\bar\\Psi\\Psi$, per proper 7-volume) and $n^{\\mathrm{sc}}_o$ the contribution of the orbital $o$.",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "RECORD"
+ },
+ "nt": {
+  "tex": "n^{\\mathrm{t}}_o",
+  "atoms": [
+   "n^{\\mathrm{t}}"
+  ],
+  "meaning": "The density of the orbital $o$ along the momentum term ($\\chi_o^\\dagger\\varsigma\\sigma_3\\chi_o$ times the weight $\\mathrm{e}^{-3Hy}/\\mathrm{Vol}_7$); it carries the 3-space pressure.",
+  "units": "$\\mathrm{GeV}^{7}$",
+  "status": "RECORD"
+ },
+ "ndens": {
+  "tex": "n,\\ n_o,\\ n_{\\psi i},\\ n_f,\\ n_i",
+  "atoms": [
+   "n"
+  ],
+  "meaning": "A number density: $n(y)$ the particle density of dirac16complex in the Kohn-Sham equations and $n_o$ the contribution of the orbital $o$, $n_{\\psi i}(y)$ the density of the Standard-Model fermion $\\psi_i$ (per proper 7-volume of eight dimensions); $n_f$ the density of the fermion component $f$ and $n_i$ that of the neutrino mass state $i$ (per 3-volume of four dimensions).",
+  "units": "$\\mathrm{GeV}^{7}$ (eight dimensions), $\\mathrm{GeV}^{3}$ (four dimensions)",
+  "status": "STANDARD"
+ },
+ "ddeg": {
+  "tex": "d_o,\\ d_s",
+  "atoms": [
+   "d"
+  ],
+  "meaning": "A degeneracy: $d_o = 4r_3(\\lvert\\vec n_o\\rvert^2)$ the number of states of the momentum shell of the orbital $o$; $d_s$ the number of internal states (spin, colour, particle and antiparticle) of the species $s$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "phiocc": {
+  "tex": "\\phi_o",
+  "atoms": [
+   "\\phi"
+  ],
+  "meaning": "The occupation of the Kohn-Sham orbital $o$ (Fermi-Dirac for the Mermin functional, 0 or 1 for the aufbau).",
+  "units": "dimensionless",
+  "status": "RECORD"
+ },
+ "Vol7": {
+  "tex": "\\mathrm{Vol}_7",
+  "atoms": [
+   "\\mathrm{Vol}_{7}"
+  ],
+  "meaning": "The normalisation volume of a Kohn-Sham cell, $\\mathrm{Vol}_7 = (2\\pi/k_{\\mathrm{lat}})^3v_{\\mathrm{t}}f^4$ (the proper seven-volume of a cell is $2\\,\\mathrm{Vol}_7(1 - \\mathrm{e}^{-3HL})/(3H)$).",
+  "units": "$\\mathrm{GeV}^{-6}$",
+  "value": "34.27 in units $H = 1$, $v_{\\mathrm{t}} = 1$, $f = f_*$",
+  "status": "RECORD"
+ },
+ "r3": {
+  "tex": "r_3",
+  "atoms": [
+   "r_{3}"
+  ],
+  "meaning": "The number of representations of an integer as an ordered sum of three squares of integers (signs counted).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "nvec": {
+  "tex": "\\vec n_o",
+  "atoms": [
+   "\\vec{n}"
+  ],
+  "meaning": "The integer lattice vector of the momentum shell of the orbital $o$ ($\\vec n \\in \\mathbb{Z}^3$).",
+  "units": "dimensionless",
+  "status": "RECORD"
+ },
+ "klat": {
+  "tex": "k_{\\mathrm{lat}}",
+  "atoms": [
+   "k_{\\mathrm{lat}}"
+  ],
+  "meaning": "The spacing of the momentum lattice of the Kohn-Sham cell.",
+  "units": "GeV",
+  "value": "$0.25\\,H$",
+  "status": "RECORD"
+ },
+ "muchem": {
+  "tex": "\\mu_{\\mathrm{chem}}",
+  "atoms": [
+   "\\mu_{\\mathrm{chem}}"
+  ],
+  "meaning": "The chemical potential of the Mermin occupations.",
+  "units": "GeV",
+  "status": "RECORD"
+ },
+ "Temp": {
+  "tex": "T",
+  "atoms": [
+   "T"
+  ],
+  "meaning": "The temperature of the plasma (of the photons and of every species in equilibrium with them); in the Mermin occupations the temperature of the Kohn-Sham state.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "EKS": {
+  "tex": "E_{\\mathrm{KS}}",
+  "atoms": [
+   "E_{\\mathrm{KS}}"
+  ],
+  "meaning": "The Kohn-Sham energy of a cell.",
+  "units": "GeV",
+  "status": "RECORD"
+ },
+ "eint": {
+  "tex": "e_{\\mathrm{int}}",
+  "atoms": [
+   "e_{\\mathrm{int}}"
+  ],
+  "meaning": "The interaction energy density of the contact term in the Kohn-Sham energy and energy-momentum tensor.",
+  "units": "$\\mathrm{GeV}^{8}$",
+  "status": "RECORD"
+ },
+ "L4": {
+  "tex": "\\mathcal{L}_4",
+  "atoms": [
+   "\\mathcal{L}_{4}"
+  ],
+  "meaning": "The four-dimensional contact Lagrangian of I11 and I13 between a state $o$ of dirac16complex and a Standard-Model fermion component $f$.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "DERIVED"
+ },
+ "L4I12": {
+  "tex": "\\mathcal{L}_4^{\\mathrm{I12}}",
+  "atoms": [
+   "\\mathcal{L}_{4}^{\\mathrm{I12}}"
+  ],
+  "meaning": "The four-dimensional Lagrangian of I12 on the dark matter.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "DERIVED"
+ },
+ "L4lam": {
+  "tex": "\\mathcal{L}_4^{\\lambda}",
+  "atoms": [
+   "\\mathcal{L}_{4}^{\\lambda}"
+  ],
+  "meaning": "The four-dimensional term of the contact self-interaction that couples a dark-matter pair to a fold-band pair.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "ESTIMATE"
+ },
+ "GV": {
+  "tex": "G_{\\mathrm{V}}",
+  "atoms": [
+   "G_{\\mathrm{V}}"
+  ],
+  "meaning": "The four-dimensional strength of the vector portal I11 on the zero modes, $G_{\\mathrm{V}} = c_{\\mathrm{V}}H/(2f^4v_{\\mathrm{t}}\\Lambda_\\star^6)$.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "value": "benchmark $4.38\\times10^{-17}$ GeV$^{-2}$ ($\\Delta N_{\\mathrm{eff}} = 0.001$)",
+  "status": "DERIVED"
+ },
+ "GA": {
+  "tex": "G_{\\mathrm{A}}",
+  "atoms": [
+   "G_{\\mathrm{A}}"
+  ],
+  "meaning": "The four-dimensional strength of the portal I13 on the zero modes, $G_{\\mathrm{A}} = c_{\\mathrm{A}}H/(2f^4v_{\\mathrm{t}}\\Lambda_\\star^6)$.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "value": "$1.278\\times10^{-9}$ GeV$^{-2}$ (dark-matter relic density)",
+  "status": "DERIVED"
+ },
+ "tildeI": {
+  "tex": "\\tilde I_{of}",
+  "atoms": [
+   "\\tilde{I}",
+   "\\tilde{I}_{Q}",
+   "\\tilde{I}_{u_R}",
+   "\\tilde{I}_{d_R}",
+   "\\tilde{I}_{\\ell}",
+   "\\tilde{I}_{e_R}",
+   "\\tilde{I}_{\\nu _R,i}"
+  ],
+  "meaning": "The overlap of the state $o$ of dirac16complex with the zero mode of the fermion component $f$, $\\tilde I_{of} = H^{-1}\\int_{-L}^{0}(a_o^2 + b_o^2)\\varrho_f\\mathrm{e}^{-3Hy}\\mathrm{d}y$ (the integral in units of $H$); $\\tilde I_Q$, $\\tilde I_{u_R}$, $\\tilde I_{d_R}$, $\\tilde I_\\ell$, $\\tilde I_{e_R}$ those of the dark matter with $Q$, $u_R$, $d_R$, $\\ell$, $e_R$, $\\tilde I_{\\nu_R,i}$ with the right-handed neutrino of the generation $i$.",
+  "units": "dimensionless",
+  "value": "dark matter: $\\tilde I_Q = 8.2722$, $\\tilde I_\\ell = 1.2524$, $\\tilde I_{u_R} = 0.3854$, $\\tilde I_{d_R} = 0.3961$, $\\tilde I_{e_R} = 0.3972$",
+  "status": "DERIVED"
+ },
+ "tildeIb": {
+  "tex": "\\tilde I^{(b)}_{of}",
+  "atoms": [
+   "\\tilde{I}^{(b)}",
+   "\\tilde{I}^{(b)}_{Q}",
+   "\\tilde{I}^{(b)}_{u_R}",
+   "\\tilde{I}^{(b)}_{d_R}",
+   "\\tilde{I}^{(b)}_{\\nu _R}"
+  ],
+  "meaning": "The overlap of the lower component of the state $o$ with the zero mode of $f$, $\\tilde I^{(b)}_{of} = H^{-1}\\int_{-L}^{0}b_o^2\\varrho_f\\mathrm{e}^{-3Hy}\\mathrm{d}y$ (the overlap of I13); $\\tilde I^{(b)}_Q$, $\\tilde I^{(b)}_{u_R}$, $\\tilde I^{(b)}_{d_R}$, $\\tilde I^{(b)}_{\\nu_R}$ those of the dark matter.",
+  "units": "dimensionless",
+  "value": "dark matter: $\\tilde I^{(b)}_Q = 2.6135$",
+  "status": "DERIVED"
+ },
+ "varrho": {
+  "tex": "\\varrho_f(y),\\ \\varrho(y; c)",
+  "atoms": [
+   "\\varrho"
+  ],
+  "meaning": "The $x_0$ profile of a zero mode as a probability density on one half, $\\int_{-L}^{0}\\varrho\\,\\mathrm{d}y = 1$: $\\varrho_f$ that of the fermion component $f$, $\\varrho(y; c)$ its form for the localisation $c$.",
+  "units": "1/length (GeV)",
+  "status": "DERIVED"
+ },
+ "Gg": {
+  "tex": "G_{\\mathrm{g}}",
+  "atoms": [
+   "G_{\\mathrm{g}}"
+  ],
+  "meaning": "The coupling of a dark-matter pair to canonically normalised gluon pairs through I12.",
+  "units": "$\\mathrm{GeV}^{-3}$",
+  "value": "$6.09\\times10^{-15}$ GeV$^{-3}$ (benchmark)",
+  "status": "DERIVED"
+ },
+ "GW": {
+  "tex": "G_{\\mathrm{W}}",
+  "atoms": [
+   "G_{\\mathrm{W}}"
+  ],
+  "meaning": "The coupling of a dark-matter pair to canonically normalised SU(2) gauge pairs through I12.",
+  "units": "$\\mathrm{GeV}^{-3}$",
+  "value": "$2.96\\times10^{-15}$ GeV$^{-3}$",
+  "status": "DERIVED"
+ },
+ "GB": {
+  "tex": "G_{\\mathrm{B}}",
+  "atoms": [
+   "G_{\\mathrm{B}}"
+  ],
+  "meaning": "The coupling of a dark-matter pair to canonically normalised hypercharge pairs through I12.",
+  "units": "$\\mathrm{GeV}^{-3}$",
+  "value": "$1.08\\times10^{-15}$ GeV$^{-3}$",
+  "status": "DERIVED"
+ },
+ "calO": {
+  "tex": "\\mathcal{O}_o,\\ \\mathcal{O}_{\\mathrm{DM}}",
+  "atoms": [
+   "\\mathcal{O}",
+   "\\mathcal{O}_{\\mathrm{DM}}"
+  ],
+  "meaning": "The scalar overlap of a state of dirac16complex, $\\mathcal{O}_o = \\partial\\varepsilon_o/\\partial m_\\Psi$ (Hellmann-Feynman: the integrated scalar density of the orbital); $\\mathcal{O}_{\\mathrm{DM}}$ that of the dark matter.",
+  "units": "dimensionless",
+  "value": "$\\mathcal{O}_{\\mathrm{DM}} = 0.7072$",
+  "status": "DERIVED"
+ },
+ "epsDM": {
+  "tex": "\\varepsilon_{\\mathrm{DM}}",
+  "atoms": [
+   "\\varepsilon_{\\mathrm{DM}}"
+  ],
+  "meaning": "The energy of the dark-matter level at rest (its mass $M_{\\mathrm{DM}}$ on the static block).",
+  "units": "GeV",
+  "value": "$3.102204\\,m_\\Psi = 44.35$ TeV",
+  "status": "DERIVED"
+ },
+ "epsI1113": {
+  "tex": "\\Delta\\varepsilon_{\\mathrm{I11}},\\ \\Delta\\varepsilon_{\\mathrm{I13}}",
+  "atoms": [
+   "\\varepsilon_{\\mathrm{I11}}",
+   "\\varepsilon_{\\mathrm{I13}}"
+  ],
+  "meaning": "The shifts of the dark-matter level by the mean fields of I11 and of I13 in matter.",
+  "units": "GeV",
+  "value": "at most $8.2\\times10^{-10}$ GeV (I13, at the freeze-out)",
+  "status": "DERIVED"
+ },
+ "nquark": {
+  "tex": "n_{\\mathrm{u}},\\ n_{\\mathrm{d}}",
+  "atoms": [
+   "n_{\\mathrm{u}}",
+   "n_{\\mathrm{d}}"
+  ],
+  "meaning": "The number densities of up and down quarks bound in nucleons, $n_{\\mathrm{u}} = 2n_{\\mathrm{p}} + n_{\\mathrm{n}}$, $n_{\\mathrm{d}} = n_{\\mathrm{p}} + 2n_{\\mathrm{n}}$.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "np": {
+  "tex": "n_{\\mathrm{p}}",
+  "atoms": [
+   "n_{\\mathrm{p}}"
+  ],
+  "meaning": "The number density of protons (free and bound).",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "nn": {
+  "tex": "n_{\\mathrm{n}}",
+  "atoms": [
+   "n_{\\mathrm{n}}"
+  ],
+  "meaning": "The number density of neutrons (free and bound).",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "ne": {
+  "tex": "n_{\\mathrm{e}}",
+  "atoms": [
+   "n_{\\mathrm{e}}"
+  ],
+  "meaning": "The number density of electrons (net of positrons); in the Thomson terms of the photon and baryon equations only free (ionised) electrons count.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "alpha3": {
+  "tex": "\\alpha_3",
+  "atoms": [
+   "\\alpha_{3}"
+  ],
+  "meaning": "The strong fine-structure constant, $\\alpha_3 = g_3^2/(4\\pi)$, at the scale given in brackets.",
+  "units": "dimensionless",
+  "value": "$\\alpha_3(m_{\\mathrm{Z}}) = 0.1180$; $\\alpha_3(m_{\\mathrm{KK}}) = 0.0606$",
+  "status": "STANDARD"
+ },
+ "alpha2": {
+  "tex": "\\alpha_2",
+  "atoms": [
+   "\\alpha_{2}"
+  ],
+  "meaning": "The SU(2) fine-structure constant, $\\alpha_2 = g_2^2/(4\\pi)$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "alpha1": {
+  "tex": "\\alpha_1",
+  "atoms": [
+   "\\alpha_{1}"
+  ],
+  "meaning": "The hypercharge fine-structure constant, $\\alpha_1 = g_1^2/(4\\pi)$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "alphaG": {
+  "tex": "\\alpha_{\\mathrm{G}}",
+  "atoms": [
+   "\\alpha_{\\mathrm{G}}"
+  ],
+  "meaning": "The fine-structure constant of the gauge group G (one of $\\alpha_3$, $\\alpha_2$, $\\alpha_1$).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "alphaem": {
+  "tex": "\\alpha_{\\mathrm{em}}",
+  "atoms": [
+   "\\alpha_{\\mathrm{em}}"
+  ],
+  "meaning": "The electromagnetic fine-structure constant ($\\overline{\\mathrm{MS}}$, at $m_{\\mathrm{Z}}$).",
+  "units": "dimensionless",
+  "value": "$1/127.95$",
+  "status": "STANDARD"
+ },
+ "bcoef": {
+  "tex": "b_3,\\ b_2,\\ b_1,\\ b_{\\mathrm{G}}",
+  "atoms": [
+   "b_{3}",
+   "b_{2}",
+   "b_{1}",
+   "b_{\\mathrm{G}}"
+  ],
+  "meaning": "The one-loop coefficients of the running couplings, $\\mathrm{d}\\alpha/\\mathrm{d}\\ln\\mu_{\\mathrm{ren}} = -b\\,\\alpha^2/(2\\pi)$: $b_3 = 11 - \\frac23N_{\\mathrm{f}}$ (SU(3)), $b_2 = \\frac{10}{3}$ (SU(2) without a Higgs particle), $b_1 = -\\frac{20}{3}$ (U(1)$_Y$), $b_{\\mathrm{G}}$ that of the group G (not related to the metric function $b_4$).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Nf": {
+  "tex": "N_{\\mathrm{f}}",
+  "atoms": [
+   "N_{\\mathrm{f}}"
+  ],
+  "meaning": "The number of active quark flavours (quarks lighter than the scale).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Theta": {
+  "tex": "\\Theta_{\\mathrm{QCD}},\\ \\Theta_{\\mathrm{G}},\\ \\Theta_V",
+  "atoms": [
+   "\\Theta_{\\mathrm{QCD}}",
+   "\\Theta_{\\mathrm{G}}",
+   "\\Theta_{V}",
+   "\\Theta_{\\mathrm{W}}",
+   "\\Theta_{\\mathrm{Z}}"
+  ],
+  "meaning": "The trace $\\rho - 3p$ of the energy-momentum tensor (interaction measure) of a plasma component: $\\Theta_{\\mathrm{QCD}}$ of the quark-gluon plasma or hadron gas, $\\Theta_{\\mathrm{G}}$ of the gauge plasma of the group G, $\\Theta_V$ of the thermal gas of the massive vector $V$ ($\\Theta_{\\mathrm{W}}$ of $W^\\pm$, $\\Theta_{\\mathrm{Z}}$ of $Z$).",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "STANDARD"
+ },
+ "pQCD": {
+  "tex": "p_{\\mathrm{QCD}}",
+  "atoms": [
+   "p_{\\mathrm{QCD}}"
+  ],
+  "meaning": "The pressure of the quark-gluon plasma (leading orders).",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "ESTIMATE"
+ },
+ "FV": {
+  "tex": "F^V_{\\mu\\nu}",
+  "atoms": [
+   "F^{V}"
+  ],
+  "meaning": "The field strength of the canonically normalised massive vector $V = W^\\pm$ or $Z$, $F^V_{\\mu\\nu} = \\partial_\\mu V_\\nu - \\partial_\\nu V_\\mu$.",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "status": "STANDARD"
+ },
+ "Fgeo": {
+  "tex": "F_{\\mathrm{geo}}",
+  "atoms": [
+   "F_{\\mathrm{geo}}"
+  ],
+  "meaning": "The field strength of the gauge group G in geometric normalisation; $\\langle F_{\\mathrm{geo}}^2\\rangle$ is its condensate ($G^A_{\\mu\\nu}G^{A\\mu\\nu}$, $W^I_{\\mu\\nu}W^{I\\mu\\nu}$ or $B_{\\mu\\nu}B^{\\mu\\nu}$).",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "status": "STANDARD"
+ },
+ "gG": {
+  "tex": "g_{\\mathrm{G}}",
+  "atoms": [
+   "g_{\\mathrm{G}}"
+  ],
+  "meaning": "The four-dimensional coupling of the gauge group G (one of $g_3$, $g_2$, $g_1$).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "palpha": {
+  "tex": "p_{\\alpha,\\mathrm{G}},\\ p_{\\alpha,2},\\ p_{\\alpha,1}",
+  "atoms": [
+   "p_{\\alpha ,\\mathrm{G}}",
+   "p_{\\alpha ,2}",
+   "p_{\\alpha ,1}"
+  ],
+  "meaning": "The order-$\\alpha$ (interaction) part of the pressure of the gauge plasma of the group G; $p_{\\alpha,2}$ of SU(2), $p_{\\alpha,1}$ of U(1)$_Y$.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "STANDARD"
+ },
+ "dadj": {
+  "tex": "d_{\\mathrm{adj}}",
+  "atoms": [
+   "d_{\\mathrm{adj}}"
+  ],
+  "meaning": "The dimension of the adjoint representation of the gauge group (8, 3, 1).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Cadj": {
+  "tex": "C_{\\mathrm{adj}}",
+  "atoms": [
+   "C_{\\mathrm{adj}}"
+  ],
+  "meaning": "The quadratic Casimir of the adjoint representation (3, 2, 0).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "TF": {
+  "tex": "T_{\\mathrm{F}}",
+  "atoms": [
+   "T_{\\mathrm{F}}"
+  ],
+  "meaning": "The Dynkin index of the fermion representation ($\\frac12$ per Dirac fundamental; for U(1)$_Y$ the sum of the squared hypercharges).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "mu_ren": {
+  "tex": "\\mu_{\\mathrm{ren}}",
+  "atoms": [
+   "\\mu_{\\mathrm{ren}}"
+  ],
+  "meaning": "The renormalisation scale of a running coupling (taken as $2\\pi T$ for the condensates of a plasma).",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "thetaMS": {
+  "tex": "\\theta_{\\overline{\\mathrm{MS}}}",
+  "atoms": [
+   "\\theta_{\\overline{\\mathrm{MS}}}"
+  ],
+  "meaning": "The weak mixing angle in the $\\overline{\\mathrm{MS}}$ scheme at $m_{\\mathrm{Z}}$.",
+  "units": "dimensionless",
+  "value": "$\\sin^2\\theta_{\\overline{\\mathrm{MS}}} = 0.23122$",
+  "status": "STANDARD"
+ },
+ "Upsilon": {
+  "tex": "\\Upsilon(\\xi)",
+  "atoms": [
+   "\\Upsilon"
+  ],
+  "meaning": "The factor by which the scalar density of the dark matter changes the gauge kinetic term along $x_0$ (I12), $\\Upsilon = 1 + A_{\\mathrm{mf}}n^{\\mathrm{sc}}_{\\mathrm{DM}}$.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "Amf": {
+  "tex": "A_{\\mathrm{mf}}",
+  "atoms": [
+   "A_{\\mathrm{mf}}"
+  ],
+  "meaning": "The amplitude of the I12 mean field in the $x_0$ problem of the gauge fields (a bookkeeping parameter: the result is linear in it).",
+  "units": "$\\mathrm{GeV}^{-1}$ (with the orbital normalisation)",
+  "status": "DERIVED"
+ },
+ "nscDM": {
+  "tex": "n^{\\mathrm{sc}}_{\\mathrm{DM}}",
+  "atoms": [
+   "n^{\\mathrm{sc}}_{\\mathrm{DM}}"
+  ],
+  "meaning": "The scalar density of the dark-matter orbital, $n^{\\mathrm{sc}}_{\\mathrm{DM}} = 2a_{\\mathrm{DM}}b_{\\mathrm{DM}}$.",
+  "units": "GeV (normalised orbital)",
+  "status": "DERIVED"
+ },
+ "abDM": {
+  "tex": "a_{\\mathrm{DM}},\\ b_{\\mathrm{DM}}",
+  "atoms": [
+   "a_{\\mathrm{DM}}",
+   "b_{\\mathrm{DM}}"
+  ],
+  "meaning": "The upper and lower components of the dark-matter orbital (block spinor $(a, \\mathrm{i}b)$, normalised on one half).",
+  "units": "$\\mathrm{GeV}^{1/2}$",
+  "status": "DERIVED"
+ },
+ "nDM": {
+  "tex": "n_{\\mathrm{DM}},\\ \\bar n_{\\mathrm{DM}}",
+  "atoms": [
+   "n_{\\mathrm{DM}}",
+   "\\bar{n}_{\\mathrm{DM}}"
+  ],
+  "meaning": "The number densities of dark-matter particles and antiparticles of one species.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "nDMtot": {
+  "tex": "n_{\\mathrm{DM,tot}}",
+  "atoms": [
+   "n_{\\mathrm{DM,tot}}"
+  ],
+  "meaning": "The total number density of dark-matter quanta: both species (the lowest odd levels of $\\Psi_A$ and $\\Psi_B$), particles and antiparticles, $n_{\\mathrm{DM,tot}} = 2(n_{\\mathrm{DM}} + \\bar n_{\\mathrm{DM}})$.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "rhoQCDscale": {
+  "tex": "\\Lambda_{\\mathrm{QCD}}^{(N_{\\mathrm{f}})}",
+  "atoms": [
+   "\\Lambda_{\\mathrm{QCD}}",
+   "\\Lambda_{\\mathrm{QCD}}^{(N_{\\mathrm{f}})}"
+  ],
+  "meaning": "The QCD scale with $N_{\\mathrm{f}}$ active flavours ($\\Lambda_{\\mathrm{QCD}}^{(6)}$, $^{(5)}$, $^{(4)}$, $^{(3)}$), defined by the one-loop running.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "mquarks": {
+  "tex": "m_{\\mathrm{u}},\\ m_{\\mathrm{d}},\\ m_{\\mathrm{s}},\\ m_{\\mathrm{c}},\\ m_{\\mathrm{b}},\\ m_{\\mathrm{t}}",
+  "atoms": [
+   "m_{\\mathrm{u}}",
+   "m_{\\mathrm{d}}",
+   "m_{\\mathrm{s}}",
+   "m_{\\mathrm{c}}",
+   "m_{\\mathrm{b}}",
+   "m_{\\mathrm{t}}"
+  ],
+  "meaning": "The masses of the up, down, strange, charm, bottom and top quarks (the upright subscript names the quark).",
+  "units": "GeV",
+  "value": "2.16 MeV, 4.70 MeV, 93.5 MeV, 1.273 GeV, 4.183 GeV, 172.56 GeV (the $x_0$ masses, fitted to the PDG values)",
+  "status": "DERIVED"
+ },
+ "mnucleon": {
+  "tex": "m_{\\mathrm{p}},\\ m_{\\mathrm{n}}",
+  "atoms": [
+   "m_{\\mathrm{p}}",
+   "m_{\\mathrm{n}}"
+  ],
+  "meaning": "The masses of the proton and the neutron.",
+  "units": "GeV",
+  "value": "0.938272 GeV, 0.939565 GeV",
+  "status": "STANDARD"
+ },
+ "sigmapiN": {
+  "tex": "\\sigma_{\\pi N}",
+  "atoms": [
+   "\\sigma_{\\pi N}"
+  ],
+  "meaning": "The pion-nucleon sigma term (the contribution of the up and down quark masses to the nucleon mass).",
+  "units": "GeV",
+  "value": "45 MeV",
+  "status": "STANDARD"
+ },
+ "sigmas": {
+  "tex": "\\sigma_{\\mathrm{s}}",
+  "atoms": [
+   "\\sigma_{\\mathrm{s}}"
+  ],
+  "meaning": "The strange sigma term of the nucleon.",
+  "units": "GeV",
+  "value": "40 MeV",
+  "status": "STANDARD"
+ },
+ "etab": {
+  "tex": "\\eta_{\\mathrm{b}}",
+  "atoms": [
+   "\\eta_{\\mathrm{b}}"
+  ],
+  "meaning": "The ratio of the baryon density to the photon density.",
+  "units": "dimensionless",
+  "value": "$6.1\\times10^{-10}$",
+  "status": "STANDARD"
+ },
+ "ngamma": {
+  "tex": "n_\\gamma",
+  "atoms": [
+   "n_{\\gamma}"
+  ],
+  "meaning": "The number density of photons.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "MDM": {
+  "tex": "M_{\\mathrm{DM}}",
+  "atoms": [
+   "M_{\\mathrm{DM}}"
+  ],
+  "meaning": "The mass of a dark-matter particle (the lowest odd level of dirac16complex).",
+  "units": "GeV",
+  "value": "44.35 TeV",
+  "status": "DERIVED"
+ },
+ "epsser": {
+  "tex": "\\epsilon",
+  "atoms": [
+   "\\epsilon"
+  ],
+  "meaning": "The bookkeeping parameter of the power series of the metric: the term of order $q$ is multiplied by $\\epsilon^q$ (the size of the first-order potentials).",
+  "units": "dimensionless",
+  "value": "$\\epsilon \\sim 10^{-5}$",
+  "status": "DERIVED"
+ },
+ "h1": {
+  "tex": "h^{(1)}_{MN},\\ h^{(2)}_{MN}",
+  "atoms": [
+   "h^{(1)}",
+   "h^{(2)}"
+  ],
+  "meaning": "The first- and second-order terms of the power series of the metric.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "h1n": {
+  "tex": "h^{(1,n)}_{MN}",
+  "atoms": [
+   "h^{(1,n)}"
+  ],
+  "meaning": "The four-dimensional coefficient of the $n$-th $x_0$ profile $F_n$ in the first-order term ($n = 0$: the flat zero mode, the perturbations of four-dimensional gravity; $n \\ge 1$: the Kaluza-Klein gravitons).",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "hTT": {
+  "tex": "h^{\\mathrm{TT}}",
+  "atoms": [
+   "h^{\\mathrm{TT}}"
+  ],
+  "meaning": "The transverse-traceless (tensor) part of the first-order metric of 3-space (gravitational waves).",
+  "units": "dimensionless",
+  "value": "an input (tensor-to-scalar ratio below 0.036)",
+  "status": "STANDARD"
+ },
+ "PsiN": {
+  "tex": "\\Psi_{\\mathrm{N}}",
+  "atoms": [
+   "\\Psi_{\\mathrm{N}}"
+  ],
+  "meaning": "The curvature potential of the Newtonian gauge (the perturbation of the 3-space metric, $1 - 2\\Psi_{\\mathrm{N}}$); not related to the field $\\Psi$.",
+  "units": "dimensionless",
+  "value": "at most $2.4\\times10^{-5}$",
+  "status": "STANDARD"
+ },
+ "Phi": {
+  "tex": "\\Phi",
+  "atoms": [
+   "\\Phi"
+  ],
+  "meaning": "The lapse potential of the Newtonian gauge (the perturbation of the time component, $1 + 2\\Phi$).",
+  "units": "dimensionless",
+  "value": "at most $2.4\\times10^{-5}$",
+  "status": "STANDARD"
+ },
+ "sigmar": {
+  "tex": "\\sigma_{\\mathrm{r}}",
+  "atoms": [
+   "\\sigma_{\\mathrm{r}}"
+  ],
+  "meaning": "The radion perturbation: the first-order change of the block scale, $f^2 \\to f^2(1 + 2\\sigma_{\\mathrm{r}})$.",
+  "units": "dimensionless",
+  "value": "at most $1.1\\times10^{-34}$ (static response)",
+  "status": "DERIVED"
+ },
+ "tauc": {
+  "tex": "\\tau_{\\mathrm{c}}",
+  "atoms": [
+   "\\tau_{\\mathrm{c}}"
+  ],
+  "meaning": "The conformal time, $\\mathrm{d}x_4 = \\mathrm{e}^{a_4}\\mathrm{d}\\tau_{\\mathrm{c}}$; primes denote $\\mathrm{d}/\\mathrm{d}\\tau_{\\mathrm{c}}$.",
+  "units": "length",
+  "status": "STANDARD"
+ },
+ "rhotot": {
+  "tex": "\\rho_{\\mathrm{tot}},\\ p_{\\mathrm{tot}}",
+  "atoms": [
+   "\\rho_{\\mathrm{tot}}",
+   "p_{\\mathrm{tot}}"
+  ],
+  "meaning": "The total background energy density and pressure of four-dimensional cosmology (all species).",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "STANDARD"
+ },
+ "thetatot": {
+  "tex": "\\theta_{\\mathrm{tot}}",
+  "atoms": [
+   "\\theta_{\\mathrm{tot}}"
+  ],
+  "meaning": "The velocity divergence of the total matter, weighted with $\\rho + p$ of each species.",
+  "units": "1/length",
+  "status": "STANDARD"
+ },
+ "sigmaan": {
+  "tex": "\\sigma_{\\mathrm{an}}",
+  "atoms": [
+   "\\sigma_{\\mathrm{an}}"
+  ],
+  "meaning": "The anisotropic stress (shear) of the total matter (the quantity $\\sigma$ of Ma and Bertschinger), weighted with $\\rho + p$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "sigmaangamma": {
+  "tex": "\\sigma_{\\mathrm{an},\\gamma}",
+  "atoms": [
+   "\\sigma_{\\mathrm{an},\\gamma}"
+  ],
+  "meaning": "The anisotropic stress (shear) of the photons, $F^\\gamma_2/2$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "deltaDM": {
+  "tex": "\\delta_{\\mathrm{DM}},\\ \\theta_{\\mathrm{DM}}",
+  "atoms": [
+   "\\delta_{\\mathrm{DM}}",
+   "\\theta_{\\mathrm{DM}}"
+  ],
+  "meaning": "The density contrast and the velocity divergence of the dark matter.",
+  "units": "dimensionless; 1/length",
+  "status": "STANDARD"
+ },
+ "deltab": {
+  "tex": "\\delta_{\\mathrm{b}},\\ \\theta_{\\mathrm{b}}",
+  "atoms": [
+   "\\delta_{\\mathrm{b}}",
+   "\\theta_{\\mathrm{b}}"
+  ],
+  "meaning": "The density contrast and the velocity divergence of the baryons (nucleons and electrons).",
+  "units": "dimensionless; 1/length",
+  "status": "STANDARD"
+ },
+ "deltagamma": {
+  "tex": "\\delta_\\gamma,\\ \\theta_\\gamma",
+  "atoms": [
+   "\\delta_{\\gamma}",
+   "\\theta_{\\gamma}"
+  ],
+  "meaning": "The density contrast and the velocity divergence of the photons.",
+  "units": "dimensionless; 1/length",
+  "status": "STANDARD"
+ },
+ "cs": {
+  "tex": "c_{\\mathrm{s}}",
+  "atoms": [
+   "c_{\\mathrm{s}}"
+  ],
+  "meaning": "The sound speed of the baryon fluid.",
+  "units": "dimensionless (c = 1)",
+  "status": "STANDARD"
+ },
+ "Rb": {
+  "tex": "R_{\\mathrm{b}}",
+  "atoms": [
+   "R_{\\mathrm{b}}"
+  ],
+  "meaning": "The photon-to-baryon momentum ratio of the Thomson drag, $R_{\\mathrm{b}} = 4\\rho_\\gamma/(3\\rho_{\\mathrm{b}})$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "sigmaT": {
+  "tex": "\\sigma_{\\mathrm{T}}",
+  "atoms": [
+   "\\sigma_{\\mathrm{T}}"
+  ],
+  "meaning": "The Thomson cross-section.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "value": "$6.6524587\\times10^{-29}$ m$^2$",
+  "status": "STANDARD"
+ },
+ "rhogamma": {
+  "tex": "\\rho_\\gamma",
+  "atoms": [
+   "\\rho_{\\gamma}"
+  ],
+  "meaning": "The energy density of the photons, $\\rho_\\gamma = \\pi^2T_\\gamma^4/15$.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "STANDARD"
+ },
+ "rhob": {
+  "tex": "\\rho_{\\mathrm{b}}",
+  "atoms": [
+   "\\rho_{\\mathrm{b}}"
+  ],
+  "meaning": "The energy density of the baryons.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "STANDARD"
+ },
+ "Fgamma": {
+  "tex": "F^\\gamma_l",
+  "atoms": [
+   "F^{\\gamma}",
+   "F^{\\gamma}_{0}",
+   "F^{\\gamma}_{1}",
+   "F^{\\gamma}_{2}"
+  ],
+  "meaning": "The multipole $l$ of the photon temperature perturbation (the brightness function of Ma and Bertschinger).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Ggamma": {
+  "tex": "G^\\gamma_l",
+  "atoms": [
+   "G^{\\gamma}",
+   "G^{\\gamma}_{0}",
+   "G^{\\gamma}_{2}"
+  ],
+  "meaning": "The multipole $l$ of the photon polarisation perturbation.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "calN": {
+  "tex": "\\mathcal{N}^{(i)}_l",
+  "atoms": [
+   "\\mathcal{N}"
+  ],
+  "meaning": "The multipole $l$ of the perturbation of the distribution of the neutrino mass state $i$ (a function of $k$, $k_\\nu$ and $\\tau_{\\mathrm{c}}$; the quantity $\\Psi_l$ of Ma and Bertschinger).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "knu": {
+  "tex": "k_\\nu",
+  "atoms": [
+   "k_{\\nu}"
+  ],
+  "meaning": "The comoving momentum of a neutrino (the physical momentum times $\\mathrm{e}^{a_4}$).",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "Ec": {
+  "tex": "E^{\\mathrm{c}}_i",
+  "atoms": [
+   "E^{\\mathrm{c}}"
+  ],
+  "meaning": "The comoving energy of a neutrino of the mass state $i$, $E^{\\mathrm{c}}_i = (k_\\nu^2 + \\mathrm{e}^{2a_4}m_i^2)^{1/2}$.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "fFD": {
+  "tex": "f_{\\mathrm{FD}}",
+  "atoms": [
+   "f_{\\mathrm{FD}}"
+  ],
+  "meaning": "The Fermi-Dirac distribution of the relic neutrinos, $f_{\\mathrm{FD}} = 1/(\\mathrm{e}^{k/T_\\nu} + 1)$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Tnu": {
+  "tex": "T_\\nu",
+  "atoms": [
+   "T_{\\nu}"
+  ],
+  "meaning": "The temperature of the relic neutrinos (one common temperature).",
+  "units": "GeV",
+  "value": "1.9454 K today",
+  "status": "STANDARD"
+ },
+ "Tgamma": {
+  "tex": "T_\\gamma",
+  "atoms": [
+   "T_{\\gamma}"
+  ],
+  "meaning": "The temperature of the photons (equal to the plasma temperature $T$; the subscript is written where the neutrinos have their own temperature).",
+  "units": "GeV",
+  "value": "2.7255 K today",
+  "status": "STANDARD"
+ },
+ "PR": {
+  "tex": "P_{\\mathcal{R}}(k)",
+  "atoms": [
+   "P_{\\mathcal{R}}"
+  ],
+  "meaning": "The dimensionless power spectrum of the primordial curvature perturbation $\\mathcal{R}$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "As": {
+  "tex": "A_{\\mathrm{s}}",
+  "atoms": [
+   "A_{\\mathrm{s}}"
+  ],
+  "meaning": "The amplitude of the primordial spectrum at $k_0$.",
+  "units": "dimensionless",
+  "value": "$2.099\\times10^{-9}$ ($\\ln(10^{10}A_{\\mathrm{s}}) = 3.044$, Planck 2018)",
+  "status": "STANDARD"
+ },
+ "k0": {
+  "tex": "k_0",
+  "atoms": [
+   "k_{0}"
+  ],
+  "meaning": "The pivot wavenumber of the primordial spectrum.",
+  "units": "1/length",
+  "value": "0.05 Mpc$^{-1}$",
+  "status": "STANDARD"
+ },
+ "ns": {
+  "tex": "n_{\\mathrm{s}}",
+  "atoms": [
+   "n_{\\mathrm{s}}"
+  ],
+  "meaning": "The spectral index of the primordial spectrum.",
+  "units": "dimensionless",
+  "value": "0.9649 (Planck 2018)",
+  "status": "STANDARD"
+ },
+ "Phirms": {
+  "tex": "\\Phi_{\\mathrm{rms}}(k)",
+  "atoms": [
+   "\\Phi_{\\mathrm{rms}}"
+  ],
+  "meaning": "The root-mean-square amplitude of the Weyl potential per logarithmic interval of $k$.",
+  "units": "dimensionless",
+  "value": "$2.42\\times10^{-5}$ at $k = 10^{-4}$ Mpc$^{-1}$",
+  "status": "STANDARD"
+ },
+ "PPhiW": {
+  "tex": "P_{\\Phi_{\\mathrm{W}}}(k)",
+  "atoms": [
+   "P_{\\Phi _{\\mathrm{W}}}"
+  ],
+  "meaning": "The power spectrum of the Weyl potential.",
+  "units": "$\\mathrm{length}^{3}$",
+  "status": "STANDARD"
+ },
+ "PhiW": {
+  "tex": "\\Phi_{\\mathrm{W}}",
+  "atoms": [
+   "\\Phi_{\\mathrm{W}}"
+  ],
+  "meaning": "The Weyl potential, $\\Phi_{\\mathrm{W}} = (\\Phi + \\Psi_{\\mathrm{N}})/2$ (it deflects light).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Omegam": {
+  "tex": "\\Omega_{\\mathrm{m}}",
+  "atoms": [
+   "\\Omega_{\\mathrm{m}}"
+  ],
+  "meaning": "The matter density today in units of the critical density.",
+  "units": "dimensionless",
+  "value": "0.3150",
+  "status": "STANDARD"
+ },
+ "deltam": {
+  "tex": "\\delta_{\\mathrm{m}}",
+  "atoms": [
+   "\\delta_{\\mathrm{m}}"
+  ],
+  "meaning": "The density contrast of the total matter (dark matter and baryons).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "calR": {
+  "tex": "\\mathcal{R}",
+  "atoms": [
+   "\\mathcal{R}"
+  ],
+  "meaning": "The primordial comoving curvature perturbation.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Dplus": {
+  "tex": "D_+",
+  "atoms": [
+   "D_{+}"
+  ],
+  "meaning": "The linear growth factor of the matter perturbations, normalised as $D_+ = \\mathrm{e}^{a_4}$ in the matter era.",
+  "units": "dimensionless",
+  "value": "$D_+\\mathrm{e}^{-a_4} = 0.7878$ today",
+  "status": "STANDARD"
+ },
+ "sigma8": {
+  "tex": "\\sigma_8",
+  "atoms": [
+   "\\sigma_{8}"
+  ],
+  "meaning": "The root-mean-square linear matter fluctuation in spheres of radius $R_8$ today.",
+  "units": "dimensionless",
+  "value": "0.8118",
+  "status": "DERIVED"
+ },
+ "Pm": {
+  "tex": "P_{\\mathrm{m}}(k)",
+  "atoms": [
+   "P_{\\mathrm{m}}"
+  ],
+  "meaning": "The linear matter power spectrum today.",
+  "units": "$\\mathrm{length}^{3}$",
+  "status": "STANDARD"
+ },
+ "Wth": {
+  "tex": "W_{\\mathrm{th}}",
+  "atoms": [
+   "W_{\\mathrm{th}}"
+  ],
+  "meaning": "The Fourier transform of a spherical top-hat window.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "R8": {
+  "tex": "R_8",
+  "atoms": [
+   "R_{8}"
+  ],
+  "meaning": "The radius of the spheres of $\\sigma_8$, $R_8 = 8\\,h_{100}^{-1}$ Mpc.",
+  "units": "length",
+  "status": "STANDARD"
+ },
+ "h100": {
+  "tex": "h_{100}",
+  "atoms": [
+   "h_{100}"
+  ],
+  "meaning": "The reduced Hubble constant, $\\mathcal{H}_0/(100$ km s$^{-1}$ Mpc$^{-1})$.",
+  "units": "dimensionless",
+  "value": "0.6738",
+  "status": "STANDARD"
+ },
+ "mnu123": {
+  "tex": "m_1,\\ m_2,\\ m_3",
+  "atoms": [
+   "m_{1}",
+   "m_{2}",
+   "m_{3}"
+  ],
+  "meaning": "The masses of the neutrino mass states $\\nu_1$, $\\nu_2$, $\\nu_3$ (normal ordering).",
+  "units": "GeV (quoted in meV)",
+  "value": "1.000, 8.712, 50.140 meV ($m_1$ ASSUMED)",
+  "status": "DERIVED"
+ },
+ "dm2": {
+  "tex": "\\Delta m_{21}^2,\\ \\Delta m_{31}^2,\\ \\Delta m_{32}^2",
+  "atoms": [
+   "m_{21}",
+   "m_{31}",
+   "m_{32}"
+  ],
+  "meaning": "The differences of the squared neutrino masses, $\\Delta m_{ij}^2 = m_i^2 - m_j^2$.",
+  "units": "$\\mathrm{GeV}^{2}$ (quoted in $\\mathrm{eV}^{2}$)",
+  "value": "$\\Delta m_{21}^2 = 7.49\\times10^{-5}$ eV$^2$, $\\Delta m_{31}^2 = 2.513\\times10^{-3}$ eV$^2$ (NuFIT 6.0)",
+  "status": "STANDARD"
+ },
+ "dmee": {
+  "tex": "\\Delta m_{ee}^2",
+  "atoms": [
+   "m_{ee}"
+  ],
+  "meaning": "The effective squared-mass difference of electron-neutrino disappearance, $\\Delta m_{ee}^2 = c_{12}^2\\Delta m_{31}^2 + s_{12}^2\\Delta m_{32}^2$.",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "status": "STANDARD"
+ },
+ "thetamix": {
+  "tex": "\\theta_{ij}",
+  "atoms": [
+   "\\theta",
+   "\\theta_{12}",
+   "\\theta_{13}"
+  ],
+  "meaning": "The mixing angles of the standard parametrisation of $U$ (or of $V_{\\mathrm{CKM}}$): $\\theta_{12}$, $\\theta_{13}$, $\\theta_{23}$; in two-flavour formulas $\\theta_{ij}$ is the angle of the sector $(i, j)$.",
+  "units": "dimensionless",
+  "value": "$\\sin^2\\theta_{12} = 0.308$, $\\sin^2\\theta_{13} = 0.02215$, $\\sin^2\\theta_{23} = 0.470$ (PMNS)",
+  "status": "STANDARD"
+ },
+ "thetam": {
+  "tex": "\\theta^{\\mathrm{m}}_{12}",
+  "atoms": [
+   "\\theta^{\\mathrm{m}}",
+   "\\theta^{\\mathrm{m}}_{12}"
+  ],
+  "meaning": "The effective 1-2 mixing angle in matter at the production point of a solar neutrino.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "nuflav": {
+  "tex": "\\nu_\\alpha,\\ \\nu_i",
+  "atoms": [
+   "\\nu",
+   "\\nu_{\\mu}"
+  ],
+  "meaning": "A left-handed neutrino: $\\nu_\\alpha$ of the flavour $\\alpha = e, \\mu, \\tau$ ($\\nu_e$, $\\nu_\\mu$, $\\nu_\\tau$), $\\nu_i$ of the mass state $i$ (mass $m_i$).",
+  "units": "$\\mathrm{GeV}^{3/2}$",
+  "status": "STANDARD"
+ },
+ "nubar": {
+  "tex": "\\bar\\nu_\\alpha",
+  "atoms": [
+   "\\bar{\\nu}"
+  ],
+  "meaning": "The antineutrino of the flavour $\\alpha$; in a Lagrangian the Dirac adjoint of the neutrino field (it annihilates antineutrinos).",
+  "units": "$\\mathrm{GeV}^{3/2}$",
+  "status": "STANDARD"
+ },
+ "ellminus": {
+  "tex": "\\ell^-_\\alpha,\\ \\bar\\ell^-_\\alpha",
+  "atoms": [
+   "\\ell^{-}",
+   "\\bar{\\ell}^{-}"
+  ],
+  "meaning": "The charged lepton of the flavour $\\alpha$ ($e^-$, $\\mu^-$, $\\tau^-$; the lower member of the lepton doublet) at low energy, and its Dirac adjoint.",
+  "units": "$\\mathrm{GeV}^{3/2}$",
+  "status": "STANDARD"
+ },
+ "LCC": {
+  "tex": "\\mathcal{L}_{\\mathrm{CC}},\\ \\mathcal{L}_{\\mathrm{NC}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{CC}}",
+   "\\mathcal{L}_{\\mathrm{NC}}"
+  ],
+  "meaning": "The charged-current and neutral-current four-fermion Lagrangians (exchange of $W^\\pm$ and of $Z$ far below their masses).",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "STANDARD"
+ },
+ "GF": {
+  "tex": "G_{\\mathrm{F}}",
+  "atoms": [
+   "G_{\\mathrm{F}}"
+  ],
+  "meaning": "The Fermi constant.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "value": "$1.1663788\\times10^{-5}$ GeV$^{-2}$ (measured)",
+  "status": "STANDARD"
+ },
+ "gtilde": {
+  "tex": "\\tilde g^f_L,\\ \\tilde g^f_R,\\ \\tilde g^f_V",
+  "atoms": [
+   "\\tilde{g}"
+  ],
+  "meaning": "The neutral-current couplings of the fermion $f$ to the $Z$ (left-handed, right-handed and vector), $\\tilde g^f_L = T_3^f - Q^f_{\\mathrm{em}}\\sin^2\\theta_{\\mathrm{W}}$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "gnue": {
+  "tex": "\\tilde g^{\\nu_e e}_L,\\ \\tilde g^{\\nu_e e}_R",
+  "atoms": [
+   "\\tilde{g}^{\\nu _ee}"
+  ],
+  "meaning": "The effective left- and right-handed couplings of electron neutrinos to electrons (charged and neutral current), $\\tilde g^{\\nu_e e}_L = \\frac12 + \\sin^2\\theta_{\\mathrm{W}}$, $\\tilde g^{\\nu_e e}_R = \\sin^2\\theta_{\\mathrm{W}}$.",
+  "units": "dimensionless",
+  "value": "0.727 and 0.233 (radiatively corrected)",
+  "status": "STANDARD"
+ },
+ "gnumu": {
+  "tex": "\\tilde g^{\\nu_\\mu e}_L,\\ \\tilde g^{\\nu_\\mu e}_R",
+  "atoms": [
+   "\\tilde{g}^{\\nu _\\mu e}"
+  ],
+  "meaning": "The effective couplings of muon (and tau) neutrinos to electrons (neutral current only), $\\tilde g^{\\nu_\\mu e}_L = -\\frac12 + \\sin^2\\theta_{\\mathrm{W}}$, $\\tilde g^{\\nu_\\mu e}_R = \\sin^2\\theta_{\\mathrm{W}}$.",
+  "units": "dimensionless",
+  "value": "$-0.273$ and 0.233 (radiatively corrected)",
+  "status": "STANDARD"
+ },
+ "Vmat": {
+  "tex": "V_\\alpha,\\ V",
+  "atoms": [
+   "V",
+   "V_{\\mu}"
+  ],
+  "meaning": "The matter potential of forward scattering: $V_\\alpha$ of the flavour $\\alpha$ ($V_e$, $V_\\mu$), $V$ the $3 \\times 3$ matrix of the potentials in the flavour basis; antineutrinos have $-V$.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "VCC": {
+  "tex": "V_{\\mathrm{CC}},\\ V_{\\mathrm{NC}}",
+  "atoms": [
+   "V_{\\mathrm{CC}}",
+   "V_{\\mathrm{NC}}"
+  ],
+  "meaning": "The charged-current potential of electron neutrinos and the neutral-current potential common to all flavours.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "Vnunu": {
+  "tex": "V_{\\nu\\nu}",
+  "atoms": [
+   "V_{\\nu \\nu}"
+  ],
+  "meaning": "The potential of neutrino-neutrino forward scattering (a matrix in flavour space).",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "nepm": {
+  "tex": "n_{e^-},\\ n_{e^+}",
+  "atoms": [
+   "n_{e^-}",
+   "n_{e^+}"
+  ],
+  "meaning": "The number densities of electrons and of positrons.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "nfbar": {
+  "tex": "n_{\\bar f}",
+  "atoms": [
+   "n_{\\bar f}"
+  ],
+  "meaning": "The number density of the antiparticles of the fermion $f$.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "bspsi": {
+  "tex": "\\boldsymbol{\\psi}",
+  "atoms": [
+   "\\boldsymbol{\\psi}"
+  ],
+  "meaning": "The vector of the three flavour amplitudes of a neutrino.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Hfl": {
+  "tex": "H_{\\mathrm{fl}}",
+  "atoms": [
+   "H_{\\mathrm{fl}}"
+  ],
+  "meaning": "The flavour Hamiltonian of a neutrino of energy $E$ (vacuum mass term plus matter potential).",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "Hvac": {
+  "tex": "H^{\\mathrm{vac}}_{\\vec k}",
+  "atoms": [
+   "H^{\\mathrm{vac}}"
+  ],
+  "meaning": "The vacuum flavour Hamiltonian of a neutrino of momentum $\\vec k$.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "Eenergy": {
+  "tex": "E",
+  "atoms": [
+   "E"
+  ],
+  "meaning": "The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "calU": {
+  "tex": "\\mathcal{U}",
+  "atoms": [
+   "\\mathcal{U}"
+  ],
+  "meaning": "The flavour evolution operator over the baseline $L_{\\mathrm{b}}$; $\\mathcal{U}_{\\beta\\alpha}$ the amplitude of $\\nu_\\alpha \\to \\nu_\\beta$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Lb": {
+  "tex": "L_{\\mathrm{b}}",
+  "atoms": [
+   "L_{\\mathrm{b}}"
+  ],
+  "meaning": "The baseline: the distance travelled by the neutrino.",
+  "units": "length",
+  "status": "STANDARD"
+ },
+ "calP": {
+  "tex": "\\mathcal{P}",
+  "atoms": [
+   "\\mathcal{P}"
+  ],
+  "meaning": "The probability of a flavour transition, $\\mathcal{P}(\\nu_\\alpha \\to \\nu_\\beta)$; $\\mathcal{P}_{ee}$ the survival probability of electron neutrinos.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Deltaij": {
+  "tex": "\\Delta_{ij}",
+  "atoms": [
+   "\\Delta_{ij}",
+   "\\Delta_{21}",
+   "\\Delta_{31}",
+   "\\Delta_{32}"
+  ],
+  "meaning": "The oscillation phase of the pair of mass states $(i, j)$, $\\Delta_{ij} = \\Delta m_{ij}^2L_{\\mathrm{b}}/(4E)$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "AMSW": {
+  "tex": "A_{\\mathrm{MSW}}",
+  "atoms": [
+   "A_{\\mathrm{MSW}}"
+  ],
+  "meaning": "The ratio of the matter term to the vacuum term in the 1-2 sector.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "neres": {
+  "tex": "n_{\\mathrm{e}}^{\\mathrm{res}}",
+  "atoms": [
+   "n_{\\mathrm{e}}^{\\mathrm{res}}"
+  ],
+  "meaning": "The electron density of an MSW resonance.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "gammaad": {
+  "tex": "\\gamma_{\\mathrm{ad}}",
+  "atoms": [
+   "\\gamma_{\\mathrm{ad}}"
+  ],
+  "meaning": "The adiabaticity parameter of a resonance (adiabatic for $\\gamma_{\\mathrm{ad}} \\gg 1$).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "PLZ": {
+  "tex": "\\mathcal{P}_{\\mathrm{LZ}}",
+  "atoms": [
+   "\\mathcal{P}_{\\mathrm{LZ}}"
+  ],
+  "meaning": "The Landau-Zener probability of a jump between the matter eigenstates at a resonance.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "rhoe": {
+  "tex": "\\rho_{\\mathrm{e}},\\ p_{\\mathrm{e}}",
+  "atoms": [
+   "\\rho_{\\mathrm{e}}",
+   "p_{\\mathrm{e}}"
+  ],
+  "meaning": "The energy density and the pressure of the electrons and positrons together (ideal gas).",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "STANDARD"
+ },
+ "boldrho": {
+  "tex": "\\boldsymbol{\\rho}_{\\vec k},\\ \\bar{\\boldsymbol{\\rho}}_{\\vec k}",
+  "atoms": [
+   "\\boldsymbol{\\rho}",
+   "\\bar{\\boldsymbol{\\rho}}"
+  ],
+  "meaning": "The $3 \\times 3$ flavour density matrices of the neutrinos and of the antineutrinos of momentum $\\vec k$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Ccoll": {
+  "tex": "C_{\\mathrm{coll}}",
+  "atoms": [
+   "C_{\\mathrm{coll}}"
+  ],
+  "meaning": "The collision term of the quantum kinetic equations.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "Tnua": {
+  "tex": "T_{\\nu_\\alpha},\\ T_{\\nu_e},\\ T_{\\nu_\\mu}",
+  "atoms": [
+   "T_{\\nu _\\alpha}",
+   "T_{\\nu _e}",
+   "T_{\\nu _\\mu}"
+  ],
+  "meaning": "The temperature of the neutrinos of the flavour $\\alpha$ (of $\\nu_e$, of $\\nu_\\mu$ and $\\nu_\\tau$) during decoupling.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "Cnua": {
+  "tex": "C_{\\nu_\\alpha},\\ C_{\\nu_e},\\ C_{\\nu_\\mu}",
+  "atoms": [
+   "C_{\\nu _\\alpha}",
+   "C_{\\nu _e}",
+   "C_{\\nu _\\mu}"
+  ],
+  "meaning": "The energy transfer rate per volume into the neutrinos of the flavour $\\alpha$ by collisions.",
+  "units": "$\\mathrm{GeV}^{5}$",
+  "status": "STANDARD"
+ },
+ "rhonu": {
+  "tex": "\\rho_\\nu,\\ \\rho_{\\nu_\\alpha}",
+  "atoms": [
+   "\\rho_{\\nu}",
+   "\\rho_{\\nu _\\alpha}"
+  ],
+  "meaning": "The energy density of one neutrino flavour (neutrinos and antineutrinos) at the common temperature $T_\\nu$, $\\frac78\\frac{\\pi^2}{15}T_\\nu^4$ when massless; $\\rho_{\\nu_\\alpha}$ that of the flavour $\\alpha$ at its temperature $T_{\\nu_\\alpha}$.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "STANDARD"
+ },
+ "MPl": {
+  "tex": "M_{\\mathrm{Pl}}",
+  "atoms": [
+   "M_{\\mathrm{Pl}}"
+  ],
+  "meaning": "The Planck mass, $M_{\\mathrm{Pl}} = G_{\\mathrm{N}}^{-1/2}$.",
+  "units": "GeV",
+  "value": "$1.22091\\times10^{19}$ GeV",
+  "status": "STANDARD"
+ },
+ "Ftr": {
+  "tex": "\\mathcal{F}_{\\mathrm{tr}}",
+  "atoms": [
+   "\\mathcal{F}_{\\mathrm{tr}}"
+  ],
+  "meaning": "The energy-transfer function of two species with the temperatures $T_{\\mathrm{A}}$ and $T_{\\mathrm{B}}$ (Maxwell-Boltzmann with the corrections $f_{\\mathrm{a}}$, $f_{\\mathrm{s}}$).",
+  "units": "$\\mathrm{GeV}^{9}$",
+  "status": "STANDARD"
+ },
+ "TAB": {
+  "tex": "T_{\\mathrm{A}},\\ T_{\\mathrm{B}}",
+  "atoms": [
+   "T_{\\mathrm{A}}",
+   "T_{\\mathrm{B}}"
+  ],
+  "meaning": "The temperatures of the two species that exchange energy in $\\mathcal{F}_{\\mathrm{tr}}$.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "fas": {
+  "tex": "f_{\\mathrm{a}},\\ f_{\\mathrm{s}}",
+  "atoms": [
+   "f_{\\mathrm{a}}",
+   "f_{\\mathrm{s}}"
+  ],
+  "meaning": "The Fermi-Dirac corrections of the annihilation and scattering parts of the energy transfer.",
+  "units": "dimensionless",
+  "value": "0.884 and 0.829",
+  "status": "STANDARD"
+ },
+ "Neff": {
+  "tex": "N_{\\mathrm{eff}}",
+  "atoms": [
+   "N_{\\mathrm{eff}}"
+  ],
+  "meaning": "The effective number of neutrino species (the radiation beyond the photons in units of one neutrino species with $T_\\nu/T_\\gamma = (4/11)^{1/3}$); $\\Delta N_{\\mathrm{eff}}$ an addition to it.",
+  "units": "dimensionless",
+  "value": "3.0432 (neutrinos) + 0.0010 (fold bands)",
+  "status": "STANDARD"
+ },
+ "pQED": {
+  "tex": "p_{\\mathrm{QED}},\\ p_{\\mathrm{QED}}^{(2)},\\ p_{\\mathrm{QED}}^{(3)}",
+  "atoms": [
+   "p_{\\mathrm{QED}}",
+   "p_{\\mathrm{QED}}^{(2)}",
+   "p_{\\mathrm{QED}}^{(3)}"
+  ],
+  "meaning": "The finite-temperature QED correction to the pressure of the electron-photon plasma, and its parts of order $e^2$ and $e^3$.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "STANDARD"
+ },
+ "rhoQED": {
+  "tex": "\\rho_{\\mathrm{QED}}",
+  "atoms": [
+   "\\rho_{\\mathrm{QED}}"
+  ],
+  "meaning": "The QED correction to the energy density of the plasma.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "STANDARD"
+ },
+ "eel": {
+  "tex": "e",
+  "atoms": [
+   "e"
+  ],
+  "meaning": "The elementary charge (the charge of the positron), $e^2 = 4\\pi\\alpha_{\\mathrm{em}}$; $W^+$ has the charge $+e$ and $W^-$ the charge $-e$.",
+  "units": "dimensionless",
+  "value": "$e^2 = 4\\pi/137.036$ at low energy",
+  "status": "STANDARD"
+ },
+ "calQ": {
+  "tex": "\\mathcal{Q}_1,\\ \\mathcal{Q}_2,\\ \\mathcal{Q}_3",
+  "atoms": [
+   "\\mathcal{Q}_{1}",
+   "\\mathcal{Q}_{2}",
+   "\\mathcal{Q}_{3}"
+  ],
+  "meaning": "The momentum integrals of the QED pressure.",
+  "units": "$\\mathrm{GeV}^{2}$",
+  "status": "STANDARD"
+ },
+ "nD": {
+  "tex": "n_{\\mathrm{D}}(k)",
+  "atoms": [
+   "n_{\\mathrm{D}}"
+  ],
+  "meaning": "The Fermi-Dirac occupation of the electrons and positrons summed over the two spin states.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "k2": {
+  "tex": "k_2,\\ \\vec k_2",
+  "atoms": [
+   "k_{2}",
+   "\\vec{k}_{2}"
+  ],
+  "meaning": "A second momentum (variable of integration).",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "me": {
+  "tex": "m_{\\mathrm{e}}",
+  "atoms": [
+   "m_{\\mathrm{e}}"
+  ],
+  "meaning": "The electron mass.",
+  "units": "GeV",
+  "value": "0.51099895 MeV",
+  "status": "STANDARD"
+ },
+ "GELN": {
+  "tex": "G_{\\mathrm{ELN}}(u)",
+  "atoms": [
+   "G_{\\mathrm{ELN}}"
+  ],
+  "meaning": "The angular distribution of the electron lepton number of a dense neutrino gas (in units of a potential).",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "nnue": {
+  "tex": "n_{\\nu_e},\\ n_{\\bar\\nu_e}",
+  "atoms": [
+   "n_{\\nu _e}",
+   "n_{\\bar \\nu _e}"
+  ],
+  "meaning": "The number densities of electron neutrinos and electron antineutrinos.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "gnu_ang": {
+  "tex": "g_{\\nu_e}(u),\\ g_{\\bar\\nu_e}(u)",
+  "atoms": [
+   "g_{\\nu _e}",
+   "g_{\\bar \\nu _e}"
+  ],
+  "meaning": "The normalised angular distributions of electron neutrinos and antineutrinos.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "ucos": {
+  "tex": "u",
+  "atoms": [
+   "u"
+  ],
+  "meaning": "The cosine of the angle between a momentum and the symmetry axis $x_3$ of the neutrino gas.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "utilde": {
+  "tex": "\\tilde u",
+  "atoms": [
+   "\\tilde{u}"
+  ],
+  "meaning": "A second direction cosine (variable of integration).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "calI": {
+  "tex": "\\mathcal{I}_l",
+  "atoms": [
+   "\\mathcal{I}",
+   "\\mathcal{I}_{0}",
+   "\\mathcal{I}_{1}",
+   "\\mathcal{I}_{2}"
+  ],
+  "meaning": "The $l$-th angular moment of the electron-lepton-number distribution.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "calJ": {
+  "tex": "\\mathcal{J}_l",
+  "atoms": [
+   "\\mathcal{J}",
+   "\\mathcal{J}_{0}",
+   "\\mathcal{J}_{1}",
+   "\\mathcal{J}_{2}"
+  ],
+  "meaning": "The $l$-th moment of the dispersion integral of the fast flavour instability.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "calC": {
+  "tex": "\\mathcal{C}(u)",
+  "atoms": [
+   "\\mathcal{C}"
+  ],
+  "meaning": "The flavour coherence (off-diagonal element of the density matrix) of the neutrinos moving in the direction $u$.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "omegaf": {
+  "tex": "\\omega_{\\mathrm{f}},\\ k_{\\mathrm{f}}",
+  "atoms": [
+   "\\omega_{\\mathrm{f}}",
+   "k_{\\mathrm{f}}"
+  ],
+  "meaning": "The frequency and the wavenumber (along $x_3$) of a flavour wave.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "omegabar": {
+  "tex": "\\bar\\omega,\\ \\bar k",
+  "atoms": [
+   "\\bar{\\omega}",
+   "\\bar{k}"
+  ],
+  "meaning": "The frequency and wavenumber of a flavour wave shifted by the moments, $\\bar\\omega = \\omega_{\\mathrm{f}} - \\mathcal{I}_0$, $\\bar k = k_{\\mathrm{f}} - \\mathcal{I}_1$; a mode with $\\mathrm{Im}\\,\\bar\\omega > 0$ grows.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "Pidisp": {
+  "tex": "\\Pi",
+  "atoms": [
+   "\\Pi"
+  ],
+  "meaning": "The $2 \\times 2$ dispersion matrix of the fast flavour instability.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "vbar": {
+  "tex": "\\bar v_i",
+  "atoms": [
+   "\\bar{v}"
+  ],
+  "meaning": "The mean velocity of the relic neutrinos of the mass state $i$.",
+  "units": "dimensionless (c = 1)",
+  "value": "0.435, 0.0604, 0.0105 today",
+  "status": "STANDARD"
+ },
+ "sentropy": {
+  "tex": "s,\\ s_s",
+  "atoms": [
+   "s"
+  ],
+  "meaning": "The entropy density of the plasma, $s = 2\\pi^2g_sT^3/45$; $s_s$ that of the species $s$.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "s0": {
+  "tex": "s_0",
+  "atoms": [
+   "s_{0}"
+  ],
+  "meaning": "The entropy density today.",
+  "units": "$\\mathrm{GeV}^{3}$ (quoted per $\\mathrm{cm}^{3}$)",
+  "value": "2891.3 cm$^{-3}$",
+  "status": "STANDARD"
+ },
+ "grho": {
+  "tex": "g_\\rho,\\ g_s",
+  "atoms": [
+   "g_{\\rho}",
+   "g_{s}"
+  ],
+  "meaning": "The effective numbers of relativistic degrees of freedom of the energy density and of the entropy density of the plasma.",
+  "units": "dimensionless",
+  "value": "105.75 when every species of UM-2 in equilibrium is relativistic (no Higgs particle), 10.75 near 1 MeV, $g_s = 43/11$ today",
+  "status": "STANDARD"
+ },
+ "gseg": {
+  "tex": "g_{s,e\\gamma}",
+  "atoms": [
+   "g_{s,e\\gamma}"
+  ],
+  "meaning": "The entropy degrees of freedom of the electrons, positrons and photons only (after neutrino decoupling).",
+  "units": "dimensionless",
+  "value": "$11/2$ before and 2 after the annihilation of $e^\\pm$",
+  "status": "STANDARD"
+ },
+ "wQGP": {
+  "tex": "w_{\\mathrm{QGP}}(T)",
+  "atoms": [
+   "w_{\\mathrm{QGP}}"
+  ],
+  "meaning": "The weight of the quark-gluon plasma in the model of the QCD crossover (1 above, 0 below).",
+  "units": "dimensionless",
+  "status": "ASSUMED"
+ },
+ "Tcw": {
+  "tex": "T_{\\mathrm{c}},\\ T_{\\mathrm{w}}",
+  "atoms": [
+   "T_{\\mathrm{c}}",
+   "T_{\\mathrm{w}}"
+  ],
+  "meaning": "The temperature and the width of the QCD crossover.",
+  "units": "GeV",
+  "value": "155 MeV and 15 MeV",
+  "status": "ASSUMED"
+ },
+ "Yabund": {
+  "tex": "Y_{\\mathrm{DM}},\\ Y_{\\mathrm{eq}},\\ Y_\\infty",
+  "atoms": [
+   "Y_{\\mathrm{DM}}",
+   "Y_{\\mathrm{eq}}",
+   "Y_{\\infty}"
+  ],
+  "meaning": "The abundance (number density per entropy density) of one dark-matter species (particles and antiparticles), its equilibrium value and its final value.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "xMT": {
+  "tex": "x",
+  "atoms": [
+   "x"
+  ],
+  "meaning": "The ratio $x = M_{\\mathrm{DM}}/T$ of the dark-matter mass to the temperature.",
+  "units": "dimensionless",
+  "value": "$x_{\\mathrm{f}} = 31.23$ at the freeze-out",
+  "status": "STANDARD"
+ },
+ "sigmaxs": {
+  "tex": "\\sigma",
+  "atoms": [
+   "\\sigma"
+  ],
+  "meaning": "A cross-section (of the dark-matter annihilation or production process named in the equation; summed over the spins where marked).",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "STANDARD"
+ },
+ "vrel": {
+  "tex": "v_{\\mathrm{rel}}",
+  "atoms": [
+   "v_{\\mathrm{rel}}"
+  ],
+  "meaning": "The relative velocity of the two annihilating particles; $\\langle\\sigma v_{\\mathrm{rel}}\\rangle$ the thermal average.",
+  "units": "dimensionless (c = 1)",
+  "status": "STANDARD"
+ },
+ "nDMeq": {
+  "tex": "n_{\\mathrm{DM,eq}},\\ \\bar n_{\\mathrm{DM,eq}}",
+  "atoms": [
+   "n_{\\mathrm{DM,eq}}",
+   "\\bar{n}_{\\mathrm{DM,eq}}"
+  ],
+  "meaning": "The equilibrium number densities of dark-matter particles and antiparticles of one species.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "STANDARD"
+ },
+ "Kbessel": {
+  "tex": "K_1,\\ K_2",
+  "atoms": [
+   "K_{1}",
+   "K_{2}"
+  ],
+  "meaning": "The modified Bessel functions of the second kind of orders 1 and 2 (not related to the block variable $K$).",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Ecm": {
+  "tex": "E_{\\mathrm{cm}}",
+  "atoms": [
+   "E_{\\mathrm{cm}}"
+  ],
+  "meaning": "The total energy of the colliding pair in its centre-of-mass frame.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "OmegaDM": {
+  "tex": "\\Omega_{\\mathrm{DM}}",
+  "atoms": [
+   "\\Omega_{\\mathrm{DM}}"
+  ],
+  "meaning": "The dark-matter density today in units of the critical density.",
+  "units": "dimensionless",
+  "value": "$\\Omega_{\\mathrm{DM}}h_{100}^2 = 0.120$ (both species)",
+  "status": "DERIVED"
+ },
+ "rhocrit": {
+  "tex": "\\rho_{\\mathrm{crit}}",
+  "atoms": [
+   "\\rho_{\\mathrm{crit}}"
+  ],
+  "meaning": "The critical density, $3\\mathcal{H}_0^2M_{\\mathrm{Pl}}^2/(8\\pi)$.",
+  "units": "$\\mathrm{GeV}^{4}$ (quoted in GeV/$\\mathrm{cm}^{3}$)",
+  "value": "$\\rho_{\\mathrm{crit}}/h_{100}^2 = 1.05368\\times10^{-5}$ GeV/cm$^3$",
+  "status": "STANDARD"
+ },
+ "sigmaI1213": {
+  "tex": "\\sigma_{\\mathrm{I12}},\\ \\sigma_{\\mathrm{I13}}",
+  "atoms": [
+   "\\sigma_{\\mathrm{I12}}",
+   "\\sigma_{\\mathrm{I13}}"
+  ],
+  "meaning": "The spin-averaged annihilation cross-sections of a dark-matter pair through I12 (into gauge-boson pairs) and through I13 (into quark pairs).",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "DERIVED"
+ },
+ "GI12": {
+  "tex": "G_{\\mathrm{I12}}",
+  "atoms": [
+   "G_{\\mathrm{I12}}"
+  ],
+  "meaning": "The combined coupling of I12 to all gauge-boson pairs, $G_{\\mathrm{I12}}^2 = 8G_{\\mathrm{g}}^2 + 3G_{\\mathrm{W}}^2 + G_{\\mathrm{B}}^2$.",
+  "units": "$\\mathrm{GeV}^{-3}$",
+  "value": "benchmark $\\pi/(2M_{\\mathrm{DM}}^3) = 1.801\\times10^{-14}$ GeV$^{-3}$",
+  "status": "DERIVED"
+ },
+ "Nc": {
+  "tex": "N_{\\mathrm{c}}",
+  "atoms": [
+   "N_{\\mathrm{c}}"
+  ],
+  "meaning": "The number of Weyl components of a fermion multiplet that share its zero-mode profile and overlap (colour times isospin): 6 for a quark doublet, 3 for a quark singlet, 2 for a lepton doublet, 1 for a charged-lepton singlet.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "Gf": {
+  "tex": "G_f",
+  "atoms": [
+   "G_{f}"
+  ],
+  "meaning": "The I13 coupling of the dark matter to the quark component $f$, $G_f = G_{\\mathrm{A}}q^B_f\\tilde I^{(b)}_{of}$.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "DERIVED"
+ },
+ "betacm": {
+  "tex": "\\beta_{\\mathrm{cm}}",
+  "atoms": [
+   "\\beta_{\\mathrm{cm}}"
+  ],
+  "meaning": "The velocity of each particle of the pair in the centre-of-mass frame.",
+  "units": "dimensionless",
+  "status": "STANDARD"
+ },
+ "kcm": {
+  "tex": "k_{\\mathrm{cm}}",
+  "atoms": [
+   "k_{\\mathrm{cm}}"
+  ],
+  "meaning": "The momentum of each particle of the pair in the centre-of-mass frame.",
+  "units": "GeV",
+  "status": "STANDARD"
+ },
+ "Gammafi": {
+  "tex": "\\Gamma_{\\mathrm{fi}}",
+  "atoms": [
+   "\\Gamma_{\\mathrm{fi}}"
+  ],
+  "meaning": "The rate per volume of the production of fold-band pairs from the plasma through I11 (freeze-in).",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "DERIVED"
+ },
+ "Nfold": {
+  "tex": "N_{\\mathrm{fold}}",
+  "atoms": [
+   "N_{\\mathrm{fold}}"
+  ],
+  "meaning": "The number of fold bands: the massless fold zero modes of $\\Psi_A$ and of $\\Psi_B$ (two Dirac fermions).",
+  "units": "dimensionless",
+  "value": "2",
+  "status": "DERIVED"
+ },
+ "rhofold": {
+  "tex": "\\rho_{\\mathrm{fold}}",
+  "atoms": [
+   "\\rho_{\\mathrm{fold}}"
+  ],
+  "meaning": "The energy density of the fold bands.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "DERIVED"
+ },
+ "nfoldeq": {
+  "tex": "n_{\\mathrm{fold,eq}}",
+  "atoms": [
+   "n_{\\mathrm{fold,eq}}"
+  ],
+  "meaning": "The number density the fold bands would have in thermal equilibrium.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "DERIVED"
+ },
+ "GABL": {
+  "tex": "G_{\\mathrm{A}}^{B-L}",
+  "atoms": [
+   "G_{\\mathrm{A}}^{B-L}"
+  ],
+  "meaning": "The strength I13 would need if it coupled to the $B - L$ current (the same relic density).",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "DERIVED"
+ },
+ "SB": {
+  "tex": "\\mathcal{S}_B,\\ \\mathcal{S}_{B-L}",
+  "atoms": [
+   "\\mathcal{S}_{B}",
+   "\\mathcal{S}_{B-L}"
+  ],
+  "meaning": "The colour-weighted sums of the squared I13 overlaps of the dark matter with the baryon-number and with the $B - L$ charges.",
+  "units": "dimensionless",
+  "value": "$\\mathcal{S}_B = 16.351$, $\\mathcal{S}_{B-L} = 22.92$",
+  "status": "DERIVED"
+ },
+ "nnuR": {
+  "tex": "n_{\\nu_R},\\ n_{\\nu_R}^{\\mathrm{eq}}",
+  "atoms": [
+   "n_{\\nu _R}",
+   "n_{\\nu _R}^{\\mathrm{eq}}"
+  ],
+  "meaning": "The number density of the right-handed neutrinos (three generations) and its equilibrium value.",
+  "units": "$\\mathrm{GeV}^{3}$",
+  "status": "DERIVED"
+ },
+ "Gammanu": {
+  "tex": "\\Gamma_\\nu",
+  "atoms": [
+   "\\Gamma_{\\nu}"
+  ],
+  "meaning": "The production rate per volume of right-handed neutrinos in the counterfactual $B - L$ variant of I13.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "DERIVED"
+ },
+ "Gnu": {
+  "tex": "G_\\nu",
+  "atoms": [
+   "G_{\\nu}"
+  ],
+  "meaning": "The four-dimensional coupling of the dark matter to a right-handed neutrino in the $B - L$ variant of I13.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "DERIVED"
+ },
+ "Gammael": {
+  "tex": "\\Gamma_{\\mathrm{el}},\\ \\sigma_{\\mathrm{el}}",
+  "atoms": [
+   "\\Gamma_{\\mathrm{el}}",
+   "\\sigma_{\\mathrm{el}}"
+  ],
+  "meaning": "The rate of elastic scattering of a right-handed neutrino on the dark matter, and its cross-section.",
+  "units": "GeV; $\\mathrm{GeV}^{-2}$",
+  "status": "ESTIMATE"
+ },
+ "NW": {
+  "tex": "N_{\\mathrm{W}}",
+  "atoms": [
+   "N_{\\mathrm{W}}"
+  ],
+  "meaning": "The number of Weyl species that decouple early.",
+  "units": "dimensionless",
+  "status": "DERIVED"
+ },
+ "Fh": {
+  "tex": "F_{\\mathrm{h}}",
+  "atoms": [
+   "F_{\\mathrm{h}}"
+  ],
+  "meaning": "The correction factor of the early-decoupled radiation for the heating of the neutrinos.",
+  "units": "dimensionless",
+  "value": "1.0095",
+  "status": "DERIVED"
+ },
+ "hnu": {
+  "tex": "h_\\nu",
+  "atoms": [
+   "h_{\\nu}"
+  ],
+  "meaning": "The relative heating of the neutrinos by the electron-positron annihilation (beyond instantaneous decoupling).",
+  "units": "dimensionless",
+  "value": "0.00165",
+  "status": "DERIVED"
+ },
+ "rnuR": {
+  "tex": "r_{\\nu_R}",
+  "atoms": [
+   "r_{\\nu _R}"
+  ],
+  "meaning": "The ratio of the I11 production of right-handed neutrinos to the I13 annihilation rate of the dark matter.",
+  "units": "dimensionless",
+  "value": "$2.0\\times10^{-17}$",
+  "status": "DERIVED"
+ },
+ "abfold": {
+  "tex": "a_{\\mathrm{fold}},\\ b_{\\mathrm{fold}}",
+  "atoms": [
+   "a_{\\mathrm{fold}}",
+   "b_{\\mathrm{fold}}"
+  ],
+  "meaning": "The upper and lower components of a fold-band orbital ($b_{\\mathrm{fold}} = 0$ for the even zero mode).",
+  "units": "$\\mathrm{GeV}^{1/2}$",
+  "status": "DERIVED"
+ },
+ "nscDF": {
+  "tex": "n^{\\mathrm{sc}}_{\\mathrm{DF}}",
+  "atoms": [
+   "n^{\\mathrm{sc}}_{\\mathrm{DF}}"
+  ],
+  "meaning": "The transition scalar density between the dark-matter orbital and a fold-band orbital.",
+  "units": "GeV (normalised orbitals)",
+  "status": "DERIVED"
+ },
+ "Glam": {
+  "tex": "G_\\lambda",
+  "atoms": [
+   "G_{\\lambda}"
+  ],
+  "meaning": "The four-dimensional strength of the self-interaction channel of the dark matter into fold-band pairs.",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "value": "$\\le 2.3\\times10^{-15}$ GeV$^{-2}$ (for $\\Delta N_{\\mathrm{eff}} \\le 0.001$)",
+  "status": "ESTIMATE"
+ },
+ "Ilam": {
+  "tex": "\\tilde I_\\lambda",
+  "atoms": [
+   "\\tilde{I}_{\\lambda}"
+  ],
+  "meaning": "The overlap of the squared transition scalar density, $\\tilde I_\\lambda = H^{-1}\\int_{-L}^{0}(n^{\\mathrm{sc}}_{\\mathrm{DF}})^2\\mathrm{e}^{-3Hy}\\mathrm{d}y$.",
+  "units": "dimensionless",
+  "value": "14.38",
+  "status": "DERIVED"
+ },
+ "sigmalam": {
+  "tex": "\\sigma_\\lambda",
+  "atoms": [
+   "\\sigma_{\\lambda}"
+  ],
+  "meaning": "The cross-section of the self-interaction channel (per final fold species).",
+  "units": "$\\mathrm{GeV}^{-2}$",
+  "status": "ESTIMATE"
+ },
+ "Gammalam": {
+  "tex": "\\Gamma_\\lambda",
+  "atoms": [
+   "\\Gamma_{\\lambda}"
+  ],
+  "meaning": "The rate per volume of the self-interaction channel.",
+  "units": "$\\mathrm{GeV}^{4}$",
+  "status": "ESTIMATE"
+ }
+}

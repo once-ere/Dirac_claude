@@ -23,7 +23,9 @@ Atoms.  A symbol of an equation is reduced to an atom: a LaTeX command with its 
 subscript is a number, a single non-Greek command such as \star or \pm, contains \mathrm or \text, or is a combination
 registered as an atom, such as m_\nu, G_F, M_{Pl}; plain letters in a subscript are otherwise indices), an index letter in an index position
 (written "index:M": a single letter in a subscript or superscript that is not a name), or a special mark ("prime" for
-the prime ', "dagger" for ^\dagger, "transpose" for ^T, "star" for ^* or ^\ast).  Typography is not an atom: digits,
+the prime ', "dagger" for ^\dagger, "transpose" for ^T, "star" for ^* or ^\ast).  A superscript on Euler's number
+\mathrm{e} or on a closing bracket is an exponent, a subscript on a vertical bar an evaluation point and a script on an
+integral sign a limit: these are expressions, whose letters are symbols, not indices.  Typography is not an atom: digits,
 + - = < > ( ) [ ] | , ; : . !, \frac, \sqrt, \left, \right, \big..., spacing commands, \cdot, \dots, \le, \ge, \ne,
 \approx, \sim, \simeq, \equiv, \to, \pm, \mp, \times, \lvert, \rvert, \langle, \rangle and the like.
 
@@ -68,6 +70,12 @@ NAMEFONTS = {r'\mathcal', r'\mathbb', r'\mathfrak', r'\mathscr', r'\mathbf', r'\
 IGNORE_ARG = {r'\tag', r'\label', r'\text', r'\textrm', r'\textit', r'\textbf', r'\mbox', r'\hspace', r'\vspace',
               r'\textnormal'}
 ENV_ARG = {r'\begin', r'\end'}
+# closing delimiters: a superscript after one of them is an exponent of the bracketed expression
+CLOSERS = {')', ']', '|', r'\rvert', r'\rVert', r'\Vert', r'\vert', r'\rbrace', r'\}', r'\rangle'}
+# vertical bars: a subscript after one of them is an evaluation point (an expression), e.g. F\vert_{\xi=0}
+EVALBARS = {'|', r'\vert', r'\rvert', r'\Vert', r'\rVert'}
+# integral signs: their subscript and superscript are the limits of integration (expressions), e.g. \int_{-L}^{0}
+INTEGRALS = {r'\int', r'\oint', r'\iint', r'\iiint'}
 
 
 def tokenize(s):
@@ -147,8 +155,14 @@ def atoms_of(latex, names=frozenset()):
 
     def walk(ts, in_index=False):
         i = 0
+        last = (None, -1)   # (last symbol atom, index just after it): to recognise exponents of e
+        lim = -1            # position of a limit of an integral sign (an expression, not an index)
         while i < len(ts):
             t = ts[i]
+            if t in INTEGRALS:
+                lim = i + 1
+                i += 1
+                continue
             if t in IGNORE_ARG or t in ENV_ARG:
                 _, i = group(ts, i + 1)
                 continue
@@ -156,8 +170,16 @@ def atoms_of(latex, names=frozenset()):
                 i += 1
                 continue
             if t in ('^', '_'):
+                # a superscript on Euler's number or on a closing bracket is an exponent, and a subscript on a vertical bar an
+                # evaluation point: both are expressions, not indices
+                expr = ((t == '^' and ((last[0] == r'\mathrm{e}' and last[1] == i) or (i > 0 and ts[i - 1] in CLOSERS)))
+                        or (t == '_' and i > 0 and ts[i - 1] in EVALBARS)   # f\vert_{x=0}: the evaluation point
+                        or i == lim)                                        # \int_{-L}^{0}: the limits
+                at_limit = i == lim
                 g, i = group(ts, i + 1)
-                handle_script(t, g)
+                handle_script(t, g, expr)
+                if at_limit:
+                    lim = i   # the other limit may follow
                 continue
             if t in ("'", r'\prime'):
                 out.append('prime')
@@ -201,8 +223,9 @@ def atoms_of(latex, names=frozenset()):
                         continue
                 break
             out.append(atom)
+            last = (atom, i)
 
-    def handle_script(kind, g):
+    def handle_script(kind, g, expr=False):
         text = [x for x in g if x not in ('{', '}')]
         if not text:
             return
@@ -221,7 +244,7 @@ def atoms_of(latex, names=frozenset()):
             if all(x in ("'", r'\prime') for x in text):
                 out.append('prime')
                 return
-        walk(g, in_index=True)
+        walk(g, in_index=not expr)
 
     walk(toks)
     return out

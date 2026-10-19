@@ -1,0 +1,4072 @@
+[
+ {
+  "id": "IN-1",
+  "title": "The action of UM-2",
+  "latex": "\\begin{aligned}\nS ={}& S_{\\mathrm{EL}} + S_{\\mathrm{stab}} + S_\\Psi + S_{\\mathrm{gauge}} + S_{\\mathrm{f}} + S_{\\mathrm{tip}}\n + S_{\\mathrm{I11}} + S_{\\mathrm{I12}} + S_{\\mathrm{I13}}\n\\end{aligned} \\tag{IN-1}",
+  "keys": [
+   "Saction",
+   "SEL",
+   "Sstab",
+   "SPsi",
+   "Sgauge",
+   "Sf",
+   "Stip",
+   "SI11",
+   "SI12",
+   "SI13"
+  ],
+  "status": "ASSUMED",
+  "fields": [
+   "all fields"
+  ],
+  "solved_in": "The sum of all terms; varying it gives every field equation (FE-1 to FE-30); no Higgs field is present."
+ },
+ {
+  "id": "IN-2",
+  "title": "Einstein-Lovelock gravity with the author's weights",
+  "latex": "\\begin{aligned}\nS_{\\mathrm{EL}} &= \\frac{1}{2\\kappa}\\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\,\n \\Big(\\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{L}_{(p)} - 2\\Lambda\\Big),\\qquad \\kappa = 8\\pi G_8,\\\\\n\\alpha_{(p)} &= w_{(p)}\\,H^{2-2p},\\qquad w_{(1)} = 1,\\quad w_{(2)} = \\frac{1}{32},\\quad w_{(3)} =\n \\frac{1}{1152},\n \\qquad \\Lambda = -10H^2\n\\end{aligned} \\tag{IN-2}",
+  "keys": [
+   "SEL",
+   "kappa",
+   "diff",
+   "Xcoord",
+   "metric",
+   "ip",
+   "alphaL",
+   "Lov",
+   "Lambda",
+   "pi",
+   "G8",
+   "wL",
+   "Hconst"
+  ],
+  "status": "AUTHOR",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "Kept unchanged; its metric variation is the left side of FE-1, evaluated exactly (symbolically) for the order-0 metric."
+ },
+ {
+  "id": "IN-3",
+  "title": "The Lovelock densities",
+  "latex": "\\begin{aligned}\n\\mathcal{L}_{(p)} &= \\frac{1}{2^{p}}\\,\\delta^{M_1N_1\\cdots M_pN_p}_{P_1Q_1\\cdots P_pQ_p}\\,\n R^{P_1Q_1}{}_{M_1N_1}\\cdots R^{P_pQ_p}{}_{M_pN_p},\\\\\n\\mathcal{L}_{(1)} &= R,\\qquad \\mathcal{L}_{(2)} = R^2 - 4R_{MN}R^{MN} + R_{MNPQ}R^{MNPQ}\n\\end{aligned} \\tag{IN-3}",
+  "keys": [
+   "Lov",
+   "ip",
+   "delta",
+   "iM",
+   "iN",
+   "iP",
+   "iQ",
+   "Riemann"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "Evaluated exactly for the pair-diagonal curvature of the order-0 metric (FE-34) and for a product with the static block (FE-48)."
+ },
+ {
+  "id": "IN-4",
+  "title": "The block stabiliser",
+  "latex": "S_{\\mathrm{stab}} = -\\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\;\\rho_{\\mathrm{stab}}(f),\\qquad\n\\kappa\\rho_{\\mathrm{stab}}(f) = \\kappa\\rho_{\\mathrm{stab}}(f_*)\\Big(\\frac{f_*}{f}\\Big)^{8},\\qquad\nf = \\mathrm{e}^{-a_4}\\,b_4^{1/2} \\tag{IN-4}",
+  "keys": [
+   "Sstab",
+   "diff",
+   "Xcoord",
+   "metric",
+   "rhostab",
+   "fblock",
+   "kappa",
+   "fstar",
+   "euler",
+   "a4",
+   "b4"
+  ],
+  "status": "ASSUMED",
+  "fields": [
+   "metric g (block scale f)"
+  ],
+  "solved_in": "Its energy-momentum tensor (FE-4) enters the background exactly; its normalisation is fixed by the static block (FE-43); its microscopic origin is OPEN."
+ },
+ {
+  "id": "IN-5",
+  "title": "The dirac16complex field",
+  "latex": "\\begin{aligned}\nS_\\Psi &= \\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\,\\Big[\\tfrac12\\big(\\bar\\Psi\\gamma^MD_M\\Psi\n - (D_M\\bar\\Psi)\\gamma^M\\Psi\\big) - m_\\Psi\\,\\bar\\Psi\\Psi - \\frac{\\lambda}{2}\\big(\\bar\\Psi\\Psi\\big)^2\\Big],\\\\\nm_\\Psi &= 3H\\mathcal{M} = H\\qquad (\\mathcal{M} = 1/3)\n\\end{aligned} \\tag{IN-5}",
+  "keys": [
+   "SPsi",
+   "diff",
+   "Xcoord",
+   "metric",
+   "Psi",
+   "gamma",
+   "iM",
+   "Dcov",
+   "mPsi",
+   "lambda",
+   "Hconst",
+   "calM"
+  ],
+  "status": "RECORD",
+  "fields": [
+   "dirac16complex Psi",
+   "metric g"
+  ],
+  "solved_in": "Gives FE-5 and FE-12; solved by the exact $x_0$ spectrum (FE-62) and by Kohn-Sham theory (FE-63 to FE-69); the self-coupling $\\lambda$ is bounded by the fold-band radiation (FE-135)."
+ },
+ {
+  "id": "IN-6",
+  "title": "The Clifford algebra, the Dirac adjoint and the two halves of dirac16complex",
+  "latex": "\\begin{aligned}\n&\\gamma^a\\gamma^b + \\gamma^b\\gamma^a = 2\\eta^{ab}\\,\\mathbf{1},\\qquad\n \\eta_{ab} = \\mathrm{diag}(+1, +1, +1, +1, -1, -1, -1, -1),\\qquad \\gamma^M = \\mathbf{e}_a{}^M\\gamma^a,\\\\\n&\\bar\\Psi = \\Psi^\\dagger C,\\qquad C = \\gamma^{x_0}\\gamma^{x_1}\\gamma^{x_2}\\gamma^{x_3},\\qquad\n \\Gamma_4 = \\mathrm{i}\\gamma^{x_1}\\gamma^{x_2}\\gamma^{x_3}\\gamma^{x_4},\\qquad \\mathcal{B} =\n -\\mathrm{i}C\\gamma^{x_4},\\\\\n&\\Psi = \\Psi_A + \\Psi_B,\\qquad \\mathcal{B}\\Psi_A = -\\Psi_A,\\qquad \\mathcal{B}\\Psi_B = +\\Psi_B\n\\end{aligned} \\tag{IN-6}",
+  "keys": [
+   "gamma",
+   "ia",
+   "ib",
+   "eta",
+   "identity",
+   "diag",
+   "iM",
+   "vielbein",
+   "Psi",
+   "dagger",
+   "Cmat",
+   "x0",
+   "x1",
+   "x2",
+   "x3",
+   "Gamma4",
+   "imag",
+   "x4",
+   "calB",
+   "PsiAB"
+  ],
+  "status": "AUTHOR",
+  "fields": [
+   "dirac16complex Psi",
+   "every Standard-Model fermion"
+  ],
+  "solved_in": "The author's real $16 \\times 16$ matrices satisfy the algebra exactly (31 checks); $\\mathcal{B}$ commutes with every interaction of the good sector, so the two halves are conserved separately."
+ },
+ {
+  "id": "IN-7",
+  "title": "The canonical spin connection (the coupling of every spinor to gravity)",
+  "latex": "\\begin{aligned}\n&D_M\\Psi = \\partial_M\\Psi + \\Omega_M\\Psi,\\qquad D_M\\bar\\Psi = \\partial_M\\bar\\Psi - \\bar\\Psi\\Omega_M,\\qquad\n \\Omega_M = \\tfrac12\\,\\omega_{Mab}\\,\\mathcal{S}^{ab},\\qquad \\mathcal{S}^{ab} = \\tfrac14\\big[\\gamma^a,\n \\gamma^b\\big],\\\\\n&\\omega_M{}^a{}_b = \\mathbf{e}^a{}_N\\big(\\partial_M\\mathbf{e}_b{}^N +\n \\Gamma^N{}_{MP}\\,\\mathbf{e}_b{}^P\\big),\\qquad\n \\omega_{Mab} = \\eta_{ac}\\,\\omega_M{}^c{}_b,\\qquad g_{MN} = \\eta_{ab}\\,\\mathbf{e}^a{}_M\\,\\mathbf{e}^b{}_N,\\\\\n&\\Gamma^N{}_{MP} = \\tfrac12\\,g^{NQ}\\big(\\partial_Mg_{QP} + \\partial_Pg_{QM} - \\partial_Qg_{MP}\\big)\n\\end{aligned} \\tag{IN-7}",
+  "keys": [
+   "Dcov",
+   "iM",
+   "Psi",
+   "partial",
+   "Omega",
+   "omega",
+   "ia",
+   "ib",
+   "calS",
+   "gamma",
+   "vielbein",
+   "iN",
+   "Christoffel",
+   "iP",
+   "eta",
+   "ic",
+   "metric",
+   "iQ"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "metric g",
+   "dirac16complex Psi",
+   "every Standard-Model fermion"
+  ],
+  "solved_in": "Evaluated exactly for the order-0 metric (FE-13); it makes $\\gamma^N$ covariantly constant (verified symbolically)."
+ },
+ {
+  "id": "IN-8",
+  "title": "The gauge fields of SU(3) $\\times$ SU(2) $\\times$ U(1)$_Y$ in eight dimensions",
+  "latex": "S_{\\mathrm{gauge}} = -\\frac14\\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\,\\Big(\\frac{1}{\\hat\n g_3^2}\\,G^A_{MN}G^{AMN}\n + \\frac{1}{\\hat g_2^2}\\,W^I_{MN}W^{IMN} + \\frac{1}{\\hat g_1^2}\\,B_{MN}B^{MN}\\Big) \\tag{IN-8}",
+  "keys": [
+   "Sgauge",
+   "diff",
+   "Xcoord",
+   "metric",
+   "ghat3",
+   "Ggluon",
+   "iA",
+   "iM",
+   "iN",
+   "ghat2",
+   "Wsu2",
+   "iI",
+   "ghat1",
+   "Bhyp"
+  ],
+  "status": "ASSUMED",
+  "fields": [
+   "gluons G",
+   "SU(2) fields W",
+   "hypercharge field B",
+   "metric g"
+  ],
+  "solved_in": "Gives FE-7 and the Yang-Mills equations FE-22 to FE-25; their $x_0$ reduction gives the massless photon and gluons and the $W^\\pm$ and $Z$ masses (FE-50 to FE-55)."
+ },
+ {
+  "id": "IN-9",
+  "title": "The field strengths",
+  "latex": "\\begin{aligned}\n&G_M = G^A_M\\,t^A,\\qquad G_{MN} = \\partial_MG_N - \\partial_NG_M - \\mathrm{i}\\big[G_M, G_N\\big],\\qquad\n G^A_{MN} = 2\\,\\mathrm{tr}\\big(t^AG_{MN}\\big),\\\\\n&W_M = W^I_M\\,\\frac{\\tau^I}{2},\\qquad W_{MN} = \\partial_MW_N - \\partial_NW_M - \\mathrm{i}\\big[W_M,\n W_N\\big],\\qquad\n W^I_{MN} = \\mathrm{tr}\\big(\\tau^IW_{MN}\\big),\\\\\n&B_{MN} = \\partial_MB_N - \\partial_NB_M\n\\end{aligned} \\tag{IN-9}",
+  "keys": [
+   "Ggluon",
+   "iM",
+   "iA",
+   "tgen",
+   "iN",
+   "partial",
+   "imag",
+   "trace",
+   "Wsu2",
+   "iI",
+   "tau",
+   "Bhyp"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "gluons G",
+   "SU(2) fields W",
+   "hypercharge field B"
+  ],
+  "solved_in": "Exact definitions; the non-abelian terms are kept in FE-22 to FE-24 and neglected in the linearised $W^\\pm$, $Z$ and photon equations FE-25."
+ },
+ {
+  "id": "IN-10",
+  "title": "The physical electroweak fields $W^+$, $W^-$, $Z$ and the photon (canonically normalised)",
+  "latex": "\\begin{aligned}\n&W^\\pm_M = \\frac{W^1_M \\mp \\mathrm{i}W^2_M}{\\sqrt2\\,\\hat g_2},\\qquad\n Z_M = \\frac{W^3_M - B_M}{\\hat g_Z},\\qquad A_M = \\frac{\\hat g_1^2\\,W^3_M + \\hat g_2^2\\,B_M}{\\hat g_1\\hat\n g_2\\hat g_Z},\\\\\n&\\hat g_Z = \\sqrt{\\hat g_2^2 + \\hat g_1^2},\\qquad \\cos\\theta_{\\mathrm{W}} = \\frac{\\hat g_2}{\\hat g_Z},\\qquad\n \\sin\\theta_{\\mathrm{W}} = \\frac{\\hat g_1}{\\hat g_Z}\n\\end{aligned} \\tag{IN-10}",
+  "keys": [
+   "Wpm",
+   "iM",
+   "Wsu2",
+   "imag",
+   "ghat2",
+   "Zboson",
+   "Bhyp",
+   "ghatZ",
+   "Aphoton",
+   "ghat1",
+   "thetaW"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "W+",
+   "W-",
+   "Z",
+   "photon A",
+   "SU(2) fields W",
+   "hypercharge field B"
+  ],
+  "solved_in": "$W^+$ carries the electric charge $+e$ and $W^-$ the charge $-e$ (DERIVED); $Z$ and $A$ are the neutral combinations; the angle of the couplings is fixed by the measured masses (FE-55)."
+ },
+ {
+  "id": "IN-11",
+  "title": "The Standard-Model fermions: three generations with bulk masses",
+  "latex": "\\begin{aligned}\nS_{\\mathrm{f}} &= \\sum_{i=1}^{3}\\sum_{\\psi}\\int\\mathrm{d}^8X\\,\\sqrt{\\lvert\n g\\rvert}\\,\\Big[\\tfrac12\\big(\\bar\\psi_i\\gamma^MD_M\\psi_i\n - (D_M\\bar\\psi_i)\\gamma^M\\psi_i\\big) - \\mu_{\\psi i}\\,\\bar\\psi_i\\psi_i\\Big],\\\\\n\\psi &\\in \\{Q,\\ u_R,\\ d_R,\\ \\ell,\\ e_R,\\ \\nu_R\\},\\qquad \\mu_{\\psi i} = \\mu_Q\\ (\\psi = Q),\\qquad\n \\mu_{\\psi i} = \\mu_\\ell\\ (\\psi = \\ell)\n\\end{aligned} \\tag{IN-11}",
+  "keys": [
+   "Sf",
+   "ii",
+   "ipsi",
+   "diff",
+   "Xcoord",
+   "metric",
+   "psi",
+   "gamma",
+   "iM",
+   "Dcov",
+   "mubulk",
+   "Qdoublet",
+   "uR",
+   "dR",
+   "ldoublet",
+   "eR",
+   "nuR",
+   "muQ",
+   "muell"
+  ],
+  "status": "ASSUMED",
+  "fields": [
+   "quarks Q, u_R, d_R",
+   "leptons l, e_R, nu_R",
+   "metric g",
+   "gauge fields"
+  ],
+  "solved_in": "Gives FE-6 and the Dirac equations FE-14 to FE-19; the zero modes and the tip mixing give all twelve masses (FE-56 to FE-60)."
+ },
+ {
+  "id": "IN-12",
+  "title": "The covariant derivative of a Standard-Model fermion and the electric charge",
+  "latex": "D_M = \\partial_M + \\Omega_M - \\mathrm{i}G^A_M\\,t^A - \\mathrm{i}W^I_M\\,\\frac{\\tau^I}{2} - \\mathrm{i}\\,Y\n B_M,\\qquad\nQ_{\\mathrm{em}} = T_3 + Y \\tag{IN-12}",
+  "keys": [
+   "Dcov",
+   "iM",
+   "partial",
+   "Omega",
+   "imag",
+   "Ggluon",
+   "iA",
+   "tgen",
+   "Wsu2",
+   "iI",
+   "tau",
+   "Yhyp",
+   "Bhyp",
+   "Qem",
+   "T3"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "every Standard-Model fermion",
+   "gauge fields",
+   "metric g"
+  ],
+  "solved_in": "Exact (geometric normalisation: the couplings stand in front of the kinetic terms of IN-8)."
+ },
+ {
+  "id": "IN-13",
+  "title": "The tip sigma field and the tip Yukawa couplings (no Higgs particle)",
+  "latex": "\\begin{aligned}\nS_{\\mathrm{tip}} &= \\int_{y=-L}\\mathrm{d}^7X_{\\mathrm{tip}}\\sqrt{\\lvert g_{\\mathrm{tip}}\\rvert}\\,\\Big[\n -\\frac{v_\\Sigma^2}{4}\\,\\mathrm{tr}\\big((D_\\mu\\Sigma)^\\dagger D^\\mu\\Sigma\\big) -\n \\mathcal{L}_{\\mathrm{Y}}\\Big],\\\\\n\\mathcal{L}_{\\mathrm{Y}} &=\n \\sum_{i,j=1}^{3}\\Big[\\bar\\ell_i\\,\\Sigma\\begin{pmatrix}(\\mathcal{Y}_\\nu)_{ij}\\,\\nu_{Rj}\\\\\n (\\mathcal{Y}_e)_{ij}\\,e_{Rj}\\end{pmatrix}\n + \\bar Q_i\\,\\Sigma\\begin{pmatrix}(\\mathcal{Y}_u)_{ij}\\,u_{Rj}\\\\ (\\mathcal{Y}_d)_{ij}\\,d_{Rj}\n \\end{pmatrix}\\Big]\n + \\text{h.c.}\n\\end{aligned} \\tag{IN-13}",
+  "keys": [
+   "Stip",
+   "ycoord",
+   "Lcut",
+   "diff",
+   "Xtip",
+   "gtip",
+   "vSigma",
+   "trace",
+   "Dcov",
+   "imu",
+   "Sigma",
+   "dagger",
+   "LYuk",
+   "ii",
+   "ij",
+   "ldoublet",
+   "Yuk",
+   "nuR",
+   "eR",
+   "Qdoublet",
+   "uR",
+   "dR"
+  ],
+  "status": "INVENTED",
+  "fields": [
+   "sigma field Sigma",
+   "W",
+   "B",
+   "every Standard-Model fermion"
+  ],
+  "solved_in": "Gives FE-8, the tip terms of FE-14 to FE-19 and of FE-23, FE-24, and the sigma-field equation FE-26; on the static block it becomes the Robin condition of the $W^\\pm$ and $Z$ profiles (FE-51) and the tip mixing of the fermions (FE-30)."
+ },
+ {
+  "id": "IN-14",
+  "title": "The covariant derivative of the sigma field and its gauge transformation",
+  "latex": "D_\\mu\\Sigma = \\partial_\\mu\\Sigma - \\mathrm{i}W^I_\\mu\\,\\frac{\\tau^I}{2}\\,\\Sigma +\n \\mathrm{i}B_\\mu\\,\\Sigma\\,\\frac{\\tau^3}{2},\\qquad\n\\Sigma^\\dagger\\Sigma = \\mathbf{1},\\qquad \\Sigma \\to U_L\\,\\Sigma\\,U_Y^\\dagger,\\qquad\nU_Y = \\mathrm{e}^{\\mathrm{i}\\vartheta\\tau^3/2} \\tag{IN-14}",
+  "keys": [
+   "Dcov",
+   "imu",
+   "Sigma",
+   "partial",
+   "imag",
+   "Wsu2",
+   "iI",
+   "tau",
+   "Bhyp",
+   "dagger",
+   "identity",
+   "UL",
+   "UY",
+   "euler",
+   "vartheta"
+  ],
+  "status": "INVENTED",
+  "fields": [
+   "sigma field Sigma",
+   "W",
+   "B"
+  ],
+  "solved_in": "Every tip term is invariant for arbitrary complex tip matrices (DERIVED with random group elements, deviation 1.1e-14)."
+ },
+ {
+  "id": "IN-15",
+  "title": "The tip mass term of $W^+$, $W^-$ and $Z$ in the unitary gauge",
+  "latex": "-\\frac{v_\\Sigma^2}{4}\\,\\mathrm{tr}\\big((D_\\mu\\Sigma)^\\dagger D^\\mu\\Sigma\\big)\\Big\\vert_{\\Sigma = \\mathbf{1}}\n= -\\frac{v_\\Sigma^2}{8}\\Big[2\\hat g_2^2\\,W^+_\\mu W^-{}^\\mu + \\hat g_Z^2\\,Z_\\mu Z^\\mu\\Big] \\tag{IN-15}",
+  "keys": [
+   "vSigma",
+   "trace",
+   "Dcov",
+   "imu",
+   "Sigma",
+   "dagger",
+   "identity",
+   "ghat2",
+   "Wpm",
+   "ghatZ",
+   "Zboson"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "W+",
+   "W-",
+   "Z",
+   "photon A"
+  ],
+  "solved_in": "Exact; the photon receives no tip term, so it stays massless; $W^+$ and $W^-$ share one mass (particle and antiparticle)."
+ },
+ {
+  "id": "IN-16",
+  "title": "Portal I11: the vector contact portal to the $B - L$ currents",
+  "latex": "\\begin{aligned}\nS_{\\mathrm{I11}} &= \\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\;\\frac{c_{\\mathrm{V}}}{\\Lambda_\\star^6}\\,\n \\big(\\mathrm{i}\\bar\\Psi\\gamma^M\\Psi\\big)\\,J^{B-L}_M,\\qquad\n J^{B-L}_M = \\sum_{i=1}^{3}\\sum_{\\psi} q_\\psi\\,\\big(\\mathrm{i}\\bar\\psi_i\\gamma_M\\psi_i\\big),\\\\\nq_Q &= q_{u_R} = q_{d_R} = \\frac13,\\qquad q_\\ell = q_{e_R} = q_{\\nu_R} = -1\n\\end{aligned} \\tag{IN-16}",
+  "keys": [
+   "SI11",
+   "diff",
+   "Xcoord",
+   "metric",
+   "cV",
+   "LambdaStar",
+   "imag",
+   "Psi",
+   "gamma",
+   "iM",
+   "JBL",
+   "ii",
+   "ipsi",
+   "qBL",
+   "psi"
+  ],
+  "status": "INVENTED",
+  "fields": [
+   "dirac16complex Psi",
+   "every Standard-Model fermion"
+  ],
+  "solved_in": "Enters FE-9, FE-12 and FE-14 to FE-19; on the zero modes it is the contact interaction FE-70, with the benchmark strength fixed by the freeze-in of the fold bands (FE-129)."
+ },
+ {
+  "id": "IN-17",
+  "title": "Portal I12: the gauge-kinetic scalar portal",
+  "latex": "S_{\\mathrm{I12}} = -\\int\\mathrm{d}^8X\\,\\sqrt{\\lvert\n g\\rvert}\\;\\frac{\\bar\\Psi\\Psi}{\\Lambda_\\star^3}\\,\\mathcal{F},\\qquad\n\\mathcal{F} = c_{\\mathrm{G}}\\,G^A_{MN}G^{AMN} + c_{\\mathrm{W}}\\,W^I_{MN}W^{IMN} +\n c_{\\mathrm{B}}\\,B_{MN}B^{MN} \\tag{IN-17}",
+  "keys": [
+   "SI12",
+   "diff",
+   "Xcoord",
+   "metric",
+   "Psi",
+   "LambdaStar",
+   "calF",
+   "cG",
+   "Ggluon",
+   "iA",
+   "iM",
+   "iN",
+   "cW",
+   "Wsu2",
+   "iI",
+   "cB",
+   "Bhyp"
+  ],
+  "status": "INVENTED",
+  "fields": [
+   "dirac16complex Psi",
+   "gluons",
+   "W",
+   "B"
+  ],
+  "solved_in": "Enters FE-10, FE-12 and the field-dependent couplings FE-21; on the dark matter it is FE-71, set to the unitarity-safe benchmark."
+ },
+ {
+  "id": "IN-18",
+  "title": "Portal I13: the $x_0$-chiral vector portal to the baryon-number current",
+  "latex": "\\begin{aligned}\nS_{\\mathrm{I13}} &= \\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\;\\frac{c_{\\mathrm{A}}}{\\Lambda_\\star^6}\n \\sum_{M\\ne x_0}\\big(\\mathrm{i}\\bar\\Psi\\gamma^MP_b\\Psi\\big)\\,J^{B}_M,\\qquad P_b = \\frac{1 - \\gamma^{x_0}}{2},\n \\qquad P_a = \\frac{1 + \\gamma^{x_0}}{2},\\\\\nJ^{B}_M &= \\frac13\\sum_{i=1}^{3}\\big(\\mathrm{i}\\bar Q_i\\gamma_MQ_i + \\mathrm{i}\\bar u_{Ri}\\gamma_Mu_{Ri}\n + \\mathrm{i}\\bar d_{Ri}\\gamma_Md_{Ri}\\big)\n\\end{aligned} \\tag{IN-18}",
+  "keys": [
+   "SI13",
+   "diff",
+   "Xcoord",
+   "metric",
+   "cA",
+   "LambdaStar",
+   "iM",
+   "x0",
+   "imag",
+   "Psi",
+   "gamma",
+   "Pab",
+   "JB",
+   "ii",
+   "Qdoublet",
+   "uR",
+   "dR"
+  ],
+  "status": "INVENTED",
+  "fields": [
+   "dirac16complex Psi",
+   "quarks"
+  ],
+  "solved_in": "Enters FE-9, FE-12 and FE-14 to FE-16; the bilinear is Hermitian for $M \\ne x_0$ only (DERIVED); on the zero modes it is FE-70, its strength fixed by the dark-matter relic (FE-126)."
+ },
+ {
+  "id": "FE-1",
+  "title": "The Einstein-Lovelock equations",
+  "latex": "\\begin{aligned}\n&\\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{E}_{(p)}{}^M{}_N + \\Lambda\\,\\delta^M_N = \\kappa\\,\\mathcal{T}^M{}_N,\\\\\n&\\mathcal{E}_{(p)}{}^M{}_N = -\\frac{1}{2^{p+1}}\\,\\delta^{MM_1N_1\\cdots M_pN_p}_{NP_1Q_1\\cdots P_pQ_p}\\,\n R^{P_1Q_1}{}_{M_1N_1}\\cdots R^{P_pQ_p}{}_{M_pN_p}\n\\end{aligned} \\tag{FE-1}",
+  "keys": [
+   "ip",
+   "alphaL",
+   "LovE",
+   "iM",
+   "iN",
+   "Lambda",
+   "delta",
+   "kappa",
+   "EMT",
+   "iP",
+   "iQ",
+   "Riemann"
+  ],
+  "status": "AUTHOR",
+  "fields": [
+   "metric g",
+   "all fields (source)"
+  ],
+  "solved_in": "Solved exactly at order 0 (the background equations FE-38 to FE-40, integrated numerically through the primordial era and solved in closed form for the static block); at order $\\epsilon$ through the four-dimensional reduction FE-49."
+ },
+ {
+  "id": "FE-2",
+  "title": "The energy-momentum tensor: definition and components",
+  "latex": "\\begin{aligned}\n&\\Delta S_{\\mathrm{m}} = -\\frac12\\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\;\\mathcal{T}_{MN}\\,\\Delta\n g^{MN},\\qquad\n \\rho = -\\mathcal{T}^{x_4}{}_{x_4},\\qquad p_M = \\mathcal{T}^M{}_M\\quad \\text{($M \\ne x_4$, no sum)},\\\\\n&\\mathcal{T}^M{}_N = \\mathrm{diag}\\big(p_0,\\ p_3,\\ p_3,\\ p_3,\\ -\\rho,\\ p_5,\\ p_5,\\ p_5\\big)\\quad\n \\text{(a diagonal source)},\\qquad \\bar p = \\frac{p_0 + 3p_5}{4}\n\\end{aligned} \\tag{FE-2}",
+  "keys": [
+   "Delta",
+   "Sm",
+   "diff",
+   "Xcoord",
+   "metric",
+   "EMT",
+   "iM",
+   "iN",
+   "rho",
+   "x4",
+   "pressure",
+   "diag",
+   "p0",
+   "p3",
+   "p5",
+   "pbar"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "metric g",
+   "all fields"
+  ],
+  "solved_in": "Definition (for spinors the variation is taken with respect to the vielbein); every source of UM-2 is evaluated in this form."
+ },
+ {
+  "id": "FE-3",
+  "title": "The total source of gravity",
+  "latex": "\\mathcal{T}^M{}_N = \\mathcal{T}_{\\mathrm{stab}}{}^M{}_N + \\mathcal{T}_\\Psi{}^M{}_N +\n \\mathcal{T}_{\\mathrm{gauge}}{}^M{}_N\n + \\mathcal{T}_{\\mathrm{f}}{}^M{}_N + \\mathcal{T}_{\\mathrm{tip}}{}^M{}_N + \\mathcal{T}_{\\mathrm{I11}}{}^M{}_N\n + \\mathcal{T}_{\\mathrm{I12}}{}^M{}_N + \\mathcal{T}_{\\mathrm{I13}}{}^M{}_N \\tag{FE-3}",
+  "keys": [
+   "EMT",
+   "iM",
+   "iN",
+   "Tstab",
+   "TPsi",
+   "Tgauge",
+   "Tf",
+   "Ttip",
+   "TI11",
+   "TI12",
+   "TI13"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "all fields"
+  ],
+  "solved_in": "At order 0 the stabiliser dominates; the matter terms enter through their block averages in the first-order block response FE-45 (relative size 1e-92 today)."
+ },
+ {
+  "id": "FE-4",
+  "title": "The energy-momentum tensor of the stabiliser",
+  "latex": "\\mathcal{T}_{\\mathrm{stab}}{}^M{}_N =\n \\rho_{\\mathrm{stab}}\\;\\mathrm{diag}(1,\\ -1,\\ -1,\\ -1,\\ -1,\\ 1,\\ 1,\\ 1):\\qquad\n\\rho = \\rho_{\\mathrm{stab}},\\qquad p_3 = -\\rho_{\\mathrm{stab}},\\qquad p_0 = p_5 = \\rho_{\\mathrm{stab}}\n \\tag{FE-4}",
+  "keys": [
+   "Tstab",
+   "iM",
+   "iN",
+   "rhostab",
+   "diag",
+   "rho",
+   "p3",
+   "p0",
+   "p5"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g (block scale f)"
+  ],
+  "solved_in": "Exact; conserved because $\\rho_{\\mathrm{stab}} \\propto f^{-8}$; it sets the static block FE-43."
+ },
+ {
+  "id": "FE-5",
+  "title": "The energy-momentum tensor of dirac16complex",
+  "latex": "\\begin{aligned}\n(\\mathcal{T}_\\Psi)_{MN} &= -\\frac14\\Big[\\bar\\Psi\\gamma_MD_N\\Psi + \\bar\\Psi\\gamma_ND_M\\Psi -\n (D_M\\bar\\Psi)\\gamma_N\\Psi\n - (D_N\\bar\\Psi)\\gamma_M\\Psi\\Big] + g_{MN}\\,\\mathcal{L}_\\Psi,\\\\\n\\mathcal{L}_\\Psi &= \\tfrac12\\big(\\bar\\Psi\\gamma^PD_P\\Psi - (D_P\\bar\\Psi)\\gamma^P\\Psi\\big) -\n m_\\Psi\\,\\bar\\Psi\\Psi\n - \\frac{\\lambda}{2}\\big(\\bar\\Psi\\Psi\\big)^2\n\\end{aligned} \\tag{FE-5}",
+  "keys": [
+   "TPsi",
+   "iM",
+   "iN",
+   "Psi",
+   "gamma",
+   "Dcov",
+   "metric",
+   "LPsi",
+   "iP",
+   "mPsi",
+   "lambda"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "metric g"
+  ],
+  "solved_in": "Evaluated for Kohn-Sham states in the form FE-67 (verified: energy identity and $y$-conservation law FE-68)."
+ },
+ {
+  "id": "FE-6",
+  "title": "The energy-momentum tensor of the Standard-Model fermions",
+  "latex": "\\begin{aligned}\n(\\mathcal{T}_{\\mathrm{f}})_{MN} &= \\sum_{i=1}^{3}\\sum_\\psi\\Big\\{-\\frac14\\Big[\\bar\\psi_i\\gamma_MD_N\\psi_i\n + \\bar\\psi_i\\gamma_ND_M\\psi_i - (D_M\\bar\\psi_i)\\gamma_N\\psi_i - (D_N\\bar\\psi_i)\\gamma_M\\psi_i\\Big]\n + g_{MN}\\,\\mathcal{L}_{\\psi i}\\Big\\},\\\\\n\\mathcal{L}_{\\psi i} &= \\tfrac12\\big(\\bar\\psi_i\\gamma^PD_P\\psi_i - (D_P\\bar\\psi_i)\\gamma^P\\psi_i\\big)\n - \\mu_{\\psi i}\\,\\bar\\psi_i\\psi_i\n\\end{aligned} \\tag{FE-6}",
+  "keys": [
+   "Tf",
+   "iM",
+   "iN",
+   "ii",
+   "ipsi",
+   "psi",
+   "gamma",
+   "Dcov",
+   "metric",
+   "Lpsi",
+   "iP",
+   "mubulk"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "every Standard-Model fermion",
+   "metric g",
+   "gauge fields"
+  ],
+  "solved_in": "Used through the block averages of the plasma and of cold matter (ideal and degenerate gases with the $x_0$ masses) in the block response FE-45 and the hidden pressure FE-81."
+ },
+ {
+  "id": "FE-7",
+  "title": "The energy-momentum tensor of the gauge fields",
+  "latex": "\\begin{aligned}\n(\\mathcal{T}_{\\mathrm{gauge}})_{MN} ={}& \\frac{1}{\\hat g_3^2}\\Big(G^A_{MP}G^A{}_N{}^P -\n \\frac14g_{MN}G^A_{PQ}G^{APQ}\\Big)\n + \\frac{1}{\\hat g_2^2}\\Big(W^I_{MP}W^I{}_N{}^P - \\frac14g_{MN}W^I_{PQ}W^{IPQ}\\Big)\\\\\n&+ \\frac{1}{\\hat g_1^2}\\Big(B_{MP}B_N{}^P - \\frac14g_{MN}B_{PQ}B^{PQ}\\Big)\n\\end{aligned} \\tag{FE-7}",
+  "keys": [
+   "Tgauge",
+   "iM",
+   "iN",
+   "ghat3",
+   "Ggluon",
+   "iA",
+   "iP",
+   "metric",
+   "iQ",
+   "ghat2",
+   "Wsu2",
+   "iI",
+   "ghat1",
+   "Bhyp"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "gluons",
+   "W",
+   "B",
+   "metric g"
+  ],
+  "solved_in": "Used through the radiation and order-$\\alpha_{\\mathrm{G}}$ plasma pressures in the block response; radiation drops out of it exactly."
+ },
+ {
+  "id": "FE-8",
+  "title": "The energy-momentum tensor of the tip",
+  "latex": "\\begin{aligned}\n(\\mathcal{T}_{\\mathrm{tip}})_{\\mu\\nu} &=\n \\delta_{\\mathrm{tip}}\\Big[\\frac{v_\\Sigma^2}{4}\\,\\mathrm{tr}\\big((D_\\mu\\Sigma)^\\dagger D_\\nu\\Sigma\n + (D_\\nu\\Sigma)^\\dagger D_\\mu\\Sigma\\big) + g_{\\mu\\nu}\\,\\mathcal{L}_{\\mathrm{tip}}\\Big],\\qquad\n \\delta_{\\mathrm{tip}} = \\frac{\\delta_{\\mathrm{D}}(y + L)}{f},\\\\\n\\mathcal{L}_{\\mathrm{tip}} &= -\\frac{v_\\Sigma^2}{4}\\,\\mathrm{tr}\\big((D_\\mu\\Sigma)^\\dagger\n D^\\mu\\Sigma\\big) - \\mathcal{L}_{\\mathrm{Y}}\n\\end{aligned} \\tag{FE-8}",
+  "keys": [
+   "Ttip",
+   "imu",
+   "inu",
+   "deltatip",
+   "vSigma",
+   "trace",
+   "Dcov",
+   "Sigma",
+   "dagger",
+   "metric",
+   "Ltip",
+   "deltaD",
+   "ycoord",
+   "Lcut",
+   "fblock",
+   "LYuk"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "sigma field Sigma",
+   "W",
+   "B",
+   "every Standard-Model fermion",
+   "metric g"
+  ],
+  "solved_in": "Zero for the hidden component; its gravitational effect is part of the $W^\\pm$, $Z$ and fermion rest energies counted in the plasma."
+ },
+ {
+  "id": "FE-9",
+  "title": "The energy-momentum tensors of the portals I11 and I13",
+  "latex": "(\\mathcal{T}_{\\mathrm{I11}})_{MN} =\n g_{MN}\\,\\frac{c_{\\mathrm{V}}}{\\Lambda_\\star^6}\\big(\\mathrm{i}\\bar\\Psi\\gamma^P\\Psi\\big)J^{B-L}_P,\n\\qquad (\\mathcal{T}_{\\mathrm{I13}})_{MN} = g_{MN}\\,\\frac{c_{\\mathrm{A}}}{\\Lambda_\\star^6}\n \\sum_{P\\ne x_0}\\big(\\mathrm{i}\\bar\\Psi\\gamma^PP_b\\Psi\\big)J^{B}_P \\tag{FE-9}",
+  "keys": [
+   "TI11",
+   "iM",
+   "iN",
+   "metric",
+   "cV",
+   "LambdaStar",
+   "imag",
+   "Psi",
+   "gamma",
+   "iP",
+   "JBL",
+   "TI13",
+   "cA",
+   "x0",
+   "Pab",
+   "JB"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "fermions",
+   "metric g"
+  ],
+  "solved_in": "Exact (the frame currents do not depend on the vielbein); negligible against the stabiliser in every environment (the level shifts of FE-72 are below $10^{-9}$ GeV)."
+ },
+ {
+  "id": "FE-10",
+  "title": "The energy-momentum tensor of the portal I12",
+  "latex": "\\begin{aligned}\n(\\mathcal{T}_{\\mathrm{I12}})_{MN} =\n \\frac{4\\bar\\Psi\\Psi}{\\Lambda_\\star^3}\\Big[&c_{\\mathrm{G}}\\Big(G^A_{MP}G^A{}_N{}^P\n - \\frac14g_{MN}G^A_{PQ}G^{APQ}\\Big) + c_{\\mathrm{W}}\\Big(W^I_{MP}W^I{}_N{}^P -\n \\frac14g_{MN}W^I_{PQ}W^{IPQ}\\Big)\\\\\n &+ c_{\\mathrm{B}}\\Big(B_{MP}B_N{}^P - \\frac14g_{MN}B_{PQ}B^{PQ}\\Big)\\Big]\n\\end{aligned} \\tag{FE-10}",
+  "keys": [
+   "TI12",
+   "iM",
+   "iN",
+   "Psi",
+   "LambdaStar",
+   "cG",
+   "Ggluon",
+   "iA",
+   "iP",
+   "metric",
+   "iQ",
+   "cW",
+   "Wsu2",
+   "iI",
+   "cB",
+   "Bhyp"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "gauge fields",
+   "metric g"
+  ],
+  "solved_in": "Exact; I12 acts as a field-dependent gauge coupling FE-21; its effect is computed in the coupled solution (at most $1.7\\times10^{-16}$)."
+ },
+ {
+  "id": "FE-11",
+  "title": "Conservation of the source",
+  "latex": "\\nabla_M\\,\\mathcal{T}^M{}_N = 0,\\qquad \\text{because}\\qquad \\nabla_M\\,\\mathcal{E}_{(p)}{}^M{}_N = 0\\quad\n \\text{($p = 1, 2, 3$)} \\tag{FE-11}",
+  "keys": [
+   "nabla",
+   "iM",
+   "EMT",
+   "iN",
+   "LovE",
+   "ip"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "all fields"
+  ],
+  "solved_in": "The Bianchi identities were verified for the order-0 metric ($p = 1, 2, 3$); the conservation holds on the matter field equations; at order 0 it is FE-41."
+ },
+ {
+  "id": "FE-12",
+  "title": "The dirac16complex field equation with the canonical spin connection and the portals",
+  "latex": "\\gamma^MD_M\\Psi = \\Big[m_\\Psi + \\lambda\\,\\bar\\Psi\\Psi + \\frac{\\mathcal{F}}{\\Lambda_\\star^3}\\Big]\\Psi\n - \\mathrm{i}\\,\\frac{c_{\\mathrm{V}}}{\\Lambda_\\star^6}\\,J^{B-L}_M\\gamma^M\\Psi\n - \\mathrm{i}\\,\\frac{c_{\\mathrm{A}}}{\\Lambda_\\star^6}\\sum_{M\\ne x_0}J^{B}_M\\gamma^MP_b\\Psi \\tag{FE-12}",
+  "keys": [
+   "gamma",
+   "iM",
+   "Dcov",
+   "Psi",
+   "mPsi",
+   "lambda",
+   "calF",
+   "LambdaStar",
+   "imag",
+   "cV",
+   "JBL",
+   "cA",
+   "x0",
+   "JB",
+   "Pab"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "metric g",
+   "gauge fields (I12)",
+   "fermion currents (I11, I13)"
+  ],
+  "solved_in": "Reduced exactly to the block Hamiltonian FE-56 (all eight blocks, general $a_4$, $b_4$); solved exactly for the free spectrum FE-62 and by Kohn-Sham theory with the portal mean fields FE-63."
+ },
+ {
+  "id": "FE-13",
+  "title": "The canonical spin connection on the order-0 metric",
+  "latex": "\\gamma^M\\Omega_M = \\frac32\\,\\frac{H}{f}\\,\\gamma^{x_0} + \\Big(\\frac{\\dot b_4}{b_4} - \\frac{\\dot\n a_4}{2}\\Big)\\gamma^{x_4} \\tag{FE-13}",
+  "keys": [
+   "gamma",
+   "iM",
+   "Omega",
+   "Hconst",
+   "fblock",
+   "x0",
+   "b4dot",
+   "b4",
+   "a4dot",
+   "x4"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "every fermion",
+   "metric g"
+  ],
+  "solved_in": "Exact for every $a_4$, $b_4$ and on both halves of a period; removed by the factors of the reduction ansatz FE-56; it vanishes only in flat 4+4 space."
+ },
+ {
+  "id": "FE-14",
+  "title": "The Dirac equation of the quark doublets $Q_i$",
+  "latex": "\\begin{aligned}\n\\gamma^MD_MQ_i ={}& \\mu_Q\\,Q_i -\n \\mathrm{i}\\,\\frac{c_{\\mathrm{V}}}{\\Lambda_\\star^6}\\,q_Q\\,\\big(\\mathrm{i}\\bar\\Psi\\gamma_M\\Psi\\big)\\gamma^MQ_i\n - \\frac{\\mathrm{i}}{3}\\,\\frac{c_{\\mathrm{A}}}{\\Lambda_\\star^6}\\sum_{M\\ne\n x_0}\\big(\\mathrm{i}\\bar\\Psi\\gamma_MP_b\\Psi\\big)\\gamma^MQ_i\\\\\n &+ \\delta_{\\mathrm{tip}}\\sum_{j=1}^{3}\\Sigma\\begin{pmatrix}(\\mathcal{Y}_u)_{ij}\\,u_{Rj}\\\\ (\n \\mathcal{Y}_d)_{ij}\\,d_{Rj}\\end{pmatrix}\n\\end{aligned} \\tag{FE-14}",
+  "keys": [
+   "gamma",
+   "iM",
+   "Dcov",
+   "Qdoublet",
+   "ii",
+   "muQ",
+   "imag",
+   "cV",
+   "LambdaStar",
+   "qBL",
+   "Psi",
+   "cA",
+   "x0",
+   "Pab",
+   "deltatip",
+   "ij",
+   "Sigma",
+   "Yuk",
+   "uR",
+   "dR"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "quark doublets",
+   "gauge fields",
+   "metric g",
+   "Psi (I11, I13)",
+   "Sigma"
+  ],
+  "solved_in": "Solved on the static block by the zero mode and the tip mixing FE-56 to FE-60 (exact roots; the portal terms are mean fields of relative size $10^{-17}$ at most)."
+ },
+ {
+  "id": "FE-15",
+  "title": "The Dirac equation of the up-type quark singlets $u_{Ri}$ (right-handed up, charm and top quarks)",
+  "latex": "\\begin{aligned}\n\\gamma^MD_Mu_{Ri} ={}& \\mu_{\\psi i}\\,u_{Ri} - \\mathrm{i}\\,\\frac{c_{\\mathrm{V}}}{\\Lambda_\\star^6}\\,q_{u_R}\\,\n \\big(\\mathrm{i}\\bar\\Psi\\gamma_M\\Psi\\big)\\gamma^Mu_{Ri}\n - \\frac{\\mathrm{i}}{3}\\,\\frac{c_{\\mathrm{A}}}{\\Lambda_\\star^6}\\sum_{M\\ne\n x_0}\\big(\\mathrm{i}\\bar\\Psi\\gamma_MP_b\\Psi\\big)\\gamma^Mu_{Ri}\\\\\n &+ \\delta_{\\mathrm{tip}}\\sum_{j=1}^{3}(\\mathcal{Y}_u)^*_{ji}\\,\\big(\\Sigma^\\dagger Q_j\\big)_1\\qquad\n (\\psi = u_R)\n\\end{aligned} \\tag{FE-15}",
+  "keys": [
+   "gamma",
+   "iM",
+   "Dcov",
+   "uR",
+   "mubulk",
+   "ipsi",
+   "ii",
+   "imag",
+   "cV",
+   "LambdaStar",
+   "qBL",
+   "Psi",
+   "cA",
+   "x0",
+   "Pab",
+   "deltatip",
+   "ij",
+   "Yuk",
+   "star",
+   "Sigma",
+   "dagger",
+   "Qdoublet",
+   "psi"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "up-type quark singlets",
+   "gauge fields",
+   "metric g",
+   "Psi",
+   "Sigma"
+  ],
+  "solved_in": "As FE-14: singlet zero modes mixed at the tip with the doublet (exact roots for the up, charm and top quarks)."
+ },
+ {
+  "id": "FE-16",
+  "title": "The Dirac equation of the down-type quark singlets $d_{Ri}$ (right-handed down, strange and bottom quarks)",
+  "latex": "\\begin{aligned}\n\\gamma^MD_Md_{Ri} ={}& \\mu_{\\psi i}\\,d_{Ri} - \\mathrm{i}\\,\\frac{c_{\\mathrm{V}}}{\\Lambda_\\star^6}\\,q_{d_R}\\,\n \\big(\\mathrm{i}\\bar\\Psi\\gamma_M\\Psi\\big)\\gamma^Md_{Ri}\n - \\frac{\\mathrm{i}}{3}\\,\\frac{c_{\\mathrm{A}}}{\\Lambda_\\star^6}\\sum_{M\\ne\n x_0}\\big(\\mathrm{i}\\bar\\Psi\\gamma_MP_b\\Psi\\big)\\gamma^Md_{Ri}\\\\\n &+ \\delta_{\\mathrm{tip}}\\sum_{j=1}^{3}(\\mathcal{Y}_d)^*_{ji}\\,\\big(\\Sigma^\\dagger Q_j\\big)_2\\qquad\n (\\psi = d_R)\n\\end{aligned} \\tag{FE-16}",
+  "keys": [
+   "gamma",
+   "iM",
+   "Dcov",
+   "dR",
+   "mubulk",
+   "ipsi",
+   "ii",
+   "imag",
+   "cV",
+   "LambdaStar",
+   "qBL",
+   "Psi",
+   "cA",
+   "x0",
+   "Pab",
+   "deltatip",
+   "ij",
+   "Yuk",
+   "star",
+   "Sigma",
+   "dagger",
+   "Qdoublet",
+   "psi"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "down-type quark singlets",
+   "gauge fields",
+   "metric g",
+   "Psi",
+   "Sigma"
+  ],
+  "solved_in": "As FE-14 (exact roots for the down, strange and bottom quarks; the tip matrix of the sector is the CKM matrix)."
+ },
+ {
+  "id": "FE-17",
+  "title": "The Dirac equation of the lepton doublets (left-handed neutrinos and charged leptons of three flavours)",
+  "latex": "\\begin{aligned}\n\\gamma^MD_M\\ell_i ={}& \\mu_\\ell\\,\\ell_i - \\mathrm{i}\\,\\frac{c_{\\mathrm{V}}}{\\Lambda_\\star^6}\\,q_\\ell\\,\n \\big(\\mathrm{i}\\bar\\Psi\\gamma_M\\Psi\\big)\\gamma^M\\ell_i\n + \\delta_{\\mathrm{tip}}\\sum_{j=1}^{3}\\Sigma\\begin{pmatrix}(\\mathcal{Y}_\\nu)_{ij}\\,\\nu_{Rj}\\\\ (\n \\mathcal{Y}_e)_{ij}\\,e_{Rj}\\end{pmatrix}\n\\end{aligned} \\tag{FE-17}",
+  "keys": [
+   "gamma",
+   "iM",
+   "Dcov",
+   "ldoublet",
+   "ii",
+   "muell",
+   "imag",
+   "cV",
+   "LambdaStar",
+   "qBL",
+   "Psi",
+   "deltatip",
+   "ij",
+   "Sigma",
+   "Yuk",
+   "nuR",
+   "eR"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "lepton doublets",
+   "gauge fields",
+   "metric g",
+   "Psi (I11)",
+   "Sigma"
+  ],
+  "solved_in": "As FE-14: one doublet zero mode serves the three generations; exact roots for the three neutrinos and the three charged leptons; no I13 term (leptons carry no baryon number)."
+ },
+ {
+  "id": "FE-18",
+  "title": "The Dirac equation of the right-handed charged leptons $e_{Ri}$ (electron, muon and tau)",
+  "latex": "\\gamma^MD_Me_{Ri} = \\mu_{\\psi i}\\,e_{Ri} - \\mathrm{i}\\,\\frac{c_{\\mathrm{V}}}{\\Lambda_\\star^6}\\,q_{e_R}\\,\n \\big(\\mathrm{i}\\bar\\Psi\\gamma_M\\Psi\\big)\\gamma^Me_{Ri}\n + \\delta_{\\mathrm{tip}}\\sum_{j=1}^{3}(\\mathcal{Y}_e)^*_{ji}\\,\\big(\\Sigma^\\dagger\\ell_j\\big)_2\\qquad\n (\\psi = e_R) \\tag{FE-18}",
+  "keys": [
+   "gamma",
+   "iM",
+   "Dcov",
+   "eR",
+   "mubulk",
+   "ipsi",
+   "ii",
+   "imag",
+   "cV",
+   "LambdaStar",
+   "qBL",
+   "Psi",
+   "deltatip",
+   "ij",
+   "Yuk",
+   "star",
+   "Sigma",
+   "dagger",
+   "ldoublet",
+   "psi"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "right-handed charged leptons",
+   "gauge fields",
+   "metric g",
+   "Psi",
+   "Sigma"
+  ],
+  "solved_in": "As FE-17 (exact roots for the electron, muon and tau with the tip matrix $\\mathbf{1}$)."
+ },
+ {
+  "id": "FE-19",
+  "title": "The Dirac equation of the right-handed neutrinos $\\nu_{Ri}$",
+  "latex": "\\gamma^MD_M\\nu_{Ri} = \\mu_{\\psi i}\\,\\nu_{Ri} - \\mathrm{i}\\,\\frac{c_{\\mathrm{V}}}{\\Lambda_\\star^6}\\,q_{\\nu_R}\\,\n \\big(\\mathrm{i}\\bar\\Psi\\gamma_M\\Psi\\big)\\gamma^M\\nu_{Ri}\n + \\delta_{\\mathrm{tip}}\\sum_{j=1}^{3}(\\mathcal{Y}_\\nu)^*_{ji}\\,\\big(\\Sigma^\\dagger\\ell_j\\big)_1\\qquad\n (\\psi = \\nu_R) \\tag{FE-19}",
+  "keys": [
+   "gamma",
+   "iM",
+   "Dcov",
+   "nuR",
+   "mubulk",
+   "ipsi",
+   "ii",
+   "imag",
+   "cV",
+   "LambdaStar",
+   "qBL",
+   "Psi",
+   "deltatip",
+   "ij",
+   "Yuk",
+   "star",
+   "Sigma",
+   "dagger",
+   "ldoublet",
+   "psi"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "right-handed neutrinos",
+   "metric g",
+   "Psi (I11)",
+   "Sigma"
+  ],
+  "solved_in": "Gauge singlets: sharply localised singlet zero modes ($c_R = -31$ to $-35$) mixed at the tip with the lepton doublet give the Dirac neutrino masses; never thermalised (their I11 production is computed in FE-134)."
+ },
+ {
+  "id": "FE-20",
+  "title": "The fermion currents of the gauge fields",
+  "latex": "\\begin{aligned}\nJ_3^{AN} &= \\sum_{i=1}^{3}\\big(\\mathrm{i}\\bar Q_i\\gamma^Nt^AQ_i + \\mathrm{i}\\bar u_{Ri}\\gamma^Nt^Au_{Ri}\n + \\mathrm{i}\\bar d_{Ri}\\gamma^Nt^Ad_{Ri}\\big),\\qquad\n J_2^{IN} = \\sum_{i=1}^{3}\\Big(\\mathrm{i}\\bar Q_i\\gamma^N\\frac{\\tau^I}{2}Q_i +\n \\mathrm{i}\\bar\\ell_i\\gamma^N\\frac{\\tau^I}{2}\\ell_i\\Big),\\\\\nJ_1^N &= \\sum_{i=1}^{3}\\sum_\\psi Y_\\psi\\,\\mathrm{i}\\bar\\psi_i\\gamma^N\\psi_i,\\qquad\n J_{\\mathrm{em}}^N = J_2^{3N} + J_1^N,\\qquad J_2^{\\pm}{}^N = \\frac{J_2^{1N} \\mp \\mathrm{i}J_2^{2N}}{\\sqrt2}\n\\end{aligned} \\tag{FE-20}",
+  "keys": [
+   "J3",
+   "iA",
+   "iN",
+   "ii",
+   "imag",
+   "Qdoublet",
+   "gamma",
+   "tgen",
+   "uR",
+   "dR",
+   "J2",
+   "iI",
+   "tau",
+   "ldoublet",
+   "J1",
+   "ipsi",
+   "Yhyp",
+   "psi",
+   "Jem",
+   "J2pm"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "every Standard-Model fermion",
+   "gauge fields"
+  ],
+  "solved_in": "Definitions; summed over the three generations."
+ },
+ {
+  "id": "FE-21",
+  "title": "The field-dependent gauge couplings produced by I12",
+  "latex": "\\frac{1}{\\hat g_{3,\\mathrm{eff}}^2} = \\frac{1}{\\hat g_3^2} +\n \\frac{4c_{\\mathrm{G}}\\bar\\Psi\\Psi}{\\Lambda_\\star^3},\\qquad\n\\frac{1}{\\hat g_{2,\\mathrm{eff}}^2} = \\frac{1}{\\hat g_2^2} +\n \\frac{4c_{\\mathrm{W}}\\bar\\Psi\\Psi}{\\Lambda_\\star^3},\\qquad\n\\frac{1}{\\hat g_{1,\\mathrm{eff}}^2} = \\frac{1}{\\hat g_1^2} +\n \\frac{4c_{\\mathrm{B}}\\bar\\Psi\\Psi}{\\Lambda_\\star^3} \\tag{FE-21}",
+  "keys": [
+   "geff",
+   "ghat3",
+   "cG",
+   "Psi",
+   "LambdaStar",
+   "ghat2",
+   "cW",
+   "ghat1",
+   "cB"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "gauge fields",
+   "dirac16complex Psi"
+  ],
+  "solved_in": "Exact; in four dimensions it is the coupling shift FE-79 (at most $1.7\\times10^{-16}$ at the dark-matter freeze-out)."
+ },
+ {
+  "id": "FE-22",
+  "title": "The Yang-Mills equation of the gluons",
+  "latex": "\\nabla_M\\Big(\\frac{G^{MN}}{\\hat g_{3,\\mathrm{eff}}^2}\\Big) - \\mathrm{i}\\Big[G_M,\\ \\frac{G^{MN}}{\\hat\n g_{3,\\mathrm{eff}}^2}\\Big]\n = J_3^{AN}\\,t^A \\tag{FE-22}",
+  "keys": [
+   "nabla",
+   "iM",
+   "Ggluon",
+   "iN",
+   "geff",
+   "imag",
+   "J3",
+   "iA",
+   "tgen"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "gluons",
+   "quarks",
+   "Psi (I12)",
+   "metric g"
+  ],
+  "solved_in": "Solved on the static block by the $x_0$ reduction FE-50 with no tip term: the gluon zero mode is exactly massless (flat profile); QCD below the confinement scale enters through the nucleon masses and the condensates FE-74."
+ },
+ {
+  "id": "FE-23",
+  "title": "The Yang-Mills equation of the SU(2) field $W^I$ (matrix form) with the tip current",
+  "latex": "\\nabla_M\\Big(\\frac{W^{MN}}{\\hat g_{2,\\mathrm{eff}}^2}\\Big) - \\mathrm{i}\\Big[W_M,\\ \\frac{W^{MN}}{\\hat\n g_{2,\\mathrm{eff}}^2}\\Big]\n = J_2^{IN}\\,\\frac{\\tau^I}{2} + \\delta_{\\mathrm{tip}}\\,\\frac{v_\\Sigma^2}{4}\\Big(W^N -\n B^N\\,\\frac{\\tau^3}{2}\\Big)\\qquad\n (\\Sigma = \\mathbf{1}) \\tag{FE-23}",
+  "keys": [
+   "nabla",
+   "iM",
+   "Wsu2",
+   "iN",
+   "geff",
+   "imag",
+   "J2",
+   "iI",
+   "tau",
+   "deltatip",
+   "vSigma",
+   "Bhyp",
+   "Sigma",
+   "identity"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "W",
+   "B",
+   "lepton and quark doublets",
+   "Sigma",
+   "Psi (I12)",
+   "metric g"
+  ],
+  "solved_in": "The tip term (in the unitary gauge; $N$ runs over the tip directions) is a mass term for the charged components and for $W^3 - B$ only; solved on the static block by FE-50 with the Robin condition FE-51."
+ },
+ {
+  "id": "FE-24",
+  "title": "The Yang-Mills equation of the hypercharge field $B$",
+  "latex": "\\nabla_M\\Big(\\frac{B^{MN}}{\\hat g_{1,\\mathrm{eff}}^2}\\Big) = J_1^N -\n \\delta_{\\mathrm{tip}}\\,\\frac{v_\\Sigma^2}{4}\\,\n \\big(W^{3N} - B^N\\big)\\qquad (\\Sigma = \\mathbf{1}) \\tag{FE-24}",
+  "keys": [
+   "nabla",
+   "iM",
+   "Bhyp",
+   "iN",
+   "geff",
+   "J1",
+   "deltatip",
+   "vSigma",
+   "Wsu2",
+   "Sigma",
+   "identity"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "B",
+   "W^3",
+   "every fermion",
+   "Sigma",
+   "Psi (I12)",
+   "metric g"
+  ],
+  "solved_in": "As FE-23; the combination that receives no tip term is the photon (see FE-25)."
+ },
+ {
+  "id": "FE-25",
+  "title": "The $W^+$, $W^-$, $Z$ and photon field equations to linear order in the fields (I12 neglected)",
+  "latex": "\\begin{aligned}\n&\\nabla_MW^{\\pm}{}^{MN} = \\hat g_2\\,J_2^{\\pm}{}^N + \\delta_{\\mathrm{tip}}\\,\\frac{v_\\Sigma^2}{4}\\,\\hat\n g_2^2\\,W^{\\pm}{}^N,\\qquad\n \\nabla_MA^{MN} = \\hat e\\,J_{\\mathrm{em}}^N,\\qquad \\hat e = \\frac{\\hat g_2\\hat g_1}{\\hat g_Z},\\\\\n&\\nabla_MZ^{MN} = \\hat g_Z\\big(J_2^{3N} - \\sin^2\\theta_{\\mathrm{W}}\\,J_{\\mathrm{em}}^N\\big)\n + \\delta_{\\mathrm{tip}}\\,\\frac{v_\\Sigma^2}{4}\\,\\hat g_Z^2\\,Z^N,\\\\\n&W^{\\pm}{}^{MN} = \\nabla^MW^{\\pm}{}^N - \\nabla^NW^{\\pm}{}^M,\\qquad Z^{MN} = \\nabla^MZ^N - \\nabla^NZ^M,\\qquad\n A^{MN} = \\nabla^MA^N - \\nabla^NA^M\n\\end{aligned} \\tag{FE-25}",
+  "keys": [
+   "nabla",
+   "iM",
+   "Wpm",
+   "iN",
+   "ghat2",
+   "J2pm",
+   "deltatip",
+   "vSigma",
+   "Aphoton",
+   "ehat",
+   "Jem",
+   "ghat1",
+   "ghatZ",
+   "Zboson",
+   "J2",
+   "thetaW"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "W+",
+   "W-",
+   "Z",
+   "photon A",
+   "every fermion",
+   "Sigma"
+  ],
+  "solved_in": "Obtained exactly from FE-23 and FE-24 at linear order; the photon has no tip term and stays massless; the $W^\\pm$ and $Z$ tip terms become the Robin conditions FE-51."
+ },
+ {
+  "id": "FE-26",
+  "title": "The tip sigma field equation (the Noether identity of the gauge symmetry)",
+  "latex": "\\begin{aligned}\n&\\nabla^\\mu j_\\mu - \\mathrm{i}\\big[W^\\mu,\\ j_\\mu\\big] = -\\mathrm{i}\\,\\frac{\\tau^I}{2}\\sum_{i,j=1}^{3}\\Big[\n \\bar\\ell_i\\,\\frac{\\tau^I}{2}\\,\\Sigma\\begin{pmatrix}(\\mathcal{Y}_\\nu)_{ij}\\,\\nu_{Rj}\\\\ (\n \\mathcal{Y}_e)_{ij}\\,e_{Rj}\\end{pmatrix}\n + \\bar Q_i\\,\\frac{\\tau^I}{2}\\,\\Sigma\\begin{pmatrix}(\\mathcal{Y}_u)_{ij}\\,u_{Rj}\\\\ (\n \\mathcal{Y}_d)_{ij}\\,d_{Rj}\\end{pmatrix}\n - \\text{h.c.}\\Big],\\\\\n&j_\\mu = j^I_\\mu\\,\\frac{\\tau^I}{2},\\qquad j^I_\\mu =\n \\frac{\\mathrm{i}v_\\Sigma^2}{4}\\,\\mathrm{tr}\\big(\\tau^I(D_\\mu\\Sigma)\\Sigma^\\dagger\\big),\n \\qquad j^I_\\mu\\big\\vert_{\\Sigma = \\mathbf{1}} = \\frac{v_\\Sigma^2}{4}\\big(W^I_\\mu - \\delta^{I3}B_\\mu\\big)\n\\end{aligned} \\tag{FE-26}",
+  "keys": [
+   "nabla",
+   "imu",
+   "jsigma",
+   "imag",
+   "Wsu2",
+   "tau",
+   "iI",
+   "ii",
+   "ij",
+   "ldoublet",
+   "Sigma",
+   "Yuk",
+   "nuR",
+   "eR",
+   "Qdoublet",
+   "uR",
+   "dR",
+   "vSigma",
+   "trace",
+   "Dcov",
+   "dagger",
+   "identity",
+   "delta",
+   "Bhyp"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "sigma field Sigma",
+   "W",
+   "B",
+   "fermions at the tip"
+  ],
+  "solved_in": "Not independent: it is the divergence of the tip part of FE-23 (the fermion currents are conserved up to the same tip terms); in the unitary gauge the three modes of $\\Sigma$ are the longitudinal $W^+$, $W^-$ and $Z$."
+ },
+ {
+  "id": "FE-27",
+  "title": "The boundary conditions of gravity and the gauge fields at the fold and the tip",
+  "latex": "\\begin{aligned}\n&z \\to \\pi - z:\\qquad \\partial_yF\\big\\vert_{y=0} = 0\\ \\ \\text{(even)}\\quad\\text{or}\\quad\n F\\big\\vert_{y=0} = 0\\ \\ \\text{(odd)};\\\\\n&\\text{at } y = -L\\text{: the natural (Robin) condition of the tip term}\n\\end{aligned} \\tag{FE-27}",
+  "keys": [
+   "zvar",
+   "pi",
+   "partial",
+   "iy",
+   "Fprof",
+   "ycoord",
+   "Lcut"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g",
+   "gauge fields"
+  ],
+  "solved_in": "Lagrangian boundary conditions of the variational principle; for an $x_0$ profile they are FE-51."
+ },
+ {
+  "id": "FE-28",
+  "title": "The boundary conditions of dirac16complex",
+  "latex": "\\big(1 - \\gamma^{x_0}\\big)\\Psi\\big\\vert_{y=0} = 0\\ \\ \\text{(even)}\\quad\\text{or}\\quad\n\\big(1 + \\gamma^{x_0}\\big)\\Psi\\big\\vert_{y=0} = 0\\ \\ \\text{(odd)},\\qquad\n\\big(1 - \\gamma^{x_0}\\big)\\Psi\\big\\vert_{y=-L} = 0 \\tag{FE-28}",
+  "keys": [
+   "gamma",
+   "x0",
+   "Psi",
+   "ycoord",
+   "Lcut"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi"
+  ],
+  "solved_in": "Both parities are modes of the full period; self-adjoint (DERIVED); in block form they are FE-69."
+ },
+ {
+  "id": "FE-29",
+  "title": "The boundary conditions of the Standard-Model fermions",
+  "latex": "\\begin{aligned}\n&P_{\\mathrm{sel}} = \\frac{1 + \\Gamma_4\\gamma^{x_0}}{2}\\,\\frac{1 - \\mathrm{i}\\gamma^{x_5}\\gamma^{x_6}}{2};\\\\\n&\\text{doublets } (Q, \\ell):\\quad P_{\\mathrm{sel}}\\big(1 - \\gamma^{x_0}\\big)\\psi\\big\\vert_{y=0}\n = \\big(1 - P_{\\mathrm{sel}}\\big)\\big(1 + \\gamma^{x_0}\\big)\\psi\\big\\vert_{y=0} = 0,\\qquad\n \\big(1 - \\gamma^{x_0}\\big)\\psi\\big\\vert_{y=-L} = 0;\\\\\n&\\text{singlets } (u_R, d_R, e_R, \\nu_R):\\quad P_{\\mathrm{sel}}\\big(1 + \\gamma^{x_0}\\big)\\psi\\big\\vert_{y=0}\n = \\big(1 - P_{\\mathrm{sel}}\\big)\\big(1 - \\gamma^{x_0}\\big)\\psi\\big\\vert_{y=0} = 0,\\qquad\n \\big(1 + \\gamma^{x_0}\\big)\\psi\\big\\vert_{y=-L} = 0\n\\end{aligned} \\tag{FE-29}",
+  "keys": [
+   "Psel",
+   "Gamma4",
+   "gamma",
+   "x0",
+   "imag",
+   "x5",
+   "x6",
+   "Qdoublet",
+   "ldoublet",
+   "psi",
+   "ycoord",
+   "Lcut",
+   "uR",
+   "dR",
+   "eR",
+   "nuR"
+  ],
+  "status": "INVENTED",
+  "fields": [
+   "every Standard-Model fermion"
+  ],
+  "solved_in": "Self-adjoint (DERIVED); each doublet has one Weyl zero mode with $\\Gamma_4 = +1$ and each singlet one with $\\Gamma_4 = -1$, in the two selected blocks of the half $\\mathcal{B} = -1$; at the tip modified by the mixing conditions FE-30."
+ },
+ {
+  "id": "FE-30",
+  "title": "The tip mixing conditions of one and of three generations",
+  "latex": "\\begin{aligned}\n&\\text{one generation:}\\quad b_L(-L) = \\mathcal{K}\\,b_R(-L),\\qquad a_R(-L) =\n -\\mathcal{K}\\,a_L(-L),\\qquad \\chi = (a,\\ \\mathrm{i}b);\\\\\n&\\text{three generations:}\\quad b_L(-L) = \\mathcal{K}\\,b_R(-L),\\qquad a_R(-L) = -\\mathcal{K}^\\dagger\n a_L(-L),\\qquad\n \\mathcal{K} \\in \\{\\mathcal{K}_\\nu, \\mathcal{K}_e, \\mathcal{K}_u, \\mathcal{K}_d\\};\\\\\n&\\text{UM-2:}\\quad \\mathcal{K}_e = \\mathcal{K}_u = \\mathbf{1},\\qquad \\mathcal{K}_\\nu = U,\\qquad\n \\mathcal{K}_d = V_{\\mathrm{CKM}}\n\\end{aligned} \\tag{FE-30}",
+  "keys": [
+   "ab",
+   "iL",
+   "Lcut",
+   "Ktip",
+   "iR",
+   "chi",
+   "imag",
+   "dagger",
+   "identity",
+   "Upmns",
+   "VCKM"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "every Standard-Model fermion",
+   "Sigma"
+  ],
+  "solved_in": "Equivalent to the tip Yukawa terms; self-adjoint for every complex matrix (sympy, 42 real variables); the choice of the tip matrices is ASSUMED; solved exactly by the mass conditions FE-59 to FE-60."
+ },
+ {
+  "id": "FE-31",
+  "title": "The order-0 metric in the author's coordinates",
+  "latex": "\\begin{aligned}\n\\bar g = \\mathrm{diag}\\Big(&\\mathrm{e}^{-2a_4}b_4\\cot^2z,\\ \\mathrm{e}^{2a_4},\\ \\mathrm{e}^{2a_4},\\ \n \\mathrm{e}^{2a_4},\\ -1,\\\\\n&-\\mathrm{e}^{-2a_4}b_4(\\sin^2z)^{1/6},\\ -\\mathrm{e}^{-2a_4}b_4(\\sin^2z)^{1/6},\\ -\\mathrm{e}^{-2a_4}b_4(\n \\sin^2z)^{1/6}\\Big),\n \\qquad z = 6Hx_0\n\\end{aligned} \\tag{FE-31}",
+  "keys": [
+   "gbar",
+   "diag",
+   "euler",
+   "a4",
+   "b4",
+   "zvar",
+   "Hconst",
+   "x0"
+  ],
+  "status": "AUTHOR",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "The corrected primordial metric of the record (author's coordinates, $x_0$ first); its curvature is computed exactly (sympy, identical in both charts) and does not depend on $x_0$."
+ },
+ {
+  "id": "FE-32",
+  "title": "The hidden coordinate $y$, the block scale and the rates of the background",
+  "latex": "\\begin{aligned}\n&y = \\frac{\\ln\\lvert\\sin z\\rvert}{6H},\\qquad \\mathrm{d}y = \\cot z\\,\\mathrm{d}x_0,\\qquad \\xi =\n \\frac{y}{L}\\in[-1, 0],\\\\\n&\\bar g_{MN}\\,\\mathrm{d}X^M\\mathrm{d}X^N = \\mathrm{e}^{2a_4}\\big(\\mathrm{d}x_1^2 + \\mathrm{d}x_2^2 +\n \\mathrm{d}x_3^2\\big)\n - \\mathrm{d}x_4^2 + f^2\\Big[\\mathrm{d}y^2 - \\mathrm{e}^{2Hy}\\big(\\mathrm{d}x_5^2 + \\mathrm{d}x_6^2 +\n \\mathrm{d}x_7^2\\big)\\Big],\\\\\n&f = \\mathrm{e}^{-a_4}b_4^{1/2},\\qquad K = \\frac{1}{f^2},\\qquad \\mathcal{H} = \\dot a_4,\\qquad\n \\mathcal{H}_f = \\frac{\\dot f}{f} = \\frac{\\dot b_4}{2b_4} - \\dot a_4,\\qquad \\dot K = -2K\\mathcal{H}_f,\\\\\n&\\sqrt{\\lvert\\bar g\\rvert} = \\mathrm{e}^{3a_4}f^4\\lvert\\cot z\\rvert(\\sin^2z)^{1/4}\n = \\mathrm{e}^{3a_4}f^4\\,\\mathrm{e}^{3Hy}\\Big\\lvert\\frac{\\mathrm{d}y}{\\mathrm{d}x_0}\\Big\\rvert\n\\end{aligned} \\tag{FE-32}",
+  "keys": [
+   "ycoord",
+   "zvar",
+   "Hconst",
+   "diff",
+   "x0",
+   "xi",
+   "Lcut",
+   "gbar",
+   "iM",
+   "iN",
+   "Xcoord",
+   "euler",
+   "a4",
+   "x1",
+   "x2",
+   "x3",
+   "x4",
+   "fblock",
+   "x5",
+   "x6",
+   "x7",
+   "b4",
+   "Kblock",
+   "Hubble",
+   "a4dot",
+   "Hf",
+   "fdot",
+   "b4dot",
+   "Kdot"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "Exact change of chart; one period of $x_0$ (length $\\pi/(6H)$) is two halves joined at the fold $y = 0$, each closed by the regular tip at $y = -L$ ($HL = 3$, ASSUMED)."
+ },
+ {
+  "id": "FE-33",
+  "title": "The sectional curvatures of the order-0 metric",
+  "latex": "\\begin{aligned}\n&R^{x_1x_2}{}_{x_1x_2} = \\mathcal{H}^2,\\qquad R^{x_1x_4}{}_{x_1x_4} = \\mathcal{H}^2 + \\dot{\\mathcal{H}},\\qquad\n R^{x_1x_0}{}_{x_1x_0} = \\mathcal{H}\\mathcal{H}_f,\\qquad R^{x_4x_0}{}_{x_4x_0} = \\mathcal{H}_f^2 +\n \\dot{\\mathcal{H}}_f,\\\\\n&R^{x_0x_5}{}_{x_0x_5} = \\mathcal{H}_f^2 - H^2K;\\\\\n&\\text{the same for every pair of the same kind; all other $R^{ab}{}_{cd}$ with $\\{a, b\\} \\ne \\{c, d\\}$\n vanish}\n\\end{aligned} \\tag{FE-33}",
+  "keys": [
+   "Riemann",
+   "x1",
+   "x2",
+   "Hubble",
+   "x4",
+   "Hdot",
+   "x0",
+   "Hf",
+   "Hfdot",
+   "x5",
+   "Hconst",
+   "Kblock"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "Exact (sympy, both charts, 25 checks); $x_1$, $x_2$, $x_3$ are equivalent, and $x_0$, $x_5$, $x_6$, $x_7$ are equivalent."
+ },
+ {
+  "id": "FE-34",
+  "title": "The Lovelock densities and tensors of a pair-diagonal curvature",
+  "latex": "\\begin{aligned}\n&\\mathcal{L}_{(1)} = 2\\sum_{\\text{pairs}}R^{ab}{}_{ab},\\qquad\n \\mathcal{L}_{(2)} = 8\\sum_{\\text{2 disjoint pairs}}\\ \\prod_{\\text{pairs}}R^{ab}{}_{ab},\\qquad\n \\mathcal{L}_{(3)} = 48\\sum_{\\text{3 disjoint pairs}}\\ \\prod_{\\text{pairs}}R^{ab}{}_{ab},\\\\\n&\\mathcal{E}_{(1)}{}^c{}_c = -\\sum_{\\text{pairs avoiding $c$}}R^{ab}{}_{ab},\\qquad\n \\mathcal{E}_{(2)}{}^c{}_c = -4\\sum_{\\text{2 disjoint pairs avoiding\n $c$}}\\ \\prod_{\\text{pairs}}R^{ab}{}_{ab},\\\\\n&\\mathcal{E}_{(3)}{}^c{}_c = -24\\sum_{\\text{3 disjoint pairs avoiding $c$}}\\ \\prod_{\\text{pairs}}R^{ab}{}_{ab}\n\\end{aligned} \\tag{FE-34}",
+  "keys": [
+   "Lov",
+   "Riemann",
+   "ia",
+   "ib",
+   "LovE",
+   "ic"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "Exact (the coefficients are $2^pp!$ and $-2^{p-1}p!$ for the order $p$); checked against the Ricci route ($p = 1$), the explicit Gauss-Bonnet tensor ($p = 2$), the Bianchi identities and the minisuperspace variation with a lapse ($p = 1, 2, 3$)."
+ },
+ {
+  "id": "FE-35",
+  "title": "The first Lovelock tensor (the Einstein tensor) of the order-0 metric",
+  "latex": "\\begin{aligned}\n\\mathcal{E}_{(1)}{}^{x_4}{}_{x_4} ={}& -3\\,\\mathcal{H}^{2} - 12\\,\\mathcal{H}\\mathcal{H}_f -\n 6\\,\\mathcal{H}_f^{2} + 6\\,KH^{2} \\\\\n\\mathcal{E}_{(1)}{}^{x_1}{}_{x_1} ={}& -3\\,\\mathcal{H}^{2} - 8\\,\\mathcal{H}\\mathcal{H}_f -\n 10\\,\\mathcal{H}_f^{2} - 2\\,\\dot{\\mathcal{H}} - 4\\,\\dot{\\mathcal{H}}_f + 6\\,KH^{2} \\\\\n\\mathcal{E}_{(1)}{}^{x_0}{}_{x_0} ={}& -6\\,\\mathcal{H}^{2} - 9\\,\\mathcal{H}\\mathcal{H}_f -\n 6\\,\\mathcal{H}_f^{2} - 3\\,\\dot{\\mathcal{H}} - 3\\,\\dot{\\mathcal{H}}_f + 3\\,KH^{2}\n\\end{aligned} \\tag{FE-35}",
+  "keys": [
+   "LovE",
+   "x4",
+   "Hubble",
+   "Hf",
+   "Kblock",
+   "Hconst",
+   "x1",
+   "Hdot",
+   "Hfdot",
+   "x0"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "Exact; every off-diagonal component vanishes and the $x_0$ component equals the $x_5$, $x_6$, $x_7$ components."
+ },
+ {
+  "id": "FE-36",
+  "title": "The second Lovelock tensor (Gauss-Bonnet) of the order-0 metric",
+  "latex": "\\begin{aligned}\n\\mathcal{E}_{(2)}{}^{x_4}{}_{x_4} ={}& -48\\,\\mathcal{H}^{3}\\mathcal{H}_f -\n 216\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2} - 144\\,\\mathcal{H}\\mathcal{H}_f^{3} - 12\\,\\mathcal{H}_f^{4} +\n 72\\,K\\mathcal{H}^{2}H^{2} \\\\\n &+ 144\\,K\\mathcal{H}\\mathcal{H}_fH^{2} + 24\\,K\\mathcal{H}_f^{2}H^{2} - 12\\,K^{2}H^{4} \\\\\n\\mathcal{E}_{(2)}{}^{x_1}{}_{x_1} ={}& -32\\,\\mathcal{H}^{3}\\mathcal{H}_f -\n 136\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2} - 192\\,\\mathcal{H}\\mathcal{H}_f^{3} - 60\\,\\mathcal{H}_f^{4} \\\\\n &- 32\\,\\dot{\\mathcal{H}}\\mathcal{H}\\mathcal{H}_f - 48\\,\\dot{\\mathcal{H}}\\mathcal{H}_f^{2} -\n 16\\,\\dot{\\mathcal{H}}_f\\mathcal{H}^{2} - 96\\,\\dot{\\mathcal{H}}_f\\mathcal{H}\\mathcal{H}_f \\\\\n &- 48\\,\\dot{\\mathcal{H}}_f\\mathcal{H}_f^{2} + 72\\,K\\mathcal{H}^{2}H^{2} +\n 96\\,K\\mathcal{H}\\mathcal{H}_fH^{2} + 72\\,K\\mathcal{H}_f^{2}H^{2} + 48\\,\\dot{\\mathcal{H}}KH^{2} \\\\\n &+ 48\\,\\dot{\\mathcal{H}}_fKH^{2} - 12\\,K^{2}H^{4} \\\\\n\\mathcal{E}_{(2)}{}^{x_0}{}_{x_0} ={}& -12\\,\\mathcal{H}^{4} - 108\\,\\mathcal{H}^{3}\\mathcal{H}_f -\n 180\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2} - 108\\,\\mathcal{H}\\mathcal{H}_f^{3} - 12\\,\\mathcal{H}_f^{4} \\\\\n &- 12\\,\\dot{\\mathcal{H}}\\mathcal{H}^{2} - 72\\,\\dot{\\mathcal{H}}\\mathcal{H}\\mathcal{H}_f -\n 36\\,\\dot{\\mathcal{H}}\\mathcal{H}_f^{2} - 36\\,\\dot{\\mathcal{H}}_f\\mathcal{H}^{2} \\\\\n &- 72\\,\\dot{\\mathcal{H}}_f\\mathcal{H}\\mathcal{H}_f - 12\\,\\dot{\\mathcal{H}}_f\\mathcal{H}_f^{2} +\n 72\\,K\\mathcal{H}^{2}H^{2} + 36\\,K\\mathcal{H}\\mathcal{H}_fH^{2} + 12\\,K\\mathcal{H}_f^{2}H^{2} \\\\\n &+ 36\\,\\dot{\\mathcal{H}}KH^{2} + 12\\,\\dot{\\mathcal{H}}_fKH^{2}\n\\end{aligned} \\tag{FE-36}",
+  "keys": [
+   "LovE",
+   "x4",
+   "Hubble",
+   "Hf",
+   "Kblock",
+   "Hconst",
+   "x1",
+   "Hdot",
+   "Hfdot",
+   "x0"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "Exact (sympy, four routes)."
+ },
+ {
+  "id": "FE-37",
+  "title": "The third Lovelock tensor of the order-0 metric",
+  "latex": "\\begin{aligned}\n\\mathcal{E}_{(3)}{}^{x_4}{}_{x_4} ={}& -1440\\,\\mathcal{H}^{3}\\mathcal{H}_f^{3} -\n 1080\\,\\mathcal{H}^{2}\\mathcal{H}_f^{4} + 864\\,K\\mathcal{H}^{3}\\mathcal{H}_fH^{2} +\n 1296\\,K\\mathcal{H}^{2}\\mathcal{H}_f^{2}H^{2} \\\\\n &- 216\\,K^{2}\\mathcal{H}^{2}H^{4} \\\\\n\\mathcal{E}_{(3)}{}^{x_1}{}_{x_1} ={}& -576\\,\\mathcal{H}^{3}\\mathcal{H}_f^{3} -\n 1368\\,\\mathcal{H}^{2}\\mathcal{H}_f^{4} - 576\\,\\mathcal{H}\\mathcal{H}_f^{5} -\n 576\\,\\dot{\\mathcal{H}}\\mathcal{H}\\mathcal{H}_f^{3} \\\\\n &- 144\\,\\dot{\\mathcal{H}}\\mathcal{H}_f^{4} - 864\\,\\dot{\\mathcal{H}}_f\\mathcal{H}^{2}\\mathcal{H}_f^{2} -\n 576\\,\\dot{\\mathcal{H}}_f\\mathcal{H}\\mathcal{H}_f^{3} + 576\\,K\\mathcal{H}^{3}\\mathcal{H}_fH^{2} \\\\\n &+ 1008\\,K\\mathcal{H}^{2}\\mathcal{H}_f^{2}H^{2} + 576\\,K\\mathcal{H}\\mathcal{H}_f^{3}H^{2} +\n 576\\,\\dot{\\mathcal{H}}K\\mathcal{H}\\mathcal{H}_fH^{2} \\\\\n &+ 288\\,\\dot{\\mathcal{H}}K\\mathcal{H}_f^{2}H^{2} + 288\\,\\dot{\\mathcal{H}}_fK\\mathcal{H}^{2}H^{2} +\n 576\\,\\dot{\\mathcal{H}}_fK\\mathcal{H}\\mathcal{H}_fH^{2} - 216\\,K^{2}\\mathcal{H}^{2}H^{4} \\\\\n &- 144\\,\\dot{\\mathcal{H}}K^{2}H^{4} \\\\\n\\mathcal{E}_{(3)}{}^{x_0}{}_{x_0} ={}& -648\\,\\mathcal{H}^{4}\\mathcal{H}_f^{2} -\n 1224\\,\\mathcal{H}^{3}\\mathcal{H}_f^{3} - 648\\,\\mathcal{H}^{2}\\mathcal{H}_f^{4} -\n 648\\,\\dot{\\mathcal{H}}\\mathcal{H}^{2}\\mathcal{H}_f^{2} \\\\\n &- 432\\,\\dot{\\mathcal{H}}\\mathcal{H}\\mathcal{H}_f^{3} -\n 432\\,\\dot{\\mathcal{H}}_f\\mathcal{H}^{3}\\mathcal{H}_f -\n 648\\,\\dot{\\mathcal{H}}_f\\mathcal{H}^{2}\\mathcal{H}_f^{2} + 216\\,K\\mathcal{H}^{4}H^{2} \\\\\n &+ 648\\,K\\mathcal{H}^{3}\\mathcal{H}_fH^{2} + 216\\,K\\mathcal{H}^{2}\\mathcal{H}_f^{2}H^{2} +\n 216\\,\\dot{\\mathcal{H}}K\\mathcal{H}^{2}H^{2} + 432\\,\\dot{\\mathcal{H}}K\\mathcal{H}\\mathcal{H}_fH^{2} \\\\\n &+ 216\\,\\dot{\\mathcal{H}}_fK\\mathcal{H}^{2}H^{2}\n\\end{aligned} \\tag{FE-37}",
+  "keys": [
+   "LovE",
+   "x4",
+   "Hubble",
+   "Hf",
+   "Kblock",
+   "Hconst",
+   "x1",
+   "Hdot",
+   "Hfdot",
+   "x0"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "Exact (sympy, four routes)."
+ },
+ {
+  "id": "FE-38",
+  "title": "The background equation: the $x_4$ component (the constraint)",
+  "latex": "\\begin{aligned}\nx_4:\\quad &-\\frac{5\\,\\mathcal{H}^{3}\\mathcal{H}_f^{3}}{4H^{4}} -\n \\frac{15\\,\\mathcal{H}^{2}\\mathcal{H}_f^{4}}{16H^{4}} + \\frac{3\\,K\\mathcal{H}^{3}\\mathcal{H}_f}{4H^{2}} \\\\\n &+ \\frac{9\\,K\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{8H^{2}} - \\frac{3\\,\\mathcal{H}^{3}\\mathcal{H}_f}{2H^{2}}\n - \\frac{27\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{4H^{2}} \\\\\n &- \\frac{9\\,\\mathcal{H}\\mathcal{H}_f^{3}}{2H^{2}} - \\frac{3\\,\\mathcal{H}_f^{4}}{8H^{2}} -\n \\frac{3\\,K^{2}\\mathcal{H}^{2}}{16} + \\frac{9\\,K\\mathcal{H}^{2}}{4} \\\\\n &+ \\frac{9\\,K\\mathcal{H}\\mathcal{H}_f}{2} + \\frac{3\\,K\\mathcal{H}_f^{2}}{4} - 3\\,\\mathcal{H}^{2} -\n 12\\,\\mathcal{H}\\mathcal{H}_f - 6\\,\\mathcal{H}_f^{2} - \\frac{3\\,K^{2}H^{2}}{8} + 6\\,KH^{2} - 10\\,H^{2} \\\\\n &= -\\kappa\\rho\n\\end{aligned} \\tag{FE-38}",
+  "keys": [
+   "x4",
+   "Hubble",
+   "Hf",
+   "Hconst",
+   "Kblock",
+   "kappa",
+   "rho"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g (a4, b4)",
+   "all sources (block averages)"
+  ],
+  "solved_in": "Exact; preserved to 6e-10 in the numerical integration of the primordial era; at the static block it gives FE-42."
+ },
+ {
+  "id": "FE-39",
+  "title": "The background equation: the 3-space component",
+  "latex": "\\begin{aligned}\nx_1:\\quad &\\Big[-\\frac{\\mathcal{H}\\mathcal{H}_f^{3}}{2H^{4}} - \\frac{\\mathcal{H}_f^{4}}{8H^{4}} +\n \\frac{K\\mathcal{H}\\mathcal{H}_f}{2H^{2}} + \\frac{K\\mathcal{H}_f^{2}}{4H^{2}} \\\\\n &- \\frac{\\mathcal{H}\\mathcal{H}_f}{H^{2}} - \\frac{3\\,\\mathcal{H}_f^{2}}{2H^{2}} - \\frac{K^{2}}{8} +\n \\frac{3\\,K}{2} - 2\\Big]\\,\\dot{\\mathcal{H}} \\\\\n &+ \\Big[-\\frac{3\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{4H^{4}} -\n \\frac{\\mathcal{H}\\mathcal{H}_f^{3}}{2H^{4}} + \\frac{K\\mathcal{H}^{2}}{4H^{2}} \\\\\n &+ \\frac{K\\mathcal{H}\\mathcal{H}_f}{2H^{2}} - \\frac{\\mathcal{H}^{2}}{2H^{2}} -\n \\frac{3\\,\\mathcal{H}\\mathcal{H}_f}{H^{2}} - \\frac{3\\,\\mathcal{H}_f^{2}}{2H^{2}} + \\frac{3\\,K}{2} -\n 4\\Big]\\,\\dot{\\mathcal{H}}_f \\\\\n &-\\frac{\\mathcal{H}^{3}\\mathcal{H}_f^{3}}{2H^{4}} -\n \\frac{19\\,\\mathcal{H}^{2}\\mathcal{H}_f^{4}}{16H^{4}} - \\frac{\\mathcal{H}\\mathcal{H}_f^{5}}{2H^{4}} +\n \\frac{K\\mathcal{H}^{3}\\mathcal{H}_f}{2H^{2}} \\\\\n &+ \\frac{7\\,K\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{8H^{2}} + \\frac{K\\mathcal{H}\\mathcal{H}_f^{3}}{2H^{2}} -\n \\frac{\\mathcal{H}^{3}\\mathcal{H}_f}{H^{2}} - \\frac{17\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{4H^{2}} \\\\\n &- \\frac{6\\,\\mathcal{H}\\mathcal{H}_f^{3}}{H^{2}} - \\frac{15\\,\\mathcal{H}_f^{4}}{8H^{2}} -\n \\frac{3\\,K^{2}\\mathcal{H}^{2}}{16} + \\frac{9\\,K\\mathcal{H}^{2}}{4} \\\\\n &+ 3\\,K\\mathcal{H}\\mathcal{H}_f + \\frac{9\\,K\\mathcal{H}_f^{2}}{4} - 3\\,\\mathcal{H}^{2} -\n 8\\,\\mathcal{H}\\mathcal{H}_f - 10\\,\\mathcal{H}_f^{2} - \\frac{3\\,K^{2}H^{2}}{8} + 6\\,KH^{2} - 10\\,H^{2} \\\\\n &= \\kappa p_3\n\\end{aligned} \\tag{FE-39}",
+  "keys": [
+   "x1",
+   "Hubble",
+   "Hf",
+   "Hconst",
+   "Kblock",
+   "Hdot",
+   "Hfdot",
+   "kappa",
+   "p3"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g",
+   "all sources"
+  ],
+  "solved_in": "Exact; solved together with the $x_0$ component for the two rates and integrated numerically (LSODA) from the primordial block to the static block."
+ },
+ {
+  "id": "FE-40",
+  "title": "The background equation: the hidden (block) component",
+  "latex": "\\begin{aligned}\nx_0:\\quad &\\Big[-\\frac{9\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{16H^{4}} -\n \\frac{3\\,\\mathcal{H}\\mathcal{H}_f^{3}}{8H^{4}} + \\frac{3\\,K\\mathcal{H}^{2}}{16H^{2}} +\n \\frac{3\\,K\\mathcal{H}\\mathcal{H}_f}{8H^{2}} \\\\\n &- \\frac{3\\,\\mathcal{H}^{2}}{8H^{2}} - \\frac{9\\,\\mathcal{H}\\mathcal{H}_f}{4H^{2}} -\n \\frac{9\\,\\mathcal{H}_f^{2}}{8H^{2}} + \\frac{9\\,K}{8} - 3\\Big]\\,\\dot{\\mathcal{H}} \\\\\n &+ \\Big[-\\frac{3\\,\\mathcal{H}^{3}\\mathcal{H}_f}{8H^{4}} -\n \\frac{9\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{16H^{4}} + \\frac{3\\,K\\mathcal{H}^{2}}{16H^{2}} -\n \\frac{9\\,\\mathcal{H}^{2}}{8H^{2}} \\\\\n &- \\frac{9\\,\\mathcal{H}\\mathcal{H}_f}{4H^{2}} - \\frac{3\\,\\mathcal{H}_f^{2}}{8H^{2}} + \\frac{3\\,K}{8} -\n 3\\Big]\\,\\dot{\\mathcal{H}}_f \\\\\n &-\\frac{9\\,\\mathcal{H}^{4}\\mathcal{H}_f^{2}}{16H^{4}} -\n \\frac{17\\,\\mathcal{H}^{3}\\mathcal{H}_f^{3}}{16H^{4}} -\n \\frac{9\\,\\mathcal{H}^{2}\\mathcal{H}_f^{4}}{16H^{4}} + \\frac{3\\,K\\mathcal{H}^{4}}{16H^{2}} \\\\\n &+ \\frac{9\\,K\\mathcal{H}^{3}\\mathcal{H}_f}{16H^{2}} +\n \\frac{3\\,K\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{16H^{2}} - \\frac{3\\,\\mathcal{H}^{4}}{8H^{2}} -\n \\frac{27\\,\\mathcal{H}^{3}\\mathcal{H}_f}{8H^{2}} \\\\\n &- \\frac{45\\,\\mathcal{H}^{2}\\mathcal{H}_f^{2}}{8H^{2}} -\n \\frac{27\\,\\mathcal{H}\\mathcal{H}_f^{3}}{8H^{2}} - \\frac{3\\,\\mathcal{H}_f^{4}}{8H^{2}} \\\\\n &+ \\frac{9\\,K\\mathcal{H}^{2}}{4} + \\frac{9\\,K\\mathcal{H}\\mathcal{H}_f}{8} +\n \\frac{3\\,K\\mathcal{H}_f^{2}}{8} - 6\\,\\mathcal{H}^{2} - 9\\,\\mathcal{H}\\mathcal{H}_f \\\\\n &- 6\\,\\mathcal{H}_f^{2} + 3\\,KH^{2} - 10\\,H^{2} \\\\\n &= \\kappa\\bar p\n\\end{aligned} \\tag{FE-40}",
+  "keys": [
+   "x0",
+   "Hubble",
+   "Hf",
+   "Hconst",
+   "Kblock",
+   "Hdot",
+   "Hfdot",
+   "kappa",
+   "pbar"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g",
+   "all sources"
+  ],
+  "solved_in": "Exact for a block-isotropic source; for $p_0 \\ne p_5$ it is the variation with respect to the common block scale $f$, and $p_0 - p_5$ drives a block-shape mode outside the order-0 metric (OPEN)."
+ },
+ {
+  "id": "FE-41",
+  "title": "The conservation of the order-0 source",
+  "latex": "\\dot\\rho = -3\\mathcal{H}(\\rho + p_3) - \\mathcal{H}_f(\\rho + p_0) - 3\\mathcal{H}_f(\\rho + p_5)\n = -3\\mathcal{H}(\\rho + p_3) - 4\\mathcal{H}_f(\\rho + \\bar p) \\tag{FE-41}",
+  "keys": [
+   "rhodot",
+   "Hubble",
+   "rho",
+   "p3",
+   "Hf",
+   "p0",
+   "p5",
+   "pbar"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "all sources"
+  ],
+  "solved_in": "Exact consequence of FE-11; for the stabiliser it gives $\\rho_{\\mathrm{stab}} \\propto f^{-8}$."
+ },
+ {
+  "id": "FE-42",
+  "title": "The static block",
+  "latex": "\\begin{aligned}\n&x_4:\\ -3\\mathcal{G}(K)\\,\\mathcal{H}^2 + 6H^2K\\big(1 - 2w_{(2)}K\\big) + \\Lambda + \\kappa\\rho = 0,\\qquad\n x_1:\\ \\text{the same with } -\\kappa p_3 \\text{ in place of } \\kappa\\rho,\\\\\n&x_0:\\ 6\\big(12w_{(2)}K - 1\\big)\\mathcal{H}^2 - \\frac{12\\big(w_{(2)} -\n 18w_{(3)}K\\big)}{H^2}\\,\\mathcal{H}^4 + 3H^2K + \\Lambda\n - \\kappa\\bar p = 0,\\\\\n&\\mathcal{G}(K) = 1 - 24w_{(2)}K + 72w_{(3)}K^2 = \\frac{K^2 - 12K + 16}{16}\n\\end{aligned} \\tag{FE-42}",
+  "keys": [
+   "x4",
+   "GK",
+   "Kblock",
+   "Hubble",
+   "Hconst",
+   "wL",
+   "Lambda",
+   "kappa",
+   "rho",
+   "x1",
+   "p3",
+   "x0",
+   "pbar"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g",
+   "sources"
+  ],
+  "solved_in": "Exact for $\\mathcal{H}_f = 0$ and $\\dot{\\mathcal{H}} = 0$; without sources and with $\\mathcal{H} = 0$ the only static block is $K = 1/(4w_{(2)}) = 8$, which needs $\\Lambda = -24H^2$ and has $\\mathcal{G} = -1$ (repulsive gravity)."
+ },
+ {
+  "id": "FE-43",
+  "title": "The stabilised block",
+  "latex": "\\begin{aligned}\n&\\kappa\\rho_{\\mathrm{stab}} = 10H^2 - 6H^2K + \\tfrac38H^2K^2 = \\kappa\\bar p = 3H^2K - 10H^2\n \\ \\Rightarrow\\ K_{\\pm} = 12 \\pm \\tfrac43\\sqrt{51},\\\\\n&K_* = 12 + \\tfrac43\\sqrt{51} = 21.5219,\\qquad f_* = K_*^{-1/2} = 0.215556,\\\\\n&\\mathcal{G}(K_*) = \\tfrac{20}{3} + \\sqrt{51} = 13.8081,\\qquad \\kappa\\rho_{\\mathrm{stab}}(f_*) = \\big(26\n + 4\\sqrt{51}\\big)H^2\n\\end{aligned} \\tag{FE-43}",
+  "keys": [
+   "kappa",
+   "rhostab",
+   "Hconst",
+   "Kblock",
+   "pbar",
+   "Kpm",
+   "Kstar",
+   "fstar",
+   "GK"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g (block scale)",
+   "stabiliser"
+  ],
+  "solved_in": "Exact (closed form); the upper root is the vacuum of UM-2 with attractive four-dimensional gravity; the lower root $K_- = 2.4781$ has $\\mathcal{G} = -0.4748$."
+ },
+ {
+  "id": "FE-44",
+  "title": "The linearised block and the radion",
+  "latex": "\\begin{aligned}\n&\\Delta\\dot{\\mathcal{H}} = \\Xi_{\\mathcal{H}K}\\,\\Delta K,\\qquad \\Delta\\dot{\\mathcal{H}}_f =\n \\Xi_{fK}\\,\\Delta K,\\qquad\n \\Delta\\dot K = -2K_*\\,\\Delta\\mathcal{H}_f,\\\\\n&\\omega_{\\mathrm{r}}^2 = 2K_*\\,\\Xi_{fK} = \\Big(\\frac{31552}{2249} - \\frac{2416\\sqrt{51}}{6747}\\Big)H^2 =\n (3.38705\\,H)^2\n\\end{aligned} \\tag{FE-44}",
+  "keys": [
+   "Delta",
+   "Hdot",
+   "XiHK",
+   "Kblock",
+   "Hfdot",
+   "XifK",
+   "Kdot",
+   "Kstar",
+   "Hf",
+   "omegar",
+   "Hconst"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g (block scale)"
+  ],
+  "solved_in": "Exact; eigenvalues 0 and $\\pm\\mathrm{i}\\omega_{\\mathrm{r}}$: the block is stable and oscillates (the radion, mass 48.42 TeV); stable for every stabiliser law of the family tried."
+ },
+ {
+  "id": "FE-45",
+  "title": "The response of the block to matter to first order",
+  "latex": "\\begin{aligned}\n\\Delta\\dot{\\mathcal{H}} &= \\Xi_{\\mathcal{H}K}\\,\\Delta K + \\Xi_{\\mathcal{H}3}\\,\\kappa\\Delta p_3\n + \\Xi_{\\mathcal{H}p}\\,\\kappa\\Delta\\bar p + \\Xi_{\\mathcal{H}\\rho}\\,\\kappa\\Delta\\rho,\\qquad\n 3\\mathcal{G}(K_*)\\,\\mathcal{H}^2 = \\kappa\\Delta\\rho,\\\\\n\\Delta\\dot{\\mathcal{H}}_f &= \\Xi_{fK}\\,\\Delta K + \\Xi_{f3}\\,\\kappa\\Delta p_3 + \\Xi_{fp}\\,\\kappa\\Delta\\bar p\n + \\Xi_{f\\rho}\\,\\kappa\\Delta\\rho,\\\\\n\\Delta\\ddot K + \\omega_{\\mathrm{r}}^2\\,\\Delta K &= -2K_*\\big(\\Xi_{f3}\\,\\kappa\\Delta p_3 +\n \\Xi_{fp}\\,\\kappa\\Delta\\bar p\n + \\Xi_{f\\rho}\\,\\kappa\\Delta\\rho\\big)\n\\end{aligned} \\tag{FE-45}",
+  "keys": [
+   "Delta",
+   "Hdot",
+   "XiHK",
+   "Kblock",
+   "XiH3",
+   "kappa",
+   "p3",
+   "XiHp",
+   "pbar",
+   "XiHrho",
+   "rho",
+   "GK",
+   "Kstar",
+   "Hubble",
+   "Hfdot",
+   "XifK",
+   "Xif3",
+   "Xifp",
+   "Xifrho",
+   "Kddot",
+   "omegar"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g (block)",
+   "all sources"
+  ],
+  "solved_in": "Exact to first order ($\\mathcal{H}^2$ counted as first order); the coefficients are FE-46."
+ },
+ {
+  "id": "FE-46",
+  "title": "The coefficients of the first-order block response",
+  "latex": "\\begin{aligned}\n&\\Xi_{\\mathcal{H}K} = \\frac{6\\big(238 - 19\\sqrt{51}\\big)}{2249}H^2,\\qquad \\Xi_{fK} = \\frac{4063 -\n 485\\sqrt{51}}{2249}H^2,\\qquad\n \\Xi_{\\mathcal{H}3} = \\frac{2283}{4498} - \\frac{162\\sqrt{51}}{2249},\\\\\n&\\Xi_{\\mathcal{H}p} = \\frac{28\\sqrt{51} - 114}{2249},\\qquad\n \\Xi_{\\mathcal{H}\\rho} = \\frac{135021}{265382} - \\frac{10308\\sqrt{51}}{132691},\\qquad\n \\Xi_{f3} = \\frac{21\\sqrt{51}}{2249} - \\frac{171}{4498},\\\\\n&\\Xi_{fp} = \\frac{239\\sqrt{51}}{6747} - \\frac{485}{2249},\\qquad \\Xi_{f\\rho} = \\frac{57}{4498} -\n \\frac{7\\sqrt{51}}{2249}\n\\end{aligned} \\tag{FE-46}",
+  "keys": [
+   "XiHK",
+   "Hconst",
+   "XifK",
+   "XiH3",
+   "XiHp",
+   "XiHrho",
+   "Xif3",
+   "Xifp",
+   "Xifrho"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g (block)"
+  ],
+  "solved_in": "Exact (sympy); numerically $0.272956\\,H^2$, $0.266522\\,H^2$, $-0.006853$, $0.038221$, $-0.045997$, $0.028666$, $0.037320$, $-0.009555$."
+ },
+ {
+  "id": "FE-47",
+  "title": "The adiabatic block response and the four-dimensional Friedmann acceleration equation",
+  "latex": "\\Delta K = \\frac{c_\\rho\\,\\kappa\\Delta\\rho + c_3\\,\\kappa\\Delta p_3 + c_p\\,\\kappa\\Delta\\bar p}{H^2},\\qquad\n\\Delta\\ln f = -\\frac{\\Delta K}{2K_*},\\qquad c_3 = -3c_\\rho,\\qquad\n\\Delta\\dot{\\mathcal{H}} = -\\frac{\\kappa(\\Delta\\rho + \\Delta p_3)}{2\\mathcal{G}(K_*)} \\tag{FE-47}",
+  "keys": [
+   "Delta",
+   "Kblock",
+   "crho",
+   "kappa",
+   "rho",
+   "c3",
+   "p3",
+   "cp",
+   "pbar",
+   "Hconst",
+   "fblock",
+   "Kstar",
+   "Hdot",
+   "GK"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g (block)",
+   "all sources"
+  ],
+  "solved_in": "Exact for a slowly varying source (second time derivative of $\\Delta K$ neglected); radiation drops out exactly; used in every environment of the coupled solution FE-80."
+ },
+ {
+  "id": "FE-48",
+  "title": "The four-dimensional reduction of the Lovelock action on the static block",
+  "latex": "\\begin{aligned}\n&\\mathcal{L}_{(1)} = \\mathcal{L}^{(4)}_{(1)} + \\mathcal{L}^{(\\mathrm{int})}_{(1)},\\qquad\n \\mathcal{L}_{(2)} = \\mathcal{L}^{(4)}_{(2)} + 2\\mathcal{L}^{(4)}_{(1)}\\mathcal{L}^{(\\mathrm{int})}_{(1)}\n + \\mathcal{L}^{(\\mathrm{int})}_{(2)},\\qquad\n \\mathcal{L}_{(3)} = 3\\mathcal{L}^{(4)}_{(2)}\\mathcal{L}^{(\\mathrm{int})}_{(1)} +\n 3\\mathcal{L}^{(4)}_{(1)}\\mathcal{L}^{(\\mathrm{int})}_{(2)},\\\\\n&\\mathcal{L}^{(4)}_{(1)} = R^{(4)},\\qquad \\mathcal{L}^{(4)}_{(3)} = 0,\\qquad\n \\mathcal{L}^{(\\mathrm{int})}_{(1)} = -12H^2K,\\qquad\n \\mathcal{L}^{(\\mathrm{int})}_{(2)} = 24H^4K^2,\\qquad \\mathcal{L}^{(\\mathrm{int})}_{(3)} = 0,\\\\\n&\\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{L}_{(p)} - 2\\Lambda - 2\\kappa\\rho_{\\mathrm{stab}}\n = \\mathcal{G}(K)\\,R^{(4)} + \\text{(topological)} - 2\\mathcal{G}(K)\\,\\Lambda_4,\\\\\n&\\Lambda_4 = \\frac{6H^2K\\big(1 - 2w_{(2)}K\\big) + \\Lambda + \\kappa\\rho_{\\mathrm{stab}}}{\\mathcal{G}(K)}\n\\end{aligned} \\tag{FE-48}",
+  "keys": [
+   "Lov",
+   "Lov4",
+   "Lovint",
+   "R4",
+   "Hconst",
+   "Kblock",
+   "ip",
+   "alphaL",
+   "Lambda",
+   "kappa",
+   "rhostab",
+   "GK",
+   "Lambda4",
+   "wL"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "Exact (the four-dimensional quadratic density is topological, the cubic one vanishes); $\\Lambda_4 = 0$ at the static point; the observed dark energy is a tuned residual, $\\Lambda_4/H^2 \\sim 10^{-92}$ (OPEN)."
+ },
+ {
+  "id": "FE-49",
+  "title": "The four-dimensional effective gravity and the four-dimensional couplings",
+  "latex": "\\begin{aligned}\n&G^{(4)}_{\\mu\\nu} + \\Lambda_4\\,g^{(4)}_{\\mu\\nu} = 8\\pi G_{\\mathrm{N}}\\,\\mathcal{T}^{(4)}_{\\mu\\nu},\\qquad\n 8\\pi G_{\\mathrm{N}} = \\frac{\\kappa}{\\mathcal{G}(K_*)\\,V_\\perp},\\qquad V_\\perp =\n \\frac{2f^4v_{\\mathrm{t}}\\big(1 - \\mathrm{e}^{-3HL}\\big)}{3H},\\\\\n&\\mathcal{T}^{(4)}_{\\mu\\nu} =\n \\int\\mathrm{d}x_0\\,\\mathrm{d}x_5\\,\\mathrm{d}x_6\\,\\mathrm{d}x_7\\,\\sqrt{\\lvert\n g_\\perp\\rvert}\\;\\mathcal{T}_{\\mu\\nu},\n \\qquad g_3^2 = \\frac{\\hat g_3^2}{V_\\perp},\\qquad g_2^2 = \\frac{\\hat g_2^2}{V_\\perp},\\qquad g_1^2 =\n \\frac{\\hat g_1^2}{V_\\perp}\n\\end{aligned} \\tag{FE-49}",
+  "keys": [
+   "G4tensor",
+   "imu",
+   "inu",
+   "Lambda4",
+   "g4",
+   "pi",
+   "GN",
+   "T4",
+   "kappa",
+   "GK",
+   "Kstar",
+   "Vperp",
+   "fblock",
+   "vt",
+   "euler",
+   "Hconst",
+   "Lcut",
+   "diff",
+   "x0",
+   "x5",
+   "x6",
+   "x7",
+   "gperp",
+   "EMT",
+   "g3",
+   "ghat3",
+   "g2",
+   "ghat2",
+   "g1",
+   "ghat1"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "four-dimensional metric",
+   "all fields"
+  ],
+  "solved_in": "Exact: four-dimensional gravity on the stabilised block is general relativity; its linear perturbations are FE-90."
+ },
+ {
+  "id": "FE-50",
+  "title": "The $x_0$ eigenvalue equation of the gauge fields and the graviton",
+  "latex": "\\begin{aligned}\n&\\int_{-L}^{0}\\mathrm{d}y\\,f^4\\mathrm{e}^{3Hy}\\Big[\\frac{(\\partial_yF)^2}{f^2} -\n m^2F^2\\Big]\\ \\text{stationary}:\\qquad\n -\\frac{1}{f^2}\\,\\mathrm{e}^{-3Hy}\\,\\partial_y\\big(\\mathrm{e}^{3Hy}\\,\\partial_yF\\big) = m^2F,\\\\\n&\\Leftrightarrow\\qquad\n -\\mathrm{e}^{-3HL\\xi}\\,\\frac{\\mathrm{d}}{\\mathrm{d}\\xi}\\Big(\\mathrm{e}^{3HL\\xi}\\,\\frac{\\mathrm{d}F}{\n \\mathrm{d}\\xi}\\Big)\n = \\tilde m^2F,\\qquad \\tilde m = m\\,fL\n\\end{aligned} \\tag{FE-50}",
+  "keys": [
+   "Lcut",
+   "diff",
+   "ycoord",
+   "fblock",
+   "euler",
+   "Hconst",
+   "partial",
+   "iy",
+   "Fprof",
+   "mmass",
+   "xi",
+   "mtilde"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "gluons",
+   "photon",
+   "W+",
+   "W-",
+   "Z",
+   "graviton (transverse-traceless)"
+  ],
+  "solved_in": "Exact reduction on the static block (in the gauge where the $y$ component of the gauge field vanishes; the same operator for the transverse-traceless graviton in Einstein gravity); solved exactly by FE-52 (mpmath) and checked with finite elements to $5\\times10^{-10}$."
+ },
+ {
+  "id": "FE-51",
+  "title": "The fold and tip conditions of the boson $x_0$ profiles",
+  "latex": "\\begin{aligned}\n&\\frac{\\mathrm{d}F}{\\mathrm{d}\\xi}\\Big\\vert_{\\xi=0} = 0\\ \\ \\text{(even)}\\quad\\text{or}\\quad F(0) =\n 0\\ \\ \\text{(odd)},\\qquad\n \\frac{\\mathrm{d}F}{\\mathrm{d}\\xi}\\Big\\vert_{\\xi=-1} = \\beta\\,F(-1),\\\\\n&\\beta = 0\\ \\ (\\text{photon, gluons, graviton}),\\qquad \\beta = \\beta_{\\mathrm{W}}\\ \\ (W^\\pm),\\qquad\n \\beta = \\beta_{\\mathrm{Z}} = \\frac{\\beta_{\\mathrm{W}}}{\\cos^2\\theta_{\\mathrm{W}}}\\ \\ (Z)\n\\end{aligned} \\tag{FE-51}",
+  "keys": [
+   "diff",
+   "Fprof",
+   "xi",
+   "betaRobin",
+   "betaW",
+   "Wpm",
+   "betaZ",
+   "thetaW",
+   "Zboson"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "gluons",
+   "photon",
+   "W+",
+   "W-",
+   "Z",
+   "graviton"
+  ],
+  "solved_in": "The tip condition is the natural boundary condition of the tip mass term (IN-15); one value for $W^+$ and $W^-$ (particle and antiparticle); $\\beta_{\\mathrm{W}}$ is fitted to the measured masses (FE-55)."
+ },
+ {
+  "id": "FE-52",
+  "title": "The boson eigenvalue conditions",
+  "latex": "\\begin{aligned}\n&F = \\mathrm{e}^{-3HL\\xi/2}\\,\\tilde F,\\qquad \\varpi^2 = \\tilde m^2 - \\frac{9H^2L^2}{4}:\\\\\n&\\text{even: }\\Big[\\varpi^2 + \\frac{3HL}{2}\\Big(\\beta + \\frac{3HL}{2}\\Big)\\Big]\\sin\\varpi -\n \\beta\\,\\varpi\\cos\\varpi = 0,\\qquad\n \\text{odd: }\\varpi\\cos\\varpi + \\Big(\\beta + \\frac{3HL}{2}\\Big)\\sin\\varpi = 0;\\\\\n&\\beta = 0:\\quad \\tilde m = 0\\ \\text{(flat profile)},\\qquad \\tilde m_n^2 = \\frac{9H^2L^2}{4} +\n \\varpi_n^2\\ \\text{(even)},\\qquad\n \\varpi\\cot\\varpi = -\\frac{3HL}{2}\\ \\text{(odd)}\n\\end{aligned} \\tag{FE-52}",
+  "keys": [
+   "Fprof",
+   "euler",
+   "Hconst",
+   "Lcut",
+   "xi",
+   "Ftilde",
+   "varpi",
+   "mtilde",
+   "betaRobin",
+   "in"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "gauge fields",
+   "graviton"
+  ],
+  "solved_in": "Exact; graviton, photon and gluons are exactly massless; the first even Kaluza-Klein level $\\tilde m_1 = 30.1196$, the first odd level 27.0890, the gap 20.25 ($HL = 3$); $\\tilde m_{\\mathrm{W}}^2 = 1.32149\\times10^{-5}$, $\\tilde m_{\\mathrm{Z}}^2 = 1.70150\\times10^{-5}$ (mpmath; finite elements $3\\times10^{-14}$)."
+ },
+ {
+  "id": "FE-53",
+  "title": "The tower of Kaluza-Klein gravitons (the terms $n \\ge 1$ of the metric series)",
+  "latex": "\\begin{aligned}\n&F_n(\\xi) = \\mathrm{e}^{-3HL\\xi/2}\\Big(\\cos\\varpi_n\\xi + \\frac{3HL}{2\\varpi_n}\\sin\\varpi_n\\xi\\Big),\\qquad\n \\varpi_n = \\pi,\\ 2\\pi,\\ 3\\pi,\\ \\dots,\\\\\n&\\tilde m_n^2 = \\frac{9H^2L^2}{4} + \\varpi_n^2,\\qquad m^{\\mathrm{KK}}_n = \\frac{\\tilde m_n}{fL},\\qquad\n N_n = \\int_{-1}^{0}\\mathrm{e}^{3HL\\xi}F_n^2\\,\\mathrm{d}\\xi = \\frac12\\Big(1 +\n \\frac{9H^2L^2}{4\\varpi_n^2}\\Big),\\qquad\n N_0 = \\frac{1 - \\mathrm{e}^{-3HL}}{3HL}\n\\end{aligned} \\tag{FE-53}",
+  "keys": [
+   "Fprof",
+   "in",
+   "xi",
+   "euler",
+   "Hconst",
+   "Lcut",
+   "varpi",
+   "pi",
+   "mtilde",
+   "mKK",
+   "fblock",
+   "Nnorm",
+   "diff"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "graviton tower"
+  ],
+  "solved_in": "Exact; $\\tilde m_n = 30.1196$, 59.7284, 109.0764 for $n = 1, 2, 3$ (finite elements agree to $3.9\\times10^{-9}$); $m^{\\mathrm{KK}}_1 = m_{\\mathrm{KK}} = 121.32$ TeV."
+ },
+ {
+  "id": "FE-54",
+  "title": "The potential between two static masses with the Kaluza-Klein gravitons",
+  "latex": "V_{\\mathrm{N}}(r) = -\\frac{G_{\\mathrm{N}}M_1M_2}{r}\\Big[1 +\n \\sum_{n\\ge1}\\mathcal{A}_n\\,\\mathrm{e}^{-m^{\\mathrm{KK}}_nr}\\Big],\\qquad\n\\mathcal{A}_n = \\frac{N_0}{N_n}\\Big(\\int_{-1}^{0}\\varrho_1F_n\\,\\mathrm{d}\\xi\\Big)\\Big(\\int_{-1}^{0}\n \\varrho_2F_n\\,\\mathrm{d}\\xi\\Big) \\tag{FE-54}",
+  "keys": [
+   "VN",
+   "rdist",
+   "GN",
+   "M12",
+   "in",
+   "calA",
+   "euler",
+   "mKK",
+   "Nnorm",
+   "varrho12",
+   "Fprof",
+   "diff",
+   "xi"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "graviton tower",
+   "sources with x0 profiles"
+  ],
+  "solved_in": "Evaluated with the zero-mode profiles (0.0904, 0.0136, 0.0057 for two quark-doublet profiles); zero for the flat profile of the gauge zero modes; Newton's law is exact at every measurable distance."
+ },
+ {
+  "id": "FE-55",
+  "title": "The $W^\\pm$ and $Z$ masses, the electroweak parameter and the Kaluza-Klein scale",
+  "latex": "\\rho_{\\mathrm{EW}} = \\frac{\\tilde m_{\\mathrm{W}}^2}{\\tilde m_{\\mathrm{Z}}^2\\cos^2\\theta_{\\mathrm{W}}} =\n \\rho_{\\mathrm{EW},0},\\qquad\n\\cos^2\\theta_{\\mathrm{W}} = \\frac{m_{\\mathrm{W}}^2/m_{\\mathrm{Z}}^2}{\\rho_{\\mathrm{EW},0}},\\qquad\nm_{\\mathrm{KK}} = m_{\\mathrm{W}}\\,\\frac{\\tilde m_1}{\\tilde m_{\\mathrm{W}}},\\qquad\nm_{\\mathrm{Z}} = m_{\\mathrm{W}}\\,\\frac{\\tilde m_{\\mathrm{Z}}}{\\tilde m_{\\mathrm{W}}} \\tag{FE-55}",
+  "keys": [
+   "rhoEW",
+   "mtildeW",
+   "mtildeZ",
+   "thetaW",
+   "rhoEW0",
+   "mW",
+   "mZ",
+   "mKK",
+   "mtilde"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "W+",
+   "W-",
+   "Z"
+  ],
+  "solved_in": "Fit (DERIVED): $\\beta_{\\mathrm{W}} = 0.011912$ reproduces $\\rho_{\\mathrm{EW},0} - 1 = 0.00038$ and both measured masses; $m_{\\mathrm{KK}} = 121.32$ TeV, $H = 14.296$ TeV."
+ },
+ {
+  "id": "FE-56",
+  "title": "The exact reduction of the eight-dimensional Dirac equation to the block Hamiltonian",
+  "latex": "\\begin{aligned}\n&\\Psi = \\mathrm{e}^{\\mathrm{i}kx_1}\\,\\mathrm{e}^{-\\frac32Hy}\\,\\mathrm{e}^{a_4/2}\\,b_4^{-1}\\,\\mathcal{V}\n \\chi(y, x_4):\\\\\n&\\gamma^MD_M\\Psi - \\big(M(y) - \\mathrm{i}v(y)\\gamma^{x_4}\\big)\\Psi\n = \\mathrm{e}^{\\mathrm{i}kx_1}\\,\\mathrm{e}^{-\\frac32Hy}\\,\\mathrm{e}^{a_4/2}\\,b_4^{-1}\\,\\gamma^{x_4}\\mathcal{V}\n \\big[\\partial_{x_4}\\chi + \\mathrm{i}h\\chi\\big],\\\\\n&h = \\varsigma\\Big[-\\frac{\\mathrm{i}}{f}\\sigma_1\\partial_y + M(y)\\,\\sigma_2 +\n \\mathrm{e}^{-a_4}k\\,\\sigma_3\\Big] + v(y),\\qquad\n \\mathrm{i}\\,\\partial_{x_4}\\chi = h\\chi;\\\\\n&\\text{in each block: }\\gamma^{x_0} = \\sigma_3,\\qquad \\mathcal{B} = \\varsigma\\varsigma_2,\\qquad\n C = \\varsigma_2\\sigma_2,\\qquad \\Gamma_4 = -\\varsigma\\varsigma_2\\sigma_3\n\\end{aligned} \\tag{FE-56}",
+  "keys": [
+   "Psi",
+   "euler",
+   "imag",
+   "kwave",
+   "x1",
+   "Hconst",
+   "ycoord",
+   "a4",
+   "b4",
+   "calV",
+   "chi",
+   "x4",
+   "gamma",
+   "iM",
+   "Dcov",
+   "Mfun",
+   "vpot",
+   "partial",
+   "hblock",
+   "varsigma",
+   "fblock",
+   "sigmaPauli",
+   "iy",
+   "x0",
+   "calB",
+   "varsigma2",
+   "Cmat",
+   "Gamma4"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "every Standard-Model fermion",
+   "metric g"
+  ],
+  "solved_in": "Exact (all eight blocks, general $a_4(x_4)$, $b_4(x_4)$, $M(y)$, $v(y)$; checked with the author's matrices); the basis of the reduction for every fermion of UM-2."
+ },
+ {
+  "id": "FE-57",
+  "title": "The chiral zero modes (massless four-dimensional fermions)",
+  "latex": "\\begin{aligned}\n&\\chi = \\big(\\mathrm{e}^{c\\xi},\\ 0\\big)^T\\ \\ (\\text{doublet},\\ \\Gamma_4 = +1),\\qquad\n \\chi = \\big(0,\\ \\mathrm{e}^{-c\\xi}\\big)^T\\ \\ (\\text{singlet},\\ \\Gamma_4 = -1),\\qquad c = f\\mu L,\\\\\n&h\\big(\\mathrm{e}^{c\\xi},\\ 0\\big)^T = \\varsigma\\,\\mathrm{e}^{-a_4}k\\big(\\mathrm{e}^{c\\xi},\\ 0\\big)^T\n\\end{aligned} \\tag{FE-57}",
+  "keys": [
+   "chi",
+   "euler",
+   "cloc",
+   "xi",
+   "transpose",
+   "Gamma4",
+   "fblock",
+   "mubulk",
+   "Lcut",
+   "hblock",
+   "varsigma",
+   "a4",
+   "kwave"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "every Standard-Model fermion",
+   "dirac16complex Psi (fold band)"
+  ],
+  "solved_in": "Exact: the zero modes are massless four-dimensional particles with the energy $\\mathrm{e}^{-a_4}\\lvert k\\rvert$; localised at the fold for $c_L > 0$ and $c_R < 0$."
+ },
+ {
+  "id": "FE-58",
+  "title": "The tip values of the doublet and singlet solutions at $k = 0$",
+  "latex": "\\begin{aligned}\n&\\frac{\\mathrm{d}a}{\\mathrm{d}\\xi} = c\\,a - \\tilde\\varepsilon\\,b,\\qquad\n \\frac{\\mathrm{d}b}{\\mathrm{d}\\xi} = \\tilde\\varepsilon\\,a - c\\,b,\n \\qquad \\chi = (a,\\ \\mathrm{i}b),\\qquad \\tilde\\varepsilon = \\varepsilon fL,\\qquad\n \\upsilon_L = \\sqrt{c_L^2 - \\tilde\\varepsilon^2},\\qquad \\upsilon_R = \\sqrt{c_R^2 - \\tilde\\varepsilon^2},\\\\\n&(a_L,\\ b_L)\\big\\vert_{\\xi=-1} = \\Big(\\cosh\\upsilon_L - c_L\\frac{\\sinh\\upsilon_L}{\\upsilon_L},\n -\\tilde\\varepsilon\\,\\frac{\\sinh\\upsilon_L}{\\upsilon_L}\\Big),\\qquad\n (a_R,\\ b_R)\\big\\vert_{\\xi=-1} = \\Big(\\tilde\\varepsilon\\,\\frac{\\sinh\\upsilon_R}{\\upsilon_R},\n \\cosh\\upsilon_R + c_R\\frac{\\sinh\\upsilon_R}{\\upsilon_R}\\Big)\n\\end{aligned} \\tag{FE-58}",
+  "keys": [
+   "diff",
+   "ab",
+   "xi",
+   "cloc",
+   "epstilde",
+   "chi",
+   "imag",
+   "varepsilon",
+   "fblock",
+   "Lcut",
+   "upsilon",
+   "iL",
+   "iR"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "every Standard-Model fermion"
+  ],
+  "solved_in": "Exact solutions (block $\\varsigma = +1$) that satisfy the fold conditions $b(0) = 0$ (doublet, $c_L > 0$) and $a(0) = 0$ (singlet, $c_R < 0$)."
+ },
+ {
+  "id": "FE-59",
+  "title": "The exact mass condition of one generation and its first-order root",
+  "latex": "\\begin{aligned}\n&\\mathcal{D}(\\tilde\\varepsilon) =\n \\tilde\\varepsilon^2\\,\\frac{\\sinh\\upsilon_L}{\\upsilon_L}\\frac{\\sinh\\upsilon_R}{\\upsilon_R}\n - \\mathcal{K}^2\\Big(\\cosh\\upsilon_L - c_L\\frac{\\sinh\\upsilon_L}{\\upsilon_L}\\Big)\n \\Big(\\cosh\\upsilon_R + c_R\\frac{\\sinh\\upsilon_R}{\\upsilon_R}\\Big) = 0,\\\\\n&\\tilde\\varepsilon \\simeq \\mathcal{K}\\,\\mathcal{Z}(c_L)\\,\\mathcal{Z}(-c_R),\\qquad \\mathcal{Z}(c)^2 =\n \\frac{c\\,\\mathrm{e}^{-c}}{\\sinh c}\n\\end{aligned} \\tag{FE-59}",
+  "keys": [
+   "calD",
+   "epstilde",
+   "upsilon",
+   "iL",
+   "iR",
+   "Ktip",
+   "cloc",
+   "calZ",
+   "euler"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "every Standard-Model fermion"
+  ],
+  "solved_in": "Exact roots (shooting agrees to $6\\times10^{-10}$); the first-order formula agrees to $1.1\\times10^{-3}$ (top quark) and better than $3\\times10^{-4}$ otherwise."
+ },
+ {
+  "id": "FE-60",
+  "title": "The mass condition of three generations with the $3 \\times 3$ tip matrices",
+  "latex": "\\begin{aligned}\n&\\Big[\\mathrm{diag}\\big(b_{L\\alpha}\\big) +\n \\mathcal{K}\\,\\mathrm{diag}\\Big(\\frac{b_{Ri}}{a_{Ri}}\\Big)\\mathcal{K}^\\dagger\\,\n \\mathrm{diag}\\big(a_{L\\alpha}\\big)\\Big]\\boldsymbol{\\alpha} = 0;\\qquad\n \\det\\big[\\cdots\\big] = \\prod_{i=1}^{3}\\frac{b_La_{Ri} + a_Lb_{Ri}}{a_{Ri}},\\\\\n&b_La_R + a_Lb_R = -\\mathcal{D}(\\tilde\\varepsilon)\\big\\vert_{\\mathcal{K} = 1},\\qquad\n \\boldsymbol{\\alpha}^{(i)} = \\mathcal{K}\\,\\mathbf{u}_i,\\qquad \\boldsymbol{\\beta}^{(i)} \\propto\n \\mathbf{u}_i,\\qquad\n U = \\mathcal{K}_e^\\dagger\\mathcal{K}_\\nu,\\qquad V_{\\mathrm{CKM}} = \\mathcal{K}_u^\\dagger\\mathcal{K}_d\n\\end{aligned} \\tag{FE-60}",
+  "keys": [
+   "diag",
+   "ab",
+   "iL",
+   "ialpha",
+   "Ktip",
+   "iR",
+   "ii",
+   "dagger",
+   "bsalpha",
+   "calD",
+   "epstilde",
+   "bfu",
+   "bsbeta",
+   "Upmns",
+   "VCKM"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "quarks and leptons of three generations"
+  ],
+  "solved_in": "The factorisation holds for one doublet bulk mass per sector and a unitary tip matrix; verified with mpmath at 50 digits (roots equal the one-generation roots to 3.0e-42, null vectors the columns of the tip matrix to 1.1e-16)."
+ },
+ {
+  "id": "FE-61",
+  "title": "The standard parametrisation of the mixing matrices (the tip matrices of UM-2)",
+  "latex": "\\begin{aligned}\nU = \\begin{pmatrix} c_{12}c_{13} & s_{12}c_{13} & s_{13}\\mathrm{e}^{-\\mathrm{i}\\delta_{\\mathrm{CP}}}\\\\\n -s_{12}c_{23} - c_{12}s_{23}s_{13}\\mathrm{e}^{\\mathrm{i}\\delta_{\\mathrm{CP}}} &\n c_{12}c_{23} - s_{12}s_{23}s_{13}\\mathrm{e}^{\\mathrm{i}\\delta_{\\mathrm{CP}}} & s_{23}c_{13}\\\\\n s_{12}s_{23} - c_{12}c_{23}s_{13}\\mathrm{e}^{\\mathrm{i}\\delta_{\\mathrm{CP}}} &\n -c_{12}s_{23} - s_{12}c_{23}s_{13}\\mathrm{e}^{\\mathrm{i}\\delta_{\\mathrm{CP}}} &\n c_{23}c_{13}\\end{pmatrix},\\qquad\nJ_{\\mathrm{CP}} = c_{12}s_{12}c_{23}s_{23}c_{13}^2s_{13}\\sin\\delta_{\\mathrm{CP}}\n\\end{aligned} \\tag{FE-61}",
+  "keys": [
+   "Upmns",
+   "cij",
+   "sij",
+   "euler",
+   "imag",
+   "deltaCP",
+   "JCP"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos",
+   "quarks"
+  ],
+  "solved_in": "Inputs: the NuFIT 6.0 values for the PMNS matrix and the PDG values for the CKM matrix (the same form); unitary to 1.1e-16."
+ },
+ {
+  "id": "FE-62",
+  "title": "The spectrum of dirac16complex on the static block",
+  "latex": "\\begin{aligned}\n&\\text{even: }\\chi = \\big(\\mathrm{e}^{c_\\Psi\\xi},\\ 0\\big)^T,\\ \\varepsilon = 0\\ \\text{(all eight\n blocks)},\\qquad\n \\varepsilon = \\pm\\sqrt{m_\\Psi^2 + \\Big(\\frac{\\varpi_n}{fL}\\Big)^2},\\ \\varpi_n = \\pi,\\ 2\\pi,\\ \\dots;\\\\\n&\\text{odd: }\\varepsilon = \\pm\\sqrt{m_\\Psi^2 + \\Big(\\frac{\\varpi}{fL}\\Big)^2},\\quad \\tan\\varpi =\n -\\frac{\\varpi}{c_\\Psi};\\qquad\n c_\\Psi = f\\,m_\\Psi L;\\qquad \\text{fold band: }\\varepsilon = \\mathrm{e}^{-a_4}\\lvert k\\rvert\n\\end{aligned} \\tag{FE-62}",
+  "keys": [
+   "chi",
+   "euler",
+   "cPsi",
+   "xi",
+   "transpose",
+   "varepsilon",
+   "mPsi",
+   "varpi",
+   "in",
+   "fblock",
+   "Lcut",
+   "pi",
+   "a4",
+   "kwave"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi"
+  ],
+  "solved_in": "Exact; at the stabilised block $c_\\Psi = 0.646667$, the lowest odd level (the dark matter) is $\\varepsilon = 3.102204\\,m_\\Psi = 44.35$ TeV ($\\varpi = 1.89901$) and the lowest even bulk level $4.959981\\,m_\\Psi$."
+ },
+ {
+  "id": "FE-63",
+  "title": "The Kohn-Sham equations of dirac16complex coupled to all fields",
+  "latex": "h\\,\\chi_o = \\varepsilon_o\\,\\chi_o,\\qquad\nh = \\varsigma\\Big[-\\frac{\\mathrm{i}}{f}\\sigma_1\\partial_y + M_{\\mathrm{eff}}(y)\\,\\sigma_2 +\n \\mathrm{e}^{-a_4}k\\,\\sigma_3\\Big] + v(y)\n + \\frac{1 - \\sigma_3}{2}\\,v_{\\mathrm{b}}(y) \\tag{FE-63}",
+  "keys": [
+   "hblock",
+   "chi",
+   "io",
+   "varepsilon",
+   "varsigma",
+   "imag",
+   "fblock",
+   "sigmaPauli",
+   "partial",
+   "iy",
+   "Meff",
+   "ycoord",
+   "euler",
+   "a4",
+   "kwave",
+   "vpot",
+   "vb"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "metric g",
+   "all Standard-Model fields (mean fields)"
+  ],
+  "solved_in": "Solved numerically to self-consistency (60 to 240 exact free eigenfunctions per sector, tolerance 1e-13, Anderson mixing, Richardson extrapolation in the basis size; the record states reproduced to 1e-13); the I13 term acts on the lower component only."
+ },
+ {
+  "id": "FE-64",
+  "title": "The Kohn-Sham mean fields",
+  "latex": "\\begin{aligned}\n&M_{\\mathrm{eff}}(y) = m_\\Psi + \\frac{15}{16}\\,\\lambda\\,n^{\\mathrm{sc}}(y) +\n \\frac{\\langle\\mathcal{F}\\rangle}{\\Lambda_\\star^3},\\qquad\n v(y) = -\\frac{\\lambda}{16}\\,n(y) + \\frac{c_{\\mathrm{V}}}{\\Lambda_\\star^6}\\sum_{i=1}^{3}\\sum_\\psi\n q_\\psi\\,n_{\\psi i}(y),\\\\\n&v_{\\mathrm{b}}(y) = \\frac{c_{\\mathrm{A}}}{\\Lambda_\\star^6}\\sum_{i=1}^{3}\\sum_\\psi q^{B}_\\psi\\,n_{\\psi i}(y)\n\\end{aligned} \\tag{FE-64}",
+  "keys": [
+   "Meff",
+   "ycoord",
+   "mPsi",
+   "lambda",
+   "nsc",
+   "calF",
+   "LambdaStar",
+   "vpot",
+   "ndens",
+   "cV",
+   "ii",
+   "ipsi",
+   "qBL",
+   "vb",
+   "cA",
+   "qB"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "fermions (I11, I13)",
+   "gauge condensates (I12)"
+  ],
+  "solved_in": "Local mean fields of the contact self-interaction (record) and of the portals; the portal fields are applied with the densities and condensates of each environment (FE-72)."
+ },
+ {
+  "id": "FE-65",
+  "title": "The Kohn-Sham densities, shells, cell volume and occupations",
+  "latex": "\\begin{aligned}\n&n = \\sum_o\\tfrac12\\,d_o\\,\\phi_o\\,n_o,\\qquad n^{\\mathrm{sc}} =\n \\sum_o\\tfrac12\\,d_o\\,\\phi_o\\,n^{\\mathrm{sc}}_o,\\qquad\n n_o = \\frac{\\mathrm{e}^{-3Hy}}{\\mathrm{Vol}_7}\\,\\chi_o^\\dagger\\chi_o,\\\\\n&n^{\\mathrm{sc}}_o = \\frac{\\mathrm{e}^{-3Hy}}{\\mathrm{Vol}_7}\\,\\chi_o^\\dagger\\varsigma\\sigma_2\\chi_o,\\qquad\n n^{\\mathrm{t}}_o = \\frac{\\mathrm{e}^{-3Hy}}{\\mathrm{Vol}_7}\\,\\chi_o^\\dagger\\varsigma\\sigma_3\\chi_o,\\qquad\n d_o = 4\\,r_3\\big(\\lvert\\vec n_o\\rvert^2\\big),\\qquad \\vec k_o = k_{\\mathrm{lat}}\\,\\vec n_o,\\\\\n&\\mathrm{Vol}_7 = \\Big(\\frac{2\\pi}{k_{\\mathrm{lat}}}\\Big)^3v_{\\mathrm{t}}\\,f^4,\\qquad\n \\phi_o = \\frac{1}{\\mathrm{e}^{(\\varepsilon_o - \\mu_{\\mathrm{chem}})/T} + 1}\\ \\ \\text{(Mermin; or 0 and\n 1 for the aufbau)}\n\\end{aligned} \\tag{FE-65}",
+  "keys": [
+   "ndens",
+   "io",
+   "ddeg",
+   "phiocc",
+   "nsc",
+   "euler",
+   "Hconst",
+   "ycoord",
+   "Vol7",
+   "chi",
+   "dagger",
+   "varsigma",
+   "sigmaPauli",
+   "nt",
+   "r3",
+   "nvec",
+   "kvec",
+   "klat",
+   "pi",
+   "vt",
+   "fblock",
+   "varepsilon",
+   "muchem",
+   "Temp"
+  ],
+  "status": "RECORD",
+  "fields": [
+   "dirac16complex Psi"
+  ],
+  "solved_in": "Exact definitions (the factor $\\frac12$ is the weight of each fold parity); $k_{\\mathrm{lat}} = 0.25\\,H$ in the computations."
+ },
+ {
+  "id": "FE-66",
+  "title": "The Kohn-Sham energy",
+  "latex": "E_{\\mathrm{KS}} = \\sum_o d_o\\,\\phi_o\\,\\varepsilon_o -\n 2\\,\\mathrm{Vol}_7\\int_{-L}^{0}\\mathrm{e}^{3Hy}\\,e_{\\mathrm{int}}\\,\\mathrm{d}y,\n\\qquad e_{\\mathrm{int}} = \\frac{15}{32}\\,\\lambda\\,\\big(n^{\\mathrm{sc}}\\big)^2 -\n \\frac{1}{32}\\,\\lambda\\,n^2 \\tag{FE-66}",
+  "keys": [
+   "EKS",
+   "io",
+   "ddeg",
+   "phiocc",
+   "varepsilon",
+   "Vol7",
+   "Lcut",
+   "euler",
+   "Hconst",
+   "ycoord",
+   "eint",
+   "diff",
+   "lambda",
+   "nsc",
+   "ndens"
+  ],
+  "status": "RECORD",
+  "fields": [
+   "dirac16complex Psi"
+  ],
+  "solved_in": "Computed for every state (Richardson errors below 2.2e-9 relative); the energy identity FE-68 holds to 4e-15."
+ },
+ {
+  "id": "FE-67",
+  "title": "The energy-momentum tensor of a Kohn-Sham state",
+  "latex": "\\begin{aligned}\n&\\rho = \\sum_o\\tfrac12\\,d_o\\phi_o\\,\\varepsilon_o\\,n_o - e_{\\mathrm{int}},\\qquad\n p_3 = \\sum_o\\tfrac12\\,d_o\\phi_o\\,\\frac{\\mathrm{e}^{-a_4}\\lvert\\vec k_o\\rvert}{3}\\,n^{\\mathrm{t}}_o +\n e_{\\mathrm{int}},\n \\qquad p_5 = e_{\\mathrm{int}},\\\\\n&p_0 = \\sum_o\\tfrac12\\,d_o\\phi_o\\Big[(\\varepsilon_o - v)\\,n_o - M_{\\mathrm{eff}}\\,n^{\\mathrm{sc}}_o\n - \\mathrm{e}^{-a_4}\\lvert\\vec k_o\\rvert\\,n^{\\mathrm{t}}_o\\Big] + e_{\\mathrm{int}}\n\\end{aligned} \\tag{FE-67}",
+  "keys": [
+   "rho",
+   "io",
+   "ddeg",
+   "phiocc",
+   "varepsilon",
+   "ndens",
+   "eint",
+   "p3",
+   "euler",
+   "a4",
+   "kvec",
+   "nt",
+   "p5",
+   "p0",
+   "vpot",
+   "Meff",
+   "nsc"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "metric g (source)"
+  ],
+  "solved_in": "Evaluated for every state; its block averages enter the block response FE-47 (dark matter at rest: $p_3 = 0$ and $p_0/\\rho = 0.772034343 = -\\mathrm{d}\\ln\\varepsilon_{\\mathrm{DM}}/\\mathrm{d}\\ln f$)."
+ },
+ {
+  "id": "FE-68",
+  "title": "The energy identity and the $y$-conservation law of a Kohn-Sham state",
+  "latex": "E_{\\mathrm{KS}} = 2\\,\\mathrm{Vol}_7\\int_{-L}^{0}\\mathrm{e}^{3Hy}\\rho\\,\\mathrm{d}y,\\qquad\np_0\\big\\vert_{y=0} - \\mathrm{e}^{-3HL}\\,p_0\\big\\vert_{y=-L} =\n 3H\\int_{-L}^{0}\\mathrm{e}^{3Hy}p_5\\,\\mathrm{d}y \\tag{FE-68}",
+  "keys": [
+   "EKS",
+   "Vol7",
+   "Lcut",
+   "euler",
+   "Hconst",
+   "ycoord",
+   "rho",
+   "diff",
+   "p0",
+   "p5"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi"
+  ],
+  "solved_in": "Verified for every self-consistent state (4e-15 and 9e-8 with Richardson extrapolation)."
+ },
+ {
+  "id": "FE-69",
+  "title": "The boundary conditions of the Kohn-Sham orbitals",
+  "latex": "\\chi = (\\chi_1,\\ \\chi_2)^T:\\qquad \\chi_2(0) = 0\\ \\ \\text{(even)}\\quad\\text{or}\\quad \\chi_1(0) =\n 0\\ \\ \\text{(odd)},\\qquad\n\\chi_2(-L) = 0 \\tag{FE-69}",
+  "keys": [
+   "chi",
+   "transpose",
+   "Lcut"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi"
+  ],
+  "solved_in": "The block form of FE-28 ($\\gamma^{x_0} = \\sigma_3$ in every block); self-adjoint."
+ },
+ {
+  "id": "FE-70",
+  "title": "The portals I11 and I13 on the zero modes: the four-dimensional contact interactions",
+  "latex": "\\begin{aligned}\n&\\mathcal{L}_4 = \\big(G_{\\mathrm{V}}\\,q_f\\,\\tilde I_{of} + G_{\\mathrm{A}}\\,q^{B}_f\\,\\tilde I^{(b)}_{of}\\big)\n \\big(\\mathrm{i}\\bar\\Psi_o\\gamma^\\mu\\Psi_o\\big)\\big(\\mathrm{i}\\bar\\psi_f\\gamma_\\mu\\psi_f\\big),\\\\\n&\\tilde I_{of} = \\frac{1}{H}\\int_{-L}^{0}\\big(a_o^2 +\n b_o^2\\big)\\varrho_f\\,\\mathrm{e}^{-3Hy}\\,\\mathrm{d}y,\\qquad\n \\tilde I^{(b)}_{of} = \\frac{1}{H}\\int_{-L}^{0}b_o^2\\,\\varrho_f\\,\\mathrm{e}^{-3Hy}\\,\\mathrm{d}y,\\qquad\n G_{\\mathrm{V}} = \\frac{c_{\\mathrm{V}}H}{2f^4v_{\\mathrm{t}}\\Lambda_\\star^6},\\qquad\n G_{\\mathrm{A}} = \\frac{c_{\\mathrm{A}}H}{2f^4v_{\\mathrm{t}}\\Lambda_\\star^6},\\\\\n&n_{\\psi i}(y) = \\frac{n_f\\,\\varrho_f(y)\\,\\mathrm{e}^{-3Hy}}{2f^4v_{\\mathrm{t}}},\\qquad\n \\varrho(y; c) = \\frac{2c}{L}\\,\\frac{\\mathrm{e}^{2cy/L}}{1 - \\mathrm{e}^{-2c}}\n\\end{aligned} \\tag{FE-70}",
+  "keys": [
+   "L4",
+   "GV",
+   "qBL",
+   "if",
+   "tildeI",
+   "io",
+   "GA",
+   "qB",
+   "tildeIb",
+   "imag",
+   "Psi",
+   "gamma",
+   "imu",
+   "psi",
+   "Hconst",
+   "Lcut",
+   "ab",
+   "varrho",
+   "euler",
+   "ycoord",
+   "diff",
+   "cV",
+   "fblock",
+   "vt",
+   "LambdaStar",
+   "cA",
+   "ndens",
+   "ipsi",
+   "ii",
+   "cloc"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "every Standard-Model fermion"
+  ],
+  "solved_in": "The overlaps are computed with the Kohn-Sham orbitals ($\\tilde I_Q = 8.2722$, $\\tilde I_\\ell = 1.2524$ for the dark matter) and equal the derivatives of self-consistent levels with respect to the mean-field amplitudes to $3\\times10^{-10}$ (Hellmann-Feynman); I13 vanishes on the fold bands (to $7\\times10^{-14}$)."
+ },
+ {
+  "id": "FE-71",
+  "title": "The portal I12 on the dark matter",
+  "latex": "\\begin{aligned}\n&\\mathcal{L}_4^{\\mathrm{I12}} =\n -\\mathcal{O}_{\\mathrm{DM}}\\,\\frac{\\bar\\Psi_{\\mathrm{DM}}\\Psi_{\\mathrm{DM}}}{\\Lambda_\\star^3}\n \\big(c_{\\mathrm{G}}\\,G^A_{\\mu\\nu}G^{A\\mu\\nu} + c_{\\mathrm{W}}\\,W^I_{\\mu\\nu}W^{I\\mu\\nu} +\n c_{\\mathrm{B}}\\,B_{\\mu\\nu}B^{\\mu\\nu}\\big),\\qquad\n \\mathcal{O}_{\\mathrm{DM}} = \\frac{\\partial\\varepsilon_{\\mathrm{DM}}}{\\partial m_\\Psi},\\\\\n&G_{\\mathrm{g}} = \\mathcal{O}_{\\mathrm{DM}}\\,\\frac{c_{\\mathrm{G}}\\,g_3^2}{\\Lambda_\\star^3},\\qquad\n G_{\\mathrm{W}} = \\mathcal{O}_{\\mathrm{DM}}\\,\\frac{c_{\\mathrm{W}}\\,g_2^2}{\\Lambda_\\star^3},\\qquad\n G_{\\mathrm{B}} = \\mathcal{O}_{\\mathrm{DM}}\\,\\frac{c_{\\mathrm{B}}\\,g_1^2}{\\Lambda_\\star^3}\n\\end{aligned} \\tag{FE-71}",
+  "keys": [
+   "L4I12",
+   "calO",
+   "PsiDM",
+   "LambdaStar",
+   "cG",
+   "Ggluon",
+   "iA",
+   "imu",
+   "inu",
+   "cW",
+   "Wsu2",
+   "iI",
+   "cB",
+   "Bhyp",
+   "partial",
+   "epsDM",
+   "mPsi",
+   "Gg",
+   "g3",
+   "GW",
+   "g2",
+   "GB",
+   "g1"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dark matter",
+   "gluons",
+   "W",
+   "B"
+  ],
+  "solved_in": "$\\mathcal{O}_{\\mathrm{DM}} = 0.7072$ (Hellmann-Feynman, checked to $10^{-8}$); the field strengths are in the geometric normalisation of the action (flat zero modes), and $G_{\\mathrm{g}}$, $G_{\\mathrm{W}}$, $G_{\\mathrm{B}}$ are the couplings to the canonically normalised fields (field divided by its four-dimensional coupling) used in the cross-section FE-127; the benchmark strength is unitarity safe."
+ },
+ {
+  "id": "FE-72",
+  "title": "The shift of a Kohn-Sham level by the mean fields of an environment",
+  "latex": "\\Delta\\varepsilon_o = \\sum_f\\big(G_{\\mathrm{V}}\\,q_f\\,\\tilde I_{of} + G_{\\mathrm{A}}\\,q^{B}_f\\,\\tilde\n I^{(b)}_{of}\\big)\\,n_f\n + \\mathcal{O}_o\\,\\frac{c_{\\mathrm{I12}}}{\\Lambda_\\star^3}\\Big[\\big\\langle G^A_{\\mu\\nu}G^{A\\mu\\nu}\\big\\rangle\n + \\big\\langle W^I_{\\mu\\nu}W^{I\\mu\\nu}\\big\\rangle + \\big\\langle B_{\\mu\\nu}B^{\\mu\\nu}\\big\\rangle\\Big],\n \\qquad \\mathcal{O}_o = \\frac{\\partial\\varepsilon_o}{\\partial m_\\Psi} \\tag{FE-72}",
+  "keys": [
+   "Delta",
+   "varepsilon",
+   "io",
+   "if",
+   "GV",
+   "qBL",
+   "tildeI",
+   "GA",
+   "qB",
+   "tildeIb",
+   "ndens",
+   "calO",
+   "cI12",
+   "LambdaStar",
+   "Ggluon",
+   "iA",
+   "imu",
+   "inu",
+   "Wsu2",
+   "iI",
+   "Bhyp",
+   "partial",
+   "mPsi"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dirac16complex Psi",
+   "every Standard-Model field (densities, condensates)"
+  ],
+  "solved_in": "First order in the mean fields (Hellmann-Feynman; the response is screened by only $3.5\\times10^{-4}$ in the interacting state); universal I12 coefficients $c_{\\mathrm{G}} = c_{\\mathrm{W}} = c_{\\mathrm{B}} = c_{\\mathrm{I12}}$."
+ },
+ {
+  "id": "FE-73",
+  "title": "The level shift of the dark matter in matter of protons, neutrons and electrons",
+  "latex": "\\begin{aligned}\n&\\Delta\\varepsilon_{\\mathrm{I11}} = G_{\\mathrm{V}}\\Big[\\frac13\\,n_{\\mathrm{u}}\\,\\frac{\\tilde I_Q +\n \\tilde I_{u_R}}{2}\n + \\frac13\\,n_{\\mathrm{d}}\\,\\frac{\\tilde I_Q + \\tilde I_{d_R}}{2} - n_{\\mathrm{e}}\\,\\frac{\\tilde I_\\ell\n + \\tilde I_{e_R}}{2}\\Big],\\\\\n&\\Delta\\varepsilon_{\\mathrm{I13}} = G_{\\mathrm{A}}\\Big[\\frac13\\,n_{\\mathrm{u}}\\,\\frac{\\tilde I^{(b)}_Q +\n \\tilde I^{(b)}_{u_R}}{2}\n + \\frac13\\,n_{\\mathrm{d}}\\,\\frac{\\tilde I^{(b)}_Q + \\tilde I^{(b)}_{d_R}}{2}\\Big],\\qquad\n n_{\\mathrm{u}} = 2n_{\\mathrm{p}} + n_{\\mathrm{n}},\\qquad n_{\\mathrm{d}} = n_{\\mathrm{p}} + 2n_{\\mathrm{n}}\n\\end{aligned} \\tag{FE-73}",
+  "keys": [
+   "Delta",
+   "epsI1113",
+   "GV",
+   "nquark",
+   "tildeI",
+   "ne",
+   "GA",
+   "tildeIb",
+   "np",
+   "nn"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dark matter",
+   "quarks",
+   "electrons"
+  ],
+  "solved_in": "Evaluated in ten environments (unpolarised fermions, each chirality half of the density); at most $8.2\\times10^{-10}$ GeV (I13, at the freeze-out)."
+ },
+ {
+  "id": "FE-74",
+  "title": "The thermal gluon condensate from the trace anomaly",
+  "latex": "\\big\\langle G^A_{\\mu\\nu}G^{A\\mu\\nu}\\big\\rangle(T) = \\big\\langle G^A_{\\mu\\nu}G^{A\\mu\\nu}\\big\\rangle(0)\n - \\frac{32\\pi^2}{b_3}\\,\\Theta_{\\mathrm{QCD}},\\qquad\n\\big\\langle G^A_{\\mu\\nu}G^{A\\mu\\nu}\\big\\rangle(0) = 4\\pi^2\\times0.012\\ \\text{GeV}^4,\\qquad\nb_3 = 11 - \\frac23\\,N_{\\mathrm{f}} \\tag{FE-74}",
+  "keys": [
+   "Ggluon",
+   "iA",
+   "imu",
+   "inu",
+   "Temp",
+   "pi",
+   "bcoef",
+   "Theta",
+   "Nf"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "gluons"
+  ],
+  "solved_in": "Geometric normalisation (the canonical field times $g_3$): the vacuum value is $4\\pi^2$ times the standard condensate $0.012$ GeV$^4$ of $(\\alpha_3/\\pi)$ times the squared canonical field strength (STANDARD); the relation does not depend on the signature convention."
+ },
+ {
+  "id": "FE-75",
+  "title": "The QCD interaction measure",
+  "latex": "\\begin{aligned}\n&\\frac{\\Theta_{\\mathrm{QCD}}}{T^4} = 4\\exp\\Big[-\\frac{\\ln^2(T/0.2\\,\\text{GeV})}{0.5}\\Big]\\ \\ (T <\n 1\\,\\text{GeV}),\\qquad\n \\frac{\\Theta_{\\mathrm{QCD}}}{T^4} = \\frac{b_3}{3}\\Big(1 +\n \\frac{5N_{\\mathrm{f}}}{12}\\Big)\\alpha_3^2\\ \\ (T > 1\\,\\text{GeV}),\\\\\n&p_{\\mathrm{QCD}} = \\frac{8\\pi^2}{45}T^4\\Big[1 + \\frac{21N_{\\mathrm{f}}}{32}\n - \\frac{15}{4}\\Big(1 + \\frac{5N_{\\mathrm{f}}}{12}\\Big)\\frac{\\alpha_3}{\\pi}\\Big],\\qquad\n \\frac{\\mathrm{d}\\alpha_3}{\\mathrm{d}\\ln T} = -\\frac{b_3}{2\\pi}\\,\\alpha_3^2,\\qquad\n \\Theta_{\\mathrm{QCD}} = T^5\\,\\frac{\\mathrm{d}}{\\mathrm{d}T}\\Big(\\frac{p_{\\mathrm{QCD}}}{T^4}\\Big)\n\\end{aligned} \\tag{FE-75}",
+  "keys": [
+   "Theta",
+   "Temp",
+   "bcoef",
+   "Nf",
+   "alpha3",
+   "pQCD",
+   "pi",
+   "diff"
+  ],
+  "status": "ESTIMATE",
+  "fields": [
+   "quark-gluon plasma"
+  ],
+  "solved_in": "A lattice-like shape below 1 GeV (ESTIMATE) and leading-order perturbation theory above ($\\alpha_3$ at the scale $2\\pi T$)."
+ },
+ {
+  "id": "FE-76",
+  "title": "The thermal condensate of a massive vector boson and the order-$\\alpha_{\\mathrm{G}}$ condensate of a gauge plasma",
+  "latex": "\\begin{aligned}\n&\\big\\langle F^V_{\\mu\\nu}F^{V}{}^{\\mu\\nu}\\big\\rangle(T) = -2\\,\\Theta_V\\ \\ \\text{(for $V = W^\\pm, Z$)},\\qquad\n \\big\\langle F_{\\mathrm{geo}}^2\\big\\rangle = -4\\,\\frac{\\partial p}{\\partial\\big(1/g_{\\mathrm{G}}^2\\big)}\n = 4g_{\\mathrm{G}}^2\\,p_{\\alpha,\\mathrm{G}},\\\\\n&p_{\\alpha,\\mathrm{G}} = -\\frac{g_{\\mathrm{G}}^2T^4}{144}\\,d_{\\mathrm{adj}}\\Big[C_{\\mathrm{adj}} +\n \\frac52\\,T_{\\mathrm{F}}N_{\\mathrm{f}}\\Big]\n\\end{aligned} \\tag{FE-76}",
+  "keys": [
+   "FV",
+   "imu",
+   "inu",
+   "Temp",
+   "Theta",
+   "Fgeo",
+   "partial",
+   "pressure",
+   "gG",
+   "palpha",
+   "dadj",
+   "Cadj",
+   "TF",
+   "Nf"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "W",
+   "Z",
+   "gauge plasmas"
+  ],
+  "solved_in": "The first relation is the free part (on shell the Proca Lagrangian is a total derivative); the second (Feynman-Hellmann) reproduces the trace-anomaly gluon condensate to $10^{-16}$; SU(2): $d_{\\mathrm{adj}} = 3$, $C_{\\mathrm{adj}} = 2$, $T_{\\mathrm{F}}N_{\\mathrm{f}} = 3$; U(1)$_Y$: $d_{\\mathrm{adj}} = 1$, $C_{\\mathrm{adj}} = 0$, $\\frac52T_{\\mathrm{F}}N_{\\mathrm{f}} \\to \\frac{25}{2}$; no scalar term (ESTIMATE)."
+ },
+ {
+  "id": "FE-77",
+  "title": "The running electroweak couplings without a Higgs particle",
+  "latex": "\\frac{1}{\\alpha_2(\\mu_{\\mathrm{ren}})} = \\frac{\\sin^2\\theta_{\\overline{\\mathrm{MS}}}}{\\alpha_{\\mathrm{em}}}\n + \\frac{b_2}{2\\pi}\\ln\\frac{\\mu_{\\mathrm{ren}}}{m_{\\mathrm{Z}}},\\qquad\n\\frac{1}{\\alpha_1(\\mu_{\\mathrm{ren}})} = \\frac{1 -\n \\sin^2\\theta_{\\overline{\\mathrm{MS}}}}{\\alpha_{\\mathrm{em}}}\n + \\frac{b_1}{2\\pi}\\ln\\frac{\\mu_{\\mathrm{ren}}}{m_{\\mathrm{Z}}},\\qquad b_2 = \\frac{10}{3},\\quad b_1 =\n -\\frac{20}{3} \\tag{FE-77}",
+  "keys": [
+   "alpha2",
+   "mu_ren",
+   "thetaMS",
+   "alphaem",
+   "bcoef",
+   "pi",
+   "mZ",
+   "alpha1"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "W",
+   "B"
+  ],
+  "solved_in": "One loop from the $\\overline{\\mathrm{MS}}$ values at $m_{\\mathrm{Z}}$; the couplings of the condensates are taken at $\\mu_{\\mathrm{ren}} = 2\\pi T$."
+ },
+ {
+  "id": "FE-78",
+  "title": "The electroweak condensates of a hot plasma",
+  "latex": "\\big\\langle W^I_{\\mu\\nu}W^{I\\mu\\nu}\\big\\rangle = g_2^2\\Big[2\\big(-2\\Theta_{\\mathrm{W}}\\big)\n + \\cos^2\\theta_{\\mathrm{W}}\\big(-2\\Theta_{\\mathrm{Z}}\\big)\\Big] + 4g_2^2\\,p_{\\alpha,2},\\qquad\n\\big\\langle B_{\\mu\\nu}B^{\\mu\\nu}\\big\\rangle =\n g_1^2\\sin^2\\theta_{\\mathrm{W}}\\big(-2\\Theta_{\\mathrm{Z}}\\big) + 4g_1^2\\,p_{\\alpha,1} \\tag{FE-78}",
+  "keys": [
+   "Wsu2",
+   "iI",
+   "imu",
+   "inu",
+   "g2",
+   "Theta",
+   "thetaW",
+   "palpha",
+   "Bhyp",
+   "g1"
+  ],
+  "status": "ESTIMATE",
+  "fields": [
+   "W",
+   "Z",
+   "B"
+  ],
+  "solved_in": "Below $m_{\\mathrm{W}}$ the order-$\\alpha_{\\mathrm{G}}$ part is multiplied by the thermal suppression of a massive vector (ESTIMATE); at the freeze-out the $W$ condensate is $-5.0\\times10^{11}$ GeV$^4$, almost all from the interaction part."
+ },
+ {
+  "id": "FE-79",
+  "title": "dirac16complex acting on the Standard Model: the coupling shifts and the $x_0$ problem of $W^\\pm$ and $Z$",
+  "latex": "\\begin{aligned}\n&\\frac{\\Delta\\alpha_3}{\\alpha_3} = -4G_{\\mathrm{g}}\\,n_{\\mathrm{DM,tot}},\\qquad\n \\frac{\\Delta\\alpha_2}{\\alpha_2} = -4G_{\\mathrm{W}}\\,n_{\\mathrm{DM,tot}},\\qquad\n \\frac{\\Delta\\alpha_1}{\\alpha_1} = -4G_{\\mathrm{B}}\\,n_{\\mathrm{DM,tot}},\\\\\n&-\\frac{1}{\\Upsilon\\,\\mathrm{e}^{3HL\\xi}}\\,\\frac{\\mathrm{d}}{\\mathrm{d}\\xi}\\Big(\\Upsilon\\,\n \\mathrm{e}^{3HL\\xi}\\,\\frac{\\mathrm{d}F}{\\mathrm{d}\\xi}\\Big)\n = \\tilde m^2F,\\qquad \\Upsilon(\\xi) = 1 + A_{\\mathrm{mf}}\\,n^{\\mathrm{sc}}_{\\mathrm{DM}},\\qquad\n n^{\\mathrm{sc}}_{\\mathrm{DM}} = 2a_{\\mathrm{DM}}b_{\\mathrm{DM}},\\\\\n&\\frac{\\mathrm{d}F}{\\mathrm{d}\\xi}(0) = 0,\\qquad \\Upsilon(-1)\\,\\frac{\\mathrm{d}F}{\\mathrm{d}\\xi}(-1) =\n \\beta_{\\mathrm{W}}F(-1)\n\\end{aligned} \\tag{FE-79}",
+  "keys": [
+   "Delta",
+   "alpha3",
+   "Gg",
+   "nDMtot",
+   "alpha2",
+   "GW",
+   "alpha1",
+   "GB",
+   "Upsilon",
+   "euler",
+   "Hconst",
+   "Lcut",
+   "xi",
+   "diff",
+   "Fprof",
+   "mtilde",
+   "Amf",
+   "nscDM",
+   "abDM",
+   "betaW"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "W",
+   "Z",
+   "photon",
+   "gluons",
+   "dark matter"
+  ],
+  "solved_in": "Finite elements (300 quadratic elements, Richardson in the amplitude): $\\mathrm{d}\\ln\\tilde m_{\\mathrm{W}}^2/\\mathrm{d}A_{\\mathrm{mf}} = -0.1126$ while the photon and gluon zero mode stays massless; the physical shifts are at most $1.7\\times10^{-16}$."
+ },
+ {
+  "id": "FE-80",
+  "title": "Gravity in the coupled solution: the block response to every species",
+  "latex": "\\begin{aligned}\n&\\Delta K = \\frac{c_\\rho\\,\\kappa\\Delta\\rho + c_3\\,\\kappa\\Delta p_3 + c_p\\,\\kappa\\Delta\\bar p}{H^2},\\qquad\n \\Delta\\ln f = -\\frac{\\Delta K}{2K_*},\\\\\n&\\Delta\\ln m_s = \\frac{\\mathrm{d}\\ln m_s}{\\mathrm{d}\\ln f}\\,\\Delta\\ln f,\\qquad\n \\kappa\\Delta\\rho = 8\\pi G_{\\mathrm{N}}\\,\\mathcal{G}(K_*)\\,\\rho_4\n\\end{aligned} \\tag{FE-80}",
+  "keys": [
+   "Delta",
+   "Kblock",
+   "crho",
+   "kappa",
+   "rho",
+   "c3",
+   "p3",
+   "cp",
+   "pbar",
+   "Hconst",
+   "fblock",
+   "Kstar",
+   "mmass",
+   "is",
+   "diff",
+   "pi",
+   "GN",
+   "GK",
+   "rho4"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g (block)",
+   "all species"
+  ],
+  "solved_in": "Iterated with the masses until self-consistency (the loop gain is at most $1.1\\times10^{-33}$, so one step suffices); the block moves by at most $\\Delta\\ln f = 1.1\\times10^{-34}$ (at the freeze-out)."
+ },
+ {
+  "id": "FE-81",
+  "title": "The hidden pressure of matter and of the hot plasma",
+  "latex": "\\bar p = -\\frac14\\sum_s\\big(\\rho_s - 3p_s\\big)\\frac{\\mathrm{d}\\ln m_s}{\\mathrm{d}\\ln f}\n - \\frac14\\,\\Theta_{\\mathrm{QCD}}\\,\\frac{\\mathrm{d}\\ln\\Lambda_{\\mathrm{QCD}}^{(N_{\\mathrm{f}})}}{\n \\mathrm{d}\\ln f}\n + \\frac14\\,p_{\\alpha,2}\\,\\frac{\\mathrm{d}\\ln\\alpha_2}{\\mathrm{d}\\ln f} +\n \\frac14\\,p_{\\alpha,1}\\,\\frac{\\mathrm{d}\\ln\\alpha_1}{\\mathrm{d}\\ln f} \\tag{FE-81}",
+  "keys": [
+   "pbar",
+   "is",
+   "rho",
+   "pressure",
+   "diff",
+   "mmass",
+   "fblock",
+   "Theta",
+   "rhoQCDscale",
+   "palpha",
+   "alpha2",
+   "alpha1"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "all species"
+  ],
+  "solved_in": "The response of the pressure to the block scale at fixed temperature ($\\bar p = \\frac14\\,\\mathrm{d}p/\\mathrm{d}\\ln f$); the plasma species as ideal gases with their $x_0$ masses, nucleons and electrons as degenerate Fermi gases in the cold environments."
+ },
+ {
+  "id": "FE-82",
+  "title": "The block dependence of a gauge coupling and the trace of an electroweak plasma",
+  "latex": "\\frac{\\mathrm{d}\\ln\\alpha_{\\mathrm{G}}(\\mu_{\\mathrm{ren}})}{\\mathrm{d}\\ln f}\n = -\\alpha_{\\mathrm{G}}(\\mu_{\\mathrm{ren}})\\Big[\\frac{4}{\\alpha_{\\mathrm{G}}(m_{\\mathrm{KK}})} +\n \\frac{b_{\\mathrm{G}}}{2\\pi}\\Big],\\qquad\n\\Theta_{\\mathrm{G}} = -\\frac{b_{\\mathrm{G}}\\,\\alpha_{\\mathrm{G}}}{2\\pi}\\,p_{\\alpha,\\mathrm{G}} \\tag{FE-82}",
+  "keys": [
+   "diff",
+   "alphaG",
+   "mu_ren",
+   "fblock",
+   "mKK",
+   "bcoef",
+   "pi",
+   "Theta",
+   "palpha"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "gauge fields"
+  ],
+  "solved_in": "The bulk couplings scale as $f^{-4}$ ($g_{\\mathrm{G}}^2 = \\hat g^2/V_\\perp$) and $m_{\\mathrm{KK}}$ as $1/f$; leading-order trace anomaly."
+ },
+ {
+  "id": "FE-83",
+  "title": "The block dependence of the QCD scale and of the nucleon mass",
+  "latex": "\\begin{aligned}\n&\\frac{1}{\\alpha_3(m_{\\mathrm{KK}})} = \\frac{1}{\\alpha_3(m_{\\mathrm{Z}})} +\n \\frac{7}{2\\pi}\\ln\\frac{m_{\\mathrm{KK}}}{m_{\\mathrm{Z}}},\\qquad\n \\Lambda_{\\mathrm{QCD}}^{(6)} = m_{\\mathrm{KK}}\\,\\mathrm{e}^{-2\\pi/(7\\alpha_3(m_{\\mathrm{KK}}))},\\qquad\n \\Lambda_{\\mathrm{QCD}}^{(3)} =\n \\big(\\Lambda_{\\mathrm{QCD}}^{(6)}\\big)^{21/27}\\big(m_{\\mathrm{c}}m_{\\mathrm{b}}m_{\\mathrm{t}}\\big)^{2/27},\\\\\n&\\frac{\\mathrm{d}\\ln m_{\\mathrm{p}}}{\\mathrm{d}\\ln f} = \\Big(1 - \\frac{\\sigma_{\\pi N} +\n \\sigma_{\\mathrm{s}}}{m_{\\mathrm{p}}}\\Big)\n \\frac{\\mathrm{d}\\ln\\Lambda_{\\mathrm{QCD}}^{(3)}}{\\mathrm{d}\\ln f}\n + \\frac{\\sigma_{\\pi N}}{2m_{\\mathrm{p}}}\\Big(\\frac{\\mathrm{d}\\ln m_{\\mathrm{u}}}{\\mathrm{d}\\ln f} +\n \\frac{\\mathrm{d}\\ln m_{\\mathrm{d}}}{\\mathrm{d}\\ln f}\\Big)\n + \\frac{\\sigma_{\\mathrm{s}}}{m_{\\mathrm{p}}}\\,\\frac{\\mathrm{d}\\ln m_{\\mathrm{s}}}{\\mathrm{d}\\ln f}\n\\end{aligned} \\tag{FE-83}",
+  "keys": [
+   "alpha3",
+   "mKK",
+   "mZ",
+   "pi",
+   "rhoQCDscale",
+   "euler",
+   "mquarks",
+   "diff",
+   "mnucleon",
+   "fblock",
+   "sigmapiN",
+   "sigmas"
+  ],
+  "status": "ESTIMATE",
+  "fields": [
+   "quarks",
+   "gluons",
+   "nucleons"
+  ],
+  "solved_in": "One loop; $\\alpha_3(m_{\\mathrm{KK}}) = 0.0606$ and $\\mathrm{d}\\ln m_{\\mathrm{p}}/\\mathrm{d}\\ln f = -46.1$: the most block-sensitive mass of UM-2."
+ },
+ {
+  "id": "FE-84",
+  "title": "The block dependence of the QCD scale through the quark thresholds",
+  "latex": "\\begin{aligned}\n&\\frac{\\mathrm{d}\\ln\\Lambda_{\\mathrm{QCD}}^{(6)}}{\\mathrm{d}\\ln f} = -1 -\n \\frac{8\\pi}{7\\alpha_3(m_{\\mathrm{KK}})},\\qquad\n \\frac{\\mathrm{d}\\ln\\Lambda_{\\mathrm{QCD}}^{(5)}}{\\mathrm{d}\\ln f} =\n \\frac{21}{23}\\frac{\\mathrm{d}\\ln\\Lambda_{\\mathrm{QCD}}^{(6)}}{\\mathrm{d}\\ln f}\n + \\frac{2}{23}\\frac{\\mathrm{d}\\ln m_{\\mathrm{t}}}{\\mathrm{d}\\ln f},\\\\\n&\\frac{\\mathrm{d}\\ln\\Lambda_{\\mathrm{QCD}}^{(4)}}{\\mathrm{d}\\ln f} =\n \\frac{21}{25}\\frac{\\mathrm{d}\\ln\\Lambda_{\\mathrm{QCD}}^{(6)}}{\\mathrm{d}\\ln f}\n + \\frac{2}{25}\\Big(\\frac{\\mathrm{d}\\ln m_{\\mathrm{t}}}{\\mathrm{d}\\ln f} + \\frac{\\mathrm{d}\\ln\n m_{\\mathrm{b}}}{\\mathrm{d}\\ln f}\\Big),\\\\\n&\\frac{\\mathrm{d}\\ln\\Lambda_{\\mathrm{QCD}}^{(3)}}{\\mathrm{d}\\ln f} =\n \\frac{21}{27}\\frac{\\mathrm{d}\\ln\\Lambda_{\\mathrm{QCD}}^{(6)}}{\\mathrm{d}\\ln f}\n + \\frac{2}{27}\\Big(\\frac{\\mathrm{d}\\ln m_{\\mathrm{c}}}{\\mathrm{d}\\ln f} + \\frac{\\mathrm{d}\\ln\n m_{\\mathrm{b}}}{\\mathrm{d}\\ln f}\n + \\frac{\\mathrm{d}\\ln m_{\\mathrm{t}}}{\\mathrm{d}\\ln f}\\Big)\n\\end{aligned} \\tag{FE-84}",
+  "keys": [
+   "diff",
+   "rhoQCDscale",
+   "fblock",
+   "pi",
+   "alpha3",
+   "mKK",
+   "mquarks"
+  ],
+  "status": "ESTIMATE",
+  "fields": [
+   "gluons",
+   "quarks"
+  ],
+  "solved_in": "One loop: -60.2 (six flavours), -55.6, -52.0 and -49.0 (three flavours)."
+ },
+ {
+  "id": "FE-85",
+  "title": "The block dependence of a fermion mass",
+  "latex": "\\frac{\\mathrm{d}\\ln m}{\\mathrm{d}\\ln f} = -1 +\n \\frac12\\Big[\\frac{\\mathrm{d}\\ln\\mathcal{Z}(c_L)^2}{\\mathrm{d}\\ln c_L}\n + \\frac{\\mathrm{d}\\ln\\mathcal{Z}(-c_R)^2}{\\mathrm{d}\\ln(-c_R)}\\Big] \\tag{FE-85}",
+  "keys": [
+   "diff",
+   "mmass",
+   "fblock",
+   "calZ",
+   "cloc",
+   "iL",
+   "iR"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "every Standard-Model fermion"
+  ],
+  "solved_in": "From $m = \\tilde\\varepsilon/(fL)$ with the first-order root of FE-59 and localisations $c \\propto f$: $-18.82$, $-18.01$, $-14.90$, $-12.15$, $-10.89$, $-6.77$ for the up, down, strange, charm, bottom and top quarks."
+ },
+ {
+  "id": "FE-86",
+  "title": "The densities of the environments of the coupled solution",
+  "latex": "\\begin{aligned}\n&n_{\\mathrm{p}} + n_{\\mathrm{n}} = \\eta_{\\mathrm{b}}\\,n_\\gamma,\\qquad n_\\gamma =\n \\frac{2\\zeta(3)}{\\pi^2}\\,T^3,\\qquad\n \\frac{n_{\\mathrm{n}}}{n_{\\mathrm{p}}} = \\mathrm{e}^{-(m_{\\mathrm{n}} - m_{\\mathrm{p}})/T},\\qquad\n n_{\\mathrm{e}} = n_{\\mathrm{p}},\\\\\n&n_{\\mathrm{DM,tot}} = 2\\big(n_{\\mathrm{DM}} + \\bar n_{\\mathrm{DM}}\\big) =\n 2\\cdot4\\,\\Big(\\frac{M_{\\mathrm{DM}}T}{2\\pi}\\Big)^{3/2}\\mathrm{e}^{-M_{\\mathrm{DM}}/T}\n \\ \\ \\Big(\\frac{M_{\\mathrm{DM}}}{T} < 40\\Big)\n\\end{aligned} \\tag{FE-86}",
+  "keys": [
+   "np",
+   "nn",
+   "etab",
+   "ngamma",
+   "zeta3",
+   "pi",
+   "Temp",
+   "euler",
+   "mnucleon",
+   "ne",
+   "nDMtot",
+   "nDM",
+   "MDM"
+  ],
+  "status": "ASSUMED",
+  "fields": [
+   "baryons",
+   "electrons",
+   "dark matter"
+  ],
+  "solved_in": "The hot environments (the cold ones use measured densities); the dark matter in equilibrium for both species while $M_{\\mathrm{DM}}/T < 40$, its relic density afterwards."
+ },
+ {
+  "id": "FE-87",
+  "title": "The metric as a power series of terms of decreasing magnitude",
+  "latex": "g_{MN} = \\bar g_{MN} + \\epsilon\\,h^{(1)}_{MN} + \\epsilon^2\\,h^{(2)}_{MN} + \\dots,\\qquad\nh^{(1)}_{MN}(X^\\mu, x_0) = \\sum_{n\\ge0}h^{(1,n)}_{MN}(X^\\mu)\\,F_n(x_0),\\qquad \\epsilon \\sim 10^{-5}\n \\tag{FE-87}",
+  "keys": [
+   "metric",
+   "iM",
+   "iN",
+   "gbar",
+   "epsser",
+   "h1",
+   "Xcoord",
+   "imu",
+   "x0",
+   "in",
+   "h1n",
+   "Fprof"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "Order 0 exact; order 1, $n = 0$ by the linear Einstein-Boltzmann equations (FE-90 to FE-96; potentials $2.4\\times10^{-5}$ and smaller); $n \\ge 1$ by the graviton tower FE-53 (range below $1.6\\times10^{-21}$ m); order 2 estimated ($5.8\\times10^{-10}$)."
+ },
+ {
+  "id": "FE-88",
+  "title": "The order-1, $n = 0$ term of the metric in the Newtonian gauge (eight dimensions)",
+  "latex": "\\begin{aligned}\ng_{MN}\\,\\mathrm{d}X^M\\mathrm{d}X^N ={}& \\mathrm{e}^{2a_4}\\Big[\\big(1 -\n 2\\Psi_{\\mathrm{N}}\\big)\\big(\\mathrm{d}x_1^2 + \\mathrm{d}x_2^2\n + \\mathrm{d}x_3^2\\big) + \\mathrm{d}\\vec x\\cdot h^{\\mathrm{TT}}\\cdot\\mathrm{d}\\vec x\\Big] - \\big(1 +\n 2\\Phi\\big)\\,\\mathrm{d}x_4^2\\\\\n &+ f^2\\big(1 + 2\\sigma_{\\mathrm{r}}\\big)\\Big[\\mathrm{d}y^2 - \\mathrm{e}^{2Hy}\\big(\\mathrm{d}x_5^2 +\n \\mathrm{d}x_6^2 + \\mathrm{d}x_7^2\\big)\\Big]\n\\end{aligned} \\tag{FE-88}",
+  "keys": [
+   "metric",
+   "iM",
+   "iN",
+   "diff",
+   "Xcoord",
+   "euler",
+   "a4",
+   "PsiN",
+   "x1",
+   "x2",
+   "x3",
+   "vecx",
+   "hTT",
+   "Phi",
+   "x4",
+   "fblock",
+   "sigmar",
+   "ycoord",
+   "Hconst",
+   "x5",
+   "x6",
+   "x7"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "metric g"
+  ],
+  "solved_in": "The potentials, the tensor and the radion are of order $\\epsilon$; the radion is massive (48.42 TeV) and its static response is at most $1.1\\times10^{-34}$; the tensor amplitude is an input (bounded: tensor-to-scalar ratio below 0.036)."
+ },
+ {
+  "id": "FE-89",
+  "title": "The four-dimensional perturbed metric in conformal time",
+  "latex": "g^{(4)}_{\\mu\\nu}\\,\\mathrm{d}X^\\mu\\mathrm{d}X^\\nu = \\mathrm{e}^{2a_4}\\Big[-\\big(1 +\n 2\\Phi\\big)\\,\\mathrm{d}\\tau_{\\mathrm{c}}^2\n + \\big(1 - 2\\Psi_{\\mathrm{N}}\\big)\\,\\mathrm{d}\\vec x^{\\,2}\\Big],\\qquad \\mathrm{d}x_4 =\n \\mathrm{e}^{a_4}\\,\\mathrm{d}\\tau_{\\mathrm{c}} \\tag{FE-89}",
+  "keys": [
+   "g4",
+   "imu",
+   "inu",
+   "diff",
+   "Xcoord",
+   "euler",
+   "a4",
+   "Phi",
+   "tauc",
+   "PsiN",
+   "vecx",
+   "x4"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "four-dimensional metric"
+  ],
+  "solved_in": "Newtonian gauge (Ma and Bertschinger); the prime denotes $\\mathrm{d}/\\mathrm{d}\\tau_{\\mathrm{c}}$ and $a_4'$ is the conformal expansion rate."
+ },
+ {
+  "id": "FE-90",
+  "title": "The linearised Einstein equations for a Fourier mode",
+  "latex": "\\begin{aligned}\n&k^2\\Psi_{\\mathrm{N}} + 3a_4'\\big(\\Psi_{\\mathrm{N}}' + a_4'\\Phi\\big) = -4\\pi\n G_{\\mathrm{N}}\\,\\mathrm{e}^{2a_4}\\,\\Delta\\rho,\\qquad\n k^2\\big(\\Psi_{\\mathrm{N}}' + a_4'\\Phi\\big) = 4\\pi\n G_{\\mathrm{N}}\\,\\mathrm{e}^{2a_4}\\big(\\rho_{\\mathrm{tot}} + p_{\\mathrm{tot}}\\big)\\theta_{\\mathrm{tot}},\\\\\n&\\Psi_{\\mathrm{N}}'' + a_4'\\big(\\Phi' + 2\\Psi_{\\mathrm{N}}'\\big) + \\big(2a_4'' + a_4'^2\\big)\\Phi +\n \\frac{k^2}{3}\\big(\\Psi_{\\mathrm{N}} - \\Phi\\big)\n = 4\\pi G_{\\mathrm{N}}\\,\\mathrm{e}^{2a_4}\\,\\Delta p,\\\\\n&k^2\\big(\\Psi_{\\mathrm{N}} - \\Phi\\big) = 12\\pi G_{\\mathrm{N}}\\,\\mathrm{e}^{2a_4}\\big(\\rho_{\\mathrm{tot}}\n + p_{\\mathrm{tot}}\\big)\\sigma_{\\mathrm{an}}\n\\end{aligned} \\tag{FE-90}",
+  "keys": [
+   "kwave",
+   "PsiN",
+   "a4",
+   "prime",
+   "Phi",
+   "pi",
+   "GN",
+   "euler",
+   "Delta",
+   "rho",
+   "rhotot",
+   "thetatot",
+   "pressure",
+   "sigmaan"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "four-dimensional metric",
+   "all species"
+  ],
+  "solved_in": "Solved numerically with CAMB 2.0.5 (default accuracy, lensing) at the Planck 2018 parameters, summed over the species of UM-2; TT and EE agree with Planck $\\Lambda$CDM to $2.5\\times10^{-4}$ and $2.7\\times10^{-4}$."
+ },
+ {
+  "id": "FE-91",
+  "title": "The perturbations of the dark matter (cold)",
+  "latex": "\\delta_{\\mathrm{DM}}' = -\\theta_{\\mathrm{DM}} + 3\\Psi_{\\mathrm{N}}',\\qquad \\theta_{\\mathrm{DM}}' =\n -a_4'\\,\\theta_{\\mathrm{DM}} + k^2\\Phi \\tag{FE-91}",
+  "keys": [
+   "deltaDM",
+   "prime",
+   "PsiN",
+   "a4",
+   "kwave",
+   "Phi"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "dark matter (the odd quanta of Psi_A and Psi_B)"
+  ],
+  "solved_in": "Solved with CAMB; the dark matter is cold (pressure zero for quanta at rest, Kohn-Sham)."
+ },
+ {
+  "id": "FE-92",
+  "title": "The perturbations of the baryons",
+  "latex": "\\delta_{\\mathrm{b}}' = -\\theta_{\\mathrm{b}} + 3\\Psi_{\\mathrm{N}}',\\qquad\n\\theta_{\\mathrm{b}}' = -a_4'\\,\\theta_{\\mathrm{b}} + c_{\\mathrm{s}}^2k^2\\delta_{\\mathrm{b}}\n + R_{\\mathrm{b}}\\,\\mathrm{e}^{a_4}n_{\\mathrm{e}}\\sigma_{\\mathrm{T}}\\big(\\theta_\\gamma -\n \\theta_{\\mathrm{b}}\\big) + k^2\\Phi,\\qquad\nR_{\\mathrm{b}} = \\frac{4\\rho_\\gamma}{3\\rho_{\\mathrm{b}}} \\tag{FE-92}",
+  "keys": [
+   "deltab",
+   "prime",
+   "PsiN",
+   "a4",
+   "cs",
+   "kwave",
+   "Rb",
+   "euler",
+   "ne",
+   "sigmaT",
+   "deltagamma",
+   "Phi",
+   "rhogamma",
+   "rhob"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "baryons (protons, neutrons, electrons)",
+   "photons"
+  ],
+  "solved_in": "Solved with CAMB (recombination and Thomson drag of the standard code)."
+ },
+ {
+  "id": "FE-93",
+  "title": "The perturbations of the photons: density and velocity",
+  "latex": "\\delta_\\gamma' = -\\frac43\\,\\theta_\\gamma + 4\\Psi_{\\mathrm{N}}',\\qquad\n\\theta_\\gamma' = k^2\\Big(\\frac14\\,\\delta_\\gamma - \\sigma_{\\mathrm{an},\\gamma}\\Big) + k^2\\Phi\n + \\mathrm{e}^{a_4}n_{\\mathrm{e}}\\sigma_{\\mathrm{T}}\\big(\\theta_{\\mathrm{b}} - \\theta_\\gamma\\big) \\tag{FE-93}",
+  "keys": [
+   "deltagamma",
+   "prime",
+   "PsiN",
+   "kwave",
+   "sigmaangamma",
+   "Phi",
+   "euler",
+   "a4",
+   "ne",
+   "sigmaT",
+   "deltab"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "photons",
+   "baryons"
+  ],
+  "solved_in": "Solved with CAMB."
+ },
+ {
+  "id": "FE-94",
+  "title": "The photon temperature hierarchy",
+  "latex": "\\begin{aligned}\n&F^\\gamma_l{}' = \\frac{k}{2l + 1}\\big[l\\,F^\\gamma_{l-1} - (l + 1)F^\\gamma_{l+1}\\big]\n - \\mathrm{e}^{a_4}n_{\\mathrm{e}}\\sigma_{\\mathrm{T}}\\Big[F^\\gamma_l -\n \\frac{\\delta_{l2}}{10}\\big(F^\\gamma_2 + G^\\gamma_0 + G^\\gamma_2\\big)\\Big]\n \\quad (l \\ge 2),\\\\\n&F^\\gamma_0 = \\delta_\\gamma,\\qquad F^\\gamma_1 = \\frac{4\\theta_\\gamma}{3k},\\qquad F^\\gamma_2 =\n 2\\sigma_{\\mathrm{an},\\gamma}\n\\end{aligned} \\tag{FE-94}",
+  "keys": [
+   "Fgamma",
+   "il",
+   "prime",
+   "kwave",
+   "euler",
+   "a4",
+   "ne",
+   "sigmaT",
+   "delta",
+   "Ggamma",
+   "deltagamma",
+   "sigmaangamma"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "photons"
+  ],
+  "solved_in": "Solved with CAMB (the $l = 2$ equation equals the separate quadrupole equation of Ma and Bertschinger)."
+ },
+ {
+  "id": "FE-95",
+  "title": "The photon polarisation hierarchy",
+  "latex": "G^\\gamma_l{}' = \\frac{k}{2l + 1}\\big[l\\,G^\\gamma_{l-1} - (l + 1)G^\\gamma_{l+1}\\big]\n + \\mathrm{e}^{a_4}n_{\\mathrm{e}}\\sigma_{\\mathrm{T}}\\Big[-G^\\gamma_l + \\frac12\\big(F^\\gamma_2 +\n G^\\gamma_0 + G^\\gamma_2\\big)\n \\Big(\\delta_{l0} + \\frac{\\delta_{l2}}{5}\\Big)\\Big] \\tag{FE-95}",
+  "keys": [
+   "Ggamma",
+   "il",
+   "prime",
+   "kwave",
+   "euler",
+   "a4",
+   "ne",
+   "sigmaT",
+   "Fgamma",
+   "delta"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "photons"
+  ],
+  "solved_in": "Solved with CAMB."
+ },
+ {
+  "id": "FE-96",
+  "title": "The hierarchy of each neutrino mass state (the cosmic neutrino background)",
+  "latex": "\\begin{aligned}\n&\\mathcal{N}^{(i)\\prime}_0 = -\\frac{k_\\nu k}{E^{\\mathrm{c}}_i}\\,\\mathcal{N}^{(i)}_1\n - \\Psi_{\\mathrm{N}}'\\,\\frac{\\mathrm{d}\\ln f_{\\mathrm{FD}}}{\\mathrm{d}\\ln k_\\nu},\\qquad\n \\mathcal{N}^{(i)\\prime}_1 = \\frac{k_\\nu k}{3E^{\\mathrm{c}}_i}\\big(\\mathcal{N}^{(i)}_0 -\n 2\\mathcal{N}^{(i)}_2\\big)\n - \\frac{E^{\\mathrm{c}}_ik}{3k_\\nu}\\,\\Phi\\,\\frac{\\mathrm{d}\\ln f_{\\mathrm{FD}}}{\\mathrm{d}\\ln k_\\nu},\\\\\n&\\mathcal{N}^{(i)\\prime}_l = \\frac{k_\\nu k}{(2l + 1)E^{\\mathrm{c}}_i}\\big[l\\,\\mathcal{N}^{(i)}_{l-1} -\n (l + 1)\\mathcal{N}^{(i)}_{l+1}\\big]\n \\quad (l \\ge 2),\\qquad E^{\\mathrm{c}}_i = \\sqrt{k_\\nu^2 + \\mathrm{e}^{2a_4}m_i^2}\n\\end{aligned} \\tag{FE-96}",
+  "keys": [
+   "calN",
+   "ii",
+   "prime",
+   "knu",
+   "kwave",
+   "Ec",
+   "PsiN",
+   "diff",
+   "fFD",
+   "Phi",
+   "il",
+   "euler",
+   "a4",
+   "mmass"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrino mass states nu_1, nu_2, nu_3",
+   "fold bands (massless limit)"
+  ],
+  "solved_in": "Solved with CAMB, each mass state separately with the degeneracy $N_{\\mathrm{eff}}/3 = 1.0144$ (masses iterated to $7.8\\times10^{-12}$); the fold bands produced by freeze-in obey the massless limit $E^{\\mathrm{c}}_i = k_\\nu$."
+ },
+ {
+  "id": "FE-97",
+  "title": "The background expansion, the neutrino temperature and the primordial spectrum",
+  "latex": "a_4'^2 = \\frac{8\\pi G_{\\mathrm{N}}}{3}\\,\\mathrm{e}^{2a_4}\\rho_{\\mathrm{tot}} +\n \\frac{\\Lambda_4}{3}\\,\\mathrm{e}^{2a_4},\\qquad\nT_\\nu = \\Big(\\frac{4}{11}\\Big)^{1/3}T_\\gamma,\\qquad\nP_{\\mathcal{R}}(k) = A_{\\mathrm{s}}\\Big(\\frac{k}{k_0}\\Big)^{n_{\\mathrm{s}} - 1} \\tag{FE-97}",
+  "keys": [
+   "a4",
+   "prime",
+   "pi",
+   "GN",
+   "euler",
+   "rhotot",
+   "Lambda4",
+   "Tnu",
+   "Tgamma",
+   "PR",
+   "kwave",
+   "As",
+   "k0",
+   "ns"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "four-dimensional metric",
+   "all species"
+  ],
+  "solved_in": "Inputs: the Planck 2018 primordial parameters; $N_{\\mathrm{eff}} = 3.0432$ (neutrinos) + 0.0010 (freeze-in fold bands) = 3.0442; $\\mathcal{H}_0 = 67.38$ km/s/Mpc, sound horizon at the drag epoch 147.10 Mpc, BAO $\\chi_{\\mathrm{fit}}^2 = 31.5$ for 13 DESI DR2 points."
+ },
+ {
+  "id": "FE-98",
+  "title": "The size of the first-order potentials: rms value, Poisson equation and large scales",
+  "latex": "\\begin{aligned}\n&\\Phi_{\\mathrm{rms}}(k) = \\Big[\\frac{k^3P_{\\Phi_{\\mathrm{W}}}(k)}{2\\pi^2}\\Big]^{1/2},\\qquad\n \\Phi_{\\mathrm{W}} = \\frac{\\Phi + \\Psi_{\\mathrm{N}}}{2},\\qquad\n \\Phi_{\\mathrm{W}} = \\frac32\\,\\Omega_{\\mathrm{m}}\\mathcal{H}_0^2\\,\\frac{\\delta_{\\mathrm{m}}}{\n \\mathrm{e}^{a_4}k^2}\\ \\ \\text{(inside the horizon)},\\\\\n&\\Phi_{\\mathrm{W}} = \\frac35\\,\\mathcal{R}\\,\\mathrm{e}^{-a_4}D_+\\ \\ \\text{(largest scales)},\\qquad\n D_+ = \\frac52\\,\\Omega_{\\mathrm{m}}\\,\\frac{\\mathcal{H}}{\\mathcal{H}_0}\\int_{-\\infty}^{a_4}\\Big(\\frac{\n \\mathcal{H}_0}{\\mathcal{H}}\\Big)^3\n \\mathrm{e}^{-2\\tilde a_4}\\,\\mathrm{d}\\tilde a_4,\\\\\n&\\frac{\\mathcal{H}}{\\mathcal{H}_0} = \\big(\\Omega_{\\mathrm{m}}\\mathrm{e}^{-3a_4} + 1 -\n \\Omega_{\\mathrm{m}}\\big)^{1/2}\n\\end{aligned} \\tag{FE-98}",
+  "keys": [
+   "Phirms",
+   "kwave",
+   "PPhiW",
+   "pi",
+   "PhiW",
+   "Phi",
+   "PsiN",
+   "Omegam",
+   "H0",
+   "deltam",
+   "euler",
+   "a4",
+   "calR",
+   "Dplus",
+   "Hubble",
+   "infty",
+   "a4tilde",
+   "diff"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "four-dimensional metric",
+   "matter"
+  ],
+  "solved_in": "From the CAMB solution: $\\Phi_{\\mathrm{rms}} = 2.42\\times10^{-5}$ at $k = 10^{-4}$ Mpc$^{-1}$ down to $5.03\\times10^{-8}$ at 1 Mpc$^{-1}$; the Poisson form agrees to $1.5\\times10^{-6}$ for $k \\ge 0.01$ Mpc$^{-1}$ and the large-scale form to $4.4\\times10^{-5}$ ($D_+\\mathrm{e}^{-a_4} = 0.7878$ today); inside the integral $\\mathcal{H}$ is evaluated at $a_4 = \\tilde a_4$."
+ },
+ {
+  "id": "FE-99",
+  "title": "The amplitude of the matter fluctuations",
+  "latex": "\\sigma_8^2 = \\int_0^\\infty\\frac{\\mathrm{d}k}{k}\\,\\frac{k^3P_{\\mathrm{m}}(k)}{2\\pi^2}\\,W_{\n \\mathrm{th}}(kR_8)^2,\\qquad\nW_{\\mathrm{th}}(kR_8) = \\frac{3\\big[\\sin(kR_8) - kR_8\\cos(kR_8)\\big]}{(kR_8)^3},\\qquad R_8 =\n 8\\,h_{100}^{-1}\\,\\text{Mpc} \\tag{FE-99}",
+  "keys": [
+   "sigma8",
+   "infty",
+   "diff",
+   "kwave",
+   "Pm",
+   "pi",
+   "Wth",
+   "R8",
+   "h100"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "matter"
+  ],
+  "solved_in": "Computed from the CAMB linear matter power spectrum: $\\sigma_8 = 0.8118$ for UM-2 against 0.8109 for $\\Lambda$CDM."
+ },
+ {
+  "id": "FE-100",
+  "title": "The three neutrino masses",
+  "latex": "m_1 = 1.000\\ \\text{meV},\\qquad m_2 = \\sqrt{m_1^2 + \\Delta m_{21}^2} = 8.712\\ \\text{meV},\\qquad\nm_3 = \\sqrt{m_1^2 + \\Delta m_{31}^2} = 50.140\\ \\text{meV} \\tag{FE-100}",
+  "keys": [
+   "mnu123",
+   "Delta",
+   "dm2"
+  ],
+  "status": "ASSUMED",
+  "fields": [
+   "neutrinos"
+  ],
+  "solved_in": "$m_1$ and the normal ordering ASSUMED, the splittings STANDARD (NuFIT 6.0); they are $x_0$ eigenvalues of FE-59 with $c_R = -35.0452$, $-32.8481$, $-31.0702$."
+ },
+ {
+  "id": "FE-101",
+  "title": "The four-fermion interactions at low energy",
+  "latex": "\\begin{aligned}\n&\\mathcal{L}_{\\mathrm{CC}} = -2\\sqrt2\\,G_{\\mathrm{F}}\\big(\\bar\\nu_\\alpha\\gamma^\\mu P_L\\,\\ell^-_\\alpha\\big)\n \\big(\\bar\\ell^-_\\beta\\gamma_\\mu P_L\\,\\nu_\\beta\\big),\\qquad\n \\mathcal{L}_{\\mathrm{NC}} = -2\\sqrt2\\,G_{\\mathrm{F}}\\big(\\bar\\nu_\\alpha\\gamma^\\mu P_L\\,\\nu_\\alpha\\big)\n \\sum_f\\bar\\psi_f\\gamma_\\mu\\big(\\tilde g^f_LP_L + \\tilde g^f_RP_R\\big)\\psi_f,\\\\\n&\\nu_\\alpha = \\sum_{i=1}^{3}U_{\\alpha i}\\,\\nu_i,\\qquad P_L = \\frac{1 + \\Gamma_4}{2},\\qquad P_R = \\frac{1\n - \\Gamma_4}{2}\n\\end{aligned} \\tag{FE-101}",
+  "keys": [
+   "LCC",
+   "GF",
+   "nubar",
+   "ialpha",
+   "gamma",
+   "imu",
+   "PLR",
+   "iL",
+   "ellminus",
+   "ibeta",
+   "nuflav",
+   "if",
+   "psi",
+   "gtilde",
+   "iR",
+   "ii",
+   "Upmns",
+   "Gamma4"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos",
+   "charged leptons",
+   "medium fermions"
+  ],
+  "solved_in": "The exchange of $W^+$, $W^-$ and $Z$ between zero modes far below $m_{\\mathrm{W}}$, $m_{\\mathrm{Z}}$; summed over the flavours $\\alpha$, $\\beta$ and the fermions $f$ of the medium."
+ },
+ {
+  "id": "FE-102",
+  "title": "The Fermi constant and the neutral-current couplings",
+  "latex": "\\frac{G_{\\mathrm{F}}}{\\sqrt2} = \\frac{g_2^2}{8m_{\\mathrm{W}}^2},\\qquad\n\\tilde g^f_L = T_3^f - Q_{\\mathrm{em}}^f\\sin^2\\theta_{\\mathrm{W}},\\qquad \\tilde g^f_R =\n -Q_{\\mathrm{em}}^f\\sin^2\\theta_{\\mathrm{W}},\\qquad\n\\tilde g^f_V = \\tilde g^f_L + \\tilde g^f_R = T_3^f - 2Q_{\\mathrm{em}}^f\\sin^2\\theta_{\\mathrm{W}} \\tag{FE-102}",
+  "keys": [
+   "GF",
+   "g2",
+   "mW",
+   "gtilde",
+   "if",
+   "iL",
+   "T3",
+   "Qem",
+   "thetaW",
+   "iR",
+   "iV"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "W",
+   "Z",
+   "fermions"
+  ],
+  "solved_in": "UM-2 uses the measured $G_{\\mathrm{F}} = 1.1663788\\times10^{-5}$ GeV$^{-2}$."
+ },
+ {
+  "id": "FE-103",
+  "title": "The matter potentials of forward scattering",
+  "latex": "\\begin{aligned}\n&V_\\alpha = \\sqrt2\\,G_{\\mathrm{F}}\\Big[\\delta_{\\alpha e}\\big(n_{e^-} - n_{e^+}\\big) + \\sum_f\\tilde\n g^f_V\\big(n_f - n_{\\bar f}\\big)\\Big],\\\\\n&V = \\mathrm{diag}\\big(V_{\\mathrm{CC}},\\ 0,\\ 0\\big) + V_{\\mathrm{NC}}\\,\\mathbf{1},\\qquad V_{\\mathrm{CC}}\n = \\sqrt2\\,G_{\\mathrm{F}}\\,n_{\\mathrm{e}},\n \\qquad V_{\\mathrm{NC}} = -\\frac{G_{\\mathrm{F}}\\,n_{\\mathrm{n}}}{\\sqrt2}\n\\end{aligned} \\tag{FE-103}",
+  "keys": [
+   "Vmat",
+   "ialpha",
+   "GF",
+   "delta",
+   "ie",
+   "nepm",
+   "if",
+   "gtilde",
+   "iV",
+   "ndens",
+   "nfbar",
+   "diag",
+   "VCC",
+   "identity",
+   "ne",
+   "nn"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos",
+   "electrons",
+   "neutrons"
+  ],
+  "solved_in": "For an unpolarised medium at rest; in neutral matter of electrons, protons and neutrons; antineutrinos have $-V$."
+ },
+ {
+  "id": "FE-104",
+  "title": "The flavour evolution in vacuum and in matter",
+  "latex": "\\mathrm{i}\\,\\frac{\\mathrm{d}\\boldsymbol{\\psi}}{\\mathrm{d}x_4} = H_{\\mathrm{fl}}\\,\\boldsymbol{\\psi},\\qquad\nH_{\\mathrm{fl}} = \\frac{1}{2E}\\,U\\,\\mathrm{diag}\\big(m_1^2,\\ m_2^2,\\ m_3^2\\big)\\,U^\\dagger + V,\\qquad\n\\mathcal{U}(L_{\\mathrm{b}}) = \\mathrm{e}^{-\\mathrm{i}H_{\\mathrm{fl}}L_{\\mathrm{b}}},\\qquad\n\\mathcal{P}(\\nu_\\alpha\\to\\nu_\\beta) = \\lvert\\mathcal{U}_{\\beta\\alpha}\\rvert^2 \\tag{FE-104}",
+  "keys": [
+   "imag",
+   "diff",
+   "bspsi",
+   "x4",
+   "Hfl",
+   "Eenergy",
+   "Upmns",
+   "diag",
+   "mnu123",
+   "dagger",
+   "Vmat",
+   "calU",
+   "Lb",
+   "euler",
+   "calP",
+   "nuflav",
+   "ialpha",
+   "ibeta"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos"
+  ],
+  "solved_in": "Solved exactly (matrix exponential for constant density, ordered products of layers otherwise); vacuum formula reproduced to $3.9\\times10^{-15}$, unitarity $1.8\\times10^{-15}$; antineutrinos: $U \\to U^*$, $V \\to -V$."
+ },
+ {
+  "id": "FE-105",
+  "title": "The vacuum oscillation probability, CPT and the T-odd difference",
+  "latex": "\\begin{aligned}\n&\\mathcal{P}(\\nu_\\alpha\\to\\nu_\\beta) = \\Big\\lvert\\sum_{i=1}^{3}U_{\\beta i}U^*_{\\alpha i}\\,\n \\mathrm{e}^{-\\mathrm{i}m_i^2L_{\\mathrm{b}}/(2E)}\\Big\\rvert^2,\\qquad\n \\mathcal{P}(\\nu_\\alpha\\to\\nu_\\beta) = \\mathcal{P}(\\bar\\nu_\\beta\\to\\bar\\nu_\\alpha),\\\\\n&\\mathcal{P}(\\nu_\\mu\\to\\nu_e) - \\mathcal{P}(\\nu_e\\to\\nu_\\mu) =\n -16J_{\\mathrm{CP}}\\sin\\Delta_{21}\\sin\\Delta_{31}\\sin\\Delta_{32},\\qquad\n \\Delta_{ij} = \\frac{\\Delta m_{ij}^2L_{\\mathrm{b}}}{4E},\\qquad\n J_{\\mathrm{CP}} = \\mathrm{Im}\\big(U_{e2}U_{\\mu3}U_{e3}^*U_{\\mu2}^*\\big)\n\\end{aligned} \\tag{FE-105}",
+  "keys": [
+   "calP",
+   "nuflav",
+   "ialpha",
+   "ibeta",
+   "ii",
+   "Upmns",
+   "star",
+   "euler",
+   "imag",
+   "mmass",
+   "Lb",
+   "Eenergy",
+   "nubar",
+   "ie",
+   "JCP",
+   "Deltaij",
+   "Delta",
+   "ij",
+   "imagpart"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos"
+  ],
+  "solved_in": "Checked against the exact evolution (CPT to $2.8\\times10^{-16}$, T-odd difference to $5.9\\times10^{-14}$)."
+ },
+ {
+  "id": "FE-106",
+  "title": "The MSW resonances of the 1-3 and 1-2 sectors",
+  "latex": "2E\\,V_{\\mathrm{CC}} = \\Delta m_{ee}^2\\cos2\\theta_{13},\\qquad \\Delta m_{ee}^2 = c_{12}^2\\,\\Delta m_{31}^2\n + s_{12}^2\\,\\Delta m_{32}^2,\n\\qquad 2E\\,V_{\\mathrm{CC}}\\,c_{13}^2 = \\Delta m_{21}^2\\cos2\\theta_{12} \\tag{FE-106}",
+  "keys": [
+   "Eenergy",
+   "VCC",
+   "Delta",
+   "dmee",
+   "thetamix",
+   "cij",
+   "dm2",
+   "sij"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos",
+   "electrons"
+  ],
+  "solved_in": "The 1-3 resonance at 11.135 GeV in rock of 2.8 g/cm$^3$ (exact three-flavour 11.133 GeV); the 1-2 resonance at the centre of the Sun at 1.93 MeV."
+ },
+ {
+  "id": "FE-107",
+  "title": "The adiabatic survival probability of solar electron neutrinos",
+  "latex": "\\begin{aligned}\n&\\mathcal{P}_{ee} = c_{13}^4\\Big(\\frac12 + \\frac12\\cos2\\theta_{12}\\cos2\\theta^{\\mathrm{m}}_{12}\\Big) +\n s_{13}^4,\\qquad\n A_{\\mathrm{MSW}} = \\frac{2E\\,V_{\\mathrm{CC}}\\,c_{13}^2}{\\Delta m_{21}^2},\\\\\n&\\cos2\\theta^{\\mathrm{m}}_{12} = \\frac{\\cos2\\theta_{12} - A_{\\mathrm{MSW}}}{\\sqrt{\\big(\\cos2\\theta_{12}\n - A_{\\mathrm{MSW}}\\big)^2\n + \\sin^22\\theta_{12}}}\n\\end{aligned} \\tag{FE-107}",
+  "keys": [
+   "calP",
+   "ie",
+   "cij",
+   "thetamix",
+   "thetam",
+   "sij",
+   "AMSW",
+   "Eenergy",
+   "VCC",
+   "Delta",
+   "dm2"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos",
+   "electrons"
+  ],
+  "solved_in": "Evaluated at the production point; the numerical three-flavour evolution through the solar density agrees to $1.3\\times10^{-3}$."
+ },
+ {
+  "id": "FE-108",
+  "title": "The resonance density, the adiabaticity and the Landau-Zener jump probability",
+  "latex": "n_{\\mathrm{e}}^{\\mathrm{res}} = \\frac{\\Delta m_{ij}^2\\cos2\\theta_{ij}}{2\\sqrt2\\,G_{\\mathrm{F}}E},\\qquad\n\\gamma_{\\mathrm{ad}} = \\frac{\\Delta m_{ij}^2\\sin^22\\theta_{ij}}{2E\\cos2\\theta_{ij}\\,\\lvert\\mathrm{d}\\ln\n n_{\\mathrm{e}}/\\mathrm{d}r\\rvert} \\gg 1,\n\\qquad \\mathcal{P}_{\\mathrm{LZ}} = \\mathrm{e}^{-\\pi\\gamma_{\\mathrm{ad}}/2} \\tag{FE-108}",
+  "keys": [
+   "neres",
+   "Delta",
+   "mmass",
+   "ii",
+   "ij",
+   "thetamix",
+   "GF",
+   "Eenergy",
+   "gammaad",
+   "diff",
+   "ne",
+   "rdist",
+   "PLZ",
+   "euler",
+   "pi"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos",
+   "electrons"
+  ],
+  "solved_in": "Two-flavour conditions; in the supernova envelope both resonances are adiabatic ($\\mathcal{P}_{\\mathrm{LZ}} \\le 2.6\\times10^{-77}$)."
+ },
+ {
+  "id": "FE-109",
+  "title": "The thermal potential of the early Universe",
+  "latex": "V_e - V_\\mu = -\\frac{8\\sqrt2\\,G_{\\mathrm{F}}\\lvert\\vec k\\rvert}{3m_{\\mathrm{W}}^2}\\,\\rho_{\\mathrm{e}},\\qquad\n\\rho_{\\mathrm{e}} \\simeq \\frac{7\\pi^2}{60}\\,T^4\\ \\ (T \\gg m_{\\mathrm{e}}) \\tag{FE-109}",
+  "keys": [
+   "Vmat",
+   "ie",
+   "GF",
+   "kvec",
+   "mW",
+   "rhoe",
+   "pi",
+   "Temp",
+   "me"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos",
+   "electrons and positrons"
+  ],
+  "solved_in": "Leading order in $T/m_{\\mathrm{W}}$; it falls below the vacuum term at $T = 4.99$ MeV (atmospheric) and 2.39 MeV (solar) for $\\lvert\\vec k\\rvert = 3.15\\,T$."
+ },
+ {
+  "id": "FE-110",
+  "title": "The quantum kinetic equations of a neutrino gas",
+  "latex": "\\begin{aligned}\n&\\mathrm{i}\\Big(\\partial_{x_4} + \\frac{\\vec k}{\\lvert\\vec\n k\\rvert}\\cdot\\vec\\nabla\\Big)\\boldsymbol{\\rho}_{\\vec k}\n = \\big[H^{\\mathrm{vac}}_{\\vec k} + V + V_{\\nu\\nu},\\ \\boldsymbol{\\rho}_{\\vec k}\\big] +\n \\mathrm{i}\\,C_{\\mathrm{coll}}[\\boldsymbol{\\rho}],\n \\qquad H^{\\mathrm{vac}}_{\\vec k} =\n \\frac{U\\,\\mathrm{diag}\\big(m_1^2,\\ m_2^2,\\ m_3^2\\big)\\,U^\\dagger}{2\\lvert\\vec k\\rvert},\\\\\n&V_{\\nu\\nu} = \\sqrt2\\,G_{\\mathrm{F}}\\int\\frac{\\mathrm{d}^3\\vec k_2}{(2\\pi)^3}\\Big(1 - \\frac{\\vec\n k\\cdot\\vec k_2}{\\lvert\\vec k\\rvert\\lvert\\vec k_2\\rvert}\\Big)\n \\big(\\boldsymbol{\\rho}_{\\vec k_2} - \\bar{\\boldsymbol{\\rho}}_{\\vec k_2}\\big),\\qquad\n \\partial_{x_4} \\to \\partial_{x_4} - \\mathcal{H}\\lvert\\vec k\\rvert\\,\\partial_{\\lvert\\vec\n k\\rvert}\\ \\ \\text{(expanding Universe)}\n\\end{aligned} \\tag{FE-110}",
+  "keys": [
+   "imag",
+   "partial",
+   "x4",
+   "kvec",
+   "grad3",
+   "boldrho",
+   "Hvac",
+   "Vmat",
+   "Vnunu",
+   "Ccoll",
+   "Upmns",
+   "diag",
+   "mnu123",
+   "dagger",
+   "GF",
+   "diff",
+   "k2",
+   "pi",
+   "Hubble"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos"
+  ],
+  "solved_in": "Used in its linearised form for the fast flavour instability (FE-117) and, momentum averaged, for neutrino decoupling (FE-111)."
+ },
+ {
+  "id": "FE-111",
+  "title": "Neutrino decoupling: the temperature equations",
+  "latex": "\\begin{aligned}\n\\frac{\\mathrm{d}T_\\gamma}{\\mathrm{d}x_4} &= -\\frac{4\\mathcal{H}\\rho_\\gamma +\n 3\\mathcal{H}\\big(\\rho_{\\mathrm{e}} + p_{\\mathrm{e}}\\big)\n + 3\\mathcal{H}T_\\gamma\\,\\frac{\\mathrm{d}p_{\\mathrm{QED}}}{\\mathrm{d}T_\\gamma} + C_{\\nu_e} + 2C_{\\nu_\\mu}}\n {\\frac{\\mathrm{d}\\rho_\\gamma}{\\mathrm{d}T_\\gamma} + \\frac{\\mathrm{d}\\rho_{\\mathrm{e}}}{\\mathrm{d}T_\\gamma}\n + T_\\gamma\\,\\frac{\\mathrm{d}^2p_{\\mathrm{QED}}}{\\mathrm{d}T_\\gamma^2}},\\qquad\n \\frac{\\mathrm{d}T_{\\nu_\\alpha}}{\\mathrm{d}x_4} = -\\mathcal{H}T_{\\nu_\\alpha} +\n \\frac{C_{\\nu_\\alpha}}{\\mathrm{d}\\rho_{\\nu_\\alpha}/\\mathrm{d}T_{\\nu_\\alpha}},\\\\\n\\mathcal{H} &= \\frac{\\sqrt{8\\pi\\rho_{\\mathrm{tot}}/3}}{M_{\\mathrm{Pl}}},\\qquad \\rho_\\gamma =\n \\frac{\\pi^2}{15}\\,T_\\gamma^4,\\qquad\n \\rho_{\\nu_\\alpha} = \\frac{7\\pi^2}{120}\\,T_{\\nu_\\alpha}^4\n\\end{aligned} \\tag{FE-111}",
+  "keys": [
+   "diff",
+   "Tgamma",
+   "x4",
+   "Hubble",
+   "rhogamma",
+   "rhoe",
+   "pQED",
+   "Cnua",
+   "Tnua",
+   "rhonu",
+   "pi",
+   "rhotot",
+   "MPl"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "photons",
+   "electrons and positrons",
+   "neutrinos"
+  ],
+  "solved_in": "Integrated from 20 MeV to 5 keV (LSODA, relative tolerance $10^{-11}$); the method reproduces the published values (Escudero 2020) to $10^{-3}$; $\\nu_\\tau$ follows $\\nu_\\mu$."
+ },
+ {
+  "id": "FE-112",
+  "title": "The energy transfer by collisions",
+  "latex": "\\begin{aligned}\n&C_{\\nu_e} = \\frac{G_{\\mathrm{F}}^2}{\\pi^5}\\Big[4\\Big(\\big(\\tilde g^{\\nu_e e}_L\\big)^2 + \\big(\\tilde\n g^{\\nu_e e}_R\\big)^2\\Big)\n \\mathcal{F}_{\\mathrm{tr}}(T_\\gamma, T_{\\nu_e}) + 2\\mathcal{F}_{\\mathrm{tr}}(T_{\\nu_\\mu}, T_{\\nu_e})\\Big],\\\\\n&C_{\\nu_\\mu} = \\frac{G_{\\mathrm{F}}^2}{\\pi^5}\\Big[4\\Big(\\big(\\tilde g^{\\nu_\\mu e}_L\\big)^2 + \\big(\\tilde\n g^{\\nu_\\mu e}_R\\big)^2\\Big)\n \\mathcal{F}_{\\mathrm{tr}}(T_\\gamma, T_{\\nu_\\mu}) - \\mathcal{F}_{\\mathrm{tr}}(T_{\\nu_\\mu}, T_{\\nu_e})\\Big],\\\\\n&\\mathcal{F}_{\\mathrm{tr}}(T_{\\mathrm{A}}, T_{\\mathrm{B}}) = 32f_{\\mathrm{a}}\\big(T_{\\mathrm{A}}^9 -\n T_{\\mathrm{B}}^9\\big)\n + 56f_{\\mathrm{s}}T_{\\mathrm{A}}^4T_{\\mathrm{B}}^4\\big(T_{\\mathrm{A}} - T_{\\mathrm{B}}\\big),\\\\\n&\\tilde g^{\\nu_e e}_L = \\frac12 + \\sin^2\\theta_{\\mathrm{W}},\\qquad \\tilde g^{\\nu_e e}_R = \\tilde\n g^{\\nu_\\mu e}_R = \\sin^2\\theta_{\\mathrm{W}},\n \\qquad \\tilde g^{\\nu_\\mu e}_L = -\\frac12 + \\sin^2\\theta_{\\mathrm{W}}\n\\end{aligned} \\tag{FE-112}",
+  "keys": [
+   "Cnua",
+   "GF",
+   "pi",
+   "gnue",
+   "iL",
+   "iR",
+   "Ftr",
+   "Tgamma",
+   "Tnua",
+   "gnumu",
+   "TAB",
+   "fas",
+   "thetaW"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos",
+   "electrons and positrons"
+  ],
+  "solved_in": "$f_{\\mathrm{a}} = 0.884$, $f_{\\mathrm{s}} = 0.829$; the radiatively corrected couplings $\\tilde g^{\\nu_e e}_L = 0.727$, $\\tilde g^{\\nu_e e}_R = 0.233$, $\\tilde g^{\\nu_\\mu e}_L = -0.273$, $\\tilde g^{\\nu_\\mu e}_R = 0.233$ are used (the tree-level ones change $N_{\\mathrm{eff}}$ by $4\\times10^{-4}$)."
+ },
+ {
+  "id": "FE-113",
+  "title": "The finite-temperature QED pressure of the electron-photon plasma",
+  "latex": "\\begin{aligned}\n&p_{\\mathrm{QED}} = p_{\\mathrm{QED}}^{(2)} + p_{\\mathrm{QED}}^{(3)},\\qquad\n p_{\\mathrm{QED}}^{(2)} = -\\frac{e^2T^2}{12\\pi^2}\\,\\mathcal{Q}_1 - \\frac{e^2}{8\\pi^4}\\,\\mathcal{Q}_1^2\n + \\frac{e^2m_{\\mathrm{e}}^2}{16\\pi^4}\\,\\mathcal{Q}_2,\\\\\n&p_{\\mathrm{QED}}^{(3)} = \\frac{e^3T}{12\\pi^4}\\,\\mathcal{Q}_3^{3/2},\\qquad\n \\rho_{\\mathrm{QED}} = -p_{\\mathrm{QED}} + T\\,\\frac{\\mathrm{d}p_{\\mathrm{QED}}}{\\mathrm{d}T}\n\\end{aligned} \\tag{FE-113}",
+  "keys": [
+   "pQED",
+   "eel",
+   "Temp",
+   "pi",
+   "calQ",
+   "me",
+   "rhoQED",
+   "diff"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "photons",
+   "electrons and positrons"
+  ],
+  "solved_in": "Massless limits $-5e^2T^4/288$ and $e^3T^4/(36\\sqrt3\\,\\pi)$ reproduced to $10^{-16}$ (Bennett et al. 2020)."
+ },
+ {
+  "id": "FE-114",
+  "title": "The integrals of the QED pressure",
+  "latex": "\\begin{aligned}\n&\\mathcal{Q}_1 = \\int_0^\\infty\\mathrm{d}k\\,\\frac{k^2}{E}\\,n_{\\mathrm{D}}(k),\\qquad\n \\mathcal{Q}_2 = \\int_0^\\infty\\!\\!\\int_0^\\infty\\mathrm{d}k\\,\\mathrm{d}k_2\\,\\frac{kk_2}{E(k)E(k_2)}\n \\ln\\Big\\lvert\\frac{k + k_2}{k - k_2}\\Big\\rvert\\,n_{\\mathrm{D}}(k)\\,n_{\\mathrm{D}}(k_2),\\\\\n&\\mathcal{Q}_3 = \\int_0^\\infty\\mathrm{d}k\\,\\frac{k^2 + E^2}{E}\\,n_{\\mathrm{D}}(k),\\qquad\n n_{\\mathrm{D}}(k) = \\frac{2}{\\mathrm{e}^{E/T} + 1},\\qquad E = \\sqrt{k^2 + m_{\\mathrm{e}}^2}\n\\end{aligned} \\tag{FE-114}",
+  "keys": [
+   "calQ",
+   "infty",
+   "diff",
+   "kwave",
+   "Eenergy",
+   "nD",
+   "k2",
+   "euler",
+   "Temp",
+   "me"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "electrons and positrons"
+  ],
+  "solved_in": "Gauss-Legendre panels; the logarithmic singularity at $k_2 = k$ removed by a substitution."
+ },
+ {
+  "id": "FE-115",
+  "title": "The effective number of neutrino species and the common temperature",
+  "latex": "N_{\\mathrm{eff}} = \\Big(\\frac{11}{4}\\Big)^{4/3}\\Big[\\Big(\\frac{T_{\\nu_e}}{T_\\gamma}\\Big)^4 +\n 2\\Big(\\frac{T_{\\nu_\\mu}}{T_\\gamma}\\Big)^4\\Big],\n\\qquad \\frac{\\mathrm{d}T_\\nu}{\\mathrm{d}x_4} = -\\mathcal{H}T_\\nu + \\frac{C_{\\nu_e} +\n 2C_{\\nu_\\mu}}{3\\,\\mathrm{d}\\rho_\\nu/\\mathrm{d}T_\\nu} \\tag{FE-115}",
+  "keys": [
+   "Neff",
+   "Tnua",
+   "Tgamma",
+   "diff",
+   "Tnu",
+   "x4",
+   "Hubble",
+   "Cnua",
+   "rhonu"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos",
+   "photons"
+  ],
+  "solved_in": "UM-2 computes 3.0476 (separate temperatures) and 3.0485 (one common temperature, efficient oscillations) and adopts the precision value 3.0432 (Cielo et al. 2023); for instantaneous decoupling the plasma entropy per comoving volume is conserved and $T_\\nu$ falls as $\\mathrm{e}^{-a_4}$."
+ },
+ {
+  "id": "FE-116",
+  "title": "The fast flavour instability: the electron-lepton-number distribution",
+  "latex": "G_{\\mathrm{ELN}}(u) = \\sqrt2\\,G_{\\mathrm{F}}\\big[n_{\\nu_e}\\,g_{\\nu_e}(u) -\n n_{\\bar\\nu_e}\\,g_{\\bar\\nu_e}(u)\\big],\\qquad\n\\int_{-1}^{1}g_{\\nu_e}\\,\\frac{\\mathrm{d}u}{2} = \\int_{-1}^{1}g_{\\bar\\nu_e}\\,\\frac{\\mathrm{d}u}{2} = 1,\\qquad\n\\mathcal{I}_l = \\int_{-1}^{1}\\frac{\\mathrm{d}u}{2}\\,G_{\\mathrm{ELN}}(u)\\,u^l \\tag{FE-116}",
+  "keys": [
+   "GELN",
+   "ucos",
+   "GF",
+   "nnue",
+   "gnu_ang",
+   "diff",
+   "calI",
+   "il"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos (dense gas)"
+  ],
+  "solved_in": "Homogeneous, axially symmetric gas of electron neutrinos and antineutrinos (symmetry axis $x_3$)."
+ },
+ {
+  "id": "FE-117",
+  "title": "The fast flavour instability: the dispersion relation",
+  "latex": "\\begin{aligned}\n&\\mathcal{C}(u) \\propto \\mathrm{e}^{-\\mathrm{i}(\\omega_{\\mathrm{f}}x_4 - k_{\\mathrm{f}}x_3)},\\qquad\n \\bar\\omega = \\omega_{\\mathrm{f}} - \\mathcal{I}_0,\n \\qquad \\bar k = k_{\\mathrm{f}} - \\mathcal{I}_1:\\qquad \\det\\Pi(\\bar\\omega, \\bar k) = 0,\\\\\n&\\Pi = \\mathrm{diag}(1,\\ -1) + \\int_{-1}^{1}\\frac{\\mathrm{d}u}{2}\\,\\frac{G_{\\mathrm{ELN}}(u)}{\\bar\\omega\n - \\bar ku}\n \\begin{pmatrix}1 & u\\\\ u & u^2\\end{pmatrix}\n\\end{aligned} \\tag{FE-117}",
+  "keys": [
+   "calC",
+   "ucos",
+   "euler",
+   "imag",
+   "omegaf",
+   "x4",
+   "x3",
+   "omegabar",
+   "calI",
+   "Pidisp",
+   "diag",
+   "diff",
+   "GELN"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos (dense gas)"
+  ],
+  "solved_in": "Roots found for real $k_{\\mathrm{f}}$ on a grid by vectorised Newton iterations; three independent evaluations agree to $1.2\\times10^{-14}$."
+ },
+ {
+  "id": "FE-118",
+  "title": "The axisymmetric and azimuthal branches of the dispersion relation",
+  "latex": "\\big(1 + \\mathcal{J}_0\\big)\\big(-1 + \\mathcal{J}_2\\big) - \\mathcal{J}_1^2 = 0,\\qquad\n\\mathcal{J}_l = \\int_{-1}^{1}\\frac{\\mathrm{d}u}{2}\\,\\frac{G_{\\mathrm{ELN}}(u)\\,u^l}{\\bar\\omega - \\bar\n ku};\\qquad\n-1 + \\int_{-1}^{1}\\frac{\\mathrm{d}u}{2}\\,\\frac{G_{\\mathrm{ELN}}(u)\\,(1 - u^2)}{2(\\bar\\omega - \\bar ku)}\n = 0 \\tag{FE-118}",
+  "keys": [
+   "calJ",
+   "il",
+   "diff",
+   "ucos",
+   "GELN",
+   "omegabar"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos (dense gas)"
+  ],
+  "solved_in": "A root with $\\mathrm{Im}\\,\\bar\\omega > 0$ for real $\\bar k$ is an instability; with a crossing of the electron-lepton-number distribution the largest growth rate is $0.088\\sqrt2\\,G_{\\mathrm{F}}n_{\\nu_e}$, without one no mode grows (Morinaga 2022)."
+ },
+ {
+  "id": "FE-119",
+  "title": "The homogeneous mode and the mode $k_{\\mathrm{f}} = \\mathcal{I}_1$",
+  "latex": "\\begin{aligned}\n&\\mathrm{i}\\,\\frac{\\mathrm{d}\\mathcal{C}(u)}{\\mathrm{d}x_4} = \\big(\\mathcal{I}_0 -\n u\\,\\mathcal{I}_1\\big)\\mathcal{C}(u)\n - \\int_{-1}^{1}\\frac{\\mathrm{d}\\tilde u}{2}\\,G_{\\mathrm{ELN}}(\\tilde u)\\,(1 - u\\tilde\n u)\\,\\mathcal{C}(\\tilde u);\\\\\n&\\bar\\omega^2 - \\big(\\mathcal{I}_2 - \\mathcal{I}_0\\big)\\bar\\omega - \\big(\\mathcal{I}_0\\mathcal{I}_2 -\n \\mathcal{I}_1^2\\big) = 0,\\qquad\n \\mathrm{Im}\\,\\bar\\omega = \\frac12\\sqrt{4\\mathcal{I}_1^2 - \\big(\\mathcal{I}_0 + \\mathcal{I}_2\\big)^2}\n\\end{aligned} \\tag{FE-119}",
+  "keys": [
+   "imag",
+   "diff",
+   "calC",
+   "ucos",
+   "x4",
+   "calI",
+   "utilde",
+   "GELN",
+   "omegabar",
+   "imagpart"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrinos (dense gas)"
+  ],
+  "solved_in": "Eigenvalues of the discretised homogeneous equation (300 nodes) agree with the dispersion relation; growth by a factor $\\mathrm{e}$ in $6\\times10^{-10}$ to $6\\times10^{-11}$ s near the neutrinosphere (scale $\\sqrt2\\,G_{\\mathrm{F}}n_{\\nu_e}$)."
+ },
+ {
+  "id": "FE-120",
+  "title": "The cosmic neutrino background",
+  "latex": "\\begin{aligned}\n&f_{\\mathrm{FD}}(k) = \\frac{1}{\\mathrm{e}^{k/T_\\nu} + 1},\\qquad\n n_i = 2\\int\\frac{\\mathrm{d}^3\\vec k}{(2\\pi)^3}\\,f_{\\mathrm{FD}} = \\frac{3\\zeta(3)}{2\\pi^2}\\,T_\\nu^3,\\qquad\n \\rho_i = 2\\int\\frac{\\mathrm{d}^3\\vec k}{(2\\pi)^3}\\,\\sqrt{k^2 + m_i^2}\\,f_{\\mathrm{FD}},\\\\\n&\\bar v_i = \\frac{\\int_0^\\infty k^2\\,\\frac{k}{\\sqrt{k^2 +\n m_i^2}}\\,f_{\\mathrm{FD}}\\,\\mathrm{d}k}{\\int_0^\\infty k^2\\,f_{\\mathrm{FD}}\\,\\mathrm{d}k},\n \\qquad \\text{flavour content of }\\nu_i:\\ \\lvert U_{\\alpha i}\\rvert^2\n\\end{aligned} \\tag{FE-120}",
+  "keys": [
+   "fFD",
+   "kwave",
+   "euler",
+   "Tnu",
+   "ndens",
+   "ii",
+   "diff",
+   "kvec",
+   "pi",
+   "zeta3",
+   "rho",
+   "mmass",
+   "vbar",
+   "infty",
+   "nuflav",
+   "Upmns",
+   "ialpha"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "neutrino mass states"
+  ],
+  "solved_in": "Exact integrals: $T_\\nu = 1.9454$ K, 112.0 per cm$^3$ per mass state, mean velocities 0.435, 0.0604, 0.0105 today, $\\Omega_\\nu h_{100}^2 = 6.382\\times10^{-4}$."
+ },
+ {
+  "id": "FE-121",
+  "title": "The ideal-gas densities of a species of the plasma",
+  "latex": "\\rho_s = \\frac{d_s}{2\\pi^2}\\int_0^\\infty\\frac{k^2E\\,\\mathrm{d}k}{\\mathrm{e}^{E/T} \\pm 1},\\qquad\np_s = \\frac{d_s}{6\\pi^2}\\int_0^\\infty\\frac{k^4\\,\\mathrm{d}k}{E\\,(\\mathrm{e}^{E/T} \\pm 1)},\\qquad\ns_s = \\frac{\\rho_s + p_s}{T},\\qquad E = \\sqrt{k^2 + m_s^2} \\tag{FE-121}",
+  "keys": [
+   "rho",
+   "is",
+   "ddeg",
+   "pi",
+   "infty",
+   "kwave",
+   "Eenergy",
+   "diff",
+   "euler",
+   "Temp",
+   "pressure",
+   "sentropy",
+   "mmass"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "every species in equilibrium"
+  ],
+  "solved_in": "Exact integrals with the $x_0$ masses (upper sign for fermions); no Higgs particle; right-handed neutrinos, fold bands, radion and Kaluza-Klein modes not in equilibrium."
+ },
+ {
+  "id": "FE-122",
+  "title": "The effective degrees of freedom and the Hubble rate of the hot Universe",
+  "latex": "g_\\rho = \\frac{30}{\\pi^2T^4}\\sum_s\\rho_s,\\qquad g_s = \\frac{45}{2\\pi^2T^3}\\sum_s s_s,\\qquad\n\\mathcal{H} = \\Big(\\frac{8\\pi^3g_\\rho}{90}\\Big)^{1/2}\\frac{T^2}{M_{\\mathrm{Pl}}} \\tag{FE-122}",
+  "keys": [
+   "grho",
+   "pi",
+   "Temp",
+   "is",
+   "rho",
+   "sentropy",
+   "Hubble",
+   "MPl"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "plasma"
+  ],
+  "solved_in": "Checked against the exact limits 105.75, 86.25, 10.75 and 43/11."
+ },
+ {
+  "id": "FE-123",
+  "title": "The QCD crossover, the neutrino temperature after decoupling and the cooling of the plasma",
+  "latex": "w_{\\mathrm{QGP}}(T) = \\frac12\\Big[1 + \\tanh\\frac{T - T_{\\mathrm{c}}}{T_{\\mathrm{w}}}\\Big],\\qquad\n\\frac{T_\\nu}{T} = \\Big(\\frac{g_{s,e\\gamma}(T)}{11/2}\\Big)^{1/3},\\qquad\n\\frac{\\mathrm{d}\\ln T}{\\mathrm{d}x_4} = -\\frac{\\mathcal{H}}{1 + \\frac13\\,\\mathrm{d}\\ln g_s/\\mathrm{d}\\ln\n T} \\tag{FE-123}",
+  "keys": [
+   "wQGP",
+   "Temp",
+   "Tcw",
+   "Tnu",
+   "gseg",
+   "diff",
+   "x4",
+   "Hubble",
+   "grho"
+  ],
+  "status": "ASSUMED",
+  "fields": [
+   "plasma"
+  ],
+  "solved_in": "$T_{\\mathrm{c}} = 155$ MeV, $T_{\\mathrm{w}} = 15$ MeV with a gas of the twelve lightest hadron multiplets below (ASSUMED model of the crossover); neutrinos decoupled instantaneously at 2 MeV."
+ },
+ {
+  "id": "FE-124",
+  "title": "The Boltzmann equation of one dark-matter species",
+  "latex": "\\begin{aligned}\n&\\frac{\\mathrm{d}n_{\\mathrm{DM}}}{\\mathrm{d}x_4} + 3\\mathcal{H}n_{\\mathrm{DM}}\n = -\\langle\\sigma v_{\\mathrm{rel}}\\rangle\\big(n_{\\mathrm{DM}}\\bar n_{\\mathrm{DM}} -\n n_{\\mathrm{DM,eq}}^2\\big)\\ \\Rightarrow\n \\frac{\\mathrm{d}Y_{\\mathrm{DM}}}{\\mathrm{d}x} = -\\Big(1 + \\frac13\\frac{\\mathrm{d}\\ln g_s}{\\mathrm{d}\\ln\n T}\\Big)\n \\frac{s\\,\\langle\\sigma v_{\\mathrm{rel}}\\rangle}{2x\\mathcal{H}}\\big(Y_{\\mathrm{DM}}^2 -\n Y_{\\mathrm{eq}}^2\\big),\\\\\n&Y_{\\mathrm{DM}} = \\frac{n_{\\mathrm{DM}} + \\bar n_{\\mathrm{DM}}}{s},\\qquad x =\n \\frac{M_{\\mathrm{DM}}}{T},\\qquad\n s = \\frac{2\\pi^2}{45}\\,g_sT^3,\\qquad Y_{\\mathrm{eq}} = \\frac{4M_{\\mathrm{DM}}^2TK_2(x)}{2\\pi^2s}\n\\end{aligned} \\tag{FE-124}",
+  "keys": [
+   "diff",
+   "nDM",
+   "x4",
+   "Hubble",
+   "sigmaxs",
+   "vrel",
+   "nDMeq",
+   "Yabund",
+   "xMT",
+   "grho",
+   "Temp",
+   "sentropy",
+   "MDM",
+   "pi",
+   "Kbessel"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "dark matter",
+   "plasma"
+  ],
+  "solved_in": "Integrated implicitly (Radau, $\\ln Y_{\\mathrm{DM}}$ from $x = 5$ to 2000, relative tolerance $10^{-10}$) with the degrees of freedom of UM-2; the late-time integral holds to $1.3\\times10^{-8}$; each of the two species freezes out separately."
+ },
+ {
+  "id": "FE-125",
+  "title": "The relativistic thermal average of the annihilation cross-section",
+  "latex": "\\langle\\sigma v_{\\mathrm{rel}}\\rangle =\n \\frac{1}{8M_{\\mathrm{DM}}^4TK_2(x)^2}\\int_{4M_{\\mathrm{DM}}^2}^{\\infty}\\sigma\\,\n \\big(E_{\\mathrm{cm}}^2 - 4M_{\\mathrm{DM}}^2\\big)\\,E_{\\mathrm{cm}}\\,K_1\\Big(\\frac{E_{\\mathrm{cm}}}{T}\\Big)\\,\n \\mathrm{d}\\big(E_{\\mathrm{cm}}^2\\big) \\tag{FE-125}",
+  "keys": [
+   "sigmaxs",
+   "vrel",
+   "MDM",
+   "Temp",
+   "Kbessel",
+   "xMT",
+   "infty",
+   "Ecm",
+   "diff"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "dark matter"
+  ],
+  "solved_in": "Adaptive quadrature in the kinetic energy of the pair, exponentially scaled Bessel functions (Gondolo and Gelmini)."
+ },
+ {
+  "id": "FE-126",
+  "title": "The relic density",
+  "latex": "\\Omega_{\\mathrm{DM}}h_{100}^2 = \\frac{M_{\\mathrm{DM}}\\,Y_\\infty\\,s_0}{\\rho_{\\mathrm{crit}}/h_{100}^2},\\qquad\n\\frac{\\rho_{\\mathrm{crit}}}{h_{100}^2} = 1.05368\\times10^{-5}\\ \\text{GeV}/\\text{cm}^3 \\tag{FE-126}",
+  "keys": [
+   "OmegaDM",
+   "h100",
+   "MDM",
+   "Yabund",
+   "s0",
+   "rhocrit"
+  ],
+  "status": "STANDARD",
+  "fields": [
+   "dark matter"
+  ],
+  "solved_in": "Each species gives 0.060 (0.120 together) for $G_{\\mathrm{A}} = 1.278\\times10^{-9}$ GeV$^{-2}$ (freeze-out at $x = 31.23$)."
+ },
+ {
+  "id": "FE-127",
+  "title": "The annihilation cross-sections of the dark matter through I12 and I13",
+  "latex": "\\begin{aligned}\n&\\sigma_{\\mathrm{I12}} = \\frac{G_{\\mathrm{I12}}^2\\,E_{\\mathrm{cm}}^3\\big(E_{\\mathrm{cm}}^2 -\n 4M_{\\mathrm{DM}}^2\\big)^{1/2}}{8\\pi},\\qquad\n G_{\\mathrm{I12}}^2 = 8G_{\\mathrm{g}}^2 + 3G_{\\mathrm{W}}^2 + G_{\\mathrm{B}}^2,\\\\\n&\\sigma_{\\mathrm{I13}} = \\sum_f\\frac{N_{\\mathrm{c}}\\,G_f^2\\,E_{\\mathrm{cm}}^2\\big(1 +\n 2M_{\\mathrm{DM}}^2/E_{\\mathrm{cm}}^2\\big)}{24\\pi\\beta_{\\mathrm{cm}}},\n \\qquad G_f = G_{\\mathrm{A}}\\,q^{B}_f\\,\\tilde I^{(b)}_{of},\\\\\n&\\beta_{\\mathrm{cm}} = \\sqrt{1 - \\frac{4M_{\\mathrm{DM}}^2}{E_{\\mathrm{cm}}^2}},\\qquad\n k_{\\mathrm{cm}} = \\sqrt{\\frac{E_{\\mathrm{cm}}^2}{4} - M_{\\mathrm{DM}}^2}\n\\end{aligned} \\tag{FE-127}",
+  "keys": [
+   "sigmaI1213",
+   "GI12",
+   "Ecm",
+   "MDM",
+   "pi",
+   "Gg",
+   "GW",
+   "GB",
+   "if",
+   "Nc",
+   "Gf",
+   "betacm",
+   "GA",
+   "qB",
+   "tildeIb",
+   "io",
+   "kcm"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dark matter",
+   "gauge bosons",
+   "quarks"
+  ],
+  "solved_in": "Spin averaged; I12 p-wave (from $^3P_0$ only, polarisation sum and spin trace checked numerically), I13 s-wave (from $^3S_1$), summed over the quark multiplets ($o$ the dark-matter orbital; the sum of $N_{\\mathrm{c}}(q^B_f\\tilde I^{(b)}_{of})^2$ is 16.351); I12 at the unitarity-safe benchmark $G_{\\mathrm{I12}} = \\pi/(2M_{\\mathrm{DM}}^3)$."
+ },
+ {
+  "id": "FE-128",
+  "title": "The partial-wave unitarity bounds",
+  "latex": "\\sigma_{\\mathrm{I12}} \\le \\frac{\\pi}{4k_{\\mathrm{cm}}^2}\\ \\ \\text{(total angular momentum 0)},\\qquad\n\\sigma_{\\mathrm{I13}} \\le \\frac{3\\pi}{4k_{\\mathrm{cm}}^2}\\ \\ \\text{(total angular momentum 1)} \\tag{FE-128}",
+  "keys": [
+   "sigmaI1213",
+   "pi",
+   "kcm"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dark matter"
+  ],
+  "solved_in": "Where an effective cross-section exceeds its bound it is replaced by the bound; I13 reaches it only above $v_{\\mathrm{rel}} = 0.51$ (22 % of the freeze-out rate); I12 alone would need a strongly coupled $^3P_0$ channel."
+ },
+ {
+  "id": "FE-129",
+  "title": "The freeze-in of the fold bands through I11",
+  "latex": "\\Gamma_{\\mathrm{fi}} =\n \\frac{T}{32\\pi^4}\\int_0^\\infty\\mathrm{d}\\big(E_{\\mathrm{cm}}^2\\big)\\Big(\\sum_{\\text{spins}}\\sigma\n \\Big)E_{\\mathrm{cm}}^3\n K_1\\Big(\\frac{E_{\\mathrm{cm}}}{T}\\Big) =\n \\frac{4}{\\pi^5}\\,N_{\\mathrm{fold}}\\,G_{\\mathrm{V}}^2\\,T^8\\sum_fN_{\\mathrm{c}}\\big(q_f\\tilde I_{of}\\big)^2,\n\\qquad \\frac{\\mathrm{d}\\big(\\rho_{\\mathrm{fold}}\\,\\mathrm{e}^{4a_4}\\big)}{\\mathrm{d}x_4} =\n 8T\\,\\Gamma_{\\mathrm{fi}}\\,\\mathrm{e}^{4a_4} \\tag{FE-129}",
+  "keys": [
+   "Gammafi",
+   "Temp",
+   "pi",
+   "infty",
+   "diff",
+   "Ecm",
+   "sigmaxs",
+   "Kbessel",
+   "Nfold",
+   "GV",
+   "if",
+   "Nc",
+   "qBL",
+   "tildeI",
+   "io",
+   "rhofold",
+   "euler",
+   "a4",
+   "x4"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "fold bands of Psi",
+   "Standard-Model plasma"
+  ],
+  "solved_in": "Maxwell-Boltzmann, massless ($o$ the fold band; the sum is 126.85 over the fifteen multiplets of three generations); integrated from the highest temperature 10 TeV (ASSUMED): $\\Delta N_{\\mathrm{eff}} = 5.21\\times10^{29}\\,G_{\\mathrm{V}}^2$ GeV$^4$, so the benchmark $G_{\\mathrm{V}} = 4.38\\times10^{-17}$ GeV$^{-2}$ gives 0.001."
+ },
+ {
+  "id": "FE-130",
+  "title": "The dark radiation of the fold bands and their departure from equilibrium",
+  "latex": "\\Delta N_{\\mathrm{eff}} = \\frac{\\rho_{\\mathrm{fold}}}{\\rho_\\nu},\\qquad \\rho_\\nu =\n \\frac78\\,\\frac{\\pi^2}{15}\\,T_\\nu^4,\\qquad\n\\frac{2\\Gamma_{\\mathrm{fi}}}{n_{\\mathrm{fold,eq}}\\,\\mathcal{H}} \\ll 1,\\qquad\nn_{\\mathrm{fold,eq}} = N_{\\mathrm{fold}}\\cdot4\\cdot\\frac34\\,\\frac{\\zeta(3)}{\\pi^2}\\,T^3 \\tag{FE-130}",
+  "keys": [
+   "Delta",
+   "Neff",
+   "rhofold",
+   "rhonu",
+   "pi",
+   "Tnu",
+   "Gammafi",
+   "nfoldeq",
+   "Hubble",
+   "Nfold",
+   "zeta3",
+   "Temp"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "fold bands"
+  ],
+  "solved_in": "The production rate per fold quantum is 0.012 of the Hubble rate at the highest temperature 10 TeV: never in equilibrium."
+ },
+ {
+  "id": "FE-131",
+  "title": "The right-handed neutrinos if I13 coupled to $B - L$",
+  "latex": "\\begin{aligned}\n&G_{\\mathrm{A}}^{B-L} = G_{\\mathrm{A}}\\Big[\\frac{\\mathcal{S}_B}{\\mathcal{S}_{B-L}}\\Big]^{1/2},\\qquad\n \\mathcal{S}_B = \\sum_fN_{\\mathrm{c}}\\big(q^{B}_f\\tilde I^{(b)}_{of}\\big)^2,\\qquad\n \\mathcal{S}_{B-L} = \\sum_fN_{\\mathrm{c}}\\big(q_f\\tilde I^{(b)}_{of}\\big)^2,\\\\\n&\\frac{\\mathrm{d}n_{\\nu_R}}{\\mathrm{d}x_4} + 3\\mathcal{H}n_{\\nu_R} = \\Gamma_\\nu\\Big(1 -\n \\frac{n_{\\nu_R}^2}{(n_{\\nu_R}^{\\mathrm{eq}})^2}\\Big),\\qquad\n \\Gamma_\\nu = 2\\,n_{\\mathrm{DM,eq}}\\,\\bar n_{\\mathrm{DM,eq}}\\,\\frac{G_\\nu^2M_{\\mathrm{DM}}^2}{2\\pi},\\qquad\n G_\\nu = G_{\\mathrm{A}}^{B-L}\\,\\tilde I^{(b)}_{\\nu_R},\\\\\n&n_{\\nu_R}^{\\mathrm{eq}} = \\frac34\\,\\frac{\\zeta(3)}{\\pi^2}\\,T^3,\\qquad\n n_{\\mathrm{DM,eq}} = \\bar n_{\\mathrm{DM,eq}} = 2\\Big(\\frac{M_{\\mathrm{DM}}T}{2\\pi}\\Big)^{3/2}\\mathrm{e}^{-x}\n\\end{aligned} \\tag{FE-131}",
+  "keys": [
+   "GABL",
+   "GA",
+   "SB",
+   "if",
+   "Nc",
+   "qB",
+   "tildeIb",
+   "io",
+   "qBL",
+   "diff",
+   "nnuR",
+   "x4",
+   "Hubble",
+   "Gammanu",
+   "nDMeq",
+   "Gnu",
+   "MDM",
+   "pi",
+   "zeta3",
+   "Temp",
+   "euler",
+   "xMT"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "right-handed neutrinos",
+   "dark matter"
+  ],
+  "solved_in": "The counterfactual that motivates the baryon current: the three $\\nu_R$ would reach 0.9997 of equilibrium by $x = 40$ and add $\\Delta N_{\\mathrm{eff}} = 0.144$ (the factor 2 counts the two dark-matter species)."
+ },
+ {
+  "id": "FE-132",
+  "title": "The elastic scattering of right-handed neutrinos on the dark matter",
+  "latex": "\\Gamma_{\\mathrm{el}} = 2\\big(n_{\\mathrm{DM}} + \\bar n_{\\mathrm{DM}}\\big)\\,\\sigma_{\\mathrm{el}} >\n \\mathcal{H},\\qquad\n\\sigma_{\\mathrm{el}} = \\frac{G_\\nu^2E^2}{2\\pi},\\qquad E \\simeq 3T \\tag{FE-132}",
+  "keys": [
+   "Gammael",
+   "nDM",
+   "Hubble",
+   "Gnu",
+   "Eenergy",
+   "pi",
+   "Temp"
+  ],
+  "status": "ESTIMATE",
+  "fields": [
+   "right-handed neutrinos",
+   "dark matter"
+  ],
+  "solved_in": "For a Weyl $\\nu_R$ on a heavy Dirac fermion (two species); kinetic decoupling at $x = 24.4$."
+ },
+ {
+  "id": "FE-133",
+  "title": "The extra radiation of species that decouple early",
+  "latex": "\\Delta N_{\\mathrm{eff}} = N_{\\mathrm{W}}\\Big(\\frac{10.75}{g_s}\\Big)^{4/3}F_{\\mathrm{h}},\\qquad\nF_{\\mathrm{h}} = \\Big[\\frac{T_\\nu}{T_\\gamma}\\Big(\\frac{11}{4}\\Big)^{1/3}\\Big/\\big(1 + h_\\nu\\big)\\Big]^4\n = 1.0095 \\tag{FE-133}",
+  "keys": [
+   "Delta",
+   "Neff",
+   "NW",
+   "grho",
+   "Fh",
+   "Tnu",
+   "Tgamma",
+   "hnu"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "decoupled Weyl species"
+  ],
+  "solved_in": "$T_\\nu/T_\\gamma = 0.71664$ and $h_\\nu = 0.00165$ from the common-temperature decoupling of FE-115; used for the $B - L$ variant (0.144) and the self-interaction channel."
+ },
+ {
+  "id": "FE-134",
+  "title": "The production of right-handed neutrinos through I11 (with the baryon current in I13)",
+  "latex": "r_{\\nu_R} = \\frac{G_{\\mathrm{V}}^2\\sum_{i=1}^{3}\\tilde I_{\\nu_R,i}^2}{G_{\\mathrm{A}}^2\\,\\mathcal{S}_B}\n \\tag{FE-134}",
+  "keys": [
+   "rnuR",
+   "GV",
+   "ii",
+   "tildeI",
+   "GA",
+   "SB"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "right-handed neutrinos",
+   "dark matter"
+  ],
+  "solved_in": "Evaluated: $r_{\\nu_R} = 2.0\\times10^{-17}$, so the right-handed neutrinos are never thermalised."
+ },
+ {
+  "id": "FE-135",
+  "title": "The self-interaction channel of the dark matter into the fold bands",
+  "latex": "\\begin{aligned}\n&\\mathcal{L}_4^{\\lambda} =\n -\\lambda\\,\\big(\\bar\\Psi_{\\mathrm{DM}}\\Psi_{\\mathrm{fold}}\\big)\\big(\\bar\\Psi_{\\mathrm{fold}}\\Psi_{\n \\mathrm{DM}}\\big)\n \\big(n^{\\mathrm{sc}}_{\\mathrm{DF}}\\big)^2,\\qquad n^{\\mathrm{sc}}_{\\mathrm{DF}} =\n a_{\\mathrm{DM}}b_{\\mathrm{fold}} + b_{\\mathrm{DM}}a_{\\mathrm{fold}},\n \\qquad b_{\\mathrm{fold}} = 0,\\\\\n&G_\\lambda = \\frac{\\lambda H\\tilde I_\\lambda}{2f^4v_{\\mathrm{t}}},\\qquad\n \\tilde I_\\lambda = \\frac{1}{H}\\int_{-L}^{0}\\big(n^{\\mathrm{sc}}_{\\mathrm{DF}}\\big)^2\\,\n \\mathrm{e}^{-3Hy}\\,\\mathrm{d}y,\\qquad\n \\sigma_\\lambda v_{\\mathrm{rel}} = \\frac{G_\\lambda^2M_{\\mathrm{DM}}^2}{2\\pi}\\ \\ \\text{(per final fold\n species)}\n\\end{aligned} \\tag{FE-135}",
+  "keys": [
+   "L4lam",
+   "lambda",
+   "PsiDM",
+   "Psifold",
+   "nscDF",
+   "abDM",
+   "abfold",
+   "Glam",
+   "Hconst",
+   "Ilam",
+   "fblock",
+   "vt",
+   "Lcut",
+   "euler",
+   "ycoord",
+   "diff",
+   "sigmalam",
+   "vrel",
+   "MDM",
+   "pi"
+  ],
+  "status": "ESTIMATE",
+  "fields": [
+   "dark matter",
+   "fold bands"
+  ],
+  "solved_in": "$\\tilde I_\\lambda = 14.38$ (DERIVED); the cross-section is an ESTIMATE (Fierz coefficients not computed)."
+ },
+ {
+  "id": "FE-136",
+  "title": "The energy put into the fold bands by the self-interaction channel",
+  "latex": "\\frac{\\mathrm{d}\\big(\\rho_{\\mathrm{fold}}\\,\\mathrm{e}^{4a_4}\\big)}{\\mathrm{d}x_4} =\n 2M_{\\mathrm{DM}}\\,\\Gamma_\\lambda\\,\\mathrm{e}^{4a_4},\\qquad\n\\Gamma_\\lambda = 2\\,n_{\\mathrm{DM,eq}}\\,\\bar n_{\\mathrm{DM,eq}}\\,\\sigma_\\lambda\n v_{\\mathrm{rel}}\\,N_{\\mathrm{fold}},\\qquad\n\\frac{2\\Gamma_\\lambda}{n_{\\mathrm{fold,eq}}\\,\\mathcal{H}} \\ll 1 \\tag{FE-136}",
+  "keys": [
+   "diff",
+   "rhofold",
+   "euler",
+   "a4",
+   "x4",
+   "MDM",
+   "Gammalam",
+   "nDMeq",
+   "sigmalam",
+   "vrel",
+   "Nfold",
+   "nfoldeq",
+   "Hubble"
+  ],
+  "status": "DERIVED",
+  "fields": [
+   "dark matter",
+   "fold bands"
+  ],
+  "solved_in": "Integrated from the highest temperature to the freeze-out: $\\Delta N_{\\mathrm{eff}} = 1.83\\times10^{26}\\,G_\\lambda^2$ GeV$^4$, so $\\Delta N_{\\mathrm{eff}} \\le 0.001$ requires $G_\\lambda \\le 2.3\\times10^{-15}$ GeV$^{-2}$ (ASSUMED bound on $\\lambda$); otherwise the fold bands decouple as four Weyl species (FE-133)."
+ }
+]
