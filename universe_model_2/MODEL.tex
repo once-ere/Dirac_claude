@@ -1271,9 +1271,9 @@ solution (the section on cosmology):
 \begin{aligned}
 &\Phi_{\mathrm{rms}}(k) = \Big[\frac{k^3P_{\Phi_{\mathrm{W}}}(k)}{2\pi^2}\Big]^{1/2},\qquad
  \Phi_{\mathrm{W}} = \frac{\Phi + \Psi_{\mathrm{N}}}{2},\qquad
- \Phi_{\mathrm{W}} = \frac32\,\Omega_{\mathrm{m}}\mathcal{H}_0^2\,\frac{\delta_{\mathrm{m}}}{
+ \Phi_{\mathrm{W}} = -\frac32\,\Omega_{\mathrm{m}}\mathcal{H}_0^2\,\frac{\delta_{\mathrm{m}}}{
  \mathrm{e}^{a_4}k^2}\ \ \text{(inside the horizon)},\\
-&\Phi_{\mathrm{W}} = \frac35\,\mathcal{R}\,\mathrm{e}^{-a_4}D_+\ \ \text{(largest scales)},\qquad
+&\Phi_{\mathrm{W}} = -\frac35\,\mathcal{R}\,\mathrm{e}^{-a_4}D_+\ \ \text{(largest scales)},\qquad
  D_+ = \frac52\,\Omega_{\mathrm{m}}\,\frac{\mathcal{H}}{\mathcal{H}_0}\int_{-\infty}^{a_4}\Big(\frac{
  \mathcal{H}_0}{\mathcal{H}}\Big)^3
  \mathrm{e}^{-2\tilde a_4}\,\mathrm{d}\tilde a_4,\\
@@ -1335,8 +1335,13 @@ solution (the section on cosmology):
   ordinary 3-space: the scale factor of cosmology is
   \(\mathrm{e}^{a_4}\). Unit: dimensionless. Status: AUTHOR.
 \item
-  \(\mathcal{R}\): The primordial comoving curvature perturbation. Unit:
-  dimensionless. Status: STANDARD.
+  \(\mathcal{R}\): The primordial comoving curvature perturbation
+  (conserved outside the horizon), counted positive where the density is
+  above its mean, so that the Newtonian potentials \(\Phi\),
+  \(\Psi_{\mathrm{N}}\) and \(\Phi_{\mathrm{W}}\) are negative there (on
+  the largest scales in the matter era
+  \(\Phi_{\mathrm{W}} = -\frac35\mathcal{R}\,\mathrm{e}^{-a_4}D_+\)).
+  Unit: dimensionless. Status: STANDARD.
 \item
   \(D_+\): The linear growth factor of the matter perturbations,
   normalised as \(D_+ = \mathrm{e}^{a_4}\) in the matter era. Unit:
@@ -2060,7 +2065,11 @@ energy-momentum tensor of all matter defined and decomposed as
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(S_{\mathrm{m}}\): The matter action: all terms of the action except
   \(S_{\mathrm{EL}}\) (the stabiliser included). Unit: dimensionless.
@@ -9697,7 +9706,11 @@ by about 1.4 \% (ESTIMATE; residual analysis).
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(m,\ m_s,\ m_i\): A four-dimensional mass: \(m\) the mass of a mode
   (the eigenvalue of an \(x_0\) problem) or of a fermion; \(m_s\) the
@@ -9897,7 +9910,11 @@ F_{\mathrm{h}} = \Big[\frac{T_\nu}{T_\gamma}\Big(\frac{11}{4}\Big)^{1/3}\Big/\bi
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(N_{\mathrm{eff}}\): The effective number of neutrino species (the
   radiation beyond the photons in units of one neutrino species with
@@ -10165,7 +10182,11 @@ relation
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(x_0\): The hidden space-like coordinate (listed first); the metric
   depends on it through \(z = 6Hx_0\), periodically with the period
@@ -10298,7 +10319,11 @@ m_{\mathrm{eff}} \ge \frac{\hbar}{2\,\Delta x_0}\qquad (M = 0).
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\hbar\): The reduced Planck constant, which sets the scale of the
   uncertainty relation; it equals 1 in the natural units of this
@@ -10365,7 +10390,11 @@ m_{\mathrm{Heis}} = \frac{\hbar}{2\,\Delta(fy)},\qquad \Delta(fy) = fL\,\Delta\x
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(f\): The block scale: the common scale factor of the hidden
   direction and the extra times, \(f = \mathrm{e}^{-a_4}b_4^{1/2}\) (the
@@ -11561,7 +11590,11 @@ m_3 = \sqrt{m_1^2 + \Delta m_{31}^2} = 50.140\ \text{meV} \tag{FE-100}
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\Delta m_{21}^2,\ \Delta m_{31}^2,\ \Delta m_{32}^2\): The
   differences of the squared neutrino masses,
@@ -12397,7 +12430,11 @@ reads
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\xi\): The scaled hidden coordinate, \(\xi = y/L\), running from
   \(-1\) (tip) to \(0\) (fold) on each half of a period. Unit:
@@ -13027,7 +13064,11 @@ with the source of all fields (written out again):
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(S_{\mathrm{m}}\): The matter action: all terms of the action except
   \(S_{\mathrm{EL}}\) (the stabiliser included). Unit: dimensionless.
@@ -13747,7 +13788,11 @@ derivative of the static balance vanishes at \(K_*\)) the equations give
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\dot{\mathcal{H}}\): The time derivative
   \(\mathrm{d}\mathcal{H}/\mathrm{d}x_4\). Unit: \(\mathrm{GeV}^{2}\).
@@ -13927,7 +13972,11 @@ four-dimensional Friedmann acceleration equation (with
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(K\): The block variable, \(K = 1/f^2\). Unit: dimensionless. Status:
   DERIVED.
@@ -14228,7 +14277,11 @@ about \(K_*\):
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\dot{\mathcal{H}}\): The time derivative
   \(\mathrm{d}\mathcal{H}/\mathrm{d}x_4\). Unit: \(\mathrm{GeV}^{2}\).
@@ -15551,7 +15604,11 @@ universal I12 coefficients) a Kohn-Sham level moves by
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\varepsilon,\ \varepsilon_o\): The energy of a fermion mode (an
   eigenvalue of the block Hamiltonian; at \(k = 0\) the four-dimensional
@@ -15708,7 +15765,11 @@ dark-matter level moves by
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\Delta\varepsilon_{\mathrm{I11}},\ \Delta\varepsilon_{\mathrm{I13}}\):
   The shifts of the dark-matter level by the mean fields of I11 and of
@@ -16244,7 +16305,11 @@ kinetic function of the gauge fields along \(x_0\) it changes the
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\alpha_3\): The strong fine-structure constant,
   \(\alpha_3 = g_3^2/(4\pi)\), at the scale given in brackets. Unit:
@@ -16375,7 +16440,11 @@ gravity section:
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(K\): The block variable, \(K = 1/f^2\). Unit: dimensionless. Status:
   DERIVED.
@@ -16945,7 +17014,11 @@ m_3 = \sqrt{m_1^2 + \Delta m_{31}^2} = 50.140\ \text{meV} \tag{FE-100}
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\Delta m_{21}^2,\ \Delta m_{31}^2,\ \Delta m_{32}^2\): The
   differences of the squared neutrino masses,
@@ -17475,7 +17548,11 @@ vacuum
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(j\): A second generation index (\(j = 1, 2, 3\)). Status: STANDARD.
 \item
@@ -17622,7 +17699,11 @@ potential cancels the vacuum splitting of a sector:
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\Delta m_{ee}^2\): The effective squared-mass difference of
   electron-neutrino disappearance,
@@ -17759,7 +17840,11 @@ mass states, with the adiabatic survival probability
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\Delta m_{21}^2,\ \Delta m_{31}^2,\ \Delta m_{32}^2\): The
   differences of the squared neutrino masses,
@@ -18410,7 +18495,11 @@ n_{\mathrm{e}}^{\mathrm{res}} = \frac{\Delta m_{ij}^2\cos2\theta_{ij}}{2\sqrt2\,
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(m,\ m_s,\ m_i\): A four-dimensional mass: \(m\) the mass of a mode
   (the eigenvalue of an \(x_0\) problem) or of a fermion; \(m_s\) the
@@ -18927,7 +19016,7 @@ since \(\Sigma \to U_L\Sigma U_Y^\dagger\) absorbs both the \(SU(2)_L\)
 and the hypercharge transformations of \(\ell_i\))
 
 \[
-S_{\mathrm{M}} = -\frac12\int_{y=-L}\mathrm{d}^7X_{\mathrm{tip}}\sqrt{\lvert g_{\mathrm{tip}}\rvert}\,\sum_{i,j=1}^{3}m^{\mathrm{M}}_{ij}\,\tilde\nu_i\tilde\nu_j + \text{h.c.},\qquad
+S_{\mathrm{M}} = -\frac12\int_{y=-L}\mathrm{d}^7X_{\mathrm{tip}}\sqrt{\lvert g_{\mathrm{tip}}\rvert}\,\sum_{i,j=1}^{3}(\mathcal{K}_{\mathrm{M}})_{ij}\,\tilde\nu_i\tilde\nu_j + \text{h.c.},\qquad
 \tilde\nu_i = \big(\Sigma^\dagger\ell_i\big)_1 .
 \] \textbf{Symbols in this equation.}
 
@@ -18972,9 +19061,18 @@ S_{\mathrm{M}} = -\frac12\int_{y=-L}\mathrm{d}^7X_{\mathrm{tip}}\sqrt{\lvert g_{
 \item
   \(j\): A second generation index (\(j = 1, 2, 3\)). Status: STANDARD.
 \item
-  \(m^{\mathrm{M}}_{ij}\): The complex symmetric \(3\times3\) matrix of
-  the Majorana tip masses of the alternative operator \(S_{\mathrm{M}}\)
-  (generation indices \(i\), \(j\)). Unit: GeV. Status: INVENTED.
+  \(\mathcal{K}_{\mathrm{M}}^{(i)}\): The dimensionless Majorana tip
+  coefficients of the alternative tip operator \(S_{\mathrm{M}}\): the
+  complex symmetric \(3\times3\) matrix
+  \((\mathcal{K}_{\mathrm{M}})_{ij}\) (generation indices \(i\), \(j\);
+  dimensionless because the tip operator is integrated over seven
+  dimensions and \(\tilde\nu_i\tilde\nu_j\) has mass dimension 7); its
+  eigenvalues \(\mathcal{K}_{\mathrm{M}}^{(i)}\) give the
+  four-dimensional masses
+  \(m_i = \mathcal{K}_{\mathrm{M}}^{(i)}\,\mathcal{Z}(c_L)^2/(fL)\) to
+  first order in the tip value of the doublet zero mode. Unit:
+  dimensionless. Value: \(5.63\times10^{-13}\), \(4.90\times10^{-12}\),
+  \(2.82\times10^{-11}\) for \(i = 1, 2, 3\). Status: DERIVED.
 \item
   \(\tilde\nu_i\): The neutral upper component
   \((\Sigma^\dagger\ell_i)_1\) of the lepton doublet of generation \(i\)
@@ -19019,8 +19117,13 @@ m_i = \mathcal{K}_{\mathrm{M}}^{(i)}\,\frac{\mathcal{Z}(c_L)^2}{fL},\qquad \math
   summed unless a sum sign is written. Status: STANDARD.
 \item
   \(\mathcal{K}_{\mathrm{M}}^{(i)}\): The dimensionless Majorana tip
-  coefficient that the alternative would need for the mass state \(i\)
-  (written with the index \(i\) in brackets):
+  coefficients of the alternative tip operator \(S_{\mathrm{M}}\): the
+  complex symmetric \(3\times3\) matrix
+  \((\mathcal{K}_{\mathrm{M}})_{ij}\) (generation indices \(i\), \(j\);
+  dimensionless because the tip operator is integrated over seven
+  dimensions and \(\tilde\nu_i\tilde\nu_j\) has mass dimension 7); its
+  eigenvalues \(\mathcal{K}_{\mathrm{M}}^{(i)}\) give the
+  four-dimensional masses
   \(m_i = \mathcal{K}_{\mathrm{M}}^{(i)}\,\mathcal{Z}(c_L)^2/(fL)\) to
   first order in the tip value of the doublet zero mode. Unit:
   dimensionless. Value: \(5.63\times10^{-13}\), \(4.90\times10^{-12}\),
@@ -20143,7 +20246,11 @@ n_{\mathrm{fold,eq}} = N_{\mathrm{fold}}\cdot4\cdot\frac34\,\frac{\zeta(3)}{\pi^
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(N_{\mathrm{eff}}\): The effective number of neutrino species (the
   radiation beyond the photons in units of one neutrino species with
@@ -20393,7 +20500,11 @@ F_{\mathrm{h}} = \Big[\frac{T_\nu}{T_\gamma}\Big(\frac{11}{4}\Big)^{1/3}\Big/\bi
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(N_{\mathrm{eff}}\): The effective number of neutrino species (the
   radiation beyond the photons in units of one neutrino species with
@@ -20765,9 +20876,10 @@ f_{\mathrm{N}} = \frac{Z_{\mathrm{Xe}}f_{\mathrm{p}} + \big(A_{\mathrm{Xe}} - Z_
   \(f_{\mathrm{N}},\ f_{\mathrm{p}},\ f_{\mathrm{n}}\): The
   spin-independent effective couplings of the dark matter to a nucleon:
   \(f_{\mathrm{p}}\) to the proton, \(f_{\mathrm{n}}\) to the neutron,
-  and \(f_{\mathrm{N}}\) the average per nucleon of the target (or, in
-  step 7, the coupling through the gluon content of a nucleon). Unit:
-  \(\mathrm{GeV}^{-2}\). Value: \(f_{\mathrm{p}} = 1.915\times10^{-9}\),
+  and \(f_{\mathrm{N}}\) the average per nucleon of the target (for the
+  portal I12, the coupling through the gluon content of a nucleon).
+  Unit: \(\mathrm{GeV}^{-2}\). Value:
+  \(f_{\mathrm{p}} = 1.915\times10^{-9}\),
   \(f_{\mathrm{n}} = 1.917\times10^{-9}\) GeV\(^{-2}\) (I13 and I11).
   Status: ESTIMATE.
 \item
@@ -20816,9 +20928,10 @@ f_{\mathrm{N}} = G_{\mathrm{g}}\,\frac{8\pi}{9\alpha_3}\,m_{\mathrm{N}}f_{\mathr
   \(f_{\mathrm{N}},\ f_{\mathrm{p}},\ f_{\mathrm{n}}\): The
   spin-independent effective couplings of the dark matter to a nucleon:
   \(f_{\mathrm{p}}\) to the proton, \(f_{\mathrm{n}}\) to the neutron,
-  and \(f_{\mathrm{N}}\) the average per nucleon of the target (or, in
-  step 7, the coupling through the gluon content of a nucleon). Unit:
-  \(\mathrm{GeV}^{-2}\). Value: \(f_{\mathrm{p}} = 1.915\times10^{-9}\),
+  and \(f_{\mathrm{N}}\) the average per nucleon of the target (for the
+  portal I12, the coupling through the gluon content of a nucleon).
+  Unit: \(\mathrm{GeV}^{-2}\). Value:
+  \(f_{\mathrm{p}} = 1.915\times10^{-9}\),
   \(f_{\mathrm{n}} = 1.917\times10^{-9}\) GeV\(^{-2}\) (I13 and I11).
   Status: ESTIMATE.
 \item
@@ -21167,7 +21280,11 @@ The Einstein equations, summed over all species:
   \(\Delta m^2_{21} = m_2^2 - m_1^2\) a difference of squared masses,
   \(\Delta N_{\mathrm{eff}}\) an addition to \(N_{\mathrm{eff}}\),
   \(\Delta S_{\mathrm{m}}\) the change of an action under a change
-  \(\Delta g^{MN}\) of the metric. Status: STANDARD.
+  \(\Delta g^{MN}\) of the metric. In an uncertainty relation it is the
+  spread, the root-mean-square deviation from the mean value in a state:
+  \(\Delta x_0\), \(\Delta k_{x_0}\), \(\Delta\xi\), \(\Delta(fy)\) (as
+  in the author's \(\Delta x_0\,\Delta p_{x_0} \ge \hbar/2\)). Status:
+  STANDARD.
 \item
   \(\rho\): An energy density: in eight dimensions
   \(\rho = -\mathcal{T}^{x_4}{}_{x_4}\) (of the total source, or of the

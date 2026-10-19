@@ -97,15 +97,6 @@
   "units": "dimensionless (an action, $\\hbar = 1$)",
   "status": "INVENTED"
  },
- "sol_mM": {
-  "tex": "m^{\\mathrm{M}}_{ij}",
-  "atoms": [
-   "m^{\\mathrm{M}}"
-  ],
-  "meaning": "The complex symmetric $3\\times3$ matrix of the Majorana tip masses of the alternative operator $S_{\\mathrm{M}}$ (generation indices $i$, $j$).",
-  "units": "GeV",
-  "status": "INVENTED"
- },
  "sol_nutilde": {
   "tex": "\\tilde\\nu_i",
   "atoms": [
@@ -120,7 +111,7 @@
   "atoms": [
    "\\mathcal{K}_{\\mathrm{M}}"
   ],
-  "meaning": "The dimensionless Majorana tip coefficient that the alternative would need for the mass state $i$ (written with the index $i$ in brackets): $m_i = \\mathcal{K}_{\\mathrm{M}}^{(i)}\\,\\mathcal{Z}(c_L)^2/(fL)$ to first order in the tip value of the doublet zero mode.",
+  "meaning": "The dimensionless Majorana tip coefficients of the alternative tip operator $S_{\\mathrm{M}}$: the complex symmetric $3\\times3$ matrix $(\\mathcal{K}_{\\mathrm{M}})_{ij}$ (generation indices $i$, $j$; dimensionless because the tip operator is integrated over seven dimensions and $\\tilde\\nu_i\\tilde\\nu_j$ has mass dimension 7); its eigenvalues $\\mathcal{K}_{\\mathrm{M}}^{(i)}$ give the four-dimensional masses $m_i = \\mathcal{K}_{\\mathrm{M}}^{(i)}\\,\\mathcal{Z}(c_L)^2/(fL)$ to first order in the tip value of the doublet zero mode.",
   "units": "dimensionless",
   "value": "$5.63\\times10^{-13}$, $4.90\\times10^{-12}$, $2.82\\times10^{-11}$ for $i = 1, 2, 3$",
   "status": "DERIVED"
@@ -241,7 +232,7 @@
    "f_{\\mathrm{p}}",
    "f_{\\mathrm{n}}"
   ],
-  "meaning": "The spin-independent effective couplings of the dark matter to a nucleon: $f_{\\mathrm{p}}$ to the proton, $f_{\\mathrm{n}}$ to the neutron, and $f_{\\mathrm{N}}$ the average per nucleon of the target (or, in step 7, the coupling through the gluon content of a nucleon).",
+  "meaning": "The spin-independent effective couplings of the dark matter to a nucleon: $f_{\\mathrm{p}}$ to the proton, $f_{\\mathrm{n}}$ to the neutron, and $f_{\\mathrm{N}}$ the average per nucleon of the target (for the portal I12, the coupling through the gluon content of a nucleon).",
   "units": "$\\mathrm{GeV}^{-2}$",
   "value": "$f_{\\mathrm{p}} = 1.915\\times10^{-9}$, $f_{\\mathrm{n}} = 1.917\\times10^{-9}$ GeV$^{-2}$ (I13 and I11)",
   "status": "ESTIMATE"

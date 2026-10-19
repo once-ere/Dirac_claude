@@ -34,6 +34,7 @@ Usage (repository root):
     python universe_model_2/tools/symbols_tool.py expand [NAME ...]   # rewrite the generated lists in NAME.md
     python universe_model_2/tools/symbols_tool.py check  [NAME ...]   # report; exit 1 on any problem
     python universe_model_2/tools/symbols_tool.py atoms "LATEX"       # show the atoms of one formula
+    python universe_model_2/tools/symbols_tool.py sync   [NAME ...]   # rewrite FE-n/IN-n displays from the inventory
 """
 import json
 import re
@@ -402,6 +403,39 @@ def squeeze(s):
     return re.sub(r'\s+', '', s)
 
 
+def sync(name, inventory):
+    """Rewrite every display tagged FE-n or IN-n, and the key list of its marker, from the inventory (run expand
+    afterwards).  The display is written as '$$', the inventory LaTeX, '$$' on separate lines."""
+    path = doc_path(name)
+    lines = path.read_text(encoding='utf-8').split('\n')
+    problems = []
+    edits = []
+    for start, end, latex in displays(lines):
+        tag = tag_of(latex)
+        if not (tag and re.fullmatch(r'(FE|IN)-\d+', tag)):
+            continue
+        inv = inventory.get(tag)
+        if inv is None:
+            problems.append('%s line %d: tag %s is not in the inventory' % (name, start + 1, tag))
+            continue
+        j, keys = find_marker(lines, end)
+        same = squeeze(inv['latex']) == squeeze(latex) and keys is not None and set(keys) == set(inv['keys'])
+        if not same:
+            edits.append((start, end, j, inv))
+    for start, end, j, inv in reversed(edits):
+        marker = '<!-- symbols: %s -->' % ', '.join(inv['keys'])
+        block = ['$$'] + inv['latex'].split('\n') + ['$$']
+        if j is not None:
+            lines[j] = marker
+            lines[start:end + 1] = block
+        else:
+            lines[start:end + 1] = block + [marker]
+    if edits:
+        path.write_text('\n'.join(lines), encoding='utf-8')
+        print('%s: %d tagged displays rewritten from the inventory' % (name, len(edits)))
+    return problems
+
+
 def check(name, reg, owner, inventory=None):
     path = doc_path(name)
     lines = path.read_text(encoding='utf-8').split('\n')
@@ -457,7 +491,7 @@ def check(name, reg, owner, inventory=None):
 
 
 def main():
-    if len(sys.argv) < 2 or sys.argv[1] not in ('expand', 'check', 'atoms'):
+    if len(sys.argv) < 2 or sys.argv[1] not in ('expand', 'check', 'atoms', 'sync'):
         print(__doc__)
         sys.exit(2)
     if sys.argv[1] == 'atoms':
@@ -466,6 +500,13 @@ def main():
         return
     reg, owner, problems = load_registry()
     names = sys.argv[2:] or [n for n in NAMES if (DOCS / (n + '.md')).exists()]
+    if sys.argv[1] == 'sync':
+        inventory = load_inventory()
+        for n in names:
+            problems += sync(n, inventory)
+        for p in problems:
+            print('problem:', p)
+        sys.exit(1 if problems else 0)
     if sys.argv[1] == 'expand':
         for n in names:
             problems += expand(n, reg)

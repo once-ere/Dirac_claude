@@ -320,7 +320,7 @@ $$
 **Symbols in this equation.**
 
 - $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
 - $\rho_{\mathrm{stab}}$: The energy density of the block stabiliser, a function of the block scale, $\rho_{\mathrm{stab}} \propto f^{-8}$; its value at the static block is $\rho_{\mathrm{stab}}(f_*)$. Unit: $\mathrm{GeV}^{8}$. Value: $\kappa\rho_{\mathrm{stab}}(f_*) = (26 + 4\sqrt{51})H^2 = 54.566\,H^2$. Status: ASSUMED.
 - $f_*$: The block scale of the stabilised (static) block, $f_* = K_*^{-1/2}$. Unit: dimensionless. Value: 0.215556. Status: DERIVED.
@@ -372,7 +372,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in this equation.**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\varepsilon_{\mathrm{DM}}$: The energy of the dark-matter level at rest (its mass $M_{\mathrm{DM}}$ on the static block). Unit: GeV. Value: $3.102204\,m_\Psi = 44.35$ TeV. Status: DERIVED.
 - $M_{\mathrm{DM}}$: The mass of a dark-matter particle (the lowest odd level of dirac16complex). Unit: GeV. Value: 44.35 TeV. Status: DERIVED.
 
@@ -521,7 +521,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-2).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $S_{\mathrm{m}}$: The matter action: all terms of the action except $S_{\mathrm{EL}}$ (the stabiliser included). Unit: dimensionless. Status: DERIVED.
 - $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
 - $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first; $X^M$ is the coordinate with the index $M$, $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element and $X^\mu$ (four-dimensional index $\mu$) the observable coordinates $x_1, \dots, x_4$. Unit: length (each coordinate). Status: AUTHOR.
@@ -1031,7 +1031,7 @@ $$
 **Symbols in this equation.**
 
 - $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
 - $\rho_{\mathrm{stab}}$: The energy density of the block stabiliser, a function of the block scale, $\rho_{\mathrm{stab}} \propto f^{-8}$; its value at the static block is $\rho_{\mathrm{stab}}(f_*)$. Unit: $\mathrm{GeV}^{8}$. Value: $\kappa\rho_{\mathrm{stab}}(f_*) = (26 + 4\sqrt{51})H^2 = 54.566\,H^2$. Status: ASSUMED.
 - $f_*$: The block scale of the stabilised (static) block, $f_* = K_*^{-1/2}$. Unit: dimensionless. Value: 0.215556. Status: DERIVED.
@@ -1053,7 +1053,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in this equation.**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\ddot K$: The second time derivative $\mathrm{d}^2K/\mathrm{d}x_4^2$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
 - $\omega_{\mathrm{r}}$: The angular frequency of the oscillation of the block about the static point (the radion), equal to the radion mass. Unit: GeV. Value: $3.38705\,H = 48.42$ TeV. Status: DERIVED.
 - $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
@@ -1167,7 +1167,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-44).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
 - $\Xi_{\mathcal{H}K}$: The coefficient of $\Delta K$ in the first-order equation for $\Delta\dot{\mathcal{H}}$ (linearised block about $K_*$). Unit: $\mathrm{GeV}^{2}$. Value: $6(238 - 19\sqrt{51})H^2/2249 = 0.272956\,H^2$. Status: DERIVED.
 - $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
@@ -1237,7 +1237,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-45).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
 - $\Xi_{\mathcal{H}K}$: The coefficient of $\Delta K$ in the first-order equation for $\Delta\dot{\mathcal{H}}$ (linearised block about $K_*$). Unit: $\mathrm{GeV}^{2}$. Value: $6(238 - 19\sqrt{51})H^2/2249 = 0.272956\,H^2$. Status: DERIVED.
 - $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
@@ -1303,7 +1303,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-47).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
 - $c_\rho$: The coefficient of $\kappa\Delta\rho$ in the adiabatic block response $\Delta K$. Unit: dimensionless. Value: 0.0358521. Status: DERIVED.
 - $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
@@ -3433,7 +3433,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-72).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
 - $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
 - $f$: The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species. Status: STANDARD.
@@ -3535,7 +3535,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-47).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
 - $c_\rho$: The coefficient of $\kappa\Delta\rho$ in the adiabatic block response $\Delta K$. Unit: dimensionless. Value: 0.0358521. Status: DERIVED.
 - $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
@@ -4236,7 +4236,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-133).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $N_{\mathrm{eff}}$: The effective number of neutrino species (the radiation beyond the photons in units of one neutrino species with $T_\nu/T_\gamma = (4/11)^{1/3}$); $\Delta N_{\mathrm{eff}}$ an addition to it. Unit: dimensionless. Value: 3.0432 (neutrinos) + 0.0010 (fold bands). Status: STANDARD.
 - $N_{\mathrm{W}}$: The number of Weyl species that decouple early. Unit: dimensionless. Status: DERIVED.
 - $g_\rho,\ g_s$: The effective numbers of relativistic degrees of freedom of the energy density and of the entropy density of the plasma. Unit: dimensionless. Value: 105.75 when every species of UM-2 in equilibrium is relativistic (no Higgs particle), 10.75 near 1 MeV, $g_s = 43/11$ today. Status: STANDARD.
@@ -4347,7 +4347,7 @@ $$
 **Symbols in (FE-100).**
 
 - $m_1,\ m_2,\ m_3$: The masses of the neutrino mass states $\nu_1$, $\nu_2$, $\nu_3$ (normal ordering). Unit: GeV (quoted in meV). Value: 1.000, 8.712, 50.140 meV ($m_1$ ASSUMED). Status: DERIVED.
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\Delta m_{21}^2,\ \Delta m_{31}^2,\ \Delta m_{32}^2$: The differences of the squared neutrino masses, $\Delta m_{ij}^2 = m_i^2 - m_j^2$. Unit: $\mathrm{GeV}^{2}$ (quoted in $\mathrm{eV}^{2}$). Value: $\Delta m_{21}^2 = 7.49\times10^{-5}$ eV$^2$, $\Delta m_{31}^2 = 2.513\times10^{-3}$ eV$^2$ (NuFIT 6.0). Status: STANDARD.
 
 <!-- end generated symbol list -->
@@ -4538,7 +4538,7 @@ $$
 - $e$: The electron flavour as a value of a flavour index ($\delta_{\alpha e}$, $U_{e2}$, $V_e$, $\mathcal{P}_{ee}$). Status: STANDARD.
 - $J_{\mathrm{CP}}$: The Jarlskog invariant of a mixing matrix (the measure of CP violation). Unit: dimensionless. Value: $-0.01777$ (PMNS), $3.117\times10^{-5}$ (CKM). Status: STANDARD.
 - $\Delta_{ij}$: The oscillation phase of the pair of mass states $(i, j)$, $\Delta_{ij} = \Delta m_{ij}^2L_{\mathrm{b}}/(4E)$. Unit: dimensionless. Status: STANDARD.
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
 - $\mathrm{Im}$: The imaginary part of a complex number. Status: STANDARD.
 
@@ -4556,7 +4556,7 @@ $$
 
 - $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
 - $V_{\mathrm{CC}},\ V_{\mathrm{NC}}$: The charged-current potential of electron neutrinos and the neutral-current potential common to all flavours. Unit: GeV. Status: STANDARD.
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\Delta m_{ee}^2$: The effective squared-mass difference of electron-neutrino disappearance, $\Delta m_{ee}^2 = c_{12}^2\Delta m_{31}^2 + s_{12}^2\Delta m_{32}^2$. Unit: $\mathrm{GeV}^{2}$. Status: STANDARD.
 - $\theta_{ij}$: The mixing angles of the standard parametrisation of $U$ (or of $V_{\mathrm{CKM}}$): $\theta_{12}$, $\theta_{13}$, $\theta_{23}$; in two-flavour formulas $\theta_{ij}$ is the angle of the sector $(i, j)$. Unit: dimensionless. Value: $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$ (PMNS). Status: STANDARD.
 - $c_{12},\ c_{13},\ c_{23}$: The cosines of the mixing angles, $c_{ij} = \cos\theta_{ij}$. Unit: dimensionless. Status: STANDARD.
@@ -4589,7 +4589,7 @@ $$
 - $A_{\mathrm{MSW}}$: The ratio of the matter term to the vacuum term in the 1-2 sector. Unit: dimensionless. Status: STANDARD.
 - $E$: The energy of a particle: of the neutrino in the flavour equations, $E = (k^2 + m^2)^{1/2}$ of a particle of momentum $k$ in the thermal integrals. Unit: GeV. Status: STANDARD.
 - $V_{\mathrm{CC}},\ V_{\mathrm{NC}}$: The charged-current potential of electron neutrinos and the neutral-current potential common to all flavours. Unit: GeV. Status: STANDARD.
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\Delta m_{21}^2,\ \Delta m_{31}^2,\ \Delta m_{32}^2$: The differences of the squared neutrino masses, $\Delta m_{ij}^2 = m_i^2 - m_j^2$. Unit: $\mathrm{GeV}^{2}$ (quoted in $\mathrm{eV}^{2}$). Value: $\Delta m_{21}^2 = 7.49\times10^{-5}$ eV$^2$, $\Delta m_{31}^2 = 2.513\times10^{-3}$ eV$^2$ (NuFIT 6.0). Status: STANDARD.
 
 <!-- end generated symbol list -->
@@ -4606,7 +4606,7 @@ $$
 **Symbols in (FE-108).**
 
 - $n_{\mathrm{e}}^{\mathrm{res}}$: The electron density of an MSW resonance. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
 - $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
 - $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
@@ -5067,7 +5067,7 @@ The two agree to $1.3\times10^{-3}$: the conversion is adiabatic, vacuum dominat
 ($\mathcal{P}_{ee} \to c_{13}^4(1 - \frac12\sin^22\theta_{12}) + s_{13}^4$) and matter dominated for $^8$B
 ($\mathcal{P}_{ee} \to c_{13}^4\sin^2\theta_{12} + s_{13}^4$).
 
-![Flavour conversion in UM-2. Left: the solar $\nu_e$ survival probability (adiabatic formula for two production radii, numerical evolution as points). Middle: $\nu_\mu\to\nu_e$ and $\bar\nu_\mu\to\bar\nu_e$ appearance over 1300 km of rock (normal ordering, $\delta_{\mathrm{CP}} = 212^\circ$). Right: the growth rate of the fast flavour instability against the wave number for the three angular distributions of the text.](figures/fig_neutrino_conversion.png)
+![Flavour conversion in UM-2. Left: the solar $\nu_e$ survival probability (adiabatic formula for two production radii, numerical evolution as points). Middle: $\nu_\mu\to\nu_e$ and $\bar\nu_\mu\to\bar\nu_e$ appearance over 1300 km of rock (normal ordering, $\delta_{\mathrm{CP}} = 212^\circ$). Right: the growth rate of the fast flavour instability against the wave number for the three angular distributions of the text.](figures/fig_neutrino_conversion.png){width=88%}
 
 ### The early Universe and $N_{\mathrm{eff}}$
 
@@ -5117,7 +5117,9 @@ $$
 from which the computed range $3.0476$ to $3.0485$ differs by $0.0044$ to $0.0053$ (the electron mass in the rates and the
 momentum dependence, which the method of temperatures does not resolve).
 
-![Neutrino decoupling in UM-2 (three flavours, separate $\nu_e$ and $\nu_{\mu,\tau}$ temperatures, QED to $O(e^3)$). Left: the neutrino temperatures relative to the photon temperature; right: the comoving heating of the neutrinos by $e^+e^-$ annihilation.](figures/fig_neutrino_decoupling.png)
+\clearpage
+
+![Neutrino decoupling in UM-2 (three flavours, separate $\nu_e$ and $\nu_{\mu,\tau}$ temperatures, QED to $O(e^3)$). Left: the neutrino temperatures relative to the photon temperature; right: the comoving heating of the neutrinos by $e^+e^-$ annihilation.](figures/fig_neutrino_decoupling.png){width=88%}
 
 ### The cosmic neutrino background
 
@@ -5229,10 +5231,10 @@ the gauge-invariant tip operator
 
 $$
 S_{\mathrm{M}} = -\frac12\int_{y=-L}\mathrm{d}^7X_{\mathrm{tip}}\sqrt{\lvert g_{\mathrm{tip}}\rvert}\,\sum_{i,j=1}^{3}
-m^{\mathrm{M}}_{ij}\,\tilde\nu_i\tilde\nu_j + \text{h.c.},\qquad \tilde\nu_i = \big(\Sigma^\dagger\ell_i\big)_1
+(\mathcal{K}_{\mathrm{M}})_{ij}\,\tilde\nu_i\tilde\nu_j + \text{h.c.},\qquad \tilde\nu_i = \big(\Sigma^\dagger\ell_i\big)_1
 $$
 
-<!-- symbols: sol_SM, ycoord, Lcut, diff, Xtip, gtip, ii, ij, sol_mM, sol_nutilde, Sigma, dagger, ldoublet -->
+<!-- symbols: sol_SM, ycoord, Lcut, diff, Xtip, gtip, ii, ij, sol_KM, sol_nutilde, Sigma, dagger, ldoublet -->
 <!-- begin generated symbol list -->
 **Symbols in this equation.**
 
@@ -5244,7 +5246,7 @@ $$
 - $g_{\mathrm{tip}}$: The metric induced on the seven-dimensional tip $y = -L$ (the metric $g_{MN}$ restricted to the tip directions $x_1, \dots, x_7$); $\lvert g_{\mathrm{tip}}\rvert$ is the absolute value of its determinant. Unit: dimensionless. Status: DERIVED.
 - $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
 - $j$: A second generation index ($j = 1, 2, 3$). Status: STANDARD.
-- $m^{\mathrm{M}}_{ij}$: The complex symmetric $3\times3$ matrix of the Majorana tip masses of the alternative operator $S_{\mathrm{M}}$ (generation indices $i$, $j$). Unit: GeV. Status: INVENTED.
+- $\mathcal{K}_{\mathrm{M}}^{(i)}$: The dimensionless Majorana tip coefficients of the alternative tip operator $S_{\mathrm{M}}$: the complex symmetric $3\times3$ matrix $(\mathcal{K}_{\mathrm{M}})_{ij}$ (generation indices $i$, $j$; dimensionless because the tip operator is integrated over seven dimensions and $\tilde\nu_i\tilde\nu_j$ has mass dimension 7); its eigenvalues $\mathcal{K}_{\mathrm{M}}^{(i)}$ give the four-dimensional masses $m_i = \mathcal{K}_{\mathrm{M}}^{(i)}\,\mathcal{Z}(c_L)^2/(fL)$ to first order in the tip value of the doublet zero mode. Unit: dimensionless. Value: $5.63\times10^{-13}$, $4.90\times10^{-12}$, $2.82\times10^{-11}$ for $i = 1, 2, 3$. Status: DERIVED.
 - $\tilde\nu_i$: The neutral upper component $(\Sigma^\dagger\ell_i)_1$ of the lepton doublet of generation $i$ dressed with the tip sigma field: a left-handed field that is neutral under $SU(2)_L\times U(1)_Y$; $\tilde\nu_i\tilde\nu_j$ is the Lorentz-invariant (Majorana) product of two such fields. Unit: $\mathrm{GeV}^{7/2}$ (an eight-dimensional spinor field at the tip). Status: INVENTED.
 - $\Sigma$: The tip sigma field: a unitary $2 \times 2$ matrix field on the tip ($\Sigma^\dagger\Sigma = \mathbf{1}$) that replaces the Higgs doublet; its three modes are the longitudinal $W^+$, $W^-$ and $Z$, and $\Sigma = \mathbf{1}$ is the unitary gauge. Unit: dimensionless. Status: INVENTED.
 - ${}^\dagger$: Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator). Status: STANDARD.
@@ -5267,7 +5269,7 @@ $$
 
 - $m,\ m_s,\ m_i$: A four-dimensional mass: $m$ the mass of a mode (the eigenvalue of an $x_0$ problem) or of a fermion; $m_s$ the mass of the species $s$; $m_i$ the mass of the neutrino mass state $i$. Unit: GeV. Status: DERIVED.
 - $i$: The generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written. Status: STANDARD.
-- $\mathcal{K}_{\mathrm{M}}^{(i)}$: The dimensionless Majorana tip coefficient that the alternative would need for the mass state $i$ (written with the index $i$ in brackets): $m_i = \mathcal{K}_{\mathrm{M}}^{(i)}\,\mathcal{Z}(c_L)^2/(fL)$ to first order in the tip value of the doublet zero mode. Unit: dimensionless. Value: $5.63\times10^{-13}$, $4.90\times10^{-12}$, $2.82\times10^{-11}$ for $i = 1, 2, 3$. Status: DERIVED.
+- $\mathcal{K}_{\mathrm{M}}^{(i)}$: The dimensionless Majorana tip coefficients of the alternative tip operator $S_{\mathrm{M}}$: the complex symmetric $3\times3$ matrix $(\mathcal{K}_{\mathrm{M}})_{ij}$ (generation indices $i$, $j$; dimensionless because the tip operator is integrated over seven dimensions and $\tilde\nu_i\tilde\nu_j$ has mass dimension 7); its eigenvalues $\mathcal{K}_{\mathrm{M}}^{(i)}$ give the four-dimensional masses $m_i = \mathcal{K}_{\mathrm{M}}^{(i)}\,\mathcal{Z}(c_L)^2/(fL)$ to first order in the tip value of the doublet zero mode. Unit: dimensionless. Value: $5.63\times10^{-13}$, $4.90\times10^{-12}$, $2.82\times10^{-11}$ for $i = 1, 2, 3$. Status: DERIVED.
 - $\mathcal{Z}(c)$: The tip amplitude of a normalised zero mode with the localisation $c$, $\mathcal{Z}(c)^2 = c\,\mathrm{e}^{-c}/\sinh c$. Unit: dimensionless. Status: DERIVED.
 - $c,\ c_L,\ c_R$: The localisation of a zero mode, $c = f\mu L$ (bulk mass times the proper depth); $c_L$ of a doublet (localised at the fold for $c_L > 0$), $c_R$ of a singlet (localised at the fold for $c_R < 0$). Unit: dimensionless. Value: doublets $c_L = 3.38230$ (quarks) and 5.95288 (leptons); singlets $c_R$: up $-15.4300$, down $-14.6258$, strange $-11.5158$, charm $-8.7683$, bottom $-7.5005$, top $-3.3823$, electron $-14.5539$, muon $-8.9809$, tau $-5.9529$, neutrinos $-35.0452$, $-32.8481$, $-31.0702$ (fixed by the measured masses). Status: DERIVED.
 - $L$: The chirality label L: the left-handed (doublet) zero mode, or the left-handed projection $P_L = (1 + \Gamma_4)/2$. Status: STANDARD.
@@ -5536,7 +5538,7 @@ $$
 - $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
 - $G_{\mathrm{N}}$: Newton's constant of four-dimensional gravity, $8\pi G_{\mathrm{N}} = \kappa/(\mathcal{G}(K_*)V_\perp)$. Unit: $\mathrm{GeV}^{-2}$. Value: $6.709\times10^{-39}$ GeV$^{-2}$ ($M_{\mathrm{Pl}} = G_{\mathrm{N}}^{-1/2} = 1.22091\times10^{19}$ GeV). Status: STANDARD.
 - $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\rho$: An energy density: in eight dimensions $\rho = -\mathcal{T}^{x_4}{}_{x_4}$ (of the total source, or of the species named by a subscript; $\rho_s$ of the species $s$, $\rho_i$ of the neutrino mass state $i$); in the cosmological perturbation equations $\Delta\rho$ is the density perturbation summed over the species. Unit: $\mathrm{GeV}^{8}$ (eight dimensions), $\mathrm{GeV}^{4}$ (four dimensions). Status: STANDARD.
 - $\rho_{\mathrm{tot}},\ p_{\mathrm{tot}}$: The total background energy density and pressure of four-dimensional cosmology (all species). Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
 - $\theta_{\mathrm{tot}}$: The velocity divergence of the total matter, weighted with $\rho + p$ of each species. Unit: 1/length. Status: STANDARD.
@@ -5883,9 +5885,9 @@ $$
 \begin{aligned}
 &\Phi_{\mathrm{rms}}(k) = \Big[\frac{k^3P_{\Phi_{\mathrm{W}}}(k)}{2\pi^2}\Big]^{1/2},\qquad
  \Phi_{\mathrm{W}} = \frac{\Phi + \Psi_{\mathrm{N}}}{2},\qquad
- \Phi_{\mathrm{W}} = \frac32\,\Omega_{\mathrm{m}}\mathcal{H}_0^2\,\frac{\delta_{\mathrm{m}}}{
+ \Phi_{\mathrm{W}} = -\frac32\,\Omega_{\mathrm{m}}\mathcal{H}_0^2\,\frac{\delta_{\mathrm{m}}}{
  \mathrm{e}^{a_4}k^2}\ \ \text{(inside the horizon)},\\
-&\Phi_{\mathrm{W}} = \frac35\,\mathcal{R}\,\mathrm{e}^{-a_4}D_+\ \ \text{(largest scales)},\qquad
+&\Phi_{\mathrm{W}} = -\frac35\,\mathcal{R}\,\mathrm{e}^{-a_4}D_+\ \ \text{(largest scales)},\qquad
  D_+ = \frac52\,\Omega_{\mathrm{m}}\,\frac{\mathcal{H}}{\mathcal{H}_0}\int_{-\infty}^{a_4}\Big(\frac{
  \mathcal{H}_0}{\mathcal{H}}\Big)^3
  \mathrm{e}^{-2\tilde a_4}\,\mathrm{d}\tilde a_4,\\
@@ -5910,7 +5912,7 @@ $$
 - $\delta_{\mathrm{m}}$: The density contrast of the total matter (dark matter and baryons). Unit: dimensionless. Status: STANDARD.
 - $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
 - $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
-- $\mathcal{R}$: The primordial comoving curvature perturbation. Unit: dimensionless. Status: STANDARD.
+- $\mathcal{R}$: The primordial comoving curvature perturbation (conserved outside the horizon), counted positive where the density is above its mean, so that the Newtonian potentials $\Phi$, $\Psi_{\mathrm{N}}$ and $\Phi_{\mathrm{W}}$ are negative there (on the largest scales in the matter era $\Phi_{\mathrm{W}} = -\frac35\mathcal{R}\,\mathrm{e}^{-a_4}D_+$). Unit: dimensionless. Status: STANDARD.
 - $D_+$: The linear growth factor of the matter perturbations, normalised as $D_+ = \mathrm{e}^{a_4}$ in the matter era. Unit: dimensionless. Value: $D_+\mathrm{e}^{-a_4} = 0.7878$ today. Status: STANDARD.
 - $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
 - $\infty$: Infinity: as a limit of an integral or a sum it means that the range has no upper bound. Status: STANDARD.
@@ -6321,7 +6323,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in this equation.**
 
-- $f_{\mathrm{N}},\ f_{\mathrm{p}},\ f_{\mathrm{n}}$: The spin-independent effective couplings of the dark matter to a nucleon: $f_{\mathrm{p}}$ to the proton, $f_{\mathrm{n}}$ to the neutron, and $f_{\mathrm{N}}$ the average per nucleon of the target (or, in step 7, the coupling through the gluon content of a nucleon). Unit: $\mathrm{GeV}^{-2}$. Value: $f_{\mathrm{p}} = 1.915\times10^{-9}$, $f_{\mathrm{n}} = 1.917\times10^{-9}$ GeV$^{-2}$ (I13 and I11). Status: ESTIMATE.
+- $f_{\mathrm{N}},\ f_{\mathrm{p}},\ f_{\mathrm{n}}$: The spin-independent effective couplings of the dark matter to a nucleon: $f_{\mathrm{p}}$ to the proton, $f_{\mathrm{n}}$ to the neutron, and $f_{\mathrm{N}}$ the average per nucleon of the target (for the portal I12, the coupling through the gluon content of a nucleon). Unit: $\mathrm{GeV}^{-2}$. Value: $f_{\mathrm{p}} = 1.915\times10^{-9}$, $f_{\mathrm{n}} = 1.917\times10^{-9}$ GeV$^{-2}$ (I13 and I11). Status: ESTIMATE.
 - $G_{\mathrm{g}}$: The coupling of a dark-matter pair to canonically normalised gluon pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $6.09\times10^{-15}$ GeV$^{-3}$ (benchmark). Status: DERIVED.
 - $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
 - $\alpha_3$: The strong fine-structure constant, $\alpha_3 = g_3^2/(4\pi)$, at the scale given in brackets. Unit: dimensionless. Value: $\alpha_3(m_{\mathrm{Z}}) = 0.1180$; $\alpha_3(m_{\mathrm{KK}}) = 0.0606$. Status: STANDARD.
@@ -6649,7 +6651,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-72).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\varepsilon,\ \varepsilon_o$: The energy of a fermion mode (an eigenvalue of the block Hamiltonian; at $k = 0$ the four-dimensional mass); $\varepsilon_o$ the Kohn-Sham level of the orbital $o$. Unit: GeV. Status: DERIVED.
 - $o$: The label of a Kohn-Sham orbital (a state of dirac16complex in the cell: block, momentum shell, fold parity and level); a sum over $o$ runs over the orbitals. Status: RECORD.
 - $f$: The label of a fermion species: a Standard-Model multiplet of one generation (its $N_{\mathrm{c}}$ Weyl components share one zero-mode profile; the zero mode of each chirality) or a fermion of a medium (electron, proton, neutron); a sum over $f$ runs over these species. Status: STANDARD.
@@ -6692,7 +6694,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-73).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\Delta\varepsilon_{\mathrm{I11}},\ \Delta\varepsilon_{\mathrm{I13}}$: The shifts of the dark-matter level by the mean fields of I11 and of I13 in matter. Unit: GeV. Value: at most $8.2\times10^{-10}$ GeV (I13, at the freeze-out). Status: DERIVED.
 - $G_{\mathrm{V}}$: The four-dimensional strength of the vector portal I11 on the zero modes, $G_{\mathrm{V}} = c_{\mathrm{V}}H/(2f^4v_{\mathrm{t}}\Lambda_\star^6)$. Unit: $\mathrm{GeV}^{-2}$. Value: benchmark $4.38\times10^{-17}$ GeV$^{-2}$ ($\Delta N_{\mathrm{eff}} = 0.001$). Status: DERIVED.
 - $n_{\mathrm{u}},\ n_{\mathrm{d}}$: The number densities of up and down quarks bound in nucleons, $n_{\mathrm{u}} = 2n_{\mathrm{p}} + n_{\mathrm{n}}$, $n_{\mathrm{d}} = n_{\mathrm{p}} + 2n_{\mathrm{n}}$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
@@ -6914,7 +6916,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-79).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\alpha_3$: The strong fine-structure constant, $\alpha_3 = g_3^2/(4\pi)$, at the scale given in brackets. Unit: dimensionless. Value: $\alpha_3(m_{\mathrm{Z}}) = 0.1180$; $\alpha_3(m_{\mathrm{KK}}) = 0.0606$. Status: STANDARD.
 - $G_{\mathrm{g}}$: The coupling of a dark-matter pair to canonically normalised gluon pairs through I12. Unit: $\mathrm{GeV}^{-3}$. Value: $6.09\times10^{-15}$ GeV$^{-3}$ (benchmark). Status: DERIVED.
 - $n_{\mathrm{DM,tot}}$: The total number density of dark-matter quanta: both species (the lowest odd levels of $\Psi_A$ and $\Psi_B$), particles and antiparticles, $n_{\mathrm{DM,tot}} = 2(n_{\mathrm{DM}} + \bar n_{\mathrm{DM}})$. Unit: $\mathrm{GeV}^{3}$. Status: STANDARD.
@@ -6975,7 +6977,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-47).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
 - $c_\rho$: The coefficient of $\kappa\Delta\rho$ in the adiabatic block response $\Delta K$. Unit: dimensionless. Value: 0.0358521. Status: DERIVED.
 - $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
@@ -7127,7 +7129,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-80).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
 - $c_\rho$: The coefficient of $\kappa\Delta\rho$ in the adiabatic block response $\Delta K$. Unit: dimensionless. Value: 0.0358521. Status: DERIVED.
 - $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
@@ -7309,7 +7311,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in this equation.**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $f$: The block scale: the common scale factor of the hidden direction and the extra times, $f = \mathrm{e}^{-a_4}b_4^{1/2}$ (the block is $f^2$ times a four-dimensional space of constant curvature $-H^2$). Unit: dimensionless. Status: DERIVED.
 
 <!-- end generated symbol list -->
@@ -7910,7 +7912,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-130).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $N_{\mathrm{eff}}$: The effective number of neutrino species (the radiation beyond the photons in units of one neutrino species with $T_\nu/T_\gamma = (4/11)^{1/3}$); $\Delta N_{\mathrm{eff}}$ an addition to it. Unit: dimensionless. Value: 3.0432 (neutrinos) + 0.0010 (fold bands). Status: STANDARD.
 - $\rho_{\mathrm{fold}}$: The energy density of the fold bands. Unit: $\mathrm{GeV}^{4}$. Status: DERIVED.
 - $\rho_\nu,\ \rho_{\nu_\alpha}$: The energy density of one neutrino flavour (neutrinos and antineutrinos) at the common temperature $T_\nu$, $\frac78\frac{\pi^2}{15}T_\nu^4$ when massless; $\rho_{\nu_\alpha}$ that of the flavour $\alpha$ at its temperature $T_{\nu_\alpha}$. Unit: $\mathrm{GeV}^{4}$. Status: STANDARD.
@@ -8001,7 +8003,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-133).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $N_{\mathrm{eff}}$: The effective number of neutrino species (the radiation beyond the photons in units of one neutrino species with $T_\nu/T_\gamma = (4/11)^{1/3}$); $\Delta N_{\mathrm{eff}}$ an addition to it. Unit: dimensionless. Value: 3.0432 (neutrinos) + 0.0010 (fold bands). Status: STANDARD.
 - $N_{\mathrm{W}}$: The number of Weyl species that decouple early. Unit: dimensionless. Status: DERIVED.
 - $g_\rho,\ g_s$: The effective numbers of relativistic degrees of freedom of the energy density and of the entropy density of the plasma. Unit: dimensionless. Value: 105.75 when every species of UM-2 in equilibrium is relativistic (no Higgs particle), 10.75 near 1 MeV, $g_s = 43/11$ today. Status: STANDARD.
@@ -8332,7 +8334,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in this equation.**
 
-- $f_{\mathrm{N}},\ f_{\mathrm{p}},\ f_{\mathrm{n}}$: The spin-independent effective couplings of the dark matter to a nucleon: $f_{\mathrm{p}}$ to the proton, $f_{\mathrm{n}}$ to the neutron, and $f_{\mathrm{N}}$ the average per nucleon of the target (or, in step 7, the coupling through the gluon content of a nucleon). Unit: $\mathrm{GeV}^{-2}$. Value: $f_{\mathrm{p}} = 1.915\times10^{-9}$, $f_{\mathrm{n}} = 1.917\times10^{-9}$ GeV$^{-2}$ (I13 and I11). Status: ESTIMATE.
+- $f_{\mathrm{N}},\ f_{\mathrm{p}},\ f_{\mathrm{n}}$: The spin-independent effective couplings of the dark matter to a nucleon: $f_{\mathrm{p}}$ to the proton, $f_{\mathrm{n}}$ to the neutron, and $f_{\mathrm{N}}$ the average per nucleon of the target (for the portal I12, the coupling through the gluon content of a nucleon). Unit: $\mathrm{GeV}^{-2}$. Value: $f_{\mathrm{p}} = 1.915\times10^{-9}$, $f_{\mathrm{n}} = 1.917\times10^{-9}$ GeV$^{-2}$ (I13 and I11). Status: ESTIMATE.
 - $G_{\mathrm{u}},\ G_{\mathrm{d}}$: The four-dimensional vector couplings of the dark matter to the up and to the down quark (I13 and I11, unpolarised quarks with each chirality carrying half of the density). Unit: $\mathrm{GeV}^{-2}$. Status: DERIVED.
 - $Z_{\mathrm{Xe}},\ A_{\mathrm{Xe}}$: The atomic number and the mass number of the xenon target. Unit: dimensionless. Value: 54 and 131. Status: STANDARD.
 - $\sigma_{\mathrm{SI}}$: The spin-independent elastic scattering cross-section of a dark-matter particle on one nucleon. Unit: $\mathrm{cm}^2$. Value: $4.01\times10^{-46}$ cm$^2$ (xenon, I13 and I11); $6.3\times10^{-53}$ cm$^2$ through I12 alone. Status: ESTIMATE.
@@ -8651,7 +8653,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-44).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $\dot{\mathcal{H}}$: The time derivative $\mathrm{d}\mathcal{H}/\mathrm{d}x_4$. Unit: $\mathrm{GeV}^{2}$. Status: DERIVED.
 - $\Xi_{\mathcal{H}K}$: The coefficient of $\Delta K$ in the first-order equation for $\Delta\dot{\mathcal{H}}$ (linearised block about $K_*$). Unit: $\mathrm{GeV}^{2}$. Value: $6(238 - 19\sqrt{51})H^2/2249 = 0.272956\,H^2$. Status: DERIVED.
 - $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
@@ -8678,7 +8680,7 @@ $$
 <!-- begin generated symbol list -->
 **Symbols in (FE-80).**
 
-- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. Status: STANDARD.
+- $\Delta$: The change (difference or small perturbation) of the quantity that follows: $\Delta K$, $\Delta\rho$, $\Delta p_3$ are first-order changes about the static block, $\Delta\varepsilon_o$ a level shift, $\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$, $\Delta S_{\mathrm{m}}$ the change of an action under a change $\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\Delta x_0$, $\Delta k_{x_0}$, $\Delta\xi$, $\Delta(fy)$ (as in the author's $\Delta x_0\,\Delta p_{x_0} \ge \hbar/2$). Status: STANDARD.
 - $K$: The block variable, $K = 1/f^2$. Unit: dimensionless. Status: DERIVED.
 - $c_\rho$: The coefficient of $\kappa\Delta\rho$ in the adiabatic block response $\Delta K$. Unit: dimensionless. Value: 0.0358521. Status: DERIVED.
 - $\kappa$: The eight-dimensional gravitational coupling, $\kappa = 8\pi G_8$. Unit: $\mathrm{GeV}^{-6}$. Value: $\kappa/V_\perp = 8\pi G_{\mathrm{N}}\mathcal{G}(K_*) = 2.328\times10^{-36}$ GeV$^{-2}$. Status: AUTHOR.
@@ -8706,9 +8708,9 @@ $$
 \begin{aligned}
 &\Phi_{\mathrm{rms}}(k) = \Big[\frac{k^3P_{\Phi_{\mathrm{W}}}(k)}{2\pi^2}\Big]^{1/2},\qquad
  \Phi_{\mathrm{W}} = \frac{\Phi + \Psi_{\mathrm{N}}}{2},\qquad
- \Phi_{\mathrm{W}} = \frac32\,\Omega_{\mathrm{m}}\mathcal{H}_0^2\,\frac{\delta_{\mathrm{m}}}{
+ \Phi_{\mathrm{W}} = -\frac32\,\Omega_{\mathrm{m}}\mathcal{H}_0^2\,\frac{\delta_{\mathrm{m}}}{
  \mathrm{e}^{a_4}k^2}\ \ \text{(inside the horizon)},\\
-&\Phi_{\mathrm{W}} = \frac35\,\mathcal{R}\,\mathrm{e}^{-a_4}D_+\ \ \text{(largest scales)},\qquad
+&\Phi_{\mathrm{W}} = -\frac35\,\mathcal{R}\,\mathrm{e}^{-a_4}D_+\ \ \text{(largest scales)},\qquad
  D_+ = \frac52\,\Omega_{\mathrm{m}}\,\frac{\mathcal{H}}{\mathcal{H}_0}\int_{-\infty}^{a_4}\Big(\frac{
  \mathcal{H}_0}{\mathcal{H}}\Big)^3
  \mathrm{e}^{-2\tilde a_4}\,\mathrm{d}\tilde a_4,\\
@@ -8733,7 +8735,7 @@ $$
 - $\delta_{\mathrm{m}}$: The density contrast of the total matter (dark matter and baryons). Unit: dimensionless. Status: STANDARD.
 - $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
 - $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: the scale factor of cosmology is $\mathrm{e}^{a_4}$. Unit: dimensionless. Status: AUTHOR.
-- $\mathcal{R}$: The primordial comoving curvature perturbation. Unit: dimensionless. Status: STANDARD.
+- $\mathcal{R}$: The primordial comoving curvature perturbation (conserved outside the horizon), counted positive where the density is above its mean, so that the Newtonian potentials $\Phi$, $\Psi_{\mathrm{N}}$ and $\Phi_{\mathrm{W}}$ are negative there (on the largest scales in the matter era $\Phi_{\mathrm{W}} = -\frac35\mathcal{R}\,\mathrm{e}^{-a_4}D_+$). Unit: dimensionless. Status: STANDARD.
 - $D_+$: The linear growth factor of the matter perturbations, normalised as $D_+ = \mathrm{e}^{a_4}$ in the matter era. Unit: dimensionless. Value: $D_+\mathrm{e}^{-a_4} = 0.7878$ today. Status: STANDARD.
 - $\mathcal{H}$: The expansion rate of ordinary 3-space, $\mathcal{H} = \dot a_4$ (the Hubble rate of the observer; in the hot Universe $\mathcal{H} = (8\pi^3g_\rho/90)^{1/2}T^2/M_{\mathrm{Pl}}$). Unit: GeV. Status: DERIVED.
 - $\infty$: Infinity: as a limit of an integral or a sum it means that the range has no upper bound. Status: STANDARD.

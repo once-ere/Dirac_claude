@@ -124,7 +124,7 @@
   "atoms": [
    "\\Delta"
   ],
-  "meaning": "The change (difference or small perturbation) of the quantity that follows: $\\Delta K$, $\\Delta\\rho$, $\\Delta p_3$ are first-order changes about the static block, $\\Delta\\varepsilon_o$ a level shift, $\\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\\Delta N_{\\mathrm{eff}}$ an addition to $N_{\\mathrm{eff}}$, $\\Delta S_{\\mathrm{m}}$ the change of an action under a change $\\Delta g^{MN}$ of the metric.",
+  "meaning": "The change (difference or small perturbation) of the quantity that follows: $\\Delta K$, $\\Delta\\rho$, $\\Delta p_3$ are first-order changes about the static block, $\\Delta\\varepsilon_o$ a level shift, $\\Delta m^2_{21} = m_2^2 - m_1^2$ a difference of squared masses, $\\Delta N_{\\mathrm{eff}}$ an addition to $N_{\\mathrm{eff}}$, $\\Delta S_{\\mathrm{m}}$ the change of an action under a change $\\Delta g^{MN}$ of the metric. In an uncertainty relation it is the spread, the root-mean-square deviation from the mean value in a state: $\\Delta x_0$, $\\Delta k_{x_0}$, $\\Delta\\xi$, $\\Delta(fy)$ (as in the author's $\\Delta x_0\\,\\Delta p_{x_0} \\ge \\hbar/2$).",
   "units": "",
   "status": "STANDARD"
  },
@@ -1802,7 +1802,10 @@
   "tex": "\\ell_i,\\ \\bar\\ell_i",
   "atoms": [
    "\\ell",
-   "\\bar{\\ell}"
+   "\\bar{\\ell}",
+   "\\ell_{1}",
+   "\\ell_{2}",
+   "\\ell_{3}"
   ],
   "meaning": "The lepton doublet of the generation $i$ (left-handed neutrino and charged lepton) and its Dirac adjoint.",
   "units": "$\\mathrm{GeV}^{7/2}$",
@@ -3616,7 +3619,7 @@
   "atoms": [
    "\\mathcal{R}"
   ],
-  "meaning": "The primordial comoving curvature perturbation.",
+  "meaning": "The primordial comoving curvature perturbation (conserved outside the horizon), counted positive where the density is above its mean, so that the Newtonian potentials $\\Phi$, $\\Psi_{\\mathrm{N}}$ and $\\Phi_{\\mathrm{W}}$ are negative there (on the largest scales in the matter era $\\Phi_{\\mathrm{W}} = -\\frac35\\mathcal{R}\\,\\mathrm{e}^{-a_4}D_+$).",
   "units": "dimensionless",
   "status": "STANDARD"
  },
@@ -3715,7 +3718,8 @@
   "atoms": [
    "\\theta",
    "\\theta_{12}",
-   "\\theta_{13}"
+   "\\theta_{13}",
+   "\\theta_{23}"
   ],
   "meaning": "The mixing angles of the standard parametrisation of $U$ (or of $V_{\\mathrm{CKM}}$): $\\theta_{12}$, $\\theta_{13}$, $\\theta_{23}$; in two-flavour formulas $\\theta_{ij}$ is the angle of the sector $(i, j)$.",
   "units": "dimensionless",
@@ -3736,7 +3740,12 @@
   "tex": "\\nu_\\alpha,\\ \\nu_i",
   "atoms": [
    "\\nu",
-   "\\nu_{\\mu}"
+   "\\nu_{\\mu}",
+   "\\nu_{\\tau}",
+   "\\nu_{e}",
+   "\\nu_{1}",
+   "\\nu_{2}",
+   "\\nu_{3}"
   ],
   "meaning": "A left-handed neutrino: $\\nu_\\alpha$ of the flavour $\\alpha = e, \\mu, \\tau$ ($\\nu_e$, $\\nu_\\mu$, $\\nu_\\tau$), $\\nu_i$ of the mass state $i$ (mass $m_i$).",
   "units": "$\\mathrm{GeV}^{3/2}$",

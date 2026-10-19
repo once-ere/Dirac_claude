@@ -1574,7 +1574,7 @@
    "metric g",
    "all sources"
   ],
-  "solved_in": "Exact; solved together with the $x_0$ component for the two rates and integrated numerically (LSODA) from the primordial block to the static block."
+  "solved_in": "Exact; solved together with the $x_0$ component for the two rates and integrated numerically (DOP853, relative tolerance $10^{-10}$ to $10^{-11}$) from the primordial block to the static block."
  },
  {
   "id": "FE-40",
@@ -2675,7 +2675,7 @@
    "gluons",
    "dark matter"
   ],
-  "solved_in": "First-order perturbation theory with the exact $W$ eigenfunction (shooting and the stored value agree to $3\\times10^{-12}$): $\\mathrm{d}\\ln\\tilde m_{\\mathrm{W}}^2/\\mathrm{d}A_{\\mathrm{mf}} = -0.111253$ (version 3 quoted $-0.1126$ from finite elements) while the photon and gluon zero mode stays massless; the physical shifts are at most $1.7\\times10^{-16}$."
+  "solved_in": "First-order perturbation theory with the exact $W$ eigenfunction (shooting agrees with it to $3\\times10^{-11}$, an independent first-order recomputation with the stored value to $3.3\\times10^{-12}$): $\\mathrm{d}\\ln\\tilde m_{\\mathrm{W}}^2/\\mathrm{d}A_{\\mathrm{mf}} = -0.111253$ (version 3 quoted $-0.1126$ from finite elements) while the photon and gluon zero mode stays massless; the amplitude $A_{\\mathrm{mf}}$ is at most $1.7\\times10^{-16}$ and the shift of $\\tilde m_{\\mathrm{W}}^2$ itself at most $1.9\\times10^{-17}$."
  },
  {
   "id": "FE-80",
@@ -3127,7 +3127,7 @@
  {
   "id": "FE-98",
   "title": "The size of the first-order potentials: rms value, Poisson equation and large scales",
-  "latex": "\\begin{aligned}\n&\\Phi_{\\mathrm{rms}}(k) = \\Big[\\frac{k^3P_{\\Phi_{\\mathrm{W}}}(k)}{2\\pi^2}\\Big]^{1/2},\\qquad\n \\Phi_{\\mathrm{W}} = \\frac{\\Phi + \\Psi_{\\mathrm{N}}}{2},\\qquad\n \\Phi_{\\mathrm{W}} = \\frac32\\,\\Omega_{\\mathrm{m}}\\mathcal{H}_0^2\\,\\frac{\\delta_{\\mathrm{m}}}{\n \\mathrm{e}^{a_4}k^2}\\ \\ \\text{(inside the horizon)},\\\\\n&\\Phi_{\\mathrm{W}} = \\frac35\\,\\mathcal{R}\\,\\mathrm{e}^{-a_4}D_+\\ \\ \\text{(largest scales)},\\qquad\n D_+ = \\frac52\\,\\Omega_{\\mathrm{m}}\\,\\frac{\\mathcal{H}}{\\mathcal{H}_0}\\int_{-\\infty}^{a_4}\\Big(\\frac{\n \\mathcal{H}_0}{\\mathcal{H}}\\Big)^3\n \\mathrm{e}^{-2\\tilde a_4}\\,\\mathrm{d}\\tilde a_4,\\\\\n&\\frac{\\mathcal{H}}{\\mathcal{H}_0} = \\big(\\Omega_{\\mathrm{m}}\\mathrm{e}^{-3a_4} + 1 -\n \\Omega_{\\mathrm{m}}\\big)^{1/2}\n\\end{aligned} \\tag{FE-98}",
+  "latex": "\\begin{aligned}\n&\\Phi_{\\mathrm{rms}}(k) = \\Big[\\frac{k^3P_{\\Phi_{\\mathrm{W}}}(k)}{2\\pi^2}\\Big]^{1/2},\\qquad\n \\Phi_{\\mathrm{W}} = \\frac{\\Phi + \\Psi_{\\mathrm{N}}}{2},\\qquad\n \\Phi_{\\mathrm{W}} = -\\frac32\\,\\Omega_{\\mathrm{m}}\\mathcal{H}_0^2\\,\\frac{\\delta_{\\mathrm{m}}}{\n \\mathrm{e}^{a_4}k^2}\\ \\ \\text{(inside the horizon)},\\\\\n&\\Phi_{\\mathrm{W}} = -\\frac35\\,\\mathcal{R}\\,\\mathrm{e}^{-a_4}D_+\\ \\ \\text{(largest scales)},\\qquad\n D_+ = \\frac52\\,\\Omega_{\\mathrm{m}}\\,\\frac{\\mathcal{H}}{\\mathcal{H}_0}\\int_{-\\infty}^{a_4}\\Big(\\frac{\n \\mathcal{H}_0}{\\mathcal{H}}\\Big)^3\n \\mathrm{e}^{-2\\tilde a_4}\\,\\mathrm{d}\\tilde a_4,\\\\\n&\\frac{\\mathcal{H}}{\\mathcal{H}_0} = \\big(\\Omega_{\\mathrm{m}}\\mathrm{e}^{-3a_4} + 1 -\n \\Omega_{\\mathrm{m}}\\big)^{1/2}\n\\end{aligned} \\tag{FE-98}",
   "keys": [
    "Phirms",
    "kwave",
@@ -3153,7 +3153,7 @@
    "four-dimensional metric",
    "matter"
   ],
-  "solved_in": "From the CAMB solution: $\\Phi_{\\mathrm{rms}} = 2.42\\times10^{-5}$ at $k = 10^{-4}$ Mpc$^{-1}$ down to $5.03\\times10^{-8}$ at 1 Mpc$^{-1}$; the Poisson form agrees to $1.5\\times10^{-6}$ for $k \\ge 0.01$ Mpc$^{-1}$ and the large-scale form to $4.4\\times10^{-5}$ ($D_+\\mathrm{e}^{-a_4} = 0.7878$ today); inside the integral $\\mathcal{H}$ is evaluated at $a_4 = \\tilde a_4$."
+  "solved_in": "From the CAMB solution: $\\Phi_{\\mathrm{rms}} = 2.42\\times10^{-5}$ at $k = 10^{-4}$ Mpc$^{-1}$ down to $5.03\\times10^{-8}$ at 1 Mpc$^{-1}$; the Poisson form agrees to $1.5\\times10^{-6}$ for $k \\ge 0.01$ Mpc$^{-1}$ and the large-scale form to $4.4\\times10^{-5}$ ($D_+\\mathrm{e}^{-a_4} = 0.7878$ today); inside the integral $\\mathcal{H}$ is evaluated at $a_4 = \\tilde a_4$. The signs follow FE-90: an overdensity has negative potentials (the rms values do not depend on the sign)."
  },
  {
   "id": "FE-99",
