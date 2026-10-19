@@ -2912,7 +2912,10 @@ output and every report byte-identical, and only the nine figures changed. Then 
 `um2_residuals.py` were rerun in this order: every script exits with code 0, 288 of 288 checks pass, and against the committed
 outputs only the block-rate bounds of `analysis.json`, the new entry `direct_detection_I12_benchmark` of `coupled.json`, the new
 check and the texts of three checks differ (`residuals.json` is unchanged); the symbol lists pass the check (844 display
-equations, 0 problems).
+equations, 0 problems). The result was then rerun from a fresh clone at commit `f804c99` (2026-10-18; every computation as a
+separate step, the document build included; 2502 s, because other long jobs shared the processor): 288 of 288 checks passed,
+the symbol lists passed (844 display equations, 0 problems), every stored number was reproduced identically (only the run
+times differ), and the LaTeX sources, the PDF documents and the figures were rebuilt byte-identical.
 
 # Corrections made during the work
 

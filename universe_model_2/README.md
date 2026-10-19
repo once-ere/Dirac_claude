@@ -90,7 +90,9 @@ equations and its consistency across 26 links between them (52 checks; it also l
 Times are those of the verification run of version 4 from a fresh clone of the repository (2026-10-18, commit `cec385b`;
 every computation run as a separate step, 1136 s in all): all 287 checks passed, the symbol lists of the five documents passed
 `tools/symbols_tool.py check` (841 display equations, 0 problems), every stored number was reproduced identically (only the run
-times differ), and the six PDFs, their LaTeX sources and the figures were rebuilt byte-identical. `tools/compare_outputs.py`
+times differ), and the six PDFs, their LaTeX sources and the figures were rebuilt byte-identical. After the consistency pass
+(288 checks: the new check of the I12 detection estimate) it was rerun from a fresh clone at commit `f804c99` with the same
+result (288 of 288, 844 display equations, every number identical, the documents byte-identical). `tools/compare_outputs.py`
 performs this comparison; `MANUAL_TASKS` describes the whole verification step by step. Every script writes its numbers to `outputs/` and its named checks to
 `reports/`, and exits with code 0 only if every check passes.
 The consistency pass of version 4 (PROVENANCE item 26) relabelled the nine figures in the version-4 notation (every stored
