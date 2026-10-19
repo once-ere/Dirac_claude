@@ -1,0 +1,7 @@
+{
+ "g_MN": {"tex": "g_{MN}", "atoms": ["g"], "meaning": "the metric tensor of the eight-dimensional space-time: the squared proper length of a coordinate step is $\\mathrm{d}s^2 = g_{MN}\\,\\mathrm{d}x^M\\mathrm{d}x^N$.", "units": "dimensionless", "status": "AUTHOR"},
+ "idx_MN": {"tex": "M, N", "atoms": ["index:M", "index:N"], "meaning": "coordinate indices; each takes the eight values $x_0, x_1, \\dots, x_7$ (written 0 to 7).", "units": ""},
+ "R_MN": {"tex": "R_{MN}", "atoms": ["R"], "meaning": "the Ricci tensor of $g_{MN}$.", "units": "1/length^2"},
+ "kappa8": {"tex": "\\kappa", "atoms": ["\\kappa"], "meaning": "the eight-dimensional gravitational coupling, $\\kappa = 8\\pi G_8$.", "units": "length^6"},
+ "T_MN": {"tex": "T_{MN}", "atoms": ["T"], "meaning": "the energy-momentum tensor of all matter fields.", "units": "energy/length^7"}
+}

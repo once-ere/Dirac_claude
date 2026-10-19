@@ -1,0 +1,154 @@
+IN-1 | The sum of all terms; varying it gives every field equation (FE-1 to FE-30); no Higgs field is present.
+IN-2 | Kept unchanged; its metric variation is the left side of FE-1, evaluated exactly (symbolically) for the order-0 metric.
+IN-3 | Evaluated exactly for the pair-diagonal curvature of the order-0 metric (FE-34) and for a product with the static block (FE-48).
+IN-4 | Its energy-momentum tensor (FE-4) enters the background exactly; its normalisation is fixed by the static block (FE-43); its microscopic origin is OPEN.
+IN-5 | Gives FE-5 and FE-12; solved by the exact x0 spectrum (FE-62) and by Kohn-Sham theory (FE-63 to FE-69); the self-coupling lambda is bounded by the fold-band radiation (FE-135).
+IN-6 | The author's real 16 x 16 matrices satisfy the algebra exactly (31 checks); B commutes with every interaction of the good sector, so the two halves are conserved separately.
+IN-7 | Evaluated exactly for the order-0 metric (FE-13); it makes gamma^N covariantly constant (verified symbolically).
+IN-8 | Gives FE-7 and the Yang-Mills equations FE-22 to FE-25; their x0 reduction gives the massless photon and gluons and the W, Z masses (FE-50 to FE-55).
+IN-9 | Exact definitions; the non-abelian terms are kept in FE-22 to FE-24 and neglected in the linearised W, Z and photon equations FE-25.
+IN-10 | W+ carries the electric charge +e and W- the charge -e (DERIVED); Z and A are the neutral combinations; the angle of the couplings is fixed by the measured masses (FE-55).
+IN-11 | Gives FE-6 and the Dirac equations FE-14 to FE-19; the zero modes and the tip mixing give all twelve masses (FE-56 to FE-60).
+IN-12 | Exact (geometric normalisation: the couplings stand in front of the kinetic terms of IN-8).
+IN-13 | Gives FE-8, the tip terms of FE-14 to FE-19 and of FE-23, FE-24, and the sigma-field equation FE-26; on the static block it becomes the Robin condition of the W, Z profiles (FE-51) and the tip mixing of the fermions (FE-30).
+IN-14 | Every tip term is invariant for arbitrary complex tip matrices (DERIVED with random group elements, deviation 1.1e-14).
+IN-15 | Exact; the photon receives no tip term, so it stays massless; W+ and W- share one mass (particle and antiparticle).
+IN-16 | Enters FE-9, FE-12 and FE-14 to FE-19; on the zero modes it is the contact interaction FE-70, with the benchmark strength fixed by the freeze-in of the fold bands (FE-129).
+IN-17 | Enters FE-10, FE-12 and the field-dependent couplings FE-21; on the dark matter it is FE-71, set to the unitarity-safe benchmark.
+IN-18 | Enters FE-9, FE-12 and FE-14 to FE-16; the bilinear is Hermitian for M != x0 only (DERIVED); on the zero modes it is FE-70, its strength fixed by the dark-matter relic (FE-126).
+FE-1 | Solved exactly at order 0 (the background equations FE-38 to FE-40, integrated numerically through the primordial era and solved in closed form for the static block); at order epsilon through the four-dimensional reduction FE-49.
+FE-2 | Definition (for spinors the variation is taken with respect to the vielbein); every source of UM-2 is evaluated in this form.
+FE-3 | At order 0 the stabiliser dominates; the matter terms enter through their block averages in the first-order block response FE-45 (relative size 1e-92 today).
+FE-4 | Exact; conserved because rho_stab is proportional to f^-8; it sets the static block FE-43.
+FE-5 | Evaluated for Kohn-Sham states in the form FE-67 (verified: energy identity and y-conservation law FE-68).
+FE-6 | Used through the block averages of the plasma and of cold matter (ideal and degenerate gases with the x0 masses) in the block response FE-45 and the hidden pressure FE-81.
+FE-7 | Used through the radiation and order-alpha plasma pressures in the block response; radiation drops out of it exactly.
+FE-8 | Zero for the hidden component; its gravitational effect is part of the W, Z and fermion rest energies counted in the plasma.
+FE-9 | Exact (the frame currents do not depend on the vielbein); negligible against the stabiliser in every environment (the level shifts of FE-72 are below 1e-9 GeV).
+FE-10 | Exact; I12 acts as a field-dependent gauge coupling FE-21; its effect is computed in the coupled solution (at most 1.7e-16).
+FE-11 | The Bianchi identities were verified for the order-0 metric (p = 1, 2, 3); the conservation holds on the matter field equations; at order 0 it is FE-41.
+FE-12 | Reduced exactly to the block Hamiltonian FE-56 (all eight blocks, general a4, b4); solved exactly for the free spectrum FE-62 and by Kohn-Sham theory with the portal mean fields FE-63.
+FE-13 | Exact for every a4, b4 and on both halves of a period; removed by the factors of the reduction ansatz FE-56; it vanishes only in flat 4+4 space.
+FE-14 | Solved on the static block by the zero mode and the tip mixing FE-56 to FE-60 (exact roots; the portal terms are mean fields of 1e-17 relative size at most).
+FE-15 | As FE-14: singlet zero modes mixed at the tip with the doublet (exact roots for u, c, t).
+FE-16 | As FE-14 (exact roots for d, s, b; the tip matrix of the sector is the CKM matrix).
+FE-17 | As FE-14: one doublet zero mode serves the three generations; exact roots for the three neutrinos and the three charged leptons; no I13 term (leptons carry no baryon number).
+FE-18 | As FE-17 (exact roots for e, mu, tau with the tip matrix 1).
+FE-19 | Gauge singlets: sharply localised singlet zero modes (c_R = -31 to -35) mixed at the tip with the lepton doublet give the Dirac neutrino masses; never thermalised (their I11 production is computed in FE-134).
+FE-20 | Definitions; summed over the three generations.
+FE-21 | Exact; in four dimensions it is the coupling shift FE-79 (at most 1.7e-16 at the dark-matter freeze-out).
+FE-22 | Solved on the static block by the x0 reduction FE-50 with no tip term: the gluon zero mode is exactly massless (flat profile); QCD below the confinement scale enters through the nucleon masses and the condensates FE-74.
+FE-23 | The tip term (in the unitary gauge; N runs over the tip directions) is a mass term for the charged components and for W^3 - B only; solved on the static block by FE-50 with the Robin condition FE-51.
+FE-24 | As FE-23; the combination that receives no tip term is the photon (see FE-25).
+FE-25 | Obtained exactly from FE-23 and FE-24 at linear order; the photon has no tip term and stays massless; the W and Z tip terms become the Robin conditions FE-51.
+FE-26 | Not independent: it is the divergence of the tip part of FE-23 (the fermion currents are conserved up to the same tip terms); in the unitary gauge the three modes of Sigma are the longitudinal W+, W- and Z.
+FE-27 | Lagrangian boundary conditions of the variational principle; for an x0 profile they are FE-51.
+FE-28 | Both parities are modes of the full period; self-adjoint (DERIVED); in block form they are FE-69.
+FE-29 | Self-adjoint (DERIVED); each doublet has one Weyl zero mode with Gamma4 = +1 and each singlet one with Gamma4 = -1, in the two selected blocks of the half B = -1; at the tip modified by the mixing conditions FE-30.
+FE-30 | Equivalent to the tip Yukawa terms; self-adjoint for every complex matrix (sympy, 42 real variables); the choice of the tip matrices is ASSUMED; solved exactly by the mass conditions FE-59 to FE-60.
+FE-31 | The corrected primordial metric of the record (author's coordinates, x0 first); its curvature is computed exactly (sympy, identical in both charts) and does not depend on x0.
+FE-32 | Exact change of chart; one period of x0 (length pi/(6H)) is two halves joined at the fold y = 0, each closed by the regular tip at y = -L (HL = 3, ASSUMED).
+FE-33 | Exact (sympy, both charts, 25 checks); x1, x2, x3 are equivalent, and x0, x5, x6, x7 are equivalent.
+FE-34 | Exact (the coefficients are 2^p p! and -2^(p-1) p! for the order p); checked against the Ricci route (p = 1), the explicit Gauss-Bonnet tensor (p = 2), the Bianchi identities and the minisuperspace variation with a lapse (p = 1, 2, 3).
+FE-35 | Exact; every off-diagonal component vanishes and the x0 component equals the x5, x6, x7 components.
+FE-36 | Exact (sympy, four routes).
+FE-37 | Exact (sympy, four routes).
+FE-38 | Exact; preserved to 6e-10 in the numerical integration of the primordial era; at the static block it gives FE-42.
+FE-39 | Exact; solved together with the x0 component for the two rates and integrated numerically (LSODA) from the primordial block to the static block.
+FE-40 | Exact for a block-isotropic source; for p0 != p5 it is the variation with respect to the common block scale f, and p0 - p5 drives a block-shape mode outside the order-0 metric (OPEN).
+FE-41 | Exact consequence of FE-11; for the stabiliser it gives rho_stab proportional to f^-8.
+FE-42 | Exact for H_f = 0 and dH/dx4 = 0; without sources and with H = 0 the only static block is K = 1/(4 w_(2)) = 8, which needs Lambda = -24 H^2 and has G = -1 (repulsive gravity).
+FE-43 | Exact (closed form); the upper root is the vacuum of UM-2 with attractive four-dimensional gravity; the lower root K_- = 2.4781 has G = -0.4748.
+FE-44 | Exact; eigenvalues 0 and +-i omega_r: the block is stable and oscillates (the radion, mass 48.42 TeV); stable for every stabiliser law of the family tried.
+FE-45 | Exact to first order (H^2 counted as first order); the coefficients are FE-46.
+FE-46 | Exact (sympy); numerically 0.272956 H^2, 0.266522 H^2, -0.006853, 0.038221, -0.045997, 0.028666, 0.037320, -0.009555.
+FE-47 | Exact for a slowly varying source (second time derivative of Delta K neglected); radiation drops out exactly; used in every environment of the coupled solution FE-80.
+FE-48 | Exact (the four-dimensional quadratic density is topological, the cubic one vanishes); Lambda_4 = 0 at the static point; the observed dark energy is a tuned residual, Lambda_4/H^2 ~ 1e-92 (OPEN).
+FE-49 | Exact: four-dimensional gravity on the stabilised block is general relativity; its linear perturbations are FE-90.
+FE-50 | Exact reduction on the static block (gauge A_y = 0; the same operator for the transverse-traceless graviton in Einstein gravity); solved exactly by FE-52 (mpmath) and checked with finite elements to 5e-10.
+FE-51 | The tip condition is the natural boundary condition of the tip mass term (IN tip action); one value for W+ and W- (particle and antiparticle); beta_W is fitted to the measured masses (FE-55).
+FE-52 | Exact; graviton, photon and gluons are exactly massless; the first even Kaluza-Klein level 30.1196, the first odd 27.0890, the gap 20.25 (HL = 3); W: 1.32149e-5, Z: 1.70150e-5 (mpmath; finite elements 3e-14).
+FE-53 | Exact; 30.1196, 59.7284, 109.0764 for n = 1, 2, 3 (finite elements agree to 3.9e-9); m_1 = m_KK = 121.32 TeV.
+FE-54 | Evaluated with the zero-mode profiles (0.0904, 0.0136, 0.0057 for two quark-doublet profiles); zero for the flat profile of the gauge zero modes; Newton's law is exact at every measurable distance.
+FE-55 | Fit (DERIVED): beta_W = 0.011912 reproduces rho_EW,0 - 1 = 0.00038 and both measured masses; m_KK = 121.32 TeV, H = 14.296 TeV.
+FE-56 | Exact (all eight blocks, general a4(x4), b4(x4), M(y), v(y); checked with the author's matrices); the basis of the reduction for every fermion of UM-2.
+FE-57 | Exact: the zero modes are massless four-dimensional particles with energy e^{-a4}|k|; localised at the fold for c_L > 0 and c_R < 0.
+FE-58 | Exact solutions (block varsigma = +1) that satisfy the fold conditions b(0) = 0 (doublet, c_L > 0) and a(0) = 0 (singlet, c_R < 0).
+FE-59 | Exact roots (shooting agrees to 6e-10); the first-order formula agrees to 1.1e-3 (top quark) and better than 3e-4 otherwise.
+FE-60 | The factorisation holds for one doublet bulk mass per sector and a unitary tip matrix; verified with mpmath at 50 digits (roots equal the one-generation roots to 3.0e-42, null vectors the columns of the tip matrix to 1.1e-16).
+FE-61 | Inputs: the NuFIT 6.0 values for the PMNS matrix and the PDG values for the CKM matrix (the same form); unitary to 1.1e-16.
+FE-62 | Exact; at the stabilised block c_Psi = 0.646667, the lowest odd level (the dark matter) is 3.102204 m_Psi = 44.35 TeV (varpi = 1.89901) and the lowest even bulk level 4.959981 m_Psi.
+FE-63 | Solved numerically to self-consistency (60 to 240 exact free eigenfunctions per sector, tolerance 1e-13, Anderson mixing, Richardson extrapolation in the basis size; the record states reproduced to 1e-13); the I13 term acts on the lower component only.
+FE-64 | Local mean fields of the contact self-interaction (record) and of the portals; the portal fields are applied with the densities and condensates of each environment (FE-72).
+FE-65 | Exact definitions (the factor 1/2 is the weight of each fold parity); k_lat = 0.25 H in the computations.
+FE-66 | Computed for every state (Richardson errors below 2.2e-9 relative); the energy identity FE-68 holds to 4e-15.
+FE-67 | Evaluated for every state; its block averages enter the block response FE-47 (dark matter at rest: p3 = 0 and p0/rho = 0.772034343 = -d ln eps_DM/d ln f).
+FE-68 | Verified for every self-consistent state (4e-15 and 9e-8 with Richardson extrapolation).
+FE-69 | The block form of FE-28 (gamma^{x0} = sigma_3 in every block); self-adjoint.
+FE-70 | The overlaps are computed with the Kohn-Sham orbitals (Q: 8.2722, L: 1.2524 for the dark matter) and equal the derivatives of self-consistent levels with respect to the mean-field amplitudes to 3e-10 (Hellmann-Feynman); I13 vanishes on the fold bands (to 7e-14).
+FE-71 | O_DM = 0.7072 (Hellmann-Feynman, checked to 1e-8); the field strengths are in the geometric normalisation of the action (flat zero modes), and G_g, G_W, G_B are the couplings to the canonically normalised fields (field divided by its four-dimensional coupling) used in the cross-section FE-127; the benchmark strength is unitarity safe.
+FE-72 | First order in the mean fields (Hellmann-Feynman; the response is screened by only 3.5e-4 in the interacting state); universal I12 coefficients c_G = c_W = c_B = c_I12.
+FE-73 | Evaluated in ten environments (unpolarised fermions, each chirality half of the density); at most 8.2e-10 GeV (I13, at the freeze-out).
+FE-74 | Geometric normalisation (the canonical field times g_3): the vacuum value is 4 pi^2 times the standard condensate <(alpha_s/pi) G^2> = 0.012 GeV^4 of canonically normalised fields (STANDARD); the relation does not depend on the signature convention.
+FE-75 | A lattice-like shape below 1 GeV (ESTIMATE) and leading-order perturbation theory above (alpha_3 at the scale 2 pi T).
+FE-76 | The first is the free part (on shell the Proca Lagrangian is a total derivative); the second (Feynman-Hellmann) reproduces the trace-anomaly gluon condensate to 1e-16; SU(2): d_adj = 3, C_adj = 2, T_F N_f = 3; U(1)_Y: d_adj = 1, C_adj = 0, (5/2) T_F N_f -> 25/2; no scalar term (ESTIMATE).
+FE-77 | One loop from the MS-bar values at m_Z; the couplings of the condensates are taken at mu_R = 2 pi T.
+FE-78 | Below m_W the order-alpha part is multiplied by the thermal suppression of a massive vector (ESTIMATE); at the freeze-out the W condensate is -5.0e11 GeV^4, almost all from the interaction part.
+FE-79 | Finite elements (300 quadratic elements, Richardson in the amplitude): d ln m_W^2/dA_mf = -0.1126 while the photon and gluon zero mode stays massless; the physical shifts are at most 1.7e-16.
+FE-80 | Iterated with the masses until self-consistency (the loop gain is at most 1.1e-33, so one step suffices); the block moves by at most Delta ln f = 1.1e-34 (at the freeze-out).
+FE-81 | The response of the pressure to the block scale at fixed temperature (p_bar = (1/4) dp/d ln f); the plasma species as ideal gases with their x0 masses, nucleons and electrons as degenerate Fermi gases in the cold environments.
+FE-82 | The bulk couplings scale as f^-4 (g^2 = g_hat^2/V_perp) and m_KK as 1/f; leading-order trace anomaly.
+FE-83 | One loop; alpha_3(m_KK) = 0.0606 and d ln m_p/d ln f = -46.1: the most block-sensitive mass of UM-2.
+FE-84 | One loop: -60.2 (six flavours), -55.6, -52.0 and -49.0 (three flavours).
+FE-85 | From m = eps_tilde/(fL) with the first-order root of FE-59 and localisations c proportional to f: -18.82, -18.01, -14.90, -12.15, -10.89, -6.77 for u, d, s, c, b, t.
+FE-86 | The hot environments (the cold ones use measured densities); the dark matter in equilibrium for both species while M_DM/T < 40, its relic density afterwards.
+FE-87 | Order 0 exact; order 1, n = 0 by the linear Einstein-Boltzmann equations (FE-90 to FE-96; potentials 2.4e-5 and smaller); n >= 1 by the graviton tower FE-53 (range below 1.6e-21 m); order 2 estimated (5.8e-10).
+FE-88 | The potentials, the tensor and the radion are of order epsilon; the radion is massive (48.42 TeV) and its static response is at most 1.1e-34; the tensor amplitude is an input (bounded, r < 0.036).
+FE-89 | Newtonian gauge (Ma and Bertschinger); the prime denotes d/d tau_c and a_4' is the conformal expansion rate.
+FE-90 | Solved numerically with CAMB 2.0.5 (default accuracy, lensing) at the Planck 2018 parameters, summed over the species of UM-2; TT and EE agree with Planck LambdaCDM to 2.5e-4 and 2.7e-4.
+FE-91 | Solved with CAMB; the dark matter is cold (w = 0 for quanta at rest, Kohn-Sham).
+FE-92 | Solved with CAMB (recombination and Thomson drag of the standard code).
+FE-93 | Solved with CAMB.
+FE-94 | Solved with CAMB (the l = 2 equation equals the separate quadrupole equation of Ma and Bertschinger).
+FE-95 | Solved with CAMB.
+FE-96 | Solved with CAMB, each mass state separately with the degeneracy N_eff/3 = 1.0144 (masses iterated to 7.8e-12); the fold bands produced by freeze-in obey the massless limit E^c_i = k_nu.
+FE-97 | Inputs: the Planck 2018 primordial parameters; N_eff = 3.0432 (neutrinos) + 0.0010 (freeze-in fold bands) = 3.0442; H_0 = 67.38 km/s/Mpc, r_drag = 147.10 Mpc, BAO chi^2 = 31.5 for 13 DESI DR2 points.
+FE-98 | From the CAMB solution: 2.42e-5 at k = 1e-4/Mpc down to 5.03e-8 at 1/Mpc; the Poisson form agrees to 1.5e-6 for k >= 0.01/Mpc and the large-scale form to 4.4e-5 (D_+ e^{-a4} = 0.7878 today); inside the integral H is evaluated at a4 = a4 tilde.
+FE-99 | Computed from the CAMB linear matter power spectrum: 0.8118 for UM-2 against 0.8109 for LambdaCDM.
+FE-100 | m_1 and the normal ordering ASSUMED, the splittings STANDARD (NuFIT 6.0); they are x0 eigenvalues of FE-59 with c_R = -35.0452, -32.8481, -31.0702.
+FE-101 | The exchange of W+, W- and Z between zero modes far below m_W, m_Z; summed over the flavours alpha, beta and the fermions f of the medium.
+FE-102 | UM-2 uses the measured G_F = 1.1663788e-5 GeV^-2.
+FE-103 | For an unpolarised medium at rest; in neutral matter of electrons, protons and neutrons; antineutrinos have -V.
+FE-104 | Solved exactly (matrix exponential for constant density, ordered products of layers otherwise); vacuum formula reproduced to 3.9e-15, unitarity 1.8e-15; antineutrinos: U -> U*, V -> -V.
+FE-105 | Checked against the exact evolution (CPT to 2.8e-16, T-odd difference to 5.9e-14).
+FE-106 | The 1-3 resonance at 11.135 GeV in rock of 2.8 g/cm^3 (exact three-flavour 11.133 GeV); the 1-2 resonance at the centre of the Sun at 1.93 MeV.
+FE-107 | Evaluated at the production point; the numerical three-flavour evolution through the solar density agrees to 1.3e-3.
+FE-108 | Two-flavour conditions; in the supernova envelope both resonances are adiabatic (P_LZ <= 2.6e-77).
+FE-109 | Leading order in T/m_W; it falls below the vacuum term at T = 4.99 MeV (atmospheric) and 2.39 MeV (solar) for k = 3.15 T.
+FE-110 | Used in its linearised form for the fast flavour instability (FE-117) and, momentum averaged, for neutrino decoupling (FE-111).
+FE-111 | Integrated from 20 MeV to 5 keV (LSODA, relative tolerance 1e-11); the method reproduces the published values (Escudero 2020) to 1e-3; nu_tau follows nu_mu.
+FE-112 | f_a = 0.884, f_s = 0.829; the radiatively corrected couplings 0.727, 0.233, -0.273, 0.233 are used (the tree-level ones change N_eff by 4e-4).
+FE-113 | Massless limits -5e^2T^4/288 and e^3T^4/(36 sqrt3 pi) reproduced to 1e-16 (Bennett et al. 2020).
+FE-114 | Gauss-Legendre panels; the logarithmic singularity at k_2 = k removed by a substitution.
+FE-115 | UM-2 computes 3.0476 (separate temperatures) and 3.0485 (one common temperature, efficient oscillations) and adopts the precision value 3.0432 (Cielo et al. 2023); for instantaneous decoupling the plasma entropy per comoving volume is conserved and T_nu falls as e^{-a4}.
+FE-116 | Homogeneous, axially symmetric gas of electron neutrinos and antineutrinos (symmetry axis x3).
+FE-117 | Roots found for real k on a grid by vectorised Newton iterations; three independent evaluations agree to 1.2e-14.
+FE-118 | A root with Im omega_bar > 0 for real k_bar is an instability; with an ELN crossing the largest growth rate is 0.088 mu_nunu, without one no mode grows (Morinaga 2022).
+FE-119 | Eigenvalues of the discretised homogeneous equation (300 nodes) agree with the dispersion relation; growth by e in 6e-10 to 6e-11 s near the neutrinosphere (mu_nunu = sqrt2 G_F n_nue).
+FE-120 | Exact integrals: T_nu = 1.9454 K, 112.0 per cm^3 per mass state, mean velocities 0.435, 0.0604, 0.0105 c today, Omega_nu h^2 = 6.382e-4.
+FE-121 | Exact integrals with the x0 masses (upper sign fermions); no Higgs particle; right-handed neutrinos, fold bands, radion and Kaluza-Klein modes not in equilibrium.
+FE-122 | Checked against the exact limits 105.75, 86.25, 10.75 and 43/11.
+FE-123 | T_c = 155 MeV, T_w = 15 MeV with a gas of the twelve lightest hadron multiplets below (ASSUMED model of the crossover); neutrinos decoupled instantaneously at 2 MeV.
+FE-124 | Integrated implicitly (Radau, ln Y from x = 5 to 2000, relative tolerance 1e-10) with the degrees of freedom of UM-2; the late-time integral holds to 1.3e-8; each of the two species freezes out separately.
+FE-125 | Adaptive quadrature in the kinetic energy of the pair, exponentially scaled Bessel functions (Gondolo and Gelmini).
+FE-126 | Each species gives 0.060 (0.120 together) for G_A = 1.278e-9 GeV^-2 (x_f = 31.23).
+FE-127 | Spin averaged; I12 p-wave (from 3P0 only, polarisation sum and spin trace checked numerically), I13 s-wave (from 3S1), summed over the quark Weyl components (o the dark-matter orbital; the sum of N_c (q^B I^(b))^2 is 16.351); I12 at the unitarity-safe benchmark G_I12 = pi/(2 M_DM^3).
+FE-128 | Where an effective cross-section exceeds its bound it is replaced by the bound; I13 reaches it only above v_rel = 0.51 (22 % of the freeze-out rate); I12 alone would need a strongly coupled 3P0 channel.
+FE-129 | Maxwell-Boltzmann, massless (o the fold band; the sum is 126.85 over the fifteen multiplets of three generations); integrated from T_max = 10 TeV (ASSUMED): Delta N_eff = 5.21e29 G_V^2 GeV^4, so the benchmark G_V = 4.38e-17 GeV^-2 gives 0.001.
+FE-130 | The production rate per fold quantum is 0.012 of the Hubble rate at T_max: never in equilibrium.
+FE-131 | The counterfactual that motivates the baryon current: the three nu_R would reach 0.9997 of equilibrium by M/T = 40 and add Delta N_eff = 0.144 (the factor 2 counts the two dark-matter species).
+FE-132 | For a Weyl nu_R on a heavy Dirac fermion (two species); kinetic decoupling at M/T = 24.4.
+FE-133 | T_nu/T_gamma = 0.71664 and h_nu = 0.00165 from the common-temperature decoupling of FE-115; used for the B - L variant (0.144) and the self-interaction channel.
+FE-134 | Evaluated: 2.0e-17, so the right-handed neutrinos are never thermalised.
+FE-135 | I_lambda = 14.38 (units of H, DERIVED); the cross-section is an ESTIMATE (Fierz coefficients not computed).
+FE-136 | Integrated from T_max to the freeze-out: Delta N_eff = 1.83e26 G_lambda^2 GeV^4, so Delta N_eff <= 0.001 requires G_lambda <= 2.3e-15 GeV^-2 (ASSUMED bound on lambda); otherwise the fold bands decouple as four Weyl species (FE-133).
