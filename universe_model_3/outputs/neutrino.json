@@ -1,0 +1,182 @@
+{
+ "N1": {
+  "delta_Jarlskog": 4.163336342344337e-17,
+  "dv2_over_v2_per_g_hchi": 1.1935276904288207e-50,
+  "expected_scale": 3.522753610000001,
+  "mass_ratios": [
+   1.3700000000000019,
+   1.3700000000000012,
+   1.3699999999999997,
+   1.3699999999999999,
+   1.3700000000000006,
+   1.3700000000000003
+  ],
+  "max_delta_abs_U": 7.216449660063518e-16,
+  "max_deviation_with_V_Psi": 7.274181640323558e-13,
+  "resonance_density_scale": 3.522753610000002
+ },
+ "N2": {
+  "landau_zener": [
+   {
+    "Delta": 1.0,
+    "P_LZ": 0.06433691252317562,
+    "P_numeric": 0.06433718689014001,
+    "dV/dr": 0.05,
+    "gamma": 1.7466438509032167,
+    "theta": 0.15
+   },
+   {
+    "Delta": 1.0,
+    "P_LZ": 0.045052467834515005,
+    "P_numeric": 0.04505278735753904,
+    "dV/dr": 0.02,
+    "gamma": 1.9734751499278727,
+    "theta": 0.1
+   },
+   {
+    "Delta": 2.0,
+    "P_LZ": 0.0181983492728065,
+    "P_numeric": 0.018198770970718425,
+    "dV/dr": 0.5,
+    "gamma": 2.550568982093306,
+    "theta": 0.3
+   }
+  ],
+  "max_error_matter_angle_rad": 1.1102230246251565e-16,
+  "theta_m_at_resonance_deg": 45.0
+ },
+ "N3": [
+  {
+   "K_m0": 0.0,
+   "K_m1": 0.0,
+   "crossing": false,
+   "distribution": "no crossing, forward nu_e excess",
+   "growth_m0": 1.4496811685684171e-16,
+   "growth_m1": 3.612446921375222e-17,
+   "nodes": 80
+  },
+  {
+   "K_m0": 0.0,
+   "K_m1": 0.0,
+   "crossing": false,
+   "distribution": "no crossing, peaked",
+   "growth_m0": 1.7486827064278993e-16,
+   "growth_m1": 3.251640325448698e-17,
+   "nodes": 80
+  },
+  {
+   "K_m0": 0.0,
+   "K_m1": 0.0,
+   "crossing": false,
+   "distribution": "no crossing, anti-nu_e excess",
+   "growth_m0": 2.2078663955693856e-16,
+   "growth_m1": 1.7720546545495494e-17,
+   "nodes": 80
+  },
+  {
+   "K_m0": 2.3500000000000005,
+   "K_m1": -1.6749999999999998,
+   "crossing": true,
+   "distribution": "crossing, linear",
+   "growth_m0": 3.685036280850986,
+   "growth_m1": 0.5911432619482396,
+   "nodes": 80
+  },
+  {
+   "K_m0": 0.8250000000000002,
+   "K_m1": -0.6749999999999998,
+   "crossing": true,
+   "distribution": "crossing, forward peak",
+   "growth_m0": 2.0692036348581917,
+   "growth_m1": 0.3185585675019357,
+   "nodes": 80
+  },
+  {
+   "K_m0": 0.625,
+   "K_m1": -0.2999999999999998,
+   "crossing": true,
+   "distribution": "crossing, nu_e vs anti-nu_e",
+   "growth_m0": 0.15614323752626771,
+   "growth_m1": 0.023798729697668018,
+   "nodes": 80
+  },
+  {
+   "K_m0": 0.0,
+   "K_m1": 0.0,
+   "crossing": false,
+   "distribution": "no crossing, forward nu_e excess",
+   "growth_m0": 4.4320689287465714e-16,
+   "growth_m1": 1.6986635026782506e-16,
+   "nodes": 160
+  },
+  {
+   "K_m0": 0.0,
+   "K_m1": 0.0,
+   "crossing": false,
+   "distribution": "no crossing, peaked",
+   "growth_m0": 2.1128002950485008e-16,
+   "growth_m1": 1.2393882568549882e-16,
+   "nodes": 160
+  },
+  {
+   "K_m0": 0.0,
+   "K_m1": 0.0,
+   "crossing": false,
+   "distribution": "no crossing, anti-nu_e excess",
+   "growth_m0": 2.564995062079395e-16,
+   "growth_m1": 1.1261085537903577e-16,
+   "nodes": 160
+  },
+  {
+   "K_m0": 2.3500000000000005,
+   "K_m1": -1.6749999999999998,
+   "crossing": true,
+   "distribution": "crossing, linear",
+   "growth_m0": 3.6850362808510226,
+   "growth_m1": 0.5911432619482385,
+   "nodes": 160
+  },
+  {
+   "K_m0": 0.8250000000000002,
+   "K_m1": -0.6749999999999998,
+   "crossing": true,
+   "distribution": "crossing, forward peak",
+   "growth_m0": 2.0692036348582126,
+   "growth_m1": 0.318558567501934,
+   "nodes": 160
+  },
+  {
+   "K_m0": 0.625,
+   "K_m1": -0.2999999999999998,
+   "crossing": true,
+   "distribution": "crossing, nu_e vs anti-nu_e",
+   "growth_m0": 0.1561432375262738,
+   "growth_m1": 0.02379872969778082,
+   "nodes": 160
+  }
+ ],
+ "N4": {
+  "all_in_unit_interval": true,
+  "fraction_pauli_bound_active": 0.22108499999999998,
+  "max_change_ELN": 1.1102230246251565e-16,
+  "max_change_number_nu": 4.440892098500626e-16,
+  "max_change_number_nubar": 4.440892098500626e-16,
+  "max_equipartition_error": 1.1102230246251565e-16,
+  "samples": 200000
+ },
+ "N5": {
+  "Delta_N_eff_nuR_decoupled_above_EW": 0.14055361783883377,
+  "N_eff_instantaneous": 2.9999999999999996,
+  "Omega_nu_h2_denominator_instantaneous_eV": 94.0710356830329,
+  "Omega_nu_h2_denominator_used_eV": 93.14,
+  "T_nu0_K": 1.9453688391750839,
+  "n_nu0_per_cm3_per_flavour": 112.01641316574336
+ },
+ "constants": {
+  "G_F": 1.1663788e-05,
+  "T_gamma0_K": 2.7255,
+  "lambda": 0.1293838555258301,
+  "v": 246.21964023926205
+ },
+ "runtime_s": 232.5
+}

@@ -1,0 +1,33 @@
+{
+ "script": "universe_model_3/code/um3_neutrino.py",
+ "checks": [
+  {
+   "name": "N1_flavour_blindness_and_v_loc",
+   "passed": true,
+   "detail": "V_Psi * 1 changes rho(t) by at most 7.3e-13 (exact: it commutes); v -> 1.37 v leaves |U_PMNS| (max change 7.2e-16) and the Jarlskog invariant (change 4.2e-17) unchanged and scales all six masses by 1.370000; resonance density scales by 3.522754 = (v_loc/v)^4; Delta v^2/v^2 = 1.19e-50 g_hchi for 0.3 GeV/cm^3 and omega_b = 100 GeV"
+  },
+  {
+   "name": "N2_msw_and_landau_zener",
+   "passed": true,
+   "detail": "tan 2theta_m formula vs exact diagonalisation: max error 1.1e-16 rad; theta_m = 45.000000000 deg at n_e,res; Landau-Zener vs exact integration through a linear profile: 0.064337/0.064337, 0.045052/0.045053, 0.018198/0.018199"
+  },
+  {
+   "name": "N3_fast_instability_crossing",
+   "passed": true,
+   "detail": "without an angular crossing all eigenfrequencies are real (max imaginary part 4.4e-16); with a crossing the growth rates are 3.685, 2.069, 0.156 (units of the ELN scale); change from 80 to 160 angular nodes at most 3.9e-14"
+  },
+  {
+   "name": "N4_equipartition_conservation",
+   "passed": true,
+   "detail": "200000 random (F_e, Fbar_e, F_x) in [0,1]^3: ELN, number of nu and of anti-nu conserved to 4.4e-16; every occupation in [0, 1]; the less abundant of nu_e, anti-nu_e equals the heavy flavours (error 1.1e-16) where the Pauli bound is inactive (it is active in 22.1% of the samples)"
+  },
+  {
+   "name": "N5_cnb",
+   "passed": true,
+   "detail": "T_nu0 = 1.9454 K; n_nu0 = 112.02 /cm^3 per flavour; N_eff = 3.000 for instantaneous decoupling; Omega_nu h^2 = sum m/(94.07 eV) for instantaneous decoupling, 1.0% above the 93.14 eV that includes the non-thermal heating of the neutrinos; Delta N_eff = 0.141 for three nu_R decoupling above the electroweak scale"
+  }
+ ],
+ "passed": 5,
+ "total": 5,
+ "all_passed": true
+}
