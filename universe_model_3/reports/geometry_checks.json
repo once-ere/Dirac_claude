@@ -1,0 +1,138 @@
+{
+ "script": "universe_model_3/code/um3_geometry.py",
+ "checks": [
+  {
+   "name": "G1_sqrt_det",
+   "passed": true,
+   "detail": "sqrt|g| = b4^3 cos z on 0 < z < pi/2 (b4^3 |cos z| on the whole cell); a4 cancels"
+  },
+  {
+   "name": "G1_vielbein",
+   "passed": true,
+   "detail": "g = diag(eps_a h_a^2), h = (|cot z|, e^{a4} S^{1/2} (x3), 1, e^{-a4} b4 S^{1/2} (x3))"
+  },
+  {
+   "name": "G1_y_chart",
+   "passed": true,
+   "detail": "y = ln|sin z|/(6H): dy = cot z dx0, so g00 dx0^2 = dy^2 and S = e^{2Hy}: ds^2 = dy^2 + e^{2Hy}(e^{2a4} dx_i^2 - e^{-2a4} b4^2 dx_t^2) - dx4^2, sqrt|g| = b4^3 e^{6Hy}"
+  },
+  {
+   "name": "G2_curvature_free_of_x0",
+   "passed": true,
+   "detail": "39 non-zero frame components R^{ab}_{cd} (a<b, c<d), none depends on x0"
+  },
+  {
+   "name": "G2_sectional_curvatures",
+   "passed": true,
+   "detail": "R^{0i}_{0i} = -H**2; R^{0t}_{0t} = -H**2; R^{ij}_{ij} = H**2*(A - 1)*(A + 1); R^{i4}_{i4} = H**2*(A**2 + Ad); R^{it}_{it} = -H**2*(A**2 - A*U + 1); R^{4t}_{4t} = H**2*(A**2 - 2*A*U - Ad + U**2 + Ud); R^{tt}_{tt} = H**2*(A - U - 1)*(A - U + 1); R^{04}_{04} = 0"
+  },
+  {
+   "name": "G2_mixed_components",
+   "passed": true,
+   "detail": "the only other components: R^{0i}_{4i} = R^{4i}_{0i} sign = H^2 A (i = x1, x2, x3) and R^{0t}_{4t} = H^2 (A - U) (t = x5, x6, x7), with the frame of x0 oriented along cot z (12 components counting both pair orders)"
+  },
+  {
+   "name": "G3_structure",
+   "passed": true,
+   "detail": "every E_(p) has only the diagonal components and the (x0, x4) pair"
+  },
+  {
+   "name": "G3_isotropy",
+   "passed": true,
+   "detail": "E^{x1}_{x1} = E^{x2}_{x2} = E^{x3}_{x3} and E^{x5}_{x5} = E^{x6}_{x6} = E^{x7}_{x7} for every p"
+  },
+  {
+   "name": "G3_free_of_x0",
+   "passed": true,
+   "detail": "no frame component of E_(1), E_(2), E_(3) depends on x0"
+  },
+  {
+   "name": "G3_einstein_two_routes",
+   "passed": true,
+   "detail": "E_(1) from the generalised delta equals R^M_N - delta R/2 from the coordinate Ricci tensor (converted to the frame)"
+  },
+  {
+   "name": "G3_trace_identity",
+   "passed": true,
+   "detail": "E_(p)^a_a = -(8 - 2p)/2 L_(p) for p = 1, 2, 3 with L_(p) from its own sum"
+  },
+  {
+   "name": "G3_bianchi_identity",
+   "passed": true,
+   "detail": "nabla_M E_(p)^M_N = 0 identically (all N, p = 1, 2, 3) for general a4(x4), b4(x4)"
+  },
+  {
+   "name": "G3_gauss_bonnet_explicit",
+   "passed": true,
+   "detail": "E_(2) equals the explicit Gauss-Bonnet tensor 2(R R_ab - 2R_ac R^c_b - 2R_acbd R^cd + R_a^cde R_bcde) - eta_ab L_GB/2 at 4 random points"
+  },
+  {
+   "name": "G3_second_quarter",
+   "passed": true,
+   "detail": "on pi/2 < z < pi (cot z < 0, h0 = -cot z) every component is the same except that those with one x0 frame index change sign (the fold reflection)"
+  },
+  {
+   "name": "G4_author_vacuum",
+   "passed": true,
+   "detail": "a4 = H x4, b4 constant (A = 1, U = 0) solves the vacuum equations with w = (1, 1/32, 1/1152), Lambda = -10 H^2 (the author's eternal inflation/deflation, Dirac_Einstein-Lovelock_4+4_Nash.nb In[134])"
+  },
+  {
+   "name": "G4_offdiagonal_factor",
+   "passed": true,
+   "detail": "the (x0, x4) equation: -(3/16) U G(A, U) H^2 = kappa T^{x0}_{x4} with G = 5A^2(A - U)^2 - 6A^2 + 6AU + U^2 + 1"
+  },
+  {
+   "name": "G4_vacuum_degenerate",
+   "passed": true,
+   "detail": "near the vacuum the energy constraint is kappa rho = -H^2 P44, P44 = (3/4)[(delta - U)^2 + delta^2] + O(3), delta = A - 1: the linear terms vanish (the effective Newton constant is zero at the vacuum) and kappa rho <= 0 to second order"
+  },
+  {
+   "name": "G4_constant_b4",
+   "passed": true,
+   "detail": "with b4 constant: P44 = (A^2 - 1)^2 (5A^2 + 1)/16 >= 0, so kappa rho <= 0 for every expansion rate"
+  },
+  {
+   "name": "G4_diagonal_source_branches",
+   "passed": true,
+   "detail": "G(A, U) = 0 has real roots U only for 5A^4 - 10A^2 + 1 <= 0, i.e. 0.3249 <= |A| <= 1.3764; at A = 1 the roots are U = 0 and U = 2/3"
+  },
+  {
+   "name": "G4_branch_A1_U23",
+   "passed": true,
+   "detail": "a4 = H x4, b4 = b4(0) e^{2 H x4/3}: kappa T = (x0, x1, x4, x5) = (-14/27, -2/9, 2/27, -22/27) H^2 (constant): kappa rho = -2/27 H^2 < 0 and kappa (rho + p_1) = -8/27 H^2 < 0"
+  },
+  {
+   "name": "G4_frozen_extra_times",
+   "passed": true,
+   "detail": "with e^{-a4} b4 constant (U = A): kappa rho = (3A^2 - 1) H^2/16, kappa T^{x0}_{x4} = -(3/16) A (1 + A^2) H^2 and kappa(rho + p_1) = -(6 + 6A^2 + 2Ad) H^2/16 < 0 (the null energy condition is violated unless a4 < -3(1 + A^2) H^2)"
+  },
+  {
+   "name": "G4_positive_energy_needs_fast_b4",
+   "passed": true,
+   "detail": "for U >= 0, kappa rho > 0 needs U above [0.577, 0.506, 0.482, 0.541, 0.577, 0.857, 1.331, 1.853] at A = [0.0, 0.1, 0.3, 0.5, 0.577, 1.0, 1.5, 2.0]: b4 must change at a rate of order H"
+  },
+  {
+   "name": "G4_static_space",
+   "passed": true,
+   "detail": "static 3-space (A = 0): kappa rho = (3U^2 - 1) H^2/16, positive only for |b4'/b4| > H/sqrt 3"
+  },
+  {
+   "name": "G5_spin_connection_antisymmetric",
+   "passed": true,
+   "detail": "omega_{M ab} = -omega_{M ba} (metric compatibility)"
+  },
+  {
+   "name": "G5_gamma_Omega",
+   "passed": true,
+   "detail": "gamma^M Omega_M = 3H T^(x0) + (3/2)(b4'/b4) T^(x4) on 0 < z < pi/2 (T^a = eta^aa T_a; on the second half the first term is -3H T^(x0) with the frame of x0 along cot z): the gravitational coupling of dirac16complex through the canonical spin connection is never identically zero (H > 0)"
+  },
+  {
+   "name": "G5_vielbein_postulate",
+   "passed": true,
+   "detail": "D_M gamma^N = 0 (the gamma matrices are covariantly constant with the canonical spin connection)"
+  }
+ ],
+ "passed": 26,
+ "total": 26,
+ "all_passed": true
+}
