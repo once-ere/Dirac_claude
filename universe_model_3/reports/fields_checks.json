@@ -1,0 +1,88 @@
+{
+ "script": "universe_model_3/code/um3_fields.py",
+ "checks": [
+  {
+   "name": "F1_hermitian_bilinears",
+   "passed": true,
+   "detail": "real (Hermitian) bilinears: Psibar P_X Psi, i Psibar S^{ab} P_X Psi, i Psibar gamma^a Psi, Psibar gamma^a Gamma Psi; Psibar gamma^a P_L Psi is neither real nor imaginary (no Hermitian left-handed vector current exists)"
+  },
+  {
+   "name": "F1_convective_current",
+   "passed": true,
+   "detail": "sigma16 P_X is real and symmetric, so j_X^M = i(Psibar P_X D^M Psi - (D^M Psibar) P_X Psi) is real"
+  },
+  {
+   "name": "F1_kinetic_term_real",
+   "passed": true,
+   "detail": "(sigma16 gamma^a)^T = -sigma16 gamma^a: (1/2)(Psibar gamma^M D_M Psi - (D_M Psibar) gamma^M Psi) is real; no factor i is needed"
+  },
+  {
+   "name": "F2_even_odd_chirality",
+   "passed": true,
+   "detail": "for every one of the 256 products: an even number of gamma matrices gives only P_L-P_L and P_R-P_R terms, an odd number only P_L-P_R terms"
+  },
+  {
+   "name": "F2_adjoint_commutes_with_chirality",
+   "passed": true,
+   "detail": "sigma16 commutes with Gamma (sigma16 is a product of four gamma matrices): (P_X Psi)bar = Psibar P_X"
+  },
+  {
+   "name": "F3_krein_operator",
+   "passed": true,
+   "detail": "B = i sigma16 gamma^(x4) is a Hermitian involution (B^2 = 1, eigenvalues +1 and -1 eight times each); it commutes with gamma^(x0), ..., gamma^(x4) and the mass term, anticommutes with gamma^(x5), gamma^(x6), gamma^(x7) and with Gamma"
+  },
+  {
+   "name": "F3_krein_signature",
+   "passed": true,
+   "detail": "the conserved charge density i Psibar gamma^(x4) Psi = Psi^dagger B Psi has the signature (8, 8)"
+  },
+  {
+   "name": "F4_four_dimensional_chirality",
+   "passed": true,
+   "detail": "Gamma_4 = i T1 T2 T3 T4 is a Hermitian involution anticommuting with gamma^(x1..x4) and commuting with gamma^(x0), gamma^(x5..x7); Gamma_int = i T0 T5 T6 T7 squares to 1; Gamma = -1 Gamma_4 Gamma_int"
+  },
+  {
+   "name": "F4_krein_and_4d_chirality",
+   "passed": true,
+   "detail": "B commutes with Gamma_4: each half B = +-1 contains both four-dimensional chiralities"
+  },
+  {
+   "name": "F5_gauge_boson_masses",
+   "passed": true,
+   "detail": "for Phi = (A, v)/sqrt 2 (A real): one zero eigenvalue (the photon), m_W^2 = g^2 (v^2 + A^2)/4 (twice), m_Z^2 = (g^2 + g'^2)(v^2 + A^2)/4"
+  },
+  {
+   "name": "F5_photon_direction",
+   "passed": true,
+   "detail": "the photon is A = (g B - g' n^I W^I)/sqrt(g^2 + g'^2) with n = (2Av, 0, A^2 - v^2)/(A^2 + v^2): for A = 0 the usual (g B + g' W^3)/sqrt(g^2 + g'^2), for A != 0 rotated towards W^1"
+  },
+  {
+   "name": "F5_isospin_charge_density",
+   "passed": true,
+   "detail": "the ad hoc vacuum carries the weak-isospin current J^2_{x4} = (i/2)[Phi^dagger tau^2 d_4 Phi - c.c.] = a40 v v_A e^{-2 a40 x4} (J^1 = J^3 = 0): a uniform charge density of the second isospin direction, which the Gauss law of W^2 must balance"
+  },
+  {
+   "name": "F5_higgs_residual_upper",
+   "passed": true,
+   "detail": "with mu^2 = -lambda v^2 the upper component A = v_A e^{-2 a40 x4} leaves the residual -(4 a40^2 - 6 a40 u) A - lambda A^3 in its field equation (u = b4'/b4): the ad hoc vacuum is an approximate solution, exact only as A -> 0"
+  },
+  {
+   "name": "F6_yukawa_invariance",
+   "passed": true,
+   "detail": "the four Yukawa terms have total hypercharge 0: {'Qbar Phitilde u_R': '0', 'Qbar Phi d_R': '0', 'lbar Phi e_R': '0', 'lbar Phitilde nu_R': '0'}"
+  },
+  {
+   "name": "F6_anomalies",
+   "passed": true,
+   "detail": "per generation: SU(3)^2U(1) = 0, SU(2)^2U(1) = 0, U(1)^3 = 0, grav^2U(1) = 0, SU(3)^3 = 0; 3 x 4 = 12 SU(2) doublets (even, no Witten anomaly)"
+  },
+  {
+   "name": "F6_electric_charges",
+   "passed": true,
+   "detail": "Q_em = T3 + Y: {'Q': ['2/3', '-1/3'], 'u_R': ['2/3'], 'd_R': ['-1/3'], 'l': ['0', '-1'], 'e_R': ['-1'], 'nu_R': ['0']}"
+  }
+ ],
+ "passed": 16,
+ "total": 16,
+ "all_passed": true
+}
