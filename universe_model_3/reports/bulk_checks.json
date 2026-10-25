@@ -1,0 +1,58 @@
+{
+ "script": "universe_model_3/code/um3_bulk.py",
+ "checks": [
+  {
+   "name": "B1_scalar_k0_spectrum",
+   "passed": true,
+   "detail": "chi = e^{3H|sigma|} u turns the k = 0 mode equation into u'' + (omega^2 - 9H^2) u + 6H delta(sigma) u = 0: one bound state u = e^{-3H|sigma|} (chi = 1, omega = 0: the normalisable zero mode) and the continuum omega >= 3H (a gap 3H between the zero mode and the bulk modes)"
+  },
+  {
+   "name": "B1_scalar_zero_mode_speed",
+   "passed": true,
+   "detail": "omega^2 = (3/2) k^2 + O(k^4) for the zero mode (k the comoving momentum in units of the fold light cone): c_scalar^2 = <e^{2H|sigma|}> = 3/2; finite-difference eigenvalue omega^2/k^2 = 1.50005 (k = 0.02 H), 1.49993 (k = 0.05 H)"
+  },
+  {
+   "name": "B2_gauge_zero_mode_speed",
+   "passed": true,
+   "detail": "Maxwell field in the bulk: (e^{-4H|sigma|} A')' + (omega^2 e^{-4H|sigma|} - k^2 e^{-2H|sigma|}) A = 0; the flat zero mode (the photon of a bulk gauge field) has c_gauge^2 = 2; numerical 1.99875, 1.99410"
+  },
+  {
+   "name": "B3_fermion_zero_mode_speed",
+   "passed": true,
+   "detail": "for a bulk fermion with the kink mass M sgn(sigma), the zero mode Psi_- ~ e^{(3H - M)|sigma|} is normalisable for M > 0 and moves with c = N_s/N_t = 2M/(2M - H) (finite for M > H/2): every species with its own profile has its own speed, the deviation H/(2M - H)"
+  },
+  {
+   "name": "B4_dirac16complex_dispersion",
+   "passed": true,
+   "detail": "(D + m_L P_R + m_R P_L)(D - m_L P_L - m_R P_R) = (omega^2 - p_sigma^2 - k^2 - m_L m_R) I_16 with D = i p_sigma T^(x0) - i omega T^(x4) + i k T^(x3) (D anticommutes with T16^A[8]): all 16 roots have omega^2 = p_sigma^2 + k^2 + m_L m_R; the rest energy is sqrt(m_L m_R); m_L m_R < 0 is tachyonic"
+  },
+  {
+   "name": "B5_graviton_einstein_limit",
+   "passed": true,
+   "detail": "principal symbol of delta E^1_2 for a transverse traceless wave h_12 = h_21 ~ e^{i(k3 x3 + k4 x4)} (frame components, eikonal): (c33 k3^2 + c44 k4^2) h with c33 = -c44 = 1/2 in flat space: the light cone"
+  },
+  {
+   "name": "B5_graviton_static_block",
+   "passed": true,
+   "detail": "at the static block c33 = 5/32, c44 = -1/32: the Gauss-Bonnet and cubic terms reduce the time-kinetic term of the graviton sixteen-fold and its gradient term 3.2-fold; the local graviton cone is v^2 = 5 times the light cone of the frame"
+  },
+  {
+   "name": "B5_graviton_author_vacuum_degenerate",
+   "passed": true,
+   "detail": "at the author's vacuum (A = 1, U = 0) c44 = 0 (c33 = 1/2): the transverse traceless graviton has no time-kinetic term -- the author's vacuum is a degenerate vacuum of the Lovelock theory (strongly coupled gravitons; the same degeneracy as the vanishing linear response of the energy constraint, um3_geometry G4)"
+  },
+  {
+   "name": "B5_graviton_zero_mode_speed",
+   "passed": true,
+   "detail": "zero mode of the graviton at the static block (flat profile, constant coefficients, weight e^{-6H|sigma|} for the time term and e^{-4H|sigma|} for the gradient term): c_g^2 = v_local^2 x 3/2 = 15/2, c_g = 2.7386 times the light cone of the fold (GW170817 requires |c_g - c| < 1e-15 c)"
+  },
+  {
+   "name": "B6_speed_summary",
+   "passed": true,
+   "detail": "fold_confined_matter_and_light: 1.000000; bulk_photon_zero_mode: 1.414214; bulk_scalar_zero_mode: 1.224745; bulk_graviton_zero_mode_static_block: 2.738613; bulk_fermion_zero_mode_M=H: 2.000000; bulk_fermion_zero_mode_M=10H: 1.052632; bulk_fermion_zero_mode_M=1e3H: 1.000500 -- different species in the bulk move with different limiting speeds (excluded at the 1e-15 to 1e-20 level for photons and charged matter); confining the Standard Model to the fold gives all of it the one light cone of the fold"
+  }
+ ],
+ "passed": 10,
+ "total": 10,
+ "all_passed": true
+}

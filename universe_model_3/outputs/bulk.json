@@ -1,0 +1,48 @@
+{
+ "gauge_zero_mode_c2": "2",
+ "graviton_author_vacuum": {
+  "c33": "1/2",
+  "c44": "0"
+ },
+ "graviton_principal_symbol": {
+  "einstein_flat": {
+   "c33": "1/2",
+   "c44": "-1/2"
+  },
+  "general_background": {
+   "c33": "(A**4 - 4*A**3*U - A**2*Ad + 6*A**2*U**2 + A**2*Ud + 10*A**2 + 2*A*Ad*U - 4*A*U**3 - 2*A*U*Ud - 20*A*U - Ad*U**2 - 3*Ad + U**4 + U**2*Ud + 10*U**2 + 3*Ud + 5)/32",
+   "c34": "0",
+   "c44": "(A**4 - 3*A**3*U + 3*A**2*U**2 - A*U**3 + 3*A*U - 3*U**2 - 1)/32"
+  },
+  "per_order_general": {
+   "1": {
+    "c33": "1/2",
+    "c44": "-1/2"
+   },
+   "2": {
+    "c33": "3*(2*A**2 - 4*A*U - Ad + 2*U**2 + Ud - 2)/16",
+    "c44": "(3*A*U - 3*U**2 + 10)/16"
+   },
+   "3": {
+    "c33": "(A**4 - 4*A**3*U - A**2*Ad + 6*A**2*U**2 + A**2*Ud - 2*A**2 + 2*A*Ad*U - 4*A*U**3 - 2*A*U*Ud + 4*A*U - Ad*U**2 + 3*Ad + U**4 + U**2*Ud - 2*U**2 - 3*Ud + 1)/32",
+    "c44": "(A**4 - 3*A**3*U + 3*A**2*U**2 - A*U**3 - 3*A*U + 3*U**2 - 5)/32"
+   }
+  }
+ },
+ "graviton_static_block": {
+  "c33": "5/32",
+  "c44": "-1/32"
+ },
+ "graviton_zero_mode_c2_static_block": "15/2",
+ "runtime_s": 9.5,
+ "scalar_zero_mode_c2": "3/2",
+ "speeds_relative_to_fold_light_cone": {
+  "bulk_fermion_zero_mode_M=10H": 1.0526315789473684,
+  "bulk_fermion_zero_mode_M=1e3H": 1.0005002501250626,
+  "bulk_fermion_zero_mode_M=H": 2.0,
+  "bulk_graviton_zero_mode_static_block": 2.7386127875258306,
+  "bulk_photon_zero_mode": 1.4142135623730951,
+  "bulk_scalar_zero_mode": 1.224744871391589,
+  "fold_confined_matter_and_light": 1.0
+ }
+}
