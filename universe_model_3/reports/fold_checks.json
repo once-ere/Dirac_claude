@@ -1,0 +1,73 @@
+{
+ "script": "universe_model_3/code/um3_fold.py",
+ "checks": [
+  {
+   "name": "J1_proper_chart",
+   "passed": true,
+   "detail": "sigma = ln(sin z)/(6H) on 0<z<pi/2 and -ln(sin z)/(6H) on pi/2<z<pi: d sigma = |cot z| dx0 (so g00 dx0^2 = d sigma^2), sigma increases monotonically through the fold z = pi/2 (sigma = 0) and runs to -inf/+inf at the tips z -> 0, pi; e^{-2H|sigma|} = (sin^2 z)^{1/6}: one period of x0 is the whole sigma line"
+  },
+  {
+   "name": "J2_general_structure",
+   "passed": true,
+   "detail": "the general warped metric (fa, fb, fn of sigma and x4) has non-zero Einstein-Lovelock components only on the diagonal and in the (sigma, x4) pair; isotropic in x1..x3 and in x5..x7"
+  },
+  {
+   "name": "J2_reduces_to_author_metric",
+   "passed": true,
+   "detail": "with fa = a4 - H|sigma|, fb = ln b4 - a4 - H|sigma|, fn = 0 the general equations reduce, on both sides of the fold, to those of um3_geometry.py (G4); the (sigma, x4) component changes sign across the fold"
+  },
+  {
+   "name": "J3_quasi_linear",
+   "passed": true,
+   "detail": "every component is linear in fa_ss, fb_ss, fn_ss (no products of second sigma-derivatives, the property of Lovelock gravity that makes thin sources well defined); the (sigma,sigma) and (sigma,x4) components contain no second sigma-derivative (constraints)"
+  },
+  {
+   "name": "J4_exact_differential",
+   "passed": true,
+   "detail": "the coefficients of (fa_ss, fb_ss, fn_ss) in each diagonal fold-direction component are the gradient of a potential F(fa_s, fb_s, fn_s; x4-derivatives): the integral across a thin fold depends only on the values of the first sigma-derivatives on its two sides"
+  },
+  {
+   "name": "J5_author_vacuum_fold_source",
+   "passed": true,
+   "detail": "at the author's vacuum (a4 = H x4, b4 constant) the fold carries kappa S = diag(x1..x3: -10H, x4: -6H, x5..x7: -10H): energy density kappa rho_fold = 6H > 0 and pressures kappa p = -10H (the metric is not a vacuum solution at the fold; it needs a thin source there)"
+  },
+  {
+   "name": "J5_static_block_fold_source",
+   "passed": true,
+   "detail": "at the static block (A = U = 0): kappa S = diag(-61/8, -31/4, -61/8) H: kappa rho_fold = 31H/4, kappa p_fold = -61H/8, rho + p = H/(8 kappa) > 0"
+  },
+  {
+   "name": "J5_no_thin_part_in_constraints",
+   "passed": true,
+   "detail": "the (sigma,sigma) and (sigma,x4) components carry no delta function (J3): the bulk constraints hold on each side, the (sigma,x4) flux changes sign across the fold"
+  },
+  {
+   "name": "J5_smoothed_kink",
+   "passed": true,
+   "detail": "replacing the kink by fa_s = fb_s = -H tanh(sigma/eps) and integrating the full left-hand side across the layer reproduces kappa S (relative deviation 1.5e-04 at eps = 1e-5 for 3 random (H, A, U, Ad, Ud), falling linearly with eps: the remainder is the O(eps) regular part)"
+  },
+  {
+   "name": "J6_fold_conservation",
+   "passed": true,
+   "detail": "D_a S^a_4 + [kappa T^sigma_4] = 0 identically for general a4(x4), b4(x4): the fold source loses exactly the energy that the bulk flux T^sigma_4 carries away on both sides"
+  },
+  {
+   "name": "J7_frozen_fold_energy",
+   "passed": true,
+   "detail": "with frozen extra times (U = A): kappa rho_fold = (31 + 10 A^2) H/4, i.e. kappa (rho_fold - 31H/(4 kappa)) = (5/2) a4'^2/H: in the separable metric the fold energy above the static value fixes the expansion rate a4'"
+  },
+  {
+   "name": "J7_frozen_fold_pressure",
+   "passed": true,
+   "detail": "and kappa p_fold(x1..x3) = (183 + 57 A^2 + 40 Ad) H/24 (with Ad = a4''/H^2)"
+  },
+  {
+   "name": "J7_separable_metric_too_rigid",
+   "passed": true,
+   "detail": "a conserved fold fluid on top of the static values is compatible with the separable metric only for one equation of state, p = -rho/40: for radiation or dust the metric functions must also depend on sigma near the fold (the next terms of the power series of the metric)"
+  }
+ ],
+ "passed": 13,
+ "total": 13,
+ "all_passed": true
+}
