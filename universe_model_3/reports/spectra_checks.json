@@ -1,0 +1,33 @@
+{
+ "script": "universe_model_3/code/um3_spectra.py",
+ "checks": [
+  {
+   "name": "S1_bulk_transfer",
+   "passed": true,
+   "detail": "K(omega) = T^(x0)(m_Psi + i omega T^(x4)) satisfies K^2 = (m_Psi^2 - omega^2) I16: on each side chi = e^{+-lambda sigma}, lambda = sqrt(m_Psi^2 - omega^2), eight solutions each; |omega| >= m_Psi is the bulk continuum at k = 0"
+  },
+  {
+   "name": "S2_fold_transfer",
+   "passed": true,
+   "detail": "(T^(x0)(mu_L P_L + mu_R P_R))^2 = mu_L mu_R I16, so the fold transfer is cosh s + (sinh s/s) T^(x0)(mu_L P_L + mu_R P_R) with s = sqrt(mu_L mu_R); for mu_R = 0 (Higgs portal only) T^(x0) P_L is nilpotent and the transfer is exactly 1 + mu_L T^(x0) P_L: only the right-handed half jumps"
+  },
+  {
+   "name": "S3_bound_states",
+   "passed": true,
+   "detail": "roots of det N(omega) with the exact 16 x 16 matrices agree with lambda_b = -m_Psi (mu_L + mu_R) tanh(s)/(2s), omega_b = sqrt(m_Psi^2 - lambda_b^2) to 1e-7 for 7 cases, eight-fold degenerate; no bound state when mu_L + mu_R >= 0: (-0.4, 0): omega_b = 0.979796; (-1, 0): omega_b = 0.866025; (-0.6, -0.3): omega_b = 0.905282; (-0.5, 0.2): omega_b = 0.987882; (-1.5, -0.5): omega_b = 0.589814; (0.4, 0): none; (0.3, 0.2): none"
+  },
+  {
+   "name": "S4_krein_signature",
+   "passed": true,
+   "detail": "B = i sigma16 T^(x4) is a Hermitian involution; the Krein Gram matrix of the eight bound states at +omega_b has [(4, 4, 0), (4, 4, 0), (4, 4, 0)] (positive, negative, null) eigenvalues for (mu_L, mu_R) = [(-0.4, 0.0), (-0.6, -0.3), (-1.0, 0.0)]"
+  },
+  {
+   "name": "S5_bound_state_speed",
+   "passed": true,
+   "detail": "first-order estimate c_b^2 = <e^{2H|sigma|}> = lambda_b/(lambda_b - H) of the bound states (mu_L = -1, mu_R = 0, lambda_b = m_Psi/2): H = 0.10 m: 1.250, H = 0.25 m: 2.000, H = 0.40 m: 5.000; the bound states are slower than the bulk continuum but faster than light on the fold; for lambda_b <= H the average diverges and the dispersion is not of the form omega_b^2 + c^2 k^2"
+  }
+ ],
+ "passed": 5,
+ "total": 5,
+ "all_passed": true
+}

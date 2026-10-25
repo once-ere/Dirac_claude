@@ -1,0 +1,135 @@
+{
+ "bound_state_speed_estimate": [
+  {
+   "H_over_mPsi": 0.1,
+   "c_b^2_estimate": 1.25,
+   "lambda_b": 0.5
+  },
+  {
+   "H_over_mPsi": 0.25,
+   "c_b^2_estimate": 2.0,
+   "lambda_b": 0.5
+  },
+  {
+   "H_over_mPsi": 0.4,
+   "c_b^2_estimate": 5.000000000000001,
+   "lambda_b": 0.5
+  }
+ ],
+ "bound_states_k0_m1": [
+  {
+   "bound_state": true,
+   "lambda_b": 0.2,
+   "mu_L": -0.4,
+   "mu_R": 0.0,
+   "multiplicity": 8,
+   "omega_b_analytic": 0.9797958971132712,
+   "omega_b_numerical": 0.9797958947295915
+  },
+  {
+   "bound_state": true,
+   "lambda_b": 0.5,
+   "mu_L": -1.0,
+   "mu_R": 0.0,
+   "multiplicity": 8,
+   "omega_b_analytic": 0.8660254037844386,
+   "omega_b_numerical": 0.866025406335925
+  },
+  {
+   "bound_state": true,
+   "lambda_b": 0.4248119942810426,
+   "mu_L": -0.6,
+   "mu_R": -0.3,
+   "multiplicity": 8,
+   "omega_b_analytic": 0.9052815968056367,
+   "omega_b_numerical": 0.9052815916350964
+  },
+  {
+   "bound_state": true,
+   "lambda_b": 0.15520843713685573,
+   "mu_L": -0.5,
+   "mu_R": 0.2,
+   "multiplicity": 8,
+   "omega_b_analytic": 0.9878817444621267,
+   "omega_b_numerical": 0.987881744299375
+  },
+  {
+   "bound_state": true,
+   "lambda_b": 0.8075387894207214,
+   "mu_L": -1.5,
+   "mu_R": -0.5,
+   "multiplicity": 8,
+   "omega_b_analytic": 0.589814465387986,
+   "omega_b_numerical": 0.5898144695000724
+  },
+  {
+   "bound_state": false,
+   "min_det": 4.299816959999998,
+   "mu_L": 0.4,
+   "mu_R": 0.0
+  },
+  {
+   "bound_state": false,
+   "min_det": 7.326330087451031,
+   "mu_L": 0.3,
+   "mu_R": 0.2
+  }
+ ],
+ "krein_norm_bound_states": [
+  {
+   "eigenvalues": [
+    -4.898979485566361,
+    -4.898979485566356,
+    -4.898979485566353,
+    -4.89897948556635,
+    4.898979485566352,
+    4.898979485566357,
+    4.898979485566357,
+    4.898979485566361
+   ],
+   "mu_L": -0.4,
+   "mu_R": 0.0,
+   "negative": 4,
+   "null": 0,
+   "omega_b": 0.9797958971132712,
+   "positive": 4
+  },
+  {
+   "eigenvalues": [
+    -2.3257027588020547,
+    -2.325702758802054,
+    -2.325702758802051,
+    -2.32570275880205,
+    2.325702758802051,
+    2.3257027588020516,
+    2.325702758802052,
+    2.325702758802054
+   ],
+   "mu_L": -0.6,
+   "mu_R": -0.3,
+   "negative": 4,
+   "null": 0,
+   "omega_b": 0.9052815968056367,
+   "positive": 4
+  },
+  {
+   "eigenvalues": [
+    -1.7320508075688787,
+    -1.7320508075688779,
+    -1.7320508075688774,
+    -1.7320508075688759,
+    1.7320508075688765,
+    1.732050807568878,
+    1.7320508075688785,
+    1.7320508075688799
+   ],
+   "mu_L": -1.0,
+   "mu_R": 0.0,
+   "negative": 4,
+   "null": 0,
+   "omega_b": 0.8660254037844386,
+   "positive": 4
+  }
+ ],
+ "runtime_s": 1.1
+}
