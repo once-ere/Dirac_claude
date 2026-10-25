@@ -11,8 +11,10 @@ and the field equations of the bulk (sigma != 0), Einstein-Lovelock gravity,
 alpha_(p) = w_(p) H^{2-2p}, E_(p) the Lovelock tensor of order p.  ST1 to ST8 use the author's original weights
 w_(1) = 1, w_(2) = 1/32, w_(3) = 1/1152 and Lambda = -10 H^2: they are the record of the stabiliser as it was found on
 2026-10-24.  ST9 uses the corrected weights w_(2) = 1/20, w_(3) = 1/360 and Lambda = -7 H^2 (the author's order of
-2026-10-25 07:55: gravitons must travel at the speed of light; these weights are the only ones for which they do, and
-then Lambda = -7 H^2 makes the static bulk a vacuum): with them the stabiliser is zero.  With A = a4'/H and U = b4'/(b4 H)
+2026-10-25 07:55: gravitons must travel at the speed of light; these are the only weights for which the graviton of the
+fold travels at the speed of light and no graviton of the static bulk travels faster, because the bulk then has no
+linear graviton at all (um3_weights.py W3, um3_linear.py LN2), and with them Lambda = -7 H^2 makes the static bulk a
+vacuum): with them the stabiliser is zero.  With A = a4'/H and U = b4'/(b4 H)
 (constant rates, a4'' = b4'' = 0 except where stated) the left-hand side is a polynomial in A and U.
 Checks:
   ST1  the static bulk (A = U = 0, a4 and b4 constant): the left-hand side is H^2 diag(-5/16, -5/16, -5/16, -5/16, 1/16,
@@ -26,7 +28,8 @@ Checks:
        the fold that the static block needs, the jump of the junction potentials (the field equations are linear in the
        second sigma-derivatives, the delta functions of the kink): (x1, x4, x5)/H = Einstein (-10, -12, -10), equal to
        Israel's -([K^a_b] - delta^a_b [K]), Gauss-Bonnet (5/2, 5, 5/2), cubic (-1/8, -3/4, -1/8), total (-61/8, -31/4, -61/8);
-  ST2  the author's vacuum (A = 1, U = 0): the left-hand side vanishes, the primordial bulk needs no stabiliser; its fold
+  ST2  the author's vacuum (A = 1, U = 0): the left-hand side vanishes (with the original weights the primordial bulk of
+       the earlier version, the author's vacuum, needed no stabiliser); its fold
        source is kappa S = (-10, -6, -10) H; near it kappa rho_bulk = -(H^2/16) P with P = 12 ((A - 1 - U)^2 + (A - 1)^2)
        to second order; G(1, U) = 2U(3U - 2);
   ST3  without any bulk source: with constant rates the bulk equations hold only at (A, U) = (+-1, 0); for any a4(x4),
@@ -47,16 +50,19 @@ Checks:
   ST6  history: a medium that couples only to gravity obeys nabla_M T^M_4 = 0; for a homogeneous medium with the pressure p
        in every warped direction this is rho' = -3 (b4'/b4) (rho + p), so with p = 5 rho, rho b4^18 is constant (dsolve):
        a stabiliser absent in the author's vacuum stays absent.  With frozen extra times (U = A, any a4(x4)) the bulk
-       source that the equations require is FE-33 (with its A1 = a4''/H^2 terms), with the flux kappa T^sigma_4 =
+       source that the original equations require is SB-14 of the document STABILISER (with its A1 = a4''/H^2 terms),
+       with the flux kappa T^sigma_4 =
        (3/16) A (1 + A^2) H^2 sgn(sigma), whose current -T^sigma_4 points towards the fold on both sides and jumps by
-       (3/8) A (1 + A^2) H^2; the source of the fold of FE-33, computed here from the junction potentials, with S^4_4 free
+       (3/8) A (1 + A^2) H^2; the source of the fold of SB-14, computed here from the junction potentials, with S^4_4 free
        of A1.  Energy budget, a consequence of the Bianchi identity: kappa (rho_bulk + p_1) = -(3/8)(1 + A^2) H^2 at
        constant A, and -3 a4' (rho_bulk + p_1) integrated over sigma with the volume weight e^{-6 H |sigma|} equals the
        jump; at the static block the source of the fold is a tension kappa lambda_F = 61 H/8 plus a pressureless part
-       kappa rho_d = H/8 (the fold fluid, FE-65), and 3 a4' rho_d is the part of the jump linear in A; the source of the
+       kappa rho_d = H/8 (the fold fluid of the original weights, SB-10 and SB-16 of STABILISER), and 3 a4' rho_d is the part
+       of the jump linear in A; the source of the
        fold takes up exactly the jump, rho_S' + 3 a4' (rho_S + p_S) = [T^sigma_4] for any a4(x4) (the conservation law at
        the fold, an identity);
-  ST7  why UM-3 needs it: every term of the fold carries Z = V_t (e^{-a4} b4)^3/V_*, so a coupling has g_eff^2 = g^2/Z and
+  ST7  why UM-3 with the original weights needed it (a record): every term of the fold carries Z = V_t (e^{-a4} b4)^3/V_*,
+       so a coupling has g_eff^2 = g^2/Z and
        d ln g_eff^2/dx4 = 3H (A - U): 3H in the author's vacuum, 0 with frozen extra times; the author's vacuum as the late
        universe (H = H_0) would give Delta ln alpha = 3 H_0 Delta t = 0.37 over the 1.8 Gyr since the natural reactor of
        Oklo, more than a million times the bound |Delta alpha/alpha| < 1.2e-7; integrated over the hidden direction and
@@ -136,7 +142,9 @@ within the period:
                 frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,
                                     kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:
      the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a
-     place but a physical object: a thin layer that carries energy and momentum (a brane).
+     place but a physical object: a thin layer that carries energy and momentum (a brane). (FD-11 and FD-12 were added
+     to this definition on 2026-10-25, after FD-1 to FD-10, with the corrected Lovelock weights; they stand here because
+     they belong to property 3.)
   4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
      nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
         (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
@@ -572,7 +580,7 @@ def main():
     ode = sp.Eq(sp.diff(rr, x4), -18 * sp.diff(b4f, x4) / b4f * rr)
     solved = sp.dsolve(ode, rr)
     dsolve_ok = sp.simplify(sp.diff(solved.rhs * b4f ** 18, x4)) == 0 and solved.rhs != 0
-    # frozen extra times (U = A, U1 = A1), any a4(x4): the bulk source of FE-33 (A1 = Ad = a4''/H^2)
+    # frozen extra times (U = A, U1 = A1), any a4(x4): the bulk source of SB-14 (original weights; A1 = Ad = a4''/H^2)
     froz = bulk_lhs(L, 1, {U: A, Ud: Ad})
     froz_m = bulk_lhs(L, -1, {U: A, Ud: Ad})
     fe33_bulk = {'rho': (3 * A ** 2 - 1) / 16,
@@ -624,7 +632,7 @@ def main():
               and sp.simplify(flux_p + flux_m) == 0 and budget_ok and fluid_ok,
               'nabla_M T^M_4 = %s for a homogeneous medium (p in every warped direction): rho\' = -3 (b4\'/b4)(rho + p), and '
               'with p = 5 rho %s, i.e. rho b4^18 constant: a stabiliser absent in the author\'s vacuum stays absent; with '
-              'frozen extra times (U = A, any a4(x4), A1 = a4\'\'/H^2) the required bulk source is FE-33 (verified with its '
+              'frozen extra times (U = A, any a4(x4), A1 = a4\'\'/H^2) the required bulk source is SB-14 (verified with its '
               'A1 terms) and carries the flux kappa T^sigma_4 = %s H^2 (sigma > 0), %s H^2 (sigma < 0), which jumps by %s H^2 at '
               'the fold: the energy current -T^sigma_4 points towards the fold on both sides; the source of the fold (the '
               'jump of the junction potentials) is %s H (x1, x4, x5), with S^4_4 free of A1; energy budget (a consequence of '

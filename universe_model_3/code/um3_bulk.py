@@ -18,9 +18,12 @@ stated; speeds relative to the light cone of the fold):
   B5  gravitons (transverse traceless h_12 in ordinary space, h_56 in the extra times) with the Einstein-Lovelock terms
       of the corrected weights w = (1, 1/20, 1/360), Lambda = -7 H^2 (the author's order of 2026-10-25 07:55; the
       author's original weights were (1, 1/32, 1/1152), Lambda = -10 H^2): the principal symbol of the bulk equation at
-      the static block, on every background with frozen extra times and with static ordinary space; it vanishes, so the
-      graviton has no bulk term and is carried by the fold (um3_weights.py W7: speed of light); the record of the
-      author's weights (local cone v^2 = 5);
+      the static block, on every background with frozen extra times and with static ordinary space.  At the static block
+      it vanishes for both polarisations (for every perturbation of the metric: um3_linear.py LN2); with frozen extra
+      times h_12 still has no bulk term, so the four-dimensional graviton is carried by the fold (um3_weights.py W7: the
+      speed of light at every wavelength, at linear order), while h_56 has a gradient term proportional to A^2 without a
+      time-kinetic term (it responds instantaneously, it is not a wave); with static ordinary space h_12 has the same
+      structure; the record of the author's weights (local cone v^2 = 5);
   B6  summary: relative speeds of fold-confined matter, bulk photons, the graviton and bulk fermion zero modes.
 Reads outputs/geometry.json and reports/weights_checks.json (run um3_geometry.py and um3_weights.py first).
 Writes outputs/bulk.json and reports/bulk_checks.json; exit code 0 iff every check passes.
@@ -80,7 +83,9 @@ within the period:
                 frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,
                                     kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:
      the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a
-     place but a physical object: a thin layer that carries energy and momentum (a brane).
+     place but a physical object: a thin layer that carries energy and momentum (a brane). (FD-11 and FD-12 were added
+     to this definition on 2026-10-25, after FD-1 to FD-10, with the corrected Lovelock weights; they stand here because
+     they belong to property 3.)
   4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
      nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
         (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
@@ -416,25 +421,30 @@ def main():
               'on every background with frozen extra times (U = A, any a4(x4): the vacua of the corrected weights) the principal '
               'symbol of the polarisation h_12 in ordinary space vanishes identically (c33 = c44 = c34 = 0), and that of the '
               'polarisation h_56 in the extra times is c33 = %s, c44 = %s: a gradient term without a time-kinetic term, zero at '
-              'the static block; neither is a wave in the bulk' % (c33_frx, c44_frx))
+              'the static block; neither is a wave in the bulk: h_12 has no bulk operator, h_56 a gradient term without a '
+              'time-kinetic term, a mode that responds instantaneously (um3_linear.py LN4: no component of the metric has a '
+              'time-kinetic term on this branch)' % (c33_frx, c44_frx))
     ssv = {Asym: 0, Adsym: 0}
     c33_ss, c44_ss = sp.factor(sp.simplify(c33g.subs(ssv))), sp.factor(sp.simplify(c44g.subs(ssv)))
     out['graviton_static_space'] = {'c33': str(c33_ss), 'c44': str(c44_ss)}
     rep.check('B5_graviton_static_space', c44_ss == 0
               and sp.simplify(c33_ss - Usym ** 2 * (Usym ** 2 + Udsym + 4) / 10) == 0,
               'on the vacua with static ordinary space (A = 0, any b4(x4), U = b4\'/(H b4)) the principal symbol of h_12 is '
-              'c33 = %s, c44 = %s: again no time-kinetic term (a gradient term that vanishes for constant b4); these vacua have '
-              'no expansion of ordinary space and are not the branch of the observed universe' % (c33_ss, c44_ss))
+              'c33 = %s, c44 = %s: again no time-kinetic term (a gradient term that vanishes for constant b4; on the fold its '
+              'thin part has the coefficient ratio (8 + 9U^2 + 6U1)/(8 + 6U^2) and couples to the jump of h_s, '
+              'um3_weights.py W7, so its propagation is OPEN); these vacua have no expansion of ordinary '
+              'space and are not the branch of the observed universe' % (c33_ss, c44_ss))
     wts = json.loads((UM3 / 'reports' / 'weights_checks.json').read_text())
-    w7 = [c for c in wts['checks'] if c['name'] == 'W7_graviton_at_the_speed_of_light']
-    w7_ok = bool(w7) and w7[0]['passed'] and '(8/(15H))(h_tt + 3 A H h_t - h_33)' in w7[0]['detail']
-    out['graviton_on_the_fold'] = '(8/(15H)) (h_tt + 3 A H h_t - h_33): c_g = 1'
+    w7 = [c for c in wts['checks'] if c['name'] == 'W7_gravitons_on_the_vacuum_branches']
+    w7_ok = bool(w7) and w7[0]['passed'] and '(8/(15H))(h_tt + 3 A H h_t - e^{-2 a4} h_33)' in w7[0]['detail']
+    out['graviton_on_the_fold'] = '(8/(15H)) (h_tt + 3 A H h_t - e^{-2 a4} h_33): c_g = 1 (linear order, frozen extra times)'
     rep.check('B5_graviton_lives_on_the_fold', w7_ok,
-              'with no bulk term, the long-wavelength graviton is carried by the fold alone: the thin part of its equation at '
-              'the fold (um3_weights.py W7) is (8/(15H))(h_tt + 3 A H h_t - h_33) = (kappa/(2 kappa_7))(h_tt + 3 a4\' h_t - '
-              'e^{-2 a4} nabla^2 h), the graviton of four-dimensional general relativity: speed c_g = 1 (the light cone of the '
-              'fold) at every wavelength; with the author\'s weights the bulk part alone gave c_g^2 = 15/2 and bulk plus fold '
-              'c_g^2 = 83/82')
+              'with no bulk term, the four-dimensional graviton h_12 is carried by the fold alone: the thin part of its '
+              'equation at the fold (um3_weights.py W7) is (8/(15H))(h_tt + 3 A H h_t - e^{-2 a4} h_33) = (kappa/(2 kappa_7))'
+              '(h_tt + 3 a4\' h_t - e^{-2 a4} nabla^2 h), the graviton of four-dimensional general relativity: speed c_g = 1 '
+              '(the light cone of the fold) at every wavelength, at linear order (the bulk is degenerate, so the coupling to '
+              'it at higher orders is not controlled); the polarisation h_56 is not luminal on the fold (W7); with the '
+              'author\'s weights the bulk part alone gave c_g^2 = 15/2 and bulk plus fold c_g^2 = 83/82')
 
     # ---------------- B6: summary
     summary = {
@@ -448,7 +458,8 @@ def main():
     }
     out['speeds_relative_to_fold_light_cone'] = summary
     rep.check('B6_speed_summary', True, '; '.join('%s: %.6f' % kv for kv in summary.items()) +
-              ' -- the graviton travels at the speed of light (it has no bulk term with the corrected weights); fields that '
+              ' -- the four-dimensional graviton of the fold travels at the speed of light at linear order (with the corrected '
+              'weights it has no bulk term); fields that '
               'propagate in the bulk move with other limiting speeds (excluded at the 1e-15 to 1e-20 level for photons and '
               'charged matter); confining the Standard Model to the fold gives all of it the one light cone of the fold')
     out['runtime_s'] = round(time.time() - t0, 1)

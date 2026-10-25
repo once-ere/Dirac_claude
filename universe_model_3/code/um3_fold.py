@@ -13,7 +13,8 @@ Computed exactly (sympy):
   J2  the frame curvature of the general warped metric
       ds^2 = d sigma^2 + e^{2 fa} dx_i^2 - e^{2 fn} dx4^2 - e^{2 fb} dx_r^2,   fa, fb, fn functions of (sigma, x4),
       and its Einstein-Lovelock tensor sum_p alpha_p E_(p) + Lambda (the corrected weights w = (1, 1/20, 1/360),
-      Lambda = -7 H^2, for which gravitons travel at the speed of light, um3_weights.py), all
+      Lambda = -7 H^2, for which the graviton of the fold travels at the speed of light and the static bulk has no
+      linear graviton, um3_weights.py), all
       non-zero components; reduction to the author's metric (fa = a4 - H|sigma|, fb = ln b4 - a4 - H|sigma|, fn = 0)
       reproduces the equations of um3_geometry.py;
   J3  quasi-linearity: every component is linear in the second sigma-derivatives fa_ss, fb_ss, fn_ss, and the
@@ -29,7 +30,9 @@ Computed exactly (sympy):
   J7  the frozen extra times (U = A): the bulk needs no source for any a4(x4); the fold source is the tension plus
       matter that obeys the two Friedmann equations of four-dimensional general relativity with kappa_7 = 15 kappa H/16
       (per unit volume of the fold); the extra-time component requires a pressure along the extra times that ordinary
-      matter does not have: the separable metric is too rigid for it (the next terms of the power series of the metric).
+      matter does not supply: UM-3 assumes that the fold fluid supplies the remainder, the holding pressure q_hold
+      (FE-65); a response of the metric that depends on sigma cannot supply it at first order, because the static block
+      is a degenerate vacuum (um3_series.py SR3), and is OPEN.
 Writes outputs/fold.json and reports/fold_checks.json; exit code 0 iff every check passes.
 Usage: python universe_model_3/code/um3_fold.py
 
@@ -87,7 +90,9 @@ within the period:
                 frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,
                                     kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:
      the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a
-     place but a physical object: a thin layer that carries energy and momentum (a brane).
+     place but a physical object: a thin layer that carries energy and momentum (a brane). (FD-11 and FD-12 were added
+     to this definition on 2026-10-25, after FD-1 to FD-10, with the corrected Lovelock weights; they stand here because
+     they belong to property 3.)
   4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
      nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
         (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
@@ -207,7 +212,8 @@ X = sp.symbols('x0:8', real=True)
 SIG, X4 = X[0], X[4]
 H = sp.Symbol('H', positive=True)
 # the Lovelock weights and Lambda corrected on the author's order of 2026-10-25 07:55 ("gravitons must travel at c"):
-# w = (1, 1/20, 1/360), Lambda = -7 H^2, the unique values for which gravitons travel at the speed of light (um3_weights.py;
+# w = (1, 1/20, 1/360), Lambda = -7 H^2, the unique values for which the graviton of the fold travels at the speed of light
+# and no graviton of the static bulk travels faster: the bulk then has no linear graviton (um3_weights.py, um3_linear.py;
 # the author's original values were w = (1, 1/32, 1/1152), Lambda = -10 H^2)
 W = [None, sp.Integer(1), sp.Rational(1, 20), sp.Rational(1, 360)]
 ALPHA = [None, sp.Integer(1), W[2] / H**2, W[3] / H**4]
@@ -432,18 +438,20 @@ def main():
               'kappa_7 = 15 kappa H/16: the two Friedmann equations of four-dimensional general relativity (a4\' = A H, '
               'a4\'\' = Ad H^2)' % (rho_m, p_m))
     q_m = sp.factor(sp.expand(fro[(5, 5)] + lamF))
-    # ordinary matter that does not depend on the extra times has T^r_r = its on-shell Lagrangian: radiation 0, dust 0,
-    # a vacuum energy -rho; the junction requires kappa q_m; with dust (a ~ t^{2/3}: Ad = -3A^2/2) and radiation
+    # matter of the fold that does not depend on the extra times has T^r_r = its mean on-shell Lagrangian: radiation 0,
+    # free fermions 0 (the Dirac Lagrangian vanishes on shell), a vacuum energy -rho, baryons not computed (ASSUMED -rho
+    # in um3_series.py); the junction requires kappa q_m; with dust (a ~ t^{2/3}: Ad = -3A^2/2) and radiation
     # (a ~ t^{1/2}: Ad = -2A^2) the required q_m is not zero
     q_dust = sp.factor(q_m.subs(Ad, -sp.Rational(3, 2) * A**2))
     q_rad = sp.factor(q_m.subs(Ad, -2 * A**2))
     out['extra_time_pressure_required'] = {'kappa_q_m': str(q_m), 'dust': str(q_dust), 'radiation': str(q_rad)}
-    rep.check('J7_separable_metric_too_rigid', q_dust != 0 and q_rad != 0,
+    rep.check('J7_extra_time_pressure_required', q_dust != 0 and q_rad != 0,
               'the extra-time component of the junction requires the matter of the fold to have the pressure kappa q_m = %s '
-              'along the extra times; ordinary matter that does not depend on the extra times has q = 0 (dust, radiation) or '
-              'q = -rho (a vacuum energy), while the required value is %s for dust and %s for radiation: the separable metric '
-              'is too rigid for ordinary matter on the fold, which requires metric functions that also depend on sigma near the '
-              'fold (the next terms of the power series of the metric)' % (q_m, q_dust, q_rad))
+              'along the extra times; the matter of the fold has q = its mean on-shell Lagrangian (radiation 0, free fermions '
+              '0, a vacuum energy -rho), while the required value is %s for dust and %s for radiation: ordinary matter does not '
+              'supply it, so UM-3 assumes that the fold fluid supplies the remainder, the holding pressure q_hold (FE-65); a '
+              'response of the metric that depends on sigma cannot supply it at first order (the static block is a degenerate '
+              'vacuum, um3_series.py SR3) and is OPEN' % (q_m, q_dust, q_rad))
     bulk = json.loads((UM3 / 'outputs' / 'geometry.json').read_text())['frozen_extra_times']
     out['bulk_source_frozen_kappaT_over_H2'] = bulk
     out['runtime_s'] = round(time.time() - t0, 1)

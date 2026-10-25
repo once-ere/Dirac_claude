@@ -126,7 +126,9 @@ within the period:
                 frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,
                                     kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:
      the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a
-     place but a physical object: a thin layer that carries energy and momentum (a brane).
+     place but a physical object: a thin layer that carries energy and momentum (a brane). (FD-11 and FD-12 were added
+     to this definition on 2026-10-25, after FD-1 to FD-10, with the corrected Lovelock weights; they stand here because
+     they belong to property 3.)
   4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
      nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
         (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],

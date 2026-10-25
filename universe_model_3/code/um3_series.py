@@ -30,7 +30,9 @@ Computed and checked:
        by nucleosynthesis (G then over G today = 1.01 +0.20 -0.16);
   SR6  with the volume held fixed (the fold fluid supplies the missing pressure along the extra times, IN-10) the
        four-dimensional equations are those of general relativity with 8 pi G_N = kappa_7/V_*; the pressure the fold
-       fluid must add today, -Delta_r = -0.793 rho_c.
+       fluid must add today, -Delta_r, with Delta_r = 0.793 rho_c if the baryons have the extra-time pressure q_b = -rho_b
+       (ASSUMED: the mean on-shell Lagrangian of the quarks and gluons of a nucleon is not computed in UM-3) and
+       0.842 rho_c if q_b = 0; between 0.793 and 0.891 rho_c for any |q_b| <= rho_b.
 Writes outputs/series.json and reports/series_checks.json.  Runs in about a minute.
 Usage: python universe_model_3/code/um3_series.py
 
@@ -88,7 +90,9 @@ within the period:
                 frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,
                                     kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:
      the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a
-     place but a physical object: a thin layer that carries energy and momentum (a brane).
+     place but a physical object: a thin layer that carries energy and momentum (a brane). (FD-11 and FD-12 were added
+     to this definition on 2026-10-25, after FD-1 to FD-10, with the corrected Lovelock weights; they stand here because
+     they belong to property 3.)
   4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
      nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
         (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
@@ -202,9 +206,10 @@ a1, a2, b1, b2, n1, n2, n0 = sp.symbols('a1 a2 b1 b2 n1 n2 n0', real=True)
 A, U, Ad, Ud = sp.symbols('A U Ad Ud', real=True)
 
 # today's composition of the fold universe (fractions of the critical density; Planck 2018 with three massless
-# neutrino states counted as radiation) and the extra-time pressure of each component in units of its energy density:
-# radiation q = 0, the bound states chi of dirac16complex q = 0, the baryons (particles made of fields of the fold) q = -rho,
-# the vacuum energy p = q = -rho
+# neutrino states counted as radiation) and the extra-time pressure q of each component in units of its energy density
+# (q is the mean on-shell Lagrangian density): radiation q = 0, the bound states chi of dirac16complex q = 0 (the Dirac
+# Lagrangian vanishes on shell), the baryons q = -rho (ASSUMED; the value for bound states of quarks and gluons is not
+# computed: SR6 also gives the result for q = 0), the vacuum energy p = q = -rho
 SPECIES = {'radiation': (9.1e-5, 1.0 / 3.0, 0.0), 'chi': (0.265, 0.0, 0.0), 'baryons': (0.049, 0.0, -1.0),
            'vacuum_energy': (0.685, -1.0, -1.0)}
 H0_PER_YEAR = 67.4 * 1.0e3 / 3.0856775814913673e22 * 3.15576e7      # H_0 = 67.4 km/s/Mpc in 1/year
@@ -272,15 +277,16 @@ def truncate(e, order):
     return sp.expand(sum(es.coeff(s, k) for k in range(order + 1)))
 
 
-def radion_history(stabilised=False):
+def radion_history(stabilised=False, species=None):
     """The fold universe with the volume of the extra times free: the seven-dimensional Einstein equations of the fold
     (SR4) with the four components of SPECIES, integrated in N = ln(e^{a4}) from N = ln(1e-9) (radiation era, v = 0) to
     N = 0 (today, a4 = 0).  Units: H_0 = 1 (today's expansion rate if the volume did not change), kappa_7 rho_crit = 3.
     Each component has rho = 3 Omega e^{-3(1+w)N} c^{-3(1+u)} (c the scale factor of the extra times, c = 1 at N0)."""
-    names = list(SPECIES)
-    Om = np.array([SPECIES[k][0] for k in names])
-    w = np.array([SPECIES[k][1] for k in names])
-    u = np.array([SPECIES[k][2] for k in names])
+    species = species or SPECIES
+    names = list(species)
+    Om = np.array([species[k][0] for k in names])
+    w = np.array([species[k][1] for k in names])
+    u = np.array([species[k][2] for k in names])
 
     def dens(N, lnc):
         return 3.0 * Om * np.exp(-3.0 * (1 + w) * N - 3.0 * (1 + u) * lnc)
@@ -425,6 +431,9 @@ def main():
     # ---------------- SR5: the volume of the extra times without a stabilisation
     free = radion_history(stabilised=False)
     held = radion_history(stabilised=True)
+    species_b0 = dict(SPECIES)
+    species_b0['baryons'] = (SPECIES['baryons'][0], SPECIES['baryons'][1], 0.0)
+    free_b0 = radion_history(stabilised=False, species=species_b0)
     out['SR5'] = {'species': {k: {'Omega': v[0], 'w': v[1], 'q_over_rho': v[2]} for k, v in SPECIES.items()},
                   'free_volume': free, 'held_volume': held,
                   'bounds': {'Gdot_over_G_per_year_1sigma': GDOT_BOUND, 'alphadot_over_alpha_per_year_1sigma': ALPHADOT_BOUND,
@@ -436,16 +445,20 @@ def main():
     ok5 = (held['ln_c_today_minus_initial'] == 0.0 and free['v_today_over_H0'] > 0.1 and fac_G > 100 and fac_a > 1e7
            and fac_o > 1e5 and not (GBBN_RANGE[0] < g_bbn < GBBN_RANGE[1]))
     out['SR5']['free_volume']['G_bbn_over_G_today'] = g_bbn
+    fac_G_b0 = abs(free_b0['Gdot_over_G_per_year']) / GDOT_BOUND
+    out['SR5']['free_volume_baryons_q0'] = free_b0
+    ok5 = ok5 and fac_G_b0 > 100
     rep.check('SR5_free_volume_excluded', ok5,
               'without a stabilisation the radion equation drives the volume of the extra times: integrated from the radiation '
-              'era (where radiation, rho = 3p, q = 0, does not drive it) to today with chi (q = 0), baryons (q = -rho) and '
-              'vacuum energy (q = -rho), the scale factor c of the extra times grows by ln c = %.3f, and today v = c\'/c = %.3f H_0 '
+              'era (where radiation, rho = 3p, q = 0, does not drive it) to today with chi (q = 0), baryons (q = -rho, '
+              'ASSUMED; with q = 0 the drift of G is %.0f times the bound) and vacuum energy (q = -rho), the scale factor c of '
+              'the extra times grows by ln c = %.3f, and today v = c\'/c = %.3f H_0 '
               '= %.2f a4\' (H_0 = 67.4 km/s/Mpc the expansion rate the same densities give with the volume held fixed); Newton\'s '
               'constant 8 pi G_N = kappa_7/(V_t c^3) and the fine-structure constant (alpha ~ 1/Z ~ c^-3) then change by -3v = '
               '%.2e per year, %.0f times the bound of lunar laser ranging (%.1e) and %.1e times that of optical clocks (%.1e); '
               'alpha changed by %.3f since the Oklo reactor (%.1e times its bound %.1e), and G at nucleosynthesis was %.1f times '
               'today\'s (allowed 1.01 +0.20 -0.16): the volume of the extra times must be held fixed' % (
-                  free['ln_c_today_minus_initial'], free['v_today_over_H0'],
+                  fac_G_b0, free['ln_c_today_minus_initial'], free['v_today_over_H0'],
                   free['v_today_over_H0'] / free['a4prime_today_over_H0'], free['Gdot_over_G_per_year'], fac_G, GDOT_BOUND,
                   fac_a, ALPHADOT_BOUND, free['Delta_ln_alpha_since_oklo'], fac_o, OKLO_BOUND, g_bbn))
 
@@ -458,15 +471,19 @@ def main():
     target = -sp.Rational(1, 2) * (3 * A ** 2 * H ** 2 + 3 * (3 * A ** 2 + 2 * Ad) * H ** 2)   # -(kappa_7/2)(rho - 3p)
     ok6a = sp.simplify(lead - target) == 0
     Delta = sum(om * (wq + (1 - 3 * w) / 2) for om, w, wq in SPECIES.values())
+    Delta_b0 = sum(om * (wq + (1 - 3 * w) / 2) for om, w, wq in species_b0.values())
+    Delta_bp = Delta + 2 * SPECIES['baryons'][0]                       # q_b = +rho_b
     out['SR6'] = {'kappa_q_required': str(kq_req), 'kappa7_q_required_second_order': str(lead),
-                  'Delta_r_over_rho_c_today': Delta, 'fold_fluid_extra_pressure_today_over_rho_c': -Delta}
-    ok6 = ok6a and 0.79 < Delta < 0.80
+                  'Delta_r_over_rho_c_today': Delta, 'fold_fluid_extra_pressure_today_over_rho_c': -Delta,
+                  'Delta_r_over_rho_c_today_baryons_q0': Delta_b0, 'Delta_r_over_rho_c_today_baryons_q_plus_rho': Delta_bp}
+    ok6 = ok6a and 0.79 < Delta < 0.80 and 0.84 < Delta_b0 < 0.85 and 0.89 < Delta_bp < 0.90
     rep.check('SR6_volume_held_by_the_fold_fluid', ok6,
               'with the extra times frozen the fold source holds exactly the Friedmann equations of general relativity (SR4), '
               'with 8 pi G_N = kappa_7/V_* = 15 kappa H/(16 V_*); the extra-time component requires the pressure kappa q = %s '
               '(to second order q = -(rho - 3p)/2): radiation supplies it, the other components do not; the mismatch '
-              'Delta_r = sum (q + (rho - 3p)/2) = %.3f rho_c today, so the fold fluid has to carry the pressure -%.3f rho_c along '
-              'the extra times on top of its tension (IN-10) to hold the volume fixed' % (kq_req, Delta, Delta))
+              'Delta_r = sum (q + (rho - 3p)/2) = %.3f rho_c today with q_b = -rho_b for the baryons (ASSUMED; %.3f rho_c with '
+              'q_b = 0, %.3f rho_c with q_b = +rho_b), so the fold fluid has to carry the pressure -Delta_r along the extra '
+              'times on top of its tension (IN-10) to hold the volume fixed' % (kq_req, Delta, Delta_b0, Delta_bp))
 
     out['runtime_s'] = round(time.time() - t0, 1)
     out['definition_of_the_fold'] = fold_definition()

@@ -20,7 +20,8 @@ extra times on the fold is c = e^{-a4} b4, its rate v = c'/c = (U - A) H).  Comp
        free volume a vacuum energy of the fold inflates the extra times together with ordinary space (U = 2A to second
        order), and no constant-rate solution exists near the static block beyond that order;
   BG4  the fold factor Z(x4) = V_t c^3/V_*: d ln Z/dx4 = 3v, zero with frozen extra times, 3AH with a free volume during
-       inflation (the couplings g^2/Z fall like e^{-3N} over N e-folds);
+       inflation (Newton's constant, the squares of the gauge and Yukawa couplings and the quartic Higgs coupling, all
+       divided by Z, fall like e^{-3N} over N e-folds);
   BG5  the ad hoc Higgs vacuum Phi = (A_c, v)/sqrt 2 (A_c = v_A e^{-2 a40 x4}) is an SU(2) rotation of (0, V)/sqrt 2 with
        V = sqrt(v^2 + A_c^2): with the pure-gauge background W^2_{x4} = theta'/g2 (tan(theta/2) = A_c/v) the isospin
        charge density of the Higgs field vanishes (the Gauss law of FE-17 for homogeneous fields, which the literal ad hoc
@@ -85,7 +86,9 @@ within the period:
                 frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,
                                     kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:
      the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a
-     place but a physical object: a thin layer that carries energy and momentum (a brane).
+     place but a physical object: a thin layer that carries energy and momentum (a brane). (FD-11 and FD-12 were added
+     to this definition on 2026-10-25, after FD-1 to FD-10, with the corrected Lovelock weights; they stand here because
+     they belong to property 3.)
   4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
      nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
         (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
@@ -346,8 +349,9 @@ def main():
                   'coupling_change_after_N_efolds_free_volume': str(sp.exp(-3 * Nf))}
     rep.check('BG4_fold_factor', ok4,
               'd ln Z/dx4 = 3H(U - A) = 3 v: 0 with frozen extra times (the couplings of the fold stay constant); with a free '
-              'volume during an inflation of N e-folds of ordinary space (U = 2A) Z grows like e^{3N} and every coupling '
-              'g_eff^2 = g^2/Z falls like e^{-3N}; record: the author\'s vacuum (A = 1, U = 0) had d ln Z/dx4 = -3H')
+              'volume during an inflation of N e-folds of ordinary space (U = 2A) Z grows like e^{3N} and Newton\'s constant, '
+              'the squares of the gauge and Yukawa couplings (g_eff^2 = g^2/Z) and the quartic Higgs coupling fall like '
+              'e^{-3N}; record: the author\'s vacuum (A = 1, U = 0) had d ln Z/dx4 = -3H')
 
     # ---------------- BG5: the ad hoc vacuum as a rotated, displaced Higgs modulus
     x4 = sp.Symbol('x4', real=True)

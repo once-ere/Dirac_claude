@@ -13,16 +13,19 @@ Lambda = -10 H^2 are kept as the record of why the correction was needed.  Compu
   F1  the linearised equation is linear in the second sigma-derivatives (fa_ss, fb_ss, fn_ss, h_ss) with coefficients that
       form an exact differential in the first sigma-derivatives (a junction potential exists); away from the fold, on
       every background with frozen extra times (b4'/b4 = a4', any a4(x4)), every coefficient of the graviton (h_tt, h_33,
-      h_ss, h_s, h_t, ...) vanishes: the bulk carries no linear graviton; record: with the author's weights the bulk
+      h_ss, h_s, h_t, ...) vanishes: the bulk carries no linear graviton of this polarisation (at the static block no
+      linear graviton at all, um3_linear.py LN2; on this branch the polarisation in the extra times keeps gradient terms
+      without a time-kinetic term, um3_weights.py W7); record: with the author's weights the bulk
       operator at the static block was (1/32) h_tt - (5/32)(e^{-2fa} h_33 + h_ss - 6H h_s) (local cone v^2 = 5);
   F2  the thin part at the fold (the integral of TT across the fold): for frozen extra times and any a4(x4)
-      kappa Pi = (8/(15H)) (h_tt + 3 A H h_t - h_33), with no term in the jump [h_sigma]; Einstein gravity alone gives no
+      kappa Pi = (8/(15H)) (h_tt + 3 A H h_t - e^{-2 a4} h_33), with no term in the jump [h_sigma]; Einstein gravity alone gives no
       h_tt, h_33 term at the fold; checked by smoothing the kink (h_tt, h_33 and h_t coefficients); record: with the
       author's weights (5/(12H)) h_tt - (17/(48H)) h_33 + (19/16) A h_t - ((5 + A^2 + A1)/32) [h_sigma];
   F3  the four-dimensional graviton: the wave equation of the fold, h_tt + 3 a4' h_t - e^{-2 a4} nabla^2 h = (2 kappa_7/
       kappa) x (the transverse traceless stress of the fold matter), is that of general relativity with
       kappa_7 = 15 kappa H/16, the same coupling as in the Friedmann equations of the fold (um3_fold.py J7): gravitational
-      waves travel at the speed of light at every wavelength, and their Planck mass equals that of the expansion; record:
+      waves travel at the speed of light at every wavelength, at linear order (the bulk is degenerate, so its coupling to
+      the waves at higher orders is not controlled), and their Planck mass equals that of the expansion; record:
       with the author's weights the long-wavelength mode had c_g^2 = 83/82 (bulk alone 15/2, author's vacuum 19/10), and
       the exact fold-bound mode h = e^{3H sigma} K_nu(k e^{H sigma}/H), nu^2 = 9 - omega^2/(5H^2), was dispersive:
       c_g^2 = 1.0122 at k = 1e-3 H, 0.9989 at k = H, 0.903 at k = 10 H, 0.857 at k = 100 H (towards 17/20);
@@ -101,7 +104,9 @@ within the period:
                 frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,
                                     kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:
      the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a
-     place but a physical object: a thin layer that carries energy and momentum (a brane).
+     place but a physical object: a thin layer that carries energy and momentum (a brane). (FD-11 and FD-12 were added
+     to this definition on 2026-10-25, after FD-1 to FD-10, with the corrected Lovelock weights; they stand here because
+     they belong to property 3.)
   4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
      nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
         (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
@@ -371,7 +376,9 @@ def main():
               'fn_ss, h_ss with coefficients that are an exact differential in the first sigma-derivatives (a junction '
               'potential exists, for any weights); away from the fold, on every background with frozen extra times (b4\'/b4 = '
               'a4\', any a4(x4)), every coefficient of the graviton vanishes with the corrected weights (%s): the bulk carries '
-              'no linear graviton; record: with the author\'s weights the static bulk had (1/32) h_tt - (5/32)(e^{-2fa} h_33 + '
+              'no linear graviton of this polarisation (the polarisation in the extra times keeps gradient terms without a '
+              'time-kinetic term on this branch, um3_weights.py W7); record: with the author\'s weights the static bulk had '
+              '(1/32) h_tt - (5/32)(e^{-2fa} h_33 + '
               'h_ss) + (15/16) H h_s (%s), the local cone v^2 = 5' % (
                   {k: str(v) for k, v in cf.items()}, {k: str(v) for k, v in ca0.items() if v != 0}))
 
@@ -420,7 +427,7 @@ def main():
                  'author_weights_author_vacuum': {k: str(v) for k, v in th_aav.items()}, 'smoothing_worst': worst}
     rep.check('F2_thin_part_at_the_fold', ok_f and ok_e and rec2 and okn,
               'the integral of TT across the fold: for frozen extra times (b4\'/b4 = a4\' = A H, any A and A1 = Ad) kappa Pi = '
-              '(8/(15H))(h_tt + 3 A H h_t - h_33), with no term in the jump [h_sigma] (the coefficients of h_sigma(0+) and '
+              '(8/(15H))(h_tt + 3 A H h_t - e^{-2 a4} h_33), with no term in the jump [h_sigma] (the coefficients of h_sigma(0+) and '
               'h_sigma(0-) are %s, %s); for general rates %s; Einstein gravity alone gives no h_tt, h_33 term at the fold, so '
               'the graviton of the fold comes from the Gauss-Bonnet and cubic terms; smoothing the kink (fa_s = fb_s = '
               '-H tanh(sigma/w)) and integrating the full equation reproduces the h_tt, h_33 and h_t coefficients (deviation '
@@ -461,7 +468,8 @@ def main():
               'the graviton of the fold obeys (kappa/(2 kappa_7))(h_tt + 3 a4\' h_t - e^{-2 a4} nabla^2 h) = kappa Pi, Pi the '
               'transverse traceless stress of the fold matter, with kappa_7 = %s from the graviton and kappa_7 = %s from the '
               'Friedmann equation of the fold (the same): the wave equation of general relativity, c_g^2 = %s at every '
-              'wavelength (no bulk term), and the Planck mass of the waves equals that of the expansion; record: with the '
+              'wavelength at linear order (no bulk term; the coupling to the degenerate bulk at higher orders is not '
+              'controlled), and the Planck mass of the waves equals that of the expansion; record: with the '
               'author\'s weights the long-wavelength mode had K_tt = %s, K_33 = %s, c_g^2 = %s (the bulk alone %s), and the '
               'fold-bound mode h = e^{3H sigma} K_nu((k/H) e^{H sigma}), nu^2 = 9 - omega^2/(5H^2), was dispersive: c_g^2 = '
               '%.5f, %.5f, %.4f, %.4f at k = 1e-3 H, H, 10 H, 100 H (towards 17/20 for k >> H: slower than light)' % (

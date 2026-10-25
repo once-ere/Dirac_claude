@@ -19,7 +19,10 @@ every atom is defined by one of the listed keys (or is pure typography), that ev
 listed key exists, that no atom is defined by two registry entries (one symbol, one meaning), that a display
 tagged FE-n or IN-n is written exactly as in the inventory docs_src/equations.json, with the same keys, and that a
 document is self-contained: every equation tag (FE-n, IN-n, FD-n, S-n, A-n, SB-n) that its text or one of its symbol lists cites
-is displayed in that document.
+is displayed in that document; and that the lists of a document are closed: every symbol that the meaning, the value or the
+unit of a listed entry writes in mathematics is itself defined by an entry listed in the same document (or by the entry
+itself; group names such as SU(3), unit names such as \mathrm{GeV}, and in the entry of an index the values listed after
+\in, are typography).
 
 Atoms.  A symbol of an equation is reduced to an atom: a LaTeX command with its decoration (\Psi, \bar\Psi, \partial,
 \mathcal{L}, \hat{g}), a letter (g, R), a letter or command with a NAME subscript (a_4, x_0, G_F, m_\nu, M_{Pl}: the
@@ -92,7 +95,9 @@ within the period:
                 frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,
                                     kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:
      the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a
-     place but a physical object: a thin layer that carries energy and momentum (a brane).
+     place but a physical object: a thin layer that carries energy and momentum (a brane). (FD-11 and FD-12 were added
+     to this definition on 2026-10-25, after FD-1 to FD-10, with the corrected Lovelock weights; they stand here because
+     they belong to property 3.)
   4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
      nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
         (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
@@ -192,6 +197,10 @@ NAMES = ['MODEL', 'FIELD_EQUATIONS', 'SOLUTION', 'ANALYSIS', 'PROVENANCE', 'STAB
 # (adapted from the UM-2 tool of the same name; the rules are unchanged)
 
 MARK = re.compile(r'^<!-- symbols: (.*?) -->\s*$')
+# one list per document, after its last section, of the symbols that only the definitions of the listed symbols use
+FURTHER = re.compile(r'^<!-- further symbols: (.*?) -->\s*$')
+FURTHER_HEAD = ('**Further symbols.** These symbols appear in the definitions of the symbols listed after the equations of '
+                'this document.')
 BEGIN = '<!-- begin generated symbol list -->'
 END = '<!-- end generated symbol list -->'
 
@@ -472,8 +481,8 @@ def tag_of(latex):
     return m.group(1) if m else None
 
 
-def render(keys, reg, tag):
-    head = '**Symbols in (%s).**' % tag if tag else '**Symbols in this equation.**'
+def render(keys, reg, tag, heading=None):
+    head = heading or ('**Symbols in (%s).**' % tag if tag else '**Symbols in this equation.**')
     out = [BEGIN, head, '']
     for k in keys:
         e = reg[k]
@@ -507,7 +516,9 @@ def expand(name, reg):
     while i < len(lines):
         line = lines[i]
         m = MARK.match(line.strip())
-        if m:
+        further = FURTHER.match(line.strip())
+        if m or further:
+            m = m or further
             keys = [k.strip() for k in m.group(1).split(',') if k.strip()]
             missing = [k for k in keys if k not in reg]
             if missing:
@@ -525,7 +536,7 @@ def expand(name, reg):
                 i = k + 1
             else:
                 i += 1
-            out += render(keys, reg, last_tag)
+            out += render(keys, reg, last_tag, FURTHER_HEAD if further else None)
             continue
         out.append(line)
         if i in disp:
@@ -611,6 +622,51 @@ def prose_tag_problems(name, lines, shown):
     return problems
 
 
+MATH_IN_TEXT = re.compile(r'(?<!\\)\$(.+?)(?<!\\)\$')
+GROUP_NAMES = re.compile(r'(?:\\mathrm\{)?(?:SU|SO|Sp|U|O)(?:\})?\(\d+\)(?:_\{?(?:\\mathrm\{)?[A-Za-z]+\}?\}?)?|E_8')
+UNIT_NAMES = re.compile(r'(?<![_{])\\mathrm\{(?:GeV|MeV|keV|eV|meV|TeV|PeV|cm|km|Mpc|Gpc|kpc|pc|yr|Gyr)\}')
+LABEL_VALUES = re.compile(r'\\in\s*\\\{.*?\\\}')   # in the entry of an index: the values of the label, defined by the entry
+
+
+def defined_by(a, atoms):
+    """Is the atom a defined by an entry with these atoms?  A numbered copy of a Latin index letter (M_1, N_2) is the
+    index itself."""
+    numbered = re.fullmatch(r'[A-Za-z]_\{?\d+\}?', a) is not None
+    base = re.sub(r'_\{.*\}$|_.$', '', a)
+    return a in atoms or ('index:' + a) in atoms or (numbered and ('index:' + base) in atoms)
+
+
+def closure_problems(name, lines, reg, owner):
+    """The symbols that the meanings of the entries listed in a document write but that no listed entry defines."""
+    listed = []
+    for line in lines:
+        m = MARK.match(line.strip()) or FURTHER.match(line.strip())
+        if m:
+            for k in m.group(1).split(','):
+                k = k.strip()
+                if k in reg and k not in listed:
+                    listed.append(k)
+    defined = set()
+    for k in listed:
+        defined.update(reg[k]['atoms'])
+    missing = {}
+    for k in listed:
+        own = set(reg[k]['atoms'])
+        is_index = all(x.startswith('index:') for x in reg[k]['atoms'][:1])
+        for field in ('meaning', 'value', 'units'):
+            for seg in MATH_IN_TEXT.findall(reg[k].get(field, '') or ''):
+                seg = UNIT_NAMES.sub(' ', GROUP_NAMES.sub(' ', seg))
+                if is_index:
+                    seg = LABEL_VALUES.sub(' ', seg)
+                for a in atoms_of(seg, frozenset(owner)):
+                    if a.startswith('index:') or defined_by(a, own) or defined_by(a, defined):
+                        continue
+                    missing.setdefault(a, set()).add(k)
+    return ['%s: the symbol %s in the meaning of %s is not defined in this document%s'
+            % (name, a, ', '.join(sorted(ks)), ' (add %s to a symbol list)' % owner[a] if a in owner else '')
+            for a, ks in sorted(missing.items())]
+
+
 def check(name, reg, owner, inventory=None):
     path = doc_path(name)
     lines = path.read_text(encoding='utf-8').split('\n')
@@ -619,6 +675,23 @@ def check(name, reg, owner, inventory=None):
     inventory = inventory if inventory is not None else load_inventory()
     shown = {tag_of(latex) for _, _, latex in displays(lines)} - {None}
     problems += prose_tag_problems(name, lines, shown)
+    problems += closure_problems(name, lines, reg, owner)
+    for i, line in enumerate(lines):
+        f = FURTHER.match(line.strip())
+        if not f:
+            continue
+        keys = [k.strip() for k in f.group(1).split(',') if k.strip()]
+        unknown = [k for k in keys if k not in reg]
+        if unknown:
+            problems.append('%s line %d: unknown registry keys %s in the further symbols' % (name, i + 1, unknown))
+        k = i + 1
+        while k < len(lines) and lines[k].strip() == '':
+            k += 1
+        e = k
+        while e < len(lines) and lines[e].strip() != END:
+            e += 1
+        if k >= len(lines) or lines[k].strip() != BEGIN or lines[k:e + 1] != render([x for x in keys if x in reg], reg, None, FURTHER_HEAD):
+            problems.append('%s line %d: the list of further symbols is missing or out of date (run expand)' % (name, i + 1))
     for start, end, latex in displays(lines):
         n_disp += 1
         j, keys = find_marker(lines, end)

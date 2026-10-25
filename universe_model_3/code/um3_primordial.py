@@ -26,17 +26,23 @@ Checks:
        general relativity, driven by a field of the fold; the bound on primordial gravitational waves, r < 0.032 (95 per
        cent; Planck PR4 with BICEP/Keck 2018 and BAO, Tristram et al. 2022), with A_s = 2.1e-9 limits its Hubble rate to
        H_inf < pi M_Pl,red sqrt(r A_s/2) = 4.4e13 GeV; during it the fold fluid must add the pressure
-       -rho_v (1 + A^2/4) along the extra times (A = H_inf/H);
-  PR5  ESTIMATE: Higgs inflation is possible now that the fold has its own Einstein-Hilbert term (the induced gravity,
-       which required xi_H < 1/6, is not needed): xi_H = N sqrt(lambda/(72 pi^2 A_s)) = 1.6e4 for lambda = m_H^2/(2 v^2)
+       -rho_v (1 + A^2/4) along the extra times (A = H_inf/H): with H at most 4.6e-13 GeV (the bound of um3_superluminal.py
+       SL5 if the loops make electrons faster) and H_inf at its bound, A is at least 1e26, so the pressure is at least
+       about 2e51 rho_v and 1e103 times the tension of the fold fluid (the ratio to the tension is about A^4/8 and grows
+       without limit as H gets smaller), and after inflation A = H_4/H > 1 above T ~ 0.6 TeV; what supplies it is OPEN;
+  PR5  ESTIMATE, an extension outside the action of UM-3 (the non-minimal coupling -xi_H R_fold Phi^dagger Phi of the
+       Higgs doublet to the curvature of the fold is not a term of IN-11): Higgs inflation is possible now that the fold
+       has its own Einstein-Hilbert term (the induced gravity, which required xi_H < 1/6, is not needed):
+       xi_H = N sqrt(lambda/(72 pi^2 A_s)) = 1.6e4 for lambda = m_H^2/(2 v^2)
        = 0.129 and N = 55 (4.5e3 for the value lambda = 0.01 that the running gives near the inflationary scale), with
        n_s = 1 - 2/N = 0.964 and r = 12/N^2 = 0.004: within the Planck 2018 range (n_s = 0.9649 +- 0.0042) and below the
        tensor bound, 3.5 sigma below the combination of ACT DR6 with Planck, CMB lensing and DESI (n_s = 0.974 +- 0.003);
   PR6  with a free volume an inflation of the fold is seven-dimensional: a vacuum energy of the fold expands the extra
-       times together with ordinary space (U = 2A, um3_background.py BG3), Newton's constant 8 pi G_N = kappa_7/(V_t c^3)
-       and every coupling g^2/Z fall like e^{-3N} over N e-folds, and the four-dimensional predictions of PR4 and PR5 do
-       not apply: the volume must be held fixed during inflation as well.
-Reads outputs/geometry.json and outputs/background.json.
+       times together with ordinary space (U = 2A, um3_background.py BG3), Newton's constant 8 pi G_N = kappa_7/(V_t c^3),
+       the squares of the gauge and Yukawa couplings and the quartic Higgs coupling (all divided by the fold factor Z) fall
+       like e^{-3N} over N e-folds, and the four-dimensional predictions of PR4 and PR5 do not apply: the volume must be
+       held fixed during inflation as well.
+Reads outputs/geometry.json, outputs/background.json and outputs/superluminal.json (run um3_superluminal.py first).
 Writes outputs/primordial.json and reports/primordial_checks.json.  Runs in a few seconds.
 Usage: python universe_model_3/code/um3_primordial.py
 
@@ -94,7 +100,9 @@ within the period:
                 frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,
                                     kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:
      the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a
-     place but a physical object: a thin layer that carries energy and momentum (a brane).
+     place but a physical object: a thin layer that carries energy and momentum (a brane). (FD-11 and FD-12 were added
+     to this definition on 2026-10-25, after FD-1 to FD-10, with the corrected Lovelock weights; they stand here because
+     they belong to property 3.)
   4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
      nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
         (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
@@ -320,14 +328,25 @@ def main():
     q_add = sp.sympify(bg['kappa_q_added_by_the_fold_fluid_over_H'], locals={'A': Asym})
     ok4a = sp.simplify(p_v + rho_v) == 0 and sp.simplify(q_add + rho_v * (1 + Asym ** 2 / 4)) == 0
     Hinf = math.pi * M_PL_RED * math.sqrt(R_MAX * A_S / 2)
+    sl5 = json.loads((UM3 / 'outputs' / 'superluminal.json').read_text())['SL5']['rows']
+    H_max = [r_['max_H_GeV_if_faster_qb_0.03_omega_b'] for r_ in sl5 if r_['omega_b_GeV'] == 1500.0][0]
+    A_inf = Hinf / H_max
+    T_A1 = math.sqrt(H_max * 1.22e19 / (1.66 * math.sqrt(106.75)))        # H_4 = 1.66 sqrt(g*) T^2/M_Pl = H
     out['PR4'] = {'H_inf_max_GeV': Hinf, 'r_max': R_MAX, 'A_s': A_S, 'kappa_rho_v_over_H': str(rho_v),
-                  'kappa_q_added_by_the_fold_fluid_over_H': str(q_add)}
-    rep.check('PR4_inflation_of_the_fold', ok4a and 4.3e13 < Hinf < 4.6e13,
+                  'kappa_q_added_by_the_fold_fluid_over_H': str(q_add), 'H_max_GeV_electron_bound': H_max,
+                  'A_inf_at_the_bounds': A_inf, 'q_hold_over_rho_v_at_the_bounds': A_inf ** 2 / 4,
+                  'q_hold_over_tension_at_the_bounds': A_inf ** 4 / 8, 'T_GeV_where_A_is_1_after_inflation': T_A1}
+    rep.check('PR4_inflation_of_the_fold', ok4a and 4.3e13 < Hinf < 4.6e13 and A_inf > 1e25 and 100 < T_A1 < 1000,
               'with the volume of the extra times held fixed a vacuum energy of the fold (kappa rho_v = %s H = -kappa p) '
               'expands ordinary space exponentially as in general relativity (a4\' = A H), the fold fluid adding the pressure '
               'kappa delta q = %s H = -kappa rho_v (1 + A^2/4) along the extra times; the observed spectrum (n_s - 1 = %.4f) '
               'is that of such an era, whose Hubble rate the bound r < %.3f (A_s = %.1e) limits to H_inf < pi M_Pl,red '
-              'sqrt(r A_s/2) = %.2e GeV' % (rho_v, q_add, NS - 1, R_MAX, A_S, Hinf))
+              'sqrt(r A_s/2) = %.2e GeV; with H at most %.2e GeV (SL5, electrons made faster) A = H_inf/H is at least %.1e, '
+              'so the pressure that the fold fluid adds is at least about %.0e rho_v and %.0e times its own tension (about '
+              'A^4/8 times, growing without limit as H gets smaller; rho_v = 3 H_inf^2 M_Pl,red^2, lambda_F = 6 H^2 '
+              'M_Pl,red^2); after inflation A = H_4/H exceeds 1 above T = %.0f GeV; what '
+              'supplies this pressure is OPEN' % (rho_v, q_add, NS - 1, R_MAX, A_S, Hinf, H_max, A_inf, A_inf ** 2 / 4,
+                                                  A_inf ** 4 / 8, T_A1))
 
     # ---------------- PR5: ESTIMATE, Higgs inflation
     N = 55
@@ -344,7 +363,8 @@ def main():
     ok5 = (all(r_['xi_H'] > 1e3 for r_ in rows5) and abs(ns_h - NS) < NS_SIGMA and r_h < R_MAX
            and (ns_h - NS_ACT) / NS_ACT_SIGMA < -2.5)
     rep.check('PR5_higgs_inflation', ok5,
-              'ESTIMATE: with its own Einstein-Hilbert term the fold no longer needs the induced gravity that required '
+              'ESTIMATE, an extension outside the action of UM-3 (the coupling -xi_H R_fold Phi^dagger Phi is not in '
+              'IN-11): with its own Einstein-Hilbert term the fold no longer needs the induced gravity that required '
               'xi_H < 1/6, so the Higgs field can be the inflaton: xi_H = N sqrt(lambda/(72 pi^2 A_s)) = %s for lambda = %.4f '
               '(m_H^2/(2 v^2)) and 0.01 (the running value near the inflationary scale), N = %d; then n_s = 1 - 2/N = %.4f and '
               'r = 12/N^2 = %.4f: %.1f sigma from Planck 2018 (%.4f +- %.4f), below the tensor bound, %.1f sigma from ACT DR6 '
@@ -364,8 +384,8 @@ def main():
     rep.check('PR6_free_volume_inflation', ok6,
               'with a free volume a vacuum energy of the fold makes the source of the fold the same in all seven directions '
               'only for U = %s A (to second order; um3_background.py BG3): the extra times inflate together with ordinary '
-              'space, so 8 pi G_N = kappa_7/(V_t c^3) and every coupling g^2/Z fall like e^{-3N} (a factor %.1e after %d '
-              'e-folds) and the four-dimensional predictions of PR4 and PR5 do not apply: UM-3 needs the volume of the extra '
+              'space, so 8 pi G_N = kappa_7/(V_t c^3), the squares of the gauge and Yukawa couplings and the quartic Higgs '
+              'coupling (all divided by the fold factor Z) fall like e^{-3N} (a factor %.1e after %d e-folds) and the four-dimensional predictions of PR4 and PR5 do not apply: UM-3 needs the volume of the extra '
               'times held fixed during inflation as well' % (u_sol, math.exp(-3 * Nf), Nf))
 
     out['runtime_s'] = round(time.time() - t0, 1)
