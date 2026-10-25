@@ -16,8 +16,9 @@ energy ({a, a^dagger} = -1 has no positive-definite representation), so the ghos
 vacuum.
 
 Checks (the bound states at rest on the static block, units m_Psi = 1, mu_L = -0.6, mu_R = 0, as in um3_kohnsham.py):
-  KR1  the charge form: B Hermitian, B^2 = 1, signature (8, 8); in the explicit Fock representation of one fermionic mode
-       (a two-dimensional Krein space) the one-quantum state has the norm -kappa for either choice of vacuum and
+  KR1  the charge form: B Hermitian, B^2 = 1, signature (8, 8); the anticommutator {a_n, a_m^dagger} = -kappa_n delta_nm
+       of the modes derived from {Psi, Psi^dagger} = -B; in the explicit Fock representation of one fermionic mode (a
+       two-dimensional Krein space) the one-quantum state has the norm -kappa for either choice of vacuum and
        [H, a^dagger] = omega a^dagger; complex conjugation maps the bound level at +omega_b onto the one at -omega_b and
        reverses every Krein charge (the author's matrices are real);
   KR2  the symmetries of the problem at rest: the matrices that commute with gamma^(0), gamma^(4) and Gamma_8 and keep
@@ -30,23 +31,26 @@ Checks (the bound states at rest on the static block, units m_Psi = 1, mu_L = -0
        the self-consistent occupied orbital and its mean field are R_1-even;
   KR4  flat directions: the boosts of KR2 map the self-consistent gas (regime I, G_KS = 0.1) onto self-consistent gases
        (the residuals of the sixteen-dimensional Kohn-Sham equation and of the fold matching unchanged, Krein charges -1,
-       Krein-orthogonal) whose orbitals contain Krein-positive admixtures; the linear response of the bound level (the
-       time-dependent Kohn-Sham equations restricted to the occupied and the empty multiplet) has all 32 frequencies far
-       below the splitting of the two multiplets, as zero modes of the boosts must;
+       Krein-orthogonal) whose orbitals contain Krein-positive admixtures: exact flat directions; the linear response of
+       the bound level (the time-dependent Kohn-Sham equations restricted to the occupied and the empty multiplet) has 32
+       frequencies of the order 1e-4, far below the splitting of the two multiplets, among them one imaginary pair: exact
+       zero modes would give 0, so its truncation error is as large as its frequencies and it does not decide the stability
+       of the dilute gas;
   KR5  the Krein-positive partner of the occupied level in the self-consistent mean fields of the regimes I, II and III at
-       G_KS = 0.01, 0.1, 0.2, 0.3, 0.5, 0.7 and 1: a real level above the occupied one in the dilute gas; where the
-       repulsion has pushed it far enough, a complex pair omega +- i Gamma (a Krein collision, in the discrete spectrum or
-       with the continuum of the far bulk): the dense gas is unstable, its perturbations grow as e^{Gamma x4};
+       G_KS = 0.01, 0.1, 0.2, 0.3, 0.5, 0.7 and 1: a real level above the occupied one in the dilute gas, moving away from
+       it as G_KS grows (they cannot mix: opposite R_1 parity); at larger G_KS a complex pair omega +- i Gamma, in regime I
+       where the partner reaches the continuum at the end of the computational box (the size of the box was not varied),
+       in regimes II and III in the discrete spectrum: an indication that dense gases are unstable, not converged;
   KR6  selection rules at the fold: of the 256 products Gamma_I of the author's matrices, the chirality-blind fold
        operators (products of gamma^(1)..gamma^(4)) never connect a physical state with a ghost at rest, the chiral ones
        (the same products times Gamma_8) always do (scattering conversion or the creation of a physical particle with a
        ghost antiparticle); for moving particles the scalar, density and vector-current operators still do not, the
        magnetic dipole does in proportion to the momentum;
-  KR7  the consequence: classically the dilute gas is stable and the dense gas is not (KR4, KR5); in the positive-energy
-       quantisation the vacuum cannot decay (every quantum has positive energy), but the left-handed Higgs portal of the
-       author's specification (c_R = 0) creates a physical particle with a ghost antiparticle at rest with an amplitude
-       0.89 times its elastic one: the ghosts are produced wherever the portals act, and UM-3 with chiral fold couplings is
-       not unitary.
+  KR7  the consequence: in the positive-energy quantisation the vacuum cannot decay (every quantum of the free field has
+       positive energy), but the left-handed Higgs portal of the author's specification (c_R = 0) creates a physical
+       particle with a ghost antiparticle at rest with an amplitude 0.89 times its elastic one: the ghosts are produced
+       wherever the chiral portals act, and UM-3 with chiral fold couplings is not unitary; chirality-blind couplings are
+       necessary, not shown to be sufficient; the classical stability of the gas is not decided (KR4, KR5).
 The mean fields of KR3 to KR5 are the snapshots that um3_kohnsham.py keeps in outputs/kohnsham_parts (run its parts first).
 Writes outputs/krein.json and reports/krein_checks.json.  Runs in about 4.5 minutes (under the 423 s limit).
 Usage: python universe_model_3/code/um3_krein.py
@@ -60,60 +64,81 @@ the angle z = 6 H x0 of the hidden direction vanishes:
 X = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the
 time, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The author's metric depends on x0
 only through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi
-contains exactly one fold, at z = pi/2. A point of the fold is labelled by the seven coordinates x1, ..., x7, and the
-metric restricted to the fold (dx0 = 0, z = pi/2) is
+contains exactly one surface of F, at z = pi/2: F is the union of these copies, one per period (example 2), and "the
+fold" without a qualifier is the copy in the period that contains our world. A point of the fold is labelled by the seven
+coordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/2) is
     (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
 with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
+Notation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric
+functions, tanh the hyperbolic tangent, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as sigma
+approaches 0 from above and from below.
 
 Why this surface is called a fold. Measured by the proper distance along the hidden direction,
     (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
 (the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends
 of the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the author's metric is
     (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ] - dx4^2.
-It depends on sigma only through |sigma|. Four properties make the surface sigma = 0 a fold, and together they single it
-out within the period:
+It depends on sigma only through |sigma|. The function W(sigma) = e^(-2 H |sigma|), which multiplies the squared steps of
+ordinary space and of the extra times, is the warp factor of the metric (its square root e^(-H |sigma|) multiplies the
+lengths); the time x4 is not warped. Four properties make the surface sigma = 0 a fold, and together they single it out
+within the period:
   1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to
      itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the
      period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are
      joined along the crease.
-  2. The warp is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|), which multiplies ordinary space and
-     the extra times, equals 1 on the fold and decreases on both sides.
+  2. The warp factor is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|) equals 1 on the fold and
+     decreases on both sides.
   3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.
      The extrinsic curvature of the surfaces sigma = const changes sign across the fold,
-        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb:  K^1_1 = K^2_2 = K^3_3 = K^5_5 = K^6_6 = K^7_7 = -H sgn(sigma),  K^4_4 = 0;
+        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb:  K^1_1 = K^2_2 = K^3_3 = K^5_5 = K^6_6 = K^7_7 = -H sgn(sigma),  K^4_4 = 0
      (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the
-     sign function); it jumps by -2 H along ordinary space and along the extra times. The Einstein-Lovelock equations are
-     linear in the second sigma-derivatives of the metric, so the jump puts a Dirac delta function delta_D(sigma) into
-     them: the metric solves them only if the fold carries a thin source S^a_b, an energy-momentum tensor concentrated on
-     sigma = 0 (the junction conditions). At the author's vacuum (a4' = H, b4 constant) its frame components along (ordinary space, the
-     time, the extra times) are kappa S = (-10 H, -6 H, -10 H), at the static late-time state (a4 and b4 constant)
-     kappa S = (-61 H/8, -31 H/4, -61 H/8), with kappa = 8 pi G_8 the gravitational coupling of eight dimensions. The fold
-     is therefore not only a place but a physical object: a thin layer that carries energy and momentum (a brane).
+     sign function, a, b frame indices along the fold); it jumps by -2 H along ordinary space and along the extra times.
+     The Einstein-Lovelock equations of UM-3, sum_p alpha_(p) E_(p)^a_b + Lambda delta^a_b = kappa T^a_b (E_(p) the
+     Lovelock tensor of order p = 1, 2, 3, alpha_(p) = w_(p) H^(2-2p) its coupling with the weights w = (1, 1/20, 1/360),
+     Lambda = -7 H^2 the cosmological constant, kappa = 8 pi G_8 the gravitational coupling of eight dimensions, T^a_b the
+     energy-momentum tensor, delta^a_b the Kronecker delta), are linear in the second sigma-derivatives of the metric, so
+     the jump puts a Dirac delta function delta_D(sigma) into them: the metric solves them only if the fold carries a thin
+     source S^a_b, an energy-momentum tensor concentrated on sigma = 0, given by the integral of the equations across the
+     fold (the junction conditions),
+        (FD-11) kappa S^a_b = integral from sigma = 0- to 0+ of d sigma sum_p alpha_(p) E_(p)^a_b,
+     with S^4_4 = -(its energy density), S^1_1 = S^2_2 = S^3_3 its pressure along ordinary space and S^5_5 = S^6_6 = S^7_7
+     its pressure along the extra times; S is T integrated across the fold, an energy per unit volume of the six other
+     directions of the fold (unit GeV^7). On the static block (a4 and b4 constant) and on an expanding fold whose extra
+     times are frozen (b4 proportional to e^(a4), A = a4'/H, A1 = a4''/H^2)
+        (FD-12) static block:      kappa S^a_b = -(32/5) H delta^a_b  (a pure tension),
+                frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,
+                                    kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:
+     the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a
+     place but a physical object: a thin layer that carries energy and momentum (a brane).
   4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
      nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
         (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
      so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper
      distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).
 
-What lives on the fold. In UM-3 the Standard Model (the Higgs doublet with the ad hoc vacuum, the gauge fields of
-SU(3)_C x SU(2)_L x U(1)_Y, three generations of quarks and leptons and three right-handed neutrinos), the fold fluid and
-the induced Einstein-Hilbert term of the fold live on the fold: they are fields at sigma = 0, functions of x1, ..., x4 (no
-field depends on the extra times). Integrated over the extra times, the fold is the four-dimensional universe that we
-observe, with the metric diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. dirac16complex and gravity live in the
-bulk sigma != 0 as well as on the fold; the bound states chi of dirac16complex are the part of it that the fold holds,
-and the portals couple dirac16complex to the Standard Model at sigma = 0. In UM-3 files the word fold means this surface
-and nothing else: a number of equal energy levels is written as a number of degenerate states, and a growth by powers of
-Euler's number as a logarithm.
+What lives on the fold. In UM-3 the Standard Model (the Higgs doublet with the author's ad hoc vacuum, a time-dependent
+choice of its vacuum value; the gauge fields of SU(3)_C x SU(2)_L x U(1)_Y; three generations of quarks and leptons and
+three right-handed neutrinos) and the fold fluid (its tension and the pressure along the extra times that keeps their
+volume fixed) live on the fold: they are fields at sigma = 0, functions of x1, ..., x4 (no field depends on the extra
+times). Integrated over the extra times, the fold is the four-dimensional universe that we observe, with the metric
+diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. dirac16complex (the author's spinor field of eight dimensions) and
+gravity live in the bulk sigma != 0 as well as on the fold; the bound states chi of dirac16complex are the part of it that
+the fold holds, and the portals (couplings between dirac16complex and Standard-Model fields) act at sigma = 0. In UM-3
+files "the fold" means this surface; the examples below use the word for other surfaces with the same properties. The
+word is not used in its other senses: a set of equal energy levels is called degenerate, and a growth by the factor e is
+called an e-folding.
 
 Examples of folds that are meaningful for UM-3.
   1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the
      Standard Model, and after the integration over the extra times the four-dimensional universe that we observe.
   2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface
      x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are
-     separated by a tip (z a multiple of pi), where the warp (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2 diverges, and
-     which lies at an infinite proper distance from both: in proper distance every copy has its own complete line
-     -infinity < sigma < infinity. This is why the period pi/(6 H) of x0 produces no Kaluza-Klein tower with the spacing
-     12 H; the x0 mass of the bound states is their binding to the fold.
+     separated by a tip (z a multiple of pi), where the warp factor (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2
+     diverges, and which lies at an infinite proper distance from both: in proper distance every copy has its own complete
+     line -infinity < sigma < infinity. A compact direction of length L would give every field a tower of particles with
+     the masses 2 pi n/L, n = 1, 2, ... (a Kaluza-Klein tower); because the copies are infinitely far apart, the period
+     pi/(6 H) of x0 produces no such tower with the spacing 12 H, and the x0 mass of the bound states is their binding to
+     the fold.
   3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images
      (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).
      In UM-3 the direction across the crease is the hidden direction sigma, the seven directions along the crease are
@@ -122,9 +147,8 @@ Examples of folds that are meaningful for UM-3.
      largest at sigma = 0, with a jump of its derivative,
         (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),
                 d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),
-     whose delta function is the origin of the thin source of property 3. Every function of UM-3 that depends on sigma
-     through |sigma| is folded at sigma = 0: the metric functions of FD-4 and the profiles of the bound states of
-     dirac16complex (example 7).
+     whose delta function is the origin of the thin source of property 3. Every metric function of FD-4 depends on sigma
+     through |sigma| and is folded at sigma = 0 in this sense.
   5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto
      a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map
      vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is
@@ -135,39 +159,42 @@ Examples of folds that are meaningful for UM-3.
      (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
      fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
      not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
-     the bulk the vacuum energy Lambda_RS. The fold of UM-3 is of the same kind; it differs in that the time x4 is not
-     warped, three extra times are warped together with ordinary space, and the Lovelock terms add to the junction
-     conditions.
-  7. A particle bound to a thin layer. A particle held by an attractive thin layer has a folded wave function: it falls
-     off exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order
-     Dirac equation, the wave function itself). In UM-3 the particles chi of dark matter are the states of dirac16complex
-     bound to the fold; at rest and without their self-interaction (the field is
-     Psi = e^(3 H |sigma|) chi(sigma) e^(-i omega_b x4))
+     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-3 is of the same kind: its static
+     block is a vacuum of the bulk with a fold of pure tension (FD-12). It differs in that the time x4 is not warped,
+     three extra times are warped together with ordinary space, the Lovelock terms add to the junction conditions, and
+     the space is not cut at the brane: Randall and Sundrum identify the two sides of their brane (one physical side),
+     while the fold of UM-3 has two distinct sides (example 7).
+  7. A particle bound to a thin layer. A particle held by an attractive thin layer has a wave function that falls off
+     exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac
+     equation, the wave function itself). In UM-3 the particles chi of dark matter are the states of dirac16complex bound
+     to the fold; at rest and without their self-interaction (the field is Psi = e^(3 H |sigma|) chi(sigma) e^(-i omega_b x4))
         (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+) (sigma > 0),   chi(sigma) = e^(-q_b |sigma|) chi(0-) (sigma < 0),
                 chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),   omega_b = sqrt(m_Psi^2 - q_b^2),
      where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the
      Standard-Model fields on the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors,
      m_Psi the bulk mass, and q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for
-     mu_R = 0).
+     mu_R = 0). The profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
   8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
         (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
      (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
      reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
      The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
      carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of the mean field of a gas of the
-     particles chi: the four bound states of Krein charge -1 (the particles chi) are even under it and the four of Krein
-     charge +1 are odd, so the mean field of the gas cannot mix the two signs of the indefinite charge. R_2 maps the bound
-     states of one Krein charge onto those of the other and makes the two sets degenerate without the self-interaction.
-  9. The planes of Horava and Witten. In M-theory on an interval (a circle whose points are identified with their mirror
-     images), the two ten-dimensional planes left in place by the reflection are mirror surfaces (property 1); the gauge
-     fields E8 x E8 live on them while gravity fills the bulk. This is the arrangement of UM-3, where the Standard Model
-     lives on the fold and gravity and dirac16complex fill the bulk.
+     particles chi (the average field that the particles of the gas create and feel): the four bound states of Krein
+     charge -1 (the particles chi) are even under it and the four of Krein charge +1 are odd, so the mean field of the gas
+     cannot mix the two signs of the indefinite charge. R_2 maps the bound states of one Krein charge onto those of the
+     other and makes the two sets degenerate without the self-interaction.
+  9. The planes of Horava and Witten. In M-theory (the eleven-dimensional theory whose limits include the superstring
+     theories) on an interval (a circle whose points are identified with their mirror images), the two ten-dimensional
+     planes left in place by the reflection are mirror surfaces (property 1); each carries one E8 gauge group while gravity
+     fills the bulk. As in UM-3, the gauge fields live on the mirror surface and gravity in the bulk; unlike UM-3, the two
+     sides of each plane are identified (one physical side).
 
 What is not a fold.
-  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp vanishes, g_x0x0
-    diverges, and they lie at an infinite proper distance; they carry no thin source.
-  * A smooth maximum of a warp, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a kink
-    and without a thin source.
+  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp factor vanishes,
+    g_x0x0 diverges, and they lie at an infinite proper distance; they carry no thin source.
+  * A smooth maximum of a warp factor, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a
+    kink and without a thin source.
 END FOLD DEFINITION
 """
 from __future__ import annotations
@@ -315,9 +342,12 @@ def rpa_bound_level(sh, w, G):
         Bm[q * n + o, p * n + o2] = -G / 4 * tB
     nu = np.linalg.eigvals(np.block([[A, Bm], [-Bm.conj(), -A.conj()]]))
     charges = [krein_charge(o, sh.h) for o in emp]
+    n_imag = int(np.sum(np.abs(nu.imag) > 1e-3 * np.abs(nu).max()))
+    real_part = [float(x) for x in sorted(np.abs(nu[np.abs(nu.imag) <= 1e-3 * np.abs(nu).max()].real))]
     return {'omega_occupied': w, 'omega_empty': wp, 'splitting': D, 'smin_empty': smin, 'empty_krein_charges': charges,
             'A_hermitian': float(np.abs(A - A.conj().T).max()), 'B_symmetric': float(np.abs(Bm - Bm.T).max()),
             'max_abs_frequency': float(np.abs(nu).max()), 'max_abs_imaginary': float(np.abs(nu.imag).max()),
+            'n_imaginary': n_imag, 'largest_real_frequency': max(real_part) if real_part else 0.0,
             'max_A_minus_splitting': float(np.abs(A - D * np.eye(n * n)).max()), 'max_B': float(np.abs(Bm).max())}
 
 
@@ -434,20 +464,30 @@ def main():
         fock[kappa] = {'anticommutator': float(anti[0, 0]), 'anticommutator_is_multiple_of_1': bool(np.allclose(anti, anti[0, 0] * np.eye(2))),
                        'norm_one_quantum': float(norm_particle), 'norm_hole_relative': float(norm_hole),
                        'H_raises_by_omega': bool(np.allclose(comm, omega * aK))}
+    # the derivation from the field: in a basis of modes u_n of the 16 components with u_n^dagger B u_m = kappa_n delta_nm
+    # (the eigenvectors of B), Psi = sum_n a_n u_n gives a_n = kappa_n u_n^dagger B Psi, and the canonical anticommutator
+    # {Psi, Psi^dagger} = -B gives {a_n, a_m^dagger} = kappa_n kappa_m u_n^dagger B (-B) B u_m = -kappa_n delta_nm
+    evB2, Ub = np.linalg.eigh(BKR)
+    kap_n = np.sign(evB2)
+    gram_B = Ub.conj().T @ BKR @ Ub
+    acomm = np.diag(kap_n) @ Ub.conj().T @ BKR @ (-BKR) @ BKR @ Ub @ np.diag(kap_n)
+    derived_ok = bool(np.allclose(gram_B, np.diag(kap_n)) and np.allclose(acomm, -np.diag(kap_n)))
     sh16 = K.Shooter(0.05, -0.6, 0.0, 40.0, 0.02, 16)
     neg, pos, ev, s = sh16.krein_split(WB, 8)
     conj_charges = sorted(round(krein_charge(conj(o), sh16.h), 9) for o in neg + pos)
     out['KR1'] = {'B_eigenvalues': [float(x) for x in evB], 'fock': {str(k): v for k, v in fock.items()},
-                  'krein_charges_of_conjugates': conj_charges}
-    rep.check('KR1_charge_form', herm and invol and int(np.sum(evB > 0)) == 8 and int(np.sum(evB < 0)) == 8
+                  'anticommutator_derived_from_the_field': derived_ok, 'krein_charges_of_conjugates': conj_charges}
+    rep.check('KR1_charge_form', herm and invol and int(np.sum(evB > 0)) == 8 and int(np.sum(evB < 0)) == 8 and derived_ok
               and all(fock[k]['anticommutator'] == -k and fock[k]['anticommutator_is_multiple_of_1'] and fock[k]['norm_one_quantum'] == -k
                       and fock[k]['norm_hole_relative'] == -k and fock[k]['H_raises_by_omega'] for k in (-1, 1))
               and len(neg) == 4 and len(pos) == 4
               and all(round(krein_charge(conj(o), sh16.h), 6) == 1.0 for o in neg)
               and all(round(krein_charge(conj(o), sh16.h), 6) == -1.0 for o in pos),
-              'B = i sigma16 gamma^(4) is a Hermitian involution with eight eigenvalues +1 and eight -1; for one mode of Krein '
-              'charge kappa the anticommutator is {a, a^K} = -kappa, the one-quantum state has the norm -kappa for either '
-              'vacuum (particle or hole), and [H, a^K] = omega a^K: the particles and the holes of the Krein-positive modes are '
+              'B = i sigma16 gamma^(4) is a Hermitian involution with eight eigenvalues +1 and eight -1; expanding the field in '
+              'modes with u_n^dagger B u_m = kappa_n delta_nm, the canonical anticommutator {Psi, Psi^dagger} = -B gives '
+              '{a_n, a_m^dagger} = -kappa_n delta_nm (derived for the 16 modes of B); the Fock space of one mode of Krein '
+              'charge kappa with the indefinite metric diag(1, -kappa) represents it: the one-quantum state has the norm '
+              '-kappa for either vacuum (particle or hole), and [H, a^K] = omega a^K: the particles and the holes of the Krein-positive modes are '
               'ghosts (norm -1), those of the Krein-negative modes physical (norm +1), all at positive energy; the conjugates '
               'of the four Krein-negative (positive) bound states at '
               '+omega_b are Krein-positive (negative) states at -omega_b')
@@ -543,19 +583,25 @@ def main():
         ok4 = (all(abs(f['res_ode'] - base[0]) < 0.05 * base[0] and (f['theta'] < 0.5 or f['positive_norm_growth'] > 1.5) and f['res_match'] < 1e-12 and all(abs(q + 1) < 1e-9 for q in f['charges'])
                    and f['offdiag'] < 1e-9 for f in fam)
                and all(abs(q - 1) < 1e-6 for q in rpa['empty_krein_charges']) and rpa['smin_empty'] < 1e-7
-               and rpa['max_abs_frequency'] < 0.05 * rpa['splitting'] and rpa['A_hermitian'] < 1e-15 and rpa['B_symmetric'] < 1e-15)
+               and rpa['max_abs_frequency'] < 0.05 * rpa['splitting'] and rpa['A_hermitian'] < 1e-15 and rpa['B_symmetric'] < 1e-15
+               and rpa['n_imaginary'] >= 1)
     out['KR4'] = kr4
     rep.check('KR4_flat_directions', ok4,
               'regime I, G_KS = 0.1: three boosts e^{theta X} (theta = 0.3, 1; |U| = e^theta) map the self-consistent gas onto '
               'self-consistent gases (residual of the 16-dimensional Kohn-Sham equation %.2e as without the boost, fold matching '
               '%.0e, Krein charges -1, Krein-orthogonal) whose orbitals carry Krein-positive admixtures (their positive-definite norm grows '
-              'up to %.2f times while the charges stay -1); the linear response of the bound level (16 admixtures of the four empty Krein-positive '
-              'orbitals, splitting %.3e) has all 32 frequencies below %.1e: the mixing directions are flat (zero modes of the '
-              'boosts), not unstable' % (
+              'up to %.2f times while the charges stay -1): the boosts are exact flat directions of the self-consistent gas; the '
+              'linear response truncated to the bound level (16 admixtures of the four empty Krein-positive orbitals, splitting '
+              '%.3e) has frequencies of the order 1e-4 (largest |nu| %.2e), %d of them imaginary (|Im nu| up to %.2e, the '
+              'largest real one %.2e): exact zero modes would give 0, so the truncation error is as large as these frequencies, '
+              'and the truncated response does not decide whether the dilute gas is stable' % (
                   kr4.get('base_residuals', [float('nan')])[0], max([f['res_match'] for f in kr4.get('family', [])] or [float('nan')]),
                   max([f['positive_norm_growth'] for f in kr4.get('family', [])] or [float('nan')]),
                   kr4.get('linear_response', {}).get('splitting', float('nan')),
-                  kr4.get('linear_response', {}).get('max_abs_frequency', float('nan'))))
+                  kr4.get('linear_response', {}).get('max_abs_frequency', float('nan')),
+                  kr4.get('linear_response', {}).get('n_imaginary', -1),
+                  kr4.get('linear_response', {}).get('max_abs_imaginary', float('nan')),
+                  kr4.get('linear_response', {}).get('largest_real_frequency', float('nan'))))
 
     # ---------------- KR5: the Krein-positive partner level in the self-consistent mean fields (two processes)
     from multiprocessing import Pool
@@ -575,6 +621,19 @@ def main():
         onset[n] = {'last_bound_partner': last_real, 'first_growing_mode': first_c, 'dissolved_at': diss,
                     'growth_rates': {('%g' % g): kr5['%s G=%g' % (n, g)]['growth_rate'] for g, k in kinds if k == 'complex'}}
     out['KR5_onset'] = onset
+    gaps = {}
+    where = {}
+    for n in ('I', 'II', 'III'):
+        gaps[n] = [kr5['%s G=%g' % (n, g)]['omega_partner'] - kr5['%s G=%g' % (n, g)]['omega_occupied'] for g in SNAPSHOT_G]
+        for g in SNAPSHOT_G:
+            v = kr5['%s G=%g' % (n, g)]
+            if v['kind'] == 'complex':
+                far_ = v.get('far_continuum_from')
+                where['%s G=%g' % (n, g)] = ('in the continuum of the end of the box' if far_ is not None and v['omega_partner'] > far_
+                                             else 'in the discrete spectrum')
+    gaps_grow = all(all(b > a for a, b in zip(gaps[n][:-1], gaps[n][1:])) for n in gaps)
+    out['KR5_gap_partner_minus_occupied'] = gaps
+    out['KR5_where_the_complex_partners_lie'] = where
 
     def describe(n):
         o = onset[n]
@@ -582,13 +641,18 @@ def main():
         if o['dissolved_at']:
             parts.append('dissolved into the continuum of the far bulk at G_KS = %s' % ', '.join('%g' % g for g in o['dissolved_at']))
         if o['first_growing_mode'] is not None:
-            parts.append('a growing mode from G_KS = %g (Gamma = %s m_Psi)' % (
-                o['first_growing_mode'], ', '.join('%.1e at %s' % (v, g) for g, v in o['growth_rates'].items())))
+            parts.append('a complex partner from G_KS = %g (Gamma = %s m_Psi; %s)' % (
+                o['first_growing_mode'], ', '.join('%.1e at %s' % (v, g) for g, v in o['growth_rates'].items()),
+                ', '.join(sorted(set(where['%s G=%s' % (n, g)] for g in o['growth_rates'])))))
+        parts.append('the gap partner - occupied %s' % ', '.join('%.4f' % x for x in gaps[n]))
         return 'regime %s: %s' % (n, ', '.join(parts))
-    rep.check('KR5_partner_level', classified and dilute_real,
+    rep.check('KR5_partner_level', classified and dilute_real and gaps_grow,
               'the Krein-positive partner of the occupied level in the self-consistent mean field (G_KS = 0.01, 0.1, 0.2, '
-              '0.3, 0.5, 0.7, 1): %s; dilute gas (G_KS = 0.01, 0.1) with a bound, real partner in all three regimes: %s' % (
-                  '; '.join(describe(n) for n in ('I', 'II', 'III')), dilute_real))
+              '0.3, 0.5, 0.7, 1): %s; the partner moves away from the occupied level as G_KS grows (it cannot mix with it: '
+              'they have opposite R_1 parity in an R_1-even mean field), and it turns complex where it reaches the continuum '
+              'at the end of the computational box (regime I; this depends on the size of the box, which was not varied) or '
+              'meets another level (regimes II and III); dilute gas (G_KS = 0.01, 0.1) with a bound, real partner in all three '
+              'regimes: %s' % ('; '.join(describe(n) for n in ('I', 'II', 'III')), dilute_real))
 
     # ---------------- KR6: selection rules at the fold
     negm = [conj(o) for o in pos]    # negative-frequency modes of Krein charge -1: their holes are physical antiparticles
@@ -646,13 +710,15 @@ def main():
                   'vacuum': 'stable in the positive-energy quantisation: every quantum raises H by its frequency (KR1)',
                   'unitarity': 'violated by the chiral parts of the portals (KR6); the Higgs portal is purely left-handed'}
     rep.check('KR7_consequence', ratio > 0.5 and fock[1]['H_raises_by_omega'] and fock[-1]['H_raises_by_omega'] and dilute_real,
-              'classically the gas of chi is stable where it is dilute (real spectrum, flat mixing directions) and unstable '
-              'where the Krein-positive partners collide (KR5); quantum mechanically the vacuum of the positive-energy '
-              'quantisation cannot decay (every quantum carries positive energy), but the left-handed Higgs portal creates a '
-              'physical particle chi with a ghost antiparticle at rest with %.2f times its elastic amplitude: ghosts are '
-              'produced wherever the portals act (without the self-interaction their bound level is degenerate with that of '
-              'the particles), so with chiral fold couplings UM-3 is not unitary; chirality-blind couplings alone would keep '
-              'the physical sector closed' % ratio)
+              'in the positive-energy quantisation every quantum of the free field carries positive energy, so the vacuum is '
+              'the state of lowest energy and cannot decay; the left-handed Higgs portal creates a physical particle chi with a '
+              'ghost antiparticle at rest with %.2f times its elastic amplitude: ghosts are produced wherever the chiral portals '
+              'act (without the self-interaction their bound level is degenerate with that of the particles), so with chiral '
+              'fold couplings UM-3 is not unitary; chirality-blind couplings are necessary for a unitary UM-3 (at rest they '
+              'never connect the two sectors), but not shown to be sufficient (the magnetic dipole connects them for moving '
+              'particles, KR6); the classical stability of the gas is not decided: the exact boosts are flat directions, the '
+              'truncated response of the dilute gas has frequencies of the order of its truncation error (KR4), and the '
+              'complex partners of the dense gases are not converged in the size of the box (KR5)' % ratio)
 
     out['runtime_s'] = round(time.time() - t0, 1)
     out['definition_of_the_fold'] = fold_definition()

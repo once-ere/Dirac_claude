@@ -1,6 +1,6 @@
 {
  "_definition_of_the_fold": {
-  "text": "THE FOLD (the definition used in every UM-3 file)\n\nDefinition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of\nthe angle z = 6 H x0 of the hidden direction vanishes:\n    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).\nX = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the\ntime, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The author's metric depends on x0\nonly through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi\ncontains exactly one fold, at z = pi/2. A point of the fold is labelled by the seven coordinates x1, ..., x7, and the\nmetric restricted to the fold (dx0 = 0, z = pi/2) is\n    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),\nwith three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.\n\nWhy this surface is called a fold. Measured by the proper distance along the hidden direction,\n    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)\n(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends\nof the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the author's metric is\n    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ] - dx4^2.\nIt depends on sigma only through |sigma|. Four properties make the surface sigma = 0 a fold, and together they single it\nout within the period:\n  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to\n     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the\n     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are\n     joined along the crease.\n  2. The warp is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|), which multiplies ordinary space and\n     the extra times, equals 1 on the fold and decreases on both sides.\n  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.\n     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,\n        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb:  K^1_1 = K^2_2 = K^3_3 = K^5_5 = K^6_6 = K^7_7 = -H sgn(sigma),  K^4_4 = 0;\n     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the\n     sign function); it jumps by -2 H along ordinary space and along the extra times. The Einstein-Lovelock equations are\n     linear in the second sigma-derivatives of the metric, so the jump puts a Dirac delta function delta_D(sigma) into\n     them: the metric solves them only if the fold carries a thin source S^a_b, an energy-momentum tensor concentrated on\n     sigma = 0 (the junction conditions). At the author's vacuum (a4' = H, b4 constant) its frame components along (ordinary space, the\n     time, the extra times) are kappa S = (-10 H, -6 H, -10 H), at the static late-time state (a4 and b4 constant)\n     kappa S = (-61 H/8, -31 H/4, -61 H/8), with kappa = 8 pi G_8 the gravitational coupling of eight dimensions. The fold\n     is therefore not only a place but a physical object: a thin layer that carries energy and momentum (a brane).\n  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and\n     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,\n        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],\n     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper\n     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).\n\nWhat lives on the fold. In UM-3 the Standard Model (the Higgs doublet with the ad hoc vacuum, the gauge fields of\nSU(3)_C x SU(2)_L x U(1)_Y, three generations of quarks and leptons and three right-handed neutrinos), the fold fluid and\nthe induced Einstein-Hilbert term of the fold live on the fold: they are fields at sigma = 0, functions of x1, ..., x4 (no\nfield depends on the extra times). Integrated over the extra times, the fold is the four-dimensional universe that we\nobserve, with the metric diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. dirac16complex and gravity live in the\nbulk sigma != 0 as well as on the fold; the bound states chi of dirac16complex are the part of it that the fold holds,\nand the portals couple dirac16complex to the Standard Model at sigma = 0. In UM-3 files the word fold means this surface\nand nothing else: a number of equal energy levels is written as a number of degenerate states, and a growth by powers of\nEuler's number as a logarithm.\n\nExamples of folds that are meaningful for UM-3.\n  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the\n     Standard Model, and after the integration over the extra times the four-dimensional universe that we observe.\n  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface\n     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are\n     separated by a tip (z a multiple of pi), where the warp (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2 diverges, and\n     which lies at an infinite proper distance from both: in proper distance every copy has its own complete line\n     -infinity < sigma < infinity. This is why the period pi/(6 H) of x0 produces no Kaluza-Klein tower with the spacing\n     12 H; the x0 mass of the bound states is their binding to the fold.\n  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images\n     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).\n     In UM-3 the direction across the crease is the hidden direction sigma, the seven directions along the crease are\n     x1, ..., x7, and the crease is the fold.\n  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,\n     largest at sigma = 0, with a jump of its derivative,\n        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),\n                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),\n     whose delta function is the origin of the thin source of property 3. Every function of UM-3 that depends on sigma\n     through |sigma| is folded at sigma = 0: the metric functions of FD-4 and the profiles of the bound states of\n     dirac16complex (example 7).\n  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto\n     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map\n     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is\n     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.\n  6. The brane of Randall and Sundrum. The five-dimensional metric\n        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),\n                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5\n     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a\n     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does\n     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in\n     the bulk the vacuum energy Lambda_RS. The fold of UM-3 is of the same kind; it differs in that the time x4 is not\n     warped, three extra times are warped together with ordinary space, and the Lovelock terms add to the junction\n     conditions.\n  7. A particle bound to a thin layer. A particle held by an attractive thin layer has a folded wave function: it falls\n     off exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order\n     Dirac equation, the wave function itself). In UM-3 the particles chi of dark matter are the states of dirac16complex\n     bound to the fold; at rest and without their self-interaction (the field is\n     Psi = e^(3 H |sigma|) chi(sigma) e^(-i omega_b x4))\n        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+) (sigma > 0),   chi(sigma) = e^(-q_b |sigma|) chi(0-) (sigma < 0),\n                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),   omega_b = sqrt(m_Psi^2 - q_b^2),\n     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the\n     Standard-Model fields on the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors,\n     m_Psi the bulk mass, and q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for\n     mu_R = 0).\n  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,\n        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)\n     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the\n     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).\n     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can\n     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of the mean field of a gas of the\n     particles chi: the four bound states of Krein charge -1 (the particles chi) are even under it and the four of Krein\n     charge +1 are odd, so the mean field of the gas cannot mix the two signs of the indefinite charge. R_2 maps the bound\n     states of one Krein charge onto those of the other and makes the two sets degenerate without the self-interaction.\n  9. The planes of Horava and Witten. In M-theory on an interval (a circle whose points are identified with their mirror\n     images), the two ten-dimensional planes left in place by the reflection are mirror surfaces (property 1); the gauge\n     fields E8 x E8 live on them while gravity fills the bulk. This is the arrangement of UM-3, where the Standard Model\n     lives on the fold and gravity and dirac16complex fill the bulk.\n\nWhat is not a fold.\n  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp vanishes, g_x0x0\n    diverges, and they lie at an infinite proper distance; they carry no thin source.\n  * A smooth maximum of a warp, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a kink\n    and without a thin source."
+  "text": "THE FOLD (the definition used in every UM-3 file)\n\nDefinition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of\nthe angle z = 6 H x0 of the hidden direction vanishes:\n    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).\nX = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the\ntime, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The author's metric depends on x0\nonly through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi\ncontains exactly one surface of F, at z = pi/2: F is the union of these copies, one per period (example 2), and \"the\nfold\" without a qualifier is the copy in the period that contains our world. A point of the fold is labelled by the seven\ncoordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/2) is\n    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),\nwith three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.\nNotation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric\nfunctions, tanh the hyperbolic tangent, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as sigma\napproaches 0 from above and from below.\n\nWhy this surface is called a fold. Measured by the proper distance along the hidden direction,\n    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)\n(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends\nof the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the author's metric is\n    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ] - dx4^2.\nIt depends on sigma only through |sigma|. The function W(sigma) = e^(-2 H |sigma|), which multiplies the squared steps of\nordinary space and of the extra times, is the warp factor of the metric (its square root e^(-H |sigma|) multiplies the\nlengths); the time x4 is not warped. Four properties make the surface sigma = 0 a fold, and together they single it out\nwithin the period:\n  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to\n     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the\n     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are\n     joined along the crease.\n  2. The warp factor is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|) equals 1 on the fold and\n     decreases on both sides.\n  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.\n     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,\n        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb:  K^1_1 = K^2_2 = K^3_3 = K^5_5 = K^6_6 = K^7_7 = -H sgn(sigma),  K^4_4 = 0\n     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the\n     sign function, a, b frame indices along the fold); it jumps by -2 H along ordinary space and along the extra times.\n     The Einstein-Lovelock equations of UM-3, sum_p alpha_(p) E_(p)^a_b + Lambda delta^a_b = kappa T^a_b (E_(p) the\n     Lovelock tensor of order p = 1, 2, 3, alpha_(p) = w_(p) H^(2-2p) its coupling with the weights w = (1, 1/20, 1/360),\n     Lambda = -7 H^2 the cosmological constant, kappa = 8 pi G_8 the gravitational coupling of eight dimensions, T^a_b the\n     energy-momentum tensor, delta^a_b the Kronecker delta), are linear in the second sigma-derivatives of the metric, so\n     the jump puts a Dirac delta function delta_D(sigma) into them: the metric solves them only if the fold carries a thin\n     source S^a_b, an energy-momentum tensor concentrated on sigma = 0, given by the integral of the equations across the\n     fold (the junction conditions),\n        (FD-11) kappa S^a_b = integral from sigma = 0- to 0+ of d sigma sum_p alpha_(p) E_(p)^a_b,\n     with S^4_4 = -(its energy density), S^1_1 = S^2_2 = S^3_3 its pressure along ordinary space and S^5_5 = S^6_6 = S^7_7\n     its pressure along the extra times; S is T integrated across the fold, an energy per unit volume of the six other\n     directions of the fold (unit GeV^7). On the static block (a4 and b4 constant) and on an expanding fold whose extra\n     times are frozen (b4 proportional to e^(a4), A = a4'/H, A1 = a4''/H^2)\n        (FD-12) static block:      kappa S^a_b = -(32/5) H delta^a_b  (a pure tension),\n                frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,\n                                    kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:\n     the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a\n     place but a physical object: a thin layer that carries energy and momentum (a brane).\n  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and\n     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,\n        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],\n     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper\n     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).\n\nWhat lives on the fold. In UM-3 the Standard Model (the Higgs doublet with the author's ad hoc vacuum, a time-dependent\nchoice of its vacuum value; the gauge fields of SU(3)_C x SU(2)_L x U(1)_Y; three generations of quarks and leptons and\nthree right-handed neutrinos) and the fold fluid (its tension and the pressure along the extra times that keeps their\nvolume fixed) live on the fold: they are fields at sigma = 0, functions of x1, ..., x4 (no field depends on the extra\ntimes). Integrated over the extra times, the fold is the four-dimensional universe that we observe, with the metric\ndiag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. dirac16complex (the author's spinor field of eight dimensions) and\ngravity live in the bulk sigma != 0 as well as on the fold; the bound states chi of dirac16complex are the part of it that\nthe fold holds, and the portals (couplings between dirac16complex and Standard-Model fields) act at sigma = 0. In UM-3\nfiles \"the fold\" means this surface; the examples below use the word for other surfaces with the same properties. The\nword is not used in its other senses: a set of equal energy levels is called degenerate, and a growth by the factor e is\ncalled an e-folding.\n\nExamples of folds that are meaningful for UM-3.\n  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the\n     Standard Model, and after the integration over the extra times the four-dimensional universe that we observe.\n  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface\n     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are\n     separated by a tip (z a multiple of pi), where the warp factor (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2\n     diverges, and which lies at an infinite proper distance from both: in proper distance every copy has its own complete\n     line -infinity < sigma < infinity. A compact direction of length L would give every field a tower of particles with\n     the masses 2 pi n/L, n = 1, 2, ... (a Kaluza-Klein tower); because the copies are infinitely far apart, the period\n     pi/(6 H) of x0 produces no such tower with the spacing 12 H, and the x0 mass of the bound states is their binding to\n     the fold.\n  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images\n     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).\n     In UM-3 the direction across the crease is the hidden direction sigma, the seven directions along the crease are\n     x1, ..., x7, and the crease is the fold.\n  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,\n     largest at sigma = 0, with a jump of its derivative,\n        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),\n                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),\n     whose delta function is the origin of the thin source of property 3. Every metric function of FD-4 depends on sigma\n     through |sigma| and is folded at sigma = 0 in this sense.\n  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto\n     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map\n     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is\n     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.\n  6. The brane of Randall and Sundrum. The five-dimensional metric\n        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),\n                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5\n     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a\n     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does\n     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in\n     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-3 is of the same kind: its static\n     block is a vacuum of the bulk with a fold of pure tension (FD-12). It differs in that the time x4 is not warped,\n     three extra times are warped together with ordinary space, the Lovelock terms add to the junction conditions, and\n     the space is not cut at the brane: Randall and Sundrum identify the two sides of their brane (one physical side),\n     while the fold of UM-3 has two distinct sides (example 7).\n  7. A particle bound to a thin layer. A particle held by an attractive thin layer has a wave function that falls off\n     exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac\n     equation, the wave function itself). In UM-3 the particles chi of dark matter are the states of dirac16complex bound\n     to the fold; at rest and without their self-interaction (the field is Psi = e^(3 H |sigma|) chi(sigma) e^(-i omega_b x4))\n        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+) (sigma > 0),   chi(sigma) = e^(-q_b |sigma|) chi(0-) (sigma < 0),\n                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),   omega_b = sqrt(m_Psi^2 - q_b^2),\n     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the\n     Standard-Model fields on the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors,\n     m_Psi the bulk mass, and q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for\n     mu_R = 0). The profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).\n  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,\n        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)\n     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the\n     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).\n     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can\n     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of the mean field of a gas of the\n     particles chi (the average field that the particles of the gas create and feel): the four bound states of Krein\n     charge -1 (the particles chi) are even under it and the four of Krein charge +1 are odd, so the mean field of the gas\n     cannot mix the two signs of the indefinite charge. R_2 maps the bound states of one Krein charge onto those of the\n     other and makes the two sets degenerate without the self-interaction.\n  9. The planes of Horava and Witten. In M-theory (the eleven-dimensional theory whose limits include the superstring\n     theories) on an interval (a circle whose points are identified with their mirror images), the two ten-dimensional\n     planes left in place by the reflection are mirror surfaces (property 1); each carries one E8 gauge group while gravity\n     fills the bulk. As in UM-3, the gauge fields live on the mirror surface and gravity in the bulk; unlike UM-3, the two\n     sides of each plane are identified (one physical side).\n\nWhat is not a fold.\n  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp factor vanishes,\n    g_x0x0 diverges, and they lie at an infinite proper distance; they carry no thin source.\n  * A smooth maximum of a warp factor, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a\n    kink and without a thin source."
  },
  "euler": {
   "tex": "\\mathrm{e}",
@@ -63,11 +63,12 @@
   "status": "STANDARD"
  },
  "identity": {
-  "tex": "\\mathbf{1}",
+  "tex": "\\mathbf{1},\\ \\mathbf{1}_8",
   "atoms": [
-   "\\mathbf{1}"
+   "\\mathbf{1}",
+   "\\mathbf{1}_{8}"
   ],
-  "meaning": "The identity matrix of the size fixed by the context ($16 \\times 16$ on dirac16complex, $4 \\times 4$ on a four-dimensional spinor, $3 \\times 3$ in generation or flavour space).",
+  "meaning": "The identity matrix of the size fixed by the context ($16 \\times 16$ on dirac16complex, $4 \\times 4$ on a four-dimensional spinor, $3 \\times 3$ in generation or flavour space); $\\mathbf{1}_8$ is the $8 \\times 8$ identity matrix.",
   "units": "dimensionless",
   "value": "",
   "status": "STANDARD"
@@ -128,7 +129,7 @@
   "atoms": [
    "dagger"
   ],
-  "meaning": "Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator).",
+  "meaning": "Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor; for an operator on the space of states, its adjoint with respect to the scalar product of that space (for the quantised dirac16complex the indefinite Krein scalar product).",
   "units": "",
   "value": "",
   "status": "STANDARD"
@@ -528,7 +529,7 @@
   "atoms": [
    "x_{4}"
   ],
-  "meaning": "The time ($x_4 \\ge 0$ in the ad hoc vacuum); a prime on a function of $x_4$ alone is $\\mathrm{d}/\\mathrm{d}x_4$.",
+  "meaning": "The time; a prime on a function of $x_4$ alone is $\\mathrm{d}/\\mathrm{d}x_4$.",
   "units": "length (= time, $c = 1$)",
   "value": "",
   "status": "AUTHOR"
@@ -638,7 +639,7 @@
   "atoms": [
    "H"
   ],
-  "meaning": "The author's constant (an inverse length) that fixes the period $\\pi/(6H)$ of $x_0$, the Lovelock couplings and the cosmological constant $\\Lambda = -10H^2$; in UM-3 a free parameter.",
+  "meaning": "The author's constant (an inverse length) that fixes the period $\\pi/(6H)$ of $x_0$, the Lovelock couplings $\\alpha_{(p)} = w_{(p)}H^{2-2p}$ and the cosmological constant $\\Lambda = -7H^2$ (the author's original value $-10H^2$ was corrected on 2026-10-25); in UM-3 a free parameter.",
   "units": "GeV (1/length)",
   "value": "",
   "status": "AUTHOR"
@@ -658,7 +659,7 @@
   "atoms": [
    "b_{4}"
   ],
-  "meaning": "The author's metric function of the time $x_4$ in the extra-time components, $b_4 > 0$, never identically 1 (the author's order of 2026-10-24); the scale factor of the extra times is $\\mathrm{e}^{-a_4}b_4$ times the warp.",
+  "meaning": "The author's metric function of the time $x_4$ in the extra-time components, $b_4 > 0$, never identically 1 (the author's order of 2026-10-24); the scale factor (the factor of the lengths) of the extra times is $\\mathrm{e}^{-a_4}b_4$ on the fold and $\\mathrm{e}^{-a_4}b_4\\,\\mathrm{e}^{-H\\lvert\\sigma\\rvert}$ at the distance $\\sigma$ from it (the square root of the warp factor times $\\mathrm{e}^{-a_4}b_4$).",
   "units": "dimensionless",
   "value": "",
   "status": "AUTHOR"
@@ -688,10 +689,10 @@
   "atoms": [
    "S_{\\mathrm{stab}}"
   ],
-  "meaning": "The action of the stabiliser of the bulk (a medium specified by its energy-momentum tensor $\\mathcal{T}_{\\mathrm{stab}}$).",
+  "meaning": "The action of the stabiliser of the bulk, a medium that a static bulk required with the author's original Lovelock weights; with the corrected weights the stabiliser is zero and $S_{\\mathrm{stab}}$ is not part of UM-3 (IN-7).",
   "units": "dimensionless",
   "value": "",
-  "status": "ASSUMED"
+  "status": "DERIVED"
  },
  "SPsi": {
   "tex": "S_\\Psi",
@@ -708,7 +709,7 @@
   "atoms": [
    "S_{\\mathrm{fold}}"
   ],
-  "meaning": "The action of the fold: the Standard Model, the portals of dirac16complex, the fold fluid and the induced gravity of the fold, all at $\\sigma = 0$.",
+  "meaning": "The action of the fold: the Standard Model, the portals of dirac16complex, the fold fluid and the Einstein-Hilbert term that the fields of the fold induce, all at $\\sigma = 0$.",
   "units": "dimensionless",
   "value": "",
   "status": "ASSUMED"
@@ -748,10 +749,40 @@
   "atoms": [
    "w"
   ],
-  "meaning": "The author's Lovelock weights, $w_{(1)} = 1$, $w_{(2)} = 1/32$, $w_{(3)} = 1/1152$ (Dirac_Einstein-Lovelock_4+4_Nash.nb, In[134]).",
+  "meaning": "The Lovelock weights, $w_{(1)} = 1$, $w_{(2)} = 1/20$, $w_{(3)} = 1/360$: the only weights for which gravitational waves travel at the speed of light in the bulk and on the fold (both coefficients of the bulk wave, $1 - 40w_{(2)} + 360w_{(3)}$ and $1 - 24w_{(2)} + 72w_{(3)}$, vanish). The author's original weights $w_{(2)} = 1/32$, $w_{(3)} = 1/1152$ (Dirac_Einstein-Lovelock_4+4_Nash.nb, In[134]) made bulk gravitons faster than light; they were corrected at the author's order of 2026-10-25.",
   "units": "dimensionless",
-  "value": "$(1, 1/32, 1/1152)$",
-  "status": "AUTHOR"
+  "value": "$(1, 1/20, 1/360)$; the author's original $(1, 1/32, 1/1152)$",
+  "status": "AUTHOR (the form), DERIVED (the values)"
+ },
+ "ctw": {
+  "tex": "c_{\\mathrm{t}}",
+  "atoms": [
+   "c_{\\mathrm{t}}"
+  ],
+  "meaning": "The coefficient of the second time derivative of a transverse traceless gravitational wave in the bulk at the static block, in units of its value with Einstein gravity alone: $c_{\\mathrm{t}} = 1 - 40w_{(2)} + 360w_{(3)}$ (FE-68).",
+  "units": "dimensionless",
+  "value": "0 with the corrected weights; $1/16$ with the author's original weights",
+  "status": "DERIVED"
+ },
+ "cxw": {
+  "tex": "c_{\\mathrm{x}}",
+  "atoms": [
+   "c_{\\mathrm{x}}"
+  ],
+  "meaning": "The coefficient of the second derivatives along ordinary space and along $\\sigma$ of the same wave, in the same units: $c_{\\mathrm{x}} = 1 - 24w_{(2)} + 72w_{(3)}$ (FE-68); bulk gravitons move with the local speed $\\sqrt{c_{\\mathrm{x}}/c_{\\mathrm{t}}}$.",
+  "units": "dimensionless",
+  "value": "0 with the corrected weights; $5/16$ with the author's original weights",
+  "status": "DERIVED"
+ },
+ "ycurv": {
+  "tex": "\\mathsf{y}",
+  "atoms": [
+   "\\mathsf{y}"
+  ],
+  "meaning": "The curvature of a seven-dimensional space of constant curvature $-\\mathsf{y}H^2$ (in units of $-H^2$), times the time line: $\\mathsf{y} = 1$ is the static block.",
+  "units": "dimensionless",
+  "value": "",
+  "status": ""
  },
  "LovL": {
   "tex": "\\mathcal{L}_{(p)}",
@@ -768,19 +799,19 @@
   "atoms": [
    "\\Lambda"
   ],
-  "meaning": "The eight-dimensional cosmological constant, $\\Lambda = -10H^2$ (the author writes the pure number $\\Lambda_{\\mathrm{N}} = 10$ in $0 = -\\Lambda_{\\mathrm{N}} + \\sum_p H^{-2p}w_{(p)}\\mathcal{E}_{(p)}$).",
+  "meaning": "The eight-dimensional cosmological constant, $\\Lambda = -7H^2$: with the corrected weights the value for which the static block is a vacuum (its Lovelock tensors add to $7H^2$ in every direction). The author's original value was $\\Lambda = -10H^2$ (he writes the pure number $\\Lambda_{\\mathrm{N}} = 10$ in $0 = -\\Lambda_{\\mathrm{N}} + \\sum_p H^{-2p}w_{(p)}\\mathcal{E}_{(p)}$).",
   "units": "GeV$^2$",
-  "value": "$-10H^2$",
-  "status": "AUTHOR"
+  "value": "$-7H^2$; the author's original $-10H^2$",
+  "status": "AUTHOR (the term), DERIVED (the value)"
  },
  "LambdaN": {
   "tex": "\\Lambda_{\\mathrm{N}}",
   "atoms": [
    "\\Lambda_{\\mathrm{N}}"
   ],
-  "meaning": "The author's pure number in the vacuum equations of his notebook, $\\Lambda_{\\mathrm{N}} = 10$; $\\Lambda = -\\Lambda_{\\mathrm{N}}H^2$.",
+  "meaning": "The author's pure number in the vacuum equations of his notebook, $\\Lambda = -\\Lambda_{\\mathrm{N}}H^2$: his original value 10, corrected to 7 on 2026-10-25.",
   "units": "dimensionless",
-  "value": "10",
+  "value": "7 (the author's original 10)",
   "status": "AUTHOR"
  },
  "Psi": {
@@ -957,30 +988,30 @@
   "atoms": [
    "\\mathcal{T}_{\\mathrm{stab}}"
   ],
-  "meaning": "The energy-momentum tensor of the stabiliser of the bulk (frame components): the source that a static bulk of the author's metric requires, found and named by Claude (Anthropic) on 2026-10-24.",
+  "meaning": "The energy-momentum tensor of the stabiliser of the bulk (frame components): the source that a static bulk of the author's metric required with the author's original Lovelock weights, found and named by Claude (Anthropic) on 2026-10-24; with the corrected weights and $\\Lambda = -7H^2$ it is zero (IN-7).",
   "units": "GeV$^8$",
-  "value": "",
-  "status": "DERIVED (the value), ASSUMED (a separate medium)"
+  "value": "0 with the corrected weights",
+  "status": "DERIVED"
  },
  "rhos": {
   "tex": "\\rho_{\\mathrm{s}}",
   "atoms": [
    "\\rho_{\\mathrm{s}}"
   ],
-  "meaning": "The energy density of the stabiliser; with frozen extra times it is the energy density of the bulk at which ordinary space stands still.",
+  "meaning": "The energy density of the stabiliser of the bulk with the author's original weights; with frozen extra times it was the energy density of the bulk at which ordinary space stands still.",
   "units": "GeV$^8$",
-  "value": "$\\kappa\\rho_{\\mathrm{s}} = -H^2/16$",
-  "status": "DERIVED (the value), ASSUMED (a separate medium)"
+  "value": "$\\kappa\\rho_{\\mathrm{s}} = -H^2/16$ with the author's original weights; 0 with the corrected weights",
+  "status": "DERIVED"
  },
  "ps": {
   "tex": "p_{\\mathrm{s}}",
   "atoms": [
    "p_{\\mathrm{s}}"
   ],
-  "meaning": "The pressure of the stabiliser (equal along $\\sigma$, ordinary space and the extra times).",
+  "meaning": "The pressure of the stabiliser of the bulk with the author's original weights (equal along $\\sigma$, ordinary space and the extra times).",
   "units": "GeV$^8$",
-  "value": "$\\kappa p_{\\mathrm{s}} = -5H^2/16$",
-  "status": "DERIVED (the value), ASSUMED (a separate medium)"
+  "value": "$\\kappa p_{\\mathrm{s}} = -5H^2/16$ with the author's original weights; 0 with the corrected weights",
+  "status": "DERIVED"
  },
  "Vstar": {
   "tex": "V_*",
@@ -1042,25 +1073,35 @@
   "value": "",
   "status": "STANDARD"
  },
- "kappa4": {
-  "tex": "\\kappa_4",
+ "kappa7": {
+  "tex": "\\kappa_7",
   "atoms": [
-   "\\kappa_{4}"
+   "\\kappa_{7}"
   ],
-  "meaning": "The coupling of the induced gravity of the fold, $\\kappa_4 = 8\\pi G_{\\mathrm{ind}}$; four-dimensional gravity on the fold has $8\\pi G_{\\mathrm{N}} = \\kappa_4/(1 + 5\\epsilon_{\\mathrm{r}}/6)$ (the Friedmann equation of the fold to first order in $\\epsilon_{\\mathrm{r}}$).",
+  "meaning": "The gravitational coupling of the fold: with the corrected Lovelock weights the thin source of the fold equals, to second order in the rates of expansion, the Einstein tensor of the seven-dimensional metric of the fold divided by $\\kappa_7 = 15\\kappa H/16$, and exactly so in the Friedmann equations of a fold with frozen extra times; four-dimensional gravity on the fold has $8\\pi G_{\\mathrm{N}} = \\kappa_7/V_*$ (plus the induced term, if the fields of the fold induce one).",
+  "units": "GeV$^{-5}$",
+  "value": "$15\\kappa H/16$",
+  "status": "DERIVED"
+ },
+ "kappaind": {
+  "tex": "\\kappa_{\\mathrm{ind}}",
+  "atoms": [
+   "\\kappa_{\\mathrm{ind}}"
+  ],
+  "meaning": "The coupling of the Einstein-Hilbert term $\\hat R/(2\\kappa_{\\mathrm{ind}})$ that the quantum fluctuations of the fields of the fold may induce, $\\kappa_{\\mathrm{ind}} = 8\\pi G_{\\mathrm{ind}}$; it adds to the gravity of the fold, $1/(8\\pi G_{\\mathrm{N}}) = V_*/\\kappa_7 + 1/\\kappa_{\\mathrm{ind}}$.",
   "units": "GeV$^{-2}$",
-  "value": "$\\kappa_4 \\simeq 8\\pi G_{\\mathrm{N}} = 8\\pi/M_{\\mathrm{Pl}}^2$",
-  "status": "ASSUMED"
+  "value": "not fixed by UM-3",
+  "status": "ESTIMATE"
  },
  "LIG": {
   "tex": "\\mathcal{L}_{\\mathrm{IG}}",
   "atoms": [
    "\\mathcal{L}_{\\mathrm{IG}}"
   ],
-  "meaning": "The Lagrangian of the induced gravity of the fold.",
+  "meaning": "The Lagrangian of the Einstein-Hilbert term of the four-dimensional metric of the fold that the quantum fluctuations of the fields of the fold induce; it adds to the Einstein-Hilbert term that the Lovelock terms give the fold and does not change the speed of gravitational waves.",
   "units": "GeV$^4$",
   "value": "",
-  "status": "ASSUMED"
+  "status": "ESTIMATE"
  },
  "Lff": {
   "tex": "\\mathcal{L}_{\\mathrm{ff}}",
@@ -1089,8 +1130,8 @@
   ],
   "meaning": "The energy density of the fold fluid.",
   "units": "GeV$^4$",
-  "value": "$31HV_*/(4\\kappa)$ at the static block",
-  "status": "ASSUMED"
+  "value": "$\\lambda_{\\mathrm{F}} = 32HV_*/(5\\kappa)$ (its tension)",
+  "status": "ASSUMED (the fluid), DERIVED (the value)"
  },
  "pff": {
   "tex": "p_{\\mathrm{ff}}",
@@ -1099,18 +1140,18 @@
   ],
   "meaning": "The pressure of the fold fluid along ordinary space.",
   "units": "GeV$^4$",
-  "value": "$-61HV_*/(8\\kappa)$ at the static block",
-  "status": "ASSUMED"
+  "value": "$-\\lambda_{\\mathrm{F}} = -32HV_*/(5\\kappa)$",
+  "status": "ASSUMED (the fluid), DERIVED (the value)"
  },
  "qff": {
   "tex": "q_{\\mathrm{ff}}",
   "atoms": [
    "q_{\\mathrm{ff}}"
   ],
-  "meaning": "The pressure of the fold fluid along the extra times.",
+  "meaning": "The pressure of the fold fluid along the extra times: minus its tension plus the pressure $q_{\\mathrm{hold}}$ that holds the volume of the extra times fixed.",
   "units": "GeV$^4$",
-  "value": "$-61HV_*/(8\\kappa)$ at the static block",
-  "status": "ASSUMED"
+  "value": "$-\\lambda_{\\mathrm{F}} + q_{\\mathrm{hold}}$; $-32HV_*/(5\\kappa)$ at the static block",
+  "status": "ASSUMED (the fluid), DERIVED (the value)"
  },
  "LH": {
   "tex": "\\mathcal{L}_{\\mathrm{H}}",
@@ -1667,7 +1708,7 @@
   "atoms": [
    "\\mathcal{T}_{\\mathrm{bulk}}"
   ],
-  "meaning": "The energy-momentum tensor of all sources of the bulk, $\\mathcal{T}_\\Psi + \\mathcal{T}_{\\mathrm{stab}}$; $\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_b$ is its flux along $\\sigma$ (frame components).",
+  "meaning": "The energy-momentum tensor of all sources of the bulk (with the corrected weights dirac16complex alone, $\\mathcal{T}_\\Psi$; with the author’s original weights also the stabiliser); $\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_b$ is its flux along $\\sigma$ (frame components).",
   "units": "GeV$^8$",
   "value": "",
   "status": "STANDARD"
@@ -1677,8 +1718,89 @@
   "atoms": [
    "\\mathcal{S}"
   ],
-  "meaning": "The thin source of the fold: its energy-momentum tensor per unit proper length across the fold (eight-dimensional normalisation, frame components along the fold); it is fixed by the jump of the first $\\sigma$-derivatives of the metric across the fold (the junction conditions; $\\kappa\\mathcal{S}$ is the jump of the junction potential).",
+  "meaning": "The thin source of the fold: the energy-momentum tensor concentrated on the fold, integrated across it, $\\kappa\\mathcal{S}^a{}_b = \\int_{0^-}^{0^+}\\mathrm{d}\\sigma\\sum_p\\alpha_{(p)}\\mathcal{E}_{(p)}{}^a{}_b$ (FD-11, the junction conditions); $\\mathcal{S}^4{}_4$ is minus its energy density, $\\mathcal{S}^1{}_1$ and $\\mathcal{S}^5{}_5$ its pressures along ordinary space and along the extra times (frame components along the fold, eight-dimensional normalisation: an energy per unit volume of the six other directions of the fold).",
   "units": "GeV$^7$",
+  "value": "$\\kappa\\mathcal{S}^a{}_b = -\\frac{32}{5}H\\delta^a{}_b$ at the static block",
+  "status": "DERIVED"
+ },
+ "Gfold7": {
+  "tex": "\\mathcal{G}_{\\mathrm{F}}{}^a{}_b",
+  "atoms": [
+   "\\mathcal{G}_{\\mathrm{F}}"
+  ],
+  "meaning": "The Einstein tensor of the seven-dimensional metric of the fold (FD-2), frame components along the fold.",
+  "units": "1/length$^2$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Pigw": {
+  "tex": "\\Pi_{\\mathrm{gw}}",
+  "atoms": [
+   "\\Pi_{\\mathrm{gw}}"
+  ],
+  "meaning": "The transverse traceless stress of the matter of the fold that drives the gravitational wave $h_{\\mathrm{gw}}$ (half the difference of its components along $x_1$ and $x_2$), integrated across the fold (eight-dimensional normalisation).",
+  "units": "GeV$^7$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "qhold": {
+  "tex": "q_{\\mathrm{hold}}",
+  "atoms": [
+   "q_{\\mathrm{hold}}"
+  ],
+  "meaning": "The pressure along the extra times that the fold fluid adds to its tension to hold the volume of the extra times fixed (four-dimensional normalisation).",
+  "units": "GeV$^4$",
+  "value": "$-\\Delta_{\\mathrm{r}} = -0.793\\,\\rho_{\\mathrm{c}}^{(0)}$ today",
+  "status": "DERIVED (the value), ASSUMED (that the fold fluid supplies it)"
+ },
+ "qtot": {
+  "tex": "q_{\\mathrm{tot}}",
+  "atoms": [
+   "q_{\\mathrm{tot}}"
+  ],
+  "meaning": "The total pressure along the extra times of the matter of the fold (the Standard Model, the bound states of dirac16complex, the portals and the fold fluid without its tension).",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "rhoinf": {
+  "tex": "\\rho_{\\mathrm{inf}}",
+  "atoms": [
+   "\\rho_{\\mathrm{inf}}"
+  ],
+  "meaning": "The vacuum energy density that drives an inflation of the fold: the potential energy of a field of the fold (four-dimensional normalisation), with the pressure $-\\rho_{\\mathrm{inf}}$ along ordinary space and along the extra times.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "pinf": {
+  "tex": "p_{\\mathrm{inf}}",
+  "atoms": [
+   "p_{\\mathrm{inf}}"
+  ],
+  "meaning": "The pressure along ordinary space of the vacuum energy that drives an inflation of the fold.",
+  "units": "GeV$^4$",
+  "value": "$-\\rho_{\\mathrm{inf}}$",
+  "status": "STANDARD"
+ },
+ "Xsec": {
+  "tex": "\\mathcal{X}^a{}_b",
+  "atoms": [
+   "\\mathcal{X}"
+  ],
+  "meaning": "The second-order static bulk operator around the static block: the term of second order in $\\epsilon_{\\mathrm{b}}$ of the bulk equations for static deformations of the metric (frame components; the first-order term vanishes identically).",
+  "units": "GeV$^2$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "jumpab": {
+  "tex": "j_{\\mathfrak{a}},\\ j_{\\mathfrak{b}}",
+  "atoms": [
+   "j_{\\mathfrak{a}}",
+   "j_{\\mathfrak{b}}"
+  ],
+  "meaning": "The jumps at the fold of the first $\\sigma$-derivatives of the first-order deformations of the metric: $j_{\\mathfrak{a}} = \\mathfrak{a}_1'(0^+) - \\mathfrak{a}_1'(0^-)$, $j_{\\mathfrak{b}} = \\mathfrak{b}_1'(0^+) - \\mathfrak{b}_1'(0^-)$.",
+  "units": "GeV",
   "value": "",
   "status": "DERIVED"
  },
@@ -1790,10 +1912,10 @@
   "atoms": [
    "\\mathcal{T}_{\\mathrm{IG}}"
   ],
-  "meaning": "The energy-momentum tensor of the induced gravity of the fold, $\\mathcal{T}_{\\mathrm{IG}}{}^\\mu{}_\\nu = -\\hat G^\\mu{}_\\nu/\\kappa_4$.",
+  "meaning": "The energy-momentum tensor of the induced Einstein-Hilbert term of the fold, $\\mathcal{T}_{\\mathrm{IG}}{}^\\mu{}_\\nu = -\\hat G^\\mu{}_\\nu/\\kappa_{\\mathrm{ind}}$.",
   "units": "GeV$^4$",
   "value": "",
-  "status": "DERIVED"
+  "status": "ESTIMATE"
  },
  "Tany": {
   "tex": "\\mathcal{T}",
@@ -1985,8 +2107,8 @@
   ],
   "meaning": "The expansion rate of ordinary space in units of $H$, $\\mathsf{A} = a_4'/H$.",
   "units": "dimensionless",
-  "value": "1 at the author's vacuum, 0 at the static block; $H_4^{(0)}/H$ today ($H_4^{(0)}$ the Hubble constant)",
-  "status": "DERIVED"
+  "value": "0 at the static block; $H_4^{(0)}/H$ today ($H_4^{(0)}$ the Hubble constant); 1 at the author's vacuum, which is not a solution with the corrected weights",
+  "status": ""
  },
  "Usf": {
   "tex": "\\mathsf{U}",
@@ -1996,7 +2118,27 @@
   "meaning": "The rate of change of $b_4$ in units of $H$, $\\mathsf{U} = b_4'/(Hb_4)$.",
   "units": "dimensionless",
   "value": "$\\mathsf{U} = \\mathsf{A}$ with frozen extra times",
-  "status": "DERIVED"
+  "status": ""
+ },
+ "Vsf": {
+  "tex": "\\mathsf{V}",
+  "atoms": [
+   "\\mathsf{V}"
+  ],
+  "meaning": "The rate of change of the scale factor $\\mathrm{e}^{-a_4}b_4$ of the extra times on the fold in units of $H$, $\\mathsf{V} = \\mathsf{U} - \\mathsf{A}$; zero with frozen extra times.",
+  "units": "dimensionless",
+  "value": "",
+  "status": ""
+ },
+ "V1sf": {
+  "tex": "\\mathsf{V}_1",
+  "atoms": [
+   "\\mathsf{V}_{1}"
+  ],
+  "meaning": "The time derivative of $\\mathsf{V}$ in units of $H$, $\\mathsf{V}_1 = \\mathsf{V}'/H$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": ""
  },
  "A1sf": {
   "tex": "\\mathsf{A}_1",
@@ -2006,7 +2148,7 @@
   "meaning": "The time derivative of $\\mathsf{A}$ in units of $H$, $\\mathsf{A}_1 = \\mathsf{A}'/H = a_4''/H^2$.",
   "units": "dimensionless",
   "value": "",
-  "status": "DERIVED"
+  "status": ""
  },
  "U1sf": {
   "tex": "\\mathsf{U}_1",
@@ -2023,7 +2165,7 @@
   "atoms": [
    "\\mathcal{G}"
   ],
-  "meaning": "The factor of the $(\\sigma, x_4)$ bulk equation of the author’s metric, $\\mathcal{G} = 5\\mathsf{A}^2(\\mathsf{A} - \\mathsf{U})^2 - 6\\mathsf{A}^2 + 6\\mathsf{A}\\mathsf{U} + \\mathsf{U}^2 + 1$.",
+  "meaning": "The factor of the $(\\sigma, x_4)$ bulk equation of the author's metric with the author's original weights, $\\mathcal{G} = 5\\mathsf{A}^2(\\mathsf{A} - \\mathsf{U})^2 - 6\\mathsf{A}^2 + 6\\mathsf{A}\\mathsf{U} + \\mathsf{U}^2 + 1$.",
   "units": "dimensionless",
   "value": "",
   "status": "DERIVED"
@@ -2058,15 +2200,15 @@
   "value": "",
   "status": "STANDARD"
  },
- "epsr": {
-  "tex": "\\epsilon_{\\mathrm{r}}",
+ "epsb": {
+  "tex": "\\epsilon_{\\mathrm{b}}",
   "atoms": [
-   "\\epsilon_{\\mathrm{r}}"
+   "\\epsilon_{\\mathrm{b}}"
   ],
-  "meaning": "The bookkeeping parameter of the response of the bulk to the matter of the fold: the ratio of the bulk to the fold gravity, $\\epsilon_{\\mathrm{r}} = \\kappa_4V_*/(\\kappa H)$.",
+  "meaning": "The bookkeeping parameter of the deformations of the metric along $\\sigma$ that sources depending on $\\sigma$ require (their amplitude relative to the order-0 metric of the author).",
   "units": "dimensionless",
-  "value": "below $1.344\\times10^{-13}$: the four-dimensional gravitational wave has $c_{\\mathrm{g}}^2 = (96 + 83\\epsilon_{\\mathrm{r}})/(96 + 82\\epsilon_{\\mathrm{r}})$, and the gravitational waves and the light of the neutron-star merger GW170817 arrived together, $(c_{\\mathrm{g}} - 1) < 7\\times10^{-16}$",
-  "status": "DERIVED"
+  "value": "",
+  "status": ""
  },
  "epsc": {
   "tex": "\\epsilon_{\\mathrm{c}}",
@@ -2339,8 +2481,8 @@
   "atoms": [
    "Q_{\\Psi}"
   ],
-  "meaning": "The conserved charge of dirac16complex (the Noether charge of a change of the phase of $\\Psi$ by a constant), a Krein form (indefinite).",
-  "units": "dimensionless",
+  "meaning": "The conserved charge of dirac16complex (the Noether charge of a change of the phase of $\\Psi$ by a constant), a Krein form (indefinite); as written it is the charge per unit coordinate volume of the extra times, on which no field depends.",
+  "units": "GeV$^3$",
   "value": "",
   "status": "DERIVED"
  },
@@ -2674,7 +2816,7 @@
   ],
   "meaning": "The masses of the quarks ($m_u, m_c, m_t$; $m_d, m_s, m_b$), of the charged leptons ($m_e, m_\\mu, m_\\tau$) and of the three neutrino mass states ($m_1, m_2, m_3$, Dirac masses).",
   "units": "GeV",
-  "value": "measured values; $\\Delta m_{21}^2 = 7.41\\times10^{-5}$ eV$^2$, $\\lvert\\Delta m_{31}^2\\rvert = 2.511\\times10^{-3}$ eV$^2$ in the computations of UM-3 (the global fit NuFIT 5.2 of the oscillation data, November 2022), $7.49\\times10^{-5}$ and $2.513\\times10^{-3}$ eV$^2$ in NuFIT 6.0 (2024); the lightest mass $m_1 = 0$ in the computations, below 4.12 meV by DESI DR2 with the CMB",
+  "value": "measured values; $\\Delta m_{21}^2 = 7.41\\times10^{-5}$ eV$^2$, $\\lvert\\Delta m_{31}^2\\rvert = 2.511\\times10^{-3}$ eV$^2$ in the computations of UM-3 (the global fit NuFIT 5.2 of the oscillation data, November 2022), $7.49\\times10^{-5}$ and $2.513\\times10^{-3}$ eV$^2$ in NuFIT 6.0 (2024); the lightest mass $m_1 = 0$ in the computations, below 23 meV by DESI DR2 with the CMB and NuFIT 6.0",
   "status": "STANDARD"
  },
  "Ckm": {
@@ -2694,7 +2836,7 @@
   ],
   "meaning": "The lepton mixing matrix (Pontecorvo-Maki-Nakagawa-Sakata) of the three Dirac neutrinos; $U_{\\alpha i}$ are its entries.",
   "units": "dimensionless",
-  "value": "$\\theta_{12} = 33.40^\\circ$, $\\theta_{23} = 49.14^\\circ$, $\\theta_{13} = 8.54^\\circ$ (NuFIT 5.2, November 2022, normal ordering, with the Super-Kamiokande atmospheric data); the Dirac phase is set to zero (ASSUMED; the fit prefers $197^\\circ$)",
+  "value": "$\\theta_{12} = 33.40^\\circ$, $\\theta_{23} = 49.14^\\circ$, $\\theta_{13} = 8.54^\\circ$ (NuFIT 5.2, November 2022, normal ordering, the fit without the Super-Kamiokande atmospheric data); the Dirac phase is set to zero (ASSUMED; the fit prefers $197^\\circ$)",
   "status": "STANDARD, ASSUMED (the phase)"
  },
  "nugen": {
@@ -3177,7 +3319,7 @@
   "atoms": [
    "\\tau_{\\mathrm{c}}"
   ],
-  "meaning": "The conformal time of the fold, $\\mathrm{d}\\tau_{\\mathrm{c}} = \\mathrm{d}x_4/a$; a dot on a quantity of the cosmological perturbations is $\\mathrm{d}/\\mathrm{d}\\tau_{\\mathrm{c}}$.",
+  "meaning": "The conformal time of the fold, $\\mathrm{d}\\tau_{\\mathrm{c}} = \\mathrm{e}^{-a_4}\\mathrm{d}x_4$ (the time divided by the scale factor $\\mathrm{e}^{a_4}$ of the fold); a dot on a quantity of the cosmological perturbations is $\\mathrm{d}/\\mathrm{d}\\tau_{\\mathrm{c}}$.",
   "units": "length (= time)",
   "value": "",
   "status": "STANDARD"
@@ -3749,10 +3891,20 @@
   "atoms": [
    "\\rho_{\\Lambda}"
   ],
-  "meaning": "The vacuum energy density of the fold, the dark energy of UM-3: $\\rho_\\Lambda = \\rho_{\\mathrm{ff}} - 31HV_*/(4\\kappa)$ (FE-59).",
+  "meaning": "The vacuum energy density of the fold above its static tension, the dark energy of UM-3: $\\rho_\\Lambda = \\rho_{\\mathrm{ff}} + \\rho_{\\mathrm{vac}} - \\lambda_{\\mathrm{F}}$.",
+  "units": "GeV$^4$",
+  "value": "$0.685\\,\\rho_{\\mathrm{c}}^{(0)} = 2.5\\times10^{-47}$ GeV$^4$ (Planck 2018)",
+  "status": "DERIVED"
+ },
+ "rhovac": {
+  "tex": "\\rho_{\\mathrm{vac}}",
+  "atoms": [
+   "\\rho_{\\mathrm{vac}}"
+  ],
+  "meaning": "The vacuum energy of the fields of the fold: the minimum of their potential (for the Standard Model the minimum of the Higgs potential with its loop corrections), a tension of the seven-dimensional fold.",
   "units": "GeV$^4$",
   "value": "",
-  "status": "DERIVED"
+  "status": "STANDARD"
  },
  "TSM": {
   "tex": "\\mathcal{T}_{\\mathrm{SM}}",
@@ -3964,26 +4116,6 @@
   "value": "",
   "status": "DERIVED"
  },
- "Cdiff": {
-  "tex": "C_{\\mathrm{d}}",
-  "atoms": [
-   "C_{\\mathrm{d}}"
-  ],
-  "meaning": "The amplitude of the difference mode S-6, the only static first-order correction of the metric when the bulk medium does not respond: $\\mathfrak{a}_1' = -\\mathfrak{b}_1' = C_{\\mathrm{d}}\\mathrm{e}^{6H\\lvert\\sigma\\rvert}$.",
-  "units": "1/length",
-  "value": "",
-  "status": "DERIVED"
- },
- "crad": {
-  "tex": "c_{\\mathrm{rad}}",
-  "atoms": [
-   "c_{\\mathrm{rad}}"
-  ],
-  "meaning": "The amplitude of the radion mode: the first-order jumps at the fold $([\\mathfrak{a}_1'], [\\mathfrak{b}_1'], [\\mathfrak{n}_1']) = c_{\\mathrm{rad}}(1, -1, 5)$, which change only the extra-time component of the junction.",
-  "units": "1/length",
-  "value": "$3.806\\,\\mathsf{A}^2H/\\epsilon_{\\mathrm{r}}$ today",
-  "status": "DERIVED"
- },
  "Deltar": {
   "tex": "\\Delta_{\\mathrm{r}}",
   "atoms": [
@@ -4079,9 +4211,9 @@
   "atoms": [
    "c_{\\mathrm{g}}"
   ],
-  "meaning": "The limiting speed of the zero mode of the transverse traceless graviton (the four-dimensional gravitational wave) at the static block or with frozen extra times, in units of the speed of light on the fold.",
+  "meaning": "The speed of gravitational waves on the fold, in units of the speed of light.",
   "units": "dimensionless",
-  "value": "$\\sqrt{15/2} = 2.74$ for the bulk alone; $\\sqrt{83/82} = 1.0061$ with the graviton term of the fold from the Gauss-Bonnet and cubic Lovelock terms; $\\sqrt{(96 + 83\\epsilon_{\\mathrm{r}})/(96 + 82\\epsilon_{\\mathrm{r}})}$ with the induced gravity of the fold",
+  "value": "1 at every wavelength with the corrected weights; with the author's original weights the long-wavelength mode had $c_{\\mathrm{g}}^2 = 83/82$ and shorter waves were slower than light",
   "status": "DERIVED"
  },
  "Mkink": {
@@ -4099,7 +4231,7 @@
   "atoms": [
    "c_{\\mathrm{b}}"
   ],
-  "meaning": "The limiting speed of the bound particles $\\chi$ of dirac16complex along ordinary space, in units of the speed of light on the fold (first order in the momentum).",
+  "meaning": "The speed coefficient of the bound particles $\\chi$ of dirac16complex along ordinary space, in units of the speed of light on the fold: at small momentum their energy is $\\omega^2 = \\omega_{\\mathrm{b}}^2 + c_{\\mathrm{b}}^2\\vec k^2$ (it is not a speed that the particles reach: at large momenta $\\omega/\\lvert\\vec k\\rvert$ tends to 1, the speed of light).",
   "units": "dimensionless",
   "value": "",
   "status": "DERIVED"
@@ -4123,7 +4255,7 @@
   ],
   "meaning": "The three mixing angles of $U_{\\mathrm{PMNS}}$ (its fourth parameter is the Dirac phase, which does not enter the electron-flavour results of UM-3).",
   "units": "dimensionless",
-  "value": "$33.40^\\circ$, $8.54^\\circ$, $49.14^\\circ$ in the computations of UM-3 ($\\sin^2\\theta_{12} = 0.303$, $\\sin^2\\theta_{13} = 0.02203$, $\\sin^2\\theta_{23} = 0.572$: NuFIT 5.2, November 2022, normal ordering, with the Super-Kamiokande atmospheric data); $33.71^\\circ$, $8.56^\\circ$, $43.28^\\circ$ in NuFIT 6.0 (2024; $\\sin^2\\theta_{12} = 0.308$, $\\sin^2\\theta_{13} = 0.02215$, $\\sin^2\\theta_{23} = 0.470$)",
+  "value": "$33.40^\\circ$, $8.54^\\circ$, $49.14^\\circ$ in the computations of UM-3 ($\\sin^2\\theta_{12} = 0.303$, $\\sin^2\\theta_{13} = 0.02203$, $\\sin^2\\theta_{23} = 0.572$: NuFIT 5.2, November 2022, normal ordering, the fit without the Super-Kamiokande atmospheric data); $33.71^\\circ$, $8.56^\\circ$, $43.28^\\circ$ in NuFIT 6.0 (2024, with the Super-Kamiokande atmospheric data; $\\sin^2\\theta_{12} = 0.308$, $\\sin^2\\theta_{13} = 0.02215$, $\\sin^2\\theta_{23} = 0.470$)",
   "status": "STANDARD"
  },
  "NA": {
@@ -4576,7 +4708,7 @@
   ],
   "meaning": "The electron row of the mixing matrix, $U_{\\mathrm{e}i} = (U_{\\mathrm{PMNS}})_{ei}$: $\\lvert U_{\\mathrm{e}i}\\rvert^2$ is the electron-flavour fraction of the mass state $i$.",
   "units": "dimensionless",
-  "value": "$\\lvert U_{\\mathrm{e}i}\\rvert^2 = 0.681, 0.296, 0.022$",
+  "value": "$\\lvert U_{\\mathrm{e}i}\\rvert^2 = 0.682$, 0.296 and 0.022 for $i = 1, 2, 3$ (NuFIT 5.2, the fit without the Super-Kamiokande atmospheric data: the values of the record; NuFIT 6.0 with them gives 0.677, 0.301 and 0.022)",
   "status": "STANDARD"
  },
  "sstate": {
@@ -4586,7 +4718,7 @@
   ],
   "meaning": "The mean speed of the neutrino mass state $i$ today, averaged over its momentum distribution (0 for a state at rest, 1 for a massless one).",
   "units": "dimensionless",
-  "value": "1, 0.061 and 0.011 for $\\nu_1$, $\\nu_2$ and $\\nu_3$ with $m_1 = 0$; 0.126 for $\\nu_1$ with $m_1 = 4.12$ meV",
+  "value": "1, 0.061 and 0.011 for $\\nu_1$, $\\nu_2$ and $\\nu_3$ with $m_1 = 0$; 0.023 for $\\nu_1$ with $m_1 = 23$ meV",
   "status": "STANDARD"
  },
  "ph": {
@@ -4684,7 +4816,7 @@
   "atoms": [
    "\\mathcal{W}"
   ],
-  "meaning": "The warp factor: in a warped metric, the function of the position along one direction that multiplies the squared steps of other directions; in UM-3 the function of $\\sigma$ that multiplies ordinary space and the extra times, $\\mathcal{W} = \\mathrm{e}^{-2H\\lvert\\sigma\\rvert} = (\\sin^2z)^{1/6}$, equal to 1 on the fold.",
+  "meaning": "The warp factor: in a warped metric, the function of the position along one direction that multiplies the squared steps of other directions (its square root multiplies their lengths); in UM-3 the function of $\\sigma$ that multiplies ordinary space and the extra times, $\\mathcal{W} = \\mathrm{e}^{-2H\\lvert\\sigma\\rvert} = (\\sin^2z)^{1/6}$, equal to 1 on the fold.",
   "units": "dimensionless",
   "value": "",
   "status": "DERIVED"
@@ -4814,9 +4946,9 @@
   "atoms": [
    "\\lambda_{\\mathrm{F}}"
   ],
-  "meaning": "The tension of the fold fluid: the part of the fold fluid whose pressures along ordinary space and along the extra times are minus its energy density (a vacuum energy of the seven-dimensional fold), per unit volume of ordinary space of the fold.",
+  "meaning": "The tension of the fold: the part of the fold fluid whose pressures along ordinary space and along the extra times are minus its energy density (a vacuum energy of the seven-dimensional fold), per unit volume of ordinary space of the fold (four-dimensional normalisation).",
   "units": "GeV$^4$",
-  "value": "$61HV_*/(8\\kappa)$ at the static block",
+  "value": "$32HV_*/(5\\kappa)$",
   "status": "DERIVED"
  },
  "rhod": {
@@ -4824,9 +4956,19 @@
   "atoms": [
    "\\rho_{\\mathrm{d}}"
   ],
-  "meaning": "The pressureless part of the fold fluid: the energy density of the fold fluid minus its tension, per unit volume of ordinary space of the fold.",
+  "meaning": "The pressureless part of the static source of the fold with the author's original weights: the energy density of the fold fluid minus its tension, per unit volume of ordinary space of the fold.",
   "units": "GeV$^4$",
-  "value": "$HV_*/(8\\kappa)$ at the static block",
+  "value": "$HV_*/(8\\kappa)$ with the author's original weights; 0 with the corrected weights",
+  "status": "DERIVED"
+ },
+ "mcurv": {
+  "tex": "m_{\\mathrm{c}}",
+  "atoms": [
+   "m_{\\mathrm{c}}"
+  ],
+  "meaning": "The number of the other curved directions of the static block seen from one direction: 6 for $\\sigma$, ordinary space and the extra times (the seven curved directions without the given one), 7 for the time (which is not curved itself).",
+  "units": "dimensionless",
+  "value": "6 or 7",
   "status": "DERIVED"
  },
  "rho4s": {
@@ -4834,9 +4976,9 @@
   "atoms": [
    "\\rho_{4,\\mathrm{s}}"
   ],
-  "meaning": "The energy of the stabiliser per unit volume of ordinary space of the fold: its energy density integrated over the hidden direction and the extra times.",
+  "meaning": "The energy of the stabiliser per unit volume of ordinary space of the fold with the author's original weights: its energy density integrated over the hidden direction and the extra times.",
   "units": "GeV$^4$",
-  "value": "$-HV_*/(48\\kappa)$",
+  "value": "$-HV_*/(48\\kappa)$ with the author's original weights; 0 with the corrected weights",
   "status": "DERIVED"
  },
  "Pcon": {
@@ -4844,7 +4986,7 @@
   "atoms": [
    "\\mathsf{P}"
   ],
-  "meaning": "The polynomial of the energy constraint of the bulk: the $(x_4, x_4)$ component of the bulk equations of the author’s metric is $\\kappa\\mathcal{T}_{\\mathrm{bulk}}{}^{(4)}{}_{(4)} = (H^2/16)\\,\\mathsf{P}(\\mathsf{A}, \\mathsf{U})$, whatever the time derivatives of the rates.",
+  "meaning": "The polynomial of the energy constraint of the bulk with the author’s original Lovelock weights: the $(x_4, x_4)$ component of the bulk equations of the author’s metric was $\\kappa\\mathcal{T}_{\\mathrm{bulk}}{}^{(4)}{}_{(4)} = (H^2/16)\\,\\mathsf{P}(\\mathsf{A}, \\mathsf{U})$, whatever the time derivatives of the rates (with the corrected weights it is $\\mathsf{A}^3(\\mathsf{A} - \\mathsf{U})^3H^2$).",
   "units": "dimensionless",
   "value": "$\\mathsf{P}(0, 0) = 1$, $\\mathsf{P}(\\pm1, 0) = 0$",
   "status": "DERIVED"
@@ -4854,7 +4996,7 @@
   "atoms": [
    "h_{\\mathrm{gw}}"
   ],
-  "meaning": "The amplitude of a gravitational wave of the + polarisation travelling along $x_3$ (the metric components along $x_1$ and $x_2$ multiplied by $\\mathrm{e}^{h_{\\mathrm{gw}}}$ and $\\mathrm{e}^{-h_{\\mathrm{gw}}}$), in its zero mode, the same at every $\\sigma$: the gravitational wave of the four-dimensional world.",
+  "meaning": "The amplitude of a gravitational wave of the + polarisation travelling along $x_3$: the metric components along $x_1$ and $x_2$ multiplied by $\\mathrm{e}^{h_{\\mathrm{gw}}}$ and $\\mathrm{e}^{-h_{\\mathrm{gw}}}$; a function of $\\sigma$, $x_3$ and $x_4$ in the bulk, and on the fold the gravitational wave of the four-dimensional world.",
   "units": "dimensionless",
   "value": "",
   "status": "STANDARD"
@@ -4864,7 +5006,7 @@
   "atoms": [
    "K_{44}"
   ],
-  "meaning": "The coefficient of the second time derivative in the equation of the zero mode of a gravitational wave, integrated across the hidden direction: the sum of the parts of the bulk, of the Lovelock terms at the fold and of the induced gravity of the fold.",
+  "meaning": "The coefficient of $\\partial^2h_{\\mathrm{gw}}/\\partial x_4^2$ in the equation of the long-wavelength gravitational wave (the same at every $\\sigma$) at the static block, integrated across the hidden direction with the volume factor $\\mathrm{e}^{-6H\\lvert\\sigma\\rvert}$: the part of the bulk plus the thin part at the fold.",
   "units": "GeV$^5$ ($\\kappa K_{44}$ is a length)",
   "value": "",
   "status": "DERIVED"
@@ -4874,7 +5016,7 @@
   "atoms": [
    "K_{33}"
   ],
-  "meaning": "The coefficient of the second derivative along $x_3$ in the equation of the zero mode of a gravitational wave (negative), with the same three parts.",
+  "meaning": "The coefficient of $-\\partial^2h_{\\mathrm{gw}}/\\partial x_3^2$ in the same equation, with the same two parts; the wave travels at $c_{\\mathrm{g}}^2 = K_{33}/K_{44}$.",
   "units": "GeV$^5$",
   "value": "",
   "status": "DERIVED"
@@ -4884,10 +5026,10 @@
   "atoms": [
    "G_{\\mathrm{ind}}"
   ],
-  "meaning": "The Newton constant of the induced gravity of the fold, $\\kappa_4 = 8\\pi G_{\\mathrm{ind}}$ (Newton’s constant $G_{\\mathrm{N}}$ up to the factor $1 + 5\\epsilon_{\\mathrm{r}}/6$).",
+  "meaning": "The Newton constant of the induced Einstein-Hilbert term of the fold, $\\kappa_{\\mathrm{ind}} = 8\\pi G_{\\mathrm{ind}}$.",
   "units": "GeV$^{-2}$",
   "value": "",
-  "status": "ASSUMED"
+  "status": "ESTIMATE"
  },
  "Nind": {
   "tex": "N_{\\mathrm{ind}}",
@@ -4906,7 +5048,7 @@
   ],
   "meaning": "The cutoff of the proper-time integral of the one-loop effective action of the fields of the fold: the highest energy of the quantum fluctuations that induce gravity.",
   "units": "GeV",
-  "value": "$\\sqrt{24}\\,\\pi M_{\\mathrm{red}} = 3.748\\times10^{19}$ GeV for the measured Newton constant at $\\xi_{\\mathrm{H}} = 0$",
+  "value": "$\\sqrt{24}\\,\\pi M_{\\mathrm{red}} = 3.748\\times10^{19}$ GeV $= 3.07M_{\\mathrm{Pl}}$ if the induced term alone gave the measured Newton constant at $\\xi_{\\mathrm{H}} = 0$",
   "status": "ESTIMATE"
  },
  "xinm": {
@@ -4926,7 +5068,7 @@
   ],
   "meaning": "The coupling $\\xi$ of the Higgs doublet to the scalar curvature of the fold.",
   "units": "dimensionless",
-  "value": "not fixed by UM-3; below $1/6$ if the gravity of the fold is induced by its fields",
+  "value": "not fixed by UM-3; about $1.6\\times10^4$ if the Higgs field drives inflation (ESTIMATE); it would have to be below $1/6$ only if the whole gravity of the fold were induced by its fields",
   "status": "ASSUMED"
  },
  "NWeyl": {
@@ -4984,10 +5126,30 @@
   "atoms": [
    "\\sigma_{\\mathrm{leak}}"
   ],
-  "meaning": "The distance from the fold beyond which a state of dirac16complex with a momentum along the extra times is no longer bound: there the warp has raised that momentum above the local gap.",
+  "meaning": "The distance from the fold beyond which a state of dirac16complex with a momentum along the extra times is no longer bound: the warping multiplies that momentum by $\\mathrm{e}^{H\\lvert\\sigma\\rvert}$, and beyond $\\sigma_{\\mathrm{leak}}$ it exceeds the local gap.",
   "units": "length",
   "value": "",
   "status": "DERIVED"
+ },
+ "Gammaf": {
+  "tex": "\\Gamma_{\\mathrm{f}}",
+  "atoms": [
+   "\\Gamma_{\\mathrm{f}}"
+  ],
+  "meaning": "The growth rate of a mode of a massless field of the fold with the physical momentum $l_{\\mathrm{t}}$ along the extra times and no momentum along ordinary space, on the branch of frozen extra times with the constant expansion rate $H_{\\mathrm{i}}$ of ordinary space.",
+  "units": "GeV (1/time)",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Hi": {
+  "tex": "H_{\\mathrm{i}}",
+  "atoms": [
+   "H_{\\mathrm{i}}"
+  ],
+  "meaning": "A constant expansion rate $a_4'$ of ordinary space on the branch of frozen extra times (an inflation of the fold, or a constant rate in an example).",
+  "units": "GeV",
+  "value": "",
+  "status": "ASSUMED"
  },
  "Gammat": {
   "tex": "\\Gamma_{\\mathrm{t}}",
@@ -5067,7 +5229,7 @@
   ],
   "meaning": "The maximal speed of the electron, in units of the speed of light.",
   "units": "dimensionless",
-  "value": "$-6\\times10^{-20} < c_{\\mathrm{e}} - 1 < 1.2\\times10^{-17}$ (synchrotron and inverse-Compton emission of astrophysical electrons)",
+  "value": "$c_{\\mathrm{e}} - 1 < 5\\times10^{-21}$ (no vacuum Cherenkov radiation of the 5 PeV electrons of the 2010 flare of the Crab nebula) and $1 - c_{\\mathrm{e}} < 5.6\\times10^{-20}$ (synchrotron electrons with the Lorentz factor $3\\times10^9$)",
   "status": "STANDARD"
  },
  "gP": {
@@ -5195,7 +5357,7 @@
   "atoms": [
    "k_{\\mathrm{RS}}"
   ],
-  "meaning": "The inverse curvature length of the bulk of the model of Randall and Sundrum: the warp of the brane is $\\mathrm{e}^{-2k_{\\mathrm{RS}}\\lvert y_{\\mathrm{RS}}\\rvert}$ (FD-8, an example, not UM-3).",
+  "meaning": "The inverse curvature length of the bulk of the model of Randall and Sundrum: the warp factor of the brane is $\\mathrm{e}^{-2k_{\\mathrm{RS}}\\lvert y_{\\mathrm{RS}}\\rvert}$ (FD-8, an example, not UM-3).",
   "units": "GeV (1/length)",
   "value": "",
   "status": "STANDARD"

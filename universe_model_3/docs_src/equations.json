@@ -1,16 +1,15 @@
 [
  {
   "id": "_definition_of_the_fold",
-  "text": "THE FOLD (the definition used in every UM-3 file)\n\nDefinition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of\nthe angle z = 6 H x0 of the hidden direction vanishes:\n    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).\nX = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the\ntime, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The author's metric depends on x0\nonly through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi\ncontains exactly one fold, at z = pi/2. A point of the fold is labelled by the seven coordinates x1, ..., x7, and the\nmetric restricted to the fold (dx0 = 0, z = pi/2) is\n    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),\nwith three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.\n\nWhy this surface is called a fold. Measured by the proper distance along the hidden direction,\n    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)\n(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends\nof the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the author's metric is\n    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ] - dx4^2.\nIt depends on sigma only through |sigma|. Four properties make the surface sigma = 0 a fold, and together they single it\nout within the period:\n  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to\n     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the\n     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are\n     joined along the crease.\n  2. The warp is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|), which multiplies ordinary space and\n     the extra times, equals 1 on the fold and decreases on both sides.\n  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.\n     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,\n        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb:  K^1_1 = K^2_2 = K^3_3 = K^5_5 = K^6_6 = K^7_7 = -H sgn(sigma),  K^4_4 = 0;\n     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the\n     sign function); it jumps by -2 H along ordinary space and along the extra times. The Einstein-Lovelock equations are\n     linear in the second sigma-derivatives of the metric, so the jump puts a Dirac delta function delta_D(sigma) into\n     them: the metric solves them only if the fold carries a thin source S^a_b, an energy-momentum tensor concentrated on\n     sigma = 0 (the junction conditions). At the author's vacuum (a4' = H, b4 constant) its frame components along (ordinary space, the\n     time, the extra times) are kappa S = (-10 H, -6 H, -10 H), at the static late-time state (a4 and b4 constant)\n     kappa S = (-61 H/8, -31 H/4, -61 H/8), with kappa = 8 pi G_8 the gravitational coupling of eight dimensions. The fold\n     is therefore not only a place but a physical object: a thin layer that carries energy and momentum (a brane).\n  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and\n     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,\n        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],\n     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper\n     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).\n\nWhat lives on the fold. In UM-3 the Standard Model (the Higgs doublet with the ad hoc vacuum, the gauge fields of\nSU(3)_C x SU(2)_L x U(1)_Y, three generations of quarks and leptons and three right-handed neutrinos), the fold fluid and\nthe induced Einstein-Hilbert term of the fold live on the fold: they are fields at sigma = 0, functions of x1, ..., x4 (no\nfield depends on the extra times). Integrated over the extra times, the fold is the four-dimensional universe that we\nobserve, with the metric diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. dirac16complex and gravity live in the\nbulk sigma != 0 as well as on the fold; the bound states chi of dirac16complex are the part of it that the fold holds,\nand the portals couple dirac16complex to the Standard Model at sigma = 0. In UM-3 files the word fold means this surface\nand nothing else: a number of equal energy levels is written as a number of degenerate states, and a growth by powers of\nEuler's number as a logarithm.\n\nExamples of folds that are meaningful for UM-3.\n  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the\n     Standard Model, and after the integration over the extra times the four-dimensional universe that we observe.\n  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface\n     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are\n     separated by a tip (z a multiple of pi), where the warp (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2 diverges, and\n     which lies at an infinite proper distance from both: in proper distance every copy has its own complete line\n     -infinity < sigma < infinity. This is why the period pi/(6 H) of x0 produces no Kaluza-Klein tower with the spacing\n     12 H; the x0 mass of the bound states is their binding to the fold.\n  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images\n     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).\n     In UM-3 the direction across the crease is the hidden direction sigma, the seven directions along the crease are\n     x1, ..., x7, and the crease is the fold.\n  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,\n     largest at sigma = 0, with a jump of its derivative,\n        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),\n                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),\n     whose delta function is the origin of the thin source of property 3. Every function of UM-3 that depends on sigma\n     through |sigma| is folded at sigma = 0: the metric functions of FD-4 and the profiles of the bound states of\n     dirac16complex (example 7).\n  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto\n     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map\n     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is\n     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.\n  6. The brane of Randall and Sundrum. The five-dimensional metric\n        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),\n                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5\n     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a\n     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does\n     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in\n     the bulk the vacuum energy Lambda_RS. The fold of UM-3 is of the same kind; it differs in that the time x4 is not\n     warped, three extra times are warped together with ordinary space, and the Lovelock terms add to the junction\n     conditions.\n  7. A particle bound to a thin layer. A particle held by an attractive thin layer has a folded wave function: it falls\n     off exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order\n     Dirac equation, the wave function itself). In UM-3 the particles chi of dark matter are the states of dirac16complex\n     bound to the fold; at rest and without their self-interaction (the field is\n     Psi = e^(3 H |sigma|) chi(sigma) e^(-i omega_b x4))\n        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+) (sigma > 0),   chi(sigma) = e^(-q_b |sigma|) chi(0-) (sigma < 0),\n                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),   omega_b = sqrt(m_Psi^2 - q_b^2),\n     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the\n     Standard-Model fields on the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors,\n     m_Psi the bulk mass, and q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for\n     mu_R = 0).\n  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,\n        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)\n     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the\n     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).\n     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can\n     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of the mean field of a gas of the\n     particles chi: the four bound states of Krein charge -1 (the particles chi) are even under it and the four of Krein\n     charge +1 are odd, so the mean field of the gas cannot mix the two signs of the indefinite charge. R_2 maps the bound\n     states of one Krein charge onto those of the other and makes the two sets degenerate without the self-interaction.\n  9. The planes of Horava and Witten. In M-theory on an interval (a circle whose points are identified with their mirror\n     images), the two ten-dimensional planes left in place by the reflection are mirror surfaces (property 1); the gauge\n     fields E8 x E8 live on them while gravity fills the bulk. This is the arrangement of UM-3, where the Standard Model\n     lives on the fold and gravity and dirac16complex fill the bulk.\n\nWhat is not a fold.\n  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp vanishes, g_x0x0\n    diverges, and they lie at an infinite proper distance; they carry no thin source.\n  * A smooth maximum of a warp, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a kink\n    and without a thin source."
+  "text": "THE FOLD (the definition used in every UM-3 file)\n\nDefinition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of\nthe angle z = 6 H x0 of the hidden direction vanishes:\n    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).\nX = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the\ntime, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The author's metric depends on x0\nonly through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi\ncontains exactly one surface of F, at z = pi/2: F is the union of these copies, one per period (example 2), and \"the\nfold\" without a qualifier is the copy in the period that contains our world. A point of the fold is labelled by the seven\ncoordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/2) is\n    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),\nwith three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.\nNotation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric\nfunctions, tanh the hyperbolic tangent, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as sigma\napproaches 0 from above and from below.\n\nWhy this surface is called a fold. Measured by the proper distance along the hidden direction,\n    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)\n(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends\nof the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the author's metric is\n    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ] - dx4^2.\nIt depends on sigma only through |sigma|. The function W(sigma) = e^(-2 H |sigma|), which multiplies the squared steps of\nordinary space and of the extra times, is the warp factor of the metric (its square root e^(-H |sigma|) multiplies the\nlengths); the time x4 is not warped. Four properties make the surface sigma = 0 a fold, and together they single it out\nwithin the period:\n  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to\n     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the\n     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are\n     joined along the crease.\n  2. The warp factor is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|) equals 1 on the fold and\n     decreases on both sides.\n  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.\n     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,\n        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb:  K^1_1 = K^2_2 = K^3_3 = K^5_5 = K^6_6 = K^7_7 = -H sgn(sigma),  K^4_4 = 0\n     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the\n     sign function, a, b frame indices along the fold); it jumps by -2 H along ordinary space and along the extra times.\n     The Einstein-Lovelock equations of UM-3, sum_p alpha_(p) E_(p)^a_b + Lambda delta^a_b = kappa T^a_b (E_(p) the\n     Lovelock tensor of order p = 1, 2, 3, alpha_(p) = w_(p) H^(2-2p) its coupling with the weights w = (1, 1/20, 1/360),\n     Lambda = -7 H^2 the cosmological constant, kappa = 8 pi G_8 the gravitational coupling of eight dimensions, T^a_b the\n     energy-momentum tensor, delta^a_b the Kronecker delta), are linear in the second sigma-derivatives of the metric, so\n     the jump puts a Dirac delta function delta_D(sigma) into them: the metric solves them only if the fold carries a thin\n     source S^a_b, an energy-momentum tensor concentrated on sigma = 0, given by the integral of the equations across the\n     fold (the junction conditions),\n        (FD-11) kappa S^a_b = integral from sigma = 0- to 0+ of d sigma sum_p alpha_(p) E_(p)^a_b,\n     with S^4_4 = -(its energy density), S^1_1 = S^2_2 = S^3_3 its pressure along ordinary space and S^5_5 = S^6_6 = S^7_7\n     its pressure along the extra times; S is T integrated across the fold, an energy per unit volume of the six other\n     directions of the fold (unit GeV^7). On the static block (a4 and b4 constant) and on an expanding fold whose extra\n     times are frozen (b4 proportional to e^(a4), A = a4'/H, A1 = a4''/H^2)\n        (FD-12) static block:      kappa S^a_b = -(32/5) H delta^a_b  (a pure tension),\n                frozen extra times: kappa S^1_1 = -(16/15)(6 + 3 A^2 + 2 A1) H,  kappa S^4_4 = -(16/5)(2 + A^2) H,\n                                    kappa S^5_5 = -(4/5)(8 + 8 A^2 + A^4 + 4 A1 + A^2 A1) H:\n     the tension plus matter that obeys the Friedmann equations of general relativity. The fold is therefore not only a\n     place but a physical object: a thin layer that carries energy and momentum (a brane).\n  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and\n     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,\n        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],\n     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper\n     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).\n\nWhat lives on the fold. In UM-3 the Standard Model (the Higgs doublet with the author's ad hoc vacuum, a time-dependent\nchoice of its vacuum value; the gauge fields of SU(3)_C x SU(2)_L x U(1)_Y; three generations of quarks and leptons and\nthree right-handed neutrinos) and the fold fluid (its tension and the pressure along the extra times that keeps their\nvolume fixed) live on the fold: they are fields at sigma = 0, functions of x1, ..., x4 (no field depends on the extra\ntimes). Integrated over the extra times, the fold is the four-dimensional universe that we observe, with the metric\ndiag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. dirac16complex (the author's spinor field of eight dimensions) and\ngravity live in the bulk sigma != 0 as well as on the fold; the bound states chi of dirac16complex are the part of it that\nthe fold holds, and the portals (couplings between dirac16complex and Standard-Model fields) act at sigma = 0. In UM-3\nfiles \"the fold\" means this surface; the examples below use the word for other surfaces with the same properties. The\nword is not used in its other senses: a set of equal energy levels is called degenerate, and a growth by the factor e is\ncalled an e-folding.\n\nExamples of folds that are meaningful for UM-3.\n  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the\n     Standard Model, and after the integration over the extra times the four-dimensional universe that we observe.\n  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface\n     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are\n     separated by a tip (z a multiple of pi), where the warp factor (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2\n     diverges, and which lies at an infinite proper distance from both: in proper distance every copy has its own complete\n     line -infinity < sigma < infinity. A compact direction of length L would give every field a tower of particles with\n     the masses 2 pi n/L, n = 1, 2, ... (a Kaluza-Klein tower); because the copies are infinitely far apart, the period\n     pi/(6 H) of x0 produces no such tower with the spacing 12 H, and the x0 mass of the bound states is their binding to\n     the fold.\n  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images\n     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).\n     In UM-3 the direction across the crease is the hidden direction sigma, the seven directions along the crease are\n     x1, ..., x7, and the crease is the fold.\n  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,\n     largest at sigma = 0, with a jump of its derivative,\n        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),\n                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),\n     whose delta function is the origin of the thin source of property 3. Every metric function of FD-4 depends on sigma\n     through |sigma| and is folded at sigma = 0 in this sense.\n  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto\n     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map\n     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is\n     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.\n  6. The brane of Randall and Sundrum. The five-dimensional metric\n        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),\n                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5\n     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a\n     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does\n     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in\n     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-3 is of the same kind: its static\n     block is a vacuum of the bulk with a fold of pure tension (FD-12). It differs in that the time x4 is not warped,\n     three extra times are warped together with ordinary space, the Lovelock terms add to the junction conditions, and\n     the space is not cut at the brane: Randall and Sundrum identify the two sides of their brane (one physical side),\n     while the fold of UM-3 has two distinct sides (example 7).\n  7. A particle bound to a thin layer. A particle held by an attractive thin layer has a wave function that falls off\n     exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac\n     equation, the wave function itself). In UM-3 the particles chi of dark matter are the states of dirac16complex bound\n     to the fold; at rest and without their self-interaction (the field is Psi = e^(3 H |sigma|) chi(sigma) e^(-i omega_b x4))\n        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+) (sigma > 0),   chi(sigma) = e^(-q_b |sigma|) chi(0-) (sigma < 0),\n                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),   omega_b = sqrt(m_Psi^2 - q_b^2),\n     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the\n     Standard-Model fields on the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors,\n     m_Psi the bulk mass, and q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for\n     mu_R = 0). The profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).\n  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,\n        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)\n     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the\n     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).\n     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can\n     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of the mean field of a gas of the\n     particles chi (the average field that the particles of the gas create and feel): the four bound states of Krein\n     charge -1 (the particles chi) are even under it and the four of Krein charge +1 are odd, so the mean field of the gas\n     cannot mix the two signs of the indefinite charge. R_2 maps the bound states of one Krein charge onto those of the\n     other and makes the two sets degenerate without the self-interaction.\n  9. The planes of Horava and Witten. In M-theory (the eleven-dimensional theory whose limits include the superstring\n     theories) on an interval (a circle whose points are identified with their mirror images), the two ten-dimensional\n     planes left in place by the reflection are mirror surfaces (property 1); each carries one E8 gauge group while gravity\n     fills the bulk. As in UM-3, the gauge fields live on the mirror surface and gravity in the bulk; unlike UM-3, the two\n     sides of each plane are identified (one physical side).\n\nWhat is not a fold.\n  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp factor vanishes,\n    g_x0x0 diverges, and they lie at an infinite proper distance; they carry no thin source.\n  * A smooth maximum of a warp factor, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a\n    kink and without a thin source."
  },
  {
   "id": "IN-1",
   "title": "The sum of all terms",
-  "latex": "\\begin{aligned}\nS_{\\mathrm{tot}} &= S_{\\mathrm{EL}} + S_{\\mathrm{stab}} + S_\\Psi + S_{\\mathrm{fold}},\\\\\nS_{\\mathrm{fold}} &= \\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\;\\delta_{\\mathrm{D}}(\\sigma)\\,\\frac{1}{V_*}\\,\n\\big(\\mathcal{L}_{\\mathrm{IG}} + \\mathcal{L}_{\\mathrm{ff}} + \\mathcal{L}_{\\mathrm{H}} + \\mathcal{L}_{\\mathrm{gauge}}\n+ \\mathcal{L}_{\\mathrm{f}} + \\mathcal{L}_{\\mathrm{Y}} + \\mathcal{L}_{\\mathrm{P}}\\big)\n\\end{aligned} \\tag{IN-1}",
+  "latex": "\\begin{aligned}\nS_{\\mathrm{tot}} &= S_{\\mathrm{EL}} + S_\\Psi + S_{\\mathrm{fold}},\\\\\nS_{\\mathrm{fold}} &= \\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\;\\delta_{\\mathrm{D}}(\\sigma)\\,\\frac{1}{V_*}\\,\n\\big(\\mathcal{L}_{\\mathrm{IG}} + \\mathcal{L}_{\\mathrm{ff}} + \\mathcal{L}_{\\mathrm{H}} + \\mathcal{L}_{\\mathrm{gauge}}\n+ \\mathcal{L}_{\\mathrm{f}} + \\mathcal{L}_{\\mathrm{Y}} + \\mathcal{L}_{\\mathrm{P}}\\big)\n\\end{aligned} \\tag{IN-1}",
   "keys": [
    "Stot",
    "SEL",
-   "Sstab",
    "SPsi",
    "Sfold",
    "diff",
@@ -32,7 +31,7 @@
  {
   "id": "IN-2",
   "title": "Gravity",
-  "latex": "\\begin{aligned}\nS_{\\mathrm{EL}} &= \\frac{1}{2\\kappa}\\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\,\\Big(\\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{L}_{(p)}\n - 2\\Lambda\\Big),\\qquad \\kappa = 8\\pi G_8,\\\\\n\\alpha_{(p)} &= w_{(p)}\\,H^{2-2p},\\qquad w_{(1)} = 1,\\quad w_{(2)} = \\frac{1}{32},\\quad w_{(3)} = \\frac{1}{1152},\n \\qquad \\Lambda = -10H^2\n\\end{aligned} \\tag{IN-2}",
+  "latex": "\\begin{aligned}\nS_{\\mathrm{EL}} &= \\frac{1}{2\\kappa}\\int\\mathrm{d}^8X\\,\\sqrt{\\lvert g\\rvert}\\,\\Big(\\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{L}_{(p)}\n - 2\\Lambda\\Big),\\qquad \\kappa = 8\\pi G_8,\\\\\n\\alpha_{(p)} &= w_{(p)}\\,H^{2-2p},\\qquad w_{(1)} = 1,\\quad w_{(2)} = \\frac{1}{20},\\quad w_{(3)} = \\frac{1}{360},\n \\qquad \\Lambda = -7H^2\n\\end{aligned} \\tag{IN-2}",
   "keys": [
    "SEL",
    "kappa",
@@ -48,7 +47,7 @@
    "wL",
    "Hconst"
   ],
-  "status": ""
+  "status": "AUTHOR"
  },
  {
   "id": "IN-3",
@@ -65,6 +64,63 @@
    "Riemann"
   ],
   "status": "STANDARD"
+ },
+ {
+  "id": "FE-68",
+  "title": "The weights for which gravitons travel at the speed of light",
+  "latex": "\\begin{aligned}\n&\\frac{c_{\\mathrm{t}}}{2}\\,\\frac{\\partial^2h_{\\mathrm{gw}}}{\\partial x_4^2}\n - \\frac{c_{\\mathrm{x}}}{2}\\Big(\\mathrm{e}^{2H\\lvert\\sigma\\rvert}\\,\\frac{\\partial^2h_{\\mathrm{gw}}}{\\partial x_3^2}\n + \\frac{\\partial^2h_{\\mathrm{gw}}}{\\partial\\sigma^2} - 6H\\,\\mathrm{sgn}(\\sigma)\\,\\frac{\\partial h_{\\mathrm{gw}}}{\\partial\\sigma}\\Big) = 0,\\\\\n&c_{\\mathrm{t}} = 1 - 40w_{(2)} + 360w_{(3)},\\qquad c_{\\mathrm{x}} = 1 - 24w_{(2)} + 72w_{(3)}\n\\end{aligned} \\tag{FE-68}",
+  "keys": [
+   "ctw",
+   "partial",
+   "hgw",
+   "x4",
+   "cxw",
+   "euler",
+   "Hconst",
+   "sigma",
+   "x3",
+   "sgn",
+   "wL"
+  ],
+  "status": "DERIVED"
+ },
+ {
+  "id": "FE-69",
+  "title": "The weights for which gravitons travel at the speed of light",
+  "latex": "\\begin{aligned}\n&\\int_{0^-}^{0^+}\\mathrm{d}\\sigma\\,(\\dots) = \\frac{16\\big(w_{(2)} - 6w_{(3)}\\big)}{H}\\,\\frac{\\partial^2h_{\\mathrm{gw}}}{\\partial x_4^2}\n - \\frac{12\\big(w_{(2)} - 2w_{(3)}\\big)}{H}\\,\\frac{\\partial^2h_{\\mathrm{gw}}}{\\partial x_3^2}\n - \\frac{c_{\\mathrm{x}}}{2}\\Big(\\frac{\\partial h_{\\mathrm{gw}}}{\\partial\\sigma}\\Big\\vert_{0^+} - \\frac{\\partial h_{\\mathrm{gw}}}{\\partial\\sigma}\\Big\\vert_{0^-}\\Big)\n = \\kappa\\,\\Pi_{\\mathrm{gw}},\\\\\n&\\kappa K_{44} = \\frac{c_{\\mathrm{t}}}{6H} + \\frac{16\\big(w_{(2)} - 6w_{(3)}\\big)}{H},\\qquad\n \\kappa K_{33} = \\frac{c_{\\mathrm{x}}}{4H} + \\frac{12\\big(w_{(2)} - 2w_{(3)}\\big)}{H},\\qquad\n \\kappa\\big(K_{44} - K_{33}\\big) = -\\frac{c_{\\mathrm{t}}}{12H},\\qquad c_{\\mathrm{g}}^2 = \\frac{K_{33}}{K_{44}}\n\\end{aligned} \\tag{FE-69}",
+  "keys": [
+   "diff",
+   "sigma",
+   "wL",
+   "Hconst",
+   "partial",
+   "hgw",
+   "x4",
+   "x3",
+   "cxw",
+   "kappa",
+   "Pigw",
+   "K44",
+   "ctw",
+   "K33",
+   "cgrav"
+  ],
+  "status": "DERIVED"
+ },
+ {
+  "id": "FE-70",
+  "title": "The weights for which gravitons travel at the speed of light",
+  "latex": "\\begin{aligned}\n&\\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{E}_{(p)}{}^1{}_1 + \\Lambda = \\big(15 - 180w_{(2)} + 360w_{(3)}\\big)H^2 + \\Lambda,\\\\\n&\\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{E}_{(p)}{}^4{}_4 + \\Lambda = \\big(21 - 420w_{(2)} + 2520w_{(3)}\\big)H^2 + \\Lambda,\\\\\n&w_{(2)} = \\frac{1}{20},\\ w_{(3)} = \\frac{1}{360}:\\quad \\text{both } 7H^2 + \\Lambda,\\qquad \\Lambda = -7H^2;\\\\\n&\\text{curvature } -\\mathsf{y}H^2:\\quad (\\mathsf{y} - 1)^2(\\mathsf{y} - 7)\\,H^2,\\quad 7(\\mathsf{y} - 1)^3H^2\n\\end{aligned} \\tag{FE-70}",
+  "keys": [
+   "ip",
+   "alphaL",
+   "LovE",
+   "Lambda",
+   "wL",
+   "Hconst",
+   "ycurv"
+  ],
+  "status": "DERIVED"
  },
  {
   "id": "IN-4",
@@ -133,19 +189,21 @@
  },
  {
   "id": "IN-7",
-  "title": "The stabiliser of the bulk",
-  "latex": "\\mathcal{T}_{\\mathrm{stab}}{}^a{}_b = \\mathrm{diag}\\big(p_{\\mathrm{s}}, p_{\\mathrm{s}}, p_{\\mathrm{s}}, p_{\\mathrm{s}},\n -\\rho_{\\mathrm{s}}, p_{\\mathrm{s}}, p_{\\mathrm{s}}, p_{\\mathrm{s}}\\big),\\qquad\n\\kappa\\rho_{\\mathrm{s}} = -\\frac{H^2}{16},\\qquad \\kappa p_{\\mathrm{s}} = -\\frac{5H^2}{16} \\tag{IN-7}",
+  "title": "No stabiliser of the bulk",
+  "latex": "\\begin{aligned}\n&\\kappa\\,\\mathcal{T}_{\\mathrm{stab}}{}^a{}_b = \\Big(\\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{E}_{(p)}{}^a{}_b + \\Lambda\\,\\delta^a{}_b\\Big)\\Big\\vert_{\\text{static block}} = 0:\\\\\n&\\qquad (15 - 9 + 1 - 7)H^2 = 0\\ \\text{(warped directions)},\\qquad (21 - 21 + 7 - 7)H^2 = 0\\ \\text{(the time)}\n\\end{aligned} \\tag{IN-7}",
   "keys": [
+   "kappa",
    "Tstab",
    "ia",
    "ib",
-   "diag",
-   "ps",
-   "rhos",
-   "kappa",
+   "ip",
+   "alphaL",
+   "LovE",
+   "Lambda",
+   "delta",
    "Hconst"
   ],
-  "status": "DERIVED"
+  "status": ""
  },
  {
   "id": "IN-8",
@@ -182,29 +240,31 @@
  {
   "id": "IN-9",
   "title": "The fold",
-  "latex": "\\mathcal{L}_{\\mathrm{IG}} = \\frac{\\hat R}{2\\kappa_4} \\tag{IN-9}",
+  "latex": "\\mathcal{L}_{\\mathrm{IG}} = \\frac{\\hat R}{2\\kappa_{\\mathrm{ind}}} \\tag{IN-9}",
   "keys": [
    "LIG",
    "Rhat",
-   "kappa4"
+   "kappaind"
   ],
-  "status": ""
+  "status": "ESTIMATE"
  },
  {
   "id": "FE-63",
   "title": "The fold",
-  "latex": "\\begin{aligned}\n&K_{44}\\,\\frac{\\partial^2h_{\\mathrm{gw}}}{\\partial x_4^2} + K_{33}\\,\\frac{\\partial^2h_{\\mathrm{gw}}}{\\partial x_3^2} = 0,\\qquad\n c_{\\mathrm{g}}^2 = -\\frac{K_{33}}{K_{44}} = \\frac{96 + 83\\,\\epsilon_{\\mathrm{r}}}{96 + 82\\,\\epsilon_{\\mathrm{r}}},\\\\\n&\\kappa K_{44} = \\frac{1}{96H} + \\frac{5}{12H} + \\frac{1}{2H\\epsilon_{\\mathrm{r}}},\\qquad\n -\\kappa K_{33} = \\frac{5}{64H} + \\frac{17}{48H} + \\frac{1}{2H\\epsilon_{\\mathrm{r}}}\n\\end{aligned} \\tag{FE-63}",
+  "latex": "\\frac{\\kappa}{2\\kappa_7}\\Big(\\frac{\\partial^2h_{\\mathrm{gw}}}{\\partial x_4^2} + 3a_4'\\,\\frac{\\partial h_{\\mathrm{gw}}}{\\partial x_4}\n - \\mathrm{e}^{-2a_4}\\,\\frac{\\partial^2h_{\\mathrm{gw}}}{\\partial x_3^2}\\Big) = \\kappa\\,\\Pi_{\\mathrm{gw}},\\qquad\n\\kappa_7 = \\frac{15}{16}\\,\\kappa H,\\qquad c_{\\mathrm{g}} = 1 \\tag{FE-63}",
   "keys": [
-   "K44",
+   "kappa",
+   "kappa7",
    "partial",
    "hgw",
    "x4",
-   "K33",
+   "a4",
+   "prime",
+   "euler",
    "x3",
-   "cgrav",
-   "epsr",
-   "kappa",
-   "Hconst"
+   "Pigw",
+   "Hconst",
+   "cgrav"
   ],
   "status": "DERIVED"
  },
@@ -242,19 +302,24 @@
  {
   "id": "FE-65",
   "title": "The fold",
-  "latex": "\\rho_{\\mathrm{ff}} = \\lambda_{\\mathrm{F}} + \\rho_{\\mathrm{d}},\\qquad p_{\\mathrm{ff}} = q_{\\mathrm{ff}} = -\\lambda_{\\mathrm{F}},\\qquad\n\\lambda_{\\mathrm{F}} = \\frac{61HV_*}{8\\kappa},\\qquad \\rho_{\\mathrm{d}} = \\frac{HV_*}{8\\kappa},\\qquad\n3a_4'\\,\\rho_{\\mathrm{d}} = \\frac{3}{8}\\,\\mathsf{A}\\,\\frac{H^2V_*}{\\kappa} \\tag{FE-65}",
+  "latex": "\\begin{aligned}\n&p_{\\mathrm{ff}} = -\\rho_{\\mathrm{ff}},\\qquad q_{\\mathrm{ff}} = -\\rho_{\\mathrm{ff}} + q_{\\mathrm{hold}},\\qquad\n \\lambda_{\\mathrm{F}} = \\frac{32HV_*}{5\\kappa},\\\\\n&q_{\\mathrm{hold}} = -\\Delta_{\\mathrm{r}} - \\frac45\\big(\\mathsf{A}^4 + \\mathsf{A}^2\\mathsf{A}_1\\big)\\frac{HV_*}{\\kappa},\\qquad\n \\Delta_{\\mathrm{r}} = q_{\\mathrm{SM}} + q_\\chi + q_{\\mathrm{P}} - \\big(\\rho_{\\mathrm{ff}} - \\lambda_{\\mathrm{F}}\\big) + \\frac{\\rho - 3\\mathcal{P}}{2}\n\\end{aligned} \\tag{FE-65}",
   "keys": [
-   "rhoff",
-   "lambdaF",
-   "rhod",
    "pff",
+   "rhoff",
    "qff",
+   "qhold",
+   "lambdaF",
    "Hconst",
    "Vstar",
    "kappa",
-   "a4",
-   "prime",
-   "Asf"
+   "Deltar",
+   "Asf",
+   "A1sf",
+   "qSM",
+   "qchi",
+   "qP",
+   "rhotot",
+   "Ptot"
   ],
   "status": "DERIVED"
  },
@@ -418,7 +483,7 @@
  {
   "id": "FE-1",
   "title": "The Einstein-Lovelock equations in the bulk",
-  "latex": "\\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{E}_{(p)}{}^M{}_N + \\Lambda\\,\\delta^M_N\n = \\kappa\\big(\\mathcal{T}_\\Psi{}^M{}_N + \\mathcal{T}_{\\mathrm{stab}}{}^M{}_N\\big)\\qquad (\\sigma \\ne 0) \\tag{FE-1}",
+  "latex": "\\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{E}_{(p)}{}^M{}_N + \\Lambda\\,\\delta^M_N\n = \\kappa\\,\\mathcal{T}_\\Psi{}^M{}_N\\qquad (\\sigma \\ne 0) \\tag{FE-1}",
   "keys": [
    "ip",
    "alphaL",
@@ -429,7 +494,6 @@
    "delta",
    "kappa",
    "TPsi",
-   "Tstab",
    "sigma"
   ],
   "status": "AUTHOR"
@@ -494,7 +558,7 @@
  {
   "id": "FE-5",
   "title": "The junction conditions at the fold",
-  "latex": "\\mathcal{S}^a{}_b = \\frac{1}{V_*}\\Big(\\mathcal{T}_{\\mathrm{H}}{}^a{}_b + \\mathcal{T}_{\\mathrm{gauge}}{}^a{}_b + \\mathcal{T}_{\\mathrm{f}}{}^a{}_b\n + \\mathcal{T}_{\\mathrm{P}}{}^a{}_b + \\mathcal{T}_{\\mathrm{ff}}{}^a{}_b + \\mathcal{T}_{\\mathrm{IG}}{}^a{}_b\\Big),\\qquad\n\\mathcal{T}_{\\mathrm{IG}}{}^\\mu{}_\\nu = -\\frac{1}{\\kappa_4}\\,\\hat G^\\mu{}_\\nu,\\qquad\n\\mathcal{T}^r{}_r = \\mathcal{L}_{\\mathrm{fold}} \\tag{FE-5}",
+  "latex": "\\mathcal{S}^a{}_b = \\frac{1}{V_*}\\Big(\\mathcal{T}_{\\mathrm{H}}{}^a{}_b + \\mathcal{T}_{\\mathrm{gauge}}{}^a{}_b + \\mathcal{T}_{\\mathrm{f}}{}^a{}_b\n + \\mathcal{T}_{\\mathrm{P}}{}^a{}_b + \\mathcal{T}_{\\mathrm{ff}}{}^a{}_b + \\mathcal{T}_{\\mathrm{IG}}{}^a{}_b\\Big),\\qquad\n\\mathcal{T}_{\\mathrm{IG}}{}^\\mu{}_\\nu = -\\frac{1}{\\kappa_{\\mathrm{ind}}}\\,\\hat G^\\mu{}_\\nu,\\qquad\n\\mathcal{T}^r{}_r = \\mathcal{L}_{\\mathrm{fold}} \\tag{FE-5}",
   "keys": [
    "Sfoldsrc",
    "ia",
@@ -508,7 +572,7 @@
    "TIG",
    "imu",
    "inu",
-   "kappa4",
+   "kappaind",
    "Ghat",
    "ir",
    "Tany",
@@ -620,11 +684,10 @@
  {
   "id": "FE-11",
   "title": "The conservation laws",
-  "latex": "\\begin{aligned}\n&\\nabla_M\\big(\\mathcal{T}_\\Psi{}^M{}_N + \\mathcal{T}_{\\mathrm{stab}}{}^M{}_N\\big) = 0\\qquad (\\sigma \\ne 0),\\\\\n&\\hat\\nabla_a\\,\\mathcal{S}^a{}_b = -\\Big(\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_b\\big\\vert_{\\sigma=0^+}\n - \\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_b\\big\\vert_{\\sigma=0^-}\\Big)\n\\end{aligned} \\tag{FE-11}",
+  "latex": "\\begin{aligned}\n&\\nabla_M\\,\\mathcal{T}_\\Psi{}^M{}_N = 0\\qquad (\\sigma \\ne 0),\\\\\n&\\hat\\nabla_a\\,\\mathcal{S}^a{}_b = -\\Big(\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_b\\big\\vert_{\\sigma=0^+}\n - \\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_b\\big\\vert_{\\sigma=0^-}\\Big)\n\\end{aligned} \\tag{FE-11}",
   "keys": [
    "nabla",
    "TPsi",
-   "Tstab",
    "iM",
    "iN",
    "sigma",
@@ -1047,7 +1110,7 @@
  {
   "id": "FE-29",
   "title": "The bulk equations of the background",
-  "latex": "\\begin{aligned}\n\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_{(0)}}{H^2} = -\\frac{1}{16}\\Big(&\\mathsf{A}^6 - 3\\mathsf{A}^5\\mathsf{U} + 12\\mathsf{A}^4\\mathsf{U}^2 + 3\\mathsf{A}^4\\mathsf{U}_1 + 3\\mathsf{A}^4\\\\\n&+ 12\\mathsf{A}^3\\mathsf{A}_1\\mathsf{U} - 19\\mathsf{A}^3\\mathsf{U}^3 - 12\\mathsf{A}^3\\mathsf{U}\\mathsf{U}_1 - 6\\mathsf{A}^3\\mathsf{U} - 18\\mathsf{A}^2\\mathsf{A}_1\\mathsf{U}^2 + 9\\mathsf{A}^2\\mathsf{U}^4\\\\\n&+ 9\\mathsf{A}^2\\mathsf{U}^2\\mathsf{U}_1 - 18\\mathsf{A}^2\\mathsf{U}^2 - 6\\mathsf{A}^2\\mathsf{U}_1 - 9\\mathsf{A}^2 + 6\\mathsf{A}\\mathsf{A}_1\\mathsf{U}^3 - 12\\mathsf{A}\\mathsf{A}_1\\mathsf{U}\\\\\n&+ 21\\mathsf{A}\\mathsf{U}^3 + 12\\mathsf{A}\\mathsf{U}\\mathsf{U}_1 + 9\\mathsf{A}\\mathsf{U} + 6\\mathsf{A}_1\\mathsf{U}^2 + 3\\mathsf{U}^4 + 3\\mathsf{U}^2\\mathsf{U}_1\\\\\n&+ 18\\mathsf{U}^2 + 3\\mathsf{U}_1 + 5\\Big),\\\\\n\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(i)}{}_{(i)}}{H^2} = -\\frac{1}{16}\\Big(&\\mathsf{A}^6 - 6\\mathsf{A}^5\\mathsf{U} - 5\\mathsf{A}^4\\mathsf{A}_1 + 12\\mathsf{A}^4\\mathsf{U}^2 + 3\\mathsf{A}^4\\mathsf{U}_1\\\\\n&+ 3\\mathsf{A}^4 + 12\\mathsf{A}^3\\mathsf{A}_1\\mathsf{U} - 10\\mathsf{A}^3\\mathsf{U}^3 - 6\\mathsf{A}^3\\mathsf{U}\\mathsf{U}_1 + 12\\mathsf{A}^3\\mathsf{U} - 9\\mathsf{A}^2\\mathsf{A}_1\\mathsf{U}^2\\\\\n&+ 6\\mathsf{A}^2\\mathsf{A}_1 + 3\\mathsf{A}^2\\mathsf{U}^4 + 3\\mathsf{A}^2\\mathsf{U}^2\\mathsf{U}_1 - 36\\mathsf{A}^2\\mathsf{U}^2 - 6\\mathsf{A}^2\\mathsf{U}_1 - 9\\mathsf{A}^2\\\\\n&+ 2\\mathsf{A}\\mathsf{A}_1\\mathsf{U}^3 - 12\\mathsf{A}\\mathsf{A}_1\\mathsf{U} + 18\\mathsf{A}\\mathsf{U}^3 + 6\\mathsf{A}\\mathsf{U}\\mathsf{U}_1 - 6\\mathsf{A}\\mathsf{U} + 3\\mathsf{A}_1\\mathsf{U}^2\\\\\n&- \\mathsf{A}_1 + 3\\mathsf{U}^4 + 3\\mathsf{U}^2\\mathsf{U}_1 + 24\\mathsf{U}^2 + 3\\mathsf{U}_1 + 5\\Big),\\\\\n\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(4)}{}_{(4)}}{H^2} = \\frac{1}{16}\\Big(&5\\mathsf{A}^6 - 15\\mathsf{A}^5\\mathsf{U} + 15\\mathsf{A}^4\\mathsf{U}^2 - 9\\mathsf{A}^4 - 5\\mathsf{A}^3\\mathsf{U}^3\\\\\n&+ 18\\mathsf{A}^3\\mathsf{U} + 3\\mathsf{A}^2 - 9\\mathsf{A}\\mathsf{U}^3 - 3\\mathsf{A}\\mathsf{U} - 3\\mathsf{U}^2 + 1\\Big),\\\\\n\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(r)}{}_{(r)}}{H^2} = -\\frac{1}{16}\\Big(&\\mathsf{A}^6 + 5\\mathsf{A}^4\\mathsf{A}_1 - 3\\mathsf{A}^4\\mathsf{U}^2 - 2\\mathsf{A}^4\\mathsf{U}_1 + 3\\mathsf{A}^4\\\\\n&- 8\\mathsf{A}^3\\mathsf{A}_1\\mathsf{U} + 2\\mathsf{A}^3\\mathsf{U}^3 + 2\\mathsf{A}^3\\mathsf{U}\\mathsf{U}_1 - 24\\mathsf{A}^3\\mathsf{U} + 3\\mathsf{A}^2\\mathsf{A}_1\\mathsf{U}^2 - 6\\mathsf{A}^2\\mathsf{A}_1\\\\\n&+ 18\\mathsf{A}^2\\mathsf{U}^2 - 9\\mathsf{A}^2 + 6\\mathsf{A}\\mathsf{U}^3 + 6\\mathsf{A}\\mathsf{U}\\mathsf{U}_1 + 24\\mathsf{A}\\mathsf{U} + 3\\mathsf{A}_1\\mathsf{U}^2\\\\\n&+ \\mathsf{A}_1 + 9\\mathsf{U}^2 + 2\\mathsf{U}_1 + 5\\Big),\\\\\n\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_{(4)}}{H^2} = \\mathrm{sgn}(\\sigma)\\,\\frac{3}{16}\\,\\mathsf{U}\\,&\\mathcal{G},\\qquad\n \\mathcal{G} = 5\\mathsf{A}^2(\\mathsf{A} - \\mathsf{U})^2 - 6\\mathsf{A}^2 + 6\\mathsf{A}\\mathsf{U} + \\mathsf{U}^2 + 1\n\\end{aligned} \\tag{FE-29}",
+  "latex": "\\begin{aligned}\n\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_{(0)}}{H^2} &= -\\frac15\\,\\mathsf{A}(\\mathsf{A} - \\mathsf{U})\\big(\\mathsf{A}^4 - 2\\mathsf{A}^3\\mathsf{U}\n + 10\\mathsf{A}^2\\mathsf{U}^2 + 3\\mathsf{A}^2\\mathsf{U}_1 + 6\\mathsf{A}^2 + 12\\mathsf{A}\\mathsf{A}_1\\mathsf{U}\\\\\n&\\qquad - 9\\mathsf{A}\\mathsf{U}^3 - 9\\mathsf{A}\\mathsf{U}\\mathsf{U}_1 - 6\\mathsf{A}\\mathsf{U} - 6\\mathsf{A}_1\\mathsf{U}^2 - 6\\mathsf{U}^2\\big),\\\\\n\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(i)}{}_{(i)}}{H^2} &= -\\frac15\\,\\mathsf{A}(\\mathsf{A} - \\mathsf{U})^2\\big(\\mathsf{A}^3 - 4\\mathsf{A}^2\\mathsf{U}\n - 5\\mathsf{A}\\mathsf{A}_1 + 3\\mathsf{A}\\mathsf{U}^2 + 3\\mathsf{A}\\mathsf{U}_1 + 6\\mathsf{A} + 2\\mathsf{A}_1\\mathsf{U} + 12\\mathsf{U}\\big),\\\\\n\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(4)}{}_{(4)}}{H^2} &= \\mathsf{A}^3(\\mathsf{A} - \\mathsf{U})^3,\\\\\n\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(r)}{}_{(r)}}{H^2} &= -\\frac15\\,\\mathsf{A}^2(\\mathsf{A} - \\mathsf{U})\\big(\\mathsf{A}^3 + \\mathsf{A}^2\\mathsf{U}\n + 5\\mathsf{A}\\mathsf{A}_1 - 2\\mathsf{A}\\mathsf{U}^2 - 2\\mathsf{A}\\mathsf{U}_1 + 6\\mathsf{A} - 3\\mathsf{A}_1\\mathsf{U} - 18\\mathsf{U}\\big),\\\\\n\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_{(4)}}{H^2} &= \\mathrm{sgn}(\\sigma)\\,3\\mathsf{A}^2\\mathsf{U}(\\mathsf{A} - \\mathsf{U})^2\n\\end{aligned} \\tag{FE-29}",
   "keys": [
    "kappa",
    "Tbulk",
@@ -1059,15 +1122,14 @@
    "A1sf",
    "U1sf",
    "sgn",
-   "sigma",
-   "Gfac"
+   "sigma"
   ],
   "status": "DERIVED"
  },
  {
   "id": "FE-30",
   "title": "The fold equations of the background",
-  "latex": "\\begin{aligned}\n\\frac{\\kappa\\,\\mathcal{S}^{(i)}{}_{(i)}}{H} = \\frac{1}{24}\\Big(&9\\mathsf{A}^4 - 24\\mathsf{A}^3\\mathsf{U} - 12\\mathsf{A}^2\\mathsf{A}_1\n + 27\\mathsf{A}^2\\mathsf{U}^2 + 12\\mathsf{A}^2\\mathsf{U}_1 - 66\\mathsf{A}^2 + 24\\mathsf{A}\\mathsf{A}_1\\mathsf{U} - 6\\mathsf{A}\\mathsf{U}^3\n - 12\\mathsf{A}\\mathsf{U}\\mathsf{U}_1 + 120\\mathsf{A}\\mathsf{U}\\\\\n&- 6\\mathsf{A}_1\\mathsf{U}^2 + 20\\mathsf{A}_1 - 6\\mathsf{U}^4 - 6\\mathsf{U}^2\\mathsf{U}_1 - 111\\mathsf{U}^2 - 60\\mathsf{U}_1 - 183\\Big),\\\\\n\\frac{\\kappa\\,\\mathcal{S}^{(4)}{}_{(4)}}{H} = -\\frac14\\Big(&3\\mathsf{A}^4 - 6\\mathsf{A}^3\\mathsf{U} - 10\\mathsf{A}^2 + 3\\mathsf{A}\\mathsf{U}^3\n + 10\\mathsf{A}\\mathsf{U} + 10\\mathsf{U}^2 + 31\\Big),\\\\\n\\frac{\\kappa\\,\\mathcal{S}^{(r)}{}_{(r)}}{H} = \\frac{1}{24}\\Big(&9\\mathsf{A}^4 - 12\\mathsf{A}^3\\mathsf{U} + 12\\mathsf{A}^2\\mathsf{A}_1\n + 9\\mathsf{A}^2\\mathsf{U}^2 - 66\\mathsf{A}^2 - 12\\mathsf{A}\\mathsf{U}^3 - 12\\mathsf{A}\\mathsf{U}\\mathsf{U}_1 + 12\\mathsf{A}\\mathsf{U}\n - 6\\mathsf{A}_1\\mathsf{U}^2 - 20\\mathsf{A}_1\\\\\n&- 57\\mathsf{U}^2 - 40\\mathsf{U}_1 - 183\\Big)\n\\end{aligned} \\tag{FE-30}",
+  "latex": "\\begin{aligned}\n\\frac{\\kappa\\,\\mathcal{S}^{(i)}{}_{(i)}}{H} &= \\frac{2}{15}\\big(9\\mathsf{A}^4 - 24\\mathsf{A}^3\\mathsf{U} - 12\\mathsf{A}^2\\mathsf{A}_1\n + 27\\mathsf{A}^2\\mathsf{U}^2 + 12\\mathsf{A}^2\\mathsf{U}_1 - 24\\mathsf{A}^2 + 24\\mathsf{A}\\mathsf{A}_1\\mathsf{U} - 6\\mathsf{A}\\mathsf{U}^3\n - 12\\mathsf{A}\\mathsf{U}\\mathsf{U}_1 + 48\\mathsf{A}\\mathsf{U}\\\\\n&\\qquad - 6\\mathsf{A}_1\\mathsf{U}^2 + 8\\mathsf{A}_1 - 6\\mathsf{U}^4 - 6\\mathsf{U}^2\\mathsf{U}_1 - 48\\mathsf{U}^2 - 24\\mathsf{U}_1 - 48\\big),\\\\\n\\frac{\\kappa\\,\\mathcal{S}^{(4)}{}_{(4)}}{H} &= -\\frac45\\big(3\\mathsf{A}^4 - 6\\mathsf{A}^3\\mathsf{U} - 4\\mathsf{A}^2 + 3\\mathsf{A}\\mathsf{U}^3\n + 4\\mathsf{A}\\mathsf{U} + 4\\mathsf{U}^2 + 8\\big),\\\\\n\\frac{\\kappa\\,\\mathcal{S}^{(r)}{}_{(r)}}{H} &= \\frac{2}{15}\\big(9\\mathsf{A}^4 - 12\\mathsf{A}^3\\mathsf{U} + 12\\mathsf{A}^2\\mathsf{A}_1\n + 9\\mathsf{A}^2\\mathsf{U}^2 - 24\\mathsf{A}^2 - 12\\mathsf{A}\\mathsf{U}^3 - 12\\mathsf{A}\\mathsf{U}\\mathsf{U}_1 - 6\\mathsf{A}_1\\mathsf{U}^2 - 8\\mathsf{A}_1\n - 24\\mathsf{U}^2 - 16\\mathsf{U}_1 - 48\\big)\n\\end{aligned} \\tag{FE-30}",
   "keys": [
    "kappa",
    "Sfoldsrc",
@@ -1084,7 +1146,7 @@
  {
   "id": "FE-31",
   "title": "The author's vacuum",
-  "latex": "\\begin{aligned}\n&a_4 = Hx_4,\\quad b_4 = \\text{constant}\\ (\\mathsf{A} = 1,\\ \\mathsf{U} = \\mathsf{A}_1 = \\mathsf{U}_1 = 0):\\qquad\n \\sum_{p=1}^{3}\\alpha_{(p)}\\,\\mathcal{E}_{(p)}{}^M{}_N + \\Lambda\\,\\delta^M_N = 0\\quad(\\sigma \\ne 0),\\\\\n&\\kappa\\,\\mathcal{S}^{(i)}{}_{(i)} = \\kappa\\,\\mathcal{S}^{(r)}{}_{(r)} = -10H,\\qquad \\kappa\\,\\mathcal{S}^{(4)}{}_{(4)} = -6H,\\\\\n&\\kappa\\rho_{\\mathrm{bulk}} = -H^2\\Big[\\frac34\\big((\\mathsf{A} - 1 - \\mathsf{U})^2 + (\\mathsf{A} - 1)^2\\big) + \\dots\\Big],\\qquad\n \\mathcal{G}(1, \\mathsf{U}) = 2\\mathsf{U}(3\\mathsf{U} - 2)\n\\end{aligned} \\tag{FE-31}",
+  "latex": "\\begin{aligned}\n&a_4 = Hx_4,\\quad b_4 = \\text{constant}\\ (\\mathsf{A} = 1,\\ \\mathsf{U} = \\mathsf{A}_1 = \\mathsf{U}_1 = 0):\\qquad\n \\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^a{}_b}{H^2} = \\mathrm{diag}\\Big(-\\frac75, -\\frac75, -\\frac75, -\\frac75, 1, -\\frac75, -\\frac75, -\\frac75\\Big),\\\\\n&\\kappa\\rho_{\\mathrm{bulk}} = -H^2,\\qquad \\kappa\\,\\mathcal{S}^{(i)}{}_{(i)} = \\kappa\\,\\mathcal{S}^{(r)}{}_{(r)} = -\\frac{42}{5}H,\\qquad\n \\kappa\\,\\mathcal{S}^{(4)}{}_{(4)} = -\\frac{28}{5}H\n\\end{aligned} \\tag{FE-31}",
   "keys": [
    "a4",
    "Hconst",
@@ -1094,27 +1156,22 @@
    "Usf",
    "A1sf",
    "U1sf",
-   "ip",
-   "alphaL",
-   "LovE",
-   "iM",
-   "iN",
-   "Lambda",
-   "delta",
-   "sigma",
    "kappa",
+   "Tbulk",
+   "ia",
+   "ib",
+   "diag",
+   "rhobulk",
    "Sfoldsrc",
    "ii",
-   "ir",
-   "rhobulk",
-   "Gfac"
+   "ir"
   ],
   "status": "AUTHOR"
  },
  {
   "id": "FE-32",
   "title": "The static block and the frozen extra times",
-  "latex": "\\begin{aligned}\n&\\mathsf{A} = \\mathsf{U} = \\mathsf{A}_1 = \\mathsf{U}_1 = 0:\\qquad\n \\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^a{}_b = H^2\\,\\mathrm{diag}\\Big(-\\frac{5}{16}, -\\frac{5}{16}, -\\frac{5}{16}, -\\frac{5}{16},\n \\frac{1}{16}, -\\frac{5}{16}, -\\frac{5}{16}, -\\frac{5}{16}\\Big),\\\\\n&\\kappa\\,\\mathcal{S}^{(i)}{}_{(i)} = \\kappa\\,\\mathcal{S}^{(r)}{}_{(r)} = -\\frac{61}{8}H,\\qquad \\kappa\\,\\mathcal{S}^{(4)}{}_{(4)} = -\\frac{31}{4}H\n\\end{aligned} \\tag{FE-32}",
+  "latex": "\\mathsf{A} = \\mathsf{U} = \\mathsf{A}_1 = \\mathsf{U}_1 = 0:\\qquad \\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^a{}_b = 0,\\qquad\n\\kappa\\,\\mathcal{S}^{(i)}{}_{(i)} = \\kappa\\,\\mathcal{S}^{(4)}{}_{(4)} = \\kappa\\,\\mathcal{S}^{(r)}{}_{(r)} = -\\frac{32}{5}H \\tag{FE-32}",
   "keys": [
    "Asf",
    "Usf",
@@ -1124,18 +1181,17 @@
    "Tbulk",
    "ia",
    "ib",
-   "Hconst",
-   "diag",
    "Sfoldsrc",
    "ii",
-   "ir"
+   "ir",
+   "Hconst"
   ],
-  "status": "DERIVED"
+  "status": ""
  },
  {
   "id": "FE-33",
   "title": "The static block and the frozen extra times",
-  "latex": "\\begin{aligned}\n&\\mathsf{U} = \\mathsf{A},\\quad \\mathsf{U}_1 = \\mathsf{A}_1\\ \\ \\big(\\mathrm{e}^{-a_4}b_4 = \\text{constant},\\ \\mathcal{Z} = 1\\big):\\\\\n&\\frac{\\kappa\\rho_{\\mathrm{bulk}}}{H^2} = \\frac{3\\mathsf{A}^2 - 1}{16},\\qquad\n \\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_{(0)}}{H^2} = -\\frac{3\\mathsf{A}^4 + 3\\mathsf{A}^2\\mathsf{A}_1 + 18\\mathsf{A}^2 + 3\\mathsf{A}_1 + 5}{16},\\\\\n&\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(i)}{}_{(i)}}{H^2} = -\\frac{9\\mathsf{A}^2 + 2\\mathsf{A}_1 + 5}{16},\\qquad\n \\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(r)}{}_{(r)}}{H^2} = -\\frac{3\\mathsf{A}^4 + 3\\mathsf{A}^2\\mathsf{A}_1 + 24\\mathsf{A}^2 + 3\\mathsf{A}_1 + 5}{16},\\\\\n&\\frac{\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_{(4)}}{H^2} = \\mathrm{sgn}(\\sigma)\\,\\frac{3\\mathsf{A}(1 + \\mathsf{A}^2)}{16},\\qquad\n \\frac{\\kappa\\,\\mathcal{S}^{(i)}{}_{(i)}}{H} = -\\frac{57\\mathsf{A}^2 + 40\\mathsf{A}_1 + 183}{24},\\\\\n&\\frac{\\kappa\\,\\mathcal{S}^{(4)}{}_{(4)}}{H} = -\\frac{10\\mathsf{A}^2 + 31}{4},\\qquad\n \\frac{\\kappa\\,\\mathcal{S}^{(r)}{}_{(r)}}{H} = -\\frac{2\\mathsf{A}^4 + 2\\mathsf{A}^2\\mathsf{A}_1 + 37\\mathsf{A}^2 + 20\\mathsf{A}_1 + 61}{8}\n\\end{aligned} \\tag{FE-33}",
+  "latex": "\\begin{aligned}\n&\\mathsf{U} = \\mathsf{A},\\quad \\mathsf{U}_1 = \\mathsf{A}_1\\ \\ \\big(\\mathrm{e}^{-a_4}b_4 = \\text{constant},\\ \\mathcal{Z} = 1\\big):\\qquad\n \\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^a{}_b = 0\\ \\ \\text{for any } a_4(x_4),\\\\\n&\\frac{\\kappa\\,\\mathcal{S}^{(i)}{}_{(i)}}{H} = -\\frac{16}{15}\\big(6 + 3\\mathsf{A}^2 + 2\\mathsf{A}_1\\big),\\qquad\n \\frac{\\kappa\\,\\mathcal{S}^{(4)}{}_{(4)}}{H} = -\\frac{16}{5}\\big(2 + \\mathsf{A}^2\\big),\\qquad\n \\frac{\\kappa\\,\\mathcal{S}^{(r)}{}_{(r)}}{H} = -\\frac45\\big(8 + 8\\mathsf{A}^2 + \\mathsf{A}^4 + 4\\mathsf{A}_1 + \\mathsf{A}^2\\mathsf{A}_1\\big),\\\\\n&3a_4'^2 = -\\kappa_7\\Big(\\mathcal{S}^{(4)}{}_{(4)} + \\frac{32H}{5\\kappa}\\Big),\\qquad\n -\\big(2a_4'' + 3a_4'^2\\big) = \\kappa_7\\Big(\\mathcal{S}^{(i)}{}_{(i)} + \\frac{32H}{5\\kappa}\\Big),\\qquad \\kappa_7 = \\frac{15}{16}\\,\\kappa H\n\\end{aligned} \\tag{FE-33}",
   "keys": [
    "Usf",
    "Asf",
@@ -1146,35 +1202,71 @@
    "b4",
    "Zfold",
    "kappa",
-   "rhobulk",
-   "Hconst",
    "Tbulk",
+   "ia",
+   "ib",
+   "x4",
+   "Sfoldsrc",
    "ii",
    "ir",
-   "sgn",
-   "sigma",
-   "Sfoldsrc"
+   "Hconst",
+   "prime",
+   "kappa7"
   ],
   "status": "DERIVED"
  },
  {
   "id": "FE-66",
   "title": "The static block and the frozen extra times",
-  "latex": "\\begin{aligned}\n&\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(4)}{}_{(4)} = \\frac{H^2}{16}\\,\\mathsf{P}(\\mathsf{A}, \\mathsf{U}),\\qquad\n \\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_{(4)} = \\frac{3}{16}\\,\\mathsf{U}\\,\\mathcal{G}(\\mathsf{A}, \\mathsf{U})\\,H^2\\,\\mathrm{sgn}(\\sigma),\\\\\n&\\mathsf{P} = 5\\mathsf{A}^6 - 15\\mathsf{A}^5\\mathsf{U} + 15\\mathsf{A}^4\\mathsf{U}^2 - 9\\mathsf{A}^4 - 5\\mathsf{A}^3\\mathsf{U}^3\n + 18\\mathsf{A}^3\\mathsf{U} + 3\\mathsf{A}^2 - 9\\mathsf{A}\\mathsf{U}^3 - 3\\mathsf{A}\\mathsf{U} - 3\\mathsf{U}^2 + 1,\\\\\n&\\mathsf{P}(\\mathsf{A}, \\mathsf{U}) = 0\\ \\Rightarrow\\ \\mathsf{A}^2 + \\mathsf{U}^2 \\ge 0.2607,\\qquad\n \\mathsf{U} = \\mathsf{A}:\\ \\ 3a_4'^2 = 16\\kappa\\big(\\rho_{\\mathrm{bulk}} - \\rho_{\\mathrm{s}}\\big)\n\\end{aligned} \\tag{FE-66}",
+  "latex": "\\begin{aligned}\n&\\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(4)}{}_{(4)} = \\mathsf{A}^3(\\mathsf{A} - \\mathsf{U})^3H^2,\\qquad\n \\kappa\\,\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_{(4)} = 3\\mathsf{A}^2\\mathsf{U}(\\mathsf{A} - \\mathsf{U})^2H^2\\,\\mathrm{sgn}(\\sigma),\\\\\n&\\text{no bulk source:}\\quad \\mathsf{A} = 0\\ \\ \\text{or}\\ \\ \\mathsf{U} = \\mathsf{A}\\quad\\text{at every instant}\n\\end{aligned} \\tag{FE-66}",
   "keys": [
    "kappa",
    "Tbulk",
-   "Hconst",
-   "Pcon",
    "Asf",
    "Usf",
-   "Gfac",
+   "Hconst",
    "sgn",
-   "sigma",
-   "a4",
-   "prime",
-   "rhobulk",
-   "rhos"
+   "sigma"
+  ],
+  "status": "DERIVED"
+ },
+ {
+  "id": "FE-71",
+  "title": "The static block and the frozen extra times",
+  "latex": "\\begin{aligned}\n&\\kappa\\,\\mathcal{S}^a{}_b + \\frac{32}{5}H\\,\\delta^a{}_b = \\frac{\\kappa}{\\kappa_7}\\,\\mathcal{G}_{\\mathrm{F}}{}^a{}_b\n + (\\text{terms of fourth order in } \\mathsf{A}, \\mathsf{V}),\\qquad \\mathsf{V} = \\mathsf{U} - \\mathsf{A},\\\\\n&\\frac{\\mathcal{G}_{\\mathrm{F}}{}^{(4)}{}_{(4)}}{H^2} = -3\\big(\\mathsf{A}^2 + 3\\mathsf{A}\\mathsf{V} + \\mathsf{V}^2\\big),\\qquad\n \\frac{\\mathcal{G}_{\\mathrm{F}}{}^{(i)}{}_{(i)}}{H^2} = -\\big(3\\mathsf{A}^2 + 6\\mathsf{A}\\mathsf{V} + 6\\mathsf{V}^2 + 2\\mathsf{A}_1 + 3\\mathsf{V}_1\\big),\\\\\n&\\frac{\\mathcal{G}_{\\mathrm{F}}{}^{(r)}{}_{(r)}}{H^2} = -\\big(6\\mathsf{A}^2 + 6\\mathsf{A}\\mathsf{V} + 3\\mathsf{V}^2 + 3\\mathsf{A}_1 + 2\\mathsf{V}_1\\big)\n\\end{aligned} \\tag{FE-71}",
+  "keys": [
+   "kappa",
+   "Sfoldsrc",
+   "ia",
+   "ib",
+   "Hconst",
+   "delta",
+   "kappa7",
+   "Gfold7",
+   "Asf",
+   "Vsf",
+   "Usf",
+   "ii",
+   "A1sf",
+   "V1sf",
+   "ir"
+  ],
+  "status": "DERIVED"
+ },
+ {
+  "id": "FE-72",
+  "title": "The static block and the frozen extra times",
+  "latex": "H^2\\big(\\mathsf{V}_1 + 3\\mathsf{V}(\\mathsf{A} + \\mathsf{V})\\big) = \\frac{8\\pi G_{\\mathrm{N}}}{5}\\big(\\rho - 3\\mathcal{P} + 2q_{\\mathrm{tot}}\\big) \\tag{FE-72}",
+  "keys": [
+   "Hconst",
+   "V1sf",
+   "Vsf",
+   "Asf",
+   "pi",
+   "GN",
+   "rhotot",
+   "Ptot",
+   "qtot"
   ],
   "status": "DERIVED"
  },
@@ -1212,14 +1304,14 @@
  {
   "id": "FE-35",
   "title": "The general warped metric and the power series of the metric",
-  "latex": "\\begin{aligned}\n&\\mathfrak{a} = a_4 - H\\lvert\\sigma\\rvert + \\sum_{n\\ge1}\\epsilon_{\\mathrm{r}}^{\\,n}\\,\\mathfrak{a}_n(\\sigma, x_4),\\qquad\n \\mathfrak{b} = \\ln b_4 - a_4 - H\\lvert\\sigma\\rvert + \\sum_{n\\ge1}\\epsilon_{\\mathrm{r}}^{\\,n}\\,\\mathfrak{b}_n(\\sigma, x_4),\\\\\n&\\mathfrak{n} = \\sum_{n\\ge1}\\epsilon_{\\mathrm{r}}^{\\,n}\\,\\mathfrak{n}_n(\\sigma, x_4),\\qquad\n \\hat h_{\\mu\\nu} \\to \\hat h_{\\mu\\nu} + \\epsilon_{\\mathrm{c}}\\,\\hat h^{(1)}_{\\mu\\nu} + \\dots\n\\end{aligned} \\tag{FE-35}",
+  "latex": "\\begin{aligned}\n&\\mathfrak{a} = a_4 - H\\lvert\\sigma\\rvert + \\sum_{n\\ge1}\\epsilon_{\\mathrm{b}}^{\\,n}\\,\\mathfrak{a}_n(\\sigma, x_4),\\qquad\n \\mathfrak{b} = \\ln b_4 - a_4 - H\\lvert\\sigma\\rvert + \\sum_{n\\ge1}\\epsilon_{\\mathrm{b}}^{\\,n}\\,\\mathfrak{b}_n(\\sigma, x_4),\\\\\n&\\mathfrak{n} = \\sum_{n\\ge1}\\epsilon_{\\mathrm{b}}^{\\,n}\\,\\mathfrak{n}_n(\\sigma, x_4),\\qquad\n \\hat h_{\\mu\\nu} \\to \\hat h_{\\mu\\nu} + \\epsilon_{\\mathrm{c}}\\,\\hat h^{(1)}_{\\mu\\nu} + \\dots\n\\end{aligned} \\tag{FE-35}",
   "keys": [
    "awarp",
    "a4",
    "Hconst",
    "sigma",
    "inn",
-   "epsr",
+   "epsb",
    "x4",
    "bwarp",
    "b4",
@@ -1796,7 +1888,7 @@
    "kstar",
    "nS"
   ],
-  "status": "STANDARD"
+  "status": ""
  },
  {
   "id": "FE-58",
@@ -1823,36 +1915,31 @@
  {
   "id": "FE-59",
   "title": "The thermal history",
-  "latex": "\\begin{aligned}\n&\\frac{1}{\\kappa_4}\\,\\hat G^\\mu{}_\\nu = \\mathcal{T}_{\\mathrm{SM}}{}^\\mu{}_\\nu + \\mathcal{T}_{\\mathrm{P}}{}^\\mu{}_\\nu + \\mathcal{T}_{\\mathrm{ff}}{}^\\mu{}_\\nu\n - \\frac{V_*}{\\kappa}\\,\\mathcal{J}^\\mu{}_\\nu,\\qquad \\mathcal{J}^a{}_b = \\kappa\\,\\mathcal{S}^a{}_b\\ \\text{(the junction condition)},\\\\\n&H_4^2 = \\frac{8\\pi G_{\\mathrm{N}}}{3}\\big(\\rho_{\\mathrm{SM}} + \\rho_\\chi + \\rho_\\Lambda\\big),\\qquad\n 8\\pi G_{\\mathrm{N}} = \\frac{\\kappa_4}{1 + 5\\epsilon_{\\mathrm{r}}/6},\\qquad \\epsilon_{\\mathrm{r}} = \\frac{\\kappa_4V_*}{\\kappa H},\\qquad\n \\rho_\\Lambda = \\rho_{\\mathrm{ff}} - \\frac{31HV_*}{4\\kappa},\\\\\n&\\frac{\\hat R}{2\\kappa_4} + q_{\\mathrm{SM}} + q_\\chi + q_{\\mathrm{P}} + q_{\\mathrm{ff}} = \\frac{V_*}{\\kappa}\\,\\mathcal{J}^{(r)}{}_{(r)},\\qquad\n q_{\\mathrm{SM}} = \\big\\langle\\mathcal{L}_{\\mathrm{H}} + \\mathcal{L}_{\\mathrm{gauge}} + \\mathcal{L}_{\\mathrm{f}} + \\mathcal{L}_{\\mathrm{Y}}\\big\\rangle,\\qquad\n q_{\\mathrm{P}} = \\langle\\mathcal{L}_{\\mathrm{P}}\\rangle\n\\end{aligned} \\tag{FE-59}",
+  "latex": "\\begin{aligned}\n&H_4^2 = \\frac{8\\pi G_{\\mathrm{N}}}{3}\\big(\\rho_{\\mathrm{SM}} + \\rho_\\chi + \\rho_\\Lambda\\big),\\qquad\n 2H_4' + 3H_4^2 = -8\\pi G_{\\mathrm{N}}\\,\\mathcal{P},\\qquad\n \\frac{1}{8\\pi G_{\\mathrm{N}}} = \\frac{V_*}{\\kappa_7} + \\frac{1}{\\kappa_{\\mathrm{ind}}},\\qquad \\kappa_7 = \\frac{15}{16}\\,\\kappa H,\\\\\n&\\rho_\\Lambda = \\rho_{\\mathrm{ff}} + \\rho_{\\mathrm{vac}} - \\lambda_{\\mathrm{F}},\\qquad\n q_{\\mathrm{SM}} + q_\\chi + q_{\\mathrm{P}} + q_{\\mathrm{ff}} + \\lambda_{\\mathrm{F}} + \\frac{\\rho - 3\\mathcal{P}}{2}\n = -\\frac45\\big(\\mathsf{A}^4 + \\mathsf{A}^2\\mathsf{A}_1\\big)\\frac{HV_*}{\\kappa},\\\\\n&q_{\\mathrm{SM}} = \\big\\langle\\mathcal{L}_{\\mathrm{H}} + \\mathcal{L}_{\\mathrm{gauge}} + \\mathcal{L}_{\\mathrm{f}} + \\mathcal{L}_{\\mathrm{Y}}\\big\\rangle,\\qquad\n q_{\\mathrm{P}} = \\langle\\mathcal{L}_{\\mathrm{P}}\\rangle\n\\end{aligned} \\tag{FE-59}",
   "keys": [
-   "kappa4",
-   "Ghat",
-   "imu",
-   "inu",
-   "TSM",
-   "TP",
-   "Tff",
-   "Vstar",
-   "kappa",
-   "Jgeo",
-   "ia",
-   "ib",
-   "Sfoldsrc",
    "H4",
+   "prime",
    "pi",
    "GN",
    "rhoSM",
    "rhochi",
    "rhoL",
-   "epsr",
+   "Ptot",
+   "Vstar",
+   "kappa7",
+   "kappaind",
+   "kappa",
    "Hconst",
    "rhoff",
-   "Rhat",
+   "rhovac",
+   "lambdaF",
    "qSM",
    "qchi",
    "qP",
    "qff",
-   "ir",
+   "rhotot",
+   "Asf",
+   "A1sf",
    "mean",
    "LH",
    "Lgauge",
