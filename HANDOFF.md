@@ -6,7 +6,42 @@ in this repository; nothing depends on the old session's scratch directory.
 
 ## 0. Exact restart procedure
 
-### 0.13 ORDER 2026-10-18 15:42: STOP/PAUSE everything; UM-2 version 4 (organisation and presentation) — START HERE
+### 0.14 ORDER 2026-10-24 17:02 PDT: a major new revision (UM-3); every earlier stage PERMANENTLY STOPPED — START HERE
+
+The author's order of 2026-10-24 (attachment, verbatim in its defining parts): "NOTICE AND WARNING: This is a major new
+revision of this project. Immediately: permanently STOP all ongoing stages. STOP all ongoing stages NOW! Push what is
+ready for pushing. Create a new folder for all of this new revision's files and subfolders. Always include this new
+folder and all of its files and subfolders in the repo. Always push this new folder ...". Then: read, understand and
+remember the new notebook `4+4.nb` ("eight, real-valued, 16 by 16, Dirac Matrices"); prove in a new provenance file
+'dirac matrices.md' that the eight real 16 x 16 Dirac matrices used are those of `4+4.nb`, that they are real, satisfy
+the anticommutation relations, that their scaled commutators generate Pin(4,4); re-derive the chiral projectors of its
+subsection 'Left - Handed vs . Right - Handed Fermion Fields (Chirality) ; projection operators'; the coordinates
+{x0,...,x7} of `Dirac_Einstein-Lovelock_4+4_Nash.nb` (Section DEFCHART); the NEW metric (b4[x4] -> b4[x4]^2):
+diag(Cot[6 H x0]^2, E^(2 a4) Sin[6 H x0]^(1/3) (x3), -1, -E^(-2 a4) b4^2 Sin[6 H x0]^(1/3) (x3)), b4 a function of x4,
+NEVER identically 1; the complete coupled field equations with gravity (Einstein-Lovelock), the Higgs doublet (with the
+ad hoc vacuum (almightyAdHoc, v + h)/sqrt 2, almightyAdHoc = Exp[-2 a40 x4], a40 > 0, x4 >= 0), three generations of
+lepton doublets and right-handed charged-lepton singlets, W1, W2, W3, B, three generations of quark doublets, gluons,
+dirac16complex coupled to gravity through the canonical spin connection (never identically zero; verify) and, with its
+left-handed and its right-handed part separately, to every Standard-Model field with a unique coupling each (only the
+left-handed part couples to the Higgs field); new phenomenological interactions consistent with QCD and the
+electroweak model; an accurate approximate solution with Kohn-Sham theory for dirac16complex; CMB, CNB, BAO; the metric
+as a power series; the x0 mass mechanism (period pi/(6H)) and the dark-matter/dark-energy association analysed; every
+equation and symbol defined in every document; md + tex + pdf; push as soon as verified; check and verify the repo.
+
+State at the stop (2026-10-24): nothing was running (the cloud sessions of 2026-10-18/19 and their detached old
+Stage-4 jobs no longer exist). Everything verified is on `main` (last commit 95a578d, W8 chapter 15). The unverified
+work-in-progress snapshots stay where they are and are NOT merged: branches `w8-wip-2026-10-18` (ba1ba25),
+`w8-wip-ch11` (f779889) and `w8-wip-snapshot` (da03f2f, W8 chapter 15 WIP). Permanently stopped: W8 (the textbook,
+chapters 16-23 and 00 and the open cross-references of 17, 22, 23, 00), old Stage 4 (the static-metric Kohn-Sham
+record and its reference/repeat/refined runs), old Stage 5 (pairs numerics), and all follow-ups of UM-2 (which stays as
+it is, version 4). The author may later resume or restart the paused/stopped agents' tasks ("Then we may possibly
+resume or re-start the PAUSED/STOPPED agents' tasks").
+
+The new revision lives entirely in [`universe_model_3/`](universe_model_3/README.md) (UM-3); its README is the
+authoritative state of the work. The author's notebook is kept read-only as `universe_model_3/author_inputs/4+4.nb`
+(sha256 recorded there).
+
+### 0.13 ORDER 2026-10-18 15:42: STOP/PAUSE everything; UM-2 version 4 (organisation and presentation) — superseded by 0.14
 
 The author's order of 2026-10-18 15:42 (attachment; binding text in `universe_model_2/docs_src/STYLE_V4.md`): "STOP or
 PAUSE everything. We need to organize and present your solution better." Then the UM-2 tasks again ([1] precisely, but

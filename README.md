@@ -7,6 +7,17 @@ field, then in the primordial pair-creation field of the author's notebook, and
 finally a numerical investigation of whether its pressure and energy density
 behave like dark matter and/or dark energy.
 
+## The new revision UM-3 (2026-10-24): `universe_model_3/`
+
+On 2026-10-24 the author ordered a major new revision and the permanent stop of every earlier stage (W8, old Stages 4 and
+5, the follow-ups of UM-2; nothing was running, and every verified result was already on `main`; see `HANDOFF.md`
+section 0.14). The revision is in [`universe_model_3/`](universe_model_3/README.md): the author's new notebook `4+4.nb`
+(the eight real 16 x 16 Dirac matrices), its provenance `universe_model_3/dirac matrices.md`, the new metric with
+b4(x4)^2 (b4 never identically 1), the Higgs doublet, the electroweak gauge fields W1, W2, W3, B, gluons, three
+generations of quarks and leptons, and dirac16complex coupled to gravity and, with separate left-handed and
+right-handed couplings, to every Standard-Model field, with the complete coupled field equations and a Kohn-Sham
+approximate solution. Its README states what is done and what is in progress.
+
 ## The universe model UM-2: `universe_model_2/`
 
 On 2026-10-17 the author ordered a new model of the Universe: Einstein-Lovelock gravity with the author's weights and
