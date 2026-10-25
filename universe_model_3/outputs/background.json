@@ -89,7 +89,7 @@
    "v_A_over_v": 1.0
   }
  ],
- "runtime_s": 8.2,
+ "runtime_s": 8.8,
  "stored_frozen_branch": {
   "x0,x0": "-(3*A**4 + 3*A**2*Ad + 18*A**2 + 3*Ad + 5)/16",
   "x0,x4": "-3*A*(A**2 + 1)/16",

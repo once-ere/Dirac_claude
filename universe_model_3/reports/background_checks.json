@@ -9,7 +9,7 @@
   {
    "name": "BG2_null_energy_condition",
    "passed": true,
-   "detail": "stabiliser: kappa(rho_s + p_s) = -3/8 H^2 < 0; frozen branch (U = A): kappa rho = (3A^2 - 1)H^2/16, kappa(rho + p) along sigma = -3*(A**4 + A**2*A1 + 5*A**2 + A1 + 2)/16, along ordinary space = -(3*A**2 + A1 + 3)/8, along the extra times = -3*(A**4 + A**2*A1 + 7*A**2 + A1 + 2)/16 (units H^2), all negative for |A| < 1 (largest sampled value -0.375): the bulk medium of the late universe violates the null energy condition; it also carries the energy flux kappa T^(0)_(4) = sgn(sigma) 3*A*(A**2 + 1)/16 H^2"
+   "detail": "stabiliser: kappa(rho_s + p_s) = -3/8 H^2 < 0; frozen branch (U = A): kappa rho = (3A^2 - 1)H^2/16, kappa(rho + p) along sigma = -3*(A**4 + A**2*A1 + 5*A**2 + A1 + 2)/16, along ordinary space = -(3*A**2 + A1 + 3)/8, along the extra times = -3*(A**4 + A**2*A1 + 7*A**2 + A1 + 2)/16 (units H^2), all negative for |A| < 1 and a slowly varying expansion, |A1| < 5e-4 (largest sampled value -0.375): the bulk medium of the late universe violates the null energy condition; it also carries the energy flux kappa T^(0)_(4) = sgn(sigma) 3*A*(A**2 + 1)/16 H^2"
   },
   {
    "name": "BG3_primordial_varying_b4",

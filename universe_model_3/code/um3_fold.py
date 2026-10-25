@@ -267,21 +267,24 @@ def main():
     rep.check('J7_frozen_fold_energy', ok, 'with frozen extra times (U = A): kappa rho_fold = (31 + 10 A^2) H/4, i.e. '
               'kappa (rho_fold - 31H/(4 kappa)) = (5/2) a4\'^2/H: in the separable metric the fold energy above the static '
               'value fixes the expansion rate a4\'')
-    p11 = sp.expand(-fro[(1, 1)])
-    ok = sp.simplify(p11 - (183 + 57 * A**2 + 40 * Ad) * H / 24) == 0
-    rep.check('J7_frozen_fold_pressure', ok, 'and kappa p_fold(x1..x3) = (183 + 57 A^2 + 40 Ad) H/24 (with Ad = a4\'\'/H^2)')
-    # consistency with a separately conserved fold fluid on the separable metric: only for p = -rho/40
-    rho_m, p_m = sp.symbols('rho_m p_m', real=True)
-    # kappa rho_m = (5/2) A^2 H, kappa p_m = (57 A^2 + 40 Ad) H/24 ; continuity rho_m' = -3 a4' (rho_m + p_m)  (bulk flux O(A))
-    # d/dx4 (5/2 A^2 H) = 5 A A' H = 5 A Ad H^2 ; -3 A H (5/2 A^2 H + (57 A^2 + 40 Ad) H/24)
-    lhs_ = 5 * A * Ad * H**2
-    rhs_ = -3 * A * H * (sp.Rational(5, 2) * A**2 * H + (57 * A**2 + 40 * Ad) * H / 24)
-    sol = sp.solve(sp.Eq(lhs_, rhs_), Ad)
-    w_eff = sp.simplify(((57 * A**2 + 40 * sol[0]) / 24) / (sp.Rational(5, 2) * A**2))
-    rep.check('J7_separable_metric_too_rigid', sp.simplify(w_eff + sp.Rational(1, 40)) == 0,
-              'a conserved fold fluid on top of the static values is compatible with the separable metric only for one '
-              'equation of state, p = -rho/40: for radiation or dust the metric functions must also depend on sigma near '
-              'the fold (the next terms of the power series of the metric)')
+    p11 = sp.expand(fro[(1, 1)])
+    ok = sp.simplify(p11 + (183 + 57 * A**2 + 40 * Ad) * H / 24) == 0
+    rep.check('J7_frozen_fold_pressure', ok, 'and kappa p_fold(x1..x3) = -(183 + 57 A^2 + 40 Ad) H/24 (with Ad = a4\'\'/H^2): '
+              'a tension, as the static value -183H/24')
+    # a fold fluid on top of the static values: kappa rho_m = (5/2) A^2 H, kappa p_m = -(57 A^2 + 40 Ad) H/24 (the source above
+    # minus its static part).  Separately conserved it would obey rho_m' + 3 a4' (rho_m + p_m) = 0 (a4' = A H, A' = Ad H); the
+    # left-hand side is computed here.  The static source with the bulk flux is not conserved by itself at order A^3 (J6
+    # holds only for the total), so the fluid on top of it exchanges energy with the bulk.
+    lhs_ = sp.expand(sp.Rational(5, 2) * 2 * A * Ad * H**2
+                     + 3 * A * H * (sp.Rational(5, 2) * A**2 * H - (57 * A**2 + 40 * Ad) * H / 24))
+    flux3 = sp.expand(2 * sp.Rational(3, 16) * A**3 * H**2)             # the A^3 part of the jump of the flux 3A(1 + A^2)/16 H^2
+    out['separately_conserved_fold_fluid_residual'] = str(lhs_)
+    rep.check('J7_separable_metric_too_rigid', sp.simplify(lhs_ - flux3) == 0 and sp.diff(lhs_, Ad) == 0,
+              'a fold fluid on top of the static values (kappa rho_m = (5/2) A^2 H, kappa p_m = -(57 A^2 + 40 Ad) H/24) cannot be '
+              'separately conserved on the separable metric for any equation of state: rho_m\' + 3 a4\' (rho_m + p_m) = %s/kappa '
+              '(independent of Ad), the A^3 part of the bulk flux at the fold that the static source does not balance; ordinary '
+              'matter on the fold requires metric functions that also depend on sigma near the fold (the next terms of the '
+              'power series of the metric)' % lhs_)
     bulk = json.loads((UM3 / 'outputs' / 'geometry.json').read_text())['frozen_extra_times']
     out['bulk_source_frozen_kappaT_over_H2'] = bulk
     out['runtime_s'] = round(time.time() - t0, 1)

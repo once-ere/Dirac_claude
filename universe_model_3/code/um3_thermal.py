@@ -17,8 +17,10 @@ species, FE-61 written for n_chi = sum over a of (n_a + nbar_a) has <sigma_ann v
   T3  the current portals (FE-22, FE-47): the coupling g_f of a vector contact interaction (chibar gamma chi)(fbar gamma f)
       of a chiral fermion f gives (sigma v)_{chi chibar -> f fbar} = g_f^2 omega_b^2/(2 pi) per chiral state (massless f,
       s-wave); a relic density through quark portals implies a coherent scattering on nuclei sigma_SI = mu_N^2 f_N^2/pi with
-      f_N = 3 g_q, excluded by LZ (2.1e-48 cm^2 at 36 GeV, limit ~ omega_b at high mass) by many orders of magnitude;
-      through lepton portals (6 + 3 + 3 chiral lepton states) the scattering arises at one loop through the photon,
+      f_N = 3 g_q, excluded by LZ (2.2e-48 cm^2 at 40 GeV, limit ~ omega_b at high mass; no comparison is made below
+      40 GeV, where the measured limit rises steeply) by many orders of magnitude;
+      through lepton portals (6 + 3 chiral lepton states: the lepton doublets and the right-handed charged leptons; the
+      right-handed neutrinos must not take part, T5) the scattering arises at one loop through the photon,
       g_p = (alpha/(3 pi)) g_l sum over e, mu, tau of ln(Lambda^2/max(m_l^2, q^2)) (Lambda = omega_b, q = 50 MeV), and LZ
       allows it only above a mass of order a TeV (ESTIMATE);
   T4  the Higgs portal (FE-47): g_hchi = -2 q_b^2/(omega_b v) is fixed by the binding q_b of the bound state; the Higgs
@@ -60,14 +62,17 @@ ALPHA = 1 / 137.036
 S0_CM3 = 2891.2                # entropy density today (T0 = 2.7255 K)
 RHOC_H2 = 1.05371e-5           # GeV/cm^3
 OMEGA_DM_H2 = 0.1200           # Planck 2018
-LZ_MIN = (2.1e-48, 36.0)       # cm^2 at GeV (LZ 2024, 4.2 tonne-years)
+LZ_MIN = (2.2e-48, 40.0)       # cm^2 at GeV: LZ, 4.2 tonne-years, arXiv:2410.17036v3 = Phys. Rev. Lett. 135, 011802 (2025)
 T_QCD = 0.155
 
 
 def lz_limit(m):
-    """The LZ 2024 limit approximated above its minimum by the 1/number-density scaling sigma_lim ~ m (weaker than the
-    measured curve between the minimum and a few hundred GeV, so the exclusions drawn from it are conservative)."""
-    return LZ_MIN[0] * max(1.0, m / LZ_MIN[1])
+    """The LZ limit at and above its minimum (40 GeV), approximated by the 1/number-density scaling sigma_lim ~ m (weaker
+    than the measured curve between the minimum and a few hundred GeV, so the exclusions drawn from it are conservative).
+    Below the minimum the measured limit rises steeply; it is not modelled here (None): no comparison is made there."""
+    if m < LZ_MIN[1]:
+        return None
+    return LZ_MIN[0] * m / LZ_MIN[1]
 
 
 class Report:
@@ -238,32 +243,38 @@ def main():
         gq = math.sqrt(2 * math.pi * svcc / (36 * m * m))
         mu = m * M_N / (m + M_N)
         sig_q = mu * mu * (3 * gq) ** 2 / math.pi * GEV2_CM2
-        # lepton portals: 6 + 3 + 3 chiral lepton states, equal g_l
-        gl = math.sqrt(2 * math.pi * svcc / (12 * m * m))
+        # lepton portals: 6 + 3 chiral lepton states (the doublets and the right-handed charged leptons), equal g_l; the
+        # right-handed neutrinos take no part (c^nu << c^l, required by T5)
+        gl = math.sqrt(2 * math.pi * svcc / (9 * m * m))
         L = sum(math.log(m * m / max(ml * ml, 0.05 ** 2)) for ml in (0.000511, 0.10566, 1.777))
         gp = ALPHA / (3 * math.pi) * gl * L
         sig_l = mu * mu * gp ** 2 / math.pi * GEV2_CM2 * (54 / 131) ** 2        # per nucleon in xenon (Z/A)^2
+        lim = lz_limit(m)
         dd.append({'omega_b_GeV': m, 'g_quark_GeV-2': gq, 'sigma_SI_quark_cm2': sig_q, 'g_lepton_GeV-2': gl,
-                   'loop_log_sum': L, 'sigma_SI_lepton_loop_cm2': sig_l, 'LZ_limit_cm2': lz_limit(m),
-                   'quark_excluded_by_factor': sig_q / lz_limit(m), 'lepton_ratio_to_limit': sig_l / lz_limit(m)})
+                   'loop_log_sum': L, 'sigma_SI_lepton_loop_cm2': sig_l, 'LZ_limit_cm2': lim,
+                   'quark_excluded_by_factor': sig_q / lim if lim else None,
+                   'lepton_ratio_to_limit': sig_l / lim if lim else None})
     out['T3'] = dd
-    allowed = [d['omega_b_GeV'] for d in dd if d['lepton_ratio_to_limit'] < 1]
+    cmp_ = [d for d in dd if d['LZ_limit_cm2']]                         # 100 GeV ... 10 TeV
+    allowed = [d['omega_b_GeV'] for d in cmp_ if d['lepton_ratio_to_limit'] < 1]
     m_min = None
     # the crossing mass of the lepton-loop scattering and the limit (log interpolation)
-    for a, b in zip(dd[:-1], dd[1:]):
+    for a, b in zip(cmp_[:-1], cmp_[1:]):
         if a['lepton_ratio_to_limit'] >= 1 > b['lepton_ratio_to_limit']:
             la, lb = math.log(a['lepton_ratio_to_limit']), math.log(b['lepton_ratio_to_limit'])
             m_min = math.exp(math.log(a['omega_b_GeV']) + la / (la - lb) * (math.log(b['omega_b_GeV']) - math.log(a['omega_b_GeV'])))
-    ok3 = all(d['quark_excluded_by_factor'] > 1 for d in dd) and m_min is not None and allowed and max(allowed) == 10000.0
+    ok3 = (len(cmp_) == 5 and all(d['quark_excluded_by_factor'] > 1 for d in cmp_) and m_min is not None and allowed
+           and max(allowed) == 10000.0)
     rep.check('T3_current_portals', ok3,
-              'a thermal relic through the quark current portals has sigma_SI = %s cm^2, above the LZ limit by factors %s: '
-              'the quark portals cannot set the relic density at any mass up to 10 TeV (their couplings must be smaller than the '
-              'relic value by the square roots of these factors); through the '
-              'lepton portals the scattering is loop-induced, sigma_SI = %s cm^2 per nucleon, above the limit below about %.0f '
-              'GeV and allowed above (ESTIMATE: the loop cut-off Lambda = omega_b and the scaling of the LZ limit enter): a '
-              'leptophilic chi of a TeV or more can be the thermal relic' % (
-                  ', '.join('%.1e' % d['sigma_SI_quark_cm2'] for d in dd),
-                  ', '.join('%.0e' % d['quark_excluded_by_factor'] for d in dd),
+              'a thermal relic through the quark current portals has sigma_SI = %s cm^2 (%s GeV), above the LZ limit by '
+              'factors %s for %s GeV (below 40 GeV the measured limit rises steeply and no comparison is made): the quark '
+              'portals cannot set the relic density from 100 GeV to 10 TeV (their couplings must be smaller than the relic value '
+              'by the square roots of these factors); through the lepton portals (9 chiral states) the scattering is '
+              'loop-induced, sigma_SI = %s cm^2 per nucleon, above the limit below about %.0f GeV and allowed above (ESTIMATE: '
+              'the loop cut-off Lambda = omega_b and the scaling of the LZ limit enter): a leptophilic chi of a TeV or more can '
+              'be the thermal relic' % (
+                  ', '.join('%.1e' % d['sigma_SI_quark_cm2'] for d in dd), ', '.join('%g' % d['omega_b_GeV'] for d in dd),
+                  ', '.join('%.0e' % d['quark_excluded_by_factor'] for d in cmp_), ', '.join('%g' % d['omega_b_GeV'] for d in cmp_),
                   ', '.join('%.1e (%g GeV)' % (d['sigma_SI_lepton_loop_cm2'], d['omega_b_GeV']) for d in dd),
                   m_min if m_min else float('nan')))
 

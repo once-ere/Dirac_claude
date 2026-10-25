@@ -521,8 +521,8 @@ def main():
         states.append({'state': i + 1, 'mass_eV': m, 'z_nonrelativistic': z_nr, 'relativistic_today': m < 3.15 * kT})
     Onuh2 = sum(M_NU) / 93.14
     Onuh2_massive = (float(bg.Onu(0.0)) - bg.Onu_rel) * h * h                    # the two massive states
-    U = np.array([math.cos(math.radians(33.4)) * math.cos(math.radians(8.57)), math.sin(math.radians(33.4)) *
-                  math.cos(math.radians(8.57)), math.sin(math.radians(8.57))]) ** 2
+    s12, s13 = 0.303, 0.02203                       # sin^2 theta12, sin^2 theta13 of NuFIT 5.2 (as in um3_flavour.py)
+    U = np.array([(1 - s12) * (1 - s13), s12 * (1 - s13), s13])                  # |U_e1|^2, |U_e2|^2, |U_e3|^2
     rate_nr = N_TRITIUM_100G * SIGMA_BAR_CM2 * C_SI * 100 * (n_flav / 2) * 3.15576e7      # per year, all states NR, Dirac
     rate_um3 = rate_nr * (1 + U[0])               # the massless nu_1 is relativistic: its LH helicity is captured twice as often
     out['C6'] = {'T_nu0_K': Tnu0, 'kT_nu0_eV': kT, 'n_per_flavour_cm3': n_flav, 'n_total_cm3': 3 * n_flav,

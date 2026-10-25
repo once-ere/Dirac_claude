@@ -395,7 +395,7 @@
   "T_nu0_K": 1.9453688391750839,
   "capture_rate_per_year_100g_Dirac_nonrelativistic": 4.056400100103455,
   "capture_rate_per_year_100g_Majorana_nonrelativistic": 8.11280020020691,
-  "capture_rate_per_year_100g_UM3_massless_nu1": 6.82081179949212,
+  "capture_rate_per_year_100g_UM3_massless_nu1": 6.821425311414484,
   "kT_nu0_eV": 0.00016763891604964208,
   "n_per_flavour_cm3": 112.01637979247332,
   "n_per_helicity_state_cm3": 56.00818989623666,
@@ -421,9 +421,9 @@
    }
   ],
   "|U_ei|^2": [
-   0.6814938445835657,
-   0.2962999069272821,
-   0.022206248489152248
+   0.6816450900000001,
+   0.29632491,
+   0.02203
   ]
  },
  "camb_derived": {
@@ -494,5 +494,5 @@
    "tau": 0.0544
   }
  },
- "runtime_s": 156.1
+ "runtime_s": 159.7
 }
