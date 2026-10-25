@@ -1,0 +1,100 @@
+{
+ "BG1": {
+  "T44_at_U0": "(A - 1)**2*(A + 1)**2*(5*A**2 + 1)",
+  "groebner_basis": [
+   "(A - 1)**2*(A + 1)**2",
+   "U*(A**2 - A*U - 1)",
+   "U**3"
+  ],
+  "solutions": [
+   "{A: -1, U: 0}",
+   "{A: 1, U: 0}"
+  ]
+ },
+ "BG2": {
+  "frozen_flux_kappaT04_over_H2": "3*A*(A**2 + 1)/16",
+  "frozen_rho": "3*A**2/16 - 1/16",
+  "frozen_rho_plus_p_i": "-(3*A**2 + A1 + 3)/8",
+  "frozen_rho_plus_p_r": "-3*(A**4 + A**2*A1 + 7*A**2 + A1 + 2)/16",
+  "frozen_rho_plus_p_sigma": "-3*(A**4 + A**2*A1 + 5*A**2 + A1 + 2)/16",
+  "max_rho_plus_p_sampled": -0.3749316935863513,
+  "stabiliser_rho_plus_p": "-3/8"
+ },
+ "BG3": {
+  "flux_over_H2": "3*U**2*(3*U - 2)/8",
+  "fold_source_kappaS_over_H": {
+   "extra": "-(U**3 + 4*U**2 + 20)/2",
+   "space": "-(U**4 + U**3 + 14*U**2 - 16*U + 40)/4",
+   "time": "-(3*U**3 + 10*U**2 + 4*U + 24)/4"
+  },
+  "kappa_rho_bulk_over_H2_at_A1": "U**2*(7*U - 6)/8",
+  "sources_at_U_2_3": {
+   "extra": "-22/27",
+   "sigma": "-14/27",
+   "space": "-2/9",
+   "time": "2/27"
+  },
+  "sources_over_H2": {
+   "extra": "-U**2*(U + 3)/2",
+   "sigma": "-U**2*(6*U**2 + U + 6)/8",
+   "space": "-U**3*(3*U + 4)/8",
+   "time": "-U**2*(7*U - 6)/8"
+  },
+  "sources_to_second_order_in_U": {
+   "extra": "-3*U**2/2",
+   "sigma": "-3*U**2/4",
+   "space": "0",
+   "time": "3*U**2/4"
+  }
+ },
+ "BG4": {
+  "coupling_growth_rate": {
+   "author_vacuum_U_2_3": "+H/2",
+   "author_vacuum_constant_b4": "+3H/2",
+   "frozen_extra_times": "0"
+  },
+  "dlnZ_dx4": {
+   "author_vacuum_U_2_3": "-1 H",
+   "author_vacuum_constant_b4": "-3 H",
+   "frozen_extra_times": "0"
+  }
+ },
+ "BG5": {
+  "J2_literal_ad_hoc": "a40*v*v_A*exp(-2*a40*x4)",
+  "J2_with_W": "0",
+  "W2_x4": "-4*a40*v*v_A*exp(2*a40*x4)/(g2*(v**2*exp(4*a40*x4) + v_A**2))",
+  "max_deviation": 0.0,
+  "radial_residual": "R_V = V'' + 3(b4'/b4)V' + lambda A^2 V + c_Phi<Psibar P_L Psi> V, V = sqrt(v^2 + A^2)"
+ },
+ "BG6": [
+  {
+   "R_V_over_lambda_v3_at_x4_0": 1.74205844971714,
+   "a40_over_v": 0.1,
+   "rho_H_over_v4_at_x4_0": 0.0423525,
+   "time_until_A_below_1e-3_v_in_units_1_over_v": 34.538776394910684,
+   "v_A_over_v": 1.0
+  },
+  {
+   "R_V_over_lambda_v3_at_x4_0": 34.19870229677759,
+   "a40_over_v": 1.0,
+   "rho_H_over_v4_at_x4_0": 1.0323525000000002,
+   "time_until_A_below_1e-3_v_in_units_1_over_v": 3.4538776394910684,
+   "v_A_over_v": 1.0
+  },
+  {
+   "R_V_over_lambda_v3_at_x4_0": 3279.8630870028223,
+   "a40_over_v": 10.0,
+   "rho_H_over_v4_at_x4_0": 100.03235250000002,
+   "time_until_A_below_1e-3_v_in_units_1_over_v": 0.34538776394910686,
+   "v_A_over_v": 1.0
+  }
+ ],
+ "runtime_s": 8.2,
+ "stored_frozen_branch": {
+  "x0,x0": "-(3*A**4 + 3*A**2*Ad + 18*A**2 + 3*Ad + 5)/16",
+  "x0,x4": "-3*A*(A**2 + 1)/16",
+  "x1,x1": "-(9*A**2 + 2*Ad + 5)/16",
+  "x4,x4": "-(3*A**2 - 1)/16",
+  "x5,x5": "-(3*A**4 + 3*A**2*Ad + 24*A**2 + 3*Ad + 5)/16"
+ }
+}

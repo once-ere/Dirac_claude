@@ -2059,7 +2059,11 @@ the terms of order $n$ in $\epsilon_{\mathrm{r}}$ are the response of the bulk t
 which depends on $\sigma$; $\epsilon_{\mathrm{c}} \sim 10^{-5}$ (the size of the CMB anisotropies) counts the cosmological perturbations
 of the metric of the fold. The bookkeeping parameter $\epsilon_{\mathrm{r}}$ is the ratio of the bulk to the fold gravity,
 $\epsilon_{\mathrm{r}} = \kappa_4V_*/(\kappa H)$ (FE-59). Each order obeys the linearisation of FE-1 and FE-4 around the previous orders, with the
-sources of that order. Status: DERIVED (the scheme).
+sources of that order. Around the static block the static first-order terms obey linear equations with constant coefficients; if the bulk
+medium does not respond, their only solution is the difference mode $\mathfrak{a}_1' = -\mathfrak{b}_1' \propto \mathrm{e}^{6H\lvert\sigma\rvert}$, which
+grows away from the fold, while a responding medium admits the radion mode, whose jumps at the fold are in the ratio
+$[\mathfrak{a}_1'] : [\mathfrak{b}_1'] : [\mathfrak{n}_1'] = 1 : -1 : 5$ and change only the extra-time component of FE-4 (DERIVED, `um3_series.py`, SR1
+to SR3; FE-59). Status: DERIVED (the scheme and the first-order modes).
 
 # dirac16complex: modes and Kohn-Sham equations
 
@@ -2353,7 +2357,7 @@ $$
 
 <!-- end generated symbol list -->
 
-The conserved charge of dirac16complex (the Noether charge of $\Psi \to \mathrm{e}^{\mathrm{i}\theta}\Psi$, whose density is
+The conserved charge of dirac16complex (the Noether charge of a constant change of the phase of $\Psi$, whose density is
 $\mathrm{i}\bar\Psi\gamma^{x_4}\Psi$) is a Krein form: $\mathfrak{B}$ is a Hermitian involution with eight eigenvalues $+1$ and eight
 eigenvalues $-1$, so the charge, and with it the norm of the quantised field, is indefinite (the consequence of the signature
 (4,4); DERIVED, `um3_fields.py`, F3). $\mathfrak{B}$ commutes with $\gamma^{(0)}, \dots, \gamma^{(4)}$ and anticommutes with
@@ -3081,10 +3085,13 @@ $$
  - \frac{V_*}{\kappa}\,\mathcal{J}^\mu{}_\nu,\qquad \mathcal{J}^a{}_b = \kappa\,\mathcal{S}^a{}_b\ \text{of FE-30},\\
 &H_4^2 = \frac{8\pi G_{\mathrm{N}}}{3}\big(\rho_{\mathrm{SM}} + \rho_\chi + \rho_\Lambda\big),\qquad
  8\pi G_{\mathrm{N}} = \frac{\kappa_4}{1 + 5\epsilon_{\mathrm{r}}/6},\qquad \epsilon_{\mathrm{r}} = \frac{\kappa_4V_*}{\kappa H},\qquad
- \rho_\Lambda = \rho_{\mathrm{ff}} - \frac{31HV_*}{4\kappa}
+ \rho_\Lambda = \rho_{\mathrm{ff}} - \frac{31HV_*}{4\kappa},\\
+&\frac{\hat R}{2\kappa_4} + q_{\mathrm{SM}} + q_\chi + q_{\mathrm{P}} + q_{\mathrm{ff}} = \frac{V_*}{\kappa}\,\mathcal{J}^{(r)}{}_{(r)},\qquad
+ q_{\mathrm{SM}} = \big\langle\mathcal{L}_{\mathrm{H}} + \mathcal{L}_{\mathrm{gauge}} + \mathcal{L}_{\mathrm{f}} + \mathcal{L}_{\mathrm{Y}}\big\rangle,\qquad
+ q_{\mathrm{P}} = \langle\mathcal{L}_{\mathrm{P}}\rangle
 \end{aligned} \tag{FE-59}
 $$
-<!-- symbols: kappa4, Ghat, imu, inu, TSM, TP, Tff, Vstar, kappa, Jgeo, ia, ib, Sfoldsrc, H4, pi, GN, rhoSM, rhochi, rhoL, epsr, Hconst, rhoff -->
+<!-- symbols: kappa4, Ghat, imu, inu, TSM, TP, Tff, Vstar, kappa, Jgeo, ia, ib, Sfoldsrc, H4, pi, GN, rhoSM, rhochi, rhoL, epsr, Hconst, rhoff, Rhat, qSM, qchi, qP, qff, ir, mean, LH, Lgauge, Lf, LY, LP -->
 <!-- begin generated symbol list -->
 **Symbols in (FE-59).**
 
@@ -3110,6 +3117,18 @@ $$
 - $\epsilon_{\mathrm{r}}$: The bookkeeping parameter of the response of the bulk to the matter of the fold: the ratio of the bulk to the fold gravity, $\epsilon_{\mathrm{r}} = \kappa_4V_*/(\kappa H)$. Unit: dimensionless. Value: $\lesssim 10^{-15}$. Status: DERIVED.
 - $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings and the cosmological constant $\Lambda = -10H^2$; in UM-3 a free parameter. Unit: GeV (1/length). Status: AUTHOR.
 - $\rho_{\mathrm{ff}}$: The energy density of the fold fluid. Unit: GeV$^4$. Value: $31HV_*/(4\kappa)$ at the static block. Status: ASSUMED.
+- $\hat R$: The scalar curvature of the metric $\hat h_{\mu\nu}$ of the fold. Unit: 1/length$^2$. Status: STANDARD.
+- $q_{\mathrm{SM}}$: The pressure of the Standard Model along the extra times at the fold: the mean on-shell Lagrangian density of the Standard-Model fields (FE-5: the extra-time component of the energy-momentum tensor of every term of the fold is its Lagrangian). Unit: GeV$^4$. Status: DERIVED.
+- $q_\chi$: The pressure of the bound states of dirac16complex along the extra times, integrated across the fold (their on-shell Lagrangian, the self-interaction energy per volume; zero for a dilute gas). Unit: GeV$^4$. Status: DERIVED.
+- $q_{\mathrm{P}}$: The pressure of the portals along the extra times: their mean on-shell Lagrangian density. Unit: GeV$^4$. Status: DERIVED.
+- $q_{\mathrm{ff}}$: The pressure of the fold fluid along the extra times. Unit: GeV$^4$. Value: $-61HV_*/(8\kappa)$ at the static block. Status: ASSUMED.
+- $r$: An extra-time direction of the fold: $r \in \{5, 6, 7\}$ ($x_5, x_6, x_7$); not summed (the three components are equal). Status: STANDARD.
+- $\langle\cdots\rangle$: The mean (expectation) value of an operator in the state of the medium (the vacuum, a plasma, the Kohn-Sham state). Status: STANDARD.
+- $\mathcal{L}_{\mathrm{H}}$: The Lagrangian of the Higgs doublet on the fold. Unit: GeV$^4$. Status: AUTHOR.
+- $\mathcal{L}_{\mathrm{gauge}}$: The Lagrangian of the gauge fields of $SU(3)_C\times SU(2)_L\times U(1)_Y$ on the fold. Unit: GeV$^4$. Status: STANDARD.
+- $\mathcal{L}_{\mathrm{f}}$: The kinetic Lagrangian of the quarks and leptons on the fold. Unit: GeV$^4$. Status: STANDARD.
+- $\mathcal{L}_{\mathrm{Y}}$: The Yukawa Lagrangian of the quarks and leptons with the Higgs doublet. Unit: GeV$^4$. Status: STANDARD.
+- $\mathcal{L}_{\mathrm{P}}$: The Lagrangian of the portals of dirac16complex at the fold. Unit: GeV$^4$. Status: INVENTED.
 
 <!-- end generated symbol list -->
 
@@ -3120,9 +3139,25 @@ homogeneous fold with frozen extra times $\mathcal{J}^{(4)}{}_{(4)} = -(31 + 10\
 fold fluid except for the remainder $\rho_\Lambda$, the dark energy of UM-3 (a vacuum energy of the fold), and its part
 $-\frac52\,a_4'^2/H$ adds to the left-hand side, so that the Friedmann equation of the fold has Newton's constant reduced by the factor
 $1 + 5\epsilon_{\mathrm{r}}/6$ ($\epsilon_{\mathrm{r}}$ the ratio of bulk to fold gravity; DERIVED from FE-33 with $\mathsf{A} = a_4'/H$ and
-$\hat G^{(4)}{}_{(4)} = -3a_4'^2$). The other components of $\mathcal{J}$ give corrections of order $\epsilon_{\mathrm{r}}$ to the acceleration
-equation that the separable metric cannot carry (FE-33); they are absorbed by the terms of order $\epsilon_{\mathrm{r}}$ of the power series
-FE-35. With $\epsilon_{\mathrm{r}} \lesssim 10^{-15}$ the fold expands as in general relativity. Status: DERIVED (with the ASSUMED induced gravity).
+$\hat G^{(4)}{}_{(4)} = -3a_4'^2$). The space-space components give, in the same way, the acceleration equation of general relativity
+up to terms of order $\epsilon_{\mathrm{r}}$. The component along the extra times (the third line; $q$ is a pressure along the extra times,
+for every term of the fold its on-shell Lagrangian density by FE-5, and the induced gravity contributes $\hat R/(2\kappa_4)$, $\hat R$ the scalar
+curvature of the fold) is an additional equation: the equation of the size of the extra times at the fold (the radion). To leading
+order in $\epsilon_{\mathrm{r}}$ it requires that the sum over the matter of the fold of $q + (\rho - 3p)/2$ vanishes. Radiation satisfies it;
+non-relativistic matter ($q = 0$ for the bound states of dirac16complex, $q = -\rho$ for classical particles on the fold) and vacuum energy
+($q = -\rho$) do not. The first-order terms of the power series FE-35 must therefore carry the difference: if the bulk medium does not
+respond, the only available bulk mode is the difference mode of FE-35, which changes the acceleration equation to
+$5H_4' + 9H_4^2 = -\kappa_4(p + q)$ (dust would expand as $x_4^{5/6}$, which observation excludes); UM-3 therefore requires (ASSUMED) that the
+bulk medium responds with the radion mode of FE-35, which changes only the extra-time component and keeps the four-dimensional equations
+those of general relativity (DERIVED, `um3_series.py`, SR1 to SR6). The radion mode with the jumps $c\,(1, -1, 5)$ of
+$(\mathfrak{a}_1', \mathfrak{b}_1', \mathfrak{n}_1')$ at the fold changes the extra-time component of the junction by
+$\kappa\,\delta\mathcal{S}^{(r)}{}_{(r)} = 5c/8$; today it must carry the mismatch $0.793\,\rho_{\mathrm{c}}^{(0)}$ of the dark matter
+($q = 0$), the baryons and the vacuum energy ($q = -\rho$), which needs the amplitude $c/H = 3.806\,\mathsf{A}^2/\epsilon_{\mathrm{r}}$
+($\mathsf{A} = a_4'/H$, $\rho_{\mathrm{c}}^{(0)}$ the critical density of FE-58), a small term of the power series when
+$\mathsf{A}^2 \ll \epsilon_{\mathrm{r}}$, that is when the bulk curvature scale $H$ exceeds the Hubble rate by far more than
+$\epsilon_{\mathrm{r}}^{-1/2}$ (DERIVED, SR6). With
+$\epsilon_{\mathrm{r}} \lesssim 10^{-15}$ the fold then expands as in general relativity. Status: DERIVED (with the ASSUMED induced gravity and
+the ASSUMED response of the bulk medium).
 
 $$
 \rho_{\mathrm{SM}} = \frac{\pi^2}{30}\,g_\rho(\mathsf{T})\,\mathsf{T}^4,\qquad s = \frac{2\pi^2}{45}\,g_{\mathrm{s}}(\mathsf{T})\,\mathsf{T}^3,\qquad
@@ -3210,8 +3245,12 @@ The right-handed neutrinos in the early universe: their energy density grows by 
 the neutrino Yukawa couplings, negligible for Dirac masses below 0.1 eV because it is suppressed by the square of the mass over the
 temperature, and by the current portal $c^{\nu}_X$ with dirac16complex), and if they were in equilibrium until the temperature
 $\mathsf{T}_{\mathrm{dec}}$ they add $\Delta N_{\mathrm{eff}}$ to the effective number of neutrinos (from the conservation of entropy after their
-decoupling). The measured $N_{\mathrm{eff}} = 2.99 \pm 0.17$ (Planck 2018) bounds $\Delta N_{\mathrm{eff}}$ and with it the portal couplings $c^{\nu}_X$.
-Status: STANDARD.
+decoupling). The measured $N_{\mathrm{eff}} = 2.99 \pm 0.17$ (Planck 2018) and $2.89 \pm 0.11$ (ACT DR6 with Planck, lensing, BAO
+and nucleosynthesis, 2025) bound $\Delta N_{\mathrm{eff}}$ and with it the portal couplings $c^{\nu}_X$: if the portal keeps the
+right-handed neutrinos in equilibrium with $\chi$ they decouple at $\mathsf{T}_{\mathrm{dec}} \approx \omega_{\mathrm{b}}/13$ to $\omega_{\mathrm{b}}/17$ and add
+$\Delta N_{\mathrm{eff}} = 0.14$ to $0.24$ for $\omega_{\mathrm{b}} = 10$ TeV to 10 GeV, 2.7 to 3.5 standard deviations above the ACT value; the
+right-handed neutrinos of UM-3 must therefore never thermalise ($c^{\nu}_X$ much smaller than the lepton-doublet couplings), and
+then $N_{\mathrm{eff}} = 3.044$ (DERIVED, `um3_thermal.py`, T5). Status: STANDARD (the equations), DERIVED (the bound).
 
 # The coupled system
 
@@ -3266,3 +3305,21 @@ above). The checks used here:
 * `um3_neutrino.py` (5 checks): the flavour blindness of $V_\Psi$ and the invariance of the mixing under $v_{\mathrm{loc}}$ (N1), the
   resonance formulas FE-50 against an exact integration (N2), the crossing criterion of FE-51 (N3), the conservation laws of FE-52
   (N4), the CNB numbers of FE-53 (N5).
+* `um3_background.py` (6 checks): the histories of FE-29 with constant rates (only $(\mathsf{A}, \mathsf{U}) = (\pm1, 0)$, a
+  degenerate double root), the violation of the null energy condition by the stabiliser and by the bulk medium of the frozen
+  branch, the bulk sources that a varying $b_4$ needs in the primordial era (of second order in $\mathsf{U}$, without flux at
+  $\mathsf{U} = 2/3$), the factor $\mathcal{Z}$ of the couplings of the fold, the gauge equivalence of the ad hoc vacuum (FE-45) and
+  its radial residual, with numbers for three values of $a_{40}$.
+* `um3_series.py` (6 checks): the linear operator of the first-order terms of FE-35 around the static block, its only static
+  solution (the difference mode $\propto \mathrm{e}^{6H\lvert\sigma\rvert}$), the linear junction conditions and the radion mode, the
+  radion condition of FE-59, the acceleration law with a rigid bulk medium, the amplitude of the response today.
+* `um3_flavour.py` (4 checks): the survival probability of solar neutrinos by exact integration of FE-48 and FE-49, against the
+  adiabatic formula of FE-50 and the measurements of Borexino; the three-flavour conversion in the envelope of a supernova for both
+  mass orderings; the fast instability near a neutrinosphere and the dispersion relation FE-51 at its solutions; the equipartition
+  FE-52 (its conservation laws, its fixed point, the bound $0 \le \mathcal{F} \le 1$) and its effect on the heating behind the shock.
+* `um3_cosmology.py` (6 checks): the expansion rate of FE-59 and the ruler FE-56 computed independently and by the Boltzmann code
+  CAMB; the derived quantities of the CMB against Planck 2018; the CMB spectra (FE-57) against the Planck 2018 high-$l$ data, with a
+  refit for thermal right-handed neutrinos; the BAO distances against DESI DR2; the CNB numbers of FE-53 and FE-58.
+* `um3_thermal.py` (6 checks): $g_\rho$ and $g_{\mathrm{s}}$ of FE-60, the relic density FE-61 by numerical solution, the current
+  portals against the limits of direct detection, the Higgs-portal coupling of FE-47 and the binding of $\chi$, the right-handed
+  neutrinos and $N_{\mathrm{eff}}$ (FE-62), the ad hoc vacuum before nucleosynthesis.

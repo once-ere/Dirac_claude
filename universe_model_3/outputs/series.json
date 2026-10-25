@@ -1,0 +1,72 @@
+{
+ "SR1": {
+  "extra": "-45*H*a1/8 - 15*H*b1/4 - 5*H*n1/16 + 15*a2/16 + 5*b2/8 + n2/16",
+  "sigma": "-75*H*a1/16 - 75*H*b1/16 - 3*H*n1/8",
+  "space": "-15*H*a1/4 - 45*H*b1/8 - 5*H*n1/16 + 5*a2/8 + 15*b2/16 + n2/16",
+  "time": "-21*H*a1/16 - 21*H*b1/16 + 3*a2/16 + 3*b2/16"
+ },
+ "SR2": {
+  "common_factor_of_minors": "H - lam/6",
+  "modes": [
+   {
+    "lambda": "6*H",
+    "vectors": [
+     "[-1, 1, 0]"
+    ]
+   }
+  ]
+ },
+ "SR3": {
+  "difference_mode_(1,-1,0)": {
+   "extra": "5/16",
+   "space": "-5/16",
+   "time": "0"
+  },
+  "kappa_deltaS": {
+   "extra": "15*ja/16 + 5*jb/8 + jn/16",
+   "space": "5*ja/8 + 15*jb/16 + jn/16",
+   "time": "3*ja/16 + 3*jb/16"
+  },
+  "radion_mode_(1,-1,5)": {
+   "extra": "5/8",
+   "space": "0",
+   "time": "0"
+  }
+ },
+ "SR4": {
+  "per_species": {
+   "dust, classical (q = -rho)": "-rho/2",
+   "dust, q = 0": "rho/2",
+   "radiation (q = 0)": "0",
+   "vacuum energy (p = q = -rho)": "rho"
+  },
+  "radion_condition": "-3*p/2 + q + rho/2"
+ },
+ "SR5": {
+  "acceleration_equation": "5 H4' + 9 H4^2 = -kappa4 (p + q)",
+  "per_species": {
+   "dust, classical (q = -rho)": {
+    "H4prime_over_H4sq": "-6/5",
+    "a_exponent": "5/6"
+   },
+   "dust, q = 0": {
+    "H4prime_over_H4sq": "-9/5",
+    "a_exponent": "5/9"
+   },
+   "radiation (q = 0)": {
+    "H4prime_over_H4sq": "-2",
+    "a_exponent": "1/2"
+   },
+   "vacuum energy (p = q = -rho)": {
+    "H4prime_over_H4sq": "-3/5",
+    "a_exponent": "5/3"
+   }
+  }
+ },
+ "SR6": {
+  "Delta_over_rho_c_today": 0.793,
+  "c_over_H": "3 A^2 x 0.7930 / (eps_r x 5/8) = 3.8064 A^2/eps_r",
+  "radion_jump_kappaS_extra_per_unit_c": "5/8"
+ },
+ "runtime_s": 4.0
+}

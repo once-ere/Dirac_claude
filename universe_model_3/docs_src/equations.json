@@ -1731,7 +1731,7 @@
  {
   "id": "FE-59",
   "title": "The thermal history",
-  "latex": "\\begin{aligned}\n&\\frac{1}{\\kappa_4}\\,\\hat G^\\mu{}_\\nu = \\mathcal{T}_{\\mathrm{SM}}{}^\\mu{}_\\nu + \\mathcal{T}_{\\mathrm{P}}{}^\\mu{}_\\nu + \\mathcal{T}_{\\mathrm{ff}}{}^\\mu{}_\\nu\n - \\frac{V_*}{\\kappa}\\,\\mathcal{J}^\\mu{}_\\nu,\\qquad \\mathcal{J}^a{}_b = \\kappa\\,\\mathcal{S}^a{}_b\\ \\text{of FE-30},\\\\\n&H_4^2 = \\frac{8\\pi G_{\\mathrm{N}}}{3}\\big(\\rho_{\\mathrm{SM}} + \\rho_\\chi + \\rho_\\Lambda\\big),\\qquad\n 8\\pi G_{\\mathrm{N}} = \\frac{\\kappa_4}{1 + 5\\epsilon_{\\mathrm{r}}/6},\\qquad \\epsilon_{\\mathrm{r}} = \\frac{\\kappa_4V_*}{\\kappa H},\\qquad\n \\rho_\\Lambda = \\rho_{\\mathrm{ff}} - \\frac{31HV_*}{4\\kappa}\n\\end{aligned} \\tag{FE-59}",
+  "latex": "\\begin{aligned}\n&\\frac{1}{\\kappa_4}\\,\\hat G^\\mu{}_\\nu = \\mathcal{T}_{\\mathrm{SM}}{}^\\mu{}_\\nu + \\mathcal{T}_{\\mathrm{P}}{}^\\mu{}_\\nu + \\mathcal{T}_{\\mathrm{ff}}{}^\\mu{}_\\nu\n - \\frac{V_*}{\\kappa}\\,\\mathcal{J}^\\mu{}_\\nu,\\qquad \\mathcal{J}^a{}_b = \\kappa\\,\\mathcal{S}^a{}_b\\ \\text{of FE-30},\\\\\n&H_4^2 = \\frac{8\\pi G_{\\mathrm{N}}}{3}\\big(\\rho_{\\mathrm{SM}} + \\rho_\\chi + \\rho_\\Lambda\\big),\\qquad\n 8\\pi G_{\\mathrm{N}} = \\frac{\\kappa_4}{1 + 5\\epsilon_{\\mathrm{r}}/6},\\qquad \\epsilon_{\\mathrm{r}} = \\frac{\\kappa_4V_*}{\\kappa H},\\qquad\n \\rho_\\Lambda = \\rho_{\\mathrm{ff}} - \\frac{31HV_*}{4\\kappa},\\\\\n&\\frac{\\hat R}{2\\kappa_4} + q_{\\mathrm{SM}} + q_\\chi + q_{\\mathrm{P}} + q_{\\mathrm{ff}} = \\frac{V_*}{\\kappa}\\,\\mathcal{J}^{(r)}{}_{(r)},\\qquad\n q_{\\mathrm{SM}} = \\big\\langle\\mathcal{L}_{\\mathrm{H}} + \\mathcal{L}_{\\mathrm{gauge}} + \\mathcal{L}_{\\mathrm{f}} + \\mathcal{L}_{\\mathrm{Y}}\\big\\rangle,\\qquad\n q_{\\mathrm{P}} = \\langle\\mathcal{L}_{\\mathrm{P}}\\rangle\n\\end{aligned} \\tag{FE-59}",
   "keys": [
    "kappa4",
    "Ghat",
@@ -1754,7 +1754,19 @@
    "rhoL",
    "epsr",
    "Hconst",
-   "rhoff"
+   "rhoff",
+   "Rhat",
+   "qSM",
+   "qchi",
+   "qP",
+   "qff",
+   "ir",
+   "mean",
+   "LH",
+   "Lgauge",
+   "Lf",
+   "LY",
+   "LP"
   ],
   "status": "ASSUMED"
  },

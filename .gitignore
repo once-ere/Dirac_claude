@@ -297,3 +297,12 @@ Generalized_Kronecker_Delta.*
 # (committed by mistake by the automatic Stop-hook snapshot d02ff19; removed at the author's request)
 /WaveFunctionUniverse-4+4-Einstein-Lovelock.nb
 /WaveFunctionUniverse-4+4-Einstein-Lovelock-*.mx
+
+# The author's private notes and a third-party paper he supplied for reading: read only, never committed
+hopeless*.txt
+/Neutrino Flavor Conversion.pdf
+
+# Third-party data that universe_model_3/code/um3_cosmology.py downloads at run time (the Planck 2018
+# plik-lite spectra, from the Planck Legacy Archive via github.com/heatherprince/planck-lite-py):
+# used, not redistributed
+/universe_model_3/external/

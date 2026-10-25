@@ -1,0 +1,38 @@
+{
+ "script": "universe_model_3/code/um3_series.py",
+ "checks": [
+  {
+   "name": "SR1_linear_operator",
+   "passed": true,
+   "detail": "order 0 = the stabiliser (kappa T/H^2 = -5/16, -5/16, 1/16, -5/16); first order on sigma > 0 (a1 = alpha', a2 = alpha'', b = beta, n = nu): {'sigma': '-75*H*a1/16 - 75*H*b1/16 - 3*H*n1/8', 'space': '-15*H*a1/4 - 45*H*b1/8 - 5*H*n1/16 + 5*a2/8 + 15*b2/16 + n2/16', 'time': '-21*H*a1/16 - 21*H*b1/16 + 3*a2/16 + 3*b2/16', 'extra': '-45*H*a1/8 - 15*H*b1/4 - 5*H*n1/16 + 15*a2/16 + 5*b2/8 + n2/16'}; the sigma < 0 side is the mirror image"
+  },
+  {
+   "name": "SR2_homogeneous_solutions",
+   "passed": true,
+   "detail": "exponential ansatz e^{lam sigma} on sigma > 0: the 4 x 3 system has a non-trivial solution only for lam = ['6*H'], the difference mode (alpha', beta', nu') ~ ['-1', '1', '0'] e^{6H sigma}: it grows away from the fold (mirror: e^{6H|sigma|}); no bounded static first-order correction exists when the bulk medium does not respond"
+  },
+  {
+   "name": "SR3_linear_junction",
+   "passed": true,
+   "detail": "kappa delta S (space, time, extra) = {'space': '5*ja/8 + 15*jb/16 + jn/16', 'time': '3*ja/16 + 3*jb/16', 'extra': '15*ja/16 + 5*jb/8 + jn/16'} from the junction potential, equal to the coefficients of the second derivatives; the difference mode (1,-1,0) gives {'space': '-5/16', 'time': '0', 'extra': '5/16'} (no energy, opposite stresses), the radion mode (1,-1,5) gives {'space': '0', 'time': '0', 'extra': '5/8'}: it changes only the extra-time component"
+  },
+  {
+   "name": "SR4_radion_condition",
+   "passed": true,
+   "detail": "to leading order in eps_r the (4,4) and (i,i) components are 3H4^2 = kappa4 rho and 2H4' + 3H4^2 = -kappa4 p (general relativity), and the extra-time component adds q + (rho - 3p)/2 = 0 (q = <L_fold>, the on-shell Lagrangian): {'radiation (q = 0)': '0', 'dust, classical (q = -rho)': '-rho/2', 'dust, q = 0': 'rho/2', 'vacuum energy (p = q = -rho)': 'rho'}"
+  },
+  {
+   "name": "SR5_rigid_medium_modifies_expansion",
+   "passed": true,
+   "detail": "with a rigid bulk medium: 5H4' + 9H4^2 = -kappa4(p + q); {'radiation (q = 0)': '1/2', 'dust, classical (q = -rho)': '5/6', 'dust, q = 0': '5/9', 'vacuum energy (p = q = -rho)': '5/3'} (general relativity: radiation t^{1/2}, dust t^{2/3}, vacuum energy H4' = 0)"
+  },
+  {
+   "name": "SR6_radion_response_today",
+   "passed": true,
+   "detail": "a radion mode with jumps c(1, -1, 5) gives kappa delta S^(r)_(r) = 5/8 c; the mismatch today is Delta = 0.793 rho_c (dark matter q = 0, baryons q = -rho, vacuum energy q = -rho); the response c/H = 3.806 A^2/eps_r is a small term of the power series if A^2 = (H4/H)^2 << eps_r"
+  }
+ ],
+ "passed": 6,
+ "total": 6,
+ "all_passed": true
+}

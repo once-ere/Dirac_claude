@@ -1,0 +1,38 @@
+{
+ "script": "universe_model_3/code/um3_cosmology.py",
+ "checks": [
+  {
+   "name": "C1_background_power_series",
+   "passed": true,
+   "detail": "H(z) of FE-59 computed here (Omega_gamma = 5.4502e-05, Omega_nu today = 1.4040e-03, Omega_b = 0.0493, Omega_chi = 0.2645, Omega_Lambda = 0.6848) equals CAMB to 8.7e-07 for 0 <= z <= 1e4; age 13.7980 Gyr (CAMB 13.7977); the bulk terms of the power series change H(z), the distances and r_s by 5 eps_r/12 <= 4e-16 at fixed kappa_4 and not at all at fixed G_N: the fold expands as in general relativity"
+  },
+  {
+   "name": "C2_BAO_ruler",
+   "passed": true,
+   "detail": "FE-56 integrated here: r_s(z_drag = 1059.93) = 147.105 Mpc (CAMB 147.105); D_M and D_H at the seven DESI redshifts agree with CAMB to 8.4e-07"
+  },
+  {
+   "name": "C3_CMB_derived_vs_Planck",
+   "passed": true,
+   "detail": "UM-3 with the Planck 2018 parameters: age 13.798 (Planck 13.797 +- 0.023, +0.03), zstar 1089.9 (Planck 1089.9 +- 0.25, -0.06), rstar 144.45 (Planck 144.43 +- 0.26, +0.06), thetastar 1.0411 (Planck 1.0411 +- 0.00031, -0.06), zdrag 1059.9 (Planck 1059.9 +- 0.3, -0.03), rdrag 147.1 (Planck 147.09 +- 0.26, +0.06), kd 0.14086 (Planck 0.14087 +- 0.0003, -0.02), zeq 3402.9 (Planck 3402 +- 26, +0.03), sigma8 0.81203 (Planck 0.8111 +- 0.006, +0.15) (pulls in units of the Planck errors, all below 1)"
+  },
+  {
+   "name": "C4_CMB_spectra_vs_Planck_high_l",
+   "passed": true,
+   "detail": "the implementation reproduces the plik-lite reference log-likelihoods {'TT_high_l': -101.581231, 'TTTEEE_with_low_l_bins': -293.955865} (expected {'TT_high_l': -101.58123068722583, 'TTTEEE_with_low_l_bins': -293.95586501795134}); UM-3: chi^2 = 583.8 for 613 high-l TT/TE/EE bins (expected 613 +- 35), TT alone 206.2 for 215 bins; UM-3 with three thermal nu_R (N_eff = 3.185) at the same theta* and the same other parameters: Delta chi^2 = +20.5 (the damping tail); with omega_b, omega_chi, theta*, A_s and n_s refitted (tau fixed) to the high-l spectra and the two low-l TT bins: chi^2 = 587.9 (N_eff = 3.044, H0 = 67.31) and 589.5 (N_eff = 3.185, H0 = 68.23), Delta chi^2 = +1.6"
+  },
+  {
+   "name": "C5_BAO_vs_DESI_DR2",
+   "passed": true,
+   "detail": "UM-3 with the Planck parameters (Omega_m = 0.3152, h r_d = 99.09 Mpc): chi^2 = 32.0 for the 13 DESI DR2 measurements; fitted to DESI alone: Omega_m = 0.2971, h r_d = 101.56 Mpc, chi^2 = 10.5 for 11 degrees of freedom (p = 0.48; DESI DR2 finds the same for the cosmological-constant model); the Planck point lies Delta chi^2 = 21.5 above the DESI optimum when its own errors are neglected (with the CMB errors DESI DR2 quotes a 2.3 sigma tension between BAO and CMB): UM-3 has the w = -1 of a vacuum energy (FE-59) to order eps_r, inherits this tension, and cannot produce the w0 > -1, wa < 0 that DESI DR2 + CMB prefer at 3.1 sigma"
+  },
+  {
+   "name": "C6_cosmic_neutrino_background",
+   "passed": true,
+   "detail": "T_nu = (4/11)^{1/3} T_gamma = 1.9454 K (1.676e-04 eV); 112.0 neutrinos and antineutrinos per cm^3 per flavour (336 in all, FE-53); m = 0, 8.61 meV, 50.1 meV: nu_2 and nu_3 became non-relativistic at z = 15.3 and 94, nu_1 is relativistic; Omega_nu h^2 = 6.314e-04 (FE-58: Sum m/93.14 eV = 6.304e-04, CAMB 6.311e-04); the right-handed states are not populated, so the CNB of UM-3 has one helicity per state and the capture rate on tritium is 4.1 per year per 100 g for non-relativistic Dirac neutrinos (Long, Lunardini and Sabancilar: about 4; Majorana about 8), 6.8 with the massless nu_1"
+  }
+ ],
+ "passed": 6,
+ "total": 6,
+ "all_passed": true
+}

@@ -424,6 +424,10 @@ add('rhonuR', r'\rho_{\nu_{\mathrm{R}}}', [r'\rho_{\nu _{\mathrm{R}}}'], r'The e
 add('CnuR', r'\mathcal{C}_{\nu_{\mathrm{R}}}', [r'\mathcal{C}_{\nu _{\mathrm{R}}}'], r'The collision term of the right-handed neutrinos: the rate at which collisions produce (or remove) their energy density.', 'GeV$^5$', '', 'STANDARD')
 add('Tdec', r'\mathsf{T}_{\mathrm{dec}}', [r'\mathsf{T}_{\mathrm{dec}}'], r'The temperature at which the right-handed neutrinos decouple from the plasma.', 'GeV', '', 'STANDARD')
 
+add('qSM', r'q_{\mathrm{SM}}', [r'q_{\mathrm{SM}}'], r'The pressure of the Standard Model along the extra times at the fold: the mean on-shell Lagrangian density of the Standard-Model fields (FE-5: the extra-time component of the energy-momentum tensor of every term of the fold is its Lagrangian).', 'GeV$^4$', '', 'DERIVED')
+add('qchi', r'q_\chi', [r'q_{\chi}'], r'The pressure of the bound states of dirac16complex along the extra times, integrated across the fold (their on-shell Lagrangian, the self-interaction energy per volume; zero for a dilute gas).', 'GeV$^4$', '', 'DERIVED')
+add('qP', r'q_{\mathrm{P}}', [r'q_{\mathrm{P}}'], r'The pressure of the portals along the extra times: their mean on-shell Lagrangian density.', 'GeV$^4$', '', 'DERIVED')
+
 
 def main():
     out = HERE / 'symbols'

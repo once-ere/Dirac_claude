@@ -3774,5 +3774,35 @@
   "units": "GeV",
   "value": "",
   "status": "STANDARD"
+ },
+ "qSM": {
+  "tex": "q_{\\mathrm{SM}}",
+  "atoms": [
+   "q_{\\mathrm{SM}}"
+  ],
+  "meaning": "The pressure of the Standard Model along the extra times at the fold: the mean on-shell Lagrangian density of the Standard-Model fields (FE-5: the extra-time component of the energy-momentum tensor of every term of the fold is its Lagrangian).",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "qchi": {
+  "tex": "q_\\chi",
+  "atoms": [
+   "q_{\\chi}"
+  ],
+  "meaning": "The pressure of the bound states of dirac16complex along the extra times, integrated across the fold (their on-shell Lagrangian, the self-interaction energy per volume; zero for a dilute gas).",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "qP": {
+  "tex": "q_{\\mathrm{P}}",
+  "atoms": [
+   "q_{\\mathrm{P}}"
+  ],
+  "meaning": "The pressure of the portals along the extra times: their mean on-shell Lagrangian density.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "DERIVED"
  }
 }
