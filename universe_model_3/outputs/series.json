@@ -68,5 +68,5 @@
   "c_over_H": "3 A^2 x 0.7930 / (eps_r x 5/8) = 3.8064 A^2/eps_r",
   "radion_jump_kappaS_extra_per_unit_c": "5/8"
  },
- "runtime_s": 4.0
+ "runtime_s": 4.6
 }

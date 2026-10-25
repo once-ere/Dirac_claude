@@ -59,12 +59,12 @@
   {
    "name": "J7_frozen_fold_pressure",
    "passed": true,
-   "detail": "and kappa p_fold(x1..x3) = (183 + 57 A^2 + 40 Ad) H/24 (with Ad = a4''/H^2)"
+   "detail": "and kappa p_fold(x1..x3) = -(183 + 57 A^2 + 40 Ad) H/24 (with Ad = a4''/H^2): a tension, as the static value -183H/24"
   },
   {
    "name": "J7_separable_metric_too_rigid",
    "passed": true,
-   "detail": "a conserved fold fluid on top of the static values is compatible with the separable metric only for one equation of state, p = -rho/40: for radiation or dust the metric functions must also depend on sigma near the fold (the next terms of the power series of the metric)"
+   "detail": "a fold fluid on top of the static values (kappa rho_m = (5/2) A^2 H, kappa p_m = -(57 A^2 + 40 Ad) H/24) cannot be separately conserved on the separable metric for any equation of state: rho_m' + 3 a4' (rho_m + p_m) = 3*A**3*H**2/8/kappa (independent of Ad), the A^3 part of the bulk flux at the fold that the static source does not balance; ordinary matter on the fold requires metric functions that also depend on sigma near the fold (the next terms of the power series of the metric)"
   }
  ],
  "passed": 13,

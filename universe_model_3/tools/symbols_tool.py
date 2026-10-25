@@ -16,8 +16,10 @@ and the generated block
     <!-- begin generated symbol list -->  ...  <!-- end generated symbol list -->
 which `expand` (re)writes from the registry.  `check` extracts the atoms of every display equation and requires that
 every atom is defined by one of the listed keys (or is pure typography), that every display has a marker, that every
-listed key exists, that no atom is defined by two registry entries (one symbol, one meaning), and that a display
-tagged FE-n or IN-n is written exactly as in the inventory docs_src/equations.json, with the same keys.
+listed key exists, that no atom is defined by two registry entries (one symbol, one meaning), that a display
+tagged FE-n or IN-n is written exactly as in the inventory docs_src/equations.json, with the same keys, and that a
+document is self-contained: every equation tag (FE-n, IN-n, S-n, A-n) that its text or one of its symbol lists cites is
+displayed in that document.
 
 Atoms.  A symbol of an equation is reduced to an atom: a LaTeX command with its decoration (\Psi, \bar\Psi, \partial,
 \mathcal{L}, \hat{g}), a letter (g, R), a letter or command with a NAME subscript (a_4, x_0, G_F, m_\nu, M_{Pl}: the
@@ -437,12 +439,42 @@ def sync(name, inventory):
     return problems
 
 
+TAGREF = re.compile(r'(?<![A-Za-z0-9])((?:FE|IN|S|A)-\d+)\b')
+
+
+def prose_tag_problems(name, lines, shown):
+    """Every equation tag that the prose of a document cites (outside display equations, generated symbol lists, code
+    blocks and HTML comments) must be displayed in the document itself: each document is self-contained."""
+    problems = []
+    skip = set()
+    for start, end, _ in displays(lines):
+        skip.update(range(start, end + 1))
+    in_list = in_code = False
+    for i, line in enumerate(lines):
+        s = line.strip()
+        if s.startswith('```'):
+            in_code = not in_code
+            continue
+        if s == BEGIN:
+            in_list = True
+        if in_list or in_code or i in skip or s.startswith('<!--'):
+            if s == END:
+                in_list = False
+            continue
+        for t in TAGREF.findall(line):
+            if t not in shown:
+                problems.append('%s line %d: the text cites %s, which this document does not display' % (name, i + 1, t))
+    return problems
+
+
 def check(name, reg, owner, inventory=None):
     path = doc_path(name)
     lines = path.read_text(encoding='utf-8').split('\n')
     problems = []
     n_disp = 0
     inventory = inventory if inventory is not None else load_inventory()
+    shown = {tag_of(latex) for _, _, latex in displays(lines)} - {None}
+    problems += prose_tag_problems(name, lines, shown)
     for start, end, latex in displays(lines):
         n_disp += 1
         j, keys = find_marker(lines, end)
@@ -464,6 +496,17 @@ def check(name, reg, owner, inventory=None):
         unknown = [k for k in keys if k not in reg]
         if unknown:
             problems.append('%s: unknown registry keys %s' % (where, unknown))
+        # a display may cite (in its text) only equations that this document displays
+        for t in TAGREF.findall(re.sub(r'\\tag\{[^}]*\}', '', latex)):
+            if t not in shown:
+                problems.append('%s: the display cites %s, which this document does not display' % (where, t))
+        # the symbol list may cite only equations that this document displays
+        for k in keys:
+            if k in reg:
+                for t in TAGREF.findall(reg[k]['meaning'] + ' ' + reg[k].get('value', '') + ' ' + reg[k].get('units', '')):
+                    if t not in shown:
+                        problems.append('%s: the entry %s of the symbol list cites %s, which this document does not display'
+                                        % (where, k, t))
         covered = set()
         for k in keys:
             if k in reg:

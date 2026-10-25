@@ -4,17 +4,17 @@
   {
    "name": "F1_solar_survival",
    "passed": true,
-   "detail": "P_ee(E) from the exact flavour evolution through the Sun: pp 0.267 MeV 0.545, 7Be 0.862 MeV 0.512, pep 1.44 MeV 0.508, 8B 5 MeV 0.336, 8B 8.1 MeV 0.308, 8B 10 MeV 0.302, 8B 15 MeV 0.295 (unchanged to 1e-6 with half the step); equal to the adiabatic formula of FE-50 to 1e-3, the crossing probability of the exponential profile is below 1e-10 (the Sun is adiabatic); limits: vacuum average 0.553 at low energy, full MSW 0.290 at high energy; Borexino: pp 0.57 +- 0.09 (UM-3 0.545), 7Be 0.53 +- 0.05 (UM-3 0.512), pep 0.43 +- 0.11 (UM-3 0.508), 8B 0.37 +- 0.08 (UM-3 0.308)"
+   "detail": "P_ee(E) from the exact flavour evolution through the Sun: pp 0.267 MeV 0.545, 7Be 0.862 MeV 0.513, pep 1.44 MeV 0.508, 8B 5 MeV 0.336, 8B 8.1 MeV 0.308, 8B 10 MeV 0.302, 8B 15 MeV 0.295 (unchanged to 1e-6 with half the step); equal to the adiabatic formula of FE-50 to 1e-3, the crossing probability of the exponential profile is below 1e-10 (the Sun is adiabatic); limits: vacuum average 0.553 at low energy, full MSW 0.290 at high energy; Borexino: pp 0.57 +- 0.09 (UM-3 0.545), 7Be 0.53 +- 0.05 (UM-3 0.513), pep 0.43 +- 0.11 (UM-3 0.508), 8B 0.37 +- 0.08 (UM-3 0.308)"
   },
   {
    "name": "F2_supernova_envelope",
    "passed": true,
-   "detail": "exact three-flavour evolution at 15 MeV from 3359 km (0.2 r_H) to 365110 km (5 r_L) through rho = 1e4 (r/1e9 cm)^-3 g/cm^3: NO nu 0.0222, NO anti 0.6815, IO nu 0.2963, IO anti 0.0222; the resonances at r_H = 16794 km and r_L = 73022 km are adiabatic (gamma_H = 216, gamma_L = 653, P_LZ = 0), so a nu_e leaves as nu_3 (normal ordering, P_ee = |U_e3|^2 = 0.0222) or nu_2 (inverted, |U_e2|^2 = 0.2963), an anti-nu_e as anti-nu_1 (|U_e1|^2 = 0.6815) or anti-nu_3 (|U_e3|^2); agreement to 1e-4"
+   "detail": "exact three-flavour evolution at 15 MeV from 0.2 r_H (3367 km normal, 3400 km inverted ordering) to 5 r_L = 365974 km through rho = 1e4 (r/1e9 cm)^-3 g/cm^3: NO nu 0.0220, NO anti 0.6816, IO nu 0.2963, IO anti 0.0220; the resonances at r_H = 16833 km (normal ordering, |m3^2 - m1^2| = 0.002511 eV^2), 17002 km (inverted, 0.002437 eV^2) and r_L = 73195 km are adiabatic (gamma_H = 215 and 210, gamma_L = 655, P_LZ = 0), so a nu_e leaves as nu_3 (normal ordering, P_ee = |U_e3|^2 = 0.0220) or nu_2 (inverted, |U_e2|^2 = 0.2963), an anti-nu_e as anti-nu_1 (|U_e1|^2 = 0.6816) or anti-nu_3 (|U_e3|^2); agreement to 1e-4"
   },
   {
    "name": "F3_fast_instability_neutrinosphere",
    "passed": true,
-   "detail": "half-isotropic emission from R_e = 30 km and R_ebar = 27 km seen at r = 40 km: the ELN crosses for alpha > (1 - mu_ebar)/(1 - mu_e) = 0.7744; alpha = 0.50: crossing False, growth rate 3.19e-18 (m = 1); alpha = 0.75: crossing False, growth rate 2.03e-18 (m = 0); alpha = 0.80: crossing True, growth rate 0.0137 (m = 0), e-folding length 26 cm; alpha = 0.95: crossing True, growth rate 0.0556 (m = 0), e-folding length 6.5 cm; alpha = 1.20: crossing True, growth rate 0.0925 (m = 0), e-folding length 3.9 cm; at every unstable solution FE-51 holds (relative residual < 1e-8); sqrt2 G_F n_e = 2.77 /cm for L = 5e52 erg/s, <E> = 12 MeV: the instability grows within centimetres wherever the ELN crosses and not at all without a crossing"
+   "detail": "half-isotropic emission from R_e = 30 km and R_ebar = 27 km seen at r = 40 km: the ELN crosses for alpha > (1 - mu_ebar)/(1 - mu_e) = 0.7744; alpha = 0.50: crossing False, growth rate 3.19e-18 (m = 1); alpha = 0.75: crossing False, growth rate 2.03e-18 (m = 0); alpha = 0.80: crossing True, growth rate 0.0137 (m = 0), e-folding length 22 cm; alpha = 0.95: crossing True, growth rate 0.0556 (m = 0), e-folding length 5.4 cm; alpha = 1.20: crossing True, growth rate 0.0925 (m = 0), e-folding length 3.2 cm; at every unstable solution FE-51 holds (relative residual < 1e-8); sqrt2 G_F n_e = 3.34 /cm for L = 5e52 erg/s, <E> = 12 MeV (n_e = 5.19e+32 /cm^3 at 40 km): the instability grows within centimetres wherever the ELN crosses and not at all without a crossing"
   },
   {
    "name": "F4_equipartition_heating",

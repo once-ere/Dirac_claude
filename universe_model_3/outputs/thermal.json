@@ -115,113 +115,113 @@
  ],
  "T3": [
   {
-   "LZ_limit_cm2": 2.1e-48,
-   "g_lepton_GeV-2": 6.435110036671272e-06,
+   "LZ_limit_cm2": null,
+   "g_lepton_GeV-2": 7.430625023874043e-06,
    "g_quark_GeV-2": 3.7153125119370213e-06,
-   "lepton_ratio_to_limit": 98321.20843354566,
+   "lepton_ratio_to_limit": null,
    "loop_log_sum": 23.15217978121916,
    "omega_b_GeV": 10.0,
-   "quark_excluded_by_factor": 5401959990.117629,
-   "sigma_SI_lepton_loop_cm2": 2.064745377104459e-43,
+   "quark_excluded_by_factor": null,
+   "sigma_SI_lepton_loop_cm2": 2.752993836139278e-43,
    "sigma_SI_quark_cm2": 1.134411597924702e-38
   },
   {
-   "LZ_limit_cm2": 2.1e-48,
-   "g_lepton_GeV-2": 2.087648012230917e-06,
+   "LZ_limit_cm2": null,
+   "g_lepton_GeV-2": 2.410608283669414e-06,
    "g_quark_GeV-2": 1.205304141834707e-06,
-   "lepton_ratio_to_limit": 19215.008298229186,
+   "lepton_ratio_to_limit": null,
    "loop_log_sum": 29.74385351322782,
    "omega_b_GeV": 30.0,
-   "quark_excluded_by_factor": 639637676.6709751,
-   "sigma_SI_lepton_loop_cm2": 4.0351517426281287e-44,
+   "quark_excluded_by_factor": null,
+   "sigma_SI_lepton_loop_cm2": 5.38020232350417e-44,
    "sigma_SI_quark_cm2": 1.3432391210090476e-39
   },
   {
-   "LZ_limit_cm2": 5.833333333333333e-48,
-   "g_lepton_GeV-2": 6.234800873643022e-07,
+   "LZ_limit_cm2": 5.5e-48,
+   "g_lepton_GeV-2": 7.199327925483026e-07,
    "g_quark_GeV-2": 3.599663962741513e-07,
-   "lepton_ratio_to_limit": 994.8874687803419,
+   "lepton_ratio_to_limit": 1406.9115720126047,
    "loop_log_sum": 36.967690339183434,
    "omega_b_GeV": 100.0,
-   "quark_excluded_by_factor": 21439628.37895901,
-   "sigma_SI_lepton_loop_cm2": 5.803510234551995e-45,
+   "quark_excluded_by_factor": 22738999.795865614,
+   "sigma_SI_lepton_loop_cm2": 7.738013646069326e-45,
    "sigma_SI_quark_cm2": 1.250644988772609e-40
   },
   {
-   "LZ_limit_cm2": 1.7500000000000001e-47,
-   "g_lepton_GeV-2": 2.115896269454696e-07,
+   "LZ_limit_cm2": 1.65e-47,
+   "g_lepton_GeV-2": 2.443226561493987e-07,
    "g_quark_GeV-2": 1.2216132807469936e-07,
-   "lepton_ratio_to_limit": 53.69300235697566,
+   "lepton_ratio_to_limit": 75.92949828259182,
    "loop_log_sum": 43.55936407119209,
    "omega_b_GeV": 300.0,
-   "quark_excluded_by_factor": 833379.0053221454,
-   "sigma_SI_lepton_loop_cm2": 9.396275412470741e-46,
+   "quark_excluded_by_factor": 883886.8238265179,
+   "sigma_SI_lepton_loop_cm2": 1.252836721662765e-45,
    "sigma_SI_quark_cm2": 1.4584132593137545e-41
   },
   {
-   "LZ_limit_cm2": 5.833333333333334e-47,
-   "g_lepton_GeV-2": 6.390722618047604e-08,
+   "LZ_limit_cm2": 5.5e-47,
+   "g_lepton_GeV-2": 7.379370847692029e-08,
    "g_quark_GeV-2": 3.6896854238460146e-08,
-   "lepton_ratio_to_limit": 2.0059782887108177,
+   "lepton_ratio_to_limit": 2.83673697393449,
    "loop_log_sum": 50.78320089714771,
    "omega_b_GeV": 1000.0,
-   "quark_excluded_by_factor": 22907.305807555134,
-   "sigma_SI_lepton_loop_cm2": 1.170154001747977e-46,
+   "quark_excluded_by_factor": 24295.627371649385,
+   "sigma_SI_lepton_loop_cm2": 1.5602053356639695e-46,
    "sigma_SI_quark_cm2": 1.3362595054407163e-42
   },
   {
-   "LZ_limit_cm2": 1.7499999999999999e-46,
-   "g_lepton_GeV-2": 2.1228160328057556e-08,
+   "LZ_limit_cm2": 1.65e-46,
+   "g_lepton_GeV-2": 2.451216815960913e-08,
    "g_quark_GeV-2": 1.2256084079804565e-08,
-   "lepton_ratio_to_limit": 0.09429234815195725,
+   "lepton_ratio_to_limit": 0.13334271455832342,
    "loop_log_sum": 57.374874629156366,
    "omega_b_GeV": 3000.0,
-   "quark_excluded_by_factor": 843.5695209451999,
-   "sigma_SI_lepton_loop_cm2": 1.6501160926592518e-47,
+   "quark_excluded_by_factor": 894.6949464570301,
+   "sigma_SI_lepton_loop_cm2": 2.2001547902123364e-47,
    "sigma_SI_quark_cm2": 1.4762466616540998e-43
   },
   {
-   "LZ_limit_cm2": 5.833333333333333e-46,
-   "g_lepton_GeV-2": 6.440414486123539e-09,
+   "LZ_limit_cm2": 5.500000000000001e-46,
+   "g_lepton_GeV-2": 7.436750074512381e-09,
    "g_quark_GeV-2": 3.7183750372561906e-09,
-   "lepton_ratio_to_limit": 0.0033021369763000788,
+   "lepton_ratio_to_limit": 0.004669688653353646,
    "loop_log_sum": 64.59871145511198,
    "omega_b_GeV": 10000.0,
-   "quark_excluded_by_factor": 23.304259181973585,
-   "sigma_SI_lepton_loop_cm2": 1.926246569508379e-48,
+   "quark_excluded_by_factor": 24.716638526335615,
+   "sigma_SI_lepton_loop_cm2": 2.5683287593445056e-48,
    "sigma_SI_quark_cm2": 1.359415118948459e-44
   }
  ],
  "T4": [
   {
-   "g_hchi_max": 0.0031982528132440138,
+   "g_hchi_max": 0.0031055300669932447,
    "omega_b_GeV": 100.0,
-   "q_b_max_GeV": 6.274845845424974,
-   "q_b_over_omega_b_max": 0.06274845845424974
+   "q_b_max_GeV": 6.183217661926016,
+   "q_b_over_omega_b_max": 0.06183217661926016
   },
   {
-   "g_hchi_max": 0.00550518508752167,
+   "g_hchi_max": 0.005345580481588084,
    "omega_b_GeV": 300.0,
-   "q_b_max_GeV": 14.259137450681855,
-   "q_b_over_omega_b_max": 0.04753045816893952
+   "q_b_max_GeV": 14.050918970889153,
+   "q_b_over_omega_b_max": 0.04683639656963051
   },
   {
-   "g_hchi_max": 0.010029096052532743,
+   "g_hchi_max": 0.009738335633421172,
    "omega_b_GeV": 1000.0,
-   "q_b_max_GeV": 35.13804227653137,
-   "q_b_over_omega_b_max": 0.035138042276531375
+   "q_b_max_GeV": 34.62494043071382,
+   "q_b_over_omega_b_max": 0.03462494043071382
   },
   {
-   "g_hchi_max": 0.017360041088293258,
+   "g_hchi_max": 0.016856744201296993,
    "omega_b_GeV": 3000.0,
-   "q_b_max_GeV": 80.07236711337656,
-   "q_b_over_omega_b_max": 0.026690789037792186
+   "q_b_max_GeV": 78.90311360057358,
+   "q_b_over_omega_b_max": 0.02630103786685786
   },
   {
-   "g_hchi_max": 0.031688012225223876,
+   "g_hchi_max": 0.03076932327587516,
    "omega_b_GeV": 10000.0,
-   "q_b_max_GeV": 197.5123080986932,
-   "q_b_over_omega_b_max": 0.019751230809869322
+   "q_b_max_GeV": 194.6281425820272,
+   "q_b_over_omega_b_max": 0.01946281425820272
   }
  ],
  "T5": {
@@ -331,5 +331,5 @@
   "g_chi": 8,
   "sigma_ann_v_FE61": "(sigma v)_{chi chibar}/4 for the two Dirac species"
  },
- "runtime_s": 63.0
+ "runtime_s": 77.9
 }

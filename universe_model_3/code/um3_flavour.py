@@ -52,9 +52,13 @@ HBARC_EV_CM = 1.97327e-5
 SQRT2GF_EV_CM3 = math.sqrt(2.0) * 1.1663788e-23 * HBARC_EV_CM ** 3      # sqrt2 G_F in eV cm^3 (G_F = 1.1663788e-23 eV^-2)
 NA = 6.02214076e23
 R_SUN_KM = 6.957e5
-MN_G = 1.6726e-24                                                       # nucleon mass in g
-# measured mixing (normal ordering; the registry of FIELD_EQUATIONS: theta12 = 33.4, theta23 = 49.0, theta13 = 8.57 deg)
-TH12, TH23, TH13 = math.radians(33.4), math.radians(49.0), math.radians(8.57)
+MU_G = 1.66053907e-24                                                   # the atomic mass unit in g: n_e = Y_e rho/m_u
+# measured mixing: the global fit NuFIT 5.2 (November 2022; Esteban, Gonzalez-Garcia, Maltoni, Schwetz, Zhou, JHEP 09 (2020)
+# 178 and www.nu-fit.org), normal ordering, best fit with the Super-Kamiokande atmospheric data: sin^2 theta12 = 0.303,
+# sin^2 theta13 = 0.02203, sin^2 theta23 = 0.572 (theta12 = 33.40, theta13 = 8.54, theta23 = 49.14 deg), Delta m^2_21 =
+# 7.41e-5 eV^2, Delta m^2_31 = 2.511e-3 eV^2; the Dirac phase is set to 0 (ASSUMED).  The inverted ordering, used only for
+# the comparison in F2, keeps |Delta m^2_32| = 2.511e-3 eV^2: m_3^2 - m_1^2 = -(DM31 - DM21) = -2.437e-3 eV^2
+TH12, TH23, TH13 = (math.asin(math.sqrt(x)) for x in (0.303, 0.572, 0.02203))
 DM21, DM31 = 7.41e-5, 2.511e-3                                         # eV^2
 # Borexino (Nature 562, 505 (2018)): P_ee with the high-metallicity standard solar model
 BOREXINO = [('pp', 0.267, 0.57, 0.09), ('7Be', 0.862, 0.53, 0.05), ('pep', 1.44, 0.43, 0.11), ('8B', 8.1, 0.37, 0.08)]
@@ -181,12 +185,12 @@ def rho_env(r_km):
 
 
 def ne_env(r_km):
-    return 0.5 * rho_env(r_km) / MN_G
+    return 0.5 * rho_env(r_km) / MU_G
 
 
 def r_resonance(dm2, c2, E):
     ne = dm2 * c2 / (2 * E * 1e6) / SQRT2GF_EV_CM3                         # FE-50
-    rho = ne * MN_G / 0.5
+    rho = ne * MU_G / 0.5
     return (1e4 / rho) ** (1 / 3) * 1e9 / 1e5                             # km
 
 
@@ -202,7 +206,8 @@ def envelope(E, ordering, anti, N):
         H = np.broadcast_to(Hv, (len(r), 3, 3)).copy()
         H[:, 0, 0] += sgnV * vcc_km(ne_env(r))
         return H
-    rH = r_resonance(abs(DM31), math.cos(2 * TH13), E)
+    dm3 = DM31 if ordering == 'NO' else DM31 - DM21                     # |m_3^2 - m_1^2|, the splitting of the H resonance
+    rH = r_resonance(dm3, math.cos(2 * TH13), E)
     rL = r_resonance(DM21, math.cos(2 * TH12), E)
     r0, r1 = 0.2 * rH, 5.0 * rL
     nodes = np.geomspace(r0, r1, N + 1)
@@ -210,10 +215,10 @@ def envelope(E, ordering, anti, N):
     pm, ovmin = mass_state_probabilities(Hb(np.array([r1]))[0], psi, Uu)
     Pee = float(np.sum(pm * np.abs(Uu[0, :]) ** 2))
     # adiabaticity parameters (FE-50) at both resonances: gamma = dm^2 sin^2 2theta/(2E cos 2theta) / |d ln n_e/dr|, n_e ~ r^-3
-    gH = k_vac(abs(DM31), E) * math.sin(2 * TH13) ** 2 / math.cos(2 * TH13) * rH / 3
+    gH = k_vac(dm3, E) * math.sin(2 * TH13) ** 2 / math.cos(2 * TH13) * rH / 3
     gL = k_vac(DM21, E) * math.sin(2 * TH12) ** 2 / math.cos(2 * TH12) * rL / 3
     return {'E_MeV': E, 'ordering': ordering, 'antineutrino': anti, 'P_ee': Pee, 'mass_state_probabilities': pm.tolist(),
-            'r_start_km': r0, 'r_end_km': r1, 'r_H_km': rH, 'r_L_km': rL, 'gamma_H': gH, 'gamma_L': gL,
+            'r_start_km': r0, 'r_end_km': r1, 'r_H_km': rH, 'r_L_km': rL, 'gamma_H': gH, 'gamma_L': gL, 'dm2_H_eV2': dm3,
             'P_LZ_H': math.exp(-math.pi / 2 * gH), 'P_LZ_L': math.exp(-math.pi / 2 * gL), 'steps': N,
             'eigenvector_match_min_overlap': ovmin}
 
@@ -270,7 +275,8 @@ def spectrum(E, mean, alpha_fit=3.0):
 def main():
     t0 = time.time()
     rep = Report()
-    out = {'mixing': {'theta12_deg': 33.4, 'theta23_deg': 49.0, 'theta13_deg': 8.57, 'dm21_eV2': DM21, 'dm31_eV2': DM31},
+    out = {'mixing': {'theta12_deg': math.degrees(TH12), 'theta23_deg': math.degrees(TH23), 'theta13_deg': math.degrees(TH13),
+                      'source': 'NuFIT 5.2 (November 2022), normal ordering, with SK atmospheric data', 'dm21_eV2': DM21, 'dm31_eV2': DM31},
            'method': 'fourth-order commutator-free Magnus integration, step propagators multiplied pairwise'}
 
     # ---------------- F1: the Sun
@@ -324,18 +330,23 @@ def main():
     ok2 = all(abs(r['P_ee'] - expect[(r['ordering'], r['antineutrino'])]) < 1e-4 and abs(r['P_ee'] - r['P_ee_half_step']) < 1e-6
               and r['gamma_H'] > 10 and r['gamma_L'] > 10 for r in env)
     rep.check('F2_supernova_envelope', ok2,
-              'exact three-flavour evolution at 15 MeV from %.0f km (0.2 r_H) to %.0f km (5 r_L) through rho = 1e4 (r/1e9 cm)^-3 '
-              'g/cm^3: %s; the resonances at r_H = %.0f km and r_L = %.0f km are adiabatic (gamma_H = %.0f, gamma_L = %.0f, '
+              'exact three-flavour evolution at 15 MeV from 0.2 r_H (%.0f km normal, %.0f km inverted ordering) to 5 r_L = %.0f km '
+              'through rho = 1e4 (r/1e9 cm)^-3 g/cm^3: %s; the resonances at r_H = %.0f km (normal ordering, |m3^2 - m1^2| = '
+              '%.4g eV^2), %.0f km (inverted, %.4g eV^2) and r_L = %.0f km are adiabatic (gamma_H = %.0f and %.0f, gamma_L = %.0f, '
               'P_LZ = 0), so a nu_e leaves as nu_3 (normal ordering, P_ee = |U_e3|^2 = %.4f) or nu_2 (inverted, |U_e2|^2 = %.4f), '
               'an anti-nu_e as anti-nu_1 (|U_e1|^2 = %.4f) or anti-nu_3 (|U_e3|^2); agreement to 1e-4' % (
-                  env[0]['r_start_km'], env[0]['r_end_km'],
+                  env[0]['r_start_km'], env[2]['r_start_km'], env[0]['r_end_km'],
                   ', '.join('%s %s %.4f' % (r['ordering'], 'anti' if r['antineutrino'] else 'nu', r['P_ee']) for r in env),
-                  env[0]['r_H_km'], env[0]['r_L_km'], env[0]['gamma_H'], env[0]['gamma_L'], Ue2[2], Ue2[1], Ue2[0]))
+                  env[0]['r_H_km'], env[0]['dm2_H_eV2'], env[2]['r_H_km'], env[2]['dm2_H_eV2'], env[0]['r_L_km'],
+                  env[0]['gamma_H'], env[2]['gamma_H'], env[0]['gamma_L'], Ue2[2], Ue2[1], Ue2[0]))
 
     # ---------------- F3: fast instability near the neutrinosphere
     ff = [ffi(a) for a in (0.5, 0.75, 0.8, 0.95, 1.2)]
-    L_erg, Emean_erg, r_cm = 5e52, 12 * 1.602176634e-6, 40e5
-    n_e = L_erg / (4 * math.pi * r_cm ** 2 * 2.99792458e10 * Emean_erg)       # number density of nu_e at 40 km
+    L_erg, Emean_erg, Re_cm = 5e52, 12 * 1.602176634e-6, 30e5
+    # the number density of nu_e at 40 km for the same half-isotropic emission from the neutrinosphere R_e = 30 km as the
+    # angular distribution of ffi: the surface flux L/(4 pi R_e^2 <E>) with the intensity flux/pi inside the cone mu > mu_e
+    # gives n_e = L (1 - mu_e)/(2 pi R_e^2 c <E>)
+    n_e = L_erg * (1 - ff[0]['mu_min_e']) / (2 * math.pi * Re_cm ** 2 * 2.99792458e10 * Emean_erg)
     mu_cm = SQRT2GF_EV_CM3 * n_e / HBARC_EV_CM                             # sqrt2 G_F n_e in cm^-1
     for f in ff:
         f['sqrt2GF_ne_per_cm'] = mu_cm
@@ -351,12 +362,12 @@ def main():
     rep.check('F3_fast_instability_neutrinosphere', ok3,
               'half-isotropic emission from R_e = 30 km and R_ebar = 27 km seen at r = 40 km: the ELN crosses for alpha > '
               '(1 - mu_ebar)/(1 - mu_e) = %.4f; %s; at every unstable solution FE-51 holds (relative residual < 1e-8); '
-              'sqrt2 G_F n_e = %.2f /cm for L = 5e52 erg/s, <E> = 12 MeV: the instability grows within centimetres wherever '
+              'sqrt2 G_F n_e = %.2f /cm for L = 5e52 erg/s, <E> = 12 MeV (n_e = %.2e /cm^3 at 40 km): the instability grows within centimetres wherever '
               'the ELN crosses and not at all without a crossing' % (
                   thr, '; '.join('alpha = %.2f: crossing %s, growth rate %.3g (m = %s)%s' % (
                       f['alpha'], f['crossing'], f['growth_rate_units_sqrt2GF_ne'], f['mode_m'],
                       (', e-folding length %.2g cm' % f['growth_length_cm']) if f['growth_length_cm'] else '') for f in ff),
-                  mu_cm))
+                  mu_cm, n_e))
 
     # ---------------- F4: equipartition and heating in the gain region
     rng = np.random.default_rng(52)

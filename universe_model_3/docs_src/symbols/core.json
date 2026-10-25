@@ -894,7 +894,7 @@
   "atoms": [
    "D"
   ],
-  "meaning": "The covariant derivative: on dirac16complex $D_M = \\partial_M + \\Omega_M$ (with $D_M\\bar\\Psi = \\partial_M\\bar\\Psi - \\bar\\Psi\\Omega_M$); on the fields of the fold the gauge and spin covariant derivative $D_\\mu$ of IN-13; $D^\\mu = \\hat h^{\\mu\\nu}D_\\nu$; on an adjoint field $(D_\\mu X)^A = \\partial_\\mu X^A + g_3f^{ABC}G^B_\\mu X^C$ (likewise for $SU(2)$ with $g_2\\epsilon^{IJK}$).",
+  "meaning": "The covariant derivative: on dirac16complex $D_M = \\partial_M + \\Omega_M$ (with $D_M\\bar\\Psi = \\partial_M\\bar\\Psi - \\bar\\Psi\\Omega_M$); on the fields of the fold the gauge and spin covariant derivative $D_\\mu$ (the partial derivative plus the spin connection of the fold and the gauge fields times their couplings and generators); $D^\\mu = \\hat h^{\\mu\\nu}D_\\nu$; on an adjoint field $(D_\\mu X)^A = \\partial_\\mu X^A + g_3f^{ABC}G^B_\\mu X^C$ (likewise for $SU(2)$ with $g_2\\epsilon^{IJK}$).",
   "units": "1/length",
   "value": "",
   "status": "STANDARD"
@@ -1044,7 +1044,7 @@
   "atoms": [
    "\\kappa_{4}"
   ],
-  "meaning": "The coupling of the induced gravity of the fold, $\\kappa_4 = 8\\pi G_{\\mathrm{ind}}$; four-dimensional gravity on the fold has $8\\pi G_{\\mathrm{N}} = \\kappa_4/(1 + 5\\epsilon_{\\mathrm{r}}/6)$ (FE-59).",
+  "meaning": "The coupling of the induced gravity of the fold, $\\kappa_4 = 8\\pi G_{\\mathrm{ind}}$; four-dimensional gravity on the fold has $8\\pi G_{\\mathrm{N}} = \\kappa_4/(1 + 5\\epsilon_{\\mathrm{r}}/6)$ (the Friedmann equation of the fold to first order in $\\epsilon_{\\mathrm{r}}$).",
   "units": "GeV$^{-2}$",
   "value": "$\\kappa_4 \\simeq 8\\pi G_{\\mathrm{N}} = 8\\pi/M_{\\mathrm{Pl}}^2$",
   "status": "ASSUMED"
@@ -1216,7 +1216,7 @@
   ],
   "meaning": "The vacuum expectation value of the lower component of the Higgs doublet, $v^2 = -\\mu^2/\\lambda$.",
   "units": "GeV",
-  "value": "246.22 GeV",
+  "value": "246.22 GeV $= (\\sqrt2\\,G_{\\mathrm{F}})^{-1/2}$ with the Fermi constant $G_{\\mathrm{F}} = 1.1663788\\times10^{-5}$ GeV$^{-2}$ of the muon lifetime (Particle Data Group)",
   "status": "STANDARD"
  },
  "hHiggs": {
@@ -1244,10 +1244,10 @@
   "atoms": [
    "v_{\\mathcal{A}}"
   ],
-  "meaning": "The amplitude of almightyAdHoc at $x_4 = 0$; the author's almightyAdHoc $= \\mathrm{Exp}[-2\\,a_{40}\\,x_4]$ has $v_{\\mathcal{A}} = 1$ in the unit of the field.",
+  "meaning": "The amplitude of almightyAdHoc at $x_4 = 0$; the author's almightyAdHoc $= \\mathrm{Exp}[-2\\,a_{40}\\,x_4]$ has $v_{\\mathcal{A}} = 1$ in the units of his notebook.",
   "units": "GeV",
-  "value": "1 (author)",
-  "status": "AUTHOR"
+  "value": "1 in the units of the author's notebook; UM-3 keeps it free (the examples take $v_{\\mathcal{A}} = v$ and $10v$)",
+  "status": "AUTHOR (the form), ASSUMED (a free amplitude)"
  },
  "a40": {
   "tex": "a_{40}",
@@ -1354,7 +1354,7 @@
   "atoms": [
    "Y"
   ],
-  "meaning": "The hypercharge of a field (IN-13: $1/6$, $2/3$, $-1/3$, $-1/2$, $-1$, $0$ for $Q, u_{\\mathrm{R}}, d_{\\mathrm{R}}, \\ell, e_{\\mathrm{R}}, \\nu_{\\mathrm{R}}$, $1/2$ for $\\Phi$).",
+  "meaning": "The hypercharge of a field, the charge of its coupling $g_1Y_fB_\\mu$ to the hypercharge field in the covariant derivative ($1/6$, $2/3$, $-1/3$, $-1/2$, $-1$, $0$ for $Q, u_{\\mathrm{R}}, d_{\\mathrm{R}}, \\ell, e_{\\mathrm{R}}, \\nu_{\\mathrm{R}}$, $1/2$ for $\\Phi$).",
   "units": "dimensionless",
   "value": "",
   "status": "STANDARD"
@@ -1603,7 +1603,7 @@
    "J_{u}",
    "J_{d}"
   ],
-  "meaning": "The fermion-number current of the Standard-Model multiplets of kind $f$, $J_f^\\mu = \\bar\\psi_f\\hat\\gamma^\\mu\\psi_f$ summed over the three generations and the gauge components; with other labels the gauge currents (FE-16 to FE-18).",
+  "meaning": "The fermion-number current of the Standard-Model multiplets of kind $f$, $J_f^\\mu = \\bar\\psi_f\\hat\\gamma^\\mu\\psi_f$ summed over the three generations and the gauge components; with other labels the currents that are the sources of the gauge fields.",
   "units": "GeV$^3$",
   "value": "",
   "status": "STANDARD"
@@ -1624,7 +1624,7 @@
    "index:p",
    "p"
   ],
-  "meaning": "The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic), as an index and as a number.",
+  "meaning": "The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic), as an index and as a number; in the Kohn-Sham equations a second label of a Kohn-Sham orbital (as $o$, with $\\delta_{op}$ the Kronecker delta of the two labels).",
   "units": "",
   "value": "",
   "status": "STANDARD"
@@ -1710,31 +1710,34 @@
   "status": "DERIVED"
  },
  "awarp": {
-  "tex": "\\mathfrak{a}",
+  "tex": "\\mathfrak{a},\\ \\mathfrak{a}_1",
   "atoms": [
-   "\\mathfrak{a}"
+   "\\mathfrak{a}",
+   "\\mathfrak{a}_{1}"
   ],
-  "meaning": "The logarithm of the scale factor of ordinary space in the general warped metric FE-34, a function of $\\sigma$ and $x_4$; for the author’s metric $\\mathfrak{a} = a_4 - H\\lvert\\sigma\\rvert$; $\\mathfrak{a}_n$ its term of order $n$ in the power series FE-35.",
+  "meaning": "The logarithm of the scale factor of ordinary space in the general warped metric FE-34, a function of $\\sigma$ and $x_4$; for the author’s metric $\\mathfrak{a} = a_4 - H\\lvert\\sigma\\rvert$; $\\mathfrak{a}_n$ its term of order $n$ in the power series FE-35 ($\\mathfrak{a}_1$ the first-order term).",
   "units": "dimensionless",
   "value": "",
   "status": "DERIVED"
  },
  "bwarp": {
-  "tex": "\\mathfrak{b}",
+  "tex": "\\mathfrak{b},\\ \\mathfrak{b}_1",
   "atoms": [
-   "\\mathfrak{b}"
+   "\\mathfrak{b}",
+   "\\mathfrak{b}_{1}"
   ],
-  "meaning": "The logarithm of the scale factor of the extra times in the general warped metric FE-34; for the author’s metric $\\mathfrak{b} = \\ln b_4 - a_4 - H\\lvert\\sigma\\rvert$; $\\mathfrak{b}_n$ its term of order $n$.",
+  "meaning": "The logarithm of the scale factor of the extra times in the general warped metric FE-34; for the author’s metric $\\mathfrak{b} = \\ln b_4 - a_4 - H\\lvert\\sigma\\rvert$; $\\mathfrak{b}_n$ its term of order $n$ ($\\mathfrak{b}_1$ the first-order term).",
   "units": "dimensionless",
   "value": "",
   "status": "DERIVED"
  },
  "nwarp": {
-  "tex": "\\mathfrak{n}",
+  "tex": "\\mathfrak{n},\\ \\mathfrak{n}_1",
   "atoms": [
-   "\\mathfrak{n}"
+   "\\mathfrak{n}",
+   "\\mathfrak{n}_{1}"
   ],
-  "meaning": "The logarithm of the lapse in the general warped metric FE-34 ($g_{x_4x_4} = -\\mathrm{e}^{2\\mathfrak{n}}$); for the author’s metric $\\mathfrak{n} = 0$; $\\mathfrak{n}_n$ its term of order $n$.",
+  "meaning": "The logarithm of the lapse in the general warped metric FE-34 ($g_{x_4x_4} = -\\mathrm{e}^{2\\mathfrak{n}}$); for the author’s metric $\\mathfrak{n} = 0$; $\\mathfrak{n}_n$ its term of order $n$ ($\\mathfrak{n}_1$ the first-order term).",
   "units": "dimensionless",
   "value": "",
   "status": "DERIVED"
@@ -2059,8 +2062,8 @@
   ],
   "meaning": "The bookkeeping parameter of the response of the bulk to the matter of the fold: the ratio of the bulk to the fold gravity, $\\epsilon_{\\mathrm{r}} = \\kappa_4V_*/(\\kappa H)$.",
   "units": "dimensionless",
-  "value": "$\\lesssim 10^{-15}$",
-  "status": "DERIVED"
+  "value": "$\\lesssim 10^{-15}$ (an estimate: if a fraction $\\epsilon_{\\mathrm{r}}$ of the gravitational waves of the fold travelled with the bulk gravitons, whose speed squared is 15/2 times that of light, their speed would differ from that of light by about $3\\epsilon_{\\mathrm{r}}$, and the gravitational waves and the light of the neutron-star merger GW170817 arrived together to about $10^{-15}$)",
+  "status": "DERIVED (the definition), ESTIMATE (the bound)"
  },
  "epsc": {
   "tex": "\\epsilon_{\\mathrm{c}}",
@@ -2179,7 +2182,7 @@
    "\\mu_{\\mathrm{L}}",
    "\\mu_{\\mathrm{R}}"
   ],
-  "meaning": "The dimensionless strengths of the fold for the left-handed and right-handed halves of dirac16complex (FE-39): the jump of the profile across the fold is the exponential of $\\gamma^{(0)}(\\mu_{\\mathrm{L}}P_{\\mathrm{L}} + \\mu_{\\mathrm{R}}P_{\\mathrm{R}})$; negative values attract.",
+  "meaning": "The dimensionless strengths of the fold for the left-handed and right-handed halves of dirac16complex, set by the mean fields of the Standard Model at the fold: the jump of the profile across the fold is the exponential of $\\gamma^{(0)}(\\mu_{\\mathrm{L}}P_{\\mathrm{L}} + \\mu_{\\mathrm{R}}P_{\\mathrm{R}})$; negative values attract.",
   "units": "dimensionless",
   "value": "",
   "status": "DERIVED"
@@ -2358,6 +2361,159 @@
   "value": "",
   "status": "DERIVED"
  },
+ "chiKS": {
+  "tex": "\\chi_o(\\sigma),\\ \\bar\\chi_o",
+  "atoms": [
+   "\\chi_{o}",
+   "\\bar{\\chi}_{o}",
+   "\\chi_{p}",
+   "\\chi_{1}"
+  ],
+  "meaning": "The profile of the occupied Kohn-Sham orbital $o$ ($o = 1, \\dots, 4$, the four positive-energy states of the bound level) of a homogeneous gas of the particles $\\chi$ at rest on the static block: a 16-component spinor function of $\\sigma$; the orbital of each particle is $\\mathrm{e}^{3H\\lvert\\sigma\\rvert}\\chi_o(\\sigma)\\mathrm{e}^{-\\mathrm{i}\\omega x_4}$ divided by the square root of the volume of ordinary space and of $V_*$; normalised to the Krein charge $-1$, $\\int\\mathrm{d}\\sigma\\,\\chi_o^\\dagger\\mathfrak{B}\\chi_o = -1$; $\\bar\\chi_o = \\chi_o^\\dagger\\sigma_{16}$ is its Dirac adjoint.",
+  "units": "GeV$^{1/2}$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "GKS": {
+  "tex": "G_{\\mathrm{KS}}",
+  "atoms": [
+   "G_{\\mathrm{KS}}"
+  ],
+  "meaning": "The dimensionless strength of the self-interaction of the gas of particles $\\chi$ in the Kohn-Sham states: the self-coupling $\\lambda_\\Psi$ times the number density $n_\\chi$ of the particles on the fold divided by the volume $V_*$ of the extra times, $G_{\\mathrm{KS}} = \\lambda_\\Psi n_\\chi/V_*$ (in units of $m_\\Psi$ when numbers are given).",
+  "units": "dimensionless",
+  "value": "$10^{-6}$ to 1 in the solutions",
+  "status": "DERIVED"
+ },
+ "Mmean": {
+  "tex": "\\mathcal{M}(\\sigma)",
+  "atoms": [
+   "\\mathcal{M}"
+  ],
+  "meaning": "The mean field of the self-interaction in the Kohn-Sham equation of the gas: the $16 \\times 16$ matrix $\\lambda_\\Psi(n_{\\mathrm{s}}\\mathbf{1} - \\mathcal{N})$ at each $\\sigma$, which adds to the mass $m_\\Psi$; positive (repulsive) for $\\lambda_\\Psi > 0$.",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Minf": {
+  "tex": "\\mathcal{M}_\\infty",
+  "atoms": [
+   "\\mathcal{M}_{\\infty}"
+  ],
+  "meaning": "The limit of the mean field far from the fold where the proper density of the gas has saturated: the matrix for which the local equation has a solution decaying exactly at the rate $3H$.",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "rhohat": {
+  "tex": "\\hat\\rho(\\sigma)",
+  "atoms": [
+   "\\hat{\\rho}"
+  ],
+  "meaning": "The scalar density of the occupied orbitals, $\\hat\\rho = \\frac14\\sum_o\\bar\\chi_o\\chi_o$ (per particle); the scalar density of the gas is $n_{\\mathrm{s}} = (n_\\chi/V_*)\\,\\mathrm{e}^{6H\\lvert\\sigma\\rvert}\\hat\\rho$.",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "rhohatinf": {
+  "tex": "\\hat\\rho_\\infty",
+  "atoms": [
+   "\\hat{\\rho}_{\\infty}"
+  ],
+  "meaning": "The constant that the proper scalar density $\\mathrm{e}^{6H\\lvert\\sigma\\rvert}\\hat\\rho$ approaches far from the fold where it saturates.",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "rhohatL": {
+  "tex": "\\hat\\rho_{\\mathrm{L}}",
+  "atoms": [
+   "\\hat{\\rho}_{\\mathrm{L}}"
+  ],
+  "meaning": "The scalar density of the left-handed half of the occupied orbitals, $\\hat\\rho_{\\mathrm{L}} = \\frac14\\sum_o\\bar\\chi_oP_{\\mathrm{L}}\\chi_o$; at the fold the mean of its values on the two sides.",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "rhohatL0": {
+  "tex": "\\hat\\rho_{\\mathrm{L}0}",
+  "atoms": [
+   "\\hat{\\rho}_{\\mathrm{L}0}"
+  ],
+  "meaning": "The left-handed scalar density $\\hat\\rho_{\\mathrm{L}}$ of the bound state without the self-interaction and without the Higgs feedback.",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Nhat": {
+  "tex": "\\hat{\\mathcal{N}}(\\sigma)",
+  "atoms": [
+   "\\hat{\\mathcal{N}}"
+  ],
+  "meaning": "The one-body density matrix of the occupied orbitals, $\\hat{\\mathcal{N}} = \\frac14\\sum_o\\chi_o\\bar\\chi_o$ (a $16 \\times 16$ matrix at each $\\sigma$, per particle); the density matrix of the gas is $\\mathcal{N} = (n_\\chi/V_*)\\,\\mathrm{e}^{6H\\lvert\\sigma\\rvert}\\hat{\\mathcal{N}}$.",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Eint": {
+  "tex": "\\mathsf{E}_{\\mathrm{int}}",
+  "atoms": [
+   "\\mathsf{E}_{\\mathrm{int}}"
+  ],
+  "meaning": "The interaction energy per particle of the gas of $\\chi$: the mean self-interaction energy $\\frac{\\lambda_\\Psi}{2}(n_{\\mathrm{s}}^2 - \\mathrm{tr}\\,\\mathcal{N}^2)$ integrated across the hidden direction, per particle.",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "epsp": {
+  "tex": "\\epsilon_{\\mathrm{p}}",
+  "atoms": [
+   "\\epsilon_{\\mathrm{p}}"
+  ],
+  "meaning": "The energy per particle of the gas of $\\chi$: the orbital energy minus the interaction energy per particle, which the orbital energy counts twice.",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "wchi": {
+  "tex": "w_\\chi",
+  "atoms": [
+   "w_{\\chi}"
+  ],
+  "meaning": "The equation of state of the gas of the particles $\\chi$: its pressure divided by its energy density, $w_\\chi = P_{\\mathrm{KS}}/(n_\\chi\\epsilon_{\\mathrm{p}})$ (0 for cold dark matter, $-1$ for a vacuum energy).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "PKS": {
+  "tex": "P_{\\mathrm{KS}}",
+  "atoms": [
+   "P_{\\mathrm{KS}}"
+  ],
+  "meaning": "The pressure of the gas of $\\chi$ along ordinary space in the Kohn-Sham state: the particles are at rest, so it is the mean self-interaction, $P_{\\mathrm{KS}} = n_\\chi\\mathsf{E}_{\\mathrm{int}}$.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "muL0": {
+  "tex": "\\mu_{\\mathrm{L}0}",
+  "atoms": [
+   "\\mu_{\\mathrm{L}0}"
+  ],
+  "meaning": "The strength $\\mu_{\\mathrm{L}}$ of the fold for the left-handed half without the feedback of the gas on the Higgs field.",
+  "units": "dimensionless",
+  "value": "$-0.6$ in the solutions",
+  "status": "DERIVED"
+ },
+ "kappaH": {
+  "tex": "\\kappa_{\\mathrm{H}}",
+  "atoms": [
+   "\\kappa_{\\mathrm{H}}"
+  ],
+  "meaning": "The strength of the Higgs-portal loop of the gas: the gas without the feedback changes the local $v_{\\mathrm{loc}}^2$ at the fold by the factor $1 - \\kappa_{\\mathrm{H}}$, $\\kappa_{\\mathrm{H}} = c_\\Phi n_\\chi\\hat\\rho_{\\mathrm{L}0}(0)/(\\lambda v^2V_*)$; negative where the Higgs portal binds the fold ($c_\\Phi < 0$, $\\hat\\rho_{\\mathrm{L}0}(0) > 0$): the gas raises $v_{\\mathrm{loc}}^2$.",
+  "units": "dimensionless",
+  "value": "$-0.3$ in the test of the loop",
+  "status": "ASSUMED (the value), DERIVED (the sign)"
+ },
  "Delta": {
   "tex": "\\Delta",
   "atoms": [
@@ -2457,7 +2613,7 @@
   ],
   "meaning": "The mass of the Higgs boson.",
   "units": "GeV",
-  "value": "125.25 GeV",
+  "value": "125.25 GeV (Particle Data Group 2022)",
   "status": "STANDARD"
  },
  "Aphoton": {
@@ -2515,7 +2671,7 @@
   ],
   "meaning": "The masses of the quarks ($m_u, m_c, m_t$; $m_d, m_s, m_b$), of the charged leptons ($m_e, m_\\mu, m_\\tau$) and of the three neutrino mass states ($m_1, m_2, m_3$, Dirac masses).",
   "units": "GeV",
-  "value": "measured values; $\\Delta m_{21}^2 = 7.41\\times10^{-5}$ eV$^2$, $\\lvert\\Delta m_{31}^2\\rvert = 2.51\\times10^{-3}$ eV$^2$",
+  "value": "measured values; $\\Delta m_{21}^2 = 7.41\\times10^{-5}$ eV$^2$, $\\lvert\\Delta m_{31}^2\\rvert = 2.511\\times10^{-3}$ eV$^2$ (the global fit NuFIT 5.2 of the oscillation data, November 2022)",
   "status": "STANDARD"
  },
  "Ckm": {
@@ -2535,8 +2691,8 @@
   ],
   "meaning": "The lepton mixing matrix (Pontecorvo-Maki-Nakagawa-Sakata) of the three Dirac neutrinos; $U_{\\alpha i}$ are its entries.",
   "units": "dimensionless",
-  "value": "$\\theta_{12} = 33.4^\\circ$, $\\theta_{23} = 49.0^\\circ$, $\\theta_{13} = 8.57^\\circ$",
-  "status": "STANDARD"
+  "value": "$\\theta_{12} = 33.40^\\circ$, $\\theta_{23} = 49.14^\\circ$, $\\theta_{13} = 8.54^\\circ$ (NuFIT 5.2, November 2022, normal ordering, with the Super-Kamiokande atmospheric data); the Dirac phase is set to zero (ASSUMED; the fit prefers $197^\\circ$)",
+  "status": "STANDARD, ASSUMED (the phase)"
  },
  "nugen": {
   "tex": "\\nu_\\alpha,\\ \\nu_i",
@@ -3556,11 +3712,11 @@
   "status": "DERIVED"
  },
  "Omeganu": {
-  "tex": "\\Omega_\\nu",
+  "tex": "\\Omega_\\nu,\\ \\Omega_\\nu^{(i)}",
   "atoms": [
    "\\Omega_{\\nu}"
   ],
-  "meaning": "The density parameter of the massive neutrinos of the CNB today.",
+  "meaning": "The density parameter of the neutrinos of the CNB: $\\Omega_\\nu$ that of the massive states today; $\\Omega_\\nu^{(i)}(\\mathsf{z})$ the energy density of the mass state $i$ at the redshift $\\mathsf{z}$ in units of the critical density today.",
   "units": "dimensionless",
   "value": "",
   "status": "STANDARD"
@@ -3610,7 +3766,7 @@
   "atoms": [
    "\\mathcal{J}"
   ],
-  "meaning": "The jump of the junction potential across the fold computed from the metric (the right-hand side of FE-30, or of FE-33 with frozen extra times): the geometric side of the junction condition, $\\mathcal{J} = \\kappa\\mathcal{S}$.",
+  "meaning": "The jump of the junction potential across the fold computed from the metric: the geometric side of the junction condition $\\mathcal{J} = \\kappa\\mathcal{S}$, which equates it to $\\kappa$ times the energy-momentum tensor $\\mathcal{S}$ of everything on the fold.",
   "units": "GeV",
   "value": "",
   "status": "DERIVED"
@@ -3710,7 +3866,7 @@
   "atoms": [
    "\\sigma_{\\mathrm{ann}}"
   ],
-  "meaning": "The cross-section of the annihilation of $\\chi$ with its antiparticle into Standard-Model particles (through the portals).",
+  "meaning": "The annihilation cross-section of the particles $\\chi$ into Standard-Model particles (through the portals) in the normalisation of FE-61, where $n_\\chi$ counts the four particle and the four antiparticle states of the bound level: $\\langle\\sigma_{\\mathrm{ann}}\\mathsf{v}\\rangle$ is a quarter of the annihilation rate $(\\sigma\\mathsf{v})_{\\chi\\bar\\chi}$ of one particle $\\chi_a$ with one antiparticle $\\bar\\chi_a$.",
   "units": "GeV$^{-2}$",
   "value": "",
   "status": "DERIVED"
@@ -3732,7 +3888,7 @@
   ],
   "meaning": "The ratio of the mass of $\\chi$ to the temperature at which its annihilations stop (freeze-out).",
   "units": "dimensionless",
-  "value": "20 to 25",
+  "value": "23 to 30 (for $\\omega_{\\mathrm{b}}$ = 10 GeV to 10 TeV)",
   "status": "STANDARD"
  },
  "gstar": {
@@ -3780,7 +3936,7 @@
   "atoms": [
    "q_{\\mathrm{SM}}"
   ],
-  "meaning": "The pressure of the Standard Model along the extra times at the fold: the mean on-shell Lagrangian density of the Standard-Model fields (FE-5: the extra-time component of the energy-momentum tensor of every term of the fold is its Lagrangian).",
+  "meaning": "The pressure of the Standard Model along the extra times at the fold: the mean on-shell Lagrangian density of the Standard-Model fields (the extra-time component of the energy-momentum tensor of every term of the fold is its Lagrangian, because the fields of the fold do not depend on the extra times).",
   "units": "GeV$^4$",
   "value": "",
   "status": "DERIVED"
@@ -3801,6 +3957,681 @@
    "q_{\\mathrm{P}}"
   ],
   "meaning": "The pressure of the portals along the extra times: their mean on-shell Lagrangian density.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Cdiff": {
+  "tex": "C_{\\mathrm{d}}",
+  "atoms": [
+   "C_{\\mathrm{d}}"
+  ],
+  "meaning": "The amplitude of the difference mode S-6, the only static first-order correction of the metric when the bulk medium does not respond: $\\mathfrak{a}_1' = -\\mathfrak{b}_1' = C_{\\mathrm{d}}\\mathrm{e}^{6H\\lvert\\sigma\\rvert}$.",
+  "units": "1/length",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "crad": {
+  "tex": "c_{\\mathrm{rad}}",
+  "atoms": [
+   "c_{\\mathrm{rad}}"
+  ],
+  "meaning": "The amplitude of the radion mode: the first-order jumps at the fold $([\\mathfrak{a}_1'], [\\mathfrak{b}_1'], [\\mathfrak{n}_1']) = c_{\\mathrm{rad}}(1, -1, 5)$, which change only the extra-time component of the junction.",
+  "units": "1/length",
+  "value": "$3.806\\,\\mathsf{A}^2H/\\epsilon_{\\mathrm{r}}$ today",
+  "status": "DERIVED"
+ },
+ "Deltar": {
+  "tex": "\\Delta_{\\mathrm{r}}",
+  "atoms": [
+   "\\Delta_{\\mathrm{r}}"
+  ],
+  "meaning": "The mismatch of the radion condition: the sum over the matter of the fold of its pressure along the extra times and $(\\rho - 3\\mathcal{P})/2$ (zero for radiation).",
+  "units": "GeV$^4$",
+  "value": "$0.793\\,\\rho_{\\mathrm{c}}^{(0)}$ today",
+  "status": "DERIVED"
+ },
+ "Orot": {
+  "tex": "\\mathcal{O}(\\phi_{\\mathrm{rot}})",
+  "atoms": [
+   "\\mathcal{O}"
+  ],
+  "meaning": "The $2 \\times 2$ isospin rotation by the angle $\\phi_{\\mathrm{rot}}$ about the second isospin axis (a real element of $SU(2)$).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "phirot": {
+  "tex": "\\phi_{\\mathrm{rot}}",
+  "atoms": [
+   "\\phi_{\\mathrm{rot}}"
+  ],
+  "meaning": "The angle of the isospin rotation that turns $(0, V_{\\mathrm{rad}})/\\sqrt2$ into the ad hoc vacuum: $\\tan(\\phi_{\\mathrm{rot}}/2) = \\mathcal{A}/v$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Vrad": {
+  "tex": "V_{\\mathrm{rad}}",
+  "atoms": [
+   "V_{\\mathrm{rad}}"
+  ],
+  "meaning": "The modulus of the Higgs doublet in the ad hoc vacuum, $V_{\\mathrm{rad}} = \\sqrt{v^2 + \\mathcal{A}^2}$ ($V_{\\mathrm{rad}}^2 = 2\\Phi^\\dagger\\Phi$).",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Rrad": {
+  "tex": "\\mathcal{R}_{\\mathrm{rad}}",
+  "atoms": [
+   "\\mathcal{R}_{\\mathrm{rad}}"
+  ],
+  "meaning": "The radial residual of the Higgs equation FE-15 in the ad hoc vacuum written as a gauge rotation (S-10): the amount by which $V_{\\mathrm{rad}}$ fails to solve the radial equation; zero for a solution.",
+  "units": "GeV$^3$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "us": {
+  "tex": "u_{\\mathrm{s}}",
+  "atoms": [
+   "u_{\\mathrm{s}}"
+  ],
+  "meaning": "The rescaled profile of a massless scalar field of the bulk at zero momentum along ordinary space: the field is $\\mathrm{e}^{3H\\lvert\\sigma\\rvert}u_{\\mathrm{s}}(\\sigma)\\,\\mathrm{e}^{-\\mathrm{i}\\omega x_4}$.",
+  "units": "as the field",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "csc": {
+  "tex": "c_{\\mathrm{sc}}",
+  "atoms": [
+   "c_{\\mathrm{sc}}"
+  ],
+  "meaning": "The limiting speed of the zero mode of a scalar field of the bulk along ordinary space, in units of the speed of light on the fold.",
+  "units": "dimensionless",
+  "value": "$\\sqrt{3/2}$",
+  "status": "DERIVED"
+ },
+ "cgauge": {
+  "tex": "c_{\\mathrm{gauge}}",
+  "atoms": [
+   "c_{\\mathrm{gauge}}"
+  ],
+  "meaning": "The limiting speed of the zero mode of a gauge field (a photon) of the bulk, in units of the speed of light on the fold.",
+  "units": "dimensionless",
+  "value": "$\\sqrt2$",
+  "status": "DERIVED"
+ },
+ "cfer": {
+  "tex": "c_{\\mathrm{fer}}",
+  "atoms": [
+   "c_{\\mathrm{fer}}"
+  ],
+  "meaning": "The limiting speed of the zero mode of a fermion of the bulk with the kink mass $M_{\\mathrm{k}}\\,\\mathrm{sgn}(\\sigma)$, in units of the speed of light on the fold.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "cgrav": {
+  "tex": "c_{\\mathrm{g}}",
+  "atoms": [
+   "c_{\\mathrm{g}}"
+  ],
+  "meaning": "The limiting speed of the zero mode of the transverse traceless graviton of the bulk at the static block, in units of the speed of light on the fold.",
+  "units": "dimensionless",
+  "value": "$\\sqrt{15/2} = 2.74$",
+  "status": "DERIVED"
+ },
+ "Mkink": {
+  "tex": "M_{\\mathrm{k}}",
+  "atoms": [
+   "M_{\\mathrm{k}}"
+  ],
+  "meaning": "The mass of a fermion of the bulk that changes sign at the fold (a kink mass $M_{\\mathrm{k}}\\,\\mathrm{sgn}(\\sigma)$), used to illustrate the speeds of bulk fermions.",
+  "units": "GeV",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "cb": {
+  "tex": "c_{\\mathrm{b}}",
+  "atoms": [
+   "c_{\\mathrm{b}}"
+  ],
+  "meaning": "The limiting speed of the bound particles $\\chi$ of dirac16complex along ordinary space, in units of the speed of light on the fold (first order in the momentum).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "H2flav": {
+  "tex": "\\mathsf{H}_{2}",
+  "atoms": [
+   "\\mathsf{H}_{2}"
+  ],
+  "meaning": "The two-flavour Hamiltonian of the electron neutrinos in the Sun (the mass states 1 and 2 with the potential $\\cos^2\\theta_{13}V_{\\mathrm{CC}}$; the third state decouples).",
+  "units": "GeV (or 1/km)",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "thetaij": {
+  "tex": "\\theta_{12},\\ \\theta_{13},\\ \\theta_{23}",
+  "atoms": [
+   "\\theta_{12}",
+   "\\theta_{13}",
+   "\\theta_{23}"
+  ],
+  "meaning": "The three mixing angles of $U_{\\mathrm{PMNS}}$ (the Dirac phase is set to zero here).",
+  "units": "dimensionless",
+  "value": "$33.40^\\circ$, $8.54^\\circ$, $49.14^\\circ$ ($\\sin^2\\theta_{12} = 0.303$, $\\sin^2\\theta_{13} = 0.02203$, $\\sin^2\\theta_{23} = 0.572$: NuFIT 5.2, November 2022, normal ordering, with the Super-Kamiokande atmospheric data)",
+  "status": "STANDARD"
+ },
+ "NA": {
+  "tex": "N_{\\mathrm{A}}",
+  "atoms": [
+   "N_{\\mathrm{A}}"
+  ],
+  "meaning": "Avogadro's number: $245N_{\\mathrm{A}}$ cm$^{-3}$ is 245 moles of electrons per cubic centimetre.",
+  "units": "per mole",
+  "value": "$6.02214076\\times10^{23}$",
+  "status": "STANDARD"
+ },
+ "Rsun": {
+  "tex": "R_\\odot",
+  "atoms": [
+   "R_{\\odot}"
+  ],
+  "meaning": "The radius of the Sun.",
+  "units": "length",
+  "value": "$6.957\\times10^5$ km",
+  "status": "STANDARD"
+ },
+ "Pee": {
+  "tex": "\\mathsf{P}_{\\mathrm{ee}}",
+  "atoms": [
+   "\\mathsf{P}_{\\mathrm{ee}}"
+  ],
+  "meaning": "The survival probability of electron neutrinos: the probability that an electron neutrino is detected as an electron neutrino.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "P2": {
+  "tex": "\\mathsf{P}_{2}",
+  "atoms": [
+   "\\mathsf{P}_{2}"
+  ],
+  "meaning": "The survival probability of the two-flavour problem of the mass states 1 and 2 (S-20).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Pc": {
+  "tex": "\\mathsf{P}_{\\mathrm{c}}",
+  "atoms": [
+   "\\mathsf{P}_{\\mathrm{c}}"
+  ],
+  "meaning": "The crossing probability: the probability that a neutrino jumps from one eigenstate of matter to the other on its way through the Sun (exact for an exponential profile, Petcov).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "rprod": {
+  "tex": "r_{\\mathrm{p}}",
+  "atoms": [
+   "r_{\\mathrm{p}}"
+  ],
+  "meaning": "The radius at which the solar neutrinos of a given reaction are produced.",
+  "units": "length",
+  "value": "$0.05R_\\odot$ to $0.10R_\\odot$",
+  "status": "STANDARD"
+ },
+ "rsunscale": {
+  "tex": "r_\\odot",
+  "atoms": [
+   "r_{\\odot}"
+  ],
+  "meaning": "The scale height of the electron density of the Sun, $r_\\odot = R_\\odot/10.54$.",
+  "units": "length",
+  "value": "$6.6\\times10^4$ km",
+  "status": "STANDARD"
+ },
+ "Ye": {
+  "tex": "Y_{\\mathrm{e}}",
+  "atoms": [
+   "Y_{\\mathrm{e}}"
+  ],
+  "meaning": "The electron fraction of stellar matter: the number of electrons per nucleon.",
+  "units": "dimensionless",
+  "value": "0.5 in the envelope",
+  "status": "STANDARD"
+ },
+ "mamu": {
+  "tex": "m_{\\mathrm{u}}",
+  "atoms": [
+   "m_{\\mathrm{u}}"
+  ],
+  "meaning": "The atomic mass unit, the mass per nucleon of stellar matter to within one per cent: $n_e = Y_e\\rho/m_{\\mathrm{u}}$.",
+  "units": "g",
+  "value": "$1.66054\\times10^{-24}$ g",
+  "status": "STANDARD"
+ },
+ "gammaLZ": {
+  "tex": "\\gamma_{\\mathrm{LZ}}",
+  "atoms": [
+   "\\gamma_{\\mathrm{LZ}}"
+  ],
+  "meaning": "The adiabaticity parameter of a resonance: the jump probability of FE-50 is $\\exp(-\\pi\\gamma_{\\mathrm{LZ}}/2)$; $\\gamma_{\\mathrm{LZ}} \\gg 1$ is adiabatic.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "rres": {
+  "tex": "r_{\\mathrm{res}}",
+  "atoms": [
+   "r_{\\mathrm{res}}"
+  ],
+  "meaning": "The radius of a resonance: where the electron density equals $n_{e,\\mathrm{res}}$ of FE-50 ($r_{\\mathrm{H}}$ for $\\Delta m^2_{31}$, $r_{\\mathrm{L}}$ for $\\Delta m^2_{21}$).",
+  "units": "length",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Kr": {
+  "tex": "K_{\\mathrm{r}}",
+  "atoms": [
+   "K_{\\mathrm{r}}"
+  ],
+  "meaning": "The wave number of a flavour wave along the radial direction (the radial component of $\\vec K$).",
+  "units": "GeV (1/length)",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ucos": {
+  "tex": "\\mathsf{u}",
+  "atoms": [
+   "\\mathsf{u}"
+  ],
+  "meaning": "The cosine of the angle between the direction of motion of a neutrino and the radial direction ($\\mathsf{u}_e$, $\\mathsf{u}_{\\bar e}$ the edges of the emission cones of the electron neutrinos and antineutrinos).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Qflav": {
+  "tex": "\\mathsf{Q}(\\mathsf{u})",
+  "atoms": [
+   "\\mathsf{Q}"
+  ],
+  "meaning": "The amplitude of a small flavour coherence (the off-diagonal entry of $\\varrho$) of the neutrinos moving with the direction cosine $\\mathsf{u}$, in a flavour wave.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Qheat": {
+  "tex": "\\dot Q_{\\mathrm{heat}}",
+  "atoms": [
+   "\\dot{Q}_{\\mathrm{heat}}"
+  ],
+  "meaning": "The rate at which the absorption of electron neutrinos and antineutrinos heats the matter of the gain region (energy per time and mass).",
+  "units": "energy per time and mass",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Lspec": {
+  "tex": "L_{\\mathrm{s}}",
+  "atoms": [
+   "L_{\\mathrm{s}}"
+  ],
+  "meaning": "The luminosity (energy per time) of one neutrino species leaving the neutrinosphere.",
+  "units": "erg/s",
+  "value": "$(2$ to $5)\\times10^{52}$ erg/s",
+  "status": "STANDARD"
+ },
+ "Espec": {
+  "tex": "E_{\\mathrm{s}}",
+  "atoms": [
+   "E_{\\mathrm{s}}"
+  ],
+  "meaning": "The mean energy of one neutrino species.",
+  "units": "GeV (MeV)",
+  "value": "10 to 16 MeV",
+  "status": "STANDARD"
+ },
+ "alphas": {
+  "tex": "\\alpha_{\\mathrm{s}}",
+  "atoms": [
+   "\\alpha_{\\mathrm{s}}"
+  ],
+  "meaning": "The shape (pinching) parameter of a neutrino spectrum (Keil, Raffelt and Janka).",
+  "units": "dimensionless",
+  "value": "3",
+  "status": "STANDARD"
+ },
+ "Yield": {
+  "tex": "\\mathsf{Y}",
+  "atoms": [
+   "\\mathsf{Y}"
+  ],
+  "meaning": "The yield of the particles $\\chi$: their number density divided by the entropy density, $\\mathsf{Y} = n_\\chi/s$ (constant when they neither annihilate nor are produced).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Yieldeq": {
+  "tex": "\\mathsf{Y}_{\\mathrm{eq}}",
+  "atoms": [
+   "\\mathsf{Y}_{\\mathrm{eq}}"
+  ],
+  "meaning": "The yield of $\\chi$ in thermal equilibrium, $n_{\\chi,\\mathrm{eq}}/s$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "xmass": {
+  "tex": "\\mathsf{x}",
+  "atoms": [
+   "\\mathsf{x}"
+  ],
+  "meaning": "The ratio of the mass of $\\chi$ to the temperature, $\\mathsf{x} = \\omega_{\\mathrm{b}}/\\mathsf{T}$ (the time variable of the freeze-out).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Kbessel": {
+  "tex": "K_2",
+  "atoms": [
+   "K_{2}"
+  ],
+  "meaning": "The modified Bessel function of the second kind of order 2 ($K_2(y) \\approx \\sqrt{\\pi/(2y)}\\,\\mathrm{e}^{-y}$ for large $y$).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "sigmapair": {
+  "tex": "\\sigma_{\\mathrm{pair}}",
+  "atoms": [
+   "\\sigma_{\\mathrm{pair}}"
+  ],
+  "meaning": "The cross-section of the annihilation of one particle $\\chi_a$ with one antiparticle $\\bar\\chi_a$ of the same species, summed over the final states; $\\sigma_{\\mathrm{pair}}\\mathsf{v}$ its product with the relative velocity (a constant for s-wave annihilation).",
+  "units": "GeV$^{-2}$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "sigmaSI": {
+  "tex": "\\sigma_{\\mathrm{SI}}",
+  "atoms": [
+   "\\sigma_{\\mathrm{SI}}"
+  ],
+  "meaning": "The spin-independent cross-section of the scattering of $\\chi$ on a nucleon (normalised per nucleon, as the direct-detection limits are quoted).",
+  "units": "GeV$^{-2}$ (cm$^2$)",
+  "value": "",
+  "status": "ESTIMATE"
+ },
+ "mured": {
+  "tex": "\\mu_{\\mathrm{red}}",
+  "atoms": [
+   "\\mu_{\\mathrm{red}}"
+  ],
+  "meaning": "The reduced mass of $\\chi$ and a nucleon, $\\omega_{\\mathrm{b}}m_{\\mathrm{N}}/(\\omega_{\\mathrm{b}} + m_{\\mathrm{N}})$.",
+  "units": "GeV",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "fN": {
+  "tex": "f_{\\mathrm{N}}",
+  "atoms": [
+   "f_{\\mathrm{N}}"
+  ],
+  "meaning": "The effective coupling of $\\chi$ to a nucleon in the coherent scattering (a vector or scalar contact interaction).",
+  "units": "GeV$^{-2}$",
+  "value": "",
+  "status": "ESTIMATE"
+ },
+ "gportql": {
+  "tex": "\\mathfrak{g}_{\\mathrm{q}},\\ \\mathfrak{g}_{\\mathrm{l}},\\ \\mathfrak{g}_{\\mathrm{p}}",
+  "atoms": [
+   "\\mathfrak{g}_{\\mathrm{q}}",
+   "\\mathfrak{g}_{\\mathrm{l}}",
+   "\\mathfrak{g}_{\\mathrm{p}}"
+  ],
+  "meaning": "The current-portal couplings $\\mathfrak{g}_f$ of FE-47 taken equal for all chiral quark states ($\\mathfrak{g}_{\\mathrm{q}}$) or for the nine chiral lepton states that take part, the six of the lepton doublets and the three right-handed charged leptons ($\\mathfrak{g}_{\\mathrm{l}}$), and the coupling to the proton that the lepton loop induces ($\\mathfrak{g}_{\\mathrm{p}}$).",
+  "units": "GeV$^{-2}$",
+  "value": "",
+  "status": "ESTIMATE"
+ },
+ "alphaem": {
+  "tex": "\\alpha_{\\mathrm{em}}",
+  "atoms": [
+   "\\alpha_{\\mathrm{em}}"
+  ],
+  "meaning": "The fine-structure constant.",
+  "units": "dimensionless",
+  "value": "1/137.036",
+  "status": "STANDARD"
+ },
+ "qtransfer": {
+  "tex": "q_{\\mathrm{t}}",
+  "atoms": [
+   "q_{\\mathrm{t}}"
+  ],
+  "meaning": "The momentum transfer of the scattering of $\\chi$ on a xenon nucleus in a detector.",
+  "units": "GeV",
+  "value": "0.05 GeV",
+  "status": "STANDARD"
+ },
+ "mN": {
+  "tex": "m_{\\mathrm{N}}",
+  "atoms": [
+   "m_{\\mathrm{N}}"
+  ],
+  "meaning": "The mass of a nucleon.",
+  "units": "GeV",
+  "value": "0.939 GeV",
+  "status": "STANDARD"
+ },
+ "fH": {
+  "tex": "f_{\\mathrm{H}}",
+  "atoms": [
+   "f_{\\mathrm{H}}"
+  ],
+  "meaning": "The nucleon matrix element of the Higgs coupling: the fraction of the nucleon mass carried by the quark masses and, through the trace anomaly, by the gluons.",
+  "units": "dimensionless",
+  "value": "0.30",
+  "status": "STANDARD"
+ },
+ "nnuReq": {
+  "tex": "n_{\\nu_{\\mathrm{R}},\\mathrm{eq}}",
+  "atoms": [
+   "n_{\\nu _{\\mathrm{R}},\\mathrm{eq}}"
+  ],
+  "meaning": "The number density of the three right-handed neutrinos and their antiparticles in thermal equilibrium at the temperature $\\mathsf{T}$.",
+  "units": "GeV$^3$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Omegagamma": {
+  "tex": "\\Omega_\\gamma",
+  "atoms": [
+   "\\Omega_{\\gamma}"
+  ],
+  "meaning": "The density parameter of the photons today.",
+  "units": "dimensionless",
+  "value": "$5.450\\times10^{-5}$ (for $h_{100} = 0.6736$)",
+  "status": "STANDARD"
+ },
+ "Tnueff": {
+  "tex": "\\mathsf{T}_{\\nu,\\mathrm{eff}}",
+  "atoms": [
+   "\\mathsf{T}_{\\nu ,\\mathrm{eff}}"
+  ],
+  "meaning": "The effective temperature of the neutrinos that carries $N_{\\mathrm{eff}}$ (the convention of CAMB).",
+  "units": "GeV (or K)",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Ifd": {
+  "tex": "\\mathsf{I}(y)",
+  "atoms": [
+   "\\mathsf{I}"
+  ],
+  "meaning": "The Fermi-Dirac energy integral of a neutrino state with the mass-to-temperature ratio $y$; $\\mathsf{I}(0) = 7\\pi^4/120$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "yarg": {
+  "tex": "y",
+  "atoms": [
+   "y"
+  ],
+  "meaning": "The ratio of the mass of a neutrino state to its temperature, the argument of $\\mathsf{I}$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "chisq": {
+  "tex": "\\chi_{\\mathrm{fit}}^2",
+  "atoms": [
+   "\\chi_{\\mathrm{fit}}"
+  ],
+  "meaning": "The chi-square of a comparison of a model with data (written $\\chi^2$ in the text): the squared deviations weighted with the inverse covariance.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Xvec": {
+  "tex": "\\mathsf{X}_{\\mathrm{model}},\\ \\mathsf{X}_{\\mathrm{data}}",
+  "atoms": [
+   "\\mathsf{X}_{\\mathrm{model}}",
+   "\\mathsf{X}_{\\mathrm{data}}"
+  ],
+  "meaning": "The vectors of the model values and of the measured values of a data set (binned CMB spectra, BAO distances).",
+  "units": "as the data",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Cmat": {
+  "tex": "\\mathsf{C}",
+  "atoms": [
+   "\\mathsf{C}"
+  ],
+  "meaning": "The covariance matrix of the measured values; $\\mathsf{C}^{-1}$ its inverse.",
+  "units": "as the data squared",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Xbin": {
+  "tex": "\\mathsf{X}_b",
+  "atoms": [
+   "\\mathsf{X}"
+  ],
+  "meaning": "A model value of the binned CMB spectrum, for the bin $b$ of the plik-lite binning.",
+  "units": "$\\mu$K$^2$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "wbin": {
+  "tex": "\\mathsf{w}_l",
+  "atoms": [
+   "\\mathsf{w}"
+  ],
+  "meaning": "The Planck weight of the multipole $l$ in its bin.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "GammaCnuB": {
+  "tex": "\\Gamma_{\\mathrm{C\\nu B}}",
+  "atoms": [
+   "\\Gamma_{\\mathrm{C\\nu B}}"
+  ],
+  "meaning": "The rate at which a tritium target captures neutrinos of the cosmic neutrino background.",
+  "units": "1/time",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "NT": {
+  "tex": "N_{\\mathrm{T}}",
+  "atoms": [
+   "N_{\\mathrm{T}}"
+  ],
+  "meaning": "The number of tritium nuclei of the target.",
+  "units": "dimensionless",
+  "value": "$2.0\\times10^{25}$ for 100 g",
+  "status": "STANDARD"
+ },
+ "sigmabarT": {
+  "tex": "\\bar\\sigma_{\\mathrm{T}}",
+  "atoms": [
+   "\\bar{\\sigma}_{\\mathrm{T}}"
+  ],
+  "meaning": "The averaged cross-section of the capture of an electron neutrino on tritium: a tritium nucleus captures left-handed electron neutrinos of mean speed $\\mathsf{s}$ and number density $n$ at the rate $\\bar\\sigma_{\\mathrm{T}}(1 + \\mathsf{s})\\,c\\,n$ ($c$ the speed of light, 1 in the formulas; Long, Lunardini and Sabancilar).",
+  "units": "cm$^2$",
+  "value": "$3.834\\times10^{-45}$ cm$^2$",
+  "status": "STANDARD"
+ },
+ "Uei": {
+  "tex": "U_{\\mathrm{e}i}",
+  "atoms": [
+   "U_{\\mathrm{e}i}"
+  ],
+  "meaning": "The electron row of the mixing matrix, $U_{\\mathrm{e}i} = (U_{\\mathrm{PMNS}})_{ei}$: $\\lvert U_{\\mathrm{e}i}\\rvert^2$ is the electron-flavour fraction of the mass state $i$.",
+  "units": "dimensionless",
+  "value": "$\\lvert U_{\\mathrm{e}i}\\rvert^2 = 0.681, 0.296, 0.022$",
+  "status": "STANDARD"
+ },
+ "sstate": {
+  "tex": "\\mathsf{s}_i",
+  "atoms": [
+   "\\mathsf{s}"
+  ],
+  "meaning": "The mean speed of the neutrino mass state $i$ today, averaged over its momentum distribution (0 for a state at rest, 1 for a massless one).",
+  "units": "dimensionless",
+  "value": "1, 0.061 and 0.011 for $\\nu_1$, $\\nu_2$ and $\\nu_3$ of UM-3",
+  "status": "STANDARD"
+ },
+ "ph": {
+  "tex": "p_{\\mathrm{h}}",
+  "atoms": [
+   "p_{\\mathrm{h}}"
+  ],
+  "meaning": "The momentum along the hidden direction of a particle confined to it, if that direction were compact (A-2, not UM-3).",
+  "units": "GeV",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "mKK": {
+  "tex": "m_{\\mathrm{KK}}",
+  "atoms": [
+   "m_{\\mathrm{KK}}"
+  ],
+  "meaning": "The masses of the tower of modes of a field on a compact hidden direction (Kaluza-Klein masses; A-2, not UM-3).",
+  "units": "GeV",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "kint": {
+  "tex": "\\mathsf{k}",
+  "atoms": [
+   "\\mathsf{k}"
+  ],
+  "meaning": "An integer that numbers the modes of a compact direction.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ellb": {
+  "tex": "\\ell_{\\mathrm{b}}",
+  "atoms": [
+   "\\ell_{\\mathrm{b}}"
+  ],
+  "meaning": "The width of a bound state of dirac16complex along the hidden direction: the root mean square of $\\sigma$ in its density $\\mathrm{e}^{-2q_{\\mathrm{b}}\\lvert\\sigma\\rvert}$.",
+  "units": "length",
+  "value": "$1/(\\sqrt2\\,q_{\\mathrm{b}})$",
+  "status": "DERIVED"
+ },
+ "Tchi": {
+  "tex": "\\mathcal{T}_\\chi{}^a{}_b",
+  "atoms": [
+   "\\mathcal{T}_{\\chi}"
+  ],
+  "meaning": "The four-dimensional energy-momentum tensor of the gas of the bound particles $\\chi$ of dirac16complex, per proper volume of ordinary space at the fold (energy density $\\rho_\\chi$).",
   "units": "GeV$^4$",
   "value": "",
   "status": "DERIVED"

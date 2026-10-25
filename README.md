@@ -16,7 +16,13 @@ section 0.14). The revision is in [`universe_model_3/`](universe_model_3/README.
 b4(x4)^2 (b4 never identically 1), the Higgs doublet, the electroweak gauge fields W1, W2, W3, B, gluons, three
 generations of quarks and leptons, and dirac16complex coupled to gravity and, with separate left-handed and
 right-handed couplings, to every Standard-Model field, with the complete coupled field equations and a Kohn-Sham
-approximate solution. Its README states what is done and what is in progress.
+approximate solution. Completed on 2026-10-25: the documents `MODEL`, `FIELD_EQUATIONS`, `SOLUTION`, `ANALYSIS` and
+`PROVENANCE` (each as .md, .tex and .pdf, every equation written out and every symbol defined in each of them), with
+167 verification checks in 13 modules, all passing. The solution covers the background and the metric as a power
+series, the Higgs field in the ad hoc vacuum, the spectra along the hidden direction (the `x0` mass of the bound states),
+the self-consistent Kohn-Sham states of dirac16complex, the neutrino flavours (Sun, supernova envelope, fast instability,
+equipartition), the thermal history with the portals and direct detection, and the CMB (Planck 2018), BAO (DESI DR2) and
+CNB. Its README states every part and its checks.
 
 ## The universe model UM-2: `universe_model_2/`
 

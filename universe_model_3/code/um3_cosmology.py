@@ -521,10 +521,17 @@ def main():
         states.append({'state': i + 1, 'mass_eV': m, 'z_nonrelativistic': z_nr, 'relativistic_today': m < 3.15 * kT})
     Onuh2 = sum(M_NU) / 93.14
     Onuh2_massive = (float(bg.Onu(0.0)) - bg.Onu_rel) * h * h                    # the two massive states
-    U = np.array([math.cos(math.radians(33.4)) * math.cos(math.radians(8.57)), math.sin(math.radians(33.4)) *
-                  math.cos(math.radians(8.57)), math.sin(math.radians(8.57))]) ** 2
+    s12, s13 = 0.303, 0.02203                       # sin^2 theta12, sin^2 theta13 of NuFIT 5.2 (as in um3_flavour.py)
+    U = np.array([(1 - s12) * (1 - s13), s12 * (1 - s13), s13])                  # |U_e1|^2, |U_e2|^2, |U_e3|^2
     rate_nr = N_TRITIUM_100G * SIGMA_BAR_CM2 * C_SI * 100 * (n_flav / 2) * 3.15576e7      # per year, all states NR, Dirac
-    rate_um3 = rate_nr * (1 + U[0])               # the massless nu_1 is relativistic: its LH helicity is captured twice as often
+    # the mean speed of each mass state today over the redshifted relativistic Fermi-Dirac distribution of the momenta,
+    # s_i = <p/E>; the left-handed helicity of a state of speed s is captured (1 + s) times as often as at rest (S-29)
+    pgrid = np.linspace(1e-6, 40.0, 400001) * kT
+    wfd = pgrid ** 2 / (np.exp(pgrid / kT) + 1.0)
+    speeds = [float(np.trapezoid(wfd * pgrid / np.sqrt(pgrid ** 2 + m * m), pgrid) / np.trapezoid(wfd, pgrid)) for m in M_NU]
+    for st, sp in zip(states, speeds):
+        st['mean_speed_today'] = sp
+    rate_um3 = rate_nr * float(np.sum(U * (1.0 + np.array(speeds))))      # nu_1 massless (speed 1), nu_2 and nu_3 slow
     out['C6'] = {'T_nu0_K': Tnu0, 'kT_nu0_eV': kT, 'n_per_flavour_cm3': n_flav, 'n_total_cm3': 3 * n_flav,
                  'n_per_helicity_state_cm3': n_flav / 2, 'states': states, 'Omega_nu_h2_FE58': Onuh2,
                  'Omega_nu_h2_massive_states_here': Onuh2_massive, 'Omega_nu_h2_CAMB': float(rU.Params.omnuh2),
@@ -532,15 +539,17 @@ def main():
                  'capture_rate_per_year_100g_Majorana_nonrelativistic': 2 * rate_nr,
                  'capture_rate_per_year_100g_UM3_massless_nu1': rate_um3, '|U_ei|^2': U.tolist()}
     rep.check('C6_cosmic_neutrino_background', abs(Tnu0 - 1.9454) < 1e-3 and abs(n_flav - 112.0) < 0.5
-              and abs(Onuh2_massive / Onuh2 - 1) < 0.01 and abs(rate_nr - 4.0) < 0.3,
+              and abs(Onuh2_massive / Onuh2 - 1) < 0.01 and abs(rate_nr - 4.0) < 0.3 and abs(speeds[0] - 1) < 1e-9
+              and 0 < speeds[2] < speeds[1] < 0.1,
               'T_nu = (4/11)^{1/3} T_gamma = %.4f K (%.3e eV); %.1f neutrinos and antineutrinos per cm^3 per flavour (%.0f in all, '
               'FE-53); m = 0, %.2f meV, %.1f meV: nu_2 and nu_3 became non-relativistic at z = %.1f and %.0f, nu_1 is '
               'relativistic; Omega_nu h^2 = %.3e (FE-58: Sum m/93.14 eV = %.3e, CAMB %.3e); the right-handed states are not '
               'populated, so the CNB of UM-3 has one helicity per state and the capture rate on tritium is %.1f per year per '
-              '100 g for non-relativistic Dirac neutrinos (Long, Lunardini and Sabancilar: about 4; Majorana about 8), %.1f '
-              'with the massless nu_1' % (Tnu0, kT, n_flav, 3 * n_flav, 1e3 * M_NU[1], 1e3 * M_NU[2], states[1]['z_nonrelativistic'],
-                                          states[2]['z_nonrelativistic'], Onuh2_massive, Onuh2, float(rU.Params.omnuh2),
-                                          rate_nr, rate_um3))
+              '100 g for non-relativistic Dirac neutrinos (Long, Lunardini and Sabancilar: about 4; Majorana about 8), %.2f '
+              'with the massless nu_1 and the mean speeds %.4f and %.4f of nu_2 and nu_3 today' % (
+                  Tnu0, kT, n_flav, 3 * n_flav, 1e3 * M_NU[1], 1e3 * M_NU[2], states[1]['z_nonrelativistic'],
+                  states[2]['z_nonrelativistic'], Onuh2_massive, Onuh2, float(rU.Params.omnuh2), rate_nr, rate_um3,
+                  speeds[1], speeds[2]))
 
     # ---------------- spectra and plot
     ls = np.arange(2, 2509)

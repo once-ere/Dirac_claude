@@ -1,0 +1,53 @@
+{
+ "script": "universe_model_3/code/um3_kohnsham.py",
+ "checks": [
+  {
+   "name": "K1_free_level",
+   "passed": true,
+   "detail": "omega = 0.9539392014 (16 dimensions), 0.9539392014 (reduced to W), FE-40: 0.9539392014; eight-fold (two-fold in W) with Krein signature (4, 4) [(1, 1) in W]; T_0..T_3 symmetric, T_4..T_7 antisymmetric, the compact rotations SU(2) x SU(2) commute with gamma^(0), gamma^(4), P_L, sigma16 and the Krein operator, 16 = (2,2) x 4"
+  },
+  {
+   "name": "K2_first_order_limit",
+   "passed": true,
+   "detail": "regime I: (omega - omega_b)/(first-order shift) = ['0.99997', '0.99997', '0.99995', '0.99972'] for G <= 1e-3 (first-order coefficient 0.136501); at the occupied level the other Krein state of W is split off (second singular value ['1.12e-03', '1.11e-02', '1.64e-02', '2.17e-02', '2.68e-02', '3.18e-02', '3.67e-02', '4.14e-02', '4.60e-02', '5.05e-02', '5.49e-02', '5.91e-02', '6.33e-02', '6.73e-02', '7.12e-02', '7.50e-02', '7.87e-02', '8.24e-02', '8.59e-02', '8.94e-02'] for G >= 1e-2)"
+  },
+  {
+   "name": "K3_residuals_16",
+   "passed": true,
+   "detail": "83 converged solutions (the three regimes for G = 1e-6 ... 1 and the continuation between); lifted to sixteen dimensions the four orbitals have Krein charge -1 each and are Krein-orthogonal; largest relative residual of the 16-dimensional Kohn-Sham equation (with the mean field rebuilt from the lifted orbitals) and fold matching 2.2e-04 (central differences on the grid), of self-consistency (the reduced problem) 1.7e-07; no cap active"
+  },
+  {
+   "name": "K8_through_the_free_threshold",
+   "passed": true,
+   "detail": "the repulsive mean field raises the level through the free continuum threshold omega = m_Psi = 1 at G = 0.371 (regime I) and G = 0.142 (regime II), and the state stays bound up to G = 1 (omega = 1.070393 and 1.259734 there): far from the fold the proper density saturates (the density decays at 6H to within 5.4e-04 and 1.0e-08 above the threshold), so the far mean field keeps the local mass above omega: in the computed cases a repulsive self-interaction does not dissolve the particles chi into the bulk (the saturation needs the warp, H > 0)"
+  },
+  {
+   "name": "K4_dilute_exponents",
+   "passed": true,
+   "detail": "delta omega ~ G^p for G <= 1e-4: {'I': 'fit 1.000, predicted 1.000', 'II': 'fit 0.999, predicted 1.000', 'III': 'fit 0.515, predicted 0.500'} (predicted 1 for q_b > 3H/2, q_b/(3H - q_b) for q_b < 3H/2)"
+  },
+  {
+   "name": "K5_saturation_and_runaway",
+   "passed": true,
+   "detail": "far from the fold the scalar density decays at {'II': '0.9000 vs 0.900', 'III': '1.7999 vs 1.800'} (6H: the proper density e^{6H|sigma|} n_s saturates); attractive self-interaction G = -1e-4, -1e-2 from the free state: regime I converges [True, True]; in regimes II and III, where the proper density of the free state grows away from the fold, the level search finds no Krein-negative level (['no Krein-negative level within 0.05 of 0.953905789967', 'no Krein-negative level within 0.05 of 0.949741472420']; ['no Krein-negative level within 0.05 of 0.954512658400', 'no Krein-negative level within 0.05 of 0.911383012824'])"
+  },
+  {
+   "name": "K6_higgs_portal_loop",
+   "passed": true,
+   "detail": "the occupied orbitals have rho_hat_L0(0) = 0.15723848 > 0, equal to d omega_b/d mu_L = -mu_L/(4 omega_b) = 0.15724273 (Hellmann-Feynman) up to the relative difference 2.70e-05, the error 2.70e-05 of the trapezoidal normalisation on the grid; the Higgs portal alone binds the fold (c_Phi < 0), so kappa_H < 0; with kappa_H = -0.30 and G = 0.1 the joint loop converges in 12 iterations: the gas raises v_loc^2, mu_L = -0.874681 (from -0.60; -0.8571 if rho_hat_L(0) were proportional to q_b), and the level falls to omega = 0.91512441 (0.96723519 without the feedback)"
+  },
+  {
+   "name": "K7_equation_of_state",
+   "passed": true,
+   "detail": "P/e (= q/e) at G = 1e-6: ['7.15e-08', '2.15e-07', '4.69e-05']; at G = 1: ['0.056', '0.137', '0.224']; positive (repulsive) and vanishing in the dilute limit: the chi gas is cold dark matter"
+  },
+  {
+   "name": "K9_weak_binding",
+   "passed": true,
+   "detail": "q_b = 0.03 m_Psi (q_b/omega_b = 0.030, the direct-detection bound on the Higgs portal), H = 0.002 m_Psi (c_b^2 = 1.071): omega = 0.9995498987 from the 16-dimensional shooting (FE-40: 0.9995498987), first-order coefficient 0.012489; self-consistent shift / first order = ['0.99940', '0.99429', '0.94309'] for G = 1e-4, 1e-3, 1e-2 (approaching 1 as G -> 0), P/e = ['6.2e-07', '6.2e-06', '5.8e-05']: a dilute, weakly bound gas of chi is pressureless; its self-interaction shifts the orbital energy by 1.25e-02 m_Psi per unit G and the energy per particle by 6.24e-03 m_Psi (half of it: the orbital energy counts the interaction twice)"
+  }
+ ],
+ "passed": 9,
+ "total": 9,
+ "all_passed": true
+}

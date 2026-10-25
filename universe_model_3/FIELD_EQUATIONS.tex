@@ -163,8 +163,9 @@ the equation. The sections are:
   and in the early Universe.
 \item
   \textbf{The cosmological perturbations} (FE-54 to FE-58): the metric
-  as a power series and the Einstein-Boltzmann equations of the CMB, the
-  CNB and the BAO.
+  as a power series and the Einstein-Boltzmann equations of the cosmic
+  microwave background (CMB), the cosmic neutrino background (CNB) and
+  the baryon acoustic oscillations (BAO).
 \item
   \textbf{The thermal history} (FE-59 to FE-62): the expansion of the
   fold, the degrees of freedom and the Boltzmann equations of the bound
@@ -595,7 +596,9 @@ S_{\mathrm{EL}} &= \frac{1}{2\kappa}\int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\,\B
   volume element). Unit: dimensionless. Status: AUTHOR.
 \item
   \(p\): The Lovelock order \(p = 1, 2, 3\) (Einstein, Gauss-Bonnet,
-  cubic), as an index and as a number. Status: STANDARD.
+  cubic), as an index and as a number; in the Kohn-Sham equations a
+  second label of a Kohn-Sham orbital (as \(o\), with \(\delta_{op}\)
+  the Kronecker delta of the two labels). Status: STANDARD.
 \item
   \(\alpha_{(p)}\): The Lovelock coupling of order \(p\),
   \(\alpha_{(p)} = w_{(p)}H^{2-2p}\) (\(\alpha_{(1)} = 1\)). Unit:
@@ -665,7 +668,9 @@ in the spin connection). Status: AUTHOR.
   1/length\(^{2p}\). Status: STANDARD.
 \item
   \(p\): The Lovelock order \(p = 1, 2, 3\) (Einstein, Gauss-Bonnet,
-  cubic), as an index and as a number. Status: STANDARD.
+  cubic), as an index and as a number; in the Kohn-Sham equations a
+  second label of a Kohn-Sham orbital (as \(o\), with \(\delta_{op}\)
+  the Kronecker delta of the two labels). Status: STANDARD.
 \item
   \(\delta\): The Kronecker delta: with two indices \(\delta^M_N = 1\)
   if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}} = 1\)
@@ -766,7 +771,9 @@ S_\Psi = \int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\,\Big[\frac12\big(\bar\Psi\gam
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -920,7 +927,9 @@ an odd number joins \(\Psi_{\mathrm{L}}\) with \(\Psi_{\mathrm{R}}\)
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -1229,8 +1238,9 @@ fields), DERIVED (the reduction).
   \(\kappa_4\): The coupling of the induced gravity of the fold,
   \(\kappa_4 = 8\pi G_{\mathrm{ind}}\); four-dimensional gravity on the
   fold has
-  \(8\pi G_{\mathrm{N}} = \kappa_4/(1 + 5\epsilon_{\mathrm{r}}/6)\)
-  (FE-59). Unit: GeV\(^{-2}\). Value:
+  \(8\pi G_{\mathrm{N}} = \kappa_4/(1 + 5\epsilon_{\mathrm{r}}/6)\) (the
+  Friedmann equation of the fold to first order in
+  \(\epsilon_{\mathrm{r}}\)). Unit: GeV\(^{-2}\). Value:
   \(\kappa_4 \simeq 8\pi G_{\mathrm{N}} = 8\pi/M_{\mathrm{Pl}}^2\).
   Status: ASSUMED.
 \end{itemize}
@@ -1339,7 +1349,9 @@ V(\Phi) = \mu^2\,\Phi^\dagger\Phi + \lambda\big(\Phi^\dagger\Phi\big)^2,\qquad \
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -1391,8 +1403,10 @@ positive. Status: AUTHOR (the potential), STANDARD (the rest).
   length (= time, \(c = 1\)). Status: AUTHOR.
 \item
   \(v\): The vacuum expectation value of the lower component of the
-  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV.
-  Status: STANDARD.
+  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV
+  \(= (\sqrt2\,G_{\mathrm{F}})^{-1/2}\) with the Fermi constant
+  \(G_{\mathrm{F}} = 1.1663788\times10^{-5}\) GeV\(^{-2}\) of the muon
+  lifetime (Particle Data Group). Status: STANDARD.
 \item
   \(h\): The Higgs field: the fluctuation of the lower component of the
   Higgs doublet about \(v\). Unit: GeV. Value: \(m_h = 125.25\) GeV.
@@ -1400,8 +1414,10 @@ positive. Status: AUTHOR (the potential), STANDARD (the rest).
 \item
   \(v_{\mathcal{A}}\): The amplitude of almightyAdHoc at \(x_4 = 0\);
   the author's almightyAdHoc \(= \mathrm{Exp}[-2\,a_{40}\,x_4]\) has
-  \(v_{\mathcal{A}} = 1\) in the unit of the field. Unit: GeV. Value: 1
-  (author). Status: AUTHOR.
+  \(v_{\mathcal{A}} = 1\) in the units of his notebook. Unit: GeV.
+  Value: 1 in the units of the author's notebook; UM-3 keeps it free
+  (the examples take \(v_{\mathcal{A}} = v\) and \(10v\)). Status:
+  AUTHOR (the form), ASSUMED (a free amplitude).
 \item
   \(\mathrm{e}\): Euler's number, the base of the natural logarithm;
   \(\mathrm{e}^{X}\) is the exponential of \(X\). Unit: dimensionless.
@@ -1454,7 +1470,9 @@ B_{\mu\nu} = \partial_\mu B_\nu - \partial_\nu B_\mu
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -1523,8 +1541,9 @@ B_{\mu\nu} = \partial_\mu B_\nu - \partial_\nu B_\mu
   for grand unification). Unit: dimensionless. Value:
   \(g_1(m_Z) = 0.3574\). Status: STANDARD.
 \item
-  \(Y_f\): The hypercharge of a field (IN-13: \(1/6\), \(2/3\),
-  \(-1/3\), \(-1/2\), \(-1\), \(0\) for
+  \(Y_f\): The hypercharge of a field, the charge of its coupling
+  \(g_1Y_fB_\mu\) to the hypercharge field in the covariant derivative
+  (\(1/6\), \(2/3\), \(-1/3\), \(-1/2\), \(-1\), \(0\) for
   \(Q, u_{\mathrm{R}}, d_{\mathrm{R}}, \ell, e_{\mathrm{R}}, \nu_{\mathrm{R}}\),
   \(1/2\) for \(\Phi\)). Unit: dimensionless. Status: STANDARD.
 \item
@@ -1617,7 +1636,9 @@ STANDARD.
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -1879,8 +1900,8 @@ J_f^\mu = \bar\psi_f\,\hat\gamma^\mu\psi_f
   \(J_f^\mu\): The fermion-number current of the Standard-Model
   multiplets of kind \(f\), \(J_f^\mu = \bar\psi_f\hat\gamma^\mu\psi_f\)
   summed over the three generations and the gauge components; with other
-  labels the gauge currents (FE-16 to FE-18). Unit: GeV\(^3\). Status:
-  STANDARD.
+  labels the currents that are the sources of the gauge fields. Unit:
+  GeV\(^3\). Status: STANDARD.
 \item
   \(j_X^\mu\): The convective current of the half \(X\) of
   dirac16complex,
@@ -1901,7 +1922,9 @@ J_f^\mu = \bar\psi_f\,\hat\gamma^\mu\psi_f
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -1990,7 +2013,9 @@ bulk}\label{the-einstein-lovelock-equations-in-the-bulk}}
 \tightlist
 \item
   \(p\): The Lovelock order \(p = 1, 2, 3\) (Einstein, Gauss-Bonnet,
-  cubic), as an index and as a number. Status: STANDARD.
+  cubic), as an index and as a number; in the Kohn-Sham equations a
+  second label of a Kohn-Sham orbital (as \(o\), with \(\delta_{op}\)
+  the Kronecker delta of the two labels). Status: STANDARD.
 \item
   \(\alpha_{(p)}\): The Lovelock coupling of order \(p\),
   \(\alpha_{(p)} = w_{(p)}H^{2-2p}\) (\(\alpha_{(1)} = 1\)). Unit:
@@ -2076,7 +2101,9 @@ STANDARD (the variation).
   frame components. Unit: 1/length\(^{2p}\). Status: STANDARD.
 \item
   \(p\): The Lovelock order \(p = 1, 2, 3\) (Einstein, Gauss-Bonnet,
-  cubic), as an index and as a number. Status: STANDARD.
+  cubic), as an index and as a number; in the Kohn-Sham equations a
+  second label of a Kohn-Sham orbital (as \(o\), with \(\delta_{op}\)
+  the Kronecker delta of the two labels). Status: STANDARD.
 \item
   \(M\): A coordinate index of eight dimensions (also with a numbered
   copy \(M_1, M_2, \dots\)): it runs over \(x_0, x_1, \dots, x_7\); a
@@ -2148,7 +2175,9 @@ STANDARD.
   frame components. Unit: 1/length\(^{2p}\). Status: STANDARD.
 \item
   \(p\): The Lovelock order \(p = 1, 2, 3\) (Einstein, Gauss-Bonnet,
-  cubic), as an index and as a number. Status: STANDARD.
+  cubic), as an index and as a number; in the Kohn-Sham equations a
+  second label of a Kohn-Sham orbital (as \(o\), with \(\delta_{op}\)
+  the Kronecker delta of the two labels). Status: STANDARD.
 \item
   \(M\): A coordinate index of eight dimensions (also with a numbered
   copy \(M_1, M_2, \dots\)): it runs over \(x_0, x_1, \dots, x_7\); a
@@ -2229,7 +2258,9 @@ fold}\label{the-junction-conditions-at-the-fold}}
   Status: DERIVED.
 \item
   \(p\): The Lovelock order \(p = 1, 2, 3\) (Einstein, Gauss-Bonnet,
-  cubic), as an index and as a number. Status: STANDARD.
+  cubic), as an index and as a number; in the Kohn-Sham equations a
+  second label of a Kohn-Sham orbital (as \(o\), with \(\delta_{op}\)
+  the Kronecker delta of the two labels). Status: STANDARD.
 \item
   \(\alpha_{(p)}\): The Lovelock coupling of order \(p\),
   \(\alpha_{(p)} = w_{(p)}H^{2-2p}\) (\(\alpha_{(1)} = 1\)). Unit:
@@ -2261,23 +2292,26 @@ fold}\label{the-junction-conditions-at-the-fold}}
   \(\mathfrak{a}, \mathfrak{b}, \mathfrak{n}\) of the general warped
   metric (FE-34). Unit: dimensionless. Status: DERIVED.
 \item
-  \(\mathfrak{a}\): The logarithm of the scale factor of ordinary space
-  in the general warped metric FE-34, a function of \(\sigma\) and
-  \(x_4\); for the author's metric
+  \(\mathfrak{a},\ \mathfrak{a}_1\): The logarithm of the scale factor
+  of ordinary space in the general warped metric FE-34, a function of
+  \(\sigma\) and \(x_4\); for the author's metric
   \(\mathfrak{a} = a_4 - H\lvert\sigma\rvert\); \(\mathfrak{a}_n\) its
-  term of order \(n\) in the power series FE-35. Unit: dimensionless.
-  Status: DERIVED.
+  term of order \(n\) in the power series FE-35 (\(\mathfrak{a}_1\) the
+  first-order term). Unit: dimensionless. Status: DERIVED.
 \item
-  \(\mathfrak{b}\): The logarithm of the scale factor of the extra times
-  in the general warped metric FE-34; for the author's metric
+  \(\mathfrak{b},\ \mathfrak{b}_1\): The logarithm of the scale factor
+  of the extra times in the general warped metric FE-34; for the
+  author's metric
   \(\mathfrak{b} = \ln b_4 - a_4 - H\lvert\sigma\rvert\);
-  \(\mathfrak{b}_n\) its term of order \(n\). Unit: dimensionless.
-  Status: DERIVED.
+  \(\mathfrak{b}_n\) its term of order \(n\) (\(\mathfrak{b}_1\) the
+  first-order term). Unit: dimensionless. Status: DERIVED.
 \item
-  \(\mathfrak{n}\): The logarithm of the lapse in the general warped
-  metric FE-34 (\(g_{x_4x_4} = -\mathrm{e}^{2\mathfrak{n}}\)); for the
-  author's metric \(\mathfrak{n} = 0\); \(\mathfrak{n}_n\) its term of
-  order \(n\). Unit: dimensionless. Status: DERIVED.
+  \(\mathfrak{n},\ \mathfrak{n}_1\): The logarithm of the lapse in the
+  general warped metric FE-34
+  (\(g_{x_4x_4} = -\mathrm{e}^{2\mathfrak{n}}\)); for the author's
+  metric \(\mathfrak{n} = 0\); \(\mathfrak{n}_n\) its term of order
+  \(n\) (\(\mathfrak{n}_1\) the first-order term). Unit: dimensionless.
+  Status: DERIVED.
 \end{itemize}
 
 The field equations at the fold. The author's metric (FE-27) has a kink
@@ -2363,8 +2397,9 @@ separately. Status: DERIVED.
   \(\kappa_4\): The coupling of the induced gravity of the fold,
   \(\kappa_4 = 8\pi G_{\mathrm{ind}}\); four-dimensional gravity on the
   fold has
-  \(8\pi G_{\mathrm{N}} = \kappa_4/(1 + 5\epsilon_{\mathrm{r}}/6)\)
-  (FE-59). Unit: GeV\(^{-2}\). Value:
+  \(8\pi G_{\mathrm{N}} = \kappa_4/(1 + 5\epsilon_{\mathrm{r}}/6)\) (the
+  Friedmann equation of the fold to first order in
+  \(\epsilon_{\mathrm{r}}\)). Unit: GeV\(^{-2}\). Value:
   \(\kappa_4 \simeq 8\pi G_{\mathrm{N}} = 8\pi/M_{\mathrm{Pl}}^2\).
   Status: ASSUMED.
 \item
@@ -2440,7 +2475,9 @@ tensors}\label{the-energy-momentum-tensors}}
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -2490,7 +2527,9 @@ density (FE-43). Status: STANDARD (DERIVED for the energy density).
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -2620,7 +2659,9 @@ and magnetic components. Status: STANDARD.
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -2736,8 +2777,8 @@ in the frame of the fold its time-time component is
   \(J_f^\mu\): The fermion-number current of the Standard-Model
   multiplets of kind \(f\), \(J_f^\mu = \bar\psi_f\hat\gamma^\mu\psi_f\)
   summed over the three generations and the gauge components; with other
-  labels the gauge currents (FE-16 to FE-18). Unit: GeV\(^3\). Status:
-  STANDARD.
+  labels the currents that are the sources of the gauge fields. Unit:
+  GeV\(^3\). Status: STANDARD.
 \item
   \(j_X^\mu\): The convective current of the half \(X\) of
   dirac16complex,
@@ -2872,7 +2913,9 @@ the bulk carry its share of this exchange. Status: DERIVED.
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -3035,14 +3078,16 @@ solution exists for every complex one. Status: RECORD.
   \(J_f^\mu\): The fermion-number current of the Standard-Model
   multiplets of kind \(f\), \(J_f^\mu = \bar\psi_f\hat\gamma^\mu\psi_f\)
   summed over the three generations and the gauge components; with other
-  labels the gauge currents (FE-16 to FE-18). Unit: GeV\(^3\). Status:
-  STANDARD.
+  labels the currents that are the sources of the gauge fields. Unit:
+  GeV\(^3\). Status: STANDARD.
 \item
   \(D_M,\ D_\mu\): The covariant derivative: on dirac16complex
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -3173,7 +3218,9 @@ Status: DERIVED.
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -3506,7 +3553,9 @@ the quarks is the source. Status: STANDARD (INVENTED portal factor).
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -3616,8 +3665,9 @@ STANDARD (INVENTED portal factor).
   \(Q, u_{\mathrm{R}}, d_{\mathrm{R}}, \ell, e_{\mathrm{R}}, \nu_{\mathrm{R}}\).
   Status: STANDARD.
 \item
-  \(Y_f\): The hypercharge of a field (IN-13: \(1/6\), \(2/3\),
-  \(-1/3\), \(-1/2\), \(-1\), \(0\) for
+  \(Y_f\): The hypercharge of a field, the charge of its coupling
+  \(g_1Y_fB_\mu\) to the hypercharge field in the covariant derivative
+  (\(1/6\), \(2/3\), \(-1/3\), \(-1/2\), \(-1\), \(0\) for
   \(Q, u_{\mathrm{R}}, d_{\mathrm{R}}, \ell, e_{\mathrm{R}}, \nu_{\mathrm{R}}\),
   \(1/2\) for \(\Phi\)). Unit: dimensionless. Status: STANDARD.
 \item
@@ -3641,7 +3691,9 @@ STANDARD (INVENTED portal factor).
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -3690,7 +3742,9 @@ STANDARD (INVENTED portal terms).
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -3779,7 +3833,9 @@ generations (flavour blind). Status: STANDARD (INVENTED potential).
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -3837,7 +3893,9 @@ generations (flavour blind). Status: STANDARD (INVENTED potential).
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -3894,7 +3952,9 @@ generations (flavour blind). Status: STANDARD (INVENTED potential).
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -3953,7 +4013,9 @@ generations (flavour blind). Status: STANDARD (INVENTED potential).
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -4009,7 +4071,9 @@ generations (flavour blind). Status: STANDARD (INVENTED potential).
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -4076,8 +4140,8 @@ Dirac masses. Status: STANDARD (INVENTED potentials).
   \(J_f^\mu\): The fermion-number current of the Standard-Model
   multiplets of kind \(f\), \(J_f^\mu = \bar\psi_f\hat\gamma^\mu\psi_f\)
   summed over the three generations and the gauge components; with other
-  labels the gauge currents (FE-16 to FE-18). Unit: GeV\(^3\). Status:
-  STANDARD.
+  labels the currents that are the sources of the gauge fields. Unit:
+  GeV\(^3\). Status: STANDARD.
 \item
   \(\mathrm{i}\): The imaginary unit, \(\mathrm{i}^2 = -1\). Unit:
   dimensionless. Status: STANDARD.
@@ -4185,8 +4249,10 @@ fold operator \(\mathbb{M}\) (FE-13). Status: DERIVED.
   Unit: GeV (1/length). Status: AUTHOR.
 \item
   \(v\): The vacuum expectation value of the lower component of the
-  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV.
-  Status: STANDARD.
+  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV
+  \(= (\sqrt2\,G_{\mathrm{F}})^{-1/2}\) with the Fermi constant
+  \(G_{\mathrm{F}} = 1.1663788\times10^{-5}\) GeV\(^{-2}\) of the muon
+  lifetime (Particle Data Group). Status: STANDARD.
 \item
   \(J_\Phi^{I\nu}\): The weak-isospin current of the Higgs doublet (it
   contains the mass terms of the \(W\) fields); \(J_\Phi^{2\,x_4}\) its
@@ -4745,7 +4811,9 @@ Status: DERIVED.
   DERIVED.
 \item
   \(p\): The Lovelock order \(p = 1, 2, 3\) (Einstein, Gauss-Bonnet,
-  cubic), as an index and as a number. Status: STANDARD.
+  cubic), as an index and as a number; in the Kohn-Sham equations a
+  second label of a Kohn-Sham orbital (as \(o\), with \(\delta_{op}\)
+  the Kronecker delta of the two labels). Status: STANDARD.
 \item
   \(\alpha_{(p)}\): The Lovelock coupling of order \(p\),
   \(\alpha_{(p)} = w_{(p)}H^{2-2p}\) (\(\alpha_{(1)} = 1\)). Unit:
@@ -5066,10 +5134,12 @@ of FE-29 and FE-30 on this branch are written out (DERIVED,
 \(\mathsf{A} \to 0\) they reduce to the static block FE-32. The extra
 energy of the fold above the static value is \((5/2)a_4'^2/(\kappa H)\)
 per \(V_*\): on the separable metric the fold energy fixes the expansion
-rate; a separately conserved fold fluid fits the separable metric only
-for the equation of state \(p = -\rho/40\) (DERIVED, J7), so ordinary
-matter on the fold requires the next terms of the power series (FE-35,
-FE-59). Status: DERIVED.
+rate. A fold fluid on top of the static values cannot be separately
+conserved on the separable metric, for any equation of state: its
+continuity equation fails by \((3/8)a_4'^3/(\kappa H)\), the part of the
+jump of the bulk energy flux at the fold that the static source does not
+balance (DERIVED, J7), so ordinary matter on the fold requires the next
+terms of the power series (FE-35, FE-59). Status: DERIVED.
 
 \hypertarget{the-general-warped-metric-and-the-power-series-of-the-metric}{%
 \subsection{The general warped metric and the power series of the
@@ -5133,12 +5203,12 @@ metric}\label{the-general-warped-metric-and-the-power-series-of-the-metric}}
   \(\mathrm{e}^{X}\) is the exponential of \(X\). Unit: dimensionless.
   Value: 2.718281828. Status: STANDARD.
 \item
-  \(\mathfrak{a}\): The logarithm of the scale factor of ordinary space
-  in the general warped metric FE-34, a function of \(\sigma\) and
-  \(x_4\); for the author's metric
+  \(\mathfrak{a},\ \mathfrak{a}_1\): The logarithm of the scale factor
+  of ordinary space in the general warped metric FE-34, a function of
+  \(\sigma\) and \(x_4\); for the author's metric
   \(\mathfrak{a} = a_4 - H\lvert\sigma\rvert\); \(\mathfrak{a}_n\) its
-  term of order \(n\) in the power series FE-35. Unit: dimensionless.
-  Status: DERIVED.
+  term of order \(n\) in the power series FE-35 (\(\mathfrak{a}_1\) the
+  first-order term). Unit: dimensionless. Status: DERIVED.
 \item
   \(x_1\): The first coordinate of ordinary 3-space. Unit: length.
   Status: AUTHOR.
@@ -5149,20 +5219,23 @@ metric}\label{the-general-warped-metric-and-the-power-series-of-the-metric}}
   \(x_3\): The third coordinate of ordinary 3-space. Unit: length.
   Status: AUTHOR.
 \item
-  \(\mathfrak{n}\): The logarithm of the lapse in the general warped
-  metric FE-34 (\(g_{x_4x_4} = -\mathrm{e}^{2\mathfrak{n}}\)); for the
-  author's metric \(\mathfrak{n} = 0\); \(\mathfrak{n}_n\) its term of
-  order \(n\). Unit: dimensionless. Status: DERIVED.
+  \(\mathfrak{n},\ \mathfrak{n}_1\): The logarithm of the lapse in the
+  general warped metric FE-34
+  (\(g_{x_4x_4} = -\mathrm{e}^{2\mathfrak{n}}\)); for the author's
+  metric \(\mathfrak{n} = 0\); \(\mathfrak{n}_n\) its term of order
+  \(n\) (\(\mathfrak{n}_1\) the first-order term). Unit: dimensionless.
+  Status: DERIVED.
 \item
   \(x_4\): The time (\(x_4 \ge 0\) in the ad hoc vacuum); a prime on a
   function of \(x_4\) alone is \(\mathrm{d}/\mathrm{d}x_4\). Unit:
   length (= time, \(c = 1\)). Status: AUTHOR.
 \item
-  \(\mathfrak{b}\): The logarithm of the scale factor of the extra times
-  in the general warped metric FE-34; for the author's metric
+  \(\mathfrak{b},\ \mathfrak{b}_1\): The logarithm of the scale factor
+  of the extra times in the general warped metric FE-34; for the
+  author's metric
   \(\mathfrak{b} = \ln b_4 - a_4 - H\lvert\sigma\rvert\);
-  \(\mathfrak{b}_n\) its term of order \(n\). Unit: dimensionless.
-  Status: DERIVED.
+  \(\mathfrak{b}_n\) its term of order \(n\) (\(\mathfrak{b}_1\) the
+  first-order term). Unit: dimensionless. Status: DERIVED.
 \item
   \(x_5\): The first of the three extra time-like coordinates. Unit:
   length. Status: AUTHOR.
@@ -5233,12 +5306,12 @@ sides of the fold (DERIVED, J2). Status: DERIVED.
 \begin{itemize}
 \tightlist
 \item
-  \(\mathfrak{a}\): The logarithm of the scale factor of ordinary space
-  in the general warped metric FE-34, a function of \(\sigma\) and
-  \(x_4\); for the author's metric
+  \(\mathfrak{a},\ \mathfrak{a}_1\): The logarithm of the scale factor
+  of ordinary space in the general warped metric FE-34, a function of
+  \(\sigma\) and \(x_4\); for the author's metric
   \(\mathfrak{a} = a_4 - H\lvert\sigma\rvert\); \(\mathfrak{a}_n\) its
-  term of order \(n\) in the power series FE-35. Unit: dimensionless.
-  Status: DERIVED.
+  term of order \(n\) in the power series FE-35 (\(\mathfrak{a}_1\) the
+  first-order term). Unit: dimensionless. Status: DERIVED.
 \item
   \(a_4\): The author's metric function of the time \(x_4\) that scales
   ordinary 3-space: on the fold \(\mathrm{e}^{a_4}\) is the scale factor
@@ -5266,17 +5339,24 @@ sides of the fold (DERIVED, J2). Status: DERIVED.
   \(\epsilon_{\mathrm{r}}\): The bookkeeping parameter of the response
   of the bulk to the matter of the fold: the ratio of the bulk to the
   fold gravity, \(\epsilon_{\mathrm{r}} = \kappa_4V_*/(\kappa H)\).
-  Unit: dimensionless. Value: \(\lesssim 10^{-15}\). Status: DERIVED.
+  Unit: dimensionless. Value: \(\lesssim 10^{-15}\) (an estimate: if a
+  fraction \(\epsilon_{\mathrm{r}}\) of the gravitational waves of the
+  fold travelled with the bulk gravitons, whose speed squared is 15/2
+  times that of light, their speed would differ from that of light by
+  about \(3\epsilon_{\mathrm{r}}\), and the gravitational waves and the
+  light of the neutron-star merger GW170817 arrived together to about
+  \(10^{-15}\)). Status: DERIVED (the definition), ESTIMATE (the bound).
 \item
   \(x_4\): The time (\(x_4 \ge 0\) in the ad hoc vacuum); a prime on a
   function of \(x_4\) alone is \(\mathrm{d}/\mathrm{d}x_4\). Unit:
   length (= time, \(c = 1\)). Status: AUTHOR.
 \item
-  \(\mathfrak{b}\): The logarithm of the scale factor of the extra times
-  in the general warped metric FE-34; for the author's metric
+  \(\mathfrak{b},\ \mathfrak{b}_1\): The logarithm of the scale factor
+  of the extra times in the general warped metric FE-34; for the
+  author's metric
   \(\mathfrak{b} = \ln b_4 - a_4 - H\lvert\sigma\rvert\);
-  \(\mathfrak{b}_n\) its term of order \(n\). Unit: dimensionless.
-  Status: DERIVED.
+  \(\mathfrak{b}_n\) its term of order \(n\) (\(\mathfrak{b}_1\) the
+  first-order term). Unit: dimensionless. Status: DERIVED.
 \item
   \(b_4\): The author's metric function of the time \(x_4\) in the
   extra-time components, \(b_4 > 0\), never identically 1 (the author's
@@ -5284,10 +5364,12 @@ sides of the fold (DERIVED, J2). Status: DERIVED.
   \(\mathrm{e}^{-a_4}b_4\) times the warp. Unit: dimensionless. Status:
   AUTHOR.
 \item
-  \(\mathfrak{n}\): The logarithm of the lapse in the general warped
-  metric FE-34 (\(g_{x_4x_4} = -\mathrm{e}^{2\mathfrak{n}}\)); for the
-  author's metric \(\mathfrak{n} = 0\); \(\mathfrak{n}_n\) its term of
-  order \(n\). Unit: dimensionless. Status: DERIVED.
+  \(\mathfrak{n},\ \mathfrak{n}_1\): The logarithm of the lapse in the
+  general warped metric FE-34
+  (\(g_{x_4x_4} = -\mathrm{e}^{2\mathfrak{n}}\)); for the author's
+  metric \(\mathfrak{n} = 0\); \(\mathfrak{n}_n\) its term of order
+  \(n\) (\(\mathfrak{n}_1\) the first-order term). Unit: dimensionless.
+  Status: DERIVED.
 \item
   \(\hat h_{\mu\nu}\): The four-dimensional metric of the fold,
   \(\hat h_{\mu\nu} = \mathrm{diag}(\mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, -1)\)
@@ -5618,8 +5700,8 @@ it}\label{the-fold-and-the-states-bound-to-it}}
 \item
   \(\mu_X,\ \mu_{\mathrm{L}},\ \mu_{\mathrm{R}}\): The dimensionless
   strengths of the fold for the left-handed and right-handed halves of
-  dirac16complex (FE-39): the jump of the profile across the fold is the
-  exponential of
+  dirac16complex, set by the mean fields of the Standard Model at the
+  fold: the jump of the profile across the fold is the exponential of
   \(\gamma^{(0)}(\mu_{\mathrm{L}}P_{\mathrm{L}} + \mu_{\mathrm{R}}P_{\mathrm{R}})\);
   negative values attract. Unit: dimensionless. Status: DERIVED.
 \item
@@ -5723,8 +5805,10 @@ it}\label{the-fold-and-the-states-bound-to-it}}
   GeV\(^3\). Status: STANDARD.
 \item
   \(v\): The vacuum expectation value of the lower component of the
-  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV.
-  Status: STANDARD.
+  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV
+  \(= (\sqrt2\,G_{\mathrm{F}})^{-1/2}\) with the Fermi constant
+  \(G_{\mathrm{F}} = 1.1663788\times10^{-5}\) GeV\(^{-2}\) of the muon
+  lifetime (Particle Data Group). Status: STANDARD.
 \item
   \(\mathcal{A}\): The author's ad hoc upper component of the Higgs
   vacuum, almightyAdHoc,
@@ -5773,8 +5857,8 @@ q_{\mathrm{b}} = -m_\Psi\,\big(\mu_{\mathrm{L}} + \mu_{\mathrm{R}}\big)\,\frac{\
 \item
   \(\mu_X,\ \mu_{\mathrm{L}},\ \mu_{\mathrm{R}}\): The dimensionless
   strengths of the fold for the left-handed and right-handed halves of
-  dirac16complex (FE-39): the jump of the profile across the fold is the
-  exponential of
+  dirac16complex, set by the mean fields of the Standard Model at the
+  fold: the jump of the profile across the fold is the exponential of
   \(\gamma^{(0)}(\mu_{\mathrm{L}}P_{\mathrm{L}} + \mu_{\mathrm{R}}P_{\mathrm{R}})\);
   negative values attract. Unit: dimensionless. Status: DERIVED.
 \item
@@ -5854,7 +5938,9 @@ DERIVED.
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -6000,7 +6086,9 @@ DERIVED (the exchange term), ASSUMED (no correlation, no sea).
   \(D_M = \partial_M + \Omega_M\) (with
   \(D_M\bar\Psi = \partial_M\bar\Psi - \bar\Psi\Omega_M\)); on the
   fields of the fold the gauge and spin covariant derivative \(D_\mu\)
-  of IN-13; \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
+  (the partial derivative plus the spin connection of the fold and the
+  gauge fields times their couplings and generators);
+  \(D^\mu = \hat h^{\mu\nu}D_\nu\); on an adjoint field
   \((D_\mu X)^A = \partial_\mu X^A + g_3f^{ABC}G^B_\mu X^C\) (likewise
   for \(SU(2)\) with \(g_2\epsilon^{IJK}\)). Unit: 1/length. Status:
   STANDARD.
@@ -6276,8 +6364,10 @@ component}\label{the-electroweak-vacuum-with-the-ad-hoc-component}}
   dimensionless. Value: \(g_2(m_Z) = 0.6517\). Status: STANDARD.
 \item
   \(v\): The vacuum expectation value of the lower component of the
-  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV.
-  Status: STANDARD.
+  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV
+  \(= (\sqrt2\,G_{\mathrm{F}})^{-1/2}\) with the Fermi constant
+  \(G_{\mathrm{F}} = 1.1663788\times10^{-5}\) GeV\(^{-2}\) of the muon
+  lifetime (Particle Data Group). Status: STANDARD.
 \item
   \(\mathcal{A}\): The author's ad hoc upper component of the Higgs
   vacuum, almightyAdHoc,
@@ -6297,8 +6387,8 @@ component}\label{the-electroweak-vacuum-with-the-ad-hoc-component}}
   which is \(G_{\mathrm{F,loc}}\) of FE-49. Unit: GeV\(^{-2}\). Value:
   \(1.1664\times10^{-5}\) GeV\(^{-2}\). Status: STANDARD.
 \item
-  \(m_h\): The mass of the Higgs boson. Unit: GeV. Value: 125.25 GeV.
-  Status: STANDARD.
+  \(m_h\): The mass of the Higgs boson. Unit: GeV. Value: 125.25 GeV
+  (Particle Data Group 2022). Status: STANDARD.
 \item
   \(\lambda\): The quartic coupling of the Higgs potential,
   \(\lambda > 0\). Unit: dimensionless. Value:
@@ -6365,8 +6455,10 @@ leptons}\label{the-masses-and-the-mixing-of-quarks-and-leptons}}
 \tightlist
 \item
   \(v\): The vacuum expectation value of the lower component of the
-  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV.
-  Status: STANDARD.
+  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV
+  \(= (\sqrt2\,G_{\mathrm{F}})^{-1/2}\) with the Fermi constant
+  \(G_{\mathrm{F}} = 1.1663788\times10^{-5}\) GeV\(^{-2}\) of the muon
+  lifetime (Particle Data Group). Status: STANDARD.
 \item
   \(\mathcal{Y}^{u},\ \mathcal{Y}^{d},\ \mathcal{Y}^{e},\ \mathcal{Y}^{\nu}\):
   The Yukawa matrices (\(3 \times 3\) complex matrices in generation
@@ -6389,7 +6481,8 @@ leptons}\label{the-masses-and-the-mixing-of-quarks-and-leptons}}
   and of the three neutrino mass states (\(m_1, m_2, m_3\), Dirac
   masses). Unit: GeV. Value: measured values;
   \(\Delta m_{21}^2 = 7.41\times10^{-5}\) eV\(^2\),
-  \(\lvert\Delta m_{31}^2\rvert = 2.51\times10^{-3}\) eV\(^2\). Status:
+  \(\lvert\Delta m_{31}^2\rvert = 2.511\times10^{-3}\) eV\(^2\) (the
+  global fit NuFIT 5.2 of the oscillation data, November 2022). Status:
   STANDARD.
 \item
   \({}^\dagger\): Hermitian conjugation: the complex conjugate of the
@@ -6402,8 +6495,11 @@ leptons}\label{the-masses-and-the-mixing-of-quarks-and-leptons}}
   \(U_{\mathrm{PMNS}}\): The lepton mixing matrix
   (Pontecorvo-Maki-Nakagawa-Sakata) of the three Dirac neutrinos;
   \(U_{\alpha i}\) are its entries. Unit: dimensionless. Value:
-  \(\theta_{12} = 33.4^\circ\), \(\theta_{23} = 49.0^\circ\),
-  \(\theta_{13} = 8.57^\circ\). Status: STANDARD.
+  \(\theta_{12} = 33.40^\circ\), \(\theta_{23} = 49.14^\circ\),
+  \(\theta_{13} = 8.54^\circ\) (NuFIT 5.2, November 2022, normal
+  ordering, with the Super-Kamiokande atmospheric data); the Dirac phase
+  is set to zero (ASSUMED; the fit prefers \(197^\circ\)). Status:
+  STANDARD, ASSUMED (the phase).
 \item
   \(\nu_\alpha,\ \nu_i\): A neutrino field: \(\nu_\alpha\) the flavour
   states (\(\alpha = e, \mu, \tau\)), \(\nu_i\) the mass states
@@ -6502,8 +6598,8 @@ dirac16complex}\label{the-four-dimensional-couplings-of-the-bound-states-of-dira
 \item
   \(\mu_X,\ \mu_{\mathrm{L}},\ \mu_{\mathrm{R}}\): The dimensionless
   strengths of the fold for the left-handed and right-handed halves of
-  dirac16complex (FE-39): the jump of the profile across the fold is the
-  exponential of
+  dirac16complex, set by the mean fields of the Standard Model at the
+  fold: the jump of the profile across the fold is the exponential of
   \(\gamma^{(0)}(\mu_{\mathrm{L}}P_{\mathrm{L}} + \mu_{\mathrm{R}}P_{\mathrm{R}})\);
   negative values attract. Unit: dimensionless. Status: DERIVED.
 \item
@@ -6574,8 +6670,10 @@ dirac16complex}\label{the-four-dimensional-couplings-of-the-bound-states-of-dira
   GeV\(^3\). Status: STANDARD.
 \item
   \(v\): The vacuum expectation value of the lower component of the
-  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV.
-  Status: STANDARD.
+  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV
+  \(= (\sqrt2\,G_{\mathrm{F}})^{-1/2}\) with the Fermi constant
+  \(G_{\mathrm{F}} = 1.1663788\times10^{-5}\) GeV\(^{-2}\) of the muon
+  lifetime (Particle Data Group). Status: STANDARD.
 \item
   \(m_\Psi\): The mass parameter of dirac16complex in the bulk. Unit:
   GeV. Status: RECORD.
@@ -6698,14 +6796,19 @@ content}\label{the-equations-of-motion-of-the-flavour-content}}
   Status: DERIVED.
 \item
   \(v\): The vacuum expectation value of the lower component of the
-  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV.
-  Status: STANDARD.
+  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV
+  \(= (\sqrt2\,G_{\mathrm{F}})^{-1/2}\) with the Fermi constant
+  \(G_{\mathrm{F}} = 1.1663788\times10^{-5}\) GeV\(^{-2}\) of the muon
+  lifetime (Particle Data Group). Status: STANDARD.
 \item
   \(U_{\mathrm{PMNS}}\): The lepton mixing matrix
   (Pontecorvo-Maki-Nakagawa-Sakata) of the three Dirac neutrinos;
   \(U_{\alpha i}\) are its entries. Unit: dimensionless. Value:
-  \(\theta_{12} = 33.4^\circ\), \(\theta_{23} = 49.0^\circ\),
-  \(\theta_{13} = 8.57^\circ\). Status: STANDARD.
+  \(\theta_{12} = 33.40^\circ\), \(\theta_{23} = 49.14^\circ\),
+  \(\theta_{13} = 8.54^\circ\) (NuFIT 5.2, November 2022, normal
+  ordering, with the Super-Kamiokande atmospheric data); the Dirac phase
+  is set to zero (ASSUMED; the fit prefers \(197^\circ\)). Status:
+  STANDARD, ASSUMED (the phase).
 \item
   \({}^\dagger\): Hermitian conjugation: the complex conjugate of the
   transpose of a matrix or spinor (for field operators the adjoint
@@ -6753,7 +6856,8 @@ content}\label{the-equations-of-motion-of-the-flavour-content}}
   and of the three neutrino mass states (\(m_1, m_2, m_3\), Dirac
   masses). Unit: GeV. Value: measured values;
   \(\Delta m_{21}^2 = 7.41\times10^{-5}\) eV\(^2\),
-  \(\lvert\Delta m_{31}^2\rvert = 2.51\times10^{-3}\) eV\(^2\). Status:
+  \(\lvert\Delta m_{31}^2\rvert = 2.511\times10^{-3}\) eV\(^2\) (the
+  global fit NuFIT 5.2 of the oscillation data, November 2022). Status:
   STANDARD.
 \end{itemize}
 
@@ -6912,8 +7016,10 @@ potential \(V_\Psi\) of dirac16complex. Status: STANDARD (UM-3 adds
   state). Status: STANDARD.
 \item
   \(v\): The vacuum expectation value of the lower component of the
-  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV.
-  Status: STANDARD.
+  Higgs doublet, \(v^2 = -\mu^2/\lambda\). Unit: GeV. Value: 246.22 GeV
+  \(= (\sqrt2\,G_{\mathrm{F}})^{-1/2}\) with the Fermi constant
+  \(G_{\mathrm{F}} = 1.1663788\times10^{-5}\) GeV\(^{-2}\) of the muon
+  lifetime (Particle Data Group). Status: STANDARD.
 \item
   \(\mathcal{A}\): The author's ad hoc upper component of the Higgs
   vacuum, almightyAdHoc,
@@ -7981,8 +8087,11 @@ Status: STANDARD.
   \(\rho_\Lambda = \rho_{\mathrm{ff}} - 31HV_*/(4\kappa)\) (FE-59).
   Unit: GeV\(^4\). Status: DERIVED.
 \item
-  \(\Omega_\nu\): The density parameter of the massive neutrinos of the
-  CNB today. Unit: dimensionless. Status: STANDARD.
+  \(\Omega_\nu,\ \Omega_\nu^{(i)}\): The density parameter of the
+  neutrinos of the CNB: \(\Omega_\nu\) that of the massive states today;
+  \(\Omega_\nu^{(i)}(\mathsf{z})\) the energy density of the mass state
+  \(i\) at the redshift \(\mathsf{z}\) in units of the critical density
+  today. Unit: dimensionless. Status: STANDARD.
 \item
   \(h_{100}\): The present expansion rate of the fold in units of 100
   km/s/Mpc. Unit: dimensionless. Value: 0.674 (Planck 2018). Status:
@@ -8028,7 +8137,7 @@ Status: STANDARD.
 \[
 \begin{aligned}
 &\frac{1}{\kappa_4}\,\hat G^\mu{}_\nu = \mathcal{T}_{\mathrm{SM}}{}^\mu{}_\nu + \mathcal{T}_{\mathrm{P}}{}^\mu{}_\nu + \mathcal{T}_{\mathrm{ff}}{}^\mu{}_\nu
- - \frac{V_*}{\kappa}\,\mathcal{J}^\mu{}_\nu,\qquad \mathcal{J}^a{}_b = \kappa\,\mathcal{S}^a{}_b\ \text{of FE-30},\\
+ - \frac{V_*}{\kappa}\,\mathcal{J}^\mu{}_\nu,\qquad \mathcal{J}^a{}_b = \kappa\,\mathcal{S}^a{}_b\ \text{(the junction condition)},\\
 &H_4^2 = \frac{8\pi G_{\mathrm{N}}}{3}\big(\rho_{\mathrm{SM}} + \rho_\chi + \rho_\Lambda\big),\qquad
  8\pi G_{\mathrm{N}} = \frac{\kappa_4}{1 + 5\epsilon_{\mathrm{r}}/6},\qquad \epsilon_{\mathrm{r}} = \frac{\kappa_4V_*}{\kappa H},\qquad
  \rho_\Lambda = \rho_{\mathrm{ff}} - \frac{31HV_*}{4\kappa},\\
@@ -8044,8 +8153,9 @@ Status: STANDARD.
   \(\kappa_4\): The coupling of the induced gravity of the fold,
   \(\kappa_4 = 8\pi G_{\mathrm{ind}}\); four-dimensional gravity on the
   fold has
-  \(8\pi G_{\mathrm{N}} = \kappa_4/(1 + 5\epsilon_{\mathrm{r}}/6)\)
-  (FE-59). Unit: GeV\(^{-2}\). Value:
+  \(8\pi G_{\mathrm{N}} = \kappa_4/(1 + 5\epsilon_{\mathrm{r}}/6)\) (the
+  Friedmann equation of the fold to first order in
+  \(\epsilon_{\mathrm{r}}\)). Unit: GeV\(^{-2}\). Value:
   \(\kappa_4 \simeq 8\pi G_{\mathrm{N}} = 8\pi/M_{\mathrm{Pl}}^2\).
   Status: ASSUMED.
 \item
@@ -8083,10 +8193,10 @@ Status: STANDARD.
   \(\kappa = 8\pi G_8\). Unit: GeV\(^{-6}\). Status: AUTHOR.
 \item
   \(\mathcal{J}^a{}_b\): The jump of the junction potential across the
-  fold computed from the metric (the right-hand side of FE-30, or of
-  FE-33 with frozen extra times): the geometric side of the junction
-  condition, \(\mathcal{J} = \kappa\mathcal{S}\). Unit: GeV. Status:
-  DERIVED.
+  fold computed from the metric: the geometric side of the junction
+  condition \(\mathcal{J} = \kappa\mathcal{S}\), which equates it to
+  \(\kappa\) times the energy-momentum tensor \(\mathcal{S}\) of
+  everything on the fold. Unit: GeV. Status: DERIVED.
 \item
   \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
   (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
@@ -8132,7 +8242,13 @@ Status: STANDARD.
   \(\epsilon_{\mathrm{r}}\): The bookkeeping parameter of the response
   of the bulk to the matter of the fold: the ratio of the bulk to the
   fold gravity, \(\epsilon_{\mathrm{r}} = \kappa_4V_*/(\kappa H)\).
-  Unit: dimensionless. Value: \(\lesssim 10^{-15}\). Status: DERIVED.
+  Unit: dimensionless. Value: \(\lesssim 10^{-15}\) (an estimate: if a
+  fraction \(\epsilon_{\mathrm{r}}\) of the gravitational waves of the
+  fold travelled with the bulk gravitons, whose speed squared is 15/2
+  times that of light, their speed would differ from that of light by
+  about \(3\epsilon_{\mathrm{r}}\), and the gravitational waves and the
+  light of the neutron-star merger GW170817 arrived together to about
+  \(10^{-15}\)). Status: DERIVED (the definition), ESTIMATE (the bound).
 \item
   \(H\): The author's constant (an inverse length) that fixes the period
   \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
@@ -8148,9 +8264,10 @@ Status: STANDARD.
 \item
   \(q_{\mathrm{SM}}\): The pressure of the Standard Model along the
   extra times at the fold: the mean on-shell Lagrangian density of the
-  Standard-Model fields (FE-5: the extra-time component of the
-  energy-momentum tensor of every term of the fold is its Lagrangian).
-  Unit: GeV\(^4\). Status: DERIVED.
+  Standard-Model fields (the extra-time component of the energy-momentum
+  tensor of every term of the fold is its Lagrangian, because the fields
+  of the fold do not depend on the extra times). Unit: GeV\(^4\).
+  Status: DERIVED.
 \item
   \(q_\chi\): The pressure of the bound states of dirac16complex along
   the extra times, integrated across the fold (their on-shell
@@ -8323,9 +8440,14 @@ n_{\chi,\mathrm{eq}} = g_\chi\Big(\frac{\omega_{\mathrm{b}}\mathsf{T}}{2\pi}\Big
   today, the Hubble constant. Unit: GeV (1/time). Value:
   \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc. Status: STANDARD.
 \item
-  \(\sigma_{\mathrm{ann}}\): The cross-section of the annihilation of
-  \(\chi\) with its antiparticle into Standard-Model particles (through
-  the portals). Unit: GeV\(^{-2}\). Status: DERIVED.
+  \(\sigma_{\mathrm{ann}}\): The annihilation cross-section of the
+  particles \(\chi\) into Standard-Model particles (through the portals)
+  in the normalisation of FE-61, where \(n_\chi\) counts the four
+  particle and the four antiparticle states of the bound level:
+  \(\langle\sigma_{\mathrm{ann}}\mathsf{v}\rangle\) is a quarter of the
+  annihilation rate \((\sigma\mathsf{v})_{\chi\bar\chi}\) of one
+  particle \(\chi_a\) with one antiparticle \(\bar\chi_a\). Unit:
+  GeV\(^{-2}\). Status: DERIVED.
 \item
   \(\mathsf{v}\): The relative velocity of two annihilating particles;
   \(\langle\sigma_{\mathrm{ann}}\mathsf{v}\rangle\) is the thermal
@@ -8369,7 +8491,8 @@ n_{\chi,\mathrm{eq}} = g_\chi\Big(\frac{\omega_{\mathrm{b}}\mathsf{T}}{2\pi}\Big
 \item
   \(x_{\mathrm{f}}\): The ratio of the mass of \(\chi\) to the
   temperature at which its annihilations stop (freeze-out). Unit:
-  dimensionless. Value: 20 to 25. Status: STANDARD.
+  dimensionless. Value: 23 to 30 (for \(\omega_{\mathrm{b}}\) = 10 GeV
+  to 10 TeV). Status: STANDARD.
 \item
   \(g_*\): The effective number of relativistic degrees of freedom at
   the freeze-out (\(g_\rho\) there). Unit: dimensionless. Status:
@@ -8454,7 +8577,8 @@ dirac16complex), and if they were in equilibrium until the temperature
 the effective number of neutrinos (from the conservation of entropy
 after their decoupling). The measured
 \(N_{\mathrm{eff}} = 2.99 \pm 0.17\) (Planck 2018) and \(2.89 \pm 0.11\)
-(ACT DR6 with Planck, lensing, BAO and nucleosynthesis, 2025) bound
+(ACT DR6, the sixth data release of the Atacama Cosmology Telescope,
+with Planck, lensing, BAO and nucleosynthesis, 2025) bound
 \(\Delta N_{\mathrm{eff}}\) and with it the portal couplings
 \(c^{\nu}_X\): if the portal keeps the right-handed neutrinos in
 equilibrium with \(\chi\) they decouple at
@@ -8626,6 +8750,22 @@ themselves are all written out above). The checks used here:
   acceleration law with a rigid bulk medium, the amplitude of the
   response today.
 \item
+  \texttt{um3\_kohnsham.py} (9 checks): the Kohn-Sham equations FE-41
+  for a homogeneous gas of the bound particles \(\chi\), solved
+  self-consistently with the author's matrices (reduced exactly by the
+  rotations of ordinary space and of the extra times, and lifted back to
+  sixteen components for the checks): the free level FE-40 (K1),
+  first-order perturbation theory in the dilute limit (K2), the
+  residuals of FE-41 and of the matching at the fold in three regimes of
+  \(H\), with the dimensionless strength \(\lambda_\Psi n_\chi/V_*\) of
+  the self-interaction (\(n_\chi\) the number density of the particles
+  on the fold) up to 1 in units of \(m_\Psi\) (K3), the exponents of the
+  dilute limit (K4), the saturation of the proper density far from the
+  fold and the attractive case (K5), the Higgs-portal loop through FE-49
+  (K6), the equation of state from FE-42 (K7), the level raised through
+  the free threshold \(m_\Psi\) without unbinding (K8), and a weakly
+  bound point that direct detection allows (K9).
+\item
   \texttt{um3\_flavour.py} (4 checks): the survival probability of solar
   neutrinos by exact integration of FE-48 and FE-49, against the
   adiabatic formula of FE-50 and the measurements of Borexino; the
@@ -8640,7 +8780,8 @@ themselves are all written out above). The checks used here:
   the ruler FE-56 computed independently and by the Boltzmann code CAMB;
   the derived quantities of the CMB against Planck 2018; the CMB spectra
   (FE-57) against the Planck 2018 high-\(l\) data, with a refit for
-  thermal right-handed neutrinos; the BAO distances against DESI DR2;
+  thermal right-handed neutrinos; the BAO distances against DESI DR2
+  (the second data release of the Dark Energy Spectroscopic Instrument);
   the CNB numbers of FE-53 and FE-58.
 \item
   \texttt{um3\_thermal.py} (6 checks): \(g_\rho\) and \(g_{\mathrm{s}}\)

@@ -109,7 +109,7 @@ def main():
     nec_i = sp.factor(sp.expand(rho_f + Tii.subs(fz)))
     nec_r = sp.factor(sp.expand(rho_f + Trr.subs(fz)))
     flux_f = sp.factor(T04.subs(fz))
-    # sample the sign for |A| < 1, |A1| < 1 (slowly varying expansion)
+    # sample the sign for |A| < 1, |A1| < 5e-4 (slowly varying expansion; the late universe has A1 = -(1 + q0) A^2, tiny)
     import random
     random.seed(3)
     worst = -1e9
@@ -123,7 +123,7 @@ def main():
                   'max_rho_plus_p_sampled': worst}
     rep.check('BG2_null_energy_condition', ok2,
               'stabiliser: kappa(rho_s + p_s) = %s H^2 < 0; frozen branch (U = A): kappa rho = (3A^2 - 1)H^2/16, kappa(rho + p) along '
-              'sigma = %s, along ordinary space = %s, along the extra times = %s (units H^2), all negative for |A| < 1 (largest '
+              'sigma = %s, along ordinary space = %s, along the extra times = %s (units H^2), all negative for |A| < 1 and a slowly varying expansion, |A1| < 5e-4 (largest '
               'sampled value %.3f): the bulk medium of the late universe violates the null energy condition; it also carries the '
               'energy flux kappa T^(0)_(4) = sgn(sigma) %s H^2' % (nec_stab, nec_sigma, nec_i, nec_r, worst, flux_f))
 

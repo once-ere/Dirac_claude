@@ -31,14 +31,22 @@ def main():
         if not (tag and re.fullmatch(r'(FE|IN)-\d+', tag)):
             continue
         j, keys = ST.find_marker(lines, end)
-        # status: the first 'Status:' after the display, before the next display
+        # status: the first 'Status:' of the text after the display (not inside its generated symbol list), before the next
+        # display
         status = ''
         k = end + 1
+        in_list = False
         while k < len(lines) and not lines[k].strip().startswith('$$'):
-            m = re.search(r'Status:\s*([A-Z]+)', lines[k])
-            if m:
-                status = m.group(1)
-                break
+            t = lines[k].strip()
+            if t == ST.BEGIN:
+                in_list = True
+            elif t == ST.END:
+                in_list = False
+            elif not in_list:
+                m = re.search(r'Status:\s*([A-Z]+)', lines[k])
+                if m:
+                    status = m.group(1)
+                    break
             k += 1
         inv.append({'id': tag, 'title': heads[start], 'latex': latex.strip('\n'), 'keys': keys or [], 'status': status})
     ids = [e['id'] for e in inv]

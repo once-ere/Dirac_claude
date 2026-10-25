@@ -1,0 +1,4435 @@
+{
+ "K1": {
+  "krein16": [
+   4,
+   4
+  ],
+  "kreinW": [
+   1,
+   1
+  ],
+  "omega_16": 0.9539392014169458,
+  "omega_FE40": 0.9539392014169457,
+  "omega_W": 0.9539392014169458,
+  "sv16": [
+   9.796931898764573e-17,
+   1.5597413482158105e-16,
+   2.8632899553765376e-16,
+   4.857018742795765e-16,
+   5.804909157873929e-16,
+   7.323477582439369e-16,
+   8.282179879661148e-16,
+   1.3382419628911676e-15,
+   1.414213562373095
+  ],
+  "svW": [
+   9.688992911993293e-17,
+   9.270718104852232e-16,
+   1.4142135623730951,
+   1.4142135623730951
+  ]
+ },
+ "K4": {
+  "I": {
+   "fitted": 0.9999945318367973,
+   "predicted": 1.0
+  },
+  "II": {
+   "fitted": 0.998805970637532,
+   "predicted": 1.0
+  },
+  "III": {
+   "fitted": 0.5152080287380979,
+   "predicted": 0.5000000000000001
+  }
+ },
+ "K5": {
+  "negative_G_regime_III_converged": [
+   false,
+   false
+  ],
+  "negative_G_regime_II_converged": [
+   false,
+   false
+  ],
+  "negative_G_regime_I_converged": [
+   true,
+   true
+  ],
+  "saturation": {
+   "II": {
+    "6H": 0.8999999999999999,
+    "density_decay_rate_far": 0.8999668805598802,
+    "proper_density_far": 0.07746383890632404
+   },
+   "III": {
+    "6H": 1.7999999999999998,
+    "density_decay_rate_far": 1.7998555661805522,
+    "proper_density_far": 0.4344737195479341
+   }
+  }
+ },
+ "K6": {
+  "hellmann_feynman_domega_dmuL": 0.15724272550828775,
+  "kappa_H": -0.3,
+  "linear_estimate_muL": -0.8571428571428572,
+  "relative_difference": 2.6999179493766798e-05,
+  "rhoL0_fold": 0.15723848008371766,
+  "sign_of_kappa_H": "negative: c_Phi < 0 (mu_L0 < 0) and rho_hat_L0(0) > 0",
+  "solution": {
+   "E_int_per_particle": 0.007883467829031503,
+   "G": 0.1,
+   "capped": false,
+   "converged": true,
+   "density_decay_rate_far": 0.8063431409184258,
+   "energy_per_particle": 0.9072409415909395,
+   "iterations": 12,
+   "krein_charges_16": [
+    -1.0000000000000002,
+    -1.0000000000000002,
+    -1.0000000000000004,
+    -1.0000000000000004
+   ],
+   "krein_eig": [
+    -1.0418982507257364
+   ],
+   "krein_offdiagonal_16": 3.4490979145972925e-17,
+   "mean_field_norm_max": 0.07359244483832018,
+   "muL": -0.8746808404456875,
+   "omega": 0.915124409419971,
+   "pressure_over_energy": 0.008689497428551933,
+   "proper_density_far": 2.0213767983434512e-13,
+   "residual_KS_ode_16": 5.061693746496187e-05,
+   "residual_fold_matching_16": 5.467968845652424e-16,
+   "residual_selfconsistency": 8.010814898537789e-10,
+   "rhoL_fold": 0.23994665489188055,
+   "singular_values": [
+    3.0598214543597143e-16,
+    0.009478920193355224,
+    1.4100423563743145,
+    1.4142135623761083
+   ]
+  },
+  "trapezoid_normalisation_error": 2.6999999999999996e-05,
+  "without_feedback_omega": 0.9672351868244788
+ },
+ "K7": {
+  "I": [
+   [
+    1e-06,
+    7.154589354018005e-08
+   ],
+   [
+    1e-05,
+    7.154562907439586e-07
+   ],
+   [
+    0.0001,
+    7.154298438292143e-06
+   ],
+   [
+    0.001,
+    7.151653411789478e-05
+   ],
+   [
+    0.01,
+    0.0007125170943861485
+   ],
+   [
+    0.1,
+    0.0068586861614354094
+   ],
+   [
+    1.0,
+    0.05564092088838113
+   ]
+  ],
+  "II": [
+   [
+    1e-06,
+    2.145979384022583e-07
+   ],
+   [
+    1e-05,
+    2.14386710067966e-06
+   ],
+   [
+    0.0001,
+    2.130880631647468e-05
+   ],
+   [
+    0.001,
+    0.00020709519144062948
+   ],
+   [
+    0.01,
+    0.0019022432778658077
+   ],
+   [
+    0.1,
+    0.016497568856693796
+   ],
+   [
+    1.0,
+    0.13691123913321812
+   ]
+  ],
+  "III": [
+   [
+    1e-06,
+    4.68579664594655e-05
+   ],
+   [
+    1e-05,
+    0.00015258435521408733
+   ],
+   [
+    0.0001,
+    0.0005156091531409939
+   ],
+   [
+    0.001,
+    0.001874192099119314
+   ],
+   [
+    0.01,
+    0.007731451461707795
+   ],
+   [
+    0.1,
+    0.03819808690215032
+   ],
+   [
+    1.0,
+    0.2244031396676041
+   ]
+  ]
+ },
+ "K8": {
+  "I": {
+   "6H": 0.30000000000000004,
+   "G_omega_equals_mPsi": 0.37090712457815606,
+   "decay_rate_far_above_threshold": [
+    0.3001605838755354,
+    0.3000273045609509,
+    0.3000053265666308,
+    0.30000116179746644,
+    0.30000027780371646,
+    0.3000000715865837,
+    0.300000020464272,
+    0.30000000558577083,
+    0.3000000031663782,
+    0.29999999974997926,
+    0.30000000014811645,
+    0.30000000011443567,
+    0.29999999907755825
+   ],
+   "largest_relative_deviation_from_6H": 0.0005352795851178611,
+   "omega_at_G1": 1.0703931753353813,
+   "omega_where_free_decay_rate_is_3H": 0.9886859966642595
+  },
+  "II": {
+   "6H": 0.8999999999999999,
+   "G_omega_equals_mPsi": 0.14244330426161603,
+   "decay_rate_far_above_threshold": [
+    0.8999999906373723,
+    0.8999999973797905,
+    0.9000000011430878,
+    0.8999999996926782,
+    0.9000000002296709,
+    0.9000000007784301,
+    0.9000000007462212,
+    0.9000000002777355,
+    0.9000000006105182,
+    0.8999999995362771
+   ],
+   "largest_relative_deviation_from_6H": 1.0402919513473485e-08,
+   "omega_at_G1": 1.259734434460411,
+   "omega_where_free_decay_rate_is_3H": 0.8930285549745877
+  }
+ },
+ "K9": {
+  "H": 0.002,
+  "c_b_squared": 1.0714285714285714,
+  "first_order_dw_over_G": 0.012489040340408823,
+  "krein_negative_orbitals": 4,
+  "muL": -0.06,
+  "omega_16": 0.999549898704412,
+  "omega_b_FE40": 0.9995498987044118,
+  "q_b": 0.03,
+  "q_b_over_omega_b": 0.03001350911933976,
+  "rows": [
+   {
+    "E_int_per_particle": 6.239791911730034e-07,
+    "G": 0.0001,
+    "capped": false,
+    "converged": true,
+    "density_decay_rate_far": 0.059916769179983474,
+    "energy_per_particle": 0.9995505228825965,
+    "iterations": 6,
+    "krein_charges_16": [
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002
+    ],
+    "krein_eig": [
+     -16.66973229885929
+    ],
+    "krein_offdiagonal_16": 4.155150786604485e-17,
+    "mean_field_norm_max": 5.656328720524917e-06,
+    "muL": -0.06,
+    "omega": 0.9995511468617877,
+    "pressure_over_energy": 6.242597816601749e-07,
+    "proper_density_far": 4.282038413137114e-15,
+    "ratio_to_first_order": 0.9994021493075594,
+    "residual_KS_ode_16": 9.472972160148322e-06,
+    "residual_fold_matching_16": 4.689535645510668e-16,
+    "residual_selfconsistency": 2.3344400512647382e-11,
+    "rhoL_fold": 0.014997241438430746,
+    "singular_values": [
+     3.3740775921111016e-16,
+     9.814170326241637e-06,
+     1.4142132679139623,
+     1.414213562373095
+    ]
+   },
+   {
+    "E_int_per_particle": 6.197229807320973e-06,
+    "G": 0.001,
+    "capped": false,
+    "converged": true,
+    "density_decay_rate_far": 0.059166732291761545,
+    "energy_per_particle": 0.9995561192104853,
+    "iterations": 6,
+    "krein_charges_16": [
+     -1.0,
+     -1.0,
+     -1.0,
+     -1.0
+    ],
+    "krein_eig": [
+     -16.762596446361826
+    ],
+    "krein_offdiagonal_16": 4.109731507001622e-17,
+    "mean_field_norm_max": 5.624992874258201e-05,
+    "muL": -0.06,
+    "omega": 0.9995623164402926,
+    "pressure_over_energy": 6.1999818601640396e-06,
+    "proper_density_far": 5.764847769885722e-14,
+    "ratio_to_first_order": 0.9942906374166657,
+    "residual_KS_ode_16": 1.0349345097407624e-05,
+    "residual_fold_matching_16": 2.897193896660887e-16,
+    "residual_selfconsistency": 1.6848648182288845e-11,
+    "rhoL_fold": 0.01491415729060638,
+    "singular_values": [
+     2.237243060785571e-16,
+     9.793608398112398e-05,
+     1.4142106209025291,
+     1.4142135623730956
+    ]
+   },
+   {
+    "E_int_per_particle": 5.770788423286266e-05,
+    "G": 0.01,
+    "capped": false,
+    "converged": true,
+    "density_decay_rate_far": 0.051556836163689466,
+    "energy_per_particle": 0.9996099734834025,
+    "iterations": 9,
+    "krein_charges_16": [
+     -1.0000000000000004,
+     -1.0000000000000004,
+     -1.0000000000000002,
+     -1.0000000000000002
+    ],
+    "krein_eig": [
+     -17.751257105669985
+    ],
+    "krein_offdiagonal_16": 3.818076011317395e-17,
+    "mean_field_norm_max": 0.0005311707503580761,
+    "muL": -0.06,
+    "omega": 0.9996676813676354,
+    "pressure_over_energy": 5.7730400619918225e-05,
+    "proper_density_far": 1.1491226425362672e-11,
+    "ratio_to_first_order": 0.943088179822008,
+    "residual_KS_ode_16": 1.8579304188551412e-05,
+    "residual_fold_matching_16": 1.0410328430205e-15,
+    "residual_selfconsistency": 6.15341638833003e-12,
+    "rhoL_fold": 0.014083509607899634,
+    "singular_values": [
+     7.50738105879279e-16,
+     0.000957455528157561,
+     1.4141845148890673,
+     1.4142135623730991
+    ]
+   }
+  ]
+ },
+ "muL": -0.6,
+ "muR": 0.0,
+ "regimes": {
+  "I": {
+   "3H": 0.15000000000000002,
+   "3H/2": 0.07500000000000001,
+   "H": 0.05,
+   "q_b": 0.3
+  },
+  "II": {
+   "3H": 0.44999999999999996,
+   "3H/2": 0.22499999999999998,
+   "H": 0.15,
+   "q_b": 0.3
+  },
+  "III": {
+   "3H": 0.8999999999999999,
+   "3H/2": 0.44999999999999996,
+   "H": 0.3,
+   "q_b": 0.3
+  }
+ },
+ "results": {
+  "I": {
+   "H": 0.05,
+   "L": 60.0,
+   "continuation_path": [
+    {
+     "G": 1e-06,
+     "converged": true,
+     "iterations": 4,
+     "omega": 0.9539393379141468,
+     "reason": null
+    },
+    {
+     "G": 1e-05,
+     "converged": true,
+     "iterations": 4,
+     "omega": 0.9539405663858334,
+     "reason": null
+    },
+    {
+     "G": 0.0001,
+     "converged": true,
+     "iterations": 5,
+     "omega": 0.9539528507933349,
+     "reason": null
+    },
+    {
+     "G": 0.001,
+     "converged": true,
+     "iterations": 6,
+     "omega": 0.9540756639240919,
+     "reason": null
+    },
+    {
+     "G": 0.01,
+     "converged": true,
+     "iterations": 7,
+     "omega": 0.9553006933422855,
+     "reason": null
+    },
+    {
+     "G": 0.1,
+     "converged": true,
+     "iterations": 10,
+     "omega": 0.9672351868244788,
+     "reason": null
+    },
+    {
+     "G": 0.15,
+     "converged": true,
+     "iterations": 10,
+     "omega": 0.9736150881470806,
+     "reason": null
+    },
+    {
+     "G": 0.2,
+     "converged": true,
+     "iterations": 12,
+     "omega": 0.9798215663304526,
+     "reason": null
+    },
+    {
+     "G": 0.25,
+     "converged": true,
+     "iterations": 11,
+     "omega": 0.9858694654708279,
+     "reason": null
+    },
+    {
+     "G": 0.3,
+     "converged": true,
+     "iterations": 15,
+     "omega": 0.9917846212024335,
+     "reason": null
+    },
+    {
+     "G": 0.35,
+     "converged": true,
+     "iterations": 21,
+     "omega": 0.997599007037995,
+     "reason": null
+    },
+    {
+     "G": 0.4,
+     "converged": true,
+     "iterations": 23,
+     "omega": 1.0033410519400319,
+     "reason": null
+    },
+    {
+     "G": 0.45,
+     "converged": true,
+     "iterations": 29,
+     "omega": 1.0090314995146732,
+     "reason": null
+    },
+    {
+     "G": 0.5,
+     "converged": true,
+     "iterations": 29,
+     "omega": 1.014684581330616,
+     "reason": null
+    },
+    {
+     "G": 0.55,
+     "converged": true,
+     "iterations": 38,
+     "omega": 1.020310058657887,
+     "reason": null
+    },
+    {
+     "G": 0.6,
+     "converged": true,
+     "iterations": 37,
+     "omega": 1.0259147542196683,
+     "reason": null
+    },
+    {
+     "G": 0.65,
+     "converged": true,
+     "iterations": 44,
+     "omega": 1.0315035486161572,
+     "reason": null
+    },
+    {
+     "G": 0.7,
+     "converged": true,
+     "iterations": 47,
+     "omega": 1.0370800132057647,
+     "reason": null
+    },
+    {
+     "G": 0.75,
+     "converged": true,
+     "iterations": 50,
+     "omega": 1.0426468160292766,
+     "reason": null
+    },
+    {
+     "G": 0.8,
+     "converged": true,
+     "iterations": 97,
+     "omega": 1.0482059873119156,
+     "reason": null
+    },
+    {
+     "G": 0.85,
+     "converged": true,
+     "iterations": 120,
+     "omega": 1.0537590974430484,
+     "reason": null
+    },
+    {
+     "G": 0.9,
+     "converged": true,
+     "iterations": 48,
+     "omega": 1.0593073783433211,
+     "reason": null
+    },
+    {
+     "G": 0.95,
+     "converged": true,
+     "iterations": 45,
+     "omega": 1.0648518088642889,
+     "reason": null
+    },
+    {
+     "G": 1.0,
+     "converged": true,
+     "iterations": 42,
+     "omega": 1.0703931753353813,
+     "reason": null
+    }
+   ],
+   "first_order_dw_over_G": 0.13650092115986298,
+   "h": 0.03,
+   "negative_G": [
+    {
+     "E_int_per_particle": -6.82527753924012e-06,
+     "G": -0.0001,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.600086801963196,
+     "energy_per_particle": 0.9539323766236936,
+     "iterations": 5,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.5898876734699785
+     ],
+     "krein_offdiagonal_16": 3.79168264493812e-17,
+     "mean_field_norm_max": 5.4114265140111144e-05,
+     "muL": -0.6,
+     "omega": 0.9539255513461543,
+     "pressure_over_energy": -7.154886139201195e-06,
+     "proper_density_far": -6.458845027407861e-12,
+     "residual_KS_ode_16": 1.3489235732032252e-05,
+     "residual_fold_matching_16": 2.755683300163318e-16,
+     "residual_selfconsistency": 7.322602273362444e-11,
+     "rhoL_fold": 0.15724381298860393,
+     "singular_values": [
+      7.750950307965193e-17,
+      1.1242229381559259e-05,
+      1.4142135623730963,
+      1.414216935001247
+     ]
+    },
+    {
+     "E_int_per_particle": -0.0006848129135237401,
+     "G": -0.01,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.6086343261274608,
+     "energy_per_particle": 0.9532555786927847,
+     "iterations": 7,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.584579894696337
+     ],
+     "krein_offdiagonal_16": 4.006646371566331e-17,
+     "mean_field_norm_max": 0.005429552866575805,
+     "muL": -0.6,
+     "omega": 0.9525707657792609,
+     "pressure_over_energy": -0.0007183938167588125,
+     "proper_density_far": -4.32160843540907e-10,
+     "residual_KS_ode_16": 1.2424931451514123e-05,
+     "residual_fold_matching_16": 2.0963247388218002e-16,
+     "residual_selfconsistency": 3.368670135794381e-12,
+     "rhoL_fold": 0.1577705238068219,
+     "singular_values": [
+      7.508928583179425e-17,
+      0.0011259490806986665,
+      1.4142135623730987,
+      1.4145509392158502
+     ]
+    }
+   ],
+   "positive_G": [
+    {
+     "E_int_per_particle": 6.825043743115686e-08,
+     "G": 1e-06,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.5999991319000909,
+     "energy_per_particle": 0.9539392696637093,
+     "first_order_prediction": 0.9539393379178668,
+     "iterations": 4,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5899421354046308
+     ],
+     "krein_offdiagonal_16": 3.704013027300037e-17,
+     "mean_field_norm_max": 5.411241153014396e-07,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539393379141468,
+     "pressure_over_energy": 7.154589354018005e-08,
+     "proper_density_far": 6.485483402357823e-14,
+     "residual_KS_ode_16": 1.3500108067796573e-05,
+     "residual_fold_matching_16": 2.9698676302907097e-16,
+     "residual_selfconsistency": 1.6196121745638155e-09,
+     "rhoL_fold": 0.1572384267534218,
+     "singular_values": [
+      3.043034143154861e-16,
+      1.1242051972346214e-07,
+      1.414213528646935,
+      1.414213562373095
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 6.825022909160419e-07,
+     "G": 1e-05,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.5999913192517615,
+     "energy_per_particle": 0.9539398838835424,
+     "first_order_prediction": 0.9539405664261572,
+     "iterations": 4,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.589946988753088
+     ],
+     "krein_offdiagonal_16": 4.27286801412379e-17,
+     "mean_field_norm_max": 5.411224650182496e-06,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539405663858334,
+     "pressure_over_energy": 7.154562907439586e-07,
+     "proper_density_far": 6.487862566535801e-13,
+     "residual_KS_ode_16": 1.3501076903968169e-05,
+     "residual_fold_matching_16": 1.7145382634060795e-16,
+     "residual_selfconsistency": 1.7194852418919442e-09,
+     "rhoL_fold": 0.1572379467796357,
+     "singular_values": [
+      1.5431348691393976e-17,
+      1.1242036079178822e-06,
+      1.4142132251116093,
+      1.4142135623730987
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 6.824814563874918e-06,
+     "G": 0.0001,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.5999131885868787,
+     "energy_per_particle": 0.9539460259787711,
+     "first_order_prediction": 0.9539528515090616,
+     "iterations": 5,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.5899955249803706
+     ],
+     "krein_offdiagonal_16": 3.715498347435791e-17,
+     "mean_field_norm_max": 5.411059454403805e-05,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539528507933349,
+     "pressure_over_energy": 7.154298438292143e-06,
+     "proper_density_far": 6.511702980916224e-12,
+     "residual_KS_ode_16": 1.3510765400246304e-05,
+     "residual_fold_matching_16": 4.721542285004551e-16,
+     "residual_selfconsistency": 7.187018782300962e-10,
+     "rhoL_fold": 0.15723314693170998,
+     "singular_values": [
+      3.124189428600828e-16,
+      1.1241877902411584e-05,
+      1.4142101897690558,
+      1.414213562373087
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 6.822730538966676e-05,
+     "G": 0.001,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.599131463258963,
+     "energy_per_particle": 0.9540074366187022,
+     "first_order_prediction": 0.9540757023381056,
+     "iterations": 6,
+     "krein_charges_16": [
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999
+     ],
+     "krein_eig": [
+      -1.5904811614406418
+     ],
+     "krein_offdiagonal_16": 4.31836887664148e-17,
+     "mean_field_norm_max": 0.000540940723998311,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9540756639240919,
+     "pressure_over_energy": 7.151653411789478e-05,
+     "proper_density_far": 6.755077949521538e-11,
+     "residual_KS_ode_16": 1.3607662286685363e-05,
+     "residual_fold_matching_16": 4.900524207804486e-16,
+     "residual_selfconsistency": 2.7745991501185412e-11,
+     "rhoL_fold": 0.15718513746717527,
+     "singular_values": [
+      1.347401437314583e-16,
+      0.00011240294874947269,
+      1.4141798374235537,
+      1.414213562373096
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.0006801834319627267,
+     "G": 0.01,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.591271803101991,
+     "energy_per_particle": 0.9546205099103228,
+     "first_order_prediction": 0.9553042106285443,
+     "iterations": 7,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.595364855367415
+     ],
+     "krein_offdiagonal_16": 4.019286969837476e-17,
+     "mean_field_norm_max": 0.005392848087403451,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9553006933422855,
+     "pressure_over_energy": 0.0007125170943861485,
+     "proper_density_far": 9.763968995025773e-10,
+     "residual_KS_ode_16": 1.4577787938693053e-05,
+     "residual_fold_matching_16": 5.056056475208415e-16,
+     "residual_selfconsistency": 1.0469294746681518e-10,
+     "rhoL_fold": 0.15670396596672226,
+     "singular_values": [
+      1.6072046882939704e-16,
+      0.0011224341867776173,
+      1.413876426778212,
+      1.4142135623730971
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.006588772269540499,
+     "G": 0.1,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.5077660110047018,
+     "energy_per_particle": 0.9606464145549384,
+     "first_order_prediction": 0.967589293532932,
+     "iterations": 10,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.6467921646628079
+     ],
+     "krein_offdiagonal_16": 3.532541949259994e-17,
+     "mean_field_norm_max": 0.052244360247342685,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9672351868244788,
+     "pressure_over_energy": 0.0068586861614354094,
+     "proper_density_far": 4.5410359476661716e-07,
+     "residual_KS_ode_16": 2.434910786418278e-05,
+     "residual_fold_matching_16": 3.303078233532052e-16,
+     "residual_selfconsistency": 5.477787474658082e-11,
+     "rhoL_fold": 0.15181029237602012,
+     "singular_values": [
+      1.0256778975800332e-16,
+      0.01105226871237108,
+      1.410858580606038,
+      1.4142135623739194
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.009704289991241361,
+     "G": 0.15,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.4564251640836134,
+     "energy_per_particle": 0.9639107981558392,
+     "first_order_prediction": 0.974414339590925,
+     "iterations": 10,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.6771065645991636
+     ],
+     "krein_offdiagonal_16": 4.315322518585222e-17,
+     "mean_field_norm_max": 0.07695003263535412,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9736150881470806,
+     "pressure_over_energy": 0.010067622449927602,
+     "proper_density_far": 6.519218006120675e-06,
+     "residual_KS_ode_16": 2.97855896683661e-05,
+     "residual_fold_matching_16": 7.116617126160113e-16,
+     "residual_selfconsistency": 1.1990274833081228e-09,
+     "rhoL_fold": 0.14906625808822788,
+     "singular_values": [
+      2.977145744824506e-16,
+      0.016420137209752737,
+      1.4092007724717428,
+      1.4142135623985441
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.01270550599281036,
+     "G": 0.2,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.400277903522577,
+     "energy_per_particle": 0.9671160603376422,
+     "first_order_prediction": 0.9812393856489182,
+     "iterations": 12,
+     "krein_charges_16": [
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000004
+     ],
+     "krein_eig": [
+      -1.7081871054422524
+     ],
+     "krein_offdiagonal_16": 4.011852433122976e-17,
+     "mean_field_norm_max": 0.10073323093942547,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9798215663304526,
+     "pressure_over_energy": 0.013137519387667473,
+     "proper_density_far": 8.787987728491564e-05,
+     "residual_KS_ode_16": 3.51955686114285e-05,
+     "residual_fold_matching_16": 8.615044202093643e-16,
+     "residual_selfconsistency": 7.227181175549698e-11,
+     "rhoL_fold": 0.14635399085000977,
+     "singular_values": [
+      4.4315535353904704e-16,
+      0.021669264594730453,
+      1.4075617026585814,
+      1.4142135623731742
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.015605167472937111,
+     "G": 0.25,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.34262084038104995,
+     "energy_per_particle": 0.9702642979978907,
+     "first_order_prediction": 0.9880644317069114,
+     "iterations": 11,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.7393727741449623
+     ],
+     "krein_offdiagonal_16": 4.075627709758482e-17,
+     "mean_field_norm_max": 0.12365894817754786,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9858694654708279,
+     "pressure_over_energy": 0.016083419234468252,
+     "proper_density_far": 0.0009581041181992908,
+     "residual_KS_ode_16": 4.056886444092049e-05,
+     "residual_fold_matching_16": 1.0395580799244737e-15,
+     "residual_selfconsistency": 3.379864720124319e-10,
+     "rhoL_fold": 0.1437299719278949,
+     "singular_values": [
+      6.612444153313857e-16,
+      0.026792661438672358,
+      1.4059447896887682,
+      1.4142135623777163
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.018425014545146084,
+     "G": 0.3,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.30828761047669895,
+     "energy_per_particle": 0.9733596066572874,
+     "first_order_prediction": 0.9948894777649046,
+     "iterations": 15,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.7697816701335651
+     ],
+     "krein_offdiagonal_16": 4.0821911444541485e-17,
+     "mean_field_norm_max": 0.14584104702990533,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9917846212024335,
+     "pressure_over_energy": 0.01892929850296674,
+     "proper_density_far": 0.005035128884962186,
+     "residual_KS_ode_16": 4.5911996208736416e-05,
+     "residual_fold_matching_16": 1.2643476639562867e-15,
+     "residual_selfconsistency": 4.956269939763329e-09,
+     "rhoL_fold": 0.1412603623480473,
+     "singular_values": [
+      6.147728672834662e-16,
+      0.03178781223166832,
+      1.4043520809750252,
+      1.4142135625931784
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.021191028292576655,
+     "G": 0.35,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.30110462401472177,
+     "energy_per_particle": 0.9764079787454183,
+     "first_order_prediction": 1.0017145238228977,
+     "iterations": 21,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.798585383243015
+     ],
+     "krein_offdiagonal_16": 3.955018527041369e-17,
+     "mean_field_norm_max": 0.1674230279154736,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.997599007037995,
+     "pressure_over_energy": 0.021703047039624668,
+     "proper_density_far": 0.011893108427589158,
+     "residual_KS_ode_16": 5.124259135146093e-05,
+     "residual_fold_matching_16": 6.637878950948058e-16,
+     "residual_selfconsistency": 2.1468195212642087e-10,
+     "rhoL_fold": 0.13899812726667815,
+     "singular_values": [
+      5.154499071585877e-16,
+      0.036655618614603154,
+      1.4027845183921963,
+      1.4142135623729286
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.023924781295873644,
+     "G": 0.4,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.3001605838755354,
+     "energy_per_particle": 0.9794162706441583,
+     "first_order_prediction": 1.0085395698808908,
+     "iterations": 23,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.8253216680994657
+     ],
+     "krein_offdiagonal_16": 4.2753745157925955e-17,
+     "mean_field_norm_max": 0.1885379543530157,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0033410519400319,
+     "pressure_over_energy": 0.02442759224342721,
+     "proper_density_far": 0.019345015724719677,
+     "residual_KS_ode_16": 5.6583621354387054e-05,
+     "residual_fold_matching_16": 1.032756021088916e-15,
+     "residual_selfconsistency": 2.6216680012641767e-09,
+     "rhoL_fold": 0.13696216089972849,
+     "singular_values": [
+      7.068504534751546e-16,
+      0.041397245675004454,
+      1.401242916103057,
+      1.414213562481666
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.026640472415790768,
+     "G": 0.45,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.3000273045609509,
+     "energy_per_particle": 0.9823910270988824,
+     "first_order_prediction": 1.015364615938884,
+     "iterations": 29,
+     "krein_charges_16": [
+      -0.9999999999999996,
+      -0.9999999999999996,
+      -0.9999999999999996,
+      -0.9999999999999996
+     ],
+     "krein_eig": [
+      -1.8498825858591
+     ],
+     "krein_offdiagonal_16": 3.589004465357444e-17,
+     "mean_field_norm_max": 0.20928907438985803,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0090314995146732,
+     "pressure_over_energy": 0.027117992409258107,
+     "proper_density_far": 0.026830702036344443,
+     "residual_KS_ode_16": 6.195274234470676e-05,
+     "residual_fold_matching_16": 4.537913821999872e-16,
+     "residual_selfconsistency": 8.625859499092187e-10,
+     "rhoL_fold": 0.13514371231506986,
+     "singular_values": [
+      7.264092829006466e-17,
+      0.046013548454245476,
+      1.399728144346321,
+      1.4142135623691894
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.029346675336715485,
+     "G": 0.5,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.3000053265666308,
+     "energy_per_particle": 0.9853379059939005,
+     "first_order_prediction": 1.022189661996877,
+     "iterations": 29,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.8723551385509407
+     ],
+     "krein_offdiagonal_16": 3.751152895328152e-17,
+     "mean_field_norm_max": 0.22975236701777926,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.014684581330616,
+     "pressure_over_energy": 0.029783361787054957,
+     "proper_density_far": 0.034283338761913904,
+     "residual_KS_ode_16": 6.736476648723765e-05,
+     "residual_fold_matching_16": 2.8547532502183602e-16,
+     "residual_selfconsistency": 9.865741945478049e-09,
+     "rhoL_fold": 0.13352167804740275,
+     "singular_values": [
+      6.601274832005711e-17,
+      0.050505914979922815,
+      1.3982408557981723,
+      1.4142135616214542
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.03204847426415941,
+     "G": 0.55,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.30000116179746644,
+     "energy_per_particle": 0.9882615843937277,
+     "first_order_prediction": 1.0290147080548704,
+     "iterations": 38,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.8929060618023348
+     ],
+     "krein_offdiagonal_16": 4.438342378039349e-17,
+     "mean_field_norm_max": 0.24998378224893128,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.020310058657887,
+     "pressure_over_energy": 0.032429140998959605,
+     "proper_density_far": 0.04170310336009118,
+     "residual_KS_ode_16": 7.282624047700964e-05,
+     "residual_fold_matching_16": 1.0978327908306607e-15,
+     "residual_selfconsistency": 4.836496264429708e-09,
+     "rhoL_fold": 0.13207205843165856,
+     "singular_values": [
+      6.26881931541501e-16,
+      0.054876627591725985,
+      1.3967813591974971,
+      1.4142135623426175
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.03474889145112971,
+     "G": 0.6,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.30000027780371646,
+     "energy_per_particle": 0.9911658627685386,
+     "first_order_prediction": 1.0358397541128634,
+     "iterations": 37,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.9117232562910451
+     ],
+     "krein_offdiagonal_16": 4.183660155454481e-17,
+     "mean_field_norm_max": 0.2700252859917638,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0259147542196683,
+     "pressure_over_energy": 0.035058603969741864,
+     "proper_density_far": 0.04909683641774526,
+     "residual_KS_ode_16": 7.834923372341132e-05,
+     "residual_fold_matching_16": 4.3247858825196385e-16,
+     "residual_selfconsistency": 3.3224741170855993e-09,
+     "rhoL_fold": 0.13077206608085495,
+     "singular_values": [
+      3.034243162799919e-16,
+      0.05912877452076168,
+      1.39534963347362,
+      1.4142135623313057
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.03744973133154212,
+     "G": 0.65,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.3000000715865837,
+     "energy_per_particle": 0.9940538172846151,
+     "first_order_prediction": 1.0426648001708565,
+     "iterations": 44,
+     "krein_charges_16": [
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999
+     ],
+     "krein_eig": [
+      -1.9289896984091532
+     ],
+     "krein_offdiagonal_16": 4.281161886492825e-17,
+     "mean_field_norm_max": 0.28990897216286526,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0315035486161572,
+     "pressure_over_energy": 0.03767374631067848,
+     "proper_density_far": 0.056470548050023085,
+     "residual_KS_ode_16": 8.39377891823887e-05,
+     "residual_fold_matching_16": 4.0887584424466263e-16,
+     "residual_selfconsistency": 3.5931110628461663e-09,
+     "rhoL_fold": 0.1296015215665361,
+     "singular_values": [
+      2.0440028330710233e-16,
+      0.06326601776556981,
+      1.3939454029086564,
+      1.4142135624126233
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.04015206916360285,
+     "G": 0.7,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.300000020464272,
+     "energy_per_particle": 0.9969279440421619,
+     "first_order_prediction": 1.0494898462288498,
+     "iterations": 47,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.9448731725894102
+     ],
+     "krein_offdiagonal_16": 3.6944267584657087e-17,
+     "mean_field_norm_max": 0.3096598974123518,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0370800132057647,
+     "pressure_over_energy": 0.04027579867086638,
+     "proper_density_far": 0.06382884464725753,
+     "residual_KS_ode_16": 8.959741546703941e-05,
+     "residual_fold_matching_16": 6.002793749024058e-16,
+     "residual_selfconsistency": 5.224134192740033e-09,
+     "rhoL_fold": 0.12854308626569572,
+     "singular_values": [
+      4.877264123095242e-16,
+      0.06729236525224777,
+      1.392568207664856,
+      1.4142135626694812
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.04285653629139416,
+     "G": 0.75,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.30000000558577083,
+     "energy_per_particle": 0.9997902797378824,
+     "first_order_prediction": 1.0563148922868428,
+     "iterations": 50,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.9595232849016937
+     ],
+     "krein_offdiagonal_16": 4.2539942738939024e-17,
+     "mean_field_norm_max": 0.3292979644332437,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0426468160292766,
+     "pressure_over_energy": 0.04286552606075543,
+     "proper_density_far": 0.07117520629335637,
+     "residual_KS_ode_16": 9.532989445000181e-05,
+     "residual_fold_matching_16": 1.0858028308115885e-15,
+     "residual_selfconsistency": 5.485697671400843e-09,
+     "rhoL_fold": 0.12758205116838192,
+     "singular_values": [
+      7.510558493603241e-16,
+      0.07121199030477053,
+      1.3912174647681854,
+      1.4142135627439512
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.045563489794082326,
+     "G": 0.8,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.3000000031663782,
+     "energy_per_particle": 1.0026424975178332,
+     "first_order_prediction": 1.063139938344836,
+     "iterations": 97,
+     "krein_charges_16": [
+      -0.9999999999999997,
+      -0.9999999999999997,
+      -0.9999999999999997,
+      -0.9999999999999997
+     ],
+     "krein_eig": [
+      -1.9730716637010715
+     ],
+     "krein_offdiagonal_16": 3.9805537720458436e-17,
+     "mean_field_norm_max": 0.34883926315527525,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0482059873119156,
+     "pressure_over_energy": 0.0454434057072989,
+     "proper_density_far": 0.0785122939056123,
+     "residual_KS_ode_16": 0.00010114246864665968,
+     "residual_fold_matching_16": 3.3651144362822725e-16,
+     "residual_selfconsistency": 2.288542536695936e-08,
+     "rhoL_fold": 0.12670599076498593,
+     "singular_values": [
+      1.3171337475296733e-17,
+      0.07502910161016932,
+      1.3898925160827327,
+      1.4142135651689072
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.048273115230135166,
+     "G": 0.85,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.29999999974997926,
+     "energy_per_particle": 1.0054859822129132,
+     "first_order_prediction": 1.0699649844028292,
+     "iterations": 120,
+     "krein_charges_16": [
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999
+     ],
+     "krein_eig": [
+      -1.9856334515017462
+     ],
+     "krein_offdiagonal_16": 4.1128257207248155e-17,
+     "mean_field_norm_max": 0.36829691655586433,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0537590974430484,
+     "pressure_over_energy": 0.048009734679636,
+     "proper_density_far": 0.0858421561021696,
+     "residual_KS_ode_16": 0.00010703240205678144,
+     "residual_fold_matching_16": 3.259732042376261e-12,
+     "residual_selfconsistency": 6.958791847478647e-08,
+     "rhoL_fold": 0.12590440587652263,
+     "singular_values": [
+      2.304978619914157e-12,
+      0.0787478552143092,
+      1.3885926560571518,
+      1.4142135657569008
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.050985490349077386,
+     "G": 0.9,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.30000000014811645,
+     "energy_per_particle": 1.0083218879942437,
+     "first_order_prediction": 1.0767900304608224,
+     "iterations": 48,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.9973091814634278
+     ],
+     "krein_offdiagonal_16": 4.140235332391941e-17,
+     "mean_field_norm_max": 0.38768180818197084,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.0593073783433211,
+     "pressure_over_energy": 0.05056469660744729,
+     "proper_density_far": 0.09316642080138057,
+     "residual_KS_ode_16": 0.00011299869512845742,
+     "residual_fold_matching_16": 1.6116396534713593e-10,
+     "residual_selfconsistency": 1.1074377913322464e-08,
+     "rhoL_fold": 0.1251684027291687,
+     "singular_values": [
+      1.1396013280288365e-10,
+      0.08237229664371301,
+      1.3873171608508328,
+      1.414213562683076
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.053700624741627095,
+     "G": 0.95,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.30000000011443567,
+     "energy_per_particle": 1.0111511841226617,
+     "first_order_prediction": 1.0836150765188155,
+     "iterations": 45,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000004,
+      -1.0000000000000004
+     ],
+     "krein_eig": [
+      -2.008186696356711
+     ],
+     "krein_offdiagonal_16": 3.926311764959004e-17,
+     "mean_field_norm_max": 0.40700311876633677,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.0648518088642889,
+     "pressure_over_energy": 0.05310840315953458,
+     "proper_density_far": 0.10048635052211922,
+     "residual_KS_ode_16": 0.00011905160338831012,
+     "residual_fold_matching_16": 7.10303687675843e-12,
+     "residual_selfconsistency": 5.5875328470266556e-09,
+     "rhoL_fold": 0.12449041737673913,
+     "singular_values": [
+      5.022605548430001e-12,
+      0.08590632583126817,
+      1.3860653079352436,
+      1.4142135633881434
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.056418485499953805,
+     "G": 1.0,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.29999999907755825,
+     "energy_per_particle": 1.0139746898354274,
+     "first_order_prediction": 1.0904401225768086,
+     "iterations": 42,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -2.0183428843486144
+     ],
+     "krein_offdiagonal_16": 3.975319035381424e-17,
+     "mean_field_norm_max": 0.42626857417428854,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.0703931753353813,
+     "pressure_over_energy": 0.05564092088838113,
+     "proper_density_far": 0.10780297449496225,
+     "residual_KS_ode_16": 0.00012519538032479288,
+     "residual_fold_matching_16": 3.288268839736881e-11,
+     "residual_selfconsistency": 4.8356258571837484e-08,
+     "rhoL_fold": 0.12386398859113368,
+     "singular_values": [
+      2.3251572066162442e-11,
+      0.0893536774541666,
+      1.3848363789814204,
+      1.4142135694788402
+     ],
+     "target": true
+    }
+   ]
+  },
+  "II": {
+   "H": 0.15,
+   "L": 60.0,
+   "continuation_path": [
+    {
+     "G": 2.538329957452114e-09,
+     "converged": true,
+     "iterations": 11,
+     "omega": 0.9539392024563819,
+     "reason": null
+    },
+    {
+     "G": 7.614989872356341e-09,
+     "converged": true,
+     "iterations": 11,
+     "omega": 0.9539392045352515,
+     "reason": null
+    },
+    {
+     "G": 2.2844969617069025e-08,
+     "converged": true,
+     "iterations": 13,
+     "omega": 0.9539392107718391,
+     "reason": null
+    },
+    {
+     "G": 6.853490885120708e-08,
+     "converged": true,
+     "iterations": 14,
+     "omega": 0.9539392294814317,
+     "reason": null
+    },
+    {
+     "G": 2.0560472655362124e-07,
+     "converged": true,
+     "iterations": 15,
+     "omega": 0.9539392856088413,
+     "reason": null
+    },
+    {
+     "G": 6.168141796608637e-07,
+     "converged": true,
+     "iterations": 16,
+     "omega": 0.9539394539801959,
+     "reason": null
+    },
+    {
+     "G": 1e-06,
+     "converged": true,
+     "iterations": 20,
+     "omega": 0.9539396108638637,
+     "reason": null
+    },
+    {
+     "G": 3.162277660168379e-06,
+     "converged": true,
+     "iterations": 22,
+     "omega": 0.953940495931371,
+     "reason": null
+    },
+    {
+     "G": 1e-05,
+     "converged": true,
+     "iterations": 35,
+     "omega": 0.9539432927827685,
+     "reason": null
+    },
+    {
+     "G": 3.1622776601683795e-05,
+     "converged": true,
+     "iterations": 29,
+     "omega": 0.9539521214578602,
+     "reason": null
+    },
+    {
+     "G": 0.0001,
+     "converged": true,
+     "iterations": 46,
+     "omega": 0.9539799215836924,
+     "reason": null
+    },
+    {
+     "G": 0.000316227766016838,
+     "converged": true,
+     "iterations": 39,
+     "omega": 0.954067006754054,
+     "reason": null
+    },
+    {
+     "G": 0.001,
+     "converged": true,
+     "iterations": 42,
+     "omega": 0.9543372186796241,
+     "reason": null
+    },
+    {
+     "G": 0.0031622776601683794,
+     "converged": true,
+     "iterations": 37,
+     "omega": 0.9551635577202563,
+     "reason": null
+    },
+    {
+     "G": 0.01,
+     "converged": true,
+     "iterations": 42,
+     "omega": 0.9576479071543093,
+     "reason": null
+    },
+    {
+     "G": 0.0316227766016838,
+     "converged": true,
+     "iterations": 44,
+     "omega": 0.9650201309890498,
+     "reason": null
+    },
+    {
+     "G": 0.1,
+     "converged": true,
+     "iterations": 43,
+     "omega": 0.9868728629045463,
+     "reason": null
+    },
+    {
+     "G": 0.15,
+     "converged": true,
+     "iterations": 35,
+     "omega": 1.0023371832771302,
+     "reason": null
+    },
+    {
+     "G": 0.2,
+     "converged": true,
+     "iterations": 65,
+     "omega": 1.0176103779149566,
+     "reason": null
+    },
+    {
+     "G": 0.3,
+     "converged": true,
+     "iterations": 74,
+     "omega": 1.0478751125139092,
+     "reason": null
+    },
+    {
+     "G": 0.4,
+     "converged": true,
+     "iterations": 92,
+     "omega": 1.0779869065362524,
+     "reason": null
+    },
+    {
+     "G": 0.5,
+     "converged": true,
+     "iterations": 82,
+     "omega": 1.1080770854386448,
+     "reason": null
+    },
+    {
+     "G": 0.6,
+     "converged": true,
+     "iterations": 81,
+     "omega": 1.1382119969432667,
+     "reason": null
+    },
+    {
+     "G": 0.7,
+     "converged": true,
+     "iterations": 85,
+     "omega": 1.1684283780141396,
+     "reason": null
+    },
+    {
+     "G": 0.8,
+     "converged": true,
+     "iterations": 88,
+     "omega": 1.1987472637385501,
+     "reason": null
+    },
+    {
+     "G": 0.9,
+     "converged": true,
+     "iterations": 150,
+     "omega": 1.2291805439742076,
+     "reason": null
+    },
+    {
+     "G": 1.0,
+     "converged": true,
+     "iterations": 132,
+     "omega": 1.259734434460411,
+     "reason": null
+    }
+   ],
+   "first_order_dw_over_G": 0.4094913944425258,
+   "h": 0.02,
+   "negative_G": [
+    {
+     "G": -0.0001,
+     "converged": false,
+     "iterations": 13,
+     "reason": "no Krein-negative level within 0.05 of 0.953905789967"
+    },
+    {
+     "G": -0.01,
+     "converged": false,
+     "iterations": 20,
+     "reason": "no Krein-negative level within 0.05 of 0.949741472420"
+    }
+   ],
+   "positive_G": [
+    {
+     "E_int_per_particle": 5.197117857556354e-10,
+     "G": 2.538329957452114e-09,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.6240419175757577,
+     "energy_per_particle": 0.95393920193667,
+     "first_order_prediction": 0.95393920245637,
+     "iterations": 11,
+     "krein_charges_16": [
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000004
+     ],
+     "krein_eig": [
+      -1.589917728534929,
+      1.5899177150679702
+     ],
+     "krein_offdiagonal_16": 3.898831461606284e-17,
+     "mean_field_norm_max": 0.045550280418918024,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539392024563819,
+     "pressure_over_energy": 5.448059841764821e-10,
+     "proper_density_far": 0.002930089565194797,
+     "residual_KS_ode_16": 5.999999909195689e-06,
+     "residual_fold_matching_16": 8.798246058615214e-16,
+     "residual_selfconsistency": 1.3465159870675944e-11,
+     "rhoL_fold": 0.15724084052472886,
+     "singular_values": [
+      5.212669193491583e-16,
+      8.560911503129136e-10,
+      1.414213562116268,
+      1.414213562373095
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 1.5591334583292042e-09,
+     "G": 7.614989872356341e-09,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.6545689117503048,
+     "energy_per_particle": 0.953939202976118,
+     "first_order_prediction": 0.9539392045352185,
+     "iterations": 11,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5899176900384904,
+      1.589917649638114
+     ],
+     "krein_offdiagonal_16": 4.019190124053899e-17,
+     "mean_field_norm_max": 0.07487139155542114,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539392045352515,
+     "pressure_over_energy": 1.6344159601209274e-09,
+     "proper_density_far": 0.007662160841984794,
+     "residual_KS_ode_16": 5.999999702119329e-06,
+     "residual_fold_matching_16": 4.1997051930976293e-16,
+     "residual_selfconsistency": 5.790484380475684e-10,
+     "rhoL_fold": 0.15724084433197769,
+     "singular_values": [
+      5.227493562846828e-17,
+      2.568267043767827e-09,
+      1.4142135616026146,
+      1.4142135623730954
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 4.677384762971021e-09,
+     "G": 2.2844969617069025e-08,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.7044197940363492,
+     "energy_per_particle": 0.9539392060944543,
+     "first_order_prediction": 0.9539392107717641,
+     "iterations": 13,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999999,
+      -0.9999999999999999
+     ],
+     "krein_eig": [
+      -1.5899175745548888,
+      1.5899174533574294
+     ],
+     "krein_offdiagonal_16": 3.9248424205083315e-17,
+     "mean_field_norm_max": 0.10084101216969418,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539392107718391,
+     "pressure_over_energy": 4.90323149849435e-09,
+     "proper_density_far": 0.017286785373106732,
+     "residual_KS_ode_16": 5.999998921715601e-06,
+     "residual_fold_matching_16": 9.442853090896514e-16,
+     "residual_selfconsistency": 3.040838025564739e-10,
+     "rhoL_fold": 0.15724085575316055,
+     "singular_values": [
+      3.011457857377864e-16,
+      7.70477297956973e-09,
+      1.4142135600616637,
+      1.4142135623730951
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 1.4032027202803793e-08,
+     "G": 6.853490885120708e-08,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.7649531101594924,
+     "energy_per_particle": 0.9539392154494045,
+     "first_order_prediction": 0.9539392294814011,
+     "iterations": 14,
+     "krein_charges_16": [
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.5899172281474743,
+      1.5899168645831683
+     ],
+     "krein_offdiagonal_16": 3.635639720072931e-17,
+     "mean_field_norm_max": 0.11838975912153159,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539392294814317,
+     "pressure_over_energy": 1.4709561128790842e-08,
+     "proper_density_far": 0.03169400665633759,
+     "residual_KS_ode_16": 5.999996584072358e-06,
+     "residual_fold_matching_16": 1.5134159245535274e-15,
+     "residual_selfconsistency": 8.590557790872365e-10,
+     "rhoL_fold": 0.15724089001242694,
+     "singular_values": [
+      5.815213099207784e-16,
+      2.311408415255568e-08,
+      1.4142135554388697,
+      1.4142135623730945
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 4.2095058701354655e-08,
+     "G": 2.0560472655362124e-07,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.819104767625678,
+     "energy_per_particle": 0.9539392435137827,
+     "first_order_prediction": 0.9539392856103118,
+     "iterations": 15,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5899161892493154,
+      1.5899150987676478
+     ],
+     "krein_offdiagonal_16": 3.8747850407049386e-17,
+     "mean_field_norm_max": 0.12834223939269349,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539392856088413,
+     "pressure_over_energy": 4.4127609790220834e-08,
+     "proper_density_far": 0.04683637202716201,
+     "residual_KS_ode_16": 5.999989705539013e-06,
+     "residual_fold_matching_16": 9.429869109813524e-16,
+     "residual_selfconsistency": 8.616574653549172e-10,
+     "rhoL_fold": 0.15724099275826517,
+     "singular_values": [
+      1.6456165212843826e-16,
+      6.934037425511034e-08,
+      1.4142135415709804,
+      1.4142135623730951
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 1.2627705692078205e-07,
+     "G": 6.168141796608637e-07,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8565483989551481,
+     "energy_per_particle": 0.9539393277031389,
+     "first_order_prediction": 0.9539394539970442,
+     "iterations": 16,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5899130749313442
+     ],
+     "krein_offdiagonal_16": 3.705300468895087e-17,
+     "mean_field_norm_max": 0.133457757146065,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539394539801959,
+     "pressure_over_energy": 1.3237430647169924e-07,
+     "proper_density_far": 0.058446306605646856,
+     "residual_KS_ode_16": 5.999968958038263e-06,
+     "residual_fold_matching_16": 8.93636145730234e-16,
+     "residual_selfconsistency": 6.7335138710693505e-09,
+     "rhoL_fold": 0.15724130076154863,
+     "singular_values": [
+      5.417806273831047e-16,
+      2.0800612692044e-07,
+      1.414213499971239,
+      1.414213562373091
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 2.0471342992055764e-07,
+     "G": 1e-06,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8677173130838689,
+     "energy_per_particle": 0.9539394061504338,
+     "first_order_prediction": 0.9539396109083401,
+     "iterations": 20,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.589910175595719
+     ],
+     "krein_offdiagonal_16": 3.953752164300244e-17,
+     "mean_field_norm_max": 0.13478369232149542,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539396108638637,
+     "pressure_over_energy": 2.145979384022583e-07,
+     "proper_density_far": 0.062079830195933855,
+     "residual_KS_ode_16": 5.999949696833951e-06,
+     "residual_fold_matching_16": 5.214504182629831e-16,
+     "residual_selfconsistency": 2.435641797453936e-09,
+     "rhoL_fold": 0.15724158750435552,
+     "singular_values": [
+      9.219853204392266e-17,
+      3.3720582854647113e-07,
+      1.4142134612113095,
+      1.4142135623730945
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 6.471848451256115e-07,
+     "G": 3.162277660168379e-06,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.884661631010605,
+     "energy_per_particle": 0.9539398487465258,
+     "first_order_prediction": 0.9539404963424344,
+     "iterations": 22,
+     "krein_charges_16": [
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5898938551129675
+     ],
+     "krein_offdiagonal_16": 3.968700064686077e-17,
+     "mean_field_norm_max": 0.13665116571646455,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.953940495931371,
+     "pressure_over_energy": 6.784335993260062e-07,
+     "proper_density_far": 0.06773702218855392,
+     "residual_KS_ode_16": 5.999840808910625e-06,
+     "residual_fold_matching_16": 1.851882038909185e-16,
+     "residual_selfconsistency": 2.575413394549503e-09,
+     "rhoL_fold": 0.15724320161124006,
+     "singular_values": [
+      4.833118773219524e-17,
+      1.0660111965239536e-06,
+      1.4142132425693712,
+      1.414213562373096
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 2.045123256838535e-06,
+     "G": 1e-05,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.892927908073716,
+     "energy_per_particle": 0.9539412476595116,
+     "first_order_prediction": 0.95394329633089,
+     "iterations": 35,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5898425886178535
+     ],
+     "krein_offdiagonal_16": 3.800822167739771e-17,
+     "mean_field_norm_max": 0.13750981992714137,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539432927827685,
+     "pressure_over_energy": 2.14386710067966e-06,
+     "proper_density_far": 0.07056143308315999,
+     "residual_KS_ode_16": 5.999496866247412e-06,
+     "residual_fold_matching_16": 3.5344951307064314e-16,
+     "residual_selfconsistency": 1.038736867656261e-09,
+     "rhoL_fold": 0.1572482721181474,
+     "singular_values": [
+      4.444623558473792e-17,
+      3.3682935505433637e-06,
+      1.4142125518813793,
+      1.4142135623730947
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 6.455683103891894e-06,
+     "G": 3.1622776601683795e-05,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8967885897578611,
+     "energy_per_particle": 0.9539456657747564,
+     "first_order_prediction": 0.9539521506718325,
+     "iterations": 29,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.5896829127913155
+     ],
+     "krein_offdiagonal_16": 3.946770355092161e-17,
+     "mean_field_norm_max": 0.13791599538185942,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539521214578602,
+     "pressure_over_energy": 6.767348849631648e-06,
+     "proper_density_far": 0.07190324261194898,
+     "residual_KS_ode_16": 5.9984110045179654e-06,
+     "residual_fold_matching_16": 4.1701306702950047e-16,
+     "residual_selfconsistency": 7.055284936784857e-09,
+     "rhoL_fold": 0.15726406693333816,
+     "singular_values": [
+      8.038160501687476e-18,
+      1.0629528616800792e-05,
+      1.4142103734779092,
+      1.4142135623728462
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 2.0327740218953424e-05,
+     "G": 0.0001,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.898556052464361,
+     "energy_per_particle": 0.9539595938434734,
+     "first_order_prediction": 0.95398015055639,
+     "iterations": 46,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.5891942275117992
+     ],
+     "krein_offdiagonal_16": 3.6929480969662005e-17,
+     "mean_field_norm_max": 0.13815373215425025,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539799215836924,
+     "pressure_over_energy": 2.130880631647468e-05,
+     "proper_density_far": 0.07254905424055105,
+     "residual_KS_ode_16": 5.994992657783111e-06,
+     "residual_fold_matching_16": 2.842566906962885e-16,
+     "residual_selfconsistency": 3.690188418194968e-09,
+     "rhoL_fold": 0.15731242643098586,
+     "singular_values": [
+      6.830656046016582e-17,
+      3.3445741267734764e-05,
+      1.4142035282908192,
+      1.414213562373096
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 6.367787432319907e-05,
+     "G": 0.000316227766016838,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8993592078758788,
+     "energy_per_particle": 0.9540033288797308,
+     "first_order_prediction": 0.9540686939658133,
+     "iterations": 39,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.587747582102934
+     ],
+     "krein_offdiagonal_16": 3.8326300778131595e-17,
+     "mean_field_norm_max": 0.13843122352828005,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.954067006754054,
+     "pressure_over_energy": 6.674806302612682e-05,
+     "proper_density_far": 0.07293288693975188,
+     "residual_KS_ode_16": 5.984284446193564e-06,
+     "residual_fold_matching_16": 3.3545547427665893e-16,
+     "residual_selfconsistency": 1.8310352503839818e-09,
+     "rhoL_fold": 0.15745575859664104,
+     "singular_values": [
+      6.978675540063497e-17,
+      0.00010456916328088387,
+      1.4141821881060574,
+      1.414213562373106
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.0001975977274621776,
+     "G": 0.001,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8997244595458227,
+     "energy_per_particle": 0.9541396209521619,
+     "first_order_prediction": 0.9543486928113882,
+     "iterations": 42,
+     "krein_charges_16": [
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999
+     ],
+     "krein_eig": [
+      -1.5837030684771403
+     ],
+     "krein_offdiagonal_16": 3.8650819084553935e-17,
+     "mean_field_norm_max": 0.13908370455354171,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9543372186796241,
+     "pressure_over_energy": 0.00020709519144062948,
+     "proper_density_far": 0.07338566016423664,
+     "residual_KS_ode_16": 5.9510606411404325e-06,
+     "residual_fold_matching_16": 1.3945409643580715e-15,
+     "residual_selfconsistency": 1.5812767472068703e-09,
+     "rhoL_fold": 0.15785787435544696,
+     "singular_values": [
+      9.719942535662515e-16,
+      0.0003229287832045362,
+      1.4141166501867624,
+      1.4142135623730667
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.0006044354460772967,
+     "G": 0.0031622776601683794,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8998915916901851,
+     "energy_per_particle": 0.954559122274179,
+     "first_order_prediction": 0.9552341269056225,
+     "iterations": 37,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5733408718420347
+     ],
+     "krein_offdiagonal_16": 3.704355108032968e-17,
+     "mean_field_norm_max": 0.14098630089159872,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9551635577202563,
+     "pressure_over_energy": 0.0006332090197171507,
+     "proper_density_far": 0.07444038347452356,
+     "residual_KS_ode_16": 5.849398761606743e-06,
+     "residual_fold_matching_16": 3.1525978646942423e-16,
+     "residual_selfconsistency": 5.433324473369183e-09,
+     "rhoL_fold": 0.1588975437390769,
+     "singular_values": [
+      2.833825663991593e-17,
+      0.0009767170790294347,
+      1.4139202403464926,
+      1.4142135623971765
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.0018182205960400495,
+     "G": 0.01,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8999668805598802,
+     "energy_per_particle": 0.9558296865582692,
+     "first_order_prediction": 0.958034115361371,
+     "iterations": 42,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.5497271480545822
+     ],
+     "krein_offdiagonal_16": 4.21548736221927e-17,
+     "mean_field_norm_max": 0.1466661947585733,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9576479071543093,
+     "pressure_over_energy": 0.0019022432778658077,
+     "proper_density_far": 0.07746383890632404,
+     "residual_KS_ode_16": 5.54245583184029e-06,
+     "residual_fold_matching_16": 8.088502984717596e-16,
+     "residual_selfconsistency": 4.436924997198312e-09,
+     "rhoL_fold": 0.16131872008167097,
+     "singular_values": [
+      4.951748969813339e-16,
+      0.002866986107044448,
+      1.4133508220490585,
+      1.4142135624103405
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.005399714088493841,
+     "G": 0.0316227766016838,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.899995045981342,
+     "energy_per_particle": 0.959620416900556,
+     "first_order_prediction": 0.9668884563037137,
+     "iterations": 44,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.5028276781125127
+     ],
+     "krein_offdiagonal_16": 4.257811713310208e-17,
+     "mean_field_norm_max": 0.16351694161211797,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9650201309890498,
+     "pressure_over_energy": 0.005626927057194329,
+     "proper_density_far": 0.08637621575700229,
+     "residual_KS_ode_16": 4.620442192376915e-06,
+     "residual_fold_matching_16": 3.813889081803362e-16,
+     "residual_selfconsistency": 7.179032633378326e-09,
+     "rhoL_fold": 0.16635307137408806,
+     "singular_values": [
+      2.9449545746934766e-16,
+      0.008109027696546638,
+      1.411759697827199,
+      1.4142135623063856
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.01601676531984465,
+     "G": 0.1,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8999999007244455,
+     "energy_per_particle": 0.9708560975847017,
+     "first_order_prediction": 0.9948883408611983,
+     "iterations": 43,
+     "krein_charges_16": [
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000004
+     ],
+     "krein_eig": [
+      -1.4219285772230166
+     ],
+     "krein_offdiagonal_16": 3.879748429133321e-17,
+     "mean_field_norm_max": 0.21358671895894712,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9868728629045463,
+     "pressure_over_energy": 0.016497568856693796,
+     "proper_density_far": 0.11283738879068939,
+     "residual_KS_ode_16": 2.1354914061946563e-06,
+     "residual_fold_matching_16": 9.85798174623528e-12,
+     "residual_selfconsistency": 5.31801159761333e-09,
+     "rhoL_fold": 0.17581755089854056,
+     "singular_values": [
+      6.970645755711301e-12,
+      0.02197537315295809,
+      1.407465571242378,
+      1.414213562343658
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.023557665515744057,
+     "G": 0.15,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8999999906373723,
+     "energy_per_particle": 0.9787795177613862,
+     "first_order_prediction": 1.0153629105833246,
+     "iterations": 35,
+     "krein_charges_16": [
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.3836944001072031
+     ],
+     "krein_offdiagonal_16": 4.322053759189944e-17,
+     "mean_field_norm_max": 0.2491304643362777,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0023371832771302,
+     "pressure_over_energy": 0.02406840875626814,
+     "proper_density_far": 0.13162313886644733,
+     "residual_KS_ode_16": 2.243971437173532e-06,
+     "residual_fold_matching_16": 2.3345153609432636e-12,
+     "residual_selfconsistency": 9.938953630700571e-09,
+     "rhoL_fold": 0.18067573300913184,
+     "singular_values": [
+      1.6507516260574144e-12,
+      0.03084736068886321,
+      1.4046531723010367,
+      1.4142135623472594
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.031029306964945956,
+     "G": 0.2,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8999999973797905,
+     "energy_per_particle": 0.9865810709500106,
+     "first_order_prediction": 1.0358374803054509,
+     "iterations": 65,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.3532342701941182
+     ],
+     "krein_offdiagonal_16": 3.827650853902782e-17,
+     "mean_field_norm_max": 0.28432189135294905,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0176103779149566,
+     "pressure_over_energy": 0.03145135040455098,
+     "proper_density_far": 0.15022448040878988,
+     "residual_KS_ode_16": 2.4433226261221287e-06,
+     "residual_fold_matching_16": 3.2970010184048e-11,
+     "residual_selfconsistency": 2.0369534392129397e-08,
+     "rhoL_fold": 0.18474258707924915,
+     "singular_values": [
+      2.331331773907824e-11,
+      0.03905902827587421,
+      1.4020049279065094,
+      1.4142135601468129
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.04589960692881298,
+     "G": 0.3,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.9000000011430878,
+     "energy_per_particle": 1.0019755055850963,
+     "first_order_prediction": 1.0767866197497034,
+     "iterations": 74,
+     "krein_charges_16": [
+      -0.9999999999999996,
+      -0.9999999999999996,
+      -0.9999999999999996,
+      -0.9999999999999996
+     ],
+     "krein_eig": [
+      -1.3054753806101869
+     ],
+     "krein_offdiagonal_16": 3.895789005072875e-17,
+     "mean_field_norm_max": 0.35429896620885304,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.0478751125139092,
+     "pressure_over_energy": 0.0458091107746294,
+     "proper_density_far": 0.18721758862766133,
+     "residual_KS_ode_16": 5.847603492608404e-06,
+     "residual_fold_matching_16": 3.6464783409566522e-09,
+     "residual_selfconsistency": 8.934920425356357e-08,
+     "rhoL_fold": 0.1915011219004986,
+     "singular_values": [
+      2.5784495648808347e-09,
+      0.05405687167396827,
+      1.397056036585151,
+      1.4142135637685158
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.06077100509391097,
+     "G": 0.4,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8999999996926782,
+     "energy_per_particle": 1.0172159014423414,
+     "first_order_prediction": 1.117735759193956,
+     "iterations": 92,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.2681403597760301
+     ],
+     "krein_offdiagonal_16": 3.993411709677926e-17,
+     "mean_field_norm_max": 0.42422465819114685,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.0779869065362524,
+     "pressure_over_energy": 0.05974248437105821,
+     "proper_density_far": 0.22418935612411325,
+     "residual_KS_ode_16": 9.137833693300102e-06,
+     "residual_fold_matching_16": 3.747314485733004e-11,
+     "residual_selfconsistency": 9.553929094725714e-09,
+     "rhoL_fold": 0.19713906120279617,
+     "singular_values": [
+      2.649751483892814e-11,
+      0.06762884818477663,
+      1.3924526410170368,
+      1.41421356209519
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.07569824671252073,
+     "G": 0.5,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.9000000002296709,
+     "energy_per_particle": 1.0323788387261241,
+     "first_order_prediction": 1.1586848986382086,
+     "iterations": 82,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.2372453081127166
+     ],
+     "krein_offdiagonal_16": 4.1561491005760393e-17,
+     "mean_field_norm_max": 0.49438085002005394,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.1080770854386448,
+     "pressure_over_energy": 0.0733240975821691,
+     "proper_density_far": 0.2612880858124246,
+     "residual_KS_ode_16": 1.19329191148096e-05,
+     "residual_fold_matching_16": 7.611987917716645e-10,
+     "residual_selfconsistency": 2.1921427445312208e-08,
+     "rhoL_fold": 0.20206178868546537,
+     "singular_values": [
+      5.38248826440974e-10,
+      0.08009634377615397,
+      1.388119091906681,
+      1.4142135596112402
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.09070646313569003,
+     "G": 0.6,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.9000000007784301,
+     "energy_per_particle": 1.0475055338075767,
+     "first_order_prediction": 1.199634038082461,
+     "iterations": 81,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.2108012137582544
+     ],
+     "krein_offdiagonal_16": 4.045033395312865e-17,
+     "mean_field_norm_max": 0.5649038093422495,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.1382119969432667,
+     "pressure_over_energy": 0.08659282477103601,
+     "proper_density_far": 0.29858527663222606,
+     "residual_KS_ode_16": 1.40851762260384e-05,
+     "residual_fold_matching_16": 1.4218952243881205e-10,
+     "residual_selfconsistency": 4.8673327549641536e-08,
+     "rhoL_fold": 0.2064748508338689,
+     "singular_values": [
+      1.0054317545840791e-10,
+      0.09165377409719874,
+      1.3840121467316207,
+      1.4142135610256124
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.10580760469602041,
+     "G": 0.7,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.9000000007462212,
+     "energy_per_particle": 1.0626207733181192,
+     "first_order_prediction": 1.2405831775267138,
+     "iterations": 85,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.187655669739295
+     ],
+     "krein_offdiagonal_16": 3.7062789362695337e-17,
+     "mean_field_norm_max": 0.6358638603225804,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.1684283780141396,
+     "pressure_over_energy": 0.0995723096638019,
+     "proper_density_far": 0.33611760510587113,
+     "residual_KS_ode_16": 1.5473961194006403e-05,
+     "residual_fold_matching_16": 1.43232345993465e-10,
+     "residual_selfconsistency": 1.2531664245910084e-08,
+     "rhoL_fold": 0.21049872144739976,
+     "singular_values": [
+      1.0128056315438665e-10,
+      0.10243351272581194,
+      1.3801036397685071,
+      1.4142135617246092
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.12100679753982474,
+     "G": 0.8,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.9000000002777355,
+     "energy_per_particle": 1.0777404661987253,
+     "first_order_prediction": 1.2815323169709663,
+     "iterations": 88,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.167073986847591
+     ],
+     "krein_offdiagonal_16": 3.9523678167989465e-17,
+     "mean_field_norm_max": 0.7072966414090326,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.1987472637385501,
+     "pressure_over_energy": 0.11227823519202647,
+     "proper_density_far": 0.37390355097732936,
+     "residual_KS_ode_16": 1.603931580560757e-05,
+     "residual_fold_matching_16": 1.4301504219642986e-10,
+     "residual_selfconsistency": 1.5894805640465995e-08,
+     "rhoL_fold": 0.21421092648551526,
+     "singular_values": [
+      1.0112690590159107e-10,
+      0.11253278514983063,
+      1.376373524615125,
+      1.4142135580448005
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.13630530439599725,
+     "G": 0.9,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.9000000006105182,
+     "energy_per_particle": 1.0928752395782104,
+     "first_order_prediction": 1.322481456415219,
+     "iterations": 150,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.1485551381516914
+     ],
+     "krein_offdiagonal_16": 4.0120963513343884e-17,
+     "mean_field_norm_max": 0.7792177774907346,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.2291805439742076,
+     "pressure_over_energy": 0.12472174266534172,
+     "proper_density_far": 0.41195100704965393,
+     "residual_KS_ode_16": 1.5907403707388146e-05,
+     "residual_fold_matching_16": 6.571676927380091e-11,
+     "residual_selfconsistency": 3.4802682719935205e-08,
+     "rhoL_fold": 0.21766477872521628,
+     "singular_values": [
+      4.6468773605382e-11,
+      0.12202686842084343,
+      1.372806566648942,
+      1.4142135605451223
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.1517020823298846,
+     "G": 1.0,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8999999995362771,
+     "energy_per_particle": 1.1080323521305262,
+     "first_order_prediction": 1.3634305958594715,
+     "iterations": 132,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.1317398403840429
+     ],
+     "krein_offdiagonal_16": 4.5129113759886934e-17,
+     "mean_field_norm_max": 0.8516306513927587,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.259734434460411,
+     "pressure_over_energy": 0.13691123913321812,
+     "proper_density_far": 0.45026146639525105,
+     "residual_KS_ode_16": 1.4896495623174659e-05,
+     "residual_fold_matching_16": 6.706199153905094e-11,
+     "residual_selfconsistency": 3.769998658292267e-08,
+     "rhoL_fold": 0.22089882416500217,
+     "singular_values": [
+      4.741998996004255e-11,
+      0.13097633475547976,
+      1.3693905663187997,
+      1.4142135418559703
+     ],
+     "target": true
+    }
+   ]
+  },
+  "III": {
+   "H": 0.3,
+   "L": 20.0,
+   "continuation_path": [
+    {
+     "G": 6.291890907131875e-12,
+     "converged": true,
+     "iterations": 11,
+     "omega": 0.9539394642814869,
+     "reason": null
+    },
+    {
+     "G": 1.8875672721395624e-11,
+     "converged": true,
+     "iterations": 11,
+     "omega": 0.9539397316478138,
+     "reason": null
+    },
+    {
+     "G": 5.662701816418687e-11,
+     "converged": true,
+     "iterations": 11,
+     "omega": 0.9539401735985307,
+     "reason": null
+    },
+    {
+     "G": 1.698810544925606e-10,
+     "converged": true,
+     "iterations": 13,
+     "omega": 0.9539409103655386,
+     "reason": null
+    },
+    {
+     "G": 5.096431634776819e-10,
+     "converged": true,
+     "iterations": 12,
+     "omega": 0.9539421696471032,
+     "reason": null
+    },
+    {
+     "G": 1.5289294904330456e-09,
+     "converged": true,
+     "iterations": 15,
+     "omega": 0.9539443459316289,
+     "reason": null
+    },
+    {
+     "G": 4.586788471299137e-09,
+     "converged": true,
+     "iterations": 18,
+     "omega": 0.9539481171512038,
+     "reason": null
+    },
+    {
+     "G": 1.3760365413897411e-08,
+     "converged": true,
+     "iterations": 20,
+     "omega": 0.9539546575517086,
+     "reason": null
+    },
+    {
+     "G": 4.128109624169224e-08,
+     "converged": true,
+     "iterations": 20,
+     "omega": 0.9539660096359897,
+     "reason": null
+    },
+    {
+     "G": 1.238432887250767e-07,
+     "converged": true,
+     "iterations": 22,
+     "omega": 0.9539857368476935,
+     "reason": null
+    },
+    {
+     "G": 3.7152986617523014e-07,
+     "converged": true,
+     "iterations": 31,
+     "omega": 0.9540200805840013,
+     "reason": null
+    },
+    {
+     "G": 1e-06,
+     "converged": true,
+     "iterations": 31,
+     "omega": 0.9540725152478635,
+     "reason": null
+    },
+    {
+     "G": 3.162277660168379e-06,
+     "converged": true,
+     "iterations": 36,
+     "omega": 0.954178242645095,
+     "reason": null
+    },
+    {
+     "G": 1e-05,
+     "converged": true,
+     "iterations": 38,
+     "omega": 0.9543697649166075,
+     "reason": null
+    },
+    {
+     "G": 3.1622776601683795e-05,
+     "converged": true,
+     "iterations": 33,
+     "omega": 0.9547199794227538,
+     "reason": null
+    },
+    {
+     "G": 0.0001,
+     "converged": true,
+     "iterations": 35,
+     "omega": 0.9553690540056983,
+     "reason": null
+    },
+    {
+     "G": 0.000316227766016838,
+     "converged": true,
+     "iterations": 36,
+     "omega": 0.9565948539536849,
+     "reason": null
+    },
+    {
+     "G": 0.001,
+     "converged": true,
+     "iterations": 34,
+     "omega": 0.9589697220174715,
+     "reason": null
+    },
+    {
+     "G": 0.0031622776601683794,
+     "converged": true,
+     "iterations": 32,
+     "omega": 0.9637284275662878,
+     "reason": null
+    },
+    {
+     "G": 0.01,
+     "converged": true,
+     "iterations": 39,
+     "omega": 0.9736830260785679,
+     "reason": null
+    },
+    {
+     "G": 0.0316227766016838,
+     "converged": true,
+     "iterations": 28,
+     "omega": 0.9956497400880832,
+     "reason": null
+    },
+    {
+     "G": 0.1,
+     "converged": true,
+     "iterations": 35,
+     "omega": 1.047435371491627,
+     "reason": null
+    },
+    {
+     "G": 0.15,
+     "converged": true,
+     "iterations": 36,
+     "omega": 1.0803476161533914,
+     "reason": null
+    },
+    {
+     "G": 0.2,
+     "converged": true,
+     "iterations": 36,
+     "omega": 1.1115253301261712,
+     "reason": null
+    },
+    {
+     "G": 0.3,
+     "converged": true,
+     "iterations": 39,
+     "omega": 1.1711738482922145,
+     "reason": null
+    },
+    {
+     "G": 0.4,
+     "converged": true,
+     "iterations": 58,
+     "omega": 1.2289934811968362,
+     "reason": null
+    },
+    {
+     "G": 0.5,
+     "converged": true,
+     "iterations": 68,
+     "omega": 1.285996056811138,
+     "reason": null
+    },
+    {
+     "G": 0.6,
+     "converged": true,
+     "iterations": 69,
+     "omega": 1.342688390496842,
+     "reason": null
+    },
+    {
+     "G": 0.7,
+     "converged": true,
+     "iterations": 81,
+     "omega": 1.3993577949536087,
+     "reason": null
+    },
+    {
+     "G": 0.8,
+     "converged": true,
+     "iterations": 94,
+     "omega": 1.4561782201083493,
+     "reason": null
+    },
+    {
+     "G": 0.9,
+     "converged": true,
+     "iterations": 78,
+     "omega": 1.5132583246701827,
+     "reason": null
+    },
+    {
+     "G": 1.0,
+     "converged": true,
+     "iterations": 78,
+     "omega": 1.5706662475804711,
+     "reason": null
+    }
+   ],
+   "first_order_dw_over_G": Infinity,
+   "h": 0.02,
+   "negative_G": [
+    {
+     "G": -0.0001,
+     "converged": false,
+     "iterations": 16,
+     "reason": "no Krein-negative level within 0.05 of 0.954512658400"
+    },
+    {
+     "G": -0.01,
+     "converged": false,
+     "iterations": 30,
+     "reason": "no Krein-negative level within 0.05 of 0.911383012824"
+    }
+   ],
+   "positive_G": [
+    {
+     "E_int_per_particle": 7.099699956174261e-08,
+     "G": 6.291890907131875e-12,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.6471126635125932,
+     "energy_per_particle": 0.9539393932844873,
+     "first_order_prediction": null,
+     "iterations": 11,
+     "krein_charges_16": [
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999
+     ],
+     "krein_eig": [
+      -1.5898655008502125
+     ],
+     "krein_offdiagonal_16": 3.976944492369762e-17,
+     "mean_field_norm_max": 0.06223915277991024,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539394642814869,
+     "pressure_over_energy": 7.442506312407798e-08,
+     "proper_density_far": 0.0012045468240598793,
+     "residual_KS_ode_16": 5.999966606121793e-06,
+     "residual_fold_matching_16": 7.554807270198795e-16,
+     "residual_selfconsistency": 5.559201500963901e-10,
+     "rhoL_fold": 0.15724600594597937,
+     "singular_values": [
+      5.509816941454726e-16,
+      1.7471815275127813e-07,
+      1.4142135099576394,
+      1.4142135623730945
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 1.5231116151186772e-07,
+     "G": 1.8875672721395624e-11,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.6933415311198434,
+     "energy_per_particle": 0.9539395793366523,
+     "first_order_prediction": null,
+     "iterations": 11,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -1.5898239382504307
+     ],
+     "krein_offdiagonal_16": 3.9562647520628096e-17,
+     "mean_field_norm_max": 0.1307749228708775,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539397316478138,
+     "pressure_over_energy": 1.596654178221449e-07,
+     "proper_density_far": 0.0033398346159146082,
+     "residual_KS_ode_16": 5.999932607281118e-06,
+     "residual_fold_matching_16": 7.995764714216257e-16,
+     "residual_selfconsistency": 2.751822145957934e-10,
+     "rhoL_fold": 0.1572501168117521,
+     "singular_values": [
+      4.4059071317615136e-16,
+      3.124119630722113e-07,
+      1.4142134686494743,
+      1.4142135623730951
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 2.977443887824651e-07,
+     "G": 5.662701816418687e-11,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.7633060840727826,
+     "energy_per_particle": 0.9539398758541419,
+     "first_order_prediction": null,
+     "iterations": 11,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.589758328546889
+     ],
+     "krein_offdiagonal_16": 3.734339003065635e-17,
+     "mean_field_norm_max": 0.23536426254493198,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539401735985307,
+     "pressure_over_energy": 3.121207073096402e-07,
+     "proper_density_far": 0.008841137836491804,
+     "residual_KS_ode_16": 5.999876416598682e-06,
+     "residual_fold_matching_16": 6.839864123410084e-16,
+     "residual_selfconsistency": 1.5970797014759197e-09,
+     "rhoL_fold": 0.15725660656139545,
+     "singular_values": [
+      3.0019411080052e-16,
+      5.255926845775462e-07,
+      1.4142134046951993,
+      1.4142135623730934
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 5.486741406775314e-07,
+     "G": 1.698810544925606e-10,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.8621480776885084,
+     "energy_per_particle": 0.953940361691398,
+     "first_order_prediction": null,
+     "iterations": 13,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000004,
+      -1.0000000000000004
+     ],
+     "krein_eig": [
+      -1.589655111257223
+     ],
+     "krein_offdiagonal_16": 4.341409150871682e-17,
+     "mean_field_norm_max": 0.3648499001579622,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539409103655386,
+     "pressure_over_energy": 5.751660824002631e-07,
+     "proper_density_far": 0.02185806069250996,
+     "residual_KS_ode_16": 5.999782668438846e-06,
+     "residual_fold_matching_16": 1.0286285285439038e-15,
+     "residual_selfconsistency": 2.55247121392149e-09,
+     "rhoL_fold": 0.15726681733013168,
+     "singular_values": [
+      5.550340741621591e-16,
+      8.888793432023256e-07,
+      1.414213295709038,
+      1.4142135623730945
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 9.767728365252414e-07,
+     "G": 5.096431634776819e-10,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 0.9930473298621871,
+     "energy_per_particle": 0.9539411928742667,
+     "first_order_prediction": null,
+     "iterations": 12,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5894898910331905
+     ],
+     "krein_offdiagonal_16": 4.104689589293269e-17,
+     "mean_field_norm_max": 0.4944769352463274,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539421696471032,
+     "pressure_over_energy": 1.023934015871756e-06,
+     "proper_density_far": 0.048876717748482186,
+     "residual_KS_ode_16": 5.999622516970172e-06,
+     "residual_fold_matching_16": 7.994924651613716e-16,
+     "residual_selfconsistency": 1.1094784493928944e-09,
+     "rhoL_fold": 0.15728316449845187,
+     "singular_values": [
+      4.0030540701154273e-16,
+      1.5268357040893108e-06,
+      1.414213104321638,
+      1.4142135623730996
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 1.7091526774051014e-06,
+     "G": 1.5289294904330456e-09,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.150206159568893,
+     "energy_per_particle": 0.9539426367789515,
+     "first_order_prediction": null,
+     "iterations": 15,
+     "krein_charges_16": [
+      -0.9999999999999996,
+      -0.9999999999999996,
+      -0.9999999999999996,
+      -0.9999999999999996
+     ],
+     "krein_eig": [
+      -1.5892241513326049
+     ],
+     "krein_offdiagonal_16": 4.1376681123367326e-17,
+     "mean_field_norm_max": 0.6014149090462301,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539443459316289,
+     "pressure_over_energy": 1.7916723831279467e-06,
+     "proper_density_far": 0.09566873514129229,
+     "residual_KS_ode_16": 5.9993456946758775e-06,
+     "residual_fold_matching_16": 7.504499491482802e-16,
+     "residual_selfconsistency": 1.4028171875384478e-09,
+     "rhoL_fold": 0.1573094643637074,
+     "singular_values": [
+      3.455690515152094e-16,
+      2.6405751816320342e-06,
+      1.4142127701982945,
+      1.414213562373092
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 2.971080657720294e-06,
+     "G": 4.586788471299137e-09,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.3159824476391346,
+     "energy_per_particle": 0.953945146070546,
+     "first_order_prediction": null,
+     "iterations": 18,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5887982819413695
+     ],
+     "krein_offdiagonal_16": 3.941868194418315e-17,
+     "mean_field_norm_max": 0.6771775839192004,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539481171512038,
+     "pressure_over_energy": 3.1145193934458963e-06,
+     "proper_density_far": 0.16064424999925064,
+     "residual_KS_ode_16": 5.9988659583428415e-06,
+     "residual_fold_matching_16": 9.80834858844362e-16,
+     "residual_selfconsistency": 2.9406664070871462e-09,
+     "rhoL_fold": 0.15735163037470204,
+     "singular_values": [
+      5.506278101077714e-16,
+      4.574731643996082e-06,
+      1.414212189946858,
+      1.4142135623730816
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 5.156214418745135e-06,
+     "G": 1.3760365413897411e-08,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.4673805422087511,
+     "energy_per_particle": 0.9539495013372898,
+     "first_order_prediction": null,
+     "iterations": 20,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5881198845943763
+     ],
+     "krein_offdiagonal_16": 4.1980004096676393e-17,
+     "mean_field_norm_max": 0.7254838589061333,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539546575517086,
+     "pressure_over_energy": 5.405123029591104e-06,
+     "proper_density_far": 0.23195507986683908,
+     "residual_KS_ode_16": 5.998033909082348e-06,
+     "residual_fold_matching_16": 3.281203879124262e-16,
+     "residual_selfconsistency": 1.2626857408368511e-09,
+     "rhoL_fold": 0.15741884628807654,
+     "singular_values": [
+      2.0372229891904906e-16,
+      7.929998057106665e-06,
+      1.4142111833534512,
+      1.4142135623731031
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 8.950158497836564e-06,
+     "G": 4.128109624169224e-08,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.5875116258888502,
+     "energy_per_particle": 0.9539570594774918,
+     "first_order_prediction": null,
+     "iterations": 20,
+     "krein_charges_16": [
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999999
+     ],
+     "krein_eig": [
+      -1.587046707003362
+     ],
+     "krein_offdiagonal_16": 3.971755302673864e-17,
+     "mean_field_norm_max": 0.7543061152092974,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539660096359897,
+     "pressure_over_energy": 9.382139802748363e-06,
+     "proper_density_far": 0.2949635707643896,
+     "residual_KS_ode_16": 5.996589482125481e-06,
+     "residual_fold_matching_16": 4.04548414060232e-15,
+     "residual_selfconsistency": 3.049599919758381e-09,
+     "rhoL_fold": 0.15752529455925468,
+     "singular_values": [
+      2.684000550468936e-15,
+      1.3753157846191088e-05,
+      1.4142094363649018,
+      1.414213562373116
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 1.555148414324693e-05,
+     "G": 1.238432887250767e-07,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.6719201112429225,
+     "energy_per_particle": 0.9539701853635503,
+     "first_order_prediction": null,
+     "iterations": 22,
+     "krein_charges_16": [
+      -0.9999999999999997,
+      -0.9999999999999997,
+      -0.9999999999999997,
+      -0.9999999999999997
+     ],
+     "krein_eig": [
+      -1.585362340115966
+     ],
+     "krein_offdiagonal_16": 3.970707777495868e-17,
+     "mean_field_norm_max": 0.7708500096449283,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9539857368476935,
+     "pressure_over_energy": 1.63018555315965e-05,
+     "proper_density_far": 0.3417749457489123,
+     "residual_KS_ode_16": 5.9940787919569056e-06,
+     "residual_fold_matching_16": 5.06435515635293e-16,
+     "residual_selfconsistency": 1.269835308206417e-09,
+     "rhoL_fold": 0.15769265717622186,
+     "singular_values": [
+      2.851655589453312e-16,
+      2.3870169140940125e-05,
+      1.4142064011390347,
+      1.4142135623730963
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 2.7068203903131998e-05,
+     "G": 3.7152986617523014e-07,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7259342855937874,
+     "energy_per_particle": 0.9539930123800983,
+     "first_order_prediction": null,
+     "iterations": 31,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5827422973659138
+     ],
+     "krein_offdiagonal_16": 3.9712055527615875e-17,
+     "mean_field_norm_max": 0.7801607963886791,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9540200805840013,
+     "pressure_over_energy": 2.8373587177122057e-05,
+     "proper_density_far": 0.3725496107223578,
+     "residual_KS_ode_16": 5.989705811580038e-06,
+     "residual_fold_matching_16": 1.8477123366246089e-16,
+     "residual_selfconsistency": 1.7998205807396227e-09,
+     "rhoL_fold": 0.1579536987266112,
+     "singular_values": [
+      2.9573432881594284e-17,
+      4.147632765062099e-05,
+      1.4142011189213126,
+      1.4142135623730783
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 4.470380319007178e-05,
+     "G": 1e-06,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7558563888168903,
+     "energy_per_particle": 0.9540278114446734,
+     "first_order_prediction": null,
+     "iterations": 31,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5791870311562843
+     ],
+     "krein_offdiagonal_16": 3.9355272723696745e-17,
+     "mean_field_norm_max": 0.7849908537840716,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9540725152478635,
+     "pressure_over_energy": 4.68579664594655e-05,
+     "proper_density_far": 0.3898314371852154,
+     "residual_KS_ode_16": 5.983024483153415e-06,
+     "residual_fold_matching_16": 6.101375251118707e-16,
+     "residual_selfconsistency": 1.089352202755863e-09,
+     "rhoL_fold": 0.15830930413413363,
+     "singular_values": [
+      3.2188806698110923e-16,
+      6.834007971015704e-05,
+      1.4141930588465763,
+      1.414213562373106
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 8.042723978292029e-05,
+     "G": 3.162277660168379e-06,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7762665775911959,
+     "energy_per_particle": 0.954097815405312,
+     "first_order_prediction": null,
+     "iterations": 36,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5729451965479695
+     ],
+     "krein_offdiagonal_16": 4.0643591171515637e-17,
+     "mean_field_norm_max": 0.7882663314848127,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.954178242645095,
+     "pressure_over_energy": 8.42966396991003e-05,
+     "proper_density_far": 0.4017525950710101,
+     "residual_KS_ode_16": 5.96953494661626e-06,
+     "residual_fold_matching_16": 4.0892774480477234e-16,
+     "residual_selfconsistency": 4.537079666602138e-09,
+     "rhoL_fold": 0.15893751451014143,
+     "singular_values": [
+      1.2460253681823668e-16,
+      0.00012244727488718393,
+      1.414176823366818,
+      1.4142135623731553
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.00014559967898248374,
+     "G": 1e-05,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7874232813700086,
+     "energy_per_particle": 0.954224165237625,
+     "first_order_prediction": null,
+     "iterations": 38,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5633790106218353
+     ],
+     "krein_offdiagonal_16": 3.804822218482812e-17,
+     "mean_field_norm_max": 0.7902536307154697,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9543697649166075,
+     "pressure_over_energy": 0.00015258435521408733,
+     "proper_density_far": 0.40841757692889497,
+     "residual_KS_ode_16": 5.945040938682191e-06,
+     "residual_fold_matching_16": 2.139312236559712e-16,
+     "residual_selfconsistency": 8.078571864602904e-10,
+     "rhoL_fold": 0.15991003992087774,
+     "singular_values": [
+      3.10019005359829e-17,
+      0.00022026323906024242,
+      1.4141474677922052,
+      1.4142135623731216
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.00026599593426811306,
+     "G": 3.1622776601683795e-05,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7934196780128353,
+     "energy_per_particle": 0.9544539834884856,
+     "first_order_prediction": null,
+     "iterations": 33,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000004,
+      -1.0000000000000004
+     ],
+     "krein_eig": [
+      -1.548956422396549
+     ],
+     "krein_offdiagonal_16": 4.097719126771327e-17,
+     "mean_field_norm_max": 0.7917615089599775,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9547199794227538,
+     "pressure_over_energy": 0.00027868911322043003,
+     "proper_density_far": 0.412244584752804,
+     "residual_KS_ode_16": 5.900064357752989e-06,
+     "residual_fold_matching_16": 5.100327751448055e-16,
+     "residual_selfconsistency": 2.9872199351436624e-09,
+     "rhoL_fold": 0.16139898862564478,
+     "singular_values": [
+      4.773086637442444e-17,
+      0.00039849984211244935,
+      1.4140939613285777,
+      1.4142135623732128
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.0004923431722269039,
+     "G": 0.0001,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.796608908063078,
+     "energy_per_particle": 0.9548767108334714,
+     "first_order_prediction": null,
+     "iterations": 35,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.5276149593800574
+     ],
+     "krein_offdiagonal_16": 3.506024438557387e-17,
+     "mean_field_norm_max": 0.7934087417808029,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9553690540056983,
+     "pressure_over_energy": 0.0005156091531409939,
+     "proper_density_far": 0.41473042359916173,
+     "residual_KS_ode_16": 5.816095925124568e-06,
+     "residual_fold_matching_16": 2.8288612463383074e-16,
+     "residual_selfconsistency": 2.1856653541934013e-09,
+     "rhoL_fold": 0.16365380455651968,
+     "singular_values": [
+      6.257201495996548e-17,
+      0.0007268368543052766,
+      1.4139953413478004,
+      1.4142135623733783
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.0009281414604442851,
+     "G": 0.000316227766016838,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7982919014581569,
+     "energy_per_particle": 0.9556667124932406,
+     "first_order_prediction": null,
+     "iterations": 36,
+     "krein_charges_16": [
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000004
+     ],
+     "krein_eig": [
+      -1.496702094671656
+     ],
+     "krein_offdiagonal_16": 3.7543954677181526e-17,
+     "mean_field_norm_max": 0.7958984155927237,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9565948539536849,
+     "pressure_over_energy": 0.0009711978541377203,
+     "proper_density_far": 0.41690019706989445,
+     "residual_KS_ode_16": 5.655481585906441e-06,
+     "residual_fold_matching_16": 1.3514360831366822e-15,
+     "residual_selfconsistency": 2.690918873993681e-09,
+     "rhoL_fold": 0.16703390801016083,
+     "singular_values": [
+      7.485793313319518e-16,
+      0.0013405186819523802,
+      1.413810828617173,
+      1.414213562374266
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.0017939313044226784,
+     "G": 0.001,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.799172771061869,
+     "energy_per_particle": 0.9571757907130489,
+     "first_order_prediction": null,
+     "iterations": 34,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.4530010026214102
+     ],
+     "krein_offdiagonal_16": 4.1718451866240856e-17,
+     "mean_field_norm_max": 0.8003864110596366,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9589697220174715,
+     "pressure_over_energy": 0.001874192099119314,
+     "proper_density_far": 0.41972063342975846,
+     "residual_KS_ode_16": 5.337225633972068e-06,
+     "residual_fold_matching_16": 6.937730465431799e-16,
+     "residual_selfconsistency": 3.6598092073278683e-09,
+     "rhoL_fold": 0.1720576926987431,
+     "singular_values": [
+      1.7540174588913588e-16,
+      0.0025089061492269854,
+      1.4134588653394038,
+      1.4142135623730854
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.0035839065394111806,
+     "G": 0.0031622776601683794,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7996277598675867,
+     "energy_per_particle": 0.9601445210268766,
+     "first_order_prediction": null,
+     "iterations": 32,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.3928990292359686
+     ],
+     "krein_offdiagonal_16": 4.2506928719983335e-17,
+     "mean_field_norm_max": 0.8092081439001766,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9637284275662878,
+     "pressure_over_energy": 0.0037326740515877597,
+     "proper_density_far": 0.4246174220606585,
+     "residual_KS_ode_16": 4.673101446102385e-06,
+     "residual_fold_matching_16": 3.1076443522153816e-16,
+     "residual_selfconsistency": 3.3645528730338554e-09,
+     "rhoL_fold": 0.1794817820622142,
+     "singular_values": [
+      2.473687749462944e-16,
+      0.004783385097678565,
+      1.4127711853020273,
+      1.4142135623608174
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.007470227355012016,
+     "G": 0.01,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7998555661805522,
+     "energy_per_particle": 0.9662127987235559,
+     "first_order_prediction": null,
+     "iterations": 39,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.3127106454060897
+     ],
+     "krein_offdiagonal_16": 3.933157059482696e-17,
+     "mean_field_norm_max": 0.8276234782408785,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9736830260785679,
+     "pressure_over_energy": 0.007731451461707795,
+     "proper_density_far": 0.4344737195479341,
+     "residual_KS_ode_16": 3.1735606567483985e-06,
+     "residual_fold_matching_16": 4.885294434163216e-16,
+     "residual_selfconsistency": 2.001071157986473e-09,
+     "rhoL_fold": 0.19044562552676003,
+     "singular_values": [
+      2.862142084882023e-16,
+      0.009321911401217403,
+      1.411389030660884,
+      1.4142135623730594
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.016417687808243,
+     "G": 0.0316227766016838,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.799959501202201,
+     "energy_per_particle": 0.9792320522798401,
+     "first_order_prediction": null,
+     "iterations": 28,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -1.208971530394209
+     ],
+     "krein_offdiagonal_16": 3.754246903468733e-17,
+     "mean_field_norm_max": 0.8685047717541446,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 0.9956497400880832,
+     "pressure_over_energy": 0.016765880742995978,
+     "proper_density_far": 0.4561527425840904,
+     "residual_KS_ode_16": 5.216617326378168e-06,
+     "residual_fold_matching_16": 6.672248669724821e-16,
+     "residual_selfconsistency": 6.433117023364146e-10,
+     "rhoL_fold": 0.20678733428774998,
+     "singular_values": [
+      3.3406944324020813e-16,
+      0.018599781773768382,
+      1.4085223191176666,
+      1.4142135623681813
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.03853795133066373,
+     "G": 0.1,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7999948428363481,
+     "energy_per_particle": 1.008897420160963,
+     "first_order_prediction": null,
+     "iterations": 35,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.0781090257859884
+     ],
+     "krein_offdiagonal_16": 3.8346513553414244e-17,
+     "mean_field_norm_max": 0.9664169591510503,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.047435371491627,
+     "pressure_over_energy": 0.03819808690215032,
+     "proper_density_far": 0.5079777037044522,
+     "residual_KS_ode_16": 1.9157569348188952e-05,
+     "residual_fold_matching_16": 2.0781804337751632e-16,
+     "residual_selfconsistency": 9.120712808151712e-09,
+     "rhoL_fold": 0.23188749376969,
+     "singular_values": [
+      9.911633980777093e-17,
+      0.037903042042623014,
+      1.4023803579584826,
+      1.4142135612779085
+     ],
+     "target": true
+    },
+    {
+     "E_int_per_particle": 0.05305443501724415,
+     "G": 0.15,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7999983125406054,
+     "energy_per_particle": 1.0272931811361472,
+     "first_order_prediction": null,
+     "iterations": 36,
+     "krein_charges_16": [
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002,
+      -1.0000000000000002
+     ],
+     "krein_eig": [
+      -1.0246868476606177
+     ],
+     "krein_offdiagonal_16": 3.6950378093881e-17,
+     "mean_field_norm_max": 1.0297208362781922,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.0803476161533914,
+     "pressure_over_energy": 0.05164488190077146,
+     "proper_density_far": 0.541481730788516,
+     "residual_KS_ode_16": 2.806788843153585e-05,
+     "residual_fold_matching_16": 6.961935654255919e-16,
+     "residual_selfconsistency": 1.1568634749753568e-09,
+     "rhoL_fold": 0.24397697752318687,
+     "singular_values": [
+      2.706895164555818e-16,
+      0.04886856832566576,
+      1.3987844391481496,
+      1.4142135623363448
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.0670439275714309,
+     "G": 0.2,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7999993828181964,
+     "energy_per_particle": 1.0444814025547402,
+     "first_order_prediction": null,
+     "iterations": 36,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -0.9842198922573777
+     ],
+     "krein_offdiagonal_16": 4.1453329788647e-17,
+     "mean_field_norm_max": 1.0904144048161348,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.1115253301261712,
+     "pressure_over_energy": 0.06418872313805243,
+     "proper_density_far": 0.5736073584021035,
+     "residual_KS_ode_16": 3.592568490584955e-05,
+     "residual_fold_matching_16": 5.841206564027915e-16,
+     "residual_selfconsistency": 4.160383204249414e-09,
+     "rhoL_fold": 0.2540082779942673,
+     "singular_values": [
+      2.2428240004958147e-16,
+      0.058545962687242055,
+      1.395546559641493,
+      1.4142135623490197
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.09432882561809894,
+     "G": 0.3,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7999999010094552,
+     "energy_per_particle": 1.0768450226741155,
+     "first_order_prediction": null,
+     "iterations": 39,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999997,
+      -0.9999999999999997
+     ],
+     "krein_eig": [
+      -0.923375871142257
+     ],
+     "krein_offdiagonal_16": 3.460108893648896e-17,
+     "mean_field_norm_max": 1.2083749428495358,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.1711738482922145,
+     "pressure_over_energy": 0.08759740132693687,
+     "proper_density_far": 0.636053741486473,
+     "residual_KS_ode_16": 5.254983733475861e-05,
+     "residual_fold_matching_16": 3.309785587749016e-16,
+     "residual_selfconsistency": 1.8514813461263088e-08,
+     "rhoL_fold": 0.2707456495378546,
+     "singular_values": [
+      2.8974716536478476e-16,
+      0.07549535602146705,
+      1.389730027572529,
+      1.4142135599524823
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.12131331093439436,
+     "G": 0.4,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7999999827249482,
+     "energy_per_particle": 1.1076801702624417,
+     "first_order_prediction": null,
+     "iterations": 58,
+     "krein_charges_16": [
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000004,
+      -1.0000000000000004
+     ],
+     "krein_eig": [
+      -0.8774463989458448
+     ],
+     "krein_offdiagonal_16": 3.646664710551183e-17,
+     "mean_field_norm_max": 1.3248543604724015,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.2289934811968362,
+     "pressure_over_energy": 0.10952016131664766,
+     "proper_density_far": 0.6977254762502059,
+     "residual_KS_ode_16": 7.17795818104463e-05,
+     "residual_fold_matching_16": 6.075147938678448e-16,
+     "residual_selfconsistency": 1.3468266624159167e-08,
+     "rhoL_fold": 0.28491768876178386,
+     "singular_values": [
+      2.1036145225028003e-16,
+      0.09031900386884921,
+      1.384490871886261,
+      1.4142135614385063
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.14834384853135027,
+     "G": 0.5,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7999999973516303,
+     "energy_per_particle": 1.1376522082797877,
+     "first_order_prediction": null,
+     "iterations": 68,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -0.8402859219531936
+     ],
+     "krein_offdiagonal_16": 3.701089827184733e-17,
+     "mean_field_norm_max": 1.4415652394081713,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.285996056811138,
+     "pressure_over_energy": 0.1303947264829353,
+     "proper_density_far": 0.759526851001278,
+     "residual_KS_ode_16": 9.223616104163176e-05,
+     "residual_fold_matching_16": 6.644403066414955e-16,
+     "residual_selfconsistency": 4.297177275793207e-09,
+     "rhoL_fold": 0.2975177775425068,
+     "singular_values": [
+      4.06877762784133e-16,
+      0.1036620471085292,
+      1.3796534200203434,
+      1.4142135609596256
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.1755854049548689,
+     "G": 0.6,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7999999976828693,
+     "energy_per_particle": 1.1671029855419732,
+     "first_order_prediction": null,
+     "iterations": 69,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -0.8090078892341959
+     ],
+     "krein_offdiagonal_16": 3.6552200732836727e-17,
+     "mean_field_norm_max": 1.5593320855225212,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.342688390496842,
+     "pressure_over_energy": 0.15044551091892844,
+     "proper_density_far": 0.8218927168263199,
+     "residual_KS_ode_16": 0.00011414266798114966,
+     "residual_fold_matching_16": 5.423253666809513e-13,
+     "residual_selfconsistency": 5.745179866216355e-09,
+     "rhoL_fold": 0.30902047226793833,
+     "singular_values": [
+      3.8348175544619825e-13,
+      0.11587024744488753,
+      1.375126303651668,
+      1.414213562593439
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.2031239407040175,
+     "G": 0.7,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.8000000063614934,
+     "energy_per_particle": 1.1962338542495912,
+     "first_order_prediction": null,
+     "iterations": 81,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -0.7820046388898347
+     ],
+     "krein_offdiagonal_16": 3.62464197138621e-17,
+     "mean_field_norm_max": 1.6785958823012992,
+     "mixing": [
+      0.5,
+      6
+     ],
+     "muL": -0.6,
+     "omega": 1.3993577949536087,
+     "pressure_over_energy": 0.16980286921526652,
+     "proper_density_far": 0.8850552746635562,
+     "residual_KS_ode_16": 0.00013766881921507164,
+     "residual_fold_matching_16": 2.8774979013585517e-09,
+     "residual_selfconsistency": 1.708303538905336e-07,
+     "rhoL_fold": 0.31969119820214087,
+     "singular_values": [
+      2.03469819421836e-09,
+      0.12715674739595678,
+      1.3708548834769123,
+      1.414213577339712
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.23100460456492938,
+     "G": 0.8,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7999999977396843,
+     "energy_per_particle": 1.2251736155434199,
+     "first_order_prediction": null,
+     "iterations": 94,
+     "krein_charges_16": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+     ],
+     "krein_eig": [
+      -0.7582790362404188
+     ],
+     "krein_offdiagonal_16": 3.58350096481844e-17,
+     "mean_field_norm_max": 1.7996002735554462,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.4561782201083493,
+     "pressure_over_energy": 0.18854846499650452,
+     "proper_density_far": 0.9491429114638902,
+     "residual_KS_ode_16": 0.00016290981392610372,
+     "residual_fold_matching_16": 3.5124115658406395e-10,
+     "residual_selfconsistency": 1.9100674776530576e-08,
+     "rhoL_fold": 0.32969393594278346,
+     "singular_values": [
+      2.483650040057696e-10,
+      0.13766528058582184,
+      1.366803369625547,
+      1.414213564392353
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.2592490967148463,
+     "G": 0.9,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7999999996079499,
+     "energy_per_particle": 1.2540092279553363,
+     "first_order_prediction": null,
+     "iterations": 78,
+     "krein_charges_16": [
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -0.737164388759978
+     ],
+     "krein_offdiagonal_16": 3.8042291005796106e-17,
+     "mean_field_norm_max": 1.922475552092355,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.5132583246701827,
+     "pressure_over_energy": 0.2067361953448718,
+     "proper_density_far": 1.0142235898403673,
+     "residual_KS_ode_16": 0.0001895485269570415,
+     "residual_fold_matching_16": 7.400196638412247e-10,
+     "residual_selfconsistency": 1.7573231210798868e-08,
+     "rhoL_fold": 0.3391373807746505,
+     "singular_values": [
+      5.23272925310324e-10,
+      0.14749920677683373,
+      1.3629467534735578,
+      1.4142135699604352
+     ],
+     "target": false
+    },
+    {
+     "E_int_per_particle": 0.2878646957918428,
+     "G": 1.0,
+     "capped": false,
+     "converged": true,
+     "density_decay_rate_far": 1.7999999918434213,
+     "energy_per_particle": 1.2828015517886282,
+     "first_order_prediction": null,
+     "iterations": 78,
+     "krein_charges_16": [
+      -0.9999999999999999,
+      -0.9999999999999999,
+      -0.9999999999999998,
+      -0.9999999999999998
+     ],
+     "krein_eig": [
+      -0.7181894846141036
+     ],
+     "krein_offdiagonal_16": 3.6011308020170256e-17,
+     "mean_field_norm_max": 2.0472818338961707,
+     "mixing": [
+      0.2,
+      10
+     ],
+     "muL": -0.6,
+     "omega": 1.5706662475804711,
+     "pressure_over_energy": 0.2244031396676041,
+     "proper_density_far": 1.0803287092749738,
+     "residual_KS_ode_16": 0.00021631344333062456,
+     "residual_fold_matching_16": 3.643570740239072e-09,
+     "residual_selfconsistency": 6.243551771659732e-08,
+     "rhoL_fold": 0.3480975499554594,
+     "singular_values": [
+      2.5763936138405878e-09,
+      0.1567365722941571,
+      1.3592665658712775,
+      1.414213581919054
+     ],
+     "target": true
+    }
+   ]
+  }
+ },
+ "runtime_s": 1338.2,
+ "symmetry": {
+  "T0..T3 symmetric": true,
+  "T4..T7 antisymmetric": true,
+  "commutant contains g0, g4, P_L, sigma16, Krein": true,
+  "dim W": 4
+ },
+ "units": "m_Psi = 1"
+}

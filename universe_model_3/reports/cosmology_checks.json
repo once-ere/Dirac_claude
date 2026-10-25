@@ -29,7 +29,7 @@
   {
    "name": "C6_cosmic_neutrino_background",
    "passed": true,
-   "detail": "T_nu = (4/11)^{1/3} T_gamma = 1.9454 K (1.676e-04 eV); 112.0 neutrinos and antineutrinos per cm^3 per flavour (336 in all, FE-53); m = 0, 8.61 meV, 50.1 meV: nu_2 and nu_3 became non-relativistic at z = 15.3 and 94, nu_1 is relativistic; Omega_nu h^2 = 6.314e-04 (FE-58: Sum m/93.14 eV = 6.304e-04, CAMB 6.311e-04); the right-handed states are not populated, so the CNB of UM-3 has one helicity per state and the capture rate on tritium is 4.1 per year per 100 g for non-relativistic Dirac neutrinos (Long, Lunardini and Sabancilar: about 4; Majorana about 8), 6.8 with the massless nu_1"
+   "detail": "T_nu = (4/11)^{1/3} T_gamma = 1.9454 K (1.676e-04 eV); 112.0 neutrinos and antineutrinos per cm^3 per flavour (336 in all, FE-53); m = 0, 8.61 meV, 50.1 meV: nu_2 and nu_3 became non-relativistic at z = 15.3 and 94, nu_1 is relativistic; Omega_nu h^2 = 6.314e-04 (FE-58: Sum m/93.14 eV = 6.304e-04, CAMB 6.311e-04); the right-handed states are not populated, so the CNB of UM-3 has one helicity per state and the capture rate on tritium is 4.1 per year per 100 g for non-relativistic Dirac neutrinos (Long, Lunardini and Sabancilar: about 4; Majorana about 8), 6.90 with the massless nu_1 and the mean speeds 0.0611 and 0.0105 of nu_2 and nu_3 today"
   }
  ],
  "passed": 6,

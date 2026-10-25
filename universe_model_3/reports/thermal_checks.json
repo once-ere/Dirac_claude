@@ -14,12 +14,12 @@
   {
    "name": "T3_current_portals",
    "passed": true,
-   "detail": "a thermal relic through the quark current portals has sigma_SI = 1.1e-38, 1.3e-39, 1.3e-40, 1.5e-41, 1.3e-42, 1.5e-43, 1.4e-44 cm^2, above the LZ limit by factors 5e+09, 6e+08, 2e+07, 8e+05, 2e+04, 8e+02, 2e+01: the quark portals cannot set the relic density at any mass up to 10 TeV (their couplings must be smaller than the relic value by the square roots of these factors); through the lepton portals the scattering is loop-induced, sigma_SI = 2.1e-43 (10 GeV), 4.0e-44 (30 GeV), 5.8e-45 (100 GeV), 9.4e-46 (300 GeV), 1.2e-46 (1000 GeV), 1.7e-47 (3000 GeV), 1.9e-48 (10000 GeV) cm^2 per nucleon, above the limit below about 1284 GeV and allowed above (ESTIMATE: the loop cut-off Lambda = omega_b and the scaling of the LZ limit enter): a leptophilic chi of a TeV or more can be the thermal relic"
+   "detail": "a thermal relic through the quark current portals has sigma_SI = 1.1e-38, 1.3e-39, 1.3e-40, 1.5e-41, 1.3e-42, 1.5e-43, 1.4e-44 cm^2 (10, 30, 100, 300, 1000, 3000, 10000 GeV), above the LZ limit by factors 2e+07, 9e+05, 2e+04, 9e+02, 2e+01 for 100, 300, 1000, 3000, 10000 GeV (below 40 GeV the measured limit rises steeply and no comparison is made): the quark portals cannot set the relic density from 100 GeV to 10 TeV (their couplings must be smaller than the relic value by the square roots of these factors); through the lepton portals (9 chiral states) the scattering is loop-induced, sigma_SI = 2.8e-43 (10 GeV), 5.4e-44 (30 GeV), 7.7e-45 (100 GeV), 1.3e-45 (300 GeV), 1.6e-46 (1000 GeV), 2.2e-47 (3000 GeV), 2.6e-48 (10000 GeV) cm^2 per nucleon, above the limit below about 1454 GeV and allowed above (ESTIMATE: the loop cut-off Lambda = omega_b and the scaling of the LZ limit enter): a leptophilic chi of a TeV or more can be the thermal relic"
   },
   {
    "name": "T4_higgs_portal_binding",
    "passed": true,
-   "detail": "the Higgs-portal Yukawa coupling of FE-47, g_hchi = -2 q_b^2/(omega_b v), gives sigma_SI = mu_N^2 (g_hchi f_H m_N/(v m_h^2))^2/pi; LZ then requires |g_hchi| < 3.2e-03, 5.5e-03, 1.0e-02, 1.7e-02, 3.2e-02 and q_b/omega_b < 0.063, 0.048, 0.035, 0.027, 0.020 for omega_b = 100, 300, 1000, 3000, 10000 GeV (ESTIMATE): the dark-matter particles chi must be weakly bound to the fold"
+   "detail": "the Higgs-portal Yukawa coupling of FE-47, g_hchi = -2 q_b^2/(omega_b v), gives sigma_SI = mu_N^2 (g_hchi f_H m_N/(v m_h^2))^2/pi; LZ then requires |g_hchi| < 3.1e-03, 5.3e-03, 9.7e-03, 1.7e-02, 3.1e-02 and q_b/omega_b < 0.062, 0.047, 0.035, 0.026, 0.019 for omega_b = 100, 300, 1000, 3000, 10000 GeV (ESTIMATE): the dark-matter particles chi must be weakly bound to the fold"
   },
   {
    "name": "T5_right_handed_neutrinos",
