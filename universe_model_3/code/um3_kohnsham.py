@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""um3_kohnsham.py - the self-consistent Kohn-Sham solution for dirac16complex bound to the fold (SOLUTION.md; the
-equations FE-36 to FE-43 of FIELD_EQUATIONS.md).
+"""um3_kohnsham.py - the self-consistent Kohn-Sham solution for dirac16complex bound to the fold (the equations FE-36 to
+FE-43 of UM-3, written out below).
 
 The orbitals of a homogeneous gas of the particles chi (the bound states of dirac16complex, at rest along ordinary space,
 independent of the extra times) on the static block, Psi = e^{3H|sigma|} chi(sigma) e^{-i omega x4}, obey FE-41 reduced to
@@ -34,11 +34,14 @@ mean field (beta = 0.5 with depth 6, or beta = 0.2 with depth 10 where that fail
 tail is long and the linearised map has large negative eigenvalues; the extrapolated field is held to the bound of the
 computed one), convergence when the relative change of the field is below 1e-8 and the level moves by less than 1e-10, or
 the best iterate below 1e-7 once the residual has stopped falling (the floor set by the precision of the level),
-continuation in G with intermediate couplings inserted where a step fails; the three regimes, the Higgs loop and the weakly
-bound point run in two parallel processes.
+continuation in G with intermediate couplings inserted where a step fails.  The computation is split into six parts (K1,
+the regimes I, II and III, the Higgs loop K6 and the weakly bound point K9); every invocation of a part stops after at most
+400 s (the standing rule: no individual calculation longer than 423 s) and keeps a checkpoint after every completed step
+(the mean field as an exact binary copy, the level, the coupling, the mixing that worked last), from which the next
+invocation continues with the same arithmetic; the assembly reads the six parts and makes the checks.
 Checks:
-  K1  without the self-interaction the shooting with the full 16 x 16 matrices reproduces FE-40, eight-fold degenerate,
-      four orbitals of each Krein sign; the reduced 4-dimensional problem has the same level, two-fold (one of each sign);
+  K1  without the self-interaction the shooting with the full 16 x 16 matrices reproduces FE-40 with eight degenerate states,
+      four orbitals of each Krein sign; the reduced 4-dimensional problem has the same level with two degenerate states (one of each sign);
   K2  regime I (q_b > 3H): the self-consistent shift at small G equals first-order perturbation theory,
       delta omega = G int e^{6H|sigma|} (rho_hat^2 - tr N_hat^2) d sigma (= 2 E_int, E_int the interaction energy per
       particle); the occupied and the empty multiplets split;
@@ -62,13 +65,137 @@ Checks:
   K9  a weakly bound point compatible with the direct-detection bound on the Higgs portal (q_b = 0.03 m_Psi, so
       q_b/omega_b = 0.03) and with a nearly luminal chi (H = 0.002 m_Psi, c_b^2 = q_b/(q_b - H) = 1.07): the shooting
       reproduces FE-40, and the self-consistent shift approaches first-order perturbation theory as G -> 0.
-Writes outputs/kohnsham.json and reports/kohnsham_checks.json.
-Usage: python universe_model_3/code/um3_kohnsham.py
+Writes outputs/kohnsham_parts/*.json (the parts, not kept in the repository), outputs/kohnsham.json and
+reports/kohnsham_checks.json.
+Usage (repository root; repeat a part until it reports that it is complete, exit code 0; 3 means run it again):
+    python universe_model_3/code/um3_kohnsham.py part K1     (and part I, part II, part III, part K6, part K9)
+    python universe_model_3/code/um3_kohnsham.py assemble
+    python universe_model_3/code/um3_kohnsham.py             (the status of the parts)
+
+BEGIN FOLD DEFINITION
+THE FOLD (the definition used in every UM-3 file)
+
+Definition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of
+the angle z = 6 H x0 of the hidden direction vanishes:
+    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).
+X = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the
+time, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The author's metric depends on x0
+only through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi
+contains exactly one fold, at z = pi/2. A point of the fold is labelled by the seven coordinates x1, ..., x7, and the
+metric restricted to the fold (dx0 = 0, z = pi/2) is
+    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
+with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
+
+Why this surface is called a fold. Measured by the proper distance along the hidden direction,
+    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
+(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends
+of the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the author's metric is
+    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ] - dx4^2.
+It depends on sigma only through |sigma|. Four properties make the surface sigma = 0 a fold, and together they single it
+out within the period:
+  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to
+     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the
+     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are
+     joined along the crease.
+  2. The warp is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|), which multiplies ordinary space and
+     the extra times, equals 1 on the fold and decreases on both sides.
+  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.
+     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,
+        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb:  K^1_1 = K^2_2 = K^3_3 = K^5_5 = K^6_6 = K^7_7 = -H sgn(sigma),  K^4_4 = 0;
+     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the
+     sign function); it jumps by -2 H along ordinary space and along the extra times. The Einstein-Lovelock equations are
+     linear in the second sigma-derivatives of the metric, so the jump puts a Dirac delta function delta_D(sigma) into
+     them: the metric solves them only if the fold carries a thin source S^a_b, an energy-momentum tensor concentrated on
+     sigma = 0 (the junction conditions). At the author's vacuum (a4' = H, b4 constant) its frame components along (ordinary space, the
+     time, the extra times) are kappa S = (-10 H, -6 H, -10 H), at the static late-time state (a4 and b4 constant)
+     kappa S = (-61 H/8, -31 H/4, -61 H/8), with kappa = 8 pi G_8 the gravitational coupling of eight dimensions. The fold
+     is therefore not only a place but a physical object: a thin layer that carries energy and momentum (a brane).
+  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
+     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
+        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
+     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper
+     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).
+
+What lives on the fold. In UM-3 the Standard Model (the Higgs doublet with the ad hoc vacuum, the gauge fields of
+SU(3)_C x SU(2)_L x U(1)_Y, three generations of quarks and leptons and three right-handed neutrinos), the fold fluid and
+the induced Einstein-Hilbert term of the fold live on the fold: they are fields at sigma = 0, functions of x1, ..., x4 (no
+field depends on the extra times). Integrated over the extra times, the fold is the four-dimensional universe that we
+observe, with the metric diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. dirac16complex and gravity live in the
+bulk sigma != 0 as well as on the fold; the bound states chi of dirac16complex are the part of it that the fold holds,
+and the portals couple dirac16complex to the Standard Model at sigma = 0. In UM-3 files the word fold means this surface
+and nothing else: a number of equal energy levels is written as a number of degenerate states, and a growth by powers of
+Euler's number as a logarithm.
+
+Examples of folds that are meaningful for UM-3.
+  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the
+     Standard Model, and after the integration over the extra times the four-dimensional universe that we observe.
+  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface
+     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are
+     separated by a tip (z a multiple of pi), where the warp (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2 diverges, and
+     which lies at an infinite proper distance from both: in proper distance every copy has its own complete line
+     -infinity < sigma < infinity. This is why the period pi/(6 H) of x0 produces no Kaluza-Klein tower with the spacing
+     12 H; the x0 mass of the bound states is their binding to the fold.
+  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images
+     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).
+     In UM-3 the direction across the crease is the hidden direction sigma, the seven directions along the crease are
+     x1, ..., x7, and the crease is the fold.
+  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,
+     largest at sigma = 0, with a jump of its derivative,
+        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),
+                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),
+     whose delta function is the origin of the thin source of property 3. Every function of UM-3 that depends on sigma
+     through |sigma| is folded at sigma = 0: the metric functions of FD-4 and the profiles of the bound states of
+     dirac16complex (example 7).
+  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto
+     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map
+     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is
+     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.
+  6. The brane of Randall and Sundrum. The five-dimensional metric
+        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),
+                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5
+     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
+     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
+     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
+     the bulk the vacuum energy Lambda_RS. The fold of UM-3 is of the same kind; it differs in that the time x4 is not
+     warped, three extra times are warped together with ordinary space, and the Lovelock terms add to the junction
+     conditions.
+  7. A particle bound to a thin layer. A particle held by an attractive thin layer has a folded wave function: it falls
+     off exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order
+     Dirac equation, the wave function itself). In UM-3 the particles chi of dark matter are the states of dirac16complex
+     bound to the fold; at rest and without their self-interaction (the field is
+     Psi = e^(3 H |sigma|) chi(sigma) e^(-i omega_b x4))
+        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+) (sigma > 0),   chi(sigma) = e^(-q_b |sigma|) chi(0-) (sigma < 0),
+                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),   omega_b = sqrt(m_Psi^2 - q_b^2),
+     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the
+     Standard-Model fields on the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors,
+     m_Psi the bulk mass, and q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for
+     mu_R = 0).
+  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
+        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
+     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
+     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
+     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
+     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of the mean field of a gas of the
+     particles chi: the four bound states of Krein charge -1 (the particles chi) are even under it and the four of Krein
+     charge +1 are odd, so the mean field of the gas cannot mix the two signs of the indefinite charge. R_2 maps the bound
+     states of one Krein charge onto those of the other and makes the two sets degenerate without the self-interaction.
+  9. The planes of Horava and Witten. In M-theory on an interval (a circle whose points are identified with their mirror
+     images), the two ten-dimensional planes left in place by the reflection are mirror surfaces (property 1); the gauge
+     fields E8 x E8 live on them while gravity fills the bulk. This is the arrangement of UM-3, where the Standard Model
+     lives on the fold and gravity and dirac16complex fill the bulk.
+
+What is not a fold.
+  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp vanishes, g_x0x0
+    diverges, and they lie at an infinite proper distance; they carry no thin source.
+  * A smooth maximum of a warp, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a kink
+    and without a thin source.
+END FOLD DEFINITION
 """
 from __future__ import annotations
 
 import json
 import math
+import signal
 import sys
 import time
 from pathlib import Path
@@ -539,7 +666,7 @@ def solve(sh, G, w_start, kappaH=0.0, rhoL0=None, beta=0.5, depth=None, tol=1e-8
 
 
 def first_order_shift(sh16, w):
-    """delta omega / G from first-order perturbation theory with the four Krein-negative orbitals of the eight-fold level."""
+    """delta omega / G from first-order perturbation theory with the four Krein-negative orbitals of the level of eight degenerate states."""
     neg, pos, ev, s = sh16.krein_split(w, 8)
     tot = 0.0
     for side, idx in ((-1, 0), (1, 1)):
@@ -612,68 +739,175 @@ def step_to(sh, G, Gprev, w, attempts=12):
     return r, inserted
 
 
-def run_regime(name):
+PARTS_DIR = UM3 / 'outputs' / 'kohnsham_parts'
+PART_NAMES = ('K1', 'I', 'II', 'III', 'K6', 'K9')
+HARD_LIMIT = 400      # seconds: no individual calculation may run longer than 423 s (the standing rule); a part that
+                      # reaches this limit stops, keeps its last checkpoint and is continued by the next invocation
+SOFT_BUDGET = 240     # no new step of a part is started after this many seconds
+SNAPSHOT_G = (0.01, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0)   # couplings whose self-consistent mean field is kept for um3_krein.py
+
+
+class TimeUp(Exception):
+    """The hard time limit of one invocation was reached."""
+
+
+def _alarm(signum, frame):
+    raise TimeUp()
+
+
+def _save_json(path, data):
+    tmp = path.with_name(path.name + '.tmp')
+    tmp.write_text(json.dumps(data, indent=1, sort_keys=True, default=str) + '\n')
+    tmp.replace(path)
+
+
+def _state_paths(tag):
+    return PARTS_DIR / ('%s.state.json' % tag), PARTS_DIR / ('%s.state.npz' % tag)
+
+
+def _save_state(tag, sh, st):
+    """Checkpoint of a continuation: the mean field held by the shooter (exact binary copy) and the bookkeeping."""
+    js, nz = _state_paths(tag)
+    tmp = nz.with_name(nz.name + '.tmp')
+    with open(tmp, 'wb') as f:
+        np.savez(f, Ml=sh.M[-1], Mr=sh.M[1])
+    tmp.replace(nz)
+    st['muL'] = float(sh.muL)
+    st['mix_order'] = [list(m) for m in sh.mix_order] if hasattr(sh, 'mix_order') else None
+    _save_json(js, st)
+
+
+def _load_state(tag, sh):
+    js, nz = _state_paths(tag)
+    if not js.exists():
+        return None
+    st = json.loads(js.read_text())
+    with np.load(nz) as z:
+        sh.set_field(z['Ml'].copy(), z['Mr'].copy(), st['muL'])
+    if st.get('mix_order') is not None:
+        sh.mix_order = [tuple(m) for m in st['mix_order']]
+    return st
+
+
+def _drop_state(tag):
+    for q in _state_paths(tag):
+        if q.exists():
+            q.unlink()
+
+
+def regime_part(name, t0):
+    """The continuation in G of one regime, then the two attractive couplings from the free state; checkpointed after
+    every step.  Returns True when the regime is complete (its part file written)."""
+    final = PARTS_DIR / ('regime_%s.json' % name)
+    if final.exists():
+        return True
     Hv, L, h = REGIMES[name]
     qb = -MU_L / 2
     wb = math.sqrt(1 - qb * qb)
-    log = []
-    if 6 * Hv - 4 * qb < 0:
-        pt, _ = first_order_shift(Shooter(Hv, MU_L, MU_R, L, h, 16), wb)
-    else:
-        pt = float('inf')
-    sh = Shooter(Hv, MU_L, MU_R, L, h, 4)
-    rows, path = [], []
-    w, Gprev = wb, 0.0
     keys = ('converged', 'omega', 'iterations', 'residual_KS_ode_16', 'residual_selfconsistency', 'density_decay_rate_far',
             'capped', 'reason')
-    t0 = time.time()
-    for G in regime_sequence(name):
-        r, inserted = step_to(sh, G, Gprev, w)
+    tag = 'regime_' + name
+    sh = Shooter(Hv, MU_L, MU_R, L, h, 4)
+    st = _load_state(tag, sh)
+    if st is None:
+        if 6 * Hv - 4 * qb < 0:
+            pt, _ = first_order_shift(Shooter(Hv, MU_L, MU_R, L, h, 16), wb)
+        else:
+            pt = float('inf')
+        st = {'pt': pt, 'w': wb, 'Gprev': 0.0, 'next': 0, 'stopped': False, 'rows': [], 'path': [], 'log': [],
+              'neg_rows': [], 'seconds': time.time() - t0}
+        _save_state(tag, sh, st)
+    seq = regime_sequence(name)
+    pt = st['pt']
+    while st['next'] < len(seq) and not st['stopped']:
+        if time.time() - t0 > SOFT_BUDGET:
+            return False
+        ts = time.time()
+        G = seq[st['next']]
+        r, inserted = step_to(sh, G, st['Gprev'], st['w'])
         for x in inserted + [r]:
             x['first_order_prediction'] = (wb + pt * x['G']) if math.isfinite(pt) else None
-            path.append({k: x.get(k) for k in ('G', 'converged', 'omega', 'iterations', 'reason')})
+            st['path'].append({k: x.get(k) for k in ('G', 'converged', 'omega', 'iterations', 'reason')})
             print('progress: regime %s G = %.3g converged %s omega = %s, %s iterations (%.0f s)' % (
                 name, x['G'], x.get('converged'), x.get('omega'), x.get('iterations'), time.time() - t0), flush=True)
             x['target'] = x['G'] in TARGETS
-            rows.append(x)
+            if x is r and x.get('converged') and x['G'] in SNAPSHOT_G:
+                # the self-consistent mean field of this coupling, kept for the analysis of the Krein norm (um3_krein.py)
+                with open(PARTS_DIR / ('snapshot_%s_G%g.npz' % (name, x['G'])), 'wb') as f:
+                    np.savez(f, Ml=sh.M[-1], Mr=sh.M[1], muL=sh.muL, omega=x['omega'], G=x['G'], H=Hv, L=L, h=h)
+            st['rows'].append(x)
             if x['target'] or not x.get('converged') or name == 'I':
-                log.append('  regime %s G=%.3g: %s' % (name, x['G'], {k: x.get(k) for k in keys}))
+                st['log'].append('  regime %s G=%.3g: %s' % (name, x['G'], {k: x.get(k) for k in keys}))
         if r.get('converged'):
-            w, Gprev = r['omega'], G
+            st['w'], st['Gprev'] = r['omega'], G
         else:
-            break
-    neg_rows = []
-    for G in (-1e-4, -1e-2):
+            st['stopped'] = True
+        st['next'] += 1
+        st['seconds'] += time.time() - ts
+        _save_state(tag, sh, st)
+    while len(st['neg_rows']) < 2:
+        if time.time() - t0 > SOFT_BUDGET:
+            return False
+        ts = time.time()
+        G = (-1e-4, -1e-2)[len(st['neg_rows'])]
         sh2 = Shooter(Hv, MU_L, MU_R, L, h, 4)
         try:
             r = solve(sh2, G, wb)
+        except TimeUp:
+            raise
         except Exception as exc:
             r = {'converged': False, 'reason': str(exc), 'G': G}
-        neg_rows.append(r)
-        log.append('  regime %s G=%g: %s' % (name, G, {k: r.get(k) for k in ('converged', 'omega', 'reason', 'capped')}))
-    return {'H': Hv, 'L': L, 'h': h, 'first_order_dw_over_G': pt, 'positive_G': rows, 'negative_G': neg_rows,
-            'continuation_path': path, 'log': log}
+        st['neg_rows'].append(r)
+        st['log'].append('  regime %s G=%g: %s' % (name, G, {k: r.get(k) for k in ('converged', 'omega', 'reason', 'capped')}))
+        st['seconds'] += time.time() - ts
+        _save_state(tag, sh, st)
+    _save_json(final, {'H': Hv, 'L': L, 'h': h, 'first_order_dw_over_G': pt, 'positive_G': st['rows'],
+                       'negative_G': st['neg_rows'], 'continuation_path': st['path'], 'log': st['log'],
+                       'seconds': st['seconds'], 'definition_of_the_fold': fold_definition()})
+    _drop_state(tag)
+    return True
 
 
-def weak_binding_point():
-    """K9: the Kohn-Sham states at mu_L = -0.06 (q_b = 0.03), H = 0.002 (regime I, q_b = 15H), L = 500, h = 0.25."""
+def k9_part(t0):
+    """K9: the Kohn-Sham states at mu_L = -0.06 (q_b = 0.03), H = 0.002 (regime I, q_b = 15H), L = 500, h = 0.25;
+    checkpointed after every coupling."""
+    final = PARTS_DIR / 'K9.json'
+    if final.exists():
+        return True
     muL, muR, Hv, L, h = -0.06, 0.0, 0.002, 500.0, 0.25
     qb = -muL / 2
     wb = math.sqrt(1 - qb * qb)
-    sh16 = Shooter(Hv, muL, muR, L, h, 16)
-    f8 = lambda dx: float(np.sum(sh16.sv(wb + dx)[:8]))
-    w16 = wb + float(minimize_scalar(f8, bounds=(-1e-4, 1e-4), method='bounded', options={'xatol': 1e-16, 'maxiter': 2000}).x)
-    pt, nneg = first_order_shift(sh16, wb)
+    tag = 'K9'
     sh = Shooter(Hv, muL, muR, L, h, 4)
-    rows, w = [], wb
-    for G in (1e-4, 1e-3, 1e-2):
-        r = solve(sh, G, w)
-        r['ratio_to_first_order'] = (r['omega'] - wb) / (pt * G) if r.get('converged') else None
-        rows.append(r)
+    st = _load_state(tag, sh)
+    if st is None:
+        ts = time.time()
+        sh16 = Shooter(Hv, muL, muR, L, h, 16)
+        f8 = lambda dx: float(np.sum(sh16.sv(wb + dx)[:8]))
+        w16 = wb + float(minimize_scalar(f8, bounds=(-1e-4, 1e-4), method='bounded',
+                                         options={'xatol': 1e-16, 'maxiter': 2000}).x)
+        pt, nneg = first_order_shift(sh16, wb)
+        st = {'w16': w16, 'pt': pt, 'nneg': nneg, 'rows': [], 'w': wb, 'seconds': time.time() - ts}
+        _save_state(tag, sh, st)
+    couplings = (1e-4, 1e-3, 1e-2)
+    while len(st['rows']) < len(couplings):
+        if time.time() - t0 > SOFT_BUDGET:
+            return False
+        ts = time.time()
+        G = couplings[len(st['rows'])]
+        r = solve(sh, G, st['w'])
+        r['ratio_to_first_order'] = (r['omega'] - wb) / (st['pt'] * G) if r.get('converged') else None
+        st['rows'].append(r)
         if r.get('converged'):
-            w = r['omega']
-    return {'muL': muL, 'H': Hv, 'q_b': qb, 'omega_b_FE40': wb, 'omega_16': w16, 'first_order_dw_over_G': pt,
-            'krein_negative_orbitals': nneg, 'c_b_squared': qb / (qb - Hv), 'q_b_over_omega_b': qb / wb, 'rows': rows}
+            st['w'] = r['omega']
+        st['seconds'] += time.time() - ts
+        _save_state(tag, sh, st)
+    _save_json(final, {'muL': muL, 'H': Hv, 'q_b': qb, 'omega_b_FE40': wb, 'omega_16': st['w16'],
+                       'first_order_dw_over_G': st['pt'], 'krein_negative_orbitals': st['nneg'],
+                       'c_b_squared': qb / (qb - Hv), 'q_b_over_omega_b': qb / wb, 'rows': st['rows'],
+                       'seconds': st['seconds'], 'definition_of_the_fold': fold_definition()})
+    _drop_state(tag)
+    return True
 
 
 KAPPA_H = -0.3      # the test value of the Higgs loop; negative, the sign that the attractive Higgs portal implies (K6)
@@ -688,8 +922,77 @@ def higgs_loop(kappaH=KAPPA_H, G=0.1):
     rhoL0 = 0.5 * (d0[-1][2][0] + d0[1][2][0])
     return solve(sh, G, wb, kappaH=kappaH, rhoL0=rhoL0), float(rhoL0)
 
-def main():
+
+def k6_part(t0):
+    final = PARTS_DIR / 'K6.json'
+    if final.exists():
+        return True
+    rH, rhoL0 = higgs_loop()
+    _save_json(final, {'solution': rH, 'rhoL0': rhoL0, 'seconds': time.time() - t0,
+                       'definition_of_the_fold': fold_definition()})
+    return True
+
+
+def k1_part(t0):
+    """K1: the free level, with the full 16 x 16 matrices and reduced to W."""
+    final = PARTS_DIR / 'K1.json'
+    if final.exists():
+        return True
+    muL, muR = MU_L, MU_R
+    qb = -muL / 2
+    wb = math.sqrt(1 - qb * qb)
+    sh16 = Shooter(0.05, muL, muR, 60.0, 0.03, 16)
+    f8 = lambda dx: float(np.sum(sh16.sv(wb + dx)[:8]))
+    w16 = wb + float(minimize_scalar(f8, bounds=(-1e-3, 1e-3), method='bounded', options={'xatol': 1e-16, 'maxiter': 2000}).x)
+    neg, pos, ev16, s16 = sh16.krein_split(w16, 8)
+    shW = Shooter(0.05, muL, muR, 60.0, 0.03, 4)
+    f2 = lambda dx: float(np.sum(shW.sv(wb + dx)[:2]))
+    wW = wb + float(minimize_scalar(f2, bounds=(-1e-3, 1e-3), method='bounded', options={'xatol': 1e-16, 'maxiter': 2000}).x)
+    negW, posW, evW, sW = shW.krein_split(wW, 2)
+    _save_json(final, {'omega_FE40': wb, 'omega_16': w16, 'omega_W': wW, 'sv16': [float(x) for x in s16[:9]],
+                       'svW': [float(x) for x in sW], 'krein16': [len(neg), len(pos)], 'kreinW': [len(negW), len(posW)],
+                       'seconds': time.time() - t0, 'definition_of_the_fold': fold_definition()})
+    return True
+
+
+def run_part(name):
+    """Run (or continue) one part within the time limit: True when the part is complete."""
+    PARTS_DIR.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
+    signal.signal(signal.SIGALRM, _alarm)
+    signal.alarm(HARD_LIMIT)
+    try:
+        if name == 'K1':
+            return k1_part(t0)
+        if name in REGIMES:
+            return regime_part(name, t0)
+        if name == 'K6':
+            return k6_part(t0)
+        if name == 'K9':
+            return k9_part(t0)
+        raise SystemExit('unknown part %s (parts: %s)' % (name, ', '.join(PART_NAMES)))
+    except TimeUp:
+        print('part %s reached the time limit of %d s; its last checkpoint is kept, run it again' % (name, HARD_LIMIT),
+              flush=True)
+        return False
+    finally:
+        signal.alarm(0)
+
+
+def fold_definition():
+    """The definition of the fold, word for word as in the docstring of this module (written into its JSON files)."""
+    d = __doc__
+    return d[d.index('BEGIN FOLD DEFINITION') + len('BEGIN FOLD DEFINITION'):d.index('END FOLD DEFINITION')].strip('\n')
+
+
+def assemble():
+    t0 = time.time()
+    missing = [n for n in PART_NAMES if not (PARTS_DIR / (('regime_%s.json' % n) if n in REGIMES else (n + '.json'))).exists()]
+    if missing:
+        print('parts not yet complete: %s (run: python universe_model_3/code/um3_kohnsham.py part NAME)' % ', '.join(missing))
+        return 2
+    part = {n: json.loads((PARTS_DIR / (('regime_%s.json' % n) if n in REGIMES else (n + '.json'))).read_text())
+            for n in PART_NAMES}
     rep = Report()
     out = {'units': 'm_Psi = 1', 'muL': -0.6, 'muR': 0.0}
     muL, muR = -0.6, 0.0
@@ -703,35 +1006,27 @@ def main():
     out['symmetry'] = sym
 
     # ---------------- K1: the free level, full and reduced
-    sh16 = Shooter(0.05, muL, muR, 60.0, 0.03, 16)
-    f8 = lambda dx: float(np.sum(sh16.sv(wb + dx)[:8]))
-    w16 = wb + float(minimize_scalar(f8, bounds=(-1e-3, 1e-3), method='bounded', options={'xatol': 1e-16, 'maxiter': 2000}).x)
-    neg, pos, ev16, s16 = sh16.krein_split(w16, 8)
-    shW = Shooter(0.05, muL, muR, 60.0, 0.03, 4)
-    f2 = lambda dx: float(np.sum(shW.sv(wb + dx)[:2]))
-    wW = wb + float(minimize_scalar(f2, bounds=(-1e-3, 1e-3), method='bounded', options={'xatol': 1e-16, 'maxiter': 2000}).x)
-    negW, posW, evW, sW = shW.krein_split(wW, 2)
-    out['K1'] = {'omega_FE40': wb, 'omega_16': w16, 'omega_W': wW, 'sv16': [float(x) for x in s16[:9]],
-                 'svW': [float(x) for x in sW], 'krein16': [len(neg), len(pos)], 'kreinW': [len(negW), len(posW)]}
+    k1 = part['K1']
+    w16, wW, s16, sW = k1['omega_16'], k1['omega_W'], k1['sv16'], k1['svW']
+    nneg, npos = k1['krein16']
+    nnegW, nposW = k1['kreinW']
+    out['K1'] = {k: v for k, v in k1.items() if k not in ('seconds', 'definition_of_the_fold')}
     rep.check('K1_free_level', abs(w16 - wb) < 1e-10 and abs(wW - wb) < 1e-10 and s16[7] < 1e-6 < s16[8] and sW[1] < 1e-6 < sW[2]
-              and len(neg) == 4 and len(pos) == 4 and len(negW) == 1 and len(posW) == 1
+              and nneg == 4 and npos == 4 and nnegW == 1 and nposW == 1
               and all(v for k, v in sym.items() if k != 'dim W') and sym['dim W'] == 4,
-              'omega = %.10f (16 dimensions), %.10f (reduced to W), FE-40: %.10f; eight-fold (two-fold in W) with Krein signature '
+              'omega = %.10f (16 dimensions), %.10f (reduced to W), FE-40: %.10f; eight degenerate states (two in W) with Krein signature '
               '(%d, %d) [(%d, %d) in W]; T_0..T_3 symmetric, T_4..T_7 antisymmetric, the compact rotations SU(2) x SU(2) commute '
               'with gamma^(0), gamma^(4), P_L, sigma16 and the Krein operator, 16 = (2,2) x 4' % (
-                  w16, wW, wb, len(neg), len(pos), len(negW), len(posW)))
+                  w16, wW, wb, nneg, npos, nnegW, nposW))
 
-    # ---------------- the three regimes (continuation in G), the Higgs loop (K6) and the weakly bound point (K9), run in
-    # parallel processes (the longest, regime III, first)
+    # ---------------- the three regimes (continuation in G), the Higgs loop (K6) and the weakly bound point (K9), each
+    # computed as a separate part (checkpointed, every invocation under the time limit)
     out['regimes'] = {k: {'H': v[0], 'q_b': qb, '3H': 3 * v[0], '3H/2': 1.5 * v[0]} for k, v in REGIMES.items()}
-    from concurrent.futures import ProcessPoolExecutor
-    with ProcessPoolExecutor(max_workers=2) as ex:
-        futs = {name: ex.submit(run_regime, name) for name in ('III', 'I', 'II')}
-        fut9 = ex.submit(weak_binding_point)
-        fut6 = ex.submit(higgs_loop)
-        results = {name: futs[name].result() for name in REGIMES}
-        k9 = fut9.result()
-        rH, rhoL0 = fut6.result()
+    results = {name: {k: v for k, v in part[name].items() if k not in ('seconds', 'definition_of_the_fold')}
+               for name in REGIMES}
+    k9 = {k: v for k, v in part['K9'].items() if k not in ('seconds', 'definition_of_the_fold')}
+    rH, rhoL0 = part['K6']['solution'], part['K6']['rhoL0']
+    compute_seconds = sum(part[n]['seconds'] for n in PART_NAMES)
     for name in REGIMES:
         for line in results[name].pop('log'):
             print(line, flush=True)
@@ -881,15 +1176,32 @@ def main():
                   ['%.5f' % r['ratio_to_first_order'] for r in rr], ['%.1e' % r['pressure_over_energy'] for r in rr],
                   k9['first_order_dw_over_G'], (rr[0]['energy_per_particle'] - k9['omega_b_FE40']) / rr[0]['G']))
 
-    out['runtime_s'] = round(time.time() - t0, 1)
+    out['runtime_s'] = round(compute_seconds + time.time() - t0, 1)     # the parts and the assembly
+    out['definition_of_the_fold'] = fold_definition()
     (UM3 / 'outputs' / 'kohnsham.json').write_text(json.dumps(out, indent=1, sort_keys=True, default=str) + '\n')
     report = {'script': 'universe_model_3/code/um3_kohnsham.py', 'checks': rep.checks,
               'passed': sum(c['passed'] for c in rep.checks), 'total': len(rep.checks),
               'all_passed': all(c['passed'] for c in rep.checks)}
+    report['definition_of_the_fold'] = fold_definition()
     (UM3 / 'reports' / 'kohnsham_checks.json').write_text(json.dumps(report, indent=1) + '\n')
-    print('%d/%d checks passed in %.1f s' % (report['passed'], report['total'], time.time() - t0))
+    print('%d/%d checks passed (the parts computed in %.1f s, the assembly in %.1f s)' % (
+        report['passed'], report['total'], compute_seconds, time.time() - t0))
     return 0 if report['all_passed'] else 1
 
 
+def main(argv):
+    if len(argv) == 2 and argv[0] == 'part':
+        return 0 if run_part(argv[1]) else 3
+    if argv == ['assemble']:
+        return assemble()
+    print(__doc__.split('BEGIN FOLD DEFINITION')[0])
+    for n in PART_NAMES:
+        f = PARTS_DIR / (('regime_%s.json' % n) if n in REGIMES else (n + '.json'))
+        tag = ('regime_' + n) if n in REGIMES else n
+        print('part %-4s %s' % (n, 'complete' if f.exists() else ('checkpointed' if _state_paths(tag)[0].exists()
+                                                                    else 'not started')))
+    return 2
+
+
 if __name__ == '__main__':
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))

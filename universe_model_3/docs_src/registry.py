@@ -4,6 +4,125 @@ symbol tool (tools/symbols_tool.py) reads.  Each entry: key -> (tex, atoms, mean
 docstring of the symbol tool for the meaning of the fields.  One symbol, one meaning: an atom belongs to one entry.
 
 Usage: python universe_model_3/docs_src/registry.py
+
+BEGIN FOLD DEFINITION
+THE FOLD (the definition used in every UM-3 file)
+
+Definition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of
+the angle z = 6 H x0 of the hidden direction vanishes:
+    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).
+X = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the
+time, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The author's metric depends on x0
+only through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi
+contains exactly one fold, at z = pi/2. A point of the fold is labelled by the seven coordinates x1, ..., x7, and the
+metric restricted to the fold (dx0 = 0, z = pi/2) is
+    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
+with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
+
+Why this surface is called a fold. Measured by the proper distance along the hidden direction,
+    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
+(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends
+of the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the author's metric is
+    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ] - dx4^2.
+It depends on sigma only through |sigma|. Four properties make the surface sigma = 0 a fold, and together they single it
+out within the period:
+  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to
+     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the
+     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are
+     joined along the crease.
+  2. The warp is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|), which multiplies ordinary space and
+     the extra times, equals 1 on the fold and decreases on both sides.
+  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.
+     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,
+        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb:  K^1_1 = K^2_2 = K^3_3 = K^5_5 = K^6_6 = K^7_7 = -H sgn(sigma),  K^4_4 = 0;
+     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the
+     sign function); it jumps by -2 H along ordinary space and along the extra times. The Einstein-Lovelock equations are
+     linear in the second sigma-derivatives of the metric, so the jump puts a Dirac delta function delta_D(sigma) into
+     them: the metric solves them only if the fold carries a thin source S^a_b, an energy-momentum tensor concentrated on
+     sigma = 0 (the junction conditions). At the author's vacuum (a4' = H, b4 constant) its frame components along (ordinary space, the
+     time, the extra times) are kappa S = (-10 H, -6 H, -10 H), at the static late-time state (a4 and b4 constant)
+     kappa S = (-61 H/8, -31 H/4, -61 H/8), with kappa = 8 pi G_8 the gravitational coupling of eight dimensions. The fold
+     is therefore not only a place but a physical object: a thin layer that carries energy and momentum (a brane).
+  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and
+     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
+        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],
+     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper
+     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).
+
+What lives on the fold. In UM-3 the Standard Model (the Higgs doublet with the ad hoc vacuum, the gauge fields of
+SU(3)_C x SU(2)_L x U(1)_Y, three generations of quarks and leptons and three right-handed neutrinos), the fold fluid and
+the induced Einstein-Hilbert term of the fold live on the fold: they are fields at sigma = 0, functions of x1, ..., x4 (no
+field depends on the extra times). Integrated over the extra times, the fold is the four-dimensional universe that we
+observe, with the metric diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. dirac16complex and gravity live in the
+bulk sigma != 0 as well as on the fold; the bound states chi of dirac16complex are the part of it that the fold holds,
+and the portals couple dirac16complex to the Standard Model at sigma = 0. In UM-3 files the word fold means this surface
+and nothing else: a number of equal energy levels is written as a number of degenerate states, and a growth by powers of
+Euler's number as a logarithm.
+
+Examples of folds that are meaningful for UM-3.
+  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the
+     Standard Model, and after the integration over the extra times the four-dimensional universe that we observe.
+  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface
+     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are
+     separated by a tip (z a multiple of pi), where the warp (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2 diverges, and
+     which lies at an infinite proper distance from both: in proper distance every copy has its own complete line
+     -infinity < sigma < infinity. This is why the period pi/(6 H) of x0 produces no Kaluza-Klein tower with the spacing
+     12 H; the x0 mass of the bound states is their binding to the fold.
+  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images
+     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).
+     In UM-3 the direction across the crease is the hidden direction sigma, the seven directions along the crease are
+     x1, ..., x7, and the crease is the fold.
+  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,
+     largest at sigma = 0, with a jump of its derivative,
+        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),
+                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),
+     whose delta function is the origin of the thin source of property 3. Every function of UM-3 that depends on sigma
+     through |sigma| is folded at sigma = 0: the metric functions of FD-4 and the profiles of the bound states of
+     dirac16complex (example 7).
+  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto
+     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map
+     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is
+     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.
+  6. The brane of Randall and Sundrum. The five-dimensional metric
+        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),
+                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5
+     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
+     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
+     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
+     the bulk the vacuum energy Lambda_RS. The fold of UM-3 is of the same kind; it differs in that the time x4 is not
+     warped, three extra times are warped together with ordinary space, and the Lovelock terms add to the junction
+     conditions.
+  7. A particle bound to a thin layer. A particle held by an attractive thin layer has a folded wave function: it falls
+     off exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order
+     Dirac equation, the wave function itself). In UM-3 the particles chi of dark matter are the states of dirac16complex
+     bound to the fold; at rest and without their self-interaction (the field is
+     Psi = e^(3 H |sigma|) chi(sigma) e^(-i omega_b x4))
+        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+) (sigma > 0),   chi(sigma) = e^(-q_b |sigma|) chi(0-) (sigma < 0),
+                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),   omega_b = sqrt(m_Psi^2 - q_b^2),
+     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the
+     Standard-Model fields on the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors,
+     m_Psi the bulk mass, and q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for
+     mu_R = 0).
+  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
+        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
+     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
+     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
+     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
+     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of the mean field of a gas of the
+     particles chi: the four bound states of Krein charge -1 (the particles chi) are even under it and the four of Krein
+     charge +1 are odd, so the mean field of the gas cannot mix the two signs of the indefinite charge. R_2 maps the bound
+     states of one Krein charge onto those of the other and makes the two sets degenerate without the self-interaction.
+  9. The planes of Horava and Witten. In M-theory on an interval (a circle whose points are identified with their mirror
+     images), the two ten-dimensional planes left in place by the reflection are mirror surfaces (property 1); the gauge
+     fields E8 x E8 live on them while gravity fills the bulk. This is the arrangement of UM-3, where the Standard Model
+     lives on the fold and gravity and dirac16complex fill the bulk.
+
+What is not a fold.
+  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp vanishes, g_x0x0
+    diverges, and they lie at an infinite proper distance; they carry no thin source.
+  * A smooth maximum of a warp, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a kink
+    and without a thin source.
+END FOLD DEFINITION
 """
 import json
 from pathlib import Path
@@ -28,8 +147,8 @@ add('diag', r'\mathrm{diag}', [r'\mathrm{diag}'], r'A diagonal matrix with the l
 add('identity', r'\mathbf{1}', [r'\mathbf{1}'], r'The identity matrix of the size fixed by the context ($16 \times 16$ on dirac16complex, $4 \times 4$ on a four-dimensional spinor, $3 \times 3$ in generation or flavour space).', 'dimensionless')
 add('partial', r'\partial', [r'\partial'], r'A partial derivative: $\partial_M$ with respect to the coordinate $X^M$, $\partial_\mu$ with respect to $x^\mu$, $\partial_\sigma$ with respect to $\sigma$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables.')
 add('nabla', r'\nabla', [r'\nabla'], r'The covariant derivative of a tensor with the Levi-Civita connection of the metric $g_{MN}$ (Christoffel symbols $\Gamma^P{}_{MN}$).')
-add('nablahat', r'\hat\nabla', [r'\hat{\nabla}'], r'The covariant derivative of the fold: with the Levi-Civita connection of the metric of the fold ($\hat h_{\mu\nu}$ for four-dimensional tensors, the induced metric of the seven-dimensional fold for $\hat\nabla_a\mathcal{S}^a{}_b$).')
-add('delta', r'\delta', [r'\delta', r'\delta_{X\mathrm{L}}'], r'The Kronecker delta: with two indices $\delta^M_N = 1$ if $M = N$ and 0 otherwise (likewise $\delta_{X\mathrm{L}} = 1$ for $X = \mathrm{L}$); with upper and lower index strings the generalised Kronecker delta $\delta^{M_1\cdots M_n}_{N_1\cdots N_n}$, the determinant of the $n \times n$ matrix of the Kronecker deltas $\delta^{M_a}_{N_b}$ ($+1$ or $-1$ if the upper indices are an even or odd permutation of the lower ones, 0 otherwise).')
+add('nablahat', r'\hat\nabla', [r'\hat{\nabla}'], r'The covariant derivative of the fold: with the Levi-Civita connection of the metric of the fold (for four-dimensional tensors of its metric $\hat h_{\mu\nu} = \mathrm{diag}(\mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, -1)$ in the observable coordinates $x_1, \dots, x_4$; for $\hat\nabla_a\mathcal{S}^a{}_b$ of the induced metric of the seven-dimensional fold).')
+add('delta', r'\delta', [r'\delta', r'\delta_{X\mathrm{L}}'], r'The Kronecker delta: with two indices $\delta^M_N = 1$ if $M = N$ and 0 otherwise (likewise $\delta_{X\mathrm{L}}$ is 1 if the label $X$ of a half of dirac16complex is L and 0 otherwise); with upper and lower index strings the generalised Kronecker delta $\delta^{M_1\cdots M_n}_{N_1\cdots N_n}$, the determinant of the $n \times n$ matrix of the Kronecker deltas $\delta^{M_a}_{N_b}$ ($+1$ or $-1$ if the upper indices are an even or odd permutation of the lower ones, 0 otherwise).')
 add('deltaD', r'\delta_{\mathrm{D}}', [r'\delta_{\mathrm{D}}'], r'The Dirac delta function: $\int\mathrm{d}\sigma\,\delta_{\mathrm{D}}(\sigma)F(\sigma) = F(0)$.', r'1/length (for $\delta_{\mathrm{D}}(\sigma)$)')
 add('dagger', r'{}^\dagger', ['dagger'], r'Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator).')
 add('transpose', r'{}^T', ['transpose'], r'The transpose of a matrix.')
@@ -46,7 +165,7 @@ for k, letter, text in [
         ('iP', 'P', r'A coordinate index of eight dimensions (also $P_1, P_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed.'),
         ('iQ', 'Q', r'A coordinate index of eight dimensions (also $Q_1, Q_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed.'),
         ('iS', 'S', r'A coordinate index of eight dimensions, running over $x_0, \dots, x_7$; a repeated index is summed.'),
-        ('ia', 'a', r'A frame (orthonormal) index running over $0, 1, \dots, 7$ (frame direction $(0)$ along $\sigma$, $(1), (2), (3)$ along ordinary space, $(4)$ along the time, $(5), (6), (7)$ along the extra times); raised and lowered with $\eta_{ab}$; on the fold ($a, b \in \{1, \dots, 7\}$) the frame of the fold; a repeated index is summed.'),
+        ('ia', 'a', r'A frame (orthonormal) index running over $0, 1, \dots, 7$ (frame direction $(0)$ along $\sigma$, $(1), (2), (3)$ along ordinary space, $(4)$ along the time, $(5), (6), (7)$ along the extra times); raised and lowered with the frame metric $\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)$; on the fold ($a, b \in \{1, \dots, 7\}$) the frame of the fold; a repeated index is summed.'),
         ('ib', 'b', r'A frame index (as $a$).'),
         ('ic', 'c', r'A frame index (as $a$).'),
         ('idx', 'd', r'A frame index (as $a$).'),
@@ -59,7 +178,7 @@ for k, letter, text in [
         ('iI', 'I', r'A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed.'),
         ('iJ', 'J', r'A weak-isospin (adjoint SU(2)) index (as $I$).'),
         ('iK', 'K', r'A weak-isospin (adjoint SU(2)) index (as $I$).'),
-        ('ii', 'i', r'A generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; a repeated index is not summed unless a sum sign is written.'),
+        ('ii', 'i', r'A generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\nu_1, \nu_2, \nu_3$; in a frame component such as $\mathcal{S}^{(i)}{}_{(i)}$ a direction $x_i$ of ordinary space (the three components are equal); a repeated index is not summed unless a sum sign is written.'),
         ('ij', 'j', r'A second generation or mass-state index (as $i$).'),
         ('ialpha', r'\alpha', r'A lepton-flavour index, $\alpha \in \{e, \mu, \tau\}$.'),
         ('ibeta', r'\beta', r'A second lepton-flavour index (as $\alpha$).'),
@@ -67,7 +186,7 @@ for k, letter, text in [
         ('if', 'f', r'The label of a kind of Standard-Model multiplet: $f \in \{Q, u, d, \ell, e, \nu\}$ (quark doublets, up-quark singlets, down-quark singlets, lepton doublets, charged-lepton singlets, right-handed neutrinos); a sum over $f$ runs over the six.'),
         ('ipsi', r'\psi', r'The label of a Standard-Model fermion field in a sum: $\psi$ runs over $Q, u_{\mathrm{R}}, d_{\mathrm{R}}, \ell, e_{\mathrm{R}}, \nu_{\mathrm{R}}$.'),
         ('ir', 'r', r'An extra-time direction of the fold: $r \in \{5, 6, 7\}$ ($x_5, x_6, x_7$); not summed (the three components are equal).'),
-        ('io', 'o', r'The label of a Kohn-Sham orbital (a single-particle state of dirac16complex); a sum over $o$ runs over the orbitals.'),
+        ('io', 'o', r'The label of a single-particle state of dirac16complex: a Kohn-Sham orbital, or a mode of the quantised field; a sum over $o$ runs over the orbitals or the modes.'),
 ]:
     add(k, letter, ['index:' + letter], text)
 
@@ -126,10 +245,10 @@ add('omegaSC', r'\varpi_{Mab}', [r'\varpi'], r'The canonical (Levi-Civita) spin 
 add('SigmaGen', r'\Sigma^{ab},\ \Sigma^{\mu\nu}', [r'\Sigma'], r"The generators of Spin(4,4) on dirac16complex, $\Sigma^{ab} = \frac14[T^a, T^b]$ (the scaled commutators of the author's matrices); $\Sigma^{\mu\nu} = \mathbf{e}_a{}^\mu\mathbf{e}_b{}^\nu\Sigma^{ab}$ along the fold.", 'dimensionless', '', 'AUTHOR')
 
 # ---------------------------------------------------------------- stabiliser, fold
-add('Tstab', r'\mathcal{T}_{\mathrm{stab}}{}^a{}_b', [r'\mathcal{T}_{\mathrm{stab}}'], r'The energy-momentum tensor of the stabiliser of the bulk (frame components).', 'GeV$^8$', '', 'ASSUMED')
-add('rhos', r'\rho_{\mathrm{s}}', [r'\rho_{\mathrm{s}}'], r'The energy density of the stabiliser.', 'GeV$^8$', r'$\kappa\rho_{\mathrm{s}} = -H^2/16$', 'ASSUMED')
-add('ps', r'p_{\mathrm{s}}', [r'p_{\mathrm{s}}'], r'The pressure of the stabiliser (equal along $\sigma$, ordinary space and the extra times).', 'GeV$^8$', r'$\kappa p_{\mathrm{s}} = -5H^2/16$', 'ASSUMED')
-add('Vstar', r'V_*', [r'V_{*}'], r'The physical volume of the extra times $x_5, x_6, x_7$ on the fold in the late universe, $V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3$ at a time when $\mathrm{e}^{-a_4}b_4$ is constant; it converts the eight-dimensional normalisation into the four-dimensional one.', 'length$^3$ (GeV$^{-3}$)', '', 'ASSUMED')
+add('Tstab', r'\mathcal{T}_{\mathrm{stab}}{}^a{}_b', [r'\mathcal{T}_{\mathrm{stab}}'], r"The energy-momentum tensor of the stabiliser of the bulk (frame components): the source that a static bulk of the author's metric requires, found and named by Claude (Anthropic) on 2026-10-24.", 'GeV$^8$', '', 'DERIVED (the value), ASSUMED (a separate medium)')
+add('rhos', r'\rho_{\mathrm{s}}', [r'\rho_{\mathrm{s}}'], r'The energy density of the stabiliser; with frozen extra times it is the energy density of the bulk at which ordinary space stands still.', 'GeV$^8$', r'$\kappa\rho_{\mathrm{s}} = -H^2/16$', 'DERIVED (the value), ASSUMED (a separate medium)')
+add('ps', r'p_{\mathrm{s}}', [r'p_{\mathrm{s}}'], r'The pressure of the stabiliser (equal along $\sigma$, ordinary space and the extra times).', 'GeV$^8$', r'$\kappa p_{\mathrm{s}} = -5H^2/16$', 'DERIVED (the value), ASSUMED (a separate medium)')
+add('Vstar', r'V_*', [r'V_{*}'], r'The physical volume of the extra times $x_5, x_6, x_7$ on the fold in the late universe, $V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3$ (with $V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7$ the coordinate volume of the extra times) at a time when $\mathrm{e}^{-a_4}b_4$ is constant; it converts the eight-dimensional normalisation into the four-dimensional one.', 'length$^3$ (GeV$^{-3}$)', '', 'ASSUMED')
 add('Vt', r'V_{\mathrm{t}}', [r'V_{\mathrm{t}}'], r'The coordinate volume of the (compact) extra times, $V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7$.', 'length$^3$', '', 'ASSUMED')
 add('Zfold', r'\mathcal{Z}', [r'\mathcal{Z}'], r'The fold factor, $\mathcal{Z}(x_4) = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3/V_*$: the factor by which the size of the extra times multiplies every term of the fold; $\mathcal{Z} = 1$ when the extra times are frozen at their late value.', 'dimensionless', '1 in the late universe', 'DERIVED')
 add('Ffold', r'\mathbb{F}', [r'\mathbb{F}'], r'Any function of the fields at the fold (used to state a rule of integration).', '', '', 'STANDARD')
@@ -203,7 +322,7 @@ add('LovE', r'\mathcal{E}_{(p)}{}^M{}_N', [r'\mathcal{E}'], r'The Lovelock tenso
 add('isigma', r'\sigma', ['index:\\sigma'], r'The label $\sigma$ in $\partial_\sigma$: the derivative with respect to the proper hidden coordinate $\sigma$.')
 add('TPsi', r'\mathcal{T}_\Psi', [r'\mathcal{T}_{\Psi}'], r'The energy-momentum tensor of dirac16complex, $\mathcal{T}_{MN} = -(2/\sqrt{\lvert g\rvert})\,\delta S_\Psi/\delta g^{MN}$.', 'GeV$^8$', '', 'STANDARD')
 add('Tbulk', r'\mathcal{T}_{\mathrm{bulk}}', [r'\mathcal{T}_{\mathrm{bulk}}'], r'The energy-momentum tensor of all sources of the bulk, $\mathcal{T}_\Psi + \mathcal{T}_{\mathrm{stab}}$; $\mathcal{T}_{\mathrm{bulk}}{}^{(0)}{}_b$ is its flux along $\sigma$ (frame components).', 'GeV$^8$', '', 'STANDARD')
-add('Sfoldsrc', r'\mathcal{S}^a{}_b', [r'\mathcal{S}'], r'The thin source of the fold: its energy-momentum tensor per unit proper length across the fold (eight-dimensional normalisation, frame components along the fold); $\kappa\mathcal{S}$ is the jump of the potential $\mathfrak{F}$.', 'GeV$^7$', '', 'DERIVED')
+add('Sfoldsrc', r'\mathcal{S}^a{}_b', [r'\mathcal{S}'], r'The thin source of the fold: its energy-momentum tensor per unit proper length across the fold (eight-dimensional normalisation, frame components along the fold); it is fixed by the jump of the first $\sigma$-derivatives of the metric across the fold (the junction conditions; $\kappa\mathcal{S}$ is the jump of the junction potential).', 'GeV$^7$', '', 'DERIVED')
 add('varepsilon', r'\varepsilon', [r'\varepsilon'], r'The half-thickness of a layer around the fold, taken to zero.', 'length', '', 'STANDARD')
 add('Fpot', r'\mathfrak{F}^a{}_b', [r'\mathfrak{F}'], r'The junction potential: a function of the first $\sigma$-derivatives of the metric functions whose derivatives are the coefficients of the second $\sigma$-derivatives in $\sum_p\alpha_{(p)}\mathcal{E}_{(p)}{}^a{}_b$ (FE-4).', 'GeV', '', 'DERIVED')
 add('fwarp', r'\mathfrak{f}', [r'\mathfrak{f}'], r'Any one of the three metric functions $\mathfrak{a}, \mathfrak{b}, \mathfrak{n}$ of the general warped metric (FE-34).', 'dimensionless', '', 'DERIVED')
@@ -237,7 +356,7 @@ add('Rres', r'\mathcal{R}_{\mathcal{A}},\ \mathcal{R}_v', [r'\mathcal{R}', r'\ma
 
 
 # ---------------------------------------------------------------- background
-add('Asf', r'\mathsf{A}', [r'\mathsf{A}'], r"The expansion rate of ordinary space in units of $H$, $\mathsf{A} = a_4'/H$.", 'dimensionless', r"1 at the author's vacuum; $H_0/H$ today ($H_0$ the Hubble constant)", 'DERIVED')
+add('Asf', r'\mathsf{A}', [r'\mathsf{A}'], r"The expansion rate of ordinary space in units of $H$, $\mathsf{A} = a_4'/H$.", 'dimensionless', r"1 at the author's vacuum, 0 at the static block; $H_4^{(0)}/H$ today ($H_4^{(0)}$ the Hubble constant)", 'DERIVED')
 add('Usf', r'\mathsf{U}', [r'\mathsf{U}'], r"The rate of change of $b_4$ in units of $H$, $\mathsf{U} = b_4'/(Hb_4)$.", 'dimensionless', r'$\mathsf{U} = \mathsf{A}$ with frozen extra times', 'DERIVED')
 add('A1sf', r'\mathsf{A}_1', [r'\mathsf{A}_{1}'], r"The time derivative of $\mathsf{A}$ in units of $H$, $\mathsf{A}_1 = \mathsf{A}'/H = a_4''/H^2$.", 'dimensionless', '', 'DERIVED')
 add('U1sf', r'\mathsf{U}_1', [r'\mathsf{U}_{1}'], r"The time derivative of $\mathsf{U}$ in units of $H$, $\mathsf{U}_1 = \mathsf{U}'/H$.", 'dimensionless', '', 'DERIVED')
@@ -245,7 +364,7 @@ add('Gfac', r'\mathcal{G}', [r'\mathcal{G}'], r'The factor of the $(\sigma, x_4)
 add('rhobulk', r'\rho_{\mathrm{bulk}}', [r'\rho_{\mathrm{bulk}}'], r'The energy density of the bulk sources, $\rho_{\mathrm{bulk}} = -\mathcal{T}_{\mathrm{bulk}}{}^{(4)}{}_{(4)}$.', 'GeV$^8$', '', 'DERIVED')
 add('is', 's', ['index:s'], r'A second extra-time direction of the fold (as $r$, different from it).')
 add('inn', 'n', ['index:n'], r'The order $n = 1, 2, \dots$ of a term of the power series of the metric (also its exponent of $\epsilon_{\mathrm{r}}$); $\mathfrak{a}_n$, $\mathfrak{b}_n$, $\mathfrak{n}_n$ are the terms of order $n$.')
-add('epsr', r'\epsilon_{\mathrm{r}}', [r'\epsilon_{\mathrm{r}}'], r'The bookkeeping parameter of the response of the bulk to the matter of the fold: the ratio of the bulk to the fold gravity, $\epsilon_{\mathrm{r}} = \kappa_4V_*/(\kappa H)$.', 'dimensionless', r'$\lesssim 10^{-15}$ (an estimate: if a fraction $\epsilon_{\mathrm{r}}$ of the gravitational waves of the fold travelled with the bulk gravitons, whose speed squared is 15/2 times that of light, their speed would differ from that of light by about $3\epsilon_{\mathrm{r}}$, and the gravitational waves and the light of the neutron-star merger GW170817 arrived together to about $10^{-15}$)', 'DERIVED (the definition), ESTIMATE (the bound)')
+add('epsr', r'\epsilon_{\mathrm{r}}', [r'\epsilon_{\mathrm{r}}'], r'The bookkeeping parameter of the response of the bulk to the matter of the fold: the ratio of the bulk to the fold gravity, $\epsilon_{\mathrm{r}} = \kappa_4V_*/(\kappa H)$.', 'dimensionless', r'below $1.344\times10^{-13}$: the four-dimensional gravitational wave has $c_{\mathrm{g}}^2 = (96 + 83\epsilon_{\mathrm{r}})/(96 + 82\epsilon_{\mathrm{r}})$, and the gravitational waves and the light of the neutron-star merger GW170817 arrived together, $(c_{\mathrm{g}} - 1) < 7\times10^{-16}$', 'DERIVED')
 add('epsc', r'\epsilon_{\mathrm{c}}', [r'\epsilon_{\mathrm{c}}'], r'The bookkeeping parameter of the cosmological perturbations of the metric of the fold (the size of the CMB anisotropies).', 'dimensionless', r'$\sim 10^{-5}$', 'STANDARD')
 
 
@@ -278,7 +397,7 @@ add('muPsi', r'\mu_\Psi', [r'\mu_{\Psi}'], r'The chemical potential of dirac16co
 add('TPsiT', r'\mathsf{T}_\Psi', [r'\mathsf{T}_{\Psi}'], r'The temperature of dirac16complex.', 'GeV', '', 'DERIVED')
 add('QPsi', r'Q_\Psi', [r'Q_{\Psi}'], r'The conserved charge of dirac16complex (the Noether charge of a change of the phase of $\Psi$ by a constant), a Krein form (indefinite).', 'dimensionless', '', 'DERIVED')
 add('Bkrein', r'\mathfrak{B}', [r'\mathfrak{B}'], r'The Krein operator, $\mathfrak{B} = \mathrm{i}\sigma_{16}\gamma^{(4)}$: a Hermitian involution with the signature (8, 8); $\Psi^\dagger\mathfrak{B}\Psi$ is the charge density.', 'dimensionless', '', 'DERIVED')
-add('Qorb', r'\mathcal{Q}_o', [r'\mathcal{Q}'], r'The charge $Q_\Psi$ of the Kohn-Sham orbital $o$ (positive or negative).', 'dimensionless', '', 'DERIVED')
+add('Qorb', r'\mathcal{Q}_o', [r'\mathcal{Q}'], r'The charge $Q_\Psi$ (the Krein charge) of the single-particle state $o$ of dirac16complex, a Kohn-Sham orbital or a mode: $+1$ or $-1$ for a normalised state.', 'dimensionless', '', 'DERIVED')
 # the Kohn-Sham states of the gas of bound particles (SOLUTION, ANALYSIS); no meaning cites an equation tag
 add('chiKS', r'\chi_o(\sigma),\ \bar\chi_o', [r'\chi_{o}', r'\bar{\chi}_{o}', r'\chi_{p}', r'\chi_{1}'], r'The profile of the occupied Kohn-Sham orbital $o$ ($o = 1, \dots, 4$, the four positive-energy states of the bound level) of a homogeneous gas of the particles $\chi$ at rest on the static block: a 16-component spinor function of $\sigma$; the orbital of each particle is $\mathrm{e}^{3H\lvert\sigma\rvert}\chi_o(\sigma)\mathrm{e}^{-\mathrm{i}\omega x_4}$ divided by the square root of the volume of ordinary space and of $V_*$; normalised to the Krein charge $-1$, $\int\mathrm{d}\sigma\,\chi_o^\dagger\mathfrak{B}\chi_o = -1$; $\bar\chi_o = \chi_o^\dagger\sigma_{16}$ is its Dirac adjoint.', r'GeV$^{1/2}$', '', 'DERIVED')
 add('GKS', r'G_{\mathrm{KS}}', [r'G_{\mathrm{KS}}'], r'The dimensionless strength of the self-interaction of the gas of particles $\chi$ in the Kohn-Sham states: the self-coupling $\lambda_\Psi$ times the number density $n_\chi$ of the particles on the fold divided by the volume $V_*$ of the extra times, $G_{\mathrm{KS}} = \lambda_\Psi n_\chi/V_*$ (in units of $m_\Psi$ when numbers are given).', 'dimensionless', r'$10^{-6}$ to 1 in the solutions', 'DERIVED')
@@ -295,14 +414,14 @@ add('wchi', r'w_\chi', [r'w_{\chi}'], r'The equation of state of the gas of the 
 add('PKS', r'P_{\mathrm{KS}}', [r'P_{\mathrm{KS}}'], r'The pressure of the gas of $\chi$ along ordinary space in the Kohn-Sham state: the particles are at rest, so it is the mean self-interaction, $P_{\mathrm{KS}} = n_\chi\mathsf{E}_{\mathrm{int}}$.', 'GeV$^4$', '', 'DERIVED')
 add('muL0', r'\mu_{\mathrm{L}0}', [r'\mu_{\mathrm{L}0}'], r'The strength $\mu_{\mathrm{L}}$ of the fold for the left-handed half without the feedback of the gas on the Higgs field.', 'dimensionless', '$-0.6$ in the solutions', 'DERIVED')
 add('kappaH', r'\kappa_{\mathrm{H}}', [r'\kappa_{\mathrm{H}}'], r'The strength of the Higgs-portal loop of the gas: the gas without the feedback changes the local $v_{\mathrm{loc}}^2$ at the fold by the factor $1 - \kappa_{\mathrm{H}}$, $\kappa_{\mathrm{H}} = c_\Phi n_\chi\hat\rho_{\mathrm{L}0}(0)/(\lambda v^2V_*)$; negative where the Higgs portal binds the fold ($c_\Phi < 0$, $\hat\rho_{\mathrm{L}0}(0) > 0$): the gas raises $v_{\mathrm{loc}}^2$.', 'dimensionless', '$-0.3$ in the test of the loop', 'ASSUMED (the value), DERIVED (the sign)')
-add('Delta', r'\Delta', [r'\Delta'], r'A change, difference or small variation of the quantity that follows ($\Delta\rho$ a perturbation, $\Delta m^2$ a difference of squared masses, $\Delta N_{\mathrm{eff}}$ an addition to $N_{\mathrm{eff}}$).', '', '', 'STANDARD')
+add('Delta', r'\Delta', [r'\Delta'], r'A change, difference or small variation of the quantity that follows (for example an interval of the time, a perturbation of a density, a difference of two squared masses, or an addition to an effective number of species).', '', '', 'STANDARD')
 
 # ---------------------------------------------------------------- Standard Model on the fold
 add('geff', r'g_{k,\mathrm{eff}}', [r'g_{1,\mathrm{eff}}', r'g_{2,\mathrm{eff}}', r'g_{3,\mathrm{eff}}'], r'The effective (canonically normalised) gauge couplings of the fold when the fold factor is $\mathcal{Z}$, $g_{k,\mathrm{eff}} = g_k/\sqrt{\mathcal{Z}}$ ($k = 1, 2, 3$).', 'dimensionless', '', 'DERIVED')
 add('lameff', r'\lambda_{\mathrm{eff}}', [r'\lambda_{\mathrm{eff}}'], r'The effective quartic Higgs coupling, $\lambda/\mathcal{Z}$.', 'dimensionless', '', 'DERIVED')
 add('Yeff', r'\mathcal{Y}_{\mathrm{eff}}', [r'\mathcal{Y}_{\mathrm{eff}}'], r'The effective Yukawa matrices, $\mathcal{Y}/\sqrt{\mathcal{Z}}$ (for each of $\mathcal{Y}^{u}, \mathcal{Y}^{d}, \mathcal{Y}^{e}, \mathcal{Y}^{\nu}$).', 'dimensionless', '', 'DERIVED')
 add('GNeff', r'G_{\mathrm{N,eff}}', [r'G_{\mathrm{N,eff}}'], r'The effective Newton constant of the fold, $G_{\mathrm{N}}/\mathcal{Z}$.', 'GeV$^{-2}$', '', 'DERIVED')
-add('GN', r'G_{\mathrm{N}}', [r'G_{\mathrm{N}}'], r'Newton’s constant of four-dimensional gravity on the fold, $G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2$.', 'GeV$^{-2}$', r'$6.708\times10^{-39}$ GeV$^{-2}$', 'STANDARD')
+add('GN', r'G_{\mathrm{N}}', [r'G_{\mathrm{N}}'], r'Newton’s constant of four-dimensional gravity (the gravity of our world, on the fold), $G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2$ with the Planck mass $M_{\mathrm{Pl}} = 1.221\times10^{19}$ GeV.', 'GeV$^{-2}$', r'$6.708\times10^{-39}$ GeV$^{-2}$', 'STANDARD')
 add('mW', r'm_{\mathrm{W}}', [r'm_{\mathrm{W}}'], r'The mass of the $W$ bosons.', 'GeV', '80.37 GeV ($\\mathcal{A} = 0$)', 'STANDARD')
 add('mZ', r'm_{\mathrm{Z}}', [r'm_{\mathrm{Z}}'], r'The mass of the $Z$ boson.', 'GeV', '91.19 GeV ($\\mathcal{A} = 0$)', 'STANDARD')
 add('GF', r'G_{\mathrm{F}}', [r'G_{\mathrm{F}}'], r'The Fermi constant, $G_{\mathrm{F}} = 1/(\sqrt2\,v^2)$ in the Standard-Model vacuum (its measured value); in FE-45 the Fermi constant of the ad hoc vacuum, which is $G_{\mathrm{F,loc}}$ of FE-49.', 'GeV$^{-2}$', r'$1.1664\times10^{-5}$ GeV$^{-2}$', 'STANDARD')
@@ -310,7 +429,7 @@ add('mh', r'm_h', [r'm_{h}'], r'The mass of the Higgs boson.', 'GeV', '125.25 Ge
 add('Aphoton', r'A_\mu', ['A'], r'The photon field: the massless combination of $W^1, W^2, W^3$ and $B$ (canonically normalised).', 'GeV', '', 'STANDARD')
 add('nI', r'n^I', [r'n^{I}'], r'The unit isovector of the ad hoc vacuum, $n = (2\mathcal{A}v, 0, \mathcal{A}^2 - v^2)/(\mathcal{A}^2 + v^2)$, which fixes which combination of $W^1, W^2, W^3$ joins $B$ in the photon.', 'dimensionless', r'$(0, 0, -1)$ for $\mathcal{A} = 0$', 'DERIVED')
 add('Umix', r'U_{f\mathrm{L}},\ U_{f\mathrm{R}}', [r'U_{u\mathrm{L}}', r'U_{u\mathrm{R}}', r'U_{d\mathrm{L}}', r'U_{d\mathrm{R}}', r'U_{e\mathrm{L}}', r'U_{e\mathrm{R}}', r'U_{\nu \mathrm{L}}', r'U_{\nu \mathrm{R}}'], r'The unitary $3 \times 3$ matrices that diagonalise the mass matrices of the up quarks, the down quarks, the charged leptons and the neutrinos (left-handed and right-handed rotations).', 'dimensionless', '', 'STANDARD')
-add('mferm', r'm_u, \dots, m_3', [r'm_{u}', r'm_{c}', r'm_{t}', r'm_{d}', r'm_{s}', r'm_{b}', r'm_{e}', r'm_{\mu}', r'm_{\tau}', r'm_{1}', r'm_{2}', r'm_{3}'], r'The masses of the quarks ($m_u, m_c, m_t$; $m_d, m_s, m_b$), of the charged leptons ($m_e, m_\mu, m_\tau$) and of the three neutrino mass states ($m_1, m_2, m_3$, Dirac masses).', 'GeV', r'measured values; $\Delta m_{21}^2 = 7.41\times10^{-5}$ eV$^2$, $\lvert\Delta m_{31}^2\rvert = 2.511\times10^{-3}$ eV$^2$ (the global fit NuFIT 5.2 of the oscillation data, November 2022)', 'STANDARD')
+add('mferm', r'm_u, \dots, m_3', [r'm_{u}', r'm_{c}', r'm_{t}', r'm_{d}', r'm_{s}', r'm_{b}', r'm_{e}', r'm_{\mu}', r'm_{\tau}', r'm_{1}', r'm_{2}', r'm_{3}'], r'The masses of the quarks ($m_u, m_c, m_t$; $m_d, m_s, m_b$), of the charged leptons ($m_e, m_\mu, m_\tau$) and of the three neutrino mass states ($m_1, m_2, m_3$, Dirac masses).', 'GeV', r'measured values; $\Delta m_{21}^2 = 7.41\times10^{-5}$ eV$^2$, $\lvert\Delta m_{31}^2\rvert = 2.511\times10^{-3}$ eV$^2$ in the computations of UM-3 (the global fit NuFIT 5.2 of the oscillation data, November 2022), $7.49\times10^{-5}$ and $2.513\times10^{-3}$ eV$^2$ in NuFIT 6.0 (2024); the lightest mass $m_1 = 0$ in the computations, below 4.12 meV by DESI DR2 with the CMB', 'STANDARD')
 add('Ckm', r'V_{\mathrm{CKM}}', [r'V_{\mathrm{CKM}}'], r'The quark mixing matrix (Cabibbo-Kobayashi-Maskawa).', 'dimensionless', '', 'STANDARD')
 add('Pmns', r'U_{\mathrm{PMNS}}', [r'U_{\mathrm{PMNS}}'], r'The lepton mixing matrix (Pontecorvo-Maki-Nakagawa-Sakata) of the three Dirac neutrinos; $U_{\alpha i}$ are its entries.', 'dimensionless', r'$\theta_{12} = 33.40^\circ$, $\theta_{23} = 49.14^\circ$, $\theta_{13} = 8.54^\circ$ (NuFIT 5.2, November 2022, normal ordering, with the Super-Kamiokande atmospheric data); the Dirac phase is set to zero (ASSUMED; the fit prefers $197^\circ$)', 'STANDARD, ASSUMED (the phase)')
 add('nugen', r'\nu_\alpha,\ \nu_i', [r'\nu', r'\bar{\nu}'], r'A neutrino field: $\nu_\alpha$ the flavour states ($\alpha = e, \mu, \tau$), $\nu_i$ the mass states ($i = 1, 2, 3$).', 'GeV$^{3/2}$', '', 'STANDARD')
@@ -404,7 +523,7 @@ add('DM', r'D_{\mathrm{M}}(\mathsf{z})', [r'D_{\mathrm{M}}'], r'The transverse c
 add('DH', r'D_{\mathrm{H}}(\mathsf{z})', [r'D_{\mathrm{H}}'], r'The Hubble distance at the redshift $\mathsf{z}$.', 'length', '', 'STANDARD')
 add('DV', r'D_{\mathrm{V}}(\mathsf{z})', [r'D_{\mathrm{V}}'], r'The volume-averaged distance to the redshift $\mathsf{z}$.', 'length', '', 'STANDARD')
 add('zred', r'\mathsf{z}', [r'\mathsf{z}'], r"The redshift, $1 + \mathsf{z} = 1/a$; $\mathsf{z}'$ an integration variable.", 'dimensionless', '', 'STANDARD')
-add('H4', r'H_4', [r'H_{4}'], r"The expansion rate (Hubble rate) of the fold, $H_4 = a_4'$, as a function of the time or of the redshift; $H_4^{(0)}$ its value today, the Hubble constant.", 'GeV (1/time)', r'$H_4^{(0)} = 100\,h_{100}$ km/s/Mpc', 'STANDARD')
+add('H4', r'H_4', [r'H_{4}'], r"The expansion rate (Hubble rate) of the fold, $H_4 = a_4'$, as a function of the time or of the redshift; $H_4^{(0)}$ its value today, the Hubble constant.", 'GeV (1/time)', r'$H_4^{(0)} = 100\,h_{100}$ km/s/Mpc with $h_{100} = 0.674$ (Planck 2018): 67.4 km/s/Mpc $= 1.44\times10^{-42}$ GeV', 'STANDARD')
 add('Cl', r'C_l^{\mathrm{TT}},\ C_l^{\mathrm{TE}},\ C_l^{\mathrm{EE}}', ['C'], r'The angular power spectra of the CMB at the multipole $l$: temperature with temperature, temperature with E-mode polarisation, E-mode polarisation with itself.', 'dimensionless', '', 'STANDARD')
 add('CMBlab', r'\mathrm{T},\ \mathrm{E}', [r'\mathrm{T}', r'\mathrm{E}', r'\mathrm{TT}', r'\mathrm{TE}', r'\mathrm{EE}'], r'The labels of the CMB observables: $\mathrm{T}$ the temperature anisotropy, $\mathrm{E}$ the E-mode (gradient) polarisation; $\mathrm{TT}$, $\mathrm{TE}$, $\mathrm{EE}$ label the spectra of their products.')
 add('Itrans', r'\mathcal{I}_l^{\mathrm{T}}(k),\ \mathcal{I}_l^{\mathrm{E}}(k)', [r'\mathcal{I}'], r'The transfer functions of the CMB: the multipole $l$ of the temperature or E-mode anisotropy today produced by a Fourier mode $k$ of unit primordial curvature perturbation, computed from FE-54 and FE-55 (the line-of-sight integral).', 'dimensionless', '', 'STANDARD')
@@ -456,12 +575,12 @@ add('us', r'u_{\mathrm{s}}', [r'u_{\mathrm{s}}'], r'The rescaled profile of a ma
 add('csc', r'c_{\mathrm{sc}}', [r'c_{\mathrm{sc}}'], r'The limiting speed of the zero mode of a scalar field of the bulk along ordinary space, in units of the speed of light on the fold.', 'dimensionless', r'$\sqrt{3/2}$', 'DERIVED')
 add('cgauge', r'c_{\mathrm{gauge}}', [r'c_{\mathrm{gauge}}'], r'The limiting speed of the zero mode of a gauge field (a photon) of the bulk, in units of the speed of light on the fold.', 'dimensionless', r'$\sqrt2$', 'DERIVED')
 add('cfer', r'c_{\mathrm{fer}}', [r'c_{\mathrm{fer}}'], r'The limiting speed of the zero mode of a fermion of the bulk with the kink mass $M_{\mathrm{k}}\,\mathrm{sgn}(\sigma)$, in units of the speed of light on the fold.', 'dimensionless', '', 'DERIVED')
-add('cgrav', r'c_{\mathrm{g}}', [r'c_{\mathrm{g}}'], r'The limiting speed of the zero mode of the transverse traceless graviton of the bulk at the static block, in units of the speed of light on the fold.', 'dimensionless', r'$\sqrt{15/2} = 2.74$', 'DERIVED')
+add('cgrav', r'c_{\mathrm{g}}', [r'c_{\mathrm{g}}'], r'The limiting speed of the zero mode of the transverse traceless graviton (the four-dimensional gravitational wave) at the static block or with frozen extra times, in units of the speed of light on the fold.', 'dimensionless', r'$\sqrt{15/2} = 2.74$ for the bulk alone; $\sqrt{83/82} = 1.0061$ with the graviton term of the fold from the Gauss-Bonnet and cubic Lovelock terms; $\sqrt{(96 + 83\epsilon_{\mathrm{r}})/(96 + 82\epsilon_{\mathrm{r}})}$ with the induced gravity of the fold', 'DERIVED')
 add('Mkink', r'M_{\mathrm{k}}', [r'M_{\mathrm{k}}'], r'The mass of a fermion of the bulk that changes sign at the fold (a kink mass $M_{\mathrm{k}}\,\mathrm{sgn}(\sigma)$), used to illustrate the speeds of bulk fermions.', 'GeV', '', 'ASSUMED')
 add('cb', r'c_{\mathrm{b}}', [r'c_{\mathrm{b}}'], r'The limiting speed of the bound particles $\chi$ of dirac16complex along ordinary space, in units of the speed of light on the fold (first order in the momentum).', 'dimensionless', '', 'DERIVED')
 # ---------------------------------------------------------------- SOLUTION: neutrino flavours
 add('H2flav', r'\mathsf{H}_{2}', [r'\mathsf{H}_{2}'], r'The two-flavour Hamiltonian of the electron neutrinos in the Sun (the mass states 1 and 2 with the potential $\cos^2\theta_{13}V_{\mathrm{CC}}$; the third state decouples).', 'GeV (or 1/km)', '', 'STANDARD')
-add('thetaij', r'\theta_{12},\ \theta_{13},\ \theta_{23}', [r'\theta_{12}', r'\theta_{13}', r'\theta_{23}'], r'The three mixing angles of $U_{\mathrm{PMNS}}$ (the Dirac phase is set to zero here).', 'dimensionless', r'$33.40^\circ$, $8.54^\circ$, $49.14^\circ$ ($\sin^2\theta_{12} = 0.303$, $\sin^2\theta_{13} = 0.02203$, $\sin^2\theta_{23} = 0.572$: NuFIT 5.2, November 2022, normal ordering, with the Super-Kamiokande atmospheric data)', 'STANDARD')
+add('thetaij', r'\theta_{12},\ \theta_{13},\ \theta_{23}', [r'\theta_{12}', r'\theta_{13}', r'\theta_{23}'], r'The three mixing angles of $U_{\mathrm{PMNS}}$ (its fourth parameter is the Dirac phase, which does not enter the electron-flavour results of UM-3).', 'dimensionless', r'$33.40^\circ$, $8.54^\circ$, $49.14^\circ$ in the computations of UM-3 ($\sin^2\theta_{12} = 0.303$, $\sin^2\theta_{13} = 0.02203$, $\sin^2\theta_{23} = 0.572$: NuFIT 5.2, November 2022, normal ordering, with the Super-Kamiokande atmospheric data); $33.71^\circ$, $8.56^\circ$, $43.28^\circ$ in NuFIT 6.0 (2024; $\sin^2\theta_{12} = 0.308$, $\sin^2\theta_{13} = 0.02215$, $\sin^2\theta_{23} = 0.470$)', 'STANDARD')
 add('NA', r'N_{\mathrm{A}}', [r'N_{\mathrm{A}}'], r"Avogadro's number: $245N_{\mathrm{A}}$ cm$^{-3}$ is 245 moles of electrons per cubic centimetre.", 'per mole', r'$6.02214076\times10^{23}$', 'STANDARD')
 add('Rsun', r'R_\odot', [r'R_{\odot}'], r'The radius of the Sun.', 'length', r'$6.957\times10^5$ km', 'STANDARD')
 add('Pee', r'\mathsf{P}_{\mathrm{ee}}', [r'\mathsf{P}_{\mathrm{ee}}'], r'The survival probability of electron neutrinos: the probability that an electron neutrino is detected as an electron neutrino.', 'dimensionless', '', 'DERIVED')
@@ -509,7 +628,7 @@ add('GammaCnuB', r'\Gamma_{\mathrm{C\nu B}}', [r'\Gamma_{\mathrm{C\nu B}}'], r'T
 add('NT', r'N_{\mathrm{T}}', [r'N_{\mathrm{T}}'], r'The number of tritium nuclei of the target.', 'dimensionless', r'$2.0\times10^{25}$ for 100 g', 'STANDARD')
 add('sigmabarT', r'\bar\sigma_{\mathrm{T}}', [r'\bar{\sigma}_{\mathrm{T}}'], r'The averaged cross-section of the capture of an electron neutrino on tritium: a tritium nucleus captures left-handed electron neutrinos of mean speed $\mathsf{s}$ and number density $n$ at the rate $\bar\sigma_{\mathrm{T}}(1 + \mathsf{s})\,c\,n$ ($c$ the speed of light, 1 in the formulas; Long, Lunardini and Sabancilar).', 'cm$^2$', r'$3.834\times10^{-45}$ cm$^2$', 'STANDARD')
 add('Uei', r'U_{\mathrm{e}i}', [r'U_{\mathrm{e}i}'], r'The electron row of the mixing matrix, $U_{\mathrm{e}i} = (U_{\mathrm{PMNS}})_{ei}$: $\lvert U_{\mathrm{e}i}\rvert^2$ is the electron-flavour fraction of the mass state $i$.', 'dimensionless', r'$\lvert U_{\mathrm{e}i}\rvert^2 = 0.681, 0.296, 0.022$', 'STANDARD')
-add('sstate', r'\mathsf{s}_i', [r'\mathsf{s}'], r'The mean speed of the neutrino mass state $i$ today, averaged over its momentum distribution (0 for a state at rest, 1 for a massless one).', 'dimensionless', r'1, 0.061 and 0.011 for $\nu_1$, $\nu_2$ and $\nu_3$ of UM-3', 'STANDARD')
+add('sstate', r'\mathsf{s}_i', [r'\mathsf{s}'], r'The mean speed of the neutrino mass state $i$ today, averaged over its momentum distribution (0 for a state at rest, 1 for a massless one).', 'dimensionless', r'1, 0.061 and 0.011 for $\nu_1$, $\nu_2$ and $\nu_3$ with $m_1 = 0$; 0.126 for $\nu_1$ with $m_1 = 4.12$ meV', 'STANDARD')
 
 # ---------------------------------------------------------------- ANALYSIS
 add('ph', r'p_{\mathrm{h}}', [r'p_{\mathrm{h}}'], r'The momentum along the hidden direction of a particle confined to it, if that direction were compact (A-2, not UM-3).', 'GeV', '', 'STANDARD')
@@ -518,11 +637,86 @@ add('kint', r'\mathsf{k}', [r'\mathsf{k}'], r'An integer that numbers the modes 
 add('ellb', r'\ell_{\mathrm{b}}', [r'\ell_{\mathrm{b}}'], r'The width of a bound state of dirac16complex along the hidden direction: the root mean square of $\sigma$ in its density $\mathrm{e}^{-2q_{\mathrm{b}}\lvert\sigma\rvert}$.', 'length', r'$1/(\sqrt2\,q_{\mathrm{b}})$', 'DERIVED')
 add('Tchi', r'\mathcal{T}_\chi{}^a{}_b', [r'\mathcal{T}_{\chi}'], r'The four-dimensional energy-momentum tensor of the gas of the bound particles $\chi$ of dirac16complex, per proper volume of ordinary space at the fold (energy density $\rho_\chi$).', 'GeV$^4$', '', 'DERIVED')
 
+# ---------------------------------------------------------------- STABILISER (the stabiliser of the bulk)
+add('ellg', r'\ell_{\mathrm{g}}', [r'\ell_{\mathrm{g}}'], r'The length measured along the surface of a globe; $\mathrm{d}\ell_{\mathrm{g}}$ is the length of a small step on it (an example of a metric, not UM-3).', 'length', '', 'STANDARD')
+add('Rglobe', r'R_{\mathrm{g}}', [r'R_{\mathrm{g}}'], r'The radius of a globe (an example, not UM-3).', 'length', '', 'STANDARD')
+add('thglobe', r'\theta_{\mathrm{g}}', [r'\theta_{\mathrm{g}}'], r'The angle of a point of a globe from its north pole: 0 at the north pole, $\pi/2$ on the equator, $\pi$ at the south pole (an example, not UM-3).', 'radian', '', 'STANDARD')
+add('phglobe', r'\phi_{\mathrm{g}}', [r'\phi_{\mathrm{g}}'], r'The longitude of a point of a globe (an example, not UM-3).', 'radian', '', 'STANDARD')
+add('Wwarp', r'\mathcal{W}', [r'\mathcal{W}'], r'The warp factor: in a warped metric, the function of the position along one direction that multiplies the squared steps of other directions; in UM-3 the function of $\sigma$ that multiplies ordinary space and the extra times, $\mathcal{W} = \mathrm{e}^{-2H\lvert\sigma\rvert} = (\sin^2z)^{1/6}$, equal to 1 on the fold.', 'dimensionless', '', 'DERIVED')
+add('Tmed', r'\mathcal{T}_{\mathrm{med}}{}^a{}_b', [r'\mathcal{T}_{\mathrm{med}}'], r'The energy-momentum tensor of one medium (frame components): for a medium at rest the entry along the time is minus its energy density, the entries along the other directions are its pressures, and the entries that mix the time with another direction are its flows of energy along that direction.', 'GeV$^8$ (energy per volume in eight dimensions)', '', 'STANDARD')
+add('pmed', r'p_{\mathrm{med}}', [r'p_{\mathrm{med}}'], r'The pressure of a medium at rest, the same along every direction but the time (for a medium of the bulk: along $\sigma$, ordinary space and the extra times).', 'GeV$^8$', '', 'STANDARD')
+add('rhomed', r'\rho_{\mathrm{med}}', [r'\rho_{\mathrm{med}}'], r'The energy density (energy per volume) of a medium at rest.', 'GeV$^8$', '', 'STANDARD')
+add('LambdaE', r'\Lambda_{\mathrm{E}}', [r'\Lambda_{\mathrm{E}}'], r"The cosmological constant of Einstein's static universe of 1917, in four dimensions (an example, not UM-3).", '1/length$^2$', '', 'STANDARD')
+add('rhoE', r'\rho_{\mathrm{E}}', [r'\rho_{\mathrm{E}}'], r"The mass density of the dust that fills Einstein's static universe (an example, not UM-3).", 'mass per volume', '', 'STANDARD')
+add('RE', r'R_{\mathrm{E}}', [r'R_{\mathrm{E}}'], r"The radius of the three-dimensional sphere that is the space of Einstein's static universe (an example, not UM-3).", 'length', '', 'STANDARD')
+add('Pair', r'P_{\mathrm{air}}', [r'P_{\mathrm{air}}'], r'The pressure of the air at the altitude $h_{\mathrm{alt}}$ (an example, not UM-3).', 'Pa', r'about $1.0\times10^5$ Pa at the ground', 'STANDARD')
+add('halt', r'h_{\mathrm{alt}}', [r'h_{\mathrm{alt}}'], r'The altitude above the ground (an example, not UM-3).', 'm', '', 'STANDARD')
+add('rhoair', r'\rho_{\mathrm{air}}', [r'\rho_{\mathrm{air}}'], r'The mass density of the air at the altitude $h_{\mathrm{alt}}$ (an example, not UM-3).', 'kg/m$^3$', r'about 1.2 kg/m$^3$ at the ground', 'STANDARD')
+add('gearth', r'g_{\oplus}', [r'g_{\oplus}'], r'The acceleration of free fall at the surface of the Earth (an example, not UM-3).', 'm/s$^2$', r'9.81 m/s$^2$', 'STANDARD')
+add('Kf', r'K_{\mathrm{f}}', [r'K_{\mathrm{f}}'], r'The kinetic energy per volume of a field that fills the bulk uniformly and changes only with the time $x_4$: half the square of its rate of change for an ordinary field (never negative), minus that for a field whose kinetic term has the opposite sign (a ghost).', 'GeV$^8$', '', 'STANDARD')
+add('Vf', r'V_{\mathrm{f}}', [r'V_{\mathrm{f}}'], r'The potential energy per volume of a field that fills the bulk uniformly and changes only with the time $x_4$.', 'GeV$^8$', '', 'STANDARD')
+add('lambdaF', r'\lambda_{\mathrm{F}}', [r'\lambda_{\mathrm{F}}'], r'The tension of the fold fluid: the part of the fold fluid whose pressures along ordinary space and along the extra times are minus its energy density (a vacuum energy of the seven-dimensional fold), per unit volume of ordinary space of the fold.', 'GeV$^4$', r'$61HV_*/(8\kappa)$ at the static block', 'DERIVED')
+add('rhod', r'\rho_{\mathrm{d}}', [r'\rho_{\mathrm{d}}'], r'The pressureless part of the fold fluid: the energy density of the fold fluid minus its tension, per unit volume of ordinary space of the fold.', 'GeV$^4$', r'$HV_*/(8\kappa)$ at the static block', 'DERIVED')
+add('rho4s', r'\rho_{4,\mathrm{s}}', [r'\rho_{4,\mathrm{s}}'], r'The energy of the stabiliser per unit volume of ordinary space of the fold: its energy density integrated over the hidden direction and the extra times.', 'GeV$^4$', r'$-HV_*/(48\kappa)$', 'DERIVED')
+add('Pcon', r'\mathsf{P}(\mathsf{A}, \mathsf{U})', [r'\mathsf{P}'], r'The polynomial of the energy constraint of the bulk: the $(x_4, x_4)$ component of the bulk equations of the author’s metric is $\kappa\mathcal{T}_{\mathrm{bulk}}{}^{(4)}{}_{(4)} = (H^2/16)\,\mathsf{P}(\mathsf{A}, \mathsf{U})$, whatever the time derivatives of the rates.', 'dimensionless', r'$\mathsf{P}(0, 0) = 1$, $\mathsf{P}(\pm1, 0) = 0$', 'DERIVED')
+
+# ---------------------------------------------------------------- 2026-10-25: the sources of the fold, the constraints, the open questions
+add('hgw', r'h_{\mathrm{gw}}', [r'h_{\mathrm{gw}}'], r'The amplitude of a gravitational wave of the + polarisation travelling along $x_3$ (the metric components along $x_1$ and $x_2$ multiplied by $\mathrm{e}^{h_{\mathrm{gw}}}$ and $\mathrm{e}^{-h_{\mathrm{gw}}}$), in its zero mode, the same at every $\sigma$: the gravitational wave of the four-dimensional world.', 'dimensionless', '', 'STANDARD')
+add('K44', r'K_{44}', [r'K_{44}'], r'The coefficient of the second time derivative in the equation of the zero mode of a gravitational wave, integrated across the hidden direction: the sum of the parts of the bulk, of the Lovelock terms at the fold and of the induced gravity of the fold.', r'GeV$^5$ ($\kappa K_{44}$ is a length)', '', 'DERIVED')
+add('K33', r'K_{33}', [r'K_{33}'], r'The coefficient of the second derivative along $x_3$ in the equation of the zero mode of a gravitational wave (negative), with the same three parts.', r'GeV$^5$', '', 'DERIVED')
+add('Gind', r'G_{\mathrm{ind}}', [r'G_{\mathrm{ind}}'], r'The Newton constant of the induced gravity of the fold, $\kappa_4 = 8\pi G_{\mathrm{ind}}$ (Newton’s constant $G_{\mathrm{N}}$ up to the factor $1 + 5\epsilon_{\mathrm{r}}/6$).', 'GeV$^{-2}$', '', 'ASSUMED')
+add('Nind', r'N_{\mathrm{ind}}', [r'N_{\mathrm{ind}}'], r'The weighted number of the fields of the fold that induce the Einstein-Hilbert term: each real scalar counts $1 - 6\xi$, each Weyl fermion 1, each gauge field $-4$ (with its ghost fields).', 'dimensionless', r'$4(1 - 6\xi_{\mathrm{H}})$ for the Standard Model with three right-handed neutrinos', 'DERIVED')
+add('Lambdac', r'\Lambda_{\mathrm{c}}', [r'\Lambda_{\mathrm{c}}'], r'The cutoff of the proper-time integral of the one-loop effective action of the fields of the fold: the highest energy of the quantum fluctuations that induce gravity.', 'GeV', r'$\sqrt{24}\,\pi M_{\mathrm{red}} = 3.748\times10^{19}$ GeV for the measured Newton constant at $\xi_{\mathrm{H}} = 0$', 'ESTIMATE')
+add('xinm', r'\xi', [r'\xi'], r'The coupling of a real scalar field to the scalar curvature $\hat R$ of the fold: the term $-\frac12\xi\hat R$ times the square of the field in its Lagrangian ($\xi = 1/6$ is the conformal coupling).', 'dimensionless', '', 'STANDARD')
+add('xiH', r'\xi_{\mathrm{H}}', [r'\xi_{\mathrm{H}}'], r'The coupling $\xi$ of the Higgs doublet to the scalar curvature of the fold.', 'dimensionless', r'not fixed by UM-3; below $1/6$ if the gravity of the fold is induced by its fields', 'ASSUMED')
+add('NWeyl', r'N_{\mathrm{Weyl}}', [r'N_{\mathrm{Weyl}}'], r'The number of Weyl (two-component) fermion fields of the fold.', 'dimensionless', r'48 (three generations of quarks and leptons with three right-handed neutrinos)', 'STANDARD')
+add('Ngauge', r'N_{\mathrm{gauge}}', [r'N_{\mathrm{gauge}}'], r'The number of gauge fields of the fold.', 'dimensionless', r'12 (eight gluons, three $W$, one $B$)', 'STANDARD')
+add('Mred', r'M_{\mathrm{red}}', [r'M_{\mathrm{red}}'], r'The reduced Planck mass, $M_{\mathrm{red}} = (8\pi G_{\mathrm{N}})^{-1/2}$.', 'GeV', r'$2.435\times10^{18}$ GeV', 'STANDARD')
+add('amode', r'\mathsf{a}_o,\ \mathsf{a}_o^\dagger', [r'\mathsf{a}'], r'The annihilation and the creation operator of the mode $o$ of the quantised dirac16complex (frequency $\omega_o$, Krein charge $\mathcal{Q}_o$); the dagger is the adjoint with respect to the indefinite (Krein) scalar product.', 'dimensionless', '', 'STANDARD')
+add('HPsi', r'\mathsf{H}_\Psi', [r'\mathsf{H}_{\Psi}'], r'The Hamiltonian (the energy operator) of the quantised dirac16complex.', 'GeV', '', 'DERIVED')
+add('sigmaleak', r'\sigma_{\mathrm{leak}}', [r'\sigma_{\mathrm{leak}}'], r'The distance from the fold beyond which a state of dirac16complex with a momentum along the extra times is no longer bound: there the warp has raised that momentum above the local gap.', 'length', '', 'DERIVED')
+add('Gammat', r'\Gamma_{\mathrm{t}}', [r'\Gamma_{\mathrm{t}}'], r'The growth rate of a mode of a massless field of the fold that has a momentum along the extra times, in the late universe.', 'GeV (1/time)', '', 'DERIVED')
+add('lt', r'l_{\mathrm{t}}', [r'l_{\mathrm{t}}'], r'The physical momentum of a mode along the extra times.', 'GeV', '', 'STANDARD')
+add('kp', r'k_{\mathrm{p}}', [r'k_{\mathrm{p}}'], r'The physical momentum of a mode along ordinary space.', 'GeV', '', 'STANDARD')
+add('Lt', r'L_{\mathrm{t}}', [r'L_{\mathrm{t}}'], r'The physical period of the extra times, if they are compact.', 'length', '', 'ASSUMED')
+add('tzero', r't_0', [r't_{0}'], r'The age of the universe.', 'time', r'13.8 Gyr', 'STANDARD')
+add('vg', r'v_{\mathrm{g}}', [r'v_{\mathrm{g}}'], r'The group velocity of a particle $\chi$ along ordinary space, $\mathrm{d}\omega/\mathrm{d}\lvert\vec k\rvert$, in units of the speed of light on the fold.', 'dimensionless', '', 'DERIVED')
+add('phik', r'\phi_k', [r'\phi', 'index:k'], r'The amplitude of a Fourier mode of a massless scalar field of the fold: of comoving wave number $k$ (the label $k$) along ordinary space, and, where it is said, with a momentum $\vec\kappa$ along the extra times.', 'GeV', '', 'STANDARD')
+add('ce', r'c_{\mathrm{e}}', [r'c_{\mathrm{e}}'], r'The maximal speed of the electron, in units of the speed of light.', 'dimensionless', r'$-6\times10^{-20} < c_{\mathrm{e}} - 1 < 1.2\times10^{-17}$ (synchrotron and inverse-Compton emission of astrophysical electrons)', 'STANDARD')
+add('gP', r'g_{\mathrm{P}}', [r'g_{\mathrm{P}}'], r'The strength of one lepton portal of the particles $\chi$ (a coupling of the currents of $\chi$ and of a chiral lepton), fixed by the relic density: $\langle\sigma_{\mathrm{ann}}\mathsf{v}\rangle = 9g_{\mathrm{P}}^2\omega_{\mathrm{b}}^2/(2\pi)$ for one $\chi$ with one antiparticle and nine chiral lepton states.', 'GeV$^{-2}$', r'$g_{\mathrm{P}}\omega_{\mathrm{b}}^2 = 0.110$, 0.220 and 0.734 for $\omega_{\mathrm{b}} = 1.5$, 3 and 10 TeV', 'ESTIMATE')
+add('Hankel', r'\mathrm{H}^{(1)}_0', [r'\mathrm{H}'], r'The Hankel function of the first kind of order zero, $\mathrm{H}^{(1)}_0 = J_0 + \mathrm{i}Y_0$ with the Bessel functions $J_0$ and $Y_0$ of order zero.', 'dimensionless', '', 'STANDARD')
+add('gammaE', r'\gamma_{\mathrm{E}}', [r'\gamma_{\mathrm{E}}'], r'The Euler-Mascheroni constant.', 'dimensionless', '0.5772157', 'STANDARD')
+add('rT', r'r_{\mathrm{T}}', [r'r_{\mathrm{T}}'], r'The ratio of the amplitudes of the primordial spectra of gravitational waves (tensor) and of curvature (scalar) at the pivot scale.', 'dimensionless', r'below 0.036 (BICEP/Keck 2021, 95 per cent)', 'STANDARD')
+add('Hinf', r'H_{\mathrm{inf}}', [r'H_{\mathrm{inf}}'], r'The expansion rate of ordinary space during an inflationary era.', 'GeV', '', 'STANDARD')
+add('Ne', r'N_{\mathrm{e}}', [r'N_{\mathrm{e}}'], r'The number of e-foldings of inflation after the pivot scale left the horizon.', 'dimensionless', '55', 'STANDARD')
+add('deltaCP', r'\delta_{\mathrm{CP}}', [r'\delta_{\mathrm{CP}}'], r'The Dirac phase of the mixing matrix $U_{\mathrm{PMNS}}$.', 'degree', r'$212^\circ$ (NuFIT 6.0, normal ordering); 0 in the computations of UM-3', 'STANDARD')
+add('meff', r'm_{\mathrm{eff}}', [r'm_{\mathrm{eff}}'], r'The effective mass of the electron neutrino measured in the beta decay of tritium, $m_{\mathrm{eff}}^2 = \sum_i\lvert U_{\mathrm{e}i}\rvert^2m_i^2$.', 'eV', r'below 0.45 eV (KATRIN 2025, 90 per cent)', 'STANDARD')
+add('GammaK', r'\Gamma_{\mathrm{K}}', [r'\Gamma_{\mathrm{K}}'], r'The growth rate of a perturbation of the gas of particles $\chi$ when the Krein-positive partner of its occupied level collides with it (a pair of complex frequencies $\omega \pm \mathrm{i}\Gamma_{\mathrm{K}}$).', r'$m_\Psi$', '', 'DERIVED')
+
+# ---------------------------------------------------------------- the definition of the fold (FD-1 to FD-10)
+add('foldF', r'\mathcal{F}', [r'\mathcal{F}'], r'The fold: the seven-dimensional surface $\cos(6Hx_0) = 0$ of the eight-dimensional spacetime (FD-1), in one period $0 < z < \pi$ the surface $z = \pi/2$, $x_0 = \pi/(12H)$, where $\sigma = 0$; $\vert_{\mathcal{F}}$ means restricted to the fold.', '', '', 'DERIVED')
+add('Kextr', r'K^a{}_b', [r'K'], r'The extrinsic curvature of a surface $\sigma = \mathrm{const}$ of the hidden direction, $K^a{}_b = \frac12 g^{ac}\partial_\sigma g_{cb}$ for $a, b$ along the surface (FD-5): $-H\,\mathrm{sgn}(\sigma)$ along ordinary space and the extra times, 0 along the time.', 'GeV (1/length)', '', 'DERIVED')
+add('yRS', r'y_{\mathrm{RS}}', [r'y_{\mathrm{RS}}'], r'The proper coordinate across the brane of the five-dimensional model of Randall and Sundrum (FD-8, an example, not UM-3).', 'length', '', 'STANDARD')
+add('kRS', r'k_{\mathrm{RS}}', [r'k_{\mathrm{RS}}'], r'The inverse curvature length of the bulk of the model of Randall and Sundrum: the warp of the brane is $\mathrm{e}^{-2k_{\mathrm{RS}}\lvert y_{\mathrm{RS}}\rvert}$ (FD-8, an example, not UM-3).', 'GeV (1/length)', '', 'STANDARD')
+add('lambdaRS', r'\lambda_{\mathrm{RS}}', [r'\lambda_{\mathrm{RS}}'], r'The tension (energy per unit volume of ordinary space) of the brane of the model of Randall and Sundrum, $\lambda_{\mathrm{RS}} = 6k_{\mathrm{RS}}/\kappa_5$ (FD-8, an example, not UM-3).', 'GeV$^4$', '', 'STANDARD')
+add('LambdaRS', r'\Lambda_{\mathrm{RS}}', [r'\Lambda_{\mathrm{RS}}'], r'The vacuum energy density of the bulk of the model of Randall and Sundrum, $\Lambda_{\mathrm{RS}} = -6k_{\mathrm{RS}}^2/\kappa_5$ (FD-8, an example, not UM-3).', 'GeV$^5$', '', 'STANDARD')
+add('kappa5', r'\kappa_5', [r'\kappa_{5}'], r'The gravitational coupling of five dimensions in the model of Randall and Sundrum, $\kappa_5 = 8\pi G_5$ (FD-8, an example, not UM-3).', 'GeV$^{-3}$', '', 'STANDARD')
+add('R1refl', r'\mathsf{R}_1', [r'\mathsf{R}_{1}'], r'The reflection across the fold acting on a profile of dirac16complex together with the reflection of ordinary space, $(\mathsf{R}_1\chi)(\sigma) = T_0T_1T_2T_3\,\chi(-\sigma)$ (FD-10): a symmetry of dirac16complex, of gravity and of the mean field of the gas of the particles $\chi$; the bound states of Krein charge $-1$ are even, those of Krein charge $+1$ odd.', 'dimensionless', '', 'DERIVED')
+add('R2refl', r'\mathsf{R}_2', [r'\mathsf{R}_{2}'], r'The reflection across the fold acting on a profile of dirac16complex together with the reflection of the extra times, $(\mathsf{R}_2\chi)(\sigma) = T_0T_5T_6T_7\,\chi(-\sigma)$ (FD-10): it maps the bound states of one Krein charge onto those of the other.', 'dimensionless', '', 'DERIVED')
+
+
+
+def fold_definition():
+    """The definition of the fold, word for word as in the docstring of this file (written into its JSON file)."""
+    d = __doc__
+    return d[d.index('BEGIN FOLD DEFINITION') + len('BEGIN FOLD DEFINITION'):d.index('END FOLD DEFINITION')].strip('\n')
 
 def main():
     out = HERE / 'symbols'
     out.mkdir(exist_ok=True)
-    (out / 'core.json').write_text(json.dumps(E, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
+    data = {'_definition_of_the_fold': {'text': fold_definition()}}
+    data.update(E)
+    (out / 'core.json').write_text(json.dumps(data, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
     print('%d entries written to %s' % (len(E), out / 'core.json'))
 
 

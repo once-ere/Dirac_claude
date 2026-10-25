@@ -14,7 +14,7 @@
   {
    "name": "F3_fast_instability_neutrinosphere",
    "passed": true,
-   "detail": "half-isotropic emission from R_e = 30 km and R_ebar = 27 km seen at r = 40 km: the ELN crosses for alpha > (1 - mu_ebar)/(1 - mu_e) = 0.7744; alpha = 0.50: crossing False, growth rate 3.19e-18 (m = 1); alpha = 0.75: crossing False, growth rate 2.03e-18 (m = 0); alpha = 0.80: crossing True, growth rate 0.0137 (m = 0), e-folding length 22 cm; alpha = 0.95: crossing True, growth rate 0.0556 (m = 0), e-folding length 5.4 cm; alpha = 1.20: crossing True, growth rate 0.0925 (m = 0), e-folding length 3.2 cm; at every unstable solution FE-51 holds (relative residual < 1e-8); sqrt2 G_F n_e = 3.34 /cm for L = 5e52 erg/s, <E> = 12 MeV (n_e = 5.19e+32 /cm^3 at 40 km): the instability grows within centimetres wherever the ELN crosses and not at all without a crossing"
+   "detail": "half-isotropic emission from R_e = 30 km and R_ebar = 27 km seen at r = 40 km: the ELN crosses for alpha > (1 - mu_ebar)/(1 - mu_e) = 0.7744; alpha = 0.50: crossing False, growth rate 3.19e-18 (m = 1); alpha = 0.75: crossing False, growth rate 2.03e-18 (m = 0); alpha = 0.80: crossing True, growth rate 0.0137 (m = 0), growth length (factor e) 22 cm; alpha = 0.95: crossing True, growth rate 0.0556 (m = 0), growth length (factor e) 5.4 cm; alpha = 1.20: crossing True, growth rate 0.0925 (m = 0), growth length (factor e) 3.2 cm; at every unstable solution FE-51 holds (relative residual < 1e-8); sqrt2 G_F n_e = 3.34 /cm for L = 5e52 erg/s, <E> = 12 MeV (n_e = 5.19e+32 /cm^3 at 40 km): the instability grows within centimetres wherever the ELN crosses and not at all without a crossing"
   },
   {
    "name": "F4_equipartition_heating",

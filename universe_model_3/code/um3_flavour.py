@@ -366,7 +366,7 @@ def main():
               'the ELN crosses and not at all without a crossing' % (
                   thr, '; '.join('alpha = %.2f: crossing %s, growth rate %.3g (m = %s)%s' % (
                       f['alpha'], f['crossing'], f['growth_rate_units_sqrt2GF_ne'], f['mode_m'],
-                      (', e-folding length %.2g cm' % f['growth_length_cm']) if f['growth_length_cm'] else '') for f in ff),
+                      (', growth length (factor e) %.2g cm' % f['growth_length_cm']) if f['growth_length_cm'] else '') for f in ff),
                   mu_cm, n_e))
 
     # ---------------- F4: equipartition and heating in the gain region

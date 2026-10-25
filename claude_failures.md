@@ -2,6 +2,333 @@
 
 The user's order of 2026-10-14: "NEVER wait more than 7 minutes and 3 seconds for the completion of an individual calculation; if a wait time is longer than 7 minutes and 3 seconds then YOU ARE COMPUTING INCORRECTLY; kILL ALL OF THESE RIDICULOUSLY LONG AGENT JOBS." and "make a careful and exact note of each computation that you are unable to complete in the allotted time of 7 minutes and 3 seconds".
 
+## The fold of UM-3: definition and examples
+
+<!-- begin fold definition -->
+**Definition.** The *fold* is the seven-dimensional surface of the author's eight-dimensional spacetime on which the
+cosine of the angle $z = 6Hx_0$ of the hidden direction vanishes:
+
+$$
+\mathcal{F} = \big\{X = (x_0, x_1, \dots, x_7):\ \cos(6Hx_0) = 0\big\},\qquad
+\text{in one period } 0 < z < \pi\text{ of the metric: } z = \frac{\pi}{2},\quad x_0 = \frac{\pi}{12H} \tag{FD-1}
+$$
+<!-- symbols: foldF, Xcoord, x0, x1, x7, Hconst, zvar, pi -->
+<!-- begin generated symbol list -->
+**Symbols in (FD-1).**
+
+- $\mathcal{F}$: The fold: the seven-dimensional surface $\cos(6Hx_0) = 0$ of the eight-dimensional spacetime (FD-1), in one period $0 < z < \pi$ the surface $z = \pi/2$, $x_0 = \pi/(12H)$, where $\sigma = 0$; $\vert_{\mathcal{F}}$ means restricted to the fold. Status: DERIVED.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first (Dirac_Einstein-Lovelock_4+4_Nash.nb, section DEFCHART); $X^M$ is the coordinate with the index $M$ and $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element. Unit: length (each coordinate). Status: AUTHOR.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings and the cosmological constant $\Lambda = -10H^2$; in UM-3 a free parameter. Unit: GeV (1/length). Status: AUTHOR.
+- $z$: The angle variable of the hidden direction, $z = 6Hx_0$; one period of $x_0$ is $0 < z < \pi$, the fold is $z = \pi/2$. Unit: dimensionless. Status: AUTHOR.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+$X = \{x_0, \dots, x_7\}$ are the author's coordinates: $x_0$ the hidden space-like direction, $x_1, x_2, x_3$ ordinary space,
+$x_4$ the time, $x_5, x_6, x_7$ the three extra times; $H$ is the author's constant (an inverse length). The author's metric
+depends on $x_0$ only through $\cot^2z$ and $(\sin^2z)^{1/6}$, so it repeats with the period $\pi/(6H)$ of $x_0$, and every
+period $0 < z < \pi$ contains exactly one fold, at $z = \pi/2$. A point of the fold is labelled by the seven coordinates
+$x_1, \dots, x_7$, and the metric restricted to the fold ($\mathrm{d}x_0 = 0$, $z = \pi/2$) is
+
+$$
+g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N\big\vert_{\mathcal{F}} = \mathrm{e}^{2a_4}\big(\mathrm{d}x_1^2 + \mathrm{d}x_2^2 + \mathrm{d}x_3^2\big)
+ - \mathrm{d}x_4^2 - \mathrm{e}^{-2a_4}b_4^2\big(\mathrm{d}x_5^2 + \mathrm{d}x_6^2 + \mathrm{d}x_7^2\big) \tag{FD-2}
+$$
+<!-- symbols: metric, iM, iN, diff, Xcoord, foldF, euler, a4, b4, x1, x2, x3, x4, x5, x6, x7 -->
+<!-- begin generated symbol list -->
+**Symbols in (FD-2).**
+
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval, $g^{MN}$ its inverse, $\lvert g\rvert$ the absolute value of its determinant ($\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element). Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first (Dirac_Einstein-Lovelock_4+4_Nash.nb, section DEFCHART); $X^M$ is the coordinate with the index $M$ and $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element. Unit: length (each coordinate). Status: AUTHOR.
+- $\mathcal{F}$: The fold: the seven-dimensional surface $\cos(6Hx_0) = 0$ of the eight-dimensional spacetime (FD-1), in one period $0 < z < \pi$ the surface $z = \pi/2$, $x_0 = \pi/(12H)$, where $\sigma = 0$; $\vert_{\mathcal{F}}$ means restricted to the fold. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: on the fold $\mathrm{e}^{a_4}$ is the scale factor of cosmology and $a_4'$ the Hubble rate. Unit: dimensionless. Status: AUTHOR.
+- $b_4$: The author's metric function of the time $x_4$ in the extra-time components, $b_4 > 0$, never identically 1 (the author's order of 2026-10-24); the scale factor of the extra times is $\mathrm{e}^{-a_4}b_4$ times the warp. Unit: dimensionless. Status: AUTHOR.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_2$: The second coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_3$: The third coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_4$: The time ($x_4 \ge 0$ in the ad hoc vacuum); a prime on a function of $x_4$ alone is $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, $c = 1$). Status: AUTHOR.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+with three space-like and four time-like directions; $a_4$ and $b_4$ are the author's two functions of the time $x_4$.
+
+**Why this surface is called a fold.** Measured by the proper distance along the hidden direction,
+
+$$
+\sigma = \mathrm{sgn}\Big(\frac{\pi}{2} - z\Big)\frac{\ln\sin z}{6H},\qquad \mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0,\qquad
+\sin z = \mathrm{e}^{-6H\lvert\sigma\rvert} \tag{FD-3}
+$$
+<!-- symbols: sigma, sgn, pi, zvar, Hconst, diff, x0, euler -->
+<!-- begin generated symbol list -->
+**Symbols in (FD-3).**
+
+- $\sigma$: The proper coordinate of the hidden direction: $\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0$, $\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)$ on one period $0 < z < \pi$; $\sigma = 0$ is the fold $z = \pi/2$, $\sigma \to \mp\infty$ the tips $z \to 0, \pi$; one period of $x_0$ is the whole line $-\infty < \sigma < \infty$. Unit: length. Status: DERIVED.
+- $\mathrm{sgn}$: The sign function: $\mathrm{sgn}(y) = +1$ for $y > 0$, $-1$ for $y < 0$. Status: STANDARD.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+- $z$: The angle variable of the hidden direction, $z = 6Hx_0$; one period of $x_0$ is $0 < z < \pi$, the fold is $z = \pi/2$. Unit: dimensionless. Status: AUTHOR.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings and the cosmological constant $\Lambda = -10H^2$; in UM-3 a free parameter. Unit: GeV (1/length). Status: AUTHOR.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+(the fold is $\sigma = 0$; the half-period $0 < z < \pi/2$ is $\sigma < 0$, the half-period $\pi/2 < z < \pi$ is $\sigma > 0$; the
+two ends of the period, the tips $z \to 0$ and $z \to \pi$, lie at $\sigma \to -\infty$ and $\sigma \to +\infty$), the author's metric is
+
+$$
+g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N = \mathrm{d}\sigma^2 + \mathrm{e}^{-2H\lvert\sigma\rvert}\Big[\mathrm{e}^{2a_4}\big(\mathrm{d}x_1^2
+ + \mathrm{d}x_2^2 + \mathrm{d}x_3^2\big) - \mathrm{e}^{-2a_4}b_4^2\big(\mathrm{d}x_5^2 + \mathrm{d}x_6^2 + \mathrm{d}x_7^2\big)\Big]
+ - \mathrm{d}x_4^2 \tag{FD-4}
+$$
+<!-- symbols: metric, iM, iN, diff, Xcoord, sigma, euler, Hconst, a4, b4, x1, x2, x3, x4, x5, x6, x7 -->
+<!-- begin generated symbol list -->
+**Symbols in (FD-4).**
+
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval, $g^{MN}$ its inverse, $\lvert g\rvert$ the absolute value of its determinant ($\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element). Unit: dimensionless. Status: AUTHOR.
+- $M$: A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \dots$): it runs over $x_0, x_1, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $N$: A coordinate index of eight dimensions (also $N_1, N_2, \dots$), running over $x_0, \dots, x_7$; a repeated index is summed. Status: STANDARD.
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $X = \{x_0, \dots, x_7\}$: The author's coordinates of the eight-dimensional spacetime, $X = \{x_0, x_1, \dots, x_7\}$ with the hidden direction first (Dirac_Einstein-Lovelock_4+4_Nash.nb, section DEFCHART); $X^M$ is the coordinate with the index $M$ and $\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7$ the coordinate volume element. Unit: length (each coordinate). Status: AUTHOR.
+- $\sigma$: The proper coordinate of the hidden direction: $\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0$, $\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)$ on one period $0 < z < \pi$; $\sigma = 0$ is the fold $z = \pi/2$, $\sigma \to \mp\infty$ the tips $z \to 0, \pi$; one period of $x_0$ is the whole line $-\infty < \sigma < \infty$. Unit: length. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings and the cosmological constant $\Lambda = -10H^2$; in UM-3 a free parameter. Unit: GeV (1/length). Status: AUTHOR.
+- $a_4$: The author's metric function of the time $x_4$ that scales ordinary 3-space: on the fold $\mathrm{e}^{a_4}$ is the scale factor of cosmology and $a_4'$ the Hubble rate. Unit: dimensionless. Status: AUTHOR.
+- $b_4$: The author's metric function of the time $x_4$ in the extra-time components, $b_4 > 0$, never identically 1 (the author's order of 2026-10-24); the scale factor of the extra times is $\mathrm{e}^{-a_4}b_4$ times the warp. Unit: dimensionless. Status: AUTHOR.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_2$: The second coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_3$: The third coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_4$: The time ($x_4 \ge 0$ in the ad hoc vacuum); a prime on a function of $x_4$ alone is $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, $c = 1$). Status: AUTHOR.
+- $x_5$: The first of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_6$: The second of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+- $x_7$: The third of the three extra time-like coordinates. Unit: length. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+It depends on $\sigma$ only through $\lvert\sigma\rvert$. Four properties make the surface $\sigma = 0$ a fold, and together
+they single it out within the period:
+
+1. *It is a mirror.* The reflection $\sigma \to -\sigma$ (that is $z \to \pi - z$, or $x_0 \to \pi/(6H) - x_0$) maps the metric
+   to itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the
+   period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are joined
+   along the crease.
+2. *The warp is largest on it.* The warp factor $(\sin^2z)^{1/6} = \mathrm{e}^{-2H\lvert\sigma\rvert}$, which multiplies ordinary
+   space and the extra times, equals 1 on the fold and decreases on both sides.
+3. *The metric has a kink on it.* The metric is continuous across the fold, but its first derivative along $\sigma$ jumps.
+   The extrinsic curvature of the surfaces $\sigma = \text{const}$ changes sign across the fold,
+
+$$
+K^a{}_b = \frac12\,g^{ac}\,\partial_\sigma g_{cb}:\qquad
+K^{1}{}_{1} = K^{2}{}_{2} = K^{3}{}_{3} = K^{5}{}_{5} = K^{6}{}_{6} = K^{7}{}_{7} = -H\,\mathrm{sgn}(\sigma),\qquad K^{4}{}_{4} = 0 \tag{FD-5}
+$$
+<!-- symbols: Kextr, ia, ib, ic, metric, partial, isigma, sigma, Hconst, sgn -->
+<!-- begin generated symbol list -->
+**Symbols in (FD-5).**
+
+- $K^a{}_b$: The extrinsic curvature of a surface $\sigma = \mathrm{const}$ of the hidden direction, $K^a{}_b = \frac12 g^{ac}\partial_\sigma g_{cb}$ for $a, b$ along the surface (FD-5): $-H\,\mathrm{sgn}(\sigma)$ along ordinary space and the extra times, 0 along the time. Unit: GeV (1/length). Status: DERIVED.
+- $a$: A frame (orthonormal) index running over $0, 1, \dots, 7$ (frame direction $(0)$ along $\sigma$, $(1), (2), (3)$ along ordinary space, $(4)$ along the time, $(5), (6), (7)$ along the extra times); raised and lowered with the frame metric $\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)$; on the fold ($a, b \in \{1, \dots, 7\}$) the frame of the fold; a repeated index is summed. Status: STANDARD.
+- $b$: A frame index (as $a$). Status: STANDARD.
+- $c$: A frame index (as $a$). Status: STANDARD.
+- $g_{MN}$: The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \dots, x_7$): $g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N$ is the squared interval, $g^{MN}$ its inverse, $\lvert g\rvert$ the absolute value of its determinant ($\sqrt{\lvert g\rvert}\,\mathrm{d}^8X$ is the proper volume element). Unit: dimensionless. Status: AUTHOR.
+- $\partial$: A partial derivative: $\partial_M$ with respect to the coordinate $X^M$, $\partial_\mu$ with respect to $x^\mu$, $\partial_\sigma$ with respect to $\sigma$, $\partial X/\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables. Status: STANDARD.
+- $\sigma$: The label $\sigma$ in $\partial_\sigma$: the derivative with respect to the proper hidden coordinate $\sigma$. Status: STANDARD.
+- $\sigma$: The proper coordinate of the hidden direction: $\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0$, $\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)$ on one period $0 < z < \pi$; $\sigma = 0$ is the fold $z = \pi/2$, $\sigma \to \mp\infty$ the tips $z \to 0, \pi$; one period of $x_0$ is the whole line $-\infty < \sigma < \infty$. Unit: length. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings and the cosmological constant $\Lambda = -10H^2$; in UM-3 a free parameter. Unit: GeV (1/length). Status: AUTHOR.
+- $\mathrm{sgn}$: The sign function: $\mathrm{sgn}(y) = +1$ for $y > 0$, $-1$ for $y < 0$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+   it jumps by $-2H$ along ordinary space and along the extra times. The Einstein-Lovelock equations are linear in the
+   second $\sigma$-derivatives of the metric, so the jump puts a Dirac delta function $\delta_{\mathrm{D}}(\sigma)$ into them:
+   the metric solves them only if the fold carries a thin source $\mathcal{S}^a{}_b$, an energy-momentum tensor concentrated
+   on $\sigma = 0$ (the junction conditions). At the author's vacuum ($a_4' = H$, $b_4$ constant) its frame components along
+   (ordinary space, the time, the extra times) are $\kappa\mathcal{S} = (-10H, -6H, -10H)$, at the static late-time state
+   ($a_4$ and $b_4$ constant) $\kappa\mathcal{S} = (-61H/8, -31H/4, -61H/8)$, with $\kappa = 8\pi G_8$ the gravitational coupling of
+   eight dimensions. The fold is therefore not only a place but a physical object: a thin layer that carries energy and
+   momentum (a brane).
+4. *The author's coordinate $x_0$ degenerates on it.* The metric component $g_{x_0x_0} = \cot^2(6Hx_0)$ vanishes on the fold
+   and nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,
+
+$$
+\lvert\sigma\rvert = 3H\Big(x_0 - \frac{\pi}{12H}\Big)^2\Big[1 + 6H^2\Big(x_0 - \frac{\pi}{12H}\Big)^2 + \dots\Big] \tag{FD-6}
+$$
+<!-- symbols: sigma, Hconst, x0, pi -->
+<!-- begin generated symbol list -->
+**Symbols in (FD-6).**
+
+- $\sigma$: The proper coordinate of the hidden direction: $\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0$, $\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)$ on one period $0 < z < \pi$; $\sigma = 0$ is the fold $z = \pi/2$, $\sigma \to \mp\infty$ the tips $z \to 0, \pi$; one period of $x_0$ is the whole line $-\infty < \sigma < \infty$. Unit: length. Status: DERIVED.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings and the cosmological constant $\Lambda = -10H^2$; in UM-3 a free parameter. Unit: GeV (1/length). Status: AUTHOR.
+- $x_0$: The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\pi/(6H)$. Unit: length. Status: AUTHOR.
+- $\pi$: The number pi, the ratio of the circumference of a circle to its diameter. Unit: dimensionless. Value: 3.141592654. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+   so the two coordinate values on either side of $x_0 = \pi/(12H)$ at the same coordinate distance lie at the same proper
+   distance from the fold: the coordinate line of $x_0$ is folded onto the line of proper distances (a fold map, example 5).
+
+**What lives on the fold.** In UM-3 the Standard Model (the Higgs doublet with the ad hoc vacuum, the gauge fields of
+$SU(3)_C \times SU(2)_L \times U(1)_Y$, three generations of quarks and leptons and three right-handed neutrinos), the fold
+fluid and the induced Einstein-Hilbert term of the fold live on the fold: they are fields at $\sigma = 0$, functions of
+$x_1, \dots, x_4$ (no field depends on the extra times). Integrated over the extra times, the fold is the four-dimensional
+universe that we observe, with the metric $\mathrm{diag}(\mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, -1)$ in
+$x_1, \dots, x_4$. dirac16complex and gravity live in the bulk $\sigma \ne 0$ as well as on the fold; the bound states $\chi$
+of dirac16complex are the part of it that the fold holds, and the portals couple dirac16complex to the Standard Model at
+$\sigma = 0$. In UM-3 files the word *fold* means this surface and nothing else: a number of equal energy levels is
+written as a number of degenerate states, and a growth by powers of Euler's number as a logarithm.
+
+**Examples of folds that are meaningful for UM-3.**
+
+1. *Our fold.* The fold $z = \pi/2$ of the period that contains our world (FD-1): the seven-dimensional world-volume of the
+   Standard Model, and after the integration over the extra times the four-dimensional universe that we observe.
+2. *The copies of the fold.* Because the metric repeats with the period $\pi/(6H)$, every surface
+   $x_0 = \pi/(12H) + (\text{an integer multiple of } \pi/(6H))$ is a copy of the fold, one per period. Neighbouring copies are
+   separated by a tip ($z$ a multiple of $\pi$), where the warp $(\sin^2z)^{1/6}$ vanishes and $g_{x_0x_0} = \cot^2z$
+   diverges, and which lies at an infinite proper distance from both: in proper distance every copy has its own complete
+   line $-\infty < \sigma < \infty$. This is why the period $\pi/(6H)$ of $x_0$ produces no Kaluza-Klein tower with the spacing
+   $12H$; the $x_0$ mass of the bound states is their binding to the fold.
+3. *A folded sheet of paper.* The crease of a folded sheet is a fold in this sense: the two halves are mirror images
+   (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).
+   In UM-3 the direction across the crease is the hidden direction $\sigma$, the seven directions along the crease are
+   $x_1, \dots, x_7$, and the crease is the fold.
+4. *A folded function.* The warp factor $\mathrm{e}^{-2H\lvert\sigma\rvert}$ is the simplest folded function: continuous,
+   mirror symmetric, largest at $\sigma = 0$, with a jump of its derivative,
+
+$$
+\frac{\mathrm{d}}{\mathrm{d}\sigma}\mathrm{e}^{-2H\lvert\sigma\rvert} = -2H\,\mathrm{sgn}(\sigma)\,\mathrm{e}^{-2H\lvert\sigma\rvert},\qquad
+\frac{\mathrm{d}^2}{\mathrm{d}\sigma^2}\mathrm{e}^{-2H\lvert\sigma\rvert} = 4H^2\,\mathrm{e}^{-2H\lvert\sigma\rvert} - 4H\,\delta_{\mathrm{D}}(\sigma) \tag{FD-7}
+$$
+<!-- symbols: diff, sigma, euler, Hconst, sgn, deltaD -->
+<!-- begin generated symbol list -->
+**Symbols in (FD-7).**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $\sigma$: The proper coordinate of the hidden direction: $\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0$, $\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)$ on one period $0 < z < \pi$; $\sigma = 0$ is the fold $z = \pi/2$, $\sigma \to \mp\infty$ the tips $z \to 0, \pi$; one period of $x_0$ is the whole line $-\infty < \sigma < \infty$. Unit: length. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $H$: The author's constant (an inverse length) that fixes the period $\pi/(6H)$ of $x_0$, the Lovelock couplings and the cosmological constant $\Lambda = -10H^2$; in UM-3 a free parameter. Unit: GeV (1/length). Status: AUTHOR.
+- $\mathrm{sgn}$: The sign function: $\mathrm{sgn}(y) = +1$ for $y > 0$, $-1$ for $y < 0$. Status: STANDARD.
+- $\delta_{\mathrm{D}}$: The Dirac delta function: $\int\mathrm{d}\sigma\,\delta_{\mathrm{D}}(\sigma)F(\sigma) = F(0)$. Unit: 1/length (for $\delta_{\mathrm{D}}(\sigma)$). Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+   whose delta function is the origin of the thin source of property 3. Every function of UM-3 that depends on $\sigma$
+   through $\lvert\sigma\rvert$ is folded at $\sigma = 0$: the metric functions of FD-4 and the profiles of the bound states
+   of dirac16complex (example 7).
+5. *A fold map.* In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map $u \mapsto u^2$ of a line
+   onto a half-line: it folds the line at $u = 0$, two points $\pm u$ land on the same point, and the derivative of the map
+   vanishes on the fold. Near the fold the map from the author's coordinate $x_0$ to the distance $\lvert\sigma\rvert$ from the
+   fold is of this kind (FD-6), and $g_{x_0x_0} = \cot^2z$, the square of the derivative $\mathrm{d}\sigma/\mathrm{d}x_0$,
+   vanishes there.
+6. *The brane of Randall and Sundrum.* The five-dimensional metric
+
+$$
+\mathrm{d}y_{\mathrm{RS}}^2 + \mathrm{e}^{-2k_{\mathrm{RS}}\lvert y_{\mathrm{RS}}\rvert}\big(\mathrm{d}x_1^2 + \mathrm{d}x_2^2 + \mathrm{d}x_3^2
+ - \mathrm{d}x_4^2\big),\qquad \lambda_{\mathrm{RS}} = \frac{6k_{\mathrm{RS}}}{\kappa_5},\qquad \Lambda_{\mathrm{RS}} = -\frac{6k_{\mathrm{RS}}^2}{\kappa_5} \tag{FD-8}
+$$
+<!-- symbols: diff, yRS, euler, kRS, x1, x2, x3, x4, lambdaRS, kappa5, LambdaRS -->
+<!-- begin generated symbol list -->
+**Symbols in (FD-8).**
+
+- $\mathrm{d}$: The differential: $\mathrm{d}X$ is an infinitesimal change of $X$, $\mathrm{d}X/\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\mathrm{d}^nX$ the volume element of $n$ variables. Status: STANDARD.
+- $y_{\mathrm{RS}}$: The proper coordinate across the brane of the five-dimensional model of Randall and Sundrum (FD-8, an example, not UM-3). Unit: length. Status: STANDARD.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $k_{\mathrm{RS}}$: The inverse curvature length of the bulk of the model of Randall and Sundrum: the warp of the brane is $\mathrm{e}^{-2k_{\mathrm{RS}}\lvert y_{\mathrm{RS}}\rvert}$ (FD-8, an example, not UM-3). Unit: GeV (1/length). Status: STANDARD.
+- $x_1$: The first coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_2$: The second coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_3$: The third coordinate of ordinary 3-space. Unit: length. Status: AUTHOR.
+- $x_4$: The time ($x_4 \ge 0$ in the ad hoc vacuum); a prime on a function of $x_4$ alone is $\mathrm{d}/\mathrm{d}x_4$. Unit: length (= time, $c = 1$). Status: AUTHOR.
+- $\lambda_{\mathrm{RS}}$: The tension (energy per unit volume of ordinary space) of the brane of the model of Randall and Sundrum, $\lambda_{\mathrm{RS}} = 6k_{\mathrm{RS}}/\kappa_5$ (FD-8, an example, not UM-3). Unit: GeV$^4$. Status: STANDARD.
+- $\kappa_5$: The gravitational coupling of five dimensions in the model of Randall and Sundrum, $\kappa_5 = 8\pi G_5$ (FD-8, an example, not UM-3). Unit: GeV$^{-3}$. Status: STANDARD.
+- $\Lambda_{\mathrm{RS}}$: The vacuum energy density of the bulk of the model of Randall and Sundrum, $\Lambda_{\mathrm{RS}} = -6k_{\mathrm{RS}}^2/\kappa_5$ (FD-8, an example, not UM-3). Unit: GeV$^5$. Status: STANDARD.
+
+<!-- end generated symbol list -->
+
+   has a fold at $y_{\mathrm{RS}} = 0$ with the properties 1 to 3 (its coordinate $y_{\mathrm{RS}}$ is already the proper
+   distance, so property 4 does not arise); Einstein's equations require there a brane of the tension
+   $\lambda_{\mathrm{RS}}$ (Israel's junction condition) and in the bulk the vacuum energy $\Lambda_{\mathrm{RS}}$. The fold of UM-3 is
+   of the same kind; it differs in that the time $x_4$ is not warped, three extra times are warped together with ordinary
+   space, and the Lovelock terms add to the junction conditions.
+7. *A particle bound to a thin layer.* A particle held by an attractive thin layer has a folded wave function: it falls off
+   exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac
+   equation, the wave function itself). In UM-3 the particles $\chi$ of dark matter are the states of dirac16complex bound to
+   the fold; at rest and without their self-interaction (the field is
+   $\Psi = \mathrm{e}^{3H\lvert\sigma\rvert}\chi(\sigma)\mathrm{e}^{-\mathrm{i}\omega_{\mathrm{b}}x_4}$)
+
+$$
+\begin{aligned}
+&\chi(\sigma) = \mathrm{e}^{-q_{\mathrm{b}}\lvert\sigma\rvert}\chi(0^+)\ \ (\sigma > 0),\qquad
+\chi(\sigma) = \mathrm{e}^{-q_{\mathrm{b}}\lvert\sigma\rvert}\chi(0^-)\ \ (\sigma < 0),\\
+&\chi(0^+) = \exp\Big(\gamma^{(0)}\big(\mu_{\mathrm{L}}P_{\mathrm{L}} + \mu_{\mathrm{R}}P_{\mathrm{R}}\big)\Big)\chi(0^-),\qquad
+\omega_{\mathrm{b}} = \sqrt{m_\Psi^2 - q_{\mathrm{b}}^2}
+\end{aligned} \tag{FD-9}
+$$
+<!-- symbols: chiprof, sigma, euler, qb, gammaM, muX, PL, PR, omegab, mPsi -->
+<!-- begin generated symbol list -->
+**Symbols in (FD-9).**
+
+- $\chi(\sigma)$: The profile of a mode of dirac16complex along the hidden direction, $\Psi = \mathrm{e}^{3H\lvert\sigma\rvert}\chi(\sigma)\mathrm{e}^{\mathrm{i}(\vec k\cdot\vec x - \omega x_4)}$ (a 16-component spinor function of $\sigma$); as a four-dimensional field, $\chi$ denotes the particle of a bound state. Unit: GeV$^{2}$ (with the $V_*$ normalisation). Status: DERIVED.
+- $\sigma$: The proper coordinate of the hidden direction: $\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0$, $\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)$ on one period $0 < z < \pi$; $\sigma = 0$ is the fold $z = \pi/2$, $\sigma \to \mp\infty$ the tips $z \to 0, \pi$; one period of $x_0$ is the whole line $-\infty < \sigma < \infty$. Unit: length. Status: DERIVED.
+- $\mathrm{e}$: Euler's number, the base of the natural logarithm; $\mathrm{e}^{X}$ is the exponential of $X$. Unit: dimensionless. Value: 2.718281828. Status: STANDARD.
+- $q_{\mathrm{b}}$: The inverse width of a state of dirac16complex bound to the fold: its profile falls as $\mathrm{e}^{-q_{\mathrm{b}}\lvert\sigma\rvert}$. Unit: GeV. Status: DERIVED.
+- $\gamma^M,\ \gamma^{(a)}$: The Dirac matrices of dirac16complex along the coordinates, $\gamma^M = \mathbf{e}_a{}^MT^a$, $\gamma_M = g_{MN}\gamma^N$; $\gamma^{(a)} = T^a$ along the frame direction $(a)$ ($\gamma^{(0)}$ along $\sigma$, $\gamma^{(4)}$ along the time). Unit: dimensionless. Status: AUTHOR.
+- $\mu_X,\ \mu_{\mathrm{L}},\ \mu_{\mathrm{R}}$: The dimensionless strengths of the fold for the left-handed and right-handed halves of dirac16complex, set by the mean fields of the Standard Model at the fold: the jump of the profile across the fold is the exponential of $\gamma^{(0)}(\mu_{\mathrm{L}}P_{\mathrm{L}} + \mu_{\mathrm{R}}P_{\mathrm{R}})$; negative values attract. Unit: dimensionless. Status: DERIVED.
+- $P_{\mathrm{L}}$: The author's left-handed chiral projector, $P_{\mathrm{L}} = (\mathbf{1} - \Gamma_8)/2$. Unit: dimensionless. Status: AUTHOR.
+- $P_{\mathrm{R}}$: The author's right-handed chiral projector, $P_{\mathrm{R}} = (\mathbf{1} + \Gamma_8)/2$. Unit: dimensionless. Status: AUTHOR.
+- $\omega_{\mathrm{b}}$: The energy of a state of dirac16complex bound to the fold at zero momentum: the four-dimensional mass of the particle $\chi$. Unit: GeV. Status: DERIVED.
+- $m_\Psi$: The mass parameter of dirac16complex in the bulk. Unit: GeV. Status: RECORD.
+
+<!-- end generated symbol list -->
+
+   where $\mu_{\mathrm{L}}$, $\mu_{\mathrm{R}}$ are the strengths of the fold for the left- and right-handed halves of
+   dirac16complex (set by the Standard-Model fields on the fold) and $q_{\mathrm{b}} = -m_\Psi(\mu_{\mathrm{L}} + \mu_{\mathrm{R}})\tanh\varsigma/(2\varsigma)$,
+   $\varsigma = \sqrt{\mu_{\mathrm{L}}\mu_{\mathrm{R}}}$ ($q_{\mathrm{b}} = -m_\Psi\mu_{\mathrm{L}}/2$ for $\mu_{\mathrm{R}} = 0$).
+8. *The fold as a mirror for dirac16complex.* The reflection across the fold acts on the profiles $\chi(\sigma)$ in two ways,
+
+$$
+(\mathsf{R}_1\chi)(\sigma) = T_0T_1T_2T_3\,\chi(-\sigma),\qquad (\mathsf{R}_2\chi)(\sigma) = T_0T_5T_6T_7\,\chi(-\sigma) \tag{FD-10}
+$$
+<!-- symbols: R1refl, R2refl, chiprof, sigma, Tmat -->
+<!-- begin generated symbol list -->
+**Symbols in (FD-10).**
+
+- $\mathsf{R}_1$: The reflection across the fold acting on a profile of dirac16complex together with the reflection of ordinary space, $(\mathsf{R}_1\chi)(\sigma) = T_0T_1T_2T_3\,\chi(-\sigma)$ (FD-10): a symmetry of dirac16complex, of gravity and of the mean field of the gas of the particles $\chi$; the bound states of Krein charge $-1$ are even, those of Krein charge $+1$ odd. Unit: dimensionless. Status: DERIVED.
+- $\mathsf{R}_2$: The reflection across the fold acting on a profile of dirac16complex together with the reflection of the extra times, $(\mathsf{R}_2\chi)(\sigma) = T_0T_5T_6T_7\,\chi(-\sigma)$ (FD-10): it maps the bound states of one Krein charge onto those of the other. Unit: dimensionless. Status: DERIVED.
+- $\chi(\sigma)$: The profile of a mode of dirac16complex along the hidden direction, $\Psi = \mathrm{e}^{3H\lvert\sigma\rvert}\chi(\sigma)\mathrm{e}^{\mathrm{i}(\vec k\cdot\vec x - \omega x_4)}$ (a 16-component spinor function of $\sigma$); as a four-dimensional field, $\chi$ denotes the particle of a bound state. Unit: GeV$^{2}$ (with the $V_*$ normalisation). Status: DERIVED.
+- $\sigma$: The proper coordinate of the hidden direction: $\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0$, $\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)$ on one period $0 < z < \pi$; $\sigma = 0$ is the fold $z = \pi/2$, $\sigma \to \mp\infty$ the tips $z \to 0, \pi$; one period of $x_0$ is the whole line $-\infty < \sigma < \infty$. Unit: length. Status: DERIVED.
+- $T_a,\ T^a$: The author's eight real $16 \times 16$ Dirac matrices T16^A[a] of 4+4.nb ($a = 0, \dots, 7$; $T_0, \dots, T_7$), with $\{T_a, T_b\} = 2\eta_{ab}\mathbf{1}$; $T^a = \eta^{ab}T_b$. Unit: dimensionless. Status: AUTHOR.
+
+<!-- end generated symbol list -->
+
+   ($T_a$ the author's Dirac matrices; for states at rest $\mathsf{R}_1$ is the reflection across the fold combined with the
+   reflection of ordinary space, $\mathsf{R}_2$ the reflection across the fold combined with the reflection of the extra
+   times). The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a
+   state can carry the charge $-1$ or $+1$. $\mathsf{R}_1$ is a symmetry of dirac16complex, of gravity and of the mean
+   field of a gas of the particles $\chi$: the four bound states of Krein charge $-1$ (the particles $\chi$) are even under
+   it and the four of Krein charge $+1$ are odd, so the mean field of the gas cannot mix the two signs of the indefinite charge. $\mathsf{R}_2$ maps the
+   bound states of one Krein charge onto those of the other and makes the two sets degenerate without the
+   self-interaction.
+9. *The planes of Horava and Witten.* In M-theory on an interval (a circle whose points are identified with their mirror
+   images), the two ten-dimensional planes left in place by the reflection are mirror surfaces (property 1); the gauge
+   fields $E_8 \times E_8$ live on them while gravity fills the bulk. This is the arrangement of UM-3, where the Standard
+   Model lives on the fold and gravity and dirac16complex fill the bulk.
+
+**What is not a fold.**
+
+* *The tips* $z = 0$ and $z = \pi$ (mod $\pi$): the mirror exchanges them within a period, but there the warp vanishes,
+  $g_{x_0x_0}$ diverges, and they lie at an infinite proper distance; they carry no thin source.
+* *A smooth maximum of a warp*, such as $1/\cosh^2(H\sigma)$: mirror symmetric and largest at $\sigma = 0$, but without a kink
+  and without a thin source.
+<!-- end fold definition -->
+
 Rule applied here: every individual calculation (a script, solver, notebook, test suite, PDF build, or an agent job) whose wall time exceeds 423 s is listed, whether it was killed or finished late. Times are wall-clock on this machine (Windows 11, Intel Core Ultra 9 275HX, 24 cores, 191 GB), Pacific time, 2026-10-14 unless stated. Entries are appended as they occur; nothing is removed.
 
 ## A. Killed at 2026-10-14 ~12:05 by the order above (all started by Claude in this session)
@@ -196,3 +523,13 @@ run under `timeout 423` (the longest: the independent free gas, 77.0 s).
 | H16 | W5, the H15 rerun (scratch `run_h15.sh`), step `rust-refined` (assembly of the refined run with the new SCF tolerance 1e-14) | FAILED: `ground_runs_completed` for N2352_lamp2_a00, "SCF not converged in 1000 iterations (last residual 1.78e-15)" | The a4 neighbours are solved to scf_tol/10, i.e. 1e-15 m in the refined run, below the rounding floor of the potentials. Fixed in `solver/src/runs.rs`: scf_tol/10 but not below 1e-14 m (the canonical 1e-12 m is unchanged). The rerun was restarted and then STOPPED at the author's order of 2026-10-17 ~07:52 ("Stop all stages ... push all you have"); the solver, the reference and the records were NOT regenerated with the H15 changes (see `HANDOFF.md` 0.10, W5). Resumed and COMPLETED on 2026-10-17 (scratch `run_h15.sh all`, 57 steps, each under `timeout -k 5 423`, every one exit 0): the Rust repeat byte-identical to the record, the refined run at the SCF tolerance 1e-14 (`ks-rust-determinism.json` 14/14), the reference 39/39 (its results files changed in the last digits, the SCF tolerance 1e-14 for every state), the cross-check 31/31 over 217571 comparisons, the tip study 7/7 (the Rust side unchanged), the dense history 8/8, `check_ks_source_conditions.py` 5/5 and `ks_source_a4.py` 19/19 with byte-identical reports, the unit tests of `ks_source` 9/9. |
 | H17 | W6, the T3 demonstration with the Rust solver (`Revision/pairing/kohn_sham/numerics/t3_rust_demo.py`, four parts and the assembly, the corrected metric), checks `t3_equal_ground_states` and `t3_equal_thermal_states` | FAILED (5 of 7 PASS): worst deviation 3.641e+284 (N2352_lam0_a00) and 7.378e+28 (N8_lam0_a00_T10) in the profiles, while levels, scalars and EMT integrals agreed to 1.9e-12 and 3.5e-12 | Diagnosis: each profile difference was divided by the maximum of the PLUS member's own profile with the floor 1e-300; in the corrected record the free fold-band gas has S, p_t and p0 identically zero (the orbital (e^(f M y), 0)), and v_v, e_int vanish at lambda = 0, while the image member carries rounding values (S 3.6e-16, p0 1.6e-16; at N = 8, T = 0.01 a plus S of 1.1e-52 against 8.0e-24): a 0/0 measure, not a T3 violation (the absolute differences are at most 1e-14 of the family scale). Fix (the measure, the tolerance 1e-9 unchanged): every profile difference is divided by the maximum of its FAMILY (n, S, Q: max |n|; M_eff, v_v: the larger of their maxima; e_int, rho, p3, p_t, p0: the largest of theirs), the measure of the solver's `refined_profiles` and rescaling checks, in both T3 demos; the assembly from the cached runs then passes 7/7 (worst 1.853e-12 ground, 3.502e-12 thermal). |
 | H18 | W6, the T3 demonstration with the reference solver (`Revision/pairing/kohn_sham/numerics/t3_reference_demo.py --jobs 22`, the corrected metric), under `timeout -k 5 423` | FAILED twice: killed by the time limit after 424 s (the record of 2026-10-16 ran in about 170 s); each time the pool's worker processes survived the kill (17 orphans, found and stopped; their output overwrote the end of the shared log) | Diagnosis: (1) the demo imported numpy before `run_reference.py` set OPENBLAS_NUM_THREADS = 1, so each of the 22 worker processes ran OpenBLAS with up to 24 threads (oversubscription); (2) on the matrix of the corrected metric single members are much heavier (N592_lamp1_a20_T50: 4241 labels, 142 s alone; N8_lamp1_a20_T50: 2398 labels, 97 s), and even with one thread per process the 54 members (18 states x plus, image, control on G = 300, 600, 1200) did not finish within 423 s (second kill). Fix (no criterion changed): the thread variables are set before numpy is imported, and the demonstration runs in parts (`--work DIR --part i/n`, the members k = i-1 mod n of the weight-sorted list stored as pickles; `--reuse` assembles them and writes the outputs as one run would). A first split into four parts by members passed (127, 125, 363 and 134 s, report 7/7), but one member alone (N592_lamp1_a20_T50 control, the untransformed tip) takes about 300 s on its three grids, so a part holding it came to 347 to 363 s, above the gate's 300 s for a step that is not long; the unit of work is therefore one member on ONE grid (162 grid runs; the label window is built on G = 300 in every one, deterministic; the assembly joins the three grids as one run does), assigned to six parts by a fixed longest-first rule on an estimated cost; the gate runs six parts and the assembly. |
+
+## I. UM-3 (2026-10-24/25, HANDOFF.md 0.14)
+
+| # | Calculation or step | Status | What happened / what was done |
+|---|---|---|---|
+| I1 | `universe_model_3/code/um3_kohnsham.py`, the full run whose outputs are the record of commit 431d53d (2026-10-25, before 00:57 PDT): the three regimes, the Higgs loop and the weakly bound point in two parallel processes | FINISHED LATE: 1338.2 s (the `runtime_s` stored in `outputs/kohnsham.json`), 9/9 checks | The run was one individual calculation of more than 423 s and was not split. Done 2026-10-25 04:30: the module is split into six parts (K1, the regimes I, II, III, the Higgs loop K6, the weakly bound point K9); every invocation of a part stops after at most 400 s (a SIGALRM guard; no new step after 240 s) and keeps a checkpoint after every completed step (the mean field as an exact binary copy, the level, the coupling, the mixing that worked last), from which the next invocation continues with the same arithmetic; `assemble` makes the checks from the six parts. Every invocation runs under `timeout -k 5 423`. |
+| I2 | The same module in the verification from a fresh clone of 431d53d (2026-10-25, commit a1a95ca at 01:27 PDT) | FINISHED LATE: about 28 min on two cores, 9/9 checks, outputs identical | As I1 (the split was made afterwards). |
+| I3 | The development runs of the same module on 2026-10-24/25 before I1 (the first self-consistent runs of the three regimes, the Higgs loop and the weakly bound point) | FINISHED LATE (several) | They were run unsplit as well; their individual wall times are not preserved in the record available after the session's context was reset at about 03:20 PDT on 2026-10-25, so they cannot be listed one by one. Every later run of the module uses the parts of I1. |
+| I4 | `universe_model_3/code/um3_stabiliser.py`, check ST8 (the energy constraint), first version (2026-10-25, order of 05:09) | FAILED (34 s) | The polynomial P was formed with the wrong sign (P = -16 kappa T^4_4/H^2 instead of +16 kappa T^4_4/H^2, with kappa T^4_4 = -kappa rho_bulk), so the comparison with the stated polynomial failed. Fixed (`P = 16 T^4_4/H^2`); since then 8/8. |
+| I5 | Statements of this round found wrong while checking it (2026-10-25) | CORRECTED before the commit | (1) The text of check KR1 (`um3_krein.py`) assigned the ghosts to the wrong modes: the particles and the holes of the modes of Krein charge +1 are the ghosts. (2) The docstring of `um3_numass.py` said that NuFIT 6.0 changes the results "by less than one per cent"; the computed change is at most 1.5 per cent (the 8B neutrinos). (3) Check EX2 (`um3_extratimes.py`) quoted the tachyon threshold with an estimated c_b^2 instead of the computed one (0.874 m_Psi). (4) The text of the gravity check G4 (`um3_geometry.py`) printed a4'' as a4 (the quotes of a4'' closed and reopened the Python string). (5) FIELD_EQUATIONS, STABILISER and the text of ST8 said that a sourceless bulk with frozen extra times would expand at a4' = H/sqrt 3; with frozen extra times the flow along sigma, (3/16) A (1 + A^2) H^2, vanishes only at A = 0, where P = 1, so a bulk without any source cannot have frozen extra times (only a bulk source of zero energy density would need a4' = H/sqrt 3); ST8 now checks this, and the bound "both rates below about H/2" is stated exactly (the larger of the two rates is at least 0.4771 H). |

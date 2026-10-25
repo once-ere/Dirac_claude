@@ -19,7 +19,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 DOCS = HERE.parent
 BUILD = DOCS.parent / 'build' / 'universe_model_3'
-NAMES = ['dirac matrices', 'MODEL', 'FIELD_EQUATIONS', 'SOLUTION', 'ANALYSIS', 'PROVENANCE']
+NAMES = ['dirac matrices', 'MODEL', 'FIELD_EQUATIONS', 'SOLUTION', 'ANALYSIS', 'PROVENANCE', 'STABILISER']
 
 HEADER = r"""
 \usepackage{amsmath,amssymb}
@@ -65,7 +65,7 @@ def build(name):
     prev = None
     for run in range(6):
         r = subprocess.run(['pdflatex', '-interaction=nonstopmode', '-halt-on-error', '-output-directory=' + str(BUILD),
-                            str(tex_build)], cwd=DOCS, capture_output=True, text=True, encoding='latin-1', env=env, timeout=900)
+                            str(tex_build)], cwd=DOCS, capture_output=True, text=True, encoding='latin-1', env=env, timeout=400)
         if r.returncode != 0:
             log = (BUILD / (safe + '.log')).read_text(encoding='latin-1')
             idx = log.find('\n!')

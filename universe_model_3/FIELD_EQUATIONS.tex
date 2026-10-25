@@ -111,6 +111,764 @@ universe\_model\_3}
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
+\hypertarget{the-fold-definition-and-examples}{%
+\section{The fold: definition and
+examples}\label{the-fold-definition-and-examples}}
+
+\textbf{Definition.} The \emph{fold} is the seven-dimensional surface of
+the author's eight-dimensional spacetime on which the cosine of the
+angle \(z = 6Hx_0\) of the hidden direction vanishes:
+
+\[
+\mathcal{F} = \big\{X = (x_0, x_1, \dots, x_7):\ \cos(6Hx_0) = 0\big\},\qquad
+\text{in one period } 0 < z < \pi\text{ of the metric: } z = \frac{\pi}{2},\quad x_0 = \frac{\pi}{12H} \tag{FD-1}
+\] \textbf{Symbols in (FD-1).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathcal{F}\): The fold: the seven-dimensional surface
+  \(\cos(6Hx_0) = 0\) of the eight-dimensional spacetime (FD-1), in one
+  period \(0 < z < \pi\) the surface \(z = \pi/2\), \(x_0 = \pi/(12H)\),
+  where \(\sigma = 0\); \(\vert_{\mathcal{F}}\) means restricted to the
+  fold. Status: DERIVED.
+\item
+  \(X = \{x_0, \dots, x_7\}\): The author's coordinates of the
+  eight-dimensional spacetime, \(X = \{x_0, x_1, \dots, x_7\}\) with the
+  hidden direction first (Dirac\_Einstein-Lovelock\_4+4\_Nash.nb,
+  section DEFCHART); \(X^M\) is the coordinate with the index \(M\) and
+  \(\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7\)
+  the coordinate volume element. Unit: length (each coordinate). Status:
+  AUTHOR.
+\item
+  \(x_0\): The hidden space-like coordinate (listed first); the metric
+  depends on it through \(z = 6Hx_0\), periodically with the period
+  \(\pi/(6H)\). Unit: length. Status: AUTHOR.
+\item
+  \(x_1\): The first coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(x_7\): The third of the three extra time-like coordinates. Unit:
+  length. Status: AUTHOR.
+\item
+  \(H\): The author's constant (an inverse length) that fixes the period
+  \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
+  constant \(\Lambda = -10H^2\); in UM-3 a free parameter. Unit: GeV
+  (1/length). Status: AUTHOR.
+\item
+  \(z\): The angle variable of the hidden direction, \(z = 6Hx_0\); one
+  period of \(x_0\) is \(0 < z < \pi\), the fold is \(z = \pi/2\). Unit:
+  dimensionless. Status: AUTHOR.
+\item
+  \(\pi\): The number pi, the ratio of the circumference of a circle to
+  its diameter. Unit: dimensionless. Value: 3.141592654. Status:
+  STANDARD.
+\end{itemize}
+
+\(X = \{x_0, \dots, x_7\}\) are the author's coordinates: \(x_0\) the
+hidden space-like direction, \(x_1, x_2, x_3\) ordinary space, \(x_4\)
+the time, \(x_5, x_6, x_7\) the three extra times; \(H\) is the author's
+constant (an inverse length). The author's metric depends on \(x_0\)
+only through \(\cot^2z\) and \((\sin^2z)^{1/6}\), so it repeats with the
+period \(\pi/(6H)\) of \(x_0\), and every period \(0 < z < \pi\)
+contains exactly one fold, at \(z = \pi/2\). A point of the fold is
+labelled by the seven coordinates \(x_1, \dots, x_7\), and the metric
+restricted to the fold (\(\mathrm{d}x_0 = 0\), \(z = \pi/2\)) is
+
+\[
+g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N\big\vert_{\mathcal{F}} = \mathrm{e}^{2a_4}\big(\mathrm{d}x_1^2 + \mathrm{d}x_2^2 + \mathrm{d}x_3^2\big)
+ - \mathrm{d}x_4^2 - \mathrm{e}^{-2a_4}b_4^2\big(\mathrm{d}x_5^2 + \mathrm{d}x_6^2 + \mathrm{d}x_7^2\big) \tag{FD-2}
+\] \textbf{Symbols in (FD-2).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(g_{MN}\): The metric tensor of the eight-dimensional spacetime
+  (signature \(+,+,+,+,-,-,-,-\) in the order \(x_0, \dots, x_7\)):
+  \(g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N\) is the squared interval,
+  \(g^{MN}\) its inverse, \(\lvert g\rvert\) the absolute value of its
+  determinant (\(\sqrt{\lvert g\rvert}\,\mathrm{d}^8X\) is the proper
+  volume element). Unit: dimensionless. Status: AUTHOR.
+\item
+  \(M\): A coordinate index of eight dimensions (also with a numbered
+  copy \(M_1, M_2, \dots\)): it runs over \(x_0, x_1, \dots, x_7\); a
+  repeated index is summed. Status: STANDARD.
+\item
+  \(N\): A coordinate index of eight dimensions (also
+  \(N_1, N_2, \dots\)), running over \(x_0, \dots, x_7\); a repeated
+  index is summed. Status: STANDARD.
+\item
+  \(\mathrm{d}\): The differential: \(\mathrm{d}X\) is an infinitesimal
+  change of \(X\), \(\mathrm{d}X/\mathrm{d}Y\) the derivative of \(X\)
+  with respect to \(Y\), \(\mathrm{d}^nX\) the volume element of \(n\)
+  variables. Status: STANDARD.
+\item
+  \(X = \{x_0, \dots, x_7\}\): The author's coordinates of the
+  eight-dimensional spacetime, \(X = \{x_0, x_1, \dots, x_7\}\) with the
+  hidden direction first (Dirac\_Einstein-Lovelock\_4+4\_Nash.nb,
+  section DEFCHART); \(X^M\) is the coordinate with the index \(M\) and
+  \(\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7\)
+  the coordinate volume element. Unit: length (each coordinate). Status:
+  AUTHOR.
+\item
+  \(\mathcal{F}\): The fold: the seven-dimensional surface
+  \(\cos(6Hx_0) = 0\) of the eight-dimensional spacetime (FD-1), in one
+  period \(0 < z < \pi\) the surface \(z = \pi/2\), \(x_0 = \pi/(12H)\),
+  where \(\sigma = 0\); \(\vert_{\mathcal{F}}\) means restricted to the
+  fold. Status: DERIVED.
+\item
+  \(\mathrm{e}\): Euler's number, the base of the natural logarithm;
+  \(\mathrm{e}^{X}\) is the exponential of \(X\). Unit: dimensionless.
+  Value: 2.718281828. Status: STANDARD.
+\item
+  \(a_4\): The author's metric function of the time \(x_4\) that scales
+  ordinary 3-space: on the fold \(\mathrm{e}^{a_4}\) is the scale factor
+  of cosmology and \(a_4'\) the Hubble rate. Unit: dimensionless.
+  Status: AUTHOR.
+\item
+  \(b_4\): The author's metric function of the time \(x_4\) in the
+  extra-time components, \(b_4 > 0\), never identically 1 (the author's
+  order of 2026-10-24); the scale factor of the extra times is
+  \(\mathrm{e}^{-a_4}b_4\) times the warp. Unit: dimensionless. Status:
+  AUTHOR.
+\item
+  \(x_1\): The first coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(x_2\): The second coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(x_3\): The third coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(x_4\): The time (\(x_4 \ge 0\) in the ad hoc vacuum); a prime on a
+  function of \(x_4\) alone is \(\mathrm{d}/\mathrm{d}x_4\). Unit:
+  length (= time, \(c = 1\)). Status: AUTHOR.
+\item
+  \(x_5\): The first of the three extra time-like coordinates. Unit:
+  length. Status: AUTHOR.
+\item
+  \(x_6\): The second of the three extra time-like coordinates. Unit:
+  length. Status: AUTHOR.
+\item
+  \(x_7\): The third of the three extra time-like coordinates. Unit:
+  length. Status: AUTHOR.
+\end{itemize}
+
+with three space-like and four time-like directions; \(a_4\) and \(b_4\)
+are the author's two functions of the time \(x_4\).
+
+\textbf{Why this surface is called a fold.} Measured by the proper
+distance along the hidden direction,
+
+\[
+\sigma = \mathrm{sgn}\Big(\frac{\pi}{2} - z\Big)\frac{\ln\sin z}{6H},\qquad \mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0,\qquad
+\sin z = \mathrm{e}^{-6H\lvert\sigma\rvert} \tag{FD-3}
+\] \textbf{Symbols in (FD-3).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\sigma\): The proper coordinate of the hidden direction:
+  \(\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0\),
+  \(\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)\) on one period
+  \(0 < z < \pi\); \(\sigma = 0\) is the fold \(z = \pi/2\),
+  \(\sigma \to \mp\infty\) the tips \(z \to 0, \pi\); one period of
+  \(x_0\) is the whole line \(-\infty < \sigma < \infty\). Unit: length.
+  Status: DERIVED.
+\item
+  \(\mathrm{sgn}\): The sign function: \(\mathrm{sgn}(y) = +1\) for
+  \(y > 0\), \(-1\) for \(y < 0\). Status: STANDARD.
+\item
+  \(\pi\): The number pi, the ratio of the circumference of a circle to
+  its diameter. Unit: dimensionless. Value: 3.141592654. Status:
+  STANDARD.
+\item
+  \(z\): The angle variable of the hidden direction, \(z = 6Hx_0\); one
+  period of \(x_0\) is \(0 < z < \pi\), the fold is \(z = \pi/2\). Unit:
+  dimensionless. Status: AUTHOR.
+\item
+  \(H\): The author's constant (an inverse length) that fixes the period
+  \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
+  constant \(\Lambda = -10H^2\); in UM-3 a free parameter. Unit: GeV
+  (1/length). Status: AUTHOR.
+\item
+  \(\mathrm{d}\): The differential: \(\mathrm{d}X\) is an infinitesimal
+  change of \(X\), \(\mathrm{d}X/\mathrm{d}Y\) the derivative of \(X\)
+  with respect to \(Y\), \(\mathrm{d}^nX\) the volume element of \(n\)
+  variables. Status: STANDARD.
+\item
+  \(x_0\): The hidden space-like coordinate (listed first); the metric
+  depends on it through \(z = 6Hx_0\), periodically with the period
+  \(\pi/(6H)\). Unit: length. Status: AUTHOR.
+\item
+  \(\mathrm{e}\): Euler's number, the base of the natural logarithm;
+  \(\mathrm{e}^{X}\) is the exponential of \(X\). Unit: dimensionless.
+  Value: 2.718281828. Status: STANDARD.
+\end{itemize}
+
+(the fold is \(\sigma = 0\); the half-period \(0 < z < \pi/2\) is
+\(\sigma < 0\), the half-period \(\pi/2 < z < \pi\) is \(\sigma > 0\);
+the two ends of the period, the tips \(z \to 0\) and \(z \to \pi\), lie
+at \(\sigma \to -\infty\) and \(\sigma \to +\infty\)), the author's
+metric is
+
+\[
+g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N = \mathrm{d}\sigma^2 + \mathrm{e}^{-2H\lvert\sigma\rvert}\Big[\mathrm{e}^{2a_4}\big(\mathrm{d}x_1^2
+ + \mathrm{d}x_2^2 + \mathrm{d}x_3^2\big) - \mathrm{e}^{-2a_4}b_4^2\big(\mathrm{d}x_5^2 + \mathrm{d}x_6^2 + \mathrm{d}x_7^2\big)\Big]
+ - \mathrm{d}x_4^2 \tag{FD-4}
+\] \textbf{Symbols in (FD-4).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(g_{MN}\): The metric tensor of the eight-dimensional spacetime
+  (signature \(+,+,+,+,-,-,-,-\) in the order \(x_0, \dots, x_7\)):
+  \(g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N\) is the squared interval,
+  \(g^{MN}\) its inverse, \(\lvert g\rvert\) the absolute value of its
+  determinant (\(\sqrt{\lvert g\rvert}\,\mathrm{d}^8X\) is the proper
+  volume element). Unit: dimensionless. Status: AUTHOR.
+\item
+  \(M\): A coordinate index of eight dimensions (also with a numbered
+  copy \(M_1, M_2, \dots\)): it runs over \(x_0, x_1, \dots, x_7\); a
+  repeated index is summed. Status: STANDARD.
+\item
+  \(N\): A coordinate index of eight dimensions (also
+  \(N_1, N_2, \dots\)), running over \(x_0, \dots, x_7\); a repeated
+  index is summed. Status: STANDARD.
+\item
+  \(\mathrm{d}\): The differential: \(\mathrm{d}X\) is an infinitesimal
+  change of \(X\), \(\mathrm{d}X/\mathrm{d}Y\) the derivative of \(X\)
+  with respect to \(Y\), \(\mathrm{d}^nX\) the volume element of \(n\)
+  variables. Status: STANDARD.
+\item
+  \(X = \{x_0, \dots, x_7\}\): The author's coordinates of the
+  eight-dimensional spacetime, \(X = \{x_0, x_1, \dots, x_7\}\) with the
+  hidden direction first (Dirac\_Einstein-Lovelock\_4+4\_Nash.nb,
+  section DEFCHART); \(X^M\) is the coordinate with the index \(M\) and
+  \(\mathrm{d}^8X = \mathrm{d}x_0\,\mathrm{d}x_1\cdots\mathrm{d}x_7\)
+  the coordinate volume element. Unit: length (each coordinate). Status:
+  AUTHOR.
+\item
+  \(\sigma\): The proper coordinate of the hidden direction:
+  \(\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0\),
+  \(\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)\) on one period
+  \(0 < z < \pi\); \(\sigma = 0\) is the fold \(z = \pi/2\),
+  \(\sigma \to \mp\infty\) the tips \(z \to 0, \pi\); one period of
+  \(x_0\) is the whole line \(-\infty < \sigma < \infty\). Unit: length.
+  Status: DERIVED.
+\item
+  \(\mathrm{e}\): Euler's number, the base of the natural logarithm;
+  \(\mathrm{e}^{X}\) is the exponential of \(X\). Unit: dimensionless.
+  Value: 2.718281828. Status: STANDARD.
+\item
+  \(H\): The author's constant (an inverse length) that fixes the period
+  \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
+  constant \(\Lambda = -10H^2\); in UM-3 a free parameter. Unit: GeV
+  (1/length). Status: AUTHOR.
+\item
+  \(a_4\): The author's metric function of the time \(x_4\) that scales
+  ordinary 3-space: on the fold \(\mathrm{e}^{a_4}\) is the scale factor
+  of cosmology and \(a_4'\) the Hubble rate. Unit: dimensionless.
+  Status: AUTHOR.
+\item
+  \(b_4\): The author's metric function of the time \(x_4\) in the
+  extra-time components, \(b_4 > 0\), never identically 1 (the author's
+  order of 2026-10-24); the scale factor of the extra times is
+  \(\mathrm{e}^{-a_4}b_4\) times the warp. Unit: dimensionless. Status:
+  AUTHOR.
+\item
+  \(x_1\): The first coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(x_2\): The second coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(x_3\): The third coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(x_4\): The time (\(x_4 \ge 0\) in the ad hoc vacuum); a prime on a
+  function of \(x_4\) alone is \(\mathrm{d}/\mathrm{d}x_4\). Unit:
+  length (= time, \(c = 1\)). Status: AUTHOR.
+\item
+  \(x_5\): The first of the three extra time-like coordinates. Unit:
+  length. Status: AUTHOR.
+\item
+  \(x_6\): The second of the three extra time-like coordinates. Unit:
+  length. Status: AUTHOR.
+\item
+  \(x_7\): The third of the three extra time-like coordinates. Unit:
+  length. Status: AUTHOR.
+\end{itemize}
+
+It depends on \(\sigma\) only through \(\lvert\sigma\rvert\). Four
+properties make the surface \(\sigma = 0\) a fold, and together they
+single it out within the period:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \emph{It is a mirror.} The reflection \(\sigma \to -\sigma\) (that is
+  \(z \to \pi - z\), or \(x_0 \to \pi/(6H) - x_0\)) maps the metric to
+  itself, and the fold is the only surface of the period that the
+  reflection leaves in place: the two halves of the period are mirror
+  images of each other, joined along the fold, as the two halves of a
+  folded sheet of paper are joined along the crease.
+\item
+  \emph{The warp is largest on it.} The warp factor
+  \((\sin^2z)^{1/6} = \mathrm{e}^{-2H\lvert\sigma\rvert}\), which
+  multiplies ordinary space and the extra times, equals 1 on the fold
+  and decreases on both sides.
+\item
+  \emph{The metric has a kink on it.} The metric is continuous across
+  the fold, but its first derivative along \(\sigma\) jumps. The
+  extrinsic curvature of the surfaces \(\sigma = \text{const}\) changes
+  sign across the fold,
+\end{enumerate}
+
+\[
+K^a{}_b = \frac12\,g^{ac}\,\partial_\sigma g_{cb}:\qquad
+K^{1}{}_{1} = K^{2}{}_{2} = K^{3}{}_{3} = K^{5}{}_{5} = K^{6}{}_{6} = K^{7}{}_{7} = -H\,\mathrm{sgn}(\sigma),\qquad K^{4}{}_{4} = 0 \tag{FD-5}
+\] \textbf{Symbols in (FD-5).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(K^a{}_b\): The extrinsic curvature of a surface
+  \(\sigma = \mathrm{const}\) of the hidden direction,
+  \(K^a{}_b = \frac12 g^{ac}\partial_\sigma g_{cb}\) for \(a, b\) along
+  the surface (FD-5): \(-H\,\mathrm{sgn}(\sigma)\) along ordinary space
+  and the extra times, 0 along the time. Unit: GeV (1/length). Status:
+  DERIVED.
+\item
+  \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
+  (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
+  ordinary space, \((4)\) along the time, \((5), (6), (7)\) along the
+  extra times); raised and lowered with the frame metric
+  \(\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)\); on the fold
+  (\(a, b \in \{1, \dots, 7\}\)) the frame of the fold; a repeated index
+  is summed. Status: STANDARD.
+\item
+  \(b\): A frame index (as \(a\)). Status: STANDARD.
+\item
+  \(c\): A frame index (as \(a\)). Status: STANDARD.
+\item
+  \(g_{MN}\): The metric tensor of the eight-dimensional spacetime
+  (signature \(+,+,+,+,-,-,-,-\) in the order \(x_0, \dots, x_7\)):
+  \(g_{MN}\,\mathrm{d}X^M\mathrm{d}X^N\) is the squared interval,
+  \(g^{MN}\) its inverse, \(\lvert g\rvert\) the absolute value of its
+  determinant (\(\sqrt{\lvert g\rvert}\,\mathrm{d}^8X\) is the proper
+  volume element). Unit: dimensionless. Status: AUTHOR.
+\item
+  \(\partial\): A partial derivative: \(\partial_M\) with respect to the
+  coordinate \(X^M\), \(\partial_\mu\) with respect to \(x^\mu\),
+  \(\partial_\sigma\) with respect to \(\sigma\),
+  \(\partial X/\partial Y\) the derivative of \(X\) with respect to
+  \(Y\) at fixed other variables. Status: STANDARD.
+\item
+  \(\sigma\): The label \(\sigma\) in \(\partial_\sigma\): the
+  derivative with respect to the proper hidden coordinate \(\sigma\).
+  Status: STANDARD.
+\item
+  \(\sigma\): The proper coordinate of the hidden direction:
+  \(\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0\),
+  \(\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)\) on one period
+  \(0 < z < \pi\); \(\sigma = 0\) is the fold \(z = \pi/2\),
+  \(\sigma \to \mp\infty\) the tips \(z \to 0, \pi\); one period of
+  \(x_0\) is the whole line \(-\infty < \sigma < \infty\). Unit: length.
+  Status: DERIVED.
+\item
+  \(H\): The author's constant (an inverse length) that fixes the period
+  \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
+  constant \(\Lambda = -10H^2\); in UM-3 a free parameter. Unit: GeV
+  (1/length). Status: AUTHOR.
+\item
+  \(\mathrm{sgn}\): The sign function: \(\mathrm{sgn}(y) = +1\) for
+  \(y > 0\), \(-1\) for \(y < 0\). Status: STANDARD.
+\end{itemize}
+
+it jumps by \(-2H\) along ordinary space and along the extra times. The
+Einstein-Lovelock equations are linear in the second
+\(\sigma\)-derivatives of the metric, so the jump puts a Dirac delta
+function \(\delta_{\mathrm{D}}(\sigma)\) into them: the metric solves
+them only if the fold carries a thin source \(\mathcal{S}^a{}_b\), an
+energy-momentum tensor concentrated on \(\sigma = 0\) (the junction
+conditions). At the author's vacuum (\(a_4' = H\), \(b_4\) constant) its
+frame components along (ordinary space, the time, the extra times) are
+\(\kappa\mathcal{S} = (-10H, -6H, -10H)\), at the static late-time state
+(\(a_4\) and \(b_4\) constant)
+\(\kappa\mathcal{S} = (-61H/8, -31H/4, -61H/8)\), with
+\(\kappa = 8\pi G_8\) the gravitational coupling of eight dimensions.
+The fold is therefore not only a place but a physical object: a thin
+layer that carries energy and momentum (a brane). 4. \emph{The author's
+coordinate \(x_0\) degenerates on it.} The metric component
+\(g_{x_0x_0} = \cot^2(6Hx_0)\) vanishes on the fold and nowhere else in
+the period; near the fold the proper distance grows with the square of
+the coordinate distance,
+
+\[
+\lvert\sigma\rvert = 3H\Big(x_0 - \frac{\pi}{12H}\Big)^2\Big[1 + 6H^2\Big(x_0 - \frac{\pi}{12H}\Big)^2 + \dots\Big] \tag{FD-6}
+\] \textbf{Symbols in (FD-6).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\sigma\): The proper coordinate of the hidden direction:
+  \(\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0\),
+  \(\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)\) on one period
+  \(0 < z < \pi\); \(\sigma = 0\) is the fold \(z = \pi/2\),
+  \(\sigma \to \mp\infty\) the tips \(z \to 0, \pi\); one period of
+  \(x_0\) is the whole line \(-\infty < \sigma < \infty\). Unit: length.
+  Status: DERIVED.
+\item
+  \(H\): The author's constant (an inverse length) that fixes the period
+  \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
+  constant \(\Lambda = -10H^2\); in UM-3 a free parameter. Unit: GeV
+  (1/length). Status: AUTHOR.
+\item
+  \(x_0\): The hidden space-like coordinate (listed first); the metric
+  depends on it through \(z = 6Hx_0\), periodically with the period
+  \(\pi/(6H)\). Unit: length. Status: AUTHOR.
+\item
+  \(\pi\): The number pi, the ratio of the circumference of a circle to
+  its diameter. Unit: dimensionless. Value: 3.141592654. Status:
+  STANDARD.
+\end{itemize}
+
+so the two coordinate values on either side of \(x_0 = \pi/(12H)\) at
+the same coordinate distance lie at the same proper distance from the
+fold: the coordinate line of \(x_0\) is folded onto the line of proper
+distances (a fold map, example 5).
+
+\textbf{What lives on the fold.} In UM-3 the Standard Model (the Higgs
+doublet with the ad hoc vacuum, the gauge fields of
+\(SU(3)_C \times SU(2)_L \times U(1)_Y\), three generations of quarks
+and leptons and three right-handed neutrinos), the fold fluid and the
+induced Einstein-Hilbert term of the fold live on the fold: they are
+fields at \(\sigma = 0\), functions of \(x_1, \dots, x_4\) (no field
+depends on the extra times). Integrated over the extra times, the fold
+is the four-dimensional universe that we observe, with the metric
+\(\mathrm{diag}(\mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, -1)\)
+in \(x_1, \dots, x_4\). dirac16complex and gravity live in the bulk
+\(\sigma \ne 0\) as well as on the fold; the bound states \(\chi\) of
+dirac16complex are the part of it that the fold holds, and the portals
+couple dirac16complex to the Standard Model at \(\sigma = 0\). In UM-3
+files the word \emph{fold} means this surface and nothing else: a number
+of equal energy levels is written as a number of degenerate states, and
+a growth by powers of Euler's number as a logarithm.
+
+\textbf{Examples of folds that are meaningful for UM-3.}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \emph{Our fold.} The fold \(z = \pi/2\) of the period that contains
+  our world (FD-1): the seven-dimensional world-volume of the Standard
+  Model, and after the integration over the extra times the
+  four-dimensional universe that we observe.
+\item
+  \emph{The copies of the fold.} Because the metric repeats with the
+  period \(\pi/(6H)\), every surface
+  \(x_0 = \pi/(12H) + (\text{an integer multiple of } \pi/(6H))\) is a
+  copy of the fold, one per period. Neighbouring copies are separated by
+  a tip (\(z\) a multiple of \(\pi\)), where the warp
+  \((\sin^2z)^{1/6}\) vanishes and \(g_{x_0x_0} = \cot^2z\) diverges,
+  and which lies at an infinite proper distance from both: in proper
+  distance every copy has its own complete line
+  \(-\infty < \sigma < \infty\). This is why the period \(\pi/(6H)\) of
+  \(x_0\) produces no Kaluza-Klein tower with the spacing \(12H\); the
+  \(x_0\) mass of the bound states is their binding to the fold.
+\item
+  \emph{A folded sheet of paper.} The crease of a folded sheet is a fold
+  in this sense: the two halves are mirror images (property 1) joined
+  along the crease, the sheet is continuous there and its direction
+  changes abruptly (property 3). In UM-3 the direction across the crease
+  is the hidden direction \(\sigma\), the seven directions along the
+  crease are \(x_1, \dots, x_7\), and the crease is the fold.
+\item
+  \emph{A folded function.} The warp factor
+  \(\mathrm{e}^{-2H\lvert\sigma\rvert}\) is the simplest folded
+  function: continuous, mirror symmetric, largest at \(\sigma = 0\),
+  with a jump of its derivative,
+\end{enumerate}
+
+\[
+\frac{\mathrm{d}}{\mathrm{d}\sigma}\mathrm{e}^{-2H\lvert\sigma\rvert} = -2H\,\mathrm{sgn}(\sigma)\,\mathrm{e}^{-2H\lvert\sigma\rvert},\qquad
+\frac{\mathrm{d}^2}{\mathrm{d}\sigma^2}\mathrm{e}^{-2H\lvert\sigma\rvert} = 4H^2\,\mathrm{e}^{-2H\lvert\sigma\rvert} - 4H\,\delta_{\mathrm{D}}(\sigma) \tag{FD-7}
+\] \textbf{Symbols in (FD-7).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathrm{d}\): The differential: \(\mathrm{d}X\) is an infinitesimal
+  change of \(X\), \(\mathrm{d}X/\mathrm{d}Y\) the derivative of \(X\)
+  with respect to \(Y\), \(\mathrm{d}^nX\) the volume element of \(n\)
+  variables. Status: STANDARD.
+\item
+  \(\sigma\): The proper coordinate of the hidden direction:
+  \(\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0\),
+  \(\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)\) on one period
+  \(0 < z < \pi\); \(\sigma = 0\) is the fold \(z = \pi/2\),
+  \(\sigma \to \mp\infty\) the tips \(z \to 0, \pi\); one period of
+  \(x_0\) is the whole line \(-\infty < \sigma < \infty\). Unit: length.
+  Status: DERIVED.
+\item
+  \(\mathrm{e}\): Euler's number, the base of the natural logarithm;
+  \(\mathrm{e}^{X}\) is the exponential of \(X\). Unit: dimensionless.
+  Value: 2.718281828. Status: STANDARD.
+\item
+  \(H\): The author's constant (an inverse length) that fixes the period
+  \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
+  constant \(\Lambda = -10H^2\); in UM-3 a free parameter. Unit: GeV
+  (1/length). Status: AUTHOR.
+\item
+  \(\mathrm{sgn}\): The sign function: \(\mathrm{sgn}(y) = +1\) for
+  \(y > 0\), \(-1\) for \(y < 0\). Status: STANDARD.
+\item
+  \(\delta_{\mathrm{D}}\): The Dirac delta function:
+  \(\int\mathrm{d}\sigma\,\delta_{\mathrm{D}}(\sigma)F(\sigma) = F(0)\).
+  Unit: 1/length (for \(\delta_{\mathrm{D}}(\sigma)\)). Status:
+  STANDARD.
+\end{itemize}
+
+whose delta function is the origin of the thin source of property 3.
+Every function of UM-3 that depends on \(\sigma\) through
+\(\lvert\sigma\rvert\) is folded at \(\sigma = 0\): the metric functions
+of FD-4 and the profiles of the bound states of dirac16complex (example
+7). 5. \emph{A fold map.} In the mathematics of smooth maps the fold
+(Whitney's fold singularity) is the map \(u \mapsto u^2\) of a line onto
+a half-line: it folds the line at \(u = 0\), two points \(\pm u\) land
+on the same point, and the derivative of the map vanishes on the fold.
+Near the fold the map from the author's coordinate \(x_0\) to the
+distance \(\lvert\sigma\rvert\) from the fold is of this kind (FD-6),
+and \(g_{x_0x_0} = \cot^2z\), the square of the derivative
+\(\mathrm{d}\sigma/\mathrm{d}x_0\), vanishes there. 6. \emph{The brane
+of Randall and Sundrum.} The five-dimensional metric
+
+\[
+\mathrm{d}y_{\mathrm{RS}}^2 + \mathrm{e}^{-2k_{\mathrm{RS}}\lvert y_{\mathrm{RS}}\rvert}\big(\mathrm{d}x_1^2 + \mathrm{d}x_2^2 + \mathrm{d}x_3^2
+ - \mathrm{d}x_4^2\big),\qquad \lambda_{\mathrm{RS}} = \frac{6k_{\mathrm{RS}}}{\kappa_5},\qquad \Lambda_{\mathrm{RS}} = -\frac{6k_{\mathrm{RS}}^2}{\kappa_5} \tag{FD-8}
+\] \textbf{Symbols in (FD-8).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathrm{d}\): The differential: \(\mathrm{d}X\) is an infinitesimal
+  change of \(X\), \(\mathrm{d}X/\mathrm{d}Y\) the derivative of \(X\)
+  with respect to \(Y\), \(\mathrm{d}^nX\) the volume element of \(n\)
+  variables. Status: STANDARD.
+\item
+  \(y_{\mathrm{RS}}\): The proper coordinate across the brane of the
+  five-dimensional model of Randall and Sundrum (FD-8, an example, not
+  UM-3). Unit: length. Status: STANDARD.
+\item
+  \(\mathrm{e}\): Euler's number, the base of the natural logarithm;
+  \(\mathrm{e}^{X}\) is the exponential of \(X\). Unit: dimensionless.
+  Value: 2.718281828. Status: STANDARD.
+\item
+  \(k_{\mathrm{RS}}\): The inverse curvature length of the bulk of the
+  model of Randall and Sundrum: the warp of the brane is
+  \(\mathrm{e}^{-2k_{\mathrm{RS}}\lvert y_{\mathrm{RS}}\rvert}\) (FD-8,
+  an example, not UM-3). Unit: GeV (1/length). Status: STANDARD.
+\item
+  \(x_1\): The first coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(x_2\): The second coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(x_3\): The third coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(x_4\): The time (\(x_4 \ge 0\) in the ad hoc vacuum); a prime on a
+  function of \(x_4\) alone is \(\mathrm{d}/\mathrm{d}x_4\). Unit:
+  length (= time, \(c = 1\)). Status: AUTHOR.
+\item
+  \(\lambda_{\mathrm{RS}}\): The tension (energy per unit volume of
+  ordinary space) of the brane of the model of Randall and Sundrum,
+  \(\lambda_{\mathrm{RS}} = 6k_{\mathrm{RS}}/\kappa_5\) (FD-8, an
+  example, not UM-3). Unit: GeV\(^4\). Status: STANDARD.
+\item
+  \(\kappa_5\): The gravitational coupling of five dimensions in the
+  model of Randall and Sundrum, \(\kappa_5 = 8\pi G_5\) (FD-8, an
+  example, not UM-3). Unit: GeV\(^{-3}\). Status: STANDARD.
+\item
+  \(\Lambda_{\mathrm{RS}}\): The vacuum energy density of the bulk of
+  the model of Randall and Sundrum,
+  \(\Lambda_{\mathrm{RS}} = -6k_{\mathrm{RS}}^2/\kappa_5\) (FD-8, an
+  example, not UM-3). Unit: GeV\(^5\). Status: STANDARD.
+\end{itemize}
+
+has a fold at \(y_{\mathrm{RS}} = 0\) with the properties 1 to 3 (its
+coordinate \(y_{\mathrm{RS}}\) is already the proper distance, so
+property 4 does not arise); Einstein's equations require there a brane
+of the tension \(\lambda_{\mathrm{RS}}\) (Israel's junction condition)
+and in the bulk the vacuum energy \(\Lambda_{\mathrm{RS}}\). The fold of
+UM-3 is of the same kind; it differs in that the time \(x_4\) is not
+warped, three extra times are warped together with ordinary space, and
+the Lovelock terms add to the junction conditions. 7. \emph{A particle
+bound to a thin layer.} A particle held by an attractive thin layer has
+a folded wave function: it falls off exponentially with the distance on
+both sides, and the layer makes its derivative jump (for the first-order
+Dirac equation, the wave function itself). In UM-3 the particles
+\(\chi\) of dark matter are the states of dirac16complex bound to the
+fold; at rest and without their self-interaction (the field is
+\(\Psi = \mathrm{e}^{3H\lvert\sigma\rvert}\chi(\sigma)\mathrm{e}^{-\mathrm{i}\omega_{\mathrm{b}}x_4}\))
+
+\[
+\begin{aligned}
+&\chi(\sigma) = \mathrm{e}^{-q_{\mathrm{b}}\lvert\sigma\rvert}\chi(0^+)\ \ (\sigma > 0),\qquad
+\chi(\sigma) = \mathrm{e}^{-q_{\mathrm{b}}\lvert\sigma\rvert}\chi(0^-)\ \ (\sigma < 0),\\
+&\chi(0^+) = \exp\Big(\gamma^{(0)}\big(\mu_{\mathrm{L}}P_{\mathrm{L}} + \mu_{\mathrm{R}}P_{\mathrm{R}}\big)\Big)\chi(0^-),\qquad
+\omega_{\mathrm{b}} = \sqrt{m_\Psi^2 - q_{\mathrm{b}}^2}
+\end{aligned} \tag{FD-9}
+\] \textbf{Symbols in (FD-9).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\chi(\sigma)\): The profile of a mode of dirac16complex along the
+  hidden direction,
+  \(\Psi = \mathrm{e}^{3H\lvert\sigma\rvert}\chi(\sigma)\mathrm{e}^{\mathrm{i}(\vec k\cdot\vec x - \omega x_4)}\)
+  (a 16-component spinor function of \(\sigma\)); as a four-dimensional
+  field, \(\chi\) denotes the particle of a bound state. Unit:
+  GeV\(^{2}\) (with the \(V_*\) normalisation). Status: DERIVED.
+\item
+  \(\sigma\): The proper coordinate of the hidden direction:
+  \(\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0\),
+  \(\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)\) on one period
+  \(0 < z < \pi\); \(\sigma = 0\) is the fold \(z = \pi/2\),
+  \(\sigma \to \mp\infty\) the tips \(z \to 0, \pi\); one period of
+  \(x_0\) is the whole line \(-\infty < \sigma < \infty\). Unit: length.
+  Status: DERIVED.
+\item
+  \(\mathrm{e}\): Euler's number, the base of the natural logarithm;
+  \(\mathrm{e}^{X}\) is the exponential of \(X\). Unit: dimensionless.
+  Value: 2.718281828. Status: STANDARD.
+\item
+  \(q_{\mathrm{b}}\): The inverse width of a state of dirac16complex
+  bound to the fold: its profile falls as
+  \(\mathrm{e}^{-q_{\mathrm{b}}\lvert\sigma\rvert}\). Unit: GeV. Status:
+  DERIVED.
+\item
+  \(\gamma^M,\ \gamma^{(a)}\): The Dirac matrices of dirac16complex
+  along the coordinates, \(\gamma^M = \mathbf{e}_a{}^MT^a\),
+  \(\gamma_M = g_{MN}\gamma^N\); \(\gamma^{(a)} = T^a\) along the frame
+  direction \((a)\) (\(\gamma^{(0)}\) along \(\sigma\), \(\gamma^{(4)}\)
+  along the time). Unit: dimensionless. Status: AUTHOR.
+\item
+  \(\mu_X,\ \mu_{\mathrm{L}},\ \mu_{\mathrm{R}}\): The dimensionless
+  strengths of the fold for the left-handed and right-handed halves of
+  dirac16complex, set by the mean fields of the Standard Model at the
+  fold: the jump of the profile across the fold is the exponential of
+  \(\gamma^{(0)}(\mu_{\mathrm{L}}P_{\mathrm{L}} + \mu_{\mathrm{R}}P_{\mathrm{R}})\);
+  negative values attract. Unit: dimensionless. Status: DERIVED.
+\item
+  \(P_{\mathrm{L}}\): The author's left-handed chiral projector,
+  \(P_{\mathrm{L}} = (\mathbf{1} - \Gamma_8)/2\). Unit: dimensionless.
+  Status: AUTHOR.
+\item
+  \(P_{\mathrm{R}}\): The author's right-handed chiral projector,
+  \(P_{\mathrm{R}} = (\mathbf{1} + \Gamma_8)/2\). Unit: dimensionless.
+  Status: AUTHOR.
+\item
+  \(\omega_{\mathrm{b}}\): The energy of a state of dirac16complex bound
+  to the fold at zero momentum: the four-dimensional mass of the
+  particle \(\chi\). Unit: GeV. Status: DERIVED.
+\item
+  \(m_\Psi\): The mass parameter of dirac16complex in the bulk. Unit:
+  GeV. Status: RECORD.
+\end{itemize}
+
+where \(\mu_{\mathrm{L}}\), \(\mu_{\mathrm{R}}\) are the strengths of
+the fold for the left- and right-handed halves of dirac16complex (set by
+the Standard-Model fields on the fold) and
+\(q_{\mathrm{b}} = -m_\Psi(\mu_{\mathrm{L}} + \mu_{\mathrm{R}})\tanh\varsigma/(2\varsigma)\),
+\(\varsigma = \sqrt{\mu_{\mathrm{L}}\mu_{\mathrm{R}}}\)
+(\(q_{\mathrm{b}} = -m_\Psi\mu_{\mathrm{L}}/2\) for
+\(\mu_{\mathrm{R}} = 0\)). 8. \emph{The fold as a mirror for
+dirac16complex.} The reflection across the fold acts on the profiles
+\(\chi(\sigma)\) in two ways,
+
+\[
+(\mathsf{R}_1\chi)(\sigma) = T_0T_1T_2T_3\,\chi(-\sigma),\qquad (\mathsf{R}_2\chi)(\sigma) = T_0T_5T_6T_7\,\chi(-\sigma) \tag{FD-10}
+\] \textbf{Symbols in (FD-10).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathsf{R}_1\): The reflection across the fold acting on a profile
+  of dirac16complex together with the reflection of ordinary space,
+  \((\mathsf{R}_1\chi)(\sigma) = T_0T_1T_2T_3\,\chi(-\sigma)\) (FD-10):
+  a symmetry of dirac16complex, of gravity and of the mean field of the
+  gas of the particles \(\chi\); the bound states of Krein charge \(-1\)
+  are even, those of Krein charge \(+1\) odd. Unit: dimensionless.
+  Status: DERIVED.
+\item
+  \(\mathsf{R}_2\): The reflection across the fold acting on a profile
+  of dirac16complex together with the reflection of the extra times,
+  \((\mathsf{R}_2\chi)(\sigma) = T_0T_5T_6T_7\,\chi(-\sigma)\) (FD-10):
+  it maps the bound states of one Krein charge onto those of the other.
+  Unit: dimensionless. Status: DERIVED.
+\item
+  \(\chi(\sigma)\): The profile of a mode of dirac16complex along the
+  hidden direction,
+  \(\Psi = \mathrm{e}^{3H\lvert\sigma\rvert}\chi(\sigma)\mathrm{e}^{\mathrm{i}(\vec k\cdot\vec x - \omega x_4)}\)
+  (a 16-component spinor function of \(\sigma\)); as a four-dimensional
+  field, \(\chi\) denotes the particle of a bound state. Unit:
+  GeV\(^{2}\) (with the \(V_*\) normalisation). Status: DERIVED.
+\item
+  \(\sigma\): The proper coordinate of the hidden direction:
+  \(\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0\),
+  \(\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)\) on one period
+  \(0 < z < \pi\); \(\sigma = 0\) is the fold \(z = \pi/2\),
+  \(\sigma \to \mp\infty\) the tips \(z \to 0, \pi\); one period of
+  \(x_0\) is the whole line \(-\infty < \sigma < \infty\). Unit: length.
+  Status: DERIVED.
+\item
+  \(T_a,\ T^a\): The author's eight real \(16 \times 16\) Dirac matrices
+  T16\^{}A{[}a{]} of 4+4.nb (\(a = 0, \dots, 7\); \(T_0, \dots, T_7\)),
+  with \(\{T_a, T_b\} = 2\eta_{ab}\mathbf{1}\); \(T^a = \eta^{ab}T_b\).
+  Unit: dimensionless. Status: AUTHOR.
+\end{itemize}
+
+(\(T_a\) the author's Dirac matrices; for states at rest
+\(\mathsf{R}_1\) is the reflection across the fold combined with the
+reflection of ordinary space, \(\mathsf{R}_2\) the reflection across the
+fold combined with the reflection of the extra times). The Krein charge
+of a state is its share of the conserved charge of dirac16complex, which
+is indefinite: a state can carry the charge \(-1\) or \(+1\).
+\(\mathsf{R}_1\) is a symmetry of dirac16complex, of gravity and of the
+mean field of a gas of the particles \(\chi\): the four bound states of
+Krein charge \(-1\) (the particles \(\chi\)) are even under it and the
+four of Krein charge \(+1\) are odd, so the mean field of the gas cannot
+mix the two signs of the indefinite charge. \(\mathsf{R}_2\) maps the
+bound states of one Krein charge onto those of the other and makes the
+two sets degenerate without the self-interaction. 9. \emph{The planes of
+Horava and Witten.} In M-theory on an interval (a circle whose points
+are identified with their mirror images), the two ten-dimensional planes
+left in place by the reflection are mirror surfaces (property 1); the
+gauge fields \(E_8 \times E_8\) live on them while gravity fills the
+bulk. This is the arrangement of UM-3, where the Standard Model lives on
+the fold and gravity and dirac16complex fill the bulk.
+
+\textbf{What is not a fold.}
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{The tips} \(z = 0\) and \(z = \pi\) (mod \(\pi\)): the mirror
+  exchanges them within a period, but there the warp vanishes,
+  \(g_{x_0x_0}\) diverges, and they lie at an infinite proper distance;
+  they carry no thin source.
+\item
+  \emph{A smooth maximum of a warp}, such as \(1/\cosh^2(H\sigma)\):
+  mirror symmetric and largest at \(\sigma = 0\), but without a kink and
+  without a thin source.
+\end{itemize}
+
 \hypertarget{how-to-read-this-document}{%
 \section{How to read this document}\label{how-to-read-this-document}}
 
@@ -133,7 +891,9 @@ the equation. The sections are:
   gravity in the bulk.
 \item
   \textbf{The action} (IN-1 to IN-16): every term of the action, written
-  out and explained.
+  out and explained; with the speed of the gravitational waves of the
+  fold (FE-63), the gravity that the fields of the fold induce (FE-64)
+  and the two parts of the fold fluid (FE-65).
 \item
   \textbf{Gravity} (FE-1 to FE-11): the Einstein-Lovelock equations in
   the bulk, the junction conditions at the fold, the energy-momentum
@@ -143,15 +903,17 @@ the equation. The sections are:
   dirac16complex, of the Higgs doublet, of the gauge fields and of the
   quarks and leptons, and the equations of the ad hoc Higgs vacuum.
 \item
-  \textbf{The background} (FE-27 to FE-35): the author's metric, its
-  exact curvature, the exact background equations in the bulk and at the
-  fold, the author's vacuum, the static late-time state, the frozen
-  extra times and the power series of the metric.
+  \textbf{The background} (FE-27 to FE-35, FE-66): the author's metric,
+  its exact curvature, the exact background equations in the bulk and at
+  the fold, the author's vacuum, the static late-time state, the frozen
+  extra times, the two constraints of the bulk equations and the power
+  series of the metric.
 \item
   \textbf{dirac16complex: modes and Kohn-Sham equations} (FE-36 to
-  FE-43): the equation of the hidden direction, the bulk continuum, the
-  states bound to the fold, the Kohn-Sham equations with the mean fields
-  of every other field, the Krein norm.
+  FE-43, FE-67): the equation of the hidden direction, the bulk
+  continuum, the states bound to the fold, the Kohn-Sham equations with
+  the mean fields of every other field, the Krein norm and its
+  quantisation.
 \item
   \textbf{The Standard Model on the fold} (FE-44 to FE-47): the
   four-dimensional couplings, the masses with the ad hoc vacuum, the
@@ -222,10 +984,11 @@ operator, every index letter with the values it takes, every mark
 (prime, dagger, transpose, star), the imaginary unit, Euler's number and
 the differential. Each item gives the meaning, the unit (natural units
 \(\hbar = c = 1\)), the value where one exists, and the status. A field
-equation carries the tag FE-1 to FE-62 and a term of the action the tag
+equation carries the tag FE-1 to FE-67 and a term of the action the tag
 IN-1 to IN-16; the numbering is that of the inventory of UM-3 and is the
-same in every UM-3 document. Displays without a tag are steps of a
-derivation.
+same in every UM-3 document (FE-63 to FE-67 were added on 2026-10-25 and
+stand in the sections of their subjects). Displays without a tag are
+steps of a derivation.
 
 \hypertarget{coordinates-signature-and-units}{%
 \subsection{Coordinates, signature and
@@ -362,16 +1125,25 @@ space, time, extra times) (DERIVED, \texttt{um3\_fold.py}, check J5).
 This source is the fold fluid together with the Standard Model and the
 portals.
 
-\textbf{Why the fold has its own Einstein-Hilbert term (ASSUMED).} The
-transverse traceless gravitons of the bulk, with the author's Lovelock
-weights, propagate with \(c_{\mathrm{g}}^2 = 15/2\) times the light cone
-of the fold at the static late-time state, and they have no time-kinetic
-term at all at the author's vacuum (DERIVED, \texttt{um3\_bulk.py}, B5).
-Gravitational waves move with the speed of light to \(10^{-15}\)
-(GW170817). UM-3 therefore gives the fold an induced Einstein-Hilbert
-term (IN-9) that dominates four-dimensional gravity; the bulk
-contributes a fraction \(\epsilon_{\mathrm{r}} \lesssim 10^{-15}\)
-(FE-59).
+\textbf{Why the fold has its own Einstein-Hilbert term (DERIVED: the
+need; ASSUMED: the term).} The transverse traceless gravitons of the
+bulk, with the author's Lovelock weights, have at the static late-time
+state the limiting speed \(\sqrt{15/2} = 2.74\) times the speed of light
+on the fold, and no time-kinetic term at all at the author's vacuum
+(DERIVED, \texttt{um3\_bulk.py}, B5). The Gauss-Bonnet and cubic terms
+of the author's action give the kink of the fold a graviton term of its
+own; with it the four-dimensional gravitational wave (the zero mode, the
+same at every \(\sigma\)) moves with \(c_{\mathrm{g}}^2 = 83/82\), 0.61
+per cent faster than light (FE-63; DERIVED,
+\texttt{um3\_foldsources.py}, F1 to F3). Gravitational waves move with
+the speed of light to \(7\times10^{-16}\) (GW170817). UM-3 therefore
+gives the fold an Einstein-Hilbert term of its own, the induced gravity
+IN-9, which dominates four-dimensional gravity: with it
+\(c_{\mathrm{g}}^2 = (96 + 83\epsilon_{\mathrm{r}})/(96 + 82\epsilon_{\mathrm{r}})\),
+and the bulk may contribute only the fraction
+\(\epsilon_{\mathrm{r}} < 1.344\times10^{-13}\) (FE-63, F4). A term of
+this form is induced by the quantum fluctuations of the fields of the
+fold (FE-64).
 
 \hypertarget{conventions}{%
 \subsection{Conventions}\label{conventions}}
@@ -501,7 +1273,9 @@ S_{\mathrm{fold}} &= \int\mathrm{d}^8X\,\sqrt{\lvert g\rvert}\;\delta_{\mathrm{D
 \item
   \(V_*\): The physical volume of the extra times \(x_5, x_6, x_7\) on
   the fold in the late universe,
-  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) at a time when
+  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) (with
+  \(V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\)
+  the coordinate volume of the extra times) at a time when
   \(\mathrm{e}^{-a_4}b_4\) is constant; it converts the
   eight-dimensional normalisation into the four-dimensional one. Unit:
   length\(^3\) (GeV\(^{-3}\)). Status: ASSUMED.
@@ -673,9 +1447,9 @@ in the spin connection). Status: AUTHOR.
   the Kronecker delta of the two labels). Status: STANDARD.
 \item
   \(\delta\): The Kronecker delta: with two indices \(\delta^M_N = 1\)
-  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}} = 1\)
-  for \(X = \mathrm{L}\)); with upper and lower index strings the
-  generalised Kronecker delta
+  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}}\) is 1
+  if the label \(X\) of a half of dirac16complex is L and 0 otherwise);
+  with upper and lower index strings the generalised Kronecker delta
   \(\delta^{M_1\cdots M_n}_{N_1\cdots N_n}\), the determinant of the
   \(n \times n\) matrix of the Kronecker deltas \(\delta^{M_a}_{N_b}\)
   (\(+1\) or \(-1\) if the upper indices are an even or odd permutation
@@ -818,7 +1592,8 @@ mixes them (it contains one Dirac matrix). Status: RECORD.
   \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
   (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
   ordinary space, \((4)\) along the time, \((5), (6), (7)\) along the
-  extra times); raised and lowered with \(\eta_{ab}\); on the fold
+  extra times); raised and lowered with the frame metric
+  \(\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)\); on the fold
   (\(a, b \in \{1, \dots, 7\}\)) the frame of the fold; a repeated index
   is summed. Status: STANDARD.
 \item
@@ -960,7 +1735,8 @@ an odd number joins \(\Psi_{\mathrm{L}}\) with \(\Psi_{\mathrm{R}}\)
   \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
   (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
   ordinary space, \((4)\) along the time, \((5), (6), (7)\) along the
-  extra times); raised and lowered with \(\eta_{ab}\); on the fold
+  extra times); raised and lowered with the frame metric
+  \(\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)\); on the fold
   (\(a, b \in \{1, \dots, 7\}\)) the frame of the fold; a repeated index
   is summed. Status: STANDARD.
 \item
@@ -1019,13 +1795,16 @@ bulk}\label{the-stabiliser-of-the-bulk}}
 \tightlist
 \item
   \(\mathcal{T}_{\mathrm{stab}}{}^a{}_b\): The energy-momentum tensor of
-  the stabiliser of the bulk (frame components). Unit: GeV\(^8\).
-  Status: ASSUMED.
+  the stabiliser of the bulk (frame components): the source that a
+  static bulk of the author's metric requires, found and named by Claude
+  (Anthropic) on 2026-10-24. Unit: GeV\(^8\). Status: DERIVED (the
+  value), ASSUMED (a separate medium).
 \item
   \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
   (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
   ordinary space, \((4)\) along the time, \((5), (6), (7)\) along the
-  extra times); raised and lowered with \(\eta_{ab}\); on the fold
+  extra times); raised and lowered with the frame metric
+  \(\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)\); on the fold
   (\(a, b \in \{1, \dots, 7\}\)) the frame of the fold; a repeated index
   is summed. Status: STANDARD.
 \item
@@ -1039,11 +1818,14 @@ bulk}\label{the-stabiliser-of-the-bulk}}
 \item
   \(p_{\mathrm{s}}\): The pressure of the stabiliser (equal along
   \(\sigma\), ordinary space and the extra times). Unit: GeV\(^8\).
-  Value: \(\kappa p_{\mathrm{s}} = -5H^2/16\). Status: ASSUMED.
+  Value: \(\kappa p_{\mathrm{s}} = -5H^2/16\). Status: DERIVED (the
+  value), ASSUMED (a separate medium).
 \item
-  \(\rho_{\mathrm{s}}\): The energy density of the stabiliser. Unit:
-  GeV\(^8\). Value: \(\kappa\rho_{\mathrm{s}} = -H^2/16\). Status:
-  ASSUMED.
+  \(\rho_{\mathrm{s}}\): The energy density of the stabiliser; with
+  frozen extra times it is the energy density of the bulk at which
+  ordinary space stands still. Unit: GeV\(^8\). Value:
+  \(\kappa\rho_{\mathrm{s}} = -H^2/16\). Status: DERIVED (the value),
+  ASSUMED (a separate medium).
 \item
   \(\kappa\): The eight-dimensional gravitational coupling,
   \(\kappa = 8\pi G_8\). Unit: GeV\(^{-6}\). Status: AUTHOR.
@@ -1063,10 +1845,29 @@ a vacuum solution: its frame curvature is that of the static block
 (FE-32), which requires exactly this source, a negative energy density
 \(\rho_{\mathrm{s}} = -H^2/(16\kappa)\) with the isotropic pressure
 \(p_{\mathrm{s}} = 5\rho_{\mathrm{s}}\) (DERIVED,
-\texttt{um3\_geometry.py}, G4). The stabiliser couples only to gravity.
-It is absent in the primordial era, whose bulk is the author's vacuum
-(FE-31). Status: ASSUMED (its existence; its value is DERIVED from the
-requirement of a static bulk); its microscopic origin is OPEN.
+\texttt{um3\_geometry.py}, G4; \texttt{um3\_stabiliser.py}, ST1). More
+generally, no slowly changing bulk is a vacuum: without a bulk source
+the energy constraint FE-66 keeps
+\(\mathsf{A}^2 + \mathsf{U}^2 \ge 0.2607\) at every instant, and with
+frozen extra times it reads
+\(3a_4'^2 = 16\kappa(\rho_{\mathrm{bulk}} - \rho_{\mathrm{s}})\): the
+stabiliser is the energy density of the bulk at which ordinary space
+stands still (ST8). The stabiliser was found and named by Claude
+(Anthropic) on 2026-10-24 while deriving these equations; its
+properties, verified by \texttt{um3\_stabiliser.py} (ST1 to ST8): it
+violates the weak and the null energy condition, and the only simple
+field that reproduces it has a negative kinetic energy (a ghost; ST5);
+on the static bulk it is conserved by itself, so there it couples only
+to gravity (ST4); when ordinary space grows, the bulk source that the
+equations require gives off energy that flows along \(\sigma\) into the
+fold and is taken up there exactly (FE-66, FE-33, FE-11; ST6), so the
+stabiliser then exchanges energy with the fold; it is absent in the
+primordial era, whose bulk is the author's vacuum (FE-31; ST2), but a
+separately conserved medium with \(p = 5\rho\) keeps \(\rho\,b_4^{18}\)
+constant and cannot appear later (ST6): its creation needs the exchange
+with the fold or a change of its equation of state. Status: DERIVED (its
+value, and that the late bulk needs a source), ASSUMED (that the source
+is a separate medium), OPEN (its microscopic origin and its creation).
 
 \hypertarget{the-fold}{%
 \subsection{The fold}\label{the-fold}}
@@ -1119,7 +1920,9 @@ requirement of a static bulk); its microscopic origin is OPEN.
 \item
   \(V_*\): The physical volume of the extra times \(x_5, x_6, x_7\) on
   the fold in the late universe,
-  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) at a time when
+  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) (with
+  \(V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\)
+  the coordinate volume of the extra times) at a time when
   \(\mathrm{e}^{-a_4}b_4\) is constant; it converts the
   eight-dimensional normalisation into the four-dimensional one. Unit:
   length\(^3\) (GeV\(^{-3}\)). Status: ASSUMED.
@@ -1248,14 +2051,183 @@ fields), DERIVED (the reduction).
 The induced gravity of the fold: an Einstein-Hilbert term of the
 four-dimensional metric \(\hat h_{\mu\nu}\) of the fold (\(\hat R\) its
 scalar curvature), with the coupling
-\(\kappa_4 = 8\pi G_{\mathrm{ind}}\). Such a term is generated by the
-quantum fluctuations of every field that lives on the fold (induced
-gravity); UM-3 assumes that it dominates four-dimensional gravity,
-because the gravitons of the bulk move with the wrong speed (DERIVED,
-\texttt{um3\_bulk.py}, B5: \(c_{\mathrm{g}}^2 = 15/2\) at the static
-block). With it, four-dimensional gravity on the fold is general
-relativity with Newton's constant \(G_{\mathrm{N}}\) (FE-59), up to a
-fraction \(\epsilon_{\mathrm{r}}\) of bulk gravity. Status: ASSUMED.
+\(\kappa_4 = 8\pi G_{\mathrm{ind}}\). UM-3 assumes that it dominates
+four-dimensional gravity, because without it the four-dimensional
+gravitational wave moves faster than light (FE-63). With it,
+four-dimensional gravity on the fold is general relativity with Newton's
+constant \(G_{\mathrm{N}}\) (FE-59), up to a fraction
+\(\epsilon_{\mathrm{r}}\) of bulk gravity, and the speed of the
+gravitational waves of GW170817 requires
+\(\epsilon_{\mathrm{r}} < 1.344\times10^{-13}\) (FE-63). Status:
+ASSUMED.
+
+\[
+\begin{aligned}
+&K_{44}\,\frac{\partial^2h_{\mathrm{gw}}}{\partial x_4^2} + K_{33}\,\frac{\partial^2h_{\mathrm{gw}}}{\partial x_3^2} = 0,\qquad
+ c_{\mathrm{g}}^2 = -\frac{K_{33}}{K_{44}} = \frac{96 + 83\,\epsilon_{\mathrm{r}}}{96 + 82\,\epsilon_{\mathrm{r}}},\\
+&\kappa K_{44} = \frac{1}{96H} + \frac{5}{12H} + \frac{1}{2H\epsilon_{\mathrm{r}}},\qquad
+ -\kappa K_{33} = \frac{5}{64H} + \frac{17}{48H} + \frac{1}{2H\epsilon_{\mathrm{r}}}
+\end{aligned} \tag{FE-63}
+\] \textbf{Symbols in (FE-63).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(K_{44}\): The coefficient of the second time derivative in the
+  equation of the zero mode of a gravitational wave, integrated across
+  the hidden direction: the sum of the parts of the bulk, of the
+  Lovelock terms at the fold and of the induced gravity of the fold.
+  Unit: GeV\(^5\) (\(\kappa K_{44}\) is a length). Status: DERIVED.
+\item
+  \(\partial\): A partial derivative: \(\partial_M\) with respect to the
+  coordinate \(X^M\), \(\partial_\mu\) with respect to \(x^\mu\),
+  \(\partial_\sigma\) with respect to \(\sigma\),
+  \(\partial X/\partial Y\) the derivative of \(X\) with respect to
+  \(Y\) at fixed other variables. Status: STANDARD.
+\item
+  \(h_{\mathrm{gw}}\): The amplitude of a gravitational wave of the +
+  polarisation travelling along \(x_3\) (the metric components along
+  \(x_1\) and \(x_2\) multiplied by \(\mathrm{e}^{h_{\mathrm{gw}}}\) and
+  \(\mathrm{e}^{-h_{\mathrm{gw}}}\)), in its zero mode, the same at
+  every \(\sigma\): the gravitational wave of the four-dimensional
+  world. Unit: dimensionless. Status: STANDARD.
+\item
+  \(x_4\): The time (\(x_4 \ge 0\) in the ad hoc vacuum); a prime on a
+  function of \(x_4\) alone is \(\mathrm{d}/\mathrm{d}x_4\). Unit:
+  length (= time, \(c = 1\)). Status: AUTHOR.
+\item
+  \(K_{33}\): The coefficient of the second derivative along \(x_3\) in
+  the equation of the zero mode of a gravitational wave (negative), with
+  the same three parts. Unit: GeV\(^5\). Status: DERIVED.
+\item
+  \(x_3\): The third coordinate of ordinary 3-space. Unit: length.
+  Status: AUTHOR.
+\item
+  \(c_{\mathrm{g}}\): The limiting speed of the zero mode of the
+  transverse traceless graviton (the four-dimensional gravitational
+  wave) at the static block or with frozen extra times, in units of the
+  speed of light on the fold. Unit: dimensionless. Value:
+  \(\sqrt{15/2} = 2.74\) for the bulk alone; \(\sqrt{83/82} = 1.0061\)
+  with the graviton term of the fold from the Gauss-Bonnet and cubic
+  Lovelock terms;
+  \(\sqrt{(96 + 83\epsilon_{\mathrm{r}})/(96 + 82\epsilon_{\mathrm{r}})}\)
+  with the induced gravity of the fold. Status: DERIVED.
+\item
+  \(\epsilon_{\mathrm{r}}\): The bookkeeping parameter of the response
+  of the bulk to the matter of the fold: the ratio of the bulk to the
+  fold gravity, \(\epsilon_{\mathrm{r}} = \kappa_4V_*/(\kappa H)\).
+  Unit: dimensionless. Value: below \(1.344\times10^{-13}\): the
+  four-dimensional gravitational wave has
+  \(c_{\mathrm{g}}^2 = (96 + 83\epsilon_{\mathrm{r}})/(96 + 82\epsilon_{\mathrm{r}})\),
+  and the gravitational waves and the light of the neutron-star merger
+  GW170817 arrived together, \((c_{\mathrm{g}} - 1) < 7\times10^{-16}\).
+  Status: DERIVED.
+\item
+  \(\kappa\): The eight-dimensional gravitational coupling,
+  \(\kappa = 8\pi G_8\). Unit: GeV\(^{-6}\). Status: AUTHOR.
+\item
+  \(H\): The author's constant (an inverse length) that fixes the period
+  \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
+  constant \(\Lambda = -10H^2\); in UM-3 a free parameter. Unit: GeV
+  (1/length). Status: AUTHOR.
+\end{itemize}
+
+The four-dimensional gravitational wave: a wave of the + polarisation
+travelling along \(x_3\) on the static block or with frozen extra times,
+in its zero mode (the same at every \(\sigma\)), with its field equation
+integrated across the hidden direction with the volume factor
+\(\mathrm{e}^{-6H\lvert\sigma\rvert}\). Each coefficient has three
+parts: the bulk (\(1/(96H)\) and \(5/(64H)\)), the thin part of the
+Lovelock terms at the kink of the fold (\(5/(12H)\) and \(17/(48H)\),
+from the Gauss-Bonnet and the cubic terms of the author's action;
+Einstein gravity alone has none), and the induced gravity IN-9
+(\(1/(2H\epsilon_{\mathrm{r}}) = \kappa/(2\kappa_4V_*)\)). The bulk
+alone gives \(c_{\mathrm{g}}^2 = 15/2\), 2.74 times the speed of light;
+with the Lovelock terms of the fold \(c_{\mathrm{g}}^2 = 83/82\)
+(\(c_{\mathrm{g}} = 1.0061\)); with the induced gravity the wave
+approaches the light cone as \(\epsilon_{\mathrm{r}} \to 0\), and the
+speed of the gravitational waves of the neutron-star merger GW170817,
+which arrived together with its light,
+\(c_{\mathrm{g}} - 1 < 7\times10^{-16}\), requires
+\(\epsilon_{\mathrm{r}} < 1.344\times10^{-13}\). At the author's vacuum
+the bulk has no time-kinetic term but the fold has
+(\(\kappa K_{44} = 5/(12H)\) without the induced gravity, and
+\(c_{\mathrm{g}}^2 = 19/10\)). The Planck mass of the gravitational
+waves, \((1 + 41\epsilon_{\mathrm{r}}/48)/\kappa_4\), and the Planck
+mass of the Friedmann equation of FE-59,
+\((1 + 5\epsilon_{\mathrm{r}}/6)/\kappa_4\), differ by the factor
+\(1 + \epsilon_{\mathrm{r}}/48\). Status: DERIVED
+(\texttt{um3\_foldsources.py}, F1 to F4; the thin part also by smoothing
+the kink).
+
+\[
+\frac{1}{16\pi G_{\mathrm{ind}}} = \frac{N_{\mathrm{ind}}\,\Lambda_{\mathrm{c}}^2}{192\pi^2},\qquad
+N_{\mathrm{ind}} = \sum_{\text{real scalars}}\big(1 - 6\xi\big) + N_{\mathrm{Weyl}} - 4N_{\mathrm{gauge}} = 4\big(1 - 6\xi_{\mathrm{H}}\big) \tag{FE-64}
+\] \textbf{Symbols in (FE-64).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\pi\): The number pi, the ratio of the circumference of a circle to
+  its diameter. Unit: dimensionless. Value: 3.141592654. Status:
+  STANDARD.
+\item
+  \(G_{\mathrm{ind}}\): The Newton constant of the induced gravity of
+  the fold, \(\kappa_4 = 8\pi G_{\mathrm{ind}}\) (Newton's constant
+  \(G_{\mathrm{N}}\) up to the factor \(1 + 5\epsilon_{\mathrm{r}}/6\)).
+  Unit: GeV\(^{-2}\). Status: ASSUMED.
+\item
+  \(N_{\mathrm{ind}}\): The weighted number of the fields of the fold
+  that induce the Einstein-Hilbert term: each real scalar counts
+  \(1 - 6\xi\), each Weyl fermion 1, each gauge field \(-4\) (with its
+  ghost fields). Unit: dimensionless. Value:
+  \(4(1 - 6\xi_{\mathrm{H}})\) for the Standard Model with three
+  right-handed neutrinos. Status: DERIVED.
+\item
+  \(\Lambda_{\mathrm{c}}\): The cutoff of the proper-time integral of
+  the one-loop effective action of the fields of the fold: the highest
+  energy of the quantum fluctuations that induce gravity. Unit: GeV.
+  Value: \(\sqrt{24}\,\pi M_{\mathrm{red}} = 3.748\times10^{19}\) GeV
+  for the measured Newton constant at \(\xi_{\mathrm{H}} = 0\). Status:
+  ESTIMATE.
+\item
+  \(\xi\): The coupling of a real scalar field to the scalar curvature
+  \(\hat R\) of the fold: the term \(-\frac12\xi\hat R\) times the
+  square of the field in its Lagrangian (\(\xi = 1/6\) is the conformal
+  coupling). Unit: dimensionless. Status: STANDARD.
+\item
+  \(N_{\mathrm{Weyl}}\): The number of Weyl (two-component) fermion
+  fields of the fold. Unit: dimensionless. Value: 48 (three generations
+  of quarks and leptons with three right-handed neutrinos). Status:
+  STANDARD.
+\item
+  \(N_{\mathrm{gauge}}\): The number of gauge fields of the fold. Unit:
+  dimensionless. Value: 12 (eight gluons, three \(W\), one \(B\)).
+  Status: STANDARD.
+\item
+  \(\xi_{\mathrm{H}}\): The coupling \(\xi\) of the Higgs doublet to the
+  scalar curvature of the fold. Unit: dimensionless. Value: not fixed by
+  UM-3; below \(1/6\) if the gravity of the fold is induced by its
+  fields. Status: ASSUMED.
+\end{itemize}
+
+The Einstein-Hilbert term that the quantum fluctuations of the fields of
+the fold induce (Sakharov's induced gravity, evaluated at one loop with
+the heat kernel and the proper-time cutoff \(\Lambda_{\mathrm{c}}\)):
+each real scalar with the curvature coupling \(\xi\) counts
+\(1 - 6\xi\), each Weyl fermion 1, each gauge field \(-4\) (with its
+ghost fields). In the Standard Model with three right-handed neutrinos
+the 48 Weyl fermions and the 12 gauge fields cancel exactly, and only
+the four real scalars of the Higgs doublet remain,
+\(N_{\mathrm{ind}} = 4(1 - 6\xi_{\mathrm{H}})\) (without the
+right-handed neutrinos it would be \(1 - 24\xi_{\mathrm{H}}\)). The
+measured Newton constant (\(G_{\mathrm{ind}} = G_{\mathrm{N}}\)) then
+needs the cutoff
+\(\Lambda_{\mathrm{c}} = \sqrt{24}\,\pi M_{\mathrm{red}} = 3.748\times10^{19}\)
+GeV, 3.07 times the Planck mass, at \(\xi_{\mathrm{H}} = 0\)
+(\(M_{\mathrm{red}}\) the reduced Planck mass), and the sign requires
+\(\xi_{\mathrm{H}} < 1/6\). Status: ESTIMATE (one loop and
+cutoff-dependent; \texttt{um3\_foldsources.py}, F5).
 
 \[
 \mathcal{T}_{\mathrm{ff}}{}^a{}_b = \mathrm{diag}\big(p_{\mathrm{ff}}, p_{\mathrm{ff}}, p_{\mathrm{ff}}, -\rho_{\mathrm{ff}},
@@ -1272,7 +2244,8 @@ fraction \(\epsilon_{\mathrm{r}}\) of bulk gravity. Status: ASSUMED.
   \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
   (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
   ordinary space, \((4)\) along the time, \((5), (6), (7)\) along the
-  extra times); raised and lowered with \(\eta_{ab}\); on the fold
+  extra times); raised and lowered with the frame metric
+  \(\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)\); on the fold
   (\(a, b \in \{1, \dots, 7\}\)) the frame of the fold; a repeated index
   is summed. Status: STANDARD.
 \item
@@ -1309,10 +2282,94 @@ supply: at the static block \(\rho_{\mathrm{ff}} = 31HV_*/(4\kappa)\),
 the author's vacuum \(\rho_{\mathrm{ff}} = 6HV_*/\kappa\),
 \(p_{\mathrm{ff}} = q_{\mathrm{ff}} = -10HV_*/\kappa\) less the
 contribution of the induced gravity (FE-31). It plays the role of the
-brane tension of brane-world models. \(\mathcal{L}_{\mathrm{ff}}\)
+brane tension of brane-world models; at the static block it is a tension
+plus a small pressureless part (FE-65). \(\mathcal{L}_{\mathrm{ff}}\)
 stands for its Lagrangian; only \(\mathcal{T}_{\mathrm{ff}}\) enters the
 field equations. Status: ASSUMED (its existence; its values DERIVED from
 the junction conditions); its microscopic origin is OPEN.
+
+\[
+\rho_{\mathrm{ff}} = \lambda_{\mathrm{F}} + \rho_{\mathrm{d}},\qquad p_{\mathrm{ff}} = q_{\mathrm{ff}} = -\lambda_{\mathrm{F}},\qquad
+\lambda_{\mathrm{F}} = \frac{61HV_*}{8\kappa},\qquad \rho_{\mathrm{d}} = \frac{HV_*}{8\kappa},\qquad
+3a_4'\,\rho_{\mathrm{d}} = \frac{3}{8}\,\mathsf{A}\,\frac{H^2V_*}{\kappa} \tag{FE-65}
+\] \textbf{Symbols in (FE-65).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\rho_{\mathrm{ff}}\): The energy density of the fold fluid. Unit:
+  GeV\(^4\). Value: \(31HV_*/(4\kappa)\) at the static block. Status:
+  ASSUMED.
+\item
+  \(\lambda_{\mathrm{F}}\): The tension of the fold fluid: the part of
+  the fold fluid whose pressures along ordinary space and along the
+  extra times are minus its energy density (a vacuum energy of the
+  seven-dimensional fold), per unit volume of ordinary space of the
+  fold. Unit: GeV\(^4\). Value: \(61HV_*/(8\kappa)\) at the static
+  block. Status: DERIVED.
+\item
+  \(\rho_{\mathrm{d}}\): The pressureless part of the fold fluid: the
+  energy density of the fold fluid minus its tension, per unit volume of
+  ordinary space of the fold. Unit: GeV\(^4\). Value: \(HV_*/(8\kappa)\)
+  at the static block. Status: DERIVED.
+\item
+  \(p_{\mathrm{ff}}\): The pressure of the fold fluid along ordinary
+  space. Unit: GeV\(^4\). Value: \(-61HV_*/(8\kappa)\) at the static
+  block. Status: ASSUMED.
+\item
+  \(q_{\mathrm{ff}}\): The pressure of the fold fluid along the extra
+  times. Unit: GeV\(^4\). Value: \(-61HV_*/(8\kappa)\) at the static
+  block. Status: ASSUMED.
+\item
+  \(H\): The author's constant (an inverse length) that fixes the period
+  \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
+  constant \(\Lambda = -10H^2\); in UM-3 a free parameter. Unit: GeV
+  (1/length). Status: AUTHOR.
+\item
+  \(V_*\): The physical volume of the extra times \(x_5, x_6, x_7\) on
+  the fold in the late universe,
+  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) (with
+  \(V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\)
+  the coordinate volume of the extra times) at a time when
+  \(\mathrm{e}^{-a_4}b_4\) is constant; it converts the
+  eight-dimensional normalisation into the four-dimensional one. Unit:
+  length\(^3\) (GeV\(^{-3}\)). Status: ASSUMED.
+\item
+  \(\kappa\): The eight-dimensional gravitational coupling,
+  \(\kappa = 8\pi G_8\). Unit: GeV\(^{-6}\). Status: AUTHOR.
+\item
+  \(a_4\): The author's metric function of the time \(x_4\) that scales
+  ordinary 3-space: on the fold \(\mathrm{e}^{a_4}\) is the scale factor
+  of cosmology and \(a_4'\) the Hubble rate. Unit: dimensionless.
+  Status: AUTHOR.
+\item
+  \({}'\): The derivative of a function of the time \(x_4\) alone with
+  respect to \(x_4\) (\(a_4' = \mathrm{d}a_4/\mathrm{d}x_4\); two primes
+  the second derivative); on a function of \(\sigma\) alone (a profile)
+  the derivative with respect to \(\sigma\). Status: STANDARD.
+\item
+  \(\mathsf{A}\): The expansion rate of ordinary space in units of
+  \(H\), \(\mathsf{A} = a_4'/H\). Unit: dimensionless. Value: 1 at the
+  author's vacuum, 0 at the static block; \(H_4^{(0)}/H\) today
+  (\(H_4^{(0)}\) the Hubble constant). Status: DERIVED.
+\end{itemize}
+
+The fold fluid of the static block (FE-32) is a tension
+\(\lambda_{\mathrm{F}}\), a vacuum energy of the seven-dimensional fold
+whose pressures along ordinary space and along the extra times are
+\(-\lambda_{\mathrm{F}}\), plus a pressureless part
+\(\rho_{\mathrm{d}}\), \(1/62\) of its energy. The vacuum energy of
+every field of the fold (its potential at the minimum) is a tension of
+this kind: the fields do not depend on the extra times, so their
+pressure along the extra times is their on-shell Lagrangian (FE-5),
+minus the potential at the minimum, the same as along ordinary space. A
+tension keeps its density when the fold grows; the pressureless part
+does not, and with frozen extra times it needs the energy
+\(3a_4'\rho_{\mathrm{d}}\) per unit volume and time to keep it: exactly
+\(V_*\) times the part linear in \(\mathsf{A} = a_4'/H\) of the jump of
+the energy flow of the bulk at the fold (FE-66). The bulk feeds the fold
+fluid. Status: DERIVED (\texttt{um3\_foldsources.py}, F6;
+\texttt{um3\_stabiliser.py}, ST6).
 
 \hypertarget{the-higgs-doublet-with-the-ad-hoc-vacuum}{%
 \subsection{The Higgs doublet with the ad hoc
@@ -2042,9 +3099,9 @@ bulk}\label{the-einstein-lovelock-equations-in-the-bulk}}
   Unit: GeV\(^2\). Value: \(-10H^2\). Status: AUTHOR.
 \item
   \(\delta\): The Kronecker delta: with two indices \(\delta^M_N = 1\)
-  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}} = 1\)
-  for \(X = \mathrm{L}\)); with upper and lower index strings the
-  generalised Kronecker delta
+  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}}\) is 1
+  if the label \(X\) of a half of dirac16complex is L and 0 otherwise);
+  with upper and lower index strings the generalised Kronecker delta
   \(\delta^{M_1\cdots M_n}_{N_1\cdots N_n}\), the determinant of the
   \(n \times n\) matrix of the Kronecker deltas \(\delta^{M_a}_{N_b}\)
   (\(+1\) or \(-1\) if the upper indices are an even or odd permutation
@@ -2058,8 +3115,10 @@ bulk}\label{the-einstein-lovelock-equations-in-the-bulk}}
   Unit: GeV\(^8\). Status: STANDARD.
 \item
   \(\mathcal{T}_{\mathrm{stab}}{}^a{}_b\): The energy-momentum tensor of
-  the stabiliser of the bulk (frame components). Unit: GeV\(^8\).
-  Status: ASSUMED.
+  the stabiliser of the bulk (frame components): the source that a
+  static bulk of the author's metric requires, found and named by Claude
+  (Anthropic) on 2026-10-24. Unit: GeV\(^8\). Status: DERIVED (the
+  value), ASSUMED (a separate medium).
 \item
   \(\sigma\): The proper coordinate of the hidden direction:
   \(\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0\),
@@ -2114,9 +3173,9 @@ STANDARD (the variation).
   index is summed. Status: STANDARD.
 \item
   \(\delta\): The Kronecker delta: with two indices \(\delta^M_N = 1\)
-  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}} = 1\)
-  for \(X = \mathrm{L}\)); with upper and lower index strings the
-  generalised Kronecker delta
+  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}}\) is 1
+  if the label \(X\) of a half of dirac16complex is L and 0 otherwise);
+  with upper and lower index strings the generalised Kronecker delta
   \(\delta^{M_1\cdots M_n}_{N_1\cdots N_n}\), the determinant of the
   \(n \times n\) matrix of the Kronecker deltas \(\delta^{M_a}_{N_b}\)
   (\(+1\) or \(-1\) if the upper indices are an even or odd permutation
@@ -2228,14 +3287,16 @@ fold}\label{the-junction-conditions-at-the-fold}}
 \item
   \(\mathcal{S}^a{}_b\): The thin source of the fold: its
   energy-momentum tensor per unit proper length across the fold
-  (eight-dimensional normalisation, frame components along the fold);
-  \(\kappa\mathcal{S}\) is the jump of the potential \(\mathfrak{F}\).
-  Unit: GeV\(^7\). Status: DERIVED.
+  (eight-dimensional normalisation, frame components along the fold); it
+  is fixed by the jump of the first \(\sigma\)-derivatives of the metric
+  across the fold (the junction conditions; \(\kappa\mathcal{S}\) is the
+  jump of the junction potential). Unit: GeV\(^7\). Status: DERIVED.
 \item
   \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
   (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
   ordinary space, \((4)\) along the time, \((5), (6), (7)\) along the
-  extra times); raised and lowered with \(\eta_{ab}\); on the fold
+  extra times); raised and lowered with the frame metric
+  \(\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)\); on the fold
   (\(a, b \in \{1, \dots, 7\}\)) the frame of the fold; a repeated index
   is summed. Status: STANDARD.
 \item
@@ -2345,14 +3406,16 @@ separately. Status: DERIVED.
 \item
   \(\mathcal{S}^a{}_b\): The thin source of the fold: its
   energy-momentum tensor per unit proper length across the fold
-  (eight-dimensional normalisation, frame components along the fold);
-  \(\kappa\mathcal{S}\) is the jump of the potential \(\mathfrak{F}\).
-  Unit: GeV\(^7\). Status: DERIVED.
+  (eight-dimensional normalisation, frame components along the fold); it
+  is fixed by the jump of the first \(\sigma\)-derivatives of the metric
+  across the fold (the junction conditions; \(\kappa\mathcal{S}\) is the
+  jump of the junction potential). Unit: GeV\(^7\). Status: DERIVED.
 \item
   \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
   (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
   ordinary space, \((4)\) along the time, \((5), (6), (7)\) along the
-  extra times); raised and lowered with \(\eta_{ab}\); on the fold
+  extra times); raised and lowered with the frame metric
+  \(\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)\); on the fold
   (\(a, b \in \{1, \dots, 7\}\)) the frame of the fold; a repeated index
   is summed. Status: STANDARD.
 \item
@@ -2360,7 +3423,9 @@ separately. Status: DERIVED.
 \item
   \(V_*\): The physical volume of the extra times \(x_5, x_6, x_7\) on
   the fold in the late universe,
-  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) at a time when
+  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) (with
+  \(V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\)
+  the coordinate volume of the extra times) at a time when
   \(\mathrm{e}^{-a_4}b_4\) is constant; it converts the
   eight-dimensional normalisation into the four-dimensional one. Unit:
   length\(^3\) (GeV\(^{-3}\)). Status: ASSUMED.
@@ -2829,8 +3894,10 @@ Status: DERIVED.
   Unit: GeV\(^8\). Status: STANDARD.
 \item
   \(\mathcal{T}_{\mathrm{stab}}{}^a{}_b\): The energy-momentum tensor of
-  the stabiliser of the bulk (frame components). Unit: GeV\(^8\).
-  Status: ASSUMED.
+  the stabiliser of the bulk (frame components): the source that a
+  static bulk of the author's metric requires, found and named by Claude
+  (Anthropic) on 2026-10-24. Unit: GeV\(^8\). Status: DERIVED (the
+  value), ASSUMED (a separate medium).
 \item
   \(M\): A coordinate index of eight dimensions (also with a numbered
   copy \(M_1, M_2, \dots\)): it runs over \(x_0, x_1, \dots, x_7\); a
@@ -2849,21 +3916,25 @@ Status: DERIVED.
   Status: DERIVED.
 \item
   \(\hat\nabla\): The covariant derivative of the fold: with the
-  Levi-Civita connection of the metric of the fold (\(\hat h_{\mu\nu}\)
-  for four-dimensional tensors, the induced metric of the
-  seven-dimensional fold for \(\hat\nabla_a\mathcal{S}^a{}_b\)). Status:
-  STANDARD.
+  Levi-Civita connection of the metric of the fold (for four-dimensional
+  tensors of its metric
+  \(\hat h_{\mu\nu} = \mathrm{diag}(\mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, -1)\)
+  in the observable coordinates \(x_1, \dots, x_4\); for
+  \(\hat\nabla_a\mathcal{S}^a{}_b\) of the induced metric of the
+  seven-dimensional fold). Status: STANDARD.
 \item
   \(\mathcal{S}^a{}_b\): The thin source of the fold: its
   energy-momentum tensor per unit proper length across the fold
-  (eight-dimensional normalisation, frame components along the fold);
-  \(\kappa\mathcal{S}\) is the jump of the potential \(\mathfrak{F}\).
-  Unit: GeV\(^7\). Status: DERIVED.
+  (eight-dimensional normalisation, frame components along the fold); it
+  is fixed by the jump of the first \(\sigma\)-derivatives of the metric
+  across the fold (the junction conditions; \(\kappa\mathcal{S}\) is the
+  jump of the junction potential). Unit: GeV\(^7\). Status: DERIVED.
 \item
   \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
   (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
   ordinary space, \((4)\) along the time, \((5), (6), (7)\) along the
-  extra times); raised and lowered with \(\eta_{ab}\); on the fold
+  extra times); raised and lowered with the frame metric
+  \(\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)\); on the fold
   (\(a, b \in \{1, \dots, 7\}\)) the frame of the fold; a repeated index
   is summed. Status: STANDARD.
 \item
@@ -2976,7 +4047,9 @@ solution exists for every complex one. Status: RECORD.
 \item
   \(V_*\): The physical volume of the extra times \(x_5, x_6, x_7\) on
   the fold in the late universe,
-  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) at a time when
+  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) (with
+  \(V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\)
+  the coordinate volume of the extra times) at a time when
   \(\mathrm{e}^{-a_4}b_4\) is constant; it converts the
   eight-dimensional normalisation into the four-dimensional one. Unit:
   length\(^3\) (GeV\(^{-3}\)). Status: ASSUMED.
@@ -3093,10 +4166,12 @@ solution exists for every complex one. Status: RECORD.
   STANDARD.
 \item
   \(\hat\nabla\): The covariant derivative of the fold: with the
-  Levi-Civita connection of the metric of the fold (\(\hat h_{\mu\nu}\)
-  for four-dimensional tensors, the induced metric of the
-  seven-dimensional fold for \(\hat\nabla_a\mathcal{S}^a{}_b\)). Status:
-  STANDARD.
+  Levi-Civita connection of the metric of the fold (for four-dimensional
+  tensors of its metric
+  \(\hat h_{\mu\nu} = \mathrm{diag}(\mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, -1)\)
+  in the observable coordinates \(x_1, \dots, x_4\); for
+  \(\hat\nabla_a\mathcal{S}^a{}_b\) of the induced metric of the
+  seven-dimensional fold). Status: STANDARD.
 \end{itemize}
 
 The equation of dirac16complex at the fold: the variation of the portals
@@ -4128,10 +5203,12 @@ Dirac masses. Status: STANDARD (INVENTED potentials).
 \tightlist
 \item
   \(\hat\nabla\): The covariant derivative of the fold: with the
-  Levi-Civita connection of the metric of the fold (\(\hat h_{\mu\nu}\)
-  for four-dimensional tensors, the induced metric of the
-  seven-dimensional fold for \(\hat\nabla_a\mathcal{S}^a{}_b\)). Status:
-  STANDARD.
+  Levi-Civita connection of the metric of the fold (for four-dimensional
+  tensors of its metric
+  \(\hat h_{\mu\nu} = \mathrm{diag}(\mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, \mathrm{e}^{2a_4}, -1)\)
+  in the observable coordinates \(x_1, \dots, x_4\); for
+  \(\hat\nabla_a\mathcal{S}^a{}_b\) of the induced metric of the
+  seven-dimensional fold). Status: STANDARD.
 \item
   \(\mu\): A four-dimensional coordinate index running over the
   observable coordinates \(x_1, x_2, x_3, x_4\) of the fold (signature
@@ -4491,8 +5568,10 @@ DERIVED (the chart, \texttt{um3\_fold.py}, J1).
   Unit: length (each coordinate). Status: AUTHOR.
 \item
   \(i\): A generation index (\(i = 1, 2, 3\)), which also labels the
-  neutrino mass states \(\nu_1, \nu_2, \nu_3\); a repeated index is not
-  summed unless a sum sign is written. Status: STANDARD.
+  neutrino mass states \(\nu_1, \nu_2, \nu_3\); in a frame component
+  such as \(\mathcal{S}^{(i)}{}_{(i)}\) a direction \(x_i\) of ordinary
+  space (the three components are equal); a repeated index is not summed
+  unless a sum sign is written. Status: STANDARD.
 \item
   \(x_4\): The time (\(x_4 \ge 0\) in the ad hoc vacuum); a prime on a
   function of \(x_4\) alone is \(\mathrm{d}/\mathrm{d}x_4\). Unit:
@@ -4517,8 +5596,8 @@ DERIVED (the chart, \texttt{um3\_fold.py}, J1).
 \item
   \(\mathsf{A}\): The expansion rate of ordinary space in units of
   \(H\), \(\mathsf{A} = a_4'/H\). Unit: dimensionless. Value: 1 at the
-  author's vacuum; \(H_0/H\) today (\(H_0\) the Hubble constant).
-  Status: DERIVED.
+  author's vacuum, 0 at the static block; \(H_4^{(0)}/H\) today
+  (\(H_4^{(0)}\) the Hubble constant). Status: DERIVED.
 \item
   \(\mathsf{U}\): The rate of change of \(b_4\) in units of \(H\),
   \(\mathsf{U} = b_4'/(Hb_4)\). Unit: dimensionless. Value:
@@ -4613,8 +5692,10 @@ background}\label{the-bulk-equations-of-the-background}}
   \(\sigma\) (frame components). Unit: GeV\(^8\). Status: STANDARD.
 \item
   \(i\): A generation index (\(i = 1, 2, 3\)), which also labels the
-  neutrino mass states \(\nu_1, \nu_2, \nu_3\); a repeated index is not
-  summed unless a sum sign is written. Status: STANDARD.
+  neutrino mass states \(\nu_1, \nu_2, \nu_3\); in a frame component
+  such as \(\mathcal{S}^{(i)}{}_{(i)}\) a direction \(x_i\) of ordinary
+  space (the three components are equal); a repeated index is not summed
+  unless a sum sign is written. Status: STANDARD.
 \item
   \(r\): An extra-time direction of the fold: \(r \in \{5, 6, 7\}\)
   (\(x_5, x_6, x_7\)); not summed (the three components are equal).
@@ -4627,8 +5708,8 @@ background}\label{the-bulk-equations-of-the-background}}
 \item
   \(\mathsf{A}\): The expansion rate of ordinary space in units of
   \(H\), \(\mathsf{A} = a_4'/H\). Unit: dimensionless. Value: 1 at the
-  author's vacuum; \(H_0/H\) today (\(H_0\) the Hubble constant).
-  Status: DERIVED.
+  author's vacuum, 0 at the static block; \(H_4^{(0)}/H\) today
+  (\(H_4^{(0)}\) the Hubble constant). Status: DERIVED.
 \item
   \(\mathsf{U}\): The rate of change of \(b_4\) in units of \(H\),
   \(\mathsf{U} = b_4'/(Hb_4)\). Unit: dimensionless. Value:
@@ -4709,13 +5790,16 @@ background}\label{the-fold-equations-of-the-background}}
 \item
   \(\mathcal{S}^a{}_b\): The thin source of the fold: its
   energy-momentum tensor per unit proper length across the fold
-  (eight-dimensional normalisation, frame components along the fold);
-  \(\kappa\mathcal{S}\) is the jump of the potential \(\mathfrak{F}\).
-  Unit: GeV\(^7\). Status: DERIVED.
+  (eight-dimensional normalisation, frame components along the fold); it
+  is fixed by the jump of the first \(\sigma\)-derivatives of the metric
+  across the fold (the junction conditions; \(\kappa\mathcal{S}\) is the
+  jump of the junction potential). Unit: GeV\(^7\). Status: DERIVED.
 \item
   \(i\): A generation index (\(i = 1, 2, 3\)), which also labels the
-  neutrino mass states \(\nu_1, \nu_2, \nu_3\); a repeated index is not
-  summed unless a sum sign is written. Status: STANDARD.
+  neutrino mass states \(\nu_1, \nu_2, \nu_3\); in a frame component
+  such as \(\mathcal{S}^{(i)}{}_{(i)}\) a direction \(x_i\) of ordinary
+  space (the three components are equal); a repeated index is not summed
+  unless a sum sign is written. Status: STANDARD.
 \item
   \(r\): An extra-time direction of the fold: \(r \in \{5, 6, 7\}\)
   (\(x_5, x_6, x_7\)); not summed (the three components are equal).
@@ -4728,8 +5812,8 @@ background}\label{the-fold-equations-of-the-background}}
 \item
   \(\mathsf{A}\): The expansion rate of ordinary space in units of
   \(H\), \(\mathsf{A} = a_4'/H\). Unit: dimensionless. Value: 1 at the
-  author's vacuum; \(H_0/H\) today (\(H_0\) the Hubble constant).
-  Status: DERIVED.
+  author's vacuum, 0 at the static block; \(H_4^{(0)}/H\) today
+  (\(H_4^{(0)}\) the Hubble constant). Status: DERIVED.
 \item
   \(\mathsf{U}\): The rate of change of \(b_4\) in units of \(H\),
   \(\mathsf{U} = b_4'/(Hb_4)\). Unit: dimensionless. Value:
@@ -4795,8 +5879,8 @@ Status: DERIVED.
 \item
   \(\mathsf{A}\): The expansion rate of ordinary space in units of
   \(H\), \(\mathsf{A} = a_4'/H\). Unit: dimensionless. Value: 1 at the
-  author's vacuum; \(H_0/H\) today (\(H_0\) the Hubble constant).
-  Status: DERIVED.
+  author's vacuum, 0 at the static block; \(H_4^{(0)}/H\) today
+  (\(H_4^{(0)}\) the Hubble constant). Status: DERIVED.
 \item
   \(\mathsf{U}\): The rate of change of \(b_4\) in units of \(H\),
   \(\mathsf{U} = b_4'/(Hb_4)\). Unit: dimensionless. Value:
@@ -4840,9 +5924,9 @@ Status: DERIVED.
   Unit: GeV\(^2\). Value: \(-10H^2\). Status: AUTHOR.
 \item
   \(\delta\): The Kronecker delta: with two indices \(\delta^M_N = 1\)
-  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}} = 1\)
-  for \(X = \mathrm{L}\)); with upper and lower index strings the
-  generalised Kronecker delta
+  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}}\) is 1
+  if the label \(X\) of a half of dirac16complex is L and 0 otherwise);
+  with upper and lower index strings the generalised Kronecker delta
   \(\delta^{M_1\cdots M_n}_{N_1\cdots N_n}\), the determinant of the
   \(n \times n\) matrix of the Kronecker deltas \(\delta^{M_a}_{N_b}\)
   (\(+1\) or \(-1\) if the upper indices are an even or odd permutation
@@ -4861,13 +5945,16 @@ Status: DERIVED.
 \item
   \(\mathcal{S}^a{}_b\): The thin source of the fold: its
   energy-momentum tensor per unit proper length across the fold
-  (eight-dimensional normalisation, frame components along the fold);
-  \(\kappa\mathcal{S}\) is the jump of the potential \(\mathfrak{F}\).
-  Unit: GeV\(^7\). Status: DERIVED.
+  (eight-dimensional normalisation, frame components along the fold); it
+  is fixed by the jump of the first \(\sigma\)-derivatives of the metric
+  across the fold (the junction conditions; \(\kappa\mathcal{S}\) is the
+  jump of the junction potential). Unit: GeV\(^7\). Status: DERIVED.
 \item
   \(i\): A generation index (\(i = 1, 2, 3\)), which also labels the
-  neutrino mass states \(\nu_1, \nu_2, \nu_3\); a repeated index is not
-  summed unless a sum sign is written. Status: STANDARD.
+  neutrino mass states \(\nu_1, \nu_2, \nu_3\); in a frame component
+  such as \(\mathcal{S}^{(i)}{}_{(i)}\) a direction \(x_i\) of ordinary
+  space (the three components are equal); a repeated index is not summed
+  unless a sum sign is written. Status: STANDARD.
 \item
   \(r\): An extra-time direction of the fold: \(r \in \{5, 6, 7\}\)
   (\(x_5, x_6, x_7\)); not summed (the three components are equal).
@@ -4947,8 +6034,8 @@ times}\label{the-static-block-and-the-frozen-extra-times}}
 \item
   \(\mathsf{A}\): The expansion rate of ordinary space in units of
   \(H\), \(\mathsf{A} = a_4'/H\). Unit: dimensionless. Value: 1 at the
-  author's vacuum; \(H_0/H\) today (\(H_0\) the Hubble constant).
-  Status: DERIVED.
+  author's vacuum, 0 at the static block; \(H_4^{(0)}/H\) today
+  (\(H_4^{(0)}\) the Hubble constant). Status: DERIVED.
 \item
   \(\mathsf{U}\): The rate of change of \(b_4\) in units of \(H\),
   \(\mathsf{U} = b_4'/(Hb_4)\). Unit: dimensionless. Value:
@@ -4974,7 +6061,8 @@ times}\label{the-static-block-and-the-frozen-extra-times}}
   \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
   (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
   ordinary space, \((4)\) along the time, \((5), (6), (7)\) along the
-  extra times); raised and lowered with \(\eta_{ab}\); on the fold
+  extra times); raised and lowered with the frame metric
+  \(\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)\); on the fold
   (\(a, b \in \{1, \dots, 7\}\)) the frame of the fold; a repeated index
   is summed. Status: STANDARD.
 \item
@@ -4993,13 +6081,16 @@ times}\label{the-static-block-and-the-frozen-extra-times}}
 \item
   \(\mathcal{S}^a{}_b\): The thin source of the fold: its
   energy-momentum tensor per unit proper length across the fold
-  (eight-dimensional normalisation, frame components along the fold);
-  \(\kappa\mathcal{S}\) is the jump of the potential \(\mathfrak{F}\).
-  Unit: GeV\(^7\). Status: DERIVED.
+  (eight-dimensional normalisation, frame components along the fold); it
+  is fixed by the jump of the first \(\sigma\)-derivatives of the metric
+  across the fold (the junction conditions; \(\kappa\mathcal{S}\) is the
+  jump of the junction potential). Unit: GeV\(^7\). Status: DERIVED.
 \item
   \(i\): A generation index (\(i = 1, 2, 3\)), which also labels the
-  neutrino mass states \(\nu_1, \nu_2, \nu_3\); a repeated index is not
-  summed unless a sum sign is written. Status: STANDARD.
+  neutrino mass states \(\nu_1, \nu_2, \nu_3\); in a frame component
+  such as \(\mathcal{S}^{(i)}{}_{(i)}\) a direction \(x_i\) of ordinary
+  space (the three components are equal); a repeated index is not summed
+  unless a sum sign is written. Status: STANDARD.
 \item
   \(r\): An extra-time direction of the fold: \(r \in \{5, 6, 7\}\)
   (\(x_5, x_6, x_7\)); not summed (the three components are equal).
@@ -5043,8 +6134,8 @@ small corrections (FE-33, FE-59). Status: DERIVED.
 \item
   \(\mathsf{A}\): The expansion rate of ordinary space in units of
   \(H\), \(\mathsf{A} = a_4'/H\). Unit: dimensionless. Value: 1 at the
-  author's vacuum; \(H_0/H\) today (\(H_0\) the Hubble constant).
-  Status: DERIVED.
+  author's vacuum, 0 at the static block; \(H_4^{(0)}/H\) today
+  (\(H_4^{(0)}\) the Hubble constant). Status: DERIVED.
 \item
   \(\mathsf{U}_1\): The time derivative of \(\mathsf{U}\) in units of
   \(H\), \(\mathsf{U}_1 = \mathsf{U}'/H\). Unit: dimensionless. Status:
@@ -5095,8 +6186,10 @@ small corrections (FE-33, FE-59). Status: DERIVED.
   \(\sigma\) (frame components). Unit: GeV\(^8\). Status: STANDARD.
 \item
   \(i\): A generation index (\(i = 1, 2, 3\)), which also labels the
-  neutrino mass states \(\nu_1, \nu_2, \nu_3\); a repeated index is not
-  summed unless a sum sign is written. Status: STANDARD.
+  neutrino mass states \(\nu_1, \nu_2, \nu_3\); in a frame component
+  such as \(\mathcal{S}^{(i)}{}_{(i)}\) a direction \(x_i\) of ordinary
+  space (the three components are equal); a repeated index is not summed
+  unless a sum sign is written. Status: STANDARD.
 \item
   \(r\): An extra-time direction of the fold: \(r \in \{5, 6, 7\}\)
   (\(x_5, x_6, x_7\)); not summed (the three components are equal).
@@ -5115,9 +6208,10 @@ small corrections (FE-33, FE-59). Status: DERIVED.
 \item
   \(\mathcal{S}^a{}_b\): The thin source of the fold: its
   energy-momentum tensor per unit proper length across the fold
-  (eight-dimensional normalisation, frame components along the fold);
-  \(\kappa\mathcal{S}\) is the jump of the potential \(\mathfrak{F}\).
-  Unit: GeV\(^7\). Status: DERIVED.
+  (eight-dimensional normalisation, frame components along the fold); it
+  is fixed by the jump of the first \(\sigma\)-derivatives of the metric
+  across the fold (the junction conditions; \(\kappa\mathcal{S}\) is the
+  jump of the junction potential). Unit: GeV\(^7\). Status: DERIVED.
 \end{itemize}
 
 The frozen extra times: the physical size \(\mathrm{e}^{-a_4}b_4\) of
@@ -5139,7 +6233,131 @@ conserved on the separable metric, for any equation of state: its
 continuity equation fails by \((3/8)a_4'^3/(\kappa H)\), the part of the
 jump of the bulk energy flux at the fold that the static source does not
 balance (DERIVED, J7), so ordinary matter on the fold requires the next
-terms of the power series (FE-35, FE-59). Status: DERIVED.
+terms of the power series (FE-35, FE-59). The whole source of the fold
+of FE-33, on the other hand, takes up the jump of the bulk energy flux
+exactly, for any \(a_4(x_4)\):
+\(-(\kappa\mathcal{S}^{(4)}{}_{(4)})' + 3a_4'(\kappa\mathcal{S}^{(i)}{}_{(i)} - \kappa\mathcal{S}^{(4)}{}_{(4)})\)
+equals the jump \(\frac38\mathsf{A}(1 + \mathsf{A}^2)H^2\) (the second
+line of FE-11; DERIVED, \texttt{um3\_stabiliser.py}, ST6). Status:
+DERIVED.
+
+\[
+\begin{aligned}
+&\kappa\,\mathcal{T}_{\mathrm{bulk}}{}^{(4)}{}_{(4)} = \frac{H^2}{16}\,\mathsf{P}(\mathsf{A}, \mathsf{U}),\qquad
+ \kappa\,\mathcal{T}_{\mathrm{bulk}}{}^{(0)}{}_{(4)} = \frac{3}{16}\,\mathsf{U}\,\mathcal{G}(\mathsf{A}, \mathsf{U})\,H^2\,\mathrm{sgn}(\sigma),\\
+&\mathsf{P} = 5\mathsf{A}^6 - 15\mathsf{A}^5\mathsf{U} + 15\mathsf{A}^4\mathsf{U}^2 - 9\mathsf{A}^4 - 5\mathsf{A}^3\mathsf{U}^3
+ + 18\mathsf{A}^3\mathsf{U} + 3\mathsf{A}^2 - 9\mathsf{A}\mathsf{U}^3 - 3\mathsf{A}\mathsf{U} - 3\mathsf{U}^2 + 1,\\
+&\mathsf{P}(\mathsf{A}, \mathsf{U}) = 0\ \Rightarrow\ \mathsf{A}^2 + \mathsf{U}^2 \ge 0.2607,\qquad
+ \mathsf{U} = \mathsf{A}:\ \ 3a_4'^2 = 16\kappa\big(\rho_{\mathrm{bulk}} - \rho_{\mathrm{s}}\big)
+\end{aligned} \tag{FE-66}
+\] \textbf{Symbols in (FE-66).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\kappa\): The eight-dimensional gravitational coupling,
+  \(\kappa = 8\pi G_8\). Unit: GeV\(^{-6}\). Status: AUTHOR.
+\item
+  \(\mathcal{T}_{\mathrm{bulk}}\): The energy-momentum tensor of all
+  sources of the bulk,
+  \(\mathcal{T}_\Psi + \mathcal{T}_{\mathrm{stab}}\);
+  \(\mathcal{T}_{\mathrm{bulk}}{}^{(0)}{}_b\) is its flux along
+  \(\sigma\) (frame components). Unit: GeV\(^8\). Status: STANDARD.
+\item
+  \(H\): The author's constant (an inverse length) that fixes the period
+  \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
+  constant \(\Lambda = -10H^2\); in UM-3 a free parameter. Unit: GeV
+  (1/length). Status: AUTHOR.
+\item
+  \(\mathsf{P}(\mathsf{A}, \mathsf{U})\): The polynomial of the energy
+  constraint of the bulk: the \((x_4, x_4)\) component of the bulk
+  equations of the author's metric is
+  \(\kappa\mathcal{T}_{\mathrm{bulk}}{}^{(4)}{}_{(4)} = (H^2/16)\,\mathsf{P}(\mathsf{A}, \mathsf{U})\),
+  whatever the time derivatives of the rates. Unit: dimensionless.
+  Value: \(\mathsf{P}(0, 0) = 1\), \(\mathsf{P}(\pm1, 0) = 0\). Status:
+  DERIVED.
+\item
+  \(\mathsf{A}\): The expansion rate of ordinary space in units of
+  \(H\), \(\mathsf{A} = a_4'/H\). Unit: dimensionless. Value: 1 at the
+  author's vacuum, 0 at the static block; \(H_4^{(0)}/H\) today
+  (\(H_4^{(0)}\) the Hubble constant). Status: DERIVED.
+\item
+  \(\mathsf{U}\): The rate of change of \(b_4\) in units of \(H\),
+  \(\mathsf{U} = b_4'/(Hb_4)\). Unit: dimensionless. Value:
+  \(\mathsf{U} = \mathsf{A}\) with frozen extra times. Status: DERIVED.
+\item
+  \(\mathcal{G}\): The factor of the \((\sigma, x_4)\) bulk equation of
+  the author's metric,
+  \(\mathcal{G} = 5\mathsf{A}^2(\mathsf{A} - \mathsf{U})^2 - 6\mathsf{A}^2 + 6\mathsf{A}\mathsf{U} + \mathsf{U}^2 + 1\).
+  Unit: dimensionless. Status: DERIVED.
+\item
+  \(\mathrm{sgn}\): The sign function: \(\mathrm{sgn}(y) = +1\) for
+  \(y > 0\), \(-1\) for \(y < 0\). Status: STANDARD.
+\item
+  \(\sigma\): The proper coordinate of the hidden direction:
+  \(\mathrm{d}\sigma = \lvert\cot z\rvert\,\mathrm{d}x_0\),
+  \(\sigma = \mathrm{sgn}(\pi/2 - z)\ln(\sin z)/(6H)\) on one period
+  \(0 < z < \pi\); \(\sigma = 0\) is the fold \(z = \pi/2\),
+  \(\sigma \to \mp\infty\) the tips \(z \to 0, \pi\); one period of
+  \(x_0\) is the whole line \(-\infty < \sigma < \infty\). Unit: length.
+  Status: DERIVED.
+\item
+  \(a_4\): The author's metric function of the time \(x_4\) that scales
+  ordinary 3-space: on the fold \(\mathrm{e}^{a_4}\) is the scale factor
+  of cosmology and \(a_4'\) the Hubble rate. Unit: dimensionless.
+  Status: AUTHOR.
+\item
+  \({}'\): The derivative of a function of the time \(x_4\) alone with
+  respect to \(x_4\) (\(a_4' = \mathrm{d}a_4/\mathrm{d}x_4\); two primes
+  the second derivative); on a function of \(\sigma\) alone (a profile)
+  the derivative with respect to \(\sigma\). Status: STANDARD.
+\item
+  \(\rho_{\mathrm{bulk}}\): The energy density of the bulk sources,
+  \(\rho_{\mathrm{bulk}} = -\mathcal{T}_{\mathrm{bulk}}{}^{(4)}{}_{(4)}\).
+  Unit: GeV\(^8\). Status: DERIVED.
+\item
+  \(\rho_{\mathrm{s}}\): The energy density of the stabiliser; with
+  frozen extra times it is the energy density of the bulk at which
+  ordinary space stands still. Unit: GeV\(^8\). Value:
+  \(\kappa\rho_{\mathrm{s}} = -H^2/16\). Status: DERIVED (the value),
+  ASSUMED (a separate medium).
+\end{itemize}
+
+The two constraints of the bulk equations of the author's metric, for
+any \(a_4(x_4)\) and \(b_4(x_4)\): the \((x_4, x_4)\) component (the
+energy constraint) and the \((\sigma, x_4)\) component (the flow of
+energy along the hidden direction) contain no second time derivative
+(\(\mathsf{A}_1\) and \(\mathsf{U}_1\) drop out). Without a bulk source
+\(\mathsf{P} = 0\) at every instant, which keeps
+\(\mathsf{A}^2 + \mathsf{U}^2\) at least 0.2607 (reached at
+\((\mathsf{A}, \mathsf{U}) = \pm(0.1432, 0.4901)\)) and the larger of
+\(\lvert\mathsf{A}\rvert\) and \(\lvert\mathsf{U}\rvert\) at least
+0.4771 (reached at \(\pm(0.2385, 0.4771)\)): a sourceless bulk never has
+both rates below \(0.477H\), and with constant rates only \((\pm1, 0)\)
+are possible. With frozen extra times
+\(\mathsf{P} = 1 - 3\mathsf{A}^2\), and the energy constraint becomes a
+Friedmann equation of the bulk: the energy density
+\(\rho_{\mathrm{s}} = -H^2/(16\kappa)\) of the stabiliser IN-7 is the
+energy density of the bulk at which ordinary space stands still (a bulk
+source of zero energy density would need \(a_4' = H/\sqrt3\)). The flow
+vanishes while \(b_4\) is constant (\(\mathsf{U} = 0\), as in the
+author's vacuum, where
+\(\mathcal{G}(1, \mathsf{U}) = 2\mathsf{U}(3\mathsf{U} - 2)\)); with
+frozen extra times it is
+\(\frac{3}{16}\mathsf{A}(1 + \mathsf{A}^2)H^2\,\mathrm{sgn}(\sigma)\)
+(FE-33), zero only at \(\mathsf{A} = 0\), where \(\mathsf{P} = 1\), so
+that a bulk without any source cannot have frozen extra times; it jumps
+by \(\frac38\mathsf{A}(1 + \mathsf{A}^2)H^2\) across the fold. It is the
+energy that the bulk source gives off while ordinary space grows: at
+constant \(\mathsf{A}\),
+\(\kappa(\rho_{\mathrm{bulk}} + \mathcal{T}_{\mathrm{bulk}}{}^{(1)}{}_{(1)}) = -\frac38(1 + \mathsf{A}^2)H^2\)
+(FE-33), and
+\(-3a_4'(\rho_{\mathrm{bulk}} + \mathcal{T}_{\mathrm{bulk}}{}^{(1)}{}_{(1)})\)
+per volume and time, integrated across the hidden direction with the
+weight \(\mathrm{e}^{-6H\lvert\sigma\rvert}\), is exactly the jump; the
+source of the fold takes it up (FE-33, FE-11). Status: DERIVED
+(\texttt{um3\_stabiliser.py}, ST6 and ST8; \texttt{um3\_geometry.py},
+G4).
 
 \hypertarget{the-general-warped-metric-and-the-power-series-of-the-metric}{%
 \subsection{The general warped metric and the power series of the
@@ -5256,8 +6474,10 @@ metric}\label{the-general-warped-metric-and-the-power-series-of-the-metric}}
   frame plane \((a, b)\). Unit: 1/length\(^2\). Status: STANDARD.
 \item
   \(i\): A generation index (\(i = 1, 2, 3\)), which also labels the
-  neutrino mass states \(\nu_1, \nu_2, \nu_3\); a repeated index is not
-  summed unless a sum sign is written. Status: STANDARD.
+  neutrino mass states \(\nu_1, \nu_2, \nu_3\); in a frame component
+  such as \(\mathcal{S}^{(i)}{}_{(i)}\) a direction \(x_i\) of ordinary
+  space (the three components are equal); a repeated index is not summed
+  unless a sum sign is written. Status: STANDARD.
 \item
   \(j\): A second generation or mass-state index (as \(i\)). Status:
   STANDARD.
@@ -5339,13 +6559,12 @@ sides of the fold (DERIVED, J2). Status: DERIVED.
   \(\epsilon_{\mathrm{r}}\): The bookkeeping parameter of the response
   of the bulk to the matter of the fold: the ratio of the bulk to the
   fold gravity, \(\epsilon_{\mathrm{r}} = \kappa_4V_*/(\kappa H)\).
-  Unit: dimensionless. Value: \(\lesssim 10^{-15}\) (an estimate: if a
-  fraction \(\epsilon_{\mathrm{r}}\) of the gravitational waves of the
-  fold travelled with the bulk gravitons, whose speed squared is 15/2
-  times that of light, their speed would differ from that of light by
-  about \(3\epsilon_{\mathrm{r}}\), and the gravitational waves and the
-  light of the neutron-star merger GW170817 arrived together to about
-  \(10^{-15}\)). Status: DERIVED (the definition), ESTIMATE (the bound).
+  Unit: dimensionless. Value: below \(1.344\times10^{-13}\): the
+  four-dimensional gravitational wave has
+  \(c_{\mathrm{g}}^2 = (96 + 83\epsilon_{\mathrm{r}})/(96 + 82\epsilon_{\mathrm{r}})\),
+  and the gravitational waves and the light of the neutron-star merger
+  GW170817 arrived together, \((c_{\mathrm{g}} - 1) < 7\times10^{-16}\).
+  Status: DERIVED.
 \item
   \(x_4\): The time (\(x_4 \ge 0\) in the ad hoc vacuum); a prime on a
   function of \(x_4\) alone is \(\mathrm{d}/\mathrm{d}x_4\). Unit:
@@ -5663,11 +6882,29 @@ large \(\lvert\vec\kappa\rvert\), they grow exponentially in \(x_4\)
 \(g^{rr} < 0\)). UM-3 therefore keeps only the fields that do not depend
 on the extra times (ASSUMED); making the extra times small does not
 help, because it only raises the lowest non-zero
-\(\lvert\vec\kappa\rvert\). Status: DERIVED (the dispersion, from the
-identity
+\(\lvert\vec\kappa\rvert\). The restriction is consistent but not stable
+(DERIVED, \texttt{um3\_extratimes.py}, EX1 to EX5): the metric does not
+depend on \(x_5, x_6, x_7\), so the momentum along the extra times is
+conserved and a field without it stays without it classically, but
+interactions create pairs of opposite momenta, and every mode with
+\(\vec\kappa \ne 0\) of every field is a tachyon. A state of
+dirac16complex bound to the fold (FE-40, at the energy
+\(\omega_{\mathrm{b}}\)) with the momentum \(\vec\kappa\) has
+\(\omega^2 = \omega_{\mathrm{b}}^2 - c_{\mathrm{b}}^2\vec\kappa^2\),
+where \(c_{\mathrm{b}}\) is the limiting speed of the bound particles
+along ordinary space (\(c_{\mathrm{b}}^2 = 1.19\) for
+\(H = 0.05\,m_\Psi\) and the inverse width
+\(q_{\mathrm{b}} = 0.3\,m_\Psi\)), and is no longer bound, because the
+warp raises its momentum along the extra times above the local gap far
+from the fold; in the author's vacuum the tachyonic modes grow
+double-exponentially; and compact extra times would have to be longer
+than \(2\pi\) times the age of the universe, 26.6 Gpc, to keep the
+slowest of them from growing within that age. UM-3 needs a gauge
+principle that removes the momentum along the extra times of every
+field. Status: DERIVED (the dispersion, from the identity
 \((\mathcal{D} + m_\Psi)(\mathcal{D} - m_\Psi) = \mathcal{D}^2 - m_\Psi^2\)
-of the Dirac operator \(\mathcal{D}\)), ASSUMED (the restriction); the
-stability of the theory with dependence on the extra times is OPEN.
+of the Dirac operator \(\mathcal{D}\), and the instability), ASSUMED
+(the restriction), OPEN (the gauge principle).
 
 \hypertarget{the-fold-and-the-states-bound-to-it}{%
 \subsection{The fold and the states bound to
@@ -5719,7 +6956,9 @@ it}\label{the-fold-and-the-states-bound-to-it}}
 \item
   \(V_*\): The physical volume of the extra times \(x_5, x_6, x_7\) on
   the fold in the late universe,
-  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) at a time when
+  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) (with
+  \(V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\)
+  the coordinate volume of the extra times) at a time when
   \(\mathrm{e}^{-a_4}b_4\) is constant; it converts the
   eight-dimensional normalisation into the four-dimensional one. Unit:
   length\(^3\) (GeV\(^{-3}\)). Status: ASSUMED.
@@ -5740,9 +6979,9 @@ it}\label{the-fold-and-the-states-bound-to-it}}
   state). Status: STANDARD.
 \item
   \(\delta\): The Kronecker delta: with two indices \(\delta^M_N = 1\)
-  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}} = 1\)
-  for \(X = \mathrm{L}\)); with upper and lower index strings the
-  generalised Kronecker delta
+  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}}\) is 1
+  if the label \(X\) of a half of dirac16complex is L and 0 otherwise);
+  with upper and lower index strings the generalised Kronecker delta
   \(\delta^{M_1\cdots M_n}_{N_1\cdots N_n}\), the determinant of the
   \(n \times n\) matrix of the Kronecker deltas \(\delta^{M_a}_{N_b}\)
   (\(+1\) or \(-1\) if the upper indices are an even or odd permutation
@@ -5899,12 +7138,12 @@ means \(\tan(\varsigma_-)/\varsigma_-\) with
 that lives near the fold, with the profile
 \(\mathrm{e}^{-q_{\mathrm{b}}\lvert\sigma\rvert}\) of width
 \(1/q_{\mathrm{b}}\) along \(\sigma\): the ``\(x_0\) mass'' of
-dirac16complex. The bound states are eight-fold degenerate at
-\(+\omega_{\mathrm{b}}\) and at \(-\omega_{\mathrm{b}}\) (DERIVED,
-\texttt{um3\_spectra.py}, S3: the roots of the \(8 \times 8\) matching
-determinant with the author's \(16 \times 16\) matrices agree with this
-formula to \(10^{-7}\) in seven cases, with and without bound states).
-For the Higgs portal alone (\(\mu_{\mathrm{R}} = 0\)):
+dirac16complex. The bound states are degenerate eight times at
+\(+\omega_{\mathrm{b}}\) and eight times at \(-\omega_{\mathrm{b}}\)
+(DERIVED, \texttt{um3\_spectra.py}, S3: the roots of the \(8 \times 8\)
+matching determinant with the author's \(16 \times 16\) matrices agree
+with this formula to \(10^{-7}\) in seven cases, with and without bound
+states). For the Higgs portal alone (\(\mu_{\mathrm{R}} = 0\)):
 \(q_{\mathrm{b}} = -m_\Psi\mu_{\mathrm{L}}/2\),
 \(\omega_{\mathrm{b}} = m_\Psi\sqrt{1 - \mu_{\mathrm{L}}^2/4}\). Status:
 DERIVED.
@@ -5965,9 +7204,9 @@ DERIVED.
   (a single-particle solution of FE-41) and its Dirac adjoint. Unit:
   GeV\(^{7/2}\). Status: RECORD.
 \item
-  \(o\): The label of a Kohn-Sham orbital (a single-particle state of
-  dirac16complex); a sum over \(o\) runs over the orbitals. Status:
-  STANDARD.
+  \(o\): The label of a single-particle state of dirac16complex: a
+  Kohn-Sham orbital, or a mode of the quantised field; a sum over \(o\)
+  runs over the orbitals or the modes. Status: STANDARD.
 \item
   \(\delta_{\mathrm{D}}\): The Dirac delta function:
   \(\int\mathrm{d}\sigma\,\delta_{\mathrm{D}}(\sigma)F(\sigma) = F(0)\).
@@ -5984,7 +7223,9 @@ DERIVED.
 \item
   \(V_*\): The physical volume of the extra times \(x_5, x_6, x_7\) on
   the fold in the late universe,
-  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) at a time when
+  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) (with
+  \(V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\)
+  the coordinate volume of the extra times) at a time when
   \(\mathrm{e}^{-a_4}b_4\) is constant; it converts the
   eight-dimensional normalisation into the four-dimensional one. Unit:
   length\(^3\) (GeV\(^{-3}\)). Status: ASSUMED.
@@ -6065,9 +7306,9 @@ DERIVED (the exchange term), ASSUMED (no correlation, no sea).
   \(N_1, N_2, \dots\)), running over \(x_0, \dots, x_7\); a repeated
   index is summed. Status: STANDARD.
 \item
-  \(o\): The label of a Kohn-Sham orbital (a single-particle state of
-  dirac16complex); a sum over \(o\) runs over the orbitals. Status:
-  STANDARD.
+  \(o\): The label of a single-particle state of dirac16complex: a
+  Kohn-Sham orbital, or a mode of the quantised field; a sum over \(o\)
+  runs over the orbitals or the modes. Status: STANDARD.
 \item
   \(\mathsf{n}_o\): The occupation of the Kohn-Sham orbital \(o\)
   (between 0 and 1). Unit: dimensionless. Status: RECORD.
@@ -6203,16 +7444,18 @@ E_o = -\omega_o\,\mathcal{Q}_o \tag{FE-43}
   in the neutrino sector the energy of a neutrino. Unit: GeV. Status:
   STANDARD.
 \item
-  \(o\): The label of a Kohn-Sham orbital (a single-particle state of
-  dirac16complex); a sum over \(o\) runs over the orbitals. Status:
-  STANDARD.
+  \(o\): The label of a single-particle state of dirac16complex: a
+  Kohn-Sham orbital, or a mode of the quantised field; a sum over \(o\)
+  runs over the orbitals or the modes. Status: STANDARD.
 \item
   \(\omega\): A frequency: the energy of a mode
   \(\propto \mathrm{e}^{-\mathrm{i}\omega x_4}\) (\(\omega_o\) of the
   orbital \(o\)). Unit: GeV. Status: STANDARD.
 \item
-  \(\mathcal{Q}_o\): The charge \(Q_\Psi\) of the Kohn-Sham orbital
-  \(o\) (positive or negative). Unit: dimensionless. Status: DERIVED.
+  \(\mathcal{Q}_o\): The charge \(Q_\Psi\) (the Krein charge) of the
+  single-particle state \(o\) of dirac16complex, a Kohn-Sham orbital or
+  a mode: \(+1\) or \(-1\) for a normalised state. Unit: dimensionless.
+  Status: DERIVED.
 \end{itemize}
 
 The conserved charge of dirac16complex (the Noether charge of a constant
@@ -6232,8 +7475,78 @@ FE-6), positive when the frequency and the charge have opposite signs.
 Of the eight bound states at \(+\omega_{\mathrm{b}}\), four have
 positive and four negative charge (DERIVED, \texttt{um3\_spectra.py},
 S4; no null states): four carry positive and four negative energy. The
-stability of the quantised theory with both kinds of states is OPEN.
-Status: DERIVED.
+quantisation of this charge is FE-67. Status: DERIVED.
+
+\[
+\big\{\mathsf{a}_o, \mathsf{a}_o^\dagger\big\} = -\mathcal{Q}_o,\qquad
+\mathsf{H}_\Psi = \sum_o\big(-\mathcal{Q}_o\,\omega_o\big)\,\mathsf{a}_o^\dagger\mathsf{a}_o,\qquad
+\big[\mathsf{H}_\Psi, \mathsf{a}_o^\dagger\big] = \omega_o\,\mathsf{a}_o^\dagger \tag{FE-67}
+\] \textbf{Symbols in (FE-67).}
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathsf{a}_o,\ \mathsf{a}_o^\dagger\): The annihilation and the
+  creation operator of the mode \(o\) of the quantised dirac16complex
+  (frequency \(\omega_o\), Krein charge \(\mathcal{Q}_o\)); the dagger
+  is the adjoint with respect to the indefinite (Krein) scalar product.
+  Unit: dimensionless. Status: STANDARD.
+\item
+  \(o\): The label of a single-particle state of dirac16complex: a
+  Kohn-Sham orbital, or a mode of the quantised field; a sum over \(o\)
+  runs over the orbitals or the modes. Status: STANDARD.
+\item
+  \({}^\dagger\): Hermitian conjugation: the complex conjugate of the
+  transpose of a matrix or spinor (for field operators the adjoint
+  operator). Status: STANDARD.
+\item
+  \(\mathcal{Q}_o\): The charge \(Q_\Psi\) (the Krein charge) of the
+  single-particle state \(o\) of dirac16complex, a Kohn-Sham orbital or
+  a mode: \(+1\) or \(-1\) for a normalised state. Unit: dimensionless.
+  Status: DERIVED.
+\item
+  \(\mathsf{H}_\Psi\): The Hamiltonian (the energy operator) of the
+  quantised dirac16complex. Unit: GeV. Status: DERIVED.
+\item
+  \(\omega\): A frequency: the energy of a mode
+  \(\propto \mathrm{e}^{-\mathrm{i}\omega x_4}\) (\(\omega_o\) of the
+  orbital \(o\)). Unit: GeV. Status: STANDARD.
+\end{itemize}
+
+The quantised dirac16complex. The canonical anticommutator of the field
+is \(\{\Psi, \Psi^\dagger\} = -\mathfrak{B}\) (times the delta function
+of the positions), the overall sign chosen so that the occupied bound
+states of charge \(-1\), the particles \(\chi\), have a positive norm. A
+mode \(o\) of the frequency \(\omega_o\) and the Krein charge
+\(\mathcal{Q}_o = \pm1\) then has the anticommutator \(-\mathcal{Q}_o\),
+the field has the Hamiltonian \(\mathsf{H}_\Psi\) (with FE-43, the
+energy of the mode is \(-\mathcal{Q}_o\omega_o\)), and every quantum
+raises the energy by its frequency. In the positive-energy quantisation
+(the vacuum is annihilated by \(\mathsf{a}_o\) for \(\omega_o > 0\) and
+by \(\mathsf{a}_o^\dagger\) for \(\omega_o < 0\)) every particle and
+every hole carries a positive energy and the norm \(-\mathcal{Q}_o\) of
+its mode: the particles and the holes of the modes of charge \(-1\) are
+physical, those of the modes of charge \(+1\) are ghosts (negative
+norm). A fermion cannot trade its norm for its energy
+(\(\{\mathsf{a}, \mathsf{a}^\dagger\} = -1\) has no representation with
+a positive norm), so no choice of the vacuum removes the ghosts. The
+consequences (DERIVED, \texttt{um3\_krein.py}, KR1 to KR7): the vacuum
+cannot decay, because every quantum has a positive energy; classically
+the dilute gas of the particles \(\chi\) is stable, since the directions
+that mix the two charges are flat (zero modes of boosts between ordinary
+space and the extra times), but the dense gas is not: where the
+repulsion has pushed the partner level of charge \(+1\) onto the
+occupied level, a growing mode appears (for \(H = 0.05\,m_\Psi\) and
+\(q_{\mathrm{b}} = 0.3\,m_\Psi\) from the strength
+\(\lambda_\Psi n_\chi/V_* = 0.3\,m_\Psi\) of the self-interaction on,
+\(n_\chi\) the number density of the particles on the fold); and the
+couplings at the fold decide unitarity: the chirality-blind fold
+operators (products of \(\gamma^{(1)}, \dots, \gamma^{(4)}\)) never
+connect a physical state with a ghost at rest, the chiral ones (the same
+times \(\Gamma_8\)) always do, and the left-handed Higgs portal of the
+author creates a physical particle \(\chi\) with a ghost antiparticle
+with 0.89 times its elastic amplitude. With chiral couplings at the fold
+UM-3 is therefore not a unitary quantum theory. Status: DERIVED.
 
 \hypertarget{the-standard-model-on-the-fold}{%
 \section{The Standard Model on the
@@ -6297,10 +7610,11 @@ couplings}\label{the-four-dimensional-couplings}}
   \(G_{\mathrm{N,eff}}\): The effective Newton constant of the fold,
   \(G_{\mathrm{N}}/\mathcal{Z}\). Unit: GeV\(^{-2}\). Status: DERIVED.
 \item
-  \(G_{\mathrm{N}}\): Newton's constant of four-dimensional gravity on
-  the fold, \(G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2\). Unit:
-  GeV\(^{-2}\). Value: \(6.708\times10^{-39}\) GeV\(^{-2}\). Status:
-  STANDARD.
+  \(G_{\mathrm{N}}\): Newton's constant of four-dimensional gravity (the
+  gravity of our world, on the fold),
+  \(G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2\) with the Planck mass
+  \(M_{\mathrm{Pl}} = 1.221\times10^{19}\) GeV. Unit: GeV\(^{-2}\).
+  Value: \(6.708\times10^{-39}\) GeV\(^{-2}\). Status: STANDARD.
 \item
   \(V_{\mathrm{t}}\): The coordinate volume of the (compact) extra
   times,
@@ -6324,7 +7638,9 @@ couplings}\label{the-four-dimensional-couplings}}
 \item
   \(V_*\): The physical volume of the extra times \(x_5, x_6, x_7\) on
   the fold in the late universe,
-  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) at a time when
+  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) (with
+  \(V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\)
+  the coordinate volume of the extra times) at a time when
   \(\mathrm{e}^{-a_4}b_4\) is constant; it converts the
   eight-dimensional normalisation into the four-dimensional one. Unit:
   length\(^3\) (GeV\(^{-3}\)). Status: ASSUMED.
@@ -6481,8 +7797,11 @@ leptons}\label{the-masses-and-the-mixing-of-quarks-and-leptons}}
   and of the three neutrino mass states (\(m_1, m_2, m_3\), Dirac
   masses). Unit: GeV. Value: measured values;
   \(\Delta m_{21}^2 = 7.41\times10^{-5}\) eV\(^2\),
-  \(\lvert\Delta m_{31}^2\rvert = 2.511\times10^{-3}\) eV\(^2\) (the
-  global fit NuFIT 5.2 of the oscillation data, November 2022). Status:
+  \(\lvert\Delta m_{31}^2\rvert = 2.511\times10^{-3}\) eV\(^2\) in the
+  computations of UM-3 (the global fit NuFIT 5.2 of the oscillation
+  data, November 2022), \(7.49\times10^{-5}\) and \(2.513\times10^{-3}\)
+  eV\(^2\) in NuFIT 6.0 (2024); the lightest mass \(m_1 = 0\) in the
+  computations, below 4.12 meV by DESI DR2 with the CMB. Status:
   STANDARD.
 \item
   \({}^\dagger\): Hermitian conjugation: the complex conjugate of the
@@ -6509,8 +7828,10 @@ leptons}\label{the-masses-and-the-mixing-of-quarks-and-leptons}}
   Status: STANDARD.
 \item
   \(i\): A generation index (\(i = 1, 2, 3\)), which also labels the
-  neutrino mass states \(\nu_1, \nu_2, \nu_3\); a repeated index is not
-  summed unless a sum sign is written. Status: STANDARD.
+  neutrino mass states \(\nu_1, \nu_2, \nu_3\); in a frame component
+  such as \(\mathcal{S}^{(i)}{}_{(i)}\) a direction \(x_i\) of ordinary
+  space (the three components are equal); a repeated index is not summed
+  unless a sum sign is written. Status: STANDARD.
 \item
   \(\mathcal{L}_{\mathrm{CC}}\): The charged-current interaction of the
   quarks and leptons with the \(W\) bosons. Unit: GeV\(^4\). Status:
@@ -6609,7 +7930,9 @@ dirac16complex}\label{the-four-dimensional-couplings-of-the-bound-states-of-dira
 \item
   \(V_*\): The physical volume of the extra times \(x_5, x_6, x_7\) on
   the fold in the late universe,
-  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) at a time when
+  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) (with
+  \(V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\)
+  the coordinate volume of the extra times) at a time when
   \(\mathrm{e}^{-a_4}b_4\) is constant; it converts the
   eight-dimensional normalisation into the four-dimensional one. Unit:
   length\(^3\) (GeV\(^{-3}\)). Status: ASSUMED.
@@ -6639,9 +7962,9 @@ dirac16complex}\label{the-four-dimensional-couplings-of-the-bound-states-of-dira
   DERIVED.
 \item
   \(\Delta\): A change, difference or small variation of the quantity
-  that follows (\(\Delta\rho\) a perturbation, \(\Delta m^2\) a
-  difference of squared masses, \(\Delta N_{\mathrm{eff}}\) an addition
-  to \(N_{\mathrm{eff}}\)). Status: STANDARD.
+  that follows (for example an interval of the time, a perturbation of a
+  density, a difference of two squared masses, or an addition to an
+  effective number of species). Status: STANDARD.
 \item
   \(\Phi\): The Higgs doublet (two complex components, hypercharge
   \(1/2\)), a field of the fold. Unit: GeV. Status: AUTHOR.
@@ -6856,8 +8179,11 @@ content}\label{the-equations-of-motion-of-the-flavour-content}}
   and of the three neutrino mass states (\(m_1, m_2, m_3\), Dirac
   masses). Unit: GeV. Value: measured values;
   \(\Delta m_{21}^2 = 7.41\times10^{-5}\) eV\(^2\),
-  \(\lvert\Delta m_{31}^2\rvert = 2.511\times10^{-3}\) eV\(^2\) (the
-  global fit NuFIT 5.2 of the oscillation data, November 2022). Status:
+  \(\lvert\Delta m_{31}^2\rvert = 2.511\times10^{-3}\) eV\(^2\) in the
+  computations of UM-3 (the global fit NuFIT 5.2 of the oscillation
+  data, November 2022), \(7.49\times10^{-5}\) and \(2.513\times10^{-3}\)
+  eV\(^2\) in NuFIT 6.0 (2024); the lightest mass \(m_1 = 0\) in the
+  computations, below 4.12 meV by DESI DR2 with the CMB. Status:
   STANDARD.
 \end{itemize}
 
@@ -7133,9 +8459,9 @@ conversion}\label{matter-enhanced-conversion}}
   exchange). Unit: GeV. Status: STANDARD.
 \item
   \(\Delta\): A change, difference or small variation of the quantity
-  that follows (\(\Delta\rho\) a perturbation, \(\Delta m^2\) a
-  difference of squared masses, \(\Delta N_{\mathrm{eff}}\) an addition
-  to \(N_{\mathrm{eff}}\)). Status: STANDARD.
+  that follows (for example an interval of the time, a perturbation of a
+  density, a difference of two squared masses, or an addition to an
+  effective number of species). Status: STANDARD.
 \item
   \(m\): A mass: \(m_i\) the mass of the neutrino mass state \(i\); in
   \(\Delta m^2\) the squared-mass difference of two neutrino mass states
@@ -7615,15 +8941,16 @@ here.
   its diameter. Unit: dimensionless. Value: 3.141592654. Status:
   STANDARD.
 \item
-  \(G_{\mathrm{N}}\): Newton's constant of four-dimensional gravity on
-  the fold, \(G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2\). Unit:
-  GeV\(^{-2}\). Value: \(6.708\times10^{-39}\) GeV\(^{-2}\). Status:
-  STANDARD.
+  \(G_{\mathrm{N}}\): Newton's constant of four-dimensional gravity (the
+  gravity of our world, on the fold),
+  \(G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2\) with the Planck mass
+  \(M_{\mathrm{Pl}} = 1.221\times10^{19}\) GeV. Unit: GeV\(^{-2}\).
+  Value: \(6.708\times10^{-39}\) GeV\(^{-2}\). Status: STANDARD.
 \item
   \(\Delta\): A change, difference or small variation of the quantity
-  that follows (\(\Delta\rho\) a perturbation, \(\Delta m^2\) a
-  difference of squared masses, \(\Delta N_{\mathrm{eff}}\) an addition
-  to \(N_{\mathrm{eff}}\)). Status: STANDARD.
+  that follows (for example an interval of the time, a perturbation of a
+  density, a difference of two squared masses, or an addition to an
+  effective number of species). Status: STANDARD.
 \item
   \(\rho\): The total energy density of the matter of the fold (all
   species); \(\Delta\rho\) its perturbation. Unit: GeV\(^4\). Status:
@@ -7658,7 +8985,7 @@ perturbations of the total energy density and pressure;
 \((\rho + \mathcal{P})\Sigma_{\mathrm{s}}\) are the sums over the
 species of (energy density plus pressure) times the divergence of their
 velocity and times their anisotropic stress. The bulk adds terms of
-relative order \(\epsilon_{\mathrm{r}} \lesssim 10^{-15}\) (FE-35,
+relative order \(\epsilon_{\mathrm{r}} < 1.344\times10^{-13}\) (FE-35,
 FE-59), which are dropped. Status: STANDARD (DERIVED: the fold equations
 are those of general relativity up to order \(\epsilon_{\mathrm{r}}\)).
 
@@ -7807,9 +9134,9 @@ are those of general relativity up to order \(\epsilon_{\mathrm{r}}\)).
   STANDARD.
 \item
   \(\delta\): The Kronecker delta: with two indices \(\delta^M_N = 1\)
-  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}} = 1\)
-  for \(X = \mathrm{L}\)); with upper and lower index strings the
-  generalised Kronecker delta
+  if \(M = N\) and 0 otherwise (likewise \(\delta_{X\mathrm{L}}\) is 1
+  if the label \(X\) of a half of dirac16complex is L and 0 otherwise);
+  with upper and lower index strings the generalised Kronecker delta
   \(\delta^{M_1\cdots M_n}_{N_1\cdots N_n}\), the determinant of the
   \(n \times n\) matrix of the Kronecker deltas \(\delta^{M_a}_{N_b}\)
   (\(+1\) or \(-1\) if the upper indices are an even or odd permutation
@@ -7861,8 +9188,10 @@ are those of general relativity up to order \(\epsilon_{\mathrm{r}}\)).
   Status: STANDARD.
 \item
   \(i\): A generation index (\(i = 1, 2, 3\)), which also labels the
-  neutrino mass states \(\nu_1, \nu_2, \nu_3\); a repeated index is not
-  summed unless a sum sign is written. Status: STANDARD.
+  neutrino mass states \(\nu_1, \nu_2, \nu_3\); in a frame component
+  such as \(\mathcal{S}^{(i)}{}_{(i)}\) a direction \(x_i\) of ordinary
+  space (the three components are equal); a repeated index is not summed
+  unless a sum sign is written. Status: STANDARD.
 \item
   \(\mathrm{e}\): Euler's number, the base of the natural logarithm;
   \(\mathrm{e}^{X}\) is the exponential of \(X\). Unit: dimensionless.
@@ -7948,7 +9277,8 @@ are truncated at a large \(l\) in a numerical solution. Status: STANDARD
   \(H_4\): The expansion rate (Hubble rate) of the fold, \(H_4 = a_4'\),
   as a function of the time or of the redshift; \(H_4^{(0)}\) its value
   today, the Hubble constant. Unit: GeV (1/time). Value:
-  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc. Status: STANDARD.
+  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc with \(h_{100} = 0.674\) (Planck
+  2018): 67.4 km/s/Mpc \(= 1.44\times10^{-42}\) GeV. Status: STANDARD.
 \item
   \(D_{\mathrm{H}}(\mathsf{z})\): The Hubble distance at the redshift
   \(\mathsf{z}\). Unit: length. Status: STANDARD.
@@ -8098,8 +9428,10 @@ Status: STANDARD.
   STANDARD.
 \item
   \(i\): A generation index (\(i = 1, 2, 3\)), which also labels the
-  neutrino mass states \(\nu_1, \nu_2, \nu_3\); a repeated index is not
-  summed unless a sum sign is written. Status: STANDARD.
+  neutrino mass states \(\nu_1, \nu_2, \nu_3\); in a frame component
+  such as \(\mathcal{S}^{(i)}{}_{(i)}\) a direction \(x_i\) of ordinary
+  space (the three components are equal); a repeated index is not summed
+  unless a sum sign is written. Status: STANDARD.
 \item
   \(m\): A mass: \(m_i\) the mass of the neutrino mass state \(i\); in
   \(\Delta m^2\) the squared-mass difference of two neutrino mass states
@@ -8110,16 +9442,18 @@ Status: STANDARD.
   \(H_4\): The expansion rate (Hubble rate) of the fold, \(H_4 = a_4'\),
   as a function of the time or of the redshift; \(H_4^{(0)}\) its value
   today, the Hubble constant. Unit: GeV (1/time). Value:
-  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc. Status: STANDARD.
+  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc with \(h_{100} = 0.674\) (Planck
+  2018): 67.4 km/s/Mpc \(= 1.44\times10^{-42}\) GeV. Status: STANDARD.
 \item
   \(\pi\): The number pi, the ratio of the circumference of a circle to
   its diameter. Unit: dimensionless. Value: 3.141592654. Status:
   STANDARD.
 \item
-  \(G_{\mathrm{N}}\): Newton's constant of four-dimensional gravity on
-  the fold, \(G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2\). Unit:
-  GeV\(^{-2}\). Value: \(6.708\times10^{-39}\) GeV\(^{-2}\). Status:
-  STANDARD.
+  \(G_{\mathrm{N}}\): Newton's constant of four-dimensional gravity (the
+  gravity of our world, on the fold),
+  \(G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2\) with the Planck mass
+  \(M_{\mathrm{Pl}} = 1.221\times10^{19}\) GeV. Unit: GeV\(^{-2}\).
+  Value: \(6.708\times10^{-39}\) GeV\(^{-2}\). Status: STANDARD.
 \end{itemize}
 
 The density parameters today: the dark matter (the relic density of
@@ -8184,7 +9518,9 @@ Status: STANDARD.
 \item
   \(V_*\): The physical volume of the extra times \(x_5, x_6, x_7\) on
   the fold in the late universe,
-  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) at a time when
+  \(V_* = V_{\mathrm{t}}(\mathrm{e}^{-a_4}b_4)^3\) (with
+  \(V_{\mathrm{t}} = \int\mathrm{d}x_5\,\mathrm{d}x_6\,\mathrm{d}x_7\)
+  the coordinate volume of the extra times) at a time when
   \(\mathrm{e}^{-a_4}b_4\) is constant; it converts the
   eight-dimensional normalisation into the four-dimensional one. Unit:
   length\(^3\) (GeV\(^{-3}\)). Status: ASSUMED.
@@ -8201,7 +9537,8 @@ Status: STANDARD.
   \(a\): A frame (orthonormal) index running over \(0, 1, \dots, 7\)
   (frame direction \((0)\) along \(\sigma\), \((1), (2), (3)\) along
   ordinary space, \((4)\) along the time, \((5), (6), (7)\) along the
-  extra times); raised and lowered with \(\eta_{ab}\); on the fold
+  extra times); raised and lowered with the frame metric
+  \(\eta_{ab} = \mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)\); on the fold
   (\(a, b \in \{1, \dots, 7\}\)) the frame of the fold; a repeated index
   is summed. Status: STANDARD.
 \item
@@ -8209,23 +9546,26 @@ Status: STANDARD.
 \item
   \(\mathcal{S}^a{}_b\): The thin source of the fold: its
   energy-momentum tensor per unit proper length across the fold
-  (eight-dimensional normalisation, frame components along the fold);
-  \(\kappa\mathcal{S}\) is the jump of the potential \(\mathfrak{F}\).
-  Unit: GeV\(^7\). Status: DERIVED.
+  (eight-dimensional normalisation, frame components along the fold); it
+  is fixed by the jump of the first \(\sigma\)-derivatives of the metric
+  across the fold (the junction conditions; \(\kappa\mathcal{S}\) is the
+  jump of the junction potential). Unit: GeV\(^7\). Status: DERIVED.
 \item
   \(H_4\): The expansion rate (Hubble rate) of the fold, \(H_4 = a_4'\),
   as a function of the time or of the redshift; \(H_4^{(0)}\) its value
   today, the Hubble constant. Unit: GeV (1/time). Value:
-  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc. Status: STANDARD.
+  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc with \(h_{100} = 0.674\) (Planck
+  2018): 67.4 km/s/Mpc \(= 1.44\times10^{-42}\) GeV. Status: STANDARD.
 \item
   \(\pi\): The number pi, the ratio of the circumference of a circle to
   its diameter. Unit: dimensionless. Value: 3.141592654. Status:
   STANDARD.
 \item
-  \(G_{\mathrm{N}}\): Newton's constant of four-dimensional gravity on
-  the fold, \(G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2\). Unit:
-  GeV\(^{-2}\). Value: \(6.708\times10^{-39}\) GeV\(^{-2}\). Status:
-  STANDARD.
+  \(G_{\mathrm{N}}\): Newton's constant of four-dimensional gravity (the
+  gravity of our world, on the fold),
+  \(G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2\) with the Planck mass
+  \(M_{\mathrm{Pl}} = 1.221\times10^{19}\) GeV. Unit: GeV\(^{-2}\).
+  Value: \(6.708\times10^{-39}\) GeV\(^{-2}\). Status: STANDARD.
 \item
   \(\rho_{\mathrm{SM}}\): The energy density of the Standard-Model
   particles. Unit: GeV\(^4\). Status: STANDARD.
@@ -8242,13 +9582,12 @@ Status: STANDARD.
   \(\epsilon_{\mathrm{r}}\): The bookkeeping parameter of the response
   of the bulk to the matter of the fold: the ratio of the bulk to the
   fold gravity, \(\epsilon_{\mathrm{r}} = \kappa_4V_*/(\kappa H)\).
-  Unit: dimensionless. Value: \(\lesssim 10^{-15}\) (an estimate: if a
-  fraction \(\epsilon_{\mathrm{r}}\) of the gravitational waves of the
-  fold travelled with the bulk gravitons, whose speed squared is 15/2
-  times that of light, their speed would differ from that of light by
-  about \(3\epsilon_{\mathrm{r}}\), and the gravitational waves and the
-  light of the neutron-star merger GW170817 arrived together to about
-  \(10^{-15}\)). Status: DERIVED (the definition), ESTIMATE (the bound).
+  Unit: dimensionless. Value: below \(1.344\times10^{-13}\): the
+  four-dimensional gravitational wave has
+  \(c_{\mathrm{g}}^2 = (96 + 83\epsilon_{\mathrm{r}})/(96 + 82\epsilon_{\mathrm{r}})\),
+  and the gravitational waves and the light of the neutron-star merger
+  GW170817 arrived together, \((c_{\mathrm{g}} - 1) < 7\times10^{-16}\).
+  Status: DERIVED.
 \item
   \(H\): The author's constant (an inverse length) that fixes the period
   \(\pi/(6H)\) of \(x_0\), the Lovelock couplings and the cosmological
@@ -8356,9 +9695,9 @@ density of FE-58), a small term of the power series when
 \(\mathsf{A}^2 \ll \epsilon_{\mathrm{r}}\), that is when the bulk
 curvature scale \(H\) exceeds the Hubble rate by far more than
 \(\epsilon_{\mathrm{r}}^{-1/2}\) (DERIVED, SR6). With
-\(\epsilon_{\mathrm{r}} \lesssim 10^{-15}\) the fold then expands as in
-general relativity. Status: DERIVED (with the ASSUMED induced gravity
-and the ASSUMED response of the bulk medium).
+\(\epsilon_{\mathrm{r}} < 1.344\times10^{-13}\) (FE-63) the fold then
+expands as in general relativity. Status: DERIVED (with the ASSUMED
+induced gravity and the ASSUMED response of the bulk medium).
 
 \[
 \rho_{\mathrm{SM}} = \frac{\pi^2}{30}\,g_\rho(\mathsf{T})\,\mathsf{T}^4,\qquad s = \frac{2\pi^2}{45}\,g_{\mathrm{s}}(\mathsf{T})\,\mathsf{T}^3,\qquad
@@ -8393,16 +9732,18 @@ H_4 = \sqrt{\frac{8\pi^3g_\rho}{90}}\,\frac{\mathsf{T}^2}{M_{\mathrm{Pl}}},\qqua
   \(H_4\): The expansion rate (Hubble rate) of the fold, \(H_4 = a_4'\),
   as a function of the time or of the redshift; \(H_4^{(0)}\) its value
   today, the Hubble constant. Unit: GeV (1/time). Value:
-  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc. Status: STANDARD.
+  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc with \(h_{100} = 0.674\) (Planck
+  2018): 67.4 km/s/Mpc \(= 1.44\times10^{-42}\) GeV. Status: STANDARD.
 \item
   \(M_{\mathrm{Pl}}\): The Planck mass,
   \(M_{\mathrm{Pl}} = G_{\mathrm{N}}^{-1/2}\). Unit: GeV. Value:
   \(1.221\times10^{19}\) GeV. Status: STANDARD.
 \item
-  \(G_{\mathrm{N}}\): Newton's constant of four-dimensional gravity on
-  the fold, \(G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2\). Unit:
-  GeV\(^{-2}\). Value: \(6.708\times10^{-39}\) GeV\(^{-2}\). Status:
-  STANDARD.
+  \(G_{\mathrm{N}}\): Newton's constant of four-dimensional gravity (the
+  gravity of our world, on the fold),
+  \(G_{\mathrm{N}} = 1/M_{\mathrm{Pl}}^2\) with the Planck mass
+  \(M_{\mathrm{Pl}} = 1.221\times10^{19}\) GeV. Unit: GeV\(^{-2}\).
+  Value: \(6.708\times10^{-39}\) GeV\(^{-2}\). Status: STANDARD.
 \end{itemize}
 
 The radiation of the Standard Model in thermal equilibrium at the
@@ -8438,7 +9779,8 @@ n_{\chi,\mathrm{eq}} = g_\chi\Big(\frac{\omega_{\mathrm{b}}\mathsf{T}}{2\pi}\Big
   \(H_4\): The expansion rate (Hubble rate) of the fold, \(H_4 = a_4'\),
   as a function of the time or of the redshift; \(H_4^{(0)}\) its value
   today, the Hubble constant. Unit: GeV (1/time). Value:
-  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc. Status: STANDARD.
+  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc with \(h_{100} = 0.674\) (Planck
+  2018): 67.4 km/s/Mpc \(= 1.44\times10^{-42}\) GeV. Status: STANDARD.
 \item
   \(\sigma_{\mathrm{ann}}\): The annihilation cross-section of the
   particles \(\chi\) into Standard-Model particles (through the portals)
@@ -8540,16 +9882,17 @@ cross-section from the portals).
   \(H_4\): The expansion rate (Hubble rate) of the fold, \(H_4 = a_4'\),
   as a function of the time or of the redshift; \(H_4^{(0)}\) its value
   today, the Hubble constant. Unit: GeV (1/time). Value:
-  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc. Status: STANDARD.
+  \(H_4^{(0)} = 100\,h_{100}\) km/s/Mpc with \(h_{100} = 0.674\) (Planck
+  2018): 67.4 km/s/Mpc \(= 1.44\times10^{-42}\) GeV. Status: STANDARD.
 \item
   \(\mathcal{C}_{\nu_{\mathrm{R}}}\): The collision term of the
   right-handed neutrinos: the rate at which collisions produce (or
   remove) their energy density. Unit: GeV\(^5\). Status: STANDARD.
 \item
   \(\Delta\): A change, difference or small variation of the quantity
-  that follows (\(\Delta\rho\) a perturbation, \(\Delta m^2\) a
-  difference of squared masses, \(\Delta N_{\mathrm{eff}}\) an addition
-  to \(N_{\mathrm{eff}}\)). Status: STANDARD.
+  that follows (for example an interval of the time, a perturbation of a
+  density, a difference of two squared masses, or an addition to an
+  effective number of species). Status: STANDARD.
 \item
   \(N_{\mathrm{eff}}\): The effective number of neutrino species: the
   energy density of the relativistic particles other than photons in
@@ -8790,6 +10133,60 @@ themselves are all written out above). The checks used here:
   coupling of FE-47 and the binding of \(\chi\), the right-handed
   neutrinos and \(N_{\mathrm{eff}}\) (FE-62), the ad hoc vacuum before
   nucleosynthesis.
+\item
+  \texttt{um3\_foldsources.py} (6 checks): the linearised equation of
+  the gravitational wave and its junction potential (F1), the thin part
+  of the Lovelock terms at the fold, also by smoothing the kink (F2),
+  the speed of the four-dimensional gravitational wave FE-63 without
+  (F3) and with (F4) the induced gravity, the gravity induced by the
+  fields of the fold FE-64 (F5), the two parts of the fold fluid FE-65
+  and the energy that feeds them (F6).
+\item
+  \texttt{um3\_stabiliser.py} (8 checks): the source that the static
+  bulk requires, IN-7 (ST1); none at the author's vacuum (ST2); no
+  sourceless bulk with constant slow rates (ST3); the conservation of
+  the stabiliser on the static bulk (ST4); its energy conditions and the
+  ghost field that reproduces it (ST5); its history, the energy flow
+  into the fold and the energy balance of the fold (ST6); the drift of
+  the couplings without it and its integrated energy (ST7); the
+  constraints FE-66 (ST8).
+\item
+  \texttt{um3\_krein.py} (7 checks): the Krein form and its quantisation
+  FE-67 (KR1), the symmetries at rest and in motion (KR2), the mirrors
+  of the fold (KR3), the flat directions of the dilute gas (KR4), the
+  partner level and the growing modes of the dense gas (KR5), the
+  selection rules at the fold (KR6), the consequences for stability and
+  unitarity (KR7).
+\item
+  \texttt{um3\_extratimes.py} (5 checks): the dispersion with a momentum
+  along the extra times on the fold (EX1), the bound states of
+  dirac16complex with such a momentum and their leaking into the bulk
+  (EX2), the double-exponential growth in the author's vacuum (EX3), the
+  bound on compact extra times in the late universe (EX4), the
+  truncation to fields without that momentum (EX5).
+\item
+  \texttt{um3\_superluminal.py} (5 checks): the limiting speed
+  \(c_{\mathrm{b}}\) of the particles \(\chi\) (SL1), their dispersion
+  up to large momenta, group and front velocity (SL2), the speeds of
+  cosmological \(\chi\) (SL3), causality and the shortcut through the
+  bulk (SL4), the loop estimate of the Lorentz violation of the electron
+  (SL5).
+\item
+  \texttt{um3\_primordial.py} (5 checks): the fields of the fold in the
+  author's vacuum (PR1), their spectrum (PR2), the growth of the
+  couplings (PR3), the bound on an inflationary era (PR4), Higgs
+  inflation against induced gravity (PR5).
+\item
+  \texttt{um3\_numass.py} (5 checks): the neutrino masses of both
+  orderings (NM1), the bounds of DESI DR2 and KATRIN (NM2), the Dirac
+  phase in the results of UM-3 (NM3), what the lightest mass changes
+  (NM4), the record against NuFIT 6.0 (NM5).
 \end{itemize}
+
+The Kohn-Sham module runs in parts
+(\texttt{um3\_kohnsham.py\ part\ NAME} for NAME = K1, I, II, III, K6,
+K9, then \texttt{um3\_kohnsham.py\ assemble}), so that no single
+calculation takes longer than 423 seconds; the assembled results are
+identical to a single run.
 
 \end{document}
