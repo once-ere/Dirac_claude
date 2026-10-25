@@ -64,4 +64,4 @@ folder is that revision. Nothing in it refers to, or depends on, the earlier rec
 | model summary | `MODEL.md/.tex/.pdf` (16 pages) | DONE 2026-10-25: fields, couplings, parameters and their status |
 | analysis | `ANALYSIS.md/.tex/.pdf` (18 pages, A-1..A-8) | DONE 2026-10-25: the `x0` mass mechanism (period `pi/(6H)`, the uncertainty relation), dark matter (the particles chi, cold) and dark energy (the vacuum energy, `w = -1`), what the author's order left out |
 | provenance | `PROVENANCE.md/.tex/.pdf` | DONE 2026-10-25: every source, every author input, every check module |
-| verification from a fresh clone | | open |
+| verification from a fresh clone | | DONE 2026-10-25: a fresh clone of commit 431d53d reproduces all 167 checks of the 13 modules (the Kohn-Sham module in 28 minutes on two cores), every stored output apart from the run times, the symbol check (191 displays, 0 problems) and the documents MODEL, FIELD_EQUATIONS, SOLUTION, ANALYSIS and PROVENANCE byte-identical (.md, .tex and .pdf); the Dirac-matrix provenance differs only in the run time it quotes |

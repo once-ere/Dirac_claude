@@ -49,7 +49,9 @@ reports 0 problems). 167 checks in 13 modules pass: the Dirac matrices of `4+4.n
 metric (26), the fold and its junction conditions (13), the bulk speeds (10), the fields (16), the spectra (5), the
 neutrino sector (5), the background (6), the power series of the metric (6), the Kohn-Sham states of dirac16complex
 (9), the neutrino flavours (4), the thermal history (6) and the CMB, CNB and BAO (6). Everything is committed on `main` (the branch `um3-wip-2026-10-25`, an unverified snapshot pushed while the last Kohn-Sham run was going, is
-superseded by it and not to be merged). A restart needs nothing that is not committed; nothing is running. What is still OPEN (the stability of
+superseded by it and not to be merged). A fresh clone of commit 431d53d reproduced all 167 checks, every stored output
+apart from the run times and the five documents byte-identical (2026-10-25). A restart needs nothing that is not
+committed; nothing is running. What is still OPEN (the stability of
 the indefinite Krein norm, the extra times, the primordial era, the dark energy against DESI DR2) is stated in SOLUTION
 ("What the solution does not settle") and ANALYSIS ("What the author may have left out"), which also lists what UM-3 had to
 add to the author's specification.
