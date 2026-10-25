@@ -127,29 +127,94 @@ class Parser:
         raise ParseError("unterminated string")
 
     # -- grammar --------------------------------------------------------------------------------
+    # Binary operators that occur in notebook files (mostly inside options, dynamic content and the
+    # Function[...] of TagBox); the precise Wolfram semantics are not needed, only a correct parse.
+    # (token, head, precedence, right-associative)
+    _BINOPS = [
+        (";", "CompoundExpression", 10, False),
+        ("^:=", "UpSetDelayed", 40, True), (":=", "SetDelayed", 40, True), ("=", "Set", 40, True),
+        ("//", "Postfix", 70, False),
+        ("->", "Rule", 120, True), (":>", "RuleDelayed", 120, True),
+        ("/.", "ReplaceAll", 110, False), ("//.", "ReplaceRepeated", 110, False),
+        ("||", "Or", 215, False), ("&&", "And", 215, False),
+        ("===", "SameQ", 290, False), ("=!=", "UnsameQ", 290, False),
+        ("==", "Equal", 290, False), ("!=", "Unequal", 290, False),
+        ("<=", "LessEqual", 290, False), (">=", "GreaterEqual", 290, False),
+        ("<>", "StringJoin", 600, False),
+        ("<", "Less", 290, False), (">", "Greater", 290, False),
+        ("+", "Plus", 310, False), ("-", "Subtract", 310, False),
+        ("*", "Times", 400, False), ("/", "Divide", 470, False),
+        ("@@", "Apply", 620, True), ("/@", "Map", 620, True), ("@", "Prefix", 640, True),
+        (".", "Dot", 490, False), ("^", "Power", 590, True),
+        ("::", "MessageName", 750, False), ("~~", "StringExpression", 135, False),
+        ("|", "Alternatives", 160, False),
+    ]
+    _BINOPS.sort(key=lambda t: -len(t[0]))
+
     def parse(self) -> Any:
         e = self.expr()
         return e
 
-    def expr(self) -> Any:
+    def _binop_at(self):
+        self._skip_ws()
+        for tok, head, prec, rassoc in self._BINOPS:
+            if self.s.startswith(tok, self.i):
+                # "." followed by a digit is a number, not Dot
+                if tok == "." and self.i + 1 < self.n and self.s[self.i + 1].isdigit():
+                    return None
+                # "|>" closes an Association, it is not Alternatives
+                if tok == "|" and self.s.startswith("|>", self.i):
+                    return None
+                return tok, head, prec, rassoc
+        return None
+
+    def expr(self, min_prec: int = 0) -> Any:
         left = self.postfix()
-        c = self._peek()
-        if self.s.startswith("->", self.i):
-            self.i += 2
-            right = self.expr()
-            return Expr(Sym("Rule"), [left, right])
-        if self.s.startswith(":>", self.i):
-            self.i += 2
-            right = self.expr()
-            return Expr(Sym("RuleDelayed"), [left, right])
-        if c == "&":
-            self.i += 1
-            return Expr(Sym("Function"), [left])
-        return left
+        while True:
+            c = self._peek()
+            if c == "&":  # postfix Function
+                self.i += 1
+                left = Expr(Sym("Function"), [left])
+                continue
+            if c == "!" and not self.s.startswith("!=", self.i):
+                self.i += 1
+                left = Expr(Sym("Factorial"), [left])
+                continue
+            op = self._binop_at()
+            if op is None:
+                # implicit multiplication (juxtaposition), as in "2 x" inside Function bodies
+                if c and (c.isalnum() or c in '({"$`' or self.s.startswith("\\[", self.i)) and 400 >= min_prec:
+                    right = self.expr(401)
+                    left = Expr(Sym("Times"), [left, right])
+                    continue
+                return left
+            tok, head, prec, rassoc = op
+            if prec < min_prec:
+                return left
+            self.i += len(tok)
+            if tok == ";":  # a trailing ; (CompoundExpression with Null)
+                c2 = self._peek()
+                if c2 in (",", "]", "}", ")", ""):
+                    left = Expr(Sym(head), [left, Sym("Null")])
+                    continue
+            right = self.expr(prec if rassoc else prec + 1)
+            left = Expr(Sym(head), [left, right])
 
     def postfix(self) -> Any:
         a = self.atom()
-        while self._peek() == "[":
+        while self._peek() in ("[", "'"):
+            if self.s[self.i] == "'":
+                self.i += 1
+                a = Expr(Sym("Derivative1"), [a])
+                continue
+            if self.s.startswith("[[", self.i):
+                self.i += 2
+                args = self.seq("]")
+                if self._peek() != "]":
+                    raise ParseError(f"expected ]] at {self.i}")
+                self.i += 1
+                a = Expr(Sym("Part"), [a] + args)
+                continue
             self.i += 1
             args = self.seq("]")
             a = Expr(a, args)
@@ -171,6 +236,8 @@ class Parser:
                 return args
             raise ParseError(f"expected , or {close} at {self.i}: {self.s[self.i:self.i+60]!r}")
 
+    _SYMRUN = re.compile(r"(?:[A-Za-z0-9$`]|\\\[[A-Za-z0-9]+\])+")
+
     def atom(self) -> Any:
         c = self._peek()
         if c == '"':
@@ -178,23 +245,61 @@ class Parser:
         if c == "{":
             self.i += 1
             return Expr(Sym("List"), self.seq("}"))
+        if self.s.startswith("<|", self.i):
+            self.i += 2
+            items = []
+            while True:
+                if self._peek() == "|" and self.s.startswith("|>", self.i):
+                    self.i += 2
+                    return Expr(Sym("Association"), items)
+                items.append(self.expr())
+                if self._peek() == ",":
+                    self.i += 1
+        if c == "(":
+            self.i += 1
+            e = self.expr()
+            if self._peek() != ")":
+                raise ParseError(f"expected ) at {self.i}: {self.s[self.i:self.i+60]!r}")
+            self.i += 1
+            return e
         if c == "-" and not self.s.startswith("->", self.i):
             self.i += 1
-            a = self.atom()
+            a = self.expr(480)  # unary minus binds tighter than Times' operands
             if isinstance(a, Num):
                 return Num("-" + a.text)
             return Expr(Sym("Times"), [Num("-1"), a])
+        if c == "!" :
+            self.i += 1
+            return Expr(Sym("Not"), [self.expr(230)])
         if c == "#":
             self.i += 1
+            if self.i < self.n and self.s[self.i] == "#":
+                self.i += 1
+                return Sym("##")
             m = re.compile(r"\d*").match(self.s, self.i)
             self.i = m.end()
             return Sym("#" + m.group(0))
+        if c == "%":
+            m = re.compile(r"%+\d*").match(self.s, self.i)
+            self.i = m.end()
+            return Sym(m.group(0))
         if c.isdigit() or (c == "." and self.i + 1 < self.n and self.s[self.i + 1].isdigit()):
             m = _NUM.match(self.s, self.i)
             self.i = m.end()
             return Num(m.group(0))
-        if _SYM_START.match(c or " "):
-            m = _SYM_CHARS.match(self.s, self.i)
+        if _SYM_START.match(c or " ") or self.s.startswith("\\[", self.i):
+            m = self._SYMRUN.match(self.s, self.i)
+            if not m:
+                raise ParseError(f"bad symbol at {self.i}: {self.s[self.i:self.i+40]!r}")
+            self.i = m.end()
+            name = m.group(0)
+            # pattern blanks like x_ or x__ (rare in notebook files)
+            while self.i < self.n and self.s[self.i] == "_":
+                self.i += 1
+                name += "_"
+            return Sym(name)
+        if c == "_":
+            m = re.compile(r"_+[A-Za-z]*").match(self.s, self.i)
             self.i = m.end()
             return Sym(m.group(0))
         raise ParseError(f"unexpected {c!r} at {self.i}: {self.s[self.i:self.i+80]!r}")
