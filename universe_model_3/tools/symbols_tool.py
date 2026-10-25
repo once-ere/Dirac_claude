@@ -78,7 +78,7 @@ CLOSERS = {')', ']', '|', r'\rvert', r'\rVert', r'\Vert', r'\vert', r'\rbrace', 
 # vertical bars: a subscript after one of them is an evaluation point (an expression), e.g. F\vert_{\xi=0}
 EVALBARS = {'|', r'\vert', r'\rvert', r'\Vert', r'\rVert'}
 # integral signs: their subscript and superscript are the limits of integration (expressions), e.g. \int_{-L}^{0}
-INTEGRALS = {r'\int', r'\oint', r'\iint', r'\iiint'}
+INTEGRALS = {r'\int', r'\oint', r'\iint', r'\iiint', r'\lim'}   # (UM-3: the subscript of \lim is a limit, an expression)
 
 
 def tokenize(s):
@@ -87,7 +87,7 @@ def tokenize(s):
     while i < len(s):
         c = s[i]
         if c == '\\':
-            m = re.match(r'\\([A-Za-z]+|.)', s[i:])
+            m = re.match(r'\\([A-Za-z]+|.)', s[i:], re.DOTALL)
             toks.append('\\' + m.group(1))
             i += len(m.group(0))
         elif c.isspace():

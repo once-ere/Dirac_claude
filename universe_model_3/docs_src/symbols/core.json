@@ -1,0 +1,2071 @@
+{
+ "euler": {
+  "tex": "\\mathrm{e}",
+  "atoms": [
+   "\\mathrm{e}"
+  ],
+  "meaning": "Euler's number, the base of the natural logarithm; $\\mathrm{e}^{X}$ is the exponential of $X$.",
+  "units": "dimensionless",
+  "value": "2.718281828",
+  "status": "STANDARD"
+ },
+ "imag": {
+  "tex": "\\mathrm{i}",
+  "atoms": [
+   "\\mathrm{i}"
+  ],
+  "meaning": "The imaginary unit, $\\mathrm{i}^2 = -1$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "diff": {
+  "tex": "\\mathrm{d}",
+  "atoms": [
+   "\\mathrm{d}"
+  ],
+  "meaning": "The differential: $\\mathrm{d}X$ is an infinitesimal change of $X$, $\\mathrm{d}X/\\mathrm{d}Y$ the derivative of $X$ with respect to $Y$, $\\mathrm{d}^nX$ the volume element of $n$ variables.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "pi": {
+  "tex": "\\pi",
+  "atoms": [
+   "\\pi"
+  ],
+  "meaning": "The number pi, the ratio of the circumference of a circle to its diameter.",
+  "units": "dimensionless",
+  "value": "3.141592654",
+  "status": "STANDARD"
+ },
+ "infty": {
+  "tex": "\\infty",
+  "atoms": [
+   "\\infty"
+  ],
+  "meaning": "Infinity: as a limit of an integral or a sum it means that the range has no bound.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "diag": {
+  "tex": "\\mathrm{diag}",
+  "atoms": [
+   "\\mathrm{diag}"
+  ],
+  "meaning": "A diagonal matrix with the listed entries on its diagonal (in the order of the coordinates $x_0, x_1, \\dots, x_7$ for a tensor of eight dimensions, $x_1, \\dots, x_7$ for a tensor of the fold, $x_1, \\dots, x_4$ for a four-dimensional tensor).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "identity": {
+  "tex": "\\mathbf{1}",
+  "atoms": [
+   "\\mathbf{1}"
+  ],
+  "meaning": "The identity matrix of the size fixed by the context ($16 \\times 16$ on dirac16complex, $4 \\times 4$ on a four-dimensional spinor, $3 \\times 3$ in generation or flavour space).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "partial": {
+  "tex": "\\partial",
+  "atoms": [
+   "\\partial"
+  ],
+  "meaning": "A partial derivative: $\\partial_M$ with respect to the coordinate $X^M$, $\\partial_\\mu$ with respect to $x^\\mu$, $\\partial_\\sigma$ with respect to $\\sigma$, $\\partial X/\\partial Y$ the derivative of $X$ with respect to $Y$ at fixed other variables.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "nabla": {
+  "tex": "\\nabla",
+  "atoms": [
+   "\\nabla"
+  ],
+  "meaning": "The covariant derivative of a tensor with the Levi-Civita connection of the metric $g_{MN}$ (Christoffel symbols $\\Gamma^P{}_{MN}$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "nablahat": {
+  "tex": "\\hat\\nabla",
+  "atoms": [
+   "\\hat{\\nabla}"
+  ],
+  "meaning": "The covariant derivative of the fold: with the Levi-Civita connection of the metric of the fold ($\\hat h_{\\mu\\nu}$ for four-dimensional tensors, the induced metric of the seven-dimensional fold for $\\hat\\nabla_a\\mathcal{S}^a{}_b$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "delta": {
+  "tex": "\\delta",
+  "atoms": [
+   "\\delta"
+  ],
+  "meaning": "The Kronecker delta: with two indices $\\delta^M_N = 1$ if $M = N$ and 0 otherwise (likewise $\\delta_{X\\mathrm{L}} = 1$ for $X = \\mathrm{L}$); with upper and lower index strings the generalised Kronecker delta $\\delta^{M_1\\cdots M_n}_{N_1\\cdots N_n}$, the determinant of the $n \\times n$ matrix of the Kronecker deltas $\\delta^{M_a}_{N_b}$ ($+1$ or $-1$ if the upper indices are an even or odd permutation of the lower ones, 0 otherwise).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "deltaD": {
+  "tex": "\\delta_{\\mathrm{D}}",
+  "atoms": [
+   "\\delta_{\\mathrm{D}}"
+  ],
+  "meaning": "The Dirac delta function: $\\int\\mathrm{d}\\sigma\\,\\delta_{\\mathrm{D}}(\\sigma)F(\\sigma) = F(0)$.",
+  "units": "1/length (for $\\delta_{\\mathrm{D}}(\\sigma)$)",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "dagger": {
+  "tex": "{}^\\dagger",
+  "atoms": [
+   "dagger"
+  ],
+  "meaning": "Hermitian conjugation: the complex conjugate of the transpose of a matrix or spinor (for field operators the adjoint operator).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "transpose": {
+  "tex": "{}^T",
+  "atoms": [
+   "transpose"
+  ],
+  "meaning": "The transpose of a matrix.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "star": {
+  "tex": "{}^*",
+  "atoms": [
+   "star"
+  ],
+  "meaning": "Complex conjugation of a number, or of each entry of a matrix or column.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "prime": {
+  "tex": "{}'",
+  "atoms": [
+   "prime"
+  ],
+  "meaning": "The derivative of a function of the time $x_4$ alone with respect to $x_4$ ($a_4' = \\mathrm{d}a_4/\\mathrm{d}x_4$; two primes the second derivative); on a function of $\\sigma$ alone (a profile) the derivative with respect to $\\sigma$.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "hc": {
+  "tex": "\\mathrm{h.c.}",
+  "atoms": [
+   "\\mathrm{h.c.}"
+  ],
+  "meaning": "The Hermitian conjugate of the preceding terms.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "sgn": {
+  "tex": "\\mathrm{sgn}",
+  "atoms": [
+   "\\mathrm{sgn}"
+  ],
+  "meaning": "The sign function: $\\mathrm{sgn}(y) = +1$ for $y > 0$, $-1$ for $y < 0$.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "trace": {
+  "tex": "\\mathrm{tr}",
+  "atoms": [
+   "\\mathrm{tr}"
+  ],
+  "meaning": "The trace of a matrix: the sum of its diagonal entries.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iM": {
+  "tex": "M",
+  "atoms": [
+   "index:M"
+  ],
+  "meaning": "A coordinate index of eight dimensions (also with a numbered copy $M_1, M_2, \\dots$): it runs over $x_0, x_1, \\dots, x_7$; a repeated index is summed.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iN": {
+  "tex": "N",
+  "atoms": [
+   "index:N"
+  ],
+  "meaning": "A coordinate index of eight dimensions (also $N_1, N_2, \\dots$), running over $x_0, \\dots, x_7$; a repeated index is summed.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iP": {
+  "tex": "P",
+  "atoms": [
+   "index:P"
+  ],
+  "meaning": "A coordinate index of eight dimensions (also $P_1, P_2, \\dots$), running over $x_0, \\dots, x_7$; a repeated index is summed.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iQ": {
+  "tex": "Q",
+  "atoms": [
+   "index:Q"
+  ],
+  "meaning": "A coordinate index of eight dimensions (also $Q_1, Q_2, \\dots$), running over $x_0, \\dots, x_7$; a repeated index is summed.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iS": {
+  "tex": "S",
+  "atoms": [
+   "index:S"
+  ],
+  "meaning": "A coordinate index of eight dimensions, running over $x_0, \\dots, x_7$; a repeated index is summed.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ia": {
+  "tex": "a",
+  "atoms": [
+   "index:a"
+  ],
+  "meaning": "A frame (orthonormal) index running over $0, 1, \\dots, 7$ (frame direction $(0)$ along $\\sigma$, $(1), (2), (3)$ along ordinary space, $(4)$ along the time, $(5), (6), (7)$ along the extra times); raised and lowered with $\\eta_{ab}$; on the fold ($a, b \\in \\{1, \\dots, 7\\}$) the frame of the fold; a repeated index is summed.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ib": {
+  "tex": "b",
+  "atoms": [
+   "index:b"
+  ],
+  "meaning": "A frame index (as $a$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ic": {
+  "tex": "c",
+  "atoms": [
+   "index:c"
+  ],
+  "meaning": "A frame index (as $a$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "idx": {
+  "tex": "d",
+  "atoms": [
+   "index:d"
+  ],
+  "meaning": "A frame index (as $a$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "imu": {
+  "tex": "\\mu",
+  "atoms": [
+   "index:\\mu"
+  ],
+  "meaning": "A four-dimensional coordinate index running over the observable coordinates $x_1, x_2, x_3, x_4$ of the fold (signature $+,+,+,-$); a repeated index is summed.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "inu": {
+  "tex": "\\nu",
+  "atoms": [
+   "index:\\nu"
+  ],
+  "meaning": "A four-dimensional coordinate index (as $\\mu$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "irho": {
+  "tex": "\\rho",
+  "atoms": [
+   "index:\\rho"
+  ],
+  "meaning": "A four-dimensional coordinate index (as $\\mu$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iA": {
+  "tex": "A",
+  "atoms": [
+   "index:A"
+  ],
+  "meaning": "A colour (adjoint SU(3)) index running over $1, \\dots, 8$; a repeated index is summed.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iB": {
+  "tex": "B",
+  "atoms": [
+   "index:B"
+  ],
+  "meaning": "A colour (adjoint SU(3)) index (as $A$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iC": {
+  "tex": "C",
+  "atoms": [
+   "index:C"
+  ],
+  "meaning": "A colour (adjoint SU(3)) index (as $A$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iI": {
+  "tex": "I",
+  "atoms": [
+   "index:I"
+  ],
+  "meaning": "A weak-isospin (adjoint SU(2)) index running over $1, 2, 3$; a repeated index is summed.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iJ": {
+  "tex": "J",
+  "atoms": [
+   "index:J"
+  ],
+  "meaning": "A weak-isospin (adjoint SU(2)) index (as $I$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iK": {
+  "tex": "K",
+  "atoms": [
+   "index:K"
+  ],
+  "meaning": "A weak-isospin (adjoint SU(2)) index (as $I$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ii": {
+  "tex": "i",
+  "atoms": [
+   "index:i"
+  ],
+  "meaning": "A generation index ($i = 1, 2, 3$), which also labels the neutrino mass states $\\nu_1, \\nu_2, \\nu_3$; a repeated index is not summed unless a sum sign is written.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ij": {
+  "tex": "j",
+  "atoms": [
+   "index:j"
+  ],
+  "meaning": "A second generation or mass-state index (as $i$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ialpha": {
+  "tex": "\\alpha",
+  "atoms": [
+   "index:\\alpha"
+  ],
+  "meaning": "A lepton-flavour index, $\\alpha \\in \\{e, \\mu, \\tau\\}$.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ibeta": {
+  "tex": "\\beta",
+  "atoms": [
+   "index:\\beta"
+  ],
+  "meaning": "A second lepton-flavour index (as $\\alpha$).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "iX": {
+  "tex": "X",
+  "atoms": [
+   "index:X"
+  ],
+  "meaning": "The label of a half of dirac16complex: $X \\in \\{\\mathrm{L}, \\mathrm{R}\\}$ (left-handed or right-handed half); a sum over $X$ runs over both.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "if": {
+  "tex": "f",
+  "atoms": [
+   "index:f"
+  ],
+  "meaning": "The label of a kind of Standard-Model multiplet: $f \\in \\{Q, u, d, \\ell, e, \\nu\\}$ (quark doublets, up-quark singlets, down-quark singlets, lepton doublets, charged-lepton singlets, right-handed neutrinos); a sum over $f$ runs over the six.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ipsi": {
+  "tex": "\\psi",
+  "atoms": [
+   "index:\\psi"
+  ],
+  "meaning": "The label of a Standard-Model fermion field in a sum: $\\psi$ runs over $Q, u_{\\mathrm{R}}, d_{\\mathrm{R}}, \\ell, e_{\\mathrm{R}}, \\nu_{\\mathrm{R}}$.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ir": {
+  "tex": "r",
+  "atoms": [
+   "index:r"
+  ],
+  "meaning": "An extra-time direction of the fold: $r \\in \\{5, 6, 7\\}$ ($x_5, x_6, x_7$); not summed (the three components are equal).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "io": {
+  "tex": "o",
+  "atoms": [
+   "index:o"
+  ],
+  "meaning": "The label of a Kohn-Sham orbital (a single-particle state of dirac16complex); a sum over $o$ runs over the orbitals.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Xcoord": {
+  "tex": "X = \\{x_0, \\dots, x_7\\}",
+  "atoms": [
+   "X"
+  ],
+  "meaning": "The author's coordinates of the eight-dimensional spacetime, $X = \\{x_0, x_1, \\dots, x_7\\}$ with the hidden direction first (Dirac_Einstein-Lovelock_4+4_Nash.nb, section DEFCHART); $X^M$ is the coordinate with the index $M$ and $\\mathrm{d}^8X = \\mathrm{d}x_0\\,\\mathrm{d}x_1\\cdots\\mathrm{d}x_7$ the coordinate volume element.",
+  "units": "length (each coordinate)",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "xfour": {
+  "tex": "x",
+  "atoms": [
+   "x"
+  ],
+  "meaning": "The coordinates of the fold: $x_i$ ($i = 1, 2, 3$) of ordinary space, $x_4$ the time, $x_r$ ($r = 5, 6, 7$) the extra times; a field of the fold is a function of the four observable coordinates $x = (x_1, x_2, x_3, x_4)$, and $\\mathrm{d}^4x = \\mathrm{d}x_1\\,\\mathrm{d}x_2\\,\\mathrm{d}x_3\\,\\mathrm{d}x_4$.",
+  "units": "length (each coordinate)",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "x0": {
+  "tex": "x_0",
+  "atoms": [
+   "x_{0}"
+  ],
+  "meaning": "The hidden space-like coordinate (listed first); the metric depends on it through $z = 6Hx_0$, periodically with the period $\\pi/(6H)$.",
+  "units": "length",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "x1": {
+  "tex": "x_1",
+  "atoms": [
+   "x_{1}"
+  ],
+  "meaning": "The first coordinate of ordinary 3-space.",
+  "units": "length",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "x2": {
+  "tex": "x_2",
+  "atoms": [
+   "x_{2}"
+  ],
+  "meaning": "The second coordinate of ordinary 3-space.",
+  "units": "length",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "x3": {
+  "tex": "x_3",
+  "atoms": [
+   "x_{3}"
+  ],
+  "meaning": "The third coordinate of ordinary 3-space.",
+  "units": "length",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "x4": {
+  "tex": "x_4",
+  "atoms": [
+   "x_{4}"
+  ],
+  "meaning": "The time ($x_4 \\ge 0$ in the ad hoc vacuum); a prime on a function of $x_4$ alone is $\\mathrm{d}/\\mathrm{d}x_4$.",
+  "units": "length (= time, $c = 1$)",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "x5": {
+  "tex": "x_5",
+  "atoms": [
+   "x_{5}"
+  ],
+  "meaning": "The first of the three extra time-like coordinates.",
+  "units": "length",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "x6": {
+  "tex": "x_6",
+  "atoms": [
+   "x_{6}"
+  ],
+  "meaning": "The second of the three extra time-like coordinates.",
+  "units": "length",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "x7": {
+  "tex": "x_7",
+  "atoms": [
+   "x_{7}"
+  ],
+  "meaning": "The third of the three extra time-like coordinates.",
+  "units": "length",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "sigma": {
+  "tex": "\\sigma",
+  "atoms": [
+   "\\sigma"
+  ],
+  "meaning": "The proper coordinate of the hidden direction: $\\mathrm{d}\\sigma = \\lvert\\cot z\\rvert\\,\\mathrm{d}x_0$, $\\sigma = \\mathrm{sgn}(\\pi/2 - z)\\ln(\\sin z)/(6H)$ on one period $0 < z < \\pi$; $\\sigma = 0$ is the fold $z = \\pi/2$, $\\sigma \\to \\mp\\infty$ the tips $z \\to 0, \\pi$; one period of $x_0$ is the whole line $-\\infty < \\sigma < \\infty$.",
+  "units": "length",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "zvar": {
+  "tex": "z",
+  "atoms": [
+   "z"
+  ],
+  "meaning": "The angle variable of the hidden direction, $z = 6Hx_0$; one period of $x_0$ is $0 < z < \\pi$, the fold is $z = \\pi/2$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "metric": {
+  "tex": "g_{MN}",
+  "atoms": [
+   "g"
+  ],
+  "meaning": "The metric tensor of the eight-dimensional spacetime (signature $+,+,+,+,-,-,-,-$ in the order $x_0, \\dots, x_7$): $g_{MN}\\,\\mathrm{d}X^M\\mathrm{d}X^N$ is the squared interval, $g^{MN}$ its inverse, $\\lvert g\\rvert$ the absolute value of its determinant ($\\sqrt{\\lvert g\\rvert}\\,\\mathrm{d}^8X$ is the proper volume element).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "eta": {
+  "tex": "\\eta_{ab}",
+  "atoms": [
+   "\\eta"
+  ],
+  "meaning": "The flat metric of the frame, $\\eta = \\mathrm{diag}(1, 1, 1, 1, -1, -1, -1, -1)$ (eta4488 of 4+4.nb); $\\eta^{ab}$ is its inverse (the same matrix).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "vielbein": {
+  "tex": "\\mathbf{e}_a{}^M,\\ \\mathbf{e}^a{}_M",
+  "atoms": [
+   "\\mathbf{e}"
+  ],
+  "meaning": "The vielbein (frame field) of the metric: $g_{MN} = \\eta_{ab}\\,\\mathbf{e}^a{}_M\\mathbf{e}^b{}_N$; $\\mathbf{e}_a{}^M$ is its inverse; $\\mathbf{e}_{bN} = \\eta_{bc}\\mathbf{e}^c{}_N$; $\\mathbf{e}^{(a)}$ is the frame one-form $\\mathbf{e}^a{}_M\\,\\mathrm{d}X^M$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Christoffel": {
+  "tex": "\\Gamma^P{}_{MN}",
+  "atoms": [
+   "\\Gamma"
+  ],
+  "meaning": "The Christoffel symbols of the metric $g_{MN}$ (the Levi-Civita connection).",
+  "units": "1/length",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Riemann": {
+  "tex": "R^{MN}{}_{PQ},\\ R_{MN},\\ R",
+  "atoms": [
+   "R"
+  ],
+  "meaning": "The curvature of the metric $g_{MN}$: with four indices the Riemann tensor (convention $[\\nabla_P, \\nabla_Q]V^M = R^M{}_{NPQ}V^N$), with two indices the Ricci tensor $R_{MN} = R^P{}_{MPN}$, without indices the scalar curvature $R = g^{MN}R_{MN}$; with frame indices $R^{(a)(b)}{}_{(c)(d)}$ its frame components, $R^{(a)(b)}{}_{(a)(b)}$ (no sum) the sectional curvature of the frame plane $(a, b)$.",
+  "units": "1/length$^2$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Hconst": {
+  "tex": "H",
+  "atoms": [
+   "H"
+  ],
+  "meaning": "The author's constant (an inverse length) that fixes the period $\\pi/(6H)$ of $x_0$, the Lovelock couplings and the cosmological constant $\\Lambda = -10H^2$; in UM-3 a free parameter.",
+  "units": "GeV (1/length)",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "a4": {
+  "tex": "a_4",
+  "atoms": [
+   "a_{4}"
+  ],
+  "meaning": "The author's metric function of the time $x_4$ that scales ordinary 3-space: on the fold $\\mathrm{e}^{a_4}$ is the scale factor of cosmology and $a_4'$ the Hubble rate.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "b4": {
+  "tex": "b_4",
+  "atoms": [
+   "b_{4}"
+  ],
+  "meaning": "The author's metric function of the time $x_4$ in the extra-time components, $b_4 > 0$, never identically 1 (the author's order of 2026-10-24); the scale factor of the extra times is $\\mathrm{e}^{-a_4}b_4$ times the warp.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "Stot": {
+  "tex": "S_{\\mathrm{tot}}",
+  "atoms": [
+   "S_{\\mathrm{tot}}"
+  ],
+  "meaning": "The action of UM-3 (the integral of the Lagrangian density over spacetime); its variation with respect to every field gives the field equations.",
+  "units": "dimensionless ($\\hbar = 1$)",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "SEL": {
+  "tex": "S_{\\mathrm{EL}}",
+  "atoms": [
+   "S_{\\mathrm{EL}}"
+  ],
+  "meaning": "The Einstein-Lovelock action of gravity in eight dimensions.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "Sstab": {
+  "tex": "S_{\\mathrm{stab}}",
+  "atoms": [
+   "S_{\\mathrm{stab}}"
+  ],
+  "meaning": "The action of the stabiliser of the bulk (a medium specified by its energy-momentum tensor $\\mathcal{T}_{\\mathrm{stab}}$).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "SPsi": {
+  "tex": "S_\\Psi",
+  "atoms": [
+   "S_{\\Psi}"
+  ],
+  "meaning": "The action of dirac16complex in the bulk (kinetic term with the canonical spin connection, mass term, contact self-interaction).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "RECORD"
+ },
+ "Sfold": {
+  "tex": "S_{\\mathrm{fold}}",
+  "atoms": [
+   "S_{\\mathrm{fold}}"
+  ],
+  "meaning": "The action of the fold: the Standard Model, the portals of dirac16complex, the fold fluid and the induced gravity of the fold, all at $\\sigma = 0$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "kappa": {
+  "tex": "\\kappa",
+  "atoms": [
+   "\\kappa"
+  ],
+  "meaning": "The eight-dimensional gravitational coupling, $\\kappa = 8\\pi G_8$.",
+  "units": "GeV$^{-6}$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "G8": {
+  "tex": "G_8",
+  "atoms": [
+   "G_{8}"
+  ],
+  "meaning": "The eight-dimensional Newton constant ($\\kappa = 8\\pi G_8$).",
+  "units": "GeV$^{-6}$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "alphaL": {
+  "tex": "\\alpha_{(p)}",
+  "atoms": [
+   "\\alpha"
+  ],
+  "meaning": "The Lovelock coupling of order $p$, $\\alpha_{(p)} = w_{(p)}H^{2-2p}$ ($\\alpha_{(1)} = 1$).",
+  "units": "GeV$^{2-2p}$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "wL": {
+  "tex": "w_{(p)}",
+  "atoms": [
+   "w"
+  ],
+  "meaning": "The author's Lovelock weights, $w_{(1)} = 1$, $w_{(2)} = 1/32$, $w_{(3)} = 1/1152$ (Dirac_Einstein-Lovelock_4+4_Nash.nb, In[134]).",
+  "units": "dimensionless",
+  "value": "$(1, 1/32, 1/1152)$",
+  "status": "AUTHOR"
+ },
+ "LovL": {
+  "tex": "\\mathcal{L}_{(p)}",
+  "atoms": [
+   "\\mathcal{L}"
+  ],
+  "meaning": "The Lovelock density of order $p$ (a scalar built from $p$ Riemann tensors): $\\mathcal{L}_{(1)} = R$ (Einstein-Hilbert), $\\mathcal{L}_{(2)}$ the Gauss-Bonnet density, $\\mathcal{L}_{(3)}$ the cubic Lovelock density.",
+  "units": "1/length$^{2p}$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Lambda": {
+  "tex": "\\Lambda",
+  "atoms": [
+   "\\Lambda"
+  ],
+  "meaning": "The eight-dimensional cosmological constant, $\\Lambda = -10H^2$ (the author writes the pure number $\\Lambda_{\\mathrm{N}} = 10$ in $0 = -\\Lambda_{\\mathrm{N}} + \\sum_p H^{-2p}w_{(p)}\\mathcal{E}_{(p)}$).",
+  "units": "GeV$^2$",
+  "value": "$-10H^2$",
+  "status": "AUTHOR"
+ },
+ "LambdaN": {
+  "tex": "\\Lambda_{\\mathrm{N}}",
+  "atoms": [
+   "\\Lambda_{\\mathrm{N}}"
+  ],
+  "meaning": "The author's pure number in the vacuum equations of his notebook, $\\Lambda_{\\mathrm{N}} = 10$; $\\Lambda = -\\Lambda_{\\mathrm{N}}H^2$.",
+  "units": "dimensionless",
+  "value": "10",
+  "status": "AUTHOR"
+ },
+ "Psi": {
+  "tex": "\\Psi,\\ \\bar\\Psi",
+  "atoms": [
+   "\\Psi",
+   "\\bar{\\Psi}"
+  ],
+  "meaning": "dirac16complex: the author's 16-component complex spinor field of eight dimensions; $\\bar\\Psi = \\Psi^\\dagger\\sigma_{16}$ is its Dirac adjoint; in a term of the fold, $\\Psi$ is its value at $\\sigma = 0$.",
+  "units": "GeV$^{7/2}$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "PsiL": {
+  "tex": "\\Psi_{\\mathrm{L}}",
+  "atoms": [
+   "\\Psi_{\\mathrm{L}}"
+  ],
+  "meaning": "The left-handed half of dirac16complex, $\\Psi_{\\mathrm{L}} = P_{\\mathrm{L}}\\Psi$ (the upper eight components in the basis of 4+4.nb).",
+  "units": "GeV$^{7/2}$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "PsiR": {
+  "tex": "\\Psi_{\\mathrm{R}}",
+  "atoms": [
+   "\\Psi_{\\mathrm{R}}"
+  ],
+  "meaning": "The right-handed half of dirac16complex, $\\Psi_{\\mathrm{R}} = P_{\\mathrm{R}}\\Psi$ (the lower eight components).",
+  "units": "GeV$^{7/2}$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "Tmat": {
+  "tex": "T_a,\\ T^a",
+  "atoms": [
+   "T",
+   "T_{0}",
+   "T_{1}",
+   "T_{2}",
+   "T_{3}",
+   "T_{4}",
+   "T_{5}",
+   "T_{6}",
+   "T_{7}"
+  ],
+  "meaning": "The author's eight real $16 \\times 16$ Dirac matrices T16^A[a] of 4+4.nb ($a = 0, \\dots, 7$; $T_0, \\dots, T_7$), with $\\{T_a, T_b\\} = 2\\eta_{ab}\\mathbf{1}$; $T^a = \\eta^{ab}T_b$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "gammaM": {
+  "tex": "\\gamma^M,\\ \\gamma^{(a)}",
+  "atoms": [
+   "\\gamma"
+  ],
+  "meaning": "The Dirac matrices of dirac16complex along the coordinates, $\\gamma^M = \\mathbf{e}_a{}^MT^a$, $\\gamma_M = g_{MN}\\gamma^N$; $\\gamma^{(a)} = T^a$ along the frame direction $(a)$ ($\\gamma^{(0)}$ along $\\sigma$, $\\gamma^{(4)}$ along the time).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "sigma16": {
+  "tex": "\\sigma_{16}",
+  "atoms": [
+   "\\sigma_{16}"
+  ],
+  "meaning": "The matrix of the Dirac adjoint, $\\sigma_{16} = T_0T_1T_2T_3$, real and symmetric; $\\sigma_{16}T_a$ is real and antisymmetric.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "Gamma8": {
+  "tex": "\\Gamma_8",
+  "atoms": [
+   "\\Gamma_{8}"
+  ],
+  "meaning": "The chirality matrix of eight dimensions, $\\Gamma_8 = T_0T_1\\cdots T_7$ (the author's T16^A[8]) $= \\mathrm{diag}(-\\mathbf{1}_8, \\mathbf{1}_8)$; $\\Gamma_8^2 = \\mathbf{1}$; it anticommutes with every $T_a$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "PL": {
+  "tex": "P_{\\mathrm{L}}",
+  "atoms": [
+   "P_{\\mathrm{L}}"
+  ],
+  "meaning": "The author's left-handed chiral projector, $P_{\\mathrm{L}} = (\\mathbf{1} - \\Gamma_8)/2$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "PR": {
+  "tex": "P_{\\mathrm{R}}",
+  "atoms": [
+   "P_{\\mathrm{R}}"
+  ],
+  "meaning": "The author's right-handed chiral projector, $P_{\\mathrm{R}} = (\\mathbf{1} + \\Gamma_8)/2$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "PX": {
+  "tex": "P_X",
+  "atoms": [
+   "P"
+  ],
+  "meaning": "The chiral projector of the half $X$: $P_X = P_{\\mathrm{L}}$ for $X = \\mathrm{L}$, $P_{\\mathrm{R}}$ for $X = \\mathrm{R}$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "Dcov": {
+  "tex": "D_M,\\ D_\\mu",
+  "atoms": [
+   "D"
+  ],
+  "meaning": "The covariant derivative: on dirac16complex $D_M = \\partial_M + \\Omega_M$ (with $D_M\\bar\\Psi = \\partial_M\\bar\\Psi - \\bar\\Psi\\Omega_M$); on the fields of the fold the gauge and spin covariant derivative $D_\\mu$ of IN-13; $D^\\mu = \\hat h^{\\mu\\nu}D_\\nu$; on an adjoint field $(D_\\mu X)^A = \\partial_\\mu X^A + g_3f^{ABC}G^B_\\mu X^C$ (likewise for $SU(2)$ with $g_2\\epsilon^{IJK}$).",
+  "units": "1/length",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "mPsi": {
+  "tex": "m_\\Psi",
+  "atoms": [
+   "m_{\\Psi}"
+  ],
+  "meaning": "The mass parameter of dirac16complex in the bulk.",
+  "units": "GeV",
+  "value": "",
+  "status": "RECORD"
+ },
+ "lamPsi": {
+  "tex": "\\lambda_\\Psi",
+  "atoms": [
+   "\\lambda_{\\Psi}"
+  ],
+  "meaning": "The coupling of the contact self-interaction of dirac16complex.",
+  "units": "GeV$^{-6}$",
+  "value": "",
+  "status": "RECORD"
+ },
+ "Omega": {
+  "tex": "\\Omega_M",
+  "atoms": [
+   "\\Omega"
+  ],
+  "meaning": "The spin connection acting on dirac16complex, $\\Omega_M = \\frac12\\omega_{Mab}\\Sigma^{ab}$.",
+  "units": "1/length",
+  "value": "",
+  "status": "RECORD"
+ },
+ "omegaSC": {
+  "tex": "\\omega_{Mab}",
+  "atoms": [
+   "\\omega"
+  ],
+  "meaning": "The canonical (Levi-Civita) spin connection of the vielbein, antisymmetric in $a, b$.",
+  "units": "1/length",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "SigmaGen": {
+  "tex": "\\Sigma^{ab},\\ \\Sigma^{\\mu\\nu}",
+  "atoms": [
+   "\\Sigma"
+  ],
+  "meaning": "The generators of Spin(4,4) on dirac16complex, $\\Sigma^{ab} = \\frac14[T^a, T^b]$ (the scaled commutators of the author's matrices); $\\Sigma^{\\mu\\nu} = \\mathbf{e}_a{}^\\mu\\mathbf{e}_b{}^\\nu\\Sigma^{ab}$ along the fold.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "Tstab": {
+  "tex": "\\mathcal{T}_{\\mathrm{stab}}{}^a{}_b",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{stab}}"
+  ],
+  "meaning": "The energy-momentum tensor of the stabiliser of the bulk (frame components).",
+  "units": "GeV$^8$",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "rhos": {
+  "tex": "\\rho_{\\mathrm{s}}",
+  "atoms": [
+   "\\rho_{\\mathrm{s}}"
+  ],
+  "meaning": "The energy density of the stabiliser.",
+  "units": "GeV$^8$",
+  "value": "$\\kappa\\rho_{\\mathrm{s}} = -H^2/16$",
+  "status": "ASSUMED"
+ },
+ "ps": {
+  "tex": "p_{\\mathrm{s}}",
+  "atoms": [
+   "p_{\\mathrm{s}}"
+  ],
+  "meaning": "The pressure of the stabiliser (equal along $\\sigma$, ordinary space and the extra times).",
+  "units": "GeV$^8$",
+  "value": "$\\kappa p_{\\mathrm{s}} = -5H^2/16$",
+  "status": "ASSUMED"
+ },
+ "Vstar": {
+  "tex": "V_*",
+  "atoms": [
+   "V_{*}"
+  ],
+  "meaning": "The physical volume of the extra times $x_5, x_6, x_7$ on the fold in the late universe, $V_* = V_{\\mathrm{t}}(\\mathrm{e}^{-a_4}b_4)^3$ at a time when $\\mathrm{e}^{-a_4}b_4$ is constant; it converts the eight-dimensional normalisation into the four-dimensional one.",
+  "units": "length$^3$ (GeV$^{-3}$)",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "Vt": {
+  "tex": "V_{\\mathrm{t}}",
+  "atoms": [
+   "V_{\\mathrm{t}}"
+  ],
+  "meaning": "The coordinate volume of the (compact) extra times, $V_{\\mathrm{t}} = \\int\\mathrm{d}x_5\\,\\mathrm{d}x_6\\,\\mathrm{d}x_7$.",
+  "units": "length$^3$",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "Zfold": {
+  "tex": "\\mathcal{Z}",
+  "atoms": [
+   "\\mathcal{Z}"
+  ],
+  "meaning": "The fold factor, $\\mathcal{Z}(x_4) = V_{\\mathrm{t}}(\\mathrm{e}^{-a_4}b_4)^3/V_*$: the factor by which the size of the extra times multiplies every term of the fold; $\\mathcal{Z} = 1$ when the extra times are frozen at their late value.",
+  "units": "dimensionless",
+  "value": "1 in the late universe",
+  "status": "DERIVED"
+ },
+ "Ffold": {
+  "tex": "F",
+  "atoms": [
+   "F"
+  ],
+  "meaning": "Any function of the fields at the fold (used to state a rule of integration).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "hhat": {
+  "tex": "\\hat h_{\\mu\\nu}",
+  "atoms": [
+   "\\hat{h}"
+  ],
+  "meaning": "The four-dimensional metric of the fold, $\\hat h_{\\mu\\nu} = \\mathrm{diag}(\\mathrm{e}^{2a_4}, \\mathrm{e}^{2a_4}, \\mathrm{e}^{2a_4}, -1)$ in the coordinates $x_1, \\dots, x_4$ (the induced metric at $\\sigma = 0$ without the extra times); $\\hat h^{\\mu\\nu}$ its inverse, $\\hat h$ its determinant, $\\sqrt{-\\hat h} = \\mathrm{e}^{3a_4}$; $\\hat h^{(1)}_{\\mu\\nu}$ its first-order cosmological perturbation.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Rhat": {
+  "tex": "\\hat R",
+  "atoms": [
+   "\\hat{R}"
+  ],
+  "meaning": "The scalar curvature of the metric $\\hat h_{\\mu\\nu}$ of the fold.",
+  "units": "1/length$^2$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "kappa4": {
+  "tex": "\\kappa_4",
+  "atoms": [
+   "\\kappa_{4}"
+  ],
+  "meaning": "The coupling of the induced gravity of the fold, $\\kappa_4 = 8\\pi G_{\\mathrm{ind}}$; four-dimensional gravity on the fold has $8\\pi G_{\\mathrm{N}} = \\kappa_4/(1 + 5r/6)$ (FE-59).",
+  "units": "GeV$^{-2}$",
+  "value": "$\\kappa_4 \\simeq 8\\pi G_{\\mathrm{N}} = 8\\pi/M_{\\mathrm{Pl}}^2$",
+  "status": "ASSUMED"
+ },
+ "LIG": {
+  "tex": "\\mathcal{L}_{\\mathrm{IG}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{IG}}"
+  ],
+  "meaning": "The Lagrangian of the induced gravity of the fold.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "Lff": {
+  "tex": "\\mathcal{L}_{\\mathrm{ff}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{ff}}"
+  ],
+  "meaning": "The Lagrangian of the fold fluid (only its energy-momentum tensor $\\mathcal{T}_{\\mathrm{ff}}$ enters the equations).",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "Tff": {
+  "tex": "\\mathcal{T}_{\\mathrm{ff}}{}^a{}_b",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{ff}}"
+  ],
+  "meaning": "The energy-momentum tensor of the fold fluid (frame components of the fold, four-dimensional normalisation).",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "rhoff": {
+  "tex": "\\rho_{\\mathrm{ff}}",
+  "atoms": [
+   "\\rho_{\\mathrm{ff}}"
+  ],
+  "meaning": "The energy density of the fold fluid.",
+  "units": "GeV$^4$",
+  "value": "$31HV_*/(4\\kappa)$ at the static block",
+  "status": "ASSUMED"
+ },
+ "pff": {
+  "tex": "p_{\\mathrm{ff}}",
+  "atoms": [
+   "p_{\\mathrm{ff}}"
+  ],
+  "meaning": "The pressure of the fold fluid along ordinary space.",
+  "units": "GeV$^4$",
+  "value": "$-61HV_*/(8\\kappa)$ at the static block",
+  "status": "ASSUMED"
+ },
+ "qff": {
+  "tex": "q_{\\mathrm{ff}}",
+  "atoms": [
+   "q_{\\mathrm{ff}}"
+  ],
+  "meaning": "The pressure of the fold fluid along the extra times.",
+  "units": "GeV$^4$",
+  "value": "$-61HV_*/(8\\kappa)$ at the static block",
+  "status": "ASSUMED"
+ },
+ "LH": {
+  "tex": "\\mathcal{L}_{\\mathrm{H}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{H}}"
+  ],
+  "meaning": "The Lagrangian of the Higgs doublet on the fold.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "Lgauge": {
+  "tex": "\\mathcal{L}_{\\mathrm{gauge}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{gauge}}"
+  ],
+  "meaning": "The Lagrangian of the gauge fields of $SU(3)_C\\times SU(2)_L\\times U(1)_Y$ on the fold.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Lf": {
+  "tex": "\\mathcal{L}_{\\mathrm{f}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{f}}"
+  ],
+  "meaning": "The kinetic Lagrangian of the quarks and leptons on the fold.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "LY": {
+  "tex": "\\mathcal{L}_{\\mathrm{Y}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{Y}}"
+  ],
+  "meaning": "The Yukawa Lagrangian of the quarks and leptons with the Higgs doublet.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "LP": {
+  "tex": "\\mathcal{L}_{\\mathrm{P}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{P}}"
+  ],
+  "meaning": "The Lagrangian of the portals of dirac16complex at the fold.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "INVENTED"
+ },
+ "Phi": {
+  "tex": "\\Phi",
+  "atoms": [
+   "\\Phi"
+  ],
+  "meaning": "The Higgs doublet (two complex components, hypercharge $1/2$), a field of the fold.",
+  "units": "GeV",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "Phitilde": {
+  "tex": "\\tilde\\Phi",
+  "atoms": [
+   "\\tilde{\\Phi}"
+  ],
+  "meaning": "The conjugate Higgs doublet, $\\tilde\\Phi = \\mathrm{i}\\tau^2\\Phi^*$ (hypercharge $-1/2$).",
+  "units": "GeV",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Vpot": {
+  "tex": "V(\\Phi)",
+  "atoms": [
+   "V"
+  ],
+  "meaning": "The Higgs potential, $V = \\mu^2\\Phi^\\dagger\\Phi + \\lambda(\\Phi^\\dagger\\Phi)^2$.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "muH": {
+  "tex": "\\mu^2",
+  "atoms": [
+   "\\mu"
+  ],
+  "meaning": "The mass parameter of the Higgs potential, $\\mu^2 < 0$ (it enters only as $\\mu^2$).",
+  "units": "GeV$^2$",
+  "value": "$\\mu^2 = -\\lambda v^2 = -m_h^2/2 = -(88.6\\ \\mathrm{GeV})^2$",
+  "status": "AUTHOR"
+ },
+ "lamH": {
+  "tex": "\\lambda",
+  "atoms": [
+   "\\lambda"
+  ],
+  "meaning": "The quartic coupling of the Higgs potential, $\\lambda > 0$.",
+  "units": "dimensionless",
+  "value": "$\\lambda = m_h^2/(2v^2) = 0.129$",
+  "status": "AUTHOR"
+ },
+ "vev": {
+  "tex": "v",
+  "atoms": [
+   "v"
+  ],
+  "meaning": "The vacuum expectation value of the lower component of the Higgs doublet, $v^2 = -\\mu^2/\\lambda$.",
+  "units": "GeV",
+  "value": "246.22 GeV",
+  "status": "STANDARD"
+ },
+ "hHiggs": {
+  "tex": "h",
+  "atoms": [
+   "h"
+  ],
+  "meaning": "The Higgs field: the fluctuation of the lower component of the Higgs doublet about $v$.",
+  "units": "GeV",
+  "value": "$m_h = 125.25$ GeV",
+  "status": "STANDARD"
+ },
+ "Aadhoc": {
+  "tex": "\\mathcal{A}",
+  "atoms": [
+   "\\mathcal{A}"
+  ],
+  "meaning": "The author's ad hoc upper component of the Higgs vacuum, almightyAdHoc, $\\mathcal{A}(x_4) = v_{\\mathcal{A}}\\mathrm{e}^{-2a_{40}x_4}$.",
+  "units": "GeV",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "vA": {
+  "tex": "v_{\\mathcal{A}}",
+  "atoms": [
+   "v_{\\mathcal{A}}"
+  ],
+  "meaning": "The amplitude of almightyAdHoc at $x_4 = 0$; the author's almightyAdHoc $= \\mathrm{Exp}[-2\\,a_{40}\\,x_4]$ has $v_{\\mathcal{A}} = 1$ in the unit of the field.",
+  "units": "GeV",
+  "value": "1 (author)",
+  "status": "AUTHOR"
+ },
+ "a40": {
+  "tex": "a_{40}",
+  "atoms": [
+   "a_{40}"
+  ],
+  "meaning": "The decay constant of almightyAdHoc, $a_{40} > 0$: $\\mathcal{A}$ falls by $\\mathrm{e}$ in the time $1/(2a_{40})$.",
+  "units": "GeV (1/length)",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "omegahat": {
+  "tex": "\\hat\\omega_\\mu",
+  "atoms": [
+   "\\hat{\\omega}"
+  ],
+  "meaning": "The spin connection of the four-dimensional metric $\\hat h_{\\mu\\nu}$ of the fold acting on four-dimensional spinors.",
+  "units": "1/length",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "g3": {
+  "tex": "g_3",
+  "atoms": [
+   "g_{3}"
+  ],
+  "meaning": "The $SU(3)_C$ gauge coupling (the strong coupling $g_s$).",
+  "units": "dimensionless",
+  "value": "$g_3(m_Z) = 1.2177$ ($\\alpha_s = 0.1180$)",
+  "status": "STANDARD"
+ },
+ "g2": {
+  "tex": "g_2",
+  "atoms": [
+   "g_{2}"
+  ],
+  "meaning": "The $SU(2)_L$ gauge coupling (usually $g$).",
+  "units": "dimensionless",
+  "value": "$g_2(m_Z) = 0.6517$",
+  "status": "STANDARD"
+ },
+ "g1": {
+  "tex": "g_1",
+  "atoms": [
+   "g_{1}"
+  ],
+  "meaning": "The $U(1)_Y$ gauge coupling (usually $g'$; not normalised for grand unification).",
+  "units": "dimensionless",
+  "value": "$g_1(m_Z) = 0.3574$",
+  "status": "STANDARD"
+ },
+ "Ggluon": {
+  "tex": "G^A_\\mu,\\ G^A_{\\mu\\nu}",
+  "atoms": [
+   "G"
+  ],
+  "meaning": "The gluon field of $SU(3)_C$ on the fold ($A = 1, \\dots, 8$) and its field strength.",
+  "units": "GeV (field), GeV$^2$ (field strength)",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "Wsu2": {
+  "tex": "W^I_\\mu,\\ W^I_{\\mu\\nu}",
+  "atoms": [
+   "W"
+  ],
+  "meaning": "The gauge field of $SU(2)_L$ on the fold, $W^1_\\mu, W^2_\\mu, W^3_\\mu$, and its field strength.",
+  "units": "GeV (field), GeV$^2$ (field strength)",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "Bhyp": {
+  "tex": "B_\\mu,\\ B_{\\mu\\nu}",
+  "atoms": [
+   "B"
+  ],
+  "meaning": "The hypercharge gauge field of $U(1)_Y$ on the fold and its field strength.",
+  "units": "GeV (field), GeV$^2$ (field strength)",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "tgen": {
+  "tex": "t^A",
+  "atoms": [
+   "t"
+  ],
+  "meaning": "The generators of $SU(3)$ on colour triplets, $t^A = \\lambda_{\\mathrm{GM}}^A/2$ (the Gell-Mann matrices halved), $\\mathrm{tr}(t^At^B) = \\delta^{AB}/2$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "taupauli": {
+  "tex": "\\tau^I",
+  "atoms": [
+   "\\tau"
+  ],
+  "meaning": "The Pauli matrices acting on weak doublets ($\\tau^1, \\tau^2, \\tau^3$; $\\tau^2$ is the second one, not a square).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Yhyp": {
+  "tex": "Y_f",
+  "atoms": [
+   "Y"
+  ],
+  "meaning": "The hypercharge of a field (IN-13: $1/6$, $2/3$, $-1/3$, $-1/2$, $-1$, $0$ for $Q, u_{\\mathrm{R}}, d_{\\mathrm{R}}, \\ell, e_{\\mathrm{R}}, \\nu_{\\mathrm{R}}$, $1/2$ for $\\Phi$).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "fabc": {
+  "tex": "f^{ABC}",
+  "atoms": [
+   "f"
+  ],
+  "meaning": "The structure constants of $SU(3)$, $[t^A, t^B] = \\mathrm{i}f^{ABC}t^C$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "epsLC": {
+  "tex": "\\epsilon^{IJK}",
+  "atoms": [
+   "\\epsilon"
+  ],
+  "meaning": "The Levi-Civita symbol of three indices (the structure constants of $SU(2)$), $\\epsilon^{123} = 1$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "psiSM": {
+  "tex": "\\psi,\\ \\bar\\psi",
+  "atoms": [
+   "\\psi",
+   "\\bar{\\psi}"
+  ],
+  "meaning": "A Standard-Model fermion field (a four-dimensional Weyl field of the fold with three generations, written as a four-component spinor of fixed chirality); $\\bar\\psi = \\psi^\\dagger\\beta$; $\\psi_f$ the fields of the kind $f$.",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "gammahat": {
+  "tex": "\\hat\\gamma^\\mu",
+  "atoms": [
+   "\\hat{\\gamma}"
+  ],
+  "meaning": "The four-dimensional complex $4 \\times 4$ Dirac matrices of the fold, $\\hat\\gamma^\\mu = \\hat{\\mathbf{e}}_a{}^\\mu\\hat\\gamma^{(a)}$, $\\{\\hat\\gamma^\\mu, \\hat\\gamma^\\nu\\} = -2\\hat h^{\\mu\\nu}\\mathbf{1}$; $\\hat\\gamma_\\mu = \\hat h_{\\mu\\nu}\\hat\\gamma^\\nu$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "betaD": {
+  "tex": "\\beta",
+  "atoms": [
+   "\\beta"
+  ],
+  "meaning": "The matrix of the four-dimensional Dirac adjoint, $\\beta = \\hat\\gamma^{(4)}$ (Hermitian, $\\beta^2 = \\mathbf{1}$).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "gamma5hat": {
+  "tex": "\\hat\\gamma_5",
+  "atoms": [
+   "\\hat{\\gamma}_{5}"
+  ],
+  "meaning": "The four-dimensional chirality matrix, $\\hat\\gamma_5 = \\mathrm{i}\\hat\\gamma^{(4)}\\hat\\gamma^{(1)}\\hat\\gamma^{(2)}\\hat\\gamma^{(3)}$, $\\hat\\gamma_5^2 = \\mathbf{1}$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "PLhat": {
+  "tex": "\\hat P_{\\mathrm{L}}",
+  "atoms": [
+   "\\hat{P}_{\\mathrm{L}}"
+  ],
+  "meaning": "The four-dimensional left-handed projector, $\\hat P_{\\mathrm{L}} = (\\mathbf{1} - \\hat\\gamma_5)/2$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "PRhat": {
+  "tex": "\\hat P_{\\mathrm{R}}",
+  "atoms": [
+   "\\hat{P}_{\\mathrm{R}}"
+  ],
+  "meaning": "The four-dimensional right-handed projector, $\\hat P_{\\mathrm{R}} = (\\mathbf{1} + \\hat\\gamma_5)/2$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Qdoub": {
+  "tex": "Q,\\ \\bar Q",
+  "atoms": [
+   "Q",
+   "\\bar{Q}"
+  ],
+  "meaning": "The left-handed quark doublets of the three generations, $Q = (u_{\\mathrm{L}}, d_{\\mathrm{L}})$ (colour triplets, hypercharge $1/6$).",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "uR": {
+  "tex": "u_{\\mathrm{R}}",
+  "atoms": [
+   "u_{\\mathrm{R}}",
+   "\\bar{u}_{\\mathrm{R}}"
+  ],
+  "meaning": "The right-handed up-type quarks $u, c, t$ (singlets of $SU(2)_L$, hypercharge $2/3$).",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "dR": {
+  "tex": "d_{\\mathrm{R}}",
+  "atoms": [
+   "d_{\\mathrm{R}}",
+   "\\bar{d}_{\\mathrm{R}}"
+  ],
+  "meaning": "The right-handed down-type quarks $d, s, b$ (hypercharge $-1/3$).",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "ell": {
+  "tex": "\\ell,\\ \\bar\\ell",
+  "atoms": [
+   "\\ell",
+   "\\bar{\\ell}"
+  ],
+  "meaning": "The left-handed lepton doublets of the three generations, $\\ell = (\\nu_{\\mathrm{L}}, e_{\\mathrm{L}})$ (hypercharge $-1/2$).",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "eR": {
+  "tex": "e_{\\mathrm{R}}",
+  "atoms": [
+   "e_{\\mathrm{R}}",
+   "\\bar{e}_{\\mathrm{R}}"
+  ],
+  "meaning": "The right-handed electron, muon and tau (singlets, hypercharge $-1$).",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "AUTHOR"
+ },
+ "nuR": {
+  "tex": "\\nu_{\\mathrm{R}}",
+  "atoms": [
+   "\\nu_{\\mathrm{R}}",
+   "\\bar{\\nu}_{\\mathrm{R}}"
+  ],
+  "meaning": "The three right-handed neutrinos (gauge singlets).",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "ASSUMED"
+ },
+ "Yuk": {
+  "tex": "\\mathcal{Y}^{u},\\ \\mathcal{Y}^{d},\\ \\mathcal{Y}^{e},\\ \\mathcal{Y}^{\\nu}",
+  "atoms": [
+   "\\mathcal{Y}^{u}",
+   "\\mathcal{Y}^{d}",
+   "\\mathcal{Y}^{e}",
+   "\\mathcal{Y}^{\\nu}"
+  ],
+  "meaning": "The Yukawa matrices ($3 \\times 3$ complex matrices in generation space) of the up quarks, the down quarks, the charged leptons and the neutrinos.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "cPhi": {
+  "tex": "c_\\Phi",
+  "atoms": [
+   "c_{\\Phi}"
+  ],
+  "meaning": "The Higgs-portal coupling of the left-handed half of dirac16complex (the right-handed half has none).",
+  "units": "GeV$^{-5}$",
+  "value": "",
+  "status": "INVENTED"
+ },
+ "cG": {
+  "tex": "c^{G}_X",
+  "atoms": [
+   "c^{G}"
+  ],
+  "meaning": "The gluon-kinetic portal coupling of the half $X$ of dirac16complex.",
+  "units": "GeV$^{-7}$",
+  "value": "",
+  "status": "INVENTED"
+ },
+ "cW": {
+  "tex": "c^{W}_X",
+  "atoms": [
+   "c^{W}"
+  ],
+  "meaning": "The $W$-kinetic portal coupling of the half $X$.",
+  "units": "GeV$^{-7}$",
+  "value": "",
+  "status": "INVENTED"
+ },
+ "cB": {
+  "tex": "c^{B}_X",
+  "atoms": [
+   "c^{B}"
+  ],
+  "meaning": "The $B$-kinetic portal coupling of the half $X$.",
+  "units": "GeV$^{-7}$",
+  "value": "",
+  "status": "INVENTED"
+ },
+ "ddip": {
+  "tex": "d_X",
+  "atoms": [
+   "d"
+  ],
+  "meaning": "The dipole-portal coupling of the half $X$ of dirac16complex with the hypercharge field strength.",
+  "units": "GeV$^{-5}$",
+  "value": "",
+  "status": "INVENTED"
+ },
+ "Ddip": {
+  "tex": "\\mathcal{D}_X^{\\mu\\nu}",
+  "atoms": [
+   "\\mathcal{D}"
+  ],
+  "meaning": "The dipole (antisymmetric tensor) density of the half $X$ of dirac16complex at the fold, $\\mathcal{D}_X^{\\mu\\nu} = \\mathrm{i}\\bar\\Psi\\Sigma^{\\mu\\nu}P_X\\Psi$ (real, DERIVED).",
+  "units": "GeV$^7$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "cf": {
+  "tex": "c^{f}_X",
+  "atoms": [
+   "c^{f}"
+  ],
+  "meaning": "The current-portal coupling of the half $X$ of dirac16complex with the fermion-number current of the multiplets of kind $f$ (flavour blind).",
+  "units": "GeV$^{-7}$",
+  "value": "",
+  "status": "INVENTED"
+ },
+ "Jcur": {
+  "tex": "J_f^\\mu",
+  "atoms": [
+   "J",
+   "J_{\\ell}",
+   "J_{e}",
+   "J_{\\nu}",
+   "J_{Q}",
+   "J_{u}",
+   "J_{d}"
+  ],
+  "meaning": "The fermion-number current of the Standard-Model multiplets of kind $f$, $J_f^\\mu = \\bar\\psi_f\\hat\\gamma^\\mu\\psi_f$ summed over the three generations and the gauge components; with other labels the gauge currents (FE-16 to FE-18).",
+  "units": "GeV$^3$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "jcur": {
+  "tex": "j_X^\\mu",
+  "atoms": [
+   "j"
+  ],
+  "meaning": "The convective current of the half $X$ of dirac16complex, $j_X^\\mu = \\mathrm{i}(\\bar\\Psi P_XD^\\mu\\Psi - (D^\\mu\\bar\\Psi)P_X\\Psi)$ (real and joining the half with itself, DERIVED).",
+  "units": "GeV$^8$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "ip": {
+  "tex": "p",
+  "atoms": [
+   "index:p",
+   "p"
+  ],
+  "meaning": "The Lovelock order $p = 1, 2, 3$ (Einstein, Gauss-Bonnet, cubic), as an index and as a number.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "LovE": {
+  "tex": "\\mathcal{E}_{(p)}{}^M{}_N",
+  "atoms": [
+   "\\mathcal{E}"
+  ],
+  "meaning": "The Lovelock tensor of order $p$: the variation of $\\sqrt{\\lvert g\\rvert}\\,\\mathcal{L}_{(p)}$ with respect to the metric ($\\mathcal{E}_{(1)}$ the Einstein tensor, $\\mathcal{E}_{(2)}$ the Gauss-Bonnet tensor); with frame indices its frame components.",
+  "units": "1/length$^{2p}$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "isigma": {
+  "tex": "\\sigma",
+  "atoms": [
+   "index:\\sigma"
+  ],
+  "meaning": "The label $\\sigma$ in $\\partial_\\sigma$: the derivative with respect to the proper hidden coordinate $\\sigma$.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "TPsi": {
+  "tex": "\\mathcal{T}_\\Psi",
+  "atoms": [
+   "\\mathcal{T}_{\\Psi}"
+  ],
+  "meaning": "The energy-momentum tensor of dirac16complex, $\\mathcal{T}_{MN} = -(2/\\sqrt{\\lvert g\\rvert})\\,\\delta S_\\Psi/\\delta g^{MN}$.",
+  "units": "GeV$^8$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Tbulk": {
+  "tex": "\\mathcal{T}_{\\mathrm{bulk}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{bulk}}"
+  ],
+  "meaning": "The energy-momentum tensor of all sources of the bulk, $\\mathcal{T}_\\Psi + \\mathcal{T}_{\\mathrm{stab}}$; $\\mathcal{T}_{\\mathrm{bulk}}{}^{(0)}{}_b$ is its flux along $\\sigma$ (frame components).",
+  "units": "GeV$^8$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Sfoldsrc": {
+  "tex": "\\mathcal{S}^a{}_b",
+  "atoms": [
+   "\\mathcal{S}"
+  ],
+  "meaning": "The thin source of the fold: its energy-momentum tensor per unit proper length across the fold (eight-dimensional normalisation, frame components along the fold); $\\kappa\\mathcal{S}$ is the jump of the potential $\\mathfrak{F}$.",
+  "units": "GeV$^7$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "varepsilon": {
+  "tex": "\\varepsilon",
+  "atoms": [
+   "\\varepsilon"
+  ],
+  "meaning": "The half-thickness of a layer around the fold, taken to zero.",
+  "units": "length",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Fpot": {
+  "tex": "\\mathfrak{F}^a{}_b",
+  "atoms": [
+   "\\mathfrak{F}"
+  ],
+  "meaning": "The junction potential: a function of the first $\\sigma$-derivatives of the metric functions whose derivatives are the coefficients of the second $\\sigma$-derivatives in $\\sum_p\\alpha_{(p)}\\mathcal{E}_{(p)}{}^a{}_b$ (FE-4).",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "fwarp": {
+  "tex": "\\mathfrak{f}",
+  "atoms": [
+   "\\mathfrak{f}"
+  ],
+  "meaning": "Any one of the three metric functions $\\mathfrak{a}, \\mathfrak{b}, \\mathfrak{n}$ of the general warped metric (FE-34).",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "awarp": {
+  "tex": "\\mathfrak{a}",
+  "atoms": [
+   "\\mathfrak{a}"
+  ],
+  "meaning": "The logarithm of the scale factor of ordinary space in the general warped metric FE-34, a function of $\\sigma$ and $x_4$; for the author’s metric $\\mathfrak{a} = a_4 - H\\lvert\\sigma\\rvert$; $\\mathfrak{a}_n$ its term of order $n$ in the power series FE-35.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "bwarp": {
+  "tex": "\\mathfrak{b}",
+  "atoms": [
+   "\\mathfrak{b}"
+  ],
+  "meaning": "The logarithm of the scale factor of the extra times in the general warped metric FE-34; for the author’s metric $\\mathfrak{b} = \\ln b_4 - a_4 - H\\lvert\\sigma\\rvert$; $\\mathfrak{b}_n$ its term of order $n$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "nwarp": {
+  "tex": "\\mathfrak{n}",
+  "atoms": [
+   "\\mathfrak{n}"
+  ],
+  "meaning": "The logarithm of the lapse in the general warped metric FE-34 ($g_{x_4x_4} = -\\mathrm{e}^{2\\mathfrak{n}}$); for the author’s metric $\\mathfrak{n} = 0$; $\\mathfrak{n}_n$ its term of order $n$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "TH": {
+  "tex": "\\mathcal{T}_{\\mathrm{H}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{H}}"
+  ],
+  "meaning": "The energy-momentum tensor of the Higgs doublet (four-dimensional normalisation).",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Tgauge": {
+  "tex": "\\mathcal{T}_{\\mathrm{gauge}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{gauge}}"
+  ],
+  "meaning": "The energy-momentum tensor of the gauge fields.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Tf": {
+  "tex": "\\mathcal{T}_{\\mathrm{f}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{f}}"
+  ],
+  "meaning": "The energy-momentum tensor of the quarks and leptons.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "TP": {
+  "tex": "\\mathcal{T}_{\\mathrm{P}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{P}}"
+  ],
+  "meaning": "The energy-momentum tensor of the portals of dirac16complex.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "TIG": {
+  "tex": "\\mathcal{T}_{\\mathrm{IG}}",
+  "atoms": [
+   "\\mathcal{T}_{\\mathrm{IG}}"
+  ],
+  "meaning": "The energy-momentum tensor of the induced gravity of the fold, $\\mathcal{T}_{\\mathrm{IG}}{}^\\mu{}_\\nu = -\\hat G^\\mu{}_\\nu/\\kappa_4$.",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Tany": {
+  "tex": "\\mathcal{T}",
+  "atoms": [
+   "\\mathcal{T}"
+  ],
+  "meaning": "The energy-momentum tensor of any one term of the fold (in $\\mathcal{T}^r{}_r = \\mathcal{L}_{\\mathrm{fold}}$).",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Lfold": {
+  "tex": "\\mathcal{L}_{\\mathrm{fold}}",
+  "atoms": [
+   "\\mathcal{L}_{\\mathrm{fold}}"
+  ],
+  "meaning": "The Lagrangian of any one term of the fold (four-dimensional normalisation).",
+  "units": "GeV$^4$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "LPsi": {
+  "tex": "\\mathcal{L}_\\Psi",
+  "atoms": [
+   "\\mathcal{L}_{\\Psi}"
+  ],
+  "meaning": "The Lagrangian of dirac16complex, the square bracket of IN-4.",
+  "units": "GeV$^8$",
+  "value": "",
+  "status": "RECORD"
+ },
+ "Ghat": {
+  "tex": "\\hat G^\\mu{}_\\nu",
+  "atoms": [
+   "\\hat{G}"
+  ],
+  "meaning": "The Einstein tensor of the four-dimensional metric $\\hat h_{\\mu\\nu}$ of the fold.",
+  "units": "1/length$^2$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Mfold": {
+  "tex": "\\mathbb{M}",
+  "atoms": [
+   "\\mathbb{M}"
+  ],
+  "meaning": "The fold operator of dirac16complex: the $16 \\times 16$ matrix (with a derivative along the fold) built from the Standard-Model fields at the fold by varying the portals with respect to $\\bar\\Psi$ (FE-13).",
+  "units": "GeV$^{-3}$ (so that $\\mathbb{M}/V_*$ is dimensionless)",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Theta": {
+  "tex": "\\Theta",
+  "atoms": [
+   "\\Theta"
+  ],
+  "meaning": "The Yukawa source of the Higgs equation, $\\Theta = -\\partial\\mathcal{L}_{\\mathrm{Y}}/\\partial\\Phi^\\dagger$ (a doublet of fermion bilinears).",
+  "units": "GeV$^3$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "uL": {
+  "tex": "u_{\\mathrm{L}}",
+  "atoms": [
+   "u_{\\mathrm{L}}",
+   "\\bar{u}_{\\mathrm{L}}"
+  ],
+  "meaning": "The upper (up-type, left-handed) components of the quark doublets.",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "dL": {
+  "tex": "d_{\\mathrm{L}}",
+  "atoms": [
+   "d_{\\mathrm{L}}",
+   "\\bar{d}_{\\mathrm{L}}"
+  ],
+  "meaning": "The lower (down-type, left-handed) components of the quark doublets.",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "nuL": {
+  "tex": "\\nu_{\\mathrm{L}}",
+  "atoms": [
+   "\\nu_{\\mathrm{L}}",
+   "\\bar{\\nu}_{\\mathrm{L}}"
+  ],
+  "meaning": "The upper (neutral, left-handed) components of the lepton doublets: the left-handed neutrinos.",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "eL": {
+  "tex": "e_{\\mathrm{L}}",
+  "atoms": [
+   "e_{\\mathrm{L}}",
+   "\\bar{e}_{\\mathrm{L}}"
+  ],
+  "meaning": "The lower (charged, left-handed) components of the lepton doublets.",
+  "units": "GeV$^{3/2}$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Kport": {
+  "tex": "\\mathcal{K}_{G},\\ \\mathcal{K}_{W},\\ \\mathcal{K}_{B}",
+  "atoms": [
+   "\\mathcal{K}_{G}",
+   "\\mathcal{K}_{W}",
+   "\\mathcal{K}_{B}"
+  ],
+  "meaning": "The portal factors of the gauge kinetic terms, $\\mathcal{K}_{G} = 1 + \\sum_Xc^{G}_X\\bar\\Psi P_X\\Psi$ (likewise for $W$ and $B$): the gauge couplings at the fold are divided by $\\sqrt{\\mathcal{K}}$.",
+  "units": "dimensionless",
+  "value": "1 where dirac16complex vanishes",
+  "status": "DERIVED"
+ },
+ "Jcolour": {
+  "tex": "J_{\\mathrm{c}}^{A\\nu}",
+  "atoms": [
+   "J_{\\mathrm{c}}"
+  ],
+  "meaning": "The colour current of the quarks.",
+  "units": "GeV$^3$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Jweak": {
+  "tex": "J_{\\mathrm{w}}^{I\\nu}",
+  "atoms": [
+   "J_{\\mathrm{w}}"
+  ],
+  "meaning": "The weak-isospin current of the left-handed fermion doublets.",
+  "units": "GeV$^3$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "JPhi": {
+  "tex": "J_\\Phi^{I\\nu}",
+  "atoms": [
+   "J_{\\Phi}"
+  ],
+  "meaning": "The weak-isospin current of the Higgs doublet (it contains the mass terms of the $W$ fields); $J_\\Phi^{2\\,x_4}$ its isospin charge density with $I = 2$.",
+  "units": "GeV$^3$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "JY": {
+  "tex": "J_Y^\\nu",
+  "atoms": [
+   "J_{Y}"
+  ],
+  "meaning": "The hypercharge current of the fermions and of the Higgs doublet.",
+  "units": "GeV$^3$",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "Vport": {
+  "tex": "\\mathcal{V}^{f}_\\mu",
+  "atoms": [
+   "\\mathcal{V}^{f}",
+   "\\mathcal{V}^{Q}",
+   "\\mathcal{V}^{u}",
+   "\\mathcal{V}^{d}",
+   "\\mathcal{V}^{\\ell}",
+   "\\mathcal{V}^{e}",
+   "\\mathcal{V}^{\\nu}"
+  ],
+  "meaning": "The vector potential that dirac16complex exerts on the Standard-Model fermions of kind $f$ through the current portals, $\\mathcal{V}^{f}_\\mu = \\sum_Xc^{f}_Xj_{X\\mu}$ ($\\mathcal{V}^{Q}, \\mathcal{V}^{u}, \\dots, \\mathcal{V}^{\\nu}$ for the six kinds); flavour blind.",
+  "units": "GeV",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Rres": {
+  "tex": "\\mathcal{R}_{\\mathcal{A}},\\ \\mathcal{R}_v",
+  "atoms": [
+   "\\mathcal{R}",
+   "\\mathcal{R}_{v}"
+  ],
+  "meaning": "The residuals of the ad hoc Higgs vacuum in the upper ($\\mathcal{R}_{\\mathcal{A}}$) and lower ($\\mathcal{R}_v$) components of the Higgs equation: what the ad hoc vacuum leaves unbalanced.",
+  "units": "GeV$^3$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Asf": {
+  "tex": "\\mathsf{A}",
+  "atoms": [
+   "\\mathsf{A}"
+  ],
+  "meaning": "The expansion rate of ordinary space in units of $H$, $\\mathsf{A} = a_4'/H$.",
+  "units": "dimensionless",
+  "value": "1 at the author's vacuum; $H_0/H$ today ($H_0$ the Hubble constant)",
+  "status": "DERIVED"
+ },
+ "Usf": {
+  "tex": "\\mathsf{U}",
+  "atoms": [
+   "\\mathsf{U}"
+  ],
+  "meaning": "The rate of change of $b_4$ in units of $H$, $\\mathsf{U} = b_4'/(Hb_4)$.",
+  "units": "dimensionless",
+  "value": "$\\mathsf{U} = \\mathsf{A}$ with frozen extra times",
+  "status": "DERIVED"
+ },
+ "A1sf": {
+  "tex": "\\mathsf{A}_1",
+  "atoms": [
+   "\\mathsf{A}_{1}"
+  ],
+  "meaning": "The time derivative of $\\mathsf{A}$ in units of $H$, $\\mathsf{A}_1 = \\mathsf{A}'/H = a_4''/H^2$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "U1sf": {
+  "tex": "\\mathsf{U}_1",
+  "atoms": [
+   "\\mathsf{U}_{1}"
+  ],
+  "meaning": "The time derivative of $\\mathsf{U}$ in units of $H$, $\\mathsf{U}_1 = \\mathsf{U}'/H$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "Gfac": {
+  "tex": "\\mathcal{G}",
+  "atoms": [
+   "\\mathcal{G}"
+  ],
+  "meaning": "The factor of the $(\\sigma, x_4)$ bulk equation of the author’s metric, $\\mathcal{G} = 5\\mathsf{A}^2(\\mathsf{A} - \\mathsf{U})^2 - 6\\mathsf{A}^2 + 6\\mathsf{A}\\mathsf{U} + \\mathsf{U}^2 + 1$.",
+  "units": "dimensionless",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "rhobulk": {
+  "tex": "\\rho_{\\mathrm{bulk}}",
+  "atoms": [
+   "\\rho_{\\mathrm{bulk}}"
+  ],
+  "meaning": "The energy density of the bulk sources, $\\rho_{\\mathrm{bulk}} = -\\mathcal{T}_{\\mathrm{bulk}}{}^{(4)}{}_{(4)}$.",
+  "units": "GeV$^8$",
+  "value": "",
+  "status": "DERIVED"
+ },
+ "is": {
+  "tex": "s",
+  "atoms": [
+   "index:s"
+  ],
+  "meaning": "A second extra-time direction of the fold (as $r$, different from it).",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "inn": {
+  "tex": "n",
+  "atoms": [
+   "index:n"
+  ],
+  "meaning": "The order $n = 1, 2, \\dots$ of a term of the power series of the metric (also its exponent of $\\epsilon_{\\mathrm{r}}$); $\\mathfrak{a}_n$, $\\mathfrak{b}_n$, $\\mathfrak{n}_n$ are the terms of order $n$.",
+  "units": "",
+  "value": "",
+  "status": "STANDARD"
+ },
+ "epsr": {
+  "tex": "\\epsilon_{\\mathrm{r}}",
+  "atoms": [
+   "\\epsilon_{\\mathrm{r}}"
+  ],
+  "meaning": "The bookkeeping parameter of the response of the bulk to the matter of the fold: the ratio of the bulk to the fold gravity, $\\epsilon_{\\mathrm{r}} \\sim r = \\kappa_4V_*/(\\kappa H)$.",
+  "units": "dimensionless",
+  "value": "$\\lesssim 10^{-15}$",
+  "status": "DERIVED"
+ },
+ "epsc": {
+  "tex": "\\epsilon_{\\mathrm{c}}",
+  "atoms": [
+   "\\epsilon_{\\mathrm{c}}"
+  ],
+  "meaning": "The bookkeeping parameter of the cosmological perturbations of the metric of the fold (the size of the CMB anisotropies).",
+  "units": "dimensionless",
+  "value": "$\\sim 10^{-5}$",
+  "status": "STANDARD"
+ }
+}
