@@ -20,12 +20,14 @@ c_Phi <Psibar P_L Psi>(0)/lambda: mu_L = mu_L0 (1 - kappa_H rho_hat_L(0)/rho_hat
 (lambda v^2 V_*) < 0 (the Higgs portal alone binds the fold, c_Phi < 0, and rho_hat_L0(0) > 0).
 
 The states are resonances (um4_spectra.py U3, U4): beyond the turning point sigma_t (omega e^{H sigma_t} = m_Psi + M) every
-solution oscillates.  They live longer than the universe only if m_Psi/H is large (U6: above about 1.1e3 for q_b = m_Psi/2 and
-6e3 for q_b = 0.3 m_Psi), so the parameters here are mu_L = -0.6, mu_R = 0 (q_b = 0.3, omega_b = 0.954 in the limit H -> 0, as in
-UM-3) with H = 1e-4 (m_Psi/H = 1e4, q_b = 3000 H: deep in the regime q_b > 7H/2 in which the proper density decays away from the
-fold; the regimes of UM-3 with q_b < 3H do not exist in UM-4, because such states would be broad resonances, not particles), and
-the box |sigma| <= L = 40 lies far inside the turning point (sigma_t = 470): the orbital is computed in the box with the decaying
-solutions at its end; the exponentially small outgoing part beyond sigma_t is the width (U4), not resolved here.
+solution oscillates.  They live longer than 160 Gyr (11.6 times the age t_0 of the universe, the observed bound for a decay into
+invisible particles, U6) only if m_Psi/H is large (U6: above 1135 for q_b = m_Psi/2 and 5911 for q_b = 0.3 m_Psi), so the
+parameters here are mu_L = -0.6, mu_R = 0 (q_b = 0.3, omega_b = 0.954 in the limit H -> 0, as in UM-3) with H = 1e-4
+(m_Psi/H = 1e4, q_b = 3000 H: a narrow resonance; the states of UM-3 with q_b of the order of H do not exist in UM-4, because
+they would be broad resonances, not particles), and the box |sigma| <= L = 40 lies far inside the turning point
+(sigma_t = 473): the orbital is computed in the box with the decaying solutions at its end; the exponentially small outgoing
+part beyond sigma_t is the width (U4), not resolved here.  Inside the box the warped measure e^{7H|sigma|} differs from 1 by at
+most 7HL = 0.028, so the box tests the mean field near the fold, not its behaviour near the turning point (K4, K5).
 
 Symmetry reduction (as in UM-3).  The author's T_0..T_3 are symmetric and T_4..T_7 antisymmetric, so the rotations of
 ordinary space (Sigma^{ij}) and of the extra times (Sigma^{rs}) form a compact group SU(2) x SU(2) of orthogonal matrices;
@@ -48,13 +50,17 @@ Checks:
       sides) at m_Psi/H = 200, mu_L = -1;
   K2  the self-consistent shift at small G equals first-order perturbation theory,
       delta omega = G int e^{7H|sigma|} (rho_hat^2 - tr N_hat^2) d sigma (= 2 E_int, E_int the interaction energy per particle);
-      the occupied and the empty multiplets split;
+      the occupied and the empty multiplets split at every G, in proportion to G (the second singular value of the matching at
+      the occupied level divided by G is constant to 3 per cent up to G = 0.1);
   K3  every converged solution, lifted to sixteen dimensions, satisfies the Kohn-Sham equation, the fold matching and
       self-consistency (residuals), with Krein charge -1 for each of the four orbitals;
-  K4  the dilute limit: delta omega ~ G (the exponent 1 of the regime q_b > 7H/4);
-  K5  the gas stays at the fold: far from the fold the proper scalar density decays (no saturation: its decay rate is
-      2 kappa - 7H > 0, kappa the local decay rate of the orbital), for the repulsive and for the attractive self-interaction
-      (G = -1e-4, -1e-2 from the free state, which converge);
+  K4  the dilute limit: delta omega ~ G^p with p = 1 for G <= 1e-4 (a test of the continuation in the box: in the box the
+      weight e^{7H|sigma|} is close to 1, so the exponent of first-order perturbation theory is what the box must give);
+  K5  the gas stays at the fold within the box: there the proper scalar density decays (its decay rate 2 kappa - 7H, kappa
+      the local decay rate of the orbital, stays far above 7H = 7e-4 for every G computed), for the repulsive and for the attractive
+      self-interaction (G = -1e-4, -1e-2 from the free state, which converge); beyond the box the orbital continues to decay
+      up to the turning point and then leaves the fold as the outgoing wave of the width (U3 to U5): this check describes the
+      box, not the asymptotic region;
   K6  the Higgs-portal loop converges jointly with the orbitals (kappa_H = -0.3, G = 0.1): the gas raises v_loc^2, mu_L becomes
       more negative and the level falls; the fold density rho_hat_L0(0) of the free orbital equals d omega_0/d mu_L
       (Hellmann-Feynman, the derivative computed by solving the level at mu_L +- 1e-4) to the accuracy of the trapezoidal
@@ -64,19 +70,23 @@ Checks:
   K8  the repulsive mean field raises the level towards m_Psi, and the tunnelling exponent of the width,
       S = 2 [ int_0^L kappa_min d sigma + F(omega e^{HL})/H ] (kappa_min the smallest decay rate of the local equation with the
       self-consistent mean field, F(u) = ln((1 + sqrt(1 - u^2))/u) - sqrt(1 - u^2) for the free barrier beyond the box), falls
-      with it: Gamma ~ omega e^{-S} grows as the barrier shrinks and the gas leaks into the bulk; at m_Psi/H = 1e4 the gas lives
-      longer than the age of the universe only below a coupling G_life (in UM-3 the warped proper density saturated far from
-      the fold and kept the state bound beyond omega = m_Psi; in UM-4 the energy is warped as well and the level approaches
-      m_Psi from below while the orbital spreads into the barrier);
-  K9  a weakly bound point (q_b = 0.03 m_Psi, q_b/omega_b = 0.03: the regime of weak binding that direct detection
-      demands, um4_thermal.py T4 and T8) and H = 1e-7 m_Psi (a lifetime longer than the age of the universe for
-      omega_b ~ 1e9 GeV): the
-      shooting gives the level omega_b (1 - H/(2 q_b)) up to the second order in H, and the self-consistent shift approaches
-      first-order perturbation theory as G -> 0;
-  K10 how dilute the gas of the universe is: G = lambda_Psi n_chi/V_* for the lightest long-lived chi (omega_b = 2.43e6 GeV,
-      q_b = m_Psi/2) with the natural sizes lambda_Psi = m_Psi^-6, V_* = m_Psi^-3 (G = n_chi/m_Psi^3) and with extra times of the
-      Planck size (V_* = M_Pl^-3), for the dark-matter density near the Sun and for the mean density today: far below the
+      with it: the width grows as the barrier shrinks and the gas leaks into the bulk.  For G -> 0, S equals 2 F(omega_r)
+      m_Psi/H at the resonance omega_r = omega_b (1 - H/(2 q_b)), which exceeds 2 F(upsilon_b) m_Psi/H by exactly 1 (the factor
+      1/e of the derived width of um4_spectra.py U4, Gamma = (2/e) (q_b/m_Psi)^2 m_Psi e^{-2 F(upsilon_b) m_Psi/H}, so that
+      Gamma = 2 (q_b/m_Psi)^2 m_Psi e^{-S}); with this prefactor and H at its lower bound H_min of um4_propagators.py P5
+      (m_Psi = 1e4 H_min) the gas lives longer than 160 Gyr only below a coupling G_life (in UM-3 the warped proper density
+      saturated far from the fold and kept the state bound beyond omega = m_Psi; in UM-4 the energy is warped as well and the
+      level approaches m_Psi from below while the orbital spreads into the barrier);
+  K9  a weakly bound point (q_b = 0.03 m_Psi, q_b/omega_b = 0.03) and H = 1e-7 m_Psi: with H at its lower bound H_min this
+      is m_Psi = 1e7 H_min = 2.5e10 GeV, above the smallest mass (1.6e10 GeV) for which the binding q_b = 0.03 m_Psi lives
+      longer than 160 Gyr (the width of U4): the shooting gives the level omega_b (1 - H/(2 q_b)) up to the second order in H,
+      and the self-consistent shift approaches first-order perturbation theory as G -> 0;
+  K10 how dilute the gas of the universe is: G = lambda_Psi n_chi/V_* for the lightest chi that lives longer than 160 Gyr
+      (um4_spectra.py U6 with H = H_min: omega_b = 2.49e6 GeV for q_b = m_Psi/2, 1.18e4 GeV for the strong binding
+      q_b = 0.99 m_Psi) with the natural sizes lambda_Psi = m_Psi^-6, V_* = m_Psi^-3 (G = n_chi/m_Psi^3) and with extra times of
+      the Planck size (V_* = M_Pl^-3), for the dark-matter density near the Sun and for the mean density today: far below the
       smallest computed coupling and below G_life of K8, so the gas is in the dilute limit and cold (w_chi = (P/e)/G times G).
+Reads outputs/spectra.json (run um4_spectra.py first; the assembly uses its lower bound on H and its lifetimes).
 Writes outputs/kohnsham_parts/*.json (the parts, not kept in the repository), outputs/kohnsham.json and
 reports/kohnsham_checks.json.
 Usage (repository root; repeat a part until it reports that it is complete, exit code 0; 3 means run it again):
@@ -99,8 +109,10 @@ coordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/
     (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
 with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
 Notation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric
-functions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as
-sigma approaches 0 from above and from below.
+functions, sinh, cosh, tanh = sinh/cosh and coth = cosh/sinh the hyperbolic functions, |y| the absolute value, max and
+min the larger and the smaller of their arguments; det, tr and ^T are the determinant, the trace and the transpose of a
+square matrix, and 1_4, 1_8 and 1_16 the identity matrices of 4, 8 and 16 rows; f(0+) and f(0-) are the limits of
+f(sigma) as sigma approaches 0 from above and from below.
 
 Why this surface is called a fold. Measured by the proper distance along the hidden direction,
     (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
@@ -189,17 +201,17 @@ Examples of folds that are meaningful for UM-4.
      of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.
   6. The brane of Randall and Sundrum. The five-dimensional metric
         (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),
-                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5
+                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2
      (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
      fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
      not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
-     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every
-     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of
-     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure
-     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three
-     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their
-     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the
-     bulk as well.
+     the bulk the cosmological constant Lambda_RS (the vacuum energy Lambda_RS/kappa_5), and the bulk is otherwise empty.
+     The fold of UM-4 is of the same kind, with every direction of the fold warped by the same factor as in the model of
+     Randall and Sundrum: its static block is a space of constant curvature -H^2 in all eight directions, a vacuum of
+     Einstein gravity with Lambda = -21 H^2, with a fold of pure tension (FD-12), and the graviton is bound to the fold as
+     there. It differs in that the fold has seven dimensions, three of them extra times, in that the space is not cut at
+     the brane (Randall and Sundrum identify the two sides of their brane, one physical side; the fold of UM-4 has two
+     distinct sides, example 7), and in that the gauge fields live in the bulk as well.
   7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off
      exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac
      equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near
@@ -214,14 +226,31 @@ Examples of folds that are meaningful for UM-4.
      tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is
      warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point
      sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a
-     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the
-     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and
-     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a
-     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
+     resonance of the energy omega_0 at rest and the width Gamma = (2/e) (q_b^2/m_Psi) e^(-2 F_t(upsilon_b) m_Psi/H) (to the
+     leading order in H/q_b), with the tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon)
+     - sqrt(1 - upsilon^2) and upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t,
+     where the profile decays at the local rate sqrt(m_Psi^2 - omega_r^2 e^(2 H |sigma|)), which falls to 0 at sigma_t). The
+     profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
   8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
         (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
-     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
-     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
+     (for states at rest R_1 is the reflection across the fold combined with the reflection of ordinary space, R_2 the
+     reflection across the fold combined with the reflection of the extra times). T_a (a = 0, ..., 7) are the author's real
+     16 x 16 Dirac matrices T16^A[a] of 4+4.nb, built there from six real 4 x 4 matrices (rows separated by ";"):
+        (FD-13) s_1 = [0 0 0 1; 0 0 1 0; 0 -1 0 0; -1 0 0 0],   s_2 = [0 0 -1 0; 0 0 0 1; 1 0 0 0; 0 -1 0 0],
+                s_3 = [0 1 0 0; -1 0 0 0; 0 0 0 1; 0 0 -1 0],   t_1 = [0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0],
+                t_2 = [0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0],   t_3 = [0 1 0 0; -1 0 0 0; 0 0 0 -1; 0 0 1 0],
+                Xi_0 = 1_8,  Xi_1 = [[0, s_1], [s_1, 0]],  Xi_2 = [[0, s_2], [s_2, 0]],  Xi_3 = [[0, s_3], [s_3, 0]],
+                Xi_4 = [[0, t_3], [-t_3, 0]],  Xi_5 = [[0, t_2], [-t_2, 0]],  Xi_6 = [[0, t_1], [-t_1, 0]],
+                Xi_7 = Xi_1 Xi_2 Xi_3 Xi_4 Xi_5 Xi_6 = [[-1_4, 0], [0, 1_4]],
+                Xibar_0 = 1_8,  Xibar_a = sigma_8 Xi_a^T sigma_8 (a = 1, ..., 7),  sigma_8 = [[0, 1_4], [1_4, 0]],
+                T_a = [[0, Xibar_a], [Xi_a, 0]]  (a = 0, ..., 7)
+     ([[A, B], [C, D]] the matrix made of the four blocks A, B, C, D, 0 a block of zeros; s_1, s_2, s_3 and t_1, t_2, t_3
+     are s4by4[1..3] and t4by4[1..3], Xi_a and Xibar_a are tau[a] and taubar[a], sigma_8 is sigma88 of the notebook).
+     They obey {T_a, T_b} = T_a T_b + T_b T_a = 2 eta_ab 1_16 with eta = diag(1, 1, 1, 1, -1, -1, -1, -1);
+     gamma^(a) = eta^aa T_a (no sum) are the Dirac matrices of the frame, gamma^(0) along sigma; the chirality matrix is
+     Gamma_8 = T_0 T_1 ... T_7 = [[-1_8, 0], [0, 1_8]], the chiral projectors are P_L = (1_16 - Gamma_8)/2 and
+     P_R = (1_16 + Gamma_8)/2, and sigma_16 = T_0 T_1 T_2 T_3 = [[-sigma_8, 0], [0, sigma_8]] defines the Dirac adjoint
+     Psibar = Psi^dagger sigma_16 (Psi^dagger the complex conjugate transpose).
      The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
      carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the
      particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)
@@ -253,7 +282,7 @@ from pathlib import Path
 import mpmath as mp
 import numpy as np
 import scipy.linalg as sla
-from scipy.optimize import minimize_scalar
+from scipy.optimize import brentq, minimize_scalar
 
 HERE = Path(__file__).resolve().parent
 UM4 = HERE.parent
@@ -749,7 +778,7 @@ def first_order_shift(sh16, w):
 TARGETS = [1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1]
 H_MAIN, L_MAIN, H_STEP = 1e-4, 40.0, 0.03
 # (H, the box L, the step h).  The free orbital decays as e^{-q_b |sigma|} with q_b = 0.3: at the end of the box it is e^{-12}
-# of its value at the fold, its density e^{-24}; the turning point of the free level lies at sigma_t = ln(1/0.954)/H = 470.
+# of its value at the fold, its density e^{-24}; the turning point of the free level (omega = 0.95378) lies at sigma_t = ln(1/omega)/H = 473.
 MU_L, MU_R = -0.6, 0.0
 OMEGA_STOP = 0.99      # the continuation in G stops once the level exceeds this (the orbital spreads towards the end of the box)
 
@@ -1135,11 +1164,17 @@ def assemble():
     # ---------------- K2
     small = [r for r in conv if r['G'] in TARGETS[:4]]
     ratios = [(r['omega'] - w0) / (pt * r['G']) for r in small]
-    splitW = [r['singular_values'][1] for r in conv if r['G'] >= 1e-2]
-    rep.check('K2_first_order_limit', len(small) == 4 and all(abs(x - 1) < 2e-3 for x in ratios) and all(x > 1e-6 for x in splitW),
+    split = [(r['G'], r['singular_values'][1] / r['G']) for r in conv]
+    split_small = [x for g, x in split if g <= 0.1]
+    split_spread = max(split_small) / min(split_small) - 1
+    out['K2'] = {'shift_over_first_order': ratios, 'split_over_G': split}
+    rep.check('K2_first_order_limit', len(small) == 4 and all(abs(x - 1) < 2e-3 for x in ratios) and split_spread < 0.03
+              and all(x > 0 for _, x in split),
               '(omega - omega_0)/(first-order shift) = %s for G <= 1e-3 (first-order coefficient %.6f with the weight e^{7H|sigma|}); '
-              'at the occupied level the other Krein state of W is split off (second singular value %s for G >= 1e-2)' % (
-                  ['%.5f' % x for x in ratios], pt, ['%.2e' % x for x in splitW]))
+              'at the occupied level the other Krein state of W is split off at every G, in proportion to G: the second singular '
+              'value of the matching divided by G is %s for G = %s (constant to %.1f per cent up to G = 0.1)' % (
+                  ['%.5f' % x for x in ratios], pt, ', '.join('%.4f' % x for _, x in split), ', '.join('%g' % g for g, _ in split),
+                  100 * split_spread))
 
     # ---------------- K3
     worst = max(max(r['residual_KS_ode_16'], r['residual_fold_matching_16']) for r in conv) if conv else 1.0
@@ -1159,18 +1194,21 @@ def assemble():
     slope = float(np.polyfit(np.log([r['G'] for r in rr]), np.log([r['omega'] - w0 for r in rr]), 1)[0])
     out['K4'] = {'fitted_exponent': slope, 'predicted': 1.0}
     rep.check('K4_dilute_exponent', abs(slope - 1) < 0.01,
-              'delta omega ~ G^p for G <= 1e-4: p = %.4f (predicted 1: q_b = %.0f H > 7H/4)' % (slope, qb / H_MAIN))
+              'delta omega ~ G^p for G <= 1e-4: p = %.4f (first-order perturbation theory: 1; in the box |sigma| <= %g the weight '
+              'e^{7H|sigma|} differs from 1 by at most %.3f, so this tests the continuation in the box, not the region near the '
+              'turning point sigma_t = %.0f)' % (slope, L_MAIN, 7 * H_MAIN * L_MAIN, math.log(1 / w0) / H_MAIN))
 
     # ---------------- K5
     rates = [r['proper_density_decay_rate_far'] for r in conv]
     negI = [r.get('converged', False) for r in results['negative_G']]
     out['K5'] = {'proper_density_decay_rates_far': rates, 'negative_G_converged': negI,
                  'negative_G_omega': [r.get('omega') for r in results['negative_G']]}
-    rep.check('K5_confined_to_the_fold', all(x > 0.05 for x in rates) and all(negI),
-              'far from the fold the proper scalar density e^{7H|sigma|} n_s decays at the rates %.3f ... %.3f (no saturation; '
-              '2 kappa - 7H with 7H = %.1e) for every G computed; the attractive self-interaction G = -1e-4, -1e-2 from the free '
-              'state converges (omega = %s)' % (min(rates), max(rates), 7 * H_MAIN,
-                                                ['%.8f' % r.get('omega', float('nan')) for r in results['negative_G']]))
+    rep.check('K5_confined_to_the_fold', all(x > 100 * 7 * H_MAIN for x in rates) and all(negI),
+              'near the end of the box (|sigma| <= %g) the proper scalar density e^{7H|sigma|} n_s decays at the rates %.3f ... %.3f '
+              '(2 kappa - 7H with 7H = %.1e) for every G computed; the attractive self-interaction G = -1e-4, -1e-2 from the free '
+              'state converges (omega = %s); this describes the box: beyond it the orbital decays up to the turning point and '
+              'leaves the fold there as the outgoing wave of the width (um4_spectra.py U3 to U5)' % (
+                  L_MAIN, min(rates), max(rates), 7 * H_MAIN, ['%.8f' % r.get('omega', float('nan')) for r in results['negative_G']]))
 
     # ---------------- K6
     rI01 = [r for r in conv if r['G'] == 0.1][0]
@@ -1201,9 +1239,17 @@ def assemble():
     SH = [(r['G'], r['omega'], r['S_times_H'], r['free_barrier_2F']) for r in conv]
     mono = all(b_[2] < a_[2] for a_, b_ in zip(SH[:-1], SH[1:]) if b_[0] > a_[0])
     agree = all(abs(r['S_times_H'] / r['free_barrier_2F'] - 1) < 0.1 for r in conv if r['G'] <= 1e-2)
-    # the lifetime condition Gamma < hbar/t_0 with Gamma ~ omega e^{-S}: S > S_min = ln(omega t_0/hbar) for omega = 2.4e6 GeV
-    # (the smallest omega_b that um4_spectra.py U6 allows for q_b = m_Psi/2), at m_Psi/H = 1/H
-    S_min = math.log(2.4e6 * 13.8e9 * 3.15576e7 / 6.582119569e-25)
+    # the lifetime condition Gamma < hbar/tau (tau = 160 Gyr, um4_spectra.py U6) with the width of U4 written with S at the
+    # resonance: Gamma = 2 (q_b/m_Psi)^2 m_Psi e^{-S}; m_Psi = (m_Psi/H) H_min with H_min of um4_propagators.py P5
+    spec6 = json.loads((UM4 / 'outputs' / 'spectra.json').read_text())['U6_lifetime']
+    H_min = spec6['H_min_GeV']
+    tau_s = 160e9 * 3.15576e7
+    hbar_GeVs = 6.582119569e-25
+    m_K8 = H_min / H_MAIN
+    pref_K8 = 2 * qb ** 2
+    S_min = math.log(pref_K8 * m_K8 * tau_s / hbar_GeVs)
+    S_flat = 2 * F_wkb(wb) / H_MAIN                       # 2 F(upsilon_b) m_Psi/H at the flat level omega_b
+    S_excess = conv[0]['tunnelling_exponent_S'] - S_flat   # = 1 (the factor 1/e of U4) at G -> 0
     Svals = [(r['G'], r['tunnelling_exponent_S']) for r in conv]
     G_life = None
     for (ga, sa), (gb, sb) in zip(Svals[:-1], Svals[1:]):
@@ -1211,60 +1257,80 @@ def assemble():
             G_life = math.exp(math.log(ga) + (math.log(gb) - math.log(ga)) * (sa - S_min) / (sa - sb))
             break
     first, last = conv[0], conv[-1]
-    out['K8'] = {'G_omega_S_times_H_2F': SH, 'S_min_lifetime_t0': S_min, 'm_over_H': 1 / H_MAIN,
-                 'G_largest_with_lifetime_above_t0': G_life}
-    rep.check('K8_width_grows', mono and agree and G_life is not None and last['S_times_H'] < 0.1 * first['S_times_H'],
+    out['K8'] = {'G_omega_S_times_H_2F': SH, 'S_min_lifetime_160Gyr': S_min, 'm_over_H': 1 / H_MAIN, 'm_Psi_GeV': m_K8,
+                 'H_min_GeV': H_min, 'prefactor_2_qb2': pref_K8, 'S_flat_2F_upsilon_b_over_H': S_flat,
+                 'S_minus_S_flat_at_smallest_G': S_excess, 'G_largest_with_lifetime_above_160Gyr': G_life}
+    rep.check('K8_width_grows', mono and agree and G_life is not None and last['S_times_H'] < 0.1 * first['S_times_H']
+              and abs(S_excess - 1) < 0.01,
               'the tunnelling exponent of the width per unit m_Psi/H, S H, falls from %.5f (G = %g, omega = %.6f; the free barrier '
-              '2F(omega) = %.5f) to %.5f at G = %.2f (omega = %.6f): Gamma ~ omega e^{-S} grows with the self-interaction as the level '
-              'approaches m_Psi, the barrier shrinks and the gas leaks into the bulk; at m_Psi/H = %.0e the gas lives longer than '
-              't_0 (S > %.1f) only for G < %.3f' % (first['S_times_H'], first['G'], first['omega'], first['free_barrier_2F'],
-                                                   last['S_times_H'], last['G'], last['omega'], 1 / H_MAIN, S_min, G_life or float('nan')))
+              '2F(omega) = %.5f) to %.5f at G = %.2f (omega = %.6f): the width grows with the self-interaction as the level '
+              'approaches m_Psi, the barrier shrinks and the gas leaks into the bulk; at G -> 0, S exceeds 2F(upsilon_b) m_Psi/H = '
+              '%.3f by %.4f (the factor 1/e of the width of um4_spectra.py U4), so Gamma = 2 (q_b/m_Psi)^2 m_Psi e^{-S}; at '
+              'm_Psi/H = %.0e with H = H_min = %.0f GeV (m_Psi = %.3g GeV) the gas lives longer than 160 Gyr (S > %.2f) only for '
+              'G < %.3f' % (first['S_times_H'], first['G'], first['omega'], first['free_barrier_2F'], last['S_times_H'], last['G'],
+                            last['omega'], S_flat, S_excess, 1 / H_MAIN, H_min, m_K8, S_min, G_life or float('nan')))
 
     # ---------------- K9
     out['K9'] = k9
     rr = k9['rows']
     d9 = k9['omega_16'] - k9['omega_first_order_in_H']
     r9 = (k9['omega_W_at_2H'] - k9['omega_first_order_at_2H']) / d9
-    ok9 = (abs(r9 - 4) < 0.2 and abs(d9) < 1e-8 and k9['krein_negative_orbitals'] == 4
+    # the smallest m_Psi at which q_b = 0.03 m_Psi lives longer than 160 Gyr with H = H_min (the asymptotic width of U4)
+    s9 = k9['q_b']
+    u9 = math.sqrt(1 - s9 * s9)
+    gam9 = hbar_GeVs / tau_s
+    f9 = lambda lm: 2 * F_wkb(u9) * math.exp(lm) / H_min - math.log((2 / math.e) * s9 * s9 * math.exp(lm) / gam9)
+    m9_min = math.exp(brentq(f9, math.log(1e3), math.log(1e16), xtol=1e-12))
+    m9 = H_min / k9['H']
+    k9['m_Psi_at_H_min_GeV'] = m9
+    k9['m_Psi_min_lifetime_160Gyr_GeV'] = m9_min
+    ok9 = (abs(r9 - 4) < 0.2 and abs(d9) < 1e-8 and k9['krein_negative_orbitals'] == 4 and m9 > m9_min
            and all(r.get('converged') for r in rr) and abs(rr[0]['ratio_to_first_order'] - 1) < 2e-3
            and abs(1 - rr[0]['ratio_to_first_order']) < abs(1 - rr[1]['ratio_to_first_order']) < abs(1 - rr[2]['ratio_to_first_order'])
            and max(r['residual_KS_ode_16'] for r in rr) < 1e-3 and max(r['residual_selfconsistency'] for r in rr) < 1e-6
            and all(0 < r['pressure_over_energy'] < 1e-3 for r in rr))
     rep.check('K9_weak_binding', ok9,
-              'q_b = 0.03 m_Psi (q_b/omega_b = %.3f), H = 1e-7 m_Psi (free barrier 2F = %.2e per unit m_Psi/H, so 2F m_Psi/H = %.0f): '
-              'omega = %.10f from the 16-dimensional shooting (omega_b (1 - H/(2 q_b)) = %.10f; the difference %.2e is of the second '
-              'order in H, %.2f times as large at 2H), first-order coefficient %.6f; '
+              'q_b = 0.03 m_Psi (q_b/omega_b = %.3f), H = 1e-7 m_Psi (free barrier 2F = %.2e per unit m_Psi/H, so 2F m_Psi/H = %.0f); '
+              'with H = H_min = %.0f GeV this is m_Psi = %.3g GeV, above the smallest mass %.3g GeV at which this binding lives '
+              'longer than 160 Gyr: omega = %.10f from the 16-dimensional shooting (omega_b (1 - H/(2 q_b)) = %.10f; the difference '
+              '%.2e is of the second order in H, %.2f times as large at 2H), first-order coefficient %.6f; '
               'self-consistent shift / first order = %s for G = 1e-4, 1e-3, 1e-2, P/e = %s' % (
                   k9['q_b_over_omega_b'], k9['free_barrier_2F_per_unit_m_over_H'], k9['free_barrier_2F_per_unit_m_over_H'] / k9['H'],
-                  k9['omega_16'], k9['omega_first_order_in_H'], d9, r9, k9['first_order_dw_over_G'],
+                  H_min, m9, m9_min, k9['omega_16'], k9['omega_first_order_in_H'], d9, r9, k9['first_order_dw_over_G'],
                   ['%.5f' % r['ratio_to_first_order'] for r in rr], ['%.1e' % r['pressure_over_energy'] for r in rr]))
 
     # ---------------- K10: how dilute is the gas of the universe?
     # G_KS = lambda_Psi n_chi/V_*; with the natural sizes lambda_Psi = m_Psi^-6 and V_* = m_Psi^-3, G_KS = n_chi/m_Psi^3; with extra
-    # times of the Planck size, V_* = M_Pl^-3, G_KS = n_chi M_Pl^3/m_Psi^6.  The lightest long-lived chi: q_b = m_Psi/2, omega_b =
-    # (sqrt 3/2) m_Psi > 2.43e6 GeV (um4_spectra.py U6 with H = 2534 GeV); the dark-matter density near the Sun 0.4 GeV/cm^3 and
-    # the mean density today 0.120 rho_c/h^2 = 0.120 x 1.0537e-5 GeV/cm^3.
+    # times of the Planck size, V_* = M_Pl^-3, G_KS = n_chi M_Pl^3/m_Psi^6.  The lightest chi that lives longer than 160 Gyr
+    # (um4_spectra.py U6 with H = H_min) for q_b = m_Psi/2 and for the strong binding q_b = 0.99 m_Psi; the dark-matter density
+    # near the Sun 0.4 GeV/cm^3 and the mean density today 0.120 rho_c/h^2 = 0.120 x 1.0537e-5 GeV/cm^3.
     hbarc_cm = 1.973269804e-14                       # GeV cm
-    wb10 = 2.43e6
-    mpsi10 = wb10 / math.sqrt(0.75)
     mpl = 1.22089e19
     coef_w = eos[0][1] / eos[0][0]                   # w_chi/G_KS in the dilute limit (K7)
+    req6 = [r_ for r_ in spec6['rows'] if abs(r_['lifetime_over_t0'] - 160.0 / 13.8) < 1e-9]
     rows10 = []
-    for label, rho10 in (('near the Sun', 0.4), ('mean of the universe today', 0.120 * 1.0537e-5)):
-        n10 = rho10 / wb10 * hbarc_cm ** 3           # GeV^3
-        g_nat = n10 / mpsi10 ** 3
-        g_pl = n10 * mpl ** 3 / mpsi10 ** 6
-        rows10.append({'density': label, 'rho_GeV_per_cm3': rho10, 'n_chi_per_cm3': rho10 / wb10, 'n_chi_GeV3': n10,
-                       'G_KS_natural_sizes': g_nat, 'G_KS_Planck_extra_times': g_pl, 'w_chi_natural_sizes': coef_w * g_nat})
-    out['K10'] = {'omega_b_GeV': wb10, 'm_Psi_GeV': mpsi10, 'w_over_G_dilute': coef_w, 'rows': rows10}
+    for qm in (0.5, 0.99):
+        r6 = [r_ for r_ in req6 if abs(r_['q_b_over_m'] - qm) < 1e-9][0]
+        wb10, mpsi10 = r6['omega_b_min_GeV'], r6['m_Psi_min_GeV']
+        for label, rho10 in (('near the Sun', 0.4), ('mean of the universe today', 0.120 * 1.0537e-5)):
+            n10 = rho10 / wb10 * hbarc_cm ** 3           # GeV^3
+            g_nat = n10 / mpsi10 ** 3
+            g_pl = n10 * mpl ** 3 / mpsi10 ** 6
+            rows10.append({'q_b_over_m': qm, 'omega_b_GeV': wb10, 'm_Psi_GeV': mpsi10, 'density': label, 'rho_GeV_per_cm3': rho10,
+                           'n_chi_per_cm3': rho10 / wb10, 'n_chi_GeV3': n10, 'G_KS_natural_sizes': g_nat,
+                           'G_KS_Planck_extra_times': g_pl, 'w_chi_natural_sizes': coef_w * g_nat})
+    out['K10'] = {'w_over_G_dilute': coef_w, 'rows': rows10, 'requirement': spec6['requirement']}
     gmax10 = max(max(r['G_KS_natural_sizes'], r['G_KS_Planck_extra_times']) for r in rows10)
     rep.check('K10_dilute_today', gmax10 < 1e-6 and G_life is not None and gmax10 < G_life and 0.04 < coef_w < 0.07,
-              'G_KS = lambda_Psi n_chi/V_* for the lightest long-lived chi (omega_b = %.3g GeV, m_Psi = %.3g GeV): with lambda_Psi = '
-              'm_Psi^-6 and V_* = m_Psi^-3, %.1e near the Sun (0.4 GeV/cm^3) and %.1e for the mean density today; with extra times of the '
-              'Planck size (V_* = M_Pl^-3) %.1e and %.1e: far below the smallest computed coupling 1e-6 and below G_life = %.3f, so the '
-              'gas of the universe is in the dilute limit, w_chi = %.4f G_KS (K7): %.1e near the Sun' % (
-                  wb10, mpsi10, rows10[0]['G_KS_natural_sizes'], rows10[1]['G_KS_natural_sizes'], rows10[0]['G_KS_Planck_extra_times'],
-                  rows10[1]['G_KS_Planck_extra_times'], G_life or float('nan'), coef_w, rows10[0]['w_chi_natural_sizes']))
+              'G_KS = lambda_Psi n_chi/V_* for the lightest chi that lives longer than 160 Gyr (H = H_min): %s; with lambda_Psi = '
+              'm_Psi^-6 and V_* = m_Psi^-3 at most %.1e (near the Sun, 0.4 GeV/cm^3), with extra times of the Planck size '
+              '(V_* = M_Pl^-3) at most %.1e: far below the smallest computed coupling 1e-6 and below G_life = %.3f, so the gas of the '
+              'universe is in the dilute limit, w_chi = %.4f G_KS (K7): at most %.1e near the Sun' % (
+                  '; '.join('q_b = %g m_Psi: omega_b = %.3g GeV, m_Psi = %.3g GeV, G_KS = %.1e (natural) and %.1e (Planck) %s' % (
+                      r['q_b_over_m'], r['omega_b_GeV'], r['m_Psi_GeV'], r['G_KS_natural_sizes'], r['G_KS_Planck_extra_times'],
+                      r['density']) for r in rows10),
+                  max(r['G_KS_natural_sizes'] for r in rows10), max(r['G_KS_Planck_extra_times'] for r in rows10),
+                  G_life or float('nan'), coef_w, max(r['w_chi_natural_sizes'] for r in rows10)))
 
     out['runtime_s'] = round(compute_seconds + time.time() - t0, 1)
     out['definition_of_the_fold'] = fold_definition()

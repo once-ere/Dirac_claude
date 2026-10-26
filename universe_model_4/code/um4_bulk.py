@@ -9,17 +9,18 @@ metric of the fold: every field of the bulk separates into a profile along sigma
 the Lorentz-invariant equation of seven dimensions with a mass m (its value set by the profile).  Then omega^2 = k^2 + m^2 for
 every mode: the massless modes (the zero modes) travel at the speed of light at every wavelength, the massive modes are
 slower.  Computed:
-  B1  a massless scalar of the bulk: with phi = u(sigma) e^{i (k x3 - omega x4)} the bulk equation is
-      u'' - 7 H sgn(sigma) u' + e^{2H|sigma|} (omega^2 - k^2) u = 0 (omega and k only in omega^2 - k^2); the zero mode u = 1
-      is normalisable (weight e^{-5H|sigma|}, norm 2/(5H)) and has omega = k; numerically (a box |sigma| < 6/H, the
-      generalised eigenvalue problem of the operator with its own weights): the lowest omega^2 equals k^2 to 1e-10 for
-      k = 0.1 H to 2 H (UM-3: omega^2 = (3/2) k^2, 1.22 times the speed of light);
-  B2  the Maxwell field of the bulk (the photon, IN-7 of UM-4: the gauge fields live in the bulk): with A_a = u(sigma) Ahat_a(x),
-      A_sigma = 0, the equations are Maxwell's equations of the fold for Ahat with the mass m, u'' - 5 H sgn(sigma) u' +
-      e^{2H|sigma|} m^2 u = 0; the zero mode u = 1 is normalisable (the kinetic weight e^{-3H|sigma|}, norm 2/(3H)): a
-      massless photon of seven dimensions bound to the fold, with the coupling g_7^2 = (3/2) H g_8^2; a component A_sigma has
-      no normalisable zero mode (its profile would be e^{5H|sigma|}); numerically omega^2 = k^2 for the zero mode
-      (UM-3: omega^2 = 2 k^2);
+  B1  a massless scalar of the bulk: with phi = u(sigma) e^{i (k x3 - omega x4)} the wave operator of the metric of the
+      static block (computed from its components and sqrt|g| = e^{-7H|sigma|}) gives
+      u'' - 7 H sgn(sigma) u' + e^{2H|sigma|} (omega^2 - k^2) u = 0: omega and k enter only through omega^2 - k^2 because the
+      warp multiplies dx3^2 and dx4^2 alike; the zero mode u = 1 is normalisable (weight e^{-5H|sigma|}, norm 2/(5H)) and has
+      omega = k exactly (the box of B9 inherits this property and reproduces it; UM-3: omega^2 = (3/2) k^2, 1.22 times the
+      speed of light);
+  B2  the Maxwell field of the bulk (the photon, IN-7 of UM-4: the gauge fields live in the bulk): Maxwell's equations
+      computed from the metric of the static block for A_1 = u(sigma) e^{i (k x3 - omega x4)}, A_sigma = 0, give
+      u'' - 5 H sgn(sigma) u' + e^{2H|sigma|} (omega^2 - k^2) u = 0 (the other components vanish identically); the zero mode
+      u = 1 is normalisable (the kinetic weight e^{-3H|sigma|}, norm 2/(3H)): a massless photon of seven dimensions bound to
+      the fold, with the coupling g_7^2 = (3/2) H g_8^2, omega = k exactly; a component A_sigma has no normalisable zero mode
+      (its profile would be e^{5H|sigma|}) (UM-3: omega^2 = 2 k^2);
   B3  the photon as a wave: for the zero mode the field equation of the fold d_a F^{ab} = 0 with a plane wave A_mu =
       epsilon_mu e^{i k (x3 - x4)} (Lorenz gauge, fields of the four observable coordinates) leaves the two transverse
       polarisations epsilon = (1, 0, 0, 0) and (0, 1, 0, 0) along x1 and x2 as the only physical ones (the longitudinal and
@@ -35,14 +36,15 @@ slower.  Computed:
       along x3 has the two polarisations h_+ (h_11 = -h_22) and h_x (h_12 = h_21); a ring of free test masses in the plane
       x1, x2 is stretched along x1 and squeezed along x2 by h_+ (the relative change of the distance at the angle phi is
       (1/2) h_+ cos 2 phi) and along the diagonals by h_x ((1/2) h_x sin 2 phi); under a rotation by theta about x3,
-      (h_+, h_x) rotate by 2 theta: helicity +-2, a spin-2 wave; the other components of the seven-dimensional zero mode
-      (h_{mu r} along the extra times, three vectors of the four-dimensional world, and h_{rs}, six scalars) are not sourced
-      at the linear order by matter of the fold that does not depend on the extra times and is the same along the three of
-      them, except their trace (the volume of the extra times), which the fold fluid holds fixed: the gravitational waves
+      (h_+, h_x) rotate by 2 theta: helicity +-2, a spin-2 wave; the energy-momentum tensor of a field of the fold that does
+      not depend on the extra times, computed from its Lagrangian (a scalar with any potential), has T_{mu r} = 0 and
+      T_{rs} = ghat_rs L: the other components of the seven-dimensional zero mode (B11) are not sourced at the linear order,
+      except the trace of h_{rs} (the volume of the extra times), which the fold fluid holds fixed: the gravitational waves
       that the matter of the fold emits have only the + and x polarisations;
   B6  a fermion of the bulk with a kink mass M sgn(sigma): with Psi = e^{(7/2)H|sigma|} chi the zero mode is chi =
       e^{-M|sigma|} chi_0 with T^(sigma) chi_0 = -chi_0 and Dhat chi_0 = 0, normalisable for M > H/2 (the density
-      e^{(H - 2M)|sigma|}): a massless fermion of seven dimensions at the speed of light (UM-3: 2M/(2M - H) times it);
+      e^{(H - 2M)|sigma|}, the norm 2/(3H) at M = 2H over both sides): a massless fermion of seven dimensions at the speed of
+      light (UM-3: 2M/(2M - H) times it);
   B7  dirac16complex (the author's field, mass m_Psi, the portal terms at the fold): its bulk equation
       T^(sigma) chi' + e^{H|sigma|} (-i omega T^(x4) + i k T^(x3)) chi - m_Psi chi = 0 is invariant under the boost of the
       fold generated by T^(x3) T^(x4)/2, which commutes with T^(sigma) and with the chirality T16^8, so with the portal terms
@@ -50,15 +52,15 @@ slower.  Computed:
       (omega, k) into (omega cosh beta - k sinh beta, k cosh beta - omega sinh beta): every state of dirac16complex at the
       fold has omega^2 = k^2 + M^2 with its mass M, and its group velocity k/omega is below the speed of light (UM-3: up to
       1.0046);
-  B8  the summary of the speeds in units of the speed of light on the fold: every massless field of the bulk 1, every massive
-      mode below 1; UM-3 for comparison (scalar 1.2247, photon 1.4142, fermion 2M/(2M - H));
   B9  the UM-3 speeds recomputed: on the static block of UM-3, d sigma^2 + e^{-2H|sigma|} (dx_i^2 - dx_r^2) - dx4^2 (the time
       not warped), a massless scalar phi = u(sigma) e^{i (k x3 - omega x4)} obeys u'' - 6 H sgn(sigma) u' + (omega^2 -
       e^{2H|sigma|} k^2) u = 0 (checked with sympy on both halves): omega and k no longer appear only through omega^2 - k^2;
       for k << H the lowest mode has u = 1 and omega^2/k^2 = int e^{-4H|sigma|}/int e^{-6H|sigma|} = 3/2, for the photon
       (the polarisation along x1) int e^{-2H|sigma|}/int e^{-4H|sigma|} = 2 (exact); the box gives omega^2/k^2 for k = 0.01 H
-      to 3 H (scalar 1.4999 to 1.38, photon 1.9995 to 1.51: faster than light at every wavelength), and the same box gives
-      exactly 1 for the metric of UM-4;
+      to 3 H (scalar 1.4999 to 1.38, photon 1.9995 to 1.51: faster than light at every wavelength); the same box gives 1 for
+      the metric of UM-4, the exact result of B1 and B2 (a test of the box, not of UM-4); the speeds in units of the speed
+      of light of the fold are summarised in the output (every massless field of the bulk 1, every massive mode below 1;
+      UM-3: scalar 1.2247, photon 1.4142);
   B10 the massive modes of the massless fields of the bulk (the "x0 masses" that the fold sees): with the warped distance
       zeta = e^{H|sigma|}/H the profile equation u'' - n H sgn(sigma) u' + e^{2H|sigma|} m^2 u = 0 (n = 7 for a scalar and each
       polarisation of the graviton, n = 5 for a gauge field) has the exact solutions zeta^{n/2} J_{n/2}(m zeta) and
@@ -70,7 +72,16 @@ slower.  Computed:
       representation G_n(p) = (n - 2)H/(2 p^2) + int_0^inf dm s_n(m)/(p^2 + m^2) reproduces the propagator of
       um4_propagators.py P1, K_{n/2}(p/H)/(2 p K_{n/2-1}(p/H)), to 1e-12 at p/H = 0.3, 1, 3; s_7 -> (m/H)^4/(9 pi) and
       s_5 -> (m/H)^2/pi for m << H, s_n -> 1/pi for m >> H; and the long-range parts of the static potentials,
-      (2/((n - 2)H)) int_0^inf dm s_n(m) e^{-m r}, approach 16/(15 pi (Hr)^5) and 4/(3 pi (Hr)^3) (P3).
+      (2/((n - 2)H)) int_0^inf dm s_n(m) e^{-m r}, approach 16/(15 pi (Hr)^5) and 4/(3 pi (Hr)^3) (P3);
+  B11 the polarisations of the graviton bound to the fold and the signs of their kinetic terms: the massless graviton of
+      the seven-dimensional fold has 14 physical polarisations (the transverse traceless h for a null wave vector, 20, less
+      the 6 residual gauge modes, by linear algebra), the graviton h_{mu nu} (2), three vectors h_{mu r} (6) and six scalars
+      h_{rs} (6); the second-order Einstein-Hilbert density sqrt|g| R of eta + eps h on the flat fold of signature (3, 4),
+      averaged over the phase of a wave A cos(omega x4 - k x1), is C (omega^2 - k^2) A^2 with C = 1/4 for the graviton
+      (h_23, h_22 = -h_33) and the scalars (h_56, h_55 = -h_66) and C = -1/4 for the vectors (h_25, h_37): the vectors with
+      one index along ordinary space and one along an extra time have kinetic terms of the wrong sign (ghosts), as the
+      component A_5 of a gauge field (-(1/4) F_AB F^AB: healthy for A_2, ghost for A_5); the matter of the fold does not emit
+      them at the linear order (B5).
 Writes outputs/bulk.json and reports/bulk_checks.json; exit code 0 iff every check passes.
 Usage: python universe_model_4/code/um4_bulk.py
 
@@ -89,8 +100,10 @@ coordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/
     (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
 with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
 Notation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric
-functions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as
-sigma approaches 0 from above and from below.
+functions, sinh, cosh, tanh = sinh/cosh and coth = cosh/sinh the hyperbolic functions, |y| the absolute value, max and
+min the larger and the smaller of their arguments; det, tr and ^T are the determinant, the trace and the transpose of a
+square matrix, and 1_4, 1_8 and 1_16 the identity matrices of 4, 8 and 16 rows; f(0+) and f(0-) are the limits of
+f(sigma) as sigma approaches 0 from above and from below.
 
 Why this surface is called a fold. Measured by the proper distance along the hidden direction,
     (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
@@ -179,17 +192,17 @@ Examples of folds that are meaningful for UM-4.
      of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.
   6. The brane of Randall and Sundrum. The five-dimensional metric
         (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),
-                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5
+                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2
      (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
      fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
      not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
-     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every
-     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of
-     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure
-     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three
-     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their
-     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the
-     bulk as well.
+     the bulk the cosmological constant Lambda_RS (the vacuum energy Lambda_RS/kappa_5), and the bulk is otherwise empty.
+     The fold of UM-4 is of the same kind, with every direction of the fold warped by the same factor as in the model of
+     Randall and Sundrum: its static block is a space of constant curvature -H^2 in all eight directions, a vacuum of
+     Einstein gravity with Lambda = -21 H^2, with a fold of pure tension (FD-12), and the graviton is bound to the fold as
+     there. It differs in that the fold has seven dimensions, three of them extra times, in that the space is not cut at
+     the brane (Randall and Sundrum identify the two sides of their brane, one physical side; the fold of UM-4 has two
+     distinct sides, example 7), and in that the gauge fields live in the bulk as well.
   7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off
      exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac
      equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near
@@ -204,14 +217,31 @@ Examples of folds that are meaningful for UM-4.
      tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is
      warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point
      sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a
-     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the
-     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and
-     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a
-     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
+     resonance of the energy omega_0 at rest and the width Gamma = (2/e) (q_b^2/m_Psi) e^(-2 F_t(upsilon_b) m_Psi/H) (to the
+     leading order in H/q_b), with the tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon)
+     - sqrt(1 - upsilon^2) and upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t,
+     where the profile decays at the local rate sqrt(m_Psi^2 - omega_r^2 e^(2 H |sigma|)), which falls to 0 at sigma_t). The
+     profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
   8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
         (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
-     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
-     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
+     (for states at rest R_1 is the reflection across the fold combined with the reflection of ordinary space, R_2 the
+     reflection across the fold combined with the reflection of the extra times). T_a (a = 0, ..., 7) are the author's real
+     16 x 16 Dirac matrices T16^A[a] of 4+4.nb, built there from six real 4 x 4 matrices (rows separated by ";"):
+        (FD-13) s_1 = [0 0 0 1; 0 0 1 0; 0 -1 0 0; -1 0 0 0],   s_2 = [0 0 -1 0; 0 0 0 1; 1 0 0 0; 0 -1 0 0],
+                s_3 = [0 1 0 0; -1 0 0 0; 0 0 0 1; 0 0 -1 0],   t_1 = [0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0],
+                t_2 = [0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0],   t_3 = [0 1 0 0; -1 0 0 0; 0 0 0 -1; 0 0 1 0],
+                Xi_0 = 1_8,  Xi_1 = [[0, s_1], [s_1, 0]],  Xi_2 = [[0, s_2], [s_2, 0]],  Xi_3 = [[0, s_3], [s_3, 0]],
+                Xi_4 = [[0, t_3], [-t_3, 0]],  Xi_5 = [[0, t_2], [-t_2, 0]],  Xi_6 = [[0, t_1], [-t_1, 0]],
+                Xi_7 = Xi_1 Xi_2 Xi_3 Xi_4 Xi_5 Xi_6 = [[-1_4, 0], [0, 1_4]],
+                Xibar_0 = 1_8,  Xibar_a = sigma_8 Xi_a^T sigma_8 (a = 1, ..., 7),  sigma_8 = [[0, 1_4], [1_4, 0]],
+                T_a = [[0, Xibar_a], [Xi_a, 0]]  (a = 0, ..., 7)
+     ([[A, B], [C, D]] the matrix made of the four blocks A, B, C, D, 0 a block of zeros; s_1, s_2, s_3 and t_1, t_2, t_3
+     are s4by4[1..3] and t4by4[1..3], Xi_a and Xibar_a are tau[a] and taubar[a], sigma_8 is sigma88 of the notebook).
+     They obey {T_a, T_b} = T_a T_b + T_b T_a = 2 eta_ab 1_16 with eta = diag(1, 1, 1, 1, -1, -1, -1, -1);
+     gamma^(a) = eta^aa T_a (no sum) are the Dirac matrices of the frame, gamma^(0) along sigma; the chirality matrix is
+     Gamma_8 = T_0 T_1 ... T_7 = [[-1_8, 0], [0, 1_8]], the chiral projectors are P_L = (1_16 - Gamma_8)/2 and
+     P_R = (1_16 + Gamma_8)/2, and sigma_16 = T_0 T_1 T_2 T_3 = [[-sigma_8, 0], [0, sigma_8]] defines the Dirac adjoint
+     Psibar = Psi^dagger sigma_16 (Psi^dagger the complex conjugate transpose).
      The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
      carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the
      particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)
@@ -251,6 +281,59 @@ H = sp.Symbol('H', positive=True)
 SIG = sp.Symbol('sigma', real=True)
 k, w, m, M = sp.symbols('k omega m M', positive=True)
 x1, x2, x3, x4 = sp.symbols('x1:5', real=True)
+
+
+Y567 = sp.symbols('x5:8', real=True)
+XB = [SIG, x1, x2, x3, x4] + list(Y567)
+EPSB = [1, 1, 1, 1, -1, -1, -1, -1]
+
+
+def static_metric(side):
+    """The diagonal components of the static block d sigma^2 + e^{-2H|sigma|}(dx_i^2 - dx4^2 - dx_r^2) on the side sigma > 0
+    (side = +1) or sigma < 0 (side = -1), and sqrt|g| from them."""
+    W = sp.exp(-2 * H * side * SIG)
+    g = [sp.S(1)] + [W] * 3 + [-W] * 4
+    sqg = sp.sqrt(sp.Mul(*[EPSB[i] * g[i] for i in range(8)]))
+    return g, sp.simplify(sp.powsimp(sqg, force=True))
+
+
+def eh_quadratic_average(pattern, Xf, etaf):
+    """The second-order part of the Einstein-Hilbert density sqrt|g| R of the metric g = eta + eps h on the flat fold (signature
+    (3, 4)), h = pattern f(x4, x1) with a symmetric numerical pattern, for f = A cos(omega x4 - k x1), averaged over the phase
+    (total derivatives drop out): C (omega^2 - k^2) A^2, C > 0 for a healthy wave, C < 0 for a ghost."""
+    eps_ = sp.Symbol('epsilon')
+    om_, kk_, A_ = sp.symbols('omega_w k_w A_w', positive=True)
+    th_ = sp.Symbol('theta_w', real=True)
+    n = len(Xf)
+    f = sp.Function('f')(Xf[3], Xf[0])
+    h = sp.Matrix(pattern) * f
+    g = etaf + eps_ * h
+    ei = etaf.inv()
+    gi = ei - eps_ * ei * h * ei + eps_ ** 2 * ei * h * ei * h * ei                     # the inverse to the second order
+    Gam = [[[sp.expand(sum(gi[l, m_] * (sp.diff(g[m_, i], Xf[j]) + sp.diff(g[m_, j], Xf[i]) - sp.diff(g[i, j], Xf[m_])) / 2
+                           for m_ in range(n) if gi[l, m_] != 0)) for j in range(n)] for i in range(n)] for l in range(n)]
+    Ric = sp.zeros(n, n)
+    for i in range(n):
+        for k_ in range(n):
+            v = 0
+            for l in range(n):
+                v += sp.diff(Gam[l][i][k_], Xf[l]) - sp.diff(Gam[l][i][l], Xf[k_])
+                for m_ in range(n):
+                    v += Gam[l][l][m_] * Gam[m_][i][k_] - Gam[l][k_][m_] * Gam[m_][i][l]
+            Ric[i, k_] = v
+    R = sum(gi[i, k_] * Ric[i, k_] for i in range(n) for k_ in range(n))
+    lnd = sp.log(g.det())
+    D1 = sp.diff(lnd, eps_).subs(eps_, 0)
+    D2 = sp.diff(lnd, eps_, 2).subs(eps_, 0)
+    sq = 1 + eps_ * D1 / 2 + eps_ ** 2 * (D2 / 4 + D1 ** 2 / 8)                         # sqrt(det g/det eta)
+    L2 = sp.expand(sq * R).coeff(eps_, 2)
+    fs = A_ * sp.cos(th_)
+    L2s = L2.subs({sp.Derivative(f, Xf[3], 2): -om_ ** 2 * fs, sp.Derivative(f, Xf[0], 2): -kk_ ** 2 * fs,
+                   sp.Derivative(f, Xf[3], Xf[0]): om_ * kk_ * fs, sp.Derivative(f, Xf[0], Xf[3]): om_ * kk_ * fs,
+                   sp.Derivative(f, Xf[3]): -om_ * A_ * sp.sin(th_), sp.Derivative(f, Xf[0]): kk_ * A_ * sp.sin(th_)}).subs(f, fs)
+    avg = sp.simplify(sp.integrate(L2s, (th_, 0, 2 * sp.pi)) / (2 * sp.pi))
+    C = sp.simplify(avg / ((om_ ** 2 - kk_ ** 2) * A_ ** 2))
+    return C, sp.factor(avg)
 
 
 def box_lowest(nw, kvals, L=6.0, N=1600):
@@ -314,10 +397,11 @@ def main():
     side_sub = {}
     ok1 = True
     for s_ in (1, -1):
-        W2 = sp.exp(-2 * H * s_ * SIG)
-        sq = sp.exp(-7 * H * s_ * SIG)                  # sqrt|g| up to sqrt|ghat|
+        gB, sq = static_metric(s_)                      # the metric and sqrt|g| of the static block on this side
+        ok1 &= sp.simplify(sq - sp.exp(-7 * H * s_ * SIG)) == 0
         phi = u * sp.exp(sp.I * (k * x3 - w * x4))
-        box = (sp.diff(sq * sp.diff(phi, SIG), SIG) + sq / W2 * (sp.diff(phi, x3, 2) - sp.diff(phi, x4, 2))) / sq
+        # the wave operator of the metric, (1/sqrt|g|) d_M (sqrt|g| g^MM d_M phi), all eight coordinates
+        box = sum(sp.diff(sq / gB[i] * sp.diff(phi, XB[i]), XB[i]) for i in range(8)) / sq
         mode = sp.simplify(box / sp.exp(sp.I * (k * x3 - w * x4)))
         target = sp.diff(u, SIG, 2) - 7 * H * s_ * sp.diff(u, SIG) + sp.exp(2 * H * s_ * SIG) * (w ** 2 - k ** 2) * u
         ok1 &= sp.simplify(mode - target) == 0
@@ -328,24 +412,29 @@ def main():
     ok1 &= dev1 < 1e-8 and sp.simplify(norm_s - sp.Rational(2, 5) / H) == 0
     out['B1_scalar'] = {'mode_equation': "u'' - 7H sgn(sigma) u' + e^{2H|sigma|}(omega^2 - k^2) u = 0", 'zero_mode_norm': str(norm_s),
                         'box_lowest_omega2': dict(zip([str(x) for x in kv], lo)), 'max_deviation_from_k2': dev1}
-    rep.check('B1_bulk_scalar_at_c', ok1, 'the mode equation depends on omega and k only through omega^2 - k^2; the zero mode u = 1 has the '
-              'norm %s and omega = k; box: max |omega^2 - k^2| = %.1e for k = %s H (UM-3: omega^2 = 1.5 k^2)' % (norm_s, dev1, kv))
+    rep.check('B1_bulk_scalar_at_c', ok1, 'the wave operator computed from the metric of the static block (sqrt|g| = e^{-7H|sigma|}) gives the '
+              'mode equation u\'\' - 7H sgn u\' + e^{2H|sigma|}(omega^2 - k^2) u = 0 on both sides: omega and k enter only through '
+              'omega^2 - k^2, because the warp multiplies dx3^2 and dx4^2 alike; the zero mode u = 1 has the norm %s and omega = k '
+              'exactly (the box method of B9, which inherits this property, reproduces it: max |omega^2 - k^2| = %.1e for k = %s H; '
+              'UM-3: omega^2 = 1.5 k^2)' % (norm_s, dev1, kv))
 
     # ---------------- B2: the Maxwell field
     ok2 = True
     for s_ in (1, -1):
-        sq = sp.exp(-7 * H * s_ * SIG)
-        ginv = sp.exp(2 * H * s_ * SIG)                  # g^{ab} = e^{2H|sigma|} eta^{ab}
-        # the component b of nabla_M F^{M b} for A_b = u(sigma) Ahat_b with eta^{ac} d_a Fhat_cb = -m^2 Ahat_b (on shell)
-        # sigma part: d_sigma(sqrt g g^{ss} g^{bb} F_{sigma b}) = d_sigma(sq ginv (u') ) Ahat_b eta^{bb};
-        # fold part: sqrt g g^{aa} g^{bb} d_a F_ab = sq ginv^2 u (-m^2) Ahat_b eta^{bb}
-        eq = sp.diff(sq * ginv * sp.diff(u, SIG), SIG) + sq * ginv ** 2 * m ** 2 * u
-        mode = sp.simplify(eq / (sq * ginv))
-        target = sp.diff(u, SIG, 2) - 5 * H * s_ * sp.diff(u, SIG) + sp.exp(2 * H * s_ * SIG) * m ** 2 * u
+        gB, sq = static_metric(s_)
+        # Maxwell's equations d_M (sqrt|g| g^MM g^NN F_MN) = 0 computed from the metric for A_1 = u(sigma) e^{i(k x3 - omega x4)}
+        # (the polarisation along x1, A_sigma = 0): the component N = 1 is the profile equation, the others vanish
+        ph_ = sp.exp(sp.I * (k * x3 - w * x4))
+        Avec = [0, u * ph_, 0, 0, 0, 0, 0, 0]
+        Fm = [[sp.diff(Avec[N_], XB[M_]) - sp.diff(Avec[M_], XB[N_]) for N_ in range(8)] for M_ in range(8)]
+        eqN = [sp.simplify(sum(sp.diff(sq / (gB[M_] * gB[N_]) * Fm[M_][N_], XB[M_]) for M_ in range(8))) for N_ in range(8)]
+        ok2 &= all(eqN[N_] == 0 for N_ in range(8) if N_ != 1)
+        mode = sp.simplify(eqN[1] / (sq / (gB[0] * gB[1])) / ph_)
+        target = sp.diff(u, SIG, 2) - 5 * H * s_ * sp.diff(u, SIG) + sp.exp(2 * H * s_ * SIG) * (w ** 2 - k ** 2) * u
         ok2 &= sp.simplify(mode - target) == 0
-        # A_sigma zero mode: (sq ginv f)' = 0 -> f = e^{5H|sigma|}
+        # A_sigma = f(sigma) phihat(x): the equations along the fold need (sqrt|g| g^ss g^aa f)' = 0, f = e^{5H|sigma|}
         f_sig = sp.exp(5 * H * s_ * SIG)
-        ok2 &= sp.simplify(sp.diff(sq * ginv * f_sig, SIG)) == 0
+        ok2 &= sp.simplify(sp.diff(sq / (gB[0] * gB[1]) * f_sig, SIG)) == 0
     tq = sp.Symbol('t', positive=True)
     norm_v = sp.integrate(2 * sp.exp(-3 * H * tq), (tq, 0, sp.oo))
     lo2 = box_lowest(5, kv)
@@ -354,9 +443,11 @@ def main():
     out['B2_photon'] = {'mode_equation': "u'' - 5H sgn(sigma) u' + e^{2H|sigma|} m^2 u = 0", 'zero_mode_norm': str(norm_v),
                         'g7_squared': '(3/2) H g8^2', 'A_sigma_zero_mode_profile': 'e^{5H|sigma|} (not normalisable)',
                         'box_lowest_omega2': dict(zip([str(x) for x in kv], lo2)), 'max_deviation_from_k2': dev2}
-    rep.check('B2_bulk_photon_at_c', ok2, 'Maxwell in the bulk: u\'\' - 5H sgn u\' + e^{2H|sigma|} m^2 u = 0; the zero mode u = 1 is bound to '
-              'the fold (norm %s: g_7^2 = 3 H g_8^2/2), massless in seven dimensions; A_sigma would need the profile e^{5H|sigma|} '
-              '(no zero mode); box: max |omega^2 - k^2| = %.1e (UM-3: omega^2 = 2 k^2)' % (norm_v, dev2))
+    rep.check('B2_bulk_photon_at_c', ok2, 'Maxwell\'s equations computed from the metric of the static block for the polarisation along x1: '
+              'u\'\' - 5H sgn u\' + e^{2H|sigma|} (omega^2 - k^2) u = 0 on both sides, the other components identically zero; the zero '
+              'mode u = 1 is bound to the fold (norm %s: g_7^2 = 3 H g_8^2/2), massless in seven dimensions, omega = k exactly; '
+              'A_sigma would need the profile e^{5H|sigma|} (no zero mode); the box of B9 reproduces omega = k to %.1e (UM-3: '
+              'omega^2 = 2 k^2)' % (norm_v, dev2))
 
     # ---------------- B3: the photon as a transverse spin-1 wave
     kk = sp.Symbol('kappa_w', positive=True)
@@ -425,24 +516,33 @@ def main():
              and sp.simplify(hx_r - (hx * sp.cos(2 * th) - hp * sp.sin(2 * th))) == 0)
     # circular: h_+ - +i h_x picks up e^{+-2 i theta}
     circ = sp.simplify(sp.expand(((hp_r + sp.I * hx_r) - sp.exp(-2 * sp.I * th) * (hp + sp.I * hx)).rewrite(sp.exp))) == 0
-    # counting of the seven-dimensional zero mode seen in four dimensions: 7*4/2 = 14 polarisations = 2 + 3*2 + 6
-    counting = (7 * (7 - 3)) // 2 == 2 + 3 * 2 + 6
-    # sources of the fold: T_{mu r} = 0 and T_{rs} = q delta_rs (the same along the three extra times): only the trace couples
-    qs = sp.Symbol('q', real=True)
-    Trs = qs * sp.eye(3)
-    hrs = sp.Matrix(3, 3, lambda i, j: sp.Symbol('h_r%d%d' % (i, j)) if i <= j else sp.Symbol('h_r%d%d' % (j, i)))
-    coupling = sp.expand((Trs.T * hrs).trace())
-    only_trace = sp.simplify(coupling - qs * hrs.trace()) == 0
-    ok5 = traceless and ring and spin2 and circ and counting and only_trace
+    # the sources of the fold: the energy-momentum tensor T_ab = -2 dL/dghat^ab + ghat_ab L of a field of the fold that does
+    # not depend on the extra times (a scalar phi(x1..x4) with any potential), computed from its Lagrangian on the metric of
+    # the fold with a general symmetric inverse metric: T_{mu r} = 0 and T_{rs} = ghat_rs L, so the coupling
+    # (1/2) h^ab T_ab contains, of the components along the extra times, only ghat_rs h^rs (the change of their volume)
+    Ginv = sp.Matrix(7, 7, lambda i, j: sp.Symbol('G%d%d' % (min(i, j), max(i, j))))
+    phif = sp.Function('phi')(x1, x2, x3, x4)
+    Vf = sp.Function('V')
+    dphi = [sp.diff(phif, v_) for v_ in (x1, x2, x3, x4)] + [0, 0, 0]          # d_r phi = 0
+    Lf = -sum(Ginv[i, j] * dphi[i] * dphi[j] for i in range(7) for j in range(7)) / 2 - Vf(phif)
+    ghat0 = sp.diag(1, 1, 1, -1, -1, -1, -1)                                    # the static fold, a4 = 0, b4 = 1
+    back = {Ginv[i, j]: ghat0.inv()[i, j] for i in range(7) for j in range(7)}
+    Tab = sp.Matrix(7, 7, lambda i, j: (-2 * sp.diff(Lf, Ginv[i, j]) * (sp.Rational(1, 2) if i != j else 1)
+                                        + ghat0[i, j] * Lf).subs(back))
+    L0 = Lf.subs(back)
+    t_mu_r = all(sp.simplify(Tab[i, j]) == 0 for i in range(4) for j in range(4, 7))
+    t_rs = all(sp.simplify(Tab[i, j] - ghat0[i, j] * L0) == 0 for i in range(4, 7) for j in range(4, 7))
+    ok5 = traceless and ring and spin2 and circ and t_mu_r and t_rs
     out['B5_gravitational_wave'] = {'polarisations': ['h_+ (h_11 = -h_22)', 'h_x (h_12 = h_21)'],
                                     'ring': '(1/2)(h_+ cos 2 phi + h_x sin 2 phi)', 'helicity': '+-2',
-                                    'seven_dimensional_zero_mode': '14 = 2 (graviton) + 3 x 2 (vectors) + 6 (scalars)',
-                                    'sources_of_the_fold': 'h_{mu nu} and the trace h_{rr} (held fixed by the fold fluid)'}
+                                    'sources_of_the_fold': 'T_{mu r} = 0, T_{rs} = ghat_rs L (computed for a scalar of the fold): '
+                                                           'h_{mu nu} and the trace of h_{rs} (held fixed by the fold fluid)'}
     rep.check('B5_gravitational_wave_plus_cross', ok5, 'h_ij traceless and transverse: a ring of test masses changes its radius at the '
               'angle phi by (1/2)(h_+ cos 2phi + h_x sin 2phi) (stretched along x1 and squeezed along x2 by h_+, along the '
               'diagonals by h_x); under a rotation by theta, (h_+, h_x) rotate by 2 theta and h_+ + i h_x by e^{-2i theta}: helicity '
-              '+-2; the 14 polarisations of the seven-dimensional zero mode are 2 + 6 + 6, and matter of the fold that is the same '
-              'along the three extra times couples only to h_{mu nu} and to the trace of h_{rs}')
+              '+-2; the energy-momentum tensor of a field of the fold that does not depend on the extra times, computed from its '
+              'Lagrangian, has T_{mu r} = 0 and T_{rs} = ghat_rs L: such matter couples only to h_{mu nu} and to the trace of h_{rs} '
+              '(the polarisations of the seven-dimensional graviton and their signs: B11)')
 
     # ---------------- B6: the bulk fermion with a kink mass
     T = GM.T16A()
@@ -451,12 +551,12 @@ def main():
     ok6 = (Ts * Ts == sp.eye(16))
     # zero mode: T^(s) chi' - M sgn(s) chi = 0 with T^(s) chi_0 = -chi_0 -> chi = e^{-M|s|} chi_0
     tt = sp.Symbol('t', positive=True)
-    conv = sp.integrate(sp.exp((H - 2 * M) * tt).subs(M, 2 * H), (tt, 0, sp.oo))
-    ok6 &= sp.simplify(conv - 1 / (3 * H)) == 0
+    conv = 2 * sp.integrate(sp.exp((H - 2 * M) * tt).subs(M, 2 * H), (tt, 0, sp.oo))          # both sides of the fold
+    ok6 &= sp.simplify(conv - 2 / (3 * H)) == 0
     out['B6_fermion'] = {'zero_mode': 'chi = e^{-M|sigma|} chi_0, T^(sigma) chi_0 = -chi_0, Dhat chi_0 = 0',
                          'normalisable_for': 'M > H/2 (density e^{(H - 2M)|sigma|})', 'speed': '1'}
     rep.check('B6_bulk_fermion_at_c', ok6, 'T^(sigma) squares to 1 (two chiralities along sigma); the zero mode e^{-M|sigma|} chi_0 has the '
-              'density e^{(H - 2M)|sigma|} (normalisable for M > H/2; norm 1/(3H) at M = 2H) and is a massless fermion of seven '
+              'density e^{(H - 2M)|sigma|} (normalisable for M > H/2; norm 2/(3H) at M = 2H, both sides) and is a massless fermion of seven '
               'dimensions: the speed of light (UM-3: 2M/(2M - H))')
 
     # ---------------- B7: dirac16complex is boost invariant along the fold
@@ -480,13 +580,6 @@ def main():
               'the chirality T16^8 (so with the portal terms mu_L P_L + mu_R P_R at the fold) and with the mass term, and [S, T^(x4)], [S, T^(x3)] = +-T^(x3), +-T^(x4) with T^(x3)^2 = 1, T^(x4)^2 = -1: the bulk equation is '
               'invariant under the boosts of the fold, so every state has omega^2 = k^2 + M^2 and moves slower than light')
 
-    # ---------------- B8: summary
-    summary = {'photon_zero_mode': 1.0, 'graviton_zero_mode': 1.0, 'scalar_zero_mode': 1.0, 'fermion_zero_mode': 1.0,
-               'massive_modes': 'below 1 (group velocity k/omega)', 'UM3_scalar': float(sp.sqrt(sp.Rational(3, 2))),
-               'UM3_photon': float(sp.sqrt(2)), 'UM3_fermion_M=H': 2.0}
-    out['B8_speeds'] = summary
-    rep.check('B8_speed_summary', ok1 and ok2 and ok4 and ok6 and ok7, 'every massless field of the bulk travels at the speed of light of '
-              'the fold, every massive mode slower; in UM-3 bulk scalars were 1.2247, photons 1.4142 and fermions 2M/(2M - H) times faster')
 
     # ---------------- B9: the UM-3 speeds recomputed (the time not warped)
     ok9 = True
@@ -516,9 +609,88 @@ def main():
                                 'UM4_scalar_box_omega2_over_k2': um4_s, 'UM4_photon_box_omega2_over_k2': um4_v}
     rep.check('B9_UM3_speeds_recomputed', ok9, 'UM-3 (time not warped): u\'\' - 6H sgn u\' + (omega^2 - e^{2H|sigma|} k^2) u = 0 on both '
               'halves; for k << H omega^2/k^2 = %s (scalar) and %s (photon) exactly; box omega^2/k^2 for k/H = %s: scalar %s, photon '
-              '%s (faster than light at every wavelength); the same box for UM-4: within %.1e of 1'
+              '%s (faster than light at every wavelength); the same box for the metric of UM-4 gives 1 within %.1e, the exact result '
+              'of B1 and B2 (a test of the box, not of UM-4)'
               % (ratio_s, ratio_v, kv9, ', '.join('%.4f' % x for x in um3_s), ', '.join('%.4f' % x for x in um3_v),
                  max(abs(x - 1.0) for x in um4_s + um4_v)))
+    # the speeds in units of the speed of light of the fold (a summary of B1 to B7 and B9, not a separate check)
+    out['speed_summary'] = {'photon_zero_mode': 1.0, 'graviton_zero_mode': 1.0, 'scalar_zero_mode': 1.0, 'fermion_zero_mode': 1.0,
+                            'massive_modes': 'below 1 (group velocity k/omega)', 'UM3_scalar': float(sp.sqrt(ratio_s)),
+                            'UM3_photon': float(sp.sqrt(ratio_v)), 'UM3_fermion': '2M/(2M - H) (UM-3, S-12)'}
+
+    # ---------------- B11: the polarisations of the graviton bound to the fold and the signs of their kinetic terms
+    # (a) the count: the massless graviton of the seven-dimensional fold (eta = diag(1, 1, 1, -1, -1, -1, -1)) for a null wave
+    # vector along x1 and x4: symmetric h with k^A h_AB = 0 and eta^AB h_AB = 0, modulo h -> h + k xi + xi k with k.xi = 0
+    etaN = np.diag([1.0, 1, 1, -1, -1, -1, -1])
+    kup = np.array([1.0, 0, 0, 1, 0, 0, 0])                           # k^A: along x1 and x4, null
+    klo = etaN @ kup
+    basis = []
+    for a_ in range(7):
+        for b_ in range(a_, 7):
+            E_ = np.zeros((7, 7))
+            E_[a_, b_] = E_[b_, a_] = 1.0
+            basis.append(E_)
+    Bm_ = np.array([E_.ravel() for E_ in basis]).T                    # 49 x 28
+    cons = np.vstack([np.array([(kup @ E_)[b_] for E_ in basis]) for b_ in range(7)]
+                     + [np.array([np.trace(np.linalg.inv(etaN) @ E_) for E_ in basis])])
+    ns_ = sla.null_space(cons)                                        # the transverse traceless h (coefficients)
+    gauge = []
+    for xi_lo in sla.null_space(kup.reshape(1, 7)).T:                 # gauge parameters xi_A with k^A xi_A = 0
+        G_ = np.outer(klo, xi_lo) + np.outer(xi_lo, klo)
+        gauge.append(np.linalg.lstsq(Bm_, G_.ravel(), rcond=None)[0])
+    gauge = np.array(gauge).T
+    rk_tt = ns_.shape[1]
+    rk_gauge = np.linalg.matrix_rank(gauge, tol=1e-10)
+    rk_in_tt = np.linalg.matrix_rank(np.hstack([ns_, gauge]), tol=1e-10) == rk_tt          # the gauge modes are inside TT
+    n_phys = rk_tt - rk_gauge
+    # (b) the sign of the kinetic term of each kind of polarisation from the second-order Einstein-Hilbert action
+    Xf = [x1, x2, x3, x4] + list(Y567)
+    etaf = sp.diag(1, 1, 1, -1, -1, -1, -1)
+
+    def pat(pairs):
+        P_ = sp.zeros(7, 7)
+        for (a_, b_), c_ in pairs.items():
+            P_[a_ - 1, b_ - 1] += c_
+            if a_ != b_:
+                P_[b_ - 1, a_ - 1] += c_
+        return P_
+    cases = [('graviton h_23 (cross, x)', {(2, 3): 1}, 'graviton'), ('graviton h_22 = -h_33 (plus, +)', {(2, 2): 1, (3, 3): -1}, 'graviton'),
+             ('vector h_25 (ordinary space and an extra time)', {(2, 5): 1}, 'vector'),
+             ('vector h_37', {(3, 7): 1}, 'vector'),
+             ('scalar h_56 (two extra times)', {(5, 6): 1}, 'scalar'), ('scalar h_55 = -h_66', {(5, 5): 1, (6, 6): -1}, 'scalar')]
+    signs = []
+    for name_, pr_, kind_ in cases:
+        C_, avg_ = eh_quadratic_average(pat(pr_), Xf, etaf)
+        signs.append({'polarisation': name_, 'kind': kind_, 'C': str(C_), 'average_L2': str(avg_), 'healthy': bool(C_ > 0)})
+    # (c) the Maxwell field of the fold for comparison: -(1/4) F_AB F^AB for A_2(x4, x1) and A_5(x4, x1)
+    om2, kk2, A2s = sp.symbols('omega_m k_m A_m', positive=True)
+    th2 = sp.Symbol('theta_m', real=True)
+    maxw = {}
+    for comp in (2, 5):
+        Af = [0] * 7
+        Af[comp - 1] = A2s * sp.cos(om2 * x4 - kk2 * x1)
+        FF = sum(etaf[a_, a_] * etaf[b_, b_] * (sp.diff(Af[b_], Xf[a_]) - sp.diff(Af[a_], Xf[b_])) ** 2 for a_ in range(7) for b_ in range(7))
+        Lm = -FF / 4
+        avg_m = sp.simplify(sp.integrate(Lm.subs(om2 * x4 - kk2 * x1, th2).subs(x4, (th2 + kk2 * x1) / om2), (th2, 0, 2 * sp.pi)) / (2 * sp.pi))
+        maxw['A_%d' % comp] = str(sp.factor(avg_m))
+        maxw['A_%d_healthy' % comp] = bool(sp.simplify(avg_m / ((om2 ** 2 - kk2 ** 2) * A2s ** 2)) > 0)
+    ok11 = (n_phys == 14 and rk_tt == 20 and rk_gauge == 6 and rk_in_tt
+            and all(s_['healthy'] for s_ in signs if s_['kind'] in ('graviton', 'scalar'))
+            and all(not s_['healthy'] for s_ in signs if s_['kind'] == 'vector')
+            and maxw['A_2_healthy'] and not maxw['A_5_healthy'])
+    out['B11_graviton_polarisations'] = {'transverse_traceless': rk_tt, 'residual_gauge': rk_gauge, 'physical': n_phys,
+                                         'split': '2 (graviton h_{mu nu}) + 6 (three vectors h_{mu r}) + 6 (scalars h_{rs})',
+                                         'kinetic_signs': signs, 'maxwell_for_comparison': maxw,
+                                         'consequence': 'the vectors h_{mu r} are ghosts, as the components A_r of a gauge field'}
+    rep.check('B11_graviton_polarisations_and_ghosts', ok11,
+              'the massless graviton of the seven-dimensional fold has %d physical polarisations (%d transverse traceless less %d '
+              'residual gauge modes): the graviton h_{mu nu} (2), three vectors h_{mu r} (6) and six scalars h_{rs} (6); the '
+              'second-order Einstein-Hilbert action on the flat fold of signature (3, 4) gives the averaged Lagrangian '
+              'C (omega^2 - k^2) A^2 with C = %s: positive (healthy) for the graviton and the scalars, negative for the vectors '
+              'h_{mu r} with one index along ordinary space and one along an extra time: they are ghosts, like the component A_5 '
+              'of a gauge field (Maxwell: %s for A_2, %s for A_5); the matter of the fold does not emit them at the linear order '
+              '(T_{mu r} = 0, B5)' % (n_phys, rk_tt, rk_gauge, ', '.join('%s %s' % (s_['polarisation'].split(' (')[0], s_['C']) for s_ in signs),
+                                     maxw['A_2'], maxw['A_5']))
 
     # ---------------- B10: the massive modes of the massless fields of the bulk, a continuum from zero mass
     ok10 = True

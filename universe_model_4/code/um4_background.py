@@ -21,19 +21,22 @@ c' = 0 (U = A).  Computed and checked:
        the Friedmann equations of general relativity, 3 a'^2 = kappa_7 rho, -(2a'' + 3a'^2) = kappa_7 P, and the radion
        condition q = -(rho - 3P)/2; the bulk then deviates from the author's form at the first order in (a'/H)^2 (F1);
   BG3  without the fold fluid the volume of the extra times is driven: the matter of the fold that does not depend on the
-       extra times has q = 0 (dust: point particles at rest in the extra times have T^rr = 0; radiation: the average on-shell
-       Lagrangian vanishes) or q = -rho (a vacuum energy, the on-shell Lagrangian -V), while the radion condition needs
-       q = -rho/2 for dust and q = -2 rho for a vacuum energy; with q = 0 the equations give c'' = (3/5) a'^2 for dust and
-       (6/5) a'^2 for a vacuum energy at c' = 0, and an integration through a matter era from c' = 0 gives c'/a' = 0.75, 0.98,
-       1.00 after 1, 2, 3 e-folds: the attractor is the seven-dimensional dust solution, in which the extra times expand as
+       extra times has q equal to its mean on-shell Lagrangian (T^r_r = L, FE-5), which vanishes for free fields, so q = 0
+       for radiation and for dust made of free particles (a free Dirac field has L = 0 on shell, a free massive scalar
+       oscillating in time has the mean L = 0), and q = -rho for a vacuum energy (the on-shell Lagrangian -V), while the
+       radion condition needs q = -rho/2 for dust and q = -2 rho for a vacuum energy; with q = 0 the equations give
+       c'' = (3/5) a'^2 for dust and (6/5) a'^2 for a vacuum energy at c' = 0, and an integration through a matter era from
+       c' = 0 (to t = 1e12 t_i, beyond 5 e-folds) gives c'/a' = 0.752, 0.984, 0.999 and 1.000 after 1, 2, 3 and 5 e-folds:
+       the attractor is the seven-dimensional dust solution, in which the extra times expand as
        ordinary space; Newton's constant of the fold, 8 pi G_N = kappa_7/(V_t e^{3c}) (V_t the coordinate volume of the extra
        times), then changes at the rate d ln G_N/dx4 = -3c' = -3 H_4 (H_4 = a'): lunar laser ranging (L. Biskupek, J. Mueller
        and J.-M. Torre, Universe 7 (2021) 34: Gdot/G = (-5.0 +- 9.6) 1e-15 per year) allows |d ln G_N/dx4| < 3.5e-4 H_0 (two
        standard deviations, H_0 = 67.4 km/s/Mpc): a free volume is excluded by a factor of about 8500; the fold fluid must
        supply q_hold = -(rho - 3P)/2 - q_matter (ASSUMED), and then c' = 0 is preserved;
-  BG4  the fold factor Z(x4) = V_t e^{3c}/V_*: d ln Z/dx4 = 3c', zero with frozen extra times; with a free volume Newton's
-       constant, the squares of the gauge couplings (g_4^2 = g_7^2/(V_t e^{3c})), of the Yukawa couplings and the quartic Higgs
-       coupling all fall like 1/Z;
+  BG4  the fold factor: the volume element of the fold is sqrt|ghat| = e^{3a} e^{3c} (from the determinant), so the integral
+       over the extra times of a term of the fold gives Z(x4) = V_t e^{3c}/V_* times the four-dimensional term; d ln Z/dx4 =
+       3c', zero with frozen extra times; with a free volume Newton's constant, the squares of the gauge couplings
+       (g_4^2 = g_7^2/(V_t e^{3c})), of the Yukawa couplings and the quartic Higgs coupling all fall like 1/Z;
   BG5  the ad hoc Higgs vacuum Phi = (A_c, v)/sqrt 2 (A_c = v_A e^{-2 a40 x4}) is an SU(2) rotation of (0, V)/sqrt 2 with
        V = sqrt(v^2 + A_c^2): with the pure-gauge background W^2_{x4} = theta'/g2 (tan(theta/2) = A_c/v) the isospin
        charge density of the Higgs field vanishes (the Gauss law for homogeneous fields, which the literal ad hoc vacuum
@@ -60,8 +63,10 @@ coordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/
     (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
 with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
 Notation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric
-functions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as
-sigma approaches 0 from above and from below.
+functions, sinh, cosh, tanh = sinh/cosh and coth = cosh/sinh the hyperbolic functions, |y| the absolute value, max and
+min the larger and the smaller of their arguments; det, tr and ^T are the determinant, the trace and the transpose of a
+square matrix, and 1_4, 1_8 and 1_16 the identity matrices of 4, 8 and 16 rows; f(0+) and f(0-) are the limits of
+f(sigma) as sigma approaches 0 from above and from below.
 
 Why this surface is called a fold. Measured by the proper distance along the hidden direction,
     (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
@@ -150,17 +155,17 @@ Examples of folds that are meaningful for UM-4.
      of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.
   6. The brane of Randall and Sundrum. The five-dimensional metric
         (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),
-                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5
+                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2
      (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
      fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
      not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
-     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every
-     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of
-     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure
-     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three
-     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their
-     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the
-     bulk as well.
+     the bulk the cosmological constant Lambda_RS (the vacuum energy Lambda_RS/kappa_5), and the bulk is otherwise empty.
+     The fold of UM-4 is of the same kind, with every direction of the fold warped by the same factor as in the model of
+     Randall and Sundrum: its static block is a space of constant curvature -H^2 in all eight directions, a vacuum of
+     Einstein gravity with Lambda = -21 H^2, with a fold of pure tension (FD-12), and the graviton is bound to the fold as
+     there. It differs in that the fold has seven dimensions, three of them extra times, in that the space is not cut at
+     the brane (Randall and Sundrum identify the two sides of their brane, one physical side; the fold of UM-4 has two
+     distinct sides, example 7), and in that the gauge fields live in the bulk as well.
   7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off
      exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac
      equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near
@@ -175,14 +180,31 @@ Examples of folds that are meaningful for UM-4.
      tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is
      warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point
      sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a
-     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the
-     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and
-     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a
-     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
+     resonance of the energy omega_0 at rest and the width Gamma = (2/e) (q_b^2/m_Psi) e^(-2 F_t(upsilon_b) m_Psi/H) (to the
+     leading order in H/q_b), with the tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon)
+     - sqrt(1 - upsilon^2) and upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t,
+     where the profile decays at the local rate sqrt(m_Psi^2 - omega_r^2 e^(2 H |sigma|)), which falls to 0 at sigma_t). The
+     profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
   8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
         (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
-     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
-     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
+     (for states at rest R_1 is the reflection across the fold combined with the reflection of ordinary space, R_2 the
+     reflection across the fold combined with the reflection of the extra times). T_a (a = 0, ..., 7) are the author's real
+     16 x 16 Dirac matrices T16^A[a] of 4+4.nb, built there from six real 4 x 4 matrices (rows separated by ";"):
+        (FD-13) s_1 = [0 0 0 1; 0 0 1 0; 0 -1 0 0; -1 0 0 0],   s_2 = [0 0 -1 0; 0 0 0 1; 1 0 0 0; 0 -1 0 0],
+                s_3 = [0 1 0 0; -1 0 0 0; 0 0 0 1; 0 0 -1 0],   t_1 = [0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0],
+                t_2 = [0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0],   t_3 = [0 1 0 0; -1 0 0 0; 0 0 0 -1; 0 0 1 0],
+                Xi_0 = 1_8,  Xi_1 = [[0, s_1], [s_1, 0]],  Xi_2 = [[0, s_2], [s_2, 0]],  Xi_3 = [[0, s_3], [s_3, 0]],
+                Xi_4 = [[0, t_3], [-t_3, 0]],  Xi_5 = [[0, t_2], [-t_2, 0]],  Xi_6 = [[0, t_1], [-t_1, 0]],
+                Xi_7 = Xi_1 Xi_2 Xi_3 Xi_4 Xi_5 Xi_6 = [[-1_4, 0], [0, 1_4]],
+                Xibar_0 = 1_8,  Xibar_a = sigma_8 Xi_a^T sigma_8 (a = 1, ..., 7),  sigma_8 = [[0, 1_4], [1_4, 0]],
+                T_a = [[0, Xibar_a], [Xi_a, 0]]  (a = 0, ..., 7)
+     ([[A, B], [C, D]] the matrix made of the four blocks A, B, C, D, 0 a block of zeros; s_1, s_2, s_3 and t_1, t_2, t_3
+     are s4by4[1..3] and t4by4[1..3], Xi_a and Xibar_a are tau[a] and taubar[a], sigma_8 is sigma88 of the notebook).
+     They obey {T_a, T_b} = T_a T_b + T_b T_a = 2 eta_ab 1_16 with eta = diag(1, 1, 1, 1, -1, -1, -1, -1);
+     gamma^(a) = eta^aa T_a (no sum) are the Dirac matrices of the frame, gamma^(0) along sigma; the chirality matrix is
+     Gamma_8 = T_0 T_1 ... T_7 = [[-1_8, 0], [0, 1_8]], the chiral projectors are P_L = (1_16 - Gamma_8)/2 and
+     P_R = (1_16 + Gamma_8)/2, and sigma_16 = T_0 T_1 T_2 T_3 = [[-sigma_8, 0], [0, sigma_8]] defines the Dirac adjoint
+     Psibar = Psi^dagger sigma_16 (Psi^dagger the complex conjugate transpose).
      The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
      carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the
      particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)
@@ -305,23 +327,26 @@ def main():
     def rhs(tt, y):
         return [f_a2(y[0], y[1]), f_c2(y[0], y[1]), y[0]]
     ti = 1.0
-    sol = solve_ivp(rhs, (ti, 1e4 * ti), [2 / (3 * ti), 0.0, 0.0], rtol=1e-11, atol=1e-14, dense_output=True)
+    tend = 1e12 * ti
+    sol = solve_ivp(rhs, (ti, tend), [2 / (3 * ti), 0.0, 0.0], rtol=1e-11, atol=1e-14, dense_output=True)
     efolds = [1, 2, 3, 5]
     ratios = {}
+    tt = np.geomspace(ti, tend, 200001)
+    av = sol.sol(tt)[2]
+    a_end = float(av[-1])
     for N in efolds:
-        # the time at which a = N
-        tt = np.geomspace(ti, 1e4 * ti, 20001)
-        av = sol.sol(tt)[2]
+        # the time at which a = N (the integration reaches a_end > 5 e-folds, so no point is extrapolated)
         tN = float(np.interp(N, av, tt))
         yy = sol.sol(tN)
-        ratios[N] = {'t': tN, 'cp_over_ap': float(yy[1] / yy[0]), 'dlnG_dx4_over_H4': float(-3 * yy[1] / yy[0])}
+        ratios[N] = {'t': tN, 'a_at_t': float(yy[2]), 'cp_over_ap': float(yy[1] / yy[0]), 'dlnG_dx4_over_H4': float(-3 * yy[1] / yy[0])}
     late = ratios[5]['cp_over_ap']
+    ok3 &= a_end > max(efolds) + 1 and all(abs(ratios[N]['a_at_t'] - N) < 1e-6 for N in efolds)
     # the attractor of the ratio r = c'/a' in a matter era: r' = 0 with the equations above
     H0_per_yr = 67.4 / 3.0857e19 * 3.15576e7
     bound = max(abs(-5.0e-15 - 2 * 9.6e-15), abs(-5.0e-15 + 2 * 9.6e-15)) / H0_per_yr      # Biskupek, Mueller and Torre 2021
     ok3 &= 0.99 < late < 1.01 and 3 * late > 100 * bound
     out['BG3'] = {'c_pp_dust_at_cp_0': str(c2_dust), 'c_pp_vacuum_energy_at_cp_0': str(c2_vac), 'matter_era_from_cp_0': ratios,
-                  'LLR_bound_dlnG_over_H0': bound}
+                  'e_folds_at_the_end_of_the_integration': a_end, 'LLR_bound_dlnG_over_H0': bound}
     rep.check('BG3_free_volume_excluded', ok3,
               'without the fold fluid (q = 0 for dust, q = -rho for a vacuum energy): c\'\' = %s for dust and %s for a vacuum energy '
               'at c\' = 0; through a matter era from c\' = 0 the ratio c\'/a\' reaches %s after 1, 2, 3, 5 e-folds, so d ln G_N/dx4 = '
@@ -330,12 +355,29 @@ def main():
                   c2_dust, c2_vac, ', '.join('%.3f' % ratios[N]['cp_over_ap'] for N in efolds), -3 * late, bound,
                   3 * late / bound))
 
-    # ---------------- BG4: the fold factor
-    out['BG4'] = {'dlnZ_dx4': '3 c\'', 'frozen_extra_times': 0, 'free_volume_matter_era_over_H4': 3 * late}
-    rep.check('BG4_fold_factor', True,
-              'Z(x4) = V_t e^{3c}/V_*: d ln Z/dx4 = 3c\', zero with frozen extra times; with a free volume (BG3) %.2f H_4 in a matter '
-              'era: Newton\'s constant, the squares of the gauge couplings g_4^2 = g_7^2/(V_t e^{3c}), of the Yukawa couplings and '
-              'the quartic Higgs coupling all fall like 1/Z' % (3 * late))
+    # ---------------- BG4: the fold factor, from the volume element of the fold
+    # sqrt|ghat| = e^{3a} e^{3c}: the integral over the extra times (coordinate volume V_t) of a term of the fold that does not
+    # depend on them is V_t e^{3c} times the four-dimensional term with sqrt|h| = e^{3a}; a coupling constant g of seven
+    # dimensions (any term with one factor 1/g^2 or 1/kappa_7 in front of it) becomes g^2/(V_t e^{3c}) in four dimensions
+    ar, cr = sp.symbols('a_r c_r', real=True)                                   # a and c at one time (real numbers)
+    gh7 = sp.diag(sp.exp(2 * ar), sp.exp(2 * ar), sp.exp(2 * ar), -1, -sp.exp(2 * cr), -sp.exp(2 * cr), -sp.exp(2 * cr))
+    h4 = sp.diag(sp.exp(2 * ar), sp.exp(2 * ar), sp.exp(2 * ar), -1)
+    # |det ghat| = det ghat (four time-like directions), |det h| = -det h (one)
+    vol_r = sp.simplify(sp.sqrt(gh7.det()) / sp.sqrt(-h4.det()))
+    vol_ratio = vol_r.subs({ar: a, cr: c})                                      # = e^{3c}
+    Vt, Vs, g7s = sp.symbols('V_t V_star g_7', positive=True)
+    Zf = Vt * vol_ratio / Vs
+    dlnZ = sp.simplify(sp.diff(sp.log(Zf), t))
+    g4sq = sp.simplify(g7s ** 2 / (Vt * vol_ratio))
+    ok4 = (sp.simplify(vol_ratio - sp.exp(3 * c)) == 0 and sp.simplify(dlnZ - 3 * c1) == 0
+           and sp.simplify(sp.diff(sp.log(g4sq), t) + dlnZ) == 0 and abs(3 * late - 3.0) < 0.01)
+    out['BG4'] = {'sqrt_ghat_over_sqrt_h4': str(vol_ratio), 'dlnZ_dx4': str(dlnZ), 'g4_squared': str(g4sq),
+                  'frozen_extra_times': 0, 'free_volume_matter_era_over_H4': 3 * late}
+    rep.check('BG4_fold_factor', ok4,
+              'sqrt|ghat|/sqrt|h| = %s from the determinants: Z(x4) = V_t e^{3c}/V_*, d ln Z/dx4 = %s, zero with frozen extra times; '
+              'a coupling of seven dimensions becomes g_4^2 = %s, so d ln g_4^2/dx4 = -d ln Z/dx4; with a free volume (BG3) %.2f H_4 in '
+              'a matter era: Newton\'s constant, the squares of the gauge couplings, of the Yukawa couplings and the quartic Higgs '
+              'coupling all fall like 1/Z' % (vol_ratio, dlnZ, g4sq, 3 * late))
 
     # ---------------- BG5: the ad hoc vacuum as a rotated, displaced Higgs modulus
     x4 = sp.Symbol('x4', real=True)

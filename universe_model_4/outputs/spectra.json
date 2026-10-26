@@ -2,9 +2,58 @@
  "U3_resonances": [
   {
    "F_wkb": 0.04930614433405481,
+   "P_asymptotic": 0.18393972058572117,
+   "first_order_remainder": [
+    {
+     "first_order": 0.8638603402749776,
+     "m_over_H": 400,
+     "omega_r_over_m": 0.8638433098467894,
+     "remainder_times_nu2": -2.7248685101177728
+    },
+    {
+     "first_order": 0.8649428720297081,
+     "m_over_H": 800,
+     "omega_r_over_m": 0.8649387175607147,
+     "remainder_times_nu2": -2.6588601557619995
+    },
+    {
+     "first_order": 0.8654841379070733,
+     "m_over_H": 1600,
+     "omega_r_over_m": 0.8654831113951676,
+     "remainder_times_nu2": -2.6278704785909213
+    },
+    {
+     "first_order": 0.8657547708457559,
+     "m_over_H": 3200,
+     "omega_r_over_m": 0.8657545156865781,
+     "remainder_times_nu2": -2.6128299805350252
+    }
+   ],
    "mu_L": -1.0,
    "mu_R": 0.0,
    "predicted_slope": -0.09861228866810962,
+   "prefactor_vs_asymptotic": [
+    {
+     "deviation_times_nu": -9.679504055321953,
+     "m_over_H": 100,
+     "prefactor": 0.16613526787227842,
+     "ratio_to_asymptotic": 0.9032049594467805
+    },
+    {
+     "deviation_times_nu": -8.419552899021742,
+     "m_over_H": 1000,
+     "prefactor": 0.1823910303780184,
+     "ratio_to_asymptotic": 0.9915804471009783
+    },
+    {
+     "deviation_times_nu": -8.354393756047518,
+     "m_over_H": 4000,
+     "prefactor": 0.18355554437243354,
+     "ratio_to_asymptotic": 0.9979114015609881
+    }
+   ],
+   "q_b_over_m": 0.5,
+   "second_order_coefficient": -2.597789482479129,
    "series": [
     {
      "Gamma_over_m": 0.05867956194448446,
@@ -47,9 +96,58 @@
   },
   {
    "F_wkb": 0.028737103887775395,
+   "P_asymptotic": 0.1327788962834216,
+   "first_order_remainder": [
+    {
+     "first_order": 0.9026178255109439,
+     "m_over_H": 400,
+     "omega_r_over_m": 0.9025791103650131,
+     "remainder_times_nu2": -6.194423348926392
+    },
+    {
+     "first_order": 0.9039497111582903,
+     "m_over_H": 800,
+     "omega_r_over_m": 0.9039404521048172,
+     "remainder_times_nu2": -5.925794222747527
+    },
+    {
+     "first_order": 0.9046156539819634,
+     "m_over_H": 1600,
+     "omega_r_over_m": 0.9046133858329755,
+     "remainder_times_nu2": -5.8064614091790645
+    },
+    {
+     "first_order": 0.9049486253938002,
+     "m_over_H": 3200,
+     "omega_r_over_m": 0.9049480638831553,
+     "remainder_times_nu2": -5.749869003466301
+    }
+   ],
    "mu_L": -0.6,
    "mu_R": -0.3,
    "predicted_slope": -0.05747420777555079,
+   "prefactor_vs_asymptotic": [
+    {
+     "deviation_times_nu": -18.622618184344265,
+     "m_over_H": 100,
+     "prefactor": 0.10805198939917351,
+     "ratio_to_asymptotic": 0.8137738181565574
+    },
+    {
+     "deviation_times_nu": -14.303867807943792,
+     "m_over_H": 1000,
+     "prefactor": 0.13087964450329886,
+     "ratio_to_asymptotic": 0.9856961321920562
+    },
+    {
+     "deviation_times_nu": -14.10407089427812,
+     "m_over_H": 4000,
+     "prefactor": 0.13231071554181026,
+     "ratio_to_asymptotic": 0.9964739822764305
+    }
+   ],
+   "q_b_over_m": 0.4248119942810426,
+   "second_order_coefficient": -5.693276597753538,
    "series": [
     {
      "Gamma_over_m": 0.08649675405229497,
@@ -91,52 +189,480 @@
    ]
   }
  ],
- "U5_dispersion": "omega^2 = k^2 + omega_0^2 for every state (boosts of the fold), group velocity below 1",
+ "U4_strong_binding_prefactor": {
+  "P_asymptotic": 0.7211172805842613,
+  "q_b_over_m": 0.99,
+  "rows": [
+   {
+    "m_over_H": 20,
+    "omega_r_over_m": 0.1375030704984731,
+    "prefactor": 0.6959482006986671,
+    "ratio_to_asymptotic": 0.965097106166695
+   },
+   {
+    "m_over_H": 60,
+    "omega_r_over_m": 0.13987971571849162,
+    "prefactor": 0.7127336823552995,
+    "ratio_to_asymptotic": 0.9883741543093112
+   },
+   {
+    "m_over_H": 200,
+    "omega_r_over_m": 0.14071111068091371,
+    "prefactor": 0.7186027703154257,
+    "ratio_to_asymptotic": 0.9965130356232786
+   }
+  ]
+ },
+ "U5_dispersion": {
+  "boost_commutes_with_fold_matching": 0.0,
+  "fold_matching_residual": 1.424830071639008e-15,
+  "group_velocity_real_part": 0.338741389897706,
+  "k_over_m": 0.3,
+  "m_over_H": 30,
+  "ode_residual": 1.512821080036852e-08,
+  "omega_0_over_m": [
+   0.8332612722187343,
+   -0.0033488762755209535
+  ],
+  "omega_over_m": [
+   0.8856201561026202,
+   -0.0031508868521284887
+  ]
+ },
  "U6_lifetime": {
   "H_min_GeV": 2533.8610903344256,
-  "estimates": [
+  "prefactor_asymptotic": "(2/e) (q_b/m_Psi)^2",
+  "requirement": "tau > 160 Gyr = 11.6 t_0 (decay into invisible relativistic particles: Audren et al., JCAP 12 (2014) 028)",
+  "rows": [
    {
-    "F": 0.0003303598782086369,
+    "F": 0.000330359878208648,
     "Gamma_max_GeV": 1.5114114703254374e-42,
+    "P_asymptotic": 0.007284741409335494,
+    "P_exact_at_bound": null,
     "lifetime_over_t0": 1.0,
-    "m_Psi_min_GeV": 437938279.68980503,
-    "m_over_H_min": 172834.36781927332,
-    "omega_b_min_GeV": 435764875.30794,
-    "q_b_over_omega_b": 0.1,
-    "u_b": 0.9950371902099893
+    "m_Psi_min_GeV": 426624605.07933456,
+    "m_over_H_asymptotic": 168369.3738013979,
+    "m_over_H_min": 168369.3738013979,
+    "method": "asymptotic width",
+    "omega_b_min_GeV": 424507348.3125873,
+    "q_b_over_m": 0.09950371902099893,
+    "q_b_over_omega_b": 0.10000000000000002,
+    "u_b": 0.9950371902099892
    },
    {
-    "F": 0.04930614433405494,
+    "F": 0.009519604203111712,
     "Gamma_max_GeV": 1.5114114703254374e-42,
+    "P_asymptotic": 0.06621829941085962,
+    "P_exact_at_bound": 0.0657377545135881,
+    "P_exact_over_asymptotic": 0.9927430196554895,
     "lifetime_over_t0": 1.0,
-    "m_Psi_min_GeV": 2804481.0737729464,
-    "m_over_H_min": 1106.801428251461,
-    "omega_b_min_GeV": 2428751.8543200316,
-    "q_b_over_omega_b": 0.5773502691896258,
-    "u_b": 0.8660254037844385
+    "m_Psi_min_GeV": 14649273.881541587,
+    "m_over_H_asymptotic": 5781.789728997778,
+    "m_over_H_min": 5781.403699445947,
+    "method": "exact width",
+    "omega_b_min_GeV": 13974516.627895901,
+    "q_b_over_m": 0.3,
+    "q_b_over_omega_b": 0.3144854510165755,
+    "u_b": 0.9539392014169457
    },
    {
-    "F": 0.0003303598782086369,
-    "Gamma_max_GeV": 1.5114114703254376e-44,
-    "lifetime_over_t0": 100.0,
-    "m_Psi_min_GeV": 455752017.8769246,
-    "m_over_H_min": 179864.64199455117,
-    "omega_b_min_GeV": 453490207.3007878,
-    "q_b_over_omega_b": 0.1,
-    "u_b": 0.9950371902099893
+    "F": 0.04930614433405488,
+    "Gamma_max_GeV": 1.5114114703254374e-42,
+    "P_asymptotic": 0.18393972058572117,
+    "P_exact_at_bound": 0.18254469156645156,
+    "P_exact_over_asymptotic": 0.9924158359334928,
+    "lifetime_over_t0": 1.0,
+    "m_Psi_min_GeV": 2812190.343419811,
+    "m_over_H_asymptotic": 1109.9217816213368,
+    "m_over_H_min": 1109.8439271778118,
+    "method": "exact width",
+    "omega_b_min_GeV": 2435428.2776788413,
+    "q_b_over_m": 0.5,
+    "q_b_over_omega_b": 0.5773502691896258,
+    "u_b": 0.8660254037844386
    },
    {
-    "F": 0.04930614433405494,
-    "Gamma_max_GeV": 1.5114114703254376e-44,
-    "lifetime_over_t0": 100.0,
-    "m_Psi_min_GeV": 2923883.1140866503,
-    "m_over_H_min": 1153.9239957707186,
-    "omega_b_min_GeV": 2532157.054495393,
+    "F": 0.1673005276940532,
+    "Gamma_max_GeV": 1.5114114703254374e-42,
+    "P_asymptotic": 0.3605218523480134,
+    "P_exact_at_bound": 0.3575169828608823,
+    "P_exact_over_asymptotic": 0.9916652223226943,
+    "lifetime_over_t0": 1.0,
+    "m_Psi_min_GeV": 824597.4187039154,
+    "m_over_H_asymptotic": 325.45640108220925,
+    "m_over_H_min": 325.4311855726404,
+    "method": "exact width",
+    "omega_b_min_GeV": 588880.3448035193,
+    "q_b_over_m": 0.7,
+    "q_b_over_omega_b": 0.9801960588196068,
+    "u_b": 0.714142842854285
+   },
+   {
+    "F": 0.29861228866810985,
+    "Gamma_max_GeV": 1.5114114703254374e-42,
+    "P_asymptotic": 0.4708856846994463,
+    "P_exact_at_bound": 0.4665535402553566,
+    "P_exact_over_asymptotic": 0.9908000081870088,
+    "lifetime_over_t0": 1.0,
+    "m_Psi_min_GeV": 460648.0863118058,
+    "m_over_H_asymptotic": 181.81245273349543,
+    "m_over_H_min": 181.79689804976968,
+    "method": "exact width",
+    "omega_b_min_GeV": 276388.85178708343,
+    "q_b_over_m": 0.8,
+    "q_b_over_omega_b": 1.3333333333333337,
+    "u_b": 0.5999999999999999
+   },
+   {
+    "F": 0.5722194895832204,
+    "Gamma_max_GeV": 1.5114114703254374e-42,
+    "P_asymptotic": 0.5959646946977366,
+    "P_exact_at_bound": 0.5893072206550191,
+    "P_exact_over_asymptotic": 0.988829079806323,
+    "lifetime_over_t0": 1.0,
+    "m_Psi_min_GeV": 239457.43596095598,
+    "m_over_H_asymptotic": 94.51285164503341,
+    "m_over_H_min": 94.5029847430791,
+    "method": "exact width",
+    "omega_b_min_GeV": 104377.07646331693,
+    "q_b_over_m": 0.9,
+    "q_b_over_omega_b": 2.0647416048350564,
+    "u_b": 0.4358898943540673
+   },
+   {
+    "F": 0.8817808230648231,
+    "Gamma_max_GeV": 1.5114114703254374e-42,
+    "P_asymptotic": 0.6640223913144534,
+    "P_exact_at_bound": 0.6549093850466317,
+    "P_exact_over_asymptotic": 0.9862760557670619,
+    "lifetime_over_t0": 1.0,
+    "m_Psi_min_GeV": 154918.5178067357,
+    "m_over_H_asymptotic": 61.14720999286929,
+    "m_over_H_min": 61.13930964790542,
+    "method": "exact width",
+    "omega_b_min_GeV": 48373.29168089556,
+    "q_b_over_m": 0.95,
+    "q_b_over_omega_b": 3.0424349222966547,
+    "u_b": 0.31224989991991997
+   },
+   {
+    "F": 1.6566524123622455,
+    "Gamma_max_GeV": 1.5114114703254374e-42,
+    "P_asymptotic": 0.7211172805842613,
+    "P_exact_at_bound": 0.7053932780878404,
+    "P_exact_over_asymptotic": 0.9781949442624908,
+    "lifetime_over_t0": 1.0,
+    "m_Psi_min_GeV": 82028.59116930197,
+    "m_over_H_asymptotic": 32.37963646243899,
+    "m_over_H_min": 32.372962938736165,
+    "method": "exact width",
+    "omega_b_min_GeV": 11571.556784092962,
+    "q_b_over_m": 0.99,
+    "q_b_over_omega_b": 7.017923929582521,
+    "u_b": 0.14106735979665894
+   },
+   {
+    "F": 2.801201167250207,
+    "Gamma_max_GeV": 1.5114114703254374e-42,
+    "P_asymptotic": 0.7342881003370813,
+    "P_exact_at_bound": 0.7084313956278621,
+    "P_exact_over_asymptotic": 0.9647867033425307,
+    "lifetime_over_t0": 1.0,
+    "m_Psi_min_GeV": 48274.46356619695,
+    "m_over_H_asymptotic": 19.058194404918083,
+    "m_over_H_min": 19.051740346123538,
+    "method": "exact width",
+    "omega_b_min_GeV": 2158.3598498340093,
+    "q_b_over_m": 0.999,
+    "q_b_over_omega_b": 22.343905770087243,
+    "u_b": 0.04471017781221601
+   },
+   {
+    "F": 0.000330359878208648,
+    "Gamma_max_GeV": 1.3035923931556897e-43,
+    "P_asymptotic": 0.007284741409335494,
+    "P_exact_at_bound": null,
+    "lifetime_over_t0": 11.594202898550725,
+    "m_Psi_min_GeV": 436106597.5150707,
+    "m_over_H_asymptotic": 172111.48597633353,
+    "m_over_H_min": 172111.48597633353,
+    "method": "asymptotic width",
+    "omega_b_min_GeV": 433942283.42343456,
+    "q_b_over_m": 0.09950371902099893,
+    "q_b_over_omega_b": 0.10000000000000002,
+    "u_b": 0.9950371902099892
+   },
+   {
+    "F": 0.009519604203111712,
+    "Gamma_max_GeV": 1.3035923931556897e-43,
+    "P_asymptotic": 0.06621829941085962,
+    "P_exact_at_bound": 0.06574842670088508,
+    "P_exact_over_asymptotic": 0.9929041863932634,
+    "lifetime_over_t0": 11.594202898550725,
+    "m_Psi_min_GeV": 14978381.36244021,
+    "m_over_H_asymptotic": 5911.664846996884,
+    "m_over_H_min": 5911.287489111459,
+    "method": "exact width",
+    "omega_b_min_GeV": 14288465.155404676,
+    "q_b_over_m": 0.3,
+    "q_b_over_omega_b": 0.3144854510165755,
+    "u_b": 0.9539392014169457
+   },
+   {
+    "F": 0.04930614433405488,
+    "Gamma_max_GeV": 1.3035923931556897e-43,
+    "P_asymptotic": 0.18393972058572117,
+    "P_exact_at_bound": 0.18257573100642732,
+    "P_exact_over_asymptotic": 0.9925845838247961,
+    "lifetime_over_t0": 11.594202898550725,
+    "m_Psi_min_GeV": 2875735.0568187367,
+    "m_over_H_asymptotic": 1134.998238210377,
+    "m_over_H_min": 1134.9221422549213,
+    "method": "exact width",
+    "omega_b_min_GeV": 2490459.613758512,
+    "q_b_over_m": 0.5,
     "q_b_over_omega_b": 0.5773502691896258,
-    "u_b": 0.8660254037844385
+    "u_b": 0.8660254037844386
+   },
+   {
+    "F": 0.1673005276940532,
+    "Gamma_max_GeV": 1.3035923931556897e-43,
+    "P_asymptotic": 0.3605218523480134,
+    "P_exact_at_bound": 0.3575808502707998,
+    "P_exact_over_asymptotic": 0.9918423749959692,
+    "lifetime_over_t0": 11.594202898550725,
+    "m_Psi_min_GeV": 843326.0614157639,
+    "m_over_H_asymptotic": 332.8471732283228,
+    "m_over_H_min": 332.8225310506108,
+    "method": "exact width",
+    "omega_b_min_GeV": 602255.2709525609,
+    "q_b_over_m": 0.7,
+    "q_b_over_omega_b": 0.9801960588196068,
+    "u_b": 0.714142842854285
+   },
+   {
+    "F": 0.29861228866810985,
+    "Gamma_max_GeV": 1.3035923931556897e-43,
+    "P_asymptotic": 0.4708856846994463,
+    "P_exact_at_bound": 0.4666478629905316,
+    "P_exact_over_asymptotic": 0.9910003173878187,
+    "lifetime_over_t0": 11.594202898550725,
+    "m_Psi_min_GeV": 471141.36080511217,
+    "m_over_H_asymptotic": 185.95331580671814,
+    "m_over_H_min": 185.9381173665403,
+    "method": "exact width",
+    "omega_b_min_GeV": 282684.81648306723,
+    "q_b_over_m": 0.8,
+    "q_b_over_omega_b": 1.3333333333333337,
+    "u_b": 0.5999999999999999
+   },
+   {
+    "F": 0.5722194895832204,
+    "Gamma_max_GeV": 1.3035923931556897e-43,
+    "P_asymptotic": 0.5959646946977366,
+    "P_exact_at_bound": 0.5894466202731289,
+    "P_exact_over_asymptotic": 0.9890629856389168,
+    "lifetime_over_t0": 11.594202898550725,
+    "m_Psi_min_GeV": 244933.63838459202,
+    "m_over_H_asymptotic": 96.67383376867072,
+    "m_over_H_min": 96.66419336044386,
+    "method": "exact width",
+    "omega_b_min_GeV": 106764.09775921714,
+    "q_b_over_m": 0.9,
+    "q_b_over_omega_b": 2.0647416048350564,
+    "u_b": 0.4358898943540673
+   },
+   {
+    "F": 0.8817808230648231,
+    "Gamma_max_GeV": 1.3035923931556897e-43,
+    "P_asymptotic": 0.6640223913144534,
+    "P_exact_at_bound": 0.6550568594776318,
+    "P_exact_over_asymptotic": 0.986498148324375,
+    "lifetime_over_t0": 11.594202898550725,
+    "m_Psi_min_GeV": 158472.3831293702,
+    "m_over_H_asymptotic": 62.5495883267473,
+    "m_over_H_min": 62.54185903634306,
+    "method": "exact width",
+    "omega_b_min_GeV": 49482.98577221706,
+    "q_b_over_m": 0.95,
+    "q_b_over_omega_b": 3.0424349222966547,
+    "u_b": 0.31224989991991997
+   },
+   {
+    "F": 1.6566524123622455,
+    "Gamma_max_GeV": 1.3035923931556897e-43,
+    "P_asymptotic": 0.7211172805842613,
+    "P_exact_at_bound": 0.7058700731545148,
+    "P_exact_over_asymptotic": 0.9788561336133937,
+    "lifetime_over_t0": 11.594202898550725,
+    "m_Psi_min_GeV": 83920.4921078457,
+    "m_over_H_asymptotic": 33.126110889934296,
+    "m_over_H_min": 33.11961039536293,
+    "method": "exact width",
+    "omega_b_min_GeV": 11838.442254490146,
+    "q_b_over_m": 0.99,
+    "q_b_over_omega_b": 7.017923929582521,
+    "u_b": 0.14106735979665894
+   },
+   {
+    "F": 2.801201167250207,
+    "Gamma_max_GeV": 1.3035923931556897e-43,
+    "P_asymptotic": 0.7342881003370813,
+    "P_exact_at_bound": 0.7084313956278621,
+    "P_exact_over_asymptotic": 0.9647867033425307,
+    "lifetime_over_t0": 11.594202898550725,
+    "m_Psi_min_GeV": 49393.38917744514,
+    "m_over_H_asymptotic": 19.49968471763246,
+    "m_over_H_min": 19.493329514336587,
+    "method": "exact width",
+    "omega_b_min_GeV": 2208.3872128715584,
+    "q_b_over_m": 0.999,
+    "q_b_over_omega_b": 22.343905770087243,
+    "u_b": 0.04471017781221601
+   },
+   {
+    "F": 0.000330359878208648,
+    "Gamma_max_GeV": 1.5114114703254376e-44,
+    "P_asymptotic": 0.007284741409335494,
+    "P_exact_at_bound": null,
+    "lifetime_over_t0": 100.0,
+    "m_Psi_min_GeV": 444442350.90450466,
+    "m_over_H_asymptotic": 175401.22960957026,
+    "m_over_H_min": 175401.22960957026,
+    "method": "asymptotic width",
+    "omega_b_min_GeV": 442236668.05434036,
+    "q_b_over_m": 0.09950371902099893,
+    "q_b_over_omega_b": 0.10000000000000002,
+    "u_b": 0.9950371902099892
+   },
+   {
+    "F": 0.009519604203111712,
+    "Gamma_max_GeV": 1.5114114703254376e-44,
+    "P_asymptotic": 0.06621829941085962,
+    "P_exact_at_bound": null,
+    "lifetime_over_t0": 100.0,
+    "m_Psi_min_GeV": 15268640.146797756,
+    "m_over_H_asymptotic": 6025.839460987406,
+    "m_over_H_min": 6025.839460987406,
+    "method": "asymptotic width",
+    "omega_b_min_GeV": 14565354.388358967,
+    "q_b_over_m": 0.3,
+    "q_b_over_omega_b": 0.3144854510165755,
+    "u_b": 0.9539392014169457
+   },
+   {
+    "F": 0.04930614433405488,
+    "Gamma_max_GeV": 1.5114114703254376e-44,
+    "P_asymptotic": 0.18393972058572117,
+    "P_exact_at_bound": 0.18260192489563895,
+    "P_exact_over_asymptotic": 0.9927269885709173,
+    "lifetime_over_t0": 100.0,
+    "m_Psi_min_GeV": 2931597.6172465705,
+    "m_over_H_asymptotic": 1157.0431745673052,
+    "m_over_H_min": 1156.9685601272051,
+    "method": "exact width",
+    "omega_b_min_GeV": 2538838.0102094593,
+    "q_b_over_m": 0.5,
+    "q_b_over_omega_b": 0.5773502691896258,
+    "u_b": 0.8660254037844386
+   },
+   {
+    "F": 0.1673005276940532,
+    "Gamma_max_GeV": 1.5114114703254376e-44,
+    "P_asymptotic": 0.3605218523480134,
+    "P_exact_at_bound": 0.35764205880435584,
+    "P_exact_over_asymptotic": 0.9920121525924102,
+    "lifetime_over_t0": 100.0,
+    "m_Psi_min_GeV": 859790.4881122471,
+    "m_over_H_asymptotic": 339.34445458551227,
+    "m_over_H_min": 339.32029320469564,
+    "method": "exact width",
+    "omega_b_min_GeV": 614013.2234395534,
+    "q_b_over_m": 0.7,
+    "q_b_over_omega_b": 0.9801960588196068,
+    "u_b": 0.714142842854285
+   },
+   {
+    "F": 0.29861228866810985,
+    "Gamma_max_GeV": 1.5114114703254376e-44,
+    "P_asymptotic": 0.4708856846994463,
+    "P_exact_at_bound": 0.4667381653012467,
+    "P_exact_over_asymptotic": 0.9911920885833536,
+    "lifetime_over_t0": 100.0,
+    "m_Psi_min_GeV": 480366.014151046,
+    "m_over_H_asymptotic": 189.59357458612718,
+    "m_over_H_min": 189.57866947933047,
+    "method": "exact width",
+    "omega_b_min_GeV": 288219.60849062755,
+    "q_b_over_m": 0.8,
+    "q_b_over_omega_b": 1.3333333333333337,
+    "u_b": 0.5999999999999999
+   },
+   {
+    "F": 0.5722194895832204,
+    "Gamma_max_GeV": 1.5114114703254376e-44,
+    "P_asymptotic": 0.5959646946977366,
+    "P_exact_at_bound": 0.5895803011170231,
+    "P_exact_over_asymptotic": 0.9892872956443308,
+    "lifetime_over_t0": 100.0,
+    "m_Psi_min_GeV": 249747.7686491581,
+    "m_over_H_asymptotic": 98.57356397739056,
+    "m_over_H_min": 98.56411213773195,
+    "method": "exact width",
+    "omega_b_min_GeV": 108862.52849164556,
+    "q_b_over_m": 0.9,
+    "q_b_over_omega_b": 2.0647416048350564,
+    "u_b": 0.4358898943540673
+   },
+   {
+    "F": 0.8817808230648231,
+    "Gamma_max_GeV": 1.5114114703254376e-44,
+    "P_asymptotic": 0.6640223913144534,
+    "P_exact_at_bound": 0.6551996362723453,
+    "P_exact_over_asymptotic": 0.9867131663668102,
+    "lifetime_over_t0": 100.0,
+    "m_Psi_min_GeV": 161596.61936681104,
+    "m_over_H_asymptotic": 63.782424723565576,
+    "m_over_H_min": 63.77485331900459,
+    "method": "exact width",
+    "omega_b_min_GeV": 50458.528224684145,
+    "q_b_over_m": 0.95,
+    "q_b_over_omega_b": 3.0424349222966547,
+    "u_b": 0.31224989991991997
+   },
+   {
+    "F": 1.6566524123622455,
+    "Gamma_max_GeV": 1.5114114703254376e-44,
+    "P_asymptotic": 0.7211172805842613,
+    "P_exact_at_bound": 0.7058700731545148,
+    "P_exact_over_asymptotic": 0.9788561336133937,
+    "lifetime_over_t0": 100.0,
+    "m_Psi_min_GeV": 85583.58291939404,
+    "m_over_H_asymptotic": 33.7823382480474,
+    "m_over_H_min": 33.77595687698038,
+    "method": "exact width",
+    "omega_b_min_GeV": 12073.050084377353,
+    "q_b_over_m": 0.99,
+    "q_b_over_omega_b": 7.017923929582521,
+    "u_b": 0.14106735979665894
+   },
+   {
+    "F": 2.801201167250207,
+    "Gamma_max_GeV": 1.5114114703254376e-44,
+    "P_asymptotic": 0.7342881003370813,
+    "P_exact_at_bound": 0.7084313956278621,
+    "P_exact_over_asymptotic": 0.9647867033425307,
+    "lifetime_over_t0": 100.0,
+    "m_Psi_min_GeV": 50377.231116637755,
+    "m_over_H_asymptotic": 19.887799131902124,
+    "m_over_H_min": 19.881607286526048,
+    "method": "exact width",
+    "omega_b_min_GeV": 2252.3749609119754,
+    "q_b_over_m": 0.999,
+    "q_b_over_omega_b": 22.343905770087243,
+    "u_b": 0.04471017781221601
    }
-  ],
-  "prefactor_P": 0.13560119628608427
+  ]
  },
  "U7_krein": [
   {
@@ -164,6 +690,6 @@
    "positive": 4
   }
  ],
- "definition_of_the_fold": "THE FOLD (the definition used in every UM-4 file)\n\nDefinition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of\nthe angle z = 6 H x0 of the hidden direction vanishes:\n    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).\nX = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the\ntime, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The metric of UM-4 depends on x0\nonly through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi\ncontains exactly one surface of F, at z = pi/2: F is the union of these copies, one per period (example 2), and \"the\nfold\" without a qualifier is the copy in the period that contains our world. A point of the fold is labelled by the seven\ncoordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/2) is\n    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),\nwith three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.\nNotation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric\nfunctions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as\nsigma approaches 0 from above and from below.\n\nWhy this surface is called a fold. Measured by the proper distance along the hidden direction,\n    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)\n(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends\nof the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the metric of UM-4 is\n    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ].\nIt depends on sigma only through |sigma|. The function W(sigma) = e^(-2 H |sigma|), which multiplies the squared steps of all\nseven directions of the fold (ordinary space, the time and the extra times), is the warp factor of the metric (its square\nroot e^(-H |sigma|) multiplies the lengths). The time x4 is warped like the other directions (the author's order of\n2026-10-25, 13:15 PDT; in UM-3 it was not), so that every surface sigma = const has the light cone of the fold. Four\nproperties make the surface sigma = 0 a fold, and together they single it out within the period:\n  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to\n     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the\n     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are\n     joined along the crease.\n  2. The warp factor is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|) equals 1 on the fold and\n     decreases on both sides.\n  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.\n     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,\n        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb = -H sgn(sigma) delta^a_b   (all seven directions a, b of the fold)\n     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the\n     sign function, delta^a_b the Kronecker delta, a, b frame indices along the fold); it jumps by -2 H in every direction\n     of the fold. The field equations of gravity of UM-4, G^M_N + Lambda delta^M_N = kappa T^M_N (Einstein gravity: the\n     author's Einstein-Lovelock equations with the weights of the Gauss-Bonnet and cubic terms set to zero; G^M_N the\n     Einstein tensor, Lambda = -21 H^2 the cosmological constant, kappa = 8 pi G_8 the gravitational coupling of eight\n     dimensions, T^M_N the energy-momentum tensor), are linear in the second sigma-derivatives of the metric, so the jump\n     puts a Dirac delta function delta_D(sigma) into them: the metric solves them only if the fold carries a thin source\n     S^a_b, an energy-momentum tensor concentrated on sigma = 0, given by the integral of the equations across the fold\n     (the junction condition of Israel),\n        (FD-11) kappa S^a_b = integral from sigma = 0- to 0+ of d sigma G^a_b = -([K^a_b] - [K] delta^a_b)\n     ([K^a_b] the jump of the extrinsic curvature across the fold, K its trace), with S^4_4 = -(its energy density),\n     S^1_1 = S^2_2 = S^3_3 its pressure along ordinary space and S^5_5 = S^6_6 = S^7_7 its pressure along the extra times; S is\n     T integrated across the fold, an energy per unit volume of the six other directions of the fold (unit GeV^7). For the\n     static block (a4 and b4 constant) and, to the first order in the curvature of the fold divided by H^2, for every fold\n        (FD-12) static block:  kappa S^a_b = -12 H delta^a_b  (a pure tension, kappa lambda_F = 12 H),\n                any fold:      kappa S^a_b = -12 H delta^a_b + (2/(5 H)) Ghat^a_b\n     (Ghat^a_b the Einstein tensor of the metric FD-2 of the fold): the tension plus matter that obeys the Einstein equations\n     of seven dimensions, Ghat^a_b = kappa_7 tau^a_b with kappa_7 = 5 kappa H/2 (tau the matter of the fold), which for frozen\n     extra times are the Friedmann equations of general relativity. The fold is therefore not only a place but a physical\n     object: a thin layer that carries energy and momentum (a brane).\n  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and\n     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,\n        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],\n     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper\n     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).\n\nWhat lives on the fold. In UM-4 the Higgs doublet (with the author's ad hoc vacuum, a time-dependent choice of its vacuum\nvalue), three generations of quarks and leptons, three right-handed neutrinos and the fold fluid (its tension and the\npressure along the extra times that keeps their volume fixed) live on the fold: they are fields at sigma = 0, functions of\nx1, ..., x4 (no field depends on the extra times). The gauge fields of SU(3)_C x SU(2)_L x U(1)_Y live in the bulk; their\nmassless modes are bound to the fold, so that the photon and the gluons of the four-dimensional world are waves of the bulk\nthat the fold holds, and photons that leave the fold travel through the bulk at the speed of light. dirac16complex (the\nauthor's spinor field of eight dimensions) and gravity live in the bulk sigma != 0 as well as on the fold; the states chi of\ndirac16complex that the fold holds (in UM-4 long-lived resonances) are the part of it near the fold, and the portals\n(couplings between dirac16complex and the fields of the fold) act at sigma = 0. Integrated over the extra times, the fold is\nthe four-dimensional universe that we observe, with the metric diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. In UM-4\nfiles \"the fold\" means this surface; the examples below use the word for other surfaces with the same properties. The word\nis not used in its other senses: a set of equal energy levels is called degenerate, and a growth by the factor e is called\nan e-folding.\n\nExamples of folds that are meaningful for UM-4.\n  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the\n     quarks, leptons and the Higgs field, and after the integration over the extra times the four-dimensional universe that\n     we observe.\n  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface\n     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are\n     separated by a tip (z a multiple of pi), where the warp factor (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2\n     diverges, and which lies at an infinite proper distance from both: in proper distance every copy has its own complete\n     line -infinity < sigma < infinity. A compact direction of length L would give every field a tower of particles with\n     the masses 2 pi n/L, n = 1, 2, ... (a Kaluza-Klein tower); because the copies are infinitely far apart, the period\n     pi/(6 H) of x0 produces no such tower with the spacing 12 H: every field of the bulk has instead a continuum of modes\n     that starts at zero mass, and the fold holds its massless mode.\n  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images\n     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).\n     In UM-4 the direction across the crease is the hidden direction sigma, the seven directions along the crease are\n     x1, ..., x7, and the crease is the fold.\n  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,\n     largest at sigma = 0, with a jump of its derivative,\n        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),\n                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),\n     whose delta function is the origin of the thin source of property 3. Every metric function of FD-4 depends on sigma\n     through |sigma| and is folded at sigma = 0 in this sense.\n  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto\n     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map\n     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is\n     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.\n  6. The brane of Randall and Sundrum. The five-dimensional metric\n        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),\n                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5\n     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a\n     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does\n     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in\n     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every\n     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of\n     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure\n     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three\n     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their\n     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the\n     bulk as well.\n  7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off\n     exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac\n     equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near\n     the fold: at rest and without their self-interaction (the field is Psi = e^((7/2) H |sigma|) chi(sigma) e^(-i omega x4))\n        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+)   (0 < sigma << sigma_t),\n                chi(sigma) = e^(-q_b |sigma|) chi(0-)   (0 < -sigma << sigma_t),\n                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),\n                omega_0 = omega_r - i Gamma/2,   omega_r -> sqrt(m_Psi^2 - q_b^2),\n     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the\n     fields of the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors, m_Psi the bulk\n     mass, q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for mu_R = 0), and omega_r\n     tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is\n     warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point\n     sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a\n     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the\n     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and\n     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a\n     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).\n  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,\n        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)\n     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the\n     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).\n     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can\n     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the\n     particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)\n     are even under it and the four of Krein charge +1 are odd, so such a mean field cannot mix the two signs of the\n     indefinite charge. R_2 maps the states of one Krein charge onto those of the other and makes the two sets degenerate\n     without the self-interaction.\n  9. The planes of Horava and Witten. In M-theory (the eleven-dimensional theory whose limits include the superstring\n     theories) on an interval (a circle whose points are identified with their mirror images), the two ten-dimensional\n     planes left in place by the reflection are mirror surfaces (property 1); each carries one E8 gauge group while gravity\n     fills the bulk. As in UM-4, gravity fills the bulk; unlike UM-4, the gauge fields live on the mirror planes (in UM-4\n     they live in the bulk), and the two sides of each plane are identified (one physical side).\n\nWhat is not a fold.\n  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp factor vanishes,\n    g_x0x0 diverges, and they lie at an infinite proper distance; they carry no thin source.\n  * A smooth maximum of a warp factor, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a\n    kink and without a thin source.",
- "runtime_s": 6.8
+ "definition_of_the_fold": "THE FOLD (the definition used in every UM-4 file)\n\nDefinition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of\nthe angle z = 6 H x0 of the hidden direction vanishes:\n    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).\nX = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the\ntime, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The metric of UM-4 depends on x0\nonly through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi\ncontains exactly one surface of F, at z = pi/2: F is the union of these copies, one per period (example 2), and \"the\nfold\" without a qualifier is the copy in the period that contains our world. A point of the fold is labelled by the seven\ncoordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/2) is\n    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),\nwith three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.\nNotation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric\nfunctions, sinh, cosh, tanh = sinh/cosh and coth = cosh/sinh the hyperbolic functions, |y| the absolute value, max and\nmin the larger and the smaller of their arguments; det, tr and ^T are the determinant, the trace and the transpose of a\nsquare matrix, and 1_4, 1_8 and 1_16 the identity matrices of 4, 8 and 16 rows; f(0+) and f(0-) are the limits of\nf(sigma) as sigma approaches 0 from above and from below.\n\nWhy this surface is called a fold. Measured by the proper distance along the hidden direction,\n    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)\n(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends\nof the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the metric of UM-4 is\n    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ].\nIt depends on sigma only through |sigma|. The function W(sigma) = e^(-2 H |sigma|), which multiplies the squared steps of all\nseven directions of the fold (ordinary space, the time and the extra times), is the warp factor of the metric (its square\nroot e^(-H |sigma|) multiplies the lengths). The time x4 is warped like the other directions (the author's order of\n2026-10-25, 13:15 PDT; in UM-3 it was not), so that every surface sigma = const has the light cone of the fold. Four\nproperties make the surface sigma = 0 a fold, and together they single it out within the period:\n  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to\n     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the\n     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are\n     joined along the crease.\n  2. The warp factor is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|) equals 1 on the fold and\n     decreases on both sides.\n  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.\n     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,\n        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb = -H sgn(sigma) delta^a_b   (all seven directions a, b of the fold)\n     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the\n     sign function, delta^a_b the Kronecker delta, a, b frame indices along the fold); it jumps by -2 H in every direction\n     of the fold. The field equations of gravity of UM-4, G^M_N + Lambda delta^M_N = kappa T^M_N (Einstein gravity: the\n     author's Einstein-Lovelock equations with the weights of the Gauss-Bonnet and cubic terms set to zero; G^M_N the\n     Einstein tensor, Lambda = -21 H^2 the cosmological constant, kappa = 8 pi G_8 the gravitational coupling of eight\n     dimensions, T^M_N the energy-momentum tensor), are linear in the second sigma-derivatives of the metric, so the jump\n     puts a Dirac delta function delta_D(sigma) into them: the metric solves them only if the fold carries a thin source\n     S^a_b, an energy-momentum tensor concentrated on sigma = 0, given by the integral of the equations across the fold\n     (the junction condition of Israel),\n        (FD-11) kappa S^a_b = integral from sigma = 0- to 0+ of d sigma G^a_b = -([K^a_b] - [K] delta^a_b)\n     ([K^a_b] the jump of the extrinsic curvature across the fold, K its trace), with S^4_4 = -(its energy density),\n     S^1_1 = S^2_2 = S^3_3 its pressure along ordinary space and S^5_5 = S^6_6 = S^7_7 its pressure along the extra times; S is\n     T integrated across the fold, an energy per unit volume of the six other directions of the fold (unit GeV^7). For the\n     static block (a4 and b4 constant) and, to the first order in the curvature of the fold divided by H^2, for every fold\n        (FD-12) static block:  kappa S^a_b = -12 H delta^a_b  (a pure tension, kappa lambda_F = 12 H),\n                any fold:      kappa S^a_b = -12 H delta^a_b + (2/(5 H)) Ghat^a_b\n     (Ghat^a_b the Einstein tensor of the metric FD-2 of the fold): the tension plus matter that obeys the Einstein equations\n     of seven dimensions, Ghat^a_b = kappa_7 tau^a_b with kappa_7 = 5 kappa H/2 (tau the matter of the fold), which for frozen\n     extra times are the Friedmann equations of general relativity. The fold is therefore not only a place but a physical\n     object: a thin layer that carries energy and momentum (a brane).\n  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and\n     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,\n        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],\n     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper\n     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).\n\nWhat lives on the fold. In UM-4 the Higgs doublet (with the author's ad hoc vacuum, a time-dependent choice of its vacuum\nvalue), three generations of quarks and leptons, three right-handed neutrinos and the fold fluid (its tension and the\npressure along the extra times that keeps their volume fixed) live on the fold: they are fields at sigma = 0, functions of\nx1, ..., x4 (no field depends on the extra times). The gauge fields of SU(3)_C x SU(2)_L x U(1)_Y live in the bulk; their\nmassless modes are bound to the fold, so that the photon and the gluons of the four-dimensional world are waves of the bulk\nthat the fold holds, and photons that leave the fold travel through the bulk at the speed of light. dirac16complex (the\nauthor's spinor field of eight dimensions) and gravity live in the bulk sigma != 0 as well as on the fold; the states chi of\ndirac16complex that the fold holds (in UM-4 long-lived resonances) are the part of it near the fold, and the portals\n(couplings between dirac16complex and the fields of the fold) act at sigma = 0. Integrated over the extra times, the fold is\nthe four-dimensional universe that we observe, with the metric diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. In UM-4\nfiles \"the fold\" means this surface; the examples below use the word for other surfaces with the same properties. The word\nis not used in its other senses: a set of equal energy levels is called degenerate, and a growth by the factor e is called\nan e-folding.\n\nExamples of folds that are meaningful for UM-4.\n  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the\n     quarks, leptons and the Higgs field, and after the integration over the extra times the four-dimensional universe that\n     we observe.\n  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface\n     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are\n     separated by a tip (z a multiple of pi), where the warp factor (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2\n     diverges, and which lies at an infinite proper distance from both: in proper distance every copy has its own complete\n     line -infinity < sigma < infinity. A compact direction of length L would give every field a tower of particles with\n     the masses 2 pi n/L, n = 1, 2, ... (a Kaluza-Klein tower); because the copies are infinitely far apart, the period\n     pi/(6 H) of x0 produces no such tower with the spacing 12 H: every field of the bulk has instead a continuum of modes\n     that starts at zero mass, and the fold holds its massless mode.\n  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images\n     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).\n     In UM-4 the direction across the crease is the hidden direction sigma, the seven directions along the crease are\n     x1, ..., x7, and the crease is the fold.\n  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,\n     largest at sigma = 0, with a jump of its derivative,\n        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),\n                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),\n     whose delta function is the origin of the thin source of property 3. Every metric function of FD-4 depends on sigma\n     through |sigma| and is folded at sigma = 0 in this sense.\n  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto\n     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map\n     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is\n     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.\n  6. The brane of Randall and Sundrum. The five-dimensional metric\n        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),\n                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2\n     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a\n     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does\n     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in\n     the bulk the cosmological constant Lambda_RS (the vacuum energy Lambda_RS/kappa_5), and the bulk is otherwise empty.\n     The fold of UM-4 is of the same kind, with every direction of the fold warped by the same factor as in the model of\n     Randall and Sundrum: its static block is a space of constant curvature -H^2 in all eight directions, a vacuum of\n     Einstein gravity with Lambda = -21 H^2, with a fold of pure tension (FD-12), and the graviton is bound to the fold as\n     there. It differs in that the fold has seven dimensions, three of them extra times, in that the space is not cut at\n     the brane (Randall and Sundrum identify the two sides of their brane, one physical side; the fold of UM-4 has two\n     distinct sides, example 7), and in that the gauge fields live in the bulk as well.\n  7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off\n     exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac\n     equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near\n     the fold: at rest and without their self-interaction (the field is Psi = e^((7/2) H |sigma|) chi(sigma) e^(-i omega x4))\n        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+)   (0 < sigma << sigma_t),\n                chi(sigma) = e^(-q_b |sigma|) chi(0-)   (0 < -sigma << sigma_t),\n                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),\n                omega_0 = omega_r - i Gamma/2,   omega_r -> sqrt(m_Psi^2 - q_b^2),\n     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the\n     fields of the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors, m_Psi the bulk\n     mass, q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for mu_R = 0), and omega_r\n     tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is\n     warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point\n     sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a\n     resonance of the energy omega_0 at rest and the width Gamma = (2/e) (q_b^2/m_Psi) e^(-2 F_t(upsilon_b) m_Psi/H) (to the\n     leading order in H/q_b), with the tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon)\n     - sqrt(1 - upsilon^2) and upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t,\n     where the profile decays at the local rate sqrt(m_Psi^2 - omega_r^2 e^(2 H |sigma|)), which falls to 0 at sigma_t). The\n     profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).\n  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,\n        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)\n     (for states at rest R_1 is the reflection across the fold combined with the reflection of ordinary space, R_2 the\n     reflection across the fold combined with the reflection of the extra times). T_a (a = 0, ..., 7) are the author's real\n     16 x 16 Dirac matrices T16^A[a] of 4+4.nb, built there from six real 4 x 4 matrices (rows separated by \";\"):\n        (FD-13) s_1 = [0 0 0 1; 0 0 1 0; 0 -1 0 0; -1 0 0 0],   s_2 = [0 0 -1 0; 0 0 0 1; 1 0 0 0; 0 -1 0 0],\n                s_3 = [0 1 0 0; -1 0 0 0; 0 0 0 1; 0 0 -1 0],   t_1 = [0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0],\n                t_2 = [0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0],   t_3 = [0 1 0 0; -1 0 0 0; 0 0 0 -1; 0 0 1 0],\n                Xi_0 = 1_8,  Xi_1 = [[0, s_1], [s_1, 0]],  Xi_2 = [[0, s_2], [s_2, 0]],  Xi_3 = [[0, s_3], [s_3, 0]],\n                Xi_4 = [[0, t_3], [-t_3, 0]],  Xi_5 = [[0, t_2], [-t_2, 0]],  Xi_6 = [[0, t_1], [-t_1, 0]],\n                Xi_7 = Xi_1 Xi_2 Xi_3 Xi_4 Xi_5 Xi_6 = [[-1_4, 0], [0, 1_4]],\n                Xibar_0 = 1_8,  Xibar_a = sigma_8 Xi_a^T sigma_8 (a = 1, ..., 7),  sigma_8 = [[0, 1_4], [1_4, 0]],\n                T_a = [[0, Xibar_a], [Xi_a, 0]]  (a = 0, ..., 7)\n     ([[A, B], [C, D]] the matrix made of the four blocks A, B, C, D, 0 a block of zeros; s_1, s_2, s_3 and t_1, t_2, t_3\n     are s4by4[1..3] and t4by4[1..3], Xi_a and Xibar_a are tau[a] and taubar[a], sigma_8 is sigma88 of the notebook).\n     They obey {T_a, T_b} = T_a T_b + T_b T_a = 2 eta_ab 1_16 with eta = diag(1, 1, 1, 1, -1, -1, -1, -1);\n     gamma^(a) = eta^aa T_a (no sum) are the Dirac matrices of the frame, gamma^(0) along sigma; the chirality matrix is\n     Gamma_8 = T_0 T_1 ... T_7 = [[-1_8, 0], [0, 1_8]], the chiral projectors are P_L = (1_16 - Gamma_8)/2 and\n     P_R = (1_16 + Gamma_8)/2, and sigma_16 = T_0 T_1 T_2 T_3 = [[-sigma_8, 0], [0, sigma_8]] defines the Dirac adjoint\n     Psibar = Psi^dagger sigma_16 (Psi^dagger the complex conjugate transpose).\n     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can\n     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the\n     particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)\n     are even under it and the four of Krein charge +1 are odd, so such a mean field cannot mix the two signs of the\n     indefinite charge. R_2 maps the states of one Krein charge onto those of the other and makes the two sets degenerate\n     without the self-interaction.\n  9. The planes of Horava and Witten. In M-theory (the eleven-dimensional theory whose limits include the superstring\n     theories) on an interval (a circle whose points are identified with their mirror images), the two ten-dimensional\n     planes left in place by the reflection are mirror surfaces (property 1); each carries one E8 gauge group while gravity\n     fills the bulk. As in UM-4, gravity fills the bulk; unlike UM-4, the gauge fields live on the mirror planes (in UM-4\n     they live in the bulk), and the two sides of each plane are identified (one physical side).\n\nWhat is not a fold.\n  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp factor vanishes,\n    g_x0x0 diverges, and they lie at an infinite proper distance; they carry no thin source.\n  * A smooth maximum of a warp factor, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a\n    kink and without a thin source.",
+ "runtime_s": 19.0
 }

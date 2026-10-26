@@ -20,10 +20,11 @@ cannot be removed by a choice of the vacuum.
 Checks (the states at rest on the static block, units m_Psi = 1, mu_L = -0.6, mu_R = 0, H = 1e-4, the box |sigma| <= 40, as in
 um4_kohnsham.py; omega_0 = 0.95378 the free level, which the warped time lowers from the omega_b = 0.95394 of UM-3):
   KR1  the charge form: B Hermitian, B^2 = 1, signature (8, 8); the anticommutator {a_n, a_m^dagger} = -kappa_n delta_nm
-       of the modes derived from {Psi, Psi^dagger} = -B; in the explicit Fock representation of one fermionic mode (a
-       two-dimensional Krein space) the one-quantum state has the norm -kappa for either choice of vacuum and
-       [H, a^dagger] = omega a^dagger; complex conjugation maps the level at +omega_0 onto the one at -omega_0 and
-       reverses every Krein charge (the author's matrices are real; the measure e^{H|sigma|} d sigma is real);
+       of the modes derived from {Psi, Psi^dagger} = -B; the norm of a one-quantum state follows from it, <0|a a^K|0> =
+       -kappa (for a particle and for a hole), and the two-dimensional Krein space with the metric diag(1, -kappa) represents
+       it (a consistency check of the representation), with [H, a^dagger] = omega a^dagger; complex conjugation maps the level
+       at +omega_0 onto the one at -omega_0 and reverses every Krein charge (the author's matrices are real; the measure
+       e^{H|sigma|} d sigma is real);
   KR2  the symmetries of the problem at rest: the matrices that commute with gamma^(0), gamma^(4) and Gamma_8 and keep
        sigma16 (U^dagger sigma16 U = sigma16) form a Lie algebra of real dimension 32: 16 compact generators that keep the
        two Krein sectors and 16 Hermitian generators (boosts) that anticommute with B and mix them, among them the nine
@@ -36,9 +37,10 @@ um4_kohnsham.py; omega_0 = 0.95378 the free level, which the warped time lowers 
   KR4  flat directions: the boosts of KR2 map the self-consistent gas (G_KS = 0.1) onto self-consistent gases (the
        residuals of the sixteen-dimensional Kohn-Sham equation and of the fold matching unchanged, Krein charges -1,
        Krein-orthogonal) whose orbitals contain Krein-positive admixtures: exact flat directions; the linear response of
-       the level (the time-dependent Kohn-Sham equations restricted to the occupied and the empty multiplet) has 32
-       frequencies far below the splitting of the two multiplets (below a tenth of it), among them an imaginary pair whose size
-       is that of the truncation error (exact zero modes would give 0): it does not decide the stability of the dilute gas;
+       the level (the time-dependent Kohn-Sham equations restricted to the occupied and the empty multiplet, frequencies in
+       pairs nu, -nu*) has 32 frequencies far below the splitting of the two multiplets (below a tenth of it), two of them
+       imaginary; the truncation keeps exactly the tangent space of the occupations of KR8, on which the first-order energy
+       has a saddle, and whether the imaginary pair is an instability of the full response is OPEN;
   KR5  the Krein-positive partner of the occupied level in the self-consistent mean fields at G_KS = 0.01, 0.1, 0.2 and 0.3:
        a real level above the occupied one in the dilute gas, moving away from it as G_KS grows (they cannot mix: opposite
        R_1 parity); where it reaches the frequency at which the end of the box becomes classically allowed (omega e^{HL} = 1)
@@ -46,14 +48,35 @@ um4_kohnsham.py; omega_0 = 0.95378 the free level, which the warped time lowers 
        which depends on the size of the box);
   KR6  selection rules at the fold: of the 256 products Gamma_I of the author's matrices, the chirality-blind fold
        operators (products of gamma^(1)..gamma^(4)) never connect a physical state with a ghost at rest, the chiral ones
-       (the same products times Gamma_8) always do; for moving particles (whose levels are omega(k) = sqrt(omega_0^2 + k^2)
-       exactly, the boost invariance of UM-4) the scalar, density and vector-current operators still do not, the magnetic
-       dipole does in proportion to the momentum;
-  KR7  the consequence: in the positive-energy quantisation the vacuum cannot decay (every quantum of the free field has
-       positive energy), but the left-handed Higgs portal of the author's specification (c_R = 0) creates a physical
-       particle with a ghost antiparticle at rest with an amplitude close to its elastic one: the ghosts are produced
-       wherever the chiral portals act, and UM-4 with chiral fold couplings is not unitary (as UM-3); chirality-blind
-       couplings are necessary, not shown to be sufficient; the classical stability of the gas is not decided (KR4, KR5).
+       (the same products times Gamma_8) always do; the amplitudes are the largest singular values of the 4 x 4 matrices
+       between the degenerate multiplets (independent of the choice of the basis inside them); for moving particles (whose
+       levels are omega(k) = sqrt(omega_0^2 + k^2) exactly, the boost invariance of UM-4) the scalar, density and
+       vector-current operators still do not, the magnetic dipole does in proportion to the momentum;
+  KR7  the consequence: in the positive-energy quantisation the vacuum cannot decay (every quantum of the free field raises
+       the energy by its frequency; with the indefinite metric it is not a state of lowest energy among the states of
+       positive norm), but the left-handed Higgs portal of the author's specification (c_R = 0) creates a physical particle
+       with a ghost antiparticle at rest with exactly its elastic amplitude (all four singular values equal): the ghosts are
+       produced wherever the chiral portals act, and UM-4 with chiral fold couplings is not unitary (as UM-3);
+       chirality-blind couplings are necessary, not shown to be sufficient; the classical stability of the gas is not decided
+       (KR4, KR5, KR8);
+  KR8  the occupation of the level is a saddle: every four-dimensional subspace of negative Krein norm of the eight states of
+       the free level, n_k + sum_j Z_kj p_j (Z a strict contraction, 32 real parameters), is an occupation of four particles
+       chi; the first-order interaction integral I = sum over both sides of int e^{7H|sigma|} (rho_hat^2 - tr N_hat^2) (S-9)
+       is stationary at the symmetric multiplet (Z = 0, I = 0.10216), and its Hessian has 15 negative, 16 zero (the 16
+       sector-mixing symmetry generators of KR2) and one positive eigenvalue; towards the null cone (|Z| -> 1) I falls without
+       bound along some directions and rises along others: the first-order energy of the repulsive gas has no lower bound on
+       the occupations of negative norm, and the Kohn-Sham states are the symmetric stationary occupation, not a ground state;
+  KR9  the pairs that the convective current of IN-16 creates: between the vacuum and a pair chi(k) chibar(-k) at the fold
+       the time component of j_X vanishes and the spatial one is -2k <P_X>_pair(k); the four singular values of <P_X>_pair
+       vanish at rest (KR6) and grow linearly in k (computed with the moving states at k = 0.01, 0.02, 0.05), so the
+       amplitude is of the second order in k and (sigma v)_{chi chibar} = g_f^2 omega_b^2 v^4 rho_X/(96 pi) per massless
+       chiral fermion state (v the relative velocity, g_f the elastic coupling of FE-47), with rho_X = 0.828 (P_L), 1.231 (P_R)
+       and 1.000 for the chirality-blind current (P_L + P_R = 1): the value of a Dirac fermion whose current is the convective
+       current of a scalar density.  The chiral currents also create a physical particle with a ghost antiparticle, at rest,
+       with the elastic amplitude (KR7); the chirality-blind current does so only at the next order in the momentum: the
+       singular values of <1> between chi(k) and the ghost antiparticle grow like k^2 (0.028 k^2, against 0.30 k for the
+       physical pair), so its ghost pairs have the relative amplitude 0.094 k and the relative rate 0.0089 k^2 (k in units of
+       m_Psi): small, but not zero.
 The mean fields of KR3 to KR5 are the snapshots that um4_kohnsham.py keeps in outputs/kohnsham_parts (run its parts first).
 Writes outputs/krein.json and reports/krein_checks.json.  Runs in a few minutes (under the 423 s limit).
 Usage: python universe_model_4/code/um4_krein.py
@@ -73,8 +96,10 @@ coordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/
     (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
 with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
 Notation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric
-functions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as
-sigma approaches 0 from above and from below.
+functions, sinh, cosh, tanh = sinh/cosh and coth = cosh/sinh the hyperbolic functions, |y| the absolute value, max and
+min the larger and the smaller of their arguments; det, tr and ^T are the determinant, the trace and the transpose of a
+square matrix, and 1_4, 1_8 and 1_16 the identity matrices of 4, 8 and 16 rows; f(0+) and f(0-) are the limits of
+f(sigma) as sigma approaches 0 from above and from below.
 
 Why this surface is called a fold. Measured by the proper distance along the hidden direction,
     (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
@@ -163,17 +188,17 @@ Examples of folds that are meaningful for UM-4.
      of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.
   6. The brane of Randall and Sundrum. The five-dimensional metric
         (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),
-                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5
+                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2
      (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
      fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
      not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
-     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every
-     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of
-     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure
-     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three
-     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their
-     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the
-     bulk as well.
+     the bulk the cosmological constant Lambda_RS (the vacuum energy Lambda_RS/kappa_5), and the bulk is otherwise empty.
+     The fold of UM-4 is of the same kind, with every direction of the fold warped by the same factor as in the model of
+     Randall and Sundrum: its static block is a space of constant curvature -H^2 in all eight directions, a vacuum of
+     Einstein gravity with Lambda = -21 H^2, with a fold of pure tension (FD-12), and the graviton is bound to the fold as
+     there. It differs in that the fold has seven dimensions, three of them extra times, in that the space is not cut at
+     the brane (Randall and Sundrum identify the two sides of their brane, one physical side; the fold of UM-4 has two
+     distinct sides, example 7), and in that the gauge fields live in the bulk as well.
   7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off
      exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac
      equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near
@@ -188,14 +213,31 @@ Examples of folds that are meaningful for UM-4.
      tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is
      warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point
      sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a
-     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the
-     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and
-     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a
-     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
+     resonance of the energy omega_0 at rest and the width Gamma = (2/e) (q_b^2/m_Psi) e^(-2 F_t(upsilon_b) m_Psi/H) (to the
+     leading order in H/q_b), with the tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon)
+     - sqrt(1 - upsilon^2) and upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t,
+     where the profile decays at the local rate sqrt(m_Psi^2 - omega_r^2 e^(2 H |sigma|)), which falls to 0 at sigma_t). The
+     profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
   8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
         (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
-     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
-     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
+     (for states at rest R_1 is the reflection across the fold combined with the reflection of ordinary space, R_2 the
+     reflection across the fold combined with the reflection of the extra times). T_a (a = 0, ..., 7) are the author's real
+     16 x 16 Dirac matrices T16^A[a] of 4+4.nb, built there from six real 4 x 4 matrices (rows separated by ";"):
+        (FD-13) s_1 = [0 0 0 1; 0 0 1 0; 0 -1 0 0; -1 0 0 0],   s_2 = [0 0 -1 0; 0 0 0 1; 1 0 0 0; 0 -1 0 0],
+                s_3 = [0 1 0 0; -1 0 0 0; 0 0 0 1; 0 0 -1 0],   t_1 = [0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0],
+                t_2 = [0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0],   t_3 = [0 1 0 0; -1 0 0 0; 0 0 0 -1; 0 0 1 0],
+                Xi_0 = 1_8,  Xi_1 = [[0, s_1], [s_1, 0]],  Xi_2 = [[0, s_2], [s_2, 0]],  Xi_3 = [[0, s_3], [s_3, 0]],
+                Xi_4 = [[0, t_3], [-t_3, 0]],  Xi_5 = [[0, t_2], [-t_2, 0]],  Xi_6 = [[0, t_1], [-t_1, 0]],
+                Xi_7 = Xi_1 Xi_2 Xi_3 Xi_4 Xi_5 Xi_6 = [[-1_4, 0], [0, 1_4]],
+                Xibar_0 = 1_8,  Xibar_a = sigma_8 Xi_a^T sigma_8 (a = 1, ..., 7),  sigma_8 = [[0, 1_4], [1_4, 0]],
+                T_a = [[0, Xibar_a], [Xi_a, 0]]  (a = 0, ..., 7)
+     ([[A, B], [C, D]] the matrix made of the four blocks A, B, C, D, 0 a block of zeros; s_1, s_2, s_3 and t_1, t_2, t_3
+     are s4by4[1..3] and t4by4[1..3], Xi_a and Xibar_a are tau[a] and taubar[a], sigma_8 is sigma88 of the notebook).
+     They obey {T_a, T_b} = T_a T_b + T_b T_a = 2 eta_ab 1_16 with eta = diag(1, 1, 1, 1, -1, -1, -1, -1);
+     gamma^(a) = eta^aa T_a (no sum) are the Dirac matrices of the frame, gamma^(0) along sigma; the chirality matrix is
+     Gamma_8 = T_0 T_1 ... T_7 = [[-1_8, 0], [0, 1_8]], the chiral projectors are P_L = (1_16 - Gamma_8)/2 and
+     P_R = (1_16 + Gamma_8)/2, and sigma_16 = T_0 T_1 T_2 T_3 = [[-sigma_8, 0], [0, sigma_8]] defines the Dirac adjoint
+     Psibar = Psi^dagger sigma_16 (Psi^dagger the complex conjugate transpose).
      The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
      carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the
      particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)
@@ -362,6 +404,9 @@ def rpa_bound_level(sh, w, G):
         A[q * n + o, p * n + o2] = (D if (q == p and o == o2) else 0.0) - G / 4 * tA
         Bm[q * n + o, p * n + o2] = -G / 4 * tB
     nu = np.linalg.eigvals(np.block([[A, Bm], [-Bm.conj(), -A.conj()]]))
+    # the structure of the response: with every frequency nu also -nu* (the matrix [[A, B], [-B*, -A*]] with A Hermitian and
+    # B symmetric), so the imaginary ones come in pairs
+    closed = max(min(abs(-x.conjugate() - y) for y in nu) for x in nu) / max(np.abs(nu).max(), 1e-300)
     charges = [krein_charge(o, sh) for o in emp]
     n_imag = int(np.sum(np.abs(nu.imag) > 1e-3 * np.abs(nu).max()))
     real_part = [float(x) for x in sorted(np.abs(nu[np.abs(nu.imag) <= 1e-3 * np.abs(nu).max()].real))]
@@ -369,7 +414,8 @@ def rpa_bound_level(sh, w, G):
             'A_hermitian': float(np.abs(A - A.conj().T).max()), 'B_symmetric': float(np.abs(Bm - Bm.T).max()),
             'max_abs_frequency': float(np.abs(nu).max()), 'max_abs_imaginary': float(np.abs(nu.imag).max()),
             'n_imaginary': n_imag, 'largest_real_frequency': max(real_part) if real_part else 0.0,
-            'max_A_minus_splitting': float(np.abs(A - D * np.eye(n * n)).max()), 'max_B': float(np.abs(Bm).max())}
+            'max_A_minus_splitting': float(np.abs(A - D * np.eye(n * n)).max()), 'max_B': float(np.abs(Bm).max()),
+            'spectrum_closed_under_minus_conjugation': float(closed)}
 
 
 def moving_states(k, H=HM, L=LM, h=0.02):
@@ -506,10 +552,12 @@ def main():
               and all(round(krein_charge(conj(o), sh16), 6) == -1.0 for o in pos),
               'B = i sigma16 gamma^(4) is a Hermitian involution with eight eigenvalues +1 and eight -1; expanding the field in '
               'modes with u_n^dagger B u_m = kappa_n delta_nm, the canonical anticommutator {Psi, Psi^dagger} = -B gives '
-              '{a_n, a_m^dagger} = -kappa_n delta_nm (derived for the 16 modes of B); the Fock space of one mode of Krein '
-              'charge kappa with the indefinite metric diag(1, -kappa) represents it: the one-quantum state has the norm '
-              '-kappa for either vacuum (particle or hole), and [H, a^K] = omega a^K: the particles and the holes of the Krein-positive modes are '
-              'ghosts (norm -1), those of the Krein-negative modes physical (norm +1), all at positive energy; the conjugates '
+              '{a_n, a_m^dagger} = -kappa_n delta_nm (derived for the 16 modes of B); from it the norm of a one-quantum state '
+              'follows, <0|a a^K|0> = -kappa - <0|a^K a|0> = -kappa (and the same for a hole, with a and a^K exchanged), and the '
+              'two-dimensional Krein space with the metric diag(1, -kappa), whose Krein adjoint reproduces {a, a^K} = -kappa, '
+              'represents it (a consistency check of the representation, not an independent result), with [H, a^K] = omega a^K: '
+              'the particles and the holes of the Krein-positive modes are ghosts (norm -1), those of the Krein-negative modes '
+              'physical (norm +1), all at positive energy; the conjugates '
               'of the four Krein-negative (positive) states at '
               '+omega_0 are Krein-positive (negative) states at -omega_0 (omega_0 = %.10f)' % WB)
 
@@ -605,7 +653,7 @@ def main():
                    and f['offdiag'] < 1e-9 for f in fam)
                and all(abs(q - 1) < 1e-6 for q in rpa['empty_krein_charges']) and rpa['smin_empty'] < 1e-7
                and rpa['max_abs_frequency'] < 0.1 * rpa['splitting'] and rpa['A_hermitian'] < 1e-15 and rpa['B_symmetric'] < 1e-15
-               and rpa['n_imaginary'] >= 1)
+               and rpa['spectrum_closed_under_minus_conjugation'] < 1e-10)
     out['KR4'] = kr4
     rep.check('KR4_flat_directions', ok4,
               'G_KS = 0.1: three boosts e^{theta X} (theta = 0.3, 1; |U| = e^theta) map the self-consistent gas onto '
@@ -613,9 +661,10 @@ def main():
               '%.0e, Krein charges -1, Krein-orthogonal) whose orbitals carry Krein-positive admixtures (their positive-definite norm grows '
               'up to %.2f times while the charges stay -1): the boosts are exact flat directions of the self-consistent gas; the '
               'linear response truncated to the bound level (16 admixtures of the four empty Krein-positive orbitals, splitting '
-              '%.3e) has frequencies far below it (largest |nu| %.2e, %.3f of the splitting), %d of them imaginary (|Im nu| up to %.2e, the '
-              'largest real one %.2e): exact zero modes would give 0, so the truncation error is as large as these frequencies, '
-              'and the truncated response does not decide whether the dilute gas is stable' % (
+              '%.3e; its frequencies come in pairs nu, -nu*) has frequencies far below it (largest |nu| %.2e, %.3f of the splitting), %d of '
+              'them imaginary (|Im nu| up to %.2e, the largest real one %.2e); the truncation keeps exactly the 32-dimensional tangent '
+              'space of the occupations of the level, on which the first-order energy has a saddle (KR8): whether the imaginary pair '
+              'is an instability of the full response (with the continuum of the bulk) is not decided here (OPEN)' % (
                   kr4.get('base_residuals', [float('nan')])[0], max([f['res_match'] for f in kr4.get('family', [])] or [float('nan')]),
                   max([f['positive_norm_growth'] for f in kr4.get('family', [])] or [float('nan')]),
                   kr4.get('linear_response', {}).get('splitting', float('nan')),
@@ -667,7 +716,9 @@ def main():
     posm = [conj(o) for o in neg]    # negative-frequency modes of Krein charge +1: their holes are ghost antiparticles
 
     def amps(Op):
-        m = lambda A, B: max(abs(fold_value(b, a, Op)) for a in A for b in B)
+        # the largest singular value of the 4 x 4 matrix of the amplitudes: independent of the choice of the basis inside the
+        # degenerate multiplets (the largest single entry is not)
+        m = lambda A, B: float(np.linalg.svd(np.array([[fold_value(b, a, Op) for a in A] for b in B]), compute_uv=False)[0])
         return {'physical_to_physical': m(neg, neg), 'physical_to_ghost': m(neg, pos), 'pair_physical': m(neg, negm),
                 'pair_physical_with_ghost_antiparticle': m(neg, posm), 'pair_ghost_with_physical_antiparticle': m(pos, negm)}
     classes = {'fold_chirality_blind': [], 'fold_chiral': [], 'other': []}
@@ -691,7 +742,8 @@ def main():
     mov = {}
     for k in (0.05, 0.15):
         w, nk_, pk_, nk, wpred = moving_states(k)
-        mm = lambda Op: (max(abs(fold_value(b, a, Op)) for a in nk_ for b in pk_), max(abs(fold_value(b, a, Op)) for a in nk_ for b in nk_))
+        mm = lambda Op: (float(np.linalg.svd(np.array([[fold_value(b, a, Op) for a in nk_] for b in pk_]), compute_uv=False)[0]),
+                         float(np.linalg.svd(np.array([[fold_value(b, a, Op) for a in nk_] for b in nk_]), compute_uv=False)[0]))
         mov[str(k)] = {'omega': w, 'omega_boost_prediction': wpred, 'states': nk, 'krein': [len(nk_), len(pk_)],
                        'physical_to_ghost': {nm: mm(Op)[0] for nm, Op in (('1', I16), ('gamma^(4)', T[4]), ('gamma^(1)', T[1]),
                                                                         ('gamma^(2)', T[2]), ('Sigma^{12}', K.sig(1, 2)),
@@ -707,8 +759,9 @@ def main():
                    for k in (0.05, 0.15)))
     rep.check('KR6_selection_rules', ok6,
               'at the fold, at rest: none of the 16 chirality-blind fold operators (products of gamma^(1)..gamma^(4)) connects a '
-              'physical state with a ghost, each of the 16 chiral ones (times Gamma_8) does; the Higgs portal P_L: elastic %.3f, '
-              'conversion %.0e, physical pair %.0e (p-wave), physical particle with ghost antiparticle %.3f (s-wave); moving '
+              'physical state with a ghost, each of the 16 chiral ones (times Gamma_8) does; the Higgs portal P_L (largest singular '
+              'values of the 4 x 4 amplitude matrices, independent of the basis): elastic %.5f, conversion %.0e, physical pair %.0e '
+              '(no pair at rest), physical particle with ghost antiparticle %.5f (s-wave); moving '
               'along x_1 (k = 0.05, 0.15; eight states at omega = %.10f and %.10f, sqrt(omega_0^2 + k^2) = %.10f and %.10f: the '
               'boost invariance of UM-4): the scalar, density and vector currents still do not mix (below 1e-9), the magnetic '
               'dipole Sigma^{12} does, %.1e and %.1e, in proportion to k' % (
@@ -719,19 +772,157 @@ def main():
 
     # ---------------- KR7: the consequence
     ratio = hl['pair_physical_with_ghost_antiparticle'] / hl['physical_to_physical']
-    out['KR7'] = {'higgs_portal_ghost_pair_over_elastic': ratio,
-                  'vacuum': 'stable in the positive-energy quantisation: every quantum raises H by its frequency (KR1)',
+    # all singular values of the two matrices (the elastic and the ghost-pair amplitudes of the Higgs portal)
+    sv_el = np.linalg.svd(np.array([[fold_value(b, a, K.PLN) for a in neg] for b in neg]), compute_uv=False)
+    sv_gp = np.linalg.svd(np.array([[fold_value(b, a, K.PLN) for a in neg] for b in posm]), compute_uv=False)
+    out['KR7'] = {'higgs_portal_ghost_pair_over_elastic': ratio, 'singular_values_elastic': [float(x) for x in sv_el],
+                  'singular_values_ghost_pair': [float(x) for x in sv_gp],
+                  'vacuum': 'it cannot decay in the positive-energy quantisation: every quantum raises H by its frequency (KR1); '
+                            'it is not a state of lowest energy among the states of positive norm (indefinite metric)',
                   'unitarity': 'violated by the chiral parts of the portals (KR6); the Higgs portal is purely left-handed'}
-    rep.check('KR7_consequence', ratio > 0.5 and fock[1]['H_raises_by_omega'] and fock[-1]['H_raises_by_omega'] and dilute_real,
-              'in the positive-energy quantisation every quantum of the free field carries positive energy, so the vacuum is '
-              'the state of lowest energy and cannot decay; the left-handed Higgs portal creates a physical particle chi with a '
-              'ghost antiparticle at rest with %.2f times its elastic amplitude: ghosts are produced wherever the chiral portals '
+    rep.check('KR7_consequence', abs(ratio - 1) < 1e-3 and np.allclose(sv_el, sv_el[0], rtol=1e-6) and np.allclose(sv_gp, sv_el[0], rtol=1e-3)
+              and fock[1]['H_raises_by_omega'] and fock[-1]['H_raises_by_omega'] and dilute_real,
+              'in the positive-energy quantisation every quantum of the free field raises the energy by its frequency, so the '
+              'vacuum cannot decay (the energy is conserved and no transition lowers it), although with the indefinite metric it '
+              'is not a state of lowest energy among the states of positive norm (a superposition of the vacuum and a ghost has a '
+              'negative mean energy); the left-handed Higgs portal creates a physical particle chi with a ghost antiparticle at rest '
+              'with the amplitude of its elastic one (all four singular values %.5f against %.5f, ratio %.4f): ghosts are produced wherever the chiral portals '
               'act (without the self-interaction their level is degenerate with that of the particles), so with chiral '
               'fold couplings UM-4 is not unitary; chirality-blind couplings are necessary for a unitary UM-4 (at rest they '
               'never connect the two sectors), but not shown to be sufficient (the magnetic dipole connects them for moving '
               'particles, KR6); the classical stability of the gas is not decided: the exact boosts are flat directions, the '
-              'truncated response of the dilute gas has frequencies of the order of its truncation error (KR4), and the '
-              'partners of the dense gases depend on the size of the box (KR5)' % ratio)
+              'occupation of the level is a saddle of the first-order energy (KR8), the truncated response has an imaginary pair '
+              'whose meaning is open (KR4), and the partners of the dense gases depend on the size of the box (KR5)' % (
+                  sv_gp[0], sv_el[0], ratio))
+
+    # ---------------- KR8: the occupation of the level is a saddle of the first-order energy
+    # the free level at the fold holds eight states, four of Krein charge -1 (n_k) and four of +1 (p_j); every
+    # four-dimensional subspace of negative Krein norm (the occupation of four particles chi) is spanned by n_k + sum_j Z_kj p_j
+    # with a strict contraction Z (a manifold of 32 real dimensions); the first-order energy of the repulsive gas is
+    # (G_KS/2) I with I = sum over the two sides of int d sigma e^{7H|sigma|} (rho_hat^2 - tr N_hat^2) (S-9) for the
+    # Krein-orthonormal occupied orbitals
+    basis8 = neg + pos
+    w7 = np.exp(7 * sh16.H * sh16.s)
+
+    def kprod(a, b):
+        return sum(K.trap(np.einsum('ji,ik,jk->j', a[i].conj(), BKR, b[i]) * sh16.ew, sh16.h) for i in (0, 1))
+    Gram8 = np.array([[kprod(a, b) for b in basis8] for a in basis8])
+    Dbil = [np.einsum('aji,il,bjl->jab', np.array([o[side] for o in basis8]).conj(), SIG, np.array([o[side] for o in basis8]))
+            for side in (0, 1)]
+
+    def I_first(x):
+        Z = (x[:16] + 1j * x[16:]).reshape(4, 4)
+        C = np.hstack([np.eye(4), Z])                                     # coefficients of the occupied orbitals in basis8
+        Gv = C.conj() @ Gram8 @ C.T
+        wv, Uv = np.linalg.eigh(-0.5 * (Gv + Gv.conj().T))
+        Cn = (Uv @ np.diag(wv ** -0.5) @ Uv.conj().T).T @ C                  # Krein-orthonormal (charges -1)
+        tot = 0.0
+        for side in (0, 1):
+            beta = np.einsum('la,jab,mb->jlm', Cn.conj(), Dbil[side], Cn)   # chibar_l chi_m on the grid
+            rho = np.einsum('jll->j', beta).real / 4
+            trN2 = np.einsum('jlm,jml->j', beta, beta).real / 16
+            tot += K.trap(w7 * (rho ** 2 - trN2), sh16.h)
+        return tot
+    x0 = np.zeros(32)
+    I0 = I_first(x0)
+    hfd = 1e-4
+    E32 = np.eye(32)
+    grad = np.array([(I_first(x0 + hfd * e_) - I_first(x0 - hfd * e_)) / (2 * hfd) for e_ in E32])
+    Hess = np.zeros((32, 32))
+    for i_ in range(32):
+        for j_ in range(i_, 32):
+            Hess[i_, j_] = Hess[j_, i_] = (I_first(x0 + hfd * (E32[i_] + E32[j_])) - I_first(x0 + hfd * (E32[i_] - E32[j_]))
+                                           - I_first(x0 - hfd * (E32[i_] - E32[j_])) + I_first(x0 - hfd * (E32[i_] + E32[j_]))) / (4 * hfd ** 2)
+    evH, vecH = np.linalg.eigh(Hess)
+    scaleH = np.abs(evH).max()
+    n_neg, n_zero, n_pos = int(np.sum(evH < -1e-4 * scaleH)), int(np.sum(np.abs(evH) <= 1e-4 * scaleH)), int(np.sum(evH > 1e-4 * scaleH))
+    # the zero modes are the exact symmetries: the 16 generators of KR2 that mix the Krein sectors move the occupation along
+    # dZ_kj = <p_j, X n_k> (Krein product) without changing I
+    tangents = []
+    for X in mix:
+        dZ = np.array([[kprod(pos[j_], (neg[k_][0] @ X.T, neg[k_][1] @ X.T)) for j_ in range(4)] for k_ in range(4)])
+        tangents.append(np.concatenate([dZ.real.ravel(), dZ.imag.ravel()]))
+    Tmat = np.array(tangents).T
+    rank_sym = int(np.linalg.matrix_rank(Tmat, tol=1e-8))
+    sym_null = max(float(np.linalg.norm(Hess @ tv) / (scaleH * np.linalg.norm(tv))) for tv in tangents)
+    # towards the null cone (the largest singular value of Z -> 1) along the most negative and the most positive direction
+    def along(vec, tt):
+        Zv = (vec[:16] + 1j * vec[16:]).reshape(4, 4)
+        return I_first(vec / np.linalg.norm(Zv, 2) * tt)
+    path_neg = {('%g' % tt): along(vecH[:, 0], tt) for tt in (0.3, 0.9, 0.99, 0.999)}
+    path_pos = {('%g' % tt): along(vecH[:, -1], tt) for tt in (0.3, 0.9, 0.99, 0.999)}
+    out['KR8_first_order_energy_of_the_occupations'] = {
+        'I_multiplet': I0, 'gradient_norm': float(np.linalg.norm(grad)), 'hessian_eigenvalues': [float(x) for x in evH],
+        'negative_zero_positive': [n_neg, n_zero, n_pos], 'symmetry_tangents_rank': rank_sym,
+        'symmetry_tangents_in_null_space': sym_null, 'toward_null_cone_most_negative': path_neg,
+        'toward_null_cone_most_positive': path_pos}
+    ok8 = (abs(I0 - 0.10216) < 1e-4 and np.linalg.norm(grad) < 1e-8 and n_neg == 15 and n_zero == 16 and n_pos == 1
+           and rank_sym == 16 and sym_null < 1e-4 and path_neg['0.999'] < -100 and path_pos['0.999'] > 100)
+    rep.check('KR8_occupation_saddle', ok8,
+              'the first-order interaction integral I of S-9 on the 32-dimensional manifold of the occupations of the level at the '
+              'fold (four-dimensional subspaces of negative Krein norm, n_k + sum_j Z_kj p_j): at the symmetric multiplet (Z = 0) '
+              'I = %.6f, |grad I| = %.1e (a stationary point), and the Hessian has %d negative (%.5f), %d zero and %d positive (%.5f) '
+              'eigenvalues; the 16 zero modes are the 16 symmetry generators that mix the Krein sectors (rank %d, |Hess t|/(|Hess| |t|) '
+              '<= %.1e): the multiplet is a saddle; towards the null cone (|Z| -> 1) I falls to %.4g along the most negative direction '
+              'and rises to %.4g along the most positive one (|Z| = 0.999): the first-order energy of the repulsive gas has no lower '
+              'bound on the occupations of negative norm, and the Kohn-Sham states of um4_kohnsham.py are the symmetric stationary '
+              'occupation, not a ground state' % (I0, np.linalg.norm(grad), n_neg, evH[0], n_zero, n_pos, evH[-1], rank_sym, sym_null,
+                                                   path_neg['0.999'], path_pos['0.999']))
+
+    # ---------------- KR9: the pairs that the convective current creates
+    # j_X^mu = i (Psibar P_X d^mu Psi - (d^mu Psibar) P_X Psi) (IN-16; d along the fold) between the vacuum and a pair chi(k)
+    # chibar(-k) at the fold: the time component vanishes (the frequencies of the two modes cancel), the spatial one is
+    # -2 k <P_X>_pair(k); <P_X>_pair vanishes at rest (KR6) and grows linearly in k, so the amplitude is of the second order in k
+    sv_k = {}
+    for kk in (0.01, 0.02, 0.05):
+        _, negp, posp, nkp, _ = moving_states(kk)
+        _, negq, posq, nkq, _ = moving_states(-kk)
+        anti = [conj(o) for o in posq]                      # physical antiparticle modes (frequency -omega, mode momentum +k)
+        anti_g = [conj(o) for o in negq]                    # ghost antiparticle modes
+        row = {}
+        for nm, Op in (('P_L', K.PLN), ('P_R', K.PRN), ('1', I16)):
+            Mp = np.array([[fold_value(b, a, Op) for a in negp] for b in anti])
+            Mg = np.array([[fold_value(b, a, Op) for a in negp] for b in anti_g])
+            row[nm] = {'pair_physical': [float(x) for x in np.linalg.svd(Mp, compute_uv=False)],
+                       'pair_with_ghost_antiparticle': [float(x) for x in np.linalg.svd(Mg, compute_uv=False)]}
+        row['states'] = [nkp, nkq]
+        sv_k['%g' % kk] = row
+    elastic = {nm: float(np.linalg.svd(np.array([[fold_value(b, a, Op) for a in neg] for b in neg]), compute_uv=False)[0])
+               for nm, Op in (('P_L', K.PLN), ('P_R', K.PRN), ('1', I16))}
+    slope = {nm: [x / 0.01 for x in sv_k['0.01'][nm]['pair_physical']] for nm in ('P_L', 'P_R', '1')}
+    lin = {nm: max(abs(sv_k['%g' % kk][nm]['pair_physical'][0] / (kk * slope[nm][0]) - 1) for kk in (0.02, 0.05)) for nm in slope}
+    # (sigma v) for one chi_a chibar_a into a massless chiral fermion pair through c_X J_f.j_X, written with the elastic
+    # coupling g_f = 2 omega_b e_X c_X/V_* of FE-47 (e_X the elastic amplitude): g_f^2 omega_b^2 v^4 rho_X/(96 pi), with
+    # rho_X = sum_i (dsv_i/dk)^2 omega_b^2/(4 e_X^2) (1 for a Dirac fermion with a scalar density)
+    rho = {nm: sum(c_ ** 2 for c_ in slope[nm]) * WB ** 2 / (4 * elastic[nm] ** 2) for nm in slope}
+    blind_ghost = max(sv_k['%g' % kk]['1']['pair_with_ghost_antiparticle'][0] for kk in (0.01, 0.02, 0.05))
+    # the chirality-blind current creates ghost pairs only at the next order: <1> with the ghost antiparticle grows like k^2
+    ghost_k2 = {'%g' % kk: sv_k['%g' % kk]['1']['pair_with_ghost_antiparticle'][0] / kk ** 2 for kk in (0.01, 0.02, 0.05)}
+    ghost_c = ghost_k2['0.01']
+    ghost_dev = max(abs(v_ / ghost_c - 1) for v_ in ghost_k2.values())
+    ghost_rel = ghost_c / slope['1'][0]                     # relative amplitude of the ghost pair: ghost_rel * k
+    out['KR9_convective_current_pairs'] = {'singular_values': sv_k, 'elastic': elastic, 'slope_dsv_dk': slope,
+                                           'linearity_deviation': lin, 'rho_X': rho,
+                                           'chirality_blind_ghost_pairs_max': blind_ghost,
+                                           'chirality_blind_ghost_pair_over_k2': ghost_k2,
+                                           'chirality_blind_ghost_relative_amplitude_per_k': ghost_rel,
+                                           'chirality_blind_ghost_relative_rate_per_k2': ghost_rel ** 2,
+                                           'sigma_v': '(sigma v)_{chi chibar} = g_f^2 omega_b^2 v^4 rho_X/(96 pi) per chiral state'}
+    ok9 = (all(v_ < 0.01 for v_ in lin.values()) and all(len(set(round(x, 8) for x in slope[nm])) == 1 for nm in slope)
+           and abs(rho['1'] - 1) < 0.02 and ghost_dev < 0.01 and ghost_rel < 0.2
+           and all(sv_k['%g' % kk]['states'] == [8, 8] for kk in (0.01, 0.02, 0.05)))
+    rep.check('KR9_convective_current_pairs', ok9,
+              'the physical pair chi(k) chibar(-k) at the fold: the four singular values of <P_X>_pair grow linearly in k (dsv/dk = '
+              '%.5f for P_L and P_R, %.5f for 1; deviation from linearity up to k = 0.05: %s), so the convective current, -2k <P_X>_pair, '
+              'creates a pair with an amplitude of the second order in k: (sigma v)_{chi chibar} = g_f^2 omega_b^2 v^4 rho_X/(96 pi) '
+              'per chiral fermion state, written with the elastic coupling g_f of FE-47 (elastic amplitudes %s), rho_X = %s; for the '
+              'chirality-blind current (P_L + P_R = 1) rho = %.4f, the value of a Dirac fermion with a scalar density; it creates a '
+              'physical particle with a ghost antiparticle only at the next order in k (the singular values grow like %.4f k^2, '
+              'deviation %.1e; %.1e at k = 0.05): ghost pairs with the relative amplitude %.4f k and the relative rate %.4f k^2 '
+              '(k in units of m_Psi), small but not zero' % (slope['P_L'][0], slope['1'][0], ', '.join('%s %.1e' % (k_, v_) for k_, v_ in lin.items()),
+                               ', '.join('%s %.5f' % (k_, v_) for k_, v_ in elastic.items()),
+                               ', '.join('%s %.4f' % (k_, v_) for k_, v_ in rho.items()), rho['1'], ghost_c, ghost_dev,
+                               blind_ghost, ghost_rel, ghost_rel ** 2))
 
     out['runtime_s'] = round(time.time() - t0, 1)
     out['definition_of_the_fold'] = fold_definition()

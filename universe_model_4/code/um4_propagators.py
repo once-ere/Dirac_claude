@@ -27,24 +27,30 @@ Computed:
   P4  the W and Z bosons: the Higgs doublet on the fold gives the bulk gauge fields a mass term M_b^2 delta_D(sigma) on the
       fold; the pole of G_5/(1 + M_b^2 G_5) for time-like momentum (the outgoing continuation p = -i m) lies at
       m^2 = m_0^2 (1 - m_0^2/(3 H^2) + ...) - i m_0^5/(3 H^3) + ..., m_0^2 = (3H/2) M_b^2 = g^2 v^2/4 for the W: a resonance of
-      the width Gamma = m_0 (m_0/H)^3/3 into the bulk (numerically: the exact pole of the rational propagator agrees);
+      the width Gamma = m_0 (m_0/H)^3/3 into the bulk (numerically: the exact pole of the rational propagator deviates from it by
+      1.83 (m_0/H)^2 in the imaginary part and 0.44 (m_0/H)^4 in the real part, the next orders of the expansion);
   P5  the lower bounds on H that these give (ESTIMATE; the measured values are inputs, the formulas are P2 to P4):
-      (a) Newton's law, tested by torsion balances down to 52 micrometres (Lee, Adelberger, Cook, Fleischer and Heckel,
-          Phys. Rev. Lett. 124 (2020) 101101), taken as holding there to 1 per cent: H r > (0.34/0.01)^(1/5) = 2.0,
-          H > 7.7e-3 eV;
+      (a) Newton's law, tested by torsion balances at separations from 52 micrometres to 3 mm (Lee, Adelberger, Cook,
+          Fleischer and Heckel, Phys. Rev. Lett. 124 (2020) 101101: gravitational-strength Yukawa forces of range above
+          38.6 micrometres are excluded at 95 per cent), taken as holding at 52 micrometres to 1 per cent (a criterion, not the
+          published limit): H r > (0.34/0.01)^(1/5) = 2.0, H > 7.7e-3 eV; at the bound of (b) the correction there is 2.6e-75
+          (2.7e-75 for H = 2.5 TeV);
       (b) the invisible width of the Z: a Z boson that decays into the bulk leaves the fold unseen and adds
           Gamma_Z = m_Z (m_Z/H)^3/3 (P4) to the invisible width; the number of light neutrinos measured at the Z,
           N_nu = 2.9963 +- 0.0074 (Janot and Jadach, Phys. Lett. B 803 (2020) 135319), with Gamma(Z -> nu nubar) = 167.2 MeV
-          per neutrino, allows at most (N_nu - 3 + 1.645 x 0.0074) x 167.2 MeV = 1.4 MeV more (95 per cent, one-sided):
-          H > m_Z (m_Z/(3 x 1.4 MeV))^(1/3) = 2.5 TeV, the strongest of these bounds;
-      (c) contact interactions: the even term x^2/3 of G_5 is a contact interaction g^2/(3 H^2) (J.J) of the currents J of
-          the fold; written as 4 pi/Lambda^2 (the convention of the experiments) it has Lambda = H sqrt(3/alpha); the limit
-          Lambda > 26.0 TeV of ATLAS for e e and mu mu with destructive interference (the sign of the bulk modes below their
-          poles; JHEP 11 (2020) 005) with the photon alone (alpha = 1/128) gives H > Lambda sqrt(alpha/3) = 1.3 TeV (the weak
-          gauge fields, whose bulk modes add to it, raise it);
-      (d) the masses of the W and Z (P4) are shifted by -m_0^4/(3 H^2), which changes rho = m_W^2/(cos^2 theta_W m_Z^2) by
+          per neutrino, allows at most (N_nu - 3 + 1.645 x 0.0074) x 167.2 MeV = 1.42 MeV more (95 per cent, one-sided):
+          H > m_Z (m_Z/(3 x 1.42 MeV))^(1/3) = 2534 GeV (about 2.5 TeV), the strongest of these bounds;
+      (c) contact interactions: the even term x^2/3 of G_5 is a contact interaction e^2 Q_q Q_l/(3 H^2) (qbar gamma q)(lbar gamma l)
+          between the quark and lepton currents of the fold (photon exchange through the massive modes); written as
+          4 pi/Lambda^2 (the convention of the experiments) it has Lambda = H sqrt(3/(alpha |Q_q Q_l|)); the limit
+          Lambda > 26.0 TeV of ATLAS (e e and mu mu combined, destructive interference, the left-left operator; JHEP 11 (2020)
+          005) with the up-quark charge (|Q_u Q_l| = 2/3, alpha = 1/128) gives H > Lambda sqrt(2 alpha/9) = 1.1 TeV (1.3 TeV with
+          unit charges; the vector structure of photon exchange and the weak gauge fields, whose bulk modes add to it, change
+          this by factors of order one);
+      (d) the squared masses of the W and Z (P4) are shifted by -m_0^4/(3 H^2) (the masses by -m_0^3/(6 H^2)), which changes
+          rho = m_W^2/(cos^2 theta_W m_Z^2) by
           sin^2 theta_W m_Z^2/(3 H^2); rho_0 = 1.00031 +- 0.00019 (Particle Data Group 2024) gives H > 0.97 TeV;
-      so H is at least of the order of a few TeV; at H = 2.5 TeV the width of the W into the bulk is 0.9 MeV (its measured
+      so H is at least of the order of a few TeV; at H = 2534 GeV the width of the W into the bulk is 0.85 MeV (its measured
       total width is 2.1 GeV) and the Coulomb correction 0.42/(H r)^3 is 1.4e-27 at the Bohr radius.
 Writes outputs/propagators.json and reports/propagators_checks.json; exit code 0 iff every check passes.
 Usage: python universe_model_4/code/um4_propagators.py
@@ -64,8 +70,10 @@ coordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/
     (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
 with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
 Notation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric
-functions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as
-sigma approaches 0 from above and from below.
+functions, sinh, cosh, tanh = sinh/cosh and coth = cosh/sinh the hyperbolic functions, |y| the absolute value, max and
+min the larger and the smaller of their arguments; det, tr and ^T are the determinant, the trace and the transpose of a
+square matrix, and 1_4, 1_8 and 1_16 the identity matrices of 4, 8 and 16 rows; f(0+) and f(0-) are the limits of
+f(sigma) as sigma approaches 0 from above and from below.
 
 Why this surface is called a fold. Measured by the proper distance along the hidden direction,
     (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
@@ -154,17 +162,17 @@ Examples of folds that are meaningful for UM-4.
      of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.
   6. The brane of Randall and Sundrum. The five-dimensional metric
         (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),
-                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5
+                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2
      (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
      fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
      not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
-     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every
-     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of
-     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure
-     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three
-     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their
-     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the
-     bulk as well.
+     the bulk the cosmological constant Lambda_RS (the vacuum energy Lambda_RS/kappa_5), and the bulk is otherwise empty.
+     The fold of UM-4 is of the same kind, with every direction of the fold warped by the same factor as in the model of
+     Randall and Sundrum: its static block is a space of constant curvature -H^2 in all eight directions, a vacuum of
+     Einstein gravity with Lambda = -21 H^2, with a fold of pure tension (FD-12), and the graviton is bound to the fold as
+     there. It differs in that the fold has seven dimensions, three of them extra times, in that the space is not cut at
+     the brane (Randall and Sundrum identify the two sides of their brane, one physical side; the fold of UM-4 has two
+     distinct sides, example 7), and in that the gauge fields live in the bulk as well.
   7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off
      exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac
      equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near
@@ -179,14 +187,31 @@ Examples of folds that are meaningful for UM-4.
      tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is
      warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point
      sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a
-     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the
-     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and
-     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a
-     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
+     resonance of the energy omega_0 at rest and the width Gamma = (2/e) (q_b^2/m_Psi) e^(-2 F_t(upsilon_b) m_Psi/H) (to the
+     leading order in H/q_b), with the tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon)
+     - sqrt(1 - upsilon^2) and upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t,
+     where the profile decays at the local rate sqrt(m_Psi^2 - omega_r^2 e^(2 H |sigma|)), which falls to 0 at sigma_t). The
+     profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
   8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
         (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
-     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
-     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
+     (for states at rest R_1 is the reflection across the fold combined with the reflection of ordinary space, R_2 the
+     reflection across the fold combined with the reflection of the extra times). T_a (a = 0, ..., 7) are the author's real
+     16 x 16 Dirac matrices T16^A[a] of 4+4.nb, built there from six real 4 x 4 matrices (rows separated by ";"):
+        (FD-13) s_1 = [0 0 0 1; 0 0 1 0; 0 -1 0 0; -1 0 0 0],   s_2 = [0 0 -1 0; 0 0 0 1; 1 0 0 0; 0 -1 0 0],
+                s_3 = [0 1 0 0; -1 0 0 0; 0 0 0 1; 0 0 -1 0],   t_1 = [0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0],
+                t_2 = [0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0],   t_3 = [0 1 0 0; -1 0 0 0; 0 0 0 -1; 0 0 1 0],
+                Xi_0 = 1_8,  Xi_1 = [[0, s_1], [s_1, 0]],  Xi_2 = [[0, s_2], [s_2, 0]],  Xi_3 = [[0, s_3], [s_3, 0]],
+                Xi_4 = [[0, t_3], [-t_3, 0]],  Xi_5 = [[0, t_2], [-t_2, 0]],  Xi_6 = [[0, t_1], [-t_1, 0]],
+                Xi_7 = Xi_1 Xi_2 Xi_3 Xi_4 Xi_5 Xi_6 = [[-1_4, 0], [0, 1_4]],
+                Xibar_0 = 1_8,  Xibar_a = sigma_8 Xi_a^T sigma_8 (a = 1, ..., 7),  sigma_8 = [[0, 1_4], [1_4, 0]],
+                T_a = [[0, Xibar_a], [Xi_a, 0]]  (a = 0, ..., 7)
+     ([[A, B], [C, D]] the matrix made of the four blocks A, B, C, D, 0 a block of zeros; s_1, s_2, s_3 and t_1, t_2, t_3
+     are s4by4[1..3] and t4by4[1..3], Xi_a and Xibar_a are tau[a] and taubar[a], sigma_8 is sigma88 of the notebook).
+     They obey {T_a, T_b} = T_a T_b + T_b T_a = 2 eta_ab 1_16 with eta = diag(1, 1, 1, 1, -1, -1, -1, -1);
+     gamma^(a) = eta^aa T_a (no sum) are the Dirac matrices of the frame, gamma^(0) along sigma; the chirality matrix is
+     Gamma_8 = T_0 T_1 ... T_7 = [[-1_8, 0], [0, 1_8]], the chiral projectors are P_L = (1_16 - Gamma_8)/2 and
+     P_R = (1_16 + Gamma_8)/2, and sigma_16 = T_0 T_1 T_2 T_3 = [[-sigma_8, 0], [0, sigma_8]] defines the Dirac adjoint
+     Psibar = Psi^dagger sigma_16 (Psi^dagger the complex conjugate transpose).
      The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
      carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the
      particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)
@@ -331,12 +356,24 @@ def main():
         m2 = mc ** 2
         re_pred = m0 ** 2 * (1 - m0 ** 2 / 3)
         im_pred = -m0 ** 5 / 3
+        dre = abs(float(m2.real) / re_pred - 1)
+        dim = abs(float(m2.imag) / im_pred - 1)
         rows.append({'m0_over_H': m0, 'm2_real': float(m2.real), 'm2_imag': float(m2.imag), 'pred_real': re_pred, 'pred_imag': im_pred,
+                     'relative_deviation_real': dre, 'relative_deviation_imag': dim,
                      'width_over_m0': float(-m2.imag / m0 ** 2), 'pred_width_over_m0': m0 ** 3 / 3})
-        ok4 &= abs(float(m2.real) / re_pred - 1) < 1e-5 and abs(float(m2.imag) / im_pred - 1) < 1e-2
+    # the expansion is right to the order shown if the deviations are of the next orders: the imaginary part deviates by a
+    # constant times (m0/H)^2 and the real part by a constant times (m0/H)^4
+    cim = [r_['relative_deviation_imag'] / r_['m0_over_H'] ** 2 for r_ in rows]
+    cre = [r_['relative_deviation_real'] / r_['m0_over_H'] ** 4 for r_ in rows]
+    ok4 = (max(cim) / min(cim) < 1.05 and max(cre) / min(cre) < 1.05 and max(cim) < 5 and max(cre) < 5
+           and all(r_['relative_deviation_imag'] < 2e-4 and r_['relative_deviation_real'] < 1e-5 for r_ in rows))
     out['P4_W_Z'] = rows
-    rep.check('P4_W_and_Z_resonances', ok4, 'the pole of G_5/(1 + M_b^2 G_5): m^2 = m0^2 (1 - m0^2/(3H^2)) - i m0^5/(3H^3) to the accuracy shown: '
-              'the W and Z are resonances of the width Gamma = m0 (m0/H)^3/3 into the bulk (%s)' % (
+    out['P4_next_order_coefficients'] = {'imag_over_m0^2': cim, 'real_over_m0^4': cre}
+    rep.check('P4_W_and_Z_resonances', ok4, 'the pole of G_5/(1 + M_b^2 G_5): m^2 = m0^2 (1 - m0^2/(3H^2)) - i m0^5/(3H^3); the exact pole of the '
+              'rational propagator deviates from it by %s (imaginary part) and %s (real part) for m0/H = %s, i.e. by %.3f (m0/H)^2 and '
+              '%.3f (m0/H)^4, the next orders: the W and Z are resonances of the width Gamma = m0 (m0/H)^3/3 into the bulk (%s)' % (
+                  ', '.join('%.1e' % r_['relative_deviation_imag'] for r_ in rows), ', '.join('%.1e' % r_['relative_deviation_real'] for r_ in rows),
+                  ', '.join('%g' % r_['m0_over_H'] for r_ in rows), cim[0], cre[0],
                   ', '.join('m0/H = %g: Gamma/m0 = %.3e' % (r_['m0_over_H'], r_['width_over_m0']) for r_ in rows)))
 
     # ---------------- P5: bounds on H (ESTIMATE)
@@ -354,9 +391,15 @@ def main():
     m2 = complex(pole(m0n) ** 2)                                     # m^2 = M^2 - i M Gamma (H = 1)
     width_exact = -m2.imag / math.sqrt(m2.real) * Hmin_Z             # GeV
     width_formula = mZ * m0n ** 3 / 3
-    # (c) contact interactions: 4 pi/Lambda^2 = g^2/(3 H^2) -> H = Lambda sqrt(alpha/3); ATLAS 2020, ll, destructive LL
+    # (c) contact interactions: photon exchange through the massive modes gives e^2 Q_q Q_l/(3 H^2) (qbar gamma q)(lbar gamma l)
+    # between quarks and leptons (the operators of Drell-Yan production); written as 4 pi/Lambda^2 it has
+    # H = Lambda sqrt(alpha |Q_q Q_l|/3); the ATLAS limit Lambda > 26.0 TeV (ee and mu mu combined, destructive interference,
+    # left-left operator) with the up-quark charge |Q_u Q_l| = 2/3 (the dominant quark) gives about 1.1 TeV
     Lam_CI, alpha_em = 26.0e3, 1 / 128.0
-    Hmin_CI = Lam_CI * math.sqrt(alpha_em / 3)
+    Hmin_CI = Lam_CI * math.sqrt(alpha_em * (2.0 / 3.0) / 3)
+    Hmin_CI_unit_charges = Lam_CI * math.sqrt(alpha_em / 3)
+    # (a') the correction of Newton's law at 52 micrometres for H at the bound of (b) and for H = 2.5 TeV
+    r_test_GeVinv = r_test / 1.973269804e-16                         # 52 micrometres in GeV^-1
     # (d) rho parameter: Delta rho = sin^2 theta_W m_Z^2/(3 H^2); rho_0 - 1 < 0.00031 + 1.96 x 0.00019
     s2w = 0.23122
     drho_max = 0.00031 + 1.96 * 0.00019
@@ -364,19 +407,25 @@ def main():
     width_W = mW * (mW / Hmin_Z) ** 3 / 3
     r_atom_GeVinv = 0.529e-10 / 1.973269804e-16                      # Bohr radius in GeV^-1
     coulomb_atom = cp / (Hmin_Z * r_atom_GeVinv) ** 3
+    newton_52um = {'H_bound': cg / (Hmin_Z * r_test_GeVinv) ** 5, 'H_2500_GeV': cg / (2.5e3 * r_test_GeVinv) ** 5}
     ok5 = (7e-3 < Hmin_newton < 8e-3 and 2.3e3 < Hmin_Z < 2.7e3 and abs(width_exact / width_formula - 1) < 0.02
-           and 1.2e3 < Hmin_CI < 1.4e3 and 0.9e3 < Hmin_rho < 1.0e3 and width_W < 1e-3 and coulomb_atom < 1e-26)
+           and 1.0e3 < Hmin_CI < 1.2e3 and 0.9e3 < Hmin_rho < 1.0e3 and width_W < 1e-3 and coulomb_atom < 1e-26
+           and 2e-75 < newton_52um['H_bound'] < 3e-75 and 2e-75 < newton_52um['H_2500_GeV'] < 3e-75)
     out['P5_bounds'] = {'H_min_from_newton_eV': Hmin_newton, 'Z_extra_invisible_width_max_GeV': Gextra,
                         'H_min_from_Z_invisible_width_GeV': Hmin_Z, 'Z_width_into_bulk_exact_pole_GeV': width_exact,
                         'Z_width_into_bulk_formula_GeV': width_formula, 'H_min_from_contact_interactions_GeV': Hmin_CI,
+                        'H_min_from_contact_interactions_unit_charges_GeV': Hmin_CI_unit_charges,
                         'H_min_from_rho_parameter_GeV': Hmin_rho, 'W_width_into_bulk_at_H_min_GeV': width_W,
-                        'coulomb_correction_at_bohr_radius': coulomb_atom}
-    rep.check('P5_bounds_on_H', ok5, 'ESTIMATE: Newton\'s law to 1 per cent at 52 micrometres: H > %.2e eV; the invisible width of the Z '
-              '(at most %.2f MeV more than three neutrinos give): H > %.0f GeV (the exact pole of the propagator gives the width %.3e '
-              'GeV, the formula m_Z (m_Z/H)^3/3 %.3e GeV); contact interactions (ATLAS, 26.0 TeV): H > %.0f GeV; rho parameter: '
-              'H > %.0f GeV; at H = %.0f GeV the width of the W into the bulk is %.1e GeV and the Coulomb correction at the Bohr '
-              'radius %.1e' % (Hmin_newton, 1e3 * Gextra, Hmin_Z, width_exact, width_formula, Hmin_CI, Hmin_rho, Hmin_Z, width_W,
-                               coulomb_atom))
+                        'coulomb_correction_at_bohr_radius': coulomb_atom, 'newton_correction_at_52_micrometres': newton_52um}
+    rep.check('P5_bounds_on_H', ok5, 'ESTIMATE: Newton\'s law (tested at separations of 52 micrometres to 3 mm; gravitational-strength '
+              'Yukawa forces of range above 38.6 micrometres are excluded), taken to hold to 1 per cent at 52 micrometres: H > %.2e eV; '
+              'the invisible width of the Z (at most %.2f MeV more than three neutrinos give): H > %.0f GeV (the exact pole of the '
+              'propagator gives the width %.3e GeV, the formula m_Z (m_Z/H)^3/3 %.3e GeV); quark-lepton contact interactions (ATLAS, '
+              '26.0 TeV; the up-quark charge 2/3): H > %.0f GeV (%.0f GeV with unit charges); rho parameter: H > %.0f GeV; at '
+              'H = %.0f GeV the width of the W into the bulk is %.1e GeV, the correction of Newton\'s law at 52 micrometres %.2e '
+              '(%.2e at H = 2.5 TeV) and the Coulomb correction at the Bohr radius %.1e' % (
+                  Hmin_newton, 1e3 * Gextra, Hmin_Z, width_exact, width_formula, Hmin_CI, Hmin_CI_unit_charges, Hmin_rho, Hmin_Z,
+                  width_W, newton_52um['H_bound'], newton_52um['H_2500_GeV'], coulomb_atom))
     return write('propagators', 'um4_propagators.py', out, rep, __doc__)
 
 

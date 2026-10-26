@@ -6,10 +6,13 @@ The metric of UM-4 in the proper chart, ds^2 = d sigma^2 + e^{-2H|sigma|} ghat (
 fold), Einstein gravity with Lambda = -21 H^2 in the bulk, and the thin source S^a_b of the fold (the junction condition of
 Israel, kappa S^a_b = -([K^a_b] - [K] delta^a_b)).  Computed and checked:
   FS1  the tension: for an n-dimensional fold in a bulk of n + 1 dimensions with the warp e^{-2H|sigma|} in every direction of the
-       fold, K^a_b = -H sgn(sigma) delta^a_b and kappa S^a_b = -2(n - 1) H delta^a_b: a pure tension kappa lambda_F = 2(n - 1) H,
-       12 H for the seven-dimensional fold of UM-4 and 6 H for the four-dimensional brane of Randall and Sundrum (whose
-       lambda_RS = 6 k_RS/kappa_5 it reproduces); with the bulk energy Lambda = -n(n - 1) H^2/2 (-21 H^2 for n = 7, -6 k_RS^2 for
-       n = 4) this is the critical tension, for which the fold has no cosmological constant of its own (um4_fold.py F2);
+       fold, K^a_b and its jump computed from the metric on both sides give with Israel's condition kappa S^a_b =
+       -2(n - 1) H delta^a_b: a pure tension kappa lambda_F = 2(n - 1) H, 12 H for the seven-dimensional fold of UM-4 and 6 H
+       for the four-dimensional brane of Randall and Sundrum (whose lambda_RS = 6 k_RS/kappa_5 it reproduces); the Einstein
+       tensor of the bulk gives the vacuum energy Lambda = -n(n - 1) H^2/2 (-21 H^2 for n = 7, -6 k_RS^2 for n = 4); by
+       Gauss's equation a fold of pure tension lambda in this bulk has the sectional curvature -H^2 + (kappa lambda/(2(n - 1)))^2,
+       flat only for kappa lambda = 2(n - 1) H: the critical tension, for which the fold has no cosmological constant of its
+       own (um4_fold.py F2);
   FS2  the gravitational waves of the fold: with frozen extra times a transverse traceless wave of the + polarisation in
        ordinary space, g_11 = e^{2a + eps h}, g_22 = e^{2a - eps h}, h = h(x3, x4), has the linearised Einstein tensor
        (Ghat^1_1 - Ghat^2_2)/2 = (1/2) [h'' + 3 a' h' - e^{-2a} d^2h/dx3^2] eps (computed): the wave equation of general relativity
@@ -22,14 +25,16 @@ Israel, kappa S^a_b = -([K^a_b] - [K] delta^a_b)).  Computed and checked:
        gauge fields of the fold; in UM-4 the gauge fields live in the bulk, so the fields of the fold are the Higgs doublet
        (four real scalars) and 48 Weyl fermions (three generations with three right-handed neutrinos): N_ind = 52 - 24 xi_H;
        it adds to the Planck mass of the fold, 1/(8 pi G_N) = V_*/kappa_7 + 1/kappa_ind, with kappa_ind = 8 pi G_ind; for a cutoff
-       Lambda_c of the order of H it is negligible (for H = 2.5 TeV a part 1e-30 of M_red^2); the same loops give the fold a
+       Lambda_c of the order of H it is negligible (for Lambda_c = 2534 GeV, the bound on H of um4_propagators.py P5, a part
+       5.9e-32 of M_red^2); the same loops give the fold a
        vacuum energy of about |N_B - N_F| Lambda_c^4/(64 pi^2) (N_B = 4, N_F = 96 real degrees of freedom), a seven-dimensional
        tension that adds to lambda_F;
   FS4  the tuning of the tension and the dark energy: a tension lambda_F + delta_lambda (delta_lambda the vacuum energy of the fold
        fields and of the fold fluid beyond the critical tension) gives the fold a cosmological constant, Ghat^a_b = kappa_7 (tau^a_b
        - delta_lambda delta^a_b) to the first order (the junction condition with the bulk metric of um4_fold.py F1), so the vacuum
-       energy of the four-dimensional world is rho_Lambda = V_* delta_lambda; the observed rho_Lambda = 2.5e-47 GeV^4 then needs
-       delta_lambda/lambda_F = rho_Lambda/(30 H^2 M_red^2) (lambda_F V_* = 30 H^2 M_red^2, um4_fold.py F5), 2.3e-92 for H = 2.5 TeV:
+       energy of the four-dimensional world is rho_Lambda = V_* delta_lambda; the observed rho_Lambda = 2.52e-47 GeV^4 = (2.24 meV)^4
+       (Planck 2018: Omega_Lambda = 0.6847, h = 0.6736) then needs delta_lambda/lambda_F = rho_Lambda/(30 H^2 M_red^2)
+       (lambda_F V_* = 30 H^2 M_red^2, um4_fold.py F5), 2.2e-92 at the bound H = 2534 GeV (2.3e-92 for H = 2.5 TeV):
        the cosmological constant problem of the brane of Randall and Sundrum, unsolved in UM-4 (OPEN); a vacuum energy with
        frozen extra times needs the pressure q = -2 rho_Lambda along the extra times (the radion condition), of which the tension
        supplies -rho_Lambda and the fold fluid the rest (ASSUMED);
@@ -38,7 +43,8 @@ Israel, kappa S^a_b = -([K^a_b] - [K] delta^a_b)).  Computed and checked:
        3P)/2 of the frozen extra times (um4_fold.py F4) requires the fold fluid to add q_hold = -(rho - 3P)/2 - q_matter: zero for
        radiation, -rho/2 for dust, -rho for a vacuum energy; its energy density is not fixed by the junction condition (it is a
        pressure along the extra times only), and what supplies it is OPEN.
-Writes outputs/foldsources.json and reports/foldsources_checks.json.  Runs in a few seconds.
+Reads outputs/propagators.json (the bound on H; run um4_propagators.py first).  Writes outputs/foldsources.json and
+reports/foldsources_checks.json.  Runs in a few seconds.
 Usage: python universe_model_4/code/um4_foldsources.py
 
 BEGIN FOLD DEFINITION
@@ -56,8 +62,10 @@ coordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/
     (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
 with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
 Notation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric
-functions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as
-sigma approaches 0 from above and from below.
+functions, sinh, cosh, tanh = sinh/cosh and coth = cosh/sinh the hyperbolic functions, |y| the absolute value, max and
+min the larger and the smaller of their arguments; det, tr and ^T are the determinant, the trace and the transpose of a
+square matrix, and 1_4, 1_8 and 1_16 the identity matrices of 4, 8 and 16 rows; f(0+) and f(0-) are the limits of
+f(sigma) as sigma approaches 0 from above and from below.
 
 Why this surface is called a fold. Measured by the proper distance along the hidden direction,
     (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
@@ -146,17 +154,17 @@ Examples of folds that are meaningful for UM-4.
      of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.
   6. The brane of Randall and Sundrum. The five-dimensional metric
         (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),
-                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5
+                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2
      (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
      fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
      not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
-     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every
-     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of
-     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure
-     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three
-     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their
-     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the
-     bulk as well.
+     the bulk the cosmological constant Lambda_RS (the vacuum energy Lambda_RS/kappa_5), and the bulk is otherwise empty.
+     The fold of UM-4 is of the same kind, with every direction of the fold warped by the same factor as in the model of
+     Randall and Sundrum: its static block is a space of constant curvature -H^2 in all eight directions, a vacuum of
+     Einstein gravity with Lambda = -21 H^2, with a fold of pure tension (FD-12), and the graviton is bound to the fold as
+     there. It differs in that the fold has seven dimensions, three of them extra times, in that the space is not cut at
+     the brane (Randall and Sundrum identify the two sides of their brane, one physical side; the fold of UM-4 has two
+     distinct sides, example 7), and in that the gauge fields live in the bulk as well.
   7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off
      exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac
      equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near
@@ -171,14 +179,31 @@ Examples of folds that are meaningful for UM-4.
      tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is
      warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point
      sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a
-     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the
-     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and
-     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a
-     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
+     resonance of the energy omega_0 at rest and the width Gamma = (2/e) (q_b^2/m_Psi) e^(-2 F_t(upsilon_b) m_Psi/H) (to the
+     leading order in H/q_b), with the tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon)
+     - sqrt(1 - upsilon^2) and upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t,
+     where the profile decays at the local rate sqrt(m_Psi^2 - omega_r^2 e^(2 H |sigma|)), which falls to 0 at sigma_t). The
+     profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
   8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
         (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
-     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
-     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
+     (for states at rest R_1 is the reflection across the fold combined with the reflection of ordinary space, R_2 the
+     reflection across the fold combined with the reflection of the extra times). T_a (a = 0, ..., 7) are the author's real
+     16 x 16 Dirac matrices T16^A[a] of 4+4.nb, built there from six real 4 x 4 matrices (rows separated by ";"):
+        (FD-13) s_1 = [0 0 0 1; 0 0 1 0; 0 -1 0 0; -1 0 0 0],   s_2 = [0 0 -1 0; 0 0 0 1; 1 0 0 0; 0 -1 0 0],
+                s_3 = [0 1 0 0; -1 0 0 0; 0 0 0 1; 0 0 -1 0],   t_1 = [0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0],
+                t_2 = [0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0],   t_3 = [0 1 0 0; -1 0 0 0; 0 0 0 -1; 0 0 1 0],
+                Xi_0 = 1_8,  Xi_1 = [[0, s_1], [s_1, 0]],  Xi_2 = [[0, s_2], [s_2, 0]],  Xi_3 = [[0, s_3], [s_3, 0]],
+                Xi_4 = [[0, t_3], [-t_3, 0]],  Xi_5 = [[0, t_2], [-t_2, 0]],  Xi_6 = [[0, t_1], [-t_1, 0]],
+                Xi_7 = Xi_1 Xi_2 Xi_3 Xi_4 Xi_5 Xi_6 = [[-1_4, 0], [0, 1_4]],
+                Xibar_0 = 1_8,  Xibar_a = sigma_8 Xi_a^T sigma_8 (a = 1, ..., 7),  sigma_8 = [[0, 1_4], [1_4, 0]],
+                T_a = [[0, Xibar_a], [Xi_a, 0]]  (a = 0, ..., 7)
+     ([[A, B], [C, D]] the matrix made of the four blocks A, B, C, D, 0 a block of zeros; s_1, s_2, s_3 and t_1, t_2, t_3
+     are s4by4[1..3] and t4by4[1..3], Xi_a and Xibar_a are tau[a] and taubar[a], sigma_8 is sigma88 of the notebook).
+     They obey {T_a, T_b} = T_a T_b + T_b T_a = 2 eta_ab 1_16 with eta = diag(1, 1, 1, 1, -1, -1, -1, -1);
+     gamma^(a) = eta^aa T_a (no sum) are the Dirac matrices of the frame, gamma^(0) along sigma; the chirality matrix is
+     Gamma_8 = T_0 T_1 ... T_7 = [[-1_8, 0], [0, 1_8]], the chiral projectors are P_L = (1_16 - Gamma_8)/2 and
+     P_R = (1_16 + Gamma_8)/2, and sigma_16 = T_0 T_1 T_2 T_3 = [[-sigma_8, 0], [0, sigma_8]] defines the Dirac adjoint
+     Psibar = Psi^dagger sigma_16 (Psi^dagger the complex conjugate transpose).
      The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
      carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the
      particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)
@@ -200,6 +225,7 @@ END FOLD DEFINITION
 """
 from __future__ import annotations
 
+import json
 import math
 import sys
 from pathlib import Path
@@ -212,8 +238,11 @@ from um4_common import Report, write              # noqa: E402
 from um4_lovelock import frame_riemann, lovelock_tensor  # noqa: E402
 
 M_PL_RED = 2.435e18          # GeV
-RHO_LAMBDA = 2.5e-47         # GeV^4 (Planck 2018: Omega_Lambda = 0.685, h = 0.674)
-H_MIN = 2.5e3                # GeV (um4_propagators.py P5)
+# the vacuum energy today from Planck 2018 (TT,TE,EE+lowE+lensing): Omega_Lambda = 0.6847, h = 0.6736, with
+# rho_c/h^2 = 1.05371e-5 GeV/cm^3 and hbar c = 1.97327e-14 GeV cm
+RHO_LAMBDA = 0.6847 * 1.05371e-5 * 0.6736 ** 2 * (1.97327e-14) ** 3      # GeV^4: 2.52e-47 = (2.24 meV)^4
+UM4 = Path(__file__).resolve().parent.parent
+H_MIN = json.loads((UM4 / 'outputs' / 'propagators.json').read_text())['P5_bounds']['H_min_from_Z_invisible_width_GeV']
 
 
 def fs(e):
@@ -228,18 +257,41 @@ def main():
     # ---------------- FS1: the tension for an n-dimensional fold
     rows1 = {}
     ok1 = True
+    sg = sp.Symbol('sigma', real=True)
+    kl = sp.Symbol('kappa_lambda', positive=True)
     for n in (4, 7):
-        K = -H                                            # K^a_b at 0+, every direction
-        kS = -2 * (K - n * K)                             # kappa S^a_b = -2 (K^a_b - K delta^a_b)
-        Lam = -sp.Rational(n * (n - 1), 2) * H ** 2
-        rows1[n] = {'kappa_lambda_F': str(sp.simplify(-kS)), 'Lambda': str(Lam)}
-        ok1 &= sp.simplify(-kS - 2 * (n - 1) * H) == 0
-    # the bulk energy of a space of constant curvature -H^2 in n + 1 dimensions: G^M_N = n(n - 1) H^2/2 delta^M_N
+        # the metric d sigma^2 + e^{-2H|sigma|} eta_n (n - 1 space-like and one time-like direction suffice for the tension)
+        Xn = [sg] + list(sp.symbols('y1:%d' % (n + 1), real=True))
+        epsn = [1] * n + [-1]
+        Ks = {}
+        for side in (+1, -1):
+            hn = [sp.S(1)] + [sp.exp(-H * side * sg)] * n
+            gn = sp.diag(*[epsn[i] * hn[i] ** 2 for i in range(n + 1)])
+            Ks[side] = [sp.simplify(sp.diff(gn[i, i], sg) / (2 * gn[i, i])) for i in range(1, n + 1)]
+            if side == 1:
+                En = lovelock_tensor(frame_riemann(gn, Xn, hn), 1, n=n + 1)        # the Einstein tensor of the bulk
+                Lam = sp.simplify(-En[0, 0])                                      # vacuum: G^M_N + Lambda delta^M_N = 0
+                ok1 &= all(sp.simplify(En[i, i] + Lam) == 0 for i in range(n + 1))
+        jump = [sp.simplify(a_ - b_) for a_, b_ in zip(Ks[1], Ks[-1])]
+        kS = [sp.simplify(-(j_ - sum(jump))) for j_ in jump]                      # Israel: kappa S^a_b = -([K^a_b] - [K] delta)
+        ok1 &= len(set(kS)) == 1
+        # Gauss's equation for a fold of pure tension lambda in a bulk of curvature -H^2: Israel gives K^a_b(0+) =
+        # -kappa lambda delta^a_b/(2(n - 1)) and the sectional curvature of the fold is -H^2 + K^2: flat only at the critical
+        # tension kappa lambda = 2(n - 1) H
+        Kt = -kl / (2 * (n - 1))
+        crit = sp.solve(sp.Eq(-H ** 2 + Kt ** 2, 0), kl)
+        rows1[n] = {'kappa_lambda_F': str(sp.simplify(-kS[0])), 'Lambda': str(Lam), 'critical_tension': [str(c_) for c_ in crit]}
+        ok1 &= sp.simplify(-kS[0] - 2 * (n - 1) * H) == 0 and len(crit) == 1 and sp.simplify(crit[0] + kS[0]) == 0
+        ok1 &= sp.simplify(Lam + sp.Rational(n * (n - 1), 2) * H ** 2) == 0
     ok1 &= rows1[7]['kappa_lambda_F'] == '12*H' and rows1[4]['kappa_lambda_F'] == '6*H' and rows1[7]['Lambda'] == '-21*H**2'
     out['FS1'] = rows1
-    rep.check('FS1_tension', ok1, 'kappa lambda_F = 2(n - 1) H with Lambda = -n(n - 1) H^2/2: n = 7 (UM-4) %s, %s; n = 4 (Randall and '
-              'Sundrum) %s, %s, their lambda_RS = 6 k_RS/kappa_5 and Lambda_RS = -6 k_RS^2' % (
-                  rows1[7]['kappa_lambda_F'], rows1[7]['Lambda'], rows1[4]['kappa_lambda_F'], rows1[4]['Lambda']))
+    rep.check('FS1_tension', ok1, 'computed from the metric d sigma^2 + e^{-2H|sigma|} eta_n on both sides: the jump of K^a_b with Israel\'s '
+              'condition gives kappa lambda_F = 2(n - 1) H, the Einstein tensor of the bulk the vacuum energy Lambda = -n(n - 1) H^2/2: '
+              'n = 7 (UM-4) %s, %s; n = 4 (Randall and Sundrum) %s, %s, their lambda_RS = 6 k_RS/kappa_5 and Lambda_RS = -6 k_RS^2; '
+              'by Gauss\'s equation a fold of pure tension lambda in this bulk has the curvature -H^2 + (kappa lambda/(2(n - 1)))^2, '
+              'flat only at kappa lambda = %s (n = 7) and %s (n = 4): the critical tension' % (
+                  rows1[7]['kappa_lambda_F'], rows1[7]['Lambda'], rows1[4]['kappa_lambda_F'], rows1[4]['Lambda'],
+                  rows1[7]['critical_tension'][0], rows1[4]['critical_tension'][0]))
 
     # ---------------- FS2: the gravitational waves of the fold
     Y = sp.symbols('x1:8', real=True)
@@ -274,7 +326,7 @@ def main():
                   'vacuum_energy_of_the_fold_fields_GeV4_at_cutoff_H_min': rho_vac}
     rep.check('FS3_induced_gravity', ok3,
               'ESTIMATE: N_ind = %s for the fields of the fold of UM-4 (the Higgs doublet and 48 Weyl fermions; the gauge fields are '
-              'in the bulk); with the cutoff Lambda_c = %.1e GeV, 1/(8 pi G_ind) = %.1e M_red^2 (negligible); the same loops give a '
+              'in the bulk); with the cutoff Lambda_c = %.0f GeV (the bound on H), 1/(8 pi G_ind) = %.1e M_red^2 (negligible); the same loops give a '
               'vacuum energy of about %.1e GeV^4, a tension of the fold' % (sp.expand(N_ind), Lc, frac, rho_vac))
 
     # ---------------- FS4: the tuning of the tension
@@ -290,11 +342,14 @@ def main():
     kap7 = sp.Rational(5, 2) * kap * H
     ok4 = sp.simplify(Gsol - kap7 * (tau - dl)) == 0 and 1e-93 < tune < 1e-91
     out['FS4'] = {'fold_equation_with_detuned_tension': str(sp.simplify(Gsol)), 'delta_lambda_over_lambda_F_for_rho_Lambda': tune,
-                  'H_GeV': H_MIN}
+                  'H_GeV': H_MIN, 'rho_Lambda_GeV4': RHO_LAMBDA, 'rho_Lambda_fourth_root_meV': RHO_LAMBDA ** 0.25 * 1e12,
+                  'delta_lambda_over_lambda_F_at_H_2500_GeV': RHO_LAMBDA / (30 * 2.5e3 ** 2 * M_PL_RED ** 2)}
     rep.check('FS4_tension_tuning', ok4,
               'with the tension lambda_F + delta_lambda: Ghat = %s = kappa_7 (tau - delta_lambda): the fold has the cosmological constant '
               'kappa_7 delta_lambda and the four-dimensional vacuum energy rho_Lambda = V_* delta_lambda; the observed value needs '
-              'delta_lambda/lambda_F = %.1e at H = %.1e GeV (OPEN, as for Randall and Sundrum)' % (sp.simplify(Gsol), tune, H_MIN))
+              'delta_lambda/lambda_F = rho_Lambda/(30 H^2 M_red^2) = %.3g at the bound H = %.0f GeV of um4_propagators.py P5 (rho_Lambda = '
+              '%.3g GeV^4 = (%.3g meV)^4; %.3g at H = 2.5 TeV) (OPEN, as for Randall and Sundrum)' % (
+                  sp.simplify(Gsol), tune, H_MIN, RHO_LAMBDA, RHO_LAMBDA ** 0.25 * 1e12, RHO_LAMBDA / (30 * 2.5e3 ** 2 * M_PL_RED ** 2)))
 
     # ---------------- FS5: the fold fluid
     rho, P = sp.symbols('rho P', real=True)

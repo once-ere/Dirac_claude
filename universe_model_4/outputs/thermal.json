@@ -1,8 +1,8 @@
 {
  "T1": {
   "0.001 GeV": {
-   "g_rho": 9.486611205417248,
-   "g_s": 9.625974434727484
+   "g_rho": 10.638559132740442,
+   "g_s": 10.62052852540768
   },
   "0.01 GeV": {
    "g_rho": 10.760324987504884,
@@ -41,157 +41,278 @@
    "g_s": 96.56341793364783
   }
  },
- "T2": [
-  {
-   "Omega_h2": 0.11999997710205074,
-   "Omega_h2_FE61_estimate": 0.12405734581870778,
-   "g_star_f": 67.89616351383157,
-   "omega_b_GeV": 10.0,
-   "sv_FE61_GeV-2": 1.9772124723147405e-09,
-   "sv_FE61_cm3_s": 2.3081978401802282e-26,
-   "sv_chichibar_cm3_s": 9.232791360720913e-26,
-   "x_f": 23.061693880070663
+ "T2": {
+  "end_point_convergence": [
+   {
+    "Omega_h2_x_end_1e5": 0.11999997612624355,
+    "Omega_h2_x_end_1e6": 0.11999314708404847,
+    "omega_b_GeV": 10.0,
+    "relative_change": -5.690869628083295e-05
+   },
+   {
+    "Omega_h2_x_end_1e5": 0.1199999280722102,
+    "Omega_h2_x_end_1e6": 0.11999047534600482,
+    "omega_b_GeV": 300.0,
+    "relative_change": -7.877276559442592e-05
+   },
+   {
+    "Omega_h2_x_end_1e5": 0.11999999512255814,
+    "Omega_h2_x_end_1e6": 0.11998814164644575,
+    "omega_b_GeV": 10000.0,
+    "relative_change": -9.877897161814087e-05
+   }
+  ],
+  "rows": [
+   {
+    "Omega_h2": 0.11999997612624355,
+    "Omega_h2_FE61_estimate": 0.12524204316760276,
+    "g_star_f": 67.89616351383157,
+    "omega_b_GeV": 10.0,
+    "sv_FE61_GeV-2": 1.958509500733395e-09,
+    "sv_FE61_cm3_s": 2.286363991156165e-26,
+    "sv_chichibar_cm3_s": 9.14545596462466e-26,
+    "x_f": 23.061693880070663
+   },
+   {
+    "Omega_h2": 0.11999992362388785,
+    "Omega_h2_FE61_estimate": 0.12784428351652877,
+    "g_star_f": 78.62513588539522,
+    "omega_b_GeV": 30.0,
+    "sv_FE61_GeV-2": 1.8552514693840324e-09,
+    "sv_FE61_cm3_s": 2.1658205653589195e-26,
+    "sv_chichibar_cm3_s": 8.663282261435678e-26,
+    "x_f": 23.99703368758657
+   },
+   {
+    "Omega_h2": 0.11999999452452162,
+    "Omega_h2_FE61_estimate": 0.1297765329445528,
+    "g_star_f": 85.22775039530234,
+    "omega_b_GeV": 100.0,
+    "sv_FE61_GeV-2": 1.8363127994652378e-09,
+    "sv_FE61_cm3_s": 2.1437115620957186e-26,
+    "sv_chichibar_cm3_s": 8.574846248382874e-26,
+    "x_f": 25.103027417005404
+   },
+   {
+    "Omega_h2": 0.1199999280722102,
+    "Omega_h2_FE61_estimate": 0.13100305363564851,
+    "g_star_f": 86.40795673016414,
+    "omega_b_GeV": 300.0,
+    "sv_FE61_GeV-2": 1.8849181808456188e-09,
+    "sv_FE61_cm3_s": 2.2004534843191752e-26,
+    "sv_chichibar_cm3_s": 8.801813937276701e-26,
+    "x_f": 26.1904854982704
+   },
+   {
+    "Omega_h2": 0.1199999808184899,
+    "Omega_h2_FE61_estimate": 0.1301483000947501,
+    "g_star_f": 93.81607202236768,
+    "omega_b_GeV": 1000.0,
+    "sv_FE61_GeV-2": 1.904768527729528e-09,
+    "sv_FE61_cm3_s": 2.2236267792714508e-26,
+    "sv_chichibar_cm3_s": 8.894507117085803e-26,
+    "x_f": 27.397572720325925
+   },
+   {
+    "Omega_h2": 0.11999997100763748,
+    "Omega_h2_FE61_estimate": 0.12912045305020498,
+    "g_star_f": 103.8561094071865,
+    "omega_b_GeV": 3000.0,
+    "sv_FE61_GeV-2": 1.888741142512909e-09,
+    "sv_FE61_cm3_s": 2.2049164097695697e-26,
+    "sv_chichibar_cm3_s": 8.819665639078279e-26,
+    "x_f": 28.35804356737232
+   },
+   {
+    "Omega_h2": 0.11999999512255814,
+    "Omega_h2_FE61_estimate": 0.12991300584632332,
+    "g_star_f": 106.45767621883746,
+    "omega_b_GeV": 10000.0,
+    "sv_FE61_GeV-2": 1.9293398841472095e-09,
+    "sv_FE61_cm3_s": 2.2523113807534525e-26,
+    "sv_chichibar_cm3_s": 9.00924552301381e-26,
+    "x_f": 29.508193558512172
+   }
+  ],
+  "x_end": 100000.0
+ },
+ "T3": {
+  "lepton_allowed_above_GeV": 22758.04031588889,
+  "lepton_coupling_reaches_4pi_at_GeV": 3951.7419022336685,
+  "perturbative_leptophilic_window": false,
+  "rho_X_KR9": {
+   "1": 0.9998909754840978,
+   "P_L": 0.8280097167983602,
+   "P_R": 1.2314243259940532
   },
-  {
-   "Omega_h2": 0.11999994766081294,
-   "Omega_h2_FE61_estimate": 0.12664430044285951,
-   "g_star_f": 78.62513588539522,
-   "omega_b_GeV": 30.0,
-   "sv_FE61_GeV-2": 1.8728303920270246e-09,
-   "sv_FE61_cm3_s": 2.1863421996523484e-26,
-   "sv_chichibar_cm3_s": 8.745368798609394e-26,
-   "x_f": 23.99703368758657
-  },
-  {
-   "Omega_h2": 0.12000000805041512,
-   "Omega_h2_FE61_estimate": 0.12839741118700648,
-   "g_star_f": 85.22775039530234,
-   "omega_b_GeV": 100.0,
-   "sv_FE61_GeV-2": 1.8560367090985466e-09,
-   "sv_FE61_cm3_s": 2.1667372542016432e-26,
-   "sv_chichibar_cm3_s": 8.666949016806573e-26,
-   "x_f": 25.103027417005404
-  },
-  {
-   "Omega_h2": 0.11999999790588396,
-   "Omega_h2_FE61_estimate": 0.12835159824763492,
-   "g_star_f": 86.40795673016414,
-   "omega_b_GeV": 300.0,
-   "sv_FE61_GeV-2": 1.9238563517355946e-09,
-   "sv_FE61_cm3_s": 2.245909905016133e-26,
-   "sv_chichibar_cm3_s": 8.983639620064532e-26,
-   "x_f": 26.1904854982704
-  },
-  {
-   "Omega_h2": 0.12000000082063272,
-   "Omega_h2_FE61_estimate": 0.12712746428051203,
-   "g_star_f": 93.81607202236768,
-   "omega_b_GeV": 1000.0,
-   "sv_FE61_GeV-2": 1.9500301320489724e-09,
-   "sv_FE61_cm3_s": 2.2764651761539704e-26,
-   "sv_chichibar_cm3_s": 9.105860704615881e-26,
-   "x_f": 27.397572720325925
-  },
-  {
-   "Omega_h2": 0.12000000189883145,
-   "Omega_h2_FE61_estimate": 0.12593860199492599,
-   "g_star_f": 103.8561094071865,
-   "omega_b_GeV": 3000.0,
-   "sv_FE61_GeV-2": 1.93646037158372e-09,
-   "sv_FE61_cm3_s": 2.2606238377868345e-26,
-   "sv_chichibar_cm3_s": 9.042495351147338e-26,
-   "x_f": 28.35804356737232
-  },
-  {
-   "Omega_h2": 0.11999997860563323,
-   "Omega_h2_FE61_estimate": 0.1268956481767941,
-   "g_star_f": 106.45606477947032,
-   "omega_b_GeV": 10000.0,
-   "sv_FE61_GeV-2": 1.980473441027117e-09,
-   "sv_FE61_cm3_s": 2.3120046950550564e-26,
-   "sv_chichibar_cm3_s": 9.248018780220225e-26,
-   "x_f": 29.58650829132483
-  }
- ],
- "T3": [
-  {
-   "LZ_limit_cm2": null,
-   "g_lepton_GeV-2": 7.430625023874043e-06,
-   "g_quark_GeV-2": 3.7153125119370213e-06,
-   "lepton_ratio_to_limit": null,
-   "loop_log_sum": 23.15217978121916,
-   "omega_b_GeV": 10.0,
-   "quark_excluded_by_factor": null,
-   "sigma_SI_lepton_loop_cm2": 2.752993836139278e-43,
-   "sigma_SI_quark_cm2": 1.134411597924702e-38
-  },
-  {
-   "LZ_limit_cm2": null,
-   "g_lepton_GeV-2": 2.410608283669414e-06,
-   "g_quark_GeV-2": 1.205304141834707e-06,
-   "lepton_ratio_to_limit": null,
-   "loop_log_sum": 29.74385351322782,
-   "omega_b_GeV": 30.0,
-   "quark_excluded_by_factor": null,
-   "sigma_SI_lepton_loop_cm2": 5.38020232350417e-44,
-   "sigma_SI_quark_cm2": 1.3432391210090476e-39
-  },
-  {
-   "LZ_limit_cm2": 5.5e-48,
-   "g_lepton_GeV-2": 7.199327925483026e-07,
-   "g_quark_GeV-2": 3.599663962741513e-07,
-   "lepton_ratio_to_limit": 1406.9115720126047,
-   "loop_log_sum": 36.967690339183434,
-   "omega_b_GeV": 100.0,
-   "quark_excluded_by_factor": 22738999.795865614,
-   "sigma_SI_lepton_loop_cm2": 7.738013646069326e-45,
-   "sigma_SI_quark_cm2": 1.250644988772609e-40
-  },
-  {
-   "LZ_limit_cm2": 1.65e-47,
-   "g_lepton_GeV-2": 2.443226561493987e-07,
-   "g_quark_GeV-2": 1.2216132807469936e-07,
-   "lepton_ratio_to_limit": 75.92949828259182,
-   "loop_log_sum": 43.55936407119209,
-   "omega_b_GeV": 300.0,
-   "quark_excluded_by_factor": 883886.8238265179,
-   "sigma_SI_lepton_loop_cm2": 1.252836721662765e-45,
-   "sigma_SI_quark_cm2": 1.4584132593137545e-41
-  },
-  {
-   "LZ_limit_cm2": 5.5e-47,
-   "g_lepton_GeV-2": 7.379370847692029e-08,
-   "g_quark_GeV-2": 3.6896854238460146e-08,
-   "lepton_ratio_to_limit": 2.83673697393449,
-   "loop_log_sum": 50.78320089714771,
-   "omega_b_GeV": 1000.0,
-   "quark_excluded_by_factor": 24295.627371649385,
-   "sigma_SI_lepton_loop_cm2": 1.5602053356639695e-46,
-   "sigma_SI_quark_cm2": 1.3362595054407163e-42
-  },
-  {
-   "LZ_limit_cm2": 1.65e-46,
-   "g_lepton_GeV-2": 2.451216815960913e-08,
-   "g_quark_GeV-2": 1.2256084079804565e-08,
-   "lepton_ratio_to_limit": 0.13334271455832342,
-   "loop_log_sum": 57.374874629156366,
-   "omega_b_GeV": 3000.0,
-   "quark_excluded_by_factor": 894.6949464570301,
-   "sigma_SI_lepton_loop_cm2": 2.2001547902123364e-47,
-   "sigma_SI_quark_cm2": 1.4762466616540998e-43
-  },
-  {
-   "LZ_limit_cm2": 5.500000000000001e-46,
-   "g_lepton_GeV-2": 7.436750074512381e-09,
-   "g_quark_GeV-2": 3.7183750372561906e-09,
-   "lepton_ratio_to_limit": 0.004669688653353646,
-   "loop_log_sum": 64.59871145511198,
-   "omega_b_GeV": 10000.0,
-   "quark_excluded_by_factor": 24.716638526335615,
-   "sigma_SI_lepton_loop_cm2": 2.5683287593445056e-48,
-   "sigma_SI_quark_cm2": 1.359415118948459e-44
-  }
- ],
+  "rho_used": 0.9998909754840978,
+  "rows": [
+   {
+    "B_GeV-2": 2.7761824339274133e-06,
+    "LZ_limit_cm2": null,
+    "Omega_h2": 0.12000000236893732,
+    "g_lepton_GeV-2": 0.0002490527521465501,
+    "g_lepton_times_m2": 0.024905275214655014,
+    "g_quark_GeV-2": 0.0001364118103594087,
+    "g_quark_times_m2": 0.01364118103594087,
+    "lepton_ratio_to_limit": null,
+    "loop_log_sum": 23.15217978121916,
+    "n_quark_states": 30,
+    "omega_b_GeV": 10.0,
+    "quark_excluded_by_factor": null,
+    "sigma_SI_lepton_loop_cm2": 3.092696037673005e-40,
+    "sigma_SI_quark_cm2": 1.5292690632008516e-35,
+    "sv_at_x_f_cm3_s": 5.621500342478123e-26,
+    "x_f": 24.010860508988102
+   },
+   {
+    "B_GeV-2": 2.9924110882692886e-06,
+    "LZ_limit_cm2": null,
+    "Omega_h2": 0.11999997651499049,
+    "g_lepton_GeV-2": 8.61899675557578e-05,
+    "g_lepton_times_m2": 0.07757097080018202,
+    "g_quark_GeV-2": 4.7208189460926954e-05,
+    "g_quark_times_m2": 0.042487370514834255,
+    "lepton_ratio_to_limit": null,
+    "loop_log_sum": 29.74385351322782,
+    "n_quark_states": 30,
+    "omega_b_GeV": 30.0,
+    "quark_excluded_by_factor": null,
+    "sigma_SI_lepton_loop_cm2": 6.877945860052217e-41,
+    "sigma_SI_quark_cm2": 2.0606048760011168e-36,
+    "sv_at_x_f_cm3_s": 5.594404866089414e-26,
+    "x_f": 24.98869208687458
+   },
+   {
+    "B_GeV-2": 3.3417686534889947e-06,
+    "LZ_limit_cm2": 5.5e-48,
+    "Omega_h2": 0.11999999967481363,
+    "g_lepton_GeV-2": 2.7324708320944492e-05,
+    "g_lepton_times_m2": 0.2732470832094449,
+    "g_quark_GeV-2": 1.496635912463041e-05,
+    "g_quark_times_m2": 0.1496635912463041,
+    "lepton_ratio_to_limit": 2026720.9626370678,
+    "loop_log_sum": 36.967690339183434,
+    "n_quark_states": 30,
+    "omega_b_GeV": 100.0,
+    "quark_excluded_by_factor": 39307892668.55327,
+    "sigma_SI_lepton_loop_cm2": 1.1146965294503874e-41,
+    "sigma_SI_quark_cm2": 2.16193409677043e-37,
+    "sv_at_x_f_cm3_s": 5.719891284147315e-26,
+    "x_f": 26.115848932224935
+   },
+   {
+    "B_GeV-2": 3.800357925075211e-06,
+    "LZ_limit_cm2": 1.65e-47,
+    "Omega_h2": 0.11999999758078594,
+    "g_lepton_GeV-2": 9.713110739786226e-06,
+    "g_lepton_times_m2": 0.8741799665807604,
+    "g_quark_GeV-2": 4.856555369893113e-06,
+    "g_quark_times_m2": 0.4370899832903802,
+    "lepton_ratio_to_limit": 120005.1069301309,
+    "loop_log_sum": 43.55936407119209,
+    "n_quark_states": 36,
+    "omega_b_GeV": 300.0,
+    "quark_excluded_by_factor": 1396966069.9279726,
+    "sigma_SI_lepton_loop_cm2": 1.9800842643471598e-42,
+    "sigma_SI_quark_cm2": 2.3049940153811547e-38,
+    "sv_at_x_f_cm3_s": 5.980527224004493e-26,
+    "x_f": 27.236566542046223
+   },
+   {
+    "B_GeV-2": 4.138305102409234e-06,
+    "LZ_limit_cm2": 5.5e-47,
+    "Omega_h2": 0.11999999985447393,
+    "g_lepton_GeV-2": 3.0407351714602093e-06,
+    "g_lepton_times_m2": 3.0407351714602093,
+    "g_quark_GeV-2": 1.5203675857301046e-06,
+    "g_quark_times_m2": 1.5203675857301047,
+    "lepton_ratio_to_limit": 4816.566845681898,
+    "loop_log_sum": 50.78320089714771,
+    "n_quark_states": 36,
+    "omega_b_GeV": 1000.0,
+    "quark_excluded_by_factor": 41252154.982498035,
+    "sigma_SI_lepton_loop_cm2": 2.6491117651250437e-43,
+    "sigma_SI_quark_cm2": 2.268868524037392e-39,
+    "sv_at_x_f_cm3_s": 5.987438338790058e-26,
+    "x_f": 28.405377857885778
+   },
+   {
+    "B_GeV-2": 4.403947644483192e-06,
+    "LZ_limit_cm2": 1.65e-46,
+    "Omega_h2": 0.11999999763668434,
+    "g_lepton_GeV-2": 1.0456038247921646e-06,
+    "g_lepton_times_m2": 9.41043442312948,
+    "g_quark_GeV-2": 5.228019123960823e-07,
+    "g_quark_times_m2": 4.70521721156474,
+    "lepton_ratio_to_limit": 242.62757853498965,
+    "loop_log_sum": 57.374874629156366,
+    "n_quark_states": 36,
+    "omega_b_GeV": 3000.0,
+    "quark_excluded_by_factor": 1627967.970394159,
+    "sigma_SI_lepton_loop_cm2": 4.003355045827329e-44,
+    "sigma_SI_quark_cm2": 2.6861471511503625e-40,
+    "sv_at_x_f_cm3_s": 5.957493213420061e-26,
+    "x_f": 29.376438347319763
+   },
+   {
+    "B_GeV-2": 4.962365860841781e-06,
+    "LZ_limit_cm2": 5.500000000000001e-46,
+    "Omega_h2": 0.12000000019674424,
+    "g_lepton_GeV-2": 3.3297508194972506e-07,
+    "g_lepton_times_m2": 33.29750819497251,
+    "g_quark_GeV-2": 1.6648754097486253e-07,
+    "g_quark_times_m2": 16.648754097486254,
+    "lepton_ratio_to_limit": 9.361490941438367,
+    "loop_log_sum": 64.59871145511198,
+    "n_quark_states": 36,
+    "omega_b_GeV": 10000.0,
+    "quark_excluded_by_factor": 49550.32440994178,
+    "sigma_SI_lepton_loop_cm2": 5.1488200177911026e-45,
+    "sigma_SI_quark_cm2": 2.725267842546798e-41,
+    "sv_at_x_f_cm3_s": 6.1978146967839e-26,
+    "x_f": 30.572780687948985
+   },
+   {
+    "B_GeV-2": 5.557966963987667e-06,
+    "LZ_limit_cm2": 1.65e-45,
+    "Omega_h2": 0.11999999999037221,
+    "g_lepton_GeV-2": 1.1746380642493389e-07,
+    "g_lepton_times_m2": 105.7174257824405,
+    "g_quark_GeV-2": 5.8731903212466944e-08,
+    "g_quark_times_m2": 52.85871289122025,
+    "lepton_ratio_to_limit": 0.4716912036900392,
+    "loop_log_sum": 71.19038518712064,
+    "n_quark_states": 36,
+    "omega_b_GeV": 30000.0,
+    "quark_excluded_by_factor": 2055.721524327011,
+    "sigma_SI_lepton_loop_cm2": 7.782904860885647e-46,
+    "sigma_SI_quark_cm2": 3.391940515139568e-42,
+    "sv_at_x_f_cm3_s": 6.46314364856976e-26,
+    "x_f": 31.68443161298132
+   },
+   {
+    "B_GeV-2": 6.266376526270536e-06,
+    "LZ_limit_cm2": 5.4999999999999997e-45,
+    "Omega_h2": 0.1199999999987188,
+    "g_lepton_GeV-2": 3.741757067387882e-08,
+    "g_lepton_times_m2": 374.17570673878816,
+    "g_quark_GeV-2": 1.870878533693941e-08,
+    "g_quark_times_m2": 187.08785336939408,
+    "lepton_ratio_to_limit": 0.017421601919212226,
+    "loop_log_sum": 78.41422201307626,
+    "n_quark_states": 36,
+    "omega_b_GeV": 100000.0,
+    "quark_excluded_by_factor": 62.58173529984727,
+    "sigma_SI_lepton_loop_cm2": 9.581881055566723e-47,
+    "sigma_SI_quark_cm2": 3.4419954414915993e-43,
+    "sv_at_x_f_cm3_s": 6.756123091335594e-26,
+    "x_f": 32.905561885843404
+   }
+  ],
+  "sigma_v": "(sigma v)_{chi chibar} = g_f^2 omega_b^2 v^4 rho/(96 pi) per massless chiral state",
+  "thermal_v4": "60/x^2"
+ },
  "T4": [
   {
    "g_hchi_max": 0.0031055300669932447,
@@ -227,170 +348,390 @@
  "T5": {
   "portal_thermalised": [
    {
-    "Delta_N_eff": 0.23555713503836617,
-    "N_eff": 3.2795571350383663,
-    "T_dec_GeV": 0.7440055159757115,
-    "g_s_dec": 72.47316160503307,
+    "Delta_N_eff": 0.23877464338111604,
+    "N_eff": 3.2827746433811162,
+    "T_dec_GeV": 0.6915893481917754,
+    "g_s_dec": 71.73948447239478,
     "omega_b_GeV": 10.0,
-    "pull_ACT_DR6_BBN": 3.5414285003487835,
-    "pull_Planck2018": 1.7032772649315653,
-    "x_dec": 13.44076056598276
+    "pull_ACT_DR6_BBN": 3.570678576191965,
+    "pull_Planck2018": 1.7222037845948,
+    "x_dec": 14.459447685459484
    },
    {
-    "Delta_N_eff": 0.1989240556819892,
-    "N_eff": 3.242924055681989,
-    "T_dec_GeV": 2.148165284091608,
-    "g_s_dec": 82.26856584241864,
+    "Delta_N_eff": 0.20047677675399161,
+    "N_eff": 3.2444767767539915,
+    "T_dec_GeV": 1.998717287081751,
+    "g_s_dec": 81.79021539697742,
     "omega_b_GeV": 30.0,
-    "pull_ACT_DR6_BBN": 3.2084005061999004,
-    "pull_Planck2018": 1.487788562835229,
-    "x_dec": 13.965405838259816
+    "pull_ACT_DR6_BBN": 3.2225161523090122,
+    "pull_Planck2018": 1.4969222161999485,
+    "x_dec": 15.009626520918237
    },
    {
-    "Delta_N_eff": 0.18815011094720913,
-    "N_eff": 3.232150110947209,
-    "T_dec_GeV": 6.852788907301493,
-    "g_s_dec": 85.77703816959698,
+    "Delta_N_eff": 0.18836316016159016,
+    "N_eff": 3.23236316016159,
+    "T_dec_GeV": 6.3889560364411855,
+    "g_s_dec": 85.70426392523107,
     "omega_b_GeV": 100.0,
-    "pull_ACT_DR6_BBN": 3.1104555540655356,
-    "pull_Planck2018": 1.4244124173365225,
-    "x_dec": 14.59259891887991
+    "pull_ACT_DR6_BBN": 3.112392365105363,
+    "pull_Planck2018": 1.4256656480093521,
+    "x_dec": 15.65200940961594
    },
    {
-    "Delta_N_eff": 0.18161017241793123,
-    "N_eff": 3.225610172417931,
-    "T_dec_GeV": 19.75237570862831,
-    "g_s_dec": 88.0834420407769,
+    "Delta_N_eff": 0.18256217980234019,
+    "N_eff": 3.22656217980234,
+    "T_dec_GeV": 18.455547641656523,
+    "g_s_dec": 87.73872031211219,
     "omega_b_GeV": 300.0,
-    "pull_ACT_DR6_BBN": 3.0510015674357365,
-    "pull_Planck2018": 1.3859421906937113,
-    "x_dec": 15.188046462125202
+    "pull_ACT_DR6_BBN": 3.059656180021272,
+    "pull_Planck2018": 1.3915422341314108,
+    "x_dec": 16.255274881297034
    },
    {
-    "Delta_N_eff": 0.15525272085610675,
-    "N_eff": 3.199252720856107,
-    "T_dec_GeV": 63.28664181326406,
-    "g_s_dec": 99.07634807389654,
+    "Delta_N_eff": 0.1566609268875345,
+    "N_eff": 3.2006609268875343,
+    "T_dec_GeV": 59.291745338028804,
+    "g_s_dec": 98.40765580753093,
     "omega_b_GeV": 1000.0,
-    "pull_ACT_DR6_BBN": 2.8113883714191514,
-    "pull_Planck2018": 1.2308983579770973,
-    "x_dec": 15.801122817523444
+    "pull_ACT_DR6_BBN": 2.8241902444321294,
+    "pull_Planck2018": 1.2391819228678478,
+    "x_dec": 16.865754150074167
    },
    {
-    "Delta_N_eff": 0.14292604122691718,
-    "N_eff": 3.186926041226917,
-    "T_dec_GeV": 183.32905703149868,
-    "g_s_dec": 105.41826924927659,
+    "Delta_N_eff": 0.1432264452704648,
+    "N_eff": 3.187226445270465,
+    "T_dec_GeV": 172.1431414500829,
+    "g_s_dec": 105.25239703123218,
     "omega_b_GeV": 3000.0,
-    "pull_ACT_DR6_BBN": 2.6993276475174275,
-    "pull_Planck2018": 1.1583884778053937,
-    "x_dec": 16.36401805898426
+    "pull_ACT_DR6_BBN": 2.702058593367861,
+    "pull_Planck2018": 1.1601555604144977,
+    "x_dec": 17.427357109489737
    },
    {
-    "Delta_N_eff": 0.14079920694008802,
-    "N_eff": 3.184799206940088,
-    "T_dec_GeV": 587.8997188393223,
-    "g_s_dec": 106.61032046627723,
+    "Delta_N_eff": 0.14083086477351742,
+    "N_eff": 3.1848308647735175,
+    "T_dec_GeV": 553.0080726569324,
+    "g_s_dec": 106.5923459976605,
     "omega_b_GeV": 10000.0,
-    "pull_ACT_DR6_BBN": 2.679992790364436,
-    "pull_Planck2018": 1.1458776878828698,
-    "x_dec": 17.0097036612686
+    "pull_ACT_DR6_BBN": 2.680280588850158,
+    "pull_Planck2018": 1.1460639104324546,
+    "x_dec": 18.082918666910064
    }
   ],
   "yukawa_Gamma_over_H_at_100GeV": 5.034657033599095e-09
  },
- "T6": [
-  {
-   "a40_min_GeV": 0.0,
-   "a40_min_per_s": 0.0,
-   "v_A_over_v": 0.1
+ "T6": {
+  "Q_QCD_MeV": 2.52,
+  "T_nuc_MeV": 0.078,
+  "Y_p_observed": [
+   0.245,
+   0.003
+  ],
+  "Y_p_standard_this_estimate": 0.2528484134116756,
+  "bounds": [
+   {
+    "a40_min_energy_GeV": 4.754604054586008e-18,
+    "a40_min_energy_per_s": 7223515.168242925,
+    "a40_min_helium_GeV": null,
+    "a40_min_helium_per_s": null,
+    "largest_energy_ratio_at_the_energy_bound": 0.9999999999999998,
+    "v_A_over_v": 0.1
+   },
+   {
+    "a40_min_energy_GeV": 4.754604054586008e-16,
+    "a40_min_energy_per_s": 722351516.8242925,
+    "a40_min_helium_GeV": 9.080088044767625e-25,
+    "a40_min_helium_per_s": 1.3795082191354255,
+    "largest_energy_ratio_at_the_energy_bound": 1.0,
+    "v_A_over_v": 1.0
+   },
+   {
+    "a40_min_energy_GeV": 4.7546040545860075e-14,
+    "a40_min_energy_per_s": 72235151682.42924,
+    "a40_min_helium_GeV": 2.9221653338077267e-24,
+    "a40_min_helium_per_s": 4.439550669316817,
+    "largest_energy_ratio_at_the_energy_bound": 0.9999999999999998,
+    "v_A_over_v": 10.0
+   },
+   {
+    "a40_min_energy_GeV": 4.754604054586008e-10,
+    "a40_min_energy_per_s": 722351516824292.5,
+    "a40_min_helium_GeV": 7.798552413343143e-24,
+    "a40_min_helium_per_s": 11.848086823083877,
+    "largest_energy_ratio_at_the_energy_bound": 1.0000000000000002,
+    "v_A_over_v": 1000.0
+   },
+   {
+    "a40_min_energy_GeV": 0.00047546040545860086,
+    "a40_min_energy_per_s": 7.223515168242926e+20,
+    "a40_min_helium_GeV": 1.48513031441625e-23,
+    "a40_min_helium_per_s": 22.563101427248625,
+    "largest_energy_ratio_at_the_energy_bound": 0.9999999999999997,
+    "v_A_over_v": 1000000.0
+   }
+  ],
+  "dYp_d_eps": {
+   "Fermi constant": 0.35036150334050165,
+   "both": -0.3305826965884773,
+   "masses": -0.6809503442455345
   },
-  {
-   "a40_min_GeV": 7.577807541043405e-25,
-   "a40_min_per_s": 1.151292546497023,
-   "v_A_over_v": 1.0
-  },
-  {
-   "a40_min_GeV": 1.515561508208681e-24,
-   "a40_min_per_s": 2.302585092994046,
-   "v_A_over_v": 10.0
-  },
-  {
-   "a40_min_GeV": 3.031123016417362e-24,
-   "a40_min_per_s": 4.605170185988092,
-   "v_A_over_v": 1000.0
-  },
-  {
-   "a40_min_GeV": 5.304465278730383e-24,
-   "a40_min_per_s": 8.05904782547916,
-   "v_A_over_v": 1000000.0
-  }
- ],
+  "detailed_balance_deviation": 2.380651231703723e-12,
+  "low_temperature_rate_times_tau_n_minus_1": 8.171177068305724e-09,
+  "x4_at_T_nuc_s": 209.97216012973956
+ },
  "T7": {
   "H_min_GeV": 2533.8610903344256,
-  "omega_b_min_lifetime_GeV": 2428751.8543200316,
-  "ratio": 27.37630271755524,
-  "unitarity_bound_mass_GeV": 88717.3070585086
+  "end_point_convergence_GeV": {
+   "1e+05": 96315.337113015,
+   "1e+06": 96811.84564971636,
+   "1e+07": 96881.73612639823
+  },
+  "every_channel_GeV": 136752.7196967574,
+  "lifetime_bound_rows_160Gyr": [
+   {
+    "omega_b_min_GeV": 433942283.42343456,
+    "q_b_over_m": 0.09950371902099893
+   },
+   {
+    "omega_b_min_GeV": 14288465.155404676,
+    "q_b_over_m": 0.3
+   },
+   {
+    "omega_b_min_GeV": 2490459.613758512,
+    "q_b_over_m": 0.5
+   },
+   {
+    "omega_b_min_GeV": 602255.2709525609,
+    "q_b_over_m": 0.7
+   },
+   {
+    "omega_b_min_GeV": 282684.81648306723,
+    "q_b_over_m": 0.8
+   },
+   {
+    "omega_b_min_GeV": 106764.09775921714,
+    "q_b_over_m": 0.9
+   },
+   {
+    "omega_b_min_GeV": 49482.98577221706,
+    "q_b_over_m": 0.95
+   },
+   {
+    "omega_b_min_GeV": 11838.442254490146,
+    "q_b_over_m": 0.99
+   },
+   {
+    "omega_b_min_GeV": 2208.3872128715584,
+    "q_b_over_m": 0.999
+   }
+  ],
+  "one_dirac_species_GeV": 137576.91714162138,
+  "q_b_over_m_above_which_a_relic_lives_160Gyr": {
+   "base": 0.9063154482701716,
+   "every channel": 0.874576372123451,
+   "singlet only": 0.92873713487575
+  },
+  "singlet_only_GeV": 68624.43729757081,
+  "unitarity_mass_GeV": 96881.73612639823
  },
  "T8": {
-  "Gamma_max_GeV": 1.5114114703254374e-42,
+  "Gamma_max_GeV": 1.3035923931556897e-43,
   "H_min_GeV": 2533.8610903344256,
-  "prefactor_p_w": 0.13560119628608427,
+  "first_mass_with_g_hchi_above_4pi_GeV": 10000000000.0,
+  "requirement": "tau > 160 Gyr = 11.6 t_0 (decay into invisible relativistic particles: Audren et al., JCAP 12 (2014) 028)",
   "rows": [
    {
     "F": 2.4566745344713203e-06,
-    "H_max_GeV": 0.00047477281939921963,
+    "H_max_GeV": 0.0004925567289415891,
+    "g_hchi": 0.030769323275875164,
     "omega_b_GeV": 10000.0,
+    "perturbative": true,
+    "prefactor_P": 0.0002786007682616704,
+    "q_b_over_H_max": 395138.5315560426,
     "q_b_over_omega_b_max": 0.01946281425820272
    },
    {
     "F": 7.769987239551746e-08,
-    "H_max_GeV": 0.0014374095218216898,
+    "H_max_GeV": 0.0015224587452942707,
+    "g_hchi": 0.30766463501934577,
     "omega_b_GeV": 1000000.0,
+    "perturbative": true,
+    "prefactor_P": 2.786698438603468e-05,
+    "q_b_over_H_max": 4042405.9241400054,
     "q_b_over_omega_b_max": 0.006154396251236319
    },
    {
-    "F": 3.993814521631445e-08,
-    "H_max_GeV": 0.0017798288661285196,
-    "omega_b_GeV": 2428751.8543200316,
-    "q_b_over_omega_b_max": 0.004929916331353694
-   },
-   {
     "F": 2.4571576639695336e-09,
-    "H_max_GeV": 0.004359833374719524,
+    "H_max_GeV": 0.0047082854519222865,
+    "g_hchi": 3.076643490419517,
     "omega_b_GeV": 100000000.0,
+    "perturbative": true,
+    "prefactor_P": 2.786790843479609e-06,
+    "q_b_over_H_max": 41335430.765225925,
     "q_b_over_omega_b_max": 0.0019461900732085412
    },
    {
     "F": 7.770238519273833e-11,
-    "H_max_GeV": 0.013245854963160743,
+    "H_max_GeV": 0.01456755866517913,
+    "g_hchi": 30.766434618217776,
     "omega_b_GeV": 10000000000.0,
+    "perturbative": false,
+    "prefactor_P": 2.78680031743646e-07,
+    "q_b_over_H_max": 422472529.8039686,
     "q_b_over_omega_b_max": 0.0006154393362345951
    },
    {
     "F": 2.457165921884171e-12,
-    "H_max_GeV": 0.040305026082568536,
+    "H_max_GeV": 0.045093362712926154,
+    "g_hchi": 307.6643461535801,
     "omega_b_GeV": 1000000000000.0,
+    "perturbative": false,
+    "prefactor_P": 2.7868012671670137e-08,
+    "q_b_over_H_max": 4315912469.120836,
     "q_b_over_omega_b_max": 0.00019461900640730658
    },
    {
     "F": 7.770241140481613e-14,
-    "H_max_GeV": 0.12281695908005208,
+    "H_max_GeV": 0.1396472318074353,
+    "g_hchi": 3076.643461532941,
     "omega_b_GeV": 100000000000000.0,
+    "perturbative": false,
+    "prefactor_P": 2.78680136216342e-09,
+    "q_b_over_H_max": 44071001497.1409,
     "q_b_over_omega_b_max": 6.154393362057063e-05
    },
    {
     "F": 2.457166004805181e-15,
-    "H_max_GeV": 0.37474263710095224,
+    "H_max_GeV": 0.43265129199079627,
+    "g_hchi": 30766.43461532912,
     "omega_b_GeV": 1e+16,
+    "perturbative": false,
+    "prefactor_P": 2.7868013716632925e-10,
+    "q_b_over_H_max": 449828788241.2133,
     "q_b_over_omega_b_max": 1.9461900640721523e-05
    },
    {
     "F": 1.1896716047305465e-17,
-    "H_max_GeV": 2.1012632150648924,
+    "H_max_GeV": 2.4798648245436152,
+    "g_hchi": 1075017.2645683554,
     "omega_b_GeV": 1.22089e+19,
+    "perturbative": false,
+    "prefactor_P": 7.975680488551108e-12,
+    "q_b_over_H_max": 16209314361771.707,
     "q_b_over_omega_b_max": 3.2924267145874975e-06
    }
+  ]
+ },
+ "T9": {
+  "condensate_GeV4": 0.012,
+  "f_N_over_qb2_per_omega_b_GeV-3": 63.9842962962963,
+  "f_TG": 0.92,
+  "rows": [
+   {
+    "LZ_limit_cm2": 2.3866825588288904e-41,
+    "f_N_GeV-2": 277654916.38056433,
+    "gluon_ratio_to_LZ": 3.5293995581815994e+29,
+    "higgs_ratio_to_LZ": 30247602.981028173,
+    "omega_b_GeV": 433942283.42343456,
+    "q_b_GeV": 43394228.342343464,
+    "q_b_over_m": 0.09950371902099893,
+    "sigma_SI_gluon_cm2": 8.423556368650415e-12,
+    "sigma_SI_higgs_cm2": 7.219142648120069e-34
+   },
+   {
+    "LZ_limit_cm2": 7.858655835472571e-43,
+    "f_N_GeV-2": 90419082.34180729,
+    "gluon_ratio_to_LZ": 1.1367281529772015e+30,
+    "higgs_ratio_to_LZ": 97419692.22188786,
+    "omega_b_GeV": 14288465.155404676,
+    "q_b_GeV": 4493514.408732063,
+    "q_b_over_m": 0.3,
+    "sigma_SI_gluon_cm2": 8.933155332740241e-13,
+    "sigma_SI_higgs_cm2": 7.655878327694808e-35
+   },
+   {
+    "LZ_limit_cm2": 1.3697527875671815e-43,
+    "f_N_GeV-2": 53116768.61356143,
+    "gluon_ratio_to_LZ": 2.250637368857673e+30,
+    "higgs_ratio_to_LZ": 192883759.58925635,
+    "omega_b_GeV": 2490459.613758512,
+    "q_b_GeV": 1437867.5284093684,
+    "q_b_over_m": 0.5,
+    "sigma_SI_gluon_cm2": 3.0828168097956645e-13,
+    "sigma_SI_higgs_cm2": 2.6420306737382196e-35
+   },
+   {
+    "LZ_limit_cm2": 3.3124039902390853e-44,
+    "f_N_GeV-2": 37023707.94959038,
+    "gluon_ratio_to_LZ": 4.5216810237106054e+30,
+    "higgs_ratio_to_LZ": 387516375.39874756,
+    "omega_b_GeV": 602255.2709525609,
+    "q_b_GeV": 590328.2429910348,
+    "q_b_over_m": 0.7,
+    "sigma_SI_gluon_cm2": 1.4977634265527362e-13,
+    "sigma_SI_higgs_cm2": 1.2836107881537987e-35
+   },
+   {
+    "LZ_limit_cm2": 1.5547664906568698e-44,
+    "f_N_GeV-2": 32155358.32234085,
+    "gluon_ratio_to_LZ": 7.266468627227448e+30,
+    "higgs_ratio_to_LZ": 622749718.4357147,
+    "omega_b_GeV": 282684.81648306723,
+    "q_b_GeV": 376913.08864408976,
+    "q_b_over_m": 0.8,
+    "sigma_SI_gluon_cm2": 1.1297661927022661e-13,
+    "sigma_SI_higgs_cm2": 9.682303942898499e-36
+   },
+   {
+    "LZ_limit_cm2": 5.872025376756944e-45,
+    "f_N_GeV-2": 29122593.623759583,
+    "gluon_ratio_to_LZ": 1.578153673577063e+31,
+    "higgs_ratio_to_LZ": 1352506707.5716448,
+    "omega_b_GeV": 106764.09775921714,
+    "q_b_GeV": 220440.27454613283,
+    "q_b_over_m": 0.9,
+    "sigma_SI_gluon_cm2": 9.266958419666707e-14,
+    "sigma_SI_higgs_cm2": 7.941953709094681e-36
+   },
+   {
+    "LZ_limit_cm2": 2.721564217471938e-45,
+    "f_N_GeV-2": 29307035.446211707,
+    "gluon_ratio_to_LZ": 3.4482080775896787e+31,
+    "higgs_ratio_to_LZ": 2955177706.789421,
+    "omega_b_GeV": 49482.98577221706,
+    "q_b_GeV": 150548.76397290168,
+    "q_b_over_m": 0.95,
+    "sigma_SI_gluon_cm2": 9.38451971836577e-14,
+    "sigma_SI_higgs_cm2": 8.042705903068868e-36
+   },
+   {
+    "LZ_limit_cm2": 6.511143239969581e-46,
+    "f_N_GeV-2": 37306565.64822223,
+    "gluon_ratio_to_LZ": 2.3352273048747223e+32,
+    "higgs_ratio_to_LZ": 20013327259.750454,
+    "omega_b_GeV": 11838.442254490146,
+    "q_b_GeV": 83081.28718676724,
+    "q_b_over_m": 0.99,
+    "sigma_SI_gluon_cm2": 1.5204999479927433e-13,
+    "sigma_SI_higgs_cm2": 1.3030964049662311e-35
+   },
+   {
+    "LZ_limit_cm2": 1.2146129670793572e-46,
+    "f_N_GeV-2": 70545091.97793837,
+    "gluon_ratio_to_LZ": 4.4731271534879786e+33,
+    "higgs_ratio_to_LZ": 383355219469.8812,
+    "omega_b_GeV": 2208.3872128715584,
+    "q_b_GeV": 49343.9957882677,
+    "q_b_over_m": 0.999,
+    "sigma_SI_gluon_cm2": 5.433118244021273e-13,
+    "sigma_SI_higgs_cm2": 4.656282205656706e-35
+   }
+  ],
+  "vanishing_condensates": [
+   "<W^2>",
+   "<B^2>",
+   "<J_f>",
+   "<B_munu>"
   ]
  },
  "conventions": {
@@ -398,6 +739,6 @@
   "g_chi": 8,
   "sigma_ann_v_FE61": "(sigma v)_{chi chibar}/4 for the two Dirac species"
  },
- "definition_of_the_fold": "THE FOLD (the definition used in every UM-4 file)\n\nDefinition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of\nthe angle z = 6 H x0 of the hidden direction vanishes:\n    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).\nX = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the\ntime, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The metric of UM-4 depends on x0\nonly through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi\ncontains exactly one surface of F, at z = pi/2: F is the union of these copies, one per period (example 2), and \"the\nfold\" without a qualifier is the copy in the period that contains our world. A point of the fold is labelled by the seven\ncoordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/2) is\n    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),\nwith three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.\nNotation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric\nfunctions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as\nsigma approaches 0 from above and from below.\n\nWhy this surface is called a fold. Measured by the proper distance along the hidden direction,\n    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)\n(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends\nof the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the metric of UM-4 is\n    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ].\nIt depends on sigma only through |sigma|. The function W(sigma) = e^(-2 H |sigma|), which multiplies the squared steps of all\nseven directions of the fold (ordinary space, the time and the extra times), is the warp factor of the metric (its square\nroot e^(-H |sigma|) multiplies the lengths). The time x4 is warped like the other directions (the author's order of\n2026-10-25, 13:15 PDT; in UM-3 it was not), so that every surface sigma = const has the light cone of the fold. Four\nproperties make the surface sigma = 0 a fold, and together they single it out within the period:\n  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to\n     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the\n     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are\n     joined along the crease.\n  2. The warp factor is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|) equals 1 on the fold and\n     decreases on both sides.\n  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.\n     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,\n        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb = -H sgn(sigma) delta^a_b   (all seven directions a, b of the fold)\n     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the\n     sign function, delta^a_b the Kronecker delta, a, b frame indices along the fold); it jumps by -2 H in every direction\n     of the fold. The field equations of gravity of UM-4, G^M_N + Lambda delta^M_N = kappa T^M_N (Einstein gravity: the\n     author's Einstein-Lovelock equations with the weights of the Gauss-Bonnet and cubic terms set to zero; G^M_N the\n     Einstein tensor, Lambda = -21 H^2 the cosmological constant, kappa = 8 pi G_8 the gravitational coupling of eight\n     dimensions, T^M_N the energy-momentum tensor), are linear in the second sigma-derivatives of the metric, so the jump\n     puts a Dirac delta function delta_D(sigma) into them: the metric solves them only if the fold carries a thin source\n     S^a_b, an energy-momentum tensor concentrated on sigma = 0, given by the integral of the equations across the fold\n     (the junction condition of Israel),\n        (FD-11) kappa S^a_b = integral from sigma = 0- to 0+ of d sigma G^a_b = -([K^a_b] - [K] delta^a_b)\n     ([K^a_b] the jump of the extrinsic curvature across the fold, K its trace), with S^4_4 = -(its energy density),\n     S^1_1 = S^2_2 = S^3_3 its pressure along ordinary space and S^5_5 = S^6_6 = S^7_7 its pressure along the extra times; S is\n     T integrated across the fold, an energy per unit volume of the six other directions of the fold (unit GeV^7). For the\n     static block (a4 and b4 constant) and, to the first order in the curvature of the fold divided by H^2, for every fold\n        (FD-12) static block:  kappa S^a_b = -12 H delta^a_b  (a pure tension, kappa lambda_F = 12 H),\n                any fold:      kappa S^a_b = -12 H delta^a_b + (2/(5 H)) Ghat^a_b\n     (Ghat^a_b the Einstein tensor of the metric FD-2 of the fold): the tension plus matter that obeys the Einstein equations\n     of seven dimensions, Ghat^a_b = kappa_7 tau^a_b with kappa_7 = 5 kappa H/2 (tau the matter of the fold), which for frozen\n     extra times are the Friedmann equations of general relativity. The fold is therefore not only a place but a physical\n     object: a thin layer that carries energy and momentum (a brane).\n  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and\n     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,\n        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],\n     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper\n     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).\n\nWhat lives on the fold. In UM-4 the Higgs doublet (with the author's ad hoc vacuum, a time-dependent choice of its vacuum\nvalue), three generations of quarks and leptons, three right-handed neutrinos and the fold fluid (its tension and the\npressure along the extra times that keeps their volume fixed) live on the fold: they are fields at sigma = 0, functions of\nx1, ..., x4 (no field depends on the extra times). The gauge fields of SU(3)_C x SU(2)_L x U(1)_Y live in the bulk; their\nmassless modes are bound to the fold, so that the photon and the gluons of the four-dimensional world are waves of the bulk\nthat the fold holds, and photons that leave the fold travel through the bulk at the speed of light. dirac16complex (the\nauthor's spinor field of eight dimensions) and gravity live in the bulk sigma != 0 as well as on the fold; the states chi of\ndirac16complex that the fold holds (in UM-4 long-lived resonances) are the part of it near the fold, and the portals\n(couplings between dirac16complex and the fields of the fold) act at sigma = 0. Integrated over the extra times, the fold is\nthe four-dimensional universe that we observe, with the metric diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. In UM-4\nfiles \"the fold\" means this surface; the examples below use the word for other surfaces with the same properties. The word\nis not used in its other senses: a set of equal energy levels is called degenerate, and a growth by the factor e is called\nan e-folding.\n\nExamples of folds that are meaningful for UM-4.\n  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the\n     quarks, leptons and the Higgs field, and after the integration over the extra times the four-dimensional universe that\n     we observe.\n  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface\n     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are\n     separated by a tip (z a multiple of pi), where the warp factor (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2\n     diverges, and which lies at an infinite proper distance from both: in proper distance every copy has its own complete\n     line -infinity < sigma < infinity. A compact direction of length L would give every field a tower of particles with\n     the masses 2 pi n/L, n = 1, 2, ... (a Kaluza-Klein tower); because the copies are infinitely far apart, the period\n     pi/(6 H) of x0 produces no such tower with the spacing 12 H: every field of the bulk has instead a continuum of modes\n     that starts at zero mass, and the fold holds its massless mode.\n  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images\n     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).\n     In UM-4 the direction across the crease is the hidden direction sigma, the seven directions along the crease are\n     x1, ..., x7, and the crease is the fold.\n  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,\n     largest at sigma = 0, with a jump of its derivative,\n        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),\n                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),\n     whose delta function is the origin of the thin source of property 3. Every metric function of FD-4 depends on sigma\n     through |sigma| and is folded at sigma = 0 in this sense.\n  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto\n     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map\n     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is\n     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.\n  6. The brane of Randall and Sundrum. The five-dimensional metric\n        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),\n                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5\n     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a\n     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does\n     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in\n     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every\n     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of\n     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure\n     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three\n     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their\n     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the\n     bulk as well.\n  7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off\n     exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac\n     equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near\n     the fold: at rest and without their self-interaction (the field is Psi = e^((7/2) H |sigma|) chi(sigma) e^(-i omega x4))\n        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+)   (0 < sigma << sigma_t),\n                chi(sigma) = e^(-q_b |sigma|) chi(0-)   (0 < -sigma << sigma_t),\n                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),\n                omega_0 = omega_r - i Gamma/2,   omega_r -> sqrt(m_Psi^2 - q_b^2),\n     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the\n     fields of the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors, m_Psi the bulk\n     mass, q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for mu_R = 0), and omega_r\n     tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is\n     warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point\n     sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a\n     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the\n     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and\n     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a\n     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).\n  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,\n        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)\n     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the\n     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).\n     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can\n     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the\n     particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)\n     are even under it and the four of Krein charge +1 are odd, so such a mean field cannot mix the two signs of the\n     indefinite charge. R_2 maps the states of one Krein charge onto those of the other and makes the two sets degenerate\n     without the self-interaction.\n  9. The planes of Horava and Witten. In M-theory (the eleven-dimensional theory whose limits include the superstring\n     theories) on an interval (a circle whose points are identified with their mirror images), the two ten-dimensional\n     planes left in place by the reflection are mirror surfaces (property 1); each carries one E8 gauge group while gravity\n     fills the bulk. As in UM-4, gravity fills the bulk; unlike UM-4, the gauge fields live on the mirror planes (in UM-4\n     they live in the bulk), and the two sides of each plane are identified (one physical side).\n\nWhat is not a fold.\n  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp factor vanishes,\n    g_x0x0 diverges, and they lie at an infinite proper distance; they carry no thin source.\n  * A smooth maximum of a warp factor, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a\n    kink and without a thin source.",
- "runtime_s": 67.3
+ "definition_of_the_fold": "THE FOLD (the definition used in every UM-4 file)\n\nDefinition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of\nthe angle z = 6 H x0 of the hidden direction vanishes:\n    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).\nX = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the\ntime, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The metric of UM-4 depends on x0\nonly through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi\ncontains exactly one surface of F, at z = pi/2: F is the union of these copies, one per period (example 2), and \"the\nfold\" without a qualifier is the copy in the period that contains our world. A point of the fold is labelled by the seven\ncoordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/2) is\n    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),\nwith three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.\nNotation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric\nfunctions, sinh, cosh, tanh = sinh/cosh and coth = cosh/sinh the hyperbolic functions, |y| the absolute value, max and\nmin the larger and the smaller of their arguments; det, tr and ^T are the determinant, the trace and the transpose of a\nsquare matrix, and 1_4, 1_8 and 1_16 the identity matrices of 4, 8 and 16 rows; f(0+) and f(0-) are the limits of\nf(sigma) as sigma approaches 0 from above and from below.\n\nWhy this surface is called a fold. Measured by the proper distance along the hidden direction,\n    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)\n(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends\nof the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the metric of UM-4 is\n    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ].\nIt depends on sigma only through |sigma|. The function W(sigma) = e^(-2 H |sigma|), which multiplies the squared steps of all\nseven directions of the fold (ordinary space, the time and the extra times), is the warp factor of the metric (its square\nroot e^(-H |sigma|) multiplies the lengths). The time x4 is warped like the other directions (the author's order of\n2026-10-25, 13:15 PDT; in UM-3 it was not), so that every surface sigma = const has the light cone of the fold. Four\nproperties make the surface sigma = 0 a fold, and together they single it out within the period:\n  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to\n     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the\n     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are\n     joined along the crease.\n  2. The warp factor is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|) equals 1 on the fold and\n     decreases on both sides.\n  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.\n     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,\n        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb = -H sgn(sigma) delta^a_b   (all seven directions a, b of the fold)\n     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the\n     sign function, delta^a_b the Kronecker delta, a, b frame indices along the fold); it jumps by -2 H in every direction\n     of the fold. The field equations of gravity of UM-4, G^M_N + Lambda delta^M_N = kappa T^M_N (Einstein gravity: the\n     author's Einstein-Lovelock equations with the weights of the Gauss-Bonnet and cubic terms set to zero; G^M_N the\n     Einstein tensor, Lambda = -21 H^2 the cosmological constant, kappa = 8 pi G_8 the gravitational coupling of eight\n     dimensions, T^M_N the energy-momentum tensor), are linear in the second sigma-derivatives of the metric, so the jump\n     puts a Dirac delta function delta_D(sigma) into them: the metric solves them only if the fold carries a thin source\n     S^a_b, an energy-momentum tensor concentrated on sigma = 0, given by the integral of the equations across the fold\n     (the junction condition of Israel),\n        (FD-11) kappa S^a_b = integral from sigma = 0- to 0+ of d sigma G^a_b = -([K^a_b] - [K] delta^a_b)\n     ([K^a_b] the jump of the extrinsic curvature across the fold, K its trace), with S^4_4 = -(its energy density),\n     S^1_1 = S^2_2 = S^3_3 its pressure along ordinary space and S^5_5 = S^6_6 = S^7_7 its pressure along the extra times; S is\n     T integrated across the fold, an energy per unit volume of the six other directions of the fold (unit GeV^7). For the\n     static block (a4 and b4 constant) and, to the first order in the curvature of the fold divided by H^2, for every fold\n        (FD-12) static block:  kappa S^a_b = -12 H delta^a_b  (a pure tension, kappa lambda_F = 12 H),\n                any fold:      kappa S^a_b = -12 H delta^a_b + (2/(5 H)) Ghat^a_b\n     (Ghat^a_b the Einstein tensor of the metric FD-2 of the fold): the tension plus matter that obeys the Einstein equations\n     of seven dimensions, Ghat^a_b = kappa_7 tau^a_b with kappa_7 = 5 kappa H/2 (tau the matter of the fold), which for frozen\n     extra times are the Friedmann equations of general relativity. The fold is therefore not only a place but a physical\n     object: a thin layer that carries energy and momentum (a brane).\n  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and\n     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,\n        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],\n     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper\n     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).\n\nWhat lives on the fold. In UM-4 the Higgs doublet (with the author's ad hoc vacuum, a time-dependent choice of its vacuum\nvalue), three generations of quarks and leptons, three right-handed neutrinos and the fold fluid (its tension and the\npressure along the extra times that keeps their volume fixed) live on the fold: they are fields at sigma = 0, functions of\nx1, ..., x4 (no field depends on the extra times). The gauge fields of SU(3)_C x SU(2)_L x U(1)_Y live in the bulk; their\nmassless modes are bound to the fold, so that the photon and the gluons of the four-dimensional world are waves of the bulk\nthat the fold holds, and photons that leave the fold travel through the bulk at the speed of light. dirac16complex (the\nauthor's spinor field of eight dimensions) and gravity live in the bulk sigma != 0 as well as on the fold; the states chi of\ndirac16complex that the fold holds (in UM-4 long-lived resonances) are the part of it near the fold, and the portals\n(couplings between dirac16complex and the fields of the fold) act at sigma = 0. Integrated over the extra times, the fold is\nthe four-dimensional universe that we observe, with the metric diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. In UM-4\nfiles \"the fold\" means this surface; the examples below use the word for other surfaces with the same properties. The word\nis not used in its other senses: a set of equal energy levels is called degenerate, and a growth by the factor e is called\nan e-folding.\n\nExamples of folds that are meaningful for UM-4.\n  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the\n     quarks, leptons and the Higgs field, and after the integration over the extra times the four-dimensional universe that\n     we observe.\n  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface\n     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are\n     separated by a tip (z a multiple of pi), where the warp factor (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2\n     diverges, and which lies at an infinite proper distance from both: in proper distance every copy has its own complete\n     line -infinity < sigma < infinity. A compact direction of length L would give every field a tower of particles with\n     the masses 2 pi n/L, n = 1, 2, ... (a Kaluza-Klein tower); because the copies are infinitely far apart, the period\n     pi/(6 H) of x0 produces no such tower with the spacing 12 H: every field of the bulk has instead a continuum of modes\n     that starts at zero mass, and the fold holds its massless mode.\n  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images\n     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).\n     In UM-4 the direction across the crease is the hidden direction sigma, the seven directions along the crease are\n     x1, ..., x7, and the crease is the fold.\n  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,\n     largest at sigma = 0, with a jump of its derivative,\n        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),\n                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),\n     whose delta function is the origin of the thin source of property 3. Every metric function of FD-4 depends on sigma\n     through |sigma| and is folded at sigma = 0 in this sense.\n  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto\n     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map\n     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is\n     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.\n  6. The brane of Randall and Sundrum. The five-dimensional metric\n        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),\n                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2\n     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a\n     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does\n     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in\n     the bulk the cosmological constant Lambda_RS (the vacuum energy Lambda_RS/kappa_5), and the bulk is otherwise empty.\n     The fold of UM-4 is of the same kind, with every direction of the fold warped by the same factor as in the model of\n     Randall and Sundrum: its static block is a space of constant curvature -H^2 in all eight directions, a vacuum of\n     Einstein gravity with Lambda = -21 H^2, with a fold of pure tension (FD-12), and the graviton is bound to the fold as\n     there. It differs in that the fold has seven dimensions, three of them extra times, in that the space is not cut at\n     the brane (Randall and Sundrum identify the two sides of their brane, one physical side; the fold of UM-4 has two\n     distinct sides, example 7), and in that the gauge fields live in the bulk as well.\n  7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off\n     exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac\n     equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near\n     the fold: at rest and without their self-interaction (the field is Psi = e^((7/2) H |sigma|) chi(sigma) e^(-i omega x4))\n        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+)   (0 < sigma << sigma_t),\n                chi(sigma) = e^(-q_b |sigma|) chi(0-)   (0 < -sigma << sigma_t),\n                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),\n                omega_0 = omega_r - i Gamma/2,   omega_r -> sqrt(m_Psi^2 - q_b^2),\n     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the\n     fields of the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors, m_Psi the bulk\n     mass, q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for mu_R = 0), and omega_r\n     tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is\n     warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point\n     sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a\n     resonance of the energy omega_0 at rest and the width Gamma = (2/e) (q_b^2/m_Psi) e^(-2 F_t(upsilon_b) m_Psi/H) (to the\n     leading order in H/q_b), with the tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon)\n     - sqrt(1 - upsilon^2) and upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t,\n     where the profile decays at the local rate sqrt(m_Psi^2 - omega_r^2 e^(2 H |sigma|)), which falls to 0 at sigma_t). The\n     profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).\n  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,\n        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)\n     (for states at rest R_1 is the reflection across the fold combined with the reflection of ordinary space, R_2 the\n     reflection across the fold combined with the reflection of the extra times). T_a (a = 0, ..., 7) are the author's real\n     16 x 16 Dirac matrices T16^A[a] of 4+4.nb, built there from six real 4 x 4 matrices (rows separated by \";\"):\n        (FD-13) s_1 = [0 0 0 1; 0 0 1 0; 0 -1 0 0; -1 0 0 0],   s_2 = [0 0 -1 0; 0 0 0 1; 1 0 0 0; 0 -1 0 0],\n                s_3 = [0 1 0 0; -1 0 0 0; 0 0 0 1; 0 0 -1 0],   t_1 = [0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0],\n                t_2 = [0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0],   t_3 = [0 1 0 0; -1 0 0 0; 0 0 0 -1; 0 0 1 0],\n                Xi_0 = 1_8,  Xi_1 = [[0, s_1], [s_1, 0]],  Xi_2 = [[0, s_2], [s_2, 0]],  Xi_3 = [[0, s_3], [s_3, 0]],\n                Xi_4 = [[0, t_3], [-t_3, 0]],  Xi_5 = [[0, t_2], [-t_2, 0]],  Xi_6 = [[0, t_1], [-t_1, 0]],\n                Xi_7 = Xi_1 Xi_2 Xi_3 Xi_4 Xi_5 Xi_6 = [[-1_4, 0], [0, 1_4]],\n                Xibar_0 = 1_8,  Xibar_a = sigma_8 Xi_a^T sigma_8 (a = 1, ..., 7),  sigma_8 = [[0, 1_4], [1_4, 0]],\n                T_a = [[0, Xibar_a], [Xi_a, 0]]  (a = 0, ..., 7)\n     ([[A, B], [C, D]] the matrix made of the four blocks A, B, C, D, 0 a block of zeros; s_1, s_2, s_3 and t_1, t_2, t_3\n     are s4by4[1..3] and t4by4[1..3], Xi_a and Xibar_a are tau[a] and taubar[a], sigma_8 is sigma88 of the notebook).\n     They obey {T_a, T_b} = T_a T_b + T_b T_a = 2 eta_ab 1_16 with eta = diag(1, 1, 1, 1, -1, -1, -1, -1);\n     gamma^(a) = eta^aa T_a (no sum) are the Dirac matrices of the frame, gamma^(0) along sigma; the chirality matrix is\n     Gamma_8 = T_0 T_1 ... T_7 = [[-1_8, 0], [0, 1_8]], the chiral projectors are P_L = (1_16 - Gamma_8)/2 and\n     P_R = (1_16 + Gamma_8)/2, and sigma_16 = T_0 T_1 T_2 T_3 = [[-sigma_8, 0], [0, sigma_8]] defines the Dirac adjoint\n     Psibar = Psi^dagger sigma_16 (Psi^dagger the complex conjugate transpose).\n     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can\n     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the\n     particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)\n     are even under it and the four of Krein charge +1 are odd, so such a mean field cannot mix the two signs of the\n     indefinite charge. R_2 maps the states of one Krein charge onto those of the other and makes the two sets degenerate\n     without the self-interaction.\n  9. The planes of Horava and Witten. In M-theory (the eleven-dimensional theory whose limits include the superstring\n     theories) on an interval (a circle whose points are identified with their mirror images), the two ten-dimensional\n     planes left in place by the reflection are mirror surfaces (property 1); each carries one E8 gauge group while gravity\n     fills the bulk. As in UM-4, gravity fills the bulk; unlike UM-4, the gauge fields live on the mirror planes (in UM-4\n     they live in the bulk), and the two sides of each plane are identified (one physical side).\n\nWhat is not a fold.\n  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp factor vanishes,\n    g_x0x0 diverges, and they lie at an infinite proper distance; they carry no thin source.\n  * A smooth maximum of a warp factor, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a\n    kink and without a thin source.",
+ "runtime_s": 257.8
 }

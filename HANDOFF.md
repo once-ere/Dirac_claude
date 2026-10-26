@@ -22,8 +22,10 @@ coordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/
     (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
 with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
 Notation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric
-functions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as
-sigma approaches 0 from above and from below.
+functions, sinh, cosh, tanh = sinh/cosh and coth = cosh/sinh the hyperbolic functions, |y| the absolute value, max and
+min the larger and the smaller of their arguments; det, tr and ^T are the determinant, the trace and the transpose of a
+square matrix, and 1_4, 1_8 and 1_16 the identity matrices of 4, 8 and 16 rows; f(0+) and f(0-) are the limits of
+f(sigma) as sigma approaches 0 from above and from below.
 
 Why this surface is called a fold. Measured by the proper distance along the hidden direction,
     (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
@@ -112,17 +114,17 @@ Examples of folds that are meaningful for UM-4.
      of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.
   6. The brane of Randall and Sundrum. The five-dimensional metric
         (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),
-                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5
+                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2
      (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
      fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
      not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
-     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every
-     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of
-     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure
-     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three
-     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their
-     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the
-     bulk as well.
+     the bulk the cosmological constant Lambda_RS (the vacuum energy Lambda_RS/kappa_5), and the bulk is otherwise empty.
+     The fold of UM-4 is of the same kind, with every direction of the fold warped by the same factor as in the model of
+     Randall and Sundrum: its static block is a space of constant curvature -H^2 in all eight directions, a vacuum of
+     Einstein gravity with Lambda = -21 H^2, with a fold of pure tension (FD-12), and the graviton is bound to the fold as
+     there. It differs in that the fold has seven dimensions, three of them extra times, in that the space is not cut at
+     the brane (Randall and Sundrum identify the two sides of their brane, one physical side; the fold of UM-4 has two
+     distinct sides, example 7), and in that the gauge fields live in the bulk as well.
   7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off
      exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac
      equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near
@@ -137,14 +139,31 @@ Examples of folds that are meaningful for UM-4.
      tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is
      warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point
      sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a
-     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the
-     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and
-     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a
-     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
+     resonance of the energy omega_0 at rest and the width Gamma = (2/e) (q_b^2/m_Psi) e^(-2 F_t(upsilon_b) m_Psi/H) (to the
+     leading order in H/q_b), with the tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon)
+     - sqrt(1 - upsilon^2) and upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t,
+     where the profile decays at the local rate sqrt(m_Psi^2 - omega_r^2 e^(2 H |sigma|)), which falls to 0 at sigma_t). The
+     profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
   8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
         (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
-     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
-     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
+     (for states at rest R_1 is the reflection across the fold combined with the reflection of ordinary space, R_2 the
+     reflection across the fold combined with the reflection of the extra times). T_a (a = 0, ..., 7) are the author's real
+     16 x 16 Dirac matrices T16^A[a] of 4+4.nb, built there from six real 4 x 4 matrices (rows separated by ";"):
+        (FD-13) s_1 = [0 0 0 1; 0 0 1 0; 0 -1 0 0; -1 0 0 0],   s_2 = [0 0 -1 0; 0 0 0 1; 1 0 0 0; 0 -1 0 0],
+                s_3 = [0 1 0 0; -1 0 0 0; 0 0 0 1; 0 0 -1 0],   t_1 = [0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0],
+                t_2 = [0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0],   t_3 = [0 1 0 0; -1 0 0 0; 0 0 0 -1; 0 0 1 0],
+                Xi_0 = 1_8,  Xi_1 = [[0, s_1], [s_1, 0]],  Xi_2 = [[0, s_2], [s_2, 0]],  Xi_3 = [[0, s_3], [s_3, 0]],
+                Xi_4 = [[0, t_3], [-t_3, 0]],  Xi_5 = [[0, t_2], [-t_2, 0]],  Xi_6 = [[0, t_1], [-t_1, 0]],
+                Xi_7 = Xi_1 Xi_2 Xi_3 Xi_4 Xi_5 Xi_6 = [[-1_4, 0], [0, 1_4]],
+                Xibar_0 = 1_8,  Xibar_a = sigma_8 Xi_a^T sigma_8 (a = 1, ..., 7),  sigma_8 = [[0, 1_4], [1_4, 0]],
+                T_a = [[0, Xibar_a], [Xi_a, 0]]  (a = 0, ..., 7)
+     ([[A, B], [C, D]] the matrix made of the four blocks A, B, C, D, 0 a block of zeros; s_1, s_2, s_3 and t_1, t_2, t_3
+     are s4by4[1..3] and t4by4[1..3], Xi_a and Xibar_a are tau[a] and taubar[a], sigma_8 is sigma88 of the notebook).
+     They obey {T_a, T_b} = T_a T_b + T_b T_a = 2 eta_ab 1_16 with eta = diag(1, 1, 1, 1, -1, -1, -1, -1);
+     gamma^(a) = eta^aa T_a (no sum) are the Dirac matrices of the frame, gamma^(0) along sigma; the chirality matrix is
+     Gamma_8 = T_0 T_1 ... T_7 = [[-1_8, 0], [0, 1_8]], the chiral projectors are P_L = (1_16 - Gamma_8)/2 and
+     P_R = (1_16 + Gamma_8)/2, and sigma_16 = T_0 T_1 T_2 T_3 = [[-sigma_8, 0], [0, sigma_8]] defines the Dirac adjoint
+     Psibar = Psi^dagger sigma_16 (Psi^dagger the complex conjugate transpose).
      The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
      carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the
      particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)
@@ -586,7 +605,56 @@ $$
 
 ## 0. Exact restart procedure
 
-### 0.19 STATE 2026-10-25: UM-4 complete (the order of 13:15 PDT, 0.18) — START HERE
+### 0.20 STATE 2026-10-25 evening: UM-4 corrected after three independent referees — START HERE
+
+The first version of UM-4 (commit `6f076ab`, 0.19) was pushed on the order "push all to repo NOW; verify repo, then continue all
+stages and do not stop" (2026-10-25, 17:31 PDT) and verified from a fresh clone (17:32 to 17:47 PDT: every module under
+`timeout -k 5 423`, the Kohn-Sham module in its four parts from scratch, 185/185 checks, the outputs equal to the committed ones
+apart from run times). Three independent referees (Claude agents of the session: gravity and propagation; dirac16complex and dark
+matter; cosmology and the documents) then reviewed it; every finding was checked independently before it was accepted, and the
+confirmed ones are corrected in the commit of this round (listed in `claude_failures.md`, J4 and J5). UM-3 is unchanged. What
+changed in UM-4:
+* Causality: "nothing crosses the bulk faster than light" holds for signals at fixed extra times (FE-83, `um4_causality.py` C1);
+  a null line that also moves along an extra time arrives earlier, down to Delta x4 = 0, and the four time-like directions allow
+  closed time-like curves (C4). Around an expanding fold the bulk light cone is wider wherever the expansion rate falls
+  (a4'' = -(1 + q) H_4^2 < 0, today included); the largest advance over the Hubble distance today is 4.4e-94 at H = 2534 GeV.
+* The bulk graviton: its three vector polarisations h_(mu r) (one index along an extra time) are ghosts (`um4_bulk.py` B11), not
+  emitted by the matter of the fold at the linear order (OPEN beyond it); the gravitational waves keep only + and x.
+* The bounds on H (`um4_propagators.py` P4, P5): H > 2534 GeV from the invisible width of the Z (1.42 MeV); contact interactions
+  between quarks and leptons 1083 GeV; the parameter rho 969 GeV (the squared masses shift by -m0^4/(3 H^2)); the W width into the
+  bulk 0.85 MeV; Newton's law at 52 micrometres corrected by 2.6e-75.
+* dirac16complex at the fold: the width is derived, Gamma = (2/e)(q_b^2/m_Psi) e^{-2F(u_b) m_Psi/H} (`um4_spectra.py` U3, U4;
+  `um4_kohnsham.py` K8); dark matter must live longer than 160 Gyr = 11.6 t_0 (Audren et al. 2014); the bound on omega_b for every
+  binding (U6): 4.3e8 GeV at q_b/omega_b = 0.1, 2.5e6 GeV at q_b = m_Psi/2, 1.2e4 GeV at 0.99 m_Psi, 2.2e3 GeV at 0.999 m_Psi.
+* The thermal history (`um4_thermal.py`): the unitarity mass of a thermal relic is 9.69e4 GeV (integrated to convergence), so a
+  thermal relic needs q_b > 0.906 m_Psi (T7); the convective current annihilates with sigma v ~ v^4 (`um4_krein.py` KR9, T3); a
+  binding by the Higgs portal (T8) or by the gluon condensate (T9) couples chi to nucleons far beyond the LZ limit: no portal of the
+  action binds chi without a nucleon coupling (OPEN); the helium abundance with the ad hoc vacuum and the energy of the ad hoc vacuum
+  require its decay rate a40 > 4.8e-16 (v_A/v)^2 GeV (T6).
+* The gas of chi: its symmetric occupation is a saddle of the first-order energy (KR8); the pair amplitudes are basis independent
+  singular values (KR6, KR7); the chirality-blind convective current creates ghost pairs only at the next order in the momentum
+  (relative rate 0.0089 k^2/m_Psi^2, KR9).
+* The definition of the fold writes out the author's Dirac matrices (FD-13, checked by `um4_geometry.py` G11) and gives
+  Lambda_RS = -6 k_RS^2 for the brane of Randall and Sundrum (FD-8); no document refers the reader to another file.
+* Inflation of the fold in the regime of general relativity at H = 2534 GeV: H_inf < 253 GeV (rho^{1/4} < 3.3e10 GeV).
+* The tools: `symbols_close.py doc NAME` puts the entries that only the definitions of listed entries need into the list "Further
+  symbols" of the document, so that the list after a display names only the symbols of that display.
+* 189 checks in 20 programs, all passing (`um4_geometry.py` 11, `um4_krein.py` 9, `um4_thermal.py` 9; the rest unchanged); the
+  documents rebuilt (md, tex, pdf) without overfull boxes.
+
+How to continue: as in 0.19 below (the Markdown files `universe_model_4/NAME.md` are the sources of the documents; the order of the
+modules is in `universe_model_4/README.md`: `um4_propagators.py` before `um4_foldsources.py`, `um4_causality.py`, `um4_spectra.py`
+and `um4_primordial.py`; `um4_spectra.py` before the assembly of `um4_kohnsham.py`; `um4_spectra.py` and `um4_krein.py` before
+`um4_thermal.py`).
+
+Open (stated in every document): the origin and tuning of the tension; the origin of the holding pressure along the extra times; the
+projected Weyl tensor of the bulk for an expanding fold with dust; the ghost vectors of the bulk graviton beyond the linear order; a
+gauge principle that removes the momentum along the extra times; a binding of chi to the fold without a nucleon coupling and a
+non-thermal origin of its abundance (or a binding stronger than about q_b = 0.9 m_Psi for a thermal relic); the classical stability
+of the gas of chi (the two imaginary frequencies of its truncated response) and a unitary coupling of dirac16complex at the fold;
+the inflaton. Nothing is running; the next step is the author's next order.
+
+### 0.19 STATE 2026-10-25: UM-4 complete (the order of 13:15 PDT, 0.18) (superseded as the start by 0.20)
 
 UM-3 first. A fresh clone of commit `c5a93c4` (the last commit of UM-3) was verified on 2026-10-25 from 13:38 to 14:30 PDT: every
 module run under `timeout -k 5 423` (the Kohn-Sham module in its six parts), 223/223 checks, and the 44 output and report files equal

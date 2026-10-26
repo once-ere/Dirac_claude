@@ -743,7 +743,7 @@ python universe_model_4/code/um4_dirac_matrices_doc.py   # writes "universe_mode
 python universe_model_4/tools/build_docs.py "dirac matrices"   # writes the .tex and the .pdf
 ```
 
-The first program needs no Mathematica: it reads the notebook file with `universe_model_4/tools/nb_reader.py`. Its run time was 38 s.
+The first program needs no Mathematica: it reads the notebook file with `universe_model_4/tools/nb_reader.py`. Its run time was 37 s.
 
 # Appendix: the 28 generators
 

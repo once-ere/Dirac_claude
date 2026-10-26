@@ -54,7 +54,7 @@ NA = 6.02214076e23
 R_SUN_KM = 6.957e5
 MU_G = 1.66053907e-24                                                   # the atomic mass unit in g: n_e = Y_e rho/m_u
 # measured mixing: the global fit NuFIT 5.2 (November 2022; Esteban, Gonzalez-Garcia, Maltoni, Schwetz, Zhou, JHEP 09 (2020)
-# 178 and www.nu-fit.org), normal ordering, best fit with the Super-Kamiokande atmospheric data: sin^2 theta12 = 0.303,
+# 178 and www.nu-fit.org), normal ordering, best fit without the Super-Kamiokande atmospheric data: sin^2 theta12 = 0.303,
 # sin^2 theta13 = 0.02203, sin^2 theta23 = 0.572 (theta12 = 33.40, theta13 = 8.54, theta23 = 49.14 deg), Delta m^2_21 =
 # 7.41e-5 eV^2, Delta m^2_31 = 2.511e-3 eV^2; the Dirac phase is set to 0 (ASSUMED).  The inverted ordering, used only for
 # the comparison in F2, keeps |Delta m^2_32| = 2.511e-3 eV^2: m_3^2 - m_1^2 = -(DM31 - DM21) = -2.437e-3 eV^2
@@ -276,7 +276,7 @@ def main():
     t0 = time.time()
     rep = Report()
     out = {'mixing': {'theta12_deg': math.degrees(TH12), 'theta23_deg': math.degrees(TH23), 'theta13_deg': math.degrees(TH13),
-                      'source': 'NuFIT 5.2 (November 2022), normal ordering, with SK atmospheric data', 'dm21_eV2': DM21, 'dm31_eV2': DM31},
+                      'source': 'NuFIT 5.2 (November 2022), normal ordering, without the SK atmospheric data', 'dm21_eV2': DM21, 'dm31_eV2': DM31},
            'method': 'fourth-order commutator-free Magnus integration, step propagators multiplied pairwise'}
 
     # ---------------- F1: the Sun

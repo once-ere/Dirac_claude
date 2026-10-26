@@ -465,10 +465,10 @@
  "mixing": {
   "dm21_eV2": 7.41e-05,
   "dm31_eV2": 0.002511,
-  "source": "NuFIT 5.2 (November 2022), normal ordering, with SK atmospheric data",
+  "source": "NuFIT 5.2 (November 2022), normal ordering, without the SK atmospheric data",
   "theta12_deg": 33.39818939594147,
   "theta13_deg": 8.53566780712777,
   "theta23_deg": 49.13968784905223
  },
- "runtime_s": 20.3
+ "runtime_s": 19.2
 }

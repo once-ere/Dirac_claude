@@ -16,26 +16,40 @@ become resonances, solutions with outgoing waves on both sides at a complex omeg
       into eight copies of two inequivalent two-dimensional problems, M0 = s3, M1 = i s1, T16^8 = c s1 with c = +-1 (s1, s3
       the Pauli matrices);
   U2  the exact solutions in a copy: with xi = (omega/H) e^{H|sigma|} and nu = m_Psi/H, chi = xi^{1/2} (Z_{nu-1/2}(xi),
-      i Z_{nu+1/2}(xi)) on sigma > 0 (Z a Bessel function; on sigma < 0 the components are exchanged, (-i Z_{nu+1/2}, Z_{nu-1/2})),
-      checked against the differential equation at sample points; the outgoing waves are the Hankel functions H^(1);
+      i Z_{nu+1/2}(xi)) on sigma > 0 and chi = xi^{1/2} (-i Z_{nu+1/2}(xi), Z_{nu-1/2}(xi)) on sigma < 0 (Z a Bessel function),
+      checked against the differential equation at three depths on each side for Z = J and Z = Y; the outgoing waves are the
+      Hankel functions H^(1) = J + i Y;
   U3  the resonances: the zeros of the 2 x 2 determinant of the matching with outgoing waves on both sides, for the cases of
       UM-3 (mu_L, mu_R) = (-1, 0) (UM-3: q_b = m_Psi/2, omega_b = 0.866 m_Psi) and (-0.6, -0.3), for m_Psi/H = 10 to 40:
       omega_r tends to the bound-state energy omega_b of UM-3 as H/m_Psi -> 0, both copies c = +-1 give the same omega, and
       the full 16 x 16 matching matrix has an eight-dimensional kernel there (eight degenerate resonances, as the eight bound
-      states of UM-3);
+      states of UM-3); the first-order shift omega_r = omega_b (1 - H/(2 q_b)) is tested at m_Psi/H = 400 to 3200 (computed
+      with the forward recurrence of the spherical Hankel functions, exact for integer m_Psi/H): the remainder times
+      (m_Psi/H)^2 converges like H/m_Psi, to -2.60 for (-1, 0) and -5.69 for (-0.6, -0.3);
   U4  the width: ln(Gamma/omega_b) falls linearly in m_Psi/H with the slope -2F(u_b), F(u) = int_u^1 sqrt(1 - t^2)/t dt =
       ln((1 + sqrt(1 - u^2))/u) - sqrt(1 - u^2), u_b = omega_b/m_Psi (the tunnelling exponent through the region where
-      omega e^{H|sigma|} < m_Psi), checked by the differences of the computed widths;
-  U5  the dispersion: the problem is invariant under the boosts of the fold (um4_bulk.py B7), so a state with the complex
-      energy omega_0 at rest has omega^2 = k^2 + omega_0^2: it moves slower than light;
-  U6  the condition that the particles chi live longer than the age of the universe t_0 = 13.8 Gyr: Gamma < hbar/t_0 =
-      1.5e-42 GeV, with Gamma ~ P m_Psi e^{-2 F(u_b) m_Psi/H} (the prefactor P from the computed widths of U4):
-      m_Psi/H > ln(P m_Psi/(1.5e-42 GeV))/(2 F(u_b)); for the weak binding q_b/omega_b = 0.1 about 1.7e5 and for
-      q_b = m_Psi/2 about 1.1e3 (direct detection demands a far weaker binding of the Higgs portal still, which makes the
-      lifetime too short at every mass: um4_thermal.py T8); with H at its lower bound of
-      um4_propagators.py P5 (2.5 TeV, the invisible width of the Z) the particles chi then have omega_b > 2.4e6 GeV
-      (q_b = m_Psi/2) or > 4e8 GeV (q_b/omega_b = 0.1); a lifetime of 100 t_0 raises these bounds by about 4 per cent
-      (ESTIMATE: the prefactor of Gamma taken from the computed widths at m_Psi/H = 40);
+      omega e^{H|sigma|} < m_Psi), checked by the differences of the computed widths; and the prefactor: for m_Psi/H -> infinity
+          Gamma = (2/e) (q_b^2/m_Psi) e^{-2F(u_b) m_Psi/H},
+      derived from the Debye asymptotics of the Bessel functions (Y_mu(mu sech a) ~ -e^{mu(a - tanh a)}/sqrt(pi mu tanh a/2),
+      J_mu(mu sech a) ~ e^{-mu(a - tanh a)}/sqrt(2 pi mu tanh a)): the ratio r = H^(1)_{nu+1/2}/H^(1)_{nu-1/2} at the fold is
+      rho (1 - i eps) with rho ~ e^a and eps ~ e^{-2 nu F} sinh a (sech a = omega/m_Psi), the matching condition r^2 = r_b^2
+      (real) gives Gamma = -2 eps/(d ln rho/d omega) = 2 m_Psi (q_b/m_Psi)^2 e^{-2 nu F(u_r)}, and the first-order shift of
+      omega_r adds 1 to the exponent, nu F(u_r) = nu F(u_b) + 1/2; the computed prefactor approaches (2/e)(q_b/m_Psi)^2 like
+      H/m_Psi (at m_Psi/H = 100, 1000, 4000 for both bindings, and at q_b = 0.99 m_Psi);
+  U5  the dispersion, computed: the resonance at rest, boosted along x3 by the generator T^(x3) T^(x4)/2 (um4_bulk.py B7) with
+      the complex rapidity asinh(k/omega_0), solves the 16-component equation of a state with the momentum k,
+      chi' = (m_Psi M0 + e^{H|sigma|}(omega M1 + k M_k)) chi (M_k = -i T^(x0) T^(x3)), with omega = sqrt(omega_0^2 + k^2) on both
+      sides of the fold and satisfies the matching at the fold: a resonance moving with the momentum k has
+      omega^2 = omega_0^2 + k^2 and moves slower than light;
+  U6  the condition that the particles chi live long enough for every binding (mu_L = -2 q_b/m_Psi, mu_R = 0, q_b/m_Psi from
+      0.0995 (q_b/omega_b = 0.1) to 0.999): Gamma < hbar/tau at H = H_min (the bound 2534 GeV of um4_propagators.py P5), with
+      the exact width at the bound (integer m_Psi/H by the recurrence of U3, interpolated in ln Gamma) where m_Psi/H <= 6000,
+      and with the derived asymptotic width of U4 for weaker binding; the lifetimes tau = t_0 = 13.8 Gyr, 160 Gyr = 11.6 t_0
+      (the observed bound for dark matter that decays into invisible relativistic particles, Audren et al., JCAP 12 (2014)
+      028: the requirement used here) and 100 t_0; for 160 Gyr the lightest long-lived chi has omega_b > 4.3e8 GeV
+      (q_b/omega_b = 0.1), 1.4e7 GeV (q_b = 0.3 m_Psi), 2.5e6 GeV (q_b = m_Psi/2), 1.1e5 GeV (q_b = 0.9 m_Psi), 1.2e4 GeV
+      (q_b = 0.99 m_Psi) and 2.2e3 GeV (q_b = 0.999 m_Psi): the bound falls with the binding and vanishes as q_b -> m_Psi
+      (omega_b -> 0);
   U7  the Krein form of the eight resonances, integrated over the region of the fold |sigma| < sigma_t/2 (sigma_t the turning
       point omega_r e^{H sigma_t} = m_Psi) with the density e^{H|sigma|} chi^dagger B chi (B = i sigma16 T^(x4)): four positive
       and four negative eigenvalues, as for the bound states of UM-3;
@@ -61,8 +75,10 @@ coordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/
     (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),
 with three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.
 Notation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric
-functions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as
-sigma approaches 0 from above and from below.
+functions, sinh, cosh, tanh = sinh/cosh and coth = cosh/sinh the hyperbolic functions, |y| the absolute value, max and
+min the larger and the smaller of their arguments; det, tr and ^T are the determinant, the trace and the transpose of a
+square matrix, and 1_4, 1_8 and 1_16 the identity matrices of 4, 8 and 16 rows; f(0+) and f(0-) are the limits of
+f(sigma) as sigma approaches 0 from above and from below.
 
 Why this surface is called a fold. Measured by the proper distance along the hidden direction,
     (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)
@@ -151,17 +167,17 @@ Examples of folds that are meaningful for UM-4.
      of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.
   6. The brane of Randall and Sundrum. The five-dimensional metric
         (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),
-                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5
+                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2
      (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a
      fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does
      not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in
-     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every
-     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of
-     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure
-     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three
-     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their
-     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the
-     bulk as well.
+     the bulk the cosmological constant Lambda_RS (the vacuum energy Lambda_RS/kappa_5), and the bulk is otherwise empty.
+     The fold of UM-4 is of the same kind, with every direction of the fold warped by the same factor as in the model of
+     Randall and Sundrum: its static block is a space of constant curvature -H^2 in all eight directions, a vacuum of
+     Einstein gravity with Lambda = -21 H^2, with a fold of pure tension (FD-12), and the graviton is bound to the fold as
+     there. It differs in that the fold has seven dimensions, three of them extra times, in that the space is not cut at
+     the brane (Randall and Sundrum identify the two sides of their brane, one physical side; the fold of UM-4 has two
+     distinct sides, example 7), and in that the gauge fields live in the bulk as well.
   7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off
      exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac
      equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near
@@ -176,14 +192,31 @@ Examples of folds that are meaningful for UM-4.
      tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is
      warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point
      sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a
-     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the
-     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and
-     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a
-     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
+     resonance of the energy omega_0 at rest and the width Gamma = (2/e) (q_b^2/m_Psi) e^(-2 F_t(upsilon_b) m_Psi/H) (to the
+     leading order in H/q_b), with the tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon)
+     - sqrt(1 - upsilon^2) and upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t,
+     where the profile decays at the local rate sqrt(m_Psi^2 - omega_r^2 e^(2 H |sigma|)), which falls to 0 at sigma_t). The
+     profile is not a function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).
   8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,
         (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)
-     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the
-     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).
+     (for states at rest R_1 is the reflection across the fold combined with the reflection of ordinary space, R_2 the
+     reflection across the fold combined with the reflection of the extra times). T_a (a = 0, ..., 7) are the author's real
+     16 x 16 Dirac matrices T16^A[a] of 4+4.nb, built there from six real 4 x 4 matrices (rows separated by ";"):
+        (FD-13) s_1 = [0 0 0 1; 0 0 1 0; 0 -1 0 0; -1 0 0 0],   s_2 = [0 0 -1 0; 0 0 0 1; 1 0 0 0; 0 -1 0 0],
+                s_3 = [0 1 0 0; -1 0 0 0; 0 0 0 1; 0 0 -1 0],   t_1 = [0 0 0 -1; 0 0 1 0; 0 -1 0 0; 1 0 0 0],
+                t_2 = [0 0 -1 0; 0 0 0 -1; 1 0 0 0; 0 1 0 0],   t_3 = [0 1 0 0; -1 0 0 0; 0 0 0 -1; 0 0 1 0],
+                Xi_0 = 1_8,  Xi_1 = [[0, s_1], [s_1, 0]],  Xi_2 = [[0, s_2], [s_2, 0]],  Xi_3 = [[0, s_3], [s_3, 0]],
+                Xi_4 = [[0, t_3], [-t_3, 0]],  Xi_5 = [[0, t_2], [-t_2, 0]],  Xi_6 = [[0, t_1], [-t_1, 0]],
+                Xi_7 = Xi_1 Xi_2 Xi_3 Xi_4 Xi_5 Xi_6 = [[-1_4, 0], [0, 1_4]],
+                Xibar_0 = 1_8,  Xibar_a = sigma_8 Xi_a^T sigma_8 (a = 1, ..., 7),  sigma_8 = [[0, 1_4], [1_4, 0]],
+                T_a = [[0, Xibar_a], [Xi_a, 0]]  (a = 0, ..., 7)
+     ([[A, B], [C, D]] the matrix made of the four blocks A, B, C, D, 0 a block of zeros; s_1, s_2, s_3 and t_1, t_2, t_3
+     are s4by4[1..3] and t4by4[1..3], Xi_a and Xibar_a are tau[a] and taubar[a], sigma_8 is sigma88 of the notebook).
+     They obey {T_a, T_b} = T_a T_b + T_b T_a = 2 eta_ab 1_16 with eta = diag(1, 1, 1, 1, -1, -1, -1, -1);
+     gamma^(a) = eta^aa T_a (no sum) are the Dirac matrices of the frame, gamma^(0) along sigma; the chirality matrix is
+     Gamma_8 = T_0 T_1 ... T_7 = [[-1_8, 0], [0, 1_8]], the chiral projectors are P_L = (1_16 - Gamma_8)/2 and
+     P_R = (1_16 + Gamma_8)/2, and sigma_16 = T_0 T_1 T_2 T_3 = [[-sigma_8, 0], [0, sigma_8]] defines the Dirac adjoint
+     Psibar = Psi^dagger sigma_16 (Psi^dagger the complex conjugate transpose).
      The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can
      carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the
      particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)
@@ -282,6 +315,97 @@ def resonance(nu, muL, muR, c, dps=40):
     return root, wb
 
 
+def det2_ratio(r, muL, muR, c):
+    """The matching determinant of the copy c as a function of the ratio r = H^(1)_{nu+1/2}/H^(1)_{nu-1/2} at the fold."""
+    vp = mp.matrix([1, 1j * r])
+    vm = mp.matrix([-1j * r, 1])
+    pL = (mp.eye(2) - c * S1) / 2
+    pR = (mp.eye(2) + c * S1) / 2
+    N = expm2(S3 * (muL * pL + muR * pR))
+    w = N * vm
+    return vp[0] * w[1] - vp[1] * w[0]
+
+
+def ratio_hankel(nu, w):
+    return mp.hankel1(nu + mp.mpf(1) / 2, w) / mp.hankel1(nu - mp.mpf(1) / 2, w)
+
+
+def ratio_sph(N, z):
+    """H^(1)_{N+1/2}(z)/H^(1)_{N-1/2}(z) = h_N(z)/h_{N-1}(z) for an integer N >= 1, by the forward recurrence of the spherical
+    Hankel functions of the first kind, h_{n+1} = (2n + 1) h_n/z - h_{n-1} (h_0 = -i e^{iz}/z, h_1 = -e^{iz}(z + i)/z^2)."""
+    a = -1j * mp.exp(1j * z) / z
+    b = -mp.exp(1j * z) * (z + 1j) / z ** 2
+    for n in range(1, N):
+        a, b = b, (2 * n + 1) / z * b - a
+    return b / a
+
+
+def resonance_robust(nu, muL, muR, c=1, integer=False):
+    """The resonance of the copy c for any binding: the real root of Re D bracketed around the first-order estimate
+    omega_b (1 - H/(2 q_b)) (Anderson's method), then Newton steps in the complex plane; the working precision 40 +
+    2 F(u_b) nu/ln 10 digits resolves the width ~ m e^{-2 F nu}.  Returns (omega, q_b/m, u_b, F(u_b)), H = 1, m = nu."""
+    qb_m = lam_um3(muL, muR)
+    ub = math.sqrt(1 - qb_m ** 2)
+    Fb = float(F_wkb(ub))
+    mp.mp.dps = 40 + int(2 * Fb * nu / 2.3)
+    nu_ = mp.mpf(nu)
+    rat = (lambda w: ratio_sph(int(nu), w)) if integer else (lambda w: ratio_hankel(nu_, w))
+    f = lambda w: det2_ratio(rat(w), mp.mpf(muL), mp.mpf(muR), c)
+    w1 = ub * nu * (1 - 1 / (2 * qb_m * nu))
+    a, b = mp.mpf(w1 * 0.97), mp.mpf(min(w1 * 1.03, nu * 0.99999))
+    wr = mp.findroot(lambda w: mp.re(f(w)), (a, b), solver='anderson', tol=mp.mpf(10) ** (-(mp.mp.dps - 8)))
+    w = mp.mpc(wr)
+    for _ in range(3):
+        hstep = mp.mpf(10) ** (-(mp.mp.dps // 3)) * nu
+        d = (f(w + hstep) - f(w - hstep)) / (2 * hstep)
+        w = w - f(w) / d
+    return w, qb_m, ub, Fb
+
+
+def p_asymptotic(qb_m):
+    """The derived prefactor of the width for m_Psi/H -> infinity: Gamma/m_Psi = (2/e) (q_b/m_Psi)^2 e^{-2 F(u_b) m_Psi/H}."""
+    return 2.0 / math.e * qb_m ** 2
+
+
+def lifetime_bound(qb_m, H_GeV, Gamma_max, exact_max_nu=6000):
+    """The smallest m_Psi/H for which the width at the given H is below Gamma_max (mu_L = -2 q_b/m_Psi, mu_R = 0): the exact
+    width at integer m_Psi/H (spherical Hankel recurrence), ln Gamma interpolated linearly between the neighbouring integers
+    that bracket the bound, for m_Psi/H <= exact_max_nu; above, the derived asymptotic width (its error is of the order
+    H/q_b, below 1e-5 there)."""
+    ub = math.sqrt(1 - qb_m ** 2)
+    Fb = float(F_wkb(ub))
+    Pinf = p_asymptotic(qb_m)
+    nu_a = 10.0
+    for _ in range(200):
+        nu_a = math.log(Pinf * nu_a * H_GeV / Gamma_max) / (2 * Fb)
+    row = {'q_b_over_m': qb_m, 'q_b_over_omega_b': qb_m / ub, 'u_b': ub, 'F': Fb, 'P_asymptotic': Pinf,
+           'm_over_H_asymptotic': nu_a}
+    if nu_a > exact_max_nu:
+        row.update({'method': 'asymptotic width', 'm_over_H_min': nu_a, 'P_exact_at_bound': None})
+    else:
+        def lnG(N):
+            w, _, _, _ = resonance_robust(N, -2 * qb_m, 0.0, 1, integer=True)
+            gm = float(-2 * w.imag) / N
+            return math.log(gm) + math.log(N * H_GeV / Gamma_max), gm
+        N = max(2, int(math.floor(nu_a)))
+        fN, gN = lnG(N)
+        while fN <= 0:
+            N -= 1
+            fN, gN = lnG(N)
+        fN1, gN1 = lnG(N + 1)
+        while fN1 > 0:
+            N += 1
+            fN, gN = fN1, gN1
+            fN1, gN1 = lnG(N + 1)
+        nu_min = N + fN / (fN - fN1)
+        P_ex = gN * math.exp(2 * Fb * N)
+        row.update({'method': 'exact width', 'm_over_H_min': nu_min, 'P_exact_at_bound': P_ex,
+                    'P_exact_over_asymptotic': P_ex / Pinf})
+    row['m_Psi_min_GeV'] = row['m_over_H_min'] * H_GeV
+    row['omega_b_min_GeV'] = ub * row['m_Psi_min_GeV']
+    return row
+
+
 def outgoing16(omega, nu):
     """The eight outgoing solutions at 0+ and at 0- in the 16-component space (columns), H = 1."""
     ev, vec = np.linalg.eig(M0)
@@ -309,20 +433,28 @@ def main():
     rep.check('U1_algebra', ok1, 'M0^2 = 1, M1^2 = -1, {M0, M1} = 0; C = T^(x0) T^(x4) T16^8 squares to 1 (eigenvalues +1, -1 eight '
               'times each) and commutes with M0, M1 and T16^8; P_L = (1 - T16^8)/2: eight copies of two inequivalent 2 x 2 problems')
 
-    # ---------------- U2: the exact solutions
+    # ---------------- U2: the exact solutions, both kinds of Bessel functions, on both sides of the fold
     mp.mp.dps = 30
     nu = mp.mpf(7.3)
     om = mp.mpf(5.1)
     ok2 = True
-    for s_ in (0.2, 0.9, 1.7):
-        sig = mp.mpf(s_)
-        xi = om * mp.e ** sig
-        psi = lambda sg: mp.sqrt(om * mp.e ** sg) * mp.matrix([mp.besselj(nu - 0.5, om * mp.e ** sg), 1j * mp.besselj(nu + 0.5, om * mp.e ** sg)])
-        d = (psi(sig + mp.mpf('1e-12')) - psi(sig - mp.mpf('1e-12'))) / mp.mpf('2e-12')
-        rhs = (nu * mp.matrix([[1, 0], [0, -1]]) + om * mp.e ** sig * mp.matrix([[0, 1j], [1j, 0]])) * psi(sig)
-        ok2 &= mp.norm(d - rhs) < mp.mpf('1e-8') * mp.norm(rhs)
-    rep.check('U2_exact_solutions', ok2, 'chi = xi^{1/2} (Z_{nu-1/2}(xi), i Z_{nu+1/2}(xi)), xi = (omega/H) e^{H sigma}, solves chi\' = '
-              '(nu s3 + omega e^{H sigma} i s1) chi (nu = m_Psi/H; checked at three depths)')
+    worst2 = 0
+    for side in (1, -1):
+        for Z in (mp.besselj, mp.bessely):
+            for s_ in (0.2, 0.9, 1.7):
+                sig = mp.mpf(s_) * side
+                if side == 1:
+                    psi = lambda sg, Z=Z: mp.sqrt(om * mp.e ** abs(sg)) * mp.matrix([Z(nu - 0.5, om * mp.e ** abs(sg)), 1j * Z(nu + 0.5, om * mp.e ** abs(sg))])
+                else:
+                    psi = lambda sg, Z=Z: mp.sqrt(om * mp.e ** abs(sg)) * mp.matrix([-1j * Z(nu + 0.5, om * mp.e ** abs(sg)), Z(nu - 0.5, om * mp.e ** abs(sg))])
+                d = (psi(sig + mp.mpf('1e-12')) - psi(sig - mp.mpf('1e-12'))) / mp.mpf('2e-12')
+                rhs = (nu * mp.matrix([[1, 0], [0, -1]]) + om * mp.e ** abs(sig) * mp.matrix([[0, 1j], [1j, 0]])) * psi(sig)
+                rel = mp.norm(d - rhs) / mp.norm(rhs)
+                worst2 = max(worst2, float(rel))
+                ok2 &= rel < mp.mpf('1e-8')
+    rep.check('U2_exact_solutions', ok2, 'chi = xi^{1/2} (Z_{nu-1/2}(xi), i Z_{nu+1/2}(xi)) on sigma > 0 and xi^{1/2} (-i Z_{nu+1/2}(xi), '
+              'Z_{nu-1/2}(xi)) on sigma < 0, xi = (omega/H) e^{H|sigma|}, solve chi\' = (nu s3 + omega e^{H|sigma|} i s1) chi (nu = '
+              'm_Psi/H) for Z = J and Z = Y at three depths on each side (largest relative residual %.1e)' % worst2)
 
     # ---------------- U3, U4: the resonances
     rows = []
@@ -346,55 +478,146 @@ def main():
             series.append({'m_over_H': nuv, 'omega_r_over_m': float(w.real / nuv), 'Gamma_over_m': float(-2 * w.imag / nuv),
                            'omega_b_UM3_over_m': wb / nuv, 'copies_equal': bool(same), 'kernel_16': kern})
             ok3 &= same and kern == 8
-        # approach to omega_b and the slope of ln Gamma
-        dev = [abs(s['omega_r_over_m'] - s['omega_b_UM3_over_m']) for s in series]
-        ok3 &= dev[-1] < dev[0] and dev[-1] < 0.05
+        # the first-order shift omega_r = omega_b (1 - H/(2 q_b)): the remainder times (m/H)^2 tends to a constant
+        qbm = lam_um3(muL, muR)
+        rem = []
+        for nuv in (400, 800, 1600, 3200):
+            w_, _, ub_, _ = resonance_robust(nuv, muL, muR, 1, integer=True)
+            first = ub_ * (1 - 1 / (2 * qbm * nuv))
+            rem.append({'m_over_H': nuv, 'omega_r_over_m': float(w_.real) / nuv, 'first_order': first,
+                        'remainder_times_nu2': (float(w_.real) / nuv - first) * nuv ** 2})
+        rr_ = [x['remainder_times_nu2'] for x in rem]
+        dif = [abs(rr_[i + 1] - rr_[i]) for i in range(3)]
+        c2_ = 2 * rr_[-1] - rr_[-2]                         # Richardson extrapolation of c2 + c3 H/m_Psi
+        ok3 &= all(0.35 < dif[i + 1] / dif[i] < 0.65 for i in range(2)) and abs(c2_) < 10
         ub = series[0]['omega_b_UM3_over_m']
         Fb = float(F_wkb(ub))
         slopes = [(math.log(series[i + 1]['Gamma_over_m']) - math.log(series[i]['Gamma_over_m'])) / 10 for i in range(3)]
         ok4 &= abs(slopes[-1] / (-2 * Fb) - 1) < 0.1
-        rows.append({'mu_L': muL, 'mu_R': muR, 'series': series, 'F_wkb': Fb, 'slopes_dlnGamma_dnu': slopes, 'predicted_slope': -2 * Fb})
+        # the derived asymptotic width (2/e)(q_b/m)^2 m e^{-2 F nu}: the computed prefactor approaches it like 1/nu
+        pref = []
+        for nuv in (100, 1000, 4000):
+            w_, _, _, _ = resonance_robust(nuv, muL, muR, 1, integer=True)
+            Pn = float(-2 * w_.imag) / nuv * math.exp(2 * Fb * nuv)
+            pref.append({'m_over_H': nuv, 'prefactor': Pn, 'ratio_to_asymptotic': Pn / p_asymptotic(qbm),
+                         'deviation_times_nu': (Pn / p_asymptotic(qbm) - 1) * nuv})
+        dv = [abs(x['ratio_to_asymptotic'] - 1) for x in pref]
+        ok4 &= dv[0] > dv[1] > dv[2] and dv[2] < 5e-3 and abs(pref[2]['deviation_times_nu'] / pref[1]['deviation_times_nu'] - 1) < 0.1
+        rows.append({'mu_L': muL, 'mu_R': muR, 'q_b_over_m': qbm, 'series': series, 'first_order_remainder': rem,
+                     'second_order_coefficient': c2_, 'F_wkb': Fb,
+                     'slopes_dlnGamma_dnu': slopes, 'predicted_slope': -2 * Fb, 'prefactor_vs_asymptotic': pref,
+                     'P_asymptotic': p_asymptotic(qbm)})
+    # strong binding: the prefactor at q_b = 0.99 m_Psi
+    strong = []
+    for nuv in (20, 60, 200):
+        w_, qbm_, ub_, Fb_ = resonance_robust(nuv, -1.98, 0.0, 1, integer=True)
+        Pn = float(-2 * w_.imag) / nuv * math.exp(2 * Fb_ * nuv)
+        strong.append({'m_over_H': nuv, 'omega_r_over_m': float(w_.real) / nuv, 'prefactor': Pn, 'ratio_to_asymptotic': Pn / p_asymptotic(qbm_)})
+    ok4 &= all(abs(s_['ratio_to_asymptotic'] - 1) < 0.05 for s_ in strong) and abs(strong[-1]['ratio_to_asymptotic'] - 1) < 0.01
     out['U3_resonances'] = rows
+    out['U4_strong_binding_prefactor'] = {'q_b_over_m': 0.99, 'rows': strong, 'P_asymptotic': p_asymptotic(0.99)}
     rep.check('U3_resonances', ok3, 'outgoing waves on both sides: the resonances of the two copies coincide, the 16 x 16 matching has an '
-              'eight-dimensional kernel, and omega_r/m_Psi -> omega_b/m_Psi of UM-3: %s' % '; '.join(
-                  '(%g, %g): %s -> %.4f' % (r_['mu_L'], r_['mu_R'], ', '.join('%.4f' % s['omega_r_over_m'] for s in r_['series']),
-                                             r_['series'][0]['omega_b_UM3_over_m']) for r_ in rows))
+              'eight-dimensional kernel, and omega_r/m_Psi -> omega_b/m_Psi of UM-3: %s; the remainder of the first-order formula '
+              'omega_b (1 - H/(2 q_b)) times (m_Psi/H)^2 at m_Psi/H = 400, 800, 1600, 3200: %s, converging like H/m_Psi to %s: the '
+              'first-order shift is exact and the rest is of the second order in H/m_Psi' % (
+                  '; '.join('(%g, %g): %s -> %.4f' % (r_['mu_L'], r_['mu_R'], ', '.join('%.4f' % s['omega_r_over_m'] for s in r_['series']),
+                                                       r_['series'][0]['omega_b_UM3_over_m']) for r_ in rows),
+                  '; '.join('(%g, %g): %s' % (r_['mu_L'], r_['mu_R'], ', '.join('%.4f' % x['remainder_times_nu2'] for x in r_['first_order_remainder']))
+                            for r_ in rows), ', '.join('%.3f' % r_['second_order_coefficient'] for r_ in rows)))
     rep.check('U4_widths', ok4, 'd ln Gamma/d(m_Psi/H) between m_Psi/H = 30 and 40: %s against -2F(u_b) = %s (F(u) = ln((1 + '
-              'sqrt(1 - u^2))/u) - sqrt(1 - u^2)); Gamma/m_Psi at m_Psi/H = 40: %s' % (
+              'sqrt(1 - u^2))/u) - sqrt(1 - u^2)); the prefactor Gamma e^{2F m_Psi/H}/m_Psi at m_Psi/H = 100, 1000, 4000: %s, approaching '
+              'the derived asymptotic value (2/e)(q_b/m_Psi)^2 = %s like H/m_Psi; at q_b = 0.99 m_Psi (m_Psi/H = 20, 60, 200) %s of '
+              'the asymptotic value %.4f' % (
                   ', '.join('%.4f' % r_['slopes_dlnGamma_dnu'][-1] for r_ in rows), ', '.join('%.4f' % r_['predicted_slope'] for r_ in rows),
-                  ', '.join('%.2e' % r_['series'][-1]['Gamma_over_m'] for r_ in rows)))
+                  '; '.join(', '.join('%.5f' % x['prefactor'] for x in r_['prefactor_vs_asymptotic']) for r_ in rows),
+                  ', '.join('%.5f' % r_['P_asymptotic'] for r_ in rows), ', '.join('%.4f' % s_['ratio_to_asymptotic'] for s_ in strong),
+                  p_asymptotic(0.99)))
 
-    # ---------------- U5: dispersion (boost invariance, um4_bulk.py B7)
-    out['U5_dispersion'] = 'omega^2 = k^2 + omega_0^2 for every state (boosts of the fold), group velocity below 1'
-    rep.check('U5_dispersion', True, 'the bulk equation and the portal terms are invariant under the boosts of the fold (um4_bulk.py B7): '
-              'a resonance with the complex energy omega_0 at rest has omega^2 = k^2 + omega_0^2 and moves slower than light')
+    # ---------------- U5: the dispersion of a resonance, computed: the boosted resonance solves the equation of a moving state
+    nu5, k5 = 30, 0.3                                      # m_Psi/H and the momentum along x3 in units of m_Psi
+    w0, _ = resonance(nu5, -1.0, 0.0, 1)
+    w0c = complex(w0)
+    Vp5, Vm5 = outgoing16(w0c, nu5)
+    N16 = sla.expm(TUP[0] @ (-1.0 * PLN))
+    U5_, s5_, Vh5 = np.linalg.svd(np.hstack([Vp5, -N16 @ Vm5]))
+    ker5 = Vh5.conj().T[:, -8:]
+    ev0, vec0 = np.linalg.eig(M0)
+    E0 = vec0[:, np.isclose(ev0, 1)]
+    F0 = -1j * M1 @ E0
+    kz = k5 * nu5                                           # k in units of H
+    S34 = 0.5 * TUP[3] @ TUP[4]                             # the boost along x3 (um4_bulk.py B7)
+    beta = np.arcsinh(kz / w0c)                             # complex rapidity: omega_0 cosh(beta) = omega, omega_0 sinh(beta) = k
+    Sb = sla.expm(beta * S34)
+    wk = np.sqrt(w0c ** 2 + kz ** 2)
+    Mk = -1j * TUP[0] @ TUP[3]
+    worst5 = 0.0
+    mp.mp.dps = 30
+    for side in (1, -1):
+        coef = ker5[:8, :] if side == 1 else ker5[8:, :]
+        for s_v in (0.05, 0.4, 1.2, 2.5):
+            def prof(sv):
+                xi = w0c * math.exp(sv)
+                pre = complex(mp.sqrt(xi))
+                h1 = complex(mp.hankel1(nu5 - 0.5, xi)) * pre
+                h2 = complex(mp.hankel1(nu5 + 0.5, xi)) * pre
+                basis = (h1 * E0 + 1j * h2 * F0) if side == 1 else (h1 * F0 - 1j * h2 * E0)
+                return Sb @ (basis @ coef)
+            hs = 1e-6
+            dchi = (prof(s_v + hs) - prof(s_v - hs)) / (2 * hs)
+            # on sigma < 0 the coordinate is -s_v: d/d sigma = -d/ds, and e^{H|sigma|} = e^{s_v}
+            lhs = dchi if side == 1 else -dchi
+            rhs = (nu5 * M0 + math.exp(s_v) * (wk * M1 + kz * Mk)) @ prof(s_v)
+            worst5 = max(worst5, float(np.linalg.norm(lhs - rhs) / np.linalg.norm(rhs)))
+    # the matching at the fold of the boosted states
+    chi_p = Sb @ (Vp5 @ ker5[:8, :])
+    chi_m = Sb @ (Vm5 @ ker5[8:, :])
+    match5 = float(np.linalg.norm(chi_p - N16 @ chi_m) / np.linalg.norm(chi_p))
+    comm5 = float(np.abs(S34 @ N16 - N16 @ S34).max())
+    ok5 = worst5 < 1e-6 and match5 < 1e-9 and comm5 < 1e-12
+    out['U5_dispersion'] = {'m_over_H': nu5, 'k_over_m': k5, 'omega_0_over_m': [w0c.real / nu5, w0c.imag / nu5],
+                            'omega_over_m': [wk.real / nu5, wk.imag / nu5], 'ode_residual': worst5, 'fold_matching_residual': match5,
+                            'boost_commutes_with_fold_matching': comm5,
+                            'group_velocity_real_part': float((kz / wk).real)}
+    rep.check('U5_dispersion', ok5, 'the resonance at rest (m_Psi/H = %d, (mu_L, mu_R) = (-1, 0), omega_0 = (%.6f - %.2e i) m_Psi), boosted '
+              'along x3 with the complex rapidity asinh(k/omega_0) (k = %.1f m_Psi), solves the 16-component equation of a moving state, '
+              'chi\' = (m_Psi M0 + e^{H|sigma|}(omega M1 + k M_k)) chi with omega = sqrt(omega_0^2 + k^2), on both sides (largest relative '
+              'residual %.1e) and the matching at the fold (%.1e; the boost commutes with it, %.1e): a resonance moving with the momentum '
+              'k has omega^2 = omega_0^2 + k^2, the group velocity Re(k/omega) = %.4f below 1' % (
+                  nu5, w0c.real / nu5, -w0c.imag / nu5 * 2, k5, worst5, match5, comm5, float((kz / wk).real)))
 
-    # ---------------- U6: the lifetime condition (ESTIMATE)
+    # ---------------- U6: the lifetime condition for every binding
     hbar = 6.582119569e-25                               # GeV s
     t0 = 13.8e9 * 3.15576e7                              # s
     prop = json.loads((HERE.parent / 'outputs' / 'propagators.json').read_text())
     Hmin = prop['P5_bounds']['H_min_from_Z_invisible_width_GeV']
-    # prefactor from the computed widths of the case (-1, 0) at nu = 40: Gamma = P m e^{-2 F nu}
-    r0 = rows[0]['series'][-1]
-    P = r0['Gamma_over_m'] / math.exp(-2 * rows[0]['F_wkb'] * 40)
+    bindings = [0.1 / math.sqrt(1.01), 0.3, 0.5, 0.7, 0.8, 0.9, 0.95, 0.99, 0.999]
+    lifetimes = (1.0, 160.0 / 13.8, 100.0)
     est = []
-    for life in (1.0, 100.0):
+    for life in lifetimes:
         Gmax = hbar / (life * t0)
-        for qb_over_wb in (0.1, 1 / math.sqrt(3)):
-            ub = 1 / math.sqrt(1 + qb_over_wb ** 2)
-            Fb = float(F_wkb(ub))
-            # m/H = ln(P u_b (m/H) H / Gamma_max)/(2F), solved by iteration at H = H_min
-            nu_ = 10.0
-            for _ in range(60):
-                nu_ = math.log(P * nu_ * Hmin / Gmax) / (2 * Fb)
-            est.append({'lifetime_over_t0': life, 'Gamma_max_GeV': Gmax, 'q_b_over_omega_b': qb_over_wb, 'u_b': ub, 'F': Fb,
-                        'm_over_H_min': nu_, 'm_Psi_min_GeV': nu_ * Hmin, 'omega_b_min_GeV': ub * nu_ * Hmin})
-    out['U6_lifetime'] = {'H_min_GeV': Hmin, 'prefactor_P': P, 'estimates': est}
-    ok6 = all(e_['m_over_H_min'] > 1 for e_ in est) and all(e_['omega_b_min_GeV'] > 1e6 for e_ in est)
-    rep.check('U6_lifetime_condition', ok6, 'ESTIMATE: Gamma ~ P m_Psi e^{-2F(u_b) m_Psi/H} (P = %.2f from the widths of U4) below hbar/t_0 '
-              '(lifetime t_0 = 13.8 Gyr) or hbar/(100 t_0); with H at its lower bound %.0f GeV (um4_propagators.py P5): %s' % (
-                  P, Hmin, '; '.join('lifetime %g t_0, q_b/omega_b = %.3f: m_Psi/H > %.3g, omega_b > %.2e GeV' % (
-                      e_['lifetime_over_t0'], e_['q_b_over_omega_b'], e_['m_over_H_min'], e_['omega_b_min_GeV']) for e_ in est)))
+        for qb_m in bindings:
+            r6 = lifetime_bound(qb_m, Hmin, Gmax)
+            r6.update({'lifetime_over_t0': life, 'Gamma_max_GeV': Gmax})
+            est.append(r6)
+    req = [e_ for e_ in est if abs(e_['lifetime_over_t0'] - 160.0 / 13.8) < 1e-9]
+    one = [e_ for e_ in est if e_['lifetime_over_t0'] == 1.0]
+    mono = all(a_['omega_b_min_GeV'] > b_['omega_b_min_GeV'] for grp in (one, req) for a_, b_ in zip(grp[:-1], grp[1:]))
+    exact_ok = (all(abs(e_['P_exact_over_asymptotic'] - 1) < 0.04 for e_ in est if e_['method'] == 'exact width')
+                and all(abs(e_['P_exact_over_asymptotic'] - 1) < 0.01 for e_ in est if e_['method'] == 'exact width'
+                        and e_['m_over_H_min'] > 1000))
+    half = [e_ for e_ in one if abs(e_['q_b_over_m'] - 0.5) < 1e-12][0]
+    ok6 = (mono and exact_ok and 1.0e3 < half['m_over_H_min'] < 1.2e3 and 2.2e6 < half['omega_b_min_GeV'] < 2.6e6
+           and min(e_['omega_b_min_GeV'] for e_ in req) < 1e4)
+    out['U6_lifetime'] = {'H_min_GeV': Hmin, 'requirement': 'tau > 160 Gyr = 11.6 t_0 (decay into invisible relativistic particles: '
+                                                         'Audren et al., JCAP 12 (2014) 028)',
+                          'prefactor_asymptotic': '(2/e) (q_b/m_Psi)^2', 'rows': est}
+    rep.check('U6_lifetime_condition', ok6, 'Gamma < hbar/tau at H = %.0f GeV (um4_propagators.py P5), with the exact widths at the bound '
+              '(their prefactor within %s of the asymptotic (2/e)(q_b/m_Psi)^2) or the derived asymptotic width for weak binding; '
+              'for the lifetime 160 Gyr (11.6 t_0, the observed bound for an invisible decay): %s; for t_0: q_b = m_Psi/2 needs '
+              'm_Psi/H > %.4g (omega_b > %.3g GeV): the bound on omega_b falls with the binding and vanishes as q_b -> m_Psi' % (
+                  Hmin, '4 per cent (1 per cent where m_Psi/H > 1000)', '; '.join('q_b/m_Psi = %.4g: m_Psi/H > %.4g, omega_b > %.3g GeV' % (
+                      e_['q_b_over_m'], e_['m_over_H_min'], e_['omega_b_min_GeV']) for e_ in req),
+                  half['m_over_H_min'], half['omega_b_min_GeV']))
 
     # ---------------- U7: the Krein form near the fold
     B = 1j * SIG16 @ TUP[4]
