@@ -641,6 +641,10 @@ changed in UM-4:
   symbols" of the document, so that the list after a display names only the symbols of that display.
 * 189 checks in 20 programs, all passing (`um4_geometry.py` 11, `um4_krein.py` 9, `um4_thermal.py` 9; the rest unchanged); the
   documents rebuilt (md, tex, pdf) without overfull boxes.
+* Verified from a fresh clone of commit `2bf1568` (2026-10-25, 20:48 to 21:06 PDT): every module under `timeout -k 5 423`, the
+  Kohn-Sham module in its four parts from scratch, 189/189 checks (the longest calculation 260 s); the 40 output and report files
+  equal to the committed ones value by value apart from run times; the symbol and fold checks passed; every document rebuilt
+  identically (md, tex, pdf), apart from the run time of the matrices program quoted in `dirac matrices` (39 s against 37 s).
 
 How to continue: as in 0.19 below (the Markdown files `universe_model_4/NAME.md` are the sources of the documents; the order of the
 modules is in `universe_model_4/README.md`: `um4_propagators.py` before `um4_foldsources.py`, `um4_causality.py`, `um4_spectra.py`
