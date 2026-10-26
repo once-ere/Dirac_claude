@@ -1,0 +1,28 @@
+{
+ "script": "universe_model_4/code/um4_flavour.py",
+ "checks": [
+  {
+   "name": "F1_solar_survival",
+   "passed": true,
+   "detail": "P_ee(E) from the exact flavour evolution through the Sun: pp 0.267 MeV 0.545, 7Be 0.862 MeV 0.513, pep 1.44 MeV 0.508, 8B 5 MeV 0.336, 8B 8.1 MeV 0.308, 8B 10 MeV 0.302, 8B 15 MeV 0.295 (unchanged to 1e-6 with half the step); equal to the adiabatic formula of FE-50 to 1e-3, the crossing probability of the exponential profile is below 1e-10 (the Sun is adiabatic); limits: vacuum average 0.553 at low energy, full MSW 0.290 at high energy; Borexino: pp 0.57 +- 0.09 (UM-4 0.545), 7Be 0.53 +- 0.05 (UM-4 0.513), pep 0.43 +- 0.11 (UM-4 0.508), 8B 0.37 +- 0.08 (UM-4 0.308)"
+  },
+  {
+   "name": "F2_supernova_envelope",
+   "passed": true,
+   "detail": "exact three-flavour evolution at 15 MeV from 0.2 r_H (3367 km normal, 3400 km inverted ordering) to 5 r_L = 365974 km through rho = 1e4 (r/1e9 cm)^-3 g/cm^3: NO nu 0.0220, NO anti 0.6816, IO nu 0.2963, IO anti 0.0220; the resonances at r_H = 16833 km (normal ordering, |m3^2 - m1^2| = 0.002511 eV^2), 17002 km (inverted, 0.002437 eV^2) and r_L = 73195 km are adiabatic (gamma_H = 215 and 210, gamma_L = 655, P_LZ = 0), so a nu_e leaves as nu_3 (normal ordering, P_ee = |U_e3|^2 = 0.0220) or nu_2 (inverted, |U_e2|^2 = 0.2963), an anti-nu_e as anti-nu_1 (|U_e1|^2 = 0.6816) or anti-nu_3 (|U_e3|^2); agreement to 1e-4"
+  },
+  {
+   "name": "F3_fast_instability_neutrinosphere",
+   "passed": true,
+   "detail": "half-isotropic emission from R_e = 30 km and R_ebar = 27 km seen at r = 40 km: the ELN crosses for alpha > (1 - mu_ebar)/(1 - mu_e) = 0.7744; alpha = 0.50: crossing False, growth rate 3.19e-18 (m = 1); alpha = 0.75: crossing False, growth rate 2.03e-18 (m = 0); alpha = 0.80: crossing True, growth rate 0.0137 (m = 0), growth length (factor e) 22 cm; alpha = 0.95: crossing True, growth rate 0.0556 (m = 0), growth length (factor e) 5.4 cm; alpha = 1.20: crossing True, growth rate 0.0925 (m = 0), growth length (factor e) 3.2 cm; at every unstable solution FE-51 holds (relative residual < 1e-8); sqrt2 G_F n_e = 3.34 /cm for L = 5e52 erg/s, <E> = 12 MeV (n_e = 5.19e+32 /cm^3 at 40 km): the instability grows within centimetres wherever the ELN crosses and not at all without a crossing"
+  },
+  {
+   "name": "F4_equipartition_heating",
+   "passed": true,
+   "detail": "FE-52 on 1e5 random occupations: the electron lepton number and the numbers of neutrinos and antineutrinos are conserved to 4.4e-16, every occupation stays in [0.001, 1.000], a second application changes nothing (7.4e-17), the Pauli bound is active in 22.3% of the cases; in the gain region (number and energy conserved in every energy bin to 2.3e-16) the charged-current heating changes by the factor 0.96 (accretion phase (0.2 s)), 0.86 (accretion phase, softer heavy flavours), 1.12 (end of accretion), 1.55 (cooling phase (comparable luminosities)) (ESTIMATE): equipartition removes absorbable nu_e and anti-nu_e and hardens their spectra, so it lowers the heating when the heavy-lepton luminosity is well below the electron-flavour one (accretion phase) and raises it when they are comparable; the sign depends on the spectra, as in the transport simulations of Gogilashvili and Tamborra, where flavour conversion enhances or suppresses the explodability and on the whole reduces the energy deposited behind the shock"
+  }
+ ],
+ "passed": 4,
+ "total": 4,
+ "all_passed": true
+}

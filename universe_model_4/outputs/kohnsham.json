@@ -1,0 +1,1257 @@
+{
+ "H": 0.0001,
+ "K1": {
+  "krein16": [
+   4,
+   4
+  ],
+  "kreinW": [
+   1,
+   1
+  ],
+  "omega_16": 0.9537799411934044,
+  "omega_W": 0.9537799411934045,
+  "omega_W_at_2H": 0.9536201302227703,
+  "omega_first_order_at_2H": 0.95362122168314,
+  "omega_first_order_in_H": 0.9537802115500429,
+  "omega_flat": 0.9539392014169457,
+  "sv16": [
+   6.569255016718641e-17,
+   1.8186943517585582e-16,
+   2.407408822801129e-16,
+   3.0154076647836165e-16,
+   4.18165446690321e-16,
+   4.477356317845645e-16,
+   5.640030594821523e-16,
+   7.649974448060769e-16,
+   1.414213562373095
+  ],
+  "svW": [
+   1.0907061925396223e-16,
+   7.674273026319697e-16,
+   1.4142135623730947,
+   1.4142135623730951
+  ],
+  "validation": {
+   "box_L": 20.0,
+   "box_h": 0.02,
+   "box_level": 0.8616233418320272,
+   "m_over_H": 200,
+   "mu_L": -1.0,
+   "omega_flat": 0.8660254037844386,
+   "resonance_Gamma": 4.783043512488194e-10,
+   "resonance_omega_r": 0.8616233402534861
+  }
+ },
+ "K10": {
+  "m_Psi_GeV": 2805922.308261581,
+  "omega_b_GeV": 2430000.0,
+  "rows": [
+   {
+    "G_KS_Planck_extra_times": 4.716163864617924e-30,
+    "G_KS_natural_sizes": 5.725141202901336e-68,
+    "density": "near the Sun",
+    "n_chi_GeV3": 1.2647745793339666e-48,
+    "n_chi_per_cm3": 1.646090534979424e-07,
+    "rho_GeV_per_cm3": 0.4,
+    "w_chi_natural_sizes": 3.066186110035114e-69
+   },
+   {
+    "G_KS_Planck_extra_times": 1.490826559244372e-35,
+    "G_KS_natural_sizes": 1.8097743856491412e-73,
+    "density": "mean of the universe today",
+    "n_chi_GeV3": 3.998078922732602e-54,
+    "n_chi_per_cm3": 5.203456790123457e-13,
+    "rho_GeV_per_cm3": 1.26444e-06,
+    "w_chi_natural_sizes": 9.692520912431999e-75
+   }
+  ],
+  "w_over_G_dilute": 0.0535565150512141
+ },
+ "K4": {
+  "fitted_exponent": 0.9999905366471138,
+  "predicted": 1.0
+ },
+ "K5": {
+  "negative_G_converged": [
+   true,
+   true
+  ],
+  "negative_G_omega": [
+   0.953769725061896,
+   0.9527538942306689
+  ],
+  "proper_density_decay_rates_far": [
+   0.5781344162456599,
+   0.5781283041722856,
+   0.5780671822118494,
+   0.5774558399076003,
+   0.5713301320274956,
+   0.5088257689238804,
+   0.47309058668897225,
+   0.43659104086176903,
+   0.39927222018049857,
+   0.3610500158358382,
+   0.3217938522552726,
+   0.2812968006687183,
+   0.2392219979765724,
+   0.19500560484250132
+  ]
+ },
+ "K6": {
+  "domega_dmuL_finite_difference": 0.15694958677425763,
+  "flat_formula_domega_dmuL": 0.15724272550828775,
+  "kappa_H": -0.3,
+  "relative_difference": 2.6959157970450987e-05,
+  "rhoL0_fold": 0.1569453555455544,
+  "sign_of_kappa_H": "negative: c_Phi < 0 (mu_L0 < 0) and rho_hat_L0(0) > 0",
+  "solution": {
+   "E_int_per_particle": 0.006464615066289692,
+   "G": 0.1,
+   "S_beyond_box": 475.4111230743463,
+   "S_inside_box": 32.54437976275356,
+   "S_times_H": 0.05079555028370999,
+   "capped": false,
+   "converged": true,
+   "energy_per_particle": 0.9061144812922973,
+   "free_barrier_2F": 0.05077941902647054,
+   "iterations": 13,
+   "krein_charges_16": [
+    -1.0,
+    -1.0,
+    -1.0,
+    -1.0
+   ],
+   "krein_eig": [
+    -1.0497770809078553
+   ],
+   "krein_offdiagonal_16": 3.4486275143411695e-17,
+   "mean_field_norm_max": 0.07309974986042705,
+   "muL": -0.8731284616793681,
+   "omega": 0.912579096358587,
+   "pressure_over_energy": 0.007134435217357835,
+   "proper_density_decay_rate_far": 0.8024697430234697,
+   "proper_density_far": 3.960345545254137e-14,
+   "residual_KS_ode_16": 6.224637559141992e-05,
+   "residual_fold_matching_16": 4.1795127795052417e-16,
+   "residual_selfconsistency": 1.4287692996349453e-11,
+   "rhoL_fold": 0.23814579737612948,
+   "scalar_density_decay_rate_far": 0.8031697430234698,
+   "singular_values": [
+    1.858337158857991e-16,
+    0.00784918491722568,
+    1.4107692580232905,
+    1.4142135623731127
+   ],
+   "tunnelling_exponent_S": 507.95550283709986
+  },
+  "trapezoid_normalisation_error": 2.6999999999999996e-05,
+  "without_feedback_omega": 0.9635288265208107
+ },
+ "K7": [
+  [
+   1e-06,
+   5.3556515051214096e-08
+  ],
+  [
+   1e-05,
+   5.355620637753648e-07
+  ],
+  [
+   0.0001,
+   5.3553119543782215e-06
+  ],
+  [
+   0.001,
+   5.352224150755391e-05
+  ],
+  [
+   0.01,
+   0.0005321249189092208
+  ],
+  [
+   0.1,
+   0.005001870954944936
+  ]
+ ],
+ "K8": {
+  "G_largest_with_lifetime_above_t0": 0.14690414721072914,
+  "G_omega_S_times_H_2F": [
+   [
+    1e-06,
+    0.9537800433501791,
+    0.01913940718439616,
+    0.019139406945856696
+   ],
+   [
+    1e-05,
+    0.9537809627571008,
+    0.019138829984963954,
+    0.01913882759744978
+   ],
+   [
+    0.0001,
+    0.9537901564256819,
+    0.01913305858451114,
+    0.019133034705958174
+   ],
+   [
+    0.001,
+    0.9538820530351348,
+    0.019075403955190005,
+    0.01907516503668527
+   ],
+   [
+    0.01,
+    0.9547969961170664,
+    0.018504784806348987,
+    0.01850238238560653
+   ],
+   [
+    0.1,
+    0.9635288265208107,
+    0.013380024991774207,
+    0.01335451846460245
+   ],
+   [
+    0.15,
+    0.9680339400882453,
+    0.010974946407015481,
+    0.01093523802189822
+   ],
+   [
+    0.2,
+    0.9722758864788258,
+    0.008870249274531426,
+    0.008815129017145984
+   ],
+   [
+    0.25,
+    0.9762420736403423,
+    0.007052071236468472,
+    0.006980090542595241
+   ],
+   [
+    0.3,
+    0.9799199152573399,
+    0.005505151531670172,
+    0.005414558094168076
+   ],
+   [
+    0.35,
+    0.9832966253904841,
+    0.0042129216772065735,
+    0.004101566606591667
+   ],
+   [
+    0.4,
+    0.9863587733735627,
+    0.0031576493311659534,
+    0.003022850468650695
+   ],
+   [
+    0.45,
+    0.9890913328449971,
+    0.002320675800653848,
+    0.0021590064452780555
+   ],
+   [
+    0.5,
+    0.9914755994284525,
+    0.001682843953536861,
+    0.0014897795703622818
+   ]
+  ],
+  "S_min_lifetime_t0": 110.98650923828674,
+  "m_over_H": 10000.0
+ },
+ "K9": {
+  "H": 1e-07,
+  "first_order_dw_over_G": 0.011208893677109682,
+  "free_barrier_2F_per_unit_m_over_H": 1.8110005894057812e-05,
+  "krein_negative_orbitals": 4,
+  "muL": -0.06,
+  "omega_16": 0.9995482296766555,
+  "omega_W_at_2H": 0.9995465543063746,
+  "omega_b_flat": 0.9995498987044118,
+  "omega_first_order_at_2H": 0.9995465668714161,
+  "omega_first_order_in_H": 0.9995482327879139,
+  "q_b": 0.03,
+  "q_b_over_omega_b": 0.03001350911933976,
+  "rows": [
+   {
+    "E_int_per_particle": 5.599747000254827e-07,
+    "G": 0.0001,
+    "S_beyond_box": 151.25671785451433,
+    "S_inside_box": 29.172625143065847,
+    "S_times_H": 1.8042934299758017e-05,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9995487898444052,
+    "free_barrier_2F": 1.804268425053407e-05,
+    "iterations": 6,
+    "krein_charges_16": [
+     -0.9999999999999998,
+     -0.9999999999999998,
+     -0.9999999999999999,
+     -0.9999999999999999
+    ],
+    "krein_eig": [
+     -16.701101760536016
+    ],
+    "krein_offdiagonal_16": 3.7293510171796274e-17,
+    "mean_field_norm_max": 5.645704512058527e-06,
+    "muL": -0.06,
+    "omega": 0.9995493498191053,
+    "pressure_over_energy": 5.602274803540618e-07,
+    "proper_density_decay_rate_far": 0.05701527756651751,
+    "proper_density_far": 4.7986217331387534e-17,
+    "ratio_to_first_order": 0.9993336381473661,
+    "residual_KS_ode_16": 9.59976665728181e-06,
+    "residual_fold_matching_16": 2.038957060373037e-15,
+    "residual_selfconsistency": 2.1203047740858538e-11,
+    "rhoL_fold": 0.014969072315380954,
+    "scalar_density_decay_rate_far": 0.05701597756651751,
+    "singular_values": [
+     1.491256757100727e-15,
+     8.824165711795664e-06,
+     1.414213297620619,
+     1.414213562373095
+    ],
+    "tunnelling_exponent_S": 180.4293429975802
+   },
+   {
+    "E_int_per_particle": 5.557442483378334e-06,
+    "G": 0.001,
+    "S_beyond_box": 145.61867035745024,
+    "S_inside_box": 28.849833932024854,
+    "S_times_H": 1.744685042894751e-05,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9995538102071196,
+    "free_barrier_2F": 1.7444335647931464e-05,
+    "iterations": 6,
+    "krein_charges_16": [
+     -0.9999999999999998,
+     -0.9999999999999998,
+     -0.9999999999999998,
+     -0.9999999999999998
+    ],
+    "krein_eig": [
+     -16.79606493895404
+    ],
+    "krein_offdiagonal_16": 3.843051895689191e-17,
+    "mean_field_norm_max": 5.613784294660004e-05,
+    "muL": -0.06,
+    "omega": 0.9995593676496031,
+    "pressure_over_energy": 5.559923264388102e-06,
+    "proper_density_decay_rate_far": 0.056306881386971604,
+    "proper_density_far": 6.326484361614548e-16,
+    "ratio_to_first_order": 0.9936728162879495,
+    "residual_KS_ode_16": 1.067465499193498e-05,
+    "residual_fold_matching_16": 6.836879710653607e-16,
+    "residual_selfconsistency": 1.1713618591654233e-11,
+    "rhoL_fold": 0.014884438760426024,
+    "scalar_density_decay_rate_far": 0.0563075813869716,
+    "singular_values": [
+     5.287062733717514e-16,
+     8.801751763332979e-05,
+     1.4142109191110244,
+     1.4142135623730958
+    ],
+    "tunnelling_exponent_S": 174.4685042894751
+   },
+   {
+    "E_int_per_particle": 5.1337393377252024e-05,
+    "G": 0.01,
+    "S_beyond_box": 96.40976217140107,
+    "S_inside_box": 25.626642042675154,
+    "S_times_H": 1.2203640421407623e-05,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9996019181344397,
+    "free_barrier_2F": 1.2176874492578205e-05,
+    "iterations": 8,
+    "krein_charges_16": [
+     -1.0,
+     -1.0,
+     -1.0,
+     -1.0
+    ],
+    "krein_eig": [
+     -17.810079307630446
+    ],
+    "krein_offdiagonal_16": 3.7299570443732017e-17,
+    "mean_field_norm_max": 0.0005294164272968087,
+    "muL": -0.06,
+    "omega": 0.9996532555278169,
+    "pressure_over_energy": 5.1357838001214695e-05,
+    "proper_density_decay_rate_far": 0.0491704006485545,
+    "proper_density_far": 1.0003415350184165e-13,
+    "ratio_to_first_order": 0.9369867730651662,
+    "residual_KS_ode_16": 2.07631476644887e-05,
+    "residual_fold_matching_16": 8.775287264629173e-16,
+    "residual_selfconsistency": 1.6088887870135914e-11,
+    "rhoL_fold": 0.014036995326174159,
+    "scalar_density_decay_rate_far": 0.0491711006485545,
+    "singular_values": [
+     4.3378785783117247e-16,
+     0.0008564954448176904,
+     1.4141876083818878,
+     1.4142135623731
+    ],
+    "tunnelling_exponent_S": 122.03640421407623
+   }
+  ]
+ },
+ "L": 40.0,
+ "definition_of_the_fold": "THE FOLD (the definition used in every UM-4 file)\n\nDefinition. The fold is the seven-dimensional surface of the author's eight-dimensional spacetime on which the cosine of\nthe angle z = 6 H x0 of the hidden direction vanishes:\n    (FD-1)  F = { X = (x0, x1, ..., x7) : cos(6 H x0) = 0 };  in one period 0 < z < pi of the metric: z = pi/2, x0 = pi/(12 H).\nX = {x0, ..., x7} are the author's coordinates: x0 the hidden space-like direction, x1, x2, x3 ordinary space, x4 the\ntime, x5, x6, x7 the three extra times; H is the author's constant (an inverse length). The metric of UM-4 depends on x0\nonly through cot(z)^2 and (sin(z)^2)^(1/6), so it repeats with the period pi/(6 H) of x0, and every period 0 < z < pi\ncontains exactly one surface of F, at z = pi/2: F is the union of these copies, one per period (example 2), and \"the\nfold\" without a qualifier is the copy in the period that contains our world. A point of the fold is labelled by the seven\ncoordinates x1, ..., x7, and the metric restricted to the fold (dx0 = 0, z = pi/2) is\n    (FD-2)  ds^2 on F = e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2),\nwith three space-like and four time-like directions; a4 and b4 are the author's two functions of the time x4.\nNotation: ln is the natural logarithm, e Euler's number, exp(y) = e^y, sin, cos and cot = cos/sin the trigonometric\nfunctions, sinh and tanh the hyperbolic functions, |y| the absolute value; f(0+) and f(0-) are the limits of f(sigma) as\nsigma approaches 0 from above and from below.\n\nWhy this surface is called a fold. Measured by the proper distance along the hidden direction,\n    (FD-3)  sigma = sgn(pi/2 - z) ln(sin z)/(6 H),   d sigma = |cot z| dx0,   sin z = e^(-6 H |sigma|)\n(the fold is sigma = 0; the half-period 0 < z < pi/2 is sigma < 0, the half-period pi/2 < z < pi is sigma > 0; the two ends\nof the period, the tips z -> 0 and z -> pi, lie at sigma -> -infinity and sigma -> +infinity), the metric of UM-4 is\n    (FD-4)  ds^2 = d sigma^2 + e^(-2 H |sigma|) [ e^(2 a4) (dx1^2 + dx2^2 + dx3^2) - dx4^2 - e^(-2 a4) b4^2 (dx5^2 + dx6^2 + dx7^2) ].\nIt depends on sigma only through |sigma|. The function W(sigma) = e^(-2 H |sigma|), which multiplies the squared steps of all\nseven directions of the fold (ordinary space, the time and the extra times), is the warp factor of the metric (its square\nroot e^(-H |sigma|) multiplies the lengths). The time x4 is warped like the other directions (the author's order of\n2026-10-25, 13:15 PDT; in UM-3 it was not), so that every surface sigma = const has the light cone of the fold. Four\nproperties make the surface sigma = 0 a fold, and together they single it out within the period:\n  1. It is a mirror. The reflection sigma -> -sigma (that is z -> pi - z, or x0 -> pi/(6 H) - x0) maps the metric to\n     itself, and the fold is the only surface of the period that the reflection leaves in place: the two halves of the\n     period are mirror images of each other, joined along the fold, as the two halves of a folded sheet of paper are\n     joined along the crease.\n  2. The warp factor is largest on it. The warp factor (sin(z)^2)^(1/6) = e^(-2 H |sigma|) equals 1 on the fold and\n     decreases on both sides.\n  3. The metric has a kink on it. The metric is continuous across the fold, but its first derivative along sigma jumps.\n     The extrinsic curvature of the surfaces sigma = const changes sign across the fold,\n        (FD-5)  K^a_b = (1/2) g^ac d_sigma g_cb = -H sgn(sigma) delta^a_b   (all seven directions a, b of the fold)\n     (g_ab the metric components along the fold, g^ab their inverse, d_sigma the derivative with respect to sigma, sgn the\n     sign function, delta^a_b the Kronecker delta, a, b frame indices along the fold); it jumps by -2 H in every direction\n     of the fold. The field equations of gravity of UM-4, G^M_N + Lambda delta^M_N = kappa T^M_N (Einstein gravity: the\n     author's Einstein-Lovelock equations with the weights of the Gauss-Bonnet and cubic terms set to zero; G^M_N the\n     Einstein tensor, Lambda = -21 H^2 the cosmological constant, kappa = 8 pi G_8 the gravitational coupling of eight\n     dimensions, T^M_N the energy-momentum tensor), are linear in the second sigma-derivatives of the metric, so the jump\n     puts a Dirac delta function delta_D(sigma) into them: the metric solves them only if the fold carries a thin source\n     S^a_b, an energy-momentum tensor concentrated on sigma = 0, given by the integral of the equations across the fold\n     (the junction condition of Israel),\n        (FD-11) kappa S^a_b = integral from sigma = 0- to 0+ of d sigma G^a_b = -([K^a_b] - [K] delta^a_b)\n     ([K^a_b] the jump of the extrinsic curvature across the fold, K its trace), with S^4_4 = -(its energy density),\n     S^1_1 = S^2_2 = S^3_3 its pressure along ordinary space and S^5_5 = S^6_6 = S^7_7 its pressure along the extra times; S is\n     T integrated across the fold, an energy per unit volume of the six other directions of the fold (unit GeV^7). For the\n     static block (a4 and b4 constant) and, to the first order in the curvature of the fold divided by H^2, for every fold\n        (FD-12) static block:  kappa S^a_b = -12 H delta^a_b  (a pure tension, kappa lambda_F = 12 H),\n                any fold:      kappa S^a_b = -12 H delta^a_b + (2/(5 H)) Ghat^a_b\n     (Ghat^a_b the Einstein tensor of the metric FD-2 of the fold): the tension plus matter that obeys the Einstein equations\n     of seven dimensions, Ghat^a_b = kappa_7 tau^a_b with kappa_7 = 5 kappa H/2 (tau the matter of the fold), which for frozen\n     extra times are the Friedmann equations of general relativity. The fold is therefore not only a place but a physical\n     object: a thin layer that carries energy and momentum (a brane).\n  4. The author's coordinate x0 degenerates on it. The metric component g_x0x0 = cot(6 H x0)^2 vanishes on the fold and\n     nowhere else in the period; near the fold the proper distance grows with the square of the coordinate distance,\n        (FD-6)  |sigma| = 3 H (x0 - pi/(12 H))^2 [1 + 6 H^2 (x0 - pi/(12 H))^2 + ...],\n     so the two coordinate values on either side of x0 = pi/(12 H) at the same coordinate distance lie at the same proper\n     distance from the fold: the coordinate line of x0 is folded onto the line of proper distances (a fold map, example 5).\n\nWhat lives on the fold. In UM-4 the Higgs doublet (with the author's ad hoc vacuum, a time-dependent choice of its vacuum\nvalue), three generations of quarks and leptons, three right-handed neutrinos and the fold fluid (its tension and the\npressure along the extra times that keeps their volume fixed) live on the fold: they are fields at sigma = 0, functions of\nx1, ..., x4 (no field depends on the extra times). The gauge fields of SU(3)_C x SU(2)_L x U(1)_Y live in the bulk; their\nmassless modes are bound to the fold, so that the photon and the gluons of the four-dimensional world are waves of the bulk\nthat the fold holds, and photons that leave the fold travel through the bulk at the speed of light. dirac16complex (the\nauthor's spinor field of eight dimensions) and gravity live in the bulk sigma != 0 as well as on the fold; the states chi of\ndirac16complex that the fold holds (in UM-4 long-lived resonances) are the part of it near the fold, and the portals\n(couplings between dirac16complex and the fields of the fold) act at sigma = 0. Integrated over the extra times, the fold is\nthe four-dimensional universe that we observe, with the metric diag(e^(2 a4), e^(2 a4), e^(2 a4), -1) in x1, ..., x4. In UM-4\nfiles \"the fold\" means this surface; the examples below use the word for other surfaces with the same properties. The word\nis not used in its other senses: a set of equal energy levels is called degenerate, and a growth by the factor e is called\nan e-folding.\n\nExamples of folds that are meaningful for UM-4.\n  1. Our fold. The fold z = pi/2 of the period that contains our world (FD-1): the seven-dimensional world-volume of the\n     quarks, leptons and the Higgs field, and after the integration over the extra times the four-dimensional universe that\n     we observe.\n  2. The copies of the fold. Because the metric repeats with the period pi/(6 H), every surface\n     x0 = pi/(12 H) + (an integer multiple of pi/(6 H)) is a copy of the fold, one per period. Neighbouring copies are\n     separated by a tip (z a multiple of pi), where the warp factor (sin(z)^2)^(1/6) vanishes and g_x0x0 = cot(z)^2\n     diverges, and which lies at an infinite proper distance from both: in proper distance every copy has its own complete\n     line -infinity < sigma < infinity. A compact direction of length L would give every field a tower of particles with\n     the masses 2 pi n/L, n = 1, 2, ... (a Kaluza-Klein tower); because the copies are infinitely far apart, the period\n     pi/(6 H) of x0 produces no such tower with the spacing 12 H: every field of the bulk has instead a continuum of modes\n     that starts at zero mass, and the fold holds its massless mode.\n  3. A folded sheet of paper. The crease of a folded sheet is a fold in this sense: the two halves are mirror images\n     (property 1) joined along the crease, the sheet is continuous there and its direction changes abruptly (property 3).\n     In UM-4 the direction across the crease is the hidden direction sigma, the seven directions along the crease are\n     x1, ..., x7, and the crease is the fold.\n  4. A folded function. The warp factor e^(-2 H |sigma|) is the simplest folded function: continuous, mirror symmetric,\n     largest at sigma = 0, with a jump of its derivative,\n        (FD-7)  d/d sigma e^(-2 H |sigma|) = -2 H sgn(sigma) e^(-2 H |sigma|),\n                d^2/d sigma^2 e^(-2 H |sigma|) = 4 H^2 e^(-2 H |sigma|) - 4 H delta_D(sigma),\n     whose delta function is the origin of the thin source of property 3. Every metric function of FD-4 depends on sigma\n     through |sigma| and is folded at sigma = 0 in this sense.\n  5. A fold map. In the mathematics of smooth maps the fold (Whitney's fold singularity) is the map u -> u^2 of a line onto\n     a half-line: it folds the line at u = 0, two points +u and -u land on the same point, and the derivative of the map\n     vanishes on the fold. Near the fold the map from the author's coordinate x0 to the distance |sigma| from the fold is\n     of this kind (FD-6), and g_x0x0 = cot(z)^2, the square of the derivative d sigma/d x0, vanishes there.\n  6. The brane of Randall and Sundrum. The five-dimensional metric\n        (FD-8)  dy_RS^2 + e^(-2 k_RS |y_RS|) (dx1^2 + dx2^2 + dx3^2 - dx4^2),\n                lambda_RS = 6 k_RS/kappa_5,   Lambda_RS = -6 k_RS^2/kappa_5\n     (y_RS the proper coordinate across the brane, k_RS the inverse curvature length of the bulk, kappa_5 = 8 pi G_5) has a\n     fold at y_RS = 0 with the properties 1 to 3 (its coordinate y_RS is already the proper distance, so property 4 does\n     not arise); Einstein's equations require there a brane of the tension lambda_RS (Israel's junction condition) and in\n     the bulk the vacuum energy Lambda_RS, and the bulk is otherwise empty. The fold of UM-4 is of the same kind, with every\n     direction of the fold warped by the same factor as in the model of Randall and Sundrum: its static block is a space of\n     constant curvature -H^2 in all eight directions, a vacuum of Einstein gravity with Lambda = -21 H^2, with a fold of pure\n     tension (FD-12), and the graviton is bound to the fold as there. It differs in that the fold has seven dimensions, three\n     of them extra times, in that the space is not cut at the brane (Randall and Sundrum identify the two sides of their\n     brane, one physical side; the fold of UM-4 has two distinct sides, example 7), and in that the gauge fields live in the\n     bulk as well.\n  7. A particle held by a thin layer. A particle held by an attractive thin layer has a wave function that falls off\n     exponentially with the distance on both sides, and the layer makes its derivative jump (for the first-order Dirac\n     equation, the wave function itself). In UM-4 the states chi of dirac16complex near the fold are of this kind only near\n     the fold: at rest and without their self-interaction (the field is Psi = e^((7/2) H |sigma|) chi(sigma) e^(-i omega x4))\n        (FD-9)  chi(sigma) = e^(-q_b |sigma|) chi(0+)   (0 < sigma << sigma_t),\n                chi(sigma) = e^(-q_b |sigma|) chi(0-)   (0 < -sigma << sigma_t),\n                chi(0+) = exp( gamma^(0) (mu_L P_L + mu_R P_R) ) chi(0-),\n                omega_0 = omega_r - i Gamma/2,   omega_r -> sqrt(m_Psi^2 - q_b^2),\n     where mu_L, mu_R are the strengths of the fold for the left- and right-handed halves of dirac16complex (set by the\n     fields of the fold), gamma^(0) = T^0 the Dirac matrix along sigma, P_L, P_R the chiral projectors, m_Psi the bulk\n     mass, q_b = -m_Psi (mu_L + mu_R) tanh(s)/(2 s), s = sqrt(mu_L mu_R) (q_b = -m_Psi mu_L/2 for mu_R = 0), and omega_r\n     tends to the energy omega_b = sqrt(m_Psi^2 - q_b^2) of the bound state of UM-3 when H/q_b -> 0. Because the time is\n     warped, the energy omega of the field enters its equation multiplied by e^(H |sigma|): beyond the turning point\n     sigma_t (omega_r e^(H sigma_t) = m_Psi) the profile oscillates as a wave that leaves the fold, so the state is a\n     resonance of the energy omega_0 at rest and the width Gamma, which falls like e^(-2 F_t(upsilon_b) m_Psi/H) with the\n     tunnelling exponent F_t(upsilon) = ln((1 + sqrt(1 - upsilon^2))/upsilon) - sqrt(1 - upsilon^2) and\n     upsilon_b = omega_b/m_Psi (the tunnelling through the region between the fold and sigma_t). The profile is not a\n     function of |sigma|: it jumps at the fold, chi(0+) != chi(0-).\n  8. The fold as a mirror for dirac16complex. The reflection across the fold acts on the profiles chi(sigma) in two ways,\n        (FD-10)  (R_1 chi)(sigma) = T_0 T_1 T_2 T_3 chi(-sigma),   (R_2 chi)(sigma) = T_0 T_5 T_6 T_7 chi(-sigma)\n     (T_a the author's Dirac matrices; for states at rest R_1 is the reflection across the fold combined with the\n     reflection of ordinary space, R_2 the reflection across the fold combined with the reflection of the extra times).\n     The Krein charge of a state is its share of the conserved charge of dirac16complex, which is indefinite: a state can\n     carry the charge -1 or +1. R_1 is a symmetry of dirac16complex, of gravity and of a mean field of a gas of the\n     particles chi that is the same on both sides of the fold: the four resonances of Krein charge -1 (the particles chi)\n     are even under it and the four of Krein charge +1 are odd, so such a mean field cannot mix the two signs of the\n     indefinite charge. R_2 maps the states of one Krein charge onto those of the other and makes the two sets degenerate\n     without the self-interaction.\n  9. The planes of Horava and Witten. In M-theory (the eleven-dimensional theory whose limits include the superstring\n     theories) on an interval (a circle whose points are identified with their mirror images), the two ten-dimensional\n     planes left in place by the reflection are mirror surfaces (property 1); each carries one E8 gauge group while gravity\n     fills the bulk. As in UM-4, gravity fills the bulk; unlike UM-4, the gauge fields live on the mirror planes (in UM-4\n     they live in the bulk), and the two sides of each plane are identified (one physical side).\n\nWhat is not a fold.\n  * The tips z = 0 and z = pi (mod pi): the mirror exchanges them within a period, but there the warp factor vanishes,\n    g_x0x0 diverges, and they lie at an infinite proper distance; they carry no thin source.\n  * A smooth maximum of a warp factor, such as 1/cosh(H sigma)^2: mirror symmetric and largest at sigma = 0, but without a\n    kink and without a thin source.",
+ "h": 0.03,
+ "muL": -0.6,
+ "muR": 0.0,
+ "regime_I": {
+  "H": 0.0001,
+  "L": 40.0,
+  "continuation_path": [
+   {
+    "G": 1e-06,
+    "converged": true,
+    "iterations": 5,
+    "omega": 0.9537800433501791,
+    "reason": null
+   },
+   {
+    "G": 1e-05,
+    "converged": true,
+    "iterations": 4,
+    "omega": 0.9537809627571008,
+    "reason": null
+   },
+   {
+    "G": 0.0001,
+    "converged": true,
+    "iterations": 4,
+    "omega": 0.9537901564256819,
+    "reason": null
+   },
+   {
+    "G": 0.001,
+    "converged": true,
+    "iterations": 7,
+    "omega": 0.9538820530351348,
+    "reason": null
+   },
+   {
+    "G": 0.01,
+    "converged": true,
+    "iterations": 7,
+    "omega": 0.9547969961170664,
+    "reason": null
+   },
+   {
+    "G": 0.1,
+    "converged": true,
+    "iterations": 9,
+    "omega": 0.9635288265208107,
+    "reason": null
+   },
+   {
+    "G": 0.15,
+    "converged": true,
+    "iterations": 10,
+    "omega": 0.9680339400882453,
+    "reason": null
+   },
+   {
+    "G": 0.2,
+    "converged": true,
+    "iterations": 10,
+    "omega": 0.9722758864788258,
+    "reason": null
+   },
+   {
+    "G": 0.25,
+    "converged": true,
+    "iterations": 10,
+    "omega": 0.9762420736403423,
+    "reason": null
+   },
+   {
+    "G": 0.3,
+    "converged": true,
+    "iterations": 10,
+    "omega": 0.9799199152573399,
+    "reason": null
+   },
+   {
+    "G": 0.35,
+    "converged": true,
+    "iterations": 10,
+    "omega": 0.9832966253904841,
+    "reason": null
+   },
+   {
+    "G": 0.4,
+    "converged": true,
+    "iterations": 10,
+    "omega": 0.9863587733735627,
+    "reason": null
+   },
+   {
+    "G": 0.45,
+    "converged": true,
+    "iterations": 12,
+    "omega": 0.9890913328449971,
+    "reason": null
+   },
+   {
+    "G": 0.5,
+    "converged": true,
+    "iterations": 12,
+    "omega": 0.9914755994284525,
+    "reason": null
+   }
+  ],
+  "first_order_dw_over_G": 0.10216232497565875,
+  "h": 0.03,
+  "negative_G": [
+   {
+    "E_int_per_particle": -5.108415998969343e-06,
+    "G": -0.0001,
+    "S_beyond_box": 167.90835815439053,
+    "S_inside_box": 23.550416114289323,
+    "S_times_H": 0.019145877426867988,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9537748334778949,
+    "free_barrier_2F": 0.019145909261325755,
+    "iterations": 4,
+    "krein_charges_16": [
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002
+    ],
+    "krein_eig": [
+     -1.5928411281342958
+    ],
+    "krein_offdiagonal_16": 3.9275797115587427e-17,
+    "mean_field_norm_max": 5.401392618438718e-05,
+    "muL": -0.6,
+    "omega": 0.953769725061896,
+    "pressure_over_energy": -5.355997893487863e-06,
+    "proper_density_decay_rate_far": 0.5782030057616261,
+    "proper_density_far": -5.783302870591966e-14,
+    "residual_KS_ode_16": 1.3627938964446174e-05,
+    "residual_fold_matching_16": 8.551840628762739e-16,
+    "residual_selfconsistency": 2.420208777015694e-10,
+    "rhoL_fold": 0.15695225065718052,
+    "scalar_density_decay_rate_far": 0.5789030057616261,
+    "singular_values": [
+     5.424701981186471e-16,
+     8.429651280630566e-06,
+     1.4142135623730958,
+     1.4142160912456185
+    ],
+    "tunnelling_exponent_S": 191.45877426867986
+   },
+   {
+    "E_int_per_particle": -0.0005137963157419562,
+    "G": -0.01,
+    "S_beyond_box": 174.08509104442027,
+    "S_inside_box": 23.78181803747869,
+    "S_times_H": 0.019786690908189897,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9532676905464109,
+    "free_barrier_2F": 0.019789861380446694,
+    "iterations": 7,
+    "krein_charges_16": [
+     -0.9999999999999998,
+     -0.9999999999999998,
+     -0.9999999999999998,
+     -0.9999999999999998
+    ],
+    "krein_eig": [
+     -1.5859698748816404
+    ],
+    "krein_offdiagonal_16": 4.010891889643827e-17,
+    "mean_field_norm_max": 0.005424794282548682,
+    "muL": -0.6,
+    "omega": 0.9527538942306689,
+    "pressure_over_energy": -0.0005389842966852776,
+    "proper_density_decay_rate_far": 0.5849125200181798,
+    "proper_density_far": -4.7005466619118955e-12,
+    "residual_KS_ode_16": 1.1440678090346918e-05,
+    "residual_fold_matching_16": 3.76466815143479e-16,
+    "residual_selfconsistency": 9.194758695572223e-13,
+    "rhoL_fold": 0.15763225011991938,
+    "scalar_density_decay_rate_far": 0.5856125200181799,
+    "singular_values": [
+     2.814850083463739e-16,
+     0.0008448852502505738,
+     1.4142135623730954,
+     1.4144667982847177
+    ],
+    "tunnelling_exponent_S": 197.86690908189897
+   }
+  ],
+  "omega_free": 0.9537799411934044,
+  "positive_G": [
+   {
+    "E_int_per_particle": 5.1081132511504054e-08,
+    "G": 1e-06,
+    "S_beyond_box": 167.84602076920228,
+    "S_inside_box": 23.548051074759286,
+    "S_times_H": 0.01913940718439616,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9537799922690465,
+    "first_order_prediction": 0.9537800433557293,
+    "free_barrier_2F": 0.019139406945856696,
+    "iterations": 5,
+    "krein_charges_16": [
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002
+    ],
+    "krein_eig": [
+     -1.5929118065856644,
+     1.5929114264275097
+    ],
+    "krein_offdiagonal_16": 4.372775263327641e-17,
+    "mean_field_norm_max": 5.401152963315459e-07,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9537800433501791,
+    "pressure_over_energy": 5.3556515051214096e-08,
+    "proper_density_decay_rate_far": 0.5781344162456599,
+    "proper_density_far": 5.795562893972783e-16,
+    "residual_KS_ode_16": 1.3650197409265409e-05,
+    "residual_fold_matching_16": 7.770136629838835e-16,
+    "residual_selfconsistency": 2.4942444778244056e-14,
+    "rhoL_fold": 0.1569452865917691,
+    "scalar_density_decay_rate_far": 0.5788344162456599,
+    "singular_values": [
+     5.832178119509633e-16,
+     8.429453969017492e-08,
+     1.4142135370847302,
+     1.4142135623730947
+    ],
+    "target": true,
+    "tunnelling_exponent_S": 191.39407184396157
+   },
+   {
+    "E_int_per_particle": 5.108086272341246e-07,
+    "G": 1e-05,
+    "S_beyond_box": 167.8404666158295,
+    "S_inside_box": 23.54783323381003,
+    "S_times_H": 0.019138829984963954,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9537804519484735,
+    "first_order_prediction": 0.9537809628166541,
+    "free_barrier_2F": 0.01913882759744978,
+    "iterations": 4,
+    "krein_charges_16": [
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002
+    ],
+    "krein_eig": [
+     -1.5929181052353516
+    ],
+    "krein_offdiagonal_16": 3.7555429231172424e-17,
+    "mean_field_norm_max": 5.401131611033918e-06,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9537809627571008,
+    "pressure_over_energy": 5.355620637753648e-07,
+    "proper_density_decay_rate_far": 0.5781283041722856,
+    "proper_density_far": 5.796656636295339e-15,
+    "residual_KS_ode_16": 1.3652180753252476e-05,
+    "residual_fold_matching_16": 8.125275598211277e-16,
+    "residual_selfconsistency": 1.2569777097422613e-09,
+    "rhoL_fold": 0.15694466600532664,
+    "scalar_density_decay_rate_far": 0.5788283041722856,
+    "singular_values": [
+     1.7900401836134528e-16,
+     8.429436412258196e-07,
+     1.4142133094897724,
+     1.4142135623730938
+    ],
+    "target": true,
+    "tunnelling_exponent_S": 191.38829984963954
+   },
+   {
+    "E_int_per_particle": 5.107816472724112e-06,
+    "G": 0.0001,
+    "S_beyond_box": 167.7849310501367,
+    "S_inside_box": 23.545654794974684,
+    "S_times_H": 0.01913305858451114,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9537850486092092,
+    "first_order_prediction": 0.9537901574259019,
+    "free_barrier_2F": 0.019133034705958174,
+    "iterations": 4,
+    "krein_charges_16": [
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002
+    ],
+    "krein_eig": [
+     -1.5929810968613656
+    ],
+    "krein_offdiagonal_16": 3.7925796186046645e-17,
+    "mean_field_norm_max": 5.4009180411299605e-05,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9537901564256819,
+    "pressure_over_energy": 5.3553119543782215e-06,
+    "proper_density_decay_rate_far": 0.5780671822118494,
+    "proper_density_far": 5.807605638388813e-14,
+    "residual_KS_ode_16": 1.3672013924508257e-05,
+    "residual_fold_matching_16": 6.478412578367072e-16,
+    "residual_selfconsistency": 7.481608293997564e-09,
+    "rhoL_fold": 0.15693845990550176,
+    "scalar_density_decay_rate_far": 0.5787671822118494,
+    "singular_values": [
+     3.547189488081793e-16,
+     8.429260577738052e-06,
+     1.41421103357201,
+     1.4142135623730427
+    ],
+    "target": true,
+    "tunnelling_exponent_S": 191.3305858451114
+   },
+   {
+    "E_int_per_particle": 5.105117323904449e-05,
+    "G": 0.001,
+    "S_beyond_box": 167.2301720782876,
+    "S_inside_box": 23.52386747361243,
+    "S_times_H": 0.019075403955190005,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9538310018618958,
+    "first_order_prediction": 0.95388210351838,
+    "free_barrier_2F": 0.01907516503668527,
+    "iterations": 7,
+    "krein_charges_16": [
+     -1.0,
+     -1.0,
+     -1.0,
+     -1.0
+    ],
+    "krein_eig": [
+     -1.5936115263914923
+    ],
+    "krein_offdiagonal_16": 3.908369699616144e-17,
+    "mean_field_norm_max": 0.0005398781426397609,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9538820530351348,
+    "pressure_over_energy": 5.352224150755391e-05,
+    "proper_density_decay_rate_far": 0.5774558399076003,
+    "proper_density_far": 5.918254747358621e-13,
+    "residual_KS_ode_16": 1.3870295673506343e-05,
+    "residual_fold_matching_16": 1.1493375757810229e-15,
+    "residual_selfconsistency": 8.122004365095439e-12,
+    "rhoL_fold": 0.1568763753648855,
+    "scalar_density_decay_rate_far": 0.5781558399076003,
+    "singular_values": [
+     7.807026733904826e-16,
+     8.427501159329992e-05,
+     1.4141882775845758,
+     1.4142135623730945
+    ],
+    "target": true,
+    "tunnelling_exponent_S": 190.75403955190004
+   },
+   {
+    "E_int_per_particle": 0.0005078010605354021,
+    "G": 0.01,
+    "S_beyond_box": 161.74214530355502,
+    "S_inside_box": 23.30570275993486,
+    "S_times_H": 0.018504784806348987,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.954289195056531,
+    "first_order_prediction": 0.954801564443161,
+    "free_barrier_2F": 0.01850238238560653,
+    "iterations": 7,
+    "krein_charges_16": [
+     -0.9999999999999997,
+     -0.9999999999999997,
+     -0.9999999999999998,
+     -0.9999999999999998
+    ],
+    "krein_eig": [
+     -1.5999674740204455
+    ],
+    "krein_offdiagonal_16": 3.9558948166814325e-17,
+    "mean_field_norm_max": 0.005377334508112126,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9547969961170664,
+    "pressure_over_energy": 0.0005321249189092208,
+    "proper_density_decay_rate_far": 0.5713301320274956,
+    "proper_density_far": 7.149338790844411e-12,
+    "residual_KS_ode_16": 1.584802225265809e-05,
+    "residual_fold_matching_16": 4.1835983941727864e-16,
+    "residual_selfconsistency": 2.5401935857548946e-11,
+    "rhoL_fold": 0.15625317642976358,
+    "scalar_density_decay_rate_far": 0.5720301320274956,
+    "singular_values": [
+     1.729281183064187e-16,
+     0.0008409783029916675,
+     1.413961041337896,
+     1.4142135623731231
+    ],
+    "target": true,
+    "tunnelling_exponent_S": 185.04784806348988
+   },
+   {
+    "E_int_per_particle": 0.004795460576652678,
+    "G": 0.1,
+    "S_beyond_box": 112.70343370674561,
+    "S_inside_box": 21.09681621099646,
+    "S_times_H": 0.013380024991774207,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.958733365944158,
+    "first_order_prediction": 0.9639961736909702,
+    "free_barrier_2F": 0.01335451846460245,
+    "iterations": 9,
+    "krein_charges_16": [
+     -1.0,
+     -1.0,
+     -1.0,
+     -1.0
+    ],
+    "krein_eig": [
+     -1.6690406833933864
+    ],
+    "krein_offdiagonal_16": 4.1283515243649315e-17,
+    "mean_field_norm_max": 0.051547936459790875,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9635288265208107,
+    "pressure_over_energy": 0.005001870954944936,
+    "proper_density_decay_rate_far": 0.5088257689238804,
+    "proper_density_far": 4.843321178685925e-10,
+    "residual_KS_ode_16": 3.50474214120179e-05,
+    "residual_fold_matching_16": 7.278339473769336e-16,
+    "residual_selfconsistency": 1.1238611231196085e-11,
+    "rhoL_fold": 0.1497866424032972,
+    "scalar_density_decay_rate_far": 0.5095257689238805,
+    "singular_values": [
+     3.4081928744675254e-16,
+     0.008219631434237743,
+     1.4117259357015817,
+     1.4142135623730927
+    ],
+    "target": true,
+    "tunnelling_exponent_S": 133.80024991774206
+   },
+   {
+    "E_int_per_particle": 0.006944285432007139,
+    "G": 0.15,
+    "S_beyond_box": 89.89873088035948,
+    "S_inside_box": 19.850733189795314,
+    "S_times_H": 0.010974946407015481,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9610896546562382,
+    "first_order_prediction": 0.9691042899397532,
+    "free_barrier_2F": 0.01093523802189822,
+    "iterations": 10,
+    "krein_charges_16": [
+     -0.9999999999999999,
+     -0.9999999999999999,
+     -0.9999999999999999,
+     -0.9999999999999999
+    ],
+    "krein_eig": [
+     -1.7121999037009301
+    ],
+    "krein_offdiagonal_16": 4.0812643703789024e-17,
+    "mean_field_norm_max": 0.07537286059007477,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9680339400882453,
+    "pressure_over_energy": 0.007225429384619654,
+    "proper_density_decay_rate_far": 0.47309058668897225,
+    "proper_density_far": 2.1385746610897725e-09,
+    "residual_KS_ode_16": 4.517988902520785e-05,
+    "residual_fold_matching_16": 9.883027505506882e-16,
+    "residual_selfconsistency": 7.349131725580698e-12,
+    "rhoL_fold": 0.14601098823777728,
+    "scalar_density_decay_rate_far": 0.4737905866889722,
+    "singular_values": [
+     6.153824690472995e-16,
+     0.01215455745093299,
+     1.4105196635855057,
+     1.4142135623731797
+    ],
+    "target": false,
+    "tunnelling_exponent_S": 109.7494640701548
+   },
+   {
+    "E_int_per_particle": 0.008914479482138547,
+    "G": 0.2,
+    "S_beyond_box": 70.10874673657408,
+    "S_inside_box": 18.59374600874019,
+    "S_times_H": 0.008870249274531426,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9633614069966873,
+    "first_order_prediction": 0.9742124061885361,
+    "free_barrier_2F": 0.008815129017145984,
+    "iterations": 10,
+    "krein_charges_16": [
+     -1.0,
+     -1.0,
+     -1.0,
+     -1.0
+    ],
+    "krein_eig": [
+     -1.7592543325687884
+    ],
+    "krein_offdiagonal_16": 3.845645221054822e-17,
+    "mean_field_norm_max": 0.09780917006161227,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9722758864788258,
+    "pressure_over_energy": 0.009253515261660468,
+    "proper_density_decay_rate_far": 0.43659104086176903,
+    "proper_density_far": 8.48120341425262e-09,
+    "residual_KS_ode_16": 5.4859345938122614e-05,
+    "residual_fold_matching_16": 1.895123382478828e-16,
+    "residual_selfconsistency": 2.9673461297072515e-11,
+    "rhoL_fold": 0.14210566111550246,
+    "scalar_density_decay_rate_far": 0.437291040861769,
+    "singular_values": [
+     7.939210847514639e-17,
+     0.015955663147537043,
+     1.4093449530958082,
+     1.4142135623735776
+    ],
+    "target": false,
+    "tunnelling_exponent_S": 88.70249274531426
+   },
+   {
+    "E_int_per_particle": 0.010696614671453192,
+    "G": 0.25,
+    "S_beyond_box": 53.19234127026451,
+    "S_inside_box": 17.328371094420206,
+    "S_times_H": 0.007052071236468472,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9655454589688891,
+    "first_order_prediction": 0.979320522437319,
+    "free_barrier_2F": 0.006980090542595241,
+    "iterations": 10,
+    "krein_charges_16": [
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002
+    ],
+    "krein_eig": [
+     -1.8106567371176525
+    ],
+    "krein_offdiagonal_16": 3.9692835998471976e-17,
+    "mean_field_norm_max": 0.11879060417127729,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9762420736403423,
+    "pressure_over_energy": 0.011078312856316637,
+    "proper_density_decay_rate_far": 0.39927222018049857,
+    "proper_density_far": 3.18147330421291e-08,
+    "residual_KS_ode_16": 6.403033052629219e-05,
+    "residual_fold_matching_16": 1.0066676448718845e-15,
+    "residual_selfconsistency": 6.927209555576927e-11,
+    "rhoL_fold": 0.13807144936702345,
+    "scalar_density_decay_rate_far": 0.39997222018049855,
+    "singular_values": [
+     5.655760477990206e-16,
+     0.01960818267142967,
+     1.4082074017670585,
+     1.4142135623742838
+    ],
+    "target": false,
+    "tunnelling_exponent_S": 70.52071236468471
+   },
+   {
+    "E_int_per_particle": 0.012281256202081866,
+    "G": 0.3,
+    "S_beyond_box": 38.993838742477635,
+    "S_inside_box": 16.057676574224082,
+    "S_times_H": 0.005505151531670172,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.967638659055258,
+    "first_order_prediction": 0.984428638686102,
+    "free_barrier_2F": 0.005414558094168076,
+    "iterations": 10,
+    "krein_charges_16": [
+     -0.9999999999999996,
+     -0.9999999999999996,
+     -0.9999999999999996,
+     -0.9999999999999996
+    ],
+    "krein_eig": [
+     -1.8669437140675433
+    ],
+    "krein_offdiagonal_16": 4.1084719801220014e-17,
+    "mean_field_norm_max": 0.13825098603708957,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9799199152573399,
+    "pressure_over_energy": 0.012691985884557897,
+    "proper_density_decay_rate_far": 0.3610500158358382,
+    "proper_density_far": 1.1540366940791493e-07,
+    "residual_KS_ode_16": 7.263828966365777e-05,
+    "residual_fold_matching_16": 1.0319968751704734e-15,
+    "residual_selfconsistency": 2.122831317542621e-10,
+    "rhoL_fold": 0.13390869693404978,
+    "scalar_density_decay_rate_far": 0.36175001583583816,
+    "singular_values": [
+     6.349225486373078e-16,
+     0.023095477373558288,
+     1.4071132957115664,
+     1.4142135623783323
+    ],
+    "target": false,
+    "tunnelling_exponent_S": 55.05151531670172
+   },
+   {
+    "E_int_per_particle": 0.013658778687177365,
+    "G": 0.35,
+    "S_beyond_box": 27.3436601109478,
+    "S_inside_box": 14.785556661117937,
+    "S_times_H": 0.0042129216772065735,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9696378467033068,
+    "first_order_prediction": 0.9895367549348849,
+    "free_barrier_2F": 0.004101566606591667,
+    "iterations": 10,
+    "krein_charges_16": [
+     -1.0,
+     -1.0,
+     -1.0,
+     -1.0
+    ],
+    "krein_eig": [
+     -1.9287633035737042
+    ],
+    "krein_offdiagonal_16": 4.1035702131812035e-17,
+    "mean_field_norm_max": 0.15612315435600038,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9832966253904841,
+    "pressure_over_energy": 0.014086474381766502,
+    "proper_density_decay_rate_far": 0.3217938522552726,
+    "proper_density_far": 4.09181159473011e-07,
+    "residual_KS_ode_16": 8.062922145073395e-05,
+    "residual_fold_matching_16": 1.27845677316404e-16,
+    "residual_selfconsistency": 4.047919843529192e-10,
+    "rhoL_fold": 0.12961673396460194,
+    "scalar_density_decay_rate_far": 0.3224938522552726,
+    "singular_values": [
+     6.612591744520202e-17,
+     0.026398517050250543,
+     1.4060697792429724,
+     1.4142135623841898
+    ],
+    "target": false,
+    "tunnelling_exponent_S": 42.12921677206573
+   },
+   {
+    "E_int_per_particle": 0.014818967353893576,
+    "G": 0.4,
+    "S_beyond_box": 18.059235044854404,
+    "S_inside_box": 13.517258266805129,
+    "S_times_H": 0.0031576493311659534,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9715398060196692,
+    "first_order_prediction": 0.9946448711836678,
+    "free_barrier_2F": 0.003022850468650695,
+    "iterations": 10,
+    "krein_charges_16": [
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002
+    ],
+    "krein_eig": [
+     -1.9969196059468568
+    ],
+    "krein_offdiagonal_16": 4.410505552049504e-17,
+    "mean_field_norm_max": 0.1723366388191523,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9863587733735627,
+    "pressure_over_energy": 0.015253072763540026,
+    "proper_density_decay_rate_far": 0.2812968006687183,
+    "proper_density_far": 1.4258333727569973e-06,
+    "residual_KS_ode_16": 8.794882720450054e-05,
+    "residual_fold_matching_16": 4.779624248476601e-16,
+    "residual_selfconsistency": 1.0299617591109676e-09,
+    "rhoL_fold": 0.12519282161159426,
+    "scalar_density_decay_rate_far": 0.2819968006687183,
+    "singular_values": [
+     1.2892224018242919e-16,
+     0.029495037707113876,
+     1.405085128924719,
+     1.4142135624102121
+    ],
+    "target": false,
+    "tunnelling_exponent_S": 31.576493311659533
+   },
+   {
+    "E_int_per_particle": 0.015750164925986417,
+    "G": 0.45,
+    "S_beyond_box": 10.946248928749569,
+    "S_inside_box": 12.26050907778891,
+    "S_times_H": 0.002320675800653848,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9733411679190106,
+    "first_order_prediction": 0.9997529874324508,
+    "free_barrier_2F": 0.0021590064452780555,
+    "iterations": 12,
+    "krein_charges_16": [
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0000000000000002
+    ],
+    "krein_eig": [
+     -2.0724514533655443
+    ],
+    "krein_offdiagonal_16": 4.012615303954487e-17,
+    "mean_field_norm_max": 0.18681268181115845,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9890913328449971,
+    "pressure_over_energy": 0.01618154604480569,
+    "proper_density_decay_rate_far": 0.2392219979765724,
+    "proper_density_far": 4.894403072213928e-06,
+    "residual_KS_ode_16": 9.454012354398613e-05,
+    "residual_fold_matching_16": 1.7900538984998694e-15,
+    "residual_selfconsistency": 1.2464141347460868e-11,
+    "rhoL_fold": 0.12063008742328504,
+    "scalar_density_decay_rate_far": 0.2399219979765724,
+    "singular_values": [
+     1.2691625032380729e-15,
+     0.03235803768489237,
+     1.404169242165984,
+     1.4142135623731769
+    ],
+    "target": false,
+    "tunnelling_exponent_S": 23.20675800653848
+   },
+   {
+    "E_int_per_particle": 0.016437408434535145,
+    "G": 0.5,
+    "S_beyond_box": 5.800181579425911,
+    "S_inside_box": 11.0282579559427,
+    "S_times_H": 0.001682843953536861,
+    "capped": false,
+    "converged": true,
+    "energy_per_particle": 0.9750381909939174,
+    "first_order_prediction": 1.0048611036812338,
+    "free_barrier_2F": 0.0014897795703622818,
+    "iterations": 12,
+    "krein_charges_16": [
+     -1.0000000000000002,
+     -1.0000000000000002,
+     -1.0,
+     -1.0
+    ],
+    "krein_eig": [
+     -2.1567853379993585
+    ],
+    "krein_offdiagonal_16": 3.99532284602384e-17,
+    "mean_field_norm_max": 0.19945332895994955,
+    "mixing": [
+     0.5,
+     6
+    ],
+    "muL": -0.6,
+    "omega": 0.9914755994284525,
+    "pressure_over_energy": 0.01685822010497811,
+    "proper_density_decay_rate_far": 0.19500560484250132,
+    "proper_density_far": 1.6552460748884863e-05,
+    "residual_KS_ode_16": 0.0001003389893355127,
+    "residual_fold_matching_16": 1.9335034831770276e-16,
+    "residual_selfconsistency": 6.437244933473523e-11,
+    "rhoL_fold": 0.11591325089028126,
+    "scalar_density_decay_rate_far": 0.19570560484250132,
+    "singular_values": [
+     2.181002460619696e-16,
+     0.034952813501462225,
+     1.4033346020317776,
+     1.4142135623758019
+    ],
+    "target": false,
+    "tunnelling_exponent_S": 16.82843953536861
+   }
+  ],
+  "stop_reason": "omega = 0.991476 > 0.99"
+ },
+ "runtime_s": 118.0,
+ "symmetry": {
+  "T0..T3 symmetric": true,
+  "T4..T7 antisymmetric": true,
+  "commutant contains g0, g4, P_L, sigma16, Krein": true,
+  "dim W": 4
+ },
+ "units": "m_Psi = 1"
+}

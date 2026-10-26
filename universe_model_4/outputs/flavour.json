@@ -1,0 +1,474 @@
+{
+ "F1": {
+  "borexino": [
+   {
+    "E_MeV": 0.267,
+    "UM4": 0.5454262387968357,
+    "error": 0.09,
+    "measured": 0.57,
+    "pull": -0.2730417911462693,
+    "source": "pp"
+   },
+   {
+    "E_MeV": 0.862,
+    "UM4": 0.5125642136422552,
+    "error": 0.05,
+    "measured": 0.53,
+    "pull": -0.34871572715489574,
+    "source": "7Be"
+   },
+   {
+    "E_MeV": 1.44,
+    "UM4": 0.5083097205025273,
+    "error": 0.11,
+    "measured": 0.43,
+    "pull": 0.7119065500229756,
+    "source": "pep"
+   },
+   {
+    "E_MeV": 8.1,
+    "UM4": 0.3080077201673023,
+    "error": 0.08,
+    "measured": 0.37,
+    "pull": -0.7749034979087209,
+    "source": "8B"
+   }
+  ],
+  "full_MSW_limit": 0.2902821931326999,
+  "rows": [
+   {
+    "E_MeV": 0.267,
+    "P_crossing_exponential_profile": 0.0,
+    "P_ee_adiabatic": 0.545426238799179,
+    "P_ee_numeric": 0.5454262387968357,
+    "P_ee_numeric_half_step": 0.545426238797356,
+    "mass_state_probabilities": [
+     0.677077139018954,
+     0.322922860980337
+    ],
+    "r_prod_over_Rsun": 0.1,
+    "source": "pp"
+   },
+   {
+    "E_MeV": 0.862,
+    "P_crossing_exponential_profile": 0.0,
+    "P_ee_adiabatic": 0.512564213387593,
+    "P_ee_numeric": 0.5125642136422552,
+    "P_ee_numeric_half_step": 0.5125642136426299,
+    "mass_state_probabilities": [
+     0.5898710044752955,
+     0.41012899552494175
+    ],
+    "r_prod_over_Rsun": 0.06,
+    "source": "7Be"
+   },
+   {
+    "E_MeV": 1.44,
+    "P_crossing_exponential_profile": 0.0,
+    "P_ee_adiabatic": 0.5083097198814372,
+    "P_ee_numeric": 0.5083097205025273,
+    "P_ee_numeric_half_step": 0.5083097205027168,
+    "mass_state_probabilities": [
+     0.5785808329349901,
+     0.4214191670653245
+    ],
+    "r_prod_over_Rsun": 0.1,
+    "source": "pep"
+   },
+   {
+    "E_MeV": 5.0,
+    "P_crossing_exponential_profile": 0.0,
+    "P_ee_adiabatic": 0.33617013607205143,
+    "P_ee_numeric": 0.33617013140396645,
+    "P_ee_numeric_half_step": 0.3361701314041901,
+    "mass_state_probabilities": [
+     0.12177307089103873,
+     0.8782269291093552
+    ],
+    "r_prod_over_Rsun": 0.05,
+    "source": "8B"
+   },
+   {
+    "E_MeV": 8.1,
+    "P_crossing_exponential_profile": 0.0,
+    "P_ee_adiabatic": 0.30800772154668465,
+    "P_ee_numeric": 0.3080077201673023,
+    "P_ee_numeric_half_step": 0.30800772016753275,
+    "mass_state_probabilities": [
+     0.047038327314073265,
+     0.9529616726859045
+    ],
+    "r_prod_over_Rsun": 0.05,
+    "source": "8B"
+   },
+   {
+    "E_MeV": 10.0,
+    "P_crossing_exponential_profile": 0.0,
+    "P_ee_adiabatic": 0.3016877944855705,
+    "P_ee_numeric": 0.30168779383556854,
+    "P_ee_numeric_half_step": 0.30168779383571825,
+    "mass_state_probabilities": [
+     0.030267104499951392,
+     0.9697328955001909
+    ],
+    "r_prod_over_Rsun": 0.05,
+    "source": "8B"
+   },
+   {
+    "E_MeV": 15.0,
+    "P_crossing_exponential_profile": 0.0,
+    "P_ee_adiabatic": 0.2951207352974189,
+    "P_ee_numeric": 0.2951207260302033,
+    "P_ee_numeric_half_step": 0.29512072603010925,
+    "mass_state_probabilities": [
+     0.012840041015228705,
+     0.9871599589856335
+    ],
+    "r_prod_over_Rsun": 0.05,
+    "source": "8B"
+   }
+  ],
+  "vacuum_average_limit": 0.5529338019076161
+ },
+ "F2": {
+  "Ue_squared": [
+   0.6816450899999998,
+   0.29632490999999994,
+   0.02203
+  ],
+  "expected_adiabatic": {
+   "IO anti": 0.02203,
+   "IO nu": 0.29632490999999994,
+   "NO anti": 0.6816450899999998,
+   "NO nu": 0.02203
+  },
+  "rows": [
+   {
+    "E_MeV": 15.0,
+    "P_LZ_H": 4.2696092346409897e-147,
+    "P_LZ_L": 0.0,
+    "P_ee": 0.02203042157028923,
+    "P_ee_half_step": 0.02203042157475846,
+    "antineutrino": false,
+    "dm2_H_eV2": 0.002511,
+    "eigenvector_match_min_overlap": 0.9999979882312688,
+    "gamma_H": 214.5589982686624,
+    "gamma_L": 654.8004813608894,
+    "mass_state_probabilities": [
+     1.3180297455380829e-08,
+     1.505211685624826e-06,
+     0.9999984818105725
+    ],
+    "ordering": "NO",
+    "r_H_km": 16832.927626974,
+    "r_L_km": 73194.86744708985,
+    "r_end_km": 365974.3372354493,
+    "r_start_km": 3366.5855253948002,
+    "steps": 200000
+   },
+   {
+    "E_MeV": 15.0,
+    "P_LZ_H": 4.2696092346409897e-147,
+    "P_LZ_L": 0.0,
+    "P_ee": 0.6816441229978318,
+    "P_ee_half_step": 0.681644123026868,
+    "antineutrino": true,
+    "dm2_H_eV2": 0.002511,
+    "eigenvector_match_min_overlap": 0.9999979979634306,
+    "gamma_H": 214.5589982686624,
+    "gamma_L": 654.8004813608894,
+    "mass_state_probabilities": [
+     0.999998528422041,
+     1.3386747875256674e-08,
+     1.4582340190536112e-06
+    ],
+    "ordering": "NO",
+    "r_H_km": 16832.927626974,
+    "r_L_km": 73194.86744708985,
+    "r_end_km": 365974.3372354493,
+    "r_start_km": 3366.5855253948002,
+    "steps": 200000
+   },
+   {
+    "E_MeV": 15.0,
+    "P_LZ_H": 3.344516480204525e-144,
+    "P_LZ_L": 0.0,
+    "P_ee": 0.2963245008247168,
+    "P_ee_half_step": 0.2963245008347478,
+    "antineutrino": false,
+    "dm2_H_eV2": 0.0024369,
+    "eigenvector_match_min_overlap": 0.999997988206536,
+    "gamma_H": 210.31684733571512,
+    "gamma_L": 654.8004813608894,
+    "mass_state_probabilities": [
+     1.4194758957936762e-08,
+     0.9999984741271707,
+     1.5117139326005404e-06
+    ],
+    "ordering": "IO",
+    "r_H_km": 17001.84259457879,
+    "r_L_km": 73194.86744708985,
+    "r_end_km": 365974.3372354493,
+    "r_start_km": 3400.368518915758,
+    "steps": 200000
+   },
+   {
+    "E_MeV": 15.0,
+    "P_LZ_H": 3.344516480204525e-144,
+    "P_LZ_L": 0.0,
+    "P_ee": 0.022031033706030205,
+    "P_ee_half_step": 0.022031033707376163,
+    "antineutrino": true,
+    "dm2_H_eV2": 0.0024369,
+    "eigenvector_match_min_overlap": 0.9999979979719983,
+    "gamma_H": 210.31684733571512,
+    "gamma_L": 654.8004813608894,
+    "mass_state_probabilities": [
+     1.5613223447670778e-06,
+     1.3973532728714632e-08,
+     0.9999984247668705
+    ],
+    "ordering": "IO",
+    "r_H_km": 17001.84259457879,
+    "r_L_km": 73194.86744708985,
+    "r_end_km": 365974.3372354493,
+    "r_start_km": 3400.368518915758,
+    "steps": 200000
+   }
+  ]
+ },
+ "F3": {
+  "alpha_crossing_threshold": 0.7743991896714901,
+  "n_e_per_cm3": 5.193662402907071e+32,
+  "rows": [
+   {
+    "K": 0.0,
+    "Omega": [
+     -2.966295792318157e-18,
+     3.1913995855688237e-18
+    ],
+    "alpha": 0.5,
+    "alpha_crossing_threshold": 0.7743991896714901,
+    "crossing": false,
+    "dispersion_relation_relative_residual": null,
+    "growth_length_cm": null,
+    "growth_rate_units_sqrt2GF_ne": 3.1913995855688237e-18,
+    "mode_m": 1,
+    "mu_min_e": 0.6614378277661477,
+    "mu_min_ebar": 0.7378177281686853,
+    "sqrt2GF_ne_per_cm": 3.335810397699927
+   },
+   {
+    "K": 0.0,
+    "Omega": [
+     -1.8860896148798214e-20,
+     2.026707357982417e-18
+    ],
+    "alpha": 0.75,
+    "alpha_crossing_threshold": 0.7743991896714901,
+    "crossing": false,
+    "dispersion_relation_relative_residual": null,
+    "growth_length_cm": null,
+    "growth_rate_units_sqrt2GF_ne": 2.026707357982417e-18,
+    "mode_m": 0,
+    "mu_min_e": 0.6614378277661477,
+    "mu_min_ebar": 0.7378177281686853,
+    "sqrt2GF_ne_per_cm": 3.335810397699927
+   },
+   {
+    "K": -0.52,
+    "Omega": [
+     -0.47361266605722485,
+     0.013691609347737806
+    ],
+    "alpha": 0.8,
+    "alpha_crossing_threshold": 0.7743991896714901,
+    "crossing": true,
+    "dispersion_relation_relative_residual": 3.605399921998945e-15,
+    "growth_length_cm": 21.894959324223652,
+    "growth_rate_units_sqrt2GF_ne": 0.013691609347737806,
+    "mode_m": 0,
+    "mu_min_e": 0.6614378277661477,
+    "mu_min_ebar": 0.7378177281686853,
+    "sqrt2GF_ne_per_cm": 3.335810397699927
+   },
+   {
+    "K": -0.74,
+    "Omega": [
+     -0.6111765460560852,
+     0.055560639535891326
+    ],
+    "alpha": 0.95,
+    "alpha_crossing_threshold": 0.7743991896714901,
+    "crossing": true,
+    "dispersion_relation_relative_residual": 1.7064589773141325e-15,
+    "growth_length_cm": 5.395496384778439,
+    "growth_rate_units_sqrt2GF_ne": 0.055560639535891326,
+    "mode_m": 0,
+    "mu_min_e": 0.6614378277661477,
+    "mu_min_ebar": 0.7378177281686853,
+    "sqrt2GF_ne_per_cm": 3.335810397699927
+   },
+   {
+    "K": -1.2,
+    "Omega": [
+     -0.9221011818807994,
+     0.0925457443309816
+    ],
+    "alpha": 1.2,
+    "alpha_crossing_threshold": 0.7743991896714901,
+    "crossing": true,
+    "dispersion_relation_relative_residual": 3.663074246770416e-16,
+    "growth_length_cm": 3.2392330076221887,
+    "growth_rate_units_sqrt2GF_ne": 0.0925457443309816,
+    "mode_m": 0,
+    "mu_min_e": 0.6614378277661477,
+    "mu_min_ebar": 0.7378177281686853,
+    "sqrt2GF_ne_per_cm": 3.335810397699927
+   }
+  ]
+ },
+ "F4": {
+  "algebra_random_occupations": {
+   "ELN": 1.1102230246251565e-16,
+   "antinu_number": 4.440892098500626e-16,
+   "fraction_with_pauli_bound_active": 0.22334,
+   "max_occupation": 1.0,
+   "min_occupation": 0.0007223760112835172,
+   "nu_number": 4.440892098500626e-16,
+   "second_application_max_delta": 7.401486830834377e-17
+  },
+  "gain_region": [
+   {
+    "L_1e52_erg_s": [
+     5.0,
+     5.0,
+     2.0
+    ],
+    "N_after": [
+     0.3276045286074656,
+     0.2302019312048683,
+     0.18847046296899445
+    ],
+    "N_before": [
+     0.45454545454545453,
+     0.35714285714285715,
+     0.125
+    ],
+    "conservation_residual": 7.285310997950861e-17,
+    "heating_ratio": 0.960692967933199,
+    "mean_E_MeV": [
+     11.0,
+     14.0,
+     16.0
+    ],
+    "mean_E_after_MeV": [
+     11.284393882711061,
+     16.059024796353114,
+     14.06899895801918
+    ],
+    "phase": "accretion phase (0.2 s)"
+   },
+   {
+    "L_1e52_erg_s": [
+     5.0,
+     5.0,
+     2.0
+    ],
+    "N_after": [
+     0.3395092905122275,
+     0.24210669310963023,
+     0.20037522487375636
+    ],
+    "N_before": [
+     0.45454545454545453,
+     0.35714285714285715,
+     0.14285714285714285
+    ],
+    "conservation_residual": 2.25428237432098e-16,
+    "heating_ratio": 0.8597465963073673,
+    "mean_E_MeV": [
+     11.0,
+     14.0,
+     14.0
+    ],
+    "mean_E_after_MeV": [
+     10.888710980978027,
+     15.26937762472925,
+     13.233126749960224
+    ],
+    "phase": "accretion phase, softer heavy flavours"
+   },
+   {
+    "L_1e52_erg_s": [
+     4.0,
+     4.0,
+     2.5
+    ],
+    "N_after": [
+     0.28576051869138,
+     0.2298164627473242,
+     0.20560458913915847
+    ],
+    "N_before": [
+     0.36363636363636365,
+     0.3076923076923077,
+     0.16666666666666666
+    ],
+    "conservation_residual": 8.88715372263038e-17,
+    "heating_ratio": 1.1179562609190532,
+    "mean_E_MeV": [
+     11.0,
+     13.0,
+     15.0
+    ],
+    "mean_E_after_MeV": [
+     11.85809050495881,
+     14.744696885773878,
+     13.646159262461534
+    ],
+    "phase": "end of accretion"
+   },
+   {
+    "L_1e52_erg_s": [
+     3.0,
+     3.0,
+     3.0
+    ],
+    "N_after": [
+     0.29059102403580217,
+     0.2405910240358022,
+     0.21899020226781318
+    ],
+    "N_before": [
+     0.3,
+     0.25,
+     0.21428571428571427
+    ],
+    "conservation_residual": 3.015355007916136e-17,
+    "heating_ratio": 1.5547017259964862,
+    "mean_E_MeV": [
+     10.0,
+     12.0,
+     14.0
+    ],
+    "mean_E_after_MeV": [
+     11.41712284156942,
+     13.789846976965578,
+     12.973837551331242
+    ],
+    "phase": "cooling phase (comparable luminosities)"
+   }
+  ]
+ },
+ "method": "fourth-order commutator-free Magnus integration, step propagators multiplied pairwise",
+ "mixing": {
+  "dm21_eV2": 7.41e-05,
+  "dm31_eV2": 0.002511,
+  "source": "NuFIT 5.2 (November 2022), normal ordering, with SK atmospheric data",
+  "theta12_deg": 33.39818939594147,
+  "theta13_deg": 8.53566780712777,
+  "theta23_deg": 49.13968784905223
+ },
+ "runtime_s": 20.3
+}

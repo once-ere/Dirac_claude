@@ -306,7 +306,11 @@ hopeless*.txt
 # plik-lite spectra, from the Planck Legacy Archive via github.com/heatherprince/planck-lite-py):
 # used, not redistributed
 /universe_model_3/external/
+/universe_model_4/external/
 
 # The checkpointed parts of universe_model_3/code/um3_kohnsham.py (each invocation of a part runs under the 423 s limit;
 # the assembly writes the kept outputs outputs/kohnsham.json and reports/kohnsham_checks.json)
 /universe_model_3/outputs/kohnsham_parts/
+
+# The same for universe_model_4/code/um4_kohnsham.py
+/universe_model_4/outputs/kohnsham_parts/
